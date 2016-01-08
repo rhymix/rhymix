@@ -27,63 +27,9 @@ class installController extends install
 	}
 
 	/**
-	 * @brief cubrid db setting wrapper, becase Server Side Validator...
-	 * Server Side Validatro can use only one proc, one ruleset
-	 */
-	function procCubridDBSetting()
-	{
-		return $this->_procDBSetting();
-	}
-
-	/**
-	 * @brief firebird db setting wrapper, becase Server Side Validator...
-	 * Server Side Validatro can use only one proc, one ruleset
-	 */
-	function procFirebirdDBSetting()
-	{
-		return $this->_procDBSetting();
-	}
-
-	/**
-	 * @brief mssql db setting wrapper, becase Server Side Validator...
-	 * Server Side Validatro can use only one proc, one ruleset
-	 */
-	function procMssqlDBSetting()
-	{
-		return $this->_procDBSetting();
-	}
-
-	/**
-	 * @brief mysql db setting wrapper, becase Server Side Validator...
-	 * Server Side Validatro can use only one proc, one ruleset
-	 */
-	function procMysqlDBSetting()
-	{
-		return $this->_procDBSetting();
-	}
-
-	/**
-	 * @brief postgresql db setting wrapper, becase Server Side Validator...
-	 * Server Side Validatro can use only one proc, one ruleset
-	 */
-	function procPostgresqlDBSetting()
-	{
-		return $this->_procDBSetting();
-	}
-
-	/**
-	 * @brief sqlite db setting wrapper, becase Server Side Validator...
-	 * Server Side Validatro can use only one proc, one ruleset
-	 */
-	function procSqliteDBSetting()
-	{
-		return $this->_procDBSetting();
-	}
-
-	/**
 	 * @brief division install step... DB Config temp file create
 	 */
-	function _procDBSetting()
+	function procDBSetting()
 	{
 		// Get DB-related variables
 		$con_string = Context::gets('db_type','db_port','db_hostname','db_userid','db_password','db_database','db_table_prefix');
@@ -104,28 +50,32 @@ class installController extends install
 		if(!$output->toBool()) return $output;
 		if(!$oDB->isConnected()) return $oDB->getError();
 
+		// Check if MySQL server supports InnoDB
+		if(stripos($con_string->db_type, 'innodb') !== false)
+		{
+			$innodb_supported = false;
+			$show_engines = $oDB->_fetch($oDB->_query('SHOW ENGINES'));
+			foreach($show_engines as $engine_info)
+			{
+				if(strcasecmp($engine_info->Engine, 'InnoDB') === 0)
+				{
+					$innodb_supported = true;
+				}
+			}
+
+			// If server does not support InnoDB, fall back to default storage engine (usually MyISAM)
+			if(!$innodb_supported)
+			{
+				$con_string->db_type = str_ireplace('_innodb', '', $con_string->db_type);
+				$db_info->master_db['db_type'] = $con_string->db_type;
+				$db_info->slave_db[0]['db_type'] = $con_string->db_type;
+				Context::set('db_type', $con_string->db_type);
+				Context::setDBInfo($db_info);
+			}
+		}
+
 		// Create a db temp config file
 		if(!$this->makeDBConfigFile()) return new Object(-1, 'msg_install_failed');
-
-		if(!in_array(Context::getRequestMethod(),array('XMLRPC','JSON')))
-		{
-			$returnUrl = Context::get('success_return_url') ? Context::get('success_return_url') : getNotEncodedUrl('', 'act', 'dispInstallConfigForm');
-			header('location:'.$returnUrl);
-			return;
-		}
-	}
-
-	/**
-	 * @brief division install step... rewrite, time_zone Config temp file create
-	 */
-	function procConfigSetting()
-	{
-		// Get variables
-		$config_info = Context::gets('use_rewrite','time_zone');
-		if($config_info->use_rewrite!='Y') $config_info->use_rewrite = 'N';
-
-		// Create a db temp config file
-		if(!$this->makeEtcConfigFile($config_info)) return new Object(-1, 'msg_install_failed');
 
 		if(!in_array(Context::getRequestMethod(),array('XMLRPC','JSON')))
 		{
@@ -141,7 +91,21 @@ class installController extends install
 	function procInstall()
 	{
 		// Check if it is already installed
-		if(Context::isInstalled()) return new Object(-1, 'msg_already_installed');
+		if(Context::isInstalled())
+		{
+			return new Object(-1, 'msg_already_installed');
+		}
+
+		// Save rewrite and time zone settings
+		if(!Context::get('install_config'))
+		{
+			$config_info = Context::gets('use_rewrite','time_zone');
+			if($config_info->use_rewrite!='Y') $config_info->use_rewrite = 'N';
+			if(!$this->makeEtcConfigFile($config_info))
+			{
+				return new Object(-1, 'msg_install_failed');
+			}
+		}
 
 		// Assign a temporary administrator when installing
 		$logged_info = new stdClass();
@@ -339,39 +303,118 @@ class installController extends install
 	{
 		// Check each item
 		$checklist = array();
-		// 0. check your version of php (5.2.4 or higher)
+
+		// Check PHP version
 		$checklist['php_version'] = true;
 		if(version_compare(PHP_VERSION, __XE_MIN_PHP_VERSION__, '<'))
 		{
 			$checklist['php_version'] = false;
 		}
-
 		if(version_compare(PHP_VERSION, __XE_RECOMMEND_PHP_VERSION__, '<'))
 		{
 			Context::set('phpversion_warning', true);
 		}
 
-		// 1. Check permission
-		if(is_writable('./')||is_writable('./files')) $checklist['permission'] = true;
-		else $checklist['permission'] = false;
-		// 2. Check if xml_parser_create exists
-		if(function_exists('xml_parser_create')) $checklist['xml'] = true;
-		else $checklist['xml'] = false;
-		// 3. Check if ini_get (session.auto_start) == 1
-		if(ini_get('session.auto_start')!=1) $checklist['session'] = true;
-		else $checklist['session'] = false;
-		// 4. Check if iconv exists
-		if(function_exists('iconv')) $checklist['iconv'] = true;
-		else $checklist['iconv'] = false;
-		// 5. Check gd(imagecreatefromgif function)
-		if(function_exists('imagecreatefromgif')) $checklist['gd'] = true;
-		else $checklist['gd'] = false;
-		// 6. Check DB
-		if(DB::getEnableList()) $checklist['db'] = true;
-		else $checklist['db'] = false;
+		// Check DB
+		if(DB::getEnableList())
+		{
+			$checklist['db_support'] = true;
+		}
+		else
+		{
+			$checklist['db_support'] = false;
+		}
 
-		if(!$checklist['php_version'] || !$checklist['permission'] || !$checklist['xml'] || !$checklist['session'] || !$checklist['db']) $install_enable = false;
-		else $install_enable = true;
+		// Check permission
+		if(is_writable('./')||is_writable('./files'))
+		{
+			$checklist['permission'] = true;
+		}
+		else
+		{
+			$checklist['permission'] = false;
+		}
+
+		// Check session.auto_start
+		if(ini_get('session.auto_start') != 1)
+		{
+			$checklist['session'] = true;
+		}
+		else
+		{
+			$checklist['session'] = false;
+		}
+
+		// Check curl
+		if(function_exists('curl_init'))
+		{
+			$checklist['curl'] = true;
+		}
+		else
+		{
+			$checklist['curl'] = false;
+		}
+
+		// Check GD
+		if(function_exists('imagecreatefromgif'))
+		{
+			$checklist['gd'] = true;
+		}
+		else
+		{
+			$checklist['gd'] = false;
+		}
+
+		// Check iconv or mbstring
+		if(function_exists('iconv') || function_exists('mb_convert_encoding'))
+		{
+			$checklist['iconv'] = true;
+		}
+		else
+		{
+			$checklist['iconv'] = false;
+		}
+
+		// Check json
+		if(function_exists('json_encode'))
+		{
+			$checklist['json'] = true;
+		}
+		else
+		{
+			$checklist['json'] = false;
+		}
+
+		// Check openssl
+		if(function_exists('openssl_encrypt'))
+		{
+			$checklist['openssl'] = true;
+		}
+		else
+		{
+			$checklist['openssl'] = false;
+		}
+
+		// Check XML
+		if(function_exists('xml_parser_create'))
+		{
+			$checklist['xml'] = true;
+		}
+		else
+		{
+			$checklist['xml'] = false;
+		}
+
+		// Enable install if all conditions are met
+		$install_enable = true;
+		foreach($checklist as $k => $v)
+		{
+			if (!$v)
+			{
+				$install_enable = false;
+				break;
+			}
+		}
 
 		// Save the checked result to the Context
 		Context::set('checklist', $checklist);

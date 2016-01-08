@@ -4,28 +4,26 @@ php:
 - 5.4
 - 5.5
 - 5.6
-- 7
+- 7.0
 - hhvm
 matrix:
   allow_failures:
-  - php: 7
   - php: hhvm
+  fast_finish: true
 sudo: false
 before_script:
-- travis_retry composer self-update
 - npm install -g grunt-cli
 - npm install
-- if [ $(phpenv version-name) != "5.3" ]; then composer install; fi
-- if [ $(phpenv version-name) != "5.3" ]; then mysql -e 'create database xe_test;'; fi
-- if [ $(phpenv version-name) != "5.3" ]; then echo "USE mysql;\nUPDATE user SET password=PASSWORD('travis')
-  WHERE user='travis';\nFLUSH PRIVILEGES;\n" | mysql -u root; fi
-- if [ $(phpenv version-name) != "5.3" ]; then php -S localhost:8000 & fi
+- mysql -e "CREATE DATABASE xe_test;"
+- echo "USE mysql;\nUPDATE user SET password=PASSWORD('travis') WHERE user='travis';\nFLUSH PRIVILEGES;\n" | mysql -u root
+- php -S localhost:8000 &
+- if [ $(phpenv version-name) == "5.3" ]; then touch codecept.phar; fi
+- if [ $(phpenv version-name) == "5.4" ]; then wget http://codeception.com/releases/2.0.16/codecept.phar; fi
+- if [ ! -f codecept.phar ]; then wget http://codeception.com/codecept.phar; fi
 script:
 - grunt lint
 - grunt minify
-- if [ $(phpenv version-name) != "5.3" ]; then ./vendor/bin/codecept build; fi
-- if [ $(phpenv version-name) != "5.3" ]; then ./vendor/bin/codecept run -d --fail-fast --env travis; fi
+- if [ -f codecept.phar ]; then php codecept.phar build; fi
+- if [ -f codecept.phar ]; then php codecept.phar run -d --fail-fast --env travis; fi
 notifications:
-  slack:
-    secure: jpoMjtkveVuPZM4JXJETAPv8QUCtTbI/ZTixdS9HUgxSb9tD2DkoekMaRzXYnXA82Les/gGxTC0fQFcFrls6Ypkbvp1udBPggmAdLiBHubBIz+yd1BGIf/l4I6MY1QmGe1Lx4xlnVlEgLnKXHn+W+ENep4/MzpCEaR9Vw8wfGqY=
-    secure: "gPv4qFmGcXimNlI/OeVk5n4VtRCWbAe7VUtw7Inb3A/ZZaVDo11gtMNkwo/JVKSnXqFkaCQYebcNpj2D9Rb2ZCwgjMSX6wxvpA4/8OLOZpbWqFW6Hz2RKNggubXlnalXkIwFcsvj70rKctbcJFk2C1G9rVvYWdVGD9X4/ozQtAc="
+  email: false

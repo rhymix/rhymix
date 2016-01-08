@@ -9,11 +9,11 @@
  */
 if(version_compare(PHP_VERSION, '5.4.0', '<'))
 {
-	@error_reporting(E_ALL ^ E_NOTICE ^ E_DEPRECATED ^ E_WARNING);
+	@error_reporting(E_ALL ^ E_NOTICE ^ E_DEPRECATED);
 }
 else
 {
-	@error_reporting(E_ALL ^ E_NOTICE ^ E_DEPRECATED ^ E_WARNING ^ E_STRICT);
+	@error_reporting(E_ALL ^ E_NOTICE ^ E_DEPRECATED ^ E_STRICT);
 }
 
 if(!defined('__XE__'))
@@ -305,7 +305,7 @@ if(version_compare(PHP_VERSION, '5.3.0') >= 0)
 require(_XE_PATH_ . 'config/func.inc.php');
 
 if(__DEBUG__) {
-	define('__StartTime__', getMicroTime());
+	define('__StartTime__', microtime(true));
 }
 
 if(__DEBUG__) {
@@ -412,7 +412,7 @@ $GLOBALS['__xe_autoload_file_map'] = array_change_key_case(array(
 function __xe_autoload($class_name)
 {
 	if(__DEBUG__) {
-		$time_at = getMicroTime();
+		$time_at = microtime(true);
 	}
 
 	if(isset($GLOBALS['__xe_autoload_file_map'][strtolower($class_name)]))
@@ -436,7 +436,7 @@ function __xe_autoload($class_name)
 	}
 
 	if(__DEBUG__) {
-		$GLOBALS['__elapsed_class_load__'] += getMicroTime() - $time_at;
+		$GLOBALS['__elapsed_class_load__'] += microtime(true) - $time_at;
 	}
 }
 spl_autoload_register('__xe_autoload');

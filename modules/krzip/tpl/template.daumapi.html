@@ -1,0 +1,41 @@
+<!--// 다음 우편번호 API -->
+<!--// HEADER -->
+{@$is_https = strtoupper(parse_url($current_url, 0)) == 'HTTPS'}
+<load target="./css/default.css" />
+<load target="http://dmaps.daum.net/map_js_init/postcode.v2.js" cond="!$is_https" />
+<load target="https://spi.maps.daum.net/imap/map_js_init/postcode.v2.js" cond="$is_https" />
+<load target="./js/daumapi.js" />
+
+<!--// BODY -->
+<div class="krZip" id="krzip-{$template_config->sequence_id}">
+	<input type="hidden" name="{$template_config->column_name}[]" class="krzip-hidden-postcode" value="{$template_config->values[0]}" />
+	<input type="hidden" name="{$template_config->column_name}[]" class="krzip-hidden-roadAddress" value="{$template_config->values[1]}" />
+	<input type="hidden" name="{$template_config->column_name}[]" class="krzip-hidden-jibunAddress" value="{$template_config->values[2]}" />
+	<input type="hidden" name="{$template_config->column_name}[]" class="krzip-hidden-detailAddress" value="{$template_config->values[3]}" />
+	<input type="hidden" name="{$template_config->column_name}[]" class="krzip-hidden-extraAddress" value="{$template_config->values[4]}" />
+	<div class="krzip-postcode-wrap">
+		<label>{$lang->cmd_krzip_postcode}</label>
+		<input type="text" class="krzip-postcode" value="{$template_config->values[0]}" disabled="disabled" />
+		<input type="button" class="krzip-search btn" value="{$lang->cmd_search}" />
+	</div>
+	<div class="krzip-address-wrap">
+		<label>{$lang->cmd_krzip_address}</label>
+		<input type="text" class="krzip-roadAddress" value="{$template_config->values[1]}" disabled="disabled" />
+		<input type="text" class="krzip-jibunAddress" value="{$template_config->values[2]}" disabled="disabled" />
+		<input type="text" class="krzip-extraAddress" value="{$template_config->values[4]}" disabled="disabled" />
+	</div>
+	<div class="krzip-detailAddress-wrap">
+		<label>{$lang->cmd_krzip_detail_address}</label>
+		<input type="text" class="krzip-detailAddress" value="{$template_config->values[3]}" />
+	</div>
+	<div class="krzip-guide"></div>
+</div>
+
+<!--// FOOTER -->
+<script>
+//<![CDATA[
+xe.lang.msg_krzip_road_address_expectation = "{$lang->msg_krzip_road_address_expectation}";
+xe.lang.msg_krzip_jibun_address_expectation = "{$lang->msg_krzip_jibun_address_expectation}";
+jQuery("#krzip-{$template_config->sequence_id}").Krzip();
+//]]>
+</script>

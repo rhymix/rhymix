@@ -123,7 +123,7 @@ class TemplateHandler
 		// store the starting time for debug information
 		if(__DEBUG__ == 3)
 		{
-			$start = getMicroTime();
+			$start = microtime(true);
 		}
 
 		// initiation
@@ -184,7 +184,7 @@ class TemplateHandler
 		// store the ending time for debug information
 		if(__DEBUG__ == 3)
 		{
-			$GLOBALS['__template_elapsed__'] += getMicroTime() - $start;
+			$GLOBALS['__template_elapsed__'] += microtime(true) - $start;
 		}
 
 		return $output;

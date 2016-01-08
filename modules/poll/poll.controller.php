@@ -27,6 +27,7 @@ class pollController extends poll
 
 		$logged_info = Context::get('logged_info');
 		$vars = Context::getRequestVars();
+
 		$args = new stdClass;
 		$tmp_args = array();
 
@@ -114,6 +115,8 @@ class pollController extends poll
 		$poll_args->list_order = $poll_srl*-1;
 		$poll_args->stop_date = $args->stop_date;
 		$poll_args->poll_count = 0;
+		$poll_args->poll_type = $vars->show_vote + $vars->add_item;
+
 		$output = executeQuery('poll.insertPoll', $poll_args);
 		if(!$output->toBool())
 		{
@@ -132,7 +135,7 @@ class pollController extends poll
 			$title_args->poll_count = 0;
 			$title_args->list_order = $title_args->poll_index_srl * -1;
 			$title_args->member_srl = $member_srl;
-			$title_args->upload_target_srl = $upload_target_srl;
+			$title_args->upload_target_srl = $vars->upload_target_srl;
 			$output = executeQuery('poll.insertPollTitle', $title_args);
 			if(!$output->toBool())
 			{
@@ -148,7 +151,7 @@ class pollController extends poll
 				$item_args->poll_index_srl = $title_args->poll_index_srl;
 				$item_args->title = $v;
 				$item_args->poll_count = 0;
-				$item_args->upload_target_srl = $upload_target_srl;
+				$item_args->upload_target_srl = $vars->upload_target_srl;
 				$output = executeQuery('poll.insertPollItem', $item_args);
 				if(!$output->toBool())
 				{
@@ -164,14 +167,125 @@ class pollController extends poll
 		$this->setMessage('success_registed');
 	}
 
+	function procPollInsertItem()
+	{
+		$poll_srl = (int) Context::get('srl');
+		$poll_index_srl = (int) Context::get('index_srl');
+		$poll_item_title = Context::get('title');
+
+		if($poll_item_title=='') return new Object(-1,"msg_item_title_cannot_empty");
+
+		$logged_info = Context::get('logged_info');
+		if(!$logged_info) return new Object(-1,"msg_cannot_add_item");
+
+		if(!$poll_srl || !$poll_index_srl) return new Object(-1,"msg_invalid_request");
+
+		$args = new stdClass();
+		$args->poll_srl = $poll_srl;
+
+		// Get the information related to the survey
+		$columnList = array('poll_type');
+		$output = executeQuery('poll.getPoll', $args, $columnList);
+		if(!$output->data) return new Object(-1,"poll_no_poll_or_deleted_poll");
+		$type = $output->data->poll_type;
+
+		if(!$this->isAbletoAddItem($type)) return new Object(-1,"msg_cannot_add_item");
+
+		if($logged_info->is_admin != 'Y')
+		{
+			$poll_item_title = htmlspecialchars($poll_item_title, ENT_COMPAT | ENT_HTML401, 'UTF-8', false);
+		}
+
+		$oDB = &DB::getInstance();
+		$oDB->begin();
+
+		$item_args = new stdClass;
+		$item_args->poll_srl = $poll_srl;
+		$item_args->poll_index_srl = $poll_index_srl;
+		$item_args->title = $poll_item_title;
+		$item_args->poll_count = 0;
+		$item_args->upload_target_srl = 0;
+		$item_args->add_user_srl = $logged_info->member_srl;
+		$output = executeQuery('poll.insertPollItem', $item_args);
+		if(!$output->toBool())
+		{
+			$oDB->rollback();
+			return $output;
+		}
+		return $output;
+	}
+
+	function procPollDeleteItem()
+	{
+		$poll_srl = (int) Context::get('srl');
+		$poll_index_srl = (int) Context::get('index_srl');
+		$poll_item_srl = Context::get('item_srl');
+
+		$logged_info = Context::get('logged_info');
+		if(!$logged_info)  return new Object(-1,"msg_cannot_delete_item");
+
+		if(!$poll_srl || !$poll_index_srl || !$poll_item_srl) return new Object(-1,"msg_invalid_request");
+
+		$args = new stdClass();
+		$args->poll_srl = $poll_srl;
+		$args->poll_index_srl = $poll_index_srl;
+		$args->poll_item_srl = $poll_item_srl;
+
+		// Get the information related to the survey
+		$columnList = array('add_user_srl','poll_count');
+		$output = executeQuery('poll.getPollItem', $args, $columnList);
+		$add_user_srl = $output->data->add_user_srl;
+		$poll_count = $output->data->poll_count;
+
+		// Get the information related to the survey
+		$columnList = array('member_srl');
+		$output = executeQuery('poll.getPoll', $args, $columnList);
+		if(!$output->data) return new Object(-1,"poll_no_poll_or_deleted_poll");
+		$poll_member_srl = $output->data->member_srl;
+
+		if($add_user_srl!=$logged_info->member_srl && $poll_member_srl!=$logged_info->member_srl) return new Object(-1,"msg_cannot_delete_item");
+		if($poll_count>0) return new Object(-1,"msg_cannot_delete_item_poll_exist");
+
+		$oDB = &DB::getInstance();
+		$oDB->begin();
+
+		$item_args = new stdClass;
+		$item_args->poll_srl = $poll_srl;
+		$item_args->poll_index_srl = $poll_index_srl;
+		$item_args->poll_item_srl = $poll_item_srl;
+		$output = executeQuery('poll.deletePollItem', $item_args);
+		if(!$output->toBool())
+		{
+			$oDB->rollback();
+			return $output;
+		}
+
+		return $output;
+	}
+
 	/**
 	 * @brief Accept the poll
 	 */
 	function procPoll()
 	{
 		$poll_srl = Context::get('poll_srl');
+
+		$args = new stdClass();
+		$args->poll_srl = $poll_srl;
+		// Get the information related to the survey
+		$columnList = array('poll_count', 'stop_date','poll_type');
+		$output = executeQuery('poll.getPoll', $args, $columnList);
+		if(!$output->data) return new Object(-1,"poll_no_poll_or_deleted_poll");
+
+		if($output->data->stop_date < date("Ymd")) return new Object(-1,"msg_cannot_vote");
+
+		$columnList = array('checkcount');
+		$output = executeQuery('poll.getPollTitle', $args, $columnList);
+		if(!$output->data) return;
+
 		$poll_srl_indexes = Context::get('poll_srl_indexes');
 		$tmp_item_srls = explode(',',$poll_srl_indexes);
+		//if(count($tmp_item_srls)-1>(int)$output->data->checkcount) return new Object(-1,"msg_exceed_max_select");
 		for($i=0;$i<count($tmp_item_srls);$i++)
 		{
 			$srl = (int)trim($tmp_item_srls[$i]);
@@ -206,9 +320,11 @@ class pollController extends poll
 			$oDB->rollback();
 			return $output;
 		}
+
 		// Log the respondent's information
 		$log_args = new stdClass;
 		$log_args->poll_srl = $poll_srl;
+		$log_args->poll_item = $args->poll_item_srl;
 
 		$logged_info = Context::get('logged_info');
 		$member_srl = $logged_info->member_srl?$logged_info->member_srl:0;
@@ -216,6 +332,7 @@ class pollController extends poll
 		$log_args->member_srl = $member_srl;
 		$log_args->ipaddress = $_SERVER['REMOTE_ADDR'];
 		$output = executeQuery('poll.insertPollLog', $log_args);
+
 		if(!$output->toBool())
 		{
 			$oDB->rollback();
@@ -224,17 +341,18 @@ class pollController extends poll
 
 		$oDB->commit();
 
-		$skin = Context::get('skin');
-		if(!$skin || !is_dir(_XE_PATH_ . 'modules/poll/skins/'.$skin)) $skin = 'default';
+		//$skin = Context::get('skin');
+		//if(!$skin || !is_dir(_XE_PATH_ . 'modules/poll/skins/'.$skin)) $skin = 'default';
 		// Get tpl
-		$tpl = $oPollModel->getPollHtml($poll_srl, '', $skin);
+		//$tpl = $oPollModel->getPollHtml($poll_srl, '', $skin);
 
 		$this->add('poll_srl', $poll_srl);
-		$this->add('tpl',$tpl);
+		$this->add('poll_item_srl',$item_srls);
+		//$this->add('tpl',$tpl);
 		$this->setMessage('success_poll');
 
-		$returnUrl = Context::get('success_return_url') ? Context::get('success_return_url') : getNotEncodedUrl('', 'module', 'admin', 'act', 'dispPollAdminConfig');
-		$this->setRedirectUrl($returnUrl);
+		//$returnUrl = Context::get('success_return_url') ? Context::get('success_return_url') : getNotEncodedUrl('', 'module', 'admin', 'act', 'dispPollAdminConfig');
+		//$this->setRedirectUrl($returnUrl);
 	}
 
 	/**

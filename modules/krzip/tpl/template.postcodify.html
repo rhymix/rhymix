@@ -1,0 +1,36 @@
+<!--// Postcodify 우편번호 API -->
+<!--// HEADER -->
+<load target="./css/default.css" />
+<load target="https://cdn.poesis.kr/post/search.min.js" />
+<load target="./js/postcodify.js" />
+
+<!--// BODY -->
+<div class="krZip" id="krzip-{$template_config->sequence_id}">
+	<input type="hidden" name="{$template_config->column_name}[]" class="krzip-hidden-postcode" value="{$template_config->values[0]}" />
+	<input type="hidden" name="{$template_config->column_name}[]" class="krzip-hidden-roadAddress" value="{$template_config->values[1]}" />
+	<input type="hidden" name="{$template_config->column_name}[]" class="krzip-hidden-jibunAddress" value="{$template_config->values[2]}" />
+	<input type="hidden" name="{$template_config->column_name}[]" class="krzip-hidden-detailAddress" value="{$template_config->values[3]}" />
+	<input type="hidden" name="{$template_config->column_name}[]" class="krzip-hidden-extraAddress" value="{$template_config->values[4]}" />
+	<div class="krzip-postcode-wrap">
+		<label>{$lang->cmd_krzip_postcode}</label>
+		<input type="text" class="krzip-postcode" value="{$template_config->values[0]}" disabled="disabled" />
+		<input type="button" class="krzip-search btn" value="{$lang->cmd_search}" />
+	</div>
+	<div class="krzip-address-wrap">
+		<label>{$lang->cmd_krzip_address}</label>
+		<input type="text" class="krzip-roadAddress" value="{$template_config->values[1]}" disabled="disabled" />
+		<input type="text" class="krzip-jibunAddress" value="{$template_config->values[2]}" disabled="disabled" />
+		<input type="text" class="krzip-extraAddress" value="{$template_config->values[4]}" disabled="disabled" />
+	</div>
+	<div class="krzip-detailAddress-wrap">
+		<label>{$lang->cmd_krzip_detail_address}</label>
+		<input type="text" class="krzip-detailAddress" value="{$template_config->values[3]}" />
+	</div>
+</div>
+
+<!--// FOOTER -->
+<script>
+//<![CDATA[
+jQuery("#krzip-{$template_config->sequence_id}").Krzip();
+//]]>
+</script>

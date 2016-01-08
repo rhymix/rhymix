@@ -93,11 +93,9 @@ class member extends ModuleObject {
 
 		if(!$config->signupForm || !is_array($config->signupForm))
 		{
-			$identifier = $isNotInstall ? 'email_address' : 'user_id';
-
+			$identifier = 'user_id';
 			$config->signupForm = $oMemberAdminController->createSignupForm($identifier);
 			$config->identifier = $identifier;
-
 
 			// Create Ruleset File
 			FileHandler::makeDir('./files/ruleset');
@@ -105,7 +103,6 @@ class member extends ModuleObject {
 			$oMemberAdminController->_createLoginRuleset($config->identifier);
 			$oMemberAdminController->_createFindAccountByQuestion($config->identifier);
 		}
-		
 		$oModuleController->insertModuleConfig('member',$config);
 
 		$groups = $oMemberModel->getGroups();

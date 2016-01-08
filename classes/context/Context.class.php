@@ -285,7 +285,7 @@ class Context
 			$this->db_info->lang_type = $site_module_info->default_language;
 			if(!$this->db_info->lang_type)
 			{
-				$this->db_info->lang_type = 'en';
+				$this->db_info->lang_type = 'ko';
 			}
 			if(!$this->db_info->use_db_session)
 			{
@@ -315,14 +315,14 @@ class Context
 			$this->lang_type = $this->db_info->lang_type;
 		}
 
-		// if still lang_type has not been set or has not-supported type , set as English.
+		// if still lang_type has not been set or has not-supported type , set as Korean.
 		if(!$this->lang_type)
 		{
-			$this->lang_type = 'en';
+			$this->lang_type = 'ko';
 		}
 		if(is_array($lang_supported) && !isset($lang_supported[$this->lang_type]))
 		{
-			$this->lang_type = 'en';
+			$this->lang_type = 'ko';
 		}
 
 		$this->set('lang_supported', $lang_supported);

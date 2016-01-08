@@ -33,21 +33,21 @@
 		</item>
 		<item name="license_agreement">
 			<value xml:lang="ko"><![CDATA[사용권 동의]]></value>
-			<value xml:lang="en"><![CDATA[License agreement]]></value>
+			<value xml:lang="en"><![CDATA[License Agreement]]></value>
 			<value xml:lang="jp"><![CDATA[ライセンス契約]]></value>
 			<value xml:lang="zh-CN"><![CDATA[许可协议]]></value>
 			<value xml:lang="zh-TW"><![CDATA[許可協議]]></value>
 		</item>
 		<item name="condition">
-			<value xml:lang="ko"><![CDATA[설치 조건 확인]]></value>
-			<value xml:lang="en"><![CDATA[Check the installation conditions]]></value>
+			<value xml:lang="ko"><![CDATA[설치 환경 확인]]></value>
+			<value xml:lang="en"><![CDATA[Environment Check]]></value>
 			<value xml:lang="jp"><![CDATA[インストール条件確認]]></value>
 			<value xml:lang="zh-CN"><![CDATA[检查安装条件]]></value>
 			<value xml:lang="zh-TW"><![CDATA[檢查安裝條件]]></value>
 		</item>
 		<item name="ftp">
 			<value xml:lang="ko"><![CDATA[FTP 정보 입력]]></value>
-			<value xml:lang="en"><![CDATA[Input FTP information]]></value>
+			<value xml:lang="en"><![CDATA[FTP Setup]]></value>
 			<value xml:lang="jp"><![CDATA[FTP情報入力]]></value>
 			<value xml:lang="zh-CN"><![CDATA[输入FTP信息]]></value>
 			<value xml:lang="zh-TW"><![CDATA[輸入FTP信息]]></value>
@@ -61,30 +61,35 @@
 		</item>
 		<item name="dbInfo">
 			<value xml:lang="ko"><![CDATA[DB 정보 입력]]></value>
-			<value xml:lang="en"><![CDATA[Input Database information]]></value>
+			<value xml:lang="en"><![CDATA[DB Setup]]></value>
 			<value xml:lang="jp"><![CDATA[DB情報入力]]></value>
 			<value xml:lang="zh-CN"><![CDATA[输入DB信息]]></value>
 			<value xml:lang="zh-TW"><![CDATA[輸入DB信息]]></value>
 		</item>
 		<item name="configInfo">
 			<value xml:lang="ko"><![CDATA[환경 설정]]></value>
-			<value xml:lang="en"><![CDATA[Settings]]></value>
+			<value xml:lang="en"><![CDATA[Configuration]]></value>
 			<value xml:lang="jp"><![CDATA[環境設定]]></value>
 			<value xml:lang="zh-CN"><![CDATA[环境设置]]></value>
 			<value xml:lang="zh-TW"><![CDATA[環境設置]]></value>
 		</item>
 		<item name="adminInfo">
-			<value xml:lang="ko"><![CDATA[관리자 정보 입력]]></value>
-			<value xml:lang="en"><![CDATA[Enter Administrator information]]></value>
+			<value xml:lang="ko"><![CDATA[관리자 계정 생성]]></value>
+			<value xml:lang="en"><![CDATA[Create Administrator Account]]></value>
 			<value xml:lang="jp"><![CDATA[管理者情報入力]]></value>
 			<value xml:lang="zh-CN"><![CDATA[输入管理员信息]]></value>
 			<value xml:lang="zh-TW"><![CDATA[輸入管理員信息]]></value>
 		</item>
 	</item>
 	<item name="install_condition_enable">
-		<value xml:lang="ko"><![CDATA[설치가 가능합니다.]]></value>
-		<value xml:lang="en"><![CDATA[You can Install.]]></value>
+		<value xml:lang="ko"><![CDATA[설치할 수 있습니다]]></value>
+		<value xml:lang="en"><![CDATA[Your server is compatible with XE.]]></value>
 		<value xml:lang="jp"><![CDATA[インストールできます。]]></value>
+	</item>
+	<item name="install_condition_disable">
+		<value xml:lang="ko"><![CDATA[설치할 수 없습니다]]></value>
+		<value xml:lang="en"><![CDATA[Your server does not support XE.]]></value>
+		<value xml:lang="jp"><![CDATA[インストールできません。]]></value>
 	</item>
 	<item name="install_details">
 		<value xml:lang="ko"><![CDATA[자세히]]></value>
@@ -108,7 +113,7 @@
 	</item>
 	<item name="install_checklist_title" type="array">
 		<item name="php_version">
-			<value xml:lang="ko"><![CDATA[PHP Version]]></value>
+			<value xml:lang="ko"><![CDATA[PHP 버전]]></value>
 			<value xml:lang="en"><![CDATA[PHP Version]]></value>
 			<value xml:lang="jp"><![CDATA[PHPバージョン]]></value>
 			<value xml:lang="zh-CN"><![CDATA[PHP版本]]></value>
@@ -120,87 +125,117 @@
 			<value xml:lang="vi"><![CDATA[Phiên bản PHP]]></value>
 		</item>
 		<item name="permission">
-			<value xml:lang="ko"><![CDATA[퍼미션]]></value>
-			<value xml:lang="en"><![CDATA[Permission]]></value>
-			<value xml:lang="jp"><![CDATA[パーミッション]]></value>
-			<value xml:lang="zh-CN"><![CDATA[权限]]></value>
-			<value xml:lang="zh-TW"><![CDATA[權限]]></value>
-			<value xml:lang="fr"><![CDATA[Autorisation]]></value>
-			<value xml:lang="ru"><![CDATA[Права доступа]]></value>
-			<value xml:lang="es"><![CDATA[Atribución]]></value>
-			<value xml:lang="tr"><![CDATA[Yetki]]></value>
-			<value xml:lang="vi"><![CDATA[Sự cho phép]]></value>
+			<value xml:lang="ko"><![CDATA[files 폴더 퍼미션]]></value>
+			<value xml:lang="en"><![CDATA[files folder permissions]]></value>
+			<value xml:lang="jp"><![CDATA[filesフォルダのパーミッション]]></value>
+			<value xml:lang="zh-CN"><![CDATA[files文件夹权限]]></value>
+			<value xml:lang="zh-TW"><![CDATA[files文件夾權限]]></value>
+			<value xml:lang="fr"><![CDATA[Autorisations de dossier files]]></value>
+			<value xml:lang="ru"><![CDATA[права доступа к папке files]]></value>
+			<value xml:lang="es"><![CDATA[Permisos de carpeta files]]></value>
+			<value xml:lang="tr"><![CDATA[files klasör izinleri]]></value>
+			<value xml:lang="vi"><![CDATA[Điều khoản thư mục files]]></value>
 		</item>
 		<item name="xml">
-			<value xml:lang="ko"><![CDATA[XML 라이브러리]]></value>
-			<value xml:lang="en"><![CDATA[XML Library]]></value>
-			<value xml:lang="jp"><![CDATA[XMLライブラリ]]></value>
-			<value xml:lang="zh-CN"><![CDATA[XML库]]></value>
-			<value xml:lang="fr"><![CDATA[Bibliothèque de XML]]></value>
-			<value xml:lang="ru"><![CDATA[XML библиотека]]></value>
-			<value xml:lang="es"><![CDATA[Librería XML]]></value>
-			<value xml:lang="tr"><![CDATA[XML Kitaplığı]]></value>
+			<value xml:lang="ko"><![CDATA[xml]]></value>
+			<value xml:lang="en"><![CDATA[xml]]></value>
+			<value xml:lang="jp"><![CDATA[xml]]></value>
+			<value xml:lang="zh-CN"><![CDATA[xml]]></value>
+			<value xml:lang="fr"><![CDATA[xml]]></value>
+			<value xml:lang="ru"><![CDATA[xml]]></value>
+			<value xml:lang="es"><![CDATA[xml]]></value>
+			<value xml:lang="tr"><![CDATA[xml]]></value>
+		</item>
+		<item name="curl">
+			<value xml:lang="ko"><![CDATA[curl]]></value>
+			<value xml:lang="en"><![CDATA[curl]]></value>
+			<value xml:lang="jp"><![CDATA[curl]]></value>
+			<value xml:lang="zh-CN"><![CDATA[curl]]></value>
+			<value xml:lang="fr"><![CDATA[curl]]></value>
+			<value xml:lang="ru"><![CDATA[curl]]></value>
+			<value xml:lang="es"><![CDATA[curl]]></value>
+			<value xml:lang="tr"><![CDATA[curl]]></value>
 		</item>
 		<item name="iconv">
-			<value xml:lang="ko"><![CDATA[ICONV 라이브러리]]></value>
-			<value xml:lang="en"><![CDATA[ICONV Library]]></value>
-			<value xml:lang="jp"><![CDATA[ICONVライブラリ]]></value>
-			<value xml:lang="zh-CN"><![CDATA[ICONV库]]></value>
-			<value xml:lang="fr"><![CDATA[Bibliothèque de ICONV]]></value>
-			<value xml:lang="ru"><![CDATA[ICONV библиотека]]></value>
-			<value xml:lang="es"><![CDATA[Librería ICONV]]></value>
-			<value xml:lang="tr"><![CDATA[ICONV Kitaplığı]]></value>
+			<value xml:lang="ko"><![CDATA[iconv / mbstring]]></value>
+			<value xml:lang="en"><![CDATA[iconv / mbstring]]></value>
+			<value xml:lang="jp"><![CDATA[iconv / mbstring]]></value>
+			<value xml:lang="zh-CN"><![CDATA[iconv / mbstring]]></value>
+			<value xml:lang="fr"><![CDATA[iconv / mbstring]]></value>
+			<value xml:lang="ru"><![CDATA[iconv / mbstring]]></value>
+			<value xml:lang="es"><![CDATA[iconv / mbstring]]></value>
+			<value xml:lang="tr"><![CDATA[iconv / mbstring]]></value>
+		</item>
+		<item name="json">
+			<value xml:lang="ko"><![CDATA[json]]></value>
+			<value xml:lang="en"><![CDATA[json]]></value>
+			<value xml:lang="jp"><![CDATA[json]]></value>
+			<value xml:lang="zh-CN"><![CDATA[json]]></value>
+			<value xml:lang="fr"><![CDATA[json]]></value>
+			<value xml:lang="ru"><![CDATA[json]]></value>
+			<value xml:lang="es"><![CDATA[json]]></value>
+			<value xml:lang="tr"><![CDATA[json]]></value>
 		</item>
 		<item name="gd">
-			<value xml:lang="ko"><![CDATA[GD 라이브러리]]></value>
-			<value xml:lang="en"><![CDATA[GD Library]]></value>
-			<value xml:lang="jp"><![CDATA[GDライブラリ]]></value>
-			<value xml:lang="zh-CN"><![CDATA[GD库]]></value>
-			<value xml:lang="fr"><![CDATA[Bibliothèque de GD]]></value>
-			<value xml:lang="ru"><![CDATA[GD библиотека]]></value>
-			<value xml:lang="es"><![CDATA[Librería GD]]></value>
-			<value xml:lang="tr"><![CDATA[GD Kitaplığı]]></value>
+			<value xml:lang="ko"><![CDATA[gd]]></value>
+			<value xml:lang="en"><![CDATA[gd]]></value>
+			<value xml:lang="jp"><![CDATA[gd]]></value>
+			<value xml:lang="zh-CN"><![CDATA[gd]]></value>
+			<value xml:lang="fr"><![CDATA[gd]]></value>
+			<value xml:lang="ru"><![CDATA[gd]]></value>
+			<value xml:lang="es"><![CDATA[gd]]></value>
+			<value xml:lang="tr"><![CDATA[gd]]></value>
+		</item>
+		<item name="openssl">
+			<value xml:lang="ko"><![CDATA[openssl]]></value>
+			<value xml:lang="en"><![CDATA[openssl]]></value>
+			<value xml:lang="jp"><![CDATA[openssl]]></value>
+			<value xml:lang="zh-CN"><![CDATA[openssl]]></value>
+			<value xml:lang="fr"><![CDATA[openssl]]></value>
+			<value xml:lang="ru"><![CDATA[openssl]]></value>
+			<value xml:lang="es"><![CDATA[openssl]]></value>
+			<value xml:lang="tr"><![CDATA[openssl]]></value>
 		</item>
 		<item name="session">
-			<value xml:lang="ko"><![CDATA[Session.auto_start 설정]]></value>
-			<value xml:lang="en"><![CDATA[Session.auto_start setting]]></value>
-			<value xml:lang="jp"><![CDATA[Session.auto_startの設定]]></value>
-			<value xml:lang="zh-CN"><![CDATA[Session.auto_start 设置]]></value>
-			<value xml:lang="zh-TW"><![CDATA[Session.auto_start設置]]></value>
-			<value xml:lang="fr"><![CDATA[Configuration de Session.auto_start]]></value>
-			<value xml:lang="ru"><![CDATA[Session.auto_start настройка]]></value>
-			<value xml:lang="es"><![CDATA[Configuración Session.auto_start]]></value>
-			<value xml:lang="tr"><![CDATA[Session.auto_start(otomatik.oturum_acma) ayarı]]></value>
-			<value xml:lang="vi"><![CDATA[Thiết lập Session.auto_start]]></value>
+			<value xml:lang="ko"><![CDATA[session.auto_start 설정]]></value>
+			<value xml:lang="en"><![CDATA[session.auto_start setting]]></value>
+			<value xml:lang="jp"><![CDATA[session.auto_startの設定]]></value>
+			<value xml:lang="zh-CN"><![CDATA[session.auto_start 设置]]></value>
+			<value xml:lang="zh-TW"><![CDATA[session.auto_start設置]]></value>
+			<value xml:lang="fr"><![CDATA[Configuration de session.auto_start]]></value>
+			<value xml:lang="ru"><![CDATA[session.auto_start настройка]]></value>
+			<value xml:lang="es"><![CDATA[Configuración session.auto_start]]></value>
+			<value xml:lang="tr"><![CDATA[session.auto_start(otomatik.oturum_acma) ayarı]]></value>
+			<value xml:lang="vi"><![CDATA[Thiết lập session.auto_start]]></value>
 		</item>
-		<item name="db">
-			<value xml:lang="ko"><![CDATA[DB]]></value>
-			<value xml:lang="en"><![CDATA[DB]]></value>
-			<value xml:lang="jp"><![CDATA[DB]]></value>
+		<item name="db_support">
+			<value xml:lang="ko"><![CDATA[DB 지원]]></value>
+			<value xml:lang="en"><![CDATA[DB support]]></value>
+			<value xml:lang="jp"><![CDATA[DBサポート]]></value>
 		</item>
 	</item>
 	<item name="install_checklist_desc" type="array">
 		<item name="php_version">
-			<value xml:lang="ko"><![CDATA[[필수] PHP버전이 %s 이상에서 설치가 가능합니다.]]></value>
+			<value xml:lang="ko"><![CDATA[[필수] XE를 설치하려면 PHP 버전이 %s 이상이어야 합니다.]]></value>
 			<value xml:lang="en"><![CDATA[[Required] XE supports only PHP Version %s or higher]]></value>
 			<value xml:lang="jp"><![CDATA[[必修] %s以上のPHPバージョンでインストールが可能です。]]></value>
 		</item>
 		<item name="php_version_warning">
-			<value xml:lang="ko"><![CDATA[[권장] XE는 PHP %s 버전 이상을 권장합니다.]]></value>
+			<value xml:lang="ko"><![CDATA[[권장] XE는 PHP %s 이상을 권장합니다.]]></value>
 			<value xml:lang="en"><![CDATA[[Recommend] XE recommends only PHP Version %s or higher]]></value>
 			<value xml:lang="jp"><![CDATA[[推奨] XEはPHP %sバージョン以上をおすすめします。]]></value>
 		</item>
 		<item name="permission">
-			<value xml:lang="ko"><![CDATA[[필수] XE의 설치 경로 또는 ./files 디렉토리의 퍼미션이 707이어야 합니다.]]></value>
-			<value xml:lang="en"><![CDATA[[Required] XE installation path or ./files directory's permission must be 707]]></value>
-			<value xml:lang="jp"><![CDATA[【必須】XEのインストール先、または「./files」ディレクトリのパーミッションを「707」に設定してください。]]></value>
-			<value xml:lang="zh-CN"><![CDATA[[必须] 的安装路径或 ./files目录属性必须是707]]></value>
-			<value xml:lang="zh-TW"><![CDATA[[必須] XE的資料夾或『./files』資料夾權限必須是『707』。]]></value>
-			<value xml:lang="fr"><![CDATA[[Obligatoire] Chemin de l'installation de XE ou la permission de  répertoire de ./files doit être 707]]></value>
-			<value xml:lang="ru"><![CDATA[[Требуется] Путь установки XE или директория ./files должна иметь права доступа 707]]></value>
-			<value xml:lang="es"><![CDATA[[Requerido] La ruta de la instalación de XE o el directorio de ./archivos deberia tener la atribución 707]]></value>
-			<value xml:lang="tr"><![CDATA[[Gerekli] XE kurulum yolu ya da ./files directory yolunun yetkisi 707 olmalıdır]]></value>
-			<value xml:lang="vi"><![CDATA[[Bắt buộc] Thư mục cài đặt của XE hay ./files directory phải CHMOD thành 707]]></value>
+			<value xml:lang="ko"><![CDATA[[필수] XE의 설치 경로 또는 ./files 디렉토리의 퍼미션이 777이어야 합니다.]]></value>
+			<value xml:lang="en"><![CDATA[[Required] XE installation path or ./files directory's permission must be 777]]></value>
+			<value xml:lang="jp"><![CDATA[【必須】XEのインストール先、または「./files」ディレクトリのパーミッションを「777」に設定してください。]]></value>
+			<value xml:lang="zh-CN"><![CDATA[[必须] 的安装路径或 ./files目录属性必须是777]]></value>
+			<value xml:lang="zh-TW"><![CDATA[[必須] XE的資料夾或『./files』資料夾權限必須是『777』。]]></value>
+			<value xml:lang="fr"><![CDATA[[Obligatoire] Chemin de l'installation de XE ou la permission de  répertoire de ./files doit être 777]]></value>
+			<value xml:lang="ru"><![CDATA[[Требуется] Путь установки XE или директория ./files должна иметь права доступа 777]]></value>
+			<value xml:lang="es"><![CDATA[[Requerido] La ruta de la instalación de XE o el directorio de ./archivos deberia tener la atribución 777]]></value>
+			<value xml:lang="tr"><![CDATA[[Gerekli] XE kurulum yolu ya da ./files directory yolunun yetkisi 777 olmalıdır]]></value>
+			<value xml:lang="vi"><![CDATA[[Bắt buộc] Thư mục cài đặt của XE hay ./files directory phải CHMOD thành 777]]></value>
 		</item>
 		<item name="xml">
 			<value xml:lang="ko"><![CDATA[[필수] XML통신을 위하여 XML 라이브러리가 필요합니다.]]></value>
@@ -252,7 +287,7 @@
 		</item>
 	</item>
 	<item name="install_checklist_xml">
-		<value xml:lang="ko"><![CDATA[XML라이브러리 설치]]></value>
+		<value xml:lang="ko"><![CDATA[XML 라이브러리 설치]]></value>
 		<value xml:lang="en"><![CDATA[Install XML Library]]></value>
 		<value xml:lang="jp"><![CDATA[XMLライブラリのインストール]]></value>
 		<value xml:lang="zh-CN"><![CDATA[安装XML库]]></value>
@@ -264,7 +299,7 @@
 		<value xml:lang="vi"><![CDATA[Cài đặt XML Library]]></value>
 	</item>
 	<item name="install_without_xml">
-		<value xml:lang="ko"><![CDATA[xml 라이브러리가 설치되어 있지 않습니다.]]></value>
+		<value xml:lang="ko"><![CDATA[XML 라이브러리가 설치되어 있지 않습니다.]]></value>
 		<value xml:lang="en"><![CDATA[XML Library is not installed]]></value>
 		<value xml:lang="jp"><![CDATA[XMLライブラリがインストールされていません。]]></value>
 		<value xml:lang="zh-CN"><![CDATA[还没有安装xml库！]]></value>
@@ -276,7 +311,7 @@
 		<value xml:lang="vi"><![CDATA[XML Library đã không được cài đặt.]]></value>
 	</item>
 	<item name="install_checklist_gd">
-		<value xml:lang="ko"><![CDATA[GD라이브러리 설치]]></value>
+		<value xml:lang="ko"><![CDATA[GD 라이브러리 설치]]></value>
 		<value xml:lang="en"><![CDATA[Install GD Library]]></value>
 		<value xml:lang="jp"><![CDATA[GDライブラリのインストール]]></value>
 		<value xml:lang="zh-CN"><![CDATA[安装GD库]]></value>
@@ -324,31 +359,31 @@
 		<value xml:lang="vi"><![CDATA[Đã có lỗi xảy ra, có lẽ do sự thiết đặt PHP. session.auto_start không phải là 1]]></value>
 	</item>
 	<item name="install_permission_denied">
-		<value xml:lang="ko"><![CDATA[설치대상 디렉토리의 퍼미션이 707이 아닙니다.]]></value>
-		<value xml:lang="en"><![CDATA[Installation path's permission doesn't equal to 707]]></value>
-		<value xml:lang="jp"><![CDATA[インストールする対象ディレクトリのパーミッションが「707」になっていません。]]></value>
-		<value xml:lang="zh-CN"><![CDATA[安装目录属性不是707！]]></value>
-		<value xml:lang="zh-TW"><![CDATA[安裝目錄權限不是『707』！]]></value>
-		<value xml:lang="fr"><![CDATA[La permission du chemin d'installation n'est pas égale à 707]]></value>
-		<value xml:lang="ru"><![CDATA[Права доступа пути не установлены в 707]]></value>
-		<value xml:lang="es"><![CDATA[La atribución de la ruta de instalacion no es igual a 707]]></value>
-		<value xml:lang="tr"><![CDATA[Kurulum yolu yetkisi 707'ye eşit değil]]></value>
-		<value xml:lang="vi"><![CDATA[Sự cho phép của thư mục cài đặt không phải là 707]]></value>
+		<value xml:lang="ko"><![CDATA[설치대상 디렉토리의 퍼미션이 777이 아닙니다.]]></value>
+		<value xml:lang="en"><![CDATA[Installation path's permission doesn't equal to 777]]></value>
+		<value xml:lang="jp"><![CDATA[インストールする対象ディレクトリのパーミッションが「777」になっていません。]]></value>
+		<value xml:lang="zh-CN"><![CDATA[安装目录属性不是777！]]></value>
+		<value xml:lang="zh-TW"><![CDATA[安裝目錄權限不是『777』！]]></value>
+		<value xml:lang="fr"><![CDATA[La permission du chemin d'installation n'est pas égale à 777]]></value>
+		<value xml:lang="ru"><![CDATA[Права доступа пути не установлены в 777]]></value>
+		<value xml:lang="es"><![CDATA[La atribución de la ruta de instalacion no es igual a 777]]></value>
+		<value xml:lang="tr"><![CDATA[Kurulum yolu yetkisi 777'ye eşit değil]]></value>
+		<value xml:lang="vi"><![CDATA[Sự cho phép của thư mục cài đặt không phải là 777]]></value>
 	</item>
 	<item name="install_notandum">
-		<value xml:lang="ko"><![CDATA[모든 항목을 반드시 작성해야 합니다. 모든 항목을 관리자 환경에서 수정할 수 있습니다. <strong>최초 로그인시 로그인 계정은 이메일 주소 입니다.</strong>]]></value>
-		<value xml:lang="en"><![CDATA[All form must be filled, but you can modify all of settings after finish the installation.]]></value>
-		<value xml:lang="jp"><![CDATA[すべての項目を必ず作成してください。すべての項目を管理者環境にて修正できます。]]></value>
+		<value xml:lang="ko"><![CDATA[작성하신 모든 항목은 설치 후 관리 모듈에서 수정할 수 있습니다.]]></value>
+		<value xml:lang="en"><![CDATA[You can edit this information in the admin module after installation.]]></value>
+		<value xml:lang="jp"><![CDATA[すべての項目を管理者環境にて修正できます。]]></value>
 	</item>
-	<item name="cmd_install_fix_checklist">
-		<value xml:lang="ko"><![CDATA[필수 설치조건을 설정하였습니다.]]></value>
-		<value xml:lang="en"><![CDATA[I have fixed the required conditions.]]></value>
-		<value xml:lang="jp"><![CDATA[インストール必須条件を設定しました。]]></value>
-		<value xml:lang="zh-CN"><![CDATA[已设置了必要的安装条件。]]></value>
-		<value xml:lang="zh-TW"><![CDATA[重新檢查]]></value>
-		<value xml:lang="fr"><![CDATA[J'ai corrigé les conditions obligatoires.]]></value>
-		<value xml:lang="ru"><![CDATA[Я удоволетворил требуемые условия]]></value>
-		<value xml:lang="es"><![CDATA[Yo he configurado las condiciones necesarias para la instalación.]]></value>
+	<item name="cmd_install_refresh_page">
+		<value xml:lang="ko"><![CDATA[새로고침]]></value>
+		<value xml:lang="en"><![CDATA[Refresh]]></value>
+		<value xml:lang="jp"><![CDATA[リフレッシュ]]></value>
+		<value xml:lang="zh-CN"><![CDATA[刷新屏幕]]></value>
+		<value xml:lang="zh-TW"><![CDATA[刷新屏幕]]></value>
+		<value xml:lang="fr"><![CDATA[Rafraîchir]]></value>
+		<value xml:lang="ru"><![CDATA[обновление]]></value>
+		<value xml:lang="es"><![CDATA[Refrescar]]></value>
 		<value xml:lang="tr"><![CDATA[Gerekli koşulları tamamladım.]]></value>
 		<value xml:lang="vi"><![CDATA[Tôi đã thay đổi để phù hợp với yêu cầu cài đặt.]]></value>
 	</item>
@@ -373,36 +408,23 @@
 		<value xml:lang="tr"><![CDATA[Önemseme]]></value>
 		<value xml:lang="vi"><![CDATA[Bỏ qua]]></value>
 	</item>
+	<item name="cmd_recommended">
+		<value xml:lang="ko"><![CDATA[권장]]></value>
+		<value xml:lang="en"><![CDATA[Recommended]]></value>
+		<value xml:lang="jp"><![CDATA[推奨]]></value>
+		<value xml:lang="zh-CN"><![CDATA[推荐]]></value>
+		<value xml:lang="zh-TW"><![CDATA[推薦]]></value>
+		<value xml:lang="fr"><![CDATA[Recommandé]]></value>
+		<value xml:lang="ru"><![CDATA[рекомендуемые]]></value>
+		<value xml:lang="es"><![CDATA[Recomendado]]></value>
+		<value xml:lang="tr"><![CDATA[Tavsiye edilen]]></value>
+		<value xml:lang="vi"><![CDATA[Đê]]></value>
+	</item>
 	<item name="db_desc" type="array">
-		<item name="mysql">
-			<value xml:lang="ko"><![CDATA[MySQL DB를 php의 mysql*()함수를 이용하여 사용합니다.<br />DB 파일은 myisam으로 생성되기에 트랜잭션이 이루어지지 않습니다.]]></value>
-			<value xml:lang="en"><![CDATA[Use MySQL as a database with mysql*() functions in php.<br />Transactions will not be processed since DB file is created in myisam.]]></value>
-			<value xml:lang="jp"><![CDATA[MySQL DBでPHPの「mysql*()」関数を利用してデータの入出力を行います。<br />DBは「myisam」タイプで作成されるため、トランザクション処理はできません。]]></value>
-			<value xml:lang="zh-CN"><![CDATA[利用php的 mysql*()函数使用mysql DB。<br />DB数据是以myisam生成，因此不能实现transaction。]]></value>
-			<value xml:lang="zh-TW"><![CDATA[利用 PHP 的『mysql*()』函數使用 MySQL 資料庫。<br />利用『myisam』建立資料庫檔案，因此不能實現transaction。]]></value>
-			<value xml:lang="fr"><![CDATA[Utilisera fonction mysql*() pour utiliser la base de données de mysql.<br />La transaction sera invalidé parce que le fichier de Base de Données est créé par myisam.]]></value>
-			<value xml:lang="ru"><![CDATA[Используем mysql*() функцию, чтобы использовать базу данных mysql.<br />Транзакция отключена из-за того, что файл базы данных создан посредством myisam.]]></value>
-			<value xml:lang="es"><![CDATA[Utilizando las funciones mysql*() de PHP usar DB mysql.<br />La transacción es desabilitado ya que DB(Bases de Datos) está creado por myisam.]]></value>
-			<value xml:lang="tr"><![CDATA[PHP'de mysql*() özellikleri için MySQL'ü veritabanı olarak kullanınız.<br />İşlemler, veritabanı dosyası myisam 'da oluşturulduğu zaman işlenmeyecektir.]]></value>
-			<value xml:lang="vi"><![CDATA[Dùng chức năng <b>mysql*()</b> để sử dụng MySql Database.<br />Giao dịch được vô hiệu hóa bởi File Database được tạo ra bởi myisam.]]></value>
-		</item>
-		<item name="mysqli_innodb">
-			<value xml:lang="ko"><![CDATA[MySQL DB를 innodb를 이용하여 사용합니다.<br />innodb는 트랜잭션을 사용할 수 있습니다.]]></value>
-			<value xml:lang="en"><![CDATA[Use MySQL as a database with innodb.<br />Transactions will be processed with innodb]]></value>
-			<value xml:lang="jp"><![CDATA[MySQL DBで「innodb」タイプでデータの入出力を行います。<br />「innodb」ではトランザクションの処理が行えます。]]></value>
-			<value xml:lang="zh-CN"><![CDATA[利用innodb使用mysql DB。<br />innodb可以使用transaction。]]></value>
-			<value xml:lang="zh-TW"><![CDATA[利用『innodb』使用 Mysql 資料庫。<br />innodb可以使用 transaction。]]></value>
-			<value xml:lang="fr"><![CDATA[Utilisera innodb pour utiliser Base de Données de mysql.<br />La transaction sera validé pour innodb]]></value>
-			<value xml:lang="ru"><![CDATA[Используем innodb  чтобы использовать базу данных mysql.<br />Транзакция включена для innodb]]></value>
-			<value xml:lang="es"><![CDATA[Utilizando innodb usar BD mysql.<br />La transacción es hablilitado para innodb]]></value>
-			<value xml:lang="tr"><![CDATA[innodb ile MySQL'ü veritabanı olrak kullanınız.<br />İşlemler, innodb ile işlenecektir]]></value>
-			<value xml:lang="vi"><![CDATA[Dùng chức năng <b>innodb</b> để sử dụng MySql Database.<br />Giao dịch được kích hoạt cho innodb]]></value>
-		</item>
-
 		<item name="mysqli">
-			<value xml:lang="ko"><![CDATA[MySQL DB를 php의 mysqli*()함수를 이용하여 사용합니다.<br />DB 파일은 myisam으로 생성되기에 트랜잭션이 이루어지지 않습니다.]]></value>
-			<value xml:lang="en"><![CDATA[Use MySQL as a database with mysqli*() functions in php.<br />Transactions will not be processed since DB file is created in myisam]]></value>
-			<value xml:lang="jp"><![CDATA[MySQL DBでPHPの「mysqli*()」関数を利用してデータの入出力を行います。<br />DBは「myisam」タイプで作成されるため、トランザクション処理はできせん。]]></value>
+			<value xml:lang="ko"><![CDATA[mysqli 모듈을 사용하여 MySQL DB에 접속합니다.<br />MyISAM 저장엔진을 사용하므로 트랜잭션이 이루어지지 않으며 데이터 손상의 위험이 있습니다.]]></value>
+			<value xml:lang="en"><![CDATA[Use MySQL as a database via the mysqli extension.<br />Use the MyISAM storage engine, which does not support transactions.]]></value>
+			<value xml:lang="jp"><![CDATA[mysqliモジュールを使用してMySQL DBに接続します。<br />MyISAMのエンジンを使用するので、トランザクションが行われず、データの損傷の危険があります。]]></value>
 			<value xml:lang="zh-CN"><![CDATA[利用php的 mysqli*()函数使用mysql DB。<br />DB数据是以myisam生成，因此不能实现transaction。]]></value>
 			<value xml:lang="zh-TW"><![CDATA[利用 PHP 的『mysqli*()』函數使用 MySQL 資料庫。<br />利用『myisam』建立資料庫檔案，因此不能實現transaction。]]></value>
 			<value xml:lang="fr"><![CDATA[Utilisera fonction mysqli*() pour utiliser la base de données de mysql.<br />La transaction sera invalidé parce que le fichier de Base de Données est créé par myisam.]]></value>
@@ -411,10 +433,34 @@
 			<value xml:lang="tr"><![CDATA[PHP'de mysqli*() özellikleri için MySQL'ü veritabanı olarak kullanınız.<br />İşlemler, veritabanı dosyası myisam 'da oluşturulduğu zaman işlenmeyecektir.]]></value>
 			<value xml:lang="vi"><![CDATA[Dùng chức năng <b>mysqli*()</b> để sử dụng MySql Database.<br />Giao dịch được vô hiệu hóa bởi File Database được tạo ra bởi myisam.]]></value>
 		</item>
+		<item name="mysqli_innodb">
+			<value xml:lang="ko"><![CDATA[mysqli 모듈을 사용하여 MySQL DB에 접속합니다.<br />InnoDB 저장엔진은 트랜잭션을 지원하여 데이터 손상의 위험이 낮으며, 동시 처리 능력이 뛰어납니다.]]></value>
+			<value xml:lang="en"><![CDATA[Use MySQL as a database via the mysqli extension.<br />Use the InnoDB storage engine, which supports transactions and higher concurrency.]]></value>
+			<value xml:lang="jp"><![CDATA[mysqliモジュールを使用してMySQL DBに接続します。<br />InnoDBのエンジンは、トランザクションを支援してデータの損傷の危険が低く、同時処理能力が優れています。]]></value>
+			<value xml:lang="zh-CN"><![CDATA[利用innodb使用mysql DB。<br />innodb可以使用transaction。]]></value>
+			<value xml:lang="zh-TW"><![CDATA[利用『innodb』使用 Mysql 資料庫。<br />innodb可以使用 transaction。]]></value>
+			<value xml:lang="fr"><![CDATA[Utilisera innodb pour utiliser Base de Données de mysql.<br />La transaction sera validé pour innodb]]></value>
+			<value xml:lang="ru"><![CDATA[Используем innodb  чтобы использовать базу данных mysql.<br />Транзакция включена для innodb]]></value>
+			<value xml:lang="es"><![CDATA[Utilizando innodb usar BD mysql.<br />La transacción es hablilitado para innodb]]></value>
+			<value xml:lang="tr"><![CDATA[innodb ile MySQL'ü veritabanı olrak kullanınız.<br />İşlemler, innodb ile işlenecektir]]></value>
+			<value xml:lang="vi"><![CDATA[Dùng chức năng <b>innodb</b> để sử dụng MySql Database.<br />Giao dịch được kích hoạt cho innodb]]></value>
+		</item>
+		<item name="mysql">
+			<value xml:lang="ko"><![CDATA[PHP의 mysql_*() 함수를 사용하여 MySQL DB에 접속합니다.<br />MyISAM 저장엔진을 사용하므로 트랜잭션이 이루어지지 않으며 데이터 손상의 위험이 있습니다.]]></value>
+			<value xml:lang="en"><![CDATA[Use MySQL as a database via PHP's mysql_* functions.<br />Use the MyISAM storage engine, which does not support transactions.]]></value>
+			<value xml:lang="jp"><![CDATA[PHPのmysql_*()関数を使用してMySQL DBに接続します。<br />MyISAMのエンジンを使用するので、トランザクションが行われず、データの損傷の危険があります。]]></value>
+			<value xml:lang="zh-CN"><![CDATA[利用php的 mysql_*()函数使用mysql DB。<br />DB数据是以myisam生成，因此不能实现transaction。]]></value>
+			<value xml:lang="zh-TW"><![CDATA[利用 PHP 的『mysql_*()』函數使用 MySQL 資料庫。<br />利用『myisam』建立資料庫檔案，因此不能實現transaction。]]></value>
+			<value xml:lang="fr"><![CDATA[Utilisera fonction mysql_*() pour utiliser la base de données de mysql.<br />La transaction sera invalidé parce que le fichier de Base de Données est créé par myisam.]]></value>
+			<value xml:lang="ru"><![CDATA[Используем mysql_*() функцию, чтобы использовать базу данных mysql.<br />Транзакция отключена из-за того, что файл базы данных создан посредством myisam.]]></value>
+			<value xml:lang="es"><![CDATA[Utilizando las funciones mysql_*() de PHP usar DB mysql.<br />La transacción es desabilitado ya que DB(Bases de Datos) está creado por myisam.]]></value>
+			<value xml:lang="tr"><![CDATA[PHP'de mysql_*() özellikleri için MySQL'ü veritabanı olarak kullanınız.<br />İşlemler, veritabanı dosyası myisam 'da oluşturulduğu zaman işlenmeyecektir.]]></value>
+			<value xml:lang="vi"><![CDATA[Dùng chức năng <b>mysql_*()</b> để sử dụng MySql Database.<br />Giao dịch được vô hiệu hóa bởi File Database được tạo ra bởi myisam.]]></value>
+		</item>
 		<item name="mysql_innodb">
-			<value xml:lang="ko"><![CDATA[MySQL DB를 innodb를 이용하여 사용합니다.<br />innodb는 트랜잭션을 사용할 수 있습니다.]]></value>
-			<value xml:lang="en"><![CDATA[Use MySQL as a database with innodb.<br />Transactions will be processed with innodb]]></value>
-			<value xml:lang="jp"><![CDATA[MySQL DBで「innodb」タイプでデータの入出力を行います。<br />「innodb」ではトランザクションの処理が行えます。]]></value>
+			<value xml:lang="ko"><![CDATA[PHP의 mysql_*() 함수를 사용하여 MySQL DB에 접속합니다.<br />InnoDB 저장엔진은 트랜잭션을 지원하여 데이터 손상의 위험이 낮으며, 동시 처리 능력이 뛰어납니다.]]></value>
+			<value xml:lang="en"><![CDATA[Use MySQL as a database via PHP's mysql_* functions.<br />Use the InnoDB storage engine, which supports transactions and higher concurrency.]]></value>
+			<value xml:lang="jp"><![CDATA[PHPのmysql_*()関数を使用してMySQL DBに接続します。<br />InnoDBのエンジンは、トランザクションを支援してデータの損傷の危険が低く、同時処理能力が優れています。]]></value>
 			<value xml:lang="zh-CN"><![CDATA[利用innodb使用mysql DB。<br />innodb可以使用transaction。]]></value>
 			<value xml:lang="zh-TW"><![CDATA[利用『innodb』使用 Mysql 資料庫。<br />innodb可以使用 transaction。]]></value>
 			<value xml:lang="fr"><![CDATA[Utilisera innodb pour utiliser Base de Données de mysql.<br />La transaction sera validé pour innodb]]></value>
@@ -436,21 +482,24 @@
 			<value xml:lang="vi"><![CDATA[Sử dụng <b>CUBRID</b> Database.  <a href="http://www.cubrid.org/wiki_tutorials/entry/cubrid-installation-instructions" target="_blank">Hướng dẫn</a>]]></value>
 		</item>
 		<item name="mssql">
-			<value xml:lang="ko"><![CDATA[MSSQL DB를 이용합니다.]]></value>
-			<value xml:lang="en"><![CDATA[Use MSSQL as a database]]></value>
-			<value xml:lang="jp"><![CDATA[MSSQL DBを利用します。]]></value>
-			<value xml:lang="zh-CN"><![CDATA[使用MSSQL DB。]]></value>
-			<value xml:lang="zh-TW"><![CDATA[使用 MSSQL DB。]]></value>
-			<value xml:lang="fr"><![CDATA[Utiliser la Base de Données de MSSQL.]]></value>
-			<value xml:lang="ru"><![CDATA[Используем MSSQL DB.]]></value>
-			<value xml:lang="es"><![CDATA[Usar BD MSSQL.]]></value>
-			<value xml:lang="tr"><![CDATA[MSSQL'ü veritabanı olarak kullanın]]></value>
+			<value xml:lang="ko"><![CDATA[Microsoft SQL Server를 이용합니다.]]></value>
+			<value xml:lang="en"><![CDATA[Use Microsoft SQL Server as a database.]]></value>
+			<value xml:lang="jp"><![CDATA[Microsoft SQL Serverを利用します。]]></value>
+			<value xml:lang="zh-CN"><![CDATA[使用 Microsoft SQL Server。]]></value>
+			<value xml:lang="zh-TW"><![CDATA[使用 Microsoft SQL Server。]]></value>
+			<value xml:lang="fr"><![CDATA[Utiliser la Base de Données de Microsoft SQL Server.]]></value>
+			<value xml:lang="ru"><![CDATA[Используем Microsoft SQL Server DB.]]></value>
+			<value xml:lang="es"><![CDATA[Usar Microsoft SQL Server.]]></value>
+			<value xml:lang="tr"><![CDATA[Microsoft SQL Server'ü veritabanı olarak kullanın]]></value>
 		</item>
 	</item>
 	<item name="can_use_when_installed">
-		<value xml:lang="ko"><![CDATA[설치하면 사용할 수 있음.]]></value>
-		<value xml:lang="en"><![CDATA[You can use when it has installed.]]></value>
-		<value xml:lang="jp"><![CDATA[設置すれば使用できます。]]></value>
+		<value xml:lang="ko"><![CDATA[설치되어 있지 않음]]></value>
+		<value xml:lang="en"><![CDATA[Not installed on this server]]></value>
+		<value xml:lang="jp"><![CDATA[このサーバーにインストールされていません]]></value>
+		<value xml:lang="zh-CN"><![CDATA[不是这个服务器上安装]]></value>
+		<value xml:lang="zh-TW"><![CDATA[不是這個服務器上安裝]]></value>
+		<value xml:lang="fr"><![CDATA[Pas installé sur ce serveur]]></value>
 	</item>
 	<item name="form_title">
 		<value xml:lang="ko"><![CDATA[DB &amp; 관리자 정보 입력]]></value>
@@ -501,7 +550,7 @@
 		<value xml:lang="vi"><![CDATA[Xin hãy chọn Database bạn muốn sử dụng.]]></value>
 	</item>
 	<item name="db_hostname">
-		<value xml:lang="ko"><![CDATA[DB 호스트네임]]></value>
+		<value xml:lang="ko"><![CDATA[DB 서버 주소]]></value>
 		<value xml:lang="en"><![CDATA[DB Hostname]]></value>
 		<value xml:lang="jp"><![CDATA[ホスト名]]></value>
 		<value xml:lang="zh-CN"><![CDATA[服务器名]]></value>
@@ -513,7 +562,7 @@
 		<value xml:lang="vi"><![CDATA[Hostname]]></value>
 	</item>
 	<item name="db_port">
-		<value xml:lang="ko"><![CDATA[DB Port]]></value>
+		<value xml:lang="ko"><![CDATA[DB 서버 포트]]></value>
 		<value xml:lang="en"><![CDATA[DB Port]]></value>
 		<value xml:lang="jp"><![CDATA[ポート番号]]></value>
 		<value xml:lang="zh-CN"><![CDATA[数据库端口]]></value>
@@ -583,14 +632,12 @@
 		<value xml:lang="vi"><![CDATA[Tên Table]]></value>
 	</item>
 	<item name="db_info_desc">
-		<value xml:lang="ko"><![CDATA[<p><strong>DB 아이디</strong>, <strong>DB 비밀번호</strong>, <strong>DB 이름</strong> 정보는 서버 호스팅 관리자로부터 정보를 확인 하세요.</p>]]></value>
-		<value xml:lang="en"><![CDATA[<p>Please check <strong>database information</strong> to server master.</p>]]></value>
-		<value xml:lang="jp"><![CDATA[<p><strong>DB ID</strong>, <strong>DB パスワード</strong>, <strong>DB 名稱</strong> 情報は、サーバーホスティング管理者に情報を確認してください。</p>]]></value>
+		<value xml:lang="ko"><![CDATA[DB 아이디, 비밀번호, 서버 주소, 포트 등의 정보는 호스팅 관리자에게 문의하세요.]]></value>
+		<value xml:lang="en"><![CDATA[Please check database server information with your server administrator.]]></value>
 	</item>
 	<item name="db_prefix_desc">
-		<value xml:lang="ko"><![CDATA[<p><strong>DB 호스트 네임</strong>, <strong>DB Port</strong> 정보는 서버 호스팅 관리자로부터 정보를 확인 하세요.</p><p><strong>DB 테이블 머리말</strong> 정보는 사용자 정의 할 수 있습니다. 영문 소문자를 권장 합니다. 숫자를 포함할 수 있습니다. 특수 문자를 사용할 수 없습니다.</p>]]></value>
-		<value xml:lang="en"><![CDATA[<p>Please check <strong>database information</strong> to server master.</p><p>You can modify database <strong>table prefix</strong>, and can use small letters(small letter is recommended), and numbers, but you can not use special letters.</p>]]></value>
-		<value xml:lang="jp"><![CDATA[<p><strong>DBホスト名</strong>, <strong>DB Port</strong> 情報は、サーバーホスティング管理者に情報を確認してください。</p><p><strong>DBテーブルプレフィックス</strong> 情報は、ユーザーが定義できます。英文小文字の使用を推奨します。数字を含めることができます。特殊文字は、使用できません。</p>]]></value>
+		<value xml:lang="ko"><![CDATA[DB 테이블 접두사는 사용자가 선택할 수 있습니다. 영문 소문자를 권장하며, 특수 문자를 사용할 수 없습니다.]]></value>
+		<value xml:lang="en"><![CDATA[You can customize the table prefix. We recommend that you use lowercase alphabets only.]]></value>
 	</item>
 	<item name="admin_title">
 		<value xml:lang="ko"><![CDATA[관리자 정보]]></value>
@@ -641,13 +688,13 @@
 	</item>
 	<item name="use_rewrite">
 		<value xml:lang="ko"><![CDATA[짧은 주소 사용]]></value>
-		<value xml:lang="en"><![CDATA[Rewrite Mod]]></value>
+		<value xml:lang="en"><![CDATA[mod_rewrite]]></value>
 		<value xml:lang="jp"><![CDATA[リライト・モジュールを使用]]></value>
 		<value xml:lang="zh-CN"><![CDATA[使用rewrite模块]]></value>
 		<value xml:lang="zh-TW"><![CDATA[Rewrite]]></value>
-		<value xml:lang="fr"><![CDATA[Utiliser mode de récrire(rewrite mod)]]></value>
-		<value xml:lang="ru"><![CDATA[Использовать<br /> модуль перезаписи<br />(rewrite mod)]]></value>
-		<value xml:lang="es"><![CDATA[Usar rewrite mod]]></value>
+		<value xml:lang="fr"><![CDATA[Utiliser mode de récrire(mod_rewrite)]]></value>
+		<value xml:lang="ru"><![CDATA[Использовать<br /> модуль перезаписи<br />(mod_rewrite)]]></value>
+		<value xml:lang="es"><![CDATA[Usar mod_rewrite]]></value>
 		<value xml:lang="tr"><![CDATA[YenidenYazma Modu (mod_rewrite)]]></value>
 		<value xml:lang="vi"><![CDATA[Mod Rewrite]]></value>
 	</item>
@@ -664,26 +711,31 @@
 		<value xml:lang="vi"><![CDATA[<abbr title="Single Sign On">SSO</abbr>]]></value>
 	</item>
 	<item name="about_rewrite">
-		<value xml:lang="ko"><![CDATA[이 기능을 사용하면 <em>http://yourdomain/</em><strong>?document_srl=123</strong> 과 같이 복잡한 주소를 <em>http://yourdomain/</em><strong>123</strong> 과 같이 간단하게 줄일 수 있습니다. 웹 서버에서 <strong>rewrite_mod</strong>를 지원해야 합니다. 지원 여부는 서버 관리자에게 문의하세요.]]></value>
-		<value xml:lang="en"><![CDATA[If web server provides rewrite mod, long URL such as <em>http://blah/</em><strong>?document_srl=123</strong> can be shortened like <em>http://blah/</em><strong>123</strong>]]></value>
+		<value xml:lang="ko"><![CDATA[이 기능을 사용하면 <em>http://yourdomain/</em><strong>?document_srl=123</strong> 과 같이 복잡한 주소를 <em>http://yourdomain/</em><strong>123</strong> 과 같이 간단하게 줄일 수 있습니다. 웹 서버에서 mod_rewrite를 지원해야 합니다. 지원 여부는 서버 관리자에게 문의하세요.]]></value>
+		<value xml:lang="en"><![CDATA[If web server provides mod_rewrite, long URL such as <em>http://blah/</em><strong>?document_srl=123</strong> can be shortened like <em>http://blah/</em><strong>123</strong>]]></value>
 		<value xml:lang="jp"><![CDATA[Webサーバで「リライト・モジュール（mod_rewrite）」をサポートしている場合は、「http://アドレス/?document_srl=123」のようなアドレスを、動的だけど「http://アドレス/123」のように静的なページに見せることができます。]]></value>
 		<value xml:lang="zh-CN"><![CDATA[如服务器支持rewrite模块且选择此项，可以简化复杂的网址。<br />例如，http://域名/?document_srl=123简化为http://域名/123。]]></value>
 		<value xml:lang="zh-TW"><![CDATA[如果支援 rewrite 功能，可縮短冗長的網址。<br />例>『http://域名/?document_srl=123』縮短成『http://域名/123』。]]></value>
 		<value xml:lang="fr"><![CDATA[Si le serveur de web est capable d'utiliser le mode de récrire, URL longue comme http://murmure/?document_srl=123 peut être abrégé comme http://murmure/123]]></value>
-		<value xml:lang="ru"><![CDATA[Если сервер предлагает rewrite mod, длинные URL такие как  http://blah/?document_srl=123 могут быть сокращены до http://blah/123]]></value>
-		<value xml:lang="es"><![CDATA[Si el servidor de la web soporte rewrite mod, URL largas como http://bla/?documento_srl=123 puede abreviarse como  http://bla/123]]></value>
+		<value xml:lang="ru"><![CDATA[Если сервер предлагает mod_rewrite, длинные URL такие как  http://blah/?document_srl=123 могут быть сокращены до http://blah/123]]></value>
+		<value xml:lang="es"><![CDATA[Si el servidor de la web soporte mod_rewrite, URL largas como http://bla/?documento_srl=123 puede abreviarse como  http://bla/123]]></value>
 		<value xml:lang="tr"><![CDATA[Eğer websunucusu yenidenyazma(rewritemod) destekliyorsa, http://ornek/?dosya_no=123 gibi URLler http://ornek/123 olarak kısaltılabilir]]></value>
 		<value xml:lang="vi"><![CDATA[Nếu Host của bạn hỗ trợ Mod Rewrite, khi địa chỉ có dạng <b>http://blah/?document_srl=123</b> sẽ được rút ngắn thành <b>http://blah/123</b>]]></value>
 	</item>
 	<item name="disable_rewrite">
-		<value xml:lang="ko"><![CDATA[짧은 주소를 사용할 수 없습니다. 웹 서버 담당자에게 <strong>rewrite_mod</strong>지원 여부를 확인 바랍니다.]]></value>
-		<value xml:lang="en"><![CDATA[Required module for "Friendly URL" feature is not found. Please check with the web master about <strong>rewrite_mod</strong> module support.]]></value>
-		<value xml:lang="jp"><![CDATA[短縮アドレスを使用できません。ウェブサーバー担当者に <strong>rewrite_mod</strong>サポート可否を確認してください。]]></value>
+		<value xml:lang="ko"><![CDATA[짧은 주소를 사용할 수 없습니다. 웹 서버 담당자에게 mod_rewrite 지원 여부를 확인 바랍니다.]]></value>
+		<value xml:lang="en"><![CDATA["Friendly URL" feature is not available. Please check with the server administrator about mod_rewrite module support.]]></value>
+		<value xml:lang="jp"><![CDATA[短縮アドレスを使用できません。ウェブサーバー担当者に mod_rewriteサポート可否を確認してください。]]></value>
+	</item>
+	<item name="disable_rewrite_can_proceed">
+		<value xml:lang="ko"><![CDATA[짧은 주소를 사용할 수 없더라도 XE 설치와 사용에는 지장이 없습니다.]]></value>
+		<value xml:lang="en"><![CDATA[It is OK to continue to install and use XE without the "Friendly URL" feature.]]></value>
+		<value xml:lang="jp"><![CDATA[この機能は、XEをインストールと使用するために必要ではありません。]]></value>
 	</item>
 	<item name="about_nginx_rewrite">
-		<value xml:lang="ko"><![CDATA[Nginx를 사용할 경우, 짧은 주소를 사용하기 위하여 rewrite 설정이 필요합니다. 설정방법은 <a href="https://github.com/xpressengine/xe-core/wiki/Nginx-rewite-%EC%84%A4%EC%A0%95%ED%95%98%EA%B8%B0" target="_blank"><strong>여기</strong></a>를 참고하세요.]]></value>
-		<value xml:lang="en"><![CDATA[For using "Friendly URL" feature at Nginx, need to configure rewrites at Nginx. show  <a href="https://github.com/xpressengine/xe-core/wiki/Nginx-rewite-%EC%84%A4%EC%A0%95%ED%95%98%EA%B8%B0" target="_blank"><strong>here</strong></a>.]]></value>
-		<value xml:lang="jp"><![CDATA[Nginxを使用する場合、短縮アクセスを使用するためにrewrite設定が必要です。設定方法は<a href="https://github.com/xpressengine/xe-core/wiki/Nginx-rewite-%EC%84%A4%EC%A0%95%ED%95%98%EA%B8%B0" target="_blank"><strong>여기</strong></a>を参考ください。]]></value>
+		<value xml:lang="ko"><![CDATA[nginx에서 짧은 주소를 사용하려면 rewrite 설정이 필요합니다. <a href="https://github.com/xpressengine/xe-core/wiki/Nginx-rewite-%EC%84%A4%EC%A0%95%ED%95%98%EA%B8%B0" target="_blank">여기</a>를 참고하세요.]]></value>
+		<value xml:lang="en"><![CDATA[To use this feature at nginx, you need to configure rewrite. See <a href="https://github.com/xpressengine/xe-core/wiki/Nginx-rewite-%EC%84%A4%EC%A0%95%ED%95%98%EA%B8%B0" target="_blank">here</a>.]]></value>
+		<value xml:lang="jp"><![CDATA[nginxを使用する場合、短縮アクセスを使用するためにrewrite設定が必要です。設定方法は<a href="https://github.com/xpressengine/xe-core/wiki/Nginx-rewite-%EC%84%A4%EC%A0%95%ED%95%98%EA%B8%B0" target="_blank">このページ</a>を参考ください。]]></value>
 	</item>
 	<item name="time_zone">
 		<value xml:lang="ko"><![CDATA[표준 시간대]]></value>
@@ -698,8 +750,8 @@
 		<value xml:lang="vi"><![CDATA[Múi giờ]]></value>
 	</item>
 	<item name="about_time_zone">
-		<value xml:lang="ko"><![CDATA[서버의 설정시간과 사용하려는 장소의 시간이 차이가 날 경우 표준 시간대를 지정하면 표시되는 시간을 지정된 곳의 시간으로 사용할 수 있습니다.]]></value>
-		<value xml:lang="en"><![CDATA[If the server time and the time on your location don't accord each other, you can set the time to be same as your location by using the time zone]]></value>
+		<value xml:lang="ko"><![CDATA[서버의 시간과 주 사용자의 시간이 다를 경우 (예: 해외 서버인 경우) 원하는 표준 시간대를 선택할 수 있습니다.]]></value>
+		<value xml:lang="en"><![CDATA[If the server time is different from your time zone, you can use this option to display times in your time zone.]]></value>
 		<value xml:lang="jp"><![CDATA[サーバの設定時間とサービスしているローカル時間との差がある場合、タイムゾーンを指定して表示時間を合わせることができます。]]></value>
 		<value xml:lang="zh-CN"><![CDATA[服务器时间和您所处的时间有差异时，可以设置时区来满足你所需要的时间显示。]]></value>
 		<value xml:lang="zh-TW"><![CDATA[主機時間和您所處的時間有差異時，可以設置時區來滿足你所需要的時間顯示。]]></value>
@@ -732,16 +784,16 @@
 		<value xml:lang="vi"><![CDATA[Nó sẽ cho phép gửi thư từ MTA mà không phân biệt CRLF.]]></value>
 	</item>
 	<item name="about_database_file">
-		<value xml:lang="ko"><![CDATA[Sqlite는 파일에 데이터를 저장합니다. 데이터베이스 파일의 위치를 웹에서 접근할 수 없는 곳으로 해야 합니다.<br/><span style="color:red">데이터 파일은 707퍼미션 설정된 곳으로 지정해주세요.</span>]]></value>
-		<value xml:lang="en"><![CDATA[Sqlite saves data in a file. Location of the database file should be unreachable by web<br/><span style="color:red">Data file should be inside the permission of 707.</span>]]></value>
-		<value xml:lang="jp"><![CDATA[Sqliteはファイルにデータを保存します。そのため、データベースファイルにはウェブからアクセスできない場所にしなければなりません。<br/><span style="color:red">データファイルのパーミッションは「707」に設定してください。</span>]]></value>
-		<value xml:lang="zh-CN"><![CDATA[Sqlite是文件里保存数据。数据库的文件位置应该放在web不能访问的地方。<br/><span style="color:red">数据文件应放在具有707属性的位置。</span>]]></value>
-		<value xml:lang="zh-TW"><![CDATA[Sqlite是保存資料於檔案中。資料庫的檔案位置應該放在 web 不能訪問的地方。<br/><span style="color:red">資料檔案應放在具有 707 權限的位置。</span>]]></value>
-		<value xml:lang="fr"><![CDATA[Sqlite conserve des données dans le fichier. Vous devez placer le fichier de la base de données où l'on ne peut pas accéder par web.<br/><span style="color:red">Le fichier des Donées doit être en dedans la permission 707.</span>]]></value>
-		<value xml:lang="ru"><![CDATA[Sqlite сохраняет данные в файл. Размещение базы данных должно быть недоступно с веб<br/><span style="color:red">Файл базы данных должен иметь права доступа 707.</span>]]></value>
-		<value xml:lang="es"><![CDATA[Sqlite guarda el dato en el archivo. Es necesario crear archivo de BD en un lugar inaccesible de la web.<br/><span style="color:red">El archivo de dato debe estar ubicado en un lugar con la atribución 707.</span>]]></value>
-		<value xml:lang="tr"><![CDATA[Sqlite veriyi dosyaya kaydeder. Veritabanı dosyası tarayıcıyla erişilebilir olmamalıdır.<br/><span style="color:red">Veri dosyası 707 yetki kapsamı içinde olmalıdır.</span>]]></value>
-		<value xml:lang="vi"><![CDATA[Sqlite lưu trữ dữ liệu trong một File, vì vậy cần tới sự truy cập đến nó trong Database. <br/><span style="color:red">Hãy CHMOD thành 707.</span>]]></value>
+		<value xml:lang="ko"><![CDATA[Sqlite는 파일에 데이터를 저장합니다. 데이터베이스 파일의 위치를 웹에서 접근할 수 없는 곳으로 해야 합니다.<br/><span style="color:red">데이터 파일은 777퍼미션 설정된 곳으로 지정해주세요.</span>]]></value>
+		<value xml:lang="en"><![CDATA[Sqlite saves data in a file. Location of the database file should be unreachable by web<br/><span style="color:red">Data file should be inside the permission of 777.</span>]]></value>
+		<value xml:lang="jp"><![CDATA[Sqliteはファイルにデータを保存します。そのため、データベースファイルにはウェブからアクセスできない場所にしなければなりません。<br/><span style="color:red">データファイルのパーミッションは「777」に設定してください。</span>]]></value>
+		<value xml:lang="zh-CN"><![CDATA[Sqlite是文件里保存数据。数据库的文件位置应该放在web不能访问的地方。<br/><span style="color:red">数据文件应放在具有777属性的位置。</span>]]></value>
+		<value xml:lang="zh-TW"><![CDATA[Sqlite是保存資料於檔案中。資料庫的檔案位置應該放在 web 不能訪問的地方。<br/><span style="color:red">資料檔案應放在具有 777 權限的位置。</span>]]></value>
+		<value xml:lang="fr"><![CDATA[Sqlite conserve des données dans le fichier. Vous devez placer le fichier de la base de données où l'on ne peut pas accéder par web.<br/><span style="color:red">Le fichier des Donées doit être en dedans la permission 777.</span>]]></value>
+		<value xml:lang="ru"><![CDATA[Sqlite сохраняет данные в файл. Размещение базы данных должно быть недоступно с веб<br/><span style="color:red">Файл базы данных должен иметь права доступа 777.</span>]]></value>
+		<value xml:lang="es"><![CDATA[Sqlite guarda el dato en el archivo. Es necesario crear archivo de BD en un lugar inaccesible de la web.<br/><span style="color:red">El archivo de dato debe estar ubicado en un lugar con la atribución 777.</span>]]></value>
+		<value xml:lang="tr"><![CDATA[Sqlite veriyi dosyaya kaydeder. Veritabanı dosyası tarayıcıyla erişilebilir olmamalıdır.<br/><span style="color:red">Veri dosyası 777 yetki kapsamı içinde olmalıdır.</span>]]></value>
+		<value xml:lang="vi"><![CDATA[Sqlite lưu trữ dữ liệu trong một File, vì vậy cần tới sự truy cập đến nó trong Database. <br/><span style="color:red">Hãy CHMOD thành 777.</span>]]></value>
 	</item>
 	<item name="success_installed">
 		<value xml:lang="ko"><![CDATA[설치가 되었습니다.]]></value>
@@ -889,9 +941,9 @@
 		<value xml:lang="vi"><![CDATA[Tên Host FTP]]></value>
 	</item>
 	<item name="ftp_port">
-		<value xml:lang="ko"><![CDATA[FTP port]]></value>
-		<value xml:lang="en"><![CDATA[FTP port]]></value>
-		<value xml:lang="jp"><![CDATA[FTPポート番号（port）]]></value>
+		<value xml:lang="ko"><![CDATA[FTP 서버 포트]]></value>
+		<value xml:lang="en"><![CDATA[FTP server port]]></value>
+		<value xml:lang="jp"><![CDATA[FTPサーバーポート]]></value>
 		<value xml:lang="zh-CN"><![CDATA[FTP端口]]></value>
 		<value xml:lang="zh-TW"><![CDATA[FTP 埠口]]></value>
 		<value xml:lang="de"><![CDATA[FTP Port]]></value>
@@ -1033,8 +1085,8 @@
 		<value xml:lang="vi"><![CDATA[Đường dẫn thư mục đã cài đặt XE]]></value>
 	</item>
 	<item name="msg_ftp_installed_ftp_realpath">
-		<value xml:lang="ko"><![CDATA[설치된 XE의 FTP 경로]]></value>
-		<value xml:lang="en"><![CDATA[Absolute FTP Path of XE]]></value>
+		<value xml:lang="ko"><![CDATA[XE 설치 경로]]></value>
+		<value xml:lang="en"><![CDATA[XE installation path]]></value>
 		<value xml:lang="jp"><![CDATA[インストールされたXEのFTP絶対パス設定]]></value>
 		<value xml:lang="zh-CN"><![CDATA[FTP绝对路径设置]]></value>
 		<value xml:lang="zh-TW"><![CDATA[XE的 FTP 絕對路經]]></value>

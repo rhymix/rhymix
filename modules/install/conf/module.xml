@@ -8,15 +8,8 @@
         <action name="dispInstallCheckEnv" type="view" />
         <action name="dispInstallSelectDB" type="view" />
         <action name="dispInstallDBForm" type="view" />
-        <action name="dispInstallConfigForm" type="view" />
         <action name="dispInstallManagerForm" type="view" />
-        <action name="procCubridDBSetting" type="controller" ruleset="cubrid" />
-        <action name="procFirebirdDBSetting" type="controller" ruleset="firebird" />
-        <action name="procMssqlDBSetting" type="controller" ruleset="mssql" />
-        <action name="procMysqlDBSetting" type="controller" ruleset="mysql" />
-        <action name="procPostgresqlDBSetting" type="controller" ruleset="postgresql" />
-        <action name="procSqliteDBSetting" type="controller" ruleset="sqlite" />
-        <action name="procConfigSetting" type="controller" ruleset="config" />
+        <action name="procDBSetting" type="controller" />
         <action name="procInstall" type="controller" ruleset="install" />
         <action name="procInstallLicenseAggrement" type="controller" />
         <action name="procInstallFTP" type="controller" />

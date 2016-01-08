@@ -12,11 +12,6 @@ class Purifier
 	public function __construct()
 	{
 		$this->_checkCacheDir();
-
-		// purifier setting
-		require_once _XE_PATH_ . 'classes/security/htmlpurifier/library/HTMLPurifier.auto.php';
-		require_once 'HTMLPurifier.func.php';
-
 		$this->_setConfig();
 	}
 

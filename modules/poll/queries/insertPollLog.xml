@@ -7,5 +7,6 @@
         <column name="member_srl" var="member_srl" filter="number" default="0" />
         <column name="ipaddress" var="ipaddress" default="ipaddress()" />
         <column name="regdate" var="regdate" default="curdate()" />
+        <column name="poll_item" var="poll_item" default="0" />
     </columns>
 </query>

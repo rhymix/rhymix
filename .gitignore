@@ -8,12 +8,13 @@ config.user.inc.php
 codeception.yml
 /tests/_output/
 /tests/*.suite.yml
+/tests/_support/InstallTester.php
+/tests/_support/UnitTester.php
+/tests/_support/_generated/
 
 /node_modules/
 /bower_components/
-/vendor/
 composer.phar
-composer.lock
 
 .idea
 *.sublime-workspace

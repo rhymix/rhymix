@@ -1,0 +1,24 @@
+<!--// 우체국 우편번호 API -->
+<!--// HEADER -->
+<load target="" />
+<load target="./css/popup.css" index="100000" />
+<load target="./js/epostapi.search.js" />
+
+<!--// BODY -->
+<div class="krZip" id="krzip-{$template_config->sequence_id}">
+	<div class="krzip-search-wrap">
+		<div class="krzip-input-wrap">
+			<input type="text" class="krzip-input" placeholder="{$lang->cmd_search}" />
+		</div>
+		<input type="button" class="krzip-search" />
+	</div>
+	<ul class="krzip-addressList">
+	</ul>
+</div>
+
+<!--// FOOTER -->
+<script>
+//<![CDATA[
+jQuery("#krzip-{$template_config->sequence_id}").Krzip();
+//]]>
+</script>
