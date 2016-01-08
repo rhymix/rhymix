@@ -171,13 +171,26 @@ class FrontEndFileHandler extends Handler
 			$file->fileNameNoExt = $pathInfo['filename'];
 			$file->isMinified = false;
 		}
+		$file->isExternalURL = preg_match('@^(https?:)?//@i', $file->filePath) ? true : false;
+		$file->isCachedScript = !$file->isExternalURL && strpos($file->filePath, 'files/cache/') !== false;
 		$file->keyName = $file->fileNameNoExt . '.' . $file->fileExtension;
 		$file->cdnPath = $this->_normalizeFilePath($pathInfo['dirname']);
+		$originalFilePath = $file->fileRealPath . '/' . $pathInfo['basename'];
+
+		// Fix incorrectly minified URL
+		if($file->isMinified && !$file->isExternalURL && !file_exists($originalFilePath))
+		{
+			if(file_exists($file->fileRealPath . '/' . $file->fileNameNoExt . '.' . $file->fileExtension))
+			{
+				$file->fileName = $file->fileNameNoExt . '.' . $file->fileExtension;
+				$file->isMinified = false;
+				$originalFilePath = $file->fileRealPath . '/' . $file->fileNameNoExt . '.' . $file->fileExtension;
+			}
+		}
 
 		// Minify file
-		if(self::$minify && !$file->isMinified && strpos($file->filePath, '://') === false && strpos($file->filePath, 'common/js/plugins') === false)
+		if(self::$minify && !$file->isMinified && !$file->isExternalURL && !$file->isCachedScript && strpos($file->filePath, 'common/js/plugins') === false)
 		{
-			$originalFilePath = $file->fileRealPath . '/' . $pathInfo['basename'];
 			if(($file->fileExtension === 'css' || $file->fileExtension === 'js') && file_exists($originalFilePath))
 			{
 				$minifiedFileName = $file->fileNameNoExt . '.min.' . $file->fileExtension;
