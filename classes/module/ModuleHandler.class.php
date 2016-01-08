@@ -1052,7 +1052,7 @@ class ModuleHandler extends Handler
 
 		if(__DEBUG__ == 3)
 		{
-			$start_time = getMicroTime();
+			$start_time = microtime(true);
 		}
 
 		$parent_module = $module;
@@ -1127,7 +1127,7 @@ class ModuleHandler extends Handler
 
 		if(__DEBUG__ == 3)
 		{
-			$GLOBALS['__elapsed_class_load__'] += getMicroTime() - $start_time;
+			$GLOBALS['__elapsed_class_load__'] += microtime(true) - $start_time;
 		}
 
 		// return the instance
