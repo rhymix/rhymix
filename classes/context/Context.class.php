@@ -1946,19 +1946,6 @@ class Context
 	}
 
 	/**
-	 * Magic method to return null instead of throwing E_NOTICE when undefined properties are accessed
-	 * 
-	 * We do not define a corresponding __set() because it does not work with assignment by reference.
-	 * 
-	 * @param string $key
-	 * @return null
-	 */
-	public function __get($key)
-	{
-		return null;
-	}
-
-	/**
 	 * Set a context value with a key
 	 *
 	 * @param string $key Key
