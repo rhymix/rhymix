@@ -7,7 +7,7 @@ class HTMLDisplayHandler
 	 * Reserved scripts
 	 */
 	public static $reservedCSS = '@\bcommon/css/(?:xe|mobile)\.(?:min\.)?css$@';
-	public static $reservedJS = '@\bcommon/js/(?:jquery(?:-[123]\.x)?|modernizr|xe?|common|js_app|xml_handler|xml_js_filter)\.(?:min\.)?js$@';
+	public static $reservedJS = '@\bcommon/js/(?:jquery(?:-[123]\.x)?|xe?|common|js_app|xml_handler|xml_js_filter)\.(?:min\.)?js$@';
 
 	/**
 	 * Produce HTML compliant content given a module object.\n
@@ -429,7 +429,6 @@ class HTMLDisplayHandler
 		{
 			Context::loadFile(array('./common/js/jquery-1.x.js', 'head', 'lt IE 9', -1730000), true);
 			Context::loadFile(array('./common/js/jquery.js', 'head', 'gte IE 9', -1720000), true);
-			Context::loadFile(array('./common/js/modernizr.js', 'head', '', -1710000), true);
 			foreach($original_file_list as $filename)
 			{
 				Context::loadFile(array('./common/js/' . $filename . '.js', 'head', '', -1700000), true);
@@ -439,7 +438,6 @@ class HTMLDisplayHandler
 		{
 			Context::loadFile(array('./common/js/jquery-1.x.min.js', 'head', 'lt IE 9', -1730000), true);
 			Context::loadFile(array('./common/js/jquery.min.js', 'head', 'gte IE 9', -1720000), true);
-			Context::loadFile(array('./common/js/modernizr.min.js', 'head', '', -1710000), true);
 			
 			$concat_target_filename = 'files/cache/minify/xe.min.js';
 			if(file_exists(_XE_PATH_ . $concat_target_filename))
