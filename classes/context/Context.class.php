@@ -1207,7 +1207,7 @@ class Context
 		return $obj->str;
 	}
 
-	function decodeIdna($domain)
+	public static function decodeIdna($domain)
 	{
 		if(strpos($domain, 'xn--') !== FALSE)
 		{
@@ -1422,7 +1422,7 @@ class Context
 	 * @param object $val Variable value
 	 * @return mixed filtered value
 	 */
-	function _filterXmlVars($key, $val)
+	public function _filterXmlVars($key, $val)
 	{
 		if(is_array($val))
 		{
