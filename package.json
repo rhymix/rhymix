@@ -4,10 +4,10 @@
   "license": "GNU LGPL",
   "repository": {
     "type": "git",
-    "url": "git://github.com/xetown/xe-core.git"
+    "url": "git://github.com/rhymix/rhymix.git"
   },
   "bugs": {
-    "url": "https://github.com/xetown/xe-core/issues"
+    "url": "https://github.com/rhymix/rhymix/issues"
   },
   "devDependencies": {
     "grunt": "^0.4.5",
