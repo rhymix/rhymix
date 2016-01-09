@@ -78,10 +78,6 @@ class CacheFile extends CacheBase
 		$content[] = 'if(!defined(\'__XE__\')) { exit(); }';
 		$content[] = 'return \'' . addslashes(serialize($obj)) . '\';';
 		FileHandler::writeFile($cache_file, implode(PHP_EOL, $content));
-		if(function_exists('opcache_invalidate'))
-		{
-			@opcache_invalidate($cache_file, true);
-		}
 	}
 
 	/**
@@ -145,10 +141,6 @@ class CacheFile extends CacheBase
 	function _delete($_key)
 	{
 		$cache_file = $this->getCacheFileName($_key);
-		if(function_exists('opcache_invalidate'))
-		{
-			@opcache_invalidate($cache_file, true);
-		}
 		FileHandler::removeFile($cache_file);
 	}
 
