@@ -93,15 +93,22 @@ class FrontEndFileHandler extends Handler
 		{
 			$args = array($args);
 		}
+		if($args[3] > -1500000 && preg_match(HTMLDisplayHandler::$reservedCSS, $args[0]))
+		{
+			return;
+		}
+		if($args[3] > -1500000 && preg_match(HTMLDisplayHandler::$reservedJS, $args[0]))
+		{
+			return;
+		}
 		$file = $this->getFileInfo($args[0], $args[2], $args[1]);
+		$file->index = (int)$args[3];
 
 		$availableExtension = array('css' => 1, 'js' => 1);
 		if(!isset($availableExtension[$file->fileExtension]))
 		{
 			return;
 		}
-
-		$file->index = (int) $args[3];
 
 		if($file->fileExtension == 'css')
 		{
@@ -124,7 +131,6 @@ class FrontEndFileHandler extends Handler
 			}
 		}
 
-		(is_null($file->index)) ? $file->index = 0 : $file->index = $file->index;
 		if(!isset($mapIndex[$file->key]) || $mapIndex[$file->key] > $file->index)
 		{
 			$this->unloadFile($args[0], $args[2], $args[1]);
