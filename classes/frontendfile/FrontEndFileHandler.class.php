@@ -215,6 +215,7 @@ class FrontEndFileHandler extends Handler
 				$file->fileName = $minifiedFileHash . '.' . $minifiedFileName;
 				$file->filePath = $this->_getAbsFileUrl('./files/cache/minify');
 				$file->fileRealPath = _XE_PATH_ . 'files/cache/minify';
+				$file->keyName = $minifiedFileHash . '.' . $file->fileNameNoExt . '.' . $file->fileExtension;
 				$file->cdnPath = $this->_normalizeFilePath('./files/cache/minify');
 				$file->isMinified = true;
 			}
