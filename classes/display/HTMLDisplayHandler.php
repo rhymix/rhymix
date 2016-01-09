@@ -76,7 +76,7 @@ class HTMLDisplayHandler
 			{
 				if(__DEBUG__ == 3)
 				{
-					$start = getMicroTime();
+					$start = microtime(true);
 				}
 
 				Context::set('content', $output, false);
@@ -132,7 +132,7 @@ class HTMLDisplayHandler
 
 				if(__DEBUG__ == 3)
 				{
-					$GLOBALS['__layout_compile_elapsed__'] = getMicroTime() - $start;
+					$GLOBALS['__layout_compile_elapsed__'] = microtime(true) - $start;
 				}
 
 				if(stripos($_SERVER['HTTP_USER_AGENT'], 'MSIE') !== FALSE && (Context::get('_use_ssl') == 'optional' || Context::get('_use_ssl') == 'always'))
@@ -158,7 +158,7 @@ class HTMLDisplayHandler
 
 		if(__DEBUG__ == 3)
 		{
-			$start = getMicroTime();
+			$start = microtime(true);
 		}
 
 		// move <style ..></style> in body to the header
@@ -208,7 +208,7 @@ class HTMLDisplayHandler
 
 		if(__DEBUG__ == 3)
 		{
-			$GLOBALS['__trans_content_elapsed__'] = getMicroTime() - $start;
+			$GLOBALS['__trans_content_elapsed__'] = microtime(true) - $start;
 		}
 
 		// Remove unnecessary information

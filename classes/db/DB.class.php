@@ -382,7 +382,7 @@ class DB
 	{
 		$this->setError(0, 'success');
 		$this->query = $query;
-		$this->act_start = getMicroTime();
+		$this->act_start = microtime(true);
 		$this->elapsed_time = 0;
 	}
 
@@ -396,7 +396,7 @@ class DB
 		{
 			return;
 		}
-		$this->act_finish = getMicroTime();
+		$this->act_finish = microtime(true);
 		$elapsed_time = $this->act_finish - $this->act_start;
 		$this->elapsed_time = $elapsed_time;
 		$GLOBALS['__db_elapsed_time__'] += $elapsed_time;
@@ -1316,7 +1316,7 @@ class DB
 	function actDBClassStart()
 	{
 		$this->setError(0, 'success');
-		$this->act_dbclass_start = getMicroTime();
+		$this->act_dbclass_start = microtime(true);
 		$this->elapsed_dbclass_time = 0;
 	}
 
@@ -1330,7 +1330,7 @@ class DB
 		{
 			return;
 		}
-		$this->act_dbclass_finish = getMicroTime();
+		$this->act_dbclass_finish = microtime(true);
 		$elapsed_dbclass_time = $this->act_dbclass_finish - $this->act_dbclass_start;
 		$this->elapsed_dbclass_time = $elapsed_dbclass_time;
 		$GLOBALS['__dbclass_elapsed_time__'] += $elapsed_dbclass_time;

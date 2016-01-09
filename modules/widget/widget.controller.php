@@ -442,7 +442,7 @@ class widgetController extends widget
 	function execute($widget, $args, $javascript_mode = false, $escaped = true)
 	{
 		// Save for debug run-time widget
-		if(__DEBUG__==3) $start = getMicroTime();
+		if(__DEBUG__==3) $start = microtime(true);
 		$before = microtime(true);
 		// urldecode the value of args haejum
 		$object_vars = get_object_vars($args);
@@ -641,7 +641,7 @@ class widgetController extends widget
 
 		$output = $widget_content_header . $widget_content_body . $widget_content_footer;
 		// Debug widget creation time information added to the results
-		if(__DEBUG__==3) $GLOBALS['__widget_excute_elapsed__'] += getMicroTime() - $start;
+		if(__DEBUG__==3) $GLOBALS['__widget_excute_elapsed__'] += microtime(true) - $start;
 
 		$after = microtime(true);
 

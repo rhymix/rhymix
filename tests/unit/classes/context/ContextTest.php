@@ -27,7 +27,8 @@ class ContextTest extends \Codeception\TestCase\Test
     public function testSetGetVars()
     {
         $this->assertEquals(Context::get('var1'), null);
-        context::set('var1', 'val1');
+        Context::getInstance()->context = new stdClass;
+        Context::set('var1', 'val1');
         $this->assertEquals(Context::get('var1'), 'val1');
 
         Context::set('var2', 'val2');
