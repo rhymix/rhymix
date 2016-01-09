@@ -1197,7 +1197,7 @@ class Context
 		return $obj->str;
 	}
 
-	function decodeIdna($domain)
+	public static function decodeIdna($domain)
 	{
 		if(strpos($domain, 'xn--') !== FALSE)
 		{
