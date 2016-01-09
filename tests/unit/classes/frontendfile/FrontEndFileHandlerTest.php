@@ -13,7 +13,7 @@ class FrontEndFileHandlerTest extends \Codeception\TestCase\Test
 	public function testFrontEndFileHandler()
 	{
 		$handler = new FrontEndFileHandler();
-		$db_info = Context::getDBInfo();
+		$db_info = Context::getDBInfo() ?: new stdClass;
 		$db_info->minify_scripts = 'N';
 		Context::setDBInfo($db_info);
 

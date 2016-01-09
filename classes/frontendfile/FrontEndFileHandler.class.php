@@ -8,8 +8,8 @@
 class FrontEndFileHandler extends Handler
 {
 
-	static $isSSL = null;
-	static $minify = null;
+	public static $isSSL = null;
+	public static $minify = null;
 
 	/**
 	 * Map for css

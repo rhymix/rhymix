@@ -387,20 +387,19 @@ class HTMLDisplayHandler
 	 */
 	function _loadDesktopJSCSS()
 	{
-		$oContext = Context::getInstance();
 		$lang_type = Context::getLangType();
-		$this->_loadCommonJSCSS($oContext);
+		$this->_loadCommonJSCSS();
 		
 		// for admin page, add admin css
 		if(Context::get('module') == 'admin' || strpos(Context::get('act'), 'Admin') > 0)
 		{
-			$oContext->loadFile(array('./modules/admin/tpl/css/admin.css', '', '', 10), true);
-			$oContext->loadFile(array("./modules/admin/tpl/css/admin_{$lang_type}.css", '', '', 10), true);
-			$oContext->loadFile(array("./modules/admin/tpl/css/admin.iefix.css", '', 'ie', 10), true);
-			$oContext->loadFile('./modules/admin/tpl/js/admin.js', true);
-			$oContext->loadFile(array('./modules/admin/tpl/css/admin.bootstrap.css', '', '', 1), true);
-			$oContext->loadFile(array('./modules/admin/tpl/js/jquery.tmpl.js', '', '', 1), true);
-			$oContext->loadFile(array('./modules/admin/tpl/js/jquery.jstree.js', '', '', 1), true);
+			Context::loadFile(array('./modules/admin/tpl/css/admin.css', '', '', 10), true);
+			Context::loadFile(array("./modules/admin/tpl/css/admin_{$lang_type}.css", '', '', 10), true);
+			Context::loadFile(array("./modules/admin/tpl/css/admin.iefix.css", '', 'ie', 10), true);
+			Context::loadFile('./modules/admin/tpl/js/admin.js', true);
+			Context::loadFile(array('./modules/admin/tpl/css/admin.bootstrap.css', '', '', 1), true);
+			Context::loadFile(array('./modules/admin/tpl/js/jquery.tmpl.js', '', '', 1), true);
+			Context::loadFile(array('./modules/admin/tpl/js/jquery.jstree.js', '', '', 1), true);
 		}
 	}
 
@@ -409,35 +408,33 @@ class HTMLDisplayHandler
 	 */
 	private function _loadMobileJSCSS()
 	{
-		$oContext = Context::getInstance();
-		$this->_loadCommonJSCSS($oContext);
-		$oContext->loadFile(array('./common/css/mobile.css', '', '', -1000000), true);
+		$this->_loadCommonJSCSS();
+		Context::loadFile(array('./common/css/mobile.css', '', '', -1000000), true);
 	}
 
 	/**
 	 * import common .js and .css files for (both desktop and mobile)
 	 */
-	private function _loadCommonJSCSS($oContext = null)
+	private function _loadCommonJSCSS()
 	{
-		$oContext = $oContext ?: Context::getInstance();
-		$oContext->loadFile(array('./common/css/xe.css', '', '', -1000000), true);
-		$original_file_list = array('x.js', 'common.js', 'js_app.js', 'xml_handler.js', 'xml_js_filter.js');
+		Context::loadFile(array('./common/css/xe.css', '', '', -1000000), true);
+		$original_file_list = array('x', 'common', 'js_app', 'xml_handler', 'xml_js_filter');
 		
 		if(Context::getDBInfo()->minify_scripts === 'N')
 		{
-			$oContext->loadFile(array('./common/js/jquery-1.x.js', 'head', 'lt IE 9', -111000), true);
-			$oContext->loadFile(array('./common/js/jquery.js', 'head', 'gte IE 9', -110000), true);
-			$oContext->loadFile(array('./common/js/modernizr.js', 'head', '', -100000), true);
+			Context::loadFile(array('./common/js/jquery-1.x.js', 'head', 'lt IE 9', -111000), true);
+			Context::loadFile(array('./common/js/jquery.js', 'head', 'gte IE 9', -110000), true);
+			Context::loadFile(array('./common/js/modernizr.js', 'head', '', -100000), true);
 			foreach($original_file_list as $filename)
 			{
-				$oContext->loadFile(array('./common/js/' . $filename, 'head', '', -100000), true);
+				Context::loadFile(array('./common/js/' . $filename . '.js', 'head', '', -100000), true);
 			}
 		}
 		else
 		{
-			$oContext->loadFile(array('./common/js/jquery-1.x.min.js', 'head', 'lt IE 9', -111000), true);
-			$oContext->loadFile(array('./common/js/jquery.min.js', 'head', 'gte IE 9', -110000), true);
-			$oContext->loadFile(array('./common/js/modernizr.min.js', 'head', '', -100000), true);
+			Context::loadFile(array('./common/js/jquery-1.x.min.js', 'head', 'lt IE 9', -111000), true);
+			Context::loadFile(array('./common/js/jquery.min.js', 'head', 'gte IE 9', -110000), true);
+			Context::loadFile(array('./common/js/modernizr.min.js', 'head', '', -100000), true);
 			
 			$concat_target_filename = 'files/cache/minify/xe.min.js';
 			if(file_exists(_XE_PATH_ . $concat_target_filename))
@@ -446,22 +443,21 @@ class HTMLDisplayHandler
 				$original_mtime = 0;
 				foreach($original_file_list as $filename)
 				{
-					$original_mtime = max($original_mtime, filemtime(_XE_PATH_ . 'common/js/' . $filename));
+					$original_mtime = max($original_mtime, filemtime(_XE_PATH_ . 'common/js/' . $filename . '.js'));
 				}
 				if($concat_target_mtime > $original_mtime)
 				{
-					$oContext->loadFile(array('./' . $concat_target_filename, 'head', '', -100000), true);
+					Context::loadFile(array('./' . $concat_target_filename, 'head', '', -100000), true);
 					return;
 				}
 			}
-			$buffer = '';
+			$minifier = new MatthiasMullie\Minify\JS();
 			foreach($original_file_list as $filename)
 			{
-				$buffer .= file_get_contents(_XE_PATH_ . 'common/js/' . $filename) . "\n";
+				$minifier->add(_XE_PATH_ . 'common/js/' . $filename . '.js');
 			}
-			$minifier = new MatthiasMullie\Minify\JS($buffer);
 			FileHandler::writeFile(_XE_PATH_ . $concat_target_filename, $minifier->execute());
-			$oContext->loadFile(array('./' . $concat_target_filename, 'head', '', -100000), true);
+			Context::loadFile(array('./' . $concat_target_filename, 'head', '', -100000), true);
 		}
 	}
 }
