@@ -1570,7 +1570,7 @@ function alertScript($msg)
 {
 	if($msg)
 	{
-		echo sprintf('<script type="text/javascript"> alert(%s); </script>', json_encode(@strval($msg)));
+		echo sprintf('<script> alert(%s); </script>', json_encode(@strval($msg)));
 	}
 }
 
@@ -1581,7 +1581,7 @@ function alertScript($msg)
  */
 function closePopupScript()
 {
-	echo '<script type="text/javascript"> window.open("", "_self", ""); window.close(); </script>';
+	echo '<script> window.open("", "_self", ""); window.close(); </script>';
 }
 
 /**
@@ -1593,7 +1593,7 @@ function closePopupScript()
 function reload($isOpener = FALSE)
 {
 	$reloadScript = $isOpener ? 'window.opener.location.reload();' : 'window.location.reload();';
-	echo sprintf('<script type="text/javascript"> %s </script>', $raloadScript);
+	echo sprintf('<script> %s </script>', $raloadScript);
 }
 
 /* End of file func.inc.php */
