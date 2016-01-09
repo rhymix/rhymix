@@ -39,6 +39,12 @@ RhymiX는 개발자와 사용자가 서로의 권리와 책임을 존중하는 �
 - php.ini에서 session.auto_start = Off로 설정되어 있어야 합니다.
 - 설치 폴더 또는 files 폴더에 쓰기 권한이 주어져야 합니다.
 
+### 개발 참여
+
+RhymiX는 개발자, 디자이너, 번역가 등의 도움과 일반 사용자들의 버그 신고를 환영합니다.
+참여를 원하시는 분은 질서있고 효율적인 프로젝트 운영을 위해
+[CONTRIBUTING.md](./CONTRIBUTING.md)를 먼저 읽어 주시기 바랍니다.
+
 ### 공식 홈페이지
 
 - XETOWN : https://www.xetown.com
