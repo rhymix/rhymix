@@ -97,7 +97,7 @@ class installAdminController extends install
 		if($qmail_compatibility!='Y') $qmail_compatibility = 'N';
 
 		$minify_scripts = Context::get('minify_scripts');
-		if($minify_scripts!='Y') $minify_scripts = 'N';
+		if(!$minify_scripts) $minify_scripts = 'common';
 
 		$cache_friendly = Context::get('cache_friendly');
 		if($cache_friendly!='Y') $cache_friendly = 'N';

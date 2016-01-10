@@ -765,6 +765,21 @@
 		<value xml:lang="en"><![CDATA[Auto-minify scripts]]></value>
 		<value xml:lang="jp"><![CDATA[スクリプト自動圧縮]]></value>
 	</item>
+	<item name="cmd_minify_all">
+		<value xml:lang="ko"><![CDATA[모든 파일을 압축]]></value>
+		<value xml:lang="en"><![CDATA[All files]]></value>
+		<value xml:lang="jp"><![CDATA[全てのファイルを圧縮]]></value>
+	</item>
+	<item name="cmd_minify_common">
+		<value xml:lang="ko"><![CDATA[공통 파일만 압축]]></value>
+		<value xml:lang="en"><![CDATA[Common files only]]></value>
+		<value xml:lang="jp"><![CDATA[共通のファイルを圧縮]]></value>
+	</item>
+	<item name="cmd_minify_none">
+		<value xml:lang="ko"><![CDATA[압축하지 않음]]></value>
+		<value xml:lang="en"><![CDATA[None]]></value>
+		<value xml:lang="jp"><![CDATA[圧縮されません]]></value>
+	</item>
 	<item name="about_minify_scripts">
 		<value xml:lang="ko"><![CDATA[코어와 모든 모듈에 포함된 CSS, JS 파일들을 자동으로 압축(minify)하여 전송합니다.]]></value>
 		<value xml:lang="en"><![CDATA[Automatically minify all CSS and JS scripts in the Core and all modules.]]></value>

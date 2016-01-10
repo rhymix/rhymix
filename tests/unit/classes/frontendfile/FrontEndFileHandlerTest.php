@@ -16,7 +16,7 @@ class FrontEndFileHandlerTest extends \Codeception\TestCase\Test
 		HTMLDisplayHandler::$reservedCSS = '/xxx$/';
 		HTMLDisplayHandler::$reservedJS = '/xxx$/';
 		$db_info = Context::getDBInfo() ?: new stdClass;
-		$db_info->minify_scripts = 'N';
+		$db_info->minify_scripts = 'none';
 		Context::setDBInfo($db_info);
 
 		$this->specify("js(head)", function() use($db_info) {
@@ -27,7 +27,7 @@ class FrontEndFileHandlerTest extends \Codeception\TestCase\Test
 			$handler->loadFile(array('./common/js/common.js', 'head'));
 			$handler->loadFile(array('./common/js/xml_js_filter.js', 'body'));
 
-			if($db_info->minify_scripts === 'N')
+			if($db_info->minify_scripts === 'none')
 			{
 				$expected[] = array('file' => '/xe/common/js/jquery.js' . $this->_filemtime('common/js/jquery.js'), 'targetie' => null);
 			}
@@ -45,7 +45,7 @@ class FrontEndFileHandlerTest extends \Codeception\TestCase\Test
 			$handler->loadFile(array('./common/js/jquery.js', 'body'));
 			$handler->loadFile(array('./common/js/xml_js_filter.js', 'head'));
 
-			if($db_info->minify_scripts === 'N')
+			if($db_info->minify_scripts === 'none')
 			{
 				$expected[] = array('file' => '/xe/common/js/jquery.js' . $this->_filemtime('common/js/jquery.js'), 'targetie' => null);
 			}
@@ -78,7 +78,7 @@ class FrontEndFileHandlerTest extends \Codeception\TestCase\Test
 			$handler->loadFile(array('./common/js/xml_handler.js', 'head', '', -100000));
 			$handler->loadFile(array('./common/js/xml_js_filter.js', 'head', '', -100000));
 
-			if($db_info->minify_scripts === 'N')
+			if($db_info->minify_scripts === 'none')
 			{
 				$expected[] = array('file' => '/xe/common/js/jquery.js' . $this->_filemtime('common/js/jquery.js'), 'targetie' => null);
 			}
@@ -101,7 +101,7 @@ class FrontEndFileHandlerTest extends \Codeception\TestCase\Test
 			$handler->loadFile(array('./common/js/common.js', 'head', '', -100000));
 			$handler->loadFile(array('./common/js/xml_js_filter.js', 'head', '', -100000));
 
-			if($db_info->minify_scripts === 'N')
+			if($db_info->minify_scripts === 'none')
 			{
 				$expected[] = array('file' => '/xe/common/js/jquery.js' . $this->_filemtime('common/js/jquery.js'), 'targetie' => null);
 			}
@@ -138,7 +138,7 @@ class FrontEndFileHandlerTest extends \Codeception\TestCase\Test
 			$handler->loadFile(array('./common/js/jquery.js', 'head', 'ie7'));
 			$handler->loadFile(array('./common/js/jquery.js', 'head', 'ie8'));
 
-			if($db_info->minify_scripts === 'N')
+			if($db_info->minify_scripts === 'none')
 			{
 				$expected[] = array('file' => '/xe/common/js/jquery.js' . $this->_filemtime('common/js/jquery.js'), 'targetie' => 'ie6');
 				$expected[] = array('file' => '/xe/common/js/jquery.js' . $this->_filemtime('common/js/jquery.js'), 'targetie' => 'ie7');
@@ -200,7 +200,7 @@ class FrontEndFileHandlerTest extends \Codeception\TestCase\Test
 			$this->assertEquals($handler->getCssFileList(), $expected);
 		});
 
-		$db_info->minify_scripts = 'Y';
+		$db_info->minify_scripts = 'all';
 		Context::setDBInfo($db_info);
 		FrontEndFileHandler::$minify = null;
 

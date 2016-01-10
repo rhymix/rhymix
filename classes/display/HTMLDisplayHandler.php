@@ -425,7 +425,7 @@ class HTMLDisplayHandler
 		Context::loadFile(array('./common/css/xe.css', '', '', -1600000), true);
 		$original_file_list = array('x', 'common', 'js_app', 'xml_handler', 'xml_js_filter');
 		
-		if(Context::getDBInfo()->minify_scripts === 'N')
+		if(Context::getDBInfo()->minify_scripts === 'none')
 		{
 			Context::loadFile(array('./common/js/jquery-1.x.js', 'head', 'lt IE 9', -1730000), true);
 			Context::loadFile(array('./common/js/jquery.js', 'head', 'gte IE 9', -1720000), true);

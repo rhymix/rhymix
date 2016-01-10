@@ -93,15 +93,13 @@ class FrontEndFileHandler extends Handler
 		{
 			$args = array($args);
 		}
-		if($args[3] > -1500000 && preg_match(HTMLDisplayHandler::$reservedCSS, $args[0]))
+		
+		$isCommon = preg_match(HTMLDisplayHandler::$reservedCSS, $args[0]) || preg_match(HTMLDisplayHandler::$reservedJS, $args[0]);
+		if($args[3] > -1500000 && $isCommon)
 		{
 			return;
 		}
-		if($args[3] > -1500000 && preg_match(HTMLDisplayHandler::$reservedJS, $args[0]))
-		{
-			return;
-		}
-		$file = $this->getFileInfo($args[0], $args[2], $args[1]);
+		$file = $this->getFileInfo($args[0], $args[2], $args[1], $isCommon);
 		$file->index = (int)$args[3];
 
 		$availableExtension = array('css' => 1, 'js' => 1);
@@ -145,15 +143,16 @@ class FrontEndFileHandler extends Handler
 	 * @param string $fileName The file name
 	 * @param string $targetIe Target IE of file
 	 * @param string $media Media of file
+	 * @param bool $forceMinify Whether this file should be minified
 	 * @return stdClass The file information
 	 */
-	private function getFileInfo($fileName, $targetIe = '', $media = 'all')
+	private function getFileInfo($fileName, $targetIe = '', $media = 'all', $forceMinify = false)
 	{
 		static $existsInfo = array();
 
 		if(self::$minify === null)
 		{
-			self::$minify = Context::getDBInfo()->minify_scripts === 'N' ? false : true;
+			self::$minify = Context::getDBInfo()->minify_scripts ?: 'common';
 		}
 
 		if(isset($existsInfo[$existsKey]))
@@ -194,8 +193,22 @@ class FrontEndFileHandler extends Handler
 			}
 		}
 
+		// Decide whether to minify this file
+		if(self::$minify === 'all')
+		{
+			$minify_enabled = true;
+		}
+		elseif(self::$minify === 'none')
+		{
+			$minify_enabled = false;
+		}
+		else
+		{
+			$minify_enabled = $forceMinify;
+		}
+		
 		// Minify file
-		if(self::$minify && !$file->isMinified && !$file->isExternalURL && !$file->isCachedScript && strpos($file->filePath, 'common/js/plugins') === false)
+		if($minify_enabled && !$file->isMinified && !$file->isExternalURL && !$file->isCachedScript && strpos($file->filePath, 'common/js/plugins') === false)
 		{
 			if(($file->fileExtension === 'css' || $file->fileExtension === 'js') && file_exists($originalFilePath))
 			{
