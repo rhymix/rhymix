@@ -22,7 +22,6 @@ before_script:
 - if [ ! -f codecept.phar ]; then wget http://codeception.com/codecept.phar; fi
 script:
 - grunt lint
-- grunt minify
 - if [ -f codecept.phar ]; then php codecept.phar build; fi
 - if [ -f codecept.phar ]; then php codecept.phar run -d --fail-fast --env travis; fi
 notifications:

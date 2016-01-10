@@ -226,6 +226,16 @@
 			</div>
 		</div>
 		<div class="x_control-group">
+			<label class="x_control-label">{$lang->minify_scripts}</label>
+			<div class="x_controls">
+				<label for="minify_scripts_none" class="x_inline"><input type="radio" name="minify_scripts" id="minify_scripts_none" value="none" checked="checked"|cond="$minify_scripts=='none'" /> {$lang->cmd_minify_none}</label>
+				<label for="minify_scripts_common" class="x_inline"><input type="radio" name="minify_scripts" id="minify_scripts_common" value="common" checked="checked"|cond="$minify_scripts!='all' && $minify_scripts!='none'" /> {$lang->cmd_minify_common}</label>
+				<label for="minify_scripts_all" class="x_inline"><input type="radio" name="minify_scripts" id="minify_scripts_all" value="all" checked="checked"|cond="$minify_scripts=='all'" /> {$lang->cmd_minify_all}</label>
+				<br />
+				<p class="x_help-block">{$lang->about_minify_scripts}</p>
+			</div>
+		</div>
+		<div class="x_control-group">
 			<label class="x_control-label">{$lang->cache_friendly}</label>
 			<div class="x_controls">
 				<label for="cache_friendly_y" class="x_inline"><input type="radio" name="cache_friendly" id="cache_friendly_y" value="Y" checked="checked"|cond="$cache_friendly=='Y'" /> {$lang->cmd_yes}</label>

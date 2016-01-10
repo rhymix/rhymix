@@ -11,13 +11,6 @@ if(!defined("__XE__")) exit();
  * */
 if(!class_exists('AddonMemberCaptcha', false))
 {
-	// On the mobile mode, XE Core does not load jquery and xe.js as normal.
-	if(Mobile::isFromMobilePhone())
-	{
-		Context::loadFile(array('./common/js/jquery.min.js', 'head', NULL, -100000), true);
-		Context::loadFile(array('./common/js/xe.min.js', 'head', NULL, -100000), true);
-	}
-
 	class AddonMemberCaptcha
 	{
 		var $addon_info;
@@ -92,7 +85,7 @@ if(!class_exists('AddonMemberCaptcha', false))
 						if(!captchaTargetAct) {var captchaTargetAct = [];}
 						captchaTargetAct.push("' . implode('","', $this->target_acts) . '");
 						</script>');
-					Context::loadFile(array('./addons/captcha_member/captcha.min.js', 'body', '', null), true);
+					Context::loadFile(array('./addons/captcha_member/captcha.js', 'body', '', null), true);
 				}
 			}
 
@@ -358,7 +351,7 @@ if(!class_exists('AddonMemberCaptcha', false))
 			$this->createKeyword();
 
 			$swfURL = getUrl() . 'addons/captcha_member/swf/play.swf';
-			Context::unloadFile('./addons/captcha_member/captcha.min.js');
+			Context::unloadFile('./addons/captcha_member/captcha.js');
 			Context::loadFile(array('./addons/captcha_member/inline_captcha.js', 'body'));
 
 			global $lang;
