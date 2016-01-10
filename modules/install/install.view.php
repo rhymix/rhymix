@@ -7,7 +7,10 @@
  */
 class installView extends install
 {
-	var $install_enable = false;
+	public $install_enable = false;
+	
+	public static $rewriteCheckFilePath = 'files/cache/tmpRewriteCheck.txt';
+	public static $rewriteCheckString = '';
 
 	/**
 	 * @brief Initialization
@@ -97,12 +100,11 @@ class installView extends install
 	function dispInstallCheckEnv()
 	{
 		$oInstallController = getController('install');
-		$useRewrite = $oInstallController->checkRewriteUsable() ? 'Y' : 'N';
-		$_SESSION['use_rewrite'] = $useRewrite;
-		Context::set('use_rewrite', $useRewrite); 
-
-		// nginx 체크, rewrite 사용법 안내
-		if($useRewrite == 'N' && stripos($_SERVER['SERVER_SOFTWARE'], 'nginx') !== false) Context::set('use_nginx', 'Y');
+		
+		self::$rewriteCheckString = Password::createSecureSalt(32);
+		FileHandler::writeFile(_XE_PATH_ . self::$rewriteCheckFilePath, self::$rewriteCheckString);;
+		Context::set('use_rewrite', $_SESSION['use_rewrite'] = 'N'); 
+		Context::set('use_nginx', stripos($_SERVER['SERVER_SOFTWARE'], 'nginx') !== false);
 		
 		$this->setTemplateFile('check_env');
 	}
@@ -114,6 +116,16 @@ class installView extends install
 	{
 		// Display check_env if it is not installable
 		if(!$this->install_enable) return $this->dispInstallCheckEnv();
+		
+		// Delete mod_rewrite check file
+		FileHandler::removeFile(_XE_PATH_ . self::$rewriteCheckFilePath);
+		
+		// Save mod_rewrite check status
+		if(Context::get('rewrite') === 'Y')
+		{
+			Context::set('use_rewrite', $_SESSION['use_rewrite'] = 'Y');
+		}
+		
 		// Enter ftp information
 		if(ini_get('safe_mode') && !Context::isFTPRegisted())
 		{
@@ -169,7 +181,8 @@ class installView extends install
 
 		include _XE_PATH_.'files/config/tmpDB.config.php';
 
-		Context::set('use_rewrite', $_SESSION['use_rewrite']); 
+		Context::set('use_rewrite', $_SESSION['use_rewrite']);
+		Context::set('use_ssl', $_SERVER['HTTPS'] === 'on' ? 'always' : 'none');
 		Context::set('time_zone', $GLOBALS['time_zone']);
 		Context::set('db_type', $db_info->db_type);
 		$this->setTemplateFile('admin_form');

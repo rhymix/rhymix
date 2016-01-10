@@ -20,7 +20,7 @@ if($called_position == 'after_module_proc' && Context::getResponseMethod() == "H
 	else
 	{
 		Context::loadJavascriptPlugin('ui');
-		Context::loadFile(array('./addons/resize_image/js/resize_image.min.js', 'body', '', null), true);
+		Context::loadFile(array('./addons/resize_image/js/resize_image.js', 'body', '', null), true);
 	}
 }
 
