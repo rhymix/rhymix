@@ -48,6 +48,16 @@
 			</div>
 		</div>
 		<p class="install_help">{$lang->about_time_zone}</p>
+		<div class="x_control-group">
+			<label class="x_control-label">{$lang->use_ssl}</label>
+			<div class="x_controls">
+			<select name="use_ssl">
+				<!--@foreach($lang->ssl_options as $key => $val)-->
+				<option value="{$key}" selected="selected"|cond="$use_ssl==$key" />{$val}</option>
+				<!--@endforeach-->
+			</select>
+			</div>
+		</div>
 	</div>
 	<div id="buttons">
 		<div class="align-left">

@@ -100,7 +100,7 @@ class installController extends install
 		// Save rewrite and time zone settings
 		if(!Context::get('install_config'))
 		{
-			$config_info = Context::gets('use_rewrite','time_zone');
+			$config_info = Context::gets('use_rewrite','time_zone', 'use_ssl');
 			if($config_info->use_rewrite!='Y') $config_info->use_rewrite = 'N';
 			if(!$this->makeEtcConfigFile($config_info))
 			{

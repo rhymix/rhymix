@@ -181,7 +181,8 @@ class installView extends install
 
 		include _XE_PATH_.'files/config/tmpDB.config.php';
 
-		Context::set('use_rewrite', $_SESSION['use_rewrite']); 
+		Context::set('use_rewrite', $_SESSION['use_rewrite']);
+		Context::set('use_ssl', $_SERVER['HTTPS'] === 'on' ? 'always' : 'none');
 		Context::set('time_zone', $GLOBALS['time_zone']);
 		Context::set('db_type', $db_info->db_type);
 		$this->setTemplateFile('admin_form');
