@@ -722,6 +722,11 @@
 		<value xml:lang="tr"><![CDATA[Eğer websunucusu yenidenyazma(rewritemod) destekliyorsa, http://ornek/?dosya_no=123 gibi URLler http://ornek/123 olarak kısaltılabilir]]></value>
 		<value xml:lang="vi"><![CDATA[Nếu Host của bạn hỗ trợ Mod Rewrite, khi địa chỉ có dạng <b>http://blah/?document_srl=123</b> sẽ được rút ngắn thành <b>http://blah/123</b>]]></value>
 	</item>
+	<item name="checking_rewrite">
+		<value xml:lang="ko"><![CDATA[짧은 주소를 사용할 수 있는지 확인하는 중입니다...]]></value>
+		<value xml:lang="en"><![CDATA[Checking whether "Friendly URL" feature is available...]]></value>
+		<value xml:lang="jp"><![CDATA[短縮アドレスを使用できるかどうかを確認しています...]]></value>
+	</item>
 	<item name="disable_rewrite">
 		<value xml:lang="ko"><![CDATA[짧은 주소를 사용할 수 없습니다. 웹 서버 담당자에게 mod_rewrite 지원 여부를 확인 바랍니다.]]></value>
 		<value xml:lang="en"><![CDATA["Friendly URL" feature is not available. Please check with the server administrator about mod_rewrite module support.]]></value>
@@ -761,27 +766,50 @@
 		<value xml:lang="tr"><![CDATA[Eğer sunucu zaman dilimi ve bulunduğunuz yerin zaman dilimi uyumlu değilse; zaman dilimi özelliğini kullanarak zamanı bulunduğunuz yere göre ayarlayabilirsiniz ]]></value>
 		<value xml:lang="vi"><![CDATA[Nếu thời gian của khu vực bạn không tự động cập nhật. Bạn có thể chọn thời gian để hiển thị cho Website.]]></value>
 	</item>
-	<item name="qmail_compatibility">
-		<value xml:lang="ko"><![CDATA[Qmail 호환]]></value>
-		<value xml:lang="en"><![CDATA[Enable Qmail]]></value>
-		<value xml:lang="jp"><![CDATA[Qmail 互換]]></value>
-		<value xml:lang="zh-CN"><![CDATA[Qmail互换]]></value>
-		<value xml:lang="zh-TW"><![CDATA[Qmail互換]]></value>
-		<value xml:lang="fr"><![CDATA[Compatible avec Qmail]]></value>
-		<value xml:lang="es"><![CDATA[Compatible con Qmail]]></value>
-		<value xml:lang="tr"><![CDATA[Qmail'i Etkinleştir]]></value>
-		<value xml:lang="vi"><![CDATA[Mở Qmail]]></value>
+	<item name="use_ssl">
+		<value xml:lang="ko"><![CDATA[SSL 사용]]></value>
+		<value xml:lang="en"><![CDATA[SSL]]></value>
+		<value xml:lang="jp"><![CDATA[SSLを使用]]></value>
+		<value xml:lang="zh-CN"><![CDATA[是否使用SSL安全连接?]]></value>
+		<value xml:lang="tr"><![CDATA[SSL'i kullanmak istiyor musunuz?]]></value>
 	</item>
-	<item name="about_qmail_compatibility">
-		<value xml:lang="ko"><![CDATA[Qmail등 CRLF를 줄 구분자로 인식하지 못하는 MTA에서 메일이 발송되도록 합니다.]]></value>
-		<value xml:lang="en"><![CDATA[It will enable sending mails from MTA which cannot distinguish CRLF like Qmail.]]></value>
-		<value xml:lang="jp"><![CDATA[Qmail等、CRLFを改行コードとして認識できないMTA（Message Transfer Agent）で、メールの送信ができるようにします。]]></value>
-		<value xml:lang="zh-CN"><![CDATA[支持不能识别CRLF为换行符的Qmail等MTA，也能发送电子邮件。]]></value>
-		<value xml:lang="zh-TW"><![CDATA[支援無法識別 CRLF 為換行符的 Qmail 等 MTA，也能發送電子郵件。]]></value>
-		<value xml:lang="fr"><![CDATA[Le mél sera envoyé en MTA qui ne peut pas reconnaître le CRLF comme délimiteur des lignes comme le Qmail.]]></value>
-		<value xml:lang="es"><![CDATA[Qmail como MTA no reconoce CRLF como la línea de separación que se enviará por correo.]]></value>
-		<value xml:lang="tr"><![CDATA[Bu size QMail gibi CRLF'den ayırt edilemeyen MTA'dan mail gönderme imkanı sağlayacaktır.]]></value>
-		<value xml:lang="vi"><![CDATA[Nó sẽ cho phép gửi thư từ MTA mà không phân biệt CRLF.]]></value>
+	<item name="ssl_options" type="array">
+		<item name="none">
+			 <value xml:lang="ko"><![CDATA[사용 안함]]></value>
+			 <value xml:lang="en"><![CDATA[Never]]></value>
+			 <value xml:lang="jp"><![CDATA[使わない]]></value>
+			 <value xml:lang="zh-CN"><![CDATA[不使用]]></value>
+			 <value xml:lang="zh-TW"><![CDATA[關閉]]></value>
+			 <value xml:lang="fr"><![CDATA[Ne Pas utiliser]]></value>
+			 <value xml:lang="ru"><![CDATA[Никогда]]></value>
+			 <value xml:lang="es"><![CDATA[Desactivar]]></value>
+			 <value xml:lang="tr"><![CDATA[Hiçbir zaman]]></value>
+			 <value xml:lang="vi"><![CDATA[Không sử dụng]]></value>
+		</item>
+		<item name="optional">
+			 <value xml:lang="ko"><![CDATA[선택적으로]]></value>
+			 <value xml:lang="en"><![CDATA[Optional]]></value>
+			 <value xml:lang="jp"><![CDATA[部分的に使う]]></value>
+			 <value xml:lang="zh-CN"><![CDATA[选择性]]></value>
+			 <value xml:lang="zh-TW"><![CDATA[手動]]></value>
+			 <value xml:lang="fr"><![CDATA[Optionnel]]></value>
+			 <value xml:lang="ru"><![CDATA[На выбор]]></value>
+			 <value xml:lang="es"><![CDATA[Opcionalmente el]]></value>
+			 <value xml:lang="tr"><![CDATA[İsteğe Bağlı]]></value>
+			 <value xml:lang="vi"><![CDATA[Tùy chỉnh]]></value>
+		</item>
+		<item name="always">
+			 <value xml:lang="ko"><![CDATA[항상 사용]]></value>
+			 <value xml:lang="en"><![CDATA[Always]]></value>
+			 <value xml:lang="jp"><![CDATA[常に使う]]></value>
+			 <value xml:lang="zh-CN"><![CDATA[使用]]></value>
+			 <value xml:lang="zh-TW"><![CDATA[開啟]]></value>
+			 <value xml:lang="fr"><![CDATA[Toujours]]></value>
+			 <value xml:lang="ru"><![CDATA[Всегда]]></value>
+			 <value xml:lang="es"><![CDATA[Utilice siempre el]]></value>
+			 <value xml:lang="tr"><![CDATA[Her zaman]]></value>
+			 <value xml:lang="vi"><![CDATA[Luôn luôn]]></value>
+		</item>
 	</item>
 	<item name="about_database_file">
 		<value xml:lang="ko"><![CDATA[Sqlite는 파일에 데이터를 저장합니다. 데이터베이스 파일의 위치를 웹에서 접근할 수 없는 곳으로 해야 합니다.<br/><span style="color:red">데이터 파일은 777퍼미션 설정된 곳으로 지정해주세요.</span>]]></value>
