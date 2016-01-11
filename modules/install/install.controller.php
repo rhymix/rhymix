@@ -135,9 +135,9 @@ class installController extends install
 		// Check DB charset if using MySQL
 		if(stripos($db_info->master_db['db_type'], 'mysql') !== false && !isset($db_info->master_db['db_charset']))
 		{
-			$db_charset = $oDB->getBestSupportedCharset();
-			$db_info->master_db['db_charset'] = $db_charset;
-			$db_info->slave_db[0]['db_charset'] = $db_charset;
+			$oDB->charset = $oDB->getBestSupportedCharset();
+			$db_info->master_db['db_charset'] = $oDB->charset;
+			$db_info->slave_db[0]['db_charset'] = $oDB->charset;
 			Context::setDBInfo($db_info);
 		}
 

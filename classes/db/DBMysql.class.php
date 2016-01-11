@@ -19,7 +19,7 @@ class DBMysql extends DB
 	 */
 	var $prefix = 'xe_'; // / <
 	var $comment_syntax = '/* %s */';
-	var $charset = null;
+	var $charset = 'utf8';
 
 	/**
 	 * Column type used in MySQL
@@ -84,15 +84,8 @@ class DBMysql extends DB
 		}
 
 		// Set charset
-		if(isset($connection["db_charset"]))
-		{
-			$charset = $this->charset = $connection["db_charset"];
-		}
-		else
-		{
-			$charset = 'utf8';
-		}
-		$this->_query("SET NAMES $charset", $connection);
+		$this->charset = isset($connection["db_charset"]) ? $connection["db_charset"] : 'utf8';
+		$this->_query('SET NAMES ' . $this->charset, $connection);
 
 		// select db
 		@mysql_select_db($connection["db_database"], $result);
@@ -581,10 +574,6 @@ class DBMysql extends DB
 			$columns = $xml_obj->table->column;
 		}
 		
-		// Determine the character set and collation for this table
-		$charset = $this->getBestSupportedCharset();
-		$collation = $charset . '_unicode_ci';
-		
 		// Initialize the list of indexes
 		$primary_list = array();
 		$unique_list = array();
@@ -608,7 +597,7 @@ class DBMysql extends DB
 			// This is 191 characters in utf8mb4 and 255 characters in utf8.
 			if(($primary_key || $unique || $index) && preg_match('/(char|text)/i', $type))
 			{
-				if($size > 191 && $charset === 'utf8mb4')
+				if($size > 191 && $this->charset === 'utf8mb4')
 				{
 					$column_charset = 'CHARACTER SET utf8 COLLATE utf8_unicode_ci';
 				}
@@ -664,6 +653,8 @@ class DBMysql extends DB
 		
 		// Generate table schema
 		$engine = stripos(get_class($this), 'innodb') === false ? 'MYISAM' : 'INNODB';
+		$charset = $this->charset ?: 'utf8';
+		$collation = $charset . '_unicode_ci';
 		$schema = sprintf("CREATE TABLE `%s` (%s) %s",
 			$this->addQuotes($this->prefix . $table_name),
 			"\n" . implode($column_schema, ",\n") . "\n",
@@ -1006,11 +997,6 @@ class DBMysql extends DB
 	 */
 	function getBestSupportedCharset()
 	{
-		if ($this->charset !== null)
-		{
-			return $this->charset;
-		}
-		
 		if($output = $this->_fetch($this->_query("SHOW CHARACTER SET LIKE 'utf8%'")))
 		{
 			$mb4_support = false;
@@ -1021,11 +1007,11 @@ class DBMysql extends DB
 					$mb4_support = true;
 				}
 			}
-			return $this->charset = ($mb4_support ? 'utf8mb4' : 'utf8');
+			return $mb4_support ? 'utf8mb4' : 'utf8';
 		}
 		else
 		{
-			return $this->charset = 'utf8';
+			return 'utf8';
 		}
 	}
 }
