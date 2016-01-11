@@ -19,6 +19,7 @@ class DBMysql extends DB
 	 */
 	var $prefix = 'xe_'; // / <
 	var $comment_syntax = '/* %s */';
+	var $charset = null;
 
 	/**
 	 * Column type used in MySQL
@@ -83,7 +84,14 @@ class DBMysql extends DB
 		}
 
 		// Set charset
-		$charset = isset($connection["db_charset"]) ? $connection["db_charset"] : 'utf8';
+		if(isset($connection["db_charset"]))
+		{
+			$charset = $this->charset = $connection["db_charset"];
+		}
+		else
+		{
+			$charset = 'utf8';
+		}
 		$this->_query("SET NAMES $charset", $connection);
 
 		// select db
@@ -998,13 +1006,12 @@ class DBMysql extends DB
 	 */
 	function getBestSupportedCharset()
 	{
-		static $cache = null;
-		if ($cache !== null)
+		if ($this->charset !== null)
 		{
-			return $cache;
+			return $this->charset;
 		}
 		
-		if($output = $this->_fetch($this->_query("SHOW CHARACTER SET LIKE 'utf8mb4%'")))
+		if($output = $this->_fetch($this->_query("SHOW CHARACTER SET LIKE 'utf8%'")))
 		{
 			$mb4_support = false;
 			foreach($output as $row)
@@ -1014,11 +1021,11 @@ class DBMysql extends DB
 					$mb4_support = true;
 				}
 			}
-			return $cache = ($mb4_support ? 'utf8' : 'utf8');
+			return $this->charset = ($mb4_support ? 'utf8mb4' : 'utf8');
 		}
 		else
 		{
-			return $cache = 'utf8';
+			return $this->charset = 'utf8';
 		}
 	}
 }
