@@ -373,6 +373,7 @@ class Context
 		}
 		else
 		{
+			ob_start();
 			$this->setCacheControl(-1, true);
 			register_shutdown_function(array($this, 'checkSessionStatus'));
 			$_SESSION = array();
