@@ -85,7 +85,7 @@ class DBMysql extends DB
 
 		// Set charset
 		$this->charset = isset($connection["db_charset"]) ? $connection["db_charset"] : 'utf8';
-		$this->_query('SET NAMES ' . $this->charset, $connection);
+		mysql_set_charset($this->charset, $result);
 
 		// select db
 		@mysql_select_db($connection["db_database"], $result);
@@ -574,7 +574,8 @@ class DBMysql extends DB
 			$columns = $xml_obj->table->column;
 		}
 		
-		// Initialize the list of indexes
+		// Initialize the list of columns and indexes
+		$column_schema = array();
 		$primary_list = array();
 		$unique_list = array();
 		$index_list = array();
@@ -595,7 +596,11 @@ class DBMysql extends DB
 			
 			// MySQL only supports 767 bytes for indexed columns.
 			// This is 191 characters in utf8mb4 and 255 characters in utf8.
-			if(($primary_key || $unique || $index) && preg_match('/(char|text)/i', $type))
+			if($column->attrs->utf8mb4 === 'false')
+			{
+				$column_charset = 'CHARACTER SET utf8 COLLATE utf8_unicode_ci';
+			}
+			elseif(($primary_key || $unique || $index) && stripos($type, 'char') !== false)
 			{
 				if($size > 191 && $this->charset === 'utf8mb4')
 				{
@@ -607,7 +612,7 @@ class DBMysql extends DB
 				}
 			}
 			
-			$column_schema[] = sprintf('`%s` %s%s %s %s %s %s',
+			$column_schema[$name] = sprintf('`%s` %s%s %s %s %s %s',
 				$name,
 				$this->column_type[$type],
 				$size ? "($size)" : '',
@@ -630,6 +635,8 @@ class DBMysql extends DB
 				$index_list[$index][] = $name;
 			}
 		}
+		
+		// Process
 		
 		// Process indexes
 		if(count($primary_list))
