@@ -593,6 +593,7 @@ class DBMysql extends DB
 			$default = $column->attrs->default;
 			$auto_increment = $column->attrs->auto_increment;
 			$column_charset = '';
+			$index_size_limit = '';
 			
 			// MySQL only supports 767 bytes for indexed columns.
 			// This is 191 characters in utf8mb4 and 255 characters in utf8.
@@ -602,13 +603,16 @@ class DBMysql extends DB
 			}
 			elseif(($primary_key || $unique || $index) && stripos($type, 'char') !== false)
 			{
-				if($size > 191 && $this->charset === 'utf8mb4')
+				if($size > 255 || ($size > 191 && $this->charset === 'utf8mb4'))
 				{
-					$column_charset = 'CHARACTER SET utf8 COLLATE utf8_unicode_ci';
-				}
-				if($size > 255)
-				{
-					$size = 255;
+					if($primary_key || $unique)
+					{
+						$size = ($this->charset === 'utf8mb4') ? 191 : 255;
+					}
+					else
+					{
+						$index_size_limit = '(' . (($this->charset === 'utf8mb4') ? 191 : 255) . ')';
+					}
 				}
 			}
 			
@@ -624,15 +628,15 @@ class DBMysql extends DB
 			
 			if($primary_key)
 			{
-				$primary_list[] = $name;
+				$primary_list[] = "`$name`";
 			}
 			else if($unique)
 			{
-				$unique_list[$unique][] = $name;
+				$unique_list[$unique][] = "`$name`" . $index_size_limit;
 			}
 			else if($index)
 			{
-				$index_list[$index][] = $name;
+				$index_list[$index][] = "`$name`" . $index_size_limit;
 			}
 		}
 		
@@ -641,20 +645,20 @@ class DBMysql extends DB
 		// Process indexes
 		if(count($primary_list))
 		{
-			$column_schema[] = sprintf("PRIMARY KEY (%s)", '`' . implode($primary_list, '`, `') . '`');
+			$column_schema[] = sprintf("PRIMARY KEY (%s)", implode($primary_list, ', '));
 		}
 		if(count($unique_list))
 		{
 			foreach($unique_list as $key => $val)
 			{
-				$column_schema[] = sprintf("UNIQUE %s (%s)", $key, '`' . implode($val, '`, `') . '`');
+				$column_schema[] = sprintf("UNIQUE %s (%s)", $key, implode($val, ', '));
 			}
 		}
 		if(count($index_list))
 		{
 			foreach($index_list as $key => $val)
 			{
-				$column_schema[] = sprintf("INDEX %s (%s)", $key, '`' . implode($val, '`, `') . '`');
+				$column_schema[] = sprintf("INDEX %s (%s)", $key, implode($val, ', '));
 			}
 		}
 		
