@@ -12,8 +12,7 @@ matrix:
   fast_finish: true
 sudo: false
 before_script:
-- npm install -g grunt-cli
-- npm install
+- npm install grunt grunt-cli grunt-contrib-jshint grunt-contrib-csslint grunt-phplint --save-dev
 - mysql -e "CREATE DATABASE xe_test;"
 - echo "USE mysql;\nUPDATE user SET password=PASSWORD('travis') WHERE user='travis';\nFLUSH PRIVILEGES;\n" | mysql -u root
 - php -S localhost:8000 &
