@@ -132,6 +132,15 @@ class installController extends install
 		// Check if available to connect to the DB
 		if(!$oDB->isConnected()) return $oDB->getError();
 
+		// Check DB charset if using MySQL
+		if(stripos($db_info->master_db['db_type'], 'mysql') !== false)
+		{
+			$db_charset = $oDB->getBestSupportedCharset();
+			$db_info->master_db['db_charset'] = $db_charset;
+			$db_info->slave_db[0]['db_charset'] = $db_charset;
+			Context::setDBInfo($db_info);
+		}
+
 		// Install all the modules
 		try {
 			$oDB->begin();
@@ -547,7 +556,7 @@ class installController extends install
 	function installModule($module, $module_path)
 	{
 		// create db instance
-		$oDB = &DB::getInstance();
+		$oDB = DB::getInstance();
 		// Create a table if the schema xml exists in the "schemas" directory of the module
 		$schema_dir = sprintf('%s/schemas/', $module_path);
 		$schema_files = FileHandler::readDir($schema_dir, NULL, false, true);
