@@ -2,7 +2,5 @@
 .gitignore export-ignore
 /tools/ export-ignore
 /tests/ export-ignore
-/phpDoc/ export-ignore
 Gruntfile.js export-ignore
-package.json export-ignore
 .travis.yml export-ignore
