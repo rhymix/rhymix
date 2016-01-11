@@ -366,13 +366,14 @@ class Context
 			$session_id = $_COOKIE[$session_name];
 		}
 
-		if($session_id !== NULL || $this->db_info->cache_friendly != 'Y')
+		if($session_id !== NULL || $this->db_info->delay_session != 'Y')
 		{
 			$this->setCacheControl(0, false);
 			session_start();
 		}
 		else
 		{
+			ob_start();
 			$this->setCacheControl(-1, true);
 			register_shutdown_function(array($this, 'checkSessionStatus'));
 			$_SESSION = array();
