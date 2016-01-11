@@ -20,8 +20,8 @@ before_script:
 - if [ $(phpenv version-name) == "5.4" ]; then wget http://codeception.com/releases/2.0.16/codecept.phar; fi
 - if [ ! -f codecept.phar ]; then wget http://codeception.com/codecept.phar; fi
 script:
-- grunt lint
 - if [ -f codecept.phar ]; then php codecept.phar build; fi
 - if [ -f codecept.phar ]; then php codecept.phar run -d --fail-fast --env travis; fi
+- grunt lint
 notifications:
   email: false
