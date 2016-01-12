@@ -11,7 +11,6 @@
  */
 class TemplateHandler
 {
-
 	private $compiled_path = 'files/cache/template_compiled/'; ///< path of compiled caches files
 	private $path = NULL; ///< target directory
 	private $filename = NULL; ///< target filename
@@ -689,6 +688,8 @@ class TemplateHandler
 				case 'load':
 				case 'unload':
 					$metafile = '';
+					$replacements = HTMLDisplayHandler::$replacements;
+					$attr['target'] = preg_replace(array_keys($replacements), array_values($replacements), $attr['target']);
 					$pathinfo = pathinfo($attr['target']);
 					$doUnload = ($m[3] === 'unload');
 					$isRemote = !!preg_match('@^(https?:)?//@i', $attr['target']);
