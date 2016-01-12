@@ -21,6 +21,16 @@ if(jQuery) jQuery.noConflict();
 		($.os.Unix) ? 'Unix' :
 		($.os.Mac) ? 'Mac' : '';
 
+	/* Intercept getScript error due to broken minified script URL */
+	$(document).ajaxError(function(event, jqxhr, settings, thrownError) {
+		if(settings.dataType === "script" && (jqxhr.status >= 400 || (jqxhr.responseText && jqxhr.responseText.length < 32))) {
+			var match = /^(.+)\.min\.(css|js)($|\?)/.exec(settings.url);
+			if(match) {
+				$.getScript(match[1] + "." + match[2], settings.success);
+			}
+		}
+	});
+
 	/**
 	 * @brief XE 공용 유틸리티 함수
 	 * @namespace XE
