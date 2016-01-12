@@ -15,7 +15,7 @@
     font-style: normal;
 }
 
-i {
+i.xi, i[class^="xi-"], i[class*=" xi-"] {
     display:inline-block;
     font-family: 'xeicon';
     speak: none;
