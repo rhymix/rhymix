@@ -29,6 +29,7 @@ $install_config = array(
     'db_password' => $dbinfo['password'],
     'db_database' => $dbinfo['dbname'],
     'db_table_prefix' =>'rx',
+    'db_charset' => 'utf8',
     'use_rewrite' =>'N',
     'time_zone' =>'0900',
     'email_address' =>'admin@admin.net',
