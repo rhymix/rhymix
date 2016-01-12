@@ -228,7 +228,7 @@ class Context
 		// set context variables in $GLOBALS (backward compatibility)
 		$GLOBALS['__Context__'] &= $this;
 		$GLOBALS['lang'] &= $this->lang;
-		$this->_COOKIE &= $_COOKIE;
+		$this->_COOKIE = $_COOKIE;
 
 		// 20140429 editor/image_link
 		$this->_checkGlobalVars();
