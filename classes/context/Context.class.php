@@ -587,6 +587,7 @@ class Context
 		if(!$db_info->time_zone)
 			$db_info->time_zone = date('O');
 		$GLOBALS['_time_zone'] = $db_info->time_zone;
+		$GLOBALS['_time_zone_offset'] = get_time_zone_offset($db_info->time_zone);
 
 		if($db_info->qmail_compatibility != 'Y')
 			$db_info->qmail_compatibility = 'N';

@@ -73,11 +73,11 @@ class TemplateHandler
 	protected function init($tpl_path, $tpl_filename, $tpl_file = '')
 	{
 		// verify arguments
-		if(substr($tpl_path, -1) != '/')
+		if(!$tpl_path || substr($tpl_path, -1) != '/')
 		{
 			$tpl_path .= '/';
 		}
-		if(!is_dir($tpl_path))
+		if($tpl_path === '/' || !is_dir($tpl_path))
 		{
 			return;
 		}
