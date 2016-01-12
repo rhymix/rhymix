@@ -5,11 +5,11 @@ modules:
         PhpBrowser:
             url: 'http://localhost:8000/'
         DbDropTablesHelper:
-            dsn: 'mysql:host=127.0.0.1;dbname=xe_test'
+            dsn: 'mysql:host=localhost;dbname=rhymix'
             user: 'root'
             password: 'root'
         Db:
-            dsn: 'mysql:host=127.0.0.1;dbname=xe_test'
+            dsn: 'mysql:host=localhost;dbname=rhymix'
             user: 'root'
             password: 'root'
             cleanup: true
@@ -18,11 +18,11 @@ env:
         modules:
             config:
                 Db:
-                    dsn: 'mysql:host=127.0.0.1;dbname=xe_test'
+                    dsn: 'mysql:host=localhost;dbname=rhymix'
                     user: 'travis'
                     password: 'travis'
                     cleanup: true
                 DbDropTablesHelper:
-                    dsn: 'mysql:host=127.0.0.1;dbname=xe_test'
+                    dsn: 'mysql:host=localhost;dbname=rhymix'
                     user: 'travis'
                     password: 'travis'
