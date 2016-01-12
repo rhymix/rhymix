@@ -137,11 +137,10 @@ class Purifier
 
 	private function _getWhiteDomainRegx()
 	{
-		require_once(_XE_PATH_ . 'classes/security/EmbedFilter.class.php');
 		$oEmbedFilter = EmbedFilter::getInstance();
 		$whiteIframeUrlList = $oEmbedFilter->getWhiteIframeUrlList();
 
-		$whiteDomainRegex = '%^(';
+		$whiteDomainRegex = '%^https?://(';
 		$whiteDomainCount = count($whiteIframeUrlList);
 
 		$i=1;
