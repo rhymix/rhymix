@@ -93,7 +93,7 @@ class FrontEndFileHandler extends Handler
 		{
 			$args = array($args);
 		}
-		
+		$args[0] = preg_replace(array_keys(HTMLDisplayHandler::$replacements), array_values(HTMLDisplayHandler::$replacements), $args[0]);
 		$isCommon = preg_match(HTMLDisplayHandler::$reservedCSS, $args[0]) || preg_match(HTMLDisplayHandler::$reservedJS, $args[0]);
 		if($args[3] > -1500000 && $isCommon)
 		{

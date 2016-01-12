@@ -8,6 +8,13 @@ class HTMLDisplayHandler
 	 */
 	public static $reservedCSS = '@\bcommon/css/(?:xe|mobile)\.(?:min\.)?css$@';
 	public static $reservedJS = '@\bcommon/js/(?:jquery(?:-[123]\.x)?|xe?|common|js_app|xml_handler|xml_js_filter)\.(?:min\.)?js$@';
+	
+	/**
+	 * Replacement table for XE compatibility
+	 */
+	public static $replacements = array(
+		'@\bcommon/xeicon/@' => 'common/css/xeicon/',
+	);
 
 	/**
 	 * Produce HTML compliant content given a module object.\n
