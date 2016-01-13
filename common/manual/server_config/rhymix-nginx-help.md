@@ -10,7 +10,7 @@
 
 처럼 **사람이 읽고 인식하기에 편한 주소로 바꾸어 주는 기능을 담당**합니다.
 
-아파치의 경우 .htaccess 파일에서 mod_rewrite 모듈을 이용하여 리라이트를 할 수 있습니다. 하지만 엔진엑스의 경우 엔진엑스의 설정 파일을 수정해야 합니다.
+아파치의 경우 .htaccess 파일에서 mod_rewrite 모듈을 이용하여 리라이트를 할 수 있습니다. 하지만 엔진엑스의 경우 엔진엑스의 설정 파일을 수정해야 리라이트를 진행할 수 있습니다. 하지만 **절대 어렵지 않으니** 걱정하실 필요 없습니다.
 
 ## 요약
 **적용하기** 부터는 상세하게 설명하게 됩니다. 상세하게 설명하면 실제로는 전혀 어렵지 않은 이야기를 어렵게 설명하거나, 길이 때문에 지레 포기하는 경우가 생기기 때문에 간략하게 세줄 요약하도록 하겠습니다.
@@ -135,7 +135,7 @@ server 블럭에는 다양한 정보가 들어 있습니다. 그 정보의 최�
 
     include /RhymiX_설치경로/common/manual/server_config/rhymix-nginx.conf;
     
-XE의 설치 경로가 **/var/www/html**이라면,
+RhymiX의 설치 경로가 **/var/www/html**이라면,
 
     include /var/www/html/common/manual/server_config/rhymix-nginx.conf;
     
