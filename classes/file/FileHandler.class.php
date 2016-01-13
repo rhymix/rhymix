@@ -516,8 +516,6 @@ class FileHandler
 	/**
 	 * Return remote file's content via HTTP
 	 *
-	 * If the target is moved (when return code is 300~399), this function follows the location specified response header.
-	 *
 	 * @param string $url The address of the target file
 	 * @param string $body HTTP request body
 	 * @param int $timeout Connection timeout
@@ -532,89 +530,66 @@ class FileHandler
 	{
 		try
 		{
-			requirePear();
-			if(!class_exists('HTTP_Request')) require_once('HTTP/Request.php');
-
-			$parsed_url = parse_url(__PROXY_SERVER__);
-			if($parsed_url["host"])
+			$request_headers = array();
+			$request_cookies = array();
+			$request_options = array('timeout' => $timeout);
+			
+			foreach($headers as $key => $val)
 			{
-				$oRequest = new HTTP_Request(__PROXY_SERVER__);
-				$oRequest->setMethod('POST');
-				$oRequest->addPostData('arg', serialize(array('Destination' => $url, 'method' => $method, 'body' => $body, 'content_type' => $content_type, "headers" => $headers, "post_data" => $post_data)));
+				$request_headers[$key] = $val;
+			}
+			
+			if(isset($cookies[$host]) && is_array($cookies[$host]))
+			{
+				foreach($cookies[$host] as $key => $val)
+				{
+					$request_cookies[] = rawurlencode($key) . '=' . rawurlencode($val);
+				}
+			}
+			if(count($request_cookies))
+			{
+				$request_headers['Cookie'] = implode('; ', $request_cookies);
+			}
+			
+			foreach($request_config as $key => $val)
+			{
+				$request_options[$key] = $val;
+			}
+			
+			if($content_type)
+			{
+				$request_headers['Content-Type'] = $content_type;
+			}
+			
+			$proxy = parse_url(__PROXY_SERVER__);
+			if($proxy["host"])
+			{
+				$request_options['proxy'] = array($proxy['host'] . ($proxy['port'] ? (':' . $proxy['port']) : ''));
+				if($proxy['user'] && $proxy['pass'])
+				{
+					$request_options['proxy'][] = $proxy['user'];
+					$request_options['proxy'][] = $proxy['pass'];
+				}
+			}
+			
+			$response = Requests::request($url, $request_headers, $body ?: $post_data, $method, $request_options);
+			
+			if(count($response->cookies))
+			{
+				foreach($response->cookies as $cookie)
+				{
+					$cookies[$host][$cookie->name] = $cookie->value;
+				}
+			}
+			
+			if($response->success)
+			{
+				return $response->body;
 			}
 			else
 			{
-				$oRequest = new HTTP_Request($url);
-
-				if(count($request_config) && method_exists($oRequest, 'setConfig'))
-				{
-					foreach($request_config as $key=>$val)
-					{
-						$oRequest->setConfig($key, $val);
-					}
-				}
-
-				if(count($headers) > 0)
-				{
-					foreach($headers as $key => $val)
-					{
-						$oRequest->addHeader($key, $val);
-					}
-				}
-				if($cookies[$host])
-				{
-					foreach($cookies[$host] as $key => $val)
-					{
-						$oRequest->addCookie($key, $val);
-					}
-				}
-				if(count($post_data) > 0)
-				{
-					foreach($post_data as $key => $val)
-					{
-						$oRequest->addPostData($key, $val);
-					}
-				}
-				if(!$content_type)
-					$oRequest->addHeader('Content-Type', 'text/html');
-				else
-					$oRequest->addHeader('Content-Type', $content_type);
-				$oRequest->setMethod($method);
-				if($body)
-					$oRequest->setBody($body);
+				return NULL;
 			}
-			
-			if(method_exists($oRequest, 'setConfig'))
-			{
-				$oRequest->setConfig('timeout', $timeout);
-			}
-			elseif(property_exists($oRequest, '_timeout'))
-			{
-				$oRequest->_timeout = $timeout;
-			}
-
-			$oResponse = $oRequest->sendRequest();
-
-			$code = $oRequest->getResponseCode();
-			$header = $oRequest->getResponseHeader();
-			$response = $oRequest->getResponseBody();
-			if($c = $oRequest->getResponseCookies())
-			{
-				foreach($c as $k => $v)
-				{
-					$cookies[$host][$v['name']] = $v['value'];
-				}
-			}
-
-			if($code > 300 && $code < 399 && $header['location'])
-			{
-				return self::getRemoteResource($header['location'], $body, $timeout, $method, $content_type, $headers, $cookies, $post_data);
-			}
-
-			if($code != 200)
-				return;
-
-			return $response;
 		}
 		catch(Exception $e)
 		{

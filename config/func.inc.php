@@ -1448,7 +1448,7 @@ function stripEmbedTagForAdmin(&$content, $writer_member_srl)
  */
 function requirePear()
 {
-	set_include_path(_XE_PATH_ . "libs/PEAR.1.9.5" . PATH_SEPARATOR . get_include_path());
+	
 }
 
 /**
