@@ -398,6 +398,8 @@ $GLOBALS['__xe_autoload_file_map'] = array_change_key_case(array(
 	'HintTableTag' => 'classes/xml/xmlquery/tags/table/HintTableTag.class.php',
 	'TableTag' => 'classes/xml/xmlquery/tags/table/TableTag.class.php',
 	'TablesTag' => 'classes/xml/xmlquery/tags/table/TablesTag.class.php',
+	'Ftp' => 'common/libraries/ftp.php',
+	'Tar' => 'common/libraries/tar.php',
 ), CASE_LOWER);
 
 function __xe_autoload($class_name)

@@ -315,7 +315,6 @@ class FileHandler
 					return;
 				}
 
-				require_once(_XE_PATH_ . 'libs/ftp.class.php');
 				$oFtp = new ftp();
 				if(!$ftp_info->ftp_host)
 				{

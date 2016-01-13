@@ -71,7 +71,6 @@ class installModel extends install
 		}
 		else
 		{
-			require_once(_XE_PATH_.'libs/ftp.class.php');
 			$oFtp = new ftp();
 			if($oFtp->ftp_connect($ftp_info->ftp_host, $ftp_info->ftp_port))
 			{
