@@ -340,7 +340,7 @@ class adminAdminView extends admin
 		{
 			foreach($needUpdateList AS $key => $value)
 			{
-				$helpUrl = './admin/help/index.html#';
+				$helpUrl = './common/manual/admin/#';
 				switch($value->type)
 				{
 					case 'addon':
