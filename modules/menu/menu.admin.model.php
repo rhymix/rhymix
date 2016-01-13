@@ -506,6 +506,8 @@ class menuAdminModel extends menu
 				{
 					$this->_menuInfoSetting($menu->list[$key], $start_module, $isMenuFixed, $menuSrl,$siteSrl);
 				}
+				ksort($menu->list);
+				$menu->list = array_values($menu->list);
 			}
 
 			// menu recreate
@@ -695,6 +697,8 @@ class menuAdminModel extends menu
 			{
 				$this->_menuInfoSetting($menu['list'][$key], $start_module, $isMenuFixed, $menuSrl, $siteSrl);
 			}
+			ksort($menu['list']);
+			$menu['list'] = array_values($menu['list']);
 		}
 	}
 }
