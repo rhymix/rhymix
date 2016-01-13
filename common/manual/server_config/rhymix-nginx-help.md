@@ -133,7 +133,7 @@ server 블럭에는 다양한 정보가 들어 있습니다. 그 정보의 최�
 
 혹은, 추가하는 include 구문을 아래와 같이 추가할 수도 있지만, **절대로 이런 방식으로 추가해서는 안됩니다.** **반면교사를 위한 보여주기입니다.**
 
-    include /XE_설치경로/common/manual/server_config/rhymix-nginx.conf;
+    include /RhymiX_설치경로/common/manual/server_config/rhymix-nginx.conf;
     
 XE의 설치 경로가 **/var/www/html**이라면,
 
