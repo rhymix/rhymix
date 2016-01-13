@@ -8,6 +8,8 @@ $baseDir = dirname($vendorDir);
 return array(
     'Sunra\\PhpSimple\\HtmlDomParser' => array($vendorDir . '/sunra/php-simple-html-dom-parser/Src'),
     'Requests' => array($vendorDir . '/rmccue/requests/library'),
+    'PEAR' => array($vendorDir . '/pear/pear_exception'),
     'Michelf' => array($vendorDir . '/michelf/php-markdown'),
+    'HTTP_Request2' => array($vendorDir . '/pear/http_request2'),
     'HTMLPurifier' => array($vendorDir . '/ezyang/htmlpurifier/library'),
 );
