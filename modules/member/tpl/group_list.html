@@ -10,7 +10,7 @@
 	.filebox_item{max-height:16px}
 </style>
 <div class="x_page-header">
-	<h1>{$lang->member_group} <a class="x_icon-question-sign" href="./admin/help/index.html#UMAN_member_group" target="_blank">{$lang->help}</a></h1>
+	<h1>{$lang->member_group} <a class="x_icon-question-sign" href="./common/manual/admin/#UMAN_member_group" target="_blank">{$lang->help}</a></h1>
 </div>
 <div cond="$XE_VALIDATOR_MESSAGE && $XE_VALIDATOR_ID == 'modules/member/tpl/1'" class="message {$XE_VALIDATOR_MESSAGE_TYPE}">
 	<p>{$XE_VALIDATOR_MESSAGE}</p>
@@ -53,7 +53,7 @@
 						<button type="button" class="dragBtn">Move to</button>
 						<input type="hidden" name="group_srls[]" value="{$group_info->group_srl}" />
 						<input type="text" name="group_titles[]" value="{htmlspecialchars($group_info->title, ENT_COMPAT | ENT_HTML401, 'UTF-8', false)}" class="lang_code" title="{$lang->group_title}" />
-						<a class="x_icon-question-sign" href="./admin/help/index.html#UMAN_faq_administrator" target="_blank" cond="$group_info->title == '관리그룹'">{$lang->help}</a>
+						<a class="x_icon-question-sign" href="./common/manual/admin/#UMAN_faq_administrator" target="_blank" cond="$group_info->title == '관리그룹'">{$lang->help}</a>
 					</div>
 				</td>
 				<td><input type="text" name="descriptions[]" value="{$group_info->description}" title="{$lang->description}" /></td>
