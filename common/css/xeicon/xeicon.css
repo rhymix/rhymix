@@ -933,6 +933,9 @@ i.xi, i[class^="xi-"], i[class*=" xi-"] {
 .xi-user-o:before {
     content: "\ea2c";
 }
+.xi-user-add:before {
+	content: "\ea2b";
+}
 .xi-user-address:before {
     content: "\ea2d";
 }
