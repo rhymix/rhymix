@@ -1199,16 +1199,42 @@ class Context
 		return $obj->str;
 	}
 
+	/**
+	 * Encode UTF-8 domain into IDNA (punycode)
+	 * 
+	 * @param string $domain Domain to convert
+	 * @return string Converted string
+	 */
+	public static function encodeIdna($domain)
+	{
+		if(function_exists('idn_to_ascii'))
+		{
+			return idn_to_ascii($domain);
+		}
+		else
+		{
+			$encoder = new TrueBV\Punycode();
+			return $encoder->encode($domain);
+		}
+	}
+
+	/**
+	 * Convert IDNA (punycode) domain into UTF-8
+	 * 
+	 * @param string $domain Domain to convert
+	 * @return string Converted string
+	 */
 	public static function decodeIdna($domain)
 	{
-		if(strpos($domain, 'xn--') !== FALSE)
+		if(function_exists('idn_to_utf8'))
 		{
-			require_once(_XE_PATH_ . 'libs/idna_convert/idna_convert.class.php');
-			$IDN = new idna_convert(array('idn_version' => 2008));
-			$domain = $IDN->decode($domain);
+			return idn_to_utf8($domain);
 		}
-
-		return $domain;
+		else
+		{
+			$decoder = new TrueBV\Punycode();
+			return $decoder->decode($domain);
+		}
 	}
 
 	/**
