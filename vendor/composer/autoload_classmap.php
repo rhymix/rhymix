@@ -6,6 +6,8 @@ $vendorDir = dirname(dirname(__FILE__));
 $baseDir = dirname($vendorDir);
 
 return array(
+    'FB' => $vendorDir . '/firephp/firephp-core/lib/FirePHPCore/fb.php',
+    'FirePHP' => $vendorDir . '/firephp/firephp-core/lib/FirePHPCore/FirePHP.class.php',
     'HTMLPurifier' => $vendorDir . '/ezyang/htmlpurifier/library/HTMLPurifier.php',
     'HTMLPurifier_Arborize' => $vendorDir . '/ezyang/htmlpurifier/library/HTMLPurifier/Arborize.php',
     'HTMLPurifier_AttrCollections' => $vendorDir . '/ezyang/htmlpurifier/library/HTMLPurifier/AttrCollections.php',

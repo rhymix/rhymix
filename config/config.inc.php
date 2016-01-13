@@ -289,12 +289,6 @@ if(!defined('__PROXY_SERVER__'))
 	define('__PROXY_SERVER__', NULL);
 }
 
-// Require specific files when using Firebug console output
-if((__DEBUG_OUTPUT__ == 2) && version_compare(PHP_VERSION, '6.0.0') === -1)
-{
-	require _XE_PATH_ . 'libs/FirePHPCore/FirePHP.class.php';
-}
-
 // Set Timezone as server time
 date_default_timezone_set(@date_default_timezone_get());
 
