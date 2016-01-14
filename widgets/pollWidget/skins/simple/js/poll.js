@@ -261,7 +261,7 @@ function showPollMember(poll_srl,poll_item_srl)
     return false;
 }
 
-function loadPollResult(poll_srl)
+function loadPollResult(poll_srl,data)
 {
     if(typeof data == 'undefined')
     {
