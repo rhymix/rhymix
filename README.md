@@ -44,6 +44,9 @@ RhymiX는 개발자, 디자이너, 번역가 등의 도움과 일반 사용자�
 참여를 원하시는 분은 질서있고 효율적인 프로젝트 운영을 위해
 [CONTRIBUTING.md](./CONTRIBUTING.md)를 먼저 읽어 주시기 바랍니다.
 
+보안 취약점을 발견하셨다면 해커들에게 알려지기 전에 먼저 패치를 작성할 수 있도록
+devops@rhymix.org로 알려 주시면 감사하겠습니다.
+
 ### 공식 홈페이지
 
 - XETOWN : https://www.xetown.com
