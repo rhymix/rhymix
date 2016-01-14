@@ -8,7 +8,7 @@
  * 
  * -----------------------------------------------------------------------------
  * 
- *  Copyright (c) RhymiX Developers and Contributors
+ *  Copyright (c) RhymiX Developers and Contributors <devops@rhymix.org>
  * 
  *  RhyMix is a derivative work (fork) of XpressEngine (XE) version 1.x.
  * 

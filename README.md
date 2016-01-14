@@ -1,5 +1,4 @@
-RhymiX
-======
+[![RhymiX](https://cloud.githubusercontent.com/assets/8565457/12227560/ba15b514-b871-11e5-802a-d5e88db2e393.png)](https://www.rhymix.org)
 
 RhymiX(라이믹스)는 누구든지 쉽고 자유롭게 독립적인 홈페이지를 만들어
 자신을 표현하고 커뮤니티를 키워나갈 수 있도록 돕기 위한 CMS(content management system)입니다.
@@ -44,6 +43,9 @@ RhymiX는 개발자와 사용자가 서로의 권리와 책임을 존중하는 �
 RhymiX는 개발자, 디자이너, 번역가 등의 도움과 일반 사용자들의 버그 신고를 환영합니다.
 참여를 원하시는 분은 질서있고 효율적인 프로젝트 운영을 위해
 [CONTRIBUTING.md](./CONTRIBUTING.md)를 먼저 읽어 주시기 바랍니다.
+
+보안 취약점을 발견하셨다면 해커들에게 알려지기 전에 먼저 패치를 작성할 수 있도록
+devops@rhymix.org로 알려 주시면 감사하겠습니다.
 
 ### 공식 홈페이지
 

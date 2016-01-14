@@ -8,7 +8,8 @@
 class FrontEndFileHandler extends Handler
 {
 
-	static $isSSL = null;
+	public static $isSSL = null;
+	public static $minify = null;
 
 	/**
 	 * Map for css
@@ -92,15 +93,20 @@ class FrontEndFileHandler extends Handler
 		{
 			$args = array($args);
 		}
-		$file = $this->getFileInfo($args[0], $args[2], $args[1]);
+		$args[0] = preg_replace(array_keys(HTMLDisplayHandler::$replacements), array_values(HTMLDisplayHandler::$replacements), $args[0]);
+		$isCommon = preg_match(HTMLDisplayHandler::$reservedCSS, $args[0]) || preg_match(HTMLDisplayHandler::$reservedJS, $args[0]);
+		if($args[3] > -1500000 && $isCommon)
+		{
+			return;
+		}
+		$file = $this->getFileInfo($args[0], $args[2], $args[1], $isCommon);
+		$file->index = (int)$args[3];
 
 		$availableExtension = array('css' => 1, 'js' => 1);
 		if(!isset($availableExtension[$file->fileExtension]))
 		{
 			return;
 		}
-
-		$file->index = (int) $args[3];
 
 		if($file->fileExtension == 'css')
 		{
@@ -123,7 +129,6 @@ class FrontEndFileHandler extends Handler
 			}
 		}
 
-		(is_null($file->index)) ? $file->index = 0 : $file->index = $file->index;
 		if(!isset($mapIndex[$file->key]) || $mapIndex[$file->key] > $file->index)
 		{
 			$this->unloadFile($args[0], $args[2], $args[1]);
@@ -138,11 +143,17 @@ class FrontEndFileHandler extends Handler
 	 * @param string $fileName The file name
 	 * @param string $targetIe Target IE of file
 	 * @param string $media Media of file
+	 * @param bool $forceMinify Whether this file should be minified
 	 * @return stdClass The file information
 	 */
-	private function getFileInfo($fileName, $targetIe = '', $media = 'all')
+	private function getFileInfo($fileName, $targetIe = '', $media = 'all', $forceMinify = false)
 	{
 		static $existsInfo = array();
+
+		if(self::$minify === null)
+		{
+			self::$minify = Context::getDBInfo()->minify_scripts ?: 'common';
+		}
 
 		if(isset($existsInfo[$existsKey]))
 		{
@@ -155,34 +166,83 @@ class FrontEndFileHandler extends Handler
 		$file->filePath = $this->_getAbsFileUrl($pathInfo['dirname']);
 		$file->fileRealPath = FileHandler::getRealPath($pathInfo['dirname']);
 		$file->fileExtension = strtolower($pathInfo['extension']);
-		$file->fileNameNoExt = preg_replace('/\.min$/', '', $pathInfo['filename']);
-		$file->keyName = implode('.', array($file->fileNameNoExt, $file->fileExtension));
-		$file->cdnPath = $this->_normalizeFilePath($pathInfo['dirname']);
-
-		if(strpos($file->filePath, '://') === FALSE)
+		if(preg_match('/^(.+)\.min$/', $pathInfo['filename'], $matches))
 		{
-			if(!__DEBUG__ && __XE_VERSION_STABLE__)
+			$file->fileNameNoExt = $matches[1];
+			$file->isMinified = true;
+		}
+		else
+		{
+			$file->fileNameNoExt = $pathInfo['filename'];
+			$file->isMinified = false;
+		}
+		$file->isExternalURL = preg_match('@^(https?:)?//@i', $file->filePath) ? true : false;
+		$file->isCachedScript = !$file->isExternalURL && strpos($file->filePath, 'files/cache/') !== false;
+		$file->keyName = $file->fileNameNoExt . '.' . $file->fileExtension;
+		$file->cdnPath = $this->_normalizeFilePath($pathInfo['dirname']);
+		$originalFilePath = $file->fileRealPath . '/' . $pathInfo['basename'];
+
+		// Fix incorrectly minified URL
+		if($file->isMinified && !$file->isExternalURL && (!file_exists($originalFilePath) || is_link($originalFilePath) ||
+			(filesize($originalFilePath) < 32 && trim(file_get_contents($originalFilePath)) === $file->keyName)))
+		{
+			if(file_exists($file->fileRealPath . '/' . $file->fileNameNoExt . '.' . $file->fileExtension))
 			{
-				// if no debug mode, load minifed file
-				$minifiedFileName = implode('.', array($file->fileNameNoExt, 'min', $file->fileExtension));
-				$minifiedRealPath = implode('/', array($file->fileRealPath, $minifiedFileName));
-				if(file_exists($minifiedRealPath))
-				{
-					$file->fileName = $minifiedFileName;
-				}
-			}
-			else
-			{
-				// Remove .min
-				if(file_exists(implode('/', array($file->fileRealPath, $file->keyName))))
-				{
-					$file->fileName = $file->keyName;
-				}
+				$file->fileName = $file->fileNameNoExt . '.' . $file->fileExtension;
+				$file->isMinified = false;
+				$originalFilePath = $file->fileRealPath . '/' . $file->fileNameNoExt . '.' . $file->fileExtension;
 			}
 		}
 
-		$file->targetIe = $targetIe;
+		// Decide whether to minify this file
+		if(self::$minify === 'all')
+		{
+			$minify_enabled = true;
+		}
+		elseif(self::$minify === 'none')
+		{
+			$minify_enabled = false;
+		}
+		else
+		{
+			$minify_enabled = $forceMinify;
+		}
+		
+		// Minify file
+		if($minify_enabled && !$file->isMinified && !$file->isExternalURL && !$file->isCachedScript && strpos($file->filePath, 'common/js/plugins') === false)
+		{
+			if(($file->fileExtension === 'css' || $file->fileExtension === 'js') && file_exists($originalFilePath))
+			{
+				$minifiedFileName = $file->fileNameNoExt . '.min.' . $file->fileExtension;
+				$minifiedFileHash = ltrim(str_replace(array('/', '\\'), '.', $pathInfo['dirname']), '.');
+				$minifiedFilePath = _XE_PATH_ . 'files/cache/minify/' . $minifiedFileHash . '.' . $minifiedFileName;
+			
+				if(!file_exists($minifiedFilePath) || filemtime($minifiedFilePath) < filemtime($originalFilePath))
+				{
+					if($file->fileExtension === 'css')
+					{
+						$minifier = new MatthiasMullie\Minify\CSS($originalFilePath);
+						$content = $minifier->execute($minifiedFilePath);
+					}
+					else
+					{
+						$minifier = new MatthiasMullie\Minify\JS($originalFilePath);
+						$content = $minifier->execute($minifiedFilePath);
+					}
+					FileHandler::writeFile($minifiedFilePath, $content);
+				}
+				
+				$file->fileName = $minifiedFileHash . '.' . $minifiedFileName;
+				$file->filePath = $this->_getAbsFileUrl('./files/cache/minify');
+				$file->fileRealPath = _XE_PATH_ . 'files/cache/minify';
+				$file->keyName = $minifiedFileHash . '.' . $file->fileNameNoExt . '.' . $file->fileExtension;
+				$file->cdnPath = $this->_normalizeFilePath('./files/cache/minify');
+				$file->isMinified = true;
+			}
+		}
 
+		// Process targetIe and media attributes
+		$file->targetIe = $targetIe;
 		if($file->fileExtension == 'css')
 		{
 			$file->media = $media;

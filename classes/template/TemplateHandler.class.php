@@ -11,7 +11,6 @@
  */
 class TemplateHandler
 {
-
 	private $compiled_path = 'files/cache/template_compiled/'; ///< path of compiled caches files
 	private $path = NULL; ///< target directory
 	private $filename = NULL; ///< target filename
@@ -73,11 +72,11 @@ class TemplateHandler
 	protected function init($tpl_path, $tpl_filename, $tpl_file = '')
 	{
 		// verify arguments
-		if(substr($tpl_path, -1) != '/')
+		if(!$tpl_path || substr($tpl_path, -1) != '/')
 		{
 			$tpl_path .= '/';
 		}
-		if(!is_dir($tpl_path))
+		if($tpl_path === '/' || !is_dir($tpl_path))
 		{
 			return;
 		}
@@ -366,13 +365,8 @@ class TemplateHandler
 			return;
 		}
 
-		$__Context = &$GLOBALS['__Context__'];
+		$__Context = Context::getInstance();
 		$__Context->tpl_path = $this->path;
-
-		if($_SESSION['is_logged'])
-		{
-			$__Context->logged_info = Context::get('logged_info');
-		}
 
 		$level = ob_get_level();
 		ob_start();
@@ -694,6 +688,8 @@ class TemplateHandler
 				case 'load':
 				case 'unload':
 					$metafile = '';
+					$replacements = HTMLDisplayHandler::$replacements;
+					$attr['target'] = preg_replace(array_keys($replacements), array_values($replacements), $attr['target']);
 					$pathinfo = pathinfo($attr['target']);
 					$doUnload = ($m[3] === 'unload');
 					$isRemote = !!preg_match('@^(https?:)?//@i', $attr['target']);

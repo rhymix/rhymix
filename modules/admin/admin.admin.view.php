@@ -71,7 +71,8 @@ class adminAdminView extends admin
 		Context::set('use_html5', $db_info->use_html5 == 'Y' ? 'Y' : 'N');
 		Context::set('use_spaceremover', $db_info->use_spaceremover ? $db_info->use_spaceremover : 'Y'); //not use
 		Context::set('qmail_compatibility', $db_info->qmail_compatibility == 'Y' ? 'Y' : 'N');
-		Context::set('cache_friendly', $db_info->cache_friendly == 'Y' ? 'Y' : 'N');
+		Context::set('minify_scripts', $db_info->minify_scripts ?: 'common');
+		Context::set('delay_session', $db_info->delay_session == 'Y' ? 'Y' : 'N');
 		Context::set('use_db_session', $db_info->use_db_session == 'N' ? 'N' : 'Y');
 		Context::set('use_mobile_view', $db_info->use_mobile_view == 'Y' ? 'Y' : 'N');
 		Context::set('use_ssl', $db_info->use_ssl ? $db_info->use_ssl : "none");
@@ -339,7 +340,7 @@ class adminAdminView extends admin
 		{
 			foreach($needUpdateList AS $key => $value)
 			{
-				$helpUrl = './admin/help/index.html#';
+				$helpUrl = './common/manual/admin/#';
 				switch($value->type)
 				{
 					case 'addon':

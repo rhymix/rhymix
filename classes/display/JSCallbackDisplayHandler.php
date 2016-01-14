@@ -14,14 +14,12 @@ class JSCallbackDisplayHandler
 		$variables = $oModule->getVariables();
 		$variables['error'] = $oModule->getError();
 		$variables['message'] = $oModule->getMessage();
-		$json = str_replace(array("\r\n", "\n", "\t"), array('\n', '\n', '\t'), json_encode2($variables));
 		return sprintf('<script type="text/javascript">
 //<![CDATA[
 %s(%s);
 //]]>
-</script>', Context::getJSCallbackFunc(), $json);
+</script>', Context::getJSCallbackFunc(), json_encode($variables));
 	}
-
 }
 /* End of file JSCallback.class.php */
 /* Location: ./classes/display/JSCallback.class.php */

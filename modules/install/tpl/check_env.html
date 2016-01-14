@@ -29,12 +29,17 @@
 			</block>
 			<tr>
 				<td class="check_env_item">mod_rewrite</td>
-				<td class="check_env_status">
-					<span cond="$use_rewrite === 'Y'" class="ok">OK</span>
-					<span cond="$use_rewrite === 'N'">&mdash;</span>
+				<td class="check_env_status" id="mod_write_status">
+					<span class="ok" style="display:none">OK</span>
+					<span class="no">&mdash;</span>
 				</td>
 			</tr>
-			<tr cond="$use_rewrite === 'N'">
+			<tr id="mod_rewrite_checking" data-url="{Context::getRequestUri()}REWRITE/CHECK/SRSLY/ANYTHING/GOES/{InstallView::$rewriteCheckFilePath}" data-verify="{InstallView::$rewriteCheckString}">
+				<td colspan="2" class="error_description">
+					{$lang->checking_rewrite}
+				</td>
+			</tr>
+			<tr id="mod_rewrite_no_support" style="display:none">
 				<td colspan="2" class="error_description">
 					{$lang->disable_rewrite}
 					<block cond="$use_nginx == 'Y'"><br />{$lang->about_nginx_rewrite}</block>

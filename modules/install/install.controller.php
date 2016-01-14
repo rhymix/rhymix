@@ -100,7 +100,7 @@ class installController extends install
 		// Save rewrite and time zone settings
 		if(!Context::get('install_config'))
 		{
-			$config_info = Context::gets('use_rewrite','time_zone');
+			$config_info = Context::gets('use_rewrite','time_zone', 'use_ssl');
 			if($config_info->use_rewrite!='Y') $config_info->use_rewrite = 'N';
 			if(!$this->makeEtcConfigFile($config_info))
 			{
@@ -131,6 +131,15 @@ class installController extends install
 		$oDB = &DB::getInstance();
 		// Check if available to connect to the DB
 		if(!$oDB->isConnected()) return $oDB->getError();
+
+		// Check DB charset if using MySQL
+		if(stripos($db_info->master_db['db_type'], 'mysql') !== false && !isset($db_info->master_db['db_charset']))
+		{
+			$oDB->charset = $oDB->getBestSupportedCharset();
+			$db_info->master_db['db_charset'] = $oDB->charset;
+			$db_info->slave_db[0]['db_charset'] = $oDB->charset;
+			Context::setDBInfo($db_info);
+		}
 
 		// Install all the modules
 		try {
@@ -188,6 +197,7 @@ class installController extends install
 			'db_password' => Context::get('db_password'),
 			'db_database' => Context::get('db_database'),
 			'db_table_prefix' => Context::get('db_table_prefix'),
+			'db_charset' => Context::get('db_charset'),
 		);
 		$db_info->slave_db = array($db_info->master_db);
 		$db_info->default_url = Context::getRequestUri();
@@ -453,52 +463,6 @@ class installController extends install
 	}
 
 	/**
-	 * check this server can use rewrite module
-	 * make a file to files/config and check url approach by ".htaccess" rules
-	 *
-	 * @return bool
-	*/
-	function checkRewriteUsable() {
-		$checkString = "isApproached";
-		$checkFilePath = 'files/config/tmpRewriteCheck.txt';
-
-		FileHandler::writeFile(_XE_PATH_.$checkFilePath, trim($checkString));
-
-		$scheme = ($_SERVER['HTTPS'] === 'on') ? 'https' : 'http';
-		$hostname = $_SERVER['SERVER_NAME'];
-		$port = $_SERVER['SERVER_PORT'];
-		$str_port = '';
-		if($port)
-		{
-			$str_port = ':' . $port;
-		}
-
-		$tmpPath = $_SERVER['DOCUMENT_ROOT'];
-
-		//if DIRECTORY_SEPARATOR is not /(IIS)
-		if(DIRECTORY_SEPARATOR !== '/')
-		{
-			//change to slash for compare
-			$tmpPath = str_replace(DIRECTORY_SEPARATOR, '/', $_SERVER['DOCUMENT_ROOT']);
-		}
-
-		$query = "/JUST/CHECK/REWRITE/" . $checkFilePath;
-		$currentPath = str_replace($tmpPath, "", _XE_PATH_);
-		if($currentPath != "")
-		{
-			$query = $currentPath . $query;
-		}
-		$requestUrl = sprintf('%s://%s%s%s', $scheme, $hostname, $str_port, $query);
-		$requestConfig = array();
-		$requestConfig['ssl_verify_peer'] = false;
-		$buff = FileHandler::getRemoteResource($requestUrl, null, 3, 'GET', null, array(), array(), array(), $requestConfig);
-
-		FileHandler::removeFile(_XE_PATH_.$checkFilePath);
-
-		return (trim($buff) == $checkString);
-	}
-
-	/**
 	 * @brief Create files and subdirectories
 	 * Local evironment setting before installation by using DB information
 	 */
@@ -593,7 +557,7 @@ class installController extends install
 	function installModule($module, $module_path)
 	{
 		// create db instance
-		$oDB = &DB::getInstance();
+		$oDB = DB::getInstance();
 		// Create a table if the schema xml exists in the "schemas" directory of the module
 		$schema_dir = sprintf('%s/schemas/', $module_path);
 		$schema_files = FileHandler::readDir($schema_dir, NULL, false, true);
