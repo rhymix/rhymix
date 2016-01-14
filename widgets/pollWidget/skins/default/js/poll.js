@@ -139,7 +139,7 @@ function loadPoll(poll_srl,data)
     {
         jQuery.exec_json("poll.getPollinfo", {"poll_srl":poll_srl}, function(data){
             loadPoll(parseInt(data.poll.poll_srl),data);
-        }
+        });
     }
     else
     {
@@ -267,7 +267,7 @@ function loadPollResult(poll_srl,data)
     {
         jQuery.exec_json("poll.getPollinfo", {"poll_srl":poll_srl}, function(data){
             loadPollResult(parseInt(data.poll.poll_srl),data);
-        }
+        });
     }
     else
     {
