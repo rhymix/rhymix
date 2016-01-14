@@ -53,7 +53,7 @@
 이 매뉴얼과 같은 디렉터리에 존재하는 'rhymix-nginx.conf' 파일을 nginx.conf가 위치한 디렉터리(/etc/nginx)로 이동해 보도록 합시다.
 
     [주석입니다. sudo mv (원본 디렉터리) (옮길 디렉터리)]
-    # sudo mv /(RhymiX의 설치 디렉터리)/common/manual/server-config/rhymix-nginx.conf /etc/nginx/
+    # sudo mv /(RhymiX의 설치 디렉터리)/common/manual/server_config/rhymix-nginx.conf /etc/nginx/
 
 이제 **nginx.conf** 파일을 수정해 보도록 하겠습니다. rhymix-nginx.conf 파일을 **nginx.conf** 파일에 인클루드 하는 첫번째 과정입니다.
 
