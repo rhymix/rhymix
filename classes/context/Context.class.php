@@ -226,8 +226,8 @@ class Context
 		}
 
 		// set context variables in $GLOBALS (backward compatibility)
-		$GLOBALS['__Context__'] &= $this;
-		$GLOBALS['lang'] &= $this->lang;
+		$GLOBALS['__Context__'] = $this;
+		$GLOBALS['lang'] = &$this->lang;
 		$this->_COOKIE = $_COOKIE;
 
 		// 20140429 editor/image_link
@@ -284,10 +284,10 @@ class Context
 				$site_module_info->domain = $this->db_info->default_url;
 			}
 
-			$this->set('site_module_info', $site_module_info);
+			self::set('site_module_info', $site_module_info);
 			if($site_module_info->site_srl && isSiteID($site_module_info->domain))
 			{
-				$this->set('vid', $site_module_info->domain, TRUE);
+				self::set('vid', $site_module_info->domain, TRUE);
 			}
 
 			if(!isset($this->db_info))
@@ -307,10 +307,10 @@ class Context
 		}
 
 		// Load Language File
-		$lang_supported = $this->loadLangSelected();
+		$lang_supported = self::loadLangSelected();
 
 		// Retrieve language type set in user's cookie
-		if($this->lang_type = $this->get('l'))
+		if($this->lang_type = self::get('l'))
 		{
 			if($_COOKIE['lang_type'] != $this->lang_type)
 			{
@@ -338,11 +338,11 @@ class Context
 			$this->lang_type = 'ko';
 		}
 
-		$this->set('lang_supported', $lang_supported);
-		$this->setLangType($this->lang_type);
+		self::set('lang_supported', $lang_supported);
+		self::setLangType($this->lang_type);
 
 		// load module module's language file according to language setting
-		$this->loadLang(_XE_PATH_ . 'modules/module/lang');
+		self::loadLang(_XE_PATH_ . 'modules/module/lang');
 
 		// set session handler
 		if(self::isInstalled() && $this->db_info->use_db_session == 'Y')
@@ -401,17 +401,16 @@ class Context
 					$oMemberController->doAutologin();
 				}
 
-				$this->set('is_logged', $oMemberModel->isLogged());
+				self::set('is_logged', $oMemberModel->isLogged());
 				if($oMemberModel->isLogged())
 				{
-					$this->set('logged_info', $oMemberModel->getLoggedInfo());
+					self::set('logged_info', $oMemberModel->getLoggedInfo());
 				}
 			}
 		}
 
 		// load common language file
-		$this->lang = &$GLOBALS['lang'];
-		$this->loadLang(_XE_PATH_ . 'common/lang/');
+		self::loadLang(_XE_PATH_ . 'common/lang/');
 
 		// check if using rewrite module
 		$this->allow_rewrite = ($this->db_info->use_rewrite == 'Y' ? TRUE : FALSE);
@@ -444,7 +443,7 @@ class Context
 			}
 			else
 			{
-				$current_url = $this->getUrl();
+				$current_url = self::getUrl();
 			}
 		}
 		else
@@ -452,17 +451,17 @@ class Context
 			$current_url = self::getRequestUri();
 		}
 
-		$this->set('current_url', $current_url);
-		$this->set('request_uri', self::getRequestUri());
+		self::set('current_url', $current_url);
+		self::set('request_uri', self::getRequestUri());
 
 		if(strpos($current_url, 'xn--') !== FALSE)
 		{
-			$this->set('current_url', self::decodeIdna($current_url));
+			self::set('current_url', self::decodeIdna($current_url));
 		}
 
 		if(strpos(self::getRequestUri(), 'xn--') !== FALSE)
 		{
-			$this->set('request_uri', self::decodeIdna(self::getRequestUri()));
+			self::set('request_uri', self::decodeIdna(self::getRequestUri()));
 		}
 	}
 
@@ -1318,7 +1317,7 @@ class Context
 				$this->_recursiveCheckVar($val);
 			}
 
-			$this->set($key, $val, $set_to_vars);
+			self::set($key, $val, $set_to_vars);
 		}
 	}
 
@@ -1361,7 +1360,7 @@ class Context
 
 		foreach($params as $key => $val)
 		{
-			$this->set($key, $this->_filterRequestVar($key, $val, 1), TRUE);
+			self::set($key, $this->_filterRequestVar($key, $val, 1), TRUE);
 		}
 	}
 
@@ -1397,7 +1396,7 @@ class Context
 
 		foreach($params as $key => $val)
 		{
-			$this->set($key, $this->_filterXmlVars($key, $val), TRUE);
+			self::set($key, $this->_filterXmlVars($key, $val), TRUE);
 		}
 	}
 
@@ -1535,7 +1534,7 @@ class Context
 					continue;
 				}
 				$val['name'] = htmlspecialchars($val['name'], ENT_COMPAT | ENT_HTML401, 'UTF-8', FALSE);
-				$this->set($key, $val, TRUE);
+				self::set($key, $val, TRUE);
 				$this->is_uploaded = TRUE;
 			}
 			else
@@ -1552,7 +1551,7 @@ class Context
 						$files[] = $file;
 					}
 				}
-				$this->set($key, $files, TRUE);
+				self::set($key, $files, TRUE);
 			}
 		}
 	}
