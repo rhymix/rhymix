@@ -74,9 +74,7 @@ class installAdminController extends install
 		if($default_url && substr($default_url, -1) !== '/') $default_url = $default_url.'/';
 
 		/* convert NON Alphabet URL to punycode URL - Alphabet URL will not be changed */
-		require_once(_XE_PATH_ . 'libs/idna_convert/idna_convert.class.php');
-		$IDN = new idna_convert(array('idn_version' => 2008));
-		$default_url = $IDN->encode($default_url);
+		$default_url = Context::encodeIdna($default_url);
 
 		$use_ssl = Context::get('use_ssl');
 		if(!$use_ssl) $use_ssl = 'none';

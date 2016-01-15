@@ -67,8 +67,7 @@ module.exports = function(grunt) {
 					"!files/**",
 					"!tests/**",
 					"!tools/**",
-					"!node_modules/**",
-					"!libs/**",
+					"!common/libraries/**",
 					"!vendor/**",
 					"!tests/_output/**"
 				],

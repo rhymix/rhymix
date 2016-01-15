@@ -177,7 +177,6 @@ class adminAdminModel extends admin
 	{
 		Context::loadLang(_XE_PATH_ . 'modules/autoinstall/lang');
 		@set_time_limit(5);
-		require_once(_XE_PATH_ . 'libs/ftp.class.php');
 
 		$ftp_info = Context::getRequestVars();
 
@@ -322,8 +321,6 @@ class adminAdminModel extends admin
 	{
 		Context::loadLang(_XE_PATH_ . 'modules/autoinstall/lang');
 		@set_time_limit(5);
-
-		require_once(_XE_PATH_ . 'libs/ftp.class.php');
 
 		$ftp_info = Context::getRequestVars();
 		if(!$ftp_info->ftp_user || !$ftp_info->ftp_password)

@@ -6,6 +6,8 @@ $vendorDir = dirname(dirname(__FILE__));
 $baseDir = dirname($vendorDir);
 
 return array(
+    'FB' => $vendorDir . '/firephp/firephp-core/lib/FirePHPCore/fb.php',
+    'FirePHP' => $vendorDir . '/firephp/firephp-core/lib/FirePHPCore/FirePHP.class.php',
     'HTMLPurifier' => $vendorDir . '/ezyang/htmlpurifier/library/HTMLPurifier.php',
     'HTMLPurifier_Arborize' => $vendorDir . '/ezyang/htmlpurifier/library/HTMLPurifier/Arborize.php',
     'HTMLPurifier_AttrCollections' => $vendorDir . '/ezyang/htmlpurifier/library/HTMLPurifier/AttrCollections.php',
@@ -297,4 +299,5 @@ return array(
     'Requests_Utility_CaseInsensitiveDictionary' => $vendorDir . '/rmccue/requests/library/Requests/Utility/CaseInsensitiveDictionary.php',
     'Requests_Utility_FilteredIterator' => $vendorDir . '/rmccue/requests/library/Requests/Utility/FilteredIterator.php',
     'Sunra\\PhpSimple\\HtmlDomParser' => $vendorDir . '/sunra/php-simple-html-dom-parser/Src/Sunra/PhpSimple/HtmlDomParser.php',
+    'TrueBV\\Punycode' => $vendorDir . '/true/punycode/src/Punycode.php',
 );

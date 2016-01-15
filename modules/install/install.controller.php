@@ -233,7 +233,6 @@ class installController extends install
 		{
 			if(!$ftp_info->ftp_user || !$ftp_info->ftp_password) return new Object(-1,'msg_safe_mode_ftp_needed');
 
-			require_once(_XE_PATH_.'libs/ftp.class.php');
 			$oFtp = new ftp();
 			if(!$oFtp->ftp_connect($ftp_info->ftp_host, $ftp_info->ftp_port)) return new Object(-1, sprintf(Context::getLang('msg_ftp_not_connected'), $ftp_info->ftp_host));
 
@@ -292,7 +291,6 @@ class installController extends install
 		}
 		else
 		{
-			require_once(_XE_PATH_.'libs/ftp.class.php');
 			$oFtp = new ftp();
 			if(!$oFtp->ftp_connect('127.0.0.1', $ftp_info->ftp_port)) return new Object(-1, sprintf(Context::getLang('msg_ftp_not_connected'), 'localhost'));
 
