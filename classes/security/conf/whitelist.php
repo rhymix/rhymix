@@ -65,6 +65,8 @@ return array(
 		'sbsplayer.sbs.co.kr/',
 		// Vimeo
 		'player.vimeo.com/',
+		// Afreeca
+		'afree.ca/',
 	),
 	
 	// Allowed extensions
