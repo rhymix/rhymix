@@ -445,7 +445,7 @@ function _displayMultimedia(src, width, height, options) {
 		}
 		html += '' + '<embed src="'+src+'" allowscriptaccess="never" autostart="'+autostart+'"  width="'+width+'" height="'+height+'" flashvars="'+params.flashvars+'" wmode="'+params.wmode+'"></embed>' + '</object>';
 	}  else {
-		if (jQuery.browser.mozilla || jQuery.browser.opera) {
+		if (navigator.userAgent.match(/(firefox|opera)/i)) {
 			// firefox and opera uses 0 or 1 for autostart parameter.
 			autostart = (params.autostart && params.autostart != 'false') ? '1' : '0';
 		}
