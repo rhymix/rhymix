@@ -33,6 +33,7 @@ class FrontEndFileHandlerTest extends \Codeception\TestCase\Test
 		$this->specify("js(body)", function() use($db_info) {
 			$handler = new FrontEndFileHandler();
 			$handler->loadFile(array('./common/js/xml_js_filter.js', 'head'));
+			$expected = array();
 			$this->assertEquals($handler->getJsFileList('body'), $expected);
 		});
 
