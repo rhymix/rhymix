@@ -194,6 +194,9 @@
 		<value xml:lang="tr"><![CDATA[Lütfen kategori ismi giriniz]]></value>
 		<value xml:lang="vi"><![CDATA[Hãy nhập tên thể loại]]></value>
 	</item>
+	<item name="about_read_update_count">
+		<value xml:lang="ko"><![CDATA[조회수설정을 '예'로 설정할 경우 중복된 모든 조회수가 모두 기록됩니다. 만일 같은회원의 대해서 중복조회수를 카운트하지 않기를 원하시면 아니오에 설정하시기 바랍니다.]]></value>
+	</item>
 	<item name="about_expand">
 		<value xml:lang="ko"><![CDATA[선택하면 늘 펼쳐진 상태로 있게 합니다.]]></value>
 		<value xml:lang="en"><![CDATA[Select this option, and they will stay expanded.]]></value>
