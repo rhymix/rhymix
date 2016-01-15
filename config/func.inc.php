@@ -33,45 +33,47 @@ if(!function_exists('iconv'))
  * @var array
  */
 $time_zone = array(
-	'-1200' => '[GMT -12:00] Baker Island Time',
-	'-1100' => '[GMT -11:00] Niue Time, Samoa Standard Time',
-	'-1000' => '[GMT -10:00] Hawaii-Aleutian Standard Time, Cook Island Time',
-	'-0930' => '[GMT -09:30] Marquesas Islands Time',
-	'-0900' => '[GMT -09:00] Alaska Standard Time, Gambier Island Time',
-	'-0800' => '[GMT -08:00] Pacific Standard Time',
-	'-0700' => '[GMT -07:00] Mountain Standard Time',
-	'-0600' => '[GMT -06:00] Central Standard Time',
-	'-0500' => '[GMT -05:00] Eastern Standard Time',
-	'-0400' => '[GMT -04:00] Atlantic Standard Time',
-	'-0330' => '[GMT -03:30] Newfoundland Standard Time',
-	'-0300' => '[GMT -03:00] Amazon Standard Time, Central Greenland Time',
-	'-0200' => '[GMT -02:00] Fernando de Noronha Time, South Georgia &amp; the South Sandwich Islands Time',
-	'-0100' => '[GMT -01:00] Azores Standard Time, Cape Verde Time, Eastern Greenland Time',
-	'0000' => '[GMT  00:00] Western European Time, Greenwich Mean Time',
-	'+0100' => '[GMT +01:00] Central European Time, West African Time',
-	'+0200' => '[GMT +02:00] Eastern European Time, Central African Time',
-	'+0300' => '[GMT +03:00] Moscow Standard Time, Eastern African Time',
-	'+0330' => '[GMT +03:30] Iran Standard Time',
-	'+0400' => '[GMT +04:00] Gulf Standard Time, Samara Standard Time',
-	'+0430' => '[GMT +04:30] Afghanistan Time',
-	'+0500' => '[GMT +05:00] Pakistan Standard Time, Yekaterinburg Standard Time',
-	'+0530' => '[GMT +05:30] Indian Standard Time, Sri Lanka Time',
-	'+0545' => '[GMT +05:45] Nepal Time',
-	'+0600' => '[GMT +06:00] Bangladesh Time, Bhutan Time, Novosibirsk Standard Time',
-	'+0630' => '[GMT +06:30] Cocos Islands Time, Myanmar Time',
-	'+0700' => '[GMT +07:00] Indochina Time, Krasnoyarsk Standard Time',
-	'+0800' => '[GMT +08:00] China Standard Time, Australian Western Standard Time, Irkutsk Standard Time',
-	'+0845' => '[GMT +08:45] Southeastern Western Australia Standard Time',
-	'+0900' => '[GMT +09:00] Korea Standard Time, Japan Standard Time',
-	'+0930' => '[GMT +09:30] Australian Central Standard Time',
-	'+1000' => '[GMT +10:00] Australian Eastern Standard Time, Vladivostok Standard Time',
-	'+1030' => '[GMT +10:30] Lord Howe Standard Time',
-	'+1100' => '[GMT +11:00] Solomon Island Time, Magadan Standard Time',
-	'+1130' => '[GMT +11:30] Norfolk Island Time',
-	'+1200' => '[GMT +12:00] New Zealand Time, Fiji Time, Kamchatka Standard Time',
-	'+1245' => '[GMT +12:45] Chatham Islands Time',
-	'+1300' => '[GMT +13:00] Tonga Time, Phoenix Islands Time',
-	'+1400' => '[GMT +14:00] Line Island Time'
+	'-1200' => '[UTC -12:00] Baker Island',
+	'-1100' => '[UTC -11:00] Niue, American Samoa',
+	'-1000' => '[UTC -10:00] Hawaii, Aleutian Islands, Cook Islands',
+	'-0930' => '[UTC -09:30] Marquesas Islands',
+	'-0900' => '[UTC -09:00] Alaska, Gambier Islands',
+	'-0800' => '[UTC -08:00] U.S. and Canada (Pacific)',
+	'-0700' => '[UTC -07:00] U.S. and Canada (Mountain)',
+	'-0600' => '[UTC -06:00] U.S. and Canada (Central), Mexico',
+	'-0500' => '[UTC -05:00] U.S. and Canada (Eastern), Chile',
+	'-0430' => '[UTC -04:30] Venezuela',
+	'-0400' => '[UTC -04:00] Canada (Atlantic), Brazil (Western)',
+	'-0330' => '[UTC -03:30] Canada (Newfoundland)',
+	'-0300' => '[UTC -03:00] Argentina, Brazil (Eastern), Greenland',
+	'-0200' => '[UTC -02:00] Fernando de Noronha, South Georgia &amp; South Sandwich Islands',
+	'-0100' => '[UTC -01:00] Azores, Cape Verde',
+	 '0000' => '[UTC ±00:00] GMT, Ireland, Portugal, West Africa',
+	'+0100' => '[UTC +01:00] Central Europe, West Africa',
+	'+0200' => '[UTC +02:00] Eastern Europe, Central Africa, Russia (Kaliningrad)',
+	'+0300' => '[UTC +03:00] Russia (Moscow), East Africa',
+	'+0330' => '[UTC +03:30] Iran',
+	'+0400' => '[UTC +04:00] Armenia, Azerbaijan, Georgia, Oman, Russia (Samara), UAE',
+	'+0430' => '[UTC +04:30] Afghanistan',
+	'+0500' => '[UTC +05:00] Pakistan, Russia (Yekaterinburg), Central Asia',
+	'+0530' => '[UTC +05:30] India, Sri Lanka',
+	'+0545' => '[UTC +05:45] Nepal',
+	'+0600' => '[UTC +06:00] Bangladesh, Bhutan, Kyrgyzstan, Russia (Omsk)',
+	'+0630' => '[UTC +06:30] Cocos Islands, Myanmar',
+	'+0700' => '[UTC +07:00] Cambodia, Indonesia, Laos, Russia (Krasnoyarsk), Thailand, Vietnam',
+	'+0800' => '[UTC +08:00] China, Malaysia, Philippines, Russia (Irkutsk), Singapore, Taiwan',
+	'+0830' => '[UTC +08:30] North Korea',
+	'+0845' => '[UTC +08:45] Australia (Eucla)',
+	'+0900' => '[UTC +09:00] Korea, Japan, Palua, East Timor, Russia (Yakutsk)',
+	'+0930' => '[UTC +09:30] Australia (Central)',
+	'+1000' => '[UTC +10:00] Australia (Eastern), Guam, Russia (Vladivostok)',
+	'+1030' => '[UTC +10:30] Lord Howe Island',
+	'+1100' => '[UTC +11:00] New Caledonia, Solomon Islands, Vanuatu, Russia (Srednekolymsk)',
+	'+1130' => '[UTC +11:30] Norfolk Island (before 2015)',
+	'+1200' => '[UTC +12:00] Fiji, New Zealand, Russia (Kamchatka)',
+	'+1245' => '[UTC +12:45] Chatham Islands',
+	'+1300' => '[UTC +13:00] Samoa, Tokelau, Tonga, Phoenix Islands',
+	'+1400' => '[UTC +14:00] Line Islands'
 );
 
 /**
@@ -121,17 +123,6 @@ function getView($module_name)
 }
 
 /**
- * Create a mobile instance of the module
- *
- * @param string $module_name The module name to get a mobile instance
- * @return mixed Module mobile instance
- */
-function &getMobile($module_name)
-{
-	return getModule($module_name, 'mobile');
-}
-
-/**
  * Create a admin view instance of the module
  *
  * @param string $module_name The module name to get a admin view instance
@@ -173,6 +164,17 @@ function getAdminModel($module_name)
 function getAPI($module_name)
 {
 	return getModule($module_name, 'api');
+}
+
+/**
+ * Create a mobile instance of the module
+ *
+ * @param string $module_name The module name to get a mobile instance
+ * @return mixed Module mobile instance
+ */
+function getMobile($module_name)
+{
+	return getModule($module_name, 'mobile');
 }
 
 /**
@@ -226,7 +228,7 @@ function executeQueryArray($query_id, $args = NULL, $arg_columns = NULL)
 {
 	$oDB = DB::getInstance();
 	$output = $oDB->executeQuery($query_id, $args, $arg_columns);
-	if(!is_array($output->data) && count($output->data) > 0)
+	if(isset($output->data) && !is_array($output->data) && count($output->data) > 0)
 	{
 		$output->data = array($output->data);
 	}
@@ -255,13 +257,11 @@ function getNextSequence()
  */
 function setUserSequence($seq)
 {
-	$arr_seq = array();
-	if(isset($_SESSION['seq']))
+	if(!isset($_SESSION['seq']))
 	{
-		$arr_seq = $_SESSION['seq'];
+		$_SESSION['seq'] = array();
 	}
-	$arr_seq[] = $seq;
-	$_SESSION['seq'] = $arr_seq;
+	$_SESSION['seq'][] = $seq;
 }
 
 /**
@@ -272,16 +272,7 @@ function setUserSequence($seq)
  */
 function checkUserSequence($seq)
 {
-	if(!isset($_SESSION['seq']))
-	{
-		return false;
-	}
-	if(!in_array($seq, $_SESSION['seq']))
-	{
-		return false;
-	}
-
-	return true;
+	return isset($_SESSION['seq']) && in_array($seq, $_SESSION['seq']);
 }
 
 /**
@@ -303,9 +294,13 @@ function getUrl()
 	$args_list = func_get_args();
 
 	if($num_args)
+	{
 		$url = Context::getUrl($num_args, $args_list);
+	}
 	else
+	{
 		$url = Context::getRequestUri();
+	}
 
 	return preg_replace('@\berror_return_url=[^&]*|\w+=(?:&|$)@', '', $url);
 }
@@ -535,7 +530,7 @@ function cut_str($string, $cut_size = 0, $tail = '...')
 		$char_count++;
 		if($c < 128)
 		{
-			$char_width += (int) $chars[$c - 32];
+			$char_width += (int)($chars[$c - 32]);
 			$idx++;
 		}
 		else if(191 < $c && $c < 224)
@@ -560,43 +555,29 @@ function cut_str($string, $cut_size = 0, $tail = '...')
 }
 
 /**
+ * Get integer offset of time zone
+ * 
+ * @param string $time_zone Time zone in +0900 format
+ * @return int
+ */
+function get_time_zone_offset($time_zone)
+{
+	$multiplier = ($time_zone[0] === '-') ? -60 : 60;
+	$time_zone = preg_replace('/[^0-9]/', '', $time_zone);
+	list($hours, $minutes) = str_split($time_zone, 2);
+	return (((int)$hours * 60) + (int)$minutes) * $multiplier;
+}
+
+/**
  * Get a time gap between server's timezone and XE's timezone
  *
  * @return int
  */
 function zgap()
 {
-	$time_zone = $GLOBALS['_time_zone'];
-	if($time_zone < 0)
-	{
-		$to = -1;
-	}
-	else
-	{
-		$to = 1;
-	}
-
-	$t_hour = substr($time_zone, 1, 2) * $to;
-	$t_min = substr($time_zone, 3, 2) * $to;
-
-	$server_time_zone = date("O");
-	if($server_time_zone < 0)
-	{
-		$so = -1;
-	}
-	else
-	{
-		$so = 1;
-	}
-
-	$c_hour = substr($server_time_zone, 1, 2) * $so;
-	$c_min = substr($server_time_zone, 3, 2) * $so;
-
-	$g_min = $t_min - $c_min;
-	$g_hour = $t_hour - $c_hour;
-
-	$gap = $g_min * 60 + $g_hour * 60 * 60;
-	return $gap;
+	$time_zone_offset = $GLOBALS['_time_zone_offset'];
+	$server_offset = date('Z');
+	return $time_zone_offset - $server_offset;
 }
 
 /**
@@ -609,25 +590,89 @@ function ztime($str)
 {
 	if(!$str)
 	{
-		return;
+		return null;
 	}
-
-	$hour = (int) substr($str, 8, 2);
-	$min = (int) substr($str, 10, 2);
-	$sec = (int) substr($str, 12, 2);
-	$year = (int) substr($str, 0, 4);
-	$month = (int) substr($str, 4, 2);
-	$day = (int) substr($str, 6, 2);
-	if(strlen($str) <= 8)
+	$year = (int)substr($str, 0, 4);
+	$month = (int)substr($str, 4, 2) ?: 1;
+	$day = (int)substr($str, 6, 2) ?: 1;
+	if(strlen($str) >= 8)
 	{
-		$gap = 0;
+		$hour = (int)substr($str, 8, 2);
+		$min = (int)substr($str, 10, 2);
+		$sec = (int)substr($str, 12, 2);
+		$offset = zgap();
 	}
 	else
 	{
-		$gap = zgap();
+		$hour = $min = $sec = $offset = 0;
 	}
+	return mktime($hour, $min, $sec, $month, $day, $year) + $offset;
+}
 
-	return mktime($hour, $min, $sec, $month ? $month : 1, $day ? $day : 1, $year) + $gap;
+/**
+ * Change the time format YYYYMMDDHHIISS to the user defined format
+ *
+ * @param string|int $str YYYYMMDDHHIISS format time values
+ * @param string $format Time format of php date() function
+ * @param bool $conversion Means whether to convert automatically according to the language
+ * @return string
+ */
+function zdate($str, $format = 'Y-m-d H:i:s', $conversion = TRUE)
+{
+	if(!$str)
+	{
+		return null;
+	}
+	
+	// convert the date format according to the language
+	if($conversion == TRUE)
+	{
+		static $convtable = array(
+			'en' => array(
+				'Y-m-d' => 'M j, Y',
+				'Y-m-d H:i:s' => 'M j, Y H:i:s',
+				'Y-m-d H:i' => 'M j, Y H:i',
+			),
+			'es' => array(
+				'Y-m-d' => 'j M Y',
+				'Y-m-d H:i:s' => 'j M Y H:i:s',
+				'Y-m-d H:i' => 'j M Y H:i',
+			),
+			'de' => 'es',
+			'fr' => 'es',
+			'vi' => array(
+				'Y-m-d' => 'd-m-Y',
+				'Y-m-d H:i:s' => 'H:i:s d-m-Y',
+				'Y-m-d H:i' => 'H:i d-m-Y',
+			),
+		);
+		
+		$lang_type = Context::getLangType();
+		if(isset($convtable[$lang_type]))
+		{
+			if(isset($convtable[$lang_type][$format]))
+			{
+				$format = $convtable[$lang_type][$format];
+			}
+			elseif(isset($convtable[$convtable[$lang_type]][$format]))
+			{
+				$format = $convtable[$convtable[$lang_type]][$format];
+			}
+		}
+	}
+	
+	// get unixtime by using ztime() for date() function's argument. 
+	$string = date($format, ztime($str));
+	
+	// change day and am/pm for each language
+	if(preg_match('/[MFAa]/', $format))
+	{
+		$unit_week = Context::getLang('unit_week');
+		$unit_meridiem = Context::getLang('unit_meridiem');
+		$string = str_replace(array('Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'), $unit_week, $string);
+		$string = str_replace(array('am', 'pm', 'AM', 'PM'), $unit_meridiem, $string);
+	}
+	return $string;
 }
 
 /**
@@ -644,19 +689,19 @@ function getTimeGap($date, $format = 'Y.m.d')
 	$lang_time_gap = Context::getLang('time_gap');
 	if($gap < 60)
 	{
-		$buff = sprintf($lang_time_gap['min'], (int) ($gap / 60) + 1);
+		$buff = sprintf($lang_time_gap['min'], (int)($gap / 60) + 1);
 	}
 	elseif($gap < 60 * 60)
 	{
-		$buff = sprintf($lang_time_gap['mins'], (int) ($gap / 60) + 1);
+		$buff = sprintf($lang_time_gap['mins'], (int)($gap / 60) + 1);
 	}
 	elseif($gap < 60 * 60 * 2)
 	{
-		$buff = sprintf($lang_time_gap['hour'], (int) ($gap / 60 / 60) + 1);
+		$buff = sprintf($lang_time_gap['hour'], (int)($gap / 60 / 60) + 1);
 	}
 	elseif($gap < 60 * 60 * 24)
 	{
-		$buff = sprintf($lang_time_gap['hours'], (int) ($gap / 60 / 60) + 1);
+		$buff = sprintf($lang_time_gap['hours'], (int)($gap / 60 / 60) + 1);
 	}
 	else
 	{
@@ -675,103 +720,9 @@ function getTimeGap($date, $format = 'Y.m.d')
  */
 function getMonthName($month, $short = TRUE)
 {
-	$short_month = array('', 'Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec');
-	$long_month = array('', 'January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December');
-	return !$short ? $long_month[$month] : $short_month[$month];
-}
-
-/**
- * Change the time format YYYYMMDDHHIISS to the user defined format
- *
- * @param string|int $str YYYYMMDDHHIISS format time values
- * @param string $format Time format of php date() function
- * @param bool $conversion Means whether to convert automatically according to the language
- * @return string
- */
-function zdate($str, $format = 'Y-m-d H:i:s', $conversion = TRUE)
-{
-	// return null if no target time is specified
-	if(!$str)
-	{
-		return;
-	}
-	// convert the date format according to the language
-	if($conversion == TRUE)
-	{
-		switch(Context::getLangType())
-		{
-			case 'en' :
-			case 'es' :
-				if($format == 'Y-m-d')
-				{
-					$format = 'M d, Y';
-				}
-				elseif($format == 'Y-m-d H:i:s')
-				{
-					$format = 'M d, Y H:i:s';
-				}
-				elseif($format == 'Y-m-d H:i')
-				{
-					$format = 'M d, Y H:i';
-				}
-				break;
-			case 'vi' :
-				if($format == 'Y-m-d')
-				{
-					$format = 'd-m-Y';
-				}
-				elseif($format == 'Y-m-d H:i:s')
-				{
-					$format = 'H:i:s d-m-Y';
-				}
-				elseif($format == 'Y-m-d H:i')
-				{
-					$format = 'H:i d-m-Y';
-				}
-				break;
-		}
-	}
-
-	// If year value is less than 1970, handle it separately.
-	if((int) substr($str, 0, 4) < 1970)
-	{
-		$hour = (int) substr($str, 8, 2);
-		$min = (int) substr($str, 10, 2);
-		$sec = (int) substr($str, 12, 2);
-		$year = (int) substr($str, 0, 4);
-		$month = (int) substr($str, 4, 2);
-		$day = (int) substr($str, 6, 2);
-
-		$trans = array(
-			'Y' => $year,
-			'y' => sprintf('%02d', $year % 100),
-			'm' => sprintf('%02d', $month),
-			'n' => $month,
-			'd' => sprintf('%02d', $day),
-			'j' => $day,
-			'G' => $hour,
-			'H' => sprintf('%02d', $hour),
-			'g' => $hour % 12,
-			'h' => sprintf('%02d', $hour % 12),
-			'i' => sprintf('%02d', $min),
-			's' => sprintf('%02d', $sec),
-			'M' => getMonthName($month),
-			'F' => getMonthName($month, FALSE)
-		);
-
-		$string = strtr($format, $trans);
-	}
-	else
-	{
-		// if year value is greater than 1970, get unixtime by using ztime() for date() function's argument. 
-		$string = date($format, ztime($str));
-	}
-	// change day and am/pm for each language
-	$unit_week = Context::getLang('unit_week');
-	$unit_meridiem = Context::getLang('unit_meridiem');
-	$string = str_replace(array('Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'), $unit_week, $string);
-	$string = str_replace(array('am', 'pm', 'AM', 'PM'), $unit_meridiem, $string);
-	return $string;
+	$short_month = array('Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec');
+	$long_month = array('January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December');
+	return $short ? $short_month[$month - 1] : $long_month[$month - 1];
 }
 
 /**
@@ -971,8 +922,7 @@ function flushSlowlog()
  */
 function getMicroTime()
 {
-	list($time1, $time2) = explode(' ', microtime());
-	return (float) $time1 + (float) $time2;
+	return microtime(true);
 }
 
 /**
@@ -984,50 +934,32 @@ function getMicroTime()
  */
 function delObjectVars($target_obj, $del_obj)
 {
-	if(!is_object($target_obj))
+	if(!is_object($target_obj) || !is_object($del_obj))
 	{
-		return;
+		return new stdClass;
 	}
-	if(!is_object($del_obj))
-	{
-		return;
-	}
-
 	$target_vars = get_object_vars($target_obj);
 	$del_vars = get_object_vars($del_obj);
-
-	$target = array_keys($target_vars);
-	$del = array_keys($del_vars);
-	if(!count($target) || !count($del))
+	foreach($del_vars as $key => $val)
 	{
-		return $target_obj;
+		unset($target_vars[$key]);
 	}
-
-	$return_obj = new stdClass();
-
-	$target_count = count($target);
-	for($i = 0; $i < $target_count; $i++)
-	{
-		$target_key = $target[$i];
-		if(!in_array($target_key, $del))
-		{
-			$return_obj->{$target_key} = $target_obj->{$target_key};
-		}
-	}
-
-	return $return_obj;
+	return (object)$target_vars;
 }
 
-function getDestroyXeVars(&$vars)
+function getDestroyXeVars($vars)
 {
-	$del_vars = array('error_return_url', 'success_return_url', 'ruleset', 'xe_validator_id');
-
-	foreach($del_vars as $var)
+	foreach(array('error_return_url', 'success_return_url', 'ruleset', 'xe_validator_id') as $var)
 	{
-		if(is_array($vars)) unset($vars[$var]);
-		else if(is_object($vars)) unset($vars->$var);
+		if(is_array($vars))
+		{
+			unset($vars[$var]);
+		}
+		elseif(is_object($vars))
+		{
+			unset($vars->$var);
+		}
 	}
-
 	return $vars;
 }
 
@@ -1070,7 +1002,7 @@ function getNumberingPath($no, $size = 3)
 	$output = sprintf('%0' . $size . 'd/', $no % $mod);
 	if($no >= $mod)
 	{
-		$output .= getNumberingPath((int) $no / $mod, $size);
+		$output .= getNumberingPath((int)$no / $mod, $size);
 	}
 	return $output;
 }
@@ -1083,12 +1015,11 @@ function getNumberingPath($no, $size = 3)
  */
 function url_decode($str)
 {
-	return preg_replace('/%u([[:alnum:]]{4})/', '&#x\\1;', $str);
+	return htmlspecialchars(utf8RawUrlDecode($str), null, 'UTF-8');
 }
 
 function purifierHtml(&$content)
 {
-	require_once(_XE_PATH_ . 'classes/security/Purifier.class.php');
 	$oPurifier = Purifier::getInstance();
 	$oPurifier->purify($content);
 }
@@ -1101,7 +1032,6 @@ function purifierHtml(&$content)
  */
 function removeHackTag($content)
 {
-	require_once(_XE_PATH_ . 'classes/security/EmbedFilter.class.php');
 	$oEmbedFilter = EmbedFilter::getInstance();
 	$oEmbedFilter->check($content);
 
@@ -1143,7 +1073,6 @@ function blockWidgetCode($content)
  */
 function checkUploadedFile($file)
 {
-	require_once(_XE_PATH_ . 'classes/security/UploadFileFilter.class.php');
 	return UploadFileFilter::check($file);
 }
 
@@ -1275,22 +1204,61 @@ function removeSrcHack($match)
 // convert hexa value to RGB
 if(!function_exists('hexrgb'))
 {
-
 	/**
 	 * Convert hexa value to RGB
 	 *
 	 * @param string $hexstr
 	 * @return array
 	 */
-	function hexrgb($hexstr)
+	function hexrgb($hex)
 	{
-		$int = hexdec($hexstr);
-
-		return array('red' => 0xFF & ($int >> 0x10),
-			'green' => 0xFF & ($int >> 0x8),
-			'blue' => 0xFF & $int);
+		$hex = ltrim($hex, '#');
+		if(strlen($hex) == 3)
+		{
+			$r = hexdec(substr($hex, 0, 1) . substr($hex, 0, 1));
+			$g = hexdec(substr($hex, 1, 1) . substr($hex, 1, 1));
+			$b = hexdec(substr($hex, 2, 1) . substr($hex, 2, 1));
+		}
+		elseif(strlen($hex) == 6)
+		{
+			$r = hexdec(substr($hex, 0, 2));
+			$g = hexdec(substr($hex, 2, 2));
+			$b = hexdec(substr($hex, 4, 2));
+		}
+		else
+		{
+			$r = $g = $b = null;
+		}
+		return array('red' => $r, 'green' => $g, 'blue' => $b, 'r' => $r, 'g' => $g, 'b' => $b);
 	}
+}
 
+// convert RGB value to hexa
+if(!function_exists('rgbhex'))
+{
+	/**
+	 * convert RGB value to hexa
+	 *
+	 * @param array $rgb
+	 * @param bool $hash_prefix
+	 * @return string
+	 */
+	function rgbhex(array $rgb, $hash_prefix = true)
+	{
+		if(!isset($rgb['r']) && !isset($rgb['g']) && !isset($rgb['b']) && count($rgb) >= 3)
+		{
+			list($rgb['r'], $rgb['g'], $rgb['b']) = $rgb;
+		}
+		if(!isset($rgb['r']) || !isset($rgb['g']) || !isset($rgb['b']) || $rgb['r'] > 255 || $rgb['g'] > 255 || $rgb['b'] > 255)
+		{
+			return '#000000';
+		}
+		$hex = $hash_prefix ? '#' : '';
+		$hex .= str_pad(dechex(max(0, $rgb['r'])), 2, '0', STR_PAD_LEFT);
+		$hex .= str_pad(dechex(max(0, $rgb['g'])), 2, '0', STR_PAD_LEFT);
+		$hex .= str_pad(dechex(max(0, $rgb['b'])), 2, '0', STR_PAD_LEFT);
+		return $hex;
+	}
 }
 
 /**
@@ -1370,40 +1338,9 @@ function getRequestUriByServerEnviroment()
  */
 function utf8RawUrlDecode($source)
 {
-	$decodedStr = '';
-	$pos = 0;
-	$len = strlen($source);
-	while($pos < $len)
-	{
-		$charAt = substr($source, $pos, 1);
-		if($charAt == '%')
-		{
-			$pos++;
-			$charAt = substr($source, $pos, 1);
-			if($charAt == 'u')
-			{
-				// we got a unicode character
-				$pos++;
-				$unicodeHexVal = substr($source, $pos, 4);
-				$unicode = hexdec($unicodeHexVal);
-				$decodedStr .= _code2utf($unicode);
-				$pos += 4;
-			}
-			else
-			{
-				// we have an escaped ascii character
-				$hexVal = substr($source, $pos, 2);
-				$decodedStr .= chr(hexdec($hexVal));
-				$pos += 2;
-			}
-		}
-		else
-		{
-			$decodedStr .= $charAt;
-			$pos++;
-		}
-	}
-	return $decodedStr;
+	return preg_replace_callback('/%u([0-9a-f]+)/i', function($m) {
+		return html_entity_decode('&#x' . $m[1] . ';');
+	}, rawurldecode($source));
 }
 
 /**
@@ -1414,23 +1351,7 @@ function utf8RawUrlDecode($source)
  */
 function _code2utf($num)
 {
-	if($num < 128)
-	{
-		return chr($num);
-	}
-	if($num < 2048)
-	{
-		return chr(($num >> 6) + 192) . chr(($num & 63) + 128);
-	}
-	if($num < 65536)
-	{
-		return chr(($num >> 12) + 224) . chr((($num >> 6) & 63) + 128) . chr(($num & 63) + 128);
-	}
-	if($num < 2097152)
-	{
-		return chr(($num >> 18) + 240) . chr((($num >> 12) & 63) + 128) . chr((($num >> 6) & 63) + 128) . chr(($num & 63) + 128);
-	}
-	return '';
+	return html_entity_decode('&#' . $num . ';');
 }
 
 /**
@@ -1447,21 +1368,17 @@ function detectUTF8($string, $return_convert = FALSE, $urldecode = TRUE)
 	{
 		$string = urldecode($string);
 	}
-
-	$sample = iconv('utf-8', 'utf-8', $string);
-	$is_utf8 = (md5($sample) == md5($string));
-
-	if(!$urldecode)
+	
+	if(function_exists('mb_check_encoding'))
 	{
-		$string = urldecode($string);
+		$is_utf8 = mb_check_encoding($string, 'UTF-8');
+		return $return_convert ? mb_convert_encoding($string, 'UTF-8', 'CP949') : $is_utf8;
 	}
-
-	if($return_convert)
+	else
 	{
-		return ($is_utf8) ? $string : iconv('euc-kr', 'utf-8', $string);
+		$is_utf8 = ($string === @iconv('UTF-8', 'UTF-8', $string));
+		return $return_convert ? iconv('CP949', 'UTF-8', $string) : $is_utf8;
 	}
-
-	return $is_utf8;
 }
 
 /**
@@ -1472,39 +1389,7 @@ function detectUTF8($string, $return_convert = FALSE, $urldecode = TRUE)
  */
 function json_encode2($data)
 {
-	switch(gettype($data))
-	{
-		case 'boolean':
-			return $data ? 'true' : 'false';
-		case 'integer':
-		case 'double':
-			return $data;
-		case 'string':
-			return '"' . strtr($data, array('\\' => '\\\\', '"' => '\\"')) . '"';
-		case 'object':
-			$data = get_object_vars($data);
-		case 'array':
-			$rel = FALSE; // relative array?
-			$key = array_keys($data);
-			foreach($key as $v)
-			{
-				if(!is_int($v))
-				{
-					$rel = TRUE;
-					break;
-				}
-			}
-
-			$arr = array();
-			foreach($data as $k => $v)
-			{
-				$arr[] = ($rel ? '"' . strtr($k, array('\\' => '\\\\', '"' => '\\"')) . '":' : '') . json_encode2($v);
-			}
-
-			return $rel ? '{' . join(',', $arr) . '}' : '[' . join(',', $arr) . ']';
-		default:
-			return '""';
-	}
+	return json_encode($data);
 }
 
 /**
@@ -1515,25 +1400,8 @@ function json_encode2($data)
  */
 function isCrawler($agent = NULL)
 {
-	if(!$agent)
-	{
-		$agent = $_SERVER['HTTP_USER_AGENT'];
-	}
-
-	$check_agent = array('bot', 'spider', 'spyder', 'crawl', 'http://', 'google', 'yahoo', 'slurp', 'yeti', 'daum', 'teoma', 'fish', 'hanrss', 'facebook', 'yandex', 'infoseek', 'askjeeves', 'stackrambler');
-	$check_ip = array(
-		/*'211.245.21.110-211.245.21.119' mixsh is closed */
-	);
-
-	foreach($check_agent as $str)
-	{
-		if(stristr($agent, $str) != FALSE)
-		{
-			return TRUE;
-		}
-	}
-
-	return IpFilter::filter($check_ip);
+	$agent = $agent ?: $_SERVER['HTTP_USER_AGENT'];
+	return (bool)preg_match('@bot|crawl|sp[iy]der|https?://|google|yahoo|slurp|yeti|daum|teoma|fish|hanrss|facebook|yandex|infoseek|askjeeves|stackrambler@i', $agent);
 }
 
 /**
@@ -1580,16 +1448,14 @@ function stripEmbedTagForAdmin(&$content, $writer_member_srl)
  */
 function requirePear()
 {
-	if(version_compare(PHP_VERSION, "5.3.0") < 0)
-	{
-		set_include_path(_XE_PATH_ . "libs/PEAR" . PATH_SEPARATOR . get_include_path());
-	}
-	else
-	{
-		set_include_path(_XE_PATH_ . "libs/PEAR.1.9.5" . PATH_SEPARATOR . get_include_path());
-	}
+	set_include_path(_XE_PATH_ . "libs/PEAR.1.9.5" . PATH_SEPARATOR . get_include_path());
 }
 
+/**
+ * Check for CSRF attacks
+ * 
+ * @return bool
+ */
 function checkCSRF()
 {
 	if($_SERVER['REQUEST_METHOD'] != 'POST')
@@ -1681,12 +1547,7 @@ function changeValueInUrl($key, $requestKey, $dbKey, $urlName = 'success_return_
  */
 function htmlHeader()
 {
-	echo '<!DOCTYPE html>
-<html lang="ko">
-<head>
-<meta charset="utf-8" />
-</head>
-<body>';
+	echo implode("\n", array('<!DOCTYPE html>', '<html lang="ko">', '<head>', '<meta charset="UTF-8" />', '</head>', '<body>', ''));
 }
 
 /**
@@ -1696,7 +1557,7 @@ function htmlHeader()
  */
 function htmlFooter()
 {
-	echo '</body></html>';
+	echo implode("\n", array('', '</body>', '</html>', ''));
 }
 
 /**
@@ -1707,16 +1568,10 @@ function htmlFooter()
  */
 function alertScript($msg)
 {
-	if(!$msg)
+	if($msg)
 	{
-		return;
+		echo sprintf('<script> alert(%s); </script>', json_encode(@strval($msg)));
 	}
-
-	echo '<script type="text/javascript">
-//<![CDATA[
-alert("' . $msg . '");
-//]]>
-</script>';
 }
 
 /**
@@ -1726,11 +1581,7 @@ alert("' . $msg . '");
  */
 function closePopupScript()
 {
-	echo '<script type="text/javascript">
-//<![CDATA[
-window.close();
-//]]>
-</script>';
+	echo '<script> window.open("", "_self", ""); window.close(); </script>';
 }
 
 /**
@@ -1741,13 +1592,8 @@ window.close();
  */
 function reload($isOpener = FALSE)
 {
-	$reloadScript = $isOpener ? 'window.opener.location.reload()' : 'document.location.reload()';
-
-	echo '<script type="text/javascript">
-//<![CDATA[
-' . $reloadScript . '
-//]]>
-</script>';
+	$reloadScript = $isOpener ? 'window.opener.location.reload();' : 'window.location.reload();';
+	echo sprintf('<script> %s </script>', $raloadScript);
 }
 
 /* End of file func.inc.php */

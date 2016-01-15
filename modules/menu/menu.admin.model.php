@@ -506,6 +506,12 @@ class menuAdminModel extends menu
 				{
 					$this->_menuInfoSetting($menu->list[$key], $start_module, $isMenuFixed, $menuSrl,$siteSrl);
 				}
+				ksort($menu->list);
+				$menu->list = array_values($menu->list);
+			}
+			else
+			{
+				$menu->list = array();
 			}
 
 			// menu recreate
@@ -547,6 +553,12 @@ class menuAdminModel extends menu
 							{
 								$this->_menuInfoSetting($menu->list[$key2], $start_module, $isMenuFixed, $value->menu_srl,$siteSrl);
 							}
+							ksort($menu->list);
+							$menu->list = array_values($menu->list);
+						}
+						else
+						{
+							$menu->list = array();
 						}
 
 						// menu recreate
@@ -574,6 +586,7 @@ class menuAdminModel extends menu
 			}
 		}
 		ksort($menuList);
+		$menuList = array_values($menuList);
 		$this->add('menuList', $menuList);
 	}
 
@@ -692,6 +705,12 @@ class menuAdminModel extends menu
 			{
 				$this->_menuInfoSetting($menu['list'][$key], $start_module, $isMenuFixed, $menuSrl, $siteSrl);
 			}
+			ksort($menu['list']);
+			$menu['list'] = array_values($menu['list']);
+		}
+		else
+		{
+			$menu['list'] = array();
 		}
 	}
 }

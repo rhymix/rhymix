@@ -26,20 +26,17 @@ class Purifier
 
 	private function _setConfig()
 	{
-		$whiteDomainRegex = $this->_getWhiteDomainRegx();
-		//$allowdClasses = array('emoticon');
-
 		$this->_config = HTMLPurifier_Config::createDefault();
 		$this->_config->set('HTML.TidyLevel', 'light');
 		$this->_config->set('Output.FlashCompat', TRUE);
 		$this->_config->set('HTML.SafeObject', TRUE);
 		$this->_config->set('HTML.SafeEmbed', TRUE);
 		$this->_config->set('HTML.SafeIframe', TRUE);
-		$this->_config->set('URI.SafeIframeRegexp', $whiteDomainRegex);
+		$this->_config->set('URI.SafeIframeRegexp', $this->_getWhiteDomainRegexp());
 		$this->_config->set('Cache.SerializerPath', $this->_cacheDir);
 		$this->_config->set('Attr.AllowedFrameTargets', array('_blank'));
+		//$allowdClasses = array('emoticon');
 		//$this->_config->set('Attr.AllowedClasses', $allowdClasses);
-
 		$this->_def = $this->_config->getHTMLDefinition(TRUE);
 	}
 
@@ -135,32 +132,17 @@ class Purifier
 		return array_unique($attributeList);
 	}
 
-	private function _getWhiteDomainRegx()
+	private function _getWhiteDomainRegexp()
 	{
-		require_once(_XE_PATH_ . 'classes/security/EmbedFilter.class.php');
 		$oEmbedFilter = EmbedFilter::getInstance();
 		$whiteIframeUrlList = $oEmbedFilter->getWhiteIframeUrlList();
 
-		$whiteDomainRegex = '%^(';
-		$whiteDomainCount = count($whiteIframeUrlList);
-
-		$i=1;
-		if(is_array($whiteIframeUrlList))
+		$whiteDomains = array();
+		foreach($whiteIframeUrlList as $domain)
 		{
-			foreach($whiteIframeUrlList as $value)
-			{
-				$whiteDomainRegex .= $value;
-
-				if($i < $whiteDomainCount)
-				{
-					$whiteDomainRegex .= '|';
-				}
-				$i++;
-			}
+			$whiteDomains[] = preg_quote($domain, '%');
 		}
-		$whiteDomainRegex .= ')%';
-
-		return $whiteDomainRegex;
+		return '%^https?://(' . implode('|', $whiteDomains) . ')%';
 	}
 
 	private function _checkCacheDir()

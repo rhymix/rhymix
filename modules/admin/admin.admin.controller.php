@@ -549,17 +549,24 @@ class adminAdminController extends admin
 		$white_object = preg_replace("/[\r\n|\r|\n]+/", '|@|', $white_object);
 		$white_object = preg_replace("/[\s\'\"]+/", '', $white_object);
 		$white_object = explode('|@|', $white_object);
-		$white_object = array_unique($white_object);
+		$white_object = array_unique(array_map(function($item) {
+			return preg_match('@^https?://(.*)$@i', $item, $matches) ? $matches[1] : $item;
+		}, $white_object));
+		natcasesort($white_object);
 
 		$white_iframe = $vars->embed_white_iframe;
 		$white_iframe = preg_replace("/[\r\n|\r|\n]+/", '|@|', $white_iframe);
 		$white_iframe = preg_replace("/[\s\'\"]+/", '', $white_iframe);
 		$white_iframe = explode('|@|', $white_iframe);
-		$white_iframe = array_unique($white_iframe);
+		$white_iframe = array_unique(array_map(function($item) {
+			return preg_match('@^https?://(.*)$@i', $item, $matches) ? $matches[1] : $item;
+		}, $white_iframe));
+		natcasesort($white_iframe);
 
-		$whitelist = new stdClass;
-		$whitelist->object = $white_object;
-		$whitelist->iframe = $white_iframe;
+		$whitelist = array(
+			'object' => $white_object,
+			'iframe' => $white_iframe,
+		);
 
 		$db_info->embed_white_object = $white_object;
 		$db_info->embed_white_iframe = $white_iframe;
@@ -569,10 +576,6 @@ class adminAdminController extends admin
 		{
 			return new Object(-1, 'msg_invalid_request');
 		}
-
-		require_once(_XE_PATH_ . 'classes/security/EmbedFilter.class.php');
-		$oEmbedFilter = EmbedFilter::getInstance();
-		$oEmbedFilter->_makeWhiteDomainList($whitelist);
 
 		if(!in_array(Context::getRequestMethod(), array('XMLRPC','JSON')))
 		{

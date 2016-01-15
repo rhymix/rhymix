@@ -133,7 +133,7 @@ if(!defined('__DEBUG__'))
 	 * 4: output DB query history
 	 * </pre>
 	 */
-	define('__DEBUG__', 1);
+	define('__DEBUG__', 0);
 }
 
 if(!defined('__DEBUG_OUTPUT__'))
@@ -296,16 +296,13 @@ if((__DEBUG_OUTPUT__ == 2) && version_compare(PHP_VERSION, '6.0.0') === -1)
 }
 
 // Set Timezone as server time
-if(version_compare(PHP_VERSION, '5.3.0') >= 0)
-{
-	date_default_timezone_set(@date_default_timezone_get());
-}
+date_default_timezone_set(@date_default_timezone_get());
 
 // Require a function-defined-file for simple use
 require(_XE_PATH_ . 'config/func.inc.php');
 
 if(__DEBUG__) {
-	define('__StartTime__', getMicroTime());
+	define('__StartTime__', microtime(true));
 }
 
 if(__DEBUG__) {
@@ -412,7 +409,7 @@ $GLOBALS['__xe_autoload_file_map'] = array_change_key_case(array(
 function __xe_autoload($class_name)
 {
 	if(__DEBUG__) {
-		$time_at = getMicroTime();
+		$time_at = microtime(true);
 	}
 
 	if(isset($GLOBALS['__xe_autoload_file_map'][strtolower($class_name)]))
@@ -436,12 +433,13 @@ function __xe_autoload($class_name)
 	}
 
 	if(__DEBUG__) {
-		$GLOBALS['__elapsed_class_load__'] += getMicroTime() - $time_at;
+		$GLOBALS['__elapsed_class_load__'] += microtime(true) - $time_at;
 	}
 }
 spl_autoload_register('__xe_autoload');
 
-if(file_exists(_XE_PATH_  . '/vendor/autoload.php')) {
+if(file_exists(_XE_PATH_  . '/vendor/autoload.php'))
+{
 	require _XE_PATH_  . '/vendor/autoload.php';
 }
 /* End of file config.inc.php */

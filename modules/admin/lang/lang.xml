@@ -760,17 +760,40 @@
 		<value xml:lang="zh-CN"><![CDATA[启用Qmail]]></value>
 		<value xml:lang="tr"><![CDATA[Qmail etkinleştirin]]></value>
 	</item>
-	<item name="cache_friendly">
-		<value xml:lang="ko"><![CDATA[캐싱 최적화]]></value>
-		<value xml:lang="en"><![CDATA[Optimize for caching]]></value>
-		<value xml:lang="jp"><![CDATA[キャッシュに最適化]]></value>
-		<value xml:lang="zh-CN"><![CDATA[优化缓存]]></value>
-		<value xml:lang="tr"><![CDATA[Önbelleğe alma optimize]]></value>
+	<item name="minify_scripts">
+		<value xml:lang="ko"><![CDATA[스크립트 자동 압축]]></value>
+		<value xml:lang="en"><![CDATA[Auto-minify scripts]]></value>
+		<value xml:lang="jp"><![CDATA[スクリプト自動圧縮]]></value>
 	</item>
-	<item name="about_cache_friendly">
-		<value xml:lang="ko"><![CDATA[Varnish 등의 캐싱 서버 사용시 성능 개선을 위해, 로그인하지 않은 사용자에게는 인증 세션을 부여하지 않습니다.<br>이 옵션을 선택할 경우 방문자 수 및 조회수 집계가 정확하지 않을 수 있습니다.]]></value>
-		<value xml:lang="en"><![CDATA[To improve performance when using a caching server such as Varnish, do not issue sessions to visitors until they log in.<br>Selecting this option may cause view counts and visitor counts to become inaccurate.]]></value>
-		<value xml:lang="jp"><![CDATA[Varnishなどのキャッシュサーバ使用時のパフォーマンスを向上させるために、ログインしていないユーザーには、認証セッションを付与しません。<br>このオプションを選択した場合、訪問者数とヒット集計が正確でない場合があります。]]></value>
+	<item name="cmd_minify_all">
+		<value xml:lang="ko"><![CDATA[모든 파일을 압축]]></value>
+		<value xml:lang="en"><![CDATA[All files]]></value>
+		<value xml:lang="jp"><![CDATA[全てのファイルを圧縮]]></value>
+	</item>
+	<item name="cmd_minify_common">
+		<value xml:lang="ko"><![CDATA[공통 파일만 압축]]></value>
+		<value xml:lang="en"><![CDATA[Common files only]]></value>
+		<value xml:lang="jp"><![CDATA[共通のファイルを圧縮]]></value>
+	</item>
+	<item name="cmd_minify_none">
+		<value xml:lang="ko"><![CDATA[압축하지 않음]]></value>
+		<value xml:lang="en"><![CDATA[None]]></value>
+		<value xml:lang="jp"><![CDATA[圧縮されません]]></value>
+	</item>
+	<item name="about_minify_scripts">
+		<value xml:lang="ko"><![CDATA[코어와 모든 모듈에 포함된 CSS, JS 파일들을 자동으로 압축(minify)하여 전송합니다.]]></value>
+		<value xml:lang="en"><![CDATA[Automatically minify all CSS and JS scripts in the Core and all modules.]]></value>
+		<value xml:lang="jp"><![CDATA[コアとすべてのモジュールに含まれたCSS、JSファイルを自動的に圧縮(minify)して配信します。]]></value>
+	</item>
+	<item name="delay_session">
+		<value xml:lang="ko"><![CDATA[세션 시작 지연]]></value>
+		<value xml:lang="en"><![CDATA[Delay session start]]></value>
+		<value xml:lang="jp"><![CDATA[セッションの開始を遅延]]></value>
+	</item>
+	<item name="about_delay_session">
+		<value xml:lang="ko"><![CDATA[Varnish 등의 프록시 캐싱 서버 사용시 성능 개선을 위해, 로그인하지 않은 사용자에게는 인증 세션을 부여하지 않습니다.<br>이 옵션을 선택할 경우 방문자 수 및 조회수 집계가 정확하게 이루어지지 않을 수 있습니다.]]></value>
+		<value xml:lang="en"><![CDATA[To improve performance when using a caching proxy server such as Varnish, do not issue sessions to visitors until they log in.<br>Selecting this option may cause view counts and visitor counts to become inaccurate.]]></value>
+		<value xml:lang="jp"><![CDATA[Varnishなどのプロキシキャッシュサーバ使用時のパフォーマンスを向上させるために、ログインしていないユーザーには、認証セッションを付与しません。<br>このオプションを選択した場合、訪問者数とヒット集計が正確でない場合があります。]]></value>
 	</item>
 	<item name="sftp">
 		<value xml:lang="ko"><![CDATA[SFTP 사용]]></value>
@@ -910,11 +933,17 @@
 		<value xml:lang="tr"><![CDATA[Kısa bir adres kullanmak istiyor musunuz?]]></value>
 	</item>
 	<item name="timezone">
-		<value xml:lang="ko"><![CDATA[현지 표준시]]></value>
-		<value xml:lang="en"><![CDATA[The local standard time.]]></value>
-		<value xml:lang="jp"><![CDATA[現地の標準時間]]></value>
-		<value xml:lang="zh-CN"><![CDATA[设置本地时间.]]></value>
-		<value xml:lang="tr"><![CDATA[Yerel Zamanı ayarlayın.]]></value>
+		<value xml:lang="ko"><![CDATA[표준 시간대]]></value>
+		<value xml:lang="en"><![CDATA[Time Zone]]></value>
+		<value xml:lang="jp"><![CDATA[標準時間帯]]></value>
+		<value xml:lang="zh-CN"><![CDATA[时区]]></value>
+		<value xml:lang="zh-TW"><![CDATA[時區]]></value>
+		<value xml:lang="fr"><![CDATA[Fuseau horaire]]></value>
+		<value xml:lang="es"><![CDATA[Huso horario]]></value>
+		<value xml:lang="de"><![CDATA[Zeitzone]]></value>
+		<value xml:lang="ru"><![CDATA[Часовой пояс]]></value>
+		<value xml:lang="tr"><![CDATA[Saat Dilimi]]></value>
+		<value xml:lang="vi"><![CDATA[Múi giờ]]></value>
 	</item>
 	<item name="use_mobile_view">
 		<value xml:lang="ko"><![CDATA[모바일 뷰 사용]]></value>

@@ -2,7 +2,7 @@
 <load target="../install/lang/lang.xml" usecdn="true" />
 <load target="../../session/tpl/js/session.js" usecdn="true" />
 <div class="x_page-header">
-	<h1>{$lang->menu_gnb_sub['adminConfigurationGeneral']} <a class="x_icon-question-sign" href="./admin/help/index.html#UMAN_config_general" target="_blank">{$lang->help}</a></h1>
+	<h1>{$lang->menu_gnb_sub['adminConfigurationGeneral']} <a class="x_icon-question-sign" href="./common/manual/admin/#UMAN_config_general" target="_blank">{$lang->help}</a></h1>
 </div>
 <div cond="$XE_VALIDATOR_MESSAGE && $XE_VALIDATOR_ID == 'modules/admin/tpl/config_general/1'" class="message {$XE_VALIDATOR_MESSAGE_TYPE}">
 	<p>{$XE_VALIDATOR_MESSAGE}</p>
@@ -17,13 +17,13 @@
 	</form>
 	<div class="x_form-horizontal" id="admin_config">
 		<div class="x_control-group">
-			<label class="x_control-label">{$lang->site_title} <a class="x_icon-question-sign" href="./admin/help/index.html#UMAN_config_general_site_title" target="_blank">{$lang->help}</a></label>
+			<label class="x_control-label">{$lang->site_title} <a class="x_icon-question-sign" href="./common/manual/admin/#UMAN_config_general_site_title" target="_blank">{$lang->help}</a></label>
 			<div class="x_controls">
 				<input type="text" name="site_title" value="{$siteTitle}" />
 			</div>
 		</div>
 		<div class="x_control-group">
-			<label class="x_control-label" for="_target_module">{$lang->start_module} <a class="x_icon-question-sign" href="./admin/help/index.html#UMAN_config_general_homepage" target="_blank">{$lang->help}</a></label>
+			<label class="x_control-label" for="_target_module">{$lang->start_module} <a class="x_icon-question-sign" href="./common/manual/admin/#UMAN_config_general_homepage" target="_blank">{$lang->help}</a></label>
 			<div class="x_controls">
 				<input class="module_search" type="text" name="index_module_srl" value="{$start_module->index_module_srl}" />
 			</div>
@@ -55,7 +55,7 @@
 			</div>
 		</div>
 		<div class="x_control-group">
-			<label class="x_control-label">{$lang->use_mobile_view} <a class="x_icon-question-sign" href="./admin/help/index.html#UMAN_config_general_mobile_view" target="_blank">{$lang->help}</a></label>
+			<label class="x_control-label">{$lang->use_mobile_view} <a class="x_icon-question-sign" href="./common/manual/admin/#UMAN_config_general_mobile_view" target="_blank">{$lang->help}</a></label>
 			<div class="x_controls">
 				<label for="use_mobile_view_y" class="x_inline">
 					<input type="radio" name="use_mobile_view" id="use_mobile_view_y" value="Y" checked="checked"|cond="$use_mobile_view == 'Y'" />
@@ -134,14 +134,14 @@
 
 
 <section class="section">
-	<h1>embed Filter {$lang->subtitle_embed_whitelist} <a class="x_icon-question-sign" href="./admin/help/index.html#UMAN_config_embed_filter" target="_blank">{$lang->help}</a></h1>
+	<h1>embed Filter {$lang->subtitle_embed_whitelist} <a class="x_icon-question-sign" href="./common/manual/admin/#UMAN_config_embed_filter" target="_blank">{$lang->help}</a></h1>
 	<form action="./" method="post" class="x_form-horizontal">
 		<input type="hidden" name="module" value="admin" />
 		<input type="hidden" name="act" value="procAdminUpdateEmbedWhitelist" />
 		<input type="hidden" name="xe_validator_id" value="modules/admin/tpl/config_general/1" />
 
 		<div class="x_control-group">
-			<label class="x_control-label" for="embed_white_iframe">iFrame <a class="x_icon-question-sign" href="./admin/help/index.html#UMAN_config_embed_filter_iframe" target="_blank">{$lang->help}</a></label>
+			<label class="x_control-label" for="embed_white_iframe">iFrame <a class="x_icon-question-sign" href="./common/manual/admin/#UMAN_config_embed_filter_iframe" target="_blank">{$lang->help}</a></label>
 			<div class="x_controls" style="margin-right:14px">
 				<textarea name="embed_white_iframe" id="embed_white_iframe" rows="4" style="width:100%;">{$embed_white_iframe}</textarea>
 			</div>
@@ -170,20 +170,20 @@
 		<input type="hidden" name="act" value="procInstallAdminSaveTimeZone" />
 		<input type="hidden" name="xe_validator_id" value="modules/admin/tpl/config_general/1" />
 		<div class="x_control-group">
-			<label class="x_control-label" for="admin_ip_list">{$lang->admin_ip_limit} <a class="x_icon-question-sign" href="./admin/help/index.html#UMAN_config_general_admin_iplist" target="_blank">{$lang->help}</a></label>
+			<label class="x_control-label" for="admin_ip_list">{$lang->admin_ip_limit} <a class="x_icon-question-sign" href="./common/manual/admin/#UMAN_config_general_admin_iplist" target="_blank">{$lang->help}</a></label>
 			<div class="x_controls">
 				<textarea name="admin_ip_list" id="admin_ip_list" rows="4" cols="42" placeholder="{$IP}({$lang->local_ip_address})" style="margin-right:10px">{$admin_ip_list}</textarea>
 				<p class="x_help-block">{$lang->about_ipaddress_input}</p>
 			</div>
 		</div>
 		<div class="x_control-group">
-			<label class="x_control-label" for="default_url">{$lang->default_url} <a class="x_icon-question-sign" href="./admin/help/index.html#UMAN_config_general_default_url" target="_blank">{$lang->help}</a></label>
+			<label class="x_control-label" for="default_url">{$lang->default_url} <a class="x_icon-question-sign" href="./common/manual/admin/#UMAN_config_general_default_url" target="_blank">{$lang->help}</a></label>
 			<div class="x_controls">
 				<input type="url" name="default_url" id="default_url" value="{$default_url}"/>
 			</div>
 		</div>
 		<div class="x_control-group">
-			<label class="x_control-label">{$lang->use_ssl} <a class="x_icon-question-sign" href="./admin/help/index.html#UMAN_config_general_ssl" target="_blank">{$lang->help}</a></label>
+			<label class="x_control-label">{$lang->use_ssl} <a class="x_icon-question-sign" href="./common/manual/admin/#UMAN_config_general_ssl" target="_blank">{$lang->help}</a></label>
 			<div class="x_controls">
 				<!--@foreach($lang->ssl_options as $key => $val)-->
 				<label for="ssl_{$key}" class="x_inline"><input type="radio" name="use_ssl" id="ssl_{$key}" value="{$key}" checked="checked"|cond="$use_ssl==$key" /> {$val}</label>
@@ -205,33 +205,43 @@
 			</div>
 		</div>
 		<div class="x_control-group">
-			<label class="x_control-label">{$lang->use_sso} <a class="x_icon-question-sign" href="./admin/help/index.html#UMAN_config_general_sso" target="_blank">{$lang->help}</a></label>
+			<label class="x_control-label">{$lang->use_sso} <a class="x_icon-question-sign" href="./common/manual/admin/#UMAN_config_general_sso" target="_blank">{$lang->help}</a></label>
 			<div class="x_controls">
 				<label for="sso_y" class="x_inline"><input type="radio" name="use_sso" id="sso_y" value="Y" checked="checked"|cond="$use_sso=='Y'" /> {$lang->cmd_yes}</label>
 				<label for="sso_n" class="x_inline"><input type="radio" name="use_sso" id="sso_n" value="N" checked="checked"|cond="$use_sso!='Y'" /> {$lang->cmd_no}</label>
 			</div>
 		</div>
 		<div class="x_control-group">
-			<label class="x_control-label">{$lang->use_db_session} <a class="x_icon-question-sign" href="./admin/help/index.html#UMAN_config_general_db_session" target="_blank">{$lang->help}</a></label>
+			<label class="x_control-label">{$lang->use_db_session} <a class="x_icon-question-sign" href="./common/manual/admin/#UMAN_config_general_db_session" target="_blank">{$lang->help}</a></label>
 			<div class="x_controls">
 				<label for="use_db_session_y" class="x_inline"><input type="radio" name="use_db_session" id="use_db_session_y" value="Y" checked="checked"|cond="$use_db_session=='Y'" /> {$lang->cmd_yes}</label>
 				<label for="use_db_session_n" class="x_inline"><input type="radio" name="use_db_session" id="use_db_session_n" value="N" checked="checked"|cond="$use_db_session!='Y'" /> {$lang->cmd_no}</label>
 			</div>
 		</div>
 		<div class="x_control-group">
-			<label class="x_control-label">{$lang->qmail_compatibility} <a class="x_icon-question-sign" href="./admin/help/index.html#UMAN_config_general_qmail" target="_blank">{$lang->help}</a></label>
+			<label class="x_control-label">{$lang->qmail_compatibility} <a class="x_icon-question-sign" href="./common/manual/admin/#UMAN_config_general_qmail" target="_blank">{$lang->help}</a></label>
 			<div class="x_controls">
 				<label for="qmail_compatibility_y" class="x_inline"><input type="radio" name="qmail_compatibility" id="qmail_compatibility_y" value="Y" checked="checked"|cond="$qmail_compatibility=='Y'" /> {$lang->cmd_yes}</label>
 				<label for="qmail_compatibility_n" class="x_inline"><input type="radio" name="qmail_compatibility" id="qmail_compatibility_n" value="N" checked="checked"|cond="$qmail_compatibility!='Y'" /> {$lang->cmd_no}</label>
 			</div>
 		</div>
 		<div class="x_control-group">
-			<label class="x_control-label">{$lang->cache_friendly}</label>
+			<label class="x_control-label">{$lang->delay_session}</label>
 			<div class="x_controls">
-				<label for="cache_friendly_y" class="x_inline"><input type="radio" name="cache_friendly" id="cache_friendly_y" value="Y" checked="checked"|cond="$cache_friendly=='Y'" /> {$lang->cmd_yes}</label>
-				<label for="cache_friendly_n" class="x_inline"><input type="radio" name="cache_friendly" id="cache_friendly_n" value="N" checked="checked"|cond="$cache_friendly!='Y'" /> {$lang->cmd_no}</label>
+				<label for="delay_session_y" class="x_inline"><input type="radio" name="delay_session" id="delay_session_y" value="Y" checked="checked"|cond="$delay_session=='Y'" /> {$lang->cmd_yes}</label>
+				<label for="delay_session_n" class="x_inline"><input type="radio" name="delay_session" id="delay_session_n" value="N" checked="checked"|cond="$delay_session!='Y'" /> {$lang->cmd_no}</label>
 				<br />
-				<p class="x_help-block">{$lang->about_cache_friendly}</p>
+				<p class="x_help-block">{$lang->about_delay_session}</p>
+			</div>
+		</div>
+		<div class="x_control-group">
+			<label class="x_control-label">{$lang->minify_scripts}</label>
+			<div class="x_controls">
+				<label for="minify_scripts_none" class="x_inline"><input type="radio" name="minify_scripts" id="minify_scripts_none" value="none" checked="checked"|cond="$minify_scripts=='none'" /> {$lang->cmd_minify_none}</label>
+				<label for="minify_scripts_common" class="x_inline"><input type="radio" name="minify_scripts" id="minify_scripts_common" value="common" checked="checked"|cond="$minify_scripts!='all' && $minify_scripts!='none'" /> {$lang->cmd_minify_common}</label>
+				<label for="minify_scripts_all" class="x_inline"><input type="radio" name="minify_scripts" id="minify_scripts_all" value="all" checked="checked"|cond="$minify_scripts=='all'" /> {$lang->cmd_minify_all}</label>
+				<br />
+				<p class="x_help-block">{$lang->about_minify_scripts}</p>
 			</div>
 		</div>
 		<div class="x_clearfix btnArea">
@@ -251,7 +261,7 @@
 		<input type="hidden" name="xe_validator_id" value="modules/admin/tpl/config_general/1" />
 
 		<div class="x_control-group">
-			<label class="x_control-label">{$lang->use_sitelock} <a class="x_icon-question-sign" href="./admin/help/index.html#UMAN_config_general_sitelock" target="_blank">{$lang->help}</a></label>
+			<label class="x_control-label">{$lang->use_sitelock} <a class="x_icon-question-sign" href="./common/manual/admin/#UMAN_config_general_sitelock" target="_blank">{$lang->help}</a></label>
 			<div class="x_controls">
 				<label for="use_sitelock_y" class="x_inline"><input type="radio" name="use_sitelock" id="use_sitelock_y" value="Y" checked="checked"|cond="$use_sitelock=='Y'" /> {$lang->cmd_yes}</label>
 				<label for="use_sitelock_n" class="x_inline"><input type="radio" name="use_sitelock" id="use_sitelock_n" value="N" checked="checked"|cond="$use_sitelock!='Y'" /> {$lang->cmd_no}</label>
@@ -259,7 +269,7 @@
 		</div>
 
 		<div class="x_control-group">
-			<label class="x_control-label" for="sitelock_whitelist">{$lang->sitelock_whitelist} <a class="x_icon-question-sign" href="./admin/help/index.html#UMAN_config_general_sitelock_whitelist" target="_blank">{$lang->help}</a></label>
+			<label class="x_control-label" for="sitelock_whitelist">{$lang->sitelock_whitelist} <a class="x_icon-question-sign" href="./common/manual/admin/#UMAN_config_general_sitelock_whitelist" target="_blank">{$lang->help}</a></label>
 			<div class="x_controls">
 				<textarea name="sitelock_whitelist" id="sitelock_whitelist" rows="4" cols="42" placeholder="{$IP}({$lang->local_ip_address})" style="margin-right:10px">{$sitelock_whitelist}</textarea>
 				<span class="x_help-block">{$lang->sitelock_warning_whitelist}</span>

@@ -12,18 +12,16 @@ matrix:
   fast_finish: true
 sudo: false
 before_script:
-- npm install -g grunt-cli
-- npm install
-- mysql -e "CREATE DATABASE xe_test;"
-- echo "USE mysql;\nUPDATE user SET password=PASSWORD('travis') WHERE user='travis';\nFLUSH PRIVILEGES;\n" | mysql -u root
+- npm install grunt grunt-cli grunt-contrib-jshint grunt-contrib-csslint grunt-phplint --save-dev
+- mysql -u root -e "CREATE DATABASE rhymix"
+- mysql -u root -e "SET PASSWORD FOR 'travis'@'localhost' = PASSWORD('travis')"
 - php -S localhost:8000 &
 - if [ $(phpenv version-name) == "5.3" ]; then touch codecept.phar; fi
 - if [ $(phpenv version-name) == "5.4" ]; then wget http://codeception.com/releases/2.0.16/codecept.phar; fi
 - if [ ! -f codecept.phar ]; then wget http://codeception.com/codecept.phar; fi
 script:
-- grunt lint
-- grunt minify
 - if [ -f codecept.phar ]; then php codecept.phar build; fi
 - if [ -f codecept.phar ]; then php codecept.phar run -d --fail-fast --env travis; fi
+- grunt lint
 notifications:
   email: false

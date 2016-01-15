@@ -15,26 +15,6 @@ require_once('DBMysql.class.php');
  */
 class DBMysqli extends DBMysql
 {
-
-	/**
-	 * Constructor
-	 * @return void
-	 */
-	function __construct()
-	{
-		$this->_setDBInfo();
-		$this->_connect();
-	}
-
-	/**
-	 * Create an instance of this class
-	 * @return DBMysqli return DBMysqli object instance
-	 */
-	function create()
-	{
-		return new DBMysqli;
-	}
-
 	/**
 	 * DB Connect
 	 * this method is private
@@ -65,7 +45,8 @@ class DBMysqli extends DBMysql
 			$this->setError($error, mysqli_connect_error());
 			return;
 		}
-		mysqli_set_charset($result, 'utf8');
+		$this->charset = isset($connection["db_charset"]) ? $connection["db_charset"] : 'utf8';
+		mysqli_set_charset($result, $this->charset);
 		return $result;
 	}
 

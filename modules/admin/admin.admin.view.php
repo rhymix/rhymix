@@ -71,7 +71,8 @@ class adminAdminView extends admin
 		Context::set('use_html5', $db_info->use_html5 == 'Y' ? 'Y' : 'N');
 		Context::set('use_spaceremover', $db_info->use_spaceremover ? $db_info->use_spaceremover : 'Y'); //not use
 		Context::set('qmail_compatibility', $db_info->qmail_compatibility == 'Y' ? 'Y' : 'N');
-		Context::set('cache_friendly', $db_info->cache_friendly == 'Y' ? 'Y' : 'N');
+		Context::set('minify_scripts', $db_info->minify_scripts ?: 'common');
+		Context::set('delay_session', $db_info->delay_session == 'Y' ? 'Y' : 'N');
 		Context::set('use_db_session', $db_info->use_db_session == 'N' ? 'N' : 'Y');
 		Context::set('use_mobile_view', $db_info->use_mobile_view == 'Y' ? 'Y' : 'N');
 		Context::set('use_ssl', $db_info->use_ssl ? $db_info->use_ssl : "none");
@@ -197,8 +198,8 @@ class adminAdminView extends admin
 		// Admin logo, title setup
 		$objConfig = $oModuleModel->getModuleConfig('admin');
 		$gnbTitleInfo = new stdClass();
-		$gnbTitleInfo->adminTitle = $objConfig->adminTitle ? $objConfig->adminTitle : 'XE Admin';
-		$gnbTitleInfo->adminLogo = $objConfig->adminLogo ? $objConfig->adminLogo : 'modules/admin/tpl/img/xe.h1.png';
+		$gnbTitleInfo->adminTitle = $objConfig->adminTitle ? $objConfig->adminTitle : 'RhymiX Admin';
+		$gnbTitleInfo->adminLogo = $objConfig->adminLogo ? $objConfig->adminLogo : '';
 
 		$browserTitle = ($subMenuTitle ? $subMenuTitle : 'Dashboard') . ' - ' . $gnbTitleInfo->adminTitle;
 
@@ -209,6 +210,7 @@ class adminAdminView extends admin
 
 		// Retrieve recent news and set them into context,
 		// move from index method, because use in admin footer
+		/*
 		$newest_news_url = sprintf("http://news.xpressengine.com/%s/news.php?version=%s&package=%s", _XE_LOCATION_, __XE_VERSION__, _XE_PACKAGE_);
 		$cache_file = sprintf("%sfiles/cache/newest_news.%s.cache.php", _XE_PATH_, _XE_LOCATION_);
 		if(!file_exists($cache_file) || filemtime($cache_file) + 60 * 60 < $_SERVER['REQUEST_TIME'])
@@ -241,14 +243,11 @@ class adminAdminView extends admin
 					$news[] = $obj;
 				}
 				Context::set('news', $news);
-				if(isset($news) && is_array($news))
-				{
-					Context::set('latestVersion', array_shift($news));
-				}
 			}
 			Context::set('released_version', $buff->zbxe_news->attrs->released_version);
 			Context::set('download_link', $buff->zbxe_news->attrs->download_link);
 		}
+		*/
 
 		Context::set('subMenuTitle', $subMenuTitle);
 		Context::set('gnbUrlList', $menu->list);
@@ -339,7 +338,7 @@ class adminAdminView extends admin
 		{
 			foreach($needUpdateList AS $key => $value)
 			{
-				$helpUrl = './admin/help/index.html#';
+				$helpUrl = './common/manual/admin/#';
 				switch($value->type)
 				{
 					case 'addon':
@@ -460,7 +459,6 @@ class adminAdminView extends admin
 		Context::set('htmlFooter', htmlspecialchars($config->htmlFooter));
 
 		// embed filter
-		require_once(_XE_PATH_ . 'classes/security/EmbedFilter.class.php');
 		$oEmbedFilter = EmbedFilter::getInstance();
 		context::set('embed_white_object', implode(PHP_EOL, $oEmbedFilter->whiteUrlList));
 		context::set('embed_white_iframe', implode(PHP_EOL, $oEmbedFilter->whiteIframeUrlList));
