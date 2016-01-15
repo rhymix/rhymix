@@ -900,26 +900,30 @@ class documentController extends document
 		// Pass if read count is increaded on the session information
 		if($_SESSION['readed_document'][$document_srl]) return false;
 
-		// Pass if the author's IP address is as same as visitor's.
-		if($oDocument->get('ipaddress') == $_SERVER['REMOTE_ADDR'] && Context::getSessionStatus())
+		$oDocumentModel = getModel('document');
+		$config = $oDocumentModel->getDocumentConfig();
+		if($config->updatecount != 'yes')
 		{
-			$_SESSION['readed_document'][$document_srl] = true;
-			return false;
+			// Pass if the author's IP address is as same as visitor's.
+			if($oDocument->get('ipaddress') == $_SERVER['REMOTE_ADDR'] && Context::getSessionStatus())
+			{
+				$_SESSION['readed_document'][$document_srl] = true;
+				return false;
+			}
+			// Pass ater registering sesscion if the author is a member and has same information as the currently logged-in user.
+			if($member_srl && $logged_info->member_srl == $member_srl)
+			{
+				$_SESSION['readed_document'][$document_srl] = true;
+				return false;
+			}
 		}
-		// Pass ater registering sesscion if the author is a member and has same information as the currently logged-in user.
-		if($member_srl && $logged_info->member_srl == $member_srl)
-		{
-			$_SESSION['readed_document'][$document_srl] = true;
-			return false;
-		}
-
 		$oDB = DB::getInstance();
 		$oDB->begin();
 
 		// Update read counts
 		$args = new stdClass;
 		$args->document_srl = $document_srl;
-		$output = executeQuery('document.updateReadedCount', $args);
+		executeQuery('document.updateReadedCount', $args);
 
 		// Call a trigger when the read count is updated (after)
 		$trigger_output = ModuleHandler::triggerCall('document.updateReadedCount', 'after', $oDocument);

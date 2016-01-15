@@ -1,9 +1,16 @@
 <load target="js/document_admin.js" />
-<h1>{$lang->document} {$lang->cmd_management}</h1>
-<p>
-	<a href="{getUrl('act','dispDocumentAdminList')}" class="active"|cond="$act=='dispDocumentAdminList'">{$lang->document_list}</a>
-	<i>|</i>
-	<a href="{getUrl('act','dispDocumentAdminConfig')}" class="active"|cond="$act=='dispDocumentAdminConfig'">{$lang->cmd_module_config}</a>
-	<i>|</i>
-	<a href="{getUrl('act','dispDocumentAdminDeclared')}" class="active"|cond="$act=='dispDocumentAdminDeclared'">{$lang->cmd_declared_list}</a>
-</p>
+
+<div class="x_page-header">
+	<h1>{$lang->document} <a class="x_icon-question-sign" href="./common/manual/admin/#UMAN_content_document" target="_blank">{$lang->help}</a></h1>
+</div>
+<ul class="x_nav x_nav-tabs">
+	<li class="x_active"|cond="$act == 'dispDocumentAdminList'">
+		<a href="{getUrl('', 'module', 'admin', 'act', 'dispDocumentAdminList')}">{$lang->document_list}</a>
+	</li>
+	<li class="x_active"|cond="$act == 'dispDocumentAdminConfig'">
+		<a href="{getUrl('', 'module', 'admin', 'act', 'dispDocumentAdminConfig')}">{$lang->cmd_module_config}</a>
+	</li>
+	<li class="x_active"|cond="$act == 'dispDocumentAdminDeclared'">
+		<a href="{getUrl('', 'module', 'admin', 'act', 'dispDocumentAdminDeclared')}">{$lang->cmd_declared_list}</a>
+	</li>
+</ul>

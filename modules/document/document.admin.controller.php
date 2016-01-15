@@ -485,7 +485,9 @@ class documentAdminController extends document
 	function procDocumentAdminInsertConfig()
 	{
 		// Get the basic information
-		$config = Context::gets('thumbnail_type');
+		$config = new stdClass();
+		$config->thumbnail_type = Context::get('thumbnail_type');
+		$config->updateCount = Context::get('updatecount');
 		// Insert by creating the module Controller object
 		$oModuleController = getController('module');
 		$output = $oModuleController->insertModuleConfig('document',$config);

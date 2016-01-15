@@ -1,21 +1,26 @@
-<!--#include("header.html")-->
+<include target="header.html" />
 
-<form action="./" method="post">
+<form action="./" method="post" class="x_form-horizontal" method="post">
 	<input type="hidden" name="module" value="document" />
 	<input type="hidden" name="act" value="procDocumentAdminInsertConfig" />
-	<table class="x_table x_table-striped x_table-hover">
-		<tr>
-			<th scope="col">{$lang->thumbnail_type}</th>
-		</tr>
-		<tr>
-			<td>
-				<input type="radio" name="thumbnail_type" value="crop" <!--@if($config->thumbnail_type != 'ratio')-->checked="checked"<!--@end-->/> {$lang->thumbnail_crop} <br />
-				<input type="radio" name="thumbnail_type" value="ratio" <!--@if($config->thumbnail_type == 'ratio')-->checked="checked"<!--@end-->/> {$lang->thumbnail_ratio}
-			</td>
-		</tr>
-	</table>
-    <div class="btnArea">
-		<input class="btn" type="submit" value="{$lang->cmd_registration}" />
-		<input class="btn" type="button" value="{$lang->cmd_delete_all_thumbnail}" onclick="doDeleteAllThumbnail()"/>
+	<input type="hidden" name="xe_validator_id" value="modules/member/tpl/1" />
+	<div class="x_control-group">
+		<div class="x_control-label">{$lang->thumbnail_type}</div>
+		<div class="x_controls">
+			<label class="x_inline" for="thumbnail_type_crop"><input type="radio" name="thumbnail_type" id="thumbnail_type_crop" value="Y" checked="checked"|cond="$config->thumbnail_type == 'crop'" /> {$lang->thumbnail_crop}</label>
+			<label class="x_inline" for="thumbnail_type_ratio"><input type="radio" name="thumbnail_type" id="thumbnail_type_ratio" value="N" checked="checked"|cond="$config->thumbnail_type == 'ratio'" /> {$lang->thumbnail_ratio}</label>
+		</div>
+	</div>
+	<div class="x_control-group">
+		<div class="x_control-label">{$lang->read_update_count}</div>
+		<div class="x_controls">
+			<label class="x_inline" for="updatecount_yes"><input type="radio" name="updatecount" id="updatecount_yes" value="Y" checked="checked"|cond="$config->updatecount == 'yes'" /> {$lang->cmd_yes}</label>
+			<label class="x_inline" for="updatecount_no"><input type="radio" name="updatecount" id="updatecount_no" value="N" checked="checked"|cond="$config->updatecount != 'yes'" /> {$lang->cmd_no}</label>
+		</div>
+	</div>
+	<div class="btnArea x_clearfix">
+		<span class="x_pull-right" style="margin-left:10px;"><input class="btn" type="button" value="{$lang->cmd_delete_all_thumbnail}" onclick="doDeleteAllThumbnail()"/></span>
+		<span class="x_pull-right"><input class="x_btn x_btn-primary" type="submit" value="{$lang->cmd_save}" /></span>
 	</div>
 </form>
+

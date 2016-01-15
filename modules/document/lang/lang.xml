@@ -23,6 +23,17 @@
 		<value xml:lang="tr"><![CDATA[Küçük Resim Türü]]></value>
 		<value xml:lang="vi"><![CDATA[Định dạng hình nhỏ]]></value>
 	</item>
+	<item name="read_update_count">
+		<value xml:lang="ko"><![CDATA[조회수 설정]]></value>
+		<value xml:lang="en"></value>
+		<value xml:lang="jp"></value>
+		<value xml:lang="zh-CN"></value>
+		<value xml:lang="zh-TW"></value>
+		<value xml:lang="fr"></value>
+		<value xml:lang="ru"></value>
+		<value xml:lang="tr"></value>
+		<value xml:lang="vi"></value>
+	</item>
 	<item name="thumbnail_crop">
 		<value xml:lang="ko"><![CDATA[잘라내기 (정해진 크기에 꽉 찬 모습의 썸네일을 만듭니다.)]]></value>
 		<value xml:lang="en"><![CDATA[Crop (to a specific size)]]></value>
