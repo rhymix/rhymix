@@ -509,6 +509,10 @@ class menuAdminModel extends menu
 				ksort($menu->list);
 				$menu->list = array_values($menu->list);
 			}
+			else
+			{
+				$menu->list = array();
+			}
 
 			// menu recreate
 			if($isMenuFixed)
@@ -551,6 +555,10 @@ class menuAdminModel extends menu
 							}
 							ksort($menu->list);
 							$menu->list = array_values($menu->list);
+						}
+						else
+						{
+							$menu->list = array();
 						}
 
 						// menu recreate
@@ -699,6 +707,10 @@ class menuAdminModel extends menu
 			}
 			ksort($menu['list']);
 			$menu['list'] = array_values($menu['list']);
+		}
+		else
+		{
+			$menu['list'] = array();
 		}
 	}
 }
