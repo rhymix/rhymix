@@ -21,20 +21,10 @@ class FrontEndFileHandlerTest extends \Codeception\TestCase\Test
 
 		$this->specify("js(head)", function() use($db_info) {
 			$handler = new FrontEndFileHandler();
-			$handler->loadFile(array('./common/js/jquery.js'));
 			$handler->loadFile(array('./common/js/js_app.js', 'head'));
 			$handler->loadFile(array('./common/js/common.js', 'body'));
 			$handler->loadFile(array('./common/js/common.js', 'head'));
 			$handler->loadFile(array('./common/js/xml_js_filter.js', 'body'));
-
-			if($db_info->minify_scripts === 'none')
-			{
-				$expected[] = array('file' => '/xe/common/js/jquery.js' . $this->_filemtime('common/js/jquery.js'), 'targetie' => null);
-			}
-			else
-			{
-				$expected[] = array('file' => '/xe/common/js/jquery.min.js' . $this->_filemtime('common/js/jquery.min.js'), 'targetie' => null);
-			}
 			$expected[] = array('file' => '/xe/common/js/js_app.js' . $this->_filemtime('common/js/js_app.js'), 'targetie' => null);
 			$expected[] = array('file' => '/xe/common/js/common.js' . $this->_filemtime('common/js/common.js'), 'targetie' => null);
 			$this->assertEquals($handler->getJsFileList(), $expected);
@@ -42,17 +32,7 @@ class FrontEndFileHandlerTest extends \Codeception\TestCase\Test
 
 		$this->specify("js(body)", function() use($db_info) {
 			$handler = new FrontEndFileHandler();
-			$handler->loadFile(array('./common/js/jquery.js', 'body'));
 			$handler->loadFile(array('./common/js/xml_js_filter.js', 'head'));
-
-			if($db_info->minify_scripts === 'none')
-			{
-				$expected[] = array('file' => '/xe/common/js/jquery.js' . $this->_filemtime('common/js/jquery.js'), 'targetie' => null);
-			}
-			else
-			{
-				$expected[] = array('file' => '/xe/common/js/jquery.min.js' . $this->_filemtime('common/js/jquery.min.js'), 'targetie' => null);
-			}
 			$this->assertEquals($handler->getJsFileList('body'), $expected);
 		});
 
@@ -67,25 +47,14 @@ class FrontEndFileHandlerTest extends \Codeception\TestCase\Test
 
 		$this->specify("order (duplicate)", function() use($db_info) {
 			$handler = new FrontEndFileHandler();
-			$handler->loadFile(array('./common/js/jquery.js', 'head', '', -100000));
 			$handler->loadFile(array('./common/js/js_app.js', 'head', '', -100000));
 			$handler->loadFile(array('./common/js/common.js', 'head', '', -100000));
 			$handler->loadFile(array('./common/js/xml_handler.js', 'head', '', -100000));
 			$handler->loadFile(array('./common/js/xml_js_filter.js', 'head', '', -100000));
-			$handler->loadFile(array('./common/js/jquery.js', 'head', '', -100000));
 			$handler->loadFile(array('./common/js/js_app.js', 'head', '', -100000));
 			$handler->loadFile(array('./common/js/common.js', 'head', '', -100000));
 			$handler->loadFile(array('./common/js/xml_handler.js', 'head', '', -100000));
 			$handler->loadFile(array('./common/js/xml_js_filter.js', 'head', '', -100000));
-
-			if($db_info->minify_scripts === 'none')
-			{
-				$expected[] = array('file' => '/xe/common/js/jquery.js' . $this->_filemtime('common/js/jquery.js'), 'targetie' => null);
-			}
-			else
-			{
-				$expected[] = array('file' => '/xe/common/js/jquery.min.js' . $this->_filemtime('common/js/jquery.min.js'), 'targetie' => null);
-			}
 			$expected[] = array('file' => '/xe/common/js/js_app.js' . $this->_filemtime('common/js/js_app.js'), 'targetie' => null);
 			$expected[] = array('file' => '/xe/common/js/common.js' . $this->_filemtime('common/js/common.js'), 'targetie' => null);
 			$expected[] = array('file' => '/xe/common/js/xml_handler.js' . $this->_filemtime('common/js/xml_handler.js'), 'targetie' => null);
@@ -96,19 +65,9 @@ class FrontEndFileHandlerTest extends \Codeception\TestCase\Test
 		$this->specify("order (redefine)", function() use($db_info) {
 			$handler = new FrontEndFileHandler();
 			$handler->loadFile(array('./common/js/xml_handler.js', 'head', '', 1));
-			$handler->loadFile(array('./common/js/jquery.js', 'head', '', -100000));
 			$handler->loadFile(array('./common/js/js_app.js', 'head', '', -100000));
 			$handler->loadFile(array('./common/js/common.js', 'head', '', -100000));
 			$handler->loadFile(array('./common/js/xml_js_filter.js', 'head', '', -100000));
-
-			if($db_info->minify_scripts === 'none')
-			{
-				$expected[] = array('file' => '/xe/common/js/jquery.js' . $this->_filemtime('common/js/jquery.js'), 'targetie' => null);
-			}
-			else
-			{
-				$expected[] = array('file' => '/xe/common/js/jquery.min.js' . $this->_filemtime('common/js/jquery.min.js'), 'targetie' => null);
-			}
 			$expected[] = array('file' => '/xe/common/js/js_app.js' . $this->_filemtime('common/js/js_app.js'), 'targetie' => null);
 			$expected[] = array('file' => '/xe/common/js/common.js' . $this->_filemtime('common/js/common.js'), 'targetie' => null);
 			$expected[] = array('file' => '/xe/common/js/xml_js_filter.js' . $this->_filemtime('common/js/xml_js_filter.js'), 'targetie' => null);
@@ -118,14 +77,11 @@ class FrontEndFileHandlerTest extends \Codeception\TestCase\Test
 
 		$this->specify("unload", function() use($db_info) {
 			$handler = new FrontEndFileHandler();
-			$handler->loadFile(array('./common/js/jquery.js', 'head', '', -100000));
 			$handler->loadFile(array('./common/js/js_app.js', 'head', '', -100000));
 			$handler->loadFile(array('./common/js/common.js', 'head', '', -100000));
 			$handler->loadFile(array('./common/js/xml_handler.js', 'head', '', -100000));
 			$handler->loadFile(array('./common/js/xml_js_filter.js', 'head', '', -100000));
-			$handler->unloadFile('./common/js/jquery.js', '', 'all');
-
-			$expected[] = array('file' => '/xe/common/js/js_app.js' . $this->_filemtime('common/js/js_app.js'), 'targetie' => null);
+			$handler->unloadFile('./common/js/js_app.js', '', 'all');
 			$expected[] = array('file' => '/xe/common/js/common.js' . $this->_filemtime('common/js/common.js'), 'targetie' => null);
 			$expected[] = array('file' => '/xe/common/js/xml_handler.js' . $this->_filemtime('common/js/xml_handler.js'), 'targetie' => null);
 			$expected[] = array('file' => '/xe/common/js/xml_js_filter.js' . $this->_filemtime('common/js/xml_js_filter.js'), 'targetie' => null);
@@ -134,22 +90,12 @@ class FrontEndFileHandlerTest extends \Codeception\TestCase\Test
 
 		$this->specify("target IE(js)", function() use($db_info) {
 			$handler = new FrontEndFileHandler();
-			$handler->loadFile(array('./common/js/jquery.js', 'head', 'ie6'));
-			$handler->loadFile(array('./common/js/jquery.js', 'head', 'ie7'));
-			$handler->loadFile(array('./common/js/jquery.js', 'head', 'ie8'));
-
-			if($db_info->minify_scripts === 'none')
-			{
-				$expected[] = array('file' => '/xe/common/js/jquery.js' . $this->_filemtime('common/js/jquery.js'), 'targetie' => 'ie6');
-				$expected[] = array('file' => '/xe/common/js/jquery.js' . $this->_filemtime('common/js/jquery.js'), 'targetie' => 'ie7');
-				$expected[] = array('file' => '/xe/common/js/jquery.js' . $this->_filemtime('common/js/jquery.js'), 'targetie' => 'ie8');
-			}
-			else
-			{
-				$expected[] = array('file' => '/xe/common/js/jquery.min.js' . $this->_filemtime('common/js/jquery.min.js'), 'targetie' => 'ie6');
-				$expected[] = array('file' => '/xe/common/js/jquery.min.js' . $this->_filemtime('common/js/jquery.min.js'), 'targetie' => 'ie7');
-				$expected[] = array('file' => '/xe/common/js/jquery.min.js' . $this->_filemtime('common/js/jquery.min.js'), 'targetie' => 'ie8');
-			}
+			$handler->loadFile(array('./common/js/js_app.js', 'head', 'ie6'));
+			$handler->loadFile(array('./common/js/js_app.js', 'head', 'ie7'));
+			$handler->loadFile(array('./common/js/js_app.js', 'head', 'ie8'));
+			$expected[] = array('file' => '/xe/common/js/js_app.js' . $this->_filemtime('common/js/js_app.js'), 'targetie' => 'ie6');
+			$expected[] = array('file' => '/xe/common/js/js_app.js' . $this->_filemtime('common/js/js_app.js'), 'targetie' => 'ie7');
+			$expected[] = array('file' => '/xe/common/js/js_app.js' . $this->_filemtime('common/js/js_app.js'), 'targetie' => 'ie8');
 			$this->assertEquals($handler->getJsFileList(), $expected);
 		});
 
