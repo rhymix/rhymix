@@ -4,9 +4,6 @@
  * @brief 몇가지 유용한 & 기본적으로 자주 사용되는 자바스크립트 함수들 모음
  **/
 
-/* jQuery 참조변수($) 제거 */
-if(jQuery) jQuery.noConflict();
-
 (function($) {
 	/* OS check */
 	var UA = navigator.userAgent.toLowerCase();
