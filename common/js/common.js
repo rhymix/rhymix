@@ -4,9 +4,6 @@
  * @brief 몇가지 유용한 & 기본적으로 자주 사용되는 자바스크립트 함수들 모음
  **/
 
-/* jQuery 참조변수($) 제거 */
-if(jQuery) jQuery.noConflict();
-
 (function($) {
 	/* OS check */
 	var UA = navigator.userAgent.toLowerCase();
@@ -445,7 +442,7 @@ function _displayMultimedia(src, width, height, options) {
 		}
 		html += '' + '<embed src="'+src+'" allowscriptaccess="never" autostart="'+autostart+'"  width="'+width+'" height="'+height+'" flashvars="'+params.flashvars+'" wmode="'+params.wmode+'"></embed>' + '</object>';
 	}  else {
-		if (jQuery.browser.mozilla || jQuery.browser.opera) {
+		if (navigator.userAgent.match(/(firefox|opera)/i)) {
 			// firefox and opera uses 0 or 1 for autostart parameter.
 			autostart = (params.autostart && params.autostart != 'false') ? '1' : '0';
 		}
