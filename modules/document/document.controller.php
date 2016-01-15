@@ -902,7 +902,7 @@ class documentController extends document
 
 		$oDocumentModel = getModel('document');
 		$config = $oDocumentModel->getDocumentConfig();
-		if($config->updatecount != 'yes')
+		if($config->updatecount == 'Y')
 		{
 			// Pass if the author's IP address is as same as visitor's.
 			if($oDocument->get('ipaddress') == $_SERVER['REMOTE_ADDR'] && Context::getSessionStatus())

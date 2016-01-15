@@ -7,15 +7,15 @@
 	<div class="x_control-group">
 		<div class="x_control-label">{$lang->thumbnail_type}</div>
 		<div class="x_controls">
-			<label class="x_inline" for="thumbnail_type_crop"><input type="radio" name="thumbnail_type" id="thumbnail_type_crop" value="Y" checked="checked"|cond="$config->thumbnail_type == 'crop'" /> {$lang->thumbnail_crop}</label>
-			<label class="x_inline" for="thumbnail_type_ratio"><input type="radio" name="thumbnail_type" id="thumbnail_type_ratio" value="N" checked="checked"|cond="$config->thumbnail_type == 'ratio'" /> {$lang->thumbnail_ratio}</label>
+			<label class="x_inline" for="thumbnail_type_crop"><input type="radio" name="thumbnail_type" id="thumbnail_type_crop" value="crop" checked="checked"|cond="$config->thumbnail_type == 'crop'" /> {$lang->thumbnail_crop}</label>
+			<label class="x_inline" for="thumbnail_type_ratio"><input type="radio" name="thumbnail_type" id="thumbnail_type_ratio" value="ratio" checked="checked"|cond="$config->thumbnail_type == 'ratio'" /> {$lang->thumbnail_ratio}</label>
 		</div>
 	</div>
 	<div class="x_control-group">
 		<div class="x_control-label">{$lang->read_update_count}</div>
 		<div class="x_controls">
-			<label class="x_inline" for="updatecount_yes"><input type="radio" name="updatecount" id="updatecount_yes" value="Y" checked="checked"|cond="$config->updatecount == 'yes'" /> {$lang->cmd_yes}</label>
-			<label class="x_inline" for="updatecount_no"><input type="radio" name="updatecount" id="updatecount_no" value="N" checked="checked"|cond="$config->updatecount != 'yes'" /> {$lang->cmd_no}</label>
+			<label class="x_inline" for="updatecount_yes"><input type="radio" name="updatecount" id="updatecount_yes" value="Y" checked="checked"|cond="$config->updatecount == 'Y'" /> {$lang->cmd_yes}</label>
+			<label class="x_inline" for="updatecount_no"><input type="radio" name="updatecount" id="updatecount_no" value="N" checked="checked"|cond="$config->updatecount != 'Y'" /> {$lang->cmd_no}</label>
 			<p>{$lang->about_read_update_count}</p>
 		</div>
 	</div>
