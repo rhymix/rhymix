@@ -132,6 +132,7 @@ define('_XE_DOWNLOAD_SERVER_', 'https://download.xpressengine.com/');
 /**
  * XE debug compatibility constants (not used in Rhymix).
  */
+/*
 define('__DEBUG__', 0);
 define('__DEBUG_OUTPUT__', 0);
 define('__DEBUG_PROTECT__', 1);
@@ -144,6 +145,7 @@ define('__LOG_SLOW_WIDGET__', 0);
 define('__OB_GZHANDLER_ENABLE__', 0);
 define('__ENABLE_PHPUNIT_TEST__', 0);
 define('__PROXY_SERVER__', null);
+*/
 
 /**
  * Other useful constants.
