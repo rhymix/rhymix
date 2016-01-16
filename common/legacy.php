@@ -1,15 +1,10 @@
 <?php
-/* Copyright (C) NAVER <http://www.navercorp.com> */
 
 /**
- * function library files for convenience
+ * Legacy function library for XE Compatibility
  *
- * @author NAVER (developers@xpressengine.com)
+ * Copyright (c) NAVER <http://www.navercorp.com>
  */
-if(!defined('__XE__'))
-{
-	exit();
-}
 
 // define an empty function to avoid errors when iconv function doesn't exist
 if(!function_exists('iconv'))
