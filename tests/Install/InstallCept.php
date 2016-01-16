@@ -22,7 +22,7 @@ foreach($dsn as $piece) {
     $dbinfo[$key] = $val;
 }
 
-if(\Filehandler::exists(_XE_PATH_ . 'config/install.config.php')) {
+if(file_exists(_XE_PATH_ . 'config/install.config.php')) {
     $I->deleteFile(_XE_PATH_ . 'config/install.config.php');
 }
 
