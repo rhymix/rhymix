@@ -1,5 +1,4 @@
 <?php
-require_once( _XE_PATH_.'config/func.inc.php');
 
 class FuncIncTest extends \Codeception\TestCase\Test
 {
