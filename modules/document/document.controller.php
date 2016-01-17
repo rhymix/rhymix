@@ -888,7 +888,9 @@ class documentController extends document
 	{
 		// Pass if Crawler access
 		if(isCrawler()) return false;
-		
+		$oDocumentModel = getModel('document');
+		$config = $oDocumentModel->getDocumentConfig();
+
 		$document_srl = $oDocument->document_srl;
 		$member_srl = $oDocument->get('member_srl');
 		$logged_info = Context::get('logged_info');
@@ -898,10 +900,8 @@ class documentController extends document
 		if(!$trigger_output->toBool()) return $trigger_output;
 
 		// Pass if read count is increaded on the session information
-		if($_SESSION['readed_document'][$document_srl]) return false;
+		if($_SESSION['readed_document'][$document_srl] && $config->session_read_config == 'Y') return false;
 
-		$oDocumentModel = getModel('document');
-		$config = $oDocumentModel->getDocumentConfig();
 		if($config->updatecount != 'Y')
 		{
 			// Pass if the author's IP address is as same as visitor's.
@@ -944,7 +944,7 @@ class documentController extends document
 		}
 
 		// Register session
-		if(!$_SESSION['banned_document'][$document_srl] && Context::getSessionStatus()) 
+		if(!$_SESSION['banned_document'][$document_srl] && Context::getSessionStatus())
 		{
 			$_SESSION['readed_document'][$document_srl] = true;
 		}

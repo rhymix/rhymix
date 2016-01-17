@@ -4,19 +4,20 @@
 	<input type="hidden" name="module" value="document" />
 	<input type="hidden" name="act" value="procDocumentAdminInsertConfig" />
 	<input type="hidden" name="xe_validator_id" value="modules/document/tpl/document_config/1" />
-	<div class="x_control-group">
-		<div class="x_control-label">{$lang->thumbnail_type}</div>
-		<div class="x_controls">
-			<label class="x_inline" for="thumbnail_type_crop"><input type="radio" name="thumbnail_type" id="thumbnail_type_crop" value="crop" checked="checked"|cond="$config->thumbnail_type == 'crop'" /> {$lang->thumbnail_crop}</label>
-			<label class="x_inline" for="thumbnail_type_ratio"><input type="radio" name="thumbnail_type" id="thumbnail_type_ratio" value="ratio" checked="checked"|cond="$config->thumbnail_type == 'ratio'" /> {$lang->thumbnail_ratio}</label>
-		</div>
-	</div>
+
 	<div class="x_control-group">
 		<div class="x_control-label">{$lang->read_update_count}</div>
 		<div class="x_controls">
 			<label class="x_inline" for="updatecount_yes"><input type="radio" name="updatecount" id="updatecount_yes" value="Y" checked="checked"|cond="$config->updatecount == 'Y'" /> {$lang->cmd_yes}</label>
 			<label class="x_inline" for="updatecount_no"><input type="radio" name="updatecount" id="updatecount_no" value="N" checked="checked"|cond="$config->updatecount != 'Y'" /> {$lang->cmd_no}</label>
 			<p>{$lang->about_read_update_count}</p>
+		</div>
+	</div>
+	<div class="x_control-group">
+		<div class="x_control-label">SESSION SETTING</div>
+		<div class="x_controls">
+			<label class="x_inline" for="session_read_yes"><input type="radio" name="session_read_config" id="session_read_yes" value="Y" checked="checked"|cond="$config->session_read_config == 'Y'" /> {$lang->cmd_yes}</label>
+			<label class="x_inline" for="session_read_no"><input type="radio" name="session_read_config" id="session_read_no" value="N" checked="checked"|cond="$config->session_read_config != 'Y'" /> {$lang->cmd_no}</label>
 		</div>
 	</div>
 	<div class="btnArea x_clearfix">
