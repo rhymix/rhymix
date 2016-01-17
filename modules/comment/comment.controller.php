@@ -357,6 +357,7 @@ class commentController extends comment
 		{
 			$obj->content = removeHackTag($obj->content);
 		}
+		$obj->content = utf8_mbencode($obj->content);
 
 		if(!$obj->notify_message)
 		{
@@ -777,6 +778,7 @@ class commentController extends comment
 		{
 			$obj->content = removeHackTag($obj->content);
 		}
+		$obj->content = utf8_mbencode($obj->content);
 
 		// begin transaction
 		$oDB = DB::getInstance();

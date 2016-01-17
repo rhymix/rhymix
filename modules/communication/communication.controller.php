@@ -132,7 +132,7 @@ class communicationController extends communication
 			$content = sprintf("%s<br /><br />From : <a href=\"%s\" target=\"_blank\">%s</a>", $content, $view_url, $view_url);
 			$oMail = new Mail();
 			$oMail->setTitle($title);
-			$oMail->setContent($content);
+			$oMail->setContent(utf8_mbencode(removeHackTag($content)));
 			$oMail->setSender($logged_info->nick_name, $logged_info->email_address);
 			$oMail->setReceiptor($receiver_member_info->nick_name, $receiver_member_info->email_address);
 			$oMail->send();
@@ -172,8 +172,11 @@ class communicationController extends communication
 	 */
 	function sendMessage($sender_srl, $receiver_srl, $title, $content, $sender_log = TRUE)
 	{
-		$content = removeHackTag($content);
+		// Encode the title and content.
 		$title = htmlspecialchars($title, ENT_COMPAT | ENT_HTML401, 'UTF-8', false);
+		$content = removeHackTag($content);
+		$title = utf8_mbencode($title);
+		$content = utf8_mbencode($content);
 
 		$message_srl = getNextSequence();
 		$related_srl = getNextSequence();

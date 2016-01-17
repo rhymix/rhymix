@@ -310,6 +310,10 @@ class documentController extends document
 		// An error appears if both log-in info and user name don't exist.
 		if(!$logged_info->member_srl && !$obj->nick_name) return new Object(-1,'msg_invalid_request');
 
+		// Fix encoding of non-BMP UTF-8 characters.
+		$obj->title = utf8_mbencode($obj->title);
+		$obj->content = utf8_mbencode($obj->content);
+
 		$obj->lang_code = Context::getLangType();
 		// Insert data into the DB
 		if(!$obj->status) $this->_checkDocumentStatusForOldVersion($obj);
@@ -551,6 +555,10 @@ class documentController extends document
 		}
 		// if temporary document, regdate is now setting
 		if($source_obj->get('status') == $this->getConfigStatus('temp')) $obj->regdate = date('YmdHis');
+
+		// Fix encoding of non-BMP UTF-8 characters.
+		$obj->title = utf8_mbencode($obj->title);
+		$obj->content = utf8_mbencode($obj->content);
 
 		// Insert data into the DB
 		$output = executeQuery('document.updateDocument', $obj);
