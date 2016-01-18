@@ -74,7 +74,7 @@ class boardView extends board
 		 * check the consultation function, if the user is admin then swich off consultation function
 		 * if the user is not logged, then disppear write document/write comment./ view document
 		 **/
-		if($this->module_info->consultation == 'Y' && !$this->grant->manager)
+		if($this->module_info->consultation == 'Y' && !$this->grant->manager && !$this->grant->consultation_read)
 		{
 			$this->consultation = TRUE;
 			if(!Context::get('is_logged'))
