@@ -6,23 +6,6 @@
  * Copyright (c) NAVER <http://www.navercorp.com>
  */
 
-// define an empty function to avoid errors when iconv function doesn't exist
-if(!function_exists('iconv'))
-{
-	function iconv($in_charset, $out_charset, $str)
-	{
-		if(function_exists('mb_convert_encoding'))
-		{
-			$out_charset = preg_replace('#//.+$#', '', $out_charset);
-			return mb_convert_encoding($str, $out_charset, $in_charset);
-		}
-		else
-		{
-			return $str;
-		}
-	}
-}
-
 /**
  * Time zone
  * @var array
@@ -1530,6 +1513,166 @@ function changeValueInUrl($key, $requestKey, $dbKey, $urlName = 'success_return_
 				Context::set($urlName, $successReturnUrl);
 			}
 		}
+	}
+}
+
+/**
+ * Polyfill for iconv()
+ */
+if(!function_exists('iconv'))
+{
+	function iconv($in_charset, $out_charset, $str)
+	{
+		if(function_exists('mb_convert_encoding'))
+		{
+			$out_charset = preg_replace('#//.+$#', '', $out_charset);
+			return mb_convert_encoding($str, $out_charset, $in_charset);
+		}
+		else
+		{
+			return $str;
+		}
+	}
+}
+
+/**
+ * Polyfill for iconv_strlen()
+ */
+if(!function_exists('iconv_strlen'))
+{
+	function iconv_strlen($str, $charset = null)
+	{
+		if(function_exists('mb_strlen'))
+		{
+			return mb_strlen($str, $charset);
+		}
+		else
+		{
+			return strlen($str);
+		}
+	}
+}
+
+/**
+ * Polyfill for iconv_strpos()
+ */
+if(!function_exists('iconv_strpos'))
+{
+	function iconv_strpos($haystack, $needle, $offset, $charset = null)
+	{
+		if(function_exists('mb_strpos'))
+		{
+			return mb_strpos($haystack, $needle, $offset, $charset);
+		}
+		else
+		{
+			return strpos($haystack, $needle, $offset);
+		}
+	}
+}
+
+/**
+ * Polyfill for iconv_substr()
+ */
+if(!function_exists('iconv_substr'))
+{
+	function iconv_substr($str, $offset, $length = null, $charset = null)
+	{
+		if(function_exists('mb_substr'))
+		{
+			return mb_substr($str, $offset, $length, $charset);
+		}
+		else
+		{
+			return $length ? substr($str, $offset, $length) : substr($str, $offset);
+		}
+	}
+}
+
+/**
+ * Polyfill for mb_strlen()
+ */
+if(!function_exists('mb_strlen'))
+{
+	function mb_strlen($str, $charset = null)
+	{
+		if(function_exists('iconv_strlen'))
+		{
+			return iconv_strlen($str, $charset);
+		}
+		else
+		{
+			return strlen($str);
+		}
+	}
+}
+
+/**
+ * Polyfill for mb_strpos()
+ */
+if(!function_exists('mb_strpos'))
+{
+	function mb_strpos($haystack, $needle, $offset, $charset = null)
+	{
+		if(function_exists('iconv_strpos'))
+		{
+			return iconv_strpos($haystack, $needle, $offset, $charset);
+		}
+		else
+		{
+			return strpos($haystack, $needle, $offset);
+		}
+	}
+}
+
+/**
+ * Polyfill for mb_substr()
+ */
+if(!function_exists('mb_substr'))
+{
+	function mb_substr($str, $offset, $length = null, $charset = null)
+	{
+		if(function_exists('iconv_substr'))
+		{
+			return iconv_substr($str, $offset, $length, $charset);
+		}
+		else
+		{
+			return $length ? substr($str, $offset, $length) : substr($str, $offset);
+		}
+	}
+}
+
+/**
+ * Polyfill for mb_substr_count()
+ */
+if(!function_exists('mb_substr_count'))
+{
+	function mb_substr_count($haystack, $needle, $charset = null)
+	{
+		return substr_count($haystack, $needle);
+	}
+}
+
+/**
+ * Polyfill for mb_strtoupper()
+ */
+if(!function_exists('mb_strtoupper'))
+{
+	function mb_strtoupper($str, $charset = null)
+	{
+		return strtoupper($str);
+	}
+}
+
+/**
+ * Polyfill for mb_strtolower()
+ */
+if(!function_exists('mb_strtolower'))
+{
+	function mb_strtolower($str, $charset = null)
+	{
+		return strtolower($str);
 	}
 }
 
