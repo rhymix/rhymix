@@ -99,7 +99,7 @@ function doFillWidgetVars() {
 
 	// 위젯 스타일 유지를 위한 hidden input 추가하고 값을 저장
 	var attrs = selected_node.attributes;
-	for (i=0; i< attrs.length ; i++){
+	for (var i = 0; i < attrs.length; i++){
 		var name = attrs[i].name;
 		var value = jQuery(selected_node).attr(name);
 		if(value=='Array') continue;

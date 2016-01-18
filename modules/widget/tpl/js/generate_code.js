@@ -92,7 +92,7 @@ function doFillWidgetVars() {
 	//  IE7에서 발생하는 jQuery 용 attribute를 걸러내기 위해 추가
 	var attrFilters = ['style', 'sizset', 'draggable', 'class'];
 
-	for(i = 0; i < attrs.length ; i++){
+	for(var i = 0; i < attrs.length ; i++){
 		var name = attrs[i].name;
 		var value = jQuery(selected_node).attr(name);
 
