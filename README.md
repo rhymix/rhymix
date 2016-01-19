@@ -54,10 +54,24 @@ devops@rhymix.org로 알려 주시면 감사하겠습니다.
 
 ### 저작권 및 라이선스
 
-RhymiX는 [XpressEngine](https://www.xpressengine.com)에 바탕을 두고 있습니다.
-XpressEngine의 저작권은 [NAVER](https://www.navercorp.com/)에게 있습니다.
+RhymiX는 [GNU GPL v2](http://korea.gnu.org/documents/copyleft/gpl.ko.html)
+또는 그 이후 버전 라이선스의 적용을 받는 자유 소프트웨어(free software)입니다.
+자유 소프트웨어는 "오픈소스" 또는 "개방형"이라는 명칭으로도 알려져 있으며,
+개발자와 사용자의 자유와 권리, 참여와 책임을 강조하는 프로그램으로
+누구나 무료로 사용할 수 있고 개발에 참여할 수도 있습니다.
 
+RhymiX는 [NAVER](https://www.navercorp.com/)가 저작권을 가진
+[XpressEngine](https://www.xpressengine.com)의 소스코드에 바탕을 두고 있습니다.
 RhymiX 개발자들이 추가 및 변경한 부분의 저작권은 해당 개발자들에게 있습니다.
 
-별도의 결정이 있을 때까지 라이선스는 XpressEngine과 동일한 LGPL 2.1을 유지하며,
-LGPL 2.1의 관련 조항에 따라 LGPL 3.0, GPL 2, GPL 3 등으로 전환하여 사용할 수도 있습니다.
+XpressEngine은 초창기에 GPL을 사용하다가 버전 1.4.0부터 LGPL로 전환했지만,
+RhymiX는 사용자의 권리를 더욱 보호하고 자유 소프트웨어 본연의 정신에 충실하기 위해 라이선스를 GPL로 되돌렸습니다.
+(라이선스 전환은 [LGPL v2.1 제3조](http://korea.gnu.org/people/chsong/copyleft/lgpl.ko.html#term3)에서 허용하고 있습니다.)
+
+GPL은 WordPress, Drupal, Joomla 등 세계적인 CMS들이 공통으로 채택하고 있는 라이선스이므로
+사용자 및 개발자의 권리와 의무도 이러한 CMS들의 경우와 동일합니다.
+
+홈페이지에 RhymiX를 사용하는 것만으로 소스코드를 공개할 의무가 발생하지는 않으며,
+RhymiX의 소스코드를 수정하거나 확장 기능을 직접 개발하여 사용하더라도 마찬가지입니다.
+그러나 직접 개발한 확장 기능을 제3자에게 배포 또는 판매할 경우에는 반드시 소스코드를 제공해야 하며,
+이러한 소스코드는 모두 GPL 라이선스의 적용을 받습니다.
