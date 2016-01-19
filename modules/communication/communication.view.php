@@ -206,7 +206,10 @@ class communicationView extends communication
 			$source_message = $oCommunicationModel->getSelectedMessage($message_srl);
 			if($source_message->message_srl == $message_srl && $source_message->sender_srl == $receiver_srl)
 			{
-				$source_message->title = "[re] " . $source_message->title;
+				if(strncasecmp('[re]', $source_message->title, 4) !== 0)
+				{
+					$source_message->title = '[re] ' . $source_message->title;
+				}
 				$source_message->content = "\r\n<br />\r\n<br /><div style=\"padding-left:5px; border-left:5px solid #DDDDDD;\">" . trim($source_message->content) . "</div>";
 				Context::set('source_message', $source_message);
 			}
