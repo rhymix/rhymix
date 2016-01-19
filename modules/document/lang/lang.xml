@@ -23,27 +23,20 @@
 		<value xml:lang="tr"><![CDATA[Küçük Resim Türü]]></value>
 		<value xml:lang="vi"><![CDATA[Định dạng hình nhỏ]]></value>
 	</item>
-	<item name="read_update_count">
+	<item name="view_count_option">
 		<value xml:lang="ko"><![CDATA[조회수 설정]]></value>
-		<value xml:lang="en"></value>
-		<value xml:lang="jp"></value>
-		<value xml:lang="zh-CN"></value>
-		<value xml:lang="zh-TW"></value>
-		<value xml:lang="fr"></value>
-		<value xml:lang="ru"></value>
-		<value xml:lang="tr"></value>
-		<value xml:lang="vi"></value>
 	</item>
-	<item name="session_config">
-		<value xml:lang="ko"><![CDATA[세션 조회수 증가설정]]></value>
-		<value xml:lang="en"></value>
-		<value xml:lang="jp"></value>
-		<value xml:lang="zh-CN"></value>
-		<value xml:lang="zh-TW"></value>
-		<value xml:lang="fr"></value>
-		<value xml:lang="ru"></value>
-		<value xml:lang="tr"></value>
-		<value xml:lang="vi"></value>
+	<item name="view_count_option_all">
+		<value xml:lang="ko"><![CDATA[모두 계산]]></value>
+	</item>
+	<item name="view_count_option_some">
+		<value xml:lang="ko"><![CDATA[일부 계산]]></value>
+	</item>
+	<item name="view_count_option_once">
+		<value xml:lang="ko"><![CDATA[중복 금지]]></value>
+	</item>
+	<item name="view_count_option_none">
+		<value xml:lang="ko"><![CDATA[계산 안함]]></value>
 	</item>
 	<item name="thumbnail_crop">
 		<value xml:lang="ko"><![CDATA[잘라내기 (정해진 크기에 꽉 찬 모습의 썸네일을 만듭니다.)]]></value>
@@ -205,8 +198,8 @@
 		<value xml:lang="tr"><![CDATA[Lütfen kategori ismi giriniz]]></value>
 		<value xml:lang="vi"><![CDATA[Hãy nhập tên thể loại]]></value>
 	</item>
-	<item name="about_read_update_count">
-		<value xml:lang="ko"><![CDATA[조회수설정을 '예'로 설정할 경우 중복된 모든 조회수가 모두 기록됩니다. 만일 같은회원의 대해서 중복조회수를 카운트하지 않기를 원하시면 아니오에 설정하시기 바랍니다.]]></value>
+	<item name="about_view_count_option">
+		<value xml:lang="ko"><![CDATA[조회수설정에 따라 중복 조회수 카운트를 할 수 있도록 도와줍니다. 각 옵션에 따라 조회수 기록하는 방식이 달라집니다.]]></value>
 	</item>
 	<item name="about_expand">
 		<value xml:lang="ko"><![CDATA[선택하면 늘 펼쳐진 상태로 있게 합니다.]]></value>

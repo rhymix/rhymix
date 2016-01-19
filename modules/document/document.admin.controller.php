@@ -486,8 +486,7 @@ class documentAdminController extends document
 	{
 		// Get the basic information
 		$config = new stdClass();
-		$config->session_read_config = Context::get('session_read_config');
-		$config->updatecount = Context::get('updatecount');
+		$config->view_count_option = Context::get('view_count_option');
 		// Insert by creating the module Controller object
 		$oModuleController = getController('module');
 		$output = $oModuleController->insertModuleConfig('document',$config);

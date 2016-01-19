@@ -916,7 +916,7 @@ class documentModel extends document
 			$config = $oModuleModel->getModuleConfig('document');
 
 			if(!$config) $config = new stdClass();
-			if(!$config->thumbnail_type) $config->thumbnail_type = 'crop';
+			if(!$config->view_count_option) $config->view_count_option = 'once';
 			$GLOBALS['__document_config__'] = $config;
 		}
 		return $GLOBALS['__document_config__'];

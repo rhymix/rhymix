@@ -891,6 +891,8 @@ class documentController extends document
 		$oDocumentModel = getModel('document');
 		$config = $oDocumentModel->getDocumentConfig();
 
+		if($config->view_count_option == 'none') return false;
+
 		$document_srl = $oDocument->document_srl;
 		$member_srl = $oDocument->get('member_srl');
 		$logged_info = Context::get('logged_info');
@@ -900,9 +902,19 @@ class documentController extends document
 		if(!$trigger_output->toBool()) return $trigger_output;
 
 		// Pass if read count is increaded on the session information
-		if($_SESSION['readed_document'][$document_srl] && $config->session_read_config == 'Y') return false;
+		if($_SESSION['readed_document'][$document_srl] && $config->view_count_option == 'once')
+		{
+			return false;
+		}
+		else if($config->view_count_option == 'some')
+		{
+			if($_SESSION['readed_document'][$document_srl])
+			{
+				return false;
+			}
+		}
 
-		if($config->updatecount != 'Y')
+		if($config->view_count_option == 'once')
 		{
 			// Pass if the author's IP address is as same as visitor's.
 			if($oDocument->get('ipaddress') == $_SERVER['REMOTE_ADDR'] && Context::getSessionStatus())
@@ -944,7 +956,7 @@ class documentController extends document
 		}
 
 		// Register session
-		if(!$_SESSION['banned_document'][$document_srl] && Context::getSessionStatus())
+		if(!$_SESSION['banned_document'][$document_srl] && Context::getSessionStatus()) 
 		{
 			$_SESSION['readed_document'][$document_srl] = true;
 		}

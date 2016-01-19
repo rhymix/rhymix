@@ -6,20 +6,20 @@
 	<input type="hidden" name="xe_validator_id" value="modules/document/tpl/document_config/1" />
 
 	<div class="x_control-group">
-		<div class="x_control-label">{$lang->read_update_count}</div>
-		<div class="x_controls">
-			<label class="x_inline" for="updatecount_yes"><input type="radio" name="updatecount" id="updatecount_yes" value="Y" checked="checked"|cond="$config->updatecount == 'Y'" /> {$lang->cmd_yes}</label>
-			<label class="x_inline" for="updatecount_no"><input type="radio" name="updatecount" id="updatecount_no" value="N" checked="checked"|cond="$config->updatecount != 'Y'" /> {$lang->cmd_no}</label>
-			<p>{$lang->about_read_update_count}</p>
+		<div class="x_control-group">
+			<label class="x_control-label">{$lang->view_count_option}</label>
+			<div class="x_controls">
+				<select name="view_count_option">
+					<option value="all" selected="selected"|cond="$config->view_count_option=='all'">{$lang->view_count_option_all}</option>
+					<option value="some" selected="selected"|cond="$config->view_count_option=='some'">{$lang->view_count_option_some}</option>
+					<option value="once" selected="selected"|cond="$config->view_count_option=='once'">{$lang->view_count_option_once}</option>
+					<option value="none" selected="selected"|cond="$config->view_count_option=='none'">{$lang->view_count_option_none}</option>
+				</select>
+				<p>{$lang->about_view_count_option}</p>
+			</div>
 		</div>
 	</div>
-	<div class="x_control-group">
-		<div class="x_control-label">SESSION SETTING</div>
-		<div class="x_controls">
-			<label class="x_inline" for="session_read_yes"><input type="radio" name="session_read_config" id="session_read_yes" value="Y" checked="checked"|cond="$config->session_read_config == 'Y'" /> {$lang->cmd_yes}</label>
-			<label class="x_inline" for="session_read_no"><input type="radio" name="session_read_config" id="session_read_no" value="N" checked="checked"|cond="$config->session_read_config != 'Y'" /> {$lang->cmd_no}</label>
-		</div>
-	</div>
+
 	<div class="btnArea x_clearfix">
 		<span class="x_pull-right" style="margin-left:10px;"><input class="btn" type="button" value="{$lang->cmd_delete_all_thumbnail}" onclick="doDeleteAllThumbnail()"/></span>
 		<span class="x_pull-right"><input class="x_btn x_btn-primary" type="submit" value="{$lang->cmd_save}" /></span>
