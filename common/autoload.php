@@ -31,7 +31,6 @@ if (function_exists('mb_regex_encoding'))
  * Load constants and common functions.
  */
 require_once __DIR__ . '/constants.php';
-require_once __DIR__ . '/defaults.php';
 require_once __DIR__ . '/functions.php';
 require_once __DIR__ . '/legacy.php';
 
@@ -42,6 +41,11 @@ if(file_exists(RX_BASEDIR . 'config/config.user.inc.php'))
 {
 	require_once RX_BASEDIR . 'config/config.user.inc.php';
 }
+
+/**
+ * Load legacy debug settings.
+ */
+require_once __DIR__ . '/debug.php';
 
 /**
  * Define the list of legacy class names for the autoloader.
