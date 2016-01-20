@@ -402,24 +402,29 @@ class ModuleHandler extends Handler
 				return $oMessageObject;
 			}
 		}
-
+		
+		// check CSRF for POST actions
+		if(Context::getRequestMethod() === 'POST' && Context::isInstalled() && !checkCSRF())
+		{
+			if($xml_info->action->{$this->act} && $xml_info->action->{$this->act}->check_csrf !== 'false')
+			{
+				$this->_setInputErrorToContext();
+				$this->error = 'msg_invalid_request';
+				$oMessageObject = ModuleHandler::getModuleInstance('message', $display_mode);
+				$oMessageObject->setError(-1);
+				$oMessageObject->setMessage($this->error);
+				$oMessageObject->dispMessage();
+				return $oMessageObject;
+			}
+		}
+		
 		if($this->module_info->use_mobile != "Y")
 		{
 			Mobile::setMobile(FALSE);
 		}
 
 		$logged_info = Context::get('logged_info');
-
-		// check CSRF for POST actions
-		if(Context::getRequestMethod() === 'POST' && Context::isInstalled() && $this->act !== 'procFileUpload' && !checkCSRF()) {
-			$this->error = 'msg_invalid_request';
-			$oMessageObject = ModuleHandler::getModuleInstance('message', $display_mode);
-			$oMessageObject->setError(-1);
-			$oMessageObject->setMessage($this->error);
-			$oMessageObject->dispMessage();
-			return $oMessageObject;
-		}
-
+		
 		// Admin ip
 		if($kind == 'admin' && $_SESSION['denied_admin'] == 'Y')
 		{
@@ -552,7 +557,22 @@ class ModuleHandler extends Handler
 						return $oMessageObject;
 					}
 				}
-
+				
+				// check CSRF for POST actions
+				if(Context::getRequestMethod() === 'POST' && Context::isInstalled() && !checkCSRF())
+				{
+					if($xml_info->action->{$this->act} && $xml_info->action->{$this->act}->check_csrf !== 'false')
+					{
+						$this->_setInputErrorToContext();
+						$this->error = 'msg_invalid_request';
+						$oMessageObject = ModuleHandler::getModuleInstance('message', $display_mode);
+						$oMessageObject->setError(-1);
+						$oMessageObject->setMessage($this->error);
+						$oMessageObject->dispMessage();
+						return $oMessageObject;
+					}
+				}
+				
 				if($type == "view" && Mobile::isFromMobilePhone())
 				{
 					$orig_type = "view";
