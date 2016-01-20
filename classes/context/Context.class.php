@@ -1275,12 +1275,27 @@ class Context
 	public static function setRequestMethod($type = '')
 	{
 		self::$_instance->js_callback_func = self::$_instance->getJSCallbackFunc();
-
-		($type && self::$_instance->request_method = $type) or
-				((strpos($_SERVER['CONTENT_TYPE'], 'json') || strpos($_SERVER['HTTP_CONTENT_TYPE'], 'json')) && self::$_instance->request_method = 'JSON') or
-				($GLOBALS['HTTP_RAW_POST_DATA'] && self::$_instance->request_method = 'XMLRPC') or
-				(self::$_instance->js_callback_func && self::$_instance->request_method = 'JS_CALLBACK') or
-				(self::$_instance->request_method = $_SERVER['REQUEST_METHOD']);
+		
+		if ($type)
+		{
+			self::$_instance->request_method = $type;
+		}
+		elseif (strpos($_SERVER['CONTENT_TYPE'], 'json') !== false || strpos($_SERVER['HTTP_CONTENT_TYPE'], 'json') !== false)
+		{
+			self::$_instance->request_method = 'JSON';
+		}
+		elseif ($GLOBALS['HTTP_RAW_POST_DATA'])
+		{
+			self::$_instance->request_method = 'XMLRPC';
+		}
+		elseif (self::$_instance->js_callback_func)
+		{
+			self::$_instance->request_method = 'JS_CALLBACK';
+		}
+		else
+		{
+			self::$_instance->request_method = $_SERVER['REQUEST_METHOD'];
+		}
 	}
 
 	/**
