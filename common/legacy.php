@@ -457,9 +457,7 @@ function getFullSiteUrl()
  */
 function getCurrentPageUrl()
 {
-	$protocol = $_SERVER['HTTPS'] == 'on' ? 'https://' : 'http://';
-	$url = $protocol . $_SERVER['HTTP_HOST'] . $_SERVER['REQUEST_URI'];
-	return htmlspecialchars($url, ENT_COMPAT, 'UTF-8', FALSE);
+	return escape((RX_SSL ? 'https://' : 'http://') . $_SERVER['HTTP_HOST'] . $_SERVER['REQUEST_URI']);
 }
 
 /**
@@ -1213,12 +1211,7 @@ function mysql_pre4_hash_password($password)
  */
 function getScriptPath()
 {
-	static $url = NULL;
-	if($url == NULL)
-	{
-		$url = str_ireplace('/tools/', '/', preg_replace('/index.php$/i', '', str_replace('\\', '/', $_SERVER['SCRIPT_NAME'])));
-	}
-	return $url;
+	return RX_BASEURL;
 }
 
 /**

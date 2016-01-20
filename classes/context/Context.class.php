@@ -1600,15 +1600,7 @@ class Context
 		static $url = null;
 		if(is_null($url))
 		{
-			$url = self::getRequestUri();
-			if(count($_GET) > 0)
-			{
-				foreach($_GET as $key => $val)
-				{
-					$vars[] = $key . '=' . ($val ? urlencode(self::convertEncodingStr($val)) : '');
-				}
-				$url .= '?' . join('&', $vars);
-			}
+			$url = self::getRequestUri() . '?' . http_build_query($_GET);
 		}
 		return $url;
 	}
@@ -1746,7 +1738,7 @@ class Context
 			'dispDocumentAdminManageDocument' => 'dispDocumentManageDocument',
 			'dispModuleAdminSelectList' => 'dispModuleSelectList'
 		);
-		if($act_alias[$act])
+		if(isset($act_alias[$act]))
 		{
 			$get_vars['act'] = $act_alias[$act];
 		}
@@ -1794,27 +1786,9 @@ class Context
 				$query = $target_map[$target];
 			}
 
-			if(!$query)
+			if(!$query && count($get_vars) > 0)
 			{
-				$queries = array();
-				foreach($get_vars as $key => $val)
-				{
-					if(is_array($val) && count($val) > 0)
-					{
-						foreach($val as $k => $v)
-						{
-							$queries[] = $key . '[' . $k . ']=' . urlencode($v);
-						}
-					}
-					elseif(!is_array($val))
-					{
-						$queries[] = $key . '=' . urlencode($val);
-					}
-				}
-				if(count($queries) > 0)
-				{
-					$query = 'index.php?' . join('&', $queries);
-				}
+				$query = 'index.php?' . http_build_query($get_vars);
 			}
 		}
 
@@ -1823,14 +1797,14 @@ class Context
 		if($_use_ssl == 'always')
 		{
 			$query = self::getRequestUri(ENFORCE_SSL, $domain) . $query;
-			// optional SSL use
 		}
+		// optional SSL use
 		elseif($_use_ssl == 'optional')
 		{
 			$ssl_mode = ((self::get('module') === 'admin') || ($get_vars['module'] === 'admin') || (isset($get_vars['act']) && self::isExistsSSLAction($get_vars['act']))) ? ENFORCE_SSL : RELEASE_SSL;
 			$query = self::getRequestUri($ssl_mode, $domain) . $query;
-			// no SSL
 		}
+		// no SSL
 		else
 		{
 			// currently on SSL but target is not based on SSL
@@ -1844,7 +1818,7 @@ class Context
 			}
 			else
 			{
-				$query = getScriptPath() . $query;
+				$query = RX_BASEURL . $query;
 			}
 		}
 
@@ -1910,11 +1884,9 @@ class Context
 			return $url[$ssl_mode][$domain_key];
 		}
 
-		$current_use_ssl = ($_SERVER['HTTPS'] == 'on');
-
 		switch($ssl_mode)
 		{
-			case FOLLOW_REQUEST_SSL: $use_ssl = $current_use_ssl;
+			case FOLLOW_REQUEST_SSL: $use_ssl = RX_SSL;
 				break;
 			case ENFORCE_SSL: $use_ssl = TRUE;
 				break;
@@ -1924,20 +1896,16 @@ class Context
 
 		if($domain)
 		{
-			$target_url = trim($domain);
-			if(substr_compare($target_url, '/', -1) !== 0)
-			{
-				$target_url.= '/';
-			}
+			$target_url = rtrim(trim($domain), '/') . '/';
 		}
 		else
 		{
-			$target_url = $_SERVER['HTTP_HOST'] . getScriptPath();
+			$target_url = $_SERVER['HTTP_HOST'] . RX_BASEURL;
 		}
 
 		$url_info = parse_url('http://' . $target_url);
 
-		if($current_use_ssl != $use_ssl)
+		if($use_ssl != RX_SSL)
 		{
 			unset($url_info['port']);
 		}
