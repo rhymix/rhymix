@@ -1179,63 +1179,17 @@ function removeSrcHack($match)
 	return "<{$match[1]}{$tag}{$attr}{$match[4]}>";
 }
 
-// convert hexa value to RGB
+/**
+ * Convert hexa value to RGB
+ *
+ * @param string $hexstr
+ * @return array
+ */
 if(!function_exists('hexrgb'))
 {
-	/**
-	 * Convert hexa value to RGB
-	 *
-	 * @param string $hexstr
-	 * @return array
-	 */
 	function hexrgb($hex)
 	{
-		$hex = ltrim($hex, '#');
-		if(strlen($hex) == 3)
-		{
-			$r = hexdec(substr($hex, 0, 1) . substr($hex, 0, 1));
-			$g = hexdec(substr($hex, 1, 1) . substr($hex, 1, 1));
-			$b = hexdec(substr($hex, 2, 1) . substr($hex, 2, 1));
-		}
-		elseif(strlen($hex) == 6)
-		{
-			$r = hexdec(substr($hex, 0, 2));
-			$g = hexdec(substr($hex, 2, 2));
-			$b = hexdec(substr($hex, 4, 2));
-		}
-		else
-		{
-			$r = $g = $b = null;
-		}
-		return array('red' => $r, 'green' => $g, 'blue' => $b, 'r' => $r, 'g' => $g, 'b' => $b);
-	}
-}
-
-// convert RGB value to hexa
-if(!function_exists('rgbhex'))
-{
-	/**
-	 * convert RGB value to hexa
-	 *
-	 * @param array $rgb
-	 * @param bool $hash_prefix
-	 * @return string
-	 */
-	function rgbhex(array $rgb, $hash_prefix = true)
-	{
-		if(!isset($rgb['r']) && !isset($rgb['g']) && !isset($rgb['b']) && count($rgb) >= 3)
-		{
-			list($rgb['r'], $rgb['g'], $rgb['b']) = $rgb;
-		}
-		if(!isset($rgb['r']) || !isset($rgb['g']) || !isset($rgb['b']) || $rgb['r'] > 255 || $rgb['g'] > 255 || $rgb['b'] > 255)
-		{
-			return '#000000';
-		}
-		$hex = $hash_prefix ? '#' : '';
-		$hex .= str_pad(dechex(max(0, $rgb['r'])), 2, '0', STR_PAD_LEFT);
-		$hex .= str_pad(dechex(max(0, $rgb['g'])), 2, '0', STR_PAD_LEFT);
-		$hex .= str_pad(dechex(max(0, $rgb['b'])), 2, '0', STR_PAD_LEFT);
-		return $hex;
+		return hex2rgb($hex);
 	}
 }
 
