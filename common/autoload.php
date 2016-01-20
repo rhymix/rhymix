@@ -145,8 +145,11 @@ $GLOBALS['RX_AUTOLOAD_FILE_MAP'] = array_change_key_case(array(
 	'HintTableTag' => 'classes/xml/xmlquery/tags/table/HintTableTag.class.php',
 	'TableTag' => 'classes/xml/xmlquery/tags/table/TableTag.class.php',
 	'TablesTag' => 'classes/xml/xmlquery/tags/table/TablesTag.class.php',
+	'Bmp' => 'common/libraries/bmp.php',
 	'Ftp' => 'common/libraries/ftp.php',
 	'Tar' => 'common/libraries/tar.php',
+	'CryptoCompat' => 'common/libraries/cryptocompat.php',
+	'VendorPass' => 'common/libraries/vendorpass.php',
 ), CASE_LOWER);
 
 /**

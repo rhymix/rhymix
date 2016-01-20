@@ -1203,36 +1203,7 @@ if(!function_exists('hexrgb'))
  */
 function mysql_pre4_hash_password($password)
 {
-	$nr = 1345345333;
-	$add = 7;
-	$nr2 = 0x12345671;
-
-	settype($password, "string");
-
-	for($i = 0; $i < strlen($password); $i++)
-	{
-		if($password[$i] == ' ' || $password[$i] == '\t')
-		{
-			continue;
-		}
-		$tmp = ord($password[$i]);
-		$nr ^= ((($nr & 63) + $add) * $tmp) + ($nr << 8);
-		$nr2 += ($nr2 << 8) ^ $nr;
-		$add += $tmp;
-	}
-	$result1 = sprintf("%08lx", $nr & ((1 << 31) - 1));
-	$result2 = sprintf("%08lx", $nr2 & ((1 << 31) - 1));
-
-	if($result1 == '80000000')
-	{
-		$nr += 0x80000000;
-	}
-	if($result2 == '80000000')
-	{
-		$nr2 += 0x80000000;
-	}
-
-	return sprintf("%08lx%08lx", $nr, $nr2);
+	return VendorPass::mysql_old_password($password);
 }
 
 /**
