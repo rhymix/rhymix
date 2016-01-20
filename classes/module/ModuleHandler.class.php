@@ -404,9 +404,9 @@ class ModuleHandler extends Handler
 		}
 		
 		// check CSRF for POST actions
-		if(Context::getRequestMethod() === 'POST' && Context::isInstalled() && !checkCSRF())
+		if(Context::getRequestMethod() === 'POST' && Context::isInstalled())
 		{
-			if($xml_info->action->{$this->act} && $xml_info->action->{$this->act}->check_csrf !== 'false')
+			if($xml_info->action->{$this->act} && $xml_info->action->{$this->act}->check_csrf !== 'false' && !checkCSRF())
 			{
 				$this->_setInputErrorToContext();
 				$this->error = 'msg_invalid_request';
@@ -559,9 +559,9 @@ class ModuleHandler extends Handler
 				}
 				
 				// check CSRF for POST actions
-				if(Context::getRequestMethod() === 'POST' && Context::isInstalled() && !checkCSRF())
+				if(Context::getRequestMethod() === 'POST' && Context::isInstalled())
 				{
-					if($xml_info->action->{$this->act} && $xml_info->action->{$this->act}->check_csrf !== 'false')
+					if($xml_info->action->{$this->act} && $xml_info->action->{$this->act}->check_csrf !== 'false' && !checkCSRF())
 					{
 						$this->_setInputErrorToContext();
 						$this->error = 'msg_invalid_request';
