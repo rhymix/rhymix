@@ -162,7 +162,7 @@ function escape_dqstr($str)
 function explode_with_escape($delimiter, $str, $limit = 0, $escape_char = '\\')
 {
 	if ($limit < 1) $limit = null;
-	$result = [];
+	$result = array();
 	$split = preg_split('/(?<!' . preg_quote($escape_char, '/') . ')' . preg_quote($delimiter, '/') . '/', $str, $limit);
 	foreach ($split as $piece)
 	{
