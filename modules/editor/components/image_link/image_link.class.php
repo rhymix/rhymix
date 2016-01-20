@@ -63,8 +63,7 @@ class image_link extends EditorHandler
 		if(substr($src, 0,2)=='./') $src = Context::getRequestUri().substr($src, 2);
 		else if(substr($src , 0, 1)=='/')
 		{
-			if($_SERVER['HTTPS']=='on') $http_src = 'https://';
-			else $http_src = 'http://';
+			$http_src = RX_SSL ? 'https://' : 'http://';
 			$src = $http_src.$_SERVER['HTTP_HOST'].$src;
 		}
 		else if(!strpos($temp_src[0],':') && $src) $src = Context::getRequestUri().$src;

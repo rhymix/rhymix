@@ -1600,7 +1600,7 @@ class Context
 		static $url = null;
 		if(is_null($url))
 		{
-			$url = self::getRequestUri() . '?' . http_build_query($_GET);
+			$url = self::getRequestUri() . RX_REQUEST_URL;
 		}
 		return $url;
 	}
@@ -1670,7 +1670,7 @@ class Context
 			$domain_info = parse_url($domain);
 			if(is_null($current_info))
 			{
-				$current_info = parse_url(($_SERVER['HTTPS'] == 'on' ? 'https' : 'http') . '://' . $_SERVER['HTTP_HOST'] . getScriptPath());
+				$current_info = parse_url((RX_SSL ? 'https' : 'http') . '://' . $_SERVER['HTTP_HOST'] . RX_BASEURL);
 			}
 			if($domain_info['host'] . $domain_info['path'] == $current_info['host'] . $current_info['path'])
 			{
@@ -1678,11 +1678,7 @@ class Context
 			}
 			else
 			{
-				$domain = preg_replace('/^(http|https):\/\//i', '', trim($domain));
-				if(substr_compare($domain, '/', -1) !== 0)
-				{
-					$domain .= '/';
-				}
+				$domain = rtrim(preg_replace('/^(http|https):\/\//i', '', trim($domain)), '/') . '/';
 			}
 		}
 
@@ -1808,7 +1804,7 @@ class Context
 		else
 		{
 			// currently on SSL but target is not based on SSL
-			if($_SERVER['HTTPS'] == 'on')
+			if(RX_SSL)
 			{
 				$query = self::getRequestUri(ENFORCE_SSL, $domain) . $query;
 			}
