@@ -104,17 +104,16 @@ class moduleController extends module
 		$args->called_position = $called_position;
 
 		$output = executeQuery('module.deleteTrigger', $args);
-		if($output->toBool())
+
+		//remove at cache
+		$oCacheHandler = CacheHandler::getInstance('object', NULL, TRUE);
+		if($oCacheHandler->isSupport())
 		{
-			//remove from cache
-			$GLOBALS['__triggers__'] = NULL;
-			$oCacheHandler = CacheHandler::getInstance('object', NULL, TRUE);
-			if($oCacheHandler->isSupport())
-			{
-				$cache_key = 'triggers';
-				$oCacheHandler->delete($cache_key);
-			}
+			$oCacheHandler->invalidateGroupKey('triggers');
 		}
+
+		// Remove the trigger cache
+		FileHandler::removeFilesInDir('./files/cache/triggers');
 
 		return $output;
 	}
