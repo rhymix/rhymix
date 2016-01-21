@@ -2,7 +2,7 @@
     "name": "rhymix/rhymix",
     "description": "RhymiX",
     "homepage": "https://www.rhymix.org",
-    "license": "LGPL-2.1",
+    "license": "GPL-2.0+",
     "type": "project",
     "authors": [
         { "name": "RhymiX Developers and Contributors", "email": "devops@rhymix.org" },

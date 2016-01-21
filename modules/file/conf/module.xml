@@ -8,7 +8,7 @@
         <action name="dispFileAdminList" type="view" admin_index="true" menu_name="file" menu_index="true" />
         <action name="dispFileAdminConfig" type="view" menu_name="fileUpload" menu_index="true" />
         <action name="getFileList" type="model" />
-        <action name="procFileUpload" type="controller" />
+        <action name="procFileUpload" type="controller" check_csrf="false" />
         <action name="procFileIframeUpload" type="controller" />
         <action name="procFileImageResize" type="controller" ruleset="imageResize" />
         <action name="procFileDelete" type="controller" />
