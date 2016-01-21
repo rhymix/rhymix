@@ -1006,6 +1006,12 @@ class ModuleHandler extends Handler
 							}
 
 							$php_file = FileHandler::exists($menu->php_file);
+							if(!$php_file)
+							{
+								$oMenuAdminController = $oMenuAdminController ?: getAdminController('menu');
+								$oMenuAdminController->makeXmlFile((isset($homeMenuSrl) && $homeMenuSrl) ? $homeMenuSrl : $menu->menu_srl);
+								$php_file = FileHandler::exists($menu->php_file);
+							}
 							if($php_file)
 							{
 								include($php_file);
