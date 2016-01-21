@@ -1179,11 +1179,11 @@ class documentController extends document
 		$oDocumentModel = getModel('document');
 		$oDocument = $oDocumentModel->getDocument($document_srl, false, false);
 		// Pass if the author's IP address is as same as visitor's.
-		/*if($oDocument->get('ipaddress') == $_SERVER['REMOTE_ADDR'])
+		if($oDocument->get('ipaddress') == $_SERVER['REMOTE_ADDR'])
 		{
 			$_SESSION['voted_document'][$document_srl] = true;
 			return new Object(-1, $failed_voted);
-		}*/
+		}
 
 		// Create a member model object
 		$oMemberModel = getModel('member');
