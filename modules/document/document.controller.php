@@ -44,6 +44,32 @@ class documentController extends document
 		return $output;
 	}
 
+	function procDocumentVoteUpCancel()
+	{
+		if(!Context::get('is_logged')) return new Object(-1, 'msg_invalid_request');
+
+		$document_srl = Context::get('target_srl');
+		if(!$document_srl) return new Object(-1, 'msg_invalid_request');
+
+		$oDocumentModel = getModel('document');
+		$oDocument = $oDocumentModel->getDocument($document_srl, false, false);
+		if($oDocument->get('voted_count') <= 0)
+		{
+			return new Object(-1, 'msg_document_voted_cancel_not');
+		}
+
+		$args = new stdClass();
+		$d_args = new stdClass();
+		$args->document_srl = $d_args->document_srl = $document_srl;
+		$args->voted_count = $oDocument->get('voted_count') - 1;
+		$output = executeQuery('document.updateVotedCount', $args);
+		$d_output = executeQuery('document.deleteDocumentVotedLog', $d_args);
+		//session reset
+		$_SESSION['voted_document'][$document_srl] = false;
+		$output->setMessage('success_voted_canceled');
+		return $output;
+	}
+
 	/**
 	 * insert alias
 	 * @param int $module_srl
@@ -1153,11 +1179,11 @@ class documentController extends document
 		$oDocumentModel = getModel('document');
 		$oDocument = $oDocumentModel->getDocument($document_srl, false, false);
 		// Pass if the author's IP address is as same as visitor's.
-		if($oDocument->get('ipaddress') == $_SERVER['REMOTE_ADDR'])
+		/*if($oDocument->get('ipaddress') == $_SERVER['REMOTE_ADDR'])
 		{
 			$_SESSION['voted_document'][$document_srl] = true;
 			return new Object(-1, $failed_voted);
-		}
+		}*/
 
 		// Create a member model object
 		$oMemberModel = getModel('member');

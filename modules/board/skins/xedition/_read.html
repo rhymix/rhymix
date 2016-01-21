@@ -79,7 +79,16 @@
 						content : sTitle
 					});
 				});
-			</script>		    
+			</script>
+		</div>
+		<div class="vote">
+			<ul>
+				<li>
+					{@ debugPrint($oDocument->getVoted())}
+					<a cond="$oDocument->getVoted() === false" href="#" onclick="doCallModuleAction('document','procDocumentVoteUp','{$oDocument->document_srl}');return false;"|cond="$is_logged" class="voted"> <i class="xi-thumbs-up"></i><br>{$lang->cmd_vote} {$oDocument->get('voted_count')}</a>
+					<a cond="$oDocument->getVoted() !== false" href="#" onclick="doCallModuleAction('document','procDocumentVoteUpCancel','{$oDocument->document_srl}');return false;"|cond="$is_logged" class="voted"> <i class="xi-thumbs-up"></i><br>{$lang->cmd_vote} {$oDocument->get('voted_count')}</a>
+				</li>
+			</ul>
 		</div>
 		<div cond="$oDocument->hasUploadedFiles()" class="fileList">
 			<button type="button" class="toggleFile" onclick="jQuery(this).next('ul.files').toggle();"><i class="xi-diskette"></i> {$lang->uploaded_file} [<strong>{$oDocument->get('uploaded_count')}</strong>]</button>

@@ -349,6 +349,10 @@
 		<value xml:lang="ko"><![CDATA[최고관리자의 게시글을 지울 권한이 없습니다.]]></value>
 		<value xml:lang="en"><![CDATA[You don't have permission to delete the posts of Top Admin.]]></value>
 	</item>
+	<item name="msg_document_voted_cancel_not">
+		<value xml:lang="ko"><![CDATA[추천수가 0이하일 경우 추천캔슬을 사용할 수 없습니다.]]></value>
+		<value xml:lang="en"><![CDATA[]]></value>
+	</item>
 	<item name="move_target_module">
 		<value xml:lang="ko"><![CDATA[대상 페이지]]></value>
 		<value xml:lang="en"><![CDATA[Target module ]]></value>

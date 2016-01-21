@@ -29,6 +29,7 @@
         <action name="getDocumentMenu" type="model" />
 
         <action name="procDocumentVoteUp" type="controller" />
+	    <action name="procDocumentVoteUpCancel" type="controller" />.
         <action name="procDocumentVoteDown" type="controller" />
         <action name="procDocumentDeclare" type="controller" />
         <action name="procDocumentAddCart" type="controller" />
