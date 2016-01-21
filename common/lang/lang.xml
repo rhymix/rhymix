@@ -3975,8 +3975,8 @@
 		<value xml:lang="en"><![CDATA[License Agreement]]></value>
 	</item>
 	<item name="license">
-		<value xml:lang="ko"><![CDATA[LGPL v2.1]]></value>
-		<value xml:lang="en"><![CDATA[LGPL v2.1]]></value>
+		<value xml:lang="ko"><![CDATA[GPL v2]]></value>
+		<value xml:lang="en"><![CDATA[GPL v2]]></value>
 	</item>
 	<item name="cmd_license_agree">
 		<value xml:lang="ko"><![CDATA[사용권에 대해 이해했으며, 이에 동의합니다.]]></value>
