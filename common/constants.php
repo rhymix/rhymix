@@ -140,3 +140,6 @@ define('LOWER', 'abcdefghijklmnopqrstuvwxyz');
 define('CR', "\r");
 define('CRLF', "\r\n");
 define('LF', "\n");
+define('FOLLOW_REQUEST_SSL', 0);
+define('ENFORCE_SSL', 1);
+define('RELEASE_SSL', 2);

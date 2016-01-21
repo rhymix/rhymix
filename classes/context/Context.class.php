@@ -1,10 +1,6 @@
 <?php
 /* Copyright (C) NAVER <http://www.navercorp.com> */
 
-define('FOLLOW_REQUEST_SSL', 0);
-define('ENFORCE_SSL', 1);
-define('RELEASE_SSL', 2);
-
 /**
  * Manages Context such as request arguments/environment variables
  * It has dual method structure, easy-to use methods which can be called as self::methodname(),and methods called with static object.
