@@ -99,7 +99,6 @@ $GLOBALS['RX_AUTOLOAD_FILE_MAP'] = array_change_key_case(array(
 	'ModuleObject' => 'classes/module/ModuleObject.class.php',
 	'Object' => 'classes/object/Object.class.php',
 	'PageHandler' => 'classes/page/PageHandler.class.php',
-	'Crypto' => 'classes/security/Crypto.class.php',
 	'EmbedFilter' => 'classes/security/EmbedFilter.class.php',
 	'IpFilter' => 'classes/security/IpFilter.class.php',
 	'Password' => 'classes/security/Password.class.php',
