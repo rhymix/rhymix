@@ -66,9 +66,11 @@ class documentController extends document
 		$args->voted_count = $oDocument->get('voted_count') - 1;
 		$output = executeQuery('document.updateVotedCount', $args);
 		$d_output = executeQuery('document.deleteDocumentVotedLog', $d_args);
+
 		//session reset
 		$_SESSION['voted_document'][$document_srl] = false;
 
+		$output = new Object();
 		$output->setMessage('success_voted_canceled');
 		return $output;
 	}
@@ -115,6 +117,37 @@ class documentController extends document
 		$point = -1;
 		$output = $this->updateVotedCount($document_srl, $point);
 		$this->add('blamed_count', $output->get('blamed_count'));
+		return $output;
+	}
+
+	function procDocumentVoteDownCancel()
+	{
+		if(!Context::get('is_logged')) return new Object(-1, 'msg_invalid_request');
+
+		$document_srl = Context::get('target_srl');
+		if(!$document_srl) return new Object(-1, 'msg_invalid_request');
+
+		$oDocumentModel = getModel('document');
+		$oDocument = $oDocumentModel->getDocument($document_srl, false, false);
+		if($oDocument->get('blamed_count') >= 0)
+		{
+			return new Object(-1, 'msg_document_voted_cancel_not');
+		}
+		$logged_info = Context::get('logged_info');
+
+		$args = new stdClass();
+		$d_args = new stdClass();
+		$args->document_srl = $d_args->document_srl = $document_srl;
+		$d_args->member_srl = $logged_info->member_srl;
+		$args->blamed_count = $oDocument->get('blamed_count') + 1;
+		$output = executeQuery('document.updateBlamedCount', $args);
+		$d_output = executeQuery('document.deleteDocumentVotedLog', $d_args);
+
+		//session reset
+		$_SESSION['voted_document'][$document_srl] = false;
+
+		$output = new Object();
+		$output->setMessage('success_blamed_canceled');
 		return $output;
 	}
 
