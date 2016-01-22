@@ -338,7 +338,7 @@ class DisplayHandler extends Handler
 	 */
 	public static function _printJSONHeader()
 	{
-		header("Content-Type: text/html; charset=UTF-8");
+		header("Content-Type: text/javascript; charset=UTF-8");
 	}
 
 	/**
