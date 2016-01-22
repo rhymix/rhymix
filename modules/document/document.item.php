@@ -374,11 +374,11 @@ class documentItem extends Object
 		if(!$this->document_srl) return;
 		if($_SESSION['voted_document'][$this->document_srl] == '1')
 		{
-			return 'voted';
+			return 1;
 		}
 		else if($_SESSION['voted_document'][$this->document_srl] == '-1')
 		{
-			return 'blamed';
+			return -1;
 		}
 
 		$logged_info = Context::get('logged_info');
@@ -390,11 +390,11 @@ class documentItem extends Object
 
 		if($output->data->point === '1')
 		{
-			return 'voted';
+			return 1;
 		}
 		else if($output->data->point === '-1')
 		{
-			return 'blamed';
+			return -1;
 		}
 
 		return false;
