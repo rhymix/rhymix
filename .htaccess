@@ -31,6 +31,7 @@ RewriteRule ^([0-9]+)$ ./index.php?document_srl=$1 [L,QSA]
 
 # mid link
 RewriteCond %{SCRIPT_FILENAME} !-d
+RewriteRule ^admin/?$ ./index.php?module=admin [L,QSA]
 RewriteRule ^([a-zA-Z0-9_]+)/?$ ./index.php?mid=$1 [L,QSA]
 # mid + document link
 RewriteRule ^([a-zA-Z0-9_]+)/([0-9]+)$ ./index.php?mid=$1&document_srl=$2 [L,QSA]

@@ -63,6 +63,11 @@ class ModuleHandler extends Handler
         {
             $this->entry = Context::convertEncodingStr($entry);
         }
+        if(!$this->module && $this->mid === 'admin')
+        {
+        	Context::set('module', $this->module = 'admin');
+        	Context::set('mid', $this->mid = null);
+        }
 
 		// Validate variables to prevent XSS
 		$isInvalid = NULL;
@@ -402,23 +407,28 @@ class ModuleHandler extends Handler
 				return $oMessageObject;
 			}
 		}
-
+		
+		// check CSRF for POST actions
+		if(Context::getRequestMethod() === 'POST' && Context::isInstalled())
+		{
+			if($xml_info->action->{$this->act} && $xml_info->action->{$this->act}->check_csrf !== 'false' && !checkCSRF())
+			{
+				$this->_setInputErrorToContext();
+				$this->error = 'msg_invalid_request';
+				$oMessageObject = ModuleHandler::getModuleInstance('message', $display_mode);
+				$oMessageObject->setError(-1);
+				$oMessageObject->setMessage($this->error);
+				$oMessageObject->dispMessage();
+				return $oMessageObject;
+			}
+		}
+		
 		if($this->module_info->use_mobile != "Y")
 		{
 			Mobile::setMobile(FALSE);
 		}
 
 		$logged_info = Context::get('logged_info');
-
-		// check CSRF for POST actions
-		if(Context::getRequestMethod() === 'POST' && Context::isInstalled() && $this->act !== 'procFileUpload' && !checkCSRF()) {
-			$this->error = 'msg_invalid_request';
-			$oMessageObject = self::getModuleInstance('message', $display_mode);
-			$oMessageObject->setError(-1);
-			$oMessageObject->setMessage($this->error);
-			$oMessageObject->dispMessage();
-			return $oMessageObject;
-		}
 
 		// Admin ip
 		if($kind == 'admin' && $_SESSION['denied_admin'] == 'Y')
@@ -552,7 +562,22 @@ class ModuleHandler extends Handler
 						return $oMessageObject;
 					}
 				}
-
+				
+				// check CSRF for POST actions
+				if(Context::getRequestMethod() === 'POST' && Context::isInstalled())
+				{
+					if($xml_info->action->{$this->act} && $xml_info->action->{$this->act}->check_csrf !== 'false' && !checkCSRF())
+					{
+						$this->_setInputErrorToContext();
+						$this->error = 'msg_invalid_request';
+						$oMessageObject = ModuleHandler::getModuleInstance('message', $display_mode);
+						$oMessageObject->setError(-1);
+						$oMessageObject->setMessage($this->error);
+						$oMessageObject->dispMessage();
+						return $oMessageObject;
+					}
+				}
+				
 				if($type == "view" && Mobile::isFromMobilePhone())
 				{
 					$orig_type = "view";
@@ -986,6 +1011,12 @@ class ModuleHandler extends Handler
 							}
 
 							$php_file = FileHandler::exists($menu->php_file);
+							if(!$php_file)
+							{
+								$oMenuAdminController = $oMenuAdminController ?: getAdminController('menu');
+								$oMenuAdminController->makeXmlFile((isset($homeMenuSrl) && $homeMenuSrl) ? $homeMenuSrl : $menu->menu_srl);
+								$php_file = FileHandler::exists($menu->php_file);
+							}
 							if($php_file)
 							{
 								include($php_file);
