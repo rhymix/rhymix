@@ -57,18 +57,8 @@ class documentController extends document
 		{
 			return new Object(-1, 'msg_document_voted_cancel_not');
 		}
-		$logged_info = Context::get('logged_info');
-
-		$args = new stdClass();
-		$d_args = new stdClass();
-		$args->document_srl = $d_args->document_srl = $document_srl;
-		$d_args->member_srl = $logged_info->member_srl;
-		$args->voted_count = $oDocument->get('voted_count') - 1;
-		$output = executeQuery('document.updateVotedCount', $args);
-		$d_output = executeQuery('document.deleteDocumentVotedLog', $d_args);
-
-		//session reset
-		$_SESSION['voted_document'][$document_srl] = false;
+		$point = 1;
+		$output = $this->updateVotedCountCancel($document_srl, $oDocument, $point);
 
 		$output = new Object();
 		$output->setMessage('success_voted_canceled');
@@ -133,21 +123,62 @@ class documentController extends document
 		{
 			return new Object(-1, 'msg_document_voted_cancel_not');
 		}
+		$point = -1;
+		$output = $this->updateVotedCountCancel($document_srl, $oDocument, $point);
+
+		$output = new Object();
+		$output->setMessage('success_blamed_canceled');
+		return $output;
+	}
+
+	/**
+	 * Update Document Voted Cancel
+	 * @param stdClass $args
+	 * @param stdClass $d_args
+	 * @param int $point
+	 * @return object
+	 */
+	function updateVotedCountCancel($document_srl, $oDocument, $point)
+	{
 		$logged_info = Context::get('logged_info');
 
 		$args = new stdClass();
 		$d_args = new stdClass();
 		$args->document_srl = $d_args->document_srl = $document_srl;
 		$d_args->member_srl = $logged_info->member_srl;
-		$args->blamed_count = $oDocument->get('blamed_count') + 1;
-		$output = executeQuery('document.updateBlamedCount', $args);
+		if($point > 0)
+		{
+			$args->voted_count = $oDocument->get('voted_count') - 1;
+			$output = executeQuery('document.updateVotedCount', $args);
+		}
+		else
+		{
+			$args->blamed_count = $oDocument->get('blamed_count') + 1;
+			$output = executeQuery('document.updateBlamedCount', $args);
+		}
 		$d_output = executeQuery('document.deleteDocumentVotedLog', $d_args);
+		if(!$d_output->toBool()) return $d_output;
 
 		//session reset
 		$_SESSION['voted_document'][$document_srl] = false;
 
-		$output = new Object();
-		$output->setMessage('success_blamed_canceled');
+		$obj = new stdClass();
+		$obj->member_srl = $oDocument->get('member_srl');
+		$obj->module_srl = $oDocument->get('module_srl');
+		$obj->document_srl = $oDocument->get('document_srl');
+		$obj->update_target = ($point < 0) ? 'blamed_count' : 'voted_count';
+		$obj->point = $point;
+		$obj->before_point = ($point < 0) ? $oDocument->get('blamed_count') : $oDocument->get('voted_count');
+		$obj->after_point = ($point < 0) ? $args->blamed_count : $args->voted_count;
+		$obj->cancel = 1;
+
+		$trigger_output = ModuleHandler::triggerCall('document.updateVotedCountCancel', 'after', $obj);
+		if(!$trigger_output->toBool())
+		{
+			$oDB->rollback();
+			return $trigger_output;
+		}
+
 		return $output;
 	}
 
