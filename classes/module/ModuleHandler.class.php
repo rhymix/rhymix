@@ -32,7 +32,7 @@ class ModuleHandler extends Handler
 	 * @return void
 	 * */
 
-	function __construct($module = '', $act = '', $mid = '', $document_srl = '', $module_srl = '')
+	public function __construct($module = '', $act = '', $mid = '', $document_srl = '', $module_srl = '')
 	{
 		// If XE has not installed yet, set module as install
 		if(!Context::isInstalled())
@@ -101,7 +101,7 @@ class ModuleHandler extends Handler
 		}
 
 		// call a trigger before moduleHandler init
-		ModuleHandler::triggerCall('moduleHandler.init', 'before', $this);
+		self::triggerCall('moduleHandler.init', 'before', $this);
 
 		// execute addon (before module initialization)
 		$called_position = 'before_module_init';
@@ -114,7 +114,7 @@ class ModuleHandler extends Handler
 	 * Initialization. It finds the target module based on module, mid, document_srl, and prepares to execute an action
 	 * @return boolean true: OK, false: redirected
 	 * */
-	function init()
+	public function init()
 	{
 		$oModuleModel = getModel('module');
 		$site_module_info = Context::get('site_module_info');
@@ -296,7 +296,7 @@ class ModuleHandler extends Handler
 		}
 		
 		// Call a trigger after moduleHandler init
-		$output = ModuleHandler::triggerCall('moduleHandler.init', 'after', $this->module_info);
+		$output = self::triggerCall('moduleHandler.init', 'after', $this->module_info);
 		if(!$output->toBool())
 		{
 			$this->error = $output->getMessage();
@@ -313,7 +313,7 @@ class ModuleHandler extends Handler
 	 * get a module instance and execute an action
 	 * @return ModuleObject executed module instance
 	 * */
-	function procModule()
+	public function procModule()
 	{
 		$oModuleModel = getModel('module');
 		$display_mode = Mobile::isFromMobilePhone() ? 'mobile' : 'view';
@@ -321,8 +321,8 @@ class ModuleHandler extends Handler
 		// If error occurred while preparation, return a message instance
 		if($this->error)
 		{
-			$this->_setInputErrorToContext();
-			$oMessageObject = ModuleHandler::getModuleInstance('message', $display_mode);
+			self::_setInputErrorToContext();
+			$oMessageObject = self::getModuleInstance('message', $display_mode);
 			$oMessageObject->setError(-1);
 			$oMessageObject->setMessage($this->error);
 			$oMessageObject->dispMessage();
@@ -357,8 +357,8 @@ class ModuleHandler extends Handler
 			$this->error = 'msg_module_is_not_exists';
 			$this->httpStatusCode = '404';
 
-			$this->_setInputErrorToContext();
-			$oMessageObject = ModuleHandler::getModuleInstance('message', $display_mode);
+			self::_setInputErrorToContext();
+			$oMessageObject = self::getModuleInstance('message', $display_mode);
 			$oMessageObject->setError(-1);
 			$oMessageObject->setMessage($this->error);
 			$oMessageObject->dispMessage();
@@ -395,7 +395,7 @@ class ModuleHandler extends Handler
 			if(!in_array(strtoupper($_SERVER['REQUEST_METHOD']), $allowedMethodList))
 			{
 				$this->error = "msg_invalid_request";
-				$oMessageObject = ModuleHandler::getModuleInstance('message', $display_mode);
+				$oMessageObject = self::getModuleInstance('message', $display_mode);
 				$oMessageObject->setError(-1);
 				$oMessageObject->setMessage($this->error);
 				$oMessageObject->dispMessage();
@@ -413,7 +413,7 @@ class ModuleHandler extends Handler
 		// check CSRF for POST actions
 		if(Context::getRequestMethod() === 'POST' && Context::isInstalled() && $this->act !== 'procFileUpload' && !checkCSRF()) {
 			$this->error = 'msg_invalid_request';
-			$oMessageObject = ModuleHandler::getModuleInstance('message', $display_mode);
+			$oMessageObject = self::getModuleInstance('message', $display_mode);
 			$oMessageObject->setError(-1);
 			$oMessageObject->setMessage($this->error);
 			$oMessageObject->dispMessage();
@@ -423,9 +423,9 @@ class ModuleHandler extends Handler
 		// Admin ip
 		if($kind == 'admin' && $_SESSION['denied_admin'] == 'Y')
 		{
-			$this->_setInputErrorToContext();
+			self::_setInputErrorToContext();
 			$this->error = "msg_not_permitted_act";
-			$oMessageObject = ModuleHandler::getModuleInstance('message', $display_mode);
+			$oMessageObject = self::getModuleInstance('message', $display_mode);
 			$oMessageObject->setError(-1);
 			$oMessageObject->setMessage($this->error);
 			$oMessageObject->dispMessage();
@@ -438,24 +438,24 @@ class ModuleHandler extends Handler
 			$orig_type = "view";
 			$type = "mobile";
 			// create a module instance
-			$oModule = $this->getModuleInstance($this->module, $type, $kind);
+			$oModule = self::getModuleInstance($this->module, $type, $kind);
 			if(!is_object($oModule) || !method_exists($oModule, $this->act))
 			{
 				$type = $orig_type;
 				Mobile::setMobile(FALSE);
-				$oModule = $this->getModuleInstance($this->module, $type, $kind);
+				$oModule = self::getModuleInstance($this->module, $type, $kind);
 			}
 		}
 		else
 		{
 			// create a module instance
-			$oModule = $this->getModuleInstance($this->module, $type, $kind);
+			$oModule = self::getModuleInstance($this->module, $type, $kind);
 		}
 
 		if(!is_object($oModule))
 		{
-			$this->_setInputErrorToContext();
-			$oMessageObject = ModuleHandler::getModuleInstance('message', $display_mode);
+			self::_setInputErrorToContext();
+			$oMessageObject = self::getModuleInstance('message', $display_mode);
 			$oMessageObject->setError(-1);
 			$oMessageObject->setMessage($this->error);
 			$oMessageObject->dispMessage();
@@ -472,9 +472,9 @@ class ModuleHandler extends Handler
 
 			if(!Context::isInstalled())
 			{
-				$this->_setInputErrorToContext();
+				self::_setInputErrorToContext();
 				$this->error = 'msg_invalid_request';
-				$oMessageObject = ModuleHandler::getModuleInstance('message', $display_mode);
+				$oMessageObject = self::getModuleInstance('message', $display_mode);
 				$oMessageObject->setError(-1);
 				$oMessageObject->setMessage($this->error);
 				$oMessageObject->dispMessage();
@@ -503,7 +503,7 @@ class ModuleHandler extends Handler
 				else
 				{
 					$this->error = 'msg_invalid_request';
-					$oMessageObject = ModuleHandler::getModuleInstance('message', $display_mode);
+					$oMessageObject = self::getModuleInstance('message', $display_mode);
 					$oMessageObject->setError(-1);
 					$oMessageObject->setMessage($this->error);
 					$oMessageObject->dispMessage();
@@ -545,7 +545,7 @@ class ModuleHandler extends Handler
 					if(!in_array(strtoupper($_SERVER['REQUEST_METHOD']), $allowedMethodList))
 					{
 						$this->error = "msg_invalid_request";
-						$oMessageObject = ModuleHandler::getModuleInstance('message', $display_mode);
+						$oMessageObject = self::getModuleInstance('message', $display_mode);
 						$oMessageObject->setError(-1);
 						$oMessageObject->setMessage($this->error);
 						$oMessageObject->dispMessage();
@@ -558,23 +558,23 @@ class ModuleHandler extends Handler
 					$orig_type = "view";
 					$type = "mobile";
 					// create a module instance
-					$oModule = $this->getModuleInstance($forward->module, $type, $kind);
+					$oModule = self::getModuleInstance($forward->module, $type, $kind);
 					if(!is_object($oModule) || !method_exists($oModule, $this->act))
 					{
 						$type = $orig_type;
 						Mobile::setMobile(FALSE);
-						$oModule = $this->getModuleInstance($forward->module, $type, $kind);
+						$oModule = self::getModuleInstance($forward->module, $type, $kind);
 					}
 				}
 				else
 				{
-					$oModule = $this->getModuleInstance($forward->module, $type, $kind);
+					$oModule = self::getModuleInstance($forward->module, $type, $kind);
 				}
 
 				if(!is_object($oModule))
 				{
-					$this->_setInputErrorToContext();
-					$oMessageObject = ModuleHandler::getModuleInstance('message', $display_mode);
+					self::_setInputErrorToContext();
+					$oMessageObject = self::getModuleInstance('message', $display_mode);
 					$oMessageObject->setError(-1);
 					$oMessageObject->setMessage('msg_module_is_not_exists');
 					$oMessageObject->dispMessage();
@@ -599,10 +599,10 @@ class ModuleHandler extends Handler
 					}
 					else
 					{
-						$this->_setInputErrorToContext();
+						self::_setInputErrorToContext();
 
 						$this->error = 'msg_is_not_administrator';
-						$oMessageObject = ModuleHandler::getModuleInstance('message', $display_mode);
+						$oMessageObject = self::getModuleInstance('message', $display_mode);
 						$oMessageObject->setError(-1);
 						$oMessageObject->setMessage($this->error);
 						$oMessageObject->dispMessage();
@@ -614,9 +614,9 @@ class ModuleHandler extends Handler
 					$grant = $oModuleModel->getGrant($this->module_info, $logged_info);
 					if(!$grant->manager)
 					{
-						$this->_setInputErrorToContext();
+						self::_setInputErrorToContext();
 						$this->error = 'msg_is_not_manager';
-						$oMessageObject = ModuleHandler::getModuleInstance('message', $display_mode);
+						$oMessageObject = self::getModuleInstance('message', $display_mode);
 						$oMessageObject->setError(-1);
 						$oMessageObject->setMessage($this->error);
 						$oMessageObject->dispMessage();
@@ -626,9 +626,9 @@ class ModuleHandler extends Handler
 					{
 						if(!$grant->is_admin && $this->module != $this->orig_module->module && $xml_info->permission->{$this->act} != 'manager')
 						{
-							$this->_setInputErrorToContext();
+							self::_setInputErrorToContext();
 							$this->error = 'msg_is_not_administrator';
-							$oMessageObject = ModuleHandler::getModuleInstance('message', $display_mode);
+							$oMessageObject = self::getModuleInstance('message', $display_mode);
 							$oMessageObject->setError(-1);
 							$oMessageObject->setMessage($this->error);
 							$oMessageObject->dispMessage();
@@ -685,7 +685,7 @@ class ModuleHandler extends Handler
 					$_SESSION['XE_VALIDATOR_MESSAGE_TYPE'] = 'error';
 					$_SESSION['XE_VALIDATOR_RETURN_URL'] = $returnUrl;
 					$_SESSION['XE_VALIDATOR_ID'] = Context::get('xe_validator_id');
-					$this->_setInputValueToSession();
+					self::_setInputValueToSession();
 					return $oModule;
 				}
 			}
@@ -728,7 +728,7 @@ class ModuleHandler extends Handler
 		}
 
 		// if failed message exists in session, set context
-		$this->_setInputErrorToContext();
+		self::_setInputErrorToContext();
 
 		$procResult = $oModule->proc();
 
@@ -748,7 +748,7 @@ class ModuleHandler extends Handler
 				{
 					$redirectUrl = Context::get('error_return_url');
 				}
-				$this->_setInputValueToSession();
+				self::_setInputValueToSession();
 			}
 			else
 			{
@@ -782,7 +782,7 @@ class ModuleHandler extends Handler
 	 * set error message to Session.
 	 * @return void
 	 * */
-	function _setInputErrorToContext()
+	public static function _setInputErrorToContext()
 	{
 		if($_SESSION['XE_VALIDATOR_ERROR'] && !Context::get('XE_VALIDATOR_ERROR'))
 		{
@@ -809,14 +809,14 @@ class ModuleHandler extends Handler
 			Context::set('INPUT_ERROR', $_SESSION['INPUT_ERROR']);
 		}
 
-		$this->_clearErrorSession();
+		self::_clearErrorSession();
 	}
 
 	/**
 	 * clear error message to Session.
 	 * @return void
 	 * */
-	function _clearErrorSession()
+	public static function _clearErrorSession()
 	{
 		unset($_SESSION['XE_VALIDATOR_ERROR']);
 		unset($_SESSION['XE_VALIDATOR_MESSAGE']);
@@ -830,7 +830,7 @@ class ModuleHandler extends Handler
 	 * occured error when, set input values to session.
 	 * @return void
 	 * */
-	function _setInputValueToSession()
+	public static function _setInputValueToSession()
 	{
 		$requestVars = Context::getRequestVars();
 		unset($requestVars->act, $requestVars->mid, $requestVars->vid, $requestVars->success_return_url, $requestVars->error_return_url);
@@ -845,7 +845,7 @@ class ModuleHandler extends Handler
 	 * @param ModuleObject $oModule module instance
 	 * @return void
 	 * */
-	function displayContent($oModule = NULL)
+	public function displayContent($oModule = NULL)
 	{
 		// If the module is not set or not an object, set error
 		if(!$oModule || !is_object($oModule))
@@ -861,7 +861,7 @@ class ModuleHandler extends Handler
 		}
 
 		// Call trigger after moduleHandler proc
-		$output = ModuleHandler::triggerCall('moduleHandler.proc', 'after', $oModule);
+		$output = self::triggerCall('moduleHandler.proc', 'after', $oModule);
 		if(!$output->toBool())
 		{
 			$this->error = $output->getMessage();
@@ -887,14 +887,14 @@ class ModuleHandler extends Handler
 			{
 				// display content with message module instance
 				$type = Mobile::isFromMobilePhone() ? 'mobile' : 'view';
-				$oMessageObject = ModuleHandler::getModuleInstance('message', $type);
+				$oMessageObject = self::getModuleInstance('message', $type);
 				$oMessageObject->setError(-1);
 				$oMessageObject->setMessage($this->error);
 				$oMessageObject->dispMessage();
 
 				if($oMessageObject->getHttpStatusCode() && $oMessageObject->getHttpStatusCode() != '200')
 				{
-					$this->_setHttpStatusMessage($oMessageObject->getHttpStatusCode());
+					self::_setHttpStatusMessage($oMessageObject->getHttpStatusCode());
 					$oMessageObject->setTemplateFile('http_status_code');
 				}
 
@@ -910,7 +910,7 @@ class ModuleHandler extends Handler
 					$oModule = $oMessageObject;
 				}
 
-				$this->_clearErrorSession();
+				self::_clearErrorSession();
 			}
 
 			// Check if layout_srl exists for the module
@@ -1034,7 +1034,7 @@ class ModuleHandler extends Handler
 	 * @param string $module module name
 	 * @return string path of the module
 	 * */
-	function getModulePath($module)
+	public static function getModulePath($module)
 	{
 		return sprintf('./modules/%s/', $module);
 	}
@@ -1047,7 +1047,7 @@ class ModuleHandler extends Handler
 	 * @return ModuleObject module instance (if failed it returns null)
 	 * @remarks if there exists a module instance created before, returns it.
 	 * */
-	function &getModuleInstance($module, $type = 'view', $kind = '')
+	public static function getModuleInstance($module, $type = 'view', $kind = '')
 	{
 
 		if(__DEBUG__ == 3)
@@ -1075,12 +1075,12 @@ class ModuleHandler extends Handler
 		// if there is no instance of the module in global variable, create a new one
 		if(!isset($GLOBALS['_loaded_module'][$module][$type][$kind]))
 		{
-			ModuleHandler::_getModuleFilePath($module, $type, $kind, $class_path, $high_class_file, $class_file, $instance_name);
+			self::_getModuleFilePath($module, $type, $kind, $class_path, $high_class_file, $class_file, $instance_name);
 
 			if($extend_module && (!is_readable($high_class_file) || !is_readable($class_file)))
 			{
 				$module = $parent_module;
-				ModuleHandler::_getModuleFilePath($module, $type, $kind, $class_path, $high_class_file, $class_file, $instance_name);
+				self::_getModuleFilePath($module, $type, $kind, $class_path, $high_class_file, $class_file, $instance_name);
 			}
 
 			// Check if the base class and instance class exist
@@ -1111,16 +1111,6 @@ class ModuleHandler extends Handler
 			$oModule->setModule($module);
 			$oModule->setModulePath($class_path);
 
-			// If the module has a constructor, run it.
-			if(!isset($GLOBALS['_called_constructor'][$instance_name]))
-			{
-				$GLOBALS['_called_constructor'][$instance_name] = TRUE;
-				if(@method_exists($oModule, $instance_name))
-				{
-					$oModule->{$instance_name}();
-				}
-			}
-
 			// Store the created instance into GLOBALS variable
 			$GLOBALS['_loaded_module'][$module][$type][$kind] = $oModule;
 		}
@@ -1134,9 +1124,9 @@ class ModuleHandler extends Handler
 		return $GLOBALS['_loaded_module'][$module][$type][$kind];
 	}
 
-	function _getModuleFilePath($module, $type, $kind, &$classPath, &$highClassFile, &$classFile, &$instanceName)
+	public static function _getModuleFilePath($module, $type, $kind, &$classPath, &$highClassFile, &$classFile, &$instanceName)
 	{
-		$classPath = ModuleHandler::getModulePath($module);
+		$classPath = self::getModulePath($module);
 
 		$highClassFile = sprintf('%s%s%s.class.php', _XE_PATH_, $classPath, $module);
 		$highClassFile = FileHandler::getRealPath($highClassFile);
@@ -1173,7 +1163,7 @@ class ModuleHandler extends Handler
 	 * @param object $obj an object as a parameter to trigger
 	 * @return Object
 	 * */
-	function triggerCall($trigger_name, $called_position, &$obj)
+	public static function triggerCall($trigger_name, $called_position, &$obj)
 	{
 		// skip if not installed
 		if(!Context::isInstalled())
@@ -1236,12 +1226,12 @@ class ModuleHandler extends Handler
 	 * @param string $code
 	 * @return string
 	 * */
-	function _setHttpStatusMessage($code)
+	public static function _setHttpStatusMessage($code)
 	{
 		$statusMessageList = array(
 			'100' => 'Continue',
 			'101' => 'Switching Protocols',
-			'201' => 'OK', // todo check array key '201'
+			'200' => 'OK',
 			'201' => 'Created',
 			'202' => 'Accepted',
 			'203' => 'Non-Authoritative Information',
