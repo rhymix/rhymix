@@ -63,6 +63,11 @@ class ModuleHandler extends Handler
         {
             $this->entry = Context::convertEncodingStr($entry);
         }
+        if(!$this->module && $this->mid === 'admin')
+        {
+        	Context::set('module', $this->module = 'admin');
+        	Context::set('mid', $this->mid = null);
+        }
 
 		// Validate variables to prevent XSS
 		$isInvalid = NULL;
