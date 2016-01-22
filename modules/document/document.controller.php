@@ -57,15 +57,18 @@ class documentController extends document
 		{
 			return new Object(-1, 'msg_document_voted_cancel_not');
 		}
+		$logged_info = Context::get('logged_info');
 
 		$args = new stdClass();
 		$d_args = new stdClass();
 		$args->document_srl = $d_args->document_srl = $document_srl;
+		$d_args->member_srl = $logged_info->member_srl;
 		$args->voted_count = $oDocument->get('voted_count') - 1;
 		$output = executeQuery('document.updateVotedCount', $args);
 		$d_output = executeQuery('document.deleteDocumentVotedLog', $d_args);
 		//session reset
 		$_SESSION['voted_document'][$document_srl] = false;
+
 		$output->setMessage('success_voted_canceled');
 		return $output;
 	}
@@ -1201,7 +1204,7 @@ class documentController extends document
 		}
 
 		// Use member_srl for logged-in members and IP address for non-members.
-		$args = new stdClass;
+		$args = new stdClass();
 		if($member_srl)
 		{
 			$args->member_srl = $member_srl;
@@ -1227,11 +1230,15 @@ class documentController extends document
 		if($point < 0)
 		{
 			$args->blamed_count = $oDocument->get('blamed_count') + $point;
+			// Leave in the session information
+			$_SESSION['voted_document'][$document_srl] = -1;
 			$output = executeQuery('document.updateBlamedCount', $args);
 		}
 		else
 		{
 			$args->voted_count = $oDocument->get('voted_count') + $point;
+			// Leave in the session information
+			$_SESSION['voted_document'][$document_srl] = 1;
 			$output = executeQuery('document.updateVotedCount', $args);
 		}
 		if(!$output->toBool()) return $output;
@@ -1264,9 +1271,6 @@ class documentController extends document
 			$cache_key = 'document_item:'. getNumberingPath($document_srl) . $document_srl;
 			$oCacheHandler->delete($cache_key);
 		}
-
-		// Leave in the session information
-		$_SESSION['voted_document'][$document_srl] = true;
 
 		// Return result
 		$output = new Object();
