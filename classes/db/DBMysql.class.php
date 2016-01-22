@@ -597,7 +597,7 @@ class DBMysql extends DB
 			
 			// MySQL only supports 767 bytes for indexed columns.
 			// This is 191 characters in utf8mb4 and 255 characters in utf8.
-			if($column->attrs->utf8mb4 === 'false')
+			if($column->attrs->utf8mb4 === 'false' && stripos($type, 'char') !== false)
 			{
 				$column_charset = 'CHARACTER SET utf8 COLLATE utf8_unicode_ci';
 			}
