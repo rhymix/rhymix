@@ -8,19 +8,18 @@
  */
 class Mobile
 {
-
 	/**
 	 * Whether mobile or not mobile mode
 	 * @var bool
 	 */
-	var $ismobile = NULL;
+	public $ismobile = NULL;
 
 	/**
 	 * Get instance of Mobile class(for singleton)
 	 *
 	 * @return Mobile
 	 */
-	function &getInstance()
+	public function getInstance()
 	{
 		static $theInstance;
 		if(!isset($theInstance))
@@ -35,10 +34,9 @@ class Mobile
 	 *
 	 * @return bool If mobile mode returns true or false
 	 */
-	function isFromMobilePhone()
+	public static function isFromMobilePhone()
 	{
-		$oMobile = & Mobile::getInstance();
-		return $oMobile->_isFromMobilePhone();
+		return self::getInstance()->_isFromMobilePhone();
 	}
 
 	/**
@@ -46,7 +44,7 @@ class Mobile
 	 *
 	 * @return bool
 	 */
-	function _isFromMobilePhone()
+	public function _isFromMobilePhone()
 	{
 		if($this->ismobile !== NULL)
 		{
@@ -92,7 +90,7 @@ class Mobile
 				$this->ismobile = FALSE;
 				setcookie("mobile", FALSE, 0, $xe_web_path);
 				setcookie("user-agent", FALSE, 0, $xe_web_path);
-				if(!$this->isMobilePadCheckByAgent() && $this->isMobileCheckByAgent())
+				if(!self::isMobilePadCheckByAgent() && self::isMobileCheckByAgent())
 				{
 					$this->ismobile = TRUE;
 				}
@@ -100,13 +98,13 @@ class Mobile
 		}
 		else
 		{
-			if($this->isMobilePadCheckByAgent())
+			if(self::isMobilePadCheckByAgent())
 			{
 				$this->ismobile = FALSE;
 			}
 			else
 			{
-				if($this->isMobileCheckByAgent())
+				if(self::isMobileCheckByAgent())
 				{
 					$this->ismobile = TRUE;
 				}
@@ -143,7 +141,7 @@ class Mobile
 	 *
 	 * @return bool Returns true on mobile device or false.
 	 */
-	function isMobileCheckByAgent()
+	public static function isMobileCheckByAgent()
 	{
 		static $UACheck;
 		if(isset($UACheck))
@@ -177,7 +175,7 @@ class Mobile
 	 *
 	 * @return bool TRUE for tablet, and FALSE for else.
 	 */
-	function isMobilePadCheckByAgent()
+	public static function isMobilePadCheckByAgent()
 	{
 		static $UACheck;
 		if(isset($UACheck))
@@ -226,15 +224,13 @@ class Mobile
 	 * @param bool $ismobile
 	 * @return void
 	 */
-	function setMobile($ismobile)
+	public static function setMobile($ismobile)
 	{
-		$oMobile = Mobile::getInstance();
-		$oMobile->ismobile = $ismobile;
+		self::getInstance()->ismobile = (bool)$ismobile;
 	}
 
-	function isMobileEnabled()
+	public static function isMobileEnabled()
 	{
-		$db_info = Context::getDBInfo();
-		return ($db_info->use_mobile_view === 'Y');
+		return (Context::getDBInfo()->use_mobile_view === 'Y');
 	}
 }
