@@ -42,6 +42,9 @@ $install_config = array(
 
 $install_config = '<' . '?php $install_config = ' . var_export($install_config, true) . ';';
 
+mkdir(_XE_PATH_ . 'files/env', 0755, true);
+file_put_contents(_XE_PATH_ . 'files/env/easyinstall_last', time());
+
 $I->wantTo('Auto install');
 $I->writeToFile(_XE_PATH_ . 'config/install.config.php', $install_config);
 $I->amOnPage('/');

@@ -26,6 +26,9 @@ if(file_exists(_XE_PATH_ . 'config/install.config.php')) {
     $I->deleteFile(_XE_PATH_ . 'config/install.config.php');
 }
 
+mkdir(_XE_PATH_ . 'files/env', 0755, true);
+file_put_contents(_XE_PATH_ . 'files/env/easyinstall_last', time());
+
 // Step 1 : License Agreement
 $I->wantTo('Install RhymiX');
 $I->amOnPage('/index.php?l=ko');
