@@ -156,6 +156,10 @@ class FileHandler
 
 		@file_put_contents($filename, $buff, $flags|LOCK_EX);
 		@chmod($filename, 0644);
+		if(function_exists('opcache_invalidate') && substr($filename, -4) === '.php')
+		{
+			@opcache_invalidate($filename, true);
+		}
 	}
 
 	/**
@@ -166,7 +170,16 @@ class FileHandler
 	 */
 	public static function removeFile($filename)
 	{
-		return (($filename = self::exists($filename)) !== FALSE) && @unlink($filename);
+		if(($filename = self::exists($filename)) === false)
+		{
+			return false;
+		}
+		$status = @unlink($filename);
+		if(function_exists('opcache_invalidate') && substr($filename, -4) === '.php')
+		{
+			@opcache_invalidate($filename, true);
+		}
+		return $status;
 	}
 
 	/**

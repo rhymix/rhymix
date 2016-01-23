@@ -96,6 +96,9 @@ class installAdminController extends install
 		$qmail_compatibility = Context::get('qmail_compatibility');
 		if($qmail_compatibility!='Y') $qmail_compatibility = 'N';
 
+		$minify_scripts = Context::get('minify_scripts');
+		if(!$minify_scripts) $minify_scripts = 'common';
+
 		$cache_friendly = Context::get('cache_friendly');
 		if($cache_friendly!='Y') $cache_friendly = 'N';
 
@@ -104,6 +107,7 @@ class installAdminController extends install
 
 		$db_info->default_url = $default_url;
 		$db_info->qmail_compatibility = $qmail_compatibility;
+		$db_info->minify_scripts = $minify_scripts;
 		$db_info->cache_friendly = $cache_friendly;
 		$db_info->use_db_session = $use_db_session;
 		$db_info->use_rewrite = $use_rewrite;

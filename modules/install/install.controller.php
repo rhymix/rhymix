@@ -100,7 +100,7 @@ class installController extends install
 		// Save rewrite and time zone settings
 		if(!Context::get('install_config'))
 		{
-			$config_info = Context::gets('use_rewrite','time_zone');
+			$config_info = Context::gets('use_rewrite','time_zone', 'use_ssl');
 			if($config_info->use_rewrite!='Y') $config_info->use_rewrite = 'N';
 			if(!$this->makeEtcConfigFile($config_info))
 			{
@@ -450,52 +450,6 @@ class installController extends install
 			$returnUrl = Context::get('success_return_url') ? Context::get('success_return_url') : getNotEncodedUrl('', 'act', 'dispInstallCheckEnv');
 			$this->setRedirectUrl($returnUrl);
 		}
-	}
-
-	/**
-	 * check this server can use rewrite module
-	 * make a file to files/config and check url approach by ".htaccess" rules
-	 *
-	 * @return bool
-	*/
-	function checkRewriteUsable() {
-		$checkString = "isApproached";
-		$checkFilePath = 'files/config/tmpRewriteCheck.txt';
-
-		FileHandler::writeFile(_XE_PATH_.$checkFilePath, trim($checkString));
-
-		$scheme = ($_SERVER['HTTPS'] === 'on') ? 'https' : 'http';
-		$hostname = $_SERVER['SERVER_NAME'];
-		$port = $_SERVER['SERVER_PORT'];
-		$str_port = '';
-		if($port)
-		{
-			$str_port = ':' . $port;
-		}
-
-		$tmpPath = $_SERVER['DOCUMENT_ROOT'];
-
-		//if DIRECTORY_SEPARATOR is not /(IIS)
-		if(DIRECTORY_SEPARATOR !== '/')
-		{
-			//change to slash for compare
-			$tmpPath = str_replace(DIRECTORY_SEPARATOR, '/', $_SERVER['DOCUMENT_ROOT']);
-		}
-
-		$query = "/JUST/CHECK/REWRITE/" . $checkFilePath;
-		$currentPath = str_replace($tmpPath, "", _XE_PATH_);
-		if($currentPath != "")
-		{
-			$query = $currentPath . $query;
-		}
-		$requestUrl = sprintf('%s://%s%s%s', $scheme, $hostname, $str_port, $query);
-		$requestConfig = array();
-		$requestConfig['ssl_verify_peer'] = false;
-		$buff = FileHandler::getRemoteResource($requestUrl, null, 3, 'GET', null, array(), array(), array(), $requestConfig);
-
-		FileHandler::removeFile(_XE_PATH_.$checkFilePath);
-
-		return (trim($buff) == $checkString);
 	}
 
 	/**

@@ -371,6 +371,11 @@ class autoinstallAdminModel extends autoinstall
 			$directModuleInstall = FALSE;
 			$arrUnwritableDir[] = $output->get('path');
 		}
+		
+		if(!is_array($package->depends))
+		{
+			$package->depends = array();
+		}
 
 		foreach($package->depends as $dep)
 		{
