@@ -133,8 +133,8 @@ class documentController extends document
 
 	/**
 	 * Update Document Voted Cancel
-	 * @param stdClass $args
-	 * @param stdClass $d_args
+	 * @param int $document_srl
+	 * @param Document $oDocument
 	 * @param int $point
 	 * @return object
 	 */
@@ -148,12 +148,12 @@ class documentController extends document
 		$d_args->member_srl = $logged_info->member_srl;
 		if($point > 0)
 		{
-			$args->voted_count = $oDocument->get('voted_count') - 1;
+			$args->voted_count = $oDocument->get('voted_count') - $point;
 			$output = executeQuery('document.updateVotedCount', $args);
 		}
 		else
 		{
-			$args->blamed_count = $oDocument->get('blamed_count') + 1;
+			$args->blamed_count = $oDocument->get('blamed_count') - $point;
 			$output = executeQuery('document.updateBlamedCount', $args);
 		}
 		$d_output = executeQuery('document.deleteDocumentVotedLog', $d_args);
@@ -1295,14 +1295,14 @@ class documentController extends document
 		{
 			$args->blamed_count = $oDocument->get('blamed_count') + $point;
 			// Leave in the session information
-			$_SESSION['voted_document'][$document_srl] = -1;
+			$_SESSION['voted_document'][$document_srl] = $point;
 			$output = executeQuery('document.updateBlamedCount', $args);
 		}
 		else
 		{
 			$args->voted_count = $oDocument->get('voted_count') + $point;
 			// Leave in the session information
-			$_SESSION['voted_document'][$document_srl] = 1;
+			$_SESSION['voted_document'][$document_srl] = $point;
 			$output = executeQuery('document.updateVotedCount', $args);
 		}
 		if(!$output->toBool()) return $output;

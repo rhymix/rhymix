@@ -372,13 +372,9 @@ class documentItem extends Object
 	function getVoted()
 	{
 		if(!$this->document_srl) return;
-		if($_SESSION['voted_document'][$this->document_srl] == '1')
+		if($_SESSION['voted_document'][$this->document_srl])
 		{
-			return 1;
-		}
-		else if($_SESSION['voted_document'][$this->document_srl] == '-1')
-		{
-			return -1;
+			return $_SESSION['voted_document'][$this->document_srl];
 		}
 
 		$logged_info = Context::get('logged_info');
@@ -388,13 +384,9 @@ class documentItem extends Object
 		$args->document_srl = $this->document_srl;
 		$output = executeQuery('document.getDocumentVotedLog', $args);
 
-		if($output->data->point === '1')
+		if($output->data->point)
 		{
-			return 1;
-		}
-		else if($output->data->point === '-1')
-		{
-			return -1;
+			return $output->data->point;
 		}
 
 		return false;
