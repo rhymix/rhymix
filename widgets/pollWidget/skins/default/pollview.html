@@ -3,24 +3,25 @@
 	var poll_alert_lang = "{$lang->msg_check_poll_item}";
 	var poll_checkcount_lang = "{$lang->poll_checkcount}";
 	var poll_member_lang = "{$lang->poll_item_members}";
-	jQuery.exec_json("poll.getPollinfo", {/**/"poll_srl":{$poll_srl}/**/}, function(data){/**/
+	jQuery(document).ready(function(){
+		var data = {json_encode($poll_data)};
 		if(data.poll.is_polled==0) loadPoll({$poll_srl},data);
 		else
 		{
 			loadPollResult({$poll_srl},data);
-			jQuery("#poll_{$poll_srl}_result_button").css({/**/
+			jQuery("#poll_{$poll_srl}_result_button").css({
 				display: "none"
-				/**/});
+				});
 
-			jQuery("#poll_{$poll_srl}_result_nobutton").css({/**/
+			jQuery("#poll_{$poll_srl}_result_nobutton").css({
 				display: "table-row"
-				/**/});
+				});
 
-			jQuery("#poll_{$poll_srl}_result_yesbutton").css({/**/
+			jQuery("#poll_{$poll_srl}_result_yesbutton").css({
 				display: "none"
-				/**/});
+				});
 		}
-		/**/});
+		});
 </script>
 <div style="{$style}">
 	<div id="poll_{$poll_srl}" class="pollWidget" style="display:none;">

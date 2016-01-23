@@ -47,7 +47,7 @@ class poll_maker extends EditorHandler
 	{
 		$args = new stdClass();
 
-		$args->poll_srl = $xml_obj->attrs->poll_srl;
+		$args->poll_srl = intval($xml_obj->attrs->poll_srl);
 		$skin = $xml_obj->attrs->skin;
 		if(!$skin) $skin = 'default';
 		$args->skin = $skin;
@@ -61,6 +61,11 @@ class poll_maker extends EditorHandler
 		$tpl_path = sprintf('%sskins/%s', _XE_PATH_ . 'widgets/pollWidget/', $args->skin);
 		$tpl_file = 'pollview';
 
+		// Get the information related to the survey
+		$oPollModel = getModel('poll');
+		$poll_data = $oPollModel->_getPollinfo($args->poll_srl);
+
+		Context::set('poll_data', $poll_data);
 		Context::set('colorset', $args->colorset);
 		Context::set('poll_srl', $args->poll_srl);
 		Context::set('style', $args->style);

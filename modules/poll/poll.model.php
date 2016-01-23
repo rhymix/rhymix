@@ -10,22 +10,21 @@ class pollModel extends poll
 	/**
 	 * @brief Initialization
 	 */
-	function init()
+	public function init()
 	{
 	}
 
 	/**
 	 * @brief returns poll infomation
 	 */
-	function getPollinfo()
+	public function _getPollinfo($poll_srl)
 	{
 		$args = new stdClass;
-		$poll_srl = Context::get('poll_srl');
+		$args->poll_srl = intval($poll_srl);
 		$logged_info = Context::get('logged_info');
 
-		if(!$poll_srl || $poll_srl=='') return new Object(-1,"poll_no_poll_srl");
+		if(!$args->poll_srl || $args->poll_srl === 0) return new Object(-1,"poll_no_poll_srl");
 
-		$args->poll_srl = $poll_srl;
 		// Get the information related to the survey
 		$columnList = array('poll_count', 'stop_date','poll_type','member_srl');
 		$output = executeQuery('poll.getPoll', $args, $columnList);
@@ -33,8 +32,11 @@ class pollModel extends poll
 		if(!$output->data) return new Object(-1,"poll_no_poll_or_deleted_poll");
 
 		$poll = new stdClass;
+
+		// if a person can vote is_polled=0, else 1
 		$poll->is_polled = 0;
 		if($output->data->stop_date < date("Ymd")) $poll->is_polled = 1;
+		elseif($this->isPolled($poll_srl)) $poll->is_polled = 1;
 
 		$poll->poll_count = (int)$output->data->poll_count;
 		$poll->poll_type = (int)$output->data->poll_type;
@@ -64,20 +66,31 @@ class pollModel extends poll
 
 		}
 
+		$output = new stdClass;
+
 		$poll->poll_srl = $poll_srl;
-		$caniadditem = $this->isAbletoAddItem($poll->poll_type) && !!$logged_info->member_srl;
+		$output->caniadditem = $this->isAbletoAddItem($poll->poll_type) && !!$logged_info->member_srl;
 
-		$oPollModel = getModel('poll');
-		if($oPollModel->isPolled($poll_srl)) $poll->is_polled = 1;
+		$output->poll = $poll;
 
-		$this->add('poll', $poll);
-		$this->add('caniadditem', $caniadditem);
+		return $output;
+	}
+
+	/**
+	 * @brief returns poll infomation
+	 */
+	public function getPollinfo()
+	{
+		$output = $this->_getPollinfo(Context::get('poll_srl'));
+
+		$this->add('poll', $output->poll);
+		$this->add('caniadditem', $output->caniadditem);
 	}
 
 	/**
 	 * @brief returns poll item infomation
 	 */
-	function getPollitemInfo()
+	public function getPollitemInfo()
 	{
 		$args = new stdClass;
 		$poll_srl = Context::get('poll_srl');
@@ -160,13 +173,12 @@ class pollModel extends poll
 	 * @brief returns poll status
 	 * @see this function uses isPolled function below
 	 */
-	function getPollstatus()
+	public function getPollstatus()
 	{
 		$poll_srl = Context::get('poll_srl');
 		if(!$poll_srl || $poll_srl=='') return new Object(-1,"poll_no_poll_srl");
 
-		$oPollModel = getModel('poll');
-		if($oPollModel->isPolled($poll_srl)) $is_polled = 1;
+		if($this->isPolled($poll_srl)) $is_polled = 1;
 		else $is_polled = 0;
 
 		$this->add('is_polled', $is_polled);
@@ -175,7 +187,7 @@ class pollModel extends poll
 	/**
 	 * @brief The function examines if the user has already been polled
 	 */
-	function isPolled($poll_srl)
+	public function isPolled($poll_srl)
 	{
 		$args = new stdClass;
 		$args->poll_srl = $poll_srl;
@@ -199,7 +211,7 @@ class pollModel extends poll
 	 * Return the result after checking if the poll has responses
 	 * @deprecated this function uses poll skin, which will be removed
 	 */
-	function getPollHtml($poll_srl, $style = '', $skin = 'default')
+	public function getPollHtml($poll_srl, $style = '', $skin = 'default')
 	{
 		$args = new stdClass;
 		$args->poll_srl = $poll_srl;
@@ -258,7 +270,7 @@ class pollModel extends poll
 	 * @brief Return the result's HTML
 	 * @deprecated this function uses poll skin, which will be removed
 	 */
-	function getPollResultHtml($poll_srl, $skin = 'default')
+	public function getPollResultHtml($poll_srl, $skin = 'default')
 	{
 		$args = new stdClass;
 		$args->poll_srl = $poll_srl;
@@ -306,7 +318,7 @@ class pollModel extends poll
 	 * @brief Selected poll - return the colorset of the skin
 	 * @deprecated this function uses poll skin, which will be removed
 	 */
-	function getPollGetColorsetList()
+	public function getPollGetColorsetList()
 	{
 		$skin = Context::get('skin');
 

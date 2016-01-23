@@ -16,10 +16,17 @@ class pollWidget extends WidgetHandler
 	 */
 	function proc($args)
 	{
+		$args->poll_srl = intval($args->poll_srl);
+
+		// Get the information related to the survey
+		$oPollModel = getModel('poll');
+		$poll_data = $oPollModel->_getPollinfo($args->poll_srl);
+
 		// Set a path of the template skin (values of skin, colorset settings)
 		$tpl_path = sprintf('%sskins/%s', $this->widget_path, $args->skin);
 		$tpl_file = 'pollview';
 
+		Context::set('poll_data', $poll_data);
 		Context::set('colorset', $args->colorset);
 		Context::set('poll_srl', $args->poll_srl);
 		Context::set('style', $args->style);
