@@ -1,25 +1,25 @@
-function initTemplete(type)
+function initRxDefaultTemplete(type, poll_srl)
 {
     switch(type)
     {
         case 'poll':
             if(typeof window.template == 'undefined')
             {
-                var source = jQuery("#entry-template").html();
+                var source = jQuery("#entry-template-" + poll_srl).html();
                 window.template = Handlebars.compile(source);
             }
             break;
         case 'result':
             if(typeof window.template_result == 'undefined')
             {
-                var source = jQuery("#entry-template-result").html();
+                var source = jQuery("#entry-template-result-" + poll_srl).html();
                 window.template_result = Handlebars.compile(source);
             }
             break;
         case 'members':
             if(typeof window.template_member == 'undefined')
             {
-                var source = jQuery("#entry-template-members").html();
+                var source = jQuery("#entry-template-members-" + poll_srl).html();
                 window.template_member = Handlebars.compile(source);
             }
             break;
@@ -68,13 +68,13 @@ function doPoll(fo_obj) {
         if(data.error!=0) alert(data.message);
         else
         {
-            loadPollResult(poll_srl);
+            loadRxDefaultPollResult(poll_srl);
             jQuery("#poll_" + poll_srl + "_gotoresult_button").css({
                 display: "none"
             });
 
             jQuery("#poll_" + poll_srl + "_result_nobutton").css({
-                display: "table-row"
+                display: "block"
             });
 
             jQuery("#poll_" + poll_srl + "_result_yesbutton").css({
@@ -96,14 +96,14 @@ function addItem(poll_srl,poll_srl_indexes) {
             });
 
             jQuery("#poll_" + poll_srl + "_result_nobutton").css({
-                display: "table-row"
+                display: "block"
             });
 
             jQuery("#poll_" + poll_srl + "_result_yesbutton").css({
                 display: "none"
             });
 
-            loadPoll(poll_srl);
+            loadRxDefaultPoll(poll_srl);
         }
     });
     return false;
@@ -120,32 +120,32 @@ function deleteItem(poll_srl,poll_srl_indexes,poll_item_srl) {
             });
 
             jQuery("#poll_" + poll_srl + "_result_nobutton").css({
-                display: "table-row"
+                display: "block"
             });
 
             jQuery("#poll_" + poll_srl + "_result_yesbutton").css({
                 display: "none"
             });
 
-            loadPoll(poll_srl);
+            loadRxDefaultPoll(poll_srl);
         }
     });
     return false;
 }
 
-function loadPoll(poll_srl,data)
+function loadRxDefaultPoll(poll_srl,data)
 {
     if(typeof data == 'undefined')
     {
         jQuery.exec_json("poll.getPollinfo", {"poll_srl":poll_srl}, function(data){
-            loadPoll(parseInt(data.poll.poll_srl),data);
+            loadRxDefaultPoll(parseInt(data.poll.poll_srl),data);
         });
     }
     else
     {
         jQuery("#stop_date_"+poll_srl).html(data.poll.stop_date);
 
-        initTemplete('poll');
+        initRxDefaultTemplete('poll',poll_srl);
         var template = window.template;
         var context = Object;
         var additem = data.caniadditem;
@@ -174,7 +174,7 @@ function loadPoll(poll_srl,data)
     }
 }
 
-function showPollMemberNext(poll_srl,poll_item_srl)
+function showRxDefaultPollMemberNext(poll_srl,poll_item_srl)
 {
     if(typeof window.cur_page == 'undefined')
     {
@@ -184,7 +184,7 @@ function showPollMemberNext(poll_srl,poll_item_srl)
     window.cur_page++;
 
     jQuery.exec_json("poll.getPollitemInfo", {"poll_srl":poll_srl,"poll_item":poll_item_srl,"page":window.cur_page}, function(data){
-        initTemplete('members');
+        initRxDefaultTemplete('members',poll_srl);
         var template = window.template_member;
         var context = Object;
 
@@ -213,12 +213,12 @@ function showPollMemberNext(poll_srl,poll_item_srl)
     return false;
 }
 
-function showPollMember(poll_srl,poll_item_srl)
+function showRxDefaultPollMember(poll_srl,poll_item_srl)
 {
     window.cur_page = 1;
 
     jQuery.exec_json("poll.getPollitemInfo", {"poll_srl":poll_srl,"poll_item":poll_item_srl,"page":window.cur_page}, function(data){
-        initTemplete('members');
+        initRxDefaultTemplete('members',poll_srl);
         var template = window.template_member;
         var context = Object;
         var title = poll_member_lang;
@@ -246,7 +246,7 @@ function showPollMember(poll_srl,poll_item_srl)
         jQuery("#poll_content_" + poll_srl + "_result").html(html);
 
         jQuery("#poll_" + poll_srl + "_gotoresult_button").css({
-            display: "table-row"
+            display: "block"
         });
 
         jQuery("#poll_" + poll_srl + "_result_nobutton").css({
@@ -254,19 +254,19 @@ function showPollMember(poll_srl,poll_item_srl)
         });
 
         jQuery("#poll_" + poll_srl + "_result_yesbutton").css({
-            display: "table-row"
+            display: "block"
         });
     });
 
     return false;
 }
 
-function loadPollResult(poll_srl,data)
+function loadRxDefaultPollResult(poll_srl,data)
 {
     if(typeof data == 'undefined')
     {
         jQuery.exec_json("poll.getPollinfo", {"poll_srl":poll_srl}, function(data){
-            loadPollResult(parseInt(data.poll.poll_srl),data);
+            loadRxDefaultPollResult(parseInt(data.poll.poll_srl),data);
         });
     }
     else
@@ -274,7 +274,7 @@ function loadPollResult(poll_srl,data)
         jQuery("#stop_date_result_" + poll_srl).html(data.poll.stop_date);
         jQuery("#poll_count_result_" + poll_srl).html(data.poll.poll_count);
 
-        initTemplete('result');
+        initRxDefaultTemplete('result',poll_srl);
         var template = window.template_result;
         var context = Object;
         var showMembers = (data.poll.poll_type==1 || data.poll.poll_type==3);
@@ -322,7 +322,7 @@ function loadPollResult(poll_srl,data)
 
 jQuery(function($){
 	/* View poll result */
-	$('._poll_result').click(function(){
+	$('._rx_default_poll_result').click(function(){
 		var cls = $(this).attr('class'), srl, skin;
 
 		try{
@@ -332,7 +332,7 @@ jQuery(function($){
 		if(!srl) return false;
 
         jQuery("#poll_" + srl + "_result_button").css({
-            display: "table-row"
+            display: "block"
         });
 
         jQuery("#poll_" + srl + "_result_nobutton").css({
@@ -340,16 +340,16 @@ jQuery(function($){
         });
 
         jQuery("#poll_" + srl + "_result_yesbutton").css({
-            display: "table-row"
+            display: "block"
         });
 
-        loadPollResult(srl);
+        loadRxDefaultPollResult(srl);
 
 		return false;
 	});
 
     /* goto poll result */
-    $('._gotoresult_screen').click(function(){
+    $('._rx_default_gotoresult_screen').click(function(){
         var cls = $(this).attr('class'), srl, skin;
 
         try{
@@ -363,20 +363,20 @@ jQuery(function($){
         });
 
         jQuery("#poll_" + srl + "_result_nobutton").css({
-            display: "table-row"
+            display: "block"
         });
 
         jQuery("#poll_" + srl + "_result_yesbutton").css({
             display: "none"
         });
 
-        loadPollResult(srl);
+        loadRxDefaultPollResult(srl);
 
         return false;
     });
 
     /* View poll screen */
-    $('._poll_screen').click(function(){
+    $('._rx_default_poll_screen').click(function(){
         var cls = $(this).attr('class'), srl, skin;
 
         try{
@@ -390,14 +390,14 @@ jQuery(function($){
         });
 
         jQuery("#poll_" + srl + "_result_nobutton").css({
-            display: "table-row"
+            display: "block"
         });
 
         jQuery("#poll_" + srl + "_result_yesbutton").css({
             display: "none"
         });
 
-        loadPoll(srl);
+        loadRxDefaultPoll(srl);
 
         return false;
     });
