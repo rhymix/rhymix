@@ -281,6 +281,29 @@ class commentItem extends Object
 		return htmlspecialchars($this->get('nick_name'), ENT_COMPAT | ENT_HTML401, 'UTF-8', false);
 	}
 
+	function getVote()
+	{
+		if(!$this->comment_srl) return false;
+		if($_SESSION['voted_comment'][$this->comment_srl])
+		{
+			return $_SESSION['voted_comment'][$this->comment_srl];
+		}
+
+		$logged_info = Context::get('logged_info');
+
+		$args = new stdClass();
+		$args->member_srl = $logged_info->member_srl;
+		$args->comment_srl = $this->comment_srl;
+		$output = executeQuery('comment.getCommentVotedLog', $args);
+
+		if($output->data->point)
+		{
+			return $output->data->point;
+		}
+
+		return false;
+	}
+
 	/**
 	 * Return content with htmlspecialchars
 	 * @return string

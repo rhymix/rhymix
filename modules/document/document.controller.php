@@ -44,6 +44,27 @@ class documentController extends document
 		return $output;
 	}
 
+	function procDocumentVoteUpCancel()
+	{
+		if(!Context::get('is_logged')) return new Object(-1, 'msg_invalid_request');
+
+		$document_srl = Context::get('target_srl');
+		if(!$document_srl) return new Object(-1, 'msg_invalid_request');
+
+		$oDocumentModel = getModel('document');
+		$oDocument = $oDocumentModel->getDocument($document_srl, false, false);
+		if($oDocument->get('voted_count') <= 0)
+		{
+			return new Object(-1, 'msg_document_voted_cancel_not');
+		}
+		$point = 1;
+		$output = $this->updateVotedCountCancel($document_srl, $oDocument, $point);
+
+		$output = new Object();
+		$output->setMessage('success_voted_canceled');
+		return $output;
+	}
+
 	/**
 	 * insert alias
 	 * @param int $module_srl
@@ -86,6 +107,82 @@ class documentController extends document
 		$point = -1;
 		$output = $this->updateVotedCount($document_srl, $point);
 		$this->add('blamed_count', $output->get('blamed_count'));
+		return $output;
+	}
+
+	function procDocumentVoteDownCancel()
+	{
+		if(!Context::get('is_logged')) return new Object(-1, 'msg_invalid_request');
+
+		$document_srl = Context::get('target_srl');
+		if(!$document_srl) return new Object(-1, 'msg_invalid_request');
+
+		$oDocumentModel = getModel('document');
+		$oDocument = $oDocumentModel->getDocument($document_srl, false, false);
+		if($oDocument->get('blamed_count') >= 0)
+		{
+			return new Object(-1, 'msg_document_voted_cancel_not');
+		}
+		$point = -1;
+		$output = $this->updateVotedCountCancel($document_srl, $oDocument, $point);
+
+		$output = new Object();
+		$output->setMessage('success_blamed_canceled');
+		return $output;
+	}
+
+	/**
+	 * Update Document Voted Cancel
+	 * @param int $document_srl
+	 * @param Document $oDocument
+	 * @param int $point
+	 * @return object
+	 */
+	function updateVotedCountCancel($document_srl, $oDocument, $point)
+	{
+		$logged_info = Context::get('logged_info');
+
+		$args = new stdClass();
+		$d_args = new stdClass();
+		$args->document_srl = $d_args->document_srl = $document_srl;
+		$d_args->member_srl = $logged_info->member_srl;
+		if($point > 0)
+		{
+			$args->voted_count = $oDocument->get('voted_count') - $point;
+			$output = executeQuery('document.updateVotedCount', $args);
+		}
+		else
+		{
+			$args->blamed_count = $oDocument->get('blamed_count') - $point;
+			$output = executeQuery('document.updateBlamedCount', $args);
+		}
+		$d_output = executeQuery('document.deleteDocumentVotedLog', $d_args);
+		if(!$d_output->toBool()) return $d_output;
+
+		//session reset
+		$_SESSION['voted_document'][$document_srl] = false;
+
+		// begin transaction
+		$oDB = DB::getInstance();
+		$oDB->begin();
+
+		$obj = new stdClass();
+		$obj->member_srl = $oDocument->get('member_srl');
+		$obj->module_srl = $oDocument->get('module_srl');
+		$obj->document_srl = $oDocument->get('document_srl');
+		$obj->update_target = ($point < 0) ? 'blamed_count' : 'voted_count';
+		$obj->point = $point;
+		$obj->before_point = ($point < 0) ? $oDocument->get('blamed_count') : $oDocument->get('voted_count');
+		$obj->after_point = ($point < 0) ? $args->blamed_count : $args->voted_count;
+		$obj->cancel = 1;
+
+		$trigger_output = ModuleHandler::triggerCall('document.updateVotedCountCancel', 'after', $obj);
+		if(!$trigger_output->toBool())
+		{
+			$oDB->rollback();
+			return $trigger_output;
+		}
+
 		return $output;
 	}
 
@@ -1175,7 +1272,7 @@ class documentController extends document
 		}
 
 		// Use member_srl for logged-in members and IP address for non-members.
-		$args = new stdClass;
+		$args = new stdClass();
 		if($member_srl)
 		{
 			$args->member_srl = $member_srl;
@@ -1201,11 +1298,15 @@ class documentController extends document
 		if($point < 0)
 		{
 			$args->blamed_count = $oDocument->get('blamed_count') + $point;
+			// Leave in the session information
+			$_SESSION['voted_document'][$document_srl] = $point;
 			$output = executeQuery('document.updateBlamedCount', $args);
 		}
 		else
 		{
 			$args->voted_count = $oDocument->get('voted_count') + $point;
+			// Leave in the session information
+			$_SESSION['voted_document'][$document_srl] = $point;
 			$output = executeQuery('document.updateVotedCount', $args);
 		}
 		if(!$output->toBool()) return $output;
@@ -1238,9 +1339,6 @@ class documentController extends document
 			$cache_key = 'document_item:'. getNumberingPath($document_srl) . $document_srl;
 			$oCacheHandler->delete($cache_key);
 		}
-
-		// Leave in the session information
-		$_SESSION['voted_document'][$document_srl] = true;
 
 		// Return result
 		$output = new Object();

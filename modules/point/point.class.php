@@ -93,6 +93,7 @@ class point extends ModuleObject
 		$oModuleController->insertTrigger('document.updateDocument', 'point', 'controller', 'triggerUpdateDocument', 'before');
 		// Add a trigger for comment voting up and down 2014.08.30 sejin7940
 		$oModuleController->insertTrigger('comment.updateVotedCount', 'point', 'controller', 'triggerUpdateVotedCount', 'after');
+		$oModuleController->insertTrigger('document.updateVotedCountCancel', 'point', 'controller', 'triggerUpdateVotedCount', 'after');
 		return new Object();
 	}
 
@@ -132,6 +133,7 @@ class point extends ModuleObject
 
 			// Add a trigger for comment voting up and down 2014.08.30 sejin7940
 			if(!$oModuleModel->getTrigger('comment.updateVotedCount', 'point', 'controller', 'triggerUpdateVotedCount', 'after')) return true;
+			if(!$oModuleModel->getTrigger('document.updateVotedCountCancel', 'point', 'controller', 'triggerUpdateVotedCount', 'after')) return true;
 		}
 		return false;
 	}
@@ -174,6 +176,8 @@ class point extends ModuleObject
 		// Add a trigger for voting up and down 2008.05.13 haneul
 		if(!$oModuleModel->getTrigger('document.updateVotedCount', 'point', 'controller', 'triggerUpdateVotedCount', 'after'))
 			$oModuleController->insertTrigger('document.updateVotedCount', 'point', 'controller', 'triggerUpdateVotedCount', 'after');
+		if(!$oModuleModel->getTrigger('document.updateVotedCountCancel', 'point', 'controller', 'triggerUpdateVotedCount', 'after'))
+			$oModuleController->insertTrigger('document.updateVotedCountCancel', 'point', 'controller', 'triggerUpdateVotedCount', 'after');
 		// Add a trigger for using points for permanent saving of a temporarily saved document 2009.05.19 zero
 		if(!$oModuleModel->getTrigger('document.updateDocument', 'point', 'controller', 'triggerUpdateDocument', 'before')) 
 			$oModuleController->insertTrigger('document.updateDocument', 'point', 'controller', 'triggerUpdateDocument', 'before');

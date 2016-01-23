@@ -3014,6 +3014,10 @@
 		<value xml:lang="vi"><![CDATA[Đã bình chọn.]]></value>
 		<value xml:lang="mn"><![CDATA[Санал болгогдсон]]></value>
 	</item>
+	<item name="success_voted_canceled">
+		<value xml:lang="ko"><![CDATA[추천이 취소되었습니다.]]></value>
+		<value xml:lang="en"><![CDATA[]]></value>
+	</item>
 	<item name="success_blamed">
 		<value xml:lang="ko"><![CDATA[비추천했습니다.]]></value>
 		<value xml:lang="en"><![CDATA[Not recommended successfully.]]></value>
@@ -3027,6 +3031,10 @@
 		<value xml:lang="tr"><![CDATA[Başarıyla Bildirildi.]]></value>
 		<value xml:lang="vi"><![CDATA[Đã phê bình.]]></value>
 		<value xml:lang="mn"><![CDATA[Санал болгогдоогүй]]></value>
+	</item>
+	<item name="success_blamed_canceled">
+		<value xml:lang="ko"><![CDATA[비추천이 취소되었습니다.]]></value>
+		<value xml:lang="en"><![CDATA[]]></value>
 	</item>
 	<item name="success_copied">
 		<value xml:lang="ko"><![CDATA[복사했습니다.]]></value>

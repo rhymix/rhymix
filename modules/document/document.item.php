@@ -369,6 +369,29 @@ class documentItem extends Object
 		return $title;
 	}
 
+	function getVoted()
+	{
+		if(!$this->document_srl) return false;
+		if($_SESSION['voted_document'][$this->document_srl])
+		{
+			return $_SESSION['voted_document'][$this->document_srl];
+		}
+
+		$logged_info = Context::get('logged_info');
+
+		$args = new stdClass();
+		$args->member_srl = $logged_info->member_srl;
+		$args->document_srl = $this->document_srl;
+		$output = executeQuery('document.getDocumentVotedLog', $args);
+
+		if($output->data->point)
+		{
+			return $output->data->point;
+		}
+
+		return false;
+	}
+
 	function getTitle($cut_size = 0, $tail='...')
 	{
 		if(!$this->document_srl) return;
