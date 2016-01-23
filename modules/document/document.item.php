@@ -371,7 +371,7 @@ class documentItem extends Object
 
 	function getVoted()
 	{
-		if(!$this->document_srl) return;
+		if(!$this->document_srl) return false;
 		if($_SESSION['voted_document'][$this->document_srl])
 		{
 			return $_SESSION['voted_document'][$this->document_srl];

@@ -59,6 +59,29 @@ class commentController extends comment
 		return $output;
 	}
 
+	function procCommentVoteUpCancel()
+	{
+		if(!Context::get('logged_info')) return new Object(-1, 'msg_invalid_request');
+
+		$comment_srl = Context::get('target_srl');
+		if(!$comment_srl) return new Object(-1, 'msg_invalid_request');
+
+		$oCommentModel = getModel('comment');
+		$oComment = $oCommentModel->getComment($comment_srl, FALSE, FALSE);
+		if($oComment->get('voted_count') <= 0)
+		{
+			return new Object(-1, 'msg_comment_voted_cancel_not');
+		}
+		$point = 1;
+		$output = $this->updateVotedCountCancel($comment_srl, $oComment, $point);
+
+		$output = new Object();
+		$output->setMessage('success_voted_canceled');
+
+		return $output;
+	}
+
+
 	/**
 	 * Action to handle recommendation votes on comments (Down)
 	 * @return Object
@@ -94,6 +117,74 @@ class commentController extends comment
 		$point = -1;
 		$output = $this->updateVotedCount($comment_srl, $point);
 		$this->add('blamed_count', $output->get('blamed_count'));
+		return $output;
+	}
+
+	function procCommentVoteDownCancel()
+	{
+		if(!Context::get('logged_info')) return new Object(-1, 'msg_invalid_request');
+
+		$comment_srl = Context::get('target_srl');
+		if(!$comment_srl) return new Object(-1, 'msg_invalid_request');
+
+		$oCommentModel = getModel('comment');
+		$oComment = $oCommentModel->getComment($comment_srl, FALSE, FALSE);
+		if($oComment->get('blamed_count') >= 0)
+		{
+			return new Object(-1, 'msg_comment_blamed_cancel_not');
+		}
+		$point = -1;
+		$output = $this->updateVotedCountCancel($comment_srl, $oComment, $point);
+
+		$output = new Object();
+		$output->setMessage('success_voted_canceled');
+
+		return $output;
+	}
+
+	function updateVotedCountCancel($comment_srl, $oComment, $point)
+	{
+		$logged_info = Context::get('logged_info');
+
+		$args = new stdClass();
+		$d_args = new stdClass();
+		$args->comment_srl = $d_args->comment_srl = $comment_srl;
+		$d_args->member_srl = $logged_info->member_srl;
+		if($point > 0)
+		{
+			$args->voted_count = $oComment->get('voted_count') - $point;
+			$output = executeQuery('comment.updateVotedCount', $args);
+		}
+		else
+		{
+			$args->blamed_count = $oComment->get('blamed_count') - $point;
+			$output = executeQuery('comment.updateBlamedCount', $args);
+		}
+		$d_output = executeQuery('comment.deleteCommentVotedLog', $d_args);
+		if(!$d_output->toBool()) return $d_output;
+
+		//session reset
+		$_SESSION['voted_comment'][$comment_srl] = false;
+
+		// begin transaction
+		$oDB = DB::getInstance();
+		$oDB->begin();
+
+		$obj = new stdClass();
+		$obj->member_srl = $oComment->get('member_srl');
+		$obj->module_srl = $oComment->get('module_srl');
+		$obj->comment_srl = $oComment->get('comment_srl');
+		$obj->update_target = ($point < 0) ? 'blamed_count' : 'voted_count';
+		$obj->point = $point;
+		$obj->before_point = ($point < 0) ? $oComment->get('blamed_count') : $oComment->get('voted_count');
+		$obj->after_point = ($point < 0) ? $args->blamed_count : $args->voted_count;
+		$obj->cancel = 1;
+		$trigger_output = ModuleHandler::triggerCall('comment.updateVotedCountCancel', 'after', $obj);
+		if(!$trigger_output->toBool())
+		{
+			$oDB->rollback();
+			return $trigger_output;
+		}
 		return $output;
 	}
 
@@ -1163,11 +1254,14 @@ class commentController extends comment
 		// update the number of votes
 		if($point < 0)
 		{
+			// leave into session information
+			$_SESSION['voted_comment'][$comment_srl] = $point;
 			$args->blamed_count = $oComment->get('blamed_count') + $point;
 			$output = executeQuery('comment.updateBlamedCount', $args);
 		}
 		else
 		{
+			$_SESSION['voted_comment'][$comment_srl] = $point;
 			$args->voted_count = $oComment->get('voted_count') + $point;
 			$output = executeQuery('comment.updateVotedCount', $args);
 		}
@@ -1192,9 +1286,6 @@ class commentController extends comment
 		}
 
 		$oDB->commit();
-
-		// leave into session information
-		$_SESSION['voted_comment'][$comment_srl] = TRUE;
 
 		// Return the result
 		$output = new Object(0, $success_message);

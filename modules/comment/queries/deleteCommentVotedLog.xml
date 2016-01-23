@@ -4,5 +4,6 @@
     </tables>
     <conditions>
         <condition operation="in" column="comment_srl" var="comment_srl" filter="number" notnull="notnull" />
+        <condition operation="equal" column="member_srl" var="member_srl" filter="number" pipe="and" />
     </conditions>
 </query>

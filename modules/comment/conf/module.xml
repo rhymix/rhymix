@@ -23,6 +23,8 @@
 		<action name="procCommentAdminAddCart" type="controller" />
 		<action name="procCommentGetList" type="controller" />
 		<action name="procCommentAdminMoveToTrash" type="controller" />
+		<action name="procCommentVoteUpCancel" type="controller" />
+		<action name="procCommentVoteDownCancel" type="controller" />
 	</actions>
 	<menus>
 		<menu name="comment">

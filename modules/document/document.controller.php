@@ -162,6 +162,10 @@ class documentController extends document
 		//session reset
 		$_SESSION['voted_document'][$document_srl] = false;
 
+		// begin transaction
+		$oDB = DB::getInstance();
+		$oDB->begin();
+
 		$obj = new stdClass();
 		$obj->member_srl = $oDocument->get('member_srl');
 		$obj->module_srl = $oDocument->get('module_srl');

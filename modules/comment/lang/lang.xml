@@ -81,6 +81,12 @@
 		<value xml:lang="tr"><![CDATA[Yorumları, kullanıcının girdiği rakam kadar gösterin. Eğer yorum sayısı belirlenen sayıyı aşarsa, yorum Liste'ye taşınır.]]></value>
 		<value xml:lang="vi"><![CDATA[Hiển thị số bình luận được gửi, và nó sẽ tạo một danh sách nếu có nhiều bình luận.]]></value>
 	</item>
+	<item name="msg_comment_voted_cancel_not">
+		<value xml:lang="ko"><![CDATA[추천수가 0이하일 경우 추천캔슬을 사용할 수 없습니다.]]></value>
+	</item>
+	<item name="msg_comment_blamed_cancel_not">
+		<value xml:lang="ko"><![CDATA[추천수가 0이하일 경우 비추천캔슬을 사용할 수 없습니다.]]></value>
+	</item>
 	<item name="msg_cart_is_null">
 		<value xml:lang="ko"><![CDATA[삭제할 글을 선택해주세요.]]></value>
 		<value xml:lang="en"><![CDATA[Please select an article to delete.]]></value>
