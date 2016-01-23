@@ -153,7 +153,7 @@ class installView extends install
 			Context::set('progressMenu', '4');
 
 			$error_return_url = getNotEncodedUrl('', 'act', Context::get('act'), 'db_type', Context::get('db_type'));
-			if($_SERVER['HTTPS'] == 'on')
+			if(RX_SSL)
 			{
 				// Error occured when using https protocol at "ModuleHandler::init() '
 				$parsedUrl = parse_url($error_return_url);
@@ -182,7 +182,7 @@ class installView extends install
 		include _XE_PATH_.'files/config/tmpDB.config.php';
 
 		Context::set('use_rewrite', $_SESSION['use_rewrite']);
-		Context::set('use_ssl', $_SERVER['HTTPS'] === 'on' ? 'always' : 'none');
+		Context::set('use_ssl', RX_SSL ? 'always' : 'none');
 		Context::set('time_zone', $GLOBALS['time_zone']);
 		Context::set('db_type', $db_info->db_type);
 		$this->setTemplateFile('admin_form');

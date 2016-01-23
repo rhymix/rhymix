@@ -22,7 +22,7 @@ class DisplayHandler extends Handler
 	 * @param ModuleObject $oModule the module object
 	 * @return void
 	 */
-	function printContent(&$oModule)
+	public function printContent(&$oModule)
 	{
 		// Check if the gzip encoding supported
 		if(
@@ -85,27 +85,23 @@ class DisplayHandler extends Handler
 		$httpStatusCode = $oModule->getHttpStatusCode();
 		if($httpStatusCode && $httpStatusCode != 200)
 		{
-			$this->_printHttpStatusCode($httpStatusCode);
+			self::_printHttpStatusCode($httpStatusCode);
 		}
 		else
 		{
 			if(Context::getResponseMethod() == 'JSON' || Context::getResponseMethod() == 'JS_CALLBACK')
 			{
-				$this->_printJSONHeader();
+				self::_printJSONHeader();
 			}
 			else if(Context::getResponseMethod() != 'HTML')
 			{
-				$this->_printXMLHeader();
+				self::_printXMLHeader();
 			}
 			else
 			{
-				$this->_printHTMLHeader();
+				self::_printHTMLHeader();
 			}
 		}
-
-		// debugOutput output
-		$this->content_size = strlen($output);
-		$output .= $this->_debugOutput();
 
 		// disable gzip if output already exists
 		ob_flush();
@@ -123,6 +119,10 @@ class DisplayHandler extends Handler
 		// results directly output
 		print $output;
 
+		// debugOutput output
+		$this->content_size = strlen($output);
+		print $this->_debugOutput();
+
 		// call a trigger after display
 		ModuleHandler::triggerCall('display', 'after', $output);
 
@@ -135,7 +135,7 @@ class DisplayHandler extends Handler
 	 * __DEBUG_OUTPUT__ == 0, messages are written in ./files/_debug_message.php
 	 * @return void
 	 */
-	function _debugOutput()
+	public function _debugOutput()
 	{
 		if(!__DEBUG__)
 		{
@@ -179,14 +179,14 @@ class DisplayHandler extends Handler
 				);
 				$firephp->fb(
 						array(
-							'Elapsed time >>> Total : ' . sprintf('%0.5f sec', $end - __StartTime__),
+							'Elapsed time >>> Total : ' . sprintf('%0.5f sec', $end - RX_MICROTIME),
 							array(array('DB queries', 'class file load', 'Template compile', 'XmlParse compile', 'PHP', 'Widgets', 'Trans Content'),
 								array(
 									sprintf('%0.5f sec', $GLOBALS['__db_elapsed_time__']),
 									sprintf('%0.5f sec', $GLOBALS['__elapsed_class_load__']),
 									sprintf('%0.5f sec (%d called)', $GLOBALS['__template_elapsed__'], $GLOBALS['__TemplateHandlerCalled__']),
 									sprintf('%0.5f sec', $GLOBALS['__xmlparse_elapsed__']),
-									sprintf('%0.5f sec', $end - __StartTime__ - $GLOBALS['__template_elapsed__'] - $GLOBALS['__xmlparse_elapsed__'] - $GLOBALS['__db_elapsed_time__'] - $GLOBALS['__elapsed_class_load__']),
+									sprintf('%0.5f sec', $end - RX_MICROTIME - $GLOBALS['__template_elapsed__'] - $GLOBALS['__xmlparse_elapsed__'] - $GLOBALS['__db_elapsed_time__'] - $GLOBALS['__elapsed_class_load__']),
 									sprintf('%0.5f sec', $GLOBALS['__widget_excute_elapsed__']),
 									sprintf('%0.5f sec', $GLOBALS['__trans_content_elapsed__'])
 								)
@@ -234,12 +234,12 @@ class DisplayHandler extends Handler
 				$buff[] = sprintf("\tResponse contents size\t: %d byte", $this->content_size);
 
 				// total execution time
-				$buff[] = sprintf("\n- Total elapsed time : %0.5f sec", $end - __StartTime__);
+				$buff[] = sprintf("\n- Total elapsed time : %0.5f sec", $end - RX_MICROTIME);
 
 				$buff[] = sprintf("\tclass file load elapsed time \t: %0.5f sec", $GLOBALS['__elapsed_class_load__']);
 				$buff[] = sprintf("\tTemplate compile elapsed time\t: %0.5f sec (%d called)", $GLOBALS['__template_elapsed__'], $GLOBALS['__TemplateHandlerCalled__']);
 				$buff[] = sprintf("\tXmlParse compile elapsed time\t: %0.5f sec", $GLOBALS['__xmlparse_elapsed__']);
-				$buff[] = sprintf("\tPHP elapsed time \t\t\t\t: %0.5f sec", $end - __StartTime__ - $GLOBALS['__template_elapsed__'] - $GLOBALS['__xmlparse_elapsed__'] - $GLOBALS['__db_elapsed_time__'] - $GLOBALS['__elapsed_class_load__']);
+				$buff[] = sprintf("\tPHP elapsed time \t\t\t\t: %0.5f sec", $end - RX_MICROTIME - $GLOBALS['__template_elapsed__'] - $GLOBALS['__xmlparse_elapsed__'] - $GLOBALS['__db_elapsed_time__'] - $GLOBALS['__elapsed_class_load__']);
 				$buff[] = sprintf("\tDB class elapsed time \t\t\t: %0.5f sec", $GLOBALS['__dbclass_elapsed_time__'] - $GLOBALS['__db_elapsed_time__']);
 
 				// widget execution time
@@ -318,7 +318,7 @@ class DisplayHandler extends Handler
 	 * print a HTTP HEADER for XML, which is encoded in UTF-8
 	 * @return void
 	 */
-	function _printXMLHeader()
+	public static function _printXMLHeader()
 	{
 		header("Content-Type: text/xml; charset=UTF-8");
 	}
@@ -327,7 +327,7 @@ class DisplayHandler extends Handler
 	 * print a HTTP HEADER for HTML, which is encoded in UTF-8
 	 * @return void
 	 */
-	function _printHTMLHeader()
+	public static function _printHTMLHeader()
 	{
 		header("Content-Type: text/html; charset=UTF-8");
 	}
@@ -336,16 +336,16 @@ class DisplayHandler extends Handler
 	 * print a HTTP HEADER for JSON, which is encoded in UTF-8
 	 * @return void
 	 */
-	function _printJSONHeader()
+	public static function _printJSONHeader()
 	{
-		header("Content-Type: text/html; charset=UTF-8");
+		header("Content-Type: text/javascript; charset=UTF-8");
 	}
 
 	/**
 	 * print a HTTP HEADER for HTML, which is encoded in UTF-8
 	 * @return void
 	 */
-	function _printHttpStatusCode($code)
+	public static function _printHttpStatusCode($code)
 	{
 		$statusMessage = Context::get('http_status_message');
 		header("HTTP/1.0 $code $statusMessage");

@@ -1,10 +1,6 @@
 <?php
 /* Copyright (C) NAVER <http://www.navercorp.com> */
 
-define('FOLLOW_REQUEST_SSL', 0);
-define('ENFORCE_SSL', 1);
-define('RELEASE_SSL', 2);
-
 /**
  * Manages Context such as request arguments/environment variables
  * It has dual method structure, easy-to use methods which can be called as self::methodname(),and methods called with static object.
@@ -1275,12 +1271,27 @@ class Context
 	public static function setRequestMethod($type = '')
 	{
 		self::$_instance->js_callback_func = self::$_instance->getJSCallbackFunc();
-
-		($type && self::$_instance->request_method = $type) or
-				((strpos($_SERVER['CONTENT_TYPE'], 'json') || strpos($_SERVER['HTTP_CONTENT_TYPE'], 'json')) && self::$_instance->request_method = 'JSON') or
-				($GLOBALS['HTTP_RAW_POST_DATA'] && self::$_instance->request_method = 'XMLRPC') or
-				(self::$_instance->js_callback_func && self::$_instance->request_method = 'JS_CALLBACK') or
-				(self::$_instance->request_method = $_SERVER['REQUEST_METHOD']);
+		
+		if ($type)
+		{
+			self::$_instance->request_method = $type;
+		}
+		elseif (strpos($_SERVER['CONTENT_TYPE'], 'json') !== false || strpos($_SERVER['HTTP_CONTENT_TYPE'], 'json') !== false)
+		{
+			self::$_instance->request_method = 'JSON';
+		}
+		elseif ($GLOBALS['HTTP_RAW_POST_DATA'])
+		{
+			self::$_instance->request_method = 'XMLRPC';
+		}
+		elseif (self::$_instance->js_callback_func)
+		{
+			self::$_instance->request_method = 'JS_CALLBACK';
+		}
+		else
+		{
+			self::$_instance->request_method = $_SERVER['REQUEST_METHOD'];
+		}
 	}
 
 	/**
@@ -1600,15 +1611,7 @@ class Context
 		static $url = null;
 		if(is_null($url))
 		{
-			$url = self::getRequestUri();
-			if(count($_GET) > 0)
-			{
-				foreach($_GET as $key => $val)
-				{
-					$vars[] = $key . '=' . ($val ? urlencode(self::convertEncodingStr($val)) : '');
-				}
-				$url .= '?' . join('&', $vars);
-			}
+			$url = self::getRequestUri() . RX_REQUEST_URL;
 		}
 		return $url;
 	}
@@ -1678,7 +1681,7 @@ class Context
 			$domain_info = parse_url($domain);
 			if(is_null($current_info))
 			{
-				$current_info = parse_url(($_SERVER['HTTPS'] == 'on' ? 'https' : 'http') . '://' . $_SERVER['HTTP_HOST'] . getScriptPath());
+				$current_info = parse_url((RX_SSL ? 'https' : 'http') . '://' . $_SERVER['HTTP_HOST'] . RX_BASEURL);
 			}
 			if($domain_info['host'] . $domain_info['path'] == $current_info['host'] . $current_info['path'])
 			{
@@ -1686,11 +1689,7 @@ class Context
 			}
 			else
 			{
-				$domain = preg_replace('/^(http|https):\/\//i', '', trim($domain));
-				if(substr_compare($domain, '/', -1) !== 0)
-				{
-					$domain .= '/';
-				}
+				$domain = rtrim(preg_replace('/^(http|https):\/\//i', '', trim($domain)), '/') . '/';
 			}
 		}
 
@@ -1746,7 +1745,7 @@ class Context
 			'dispDocumentAdminManageDocument' => 'dispDocumentManageDocument',
 			'dispModuleAdminSelectList' => 'dispModuleSelectList'
 		);
-		if($act_alias[$act])
+		if(isset($act_alias[$act]))
 		{
 			$get_vars['act'] = $act_alias[$act];
 		}
@@ -1794,27 +1793,9 @@ class Context
 				$query = $target_map[$target];
 			}
 
-			if(!$query)
+			if(!$query && count($get_vars) > 0)
 			{
-				$queries = array();
-				foreach($get_vars as $key => $val)
-				{
-					if(is_array($val) && count($val) > 0)
-					{
-						foreach($val as $k => $v)
-						{
-							$queries[] = $key . '[' . $k . ']=' . urlencode($v);
-						}
-					}
-					elseif(!is_array($val))
-					{
-						$queries[] = $key . '=' . urlencode($val);
-					}
-				}
-				if(count($queries) > 0)
-				{
-					$query = 'index.php?' . join('&', $queries);
-				}
+				$query = 'index.php?' . http_build_query($get_vars);
 			}
 		}
 
@@ -1823,18 +1804,18 @@ class Context
 		if($_use_ssl == 'always')
 		{
 			$query = self::getRequestUri(ENFORCE_SSL, $domain) . $query;
-			// optional SSL use
 		}
+		// optional SSL use
 		elseif($_use_ssl == 'optional')
 		{
 			$ssl_mode = ((self::get('module') === 'admin') || ($get_vars['module'] === 'admin') || (isset($get_vars['act']) && self::isExistsSSLAction($get_vars['act']))) ? ENFORCE_SSL : RELEASE_SSL;
 			$query = self::getRequestUri($ssl_mode, $domain) . $query;
-			// no SSL
 		}
+		// no SSL
 		else
 		{
 			// currently on SSL but target is not based on SSL
-			if($_SERVER['HTTPS'] == 'on')
+			if(RX_SSL)
 			{
 				$query = self::getRequestUri(ENFORCE_SSL, $domain) . $query;
 			}
@@ -1844,7 +1825,7 @@ class Context
 			}
 			else
 			{
-				$query = getScriptPath() . $query;
+				$query = RX_BASEURL . $query;
 			}
 		}
 
@@ -1910,11 +1891,9 @@ class Context
 			return $url[$ssl_mode][$domain_key];
 		}
 
-		$current_use_ssl = ($_SERVER['HTTPS'] == 'on');
-
 		switch($ssl_mode)
 		{
-			case FOLLOW_REQUEST_SSL: $use_ssl = $current_use_ssl;
+			case FOLLOW_REQUEST_SSL: $use_ssl = RX_SSL;
 				break;
 			case ENFORCE_SSL: $use_ssl = TRUE;
 				break;
@@ -1924,20 +1903,16 @@ class Context
 
 		if($domain)
 		{
-			$target_url = trim($domain);
-			if(substr_compare($target_url, '/', -1) !== 0)
-			{
-				$target_url.= '/';
-			}
+			$target_url = rtrim(trim($domain), '/') . '/';
 		}
 		else
 		{
-			$target_url = $_SERVER['HTTP_HOST'] . getScriptPath();
+			$target_url = $_SERVER['HTTP_HOST'] . RX_BASEURL;
 		}
 
 		$url_info = parse_url('http://' . $target_url);
 
-		if($current_use_ssl != $use_ssl)
+		if($use_ssl != RX_SSL)
 		{
 			unset($url_info['port']);
 		}

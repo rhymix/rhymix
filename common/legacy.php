@@ -457,9 +457,7 @@ function getFullSiteUrl()
  */
 function getCurrentPageUrl()
 {
-	$protocol = $_SERVER['HTTPS'] == 'on' ? 'https://' : 'http://';
-	$url = $protocol . $_SERVER['HTTP_HOST'] . $_SERVER['REQUEST_URI'];
-	return htmlspecialchars($url, ENT_COMPAT, 'UTF-8', FALSE);
+	return escape((RX_SSL ? 'https://' : 'http://') . $_SERVER['HTTP_HOST'] . $_SERVER['REQUEST_URI']);
 }
 
 /**
@@ -1179,63 +1177,17 @@ function removeSrcHack($match)
 	return "<{$match[1]}{$tag}{$attr}{$match[4]}>";
 }
 
-// convert hexa value to RGB
+/**
+ * Convert hexa value to RGB
+ *
+ * @param string $hexstr
+ * @return array
+ */
 if(!function_exists('hexrgb'))
 {
-	/**
-	 * Convert hexa value to RGB
-	 *
-	 * @param string $hexstr
-	 * @return array
-	 */
 	function hexrgb($hex)
 	{
-		$hex = ltrim($hex, '#');
-		if(strlen($hex) == 3)
-		{
-			$r = hexdec(substr($hex, 0, 1) . substr($hex, 0, 1));
-			$g = hexdec(substr($hex, 1, 1) . substr($hex, 1, 1));
-			$b = hexdec(substr($hex, 2, 1) . substr($hex, 2, 1));
-		}
-		elseif(strlen($hex) == 6)
-		{
-			$r = hexdec(substr($hex, 0, 2));
-			$g = hexdec(substr($hex, 2, 2));
-			$b = hexdec(substr($hex, 4, 2));
-		}
-		else
-		{
-			$r = $g = $b = null;
-		}
-		return array('red' => $r, 'green' => $g, 'blue' => $b, 'r' => $r, 'g' => $g, 'b' => $b);
-	}
-}
-
-// convert RGB value to hexa
-if(!function_exists('rgbhex'))
-{
-	/**
-	 * convert RGB value to hexa
-	 *
-	 * @param array $rgb
-	 * @param bool $hash_prefix
-	 * @return string
-	 */
-	function rgbhex(array $rgb, $hash_prefix = true)
-	{
-		if(!isset($rgb['r']) && !isset($rgb['g']) && !isset($rgb['b']) && count($rgb) >= 3)
-		{
-			list($rgb['r'], $rgb['g'], $rgb['b']) = $rgb;
-		}
-		if(!isset($rgb['r']) || !isset($rgb['g']) || !isset($rgb['b']) || $rgb['r'] > 255 || $rgb['g'] > 255 || $rgb['b'] > 255)
-		{
-			return '#000000';
-		}
-		$hex = $hash_prefix ? '#' : '';
-		$hex .= str_pad(dechex(max(0, $rgb['r'])), 2, '0', STR_PAD_LEFT);
-		$hex .= str_pad(dechex(max(0, $rgb['g'])), 2, '0', STR_PAD_LEFT);
-		$hex .= str_pad(dechex(max(0, $rgb['b'])), 2, '0', STR_PAD_LEFT);
-		return $hex;
+		return hex2rgb($hex);
 	}
 }
 
@@ -1249,36 +1201,7 @@ if(!function_exists('rgbhex'))
  */
 function mysql_pre4_hash_password($password)
 {
-	$nr = 1345345333;
-	$add = 7;
-	$nr2 = 0x12345671;
-
-	settype($password, "string");
-
-	for($i = 0; $i < strlen($password); $i++)
-	{
-		if($password[$i] == ' ' || $password[$i] == '\t')
-		{
-			continue;
-		}
-		$tmp = ord($password[$i]);
-		$nr ^= ((($nr & 63) + $add) * $tmp) + ($nr << 8);
-		$nr2 += ($nr2 << 8) ^ $nr;
-		$add += $tmp;
-	}
-	$result1 = sprintf("%08lx", $nr & ((1 << 31) - 1));
-	$result2 = sprintf("%08lx", $nr2 & ((1 << 31) - 1));
-
-	if($result1 == '80000000')
-	{
-		$nr += 0x80000000;
-	}
-	if($result2 == '80000000')
-	{
-		$nr2 += 0x80000000;
-	}
-
-	return sprintf("%08lx%08lx", $nr, $nr2);
+	return VendorPass::mysql_old_password($password);
 }
 
 /**
@@ -1288,12 +1211,7 @@ function mysql_pre4_hash_password($password)
  */
 function getScriptPath()
 {
-	static $url = NULL;
-	if($url == NULL)
-	{
-		$url = str_ireplace('/tools/', '/', preg_replace('/index.php$/i', '', str_replace('\\', '/', $_SERVER['SCRIPT_NAME'])));
-	}
-	return $url;
+	return RX_BASEURL;
 }
 
 /**
