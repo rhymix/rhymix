@@ -214,8 +214,8 @@ class Context
 		{
 			$GLOBALS['HTTP_RAW_POST_DATA'] = file_get_contents("php://input");
 			
-			// If content is not XML JSON, unset
-			if(!preg_match('/^[\<\{\[]/', $GLOBALS['HTTP_RAW_POST_DATA']) && strpos($_SERVER['CONTENT_TYPE'], 'json') === FALSE && strpos($_SERVER['HTTP_CONTENT_TYPE'], 'json') === FALSE)
+			// If content is not XML or JSON, unset
+			if(!preg_match('/^[\<\{\[]/', $GLOBALS['HTTP_RAW_POST_DATA']))
 			{
 				unset($GLOBALS['HTTP_RAW_POST_DATA']);
 			}
@@ -232,7 +232,6 @@ class Context
 		$this->setRequestMethod('');
 
 		$this->_setXmlRpcArgument();
-		$this->_setJSONRequestArgument();
 		$this->_setRequestArgument();
 		$this->_setUploadedArgument();
 
@@ -1276,7 +1275,7 @@ class Context
 		{
 			self::$_instance->request_method = $type;
 		}
-		elseif (strpos($_SERVER['CONTENT_TYPE'], 'json') !== false || strpos($_SERVER['HTTP_CONTENT_TYPE'], 'json') !== false)
+		elseif (strpos($_SERVER['HTTP_ACCEPT'], 'json') !== false || strpos($_SERVER['CONTENT_TYPE'], 'json') !== false || strpos($_SERVER['HTTP_CONTENT_TYPE'], 'json') !== false)
 		{
 			self::$_instance->request_method = 'JSON';
 		}
@@ -1336,7 +1335,7 @@ class Context
 			{
 				$set_to_vars = TRUE;
 			}
-			elseif($requestMethod == 'POST' && isset($_POST[$key]))
+			elseif(($requestMethod == 'POST' || $requestMethod == 'JSON') && isset($_POST[$key]))
 			{
 				$set_to_vars = TRUE;
 			}
@@ -1387,18 +1386,7 @@ class Context
 	 */
 	private function _setJSONRequestArgument()
 	{
-		if(self::getRequestMethod() != 'JSON')
-		{
-			return;
-		}
-
-		$params = array();
-		parse_str($GLOBALS['HTTP_RAW_POST_DATA'], $params);
-
-		foreach($params as $key => $val)
-		{
-			self::set($key, $this->_filterRequestVar($key, $val, 1), TRUE);
-		}
+		
 	}
 
 	/**

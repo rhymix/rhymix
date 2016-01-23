@@ -201,25 +201,21 @@ function xml2json(xml, tab, ignoreAttrib) {
 	* @author NAVER (developers@xpressengine.com)
 	**/
 	$.exec_xml = window.exec_xml = function(module, act, params, callback_func, response_tags, callback_func_arg, fo_obj) {
-		var xml_path = request_uri+"index.php";
-		if(!params) params = {};
-
-		// {{{ set parameters
-		if($.isArray(params)) params = arr2obj(params);
+		params = params ? ($.isArray(params) ? arr2obj(params) : params) : {};
 		params.module = module;
-		params.act    = act;
+		params.act = act;
 
-		if(typeof(xeVid)!='undefined') params.vid = xeVid;
-		if(typeof(response_tags) == "undefined" || response_tags.length<1) {
+		if(typeof(xeVid) != "undefined") params.vid = xeVid;
+		if(typeof(response_tags) == "undefined" || response_tags.length < 1) {
 			response_tags = ['error','message'];
 		} else {
 			response_tags.push('error', 'message');
 		}
-		// }}} set parameters
 
 		// use ssl?
+		var url = request_uri;
 		if ($.isArray(ssl_actions) && params.act && $.inArray(params.act, ssl_actions) >= 0) {
-			var url    = default_url || request_uri;
+			url = default_url || request_uri;
 			var port   = window.https_port || 443;
 			var _ul    = $('<a>').attr('href', url)[0];
 			var target = 'https://' + _ul.hostname.replace(/:\d+$/, '');
@@ -228,77 +224,28 @@ function xml2json(xml, tab, ignoreAttrib) {
 			if(_ul.pathname[0] != '/') target += '/';
 
 			target += _ul.pathname;
-			xml_path = target.replace(/\/$/, '')+'/index.php';
+			url = target.replace(/\/$/, '')+'/';
 		}
 
 		var _u1 = $('<a>').attr('href', location.href)[0];
-		var _u2 = $('<a>').attr('href', xml_path)[0];
+		var _u2 = $('<a>').attr('href', url)[0];
 
 		// 현 url과 ajax call 대상 url의 schema 또는 port가 다르면 직접 form 전송
-		if(_u1.protocol != _u2.protocol || _u1.port != _u2.port) return send_by_form(xml_path, params);
-
-		var xml = [],
-			xmlHelper = function(params) {
-				var stack = [];
-
-				if ($.isArray(params)) {
-					$.each(params, function(key, val) {
-						stack.push('<value type="array">' + xmlHelper(val) + '</value>');
-					});
-				}
-				else if ($.isPlainObject(params)) {
-					$.each(params, function(key, val) {
-						stack.push('<' + key + '>' + xmlHelper(val) + '</' + key + '>');
-					});
-				}
-				else if (!$.isFunction(params)) {
-					stack.push('<![CDATA[' + params + ']]>');
-				}
-
-				return stack.join('\n');
-			};
-
-		xml.push('<?xml version="1.0" encoding="utf-8" ?>');
-		xml.push('<methodCall>');
-		xml.push('<params>');
-		xml.push(xmlHelper(params));
-		xml.push('</params>');
-		xml.push('</methodCall>');
-
+		if(_u1.protocol != _u2.protocol || _u1.port != _u2.port) return send_by_form(url, params);
+		
 		var _xhr = null;
 		if (_xhr && _xhr.readyState !== 0) _xhr.abort();
 
 		// 전송 성공시
 		function onsuccess(data, textStatus, xhr) {
-			var resp_xml = $(data).find('response')[0], resp_obj, txt='', ret=[], tags={}, json_str='';
-
 			waiting_obj.css('display', 'none').trigger('cancel_confirm');
-
-			if(!resp_xml) {
-				alert(_xhr.responseText);
-				return null;
-			}
-
-			json_str = xml2json(resp_xml, false, false);
-			resp_obj = jQuery.parseJSON(json_str);
-			resp_obj = resp_obj.response;
-
-			if (typeof(resp_obj)=='undefined') {
-				ret.error = -1;
-				ret.message = 'Unexpected error occured.';
-				try {
-					if(typeof(txt=resp_xml.childNodes[0].firstChild.data)!='undefined') {
-						ret.message += '\r\n'+txt;
-					}
-				} catch(e){}
-
-				return ret;
-			}
-
+			var ret = [];
+			var tags = {};
+			
 			$.each(response_tags, function(key, val){ tags[val] = true; });
 			tags.redirect_url = true;
 			tags.act = true;
-			$.each(resp_obj, function(key, val){ if(tags[key]) ret[key] = val; });
+			$.each(data, function(key, val){ if(tags[key]) ret[key] = val; });
 
 			if(ret.error != '0') {
 				if ($.isFunction($.exec_xml.onerror)) {
@@ -318,34 +265,18 @@ function xml2json(xml, tab, ignoreAttrib) {
 			if($.isFunction(callback_func)) callback_func(ret, response_tags, callback_func_arg, fo_obj);
 		}
 
-		// 모든 xml데이터는 POST방식으로 전송. try-catch문으로 오류 발생시 대처
+		// 모든 데이터는 POST방식으로 전송. try-catch문으로 오류 발생시 대처
 		try {
 			$.ajax({
-				url         : xml_path,
-				type        : 'POST',
-				dataType    : 'xml',
-				data        : xml.join('\n'),
-				contentType : 'text/plain',
+				url         : url,
+				type        : "POST",
+				dataType    : "json",
+				data        : params,
 				beforeSend  : function(xhr){ _xhr = xhr; },
 				success     : onsuccess,
 				error       : function(xhr, textStatus) {
 					waiting_obj.css('display', 'none');
-
-					var msg = '';
-
-					if (textStatus == 'parsererror') {
-						msg  = 'The result is not valid XML :\n-------------------------------------\n';
-
-						if(xhr.responseText === "") return;
-
-						msg += xhr.responseText.replace(/<[^>]+>/g, '');
-					} else {
-						msg = textStatus;
-					}
-
-					try{
-						console.log(msg);
-					} catch(ee){}
+					alert("AJAX communication error while requesting " + params.module + "." + params.act);
 				}
 			});
 		} catch(e) {
@@ -409,8 +340,7 @@ function xml2json(xml, tab, ignoreAttrib) {
 	* @brief exec_json (exec_xml와 같은 용도)
 	**/
 	$.exec_json = window.exec_json = function(action, data, callback_sucess, callback_error){
-		if(typeof(data) == 'undefined') data = {};
-
+		data = data ? ($.isArray(data) ? arr2obj(data) : data) : {};
 		action = action.split('.');
 
 		if(action.length == 2) {
@@ -426,7 +356,8 @@ function xml2json(xml, tab, ignoreAttrib) {
 
 			if(show_waiting_message) $(".wfsr").html(waiting_message).show();
 
-			$.extend(data,{module:action[0],act:action[1]});
+			data.module = action[0];
+			data.act = action[1];
 
 			if(typeof(xeVid)!='undefined') $.extend(data,{vid:xeVid});
 
@@ -435,8 +366,7 @@ function xml2json(xml, tab, ignoreAttrib) {
 					type: "POST",
 					dataType: "json",
 					url: request_uri,
-					contentType: "application/json",
-					data: $.param(data),
+					data: data,
 					success: function(data) {
 						$(".wfsr").hide().trigger('cancel_confirm');
 						if(data.error != '0' && data.error > -1000) {
@@ -457,22 +387,7 @@ function xml2json(xml, tab, ignoreAttrib) {
 					},
 					error: function(xhr, textStatus) {
 						$(".wfsr").hide();
-
-						var msg = '';
-
-						if (textStatus == 'parsererror') {
-							msg  = 'The result is not valid JSON :\n-------------------------------------\n';
-
-							if(xhr.responseText === "") return;
-
-							msg += xhr.responseText.replace(/<[^>]+>/g, '');
-						} else {
-							msg = textStatus;
-						}
-
-						try{
-							console.log(msg);
-						} catch(ee){}
+						alert("AJAX communication error while requesting " + data.module + "." + data.act);
 					}
 				});
 			} catch(e) {
@@ -482,7 +397,7 @@ function xml2json(xml, tab, ignoreAttrib) {
 		}
 	};
 
-	$.fn.exec_html = function(action,data,type,func,args){
+	$.fn.exec_html = function(action, data, type, func, args){
 		if(typeof(data) == 'undefined') data = {};
 		if(!$.inArray(type, ['html','append','prepend'])) type = 'html';
 
@@ -497,40 +412,25 @@ function xml2json(xml, tab, ignoreAttrib) {
 			}, 1000));
 			if(show_waiting_message) $(".wfsr").html(waiting_message).show();
 
-			$.extend(data,{module:action[0],act:action[1]});
+			data.module = action[0];
+			data.act = action[1];
+
 			try {
 				$.ajax({
-					type:"POST",
-					dataType:"html",
-					url:request_uri,
-					data:$.param(data),
-					success : function(html){
+					type: "POST",
+					dataType: "html",
+					url: request_uri,
+					data: data,
+					success: function(html) {
 						$(".wfsr").hide().trigger('cancel_confirm');
 						self[type](html);
 						if($.isFunction(func)) func(args);
 					},
 					error: function(xhr, textStatus) {
 						$(".wfsr").hide();
-
-						var msg = '';
-
-						if (textStatus == 'parsererror') {
-							msg  = 'The result is not valid page :\n-------------------------------------\n';
-
-							if(xhr.responseText === "") return;
-
-							msg += xhr.responseText.replace(/<[^>]+>/g, '');
-						} else {
-							msg = textStatus;
-						}
-
-						try{
-							console.log(msg);
-						} catch(ee){}
+						alert("AJAX communication error while requesting " + data.module + "." + data.act);
 					}
-
 				});
-
 			} catch(e) {
 				alert(e);
 				return;
