@@ -226,9 +226,9 @@ class Context
 		}
 
 		// set context variables in $GLOBALS (backward compatibility)
-		$GLOBALS['__Context__'] &= $this;
-		$GLOBALS['lang'] &= $this->lang;
-		$this->_COOKIE &= $_COOKIE;
+		$GLOBALS['__Context__'] = $this;
+		$GLOBALS['lang'] = &$this->lang;
+		$this->_COOKIE = $_COOKIE;
 
 		// 20140429 editor/image_link
 		$this->_checkGlobalVars();
@@ -284,10 +284,10 @@ class Context
 				$site_module_info->domain = $this->db_info->default_url;
 			}
 
-			$this->set('site_module_info', $site_module_info);
+			self::set('site_module_info', $site_module_info);
 			if($site_module_info->site_srl && isSiteID($site_module_info->domain))
 			{
-				$this->set('vid', $site_module_info->domain, TRUE);
+				self::set('vid', $site_module_info->domain, TRUE);
 			}
 
 			if(!isset($this->db_info))
@@ -307,10 +307,10 @@ class Context
 		}
 
 		// Load Language File
-		$lang_supported = $this->loadLangSelected();
+		$lang_supported = self::loadLangSelected();
 
 		// Retrieve language type set in user's cookie
-		if($this->lang_type = $this->get('l'))
+		if($this->lang_type = self::get('l'))
 		{
 			if($_COOKIE['lang_type'] != $this->lang_type)
 			{
@@ -338,11 +338,11 @@ class Context
 			$this->lang_type = 'ko';
 		}
 
-		$this->set('lang_supported', $lang_supported);
-		$this->setLangType($this->lang_type);
+		self::set('lang_supported', $lang_supported);
+		self::setLangType($this->lang_type);
 
 		// load module module's language file according to language setting
-		$this->loadLang(_XE_PATH_ . 'modules/module/lang');
+		self::loadLang(_XE_PATH_ . 'modules/module/lang');
 
 		// set session handler
 		if(self::isInstalled() && $this->db_info->use_db_session == 'Y')
@@ -366,13 +366,14 @@ class Context
 			$session_id = $_COOKIE[$session_name];
 		}
 
-		if($session_id !== NULL || $this->db_info->cache_friendly != 'Y')
+		if($session_id !== NULL || $this->db_info->delay_session != 'Y')
 		{
 			$this->setCacheControl(0, false);
 			session_start();
 		}
 		else
 		{
+			ob_start();
 			$this->setCacheControl(-1, true);
 			register_shutdown_function(array($this, 'checkSessionStatus'));
 			$_SESSION = array();
@@ -400,17 +401,16 @@ class Context
 					$oMemberController->doAutologin();
 				}
 
-				$this->set('is_logged', $oMemberModel->isLogged());
+				self::set('is_logged', $oMemberModel->isLogged());
 				if($oMemberModel->isLogged())
 				{
-					$this->set('logged_info', $oMemberModel->getLoggedInfo());
+					self::set('logged_info', $oMemberModel->getLoggedInfo());
 				}
 			}
 		}
 
 		// load common language file
-		$this->lang = &$GLOBALS['lang'];
-		$this->loadLang(_XE_PATH_ . 'common/lang/');
+		self::loadLang(_XE_PATH_ . 'common/lang/');
 
 		// check if using rewrite module
 		$this->allow_rewrite = ($this->db_info->use_rewrite == 'Y' ? TRUE : FALSE);
@@ -443,7 +443,7 @@ class Context
 			}
 			else
 			{
-				$current_url = $this->getUrl();
+				$current_url = self::getUrl();
 			}
 		}
 		else
@@ -451,17 +451,17 @@ class Context
 			$current_url = self::getRequestUri();
 		}
 
-		$this->set('current_url', $current_url);
-		$this->set('request_uri', self::getRequestUri());
+		self::set('current_url', $current_url);
+		self::set('request_uri', self::getRequestUri());
 
 		if(strpos($current_url, 'xn--') !== FALSE)
 		{
-			$this->set('current_url', self::decodeIdna($current_url));
+			self::set('current_url', self::decodeIdna($current_url));
 		}
 
 		if(strpos(self::getRequestUri(), 'xn--') !== FALSE)
 		{
-			$this->set('request_uri', self::decodeIdna(self::getRequestUri()));
+			self::set('request_uri', self::decodeIdna(self::getRequestUri()));
 		}
 	}
 
@@ -586,6 +586,7 @@ class Context
 		if(!$db_info->time_zone)
 			$db_info->time_zone = date('O');
 		$GLOBALS['_time_zone'] = $db_info->time_zone;
+		$GLOBALS['_time_zone_offset'] = get_time_zone_offset($db_info->time_zone);
 
 		if($db_info->qmail_compatibility != 'Y')
 			$db_info->qmail_compatibility = 'N';
@@ -1197,16 +1198,42 @@ class Context
 		return $obj->str;
 	}
 
+	/**
+	 * Encode UTF-8 domain into IDNA (punycode)
+	 * 
+	 * @param string $domain Domain to convert
+	 * @return string Converted string
+	 */
+	public static function encodeIdna($domain)
+	{
+		if(function_exists('idn_to_ascii'))
+		{
+			return idn_to_ascii($domain);
+		}
+		else
+		{
+			$encoder = new TrueBV\Punycode();
+			return $encoder->encode($domain);
+		}
+	}
+
+	/**
+	 * Convert IDNA (punycode) domain into UTF-8
+	 * 
+	 * @param string $domain Domain to convert
+	 * @return string Converted string
+	 */
 	public static function decodeIdna($domain)
 	{
-		if(strpos($domain, 'xn--') !== FALSE)
+		if(function_exists('idn_to_utf8'))
 		{
-			require_once(_XE_PATH_ . 'libs/idna_convert/idna_convert.class.php');
-			$IDN = new idna_convert(array('idn_version' => 2008));
-			$domain = $IDN->decode($domain);
+			return idn_to_utf8($domain);
 		}
-
-		return $domain;
+		else
+		{
+			$decoder = new TrueBV\Punycode();
+			return $decoder->decode($domain);
+		}
 	}
 
 	/**
@@ -1316,7 +1343,7 @@ class Context
 				$this->_recursiveCheckVar($val);
 			}
 
-			$this->set($key, $val, $set_to_vars);
+			self::set($key, $val, $set_to_vars);
 		}
 	}
 
@@ -1359,7 +1386,7 @@ class Context
 
 		foreach($params as $key => $val)
 		{
-			$this->set($key, $this->_filterRequestVar($key, $val, 1), TRUE);
+			self::set($key, $this->_filterRequestVar($key, $val, 1), TRUE);
 		}
 	}
 
@@ -1395,7 +1422,7 @@ class Context
 
 		foreach($params as $key => $val)
 		{
-			$this->set($key, $this->_filterXmlVars($key, $val), TRUE);
+			self::set($key, $this->_filterXmlVars($key, $val), TRUE);
 		}
 	}
 
@@ -1533,7 +1560,7 @@ class Context
 					continue;
 				}
 				$val['name'] = htmlspecialchars($val['name'], ENT_COMPAT | ENT_HTML401, 'UTF-8', FALSE);
-				$this->set($key, $val, TRUE);
+				self::set($key, $val, TRUE);
 				$this->is_uploaded = TRUE;
 			}
 			else
@@ -1550,7 +1577,7 @@ class Context
 						$files[] = $file;
 					}
 				}
-				$this->set($key, $files, TRUE);
+				self::set($key, $files, TRUE);
 			}
 		}
 	}

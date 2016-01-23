@@ -4,6 +4,7 @@ Thumbs.db
 config.user.inc.php
 /files/
 /build/
+/libs/
 
 codeception.yml
 /tests/_output/

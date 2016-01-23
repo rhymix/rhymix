@@ -13,13 +13,13 @@
  */
 class DBMysql extends DB
 {
-
 	/**
 	 * prefix of a tablename (One or more XEs can be installed in a single DB)
 	 * @var string
 	 */
 	var $prefix = 'xe_'; // / <
 	var $comment_syntax = '/* %s */';
+	var $charset = 'utf8';
 
 	/**
 	 * Column type used in MySQL
@@ -50,15 +50,6 @@ class DBMysql extends DB
 	}
 
 	/**
-	 * Create an instance of this class
-	 * @return DBMysql return DBMysql object instance
-	 */
-	function create()
-	{
-		return new DBMysql;
-	}
-
-	/**
 	 * DB Connect
 	 * this method is private
 	 * @param array $connection connection's value is db_hostname, db_port, db_database, db_userid, db_password
@@ -84,12 +75,18 @@ class DBMysql extends DB
 			$this->setError(mysql_errno(), mysql_error());
 			return;
 		}
+
 		// Error appears if the version is lower than 4.1
 		if(version_compare(mysql_get_server_info($result), '4.1', '<'))
 		{
 			$this->setError(-1, 'XE cannot be installed under the version of mysql 4.1. Current mysql version is ' . mysql_get_server_info());
 			return;
 		}
+
+		// Set charset
+		$this->charset = isset($connection["db_charset"]) ? $connection["db_charset"] : 'utf8';
+		mysql_set_charset($this->charset, $result);
+
 		// select db
 		@mysql_select_db($connection["db_database"], $result);
 		if(mysql_error())
@@ -99,18 +96,6 @@ class DBMysql extends DB
 		}
 
 		return $result;
-	}
-
-	/**
-	 * If have a task after connection, add a taks in this method
-	 * this method is private
-	 * @param resource $connection
-	 * @return void
-	 */
-	function _afterConnect($connection)
-	{
-		// Set utf8 if a database is MySQL
-		$this->_query("set names 'utf8'", $connection);
 	}
 
 	/**
@@ -186,7 +171,7 @@ class DBMysql extends DB
 			exit('XE cannot handle DB connection.');
 		}
 		// Run the query statement
-		$result = mysql_query($query, $connection);
+		$result = @mysql_query($query, $connection);
 		// Error Check
 		if(mysql_error($connection))
 		{
@@ -570,17 +555,16 @@ class DBMysql extends DB
 	 */
 	function _createTable($xml_doc)
 	{
-		// xml parsing
+		// Parse XML
 		$oXml = new XmlParser();
 		$xml_obj = $oXml->parse($xml_doc);
-		// Create a table schema
+		
+		// Get table name and column list
 		$table_name = $xml_obj->table->attrs->name;
 		if($this->isTableExists($table_name))
 		{
 			return;
 		}
-		$table_name = $this->prefix . $table_name;
-
 		if(!is_array($xml_obj->table->column))
 		{
 			$columns[] = $xml_obj->table->column;
@@ -589,11 +573,14 @@ class DBMysql extends DB
 		{
 			$columns = $xml_obj->table->column;
 		}
-
+		
+		// Initialize the list of columns and indexes
+		$column_schema = array();
 		$primary_list = array();
 		$unique_list = array();
 		$index_list = array();
-
+		
+		// Process columns
 		foreach($columns as $column)
 		{
 			$name = $column->attrs->name;
@@ -605,49 +592,96 @@ class DBMysql extends DB
 			$unique = $column->attrs->unique;
 			$default = $column->attrs->default;
 			$auto_increment = $column->attrs->auto_increment;
-
-			$column_schema[] = sprintf('`%s` %s%s %s %s %s', $name, $this->column_type[$type], $size ? '(' . $size . ')' : '', isset($default) ? "default '" . $default . "'" : '', $notnull ? 'not null' : '', $auto_increment ? 'auto_increment' : '');
-
+			$column_charset = '';
+			$index_size_limit = '';
+			
+			// MySQL only supports 767 bytes for indexed columns.
+			// This is 191 characters in utf8mb4 and 255 characters in utf8.
+			if($column->attrs->utf8mb4 === 'false' && stripos($type, 'char') !== false)
+			{
+				$column_charset = 'CHARACTER SET utf8 COLLATE utf8_unicode_ci';
+			}
+			elseif(($primary_key || $unique || $index) && stripos($type, 'char') !== false)
+			{
+				if($size > 255 || ($size > 191 && $this->charset === 'utf8mb4'))
+				{
+					if($primary_key || $unique)
+					{
+						$size = ($this->charset === 'utf8mb4') ? 191 : 255;
+					}
+					else
+					{
+						$index_size_limit = '(' . (($this->charset === 'utf8mb4') ? 191 : 255) . ')';
+					}
+				}
+			}
+			
+			$column_schema[$name] = sprintf('`%s` %s%s %s %s %s %s',
+				$name,
+				$this->column_type[$type],
+				$size ? "($size)" : '',
+				$column_charset,
+				isset($default) ? "DEFAULT '$default'" : '',
+				$notnull ? 'NOT NULL' : '',
+				$auto_increment ? 'AUTO_INCREMENT' : ''
+			);
+			
 			if($primary_key)
 			{
-				$primary_list[] = $name;
+				$primary_list[] = "`$name`";
 			}
 			else if($unique)
 			{
-				$unique_list[$unique][] = $name;
+				$unique_list[$unique][] = "`$name`" . $index_size_limit;
 			}
 			else if($index)
 			{
-				$index_list[$index][] = $name;
+				$index_list[$index][] = "`$name`" . $index_size_limit;
 			}
 		}
-
+		
+		// Process
+		
+		// Process indexes
 		if(count($primary_list))
 		{
-			$column_schema[] = sprintf("primary key (%s)", '`' . implode($primary_list, '`,`') . '`');
+			$column_schema[] = sprintf("PRIMARY KEY (%s)", implode($primary_list, ', '));
 		}
-
 		if(count($unique_list))
 		{
 			foreach($unique_list as $key => $val)
 			{
-				$column_schema[] = sprintf("unique %s (%s)", $key, '`' . implode($val, '`,`') . '`');
+				$column_schema[] = sprintf("UNIQUE %s (%s)", $key, implode($val, ', '));
 			}
 		}
-
 		if(count($index_list))
 		{
 			foreach($index_list as $key => $val)
 			{
-				$column_schema[] = sprintf("index %s (%s)", $key, '`' . implode($val, '`,`') . '`');
+				$column_schema[] = sprintf("INDEX %s (%s)", $key, implode($val, ', '));
 			}
 		}
-
-		$schema = sprintf('create table `%s` (%s%s) %s;', $this->addQuotes($table_name), "\n", implode($column_schema, ",\n"), "ENGINE = MYISAM  CHARACTER SET utf8 COLLATE utf8_general_ci");
-
+		
+		// Generate table schema
+		$engine = stripos(get_class($this), 'innodb') === false ? 'MYISAM' : 'INNODB';
+		$charset = $this->charset ?: 'utf8';
+		$collation = $charset . '_unicode_ci';
+		$schema = sprintf("CREATE TABLE `%s` (%s) %s",
+			$this->addQuotes($this->prefix . $table_name),
+			"\n" . implode($column_schema, ",\n") . "\n",
+			"ENGINE = $engine CHARACTER SET $charset COLLATE $collation"
+		);
+		
+		// Execute the complete query
 		$output = $this->_query($schema);
-		if(!$output)
+		if($output)
+		{
+			return true;
+		}
+		else
+		{
 			return false;
+		}
 	}
 
 	/**
@@ -788,7 +822,7 @@ class DBMysql extends DB
 	 * @param boolean $force
 	 * @return DBParser
 	 */
-	function &getParser($force = FALSE)
+	function getParser($force = FALSE)
 	{
 		$dbParser = new DBParser('`', '`', $this->prefix);
 		return $dbParser;
@@ -967,6 +1001,30 @@ class DBMysql extends DB
 		return $select . ' ' . $from . ' ' . $where . ' ' . $groupBy . ' ' . $orderBy . ' ' . $limit;
 	}
 
+	/**
+	 * Find out the best supported character set
+	 * 
+	 * @return string
+	 */
+	function getBestSupportedCharset()
+	{
+		if($output = $this->_fetch($this->_query("SHOW CHARACTER SET LIKE 'utf8%'")))
+		{
+			$mb4_support = false;
+			foreach($output as $row)
+			{
+				if($row->Charset === 'utf8mb4')
+				{
+					$mb4_support = true;
+				}
+			}
+			return $mb4_support ? 'utf8mb4' : 'utf8';
+		}
+		else
+		{
+			return 'utf8';
+		}
+	}
 }
 
 DBMysql::$isSupported = function_exists('mysql_connect');

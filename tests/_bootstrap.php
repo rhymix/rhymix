@@ -1,8 +1,6 @@
 <?php
 // This is global bootstrap for autoloading
-if(!defined('__XE__')) define('__XE__', true);
-if(!defined('_XE_PATH_')) define('_XE_PATH_', realpath(dirname(__FILE__).'/../').'/');
-require_once _XE_PATH_.'config/config.inc.php';
+require dirname(__DIR__) . '/common/autoload.php';
 
 function _debug() {
 	$args = func_get_args();

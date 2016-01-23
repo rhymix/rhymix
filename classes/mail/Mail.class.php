@@ -1,165 +1,53 @@
 <?php
-/* Copyright (C) NAVER <http://www.navercorp.com> */
-
-require_once _XE_PATH_ . "libs/phpmailer/phpmailer.php";
 
 /**
- * Mailing class for XpressEngine
- *
- * @author NAVER (developers@xpressengine.com)
+ * Mail class
+ * 
+ * This class was originally written for the Advanced Mailer module.
+ * Advanced Mailer is licensed under GPLv2, but the author hereby relicenses
+ * this class under the same license as the remainder of RhymiX.
+ * All other parts of the Advanced Mailer module remain under GPLv2.
+ * 
+ * @author Kijin Sung <kijin@kijinsung.com>
  */
-class Mail extends PHPMailer
+class Mail
 {
-
 	/**
-	 * Sender name
-	 * @var string
+	 * Properties for compatibility with XE Mail class
 	 */
-	var $sender_name = '';
-
+	public $content = '';
+	public $content_type = 'html';
+	public $attachments = array();
+	public $cidAttachments = array();
+	
 	/**
-	 * Sender email address
-	 * @var string
+	 * Properties used by Advanced Mailer
 	 */
-	var $sender_email = '';
-
+	public $error = null;
+	public $caller = null;
+	public $message = null;
+	public static $transport = null;
+	
 	/**
-	 * Receiptor name
-	 * @var string
+	 * Constructor
 	 */
-	var $receiptor_name = '';
-
-	/**
-	 * Receiptor email address
-	 * @var string
-	 */
-	var $receiptor_email = '';
-
-	/**
-	 * Title of email
-	 * @var string
-	 */
-	var $title = '';
-
-	/**
-	 * Content of email
-	 * @var string
-	 */
-	var $content = '';
-
-	/**
-	 * Content type
-	 * @var string
-	 */
-	var $content_type = 'html';
-
-	/**
-	 * Message id
-	 * @var string
-	 */
-	var $messageId = NULL;
-
-	/**
-	 * Reply to
-	 * @var string
-	 */
-	var $replyTo = NULL;
-
-	/**
-	 * BCC (Blind carbon copy)
-	 * @var string
-	 */
-	var $bcc = NULL;
-
-	/**
-	 * Attachments
-	 * @var array
-	 */
-	var $attachments = array();
-
-	/**
-	 * Content attachements
-	 * @var array
-	 */
-	var $cidAttachments = array();
-
-	/**
-	 * ???
-	 * @var ???
-	 */
-	var $mainMailPart = NULL;
-
-	/**
-	 * Raw body
-	 * @var string
-	 */
-	var $body = '';
-
-	/**
-	 * Raw header
-	 * @var string
-	 */
-	var $header = '';
-
-	/**
-	 * End of line
-	 * @var string
-	 */
-	var $eol = '';
-
-	/**
-	 * Reference
-	 * @var string
-	 */
-	var $references = '';
-
-	/**
-	 * Additional parameters
-	 * @var string
-	 */
-	var $additional_params = NULL;
-
-	/**
-	 * Whether use or not use stmp
-	 * @var bool
-	 */
-	var $use_smtp = FALSE;
-
-	/**
-	 * Constructor function
-	 *
-	 * @return void
-	 */
-	function __construct()
+	public function __construct()
 	{
-
+		$this->message = \Swift_Message::newInstance();
 	}
-
+	
 	/**
 	 * Set parameters for using Gmail
 	 *
-	 * @param string $account_name Password
-	 * @param string $account_passwd Secure method ('ssl','tls')
+	 * @param string $account_name Email address
+	 * @param string $account_passwd Email password
 	 * @return void
 	 */
-	function useGmailAccount($account_name, $account_passwd)
+	public static function useGmailAccount($account_name, $account_passwd)
 	{
-		$this->SMTPAuth = TRUE;
-		$this->SMTPSecure = "tls";
-		$this->Host = 'smtp.gmail.com';
-		$this->Port = '587';
-		if($this->isVaildMailAddress($account_name))
-		{
-			$this->Username = $account_name;
-		}
-		else
-		{
-			$this->Username = $account_name . '@gmail.com';
-		}
-		$this->Password = $account_passwd;
-		$this->IsSMTP();
+		self::useSMTP(null, 'smtp.gmail.com', $account_name, $account_passwd, 'ssl', 465);
 	}
-
+	
 	/**
 	 * Set parameters for using SMTP protocol
 	 *
@@ -172,67 +60,26 @@ class Mail extends PHPMailer
 	 *
 	 * @return bool TRUE if SMTP is set correct, otherwise return FALSE
 	 */
-	function useSMTP($auth = NULL, $host = NULL, $user = NULL, $pass = NULL, $secure = NULL, $port = 25)
+	public static function useSMTP($auth = null, $host = null, $user = null, $pass = null, $secure = null, $port = 25)
 	{
-		$this->SMTPAuth = $auth;
-		$this->Host = $host;
-		$this->Username = $user;
-		$this->Password = $pass;
-		$this->Port = $port;
-
-		if($secure == 'ssl' || $secure == 'tls')
+		self::$transport = \Swift_SmtpTransport::newInstance($host, $port, $secure);
+		self::$transport->setUsername($user);
+		self::$transport->setPassword($pass);
+		$local_domain = self::$transport->getLocalDomain();
+		if (preg_match('/^\*\.(.+)$/', $local_domain, $matches))
 		{
-			$this->SMTPSecure = $secure;
-		}
-
-		if(($this->SMTPAuth !== NULL && $this->Host !== NULL && $this->Username !== NULL && $this->Password !== NULL) || ($this->SMTPAuth === NULL && $this->Host !== NULL))
-		{
-			$this->IsSMTP();
-			$this->AltBody = "To view the message, please use an HTML compatible email viewer!";
-			return TRUE;
-		}
-		else
-		{
-			$this->IsMail();
-			return FALSE;
+			self::$transport->setLocalDomain($matches[1]);
 		}
 	}
-
+	
 	/**
 	 * Set additional parameters
-	 *
-	 * @param string $additional_params Additional parameters
-	 * @return void
 	 */
-	function setAdditionalParams($additional_params)
+	public function setAdditionalParams($additional_params)
 	{
-		$this->additional_params = $additional_params;
+		// no-op
 	}
-
-	/**
-	 * Add file attachment
-	 *
-	 * @param string $filename File name to attach
-	 * @param string $orgfilename Real path of file to attach
-	 * @return void
-	 */
-	function addAttachment($filename, $orgfilename)
-	{
-		$this->attachments[$orgfilename] = $filename;
-	}
-
-	/**
-	 * Add content attachment
-	 *
-	 * @param string $filename Real path of file to attach
-	 * @param string $cid Content-CID
-	 * @return void
-	 */
-	function addCidAttachment($filename, $cid)
-	{
-		$this->cidAttachments[$cid] = $filename;
-	}
-
+	
 	/**
 	 * Set Sender (From:)
 	 *
@@ -240,172 +87,246 @@ class Mail extends PHPMailer
 	 * @param string $email Sender email address
 	 * @return void
 	 */
-	function setSender($name, $email)
+	public function setSender($name, $email)
 	{
-		if($this->Mailer == "mail")
+		try
 		{
-			$this->sender_name = $name;
-			$this->sender_email = $email;
+			$this->message->setFrom(array($email => $name));
 		}
-		else
+		catch (\Exception $e)
 		{
-			$this->SetFrom($email, $name);
+			$this->errors[] = array($e->getMessage());
 		}
 	}
-
+	
 	/**
 	 * Get Sender (From:)
 	 *
 	 * @return string
 	 */
-	function getSender()
+	public function getSender()
 	{
-		if(!stristr(PHP_OS, 'win') && $this->sender_name)
+		$from = $this->message->getFrom();
+		foreach($from as $email => $name)
 		{
-			return sprintf("%s <%s>", '=?utf-8?b?' . base64_encode($this->sender_name) . '?=', $this->sender_email);
+			if($name === '')
+			{
+				return $email;
+			}
+			else
+			{
+				return $name . ' <' . $email . '>';
+			}
 		}
-		return $this->sender_email;
+		return FALSE;
 	}
-
+	
 	/**
-	 * Set Receiptor (TO:)
+	 * Set Recipient (To:)
 	 *
-	 * @param string $name Receiptor name
-	 * @param string $email Receiptor email address
+	 * @param string $name Recipient name
+	 * @param string $email Recipient email address
 	 * @return void
 	 */
-	function setReceiptor($name, $email)
+	public function setReceiptor($name, $email)
 	{
-		if($this->Mailer == "mail")
+		try
 		{
-			$this->receiptor_name = $name;
-			$this->receiptor_email = $email;
+			$this->message->setTo(array($email => $name));
 		}
-		else
+		catch (\Exception $e)
 		{
-			$this->AddAddress($email, $name);
+			$this->errors[] = array($e->getMessage());
 		}
 	}
-
+	
 	/**
-	 * Get Receiptor (TO:)
+	 * Get Recipient (To:)
 	 *
 	 * @return string
 	 */
-	function getReceiptor()
+	public function getReceiptor()
 	{
-		if(!stristr(PHP_OS, 'win') && $this->receiptor_name && $this->receiptor_name != $this->receiptor_email)
+		$to = $this->message->getTo();
+		foreach($to as $email => $name)
 		{
-			return sprintf("%s <%s>", '=?utf-8?b?' . base64_encode($this->receiptor_name) . '?=', $this->receiptor_email);
+			if($name === '')
+			{
+				return $email;
+			}
+			else
+			{
+				return $name . ' <' . $email . '>';
+			}
 		}
-		return $this->receiptor_email;
+		return FALSE;
 	}
-
+	
 	/**
-	 * Set Email's Title
+	 * Set Subject
 	 *
-	 * @param string $title Title to set
+	 * @param string $subject The subject
 	 * @return void
 	 */
-	function setTitle($title)
+	public function setTitle($subject)
 	{
-		if($this->Mailer == "mail")
-		{
-			$this->title = $title;
-		}
-		else
-		{
-			$this->Subject = $title;
-		}
+		$this->message->setSubject(strval($subject));
 	}
-
+	
 	/**
-	 * Get Email's Title
+	 * Get Subject
 	 *
 	 * @return string
 	 */
-	function getTitle()
+	public function getTitle()
 	{
-		return '=?utf-8?b?' . base64_encode($this->title) . '?=';
+		return $this->message->getSubject();
 	}
-
+	
 	/**
 	 * Set BCC
 	 *
 	 * @param string $bcc
 	 * @return void
 	 */
-	function setBCC($bcc)
+	public function setBCC($bcc)
 	{
-		if($this->Mailer == "mail")
+		try
 		{
-			$this->bcc = $bcc;
+			$this->message->setBcc(array($bcc));
 		}
-		else
+		catch (\Exception $e)
 		{
-			$this->AddBCC($bcc);
+			$this->errors[] = array($e->getMessage());
 		}
 	}
-
+	
+	/**
+	 * Set ReplyTo
+	 *
+	 * @param string $replyTo
+	 * @return void
+	 */
+	public function setReplyTo($replyTo)
+	{
+		try
+		{
+			$this->message->setReplyTo(array($replyTo));
+		}
+		catch (\Exception $e)
+		{
+			$this->errors[] = array($e->getMessage());
+		}
+	}
+	
+	/**
+	 * Set Return Path
+	 *
+	 * @param string $returnPath
+	 * @return void
+	 */
+	public function setReturnPath($returnPath)
+	{
+		try
+		{
+			$this->message->setReturnPath($returnPath);
+		}
+		catch (\Exception $e)
+		{
+			$this->errors[] = array($e->getMessage());
+		}
+	}
+	
 	/**
 	 * Set Message ID
 	 *
 	 * @param string $messageId
 	 * @return void
 	 */
-	function setMessageID($messageId)
+	public function setMessageID($messageId)
 	{
-		$this->messageId = $messageId;
+		$this->message->getHeaders()->get('Message-ID')->setId($messageId);
 	}
-
+	
 	/**
 	 * Set references
 	 *
 	 * @param string $references
 	 * @return void
 	 */
-	function setReferences($references)
+	public function setReferences($references)
 	{
-		$this->references = $references;
+		$headers = $this->message->getHeaders();
+		$headers->addTextHeader('References', $references);
 	}
-
-	/**
-	 * Set ReplyTo param
-	 *
-	 * @param string $replyTo
-	 * @return void
-	 */
-	function setReplyTo($replyTo)
-	{
-		if($this->Mailer == "mail")
-		{
-			$this->replyTo = $replyTo;
-		}
-		else
-		{
-			$this->AddReplyTo($replyTo);
-		}
-	}
-
+	
 	/**
 	 * Set message content
 	 *
 	 * @param string $content Content
 	 * @return void
 	 */
-	function setContent($content)
+	public function setContent($content)
 	{
 		$content = preg_replace_callback('/<img([^>]+)>/i', array($this, 'replaceResourceRealPath'), $content);
-		if($this->Mailer == "mail")
-		{
-			$this->content = $content;
-		}
-		else
-		{
-			$this->MsgHTML($content);
-		}
+		$this->content = $content;
 	}
-
+	
+	/**
+	 * Set the type of message content (html or plain text)
+	 * 
+	 * @param string $mode The type
+	 * @return void
+	 */
+	public function setContentType($type = 'html')
+	{
+		$this->content_type = $type === 'html' ? 'html' : '';
+	}
+	
+	/**
+	 * Get the Plain content of body message
+	 *
+	 * @return string
+	 */
+	public function getPlainContent()
+	{
+		return chunk_split(base64_encode(str_replace(array("<", ">", "&"), array("&lt;", "&gt;", "&amp;"), $this->content)));
+	}
+	
+	/**
+	 * Get the HTML content of body message
+	 * 
+	 * @return string
+	 */
+	public function getHTMLContent()
+	{
+		return chunk_split(base64_encode($this->content_type != 'html' ? nl2br($this->content) : $this->content));
+	}
+	
+	/**
+	 * Add file attachment
+	 *
+	 * @param string $filename File name to attach
+	 * @param string $original_filename Real path of file to attach
+	 * @return void
+	 */
+	public function addAttachment($filename, $original_filename)
+	{
+		$this->attachments[$original_filename] = $filename;
+	}
+	
+	/**
+	 * Add content attachment
+	 *
+	 * @param string $original_filename Real path of file to attach
+	 * @param string $cid Content-CID
+	 * @return void
+	 */
+	public function addCidAttachment($original_filename, $cid)
+	{
+		$this->cidAttachments[$cid] = $original_filename;
+	}
+	
 	/**
 	 * Replace resourse path of the files
 	 *
@@ -413,188 +334,93 @@ class Mail extends PHPMailer
 	 * @param array $matches Match info.
 	 * @return string
 	 */
-	function replaceResourceRealPath($matches)
+	public function replaceResourceRealPath($matches)
 	{
-		return preg_replace('/src=(["\']?)files/i', 'src=$1' . Context::getRequestUri() . 'files', $matches[0]);
+		return preg_replace('/src=(["\']?)files/i', 'src=$1' . \Context::getRequestUri() . 'files', $matches[0]);
 	}
-
-	/**
-	 * Get the Plain content of body message
-	 *
-	 * @return string
-	 */
-	function getPlainContent()
-	{
-		return chunk_split(base64_encode(str_replace(array("<", ">", "&"), array("&lt;", "&gt;", "&amp;"), $this->content)));
-	}
-
-	/**
-	 * Get the HTML content of body message
-	 *
-	 * @return string
-	 */
-	function getHTMLContent()
-	{
-		return chunk_split(base64_encode($this->content_type != 'html' ? nl2br($this->content) : $this->content));
-	}
-
-	/**
-	 * Set the type of body's content
-	 *
-	 * @param string $mode
-	 * @return void
-	 */
-	function setContentType($mode = 'html')
-	{
-		$this->content_type = $mode == 'html' ? 'html' : '';
-	}
-
+	
 	/**
 	 * Process the images from attachments
 	 *
 	 * @return void
 	 */
-	function procAttachments()
+	public function procAttachments()
 	{
-		if($this->Mailer == "mail")
-		{
-			if(count($this->attachments) > 0)
-			{
-				$this->body = $this->header . $this->body;
-				$boundary = '----==' . uniqid(rand(), TRUE);
-				$this->header = "Content-Type: multipart/mixed;" . $this->eol . "\tboundary=\"" . $boundary . "\"" . $this->eol . $this->eol;
-				$this->body = "--" . $boundary . $this->eol . $this->body . $this->eol . $this->eol;
-				$res = array();
-				$res[] = $this->body;
-				foreach($this->attachments as $filename => $attachment)
-				{
-					$type = $this->returnMIMEType($filename);
-					$file_handler = new FileHandler();
-					$file_str = $file_handler->readFile($attachment);
-					$chunks = chunk_split(base64_encode($file_str));
-					$tempBody = sprintf(
-							"--" . $boundary . $this->eol .
-							"Content-Type: %s;" . $this->eol .
-							"\tname=\"%s\"" . $this->eol .
-							"Content-Transfer-Encoding: base64" . $this->eol .
-							"Content-Description: %s" . $this->eol .
-							"Content-Disposition: attachment;" . $this->eol .
-							"\tfilename=\"%s\"" . $this->eol . $this->eol .
-							"%s" . $this->eol . $this->eol, $type, $filename, $filename, $filename, $chunks);
-					$res[] = $tempBody;
-				}
-				$this->body = implode("", $res);
-				$this->body .= "--" . $boundary . "--";
-			}
-		}
-		else
-		{
-			if(count($this->attachments) > 0)
-			{
-				foreach($this->attachments as $filename => $attachment)
-				{
-					parent::AddAttachment($attachment);
-				}
-			}
-		}
+		// no-op
 	}
-
+	
 	/**
 	 * Process the images from body content. This functions is used if Mailer is set as mail not as SMTP
-	 *
+	 * 
 	 * @return void
 	 */
-	function procCidAttachments()
+	public function procCidAttachments()
 	{
-		if(count($this->cidAttachments) > 0)
-		{
-			$this->body = $this->header . $this->body;
-			$boundary = '----==' . uniqid(rand(), TRUE);
-			$this->header = "Content-Type: multipart/relative;" . $this->eol . "\ttype=\"multipart/alternative\";" . $this->eol . "\tboundary=\"" . $boundary . "\"" . $this->eol . $this->eol;
-			$this->body = "--" . $boundary . $this->eol . $this->body . $this->eol . $this->eol;
-			$res = array();
-			$res[] = $this->body;
-			foreach($this->cidAttachments as $cid => $attachment)
-			{
-				$filename = basename($attachment);
-				$type = $this->returnMIMEType(FileHandler::getRealPath($attachment));
-				$file_str = FileHandler::readFile($attachment);
-				$chunks = chunk_split(base64_encode($file_str));
-				$tempBody = sprintf(
-						"--" . $boundary . $this->eol .
-						"Content-Type: %s;" . $this->eol .
-						"\tname=\"%s\"" . $this->eol .
-						"Content-Transfer-Encoding: base64" . $this->eol .
-						"Content-ID: <%s>" . $this->eol .
-						"Content-Description: %s" . $this->eol .
-						"Content-Location: %s" . $this->eol . $this->eol .
-						"%s" . $this->eol . $this->eol, $type, $filename, $cid, $filename, $filename, $chunks);
-				$res[] = $tempBody;
-			}
-			$this->body = implode("", $res);
-			$this->body .= "--" . $boundary . "--";
-		}
+		// no-op
 	}
-
+	
+	/**
+	 * Process the message before sending
+	 * 
+	 * @return void
+	 */
+	public function procAssembleMessage()
+	{
+		// Add all attachments
+		foreach($this->attachments as $original_filename => $filename)
+		{
+			$attachment = \Swift_Attachment::fromPath($original_filename);
+			$attachment->setFilename($filename);
+			$this->message->attach($attachment);
+		}
+		
+		// Add all CID attachments
+		foreach($this->cidAttachments as $cid => $original_filename)
+		{
+			$embedded = \Swift_EmbeddedFile::fromPath($original_filename);
+			$newcid = $this->message->embed($embedded);
+			$this->content = str_replace(array("cid:$cid", $cid), $newcid, $this->content);
+		}
+		
+		// Set content type
+		$content_type = $this->content_type === 'html' ? 'text/html' : 'text/plain';
+		$this->message->setBody($this->content, $content_type);
+	}
+	
 	/**
 	 * Send email
-	 *
-	 * @return bool TRUE in case of success, FALSE if sending fails
+	 * 
+	 * @return bool
 	 */
-	function send()
+	public function send()
 	{
-		if($this->Mailer == "mail")
+		try
 		{
-			$boundary = '----==' . uniqid(rand(), TRUE);
-			$this->eol = $GLOBALS['_qmail_compatibility'] == "Y" ? "\n" : "\r\n";
-			$this->header = "Content-Type: multipart/alternative;" . $this->eol . "\tboundary=\"" . $boundary . "\"" . $this->eol . $this->eol;
-			$this->body = sprintf(
-					"--%s" . $this->eol .
-					"Content-Type: text/plain; charset=utf-8; format=flowed" . $this->eol .
-					"Content-Transfer-Encoding: base64" . $this->eol .
-					"Content-Disposition: inline" . $this->eol . $this->eol .
-					"%s" .
-					"--%s" . $this->eol .
-					"Content-Type: text/html; charset=utf-8" . $this->eol .
-					"Content-Transfer-Encoding: base64" . $this->eol .
-					"Content-Disposition: inline" . $this->eol . $this->eol .
-					"%s" .
-					"--%s--" .
-					"", $boundary, $this->getPlainContent(), $boundary, $this->getHTMLContent(), $boundary
-			);
-			$this->procCidAttachments();
-			$this->procAttachments();
-			$headers = sprintf(
-					"From: %s" . $this->eol .
-					"%s" .
-					"%s" .
-					"%s" .
-					"%s" .
-					"MIME-Version: 1.0" . $this->eol . "", $this->getSender(), $this->messageId ? ("Message-ID: <" . $this->messageId . ">" . $this->eol) : "", $this->replyTo ? ("Reply-To: <" . $this->replyTo . ">" . $this->eol) : "", $this->bcc ? ("Bcc: " . $this->bcc . $this->eol) : "", $this->references ? ("References: <" . $this->references . ">" . $this->eol . "In-Reply-To: <" . $this->references . ">" . $this->eol) : ""
-			);
-			$headers .= $this->header;
-			if($this->additional_params)
+			$this->procAssembleMessage();
+			if(!self::$transport)
 			{
-				return mail($this->getReceiptor(), $this->getTitle(), $this->body, $headers, $this->additional_params);
+				self::$transport = \Swift_MailTransport::newInstance();
 			}
-			return mail($this->getReceiptor(), $this->getTitle(), $this->body, $headers);
+			$mailer = \Swift_Mailer::newInstance(self::$transport);
+			$result = $mailer->send($this->message, $this->errors);
+			return (bool)$result;
 		}
-		else
+		catch(\Exception $e)		
 		{
-			$this->procAttachments();
-			return parent::Send();
+			$this->error = $e->getMessage();
+			return false;
 		}
 	}
-
+	
 	/**
 	 * Check if DNS of param is real or fake
-	 *
-	 * @param string $email_address Email address
-	 * @return boolean TRUE if param is valid DNS otherwise FALSE
+	 * 
+	 * @param string $email_address Email address to check
+	 * @return bool
 	 */
-	function checkMailMX($email_address)
+	public function checkMailMX($email_address)
 	{
-		if(!Mail::isVaildMailAddress($email_address))
+		if(!self::isVaildMailAddress($email_address))
 		{
 			return FALSE;
 		}
@@ -612,14 +438,14 @@ class Mail extends PHPMailer
 		}
 		return TRUE;
 	}
-
+	
 	/**
 	 * Check if param is a valid email or not
-	 *
-	 * @param string $email_address Email address
-	 * @return string email address if param is valid email address otherwise blank string
+	 * 
+	 * @param string $email_address Email address to check
+	 * @return string
 	 */
-	function isVaildMailAddress($email_address)
+	public function isVaildMailAddress($email_address)
 	{
 		if(preg_match("/([a-z0-9\_\-\.]+)@([a-z0-9\_\-\.]+)/i", $email_address))
 		{

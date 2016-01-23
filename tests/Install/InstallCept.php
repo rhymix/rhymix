@@ -14,7 +14,7 @@ $dbinfo = [
     'type' => $db_type,
     'user' => $db_config['user'],
     'password' => $db_config['password'],
-    'dbname' => 'xe_install',
+    'dbname' => 'rhymix',
     'port' => ((isset($db_config['port']) && $db_config['port'])?: 3306),
 ];
 foreach($dsn as $piece) {
@@ -22,12 +22,12 @@ foreach($dsn as $piece) {
     $dbinfo[$key] = $val;
 }
 
-if(\Filehandler::exists(_XE_PATH_ . 'config/install.config.php')) {
+if(file_exists(_XE_PATH_ . 'config/install.config.php')) {
     $I->deleteFile(_XE_PATH_ . 'config/install.config.php');
 }
 
 // Step 1 : License Agreement
-$I->wantTo('Install XE Core');
+$I->wantTo('Install RhymiX');
 $I->amOnPage('/index.php?l=ko');
 $I->setCookie('l', 'ko');
 $I->seeElement('//div[@id="progress"]/ul/li[1][@class="active"]');
@@ -50,7 +50,7 @@ $I->submitForm('#body', [
     'db_userid' => $dbinfo['user'],
     'db_password' => $dbinfo['password'],
     'db_database' => $dbinfo['dbname'],
-    'db_table_prefix' => 'xe'
+    'db_table_prefix' => 'rx'
 ]);
 
 // Step 4 : Create Admin Account

@@ -3,9 +3,7 @@ xe.lang.msg_empty_search_target = '{$lang->msg_empty_search_target}';
 xe.lang.msg_empty_search_keyword = '{$lang->msg_empty_search_keyword}';
 </script>
 <load target="js/document_admin.js" />
-<div class="x_page-header">
-	<h1>{$lang->document} <a class="x_icon-question-sign" href="./admin/help/index.html#UMAN_content_document" target="_blank">{$lang->help}</a></h1>
-</div>
+<include target="header.html" />
 <div cond="$XE_VALIDATOR_MESSAGE && $XE_VALIDATOR_ID == 'modules/document/tpl/document_list/1'" class="message {$XE_VALIDATOR_MESSAGE_TYPE}">
 	<p>{$XE_VALIDATOR_MESSAGE}</p>
 </div>
@@ -21,7 +19,7 @@ xe.lang.msg_empty_search_keyword = '{$lang->msg_empty_search_keyword}';
 			<a href="{getUrl('search_target', 'is_secret', 'search_keyword', 'Y')}" class="active"|cond="$search_target == 'is_secret' && $search_keyword == 'Y'">{$status_name_list['SECRET']}<block cond="$search_target == 'is_secret' && $search_keyword == 'Y'">({number_format($total_count)})</block></a>
 			<i>|</i>
 			<a href="{getUrl('search_target', 'is_secret', 'search_keyword', 'temp')}" class="active"|cond="$search_target == 'is_secret' && $search_keyword == 'temp'">{$status_name_list['TEMP']}<block cond="$search_target == 'is_secret' && $search_keyword == 'temp'">({number_format($total_count)})</block></a> 
-			<a class="x_icon-question-sign" href="./admin/help/index.html#UMAN_faq_temp_document" target="_blank">{$lang->help}</a>
+			<a class="x_icon-question-sign" href="./common/manual/admin/#UMAN_faq_temp_document" target="_blank">{$lang->help}</a>
 			<i>|</i>
 			<a href="{getUrl('', 'module', 'admin', 'act', 'dispDocumentAdminDeclared')}">{$lang->cmd_declared_list}</a>
 			<i cond="$search_target == 'ipaddress'">|</i>

@@ -1,8 +1,6 @@
 <?php
 /* Copyright (C) NAVER <http://www.navercorp.com> */
 
-require_once(_XE_PATH_ . 'libs/ftp.class.php');
-
 /**
  * Module installer
  * @author NAVER (developers@xpressengine.com)
@@ -253,8 +251,6 @@ class ModuleInstaller
 	 */
 	function _unPack()
 	{
-		require_once(_XE_PATH_ . 'libs/tar.class.php');
-
 		$oTar = new tar();
 		$oTar->openTAR($this->download_file);
 

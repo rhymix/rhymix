@@ -132,6 +132,15 @@ class installController extends install
 		// Check if available to connect to the DB
 		if(!$oDB->isConnected()) return $oDB->getError();
 
+		// Check DB charset if using MySQL
+		if(stripos($db_info->master_db['db_type'], 'mysql') !== false && !isset($db_info->master_db['db_charset']))
+		{
+			$oDB->charset = $oDB->getBestSupportedCharset();
+			$db_info->master_db['db_charset'] = $oDB->charset;
+			$db_info->slave_db[0]['db_charset'] = $oDB->charset;
+			Context::setDBInfo($db_info);
+		}
+
 		// Install all the modules
 		try {
 			$oDB->begin();
@@ -188,6 +197,7 @@ class installController extends install
 			'db_password' => Context::get('db_password'),
 			'db_database' => Context::get('db_database'),
 			'db_table_prefix' => Context::get('db_table_prefix'),
+			'db_charset' => Context::get('db_charset'),
 		);
 		$db_info->slave_db = array($db_info->master_db);
 		$db_info->default_url = Context::getRequestUri();
@@ -223,7 +233,6 @@ class installController extends install
 		{
 			if(!$ftp_info->ftp_user || !$ftp_info->ftp_password) return new Object(-1,'msg_safe_mode_ftp_needed');
 
-			require_once(_XE_PATH_.'libs/ftp.class.php');
 			$oFtp = new ftp();
 			if(!$oFtp->ftp_connect($ftp_info->ftp_host, $ftp_info->ftp_port)) return new Object(-1, sprintf(Context::getLang('msg_ftp_not_connected'), $ftp_info->ftp_host));
 
@@ -282,7 +291,6 @@ class installController extends install
 		}
 		else
 		{
-			require_once(_XE_PATH_.'libs/ftp.class.php');
 			$oFtp = new ftp();
 			if(!$oFtp->ftp_connect('127.0.0.1', $ftp_info->ftp_port)) return new Object(-1, sprintf(Context::getLang('msg_ftp_not_connected'), 'localhost'));
 
@@ -547,7 +555,7 @@ class installController extends install
 	function installModule($module, $module_path)
 	{
 		// create db instance
-		$oDB = &DB::getInstance();
+		$oDB = DB::getInstance();
 		// Create a table if the schema xml exists in the "schemas" directory of the module
 		$schema_dir = sprintf('%s/schemas/', $module_path);
 		$schema_files = FileHandler::readDir($schema_dir, NULL, false, true);

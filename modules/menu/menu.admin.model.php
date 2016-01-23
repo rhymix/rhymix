@@ -497,8 +497,19 @@ class menuAdminModel extends menu
 			$isMenuFixed = false;
 			$output = $this->getMenu($menuSrl);
 			$php_file = sprintf(_XE_PATH_ . 'files/cache/menu/%s.php',$output->menu_srl);
-			if(file_exists($php_file)) include($php_file);
-			else $oMenuAdminController->makeXmlFile($menuSrl);
+			if(file_exists($php_file))
+			{
+				include($php_file);
+			}
+			else 
+			{
+				$oMenuAdminController->makeXmlFile($menuSrl);
+			}
+			if(!$menu)
+			{
+				$menu = new stdClass;
+				$menu->list = array();
+			}
 
 			if(count($menu->list)>0)
 			{
@@ -506,6 +517,12 @@ class menuAdminModel extends menu
 				{
 					$this->_menuInfoSetting($menu->list[$key], $start_module, $isMenuFixed, $menuSrl,$siteSrl);
 				}
+				ksort($menu->list);
+				$menu->list = array_values($menu->list);
+			}
+			else
+			{
+				$menu->list = array();
 			}
 
 			// menu recreate
@@ -539,6 +556,11 @@ class menuAdminModel extends menu
 						}
 
 						include($value->php_file);
+						if(!$menu)
+						{
+							$menu = new stdClass;
+							$menu->list = array();
+						}
 
 						$isMenuFixed = false;
 						if(count($menu->list) > 0)
@@ -547,6 +569,12 @@ class menuAdminModel extends menu
 							{
 								$this->_menuInfoSetting($menu->list[$key2], $start_module, $isMenuFixed, $value->menu_srl,$siteSrl);
 							}
+							ksort($menu->list);
+							$menu->list = array_values($menu->list);
+						}
+						else
+						{
+							$menu->list = array();
 						}
 
 						// menu recreate
@@ -574,6 +602,7 @@ class menuAdminModel extends menu
 			}
 		}
 		ksort($menuList);
+		$menuList = array_values($menuList);
 		$this->add('menuList', $menuList);
 	}
 
@@ -692,6 +721,12 @@ class menuAdminModel extends menu
 			{
 				$this->_menuInfoSetting($menu['list'][$key], $start_module, $isMenuFixed, $menuSrl, $siteSrl);
 			}
+			ksort($menu['list']);
+			$menu['list'] = array_values($menu['list']);
+		}
+		else
+		{
+			$menu['list'] = array();
 		}
 	}
 }

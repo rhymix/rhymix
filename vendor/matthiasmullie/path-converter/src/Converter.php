@@ -1,4 +1,5 @@
 <?php
+
 namespace MatthiasMullie\PathConverter;
 
 /**
@@ -12,7 +13,6 @@ namespace MatthiasMullie\PathConverter;
  * Please report bugs on https://github.com/matthiasmullie/path-converter/issues
  *
  * @author Matthias Mullie <pathconverter@mullie.eu>
- *
  * @copyright Copyright (c) 2015, Matthias Mullie. All rights reserved.
  * @license MIT License
  */
@@ -38,6 +38,11 @@ class Converter
         if ($shared === '') {
             // when both paths have nothing in common, one of them is probably
             // absolute while the other is relative
+            $cwd = getcwd();
+            $from = strpos($from, $cwd) === 0 ? $from : $cwd.'/'.$from;
+            $to = strpos($to, $cwd) === 0 ? $to : $cwd.'/'.$to;
+
+            // or traveling the tree via `..`
             // attempt to resolve path, or assume it's fine if it doesn't exist
             $from = realpath($from) ?: $from;
             $to = realpath($to) ?: $to;
@@ -56,7 +61,8 @@ class Converter
     /**
      * Normalize path.
      *
-     * @param  string $path
+     * @param string $path
+     *
      * @return string
      */
     protected function normalize($path)
@@ -87,8 +93,9 @@ class Converter
      * share
      *     /home/forkcms/frontend
      *
-     * @param  string $path1
-     * @param  string $path2
+     * @param string $path1
+     * @param string $path2
+     *
      * @return string
      */
     protected function shared($path1, $path2)
@@ -122,7 +129,8 @@ class Converter
      *     ../../core/layout/images/img.gif relative to
      *     /home/forkcms/frontend/cache/minified_css
      *
-     * @param  string $path The relative path that needs to be converted.
+     * @param string $path The relative path that needs to be converted.
+     *
      * @return string The new relative path.
      */
     public function convert($path)
@@ -155,7 +163,8 @@ class Converter
     /**
      * Attempt to get the directory name from a path.
      *
-     * @param  string $path
+     * @param string $path
+     *
      * @return string
      */
     public function dirname($path)

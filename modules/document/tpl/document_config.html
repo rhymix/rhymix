@@ -1,21 +1,27 @@
-<!--#include("header.html")-->
+<include target="header.html" />
 
-<form action="./" method="post">
+<form action="./" method="post" class="x_form-horizontal" method="post">
 	<input type="hidden" name="module" value="document" />
 	<input type="hidden" name="act" value="procDocumentAdminInsertConfig" />
-	<table class="x_table x_table-striped x_table-hover">
-		<tr>
-			<th scope="col">{$lang->thumbnail_type}</th>
-		</tr>
-		<tr>
-			<td>
-				<input type="radio" name="thumbnail_type" value="crop" <!--@if($config->thumbnail_type != 'ratio')-->checked="checked"<!--@end-->/> {$lang->thumbnail_crop} <br />
-				<input type="radio" name="thumbnail_type" value="ratio" <!--@if($config->thumbnail_type == 'ratio')-->checked="checked"<!--@end-->/> {$lang->thumbnail_ratio}
-			</td>
-		</tr>
-	</table>
-    <div class="btnArea">
-		<input class="btn" type="submit" value="{$lang->cmd_registration}" />
-		<input class="btn" type="button" value="{$lang->cmd_delete_all_thumbnail}" onclick="doDeleteAllThumbnail()"/>
+	<input type="hidden" name="xe_validator_id" value="modules/document/tpl/document_config/1" />
+
+	<div class="x_control-group">
+		<div class="x_control-group">
+			<label class="x_control-label">{$lang->view_count_option}</label>
+			<div class="x_controls">
+				<select name="view_count_option">
+					<option value="all" selected="selected"|cond="$config->view_count_option=='all'">{$lang->view_count_option_all}</option>
+					<option value="some" selected="selected"|cond="$config->view_count_option=='some'">{$lang->view_count_option_some}</option>
+					<option value="once" selected="selected"|cond="$config->view_count_option=='once'">{$lang->view_count_option_once}</option>
+					<option value="none" selected="selected"|cond="$config->view_count_option=='none'">{$lang->view_count_option_none}</option>
+				</select>
+				<p>{$lang->about_view_count_option}</p>
+			</div>
+		</div>
+	</div>
+
+	<div class="btnArea x_clearfix">
+		<span class="x_pull-right" style="margin-left:10px;"><input class="btn" type="button" value="{$lang->cmd_delete_all_thumbnail}" onclick="doDeleteAllThumbnail()"/></span>
+		<span class="x_pull-right"><input class="x_btn x_btn-primary" type="submit" value="{$lang->cmd_save}" /></span>
 	</div>
 </form>

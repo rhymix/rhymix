@@ -422,6 +422,7 @@ function doCheckWidget(e) {
 	if($obj.hasClass('widgetSetup')) {
 		var p_obj = obj.parentNode.parentNode;
 		var widget = p_obj.getAttribute("widget");
+		var widgetstyle = p_obj.getAttribute("widgetstyle");
 		if(!widget) return;
 		selectedWidget = p_obj;
 		if(widget == 'widgetContent') popopen(request_uri+"?module=widget&act=dispWidgetAdminAddContent&module_srl="+zoneModuleSrl+"&document_srl="+p_obj.getAttribute("document_srl"), "addContent");

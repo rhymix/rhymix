@@ -4,9 +4,6 @@
  * @brief 몇가지 유용한 & 기본적으로 자주 사용되는 자바스크립트 함수들 모음
  **/
 
-/* jQuery 참조변수($) 제거 */
-if(jQuery) jQuery.noConflict();
-
 (function($) {
 	/* OS check */
 	var UA = navigator.userAgent.toLowerCase();
@@ -20,6 +17,16 @@ if(jQuery) jQuery.noConflict();
 		($.os.Linux) ? 'Linux' :
 		($.os.Unix) ? 'Unix' :
 		($.os.Mac) ? 'Mac' : '';
+
+	/* Intercept getScript error due to broken minified script URL */
+	$(document).ajaxError(function(event, jqxhr, settings, thrownError) {
+		if(settings.dataType === "script" && (jqxhr.status >= 400 || (jqxhr.responseText && jqxhr.responseText.length < 32))) {
+			var match = /^(.+)\.min\.(css|js)($|\?)/.exec(settings.url);
+			if(match) {
+				$.getScript(match[1] + "." + match[2], settings.success);
+			}
+		}
+	});
 
 	/**
 	 * @brief XE 공용 유틸리티 함수
@@ -435,7 +442,7 @@ function _displayMultimedia(src, width, height, options) {
 		}
 		html += '' + '<embed src="'+src+'" allowscriptaccess="never" autostart="'+autostart+'"  width="'+width+'" height="'+height+'" flashvars="'+params.flashvars+'" wmode="'+params.wmode+'"></embed>' + '</object>';
 	}  else {
-		if (jQuery.browser.mozilla || jQuery.browser.opera) {
+		if (navigator.userAgent.match(/(firefox|opera)/i)) {
 			// firefox and opera uses 0 or 1 for autostart parameter.
 			autostart = (params.autostart && params.autostart != 'false') ? '1' : '0';
 		}

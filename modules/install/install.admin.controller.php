@@ -74,9 +74,7 @@ class installAdminController extends install
 		if($default_url && substr($default_url, -1) !== '/') $default_url = $default_url.'/';
 
 		/* convert NON Alphabet URL to punycode URL - Alphabet URL will not be changed */
-		require_once(_XE_PATH_ . 'libs/idna_convert/idna_convert.class.php');
-		$IDN = new idna_convert(array('idn_version' => 2008));
-		$default_url = $IDN->encode($default_url);
+		$default_url = Context::encodeIdna($default_url);
 
 		$use_ssl = Context::get('use_ssl');
 		if(!$use_ssl) $use_ssl = 'none';
@@ -96,11 +94,12 @@ class installAdminController extends install
 		$qmail_compatibility = Context::get('qmail_compatibility');
 		if($qmail_compatibility!='Y') $qmail_compatibility = 'N';
 
+		$delay_session = Context::get('delay_session');
+		if($delay_session!='Y') $delay_session = 'N';
+		unset($db_info->cache_friendly);
+
 		$minify_scripts = Context::get('minify_scripts');
 		if(!$minify_scripts) $minify_scripts = 'common';
-
-		$cache_friendly = Context::get('cache_friendly');
-		if($cache_friendly!='Y') $cache_friendly = 'N';
 
 		$use_html5 = Context::get('use_html5');
 		if(!$use_html5) $use_html5 = 'N';
@@ -108,7 +107,7 @@ class installAdminController extends install
 		$db_info->default_url = $default_url;
 		$db_info->qmail_compatibility = $qmail_compatibility;
 		$db_info->minify_scripts = $minify_scripts;
-		$db_info->cache_friendly = $cache_friendly;
+		$db_info->delay_session = $delay_session;
 		$db_info->use_db_session = $use_db_session;
 		$db_info->use_rewrite = $use_rewrite;
 		$db_info->use_sso = $use_sso;

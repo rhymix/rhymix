@@ -310,6 +310,10 @@ class documentController extends document
 		// An error appears if both log-in info and user name don't exist.
 		if(!$logged_info->member_srl && !$obj->nick_name) return new Object(-1,'msg_invalid_request');
 
+		// Fix encoding of non-BMP UTF-8 characters.
+		$obj->title = utf8_mbencode($obj->title);
+		$obj->content = utf8_mbencode($obj->content);
+
 		$obj->lang_code = Context::getLangType();
 		// Insert data into the DB
 		if(!$obj->status) $this->_checkDocumentStatusForOldVersion($obj);
@@ -551,6 +555,10 @@ class documentController extends document
 		}
 		// if temporary document, regdate is now setting
 		if($source_obj->get('status') == $this->getConfigStatus('temp')) $obj->regdate = date('YmdHis');
+
+		// Fix encoding of non-BMP UTF-8 characters.
+		$obj->title = utf8_mbencode($obj->title);
+		$obj->content = utf8_mbencode($obj->content);
 
 		// Insert data into the DB
 		$output = executeQuery('document.updateDocument', $obj);
@@ -888,7 +896,11 @@ class documentController extends document
 	{
 		// Pass if Crawler access
 		if(isCrawler()) return false;
-		
+		$oDocumentModel = getModel('document');
+		$config = $oDocumentModel->getDocumentConfig();
+
+		if($config->view_count_option == 'none') return false;
+
 		$document_srl = $oDocument->document_srl;
 		$member_srl = $oDocument->get('member_srl');
 		$logged_info = Context::get('logged_info');
@@ -898,28 +910,40 @@ class documentController extends document
 		if(!$trigger_output->toBool()) return $trigger_output;
 
 		// Pass if read count is increaded on the session information
-		if($_SESSION['readed_document'][$document_srl]) return false;
-
-		// Pass if the author's IP address is as same as visitor's.
-		if($oDocument->get('ipaddress') == $_SERVER['REMOTE_ADDR'] && Context::getSessionStatus())
+		if($_SESSION['readed_document'][$document_srl] && $config->view_count_option == 'once')
 		{
-			$_SESSION['readed_document'][$document_srl] = true;
 			return false;
 		}
-		// Pass ater registering sesscion if the author is a member and has same information as the currently logged-in user.
-		if($member_srl && $logged_info->member_srl == $member_srl)
+		else if($config->view_count_option == 'some')
 		{
-			$_SESSION['readed_document'][$document_srl] = true;
-			return false;
+			if($_SESSION['readed_document'][$document_srl])
+			{
+				return false;
+			}
 		}
 
+		if($config->view_count_option == 'once')
+		{
+			// Pass if the author's IP address is as same as visitor's.
+			if($oDocument->get('ipaddress') == $_SERVER['REMOTE_ADDR'] && Context::getSessionStatus())
+			{
+				$_SESSION['readed_document'][$document_srl] = true;
+				return false;
+			}
+			// Pass ater registering sesscion if the author is a member and has same information as the currently logged-in user.
+			if($member_srl && $logged_info->member_srl == $member_srl)
+			{
+				$_SESSION['readed_document'][$document_srl] = true;
+				return false;
+			}
+		}
 		$oDB = DB::getInstance();
 		$oDB->begin();
 
 		// Update read counts
 		$args = new stdClass;
 		$args->document_srl = $document_srl;
-		$output = executeQuery('document.updateReadedCount', $args);
+		executeQuery('document.updateReadedCount', $args);
 
 		// Call a trigger when the read count is updated (after)
 		$trigger_output = ModuleHandler::triggerCall('document.updateReadedCount', 'after', $oDocument);

@@ -93,7 +93,7 @@ class FrontEndFileHandler extends Handler
 		{
 			$args = array($args);
 		}
-		
+		$args[0] = preg_replace(array_keys(HTMLDisplayHandler::$replacements), array_values(HTMLDisplayHandler::$replacements), $args[0]);
 		$isCommon = preg_match(HTMLDisplayHandler::$reservedCSS, $args[0]) || preg_match(HTMLDisplayHandler::$reservedJS, $args[0]);
 		if($args[3] > -1500000 && $isCommon)
 		{
@@ -183,7 +183,8 @@ class FrontEndFileHandler extends Handler
 		$originalFilePath = $file->fileRealPath . '/' . $pathInfo['basename'];
 
 		// Fix incorrectly minified URL
-		if($file->isMinified && !$file->isExternalURL && (!file_exists($originalFilePath) || is_link($originalFilePath)))
+		if($file->isMinified && !$file->isExternalURL && (!file_exists($originalFilePath) || is_link($originalFilePath) ||
+			(filesize($originalFilePath) < 32 && trim(file_get_contents($originalFilePath)) === $file->keyName)))
 		{
 			if(file_exists($file->fileRealPath . '/' . $file->fileNameNoExt . '.' . $file->fileExtension))
 			{

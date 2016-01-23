@@ -7,7 +7,14 @@ class HTMLDisplayHandler
 	 * Reserved scripts
 	 */
 	public static $reservedCSS = '@\bcommon/css/(?:xe|mobile)\.(?:min\.)?css$@';
-	public static $reservedJS = '@\bcommon/js/(?:jquery(?:-[123]\.x)?|xe?|common|js_app|xml_handler|xml_js_filter)\.(?:min\.)?js$@';
+	public static $reservedJS = '@\bcommon/js/(?:jquery(?:-[123][0-9.x-]+)?|xe?|common|js_app|xml_handler|xml_js_filter)\.(?:min\.)?js$@';
+	
+	/**
+	 * Replacement table for XE compatibility
+	 */
+	public static $replacements = array(
+		'@\bcommon/xeicon/@' => 'common/css/xeicon/',
+	);
 
 	/**
 	 * Produce HTML compliant content given a module object.\n
@@ -424,11 +431,12 @@ class HTMLDisplayHandler
 	{
 		Context::loadFile(array('./common/css/xe.css', '', '', -1600000), true);
 		$original_file_list = array('x', 'common', 'js_app', 'xml_handler', 'xml_js_filter');
+		$jquery_version = preg_match('/MSIE [5-8]\./', $_SERVER['HTTP_USER_AGENT']) ? '1.11.3' : '2.1.4';
 		
 		if(Context::getDBInfo()->minify_scripts === 'none')
 		{
-			Context::loadFile(array('./common/js/jquery-1.x.js', 'head', 'lt IE 9', -1730000), true);
-			Context::loadFile(array('./common/js/jquery.js', 'head', 'gte IE 9', -1720000), true);
+			Context::loadFile(array('./common/js/jquery-' . $jquery_version . '.js', 'head', '', -1730000), true);
+			Context::loadFile(array('./common/js/plugins/jquery.migrate/jquery-migrate-1.2.1.js', 'head', '', -1720000), true);
 			foreach($original_file_list as $filename)
 			{
 				Context::loadFile(array('./common/js/' . $filename . '.js', 'head', '', -1700000), true);
@@ -436,9 +444,8 @@ class HTMLDisplayHandler
 		}
 		else
 		{
-			Context::loadFile(array('./common/js/jquery-1.x.min.js', 'head', 'lt IE 9', -1730000), true);
-			Context::loadFile(array('./common/js/jquery.min.js', 'head', 'gte IE 9', -1720000), true);
-			
+			Context::loadFile(array('./common/js/jquery-' . $jquery_version . '.min.js', 'head', '', -1730000), true);
+			Context::loadFile(array('./common/js/plugins/jquery.migrate/jquery-migrate-1.2.1.min.js', 'head', '', -1720000), true);
 			$concat_target_filename = 'files/cache/minify/xe.min.js';
 			if(file_exists(_XE_PATH_ . $concat_target_filename))
 			{

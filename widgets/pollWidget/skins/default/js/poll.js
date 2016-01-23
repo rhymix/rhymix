@@ -133,9 +133,16 @@ function deleteItem(poll_srl,poll_srl_indexes,poll_item_srl) {
     return false;
 }
 
-function loadPoll(poll_srl)
+function loadPoll(poll_srl,data)
 {
-    jQuery.exec_json("poll.getPollinfo", {"poll_srl":poll_srl}, function(data){
+    if(typeof data == 'undefined')
+    {
+        jQuery.exec_json("poll.getPollinfo", {"poll_srl":poll_srl}, function(data){
+            loadPoll(parseInt(data.poll.poll_srl),data);
+        });
+    }
+    else
+    {
         jQuery("#stop_date_"+poll_srl).html(data.poll.stop_date);
 
         initTemplete('poll');
@@ -164,7 +171,7 @@ function loadPoll(poll_srl)
         jQuery("#poll_" + poll_srl + '_result').css({
             display: "none"
         });
-    });
+    }
 }
 
 function showPollMemberNext(poll_srl,poll_item_srl)
@@ -254,17 +261,16 @@ function showPollMember(poll_srl,poll_item_srl)
     return false;
 }
 
-function loadPollResult(poll_srl)
+function loadPollResult(poll_srl,data)
 {
-    jQuery.exec_json("poll.getPollinfo", {"poll_srl":poll_srl}, function(data){
-        /*
-         <block cond="$val->poll_count">
-         {@$per = (int)(( $item->poll_count / $val->poll_count)*100) }
-         </block>
-         <block cond="!$val->poll_count">
-         {@$per = 0}
-         </block>
-         */
+    if(typeof data == 'undefined')
+    {
+        jQuery.exec_json("poll.getPollinfo", {"poll_srl":poll_srl}, function(data){
+            loadPollResult(parseInt(data.poll.poll_srl),data);
+        });
+    }
+    else
+    {
         jQuery("#stop_date_result_" + poll_srl).html(data.poll.stop_date);
         jQuery("#poll_count_result_" + poll_srl).html(data.poll.poll_count);
 
@@ -311,13 +317,7 @@ function loadPollResult(poll_srl)
         jQuery("#poll_" + poll_srl + '_result').css({
             display: "block"
         });
-        /*
-         <!--@foreach($poll->poll as $poll_srl_index => $val)-->
-         <!--@foreach($val->item as $item_srl => $item)-->
-         <!--@end-->
-         <!--@end-->
-         */
-    });
+    }
 }
 
 jQuery(function($){

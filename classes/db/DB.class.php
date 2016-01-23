@@ -178,7 +178,7 @@ class DB
 	 */
 	function create()
 	{
-		return new DB;
+		return new static();
 	}
 
 	/**
@@ -1346,7 +1346,7 @@ class DB
 	 * @param boolean $force force load DBParser instance
 	 * @return DBParser
 	 */
-	function &getParser($force = FALSE)
+	function getParser($force = FALSE)
 	{
 		static $dbParser = NULL;
 		if(!$dbParser || $force)
