@@ -32,9 +32,16 @@ RhymiX는 개발자와 사용자가 서로의 권리와 책임을 존중하는 �
 
 ### 설치 환경
 
-- PHP 5.3 이상 (PHP 5.5 이상 권장, PHP 7 지원)
-- MYSQL 4.1 이상 (MySQL 5.0 이상 또는 MariaDB 권장)
-- 필수 모듈: curl, gd, iconv _or_ mbstring, json, mcrypt _or_ openssl, xml
+- PHP 5.3.3 이상 (PHP 5.5.9 이상 권장, PHP 7 지원)
+- MySQL 4.1.13 이상 (MySQL 5.0.7 이상 또는 MariaDB 권장)
+- CUBRID 또는 MS SQL을 DB로 사용할 수도 있으나, 권장하지는 않습니다.
+- 필수 PHP 모듈
+  - curl
+  - gd
+  - iconv 또는 mbstring
+  - json
+  - mcrypt 또는 openssl
+  - xml 및 simplexml
 - php.ini에서 session.auto_start = Off로 설정되어 있어야 합니다.
 - 설치 폴더 또는 files 폴더에 쓰기 권한이 주어져야 합니다.
 

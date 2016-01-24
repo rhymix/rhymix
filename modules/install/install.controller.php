@@ -394,18 +394,18 @@ class installController extends install
 			$checklist['json'] = false;
 		}
 
-		// Check openssl
-		if(function_exists('openssl_encrypt'))
+		// Check mcrypt or openssl
+		if(function_exists('mcrypt_encrypt') || function_exists('openssl_encrypt'))
 		{
-			$checklist['openssl'] = true;
+			$checklist['mcrypt'] = true;
 		}
 		else
 		{
-			$checklist['openssl'] = false;
+			$checklist['mcrypt'] = false;
 		}
 
-		// Check XML
-		if(function_exists('xml_parser_create'))
+		// Check xml & simplexml
+		if(function_exists('xml_parser_create') && function_exists('simplexml_load_string'))
 		{
 			$checklist['xml'] = true;
 		}
