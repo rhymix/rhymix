@@ -598,16 +598,16 @@
 		<value xml:lang="vi"><![CDATA[Để hiển thị ngôn ngữ đã chọn là mặc định. Hãy bấm [Lưu] phía dưới để lưu lại.]]></value>
 	</item>
 	<item name="xe_license">
-		<value xml:lang="ko"><![CDATA[Rhymix는 LGPL을 따릅니다.]]></value>
-		<value xml:lang="en"><![CDATA[Rhymix complies with the LGPL.]]></value>
-		<value xml:lang="jp"><![CDATA[RhymixのライセンスはLGPLです。]]></value>
-		<value xml:lang="zh-CN"><![CDATA[Rhymix遵循 LGPL协议]]></value>
-		<value xml:lang="zh-TW"><![CDATA[Rhymix遵循 LGPL協議]]></value>
-		<value xml:lang="fr"><![CDATA[Rhymix s'applique la LGPL]]></value>
-		<value xml:lang="ru"><![CDATA[Rhymix подчиняется Стандартной Общественной Лицензии LGPL]]></value>
-		<value xml:lang="es"><![CDATA[Rhymix está bajo la Licencia de LGPL]]></value>
-		<value xml:lang="tr"><![CDATA[Rhymix LGPL ile uyumludur]]></value>
-		<value xml:lang="vi"><![CDATA[Rhymix sử dụng giấy phép LGPL]]></value>
+		<value xml:lang="ko"><![CDATA[Rhymix는 GPL을 따릅니다.]]></value>
+		<value xml:lang="en"><![CDATA[Rhymix complies with the GPL.]]></value>
+		<value xml:lang="jp"><![CDATA[RhymixのライセンスはGPLです。]]></value>
+		<value xml:lang="zh-CN"><![CDATA[Rhymix遵循 GPL协议]]></value>
+		<value xml:lang="zh-TW"><![CDATA[Rhymix遵循 GPL協議]]></value>
+		<value xml:lang="fr"><![CDATA[Rhymix s'applique la GPL]]></value>
+		<value xml:lang="ru"><![CDATA[Rhymix подчиняется Стандартной Общественной Лицензии GPL]]></value>
+		<value xml:lang="es"><![CDATA[Rhymix está bajo la Licencia de GPL]]></value>
+		<value xml:lang="tr"><![CDATA[Rhymix GPL ile uyumludur]]></value>
+		<value xml:lang="vi"><![CDATA[Rhymix sử dụng giấy phép GPL]]></value>
 	</item>
 	<item name="yesterday">
 		<value xml:lang="ko"><![CDATA[어제]]></value>
