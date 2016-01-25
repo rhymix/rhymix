@@ -365,10 +365,10 @@
 		<value xml:lang="vi"><![CDATA[URL mặc định]]></value>
 	</item>
 	<item name="about_default_url">
-		<value xml:lang="ko"><![CDATA[여러 사이트를 운영할 때 기본 URL이 필요합니다. XE 설치 경로를 포함한 URL을 입력하세요. (예: http://도메인/설치경로)]]></value>
-		<value xml:lang="en"><![CDATA[Enter a default URL to be used to control multiple websites, including XE installation path. E.g.) http://domain//installation path]]></value>
-		<value xml:lang="jp"><![CDATA[複数のサイトを運営する際に基本URLが必要です。XEインストール先を含むURLを入力してください。(例：http://ドメイン/インストール先)]]></value>
-		<value xml:lang="tr"><![CDATA[Birden fazla siteyi işletirken temel bir URL'ye ihtiyaç vardır. XE yükleme route'unu kapsayana bir URL giriniz.(Örneğin: http:// alan adı / yükleme route'u)]]></value>
+		<value xml:lang="ko"><![CDATA[여러 사이트를 운영할 때 기본 URL이 필요합니다. Rhymix 설치 경로를 포함한 URL을 입력하세요. (예: http://도메인/설치경로)]]></value>
+		<value xml:lang="en"><![CDATA[Enter a default URL to be used to control multiple websites, including Rhymix installation path. E.g.) http://domain/installation path]]></value>
+		<value xml:lang="jp"><![CDATA[複数のサイトを運営する際に基本URLが必要です。Rhymixインストール先を含むURLを入力してください。(例：http://ドメイン/インストール先)]]></value>
+		<value xml:lang="tr"><![CDATA[Birden fazla siteyi işletirken temel bir URL'ye ihtiyaç vardır. Rhymix yükleme route'unu kapsayana bir URL giriniz.(Örneğin: http:// alan adı / yükleme route'u)]]></value>
 	</item>
 	<item name="env_information">
 		<value xml:lang="ko"><![CDATA[환경 정보]]></value>
@@ -420,15 +420,15 @@
 	</item>
 	<item name="about_download_link">
 		<value xml:lang="ko"><![CDATA[최신 버전이 배포되었습니다. download 링크를 클릭하면 다운 받을 수 있습니다.]]></value>
-		<value xml:lang="en"><![CDATA[New version of XE is now available! Please click the download link to get the latest version.]]></value>
+		<value xml:lang="en"><![CDATA[New version of Rhymix is now available! Please click the download link to get the latest version.]]></value>
 		<value xml:lang="jp"><![CDATA[新しいバージョンが配布されています。｢ダウンロード｣リンクをクリックするとダウンロードできます。]]></value>
-		<value xml:lang="zh-CN"><![CDATA[官方网站已发布最新版本XE。请点击[下载]链接下载最新版本。]]></value>
+		<value xml:lang="zh-CN"><![CDATA[官方网站已发布最新版本Rhymix。请点击[下载]链接下载最新版本。]]></value>
 		<value xml:lang="zh-TW"><![CDATA[官方網站已發佈最新版本。請按[下載]下載最新版本。]]></value>
 		<value xml:lang="fr"><![CDATA[Nouvelle version est disponible. Pour télécharger la dernière version, cliquez le lien.]]></value>
-		<value xml:lang="ru"><![CDATA[Новая версия XE доступна.		   Чтобы скачать последнюю версию, нажмите ссылку закачки]]></value>
-		<value xml:lang="es"><![CDATA[La versión más reciente Zerboard XE está disponible. Para descargar la versión más reciente, haga clic en enlace de descarga.]]></value>
-		<value xml:lang="tr"><![CDATA[Zeroboard XE'nin yeni sürümü yayımlandı! Lütfen son sürümü için indirme linkine tıklayınız.]]></value>
-		<value xml:lang="vi"><![CDATA[Đã có phiên bản mới nhất của XE.  Hãy bấm vào Link để Download.]]></value>
+		<value xml:lang="ru"><![CDATA[Новая версия Rhymix доступна.		   Чтобы скачать последнюю версию, нажмите ссылку закачки]]></value>
+		<value xml:lang="es"><![CDATA[La versión más reciente Rhymix está disponible. Para descargar la versión más reciente, haga clic en enlace de descarga.]]></value>
+		<value xml:lang="tr"><![CDATA[Rhymix'nin yeni sürümü yayımlandı! Lütfen son sürümü için indirme linkine tıklayınız.]]></value>
+		<value xml:lang="vi"><![CDATA[Đã có phiên bản mới nhất của Rhymix.  Hãy bấm vào Link để Download.]]></value>
 	</item>
 	<item name="item_addon">
 		<value xml:lang="ko"><![CDATA[애드온 목록]]></value>
@@ -574,16 +574,16 @@
 		<value xml:lang="vi"><![CDATA[Phím tắt đã không được tạo, bởi vì bạn không được đặt quyền là quản lý toàn diện.]]></value>
 	</item>
 	<item name="welcome_to_xe">
-		<value xml:lang="ko"><![CDATA[XE 관리자]]></value>
-		<value xml:lang="en"><![CDATA[Welcome to the XE admin page.]]></value>
-		<value xml:lang="jp"><![CDATA[XEの管理者ページです。]]></value>
-		<value xml:lang="zh-CN"><![CDATA[XE 管理页面]]></value>
-		<value xml:lang="zh-TW"><![CDATA[XE管理頁面]]></value>
-		<value xml:lang="fr"><![CDATA[Bienvenue sur la Page d'Administration du XE]]></value>
-		<value xml:lang="ru"><![CDATA[Добро пожаловать на страницу администратора XE]]></value>
-		<value xml:lang="es"><![CDATA[Esta es la página del Administrador de XE]]></value>
-		<value xml:lang="tr"><![CDATA[XE Yönetici Sayfasına Hoşgeldiniz]]></value>
-		<value xml:lang="vi"><![CDATA[Chào mừng bạn đến với trang quản lý của XE!]]></value>
+		<value xml:lang="ko"><![CDATA[Rhymix 관리자]]></value>
+		<value xml:lang="en"><![CDATA[Welcome to the Rhymix admin page.]]></value>
+		<value xml:lang="jp"><![CDATA[Rhymixの管理者ページです。]]></value>
+		<value xml:lang="zh-CN"><![CDATA[Rhymix 管理页面]]></value>
+		<value xml:lang="zh-TW"><![CDATA[Rhymix管理頁面]]></value>
+		<value xml:lang="fr"><![CDATA[Bienvenue sur la Page d'Administration du Rhymix]]></value>
+		<value xml:lang="ru"><![CDATA[Добро пожаловать на страницу администратора Rhymix]]></value>
+		<value xml:lang="es"><![CDATA[Esta es la página del Administrador de Rhymix]]></value>
+		<value xml:lang="tr"><![CDATA[Rhymix Yönetici Sayfasına Hoşgeldiniz]]></value>
+		<value xml:lang="vi"><![CDATA[Chào mừng bạn đến với trang quản lý của Rhymix!]]></value>
 	</item>
 	<item name="about_lang_env">
 		<value xml:lang="ko"><![CDATA[처음 방문하는 사용자들의 언어 설정을 동일하게 하려면, 원하는 언어로 변경 후 아래 [저장] 버튼을 클릭하면 됩니다.]]></value>
@@ -598,16 +598,16 @@
 		<value xml:lang="vi"><![CDATA[Để hiển thị ngôn ngữ đã chọn là mặc định. Hãy bấm [Lưu] phía dưới để lưu lại.]]></value>
 	</item>
 	<item name="xe_license">
-		<value xml:lang="ko"><![CDATA[XE는 LGPL을 따릅니다.]]></value>
-		<value xml:lang="en"><![CDATA[XE complies with the LGPL.]]></value>
-		<value xml:lang="jp"><![CDATA[XEのライセンスはLGPLです。]]></value>
-		<value xml:lang="zh-CN"><![CDATA[XE遵循 LGPL协议]]></value>
-		<value xml:lang="zh-TW"><![CDATA[XE遵循 LGPL協議]]></value>
-		<value xml:lang="fr"><![CDATA[XE s'applique la LGPL]]></value>
-		<value xml:lang="ru"><![CDATA[XE подчиняется Стандартной Общественной Лицензии LGPL]]></value>
-		<value xml:lang="es"><![CDATA[XE está bajo la Licencia de LGPL]]></value>
-		<value xml:lang="tr"><![CDATA[XE LGPL ile uyumludur]]></value>
-		<value xml:lang="vi"><![CDATA[XE sử dụng giấy phép LGPL]]></value>
+		<value xml:lang="ko"><![CDATA[Rhymix는 LGPL을 따릅니다.]]></value>
+		<value xml:lang="en"><![CDATA[Rhymix complies with the LGPL.]]></value>
+		<value xml:lang="jp"><![CDATA[RhymixのライセンスはLGPLです。]]></value>
+		<value xml:lang="zh-CN"><![CDATA[Rhymix遵循 LGPL协议]]></value>
+		<value xml:lang="zh-TW"><![CDATA[Rhymix遵循 LGPL協議]]></value>
+		<value xml:lang="fr"><![CDATA[Rhymix s'applique la LGPL]]></value>
+		<value xml:lang="ru"><![CDATA[Rhymix подчиняется Стандартной Общественной Лицензии LGPL]]></value>
+		<value xml:lang="es"><![CDATA[Rhymix está bajo la Licencia de LGPL]]></value>
+		<value xml:lang="tr"><![CDATA[Rhymix LGPL ile uyumludur]]></value>
+		<value xml:lang="vi"><![CDATA[Rhymix sử dụng giấy phép LGPL]]></value>
 	</item>
 	<item name="yesterday">
 		<value xml:lang="ko"><![CDATA[어제]]></value>
@@ -824,9 +824,9 @@
 		<value xml:lang="vi"><![CDATA[Xóa thông tin FTP.]]></value>
 	</item>
 	<item name="msg_find_xe_path_fail">
-		<value xml:lang="ko"><![CDATA[XE 설치 경로를 자동으로 찾지 못하였습니다. 수동 설정해주세요.]]></value>
-		<value xml:lang="en"><![CDATA[Failed to search XE installed path automatically. Please set manually.]]></value>
-		<value xml:lang="jp"><![CDATA[XEのインストル先が見つかりませんでした。手動で設定してください。]]></value>
+		<value xml:lang="ko"><![CDATA[Rhymix 설치 경로를 자동으로 찾지 못하였습니다. 수동 설정해주세요.]]></value>
+		<value xml:lang="en"><![CDATA[Failed to search Rhymix installed path automatically. Please set manually.]]></value>
+		<value xml:lang="jp"><![CDATA[Rhymixのインストル先が見つかりませんでした。手動で設定してください。]]></value>
 	</item>
 	<item name="msg_ftp_invalid_path">
 		<value xml:lang="ko"><![CDATA[FTP 경로(Path)를 읽을 수 없습니다.]]></value>
@@ -1389,16 +1389,16 @@
 		<value xml:lang="mn"><![CDATA[FTP холболт шалгах]]></value>
 	</item>
 	<item name="msg_safe_mode_ftp_needed">
-		<value xml:lang="ko"><![CDATA[PHP의<strong>safe_mode=On</strong>일 경우 XE의 정상적인 동작을 돕습니다.]]></value>
-		<value xml:lang="en"><![CDATA[If safe_mode setting of PHP is On, it hepls normal functioning of XE.]]></value>
-		<value xml:lang="jp"><![CDATA[PHPのsafe_modeがOnの場合、FTP情報を登録することで、XEのインストール及び利用が可能になります。]]></value>
-		<value xml:lang="zh-CN"><![CDATA[当PHP的safe_mode=On时，请必须输入相关FTP信息，否则将无法正常安装或使用XE程序。]]></value>
+		<value xml:lang="ko"><![CDATA[PHP의<strong>safe_mode=On</strong>일 경우 Rhymix의 정상적인 동작을 돕습니다.]]></value>
+		<value xml:lang="en"><![CDATA[If safe_mode setting of PHP is On, it hepls normal functioning of Rhymix.]]></value>
+		<value xml:lang="jp"><![CDATA[PHPのsafe_modeがOnの場合、FTP情報を登録することで、Rhymixのインストール及び利用が可能になります。]]></value>
+		<value xml:lang="zh-CN"><![CDATA[当PHP的safe_mode=On时，请必须输入相关FTP信息，否则将无法正常安装或使用Rhymix程序。]]></value>
 		<value xml:lang="zh-TW"><![CDATA[當 PHP 的安全模式(safe_mode)開啟時，請輸入相關 FTP 資訊，否則無法正常安裝或使用程式。]]></value>
-		<value xml:lang="de"><![CDATA[Zur Installation und Nutzung des XEs muss die Angabe des FTPs festgestellt werden, wenn safe_mode in PHP 'An' ist.]]></value>
-		<value xml:lang="es"><![CDATA[Si la la variable safe_mode está activa[safe_mode=On], debe rellenar los datos de FTP para seguir instalando y usar con normalidad el XE.]]></value>
-		<value xml:lang="tr"><![CDATA[Eğer PHP güvenli mod ayarları etkinse, XE'yi kurmak için FTP hesap bilgilerini girmelisiniz.]]></value>
-		<value xml:lang="vi"><![CDATA[Nếu safe_mode của PHP mở, bạn có thể cài đặt các thành phần bổ xung cho XE một cách tự động qua FTP.]]></value>
-		<value xml:lang="mn"><![CDATA[PHP의 safe_mode가 Onбайх тохиолдолд , FTP мэдээллийг заавал оруулснаар XE идэвжvvлэх болон хэрэглэх боломжтой болно.]]></value>
+		<value xml:lang="de"><![CDATA[Zur Installation und Nutzung des Rhymixs muss die Angabe des FTPs festgestellt werden, wenn safe_mode in PHP 'An' ist.]]></value>
+		<value xml:lang="es"><![CDATA[Si la la variable safe_mode está activa[safe_mode=On], debe rellenar los datos de FTP para seguir instalando y usar con normalidad el Rhymix.]]></value>
+		<value xml:lang="tr"><![CDATA[Eğer PHP güvenli mod ayarları etkinse, Rhymix'yi kurmak için FTP hesap bilgilerini girmelisiniz.]]></value>
+		<value xml:lang="vi"><![CDATA[Nếu safe_mode của PHP mở, bạn có thể cài đặt các thành phần bổ xung cho Rhymix một cách tự động qua FTP.]]></value>
+		<value xml:lang="mn"><![CDATA[PHP의 safe_mode가 Onбайх тохиолдолд , FTP мэдээллийг заавал оруулснаар Rhymix идэвжvvлэх болон хэрэглэх боломжтой болно.]]></value>
 	</item>
 	<item name="msg_safe_mode_ftp_needed2">
 		<value xml:lang="ko"><![CDATA[모듈의 쉬운 설치 또는 업데이트가 가능해 집니다.]]></value>
@@ -1479,24 +1479,24 @@
 		<value xml:lang="vi"><![CDATA[Hãy nhập thông tin đường dẫn của FTP.]]></value>
 	</item>
 	<item name="ftp_installed_realpath">
-		<value xml:lang="ko"><![CDATA[설치된 XE의 절대경로]]></value>
-		<value xml:lang="en"><![CDATA[Absolute Path of XE]]></value>
-		<value xml:lang="jp"><![CDATA[インストールされたXEの絶対パス]]></value>
-		<value xml:lang="zh-CN"><![CDATA[XE绝对路径]]></value>
-		<value xml:lang="zh-TW"><![CDATA[XE絕對路經]]></value>
-		<value xml:lang="de"><![CDATA[absoluter Pfad, in dem XE installiert ist.]]></value>
-		<value xml:lang="tr"><![CDATA[KesinnXE Yolu]]></value>
-		<value xml:lang="vi"><![CDATA[Đường dẫn thư mục đã cài đặt XE]]></value>
+		<value xml:lang="ko"><![CDATA[설치된 Rhymix의 절대경로]]></value>
+		<value xml:lang="en"><![CDATA[Absolute Path of Rhymix]]></value>
+		<value xml:lang="jp"><![CDATA[インストールされたRhymixの絶対パス]]></value>
+		<value xml:lang="zh-CN"><![CDATA[Rhymix绝对路径]]></value>
+		<value xml:lang="zh-TW"><![CDATA[Rhymix絕對路經]]></value>
+		<value xml:lang="de"><![CDATA[absoluter Pfad, in dem Rhymix installiert ist.]]></value>
+		<value xml:lang="tr"><![CDATA[KesinnRhymix Yolu]]></value>
+		<value xml:lang="vi"><![CDATA[Đường dẫn thư mục đã cài đặt Rhymix]]></value>
 	</item>
 	<item name="msg_ftp_installed_ftp_realpath">
-		<value xml:lang="ko"><![CDATA[설치된 XE의 FTP 경로]]></value>
-		<value xml:lang="en"><![CDATA[Absolute FTP Path of XE installed]]></value>
-		<value xml:lang="jp"><![CDATA[インストールされたXEのFTP絶対パス設定]]></value>
+		<value xml:lang="ko"><![CDATA[설치된 Rhymix의 FTP 경로]]></value>
+		<value xml:lang="en"><![CDATA[Absolute FTP Path of Rhymix installed]]></value>
+		<value xml:lang="jp"><![CDATA[インストールされたRhymixのFTP絶対パス設定]]></value>
 		<value xml:lang="zh-CN"><![CDATA[FTP绝对路径设置]]></value>
-		<value xml:lang="zh-TW"><![CDATA[XE的 FTP 絕對路經]]></value>
-		<value xml:lang="de"><![CDATA[absoluten Pfad des FTPs, in dem XE installiert ist, festlegen.]]></value>
-		<value xml:lang="tr"><![CDATA[XE Salt FTP Yolu]]></value>
-		<value xml:lang="vi"><![CDATA[Đường dẫn tuyệt đối của thư mục cài đặt XE trên FTP]]></value>
+		<value xml:lang="zh-TW"><![CDATA[Rhymix的 FTP 絕對路經]]></value>
+		<value xml:lang="de"><![CDATA[absoluten Pfad des FTPs, in dem Rhymix installiert ist, festlegen.]]></value>
+		<value xml:lang="tr"><![CDATA[Rhymix Salt FTP Yolu]]></value>
+		<value xml:lang="vi"><![CDATA[Đường dẫn tuyệt đối của thư mục cài đặt Rhymix trên FTP]]></value>
 	</item>
 	<item name="msg_php_warning_title">
 		<value xml:lang="ko"><![CDATA[안전하지 않은 PHP 버전 경고]]></value>
@@ -1507,8 +1507,8 @@
 		<value xml:lang="en"><![CDATA[The server is using a unsafe version of PHP, it is recommended to upgrade to the latest stable version.]]></value>
 	</item>
 	<item name="msg_php_warning_notice_explain">
-		<value xml:lang="ko"><![CDATA[<li>매우 심각한 PHP 보안 문제 및 공격에 노출될 수 있습니다.</li><li>XE 최신 버전을 사용할 수 없습니다.</li><li>XE 최신 버전 이상에서 지원하는 확장 기능을 사용할 수 없습니다.</li><li>일부 확장 기능이 동작하지 않거나, 이로 인해 장애가 발생할 수 있습니다.</li>]]></value>
-		<value xml:lang="en"><![CDATA[<li>PHP version of this server can be exposed to serious security problems and attacks.</li><li>Latest version of XE is not available.</li><li>You can not use extensions that are supported by the latest version of XE.</li><li>Some extensions may not work properly. It can cause problems.</li>]]></value>
+		<value xml:lang="ko"><![CDATA[<li>매우 심각한 PHP 보안 문제 및 공격에 노출될 수 있습니다.</li><li>Rhymix 최신 버전을 사용할 수 없습니다.</li><li>Rhymix 최신 버전 이상에서 지원하는 확장 기능을 사용할 수 없습니다.</li><li>일부 확장 기능이 동작하지 않거나, 이로 인해 장애가 발생할 수 있습니다.</li>]]></value>
+		<value xml:lang="en"><![CDATA[<li>PHP version of this server can be exposed to serious security problems and attacks.</li><li>Latest version of Rhymix is not available.</li><li>You can not use extensions that are supported by the latest version of Rhymix.</li><li>Some extensions may not work properly. It can cause problems.</li>]]></value>
 	</item>
 	<item name="msg_php_warning_now_version">
 		<value xml:lang="ko"><![CDATA[이 서버의 PHP 버전]]></value>

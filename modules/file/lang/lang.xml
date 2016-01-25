@@ -201,16 +201,16 @@
 		<value xml:lang="vi"><![CDATA[Những định dạng này sẽ được phép liên kết. Hãy sử dụng dấu(,) để thêm nhiều định dạng . Ví dụ: .hwp, .doc, .zip, .pdf]]></value>
 	</item>
 	<item name="about_allow_outlink_site">
-		<value xml:lang="ko"><![CDATA[파일 외부 링크 설정에 상관없이 허용하는 사이트 주소입니다. 여러 개 입력 시에 줄을 바꿔서 구분해주세요. 예)http://www.xpressengine.com]]></value>
-		<value xml:lang="en"><![CDATA[These websites will alyways be allowed. Please use new line for multiple input. ex)http://xpressengine.com/]]></value>
-		<value xml:lang="jp"><![CDATA[外部からのファイルリンク設定に関係なく、常に外部からのリンクを許可するURLです。複数登録時には、改行で記入してください。 ex)http://xpressengine.com/]]></value>
-		<value xml:lang="zh-CN"><![CDATA[可以设置允许外链的站点。多个站点以换行来区分，即一行一个。 ex)http://xpressengine.com/]]></value>
-		<value xml:lang="zh-TW"><![CDATA[可設置允許外部檔案連結的網站名單。當數量太多時，可換行輸入。 例) http://xpressengine.com/]]></value>
-		<value xml:lang="fr"><![CDATA[파일 외부 링크 설정에 관계 없이 허용하는 사이트 주소입니다. 여러개 입력시에 줄을 바꿔서 구분해주세요. ex)http://xpressengine.com/]]></value>
-		<value xml:lang="ru"><![CDATA[These websites will alyways be allowed. Please use new line for multiple input. ex)http://www.hotmail.com]]></value>
-		<value xml:lang="es"><![CDATA[Archivos, independientemente de la configuración para permitir a los enlaces externos es la dirección del sitio. Entrada múltiples gubunhaeju un cambio en la línea, por favor.   Ej.) http://xpressengine.com/]]></value>
-		<value xml:lang="tr"><![CDATA[Bu sitelere her zaman izin verilecektir. Lütfen çoklu giriş için yeni satır kullanınız. örn.)http://xpressengine.com/]]></value>
-		<value xml:lang="vi"><![CDATA[Những Website được phép liên kết. Hãy nhập địa chỉ của những Website được phép. Ví dụ: http://xpressengine.com/]]></value>
+		<value xml:lang="ko"><![CDATA[파일 외부 링크 설정에 상관없이 허용하는 사이트 주소입니다. 여러 개 입력 시에 줄을 바꿔서 구분해주세요. 예)https://www.rhymix.org/]]></value>
+		<value xml:lang="en"><![CDATA[These websites will alyways be allowed. Please use new line for multiple input. ex)https://www.rhymix.org/]]></value>
+		<value xml:lang="jp"><![CDATA[外部からのファイルリンク設定に関係なく、常に外部からのリンクを許可するURLです。複数登録時には、改行で記入してください。 ex)https://www.rhymix.org/]]></value>
+		<value xml:lang="zh-CN"><![CDATA[可以设置允许外链的站点。多个站点以换行来区分，即一行一个。 ex)https://www.rhymix.org/]]></value>
+		<value xml:lang="zh-TW"><![CDATA[可設置允許外部檔案連結的網站名單。當數量太多時，可換行輸入。 例) https://www.rhymix.org/]]></value>
+		<value xml:lang="fr"><![CDATA[파일 외부 링크 설정에 관계 없이 허용하는 사이트 주소입니다. 여러개 입력시에 줄을 바꿔서 구분해주세요. ex)https://www.rhymix.org/]]></value>
+		<value xml:lang="ru"><![CDATA[These websites will alyways be allowed. Please use new line for multiple input. ex)https://www.rhymix.org/]]></value>
+		<value xml:lang="es"><![CDATA[Archivos, independientemente de la configuración para permitir a los enlaces externos es la dirección del sitio. Entrada múltiples gubunhaeju un cambio en la línea, por favor.   Ej.) https://www.rhymix.org/]]></value>
+		<value xml:lang="tr"><![CDATA[Bu sitelere her zaman izin verilecektir. Lütfen çoklu giriş için yeni satır kullanınız. örn.)https://www.rhymix.org/]]></value>
+		<value xml:lang="vi"><![CDATA[Những Website được phép liên kết. Hãy nhập địa chỉ của những Website được phép. Ví dụ: https://www.rhymix.org/]]></value>
 	</item>
 	<item name="about_allowed_filesize">
 		<value xml:lang="ko"><![CDATA[하나의 파일에 대해 최고 용량을 지정할 수 있습니다.(관리자는 제외)]]></value>

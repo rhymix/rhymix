@@ -14,10 +14,10 @@
 class DBMysql extends DB
 {
 	/**
-	 * prefix of a tablename (One or more XEs can be installed in a single DB)
+	 * prefix of a tablename (One or more Rhymix can be installed in a single DB)
 	 * @var string
 	 */
-	var $prefix = 'xe_'; // / <
+	var $prefix = 'rx_'; // / <
 	var $comment_syntax = '/* %s */';
 	var $charset = 'utf8';
 
@@ -168,7 +168,7 @@ class DBMysql extends DB
 	{
 		if(!$connection)
 		{
-			exit('XE cannot handle DB connection.');
+			exit('Rhymix cannot handle DB connection.');
 		}
 		// Run the query statement
 		$result = @mysql_query($query, $connection);

@@ -14,10 +14,10 @@ class DBCubrid extends DB
 {
 
 	/**
-	 * prefix of XE tables(One more XE can be installed on a single DB)
+	 * prefix of Rhymix tables(One more Rhymix can be installed on a single DB)
 	 * @var string
 	 */
-	var $prefix = 'xe_';
+	var $prefix = 'rx_';
 
 	/**
 	 * max size of constant in CUBRID(if string is larger than this, '...'+'...' should be used)
