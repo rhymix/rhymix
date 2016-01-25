@@ -432,7 +432,7 @@ class importerAdminController extends importer
 				$oMail->setTitle("Password update for your " . getFullSiteUrl() . " account");
 				$webmaster_name = $member_config->webmaster_name?$member_config->webmaster_name:'Webmaster';
 				$oMail->setContent("Dear $obj->user_name, <br /><br />
-						We recently migrated our phpBB forum to XpressEngine. Since you password was encrypted we could not migrate it too, so please reset it by following this link:
+						We recently migrated our phpBB forum to Rhymix. Since you password was encrypted we could not migrate it too, so please reset it by following this link:
 						<a href='" . getFullSiteUrl() . "/?act=dispMemberFindAccount' >" . getFullSiteUrl() . "?act=dispMemberFindAccount</a>. You need to enter you email address and hit the 'Find account' button. You will then receive an email with a new, generated password that you can change after login. <br /><br />
 
 						Thank you for your understanding,<br />

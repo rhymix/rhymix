@@ -410,7 +410,7 @@ class commentController extends comment
 		// determine the order
 		$obj->list_order = getNextSequence() * -1;
 
-		// remove XE's own tags from the contents
+		// remove Rhymix's own tags from the contents
 		$obj->content = preg_replace('!<\!--(Before|After)(Document|Comment)\(([0-9]+),([0-9]+)\)-->!is', '', $obj->content);
 		
 		// if use editor of nohtml, Remove HTML tags from the contents.
@@ -640,7 +640,7 @@ class commentController extends comment
 		{
 			$oMail = new Mail();
 			$oMail->setSender($obj->email_address, $obj->email_address);
-			$mail_title = "[XE - " . Context::get('mid') . "] A new comment was posted on document: \"" . $oDocument->getTitleText() . "\"";
+			$mail_title = "[Rhymix - " . Context::get('mid') . "] A new comment was posted on document: \"" . $oDocument->getTitleText() . "\"";
 			$oMail->setTitle($mail_title);
 			$url_comment = getFullUrl('','document_srl',$obj->document_srl).'#comment_'.$obj->comment_srl;
 			if($using_validation)
@@ -726,7 +726,7 @@ class commentController extends comment
 		/*
 		  // send email to author - START
 		  $oMail = new Mail();
-		  $mail_title = "[XE - ".Context::get('mid')."] your comment on document: \"".$oDocument->getTitleText()."\" have to be approved";
+		  $mail_title = "[Rhymix - ".Context::get('mid')."] your comment on document: \"".$oDocument->getTitleText()."\" have to be approved";
 		  $oMail->setTitle($mail_title);
 		  //$mail_content = sprintf("From : <a href=\"%s?document_srl=%s&comment_srl=%s#comment_%d\">%s?document_srl=%s&comment_srl=%s#comment_%d</a><br/>\r\n%s  ", getFullUrl(''),$comment->document_srl,$comment->comment_srl,$comment->comment_srl, getFullUrl(''),$comment->document_srl,$comment->comment_srl,$comment->comment_srl,$comment>content);
 		  $mail_content = "
@@ -836,7 +836,7 @@ class commentController extends comment
 			$obj->content = $source_obj->get('content');
 		}
 
-		// remove XE's wn tags from contents
+		// remove Rhymix's wn tags from contents
 		$obj->content = preg_replace('!<\!--(Before|After)(Document|Comment)\(([0-9]+),([0-9]+)\)-->!is', '', $obj->content);
 
 		// if use editor of nohtml, Remove HTML tags from the contents.
