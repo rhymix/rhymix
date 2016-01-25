@@ -26,7 +26,7 @@ function initRxDefaultTemplete(type, poll_srl)
     }
 }
 /* 설문 참여 함수 */
-function doPoll(fo_obj) {
+function doRxDefaultPoll(fo_obj) {
 
     var checkcount = new Array();
     var item = new Array();
@@ -86,7 +86,7 @@ function doPoll(fo_obj) {
 }
 
 /* 항목 추가 함수 */
-function addItem(poll_srl,poll_srl_indexes) {
+function addRxDefaultItem(poll_srl,poll_srl_indexes) {
     jQuery.exec_json("poll.procPollInsertItem", {"srl":poll_srl,"index_srl":poll_srl_indexes,"title":jQuery("#new_item_" + poll_srl_indexes).val()}, function(data){
         if(data.error!=0) alert(data.message);
         else
@@ -110,7 +110,7 @@ function addItem(poll_srl,poll_srl_indexes) {
 }
 
 /* 항목 삭제 함수 */
-function deleteItem(poll_srl,poll_srl_indexes,poll_item_srl) {
+function deleteRxDefaultItem(poll_srl,poll_srl_indexes,poll_item_srl) {
     jQuery.exec_json("poll.procPollDeleteItem", {"srl":poll_srl,"index_srl":poll_srl_indexes,"item_srl":poll_item_srl}, function(data){
         if(data.error!=0) alert(data.message);
         else
@@ -245,20 +245,15 @@ function showRxDefaultPollMember(poll_srl,poll_item_srl)
 
         jQuery("#poll_content_" + poll_srl + "_result").html(html);
 
-        jQuery("#poll_" + poll_srl + "_gotoresult_button").css({
-            display: "block"
-        });
+		jQuery("#poll_" + poll_srl + '_result_button').css({
+			display: "none"
+		});
+		jQuery("#poll_" + poll_srl + '_gotoresult_button').css({
+			display: "block"
+		});
+	});
 
-        jQuery("#poll_" + poll_srl + "_result_nobutton").css({
-            display: "none"
-        });
-
-        jQuery("#poll_" + poll_srl + "_result_yesbutton").css({
-            display: "block"
-        });
-    });
-
-    return false;
+	return false;
 }
 
 function loadRxDefaultPollResult(poll_srl,data)
@@ -317,88 +312,22 @@ function loadRxDefaultPollResult(poll_srl,data)
         jQuery("#poll_" + poll_srl + '_result').css({
             display: "block"
         });
+
+		// do not display back to result button, because, this is that page.
+		jQuery("#poll_" + poll_srl + '_gotoresult_button').css({
+			display: "none"
+		});
+
+		// Check if the user have voted or not. If xe (he or she) have done, do not display back to the poll button
+		if(data.poll.is_polled==0){
+			jQuery("#poll_" + poll_srl + '_result_button').css({
+				display: "block"
+			});
+		}
+		else{
+			jQuery("#poll_" + poll_srl + '_result_button').css({
+				display: "none"
+			});
+		}
     }
 }
-
-jQuery(function($){
-	/* View poll result */
-	$('._rx_default_poll_result').click(function(){
-		var cls = $(this).attr('class'), srl, skin;
-
-		try{
-			srl  = cls.match(/\b_srl_(\d+)\b/)[1];
-		}catch(e){ };
-
-		if(!srl) return false;
-
-        jQuery("#poll_" + srl + "_result_button").css({
-            display: "block"
-        });
-
-        jQuery("#poll_" + srl + "_result_nobutton").css({
-            display: "none"
-        });
-
-        jQuery("#poll_" + srl + "_result_yesbutton").css({
-            display: "block"
-        });
-
-        loadRxDefaultPollResult(srl);
-
-		return false;
-	});
-
-    /* goto poll result */
-    $('._rx_default_gotoresult_screen').click(function(){
-        var cls = $(this).attr('class'), srl, skin;
-
-        try{
-            srl  = cls.match(/\b_srl_(\d+)\b/)[1];
-        }catch(e){ };
-
-        if(!srl) return false;
-
-        jQuery("#poll_" + srl + "_gotoresult_button").css({
-            display: "none"
-        });
-
-        jQuery("#poll_" + srl + "_result_nobutton").css({
-            display: "block"
-        });
-
-        jQuery("#poll_" + srl + "_result_yesbutton").css({
-            display: "none"
-        });
-
-        loadRxDefaultPollResult(srl);
-
-        return false;
-    });
-
-    /* View poll screen */
-    $('._rx_default_poll_screen').click(function(){
-        var cls = $(this).attr('class'), srl, skin;
-
-        try{
-            srl  = cls.match(/\b_srl_(\d+)\b/)[1];
-        }catch(e){ };
-
-        if(!srl) return false;
-
-        jQuery("#poll_" + srl + "_result_button").css({
-            display: "none"
-        });
-
-        jQuery("#poll_" + srl + "_result_nobutton").css({
-            display: "block"
-        });
-
-        jQuery("#poll_" + srl + "_result_yesbutton").css({
-            display: "none"
-        });
-
-        loadRxDefaultPoll(srl);
-
-        return false;
-    });
-});
