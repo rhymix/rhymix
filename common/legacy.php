@@ -1123,24 +1123,6 @@ function removeSrcHack($match)
 		}
 	}
 
-	$filter_arrts = array('style', 'src', 'href');
-
-	if($tag === 'object') array_push($filter_arrts, 'data');
-	if($tag === 'param') array_push($filter_arrts, 'value');
-
-	foreach($filter_arrts as $attr)
-	{
-		if(!isset($attrs[$attr])) continue;
-
-		$attr_value = rawurldecode($attrs[$attr]);
-		$attr_value = htmlspecialchars_decode($attr_value, ENT_COMPAT);
-		$attr_value = preg_replace('/\s+|[\t\n\r]+/', '', $attr_value);
-		if(preg_match('@(\?|&|;)(act=)@i', $attr_value))
-		{
-			unset($attrs[$attr]);
-		}
-	}
-
 	if(isset($attrs['style']) && preg_match('@(?:/\*|\*/|\n|:\s*expression\s*\()@i', $attrs['style']))
 	{
 		unset($attrs['style']);
