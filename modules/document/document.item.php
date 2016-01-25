@@ -837,8 +837,19 @@ class documentItem extends Object
 
 		// If not specify its height, create a square
 		if(!$height) $height = $width;
+		if($this->get('content'))
+		{
+			$content = $this->get('content');
+		}
+		else
+		{
+			$args = new stdClass();
+			$args->document_srl = $this->document_srl;
+			$output = executeQuery('document.getDocument', $args);
+			$content = $output->data->content;
+		}
 		// Return false if neither attachement nor image files in the document
-		if(!$this->get('uploaded_count') && !preg_match("!<img!is", $this->get('content'))) return;
+		if(!$this->get('uploaded_count') && !preg_match("!<img!is", $content)) return;
 		// Get thumbnai_type information from document module's configuration
 		if(!in_array($thumbnail_type, array('crop','ratio')))
 		{
@@ -914,7 +925,6 @@ class documentItem extends Object
 		// If not exists, file an image file from the content
 		if(!$source_file)
 		{
-			$content = $this->get('content');
 			$target_src = null;
 			preg_match_all("!src=(\"|')([^\"' ]*?)(\"|')!is", $content, $matches, PREG_SET_ORDER);
 			$cnt = count($matches);
