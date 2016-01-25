@@ -3,10 +3,14 @@
 	var poll_alert_lang = "{$lang->msg_check_poll_item}";
 	var poll_checkcount_lang = "{$lang->poll_checkcount}";
 	var poll_member_lang = "{$lang->poll_item_members}";
-	jQuery(document).ready(function(){
+	jQuery(document).ready(function() {
 			var data = {json_encode($poll_data)};
-			if(data.poll.is_polled==0) loadRxDefaultPoll({$poll_srl},data);
-			else loadRxDefaultPollResult({$poll_srl},data);
+			if (data.poll.is_polled == 0) {
+				loadRxDefaultPoll({$poll_srl},data);
+			}
+			else {
+				loadRxDefaultPollResult({$poll_srl},data);
+			}
 		});
 </script>
 <div style="{$style}" class="rx_poll_default_wrap">
