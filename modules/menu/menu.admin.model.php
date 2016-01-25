@@ -517,7 +517,6 @@ class menuAdminModel extends menu
 				{
 					$this->_menuInfoSetting($menu->list[$key], $start_module, $isMenuFixed, $menuSrl,$siteSrl);
 				}
-				ksort($menu->list);
 				$menu->list = array_values($menu->list);
 			}
 			else
@@ -569,7 +568,6 @@ class menuAdminModel extends menu
 							{
 								$this->_menuInfoSetting($menu->list[$key2], $start_module, $isMenuFixed, $value->menu_srl,$siteSrl);
 							}
-							ksort($menu->list);
 							$menu->list = array_values($menu->list);
 						}
 						else
@@ -721,7 +719,6 @@ class menuAdminModel extends menu
 			{
 				$this->_menuInfoSetting($menu['list'][$key], $start_module, $isMenuFixed, $menuSrl, $siteSrl);
 			}
-			ksort($menu['list']);
 			$menu['list'] = array_values($menu['list']);
 		}
 		else
