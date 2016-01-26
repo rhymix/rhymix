@@ -3,24 +3,14 @@
 	var poll_alert_lang = "{$lang->msg_check_poll_item}";
 	var poll_checkcount_lang = "{$lang->poll_checkcount}";
 	var poll_member_lang = "{$lang->poll_item_members}";
-	jQuery(document).ready(function(){
-		var data = {json_encode($poll_data)};
-		if(data.poll.is_polled==0) loadRxDefaultPoll({$poll_srl},data);
-		else
-		{
-			loadRxDefaultPollResult({$poll_srl},data);
-			jQuery("#poll_{$poll_srl}_result_button").css({
-				display: "none"
-				});
-
-			jQuery("#poll_{$poll_srl}_result_nobutton").css({
-				display: "block"
-				});
-
-			jQuery("#poll_{$poll_srl}_result_yesbutton").css({
-				display: "none"
-				});
-		}
+	jQuery(document).ready(function() {
+			var data = {json_encode($poll_data)};
+			if (data.poll.is_polled == 0) {
+				loadRxDefaultPoll({$poll_srl},data);
+			}
+			else {
+				loadRxDefaultPollResult({$poll_srl},data);
+			}
 		});
 </script>
 <div style="{$style}" class="rx_poll_default_wrap">
@@ -48,29 +38,29 @@
 							{{item.title}}
 						</label>
 						{{#if item.my_item}}
-						<input type="button" value="x" title="{$lang->delete_poll_item}" onclick="deleteItem({{question.poll_srl}},{{question.poll_index_srl}},{{item.poll_item_srl}})" class="btn poll_button poll_item_delete" />
+						<input type="button" value="x" title="{$lang->delete_poll_item}" onclick="deleteRxDefaultItem({{question.poll_srl}},{{question.poll_index_srl}},{{item.poll_item_srl}}); return false;" class="btn poll_item_delete" />
 						{{/if}}
 					</div>
 					{{/each}}
 					{{#if question.additem}}
 					<div class="poll_item_add">
-						<input type="text" name="new_item" id="new_item_{{question.poll_index_srl}}" class="poll_item_add" placeholder="{$lang->msg_can_add_item}" /> <input type="button" value="+" title="{$lang->add_poll_item}" onclick="addItem({{question.poll_srl}},{{question.poll_index_srl}})" style="float: right;" class="btn poll_button poll_item_add" />
+						<input type="text" name="new_item" id="new_item_{{question.poll_index_srl}}" class="poll_item_add" placeholder="{$lang->msg_can_add_item}" /> <input type="button" value="+" title="{$lang->add_poll_item}" onclick="addRxDefaultItem({{question.poll_srl}},{{question.poll_index_srl}}); return false;" style="float: right;" class="btn poll_item_add" />
 					</div>
 					{{/if}}
 				</div>
 			{{/each}}
 		</script>
-		<div cond="$XE_VALIDATOR_MESSAGE && $XE_VALIDATOR_ID == 'widgets/pollWidget/skins/default/form/1'" class="message {$XE_VALIDATOR_MESSAGE_TYPE}">
+		<div cond="$XE_VALIDATOR_MESSAGE && $XE_VALIDATOR_ID == 'widgets/pollWidget/skins/default/form/' . $poll_srl" class="message {$XE_VALIDATOR_MESSAGE_TYPE}">
 			<p>{$XE_VALIDATOR_MESSAGE}</p>
 		</div>
-		<form ruleset="poll" action="./" method="post" onsubmit="return doPoll(this)">
+		<form ruleset="poll" action="./" method="post" onsubmit="return doRxDefaultPoll(this)">
 			<input type="hidden" name="module" value="poll" />
 			<input type="hidden" name="act" value="procPoll" />
 			<input type="hidden" name="poll_srl" value="{$poll_srl}" />
 			<input type="hidden" name="poll_srl_indexes" value="" />
 			<input type="hidden" name="skin" value="{$skin}" />
 			<input type="hidden" name="success_return_url" value="{getRequestUriByServerEnviroment()}" />
-			<input type="hidden" name="xe_validator_id" value="widgets/pollWidget/skins/default/form/1" />
+			<input type="hidden" name="xe_validator_id" value="widgets/pollWidget/skins/default/form/{$poll_srl}" />
 			<section class="rx_poll_default">
 				<div class="rx_poll_header">
 					<div style="float:left">
@@ -80,8 +70,8 @@
 				<div id="poll_content_{$poll_srl}" class="rx_poll_content">
 				</div>
 				<div class="poll_button">
-					<input type="button" value="{$lang->cmd_view_result}" class="btn poll_button _rx_default_poll_result _srl_{$poll_srl}" />
-					<input type="submit" value="{$lang->cmd_apply_poll}" class="btn poll_button" />
+					<input type="button" value="{$lang->cmd_view_result}" class="btn" onclick="loadRxDefaultPollResult({$poll_srl}); return false;" />
+					<input type="submit" value="{$lang->cmd_apply_poll}" class="btn" />
 				</div>
 			</section>
 
@@ -122,10 +112,10 @@
 			{{/if}}
 			{{/each}}
 			{{#if isPage}}
-			<input type="button" id="btn_load_more_{{poll_item_srl}}" value="More..." onclick="showRxDefaultPollMemberNext({{poll_srl}},{{poll_item_srl}});return false;" style="width:100%;" class="btn poll_button" />
+			<input type="button" id="btn_load_more_{{poll_item_srl}}" value="{$lang->more}" onclick="showRxDefaultPollMemberNext({{poll_srl}},{{poll_item_srl}});return false;" style="width:100%;" class="btn" />
 			{{/if}}
 		</script>
-		<div cond="$XE_VALIDATOR_MESSAGE && $XE_VALIDATOR_ID == 'modules/poll/skins/default/form/1'" class="message {$XE_VALIDATOR_MESSAGE_TYPE}">
+		<div cond="$XE_VALIDATOR_MESSAGE && $XE_VALIDATOR_ID == 'modules/poll/skins/default/form/' . $poll_srl" class="message {$XE_VALIDATOR_MESSAGE_TYPE}">
 			<p>{$XE_VALIDATOR_MESSAGE}</p>
 		</div>
 		<section class="rx_poll_default">
@@ -141,7 +131,12 @@
 			</div>
 			<div id="poll_{$poll_srl}_result_button" class="rx_poll_footer" style="width:100%;display: none;">
 				<div class="poll_button">
-					<input type="button" value="{$lang->btn_poll_gotovote}" class="btn poll_button _rx_default_poll_screen _srl_{$poll_srl}" />
+					<input type="button" value="{$lang->btn_poll_gotovote}" class="btn" onclick="loadRxDefaultPoll({$poll_srl}); return false;" />
+				</div>
+			</div>
+			<div id="poll_{$poll_srl}_gotoresult_button" class="rx_poll_footer" style="width:100%;display: none;">
+				<div class="poll_button">
+					<input type="button" value="{$lang->cmd_view_result}" class="btn" onclick="loadRxDefaultPollResult({$poll_srl}); return false;" />
 				</div>
 			</div>
 		</section>

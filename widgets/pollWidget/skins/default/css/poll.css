@@ -1,6 +1,6 @@
 .rx_poll_default_wrap{max-width:100%;}
-.pollWidget{padding:5px;}
-.rx_poll_default{border-radius: 10px;border:1px solid #e0e0e0;overflow:auto; background-color:#ffffff; color:#000000; font-size:12px; font-family:"Open Sans","나눔바른고딕",NanumBarunGothic,"맑은 고딕","Malgun Gothic","돋움",Dotum,"애플 SD 산돌고딕 Neo","Apple SD Gothic Neo",AppleGothic,Helvetica,sans-serif;}
+.rx_poll_default_wrap .pollWidget{padding:5px;}
+.rx_poll_default{border-radius: 10px;border:1px solid #e0e0e0;overflow:auto; background-color:#ffffff; color:#000000; font-size:12px; font-family:"Open Sans","나눔바른고딕",NanumBarunGothic,"맑은 고딕","Malgun Gothic","애플 SD 산돌고딕 Neo","Apple SD Gothic Neo","돋움",Dotum,AppleGothic,Helvetica,sans-serif;}
 .rx_poll_default .rx_poll_header{padding:13px 15px 10px;overflow:auto;background: #000;background: linear-gradient(-180deg, #212121, #424242);color:#e0e0e0;}
 .rx_poll_default .rx_poll_h_strong{color:#FFFFFF;font-weight:bold}
 .rx_poll_default .rx_poll_content{padding: 15px;}
