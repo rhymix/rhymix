@@ -654,46 +654,41 @@ class commentItem extends Object
 		// get an image file from the doc content if no file attached. 
 		if(!$source_file)
 		{
-			$content = $this->get('content');
-			$target_src = NULL;
-
-			preg_match_all("!src=(\"|')([^\"' ]*?)(\"|')!is", $content, $matches, PREG_SET_ORDER);
-
-			$cnt = count($matches);
-
-			for($i = 0; $i < $cnt; $i++)
+			preg_match_all("!<img\s[^>]*?src=(\"|')([^\"' ]*?)(\"|')!is", $this->get('content'), $matches, PREG_SET_ORDER);
+			foreach($matches as $match)
 			{
-				$target_src = $matches[$i][2];
+				$target_src = htmlspecialchars_decode(trim($match[2]));
 				if(preg_match('/\/(common|modules|widgets|addons|layouts)\//i', $target_src))
 				{
 					continue;
 				}
 				else
 				{
-					if(!preg_match('/^(http|https):\/\//i', $target_src))
+					if(!preg_match('/^https?:\/\//i',$target_src))
 					{
-						$target_src = Context::getRequestUri() . $target_src;
+						$target_src = Context::getRequestUri().$target_src;
 					}
 
 					$tmp_file = sprintf('./files/cache/tmp/%d', md5(rand(111111, 999999) . $this->comment_srl));
-
-					FileHandler::makeDir('./files/cache/tmp');
-
+					if(!is_dir('./files/cache/tmp'))
+					{
+						FileHandler::makeDir('./files/cache/tmp');
+					}
 					FileHandler::getRemoteFile($target_src, $tmp_file);
-
 					if(!file_exists($tmp_file))
 					{
 						continue;
 					}
 					else
 					{
-						list($_w, $_h, $_t, $_a) = @getimagesize($tmp_file);
-
-						if($_w < $width || $_h < $height)
+						if($is_img = @getimagesize($tmp_file))
+						{
+							list($_w, $_h, $_t, $_a) = $is_img;
+						}
+						else
 						{
 							continue;
 						}
-
 						$source_file = $tmp_file;
 						$is_tmp_file = TRUE;
 						break;
