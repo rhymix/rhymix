@@ -7,6 +7,15 @@
 	 * Set this variable to false to hide the "waiting for server response" layer.
 	 */
 	window.show_waiting_message = true;
+	
+	/**
+	 * Set this variable to false to hide the "do you want to leave the page?" dialog.
+	 */
+	window.show_leaving_warning = true;
+	
+	/**
+	 * This variable stores the .wfsr jQuery object.
+	 */
 	var waiting_obj;
 	
 	/**
@@ -47,12 +56,20 @@
 		var _u2 = $("<a>").attr("href", url)[0];
 		if (_u1.protocol != _u2.protocol || _u1.port != _u2.port) return send_by_form(url, params);
 		
-		// Do not send AJAX request if another request is in progress.
-		var _xhr = null;
-		if (_xhr && _xhr.readyState !== 0) _xhr.abort();
-
+		// Delay the waiting message for 1 second to prevent rapid blinking.
+		waiting_obj.css("opacity", 0.0);
+		var wfsr_timeout = setTimeout(function() {
+			if (show_waiting_message) {
+				waiting_obj.css("opacity", "").html(waiting_message).show();
+			}
+		}, 1000);
+		
 		// Define the success handler.
 		var successHandler = function(data, textStatus, xhr) {
+			
+			// Hide the waiting message.
+			clearTimeout(wfsr_timeout);
+			waiting_obj.hide().trigger("cancel_confirm");
 			
 			// Copy data to the result object.
 			var result = {};
@@ -98,6 +115,8 @@
 		
 		// Define the error handler.
 		var errorHandler = function(xhr, textStatus) {
+			clearTimeout(wfsr_timeout);
+			waiting_obj.hide().trigger("cancel_confirm");
 			alert("AJAX communication error while requesting " + params.module + "." + params.act + "\n\n" + xhr.status + " " + xhr.statusText);
 		};
 		
@@ -108,26 +127,12 @@
 				type : "POST",
 				dataType : "json",
 				data : params,
-				beforeSend : function(xhr) { _xhr = xhr; },
 				success : successHandler,
-				error : errorHandler,
-				complete : function(xhr, textStatus) {
-					waiting_obj.hide().trigger("cancel_confirm");
-				}
+				error : errorHandler
 			});
 		} catch(e) {
 			alert(e);
 			return;
-		}
-
-		// Display the waiting message.
-		if (show_waiting_message && waiting_obj.length) {
-			var timeoutId = waiting_obj.data("timeout_id");
-			if (timeoutId) clearTimeout(timeoutId);
-			waiting_obj.css("opacity", 0.0).data("timeout_id", setTimeout(function() {
-				waiting_obj.css("opacity", "");
-			}, 1000));
-			waiting_obj.html(waiting_message).show();
 		}
 	};
 
@@ -158,6 +163,10 @@
 		// Define the success handler.
 		var successHandler = function(data, textStatus, xhr) {
 			
+			// Hide the waiting message.
+			clearTimeout(wfsr_timeout);
+			waiting_obj.hide().trigger("cancel_confirm");
+			
 			// If the response contains an error, display the error message.
 			if(data.error != "0" && data.error > -1000) {
 				if(data.error == -1 && data.message == "msg_is_not_administrator") {
@@ -181,6 +190,8 @@
 			
 			// If there was a success callback, call it.
 			if($.isFunction(callback_success)) {
+				clearTimeout(wfsr_timeout);
+				waiting_obj.hide().trigger("cancel_confirm");
 				callback_success(data);
 			}
 		};
@@ -198,11 +209,7 @@
 				url: request_uri,
 				data: params,
 				success : successHandler,
-				error : errorHandler,
-				complete : function(xhr, textStatus) {
-					clearTimeout(wfsr_timeout);
-					waiting_obj.hide().trigger("cancel_confirm");
-				}
+				error : errorHandler
 			});
 		} catch(e) {
 			alert(e);
@@ -239,6 +246,8 @@
 		
 		// Define the success handler.
 		var successHandler = function(data, textStatus, xhr) {
+			clearTimeout(wfsr_timeout);
+			waiting_obj.hide().trigger("cancel_confirm");
 			if (self && self[type]) {
 				self[type](html);
 			}
@@ -249,6 +258,8 @@
 		
 		// Define the error handler.
 		var errorHandler = function(xhr, textStatus) {
+			clearTimeout(wfsr_timeout);
+			waiting_obj.hide().trigger("cancel_confirm");
 			alert("AJAX communication error while requesting " + params.module + "." + params.act + "\n\n" + xhr.status + " " + xhr.statusText);
 		};
 		
@@ -260,11 +271,7 @@
 				url: request_uri,
 				data: params,
 				success: successHandler,
-				error: errorHandler,
-				complete : function(xhr, textStatus) {
-					clearTimeout(wfsr_timeout);
-					waiting_obj.hide().trigger("cancel_confirm");
-				}
+				error: errorHandler
 			});
 		} catch(e) {
 			alert(e);
@@ -284,11 +291,13 @@
 	 */
 	$(function() {
 		waiting_obj = $(".wfsr");
-		$(document).ajaxStart(function() {
-			$(window).bind("beforeunload", beforeUnloadHandler);
-		}).bind("ajaxStop cancel_confirm", function() {
-			$(window).unbind("beforeunload", beforeUnloadHandler);
-		});
+		if (show_leaving_warning) {
+			$(document).ajaxStart(function() {
+				$(window).bind("beforeunload", beforeUnloadHandler);
+			}).bind("ajaxStop cancel_confirm", function() {
+				$(window).unbind("beforeunload", beforeUnloadHandler);
+			});
+		}
 	});
 
 })(jQuery);
