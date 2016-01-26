@@ -1125,7 +1125,7 @@ function removeSrcHack($match)
 
 	//Remove ACT URL (CSRF)
 	$except_act = array('procFileDownload');
-	$block_act = array('dispMemberLogout');
+	$block_act = array('dispMemberLogout', 'dispLayoutPreview');
 
 	$filter_arrts = array('style', 'src', 'href');
 	if($tag === 'object') array_push($filter_arrts, 'data');
