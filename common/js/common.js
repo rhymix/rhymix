@@ -486,8 +486,7 @@ function setFixedPopupSize() {
 	offset = $pc.css({overflow:'scroll'}).offset();
 
 	w = $pc.width(10).height(10000).get(0).scrollWidth + offset.left*2;
-	// 높이는 스크린의 높이보다 클 수 없다. 스크린의 높이와 내용의 높이를 비교해서 최소값을 이용한다.
-	h = Math.min($pc.height(10).width(10000).get(0).scrollHeight, screen.height-200) + offset.top*2;
+	h = $pc.height(10).width(10000).get(0).scrollHeight + offset.top*2;
 
 	if(w < 800) w = 800 + offset.left*2;
 
@@ -495,14 +494,14 @@ function setFixedPopupSize() {
 	dw = $win.width();
 	dh = $win.height();
 
-	if(w != dw) window.resizeBy(w - dw, 0);
-	// 스크린 높이에 한정된 경우 스크롤이 생기기 때문에 스크롤 높이를 고려해서 다시 조정해준다.
-	if(h === screen.height - 200 + offset.top*2) {
-		window.resizeBy(scbw, 0);
-	}
-	if(h != dh) window.resizeBy(0, h - dh);
+	// Window 의 너비나 높이는 스크린의 너비나 높이보다 클 수 없다. 스크린의 너비나 높이와 내용의 너비나 높이를 비교해서 최소값을 이용한다.
+	if(Math.min(w, window.screen.availWidth) != dw) window.resizeBy(Math.min(w, window.screen.availWidth) - dw, 0);
+	if(Math.min(h, window.screen.availHeight-100) != dh) window.resizeBy(0, Math.min(h, window.screen.availHeight-100) - dh);
 
-	$pc.width(w-offset.left*2).css({overflow:'',height:''});
+	$pc.width(Math.min(w, window.screen.availWidth)-offset.left*2).css({overflow:'',height:''});
+	if(Math.min(h, window.screen.availHeight-100) === window.screen.availHeight-100) {
+		$pc.width(Math.min(w, window.screen.availWidth)-offset.left*2-scbw).css({overflow:'',height:''});
+	}
 }
 function getScrollBarWidth () {
 	
