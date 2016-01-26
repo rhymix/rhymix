@@ -1123,8 +1123,11 @@ function removeSrcHack($match)
 		}
 	}
 
-	$filter_arrts = array('style', 'src', 'href');
+	//Remove ACT URL (CSRF)
+	$except_act = array('procFileDownload');
+	$block_act = array('dispMemberLogout', 'dispLayoutPreview');
 
+	$filter_arrts = array('style', 'src', 'href');
 	if($tag === 'object') array_push($filter_arrts, 'data');
 	if($tag === 'param') array_push($filter_arrts, 'value');
 
@@ -1135,9 +1138,16 @@ function removeSrcHack($match)
 		$attr_value = rawurldecode($attrs[$attr]);
 		$attr_value = htmlspecialchars_decode($attr_value, ENT_COMPAT);
 		$attr_value = preg_replace('/\s+|[\t\n\r]+/', '', $attr_value);
-		if(preg_match('@(\?|&|;)(act=)@i', $attr_value))
+
+		preg_match('@(\?|&|;)act=(disp|proc)([^&]*)@i', $attr_value, $actmatch);
+		$url_action = $actmatch[2].$actmatch[3];
+
+		if(!empty($url_action) && !in_array($url_action, $except_act))
 		{
-			unset($attrs[$attr]);
+			if($actmatch[2] == 'proc' || in_array($url_action, $block_act))
+			{
+				unset($attrs[$attr]);
+			}
 		}
 	}
 
