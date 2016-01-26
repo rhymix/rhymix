@@ -50,7 +50,7 @@
 				</div>
 			{{/each}}
 		</script>
-		<div cond="$XE_VALIDATOR_MESSAGE && $XE_VALIDATOR_ID == 'widgets/pollWidget/skins/default/form/1'" class="message {$XE_VALIDATOR_MESSAGE_TYPE}">
+		<div cond="$XE_VALIDATOR_MESSAGE && $XE_VALIDATOR_ID == 'widgets/pollWidget/skins/default/form/' . $poll_srl" class="message {$XE_VALIDATOR_MESSAGE_TYPE}">
 			<p>{$XE_VALIDATOR_MESSAGE}</p>
 		</div>
 		<form ruleset="poll" action="./" method="post" onsubmit="return doRxDefaultPoll(this)">
@@ -60,7 +60,7 @@
 			<input type="hidden" name="poll_srl_indexes" value="" />
 			<input type="hidden" name="skin" value="{$skin}" />
 			<input type="hidden" name="success_return_url" value="{getRequestUriByServerEnviroment()}" />
-			<input type="hidden" name="xe_validator_id" value="widgets/pollWidget/skins/default/form/1" />
+			<input type="hidden" name="xe_validator_id" value="widgets/pollWidget/skins/default/form/{$poll_srl}" />
 			<section class="rx_poll_default">
 				<div class="rx_poll_header">
 					<div style="float:left">
@@ -115,7 +115,7 @@
 			<input type="button" id="btn_load_more_{{poll_item_srl}}" value="{$lang->more}" onclick="showRxDefaultPollMemberNext({{poll_srl}},{{poll_item_srl}});return false;" style="width:100%;" class="btn" />
 			{{/if}}
 		</script>
-		<div cond="$XE_VALIDATOR_MESSAGE && $XE_VALIDATOR_ID == 'modules/poll/skins/default/form/1'" class="message {$XE_VALIDATOR_MESSAGE_TYPE}">
+		<div cond="$XE_VALIDATOR_MESSAGE && $XE_VALIDATOR_ID == 'modules/poll/skins/default/form/' . $poll_srl" class="message {$XE_VALIDATOR_MESSAGE_TYPE}">
 			<p>{$XE_VALIDATOR_MESSAGE}</p>
 		</div>
 		<section class="rx_poll_default">

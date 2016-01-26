@@ -38,7 +38,6 @@ $(function(){
 });
 })(jQuery);
 </script>
-
 			</div>
 		</div>
 		<div class="x_control-group">
@@ -46,7 +45,7 @@ $(function(){
 			<div class="x_controls">
 				<select id="skin" name="skin">
 				<!--@foreach($skin_list as $skin=>$skin_info)-->
-				<option value="{$skin}">{$skin_info->title} (skin by <!--@foreach($skin_info->author as $author=>$author_info)-->{@ $authorname = array(); $authorname[] = $author_info->name; }<!--@end-->{implode(",",$authorname)})</option>
+				<option value="{$skin}">{$skin_info->title} (by {@ $authorname = array();}<!--@foreach($skin_info->author as $author=>$author_info)-->{@ $authorname[] = $author_info->name; }<!--@end-->{implode(",",$authorname)})</option>
 				<!--@end-->
 				</select>
 			</div>
