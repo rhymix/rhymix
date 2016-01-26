@@ -251,7 +251,7 @@ function xml2json(xml, tab, ignoreAttrib) {
 				}
 			});
 
-			if(data.error != 0) {
+			if(data.error != '0') {
 				if ($.isFunction($.exec_xml.onerror)) {
 					return $.exec_xml.onerror(module, act, data, callback_func, response_tags, callback_func_arg, fo_obj);
 				}
@@ -375,7 +375,7 @@ function xml2json(xml, tab, ignoreAttrib) {
 					data: data,
 					success: function(data) {
 						$(".wfsr").hide().trigger('cancel_confirm');
-						if(data.error != 0 && data.error > -1000) {
+						if(data.error != '0' && data.error > -1000) {
 							if(data.error == -1 && data.message == 'msg_is_not_administrator') {
 								alert('You are not logged in as an administrator');
 								if($.isFunction(callback_error)) callback_error(data);
