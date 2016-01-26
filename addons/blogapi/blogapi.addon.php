@@ -527,8 +527,8 @@ if($called_position == 'before_module_proc')
 <?xml version="1.0" ?>
 <rsd version="1.0" xmlns="http://archipelago.phrasewise.com/rsd" >
 <service>
-    <engineName>XpressEngine</engineName>
-    <engineLink>http://www.xpressengine.com/ </engineLink>
+    <engineName>Rhymix</engineName>
+    <engineLink>https://www.rhymix.org/ </engineLink>
     <homePageLink>{$homepagelink}</homePageLink>
     <apis>
         <api name="MetaWeblog" preferred="true" apiLink="{$api_url}" blogID="" />

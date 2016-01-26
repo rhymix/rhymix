@@ -1312,14 +1312,14 @@
 	</item>
 	<item name="msg_confirm_account_title">
 		<value xml:lang="ko"><![CDATA[가입 인증 메일입니다.]]></value>
-		<value xml:lang="en"><![CDATA[XE Account Activation]]></value>
+		<value xml:lang="en"><![CDATA[Rhymix Account Activation]]></value>
 		<value xml:lang="jp"><![CDATA[確認メールです。]]></value>
 		<value xml:lang="zh-CN"><![CDATA[会员注册]]></value>
 		<value xml:lang="zh-TW"><![CDATA[帳號啟用]]></value>
 		<value xml:lang="fr"><![CDATA[Mél à confirmer l'Authentification]]></value>
 		<value xml:lang="ru"><![CDATA[Письмо, подтверждающее регистрацию]]></value>
 		<value xml:lang="es"><![CDATA[가입 인증 메일입니다]]></value>
-		<value xml:lang="tr"><![CDATA[XE Hesap Etkinleştirmesi]]></value>
+		<value xml:lang="tr"><![CDATA[Rhymix Hesap Etkinleştirmesi]]></value>
 	</item>
 	<item name="title_modify_email_address">
 		<value xml:lang="ko"><![CDATA[이메일주소 변경 요청 확인 메일입니다.]]></value>

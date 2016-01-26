@@ -987,12 +987,12 @@ Menu không phải là người quản lý, nhiệm vụ của nó chỉ là li�
 		<value xml:lang="jp"><![CDATA[FTPパスワード]]></value>
 	</item>
 	<item name="need_core_update">
-		<value xml:lang="ko"><![CDATA[설치하려면 XE core 업데이트가 필요합니다]]></value>
-		<value xml:lang="jp"><![CDATA[設置するにはXE coreアップデートが必要です。]]></value>
+		<value xml:lang="ko"><![CDATA[설치하려면 Rhymix 업데이트가 필요합니다]]></value>
+		<value xml:lang="jp"><![CDATA[設置するにはRhymixアップデートが必要です。]]></value>
 	</item>
 	<item name="need_core_update_continue">
-		<value xml:lang="ko"><![CDATA[XE core 업데이트가 함께 진행됩니다. 계속하시겠습니까?]]></value>
-		<value xml:lang="jp"><![CDATA[XE coreアップデートを一緒に行います。続けますか？]]></value>
+		<value xml:lang="ko"><![CDATA[Rhymix 업데이트가 함께 진행됩니다. 계속하시겠습니까?]]></value>
+		<value xml:lang="jp"><![CDATA[Rhymixアップデートを一緒に行います。続けますか？]]></value>
 	</item>
 	<item name="not_found_module">
 		<value xml:lang="ko"><![CDATA[모듈이 존재하지 않음]]></value>

@@ -3014,6 +3014,10 @@
 		<value xml:lang="vi"><![CDATA[Đã bình chọn.]]></value>
 		<value xml:lang="mn"><![CDATA[Санал болгогдсон]]></value>
 	</item>
+	<item name="success_voted_canceled">
+		<value xml:lang="ko"><![CDATA[추천이 취소되었습니다.]]></value>
+		<value xml:lang="en"><![CDATA[]]></value>
+	</item>
 	<item name="success_blamed">
 		<value xml:lang="ko"><![CDATA[비추천했습니다.]]></value>
 		<value xml:lang="en"><![CDATA[Not recommended successfully.]]></value>
@@ -3027,6 +3031,10 @@
 		<value xml:lang="tr"><![CDATA[Başarıyla Bildirildi.]]></value>
 		<value xml:lang="vi"><![CDATA[Đã phê bình.]]></value>
 		<value xml:lang="mn"><![CDATA[Санал болгогдоогүй]]></value>
+	</item>
+	<item name="success_blamed_canceled">
+		<value xml:lang="ko"><![CDATA[비추천이 취소되었습니다.]]></value>
+		<value xml:lang="en"><![CDATA[]]></value>
 	</item>
 	<item name="success_copied">
 		<value xml:lang="ko"><![CDATA[복사했습니다.]]></value>
@@ -3622,16 +3630,16 @@
 		<item name="invalid_email">
 			<value xml:lang="ko"><![CDATA[%s의 값은 올바른 메일 주소가 아닙니다.]]></value>
 			<value xml:lang="en"><![CDATA[%s is NOT a valid email address.]]></value>
-			<value xml:lang="jp"><![CDATA[%sのメール形式が正しくありません。(例: developers@xepressengine.com)]]></value>
-			<value xml:lang="zh-CN"><![CDATA[%s格式有误。（例：developers@xpressengine.com)]]></value>
-			<value xml:lang="zh-TW"><![CDATA[%s E-mail格式有誤。(例：developers@xpressengine.com)]]></value>
-			<value xml:lang="fr"><![CDATA[Le format de %s est invalide. ex) developers@xpressengine.com]]></value>
-			<value xml:lang="de"><![CDATA[% s ist eine ungültige Mail. ex) developers@xpressengine.com]]></value>
-			<value xml:lang="ru"><![CDATA[The format of %s is invalid. ex) developers@xpressengine.com]]></value>
-			<value xml:lang="es"><![CDATA[Formato email inválido en el %s(ej. developers@xpressengine.com)]]></value>
-			<value xml:lang="tr"><![CDATA[%s biçimi geçersiz. örn.) developers@xpressengine.com]]></value>
-			<value xml:lang="vi"><![CDATA[Định dạng của %s không hợp lệ. Ví dụ: emailname@yahoo.com]]></value>
-			<value xml:lang="mn"><![CDATA[%s-ын хэлбэрийг буруу оруулсан байна.(Жнь: developers@xpressengine.com)]]></value>
+			<value xml:lang="jp"><![CDATA[%sのメール形式が正しくありません。]]></value>
+			<value xml:lang="zh-CN"><![CDATA[%s格式有误。]]></value>
+			<value xml:lang="zh-TW"><![CDATA[%s E-mail格式有誤。)]]></value>
+			<value xml:lang="fr"><![CDATA[Le format de %s est invalide.]]></value>
+			<value xml:lang="de"><![CDATA[% s ist eine ungültige Mail.]]></value>
+			<value xml:lang="ru"><![CDATA[The format of %s is invalid.]]></value>
+			<value xml:lang="es"><![CDATA[Formato email inválido en el %s]]></value>
+			<value xml:lang="tr"><![CDATA[%s biçimi geçersiz.]]></value>
+			<value xml:lang="vi"><![CDATA[Định dạng của %s không hợp lệ.]]></value>
+			<value xml:lang="mn"><![CDATA[%s-ын хэлбэрийг буруу оруулсан байна.]]></value>
 		</item>
 		<item name="invalid_userid">
 			<value xml:lang="ko"><![CDATA[%s의 값은 영문, 숫자, _만 가능하며 첫 글자는 영문이어야 합니다.]]></value>
@@ -3662,25 +3670,30 @@
 			<value xml:lang="mn"><![CDATA[%s-ын хэлбэр буруу байна. . Латин vсэг, тоо болон '_'-р оруулж болох бeгeeд эхлэл нь vсэг байх шаардлагатай. ]]></value>
 		</item>
 		<item name="invalid_homepage">
-			<value xml:lang="ko"><![CDATA[%s의 형식이 잘못되었습니다.(예: http://www.xpressengine.com)]]></value>
-			<value xml:lang="en"><![CDATA[The format of %s is invalid. e.g.) http://xpressengine.com/]]></value>
-			<value xml:lang="jp"><![CDATA[%sの形式が正しくありません。(例: http://www.xepressengine.com)]]></value>
-			<value xml:lang="zh-CN"><![CDATA[%s格式有误。（例： http://xpressengine.com/)]]></value>
-			<value xml:lang="zh-TW"><![CDATA[%s格式有誤。(例： http://xpressengine.com/)]]></value>
-			<value xml:lang="fr"><![CDATA[La format de %s n'est pas convenable. ex) http://xpressengine.com/]]></value>
-			<value xml:lang="de"><![CDATA[Das Format von% s ist ungültig. Z.B. http://xpressengine.com/]]></value>
-			<value xml:lang="es"><![CDATA[Formato url inválido en el %s(ej: http://xpressengine.com/)]]></value>
-			<value xml:lang="tr"><![CDATA[%s biçimi geçersiz. örn.) http://xpressengine.com/]]></value>
-			<value xml:lang="vi"><![CDATA[Định dạng của %s không hợp lệ. Đúng sẽ là: http://xpressengine.vn hoặc http://www.xpressengine.vn]]></value>
-			<value xml:lang="mn"><![CDATA[%s-ын хэлбэр буруу байна..(Жнь: http://xpressengine.com/)]]></value>
+			<value xml:lang="ko"><![CDATA[%s의 형식이 잘못되었습니다.(예: https://www.rhymix.org/)]]></value>
+			<value xml:lang="en"><![CDATA[The format of %s is invalid. e.g.) https://www.rhymix.org/]]></value>
+			<value xml:lang="jp"><![CDATA[%sの形式が正しくありません。(例: https://www.rhymix.org/)]]></value>
+			<value xml:lang="zh-CN"><![CDATA[%s格式有误。（例： https://www.rhymix.org/)]]></value>
+			<value xml:lang="zh-TW"><![CDATA[%s格式有誤。(例： https://www.rhymix.org/)]]></value>
+			<value xml:lang="fr"><![CDATA[La format de %s n'est pas convenable. ex) https://www.rhymix.org/]]></value>
+			<value xml:lang="de"><![CDATA[Das Format von% s ist ungültig. Z.B. https://www.rhymix.org/]]></value>
+			<value xml:lang="es"><![CDATA[Formato url inválido en el %s(ej: https://www.rhymix.org/)]]></value>
+			<value xml:lang="tr"><![CDATA[%s biçimi geçersiz. örn.) https://www.rhymix.org/]]></value>
+			<value xml:lang="vi"><![CDATA[Định dạng của %s không hợp lệ. Đúng sẽ là: https://www.rhymix.org/]]></value>
+			<value xml:lang="mn"><![CDATA[%s-ын хэлбэр буруу байна..(Жнь: https://www.rhymix.org/)]]></value>
 		</item>
 		<item name="invalid_url">
-			<value xml:lang="ko"><![CDATA[%s의 형식이 잘못되었습니다.(예: http://www.xpressengine.com)]]></value>
-			<value xml:lang="en"><![CDATA[The format of %s is invalid. e.g.) http://xpressengine.com/]]></value>
-			<value xml:lang="jp"><![CDATA[%sの形式が正しくありません。例) http://xpressengine.com/]]></value>
-			<value xml:lang="zh-CN"><![CDATA[%s 格式错误。 例）http://xpressengine.com/]]></value>
-			<value xml:lang="zh-TW"><![CDATA[%s 格式錯誤。 例) http://xpressengine.com/]]></value>
-			<value xml:lang="tr"><![CDATA[%s formatı geçersizdir.) http://xpressengine.com/]]></value>
+			<value xml:lang="ko"><![CDATA[%s의 형식이 잘못되었습니다.(예: https://www.rhymix.org/)]]></value>
+			<value xml:lang="en"><![CDATA[The format of %s is invalid. e.g.) https://www.rhymix.org/]]></value>
+			<value xml:lang="jp"><![CDATA[%sの形式が正しくありません。(例: https://www.rhymix.org/)]]></value>
+			<value xml:lang="zh-CN"><![CDATA[%s格式有误。（例： https://www.rhymix.org/)]]></value>
+			<value xml:lang="zh-TW"><![CDATA[%s格式有誤。(例： https://www.rhymix.org/)]]></value>
+			<value xml:lang="fr"><![CDATA[La format de %s n'est pas convenable. ex) https://www.rhymix.org/]]></value>
+			<value xml:lang="de"><![CDATA[Das Format von% s ist ungültig. Z.B. https://www.rhymix.org/]]></value>
+			<value xml:lang="es"><![CDATA[Formato url inválido en el %s(ej: https://www.rhymix.org/)]]></value>
+			<value xml:lang="tr"><![CDATA[%s biçimi geçersiz. örn.) https://www.rhymix.org/]]></value>
+			<value xml:lang="vi"><![CDATA[Định dạng của %s không hợp lệ. Đúng sẽ là: https://www.rhymix.org/]]></value>
+			<value xml:lang="mn"><![CDATA[%s-ын хэлбэр буруу байна..(Жнь: https://www.rhymix.org/)]]></value>
 		</item>
 		<item name="invalid_korean">
 			<value xml:lang="ko"><![CDATA[%s의 형식이 잘못되었습니다. 한글로만 입력해야 합니다.]]></value>

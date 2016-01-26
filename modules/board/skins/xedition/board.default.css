@@ -570,6 +570,13 @@
 .read_footer .sns a:hover{border-color:#DECA79;background-color:#f9dc5f;transition: all 0.2s ease-in-out;-webkit-transition: all 0.2s ease-in-out}
 .read_footer .sns a:hover {color:#747474;transition: all 0.2s ease-in-out;-webkit-transition: all 0.2s ease-in-out}
 
+.read_footer .vote{ margin-top:51px;text-align:center; }
+.read_footer .vote li{display:inline;vertical-align:top}
+.read_footer .vote a{display:inline-block;width:70px;height:70px;border:1px solid #e0e0e0;background-color:#f4f4f4; border-radius:2px;}
+.read_footer .vote i{font-size:22px;line-height:45px;color:#bcbcbc}
+.read_footer .vote a:hover{border-color:#DECA79;background-color:#f9dc5f;transition: all 0.2s ease-in-out;-webkit-transition: all 0.2s ease-in-out}
+.read_footer .vote a:hover {color:#747474;transition: all 0.2s ease-in-out;-webkit-transition: all 0.2s ease-in-out}
+
 .read_footer .sign {
 	clear: both;
 	border: 1px solid #ddd;

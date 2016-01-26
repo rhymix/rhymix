@@ -492,7 +492,18 @@ class pointController extends point
 
 		if(!$point) return new Object();
 		// Increase the point
-		$cur_point += $point;
+		if($obj->cancel > 0)
+		{
+			$cur_point -= $point;
+		}
+		else if($obj->cancel == null)
+		{
+			$cur_point += $point;
+		}
+		else
+		{
+			$cur_point += $point;
+		}
 		$this->setPoint($member_srl,$cur_point);
 
 		return new Object();

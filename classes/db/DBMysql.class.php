@@ -14,10 +14,10 @@
 class DBMysql extends DB
 {
 	/**
-	 * prefix of a tablename (One or more XEs can be installed in a single DB)
+	 * prefix of a tablename (One or more Rhymix can be installed in a single DB)
 	 * @var string
 	 */
-	var $prefix = 'xe_'; // / <
+	var $prefix = 'rx_'; // / <
 	var $comment_syntax = '/* %s */';
 	var $charset = 'utf8';
 
@@ -67,7 +67,7 @@ class DBMysql extends DB
 		$result = @mysql_connect($connection["db_hostname"], $connection["db_userid"], $connection["db_password"]);
 		if(!$result)
 		{
-			exit('XE cannot connect to DB.');
+			exit('Unable to connect to DB.');
 		}
 
 		if(mysql_error())
@@ -76,10 +76,10 @@ class DBMysql extends DB
 			return;
 		}
 
-		// Error appears if the version is lower than 4.1
-		if(version_compare(mysql_get_server_info($result), '4.1', '<'))
+		// Error appears if the version is lower than 4.1.13
+		if(version_compare(mysql_get_server_info($result), '4.1.13', '<'))
 		{
-			$this->setError(-1, 'XE cannot be installed under the version of mysql 4.1. Current mysql version is ' . mysql_get_server_info());
+			$this->setError(-1, 'RhymiX requires MySQL 4.1.13 or later. Current MySQL version is ' . mysql_get_server_info());
 			return;
 		}
 
@@ -168,7 +168,7 @@ class DBMysql extends DB
 	{
 		if(!$connection)
 		{
-			exit('XE cannot handle DB connection.');
+			exit('Rhymix cannot handle DB connection.');
 		}
 		// Run the query statement
 		$result = @mysql_query($query, $connection);

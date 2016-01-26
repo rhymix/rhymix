@@ -157,8 +157,7 @@ class rssView extends rss
 				break;
 		}
 
-		if($_SERVER['HTTPS']=='on') $proctcl = 'https://';
-		else $proctcl = 'http://';
+		$proctcl = RX_SSL ? 'https://' : 'http://';
 
 		$temp_link = explode('/', $info->link);
 		if($temp_link[0]=='' && $info->link)

@@ -117,7 +117,7 @@ class commentAdminController extends comment
 					// send email to comment's author, all admins and thread(document) subscribers - START
 					// -------------------------------------------------------
 					$oMail = new Mail();
-					$mail_title = "[XE - " . $module_info->mid . "] comment(s) status changed to " . $new_status . " on document: \"" . $oDocument->getTitleText() . "\"";
+					$mail_title = "[Rhymix - " . $module_info->mid . "] comment(s) status changed to " . $new_status . " on document: \"" . $oDocument->getTitleText() . "\"";
 					$oMail->setTitle($mail_title);
 					$mail_content = "
 						The comment #" . $comment_srl . " on document \"" . $oDocument->getTitleText() . "\" has been " . $new_status . " by admin of <strong><i>" . strtoupper($module_info->mid) . "</i></strong> module.

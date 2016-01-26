@@ -6,7 +6,7 @@
     <author email_address="developers@xpressengine.com" link="https://www.xpressengine.com/">
         <name xml:lang="ko">NAVER</name>
     </author>
-    <license>LGPL v2</license>
+    <license>GPL v2</license>
     <extra_vars>
     </extra_vars>
 </skin>

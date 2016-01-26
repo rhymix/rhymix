@@ -54,7 +54,7 @@ class board extends ModuleObject
 		{
 			$args->mid = 'board';
 			$args->module = 'board';
-			$args->browser_title = 'XpressEngine';
+			$args->browser_title = 'Rhymix';
 			$args->skin = 'default';
 			$args->site_srl = 0;
 			$output = $oModuleController->insertModule($args);

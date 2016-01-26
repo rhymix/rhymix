@@ -64,7 +64,7 @@
 		    </li>
 		    </ul>
 			<script>
-				var sTitle = '{str_ireplace(array('<script', '</script'), array("<scr'+'ipt", "</scr'+'ipt"), addslashes($oDocument->getTitleText()))}';
+				var sTitle = '{$oDocument->getTitleText()}';
 				jQuery(function($){
 					$('.twitter').snspost({
 						type : 'twitter',
@@ -79,7 +79,19 @@
 						content : sTitle
 					});
 				});
-			</script>		    
+			</script>
+		</div>
+		<div class="vote">
+			<ul>
+				<li>
+					<a cond="$oDocument->getVoted() === false || $oDocument->getVoted() < 0" href="#" onclick="doCallModuleAction('document','procDocumentVoteUp','{$oDocument->document_srl}');return false;"|cond="$is_logged" class="voted"> <i class="xi-thumbs-up"></i><br>{$lang->cmd_vote} {$oDocument->get('voted_count')}</a>
+					<a cond="$oDocument->getVoted() > 0" href="#" onclick="doCallModuleAction('document','procDocumentVoteUpCancel','{$oDocument->document_srl}');return false;"|cond="$is_logged" class="voted"> <i class="xi-thumbs-up"></i><br>{$lang->cmd_vote} {$oDocument->get('voted_count')}</a>
+				</li>
+				<li>
+					<a cond="$oDocument->getVoted() === false || $oDocument->getVoted() > 0" herf="#" onclick="doCallModuleAction('document','procDocumentVoteDown','{$oDocument->document_srl}');return false;"|cond="$is_logged" class="voted"> <i class="xi-thumbs-down"></i><br>{$lang->cmd_vote_down} {$oDocument->get('blamed_count')}</a>
+					<a cond="$oDocument->getVoted() < 0" herf="#" onclick="doCallModuleAction('document','procDocumentVoteDownCancel','{$oDocument->document_srl}');return false;"|cond="$is_logged" class="voted"> <i class="xi-thumbs-down"></i><br>{$lang->cmd_vote_down} {$oDocument->get('blamed_count')}</a>
+				</li>
+			</ul>
 		</div>
 		<div cond="$oDocument->hasUploadedFiles()" class="fileList">
 			<button type="button" class="toggleFile" onclick="jQuery(this).next('ul.files').toggle();"><i class="xi-diskette"></i> {$lang->uploaded_file} [<strong>{$oDocument->get('uploaded_count')}</strong>]</button>

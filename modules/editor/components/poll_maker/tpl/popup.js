@@ -7,16 +7,16 @@
  * 부모창의 위지윅에디터에 데이터를 삽입
  **/
 function completeInsertPoll(ret_obj) {
-    if(typeof(opener)=="undefined") return null;
+	if(typeof(opener)=="undefined") return null;
 
-    var fo_obj = get_by_id('fo_component');
-    var skin = fo_obj.skin.options[fo_obj.skin.selectedIndex].value;
+	var fo_obj = get_by_id('fo_component');
+	var skin = fo_obj.skin.options[fo_obj.skin.selectedIndex].value;
 
-    var poll_srl = ret_obj["poll_srl"];
-    if(!poll_srl) return null;
+	var poll_srl = ret_obj["poll_srl"];
+	if(!poll_srl) return null;
 
-    var text = "<img src=\"../../../../common/img/blank.gif\" poll_srl=\""+poll_srl+"\" editor_component=\"poll_maker\" skin=\""+skin+"\" style=\"display:block;width:400px;height:300px;border:2px dotted #4371B9;background:url(./modules/editor/components/poll_maker/tpl/poll_maker_component.gif) no-repeat center;\"  />";
-    alert(ret_obj['message']);
+	var text = "<img src=\"../../../../common/img/blank.gif\" poll_srl=\""+poll_srl+"\" editor_component=\"poll_maker\" skin=\""+skin+"\" style=\"display:block;width:400px;height:300px;border:2px dotted #4371B9;background:url(./modules/editor/components/poll_maker/tpl/poll_maker_component.gif) no-repeat center;\"  />";
+	alert(ret_obj['message']);
 
 	opener.editorFocus(opener.editorPrevSrl);
 
@@ -24,9 +24,9 @@ function completeInsertPoll(ret_obj) {
 
 	opener.editorReplaceHTML(iframe_obj, text);
 	opener.editorFocus(opener.editorPrevSrl);
-    window.close();
+	window.close();
 
-    return null;
+	return null;
 }
 
 jQuery(function($){

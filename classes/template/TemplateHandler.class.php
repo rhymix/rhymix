@@ -21,7 +21,7 @@ class TemplateHandler
 	private $config = NULL;
 	private $skipTags = NULL;
 	private $handler_mtime = 0;
-	static private $rootTpl = NULL;
+	private static $rootTpl = NULL;
 
 	/**
 	 * constructor
@@ -38,7 +38,7 @@ class TemplateHandler
 	 * returns TemplateHandler's singleton object
 	 * @return TemplateHandler instance
 	 */
-	static public function &getInstance()
+	public static function getInstance()
 	{
 		static $oTemplate = NULL;
 
@@ -495,7 +495,7 @@ class TemplateHandler
 				foreach($matches[1] as $n => $stmt)
 				{
 					$expr = $matches[2][$n];
-					$expr = $this->_replaceVar($expr);
+					$expr = self::_replaceVar($expr);
 					$closing++;
 
 					switch($stmt)
@@ -568,7 +568,7 @@ class TemplateHandler
 			if(strpos($node, '|cond="') !== false)
 			{
 				$node = preg_replace('@(\s[-\w:]+(?:="[^"]+?")?)\|cond="(.+?)"@s', '<?php if($2){ ?>$1<?php } ?>', $node);
-				$node = $this->_replaceVar($node);
+				$node = self::_replaceVar($node);
 			}
 
 			if($nodes[$idx] != $node)
@@ -600,7 +600,7 @@ class TemplateHandler
 			
 			if($m[1]{0} == '@')
 			{
-				$m[1] = $this->_replaceVar(substr($m[1], 1));
+				$m[1] = self::_replaceVar(substr($m[1], 1));
 				return "<?php {$m[1]} ?>";
 			}
 			else
@@ -615,7 +615,7 @@ class TemplateHandler
 				{
 					$escape_option = 'noescape';
 				}
-				$m[1] = $this->_replaceVar($m[1]);
+				$m[1] = self::_replaceVar($m[1]);
 				switch($escape_option)
 				{
 					case 'auto':
@@ -674,7 +674,7 @@ class TemplateHandler
 					return "<?php \$__tpl=TemplateHandler::getInstance();echo \$__tpl->compile('{$fileDir}','{$pathinfo['basename']}') ?>";
 				// <!--%load_js_plugin-->
 				case 'load_js_plugin':
-					$plugin = $this->_replaceVar($m[5]);
+					$plugin = self::_replaceVar($m[5]);
 					$s = "<!--#JSPLUGIN:{$plugin}-->";
 					if(strpos($plugin, '$__Context') === false)
 					{
@@ -780,7 +780,7 @@ class TemplateHandler
 			$m[7] = substr($m[7], 1);
 			if(!$m[7])
 			{
-				return '<?php ' . $this->_replaceVar($m[8]) . '{ ?>' . $m[9];
+				return '<?php ' . self::_replaceVar($m[8]) . '{ ?>' . $m[9];
 			}
 			if(!preg_match('/^(?:((?:end)?(?:if|switch|for(?:each)?|while)|end)|(else(?:if)?)|(break@)?(case|default)|(break))$/', $m[7], $mm))
 			{
@@ -803,11 +803,11 @@ class TemplateHandler
 					$var = preg_replace('/^\s*\(\s*(.+?) .*$/', '$1', $m[8]);
 					$precheck = "if({$var}&&count({$var}))";
 				}
-				return '<?php ' . $this->_replaceVar($precheck . $m[7] . $m[8]) . '{ ?>' . $m[9];
+				return '<?php ' . self::_replaceVar($precheck . $m[7] . $m[8]) . '{ ?>' . $m[9];
 			}
 			if($mm[2])
 			{
-				return "<?php }{$m[7]}" . $this->_replaceVar($m[8]) . "{ ?>" . $m[9];
+				return "<?php }{$m[7]}" . self::_replaceVar($m[8]) . "{ ?>" . $m[9];
 			}
 			if($mm[4])
 			{
@@ -827,7 +827,7 @@ class TemplateHandler
 	 * @param string $path
 	 * @return string
 	 */
-	function _getRelativeDir($path)
+	private function _getRelativeDir($path)
 	{
 		$_path = $path;
 
@@ -865,7 +865,7 @@ class TemplateHandler
 	 * @param string $php
 	 * @return string $__Context->varname
 	 */
-	function _replaceVar($php)
+	private static function _replaceVar($php)
 	{
 		if(!strlen($php))
 		{

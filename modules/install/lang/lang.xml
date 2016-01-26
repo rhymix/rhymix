@@ -137,20 +137,22 @@
 			<value xml:lang="vi"><![CDATA[Điều khoản thư mục files]]></value>
 		</item>
 		<item name="xml">
-			<value xml:lang="ko"><![CDATA[xml]]></value>
-			<value xml:lang="en"><![CDATA[xml]]></value>
-			<value xml:lang="jp"><![CDATA[xml]]></value>
-			<value xml:lang="zh-CN"><![CDATA[xml]]></value>
-			<value xml:lang="fr"><![CDATA[xml]]></value>
-			<value xml:lang="ru"><![CDATA[xml]]></value>
-			<value xml:lang="es"><![CDATA[xml]]></value>
-			<value xml:lang="tr"><![CDATA[xml]]></value>
+			<value xml:lang="ko"><![CDATA[xml / simplexml]]></value>
+			<value xml:lang="en"><![CDATA[xml / simplexml]]></value>
+			<value xml:lang="jp"><![CDATA[xml / simplexml]]></value>
+			<value xml:lang="zh-CN"><![CDATA[xml / simplexml]]></value>
+			<value xml:lang="zh-TW"><![CDATA[xml / simplexml]]></value>
+			<value xml:lang="fr"><![CDATA[xml / simplexml]]></value>
+			<value xml:lang="ru"><![CDATA[xml / simplexml]]></value>
+			<value xml:lang="es"><![CDATA[xml / simplexml]]></value>
+			<value xml:lang="tr"><![CDATA[xml / simplexml]]></value>
 		</item>
 		<item name="curl">
 			<value xml:lang="ko"><![CDATA[curl]]></value>
 			<value xml:lang="en"><![CDATA[curl]]></value>
 			<value xml:lang="jp"><![CDATA[curl]]></value>
 			<value xml:lang="zh-CN"><![CDATA[curl]]></value>
+			<value xml:lang="zh-TW"><![CDATA[curl]]></value>
 			<value xml:lang="fr"><![CDATA[curl]]></value>
 			<value xml:lang="ru"><![CDATA[curl]]></value>
 			<value xml:lang="es"><![CDATA[curl]]></value>
@@ -161,6 +163,7 @@
 			<value xml:lang="en"><![CDATA[iconv / mbstring]]></value>
 			<value xml:lang="jp"><![CDATA[iconv / mbstring]]></value>
 			<value xml:lang="zh-CN"><![CDATA[iconv / mbstring]]></value>
+			<value xml:lang="zh-TW"><![CDATA[iconv / mbstring]]></value>
 			<value xml:lang="fr"><![CDATA[iconv / mbstring]]></value>
 			<value xml:lang="ru"><![CDATA[iconv / mbstring]]></value>
 			<value xml:lang="es"><![CDATA[iconv / mbstring]]></value>
@@ -171,6 +174,7 @@
 			<value xml:lang="en"><![CDATA[json]]></value>
 			<value xml:lang="jp"><![CDATA[json]]></value>
 			<value xml:lang="zh-CN"><![CDATA[json]]></value>
+			<value xml:lang="zh-TW"><![CDATA[json]]></value>
 			<value xml:lang="fr"><![CDATA[json]]></value>
 			<value xml:lang="ru"><![CDATA[json]]></value>
 			<value xml:lang="es"><![CDATA[json]]></value>
@@ -181,20 +185,22 @@
 			<value xml:lang="en"><![CDATA[gd]]></value>
 			<value xml:lang="jp"><![CDATA[gd]]></value>
 			<value xml:lang="zh-CN"><![CDATA[gd]]></value>
+			<value xml:lang="zh-TW"><![CDATA[gd]]></value>
 			<value xml:lang="fr"><![CDATA[gd]]></value>
 			<value xml:lang="ru"><![CDATA[gd]]></value>
 			<value xml:lang="es"><![CDATA[gd]]></value>
 			<value xml:lang="tr"><![CDATA[gd]]></value>
 		</item>
-		<item name="openssl">
-			<value xml:lang="ko"><![CDATA[openssl]]></value>
-			<value xml:lang="en"><![CDATA[openssl]]></value>
-			<value xml:lang="jp"><![CDATA[openssl]]></value>
-			<value xml:lang="zh-CN"><![CDATA[openssl]]></value>
-			<value xml:lang="fr"><![CDATA[openssl]]></value>
-			<value xml:lang="ru"><![CDATA[openssl]]></value>
-			<value xml:lang="es"><![CDATA[openssl]]></value>
-			<value xml:lang="tr"><![CDATA[openssl]]></value>
+		<item name="mcrypt">
+			<value xml:lang="ko"><![CDATA[mcrypt / openssl]]></value>
+			<value xml:lang="en"><![CDATA[mcrypt / openssl]]></value>
+			<value xml:lang="jp"><![CDATA[mcrypt / openssl]]></value>
+			<value xml:lang="zh-CN"><![CDATA[mcrypt / openssl]]></value>
+			<value xml:lang="zh-TW"><![CDATA[mcrypt / openssl]]></value>
+			<value xml:lang="fr"><![CDATA[mcrypt / openssl]]></value>
+			<value xml:lang="ru"><![CDATA[mcrypt / openssl]]></value>
+			<value xml:lang="es"><![CDATA[mcrypt / openssl]]></value>
+			<value xml:lang="tr"><![CDATA[mcrypt / openssl]]></value>
 		</item>
 		<item name="session">
 			<value xml:lang="ko"><![CDATA[session.auto_start 설정]]></value>

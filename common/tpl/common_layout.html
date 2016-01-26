@@ -2,15 +2,15 @@
 	$db_info   = Context::getDBInfo();
 	$lang_type = Context::getLangType();
 	$ssl_actions = Context::getSSLActions();
-	$css_files=Context::getCssFile();
-	$js_files=Context::getJsFile();
+	$css_files = Context::getCssFile();
+	$js_files = Context::getJsFile();
 }
 <!DOCTYPE html>
 <html lang="{str_replace('jp','ja',$lang_type)}">
 <head>
 <!-- META -->
 <meta charset="utf-8">
-<meta name="Generator" content="XpressEngine">
+<meta name="Generator" content="Rhymix">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <block loop="Context::getMetaTag() => $no, $val">
 <meta http-equiv="{$val['name']}"|cond="$val['is_http_equiv']" name="{$val['name']}"|cond="!$val['is_http_equiv']" content="{$val['content']}">

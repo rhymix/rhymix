@@ -22,7 +22,7 @@ class pollController extends poll
 		$stop_date = Context::get('stop_date');
 		if($stop_date < date('Ymd'))
 		{
-			$stop_date = date('YmdHis', $_SERVER['REQUEST_TIME']+60*60*24*365);
+			$stop_date = date('YmdHis', $_SERVER['REQUEST_TIME']+60*60*24*30);
 		}
 
 		$logged_info = Context::get('logged_info');

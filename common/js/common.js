@@ -476,7 +476,12 @@ function zbxe_folder_close(id) {
  * popup_layout 에서 window.onload 시 자동 요청됨.
  **/
 function setFixedPopupSize() {
-	var $ = jQuery, $win = $(window), $pc = $('body>.popup'), w, h, dw, dh, offset;
+	var $ = jQuery, $win = $(window), $pc = $('body>.popup'), w, h, dw, dh, offset, scbw;
+
+	var $outer = $('<div>').css({visibility: 'hidden', width: 100, overflow: 'scroll'}).appendTo('body'),
+		widthWithScroll = $('<div>').css({width: '100%'}).appendTo($outer).outerWidth();
+	$outer.remove();
+	scbw = 100 - widthWithScroll;
 
 	offset = $pc.css({overflow:'scroll'}).offset();
 
@@ -485,13 +490,18 @@ function setFixedPopupSize() {
 
 	if(w < 800) w = 800 + offset.left*2;
 
+
 	dw = $win.width();
 	dh = $win.height();
 
-	if(w != dw) window.resizeBy(w - dw, 0);
-	if(h != dh) window.resizeBy(0, h - dh);
+	// Window 의 너비나 높이는 스크린의 너비나 높이보다 클 수 없다. 스크린의 너비나 높이와 내용의 너비나 높이를 비교해서 최소값을 이용한다.
+	if(Math.min(w, window.screen.availWidth) != dw) window.resizeBy(Math.min(w, window.screen.availWidth) - dw, 0);
+	if(Math.min(h, window.screen.availHeight-100) != dh) window.resizeBy(0, Math.min(h, window.screen.availHeight-100) - dh);
 
-	$pc.width(w-offset.left*2).css({overflow:'',height:''});
+	$pc.width(Math.min(w, window.screen.availWidth)-offset.left*2).css({overflow:'',height:''});
+	if(Math.min(h, window.screen.availHeight-100) === window.screen.availHeight-100) {
+		$pc.width(Math.min(w, window.screen.availWidth)-offset.left*2-scbw).css({overflow:'',height:''});
+	}
 }
 
 /**
