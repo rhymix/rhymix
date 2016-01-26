@@ -5,10 +5,11 @@
 
 <!--// datepicker javascript plugin load -->
 <!--%load_js_plugin("ui.datepicker")-->
-
+{@Context::addMetaTag('viewport', 'width=device-width, user-scalable=no', FALSE);}
 <script>
-    var msg_poll_cannot_modify = "{$lang->msg_poll_cannot_modify}";
+	var msg_poll_cannot_modify = "{$lang->msg_poll_cannot_modify}";
 </script>
+
 <section class="section">
 	<h1>{$component_info->title} ver. {$component_info->version}</h1>
 	<form action="./" method="post" id="fo_component" onSubmit="procFilter(this, insert_poll); return false;" class="x_form-horizontal">
@@ -19,23 +20,27 @@
 			<label for="" class="x_control-label">{$lang->poll_stop_date}</label>
 			<div class="x_controls">
 				<input type="hidden" name="stop_date" id="stop_date" value="{date('Ymd',time()+60*60*24*30)}" />
-				<input type="date" class="inputDate" value="{date('Y-m-d',time()+60*60*24*30)}" />
+				<input type="date" class="inputDate" min="{date('Y-m-d',time())}"  max="{date('Y-m-d',strtotime('+10 years'))}" onchange="jQuery('#stop_date').val(this.value.replace(/-/g,''));" value="{date('Y-m-d',time()+60*60*24*30)}" />
 <script>
 (function($){
 $(function(){
-	var option = {
-		changeMonth:true
-		,changeYear:true
-		,gotoCurrent: false
-		,yearRange:'-100:+10'
-		, onSelect:function(){
-			$(this).prev('input[type="hidden"]').val(this.value.replace(/-/g,""));
-		}
-		,defaultDate: new Date("{date('Y-m-d',time()+60*60*24*30)}")
-		,minDate: new Date("{date('Y-m-d',time())}")
-	};
-	$.extend(option,$.datepicker.regional['{str_replace('jp','ja',$lang_type)}']);
-	$(".inputDate").datepicker(option);
+	// check if the browser support type date.
+	if ( $(".inputDate").prop('type') != 'date' ) {
+		var option = {
+			changeMonth:true
+			,changeYear:true
+			,gotoCurrent: false
+			,yearRange:'-100:+10'
+			, onSelect:function(){
+				$('#stop_date').val(this.value.replace(/-/g,""));
+			}
+			,defaultDate: new Date("{date('Y-m-d',time()+60*60*24*30)}")
+			,minDate: new Date("{date('Y-m-d',time())}")
+		};
+
+		//if the browser does not support type date input, start datepicker. If it does, brower's UI will show their datepicker.
+		$(".inputDate").datepicker(option);
+	}
 });
 })(jQuery);
 </script>
@@ -55,8 +60,8 @@ $(function(){
 		<div class="x_control-group">
 			<label class="x_control-label">{$lang->poll_display_memberinfo}</label>
 			<div class="x_controls">
-				<input type="radio" name="show_vote" value="1" id="poll_display_memberinfo_yes" /> <label class="x_inline" for="poll_display_memberinfo_yes">{$lang->poll_display_memberinfo_yes}</label>
-				<input type="radio" name="show_vote" value="0" checked="checked" id="poll_display_memberinfo_no" /> <label class="x_inline" for="poll_display_memberinfo_no">{$lang->poll_display_memberinfo_no}</label>
+				<label class="x_inline" for="poll_display_memberinfo_yes"><input type="radio" name="show_vote" value="1" id="poll_display_memberinfo_yes" /> {$lang->poll_display_memberinfo_yes}</label>
+				<label class="x_inline" for="poll_display_memberinfo_no"><input type="radio" name="show_vote" value="0" checked="checked" id="poll_display_memberinfo_no" /> {$lang->poll_display_memberinfo_no}</label>
 			</div>
 		</div>
 		<div class="x_control-group">

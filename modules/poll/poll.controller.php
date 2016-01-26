@@ -19,7 +19,12 @@ class pollController extends poll
 	 */
 	function procPollInsert()
 	{
-		$stop_date = Context::get('stop_date');
+		$stop_date = intval(Context::get('stop_date'));
+		// mobile input date format can be different
+		if($stop_date != Context::get('stop_date'))
+		{
+			$stop_date = date('Ymd', strtodate(Context::get('stop_date')));
+		}
 		if($stop_date < date('Ymd'))
 		{
 			$stop_date = date('YmdHis', $_SERVER['REQUEST_TIME']+60*60*24*30);

@@ -1,7 +1,7 @@
-@charset "utf-8";
-@import url(../../../../../modules/admin/tpl/css/admin.css);
-@import url(../../../../../common/css/bootstrap.min.css);
-
+@charset "UTF-8";
+div.xe_mobile {
+	display:none!important;
+}
 .display_date { cursor:pointer; width:80px; float:left; border:1px solid; border-color:#a6a6a6 #d8d8d8 #d8d8d8 #a6a6a6; height:1em; padding:3px; font-family:tahoma; }
 
 .adminTable { margin-bottom:0 !important; }
@@ -19,3 +19,4 @@ li a { text-decoration:none; color:#666666;}
 #popFooter .fl { margin-left:10px; }
 #popFooter .fr { margin-right:10px; }
 .poll_box { margin-bottom:15px; }
+
