@@ -255,7 +255,11 @@ function xml2json(xml, tab, ignoreAttrib) {
 				if ($.isFunction($.exec_xml.onerror)) {
 					return $.exec_xml.onerror(module, act, data, callback_func, response_tags, callback_func_arg, fo_obj);
 				}
-				alert( (data.message || 'An unknown error occured while loading ['+module+'.'+act+']').replace(/\\n/g, '\n') );
+				if (data.message) {
+					alert(data.message.replace(/\\n/g, "\n"));
+				} else {
+					alert("AJAX communication error while requesting " + params.module + "." + params.act);
+				}
 				return null;
 			}
 
@@ -278,7 +282,7 @@ function xml2json(xml, tab, ignoreAttrib) {
 				success     : onsuccess,
 				error       : function(xhr, textStatus) {
 					waiting_obj.css('display', 'none');
-					alert("AJAX communication error while requesting " + params.module + "." + params.act);
+					alert("AJAX communication error while requesting " + params.module + "." + params.act + "\n\n" + xhr.status + " " + xhr.statusText);
 				}
 			});
 		} catch(e) {
@@ -371,14 +375,18 @@ function xml2json(xml, tab, ignoreAttrib) {
 					data: data,
 					success: function(data) {
 						$(".wfsr").hide().trigger('cancel_confirm');
-						if(data.error != '0' && data.error > -1000) {
+						if(data.error != 0 && data.error > -1000) {
 							if(data.error == -1 && data.message == 'msg_is_not_administrator') {
 								alert('You are not logged in as an administrator');
 								if($.isFunction(callback_error)) callback_error(data);
 
 								return;
 							} else {
-								alert(data.message);
+								if (data.message) {
+									alert(data.message.replace(/\\n/g, "\n"));
+								} else {
+									alert("AJAX communication error while requesting " + data.module + "." + data.act);
+								}
 								if($.isFunction(callback_error)) callback_error(data);
 
 								return;
@@ -389,7 +397,7 @@ function xml2json(xml, tab, ignoreAttrib) {
 					},
 					error: function(xhr, textStatus) {
 						$(".wfsr").hide();
-						alert("AJAX communication error while requesting " + data.module + "." + data.act);
+						alert("AJAX communication error while requesting " + data.module + "." + data.act + "\n\n" + xhr.status + " " + xhr.statusText);
 					}
 				});
 			} catch(e) {
@@ -430,7 +438,7 @@ function xml2json(xml, tab, ignoreAttrib) {
 					},
 					error: function(xhr, textStatus) {
 						$(".wfsr").hide();
-						alert("AJAX communication error while requesting " + data.module + "." + data.act);
+						alert("AJAX communication error while requesting " + data.module + "." + data.act + "\n\n" + xhr.status + " " + xhr.statusText);
 					}
 				});
 			} catch(e) {
