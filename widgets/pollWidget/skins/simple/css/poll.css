@@ -1,6 +1,7 @@
+@charset "UTF-8";
 .rx_poll_smpl_wrap{max-width:100%;}
 .rx_poll_smpl_wrap .pollWidget{padding:5px;}
-.rx_poll_smpl{box-shadow: 0 0 2px rgba(0, 0, 0, 0.25);overflow:auto; background-color:#ffffff; color:#000000; font-size:12px; font-family:"Open Sans","나눔바른고딕",NanumBarunGothic,"맑은 고딕","Malgun Gothic","애플 SD 산돌고딕 Neo","Apple SD Gothic Neo","돋움",Dotum,AppleGothic,Helvetica,sans-serif;}
+.rx_poll_smpl{box-shadow: 0 0 2px rgba(0, 0, 0, 0.25);border:1px solid #e0e0e0;overflow:auto; background-color:#ffffff; color:#000000; font-size:12px; font-family:"Open Sans","나눔바른고딕",NanumBarunGothic,"맑은 고딕","Malgun Gothic","애플 SD 산돌고딕 Neo","Apple SD Gothic Neo","돋움",Dotum,AppleGothic,Helvetica,sans-serif;}
 .rx_poll_smpl .rx_poll_header{padding:13px 15px 10px;overflow:auto;border-bottom:2px solid #bdbdbd;}
 .rx_poll_smpl .rx_poll_h_strong{font-weight:bold}
 .rx_poll_smpl .rx_poll_content{padding: 15px;}
@@ -17,6 +18,8 @@
 .rx_poll_smpl .rx_poll_content .poll_vote .poll_item .poll_item_delete{position:absolute;right:0;top:7px;}
 
 .rx_poll_smpl .rx_poll_content .poll_vote .poll_item_add input[type="text"]{
+	-webkit-appearance: none;
+	border-radius: 0;
 	width:100%;
 	box-sizing: border-box;
 	line-height: 25px;
