@@ -571,6 +571,7 @@ class FileHandler
 				}
 			}
 			
+			$url = str_replace('&amp;', '&', $url);
 			$response = Requests::request($url, $request_headers, $body ?: $post_data, $method, $request_options);
 			
 			if(count($response->cookies))
