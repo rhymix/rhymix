@@ -503,9 +503,6 @@ function setFixedPopupSize() {
 		$pc.width(Math.min(w, window.screen.availWidth)-offset.left*2-scbw).css({overflow:'',height:''});
 	}
 }
-function getScrollBarWidth () {
-	
-};
 
 /**
  * @brief 추천/비추천,스크랩,신고기능등 특정 srl에 대한 특정 module/action을 호출하는 함수
