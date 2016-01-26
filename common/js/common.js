@@ -476,23 +476,37 @@ function zbxe_folder_close(id) {
  * popup_layout 에서 window.onload 시 자동 요청됨.
  **/
 function setFixedPopupSize() {
-	var $ = jQuery, $win = $(window), $pc = $('body>.popup'), w, h, dw, dh, offset;
+	var $ = jQuery, $win = $(window), $pc = $('body>.popup'), w, h, dw, dh, offset, scbw;
+
+	var $outer = $('<div>').css({visibility: 'hidden', width: 100, overflow: 'scroll'}).appendTo('body'),
+		widthWithScroll = $('<div>').css({width: '100%'}).appendTo($outer).outerWidth();
+	$outer.remove();
+	scbw = 100 - widthWithScroll;
 
 	offset = $pc.css({overflow:'scroll'}).offset();
 
 	w = $pc.width(10).height(10000).get(0).scrollWidth + offset.left*2;
-	h = $pc.height(10).width(10000).get(0).scrollHeight + offset.top*2;
+	// 높이는 스크린의 높이보다 클 수 없다. 스크린의 높이와 내용의 높이를 비교해서 최소값을 이용한다.
+	h = Math.min($pc.height(10).width(10000).get(0).scrollHeight, screen.height-200) + offset.top*2;
 
 	if(w < 800) w = 800 + offset.left*2;
+
 
 	dw = $win.width();
 	dh = $win.height();
 
 	if(w != dw) window.resizeBy(w - dw, 0);
+	// 스크린 높이에 한정된 경우 스크롤이 생기기 때문에 스크롤 높이를 고려해서 다시 조정해준다.
+	if(h === screen.height - 200 + offset.top*2) {
+		window.resizeBy(scbw, 0);
+	}
 	if(h != dh) window.resizeBy(0, h - dh);
 
 	$pc.width(w-offset.left*2).css({overflow:'',height:''});
 }
+function getScrollBarWidth () {
+	
+};
 
 /**
  * @brief 추천/비추천,스크랩,신고기능등 특정 srl에 대한 특정 module/action을 호출하는 함수
