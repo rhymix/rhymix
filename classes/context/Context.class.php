@@ -232,6 +232,7 @@ class Context
 		$this->setRequestMethod('');
 
 		$this->_setXmlRpcArgument();
+		$this->_setJSONRequestArgument();
 		$this->_setRequestArgument();
 		$this->_setUploadedArgument();
 
@@ -1386,7 +1387,16 @@ class Context
 	 */
 	private function _setJSONRequestArgument()
 	{
-		
+		if(count($_POST) || self::getRequestMethod() != 'JSON')
+		{
+			return;
+		}
+		$params = array();
+		parse_str($GLOBALS['HTTP_RAW_POST_DATA'], $params);
+		foreach($params as $key => $val)
+		{
+			self::set($key, $this->_filterRequestVar($key, $val, 1), TRUE);
+		}
 	}
 
 	/**

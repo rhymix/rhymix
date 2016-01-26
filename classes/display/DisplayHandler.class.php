@@ -91,7 +91,10 @@ class DisplayHandler extends Handler
 		{
 			if(Context::getResponseMethod() == 'JSON' || Context::getResponseMethod() == 'JS_CALLBACK')
 			{
-				self::_printJSONHeader();
+				if(strpos($_SERVER['HTTP_ACCEPT'], 'json') !== false)
+				{
+					self::_printJSONHeader();
+				}
 			}
 			else if(Context::getResponseMethod() != 'HTML')
 			{

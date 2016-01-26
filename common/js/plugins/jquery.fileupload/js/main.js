@@ -299,7 +299,9 @@
 
 			$.exec_json('file.getFileList', obj, function(res){
 				data.uploadTargetSrl = res.upload_target_srl;
-				editorRelKeys[data.editorSequence].primary.value = res.upload_target_srl;
+				if(editorRelKeys[data.editorSequence]) {
+					editorRelKeys[data.editorSequence].primary.value = res.upload_target_srl;
+				}
 				data.uploadTargetSrl = res.uploadTargetSrl;
 
 				// @TODO 정리

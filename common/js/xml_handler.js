@@ -239,21 +239,23 @@ function xml2json(xml, tab, ignoreAttrib) {
 		// 전송 성공시
 		function onsuccess(data, textStatus, xhr) {
 			waiting_obj.css('display', 'none').trigger('cancel_confirm');
-			var ret = [];
-			var tags = {};
+			var ret = {};
 			
-			$.each(response_tags, function(key, val){ tags[val] = true; });
-			tags.redirect_url = true;
-			tags.act = true;
-			$.each(data, function(key, val){ if(tags[key]) ret[key] = val; });
-
-			if(ret.error != '0') {
-				if ($.isFunction($.exec_xml.onerror)) {
-					return $.exec_xml.onerror(module, act, ret, callback_func, response_tags, callback_func_arg, fo_obj);
+			$.each(data, function(key, val) {
+				if(key == "act" || key == "redirect_url" || $.inArray(key, response_tags)) {
+					if($.isArray(val)) {
+						ret[key] = { item: val };
+					} else {
+						ret[key] = val;
+					}
 				}
+			});
 
-				alert( (ret.message || 'An unknown error occured while loading ['+module+'.'+act+']').replace(/\\n/g, '\n') );
-
+			if(data.error != 0) {
+				if ($.isFunction($.exec_xml.onerror)) {
+					return $.exec_xml.onerror(module, act, data, callback_func, response_tags, callback_func_arg, fo_obj);
+				}
+				alert( (data.message || 'An unknown error occured while loading ['+module+'.'+act+']').replace(/\\n/g, '\n') );
 				return null;
 			}
 
