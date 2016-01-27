@@ -965,4 +965,20 @@
 			<value xml:lang="vi"><![CDATA[deletes]]></value>
 		</item>
 	</item>
+	<item name="improper_document_declare">
+		<value xml:lang="ko"><![CDATA[불량 게시글 신고]]></value>
+		<value xml:lang="en"><![CDATA[Report an improper document]]></value>
+	</item>
+	<item name="declaring_user">
+		<value xml:lang="ko"><![CDATA[신고자]]></value>
+		<value xml:lang="en"><![CDATA[Reporter]]></value>
+	</item>
+	<item name="improper_document_declare_reason">
+		<value xml:lang="ko"><![CDATA[신고 이유]]></value>
+		<value xml:lang="en"><![CDATA[Reason]]></value>
+	</item>
+	<item name="about_improper_document_declare">
+		<value xml:lang="ko"><![CDATA[게시글 신고 사유를 간단히 적어서 제출해주시면 관리자 검토 후 조치하겠습니다.]]></value>
+		<value xml:lang="en"><![CDATA[Write here the reason you report this article as an improper document.]]></value>
+	</item>
 </lang>

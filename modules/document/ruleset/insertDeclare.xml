@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ruleset version="1.5.0">
+	<customrules>
+	</customrules>
+	<fields>
+		<field name="target_srl" required="true" rule="number" default="0" />
+	</fields>
+</ruleset>

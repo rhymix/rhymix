@@ -192,12 +192,18 @@ class documentController extends document
 	 */
 	function procDocumentDeclare()
 	{
-		if(!Context::get('is_logged')) return new Object(-1, 'msg_invalid_request');
+		if(!Context::get('is_logged')) return new Object(-1, 'msg_not_logged');
 
 		$document_srl = Context::get('target_srl');
+		$declare_message = Context::get('declare_message');
 		if(!$document_srl) return new Object(-1, 'msg_invalid_request');
 
-		return $this->declaredDocument($document_srl);
+		if(Context::get('success_return_url'))
+		{
+			$this->setRedirectUrl(Context::get('success_return_url'));
+		}
+
+		return $this->declaredDocument($document_srl, $declare_message);
 	}
 
 	/**
@@ -1359,9 +1365,10 @@ class documentController extends document
 	/**
 	 * Report posts
 	 * @param int $document_srl
+	 * @param string $declare_message
 	 * @return void|Object
 	 */
-	function declaredDocument($document_srl)
+	function declaredDocument($document_srl, $declare_message = '')
 	{
 		// Fail if session information already has a reported document
 		if($_SESSION['declared_document'][$document_srl]) return new Object(-1, 'failed_declared');
@@ -1421,6 +1428,7 @@ class documentController extends document
 		}
 
 		$args->document_srl = $document_srl;
+		$args->declare_message = trim(htmlspecialchars($declare_message));
 		$output = executeQuery('document.getDocumentDeclaredLogInfo', $args);
 
 		// Pass after registering a sesson if reported/declared documents are in the logs.
@@ -1438,6 +1446,7 @@ class documentController extends document
 		if($declared_count > 0) $output = executeQuery('document.updateDeclaredDocument', $args);
 		else $output = executeQuery('document.insertDeclaredDocument', $args);
 		if(!$output->toBool()) return $output;
+
 		// Leave logs
 		$output = executeQuery('document.insertDocumentDeclaredLog', $args);
 		if(!$output->toBool())
