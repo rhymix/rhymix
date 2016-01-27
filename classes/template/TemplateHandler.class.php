@@ -250,7 +250,7 @@ class TemplateHandler
 		$buff = $this->_parseInline($buff);
 
 		// include, unload/load, import
-		$buff = preg_replace_callback('/{(@[\s\S]+?|(?=\$\w+|_{1,2}[A-Z]+|[!\(+-]|\w+(?:\(|::)|\d+|[\'"].*?[\'"]).+?)}|<(!--[#%])?(include|import|(un)?load(?(4)|(?:_js_plugin)?)|config)(?(2)\(["\']([^"\']+)["\'])(.*?)(?(2)\)--|\/)>|<!--(@[a-z@]*)([\s\S]*?)-->(\s*)/', array($this, '_parseResource'), $buff);
+		$buff = preg_replace_callback('/{(@[\s\S]+?|(?=\$\w+|[_A-Z]+|[!\(+-]|\w+(?:\(|::)|\d+|[\'"].*?[\'"]).+?)}|<(!--[#%])?(include|import|(un)?load(?(4)|(?:_js_plugin)?)|config)(?(2)\(["\']([^"\']+)["\'])(.*?)(?(2)\)--|\/)>|<!--(@[a-z@]*)([\s\S]*?)-->(\s*)/', array($this, '_parseResource'), $buff);
 
 		// remove block which is a virtual tag
 		$buff = preg_replace('@</?block\s*>@is', '', $buff);
@@ -598,6 +598,11 @@ class TemplateHandler
 				return $m[0];
 			}
 			
+			if(!preg_match('/[^_A-Z]+/', $m[1]) && !defined($m[1]))
+			{
+				return $m[0];
+			}
+			
 			if($m[1]{0} == '@')
 			{
 				$m[1] = self::_replaceVar(substr($m[1], 1));
@@ -863,7 +868,7 @@ class TemplateHandler
 	/**
 	 * replace PHP variables of $ character
 	 * @param string $php
-	 * @return string $__Context->varname
+	 * @return string ex. $__Context->varname
 	 */
 	private static function _replaceVar($php)
 	{
@@ -871,7 +876,18 @@ class TemplateHandler
 		{
 			return '';
 		}
-		return preg_replace('@(?<!::|\\\\|(?<!eval\()\')\$([a-z]|_[a-z0-9])@i', '\$__Context->$1', $php);
+
+		$callback = function($n)
+		{
+			if(preg_match('/^_(_Context|SERVER|COOKIE)/i', $n[1]))
+			{
+				return $n[0];
+			}
+
+			return '$__Context->' . $n[1];
+		};
+
+		return preg_replace_callback('/\$([_a-z0-9^\s]+)/i', $callback, $php);
 	}
 
 }
