@@ -616,6 +616,7 @@ class commentController extends comment
 		$oDocument = $oDocumentModel->getDocument($obj->document_srl);
 
 		$oMemberModel = getModel("member");
+		$is_logged = Context::get('is_logged');
 		if(isset($obj->member_srl) && !is_null($obj->member_srl))
 		{
 			$member_info = $oMemberModel->getMemberInfoByMemberSrl($obj->member_srl);
@@ -639,7 +640,12 @@ class commentController extends comment
 		if($module_info->admin_mail && $member_info->is_admin != 'Y')
 		{
 			$oMail = new Mail();
-			$oMail->setSender($obj->email_address, $obj->email_address);
+
+			if($is_logged)
+			{
+				$oMail->setSender($obj->email_address, $obj->email_address);
+			}
+
 			$mail_title = "[Rhymix - " . Context::get('mid') . "] A new comment was posted on document: \"" . $oDocument->getTitleText() . "\"";
 			$oMail->setTitle($mail_title);
 			$url_comment = getFullUrl('','document_srl',$obj->document_srl).'#comment_'.$obj->comment_srl;
@@ -712,7 +718,10 @@ class commentController extends comment
 				{
 					continue;
 				}
-
+				if(!$is_logged)
+				{
+					$oMail->setSender($email_address, $email_address);
+				}
 				$oMail->setReceiptor($email_address, $email_address);
 				$oMail->send();
 			}

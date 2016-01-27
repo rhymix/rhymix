@@ -316,8 +316,8 @@ class documentController extends document
 		if(!$obj->email_address) $obj->email_address = '';
 		if(!$isRestore) $obj->ipaddress = $_SERVER['REMOTE_ADDR'];
 
-                // can modify regdate only manager
-                $grant = Context::get('grant');
+		// can modify regdate only manager
+		$grant = Context::get('grant');
 		if(!$grant->manager)
 		{
 			unset($obj->regdate);
