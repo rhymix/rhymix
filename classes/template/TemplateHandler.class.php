@@ -887,7 +887,7 @@ class TemplateHandler
 			return '$__Context->' . $n[1];
 		};
 
-		return preg_replace_callback('/\$([_a-z0-9^\s]+)/i', $callback, $php);
+		return preg_replace_callback('/(?<!::|\\\\|(?<!eval\()\')\$([_a-z0-9^\s]+)/i', $callback, $php);
 	}
 
 }
