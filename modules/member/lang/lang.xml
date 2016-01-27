@@ -2665,6 +2665,14 @@
 		<value xml:lang="zh-TW"><![CDATA[拒絕]]></value>
 		<value xml:lang="zh-CN"><![CDATA[拒绝]]></value>
 	</item>
+	<item name="refused_reason">
+		<value xml:lang="ko"><![CDATA[계정 거부 사유]]></value>
+		<value xml:lang="en"><![CDATA[Reason for account refusing]]></value>
+	</item>
+	<item name="about_refused_reason">
+		<value xml:lang="ko"><![CDATA[계정이 정지된 이유를 적어주세요. 이 항목에 기록된 내용은 해당 회원에게 로그인 후 화면을 통해 안내됩니다.]]></value>
+		<value xml:lang="en"><![CDATA[Describe the reason why you refuse this account. Something you write in this field would be displayed when this user signs in.]]></value>
+	</item>
 	<item name="use_group_image_mark">
 		<value xml:lang="ko"><![CDATA[그룹 이미지 마크 사용]]></value>
 		<value xml:lang="en"><![CDATA[Use group image mark]]></value>
