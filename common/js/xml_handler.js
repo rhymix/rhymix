@@ -11,7 +11,7 @@
 	/**
 	 * Set this variable to false to hide the "do you want to leave the page?" dialog.
 	 */
-	window.show_leaving_warning = false;
+	window.show_leaving_warning = true;
 	
 	/**
 	 * This variable stores the .wfsr jQuery object.
