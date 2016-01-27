@@ -879,7 +879,7 @@ class TemplateHandler
 
 		$callback = function($n)
 		{
-			if(preg_match('/^_(_Context|SERVER|COOKIE)/i', $n[1]))
+			if(preg_match('/^(_(_Context|SERVER|COOKIE)|GLOBALS)/i', $n[1]))
 			{
 				return $n[0];
 			}
