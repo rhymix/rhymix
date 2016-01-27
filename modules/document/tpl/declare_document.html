@@ -1,7 +1,9 @@
+{@Context::addMetaTag('viewport', 'width=device-width, user-scalable=no', FALSE);}
+<load target="./css/declare_document.css" />
 <div cond="$XE_VALIDATOR_MESSAGE && $XE_VALIDATOR_ID == 'modules/document/tpl/1'" class="message {$XE_VALIDATOR_MESSAGE_TYPE}">
 	<p>{$XE_VALIDATOR_MESSAGE}</p>
 </div>
-<section class="section">
+<section class="declare_document">
 	<h1>{$lang->improper_document_declare}</h1>
 	<form action="./" method="post" id="fo_component" ruleset="insertDeclare">
 		<input type="hidden" name="module" value="document" />
@@ -15,8 +17,11 @@
 				<p>{$target_document->getSummary(200)}</p>
 			</section>
 		</blockquote>
-		<label class="x_control-label" for="declare_message">{$lang->improper_document_declare_reason}</label>
+		<label class="x_control-label" for="message_option">{$lang->improper_document_declare_reason}</label>
 		<div class="x_controls">
+			<select name="message_option" id="message_option">
+				<option loop="$lang->improper_document_reasons => $key,$text" value="{$key}">{$text}</option>
+			</select>
 			<textarea name="declare_message" id="declare_message"></textarea>
 			<p>{$lang->about_improper_document_declare}<p>
 		</div>
@@ -28,5 +33,23 @@
 	</form>
 </section>
 <script>
-	jQuery(window).load(setFixedPopupSize);
+(function($){
+	var msg_area = $('textarea[name="declare_message"]');
+	$('select[name="message_option"]').change(function(){
+		var option = {
+			duration:200,
+			complete: function(){setFixedPopupSize();}
+		}
+		if ($(this).val()==='others') {
+			msg_area.slideDown(option);
+
+		}
+		else {
+			msg_area.slideUp(option);
+			setFixedPopupSize();
+		}
+	});
+	msg_area.hide();
+	$(window).load(setFixedPopupSize);
+})(jQuery);
 </script>

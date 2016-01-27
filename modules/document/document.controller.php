@@ -194,8 +194,11 @@ class documentController extends document
 	{
 		if(!Context::get('is_logged')) return new Object(-1, 'msg_not_logged');
 
+		$improper_document_reasons = Context::getLang('improper_document_reasons');
+
 		$document_srl = Context::get('target_srl');
-		$declare_message = Context::get('declare_message');
+		$message_option = Context::get('message_option');
+		$declare_message = ($message_option !== 'others' && isset($improper_document_reasons[$message_option]))? $improper_document_reasons[$message_option] : Context::get('declare_message');
 		if(!$document_srl) return new Object(-1, 'msg_invalid_request');
 
 		if(Context::get('success_return_url'))
