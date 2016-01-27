@@ -10,14 +10,14 @@ class Lang
 	/**
 	 * Instances are stored here.
 	 */
-	protected static $_instances = [];
+	protected static $_instances = array();
 	
 	/**
 	 * Configuration.
 	 */
 	protected $_language;
-	protected $_loaded_directories = [];
-	protected $_loaded_files = [];
+	protected $_loaded_directories = array();
+	protected $_loaded_files = array();
 	
 	/**
 	 * This method returns the cached instance of a language.
