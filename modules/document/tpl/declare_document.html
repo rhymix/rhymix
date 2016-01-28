@@ -1,8 +1,9 @@
 {@Context::addMetaTag('viewport', 'width=device-width, user-scalable=no', FALSE);}
 <load target="./css/declare_document.css" />
-<div cond="$XE_VALIDATOR_MESSAGE && $XE_VALIDATOR_ID == 'modules/document/tpl/1'" class="message {$XE_VALIDATOR_MESSAGE_TYPE}">
-	<p>{$XE_VALIDATOR_MESSAGE}</p>
-</div>
+<script cond="$XE_VALIDATOR_MESSAGE && $XE_VALIDATOR_ID == 'modules/document/tpl/1'">
+	alert("{$XE_VALIDATOR_MESSAGE}");
+	window.close();
+</script>
 <section class="declare_document">
 	<h1>{$lang->improper_document_declare}</h1>
 	<form action="./" method="post" id="fo_component" ruleset="insertDeclare">
