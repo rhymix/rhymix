@@ -176,7 +176,7 @@ class documentView extends document
 	}
 
 	/**
-	 * Document temp saved list
+	 * Report an improper post
 	 * @return void
 	 */
 	function dispDocumentDeclare()
@@ -186,15 +186,24 @@ class documentView extends document
 
 		$oMemberModel = getModel('member');
 		// A message appears if the user is not logged-in
-		if(!$oMemberModel->isLogged()) return $this->stop('msg_not_logged');
+		if(!$oMemberModel->isLogged())
+		{
+			return $this->stop('msg_not_logged');
+		}
 
 		// Create the document object. If the document module of basic data structures, write it all works .. -_-;
 		$oDocumentModel = getModel('document');
 		// Creates an object for displaying the selected document
 		$oDocument = $oDocumentModel->getDocument($document_srl, $this->grant->manager, FALSE);
-		if(!$oDocument->isExists()) return new Object(-1,'msg_invalid_request');
+		if(!$oDocument->isExists())
+		{
+			return new Object(-1,'msg_invalid_request');
+		}
 		// Check permissions
-		if(!$oDocument->isAccessible()) return new Object(-1,'msg_not_permitted');
+		if(!$oDocument->isAccessible())
+		{
+			return new Object(-1,'msg_not_permitted');
+		}
 
 		// Browser title settings
 		Context::set('target_document', $oDocument);

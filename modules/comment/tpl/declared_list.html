@@ -45,7 +45,7 @@
 				<td><a href="{getUrl('','document_srl',$oComment->get('document_srl'))}#comment_{$oComment->get('comment_srl')}" onclick="window.open(this.href);return false;">{$oComment->getSummary(100)}</a></td>
 				<td><span class="member_{$oComment->getMemberSrl()}">{$oComment->getNickName()}</span></td>
 				<td>{$oComment->getRegdate("Y-m-d")}</td>
-				<td><strong>{$oComment->get('declared_count')}</strong></td>
+				<td><strong>{$oComment->get('declared_count')} (<a href="{getUrl('', 'act', 'dispCommentAdminDeclaredLogByCommentSrl', 'target_srl',$oComment->get('comment_srl'))}" onclick="popopen(this.href, 'admin_popup');return false">{$lang->improper_comment_declare_reason}</a>)</strong></td>
 				<td>{$oComment->get('ipaddress')}</td>
 				<td><input type="checkbox" name="cart[]" value="{$oComment->get('comment_srl')}" /></td>
 			</tr>

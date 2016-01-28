@@ -324,4 +324,54 @@
 	<item name="msg_admin_c_comment_no_delete">
 		<value xml:lang="ko"><![CDATA[이 댓글에 최고관리자의 댓글이 있어 삭제할 수 없습니다.]]></value>
 	</item>
+	<item name="improper_comment_declare">
+		<value xml:lang="ko"><![CDATA[불량 댓글 신고]]></value>
+		<value xml:lang="en"><![CDATA[Report an improper comment]]></value>
+	</item>
+	<item name="declaring_user">
+		<value xml:lang="ko"><![CDATA[신고자]]></value>
+		<value xml:lang="en"><![CDATA[Reporter]]></value>
+	</item>
+	<item name="improper_comment_declare_reason">
+		<value xml:lang="ko"><![CDATA[신고 이유]]></value>
+		<value xml:lang="en"><![CDATA[Reason]]></value>
+	</item>
+	<item name="improper_comment_reasons" type="array">
+		<item name="advertisement">
+			<value xml:lang="ko"><![CDATA[본문 주제나 흐름에 맞지 않는 광고 글입니다.]]></value>
+			<value xml:lang="en"><![CDATA[Advertisements that do not fit the topics or themes.]]></value>
+		</item>
+		<item name="theme">
+			<value xml:lang="ko"><![CDATA[주제에 맞지 않는 글입니다.]]></value>
+			<value xml:lang="en"><![CDATA[Comments that do not fit the topics or themes.]]></value>
+		</item>
+		<item name="bad_word">
+			<value xml:lang="ko"><![CDATA[과도한 욕설을 담고 있습니다.]]></value>
+			<value xml:lang="en"><![CDATA[Too much bad words.]]></value>
+		</item>
+		<item name="violence">
+			<value xml:lang="ko"><![CDATA[폭력적인 내용을 담고 있습니다.]]></value>
+			<value xml:lang="en"><![CDATA[Violence.]]></value>
+		</item>
+		<item name="racism">
+			<value xml:lang="ko"><![CDATA[인종차별적인 내용을 담고 있습니다.]]></value>
+			<value xml:lang="en"><![CDATA[Racism.]]></value>
+		</item>
+		<item name="pornography">
+			<value xml:lang="ko"><![CDATA[음란물을 포함하고 있습니다.]]></value>
+			<value xml:lang="en"><![CDATA[Pornography.]]></value>
+		</item>
+		<item name="privacy">
+			<value xml:lang="ko"><![CDATA[민감한 개인정보가 노출 되어있습니다.]]></value>
+			<value xml:lang="en"><![CDATA[Privacy issue.]]></value>
+		</item>
+		<item name="others">
+			<value xml:lang="ko"><![CDATA[기타(직접작성)]]></value>
+			<value xml:lang="en"><![CDATA[Others (Write your own)]]></value>
+		</item>
+	</item>
+	<item name="about_improper_comment_declare">
+		<value xml:lang="ko"><![CDATA[댓글을 신고하신 이유를 간단히 적어서 제출해주시면 관리자 검토 후 조치하겠습니다.]]></value>
+		<value xml:lang="en"><![CDATA[Write here why you report this comment as an improper thing.]]></value>
+	</item>
 </lang>

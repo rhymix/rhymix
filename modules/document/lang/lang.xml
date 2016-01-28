@@ -1012,7 +1012,7 @@
 		</item>
 	</item>
 	<item name="about_improper_document_declare">
-		<value xml:lang="ko"><![CDATA[게시글 신고 사유를 간단히 적어서 제출해주시면 관리자 검토 후 조치하겠습니다.]]></value>
-		<value xml:lang="en"><![CDATA[Write here the reason you report this article as an improper document.]]></value>
+		<value xml:lang="ko"><![CDATA[게시글을 신고하신 이유를 간단히 적어서 제출해주시면 관리자 검토 후 조치하겠습니다.]]></value>
+		<value xml:lang="en"><![CDATA[Write here why you report this article as an improper document.]]></value>
 	</item>
 </lang>

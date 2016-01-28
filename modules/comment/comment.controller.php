@@ -205,7 +205,19 @@ class commentController extends comment
 			return new Object(-1, 'msg_invalid_request');
 		}
 
-		return $this->declaredComment($comment_srl);
+		// if an user select message from options, message would be the option.
+		$message_option = strval(Context::get('message_option'));
+		$improper_comment_reasons = Context::getLang('improper_comment_reasons');
+		$declare_message = ($message_option !== 'others' && isset($improper_comment_reasons[$message_option]))?
+			$improper_comment_reasons[$message_option] : trim(Context::get('declare_message'));
+
+		// if there is return url, set that.
+		if(Context::get('success_return_url'))
+		{
+			$this->setRedirectUrl(Context::get('success_return_url'));
+		}
+
+		return $this->declaredComment($comment_srl, $declare_message);
 	}
 
 	/**
@@ -1304,9 +1316,10 @@ class commentController extends comment
 	/**
 	 * Report a blamed comment
 	 * @param $comment_srl
+	 * @param string $declare_message
 	 * @return void
 	 */
-	function declaredComment($comment_srl)
+	function declaredComment($comment_srl, $declare_message)
 	{
 		// Fail if session information already has a reported document
 		if($_SESSION['declared_comment'][$comment_srl])
@@ -1322,6 +1335,7 @@ class commentController extends comment
 		{
 			return $output;
 		}
+
 		$declared_count = ($output->data->declared_count) ? $output->data->declared_count : 0;
 
 		$trigger_obj = new stdClass();
@@ -1370,7 +1384,9 @@ class commentController extends comment
 		{
 			$args->ipaddress = $_SERVER['REMOTE_ADDR'];
 		}
+
 		$args->comment_srl = $comment_srl;
+		$args->declare_message = trim(htmlspecialchars($declare_message));
 		$log_output = executeQuery('comment.getCommentDeclaredLogInfo', $args);
 
 		// session registered if log info contains report log.
@@ -1402,6 +1418,13 @@ class commentController extends comment
 
 		// leave the log
 		$output = executeQuery('comment.insertCommentDeclaredLog', $args);
+		if(!$output->toBool())
+		{
+			$oDB->rollback();
+			return $output;
+		}
+
+		$this->add('declared_count', $declared_count + 1);
 
 		// Call a trigger (after)
 		$trigger_obj->declared_count = $declared_count + 1;
@@ -1412,6 +1435,7 @@ class commentController extends comment
 			return $trigger_output;
 		}
 
+		// commit
 		$oDB->commit();
 
 		// leave into the session information

@@ -192,15 +192,24 @@ class documentController extends document
 	 */
 	function procDocumentDeclare()
 	{
-		if(!Context::get('is_logged')) return new Object(-1, 'msg_not_logged');
+		if(!Context::get('is_logged'))
+		{
+			return new Object(-1, 'msg_not_logged');
+		}
 
+		$document_srl = intval(Context::get('target_srl'));
+		if(!$document_srl)
+		{
+			return new Object(-1, 'msg_invalid_request');
+		}
+
+		// if an user select message from options, message would be the option.
+		$message_option = strval(Context::get('message_option'));
 		$improper_document_reasons = Context::getLang('improper_document_reasons');
+		$declare_message = ($message_option !== 'others' && isset($improper_document_reasons[$message_option]))?
+			$improper_document_reasons[$message_option] : trim(Context::get('declare_message'));
 
-		$document_srl = Context::get('target_srl');
-		$message_option = Context::get('message_option');
-		$declare_message = ($message_option !== 'others' && isset($improper_document_reasons[$message_option]))? $improper_document_reasons[$message_option] : Context::get('declare_message');
-		if(!$document_srl) return new Object(-1, 'msg_invalid_request');
-
+		// if there is return url, set that.
 		if(Context::get('success_return_url'))
 		{
 			$this->setRedirectUrl(Context::get('success_return_url'));
@@ -1374,13 +1383,19 @@ class documentController extends document
 	function declaredDocument($document_srl, $declare_message = '')
 	{
 		// Fail if session information already has a reported document
-		if($_SESSION['declared_document'][$document_srl]) return new Object(-1, 'failed_declared');
+		if($_SESSION['declared_document'][$document_srl])
+		{
+			return new Object(-1, 'failed_declared');
+		}
 
 		// Check if previously reported
 		$args = new stdClass();
 		$args->document_srl = $document_srl;
 		$output = executeQuery('document.getDeclaredDocument', $args);
-		if(!$output->toBool()) return $output;
+		if(!$output->toBool())
+		{
+			return $output;
+		}
 
 		$declared_count = ($output->data->declared_count) ? $output->data->declared_count : 0;
 
@@ -1400,7 +1415,8 @@ class documentController extends document
 		$oDocument = $oDocumentModel->getDocument($document_srl, false, false);
 
 		// Pass if the author's IP address is as same as visitor's.
-		if($oDocument->get('ipaddress') == $_SERVER['REMOTE_ADDR']) {
+		if($oDocument->get('ipaddress') == $_SERVER['REMOTE_ADDR'])
+		{
 			$_SESSION['declared_document'][$document_srl] = true;
 			return new Object(-1, 'failed_declared');
 		}
@@ -1446,9 +1462,20 @@ class documentController extends document
 		$oDB->begin();
 
 		// Add the declared document
-		if($declared_count > 0) $output = executeQuery('document.updateDeclaredDocument', $args);
-		else $output = executeQuery('document.insertDeclaredDocument', $args);
-		if(!$output->toBool()) return $output;
+		if($declared_count > 0)
+		{
+			$output = executeQuery('document.updateDeclaredDocument', $args);
+		}
+		else
+		{
+			$output = executeQuery('document.insertDeclaredDocument', $args);
+		}
+
+		if(!$output->toBool())
+		{
+			$oDB->rollback();
+			return $output;
+		}
 
 		// Leave logs
 		$output = executeQuery('document.insertDocumentDeclaredLog', $args);
@@ -1458,7 +1485,7 @@ class documentController extends document
 			return $output;
 		}
 
-		$this->add('declared_count', $declared_count+1);
+		$this->add('declared_count', $declared_count + 1);
 
 		// Call a trigger (after)
 		$trigger_obj->declared_count = $declared_count + 1;

@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="UTF-8"?>
 <module>
 	<grants />
 	<permissions>
@@ -8,17 +8,25 @@
 	</permissions>
 	<actions>
 		<action name="getCommentMenu" type="model" />
+
 		<action name="dispCommentAdminList" type="view" admin_index="true" menu_name="comment" menu_index="true" />
 		<action name="dispCommentAdminDeclared" type="view" menu_name="comment" />
+		<action name="dispCommentAdminDeclaredLogByCommentSrl" type="view" menu_name="comment" />
+
+		<action name="dispCommentDeclare" type="view" />
 		<action name="procCommentVoteUp" type="controller" />
 		<action name="procCommentVoteDown" type="controller" />
 		<action name="procCommentDeclare" type="controller" />
+
 		<action name="getCommentVotedMemberList" type="model" />
+
 		<action name="procCommentInsertModuleConfig" type="controller" ruleset="insertCommentModuleConfig" />
 		<action name="procCommentAdminDeleteChecked" type="controller" ruleset="deleteChecked" />
 		<action name="procCommentAdminChangeStatus" type="controller"/>
 		<action name="procCommentAdminChangePublishedStatusChecked" type="controller" />
+
 		<action name="isModuleUsingPublishValidation" type="controller" />
+
 		<action name="procCommentAdminCancelDeclare" type="controller" />
 		<action name="procCommentAdminAddCart" type="controller" />
 		<action name="procCommentGetList" type="controller" />

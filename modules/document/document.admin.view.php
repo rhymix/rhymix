@@ -162,7 +162,7 @@ class documentAdminView extends document
 	}
 
 	/**
-	 * Display a report list on the admin page
+	 * Display a reported post and log of reporting
 	 * @return void
 	 */
 	function dispDocumentAdminDeclaredLogByDocumentSrl()
@@ -178,7 +178,6 @@ class documentAdminView extends document
 		// get Status name list
 		$oDocumentModel = getModel('document');
 		$oMemberModel = getModel('member');
-		$statusNameList = $oDocumentModel->getStatusNameList();
 		$oDocument = $oDocumentModel->getDocument($args->document_srl);
 
 		$declared_output = executeQuery('document.getDeclaredLogByDocumentSrl', $args);
@@ -200,7 +199,6 @@ class documentAdminView extends document
 		Context::set('reporter_list', $reporter_list);
 		Context::set('declared_document', $oDocument);
 		Context::set('page_navigation', $declared_output->page_navigation);
-		Context::set('status_name_list', $statusNameList);
 
 		// Set the template
 		$this->setLayoutFile('popup_layout');
