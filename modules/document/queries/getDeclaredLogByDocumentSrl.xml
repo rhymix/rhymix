@@ -1,0 +1,17 @@
+<query id="getDeclaredLogByDocumentSrl" action="select">
+	<tables>
+		<table name="document_declared_log" />
+	</tables>
+	<columns>
+		<column name="*" />
+	</columns>
+	<conditions>
+		<condition operation="equal" column="document_srl" var="document_srl" default="0" filter="number" notnull="notnull" />
+	</conditions>
+	<navigation>
+		<index var="sort_index" default="regdate" order="order_type" />
+		<list_count var="list_count" default="20" />
+		<page_count var="page_count" default="10" />
+		<page var="page" default="1" />
+	</navigation>
+</query>

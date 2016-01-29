@@ -1,71 +1,73 @@
-<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="UTF-8"?>
 <module>
-    <grants />
-    <permissions>
-        <permission action="dispDocumentAdminList" target="manager" />
+	<grants />
+	<permissions>
+		<permission action="dispDocumentAdminList" target="manager" />
 
-        <permission action="dispDocumentManageDocument" target="member" />
-        <permission action="getDocumentCategories" target="member" />
-        <permission action="getDocumentCategoryTplInfo" target="member" />
-        <permission action="procDocumentAddCart" target="member" />
+		<permission action="dispDocumentManageDocument" target="member" />
+		<permission action="getDocumentCategories" target="member" />
+		<permission action="getDocumentCategoryTplInfo" target="member" />
+		<permission action="procDocumentAddCart" target="member" />
 
-        <permission action="procDocumentInsertCategory" target="member" />
-        <permission action="procDocumentManageCheckedDocument" target="member" />
-        <permission action="procDocumentMoveCategory" target="member" />
-        <permission action="procDocumentDeleteCategory" target="member" />
-        <permission action="procDocumentMakeXmlFile" target="member" />
-        <permission action="procDocumentAdminMoveToTrash" target="member" />
+		<permission action="procDocumentInsertCategory" target="member" />
+		<permission action="procDocumentManageCheckedDocument" target="member" />
+		<permission action="procDocumentMoveCategory" target="member" />
+		<permission action="procDocumentDeleteCategory" target="member" />
+		<permission action="procDocumentMakeXmlFile" target="member" />
+		<permission action="procDocumentAdminMoveToTrash" target="member" />
 
-        <permission action="procDocumentAdminInsertExtraVar" target="manager" />
-        <permission action="procDocumentAdminDeleteExtraVar" target="manager" />
-    </permissions>
-    <actions>
-        <action name="dispDocumentPrint" type="view" />
-        <action name="dispDocumentPreview" type="view" />
-        <action name="dispDocumentManageDocument" type="view" />
-        <action name="dispTempSavedList" type="view" />
+		<permission action="procDocumentAdminInsertExtraVar" target="manager" />
+		<permission action="procDocumentAdminDeleteExtraVar" target="manager" />
+	</permissions>
+	<actions>
+		<action name="dispDocumentPrint" type="view" />
+		<action name="dispDocumentPreview" type="view" />
+		<action name="dispDocumentManageDocument" type="view" />
+		<action name="dispTempSavedList" type="view" />
+		<action name="dispDocumentDeclare" type="view" />
 
-        <action name="getDocumentCategories" type="model" />
-        <action name="getDocumentMenu" type="model" />
+		<action name="getDocumentCategories" type="model" />
+		<action name="getDocumentMenu" type="model" />
 
-        <action name="procDocumentVoteUp" type="controller" />
-        <action name="procDocumentVoteUpCancel" type="controller" />.
-        <action name="procDocumentVoteDown" type="controller" />
-        <action name="procDocumentVoteDownCancel" type="controller" />
-        <action name="procDocumentDeclare" type="controller" />
-        <action name="procDocumentAddCart" type="controller" />
-        <action name="procDocumentManageCheckedDocument" type="controller" />
-        <action name="procDocumentInsertModuleConfig" type="controller" />
+		<action name="procDocumentVoteUp" type="controller" />
+		<action name="procDocumentVoteUpCancel" type="controller" />.
+		<action name="procDocumentVoteDown" type="controller" />
+		<action name="procDocumentVoteDownCancel" type="controller" />
+		<action name="procDocumentDeclare" type="controller" />
+		<action name="procDocumentAddCart" type="controller" />
+		<action name="procDocumentManageCheckedDocument" type="controller" />
+		<action name="procDocumentInsertModuleConfig" type="controller" />
 
-        <action name="dispDocumentAdminList" type="view" admin_index="true" menu_name="document" menu_index="true" />
-        <action name="dispDocumentAdminConfig" type="view" />
-        <action name="dispDocumentAdminAlias" type="view" menu_name="document" />
-        <action name="dispDocumentAdminDeclared" type="view" menu_name="document" />
-        <action name="dispDocumentAdminTrashList" type="view" menu_name="document" />
+		<action name="dispDocumentAdminList" type="view" admin_index="true" menu_name="document" menu_index="true" />
+		<action name="dispDocumentAdminConfig" type="view" />
+		<action name="dispDocumentAdminAlias" type="view" menu_name="document" />
+		<action name="dispDocumentAdminDeclared" type="view" menu_name="document" />
+		<action name="dispDocumentAdminDeclaredLogByDocumentSrl" type="view" menu_name="document" />
+		<action name="dispDocumentAdminTrashList" type="view" menu_name="document" />
 
-        <action name="getDocumentCategoryTplInfo" type="model" />
-        <action name="getDocumentVotedMemberList" type="model" />
+		<action name="getDocumentCategoryTplInfo" type="model" />
+		<action name="getDocumentVotedMemberList" type="model" />
 
-        <action name="procDocumentInsertCategory" type="controller" ruleset="insertCategory" />
-        <action name="procDocumentDeleteCategory" type="controller" />
-        <action name="procDocumentMoveCategory" type="controller" />
-        <action name="procDocumentMakeXmlFile" type="controller" />
-        <action name="procDocumentTempSave" type="controller" />
-        <action name="procDocumentGetList" type="controller" />
+		<action name="procDocumentInsertCategory" type="controller" ruleset="insertCategory" />
+		<action name="procDocumentDeleteCategory" type="controller" />
+		<action name="procDocumentMoveCategory" type="controller" />
+		<action name="procDocumentMakeXmlFile" type="controller" />
+		<action name="procDocumentTempSave" type="controller" />
+		<action name="procDocumentGetList" type="controller" />
 
-        <action name="procDocumentAdminInsertAlias" type="controller" ruleset="insertAlias" />
-        <action name="procDocumentAdminDeleteAlias" type="controller" ruleset="deleteAlias" />
-        <action name="procDocumentAdminRestoreTrash" type="controller" />
-        <action name="procDocumentAdminMoveExtraVar" type="controller" />
+		<action name="procDocumentAdminInsertAlias" type="controller" ruleset="insertAlias" />
+		<action name="procDocumentAdminDeleteAlias" type="controller" ruleset="deleteAlias" />
+		<action name="procDocumentAdminRestoreTrash" type="controller" />
+		<action name="procDocumentAdminMoveExtraVar" type="controller" />
 
-        <action name="procDocumentAdminInsertExtraVar" type="controller" ruleset="insertExtraVar" />
-        <action name="procDocumentAdminDeleteExtraVar" type="controller" />
-        <action name="procDocumentAdminDeleteChecked" type="controller" />
-        <action name="procDocumentAdminInsertConfig" type="controller" />
-        <action name="procDocumentAdminDeleteAllThumbnail" type="controller" />
-        <action name="procDocumentAdminCancelDeclare" type="controller" />
-        <action name="procDocumentAdminMoveToTrash" type="controller" />
-    </actions>
+		<action name="procDocumentAdminInsertExtraVar" type="controller" ruleset="insertExtraVar" />
+		<action name="procDocumentAdminDeleteExtraVar" type="controller" />
+		<action name="procDocumentAdminDeleteChecked" type="controller" />
+		<action name="procDocumentAdminInsertConfig" type="controller" />
+		<action name="procDocumentAdminDeleteAllThumbnail" type="controller" />
+		<action name="procDocumentAdminCancelDeclare" type="controller" />
+		<action name="procDocumentAdminMoveToTrash" type="controller" />
+	</actions>
 	<menus>
 		<menu name="document">
 			<title xml:lang="en">Document</title>

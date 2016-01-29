@@ -1,0 +1,19 @@
+@charset "UTF-8";
+div.xe_mobile {
+	display:none!important;
+}
+section.declare_comment{
+	display:block;
+}
+section.declare_comment label{
+	font-weight: bold;
+}
+section.declare_comment select,section.declare_comment textarea{
+	box-sizing:border-box;
+	height:auto;
+	width: 100%;
+	padding:7px;
+	font-size: 11pt;
+	line-height: normal;
+	display:block;
+}

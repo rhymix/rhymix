@@ -162,6 +162,51 @@ class documentAdminView extends document
 	}
 
 	/**
+	 * Display a reported post and log of reporting
+	 * @return void
+	 */
+	function dispDocumentAdminDeclaredLogByDocumentSrl()
+	{
+		// option for a list
+		$args = new stdClass;
+		$args->page = Context::get('page'); // /< Page
+		$args->list_count = 30; // /< the number of posts to display on a single page
+		$args->page_count = 10; // /< the number of pages that appear in the page navigation
+		$args->document_srl = intval(Context::get('target_srl'));
+
+
+		// get Status name list
+		$oDocumentModel = getModel('document');
+		$oMemberModel = getModel('member');
+		$oDocument = $oDocumentModel->getDocument($args->document_srl);
+
+		$declared_output = executeQuery('document.getDeclaredLogByDocumentSrl', $args);
+		if($declared_output->data && count($declared_output->data))
+		{
+			$reporter_list = array();
+
+			foreach($declared_output->data as $key => $log)
+			{
+				$reporter_list[$log->member_srl] = $oMemberModel->getMemberInfoByMemberSrl($log->member_srl);
+			}
+		}
+
+		// Set values of document_model::getDocumentList() objects for a template
+		Context::set('total_count', $declared_output->total_count);
+		Context::set('total_page', $declared_output->total_page);
+		Context::set('page', $declared_output->page);
+		Context::set('declare_log', $declared_output->data);
+		Context::set('reporter_list', $reporter_list);
+		Context::set('declared_document', $oDocument);
+		Context::set('page_navigation', $declared_output->page_navigation);
+
+		// Set the template
+		$this->setLayoutFile('popup_layout');
+		$this->setTemplatePath($this->module_path.'tpl');
+		$this->setTemplateFile('declared_log');
+	}
+
+	/**
 	 * Display a alias list on the admin page
 	 * @return void
 	 */
