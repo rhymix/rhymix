@@ -27,6 +27,10 @@ class Lang
 	 */
 	public static function getInstance($language)
 	{
+		if ($language === 'jp')
+		{
+			$language = 'ja';
+		}
 		if (!isset(self::$_instances[$language]))
 		{
 			self::$_instances[$language] = new self($language);
@@ -70,7 +74,7 @@ class Lang
 			include $filename;
 			return true;
 		}
-		elseif (file_exists($filename = $dir . '/' . $this->_language . '.lang.php'))
+		elseif (file_exists($filename = $dir . '/' . ($this->_language === 'ja' ? 'jp' : $this->_language) . '.lang.php'))
 		{
 			$this->_loaded_directories[] = $dir;
 			$this->_loaded_files[] = $filename;
@@ -100,7 +104,7 @@ class Lang
 		{
 			$this->_loaded_directories[] = $dir;
 			$this->_loaded_files[] = $filename;
-			$compiled_filename = $this->compileXMLtoPHP($filename, $this->_language);
+			$compiled_filename = $this->compileXMLtoPHP($filename, $this->_language === 'ja' ? 'jp' : $this->_language);
 			if ($compiled_filename !== false)
 			{
 				include $compiled_filename;
