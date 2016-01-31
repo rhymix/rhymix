@@ -16,7 +16,7 @@
 	/**
 	 * This variable stores the .wfsr jQuery object.
 	 */
-	var waiting_obj;
+	var waiting_obj = $(".wfsr");
 	
 	/**
 	 * Function for compatibility with XE's exec_xml()
