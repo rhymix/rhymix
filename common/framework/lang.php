@@ -117,6 +117,34 @@ class Lang
 	}
 	
 	/**
+	 * Convert a directory of old language files to the RhymiX format.
+	 * 
+	 * @param string $dir
+	 * @param array $xml_langs When converting XML to PHP, only convert these languages. (Optional)
+	 * @return void
+	 */
+	public static function convertDirectory($dir, $xml_langs = array())
+	{
+		if (file_exists("$dir/lang.xml"))
+		{
+			$langs = count($xml_langs) ? $xml_langs : array_keys(self::getSupportedList());
+			foreach ($langs as $lang)
+			{
+				self::compileXMLtoPHP("$dir/lang.xml", $lang === 'ja' ? 'jp' : $lang, "$dir/$lang.php");
+			}
+		}
+		else
+		{
+			$files = glob($dir . '/*.lang.php');
+			foreach ($files as $filename)
+			{
+				$new_filename = preg_replace('/\.lang\.php$/', '.php', str_replace('jp.lang', 'ja.lang', $filename));
+				\FileHandler::rename($filename, $new_filename);
+			}
+		}
+	}
+	
+	/**
 	 * Compile XE-compatible XML lang files into PHP.
 	 * 
 	 * @param string $filename
