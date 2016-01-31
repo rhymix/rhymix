@@ -677,7 +677,6 @@ class Context
 		static $lang_selected = null;
 		if(!$lang_selected)
 		{
-			$orig_lang_file = _XE_PATH_ . 'common/lang/lang.info';
 			$selected_lang_file = _XE_PATH_ . 'files/config/lang_selected.info';
 			if(!FileHandler::hasContent($selected_lang_file))
 			{
@@ -687,9 +686,13 @@ class Context
 
 			if(!FileHandler::hasContent($selected_lang_file))
 			{
-				$buff = FileHandler::readFile($orig_lang_file);
+				$lang_selected = Rhymix\Framework\Lang::getSupportedList();
+				$buff = '';
+				foreach($lang_selected as $key => $val)
+				{
+					$buff .= "$key,$val\n";
+				}
 				FileHandler::writeFile($selected_lang_file, $buff);
-				$lang_selected = self::loadLangSupported();
 			}
 			else
 			{
