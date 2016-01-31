@@ -822,6 +822,7 @@ function debugPrint($debug_output = NULL, $display_option = TRUE, $file = '_debu
 function writeSlowlog($type, $elapsed_time, $obj)
 {
 	if(!__LOG_SLOW_TRIGGER__ && !__LOG_SLOW_ADDON__ && !__LOG_SLOW_WIDGET__ && !__LOG_SLOW_QUERY__) return;
+	if(__LOG_SLOW_PROTECT__ === 1 &&  __LOG_SLOW_PROTECT_IP__ != $_SERVER['REMOTE_ADDR']) return;
 
 	static $log_filename = array(
 		'query' => 'files/_slowlog_query.php',
