@@ -25,6 +25,7 @@ class moduleModel extends module
 		$dirs[] = 'rss';
 		$dirs[] = 'atom';
 		$dirs[] = 'api';
+		$dirs[] = 'admin';
 		if(in_array($id, $dirs)) return true;
 		// mid test
 		$args = new stdClass();
