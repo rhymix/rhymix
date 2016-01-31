@@ -123,20 +123,23 @@ class Lang
 	 * @param string $language
 	 * @return string|false
 	 */
-	public function compileXMLtoPHP($filename, $language)
+	public function compileXMLtoPHP($filename, $language, $output_filename = null)
 	{
 		// Check if the cache file already exists.
-		$cache_filename = RX_BASEDIR . 'files/cache/lang/' . md5($filename) . '.' . $language . '.php';
-		if (file_exists($cache_filename) && filemtime($cache_filename) > filemtime($filename))
+		if ($output_filename === null)
 		{
-			return $cache_filename;
+			$output_filename = RX_BASEDIR . 'files/cache/lang/' . md5($filename) . '.' . $language . '.php';
+			if (file_exists($output_filename) && filemtime($output_filename) > filemtime($filename))
+			{
+				return $output_filename;
+			}
 		}
 		
 		// Load the XML lang file.
 		$xml = @simplexml_load_file($filename);
 		if ($xml === false)
 		{
-			\FileHandler::writeFile($cache_filename, '');
+			\FileHandler::writeFile($output_filename, '');
 			return false;
 		}
 		
@@ -183,8 +186,8 @@ class Lang
 		{
 			$buff .= '$lang->' . $key . ' = ' . var_export($value, true) . ";\n";
 		}
-		\FileHandler::writeFile($cache_filename, $buff);
-		return $cache_filename;
+		\FileHandler::writeFile($output_filename, $buff);
+		return $output_filename;
 	}
 	
 	/**
