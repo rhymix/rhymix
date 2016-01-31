@@ -1,0 +1,27 @@
+<?php
+$lang->cmd_comment_do = '將此回覆..';
+$lang->comment_list = '回覆列表';
+$lang->cmd_toggle_checked_comment = '反向選擇';
+$lang->cmd_delete_checked_comment = '刪除所選';
+$lang->trash = '回收桶';
+$lang->cmd_trash = '移至回收桶';
+$lang->comment_count = '每頁回覆數';
+$lang->about_comment_count = '可以指定要顯示的每頁回覆數。';
+$lang->msg_cart_is_null = '請選擇要刪除的回覆。';
+$lang->msg_checked_comment_is_deleted = '已刪除 %d 個回覆。';
+$lang->search_target_list['content'] = '內容';
+$lang->search_target_list['user_id'] = '帳號';
+$lang->search_target_list['user_name'] = '姓名';
+$lang->search_target_list['nick_name'] = '暱稱';
+$lang->search_target_list['member_srl'] = '會員編號';
+$lang->search_target_list['email_address'] = '電子信箱';
+$lang->search_target_list['homepage'] = '主頁';
+$lang->search_target_list['regdate'] = '日期';
+$lang->search_target_list['last_update'] = '最後更新';
+$lang->search_target_list['ipaddress'] = 'IP 位址';
+$lang->search_target_list['is_secret'] = '狀態';
+$lang->no_text_comment = '此回覆無內容。';
+$lang->secret_name_list['Y'] = '秘密';
+$lang->secret_name_list['N'] = '公開';
+$lang->comment_manager = '管理所選回覆';
+$lang->selected_comment = '已選回覆';

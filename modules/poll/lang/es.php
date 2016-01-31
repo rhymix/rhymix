@@ -1,0 +1,19 @@
+<?php
+$lang->poll = 'Encuesta';
+$lang->poll_stop_date = 'Fecha de expiración';
+$lang->poll_join_count = 'Participantes';
+$lang->poll_checkcount = 'Número de artículos requeridos.';
+$lang->cmd_poll_list = 'Ver la lista de la encuesta';
+$lang->cmd_delete_checked_poll = 'Eliminar la encuesta seleccionada';
+$lang->cmd_apply_poll = 'Aplicar la encuesta';
+$lang->success_poll = 'Gracias por participar en la encuesta.';
+$lang->msg_already_poll = 'Usted ya realizo la encuesta!';
+$lang->msg_poll_is_null = 'Por favor selecciona una encuesta a eliminar.';
+$lang->msg_checked_poll_is_deleted = '%d encuestas son eliminados.';
+$lang->msg_check_poll_item = 'Por favor selecciona un artículo de la encuesta.\\n(Artículos requeridos pueden ser diferentes in cada encuesta.)';
+$lang->msg_poll_not_exists = 'Encuesta seleccionada no existe.';
+$lang->cmd_null_item = 'No existe ningún valor para la encuesta. Por favor trate nuevamente.';
+$lang->confirm_poll_submit = '¿Confirma la participación de la encuesta?';
+$lang->search_poll_target_list['title'] = 'Título';
+$lang->search_poll_target_list['regdate'] = 'Fecha de la participación';
+$lang->search_poll_target_list['ipaddress'] = 'Dirección IP';
