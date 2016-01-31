@@ -45,7 +45,7 @@ class Lang
 	 */
 	protected function __construct($language)
 	{
-		$this->_language = strtolower(preg_replace('/[^a-z0-9_-]/i', '', $language));
+		$this->_language = preg_replace('/[^a-z0-9_-]/i', '', $language);
 	}
 	
 	/**
@@ -154,7 +154,7 @@ class Lang
 					foreach ($subitem->value as $value)
 					{
 						$attribs = $value->attributes('xml', true);
-						if (strtolower($attribs['lang']) === $language)
+						if (strval($attribs['lang']) === $language)
 						{
 							$lang[$name][$subname] = strval($value);
 							break;
@@ -167,7 +167,7 @@ class Lang
 				foreach ($item->value as $value)
 				{
 					$attribs = $value->attributes('xml', true);
-					if (strtolower($attribs['lang']) === $language)
+					if (strval($attribs['lang']) === $language)
 					{
 						$lang[$name] = strval($value);
 						break;
@@ -185,6 +185,16 @@ class Lang
 		}
 		\FileHandler::writeFile($cache_filename, $buff);
 		return $cache_filename;
+	}
+	
+	/**
+	 * Get the list of supported languages.
+	 * 
+	 * @return array
+	 */
+	public function getSupportedList()
+	{
+		return (include RX_BASEDIR . 'common/defaults/lang.php');
 	}
 	
 	/**

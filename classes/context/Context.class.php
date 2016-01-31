@@ -664,18 +664,7 @@ class Context
 	 */
 	public static function loadLangSupported()
 	{
-		static $lang_supported = null;
-		if(!$lang_supported)
-		{
-			$langs = file(_XE_PATH_ . 'common/lang/lang.info');
-			foreach($langs as $val)
-			{
-				list($lang_prefix, $lang_text) = explode(',', $val);
-				$lang_text = trim($lang_text);
-				$lang_supported[$lang_prefix] = $lang_text;
-			}
-		}
-		return $lang_supported;
+		return Rhymix\Framework\Lang::getSupportedList();
 	}
 
 	/**
@@ -708,6 +697,10 @@ class Context
 				foreach($langs as $val)
 				{
 					list($lang_prefix, $lang_text) = explode(',', $val);
+					if($lang_prefix === 'jp')
+					{
+						$lang_prefix = 'ja';
+					}
 					$lang_text = trim($lang_text);
 					$lang_selected[$lang_prefix] = $lang_text;
 				}
