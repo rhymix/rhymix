@@ -104,7 +104,7 @@ class Lang
 		{
 			$this->_loaded_directories[] = $dir;
 			$this->_loaded_files[] = $filename;
-			$compiled_filename = $this->compileXMLtoPHP($filename, $this->_language === 'ja' ? 'jp' : $this->_language);
+			$compiled_filename = self::compileXMLtoPHP($filename, $this->_language === 'ja' ? 'jp' : $this->_language);
 			if ($compiled_filename !== false)
 			{
 				include $compiled_filename;
@@ -123,7 +123,7 @@ class Lang
 	 * @param string $language
 	 * @return string|false
 	 */
-	public function compileXMLtoPHP($filename, $language, $output_filename = null)
+	public static function compileXMLtoPHP($filename, $language, $output_filename = null)
 	{
 		// Check if the cache file already exists.
 		if ($output_filename === null)
@@ -148,7 +148,7 @@ class Lang
 		foreach ($xml->item as $item)
 		{
 			$name = strval($item['name']);
-			if (strval($item['type']) === 'array')
+			if (count($item->item))
 			{
 				$lang[$name] = array();
 				foreach ($item->item as $subitem)
@@ -184,7 +184,17 @@ class Lang
 		$buff = "<?php\n";
 		foreach ($lang as $key => $value)
 		{
-			$buff .= '$lang->' . $key . ' = ' . var_export($value, true) . ";\n";
+			if (is_array($value))
+			{
+				foreach ($value as $subkey => $subvalue)
+				{
+					$buff .= '$lang->' . $key . "['" . $subkey . "']" . ' = ' . var_export($subvalue, true) . ";\n";
+				}
+			}
+			else
+			{
+				$buff .= '$lang->' . $key . ' = ' . var_export($value, true) . ";\n";
+			}
 		}
 		\FileHandler::writeFile($output_filename, $buff);
 		return $output_filename;
@@ -195,7 +205,7 @@ class Lang
 	 * 
 	 * @return array
 	 */
-	public function getSupportedList()
+	public static function getSupportedList()
 	{
 		return (include RX_BASEDIR . 'common/defaults/lang.php');
 	}
