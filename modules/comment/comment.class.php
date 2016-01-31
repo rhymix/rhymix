@@ -101,6 +101,12 @@ class comment extends ModuleObject
 			return TRUE;
 		}
 
+		// 2016. 1. 29: Add a column(declare_message) for report
+		if(!$oDB->isColumnExists("comment_declared_log","declare_message"))
+		{
+			return true;
+		}
+
 		return FALSE;
 	}
 
@@ -173,6 +179,12 @@ class comment extends ModuleObject
 		if(!$oModuleModel->getTrigger('module.procModuleAdminCopyModule', 'comment', 'controller', 'triggerCopyModule', 'after'))
 		{
 			$oModuleController->insertTrigger('module.procModuleAdminCopyModule', 'comment', 'controller', 'triggerCopyModule', 'after');
+		}
+
+		// 2016. 1. 29: Add a column(declare_message) for report
+		if(!$oDB->isColumnExists("comment_declared_log","declare_message"))
+		{
+			$oDB->addColumn('comment_declared_log',"declare_message","text");
 		}
 
 		return new Object(0, 'success_updated');

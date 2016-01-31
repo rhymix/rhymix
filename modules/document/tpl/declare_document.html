@@ -1,0 +1,56 @@
+{@Context::addMetaTag('viewport', 'width=device-width, user-scalable=no', FALSE);}
+<load target="./css/declare_document.css" />
+<script cond="$XE_VALIDATOR_MESSAGE && $XE_VALIDATOR_ID == 'modules/document/tpl/1'">
+	alert("{$XE_VALIDATOR_MESSAGE}");
+	window.close();
+</script>
+<section class="declare_document">
+	<h1>{$lang->improper_document_declare}</h1>
+	<form action="./" method="post" id="fo_component" ruleset="insertDeclare">
+		<input type="hidden" name="module" value="document" />
+		<input type="hidden" name="act" value="procDocumentDeclare" />
+		<input type="hidden" name="target_srl" value="{$target_srl}" />
+		<input type="hidden" name="success_return_url" value="{getUrl('', 'act', $act, 'target_srl', $target_srl)}" />
+		<input type="hidden" name="xe_validator_id" value="modules/document/tpl/1" />
+		<blockquote>
+			<section class="target_article">
+				<h1>{$target_document->getTitleText()}</h1>
+				<p>{$target_document->getSummary(200)}</p>
+			</section>
+		</blockquote>
+		<label class="x_control-label" for="message_option">{$lang->improper_document_declare_reason}</label>
+		<div class="x_controls">
+			<select name="message_option" id="message_option">
+				<option loop="$lang->improper_document_reasons => $key,$text" value="{$key}">{$text}</option>
+			</select>
+			<textarea name="declare_message" id="declare_message"></textarea>
+			<p>{$lang->about_improper_document_declare}<p>
+		</div>
+		<div class="x_clearfix btnArea">
+			<div class="x_pull-right">
+				<button type="submit" class="x_btn x_btn-primary" />{$lang->cmd_submit}</button>
+			</div>
+		</div>
+	</form>
+</section>
+<script>
+(function($){
+	var msg_area = $('textarea[name="declare_message"]');
+	$('select[name="message_option"]').change(function(){
+		var option = {
+			duration:200,
+			complete: function(){setFixedPopupSize();}
+		}
+		if ($(this).val()==='others') {
+			msg_area.slideDown(option);
+
+		}
+		else {
+			msg_area.slideUp(option);
+			setFixedPopupSize();
+		}
+	});
+	msg_area.hide();
+	$(document).load(setFixedPopupSize);
+})(jQuery);
+</script>

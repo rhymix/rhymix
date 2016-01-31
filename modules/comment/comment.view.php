@@ -60,6 +60,44 @@ class commentView extends comment
 		return new Object();
 	}
 
+	/**
+	 * Report an improper comment
+	 * @return void
+	 */
+	function dispCommentDeclare()
+	{
+		$this->setLayoutFile('popup_layout');
+		$comment_srl = Context::get('target_srl');
+
+		$oMemberModel = getModel('member');
+		// A message appears if the user is not logged-in
+		if(!$oMemberModel->isLogged())
+		{
+			return $this->stop('msg_not_logged');
+		}
+
+		// Create the comment object.
+		$oCommentModel = getModel('comment');
+		// Creates an object for displaying the selected comment
+		$oComment = $oCommentModel->getComment($comment_srl);
+		if(!$oComment->isExists())
+		{
+			return new Object(-1,'msg_invalid_request');
+		}
+		// Check permissions
+		if(!$oComment->isAccessible())
+		{
+			return new Object(-1,'msg_not_permitted');
+		}
+
+		// Browser title settings
+		Context::set('target_comment', $oComment);
+
+		Context::set('target_srl', $comment_srl);
+
+		$this->setTemplatePath($this->module_path.'tpl');
+		$this->setTemplateFile('declare_comment');
+	}
 }
 /* End of file comment.view.php */
 /* Location: ./modules/comment/comment.view.php */

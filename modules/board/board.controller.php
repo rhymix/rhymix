@@ -148,6 +148,12 @@ class boardController extends board
 			{
 				$oModuleModel = getModel('module');
 				$member_config = $oModuleModel->getModuleConfig('member');
+				$is_logged = Context::get('is_logged');
+
+				if(!$is_logged && !$member_config->webmaster_email)
+				{
+					$obj->email_address = $this->module_info->admin_mail;
+				}
 				
 				$oMail = new Mail();
 				$oMail->setTitle($obj->title);

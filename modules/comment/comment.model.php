@@ -69,8 +69,8 @@ class commentModel extends comment
 			}
 
 			// Add the report feature against abused posts
-			$url = sprintf("doCallModuleAction('comment','procCommentDeclare','%s')", $comment_srl);
-			$oCommentController->addCommentPopupMenu($url, 'cmd_declare', '', 'javascript');
+			$url = getUrl('', 'act', 'dispCommentDeclare', 'target_srl', $comment_srl);
+			$oCommentController->addCommentPopupMenu($url, 'cmd_declare', '', 'popup');
 		}
 
 		// call a trigger (after)

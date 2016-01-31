@@ -124,6 +124,9 @@ class document extends ModuleObject
 		// 2012. 08. 29 Add a trigger to copy additional setting when the module is copied 
 		if(!$oModuleModel->getTrigger('module.procModuleAdminCopyModule', 'document', 'controller', 'triggerCopyModule', 'after')) return true;
 
+		// 2016. 1. 27: Add a column(declare_message) for report
+		if(!$oDB->isColumnExists("document_declared_log","declare_message")) return true;
+
 		return false;
 	}
 
@@ -318,6 +321,12 @@ class document extends ModuleObject
 		if(!$oModuleModel->getTrigger('module.procModuleAdminCopyModule', 'document', 'controller', 'triggerCopyModule', 'after'))
 		{
 			$oModuleController->insertTrigger('module.procModuleAdminCopyModule', 'document', 'controller', 'triggerCopyModule', 'after');
+		}
+
+		// 2016. 1. 27: Add a column(declare_message) for report
+		if(!$oDB->isColumnExists("document_declared_log","declare_message"))
+		{
+			$oDB->addColumn('document_declared_log',"declare_message","text");
 		}
 
 		return new Object(0,'success_updated');

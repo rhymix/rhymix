@@ -175,6 +175,44 @@ class documentView extends document
 		$this->setTemplateFile('saved_list_popup');
 	}
 
+	/**
+	 * Report an improper post
+	 * @return void
+	 */
+	function dispDocumentDeclare()
+	{
+		$this->setLayoutFile('popup_layout');
+		$document_srl = Context::get('target_srl');
+
+		$oMemberModel = getModel('member');
+		// A message appears if the user is not logged-in
+		if(!$oMemberModel->isLogged())
+		{
+			return $this->stop('msg_not_logged');
+		}
+
+		// Create the document object. If the document module of basic data structures, write it all works .. -_-;
+		$oDocumentModel = getModel('document');
+		// Creates an object for displaying the selected document
+		$oDocument = $oDocumentModel->getDocument($document_srl, $this->grant->manager, FALSE);
+		if(!$oDocument->isExists())
+		{
+			return new Object(-1,'msg_invalid_request');
+		}
+		// Check permissions
+		if(!$oDocument->isAccessible())
+		{
+			return new Object(-1,'msg_not_permitted');
+		}
+
+		// Browser title settings
+		Context::set('target_document', $oDocument);
+
+		Context::set('target_srl', $document_srl);
+
+		$this->setTemplatePath($this->module_path.'tpl');
+		$this->setTemplateFile('declare_document');
+	}
 }
 /* End of file document.view.php */
 /* Location: ./modules/document/document.view.php */

@@ -1751,7 +1751,7 @@ class memberController extends member
 				$redirectUrl = getUrl('', 'act', 'dispMemberResendAuthMail');
 				return $this->setRedirectUrl($redirectUrl, new Object(-1,'msg_user_not_confirmed'));
 			}
-			return new Object(-1,'msg_user_denied');
+			return new Object(-1, ($this->memberInfo->refused_reason)? Context::getLang('msg_user_denied') . "\n" . $this->memberInfo->refused_reason : 'msg_user_denied');
 		}
 		// Notify if denied_date is less than the current time
 		if($this->memberInfo->limit_date && substr($this->memberInfo->limit_date,0,8) >= date("Ymd")) return new Object(-9,sprintf(Context::getLang('msg_user_limited'),zdate($this->memberInfo->limit_date,"Y-m-d")));
