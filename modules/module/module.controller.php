@@ -61,6 +61,19 @@ class moduleController extends module
 	}
 
 	/**
+	 * @brief Add trigger callback function
+	 * 
+	 * @param string $trigger_name
+	 * @param string $called_position
+	 * @param callable $callback_function
+	 */
+	function addTriggerFunction($trigger_name, $called_position, $callback_function)
+	{
+		$GLOBALS['__trigger_functions__'][$trigger_name][$called_position][] = $callback_function;
+		return true;
+	}
+
+	/**
 	 * @brief Add module trigger
 	 * module trigger is to call a trigger to a target module
 	 *
