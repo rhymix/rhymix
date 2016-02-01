@@ -17,7 +17,8 @@ class Lang
 	 */
 	protected $_language;
 	protected $_loaded_directories = array();
-	protected $_loaded_files = array();
+	protected $_loaded_plugins = array();
+	protected $_search_priority = array();
 	
 	/**
 	 * This method returns the cached instance of a language.
@@ -46,74 +47,91 @@ class Lang
 	protected function __construct($language)
 	{
 		$this->_language = preg_replace('/[^a-z0-9_-]/i', '', $language);
+		$this->_loaded_plugins['_custom_'] = new \stdClass();
 	}
 	
 	/**
-	 * Add a directory to load translations from.
+	 * Load translations from a plugin (module, addon).
+	 * 
+	 * @param string $name
+	 * @return bool
+	 */
+	public function loadPlugin($name)
+	{
+		if (isset($this->_loaded_plugins[$name]))
+		{
+			return true;
+		}
+		
+		if (file_exists(RX_BASEDIR . "plugins/$name/lang"))
+		{
+			$this->loadDirectory(RX_BASEDIR . "plugins/$name/lang", $name);
+		}
+		elseif (file_exists(RX_BASEDIR . "modules/$name/lang"))
+		{
+			$this->loadDirectory(RX_BASEDIR . "modules/$name/lang", $name);
+		}
+		elseif (file_exists(RX_BASEDIR . "addons/$name/lang"))
+		{
+			$this->loadDirectory(RX_BASEDIR . "addons/$name/lang", $name);
+		}
+	}
+	
+	/**
+	 * Load translations from a directory.
 	 * 
 	 * @param string $dir
 	 * @return bool
 	 */
-	public function addDirectory($dir)
+	public function loadDirectory($dir, $plugin_name = null)
 	{
 		// Do not load the same directory twice.
 		$dir = rtrim($dir, '/');
-		if (in_array($dir, $this->_loaded_directories))
+		$plugin_name = $plugin_name ?: $dir;
+		if (isset($this->_loaded_directories[$dir]) || isset($this->_loaded_plugins[$plugin_name]))
 		{
 			return true;
 		}
 		
-		// Alias $this to $lang.
-		$lang = $this;
-		
-		// Check if there is a PHP lang file.
-		if (file_exists($filename = $dir . '/' . $this->_language . '.php'))
+		// Look for language files.
+		if (file_exists($dir . '/' . $this->_language . '.php'))
 		{
-			$this->_loaded_directories[] = $dir;
-			$this->_loaded_files[] = $filename;
-			include $filename;
-			return true;
+			$filename = $dir . '/' . $this->_language . '.php';
 		}
-		elseif (file_exists($filename = $dir . '/' . ($this->_language === 'ja' ? 'jp' : $this->_language) . '.lang.php'))
+		elseif (file_exists($dir . '/' . ($this->_language === 'ja' ? 'jp' : $this->_language) . '.lang.php'))
 		{
-			$this->_loaded_directories[] = $dir;
-			$this->_loaded_files[] = $filename;
-			include $filename;
-			return true;
+			$filename = $dir . '/' . ($this->_language === 'ja' ? 'jp' : $this->_language) . '.lang.php';
 		}
 		elseif (($hyphen = strpos($this->_language, '-')) !== false)
 		{
-			if (file_exists($filename = $dir . '/' . substr($this->_language, 0, $hyphen) . '.php'))
+			if (file_exists($dir . '/' . substr($this->_language, 0, $hyphen) . '.php'))
 			{
-				$this->_loaded_directories[] = $dir;
-				$this->_loaded_files[] = $filename;
-				include $filename;
-				return true;
+				$filename = $dir . '/' . substr($this->_language, 0, $hyphen) . '.php';
 			}
-			elseif (file_exists($filename = $dir . '/' . substr($this->_language, 0, $hyphen) . '.lang.php'))
+			elseif (file_exists($dir . '/' . substr($this->_language, 0, $hyphen) . '.lang.php'))
 			{
-				$this->_loaded_directories[] = $dir;
-				$this->_loaded_files[] = $filename;
-				include $filename;
-				return true;
+				$filename = $dir . '/' . substr($this->_language, 0, $hyphen) . '.lang.php';
 			}
 		}
-		
-		// Check if there is a XML lang file.
-		if (file_exists($filename = $dir . '/lang.xml'))
+		elseif (file_exists("$dir/lang.xml"))
 		{
-			$this->_loaded_directories[] = $dir;
-			$this->_loaded_files[] = $filename;
-			$compiled_filename = self::compileXMLtoPHP($filename, $this->_language === 'ja' ? 'jp' : $this->_language);
-			if ($compiled_filename !== false)
-			{
-				include $compiled_filename;
-				return true;
-			}
+			$filename = self::compileXMLtoPHP("$dir/lang.xml", $this->_language === 'ja' ? 'jp' : $this->_language);
 		}
 		
-		// Return false if no suitable lang file is found.
-		return false;
+		// Load the language file.
+		if ($filename)
+		{
+			$lang = new \stdClass;
+			include $filename;
+			$this->_loaded_directories[$dir] = true;
+			$this->_loaded_plugins[$plugin_name] = $lang;
+			array_unshift($this->_search_priority, $plugin_name);
+			return true;
+		}
+		else
+		{
+			return false;
+		}
 	}
 	
 	/**
@@ -239,6 +257,77 @@ class Lang
 	}
 	
 	/**
+	 * Magic method for translations without arguments.
+	 */
+	public function __get($key)
+	{
+		// Search custom translations first.
+		if (isset($this->_loaded_plugins['_custom_']->{$key}))
+		{
+			return $this->_loaded_plugins['_custom_']->{$key};
+		}
+		
+		// Search other plugins.
+		foreach ($this->_search_priority as $plugin_name)
+		{
+			if (isset($this->_loaded_plugins[$plugin_name]->{$key}))
+			{
+				return $this->_loaded_plugins[$plugin_name]->{$key};
+			}
+		}
+		
+		// If no translation is found, return the key.
+		return $key;
+	}
+	
+	/**
+	 * Magic method for setting a new custom translation.
+	 * 
+	 * @param string $key
+	 * @param string $value
+	 * @return void
+	 */
+	public function __set($key, $value)
+	{
+		$this->_loaded_plugins['_custom_']->{$key} = $value;
+	}
+	
+	/**
+	 * Magic method for checking whether a translation exists.
+	 * 
+	 * @param string $key
+	 * @return bool
+	 */
+	public function __isset($key)
+	{
+		foreach ($this->_loaded_plugins as $plugin_name => $translations)
+		{
+			if (isset($translations->{$key}))
+			{
+				return true;
+			}
+		}
+		return false;
+	}
+	
+	/**
+	 * Magic method for unsetting a translation.
+	 * 
+	 * @param string $key
+	 * @return void
+	 */
+	public function __unset($key)
+	{
+		foreach ($this->_loaded_plugins as $plugin_name => $translations)
+		{
+			if (isset($translations->{$key}))
+			{
+				unset($translations->{$key});
+			}
+		}
+	}
+	
+	/**
 	 * Magic method for translations with arguments.
 	 * 
 	 * @param string $key
@@ -250,13 +339,18 @@ class Lang
 		// Remove a colon from the beginning of the string.
 		if ($key !== '' && $key[0] === ':') $key = substr($key, 1);
 		
-		// If the string does not have a translation, return it verbatim.
-		if (!isset($this->{$key})) return $key;
+		// Find the translation.
+		$translation = $this->__get($key);
 		
 		// If there are no arguments, return the translation.
-		if (!count($args)) return $this->{$key};
+		if (!is_array($args))
+		{
+			$args = func_get_args();
+			array_shift($args);
+		}
+		if (!count($args)) return $translation;
 		
 		// If there are arguments, interpolate them into the translation and return the result.
-		return vsprintf($this->{$key}, $args);
+		return vsprintf($translation, $args);
 	}
 }

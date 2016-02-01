@@ -339,8 +339,8 @@ class Context
 
 		// Load languages
 		$this->lang = Rhymix\Framework\Lang::getInstance($this->lang_type);
-		$this->lang->addDirectory(RX_BASEDIR . 'common/lang');
-		$this->lang->addDirectory(RX_BASEDIR . 'modules/module/lang');
+		$this->lang->loadDirectory(RX_BASEDIR . 'common/lang', 'common');
+		$this->lang->loadDirectory(RX_BASEDIR . 'modules/module/lang', 'module');
 
 		// set session handler
 		if(self::isInstalled() && $this->db_info->use_db_session == 'Y')
@@ -915,7 +915,15 @@ class Context
 	 */
 	public static function loadLang($path)
 	{
-		return self::$_instance->lang->addDirectory($path);
+		if (preg_match('@/(modules|addons|plugins)/([a-z0-9_]+)/lang/?$@', str_replace('\\', '/', $path), $matches))
+		{
+			$plugin_name = $matches[2];
+		}
+		else
+		{
+			$plugin_name = null;
+		}
+		return self::$_instance->lang->loadDirectory($path, $plugin_name);
 	}
 
 	/**
