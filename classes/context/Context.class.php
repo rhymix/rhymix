@@ -337,8 +337,10 @@ class Context
 		self::set('lang_supported', $lang_supported);
 		self::setLangType($this->lang_type);
 
-		// load module module's language file according to language setting
-		self::loadLang(_XE_PATH_ . 'modules/module/lang');
+		// Load languages
+		$this->lang = Rhymix\Framework\Lang::getInstance($this->lang_type);
+		$this->lang->loadDirectory(RX_BASEDIR . 'common/lang', 'common');
+		$this->lang->loadDirectory(RX_BASEDIR . 'modules/module/lang', 'module');
 
 		// set session handler
 		if(self::isInstalled() && $this->db_info->use_db_session == 'Y')
@@ -404,9 +406,6 @@ class Context
 				}
 			}
 		}
-
-		// load common language file
-		self::loadLang(_XE_PATH_ . 'common/lang/');
 
 		// check if using rewrite module
 		$this->allow_rewrite = ($this->db_info->use_rewrite == 'Y' ? TRUE : FALSE);
@@ -665,18 +664,7 @@ class Context
 	 */
 	public static function loadLangSupported()
 	{
-		static $lang_supported = null;
-		if(!$lang_supported)
-		{
-			$langs = file(_XE_PATH_ . 'common/lang/lang.info');
-			foreach($langs as $val)
-			{
-				list($lang_prefix, $lang_text) = explode(',', $val);
-				$lang_text = trim($lang_text);
-				$lang_supported[$lang_prefix] = $lang_text;
-			}
-		}
-		return $lang_supported;
+		return Rhymix\Framework\Lang::getSupportedList();
 	}
 
 	/**
@@ -689,7 +677,6 @@ class Context
 		static $lang_selected = null;
 		if(!$lang_selected)
 		{
-			$orig_lang_file = _XE_PATH_ . 'common/lang/lang.info';
 			$selected_lang_file = _XE_PATH_ . 'files/config/lang_selected.info';
 			if(!FileHandler::hasContent($selected_lang_file))
 			{
@@ -699,9 +686,13 @@ class Context
 
 			if(!FileHandler::hasContent($selected_lang_file))
 			{
-				$buff = FileHandler::readFile($orig_lang_file);
+				$lang_selected = Rhymix\Framework\Lang::getSupportedList();
+				$buff = '';
+				foreach($lang_selected as $key => $val)
+				{
+					$buff .= "$key,$val\n";
+				}
 				FileHandler::writeFile($selected_lang_file, $buff);
-				$lang_selected = self::loadLangSupported();
 			}
 			else
 			{
@@ -709,6 +700,10 @@ class Context
 				foreach($langs as $val)
 				{
 					list($lang_prefix, $lang_text) = explode(',', $val);
+					if($lang_prefix === 'jp')
+					{
+						$lang_prefix = 'ja';
+					}
 					$lang_text = trim($lang_text);
 					$lang_selected[$lang_prefix] = $lang_text;
 				}
@@ -920,118 +915,15 @@ class Context
 	 */
 	public static function loadLang($path)
 	{
-		global $lang;
-
-		if(!self::$_instance->lang_type)
+		if (preg_match('@/(modules|addons|plugins)/([a-z0-9_]+)/lang/?$@', str_replace('\\', '/', $path), $matches))
 		{
-			return;
-		}
-		if(!is_object($lang))
-		{
-			$lang = new stdClass;
-		}
-
-		if(!($filename = self::$_instance->_loadXmlLang($path)))
-		{
-			$filename = self::$_instance->_loadPhpLang($path);
-		}
-
-		if(!is_array(self::$_instance->loaded_lang_files))
-		{
-			self::$_instance->loaded_lang_files = array();
-		}
-		if(in_array($filename, self::$_instance->loaded_lang_files))
-		{
-			return;
-		}
-
-		if($filename && is_readable($filename))
-		{
-			self::$_instance->loaded_lang_files[] = $filename;
-			include($filename);
+			$plugin_name = $matches[2];
 		}
 		else
 		{
-			self::$_instance->_evalxmlLang($path);
+			$plugin_name = null;
 		}
-	}
-
-	/**
-	 * Evaluation of xml language file
-	 *
-	 * @param string Path of the language file
-	 * @return void
-	 */
-	public function _evalxmlLang($path)
-	{
-		global $lang;
-
-		if(!$path) return;
-
-		$_path = 'eval://' . $path;
-
-		if(in_array($_path, $this->loaded_lang_files))
-		{
-			return;
-		}
-
-		if(substr_compare($path, '/', -1) !== 0)
-		{
-			$path .= '/';
-		}
-
-		$oXmlLangParser = new XmlLangParser($path . 'lang.xml', $this->lang_type);
-		$content = $oXmlLangParser->getCompileContent();
-
-		if($content)
-		{
-			$this->loaded_lang_files[] = $_path;
-			eval($content);
-		}
-	}
-
-	/**
-	 * Load language file of xml type
-	 *
-	 * @param string $path Path of the language file
-	 * @return string file name
-	 */
-	public function _loadXmlLang($path)
-	{
-		if(!$path) return;
-
-		$oXmlLangParser = new XmlLangParser($path . ((substr_compare($path, '/', -1) !== 0) ? '/' : '') . 'lang.xml', $this->lang_type);
-		return $oXmlLangParser->compile();
-	}
-
-	/**
-	 * Load language file of php type
-	 *
-	 * @param string $path Path of the language file
-	 * @return string file name
-	 */
-	public function _loadPhpLang($path)
-	{
-		if(!$path) return;
-
-		if(substr_compare($path, '/', -1) !== 0)
-		{
-			$path .= '/';
-		}
-		$path_tpl = $path . '%s.lang.php';
-		$file = sprintf($path_tpl, $this->lang_type);
-
-		$langs = array('ko', 'en'); // this will be configurable.
-		while(!is_readable($file) && $langs[0])
-		{
-			$file = sprintf($path_tpl, array_shift($langs));
-		}
-
-		if(!is_readable($file))
-		{
-			return FALSE;
-		}
-		return $file;
+		return self::$_instance->lang->loadDirectory($path, $plugin_name);
 	}
 
 	/**
@@ -1069,15 +961,8 @@ class Context
 	 */
 	public static function getLang($code)
 	{
-		if(!$code)
-		{
-			return;
-		}
-		if($GLOBALS['lang']->{$code})
-		{
-			return $GLOBALS['lang']->{$code};
-		}
-		return $code;
+		$lang = self::$_instance->lang;
+		return isset($lang->{$code}) ? $lang->{$code} : $code;
 	}
 
 	/**
@@ -1089,11 +974,7 @@ class Context
 	 */
 	public static function setLang($code, $val)
 	{
-		if(!isset($GLOBALS['lang']))
-		{
-			$GLOBALS['lang'] = new stdClass;
-		}
-		$GLOBALS['lang']->{$code} = $val;
+		self::$_instance->lang->{$code} = $val;
 	}
 
 	/**
