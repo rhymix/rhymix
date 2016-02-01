@@ -67,13 +67,8 @@ class moduleController extends module
 	 * @param string $called_position
 	 * @param callable $callback_function
 	 */
-	function insertTriggerFunction($trigger_name, $called_position, $callback_function)
+	function addTriggerFunction($trigger_name, $called_position, $callback_function)
 	{
-		if(!isset($GLOBALS['__trigger_functions__']))
-		{
-			$GLOBALS['__trigger_functions__'] = array();
-		}
-		
 		$GLOBALS['__trigger_functions__'][$trigger_name][$called_position][] = $callback_function;
 		return true;
 	}
