@@ -1885,6 +1885,7 @@ class memberController extends member
 		$this->addMemberMenu( 'dispMemberScrappedDocument', 'cmd_view_scrapped_document');
 		$this->addMemberMenu( 'dispMemberSavedDocument', 'cmd_view_saved_document');
 		$this->addMemberMenu( 'dispMemberOwnDocument', 'cmd_view_own_document');
+		$this->addMemberMenu( 'dispMemberModifyNicknameLog', 'cmd_modify_nickname_log');
 	}
 
 	/**
@@ -2273,6 +2274,19 @@ class memberController extends member
 			$oDB->rollback();
 			return $output;
 		}
+		else
+		{
+			if($args->nick_name != $orgMemberInfo->nick_name && $config->update_nick_log == 'Y')
+			{
+				$log_args = new stdClass();
+				$log_args->member_srl = $args->member_srl;
+				$log_args->before_nick_name = $orgMemberInfo->nick_name;
+				$log_args->after_nick_name = $args->nick_name;
+				$log_args->user_id = $args->user_id;
+				$log_output = executeQuery('member.insertMemberModifyNickName', $log_args);
+				debugPrint($config);
+			}
+		}
 
 		if($args->group_srl_list)
 		{
@@ -2397,6 +2411,7 @@ class memberController extends member
 			$oDB->rollback();
 			return $output;
 		}
+		executeQuery('member.deleteMemberModifyNickNameLog', $args);
 
 		// TODO: If the table is not an upgrade may fail.
 		/*

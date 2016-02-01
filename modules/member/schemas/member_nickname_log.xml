@@ -1,0 +1,7 @@
+<table name="member_nickname_log">
+	<column name="member_srl" type="number" size="11" notnull="notnull" />
+	<column name="before_nick_name" type="varchar" size="80" notnull="notnull" />
+	<column name="after_nick_name" type="varchar" size="80" notnull="notnull" />
+	<column name="regdate" type="date" index="idx_regdate" />
+	<column name="user_id" type="varchar" size="80" />
+</table>

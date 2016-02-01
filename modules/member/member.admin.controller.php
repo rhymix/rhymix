@@ -162,7 +162,8 @@ class memberAdminController extends member
 			'password_strength',
 			'password_hashing_algorithm',
 			'password_hashing_work_factor',
-			'password_hashing_auto_upgrade'
+			'password_hashing_auto_upgrade',
+			'update_nickname_log'
 		);
 		
 		$oPassword = new Password();
