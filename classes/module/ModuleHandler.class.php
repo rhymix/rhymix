@@ -1207,9 +1207,9 @@ class ModuleHandler extends Handler
 
 		$oModuleModel = getModel('module');
 		$triggers = $oModuleModel->getTriggers($trigger_name, $called_position);
-		if(!$triggers || count($triggers) < 1)
+		if(!$triggers)
 		{
-			return new Object();
+			$triggers = array();
 		}
 		
 		//store before trigger call time
@@ -1250,6 +1250,17 @@ class ModuleHandler extends Handler
 				return $output;
 			}
 			unset($oModule);
+		}
+
+		$trigger_functions = $oModuleModel->getTriggerFunctions($trigger_name, $called_position);
+		foreach($trigger_functions as $item)
+		{
+			$item($obj);
+
+			if(is_object($output) && method_exists($output, 'toBool') && !$output->toBool())
+			{
+				return $output;
+			}
 		}
 
 		return new Object();
