@@ -1,0 +1,20 @@
+<?php
+$lang->poll = 'Опрос';
+$lang->poll_stop_date = 'Дата истечения';
+$lang->poll_join_count = 'Участников';
+$lang->poll_checkcount = 'Число полей выбора';
+$lang->cmd_poll_list = 'Просмотреть список опросов';
+$lang->cmd_delete_checked_poll = 'Удалить выбранные опросы';
+$lang->cmd_apply_poll = 'Применеть опрос';
+$lang->cmd_view_result = 'Предпросмотр результата';
+$lang->success_poll = 'Благодарим за присоединение к опросу.';
+$lang->msg_already_poll = 'Вы уже голосовали!';
+$lang->msg_poll_is_null = 'Пожалуйста, выберите опрос для удаления.';
+$lang->msg_checked_poll_is_deleted = '%d опросов удалено.';
+$lang->msg_check_poll_item = 'Пожалуйста, выберите ответ, чтобы проголосовать.\\n(Требуемые объекты могут различаться для каждого из опросов.)';
+$lang->msg_poll_not_exists = 'Выбранный опрос не существует.';
+$lang->cmd_null_item = 'Не выбран ответ для голосования. Пожалуйста, попробуйте еще.';
+$lang->confirm_poll_submit = 'Подтверждаете ли Вы размещение опроса?';
+$lang->search_poll_target_list['title'] = 'Заголовок';
+$lang->search_poll_target_list['regdate'] = 'Дата Размещения';
+$lang->search_poll_target_list['ipaddress'] = 'IP-адрес';

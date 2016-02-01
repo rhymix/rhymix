@@ -1,0 +1,17 @@
+<?php
+$lang->integration_search = 'Integrated Search';
+$lang->sample_code = 'Sample Code';
+$lang->about_target_module = 'Only chosen pages are the target. Please be careful on setting the permissions.';
+$lang->about_sample_code = 'You can use integrated search by adding the above code in the layout or other things.';
+$lang->msg_no_keyword = 'Please enter keyword to search';
+$lang->msg_document_more_search = 'Click \'Search Next\' button to keep searching.';
+$lang->msg_not_enabled = 'The integrated search is not available.';
+$lang->msg_admin_not_enabled = 'The integrated search is not available. Please select a target module in integrated search settings.';
+$lang->is_result_text = 'There are <strong>%d</strong> result(s) for <strong>\'%s\'</strong>';
+$lang->multimedia = 'Images/Video';
+$lang->include_search_target = 'Search for selected modules';
+$lang->exclude_search_target = 'Exclude selected modules from search';
+$lang->is_sort_option['regdate'] = 'Registered Date';
+$lang->is_sort_option['comment_count'] = 'Number of Comments';
+$lang->is_sort_option['readed_count'] = 'Number of Hits';
+$lang->is_sort_option['voted_count'] = 'Number of Votes';

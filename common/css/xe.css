@@ -63,14 +63,16 @@ a img {
 /* Popup Menu Area */
 #popup_menu_area {
 	position: absolute;
+	z-index:9999;
 	margin: 10px 0;
-	padding: 10px;
-	border: 1px solid #e9e9e9;
-	border-radius: 3px;
+	padding: 0;
+	border: 1px solid #eeeeee;
+	border-radius: 2px;
 	font-size: 12px;
-	box-shadow: 0 0 6px #666;
-	filter: progid: DXImageTransform.Microsoft.Shadow(color=#999999,direction=135, strength=5);
+	box-shadow: 0 10px 20px rgba(0,0,0,0.19), 0 6px 6px rgba(0,0,0,0.23);
 	background: #fff;
+	min-width:80px;
+	outline:none;
 }
 #popup_menu_area ul {
 	margin: 0;
@@ -80,20 +82,31 @@ a img {
 #popup_menu_area li {
 	margin: 0;
 	padding: 0;
-	line-height: 1.25;
+	line-height: 1.5;
 }
 #popup_menu_area a {
 	display: block;
-	padding: 1px 3px;
-	border-radius: 2px;
+	padding: 5px;
 	text-decoration: none;
-	color: #333;
+	color: #212121;
 }
 #popup_menu_area a:hover,
 #popup_menu_area a:active,
 #popup_menu_area a:focus {
-	color: #fff;
-	background: #666;
+	background: #eeeeee;
+}
+@media screen and (max-width: 400px) {
+	#popup_menu_area {
+		min-width:120px;
+		max-width:95%;
+		font-size: 13px;
+	}
+	#popup_menu_area a {
+		display: block;
+		padding: 10px;
+		text-decoration: none;
+		color: #212121;
+	}
 }
 
 /* Message */

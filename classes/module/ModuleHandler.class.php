@@ -1132,7 +1132,10 @@ class ModuleHandler extends Handler
 			}
 
 			// Load language files for the class
-			Context::loadLang($class_path . 'lang');
+			if($module !== 'module')
+			{
+				Context::loadLang($class_path . 'lang');
+			}
 			if($extend_module)
 			{
 				Context::loadLang(ModuleHandler::getModulePath($parent_module) . 'lang');

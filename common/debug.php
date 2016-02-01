@@ -110,6 +110,25 @@ if(!defined('__LOG_SLOW_WIDGET__'))
 }
 
 /**
+ * output comments of the slowlog files
+ *
+ * 0: No limit (not recommended)
+ * 1: Allow only specified IP addresses
+ */
+if(!defined('__LOG_SLOW_PROTECT__'))
+{
+	define('__LOG_SLOW_PROTECT__', 1);
+}
+
+/**
+ * Set a ip address to allow slowlog
+ */
+if(!defined('__LOG_SLOW_PROTECT_IP__'))
+{
+	define('__LOG_SLOW_PROTECT_IP__', '127.0.0.1');
+}
+
+/**
  * Leave DB query information
  *
  * 0: Do not add information to the query

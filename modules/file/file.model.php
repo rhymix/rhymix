@@ -35,6 +35,7 @@ class fileModel extends file
 		{
 			$tmp_files = $this->getFiles($upload_target_srl);
 			$file_count = count($tmp_files);
+			$files = array();
 
 			for($i=0;$i<$file_count;$i++)
 			{

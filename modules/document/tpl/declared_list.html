@@ -46,7 +46,7 @@ xe.lang.msg_empty_search_keyword = '{$lang->msg_empty_search_keyword}';
 			<tr loop="$document_list => $no,$oDocument">
 				<td class="title"><a href="{getUrl('','document_srl',$oDocument->document_srl)}" target="_blank">{$oDocument->getTitle()}</a></td>
 				<td class="nowr"><a href="#popup_menu_area" class="member_{$oDocument->get('member_srl')}">{$oDocument->getNickName()}</a></td>
-				<td class="nowr">{$oDocument->get('declared_count')}</td>
+				<td class="nowr">{$oDocument->get('declared_count')} (<a href="{getUrl('', 'act', 'dispDocumentAdminDeclaredLogByDocumentSrl', 'target_srl',$oDocument->document_srl)}" onclick="popopen(this.href, 'admin_popup');return false">{$lang->improper_document_declare_reason}</a>)</td>
 				<td class="nowr">{$oDocument->get('readed_count')}</td>
 				<td class="nowr">{$oDocument->get('voted_count')}/{$oDocument->get('blamed_count')}</td>
 				<td class="nowr">{$oDocument->getRegdate("Y-m-d H:i")}</td>

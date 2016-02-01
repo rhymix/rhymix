@@ -4,7 +4,7 @@
  * Copyright 2001-2005 Michael Foster (Cross-Browser.com)
  **/
 function xDeprecate(funcName) {
-	var msg = 'DEPRECATED : '+funcName+'() is deprecated function.';
+	var msg = 'DEPRECATED : '+funcName+'() is deprecated in Rhymix.';
 	if (typeof console == 'object' && typeof console.log == 'function') {
 		console.log(msg);
 	}

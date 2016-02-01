@@ -77,6 +77,13 @@
 			<label class="x_inline" for="deny"><input type="radio" name="denied" id="deny" value="Y" checked="checked"|cond="$member_info->denied == 'Y'" > {$lang->denied}</label>
 		</div>
 	</div>
+	<div class="x_control-group div_refused_reason">
+		<label class="x_control-label">{$lang->refused_reason}</label>
+		<div class="x_controls">
+			<textarea name="refused_reason" id="refused_reason" rows="2" cols="42" style="vertical-align:top">{$member_info->refused_reason}</textarea>
+			<span class="x_help-inline">{$lang->about_refused_reason}</span>
+		</div>
+	</div>
 	<div class="x_control-group" cond="$member_srl">
 		<label class="x_control-label" for="until">{$lang->limit_date}</label>
 		<div class="x_controls">
@@ -116,16 +123,32 @@
 </form>
 <script>
 (function($){
-    $(function(){
-        var option = { changeMonth: true, changeYear: true, gotoCurrent: false,yearRange:'-100:+10', dateFormat:'yy-mm-dd', onSelect:function(){
-            $(this).prev('input[type="hidden"]').val(this.value.replace(/-/g,""))}
-        };
-        $.extend(option,$.datepicker.regional['{$lang_type}']);
-        $(".inputDate").datepicker(option);
+	$(function(){
+		var option = { changeMonth: true, changeYear: true, gotoCurrent: false,yearRange:'-100:+10', dateFormat:'yy-mm-dd', onSelect:function(){
+			$(this).prev('input[type="hidden"]').val(this.value.replace(/-/g,""))}
+		};
+		$.extend(option,$.datepicker.regional['{$lang_type}']);
+		$(".inputDate").datepicker(option);
 		$(".dateRemover").click(function() {
 			$(this).prevAll('input').val('');
 			return false;
 		});
     });
+
+	var refused_reason_division = $('.div_refused_reason');
+	if(!$('#deny').is(':checked'))
+	{
+		refused_reason_division.hide();
+	}
+	$('#deny').change(function(){
+		if($(this).is(':checked')){
+			refused_reason_division.slideDown(200);
+		}
+	});
+	$('#appoval').change(function(){
+		if($(this).is(':checked')){
+			refused_reason_division.slideUp(200);
+		}
+	});
 })(jQuery);
 </script>

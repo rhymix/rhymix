@@ -514,8 +514,8 @@ class documentModel extends document
 			}
 
 			// Adding Report
-			$url = sprintf("doCallModuleAction('document','procDocumentDeclare','%s')", $document_srl);
-			$oDocumentController->addDocumentPopupMenu($url,'cmd_declare','','javascript');
+			$url = getUrl('', 'act', 'dispDocumentDeclare', 'target_srl', $document_srl);
+			$oDocumentController->addDocumentPopupMenu($url,'cmd_declare','','popup');
 
 			// Add Bookmark button
 			$url = sprintf("doCallModuleAction('member','procMemberScrapDocument','%s')", $document_srl);

@@ -1,11 +1,12 @@
 <query id="insertDocumentDeclaredLog" action="insert">
-    <tables>
-        <table name="document_declared_log" />
-    </tables>
-    <columns>
-        <column name="document_srl" var="document_srl" filter="number" default="0" notnull="notnull" />
-        <column name="member_srl" var="member_srl" filter="number" default="0" />
-        <column name="ipaddress" var="ipaddress" default="ipaddress()" />
-        <column name="regdate" var="regdate" default="curdate()" />
-    </columns>
+	<tables>
+		<table name="document_declared_log" />
+	</tables>
+	<columns>
+		<column name="document_srl" var="document_srl" filter="number" default="0" notnull="notnull" />
+		<column name="member_srl" var="member_srl" filter="number" default="0" />
+		<column name="ipaddress" var="ipaddress" default="ipaddress()" />
+		<column name="declare_message" var="declare_message" />
+		<column name="regdate" var="regdate" default="curdate()" />
+	</columns>
 </query>
