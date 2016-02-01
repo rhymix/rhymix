@@ -63,7 +63,11 @@ class Lang
 			return true;
 		}
 		
-		if (file_exists(RX_BASEDIR . "plugins/$name/lang"))
+		if ($name === 'common')
+		{
+			$this->loadDirectory(RX_BASEDIR . 'common/lang', 'common');
+		}
+		elseif (file_exists(RX_BASEDIR . "plugins/$name/lang"))
 		{
 			$this->loadDirectory(RX_BASEDIR . "plugins/$name/lang", $name);
 		}
