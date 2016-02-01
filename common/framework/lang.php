@@ -130,6 +130,8 @@ class Lang
 		}
 		else
 		{
+			$this->_loaded_directories[$dir] = true;
+			$this->_loaded_plugins[$plugin_name] = new \stdClass;
 			return false;
 		}
 	}
@@ -281,6 +283,10 @@ class Lang
 		if (($keys = explode('.', $key, 2)) && count($keys) === 2)
 		{
 			list($plugin_name, $key) = $keys;
+			if (!isset($this->_loaded_plugins[$plugin_name]))
+			{
+				$this->loadPlugin($plugin_name);
+			}
 			if (isset($this->_loaded_plugins[$plugin_name]->{$key}))
 			{
 				return $this->_loaded_plugins[$plugin_name]->{$key};
