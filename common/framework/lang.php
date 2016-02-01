@@ -257,10 +257,40 @@ class Lang
 	}
 	
 	/**
+	 * Generic getter.
+	 * 
+	 * @param string $key
+	 * @return string
+	 */
+	public function get($key)
+	{
+		$args = func_get_args();
+		array_shift($args);
+		return $this->__call($key, $args);
+	}
+	
+	/**
 	 * Magic method for translations without arguments.
+	 * 
+	 * @param string $key
+	 * @return string
 	 */
 	public function __get($key)
 	{
+		// Separate the plugin name from the key.
+		if (($keys = explode('.', $key, 2)) && count($keys) === 2)
+		{
+			list($plugin_name, $key) = $keys;
+			if (isset($this->_loaded_plugins[$plugin_name]->{$key}))
+			{
+				return $this->_loaded_plugins[$plugin_name]->{$key};
+			}
+			else
+			{
+				return $key;
+			}
+		}
+		
 		// Search custom translations first.
 		if (isset($this->_loaded_plugins['_custom_']->{$key}))
 		{
@@ -334,7 +364,7 @@ class Lang
 	 * @param mixed $args
 	 * @return string|null
 	 */
-	public function __call($key, $args)
+	public function __call($key, $args = array())
 	{
 		// Remove a colon from the beginning of the string.
 		if ($key !== '' && $key[0] === ':') $key = substr($key, 1);
@@ -343,11 +373,6 @@ class Lang
 		$translation = $this->__get($key);
 		
 		// If there are no arguments, return the translation.
-		if (!is_array($args))
-		{
-			$args = func_get_args();
-			array_shift($args);
-		}
 		if (!count($args)) return $translation;
 		
 		// If there are arguments, interpolate them into the translation and return the result.
