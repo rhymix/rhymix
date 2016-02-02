@@ -2284,7 +2284,6 @@ class memberController extends member
 				$log_args->after_nick_name = $args->nick_name;
 				$log_args->user_id = $args->user_id;
 				$log_output = executeQuery('member.insertMemberModifyNickName', $log_args);
-				debugPrint($config);
 			}
 		}
 

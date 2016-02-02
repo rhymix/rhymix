@@ -1,0 +1,18 @@
+<include target="./common_header.html" />
+<div class="xm">
+	<h2 class="hx h2">{$member_title = $lang->cmd_modify_nickname_log}</h2>
+	<ul class="lt">
+		<li loop="$nickname_list => $val">
+			{zdate($val->regdate, "Y-m-d")}
+			<span class="before-color">{$val->before_nick_name}</span>
+			<span class="after-color">{$val->after_nick_name}</span>
+		</li>
+	</ul>
+	<div class="pn">
+		<a cond="$page != 1" href="{getUrl('page',$page-1,'module_srl','')}" class="prev">{$lang->cmd_prev}</a>
+		<strong>{$page} / {$page_navigation->last_page}</strong>
+		<a cond="$page != $page_navigation->last_page" href="{getUrl('page',$page+1,'module_srl','')}" class="next">{$lang->cmd_next}</a>
+	</div>
+</div>
+
+<include target="./common_footer.html" />
