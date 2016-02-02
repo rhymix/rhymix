@@ -696,11 +696,17 @@ class memberView extends member
 	function dispMemberModifyNicknameLog()
 	{
 		$member_srl = Context::get('member_srl');
-
+		$logged_info = Context::get('logged_info');
 		if(!$member_srl)
 		{
-			$logged_info = Context::get('logged_info');
 			$member_srl = $logged_info->member_srl;
+		}
+		else
+		{
+			if($logged_info->is_admin != 'Y')
+			{
+				return new Object(-1, 'msg_not_permitted');
+			}
 		}
 
 		$args = new stdClass();
