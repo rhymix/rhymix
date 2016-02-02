@@ -92,6 +92,29 @@ class IpFilter
 	}
 	
 	/**
+	 * Get real IP from CloudFlare headers.
+	 * 
+	 * @return string|false
+	 */
+	public static function getCloudFlareRealIP()
+	{
+		if (!isset($_SERVER['HTTP_CF_CONNECTING_IP']))
+		{
+			return false;
+		}
+		
+		$cloudflare_ranges = (include RX_BASEDIR . 'common/defaults/cloudflare.php');
+		foreach ($cloudflare_ranges as $cloudflare_range)
+		{
+			if (self::inRange($_SERVER['REMOTE_ADDR'], $cloudflare_range))
+			{
+				return $_SERVER['REMOTE_ADDR'] = $_SERVER['HTTP_CF_CONNECTING_IP'];
+			}
+		}
+		return false;
+	}
+	
+	/**
 	 * Check whether the given IPv4 address belongs to a IPv4 CIDR range with mask.
 	 * 
 	 * Example: 172.16.0.0/12
