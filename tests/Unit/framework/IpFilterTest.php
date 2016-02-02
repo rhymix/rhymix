@@ -56,4 +56,22 @@ class IpFilterTest extends \Codeception\TestCase\Test
 		$this->assertTrue(\IpFilter::filter(array('192.168.*'), '192.168.134.241'));
 		$this->assertFalse(\IpFilter::filter(array('127.0.0.1'), '192.168.134.241'));
 	}
+	
+	public function testCloudFlareRealIP()
+	{
+		$_SERVER['HTTP_CF_CONNECTING_IP'] = '192.168.134.241';
+		
+		$_SERVER['REMOTE_ADDR'] = '192.168.10.1';
+		$this->assertFalse(Rhymix\Framework\IpFilter::getCloudFlareRealIP());
+		$this->assertEquals('192.168.10.1', $_SERVER['REMOTE_ADDR']);
+		
+		$_SERVER['REMOTE_ADDR'] = '108.162.192.121';
+		$this->assertEquals('192.168.134.241', Rhymix\Framework\IpFilter::getCloudFlareRealIP());
+		$this->assertEquals('192.168.134.241', $_SERVER['REMOTE_ADDR']);
+		
+		unset($_SERVER['HTTP_CF_CONNECTING_IP']);
+		$_SERVER['REMOTE_ADDR'] = '192.168.10.1';
+		$this->assertFalse(Rhymix\Framework\IpFilter::getCloudFlareRealIP());
+		$this->assertEquals('192.168.10.1', $_SERVER['REMOTE_ADDR']);
+	}
 }
