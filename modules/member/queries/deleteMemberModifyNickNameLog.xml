@@ -3,6 +3,6 @@
 		<table name="member_nickname_log" />
 	</tables>
 	<conditions>
-		<condition operation="equal" column="member_srl" var="member_srl" notnull="notnull" filter="number" />
+		<condition operation="equal" column="member_srl" var="member_srl" filter="number" notnull="notnull" />
 	</conditions>
 </query>
