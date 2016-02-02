@@ -51,6 +51,11 @@ else
 /**
  * RX_CLIENT_IP_VERSION and RX_CLIENT_IP contain information about the current visitor's IP address.
  */
+if (isset($_SERVER['HTTP_CF_CONNECTING_IP']))
+{
+	include_once __DIR__ . '/framework/ipfilter.php';
+	Rhymix\Framework\IpFilter::getCloudFlareRealIP();
+}
 if (isset($_SERVER['REMOTE_ADDR']) && preg_match('/[0-9]+\.[0-9]+\.[0-9]+\.[0-9]+$/', $_SERVER['REMOTE_ADDR'], $matches))
 {
     define('RX_CLIENT_IP_VERSION', 4);
