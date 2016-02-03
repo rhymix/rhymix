@@ -28,6 +28,17 @@ class Config
 			self::$_config = self::convert();
 			self::save();
 		}
+		return self::$_config;
+	}
+	
+	/**
+	 * Get all system configuration.
+	 * 
+	 * @return array
+	 */
+	public static function getAll()
+	{
+		return self::$_config;
 	}
 	
 	/**
@@ -42,18 +53,15 @@ class Config
 		{
 			self::init();
 		}
-		$data = &self::$_config;
+		$data = self::$_config;
 		$key = explode('.', $key);
 		foreach ($key as $step)
 		{
-			if (isset($data[$step]))
-			{
-				$data = &$data[$step];
-			}
-			else
+			if ($key === '' || !isset($data[$step]))
 			{
 				return null;
 			}
+			$data = $data[$step];
 		}
 		return $data;
 	}
@@ -273,7 +281,15 @@ class Config
 		$config['lock']['locked'] = $db_info->use_sitelock === 'Y' ? true : false;
 		$config['lock']['title'] = strval($db_info->sitelock_title);
 		$config['lock']['message'] = strval($db_info->sitelock_message);
-		$config['lock']['allow'] = is_array($db_info->sitelock_whitelist) ? array_values($db_info->sitelock_whitelist) : array();
+		if (!is_array($db_info->sitelock_whitelist))
+		{
+			$db_info->sitelock_whitelist = array_map('trim', explode(',', trim($db_info->sitelock_whitelist)));
+		}
+		if (!in_array('127.0.0.1', $db_info->sitelock_whitelist))
+		{
+			$db_info->sitelock_whitelist[] = '127.0.0.1';
+		}
+		$config['lock']['allow'] = array_values($db_info->sitelock_whitelist);
 		
 		// Convert debug configuration.
 		$config['debug']['enabled'] = true;
