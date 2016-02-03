@@ -714,7 +714,7 @@ class moduleModel extends module
 	 */
 	function loadModuleExtends()
 	{
-		$cache_file = './files/config/module_extend.php';
+		$cache_file = './files/cache/common/module_extend.php';
 		$cache_file = FileHandler::getRealPath($cache_file);
 
 		if(!isset($GLOBALS['__MODULE_EXTEND__']))

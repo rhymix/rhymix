@@ -167,7 +167,7 @@ class moduleController extends module
 		if(!in_array($type,array('model','controller','view','api','mobile'))) return false;
 		if(in_array($parent_module, array('module','addon','widget','layout'))) return false;
 
-		$cache_file = './files/config/module_extend.php';
+		$cache_file = './files/cache/common/module_extend.php';
 		FileHandler::removeFile($cache_file);
 
 		$args = new stdClass;
@@ -189,7 +189,7 @@ class moduleController extends module
 	 */
 	function deleteModuleExtend($parent_module, $extend_module, $type, $kind='')
 	{
-		$cache_file = './files/config/module_extend.php';
+		$cache_file = './files/cache/common/module_extend.php';
 		FileHandler::removeFile($cache_file);
 
 		$args = new stdClass;
