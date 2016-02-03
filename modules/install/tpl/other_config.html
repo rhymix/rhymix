@@ -42,7 +42,7 @@
 			<label for="time_zone" class="x_control-label">{$lang->time_zone}</label>
 			<div class="x_controls">
 				<select name="time_zone" style="width:100%">
-					<option loop="$time_zone => $key,$val" id="{$key}" value="{$key}" selected="selected"|cond="$key==date('O')">{$val}</option>
+					<option loop="$timezones => $key,$val" value="{$key}" selected="selected"|cond="$key==$selected_timezone">{$val}</option>
 				</select>
 			</div>
 		</div>

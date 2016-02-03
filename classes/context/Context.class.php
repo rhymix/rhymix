@@ -289,11 +289,11 @@ class Context
 			$this->lang_type = $this->db_info->lang_type;
 		}
 		
-		if(!$this->lang_type || !in_array($this->lang_type, $enabled_langs))
+		if(!$this->lang_type || !isset($enabled_langs[$this->lang_type]))
 		{
 			$this->lang_type = 'ko';
 		}
-		
+
 		self::setLangType($this->lang_type);
 		
 		$this->lang = Rhymix\Framework\Lang::getInstance($this->lang_type);

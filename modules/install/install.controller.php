@@ -157,15 +157,22 @@ class installController extends install
 		$config['locale']['enabled_lang'] = array($config['locale']['default_lang']);
 		
 		// Set the internal and default time zones.
-		$user_timezone = intval(get_time_zone_offset($time_zone ?: '+0900') / 3600);
-		switch ($user_timezone)
+		if (strpos($time_zone, '/') !== false)
 		{
-			case 9:
-				$config['locale']['default_timezone'] = 'Asia/Seoul'; break;
-			case 0:
-				$config['locale']['default_timezone'] = 'Etc/UTC'; break;
-			default:
-				$config['locale']['default_timezone'] = 'Etc/GMT' . ($user_timezone > 0 ? '-' : '+') . abs($user_timezone);
+			$config['locale']['default_timezone'] = $time_zone;
+		}
+		else
+		{
+			$user_timezone = intval(get_time_zone_offset($time_zone ?: '+0900') / 3600);
+			switch ($user_timezone)
+			{
+				case 9:
+					$config['locale']['default_timezone'] = 'Asia/Seoul'; break;
+				case 0:
+					$config['locale']['default_timezone'] = 'Etc/UTC'; break;
+				default:
+					$config['locale']['default_timezone'] = 'Etc/GMT' . ($user_timezone > 0 ? '-' : '+') . abs($user_timezone);
+			}
 		}
 		$config['locale']['internal_timezone'] = intval(date('Z'));
 		

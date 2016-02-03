@@ -145,10 +145,41 @@ class installView extends install
 			return $this->dispInstallCheckEnv();
 		}
 		
-		Context::set('use_rewrite', $_SESSION['use_rewrite']);
+		// Get list of time zones.
+		$timezones = DateTimeZone::listIdentifiers();
+		natcasesort($timezones);
+		$timezones = array_combine($timezones, $timezones);
+		Context::set('timezones', $timezones);
+		
+		// Automatically select a time zone for the user.
+		Context::set('selected_timezone', $this->detectUserTimeZone());
+		
+		// Always use SSL if installing via SSL.
 		Context::set('use_ssl', RX_SSL ? 'always' : 'none');
-		Context::set('time_zone', $GLOBALS['time_zone']);
 		$this->setTemplateFile('other_config');
+	}
+	
+	/**
+	 * Detect best time zone for the user.
+	 */
+	function detectUserTimeZone()
+	{
+		switch (Context::getLangType())
+		{
+			case 'ko': return 'Asia/Seoul';
+			case 'en': return 'Europe/London';
+			case 'ja': return 'Asia/Tokyo';
+			case 'zh-CN': return 'Asia/Shanghai';
+			case 'zh-TW': return 'Asia/Taipei';
+			case 'de': return 'Europe/Berlin';
+			case 'es': return 'Europe/Madrid';
+			case 'fr': return 'Europe/Paris';
+			case 'mn': return 'Asia/Ulaanbaatar';
+			case 'ru': return 'Europe/Moscow';
+			case 'tr': return 'Europe/Istanbul';
+			case 'vi': return 'Asia/Ho_Chi_Minh';
+			default: return 'UTC';
+		}
 	}
 }
 /* End of file install.view.php */
