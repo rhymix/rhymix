@@ -242,49 +242,33 @@ class Context
 			self::enforceSiteLock();
 		}
 
-		// If XE is installed, get virtual site information
+		// If Rhymix is installed, get virtual site information.
 		if(self::isInstalled())
 		{
 			$oModuleModel = getModel('module');
-			$site_module_info = $oModuleModel->getDefaultMid();
-
-			if(!isset($site_module_info))
-			{
-				$site_module_info = new stdClass;
-			}
-
+			$site_module_info = $oModuleModel->getDefaultMid() ?: new stdClass;
+			
 			// if site_srl of site_module_info is 0 (default site), compare the domain to default_url of db_config
 			if($site_module_info->site_srl == 0 && $site_module_info->domain != $this->db_info->default_url)
 			{
 				$site_module_info->domain = $this->db_info->default_url;
 			}
-
+			
 			self::set('site_module_info', $site_module_info);
 			if($site_module_info->site_srl && isSiteID($site_module_info->domain))
 			{
 				self::set('vid', $site_module_info->domain, TRUE);
 			}
-
-			if(!isset($this->db_info))
-			{
-				$this->db_info = new stdClass;
-			}
-
-			$this->db_info->lang_type = $site_module_info->default_language;
-			if(!$this->db_info->lang_type)
-			{
-				$this->db_info->lang_type = 'ko';
-			}
-			if(!$this->db_info->use_db_session)
-			{
-				$this->db_info->use_db_session = 'N';
-			}
+		}
+		else
+		{
+			$site_module_info = new stdClass;
 		}
 
-		// Load Language File
-		$lang_supported = self::loadLangSelected();
-
-		// Retrieve language type set in user's cookie
+		// Load language support.
+		$enabled_langs = self::loadLangSelected();
+		self::set('lang_supported', $enabled_langs);
+		
 		if($this->lang_type = self::get('l'))
 		{
 			if($_COOKIE['lang_type'] != $this->lang_type)
@@ -296,31 +280,26 @@ class Context
 		{
 			$this->lang_type = $_COOKIE['lang_type'];
 		}
-
-		// If it's not exists, follow default language type set in db_info
-		if(!$this->lang_type)
+		elseif($site_module_info->default_language)
+		{
+			$this->lang_type = $this->db_info->lang_type = $site_module_info->default_language;
+		}
+		else
 		{
 			$this->lang_type = $this->db_info->lang_type;
 		}
-
-		// if still lang_type has not been set or has not-supported type , set as Korean.
-		if(!$this->lang_type)
+		
+		if(!$this->lang_type || !in_array($this->lang_type, $enabled_langs))
 		{
 			$this->lang_type = 'ko';
 		}
-		if(is_array($lang_supported) && !isset($lang_supported[$this->lang_type]))
-		{
-			$this->lang_type = 'ko';
-		}
-
-		self::set('lang_supported', $lang_supported);
+		
 		self::setLangType($this->lang_type);
-
-		// Load languages
+		
 		$this->lang = Rhymix\Framework\Lang::getInstance($this->lang_type);
 		$this->lang->loadDirectory(RX_BASEDIR . 'common/lang', 'common');
 		$this->lang->loadDirectory(RX_BASEDIR . 'modules/module/lang', 'module');
-
+		
 		// set session handler
 		if(self::isInstalled() && $this->db_info->use_db_session == 'Y')
 		{
