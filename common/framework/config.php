@@ -25,8 +25,10 @@ class Config
 		}
 		else
 		{
-			self::$_config = self::convert();
-			self::save();
+			if (self::$_config = self::convert())
+			{
+				self::save();
+			}
 		}
 		return self::$_config;
 	}
