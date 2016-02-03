@@ -44,6 +44,16 @@ class Config
 	}
 	
 	/**
+	 * Get default system configuration.
+	 * 
+	 * @return array
+	 */
+	public static function getDefaults()
+	{
+		return (include RX_BASEDIR . 'common/defaults/config.php');
+	}
+	
+	/**
 	 * Get a system configuration value.
 	 * 
 	 * @param string $key
@@ -332,15 +342,13 @@ class Config
 	/**
 	 * Save the current system configuration.
 	 * 
+	 * @param array $config (optional)
 	 * @return bool
 	 */
-	public static function save()
+	public static function save($config = null)
 	{
-		if (!count(self::$_config))
-		{
-			self::init();
-		}
-		$buff = '<?php' . "\n" . '// Rhymix System Configuration' . "\n" . 'return ' . self::serialize(self::$_config) . ';' . "\n";
+		$config = ($config === null) ? self::$_config : $config;
+		$buff = '<?php' . "\n" . '// Rhymix System Configuration' . "\n" . 'return ' . self::serialize($config) . ';' . "\n";
 		return \FileHandler::writeFile(RX_BASEDIR . 'files/config/config.php', $buff) ? true : false;
 	}
 	

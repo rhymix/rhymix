@@ -487,11 +487,14 @@ class Context
 	 *
 	 * @return void
 	 */
-	public static function loadDBInfo()
+	public static function loadDBInfo($config = null)
 	{
 		// Load new configuration format.
-		$config = Rhymix\Framework\Config::init();
-		if(!count($config))
+		if ($config === null)
+		{
+			$config = Rhymix\Framework\Config::init();
+		}
+		if (!count($config))
 		{
 			return;
 		}
@@ -620,9 +623,16 @@ class Context
 		{
 			$supported = Rhymix\Framework\Lang::getSupportedList();
 			$selected = Rhymix\Framework\Config::get('locale.enabled_lang');
-			foreach ($selected as $lang)
+			if ($selected)
 			{
-				$lang_selected[$lang] = $supported[$lang];
+				foreach ($selected as $lang)
+				{
+					$lang_selected[$lang] = $supported[$lang];
+				}
+			}
+			else
+			{
+				$lang_selected = $supported;
 			}
 		}
 		return $lang_selected;

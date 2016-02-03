@@ -8,7 +8,7 @@
 		</div>
 		<input type="hidden" value="{$error_return_url}" name="error_return_url">
 		<input type="hidden" name="module" value="{$module}" />
-		<input type="hidden" name="act" value="procDBSetting" />
+		<input type="hidden" name="act" value="procDBConfig" />
 		<div class="x_control-group">
 			<label for="db_type" class="x_control-label">{$lang->db_type}</label>
 			<div class="x_controls">
@@ -27,28 +27,28 @@
 		</div>
 		<p loop="DB::getEnableList() => $key,$val" class="install_help db_type db_type_{$val->db_type}">{$lang->db_desc[$val->db_type]}</p>
 		<div class="x_control-group">
-			<label for="dbHostName" class="x_control-label">{$lang->db_hostname}</label>
-			<div class="x_controls"><input name="db_hostname" value="localhost" type="text" id="dbHostName" required /></div>
+			<label for="db_host" class="x_control-label">{$lang->db_hostname}</label>
+			<div class="x_controls"><input name="db_host" value="localhost" type="text" id="db_host" required /></div>
 		</div>
 		<div class="x_control-group">
-			<label for="dbPort" class="x_control-label">{$lang->db_port}</label>
-			<div class="x_controls"><input name="db_port" value="3306" type="text" id="dbPort" required /></div>
+			<label for="db_port" class="x_control-label">{$lang->db_port}</label>
+			<div class="x_controls"><input name="db_port" value="3306" type="text" id="db_port" required /></div>
 		</div>
 		<div class="x_control-group">
-			<label for="dbId" class="x_control-label">{$lang->db_userid}</label>
-			<div class="x_controls"><input name="db_userid" type="text" id="dbId" class="focus" required /></div>
+			<label for="db_user" class="x_control-label">{$lang->db_userid}</label>
+			<div class="x_controls"><input name="db_user" type="text" id="db_user" class="focus" required /></div>
 		</div>
 		<div class="x_control-group">
-			<label for="dbPw" class="x_control-label">{$lang->db_password}</label>
-			<div class="x_controls"><input name="db_password" type="password" id="dbPw" required /></div>
+			<label for="db_pass" class="x_control-label">{$lang->db_password}</label>
+			<div class="x_controls"><input name="db_pass" type="password" id="db_pass" required /></div>
 		</div>
 		<div class="x_control-group">
-			<label for="dbName" class="x_control-label">{$lang->db_name}</label>
-			<div class="x_controls"><input name="db_database" type="text" id="dbName" required /></div>
+			<label for="db_database" class="x_control-label">{$lang->db_name}</label>
+			<div class="x_controls"><input name="db_database" type="text" id="db_database" required /></div>
 		</div>
 		<div class="x_control-group">
-			<label for="dbPrefix" class="x_control-label">{$lang->db_table_prefix}</label>
-			<div class="x_controls"><input name="db_table_prefix" type="text" id="dbPrefix" value="rx" required /></div>
+			<label for="db_prefix" class="x_control-label">{$lang->db_table_prefix}</label>
+			<div class="x_controls"><input name="db_prefix" type="text" id="db_prefix" value="rx" required /></div>
 		</div>
 		<p class="install_help">
 			{$lang->db_info_desc}<br />{$lang->db_prefix_desc}
