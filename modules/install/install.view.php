@@ -146,10 +146,7 @@ class installView extends install
 		}
 		
 		// Get list of time zones.
-		$timezones = DateTimeZone::listIdentifiers();
-		natcasesort($timezones);
-		$timezones = array_combine($timezones, $timezones);
-		Context::set('timezones', $timezones);
+		Context::set('timezones', Rhymix\Framework\DateTime::getTimezoneList());
 		
 		// Automatically select a time zone for the user.
 		Context::set('selected_timezone', $this->detectUserTimeZone());

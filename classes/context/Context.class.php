@@ -10,7 +10,7 @@
 class Context
 {
 	/**
-	 * Allow rewrite
+	 * Allow rewritel
 	 * @var bool TRUE: using rewrite mod, FALSE: otherwise
 	 */
 	public $allow_rewrite = FALSE;
@@ -532,7 +532,6 @@ class Context
 		$db_info->time_zone = sprintf('%s%02d%02d', $db_info->time_zone >= 0 ? '+' : '-', abs($db_info->time_zone) / 3600, (abs($db_info->time_zone) % 3600 / 60));
 		$GLOBALS['_time_zone'] = $db_info->time_zone;
 		$GLOBALS['_time_zone_offset'] = $config['locale']['internal_timezone'];
-		$GLOBALS['_qmail_compatibility'] = 'N';
 		$db_info->delay_session = $config['session']['delay'] ? 'Y' : 'N';
 		$db_info->use_db_session = $config['session']['use_db'] ? 'Y' : 'N';
 		$db_info->minify_scripts = $config['view']['minify_scripts'] ? 'Y' : 'N';
@@ -547,7 +546,13 @@ class Context
 		$db_info->use_prepared_statements = $config['use_prepared_statements'] ? 'Y' : 'N';
 		$db_info->use_rewrite = $config['use_rewrite'] ? 'Y' : 'N';
 		$db_info->use_sso = $config['use_sso'] ? 'Y' : 'N';
+		
+		// Save old format to Context instance.
 		self::$_instance->db_info = $db_info;
+		
+		// Set the internal timezone.
+		$internal_timezone = Rhymix\Framework\DateTime::getTimezoneNameByOffset($config['locale']['internal_timezone']);
+		date_default_timezone_set($internal_timezone);
 	}
 
 	/**

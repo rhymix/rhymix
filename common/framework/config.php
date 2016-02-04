@@ -257,15 +257,13 @@ class Config
 		$config['locale']['enabled_lang'] = array_values($lang_selected);
 		
 		// Convert timezone configuration.
-		$old_timezone = intval(get_time_zone_offset($db_info->time_zone ?: '+0900') / 3600);
+		$old_timezone = get_time_zone_offset($db_info->time_zone ?: '+0900');
 		switch ($old_timezone)
 		{
-			case 9:
+			case 32400:
 				$config['locale']['default_timezone'] = 'Asia/Seoul'; break;
-			case 0:
-				$config['locale']['default_timezone'] = 'Etc/UTC'; break;
 			default:
-				$config['locale']['default_timezone'] = 'Etc/GMT' . ($old_timezone > 0 ? '-' : '+') . abs($old_timezone);
+				$config['locale']['default_timezone'] = DateTime::getTimezoneNameByOffset($old_timezone);
 		}
 		$config['locale']['internal_timezone'] = intval(date('Z'));
 		
