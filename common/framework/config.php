@@ -257,7 +257,7 @@ class Config
 		$config['locale']['enabled_lang'] = array_values($lang_selected);
 		
 		// Convert timezone configuration.
-		$old_timezone = get_time_zone_offset($db_info->time_zone ?: '+0900');
+		$old_timezone = DateTime::getTimezoneOffsetByLegacyFormat($db_info->time_zone ?: '+0900');
 		switch ($old_timezone)
 		{
 			case 32400:

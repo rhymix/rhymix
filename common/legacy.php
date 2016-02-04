@@ -531,35 +531,32 @@ function cut_str($string, $cut_size = 0, $tail = '...')
 }
 
 /**
- * Get integer offset of time zone
+ * Convert XE legacy time zone format into UTC offset.
  * 
- * @param string $time_zone Time zone in +0900 format
+ * @param string $time_zone Time zone in '+0900' format
  * @return int
  */
-function get_time_zone_offset($time_zone)
+function get_time_zone_offset($timezone)
 {
-	$multiplier = ($time_zone[0] === '-') ? -60 : 60;
-	$time_zone = preg_replace('/[^0-9]/', '', $time_zone);
-	list($hours, $minutes) = str_split($time_zone, 2);
-	return (((int)$hours * 60) + (int)$minutes) * $multiplier;
+	return Rhymix\Framework\DateTime::getTimezoneOffsetByLegacyFormat($timezone);
 }
 
 /**
- * Get a time gap between server's timezone and XE's timezone
+ * Get the offset between the current user's time zone and Rhymix's internal time zone.
  *
  * @return int
  */
-function zgap()
+function zgap($timestamp = null)
 {
-	$time_zone_offset = $GLOBALS['_time_zone_offset'];
-	$server_offset = date('Z');
-	return $time_zone_offset - $server_offset;
+	$current_user_timezone = Rhymix\Framework\DateTime::getTimezoneForCurrentUser();
+	return Rhymix\Framework\DateTime::getTimezoneOffsetFromInternal($current_user_timezone, $timestamp);
 }
 
 /**
- * YYYYMMDDHHIISS format changed to unix time value
+ * Convert YYYYMMDDHHIISS format to Unix timestamp.
+ * This function assumes the internal timezone.
  *
- * @param string $str Time value in format of YYYYMMDDHHIISS
+ * @param string $str Time in YYYYMMDDHHIISS format
  * @return int
  */
 function ztime($str)
@@ -576,24 +573,24 @@ function ztime($str)
 		$hour = (int)substr($str, 8, 2);
 		$min = (int)substr($str, 10, 2);
 		$sec = (int)substr($str, 12, 2);
-		$offset = zgap();
 	}
 	else
 	{
-		$hour = $min = $sec = $offset = 0;
+		$hour = $min = $sec = 0;
 	}
-	return mktime($hour, $min, $sec, $month, $day, $year) + $offset;
+	return mktime($hour, $min, $sec, $month, $day, $year);
 }
 
 /**
- * Change the time format YYYYMMDDHHIISS to the user defined format
+ * Convert YYYYMMDDHHIISS format to user-defined format.
+ * This function assumes the internal timezone.
  *
- * @param string|int $str YYYYMMDDHHIISS format time values
- * @param string $format Time format of php date() function
- * @param bool $conversion Means whether to convert automatically according to the language
+ * @param string $str Time in YYYYMMDDHHIISS format
+ * @param string $format Time format for date() function
+ * @param bool $conversion If true, convert automatically for the current language.
  * @return string
  */
-function zdate($str, $format = 'Y-m-d H:i:s', $conversion = TRUE)
+function zdate($str, $format = 'Y-m-d H:i:s', $conversion = true)
 {
 	if(!$str)
 	{
@@ -637,18 +634,18 @@ function zdate($str, $format = 'Y-m-d H:i:s', $conversion = TRUE)
 		}
 	}
 	
-	// get unixtime by using ztime() for date() function's argument. 
-	$string = date($format, ztime($str));
+	// get unixtime by using ztime() for date() function's argument.
+	$result = Rhymix\Framework\DateTime::formatTimestampForCurrentUser($format, ztime($str));
 	
 	// change day and am/pm for each language
 	if(preg_match('/[MFAa]/', $format))
 	{
 		$unit_week = Context::getLang('unit_week');
 		$unit_meridiem = Context::getLang('unit_meridiem');
-		$string = str_replace(array('Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'), $unit_week, $string);
-		$string = str_replace(array('am', 'pm', 'AM', 'PM'), $unit_meridiem, $string);
+		$string = str_replace(array('Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'), $unit_week, $result);
+		$string = str_replace(array('am', 'pm', 'AM', 'PM'), $unit_meridiem, $result);
 	}
-	return $string;
+	return $result;
 }
 
 /**

@@ -163,7 +163,7 @@ class installController extends install
 		}
 		else
 		{
-			$user_timezone = intval(get_time_zone_offset($time_zone ?: '+0900') / 3600);
+			$user_timezone = intval(Rhymix\Framework\DateTime::getTimezoneOffsetByLegacyFormat($time_zone ?: '+0900') / 3600);
 			switch ($user_timezone)
 			{
 				case 9:

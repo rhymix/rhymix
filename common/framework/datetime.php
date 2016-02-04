@@ -13,19 +13,43 @@ class DateTime
 	protected static $_timezones = array();
 	
 	/**
-	 * Get the timezone to display for the current user.
+	 * Format a Unix timestamp for the current user's timezone.
+	 * 
+	 * @param string $format Format used in PHP date() function
+	 * @param int $timestamp Unix timestamp (optional, default is now)
+	 * @return string
+	 */
+	public static function formatTimestampForCurrentUser($format, $timestamp = null)
+	{
+		$timezone = self::getTimezoneForCurrentUser();
+		if (!isset(self::$_timezones[$timezone]))
+		{
+			self::$_timezones[$timezone] = new \DateTimeZone($timezone);
+		}
+		$datetime = new \DateTime();
+		$datetime->setTimestamp($timestamp ?: time());
+		$datetime->setTimezone(self::$_timezones[$timezone]);
+		return $datetime->format($format);
+	}
+	
+	/**
+	 * Get the current user's timezone.
 	 * 
 	 * @return string
 	 */
-	public static function getCurrentUserTimezone()
+	public static function getTimezoneForCurrentUser()
 	{
-		if (isset($_SESSION['timezone']))
+		if (isset($_SESSION['timezone']) && $_SESSION['timezone'])
 		{
 			return $_SESSION['timezone'];
 		}
+		elseif ($default = Config::get('locale.default_timezone'))
+		{
+			return $default;
+		}
 		else
 		{
-			return Config::get('locale.default_timezone');
+			return @date_default_timezone_get();
 		}
 	}
 	
@@ -82,6 +106,20 @@ class DateTime
 	public static function getTimezoneOffsetFromInternal($timezone, $timestamp = null)
 	{
 		return self::getTimezoneOffset($timezone, $timestamp) - Config::get('locale.internal_timezone');
+	}
+	
+	/**
+	 * Get the absolute (UTC) offset of a timezone written in XE legacy format ('+0900').
+	 * 
+	 * @param string $timezone
+	 * @return int
+	 */
+	public static function getTimezoneOffsetByLegacyFormat($timezone)
+	{
+		$multiplier = ($timezone[0] === '-') ? -60 : 60;
+		$timezone = preg_replace('/[^0-9]/', '', $timezone);
+		list($hours, $minutes) = str_split($timezone, 2);
+		return (((int)$hours * 60) + (int)$minutes) * $multiplier;
 	}
 	
 	/**

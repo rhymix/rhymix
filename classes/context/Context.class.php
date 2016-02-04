@@ -531,7 +531,6 @@ class Context
 		$db_info->time_zone = $config['locale']['internal_timezone'];
 		$db_info->time_zone = sprintf('%s%02d%02d', $db_info->time_zone >= 0 ? '+' : '-', abs($db_info->time_zone) / 3600, (abs($db_info->time_zone) % 3600 / 60));
 		$GLOBALS['_time_zone'] = $db_info->time_zone;
-		$GLOBALS['_time_zone_offset'] = $config['locale']['internal_timezone'];
 		$db_info->delay_session = $config['session']['delay'] ? 'Y' : 'N';
 		$db_info->use_db_session = $config['session']['use_db'] ? 'Y' : 'N';
 		$db_info->minify_scripts = $config['view']['minify_scripts'] ? 'Y' : 'N';
