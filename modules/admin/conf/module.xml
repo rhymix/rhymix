@@ -33,43 +33,46 @@
     </actions>
 	<menus>
 		<menu name="adminConfigurationGeneral" type="all">
-			<title xml:lang="en">General Settings</title>
-			<title xml:lang="ko">일반 설정</title>
-			<title xml:lang="zh-CN">总览设置</title>
-			<title xml:lang="jp">基本設定</title>
-			<title xml:lang="es">General</title>
-			<title xml:lang="ru">General</title>
-			<title xml:lang="fr">General</title>
-			<title xml:lang="zh-TW">General</title>
-			<title xml:lang="vi">General</title>
-			<title xml:lang="mn">General</title>
-			<title xml:lang="tr">General</title>
+			<title xml:lang="en">System Settings</title>
+			<title xml:lang="ko">시스템 설정</title>
+			<title xml:lang="zh-CN">系统设置</title>
+			<title xml:lang="zh-TW">系統設置</title>
+			<title xml:lang="jp">システムの設定</title>
+			<title xml:lang="es">System Settings</title>
+			<title xml:lang="ru">System Settings</title>
+			<title xml:lang="fr">System Settings</title>
+			<title xml:lang="zh-TW">System Settings</title>
+			<title xml:lang="vi">System Settings</title>
+			<title xml:lang="mn">System Settings</title>
+			<title xml:lang="tr">System Settings</title>
 		</menu>
 		<menu name="adminMenuSetup" type="all">
-			<title xml:lang="en">Admin Setup</title>
-			<title xml:lang="ko">관리자 설정</title>
-			<title xml:lang="zh-CN">后台设置</title>
-			<title xml:lang="jp">管理者設定</title>
-			<title xml:lang="es">Admin Setup</title>
-			<title xml:lang="ru">Admin Setup</title>
-			<title xml:lang="fr">Admin Setup</title>
-			<title xml:lang="zh-TW">Admin Setup</title>
-			<title xml:lang="vi">Admin Setup</title>
-			<title xml:lang="mn">Admin Setup</title>
-			<title xml:lang="tr">Admin Setup</title>
+			<title xml:lang="en">Admin Panel Settings</title>
+			<title xml:lang="ko">관리자 화면 설정</title>
+			<title xml:lang="zh-CN">管理者页面设置</title>
+			<title xml:lang="zh-TW">管理者頁面設置</title>
+			<title xml:lang="jp">管理者画面の設定</title>
+			<title xml:lang="es">Admin Panel Settings</title>
+			<title xml:lang="ru">Admin Panel Settings</title>
+			<title xml:lang="fr">Admin Panel Settings</title>
+			<title xml:lang="zh-TW">Admin Panel Settings</title>
+			<title xml:lang="vi">Admin Panel Settings</title>
+			<title xml:lang="mn">Admin Panel Settings</title>
+			<title xml:lang="tr">Admin Panel Settings</title>
 		</menu>
 		<menu name="adminConfigurationFtp" type="all">
-			<title xml:lang="en">FTP Configuration</title>
+			<title xml:lang="en">FTP Settings</title>
 			<title xml:lang="ko">FTP 설정</title>
-			<title xml:lang="zh-CN">FTP 配置</title>
+			<title xml:lang="zh-CN">FTP设置</title>
+			<title xml:lang="zh-TW">FTP設置</title>
 			<title xml:lang="jp">FTP設定</title>
-			<title xml:lang="es">FTP Configuration</title>
-			<title xml:lang="ru">FTP Configuration</title>
-			<title xml:lang="fr">FTP Configuration</title>
-			<title xml:lang="zh-TW">FTP Configuration</title>
-			<title xml:lang="vi">FTP Configuration</title>
-			<title xml:lang="mn">FTP Configuration</title>
-			<title xml:lang="tr">FTP Configuration</title>
+			<title xml:lang="es">FTP Settings</title>
+			<title xml:lang="ru">FTP Settings</title>
+			<title xml:lang="fr">FTP Settings</title>
+			<title xml:lang="zh-TW">FTP Settings</title>
+			<title xml:lang="vi">FTP Settings</title>
+			<title xml:lang="mn">FTP Settings</title>
+			<title xml:lang="tr">FTP Settings</title>
 		</menu>
 	</menus>
 </module>
