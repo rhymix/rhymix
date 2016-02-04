@@ -191,7 +191,9 @@ spl_autoload_register(function($class_name)
 /**
  * Also include the Composer autoloader.
  */
-if (file_exists(RX_BASEDIR  . 'vendor/autoload.php'))
-{
-	require_once RX_BASEDIR  . 'vendor/autoload.php';
-}
+require_once RX_BASEDIR  . 'vendor/autoload.php';
+
+/**
+ * Load system configuration.
+ */
+Rhymix\Framework\Config::init();

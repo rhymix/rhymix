@@ -460,7 +460,7 @@ class Context
 		// Load new configuration format.
 		if ($config === null)
 		{
-			$config = Rhymix\Framework\Config::init();
+			$config = Rhymix\Framework\Config::getAll();
 		}
 		if (!count($config))
 		{
