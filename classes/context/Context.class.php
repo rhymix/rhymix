@@ -10,7 +10,7 @@
 class Context
 {
 	/**
-	 * Allow rewritel
+	 * Allow rewrite
 	 * @var bool TRUE: using rewrite mod, FALSE: otherwise
 	 */
 	public $allow_rewrite = FALSE;
@@ -365,57 +365,25 @@ class Context
 			}
 		}
 
-		// check if using rewrite module
-		$this->allow_rewrite = ($this->db_info->use_rewrite == 'Y' ? TRUE : FALSE);
-
 		// set locations for javascript use
-		$url = array();
-		$current_url = self::getRequestUri();
-		if($_SERVER['REQUEST_METHOD'] == 'GET')
+		$current_url = $request_uri = self::getRequestUri();
+		if ($_SERVER['REQUEST_METHOD'] == 'GET' && $this->get_vars)
 		{
-			if($this->get_vars)
+			if ($query_string = http_build_query($this->get_vars))
 			{
-				$url = array();
-				foreach($this->get_vars as $key => $val)
-				{
-					if(is_array($val) && count($val) > 0)
-					{
-						foreach($val as $k => $v)
-						{
-							$url[] = $key . '[' . $k . ']=' . urlencode($v);
-						}
-					}
-					elseif($val)
-					{
-						$url[] = $key . '=' . urlencode($val);
-					}
-				}
-
-				$current_url = self::getRequestUri();
-				if($url) $current_url .= '?' . join('&', $url);
-			}
-			else
-			{
-				$current_url = self::getUrl();
+				$current_url .= '?' . $query_string;
 			}
 		}
-		else
+		if (strpos($current_url, 'xn--') !== false)
 		{
-			$current_url = self::getRequestUri();
+			$current_url = self::decodeIdna($current_url);
 		}
-
+		if (strpos($request_uri, 'xn--') !== false)
+		{
+			$request_uri = self::decodeIdna($request_uri);
+		}
 		self::set('current_url', $current_url);
-		self::set('request_uri', self::getRequestUri());
-
-		if(strpos($current_url, 'xn--') !== FALSE)
-		{
-			self::set('current_url', self::decodeIdna($current_url));
-		}
-
-		if(strpos(self::getRequestUri(), 'xn--') !== FALSE)
-		{
-			self::set('request_uri', self::decodeIdna(self::getRequestUri()));
-		}
+		self::set('request_uri', $request_uri);
 	}
 
 	/**
@@ -547,6 +515,7 @@ class Context
 		$db_info->use_sso = $config['use_sso'] ? 'Y' : 'N';
 		
 		// Save old format to Context instance.
+		self::$_instance->allow_rewrite = $config['use_rewrite'];
 		self::$_instance->db_info = $db_info;
 		
 		// Set the internal timezone.
@@ -2432,7 +2401,7 @@ class Context
 	 */
 	public static function getConfigFile()
 	{
-		return RX_BASEDIR . 'files/config/config.php';
+		return RX_BASEDIR . 'files/config/db.config.php';
 	}
 
 	/**
@@ -2442,7 +2411,7 @@ class Context
 	 */
 	public static function getFTPConfigFile()
 	{
-		return RX_BASEDIR . 'files/config/config.php';
+		return RX_BASEDIR . 'files/config/ftp.config.php';
 	}
 
 	/**
@@ -2452,7 +2421,7 @@ class Context
 	 */
 	public static function isInstalled()
 	{
-		return FileHandler::hasContent(self::getConfigFile());
+		return Rhymix\Framework\Config::get('config_version');
 	}
 
 	/**
@@ -2473,7 +2442,7 @@ class Context
 	 */
 	public static function isAllowRewrite()
 	{
-		return self::getInstance()->allow_rewrite;
+		return self::$_instance->allow_rewrite;
 	}
 
 	/**
