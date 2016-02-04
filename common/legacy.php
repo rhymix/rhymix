@@ -7,54 +7,6 @@
  */
 
 /**
- * Time zone
- * @var array
- */
-$time_zone = array(
-	'-1200' => '[UTC -12:00] Baker Island',
-	'-1100' => '[UTC -11:00] Niue, American Samoa',
-	'-1000' => '[UTC -10:00] Hawaii, Aleutian Islands, Cook Islands',
-	'-0930' => '[UTC -09:30] Marquesas Islands',
-	'-0900' => '[UTC -09:00] Alaska, Gambier Islands',
-	'-0800' => '[UTC -08:00] U.S. and Canada (Pacific)',
-	'-0700' => '[UTC -07:00] U.S. and Canada (Mountain)',
-	'-0600' => '[UTC -06:00] U.S. and Canada (Central), Mexico',
-	'-0500' => '[UTC -05:00] U.S. and Canada (Eastern), Chile',
-	'-0430' => '[UTC -04:30] Venezuela',
-	'-0400' => '[UTC -04:00] Canada (Atlantic), Brazil (Western)',
-	'-0330' => '[UTC -03:30] Canada (Newfoundland)',
-	'-0300' => '[UTC -03:00] Argentina, Brazil (Eastern), Greenland',
-	'-0200' => '[UTC -02:00] Fernando de Noronha, South Georgia &amp; South Sandwich Islands',
-	'-0100' => '[UTC -01:00] Azores, Cape Verde',
-	 '0000' => '[UTC ±00:00] GMT, Ireland, Portugal, West Africa',
-	'+0100' => '[UTC +01:00] Central Europe, West Africa',
-	'+0200' => '[UTC +02:00] Eastern Europe, Central Africa, Russia (Kaliningrad)',
-	'+0300' => '[UTC +03:00] Russia (Moscow), East Africa',
-	'+0330' => '[UTC +03:30] Iran',
-	'+0400' => '[UTC +04:00] Armenia, Azerbaijan, Georgia, Oman, Russia (Samara), UAE',
-	'+0430' => '[UTC +04:30] Afghanistan',
-	'+0500' => '[UTC +05:00] Pakistan, Russia (Yekaterinburg), Central Asia',
-	'+0530' => '[UTC +05:30] India, Sri Lanka',
-	'+0545' => '[UTC +05:45] Nepal',
-	'+0600' => '[UTC +06:00] Bangladesh, Bhutan, Kyrgyzstan, Russia (Omsk)',
-	'+0630' => '[UTC +06:30] Cocos Islands, Myanmar',
-	'+0700' => '[UTC +07:00] Cambodia, Indonesia, Laos, Russia (Krasnoyarsk), Thailand, Vietnam',
-	'+0800' => '[UTC +08:00] China, Malaysia, Philippines, Russia (Irkutsk), Singapore, Taiwan',
-	'+0830' => '[UTC +08:30] North Korea',
-	'+0845' => '[UTC +08:45] Australia (Eucla)',
-	'+0900' => '[UTC +09:00] Korea, Japan, Palua, East Timor, Russia (Yakutsk)',
-	'+0930' => '[UTC +09:30] Australia (Central)',
-	'+1000' => '[UTC +10:00] Australia (Eastern), Guam, Russia (Vladivostok)',
-	'+1030' => '[UTC +10:30] Lord Howe Island',
-	'+1100' => '[UTC +11:00] New Caledonia, Solomon Islands, Vanuatu, Russia (Srednekolymsk)',
-	'+1130' => '[UTC +11:30] Norfolk Island (before 2015)',
-	'+1200' => '[UTC +12:00] Fiji, New Zealand, Russia (Kamchatka)',
-	'+1245' => '[UTC +12:45] Chatham Islands',
-	'+1300' => '[UTC +13:00] Samoa, Tokelau, Tonga, Phoenix Islands',
-	'+1400' => '[UTC +14:00] Line Islands'
-);
-
-/**
  * Define a function to use {@see ModuleHandler::getModuleObject()} ($module_name, $type)
  *
  * @param string $module_name The module name to get a instance
