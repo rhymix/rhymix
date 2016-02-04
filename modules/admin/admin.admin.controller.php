@@ -554,6 +554,7 @@ class adminAdminController extends admin
 	{
 		$vars = Context::getRequestVars();
 		
+		// iframe filter
 		$embed_iframe = $vars->embedfilter_iframe;
 		$embed_iframe = array_filter(array_map('trim', preg_split('/[\r\n]/', $embed_iframe)), function($item) {
 			return $item !== '';
@@ -562,7 +563,9 @@ class adminAdminController extends admin
 			return preg_match('@^https?://(.*)$@i', $item, $matches) ? $matches[1] : $item;
 		}, $embed_iframe));
 		natcasesort($embed_iframe);
+		Rhymix\Framework\Config::set('embedfilter.iframe', array_values($embed_iframe));
 		
+		// object filter
 		$embed_object = $vars->embedfilter_object;
 		$embed_object = array_filter(array_map('trim', preg_split('/[\r\n]/', $embed_object)), function($item) {
 			return $item !== '';
@@ -571,9 +574,19 @@ class adminAdminController extends admin
 			return preg_match('@^https?://(.*)$@i', $item, $matches) ? $matches[1] : $item;
 		}, $embed_object));
 		natcasesort($embed_object);
-		
-		Rhymix\Framework\Config::set('embedfilter.iframe', array_values($embed_iframe));
 		Rhymix\Framework\Config::set('embedfilter.object', array_values($embed_object));
+		
+		// Admin IP access control
+		$allowed_ip = array_map('trim', preg_split('/[\r\n]/', $vars->admin_allowed_ip));
+		$allowed_ip = array_unique(array_filter($allowed_ip, function($item) {
+			return $item !== '';
+		}));
+		if (!IpFilter::validate($whitelist)) {
+			return new Object(-1, 'msg_invalid_ip');
+		}
+		Rhymix\Framework\Config::set('admin.allow', array_values($allowed_ip));
+		
+		// Save
 		Rhymix\Framework\Config::save();
 		
 		$this->setMessage('success_updated');
@@ -615,15 +628,7 @@ class adminAdminController extends admin
 		Rhymix\Framework\Config::set('view.minify_scripts', $vars->minify_scripts ?: 'common');
 		Rhymix\Framework\Config::set('view.gzip', $vars->use_gzip === 'Y');
 		
-		// Admin IP access control
-		$allowed_ip = array_map('trim', preg_split('/[\r\n]/', $vars->admin_allowed_ip));
-		$allowed_ip = array_unique(array_filter($allowed_ip, function($item) {
-			return $item !== '';
-		}));
-		if (!IpFilter::validate($whitelist)) {
-			return new Object(-1, 'msg_invalid_ip');
-		}
-		Rhymix\Framework\Config::set('admin.allow', array_values($allowed_ip));
+		// Save
 		Rhymix\Framework\Config::save();
 		
 		$this->setMessage('success_updated');

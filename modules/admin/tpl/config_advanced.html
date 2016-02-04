@@ -75,13 +75,6 @@
 				<label for="use_gzip_n" class="x_inline"><input type="radio" name="use_gzip" id="use_gzip_n" value="N" checked="checked"|cond="!$use_gzip" /> {$lang->cmd_no}</label>
 			</div>
 		</div>
-		<div class="x_control-group">
-			<label class="x_control-label" for="admin_allowed_ip">{$lang->admin_ip_limit} <a class="x_icon-question-sign" href="./common/manual/admin/#UMAN_config_general_admin_iplist" target="_blank">{$lang->help}</a></label>
-			<div class="x_controls">
-				<textarea name="admin_allowed_ip" id="admin_allowed_ip" rows="4" cols="42" placeholder="{$remote_addr} ({$lang->local_ip_address})" style="margin-right:10px">{$admin_allowed_ip}</textarea>
-				<p class="x_help-block">{$lang->about_ipaddress_input}</p>
-			</div>
-		</div>
 		<div class="x_clearfix btnArea">
 			<div class="x_pull-right">
 				<button type="submit" class="x_btn x_btn-primary">{$lang->cmd_save}</button>

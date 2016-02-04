@@ -433,6 +433,13 @@ class adminAdminView extends admin
 		context::set('embedfilter_iframe', implode(PHP_EOL, $oEmbedFilter->whiteIframeUrlList));
 		context::set('embedfilter_object', implode(PHP_EOL, $oEmbedFilter->whiteUrlList));
 		
+		// Admin IP access control
+		$allowed_ip = Rhymix\Framework\Config::get('admin.allow');
+		Context::set('admin_allowed_ip', implode(PHP_EOL, $allowed_ip));
+		$denied_ip = Rhymix\Framework\Config::get('admin.deny');
+		Context::set('admin_denied_ip', implode(PHP_EOL, $denied_ip));
+		Context::set('remote_addr', RX_CLIENT_IP);
+		
 		$this->setTemplateFile('config_security');
 	}
 	
@@ -463,13 +470,6 @@ class adminAdminView extends admin
 		Context::set('use_db_session', Rhymix\Framework\Config::get('session.use_db'));
 		Context::set('minify_scripts', Rhymix\Framework\Config::get('view.minify_scripts'));
 		Context::set('use_gzip', Rhymix\Framework\Config::get('view.gzip'));
-		
-		// Admin IP access control
-		$allowed_ip = Rhymix\Framework\Config::get('admin.allow');
-		Context::set('admin_allowed_ip', implode(PHP_EOL, $allowed_ip));
-		$denied_ip = Rhymix\Framework\Config::get('admin.deny');
-		Context::set('admin_denied_ip', implode(PHP_EOL, $denied_ip));
-		Context::set('remote_addr', RX_CLIENT_IP);
 		
 		$this->setTemplateFile('config_advanced');
 	}
