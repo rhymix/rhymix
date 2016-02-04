@@ -6,6 +6,16 @@
  * Copyright (c) Rhymix Developers and Contributors
  */
 
+/**
+ * Get system configuration.
+ * 
+ * @param string $key
+ * @return mixed
+ */
+function config($key)
+{
+	return Rhymix\Framework\Config::get($key);
+}
 
 /** Get the first value of an array.
  * 
