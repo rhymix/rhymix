@@ -14,12 +14,9 @@
         <action name="procInstallCheckFTP" type="controller" />
         <action name="procInstallAdminInstall" type="controller" />
         <action name="procInstallAdminUpdate" type="controller" />
-        <action name="procInstallAdminSaveTimeZone" type="controller" />
 		<action name="procInstallAdminUpdateIndexModule" type="controller" />
         <action name="procInstallAdminSaveFTPInfo" type="controller" ruleset="installFtpInfo" />
         <action name="procInstallAdminRemoveFTPInfo" type="controller" />
-		<action name="procInstallAdminConfig" type="controller" />
-		<action name="procInstallAdminConfigIconUpload" type="controller" />
         <action name="getInstallFTPList" type="model" />
     </actions>
 </module>

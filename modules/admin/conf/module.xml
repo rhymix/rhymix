@@ -5,6 +5,9 @@
     <actions>
         <action name="dispAdminIndex" type="view" index="true" />
         <action name="dispAdminConfigGeneral" type="view" menu_name="adminConfigurationGeneral" menu_index="true" />
+        <action name="dispAdminConfigSecurity" type="view" menu_name="adminConfigurationGeneral" />
+        <action name="dispAdminConfigAdvanced" type="view" menu_name="adminConfigurationGeneral" />
+        <action name="dispAdminConfigSitelock" type="view" menu_name="adminConfigurationGeneral" />
         <action name="dispAdminConfigFtp" type="view" menu_name="adminConfigurationFtp" menu_index="true" />
         <action name="dispAdminSetup" type="view" menu_name="adminMenuSetup" menu_index="true" />
         <action name="dispAdminViewServerEnv" type="view" />
@@ -18,8 +21,11 @@
 		<action name="procAdminUpdateConfig" type="controller" />
 		<action name="procAdminDeleteLogo" type="controller" />
 		<action name="procAdminMenuReset" type="controller" />
+		<action name="procAdminUpdateConfigGeneral" type="controller" />
+		<action name="procAdminUpdateSecurity" type="controller" />
+		<action name="procAdminUpdateAdvanced" type="controller" />
 		<action name="procAdminUpdateSitelock" type="controller" />
-		<action name="procAdminUpdateEmbedWhitelist" type="controller" />
+		<action name="procAdminFaviconUpload" type="controller" />
 
         <action name="getAdminFTPList" type="model" />
         <action name="getAdminFTPPath" type="model" />
@@ -27,10 +33,10 @@
     </actions>
 	<menus>
 		<menu name="adminConfigurationGeneral" type="all">
-			<title xml:lang="en">General</title>
-			<title xml:lang="ko">일반</title>
-			<title xml:lang="zh-CN">总览</title>
-			<title xml:lang="jp">一般</title>
+			<title xml:lang="en">General Settings</title>
+			<title xml:lang="ko">일반 설정</title>
+			<title xml:lang="zh-CN">总览设置</title>
+			<title xml:lang="jp">基本設定</title>
 			<title xml:lang="es">General</title>
 			<title xml:lang="ru">General</title>
 			<title xml:lang="fr">General</title>

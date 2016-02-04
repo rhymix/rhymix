@@ -1,0 +1,11 @@
+<load target="./js/config.js" />
+<load target="../../session/tpl/js/session.js" />
+<div class="x_page-header">
+	<h1>{$lang->menu_gnb_sub['adminConfigurationGeneral']} <a class="x_icon-question-sign" href="./common/manual/admin/#UMAN_config_general" target="_blank">{$lang->help}</a></h1>
+</div>
+<ul class="x_nav x_nav-tabs">
+	<li class="x_active"|cond="$act == 'dispAdminConfigGeneral'"><a href="{getUrl('', 'module', 'admin', 'act', 'dispAdminConfigGeneral')}">{$lang->subtitle_primary}</a></li>
+	<li class="x_active"|cond="$act == 'dispAdminConfigSecurity'"><a href="{getUrl('', 'module', 'admin', 'act', 'dispAdminConfigSecurity')}">{$lang->subtitle_security}</a></li>
+	<li class="x_active"|cond="$act == 'dispAdminConfigAdvanced'"><a href="{getUrl('', 'module', 'admin', 'act', 'dispAdminConfigAdvanced')}">{$lang->subtitle_advanced}</a></li>
+	<li class="x_active"|cond="$act == 'dispAdminConfigSitelock'"><a href="{getUrl('', 'module', 'admin', 'act', 'dispAdminConfigSitelock')}">{$lang->subtitle_sitelock}</a></li>
+</ul>

@@ -1,8 +1,9 @@
 <?php
 $lang->admin = '管理者';
-$lang->subtitle_primary = '基本';
-$lang->subtitle_advanced = '上級';
-$lang->subtitle_etc = 'その他';
+$lang->subtitle_primary = '基本設定';
+$lang->subtitle_security = 'セキュリティ設定';
+$lang->subtitle_advanced = '上級設定';
+$lang->subtitle_etc = 'その他設定';
 $lang->current_state = '現況';
 $lang->latest_documents = '新着書き込み';
 $lang->latest_comments = '新着コメント';
@@ -81,6 +82,7 @@ $lang->cmd_minify_all = '全てのファイルを圧縮';
 $lang->cmd_minify_common = '共通のファイルを圧縮';
 $lang->cmd_minify_none = '圧縮されません';
 $lang->about_minify_scripts = 'コアとすべてのモジュールに含まれたCSS、JSファイルを自動的に圧縮(minify)して配信します。';
+$lang->use_gzip = 'gzip 圧縮';
 $lang->delay_session = 'セッションの開始を遅延';
 $lang->about_delay_session = 'Varnishなどのプロキシキャッシュサーバ使用時のパフォーマンスを向上させるために、ログインしていないユーザーには、認証セッションを付与しません。<br>このオプションを選択した場合、訪問者数とヒット集計が正確でない場合があります。';
 $lang->sftp = 'SFTP使用';
@@ -193,5 +195,5 @@ $lang->sitelock_whitelist = '接近許可IP';
 $lang->sitelock_title = '案内文タイトル';
 $lang->sitelock_message = '案内文内容';
 $lang->sitelock_message_help = 'HTMLタグを使用できます。';
-$lang->sitelock_warning_whitelist = 'ここに管理者のIPを必ず記入てください。<br />もし接近が遮断された場合、\'./files/config/db.config.php\' ファイルから `\'use_sitelock\' => \'<strong>Y</strong>\'`を `\'use_sitelock\' => \'<strong>N</strong>\'`へ変更すれば遮断が解除できます。<br />サイトロックの設計ファイルの場所は、\'./commo/tpl/sitelock.html\' です。';
+$lang->sitelock_warning_whitelist = 'ここに管理者のIPを必ず記入てください。';
 $lang->your_ip = '接続したIP';
