@@ -15,8 +15,6 @@
         <action name="procInstallAdminInstall" type="controller" />
         <action name="procInstallAdminUpdate" type="controller" />
 		<action name="procInstallAdminUpdateIndexModule" type="controller" />
-        <action name="procInstallAdminSaveFTPInfo" type="controller" ruleset="installFtpInfo" />
-        <action name="procInstallAdminRemoveFTPInfo" type="controller" />
         <action name="getInstallFTPList" type="model" />
     </actions>
 </module>

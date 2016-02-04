@@ -499,16 +499,10 @@ class adminAdminView extends admin
 	 */
 	function dispAdminConfigFtp()
 	{
-		Context::loadLang('modules/install/lang');
-
-		$ftp_info = Context::getFTPInfo();
-		Context::set('ftp_info', $ftp_info);
-		Context::set('sftp_support', function_exists(ssh2_sftp));
+		Context::set('ftp_info', Rhymix\Framework\Config::get('ftp'));
+		Context::set('sftp_support', function_exists('ssh2_sftp'));
 
 		$this->setTemplateFile('config_ftp');
-
-		//$security = new Security();
-		//$security->encodeHTML('ftp_info..');
 	}
 	
 	/**

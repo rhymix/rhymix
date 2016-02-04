@@ -25,10 +25,10 @@
 		<action name="procAdminUpdateSecurity" type="controller" />
 		<action name="procAdminUpdateAdvanced" type="controller" />
 		<action name="procAdminUpdateSitelock" type="controller" />
+		<action name="procAdminUpdateFTPInfo" type="controller" />
+		<action name="procAdminRemoveFTPInfo" type="controller" />
 		<action name="procAdminFaviconUpload" type="controller" />
 
-        <action name="getAdminFTPList" type="model" />
-        <action name="getAdminFTPPath" type="model" />
         <action name="getSiteAllList" type="model" />
     </actions>
 	<menus>

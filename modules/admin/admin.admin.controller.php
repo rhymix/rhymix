@@ -543,6 +543,7 @@ class adminAdminController extends admin
 		// Save
 		Rhymix\Framework\Config::save();
 		
+		$this->setMessage('success_updated');
 		$this->setRedirectUrl(Context::get('success_return_url') ?: getNotEncodedUrl('', 'act', 'dispAdminConfigGeneral'));
 	}
 	
@@ -575,6 +576,7 @@ class adminAdminController extends admin
 		Rhymix\Framework\Config::set('embedfilter.object', array_values($embed_object));
 		Rhymix\Framework\Config::save();
 		
+		$this->setMessage('success_updated');
 		$this->setRedirectUrl(Context::get('success_return_url') ?: getNotEncodedUrl('', 'act', 'dispAdminConfigSecurity'));
 	}
 	
@@ -586,7 +588,7 @@ class adminAdminController extends admin
 		$vars = Context::getRequestVars();
 		
 		// Default URL
-		$default_url = rtrim(trim($vars->default_url), '/') . '/';
+		$default_url = rtrim(trim($vars->default_url), '/\\') . '/';
 		if (!filter_var($default_url, FILTER_VALIDATE_URL) || !preg_match('@^https?://@', $default_url))
 		{
 			return new Object(-1, 'msg_invalid_default_url');
@@ -624,6 +626,7 @@ class adminAdminController extends admin
 		Rhymix\Framework\Config::set('admin.allow', array_values($allowed_ip));
 		Rhymix\Framework\Config::save();
 		
+		$this->setMessage('success_updated');
 		$this->setRedirectUrl(Context::get('success_return_url') ?: getNotEncodedUrl('', 'act', 'dispAdminConfigAdvanced'));
 	}
 	
@@ -650,7 +653,96 @@ class adminAdminController extends admin
 		Rhymix\Framework\Config::set('lock.allow', array_values($allowed_ip));
 		Rhymix\Framework\Config::save();
 		
+		$this->setMessage('success_updated');
 		$this->setRedirectUrl(Context::get('success_return_url') ?: getNotEncodedUrl('', 'act', 'dispAdminConfigSitelock'));
+	}
+	
+	/**
+	 * Update FTP configuration.
+	 */
+	function procAdminUpdateFTPInfo()
+	{
+		$vars = Context::getRequestVars();
+		$vars->ftp_path = str_replace('\\', '/', rtrim(trim($vars->ftp_path), '/\\')) . '/';
+		if (strlen($vars->ftp_pass) === 0)
+		{
+			$vars->ftp_pass = Rhymix\Framework\Config::get('ftp.pass');
+		}
+		
+		// Test FTP connection.
+		if ($vars->ftp_sftp !== 'Y')
+		{
+			if (!($conn = @ftp_connect($vars->ftp_host, $vars->ftp_port, 3)))
+			{
+				return new Object(-1, 'msg_ftp_not_connected');
+			}
+			if (!@ftp_login($conn, $vars->ftp_user, $vars->ftp_pass))
+			{
+				return new Object(-1, 'msg_ftp_invalid_auth_info');
+			}
+			if (!@ftp_pasv($conn, $vars->ftp_pasv === 'Y'))
+			{
+				return new Object(-1, 'msg_ftp_cannot_set_passive_mode');
+			}
+			if (!@ftp_chdir($conn, $vars->ftp_path))
+			{
+				return new Object(-1, 'msg_ftp_invalid_path');
+			}
+			ftp_close($conn);
+		}
+		else
+		{
+			if (!function_exists('ssh2_connect'))
+			{
+				return new Object(-1, 'disable_sftp_support');
+			}
+			if (!($conn = ssh2_connect($vars->ftp_host, $vars->ftp_port)))
+			{
+				return new Object(-1, 'msg_ftp_not_connected');
+			}
+			if (!@ssh2_auth_password($conn, $vars->ftp_user, $vars->ftp_pass))
+			{
+				return new Object(-1, 'msg_ftp_invalid_auth_info');
+			}
+			if (!@($sftp = ssh2_sftp($conn)))
+			{
+				return new Object(-1, 'msg_ftp_sftp_error');
+			}
+			if (!@ssh2_sftp_stat($sftp, $vars->ftp_path . 'common/defaults/config.php'))
+			{
+				return new Object(-1, 'msg_ftp_invalid_path');
+			}
+			unset($sftp, $conn);
+		}
+		
+		// Save settings.
+		Rhymix\Framework\Config::set('ftp.host', $vars->ftp_host);
+		Rhymix\Framework\Config::set('ftp.port', $vars->ftp_port);
+		Rhymix\Framework\Config::set('ftp.user', $vars->ftp_user);
+		Rhymix\Framework\Config::set('ftp.pass', $vars->ftp_pass);
+		Rhymix\Framework\Config::set('ftp.path', $vars->ftp_path);
+		Rhymix\Framework\Config::set('ftp.pasv', $vars->ftp_pasv === 'Y');
+		Rhymix\Framework\Config::set('ftp.sftp', $vars->ftp_sftp === 'Y');
+		Rhymix\Framework\Config::save();
+		
+		$this->setMessage('success_updated');
+		$this->setRedirectUrl(Context::get('success_return_url') ?: getNotEncodedUrl('', 'act', 'dispAdminConfigFtp'));
+	}
+	
+	/**
+	 * Remove FTP configuration.
+	 */
+	function procAdminRemoveFTPInfo()
+	{
+		Rhymix\Framework\Config::set('ftp.host', null);
+		Rhymix\Framework\Config::set('ftp.port', null);
+		Rhymix\Framework\Config::set('ftp.user', null);
+		Rhymix\Framework\Config::set('ftp.pass', null);
+		Rhymix\Framework\Config::set('ftp.path', null);
+		Rhymix\Framework\Config::set('ftp.pasv', true);
+		Rhymix\Framework\Config::set('ftp.sftp', false);
+		Rhymix\Framework\Config::save();
+		$this->setMessage('success_deleted');
 	}
 	
 	/**
