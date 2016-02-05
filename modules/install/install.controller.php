@@ -606,6 +606,16 @@ class installController extends install
 		if(method_exists($oModule, 'moduleInstall')) $oModule->moduleInstall();
 		return new Object();
 	}
+	
+	/**
+	 * Placeholder for third-party apps that try to manipulate system configuration.
+	 * 
+	 * @return void
+	 */
+	public function makeConfigFile()
+	{
+		return true;
+	}
 }
 /* End of file install.controller.php */
 /* Location: ./modules/install/install.controller.php */
