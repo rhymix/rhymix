@@ -279,7 +279,12 @@ class Config
 		$config['locale']['internal_timezone'] = intval(date('Z'));
 		
 		// Convert URL configuration.
-		$config['url']['default'] = $db_info->default_url ?: \RX_BASEURL;
+		$default_url = $db_info->default_url;
+		if (strpos($default_url, 'xn--') !== false)
+		{
+			$default_url = \Context::decodeIdna($default_url);
+		}
+		$config['url']['default'] = $default_url ?: \RX_BASEURL;
 		$config['url']['http_port'] = $db_info->http_port ?: null;
 		$config['url']['https_port'] = $db_info->https_port ?: null;
 		$config['url']['ssl'] = $db_info->use_ssl ?: 'none';
