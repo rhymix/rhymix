@@ -2693,7 +2693,7 @@ class documentController extends document
 		}
 		$oSecurity = new Security($documentList);
 		$oSecurity->encodeHTML('..variables.');
-		$this->add('document_list', $documentList);
+		$this->add('document_list', array_values($documentList));
 	}
 
 	/**
