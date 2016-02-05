@@ -12,9 +12,16 @@
  * @param string $key
  * @return mixed
  */
-function config($key)
+function config($key, $value = null)
 {
-	return Rhymix\Framework\Config::get($key);
+	if ($value === null)
+	{
+		return Rhymix\Framework\Config::get($key);
+	}
+	else
+	{
+		Rhymix\Framework\Config::set($key, $value);
+	}
 }
 
 /**
