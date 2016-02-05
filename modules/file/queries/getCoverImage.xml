@@ -4,6 +4,6 @@
     </tables>
     <conditions>
         <condition operation="equal" column="upload_target_srl" var="upload_target_srl" filter="number" notnull="notnull" />
-        <condition operation="equal" column="cover_image" default="Y" notnull="notnull" />
+        <condition operation="equal" column="cover_image" default="Y" pipe="and" />
     </conditions>
 </query>

@@ -27,6 +27,7 @@
 		params = params ? ($.isArray(params) ? arr2obj(params) : params) : {};
 		params.module = module;
 		params.act = act;
+		params._rx_ajax_compat = 'XMLRPC';
 		
 		// Fill in the XE vid.
 		if (typeof(xeVid) != "undefined") params.vid = xeVid;
@@ -115,9 +116,23 @@
 		
 		// Define the error handler.
 		var errorHandler = function(xhr, textStatus) {
+			
+			// If the server has returned XML anyway, convert to JSON and call the success handler.
+			if (textStatus === 'parsererror' && xhr.responseText && xhr.responseText.match(/<response/)) {
+				var xmldata = $.parseXML(xhr.responseText);
+				if (xmldata) {
+					var jsondata = $.parseJSON(xml2json(xmldata, false, false));
+					if (jsondata && jsondata.response) {
+						return successHandler(jsondata.response, textStatus, xhr);
+					}
+				}
+			}
+			
+			// Hide the waiting message and display an error notice.
 			clearTimeout(wfsr_timeout);
 			waiting_obj.hide().trigger("cancel_confirm");
-			alert("AJAX communication error while requesting " + params.module + "." + params.act + "\n\n" + xhr.status + " " + xhr.statusText);
+			var error_info = xhr.status + " " + xhr.statusText + " (" + textStatus + ")";
+			alert("AJAX communication error while requesting " + params.module + "." + params.act + "\n\n" + error_info);
 		};
 		
 		// Send the AJAX request.
@@ -148,6 +163,7 @@
 		if (action.length != 2) return;
 		params.module = action[0];
 		params.act = action[1];
+		params._rx_ajax_compat = 'JSON';
 		
 		// Fill in the XE vid.
 		if (typeof(xeVid) != "undefined") params.vid = xeVid;
@@ -190,15 +206,16 @@
 			
 			// If there was a success callback, call it.
 			if($.isFunction(callback_success)) {
-				clearTimeout(wfsr_timeout);
-				waiting_obj.hide().trigger("cancel_confirm");
 				callback_success(data);
 			}
 		};
 		
 		// Define the error handler.
 		var errorHandler = function(xhr, textStatus) {
-			alert("AJAX communication error while requesting " + params.module + "." + params.act + "\n\n" + xhr.status + " " + xhr.statusText);
+			clearTimeout(wfsr_timeout);
+			waiting_obj.hide().trigger("cancel_confirm");
+			var error_info = xhr.status + " " + xhr.statusText + " (" + textStatus + ")";
+			alert("AJAX communication error while requesting " + params.module + "." + params.act + "\n\n" + error_info);
 		};
 		
 		// Send the AJAX request.
@@ -260,7 +277,8 @@
 		var errorHandler = function(xhr, textStatus) {
 			clearTimeout(wfsr_timeout);
 			waiting_obj.hide().trigger("cancel_confirm");
-			alert("AJAX communication error while requesting " + params.module + "." + params.act + "\n\n" + xhr.status + " " + xhr.statusText);
+			var error_info = xhr.status + " " + xhr.statusText + " (" + textStatus + ")";
+			alert("AJAX communication error while requesting " + params.module + "." + params.act + "\n\n" + error_info);
 		};
 		
 		// Send the AJAX request.

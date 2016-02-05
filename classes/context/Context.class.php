@@ -233,6 +233,12 @@ class Context
 		$this->_setRequestArgument();
 		$this->_setUploadedArgument();
 		
+		if(isset($_POST['_rx_ajax_compat']) && $_POST['_rx_ajax_compat'] === 'XMLRPC')
+		{
+			self::$_instance->request_method = 'XMLRPC';
+			self::$_instance->response_method = 'JSON';
+		}
+		
 		// Load system configuration.
 		$this->loadDBInfo();
 		
