@@ -26,17 +26,7 @@ class adminAdminView extends admin
 
 	function __construct()
 	{
-		$db_info = Context::getDBInfo();
-
-		if(strpos($db_info->default_url, 'xn--') !== FALSE)
-		{
-			$xe_default_url = Context::decodeIdna($db_info->default_url);
-		}
-		else
-		{
-			$xe_default_url = $db_info->default_url;
-		}
-		Context::set('xe_default_url', $xe_default_url);
+		Context::set('xe_default_url', Context::getDefaultUrl());
 	}
 
 	/**
@@ -238,9 +228,6 @@ class adminAdminView extends admin
 	 */
 	function dispAdminIndex()
 	{
-		$db_info = Context::getDBInfo();
-		Context::set('db_info',$db_info);
-
 		// Get statistics
 		$args = new stdClass();
 		$args->date = date("Ymd000000", $_SERVER['REQUEST_TIME'] - 60 * 60 * 24);
@@ -410,7 +397,7 @@ class adminAdminView extends admin
 		Context::set('selected_timezone', Rhymix\Framework\Config::get('locale.default_timezone'));
 		
 		// Mobile view
-		Context::set('use_mobile_view', $db_info->use_mobile_view == 'Y' ? 'Y' : 'N');
+		Context::set('use_mobile_view', config('use_mobile_view') ? 'Y' : 'N');
 		
 		// Favicon and mobicon
 		$oAdminModel = getAdminModel('admin');

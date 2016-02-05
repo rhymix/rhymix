@@ -136,7 +136,7 @@ class ModuleHandler extends Handler
 			$urlInfo = parse_url($url);
 			$host = $urlInfo['host'];
 			
-			$defaultUrl = Context::getDBInfo()->default_url;
+			$defaultUrl = Context::getDefaultUrl();
 			if($defaultUrl)
 			{
 				$defaultUrlInfo = parse_url($defaultUrl);
@@ -240,8 +240,7 @@ class ModuleHandler extends Handler
 			}
 			else
 			{
-				$db_info = Context::getDBInfo();
-				if(!$db_info->default_url)
+				if(!Context::getDefaultUrl())
 				{
 					return Context::getLang('msg_default_url_is_not_defined');
 				}
@@ -250,7 +249,7 @@ class ModuleHandler extends Handler
 					$redirect_url = getNotEncodedSiteUrl($db_info->default_url, 'mid', Context::get('mid'), 'document_srl', Context::get('document_srl'), 'module_srl', Context::get('module_srl'), 'entry', Context::get('entry'));
 				}
 			}
-			header("location:" . $redirect_url);
+			header("Location: $redirect_url");
 			return FALSE;
 		}
 

@@ -208,9 +208,8 @@ class document extends ModuleObject
 		// 2009. 03. 09 Add a column(lang_code) to the documnets table
 		if(!$oDB->isColumnExists("documents","lang_code"))
 		{
-			$db_info = Context::getDBInfo();
-			$oDB->addColumn('documents',"lang_code","varchar",10, $db_info->lang_code);
-			$obj->lang_code = $db_info->lang_type;
+			$oDB->addColumn('documents',"lang_code","varchar",10, config('locale.default_lang'));
+			$obj->lang_code = config('locale.default_lang');
 			executeQuery('document.updateDocumentsLangCode', $obj);
 		}
 		// 2009. 03. 11 Check the index in the document_extra_vars table
