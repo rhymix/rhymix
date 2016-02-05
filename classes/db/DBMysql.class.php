@@ -58,13 +58,13 @@ class DBMysql extends DB
 	function __connect($connection)
 	{
 		// Ignore if no DB information exists
-		if(strpos($connection["db_hostname"], ':') === false && $connection["db_port"])
+		if(strpos($connection['host'], ':') === false && $connection['port'])
 		{
-			$connection["db_hostname"] .= ':' . $connection["db_port"];
+			$connection['host'] .= ':' . $connection['port'];
 		}
 
 		// Attempt to connect
-		$result = @mysql_connect($connection["db_hostname"], $connection["db_userid"], $connection["db_password"]);
+		$result = @mysql_connect($connection['host'], $connection['user'], $connection['pass']);
 		if(!$result)
 		{
 			exit('Unable to connect to DB.');
@@ -84,11 +84,11 @@ class DBMysql extends DB
 		}
 
 		// Set charset
-		$this->charset = isset($connection["db_charset"]) ? $connection["db_charset"] : 'utf8';
+		$this->charset = isset($connection['charset']) ? $connection['charset'] : 'utf8';
 		mysql_set_charset($this->charset, $result);
 
 		// select db
-		@mysql_select_db($connection["db_database"], $result);
+		@mysql_select_db($connection['database'], $result);
 		if(mysql_error())
 		{
 			$this->setError(mysql_errno(), mysql_error());

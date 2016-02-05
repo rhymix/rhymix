@@ -33,20 +33,15 @@ class installController extends install
 		$config = Context::gets('db_type', 'db_host', 'db_port', 'db_user', 'db_pass', 'db_database', 'db_prefix');
 		
 		// Create a temporary setting object.
-		$db_info = new stdClass();
-		$db_info->master_db = array();
-		$db_info->master_db['db_type'] = $config->db_type;
-		$db_info->master_db['db_hostname'] =  $config->db_host;
-		$db_info->master_db['db_port'] =  $config->db_port;
-		$db_info->master_db['db_userid'] =  $config->db_user;
-		$db_info->master_db['db_password'] =  $config->db_pass;
-		$db_info->master_db['db_database'] =  $config->db_database;
-		$db_info->master_db['db_table_prefix'] =  $config->db_prefix;
-		$db_info->slave_db = array($db_info->master_db);
-		$db_info->default_url = Context::getRequestUri();
-		$db_info->lang_type = Context::getLangType();
-		$db_info->use_mobile_view = 'Y';
-		Context::setDBInfo($db_info);
+		Rhymix\Framework\Config::set('db.master', array(
+			'type' => $config->db_type,
+			'host' => $config->db_host,
+			'port' => $config->db_port,
+			'user' => $config->db_user,
+			'pass' => $config->db_pass,
+			'database' => $config->db_database,
+			'prefix' => $config->db_prefix,
+		));
 		
 		// Check connection to the DB.
 		$oDB = DB::getInstance();
@@ -180,6 +175,7 @@ class installController extends install
 		$config['url']['default'] = Context::getRequestUri();
 		
 		// Load the new configuration.
+		Rhymix\Framework\Config::setAll($config);
 		Context::loadDBInfo($config);
 		
 		// Check DB.
@@ -223,7 +219,7 @@ class installController extends install
 		}
 		
 		// Save the new configuration.
-		Rhymix\Framework\Config::save($config);
+		Rhymix\Framework\Config::save();
 		
 		// Unset temporary session variables.
 		unset($_SESSION['use_rewrite']);
@@ -231,12 +227,9 @@ class installController extends install
 		
 		// Redirect to the home page.
 		$this->setMessage('msg_install_completed');
-		if(!in_array(Context::getRequestMethod(),array('XMLRPC','JSON')))
-		{
-			$returnUrl = Context::get('success_return_url') ? Context::get('success_return_url') : getNotEncodedUrl('');
-			$this->setRedirectUrl($returnUrl);
-		}
 		
+		$returnUrl = Context::get('success_return_url') ? Context::get('success_return_url') : RX_BASEURL;
+		$this->setRedirectUrl($returnUrl);
 		return new Object();
 	}
 

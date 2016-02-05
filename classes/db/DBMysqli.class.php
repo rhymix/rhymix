@@ -24,20 +24,13 @@ class DBMysqli extends DBMysql
 	function __connect($connection)
 	{
 		// Attempt to connect
-		if($connection["db_port"])
+		if($connection['port'])
 		{
-			$result = @mysqli_connect($connection["db_hostname"]
-							, $connection["db_userid"]
-							, $connection["db_password"]
-							, $connection["db_database"]
-							, $connection["db_port"]);
+			$result = @mysqli_connect($connection['host'], $connection['user'], $connection['pass'], $connection['database'], $connection['port']);
 		}
 		else
 		{
-			$result = @mysqli_connect($connection["db_hostname"]
-							, $connection["db_userid"]
-							, $connection["db_password"]
-							, $connection["db_database"]);
+			$result = @mysqli_connect($connection['host'], $connection['user'], $connection['pass'], $connection['database']);
 		}
 		$error = mysqli_connect_errno();
 		if($error)
@@ -45,7 +38,7 @@ class DBMysqli extends DBMysql
 			$this->setError($error, mysqli_connect_error());
 			return;
 		}
-		$this->charset = isset($connection["db_charset"]) ? $connection["db_charset"] : 'utf8';
+		$this->charset = isset($connection['charset']) ? $connection['charset'] : 'utf8';
 		mysqli_set_charset($result, $this->charset);
 		return $result;
 	}
@@ -89,6 +82,11 @@ class DBMysqli extends DBMysql
 	 */
 	function __query($query, $connection)
 	{
+		if ($connection === null)
+		{
+			debug_print_backtrace();
+			exit;
+		}
 		if($this->use_prepared_statements == 'Y')
 		{
 			// 1. Prepare query

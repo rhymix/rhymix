@@ -57,8 +57,8 @@ class installView extends install
 				}
 				else
 				{
-					header("location: ./");
-					exit;
+					$this->setRedirectUrl(RX_BASEURL);
+					return new Object();
 				}
 			}
 		}

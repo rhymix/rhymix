@@ -101,6 +101,17 @@ class Config
 	}
 	
 	/**
+	 * Set all system configuration.
+	 * 
+	 * @param array $config
+	 * @return void
+	 */
+	public static function setAll($config)
+	{
+		self::$_config = $config;
+	}
+	
+	/**
 	 * Convert previous configuration files to the current format and return it.
 	 * 
 	 * @return array
@@ -345,8 +356,11 @@ class Config
 	 */
 	public static function save($config = null)
 	{
-		$config = ($config === null) ? self::$_config : $config;
-		$buff = '<?php' . "\n" . '// Rhymix System Configuration' . "\n" . 'return ' . self::serialize($config) . ';' . "\n";
+		if ($config)
+		{
+			self::setAll($config);
+		}
+		$buff = '<?php' . "\n" . '// Rhymix System Configuration' . "\n" . 'return ' . self::serialize(self::$_config) . ';' . "\n";
 		return \FileHandler::writeFile(RX_BASEDIR . 'files/config/config.php', $buff) ? true : false;
 	}
 	

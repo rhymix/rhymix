@@ -139,11 +139,15 @@ class DB
 	 * @param string $db_type type of db
 	 * @return DB return DB object instance
 	 */
-	function getInstance($db_type = NULL)
+	public static function getInstance($db_type = NULL)
 	{
 		if(!$db_type)
 		{
-			$db_type = Context::getDBType();
+			$db_type = config('db.master.type');
+			if (config('db.master.engine') === 'innodb')
+			{
+				$db_type .= '_innodb';
+			}
 		}
 		if(!$db_type && Context::isInstalled())
 		{
@@ -157,7 +161,7 @@ class DB
 		if(!isset($GLOBALS['__DB__'][$db_type]))
 		{
 			$class_name = 'DB' . ucfirst($db_type);
-			$class_file = _XE_PATH_ . "classes/db/$class_name.class.php";
+			$class_file = RX_BASEDIR . "classes/db/$class_name.class.php";
 			if(!file_exists($class_file))
 			{
 				return new Object(-1, 'msg_db_not_setted');
@@ -165,7 +169,7 @@ class DB
 
 			// get a singletone instance of the database driver class
 			require_once($class_file);
-			$GLOBALS['__DB__'][$db_type] = call_user_func(array($class_name, 'create'));
+			$GLOBALS['__DB__'][$db_type] = new $class_name;
 			$GLOBALS['__DB__'][$db_type]->db_type = $db_type;
 		}
 
@@ -176,7 +180,7 @@ class DB
 	 * returns instance of db
 	 * @return DB return DB object instance
 	 */
-	function create()
+	public static function create()
 	{
 		return new static();
 	}
@@ -185,7 +189,7 @@ class DB
 	 * constructor
 	 * @return void
 	 */
-	function __construct()
+	public function __construct()
 	{
 		$this->count_cache_path = _XE_PATH_ . $this->count_cache_path;
 		$this->cache_file = _XE_PATH_ . $this->cache_file;
@@ -1010,7 +1014,7 @@ class DB
 			{
 				$this->_connect($type);
 			}
-			$this->connection = 'Master ' . $this->master_db['db_hostname'];
+			$this->connection = 'Master ' . $this->master_db['host'];
 			return $this->master_db["resource"];
 		}
 
@@ -1024,7 +1028,7 @@ class DB
 			$this->_connect($type, $indx);
 		}
 
-		$this->connection = 'Slave ' . $this->slave_db[$indx]['db_hostname'];
+		$this->connection = 'Slave ' . $this->slave_db[$indx]['host'];
 		return $this->slave_db[$indx]["resource"];
 	}
 
@@ -1219,23 +1223,11 @@ class DB
 	 */
 	function _setDBInfo()
 	{
-		$db_info = Context::getDBInfo();
-		$this->master_db = $db_info->master_db;
-		if($db_info->master_db["db_hostname"] == $db_info->slave_db[0]["db_hostname"]
-				&& $db_info->master_db["db_port"] == $db_info->slave_db[0]["db_port"]
-				&& $db_info->master_db["db_userid"] == $db_info->slave_db[0]["db_userid"]
-				&& $db_info->master_db["db_password"] == $db_info->slave_db[0]["db_password"]
-				&& $db_info->master_db["db_database"] == $db_info->slave_db[0]["db_database"]
-		)
-		{
-			$this->slave_db[0] = &$this->master_db;
-		}
-		else
-		{
-			$this->slave_db = $db_info->slave_db;
-		}
-		$this->prefix = $db_info->master_db["db_table_prefix"];
-		$this->use_prepared_statements = $db_info->use_prepared_statements;
+		$db_info = config('db');
+		$this->master_db = $db_info['master'];
+		$this->slave_db = $db_info ? array_values($db_info) : null;
+		$this->prefix = $this->master_db['prefix'];
+		$this->use_prepared_statements = config('use_prepared_statements');
 	}
 
 	/**
@@ -1301,7 +1293,7 @@ class DB
 		$connection["is_connected"] = TRUE;
 
 		// Save connection info for db logs
-		$this->connection = ucfirst($type) . ' ' . $connection["db_hostname"];
+		$this->connection = ucfirst($type) . ' ' . $connection['host'];
 
 		// regist $this->close callback
 		register_shutdown_function(array($this, "close"));

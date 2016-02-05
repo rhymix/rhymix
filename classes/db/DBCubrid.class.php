@@ -56,15 +56,6 @@ class DBCubrid extends DB
 	}
 
 	/**
-	 * Create an instance of this class
-	 * @return DBCubrid return DBCubrid object instance
-	 */
-	function create()
-	{
-		return new DBCubrid;
-	}
-
-	/**
 	 * DB Connect
 	 * this method is private
 	 * @param array $connection connection's value is db_hostname, db_port, db_database, db_userid, db_password
@@ -73,7 +64,7 @@ class DBCubrid extends DB
 	function __connect($connection)
 	{
 		// attempts to connect
-		$result = @cubrid_connect($connection["db_hostname"], $connection["db_port"], $connection["db_database"], $connection["db_userid"], $connection["db_password"]);
+		$result = @cubrid_connect($connection['host'], $connection['port'], $connection['database'], $connection['user'], $connection['pass']);
 
 		// check connections
 		if(!$result)
