@@ -304,7 +304,14 @@ class Lang
 		// Search custom translations first.
 		if (isset($this->_loaded_plugins['_custom_']->{$key}))
 		{
-			return $this->_loaded_plugins['_custom_']->{$key};
+			if (is_array($this->_loaded_plugins['_custom_']->{$key}))
+			{
+				return new \ArrayObject($this->_loaded_plugins['_custom_']->{$key}, 3);
+			}
+			else
+			{
+				return $this->_loaded_plugins['_custom_']->{$key};
+			}
 		}
 		
 		// Search other plugins.
@@ -312,7 +319,14 @@ class Lang
 		{
 			if (isset($this->_loaded_plugins[$plugin_name]->{$key}))
 			{
-				return $this->_loaded_plugins[$plugin_name]->{$key};
+				if (is_array($this->_loaded_plugins[$plugin_name]->{$key}))
+				{
+					return new \ArrayObject($this->_loaded_plugins[$plugin_name]->{$key}, 3);
+				}
+				else
+				{
+					return $this->_loaded_plugins[$plugin_name]->{$key};
+				}
 			}
 		}
 		
