@@ -563,7 +563,7 @@ class Context
 	 */
 	public static function getSslStatus()
 	{
-		return config('url.ssl');
+		return self::get('_use_ssl');
 	}
 
 	/**
@@ -573,7 +573,7 @@ class Context
 	 */
 	public static function getDefaultUrl()
 	{
-		return config('url.default');
+		return self::$_instance->db_info->default_url;
 	}
 
 	/**
@@ -836,6 +836,7 @@ class Context
 	 */
 	public static function setLangType($lang_type = 'ko')
 	{
+		self::$_instance->db_info->lang_type = $lang_type;
 		self::$_instance->lang_type = $lang_type;
 		self::set('lang_type', $lang_type);
 
