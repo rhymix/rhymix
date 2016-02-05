@@ -1,0 +1,7 @@
+@charset "UTF-8";
+section.section>div>* {
+	padding: 0px 15px;
+}
+section.section>div>h2 {
+	padding: 0px;
+}

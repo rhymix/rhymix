@@ -1,7 +1,8 @@
 <load target="popup.js" />
 <load target="popup.css" />
+{@Context::addMetaTag('viewport', 'width=device-width', FALSE);}
 <section class="section">
-	<h1>{$component_info->title} ver. {$component_info->version}</h1>
+	<h1>{$component_info->title}</h1>
 	<div class="x_clearfix">
 		<div class="x_pull-right">
 			<select name="list" id="selectEmoticonList">
