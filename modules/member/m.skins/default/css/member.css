@@ -36,6 +36,14 @@
 .lt{margin:0;padding:0;list-style:none;background:#f8f8f8;font-size:14px}
 .lt li{border-bottom:1px solid #ccc8be;overflow:hidden}
 .lt a{box-sizing: border-box;width:100%;display:inline-block;float:left;text-decoration:none;color:#000;padding:10px}
+.lt span{
+	display:inline-block;
+	padding:5px;
+}
+.lt span.before-color:after{
+	content:"→";
+	margin-left:10px;
+}
 .lt .memberInfo{float:right;}
 .lt .notice{display:inline-block;background:#a06acd;font-weight:bold;color:#fff;font-size:12px;padding:1px;border-radius:2px;-moz-border-radius:2px;-webkit-border-radius:2px}
 .lt .title{display:block;margin:0 0 5px 0}

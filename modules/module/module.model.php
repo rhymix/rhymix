@@ -626,6 +626,21 @@ class moduleModel extends module
 	}
 
 	/**
+	 * @brief Get trigger functions
+	 */
+	function getTriggerFunctions($trigger_name, $called_position)
+	{
+		if(isset($GLOBALS['__trigger_functions__'][$trigger_name][$called_position]))
+		{
+			return $GLOBALS['__trigger_functions__'][$trigger_name][$called_position];
+		}
+		else
+		{
+			return array();
+		}
+	}
+
+	/**
 	 * @brief Get a list of all triggers on the trigger_name
 	 */
 	function getTriggers($trigger_name, $called_position)

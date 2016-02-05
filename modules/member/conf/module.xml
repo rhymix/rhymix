@@ -21,6 +21,7 @@
 		<action name="dispMemberResendAuthMail" type="view" standalone="true" />
 		<action name="dispSavedDocumentList" type="view" standalone="true" />
 		<action name="dispMemberSpammer" type="view" standalone="true" />
+		<action name="dispMemberModifyNicknameLog" type="view" standalone="true" />
 
 		<action name="dispMemberAdminList" type="view" index="true" admin_index="true" menu_name="userList" menu_index="true"/>
 		<!--action name="dispMemberAdminConfig" type="view" menu_name="userSetting" menu_index="true" /-->

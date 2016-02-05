@@ -24,12 +24,12 @@ class memberAdminController extends member
 		// if(Context::getRequestMethod() == "GET") return new Object(-1, "msg_invalid_request");
 		// Extract the necessary information in advance
 		$logged_info = Context::get('logged_info');
-		if($logged_info->is_admin !== 'Y' || !checkCSRF())
+		if($logged_info->is_admin != 'Y' || !checkCSRF())
 		{
 			return new Object(-1, 'msg_invalid_request');
 		}
 
-		$args = new stdClass;
+		$args = Context::gets('member_srl','email_address','find_account_answer', 'allow_mailing','allow_message','denied','is_admin','description','group_srl_list','limit_date');
 		$oMemberModel = &getModel ('member');
 		$config = $oMemberModel->getMemberConfig ();
 		$getVars = array();
@@ -47,7 +47,7 @@ class memberAdminController extends member
 		{
 			$args->{$val} = Context::get($val);
 		}
-		$args = Context::gets('member_srl','email_address','find_account_answer', 'allow_mailing', 'allow_message', 'denied', 'is_admin', 'description', 'group_srl_list', 'limit_date');
+		$args->member_srl = Context::get('member_srl');
 		if(Context::get('reset_password'))
 			$args->password = Context::get('reset_password');
 		else unset($args->password);
@@ -162,7 +162,8 @@ class memberAdminController extends member
 			'password_strength',
 			'password_hashing_algorithm',
 			'password_hashing_work_factor',
-			'password_hashing_auto_upgrade'
+			'password_hashing_auto_upgrade',
+			'update_nickname_log'
 		);
 		
 		$oPassword = new Password();

@@ -1,0 +1,12 @@
+<query id="insertMemberModifyNickName" action="insert">
+	<tables>
+		<table name="member_nickname_log" />
+	</tables>
+	<columns>
+		<column name="member_srl" var="member_srl" filter="number" notnull="notnull" />
+		<column name="before_nick_name" var="before_nick_name" notnull="notnull" />
+		<column name="after_nick_name" var="after_nick_name" notnull="notnull" />
+		<column name="user_id" var="user_id" notnull="notnull" />
+		<column name="regdate" var="regdate" default="curdate()" />
+	</columns>
+</query>
