@@ -6,7 +6,7 @@
 error_reporting(E_ALL ^ E_WARNING ^ E_NOTICE ^ E_STRICT ^ E_DEPRECATED);
 
 /**
- * Set the default timezone.
+ * Suppress date/time errors until the internal time zone is set (see below).
  */
 date_default_timezone_set(@date_default_timezone_get());
 
@@ -197,3 +197,9 @@ require_once RX_BASEDIR  . 'vendor/autoload.php';
  * Load system configuration.
  */
 Rhymix\Framework\Config::init();
+
+/**
+ * Set the internal timezone.
+ */
+$internal_timezone = Rhymix\Framework\DateTime::getTimezoneNameByOffset(config('locale.internal_timezone'));
+date_default_timezone_set($internal_timezone);
