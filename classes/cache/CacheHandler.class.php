@@ -28,7 +28,7 @@ class CacheHandler extends Handler
 	 * @param boolean $always_use_file If set true, use a file cache always
 	 * @return CacheHandler
 	 */
-	function &getInstance($target = 'object', $info = null, $always_use_file = false)
+	function getInstance($target = 'object', $info = null, $always_use_file = false)
 	{
 		$cache_handler_key = $target . ($always_use_file ? '_file' : '');
 		if(!$GLOBALS['__XE_CACHE_HANDLER__'][$cache_handler_key])

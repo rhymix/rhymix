@@ -139,7 +139,7 @@ class DB
 	 * @param string $db_type type of db
 	 * @return DB return DB object instance
 	 */
-	function &getInstance($db_type = NULL)
+	function getInstance($db_type = NULL)
 	{
 		if(!$db_type)
 		{
