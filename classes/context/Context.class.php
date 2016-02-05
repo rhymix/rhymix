@@ -237,7 +237,7 @@ class Context
 		$this->loadDBInfo();
 		
 		// If the site is locked, display the locked page.
-		if(Rhymix\Framework\Config::get('lock.locked'))
+		if(config('lock.locked'))
 		{
 			self::enforceSiteLock();
 		}
@@ -301,7 +301,7 @@ class Context
 		$this->lang->loadDirectory(RX_BASEDIR . 'modules/module/lang', 'module');
 		
 		// set session handler
-		if(self::isInstalled() && $this->db_info->use_db_session == 'Y')
+		if(self::isInstalled() && config('session.use_db'))
 		{
 			$oSessionModel = getModel('session');
 			$oSessionController = getController('session');
@@ -322,7 +322,7 @@ class Context
 			$session_id = $_COOKIE[$session_name];
 		}
 
-		if($session_id !== NULL || $this->db_info->delay_session != 'Y')
+		if($session_id !== NULL || !config('session.delay'))
 		{
 			$this->setCacheControl(0, false);
 			session_start();
@@ -557,7 +557,7 @@ class Context
 	 */
 	public static function getSslStatus()
 	{
-		return Rhymix\Framework\Config::get('url.ssl');
+		return config('url.ssl');
 	}
 
 	/**
@@ -567,7 +567,7 @@ class Context
 	 */
 	public static function getDefaultUrl()
 	{
-		return Rhymix\Framework\Config::get('url.default');
+		return config('url.default');
 	}
 
 	/**
@@ -615,7 +615,7 @@ class Context
 	public function checkSSO()
 	{
 		// pass if it's not GET request or XE is not yet installed
-		if($this->db_info->use_sso != 'Y' || isCrawler())
+		if(!config('use_sso') || isCrawler())
 		{
 			return TRUE;
 		}
@@ -1382,7 +1382,7 @@ class Context
 	 */
 	private static function enforceSiteLock()
 	{
-		$allowed_list = Rhymix\Framework\Config::get('lock.allow');
+		$allowed_list = config('lock.allow');
 		foreach ($allowed_list as $allowed_ip)
 		{
 			if (Rhymix\Framework\IpFilter::inRange(RX_CLIENT_IP, $allowed_ip))
@@ -1392,8 +1392,8 @@ class Context
 		}
 		
 		define('_XE_SITELOCK_', TRUE);
-		define('_XE_SITELOCK_TITLE_', Rhymix\Framework\Config::get('lock.title'));
-		define('_XE_SITELOCK_MESSAGE_', Rhymix\Framework\Config::get('lock.message'));
+		define('_XE_SITELOCK_TITLE_', config('lock.title'));
+		define('_XE_SITELOCK_MESSAGE_', config('lock.message'));
 		
 		header("HTTP/1.1 403 Forbidden");
 		if(FileHandler::exists(RX_BASEDIR . 'common/tpl/sitelock.user.html'))
@@ -2417,7 +2417,7 @@ class Context
 	 */
 	public static function isInstalled()
 	{
-		return Rhymix\Framework\Config::get('config_version');
+		return (bool)config('config_version');
 	}
 
 	/**
