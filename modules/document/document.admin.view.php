@@ -75,10 +75,30 @@ class documentAdminView extends document
 		$oModuleModel = getModel('module');
 		$module_list = array();
 		$mod_srls = array();
+		$anonymous_member_srls = array();
 		foreach($output->data as $oDocument)
 		{
 			$mod_srls[] = $oDocument->get('module_srl');
+			if($oDocument->get('member_srl') < 0)
+			{
+				$anonymous_member_srls[] = abs($oDocument->get('member_srl'));
+			}
 		}
+		if($anonymous_member_srls)
+		{
+			$member_args = new stdClass();
+			$member_args->member_srl = $anonymous_member_srls;
+			$member_output = executeQueryArray('member.getMembers', $member_args);
+			if($member_output)
+			{
+				$member_nick_neme = array();
+				foreach($member_output->data as $member)
+				{
+					$member_nick_neme[$member->member_srl] = $member->nick_name;
+				}
+			}
+		}
+		Context::set('member_nick_name', $member_nick_neme);
 		$mod_srls = array_unique($mod_srls);
 		// Module List
 		$mod_srls_count = count($mod_srls);
