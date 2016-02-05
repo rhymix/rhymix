@@ -27,6 +27,7 @@
 		params = params ? ($.isArray(params) ? arr2obj(params) : params) : {};
 		params.module = module;
 		params.act = act;
+		params._rx_ajax_compat = 'XMLRPC';
 		
 		// Fill in the XE vid.
 		if (typeof(xeVid) != "undefined") params.vid = xeVid;
@@ -162,6 +163,7 @@
 		if (action.length != 2) return;
 		params.module = action[0];
 		params.act = action[1];
+		params._rx_ajax_compat = 'JSON';
 		
 		// Fill in the XE vid.
 		if (typeof(xeVid) != "undefined") params.vid = xeVid;
