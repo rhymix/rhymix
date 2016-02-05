@@ -235,6 +235,12 @@ class Context
 		$this->_setJSONRequestArgument();
 		$this->_setRequestArgument();
 		$this->_setUploadedArgument();
+		
+		if(isset($_POST['_rx_ajax_compat']) && $_POST['_rx_ajax_compat'] === 'XMLRPC')
+		{
+			self::$_instance->request_method = 'XMLRPC';
+			self::$_instance->response_method = 'JSON';
+		}
 
 		$this->loadDBInfo();
 		if($this->db_info->use_sitelock == 'Y')
