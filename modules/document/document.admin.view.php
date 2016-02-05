@@ -35,6 +35,7 @@ class documentAdminView extends document
 	 */
 	function dispDocumentAdminList()
 	{
+		$oMemberModel = getModel('member');
 		// option to get a list
 		$args = new stdClass();
 		$args->page = Context::get('page'); // /< Page
@@ -63,6 +64,7 @@ class documentAdminView extends document
 		Context::set('document_list', $output->data);
 		Context::set('status_name_list', $statusNameList);
 		Context::set('page_navigation', $output->page_navigation);
+		Context::set('oMemberModel', $oMemberModel);
 
 		// set a search option used in the template
 		$count_search_option = count($this->search_option);

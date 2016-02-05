@@ -51,7 +51,18 @@ xe.lang.msg_empty_search_keyword = '{$lang->msg_empty_search_keyword}';
 				<a href="{getUrl('', 'mid', $module_list[$oDocument->get('module_srl')]->mid)}" target="_blank">{$module_list[$oDocument->get('module_srl')]->browser_title}</a> - 
 				</block>
 				<a href="{getUrl('','document_srl',$oDocument->document_srl)}" target="_blank"><!--@if(trim($oDocument->getTitleText()))-->{htmlspecialchars($oDocument->getTitleText())}<!--@else--><em>{$lang->no_title_document}</em><!--@end--></a></td>
-				<td class="nowr"><a href="#popup_menu_area" class="member_{$oDocument->get('member_srl')}">{$oDocument->getNickName()}</a></td>
+				<!--@if($oDocument->get('member_srl') < 0)-->
+				{@
+					$member_srl = abs($oDocument->get('member_srl'));
+					$member_info = $oMemberModel->getMemberInfoByMemberSrl($member_srl);
+					$nick_name = '('.$lang->anonymous.')'.$member_info->nick_name;
+				}
+				<!--@else-->
+				{@
+					$nick_name = $oDocument->getNickName();
+				}
+				<!--@end-->
+				<td class="nowr"><a href="#popup_menu_area" class="member_{abs($oDocument->get('member_srl'))}">{$nick_name}</a></td>
 				<td class="nowr">{$oDocument->get('readed_count')}</td>
 				<td class="nowr">{$oDocument->get('voted_count')}/{$oDocument->get('blamed_count')}</td>
 				<td class="nowr">{$oDocument->getRegdate("Y-m-d H:i")}</td>
