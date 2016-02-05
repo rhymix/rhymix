@@ -1,41 +1,36 @@
-<load target="css/editor.css" />
-<load target="../../../modules/admin/tpl/css/admin.css" />
-<load target="../../../common/css/bootstrap.min.css" />
-
+{@Context::addMetaTag('viewport', 'width=device-width', FALSE);}
+<load target="css/view_component.css" />
 <section class="section">
-	<h1>{$component->title} ver. {$component->version}</h1>
-	<table class="x_table x_table-striped x_table-hover">
-	<tr>
-		<th scope="row"><div>{$lang->component_author}</div></th>
-		<td>
-			<!--@foreach($component->author as $author)-->
-			{$author->name} <!--@if($author->homepage || $author->email_address)-->(<!--@if($author->homepage)--><a href="{$author->homepage}" onclick="window.open(this.href);return false;">{$author->homepage}</a><!--@end--><!--@if($author->homepage && $author->email_address)-->, <!--@end--><!--@if($author->email_address)--><a href="mailto:{$author->email_address}">{$author->email_address}</a><!--@end-->)<!--@end--><br />
-			<!--@end-->
-	</tr>
-	<!--@if($component->homepage)-->
-	<tr>
-		<th scope="row"><div>{$lang->homepage}</div></th>
-		<td class="blue"><a href="{$component->homepage}" onclick="window.open(this.href);return false;">{$component->homepage}</a></td>
-	</tr><!--@end-->
-	<tr>
-		<th scope="row"><div>{$lang->regdate}</div></th>
-		<td>{zdate(str_replace('-',"",$component->date), 'Y-m-d')}</td>
-	</tr>
-	<!--@if($component->license || $component->license_link)-->
-	<tr>
-		<th scope="row"><div>{$lang->component_license}</div></th>
-		<td>
+	<h1>{$component->title}</h1>
+	<div>
+		<h2>{$lang->component_author}</h2>
+		<ul>
+			<li loop="$component->author => $author">
+				{$author->name} <!--@if($author->homepage || $author->email_address)-->(<!--@if($author->homepage)--><a href="{$author->homepage}" onclick="window.open(this.href);return false;">{$author->homepage}</a><!--@end--><!--@if($author->homepage && $author->email_address)-->, <!--@end--><!--@if($author->email_address)--><a href="mailto:{$author->email_address}">{$author->email_address}</a><!--@end-->)<!--@end-->
+			</li>
+		</ul>
+	</div>
+	<div cond="$component->homepage">
+		<h2>{$lang->homepage}</h2>
+		<p><a href="{$component->homepage}" onclick="window.open(this.href);return false;">{$component->homepage}</a></p>
+	</div>
+	<div>
+		<h2>{$lang->component_version}</h2>
+		<p>{$component->version}</p>
+	</div>
+	<div>
+		<h2>{$lang->regdate}</h2>
+		<p><time datetime="{date('c', strtotime($component->date))}">{zdate(str_replace('-',"",$component->date), 'Y-m-d')}</time></p>
+	</div>
+	<div cond="$component->license || $component->license_link">
+		<h2>{$lang->component_license}</h2>
+		<p>
 			{nl2br(trim($component->license))}
-		<!--@if($component->license_link)-->
-			<p><a href="{$component->license_link}" onclick="window.close(); return false;">{$component->license_link}</a></p>
-		<!--@end-->
-		</td>
-	</tr><!--@end-->
-	<!--@if($component->description)-->
-	<tr>
-		<th scope="row"><div>{$lang->component_description}</div></th>
-		<td>{nl2br(trim($component->description))}</td>
-	</tr><!--@end-->
-	</table>
-
+			<a href="{$component->license_link}" cond="$component->license_link" onclick="window.open(this.href);return false;">{$component->license_link}</a>
+		</p>
+	</div>
+	<div cond="$component->description">
+		<h2>{$lang->component_description}</h2>
+		<p>{nl2br(trim($component->description))}</p>
+	</div>
 </section>

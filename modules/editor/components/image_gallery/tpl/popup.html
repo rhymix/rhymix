@@ -1,14 +1,15 @@
 <!--%import("popup.js")-->
 <!--%import("popup.css")-->
 <!--%import("../lang")-->
+{@Context::addMetaTag('viewport', 'width=device-width', FALSE);}
 <section class="section">
-	<h1>{$component_info->title} ver. {$component_info->version}</h1>
+	<h1>{$component_info->title}</h1>
 	<form action="./" method="get" onSubmit="return false" id="fo" class="x_form-horizontal">
 	<input type="hidden" name="editor_sequence" value="{$editor_sequence}" />
 		<div class="x_control-group">
 			<label for="" class="x_control-label">{$lang->width}</label>
 			<div class="x_controls">
-				<input type="text" size="3" id="width" value="400" />px
+				<input type="number" size="3" id="width" value="400" />px
 			</div>
 		</div>
 		<div class="x_control-group">
@@ -33,19 +34,19 @@
 		<div class="x_control-group">
 			<label for="" class="x_control-label">{$lang->gallery_border_thickness}</label>
 			<div class="x_controls">
-				<input type="text" size="1" id="border_thickness" value="0" />px
+				<input type="number" size="1" id="border_thickness" value="0" />px
 			</div>
 		</div>
 		<div class="x_control-group">
 			<label for="" class="x_control-label">{$lang->gallery_border_color}</label>
 			<div class="x_controls">
-				<input type="text" id="border_color_input" class="color-indicator" size="7" maxlength="6"  value="#000000" />
+				<input type="color" id="border_color_input" class="color-indicator" size="7" value="#000000" />
 			</div>
 		</div>
 		<div class="x_control-group">
 			<label for="" class="x_control-label">{$lang->gallery_bg_color}</label>
 			<div class="x_controls">
-				<input type="text" id="bg_color_input" class="color-indicator"  size="7" maxlength="6"  value="#FFFFFF" />
+				<input type="color" id="bg_color_input" class="color-indicator"  size="7" value="#FFFFFF" />
 			</div>
 		</div>
 		<div class="x_control-group">

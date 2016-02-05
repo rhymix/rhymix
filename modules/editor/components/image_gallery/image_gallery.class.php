@@ -57,9 +57,10 @@ class image_gallery extends EditorHandler
 		}
 
 		$images_list = $xml_obj->attrs->images_list;
-		$images_list = preg_replace('/\.(gif|jpe?g|png) /i', ".\\1\n", $images_list);
+		$images_list = trim(preg_replace('/\.(gif|jpe?g|png) /i', ".\\1\n", $images_list));
 		$images_list = explode("\n", trim($images_list));
-		$gallery_info->images_list = preg_grep("/^[a-z0-9\/]+\.(gif|jpe?g|png)+$/", $images_list);
+		// 파일 확장자는 대문자가 될 수도 있음. (i 가 추가된 이유.) 2016.02.05 misol <misol.kr@gmail.com>
+		$gallery_info->images_list = preg_grep("/^[a-z0-9\/]+\.(gif|jpe?g|png)+$/i", $images_list);
 
 		// If you set the output to output the XML code generated a list of the image
 		if(Context::getResponseMethod() == 'XMLRPC')
