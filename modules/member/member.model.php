@@ -687,6 +687,7 @@ class memberModel extends member
 				$column_title = $join_form_list[$i]->column_title;
 				$default_value = $join_form_list[$i]->default_value;
 				// Add language variable
+				if(!isset($lang->extend_vars)) $lang->extend_vars = array();
 				$lang->extend_vars[$column_name] = $column_title;
 				// unserialize if the data type if checkbox, select and so on
 				if(in_array($column_type, array('checkbox','select','radio')))
