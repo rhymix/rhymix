@@ -197,25 +197,54 @@ class Lang
 		
 		// Convert XML to a PHP array.
 		$lang = array();
-		foreach ($xml->item as $item)
+		self::_toArray($xml, $lang, $language);
+		unset($xml);
+		
+		// Save the array as a cache file.
+		$buff = "<?php\n";
+		foreach ($lang as $key => $value)
+		{
+			if (is_array($value))
+			{
+				foreach ($value as $subkey => $subvalue)
+				{
+					if (is_array($subvalue))
+					{
+						foreach ($subvalue as $subsubkey => $subsubvalue)
+						{
+							$buff .= '$lang->' . $key . "['$subkey']['$subsubkey']" . ' = ' . var_export($subsubvalue, true) . ";\n";
+						}
+					}
+					else
+					{
+						$buff .= '$lang->' . $key . "['$subkey']" . ' = ' . var_export($subvalue, true) . ";\n";
+					}
+				}
+			}
+			else
+			{
+				$buff .= '$lang->' . $key . ' = ' . var_export($value, true) . ";\n";
+			}
+		}
+		\FileHandler::writeFile($output_filename, $buff);
+		return $output_filename;
+	}
+	
+	/**
+	 * XML to array conversion callback.
+	 * 
+	 * @param array $items
+	 * @return void
+	 */
+	protected static function _toArray($items, &$lang, $language)
+	{
+		foreach ($items as $item)
 		{
 			$name = strval($item['name']);
 			if (count($item->item))
 			{
 				$lang[$name] = array();
-				foreach ($item->item as $subitem)
-				{
-					$subname = strval($subitem['name']);
-					foreach ($subitem->value as $value)
-					{
-						$attribs = $value->attributes('xml', true);
-						if (strval($attribs['lang']) === $language)
-						{
-							$lang[$name][$subname] = strval($value);
-							break;
-						}
-					}
-				}
+				self::_toArray($item->item, $lang[$name], $language);
 			}
 			else
 			{
@@ -230,26 +259,6 @@ class Lang
 				}
 			}
 		}
-		unset($xml);
-		
-		// Save the array as a cache file.
-		$buff = "<?php\n";
-		foreach ($lang as $key => $value)
-		{
-			if (is_array($value))
-			{
-				foreach ($value as $subkey => $subvalue)
-				{
-					$buff .= '$lang->' . $key . "['" . $subkey . "']" . ' = ' . var_export($subvalue, true) . ";\n";
-				}
-			}
-			else
-			{
-				$buff .= '$lang->' . $key . ' = ' . var_export($value, true) . ";\n";
-			}
-		}
-		\FileHandler::writeFile($output_filename, $buff);
-		return $output_filename;
 	}
 	
 	/**
