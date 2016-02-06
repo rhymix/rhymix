@@ -15,24 +15,20 @@ class JSONDisplayHandler
 		$variables['error'] = $oModule->getError();
 		$variables['message'] = $oModule->getMessage();
 		
-		if (Context::getRequestMethod() === 'XMLRPC')
+		$temp = array();
+		foreach ($variables as $key => $value)
 		{
-			$temp = array();
-			foreach ($variables as $key => $value)
+			if (self::_isNumericArray($value))
 			{
-				if (self::_isNumericArray($value))
-				{
-					$temp[$key] = array_values($value);
-				}
-				else
-				{
-					$temp[$key] = $value;
-				}
+				$temp[$key] = array_values($value);
 			}
-			$variables = $temp;
+			else
+			{
+				$temp[$key] = $value;
+			}
 		}
 		
-		return json_encode($variables);
+		return json_encode($temp);
 	}
 	
 	/**
