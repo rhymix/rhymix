@@ -3,12 +3,12 @@
  * @author MinSoo Kim <misol.kr@gmail.com>
  **/
 jQuery(function($){
-	$.fn.xe_spectrum = function(settings){
+	$.fn.rx_spectrum = function(settings){
 		return this.spectrum(settings);
 	}
 
-	// 컬러 피커가 내장된 브라우저에서는 내장된 컬러피커 이용 by misol 2016.02.05
-	if ( $("input.color-indicator").prop('type') != 'color' ) {
+	// 컬러 피커가 내장된 브라우저에서는 내장된 컬러피커 이용
+	if ( $("input.rx-spectrum").prop('type') != 'color' ) {
 		$.getScript(request_uri + "./common/js/plugins/spectrum/i18n/jquery.spectrum-"+ xe.current_lang.replace("jp", "ja").toLowerCase() +".js", function() {
 			var settings = {
 				showInput: true,
@@ -42,7 +42,7 @@ jQuery(function($){
 					["#660000","#783f04","#7f6000","#274e13","#0c343d","#073763","#20124d","#4c1130"]
 				]
 			}
-			$('input.color-indicator').xe_spectrum(settings);
+			$('input.rx-spectrum').rx_spectrum(settings);
 		});
 	}
 });
