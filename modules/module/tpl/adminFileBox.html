@@ -63,6 +63,8 @@
 						</object>
 					<!--@elseif(in_array($val->fileextension,array('gif','png','jpg','jpeg')))-->
 						<img src="{getUrl('')}{$val->filename}" style="max-height:60px" />
+					<!--@else-->
+						<a href="{getUrl('')}{$val->filename}">{basename($val->filename)}</a>
 					<!--@end-->
 				</td>
 				<td>
