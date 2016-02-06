@@ -45,7 +45,7 @@ class JSONDisplayHandler
 		}
 		foreach ($array as $key => $value)
 		{
-			if (intval($key) != $key)
+			if (!is_numeric($key))
 			{
 				return false;
 			}
