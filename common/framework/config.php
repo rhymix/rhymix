@@ -309,7 +309,7 @@ class Config
 		$config['lock']['message'] = strval($db_info->sitelock_message);
 		if (!is_array($db_info->sitelock_whitelist))
 		{
-			$db_info->sitelock_whitelist = array_map('trim', explode(',', trim($db_info->sitelock_whitelist)));
+			$db_info->sitelock_whitelist = $db_info->sitelock_whitelist ? array_map('trim', explode(',', trim($db_info->sitelock_whitelist))) : array();
 		}
 		if (!in_array('127.0.0.1', $db_info->sitelock_whitelist))
 		{
@@ -394,7 +394,7 @@ class Config
 	{
 		if (is_object($value))
 		{
-			return '(object)' . self::serializeValue((array)$value);
+			return '(object)' . self::serialize((array)$value);
 		}
 		elseif (is_array($value))
 		{

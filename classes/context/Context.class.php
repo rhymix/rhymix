@@ -530,6 +530,11 @@ class Context
 		// Save old format to Context instance.
 		self::$_instance->allow_rewrite = $config['use_rewrite'];
 		self::$_instance->db_info = $db_info;
+		if (!file_exists($old_config_file = self::getConfigFile()))
+		{
+			$buff = '<?php' . "\n" . '$db_info = ' . Rhymix\Framework\Config::serialize($db_info) . ';' . "\n";
+			FileHandler::writeFile($old_config_file, $buff);
+		}
 	}
 
 	/**
