@@ -349,6 +349,21 @@ class Config
 		$config['use_rewrite'] = $db_info->use_rewrite === 'Y' ? true : false;
 		$config['use_sso'] = $db_info->use_sso === 'Y' ? true : false;
 		
+		// Copy other configuration.
+		unset($db_info->master_db, $db_info->slave_db);
+		unset($db_info->lang_type, $db_info->time_zone);
+		unset($db_info->default_url, $db_info->http_port, $db_info->https_port, $db_info->use_ssl);
+		unset($db_info->delay_session, $db_info->use_db_session);
+		unset($db_info->minify_scripts, $db_info->admin_ip_list);
+		unset($db_info->use_sitelock, $db_info->sitelock_title, $db_info->sitelock_message, $db_info->sitelock_whitelist);
+		unset($db_info->embed_white_iframe, $db_info->embed_white_object);
+		unset($db_info->use_object_cache, $db_info->use_mobile_view, $db_info->use_prepared_statements);
+		unset($db_info->use_rewrite, $db_info->use_sso);
+		foreach ($db_info as $key => $value)
+		{
+			$config['other'][$key] = $value;
+		}
+		
 		// Return the new configuration.
 		return $config;
 	}

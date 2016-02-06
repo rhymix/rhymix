@@ -519,6 +519,13 @@ class Context
 		$db_info->use_prepared_statements = $config['use_prepared_statements'] ? 'Y' : 'N';
 		$db_info->use_rewrite = $config['use_rewrite'] ? 'Y' : 'N';
 		$db_info->use_sso = $config['use_sso'] ? 'Y' : 'N';
+		if (is_array($config['other']))
+		{
+			foreach ($config['other'] as $key => $value)
+			{
+				$db_info->{$key} = $value;
+			}
+		}
 		
 		// Save old format to Context instance.
 		self::$_instance->allow_rewrite = $config['use_rewrite'];

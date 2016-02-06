@@ -104,4 +104,5 @@ return array(
 	'use_prepared_statements' => true,
 	'use_rewrite' => true,
 	'use_sso' => false,
+	'other' => array(),
 );
