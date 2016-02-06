@@ -1242,9 +1242,14 @@ class moduleController extends module
 
 		$ext = strtolower(substr(strrchr($vars->addfile['name'],'.'),1));
 		$vars->ext = $ext;
-		if($vars->filter) $filter = explode(',',$vars->filter);
-		else $filter = array('jpg','jpeg','gif','png');
-		if(!in_array($ext,$filter)) return new Object(-1, 'msg_error_occured');
+		if ($vars->filter)
+		{
+			$filter = array_map('trim', explode(',',$vars->filter));
+			if (!in_array($ext, $filter))
+			{
+				return new Object(-1, 'msg_error_occured');
+			}
+		}
 
 		$vars->member_srl = $logged_info->member_srl;
 
@@ -1314,9 +1319,9 @@ class moduleController extends module
 		$args->module_filebox_srl = $vars->module_filebox_srl;
 		$args->comment = $vars->comment;
 
-		// FIXME $args ??
-
-		return executeQuery('module.updateModuleFileBox', $vars);
+		return executeQuery('module.updateModuleFileBox', $args);
+		$output->add('save_filename', $save_filename);
+		return $output;
 	}
 
 

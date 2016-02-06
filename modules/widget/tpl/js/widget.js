@@ -669,7 +669,7 @@ function doShowWidgetSizeSetup(px, py, obj) {
 		if(el) {
 			$el.val(val);
 
-			if($el.hasClass('color-indicator')) {
+			if($el.hasClass('color-indicator') || $el.hasClass('rx-spectrum')) {
 				if(val != 'transparent') {
 					val = val.toUpperCase();
 					$el.css('background', '#' + val);
