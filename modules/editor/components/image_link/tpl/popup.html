@@ -1,8 +1,9 @@
 <!--%import("popup.js")-->
 <!--%import("popup.css")-->
 <!--%import("../lang")-->
+{@Context::addMetaTag('viewport', 'width=device-width', FALSE);}
 <section class="section">
-	<h1>{$component_info->title} ver. {$component_info->version}</h1>
+	<h1>{$component_info->title}</h1>
 	<form action="./" method="get" onSubmit="return false" id="fo" class="x_form-horizontal">
 		<div class="x_control-group">
 			<label for="image_url" class="x_control-label">{$lang->image_url}</label>
@@ -13,15 +14,15 @@
 		<div class="x_control-group">
 			<label class="x_control-label">{$lang->image_scale}</label>
 			<div class="x_controls">
-				<input type="text" id="width" value="0" size="4" style="width:80px" /> px
-				<input type="text" id="height" value="0" size="4" style="width:80px" /> px
+				<input type="number" id="width" value="0" size="4" style="width:50px" /> px
+				<input type="number" id="height" value="0" size="4" style="width:50px" /> px
 				<button type="button" id="get_scale" class="x_btn">{$lang->cmd_get_scale}</button>
 			</div>
 		</div>
 		<div class="x_control-group">
 			<label for="link_url" class="x_control-label">URL</label>
 			<div class="x_controls">
-				<input type="text" id="link_url" value=""/>
+				<input type="url" id="link_url" value=""/>
 			</div>
 		</div>
 		<div class="x_control-group">
@@ -64,13 +65,13 @@
 		<div class="x_control-group">
 			<label for="image_border" class="x_control-label">{$lang->image_border}</label>
 			<div class="x_controls">
-				<input type="text" id="image_border" value="0" size="2" />px
+				<input type="number" id="image_border" value="0" size="2" />px
 			</div>
 		</div>
 		<div class="x_control-group">
 			<label for="image_margin" class="x_control-label">{$lang->image_margin}</label>
 			<div class="x_controls">
-				<input type="text" id="image_margin" value="0" size="2" />px
+				<input type="number" id="image_margin" value="0" size="2" />px
 			</div>
 		</div>
 		<div class="x_clearfix btnArea">
