@@ -150,6 +150,7 @@ function clearValue(){
 	$w.find('input[type="checkbox"]').removeAttr('checked');
 	$w.find('.lang_code').trigger('reload-multilingual');
 	$w.find('.color-indicator').trigger('keyup');
+	$w.find('.rx-spectrum').trigger('keyup');
 }
 
 function addNode(node,e){
