@@ -220,6 +220,8 @@ class installController extends install
 		
 		// Save the new configuration.
 		Rhymix\Framework\Config::save();
+		$buff = '<?php' . "\n" . '$db_info = ' . Rhymix\Framework\Config::serialize(Context::getDBInfo()) . ';' . "\n";
+		FileHandler::writeFile(Context::getConfigFile(), $buff);
 		
 		// Unset temporary session variables.
 		unset($_SESSION['use_rewrite']);
