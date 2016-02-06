@@ -427,10 +427,12 @@ margin-bottom: 10px;
 .x input[type="email"], 
 .x input[type="url"], 
 .x input[type="search"], 
-.x input[type="tel"], 
-.x input[type="color"] {
+.x input[type="tel"] {
 	height: 16px;
 	line-height: 16px;
+}
+.x input[type="color"] {
+	height: 25px;
 }
 .x input[type="number"] {
 	width: 50px;
