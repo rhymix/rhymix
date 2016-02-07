@@ -40,7 +40,7 @@ class installController extends install
 			'user' => $config->db_user,
 			'pass' => $config->db_pass,
 			'database' => $config->db_database,
-			'prefix' => $config->db_prefix,
+			'prefix' => rtrim($config->db_prefix, '_') . '_',
 		));
 		
 		// Check connection to the DB.
@@ -76,6 +76,16 @@ class installController extends install
 		{
 			$oDB->charset = $oDB->getBestSupportedCharset();
 			$config->db_charset = $oDB->charset;
+		}
+		
+		// Check if tables already exist.
+		$table_check = array('documents', 'comments', 'modules', 'sites');
+		foreach ($table_check as $table_name)
+		{
+			if ($oDB->isTableExists($table_name))
+			{
+				return new Object(-1, 'msg_table_already_exists');
+			}
 		}
 		
 		// Save DB config in session.

@@ -91,6 +91,7 @@ $lang->msg_table_is_exists = 'Table is already created in the DB. Config file is
 $lang->msg_install_completed = 'Installation has been completed. Thank you for choosing RhymiX.';
 $lang->msg_install_failed = 'An error has occurred while creating installation file.';
 $lang->msg_create_table_failed = 'Failed to create database tables.';
+$lang->msg_table_already_exists = 'Database tables already exist. Try using a different prefix.';
 $lang->ftp_get_list = 'Get List';
 $lang->ftp_form_title = 'FTP Account Information';
 $lang->ftp = 'FTP';
