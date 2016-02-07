@@ -16,7 +16,7 @@
 					<block loop="DB::getEnableList() => $key,$val">
 						<option value="{$val->db_type}" selected="selected"|cond="$val->db_type==$defaultDatabase" />
 							{$val->db_type}
-							<block cond="$val->db_type==$defaultDatabase && stripos($val->db_type, 'innodb') !== false">({$lang->cmd_recommended})</block>
+							<block cond="$val->db_type == $defaultDatabase">({$lang->cmd_recommended})</block>
 						</option>
 					</block>
 					<block loop="DB::getDisableList() => $key,$val">

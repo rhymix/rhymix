@@ -24,9 +24,7 @@ class DB
 	 */
 	var $priority_dbms = array(
 		'mysqli' => 6,
-		'mysqli_innodb' => 5,
 		'mysql' => 4,
-		'mysql_innodb' => 3,
 		'cubrid' => 2,
 		'mssql' => 1
 	);
@@ -284,30 +282,23 @@ class DB
 		$supported_list = FileHandler::readDir($db_classes_path, $filter, TRUE);
 
 		// after creating instance of class, check is supported
-		for($i = 0; $i < count($supported_list); $i++)
+		foreach ($supported_list as $db_type)
 		{
-			$db_type = $supported_list[$i];
-
 			$class_name = sprintf("DB%s%s", strtoupper(substr($db_type, 0, 1)), strtolower(substr($db_type, 1)));
 			$class_file = sprintf(_XE_PATH_ . "classes/db/%s.class.php", $class_name);
-			if(!file_exists($class_file))
+			if(!file_exists($class_file) || stripos($class_file, '_innodb') !== false)
 			{
 				continue;
 			}
-
-			unset($oDB);
+			
 			require_once($class_file);
 			$oDB = new $class_name();
-
-			if(!$oDB)
-			{
-				continue;
-			}
-
+			
 			$obj = new stdClass;
 			$obj->db_type = $db_type;
 			$obj->enable = $oDB->isSupported() ? TRUE : FALSE;
-
+			unset($oDB);
+			
 			$get_supported_list[] = $obj;
 		}
 

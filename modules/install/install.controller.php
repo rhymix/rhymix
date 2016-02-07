@@ -51,29 +51,21 @@ class installController extends install
 			return $output;
 		}
 		
-		// Check if MySQL server supports InnoDB.
-		if(stripos($config->db_type, 'innodb') !== false)
+		// Check MySQL server capabilities.
+		if(stripos($config->db_type, 'mysql') !== false)
 		{
-			$innodb_supported = false;
+			// Check if InnoDB is supported.
 			$show_engines = $oDB->_fetch($oDB->_query('SHOW ENGINES'));
 			foreach($show_engines as $engine_info)
 			{
-				if(strcasecmp($engine_info->Engine, 'InnoDB') === 0)
+				if ($engine_info->Engine === 'InnoDB')
 				{
-					$innodb_supported = true;
+					$config->db_type .= '_innodb';
+					break;
 				}
 			}
 			
-			// If server does not support InnoDB, fall back to default storage engine (usually MyISAM).
-			if(!$innodb_supported)
-			{
-				$config->db_type = str_ireplace('_innodb', '', $config->db_type);
-			}
-		}
-		
-		// Check if MySQL server supports utf8mb4.
-		if(stripos($config->db_type, 'mysql') !== false)
-		{
+			// Check if utf8mb4 is supported.
 			$oDB->charset = $oDB->getBestSupportedCharset();
 			$config->db_charset = $oDB->charset;
 		}

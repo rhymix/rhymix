@@ -114,7 +114,7 @@ class installView extends install
 		}
 		*/
 		
-		$defaultDatabase = 'mysqli_innodb';
+		$defaultDatabase = 'mysqli';
 		$disableList = DB::getDisableList();
 		if(is_array($disableList))
 		{
@@ -122,7 +122,7 @@ class installView extends install
 			{
 				if($value->db_type == $defaultDatabase)
 				{
-					$defaultDatabase = 'mysqli';
+					$defaultDatabase = 'mysql';
 					break;
 				}
 			}

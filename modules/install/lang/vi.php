@@ -20,10 +20,8 @@ $lang->cmd_install_refresh_page = 'Tôi đã thay đổi để phù hợp với 
 $lang->cmd_install_next = 'Tiếp tục cài đặt';
 $lang->cmd_ignore = 'Bỏ qua';
 $lang->cmd_recommended = 'Đê';
-$lang->db_desc['mysqli'] = 'Dùng chức năng <b>mysqli*()</b> để sử dụng MySql Database.<br />Giao dịch được vô hiệu hóa bởi File Database được tạo ra bởi myisam.';
-$lang->db_desc['mysqli_innodb'] = 'Dùng chức năng <b>innodb</b> để sử dụng MySql Database.<br />Giao dịch được kích hoạt cho innodb';
-$lang->db_desc['mysql'] = 'Dùng chức năng <b>mysql_*()</b> để sử dụng MySql Database.<br />Giao dịch được vô hiệu hóa bởi File Database được tạo ra bởi myisam.';
-$lang->db_desc['mysql_innodb'] = 'Dùng chức năng <b>innodb</b> để sử dụng MySql Database.<br />Giao dịch được kích hoạt cho innodb';
+$lang->db_desc['mysqli'] = 'Dùng chức năng <b>mysqli_*()</b> để sử dụng MySql Database.';
+$lang->db_desc['mysql'] = 'Dùng chức năng <b>mysql_*()</b> để sử dụng MySql Database.';
 $lang->db_desc['cubrid'] = 'Sử dụng <b>CUBRID</b> Database.  <a href="http://www.cubrid.org/wiki_tutorials/entry/cubrid-installation-instructions" target="_blank">Hướng dẫn</a>';
 $lang->form_title = 'Hãy nhập thông tin Database và thông tin Administrator';
 $lang->db_title = 'Xin hãy nhập thông tin Database';
