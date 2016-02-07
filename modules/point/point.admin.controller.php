@@ -24,7 +24,7 @@ class pointAdminController extends point
 		$config = $oModuleModel->getModuleConfig('point');
 		// Arrange variables
 		$args = Context::getRequestVars();
-
+		$oModuleController = getController('module');
 		//if module IO config is off
 		if($args->able_module == 'Y')
 		{
@@ -52,6 +52,7 @@ class pointAdminController extends point
 			$config->blamed = (int)$args->blamed;
 			$config->voted_comment = (int)$args->voted_comment;
 			$config->blamed_comment = (int)$args->blamed_comment;
+			$config->document_regdate = (int)$args->document_regdate;
 			// The highest level
 			$config->max_level = $args->max_level;
 			if($config->max_level>1000) $config->max_level = 1000;
@@ -64,7 +65,9 @@ class pointAdminController extends point
 			// Check if reading a document is not allowed
 			if($args->disable_read_document == 'Y') $config->disable_read_document = 'Y';
 			else $config->disable_read_document = 'N';
-	
+			// check if reading a document is not regdate setting
+			$config->document_date = $args->document_date;
+
 			$oMemberModel = getModel('member');
 			$group_list = $oMemberModel->getGroups();
 	
@@ -114,11 +117,9 @@ class pointAdminController extends point
 			$config->able_module = 'N';
 
 			// Delete Triggers
-			$oModuleController = getController('module');
 			$oModuleController->deleteModuleTriggers('point');
 		}
 		// Save
-		$oModuleController = getController('module');
 		$oModuleController->insertModuleConfig('point', $config);
 
 		$this->setMessage('success_updated');

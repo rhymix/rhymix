@@ -91,6 +91,17 @@
 				{$lang->about_disable_read_document}
 			</div>
 		</div>
+		<div class="x_control-group">
+			<label for="document_regdate" class="x_control-label">{$lang->document_regdate}</label>
+			<div class="x_controls" style="padding-top:3px">
+				<input type="number" name="document_regdate" id="document_regdate" value="{$config->document_regdate}" style="width:50px;" />
+				<select name="document_date" id="document_date">
+					<option value="day" selected="selected"|cond="$config->document_date == 'day'">day</option>
+					<option value="month" selected="selected"|cond="$config->document_date == 'month'">month</option>
+				</select>
+				<p>{$lang->about_document_regdate}</p>
+			</div>
+		</div>
 		<div class="x_clearfix btnArea">
 			<span class="x_pull-right"><input class="x_btn x_btn-primary" type="submit" value="{$lang->cmd_save}" /></span>
 		</div>
