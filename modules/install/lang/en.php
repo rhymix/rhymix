@@ -84,6 +84,7 @@ $lang->ssl_options['optional'] = 'Optional';
 $lang->ssl_options['always'] = 'Always';
 $lang->about_database_file = 'Sqlite saves data in a file. Location of the database file should be unreachable by web<br/><span style="color:red">Data file should be inside the permission of 777.</span>';
 $lang->success_installed = 'Installation has been completed.';
+$lang->msg_installing = 'Installing...';
 $lang->msg_cannot_proc = 'Installation environment is not proper to proceed.';
 $lang->msg_already_installed = 'RhymiX is already installed.';
 $lang->msg_dbconnect_failed = 'An error has occurred while connecting to DB. Please check DB information again.';
