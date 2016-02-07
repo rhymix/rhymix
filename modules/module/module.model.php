@@ -966,6 +966,7 @@ class moduleModel extends module
 					$info->action->{$name}->check_csrf = $check_csrf;
 					if($action->attrs->menu_name)
 					{
+						$info->menu->{$action->attrs->menu_name} = new stdClass();
 						if($menu_index == 'true')
 						{
 							$info->menu->{$action->attrs->menu_name}->index = $name;
