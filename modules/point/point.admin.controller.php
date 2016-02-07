@@ -52,7 +52,7 @@ class pointAdminController extends point
 			$config->blamed = (int)$args->blamed;
 			$config->voted_comment = (int)$args->voted_comment;
 			$config->blamed_comment = (int)$args->blamed_comment;
-			$config->document_regdate = (int)$args->document_regdate;
+
 			// The highest level
 			$config->max_level = $args->max_level;
 			if($config->max_level>1000) $config->max_level = 1000;
@@ -66,7 +66,7 @@ class pointAdminController extends point
 			if($args->disable_read_document == 'Y') $config->disable_read_document = 'Y';
 			else $config->disable_read_document = 'N';
 			// check if reading a document is not regdate setting
-			$config->document_date = $args->document_date;
+			$config->no_point_date = (int)$args->no_point_date;
 
 			$oMemberModel = getModel('member');
 			$group_list = $oMemberModel->getGroups();

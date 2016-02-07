@@ -237,9 +237,9 @@ class pointController extends point
 		$oDocument = $oDocumentModel->getDocument($document_srl);
 		$oModuleModel = getModel('module');
 		$config = $oModuleModel->getModuleConfig('point');
-		if($config->document_regdate > 0)
+		if($config->no_point_date > 0)
 		{
-			if($oDocument->get('regdate') > date('YmdHis', strtotime('-'.$config->document_regdate.$config->document_date)))
+			if($oDocument->get('regdate') < date('YmdHis', strtotime('-'.$config->no_point_date.' day')))
 			{
 				return new Object();
 			}
