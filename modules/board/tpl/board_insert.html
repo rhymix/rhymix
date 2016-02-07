@@ -135,7 +135,7 @@
 				<input type="text" name="mobile_page_count" id="mobile_page_count" value="{$module_info->mobile_page_count?$module_info->mobile_page_count:5}" style="width:30px" />
 				<p class="x_help-inline">{$lang->about_mobile_page_count}</p>
 			</div>
-		</div>		
+		</div>
 	</section>
 	<section class="section">
 		<h1>{$lang->subtitle_advanced}</h1>
@@ -199,10 +199,16 @@
 				<label class="x_inline" for="consultation"><input type="checkbox" name="consultation" id="consultation" value="Y" checked="checked"|cond="$module_info->consultation == 'Y'" /> {$lang->about_consultation}</label>
 			</div>
 		</div>
-<div class="x_control-group">
+		<div class="x_control-group">
 			<label class="x_control-label">{$lang->protect_content}</label>
 			<div class="x_controls">
 				<label class="x_inline" for="protect_content"><input type="checkbox" name="protect_content" id="protect_content" value="Y" checked="checked"|cond="$module_info->protect_content == 'Y'" /> {$lang->about_protect_content}</label>
+			</div>
+		</div>
+		<div class="x_control-group">
+			<label class="x_control-label">{$lang->childs_delete}</label>
+			<div class="x_controls">
+				<label class="x_inline" for="childs_delete"><input type="checkbox" name="childs_delete" id="childs_delete" value="Y" checked="checked"|cond="$module_info->childs_delete == 'Y'" /> {$lang->about_childs_delete}</label>
 			</div>
 		</div>
 		<div class="x_control-group">

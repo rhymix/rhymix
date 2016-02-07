@@ -196,7 +196,7 @@ class boardController extends board
 		// if the document is not existed
 		if(!$document_srl)
 		{
-			return $this->doError('msg_invalid_document');
+			return new Object(-1, 'msg_invalid_document');
 		}
 
 		$oDocumentModel = &getModel('document');
@@ -241,6 +241,7 @@ class boardController extends board
 	 **/
 	function procBoardInsertComment()
 	{
+		return new Object(-1, 'msg_not_permitted');
 		// check grant
 		if(!$this->grant->write_comment)
 		{
@@ -366,7 +367,18 @@ class boardController extends board
 		$comment_srl = Context::get('comment_srl');
 		if(!$comment_srl)
 		{
-			return $this->doError('msg_invalid_request');
+			return new Object(-1, 'msg_invalid_request');
+		}
+
+		$oCommentModel = getModel('comment');
+
+		if($this->module_info->childs_delete == 'Y')
+		{
+			$childs = $oCommentModel->getChildComments($comment_srl);
+			if(count($childs) > 0)
+			{
+				return new Object(-1, '씨발');
+			}
 		}
 
 		// generate comment  controller object
