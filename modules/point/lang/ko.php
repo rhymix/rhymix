@@ -59,3 +59,6 @@ $lang->search_target_list['last_login'] = '최근 로그인 일시';
 $lang->search_target_list['last_login_more'] = '최근 로그인 일시(이상)';
 $lang->search_target_list['last_login_less'] = '최근 로그인 일시(이하)';
 $lang->search_target_list['extra_vars'] = '사용자 정의';
+$lang->no_point_date = '댓글작성 포인트 기간';
+$lang->about_no_point_date = '설정한 날자보다 이전에 게시된 글에 대해서 댓글을 작성하더라도 포인트를 지급하지 않습니다. (단위는 일단위)';
+$lang->day_ago = '일전';

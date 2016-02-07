@@ -229,15 +229,24 @@ class pointController extends point
 	{
 		$module_srl = $obj->module_srl;
 		$member_srl = $obj->member_srl;
+
 		if(!$module_srl || !$member_srl) return new Object();
 		// Do not increase the points if the member is the author of the post
 		$document_srl = $obj->document_srl;
 		$oDocumentModel = getModel('document');
 		$oDocument = $oDocumentModel->getDocument($document_srl);
-		if(!$oDocument->isExists() || abs($oDocument->get('member_srl'))==abs($member_srl)) return new Object();
-		// Get the point module information
 		$oModuleModel = getModel('module');
 		$config = $oModuleModel->getModuleConfig('point');
+		if($config->no_point_date > 0)
+		{
+			if($oDocument->get('regdate') < date('YmdHis', strtotime('-'.$config->no_point_date.' day')))
+			{
+				return new Object();
+			}
+		}
+		if(!$oDocument->isExists() || abs($oDocument->get('member_srl'))==abs($member_srl)) return new Object();
+		// Get the point module information
+
 		$module_config = $oModuleModel->getModulePartConfig('point', $module_srl);
 		// Get the points of the member
 		$oPointModel = getModel('point');
