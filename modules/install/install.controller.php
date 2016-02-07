@@ -161,10 +161,11 @@ class installController extends install
 		$config['locale']['default_lang'] = Context::getLangType();
 		$config['locale']['enabled_lang'] = array($config['locale']['default_lang']);
 		
-		// Set the internal and default time zones.
+		// Set the default time zone.
 		if (strpos($time_zone, '/') !== false)
 		{
 			$config['locale']['default_timezone'] = $time_zone;
+			$user_timezone = null;
 		}
 		else
 		{
@@ -179,7 +180,20 @@ class installController extends install
 					$config['locale']['default_timezone'] = 'Etc/GMT' . ($user_timezone > 0 ? '-' : '+') . abs($user_timezone);
 			}
 		}
-		$config['locale']['internal_timezone'] = intval(date('Z'));
+		
+		// Set the internal time zone.
+		if ($config['locale']['default_timezone'] === 'Asia/Seoul')
+		{
+			$config['locale']['internal_timezone'] = 32400;
+		}
+		elseif ($user_timezone !== null)
+		{
+			$config['locale']['internal_timezone'] = $user_timezone * 3600;
+		}
+		else
+		{
+			$config['locale']['internal_timezone'] = 0;
+		}
 		
 		// Set the default URL.
 		$config['url']['default'] = Context::getRequestUri();
