@@ -543,7 +543,7 @@ function ztime($str)
  * @param bool $conversion If true, convert automatically for the current language.
  * @return string
  */
-function zdate($str, $format = 'Y-m-d H:i:s', $conversion = true)
+function zdate($str, $format = 'Y-m-d H:i:s', $conversion = false)
 {
 	if(!$str)
 	{
@@ -551,7 +551,7 @@ function zdate($str, $format = 'Y-m-d H:i:s', $conversion = true)
 	}
 	
 	// convert the date format according to the language
-	if($conversion == TRUE)
+	if($conversion)
 	{
 		static $convtable = array(
 			'en' => array(
@@ -596,7 +596,7 @@ function zdate($str, $format = 'Y-m-d H:i:s', $conversion = true)
 		$unit_week = (Array)Context::getLang('unit_week');
 		$unit_meridiem = (Array)Context::getLang('unit_meridiem');
 		$result = str_replace(array('Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'), $unit_week, $result);
-		$result = str_replace(array('am', 'pm', 'AM', 'PM'), $unit_meridiem, $string);
+		$result = str_replace(array('am', 'pm', 'AM', 'PM'), $unit_meridiem, $result);
 	}
 	return $result;
 }
