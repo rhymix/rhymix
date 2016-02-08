@@ -174,7 +174,6 @@ class IpFilter
 			$range .= str_repeat('.*', 4 - $count);
 		}
 		$range = str_replace(array('.', '*'), array('\\.', '\\d+'), trim($range));
-		var_dump($ip, $range);
 		return preg_match("/^$range$/", $ip) ? true : false;
 	}
 	

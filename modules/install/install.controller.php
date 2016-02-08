@@ -234,6 +234,16 @@ class installController extends install
 			}
 		}
 		
+		// Apply site lock.
+		
+		if (Context::get('use_sitelock') === 'Y')
+		{
+			$user_ip_range = getView('install')->detectUserIPRange();
+			Rhymix\Framework\Config::set('lock.locked', true);
+			Rhymix\Framework\Config::set('lock.message', 'This site is locked.');
+			Rhymix\Framework\Config::set('lock.allow', array('127.0.0.1', $user_ip_range));
+		}
+		
 		// Save the new configuration.
 		Rhymix\Framework\Config::save();
 		

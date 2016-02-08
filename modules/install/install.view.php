@@ -153,7 +153,29 @@ class installView extends install
 		
 		// Always use SSL if installing via SSL.
 		Context::set('use_ssl', RX_SSL ? 'always' : 'none');
+		Context::set('sitelock_ip_range', $this->detectUserIPRange());
 		$this->setTemplateFile('other_config');
+	}
+	
+	/**
+	 * Detect the IP range of the user.
+	 */
+	function detectUserIPRange()
+	{
+		if (RX_CLIENT_IP_VERSION === 4)
+		{
+			return preg_replace('/\.\d+$/', '.*', RX_CLIENT_IP);
+		}
+		elseif (function_exists('inet_pton'))
+		{
+			$binary = inet_pton(RX_CLIENT_IP);
+			$binary = substr($binary, 0, 8) . str_repeat(chr(0), 8);
+			return inet_ntop($binary) . '/64';
+		}
+		else
+		{
+			return RX_CLIENT_IP;
+		}
 	}
 	
 	/**
