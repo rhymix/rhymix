@@ -234,10 +234,18 @@ class pointController extends point
 		$document_srl = $obj->document_srl;
 		$oDocumentModel = getModel('document');
 		$oDocument = $oDocumentModel->getDocument($document_srl);
-		if(!$oDocument->isExists() || abs($oDocument->get('member_srl'))==abs($member_srl)) return new Object();
 		// Get the point module information
 		$oModuleModel = getModel('module');
 		$config = $oModuleModel->getModuleConfig('point');
+		if($config->no_point_date > 0)
+		{
+			if($oDocument->get('regdate') < date('YmdHis', strtotime('-'.$config->no_point_date.' day')))
+			{
+				return new Object();
+			}
+		}
+		if(!$oDocument->isExists() || abs($oDocument->get('member_srl'))==abs($member_srl)) return new Object();
+
 		$module_config = $oModuleModel->getModulePartConfig('point', $module_srl);
 		// Get the points of the member
 		$oPointModel = getModel('point');

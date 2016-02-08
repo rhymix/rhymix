@@ -196,7 +196,7 @@ class boardController extends board
 		// if the document is not existed
 		if(!$document_srl)
 		{
-			return $this->doError('msg_invalid_document');
+			return new Object(-1, 'msg_invalid_document');
 		}
 
 		$oDocumentModel = &getModel('document');
@@ -302,8 +302,18 @@ class boardController extends board
 		if(!$obj->comment_srl)
 		{
 			$obj->comment_srl = getNextSequence();
-		} else {
+		}
+		else
+		{
 			$comment = $oCommentModel->getComment($obj->comment_srl, $this->grant->manager);
+			if($this->module_info->protect_comment === 'Y' && $this->grant->manager == false)
+			{
+				$childs = $oCommentModel->getChildComments($obj->comment_srl);
+				if (count($childs) > 0)
+				{
+					return new Object(-1, 'msg_board_protect_comment');
+				}
+			}
 		}
 
 		$oMemberModel = getModel('member');
@@ -330,11 +340,15 @@ class boardController extends board
 				$output = $oCommentController->insertComment($obj, $bAnonymous);
 
 			// parent_srl is not existed
-			} else {
+			}
+			else
+			{
 				$output = $oCommentController->insertComment($obj, $bAnonymous);
 			}
 		// update the comment if it is not existed
-		} else {
+		}
+		else
+		{
 			// check the grant
 			if(!$comment->isGranted())
 			{
@@ -343,7 +357,6 @@ class boardController extends board
 
 			$obj->parent_srl = $comment->parent_srl;
 			$output = $oCommentController->updateComment($obj, $this->grant->manager);
-			$comment_srl = $obj->comment_srl;
 		}
 
 		if(!$output->toBool())
@@ -366,7 +379,18 @@ class boardController extends board
 		$comment_srl = Context::get('comment_srl');
 		if(!$comment_srl)
 		{
-			return $this->doError('msg_invalid_request');
+			return new Object(-1, 'msg_invalid_request');
+		}
+
+		$oCommentModel = getModel('comment');
+
+		if($this->module_info->protect_comment === 'Y' && $this->grant->manager==false)
+		{
+			$childs = $oCommentModel->getChildComments($comment_srl);
+			if(count($childs) > 0)
+			{
+				return new Object(-1, 'msg_board_protect_comment');
+			}
 		}
 
 		// generate comment  controller object
