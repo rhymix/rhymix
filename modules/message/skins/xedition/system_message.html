@@ -1,20 +1,42 @@
-<!--// META -->
-{Context::addHtmlHeader('<meta name="viewport" content="width=1240">')}
 <!--// CSS -->
 <load target="./css/message.css" />
 
 <!--// BODY -->
 <div id="access">
 	<div class="login-header">
-		<p>OOPS!</p>
 		<h1>{$system_message}</h1>
 	</div>
-	<div class="login-body">
-		<p><a href="{getUrl('', 'act', 'dispMemberLoginForm')}">{$lang->cmd_login}</a></p>
+	<div cond="!$is_logged">
+		<div class="login-body">
+			<div cond="$XE_VALIDATOR_MESSAGE && $XE_VALIDATOR_ID == 'modules/message/skins/default/system_message/1'" class="message {$XE_VALIDATOR_MESSAGE_TYPE}">
+				<p>{$XE_VALIDATOR_MESSAGE}</p>
+			</div>
+			<form id="message_login_form" ruleset="@login" action="{getUrl('','act','procMemberLogin')}" method="post">
+				<input type="hidden" name="module" value="member" />
+				<input type="hidden" name="act" value="procMemberLogin" />
+				<input type="hidden" name="success_return_url" value="{getRequestUriByServerEnviroment()}" />
+				<input type="hidden" name="xe_validator_id" value="modules/message/skins/default/system_message/1" />
+				<div class="control-group">
+					<input type="text" name="user_id" id="uid" title="{$lang->user_id}" placeholder="{$lang->user_id}" required autofocus cond="$member_config->identifier != 'email_address'" />
+					<input type="email" name="user_id" id="uid" title="{$lang->email_address}" placeholder="{$lang->email_address}" required autofocus cond="$member_config->identifier == 'email_address'" />
+					<input type="password" name="password" id="upw" title="{$lang->password}" placeholder="{$lang->password}" required />
+					<label for="keepid">
+						<input type="checkbox" name="keep_signed" id="keepid" class="inputCheck" value="Y" onclick="jQuery('#warning')[(jQuery('#keepid:checked').size()&gt;0?'addClass':'removeClass')]('open');" />						
+						{$lang->keep_signed}
+					</label>
+				</div>
+				<p><button type="submit" class="button" href="#" onclick="$('#message_login_form').submit()">{$lang->cmd_login}</button></p>
+			</form>
+		</div>
+		<div class="login-footer">
+			<a href="{getUrl('', 'act', 'dispMemberFindAccount')}">{$lang->cmd_find_member_account}</a>
+			<span class="bar">|</span>
+			<a href="{getUrl('', 'act', 'dispMemberSignUpForm')}">{$lang->cmd_signup}</a>
+		</div>
 	</div>
-	<div class="login-footer">
-		<a href="{getUrl('', 'act', 'dispMemberFindAccount')}">{$lang->cmd_find_member_account}</a>
-		<span class="bar">|</span>
-		<a href="{getUrl('', 'act', 'dispMemberSignUpForm')}">{$lang->cmd_signup}</a>
+	<div cond="$is_logged">
+		<div class="login-body">
+			<p><a class="button" href="{getUrl()}">{$lang->cmd_back}</a></p>
+		</p>
 	</div>
 </div>
