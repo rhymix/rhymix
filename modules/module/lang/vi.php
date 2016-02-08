@@ -72,6 +72,7 @@ $lang->about_use_category = 'Nếu chon, chức năng thể loại sẽ hoạt �
 $lang->about_list_count = 'Bạn có thể giới hạn bài viết hiển thị trên một trang.(Mặc định là 20)';
 $lang->about_search_list_count = 'Bạn có thể đặt giới hạn số bài viết sẽ hiển thị khi tìm kiếm hay chọn thể loại. (Mặc định là 20)';
 $lang->about_page_count = 'bạn có thể giới hạn số trang liên kết hiển thị phía dưới.(Mặc định là 10)';
+$lang->about_mobile_page_count = 'bạn có thể giới hạn số trang liên kết hiển thị phía dưới.(Mặc định là 5)';
 $lang->about_admin_id = 'Bạn có thể đặt quyền hạn cho người sử dụng khi truy cập tới Module.';
 $lang->about_grant_deatil = 'Khi thành viên dăng kí tại trang chủ, nghĩa là họ cũng là thành viên của những trang khác (Ví dụ: cafeXE,...).';
 $lang->about_module = 'Khu vực Module trong Rhymix ngoại trừ Library là tại [Module Manage]. Tất cả những Module đang có sẽ hiển thị, giúp bạn quản lý một cách dễ dàng.';

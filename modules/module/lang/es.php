@@ -52,6 +52,7 @@ $lang->about_use_category = 'Si selecciona esta opción, la función de categor�
 $lang->about_list_count = 'Usted puede definir el número límite de los documentos a mostrar en una página.(Predefinido es 20)';
 $lang->about_search_list_count = 'Usted puede configurar el número de artículos que se exponen cuando se utiliza la función de búsqueda o categoría. (Por defecto es 20)';
 $lang->about_page_count = 'Usted puede definir el número de página enlazada para mover páginas en un botón de la página.(Predefinido es 10)';
+$lang->about_mobile_page_count = 'Usted puede definir el número de página enlazada para mover páginas en un botón de la página.(Predefinido es 5)';
 $lang->about_admin_id = 'Usted puede definir el administrador de atribuciones superiores al módulo.\\n Usted puede asignar múltiples IDs.';
 $lang->about_grant_deatil = '가입한 사용자는 cafeXE등 분양형 가상 사이트에 가입을 한 로그인 사용자를 의미합니다';
 $lang->about_module = 'Rhymix consiste de módulos excepto la librería básica.

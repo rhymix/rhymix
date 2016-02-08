@@ -78,6 +78,7 @@ $lang->about_use_category = '選擇此項可以使用分類功能。';
 $lang->about_list_count = '可以指定每頁顯示的主題數。(預設為 20 個)';
 $lang->about_search_list_count = '可以指定搜尋或選擇分類時，每頁要顯示的文章數(預設為 20 個)。';
 $lang->about_page_count = '可以指定顯示在清單下方的頁面數(預設為 10 個)。 ';
+$lang->about_mobile_page_count = '可以指定顯示在清單下方的頁面數(預設為 5 個)。 ';
 $lang->about_admin_id = '可以對該模組指定最高管理權限。';
 $lang->about_grant_deatil = '已註冊的用戶是指在虛擬網站註冊的用戶';
 $lang->about_module = '除基本函式庫以外 Rhymix 全部由模組組成。 模組管理中列出所有已安裝的模組，因此易於管理。';

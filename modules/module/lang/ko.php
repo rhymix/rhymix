@@ -86,6 +86,7 @@ $lang->about_use_category = '선택하면 분류 기능을 사용할 수 있습�
 $lang->about_list_count = '한 페이지에 표시될 글 수를 지정할 수 있습니다. (기본 20개)';
 $lang->about_search_list_count = '검색, 카테고리 선택 등을 할 경우 표시될 글 수를 지정할 수 있습니다. (기본 20개)';
 $lang->about_page_count = '목록 하단, 페이지를 이동하는 링크 수를 지정할 수 있습니다. (기본 10개)';
+$lang->about_mobile_page_count = '목록 하단, 페이지를 이동하는 링크 수를 지정할 수 있습니다. (기본 5개)';
 $lang->about_admin_id = '해당 모듈에 대해 최고 권한을 가지는 관리자를 지정할 수 있습니다.';
 $lang->about_grant_deatil = '가입한 사용자는 cafeXE 등 분양형 가상 사이트에 가입을 한 로그인 사용자를 의미합니다.';
 $lang->about_module = 'Rhymix는 기본 라이브러리를 제외한 나머지는 모두 모듈로 구성되어 있습니다. 모듈 관리 모듈은 설치된 모든 모듈을 보여주고 관리를 돕습니다.';

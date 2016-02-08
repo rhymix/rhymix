@@ -52,6 +52,7 @@ $lang->about_use_category = 'Cochez pour utiliser la fonction de catégorie, .';
 $lang->about_list_count = 'Vous pouvez configurer combien d\'articles soient exposés dans une page.(20 par défaut)';
 $lang->about_search_list_count = 'Vous pouvez configurer combien d\'articles soient exposés quand vous utilisez la fonction de recherche ou de catégorie. (20 par défaut)';
 $lang->about_page_count = 'Vous pouvez configurer combien de liens pour les Pages à Bouger en bas de chaque page.(10 par défaut)';
+$lang->about_mobile_page_count = 'Vous pouvez configurer combien de liens pour les Pages à Bouger en bas de chaque page.(5 par défaut)';
 $lang->about_admin_id = 'Vous pouvez désigner un directeur qui aura tous les permissions sur le module.\\nVous pouvez entrer plusieurs compte en utilisant.';
 $lang->about_grant_deatil = '가입한 사용자는 cafeXE등 분양형 가상 사이트에 가입을 한 로그인 사용자를 의미합니다';
 $lang->about_module = 'Rhymix se compose des modules sauf la bibliothèque fondamental.
