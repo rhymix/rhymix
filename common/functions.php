@@ -6,8 +6,26 @@
  * Copyright (c) Rhymix Developers and Contributors
  */
 
+/**
+ * Get system configuration.
+ * 
+ * @param string $key
+ * @return mixed
+ */
+function config($key, $value = null)
+{
+	if ($value === null)
+	{
+		return Rhymix\Framework\Config::get($key);
+	}
+	else
+	{
+		Rhymix\Framework\Config::set($key, $value);
+	}
+}
 
-/** Get the first value of an array.
+/**
+ * Get the first value of an array.
  * 
  * @param array $array The input array
  * @return mixed
@@ -17,7 +35,8 @@ function array_first(array $array)
 	return reset($array);
 }
 
-/** Get the first key of an array.
+/**
+ * Get the first key of an array.
  * 
  * @param array $array The input array
  * @return mixed
@@ -28,7 +47,8 @@ function array_first_key(array $array)
 	return key($array);
 }
 
-/** Get the last value of an array.
+/**
+ * Get the last value of an array.
  * 
  * @param array $array The input array
  * @return mixed
@@ -38,7 +58,8 @@ function array_last(array $array)
 	return end($array);
 }
 
-/** Get the last key of an array.
+/**
+ * Get the last key of an array.
  * 
  * @param array $array The input array
  * @return mixed

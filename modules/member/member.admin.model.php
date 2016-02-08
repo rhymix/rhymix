@@ -296,10 +296,8 @@ class memberAdminModel extends member
 	 */
 	function getMemberAdminIPCheck()
 	{
-		$db_info = Context::getDBInfo();
-		$admin_ip_list = $db_info->admin_ip_list;
+		$admin_ip_list = config('admin.allow');
 		if(!$admin_ip_list) return true;
-		if(!is_array($admin_ip_list)) $admin_ip_list = explode(',',$admin_ip_list);
 		if(!count($admin_ip_list) || IpFilter::filter($admin_ip_list)) return true;
 		else return false;
 	}

@@ -475,7 +475,6 @@ class adminAdminController extends admin
 	 */
 	function procAdminRemoveIcons()
 	{
-
 		$site_info = Context::get('site_module_info');
 		$virtual_site = '';
 		if($site_info->site_srl) 
@@ -495,97 +494,361 @@ class adminAdminController extends admin
 		}
 		$this->setMessage('success_deleted');
 	}
-
-	function procAdminUpdateSitelock()
+	
+	/**
+	 * Update general configuration.
+	 */
+	function procAdminUpdateConfigGeneral()
+	{
+		$oModuleController = getController('module');
+		$vars = Context::getRequestVars();
+		
+		// Site title and HTML footer
+		$args = new stdClass;
+		$args->siteTitle = escape($vars->site_title);
+		$args->htmlFooter = escape($vars->html_footer);
+		$oModuleController->updateModuleConfig('module', $args);
+		
+		// Index module
+		$site_args = new stdClass();
+		$site_args->site_srl = 0;
+		$site_args->index_module_srl = $vars->index_module_srl;
+		$site_args->default_language = $vars->default_lang;
+		$oModuleController->updateSite($site_args);
+		
+		// Thumbnail settings
+		$args = new stdClass;
+		$args->thumbnail_type = $vars->thumbnail_type === 'ratio' ? 'ratio' : 'crop';
+		$oModuleController->insertModuleConfig('document', $args);
+		
+		// Default and enabled languages
+		$enabled_lang = $vars->enabled_lang;
+		if (!in_array($vars->default_lang, $enabled_lang))
+		{
+			$enabled_lang[] = $vars->default_lang;
+		}
+		Rhymix\Framework\Config::set('locale.default_lang', $vars->default_lang);
+		Rhymix\Framework\Config::set('locale.enabled_lang', array_values($enabled_lang));
+		
+		// Default time zone
+		Rhymix\Framework\Config::set('locale.default_timezone', $vars->default_timezone);
+		
+		// Mobile view
+		Rhymix\Framework\Config::set('use_mobile_view', $vars->use_mobile_view === 'Y');
+		
+		// Favicon and mobicon
+		$this->_saveFavicon('favicon.ico', $vars->is_delete_favicon);
+		$this->_saveFavicon('mobicon.png', $vars->is_delete_mobicon);
+		
+		// Save
+		Rhymix\Framework\Config::save();
+		
+		$this->setMessage('success_updated');
+		$this->setRedirectUrl(Context::get('success_return_url') ?: getNotEncodedUrl('', 'act', 'dispAdminConfigGeneral'));
+	}
+	
+	/**
+	 * Update security configuration.
+	 */
+	function procAdminUpdateSecurity()
 	{
 		$vars = Context::getRequestVars();
-		$oInstallController = getController('install');
-
-		$db_info = Context::getDBInfo();
-
-		$db_info->use_sitelock = ($vars->use_sitelock) ? $vars->use_sitelock : 'N';
-		$db_info->sitelock_title = $vars->sitelock_title;
-		$db_info->sitelock_message = $vars->sitelock_message;
-
-		$whitelist = $vars->sitelock_whitelist;
-		$whitelist = preg_replace("/[\r|\n|\r\n]+/",",",$whitelist);
-		$whitelist = preg_replace("/\s+/","",$whitelist);
-		if(preg_match('/(<\?|<\?php|\?>)/xsm', $whitelist))
-		{
-			$whitelist = '';
-		}
-		$whitelist .= ',127.0.0.1,' . $_SERVER['REMOTE_ADDR'];
-		$whitelist = explode(',',trim($whitelist, ','));
-		$whitelist = array_unique($whitelist);
-
-		if(!IpFilter::validate($whitelist)) {
+		
+		// iframe filter
+		$embed_iframe = $vars->embedfilter_iframe;
+		$embed_iframe = array_filter(array_map('trim', preg_split('/[\r\n]/', $embed_iframe)), function($item) {
+			return $item !== '';
+		});
+		$embed_iframe = array_unique(array_map(function($item) {
+			return preg_match('@^https?://(.*)$@i', $item, $matches) ? $matches[1] : $item;
+		}, $embed_iframe));
+		natcasesort($embed_iframe);
+		Rhymix\Framework\Config::set('embedfilter.iframe', array_values($embed_iframe));
+		
+		// object filter
+		$embed_object = $vars->embedfilter_object;
+		$embed_object = array_filter(array_map('trim', preg_split('/[\r\n]/', $embed_object)), function($item) {
+			return $item !== '';
+		});
+		$embed_object = array_unique(array_map(function($item) {
+			return preg_match('@^https?://(.*)$@i', $item, $matches) ? $matches[1] : $item;
+		}, $embed_object));
+		natcasesort($embed_object);
+		Rhymix\Framework\Config::set('embedfilter.object', array_values($embed_object));
+		
+		// Admin IP access control
+		$allowed_ip = array_map('trim', preg_split('/[\r\n]/', $vars->admin_allowed_ip));
+		$allowed_ip = array_unique(array_filter($allowed_ip, function($item) {
+			return $item !== '';
+		}));
+		if (!IpFilter::validate($whitelist)) {
 			return new Object(-1, 'msg_invalid_ip');
 		}
-
-		$db_info->sitelock_whitelist = $whitelist;
-
-		$oInstallController = getController('install');
-		if(!$oInstallController->makeConfigFile())
-		{
-			return new Object(-1, 'msg_invalid_request');
-		}
-
-		if(!in_array(Context::getRequestMethod(), array('XMLRPC','JSON')))
-		{
-			$returnUrl = Context::get('success_return_url');
-			if(!$returnUrl) $returnUrl = getNotEncodedUrl('', 'act', 'dispAdminConfigGeneral');
-			header('location:' . $returnUrl);
-			return;
-		}
+		Rhymix\Framework\Config::set('admin.allow', array_values($allowed_ip));
+		
+		// Save
+		Rhymix\Framework\Config::save();
+		
+		$this->setMessage('success_updated');
+		$this->setRedirectUrl(Context::get('success_return_url') ?: getNotEncodedUrl('', 'act', 'dispAdminConfigSecurity'));
 	}
-
-	function procAdminUpdateEmbedWhitelist()
+	
+	/**
+	 * Update advanced configuration.
+	 */
+	function procAdminUpdateAdvanced()
 	{
 		$vars = Context::getRequestVars();
-
-		$db_info = Context::getDBInfo();
-
-		$white_object = $vars->embed_white_object;
-		$white_object = preg_replace("/[\r\n|\r|\n]+/", '|@|', $white_object);
-		$white_object = preg_replace("/[\s\'\"]+/", '', $white_object);
-		$white_object = explode('|@|', $white_object);
-		$white_object = array_unique(array_map(function($item) {
-			return preg_match('@^https?://(.*)$@i', $item, $matches) ? $matches[1] : $item;
-		}, $white_object));
-		natcasesort($white_object);
-
-		$white_iframe = $vars->embed_white_iframe;
-		$white_iframe = preg_replace("/[\r\n|\r|\n]+/", '|@|', $white_iframe);
-		$white_iframe = preg_replace("/[\s\'\"]+/", '', $white_iframe);
-		$white_iframe = explode('|@|', $white_iframe);
-		$white_iframe = array_unique(array_map(function($item) {
-			return preg_match('@^https?://(.*)$@i', $item, $matches) ? $matches[1] : $item;
-		}, $white_iframe));
-		natcasesort($white_iframe);
-
-		$whitelist = array(
-			'object' => $white_object,
-			'iframe' => $white_iframe,
-		);
-
-		$db_info->embed_white_object = $white_object;
-		$db_info->embed_white_iframe = $white_iframe;
-
-		$oInstallController = getController('install');
-		if(!$oInstallController->makeConfigFile())
+		
+		// Default URL
+		$default_url = rtrim(trim($vars->default_url), '/\\') . '/';
+		if (!filter_var($default_url, FILTER_VALIDATE_URL) || !preg_match('@^https?://@', $default_url))
 		{
-			return new Object(-1, 'msg_invalid_request');
+			return new Object(-1, 'msg_invalid_default_url');
+		}
+		if (parse_url($default_url, PHP_URL_PATH) !== RX_BASEURL)
+		{
+			return new Object(-1, 'msg_invalid_default_url');
+		}
+		Rhymix\Framework\Config::set('url.default', $vars->default_url);
+		
+		// SSL and ports
+		if ($vars->http_port == 80) $vars->http_port = null;
+		if ($vars->https_port == 443) $vars->https_port = null;
+		Rhymix\Framework\Config::set('url.http_port', $vars->http_port ?: null);
+		Rhymix\Framework\Config::set('url.https_port', $vars->https_port ?: null);
+		Rhymix\Framework\Config::set('url.ssl', $vars->use_ssl ?: 'none');
+		
+		// Other settings
+		Rhymix\Framework\Config::set('use_mobile_view', $vars->use_mobile_view === 'Y');
+		Rhymix\Framework\Config::set('use_rewrite', $vars->use_rewrite === 'Y');
+		Rhymix\Framework\Config::set('use_sso', $vars->use_sso === 'Y');
+		Rhymix\Framework\Config::set('session.delay', $vars->delay_session === 'Y');
+		Rhymix\Framework\Config::set('session.use_db', $vars->use_db_session === 'Y');
+		Rhymix\Framework\Config::set('view.minify_scripts', $vars->minify_scripts ?: 'common');
+		Rhymix\Framework\Config::set('view.gzip', $vars->use_gzip === 'Y');
+		
+		// Save
+		Rhymix\Framework\Config::save();
+		
+		$this->setMessage('success_updated');
+		$this->setRedirectUrl(Context::get('success_return_url') ?: getNotEncodedUrl('', 'act', 'dispAdminConfigAdvanced'));
+	}
+	
+	/**
+	 * Update sitelock configuration.
+	 */
+	function procAdminUpdateSitelock()
+	{
+		$vars = Context::gets('sitelock_locked', 'sitelock_allowed_ip', 'sitelock_title', 'sitelock_message');
+		
+		$allowed_ip = array_map('trim', preg_split('/[\r\n]/', $vars->sitelock_allowed_ip));
+		$allowed_ip = array_unique(array_filter($allowed_ip, function($item) {
+			return $item !== '';
+		}));
+		if (!in_array(RX_CLIENT_IP, $allowed_ip)) array_unshift($allowed_ip, RX_CLIENT_IP);
+		if (!in_array('127.0.0.1', $allowed_ip)) array_unshift($allowed_ip, '127.0.0.1');
+		if (!IpFilter::validate($whitelist)) {
+			return new Object(-1, 'msg_invalid_ip');
+		}
+		
+		Rhymix\Framework\Config::set('lock.locked', $vars->sitelock_locked === 'Y');
+		Rhymix\Framework\Config::set('lock.title', trim($vars->sitelock_title));
+		Rhymix\Framework\Config::set('lock.message', trim($vars->sitelock_message));
+		Rhymix\Framework\Config::set('lock.allow', array_values($allowed_ip));
+		Rhymix\Framework\Config::save();
+		
+		$this->setMessage('success_updated');
+		$this->setRedirectUrl(Context::get('success_return_url') ?: getNotEncodedUrl('', 'act', 'dispAdminConfigSitelock'));
+	}
+	
+	/**
+	 * Update FTP configuration.
+	 */
+	function procAdminUpdateFTPInfo()
+	{
+		$vars = Context::getRequestVars();
+		$vars->ftp_path = str_replace('\\', '/', rtrim(trim($vars->ftp_path), '/\\')) . '/';
+		if (strlen($vars->ftp_pass) === 0)
+		{
+			$vars->ftp_pass = Rhymix\Framework\Config::get('ftp.pass');
+		}
+		
+		// Test FTP connection.
+		if ($vars->ftp_sftp !== 'Y')
+		{
+			if (!($conn = @ftp_connect($vars->ftp_host, $vars->ftp_port, 3)))
+			{
+				return new Object(-1, 'msg_ftp_not_connected');
+			}
+			if (!@ftp_login($conn, $vars->ftp_user, $vars->ftp_pass))
+			{
+				return new Object(-1, 'msg_ftp_invalid_auth_info');
+			}
+			if (!@ftp_pasv($conn, $vars->ftp_pasv === 'Y'))
+			{
+				return new Object(-1, 'msg_ftp_cannot_set_passive_mode');
+			}
+			if (!@ftp_chdir($conn, $vars->ftp_path))
+			{
+				return new Object(-1, 'msg_ftp_invalid_path');
+			}
+			ftp_close($conn);
+		}
+		else
+		{
+			if (!function_exists('ssh2_connect'))
+			{
+				return new Object(-1, 'disable_sftp_support');
+			}
+			if (!($conn = ssh2_connect($vars->ftp_host, $vars->ftp_port)))
+			{
+				return new Object(-1, 'msg_ftp_not_connected');
+			}
+			if (!@ssh2_auth_password($conn, $vars->ftp_user, $vars->ftp_pass))
+			{
+				return new Object(-1, 'msg_ftp_invalid_auth_info');
+			}
+			if (!@($sftp = ssh2_sftp($conn)))
+			{
+				return new Object(-1, 'msg_ftp_sftp_error');
+			}
+			if (!@ssh2_sftp_stat($sftp, $vars->ftp_path . 'common/defaults/config.php'))
+			{
+				return new Object(-1, 'msg_ftp_invalid_path');
+			}
+			unset($sftp, $conn);
+		}
+		
+		// Save settings.
+		Rhymix\Framework\Config::set('ftp.host', $vars->ftp_host);
+		Rhymix\Framework\Config::set('ftp.port', $vars->ftp_port);
+		Rhymix\Framework\Config::set('ftp.user', $vars->ftp_user);
+		Rhymix\Framework\Config::set('ftp.pass', $vars->ftp_pass);
+		Rhymix\Framework\Config::set('ftp.path', $vars->ftp_path);
+		Rhymix\Framework\Config::set('ftp.pasv', $vars->ftp_pasv === 'Y');
+		Rhymix\Framework\Config::set('ftp.sftp', $vars->ftp_sftp === 'Y');
+		Rhymix\Framework\Config::save();
+		
+		$this->setMessage('success_updated');
+		$this->setRedirectUrl(Context::get('success_return_url') ?: getNotEncodedUrl('', 'act', 'dispAdminConfigFtp'));
+	}
+	
+	/**
+	 * Remove FTP configuration.
+	 */
+	function procAdminRemoveFTPInfo()
+	{
+		Rhymix\Framework\Config::set('ftp.host', null);
+		Rhymix\Framework\Config::set('ftp.port', null);
+		Rhymix\Framework\Config::set('ftp.user', null);
+		Rhymix\Framework\Config::set('ftp.pass', null);
+		Rhymix\Framework\Config::set('ftp.path', null);
+		Rhymix\Framework\Config::set('ftp.pasv', true);
+		Rhymix\Framework\Config::set('ftp.sftp', false);
+		Rhymix\Framework\Config::save();
+		$this->setMessage('success_deleted');
+	}
+	
+	/**
+	 * Upload favicon and mobicon.
+	 */
+	public function procAdminFaviconUpload()
+	{
+		if ($favicon = Context::get('favicon'))
+		{
+			$name = 'favicon';
+			$tmpFileName = $this->_saveFaviconTemp($favicon, 'favicon.ico');
+		}
+		elseif ($mobicon = Context::get('mobicon'))
+		{
+			$name = 'mobicon';
+			$tmpFileName = $this->_saveFaviconTemp($mobicon, 'mobicon.png');
+		}
+		else
+		{
+			$name = $tmpFileName = '';
+			Context::set('msg', Context::getLang('msg_invalid_format'));
+		}
+		
+		Context::set('name', $name);
+		Context::set('tmpFileName', $tmpFileName . '?' . time());
+		$this->setTemplatePath($this->module_path . 'tpl');
+		$this->setTemplateFile("favicon_upload.html");
+	}
+	
+	private function _saveFaviconTemp($icon, $iconname)
+	{
+		$site_info = Context::get('site_module_info');
+		$virtual_site = '';
+		if ($site_info->site_srl) 
+		{
+			$virtual_site = $site_info->site_srl . '/';
 		}
 
-		if(!in_array(Context::getRequestMethod(), array('XMLRPC','JSON')))
+		$original_filename = $icon['tmp_name'];
+		$type = $icon['type'];
+		$relative_filename = 'files/attach/xeicon/'.$virtual_site.'tmp/'.$iconname;
+		$target_filename = RX_BASEDIR . $relative_filename;
+
+		list($width, $height, $type_no, $attrs) = @getimagesize($original_filename);
+		if ($iconname == 'favicon.ico')
 		{
-			$returnUrl = Context::get('success_return_url');
-			if(!$returnUrl) $returnUrl = getNotEncodedUrl('', 'act', 'dispAdminConfigGeneral');
-			header('location:' . $returnUrl);
+			if(!preg_match('/^.*(x-icon|\.icon)$/i',$type)) {
+				Context::set('msg', '*.ico '.Context::getLang('msg_possible_only_file'));
+				return;
+			}
+		}
+		elseif ($iconname == 'mobicon.png')
+		{
+			if (!preg_match('/^.*(png).*$/',$type))
+			{
+				Context::set('msg', '*.png '.Context::getLang('msg_possible_only_file'));
+				return;
+			}
+			if (!(($height == '57' && $width == '57') || ($height == '114' && $width == '114')))
+			{
+				Context::set('msg', Context::getLang('msg_invalid_format').' (size : 57x57, 114x114)');
+				return;
+			}
+		}
+		else
+		{
+			Context::set('msg', Context::getLang('msg_invalid_format'));
 			return;
 		}
+		
+		$fitHeight = $fitWidth = $height;
+		FileHandler::copyFile($original_filename, $target_filename);
+		return $relative_filename;
 	}
-
+	
+	private function _saveFavicon($iconname, $deleteIcon = false)
+	{
+		$site_info = Context::get('site_module_info');
+		$virtual_site = '';
+		if ($site_info->site_srl) 
+		{
+			$virtual_site = $site_info->site_srl . '/';
+		}
+		
+		$image_filepath = RX_BASEDIR . 'files/attach/xeicon/' . $virtual_site;
+		
+		if ($deleteIcon)
+		{
+			FileHandler::removeFile($image_filepath.$iconname);
+			return;
+		}
+		
+		$tmpicon_filepath = $image_filepath.'tmp/'.$iconname;
+		$icon_filepath = $image_filepath.$iconname;
+		if (file_exists($tmpicon_filepath))
+		{
+			FileHandler::moveFile($tmpicon_filepath, $icon_filepath);
+		}
+		
+		FileHandler::removeFile($tmpicon_filepath);
+	}
 }
 /* End of file admin.admin.controller.php */
 /* Location: ./modules/admin/admin.admin.controller.php */

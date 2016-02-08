@@ -49,15 +49,6 @@ class DBMssql extends DB
 	}
 
 	/**
-	 * Create an instance of this class
-	 * @return DBMssql return DBMssql object instance
-	 */
-	function create()
-	{
-		return new DBMssql;
-	}
-
-	/**
 	 * DB Connect
 	 * this method is private
 	 * @param array $connection connection's value is db_hostname, db_database, db_userid, db_password
@@ -68,7 +59,11 @@ class DBMssql extends DB
 		//sqlsrv_configure( 'WarningsReturnAsErrors', 0 );
 		//sqlsrv_configure( 'LogSeverity', SQLSRV_LOG_SEVERITY_ALL );
 		//sqlsrv_configure( 'LogSubsystems', SQLSRV_LOG_SYSTEM_ALL );
-		$result = @sqlsrv_connect($connection["db_hostname"], array('Database' => $connection["db_database"], 'UID' => $connection["db_userid"], 'PWD' => $connection["db_password"]));
+		$result = @sqlsrv_connect($connection['host'], array(
+			'Database' => $connection['database'],
+			'UID' => $connection['user'],
+			'PWD' => $connection['pass'],
+		));
 
 		if(!$result)
 		{

@@ -269,7 +269,7 @@ $obj->email_address = $logged_info->email_address;
 
 $obj->module_srl = $module_srl;
 Context::set('version', __XE_VERSION__);
-$obj->title = 'Welcome Rhymix';
+$obj->title = 'Welcome to Rhymix';
 
 $obj->content = $oTemplateHandler->compile(_XE_PATH_ . 'modules/install/script/welcome_content', 'welcome_content_'.$lang);
 
@@ -279,7 +279,7 @@ if(!$output->toBool()) return $output;
 $document_srl = $output->get('document_srl');
 
 unset($obj->document_srl);
-$obj->title = 'Welcome mobile Rhymix';
+$obj->title = 'Welcome to Mobile Rhymix';
 $output = $oDocumentController->insertDocument($obj, true);
 if(!$output->toBool()) return $output;
 

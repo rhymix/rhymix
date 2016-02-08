@@ -42,7 +42,7 @@
 			<tr id="mod_rewrite_no_support" style="display:none">
 				<td colspan="2" class="error_description">
 					{$lang->disable_rewrite}
-					<block cond="$use_nginx == 'Y'"><br />{$lang->about_nginx_rewrite}</block>
+					<block cond="$use_nginx"><br />{$lang->about_nginx_rewrite}</block>
 					<br /><strong>{$lang->disable_rewrite_can_proceed}</strong>
 				</td>
 			</tr>
@@ -53,7 +53,7 @@
 			<a href="{getUrl('', 'act','dispInstallLicenseAgreement')}" class="button grey">&laquo; {$lang->cmd_back}</a>
 		</div>
 		<div class="align-right">
-			<a cond="$install_enable" class="button" id="task-checklist-confirm" href="{getUrl('','act','dispInstallSelectDB')}">{$lang->cmd_next} &raquo;</a>
+			<a cond="$install_enable" class="button" id="task-checklist-confirm" href="{getUrl('','act','dispInstallDBConfig')}">{$lang->cmd_next} &raquo;</a>
 			<a cond="!$install_enable" class="button" id="task-checklist-fix" href="{getUrl('','act',$act)}">{$lang->cmd_install_refresh_page} &raquo;</a>
 		</div>
 	</div>

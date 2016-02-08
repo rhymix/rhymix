@@ -15,11 +15,9 @@ class FrontEndFileHandlerTest extends \Codeception\TestCase\Test
 		$handler = new FrontEndFileHandler();
 		HTMLDisplayHandler::$reservedCSS = '/xxx$/';
 		HTMLDisplayHandler::$reservedJS = '/xxx$/';
-		$db_info = Context::getDBInfo() ?: new stdClass;
-		$db_info->minify_scripts = 'none';
-		Context::setDBInfo($db_info);
+		FrontEndFileHandler::$minify = 'none';
 
-		$this->specify("js(head)", function() use($db_info) {
+		$this->specify("js(head)", function() {
 			$handler = new FrontEndFileHandler();
 			$handler->loadFile(array('./common/js/js_app.js', 'head'));
 			$handler->loadFile(array('./common/js/common.js', 'body'));
@@ -30,14 +28,14 @@ class FrontEndFileHandlerTest extends \Codeception\TestCase\Test
 			$this->assertEquals($handler->getJsFileList(), $expected);
 		});
 
-		$this->specify("js(body)", function() use($db_info) {
+		$this->specify("js(body)", function() {
 			$handler = new FrontEndFileHandler();
 			$handler->loadFile(array('./common/js/xml_js_filter.js', 'head'));
 			$expected = array();
 			$this->assertEquals($handler->getJsFileList('body'), $expected);
 		});
 
-		$this->specify("css", function() use($db_info) {
+		$this->specify("css", function() {
 			$handler = new FrontEndFileHandler();
 			$handler->loadFile(array('./common/css/xe.css'));
 			$handler->loadFile(array('./common/css/mobile.css'));
@@ -46,7 +44,7 @@ class FrontEndFileHandlerTest extends \Codeception\TestCase\Test
 			$this->assertEquals($handler->getCssFileList(), $expected);
 		});
 
-		$this->specify("order (duplicate)", function() use($db_info) {
+		$this->specify("order (duplicate)", function() {
 			$handler = new FrontEndFileHandler();
 			$handler->loadFile(array('./common/js/js_app.js', 'head', '', -100000));
 			$handler->loadFile(array('./common/js/common.js', 'head', '', -100000));
@@ -63,7 +61,7 @@ class FrontEndFileHandlerTest extends \Codeception\TestCase\Test
 			$this->assertEquals($handler->getJsFileList(), $expected);
 		});
 
-		$this->specify("order (redefine)", function() use($db_info) {
+		$this->specify("order (redefine)", function() {
 			$handler = new FrontEndFileHandler();
 			$handler->loadFile(array('./common/js/xml_handler.js', 'head', '', 1));
 			$handler->loadFile(array('./common/js/js_app.js', 'head', '', -100000));
@@ -76,7 +74,7 @@ class FrontEndFileHandlerTest extends \Codeception\TestCase\Test
 			$this->assertEquals($handler->getJsFileList(), $expected);
 		});
 
-		$this->specify("unload", function() use($db_info) {
+		$this->specify("unload", function() {
 			$handler = new FrontEndFileHandler();
 			$handler->loadFile(array('./common/js/js_app.js', 'head', '', -100000));
 			$handler->loadFile(array('./common/js/common.js', 'head', '', -100000));
@@ -89,7 +87,7 @@ class FrontEndFileHandlerTest extends \Codeception\TestCase\Test
 			$this->assertEquals($handler->getJsFileList(), $expected);
 		});
 
-		$this->specify("target IE(js)", function() use($db_info) {
+		$this->specify("target IE(js)", function() {
 			$handler = new FrontEndFileHandler();
 			$handler->loadFile(array('./common/js/js_app.js', 'head', 'ie6'));
 			$handler->loadFile(array('./common/js/js_app.js', 'head', 'ie7'));
@@ -100,7 +98,7 @@ class FrontEndFileHandlerTest extends \Codeception\TestCase\Test
 			$this->assertEquals($handler->getJsFileList(), $expected);
 		});
 
-		$this->specify("external file - schemaless", function() use($db_info) {
+		$this->specify("external file - schemaless", function() {
 			$handler = new FrontEndFileHandler();
 			$handler->loadFile(array('http://external.host/js/script.js'));
 			$handler->loadFile(array('https://external.host/js/script.js'));
@@ -114,7 +112,7 @@ class FrontEndFileHandlerTest extends \Codeception\TestCase\Test
 			$this->assertEquals($handler->getJsFileList(), $expected);
 		});
 
-		$this->specify("external file - schemaless", function() use($db_info) {
+		$this->specify("external file - schemaless", function() {
 			$handler = new FrontEndFileHandler();
 			$handler->loadFile(array('//external.host/js/script.js'));
 			$handler->loadFile(array('///external.host/js/script.js'));
@@ -123,7 +121,7 @@ class FrontEndFileHandlerTest extends \Codeception\TestCase\Test
 			$this->assertEquals($handler->getJsFileList(), $expected);
 		});
 
-		$this->specify("target IE(css)", function() use($db_info) {
+		$this->specify("target IE(css)", function() {
 			$handler = new FrontEndFileHandler();
 			$handler->loadFile(array('./common/css/common.css', null, 'ie6'));
 			$handler->loadFile(array('./common/css/common.css', null, 'ie7'));
@@ -135,7 +133,7 @@ class FrontEndFileHandlerTest extends \Codeception\TestCase\Test
 			$this->assertEquals($handler->getCssFileList(), $expected);
 		});
 
-		$this->specify("media", function() use($db_info) {
+		$this->specify("media", function() {
 			$handler = new FrontEndFileHandler();
 			$handler->loadFile(array('./common/css/common.css', 'all'));
 			$handler->loadFile(array('./common/css/common.css', 'screen'));
@@ -147,11 +145,9 @@ class FrontEndFileHandlerTest extends \Codeception\TestCase\Test
 			$this->assertEquals($handler->getCssFileList(), $expected);
 		});
 
-		$db_info->minify_scripts = 'all';
-		Context::setDBInfo($db_info);
-		FrontEndFileHandler::$minify = null;
+		FrontEndFileHandler::$minify = 'all';
 
-		$this->specify("minify", function() use($db_info) {
+		$this->specify("minify", function() {
 			$handler = new FrontEndFileHandler();
 			$handler->loadFile(array('./common/css/xe.css'));
 			$handler->loadFile(array('./common/css/mobile.css'));
@@ -163,7 +159,7 @@ class FrontEndFileHandlerTest extends \Codeception\TestCase\Test
 			$this->assertEquals($result, $expected);
 		});
 
-		$this->specify("external file", function() use($db_info) {
+		$this->specify("external file", function() {
 			$handler = new FrontEndFileHandler();
 			$handler->loadFile(array('http://external.host/css/style1.css'));
 			$handler->loadFile(array('https://external.host/css/style2.css'));
@@ -173,7 +169,7 @@ class FrontEndFileHandlerTest extends \Codeception\TestCase\Test
 			$this->assertEquals($handler->getCssFileList(), $expected);
 		});
 
-		$this->specify("external file - schemaless", function() use($db_info) {
+		$this->specify("external file - schemaless", function() {
 			$handler = new FrontEndFileHandler();
 			$handler->loadFile(array('//external.host/css/style.css'));
 			$handler->loadFile(array('///external.host/css2/style2.css'));

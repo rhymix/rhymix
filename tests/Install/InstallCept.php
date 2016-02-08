@@ -35,7 +35,7 @@ $I->amOnPage('/index.php?l=ko');
 $I->setCookie('l', 'ko');
 $I->seeElement('//div[@id="progress"]/ul/li[1][@class="active"]');
 $I->seeElement('input[name="license_agreement"]');
-$I->submitForm('#body', ['act' => 'procInstallLicenseAggrement', 'license_agreement' => 'Y']);
+$I->submitForm('#body', ['act' => 'procInstallLicenseAgreement', 'license_agreement' => 'Y']);
 
 // Step 2 : Environment Check
 $I->seeInCurrentUrl('act=dispInstallCheckEnv');
@@ -43,27 +43,26 @@ $I->seeElement('#task-checklist-confirm');
 $I->click('#task-checklist-confirm');
 
 // Step 3 : DB Setup
-$I->seeInCurrentUrl('act=dispInstallSelectDB');
+$I->seeInCurrentUrl('act=dispInstallDBConfig');
 $I->seeElement('select[name="db_type"]');
 $I->submitForm('#body', [
-	'act' => 'procDBSetting',
+	'act' => 'procDBConfig',
 	'db_type' => 'mysqli_innodb',
-    'db_hostname' => $dbinfo['host'],
+    'db_host' => $dbinfo['host'],
     'db_port' => $dbinfo['port'],
-    'db_userid' => $dbinfo['user'],
-    'db_password' => $dbinfo['password'],
+    'db_user' => $dbinfo['user'],
+    'db_pass' => $dbinfo['password'],
     'db_database' => $dbinfo['dbname'],
-    'db_table_prefix' => 'rx'
+    'db_prefix' => 'rx'
 ]);
 
 // Step 4 : Create Admin Account
-$I->seeInCurrentUrl('act=dispInstallManagerForm');
+$I->seeInCurrentUrl('act=dispInstallOtherConfig');
 $I->seeElement('select[name="time_zone"]');
 $I->fillField('#aMail', 'admin@admin.net');
 $I->submitForm('#body', [
     'act' => 'procInstall',
     'time_zone' => '+0900',
-    'db_type' => 'mysqli_innodb',
     'email_address' => 'admin@admin.net',
     'password' => 'admin',
     'password2' => 'admin',

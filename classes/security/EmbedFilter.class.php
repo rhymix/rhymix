@@ -394,18 +394,16 @@ class EmbedFilter
 			{
 				$this->whiteIframeUrlList[] = $prefix;
 			}
-			
-			$db_info = Context::getDBInfo();
-			if(isset($db_info->embed_white_object) && count($db_info->embed_white_object))
+			if ($embedfilter_object = config('embedfilter.object'))
 			{
-				foreach ($db_info->embed_white_object as $prefix)
+				foreach ($embedfilter_object as $prefix)
 				{
 					$this->whiteUrlList[] = preg_match('@^https?://(.*)$@i', $prefix, $matches) ? $matches[1] : $prefix;
 				}
 			}
-			if(isset($db_info->embed_white_iframe) && count($db_info->embed_white_iframe))
+			if ($embedfilter_iframe = config('embedfilter.iframe'))
 			{
-				foreach ($db_info->embed_white_iframe as $prefix)
+				foreach ($embedfilter_iframe as $prefix)
 				{
 					$this->whiteIframeUrlList[] = preg_match('@^https?://(.*)$@i', $prefix, $matches) ? $matches[1] : $prefix;
 				}

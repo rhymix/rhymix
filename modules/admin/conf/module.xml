@@ -5,6 +5,9 @@
     <actions>
         <action name="dispAdminIndex" type="view" index="true" />
         <action name="dispAdminConfigGeneral" type="view" menu_name="adminConfigurationGeneral" menu_index="true" />
+        <action name="dispAdminConfigSecurity" type="view" menu_name="adminConfigurationGeneral" />
+        <action name="dispAdminConfigAdvanced" type="view" menu_name="adminConfigurationGeneral" />
+        <action name="dispAdminConfigSitelock" type="view" menu_name="adminConfigurationGeneral" />
         <action name="dispAdminConfigFtp" type="view" menu_name="adminConfigurationFtp" menu_index="true" />
         <action name="dispAdminSetup" type="view" menu_name="adminMenuSetup" menu_index="true" />
         <action name="dispAdminViewServerEnv" type="view" />
@@ -18,52 +21,58 @@
 		<action name="procAdminUpdateConfig" type="controller" />
 		<action name="procAdminDeleteLogo" type="controller" />
 		<action name="procAdminMenuReset" type="controller" />
+		<action name="procAdminUpdateConfigGeneral" type="controller" />
+		<action name="procAdminUpdateSecurity" type="controller" />
+		<action name="procAdminUpdateAdvanced" type="controller" />
 		<action name="procAdminUpdateSitelock" type="controller" />
-		<action name="procAdminUpdateEmbedWhitelist" type="controller" />
+		<action name="procAdminUpdateFTPInfo" type="controller" />
+		<action name="procAdminRemoveFTPInfo" type="controller" />
+		<action name="procAdminFaviconUpload" type="controller" />
 
-        <action name="getAdminFTPList" type="model" />
-        <action name="getAdminFTPPath" type="model" />
         <action name="getSiteAllList" type="model" />
     </actions>
 	<menus>
 		<menu name="adminConfigurationGeneral" type="all">
-			<title xml:lang="en">General</title>
-			<title xml:lang="ko">일반</title>
-			<title xml:lang="zh-CN">总览</title>
-			<title xml:lang="jp">一般</title>
-			<title xml:lang="es">General</title>
-			<title xml:lang="ru">General</title>
-			<title xml:lang="fr">General</title>
-			<title xml:lang="zh-TW">General</title>
-			<title xml:lang="vi">General</title>
-			<title xml:lang="mn">General</title>
-			<title xml:lang="tr">General</title>
+			<title xml:lang="en">System Settings</title>
+			<title xml:lang="ko">시스템 설정</title>
+			<title xml:lang="zh-CN">系统设置</title>
+			<title xml:lang="zh-TW">系統設置</title>
+			<title xml:lang="jp">システムの設定</title>
+			<title xml:lang="es">System Settings</title>
+			<title xml:lang="ru">System Settings</title>
+			<title xml:lang="fr">System Settings</title>
+			<title xml:lang="zh-TW">System Settings</title>
+			<title xml:lang="vi">System Settings</title>
+			<title xml:lang="mn">System Settings</title>
+			<title xml:lang="tr">System Settings</title>
 		</menu>
 		<menu name="adminMenuSetup" type="all">
-			<title xml:lang="en">Admin Setup</title>
-			<title xml:lang="ko">관리자 설정</title>
-			<title xml:lang="zh-CN">后台设置</title>
-			<title xml:lang="jp">管理者設定</title>
-			<title xml:lang="es">Admin Setup</title>
-			<title xml:lang="ru">Admin Setup</title>
-			<title xml:lang="fr">Admin Setup</title>
-			<title xml:lang="zh-TW">Admin Setup</title>
-			<title xml:lang="vi">Admin Setup</title>
-			<title xml:lang="mn">Admin Setup</title>
-			<title xml:lang="tr">Admin Setup</title>
+			<title xml:lang="en">Admin Panel Settings</title>
+			<title xml:lang="ko">관리자 화면 설정</title>
+			<title xml:lang="zh-CN">管理者页面设置</title>
+			<title xml:lang="zh-TW">管理者頁面設置</title>
+			<title xml:lang="jp">管理者画面の設定</title>
+			<title xml:lang="es">Admin Panel Settings</title>
+			<title xml:lang="ru">Admin Panel Settings</title>
+			<title xml:lang="fr">Admin Panel Settings</title>
+			<title xml:lang="zh-TW">Admin Panel Settings</title>
+			<title xml:lang="vi">Admin Panel Settings</title>
+			<title xml:lang="mn">Admin Panel Settings</title>
+			<title xml:lang="tr">Admin Panel Settings</title>
 		</menu>
 		<menu name="adminConfigurationFtp" type="all">
-			<title xml:lang="en">FTP Configuration</title>
+			<title xml:lang="en">FTP Settings</title>
 			<title xml:lang="ko">FTP 설정</title>
-			<title xml:lang="zh-CN">FTP 配置</title>
+			<title xml:lang="zh-CN">FTP设置</title>
+			<title xml:lang="zh-TW">FTP設置</title>
 			<title xml:lang="jp">FTP設定</title>
-			<title xml:lang="es">FTP Configuration</title>
-			<title xml:lang="ru">FTP Configuration</title>
-			<title xml:lang="fr">FTP Configuration</title>
-			<title xml:lang="zh-TW">FTP Configuration</title>
-			<title xml:lang="vi">FTP Configuration</title>
-			<title xml:lang="mn">FTP Configuration</title>
-			<title xml:lang="tr">FTP Configuration</title>
+			<title xml:lang="es">FTP Settings</title>
+			<title xml:lang="ru">FTP Settings</title>
+			<title xml:lang="fr">FTP Settings</title>
+			<title xml:lang="zh-TW">FTP Settings</title>
+			<title xml:lang="vi">FTP Settings</title>
+			<title xml:lang="mn">FTP Settings</title>
+			<title xml:lang="tr">FTP Settings</title>
 		</menu>
 	</menus>
 </module>

@@ -29,7 +29,6 @@ class module extends ModuleObject
 		$output = $oDB->executeQuery('module.getSite', $args);
 		if(!$output->data || !$output->data->index_module_srl)
 		{
-			$db_info = Context::getDBInfo();
 			$domain = Context::getDefaultUrl();
 			$url_info = parse_url($domain);
 			$domain = $url_info['host'].( (!empty($url_info['port'])&&$url_info['port']!=80)?':'.$url_info['port']:'').$url_info['path'];
@@ -38,7 +37,7 @@ class module extends ModuleObject
 			$site_args->site_srl = 0;
 			$site_args->index_module_srl  = 0;
 			$site_args->domain = $domain;
-			$site_args->default_language = $db_info->lang_type;
+			$site_args->default_language = config('locale.default_lang');
 
 			$output = executeQuery('module.insertSite', $site_args);
 			if(!$output->toBool()) return $output;
@@ -328,14 +327,13 @@ class module extends ModuleObject
 		{
 			// Basic mid, language Wanted
 			$mid_output = $oDB->executeQuery('module.getDefaultMidInfo', $args);
-			$db_info = Context::getDBInfo();
 			$domain = Context::getDefaultUrl();
 			$url_info = parse_url($domain);
 			$domain = $url_info['host'].( (!empty($url_info['port'])&&$url_info['port']!=80)?':'.$url_info['port']:'').$url_info['path'];
 			$site_args->site_srl = 0;
 			$site_args->index_module_srl  = $mid_output->data->module_srl;
 			$site_args->domain = $domain;
-			$site_args->default_language = $db_info->lang_type;
+			$site_args->default_language = config('locale.default_lang');
 
 			$output = executeQuery('module.insertSite', $site_args);
 			if(!$output->toBool()) return $output;

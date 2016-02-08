@@ -433,7 +433,7 @@ class HTMLDisplayHandler
 		$original_file_list = array('x', 'common', 'js_app', 'xml_handler', 'xml_js_filter');
 		$jquery_version = preg_match('/MSIE [5-8]\./', $_SERVER['HTTP_USER_AGENT']) ? '1.11.3' : '2.1.4';
 		
-		if(Context::getDBInfo()->minify_scripts === 'none')
+		if(config('view.minify_scripts') === 'none')
 		{
 			Context::loadFile(array('./common/js/jquery-' . $jquery_version . '.js', 'head', '', -1730000), true);
 			Context::loadFile(array('./common/js/plugins/jquery.migrate/jquery-migrate-1.2.1.js', 'head', '', -1720000), true);

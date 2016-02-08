@@ -49,8 +49,7 @@ class CubridTableWithHint extends Table
 		$result = '';
 
 		// Retrieve table prefix, to add it to index name
-		$db_info = Context::getDBInfo();
-		$prefix = $db_info->master_db["db_table_prefix"];
+		$prefix = config('db.master.prefix');
 
 		foreach($this->index_hints_list as $index_hint)
 		{

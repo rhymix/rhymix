@@ -24,10 +24,8 @@ $lang->install_permission_denied = 'La permission du chemin d\'installation n\'e
 $lang->cmd_install_refresh_page = 'Rafraîchir';
 $lang->cmd_install_next = 'Continuer à  installer';
 $lang->cmd_recommended = 'Recommandé';
-$lang->db_desc['mysqli'] = 'Utilisera fonction mysqli*() pour utiliser la base de données de mysql.<br />La transaction sera invalidé parce que le fichier de Base de Données est créé par myisam.';
-$lang->db_desc['mysqli_innodb'] = 'Utilisera innodb pour utiliser Base de Données de mysql.<br />La transaction sera validé pour innodb';
-$lang->db_desc['mysql'] = 'Utilisera fonction mysql_*() pour utiliser la base de données de mysql.<br />La transaction sera invalidé parce que le fichier de Base de Données est créé par myisam.';
-$lang->db_desc['mysql_innodb'] = 'Utilisera innodb pour utiliser Base de Données de mysql.<br />La transaction sera validé pour innodb';
+$lang->db_desc['mysqli'] = 'Utilisera fonction mysqli_*() pour utiliser la base de données de MySQL.';
+$lang->db_desc['mysql'] = 'Utilisera fonction mysql_*() pour utiliser la base de données de MySQL';
 $lang->db_desc['cubrid'] = 'Utiliser la Base de Données de CUBRID.  <a href="http://www.cubrid.org/wiki_tutorials/entry/cubrid-installation-instructions" target="_blank">Manual</a>';
 $lang->db_desc['mssql'] = 'Utiliser la Base de Données de Microsoft SQL Server.';
 $lang->can_use_when_installed = 'Pas installé sur ce serveur';

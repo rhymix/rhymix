@@ -1,7 +1,8 @@
 .DS_Store
 Thumbs.db
 
-config.user.inc.php
+/config/config.user.inc.php
+/config/install.config.php
 /files/
 /build/
 /libs/

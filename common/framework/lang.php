@@ -293,7 +293,7 @@ class Lang
 	public function __get($key)
 	{
 		// Separate the plugin name from the key.
-		if (($keys = explode('.', $key, 2)) && count($keys) === 2)
+		if (preg_match('/^[a-z0-9_.-]+$/i', $key) && ($keys = explode('.', $key, 2)) && count($keys) === 2)
 		{
 			list($plugin_name, $key) = $keys;
 			if (!isset($this->_loaded_plugins[$plugin_name]))

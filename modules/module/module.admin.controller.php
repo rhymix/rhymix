@@ -868,9 +868,8 @@ class moduleAdminController extends module
 			$langMap[$val->lang_code][$val->name] = $val->value;
 		}
 
-		$lang_supported = Context::get('lang_supported');
-		$dbInfo = Context::getDBInfo();
-		$defaultLang = $dbInfo->lang_type;
+		$lang_supported = Context::loadLangSelected();
+		$defaultLang = config('locale.default_lang');
 
 		if(!is_array($langMap[$defaultLang]))
 		{

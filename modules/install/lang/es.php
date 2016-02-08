@@ -24,10 +24,8 @@ $lang->install_permission_denied = 'La atribución de la ruta de instalacion no 
 $lang->cmd_install_refresh_page = 'Refrescar';
 $lang->cmd_install_next = 'Continuar la instalación';
 $lang->cmd_recommended = 'Recomendado';
-$lang->db_desc['mysqli'] = 'Utilizando las funciones mysqli*() de PHP usar DB mysql.<br />La transacción es desabilitado ya que DB(Bases de Datos) está creado por myisam.';
-$lang->db_desc['mysqli_innodb'] = 'Utilizando innodb usar BD mysql.<br />La transacción es hablilitado para innodb';
-$lang->db_desc['mysql'] = 'Utilizando las funciones mysql_*() de PHP usar DB mysql.<br />La transacción es desabilitado ya que DB(Bases de Datos) está creado por myisam.';
-$lang->db_desc['mysql_innodb'] = 'Utilizando innodb usar BD mysql.<br />La transacción es hablilitado para innodb';
+$lang->db_desc['mysqli'] = 'Utilizando las funciones mysqli*() de PHP usar DB mysql.';
+$lang->db_desc['mysql'] = 'Utilizando las funciones mysql_*() de PHP usar DB mysql.';
 $lang->db_desc['cubrid'] = 'Usar BD CUBRID. <a href="http://www.cubrid.org/wiki_tutorials/entry/cubrid-installation-instructions" target="_blank">Manual</a>';
 $lang->db_desc['mssql'] = 'Usar Microsoft SQL Server.';
 $lang->form_title = 'Ingresar  BD &amp; Información del Administrador;';

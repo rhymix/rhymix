@@ -171,7 +171,6 @@ class moduleModel extends module
 
 					// Get mid, language
 					$mid_output = $oDB->executeQuery('module.getDefaultMidInfo', $args);
-					$db_info = Context::getDBInfo();
 					$domain = Context::getDefaultUrl();
 					$url_info = parse_url($domain);
 					$domain = $url_info['host'].( (!empty($url_info['port'])&&$url_info['port']!=80)?':'.$url_info['port']:'').$url_info['path'];
@@ -180,7 +179,7 @@ class moduleModel extends module
 					$site_args->site_srl = 0;
 					$site_args->index_module_srl  = $mid_output->data->module_srl;
 					$site_args->domain = $domain;
-					$site_args->default_language = $db_info->lang_type;
+					$site_args->default_language = config('locale.default_lang');
 
 					if($output->data && !$output->data->index_module_srl)
 					{
@@ -714,7 +713,7 @@ class moduleModel extends module
 	 */
 	function loadModuleExtends()
 	{
-		$cache_file = './files/config/module_extend.php';
+		$cache_file = './files/cache/common/module_extend.php';
 		$cache_file = FileHandler::getRealPath($cache_file);
 
 		if(!isset($GLOBALS['__MODULE_EXTEND__']))

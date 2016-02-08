@@ -37,4 +37,11 @@ jQuery(function($){
 			}
 		});
 	}
+	if($("#task-complete-install").size()) {
+		$("#task-complete-install").click(function() {
+			$("#task-complete-install").text($("#task-complete-install").data("installing"));
+			$("#task-complete-install").prop("disabled", true);
+			$(window).on("beforeunload", function() { return ""; });
+		});
+	}
 });

@@ -1156,7 +1156,7 @@ class memberController extends member
 			return $this->stop('msg_invalid_auth_key');
 		}
 
-		if(ztime($output->data->regdate) < $_SERVER['REQUEST_TIME'] + zgap() - 86400)
+		if(ztime($output->data->regdate) < time() - 86400)
 		{
 			executeQuery('member.deleteAuthMail', $args);
 			return $this->stop('msg_invalid_auth_key');

@@ -580,57 +580,44 @@ class documentItem extends Object
 		return $content;
 	}
 
-	function getRegdate($format = 'Y.m.d H:i:s', $conversion = TRUE)
+	function getRegdate($format = 'Y.m.d H:i:s', $conversion = true)
 	{
 		return zdate($this->get('regdate'), $format, $conversion);
 	}
 
 	function getRegdateTime()
 	{
-		$regdate = $this->get('regdate');
-		$year = substr($regdate,0,4);
-		$month = substr($regdate,4,2);
-		$day = substr($regdate,6,2);
-		$hour = substr($regdate,8,2);
-		$min = substr($regdate,10,2);
-		$sec = substr($regdate,12,2);
-		return mktime($hour,$min,$sec,$month,$day,$year);
+		return ztime($this->get('regdate'));
 	}
 
 	function getRegdateGM()
 	{
-		return $this->getRegdate('D, d M Y H:i:s', FALSE).' '.$GLOBALS['_time_zone'];
+		return gmdate('r', ztime($this->get('regdate')));
 	}
 
 	function getRegdateDT()
 	{
-		return $this->getRegdate('Y-m-d', FALSE).'T'.$this->getRegdate('H:i:s', FALSE).substr($GLOBALS['_time_zone'],0,3).':'.substr($GLOBALS['_time_zone'],3,2);
+		return zdate($this->get('regdate'), 'c', false);
 	}
 
-	function getUpdate($format = 'Y.m.d H:i:s', $conversion = TRUE)
+	function getUpdate($format = 'Y.m.d H:i:s', $conversion = true)
 	{
 		return zdate($this->get('last_update'), $format, $conversion);
 	}
 
 	function getUpdateTime()
 	{
-		$year = substr($this->get('last_update'),0,4);
-		$month = substr($this->get('last_update'),4,2);
-		$day = substr($this->get('last_update'),6,2);
-		$hour = substr($this->get('last_update'),8,2);
-		$min = substr($this->get('last_update'),10,2);
-		$sec = substr($this->get('last_update'),12,2);
-		return mktime($hour,$min,$sec,$month,$day,$year);
+		return ztime($this->get('last_update'));
 	}
 
 	function getUpdateGM()
 	{
-		return gmdate("D, d M Y H:i:s", $this->getUpdateTime());
+		return gmdate('r', ztime($this->get('last_update')));
 	}
 
 	function getUpdateDT()
 	{
-		return $this->getUpdate('Y-m-d', FALSE).'T'.$this->getUpdate('H:i:s', FALSE).substr($GLOBALS['_time_zone'],0,3).':'.substr($GLOBALS['_time_zone'],3,2);
+		return zdate($this->get('last_update'), 'c', false);
 	}
 
 	function getPermanentUrl()

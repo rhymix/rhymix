@@ -1608,7 +1608,6 @@ class menuAdminController extends menu
 		$url = getNotEncodedFullUrl('', 'module', 'admin', 'act', $info->menu->{$menuName}->index);
 		if(empty($url)) $url = getNotEncodedFullUrl('', 'module', 'admin', 'act', $info->admin_index_act);
 		if(empty($url)) $url = getNotEncodedFullUrl('', 'module', 'admin');
-		$dbInfo = Context::getDBInfo();
 
 		$args = new stdClass();
 		$args->menu_item_srl = (!$requestArgs->menu_item_srl) ? getNextSequence() : $requestArgs->menu_item_srl;
@@ -1618,11 +1617,11 @@ class menuAdminController extends menu
 		//if now page is https...
 		if(strpos($url, 'https') !== false)
 		{
-			$args->url = str_replace('https'.substr($dbInfo->default_url, 4), '', $url);
+			$args->url = str_replace('https'.substr(Context::getDefaultUrl(), 4), '', $url);
 		}
 		else
 		{
-			$args->url = str_replace($dbInfo->default_url, '', $url);
+			$args->url = str_replace(Context::getDefaultUrl(), '', $url);
 		}
 		$args->open_window = 'N';
 		$args->expand = 'N';

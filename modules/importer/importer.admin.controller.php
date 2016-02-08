@@ -107,8 +107,7 @@ class importerAdminController extends importer
 
 		/* DBMS가 CUBRID인 경우 MySQL과 동일한 방법으로는 문서 및 댓글에 대한 사용자 정보를 동기화 할 수 없으므로 예외 처리 합니다.
 		   CUBRID를 사용하지 않는 경우에만 보편적인 기존 질의문을 사용합니다. */
-		$db_info = Context::getDBInfo ();
-		if($db_info->db_type != "cubrid")
+		if(config('db.master.type') !== 'cubrid')
 		{
 			$output = executeQuery('importer.updateDocumentSync'.$postFix);
 			$output = executeQuery('importer.updateCommentSync'.$postFix);

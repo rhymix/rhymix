@@ -7,8 +7,6 @@
  */
 class installController extends install
 {
-	var $db_tmp_config_file = '';
-	var $etc_tmp_config_file = '';
 	var $flagLicenseAgreement = './files/env/license_agreement';
 
 	/**
@@ -16,12 +14,12 @@ class installController extends install
 	 */
 	function init()
 	{
-		// Error occurs if already installed
-		if(Context::isInstalled())
+		// Stop if already installed.
+		if (Context::isInstalled())
 		{
 			return new Object(-1, 'msg_already_installed');
 		}
-
+		
 		$this->db_tmp_config_file = _XE_PATH_.'files/config/tmpDB.config.php';
 		$this->etc_tmp_config_file = _XE_PATH_.'files/config/tmpEtc.config.php';
 	}
@@ -29,134 +27,204 @@ class installController extends install
 	/**
 	 * @brief division install step... DB Config temp file create
 	 */
-	function procDBSetting()
+	function procDBConfig()
 	{
-		// Get DB-related variables
-		$con_string = Context::gets('db_type','db_port','db_hostname','db_userid','db_password','db_database','db_table_prefix');
-		$con_string->db_table_prefix = rtrim($con_string->db_table_prefix, '_');
-
-		$db_info = new stdClass();
-		$db_info->master_db = get_object_vars($con_string);
-		$db_info->slave_db = array($db_info->master_db);
-		$db_info->default_url = Context::getRequestUri();
-		$db_info->lang_type = Context::getLangType();
-		$db_info->use_mobile_view = 'Y';
-
-		// Set DB type and information
-		Context::setDBInfo($db_info);
-
-		// Check if available to connect to the DB
-		$oDB = &DB::getInstance();
+		// Get DB config variables.
+		$config = Context::gets('db_type', 'db_host', 'db_port', 'db_user', 'db_pass', 'db_database', 'db_prefix');
+		
+		// Create a temporary setting object.
+		Rhymix\Framework\Config::set('db.master', array(
+			'type' => $config->db_type,
+			'host' => $config->db_host,
+			'port' => $config->db_port,
+			'user' => $config->db_user,
+			'pass' => $config->db_pass,
+			'database' => $config->db_database,
+			'prefix' => rtrim($config->db_prefix, '_') . '_',
+		));
+		
+		// Check connection to the DB.
+		$oDB = DB::getInstance();
 		$output = $oDB->getError();
-		if(!$output->toBool()) return $output;
-		if(!$oDB->isConnected()) return $oDB->getError();
-
-		// Check if MySQL server supports InnoDB
-		if(stripos($con_string->db_type, 'innodb') !== false)
+		if (!$output->toBool() || !$oDB->isConnected())
 		{
-			$innodb_supported = false;
+			return $output;
+		}
+		
+		// Check MySQL server capabilities.
+		if(stripos($config->db_type, 'mysql') !== false)
+		{
+			// Check if InnoDB is supported.
 			$show_engines = $oDB->_fetch($oDB->_query('SHOW ENGINES'));
 			foreach($show_engines as $engine_info)
 			{
-				if(strcasecmp($engine_info->Engine, 'InnoDB') === 0)
+				if ($engine_info->Engine === 'InnoDB')
 				{
-					$innodb_supported = true;
+					$config->db_type .= '_innodb';
+					break;
 				}
 			}
-
-			// If server does not support InnoDB, fall back to default storage engine (usually MyISAM)
-			if(!$innodb_supported)
+			
+			// Check if utf8mb4 is supported.
+			$oDB->charset = $oDB->getBestSupportedCharset();
+			$config->db_charset = $oDB->charset;
+		}
+		
+		// Check if tables already exist.
+		$table_check = array('documents', 'comments', 'modules', 'sites');
+		foreach ($table_check as $table_name)
+		{
+			if ($oDB->isTableExists($table_name))
 			{
-				$con_string->db_type = str_ireplace('_innodb', '', $con_string->db_type);
-				$db_info->master_db['db_type'] = $con_string->db_type;
-				$db_info->slave_db[0]['db_type'] = $con_string->db_type;
-				Context::set('db_type', $con_string->db_type);
-				Context::setDBInfo($db_info);
+				return new Object(-1, 'msg_table_already_exists');
 			}
 		}
-
-		// Create a db temp config file
-		if(!$this->makeDBConfigFile()) return new Object(-1, 'msg_install_failed');
-
-		if(!in_array(Context::getRequestMethod(),array('XMLRPC','JSON')))
+		
+		// Save DB config in session.
+		$_SESSION['db_config'] = $config;
+		
+		// Continue the installation.
+		if(!in_array(Context::getRequestMethod(), array('XMLRPC','JSON')))
 		{
-			$returnUrl = Context::get('success_return_url') ? Context::get('success_return_url') : getNotEncodedUrl('', 'act', 'dispInstallManagerForm');
-			header('location:'.$returnUrl);
-			return;
+			$returnUrl = Context::get('success_return_url') ? Context::get('success_return_url') : getNotEncodedUrl('', 'act', 'dispInstallOtherConfig');
+			$this->setRedirectUrl($returnUrl);
 		}
 	}
 
 	/**
 	 * @brief Install with received information
 	 */
-	function procInstall()
+	function procInstall($install_config = null)
 	{
 		// Check if it is already installed
-		if(Context::isInstalled())
+		if (Context::isInstalled())
 		{
 			return new Object(-1, 'msg_already_installed');
 		}
-
-		// Save rewrite and time zone settings
-		if(!Context::get('install_config'))
+		
+		// Get install parameters.
+		$config = Rhymix\Framework\Config::getDefaults();
+		if ($install_config)
 		{
-			$config_info = Context::gets('use_rewrite','time_zone', 'use_ssl');
-			if($config_info->use_rewrite!='Y') $config_info->use_rewrite = 'N';
-			if(!$this->makeEtcConfigFile($config_info))
-			{
-				return new Object(-1, 'msg_install_failed');
-			}
+			$install_config = (array)$install_config;
+			$config['db']['master']['type'] = str_replace('_innodb', '', $install_config['db_type']);
+			$config['db']['master']['host'] = $install_config['db_hostname'];
+			$config['db']['master']['port'] = $install_config['db_port'];
+			$config['db']['master']['user'] = $install_config['db_userid'];
+			$config['db']['master']['pass'] = $install_config['db_password'];
+			$config['db']['master']['database'] = $install_config['db_database'];
+			$config['db']['master']['prefix'] = $install_config['db_table_prefix'];
+			$config['db']['master']['charset'] = $install_config['db_charset'];
+			$config['db']['master']['engine'] = strpos($install_config['db_type'], 'innodb') !== false ? 'innodb' : (strpos($install_config['db_type'], 'mysql') !== false ? 'myisam' : null);
+			$config['use_rewrite'] = $install_config['use_rewrite'] === 'Y' ? true : false;
+			$config['url']['ssl'] = $install_config['use_ssl'] ?: 'none';
+			$time_zone = $install_config['time_zone'];
+			$user_info = new stdClass;
+			$user_info->email_address = $install_config['email_address'];
+			$user_info->password = $install_config['password'];
+			$user_info->nick_name = $install_config['nick_name'];
+			$user_info->user_id = $install_config['user_id'];
 		}
-
-		// Assign a temporary administrator when installing
-		$logged_info = new stdClass();
-		$logged_info->is_admin = 'Y';
-		Context::set('logged_info', $logged_info);
-
-		// check install config
-		if(Context::get('install_config'))
-		{
-			$db_info = $this->_makeDbInfoByInstallConfig();
-		}
-		// install by default XE UI
 		else
 		{
-			if(FileHandler::exists($this->db_tmp_config_file)) include $this->db_tmp_config_file;
-			if(FileHandler::exists($this->etc_tmp_config_file)) include $this->etc_tmp_config_file;
+			$config['db']['master']['type'] = str_replace('_innodb', '', $_SESSION['db_config']->db_type);
+			$config['db']['master']['host'] = $_SESSION['db_config']->db_host;
+			$config['db']['master']['port'] = $_SESSION['db_config']->db_port;
+			$config['db']['master']['user'] = $_SESSION['db_config']->db_user;
+			$config['db']['master']['pass'] = $_SESSION['db_config']->db_pass;
+			$config['db']['master']['database'] = $_SESSION['db_config']->db_database;
+			$config['db']['master']['prefix'] = $_SESSION['db_config']->db_prefix;
+			$config['db']['master']['charset'] = $_SESSION['db_config']->db_charset;
+			$config['db']['master']['engine'] = strpos($_SESSION['db_config']->db_type, 'innodb') !== false ? 'innodb' : (strpos($_SESSION['db_config']->db_type, 'mysql') !== false ? 'myisam' : null);
+			$config['use_rewrite'] = $_SESSION['use_rewrite'] === 'Y' ? true : false;
+			$config['url']['ssl'] = Context::get('use_ssl') ?: 'none';
+			$time_zone = Context::get('time_zone');
+			$user_info = Context::gets('email_address', 'password', 'nick_name', 'user_id');
 		}
-
-		// Set DB type and information
-		Context::setDBInfo($db_info);
-		// Create DB Instance
-		$oDB = &DB::getInstance();
-		// Check if available to connect to the DB
-		if(!$oDB->isConnected()) return $oDB->getError();
-
-		// Check DB charset if using MySQL
-		if(stripos($db_info->master_db['db_type'], 'mysql') !== false && !isset($db_info->master_db['db_charset']))
+		
+		// Fix the database table prefix.
+		$config['db']['master']['prefix'] = rtrim($config['db']['master']['prefix'], '_');
+		if ($config['db']['master']['prefix'] !== '')
 		{
-			$oDB->charset = $oDB->getBestSupportedCharset();
-			$db_info->master_db['db_charset'] = $oDB->charset;
-			$db_info->slave_db[0]['db_charset'] = $oDB->charset;
-			Context::setDBInfo($db_info);
+			$config['db']['master']['prefix'] .= '_';
 		}
-
-		// Install all the modules
-		try {
+		
+		// Set the default language.
+		$config['locale']['default_lang'] = Context::getLangType();
+		$config['locale']['enabled_lang'] = array($config['locale']['default_lang']);
+		
+		// Set the default time zone.
+		if (strpos($time_zone, '/') !== false)
+		{
+			$config['locale']['default_timezone'] = $time_zone;
+			$user_timezone = null;
+		}
+		else
+		{
+			$user_timezone = intval(Rhymix\Framework\DateTime::getTimezoneOffsetByLegacyFormat($time_zone ?: '+0900') / 3600);
+			switch ($user_timezone)
+			{
+				case 9:
+					$config['locale']['default_timezone'] = 'Asia/Seoul'; break;
+				case 0:
+					$config['locale']['default_timezone'] = 'Etc/UTC'; break;
+				default:
+					$config['locale']['default_timezone'] = 'Etc/GMT' . ($user_timezone > 0 ? '-' : '+') . abs($user_timezone);
+			}
+		}
+		
+		// Set the internal time zone.
+		if ($config['locale']['default_timezone'] === 'Asia/Seoul')
+		{
+			$config['locale']['internal_timezone'] = 32400;
+		}
+		elseif ($user_timezone !== null)
+		{
+			$config['locale']['internal_timezone'] = $user_timezone * 3600;
+		}
+		else
+		{
+			$config['locale']['internal_timezone'] = 0;
+		}
+		
+		// Set the default URL.
+		$config['url']['default'] = Context::getRequestUri();
+		
+		// Load the new configuration.
+		Rhymix\Framework\Config::setAll($config);
+		Context::loadDBInfo($config);
+		
+		// Check DB.
+		$oDB = DB::getInstance();
+		if (!$oDB->isConnected())
+		{
+			return $oDB->getError();
+		}
+		
+		// Assign a temporary administrator while installing.
+		foreach ($user_info as $key => $val)
+		{
+			Context::set($key, $val, true);
+		}
+		$user_info->is_admin = 'Y';
+		Context::set('logged_info', $user_info);
+		
+		// Install all the modules.
+		try
+		{
 			$oDB->begin();
 			$this->installDownloadedModule();
 			$oDB->commit();
-		} catch(Exception $e) {
+		}
+		catch(Exception $e)
+		{
 			$oDB->rollback();
 			return new Object(-1, $e->getMessage());
 		}
-
-		// Create a config file
-		if(!$this->makeConfigFile()) return new Object(-1, 'msg_install_failed');
-
-		// load script
+		
+		// Execute the install script.
 		$scripts = FileHandler::readDir(_XE_PATH_ . 'modules/install/script', '/(\.php)$/');
-		if(count($scripts)>0)
+		if(count($scripts))
 		{
 			sort($scripts);
 			foreach($scripts as $script)
@@ -165,48 +233,22 @@ class installController extends install
 				$output = include($script_path . $script);
 			}
 		}
-
-		// save selected lang info
-		$oInstallAdminController = getAdminController('install');
-		$oInstallAdminController->saveLangSelected(array(Context::getLangType()));
-
-		// Display a message that installation is completed
-		$this->setMessage('msg_install_completed');
-
+		
+		// Save the new configuration.
+		Rhymix\Framework\Config::save();
+		$buff = '<?php' . "\n" . '$db_info = ' . Rhymix\Framework\Config::serialize(Context::getDBInfo()) . ';' . "\n";
+		FileHandler::writeFile(Context::getConfigFile(), $buff);
+		
+		// Unset temporary session variables.
 		unset($_SESSION['use_rewrite']);
-
-		if(!in_array(Context::getRequestMethod(),array('XMLRPC','JSON')))
-		{
-			$returnUrl = Context::get('success_return_url') ? Context::get('success_return_url') : getNotEncodedUrl('');
-			header('location:'.$returnUrl);
-			return new Object();
-		}
-	}
-
-	/**
-	 * @brief Make DB Information by Install Config
-	 */
-	function _makeDbInfoByInstallConfig()
-	{
-		$db_info = new stdClass();
-		$db_info->master_db = array(
-			'db_type' => Context::get('db_type'),
-			'db_port' => Context::get('db_port'),
-			'db_hostname' => Context::get('db_hostname'),
-			'db_userid' => Context::get('db_userid'),
-			'db_password' => Context::get('db_password'),
-			'db_database' => Context::get('db_database'),
-			'db_table_prefix' => Context::get('db_table_prefix'),
-			'db_charset' => Context::get('db_charset'),
-		);
-		$db_info->slave_db = array($db_info->master_db);
-		$db_info->default_url = Context::getRequestUri();
-		$db_info->lang_type = Context::get('lang_type') ? Context::get('lang_type') : Context::getLangType();
-		Context::setLangType($db_info->lang_type);
-		$db_info->use_rewrite = Context::get('use_rewrite');
-		$db_info->time_zone = Context::get('time_zone');
-
-		return $db_info;
+		unset($_SESSION['db_config']);
+		
+		// Redirect to the home page.
+		$this->setMessage('msg_install_completed');
+		
+		$returnUrl = Context::get('success_return_url') ? Context::get('success_return_url') : RX_BASEURL;
+		$this->setRedirectUrl($returnUrl);
+		return new Object();
 	}
 
 	/**
@@ -436,7 +478,7 @@ class installController extends install
 	/**
 	 * @brief License agreement
 	 */
-	function procInstallLicenseAggrement()
+	function procInstallLicenseAgreement()
 	{
 		$vars = Context::getRequestVars();
 
@@ -575,133 +617,15 @@ class installController extends install
 		if(method_exists($oModule, 'moduleInstall')) $oModule->moduleInstall();
 		return new Object();
 	}
-
-	function _getDBConfigFileContents($db_info)
-	{
-		if(substr($db_info->master_db['db_table_prefix'], -1) != '_')
-		{
-			$db_info->master_db['db_table_prefix'] .= '_';
-		}
-
-		foreach($db_info->slave_db as &$slave)
-		{
-			if(substr($slave['db_table_prefix'], -1) != '_')
-			{
-				$slave['db_table_prefix'] .= '_';
-			}
-		}
-
-		$buff = array();
-		$buff[] = '<?php if(!defined("__XE__")) exit();';
-		$buff[] = '$db_info = (object)' . var_export(get_object_vars($db_info), TRUE) . ';';
-
-		return implode(PHP_EOL, $buff);
-	}
-
+	
 	/**
-	 * @brief Create DB temp config file
-	 * Create the config file when all settings are completed
+	 * Placeholder for third-party apps that try to manipulate system configuration.
+	 * 
+	 * @return void
 	 */
-	function makeDBConfigFile()
+	public function makeConfigFile()
 	{
-		$db_tmp_config_file = $this->db_tmp_config_file;
-
-		$db_info = Context::getDBInfo();
-		if(!$db_info) return;
-
-		$buff = $this->_getDBConfigFileContents($db_info);
-
-		FileHandler::writeFile($db_tmp_config_file, $buff);
-
-		if(@file_exists($db_tmp_config_file)) return true;
-		return false;
-	}
-
-	/**
-	 * @brief Create etc config file
-	 * Create the config file when all settings are completed
-	 */
-	function makeEtcConfigFile($config_info)
-	{
-		$etc_tmp_config_file = $this->etc_tmp_config_file;
-
-		$buff = '<?php if(!defined("__XE__")) exit();'."\n";
-		foreach($config_info as $key => $val)
-		{
-			$buff .= sprintf("\$db_info->%s = '%s';\n", $key, str_replace("'","\\'",$val));
-		}
-
-		FileHandler::writeFile($etc_tmp_config_file, $buff);
-
-		if(@file_exists($etc_tmp_config_file)) return true;
-		return false;
-	}
-
-	/**
-	 * @brief Create config file
-	 * Create the config file when all settings are completed
-	 */
-	function makeConfigFile()
-	{
-		try {
-			$config_file = Context::getConfigFile();
-			//if(file_exists($config_file)) return;
-
-			$db_info = Context::getDBInfo();
-			if(!$db_info) return;
-
-			$buff = $this->_getDBConfigFileContents($db_info);
-
-			FileHandler::writeFile($config_file, $buff);
-
-			if(@file_exists($config_file))
-			{
-				FileHandler::removeFile($this->db_tmp_config_file);
-				FileHandler::removeFile($this->etc_tmp_config_file);
-				return true;
-			}
-			return false;
-		} catch (Exception $e) {
-			return false;
-		}
-	}
-
-	function installByConfig($install_config_file)
-	{
-		include $install_config_file;
-		if(!is_array($auto_config)) return false;
-
-		$auto_config['module'] = 'install';
-		$auto_config['act'] = 'procInstall';
-
-		$fstr = "<%s><![CDATA[%s]]></%s>\r\n";
-		$fheader = "POST %s HTTP/1.1\r\nHost: %s\r\nContent-Type: application/xml\r\nContent-Length: %s\r\n\r\n%s\r\n";
-		$body = "<?xml version=\"1.0\" encoding=\"utf-8\" ?>\r\n<methodCall>\r\n<params>\r\n";
-		foreach($auto_config as $k => $v)
-		{
-			if(!in_array($k,array('host','port','path'))) $body .= sprintf($fstr,$k,$v,$k);
-		}
-		$body .= "</params>\r\n</methodCall>";
-
-		$header = sprintf($fheader,$auto_config['path'],$auto_config['host'],strlen($body),$body);
-		$fp = @fsockopen($auto_config['host'], $auto_config['port'], $errno, $errstr, 5);
-
-		if($fp)
-		{
-			fputs($fp, $header);
-			while(!feof($fp))
-			{
-				$line = trim(fgets($fp, 4096));
-				if(strncmp('<error>', $line, 7) === 0)
-				{
-					fclose($fp);
-					return false;
-				}
-			}
-			fclose($fp);
-		}
 		return true;
-
 	}
 }
 /* End of file install.controller.php */

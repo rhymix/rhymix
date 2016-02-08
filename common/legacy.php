@@ -7,54 +7,6 @@
  */
 
 /**
- * Time zone
- * @var array
- */
-$time_zone = array(
-	'-1200' => '[UTC -12:00] Baker Island',
-	'-1100' => '[UTC -11:00] Niue, American Samoa',
-	'-1000' => '[UTC -10:00] Hawaii, Aleutian Islands, Cook Islands',
-	'-0930' => '[UTC -09:30] Marquesas Islands',
-	'-0900' => '[UTC -09:00] Alaska, Gambier Islands',
-	'-0800' => '[UTC -08:00] U.S. and Canada (Pacific)',
-	'-0700' => '[UTC -07:00] U.S. and Canada (Mountain)',
-	'-0600' => '[UTC -06:00] U.S. and Canada (Central), Mexico',
-	'-0500' => '[UTC -05:00] U.S. and Canada (Eastern), Chile',
-	'-0430' => '[UTC -04:30] Venezuela',
-	'-0400' => '[UTC -04:00] Canada (Atlantic), Brazil (Western)',
-	'-0330' => '[UTC -03:30] Canada (Newfoundland)',
-	'-0300' => '[UTC -03:00] Argentina, Brazil (Eastern), Greenland',
-	'-0200' => '[UTC -02:00] Fernando de Noronha, South Georgia &amp; South Sandwich Islands',
-	'-0100' => '[UTC -01:00] Azores, Cape Verde',
-	 '0000' => '[UTC ±00:00] GMT, Ireland, Portugal, West Africa',
-	'+0100' => '[UTC +01:00] Central Europe, West Africa',
-	'+0200' => '[UTC +02:00] Eastern Europe, Central Africa, Russia (Kaliningrad)',
-	'+0300' => '[UTC +03:00] Russia (Moscow), East Africa',
-	'+0330' => '[UTC +03:30] Iran',
-	'+0400' => '[UTC +04:00] Armenia, Azerbaijan, Georgia, Oman, Russia (Samara), UAE',
-	'+0430' => '[UTC +04:30] Afghanistan',
-	'+0500' => '[UTC +05:00] Pakistan, Russia (Yekaterinburg), Central Asia',
-	'+0530' => '[UTC +05:30] India, Sri Lanka',
-	'+0545' => '[UTC +05:45] Nepal',
-	'+0600' => '[UTC +06:00] Bangladesh, Bhutan, Kyrgyzstan, Russia (Omsk)',
-	'+0630' => '[UTC +06:30] Cocos Islands, Myanmar',
-	'+0700' => '[UTC +07:00] Cambodia, Indonesia, Laos, Russia (Krasnoyarsk), Thailand, Vietnam',
-	'+0800' => '[UTC +08:00] China, Malaysia, Philippines, Russia (Irkutsk), Singapore, Taiwan',
-	'+0830' => '[UTC +08:30] North Korea',
-	'+0845' => '[UTC +08:45] Australia (Eucla)',
-	'+0900' => '[UTC +09:00] Korea, Japan, Palua, East Timor, Russia (Yakutsk)',
-	'+0930' => '[UTC +09:30] Australia (Central)',
-	'+1000' => '[UTC +10:00] Australia (Eastern), Guam, Russia (Vladivostok)',
-	'+1030' => '[UTC +10:30] Lord Howe Island',
-	'+1100' => '[UTC +11:00] New Caledonia, Solomon Islands, Vanuatu, Russia (Srednekolymsk)',
-	'+1130' => '[UTC +11:30] Norfolk Island (before 2015)',
-	'+1200' => '[UTC +12:00] Fiji, New Zealand, Russia (Kamchatka)',
-	'+1245' => '[UTC +12:45] Chatham Islands',
-	'+1300' => '[UTC +13:00] Samoa, Tokelau, Tonga, Phoenix Islands',
-	'+1400' => '[UTC +14:00] Line Islands'
-);
-
-/**
  * Define a function to use {@see ModuleHandler::getModuleObject()} ($module_name, $type)
  *
  * @param string $module_name The module name to get a instance
@@ -531,35 +483,32 @@ function cut_str($string, $cut_size = 0, $tail = '...')
 }
 
 /**
- * Get integer offset of time zone
+ * Convert XE legacy time zone format into UTC offset.
  * 
- * @param string $time_zone Time zone in +0900 format
+ * @param string $time_zone Time zone in '+0900' format
  * @return int
  */
-function get_time_zone_offset($time_zone)
+function get_time_zone_offset($timezone)
 {
-	$multiplier = ($time_zone[0] === '-') ? -60 : 60;
-	$time_zone = preg_replace('/[^0-9]/', '', $time_zone);
-	list($hours, $minutes) = str_split($time_zone, 2);
-	return (((int)$hours * 60) + (int)$minutes) * $multiplier;
+	return Rhymix\Framework\DateTime::getTimezoneOffsetByLegacyFormat($timezone);
 }
 
 /**
- * Get a time gap between server's timezone and XE's timezone
+ * Get the offset between the current user's time zone and Rhymix's internal time zone.
  *
  * @return int
  */
-function zgap()
+function zgap($timestamp = null)
 {
-	$time_zone_offset = $GLOBALS['_time_zone_offset'];
-	$server_offset = date('Z');
-	return $time_zone_offset - $server_offset;
+	$current_user_timezone = Rhymix\Framework\DateTime::getTimezoneForCurrentUser();
+	return Rhymix\Framework\DateTime::getTimezoneOffsetFromInternal($current_user_timezone, $timestamp);
 }
 
 /**
- * YYYYMMDDHHIISS format changed to unix time value
+ * Convert YYYYMMDDHHIISS format to Unix timestamp.
+ * This function assumes the internal timezone.
  *
- * @param string $str Time value in format of YYYYMMDDHHIISS
+ * @param string $str Time in YYYYMMDDHHIISS format
  * @return int
  */
 function ztime($str)
@@ -576,24 +525,25 @@ function ztime($str)
 		$hour = (int)substr($str, 8, 2);
 		$min = (int)substr($str, 10, 2);
 		$sec = (int)substr($str, 12, 2);
-		$offset = zgap();
 	}
 	else
 	{
-		$hour = $min = $sec = $offset = 0;
+		$hour = $min = $sec = 0;
 	}
-	return mktime($hour, $min, $sec, $month, $day, $year) + $offset;
+	$offset = Rhymix\Framework\Config::get('locale.internal_timezone') ?: date('Z');
+	return gmmktime($hour, $min, $sec, $month, $day, $year) - $offset;
 }
 
 /**
- * Change the time format YYYYMMDDHHIISS to the user defined format
+ * Convert YYYYMMDDHHIISS format to user-defined format.
+ * This function assumes the internal timezone.
  *
- * @param string|int $str YYYYMMDDHHIISS format time values
- * @param string $format Time format of php date() function
- * @param bool $conversion Means whether to convert automatically according to the language
+ * @param string $str Time in YYYYMMDDHHIISS format
+ * @param string $format Time format for date() function
+ * @param bool $conversion If true, convert automatically for the current language.
  * @return string
  */
-function zdate($str, $format = 'Y-m-d H:i:s', $conversion = TRUE)
+function zdate($str, $format = 'Y-m-d H:i:s', $conversion = false)
 {
 	if(!$str)
 	{
@@ -601,7 +551,7 @@ function zdate($str, $format = 'Y-m-d H:i:s', $conversion = TRUE)
 	}
 	
 	// convert the date format according to the language
-	if($conversion == TRUE)
+	if($conversion)
 	{
 		static $convtable = array(
 			'en' => array(
@@ -637,18 +587,18 @@ function zdate($str, $format = 'Y-m-d H:i:s', $conversion = TRUE)
 		}
 	}
 	
-	// get unixtime by using ztime() for date() function's argument. 
-	$string = date($format, ztime($str));
+	// get unixtime by using ztime() for date() function's argument.
+	$result = Rhymix\Framework\DateTime::formatTimestampForCurrentUser($format, ztime($str));
 	
 	// change day and am/pm for each language
 	if(preg_match('/[MFAa]/', $format))
 	{
 		$unit_week = (Array)Context::getLang('unit_week');
 		$unit_meridiem = (Array)Context::getLang('unit_meridiem');
-		$string = str_replace(array('Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'), $unit_week, $string);
-		$string = str_replace(array('am', 'pm', 'AM', 'PM'), $unit_meridiem, $string);
+		$result = str_replace(array('Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'), $unit_week, $result);
+		$result = str_replace(array('am', 'pm', 'AM', 'PM'), $unit_meridiem, $result);
 	}
-	return $string;
+	return $result;
 }
 
 /**
