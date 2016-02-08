@@ -584,7 +584,23 @@ class adminAdminController extends admin
 		if (!IpFilter::validate($whitelist)) {
 			return new Object(-1, 'msg_invalid_ip');
 		}
+		
+		$denied_ip = array_map('trim', preg_split('/[\r\n]/', $vars->admin_denied_ip));
+		$denied_ip = array_unique(array_filter($denied_ip, function($item) {
+			return $item !== '';
+		}));
+		if (!IpFilter::validate($whitelist)) {
+			return new Object(-1, 'msg_invalid_ip');
+		}
+		
+		$oMemberAdminModel = getAdminModel('member');
+		if (!$oMemberAdminModel->getMemberAdminIPCheck($allowed_ip, $denied_ip))
+		{
+			return new Object(-1, 'msg_current_ip_will_be_denied');
+		}
+		
 		Rhymix\Framework\Config::set('admin.allow', array_values($allowed_ip));
+		Rhymix\Framework\Config::set('admin.deny', array_values($denied_ip));
 		
 		// Save
 		Rhymix\Framework\Config::save();

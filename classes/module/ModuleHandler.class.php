@@ -436,18 +436,6 @@ class ModuleHandler extends Handler
 
 		$logged_info = Context::get('logged_info');
 
-		// Admin ip
-		if($kind == 'admin' && $_SESSION['denied_admin'] == 'Y')
-		{
-			self::_setInputErrorToContext();
-			$this->error = "msg_not_permitted_act";
-			$oMessageObject = self::getModuleInstance('message', $display_mode);
-			$oMessageObject->setError(-1);
-			$oMessageObject->setMessage($this->error);
-			$oMessageObject->dispMessage();
-			return $oMessageObject;
-		}
-
 		// if(type == view, and case for using mobilephone)
 		if($type == "view" && Mobile::isFromMobilePhone() && Context::isInstalled())
 		{

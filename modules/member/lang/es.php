@@ -107,6 +107,7 @@ $lang->msg_accept_agreement = 'Usted primero debe aceptar el acuerdo';
 $lang->msg_user_denied = 'ID ingresado ha sido prohibido para su uso';
 $lang->msg_user_not_confirmed = '아직 메일 인증이 이루어지지 않았습니다. 메일을 확인해 주세요';
 $lang->msg_user_limited = 'ID ingresado puede ser usado luego de %s';
+$lang->msg_admin_ip_not_allowed = 'Su dirección IP no se puede iniciar la sesión como administrador.';
 $lang->about_user_id = 'ID del usuario debe ser entre 3-20 letras que consiste en alfabetos+número con alfabeto como primera letra.';
 $lang->about_password = 'Contraseña debe ser entre 6-20 letras';
 $lang->about_user_name = 'Nombre debe ser entre 2-20 letras';

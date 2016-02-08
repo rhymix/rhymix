@@ -152,6 +152,7 @@ $lang->msg_accept_agreement = 'You have to accept the agreement.';
 $lang->msg_user_denied = 'You have entered a prohibited ID.';
 $lang->msg_user_not_confirmed = 'Your account is not activated yet. Please check your email.';
 $lang->msg_user_limited = 'You have entered an ID that cannot be used before %s';
+$lang->msg_admin_ip_not_allowed = 'Your IP address is not allowed to log in as an administrator.';
 $lang->about_rechecked_password = 'Confirm your password before editing account information.';
 $lang->about_user_id = 'User ID should be 3~20 characters long, consist of alphanumeric and start with a letter.';
 $lang->about_password = 'Password should be 6~20 characters long.';
