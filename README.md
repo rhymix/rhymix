@@ -1,4 +1,4 @@
-[![Rhymix](https://cloud.githubusercontent.com/assets/8565457/12807700/92e90982-cb54-11e5-806f-df28792ed9a3.png)](https://www.rhymix.org)
+[![Rhymix](https://cloud.githubusercontent.com/assets/8565457/12881857/7c3e69d6-ce90-11e5-94dc-8a592cf9ab7d.png)](https://www.rhymix.org)
 
 Rhymix(라이믹스)는 누구든지 쉽고 자유롭게 독립적인 홈페이지를 만들어
 자신을 표현하고 커뮤니티를 키워나갈 수 있도록 돕기 위한 CMS(content management system)입니다.
