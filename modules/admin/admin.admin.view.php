@@ -164,7 +164,7 @@ class adminAdminView extends admin
 		// Admin logo, title setup
 		$objConfig = $oModuleModel->getModuleConfig('admin');
 		$gnbTitleInfo = new stdClass();
-		$gnbTitleInfo->adminTitle = $objConfig->adminTitle ? $objConfig->adminTitle : 'RhymiX Admin';
+		$gnbTitleInfo->adminTitle = $objConfig->adminTitle ? $objConfig->adminTitle : 'Admin';
 		$gnbTitleInfo->adminLogo = $objConfig->adminLogo ? $objConfig->adminLogo : '';
 
 		$browserTitle = ($subMenuTitle ? $subMenuTitle : 'Dashboard') . ' - ' . $gnbTitleInfo->adminTitle;

@@ -8,7 +8,7 @@
  * 
  * -----------------------------------------------------------------------------
  * 
- *  Copyright (c) RhymiX Developers and Contributors <devops@rhymix.org>
+ *  Copyright (c) Rhymix Developers and Contributors <devops@rhymix.org>
  *  Copyright (c) NAVER <http://www.navercorp.com>
  * 
  *  This program is free software: you can redistribute it and/or modify it
@@ -26,10 +26,10 @@
  * 
  * -----------------------------------------------------------------------------
  * 
- *  RhymiX is a derivative work of XpressEngine (XE) version 1.x.
+ *  Rhymix is a derivative work of XpressEngine (XE) version 1.x.
  *  The license has been changed from LGPL v2.1 to GPL v2 in accordance with
  *  section 3 of LGPL v2.1. This change is irreversible and applies to all of
- *  RhymiX, including parts that were copied verbatim from XpressEngine.
+ *  Rhymix, including parts that were copied verbatim from XpressEngine.
  * 
  * -----------------------------------------------------------------------------
  */

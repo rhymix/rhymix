@@ -53,7 +53,7 @@
 이 매뉴얼과 같은 디렉터리에 존재하는 'rhymix-nginx.conf' 파일을 nginx.conf가 위치한 디렉터리(/etc/nginx)로 이동해 보도록 합시다.
 
     [주석입니다. sudo mv (원본 디렉터리) (옮길 디렉터리)]
-    # sudo mv /(RhymiX의 설치 디렉터리)/common/manual/server_config/rhymix-nginx.conf /etc/nginx/
+    # sudo mv /(Rhymix의 설치 디렉터리)/common/manual/server_config/rhymix-nginx.conf /etc/nginx/
 
 이제 **nginx.conf** 파일을 수정해 보도록 하겠습니다. rhymix-nginx.conf 파일을 **nginx.conf** 파일에 인클루드 하는 첫번째 과정입니다.
 
@@ -91,7 +91,7 @@ site-enabled 디렉터리에 아래와 같은 서버 설정을 작성합니다. 
 
 1. 80 포트를 이용하여 보안 연결 없는 일반 HTTP 연결을 하고
 2. example.com 도메인을 사용하며
-3. /var/www/html 디렉터리에 RhymiX 파일이 위치하고
+3. /var/www/html 디렉터리에 Rhymix 파일이 위치하고
 4. site-enabled 디렉터리에 위치한 파일입니다.
 
 파일의 이름은 'example.conf'라고 가정하도록 하겠습니다.
@@ -118,9 +118,9 @@ site-enabled 디렉터리에 아래와 같은 서버 설정을 작성합니다. 
 
 혹은, 추가하는 include 구문을 아래와 같이 추가할 수도 있지만, **절대로 이런 방식으로 추가해서는 안됩니다.** **반면교사를 위한 보여주기입니다.**
 
-    include /RhymiX_설치경로/common/manual/server_config/rhymix-nginx.conf;
+    include /Rhymix_설치경로/common/manual/server_config/rhymix-nginx.conf;
     
-RhymiX의 설치 경로가 **/var/www/html**이라면,
+Rhymix의 설치 경로가 **/var/www/html**이라면,
 
     include /var/www/html/common/manual/server_config/rhymix-nginx.conf;
     

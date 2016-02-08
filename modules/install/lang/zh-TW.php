@@ -1,5 +1,5 @@
 <?php
-$lang->introduce_title = '安裝RhymiX';
+$lang->introduce_title = '安裝Rhymix';
 $lang->install_progress_menu['language'] = '選擇安裝語言';
 $lang->install_progress_menu['license_agreement'] = '許可協議';
 $lang->install_progress_menu['condition'] = '檢查安裝條件';
@@ -17,7 +17,7 @@ $lang->install_checklist_title['json'] = 'json';
 $lang->install_checklist_title['gd'] = 'gd';
 $lang->install_checklist_title['mcrypt'] = 'mcrypt / openssl';
 $lang->install_checklist_title['session'] = 'session.auto_start設置';
-$lang->install_checklist_desc['permission'] = '[必須] RhymiX的資料夾或『./files』資料夾權限必須是『777』。';
+$lang->install_checklist_desc['permission'] = '[必須] Rhymix的資料夾或『./files』資料夾權限必須是『777』。';
 $lang->install_checklist_desc['xml'] = '[必須] 必須要安裝『XML Library』，才能夠使用 XML 通訊。';
 $lang->install_checklist_desc['session'] = '[必須] 在『php.ini』中必須要設定『session.auto_start=0』，才能使用暫存功能';
 $lang->install_checklist_desc['iconv'] = '安裝『iconv』，才能使 UTF-8 和其他語言文字作互相轉換。';
@@ -85,5 +85,5 @@ $lang->msg_ftp_mkdir_fail = '新增資料夾失敗。請確認 FTP 主機設置�
 $lang->msg_ftp_chmod_fail = '修改資料夾權限失敗。請確認 FTP 主機設置。';
 $lang->msg_ftp_connect_success = 'FTP連線成功。';
 $lang->ftp_path_title = '請輸入 FTP 路經';
-$lang->msg_ftp_installed_realpath = 'RhymiX絕對路經';
-$lang->msg_ftp_installed_ftp_realpath = 'RhymiX的 FTP 絕對路經';
+$lang->msg_ftp_installed_realpath = 'Rhymix絕對路經';
+$lang->msg_ftp_installed_ftp_realpath = 'Rhymix的 FTP 絕對路經';

@@ -1,5 +1,5 @@
 <?php
-$lang->introduce_title = '安装RhymiX';
+$lang->introduce_title = '安装Rhymix';
 $lang->install_progress_menu['language'] = '选择安装语言';
 $lang->install_progress_menu['license_agreement'] = '许可协议';
 $lang->install_progress_menu['condition'] = '检查安装条件';
@@ -77,13 +77,13 @@ $lang->ftp_host = 'FTP服务器名';
 $lang->ftp_port = 'FTP端口';
 $lang->about_ftp_password = 'FTP密码不会被保存。';
 $lang->cmd_check_ftp_connect = '测试FTP连接';
-$lang->msg_safe_mode_ftp_needed = '当PHP的safe_mode=On时，请必须输入相关FTP信息，否则将无法正常安装或使用RhymiX程序。';
+$lang->msg_safe_mode_ftp_needed = '当PHP的safe_mode=On时，请必须输入相关FTP信息，否则将无法正常安装或使用Rhymix程序。';
 $lang->msg_ftp_not_connected = '发生本地(localhost)FTP连接错误。请确认ftp端口号及支持ftp服务与否。';
 $lang->msg_ftp_invalid_auth_info = 'FTP登录失败。请确认输入的FTP信息。';
 $lang->msg_ftp_mkdir_fail = '新建文件夹失败。请确认 FTP服务器设置。';
 $lang->msg_ftp_chmod_fail = '修改文件夹属性失败。请确认 FTP服务器设置。';
 $lang->msg_ftp_connect_success = 'FTP连接成功。';
 $lang->ftp_path_title = '输入FTP路径信息';
-$lang->msg_ftp_installed_realpath = 'RhymiX绝对路径';
+$lang->msg_ftp_installed_realpath = 'Rhymix绝对路径';
 $lang->msg_ftp_installed_ftp_realpath = 'FTP绝对路径设置';
 $lang->msg_possible_only_file = '请上传文件.';

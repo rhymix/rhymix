@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <phpdoc>
-	<title><![CDATA[RhymiX]]></title>
+	<title><![CDATA[Rhymix]]></title>
 	<parser>
 		<default-package-name>rhymix</default-package-name>
 		<target>.</target>

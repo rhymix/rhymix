@@ -10,7 +10,7 @@ use Rhymix\Framework\Lang;
 class LangParser
 {
 	/**
-	 * Convert a directory of old language files to the RhymiX format.
+	 * Convert a directory of old language files to the Rhymix format.
 	 * 
 	 * @param string $dir
 	 * @param array $xml_langs When converting XML to PHP, only convert these languages. (Optional)

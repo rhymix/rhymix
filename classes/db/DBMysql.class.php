@@ -79,7 +79,7 @@ class DBMysql extends DB
 		// Error appears if the version is lower than 4.1.13
 		if(version_compare(mysql_get_server_info($result), '4.1.13', '<'))
 		{
-			$this->setError(-1, 'RhymiX requires MySQL 4.1.13 or later. Current MySQL version is ' . mysql_get_server_info());
+			$this->setError(-1, 'Rhymix requires MySQL 4.1.13 or later. Current MySQL version is ' . mysql_get_server_info());
 			return;
 		}
 

@@ -30,7 +30,7 @@ mkdir(_XE_PATH_ . 'files/env', 0755, true);
 file_put_contents(_XE_PATH_ . 'files/env/easyinstall_last', time());
 
 // Step 1 : License Agreement
-$I->wantTo('Install RhymiX');
+$I->wantTo('Install Rhymix');
 $I->amOnPage('/index.php?l=ko');
 $I->setCookie('l', 'ko');
 $I->seeElement('//div[@id="progress"]/ul/li[1][@class="active"]');
