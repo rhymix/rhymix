@@ -74,6 +74,7 @@ $lang->about_use_category = 'İşaretlediğiniz taktirde, kategori özelliği et
 $lang->about_list_count = 'Sayfada gösterilecek makalelerin sayı üstsınırını ayarlayabilirsiniz.(varsayılan : 20)';
 $lang->about_search_list_count = 'Kategori veya arama özelliğini kullanırken gösterilecek makalelerin sayısını ayarlayabilirsiniz. (varsayılan : 20)';
 $lang->about_page_count = 'Sayfanın alt kısmında sayfa geçiş linklerinin sayısını ayarlayabilirsiniz.(varsayılan : 10)';
+$lang->about_mobile_page_count = 'Sayfanın alt kısmında sayfa geçiş linklerinin sayısını ayarlayabilirsiniz.(varsayılan : 5)';
 $lang->about_admin_id = 'Modüle tam yetkisi olan bir yönetici atayabilirsiniz.';
 $lang->about_grant_deatil = 'Kayıtlı kullanıcı, sanal sitelere (örn., cafeXE) kayıt olmuş kullanıcı demektir .';
 $lang->about_module = 'Rhymix, temel kitaplık dışında, modüllerden oluşmaktadır. 
