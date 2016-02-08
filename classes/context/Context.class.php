@@ -474,6 +474,22 @@ class Context
 		}
 		
 		// Copy to old format for backward compatibility.
+		self::$_instance->db_info = self::convertDBInfo($config);
+		self::$_instance->allow_rewrite = $db_info->use_rewrite;
+		self::set('_http_port', $db_info->http_port ?: null);
+		self::set('_https_port', $db_info->https_port ?: null);
+		self::set('_use_ssl', $db_info->use_ssl);
+		$GLOBALS['_time_zone'] = $db_info->time_zone;
+	}
+	
+	/**
+	 * Convert Rhymix configuration to XE DBInfo format
+	 * 
+	 * @param array $config
+	 * @return object
+	 */
+	public static function convertDBInfo($config)
+	{
 		$db_info = new stdClass;
 		$db_info->master_db = array(
 			'db_type' => $config['db']['master']['type'] . ($config['db']['master']['engine'] === 'innodb' ? '_innodb' : ''),
@@ -485,7 +501,27 @@ class Context
 			'db_table_prefix' => $config['db']['master']['prefix'],
 			'db_charset' => $config['db']['master']['charset'],
 		);
-		$db_info->slave_db = array($db_info->master_db);
+		$db_info->slave_db = array();
+		foreach ($config['db'] as $key => $dbconfig)
+		{
+			if ($key !== 'master')
+			{
+				$db_info->slave_db[] = array(
+					'db_type' => $dbconfig['type'] . ($dbconfig['engine'] === 'innodb' ? '_innodb' : ''),
+					'db_hostname' => $dbconfig['host'],
+					'db_port' => $dbconfig['port'],
+					'db_userid' => $dbconfig['user'],
+					'db_password' => $dbconfig['pass'],
+					'db_database' => $dbconfig['database'],
+					'db_table_prefix' => $dbconfig['prefix'],
+					'db_charset' => $dbconfig['charset'],
+				);
+			}
+		}
+		if (!count($db_info->slave_db))
+		{
+			$db_info->slave_db = array($db_info->master_db);
+		}
 		$db_info->use_object_cache = count($config['cache']) ? array_first($config['cache']) : null;
 		$db_info->ftp_info = new stdClass;
 		$db_info->ftp_info->ftp_host = $config['ftp']['host'];
@@ -498,13 +534,9 @@ class Context
 		$db_info->http_port = $config['url']['http_port'];
 		$db_info->https_port = $config['url']['https_port'];
 		$db_info->use_ssl = $config['url']['ssl'];
-		self::set('_http_port', $db_info->http_port ?: null);
-		self::set('_https_port', $db_info->https_port ?: null);
-		self::set('_use_ssl', $db_info->use_ssl);
 		$db_info->lang_type = $config['locale']['default_lang'];
 		$db_info->time_zone = $config['locale']['internal_timezone'];
 		$db_info->time_zone = sprintf('%s%02d%02d', $db_info->time_zone >= 0 ? '+' : '-', abs($db_info->time_zone) / 3600, (abs($db_info->time_zone) % 3600 / 60));
-		$GLOBALS['_time_zone'] = $db_info->time_zone;
 		$db_info->delay_session = $config['session']['delay'] ? 'Y' : 'N';
 		$db_info->use_db_session = $config['session']['use_db'] ? 'Y' : 'N';
 		$db_info->minify_scripts = $config['view']['minify_scripts'] ? 'Y' : 'N';
@@ -526,10 +558,7 @@ class Context
 				$db_info->{$key} = $value;
 			}
 		}
-		
-		// Save old format to Context instance.
-		self::$_instance->allow_rewrite = $config['use_rewrite'];
-		self::$_instance->db_info = $db_info;
+		return $db_info;
 	}
 
 	/**
@@ -2415,7 +2444,7 @@ class Context
 	 */
 	public static function getConfigFile()
 	{
-		return RX_BASEDIR . 'files/config/db.config.php';
+		return RX_BASEDIR . Rhymix\Framework\Config::$old_db_config_filename;
 	}
 
 	/**
@@ -2425,7 +2454,7 @@ class Context
 	 */
 	public static function getFTPConfigFile()
 	{
-		return RX_BASEDIR . 'files/config/ftp.config.php';
+		return RX_BASEDIR . Rhymix\Framework\Config::$old_ftp_config_filename;
 	}
 
 	/**
