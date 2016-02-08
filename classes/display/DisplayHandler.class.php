@@ -25,12 +25,7 @@ class DisplayHandler extends Handler
 	public function printContent(&$oModule)
 	{
 		// Check if the gzip encoding supported
-		if(
-				(defined('__OB_GZHANDLER_ENABLE__') && __OB_GZHANDLER_ENABLE__ == 1) &&
-				strpos($_SERVER['HTTP_ACCEPT_ENCODING'], 'gzip') !== FALSE &&
-				extension_loaded('zlib') &&
-				$oModule->gzhandler_enable
-		)
+		if(config('view.use_gzip') && strpos($_SERVER['HTTP_ACCEPT_ENCODING'], 'gzip') !== false && extension_loaded('zlib') && $oModule->gzhandler_enable)
 		{
 			$this->gz_enabled = TRUE;
 		}
