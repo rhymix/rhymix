@@ -242,12 +242,6 @@ class Context
 		// Load system configuration.
 		$this->loadDBInfo();
 		
-		// If the site is locked, display the locked page.
-		if(config('lock.locked'))
-		{
-			self::enforceSiteLock();
-		}
-
 		// If Rhymix is installed, get virtual site information.
 		if(self::isInstalled())
 		{
@@ -370,7 +364,7 @@ class Context
 				}
 			}
 		}
-
+		
 		// set locations for javascript use
 		$current_url = $request_uri = self::getRequestUri();
 		if ($_SERVER['REQUEST_METHOD'] == 'GET' && $this->get_vars)
@@ -390,6 +384,12 @@ class Context
 		}
 		self::set('current_url', $current_url);
 		self::set('request_uri', $request_uri);
+		
+		// If the site is locked, display the locked page.
+		if(config('lock.locked'))
+		{
+			self::enforceSiteLock();
+		}
 	}
 
 	/**
@@ -1429,6 +1429,18 @@ class Context
 	 */
 	private static function enforceSiteLock()
 	{
+		// Allow if the current user is logged in as administrator, or trying to log in.
+		$logged_info = self::get('logged_info');
+		if ($logged_info && $logged_info->is_admin === 'Y')
+		{
+			return;
+		}
+		elseif (self::get('act') === 'procMemberLogin')
+		{
+			return;
+		}
+		
+		// Allow if the current user is in the list of allowed IPs.
 		$allowed_list = config('lock.allow');
 		foreach ($allowed_list as $allowed_ip)
 		{
@@ -1438,18 +1450,26 @@ class Context
 			}
 		}
 		
+		// Set headers and constants for backward compatibility.
+		header('HTTP/1.1 503 Service Unavailable');
 		define('_XE_SITELOCK_', TRUE);
 		define('_XE_SITELOCK_TITLE_', config('lock.title'));
 		define('_XE_SITELOCK_MESSAGE_', config('lock.message'));
 		
-		header('HTTP/1.1 503 Service Unavailable');
+		// Load the sitelock template.
 		if(FileHandler::exists(RX_BASEDIR . 'common/tpl/sitelock.user.html'))
 		{
 			include RX_BASEDIR . 'common/tpl/sitelock.user.html';
 		}
 		else
 		{
-			include RX_BASEDIR . 'common/tpl/sitelock.html';
+			$oMessageObject = getView('message');
+			$oMessageObject->setHttpStatusCode(503);
+			$oMessageObject->setError(-1);
+			$oMessageObject->setMessage(config('lock.title'));
+			$oMessageObject->dispMessage();
+			$oModuleHandler = new ModuleHandler;
+			$oModuleHandler->displayContent($oMessageObject);
 		}
 		exit;
 	}
