@@ -227,7 +227,7 @@ class addonAdminController extends addonController
 	 * @param string $isUsed Whether to use
 	 * @return Object
 	 */
-	function doInsert($addon, $site_srl = 0, $gtype = 'site', $isUsed = 'N')
+	function doInsert($addon, $site_srl = 0, $gtype = 'site', $isUsed = 'N', $extra_vars)
 	{
 		$args = new stdClass;
 		$args->addon = $addon;
@@ -236,6 +236,7 @@ class addonAdminController extends addonController
 		{
 			return executeQuery('addon.insertAddon', $args);
 		}
+		$args->extra_vars = serialize($extra_vars);
 		$args->site_srl = $site_srl;
 		return executeQuery('addon.insertSiteAddon', $args);
 	}
