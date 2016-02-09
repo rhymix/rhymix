@@ -1,5 +1,6 @@
 <?php
 $lang->admin = 'Admin';
+$lang->cmd_configure = 'Configure';
 $lang->subtitle_primary = 'General Settings';
 $lang->subtitle_security = 'Security Settings';
 $lang->subtitle_advanced = 'Advanced Settings';
@@ -211,4 +212,5 @@ $lang->sitelock_message = 'Sign Contents';
 $lang->sitelock_message_help = 'You can use HTML tags.';
 $lang->sitelock_warning_whitelist = 'You should include the IP of the administrator here.';
 $lang->your_ip = 'Your IP';
-$lang->sitelock_in_use = 'Site lock in use';
+$lang->sitelock_in_use = 'This site is locked.';
+$lang->about_sitelock_in_use = 'Only the administrator and visitors from specified IP addresses can access this site.';

@@ -1,5 +1,6 @@
 <?php
 $lang->admin = '관리자';
+$lang->cmd_configure = '설정하기';
 $lang->subtitle_primary = '기본 설정';
 $lang->subtitle_security = '보안 설정';
 $lang->subtitle_advanced = '고급 설정';
@@ -208,5 +209,5 @@ $lang->sitelock_message = '안내문 내용';
 $lang->sitelock_message_help = 'HTML 태그를 사용할 수 있습니다.';
 $lang->sitelock_warning_whitelist = '사이트 잠금 사용시 관리자의 IP가 반드시 이 목록에 포함되어야 합니다.';
 $lang->your_ip = '접속하신 IP';
-$lang->sitelock_in_use = '사이트 잠금을 사용중입니다.';
-$lang->about_sitelock_in_use = '관리자 페이지에서 허용한 IP를 제외한 사용자는 접속할 수 없습니다.';
+$lang->sitelock_in_use = '사이트 잠금 상태입니다.';
+$lang->about_sitelock_in_use = '관리자 및 접속이 허용된 IP에서만 사이트 이용이 가능합니다.';

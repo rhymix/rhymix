@@ -1,5 +1,6 @@
 <?php
 $lang->admin = '管理者';
+$lang->cmd_configure = '設定する';
 $lang->subtitle_primary = '基本設定';
 $lang->subtitle_security = 'セキュリティ設定';
 $lang->subtitle_advanced = '上級設定';
@@ -200,3 +201,5 @@ $lang->sitelock_message = '案内文内容';
 $lang->sitelock_message_help = 'HTMLタグを使用できます。';
 $lang->sitelock_warning_whitelist = 'ここに管理者のIPを必ず記入てください。';
 $lang->your_ip = '接続したIP';
+$lang->sitelock_in_use = 'サイトロック状態です。';
+$lang->about_sitelock_in_use = '管理者との接続が許可されたIPのみのサイトの利用が可能です。';
