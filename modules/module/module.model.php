@@ -975,10 +975,9 @@ class moduleModel extends module
 						if(is_array($info->menu->{$action->attrs->menu_name}->acts))
 						{
 							$info->menu->{$action->attrs->menu_name}->acts[] = $name;
-							$currentKey = array_search($name, $info->menu->{$action->attrs->menu_name}->acts);
 						}
 
-						$buff[] = sprintf('$info->menu->%s->acts[%d]=\'%s\';', $action->attrs->menu_name, $currentKey, $name);
+						$buff[] = sprintf('$info->menu->%s->acts[]=\'%s\';', $action->attrs->menu_name, $name);
 						$i++;
 					}
 
