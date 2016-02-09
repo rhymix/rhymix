@@ -111,7 +111,7 @@ class addonAdminModel extends addon
 			if(!in_array($addon_name, array_keys($inserted_addons)))
 			{
 				// If not, type in the DB type (model, perhaps because of the hate doing this haneungeo .. ㅡ. ㅜ)
-				$oAddonAdminController->doInsert($addon_name, $site_srl, $type);
+				$oAddonAdminController->doInsert($addon_name, $site_srl, $type, 'N', new stdClass);
 				// Is activated
 			}
 			else
