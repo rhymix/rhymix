@@ -91,6 +91,13 @@
 				{$lang->about_disable_read_document}
 			</div>
 		</div>
+		<div class="x_control-group">
+			<label for="no_point_date" class="x_control-label">{$lang->no_point_date}</label>
+			<div class="x_controls" style="padding-top:3px">
+				<input type="number" name="no_point_date" id="no_point_date" value="{$config->no_point_date}" style="width:50px;" />{$lang->day_ago}
+				<p>{$lang->about_no_point_date}</p>
+			</div>
+		</div>
 		<div class="x_clearfix btnArea">
 			<span class="x_pull-right"><input class="x_btn x_btn-primary" type="submit" value="{$lang->cmd_save}" /></span>
 		</div>
