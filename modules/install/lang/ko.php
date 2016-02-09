@@ -83,6 +83,7 @@ $lang->ssl_options['always'] = '항상 사용';
 $lang->about_database_file = 'Sqlite는 파일에 데이터를 저장합니다. 데이터베이스 파일의 위치를 웹에서 접근할 수 없는 곳으로 해야 합니다.<br/><span style="color:red">데이터 파일은 777퍼미션 설정된 곳으로 지정해주세요.</span>';
 $lang->success_installed = '설치가 되었습니다.';
 $lang->msg_cannot_proc = '설치 환경이 갖춰지지 않아 요청을 실행할 수가 없습니다.';
+$lang->msg_db_checking = '확인 중입니다...';
 $lang->msg_installing = '설치 중입니다...';
 $lang->msg_already_installed = '이미 설치가 되어 있습니다.';
 $lang->msg_dbconnect_failed = 'DB접속 오류가 발생하였습니다. DB정보를 다시 확인해주세요.';
