@@ -294,12 +294,33 @@ class memberAdminModel extends member
 	 *
 	 * @return boolean (true : allowed, false : refuse)
 	 */
-	function getMemberAdminIPCheck()
+	function getMemberAdminIPCheck($allow_list = null, $deny_list = null)
 	{
-		$admin_ip_list = config('admin.allow');
-		if(!$admin_ip_list) return true;
-		if(!count($admin_ip_list) || IpFilter::filter($admin_ip_list)) return true;
-		else return false;
+		if ($allow_list = ($allow_list === null) ? config('admin.allow') : $allow_list)
+		{
+			foreach ($allow_list as $range)
+			{
+				if (Rhymix\Framework\IpFilter::inRange(RX_CLIENT_IP, $range))
+				{
+					return true;
+				}
+			}
+			return false;
+		}
+		
+		if ($deny_list = ($deny_list === null) ? config('admin.deny') : $deny_list)
+		{
+			foreach ($deny_list as $range)
+			{
+				if (Rhymix\Framework\IpFilter::inRange(RX_CLIENT_IP, $range))
+				{
+					return false;
+				}
+			}
+			return true;
+		}
+		
+		return true;
 	}
 }
 /* End of file member.admin.model.php */

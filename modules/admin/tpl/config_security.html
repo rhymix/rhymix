@@ -20,10 +20,17 @@
 			</div>
 		</div>
 		<div class="x_control-group">
-			<label class="x_control-label" for="admin_allowed_ip">{$lang->admin_ip_limit} <a class="x_icon-question-sign" href="./common/manual/admin/#UMAN_config_general_admin_iplist" target="_blank">{$lang->help}</a></label>
+			<label class="x_control-label" for="admin_allowed_ip">{$lang->admin_ip_allow}</label>
 			<div class="x_controls">
 				<textarea name="admin_allowed_ip" id="admin_allowed_ip" rows="4" cols="42" placeholder="{$remote_addr} ({$lang->local_ip_address})" style="margin-right:10px">{$admin_allowed_ip}</textarea>
-				<p class="x_help-block">{$lang->about_ipaddress_input}</p>
+				<p class="x_help-block">{$lang->about_admin_ip_allow}</p>
+			</div>
+		</div>
+		<div class="x_control-group">
+			<label class="x_control-label" for="admin_denied_ip">{$lang->admin_ip_deny}</label>
+			<div class="x_controls">
+				<textarea name="admin_denied_ip" id="admin_denied_ip" rows="4" cols="42" style="margin-right:10px">{$admin_denied_ip}</textarea>
+				<p class="x_help-block">{$lang->about_admin_ip_deny}</p>
 			</div>
 		</div>
 		<div class="x_clearfix btnArea">

@@ -1753,8 +1753,23 @@ class memberController extends member
 			}
 			return new Object(-1, ($this->memberInfo->refused_reason)? Context::getLang('msg_user_denied') . "\n" . $this->memberInfo->refused_reason : 'msg_user_denied');
 		}
-		// Notify if denied_date is less than the current time
-		if($this->memberInfo->limit_date && substr($this->memberInfo->limit_date,0,8) >= date("Ymd")) return new Object(-9,sprintf(Context::getLang('msg_user_limited'),zdate($this->memberInfo->limit_date,"Y-m-d")));
+		
+		// Notify if user is limited
+		if($this->memberInfo->limit_date && substr($this->memberInfo->limit_date,0,8) >= date("Ymd"))
+		{
+			return new Object(-9,sprintf(Context::getLang('msg_user_limited'),zdate($this->memberInfo->limit_date,"Y-m-d")));
+		}
+		
+		// Do not allow login as admin if not in allowed IP list
+		if($this->memberInfo->is_admin === 'Y' && $this->act === 'procMemberLogin')
+		{
+			$oMemberAdminModel = getAdminModel('member');
+			if(!$oMemberAdminModel->getMemberAdminIPCheck())
+			{
+				return new Object(-1, 'msg_admin_ip_not_allowed');
+			}
+		}
+		
 		// Update the latest login time
 		$args->member_srl = $this->memberInfo->member_srl;
 		$output = executeQuery('member.updateLastLogin', $args);
@@ -1819,17 +1834,8 @@ class memberController extends member
 			$autologin_output = executeQuery('member.insertAutologin', $autologin_args);
 			if($autologin_output->toBool()) setCookie('xeak',$autologin_args->autologin_key, $_SERVER['REQUEST_TIME']+31536000, '/');
 		}
-		if($this->memberInfo->is_admin == 'Y')
-		{
-			$oMemberAdminModel = getAdminModel('member');
-			if(!$oMemberAdminModel->getMemberAdminIPCheck())
-			{
-				$_SESSION['denied_admin'] = 'Y';
-			}
-		}
 
 		$this->setSessionInfo();
-
 		return $output;
 	}
 

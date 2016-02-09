@@ -77,9 +77,13 @@ $lang->about_nginx_rewrite = 'To use this feature at nginx, you need to configur
 $lang->time_zone = 'Time Zone';
 $lang->about_time_zone = 'If the server time is different from your time zone, you can use this option to display times in your time zone.';
 $lang->use_ssl = 'SSL';
-$lang->ssl_options['none'] = 'Never';
+$lang->ssl_options['none'] = 'None';
 $lang->ssl_options['optional'] = 'Optional';
 $lang->ssl_options['always'] = 'Always';
+$lang->use_sitelock = 'Site Lock';
+$lang->sitelock_options['none'] = 'None';
+$lang->sitelock_options['lock'] = 'Lock after Install';
+$lang->about_sitelock_after_install = 'If you lock your site, only your current IP range (%s) will be able to access your site.';
 $lang->about_database_file = 'Sqlite saves data in a file. Location of the database file should be unreachable by web<br/><span style="color:red">Data file should be inside the permission of 777.</span>';
 $lang->success_installed = 'Installation has been completed.';
 $lang->msg_db_checking = 'Checking...';

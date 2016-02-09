@@ -584,7 +584,23 @@ class adminAdminController extends admin
 		if (!IpFilter::validate($whitelist)) {
 			return new Object(-1, 'msg_invalid_ip');
 		}
+		
+		$denied_ip = array_map('trim', preg_split('/[\r\n]/', $vars->admin_denied_ip));
+		$denied_ip = array_unique(array_filter($denied_ip, function($item) {
+			return $item !== '';
+		}));
+		if (!IpFilter::validate($whitelist)) {
+			return new Object(-1, 'msg_invalid_ip');
+		}
+		
+		$oMemberAdminModel = getAdminModel('member');
+		if (!$oMemberAdminModel->getMemberAdminIPCheck($allowed_ip, $denied_ip))
+		{
+			return new Object(-1, 'msg_current_ip_will_be_denied');
+		}
+		
 		Rhymix\Framework\Config::set('admin.allow', array_values($allowed_ip));
+		Rhymix\Framework\Config::set('admin.deny', array_values($denied_ip));
 		
 		// Save
 		Rhymix\Framework\Config::save();
@@ -646,9 +662,34 @@ class adminAdminController extends admin
 		$allowed_ip = array_unique(array_filter($allowed_ip, function($item) {
 			return $item !== '';
 		}));
-		if (!in_array(RX_CLIENT_IP, $allowed_ip)) array_unshift($allowed_ip, RX_CLIENT_IP);
-		if (!in_array('127.0.0.1', $allowed_ip)) array_unshift($allowed_ip, '127.0.0.1');
-		if (!IpFilter::validate($whitelist)) {
+		
+		if ($vars->sitelock_locked === 'Y')
+		{
+			$allowed_localhost = false;
+			$allowed_current = false;
+			foreach ($allowed_ip as $range)
+			{
+				if (Rhymix\Framework\IpFilter::inRange('127.0.0.1', $range))
+				{
+					$allowed_localhost = true;
+				}
+				if (Rhymix\Framework\IpFilter::inRange(RX_CLIENT_IP, $range))
+				{
+					$allowed_current = true;
+				}
+			}
+			if (!$allowed_localhost)
+			{
+				array_unshift($allowed_ip, '127.0.0.1');
+			}
+			if (!$allowed_current)
+			{
+				array_unshift($allowed_ip, RX_CLIENT_IP);
+			}
+		}
+		
+		if (!IpFilter::validate($whitelist))
+		{
 			return new Object(-1, 'msg_invalid_ip');
 		}
 		

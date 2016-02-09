@@ -1,5 +1,6 @@
 <?php
 $lang->admin = '管理者';
+$lang->cmd_configure = '設定する';
 $lang->subtitle_primary = '基本設定';
 $lang->subtitle_security = 'セキュリティ設定';
 $lang->subtitle_advanced = '上級設定';
@@ -110,9 +111,12 @@ $lang->input_footer_script = '下段（footer）スクリプト';
 $lang->detail_input_footer_script = '最下段にコードを追加します。管理者ページでは遂行できません。';
 $lang->corp = '切り取り';
 $lang->ratio = 'Ratio(縦横の比率をキープ)';
-$lang->admin_ip_limit = '管理者のIPアドレス帯域';
+$lang->admin_ip_allow = '管理者ログイン許容IP';
+$lang->admin_ip_deny = '管理者ログイン禁止IP';
 $lang->local_ip_address = 'ローカルIPアドレス';
-$lang->about_admin_ip_limit = '該当IPについてのみ管理者ページへアクセスできるため、注意してください。IP帯域情報は、/files/config/db.config.php ファイルに保存されます。Change the line to multiple IP.';
+$lang->about_admin_ip_allow = 'ここでIPアドレスの一覧を表示すると、そのIPのみ、管理者のログインが可能になります。すべてのIPからのログインを許可するには、リストを空白のままに。';
+$lang->about_admin_ip_deny = 'ここに記載され、IPアドレスは、管理者のログインが禁止されます。';
+$lang->msg_current_ip_will_be_denied = '入力された設定によると、現在ログインして、管理者のIPアドレスもブロックされます。再度確認してください。';
 $lang->detail_about_ftp_info = 'FTP情報を入力すれば簡単設置を可能にします。FTP情報は files/config/ftp.config.php ファイルに保存されます。簡単設置ができない場合、PHPのsafe_modeをOnへ変更が必要です。';
 $lang->allow_use_favicon = 'ファビコン設定';
 $lang->about_use_favicon = '16 x 16 サイズの<em>*.ico</em> ファイルのみ登録できます。';
@@ -197,3 +201,5 @@ $lang->sitelock_message = '案内文内容';
 $lang->sitelock_message_help = 'HTMLタグを使用できます。';
 $lang->sitelock_warning_whitelist = 'ここに管理者のIPを必ず記入てください。';
 $lang->your_ip = '接続したIP';
+$lang->sitelock_in_use = 'サイトロック状態です。';
+$lang->about_sitelock_in_use = '管理者との接続が許可されたIPのみのサイトの利用が可能です。';

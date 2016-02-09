@@ -1,5 +1,6 @@
 <?php
 $lang->admin = 'Admin';
+$lang->cmd_configure = 'Configure';
 $lang->subtitle_primary = 'General Settings';
 $lang->subtitle_security = 'Security Settings';
 $lang->subtitle_advanced = 'Advanced Settings';
@@ -115,9 +116,12 @@ $lang->input_footer_script = 'Footer script';
 $lang->detail_input_footer_script = 'The script is inserted into the bottom of body. It does not work at admin page.';
 $lang->corp = 'Crop(Cut)';
 $lang->ratio = 'Ratio(Keep Aspect)';
-$lang->admin_ip_limit = 'Sepcify IP address band that can access the admin page.';
+$lang->admin_ip_allow = 'IP addresses allowed to log in as administrator';
+$lang->admin_ip_deny = 'IP addresses forbidden to log in as administrator';
 $lang->local_ip_address = 'Local IP address';
-$lang->about_admin_ip_limit = 'Specify IP address which can access to admin page. Please note that only the specified IP addresses can access the admin page.';
+$lang->about_admin_ip_allow = 'If this list is not empty, the administrator will only be able to log in from one of the listed IP addresses.';
+$lang->about_admin_ip_deny = 'This list can be used to designate IP addresses that are not allowed to log in as administrator.';
+$lang->msg_current_ip_will_be_denied = 'The given IP list cannot be applied, as they would block your own IP address.';
 $lang->detail_about_ftp_info = 'FTP information is needed for easyinstall when save_mode = on.';
 $lang->allow_use_favicon = 'Do you want to use favicon?';
 $lang->about_use_favicon = 'You can upload 16x16 size<em>*.ico</em> file only.';
@@ -208,4 +212,5 @@ $lang->sitelock_message = 'Sign Contents';
 $lang->sitelock_message_help = 'You can use HTML tags.';
 $lang->sitelock_warning_whitelist = 'You should include the IP of the administrator here.';
 $lang->your_ip = 'Your IP';
-$lang->sitelock_in_use = 'Site lock in use';
+$lang->sitelock_in_use = 'This site is locked.';
+$lang->about_sitelock_in_use = 'Only the administrator and visitors from specified IP addresses can access this site.';

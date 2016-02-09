@@ -21,7 +21,7 @@
 
 	<div class="message error" cond="$db_info->use_sitelock == 'Y'">
 		<h2>{$lang->sitelock_in_use}</h2>
-		<p>{$lang->about_sitelock_in_use}</p>
+		<p>{$lang->about_sitelock_in_use} <a href="{getUrl('', 'module', 'admin', 'act', 'dispAdminConfigSitelock')}">{$lang->cmd_configure}</a></p>
 	</div>
 
 	<form action="./" method="post" class="message info x_clearfix" cond="!$isLicenseAgreement">

@@ -176,7 +176,10 @@ button.grey:hover, a.button.grey:hover {
 .x #content ul li {
 	line-height: 160%;
 }
-.x #content label input[type=checkbox] {
+.x #content label.x_inline {
+	display: inline-block; margin-right: 12px;
+}
+.x #content label input[type=checkbox], .x #content label input[type=radio] {
 	position: relative;
 	top: 2px;
 }
@@ -206,6 +209,9 @@ button.grey:hover, a.button.grey:hover {
 .x .x_control-group .x_controls input {
 	line-height: 17px; padding: 3px 5px;
 	width: 260px; box-sizing: border-box;
+}
+.x .x_control-group .x_controls input[type=checkbox], .x .x_control-group .x_controls input[type=radio] {
+	padding: 0; width: auto;
 }
 .x .x_control-group .x_controls select {
 	line-height: 17px; padding: 3px 7px 3px 3px;
