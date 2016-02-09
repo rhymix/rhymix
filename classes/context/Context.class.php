@@ -1435,7 +1435,7 @@ class Context
 		{
 			return;
 		}
-		elseif (self::get('act') === 'procMemberLogin')
+		elseif (in_array(self::get('act'), array('procMemberLogin', 'dispMemberLogout')))
 		{
 			return;
 		}
@@ -1455,6 +1455,7 @@ class Context
 		define('_XE_SITELOCK_', TRUE);
 		define('_XE_SITELOCK_TITLE_', config('lock.title'));
 		define('_XE_SITELOCK_MESSAGE_', config('lock.message'));
+		unset($_SESSION['XE_VALIDATOR_RETURN_URL']);
 		
 		// Load the sitelock template.
 		if(FileHandler::exists(RX_BASEDIR . 'common/tpl/sitelock.user.html'))
