@@ -472,16 +472,16 @@ class Context
 		{
 			return;
 		}
-		
+
 		// Copy to old format for backward compatibility.
 		self::$_instance->db_info = self::convertDBInfo($config);
 		self::$_instance->allow_rewrite = self::$_instance->db_info->use_rewrite;
-		self::set('_http_port', $db_info->http_port ?: null);
-		self::set('_https_port', $db_info->https_port ?: null);
-		self::set('_use_ssl', $db_info->use_ssl);
-		$GLOBALS['_time_zone'] = $db_info->time_zone;
+		self::set('_http_port', self::$_instance->db_info->http_port ?: null);
+		self::set('_https_port', self::$_instance->db_info->https_port ?: null);
+		self::set('_use_ssl', self::$_instance->db_info->use_ssl);
+		$GLOBALS['_time_zone'] = self::$_instance->db_info->time_zone;
 	}
-	
+
 	/**
 	 * Convert Rhymix configuration to XE DBInfo format
 	 * 
