@@ -475,7 +475,7 @@ class Context
 		
 		// Copy to old format for backward compatibility.
 		self::$_instance->db_info = self::convertDBInfo($config);
-		self::$_instance->allow_rewrite = $db_info->use_rewrite;
+		self::$_instance->allow_rewrite = self::$_instance->db_info->use_rewrite;
 		self::set('_http_port', $db_info->http_port ?: null);
 		self::set('_https_port', $db_info->https_port ?: null);
 		self::set('_use_ssl', $db_info->use_ssl);
