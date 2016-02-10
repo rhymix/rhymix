@@ -999,7 +999,7 @@ class DB
 	 */
 	function _getConnection($type = 'master', $indx = NULL)
 	{
-		if($type == 'master')
+		if($type == 'master' || $this->transactionNestedLevel)
 		{
 			if(!$this->master_db['is_connected'])
 			{
@@ -1014,11 +1014,20 @@ class DB
 			$indx = $this->_getSlaveConnectionStringIndex($type);
 		}
 
+		if($this->slave_db[$indx]['host'] == $this->master_db['host'] && $this->slave_db[$indx]['port'] == $this->master_db['port'])
+		{
+			if(!$this->master_db['is_connected'])
+			{
+				$this->_connect($type);
+			}
+			$this->connection = 'Master ' . $this->master_db['host'];
+			return $this->master_db["resource"];
+		}
+		
 		if(!$this->slave_db[$indx]['is_connected'])
 		{
 			$this->_connect($type, $indx);
 		}
-
 		$this->connection = 'Slave ' . $this->slave_db[$indx]['host'];
 		return $this->slave_db[$indx]["resource"];
 	}
@@ -1271,7 +1280,7 @@ class DB
 		{
 			$connection = &$this->slave_db[$indx];
 		}
-
+		
 		$result = $this->__connect($connection);
 		if($result === NULL || $result === FALSE)
 		{
