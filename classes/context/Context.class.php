@@ -472,16 +472,16 @@ class Context
 		{
 			return;
 		}
-		
+
 		// Copy to old format for backward compatibility.
 		self::$_instance->db_info = self::convertDBInfo($config);
 		self::$_instance->allow_rewrite = self::$_instance->db_info->use_rewrite;
-		self::set('_http_port', $db_info->http_port ?: null);
-		self::set('_https_port', $db_info->https_port ?: null);
-		self::set('_use_ssl', $db_info->use_ssl);
-		$GLOBALS['_time_zone'] = $db_info->time_zone;
+		self::set('_http_port', self::$_instance->db_info->http_port ?: null);
+		self::set('_https_port', self::$_instance->db_info->https_port ?: null);
+		self::set('_use_ssl', self::$_instance->db_info->use_ssl);
+		$GLOBALS['_time_zone'] = self::$_instance->db_info->time_zone;
 	}
-	
+
 	/**
 	 * Convert Rhymix configuration to XE DBInfo format
 	 * 
@@ -1453,7 +1453,7 @@ class Context
 		// Set headers and constants for backward compatibility.
 		header('HTTP/1.1 503 Service Unavailable');
 		define('_XE_SITELOCK_', TRUE);
-		define('_XE_SITELOCK_TITLE_', config('lock.title'));
+		define('_XE_SITELOCK_TITLE_', config('lock.title') ?: self::getLang('admin.sitelock_in_use'));
 		define('_XE_SITELOCK_MESSAGE_', config('lock.message'));
 		unset($_SESSION['XE_VALIDATOR_RETURN_URL']);
 		
@@ -1464,10 +1464,11 @@ class Context
 		}
 		else
 		{
+			self::setBrowserTitle(self::getSiteTitle());
 			$oMessageObject = getView('message');
 			$oMessageObject->setHttpStatusCode(503);
 			$oMessageObject->setError(-1);
-			$oMessageObject->setMessage(config('lock.title'));
+			$oMessageObject->setMessage(_XE_SITELOCK_TITLE_);
 			$oMessageObject->dispMessage();
 			$oModuleHandler = new ModuleHandler;
 			$oModuleHandler->displayContent($oMessageObject);
