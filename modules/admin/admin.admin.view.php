@@ -129,14 +129,15 @@ class adminAdminView extends admin
 		$currentAct = Context::get('act');
 		$subMenuTitle = '';
 
-		foreach((array) $moduleActionInfo->menu as $key => $value)
+		foreach((array)$moduleActionInfo->menu as $key => $value)
 		{
-			if(isset($value->acts) && is_array($value->acts) && in_array($currentAct, $value->acts))
+			if(is_array($value->acts) && in_array($currentAct, $value->acts))
 			{
 				$subMenuTitle = $value->title;
 				break;
 			}
 		}
+		
 		// get current menu's srl(=parentSrl)
 		$parentSrl = 0;
 		$oMenuAdminConroller = getAdminController('menu');
