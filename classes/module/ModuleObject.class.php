@@ -447,6 +447,18 @@ class ModuleObject extends Object
 			return FALSE;
 		}
 
+		// check return value of action
+		if($output instanceof Object)
+		{
+			$this->setError($output->getError());
+			$this->setMessage($output->getMessage());
+			$original_output = clone $output;
+		}
+		else
+		{
+			$original_output = null;
+		}
+
 		// trigger call
 		$triggerOutput = ModuleHandler::triggerCall('moduleObject.proc', 'after', $this);
 		if(!$triggerOutput->toBool())
@@ -462,16 +474,17 @@ class ModuleObject extends Object
 		$addon_file = $oAddonController->getCacheFilePath(Mobile::isFromMobilePhone() ? "mobile" : "pc");
 		if(FileHandler::exists($addon_file)) include($addon_file);
 
-		if(is_a($output, 'Object') || is_subclass_of($output, 'Object'))
+		if($original_output instanceof Object && !$original_output->toBool())
+		{
+			return FALSE;
+		}
+		elseif($output instanceof Object && $output->getError())
 		{
 			$this->setError($output->getError());
 			$this->setMessage($output->getMessage());
-
-			if(!$output->toBool())
-			{
-				return FALSE;
-			}
+			return FALSE;
 		}
+
 		// execute api methods of the module if view action is and result is XMLRPC or JSON
 		if($this->module_info->module_type == 'view' || $this->module_info->module_type == 'mobile')
 		{

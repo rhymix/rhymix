@@ -60,12 +60,17 @@ class DisplayHandler extends Handler
 
 		// call a trigger before display
 		ModuleHandler::triggerCall('display', 'before', $output);
-		
+		$original_output = $output;
+
 		// execute add-on
 		$called_position = 'before_display_content';
 		$oAddonController = getController('addon');
 		$addon_file = $oAddonController->getCacheFilePath(Mobile::isFromMobilePhone() ? "mobile" : "pc");
 		if(file_exists($addon_file)) include($addon_file);
+		if($output === false || $output === null)
+		{
+			$output = $original_output;
+		}
 
 		if(method_exists($handler, "prepareToPrint"))
 		{
