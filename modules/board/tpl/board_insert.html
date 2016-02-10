@@ -208,7 +208,9 @@
 		<div class="x_control-group">
 			<label class="x_control-label">{$lang->protect_comment}</label>
 			<div class="x_controls">
-				<label class="x_inline" for="protect_comment"><input type="checkbox" name="protect_comment" id="protect_comment" value="Y" checked="checked"|cond="$module_info->protect_comment == 'Y'" /> {$lang->about_protect_comment}</label>
+				<label class="x_inline" for="protect_delete_comment"><input type="checkbox" name="protect_delete_comment" id="protect_delete_comment" value="Y" checked="checked"|cond="$module_info->protect_delete_comment == 'Y'" />{$lang->cmd_delete} </label>
+				<label class="x_inline" for="protect_update_comment"><input type="checkbox" name="protect_update_comment" id="protect_update_comment" value="Y" checked="checked"|cond="$module_info->protect_update_comment == 'Y'" />{$lang->cmd_modify} </label>
+				<p>{$lang->about_protect_comment}</p>
 			</div>
 		</div>
 		<div class="x_control-group">

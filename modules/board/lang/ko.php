@@ -46,4 +46,5 @@ $lang->about_protect_content = '작성된 글에 댓글이 작성된 경우 글 
 $lang->msg_protect_content = '댓글이 작성된 게시물의 글을 수정 또는 삭제 할 수 없습니다.';
 $lang->msg_admin_document_no_modify = '최고관리자의 게시물을 수정할 권한이 없습니다.';
 $lang->msg_admin_comment_no_modify = '최고관리자의 댓글을 수정할 권한이 없습니다.';
-$lang->msg_board_protect_comment = '댓글이 작성된 댓글의 글을 수정 또는 삭제할 수 없습니다.';
+$lang->msg_board_delete_protect_comment = '댓글이 작성된 댓글의 글을 삭제할 수 없습니다.';
+$lang->msg_board_update_protect_comment = '댓글이 작성된 댓글의 글을 수정할 수 없습니다.';

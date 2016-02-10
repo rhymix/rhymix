@@ -306,12 +306,12 @@ class boardController extends board
 		else
 		{
 			$comment = $oCommentModel->getComment($obj->comment_srl, $this->grant->manager);
-			if($this->module_info->protect_comment === 'Y' && $this->grant->manager == false)
+			if($this->module_info->protect_update_comment === 'Y' && $this->grant->manager == false)
 			{
 				$childs = $oCommentModel->getChildComments($obj->comment_srl);
-				if (count($childs) > 0)
+				if(count($childs) > 0)
 				{
-					return new Object(-1, 'msg_board_protect_comment');
+					return new Object(-1, 'msg_board_update_protect_comment');
 				}
 			}
 		}
@@ -384,12 +384,12 @@ class boardController extends board
 
 		$oCommentModel = getModel('comment');
 
-		if($this->module_info->protect_comment === 'Y' && $this->grant->manager==false)
+		if($this->module_info->protect_delete_comment === 'Y' && $this->grant->manager == false)
 		{
 			$childs = $oCommentModel->getChildComments($comment_srl);
 			if(count($childs) > 0)
 			{
-				return new Object(-1, 'msg_board_protect_comment');
+				return new Object(-1, 'msg_board_delete_protect_comment');
 			}
 		}
 
