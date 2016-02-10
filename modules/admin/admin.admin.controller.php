@@ -626,14 +626,31 @@ class adminAdminController extends admin
 		{
 			return new Object(-1, 'msg_invalid_default_url');
 		}
-		Rhymix\Framework\Config::set('url.default', $vars->default_url);
 		
 		// SSL and ports
 		if ($vars->http_port == 80) $vars->http_port = null;
 		if ($vars->https_port == 443) $vars->https_port = null;
+		$use_ssl = $vars->use_ssl ?: 'none';
+		
+		// Check if all URL configuration is consistent
+		if ($use_ssl === 'always' && !preg_match('@^https://@', $default_url))
+		{
+			return new Object(-1, 'msg_default_url_ssl_inconsistent');
+		}
+		if ($vars->http_port && preg_match('@^http://@', $default_url) && parse_url($default_url, PHP_URL_PORT) != $vars->http_port)
+		{
+			return new Object(-1, 'msg_default_url_http_port_inconsistent');
+		}
+		if ($vars->https_port && preg_match('@^https://@', $default_url) && parse_url($default_url, PHP_URL_PORT) != $vars->https_port)
+		{
+			return new Object(-1, 'msg_default_url_https_port_inconsistent');
+		}
+		
+		// Set all URL configuration
+		Rhymix\Framework\Config::set('url.default', $default_url);
 		Rhymix\Framework\Config::set('url.http_port', $vars->http_port ?: null);
 		Rhymix\Framework\Config::set('url.https_port', $vars->https_port ?: null);
-		Rhymix\Framework\Config::set('url.ssl', $vars->use_ssl ?: 'none');
+		Rhymix\Framework\Config::set('url.ssl', $use_ssl);
 		
 		// Other settings
 		Rhymix\Framework\Config::set('use_mobile_view', $vars->use_mobile_view === 'Y');
