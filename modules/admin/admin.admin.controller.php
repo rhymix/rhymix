@@ -651,6 +651,10 @@ class adminAdminController extends admin
 		Rhymix\Framework\Config::set('url.http_port', $vars->http_port ?: null);
 		Rhymix\Framework\Config::set('url.https_port', $vars->https_port ?: null);
 		Rhymix\Framework\Config::set('url.ssl', $use_ssl);
+		getController('module')->updateSite((object)array(
+			'site_srl' => 0,
+			'domain' => preg_replace('@^https?://@', '', $default_url),
+		));
 		
 		// Other settings
 		Rhymix\Framework\Config::set('use_rewrite', $vars->use_rewrite === 'Y');
