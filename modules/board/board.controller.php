@@ -114,15 +114,15 @@ class boardController extends board
 				return new Object(-1,'msg_not_permitted');
 			}
 
-			if($this->module_info->protect_content == "Y" || $this->module_info->protect_update_content == 'Y')
+			if($this->module_info->protect_content == 'Y' || $this->module_info->protect_update_content == 'Y')
 			{
-				if($oDocument->get('comment_count')>0 && $this->grant->manager==false)
+				if($oDocument->get('comment_count') > 0 && $this->grant->manager == false)
 				{
-					return new Object(-1,'msg_protect_update_content');
+					return new Object(-1, 'msg_protect_update_content');
 				}
 			}
 
-			if($this->module_info->protect_document_regdate > 0 && $this->grant->manager==false)
+			if($this->module_info->protect_document_regdate > 0 && $this->grant->manager == false)
 			{
 				if($oDocument->get('regdate') < date('YmdHis', strtotime('-'.$this->module_info->protect_document_regdate.' day')))
 				{
@@ -215,15 +215,15 @@ class boardController extends board
 		$oDocumentModel = &getModel('document');
 		$oDocument = $oDocumentModel->getDocument($document_srl);
 		// check protect content
-		if($this->module_info->protect_content == "Y" || $this->module_info->protect_delete_content == 'Y')
+		if($this->module_info->protect_content == 'Y' || $this->module_info->protect_delete_content == 'Y')
 		{
-			if($oDocument->get('comment_count')>0 && $this->grant->manager==false)
+			if($oDocument->get('comment_count') > 0 && $this->grant->manager == false)
 			{
-				return new Object(-1,'msg_protect_delete_content');
+				return new Object(-1, 'msg_protect_delete_content');
 			}
 		}
 
-		if($this->module_info->protect_document_regdate > 0 && $this->grant->manager==false)
+		if($this->module_info->protect_document_regdate > 0 && $this->grant->manager == false)
 		{
 			if($oDocument->get('regdate') < date('YmdHis', strtotime('-'.$this->module_info->protect_document_regdate.' day')))
 			{
@@ -374,7 +374,7 @@ class boardController extends board
 		}
 		else
 		{
-			if($this->module_info->protect_comment_regdate > 0 && $this->grant->manager==false)
+			if($this->module_info->protect_comment_regdate > 0 && $this->grant->manager == false)
 			{
 				if($comment->get('regdate') < date('YmdHis', strtotime('-'.$this->module_info->protect_document_regdate.' day')))
 				{
@@ -427,7 +427,7 @@ class boardController extends board
 			}
 		}
 		$comment = $oCommentModel->getComment($comment_srl, $this->grant->manager);
-		if($this->module_info->protect_comment_regdate > 0 && $this->grant->manager==false)
+		if($this->module_info->protect_comment_regdate > 0 && $this->grant->manager == false)
 		{
 			if($comment->get('regdate') < date('YmdHis', strtotime('-'.$this->module_info->protect_document_regdate.' day')))
 			{
