@@ -202,7 +202,9 @@
 		<div class="x_control-group">
 			<label class="x_control-label">{$lang->protect_content}</label>
 			<div class="x_controls">
-				<label class="x_inline" for="protect_content"><input type="checkbox" name="protect_content" id="protect_content" value="Y" checked="checked"|cond="$module_info->protect_content == 'Y'" /> {$lang->about_protect_content}</label>
+				<label class="x_inline" for="protect_delete_content"><input type="checkbox" name="protect_delete_content" id="protect_delete_content" value="Y" checked="checked"|cond="$module_info->protect_delete_content == 'Y'" /> {$lang->cmd_delete}</label>
+				<label class="x_inline" for="protect_update_content"><input type="checkbox" name="protect_update_content" id="protect_update_content" value="Y" checked="checked"|cond="$module_info->protect_update_content == 'Y'" /> {$lang->cmd_modify}</label>
+				<p>{$lang->about_protect_content}</p>
 			</div>
 		</div>
 		<div class="x_control-group">
@@ -211,6 +213,14 @@
 				<label class="x_inline" for="protect_delete_comment"><input type="checkbox" name="protect_delete_comment" id="protect_delete_comment" value="Y" checked="checked"|cond="$module_info->protect_delete_comment == 'Y'" />{$lang->cmd_delete} </label>
 				<label class="x_inline" for="protect_update_comment"><input type="checkbox" name="protect_update_comment" id="protect_update_comment" value="Y" checked="checked"|cond="$module_info->protect_update_comment == 'Y'" />{$lang->cmd_modify} </label>
 				<p>{$lang->about_protect_comment}</p>
+			</div>
+		</div>
+		<div class="x_control-group">
+			<label class="x_control-label">{$lang->protect_regdate}</label>
+			<div class="x_controls">
+				{$lang->document} : <input type="number" name="protect_document_regdate" id="protect_document_regdate" value="{$module_info->protect_document_regdate}" />
+				{$lang->comment} : <input type="number" name="protect_comment_regdate" id="protect_comment_regdate" value="{$module_info->protect_comment_regdate}" />
+				<p>{$lang->about_protect_regdate}</p>
 			</div>
 		</div>
 		<div class="x_control-group">
