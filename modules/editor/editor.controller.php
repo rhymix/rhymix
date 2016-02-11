@@ -60,7 +60,7 @@ class editorController extends editor
 		if(method_exists($oComponent, $method)) $output = $oComponent->{$method}();
 		else return new Object(-1,sprintf('%s method is not exists', $method));
 
-		if((is_a($output, 'Object') || is_subclass_of($output, 'Object')) && !$output->toBool()) return $output;
+		if($output instanceof Object && !$output->toBool()) return $output;
 
 		$this->setError($oComponent->getError());
 		$this->setMessage($oComponent->getMessage());

@@ -619,7 +619,7 @@ class DB
 
 		$output = include($cache_file);
 
-		if((is_a($output, 'Object') || is_subclass_of($output, 'Object')) && !$output->toBool())
+		if($output instanceof Object && !$output->toBool())
 		{
 			return $output;
 		}
@@ -652,7 +652,7 @@ class DB
 		{
 			$output = $this->getError();
 		}
-		else if(!is_a($output, 'Object') && !is_subclass_of($output, 'Object'))
+		elseif(!($output instanceof Object))
 		{
 			$output = new Object();
 		}
