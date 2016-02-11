@@ -8,13 +8,13 @@
 		<input type="hidden" name="act" value="procAdminUpdateAdvanced" />
 		<input type="hidden" name="xe_validator_id" value="modules/admin/tpl/config_advanced/1" />
 		<div class="x_control-group">
-			<label class="x_control-label" for="default_url">{$lang->default_url} <a class="x_icon-question-sign" href="./common/manual/admin/#UMAN_config_general_default_url" target="_blank">{$lang->help}</a></label>
+			<label class="x_control-label" for="default_url">{$lang->default_url} <a class="x_icon-question-sign" href="./common/manual/admin/index.html#UMAN_config_general_default_url" target="_blank">{$lang->help}</a></label>
 			<div class="x_controls">
 				<input type="url" name="default_url" id="default_url" style="min-width:90%" value="{$default_url}"/>
 			</div>
 		</div>
 		<div class="x_control-group">
-			<label class="x_control-label">{$lang->use_ssl} <a class="x_icon-question-sign" href="./common/manual/admin/#UMAN_config_general_ssl" target="_blank">{$lang->help}</a></label>
+			<label class="x_control-label">{$lang->use_ssl} <a class="x_icon-question-sign" href="./common/manual/admin/index.html#UMAN_config_general_ssl" target="_blank">{$lang->help}</a></label>
 			<div class="x_controls">
 				<!--@foreach($lang->ssl_options as $key => $val)-->
 				<label for="ssl_{$key}" class="x_inline"><input type="radio" name="use_ssl" id="ssl_{$key}" value="{$key}" checked="checked"|cond="$use_ssl==$key" /> {$val}</label>
@@ -36,7 +36,7 @@
 			</div>
 		</div>
 		<div class="x_control-group">
-			<label class="x_control-label">{$lang->use_sso} <a class="x_icon-question-sign" href="./common/manual/admin/#UMAN_config_general_sso" target="_blank">{$lang->help}</a></label>
+			<label class="x_control-label">{$lang->use_sso} <a class="x_icon-question-sign" href="./common/manual/admin/index.html#UMAN_config_general_sso" target="_blank">{$lang->help}</a></label>
 			<div class="x_controls">
 				<label for="use_sso_y" class="x_inline"><input type="radio" name="use_sso" id="use_sso_y" value="Y" checked="checked"|cond="$use_sso" /> {$lang->cmd_yes}</label>
 				<label for="use_sso_n" class="x_inline"><input type="radio" name="use_sso" id="use_sso_n" value="N" checked="checked"|cond="!$use_sso" /> {$lang->cmd_no}</label>
@@ -52,7 +52,7 @@
 			</div>
 		</div>
 		<div class="x_control-group">
-			<label class="x_control-label">{$lang->use_db_session} <a class="x_icon-question-sign" href="./common/manual/admin/#UMAN_config_general_db_session" target="_blank">{$lang->help}</a></label>
+			<label class="x_control-label">{$lang->use_db_session} <a class="x_icon-question-sign" href="./common/manual/admin/index.html#UMAN_config_general_db_session" target="_blank">{$lang->help}</a></label>
 			<div class="x_controls">
 				<label for="use_db_session_y" class="x_inline"><input type="radio" name="use_db_session" id="use_db_session_y" value="Y" checked="checked"|cond="$use_db_session" /> {$lang->cmd_yes}</label>
 				<label for="use_db_session_n" class="x_inline"><input type="radio" name="use_db_session" id="use_db_session_n" value="N" checked="checked"|cond="!$use_db_session" /> {$lang->cmd_no}</label>
