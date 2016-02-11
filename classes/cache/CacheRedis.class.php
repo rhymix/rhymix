@@ -9,11 +9,11 @@
 class CacheRedis extends CacheBase
 {
 	/**
-	 * instance of Redis
-	 * @var redis
+	 * Instance of Memcache
 	 */
-	var $redis;
-	var $status;
+	protected static $_instance;
+	protected $_conn;
+	protected $_status;
 
 	/**
 	 * Get instance of CacheRedis
@@ -21,13 +21,13 @@ class CacheRedis extends CacheBase
 	 * @param string $url url of Redis
 	 * @return CacheRedis instance of CacheRedis
 	 */
-	function getInstance($url, $force_new_instance = false)
+	public static function getInstance($url, $force_new_instance = false)
 	{
-		if(!$GLOBALS['__CacheRedis__'] || $force_new_instance)
+		if(!self::$_instance || $force_new_instance)
 		{
-			$GLOBALS['__CacheRedis__'] = new CacheRedis($url);
+			self::$_instance = new self($url);
 		}
-		return $GLOBALS['__CacheRedis__'];
+		return self::$_instance;
 	}
 
 	/**
@@ -37,34 +37,33 @@ class CacheRedis extends CacheBase
 	 * @param string $url url of Redis
 	 * @return void
 	 */
-	function __construct($url)
+	protected function __construct($url)
 	{
-		//$config['url'] = 'redis://localhost:6379/1';
-		$config['url'] = is_array($url) ? reset($url) : $url;
+		//$url = 'redis://localhost:6379/1';
+		$url = is_array($url) ? reset($url) : $url;
 
 		if(!class_exists('Redis'))
 		{
-			return $this->status = false;
+			$this->_status = false;
 		}
 
 		try
 		{
-			$this->redis = new Redis;
+			$this->_conn = new Redis;
 			$info = parse_url($url);
-			$this->redis->connect($info['host'], $info['port'], 0.15);
+			$this->_conn->connect($info['host'], $info['port'], 0.15);
 			if(isset($info['user']) || isset($info['pass']))
 			{
-				$this->redis->auth(isset($info['user']) ? $info['user'] : $info['pass']);
+				$this->_conn->auth(isset($info['user']) ? $info['user'] : $info['pass']);
 			}
 			if(isset($info['path']) && $dbnum = intval(substr($info['path'], 1)))
 			{
-				$this->redis->select($dbnum);
+				$this->_conn->select($dbnum);
 			}
-			return $this->status = true;
 		}
 		catch(RedisException $e)
 		{
-			return $this->status = false;
+			$this->_status = false;
 		}
 	}
 
@@ -73,20 +72,20 @@ class CacheRedis extends CacheBase
 	 *
 	 * @return bool Return true on support or false on not support
 	 */
-	function isSupport()
+	public function isSupport()
 	{
-		if($this->status !== null)
+		if($this->_status !== null)
 		{
-			return $this->status;
+			return $this->_status;
 		}
 
 		try
 		{
-			return $this->redis->setex('xe', 1, 'xe');
+			return $this->_conn->setex('xe', 1, 'xe');
 		}
 		catch(RedisException $e)
 		{
-			return $this->status = false;
+			return $this->_status = false;
 		}
 	}
 
@@ -96,7 +95,7 @@ class CacheRedis extends CacheBase
 	 * @param string $key Cache key
 	 * @return string Return unique key
 	 */
-	function getKey($key)
+	protected function getKey($key)
 	{
 		static $prefix = null;
 		if($prefix === null)
@@ -123,7 +122,7 @@ class CacheRedis extends CacheBase
 	 * 							If it's equal to zero, use the default valid time CacheRedis::valid_time.
 	 * @return bool Returns true on success or false on failure.
 	 */
-	function put($key, $buff, $valid_time = 0)
+	public function put($key, $buff, $valid_time = 0)
 	{
 		if($valid_time > 60 * 60 * 24 * 30)
 		{
@@ -136,11 +135,11 @@ class CacheRedis extends CacheBase
 
 		try
 		{
-			return $this->redis->setex($this->getKey($key), $valid_time, serialize(array($_SERVER['REQUEST_TIME'], $buff)));
+			return $this->_conn->setex($this->getKey($key), $valid_time, serialize(array($_SERVER['REQUEST_TIME'], $buff)));
 		}
 		catch(RedisException $e)
 		{
-			return $this->status = false;
+			return $this->_status = false;
 		}
 	}
 
@@ -152,20 +151,18 @@ class CacheRedis extends CacheBase
 	 * 								If stored time is older then modified time, the data is invalid.
 	 * @return bool Return true on valid or false on invalid.
 	 */
-	function isValid($key, $modified_time = 0)
+	public function isValid($key, $modified_time = 0)
 	{
-		$_key = $this->getKey($key);
-		$obj = $this->redis->get($_key);
+		$obj = $this->_conn->get($this->getKey($key));
 		$obj = $obj ? unserialize($obj) : false;
 		if(!$obj || !is_array($obj))
 		{
 			return false;
 		}
-		unset($obj[1]);
 
 		if($modified_time > 0 && $modified_time > $obj[0])
 		{
-			$this->redis->del($_key);
+			$this->_conn->del($this->getKey($key));
 			return false;
 		}
 
@@ -182,10 +179,9 @@ class CacheRedis extends CacheBase
 	 * 								If stored time is older then modified time, return false.
 	 * @return false|mixed Return false on failure or older then modified time. Return the string associated with the $key on success.
 	 */
-	function get($key, $modified_time = 0)
+	public function get($key, $modified_time = 0)
 	{
-		$_key = $this->getKey($key);
-		$obj = $this->redis->get($_key);
+		$obj = $this->_conn->get($this->getKey($key));
 		$obj = $obj ? unserialize($obj) : false;
 		if(!$obj || !is_array($obj))
 		{
@@ -194,7 +190,7 @@ class CacheRedis extends CacheBase
 
 		if($modified_time > 0 && $modified_time > $obj[0])
 		{
-			$this->redis->del($_key);
+			$this->_conn->del($this->getKey($key));
 			return false;
 		}
 
@@ -209,17 +205,15 @@ class CacheRedis extends CacheBase
 	 * @param string $key The key associated with the item to delete.
 	 * @return void
 	 */
-	function delete($key)
+	public function delete($key)
 	{
-		$_key = $this->getKey($key);
-
 		try
 		{
-			$this->redis->del($_key);
+			return $this->_conn->del($this->getKey($key));
 		}
 		catch(RedisException $e)
 		{
-			return $this->status = false;
+			return $this->_status = false;
 		}
 	}
 
@@ -231,15 +225,15 @@ class CacheRedis extends CacheBase
 	 *
 	 * @return bool Returns true on success or false on failure.
 	 */
-	function truncate()
+	public function truncate()
 	{
 		try
 		{
-			return $this->redis->flushDB();
+			return $this->_conn->flushDB();
 		}
 		catch(RedisException $e)
 		{
-			return $this->status = false;
+			return $this->_status = false;
 		}
 	}
 

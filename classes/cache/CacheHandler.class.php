@@ -59,11 +59,11 @@ class CacheHandler extends Handler
 		// Allow using custom cache info for backward compatibility.
 		if (is_object($info) && $info->use_object_cache)
 		{
-			$cache_config = $info->use_object_cache;
+			$cache_config = $cache_config_array = $info->use_object_cache;
 		}
 		else
 		{
-			$cache_config = config('cache');
+			$cache_config = $cache_config_array = config('cache');
 			if (is_array($cache_config) && count($cache_config))
 			{
 				$cache_config = array_first($cache_config);
@@ -87,7 +87,7 @@ class CacheHandler extends Handler
 		// Create an instance of cache backend.
 		$class = 'Cache' . ucfirst($type);
 		include_once sprintf('%sclasses/cache/%s.class.php', _XE_PATH_, $class);
-		$this->handler = $class::getInstance($cache_config);
+		$this->handler = $class::getInstance($cache_config_array);
 		
 		// Initialize key group versions.
 		$this->keyGroupVersions = $this->handler->get('key_group_versions', 0);

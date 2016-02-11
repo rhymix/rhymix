@@ -9,11 +9,12 @@
 class CacheMemcache extends CacheBase
 {
 	/**
-	 * instance of Memcahe
-	 * @var Memcahe
+	 * Instance of Memcache
 	 */
-	var $Memcache;
-	var $SelectedExtension;
+	protected static $_instance;
+	protected $_conn;
+	protected $_status;
+	protected $_useExtension;
 
 	/**
 	 * Get instance of CacheMemcache
@@ -21,14 +22,13 @@ class CacheMemcache extends CacheBase
 	 * @param string $url url of memcache
 	 * @return CacheMemcache instance of CacheMemcache
 	 */
-	function getInstance($url, $force_new_instance = false)
+	public static function getInstance($url, $force_new_instance = false)
 	{
-		if(!$GLOBALS['__CacheMemcache__'] || $force_new_instance)
+		if(!self::$_instance || $force_new_instance)
 		{
-			$GLOBALS['__CacheMemcache__'] = new CacheMemcache($url);
-			unset($GLOBALS['XE_MEMCACHE_SUPPORT']);
+			self::$_instance = new self($url);
 		}
-		return $GLOBALS['__CacheMemcache__'];
+		return self::$_instance;
 	}
 
 	/**
@@ -38,19 +38,19 @@ class CacheMemcache extends CacheBase
 	 * @param string $url url of memcache
 	 * @return void
 	 */
-	function __construct($url)
+	protected function __construct($url)
 	{
 		//$config['url'] = array('memcache://localhost:11211');
 		$config['url'] = is_array($url) ? $url : array($url);
 		if(class_exists('Memcached'))
 		{
-			$this->Memcache = new Memcached;
-			$this->SelectedExtension = 'Memcached';
+			$this->_conn = new Memcached;
+			$this->_useExtension = 'Memcached';
 		}
 		elseif(class_exists('Memcache'))
 		{
-			$this->Memcache = new Memcache;
-			$this->SelectedExtension = 'Memcache';
+			$this->_conn = new Memcache;
+			$this->_useExtension = 'Memcache';
 		}
 		else
 		{
@@ -60,7 +60,7 @@ class CacheMemcache extends CacheBase
 		foreach($config['url'] as $url)
 		{
 			$info = parse_url($url);
-			$this->Memcache->addServer($info['host'], $info['port']);
+			$this->_conn->addServer($info['host'], $info['port']);
 		}
 	}
 
@@ -69,24 +69,24 @@ class CacheMemcache extends CacheBase
 	 *
 	 * @return bool Return true on support or false on not support
 	 */
-	function isSupport()
+	public function isSupport()
 	{
-		if(isset($GLOBALS['XE_MEMCACHE_SUPPORT']))
+		if(isset($this->_status))
 		{
-			return $GLOBALS['XE_MEMCACHE_SUPPORT'];
+			return $this->_status;
 		}
 
-		if($this->SelectedExtension === 'Memcached')
+		if($this->_useExtension === 'Memcached')
 		{
-			return $GLOBALS['XE_MEMCACHE_SUPPORT'] = $this->Memcache->set('xe', 'xe', 1); 
+			return $this->_status = $this->_conn->set('xe', 'xe', 1); 
 		}
-		elseif($this->SelectedExtension === 'Memcache')
+		elseif($this->_useExtension === 'Memcache')
 		{
-			return $GLOBALS['XE_MEMCACHE_SUPPORT'] = $this->Memcache->set('xe', 'xe', MEMCACHE_COMPRESSED, 1); 
+			return $this->_status = $this->_conn->set('xe', 'xe', MEMCACHE_COMPRESSED, 1); 
 		}
 		else
 		{
-			return $GLOBALS['XE_MEMCACHE_SUPPORT'] = false;
+			return $this->_status = false;
 		}
 	}
 
@@ -96,7 +96,7 @@ class CacheMemcache extends CacheBase
 	 * @param string $key Cache key
 	 * @return string Return unique key
 	 */
-	function getKey($key)
+	protected function getKey($key)
 	{
 		return md5(_XE_PATH_ . $key);
 	}
@@ -118,20 +118,20 @@ class CacheMemcache extends CacheBase
 	 * 							If it's equal to zero, use the default valid time CacheMemcache::valid_time.
 	 * @return bool Returns true on success or false on failure.
 	 */
-	function put($key, $buff, $valid_time = 0)
+	public function put($key, $buff, $valid_time = 0)
 	{
 		if($valid_time == 0)
 		{
 			$valid_time = $this->valid_time;
 		}
 
-		if($this->SelectedExtension === 'Memcached')
+		if($this->_useExtension === 'Memcached')
 		{
-			return $this->Memcache->set($this->getKey($key), array($_SERVER['REQUEST_TIME'], $buff), $valid_time);
+			return $this->_conn->set($this->getKey($key), array(time(), $buff), $valid_time);
 		}
 		else
 		{
-			return $this->Memcache->set($this->getKey($key), array($_SERVER['REQUEST_TIME'], $buff), MEMCACHE_COMPRESSED, $valid_time);
+			return $this->_conn->set($this->getKey($key), array(time(), $buff), MEMCACHE_COMPRESSED, $valid_time);
 		}
 	}
 
@@ -143,20 +143,17 @@ class CacheMemcache extends CacheBase
 	 * 								If stored time is older then modified time, the data is invalid.
 	 * @return bool Return true on valid or false on invalid.
 	 */
-	function isValid($key, $modified_time = 0)
+	public function isValid($key, $modified_time = 0)
 	{
-		$_key = $this->getKey($key);
-
-		$obj = $this->Memcache->get($_key);
+		$obj = $this->_conn->get($this->getKey($key));
 		if(!$obj || !is_array($obj))
 		{
 			return false;
 		}
-		unset($obj[1]);
 
 		if($modified_time > 0 && $modified_time > $obj[0])
 		{
-			$this->_delete($_key);
+			$this->delete($key);
 			return false;
 		}
 
@@ -173,10 +170,9 @@ class CacheMemcache extends CacheBase
 	 * 								If stored time is older then modified time, return false.
 	 * @return false|mixed Return false on failure or older then modified time. Return the string associated with the $key on success.
 	 */
-	function get($key, $modified_time = 0)
+	public function get($key, $modified_time = 0)
 	{
-		$_key = $this->getKey($key);
-		$obj = $this->Memcache->get($_key);
+		$obj = $this->_conn->get($this->getKey($key));
 		if(!$obj || !is_array($obj))
 		{
 			return false;
@@ -184,11 +180,9 @@ class CacheMemcache extends CacheBase
 
 		if($modified_time > 0 && $modified_time > $obj[0])
 		{
-			$this->_delete($_key);
+			$this->delete($key);
 			return false;
 		}
-
-		unset($obj[0]);
 
 		return $obj[1];
 	}
@@ -201,22 +195,9 @@ class CacheMemcache extends CacheBase
 	 * @param string $key The key associated with the item to delete.
 	 * @return void
 	 */
-	function delete($key)
+	public function delete($key)
 	{
-		$_key = $this->getKey($key);
-		$this->_delete($_key);
-	}
-
-	/**
-	 * Delete item from the server(private)
-	 *
-	 * @see CacheMemcache::delete()
-	 * @param string $_key The key associated with the item to delete.
-	 * @return void
-	 */
-	function _delete($_key)
-	{
-		$this->Memcache->delete($_key);
+		return $this->_conn->delete($this->getKey($key));
 	}
 
 	/**
@@ -228,9 +209,9 @@ class CacheMemcache extends CacheBase
 	 *
 	 * @return bool Returns true on success or false on failure.
 	 */
-	function truncate()
+	public function truncate()
 	{
-		return $this->Memcache->flush();
+		return $this->_conn->flush();
 	}
 
 }
