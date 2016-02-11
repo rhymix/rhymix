@@ -653,7 +653,6 @@ class adminAdminController extends admin
 		Rhymix\Framework\Config::set('url.ssl', $use_ssl);
 		
 		// Other settings
-		Rhymix\Framework\Config::set('use_mobile_view', $vars->use_mobile_view === 'Y');
 		Rhymix\Framework\Config::set('use_rewrite', $vars->use_rewrite === 'Y');
 		Rhymix\Framework\Config::set('use_sso', $vars->use_sso === 'Y');
 		Rhymix\Framework\Config::set('session.delay', $vars->delay_session === 'Y');
