@@ -484,6 +484,30 @@ class adminAdminView extends admin
 	}
 	
 	/**
+	 * Display Debug Settings page
+	 * @return void
+	 */
+	function dispAdminConfigDebug()
+	{
+		// Load debug settings.
+		Context::set('debug_enabled', Rhymix\Framework\Config::get('debug.enabled'));
+		Context::set('debug_log_errors', Rhymix\Framework\Config::get('debug.log_errors'));
+		Context::set('debug_log_queries', Rhymix\Framework\Config::get('debug.log_queries'));
+		Context::set('debug_log_slow_queries', Rhymix\Framework\Config::get('debug.log_slow_queries'));
+		Context::set('debug_log_slow_triggers', Rhymix\Framework\Config::get('debug.log_slow_triggers'));
+		Context::set('debug_log_slow_widgets', Rhymix\Framework\Config::get('debug.log_slow_widgets'));
+		Context::set('debug_display_type', Rhymix\Framework\Config::get('debug.display_type'));
+		Context::set('debug_display_to', Rhymix\Framework\Config::get('debug.display_to'));
+		
+		// IP access control
+		$allowed_ip = Rhymix\Framework\Config::get('debug.allow');
+		Context::set('debug_allowed_ip', implode(PHP_EOL, $allowed_ip));
+		Context::set('remote_addr', RX_CLIENT_IP);
+		
+		$this->setTemplateFile('config_debug');
+	}
+	
+	/**
 	 * Display Sitelock Settings page
 	 * @return void
 	 */

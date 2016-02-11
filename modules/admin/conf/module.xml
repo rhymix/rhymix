@@ -7,6 +7,7 @@
         <action name="dispAdminConfigGeneral" type="view" menu_name="adminConfigurationGeneral" menu_index="true" />
         <action name="dispAdminConfigSecurity" type="view" menu_name="adminConfigurationGeneral" />
         <action name="dispAdminConfigAdvanced" type="view" menu_name="adminConfigurationGeneral" />
+        <action name="dispAdminConfigDebug" type="view" menu_name="adminConfigurationGeneral" />
         <action name="dispAdminConfigSitelock" type="view" menu_name="adminConfigurationGeneral" />
         <action name="dispAdminConfigFtp" type="view" menu_name="adminConfigurationFtp" menu_index="true" />
         <action name="dispAdminSetup" type="view" menu_name="adminMenuSetup" menu_index="true" />
@@ -24,6 +25,7 @@
 		<action name="procAdminUpdateConfigGeneral" type="controller" />
 		<action name="procAdminUpdateSecurity" type="controller" />
 		<action name="procAdminUpdateAdvanced" type="controller" />
+		<action name="procAdminUpdateDebug" type="controller" />
 		<action name="procAdminUpdateSitelock" type="controller" />
 		<action name="procAdminUpdateFTPInfo" type="controller" />
 		<action name="procAdminRemoveFTPInfo" type="controller" />

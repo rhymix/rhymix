@@ -694,6 +694,40 @@ class adminAdminController extends admin
 	}
 	
 	/**
+	 * Update debug configuration.
+	 */
+	function procAdminUpdateDebug()
+	{
+		$vars = Context::getRequestVars();
+		
+		// Debug settings
+		Rhymix\Framework\Config::set('debug.enabled', $vars->debug_enabled === 'Y');
+		Rhymix\Framework\Config::set('debug.log_errors', $vars->debug_log_errors === 'Y');
+		Rhymix\Framework\Config::set('debug.log_queries', $vars->debug_log_queries === 'Y');
+		Rhymix\Framework\Config::set('debug.log_slow_queries', max(0, floatval($vars->debug_log_slow_queries)));
+		Rhymix\Framework\Config::set('debug.log_slow_triggers', max(0, floatval($vars->debug_log_slow_triggers)));
+		Rhymix\Framework\Config::set('debug.log_slow_widgets', max(0, floatval($vars->debug_log_slow_widgets)));
+		Rhymix\Framework\Config::set('debug.display_type', strval($vars->debug_display_type) ?: 'comment');
+		Rhymix\Framework\Config::set('debug.display_to', strval($vars->debug_display_to) ?: 'admin');
+		
+		// IP access control
+		$allowed_ip = array_map('trim', preg_split('/[\r\n]/', $vars->debug_allowed_ip));
+		$allowed_ip = array_unique(array_filter($allowed_ip, function($item) {
+			return $item !== '';
+		}));
+		if (!IpFilter::validate($whitelist)) {
+			return new Object(-1, 'msg_invalid_ip');
+		}
+		Rhymix\Framework\Config::set('debug.allow', array_values($allowed_ip));
+		
+		// Save
+		Rhymix\Framework\Config::save();
+		
+		$this->setMessage('success_updated');
+		$this->setRedirectUrl(Context::get('success_return_url') ?: getNotEncodedUrl('', 'act', 'dispAdminConfigDebug'));
+	}
+	
+	/**
 	 * Update sitelock configuration.
 	 */
 	function procAdminUpdateSitelock()
