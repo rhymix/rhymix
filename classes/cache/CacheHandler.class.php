@@ -103,9 +103,19 @@ class CacheHandler extends Handler
 	 *
 	 * @return boolean
 	 */
-	public function isSupport()
+	public function isSupport($type = null, $cache_config = null)
 	{
-		return ($this->handler && $this->handler->isSupport());
+		if ($type === null)
+		{
+			return ($this->handler && $this->handler->isSupport());
+		}
+		else
+		{
+			$class = 'Cache' . ucfirst(str_replace('memcached', 'memcache', $type));
+			include_once sprintf('%sclasses/cache/%s.class.php', _XE_PATH_, $class);
+			$handler = $class::getInstance($cache_config, true);
+			return $handler->isSupport();
+		}
 	}
 
 	/**
@@ -129,6 +139,7 @@ class CacheHandler extends Handler
 	 */
 	public function get($key, $modified_time = 0)
 	{
+		if (!$key) return false;
 		return $this->handler ? $this->handler->get($this->getCacheKey($key), $modified_time) : false;
 	}
 
@@ -144,6 +155,7 @@ class CacheHandler extends Handler
 	 */
 	public function put($key, $obj, $valid_time = 0)
 	{
+		if (!$key) return false;
 		return $this->handler ? $this->handler->put($this->getCacheKey($key), $obj, $valid_time) : false;
 	}
 
@@ -155,6 +167,7 @@ class CacheHandler extends Handler
 	 */
 	public function delete($key)
 	{
+		if (!$key) return false;
 		return $this->handler ? $this->handler->delete($this->getCacheKey($key)) : false;
 	}
 
@@ -168,6 +181,7 @@ class CacheHandler extends Handler
 	 */
 	public function isValid($key, $modified_time = 0)
 	{
+		if (!$key) return false;
 		return $this->handler ? $this->handler->isValid($this->getCacheKey($key), $modified_time) : false;
 	}
 

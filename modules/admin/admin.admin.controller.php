@@ -656,6 +656,28 @@ class adminAdminController extends admin
 			'domain' => preg_replace('@^https?://@', '', $default_url),
 		));
 		
+		// Object cache
+		if ($vars->object_cache_type)
+		{
+			if ($vars->object_cache_type === 'memcached' || $vars->object_cache_type === 'redis')
+			{
+				$cache_config = $vars->object_cache_type . '://' . $vars->object_cache_host . ':' . intval($vars->object_cache_port);
+			}
+			else
+			{
+				$cache_config = $vars->object_cache_type;
+			}
+			if (!CacheHandler::isSupport($vars->object_cache_type, $cache_config))
+			{
+				return new Object(-1, 'msg_cache_handler_not_supported');
+			}
+			Rhymix\Framework\Config::set('cache', array($cache_config));
+		}
+		else
+		{
+			Rhymix\Framework\Config::set('cache', array());
+		}
+		
 		// Other settings
 		Rhymix\Framework\Config::set('use_rewrite', $vars->use_rewrite === 'Y');
 		Rhymix\Framework\Config::set('use_sso', $vars->use_sso === 'Y');
