@@ -374,7 +374,7 @@ class widgetController extends widget
 			return $widget_content;
 		}
 
-		$oCacheHandler = CacheHandler::getInstance('template');
+		$oCacheHandler = CacheHandler::getInstance('object');
 		if($oCacheHandler->isSupport())
 		{
 			$key = 'widget_cache:' . $widget_sequence;
