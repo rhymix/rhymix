@@ -59,6 +59,19 @@
 			</div>
 		</div>
 		<div class="x_control-group">
+			<label class="x_control-label">{$lang->use_object_cache}</label>
+			<div class="x_controls">
+				<select name="object_cache_type" id="object_cache_type">
+					<option value="">{$lang->use_object_cache_do_not_use}</option>
+					<option value="{$key}" loop="$object_cache_types=>$key" selected="selected"|cond="$key==$object_cache_type">{$key}</option>
+				</select>
+				<div id="object_cache_additional_config" class="x_inline" style="display:none;margin-left:16px">
+					<label for="object_cache_host" class="x_inline">{$lang->cache_host}: <input type="text" name="object_cache_host" id="object_cache_host" value="{$object_cache_host}" /></label>
+					<label for="object_cache_port" class="x_inline">{$lang->cache_port}: <input type="number" name="object_cache_port" id="object_cache_port" size="5" style="min-width:70px" value="{$object_cache_port}" /></label>
+				</div>
+			</div>
+		</div>
+		<div class="x_control-group">
 			<label class="x_control-label">{$lang->minify_scripts}</label>
 			<div class="x_controls">
 				<label for="minify_scripts_none" class="x_inline"><input type="radio" name="minify_scripts" id="minify_scripts_none" value="none" checked="checked"|cond="$minify_scripts=='none'" /> {$lang->cmd_minify_none}</label>

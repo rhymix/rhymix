@@ -21,11 +21,12 @@ class CacheMemcache extends CacheBase
 	 * @param string $url url of memcache
 	 * @return CacheMemcache instance of CacheMemcache
 	 */
-	function getInstance($url)
+	function getInstance($url, $force_new_instance = false)
 	{
-		if(!$GLOBALS['__CacheMemcache__'])
+		if(!$GLOBALS['__CacheMemcache__'] || $force_new_instance)
 		{
 			$GLOBALS['__CacheMemcache__'] = new CacheMemcache($url);
+			unset($GLOBALS['XE_MEMCACHE_SUPPORT']);
 		}
 		return $GLOBALS['__CacheMemcache__'];
 	}

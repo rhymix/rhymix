@@ -21,9 +21,9 @@ class CacheRedis extends CacheBase
 	 * @param string $url url of Redis
 	 * @return CacheRedis instance of CacheRedis
 	 */
-	function getInstance($url)
+	function getInstance($url, $force_new_instance = false)
 	{
-		if(!$GLOBALS['__CacheRedis__'])
+		if(!$GLOBALS['__CacheRedis__'] || $force_new_instance)
 		{
 			$GLOBALS['__CacheRedis__'] = new CacheRedis($url);
 		}

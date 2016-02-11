@@ -450,6 +450,27 @@ class adminAdminView extends admin
 		Context::set('http_port', Rhymix\Framework\Config::get('url.http_port'));
 		Context::set('https_port', Rhymix\Framework\Config::get('url.https_port'));
 		
+		// Object cache
+		$object_cache_config = Rhymix\Framework\Config::get('cache');
+		if (is_array($object_cache_config))
+		{
+			$object_cache_config = array_first($object_cache_config);
+		}
+		$object_cache_types = array('apc', 'file', 'memcached', 'redis', 'wincache');
+		$object_cache_type = preg_match('/^(' . implode('|', $object_cache_types) . ')/', $object_cache_config, $matches) ? $matches[1] : '';
+		Context::set('object_cache_types', $object_cache_types);
+		Context::set('object_cache_type', $object_cache_type);
+		if ($object_cache_type)
+		{
+			Context::set('object_cache_host', parse_url($object_cache_config, PHP_URL_HOST) ?: null);
+			Context::set('object_cache_port', parse_url($object_cache_config, PHP_URL_PORT) ?: null);
+		}
+		else
+		{
+			Context::set('object_cache_host', null);
+			Context::set('object_cache_port', null);
+		}
+		
 		// Other settings
 		Context::set('use_mobile_view', Rhymix\Framework\Config::get('use_mobile_view'));
 		Context::set('use_rewrite', Rhymix\Framework\Config::get('use_rewrite'));

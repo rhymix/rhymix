@@ -22,7 +22,7 @@ class DB
 	 * priority of DBMS
 	 * @var array
 	 */
-	var $priority_dbms = array(
+	protected static $priority_dbms = array(
 		'mysqli' => 6,
 		'mysql' => 4,
 		'cubrid' => 2,
@@ -30,16 +30,10 @@ class DB
 	);
 
 	/**
-	 * count cache path
-	 * @var string
-	 */
-	var $count_cache_path = 'files/cache/db';
-
-	/**
 	 * operations for condition
 	 * @var array
 	 */
-	var $cond_operation = array(
+	protected static $cond_operation = array(
 		'equal' => '=',
 		'more' => '>=',
 		'excess' => '>',
@@ -54,83 +48,83 @@ class DB
 	 * master database connection string
 	 * @var array
 	 */
-	var $master_db = NULL;
+	protected $master_db = NULL;
 
 	/**
 	 * array of slave databases connection strings
 	 * @var array
 	 */
-	var $slave_db = NULL;
-	var $result = NULL;
+	protected $slave_db = NULL;
+	protected $result = NULL;
 
 	/**
 	 * error code (0 means no error)
 	 * @var int
 	 */
-	var $errno = 0;
+	protected $errno = 0;
 
 	/**
 	 * error message
 	 * @var string
 	 */
-	var $errstr = '';
+	protected $errstr = '';
 
 	/**
 	 * query string of latest executed query
 	 * @var string
 	 */
-	var $query = '';
-	var $connection = '';
+	protected $query = '';
+	protected $connection = '';
 
 	/**
 	 * elapsed time of latest executed query
 	 * @var int
 	 */
-	var $elapsed_time = 0;
+	protected $elapsed_time = 0;
 
 	/**
 	 * elapsed time of latest executed DB class
 	 * @var int
 	 */
-	var $elapsed_dbclass_time = 0;
+	protected $elapsed_dbclass_time = 0;
 
 	/**
 	 * transaction flag
 	 * @var boolean
 	 */
-	var $transaction_started = FALSE;
-	var $is_connected = FALSE;
+	protected $transaction_started = FALSE;
+	protected $is_connected = FALSE;
 
 	/**
 	 * returns enable list in supported dbms list
 	 * will be written by classes/DB/DB***.class.php
 	 * @var array
 	 */
-	var $supported_list = array();
+	protected static $supported_list = array();
 
 	/**
 	 * location of query cache
 	 * @var string
 	 */
-	var $cache_file = 'files/cache/queries/';
+	protected $cache_file = 'files/cache/queries/';
 
 	/**
 	 * stores database type: 'mysql','cubrid','mssql' etc. or 'db' when database is not yet set
 	 * @var string
 	 */
-	var $db_type;
+	public $db_type;
 
 	/**
 	 * flag to decide if class prepared statements or not (when supported); can be changed from db.config.info
 	 * @var string
 	 */
-	var $use_prepared_statements;
+	public $use_prepared_statements;
 
 	/**
 	 * leve of transaction
 	 * @var unknown
 	 */
-	private $transactionNestedLevel = 0;
+	protected $transactionNestedLevel = 0;
 
 	/**
 	 * returns instance of certain db type
@@ -189,7 +183,6 @@ class DB
 	 */
 	public function __construct()
 	{
-		$this->count_cache_path = _XE_PATH_ . $this->count_cache_path;
 		$this->cache_file = _XE_PATH_ . $this->cache_file;
 	}
 
@@ -199,10 +192,9 @@ class DB
 	 * check by instance can creatable
 	 * @return array return supported DBMS list
 	 */
-	function getSupportedList()
+	public static function getSupportedList()
 	{
-		$oDB = new DB();
-		return $oDB->_getSupportedList();
+		return self::_getSupportedList();
 	}
 
 	/**
@@ -210,20 +202,18 @@ class DB
 	 * this list return by child class
 	 * @return array return enable DBMS list in supported dbms list
 	 */
-	function getEnableList()
+	public static function getEnableList()
 	{
-		is_a($this, 'DB') ? $self = $this : $self = self::getInstance();
-		
-		if(!$self->supported_list)
+		if(!self::$supported_list)
 		{
 			$oDB = new DB();
-			$self->supported_list = $oDB->_getSupportedList();
+			self::$supported_list = self::_getSupportedList();
 		}
 
 		$enableList = array();
-		if(is_array($self->supported_list))
+		if(is_array(self::$supported_list))
 		{
-			foreach($self->supported_list AS $key => $value)
+			foreach(self::$supported_list AS $key => $value)
 			{
 				if($value->enable)
 				{
@@ -239,20 +229,18 @@ class DB
 	 * this list return by child class
 	 * @return array return disable DBMS list in supported dbms list
 	 */
-	function getDisableList()
+	public static function getDisableList()
 	{
-		is_a($this, 'DB') ? $self = $this : $self = self::getInstance();
-		
-		if(!$self->supported_list)
+		if(!self::$supported_list)
 		{
 			$oDB = new DB();
-			$self->supported_list = $oDB->_getSupportedList();
+			self::$supported_list = self::_getSupportedList();
 		}
 
 		$disableList = array();
-		if(is_array($self->supported_list))
+		if(is_array(self::$supported_list))
 		{
-			foreach($self->supported_list AS $key => $value)
+			foreach(self::$supported_list AS $key => $value)
 			{
 				if(!$value->enable)
 				{
@@ -265,17 +253,16 @@ class DB
 
 	/**
 	 * returns list of supported dbms list
-	 * this method is private
+	 * 
 	 * @return array return supported DBMS list
 	 */
-	function _getSupportedList()
+	protected static function _getSupportedList()
 	{
-		static $get_supported_list = '';
-		if(is_array($get_supported_list))
+		if(self::$supported_list)
 		{
-			$this->supported_list = $get_supported_list;
-			return $this->supported_list;
+			return self::$supported_list;
 		}
+		
 		$get_supported_list = array();
 		$db_classes_path = _XE_PATH_ . "classes/db/";
 		$filter = "/^DB([^\.]+)\.class\.php/i";
@@ -303,41 +290,13 @@ class DB
 		}
 
 		// sort
-		@usort($get_supported_list, array($this, '_sortDBMS'));
+		usort($get_supported_list, function($a, $b) {
+			$priority_a = isset(self::$priority_dbms[$a->db_type]) ? self::$priority_dbms[$a->db_type] : 0;
+			$priority_b = isset(self::$priority_dbms[$b->db_type]) ? self::$priority_dbms[$b->db_type] : 0;
+			return $a - $b;
+		});
 
-		$this->supported_list = $get_supported_list;
-		return $this->supported_list;
-	}
-
-	/**
-	 * sort dbms as priority
-	 */
-	function _sortDBMS($a, $b)
-	{
-		if(!isset($this->priority_dbms[$a->db_type]))
-		{
-			$priority_a = 0;
-		}
-		else
-		{
-			$priority_a = $this->priority_dbms[$a->db_type];
-		}
-
-		if(!isset($this->priority_dbms[$b->db_type]))
-		{
-			$priority_b = 0;
-		}
-		else
-		{
-			$priority_b = $this->priority_dbms[$b->db_type];
-		}
-
-		if($priority_a == $priority_b)
-		{
-			return 0;
-		}
-
-		return ($priority_a > $priority_b) ? -1 : 1;
+		return self::$supported_list = $get_supported_list;
 	}
 
 	/**
@@ -345,7 +304,7 @@ class DB
 	 * The value is set in the child class
 	 * @return boolean true: is supported, false: is not supported
 	 */
-	function isSupported()
+	public function isSupported()
 	{
 		return self::$isSupported;
 	}
@@ -356,7 +315,7 @@ class DB
 	 * @param int $indx key of server list
 	 * @return boolean true: connected, false: not connected
 	 */
-	function isConnected($type = 'master', $indx = 0)
+	public function isConnected($type = 'master', $indx = 0)
 	{
 		if($type == 'master')
 		{
@@ -373,7 +332,7 @@ class DB
 	 * @param string $query query string
 	 * @return void
 	 */
-	function actStart($query)
+	public function actStart($query)
 	{
 		$this->setError(0, 'success');
 		$this->query = $query;
@@ -385,7 +344,7 @@ class DB
 	 * finish recording log
 	 * @return void
 	 */
-	function actFinish()
+	public function actFinish()
 	{
 		if(!$this->query)
 		{
@@ -461,7 +420,7 @@ class DB
 	 * @param array $log values set query debug
 	 * @return void
 	*/
-	function setQueryLog($log)
+	public function setQueryLog($log)
 	{
 		$GLOBALS['__db_queries__'][] = $log;
 	}
@@ -472,7 +431,7 @@ class DB
 	 * @param string $errstr error message
 	 * @return void
 	 */
-	function setError($errno = 0, $errstr = 'success')
+	public function setError($errno = 0, $errstr = 'success')
 	{
 		$this->errno = $errno;
 		$this->errstr = $errstr;
@@ -482,7 +441,7 @@ class DB
 	 * Return error status
 	 * @return boolean true: error, false: no error
 	 */
-	function isError()
+	public function isError()
 	{
 		return ($this->errno !== 0);
 	}
@@ -491,7 +450,7 @@ class DB
 	 * Returns object of error info
 	 * @return object object of error
 	 */
-	function getError()
+	public function getError()
 	{
 		$this->errstr = Context::convertEncodingStr($this->errstr);
 		return new Object($this->errno, $this->errstr);
@@ -505,7 +464,7 @@ class DB
 	 * @param array $arg_columns column list. if you want get specific colums from executed result, add column list to $arg_columns
 	 * @return object result of query
 	 */
-	function executeQuery($query_id, $args = NULL, $arg_columns = NULL, $type = NULL)
+	public function executeQuery($query_id, $args = NULL, $arg_columns = NULL, $type = NULL)
 	{
 		static $cache_file = array();
 
@@ -572,7 +531,7 @@ class DB
 	 * @param string $xml_file original xml query file
 	 * @return string cache file
 	 */
-	function checkQueryCacheFile($query_id, $xml_file)
+	public function checkQueryCacheFile($query_id, $xml_file)
 	{
 		// first try finding cache file
 		$cache_file = sprintf('%s%s%s.%s.%s.cache.php', _XE_PATH_, $this->cache_file, $query_id, __ZBXE_VERSION__, $this->db_type);
@@ -601,7 +560,7 @@ class DB
 	 * @param array $arg_columns column list. if you want get specific colums from executed result, add column list to $arg_columns
 	 * @return object result of query
 	 */
-	function _executeQuery($cache_file, $source_args, $query_id, $arg_columns, $type)
+	public function _executeQuery($cache_file, $source_args, $query_id, $arg_columns, $type)
 	{
 		global $lang;
 		
@@ -619,7 +578,7 @@ class DB
 
 		$output = include($cache_file);
 
-		if((is_a($output, 'Object') || is_subclass_of($output, 'Object')) && !$output->toBool())
+		if($output instanceof Object && !$output->toBool())
 		{
 			return $output;
 		}
@@ -652,7 +611,7 @@ class DB
 		{
 			$output = $this->getError();
 		}
-		else if(!is_a($output, 'Object') && !is_subclass_of($output, 'Object'))
+		elseif(!($output instanceof Object))
 		{
 			$output = new Object();
 		}
@@ -668,57 +627,9 @@ class DB
 	 * @param string $condition condition to get data
 	 * @return int count of cache data
 	 */
-	function getCountCache($tables, $condition)
+	public function getCountCache($tables, $condition)
 	{
 		return FALSE;
-/*
-		if(!$tables)
-		{
-			return FALSE;
-		}
-		if(!is_dir($this->count_cache_path))
-		{
-			return FileHandler::makeDir($this->count_cache_path);
-		}
-
-		$condition = md5($condition);
-
-		if(!is_array($tables))
-		{
-			$tables_str = $tables;
-		}
-		else
-		{
-			$tables_str = implode('.', $tables);
-		}
-
-		$cache_path = sprintf('%s/%s%s', $this->count_cache_path, $this->prefix, $tables_str);
-		FileHandler::makeDir($cache_path);
-
-		$cache_filename = sprintf('%s/%s.%s', $cache_path, $tables_str, $condition);
-		if(!file_exists($cache_filename))
-		{
-			return FALSE;
-		}
-
-		$cache_mtime = filemtime($cache_filename);
-
-		if(!is_array($tables))
-		{
-			$tables = array($tables);
-		}
-		foreach($tables as $alias => $table)
-		{
-			$table_filename = sprintf('%s/cache.%s%s', $this->count_cache_path, $this->prefix, $table);
-			if(!file_exists($table_filename) || filemtime($table_filename) > $cache_mtime)
-			{
-				return FALSE;
-			}
-		}
-
-		$count = (int) FileHandler::readFile($cache_filename);
-		return $count;
-*/
 	}
 
 	/**
@@ -728,37 +639,9 @@ class DB
 	 * @param int $count count of cache data to save
 	 * @return void
 	 */
-	function putCountCache($tables, $condition, $count = 0)
+	public function putCountCache($tables, $condition, $count = 0)
 	{
 		return FALSE;
-/*
-		if(!$tables)
-		{
-			return FALSE;
-		}
-		if(!is_dir($this->count_cache_path))
-		{
-			return FileHandler::makeDir($this->count_cache_path);
-		}
-
-		$condition = md5($condition);
-
-		if(!is_array($tables))
-		{
-			$tables_str = $tables;
-		}
-		else
-		{
-			$tables_str = implode('.', $tables);
-		}
-
-		$cache_path = sprintf('%s/%s%s', $this->count_cache_path, $this->prefix, $tables_str);
-		FileHandler::makeDir($cache_path);
-
-		$cache_filename = sprintf('%s/%s.%s', $cache_path, $tables_str, $condition);
-
-		FileHandler::writeFile($cache_filename, $count);
-*/
 	}
 
 	/**
@@ -766,29 +649,9 @@ class DB
 	 * @param array|string $tables tables to reset cache data
 	 * @return boolean true: success, false: failed
 	 */
-	function resetCountCache($tables)
+	public function resetCountCache($tables)
 	{
 		return FALSE;
-/*
-		if(!$tables)
-		{
-			return FALSE;
-		}
-		return FileHandler::makeDir($this->count_cache_path);
-
-		if(!is_array($tables))
-		{
-			$tables = array($tables);
-		}
-		foreach($tables as $alias => $table)
-		{
-			$filename = sprintf('%s/cache.%s%s', $this->count_cache_path, $this->prefix, $table);
-			FileHandler::removeFile($filename);
-			FileHandler::writeFile($filename, '');
-		}
-
-		return TRUE;
- */
 	}
 
 	/**
@@ -796,7 +659,7 @@ class DB
 	 * @param string $table_name
 	 * @return void
 	 */
-	function dropTable($table_name)
+	public function dropTable($table_name)
 	{
 		if(!$table_name)
 		{
@@ -812,7 +675,7 @@ class DB
 	 * @param boolean $with_values
 	 * @return string
 	 */
-	function getSelectSql($query, $with_values = TRUE)
+	public function getSelectSql($query, $with_values = TRUE)
 	{
 		$select = $query->getSelectString($with_values);
 		if($select == '')
@@ -881,7 +744,7 @@ class DB
 	 *
 	 * @param $queryObject
 	 */
-	function getClickCountQuery($queryObject)
+	public function getClickCountQuery($queryObject)
 	{
 		$new_update_columns = array();
 		$click_count_columns = $queryObject->getClickCountColumns();
@@ -907,7 +770,7 @@ class DB
 	 * @param boolean $with_priority
 	 * @return string
 	 */
-	function getDeleteSql($query, $with_values = TRUE, $with_priority = FALSE)
+	public function getDeleteSql($query, $with_values = TRUE, $with_priority = FALSE)
 	{
 		$sql = 'DELETE ';
 
@@ -939,7 +802,7 @@ class DB
 	 * @param boolean $with_priority
 	 * @return string
 	 */
-	function getUpdateSql($query, $with_values = TRUE, $with_priority = FALSE)
+	public function getUpdateSql($query, $with_values = TRUE, $with_priority = FALSE)
 	{
 		$columnsList = $query->getUpdateString($with_values);
 		if($columnsList == '')
@@ -971,7 +834,7 @@ class DB
 	 * @param boolean $with_priority
 	 * @return string
 	 */
-	function getInsertSql($query, $with_values = TRUE, $with_priority = FALSE)
+	public function getInsertSql($query, $with_values = TRUE, $with_priority = FALSE)
 	{
 		$tableName = $query->getFirstTableName();
 		$values = $query->getInsertString($with_values);
@@ -984,7 +847,7 @@ class DB
 	 * Return index from slave server list
 	 * @return int
 	 */
-	function _getSlaveConnectionStringIndex()
+	public function _getSlaveConnectionStringIndex()
 	{
 		$max = count($this->slave_db);
 		$indx = rand(0, $max - 1);
@@ -997,7 +860,7 @@ class DB
 	 * @param int $indx if indx value is NULL, return rand number in slave server list
 	 * @return resource
 	 */
-	function _getConnection($type = 'master', $indx = NULL)
+	public function _getConnection($type = 'master', $indx = NULL)
 	{
 		if($type == 'master' || $this->transactionNestedLevel)
 		{
@@ -1036,26 +899,18 @@ class DB
 	 * check db information exists
 	 * @return boolean
 	 */
-	function _dbInfoExists()
+	public function _dbInfoExists()
 	{
-		if(!$this->master_db)
-		{
-			return FALSE;
-		}
-		if(count($this->slave_db) === 0)
-		{
-			return FALSE;
-		}
-		return TRUE;
+		return ($this->master_db && count($this->slave_db));
 	}
 
 	/**
 	 * DB disconnection
-	 * this method is protected
+	 * 
 	 * @param resource $connection
 	 * @return void
 	 */
-	function _close($connection)
+	protected function _close($connection)
 	{
 
 	}
@@ -1066,7 +921,7 @@ class DB
 	 * @param int $indx number in slave dbms server list
 	 * @return void
 	 */
-	function close($type = 'master', $indx = 0)
+	public function close($type = 'master', $indx = 0)
 	{
 		if(!$this->isConnected($type, $indx))
 		{
@@ -1093,7 +948,7 @@ class DB
 	 * this method is protected
 	 * @return boolean
 	 */
-	function _begin($transactionLevel = 0)
+	protected function _begin($transactionLevel = 0)
 	{
 		return TRUE;
 	}
@@ -1102,7 +957,7 @@ class DB
 	 * DB transaction start
 	 * @return void
 	 */
-	function begin()
+	public function begin()
 	{
 		if(!$this->isConnected())
 		{
@@ -1121,7 +976,7 @@ class DB
 	 * this method is protected
 	 * @return boolean
 	 */
-	function _rollback($transactionLevel = 0)
+	protected function _rollback($transactionLevel = 0)
 	{
 		return TRUE;
 	}
@@ -1130,7 +985,7 @@ class DB
 	 * DB transaction rollback
 	 * @return void
 	 */
-	function rollback()
+	public function rollback()
 	{
 		if(!$this->isConnected() || !$this->transaction_started)
 		{
@@ -1152,7 +1007,7 @@ class DB
 	 * this method is protected
 	 * @return boolean
 	 */
-	function _commit()
+	protected function _commit()
 	{
 		return TRUE;
 	}
@@ -1162,7 +1017,7 @@ class DB
 	 * @param boolean $force regardless transaction start status or connect status, forced to commit
 	 * @return void
 	 */
-	function commit($force = FALSE)
+	public function commit($force = FALSE)
 	{
 		if(!$force && (!$this->isConnected() || !$this->transaction_started))
 		{
@@ -1186,19 +1041,19 @@ class DB
 	 * @param resource $connection
 	 * @return void
 	 */
-	function __query($query, $connection)
+	protected function __query($query, $connection)
 	{
 
 	}
 
 	/**
 	 * Execute the query
-	 * this method is protected
+	 * 
 	 * @param string $query
 	 * @param resource $connection
 	 * @return resource
 	 */
-	function _query($query, $connection = NULL)
+	public function _query($query, $connection = NULL)
 	{
 		if($connection == NULL)
 		{
@@ -1221,7 +1076,7 @@ class DB
 	 * this method is protected
 	 * @return void
 	 */
-	function _setDBInfo()
+	protected function _setDBInfo()
 	{
 		$db_info = config('db');
 		$this->master_db = $db_info['master'];
@@ -1236,7 +1091,7 @@ class DB
 	 * @param array $connection
 	 * @return void
 	 */
-	function __connect($connection)
+	protected function __connect($connection)
 	{
 
 	}
@@ -1247,7 +1102,7 @@ class DB
 	 * @param resource $connection
 	 * @return void
 	 */
-	function _afterConnect($connection)
+	protected function _afterConnect($connection)
 	{
 
 	}
@@ -1259,7 +1114,7 @@ class DB
 	 * @param int $indx number in slave dbms server list
 	 * @return void
 	 */
-	function _connect($type = 'master', $indx = 0)
+	protected function _connect($type = 'master', $indx = 0)
 	{
 		if($this->isConnected($type, $indx))
 		{
@@ -1305,7 +1160,7 @@ class DB
 	 * Start recording DBClass log
 	 * @return void
 	 */
-	function actDBClassStart()
+	public function actDBClassStart()
 	{
 		$this->setError(0, 'success');
 		$this->act_dbclass_start = microtime(true);
@@ -1316,7 +1171,7 @@ class DB
 	 * Finish recording DBClass log
 	 * @return void
 	 */
-	function actDBClassFinish()
+	public function actDBClassFinish()
 	{
 		if(!$this->query)
 		{
@@ -1338,7 +1193,7 @@ class DB
 	 * @param boolean $force force load DBParser instance
 	 * @return DBParser
 	 */
-	function getParser($force = FALSE)
+	public function getParser($force = FALSE)
 	{
 		static $dbParser = NULL;
 		if(!$dbParser || $force)
