@@ -530,8 +530,9 @@ function ztime($str)
 	{
 		$hour = $min = $sec = 0;
 	}
-	$offset = Rhymix\Framework\Config::get('locale.internal_timezone') ?: date('Z');
-	return gmmktime($hour, $min, $sec, $month, $day, $year) - $offset;
+	$timestamp = gmmktime($hour, $min, $sec, $month, $day, $year);
+	$offset = Rhymix\Framework\Config::get('locale.internal_timezone') ?: date('Z', $timestamp);
+	return $timestamp - $offset;
 }
 
 /**

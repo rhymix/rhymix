@@ -131,5 +131,8 @@ class DateTimeTest extends \Codeception\TestCase\Test
 	{
 		$this->assertEquals('Etc/GMT-9', Rhymix\Framework\DateTime::getTimezoneNameByOffset(32400));
 		$this->assertEquals('Etc/GMT+5', Rhymix\Framework\DateTime::getTimezoneNameByOffset(-18000));
+		$this->assertEquals('Etc/UTC', Rhymix\Framework\DateTime::getTimezoneNameByOffset(0));
+		$this->assertEquals('Asia/Kolkata', Rhymix\Framework\DateTime::getTimezoneNameByOffset(19800));
+		$this->assertEquals('Australia/Eucla', Rhymix\Framework\DateTime::getTimezoneNameByOffset(31500));
 	}
 }
