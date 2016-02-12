@@ -144,7 +144,8 @@ class Debug
 		}
 		
 		// Get the backtrace.
-		$backtrace = debug_backtrace(\DEBUG_BACKTRACE_IGNORE_ARGS);
+		$backtrace_args = defined('\DEBUG_BACKTRACE_IGNORE_ARGS') ? \DEBUG_BACKTRACE_IGNORE_ARGS : 0;
+		$backtrace = debug_backtrace($backtrace_args);
 		
 		// Prepare the error entry.
 		self::$_errors[] = $errinfo = (object)array(
@@ -167,9 +168,9 @@ class Debug
 	 * 
 	 * @return bool
 	 */
-	public static function addQuery()
+	public static function addQuery($query)
 	{
-		
+		self::$_queries[] = $query;
 	}
 	
 	/**

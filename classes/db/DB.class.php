@@ -373,8 +373,8 @@ class DB
 			{
 				$call_no = $no;
 				$call_no++;
-				$log['called_file'] = $bt[$call_no]['file'].':'.$bt[$call_no]['line'];
-				$log['called_file'] = str_replace(_XE_PATH_ , '', $log['called_file']);
+				$log['called_file'] = $bt[$call_no]['file'];
+				$log['called_line'] = $bt[$call_no]['line'];
 				$call_no++;
 				$log['called_method'] = $bt[$call_no]['class'].$bt[$call_no]['type'].$bt[$call_no]['function'];
 				break;
@@ -384,7 +384,7 @@ class DB
 		// leave error log if an error occured (if __DEBUG_DB_OUTPUT__ is defined)
 		if($this->isError())
 		{
-			$log['result'] = 'Failed';
+			$log['result'] = 'error';
 			$log['errno'] = $this->errno;
 			$log['errstr'] = $this->errstr;
 
@@ -402,7 +402,7 @@ class DB
 		}
 		else
 		{
-			$log['result'] = 'Success';
+			$log['result'] = 'success';
 		}
 
 		$this->setQueryLog($log);
@@ -422,7 +422,7 @@ class DB
 	*/
 	public function setQueryLog($log)
 	{
-		$GLOBALS['__db_queries__'][] = $log;
+		Rhymix\Framework\Debug::addQuery($log);
 	}
 
 	/**
@@ -868,7 +868,7 @@ class DB
 			{
 				$this->_connect($type);
 			}
-			$this->connection = 'Master ' . $this->master_db['host'];
+			$this->connection = 'master (' . $this->master_db['host'] . ')';
 			return $this->master_db["resource"];
 		}
 
@@ -883,7 +883,7 @@ class DB
 			{
 				$this->_connect($type);
 			}
-			$this->connection = 'Master ' . $this->master_db['host'];
+			$this->connection = 'master (' . $this->master_db['host'] . ')';
 			return $this->master_db["resource"];
 		}
 		
@@ -891,7 +891,7 @@ class DB
 		{
 			$this->_connect($type, $indx);
 		}
-		$this->connection = 'Slave ' . $this->slave_db[$indx]['host'];
+		$this->connection = 'slave (' . $this->slave_db[$indx]['host'] . ')';
 		return $this->slave_db[$indx]["resource"];
 	}
 
@@ -1148,7 +1148,7 @@ class DB
 		$connection["is_connected"] = TRUE;
 
 		// Save connection info for db logs
-		$this->connection = ucfirst($type) . ' ' . $connection['host'];
+		$this->connection = $type . ' (' . $connection['host'] . ')';
 
 		// regist $this->close callback
 		register_shutdown_function(array($this, "close"));

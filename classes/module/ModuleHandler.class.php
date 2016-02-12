@@ -885,9 +885,6 @@ class ModuleHandler extends Handler
 
 			if($_SESSION['XE_VALIDATOR_RETURN_URL'])
 			{
-				$display_handler = new DisplayHandler();
-				$display_handler->_debugOutput();
-
 				Context::getInstance()->checkSessionStatus();
 				header('location:' . $_SESSION['XE_VALIDATOR_RETURN_URL']);
 				return;

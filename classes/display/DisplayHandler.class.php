@@ -124,196 +124,210 @@ class DisplayHandler extends Handler
 
 		// debugOutput output
 		$this->content_size = strlen($output);
-		print $this->_debugOutput();
+		print $this->getDebugInfo();
 
 		// call a trigger after display
 		ModuleHandler::triggerCall('display', 'after', $output);
 
 		flushSlowlog();
 	}
-
+	
 	/**
-	 * Print debugging message to designated output source depending on the value set to __DEBUG_OUTPUT_. \n
-	 * This method only functions when __DEBUG__ variable is set to 1.
-	 * __DEBUG_OUTPUT__ == 0, messages are written in ./files/_debug_message.php
-	 * @return void
+	 * Get debug information.
+	 * 
+	 * @return string
 	 */
-	public function _debugOutput()
+	public function getDebugInfo()
 	{
-		if(!__DEBUG__)
+		// Check if debugging is enabled for this request.
+		if (!config('debug.enabled'))
 		{
 			return;
 		}
-
-		$end = microtime(true);
-
-		// Firebug console output
-		if(__DEBUG_OUTPUT__ == 2 && version_compare(PHP_VERSION, '6.0.0') === -1)
+		$display_to = config('debug.display_to');
+		switch ($display_to)
 		{
-			static $firephp;
-			if(!isset($firephp))
-			{
-				$firephp = FirePHP::getInstance(true);
-			}
-
-			if(__DEBUG_PROTECT__ == 1 && __DEBUG_PROTECT_IP__ != $_SERVER['REMOTE_ADDR'])
-			{
-				$firephp->fb('Change the value of __DEBUG_PROTECT_IP__ into your IP address in config/config.user.inc.php or config/config.inc.php', 'The IP address is not allowed.');
-				return;
-			}
-			// display total execution time and Request/Response info
-			if(__DEBUG__ & 2)
-			{
-				$firephp->fb(
-						array(
-							'Request / Response info >>> ' . $_SERVER['REQUEST_METHOD'] . ' / ' . Context::getResponseMethod(),
-							array(
-								array('Request URI', 'Request method', 'Response method', 'Response contents size', 'Memory peak usage'),
-								array(
-									sprintf("%s:%s%s%s%s", $_SERVER['SERVER_NAME'], $_SERVER['SERVER_PORT'], $_SERVER['PHP_SELF'], $_SERVER['QUERY_STRING'] ? '?' : '', $_SERVER['QUERY_STRING']),
-									$_SERVER['REQUEST_METHOD'],
-									Context::getResponseMethod(),
-									$this->content_size . ' byte',
-									FileHandler::filesize(memory_get_peak_usage())
-								)
-							)
-						),
-						'TABLE'
-				);
-				$firephp->fb(
-						array(
-							'Elapsed time >>> Total : ' . sprintf('%0.5f sec', $end - RX_MICROTIME),
-							array(array('DB queries', 'class file load', 'Template compile', 'XmlParse compile', 'PHP', 'Widgets', 'Trans Content'),
-								array(
-									sprintf('%0.5f sec', $GLOBALS['__db_elapsed_time__']),
-									sprintf('%0.5f sec', $GLOBALS['__elapsed_class_load__']),
-									sprintf('%0.5f sec (%d called)', $GLOBALS['__template_elapsed__'], $GLOBALS['__TemplateHandlerCalled__']),
-									sprintf('%0.5f sec', $GLOBALS['__xmlparse_elapsed__']),
-									sprintf('%0.5f sec', $end - RX_MICROTIME - $GLOBALS['__template_elapsed__'] - $GLOBALS['__xmlparse_elapsed__'] - $GLOBALS['__db_elapsed_time__'] - $GLOBALS['__elapsed_class_load__']),
-									sprintf('%0.5f sec', $GLOBALS['__widget_excute_elapsed__']),
-									sprintf('%0.5f sec', $GLOBALS['__trans_content_elapsed__'])
-								)
-							)
-						),
-						'TABLE'
-				);
-			}
-
-			// display DB query history
-			if((__DEBUG__ & 4) && $GLOBALS['__db_queries__'])
-			{
-				$queries_output = array(array('Result/'.PHP_EOL.'Elapsed time', 'Query ID', 'Query'));
-				foreach($GLOBALS['__db_queries__'] as $query)
+			case 'everyone':
+				break;
+			
+			case 'ip':
+				$allowed_ip = config('debug.allow');
+				foreach ($allowed_ip as $range)
 				{
-					$queries_output[] = array($query['result'] . PHP_EOL . sprintf('%0.5f', $query['elapsed_time']), str_replace(_XE_PATH_, '', $query['called_file']) . PHP_EOL . $query['called_method'] . '()' . PHP_EOL . $query['query_id'], $query['query']);
-				}
-				$firephp->fb(
-						array(
-							'DB Queries >>> ' . count($GLOBALS['__db_queries__']) . ' Queries, ' . sprintf('%0.5f sec', $GLOBALS['__db_elapsed_time__']),
-							$queries_output
-						),
-						'TABLE'
-				);
-			}
-			// dislpay the file and HTML comments
-		}
-		else
-		{
-
-			$buff = array();
-			// display total execution time and Request/Response info
-			if(__DEBUG__ & 2)
-			{
-				if(__DEBUG_PROTECT__ == 1 && __DEBUG_PROTECT_IP__ != $_SERVER['REMOTE_ADDR'])
-				{
-					return;
-				}
-
-				// Request/Response information
-				$buff[] = "\n- Request/ Response info";
-				$buff[] = sprintf("\tRequest URI \t\t\t: %s:%s%s%s%s", $_SERVER['SERVER_NAME'], $_SERVER['SERVER_PORT'], $_SERVER['PHP_SELF'], $_SERVER['QUERY_STRING'] ? '?' : '', $_SERVER['QUERY_STRING']);
-				$buff[] = sprintf("\tRequest method \t\t\t: %s", $_SERVER['REQUEST_METHOD']);
-				$buff[] = sprintf("\tResponse method \t\t: %s", Context::getResponseMethod());
-				$buff[] = sprintf("\tResponse contents size\t: %d byte", $this->content_size);
-
-				// total execution time
-				$buff[] = sprintf("\n- Total elapsed time : %0.5f sec", $end - RX_MICROTIME);
-
-				$buff[] = sprintf("\tclass file load elapsed time \t: %0.5f sec", $GLOBALS['__elapsed_class_load__']);
-				$buff[] = sprintf("\tTemplate compile elapsed time\t: %0.5f sec (%d called)", $GLOBALS['__template_elapsed__'], $GLOBALS['__TemplateHandlerCalled__']);
-				$buff[] = sprintf("\tXmlParse compile elapsed time\t: %0.5f sec", $GLOBALS['__xmlparse_elapsed__']);
-				$buff[] = sprintf("\tPHP elapsed time \t\t\t\t: %0.5f sec", $end - RX_MICROTIME - $GLOBALS['__template_elapsed__'] - $GLOBALS['__xmlparse_elapsed__'] - $GLOBALS['__db_elapsed_time__'] - $GLOBALS['__elapsed_class_load__']);
-				$buff[] = sprintf("\tDB class elapsed time \t\t\t: %0.5f sec", $GLOBALS['__dbclass_elapsed_time__'] - $GLOBALS['__db_elapsed_time__']);
-
-				// widget execution time
-				$buff[] = sprintf("\tWidgets elapsed time \t\t\t: %0.5f sec", $GLOBALS['__widget_excute_elapsed__']);
-
-				// layout execution time
-				$buff[] = sprintf("\tLayout compile elapsed time \t: %0.5f sec", $GLOBALS['__layout_compile_elapsed__']);
-
-				// Widgets, the editor component replacement time
-				$buff[] = sprintf("\tTrans Content \t\t\t\t\t: %0.5f sec", $GLOBALS['__trans_content_elapsed__']);
-			}
-			// DB Logging
-			if(__DEBUG__ & 4)
-			{
-				if(__DEBUG_PROTECT__ == 1 && __DEBUG_PROTECT_IP__ != $_SERVER['REMOTE_ADDR'])
-				{
-					return;
-				}
-
-				if($GLOBALS['__db_queries__'])
-				{
-					$buff[] = sprintf("\n- DB Queries : %d Queries. %0.5f sec", count($GLOBALS['__db_queries__']), $GLOBALS['__db_elapsed_time__']);
-					$num = 0;
-
-					foreach($GLOBALS['__db_queries__'] as $query)
+					if (Rhymix\Framework\IpFilter::inRange(RX_CLIENT_IP, $range))
 					{
-						if($query['result'] == 'Success')
+						break 2;
+					}
+				}
+				return;
+			
+			case 'admin':
+			default:
+				$logged_info = Context::get('logged_info');
+				if ($logged_info && $logged_info->is_admin === 'Y')
+				{
+					break;
+				}
+				return;
+		}
+		
+		// Set some useful variables.
+		$basedir_len = strlen(RX_BASEDIR);
+		$timestamp = sprintf('[%s]', Rhymix\Framework\DateTime::formatTimestampForCurrentUser('Y-m-d H:i:s P', RX_TIME));
+		
+		// Collect debug information.
+		$entries = Rhymix\Framework\Debug::getEntries();
+		$errors = config('debug.log_errors') ? Rhymix\Framework\Debug::getErrors() : null;
+		$queries = config('debug.log_queries') ? Rhymix\Framework\Debug::getQueries() : null;
+		
+		// Print debug information.
+		switch ($display_type = config('debug.display_type'))
+		{
+			case 'panel':
+				break;
+				
+			case 'comment':
+			case 'file':
+			default:
+				if ($display_type === 'comment' && Context::getResponseMethod() !== 'HTML')
+				{
+					return;
+				}
+				$buff = array($timestamp, '');
+				$buff[] = 'Request / Response';
+				$buff[] = '==================';
+				$buff[] = 'Request URL:         ' . getCurrentPageUrl();
+				$buff[] = 'Request Method:      ' . $_SERVER['REQUEST_METHOD'] . ($_SERVER['REQUEST_METHOD'] !== Context::getRequestMethod() ? (' (' . Context::getRequestMethod() . ')') : '');
+				$buff[] = 'Request Body Size:   ' . intval($_SERVER['CONTENT_LENGTH']);
+				$buff[] = 'Response Method:     ' . Context::getResponseMethod();
+				$buff[] = 'Response Body Size:  ' . $this->content_size;
+				$buff[] = '';
+				$buff[] = 'Page Generation Time';
+				$buff[] = '====================';
+				$buff[] = 'Total Time:              ' . sprintf('%0.4f sec', microtime(true) - RX_MICROTIME);
+				$buff[] = 'Template Compile Time:   ' . sprintf('%0.4f sec (count: %d)', $GLOBALS['__template_elapsed__'], $GLOBALS['__TemplateHandlerCalled__']);
+				$buff[] = 'XML Parsing Time:        ' . sprintf('%0.4f sec', $GLOBALS['__xmlparse_elapsed__']);
+				$buff[] = 'DB Query Time:           ' . sprintf('%0.4f sec (count: %d)', $GLOBALS['__db_elapsed_time__'], count($queries));
+				$buff[] = 'DB Processing Time:      ' . sprintf('%0.4f sec', $GLOBALS['__dbclass_elapsed_time__'] - $GLOBALS['__db_elapsed_time__']);
+				$buff[] = 'Layout Processing Time:  ' . sprintf('%0.4f sec', $GLOBALS['__layout_compile_elapsed__']);
+				$buff[] = 'Widget Processing Time:  ' . sprintf('%0.4f sec', $GLOBALS['__widget_excute_elapsed__']);
+				$buff[] = 'Content Transform Time:  ' . sprintf('%0.4f sec', $GLOBALS['__trans_content_elapsed__']);
+				$buff[] = '';
+				$buff[] = 'Resource Usage';
+				$buff[] = '==============';
+				$buff[] = 'Peak Memory Usage:  ' . sprintf('%0.1f MB', memory_get_peak_usage(true) / 1024 / 1024);
+				$buff[] = 'Included Files:     ' . count(get_included_files());
+				$buff[] = '';
+				if (count($entries))
+				{
+					$buff[] = 'Debug Entries';
+					$buff[] = '=============';
+					$entry_count = 0;
+					foreach ($entries as $entry)
+					{
+						if (is_scalar($entry->message))
 						{
-							$query_result = "Query Success";
+							$entry->message = var_export($entry->message, true);
 						}
 						else
 						{
-							$query_result = sprintf("Query $s : %d\n\t\t\t   %s", $query['result'], $query['errno'], $query['errstr']);
+							$entry->message = trim(preg_replace('/\r?\n/', PHP_EOL . '    ', print_r($entry->message, true)));
 						}
-						$buff[] = sprintf("\t%02d. %s\n\t\t%0.6f sec. %s.", ++$num, $query['query'], $query['elapsed_time'], $query_result);
-						$buff[] = sprintf("\t\tConnection: %s.", $query['connection']);
-						$buff[] = sprintf("\t\tQuery ID: %s", $query['query_id']);
-						$buff[] = sprintf("\t\tCalled: %s. %s()", str_replace(_XE_PATH_, '', $query['called_file']), $query['called_method']);
+						$buff[] = sprintf('%02d. %s', ++$entry_count, $entry->message);
+						foreach ($entry->backtrace as $key => $backtrace)
+						{
+							if (!strncmp($backtrace['file'], RX_BASEDIR, $basedir_len))
+							{
+								$backtrace['file'] = substr($backtrace['file'], $basedir_len);
+							}
+							if (isset($error->backtrace[$key + 1]))
+							{
+								$next_backtrace = $error->backtrace[$key + 1];
+								$called_function = sprintf(' (%s%s%s)', $next_backtrace['class'], $next_backtrace['type'], $next_backtrace['function']);
+							}
+							else
+							{
+								$called_function = '';
+							}
+							$buff[] = sprintf('    - %s line %d%s', $backtrace['file'], $backtrace['line'], $called_function);
+						}
 					}
 				}
-			}
-
-			// Output in HTML comments
-			if($buff && __DEBUG_OUTPUT__ == 1 && Context::getResponseMethod() == 'HTML')
-			{
-				$buff = implode("\r\n", $buff);
-				$buff = sprintf("[%s %s:%d]\r\n%s", date('Y-m-d H:i:s'), $file_name, $line_num, print_r($buff, true));
-
-				if(__DEBUG_PROTECT__ == 1 && __DEBUG_PROTECT_IP__ != $_SERVER['REMOTE_ADDR'])
+				$buff[] = 'PHP Errors';
+				$buff[] = '==========';
+				if ($errors === null)
 				{
-					$buff = 'The IP address is not allowed. Change the value of __DEBUG_PROTECT_IP__ into your IP address in config/config.user.inc.php or config/config.inc.php';
+					$buff[] = 'Error logging is disabled.';
 				}
-
-				return "<!--\r\n" . $buff . "\r\n-->";
-			}
-
-			// Output to a file
-			if($buff && __DEBUG_OUTPUT__ == 0)
-			{
-				$debug_file = _XE_PATH_ . 'files/_debug_message.php';
-				$buff = implode(PHP_EOL, $buff);
-				$buff = sprintf("[%s]\n%s", date('Y-m-d H:i:s'), print_r($buff, true));
-
-				$buff = str_repeat('=', 80) . "\n" . $buff . "\n" . str_repeat('-', 80);
-				$buff = "\n<?php\n/*" . $buff . "*/\n?>\n";
-
-				if (!@file_put_contents($debug_file, $buff, FILE_APPEND|LOCK_EX))
+				else
 				{
-					return;
+					$error_count = 0;
+					if (!count($errors))
+					{
+						$buff[] = 'No Errors';
+					}
+					foreach ($errors as $error)
+					{
+						$buff[] = sprintf('%02d. %s: %s', ++$error_count, $error->type, $error->message);
+						foreach ($error->backtrace as $key => $backtrace)
+						{
+							if (!strncmp($backtrace['file'], RX_BASEDIR, $basedir_len))
+							{
+								$backtrace['file'] = substr($backtrace['file'], $basedir_len);
+							}
+							if (isset($error->backtrace[$key + 1]))
+							{
+								$next_backtrace = $error->backtrace[$key + 1];
+								$called_function = sprintf(' (%s%s%s)', $next_backtrace['class'], $next_backtrace['type'], $next_backtrace['function']);
+							}
+							else
+							{
+								$called_function = '';
+							}
+							$buff[] = sprintf('    - %s line %d%s', $backtrace['file'], $backtrace['line'], $called_function);
+						}
+					}
 				}
-			}
+				$buff[] = '';
+				$buff[] = 'DB Queries';
+				$buff[] = '==========';
+				if ($queries === null)
+				{
+					$buff[] = 'Query logging is disabled.';
+				}
+				else
+				{
+					$query_count = 0;
+					if (!count($queries))
+					{
+						$buff[] = 'No Queries';
+					}
+					foreach ($queries as $query)
+					{
+						if (!strncmp($query['called_file'], RX_BASEDIR, $basedir_len))
+						{
+							$query['called_file'] = substr($query['called_file'], $basedir_len);
+						}
+						$query_caller = sprintf('%s line %d (%s)', $query['called_file'], $query['called_line'], $query['called_method']);
+						$query_result = ($query['result'] === 'success') ? 'success' : sprintf('error %d %s', $query['errno'], $query['errstr']);
+						$buff[] = sprintf('%02d. %s', ++$query_count, $query['query']);
+						$buff[] = sprintf('    - Caller:      %s', $query_caller);
+						$buff[] = sprintf('    - Connection:  %s', $query['connection']);
+						$buff[] = sprintf('    - Query Time:  %0.4f sec', $query['elapsed_time']);
+						$buff[] = sprintf('    - Result:      %s', $query_result); 
+					}
+				}
+				$buff[] = '';
+				if ($display_type === 'file')
+				{
+					$debug_file = RX_BASEDIR . 'files/_debug_message.php';
+					FileHandler::writeFile($debug_file, implode(PHP_EOL, $buff), 'a');
+					return '';
+				}
+				else
+				{
+					return '<!--' . PHP_EOL . implode(PHP_EOL, $buff) . PHP_EOL . '-->';
+				}
 		}
 	}
 
