@@ -121,13 +121,14 @@ class DisplayHandler extends Handler
 
 		// results directly output
 		print $output;
-
-		// debugOutput output
 		$this->content_size = strlen($output);
-		print $this->getDebugInfo();
 
 		// call a trigger after display
 		ModuleHandler::triggerCall('display', 'after', $output);
+
+		// debugOutput output
+		$this->content_size = strlen($output);
+		print $this->getDebugInfo($output);
 
 		flushSlowlog();
 	}
@@ -137,7 +138,7 @@ class DisplayHandler extends Handler
 	 * 
 	 * @return string
 	 */
-	public function getDebugInfo()
+	public function getDebugInfo(&$output)
 	{
 		// Check if debugging is enabled for this request.
 		if (!config('debug.enabled'))

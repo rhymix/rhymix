@@ -364,6 +364,7 @@ class DB
 		$log['module'] = $site_module_info->module;
 		$log['act'] = Context::get('act');
 		$log['time'] = date('Y-m-d H:i:s');
+		$log['backtrace'] = array();
 
 		$bt = version_compare(PHP_VERSION, '5.3.6', '>=') ? debug_backtrace(DEBUG_BACKTRACE_IGNORE_ARGS) : debug_backtrace();
 
@@ -371,6 +372,7 @@ class DB
 		{
 			if($call['function'] == 'executeQuery' || $call['function'] == 'executeQueryArray')
 			{
+				$log['backtrace'] = array_slice($bt, $no);
 				$call_no = $no;
 				$call_no++;
 				$log['called_file'] = $bt[$call_no]['file'];

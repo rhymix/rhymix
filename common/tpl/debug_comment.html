@@ -51,16 +51,7 @@ Debug Entries
 			{
 				$backtrace['file'] = substr($backtrace['file'], $basedir_len);
 			}
-			if (isset($error->backtrace[$key + 1]))
-			{
-				$next_backtrace = $error->backtrace[$key + 1];
-				$called_function = sprintf(' (%s%s%s)', $next_backtrace['class'], $next_backtrace['type'], $next_backtrace['function']);
-			}
-			else
-			{
-				$called_function = '';
-			}
-			echo sprintf('    - %s line %d%s', $backtrace['file'], $backtrace['line'], $called_function) . "\n";
+			echo sprintf('    - %s line %d', $backtrace['file'], $backtrace['line']) . "\n";
 		}
 	}
 ?>
@@ -85,16 +76,7 @@ Error logging is disabled.
 			{
 				$backtrace['file'] = substr($backtrace['file'], $basedir_len);
 			}
-			if (isset($error->backtrace[$key + 1]))
-			{
-				$next_backtrace = $error->backtrace[$key + 1];
-				$called_function = sprintf(' (%s%s%s)', $next_backtrace['class'], $next_backtrace['type'], $next_backtrace['function']);
-			}
-			else
-			{
-				$called_function = '';
-			}
-			echo sprintf('    - %s line %d%s', $backtrace['file'], $backtrace['line'], $called_function) . "\n";
+			echo sprintf('    - %s line %d', $backtrace['file'], $backtrace['line']) . "\n";
 		}
 	}
 ?>
@@ -113,16 +95,16 @@ Query logging is disabled.
 	}
 	foreach ($queries as $query)
 	{
-		if (!strncmp($query['called_file'], RX_BASEDIR, $basedir_len))
+		if (!strncmp($query->file, RX_BASEDIR, $basedir_len))
 		{
-			$query['called_file'] = substr($query['called_file'], $basedir_len);
+			$query->file = substr($query->file, $basedir_len);
 		}
-		$query_caller = sprintf('%s line %d (%s)', $query['called_file'], $query['called_line'], $query['called_method']);
-		$query_result = ($query['result'] === 'success') ? 'success' : sprintf('error %d %s', $query['errno'], $query['errstr']);
-		echo sprintf('%02d. %s', ++$query_count, $query['query']) . "\n";
+		$query_caller = sprintf('%s line %d (%s)', $query->file, $query->line, $query->method);
+		$query_result = ($query->message === 'success') ? 'success' : sprintf('error %d %s', $query->error_code, $query->message);
+		echo sprintf('%02d. %s', ++$query_count, $query->query_string) . "\n";
 		echo sprintf('    - Caller:      %s', $query_caller) . "\n";
-		echo sprintf('    - Connection:  %s', $query['connection']) . "\n";
-		echo sprintf('    - Query Time:  %0.4f sec', $query['elapsed_time']) . "\n";
+		echo sprintf('    - Connection:  %s', $query->query_connection) . "\n";
+		echo sprintf('    - Query Time:  %0.4f sec', $query->query_time) . "\n";
 		echo sprintf('    - Result:      %s', $query_result) . "\n";
 	}
 ?>

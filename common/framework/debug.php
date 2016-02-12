@@ -94,7 +94,7 @@ class Debug
 	 * Add an arbitrary entry to the log.
 	 * 
 	 * @param string $message
-	 * @return bool
+	 * @return void
 	 */
 	public static function addEntry($message)
 	{
@@ -112,7 +112,6 @@ class Debug
 			'backtrace' => $backtrace,
 		);
 		self::$_entries[] = $entry;
-		return true;
 	}
 	
 	/**
@@ -166,11 +165,24 @@ class Debug
 	/**
 	 * Add a query to the log.
 	 * 
-	 * @return bool
+	 * @return void
 	 */
 	public static function addQuery($query)
 	{
-		self::$_queries[] = $query;
+		self::$_queries[] = (object)array(
+			'type' => 'Query',
+			'time' => microtime(true),
+			'message' => $query['result'] === 'success' ? 'success' : $query['errstr'],
+			'error_code' => $query['result'] === 'success' ? 0 : $query['errno'],
+			'query_id' => $query['query_id'],
+			'query_connection' => $query['connection'],
+			'query_string' => $query['query'],
+			'query_time' => $query['elapsed_time'],
+			'file' => $query['called_file'],
+			'line' => $query['called_line'],
+			'method' => $query['called_method'],
+			'backtrace' => $query['backtrace'],
+		);
 	}
 	
 	/**
