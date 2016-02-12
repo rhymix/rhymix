@@ -213,7 +213,6 @@ $lang->msg_invalid_format = '格式錯誤';
 $lang->msg_not_permitted_act = '沒有權限執行';
 $lang->msg_module_is_not_exists = '找不到所登錄的模組。 請詢問網站管理員檢查模組。';
 $lang->msg_module_is_not_standalone = '您請求的模組不能單獨執行';
-$lang->msg_default_url_is_not_defined = '尚未設定預設網址';
 $lang->msg_empty_search_target = '搜尋不到目標';
 $lang->msg_empty_search_keyword = '搜尋不到關鍵字';
 $lang->success_registed = '成功送出！';

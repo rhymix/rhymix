@@ -213,7 +213,6 @@ $lang->msg_invalid_format = '错误的格式！';
 $lang->msg_not_permitted_act = '没有权限执行 action命令';
 $lang->msg_module_is_not_exists = '您所请求的模块不存在，请联系您的网站管理员。';
 $lang->msg_module_is_not_standalone = '您请求的模块不能单独执行';
-$lang->msg_default_url_is_not_defined = '请设置XE通行证！';
 $lang->msg_empty_search_target = '搜索不到目标';
 $lang->msg_empty_search_keyword = '搜索不到关键字';
 $lang->comment_to_be_approved = '您的回复在通过管理员审核之后才会被显示出来。';

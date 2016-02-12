@@ -187,7 +187,6 @@ $lang->msg_fail_to_request_open = 'Ошибка в запрашиваемом с
 $lang->msg_invalid_format = 'Неверный формат';
 $lang->msg_not_permitted_act = 'У Вас нет прав для исполнения запрошенного действия';
 $lang->msg_module_is_not_standalone = 'Запрошенный модуль не может быть исполнен независимо';
-$lang->msg_default_url_is_not_defined = 'Default URL is not define';
 $lang->success_registed = 'Зарегистрировано успешно';
 $lang->success_declared = 'Жалоба отправлена';
 $lang->success_updated = 'Обновление успешно';
