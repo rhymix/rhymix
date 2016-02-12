@@ -603,6 +603,32 @@ function zdate($str, $format = 'Y-m-d H:i:s', $conversion = false)
 }
 
 /**
+ * Convert a Unix timestamp to YYYYMMDDHHIISS format, using the internal time zone.
+ * If the timestamp is not given, the current time is used.
+ * 
+ * @param int $timestamp Unix timestamp
+ * @return string
+ */
+function getInternalDateTime($timestamp = null, $format = 'YmdHis')
+{
+	$timestamp = ($timestamp !== null) ? $timestamp : time();
+	return Rhymix\Framework\DateTime::formatTimestamp($format, $timestamp);
+}
+
+/**
+ * Convert a Unix timestamp to YYYYMMDDHHIISS format, using the internal time zone.
+ * If the timestamp is not given, the current time is used.
+ * 
+ * @param int $timestamp Unix timestamp
+ * @return string
+ */
+function getDisplayDateTime($timestamp = null, $format = 'YmdHis')
+{
+	$timestamp = ($timestamp !== null) ? $timestamp : time();
+	return Rhymix\Framework\DateTime::formatTimestampForCurrentUser($format, $timestamp);
+}
+
+/**
  * If the recent post within a day, output format of YmdHis is "min/hours ago from now". If not within a day, it return format string.
  *
  * @param string $date Time value in format of YYYYMMDDHHIISS
