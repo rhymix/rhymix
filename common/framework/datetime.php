@@ -13,6 +13,19 @@ class DateTime
 	protected static $_timezones = array();
 	
 	/**
+	 * Format a Unix timestamp using the internal timezone.
+	 * 
+	 * @param string $format Format used in PHP date() function
+	 * @param int $timestamp Unix timestamp (optional, default is now)
+	 * @return string
+	 */
+	public static function formatTimestamp($format, $timestamp = null)
+	{
+		$offset = Config::get('locale.internal_timezone') ?: date('Z', $timestamp);
+		return gmdate($format, $timestamp + $offset);
+	}
+	
+	/**
 	 * Format a Unix timestamp for the current user's timezone.
 	 * 
 	 * @param string $format Format used in PHP date() function
