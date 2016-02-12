@@ -133,23 +133,22 @@ class ModuleHandler extends Handler
 				continue;
 			}
 			
-			$urlInfo = parse_url($url);
-			$host = $urlInfo['host'];
-			
-			$defaultUrl = Context::getDefaultUrl();
-			if($defaultUrl)
+			if($host = parse_url($url, PHP_URL_HOST))
 			{
-				$defaultUrlInfo = parse_url($defaultUrl);
-				$defaultHost = $defaultUrlInfo['host'];
-			}
-			else
-			{
-				$defaultHost = $_SERVER['HTTP_HOST'];
-			}
-			
-			if($host && ($host != $defaultHost && $host != $site_module_info->domain))
-			{
-				throw new Exception('msg_default_url_is_null');
+				$defaultHost = parse_url(Context::getDefaultUrl(), PHP_URL_HOST);
+				if($host !== $defaultHost)
+				{
+					$siteModuleHost = $site_module_info->domain;
+					if(strpos($siteModuleHost, '/') !== false)
+					{
+						$siteModuleHost = parse_url($siteModuleHost, PHP_URL_HOST);
+					}
+					if($host !== $siteModuleHost)
+					{
+						Context::set('success_return_url', null);
+						Context::set('error_return_url', null);
+					}
+				}
 			}
 		}
 		
@@ -240,14 +239,7 @@ class ModuleHandler extends Handler
 			}
 			else
 			{
-				if(!Context::getDefaultUrl())
-				{
-					return Context::getLang('msg_default_url_is_not_defined');
-				}
-				else
-				{
-					$redirect_url = getNotEncodedSiteUrl($db_info->default_url, 'mid', Context::get('mid'), 'document_srl', Context::get('document_srl'), 'module_srl', Context::get('module_srl'), 'entry', Context::get('entry'));
-				}
+				$redirect_url = getNotEncodedSiteUrl(Context::getDefaultUrl(), 'mid', Context::get('mid'), 'document_srl', Context::get('document_srl'), 'module_srl', Context::get('module_srl'), 'entry', Context::get('entry'));
 			}
 			header("Location: $redirect_url");
 			return FALSE;
