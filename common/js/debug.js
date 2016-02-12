@@ -1,11 +1,12 @@
-
 /**
  * Client-side script for manipulating the debug panel on Rhymix.
  * 
  * @file debug.js
  * @author Kijin Sung <kijin@kijinsung.com>
  */
-jQuery(function() {
+$(function() {
+	
+	"use strict";
 	
 	// Find debug panel elements.
 	var panel = $("#rhymix_debug_panel");
@@ -35,6 +36,9 @@ jQuery(function() {
 	// Define a function for adding debug data to the panel.
 	window.rhymix_debug_add_data = function(data) {
 		
+		// Define loop variables.
+		var i, j, entry, num, backtrace, description;
+		
 		// Create the page.
 		var page = $('<div class="debug_page"></div>').appendTo(panel);
 		var page_body = $('<div class="debug_page_body"></div>').appendTo(page);
@@ -59,15 +63,15 @@ jQuery(function() {
 			'Request: ' + data.request.method + ' (' + data.request.size + ' bytes)' + "\n" +
 			'Response: ' + data.response.method + ' (' + data.response.size + ' bytes)' + "\n" +
 			'Time: ' + data.timing.total));
-			
+		
 		// Add debug entries.
 		if (data.entries && data.entries.length) {
 			page_body.append($('<h4></h4>').text('Debug Entries (' + data.entries.length + ')'));
-			for (var i in data.entries) {
-				var entry = $('<div class="debug_entry"></div>').appendTo(page_body);
-				var num = parseInt(i) + 1; if (num < 10) num = "0" + num;
-				var backtrace = "";
-				for (var j in data.entries[i].backtrace) {
+			for (i in data.entries) {
+				entry = $('<div class="debug_entry"></div>').appendTo(page_body);
+				num = parseInt(i) + 1; if (num < 10) num = "0" + num;
+				backtrace = "";
+				for (j in data.entries[i].backtrace) {
 					backtrace += "\n- " + data.entries[i].backtrace[j].file + ":" + data.entries[i].backtrace[j].line;
 				}
 				entry.text(num + ". " + data.entries[i].message + backtrace);
@@ -77,11 +81,11 @@ jQuery(function() {
 		// Add errors.
 		if (data.errors && data.errors.length) {
 			page_body.append($('<h4></h4>').text('Errors (' + data.errors.length + ')'));
-			for (var i in data.errors) {
-				var entry = $('<div class="debug_entry"></div>').appendTo(page_body);
-				var num = parseInt(i) + 1; if (num < 10) num = "0" + num;
-				var backtrace = "";
-				for (var j in data.errors[i].backtrace) {
+			for (i in data.errors) {
+				entry = $('<div class="debug_entry"></div>').appendTo(page_body);
+				num = parseInt(i) + 1; if (num < 10) num = "0" + num;
+				backtrace = "";
+				for (j in data.errors[i].backtrace) {
 					backtrace += "\n- " + data.errors[i].backtrace[j].file + ":" + data.errors[i].backtrace[j].line;
 				}
 				entry.text(num + ". " + data.errors[i].type + ": " + data.errors[i].message + backtrace);
@@ -91,10 +95,10 @@ jQuery(function() {
 		// Add queries.
 		if (data.queries && data.queries.length) {
 			page_body.append($('<h4></h4>').text('Queries (' + data.queries.length + ')'));
-			for (var i in data.queries) {
-				var entry = $('<div class="debug_entry collapse_spaces"></div>').appendTo(page_body);
-				var num = parseInt(i) + 1; if (num < 10) num = "0" + num;
-				var description = "";
+			for (i in data.queries) {
+				entry = $('<div class="debug_entry collapse_spaces"></div>').appendTo(page_body);
+				num = parseInt(i) + 1; if (num < 10) num = "0" + num;
+				description = "";
 				description += "\nCaller: " + data.queries[i].file + ":" + data.queries[i].line + " (" + data.queries[i].method + ")";
 				description += "\nConnection: " + data.queries[i].query_connection;
 				description += "\nQuery Time: " + data.queries[i].query_time.toFixed(4) + " sec";
