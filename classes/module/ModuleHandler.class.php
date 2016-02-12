@@ -1062,12 +1062,6 @@ class ModuleHandler extends Handler
 	 * */
 	public static function getModuleInstance($module, $type = 'view', $kind = '')
 	{
-
-		if(__DEBUG__ == 3)
-		{
-			$start_time = microtime(true);
-		}
-
 		$parent_module = $module;
 		$kind = strtolower($kind);
 		$type = strtolower($type);
@@ -1129,11 +1123,6 @@ class ModuleHandler extends Handler
 
 			// Store the created instance into GLOBALS variable
 			$GLOBALS['_loaded_module'][$module][$type][$kind] = $oModule;
-		}
-
-		if(__DEBUG__ == 3)
-		{
-			$GLOBALS['__elapsed_class_load__'] += microtime(true) - $start_time;
 		}
 
 		// return the instance
