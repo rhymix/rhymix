@@ -17,7 +17,7 @@ class messageView extends message
 	/**
 	 * @brief Display messages
 	 */
-	function dispMessage()
+	function dispMessage($detail = null)
 	{
 		// Get configurations (using module model object)
 		$oModuleModel = getModel('module');
@@ -58,9 +58,10 @@ class messageView extends message
 		{
 			if(strncasecmp('https://', Context::getRequestUri(), 8) === 0) $ssl_mode = true;
 		}
-		Context::set('ssl_mode',$ssl_mode);
 
+		Context::set('ssl_mode', $ssl_mode);
 		Context::set('system_message', nl2br($this->getMessage()));
+		Context::set('system_message_detail', nl2br($detail));
 
 		$this->setTemplateFile('system_message');
 	}

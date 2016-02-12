@@ -1468,18 +1468,40 @@ class Context
 		}
 		else
 		{
-			self::setBrowserTitle(self::getSiteTitle());
-			$oMessageObject = getView('message');
-			$oMessageObject->setHttpStatusCode(503);
-			$oMessageObject->setError(-1);
-			$oMessageObject->setMessage(_XE_SITELOCK_TITLE_);
-			$oMessageObject->dispMessage();
-			$oModuleHandler = new ModuleHandler;
-			$oModuleHandler->displayContent($oMessageObject);
+			self::displayErrorPage(_XE_SITELOCK_TITLE_, _XE_SITELOCK_MESSAGE_, 503);
 		}
 		exit;
 	}
-
+	
+	/**
+	 * Display a generic error page and exit.
+	 * 
+	 * @param string $title
+	 * @param string $message
+	 * @return void
+	 */
+	public static function displayErrorPage($title = 'Error', $message = '', $status = 500)
+	{
+		// Change current directory to the Rhymix installation path.
+		chdir(\RX_BASEDIR);
+		
+		// Set the title.
+		self::setBrowserTitle(self::getSiteTitle());
+		self::addBrowserTitle($title);
+		
+		// Set the message.
+		$oMessageObject = getView('message');
+		$oMessageObject->setError(-1);
+		$oMessageObject->setHttpStatusCode($status);
+		$oMessageObject->setMessage($title);
+		$oMessageObject->dispMessage($message);
+		
+		// Display the message.
+		$oModuleHandler = new ModuleHandler;
+		$oModuleHandler->displayContent($oMessageObject);
+		exit;
+	}
+	
 	/**
 	 * Return request method
 	 * @return string Request method type. (Optional - GET|POST|XMLRPC|JSON)
