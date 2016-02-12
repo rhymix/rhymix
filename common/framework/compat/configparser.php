@@ -183,7 +183,7 @@ class ConfigParser
 		{
 			$default_url = \Context::decodeIdna($default_url);
 		}
-		$config['url']['default'] = $default_url ?: \RX_BASEURL;
+		$config['url']['default'] = $default_url ?: (RX_SSL ? 'https://' : 'http://') . $_SERVER['HTTP_HOST'] . \RX_BASEURL;
 		$config['url']['http_port'] = $db_info->http_port ?: null;
 		$config['url']['https_port'] = $db_info->https_port ?: null;
 		$config['url']['ssl'] = $db_info->use_ssl ?: 'none';

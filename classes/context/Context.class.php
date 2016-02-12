@@ -531,6 +531,10 @@ class Context
 		$db_info->ftp_info->ftp_root_path = $config['ftp']['path'];
 		$db_info->ftp_info->sftp = $config['ftp']['sftp'] ? 'Y' : 'N';
 		$db_info->default_url = $config['url']['default'];
+		if (!$db_info->default_url)
+		{
+			$db_info->default_url = (RX_SSL ? 'https://' : 'http://') . $_SERVER['HTTP_HOST'] . RX_BASEURL;
+		}
 		$db_info->http_port = $config['url']['http_port'];
 		$db_info->https_port = $config['url']['https_port'];
 		$db_info->use_ssl = $config['url']['ssl'];
