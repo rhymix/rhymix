@@ -372,13 +372,13 @@ class DB
 		{
 			if($call['function'] == 'executeQuery' || $call['function'] == 'executeQueryArray')
 			{
-				$log['backtrace'] = array_slice($bt, $no);
 				$call_no = $no;
 				$call_no++;
 				$log['called_file'] = $bt[$call_no]['file'];
 				$log['called_line'] = $bt[$call_no]['line'];
 				$call_no++;
 				$log['called_method'] = $bt[$call_no]['class'].$bt[$call_no]['type'].$bt[$call_no]['function'];
+				$log['backtrace'] = array_slice($bt, $call_no, 1);
 				break;
 			}
 		}

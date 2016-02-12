@@ -132,16 +132,6 @@ class Debug
 			return;
 		}
 		
-		// Find out the file where the error really occurred.
-		if (isset(self::$_aliases[$errfile]))
-		{
-			$errfile = self::$_aliases[$errfile];
-		}
-		if (!strncmp($errfile, \RX_BASEDIR, strlen(\RX_BASEDIR)))
-		{
-			$errfile = substr($errfile, strlen(\RX_BASEDIR));
-		}
-		
 		// Get the backtrace.
 		$backtrace_args = defined('\DEBUG_BACKTRACE_IGNORE_ARGS') ? \DEBUG_BACKTRACE_IGNORE_ARGS : 0;
 		$backtrace = debug_backtrace($backtrace_args);
@@ -223,16 +213,8 @@ class Debug
 	 */
 	public static function exceptionHandler(\Exception $e)
 	{
-		// Find out the file where the exception really occurred.
-		$errfile = $e->getFile();
-		if (isset(self::$_aliases[$errfile]))
-		{
-			$errfile = self::$_aliases[$errfile];
-		}
-		if (!strncmp($errfile, \RX_BASEDIR, strlen(\RX_BASEDIR)))
-		{
-			$errfile = substr($errfile, strlen(\RX_BASEDIR));
-		}
+		// Find out the file where the error really occurred.
+		$errfile = self::translateFilename($e->getFile());
 		
 		// If the exception was thrown in a Rhymix Framework class, find out where that class was called.
 		$backtrace = $e->getTrace();
@@ -247,16 +229,8 @@ class Debug
 			}
 			else
 			{
-				$caller_errfile = $trace['file'];
+				$caller_errfile = self::translateFilename($trace['file']);
 				$caller_errline = $trace['line'];
-				if (isset(self::$_aliases[$caller_errfile]))
-				{
-					$caller_errfile = self::$_aliases[$caller_errfile];
-				}
-				if (!strncmp($caller_errfile, \RX_BASEDIR, strlen(\RX_BASEDIR)))
-				{
-					$caller_errfile = substr($caller_errfile, strlen(\RX_BASEDIR));
-				}
 			}
 		}
 		
@@ -292,15 +266,8 @@ class Debug
 			return;
 		}
 		
-		// Find out the file where the fatal error really occurred.
-		if (isset(self::$_aliases[$errinfo['file']]))
-		{
-			$errinfo['file'] = self::$_aliases[$errinfo['file']];
-		}
-		if (!strncmp($errinfo['file'], \RX_BASEDIR, strlen(\RX_BASEDIR)))
-		{
-			$errinfo['file'] = substr($errinfo['file'], strlen(\RX_BASEDIR));
-		}
+		// Find out the file where the error really occurred.
+		$errinfo['file'] = self::translateFilename($errinfo['file']);
 		
 		// Add the entry to the error log.
 		$message = sprintf('%s in %s on line %d', $errinfo['message'], $errinfo['file'], intval($errinfo['line']));
@@ -309,6 +276,25 @@ class Debug
 		
 		// Display the error screen.
 		self::displayErrorScreen($log_entry);
+	}
+	
+	/**
+	 * Translate filenames.
+	 * 
+	 * @param string $filename
+	 * @return string
+	 */
+	public static function translateFilename($filename)
+	{
+		if (isset(self::$_aliases[$filename]))
+		{
+			$filename = self::$_aliases[$filename];
+		}
+		if (!strncmp($filename, \RX_BASEDIR, strlen(\RX_BASEDIR)))
+		{
+			$filename = substr($filename, strlen(\RX_BASEDIR));
+		}
+		return $filename;
 	}
 	
 	/**
@@ -354,6 +340,63 @@ class Debug
 		// Display a generic error page.
 		\Context::displayErrorPage($title, $message, 500);
 		exit;
+	}
+	
+	/**
+	 * Get all debug information as an object.
+	 * 
+	 * @return object
+	 */
+	public static function getDebugData()
+	{
+		// Collect debug information.
+		$data = (object)array(
+			'timestamp' => DateTime::formatTimestampForCurrentUser('Y-m-d H:i:s P', RX_TIME),
+			'url' => getCurrentPageUrl(),
+			'request' => (object)array(
+				'method' => $_SERVER['REQUEST_METHOD'] . ($_SERVER['REQUEST_METHOD'] !== \Context::getRequestMethod() ? (' (' . \Context::getRequestMethod() . ')') : ''),
+				'size' => intval($_SERVER['CONTENT_LENGTH']),
+			),
+			'response' => (object)array(
+				'method' => \Context::getResponseMethod(),
+				'size' => \DisplayHandler::$response_size,
+			),
+			'timing' => (object)array(
+				'total' => sprintf('%0.4f sec', microtime(true) - \RX_MICROTIME),
+				'template' => sprintf('%0.4f sec (count: %d)', $GLOBALS['__template_elapsed__'], $GLOBALS['__TemplateHandlerCalled__']),
+				'xmlparse' => sprintf('%0.4f sec', $GLOBALS['__xmlparse_elapsed__']),
+				'db_query' => sprintf('%0.4f sec (count: %d)', $GLOBALS['__db_elapsed_time__'], count(self::$_queries)),
+				'db_class' => sprintf('%0.4f sec', $GLOBALS['__dbclass_elapsed_time__'] - $GLOBALS['__db_elapsed_time__']),
+				'layout' => sprintf('%0.4f sec', $GLOBALS['__layout_compile_elapsed__']),
+				'widget' => sprintf('%0.4f sec', $GLOBALS['__widget_excute_elapsed__']),
+				'trans' => sprintf('%0.4f sec', $GLOBALS['__trans_content_elapsed__']),
+			),
+			'entries' => self::$_entries,
+			'errors' => config('debug.log_errors') ? self::$_errors : null,
+			'queries' => config('debug.log_queries') ? self::$_queries : null,
+		);
+		
+		// Clean up the backtrace.
+		foreach (array('entries', 'errors', 'queries') as $key)
+		{
+			foreach ($data->$key as &$entry)
+			{
+				if (isset($entry->file))
+				{
+					$entry->file = self::translateFilename($entry->file);
+				}
+				if (isset($entry->backtrace) && is_array($entry->backtrace))
+				{
+					foreach ($entry->backtrace as &$backtrace)
+					{
+						$backtrace['file'] = self::translateFilename($backtrace['file']);
+						unset($backtrace['object'], $backtrace['args']);
+					}
+				}
+			}
+		}
+		
+		return $data;
 	}
 	
 	/**

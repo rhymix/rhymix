@@ -1,25 +1,25 @@
 <?php if (!defined('RX_BASEDIR')) exit; ?>
 
-<?php echo $timestamp . "\n"; ?>
+<?php echo '[' . $data->timestamp . ']' . "\n"; ?>
 
 Request / Response
 ==================
-Request URL:         <?php echo getCurrentPageUrl() . "\n"; ?>
-Request Method:      <?php echo $_SERVER['REQUEST_METHOD'] . ($_SERVER['REQUEST_METHOD'] !== Context::getRequestMethod() ? (' (' . Context::getRequestMethod() . ')') : '') . "\n"; ?>
-Request Body Size:   <?php echo intval($_SERVER['CONTENT_LENGTH']) . "\n"; ?>
-Response Method:     <?php echo Context::getResponseMethod() . "\n"; ?>
-Response Body Size:  <?php echo $this->content_size . "\n"; ?>
+Request URL:         <?php echo $data->url . "\n"; ?>
+Request Method:      <?php echo $data->request->method . "\n" ?>
+Request Body Size:   <?php echo $data->request->size . "\n" ?>
+Response Method:     <?php echo $data->response->method . "\n"; ?>
+Response Body Size:  <?php echo $data->response->size . "\n"; ?>
 
 Page Generation Time
 ====================
-Total Time:              <?php echo sprintf('%0.4f sec', microtime(true) - RX_MICROTIME) . "\n"; ?>
-Template Compile Time:   <?php echo sprintf('%0.4f sec (count: %d)', $GLOBALS['__template_elapsed__'], $GLOBALS['__TemplateHandlerCalled__']) . "\n"; ?>
-XML Parsing Time:        <?php echo sprintf('%0.4f sec', $GLOBALS['__xmlparse_elapsed__']) . "\n"; ?>
-DB Query Time:           <?php echo sprintf('%0.4f sec (count: %d)', $GLOBALS['__db_elapsed_time__'], count($queries)) . "\n"; ?>
-DB Processing Time:      <?php echo sprintf('%0.4f sec', $GLOBALS['__dbclass_elapsed_time__'] - $GLOBALS['__db_elapsed_time__']) . "\n"; ?>
-Layout Processing Time:  <?php echo sprintf('%0.4f sec', $GLOBALS['__layout_compile_elapsed__']) . "\n"; ?>
-Widget Processing Time:  <?php echo sprintf('%0.4f sec', $GLOBALS['__widget_excute_elapsed__']) . "\n"; ?>
-Content Transform Time:  <?php echo sprintf('%0.4f sec', $GLOBALS['__trans_content_elapsed__']) . "\n"; ?>
+Total Time:              <?php echo $data->timing->total . "\n"; ?>
+Template Compile Time:   <?php echo $data->timing->template . "\n"; ?>
+XML Parsing Time:        <?php echo $data->timing->xmlparse . "\n"; ?>
+DB Query Time:           <?php echo $data->timing->db_query . "\n"; ?>
+DB Processing Time:      <?php echo $data->timing->db_class . "\n"; ?>
+Layout Processing Time:  <?php echo $data->timing->layout . "\n"; ?>
+Widget Processing Time:  <?php echo $data->timing->widget . "\n"; ?>
+Content Transform Time:  <?php echo $data->timing->trans . "\n"; ?>
 
 Resource Usage
 ==============
@@ -30,11 +30,11 @@ Debug Entries
 =============
 <?php
 	$entry_count = 0;
-	if (!count($entries))
+	if (!count($data->entries))
 	{
 		echo 'None' . "\n";
 	}
-	foreach ($entries as $entry)
+	foreach ($data->entries as $entry)
 	{
 		if (is_scalar($entry->message))
 		{
@@ -47,10 +47,6 @@ Debug Entries
 		echo sprintf('%02d. %s', ++$entry_count, $entry->message) . "\n";
 		foreach ($entry->backtrace as $key => $backtrace)
 		{
-			if (!strncmp($backtrace['file'], RX_BASEDIR, $basedir_len))
-			{
-				$backtrace['file'] = substr($backtrace['file'], $basedir_len);
-			}
 			echo sprintf('    - %s line %d', $backtrace['file'], $backtrace['line']) . "\n";
 		}
 	}
@@ -58,24 +54,20 @@ Debug Entries
 
 PHP Errors and Warnings
 =======================
-<?php if ($errors === null): ?>
+<?php if ($data->errors === null): ?>
 Error logging is disabled.
 <?php else: ?>
 <?php
 	$error_count = 0;
-	if (!count($errors))
+	if (!count($data->errors))
 	{
 		echo 'None' . "\n";
 	}
-	foreach ($errors as $error)
+	foreach ($data->errors as $error)
 	{
 		echo sprintf('%02d. %s: %s', ++$error_count, $error->type, $error->message) . "\n";
 		foreach ($error->backtrace as $key => $backtrace)
 		{
-			if (!strncmp($backtrace['file'], RX_BASEDIR, $basedir_len))
-			{
-				$backtrace['file'] = substr($backtrace['file'], $basedir_len);
-			}
 			echo sprintf('    - %s line %d', $backtrace['file'], $backtrace['line']) . "\n";
 		}
 	}
@@ -84,21 +76,17 @@ Error logging is disabled.
 
 Database Queries
 ================
-<?php if ($queries === null): ?>
+<?php if ($data->queries === null): ?>
 Query logging is disabled.
 <?php else: ?>
 <?php
 	$query_count = 0;
-	if (!count($queries))
+	if (!count($data->queries))
 	{
 		echo 'None'. "\n";
 	}
-	foreach ($queries as $query)
+	foreach ($data->queries as $query)
 	{
-		if (!strncmp($query->file, RX_BASEDIR, $basedir_len))
-		{
-			$query->file = substr($query->file, $basedir_len);
-		}
 		$query_caller = sprintf('%s line %d (%s)', $query->file, $query->line, $query->method);
 		$query_result = ($query->message === 'success') ? 'success' : sprintf('error %d %s', $query->error_code, $query->message);
 		echo sprintf('%02d. %s', ++$query_count, $query->query_string) . "\n";

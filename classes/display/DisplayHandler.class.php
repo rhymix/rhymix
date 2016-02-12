@@ -11,7 +11,7 @@
  */
 class DisplayHandler extends Handler
 {
-
+	public static $response_size = 0;
 	var $content_size = 0; // /< The size of displaying contents
 	var $gz_enabled = FALSE; // / <a flog variable whether to call contents after compressing by gzip
 	var $handler = NULL;
@@ -81,7 +81,6 @@ class DisplayHandler extends Handler
 		Context::getInstance()->checkSessionStatus();
 
 		// header output
-
 		$httpStatusCode = $oModule->getHttpStatusCode();
 		if($httpStatusCode && $httpStatusCode != 200)
 		{
@@ -119,16 +118,14 @@ class DisplayHandler extends Handler
 			ini_set('zlib.output_compression', true);
 		}
 
-		// results directly output
-		print $output;
-		$this->content_size = strlen($output);
-
 		// call a trigger after display
+		self::$response_size = $this->content_size = strlen($output);
 		ModuleHandler::triggerCall('display', 'after', $output);
 
 		// debugOutput output
-		$this->content_size = strlen($output);
-		print $this->getDebugInfo($output);
+		$debug = $this->getDebugInfo($output);
+		print $output;
+		print $debug;
 
 		flushSlowlog();
 	}
@@ -145,6 +142,8 @@ class DisplayHandler extends Handler
 		{
 			return;
 		}
+		
+		// Check if debugging info should be visible to the current user.
 		$display_to = config('debug.display_to');
 		switch ($display_to)
 		{
@@ -172,19 +171,16 @@ class DisplayHandler extends Handler
 				return;
 		}
 		
-		// Set some useful variables.
-		$basedir_len = strlen(RX_BASEDIR);
-		$timestamp = sprintf('[%s]', Rhymix\Framework\DateTime::formatTimestampForCurrentUser('Y-m-d H:i:s P', RX_TIME));
-		
-		// Collect debug information.
-		$entries = Rhymix\Framework\Debug::getEntries();
-		$errors = config('debug.log_errors') ? Rhymix\Framework\Debug::getErrors() : null;
-		$queries = config('debug.log_queries') ? Rhymix\Framework\Debug::getQueries() : null;
-		
 		// Print debug information.
 		switch ($display_type = config('debug.display_type'))
 		{
 			case 'panel':
+				$data = Rhymix\Framework\Debug::getDebugData();
+				$json_options = defined('JSON_PRETTY_PRINT') ? (JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE) : 0;
+				$panel_html = '<div id="rhymix_debug_panel"></div>';
+				$panel_script = 'var rhymix_debug_content = ' . json_encode($data, $json_options) . ';';
+				$replace_html = '<div id="rhymix_debug_panel">' . "\n" . '<script>' . "\n" . $panel_script . "\n" . '</script>' . "\n" . '</div>';
+				$output = str_replace($panel_html, $replace_html, $output);
 				break;
 				
 			case 'comment':
@@ -195,6 +191,7 @@ class DisplayHandler extends Handler
 					return;
 				}
 				ob_start();
+				$data = Rhymix\Framework\Debug::getDebugData();
 				include RX_BASEDIR . 'common/tpl/debug_comment.html';
 				$content = ob_get_clean();
 				if ($display_type === 'file')
