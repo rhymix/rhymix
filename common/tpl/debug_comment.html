@@ -1,0 +1,129 @@
+<?php if (!defined('RX_BASEDIR')) exit; ?>
+
+<?php echo $timestamp . "\n"; ?>
+
+Request / Response
+==================
+Request URL:         <?php echo getCurrentPageUrl() . "\n"; ?>
+Request Method:      <?php echo $_SERVER['REQUEST_METHOD'] . ($_SERVER['REQUEST_METHOD'] !== Context::getRequestMethod() ? (' (' . Context::getRequestMethod() . ')') : '') . "\n"; ?>
+Request Body Size:   <?php echo intval($_SERVER['CONTENT_LENGTH']) . "\n"; ?>
+Response Method:     <?php echo Context::getResponseMethod() . "\n"; ?>
+Response Body Size:  <?php echo $this->content_size . "\n"; ?>
+
+Page Generation Time
+====================
+Total Time:              <?php echo sprintf('%0.4f sec', microtime(true) - RX_MICROTIME) . "\n"; ?>
+Template Compile Time:   <?php echo sprintf('%0.4f sec (count: %d)', $GLOBALS['__template_elapsed__'], $GLOBALS['__TemplateHandlerCalled__']) . "\n"; ?>
+XML Parsing Time:        <?php echo sprintf('%0.4f sec', $GLOBALS['__xmlparse_elapsed__']) . "\n"; ?>
+DB Query Time:           <?php echo sprintf('%0.4f sec (count: %d)', $GLOBALS['__db_elapsed_time__'], count($queries)) . "\n"; ?>
+DB Processing Time:      <?php echo sprintf('%0.4f sec', $GLOBALS['__dbclass_elapsed_time__'] - $GLOBALS['__db_elapsed_time__']) . "\n"; ?>
+Layout Processing Time:  <?php echo sprintf('%0.4f sec', $GLOBALS['__layout_compile_elapsed__']) . "\n"; ?>
+Widget Processing Time:  <?php echo sprintf('%0.4f sec', $GLOBALS['__widget_excute_elapsed__']) . "\n"; ?>
+Content Transform Time:  <?php echo sprintf('%0.4f sec', $GLOBALS['__trans_content_elapsed__']) . "\n"; ?>
+
+Resource Usage
+==============
+Peak Memory Usage:  <?php echo sprintf('%0.1f MB', memory_get_peak_usage(true) / 1024 / 1024) . "\n"; ?>
+Included Files:     <?php echo count(get_included_files()) . "\n"; ?>
+
+Debug Entries
+=============
+<?php
+	$entry_count = 0;
+	if (!count($entries))
+	{
+		echo 'None' . "\n";
+	}
+	foreach ($entries as $entry)
+	{
+		if (is_scalar($entry->message))
+		{
+			$entry->message = var_export($entry->message, true);
+		}
+		else
+		{
+			$entry->message = trim(preg_replace('/\r?\n/', "\n" . '    ', print_r($entry->message, true)));
+		}
+		echo sprintf('%02d. %s', ++$entry_count, $entry->message) . "\n";
+		foreach ($entry->backtrace as $key => $backtrace)
+		{
+			if (!strncmp($backtrace['file'], RX_BASEDIR, $basedir_len))
+			{
+				$backtrace['file'] = substr($backtrace['file'], $basedir_len);
+			}
+			if (isset($error->backtrace[$key + 1]))
+			{
+				$next_backtrace = $error->backtrace[$key + 1];
+				$called_function = sprintf(' (%s%s%s)', $next_backtrace['class'], $next_backtrace['type'], $next_backtrace['function']);
+			}
+			else
+			{
+				$called_function = '';
+			}
+			echo sprintf('    - %s line %d%s', $backtrace['file'], $backtrace['line'], $called_function) . "\n";
+		}
+	}
+?>
+
+PHP Errors and Warnings
+=======================
+<?php if ($errors === null): ?>
+Error logging is disabled.
+<?php else: ?>
+<?php
+	$error_count = 0;
+	if (!count($errors))
+	{
+		echo 'None' . "\n";
+	}
+	foreach ($errors as $error)
+	{
+		echo sprintf('%02d. %s: %s', ++$error_count, $error->type, $error->message) . "\n";
+		foreach ($error->backtrace as $key => $backtrace)
+		{
+			if (!strncmp($backtrace['file'], RX_BASEDIR, $basedir_len))
+			{
+				$backtrace['file'] = substr($backtrace['file'], $basedir_len);
+			}
+			if (isset($error->backtrace[$key + 1]))
+			{
+				$next_backtrace = $error->backtrace[$key + 1];
+				$called_function = sprintf(' (%s%s%s)', $next_backtrace['class'], $next_backtrace['type'], $next_backtrace['function']);
+			}
+			else
+			{
+				$called_function = '';
+			}
+			echo sprintf('    - %s line %d%s', $backtrace['file'], $backtrace['line'], $called_function) . "\n";
+		}
+	}
+?>
+<?php endif; ?>
+
+Database Queries
+================
+<?php if ($queries === null): ?>
+Query logging is disabled.
+<?php else: ?>
+<?php
+	$query_count = 0;
+	if (!count($queries))
+	{
+		echo 'None'. "\n";
+	}
+	foreach ($queries as $query)
+	{
+		if (!strncmp($query['called_file'], RX_BASEDIR, $basedir_len))
+		{
+			$query['called_file'] = substr($query['called_file'], $basedir_len);
+		}
+		$query_caller = sprintf('%s line %d (%s)', $query['called_file'], $query['called_line'], $query['called_method']);
+		$query_result = ($query['result'] === 'success') ? 'success' : sprintf('error %d %s', $query['errno'], $query['errstr']);
+		echo sprintf('%02d. %s', ++$query_count, $query['query']) . "\n";
+		echo sprintf('    - Caller:      %s', $query_caller) . "\n";
+		echo sprintf('    - Connection:  %s', $query['connection']) . "\n";
+		echo sprintf('    - Query Time:  %0.4f sec', $query['elapsed_time']) . "\n";
+		echo sprintf('    - Result:      %s', $query_result) . "\n";
+	}
+?>
+<?php endif; ?>

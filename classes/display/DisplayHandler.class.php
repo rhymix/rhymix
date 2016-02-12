@@ -193,140 +193,18 @@ class DisplayHandler extends Handler
 				{
 					return;
 				}
-				$buff = array($timestamp, '');
-				$buff[] = 'Request / Response';
-				$buff[] = '==================';
-				$buff[] = 'Request URL:         ' . getCurrentPageUrl();
-				$buff[] = 'Request Method:      ' . $_SERVER['REQUEST_METHOD'] . ($_SERVER['REQUEST_METHOD'] !== Context::getRequestMethod() ? (' (' . Context::getRequestMethod() . ')') : '');
-				$buff[] = 'Request Body Size:   ' . intval($_SERVER['CONTENT_LENGTH']);
-				$buff[] = 'Response Method:     ' . Context::getResponseMethod();
-				$buff[] = 'Response Body Size:  ' . $this->content_size;
-				$buff[] = '';
-				$buff[] = 'Page Generation Time';
-				$buff[] = '====================';
-				$buff[] = 'Total Time:              ' . sprintf('%0.4f sec', microtime(true) - RX_MICROTIME);
-				$buff[] = 'Template Compile Time:   ' . sprintf('%0.4f sec (count: %d)', $GLOBALS['__template_elapsed__'], $GLOBALS['__TemplateHandlerCalled__']);
-				$buff[] = 'XML Parsing Time:        ' . sprintf('%0.4f sec', $GLOBALS['__xmlparse_elapsed__']);
-				$buff[] = 'DB Query Time:           ' . sprintf('%0.4f sec (count: %d)', $GLOBALS['__db_elapsed_time__'], count($queries));
-				$buff[] = 'DB Processing Time:      ' . sprintf('%0.4f sec', $GLOBALS['__dbclass_elapsed_time__'] - $GLOBALS['__db_elapsed_time__']);
-				$buff[] = 'Layout Processing Time:  ' . sprintf('%0.4f sec', $GLOBALS['__layout_compile_elapsed__']);
-				$buff[] = 'Widget Processing Time:  ' . sprintf('%0.4f sec', $GLOBALS['__widget_excute_elapsed__']);
-				$buff[] = 'Content Transform Time:  ' . sprintf('%0.4f sec', $GLOBALS['__trans_content_elapsed__']);
-				$buff[] = '';
-				$buff[] = 'Resource Usage';
-				$buff[] = '==============';
-				$buff[] = 'Peak Memory Usage:  ' . sprintf('%0.1f MB', memory_get_peak_usage(true) / 1024 / 1024);
-				$buff[] = 'Included Files:     ' . count(get_included_files());
-				$buff[] = '';
-				if (count($entries))
-				{
-					$buff[] = 'Debug Entries';
-					$buff[] = '=============';
-					$entry_count = 0;
-					foreach ($entries as $entry)
-					{
-						if (is_scalar($entry->message))
-						{
-							$entry->message = var_export($entry->message, true);
-						}
-						else
-						{
-							$entry->message = trim(preg_replace('/\r?\n/', PHP_EOL . '    ', print_r($entry->message, true)));
-						}
-						$buff[] = sprintf('%02d. %s', ++$entry_count, $entry->message);
-						foreach ($entry->backtrace as $key => $backtrace)
-						{
-							if (!strncmp($backtrace['file'], RX_BASEDIR, $basedir_len))
-							{
-								$backtrace['file'] = substr($backtrace['file'], $basedir_len);
-							}
-							if (isset($error->backtrace[$key + 1]))
-							{
-								$next_backtrace = $error->backtrace[$key + 1];
-								$called_function = sprintf(' (%s%s%s)', $next_backtrace['class'], $next_backtrace['type'], $next_backtrace['function']);
-							}
-							else
-							{
-								$called_function = '';
-							}
-							$buff[] = sprintf('    - %s line %d%s', $backtrace['file'], $backtrace['line'], $called_function);
-						}
-					}
-				}
-				$buff[] = 'PHP Errors';
-				$buff[] = '==========';
-				if ($errors === null)
-				{
-					$buff[] = 'Error logging is disabled.';
-				}
-				else
-				{
-					$error_count = 0;
-					if (!count($errors))
-					{
-						$buff[] = 'No Errors';
-					}
-					foreach ($errors as $error)
-					{
-						$buff[] = sprintf('%02d. %s: %s', ++$error_count, $error->type, $error->message);
-						foreach ($error->backtrace as $key => $backtrace)
-						{
-							if (!strncmp($backtrace['file'], RX_BASEDIR, $basedir_len))
-							{
-								$backtrace['file'] = substr($backtrace['file'], $basedir_len);
-							}
-							if (isset($error->backtrace[$key + 1]))
-							{
-								$next_backtrace = $error->backtrace[$key + 1];
-								$called_function = sprintf(' (%s%s%s)', $next_backtrace['class'], $next_backtrace['type'], $next_backtrace['function']);
-							}
-							else
-							{
-								$called_function = '';
-							}
-							$buff[] = sprintf('    - %s line %d%s', $backtrace['file'], $backtrace['line'], $called_function);
-						}
-					}
-				}
-				$buff[] = '';
-				$buff[] = 'DB Queries';
-				$buff[] = '==========';
-				if ($queries === null)
-				{
-					$buff[] = 'Query logging is disabled.';
-				}
-				else
-				{
-					$query_count = 0;
-					if (!count($queries))
-					{
-						$buff[] = 'No Queries';
-					}
-					foreach ($queries as $query)
-					{
-						if (!strncmp($query['called_file'], RX_BASEDIR, $basedir_len))
-						{
-							$query['called_file'] = substr($query['called_file'], $basedir_len);
-						}
-						$query_caller = sprintf('%s line %d (%s)', $query['called_file'], $query['called_line'], $query['called_method']);
-						$query_result = ($query['result'] === 'success') ? 'success' : sprintf('error %d %s', $query['errno'], $query['errstr']);
-						$buff[] = sprintf('%02d. %s', ++$query_count, $query['query']);
-						$buff[] = sprintf('    - Caller:      %s', $query_caller);
-						$buff[] = sprintf('    - Connection:  %s', $query['connection']);
-						$buff[] = sprintf('    - Query Time:  %0.4f sec', $query['elapsed_time']);
-						$buff[] = sprintf('    - Result:      %s', $query_result); 
-					}
-				}
-				$buff[] = '';
+				ob_start();
+				include RX_BASEDIR . 'common/tpl/debug_comment.html';
+				$content = ob_get_clean();
 				if ($display_type === 'file')
 				{
 					$debug_file = RX_BASEDIR . 'files/_debug_message.php';
-					FileHandler::writeFile($debug_file, implode(PHP_EOL, $buff), 'a');
+					FileHandler::writeFile($debug_file, $content, 'a');
 					return '';
 				}
 				else
 				{
-					return '<!--' . PHP_EOL . implode(PHP_EOL, $buff) . PHP_EOL . '-->';
+					return '<!--' . PHP_EOL . $content . PHP_EOL . '-->';
 				}
 		}
 	}
