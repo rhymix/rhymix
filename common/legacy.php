@@ -695,100 +695,14 @@ function getEncodeEmailAddress($email)
 }
 
 /**
- * Prints debug messages 
+ * Add an entry to the debug log.
  *
- * Display $buff contents into the file ./files/_debug_message.php.
- * You can see the file on your prompt by command: tail-f./files/_debug_message.php
- *
- * @param mixed $debug_output Target object to be printed
- * @param bool $display_option boolean Flag whether to print seperator (default:true)
- * @param string $file Target file name
+ * @param mixed $entry Target object to be printed
  * @return void
  */
-function debugPrint($debug_output = NULL, $display_option = TRUE, $file = '_debug_message.php')
+function debugPrint($entry = null)
 {
-	static $debug_file;
-	static $debug_file_exist;
-
-	if(!(__DEBUG__ & 1))
-	{
-		return;
-	}
-
-	static $firephp;
-	$bt = debug_backtrace();
-	if(is_array($bt))
-	{
-		$bt_debug_print = array_shift($bt);
-		$bt_called_function = array_shift($bt);
-	}
-	$file_name = str_replace(_XE_PATH_, '', $bt_debug_print['file']);
-	$line_num = $bt_debug_print['line'];
-	$function = $bt_called_function['class'] . $bt_called_function['type'] . $bt_called_function['function'];
-
-	if(__DEBUG_OUTPUT__ == 2 && version_compare(PHP_VERSION, '6.0.0') === -1)
-	{
-		if(!isset($firephp))
-		{
-			$firephp = FirePHP::getInstance(TRUE);
-		}
-		$type = FirePHP::INFO;
-
-		$label = sprintf('[%s:%d] %s() (Memory usage: current=%s, peak=%s)', $file_name, $line_num, $function, FileHandler::filesize(memory_get_usage()), FileHandler::filesize(memory_get_peak_usage()));
-
-		// Check a FirePHP option
-		if($display_option === 'TABLE')
-		{
-			$label = $display_option;
-		}
-		if($display_option === 'ERROR')
-		{
-			$type = $display_option;
-		}
-		// Check if the IP specified by __DEBUG_PROTECT__ option is same as the access IP.
-		if(__DEBUG_PROTECT__ === 1 && __DEBUG_PROTECT_IP__ != $_SERVER['REMOTE_ADDR'])
-		{
-			$debug_output = 'The IP address is not allowed. Change the value of __DEBUG_PROTECT_IP__ into your IP address in config/config.user.inc.php or config/config.inc.php';
-			$label = NULL;
-		}
-
-		$firephp->fb($debug_output, $label, $type);
-	}
-	else
-	{
-		if(__DEBUG_PROTECT__ === 1 && __DEBUG_PROTECT_IP__ != $_SERVER['REMOTE_ADDR'])
-		{
-			return;
-		}
-
-		$print = array();
-		if($debug_file_exist === NULL) $print[] = '<?php exit() ?>';
-
-		if(!$debug_file) $debug_file =  _XE_PATH_ . 'files/' . $file;
-		if(!$debug_file_exist) $debug_file_exist = file_exists($debug_file);
-
-		if($display_option === TRUE || $display_option === 'ERROR')
-		{
-			$print[] = str_repeat('=', 80);
-		}
-
-		$print[] = sprintf("[%s %s:%d] %s() - mem(%s)", date('Y-m-d H:i:s'), $file_name, $line_num, $function, FileHandler::filesize(memory_get_usage()));
-
-		$type = gettype($debug_output);
-		if(!in_array($type, array('array', 'object', 'resource')))
-		{
-			if($display_option === 'ERROR') $print[] = 'ERROR : ' . var_export($debug_output, TRUE);
-			else $print[] = $type . '(' . var_export($debug_output, TRUE) . ')';
-			$print[] = PHP_EOL.PHP_EOL;
-		}
-		else
-		{
-			$print[] = print_r($debug_output, TRUE);
-			$print[] = PHP_EOL;
-		}
-
-		@file_put_contents($debug_file, implode(PHP_EOL, $print), FILE_APPEND|LOCK_EX);
-	}
+	Rhymix\Framework\Debug::addEntry($entry);
 }
 
 /**
@@ -918,7 +832,7 @@ function getDestroyXeVars($vars)
 }
 
 /**
- * Change error_handing to debugPrint on php5 higher 
+ * Legacy error handler
  *
  * @param int $errno
  * @param string $errstr
@@ -926,22 +840,9 @@ function getDestroyXeVars($vars)
  * @param int $line
  * @return void
  */
-function handleError($errno, $errstr, $file, $line)
+function handleError($errno, $errstr, $file, $line, $context)
 {
-	if(!__DEBUG__)
-	{
-		return;
-	}
-	$errors = array(E_USER_ERROR, E_ERROR, E_PARSE);
-	if(!in_array($errno, $errors))
-	{
-		return;
-	}
-
-	$output = sprintf("Fatal error : %s - %d", $file, $line);
-	$output .= sprintf("%d - %s", $errno, $errstr);
-
-	debugPrint($output);
+	Rhymix\Framework\Debug::addError($errno, $errstr, $file, $line, $context);
 }
 
 /**

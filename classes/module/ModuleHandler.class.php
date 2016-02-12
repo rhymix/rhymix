@@ -750,7 +750,6 @@ class ModuleHandler extends Handler
 			$message = $oModule->getMessage();
 			$messageType = $oModule->getMessageType();
 			$redirectUrl = $oModule->getRedirectUrl();
-			if($messageType == 'error') debugPrint($message, 'ERROR');
 
 			if(!$procResult)
 			{
