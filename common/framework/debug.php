@@ -8,11 +8,6 @@ namespace Rhymix\Framework;
 class Debug
 {
 	/**
-	 * Cache the debug.enabled flag here.
-	 */
-	protected static $_enabled;
-	
-	/**
 	 * Store log entries here.
 	 */
 	protected static $_aliases = array();
@@ -103,12 +98,6 @@ class Debug
 	 */
 	public static function addEntry($message)
 	{
-		// If debugging is disabled, stop here.
-		if (!(self::$_enabled = (self::$_enabled !== null) ? self::$_enabled : Config::get('debug.enabled')))
-		{
-			return false;
-		}
-		
 		// Get the backtrace.
 		$backtrace_args = defined('\DEBUG_BACKTRACE_IGNORE_ARGS') ? \DEBUG_BACKTRACE_IGNORE_ARGS : 0;
 		$backtrace = debug_backtrace($backtrace_args);
