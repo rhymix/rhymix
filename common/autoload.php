@@ -3,7 +3,7 @@
 /**
  * Set error reporting rules.
  */
-error_reporting(E_ALL ^ E_WARNING ^ E_NOTICE ^ E_STRICT ^ E_DEPRECATED);
+error_reporting(E_ALL ^ E_NOTICE ^ E_STRICT ^ E_DEPRECATED);
 
 /**
  * Suppress date/time errors until the internal time zone is set (see below).
@@ -197,6 +197,11 @@ require_once RX_BASEDIR  . 'vendor/autoload.php';
  * Load system configuration.
  */
 Rhymix\Framework\Config::init();
+
+/**
+ * Install the debugger.
+ */
+Rhymix\Framework\Debug::registerErrorHandlers(error_reporting());
 
 /**
  * Set the internal timezone.
