@@ -692,9 +692,24 @@ class boardView extends board
 		if($oDocument->get('module_srl') == $oDocument->get('member_srl')) $savedDoc = TRUE;
 		$oDocument->add('module_srl', $this->module_srl);
 
-		if($oDocument->isExists() && $this->module_info->protect_content=="Y" && $oDocument->get('comment_count')>0 && $this->grant->manager==false)
+		if($oDocument->isExists())
 		{
-			return new Object(-1, 'msg_protect_content');
+			if($this->module_info->protect_document_regdate > 0 && $this->grant->manager == false)
+			{
+				if($oDocument->get('regdate') < date('YmdHis', strtotime('-'.$this->module_info->protect_document_regdate.' day')))
+				{
+					$format =  Context::getLang('msg_protect_regdate_document');
+					$massage = sprintf($format, $this->module_info->protect_document_regdate);
+					return new Object(-1, $massage);
+				}
+			}
+			if($this->module_info->protect_content == "Y" || $this->module_info->protect_update_content == 'Y')
+			{
+				if($oDocument->get('comment_count') > 0 && $this->grant->manager == false)
+				{
+					return new Object(-1, 'msg_protect_update_content');
+				}
+			}
 		}
 		if($member_info->is_admin == 'Y' && $logged_info->is_admin != 'Y')
 		{
@@ -806,9 +821,22 @@ class boardView extends board
 			return $this->setTemplateFile('input_password_form');
 		}
 
-		if($this->module_info->protect_content=="Y" && $oDocument->get('comment_count')>0 && $this->grant->manager==false)
+		if($this->module_info->protect_document_regdate > 0 && $this->grant->manager == false)
 		{
-			return $this->dispBoardMessage('msg_protect_content');
+			if($oDocument->get('regdate') < date('YmdHis', strtotime('-'.$this->module_info->protect_document_regdate.' day')))
+			{
+				$format =  Context::getLang('msg_protect_regdate_document');
+				$massage = sprintf($format, $this->module_info->protect_document_regdate);
+				return new Object(-1, $massage);
+			}
+		}
+
+		if($this->module_info->protect_content == "Y" || $this->module_info->protect_delete_content == 'Y')
+		{
+			if($oDocument->get('comment_count')>0 && $this->grant->manager == false)
+			{
+				return new Object(-1,'msg_protect_delete_content');
+			}
 		}
 
 		Context::set('oDocument',$oDocument);
@@ -955,6 +983,23 @@ class boardView extends board
 
 		$oMemberModel = getModel('member');
 		$member_info = $oMemberModel->getMemberInfoByMemberSrl($oComment->member_srl);
+		if($this->module_info->protect_comment_regdate > 0 && $this->grant->manager == false)
+		{
+			if($oComment->get('regdate') < date('YmdHis', strtotime('-'.$this->module_info->protect_document_regdate.' day')))
+			{
+				$format =  Context::getLang('msg_protect_regdate_comment');
+				$massage = sprintf($format, $this->module_info->protect_document_regdate);
+				return new Object(-1, $massage);
+			}
+		}
+		if($this->module_info->protect_update_comment === 'Y' && $this->grant->manager == false)
+		{
+			$childs = $oCommentModel->getChildComments($comment_srl);
+			if(count($childs) > 0)
+			{
+				return new Object(-1, 'msg_board_update_protect_comment');
+			}
+		}
 
 		if($member_info->is_admin == 'Y' && $logged_info->is_admin != 'Y')
 		{
@@ -1004,6 +1049,26 @@ class boardView extends board
 		{
 			$oCommentModel = getModel('comment');
 			$oComment = $oCommentModel->getComment($comment_srl, $this->grant->manager);
+		}
+
+		if($this->module_info->protect_comment_regdate > 0 && $this->grant->manager == false)
+		{
+			if($oComment->get('regdate') < date('YmdHis', strtotime('-'.$this->module_info->protect_document_regdate.' day')))
+			{
+				$format =  Context::getLang('msg_protect_regdate_comment');
+				$massage = sprintf($format, $this->module_info->protect_document_regdate);
+				return new Object(-1, $massage);
+			}
+		}
+
+		if($this->module_info->protect_delete_comment === 'Y' && $this->grant->manager == false)
+		{
+			$oCommentModel = getModel('comment');
+			$childs = $oCommentModel->getChildComments($comment_srl);
+			if(count($childs) > 0)
+			{
+				return new Object(-1, 'msg_board_delete_protect_comment');
+			}
 		}
 
 		// if the comment is not existed, then back to the board content page

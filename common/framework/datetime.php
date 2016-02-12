@@ -13,6 +13,19 @@ class DateTime
 	protected static $_timezones = array();
 	
 	/**
+	 * Format a Unix timestamp using the internal timezone.
+	 * 
+	 * @param string $format Format used in PHP date() function
+	 * @param int $timestamp Unix timestamp (optional, default is now)
+	 * @return string
+	 */
+	public static function formatTimestamp($format, $timestamp = null)
+	{
+		$offset = Config::get('locale.internal_timezone') ?: date('Z', $timestamp);
+		return gmdate($format, $timestamp + $offset);
+	}
+	
+	/**
 	 * Format a Unix timestamp for the current user's timezone.
 	 * 
 	 * @param string $format Format used in PHP date() function
@@ -125,6 +138,12 @@ class DateTime
 	/**
 	 * Get a PHP time zone by UTC offset.
 	 * 
+	 * Time zones with both (a) fractional offsets and (b) daylight saving time
+	 * (such as Iran's +03:30/+04:30) cannot be converted in this way.
+	 * However, if Rhymix is installed for the first time in such a time zone,
+	 * the internal time zone will be automatically set to UTC,
+	 * so this should never be a problem in practice.
+	 * 
 	 * @param int $offset
 	 * @return bool
 	 */
@@ -133,6 +152,15 @@ class DateTime
 		switch ($offset)
 		{
 			case 0: return 'Etc/UTC';
+			case -34200: return 'Pacific/Marquesas';  // -09:30
+			case -16200: return 'America/Caracas';    // -04:30
+			case 16200: return 'Asia/Kabul';          // +04:30
+			case 19800: return 'Asia/Kolkata';        // +05:30
+			case 20700: return 'Asia/Kathmandu';      // +05:45
+			case 23400: return 'Asia/Rangoon';        // +06:30
+			case 30600: return 'Asia/Pyongyang';      // +08:30
+			case 31500: return 'Australia/Eucla';     // +08:45
+			case 34200: return 'Australia/Darwin';    // +09:30
 			default: return 'Etc/GMT' . ($offset > 0 ? '-' : '+') . intval(abs($offset / 3600));
 		}
 	}
