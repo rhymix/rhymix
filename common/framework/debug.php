@@ -15,13 +15,13 @@ class Debug
 	/**
 	 * Store log entries here.
 	 */
-	protected static $_aliases = [];
-	protected static $_entries = [];
-	protected static $_errors = [];
-	protected static $_queries = [];
-	protected static $_slow_queries = [];
-	protected static $_slow_triggers = [];
-	protected static $_slow_widgets = [];
+	protected static $_aliases = array();
+	protected static $_entries = array();
+	protected static $_errors = array();
+	protected static $_queries = array();
+	protected static $_slow_queries = array();
+	protected static $_slow_triggers = array();
+	protected static $_slow_widgets = array();
 	
 	/**
 	 * Get all entries.
@@ -112,7 +112,6 @@ class Debug
 		// Get the backtrace.
 		$backtrace_args = defined('\DEBUG_BACKTRACE_IGNORE_ARGS') ? \DEBUG_BACKTRACE_IGNORE_ARGS : 0;
 		$backtrace = debug_backtrace($backtrace_args);
-		array_shift($backtrace);
 		
 		// Create a log entry.
 		$entry = (object)array(
@@ -161,7 +160,7 @@ class Debug
 		// Prepare the error entry.
 		self::$_errors[] = $errinfo = (object)array(
 			'type' => self::getErrorType($errno),
-			'time' => microtime(),
+			'time' => microtime(true),
 			'message' => $errstr,
 			'file' => $errfile,
 			'line' => $errline,
