@@ -176,13 +176,21 @@ class DisplayHandler extends Handler
 		{
 			case 'panel':
 				$data = Rhymix\Framework\Debug::getDebugData();
-				$json_options = defined('JSON_PRETTY_PRINT') ? (JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE) : 0;
-				$panel_html = '<div id="rhymix_debug_panel"></div>';
-				$panel_script = 'var rhymix_debug_content = ' . json_encode($data, $json_options) . ';';
-				$replace_html = '<div id="rhymix_debug_panel">' . "\n" . '<script>' . "\n" . $panel_script . "\n" . '</script>' . "\n" . '</div>';
-				$output = str_replace($panel_html, $replace_html, $output);
-				break;
-				
+				switch (Context::getResponseMethod())
+				{
+					case 'HTML':
+						$json_options = defined('JSON_PRETTY_PRINT') ? (JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE) : 0;
+						$panel_script = "<script>\nvar rhymix_debug_content = " . json_encode($data, $json_options) . ";\n</script>";
+						$body_end_position = strrpos($output, '</body>') ?: strlen($output);
+						$output = substr($output, 0, $body_end_position) . "\n$panel_script\n" . substr($output, $body_end_position);
+						return;
+					case 'JSON':
+						$output = preg_replace('/\}$/', ',"_rx_debug":' . json_encode($data) . '}', $output);
+						return;
+					default:
+						return;
+				}
+			
 			case 'comment':
 			case 'file':
 			default:
