@@ -176,16 +176,34 @@ class DisplayHandler extends Handler
 		{
 			case 'panel':
 				$data = Rhymix\Framework\Debug::getDebugData();
+				if ($data->entries)
+				{
+					foreach ($data->entries as &$entry)
+					{
+						if (is_scalar($entry->message))
+						{
+							$entry->message = var_export($entry->message, true);
+						}
+						else
+						{
+							$entry->message = trim(print_r($entry->message, true));
+						}
+					}
+				}
 				switch (Context::getResponseMethod())
 				{
 					case 'HTML':
 						$json_options = defined('JSON_PRETTY_PRINT') ? (JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE) : 0;
-						$panel_script = "<script>\nvar rhymix_debug_content = " . json_encode($data, $json_options) . ";\n</script>";
+						$panel_script = sprintf('<script src="%s%s?%s"></script>', RX_BASEURL, 'common/js/debug.js', filemtime(RX_BASEDIR . 'common/js/debug.js'));
+						$panel_script .= "\n<script>\nvar rhymix_debug_content = " . json_encode($data, $json_options) . ";\n</script>";
 						$body_end_position = strrpos($output, '</body>') ?: strlen($output);
 						$output = substr($output, 0, $body_end_position) . "\n$panel_script\n" . substr($output, $body_end_position);
 						return;
 					case 'JSON':
-						$output = preg_replace('/\}$/', ',"_rx_debug":' . json_encode($data) . '}', $output);
+						if (preg_match('/^(.+)\}$/', $output, $matches))
+						{
+							$output = $matches[1] . ',"_rx_debug":' . json_encode($data) . '}';
+						}
 						return;
 					default:
 						return;

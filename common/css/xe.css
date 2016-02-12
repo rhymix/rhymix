@@ -290,3 +290,122 @@ button.btn {
 .btn-group>.btn.active {
 	z-index: 2;
 }
+
+/* Debug */
+#rhymix_debug_button {
+	position: fixed;
+	left: 0; bottom: 40px;
+	background: #eeeeee;
+	border: 1px solid #ccc; border-left: 0;
+	border-top-right-radius: 4px;
+	border-bottom-right-radius: 4px;
+	box-shadow: 0px 0px 3px 0px rgba(0, 0, 0, 0.18), 0px 0px 6px 0px rgba(0, 0, 0, 0.12);
+	z-index: 1073741824;
+}
+#rhymix_debug_button:hover {
+	background: #444444;
+}
+#rhymix_debug_button a {
+	display: block;
+	font: bold 12px/14px Arial, sans-serif;
+	color: #444;
+	text-decoration: none;
+	padding: 4px 8px;
+}
+#rhymix_debug_button a:hover {
+	color: #eeeeee;
+}
+#rhymix_debug_panel {
+	display: none;
+	position: absolute;
+	left: 0; top: 0;
+	max-width: 96%;
+	min-height: 100%;
+	background: #fcfcfc;
+	border-right: 1px solid #ccc;
+	box-shadow: 0px 0px 4px 0px rgba(0, 0, 0, 0.18), 0px 0px 8px 0px rgba(0, 0, 0, 0.12);
+	z-index: 1073741824;
+}
+#rhymix_debug_panel .debug_header {
+	clear: both;
+	width: 100%;
+	height: 36px;
+	background: #444444;
+	background: linear-gradient(to right, #222222 0%, #444444 40%, #eeeeee 100%);
+	position: relative;
+}
+#rhymix_debug_panel .debug_header h2 {
+	font: bold 16px/20px Arial, sans-serif;
+	color: #fcfcfc;
+	position: absolute;
+	left: 10px; top: 10px;
+}
+#rhymix_debug_panel .debug_header .debug_maximize {
+	font: normal 20px/24px Arial, sans-serif;
+	color: #444444;
+	position: absolute;
+	right: 32px; top: 7px;	
+}
+#rhymix_debug_panel .debug_header .debug_close {
+	font: normal 28px/28px Arial, sans-serif;
+	color: #444444;
+	position: absolute;
+	right: 10px; top: 4px;	
+}
+#rhymix_debug_panel .debug_header .debug_close:hover {
+	color: #f44336;
+}
+#rhymix_debug_panel .debug_page {
+	clear: both;
+	margin: 12px 10px;
+	font: normal 12px/16px Arial, NanumBarunGothic, NanumGothic, "Malgun Gothic", sans-serif;
+}
+#rhymix_debug_panel .debug_page .debug_page_header {
+	padding-bottom: 8px;
+	border-bottom: 1px solid #ddd;
+	position: relative;
+}
+#rhymix_debug_panel .debug_page .debug_page_header h3 {
+	color: #444;
+	font: inherit;
+	font-size: 14px;
+	font-weight: bold;
+	margin: 0;
+	padding: 0;
+}
+#rhymix_debug_panel .debug_page .debug_page_collapse {
+	display: block;
+	position: absolute;
+	right: 0; top: 0;
+	color: #999;
+	font-size: 10px;
+	line-height: 12px;
+	text-decoration: none;
+	padding: 2px 2px;
+}
+#rhymix_debug_panel .debug_page .debug_page_body {
+	margin: 8px 4px 8px 10px;
+}
+#rhymix_debug_panel .debug_page .debug_page_body h4 {
+	color: #444;
+	font: inherit;
+	font-size: 13px;
+	font-weight: bold;
+	margin: 0 0 8px 0;
+	padding: 0;
+}
+#rhymix_debug_panel .debug_page .debug_entry {
+	font-family: Consolas, "Courier New", monospace;
+	color: #666;
+	margin-left: 38px;
+	margin-bottom: 8px;
+	text-indent: -28px;
+	white-space: pre-wrap;
+}
+#rhymix_debug_panel .debug_page .debug_entry.no_indentation {
+	margin-left: 10px;
+	text-indent: 0;
+}
+#rhymix_debug_panel .debug_page .debug_entry.collapse_spaces {
+	white-space: pre-line;
+}

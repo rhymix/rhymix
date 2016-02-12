@@ -379,6 +379,10 @@ class Debug
 		// Clean up the backtrace.
 		foreach (array('entries', 'errors', 'queries') as $key)
 		{
+			if (!$data->$key)
+			{
+				continue;
+			}
 			foreach ($data->$key as &$entry)
 			{
 				if (isset($entry->file))
