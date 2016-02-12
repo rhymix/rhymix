@@ -530,8 +530,9 @@ function ztime($str)
 	{
 		$hour = $min = $sec = 0;
 	}
-	$offset = Rhymix\Framework\Config::get('locale.internal_timezone') ?: date('Z');
-	return gmmktime($hour, $min, $sec, $month, $day, $year) - $offset;
+	$timestamp = gmmktime($hour, $min, $sec, $month, $day, $year);
+	$offset = Rhymix\Framework\Config::get('locale.internal_timezone') ?: date('Z', $timestamp);
+	return $timestamp - $offset;
 }
 
 /**
@@ -602,6 +603,32 @@ function zdate($str, $format = 'Y-m-d H:i:s', $conversion = false)
 }
 
 /**
+ * Convert a Unix timestamp to YYYYMMDDHHIISS format, using the internal time zone.
+ * If the timestamp is not given, the current time is used.
+ * 
+ * @param int $timestamp Unix timestamp
+ * @return string
+ */
+function getInternalDateTime($timestamp = null, $format = 'YmdHis')
+{
+	$timestamp = ($timestamp !== null) ? $timestamp : time();
+	return Rhymix\Framework\DateTime::formatTimestamp($format, $timestamp);
+}
+
+/**
+ * Convert a Unix timestamp to YYYYMMDDHHIISS format, using the internal time zone.
+ * If the timestamp is not given, the current time is used.
+ * 
+ * @param int $timestamp Unix timestamp
+ * @return string
+ */
+function getDisplayDateTime($timestamp = null, $format = 'YmdHis')
+{
+	$timestamp = ($timestamp !== null) ? $timestamp : time();
+	return Rhymix\Framework\DateTime::formatTimestampForCurrentUser($format, $timestamp);
+}
+
+/**
  * If the recent post within a day, output format of YmdHis is "min/hours ago from now". If not within a day, it return format string.
  *
  * @param string $date Time value in format of YYYYMMDDHHIISS
@@ -613,21 +640,21 @@ function getTimeGap($date, $format = 'Y.m.d')
 	$gap = RX_TIME - ztime($date);
 
 	$lang_time_gap = Context::getLang('time_gap');
-	if($gap < 60)
+	if($gap < 60 * 1.5)
 	{
-		$buff = sprintf($lang_time_gap['min'], (int)($gap / 60) + 1);
+		$buff = sprintf($lang_time_gap['min'], round($gap / 60));
 	}
 	elseif($gap < 60 * 60)
 	{
-		$buff = sprintf($lang_time_gap['mins'], (int)($gap / 60) + 1);
+		$buff = sprintf($lang_time_gap['mins'], round($gap / 60));
 	}
-	elseif($gap < 60 * 60 * 2)
+	elseif($gap < 60 * 60 * 1.5)
 	{
-		$buff = sprintf($lang_time_gap['hour'], (int)($gap / 60 / 60) + 1);
+		$buff = sprintf($lang_time_gap['hour'], round($gap / 60 / 60));
 	}
 	elseif($gap < 60 * 60 * 24)
 	{
-		$buff = sprintf($lang_time_gap['hours'], (int)($gap / 60 / 60) + 1);
+		$buff = sprintf($lang_time_gap['hours'], round($gap / 60 / 60));
 	}
 	else
 	{
