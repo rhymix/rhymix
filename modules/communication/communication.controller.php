@@ -783,6 +783,12 @@ class communicationController extends communication
 		{
 			return new Object();
 		}
+
+		if($module->module == 'admin')
+		{
+			return new Object();
+		}
+
 		$oCommunicationModel = getModel('communication');
 		$config = $oCommunicationModel->getConfig();
 
@@ -791,7 +797,6 @@ class communicationController extends communication
 			return new Object();
 		}
 		$act = Context::get('act');
-		$logged_info = Context::get('logged_info');
 		if($module->module != 'member')
 		{
 			$oMemberController = getController('member');
@@ -812,7 +817,7 @@ class communicationController extends communication
 		{
 			$member_srl = Context::get('target_srl');
 			$oCommunicationModel = getModel('communication');
-
+			$logged_info = Context::get('logged_info');
 			// Add a feature to display own message box.
 			if($logged_info->member_srl == $member_srl)
 			{
