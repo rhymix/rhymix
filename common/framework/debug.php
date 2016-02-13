@@ -101,6 +101,10 @@ class Debug
 		// Get the backtrace.
 		$backtrace_args = defined('\DEBUG_BACKTRACE_IGNORE_ARGS') ? \DEBUG_BACKTRACE_IGNORE_ARGS : 0;
 		$backtrace = debug_backtrace($backtrace_args);
+		if (count($backtrace) > 1 && $backtrace[1]['function'] === 'debugPrint' && !$backtrace[1]['class'])
+		{
+			array_shift($backtrace);
+		}
 		
 		// Create a log entry.
 		$entry = (object)array(

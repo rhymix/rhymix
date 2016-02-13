@@ -59,6 +59,9 @@ class documentItem extends Object
 		$this->columnList = $columnList;
 
 		$this->_loadFromDB($load_extra_vars);
+		
+		trigger_error("This is a test error message.", E_USER_WARNING);
+		debugPrint(array("This message was printed with debugPrint() function", "Array is okay"));
 	}
 
 	function setDocument($document_srl, $load_extra_vars = true)

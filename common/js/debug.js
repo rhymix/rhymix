@@ -84,7 +84,9 @@ $(function() {
 				num = parseInt(i) + 1; if (num < 10) num = "0" + num;
 				backtrace = "";
 				for (j in data.entries[i].backtrace) {
-					backtrace += "\n- " + data.entries[i].backtrace[j].file + ":" + data.entries[i].backtrace[j].line;
+					if (data.entries[i].backtrace[j].file) {
+						backtrace += "\n- " + data.entries[i].backtrace[j].file + ":" + data.entries[i].backtrace[j].line;
+					}
 				}
 				entry.text(num + ". " + data.entries[i].message + backtrace);
 			}
@@ -98,7 +100,9 @@ $(function() {
 				num = parseInt(i) + 1; if (num < 10) num = "0" + num;
 				backtrace = "";
 				for (j in data.errors[i].backtrace) {
-					backtrace += "\n- " + data.errors[i].backtrace[j].file + ":" + data.errors[i].backtrace[j].line;
+					if (data.errors[i].backtrace[j].file) {
+						backtrace += "\n- " + data.errors[i].backtrace[j].file + ":" + data.errors[i].backtrace[j].line;
+					}
 				}
 				entry.text(num + ". " + data.errors[i].type + ": " + data.errors[i].message + backtrace);
 			}
