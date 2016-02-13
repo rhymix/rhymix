@@ -66,7 +66,6 @@ class communicationAdminView extends communication
 		$this->setTemplatePath($this->module_path . 'tpl');
 		$this->setTemplateFile('index');
 	}
-
 }
 /* End of file communication.admin.view.php */
 /* Location: ./modules/comment/communication.admin.view.php */
