@@ -85,7 +85,7 @@ $(function() {
 				backtrace = "";
 				for (j in data.entries[i].backtrace) {
 					if (data.entries[i].backtrace[j].file) {
-						backtrace += "\n- " + data.entries[i].backtrace[j].file + ":" + data.entries[i].backtrace[j].line;
+						backtrace += "\n• " + data.entries[i].backtrace[j].file + ":" + data.entries[i].backtrace[j].line;
 					}
 				}
 				entry.text(num + ". " + data.entries[i].message + backtrace);
@@ -101,7 +101,7 @@ $(function() {
 				backtrace = "";
 				for (j in data.errors[i].backtrace) {
 					if (data.errors[i].backtrace[j].file) {
-						backtrace += "\n- " + data.errors[i].backtrace[j].file + ":" + data.errors[i].backtrace[j].line;
+						backtrace += "\n• " + data.errors[i].backtrace[j].file + ":" + data.errors[i].backtrace[j].line;
 					}
 				}
 				entry.text(num + ". " + data.errors[i].type + ": " + data.errors[i].message + backtrace);
@@ -116,11 +116,11 @@ $(function() {
 				num = parseInt(i) + 1; if (num < 10) num = "0" + num;
 				description = "";
 				if (data.queries[i].query_connection) {
-					description += "\n- Caller: " + data.queries[i].file + ":" + data.queries[i].line + " (" + data.queries[i].method + ")";
-					description += "\n- Connection: " + data.queries[i].query_connection;
-					description += "\n- Query Time: " + (data.queries[i].query_time ? (data.queries[i].query_time.toFixed(4) + " sec") : "");
+					description += "\n• Caller: " + data.queries[i].file + ":" + data.queries[i].line + " (" + data.queries[i].method + ")";
+					description += "\n• Connection: " + data.queries[i].query_connection;
+					description += "\n• Query Time: " + (data.queries[i].query_time ? (data.queries[i].query_time.toFixed(4) + " sec") : "");
 				}
-				description += "\n- Result: " + ((data.queries[i].message === "success" || !data.queries[i].message) ? "success" : ("error " + data.queries[i].error_code + " " + data.queries[i].message));
+				description += "\n• Result: " + ((data.queries[i].message === "success" || !data.queries[i].message) ? "success" : ("error " + data.queries[i].error_code + " " + data.queries[i].message));
 				entry.text(num + ". " + data.queries[i].query_string + description);
 			}
 		}
