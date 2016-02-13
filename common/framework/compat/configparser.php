@@ -216,14 +216,6 @@ class ConfigParser
 		}
 		$config['lock']['allow'] = array_values($db_info->sitelock_whitelist);
 		
-		// Convert debug configuration.
-		$config['debug']['enabled'] = true;
-		$config['debug']['log_errors'] = true;
-		$config['debug']['log_queries'] = (\__DEBUG__ & 4) ? true : false;
-		$config['debug']['log_slow_queries'] = floatval(\__LOG_SLOW_QUERY__);
-		$config['debug']['log_slow_triggers'] = floatval(\__LOG_SLOW_TRIGGER__ * 1000);
-		$config['debug']['log_slow_widgets'] = floatval(\__LOG_SLOW_WIDGET__ * 1000);
-		
 		// Convert embed filter configuration.
 		if (is_array($db_info->embed_white_iframe))
 		{

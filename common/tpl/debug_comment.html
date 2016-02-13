@@ -92,6 +92,7 @@ Query logging is disabled.
 		echo sprintf('%02d. %s', ++$query_count, $query->query_string) . "\n";
 		echo sprintf('    - Caller:      %s', $query_caller) . "\n";
 		echo sprintf('    - Connection:  %s', $query->query_connection) . "\n";
+		echo sprintf('    - Query ID:    %s', $query->query_id) . "\n";
 		echo sprintf('    - Query Time:  %0.4f sec', $query->query_time) . "\n";
 		echo sprintf('    - Result:      %s', $query_result) . "\n";
 	}

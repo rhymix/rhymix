@@ -712,44 +712,43 @@ function debugPrint($entry = null)
  */
 function writeSlowlog($type, $elapsed_time, $obj)
 {
-	if(!__LOG_SLOW_TRIGGER__ && !__LOG_SLOW_ADDON__ && !__LOG_SLOW_WIDGET__ && !__LOG_SLOW_QUERY__) return;
-	if(__LOG_SLOW_PROTECT__ === 1 &&  __LOG_SLOW_PROTECT_IP__ != $_SERVER['REMOTE_ADDR']) return;
+	static $config = array();
+	if (!$config)
+	{
+		$config = config('debug');
+	}
+	if(!$config['log_slow_queries'] && !$config['log_slow_triggers'] && !$config['log_slow_widgets'])
+	{
+		return;
+	}
 
 	static $log_filename = array(
 		'query' => 'files/_slowlog_query.php',
 		'trigger' => 'files/_slowlog_trigger.php',
-		'addon' => 'files/_slowlog_addon.php',
 		'widget' => 'files/_slowlog_widget.php'
 	);
+	$log_file = RX_BASEDIR . $log_filename[$type];
 	$write_file = true;
-
-	$log_file = _XE_PATH_ . $log_filename[$type];
 
 	$buff = array();
 	$buff[] = '<?php exit(); ?>';
 	$buff[] = date('c');
 
-	if($type == 'trigger' && __LOG_SLOW_TRIGGER__ > 0 && $elapsed_time > __LOG_SLOW_TRIGGER__)
+	if ($type == 'query' && $config['log_slow_queries'] > 0 && $elapsed_time > $config['log_slow_queries'])
 	{
-		$buff[] = "\tCaller : " . $obj->caller;
-		$buff[] = "\tCalled : " . $obj->called;
-	}
-	else if($type == 'addon' && __LOG_SLOW_ADDON__ > 0 && $elapsed_time > __LOG_SLOW_ADDON__)
-	{
-		$buff[] = "\tAddon : " . $obj->called;
-		$buff[] = "\tCalled position : " . $obj->caller;
-	}
-	else if($type == 'widget' && __LOG_SLOW_WIDGET__ > 0 && $elapsed_time > __LOG_SLOW_WIDGET__)
-	{
-		$buff[] = "\tWidget : " . $obj->called;
-	}
-	else if($type == 'query' && __LOG_SLOW_QUERY__ > 0 && $elapsed_time > __LOG_SLOW_QUERY__)
-	{
-
 		$buff[] = $obj->query;
 		$buff[] = "\tQuery ID   : " . $obj->query_id;
 		$buff[] = "\tCaller     : " . $obj->caller;
 		$buff[] = "\tConnection : " . $obj->connection;
+	}
+	elseif ($type == 'trigger' && $config['log_slow_triggers'] > 0 && $elapsed_time > $config['log_slow_triggers'])
+	{
+		$buff[] = "\tCaller : " . $obj->caller;
+		$buff[] = "\tCalled : " . $obj->called;
+	}
+	elseif ($type == 'widget' && $config['log_slow_widgets'] > 0 && $elapsed_time > $config['log_slow_widgets'])
+	{
+		$buff[] = "\tWidget : " . $obj->called;
 	}
 	else
 	{

@@ -1184,11 +1184,7 @@ class ModuleHandler extends Handler
 		}
 		
 		//store before trigger call time
-		$before_trigger_time = NULL;
-		if(__LOG_SLOW_TRIGGER__> 0)
-		{
-			$before_trigger_time = microtime(true);
-		}
+		$before_trigger_time = microtime(true);
 
 		foreach($triggers as $item)
 		{

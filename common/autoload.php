@@ -43,11 +43,6 @@ if(file_exists(RX_BASEDIR . 'config/config.user.inc.php'))
 }
 
 /**
- * Load legacy debug settings.
- */
-require_once __DIR__ . '/debug.php';
-
-/**
  * Define the list of legacy class names for the autoloader.
  */
 $GLOBALS['RX_AUTOLOAD_FILE_MAP'] = array_change_key_case(array(

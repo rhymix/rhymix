@@ -383,24 +383,12 @@ class DB
 			}
 		}
 
-		// leave error log if an error occured (if __DEBUG_DB_OUTPUT__ is defined)
+		// leave error log if an error occured
 		if($this->isError())
 		{
 			$log['result'] = 'error';
 			$log['errno'] = $this->errno;
 			$log['errstr'] = $this->errstr;
-
-			if(__DEBUG_DB_OUTPUT__ == 1)
-			{
-				$debug_file = _XE_PATH_ . "files/_debug_db_query.php";
-				$buff = array();
-				if(!file_exists($debug_file))
-				{
-					$buff[] = '<?php exit(); ?' . '>';
-				}
-				$buff[] = print_r($log, TRUE);
-				@file_put_contents($log_file, implode("\n", $buff) . "\n\n", FILE_APPEND|LOCK_EX);
-			}
 		}
 		else
 		{

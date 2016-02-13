@@ -118,6 +118,7 @@ $(function() {
 				if (data.queries[i].query_connection) {
 					description += "\n• Caller: " + data.queries[i].file + ":" + data.queries[i].line + " (" + data.queries[i].method + ")";
 					description += "\n• Connection: " + data.queries[i].query_connection;
+					description += "\n• Query ID: " + data.queries[i].query_id;
 					description += "\n• Query Time: " + (data.queries[i].query_time ? (data.queries[i].query_time.toFixed(4) + " sec") : "");
 				}
 				description += "\n• Result: " + ((data.queries[i].message === "success" || !data.queries[i].message) ? "success" : ("error " + data.queries[i].error_code + " " + data.queries[i].message));
