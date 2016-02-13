@@ -1845,6 +1845,7 @@ class memberController extends member
 	function setSessionInfo()
 	{
 		$oMemberModel = getModel('member');
+		$config = $oMemberModel->getMemberConfig();
 		// If your information came through the current session information to extract information from the users
 		if(!$this->memberInfo && $_SESSION['member_srl'] && $oMemberModel->isLogged() )
 		{
@@ -1891,7 +1892,10 @@ class memberController extends member
 		$this->addMemberMenu( 'dispMemberScrappedDocument', 'cmd_view_scrapped_document');
 		$this->addMemberMenu( 'dispMemberSavedDocument', 'cmd_view_saved_document');
 		$this->addMemberMenu( 'dispMemberOwnDocument', 'cmd_view_own_document');
-		$this->addMemberMenu( 'dispMemberModifyNicknameLog', 'cmd_modify_nickname_log');
+		if($config->update_nick_log == 'Y')
+		{
+			$this->addMemberMenu( 'dispMemberModifyNicknameLog', 'cmd_modify_nickname_log');
+		}
 	}
 
 	/**
