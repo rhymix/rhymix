@@ -712,12 +712,16 @@ function debugPrint($entry = null)
  */
 function writeSlowlog($type, $elapsed_time, $obj)
 {
-	static $config = array();
+	static $config = null;
 	if (!$config)
 	{
 		$config = config('debug');
 	}
-	if(!$config['log_slow_queries'] && !$config['log_slow_triggers'] && !$config['log_slow_widgets'])
+	if (!Rhymix\Framework\Debug::isEnabledForCurrentUser())
+	{
+		return;
+	}
+	if (!$config['log_slow_queries'] && !$config['log_slow_triggers'] && !$config['log_slow_widgets'])
 	{
 		return;
 	}

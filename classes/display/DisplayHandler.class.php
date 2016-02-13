@@ -138,37 +138,9 @@ class DisplayHandler extends Handler
 	public function getDebugInfo(&$output)
 	{
 		// Check if debugging is enabled for this request.
-		if (!config('debug.enabled'))
+		if (!config('debug.enabled') || !Rhymix\Framework\Debug::isEnabledForCurrentUser())
 		{
 			return;
-		}
-		
-		// Check if debugging info should be visible to the current user.
-		$display_to = config('debug.display_to');
-		switch ($display_to)
-		{
-			case 'everyone':
-				break;
-			
-			case 'ip':
-				$allowed_ip = config('debug.allow');
-				foreach ($allowed_ip as $range)
-				{
-					if (Rhymix\Framework\IpFilter::inRange(RX_CLIENT_IP, $range))
-					{
-						break 2;
-					}
-				}
-				return;
-			
-			case 'admin':
-			default:
-				$logged_info = Context::get('logged_info');
-				if ($logged_info && $logged_info->is_admin === 'Y')
-				{
-					break;
-				}
-				return;
 		}
 		
 		// Print debug information.

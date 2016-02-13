@@ -308,7 +308,10 @@ class Debug
 	 */
 	public static function registerErrorHandlers($error_types)
 	{
-		set_error_handler('\\Rhymix\\Framework\\Debug::addError', $error_types);
+		if (Config::get('debug.enabled'))
+		{
+			set_error_handler('\\Rhymix\\Framework\\Debug::addError', $error_types);
+		}
 		set_exception_handler('\\Rhymix\\Framework\\Debug::exceptionHandler');
 		register_shutdown_function('\\Rhymix\\Framework\\Debug::shutdownHandler');
 	}
@@ -344,6 +347,51 @@ class Debug
 		// Display a generic error page.
 		\Context::displayErrorPage($title, $message, 500);
 		exit;
+	}
+	
+	/**
+	 * Check if debugging is enabled for the current user.
+	 * 
+	 * @return bool
+	 */
+	public static function isEnabledForCurrentUser()
+	{
+		static $cache = null;
+		if ($cache !== null)
+		{
+			return $cache;
+		}
+		if (!Config::get('debug.enabled'))
+		{
+			return $cache = false;
+		}
+		
+		$display_to = Config::get('debug.display_to');
+		switch ($display_to)
+		{
+			case 'everyone':
+				return $cache = true;
+			
+			case 'ip':
+				$allowed_ip = Config::get('debug.allow');
+				foreach ($allowed_ip as $range)
+				{
+					if (Rhymix\Framework\IpFilter::inRange(RX_CLIENT_IP, $range))
+					{
+						return $cache = true;
+					}
+				}
+				return $cache = false;
+			
+			case 'admin':
+			default:
+				$logged_info = \Context::get('logged_info');
+				if ($logged_info && $logged_info->is_admin === 'Y')
+				{
+					return $cache = true;
+				}
+				return $cache = false;
+		}
 	}
 	
 	/**
