@@ -209,8 +209,16 @@ class DisplayHandler extends Handler
 				$content = ob_get_clean();
 				if ($display_type === 'file')
 				{
-					$debug_file = RX_BASEDIR . 'files/_debug_message.php';
-					FileHandler::writeFile($debug_file, $content, 'a');
+					$debug_file = RX_BASEDIR . 'files/debug/' . getInternalDateTime(RX_TIME, 'Ymd') . '.php';
+					if (!file_exists($debug_file) || !filesize($debug_file))
+					{
+						$phpheader = '<?php exit; ?>' . "\n";
+					}
+					else
+					{
+						$phpheader = '';
+					}
+					FileHandler::writeFile($debug_file, $phpheader . $content, 'a');
 					return '';
 				}
 				else
