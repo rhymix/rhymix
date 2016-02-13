@@ -195,11 +195,26 @@ class DisplayHandler extends Handler
 					case 'HTML':
 						$json_options = defined('JSON_PRETTY_PRINT') ? (JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE) : 0;
 						$panel_script = sprintf('<script src="%s%s?%s"></script>', RX_BASEURL, 'common/js/debug.js', filemtime(RX_BASEDIR . 'common/js/debug.js'));
+						if (isset($_SESSION['_rx_debug_previous']))
+						{
+							$panel_script .= "\n<script>\nvar rhymix_debug_previous = " . json_encode($_SESSION['_rx_debug_previous'], $json_options) . ";\n</script>";
+							unset($_SESSION['_rx_debug_previous']);
+						}
 						$panel_script .= "\n<script>\nvar rhymix_debug_content = " . json_encode($data, $json_options) . ";\n</script>";
 						$body_end_position = strrpos($output, '</body>') ?: strlen($output);
 						$output = substr($output, 0, $body_end_position) . "\n$panel_script\n" . substr($output, $body_end_position);
 						return;
 					case 'JSON':
+						if (RX_POST && preg_match('/^proc/', Context::get('act')))
+						{
+							$data->ajax_module = Context::get('module');
+							$data->ajax_act = Context::get('act');
+							$_SESSION['_rx_debug_previous'] = $data;
+						}
+						else
+						{
+							unset($_SESSION['_rx_debug_previous']);
+						}
 						if (preg_match('/^(.+)\}$/', $output, $matches))
 						{
 							$output = $matches[1] . ',"_rx_debug":' . json_encode($data) . '}';
