@@ -29,3 +29,4 @@ $lang->msg_content_is_null = '請輸入內容。';
 $lang->msg_allow_message_to_friend = '只允許接收好友短訊息的用戶，不能發送短訊息。';
 $lang->msg_disallow_message = '拒絕接收短訊息的用戶，不能發送短訊息。';
 $lang->about_allow_message = '可選擇是否接收短訊息。';
+$lang->alert_new_message_arrived = '您收到 %d 個新訊息。要檢視嗎?';

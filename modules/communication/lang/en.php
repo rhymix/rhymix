@@ -34,3 +34,4 @@ $lang->message_notice = 'Send a message to the author about this. If you don\'t 
 $lang->friends_page_does_not_support = 'Friends in a mobile environment is not supported. Please go to the PC page.';
 $lang->cmd_write_communication = 'Write Grant';
 $lang->cmd_manage_base = 'Basic infomation';
+$lang->alert_new_message_arrived = 'You have %d new message(s). Do you want to check it now?';
