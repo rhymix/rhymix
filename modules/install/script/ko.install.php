@@ -271,7 +271,7 @@ $obj->module_srl = $module_srl;
 Context::set('version', __XE_VERSION__);
 $obj->title = 'Welcome to Rhymix';
 
-$obj->content = $oTemplateHandler->compile(_XE_PATH_ . 'modules/install/script/welcome_content', 'welcome_content_'.$lang);
+$obj->content = $oTemplateHandler->compile(_XE_PATH_ . 'modules/install/script/welcome_content', 'welcome_content');
 
 $output = $oDocumentController->insertDocument($obj, true);
 if(!$output->toBool()) return $output;
