@@ -116,6 +116,11 @@ class Debug
 			'backtrace' => $backtrace,
 		);
 		self::$_entries[] = $entry;
+		
+		// Add the entry to the error log.
+		$log_entry = str_replace("\0", '', sprintf('Rhymix Debug: %s in %s on line %d',
+			var_export($message, true), $entry->file, $entry->line));
+		error_log($log_entry);
 	}
 	
 	/**
