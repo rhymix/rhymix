@@ -92,6 +92,7 @@ return array(
 		'log_slow_queries' => 0,
 		'log_slow_triggers' => 0,
 		'log_slow_widgets' => 0,
+		'log_filename' => null,
 		'display_type' => 'comment',
 		'display_to' => 'admin',
 		'allow' => array(),

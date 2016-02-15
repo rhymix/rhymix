@@ -58,6 +58,13 @@
 			</div>
 		</div>
 		<div class="x_control-group">
+			<label class="x_control-label" for="debug_log_filename">{$lang->debug_log_filename}</label>
+			<div class="x_controls">
+				<input type="text" name="debug_log_filename" id="debug_log_filename" value="{$debug_log_filename}" />
+				<p class="x_help-block">{$lang->about_debug_log_filename}</p>
+			</div>
+		</div>
+		<div class="x_control-group">
 			<label class="x_control-label" for="debug_log_slow_widgets">{$lang->debug_display_to}</label>
 			<div class="x_controls">
 				<label for="debug_display_to_admin" class="x_inline"><input type="radio" name="debug_display_to" id="debug_display_to_admin" value="admin" checked="checked"|cond="$debug_display_to=='admin'" /> {$lang->debug_display_to_admin}</label>

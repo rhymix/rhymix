@@ -408,7 +408,7 @@ class Debug
 	{
 		// Collect debug information.
 		$data = (object)array(
-			'timestamp' => DateTime::formatTimestampForCurrentUser('Y-m-d H:i:s P', RX_TIME),
+			'timestamp' => DateTime::formatTimestamp('Y-m-d H:i:s', RX_TIME),
 			'url' => getCurrentPageUrl(),
 			'request' => (object)array(
 				'method' => $_SERVER['REQUEST_METHOD'] . ($_SERVER['REQUEST_METHOD'] !== \Context::getRequestMethod() ? (' (' . \Context::getRequestMethod() . ')') : ''),

@@ -209,8 +209,15 @@ class DisplayHandler extends Handler
 				$content = ob_get_clean();
 				if ($display_type === 'file')
 				{
-					$debug_file = RX_BASEDIR . 'files/debug/' . getInternalDateTime(RX_TIME, 'Ymd') . '.php';
-					if (!file_exists($debug_file) || !filesize($debug_file))
+					$log_filename = config('debug.log_filename') ?: 'files/debug/YYYYMMDD.php';
+					$log_filename = str_replace(array('YYYY', 'YY', 'MM', 'DD'), array(
+						getInternalDateTime(RX_TIME, 'Y'),
+						getInternalDateTime(RX_TIME, 'y'),
+						getInternalDateTime(RX_TIME, 'm'),
+						getInternalDateTime(RX_TIME, 'd'),
+					), $log_filename);
+					$log_filename = RX_BASEDIR . $log_filename;
+					if (!file_exists($log_filename) || !filesize($log_filename))
 					{
 						$phpheader = '<?php exit; ?>' . "\n";
 					}
@@ -218,7 +225,7 @@ class DisplayHandler extends Handler
 					{
 						$phpheader = '';
 					}
-					FileHandler::writeFile($debug_file, $phpheader . $content, 'a');
+					FileHandler::writeFile($log_filename, $phpheader . $content, 'a');
 					return '';
 				}
 				else
