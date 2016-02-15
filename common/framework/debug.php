@@ -19,6 +19,11 @@ class Debug
 	protected static $_slow_widgets = array();
 	
 	/**
+	 * Also write to error log.
+	 */
+	public static $write_to_error_log = true;
+	
+	/**
 	 * Get all entries.
 	 * 
 	 * @return array
@@ -118,9 +123,12 @@ class Debug
 		self::$_entries[] = $entry;
 		
 		// Add the entry to the error log.
-		$log_entry = str_replace("\0", '', sprintf('Rhymix Debug: %s in %s on line %d',
-			var_export($message, true), $entry->file, $entry->line));
-		error_log($log_entry);
+		if (self::$write_to_error_log)
+		{
+			$log_entry = str_replace("\0", '', sprintf('Rhymix Debug: %s in %s on line %d',
+				var_export($message, true), $entry->file, $entry->line));
+			error_log($log_entry);
+		}
 	}
 	
 	/**
@@ -165,9 +173,12 @@ class Debug
 		);
 		
 		// Add the entry to the error log.
-		$log_entry = str_replace("\0", '', sprintf('PHP %s: %s in %s on line %d',
-			$errinfo->type, $errstr, $errfile, intval($errline)));
-		error_log($log_entry);
+		if (self::$write_to_error_log)
+		{
+			$log_entry = str_replace("\0", '', sprintf('PHP %s: %s in %s on line %d',
+				$errinfo->type, $errstr, $errfile, intval($errline)));
+			error_log($log_entry);
+		}
 	}
 	
 	/**
