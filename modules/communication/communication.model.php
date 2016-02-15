@@ -233,7 +233,7 @@ class communicationModel extends communication
 		return $message;
 	}
 
-	function getNewMessageCount($member_srl)
+	function getNewMessageCount($member_srl = null)
 	{
 		if(!$member_srl)
 		{
