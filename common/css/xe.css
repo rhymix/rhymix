@@ -341,15 +341,18 @@ button.btn {
 	color: #fcfcfc;
 	position: absolute;
 	left: 10px; top: 10px;
+	margin: 0; padding: 0;
 }
 #rhymix_debug_panel .debug_header .debug_maximize {
 	font: normal 20px/24px Arial, sans-serif;
+	text-decoration: none;
 	color: #444444;
 	position: absolute;
-	right: 32px; top: 7px;	
+	right: 32px; top: 6px;	
 }
 #rhymix_debug_panel .debug_header .debug_close {
 	font: normal 28px/28px Arial, sans-serif;
+	text-decoration: none;
 	color: #444444;
 	position: absolute;
 	right: 10px; top: 4px;	

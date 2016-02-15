@@ -15,7 +15,8 @@ $(function() {
 	// Initialize the debug button.
 	$('<a href="#"></a>').text("DEBUG").appendTo(button).click(function(event) {
 		event.preventDefault();
-		panel.css({ width: 0 }).show().animate({ width: 540 }, 200);
+		var max_width = Math.min(540, $(window).width());
+		panel.css({ width: max_width, left: max_width * -1 }).show().animate({ left: 0 }, 200);
 		button.hide();
 	});
 	
@@ -27,7 +28,7 @@ $(function() {
 	}));
 	header.append($('<a class="debug_close" href="#">&times;</a>').click(function(event) {
 		event.preventDefault();
-		panel.animate({ width: 0 }, 200, function() {
+		panel.animate({ left: panel.width() * -1 }, 200, function() {
 			panel.hide();
 			button.show();
 		});
