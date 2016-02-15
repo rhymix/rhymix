@@ -317,11 +317,13 @@ button.btn {
 }
 #rhymix_debug_panel {
 	display: none;
-	position: absolute;
+	position: fixed;
 	left: 0; top: 0;
-	max-width: 96%;
-	min-height: 100%;
+	max-width: 100%;
+	height: 100%;
+	overflow-y: scroll;
 	background: #fcfcfc;
+	box-sizing: border-box;
 	border-right: 1px solid #ccc;
 	box-shadow: 0 0 4px 0 rgba(0, 0, 0, 0.18), 0 0 8px 0 rgba(0, 0, 0, 0.12);
 	z-index: 1073741824;

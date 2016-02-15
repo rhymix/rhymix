@@ -15,9 +15,7 @@ $(function() {
 	// Initialize the debug button.
 	$('<a href="#"></a>').text("DEBUG").appendTo(button).click(function(event) {
 		event.preventDefault();
-		panel.css({ width: 0 }).show().animate({ width: 640 }, 200, function() {
-			$(window).scrollTop(0);
-		});
+		panel.css({ width: 0 }).show().animate({ width: 540 }, 200);
 		button.hide();
 	});
 	
@@ -25,7 +23,7 @@ $(function() {
 	var header = $('<div class="debug_header"></div>').appendTo(panel);
 	header.append('<h2>RHYMIX DEBUG</h2>');
 	header.append($('<a class="debug_maximize" href="#">+</a>').click(function(event) {
-		panel.animate({ width: "95%" }, 300);
+		panel.animate({ width: "100%" }, 300);
 	}));
 	header.append($('<a class="debug_close" href="#">&times;</a>').click(function(event) {
 		event.preventDefault();
