@@ -13,7 +13,7 @@ $(function() {
 	var button = $("#rhymix_debug_button");
 	
 	// Initialize the debug button.
-	$('<a href="#"></a>').text("DEBUG").appendTo(button).click(function(event) {
+	var button_link = $('<a href="#"></a>').text("DEBUG").appendTo(button).click(function(event) {
 		event.preventDefault();
 		var max_width = Math.min(540, $(window).width());
 		panel.css({ width: max_width, left: max_width * -1 }).show().animate({ left: 0 }, 200);
@@ -55,10 +55,13 @@ $(function() {
 		}
 		
 		// Create the page header.
-		var page_header = $('<div class="debug_page_header"></div>').prependTo(page);
+		var page_header = $('<div class="debug_page_header"></div>').prependTo(page).click(function() {
+			$(this).find("a.debug_page_collapse").triggerHandler("click");
+		});
 		page_header.append($('<h3></h3>').text(data.page_title).attr("title", data.url));
 		page_header.append($('<a class="debug_page_collapse" href="#"></a>').text(open ? "▲" : "▼").click(function(event) {
 			event.preventDefault();
+			event.stopPropagation();
 			if (page_body.is(":visible")) {
 				page_body.slideUp(200);
 				$(this).text("▼");
@@ -70,10 +73,12 @@ $(function() {
 		
 		// Add general information.
 		page_body.append($('<h4></h4>').text('General Information'));
-		page_body.append($('<div class="debug_entry no_indentation"></div>').text(
-			'Request: ' + data.request.method + ' (' + data.request.size + ' bytes)' + "\n" +
-			'Response: ' + data.response.method + ' (' + data.response.size + ' bytes)' + "\n" +
-			'Time: ' + data.timing.total));
+		entry = $('<div class="debug_entry"></div>').appendTo(page_body);
+		var metadata = $('<ul class="debug_metadata"></ul>').appendTo(entry);
+		metadata.append($('<li></li>').text('Request: ' + data.request.method + (data.request.method !== "GET" ? (' - ' + data.request.size + ' bytes') : "")));
+		metadata.append($('<li></li>').text('Response: ' + data.response.method + ' - ' + data.response.size + ' bytes'));
+		metadata.append($('<li></li>').text('Total Time: ' + data.timing.total));
+		metadata.append($('<li></li>').text('Query Time: ' + data.timing.db_query));
 		
 		// Add debug entries.
 		if (data.entries && data.entries.length) {
@@ -81,13 +86,13 @@ $(function() {
 			for (i in data.entries) {
 				entry = $('<div class="debug_entry"></div>').appendTo(page_body);
 				num = parseInt(i) + 1; if (num < 10) num = "0" + num;
-				backtrace = "";
+				entry.text(num + ". " + data.entries[i].message);
+				backtrace = $('<ul class="debug_backtrace"></ul>').appendTo(entry);
 				for (j in data.entries[i].backtrace) {
 					if (data.entries[i].backtrace[j].file) {
-						backtrace += "\n• " + data.entries[i].backtrace[j].file + ":" + data.entries[i].backtrace[j].line;
+						backtrace.append($('<li></li>').text(data.entries[i].backtrace[j].file + ":" + data.entries[i].backtrace[j].line));
 					}
 				}
-				entry.text(num + ". " + data.entries[i].message + backtrace);
 			}
 		}
 		
@@ -97,13 +102,13 @@ $(function() {
 			for (i in data.errors) {
 				entry = $('<div class="debug_entry"></div>').appendTo(page_body);
 				num = parseInt(i) + 1; if (num < 10) num = "0" + num;
-				backtrace = "";
+				entry.text(num + ". " + data.errors[i].type + ": " + data.errors[i].message);
+				backtrace = $('<ul class="debug_backtrace"></ul>').appendTo(entry);
 				for (j in data.errors[i].backtrace) {
 					if (data.errors[i].backtrace[j].file) {
-						backtrace += "\n• " + data.errors[i].backtrace[j].file + ":" + data.errors[i].backtrace[j].line;
+						backtrace.append($('<li></li>').text(data.errors[i].backtrace[j].file + ":" + data.errors[i].backtrace[j].line));
 					}
 				}
-				entry.text(num + ". " + data.errors[i].type + ": " + data.errors[i].message + backtrace);
 			}
 		}
 		
@@ -111,24 +116,30 @@ $(function() {
 		if (data.queries && data.queries.length) {
 			page_body.append($('<h4></h4>').text('Queries (' + data.queries.length + ')'));
 			for (i in data.queries) {
-				entry = $('<div class="debug_entry collapse_spaces"></div>').appendTo(page_body);
+				entry = $('<div class="debug_entry"></div>').appendTo(page_body);
 				num = parseInt(i) + 1; if (num < 10) num = "0" + num;
-				description = "";
-				if (data.queries[i].query_connection) {
-					description += "\n• Caller: " + data.queries[i].file + ":" + data.queries[i].line + " (" + data.queries[i].method + ")";
-					description += "\n• Connection: " + data.queries[i].query_connection;
-					description += "\n• Query ID: " + data.queries[i].query_id;
-					description += "\n• Query Time: " + (data.queries[i].query_time ? (data.queries[i].query_time.toFixed(4) + " sec") : "");
+				entry.text(num + ". " + data.queries[i].query_string);
+				description = $('<ul class="debug_backtrace"></ul>').appendTo(entry);
+				if (data.queries[i].file && data.queries[i].line) {
+					description.append($('<li></li>').text("Caller: " + data.queries[i].file + ":" + data.queries[i].line).append("<br>(" + data.queries[i].method + ")"));
+					description.append($('<li></li>').text("Connection: " + data.queries[i].query_connection));
+					description.append($('<li></li>').text("Query ID: " + data.queries[i].query_id));
+					description.append($('<li></li>').text("Query Time: " + (data.queries[i].query_time ? (data.queries[i].query_time.toFixed(4) + " sec") : "")));
 				}
-				description += "\n• Result: " + ((data.queries[i].message === "success" || !data.queries[i].message) ? "success" : ("error " + data.queries[i].error_code + " " + data.queries[i].message));
-				entry.text(num + ". " + data.queries[i].query_string + description);
+				description.append($('<li></li>').text("Result: " + ((data.queries[i].message === "success" || !data.queries[i].message) ? "success" : ("error " + data.queries[i].error_code + " " + data.queries[i].message))));
 			}
+		}
+		
+		// If there are errors, turn the button text red.
+		
+		if (data.errors && data.errors.length) {
+			button_link.addClass("has_errors");
 		}
 	};
 	
 	// Add debug data from the previous request.
 	if (window.rhymix_debug_previous) {
-		window.rhymix_debug_previous.page_title = 'PREVIOUS POST: ' + window.rhymix_debug_previous.ajax_module + "." + window.rhymix_debug_previous.ajax_act;
+		window.rhymix_debug_previous.page_title = 'PREVIOUS POST : ' + window.rhymix_debug_previous.ajax_module + "." + window.rhymix_debug_previous.ajax_act;
 		rhymix_debug_add_data(window.rhymix_debug_previous, false);
 	}
 	
