@@ -626,7 +626,7 @@ class ModuleHandler extends Handler
 					if(!$grant->manager)
 					{
 						self::_setInputErrorToContext();
-						$this->error = 'msg_is_not_manager';
+						$this->error = 'msg_is_not_administrator';
 						$oMessageObject = self::getModuleInstance('message', $display_mode);
 						$oMessageObject->setError(-1);
 						$oMessageObject->setMessage($this->error);
