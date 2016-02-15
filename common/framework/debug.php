@@ -141,6 +141,15 @@ class Debug
 			return;
 		}
 		
+		// Rewrite the error message with relative paths.
+		$message = str_replace(array(
+			' called in ' . RX_BASEDIR,
+			' defined in ' . RX_BASEDIR,
+		), array(
+			' called in ',
+			' defined in ',
+		), $errstr);
+		
 		// Get the backtrace.
 		$backtrace_args = defined('\DEBUG_BACKTRACE_IGNORE_ARGS') ? \DEBUG_BACKTRACE_IGNORE_ARGS : 0;
 		$backtrace = debug_backtrace($backtrace_args);
@@ -149,7 +158,7 @@ class Debug
 		self::$_errors[] = $errinfo = (object)array(
 			'type' => self::getErrorType($errno),
 			'time' => microtime(true),
-			'message' => $errstr,
+			'message' => $message,
 			'file' => $errfile,
 			'line' => $errline,
 			'backtrace' => $backtrace,
@@ -157,7 +166,7 @@ class Debug
 		
 		// Add the entry to the error log.
 		$log_entry = str_replace("\0", '', sprintf('PHP %s: %s in %s on line %d',
-			$errinfo->type, $errinfo->message, $errinfo->file, intval($errinfo->line)));
+			$errinfo->type, $errstr, $errfile, intval($errline)));
 		error_log($log_entry);
 	}
 	
