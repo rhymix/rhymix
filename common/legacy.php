@@ -1342,42 +1342,58 @@ function requirePear()
  */
 function checkCSRF()
 {
-	if($_SERVER['REQUEST_METHOD'] != 'POST')
+	// If this is not a POST request, FAIL.
+	if ($_SERVER['REQUEST_METHOD'] != 'POST')
 	{
-		return FALSE;
+		return false;
 	}
-
+	
+	// Get the referer. If the referer is empty, PASS.
+	$referer = strval($_SERVER['HTTP_REFERER']);
+	if ($referer === '')
+	{
+		return true;
+	}
+	if (strpos($referer, 'xn--') !== false)
+	{
+		$referer = Context::decodeIdna($referer);
+	}
+	$referer_host = parse_url($referer, PHP_URL_HOST);
+	
+	// If the referer is the same domain as the current host, PASS.
+	$current_host = $_SERVER['HTTP_HOST'];
+	if (strpos($current_host, 'xn--') !== false)
+	{
+		$current_host = Context::decodeIdna($current_host);
+	}
+	if ($referer_host === $current_host)
+	{
+		return true;
+	}
+	
+	// If the referer is the same domain as the default URL, PASS.
 	$default_url = Context::getDefaultUrl();
-	$referer = $_SERVER["HTTP_REFERER"];
-
-	if(strpos($default_url, 'xn--') !== FALSE && strpos($referer, 'xn--') === FALSE)
+	if (strpos($default_url, 'xn--') !== false)
 	{
-		$referer = Context::encodeIdna($referer);
+		$default_url = Context::decodeIdna($default_url);
 	}
-
-	$default_url = parse_url($default_url);
-	$referer = parse_url($referer);
-
+	if ($referer_host === parse_url($default_url, PHP_URL_HOST))
+	{
+		return true;
+	}
+	
+	// Check if we have a virtual site with a matching domain.
 	$oModuleModel = getModel('module');
 	$siteModuleInfo = $oModuleModel->getDefaultMid();
-
-	if($siteModuleInfo->site_srl == 0)
+	$virtualSiteInfo = $oModuleModel->getSiteInfo($siteModuleInfo->site_srl);
+	if (strcasecmp($virtualSiteInfo->domain, Context::get('vid')) && stristr($virtualSiteInfo->domain, $referer_host))
 	{
-		if($default_url['host'] !== $referer['host'])
-		{
-			return FALSE;
-		}
+		return true;
 	}
 	else
 	{
-		$virtualSiteInfo = $oModuleModel->getSiteInfo($siteModuleInfo->site_srl);
-		if(strtolower($virtualSiteInfo->domain) != strtolower(Context::get('vid')) && !strstr(strtolower($virtualSiteInfo->domain), strtolower($referer['host'])))
-		{
-			return FALSE;
-		}
+		return false;
 	}
-
-	return TRUE;
 }
 
 /**
