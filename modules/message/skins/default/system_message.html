@@ -8,7 +8,7 @@
 <div id="access">
 	<div class="login-header">
 		<h1><i class="icon-user"></i> {$system_message}</h1>
-		<div class="message" cond="defined('_XE_SITELOCK_MESSAGE_')">{constant('_XE_SITELOCK_MESSAGE_')}</div>
+		<div class="message" cond="$system_message_detail">{$system_message_detail}</div>
 	</div>
 	<div class="login-body">
 		<div cond="$XE_VALIDATOR_MESSAGE && $XE_VALIDATOR_ID == 'modules/message/skins/default/system_message/1'" class="message {$XE_VALIDATOR_MESSAGE_TYPE}">

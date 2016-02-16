@@ -42,16 +42,13 @@ class TemplateHandler
 	{
 		static $oTemplate = NULL;
 
-		if(__DEBUG__ == 3)
+		if(!isset($GLOBALS['__TemplateHandlerCalled__']))
 		{
-			if(!isset($GLOBALS['__TemplateHandlerCalled__']))
-			{
-				$GLOBALS['__TemplateHandlerCalled__'] = 1;
-			}
-			else
-			{
-				$GLOBALS['__TemplateHandlerCalled__']++;
-			}
+			$GLOBALS['__TemplateHandlerCalled__'] = 1;
+		}
+		else
+		{
+			$GLOBALS['__TemplateHandlerCalled__']++;
 		}
 
 		if(!$oTemplate)
@@ -118,10 +115,7 @@ class TemplateHandler
 	public function compile($tpl_path, $tpl_filename, $tpl_file = '')
 	{
 		// store the starting time for debug information
-		if(__DEBUG__ == 3)
-		{
-			$start = microtime(true);
-		}
+		$start = microtime(true);
 
 		// initiation
 		$this->init($tpl_path, $tpl_filename, $tpl_file);
@@ -155,10 +149,7 @@ class TemplateHandler
 		}
 
 		// store the ending time for debug information
-		if(__DEBUG__ == 3)
-		{
-			$GLOBALS['__template_elapsed__'] += microtime(true) - $start;
-		}
+		$GLOBALS['__template_elapsed__'] += microtime(true) - $start;
 
 		return $output;
 	}

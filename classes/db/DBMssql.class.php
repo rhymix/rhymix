@@ -943,8 +943,6 @@ class DBMssql extends DB
 
 		// TODO Decide if we continue to pass parameters like this
 		$this->param = $queryObject->getArguments();
-
-		$query .= (__DEBUG_QUERY__ & 1 && $output->query_id) ? sprintf(' ' . $this->comment_syntax, $this->query_id) : '';
 		$result = $this->_query($query, $connection);
 
 		if($this->isError())
@@ -1024,7 +1022,6 @@ class DBMssql extends DB
 				$count_query = sprintf('select count(*) as "count" from (%s) xet', $count_query);
 			}
 
-			$count_query .= (__DEBUG_QUERY__ & 1 && $queryObject->queryID) ? sprintf(' ' . $this->comment_syntax, $this->query_id) : '';
 			$this->param = $queryObject->getArguments();
 			$result_count = $this->_query($count_query, $connection);
 			$count_output = $this->_fetch($result_count);

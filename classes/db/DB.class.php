@@ -364,55 +364,47 @@ class DB
 		$log['module'] = $site_module_info->module;
 		$log['act'] = Context::get('act');
 		$log['time'] = date('Y-m-d H:i:s');
+		$log['backtrace'] = array();
 
-		$bt = version_compare(PHP_VERSION, '5.3.6', '>=') ? debug_backtrace(DEBUG_BACKTRACE_IGNORE_ARGS) : debug_backtrace();
-
-		foreach($bt as $no => $call)
+		if (config('debug.enabled') && config('debug.log_queries'))
 		{
-			if($call['function'] == 'executeQuery' || $call['function'] == 'executeQueryArray')
+			$bt = defined('DEBUG_BACKTRACE_IGNORE_ARGS') ? debug_backtrace(DEBUG_BACKTRACE_IGNORE_ARGS) : debug_backtrace();
+			foreach($bt as $no => $call)
 			{
-				$call_no = $no;
-				$call_no++;
-				$log['called_file'] = $bt[$call_no]['file'].':'.$bt[$call_no]['line'];
-				$log['called_file'] = str_replace(_XE_PATH_ , '', $log['called_file']);
-				$call_no++;
-				$log['called_method'] = $bt[$call_no]['class'].$bt[$call_no]['type'].$bt[$call_no]['function'];
-				break;
-			}
-		}
-
-		// leave error log if an error occured (if __DEBUG_DB_OUTPUT__ is defined)
-		if($this->isError())
-		{
-			$log['result'] = 'Failed';
-			$log['errno'] = $this->errno;
-			$log['errstr'] = $this->errstr;
-
-			if(__DEBUG_DB_OUTPUT__ == 1)
-			{
-				$debug_file = _XE_PATH_ . "files/_debug_db_query.php";
-				$buff = array();
-				if(!file_exists($debug_file))
+				if($call['function'] == 'executeQuery' || $call['function'] == 'executeQueryArray')
 				{
-					$buff[] = '<?php exit(); ?' . '>';
+					$call_no = $no;
+					$call_no++;
+					$log['called_file'] = $bt[$call_no]['file'];
+					$log['called_line'] = $bt[$call_no]['line'];
+					$call_no++;
+					$log['called_method'] = $bt[$call_no]['class'].$bt[$call_no]['type'].$bt[$call_no]['function'];
+					$log['backtrace'] = array_slice($bt, $call_no, 1);
+					break;
 				}
-				$buff[] = print_r($log, TRUE);
-				@file_put_contents($log_file, implode("\n", $buff) . "\n\n", FILE_APPEND|LOCK_EX);
 			}
 		}
 		else
 		{
-			$log['result'] = 'Success';
+			$log['called_file'] = $log['called_line'] = $log['called_method'] = null;
+			$log['backtrace'] = array();
+		}
+
+		// leave error log if an error occured
+		if($this->isError())
+		{
+			$log['result'] = 'error';
+			$log['errno'] = $this->errno;
+			$log['errstr'] = $this->errstr;
+		}
+		else
+		{
+			$log['result'] = 'success';
+			$log['errno'] = null;
+			$log['errstr'] = null;
 		}
 
 		$this->setQueryLog($log);
-
-		$log_args = new stdClass;
-		$log_args->query = $this->query;
-		$log_args->query_id = $this->query_id;
-		$log_args->caller = $log['called_method'] . '() in ' . $log['called_file'];
-		$log_args->connection = $log['connection'];
-		writeSlowlog('query', $elapsed_time, $log_args);
 	}
 
 	/**
@@ -422,7 +414,7 @@ class DB
 	*/
 	public function setQueryLog($log)
 	{
-		$GLOBALS['__db_queries__'][] = $log;
+		Rhymix\Framework\Debug::addQuery($log);
 	}
 
 	/**
@@ -868,7 +860,7 @@ class DB
 			{
 				$this->_connect($type);
 			}
-			$this->connection = 'Master ' . $this->master_db['host'];
+			$this->connection = 'master (' . $this->master_db['host'] . ')';
 			return $this->master_db["resource"];
 		}
 
@@ -883,7 +875,7 @@ class DB
 			{
 				$this->_connect($type);
 			}
-			$this->connection = 'Master ' . $this->master_db['host'];
+			$this->connection = 'master (' . $this->master_db['host'] . ')';
 			return $this->master_db["resource"];
 		}
 		
@@ -891,7 +883,7 @@ class DB
 		{
 			$this->_connect($type, $indx);
 		}
-		$this->connection = 'Slave ' . $this->slave_db[$indx]['host'];
+		$this->connection = 'slave (' . $this->slave_db[$indx]['host'] . ')';
 		return $this->slave_db[$indx]["resource"];
 	}
 
@@ -1148,7 +1140,7 @@ class DB
 		$connection["is_connected"] = TRUE;
 
 		// Save connection info for db logs
-		$this->connection = ucfirst($type) . ' ' . $connection['host'];
+		$this->connection = $type . ' (' . $connection['host'] . ')';
 
 		// regist $this->close callback
 		register_shutdown_function(array($this, "close"));

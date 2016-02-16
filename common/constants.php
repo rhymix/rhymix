@@ -133,6 +133,8 @@ define('_XE_PACKAGE_', 'XE');
 define('_XE_LOCATION_', 'en');
 define('_XE_LOCATION_SITE_', 'https://www.xpressengine.com/');
 define('_XE_DOWNLOAD_SERVER_', 'https://download.xpressengine.com/');
+define('__PROXY_SERVER__', null);
+define('__DEBUG__', 0);
 
 /**
  * Other useful constants.

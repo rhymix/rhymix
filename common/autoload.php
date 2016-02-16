@@ -3,7 +3,7 @@
 /**
  * Set error reporting rules.
  */
-error_reporting(E_ALL ^ E_WARNING ^ E_NOTICE ^ E_STRICT ^ E_DEPRECATED);
+error_reporting(E_ALL ^ E_NOTICE ^ E_STRICT ^ E_DEPRECATED);
 
 /**
  * Suppress date/time errors until the internal time zone is set (see below).
@@ -41,11 +41,6 @@ if(file_exists(RX_BASEDIR . 'config/config.user.inc.php'))
 {
 	require_once RX_BASEDIR . 'config/config.user.inc.php';
 }
-
-/**
- * Load legacy debug settings.
- */
-require_once __DIR__ . '/debug.php';
 
 /**
  * Define the list of legacy class names for the autoloader.
@@ -197,6 +192,11 @@ require_once RX_BASEDIR  . 'vendor/autoload.php';
  * Load system configuration.
  */
 Rhymix\Framework\Config::init();
+
+/**
+ * Install the debugger.
+ */
+Rhymix\Framework\Debug::registerErrorHandlers(error_reporting());
 
 /**
  * Set the internal timezone.
