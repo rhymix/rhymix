@@ -451,7 +451,7 @@ class Debug
 				$allowed_ip = Config::get('debug.allow');
 				foreach ($allowed_ip as $range)
 				{
-					if (Rhymix\Framework\IpFilter::inRange(RX_CLIENT_IP, $range))
+					if (IpFilter::inRange(RX_CLIENT_IP, $range))
 					{
 						return $cache = true;
 					}
