@@ -7,9 +7,10 @@
  */
 
 /**
- * Get system configuration.
+ * Get or set system configuration.
  * 
  * @param string $key
+ * @param string $value (optional)
  * @return mixed
  */
 function config($key, $value = null)
