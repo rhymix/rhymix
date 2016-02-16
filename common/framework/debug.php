@@ -501,10 +501,13 @@ class Debug
 			'entries' => self::$_entries,
 			'errors' => config('debug.log_errors') ? self::$_errors : null,
 			'queries' => config('debug.log_queries') ? self::$_queries : null,
+			'slow_queries' => self::$_slow_queries,
+			'slow_triggers' => self::$_slow_triggers,
+			'slow_widgets' => self::$_slow_widgets,
 		);
 		
 		// Clean up the backtrace.
-		foreach (array('entries', 'errors', 'queries') as $key)
+		foreach (array('entries', 'errors', 'queries', 'slow_queries') as $key)
 		{
 			if (!$data->$key)
 			{

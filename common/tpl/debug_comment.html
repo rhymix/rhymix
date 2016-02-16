@@ -98,3 +98,55 @@ Query logging is disabled.
 	}
 ?>
 <?php endif; ?>
+
+Slow Queries
+============
+<?php
+	$query_count = 0;
+	if (!count($data->slow_queries))
+	{
+		echo 'None'. "\n";
+	}
+	foreach ($data->slow_queries as $query)
+	{
+		$query_caller = sprintf('%s line %d (%s)', $query->file, $query->line, $query->method);
+		$query_result = ($query->message === 'success') ? 'success' : sprintf('error %d %s', $query->error_code, $query->message);
+		echo sprintf('%02d. %s', ++$query_count, $query->query_string) . "\n";
+		echo sprintf('    - Caller:      %s', $query_caller) . "\n";
+		echo sprintf('    - Connection:  %s', $query->query_connection) . "\n";
+		echo sprintf('    - Query ID:    %s', $query->query_id) . "\n";
+		echo sprintf('    - Query Time:  %0.4f sec', $query->query_time) . "\n";
+		echo sprintf('    - Result:      %s', $query_result) . "\n";
+	}
+?>
+
+Slow Triggers
+=============
+<?php
+	$trigger_count = 0;
+	if (!count($data->slow_triggers))
+	{
+		echo 'None'. "\n";
+	}
+	foreach ($data->slow_triggers as $trigger)
+	{
+		echo sprintf('%02d. %s', ++$trigger_count, $trigger->trigger_name) . "\n";
+		echo sprintf('    - Target:     %s', $trigger->trigger_target) . "\n";
+		echo sprintf('    - Exec Time:  %0.4f sec', $trigger->trigger_time) . "\n";
+	}
+?>
+
+Slow Widgets
+============
+<?php
+	$widget_count = 0;
+	if (!count($data->slow_widgets))
+	{
+		echo 'None'. "\n";
+	}
+	foreach ($data->slow_widgets as $widget)
+	{
+		echo sprintf('%02d. %s', ++$widget_count, $widget->widget_name) . "\n";
+		echo sprintf('    - Exec Time:  %0.4f sec', $widget->widget_time) . "\n";
+	}
+?>
