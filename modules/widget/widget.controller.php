@@ -644,11 +644,10 @@ class widgetController extends widget
 		// Debug widget creation time information added to the results
 		$elapsed_time = microtime(true) - $start;
 		$GLOBALS['__widget_excute_elapsed__'] += $elapsed_time;
-		$slowlog = new stdClass;
-		$slowlog->caller = "widget.execute";
-		$slowlog->called = $widget;
-		$slowlog->called_extension = $widget;
-		writeSlowlog('widget', $elapsed_time, $slowlog);
+		Rhymix\Framework\Debug::addWidget(array(
+			'name' => $widget,
+			'elapsed_time' => $elapsed_time,
+		));
 
 		// Return result
 		return $output;

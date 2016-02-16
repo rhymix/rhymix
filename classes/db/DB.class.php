@@ -396,13 +396,6 @@ class DB
 		}
 
 		$this->setQueryLog($log);
-
-		$log_args = new stdClass;
-		$log_args->query = $this->query;
-		$log_args->query_id = $this->query_id;
-		$log_args->caller = $log['called_method'] . '() in ' . $log['called_file'];
-		$log_args->connection = $log['connection'];
-		writeSlowlog('query', $elapsed_time, $log_args);
 	}
 
 	/**

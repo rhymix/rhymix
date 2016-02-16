@@ -34,8 +34,8 @@ class addonController extends addon
 		$site_module_info = Context::get('site_module_info');
 		$site_srl = $site_module_info->site_srl;
 
-		$addon_path = _XE_PATH_ . 'files/cache/addons/';
-		$addon_file = $addon_path . $site_srl . $type . '.acivated_addons.cache.php';
+		$addon_path = RX_BASEDIR . 'files/cache/addons/';
+		$addon_file = $addon_path . 'addons.' . intval($site_srl) . '.' . $type . '.php';
 
 		if($this->addon_file_called)
 		{
@@ -46,7 +46,7 @@ class addonController extends addon
 
 		FileHandler::makeDir($addon_path);
 
-		if(!file_exists($addon_file))
+		if(!file_exists($addon_file) || filemtime($addon_file) < filemtime(__FILE__))
 		{
 			$this->makeCacheFile($site_srl, $type);
 		}
@@ -88,57 +88,78 @@ class addonController extends addon
 				|| ($type == "pc" && $val->is_used != 'Y') 
 				|| ($type == "mobile" && $val->is_used_m != 'Y') 
 				|| ($gtype == 'global' && $val->is_fixed != 'Y')
-				|| !is_dir(_XE_PATH_ . 'addons/' . $addon))
+				|| !is_dir(RX_BASEDIR . 'addons/' . $addon))
 			{
 				continue;
 			}
-
+			
 			$extra_vars = unserialize($val->extra_vars);
+			if(!$extra_vars)
+			{
+				$extra_vars = new stdClass;
+			}
+			
 			$mid_list = $extra_vars->mid_list;
-			if(!is_array($mid_list) || count($mid_list) < 1)
+			if(!is_array($mid_list))
 			{
-				$mid_list = NULL;
+				$mid_list = array();
 			}
-
+			
+			// Initialize
 			$buff[] = '$before_time = microtime(true);';
-			$buff[] = '$rm = \'' . $extra_vars->xe_run_method . "';";
-			$buff[] = '$ml = array(';
-			if($mid_list)
+			
+			// Run method and mid list
+			$run_method = $extra_vars->xe_run_method ?: 'run_selected';
+			$buff[] = '$rm = \'' . $run_method . "';";
+			$buff[] = '$ml = ' . var_export(array_fill_keys($mid_list, true), true) . ';';
+			
+			// Addon filename
+			$buff[] = sprintf('$addon_file = RX_BASEDIR . \'addons/%s/%s.addon.php\';', $addon, $addon);
+			
+			// Addon configuration
+			$buff[] = '$addon_info = unserialize(' . var_export(serialize($extra_vars), true) . ');';
+			
+			// Decide whether to run in this mid
+			if ($run_method === 'no_run_selected')
 			{
-				foreach($mid_list as $mid)
-				{
-					$buff[] = "'$mid' => 1,";
-				}
+				$buff[] = '$run = !isset($ml[$_m]);';
 			}
-			$buff[] = ');';
-			$buff[] = sprintf('$addon_file = \'./addons/%s/%s.addon.php\';', $addon, $addon);
-
-			if($val->extra_vars)
+			elseif (!count($mid_list))
 			{
-				unset($extra_vars);
-				$extra_vars = base64_encode($val->extra_vars);
+				$buff[] = '$run = true;';
 			}
-			$addon_include = sprintf('unset($addon_info); $addon_info = unserialize(base64_decode(\'%s\')); @include($addon_file);', $extra_vars);
-
-			$buff[] = 'if(file_exists($addon_file)){';
-			$buff[] = 'if($rm === \'no_run_selected\'){';
-			$buff[] = 'if(!isset($ml[$_m])){';
-			$buff[] = $addon_include;
-			$buff[] = '}}else{';
-			$buff[] = 'if(isset($ml[$_m]) || count($ml) === 0){';
-			$buff[] = $addon_include;
-			$buff[] = '}}}';
-			$buff[] = '$after_time = microtime(true);';
-			$buff[] = '$addon_time_log = new stdClass();';
-			$buff[] = '$addon_time_log->caller = $called_position;';
-			$buff[] = '$addon_time_log->called = "' . $addon . '";';
-			$buff[] = '$addon_time_log->called_extension = "' . $addon . '";';
-			$buff[] = 'writeSlowlog("addon",$after_time-$before_time,$addon_time_log);';
+			else
+			{
+				$buff[] = '$run = isset($ml[$_m]);';
+			}
+			
+			// Write debug info
+			$buff[] = 'if ($run && file_exists($addon_file)):';
+			$buff[] = '  include($addon_file);';
+			$buff[] = '  $after_time = microtime(true);';
+			$buff[] = '  if (class_exists("Rhymix\\\\Framework\\\\Debug")):';
+			$buff[] = '    Rhymix\\Framework\\Debug::addTrigger(array(';
+			$buff[] = '      "name" => "addon." . $called_position,';
+			$buff[] = '      "target" => "' . $addon . '",';
+			$buff[] = '      "target_plugin" => "' . $addon . '",';
+			$buff[] = '      "elapsed_time" => $after_time - $before_time,';
+			$buff[] = '    ));';
+			$buff[] = '  endif;';
+			$buff[] = 'endif;';
+			$buff[] = '';
 		}
-		$addon_path = _XE_PATH_ . 'files/cache/addons/';
-		FileHandler::makeDir($addon_path);
-		$addon_file = $addon_path . ($gtype == 'site' ? $site_srl : '') . $type . '.acivated_addons.cache.php';
+		
+		// Write file in new location
+		$addon_path = RX_BASEDIR . 'files/cache/addons/';
+		$addon_file = $addon_path . 'addons.' . ($gtype == 'site' ? intval($site_srl) : 'G') . '.' . $type . '.php';
 		FileHandler::writeFile($addon_file, join(PHP_EOL, $buff));
+		
+		// Remove file from old location
+		$old_addon_file = $addon_path . ($gtype == 'site' ? $site_srl : '') . $type . '.acivated_addons.cache.php';
+		if (file_exists($old_addon_file))
+		{
+			FileHandler::removeFile($old_addon_file);
+		}
 	}
 
 	/**
@@ -176,11 +197,16 @@ class addonController extends addon
 	 */
 	function removeAddonConfig($site_srl)
 	{
-		$addon_path = _XE_PATH_ . 'files/cache/addons/';
-		$addon_file = $addon_path . $site_srl . '.acivated_addons.cache.php';
+		$addon_path = RX_BASEDIR . 'files/cache/addons/';
+		$addon_file = $addon_path . 'addons.' . intval($site_srl) . '.' . $type . '.php';
 		if(file_exists($addon_file))
 		{
 			FileHandler::removeFile($addon_file);
+		}
+		$old_addon_file = $addon_path . ($gtype == 'site' ? $site_srl : '') . $type . '.acivated_addons.cache.php';
+		if (file_exists($old_addon_file))
+		{
+			FileHandler::removeFile($old_addon_file);
 		}
 
 		$args = new stdClass();

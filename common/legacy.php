@@ -712,67 +712,7 @@ function debugPrint($entry = null)
  */
 function writeSlowlog($type, $elapsed_time, $obj)
 {
-	static $config = null;
-	if (!$config)
-	{
-		$config = config('debug');
-	}
-	if (!Rhymix\Framework\Debug::isEnabledForCurrentUser())
-	{
-		return;
-	}
-	if (!$config['log_slow_queries'] && !$config['log_slow_triggers'] && !$config['log_slow_widgets'])
-	{
-		return;
-	}
-
-	static $log_filename = array(
-		'query' => 'files/_slowlog_query.php',
-		'trigger' => 'files/_slowlog_trigger.php',
-		'widget' => 'files/_slowlog_widget.php'
-	);
-	$log_file = RX_BASEDIR . $log_filename[$type];
-	$write_file = true;
-
-	$buff = array();
-	$buff[] = '<?php exit(); ?>';
-	$buff[] = date('c');
-
-	if ($type == 'query' && $config['log_slow_queries'] > 0 && $elapsed_time > $config['log_slow_queries'])
-	{
-		$buff[] = $obj->query;
-		$buff[] = "\tQuery ID   : " . $obj->query_id;
-		$buff[] = "\tCaller     : " . $obj->caller;
-		$buff[] = "\tConnection : " . $obj->connection;
-	}
-	elseif ($type == 'trigger' && $config['log_slow_triggers'] > 0 && $elapsed_time > $config['log_slow_triggers'])
-	{
-		$buff[] = "\tCaller : " . $obj->caller;
-		$buff[] = "\tCalled : " . $obj->called;
-	}
-	elseif ($type == 'widget' && $config['log_slow_widgets'] > 0 && $elapsed_time > $config['log_slow_widgets'])
-	{
-		$buff[] = "\tWidget : " . $obj->called;
-	}
-	else
-	{
-		$write_file = false;
-	}
-
-	if($write_file)
-	{
-		$buff[] = sprintf("\t%0.6f sec", $elapsed_time);
-		$buff[] = PHP_EOL . PHP_EOL;
-		file_put_contents($log_file, implode(PHP_EOL, $buff), FILE_APPEND);
-	}
-
-	if($type != 'query')
-	{
-		$trigger_args = $obj;
-		$trigger_args->_log_type = $type;
-		$trigger_args->_elapsed_time = $elapsed_time;
-		ModuleHandler::triggerCall('XE.writeSlowlog', 'after', $trigger_args);
-	}
+	// no-op
 }
 
 /**
@@ -780,10 +720,7 @@ function writeSlowlog($type, $elapsed_time, $obj)
  */
 function flushSlowlog()
 {
-	$trigger_args = new stdClass();
-	$trigger_args->_log_type = 'flush';
-	$trigger_args->_elapsed_time = 0;
-	ModuleHandler::triggerCall('XE.writeSlowlog', 'after', $trigger_args);
+	// no-op
 }
 
 /**

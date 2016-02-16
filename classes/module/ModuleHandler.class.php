@@ -1200,17 +1200,20 @@ class ModuleHandler extends Handler
 			}
 
 			$before_each_trigger_time = microtime(true);
-
 			$output = $oModule->{$called_method}($obj);
-
 			$after_each_trigger_time = microtime(true);
-			$elapsed_time_trigger = $after_each_trigger_time - $before_each_trigger_time;
 
-			$slowlog = new stdClass;
-			$slowlog->caller = $trigger_name . '.' . $called_position;
-			$slowlog->called = $module . '.' . $called_method;
-			$slowlog->called_extension = $module;
-			if($trigger_name != 'XE.writeSlowlog') writeSlowlog('trigger', $elapsed_time_trigger, $slowlog);
+			if ($trigger_name !== 'common.flushDebugInfo')
+			{
+				$trigger_target = $module . ($type === 'class' ? '' : $type) . '.' . $called_method;
+				
+				Rhymix\Framework\Debug::addTrigger(array(
+					'name' => $trigger_name . '.' . $called_position,
+					'target' => $trigger_target,
+					'target_plugin' => $module,
+					'elapsed_time' => $after_each_trigger_time - $before_each_trigger_time,
+				));
+			}
 
 			if(is_object($output) && method_exists($output, 'toBool') && !$output->toBool())
 			{
@@ -1222,7 +1225,39 @@ class ModuleHandler extends Handler
 		$trigger_functions = $oModuleModel->getTriggerFunctions($trigger_name, $called_position);
 		foreach($trigger_functions as $item)
 		{
+			$before_each_trigger_time = microtime(true);
 			$item($obj);
+			$after_each_trigger_time = microtime(true);
+
+			if ($trigger_name !== 'common.writeSlowlog')
+			{
+				if (is_string($item))
+				{
+					$trigger_target = $item;
+				}
+				elseif (is_array($item) && count($item))
+				{
+					if (is_object($item[0]))
+					{
+						$trigger_target = get_class($item[0]) . '.' . strval($item[1]);
+					}
+					else
+					{
+						$trigger_target = implode('.', $item);
+					}
+				}
+				else
+				{
+					$trigger_target = 'closure';
+				}
+				
+				Rhymix\Framework\Debug::addTrigger(array(
+					'name' => $trigger_name . '.' . $called_position,
+					'target' => $trigger_target,
+					'target_plugin' => null,
+					'elapsed_time' => $after_each_trigger_time - $before_each_trigger_time,
+				));
+			}
 
 			if(is_object($output) && method_exists($output, 'toBool') && !$output->toBool())
 			{

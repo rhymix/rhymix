@@ -15,7 +15,9 @@ class Debug
 	protected static $_errors = array();
 	protected static $_queries = array();
 	protected static $_slow_queries = array();
+	protected static $_triggers = array();
 	protected static $_slow_triggers = array();
+	protected static $_widgets = array();
 	protected static $_slow_widgets = array();
 	
 	/**
@@ -64,6 +66,16 @@ class Debug
 	}
 	
 	/**
+	 * Get all triggers.
+	 * 
+	 * @return array
+	 */
+	public static function getTriggers()
+	{
+		return self::$_triggers;
+	}
+	
+	/**
 	 * Get all slow triggers.
 	 * 
 	 * @return array
@@ -74,13 +86,23 @@ class Debug
 	}
 	
 	/**
+	 * Get all widgets.
+	 * 
+	 * @return array
+	 */
+	public static function getWidgets()
+	{
+		return self::$_widgets;
+	}
+	
+	/**
 	 * Get all slow widgets.
 	 * 
 	 * @return array
 	 */
 	public static function getSlowWidgets()
 	{
-		return self::$_slow_triggers;
+		return self::$_slow_widgets;
 	}
 	
 	/**
@@ -188,7 +210,7 @@ class Debug
 	 */
 	public static function addQuery($query)
 	{
-		self::$_queries[] = (object)array(
+		$query_object = (object)array(
 			'type' => 'Query',
 			'time' => microtime(true),
 			'message' => $query['result'] === 'success' ? 'success' : $query['errstr'],
@@ -202,36 +224,64 @@ class Debug
 			'method' => $query['called_method'],
 			'backtrace' => $query['backtrace'],
 		);
+		
+		self::$_queries[] = $query_object;
+		if ($query_object->query_time && $query_object->query_time >= config('debug.log_slow_queries'))
+		{
+			self::$_slow_queries[] = $query_object;
+		}
 	}
 	
 	/**
-	 * Add a slow query to the log.
+	 * Add a trigger to the log.
 	 * 
 	 * @return bool
 	 */
-	public static function addSlowQuery()
+	public static function addTrigger($trigger)
 	{
+		$trigger_object = (object)array(
+			'type' => 'Trigger',
+			'time' => microtime(true),
+			'message' => null,
+			'file' => null,
+			'line' => null,
+			'backtrace' => array(),
+			'trigger_name' => $trigger['name'],
+			'trigger_target' => $trigger['target'],
+			'trigger_plugin' => $trigger['target_plugin'],
+			'trigger_time' => $trigger['elapsed_time'],
+		);
 		
+		self::$_triggers[] = $trigger_object;
+		if ($trigger_object->trigger_time && $trigger_object->trigger_time >= config('debug.log_slow_triggers'))
+		{
+			self::$_slow_triggers[] = $trigger_object;
+		}
 	}
 	
 	/**
-	 * Add a slow trigger to the log.
+	 * Add a widget to the log.
 	 * 
 	 * @return bool
 	 */
-	public static function addSlowTrigger()
+	public static function addWidget($widget)
 	{
+		$widget_object = (object)array(
+			'type' => 'Widget',
+			'time' => microtime(true),
+			'message' => null,
+			'file' => null,
+			'line' => null,
+			'backtrace' => array(),
+			'widget_name' => $widget['name'],
+			'widget_time' => $widget['elapsed_time'],
+		);
 		
-	}
-	
-	/**
-	 * Add a slow widget to the log.
-	 * 
-	 * @return bool
-	 */
-	public static function addSlowWidget()
-	{
-		
+		self::$_widgets[] = $widget_object;
+		if ($widget_object->widget_time && $widget_object->widget_time >= config('debug.log_slow_widgets'))
+		{
+			self::$_slow_widgets[] = $widget_object;
+		}
 	}
 	
 	/**
@@ -240,7 +290,7 @@ class Debug
 	 * @param Exception $e
 	 * @return void
 	 */
-	public static function exceptionHandler(\Exception $e)
+	public static function exceptionHandler($e)
 	{
 		// Find out the file where the error really occurred.
 		$errfile = self::translateFilename($e->getFile());

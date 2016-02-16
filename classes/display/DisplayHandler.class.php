@@ -122,12 +122,13 @@ class DisplayHandler extends Handler
 		self::$response_size = $this->content_size = strlen($output);
 		ModuleHandler::triggerCall('display', 'after', $output);
 
-		// debugOutput output
+		// Output the page content and debug data.
 		$debug = $this->getDebugInfo($output);
 		print $output;
 		print $debug;
-
-		flushSlowlog();
+		
+		// Flush the slow query/trigger/widget log.
+		ModuleHandler::triggerCall('common.flushDebugInfo', 'after', new stdClass);
 	}
 	
 	/**
