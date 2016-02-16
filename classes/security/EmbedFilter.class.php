@@ -15,7 +15,6 @@ class EmbedFilter
 	 * @var int
 	 */
 	var $allowscriptaccessKey = 0;
-	var $whiteUrlDefaultFile = './classes/security/conf/whitelist.php';
 	var $whiteUrlList = array();
 	var $whiteIframeUrlList = array();
 	var $mimeTypeList = array();
@@ -257,8 +256,7 @@ class EmbedFilter
 	 */
 	function _makeWhiteDomainList($whitelist = NULL)
 	{
-		$whiteUrlDefaultFile = FileHandler::getRealPath($this->whiteUrlDefaultFile);
-		$whiteUrlDefaultList = (include $whiteUrlDefaultFile);
+		$whiteUrlDefaultList = (include RX_BASEDIR . 'common/defaults/whitelist.php');
 		$this->extList = $whiteUrlDefaultList['extensions'];
 		$this->mimeTypeList = $whiteUrlDefaultList['mime'];
 		$this->whiteUrlList = array();
