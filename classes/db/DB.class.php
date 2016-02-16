@@ -366,21 +366,28 @@ class DB
 		$log['time'] = date('Y-m-d H:i:s');
 		$log['backtrace'] = array();
 
-		$bt = version_compare(PHP_VERSION, '5.3.6', '>=') ? debug_backtrace(DEBUG_BACKTRACE_IGNORE_ARGS) : debug_backtrace();
-
-		foreach($bt as $no => $call)
+		if (config('debug.enabled') && config('debug.log_queries'))
 		{
-			if($call['function'] == 'executeQuery' || $call['function'] == 'executeQueryArray')
+			$bt = defined('DEBUG_BACKTRACE_IGNORE_ARGS') ? debug_backtrace(DEBUG_BACKTRACE_IGNORE_ARGS) : debug_backtrace();
+			foreach($bt as $no => $call)
 			{
-				$call_no = $no;
-				$call_no++;
-				$log['called_file'] = $bt[$call_no]['file'];
-				$log['called_line'] = $bt[$call_no]['line'];
-				$call_no++;
-				$log['called_method'] = $bt[$call_no]['class'].$bt[$call_no]['type'].$bt[$call_no]['function'];
-				$log['backtrace'] = array_slice($bt, $call_no, 1);
-				break;
+				if($call['function'] == 'executeQuery' || $call['function'] == 'executeQueryArray')
+				{
+					$call_no = $no;
+					$call_no++;
+					$log['called_file'] = $bt[$call_no]['file'];
+					$log['called_line'] = $bt[$call_no]['line'];
+					$call_no++;
+					$log['called_method'] = $bt[$call_no]['class'].$bt[$call_no]['type'].$bt[$call_no]['function'];
+					$log['backtrace'] = array_slice($bt, $call_no, 1);
+					break;
+				}
 			}
+		}
+		else
+		{
+			$log['called_file'] = $log['called_line'] = $log['called_method'] = null;
+			$log['backtrace'] = array();
 		}
 
 		// leave error log if an error occured
@@ -393,6 +400,8 @@ class DB
 		else
 		{
 			$log['result'] = 'success';
+			$log['errno'] = null;
+			$log['errstr'] = null;
 		}
 
 		$this->setQueryLog($log);
