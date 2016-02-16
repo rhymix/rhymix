@@ -1,8 +1,15 @@
 <?php
 
+/**
+ * Rhymix Default iframe/object/iframe Whitelist
+ * 
+ * Copyright (c) Rhymix Developers and Contributors
+ */
 return array(
 	
-	// Allowed domains in <object> or <embed> tag
+	/**
+	 * Allowed domains in <object> or <embed> tag
+	 */
 	'object' => array(
 		// YouTube
 		'www.youtube.com/',
@@ -49,7 +56,9 @@ return array(
 		'sbsplayer.sbs.co.kr/',
 	),
 	
-	// Allowed domains in <iframe> tag
+	/**
+	 * Allowed domains in <iframe> tag
+	 */
 	'iframe' => array(
 		// YouTube
 		'www.youtube.com/',
@@ -69,7 +78,9 @@ return array(
 		'afree.ca/',
 	),
 	
-	// Allowed extensions
+	/**
+	 * Allowed extensions in <object> or <embed> tag
+	 */
 	'extensions' => array(
 		'123' => 1,
 		'3ds' => 1,
