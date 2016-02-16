@@ -431,14 +431,6 @@ class Context
 	 */
 	public static function close()
 	{
-		// Flush the slow query/trigger/widget log.
-		static $flushed = false;
-		if (!$flushed && config('debug.enabled'))
-		{
-			ModuleHandler::triggerCall('common.flushDebugInfo', 'after', new stdClass);
-			$flushed = true;
-		}
-		
 		// Check session status and close it if open.
 		if (self::checkSessionStatus())
 		{

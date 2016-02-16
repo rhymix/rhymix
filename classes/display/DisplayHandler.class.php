@@ -126,9 +126,6 @@ class DisplayHandler extends Handler
 		$debug = $this->getDebugInfo($output);
 		print $output;
 		print $debug;
-		
-		// Flush the slow query/trigger/widget log.
-		ModuleHandler::triggerCall('common.flushDebugInfo', 'after', new stdClass);
 	}
 	
 	/**
