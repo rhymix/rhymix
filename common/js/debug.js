@@ -130,8 +130,50 @@ $(function() {
 			}
 		}
 		
-		// If there are errors, turn the button text red.
+		// Add slow queries.
+		if (data.slow_queries && data.slow_queries.length) {
+			page_body.append($('<h4></h4>').text('Slow Queries (' + data.slow_queries.length + ')'));
+			for (i in data.slow_queries) {
+				entry = $('<div class="debug_entry"></div>').appendTo(page_body);
+				num = parseInt(i) + 1; if (num < 10) num = "0" + num;
+				entry.text(num + ". " + data.slow_queries[i].query_string);
+				description = $('<ul class="debug_backtrace"></ul>').appendTo(entry);
+				if (data.slow_queries[i].file && data.slow_queries[i].line) {
+					description.append($('<li></li>').text("Caller: " + data.slow_queries[i].file + ":" + data.slow_queries[i].line).append("<br>(" + data.slow_queries[i].method + ")"));
+					description.append($('<li></li>').text("Connection: " + data.slow_queries[i].query_connection));
+					description.append($('<li></li>').text("Query ID: " + data.slow_queries[i].query_id));
+					description.append($('<li></li>').text("Query Time: " + (data.slow_queries[i].query_time ? (data.slow_queries[i].query_time.toFixed(4) + " sec") : "")));
+				}
+				description.append($('<li></li>').text("Result: " + ((data.slow_queries[i].message === "success" || !data.slow_queries[i].message) ? "success" : ("error " + data.slow_queries[i].error_code + " " + data.slow_queries[i].message))));
+			}
+		}
 		
+		// Add slow triggers.
+		if (data.slow_triggers && data.slow_triggers.length) {
+			page_body.append($('<h4></h4>').text('Slow Triggers (' + data.slow_triggers.length + ')'));
+			for (i in data.slow_triggers) {
+				entry = $('<div class="debug_entry"></div>').appendTo(page_body);
+				num = parseInt(i) + 1; if (num < 10) num = "0" + num;
+				entry.text(num + ". " + data.slow_triggers[i].trigger_name);
+				description = $('<ul class="debug_backtrace"></ul>').appendTo(entry);
+				description.append($('<li></li>').text("Target: " + data.slow_triggers[i].trigger_target));
+				description.append($('<li></li>').text("Exec Time: " + (data.slow_triggers[i].trigger_time ? (data.slow_triggers[i].trigger_time.toFixed(4) + " sec") : "")));
+			}
+		}
+		
+		// Add slow widgets.
+		if (data.slow_widgets && data.slow_widgets.length) {
+			page_body.append($('<h4></h4>').text('Slow Widgets (' + data.slow_widgets.length + ')'));
+			for (i in data.slow_widgets) {
+				entry = $('<div class="debug_entry"></div>').appendTo(page_body);
+				num = parseInt(i) + 1; if (num < 10) num = "0" + num;
+				entry.text(num + ". " + data.slow_widgets[i].widget_name);
+				description = $('<ul class="debug_backtrace"></ul>').appendTo(entry);
+				description.append($('<li></li>').text("Exec Time: " + (data.slow_widgets[i].widget_time ? (data.slow_widgets[i].widget_time.toFixed(4) + " sec") : "")));
+			}
+		}
+		
+		// If there are errors, turn the button text red.
 		if (data.errors && data.errors.length) {
 			button_link.addClass("has_errors");
 		}
