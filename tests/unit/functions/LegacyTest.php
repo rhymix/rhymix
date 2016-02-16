@@ -1,10 +1,10 @@
 <?php
 
-class FuncIncTest extends \Codeception\TestCase\Test
+class LegacyTest extends \Codeception\TestCase\Test
 {
-    static public function provider()
+    public function testRemoveHackTag()
     {
-        return array(
+        $tests = array(
             // remove iframe
             array(
                 '<div class="frame"><iframe src="path/to/file.html"></iframe><p><a href="#iframe">IFrame</a></p></div>',
@@ -59,14 +59,11 @@ class FuncIncTest extends \Codeception\TestCase\Test
                 '<img alt="dummy" />'
             )
         );
-    }
-
-    /**
-     * @dataProvider provider
-     */
-    public function testXss($source, $expected)
-    {
-        $result = removeHackTag($source);
-        $this->assertEquals($result, $expected);
+        
+        foreach ($tests as $test)
+        {
+	        $result = removeHackTag($test[0]);
+	        $this->assertEquals($test[1], $result);
+        }
     }
 }
