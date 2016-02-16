@@ -106,7 +106,10 @@ class DisplayHandler extends Handler
 		}
 
 		// disable gzip if output already exists
-		ob_flush();
+		while (ob_get_level())
+		{
+			ob_end_flush();
+		}
 		if(headers_sent())
 		{
 			$this->gz_enabled = FALSE;
