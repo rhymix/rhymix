@@ -22,10 +22,11 @@ class DebugTest extends \Codeception\TestCase\Test
 		Rhymix\Framework\Debug::$write_to_error_log = false;
 		Rhymix\Framework\Debug::addError(~0, 'Rhymix', $file, $line, null);
 		$errors = Rhymix\Framework\Debug::getErrors();
-		$this->assertEquals(1, count($errors));
-		$this->assertContains('Rhymix', $errors[0]->message);
-		$this->assertEquals($file, $errors[0]->file);
-		$this->assertEquals($line, $errors[0]->line);
+		$this->assertGreaterThanOrEqual(1, count($errors));
+		$error = array_pop($errors);
+		$this->assertContains('Rhymix', $error->message);
+		$this->assertEquals($file, $error->file);
+		$this->assertEquals($line, $error->line);
 	}
 	
 	public function testDebugQuery()
