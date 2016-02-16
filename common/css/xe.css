@@ -411,6 +411,9 @@ button.btn {
 	word-wrap: break-word;
 	word-break: break-all;
 }
+#rhymix_debug_panel .debug_page .debug_entry.pre_wrap { 
+	white-space: pre-wrap;
+}
 #rhymix_debug_panel .debug_page .debug_entry ul.debug_metadata {
 	margin: 0 0 0 -16px; padding: 0;
 }

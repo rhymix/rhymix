@@ -84,7 +84,7 @@ $(function() {
 		if (data.entries && data.entries.length) {
 			page_body.append($('<h4></h4>').text('Debug Entries (' + data.entries.length + ')'));
 			for (i in data.entries) {
-				entry = $('<div class="debug_entry"></div>').appendTo(page_body);
+				entry = $('<div class="debug_entry pre_wrap"></div>').appendTo(page_body);
 				num = parseInt(i) + 1; if (num < 10) num = "0" + num;
 				entry.text(num + ". " + data.entries[i].message);
 				backtrace = $('<ul class="debug_backtrace"></ul>').appendTo(entry);
