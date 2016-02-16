@@ -3,7 +3,7 @@ use \Codeception\Configuration;
 
 $I = new InstallTester($scenario);
 
-$config = (!$this->env) ? Configuration::suiteSettings('Install', Configuration::config()) : Configuration::suiteEnvironments('Install')[$this->env];
+$config = (!$this->env) ? Configuration::suiteSettings('install', Configuration::config()) : Configuration::suiteEnvironments('install')[$this->env];
 
 $db_config = $config['modules']['config']['Db'];
 
