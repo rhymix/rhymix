@@ -622,6 +622,32 @@
                     <name xml:lang="tr">Görüntüleme</name>
                 </options>
             </var>
+            <var id="show_secret" type="select">
+                <name xml:lang="ko">비밀글 출력</name>
+                <name xml:lang="en">Display Secret</name>
+                <options>
+                    <value>N</value>
+                    <name xml:lang="ko">출력하지 않음</name>
+                    <name xml:lang="en">No Display</name>
+                    <name xml:lang="vi">Không hiển thị</name>
+                    <name xml:lang="ru">No Display</name>
+                    <name xml:lang="zh-CN">不显示</name>
+                    <name xml:lang="zh-TW">不顯示</name>
+                    <name xml:lang="jp">表示しない</name>
+                    <name xml:lang="tr">Görüntüleme</name>
+                </options>				
+                <options>
+                    <value>Y</value>
+                    <name xml:lang="ko">출력</name>
+                    <name xml:lang="en">Display</name>
+                    <name xml:lang="vi">Hiển thị</name>
+                    <name xml:lang="ru">Display</name>
+                    <name xml:lang="zh-CN">显示</name>
+                    <name xml:lang="zh-TW">顯示</name>
+                    <name xml:lang="jp">表示</name>
+                    <name xml:lang="tr">Görüntüle</name>
+                </options>
+            </var>
             <var id="duration_new" type="text">
                 <name xml:lang="ko">new 표시 시간 (hours)</name>
                 <name xml:lang="zh-CN">new图标显示时间(hours)</name>

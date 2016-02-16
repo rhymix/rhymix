@@ -249,8 +249,17 @@ class content extends WidgetHandler
 		{
 			$obj->order_type = $args->order_type=="desc"?"desc":"asc";
 		}
+		
+		if($args->show_secret == 'Y')
+		{
+			$obj->statusList = array('PUBLIC', 'SECRET');
+		}
+		else
+		{
+			$obj->statusList = array('PUBLIC');
+		}
+		
 		$obj->list_count = $args->list_count * $args->page_count;
-		$obj->statusList = array('PUBLIC');
 		$output = executeQueryArray('widgets.content.getNewestDocuments', $obj);
 		if(!$output->toBool() || !$output->data) return;
 		// If the result exists, make each document as an object
