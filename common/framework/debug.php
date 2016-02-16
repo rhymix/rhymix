@@ -329,6 +329,7 @@ class Debug
 		
 		// Display the error screen.
 		self::displayErrorScreen($log_entry);
+		exit;
 	}
 	
 	/**
@@ -421,7 +422,6 @@ class Debug
 		
 		// Display a generic error page.
 		\Context::displayErrorPage($title, $message, 500);
-		exit;
 	}
 	
 	/**

@@ -1513,7 +1513,6 @@ class Context
 		// Display the message.
 		$oModuleHandler = new ModuleHandler;
 		$oModuleHandler->displayContent($oMessageObject);
-		exit;
 	}
 	
 	/**
