@@ -329,10 +329,11 @@ class Context
 		}
 		else
 		{
-			ob_start();
 			$this->setCacheControl(-1, true);
 			$_SESSION = array();
 		}
+
+		ob_start();
 		register_shutdown_function('Context::close');
 
 		// set authentication information in Context and session

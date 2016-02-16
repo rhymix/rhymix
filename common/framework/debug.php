@@ -384,10 +384,7 @@ class Debug
 	 */
 	public static function registerErrorHandlers($error_types)
 	{
-		if (Config::get('debug.enabled'))
-		{
-			set_error_handler('\\Rhymix\\Framework\\Debug::addError', $error_types);
-		}
+		set_error_handler('\\Rhymix\\Framework\\Debug::addError', $error_types);
 		set_exception_handler('\\Rhymix\\Framework\\Debug::exceptionHandler');
 		register_shutdown_function('\\Rhymix\\Framework\\Debug::shutdownHandler');
 	}
