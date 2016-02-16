@@ -131,7 +131,7 @@ class ValidatorTest extends \Codeception\TestCase\Test
 
     public function testCustomRuleXml()
     {
-        $vd = new Validator(dirname(__FILE__).'/customrule.xml');
+        $vd = new Validator(__DIR__ . '/validator/customrule.xml');
 
         $this->assertTrue($vd->validate(array('regex_field' => 'abc')));
         $this->assertFalse($vd->validate(array('regex_field' => 'ABC')));
@@ -172,7 +172,7 @@ class ValidatorTest extends \Codeception\TestCase\Test
     public function testConditionXml()
     {
 
-        $vd = new Validator(dirname(__FILE__).'/condition.xml');
+        $vd = new Validator(__DIR__ . '/validator/condition.xml');
         $data = array('greeting1'=>'hello');
 
         $this->assertTrue($vd->validate($data));
@@ -185,15 +185,15 @@ class ValidatorTest extends \Codeception\TestCase\Test
         $this->assertTrue($vd->validate($data));
 
         // javascript
-        $vd->setCacheDir(dirname(__FILE__));
+        $vd->setCacheDir(__DIR__ . '/validator');
         $js = $vd->getJsPath();
-        $this->assertFileEquals($js, dirname(__FILE__).'/condition.en.js');
+        $this->assertFileEquals($js, __DIR__ . '/validator/condition.en.js');
     }
 
     protected function tearDown()
     {
         // remove cache directory
-        $cache_dir = dirname(__FILE__).'/ruleset';
+        $cache_dir = __DIR__ . '/validator/ruleset';
         if(is_dir($cache_dir))
         {
             $files = (array)glob($cache_dir.'/*');
