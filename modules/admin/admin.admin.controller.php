@@ -690,7 +690,7 @@ class adminAdminController extends admin
 		Rhymix\Framework\Config::save();
 		
 		$this->setMessage('success_updated');
-		$this->setRedirectUrl(Context::get('success_return_url') ?: getNotEncodedUrl('', 'act', 'dispAdminConfigAdvanced'));
+		$this->setRedirectUrl(Context::get('success_return_url') ?: $default_url . 'index.php?act=dispAdminConfigAdvanced');
 	}
 	
 	/**
