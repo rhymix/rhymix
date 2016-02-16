@@ -884,7 +884,6 @@ class ModuleHandler extends Handler
 
 			if($_SESSION['XE_VALIDATOR_RETURN_URL'])
 			{
-				Context::getInstance()->checkSessionStatus();
 				header('location:' . $_SESSION['XE_VALIDATOR_RETURN_URL']);
 				return;
 			}

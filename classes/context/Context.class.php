@@ -331,9 +331,9 @@ class Context
 		{
 			ob_start();
 			$this->setCacheControl(-1, true);
-			register_shutdown_function(array($this, 'checkSessionStatus'));
 			$_SESSION = array();
 		}
+		register_shutdown_function('Context::close');
 
 		// set authentication information in Context and session
 		if(self::isInstalled())
@@ -411,7 +411,7 @@ class Context
 	{
 		if(self::getSessionStatus())
 		{
-			return;
+			return true;
 		}
 		if($force_start || (count($_SESSION) && !headers_sent()))
 		{
@@ -419,7 +419,9 @@ class Context
 			unset($_SESSION);
 			session_start();
 			$_SESSION = $tempSession;
+			return true;
 		}
+		return false;
 	}
 
 	/**
@@ -429,7 +431,19 @@ class Context
 	 */
 	public static function close()
 	{
-		session_write_close();
+		// Flush the slow query/trigger/widget log.
+		static $flushed = false;
+		if (!$flushed && config('debug.enabled'))
+		{
+			ModuleHandler::triggerCall('common.flushDebugInfo', 'after', new stdClass);
+			$flushed = true;
+		}
+		
+		// Check session status and close it if open.
+		if (self::checkSessionStatus())
+		{
+			session_write_close();
+		}
 	}
 
 	/**

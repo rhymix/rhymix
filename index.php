@@ -59,7 +59,5 @@ if($oContext->checkSSO())
 	}
 }
 
-$oContext->close();
-
 /* End of file index.php */
 /* Location: ./index.php */
