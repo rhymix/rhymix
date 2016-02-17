@@ -859,7 +859,7 @@ class Context
 	 * Load language file according to language type
 	 *
 	 * @param string $path Path of the language file
-	 * @return bool
+	 * @return void
 	 */
 	public static function loadLang($path)
 	{
@@ -872,15 +872,13 @@ class Context
 			$plugin_name = null;
 		}
 		
-		if ($GLOBALS['lang'] instanceof Rhymix\Framework\Lang)
+		if (!$GLOBALS['lang'] instanceof Rhymix\Framework\Lang)
 		{
-			return $GLOBALS['lang']->loadDirectory($path, $plugin_name);
-			return true;
+			$GLOBALS['lang'] = Rhymix\Framework\Lang::getInstance(self::$_instance->lang_type ?: config('locale.default_lang') ?: 'ko');
+			$GLOBALS['lang']->loadDirectory(RX_BASEDIR . 'common/lang', 'common');
 		}
-		else
-		{
-			return false;
-		}
+		
+		return $GLOBALS['lang']->loadDirectory($path, $plugin_name);
 	}
 
 	/**
@@ -923,14 +921,13 @@ class Context
 	 */
 	public static function getLang($code)
 	{
-		if ($GLOBALS['lang'] instanceof Rhymix\Framework\Lang)
+		if (!$GLOBALS['lang'] instanceof Rhymix\Framework\Lang)
 		{
-			return $GLOBALS['lang']->get($code);
+			$GLOBALS['lang'] = Rhymix\Framework\Lang::getInstance(self::$_instance->lang_type ?: config('locale.default_lang') ?: 'ko');
+			$GLOBALS['lang']->loadDirectory(RX_BASEDIR . 'common/lang', 'common');
 		}
-		else
-		{
-			return $code;
-		}
+		
+		return $GLOBALS['lang']->get($code);
 	}
 
 	/**
@@ -938,19 +935,17 @@ class Context
 	 *
 	 * @param string $code Language variable name
 	 * @param string $val `$code`s value
-	 * @return bool
+	 * @return void
 	 */
 	public static function setLang($code, $val)
 	{
-		if ($GLOBALS['lang'] instanceof Rhymix\Framework\Lang)
+		if (!$GLOBALS['lang'] instanceof Rhymix\Framework\Lang)
 		{
-			$GLOBALS['lang']->set($code, $val);
-			return true;
+			$GLOBALS['lang'] = Rhymix\Framework\Lang::getInstance(self::$_instance->lang_type ?: config('locale.default_lang') ?: 'ko');
+			$GLOBALS['lang']->loadDirectory(RX_BASEDIR . 'common/lang', 'common');
 		}
-		else
-		{
-			return false;
-		}
+		
+		$GLOBALS['lang']->set($code, $val);
 	}
 
 	/**
