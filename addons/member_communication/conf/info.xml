@@ -1,16 +1,16 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <addon version="0.2">
-    <title xml:lang="ko">커뮤니케이션</title>
-    <title xml:lang="jp">コミュニケーション</title>
-    <title xml:lang="zh-CN">会员交流</title>
-    <title xml:lang="en">Communication</title>
-    <title xml:lang="vi">Truyền thông</title>
-    <title xml:lang="ge">커뮤니케이션</title>
-    <title xml:lang="es">커뮤니케이션</title>
-    <title xml:lang="ru">Общение</title>
-    <title xml:lang="zh-TW">交流</title>
+    <title xml:lang="ko">[DEPRECATED] 커뮤니케이션</title>
+    <title xml:lang="jp">[DEPRECATED] コミュニケーション</title>
+    <title xml:lang="zh-CN">[DEPRECATED] 会员交流</title>
+    <title xml:lang="en">[DEPRECATED] Communication</title>
+    <title xml:lang="vi">[DEPRECATED] Truyền thông</title>
+    <title xml:lang="ge">[DEPRECATED] Communication</title>
+    <title xml:lang="es">[DEPRECATED] Communication</title>
+    <title xml:lang="ru">[DEPRECATED] Общение</title>
+    <title xml:lang="zh-TW">[DEPRECATED] 交流</title>
     <description xml:lang="ko">
-        이 애드온은 더 이상 역활을 하지 않습니다. 이 애드온의 기능은 커뮤니케이션 모듈로 흡수되었습니다.
+        [DEPRECATED] 이 애드온은 빈 애드온입니다. 모든 기능은 커뮤니케이션 모듈로 이전되었습니다.
     </description>
     <version>1.7</version>
     <date>2013-11-27</date>
