@@ -222,7 +222,6 @@ class Context
 		
 		// Set global variables for backward compatibility.
 		$GLOBALS['__Context__'] = $this;
-		$GLOBALS['lang'] = &$this->lang;
 		$this->_COOKIE = $_COOKIE;
 		
 		// Set information about the current request.
@@ -299,6 +298,7 @@ class Context
 		$this->lang = Rhymix\Framework\Lang::getInstance($this->lang_type);
 		$this->lang->loadDirectory(RX_BASEDIR . 'common/lang', 'common');
 		$this->lang->loadDirectory(RX_BASEDIR . 'modules/module/lang', 'module');
+		$GLOBALS['lang'] = $this->lang;
 		
 		// set session handler
 		if(self::isInstalled() && config('session.use_db'))
@@ -859,7 +859,7 @@ class Context
 	 * Load language file according to language type
 	 *
 	 * @param string $path Path of the language file
-	 * @return void
+	 * @return bool
 	 */
 	public static function loadLang($path)
 	{
@@ -871,7 +871,16 @@ class Context
 		{
 			$plugin_name = null;
 		}
-		return self::$_instance->lang->loadDirectory($path, $plugin_name);
+		
+		if ($GLOBALS['lang'] instanceof Rhymix\Framework\Lang)
+		{
+			return $GLOBALS['lang']->loadDirectory($path, $plugin_name);
+			return true;
+		}
+		else
+		{
+			return false;
+		}
 	}
 
 	/**
@@ -914,9 +923,9 @@ class Context
 	 */
 	public static function getLang($code)
 	{
-		if (self::$_instance->lang)
+		if ($GLOBALS['lang'] instanceof Rhymix\Framework\Lang)
 		{
-			return self::$_instance->lang->get($code);
+			return $GLOBALS['lang']->get($code);
 		}
 		else
 		{
@@ -929,13 +938,18 @@ class Context
 	 *
 	 * @param string $code Language variable name
 	 * @param string $val `$code`s value
-	 * @return void
+	 * @return bool
 	 */
 	public static function setLang($code, $val)
 	{
-		if (self::$_instance->lang)
+		if ($GLOBALS['lang'] instanceof Rhymix\Framework\Lang)
 		{
-			self::$_instance->lang->set($code, $val);
+			$GLOBALS['lang']->set($code, $val);
+			return true;
+		}
+		else
+		{
+			return false;
 		}
 	}
 
