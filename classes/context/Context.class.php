@@ -2032,6 +2032,10 @@ class Context
 		{
 			return self::$_instance->ssl_actions;
 		}
+		else
+		{
+			return array();
+		}
 	}
 
 	/**

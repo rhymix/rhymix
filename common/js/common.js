@@ -933,7 +933,7 @@ function getCookie(name) {
 }
 
 function is_def(v) {
-	return (typeof(v)!='undefined');
+	return typeof(v) != 'undefined' && v !== null;
 }
 
 function ucfirst(str) {

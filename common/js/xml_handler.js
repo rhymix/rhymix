@@ -54,7 +54,7 @@
 		waiting_obj.css("opacity", 0.0);
 		var wfsr_timeout = setTimeout(function() {
 			if (show_waiting_message) {
-				waiting_obj.css("opacity", "").html(waiting_message).show();
+				waiting_obj.css("opacity", "").show();
 			}
 		}, 1000);
 		
@@ -175,7 +175,7 @@
 		waiting_obj.css("opacity", 0.0);
 		var wfsr_timeout = setTimeout(function() {
 			if (show_waiting_message) {
-				waiting_obj.css("opacity", "").html(waiting_message).show();
+				waiting_obj.css("opacity", "").show();
 			}
 		}, 1000);
 		
@@ -270,7 +270,7 @@
 		waiting_obj.css("opacity", 0.0);
 		var wfsr_timeout = setTimeout(function() {
 			if (show_waiting_message) {
-				waiting_obj.css("opacity", "").html(waiting_message).show();
+				waiting_obj.css("opacity", "").show();
 			}
 		}, 1000);
 		

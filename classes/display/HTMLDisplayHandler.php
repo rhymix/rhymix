@@ -223,17 +223,17 @@ class HTMLDisplayHandler
 
 		// convert the final layout
 		Context::set('content', $output);
+		Context::set('m', $is_mobile = Mobile::isFromMobilePhone() ? 1 : 0);
 		$oTemplate = TemplateHandler::getInstance();
-		if(Mobile::isFromMobilePhone())
+		if($is_mobile)
 		{
 			$this->_loadMobileJSCSS();
-			$output = $oTemplate->compile('./common/tpl', 'mobile_layout');
 		}
 		else
 		{
 			$this->_loadDesktopJSCSS();
-			$output = $oTemplate->compile('./common/tpl', 'common_layout');
 		}
+		$output = $oTemplate->compile('./common/tpl', 'common_layout');
 
 		// replace the user-defined-language
 		$oModuleController = getController('module');
