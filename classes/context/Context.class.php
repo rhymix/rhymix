@@ -334,7 +334,6 @@ class Context
 		}
 
 		ob_start();
-		register_shutdown_function('Context::close');
 
 		// set authentication information in Context and session
 		if(self::isInstalled())
