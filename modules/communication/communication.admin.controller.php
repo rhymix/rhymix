@@ -24,7 +24,7 @@ class communicationAdminController extends communication
 	function procCommunicationAdminInsertConfig()
 	{
 		// get the default information
-		$args = Context::gets('skin', 'colorset', 'editor_skin', 'sel_editor_colorset', 'mskin', 'mcolorset', 'layout_srl', 'mlayout_srl', 'grant_write_default','grant_write_group');
+		$args = Context::gets('skin', 'colorset', 'editor_skin', 'sel_editor_colorset', 'mskin', 'mcolorset', 'layout_srl', 'mlayout_srl', 'grant_write_default','grant_write_group', 'member_menu');
 		$args->editor_colorset = $args->sel_editor_colorset;
 		unset($args->sel_editor_colorset);
 

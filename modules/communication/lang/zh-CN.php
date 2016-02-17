@@ -29,3 +29,4 @@ $lang->msg_content_is_null = '请输入内容。';
 $lang->msg_allow_message_to_friend = '因其为只允许接收好友短消息的用户，所以不能发送短消息。';
 $lang->msg_disallow_message = '因其为拒绝接收短消息的用户，所以不能发送短消息。';
 $lang->about_allow_message = '可以选择短消息接收与否。';
+$lang->alert_new_message_arrived = '您有新消息。要确认吗？';

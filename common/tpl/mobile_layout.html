@@ -60,7 +60,8 @@ var default_url = "{Context::getDefaultUrl()}";
 {Context::getBodyHeader()}
 {$content}
 {Context::getHtmlFooter()}
-
+<div id="rhymix_debug_panel"></div>
+<div id="rhymix_debug_button"></div>
 <!--// ETC -->
 {@ $js_body_files = Context::getJsFile('body') }
 <!--@foreach($js_body_files as $key => $js_file)-->

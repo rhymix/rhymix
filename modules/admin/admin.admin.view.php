@@ -129,14 +129,15 @@ class adminAdminView extends admin
 		$currentAct = Context::get('act');
 		$subMenuTitle = '';
 
-		foreach((array) $moduleActionInfo->menu as $key => $value)
+		foreach((array)$moduleActionInfo->menu as $key => $value)
 		{
-			if(isset($value->acts) && is_array($value->acts) && in_array($currentAct, $value->acts))
+			if(is_array($value->acts) && in_array($currentAct, $value->acts))
 			{
 				$subMenuTitle = $value->title;
 				break;
 			}
 		}
+		
 		// get current menu's srl(=parentSrl)
 		$parentSrl = 0;
 		$oMenuAdminConroller = getAdminController('menu');
@@ -301,7 +302,7 @@ class adminAdminView extends admin
 		{
 			foreach($needUpdateList AS $key => $value)
 			{
-				$helpUrl = './common/manual/admin/#';
+				$helpUrl = './common/manual/admin/index.html#';
 				switch($value->type)
 				{
 					case 'addon':
@@ -449,6 +450,27 @@ class adminAdminView extends admin
 		Context::set('http_port', Rhymix\Framework\Config::get('url.http_port'));
 		Context::set('https_port', Rhymix\Framework\Config::get('url.https_port'));
 		
+		// Object cache
+		$object_cache_config = Rhymix\Framework\Config::get('cache');
+		if (is_array($object_cache_config))
+		{
+			$object_cache_config = array_first($object_cache_config);
+		}
+		$object_cache_types = array('apc', 'file', 'memcached', 'redis', 'wincache');
+		$object_cache_type = preg_match('/^(' . implode('|', $object_cache_types) . ')/', $object_cache_config, $matches) ? $matches[1] : '';
+		Context::set('object_cache_types', $object_cache_types);
+		Context::set('object_cache_type', $object_cache_type);
+		if ($object_cache_type)
+		{
+			Context::set('object_cache_host', parse_url($object_cache_config, PHP_URL_HOST) ?: null);
+			Context::set('object_cache_port', parse_url($object_cache_config, PHP_URL_PORT) ?: null);
+		}
+		else
+		{
+			Context::set('object_cache_host', null);
+			Context::set('object_cache_port', null);
+		}
+		
 		// Other settings
 		Context::set('use_mobile_view', Rhymix\Framework\Config::get('use_mobile_view'));
 		Context::set('use_rewrite', Rhymix\Framework\Config::get('use_rewrite'));
@@ -459,6 +481,31 @@ class adminAdminView extends admin
 		Context::set('use_gzip', Rhymix\Framework\Config::get('view.gzip'));
 		
 		$this->setTemplateFile('config_advanced');
+	}
+	
+	/**
+	 * Display Debug Settings page
+	 * @return void
+	 */
+	function dispAdminConfigDebug()
+	{
+		// Load debug settings.
+		Context::set('debug_enabled', Rhymix\Framework\Config::get('debug.enabled'));
+		Context::set('debug_log_errors', Rhymix\Framework\Config::get('debug.log_errors'));
+		Context::set('debug_log_queries', Rhymix\Framework\Config::get('debug.log_queries'));
+		Context::set('debug_log_slow_queries', Rhymix\Framework\Config::get('debug.log_slow_queries'));
+		Context::set('debug_log_slow_triggers', Rhymix\Framework\Config::get('debug.log_slow_triggers'));
+		Context::set('debug_log_slow_widgets', Rhymix\Framework\Config::get('debug.log_slow_widgets'));
+		Context::set('debug_log_filename', Rhymix\Framework\Config::get('debug.log_filename') ?: 'files/debug/YYYYMMDD.php');
+		Context::set('debug_display_type', Rhymix\Framework\Config::get('debug.display_type'));
+		Context::set('debug_display_to', Rhymix\Framework\Config::get('debug.display_to'));
+		
+		// IP access control
+		$allowed_ip = Rhymix\Framework\Config::get('debug.allow');
+		Context::set('debug_allowed_ip', implode(PHP_EOL, $allowed_ip));
+		Context::set('remote_addr', RX_CLIENT_IP);
+		
+		$this->setTemplateFile('config_debug');
 	}
 	
 	/**

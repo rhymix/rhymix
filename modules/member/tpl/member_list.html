@@ -5,7 +5,7 @@
 </script>
 
 <div class="x_page-header">
-	<h1>{$lang->user_list} <a class="x_icon-question-sign" href="./common/manual/admin/#UMAN_member_list" target="_blank">{$lang->help}</a></h1>
+	<h1>{$lang->user_list} <a class="x_icon-question-sign" href="./common/manual/admin/index.html#UMAN_member_list" target="_blank">{$lang->help}</a></h1>
 </div>
 <div cond="$XE_VALIDATOR_MESSAGE && $XE_VALIDATOR_ID == 'modules/member/tpl/1'" class="message {$XE_VALIDATOR_MESSAGE_TYPE}">
 	<p>{$XE_VALIDATOR_MESSAGE}</p>
@@ -123,7 +123,7 @@
 		<!--@end-->
 	</select>
 	<select name="search_target" style="margin-right:4px" title="{$lang->search_target}">
-		{@$lang->search_target_list = array_merge($usedIdentifiers, $lang->search_target_list)}
+		{@$lang->search_target_list = array_merge($usedIdentifiers, $lang->search_target_list->getArrayCopy())}
 		<option value="{$key}" loop="$lang->search_target_list=>$key,$val" selected="selected"|cond="$search_target==$key">{$val}</option>
 	</select>
 	<input type="search" name="search_keyword" value="{htmlspecialchars($search_keyword, ENT_COMPAT | ENT_HTML401, 'UTF-8', false)}" style="width:140px">

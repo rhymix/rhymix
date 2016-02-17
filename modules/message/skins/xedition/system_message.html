@@ -5,7 +5,7 @@
 <div id="access">
 	<div class="login-header">
 		<h1>{$system_message}</h1>
-		<div class="message" cond="defined('_XE_SITELOCK_MESSAGE_')">{constant('_XE_SITELOCK_MESSAGE_')}</div>
+		<div class="message" cond="$system_message_detail">{$system_message_detail}</div>
 	</div>
 	<div cond="!$is_logged">
 		<div class="login-body">
@@ -21,13 +21,13 @@
 					<input type="text" name="user_id" id="uid" title="{$lang->user_id}" placeholder="{$lang->user_id}" required autofocus cond="$member_config->identifier != 'email_address'" />
 					<input type="email" name="user_id" id="uid" title="{$lang->email_address}" placeholder="{$lang->email_address}" required autofocus cond="$member_config->identifier == 'email_address'" />
 					<input type="password" name="password" id="upw" title="{$lang->password}" placeholder="{$lang->password}" required />
-					<label for="keepid" cond="!defined('_XE_SITELOCK_MESSAGE_')">
+					<label for="keepid" cond="!$system_message_detail">
 						<input type="checkbox" name="keep_signed" id="keepid" class="inputCheck" value="Y" onclick="jQuery('#warning')[(jQuery('#keepid:checked').size()&gt;0?'addClass':'removeClass')]('open');" />						
 						{$lang->keep_signed}
 					</label>
 				</div>
 				<p><button type="submit" class="button" href="#" onclick="$('#message_login_form').submit()">
-					<!--@if(defined('_XE_SITELOCK_MESSAGE_'))-->
+					<!--@if($system_message_detail)-->
 						{$lang->msg_administrator_login}
 					<!--@else-->
 						{$lang->cmd_login}
@@ -35,7 +35,7 @@
 				</button></p>
 			</form>
 		</div>
-		<div class="login-footer" cond="!defined('_XE_SITELOCK_MESSAGE_')">
+		<div class="login-footer" cond="!$system_message_detail">
 			<a href="{getUrl('', 'act', 'dispMemberFindAccount')}">{$lang->cmd_find_member_account}</a>
 			<span class="bar">|</span>
 			<a href="{getUrl('', 'act', 'dispMemberSignUpForm')}">{$lang->cmd_signup}</a>

@@ -86,10 +86,7 @@ class HTMLDisplayHandler
 
 			if(Context::get('layout') != 'none')
 			{
-				if(__DEBUG__ == 3)
-				{
-					$start = microtime(true);
-				}
+				$start = microtime(true);
 
 				Context::set('content', $output, false);
 
@@ -142,10 +139,7 @@ class HTMLDisplayHandler
 				$pathInfo = pathinfo($layout_file);
 				$onlyLayoutFile = $pathInfo['filename'];
 
-				if(__DEBUG__ == 3)
-				{
-					$GLOBALS['__layout_compile_elapsed__'] = microtime(true) - $start;
-				}
+				$GLOBALS['__layout_compile_elapsed__'] = microtime(true) - $start;
 
 				if(stripos($_SERVER['HTTP_USER_AGENT'], 'MSIE') !== FALSE && (Context::get('_use_ssl') == 'optional' || Context::get('_use_ssl') == 'always'))
 				{
@@ -168,10 +162,7 @@ class HTMLDisplayHandler
 			return;
 		}
 
-		if(__DEBUG__ == 3)
-		{
-			$start = microtime(true);
-		}
+		$start = microtime(true);
 
 		// move <style ..></style> in body to the header
 		$output = preg_replace_callback('!<style(.*?)>(.*?)<\/style>!is', array($this, '_moveStyleToHeader'), $output);
@@ -218,10 +209,7 @@ class HTMLDisplayHandler
 			$output = preg_replace_callback('@<textarea[^>]*\sname="' . $keys . '".+</textarea>@isU', array(&$this, '_preserveTextAreaValue'), $output);
 		}
 
-		if(__DEBUG__ == 3)
-		{
-			$GLOBALS['__trans_content_elapsed__'] = microtime(true) - $start;
-		}
+		$GLOBALS['__trans_content_elapsed__'] = microtime(true) - $start;
 
 		// Remove unnecessary information
 		$output = preg_replace('/member\_\-([0-9]+)/s', 'member_0', $output);

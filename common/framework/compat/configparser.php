@@ -183,7 +183,7 @@ class ConfigParser
 		{
 			$default_url = \Context::decodeIdna($default_url);
 		}
-		$config['url']['default'] = $default_url ?: \RX_BASEURL;
+		$config['url']['default'] = $default_url ?: (RX_SSL ? 'https://' : 'http://') . $_SERVER['HTTP_HOST'] . \RX_BASEURL;
 		$config['url']['http_port'] = $db_info->http_port ?: null;
 		$config['url']['https_port'] = $db_info->https_port ?: null;
 		$config['url']['ssl'] = $db_info->use_ssl ?: 'none';
@@ -215,14 +215,6 @@ class ConfigParser
 			$db_info->sitelock_whitelist[] = '127.0.0.1';
 		}
 		$config['lock']['allow'] = array_values($db_info->sitelock_whitelist);
-		
-		// Convert debug configuration.
-		$config['debug']['enabled'] = true;
-		$config['debug']['log_errors'] = true;
-		$config['debug']['log_queries'] = (\__DEBUG__ & 4) ? true : false;
-		$config['debug']['log_slow_queries'] = floatval(\__LOG_SLOW_QUERY__);
-		$config['debug']['log_slow_triggers'] = floatval(\__LOG_SLOW_TRIGGER__ * 1000);
-		$config['debug']['log_slow_widgets'] = floatval(\__LOG_SLOW_WIDGET__ * 1000);
 		
 		// Convert embed filter configuration.
 		if (is_array($db_info->embed_white_iframe))

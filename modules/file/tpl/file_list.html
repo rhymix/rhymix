@@ -6,7 +6,7 @@ xe.lang.msg_empty_search_keyword = '{$lang->msg_empty_search_keyword}';
 <form id="fo_list" action="./" method="post">
 	<input type="hidden" name="module" value="file" />
 	<div class="x_page-header">
-		<h1>{$lang->file} <a class="x_icon-question-sign" href="./common/manual/admin/#UMAN_content_file" target="_blank">{$lang->help}</a></h1>
+		<h1>{$lang->file} <a class="x_icon-question-sign" href="./common/manual/admin/index.html#UMAN_content_file" target="_blank">{$lang->help}</a></h1>
 	</div>
 	<div cond="$XE_VALIDATOR_MESSAGE && $XE_VALIDATOR_ID == 'modules/file/tpl/file_list/1'" class="message {$XE_VALIDATOR_MESSAGE_TYPE}">
 		<p>{$XE_VALIDATOR_MESSAGE}</p>
@@ -18,7 +18,7 @@ xe.lang.msg_empty_search_keyword = '{$lang->msg_empty_search_keyword}';
 			<a href="{getUrl('search_target','isvalid','search_keyword','Y')}" class="active"|cond="$search_target == 'isvalid' && $search_keyword == 'Y'">{$lang->is_valid}<block cond="$search_target == 'isvalid' && $search_keyword == 'Y'">({number_format($total_count)})</block></a>
 			<i>|</i>
 			<a href="{getUrl('search_target','isvalid','search_keyword','N')}" class="active"|cond="$search_target == 'isvalid' && $search_keyword == 'N'">{$lang->is_stand_by}<block cond="$search_target == 'isvalid' && $search_keyword == 'N'">({number_format($total_count)})</block></a>
-			<a class="x_icon-question-sign" href="./common/manual/admin/#UMAN_faq_file_status" target="_blank">{$lang->help}</a>
+			<a class="x_icon-question-sign" href="./common/manual/admin/index.html#UMAN_faq_file_status" target="_blank">{$lang->help}</a>
 			
 			<span class="x_pull-right"><a href="#listManager" class="x_btn modalAnchor" onclick="getFileList();">{$lang->delete}</a></span>
 		</caption>

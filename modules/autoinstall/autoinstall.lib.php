@@ -164,7 +164,7 @@ class ModuleInstaller
 		}
 
 		$output = $oModule->moduleUninstall();
-		if(is_subclass_of($output, 'Object') && !$output->toBool())
+		if($output instanceof Object && !$output->toBool())
 		{
 			return $output;
 		}

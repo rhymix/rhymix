@@ -2,6 +2,27 @@ jQuery(function($){
 	$('.tgContent ul').bind('click', function(){
 		$('#sitefind_addBtn').css('display','');
 	});
+	if ($("#object_cache_type").size()) {
+		$("#object_cache_type").on("change", function() {
+			if ($(this).val().match(/memcache|redis/)) {
+				$("#object_cache_additional_config").show();
+				if (!$("#object_cache_host").val()) {
+					$("#object_cache_host").val('127.0.0.1');
+				}
+				if (!$("#object_cache_port").val()) {
+					$("#object_cache_port").val($(this).val().match(/memcache/) ? '11211' : '6379');
+				}
+				if ($(this).val().match(/memcache/) && $("#object_cache_port").val() == '6379') {
+					$("#object_cache_port").val('11211');
+				}
+				if ($(this).val().match(/redis/) && $("#object_cache_port").val() == '11211') {
+					$("#object_cache_port").val('6379');
+				}
+			} else {
+				$("#object_cache_additional_config").hide();
+			}
+		}).triggerHandler("change");
+	}
 });
 
 function setStartModule(){

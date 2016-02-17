@@ -329,11 +329,11 @@ class Context
 		}
 		else
 		{
-			ob_start();
 			$this->setCacheControl(-1, true);
-			register_shutdown_function(array($this, 'checkSessionStatus'));
 			$_SESSION = array();
 		}
+
+		ob_start();
 
 		// set authentication information in Context and session
 		if(self::isInstalled())
@@ -411,7 +411,7 @@ class Context
 	{
 		if(self::getSessionStatus())
 		{
-			return;
+			return true;
 		}
 		if($force_start || (count($_SESSION) && !headers_sent()))
 		{
@@ -419,7 +419,9 @@ class Context
 			unset($_SESSION);
 			session_start();
 			$_SESSION = $tempSession;
+			return true;
 		}
+		return false;
 	}
 
 	/**
@@ -429,7 +431,11 @@ class Context
 	 */
 	public static function close()
 	{
-		session_write_close();
+		// Check session status and close it if open.
+		if (self::checkSessionStatus())
+		{
+			session_write_close();
+		}
 	}
 
 	/**
@@ -531,6 +537,10 @@ class Context
 		$db_info->ftp_info->ftp_root_path = $config['ftp']['path'];
 		$db_info->ftp_info->sftp = $config['ftp']['sftp'] ? 'Y' : 'N';
 		$db_info->default_url = $config['url']['default'];
+		if (!$db_info->default_url)
+		{
+			$db_info->default_url = (RX_SSL ? 'https://' : 'http://') . $_SERVER['HTTP_HOST'] . RX_BASEURL;
+		}
 		$db_info->http_port = $config['url']['http_port'];
 		$db_info->https_port = $config['url']['https_port'];
 		$db_info->use_ssl = $config['url']['ssl'];
@@ -1464,18 +1474,39 @@ class Context
 		}
 		else
 		{
-			self::setBrowserTitle(self::getSiteTitle());
-			$oMessageObject = getView('message');
-			$oMessageObject->setHttpStatusCode(503);
-			$oMessageObject->setError(-1);
-			$oMessageObject->setMessage(_XE_SITELOCK_TITLE_);
-			$oMessageObject->dispMessage();
-			$oModuleHandler = new ModuleHandler;
-			$oModuleHandler->displayContent($oMessageObject);
+			self::displayErrorPage(_XE_SITELOCK_TITLE_, _XE_SITELOCK_MESSAGE_, 503);
 		}
 		exit;
 	}
-
+	
+	/**
+	 * Display a generic error page and exit.
+	 * 
+	 * @param string $title
+	 * @param string $message
+	 * @return void
+	 */
+	public static function displayErrorPage($title = 'Error', $message = '', $status = 500)
+	{
+		// Change current directory to the Rhymix installation path.
+		chdir(\RX_BASEDIR);
+		
+		// Set the title.
+		self::setBrowserTitle(self::getSiteTitle());
+		self::addBrowserTitle($title);
+		
+		// Set the message.
+		$oMessageObject = getView('message');
+		$oMessageObject->setError(-1);
+		$oMessageObject->setHttpStatusCode($status);
+		$oMessageObject->setMessage($title);
+		$oMessageObject->dispMessage($message);
+		
+		// Display the message.
+		$oModuleHandler = new ModuleHandler;
+		$oModuleHandler->displayContent($oMessageObject);
+	}
+	
 	/**
 	 * Return request method
 	 * @return string Request method type. (Optional - GET|POST|XMLRPC|JSON)

@@ -29,3 +29,4 @@ $lang->msg_content_is_null = 'Xin vui lòng nhập nội dung.';
 $lang->msg_allow_message_to_friend = 'Không thể gửi vì người nhận chỉ chấp nhận những tin nhắn từ bạn bè của họ.';
 $lang->msg_disallow_message = 'Không thể gửi vì người nhận đã từ chối nhận tin nhắn.';
 $lang->about_allow_message = 'Bạn có thể đồng ý nhận tin nhắn.';
+$lang->alert_new_message_arrived = 'Bạn có một tin nhắn mới. bạn có muốn kiểm tra ngay bây giờ không?';

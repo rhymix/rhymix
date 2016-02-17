@@ -172,7 +172,6 @@ $lang->msg_not_founded = 'L\'objet n\'est pas trouvé.';
 $lang->msg_no_result = 'Nul Résultat';
 $lang->msg_not_permitted_act = 'Vous n\'êtes pas autorisés à exécuter l\'action que vous avez demandé.';
 $lang->msg_module_is_not_standalone = 'Le module demandé ne peut pas être exécuté indépendamment.';
-$lang->msg_default_url_is_not_defined = 'URL par défaut n\'est pas défini.';
 $lang->success_registed = 'Enregistré avec succès';
 $lang->success_declared = 'Accusé avec succès';
 $lang->success_updated = 'Mise à jour avec succès';

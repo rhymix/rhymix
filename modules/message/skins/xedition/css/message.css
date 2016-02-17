@@ -27,6 +27,7 @@
 	font-family: Arial, NanumBarunGothic, 'Malgun Gothic', Dotum, 'Apple SD Gothic Neo', AppleGothic, sans-serif;
 	font-size: 13px;
 	line-height: 17px;
+	height: auto;
 	width: 100%;
 	box-sizing: border-box;
 	border: 1px solid #aaa;

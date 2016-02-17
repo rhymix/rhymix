@@ -133,23 +133,22 @@ class ModuleHandler extends Handler
 				continue;
 			}
 			
-			$urlInfo = parse_url($url);
-			$host = $urlInfo['host'];
-			
-			$defaultUrl = Context::getDefaultUrl();
-			if($defaultUrl)
+			if($host = parse_url($url, PHP_URL_HOST))
 			{
-				$defaultUrlInfo = parse_url($defaultUrl);
-				$defaultHost = $defaultUrlInfo['host'];
-			}
-			else
-			{
-				$defaultHost = $_SERVER['HTTP_HOST'];
-			}
-			
-			if($host && ($host != $defaultHost && $host != $site_module_info->domain))
-			{
-				throw new Exception('msg_default_url_is_null');
+				$defaultHost = parse_url(Context::getDefaultUrl(), PHP_URL_HOST);
+				if($host !== $defaultHost)
+				{
+					$siteModuleHost = $site_module_info->domain;
+					if(strpos($siteModuleHost, '/') !== false)
+					{
+						$siteModuleHost = parse_url($siteModuleHost, PHP_URL_HOST);
+					}
+					if($host !== $siteModuleHost)
+					{
+						Context::set('success_return_url', null);
+						Context::set('error_return_url', null);
+					}
+				}
 			}
 		}
 		
@@ -240,14 +239,7 @@ class ModuleHandler extends Handler
 			}
 			else
 			{
-				if(!Context::getDefaultUrl())
-				{
-					return Context::getLang('msg_default_url_is_not_defined');
-				}
-				else
-				{
-					$redirect_url = getNotEncodedSiteUrl($db_info->default_url, 'mid', Context::get('mid'), 'document_srl', Context::get('document_srl'), 'module_srl', Context::get('module_srl'), 'entry', Context::get('entry'));
-				}
+				$redirect_url = getNotEncodedSiteUrl(Context::getDefaultUrl(), 'mid', Context::get('mid'), 'document_srl', Context::get('document_srl'), 'module_srl', Context::get('module_srl'), 'entry', Context::get('entry'));
 			}
 			header("Location: $redirect_url");
 			return FALSE;
@@ -634,7 +626,7 @@ class ModuleHandler extends Handler
 					if(!$grant->manager)
 					{
 						self::_setInputErrorToContext();
-						$this->error = 'msg_is_not_manager';
+						$this->error = 'msg_is_not_administrator';
 						$oMessageObject = self::getModuleInstance('message', $display_mode);
 						$oMessageObject->setError(-1);
 						$oMessageObject->setMessage($this->error);
@@ -758,7 +750,6 @@ class ModuleHandler extends Handler
 			$message = $oModule->getMessage();
 			$messageType = $oModule->getMessageType();
 			$redirectUrl = $oModule->getRedirectUrl();
-			if($messageType == 'error') debugPrint($message, 'ERROR');
 
 			if(!$procResult)
 			{
@@ -893,10 +884,6 @@ class ModuleHandler extends Handler
 
 			if($_SESSION['XE_VALIDATOR_RETURN_URL'])
 			{
-				$display_handler = new DisplayHandler();
-				$display_handler->_debugOutput();
-
-				Context::getInstance()->checkSessionStatus();
 				header('location:' . $_SESSION['XE_VALIDATOR_RETURN_URL']);
 				return;
 			}
@@ -1074,12 +1061,6 @@ class ModuleHandler extends Handler
 	 * */
 	public static function getModuleInstance($module, $type = 'view', $kind = '')
 	{
-
-		if(__DEBUG__ == 3)
-		{
-			$start_time = microtime(true);
-		}
-
 		$parent_module = $module;
 		$kind = strtolower($kind);
 		$type = strtolower($type);
@@ -1143,11 +1124,6 @@ class ModuleHandler extends Handler
 			$GLOBALS['_loaded_module'][$module][$type][$kind] = $oModule;
 		}
 
-		if(__DEBUG__ == 3)
-		{
-			$GLOBALS['__elapsed_class_load__'] += microtime(true) - $start_time;
-		}
-
 		// return the instance
 		return $GLOBALS['_loaded_module'][$module][$type][$kind];
 	}
@@ -1207,11 +1183,7 @@ class ModuleHandler extends Handler
 		}
 		
 		//store before trigger call time
-		$before_trigger_time = NULL;
-		if(__LOG_SLOW_TRIGGER__> 0)
-		{
-			$before_trigger_time = microtime(true);
-		}
+		$before_trigger_time = microtime(true);
 
 		foreach($triggers as $item)
 		{
@@ -1227,17 +1199,20 @@ class ModuleHandler extends Handler
 			}
 
 			$before_each_trigger_time = microtime(true);
-
 			$output = $oModule->{$called_method}($obj);
-
 			$after_each_trigger_time = microtime(true);
-			$elapsed_time_trigger = $after_each_trigger_time - $before_each_trigger_time;
 
-			$slowlog = new stdClass;
-			$slowlog->caller = $trigger_name . '.' . $called_position;
-			$slowlog->called = $module . '.' . $called_method;
-			$slowlog->called_extension = $module;
-			if($trigger_name != 'XE.writeSlowlog') writeSlowlog('trigger', $elapsed_time_trigger, $slowlog);
+			if ($trigger_name !== 'common.flushDebugInfo')
+			{
+				$trigger_target = $module . ($type === 'class' ? '' : $type) . '.' . $called_method;
+				
+				Rhymix\Framework\Debug::addTrigger(array(
+					'name' => $trigger_name . '.' . $called_position,
+					'target' => $trigger_target,
+					'target_plugin' => $module,
+					'elapsed_time' => $after_each_trigger_time - $before_each_trigger_time,
+				));
+			}
 
 			if(is_object($output) && method_exists($output, 'toBool') && !$output->toBool())
 			{
@@ -1249,7 +1224,39 @@ class ModuleHandler extends Handler
 		$trigger_functions = $oModuleModel->getTriggerFunctions($trigger_name, $called_position);
 		foreach($trigger_functions as $item)
 		{
+			$before_each_trigger_time = microtime(true);
 			$item($obj);
+			$after_each_trigger_time = microtime(true);
+
+			if ($trigger_name !== 'common.writeSlowlog')
+			{
+				if (is_string($item))
+				{
+					$trigger_target = $item;
+				}
+				elseif (is_array($item) && count($item))
+				{
+					if (is_object($item[0]))
+					{
+						$trigger_target = get_class($item[0]) . '.' . strval($item[1]);
+					}
+					else
+					{
+						$trigger_target = implode('.', $item);
+					}
+				}
+				else
+				{
+					$trigger_target = 'closure';
+				}
+				
+				Rhymix\Framework\Debug::addTrigger(array(
+					'name' => $trigger_name . '.' . $called_position,
+					'target' => $trigger_target,
+					'target_plugin' => null,
+					'elapsed_time' => $after_each_trigger_time - $before_each_trigger_time,
+				));
+			}
 
 			if(is_object($output) && method_exists($output, 'toBool') && !$output->toBool())
 			{

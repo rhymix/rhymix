@@ -28,3 +28,4 @@ $lang->msg_content_is_null = 'Por favor ingresar el contenido';
 $lang->msg_allow_message_to_friend = 'Falló el envío por permitir sólo mensajes de sus amigos';
 $lang->msg_disallow_message = 'Falló el envío por ser usuario rechazado para recibir mensajes';
 $lang->about_allow_message = 'Usted puede decidir la recepción del mensaje';
+$lang->alert_new_message_arrived = 'Usted tiene un nuevo mensaje. Quiere comprobar ahora?';

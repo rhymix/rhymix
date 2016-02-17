@@ -626,17 +626,59 @@ class adminAdminController extends admin
 		{
 			return new Object(-1, 'msg_invalid_default_url');
 		}
-		Rhymix\Framework\Config::set('url.default', $vars->default_url);
 		
 		// SSL and ports
 		if ($vars->http_port == 80) $vars->http_port = null;
 		if ($vars->https_port == 443) $vars->https_port = null;
+		$use_ssl = $vars->use_ssl ?: 'none';
+		
+		// Check if all URL configuration is consistent
+		if ($use_ssl === 'always' && !preg_match('@^https://@', $default_url))
+		{
+			return new Object(-1, 'msg_default_url_ssl_inconsistent');
+		}
+		if ($vars->http_port && preg_match('@^http://@', $default_url) && parse_url($default_url, PHP_URL_PORT) != $vars->http_port)
+		{
+			return new Object(-1, 'msg_default_url_http_port_inconsistent');
+		}
+		if ($vars->https_port && preg_match('@^https://@', $default_url) && parse_url($default_url, PHP_URL_PORT) != $vars->https_port)
+		{
+			return new Object(-1, 'msg_default_url_https_port_inconsistent');
+		}
+		
+		// Set all URL configuration
+		Rhymix\Framework\Config::set('url.default', $default_url);
 		Rhymix\Framework\Config::set('url.http_port', $vars->http_port ?: null);
 		Rhymix\Framework\Config::set('url.https_port', $vars->https_port ?: null);
-		Rhymix\Framework\Config::set('url.ssl', $vars->use_ssl ?: 'none');
+		Rhymix\Framework\Config::set('url.ssl', $use_ssl);
+		getController('module')->updateSite((object)array(
+			'site_srl' => 0,
+			'domain' => preg_replace('@^https?://@', '', $default_url),
+		));
+		
+		// Object cache
+		if ($vars->object_cache_type)
+		{
+			if ($vars->object_cache_type === 'memcached' || $vars->object_cache_type === 'redis')
+			{
+				$cache_config = $vars->object_cache_type . '://' . $vars->object_cache_host . ':' . intval($vars->object_cache_port);
+			}
+			else
+			{
+				$cache_config = $vars->object_cache_type;
+			}
+			if (!CacheHandler::isSupport($vars->object_cache_type, $cache_config))
+			{
+				return new Object(-1, 'msg_cache_handler_not_supported');
+			}
+			Rhymix\Framework\Config::set('cache', array($cache_config));
+		}
+		else
+		{
+			Rhymix\Framework\Config::set('cache', array());
+		}
 		
 		// Other settings
-		Rhymix\Framework\Config::set('use_mobile_view', $vars->use_mobile_view === 'Y');
 		Rhymix\Framework\Config::set('use_rewrite', $vars->use_rewrite === 'Y');
 		Rhymix\Framework\Config::set('use_sso', $vars->use_sso === 'Y');
 		Rhymix\Framework\Config::set('session.delay', $vars->delay_session === 'Y');
@@ -648,7 +690,63 @@ class adminAdminController extends admin
 		Rhymix\Framework\Config::save();
 		
 		$this->setMessage('success_updated');
-		$this->setRedirectUrl(Context::get('success_return_url') ?: getNotEncodedUrl('', 'act', 'dispAdminConfigAdvanced'));
+		$this->setRedirectUrl(Context::get('success_return_url') ?: $default_url . 'index.php?act=dispAdminConfigAdvanced');
+	}
+	
+	/**
+	 * Update debug configuration.
+	 */
+	function procAdminUpdateDebug()
+	{
+		$vars = Context::getRequestVars();
+		
+		// Debug settings
+		Rhymix\Framework\Config::set('debug.enabled', $vars->debug_enabled === 'Y');
+		Rhymix\Framework\Config::set('debug.log_errors', $vars->debug_log_errors === 'Y');
+		Rhymix\Framework\Config::set('debug.log_queries', $vars->debug_log_queries === 'Y');
+		Rhymix\Framework\Config::set('debug.log_slow_queries', max(0, floatval($vars->debug_log_slow_queries)));
+		Rhymix\Framework\Config::set('debug.log_slow_triggers', max(0, floatval($vars->debug_log_slow_triggers)));
+		Rhymix\Framework\Config::set('debug.log_slow_widgets', max(0, floatval($vars->debug_log_slow_widgets)));
+		Rhymix\Framework\Config::set('debug.display_type', strval($vars->debug_display_type) ?: 'comment');
+		Rhymix\Framework\Config::set('debug.display_to', strval($vars->debug_display_to) ?: 'admin');
+		
+		// Log filename
+		$log_filename = strval($vars->debug_log_filename);
+		$log_filename_today = str_replace(array('YYYY', 'YY', 'MM', 'DD'), array(
+			getInternalDateTime(RX_TIME, 'Y'),
+			getInternalDateTime(RX_TIME, 'y'),
+			getInternalDateTime(RX_TIME, 'm'),
+			getInternalDateTime(RX_TIME, 'd'),
+		), $log_filename);
+		if (file_exists(RX_BASEDIR . $log_filename_today) && !is_writable(RX_BASEDIR . $log_filename_today))
+		{
+			return new Object(-1, 'msg_debug_log_filename_not_writable');
+		}
+		if (!file_exists(dirname(RX_BASEDIR . $log_filename)) && !FileHandler::makeDir(dirname(RX_BASEDIR . $log_filename)))
+		{
+			return new Object(-1, 'msg_debug_log_filename_not_writable');
+		}
+		if (!is_writable(dirname(RX_BASEDIR . $log_filename)))
+		{
+			return new Object(-1, 'msg_debug_log_filename_not_writable');
+		}
+		Rhymix\Framework\Config::set('debug.log_filename', $log_filename);
+		
+		// IP access control
+		$allowed_ip = array_map('trim', preg_split('/[\r\n]/', $vars->debug_allowed_ip));
+		$allowed_ip = array_unique(array_filter($allowed_ip, function($item) {
+			return $item !== '';
+		}));
+		if (!IpFilter::validate($whitelist)) {
+			return new Object(-1, 'msg_invalid_ip');
+		}
+		Rhymix\Framework\Config::set('debug.allow', array_values($allowed_ip));
+		
+		// Save
+		Rhymix\Framework\Config::save();
+		
+		$this->setMessage('success_updated');
+		$this->setRedirectUrl(Context::get('success_return_url') ?: getNotEncodedUrl('', 'act', 'dispAdminConfigDebug'));
 	}
 	
 	/**

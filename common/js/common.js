@@ -28,6 +28,9 @@
 		}
 	});
 
+	/* Array for pending debug data */
+	window.rhymix_debug_pending_data = [];
+
 	/**
 	 * @brief XE 공용 유틸리티 함수
 	 * @namespace XE

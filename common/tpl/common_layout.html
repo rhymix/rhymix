@@ -71,7 +71,9 @@ xe.msg_select_menu = "{$lang->msg_select_menu}";
 {$content}
 {Context::getHtmlFooter()}
 <!-- ETC -->
-<div class="wfsr"></div>
+<div id="rhymix_waiting" class="wfsr"></div>
+<div id="rhymix_debug_panel"></div>
+<div id="rhymix_debug_button"></div>
 {@ $js_body_files = Context::getJsFile('body') }
 <block loop="$js_body_files => $key, $js_file">
 <block cond="$js_file['targetie']"><!--[if {$js_file['targetie']}]></block><script src="{$js_file['file']}"></script><block cond="$js_file['targetie']"><![endif]--></block>

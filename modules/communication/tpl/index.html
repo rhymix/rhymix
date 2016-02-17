@@ -99,7 +99,12 @@
 			</div>
 		</div>
 	</div>
-
+	<div class="x_control-group">
+		<label class="x_control-label">communication option</label>
+		<div class="x_controls">
+			<label class="x_inline" for="member_menu"><input type="checkbox" name="member_menu" id="member_menu" value="Y" checked="checked"|cond="$communication_config->member_menu == 'Y'" /> {$lang->about_mobile_view}</label>
+		</div>
+	</div>
 	<div class="btnArea">
 		<button class="x_btn x_btn-primary" type="submit">{$lang->cmd_registration}</button>
 	</div>

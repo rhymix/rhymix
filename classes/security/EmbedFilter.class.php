@@ -1,8 +1,6 @@
 <?php
 /* Copyright (C) NAVER <http://www.navercorp.com> */
 
-include _XE_PATH_ . 'classes/security/phphtmlparser/src/htmlparser.inc';
-
 class EmbedFilter
 {
 
@@ -17,7 +15,6 @@ class EmbedFilter
 	 * @var int
 	 */
 	var $allowscriptaccessKey = 0;
-	var $whiteUrlDefaultFile = './classes/security/conf/whitelist.php';
 	var $whiteUrlList = array();
 	var $whiteIframeUrlList = array();
 	var $mimeTypeList = array();
@@ -68,104 +65,7 @@ class EmbedFilter
 
 		$this->checkObjectTag($content);
 		$this->checkEmbedTag($content);
-		$this->checkIframeTag($content);
 		$this->checkParamTag($content);
-	}
-
-	/**
-	 * Check object tag in the content.
-	 * @return void
-	 */
-	function checkObjectTag(&$content)
-	{
-		preg_match_all('/<\s*object\s*[^>]+(?:\/?>?)/is', $content, $m);
-		$objectTagList = $m[0];
-		if($objectTagList)
-		{
-			foreach($objectTagList AS $key => $objectTag)
-			{
-				$isWhiteDomain = true;
-				$isWhiteMimetype = true;
-				$isWhiteExt = true;
-				$ext = '';
-
-				$parser = new HtmlParser($objectTag);
-				while($parser->parse())
-				{
-					if(is_array($parser->iNodeAttributes))
-					{
-						foreach($parser->iNodeAttributes AS $attrName => $attrValue)
-						{
-							// data url check
-							if($attrValue && strtolower($attrName) == 'data')
-							{
-								$ext = strtolower(substr(strrchr($attrValue, "."), 1));
-								$isWhiteDomain = $this->isWhiteDomain($attrValue);
-							}
-
-							// mime type check
-							if(strtolower($attrName) == 'type' && $attrValue)
-							{
-								$isWhiteMimetype = $this->isWhiteMimetype($attrValue);
-							}
-						}
-					}
-				}
-
-				if(!$isWhiteDomain || !$isWhiteMimetype)
-				{
-					$content = str_replace($objectTag, htmlspecialchars($objectTag, ENT_COMPAT | ENT_HTML401, 'UTF-8', false), $content);
-				}
-			}
-		}
-	}
-
-	/**
-	 * Check embed tag in the content.
-	 * @return void
-	 */
-	function checkEmbedTag(&$content)
-	{
-		preg_match_all('/<\s*embed\s*[^>]+(?:\/?>?)/is', $content, $m);
-		$embedTagList = $m[0];
-		if($embedTagList)
-		{
-			foreach($embedTagList AS $key => $embedTag)
-			{
-				$isWhiteDomain = TRUE;
-				$isWhiteMimetype = TRUE;
-				$isWhiteExt = TRUE;
-				$ext = '';
-
-				$parser = new HtmlParser($embedTag);
-				while($parser->parse())
-				{
-					if(is_array($parser->iNodeAttributes))
-					{
-						foreach($parser->iNodeAttributes AS $attrName => $attrValue)
-						{
-							// src url check
-							if($attrValue && strtolower($attrName) == 'src')
-							{
-								$ext = strtolower(substr(strrchr($attrValue, "."), 1));
-								$isWhiteDomain = $this->isWhiteDomain($attrValue);
-							}
-
-							// mime type check
-							if(strtolower($attrName) == 'type' && $attrValue)
-							{
-								$isWhiteMimetype = $this->isWhiteMimetype($attrValue);
-							}
-						}
-					}
-				}
-
-				if(!$isWhiteDomain || !$isWhiteMimetype)
-				{
-					$content = str_replace($embedTag, htmlspecialchars($embedTag, ENT_COMPAT | ENT_HTML401, 'UTF-8', false), $content);
-				}
-			}
-		}
 	}
 
 	/**
@@ -176,39 +76,52 @@ class EmbedFilter
 	{
 		// check in Purifier class
 		return;
+	}
 
-		preg_match_all('/<\s*iframe\s*[^>]+(?:\/?>?)/is', $content, $m);
-		$iframeTagList = $m[0];
-		if($iframeTagList)
-		{
-			foreach($iframeTagList AS $key => $iframeTag)
+	/**
+	 * Check object tag in the content.
+	 * @return void
+	 */
+	function checkObjectTag(&$content)
+	{
+		$content = preg_replace_callback('/<\s*object\s*[^>]+(?:\/?>?)/is', function($m) {
+			$html = Sunra\PhpSimple\HtmlDomParser::str_get_html($m[0]);
+			foreach ($html->find('object') as $element)
 			{
-				$isWhiteDomain = TRUE;
-				$ext = '';
-
-				$parser = new HtmlParser($iframeTag);
-				while($parser->parse())
+				if ($element->data && !$this->isWhiteDomain($element->data))
 				{
-					if(is_array($parser->iNodeAttributes))
-					{
-						foreach($parser->iNodeAttributes AS $attrName => $attrValue)
-						{
-							// src url check
-							if(strtolower($attrName) == 'src' && $attrValue)
-							{
-								$ext = strtolower(substr(strrchr($attrValue, "."), 1));
-								$isWhiteDomain = $this->isWhiteIframeDomain($attrValue);
-							}
-						}
-					}
+					return escape($m[0], false);
 				}
-
-				if(!$isWhiteDomain)
+				if ($element->type && !$this->isWhiteMimetype($element->type))
 				{
-					$content = str_replace($iframeTag, htmlspecialchars($iframeTag, ENT_COMPAT | ENT_HTML401, 'UTF-8', false), $content);
+					return escape($m[0], false);
 				}
 			}
-		}
+			return $m[0];
+		}, $content);
+	}
+
+	/**
+	 * Check embed tag in the content.
+	 * @return void
+	 */
+	function checkEmbedTag(&$content)
+	{
+		$content = preg_replace_callback('/<\s*embed\s*[^>]+(?:\/?>?)/is', function($m) {
+			$html = Sunra\PhpSimple\HtmlDomParser::str_get_html($m[0]);
+			foreach ($html->find('embed') as $element)
+			{
+				if ($element->src && !$this->isWhiteDomain($element->src))
+				{
+					return escape($m[0], false);
+				}
+				if ($element->type && !$this->isWhiteMimetype($element->type))
+				{
+					return escape($m[0], false);
+				}
+			}
+			return $m[0];
+		}, $content);
 	}
 
 	/**
@@ -217,36 +130,20 @@ class EmbedFilter
 	 */
 	function checkParamTag(&$content)
 	{
-		preg_match_all('/<\s*param\s*[^>]+(?:\/?>?)/is', $content, $m);
-		$paramTagList = $m[0];
-		if($paramTagList)
-		{
-			foreach($paramTagList AS $key => $paramTag)
+		$content = preg_replace_callback('/<\s*param\s*[^>]+(?:\/?>?)/is', function($m) {
+			$html = Sunra\PhpSimple\HtmlDomParser::str_get_html($m[0]);
+			foreach ($html->find('param') as $element)
 			{
-				$isWhiteDomain = TRUE;
-				$isWhiteExt = TRUE;
-				$ext = '';
-
-				$parser = new HtmlParser($paramTag);
-				while($parser->parse())
+				foreach (array('movie', 'src', 'href', 'url', 'source') as $attr)
 				{
-					if($parser->iNodeAttributes['name'] && $parser->iNodeAttributes['value'])
+					if ($element->$attr && !$this->isWhiteDomain($element->$attr))
 					{
-						$name = strtolower($parser->iNodeAttributes['name']);
-						if($name == 'movie' || $name == 'src' || $name == 'href' || $name == 'url' || $name == 'source')
-						{
-							$ext = strtolower(substr(strrchr($parser->iNodeAttributes['value'], "."), 1));
-							$isWhiteDomain = $this->isWhiteDomain($parser->iNodeAttributes['value']);
-
-							if(!$isWhiteDomain)
-							{
-								$content = str_replace($paramTag, htmlspecialchars($paramTag, ENT_COMPAT | ENT_HTML401, 'UTF-8', false), $content);
-							}
-						}
+						return escape($m[0], false);
 					}
 				}
 			}
-		}
+			return $m[0];
+		}, $content);
 	}
 
 	/**
@@ -359,8 +256,7 @@ class EmbedFilter
 	 */
 	function _makeWhiteDomainList($whitelist = NULL)
 	{
-		$whiteUrlDefaultFile = FileHandler::getRealPath($this->whiteUrlDefaultFile);
-		$whiteUrlDefaultList = (include $whiteUrlDefaultFile);
+		$whiteUrlDefaultList = (include RX_BASEDIR . 'common/defaults/whitelist.php');
 		$this->extList = $whiteUrlDefaultList['extensions'];
 		$this->mimeTypeList = $whiteUrlDefaultList['mime'];
 		$this->whiteUrlList = array();

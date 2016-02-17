@@ -530,8 +530,9 @@ function ztime($str)
 	{
 		$hour = $min = $sec = 0;
 	}
-	$offset = Rhymix\Framework\Config::get('locale.internal_timezone') ?: date('Z');
-	return gmmktime($hour, $min, $sec, $month, $day, $year) - $offset;
+	$timestamp = gmmktime($hour, $min, $sec, $month, $day, $year);
+	$offset = Rhymix\Framework\Config::get('locale.internal_timezone') ?: date('Z', $timestamp);
+	return $timestamp - $offset;
 }
 
 /**
@@ -602,6 +603,32 @@ function zdate($str, $format = 'Y-m-d H:i:s', $conversion = false)
 }
 
 /**
+ * Convert a Unix timestamp to YYYYMMDDHHIISS format, using the internal time zone.
+ * If the timestamp is not given, the current time is used.
+ * 
+ * @param int $timestamp Unix timestamp
+ * @return string
+ */
+function getInternalDateTime($timestamp = null, $format = 'YmdHis')
+{
+	$timestamp = ($timestamp !== null) ? $timestamp : time();
+	return Rhymix\Framework\DateTime::formatTimestamp($format, $timestamp);
+}
+
+/**
+ * Convert a Unix timestamp to YYYYMMDDHHIISS format, using the internal time zone.
+ * If the timestamp is not given, the current time is used.
+ * 
+ * @param int $timestamp Unix timestamp
+ * @return string
+ */
+function getDisplayDateTime($timestamp = null, $format = 'YmdHis')
+{
+	$timestamp = ($timestamp !== null) ? $timestamp : time();
+	return Rhymix\Framework\DateTime::formatTimestampForCurrentUser($format, $timestamp);
+}
+
+/**
  * If the recent post within a day, output format of YmdHis is "min/hours ago from now". If not within a day, it return format string.
  *
  * @param string $date Time value in format of YYYYMMDDHHIISS
@@ -610,24 +637,24 @@ function zdate($str, $format = 'Y-m-d H:i:s', $conversion = false)
  */
 function getTimeGap($date, $format = 'Y.m.d')
 {
-	$gap = $_SERVER['REQUEST_TIME'] + zgap() - ztime($date);
+	$gap = RX_TIME - ztime($date);
 
 	$lang_time_gap = Context::getLang('time_gap');
-	if($gap < 60)
+	if($gap < 60 * 1.5)
 	{
-		$buff = sprintf($lang_time_gap['min'], (int)($gap / 60) + 1);
+		$buff = sprintf($lang_time_gap['min'], round($gap / 60));
 	}
 	elseif($gap < 60 * 60)
 	{
-		$buff = sprintf($lang_time_gap['mins'], (int)($gap / 60) + 1);
+		$buff = sprintf($lang_time_gap['mins'], round($gap / 60));
 	}
-	elseif($gap < 60 * 60 * 2)
+	elseif($gap < 60 * 60 * 1.5)
 	{
-		$buff = sprintf($lang_time_gap['hour'], (int)($gap / 60 / 60) + 1);
+		$buff = sprintf($lang_time_gap['hour'], round($gap / 60 / 60));
 	}
 	elseif($gap < 60 * 60 * 24)
 	{
-		$buff = sprintf($lang_time_gap['hours'], (int)($gap / 60 / 60) + 1);
+		$buff = sprintf($lang_time_gap['hours'], round($gap / 60 / 60));
 	}
 	else
 	{
@@ -668,100 +695,14 @@ function getEncodeEmailAddress($email)
 }
 
 /**
- * Prints debug messages 
+ * Add an entry to the debug log.
  *
- * Display $buff contents into the file ./files/_debug_message.php.
- * You can see the file on your prompt by command: tail-f./files/_debug_message.php
- *
- * @param mixed $debug_output Target object to be printed
- * @param bool $display_option boolean Flag whether to print seperator (default:true)
- * @param string $file Target file name
+ * @param mixed $entry Target object to be printed
  * @return void
  */
-function debugPrint($debug_output = NULL, $display_option = TRUE, $file = '_debug_message.php')
+function debugPrint($entry = null)
 {
-	static $debug_file;
-	static $debug_file_exist;
-
-	if(!(__DEBUG__ & 1))
-	{
-		return;
-	}
-
-	static $firephp;
-	$bt = debug_backtrace();
-	if(is_array($bt))
-	{
-		$bt_debug_print = array_shift($bt);
-		$bt_called_function = array_shift($bt);
-	}
-	$file_name = str_replace(_XE_PATH_, '', $bt_debug_print['file']);
-	$line_num = $bt_debug_print['line'];
-	$function = $bt_called_function['class'] . $bt_called_function['type'] . $bt_called_function['function'];
-
-	if(__DEBUG_OUTPUT__ == 2 && version_compare(PHP_VERSION, '6.0.0') === -1)
-	{
-		if(!isset($firephp))
-		{
-			$firephp = FirePHP::getInstance(TRUE);
-		}
-		$type = FirePHP::INFO;
-
-		$label = sprintf('[%s:%d] %s() (Memory usage: current=%s, peak=%s)', $file_name, $line_num, $function, FileHandler::filesize(memory_get_usage()), FileHandler::filesize(memory_get_peak_usage()));
-
-		// Check a FirePHP option
-		if($display_option === 'TABLE')
-		{
-			$label = $display_option;
-		}
-		if($display_option === 'ERROR')
-		{
-			$type = $display_option;
-		}
-		// Check if the IP specified by __DEBUG_PROTECT__ option is same as the access IP.
-		if(__DEBUG_PROTECT__ === 1 && __DEBUG_PROTECT_IP__ != $_SERVER['REMOTE_ADDR'])
-		{
-			$debug_output = 'The IP address is not allowed. Change the value of __DEBUG_PROTECT_IP__ into your IP address in config/config.user.inc.php or config/config.inc.php';
-			$label = NULL;
-		}
-
-		$firephp->fb($debug_output, $label, $type);
-	}
-	else
-	{
-		if(__DEBUG_PROTECT__ === 1 && __DEBUG_PROTECT_IP__ != $_SERVER['REMOTE_ADDR'])
-		{
-			return;
-		}
-
-		$print = array();
-		if($debug_file_exist === NULL) $print[] = '<?php exit() ?>';
-
-		if(!$debug_file) $debug_file =  _XE_PATH_ . 'files/' . $file;
-		if(!$debug_file_exist) $debug_file_exist = file_exists($debug_file);
-
-		if($display_option === TRUE || $display_option === 'ERROR')
-		{
-			$print[] = str_repeat('=', 80);
-		}
-
-		$print[] = sprintf("[%s %s:%d] %s() - mem(%s)", date('Y-m-d H:i:s'), $file_name, $line_num, $function, FileHandler::filesize(memory_get_usage()));
-
-		$type = gettype($debug_output);
-		if(!in_array($type, array('array', 'object', 'resource')))
-		{
-			if($display_option === 'ERROR') $print[] = 'ERROR : ' . var_export($debug_output, TRUE);
-			else $print[] = $type . '(' . var_export($debug_output, TRUE) . ')';
-			$print[] = PHP_EOL.PHP_EOL;
-		}
-		else
-		{
-			$print[] = print_r($debug_output, TRUE);
-			$print[] = PHP_EOL;
-		}
-
-		@file_put_contents($debug_file, implode(PHP_EOL, $print), FILE_APPEND|LOCK_EX);
-	}
+	Rhymix\Framework\Debug::addEntry($entry);
 }
 
 /**
@@ -771,64 +712,7 @@ function debugPrint($debug_output = NULL, $display_option = TRUE, $file = '_debu
  */
 function writeSlowlog($type, $elapsed_time, $obj)
 {
-	if(!__LOG_SLOW_TRIGGER__ && !__LOG_SLOW_ADDON__ && !__LOG_SLOW_WIDGET__ && !__LOG_SLOW_QUERY__) return;
-	if(__LOG_SLOW_PROTECT__ === 1 &&  __LOG_SLOW_PROTECT_IP__ != $_SERVER['REMOTE_ADDR']) return;
-
-	static $log_filename = array(
-		'query' => 'files/_slowlog_query.php',
-		'trigger' => 'files/_slowlog_trigger.php',
-		'addon' => 'files/_slowlog_addon.php',
-		'widget' => 'files/_slowlog_widget.php'
-	);
-	$write_file = true;
-
-	$log_file = _XE_PATH_ . $log_filename[$type];
-
-	$buff = array();
-	$buff[] = '<?php exit(); ?>';
-	$buff[] = date('c');
-
-	if($type == 'trigger' && __LOG_SLOW_TRIGGER__ > 0 && $elapsed_time > __LOG_SLOW_TRIGGER__)
-	{
-		$buff[] = "\tCaller : " . $obj->caller;
-		$buff[] = "\tCalled : " . $obj->called;
-	}
-	else if($type == 'addon' && __LOG_SLOW_ADDON__ > 0 && $elapsed_time > __LOG_SLOW_ADDON__)
-	{
-		$buff[] = "\tAddon : " . $obj->called;
-		$buff[] = "\tCalled position : " . $obj->caller;
-	}
-	else if($type == 'widget' && __LOG_SLOW_WIDGET__ > 0 && $elapsed_time > __LOG_SLOW_WIDGET__)
-	{
-		$buff[] = "\tWidget : " . $obj->called;
-	}
-	else if($type == 'query' && __LOG_SLOW_QUERY__ > 0 && $elapsed_time > __LOG_SLOW_QUERY__)
-	{
-
-		$buff[] = $obj->query;
-		$buff[] = "\tQuery ID   : " . $obj->query_id;
-		$buff[] = "\tCaller     : " . $obj->caller;
-		$buff[] = "\tConnection : " . $obj->connection;
-	}
-	else
-	{
-		$write_file = false;
-	}
-
-	if($write_file)
-	{
-		$buff[] = sprintf("\t%0.6f sec", $elapsed_time);
-		$buff[] = PHP_EOL . PHP_EOL;
-		file_put_contents($log_file, implode(PHP_EOL, $buff), FILE_APPEND);
-	}
-
-	if($type != 'query')
-	{
-		$trigger_args = $obj;
-		$trigger_args->_log_type = $type;
-		$trigger_args->_elapsed_time = $elapsed_time;
-		ModuleHandler::triggerCall('XE.writeSlowlog', 'after', $trigger_args);
-	}
+	// no-op
 }
 
 /**
@@ -836,10 +720,7 @@ function writeSlowlog($type, $elapsed_time, $obj)
  */
 function flushSlowlog()
 {
-	$trigger_args = new stdClass();
-	$trigger_args->_log_type = 'flush';
-	$trigger_args->_elapsed_time = 0;
-	ModuleHandler::triggerCall('XE.writeSlowlog', 'after', $trigger_args);
+	// no-op
 }
 
 /**
@@ -891,7 +772,7 @@ function getDestroyXeVars($vars)
 }
 
 /**
- * Change error_handing to debugPrint on php5 higher 
+ * Legacy error handler
  *
  * @param int $errno
  * @param string $errstr
@@ -899,22 +780,9 @@ function getDestroyXeVars($vars)
  * @param int $line
  * @return void
  */
-function handleError($errno, $errstr, $file, $line)
+function handleError($errno, $errstr, $file, $line, $context)
 {
-	if(!__DEBUG__)
-	{
-		return;
-	}
-	$errors = array(E_USER_ERROR, E_ERROR, E_PARSE);
-	if(!in_array($errno, $errors))
-	{
-		return;
-	}
-
-	$output = sprintf("Fatal error : %s - %d", $file, $line);
-	$output .= sprintf("%d - %s", $errno, $errstr);
-
-	debugPrint($output);
+	Rhymix\Framework\Debug::addError($errno, $errstr, $file, $line, $context);
 }
 
 /**
@@ -1315,42 +1183,58 @@ function requirePear()
  */
 function checkCSRF()
 {
-	if($_SERVER['REQUEST_METHOD'] != 'POST')
+	// If this is not a POST request, FAIL.
+	if ($_SERVER['REQUEST_METHOD'] != 'POST')
 	{
-		return FALSE;
+		return false;
 	}
-
+	
+	// Get the referer. If the referer is empty, PASS.
+	$referer = strval($_SERVER['HTTP_REFERER']);
+	if ($referer === '')
+	{
+		return true;
+	}
+	if (strpos($referer, 'xn--') !== false)
+	{
+		$referer = Context::decodeIdna($referer);
+	}
+	$referer_host = parse_url($referer, PHP_URL_HOST);
+	
+	// If the referer is the same domain as the current host, PASS.
+	$current_host = $_SERVER['HTTP_HOST'];
+	if (strpos($current_host, 'xn--') !== false)
+	{
+		$current_host = Context::decodeIdna($current_host);
+	}
+	if ($referer_host === $current_host)
+	{
+		return true;
+	}
+	
+	// If the referer is the same domain as the default URL, PASS.
 	$default_url = Context::getDefaultUrl();
-	$referer = $_SERVER["HTTP_REFERER"];
-
-	if(strpos($default_url, 'xn--') !== FALSE && strpos($referer, 'xn--') === FALSE)
+	if (strpos($default_url, 'xn--') !== false)
 	{
-		$referer = Context::encodeIdna($referer);
+		$default_url = Context::decodeIdna($default_url);
 	}
-
-	$default_url = parse_url($default_url);
-	$referer = parse_url($referer);
-
+	if ($referer_host === parse_url($default_url, PHP_URL_HOST))
+	{
+		return true;
+	}
+	
+	// Check if we have a virtual site with a matching domain.
 	$oModuleModel = getModel('module');
 	$siteModuleInfo = $oModuleModel->getDefaultMid();
-
-	if($siteModuleInfo->site_srl == 0)
+	$virtualSiteInfo = $oModuleModel->getSiteInfo($siteModuleInfo->site_srl);
+	if (strcasecmp($virtualSiteInfo->domain, Context::get('vid')) && stristr($virtualSiteInfo->domain, $referer_host))
 	{
-		if($default_url['host'] !== $referer['host'])
-		{
-			return FALSE;
-		}
+		return true;
 	}
 	else
 	{
-		$virtualSiteInfo = $oModuleModel->getSiteInfo($siteModuleInfo->site_srl);
-		if(strtolower($virtualSiteInfo->domain) != strtolower(Context::get('vid')) && !strstr(strtolower($virtualSiteInfo->domain), strtolower($referer['host'])))
-		{
-			return FALSE;
-		}
+		return false;
 	}
-
-	return TRUE;
 }
 
 /**

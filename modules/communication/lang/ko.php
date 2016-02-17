@@ -34,3 +34,4 @@ $lang->message_notice = '저작자에게 쪽지를 발송해서 이 사실을 �
 $lang->friends_page_does_not_support = '모바일 환경에서는 친구 보기 페이지를 지원하지 않습니다. PC 화면으로 이동하세요.';
 $lang->cmd_write_communication = '작성 권한';
 $lang->cmd_manage_base = '기본 정보';
+$lang->alert_new_message_arrived = '%d개의 새로운 메시지가 도착하였습니다. 확인하시겠습니까?';

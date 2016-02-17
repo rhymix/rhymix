@@ -51,10 +51,15 @@ class communicationModel extends communication
 		{
 			$communication_config->mskin = 'default';
 		}
-		
+
 		if(!$communication_config->grant_write)
 		{
-			$communication_config->grant_write = array('default_grant'=>'member');
+			$communication_config->grant_write = array('default_grant' => 'member');
+		}
+
+		if(!$communication_config->member_menu)
+		{
+			$communication_config->member_menu = 'Y';
 		}
 
 		return $communication_config;
@@ -226,6 +231,22 @@ class communicationModel extends communication
 		$oCommunicationController->setMessageReaded($message->message_srl);
 
 		return $message;
+	}
+
+	function getNewMessageCount($member_srl = null)
+	{
+		if(!$member_srl)
+		{
+			$logged_info = Context::get('logged_info');
+			$member_srl = $logged_info->member_srl;
+		}
+
+		$args = new stdClass();
+		$args->receiver_srl = $member_srl;
+		$args->readed = 'N';
+
+		$output = executeQuery('communication.getNewMessageCount', $args);
+		return $output->data->count;
 	}
 
 	/**

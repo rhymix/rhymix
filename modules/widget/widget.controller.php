@@ -374,7 +374,7 @@ class widgetController extends widget
 			return $widget_content;
 		}
 
-		$oCacheHandler = CacheHandler::getInstance('template');
+		$oCacheHandler = CacheHandler::getInstance('object');
 		if($oCacheHandler->isSupport())
 		{
 			$key = 'widget_cache:' . $widget_sequence;
@@ -442,8 +442,8 @@ class widgetController extends widget
 	function execute($widget, $args, $javascript_mode = false, $escaped = true)
 	{
 		// Save for debug run-time widget
-		if(__DEBUG__==3) $start = microtime(true);
-		$before = microtime(true);
+		$start = microtime(true);
+		
 		// urldecode the value of args haejum
 		$object_vars = get_object_vars($args);
 		if(count($object_vars))
@@ -640,18 +640,14 @@ class widgetController extends widget
 		if($args->widgetstyle) $widget_content_body = $this->compileWidgetStyle($args->widgetstyle,$widget, $widget_content_body, $args, $javascript_mode);
 
 		$output = $widget_content_header . $widget_content_body . $widget_content_footer;
+
 		// Debug widget creation time information added to the results
-		if(__DEBUG__==3) $GLOBALS['__widget_excute_elapsed__'] += microtime(true) - $start;
-
-		$after = microtime(true);
-
-		$elapsed_time = $after - $before;
-
-		$slowlog = new stdClass;
-		$slowlog->caller = "widget.execute";
-		$slowlog->called = $widget;
-		$slowlog->called_extension = $widget;
-		writeSlowlog('widget', $elapsed_time, $slowlog);
+		$elapsed_time = microtime(true) - $start;
+		$GLOBALS['__widget_excute_elapsed__'] += $elapsed_time;
+		Rhymix\Framework\Debug::addWidget(array(
+			'name' => $widget,
+			'elapsed_time' => $elapsed_time,
+		));
 
 		// Return result
 		return $output;

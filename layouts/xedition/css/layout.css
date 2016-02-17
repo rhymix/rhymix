@@ -200,8 +200,6 @@ a:hover, a:active, a:focus {
     background-color: #555
 }
 .footer .copyright {
-    width: 1200px;
-    margin: 0 auto;
     font-size: 13px;
     color: #f1f1f1;
     line-height: 16px
@@ -266,8 +264,7 @@ a:hover, a:active, a:focus {
     display: inline-block;
     margin: 0 0 20px;
     padding: 0 23px;
-    font-size: 15px;
-    font-weight: bold;
+    font-size: 18px;
     color: #555
 }
 .footer .site_map > ul ul {

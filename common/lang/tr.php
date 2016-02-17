@@ -211,7 +211,6 @@ $lang->msg_fail_to_request_open = 'İsteğiniz gercekleşemedi.';
 $lang->msg_invalid_format = 'Geçersiz Format';
 $lang->msg_not_permitted_act = 'İstenilen eylemi gercekleştirmeye yetkiniz yok.';
 $lang->msg_module_is_not_standalone = 'İstenilen modul bağımsız calıştırılamaz.';
-$lang->msg_default_url_is_not_defined = 'Varsayılan URL tanımlı değil.';
 $lang->msg_empty_search_target = 'Arama amacı bulunamadı';
 $lang->msg_empty_search_keyword = 'Anahtar kelime yok';
 $lang->comment_to_be_approved = 'Yorumunuz, yayınlanmadan önce adminden onay almanız gerekir';
