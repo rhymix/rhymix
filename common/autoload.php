@@ -3,7 +3,7 @@
 /**
  * Set error reporting rules.
  */
-error_reporting(E_ALL ^ E_NOTICE ^ E_STRICT ^ E_DEPRECATED);
+error_reporting(E_ALL & ~E_NOTICE & ~E_STRICT & ~E_DEPRECATED);
 
 /**
  * Suppress date/time errors until the internal time zone is set (see below).
