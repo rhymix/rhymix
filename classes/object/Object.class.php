@@ -94,7 +94,7 @@ class Object
 	 * @param string $message Error message
 	 * @return bool Alaways returns true.
 	 */
-	function setMessage($message = 'success')
+	function setMessage($message = 'success', $type = NULL)
 	{
 		if($str = Context::getLang($message))
 		{

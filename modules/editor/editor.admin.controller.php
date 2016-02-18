@@ -144,7 +144,8 @@ class editorAdminController extends editor
 	{
 		$oModuleController = getController('module');
 		$configVars = Context::getRequestVars();
-
+		
+		$config = new stdClass;
 		if($configVars->font_defined != 'Y') $config->font_defined = $configVars->font_defined = 'N';
 		else $config->font_defined = 'Y';
 
