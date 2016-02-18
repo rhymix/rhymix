@@ -222,7 +222,6 @@ class Context
 		
 		// Set global variables for backward compatibility.
 		$GLOBALS['__Context__'] = $this;
-		$GLOBALS['lang'] = &$this->lang;
 		$this->_COOKIE = $_COOKIE;
 		
 		// Set information about the current request.
@@ -299,6 +298,7 @@ class Context
 		$this->lang = Rhymix\Framework\Lang::getInstance($this->lang_type);
 		$this->lang->loadDirectory(RX_BASEDIR . 'common/lang', 'common');
 		$this->lang->loadDirectory(RX_BASEDIR . 'modules/module/lang', 'module');
+		$GLOBALS['lang'] = $this->lang;
 		
 		// set session handler
 		if(self::isInstalled() && config('session.use_db'))
@@ -476,6 +476,7 @@ class Context
 		}
 		if (!count($config))
 		{
+			self::$_instance->db_info = self::$_instance->db_info ?: new stdClass;
 			return;
 		}
 
@@ -871,7 +872,14 @@ class Context
 		{
 			$plugin_name = null;
 		}
-		return self::$_instance->lang->loadDirectory($path, $plugin_name);
+		
+		if (!$GLOBALS['lang'] instanceof Rhymix\Framework\Lang)
+		{
+			$GLOBALS['lang'] = Rhymix\Framework\Lang::getInstance(self::$_instance->lang_type ?: config('locale.default_lang') ?: 'ko');
+			$GLOBALS['lang']->loadDirectory(RX_BASEDIR . 'common/lang', 'common');
+		}
+		
+		return $GLOBALS['lang']->loadDirectory($path, $plugin_name);
 	}
 
 	/**
@@ -914,14 +922,13 @@ class Context
 	 */
 	public static function getLang($code)
 	{
-		if (self::$_instance->lang)
+		if (!$GLOBALS['lang'] instanceof Rhymix\Framework\Lang)
 		{
-			return self::$_instance->lang->get($code);
+			$GLOBALS['lang'] = Rhymix\Framework\Lang::getInstance(self::$_instance->lang_type ?: config('locale.default_lang') ?: 'ko');
+			$GLOBALS['lang']->loadDirectory(RX_BASEDIR . 'common/lang', 'common');
 		}
-		else
-		{
-			return $code;
-		}
+		
+		return $GLOBALS['lang']->get($code);
 	}
 
 	/**
@@ -933,10 +940,13 @@ class Context
 	 */
 	public static function setLang($code, $val)
 	{
-		if (self::$_instance->lang)
+		if (!$GLOBALS['lang'] instanceof Rhymix\Framework\Lang)
 		{
-			self::$_instance->lang->set($code, $val);
+			$GLOBALS['lang'] = Rhymix\Framework\Lang::getInstance(self::$_instance->lang_type ?: config('locale.default_lang') ?: 'ko');
+			$GLOBALS['lang']->loadDirectory(RX_BASEDIR . 'common/lang', 'common');
 		}
+		
+		$GLOBALS['lang']->set($code, $val);
 	}
 
 	/**

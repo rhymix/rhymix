@@ -77,8 +77,8 @@ class DateTimeTest extends \Codeception\TestCase\Test
 	
 	public function testGetTimeGap()
 	{
-		Context::getInstance()->lang = Rhymix\Framework\Lang::getInstance('en');
-		Context::getInstance()->lang->loadPlugin('common');
+		$GLOBALS['lang'] = Rhymix\Framework\Lang::getInstance('en');
+		$GLOBALS['lang']->loadPlugin('common');
 		
 		// Test getTimeGap() when the internal time zone is different from the default time zone.
 		Rhymix\Framework\Config::set('locale.internal_timezone', 10800);
