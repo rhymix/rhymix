@@ -19,7 +19,9 @@ if($called_position != "before_display_content" || Context::get('act') == 'dispP
 
 require_once(_XE_PATH_ . 'addons/point_level_icon/point_level_icon.lib.php');
 
-$temp_output = preg_replace_callback('!<(div|span|a)([^\>]*)member_([0-9\-]+)([^\>]*)>(.*?)\<\/(div|span|a)\>!is', 'pointLevelIconTrans', $output);
+$temp_output = preg_replace_callback('!<(div|span|a)([^\>]*)member_([0-9\-]+)([^\>]*)>(.*?)\<\/(div|span|a)\>!is', function($matches) use($addon_info) {
+	return pointLevelIconTrans($matches, $addon_info);
+}, $output);
 if($temp_output)
 {
 	$output = $temp_output;
