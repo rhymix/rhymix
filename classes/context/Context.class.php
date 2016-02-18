@@ -476,6 +476,7 @@ class Context
 		}
 		if (!count($config))
 		{
+			self::$_instance->db_info = self::$_instance->db_info ?: new stdClass;
 			return;
 		}
 

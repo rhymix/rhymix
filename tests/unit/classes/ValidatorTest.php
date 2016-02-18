@@ -1,20 +1,11 @@
 <?php
-require_once _XE_PATH_.'classes/context/Context.class.php';
-require_once _XE_PATH_.'classes/xml/XmlParser.class.php';
-require_once _XE_PATH_.'classes/handler/Handler.class.php';
-require_once _XE_PATH_.'classes/file/FileHandler.class.php';
-require_once _XE_PATH_.'classes/validator/Validator.class.php';
 
 class ValidatorTest extends \Codeception\TestCase\Test
 {
     public function _before()
     {
-        global $lang;
-        if(!$lang) $lang = new stdClass();
-        $lang->filter = new stdClass();
-        $lang->filter->isnull = 'isnull';
-        $lang->filter->outofrange = 'outofrange';
-        $lang->filter->equalto = 'equalto';
+    	$oContext = Context::getInstance();
+    	$oContext->init();
     }
 
     public function testRequired()
@@ -187,7 +178,7 @@ class ValidatorTest extends \Codeception\TestCase\Test
         // javascript
         $vd->setCacheDir(__DIR__ . '/validator');
         $js = $vd->getJsPath();
-        $this->assertFileEquals($js, __DIR__ . '/validator/condition.en.js');
+        $this->assertEquals(trim(file_get_contents(__DIR__ . '/validator/condition.en.js')), trim(file_get_contents($js)));
     }
 
     protected function tearDown()
