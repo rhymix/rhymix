@@ -62,8 +62,8 @@
 
 	<extra_vars>
 		<var name="icon_duplication" type="select">
-			<title xml:lang="ko">아이콘 중복 방지 설정</title>
-			<description xml:lang="ko">아이콘 중복 방지 설정을 적용할 경우 그룹아이콘이 있을때 포인트 레벨 아이콘은 띄우지 않도록 합니다.</description>
+			<title xml:lang="ko">아이콘 중복 설정</title>
+			<description xml:lang="ko">아이콘 중복 설정을 적용할 경우 그룹아이콘이 있을때 포인트 레벨 아이콘은 띄우지 않도록 합니다.</description>
 			<options value="">
 				<title xml:lang="ko">적용하지 않음</title>
 				<title xml:lang="zh-CN">不启用</title>

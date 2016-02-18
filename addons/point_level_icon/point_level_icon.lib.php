@@ -15,7 +15,7 @@ function pointLevelIconTrans($matches, $addon_info)
 
 	$orig_text = preg_replace('/' . preg_quote($matches[5], '/') . '<\/' . $matches[6] . '>$/', '', $matches[0]);
 
-	if($addon_info->icon_duplication == 'Y')
+	if($addon_info->icon_duplication != 'Y')
 	{
 		// Check Group Image Mark
 		$oMemberModel = getModel('member');
