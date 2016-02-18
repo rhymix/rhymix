@@ -142,28 +142,16 @@ class Purifier
 
 	private function _getWhiteDomainRegx()
 	{
-		require_once(_XE_PATH_ . 'classes/security/EmbedFilter.class.php');
 		$oEmbedFilter = EmbedFilter::getInstance();
 		$whiteIframeUrlList = $oEmbedFilter->getWhiteIframeUrlList();
 
-		$whiteDomainRegex = '%^(';
-		$whiteDomainCount = count($whiteIframeUrlList);
-
-		$i=1;
-		if(is_array($whiteIframeUrlList))
+		$whiteDomain = array();
+		foreach($whiteIframeUrlList as $value)
 		{
-			foreach($whiteIframeUrlList as $value)
-			{
-				$whiteDomainRegex .= $value;
-
-				if($i < $whiteDomainCount)
-				{
-					$whiteDomainRegex .= '|';
-				}
-				$i++;
-			}
+			$whiteDomain[] = preg_quote($value, '%');
 		}
-		$whiteDomainRegex .= ')%';
+
+		$whiteDomainRegex = '%^(' . implode('|', $whiteDomain) . ')%';
 
 		return $whiteDomainRegex;
 	}
