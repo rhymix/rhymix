@@ -274,7 +274,7 @@ class documentController extends document
 			$obj->homepage = $logged_info->homepage;
 		}
 		// If the tile is empty, extract string from the contents.
-		$obj->title = htmlspecialchars($obj->title);
+		$obj->title = htmlspecialchars($obj->title, ENT_COMPAT | ENT_HTML401, 'UTF-8', false);
 		settype($obj->title, "string");
 		if($obj->title == '') $obj->title = cut_str(trim(strip_tags(nl2br($obj->content))),20,'...');
 		// If no tile extracted from the contents, leave it untitled.
@@ -473,6 +473,7 @@ class documentController extends document
 			$obj->homepage = $source_obj->get('homepage');
 		}
 		// If the tile is empty, extract string from the contents.
+		$obj->title = htmlspecialchars($obj->title, ENT_COMPAT | ENT_HTML401, 'UTF-8', false);
 		settype($obj->title, "string");
 		if($obj->title == '') $obj->title = cut_str(strip_tags($obj->content),20,'...');
 		// If no tile extracted from the contents, leave it untitled.
