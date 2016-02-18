@@ -289,7 +289,7 @@ class layoutModel extends layout
 	 * @param string $layout_type (P : PC, M : Mobile)
 	 * @return string path of layout
 	 */
-	function getLayoutPath($layout_name, $layout_type = "P")
+	function getLayoutPath($layout_name = "", $layout_type = "P")
 	{
 		$layout_parse = explode('|@|', $layout_name);
 		if(count($layout_parse) > 1)
