@@ -4,8 +4,15 @@ class ValidatorTest extends \Codeception\TestCase\Test
 {
     public function _before()
     {
+    	$ob_level = ob_get_level();
+    	
     	$oContext = Context::getInstance();
     	$oContext->init();
+    	
+    	while (ob_get_level() > $ob_level)
+    	{
+    		ob_end_clean();
+    	}
     }
 
     public function testRequired()
