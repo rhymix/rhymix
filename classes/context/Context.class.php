@@ -1182,7 +1182,7 @@ class Context
 			{
 				continue;
 			}
-			$key = htmlentities($key);
+			$key = escape($key);
 			$val = $this->_filterRequestVar($key, $val);
 
 			if($requestMethod == 'GET' && isset($_GET[$key]))
@@ -1358,7 +1358,7 @@ class Context
 		$result = array();
 		foreach($val as $k => $v)
 		{
-			$k = htmlentities($k);
+			$k = escape($k);
 			if($key === 'page' || $key === 'cpage' || substr_compare($key, 'srl', -3) === 0)
 			{
 				$result[$k] = !preg_match('/^[0-9,]+$/', $v) ? (int) $v : $v;
