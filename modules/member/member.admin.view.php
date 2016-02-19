@@ -615,7 +615,7 @@ class memberAdminView extends member
 					}
 
 					$replace = array_merge($extentionReplace, $replace);
-					$inputTag = preg_replace_callback('@%(\w+)%@', function($n) { return $replace[$n[1]]; }, $template);
+					$inputTag = preg_replace_callback('@%(\w+)%@', function($n) use($replace) { return $replace[$n[1]]; }, $template);
 
 					if($extendForm->description)
 						$inputTag .= '<p class="help-block">'.$extendForm->description.'</p>';
