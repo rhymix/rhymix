@@ -621,7 +621,7 @@ class documentModel extends document
 
 		$this->_setSearchOption($opt, $args, $query_id, $use_division);
 
-		if($sort_check->isExtraVars)
+		if($sort_check->isExtraVars || !$opt->list_count)
 		{
 			return 1;
 		}
