@@ -1377,10 +1377,21 @@ class Context
 
 				if($do_stripslashes && version_compare(PHP_VERSION, '5.4.0', '<') && get_magic_quotes_gpc())
 				{
-					$result[$k] = stripslashes($result[$k]);
+					if (is_array($result[$k]))
+					{
+						array_walk_recursive($result[$k], function(&$val) { $val = stripslashes($val); });
+					}
+					else
+					{
+						$result[$k] = stripslashes($result[$k]);
+					}
 				}
 
-				if(!is_array($result[$k]))
+				if(is_array($result[$k]))
+				{
+					array_walk_recursive($result[$k], function(&$val) { $val = trim($val); });
+				}
+				else
 				{
 					$result[$k] = trim($result[$k]);
 				}
