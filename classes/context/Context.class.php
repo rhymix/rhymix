@@ -1884,7 +1884,7 @@ class Context
 		self::$_user_vars->{$key} = $val;
 		self::$_instance->{$key} = $val;
 
-		if($set_to_get_vars)
+		if($set_to_get_vars || isset(self::$_instance->get_vars->{$key}))
 		{
 			if($val === NULL || $val === '')
 			{
