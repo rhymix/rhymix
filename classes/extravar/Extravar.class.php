@@ -224,6 +224,10 @@ class ExtraItem
 				{
 					$values = explode(',', $value);
 				}
+				else
+				{
+					$values = array($value);
+				}
 
 				$values = array_values($values);
 				for($i = 0, $c = count($values); $i < $c; $i++)
