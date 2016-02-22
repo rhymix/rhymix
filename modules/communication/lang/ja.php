@@ -32,3 +32,4 @@ $lang->msg_disallow_message = 'メッセージの受信を拒否している受�
 $lang->about_allow_message = 'メッセージを受信するか設定します。';
 $lang->message_notice = '作成者にメッセージを送信し、知らせます。作成しなければ送信されません。';
 $lang->friends_page_does_not_support = 'モバイル環境では友達リストページをサポートしません。PC画面へ移動してください。';
+$lang->alert_new_message_arrived = '%d件の新しいメッセージがあります。確認しますか？';

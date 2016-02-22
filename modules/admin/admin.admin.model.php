@@ -401,7 +401,6 @@ class adminAdminModel extends admin
 			, 'widgetstyle' => array(),
 		);
 		$info = array();
-		$db_info = Context::getDBInfo();
 
 		$info['type'] = ($type != 'INSTALL' ? 'WORKING' : 'INSTALL');
 		$info['location'] = _XE_LOCATION_;
@@ -412,9 +411,9 @@ class adminAdminModel extends admin
 		$info['php'] = phpversion();
 
 		$info['db_type'] = Context::getDBType();
-		$info['use_rewrite'] = $db_info->use_rewrite;
-		$info['use_db_session'] = $db_info->use_db_session == 'Y' ? 'Y' : 'N';
-		$info['use_ssl'] = $db_info->use_ssl;
+		$info['use_rewrite'] = config('use_rewrite') ? 'Y' : 'N';
+		$info['use_db_session'] = config('session.use_db') ? 'Y' : 'N';
+		$info['use_ssl'] = config('url.ssl') ?: 'none';
 		
 		$info['phpext'] = '';
 		foreach(get_loaded_extensions() as $ext)

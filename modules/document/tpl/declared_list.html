@@ -19,7 +19,7 @@ xe.lang.msg_empty_search_keyword = '{$lang->msg_empty_search_keyword}';
 			<a href="{getUrl('act', 'dispDocumentAdminList', 'search_target', 'is_secret', 'search_keyword', 'Y')}">{$status_name_list['SECRET']}</a>
 			<i>|</i>
 			<a href="{getUrl('act', 'dispDocumentAdminList', 'search_target', 'is_secret', 'search_keyword', 'temp')}">{$status_name_list['TEMP']}</a> 
-			<a class="x_icon-question-sign" href="./common/manual/admin/#UMAN_faq_temp_document" target="_blank">{$lang->help}</a>
+			<a class="x_icon-question-sign" href="./common/manual/admin/index.html#UMAN_faq_temp_document" target="_blank">{$lang->help}</a>
 			<i>|</i>
 			<a href="{getUrl('', 'module', 'admin', 'act', 'dispDocumentAdminDeclared')}" class="active"|cond="$act == 'dispDocumentAdminDeclared'">{$lang->cmd_declared_list}({number_format($total_count)})</a>
 

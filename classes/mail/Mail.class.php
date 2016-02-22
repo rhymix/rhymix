@@ -3,11 +3,6 @@
 /**
  * Mail class
  * 
- * This class was originally written for the Advanced Mailer module.
- * Advanced Mailer is licensed under GPLv2, but the author hereby relicenses
- * this class under the same license as the remainder of RhymiX.
- * All other parts of the Advanced Mailer module remain under GPLv2.
- * 
  * @author Kijin Sung <kijin@kijinsung.com>
  */
 class Mail

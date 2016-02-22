@@ -142,6 +142,7 @@ $lang->msg_accept_agreement = '您必須同意條款。';
 $lang->msg_user_denied = '您輸入的帳號已禁止使用！';
 $lang->msg_user_not_confirmed = '您的註冊資料尚未啟用，請確認您的電子郵箱。';
 $lang->msg_user_limited = '您輸入的帳號 %s 以後才可以開始使用。';
+$lang->msg_admin_ip_not_allowed = '連接的IP地址中,管理者的登錄在不允許的。';
 $lang->about_user_id = '帳號必須由 3~20 字以內的英文+數字組成，開頭必須是英文。';
 $lang->about_password = '密碼必須在 6~20 字以內。';
 $lang->about_user_name = '姓名必須是 2~20 字以內。';

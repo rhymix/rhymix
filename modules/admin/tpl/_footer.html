@@ -2,7 +2,7 @@
 	<!-- /BODY -->
 	<footer class="footer">
 		<p class="power">
-			Powered by <strong>RhymiX {__XE_VERSION__}</strong>
+			Powered by <strong>Rhymix {__XE_VERSION__}</strong>
 			<!--@if(isset($released_version))-->
 				<span class="vr">|</span> Latest version: <a href="{htmlspecialchars(html_entity_decode($download_link), ENT_COMPAT | ENT_HTML401, 'UTF-8', false)}" target="_blank">{$released_version}</a>
 			<!--@end-->
@@ -16,11 +16,5 @@
 		</p>
 	</footer>
 </div>
-<script>
-xe.current_lang = '{$lang_type}';
-xe.lang.confirm_run = '{$lang->confirm_run}';
-xe.lang.confirm_reset_admin_menu = '{$lang->confirm_reset_admin_menu}';
-admin_menu_srl = '{$admin_menu_srl}';
-</script>
 <load target="./js/config.js" usecdn="true" />
 <load target="../../session/tpl/js/session.js" usecdn="true" />

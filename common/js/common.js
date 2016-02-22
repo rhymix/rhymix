@@ -28,6 +28,9 @@
 		}
 	});
 
+	/* Array for pending debug data */
+	window.rhymix_debug_pending_data = [];
+
 	/**
 	 * @brief XE 공용 유틸리티 함수
 	 * @namespace XE
@@ -930,7 +933,7 @@ function getCookie(name) {
 }
 
 function is_def(v) {
-	return (typeof(v)!='undefined');
+	return typeof(v) != 'undefined' && v !== null;
 }
 
 function ucfirst(str) {

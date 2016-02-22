@@ -1156,7 +1156,7 @@ class memberController extends member
 			return $this->stop('msg_invalid_auth_key');
 		}
 
-		if(ztime($output->data->regdate) < $_SERVER['REQUEST_TIME'] + zgap() - 86400)
+		if(ztime($output->data->regdate) < time() - 86400)
 		{
 			executeQuery('member.deleteAuthMail', $args);
 			return $this->stop('msg_invalid_auth_key');
@@ -1753,8 +1753,23 @@ class memberController extends member
 			}
 			return new Object(-1, ($this->memberInfo->refused_reason)? Context::getLang('msg_user_denied') . "\n" . $this->memberInfo->refused_reason : 'msg_user_denied');
 		}
-		// Notify if denied_date is less than the current time
-		if($this->memberInfo->limit_date && substr($this->memberInfo->limit_date,0,8) >= date("Ymd")) return new Object(-9,sprintf(Context::getLang('msg_user_limited'),zdate($this->memberInfo->limit_date,"Y-m-d")));
+		
+		// Notify if user is limited
+		if($this->memberInfo->limit_date && substr($this->memberInfo->limit_date,0,8) >= date("Ymd"))
+		{
+			return new Object(-9,sprintf(Context::getLang('msg_user_limited'),zdate($this->memberInfo->limit_date,"Y-m-d")));
+		}
+		
+		// Do not allow login as admin if not in allowed IP list
+		if($this->memberInfo->is_admin === 'Y' && $this->act === 'procMemberLogin')
+		{
+			$oMemberAdminModel = getAdminModel('member');
+			if(!$oMemberAdminModel->getMemberAdminIPCheck())
+			{
+				return new Object(-1, 'msg_admin_ip_not_allowed');
+			}
+		}
+		
 		// Update the latest login time
 		$args->member_srl = $this->memberInfo->member_srl;
 		$output = executeQuery('member.updateLastLogin', $args);
@@ -1819,17 +1834,8 @@ class memberController extends member
 			$autologin_output = executeQuery('member.insertAutologin', $autologin_args);
 			if($autologin_output->toBool()) setCookie('xeak',$autologin_args->autologin_key, $_SERVER['REQUEST_TIME']+31536000, '/');
 		}
-		if($this->memberInfo->is_admin == 'Y')
-		{
-			$oMemberAdminModel = getAdminModel('member');
-			if(!$oMemberAdminModel->getMemberAdminIPCheck())
-			{
-				$_SESSION['denied_admin'] = 'Y';
-			}
-		}
 
 		$this->setSessionInfo();
-
 		return $output;
 	}
 
@@ -1839,6 +1845,7 @@ class memberController extends member
 	function setSessionInfo()
 	{
 		$oMemberModel = getModel('member');
+		$config = $oMemberModel->getMemberConfig();
 		// If your information came through the current session information to extract information from the users
 		if(!$this->memberInfo && $_SESSION['member_srl'] && $oMemberModel->isLogged() )
 		{
@@ -1885,7 +1892,10 @@ class memberController extends member
 		$this->addMemberMenu( 'dispMemberScrappedDocument', 'cmd_view_scrapped_document');
 		$this->addMemberMenu( 'dispMemberSavedDocument', 'cmd_view_saved_document');
 		$this->addMemberMenu( 'dispMemberOwnDocument', 'cmd_view_own_document');
-		$this->addMemberMenu( 'dispMemberModifyNicknameLog', 'cmd_modify_nickname_log');
+		if($config->update_nick_log == 'Y')
+		{
+			$this->addMemberMenu( 'dispMemberModifyNicknameLog', 'cmd_modify_nickname_log');
+		}
 	}
 
 	/**

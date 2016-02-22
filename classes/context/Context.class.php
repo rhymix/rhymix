@@ -9,7 +9,6 @@
  */
 class Context
 {
-
 	/**
 	 * Allow rewrite
 	 * @var bool TRUE: using rewrite mod, FALSE: otherwise
@@ -209,7 +208,7 @@ class Context
 	 */
 	public function init()
 	{
-		// fix missing HTTP_RAW_POST_DATA in PHP 5.6 and above
+		// Fix missing HTTP_RAW_POST_DATA in PHP 5.6 and above.
 		if(!isset($GLOBALS['HTTP_RAW_POST_DATA']) && version_compare(PHP_VERSION, '5.6.0', '>=') === TRUE)
 		{
 			$GLOBALS['HTTP_RAW_POST_DATA'] = file_get_contents("php://input");
@@ -220,17 +219,14 @@ class Context
 				unset($GLOBALS['HTTP_RAW_POST_DATA']);
 			}
 		}
-
-		// set context variables in $GLOBALS (backward compatibility)
+		
+		// Set global variables for backward compatibility.
 		$GLOBALS['__Context__'] = $this;
-		$GLOBALS['lang'] = &$this->lang;
 		$this->_COOKIE = $_COOKIE;
-
-		// 20140429 editor/image_link
+		
+		// Set information about the current request.
+		$this->setRequestMethod();
 		$this->_checkGlobalVars();
-
-		$this->setRequestMethod('');
-
 		$this->_setXmlRpcArgument();
 		$this->_setJSONRequestArgument();
 		$this->_setRequestArgument();
@@ -241,77 +237,37 @@ class Context
 			self::$_instance->request_method = 'XMLRPC';
 			self::$_instance->response_method = 'JSON';
 		}
-
+		
+		// Load system configuration.
 		$this->loadDBInfo();
-		if($this->db_info->use_sitelock == 'Y')
-		{
-			if(is_array($this->db_info->sitelock_whitelist)) $whitelist = $this->db_info->sitelock_whitelist;
-
-			if(!IpFilter::filter($whitelist))
-			{
-				$title = ($this->db_info->sitelock_title) ? $this->db_info->sitelock_title : 'Maintenance in progress...';
-				$message = $this->db_info->sitelock_message;
-
-				define('_XE_SITELOCK_', TRUE);
-				define('_XE_SITELOCK_TITLE_', $title);
-				define('_XE_SITELOCK_MESSAGE_', $message);
-
-				header("HTTP/1.1 403 Forbidden");
-				if(FileHandler::exists(_XE_PATH_ . 'common/tpl/sitelock.user.html'))
-				{
-					include _XE_PATH_ . 'common/tpl/sitelock.user.html';
-				}
-				else
-				{
-					include _XE_PATH_ . 'common/tpl/sitelock.html';
-				}
-				exit;
-			}
-		}
-
-		// If XE is installed, get virtual site information
+		
+		// If Rhymix is installed, get virtual site information.
 		if(self::isInstalled())
 		{
 			$oModuleModel = getModel('module');
-			$site_module_info = $oModuleModel->getDefaultMid();
-
-			if(!isset($site_module_info))
-			{
-				$site_module_info = new stdClass;
-			}
-
+			$site_module_info = $oModuleModel->getDefaultMid() ?: new stdClass;
+			
 			// if site_srl of site_module_info is 0 (default site), compare the domain to default_url of db_config
 			if($site_module_info->site_srl == 0 && $site_module_info->domain != $this->db_info->default_url)
 			{
 				$site_module_info->domain = $this->db_info->default_url;
 			}
-
+			
 			self::set('site_module_info', $site_module_info);
 			if($site_module_info->site_srl && isSiteID($site_module_info->domain))
 			{
 				self::set('vid', $site_module_info->domain, TRUE);
 			}
-
-			if(!isset($this->db_info))
-			{
-				$this->db_info = new stdClass;
-			}
-
-			$this->db_info->lang_type = $site_module_info->default_language;
-			if(!$this->db_info->lang_type)
-			{
-				$this->db_info->lang_type = 'ko';
-			}
-			if(!$this->db_info->use_db_session)
-			{
-				$this->db_info->use_db_session = 'N';
-			}
+		}
+		else
+		{
+			$site_module_info = new stdClass;
 		}
 
-		// Load Language File
-		$lang_supported = self::loadLangSelected();
-
-		// Retrieve language type set in user's cookie
+		// Load language support.
+		$enabled_langs = self::loadLangSelected();
+		self::set('lang_supported', $enabled_langs);
+		
 		if($this->lang_type = self::get('l'))
 		{
 			if($_COOKIE['lang_type'] != $this->lang_type)
@@ -323,33 +279,29 @@ class Context
 		{
 			$this->lang_type = $_COOKIE['lang_type'];
 		}
-
-		// If it's not exists, follow default language type set in db_info
-		if(!$this->lang_type)
+		elseif($site_module_info->default_language)
+		{
+			$this->lang_type = $this->db_info->lang_type = $site_module_info->default_language;
+		}
+		else
 		{
 			$this->lang_type = $this->db_info->lang_type;
 		}
-
-		// if still lang_type has not been set or has not-supported type , set as Korean.
-		if(!$this->lang_type)
-		{
-			$this->lang_type = 'ko';
-		}
-		if(is_array($lang_supported) && !isset($lang_supported[$this->lang_type]))
+		
+		if(!$this->lang_type || !isset($enabled_langs[$this->lang_type]))
 		{
 			$this->lang_type = 'ko';
 		}
 
-		self::set('lang_supported', $lang_supported);
 		self::setLangType($this->lang_type);
-
-		// Load languages
+		
 		$this->lang = Rhymix\Framework\Lang::getInstance($this->lang_type);
 		$this->lang->loadDirectory(RX_BASEDIR . 'common/lang', 'common');
 		$this->lang->loadDirectory(RX_BASEDIR . 'modules/module/lang', 'module');
-
+		$GLOBALS['lang'] = $this->lang;
+		
 		// set session handler
-		if(self::isInstalled() && $this->db_info->use_db_session == 'Y')
+		if(self::isInstalled() && config('session.use_db'))
 		{
 			$oSessionModel = getModel('session');
 			$oSessionController = getController('session');
@@ -370,18 +322,18 @@ class Context
 			$session_id = $_COOKIE[$session_name];
 		}
 
-		if($session_id !== NULL || $this->db_info->delay_session != 'Y')
+		if($session_id !== NULL || !config('session.delay'))
 		{
 			$this->setCacheControl(0, false);
 			session_start();
 		}
 		else
 		{
-			ob_start();
 			$this->setCacheControl(-1, true);
-			register_shutdown_function(array($this, 'checkSessionStatus'));
 			$_SESSION = array();
 		}
+
+		ob_start();
 
 		// set authentication information in Context and session
 		if(self::isInstalled())
@@ -412,57 +364,31 @@ class Context
 				}
 			}
 		}
-
-		// check if using rewrite module
-		$this->allow_rewrite = ($this->db_info->use_rewrite == 'Y' ? TRUE : FALSE);
-
+		
 		// set locations for javascript use
-		$url = array();
-		$current_url = self::getRequestUri();
-		if($_SERVER['REQUEST_METHOD'] == 'GET')
+		$current_url = $request_uri = self::getRequestUri();
+		if ($_SERVER['REQUEST_METHOD'] == 'GET' && $this->get_vars)
 		{
-			if($this->get_vars)
+			if ($query_string = http_build_query($this->get_vars))
 			{
-				$url = array();
-				foreach($this->get_vars as $key => $val)
-				{
-					if(is_array($val) && count($val) > 0)
-					{
-						foreach($val as $k => $v)
-						{
-							$url[] = $key . '[' . $k . ']=' . urlencode($v);
-						}
-					}
-					elseif($val)
-					{
-						$url[] = $key . '=' . urlencode($val);
-					}
-				}
-
-				$current_url = self::getRequestUri();
-				if($url) $current_url .= '?' . join('&', $url);
-			}
-			else
-			{
-				$current_url = self::getUrl();
+				$current_url .= '?' . $query_string;
 			}
 		}
-		else
+		if (strpos($current_url, 'xn--') !== false)
 		{
-			$current_url = self::getRequestUri();
+			$current_url = self::decodeIdna($current_url);
 		}
-
+		if (strpos($request_uri, 'xn--') !== false)
+		{
+			$request_uri = self::decodeIdna($request_uri);
+		}
 		self::set('current_url', $current_url);
-		self::set('request_uri', self::getRequestUri());
-
-		if(strpos($current_url, 'xn--') !== FALSE)
+		self::set('request_uri', $request_uri);
+		
+		// If the site is locked, display the locked page.
+		if(config('lock.locked'))
 		{
-			self::set('current_url', self::decodeIdna($current_url));
-		}
-
-		if(strpos(self::getRequestUri(), 'xn--') !== FALSE)
-		{
-			self::set('request_uri', self::decodeIdna(self::getRequestUri()));
+			self::enforceSiteLock();
 		}
 	}
 
@@ -485,7 +411,7 @@ class Context
 	{
 		if(self::getSessionStatus())
 		{
-			return;
+			return true;
 		}
 		if($force_start || (count($_SESSION) && !headers_sent()))
 		{
@@ -493,7 +419,9 @@ class Context
 			unset($_SESSION);
 			session_start();
 			$_SESSION = $tempSession;
+			return true;
 		}
+		return false;
 	}
 
 	/**
@@ -503,7 +431,11 @@ class Context
 	 */
 	public static function close()
 	{
-		session_write_close();
+		// Check session status and close it if open.
+		if (self::checkSessionStatus())
+		{
+			session_write_close();
+		}
 	}
 
 	/**
@@ -535,81 +467,109 @@ class Context
 	 *
 	 * @return void
 	 */
-	public static function loadDBInfo()
+	public static function loadDBInfo($config = null)
 	{
-		if(!self::isInstalled())
+		// Load new configuration format.
+		if ($config === null)
 		{
+			$config = Rhymix\Framework\Config::getAll();
+		}
+		if (!count($config))
+		{
+			self::$_instance->db_info = self::$_instance->db_info ?: new stdClass;
 			return;
 		}
 
-		$config_file = self::getConfigFile();
-		if(is_readable($config_file))
-		{
-			include($config_file);
-		}
+		// Copy to old format for backward compatibility.
+		self::$_instance->db_info = self::convertDBInfo($config);
+		self::$_instance->allow_rewrite = self::$_instance->db_info->use_rewrite;
+		self::set('_http_port', self::$_instance->db_info->http_port ?: null);
+		self::set('_https_port', self::$_instance->db_info->https_port ?: null);
+		self::set('_use_ssl', self::$_instance->db_info->use_ssl);
+		$GLOBALS['_time_zone'] = self::$_instance->db_info->time_zone;
+	}
 
-		// If master_db information does not exist, the config file needs to be updated
-		if(!isset($db_info->master_db))
+	/**
+	 * Convert Rhymix configuration to XE DBInfo format
+	 * 
+	 * @param array $config
+	 * @return object
+	 */
+	public static function convertDBInfo($config)
+	{
+		$db_info = new stdClass;
+		$db_info->master_db = array(
+			'db_type' => $config['db']['master']['type'] . ($config['db']['master']['engine'] === 'innodb' ? '_innodb' : ''),
+			'db_hostname' => $config['db']['master']['host'],
+			'db_port' => $config['db']['master']['port'],
+			'db_userid' => $config['db']['master']['user'],
+			'db_password' => $config['db']['master']['pass'],
+			'db_database' => $config['db']['master']['database'],
+			'db_table_prefix' => $config['db']['master']['prefix'],
+			'db_charset' => $config['db']['master']['charset'],
+		);
+		$db_info->slave_db = array();
+		foreach ($config['db'] as $key => $dbconfig)
 		{
-			$db_info->master_db = array();
-			$db_info->master_db["db_type"] = $db_info->db_type;
-			unset($db_info->db_type);
-			$db_info->master_db["db_port"] = $db_info->db_port;
-			unset($db_info->db_port);
-			$db_info->master_db["db_hostname"] = $db_info->db_hostname;
-			unset($db_info->db_hostname);
-			$db_info->master_db["db_password"] = $db_info->db_password;
-			unset($db_info->db_password);
-			$db_info->master_db["db_database"] = $db_info->db_database;
-			unset($db_info->db_database);
-			$db_info->master_db["db_userid"] = $db_info->db_userid;
-			unset($db_info->db_userid);
-			$db_info->master_db["db_table_prefix"] = $db_info->db_table_prefix;
-			unset($db_info->db_table_prefix);
-
-			if(isset($db_info->master_db["db_table_prefix"]) && substr_compare($db_info->master_db["db_table_prefix"], '_', -1) !== 0)
+			if ($key !== 'master')
 			{
-				$db_info->master_db["db_table_prefix"] .= '_';
+				$db_info->slave_db[] = array(
+					'db_type' => $dbconfig['type'] . ($dbconfig['engine'] === 'innodb' ? '_innodb' : ''),
+					'db_hostname' => $dbconfig['host'],
+					'db_port' => $dbconfig['port'],
+					'db_userid' => $dbconfig['user'],
+					'db_password' => $dbconfig['pass'],
+					'db_database' => $dbconfig['database'],
+					'db_table_prefix' => $dbconfig['prefix'],
+					'db_charset' => $dbconfig['charset'],
+				);
 			}
-
-			$db_info->slave_db = array($db_info->master_db);
-			self::setDBInfo($db_info);
-
-			$oInstallController = getController('install');
-			$oInstallController->makeConfigFile();
 		}
-
-		if(!$db_info->use_prepared_statements)
+		if (!count($db_info->slave_db))
 		{
-			$db_info->use_prepared_statements = 'Y';
+			$db_info->slave_db = array($db_info->master_db);
 		}
-
-		if(!$db_info->time_zone)
-			$db_info->time_zone = date('O');
-		$GLOBALS['_time_zone'] = $db_info->time_zone;
-		$GLOBALS['_time_zone_offset'] = get_time_zone_offset($db_info->time_zone);
-
-		if($db_info->qmail_compatibility != 'Y')
-			$db_info->qmail_compatibility = 'N';
-		$GLOBALS['_qmail_compatibility'] = $db_info->qmail_compatibility;
-
-		if(!$db_info->use_db_session)
-			$db_info->use_db_session = 'N';
-		if(!$db_info->use_ssl)
-			$db_info->use_ssl = 'none';
-		self::set('_use_ssl', $db_info->use_ssl);
-		self::set('_http_port', ($db_info->http_port) ? $db_info->http_port : NULL);
-		self::set('_https_port', ($db_info->https_port) ? $db_info->https_port : NULL);
-
-		if(!$db_info->sitelock_whitelist) {
-			$db_info->sitelock_whitelist = '127.0.0.1';
+		$db_info->use_object_cache = count($config['cache']) ? array_first($config['cache']) : null;
+		$db_info->ftp_info = new stdClass;
+		$db_info->ftp_info->ftp_host = $config['ftp']['host'];
+		$db_info->ftp_info->ftp_port = $config['ftp']['port'];
+		$db_info->ftp_info->ftp_user = $config['ftp']['user'];
+		$db_info->ftp_info->ftp_pasv = $config['ftp']['pasv'] ? 'Y' : 'N';
+		$db_info->ftp_info->ftp_root_path = $config['ftp']['path'];
+		$db_info->ftp_info->sftp = $config['ftp']['sftp'] ? 'Y' : 'N';
+		$db_info->default_url = $config['url']['default'];
+		if (!$db_info->default_url)
+		{
+			$db_info->default_url = (RX_SSL ? 'https://' : 'http://') . $_SERVER['HTTP_HOST'] . RX_BASEURL;
 		}
-
-		if(is_string($db_info->sitelock_whitelist)) {
-			$db_info->sitelock_whitelist = explode(',', $db_info->sitelock_whitelist);
+		$db_info->http_port = $config['url']['http_port'];
+		$db_info->https_port = $config['url']['https_port'];
+		$db_info->use_ssl = $config['url']['ssl'];
+		$db_info->lang_type = $config['locale']['default_lang'];
+		$db_info->time_zone = $config['locale']['internal_timezone'];
+		$db_info->time_zone = sprintf('%s%02d%02d', $db_info->time_zone >= 0 ? '+' : '-', abs($db_info->time_zone) / 3600, (abs($db_info->time_zone) % 3600 / 60));
+		$db_info->delay_session = $config['session']['delay'] ? 'Y' : 'N';
+		$db_info->use_db_session = $config['session']['use_db'] ? 'Y' : 'N';
+		$db_info->minify_scripts = $config['view']['minify_scripts'] ? 'Y' : 'N';
+		$db_info->admin_ip_list = count($config['admin']['allow']) ? $config['admin']['allow'] : null;
+		$db_info->use_sitelock = $config['lock']['locked'] ? 'Y' : 'N';
+		$db_info->sitelock_title = $config['lock']['title'];
+		$db_info->sitelock_message = $config['lock']['message'];
+		$db_info->sitelock_whitelist = count($config['lock']['allow']) ? $config['lock']['allow'] : array('127.0.0.1');
+		$db_info->embed_white_iframe = $config['embedfilter']['iframe'];
+		$db_info->embed_white_object = $config['embedfilter']['object'];
+		$db_info->use_mobile_view = $config['use_mobile_view'] ? 'Y' : 'N';
+		$db_info->use_prepared_statements = $config['use_prepared_statements'] ? 'Y' : 'N';
+		$db_info->use_rewrite = $config['use_rewrite'] ? 'Y' : 'N';
+		$db_info->use_sso = $config['use_sso'] ? 'Y' : 'N';
+		if (is_array($config['other']))
+		{
+			foreach ($config['other'] as $key => $value)
+			{
+				$db_info->{$key} = $value;
+			}
 		}
-
-		self::setDBInfo($db_info);
+		return $db_info;
 	}
 
 	/**
@@ -650,7 +610,7 @@ class Context
 	 */
 	public static function getSslStatus()
 	{
-		return self::getDBInfo()->use_ssl;
+		return self::get('_use_ssl');
 	}
 
 	/**
@@ -660,7 +620,7 @@ class Context
 	 */
 	public static function getDefaultUrl()
 	{
-		return self::getDBInfo()->default_url;
+		return self::$_instance->db_info->default_url;
 	}
 
 	/**
@@ -680,39 +640,21 @@ class Context
 	 */
 	public static function loadLangSelected()
 	{
-		static $lang_selected = null;
-		if(!$lang_selected)
+		static $lang_selected = array();
+		if(!count($lang_selected))
 		{
-			$selected_lang_file = _XE_PATH_ . 'files/config/lang_selected.info';
-			if(!FileHandler::hasContent($selected_lang_file))
+			$supported = Rhymix\Framework\Lang::getSupportedList();
+			$selected = Rhymix\Framework\Config::get('locale.enabled_lang');
+			if ($selected)
 			{
-				$old_selected_lang_file = _XE_PATH_ . 'files/cache/lang_selected.info';
-				FileHandler::moveFile($old_selected_lang_file, $selected_lang_file);
-			}
-
-			if(!FileHandler::hasContent($selected_lang_file))
-			{
-				$lang_selected = Rhymix\Framework\Lang::getSupportedList();
-				$buff = '';
-				foreach($lang_selected as $key => $val)
+				foreach ($selected as $lang)
 				{
-					$buff .= "$key,$val\n";
+					$lang_selected[$lang] = $supported[$lang];
 				}
-				FileHandler::writeFile($selected_lang_file, $buff);
 			}
 			else
 			{
-				$langs = file($selected_lang_file);
-				foreach($langs as $val)
-				{
-					list($lang_prefix, $lang_text) = explode(',', $val);
-					if($lang_prefix === 'jp')
-					{
-						$lang_prefix = 'ja';
-					}
-					$lang_text = trim($lang_text);
-					$lang_selected[$lang_prefix] = $lang_text;
-				}
+				$lang_selected = $supported;
 			}
 		}
 		return $lang_selected;
@@ -726,7 +668,7 @@ class Context
 	public function checkSSO()
 	{
 		// pass if it's not GET request or XE is not yet installed
-		if($this->db_info->use_sso != 'Y' || isCrawler())
+		if(!config('use_sso') || isCrawler())
 		{
 			return TRUE;
 		}
@@ -820,7 +762,8 @@ class Context
 	 */
 	public static function isFTPRegisted()
 	{
-		return file_exists(self::getFTPConfigFile());
+		$ftp_info = self::$_instance->db_info->ftp_info;
+		return ($ftp_info->ftp_user && $ftp_info->ftp_root_path);
 	}
 
 	/**
@@ -830,11 +773,11 @@ class Context
 	 */
 	public static function getFTPInfo()
 	{
-		if(!self::isFTPRegisted())
+		$ftp_info = self::$_instance->db_info->ftp_info;
+		if (!$ftp_info->ftp_user || !$ftp_info->ftp_root_path)
 		{
 			return null;
 		}
-		include(self::getFTPConfigFile());
 		return $ftp_info;
 	}
 
@@ -929,7 +872,14 @@ class Context
 		{
 			$plugin_name = null;
 		}
-		return self::$_instance->lang->loadDirectory($path, $plugin_name);
+		
+		if (!$GLOBALS['lang'] instanceof Rhymix\Framework\Lang)
+		{
+			$GLOBALS['lang'] = Rhymix\Framework\Lang::getInstance(self::$_instance->lang_type ?: config('locale.default_lang') ?: 'ko');
+			$GLOBALS['lang']->loadDirectory(RX_BASEDIR . 'common/lang', 'common');
+		}
+		
+		return $GLOBALS['lang']->loadDirectory($path, $plugin_name);
 	}
 
 	/**
@@ -940,6 +890,11 @@ class Context
 	 */
 	public static function setLangType($lang_type = 'ko')
 	{
+		if (!self::$_instance->db_info)
+		{
+			self::$_instance->db_info = new stdClass;
+		}
+		self::$_instance->db_info->lang_type = $lang_type;
 		self::$_instance->lang_type = $lang_type;
 		self::set('lang_type', $lang_type);
 
@@ -967,8 +922,13 @@ class Context
 	 */
 	public static function getLang($code)
 	{
-		$lang = self::$_instance->lang;
-		return isset($lang->{$code}) ? $lang->{$code} : $code;
+		if (!$GLOBALS['lang'] instanceof Rhymix\Framework\Lang)
+		{
+			$GLOBALS['lang'] = Rhymix\Framework\Lang::getInstance(self::$_instance->lang_type ?: config('locale.default_lang') ?: 'ko');
+			$GLOBALS['lang']->loadDirectory(RX_BASEDIR . 'common/lang', 'common');
+		}
+		
+		return $GLOBALS['lang']->get($code);
 	}
 
 	/**
@@ -980,7 +940,13 @@ class Context
 	 */
 	public static function setLang($code, $val)
 	{
-		self::$_instance->lang->{$code} = $val;
+		if (!$GLOBALS['lang'] instanceof Rhymix\Framework\Lang)
+		{
+			$GLOBALS['lang'] = Rhymix\Framework\Lang::getInstance(self::$_instance->lang_type ?: config('locale.default_lang') ?: 'ko');
+			$GLOBALS['lang']->loadDirectory(RX_BASEDIR . 'common/lang', 'common');
+		}
+		
+		$GLOBALS['lang']->set($code, $val);
 	}
 
 	/**
@@ -1216,7 +1182,7 @@ class Context
 			{
 				continue;
 			}
-			$key = htmlentities($key);
+			$key = escape($key);
 			$val = $this->_filterRequestVar($key, $val);
 
 			if($requestMethod == 'GET' && isset($_GET[$key]))
@@ -1392,7 +1358,7 @@ class Context
 		$result = array();
 		foreach($val as $k => $v)
 		{
-			$k = htmlentities($k);
+			$k = escape($k);
 			if($key === 'page' || $key === 'cpage' || substr_compare($key, 'srl', -3) === 0)
 			{
 				$result[$k] = !preg_match('/^[0-9,]+$/', $v) ? (int) $v : $v;
@@ -1411,10 +1377,21 @@ class Context
 
 				if($do_stripslashes && version_compare(PHP_VERSION, '5.4.0', '<') && get_magic_quotes_gpc())
 				{
-					$result[$k] = stripslashes($result[$k]);
+					if (is_array($result[$k]))
+					{
+						array_walk_recursive($result[$k], function(&$val) { $val = stripslashes($val); });
+					}
+					else
+					{
+						$result[$k] = stripslashes($result[$k]);
+					}
 				}
 
-				if(!is_array($result[$k]))
+				if(is_array($result[$k]))
+				{
+					array_walk_recursive($result[$k], function(&$val) { $val = trim($val); });
+				}
+				else
 				{
 					$result[$k] = trim($result[$k]);
 				}
@@ -1478,6 +1455,79 @@ class Context
 		}
 	}
 
+	/**
+	 * Enforce site lock.
+	 */
+	private static function enforceSiteLock()
+	{
+		// Allow if the current user is logged in as administrator, or trying to log in.
+		$logged_info = self::get('logged_info');
+		if ($logged_info && $logged_info->is_admin === 'Y')
+		{
+			return;
+		}
+		elseif (in_array(self::get('act'), array('procMemberLogin', 'dispMemberLogout')))
+		{
+			return;
+		}
+		
+		// Allow if the current user is in the list of allowed IPs.
+		$allowed_list = config('lock.allow');
+		foreach ($allowed_list as $allowed_ip)
+		{
+			if (Rhymix\Framework\IpFilter::inRange(RX_CLIENT_IP, $allowed_ip))
+			{
+				return;
+			}
+		}
+		
+		// Set headers and constants for backward compatibility.
+		header('HTTP/1.1 503 Service Unavailable');
+		define('_XE_SITELOCK_', TRUE);
+		define('_XE_SITELOCK_TITLE_', config('lock.title') ?: self::getLang('admin.sitelock_in_use'));
+		define('_XE_SITELOCK_MESSAGE_', config('lock.message'));
+		unset($_SESSION['XE_VALIDATOR_RETURN_URL']);
+		
+		// Load the sitelock template.
+		if(FileHandler::exists(RX_BASEDIR . 'common/tpl/sitelock.user.html'))
+		{
+			include RX_BASEDIR . 'common/tpl/sitelock.user.html';
+		}
+		else
+		{
+			self::displayErrorPage(_XE_SITELOCK_TITLE_, _XE_SITELOCK_MESSAGE_, 503);
+		}
+		exit;
+	}
+	
+	/**
+	 * Display a generic error page and exit.
+	 * 
+	 * @param string $title
+	 * @param string $message
+	 * @return void
+	 */
+	public static function displayErrorPage($title = 'Error', $message = '', $status = 500)
+	{
+		// Change current directory to the Rhymix installation path.
+		chdir(\RX_BASEDIR);
+		
+		// Set the title.
+		self::setBrowserTitle(self::getSiteTitle());
+		self::addBrowserTitle($title);
+		
+		// Set the message.
+		$oMessageObject = getView('message');
+		$oMessageObject->setError(-1);
+		$oMessageObject->setHttpStatusCode($status);
+		$oMessageObject->setMessage($title);
+		$oMessageObject->dispMessage($message);
+		
+		// Display the message.
+		$oModuleHandler = new ModuleHandler;
+		$oModuleHandler->displayContent($oMessageObject);
+	}
+	
 	/**
 	 * Return request method
 	 * @return string Request method type. (Optional - GET|POST|XMLRPC|JSON)
@@ -1845,7 +1895,7 @@ class Context
 		self::$_user_vars->{$key} = $val;
 		self::$_instance->{$key} = $val;
 
-		if($set_to_get_vars)
+		if($set_to_get_vars || isset(self::$_instance->get_vars->{$key}))
 		{
 			if($val === NULL || $val === '')
 			{
@@ -2002,6 +2052,10 @@ class Context
 		if(self::getSslStatus() == 'optional')
 		{
 			return self::$_instance->ssl_actions;
+		}
+		else
+		{
+			return array();
 		}
 	}
 
@@ -2468,7 +2522,7 @@ class Context
 	 */
 	public static function getConfigFile()
 	{
-		return _XE_PATH_ . 'files/config/db.config.php';
+		return RX_BASEDIR . Rhymix\Framework\Config::$old_db_config_filename;
 	}
 
 	/**
@@ -2478,7 +2532,7 @@ class Context
 	 */
 	public static function getFTPConfigFile()
 	{
-		return _XE_PATH_ . 'files/config/ftp.config.php';
+		return RX_BASEDIR . Rhymix\Framework\Config::$old_ftp_config_filename;
 	}
 
 	/**
@@ -2488,7 +2542,7 @@ class Context
 	 */
 	public static function isInstalled()
 	{
-		return FileHandler::hasContent(self::getConfigFile());
+		return (bool)config('config_version');
 	}
 
 	/**
@@ -2509,7 +2563,7 @@ class Context
 	 */
 	public static function isAllowRewrite()
 	{
-		return self::getInstance()->allow_rewrite;
+		return self::$_instance->allow_rewrite;
 	}
 
 	/**

@@ -49,15 +49,6 @@ class DBMssql extends DB
 	}
 
 	/**
-	 * Create an instance of this class
-	 * @return DBMssql return DBMssql object instance
-	 */
-	function create()
-	{
-		return new DBMssql;
-	}
-
-	/**
 	 * DB Connect
 	 * this method is private
 	 * @param array $connection connection's value is db_hostname, db_database, db_userid, db_password
@@ -68,7 +59,11 @@ class DBMssql extends DB
 		//sqlsrv_configure( 'WarningsReturnAsErrors', 0 );
 		//sqlsrv_configure( 'LogSeverity', SQLSRV_LOG_SEVERITY_ALL );
 		//sqlsrv_configure( 'LogSubsystems', SQLSRV_LOG_SYSTEM_ALL );
-		$result = @sqlsrv_connect($connection["db_hostname"], array('Database' => $connection["db_database"], 'UID' => $connection["db_userid"], 'PWD' => $connection["db_password"]));
+		$result = @sqlsrv_connect($connection['host'], array(
+			'Database' => $connection['database'],
+			'UID' => $connection['user'],
+			'PWD' => $connection['pass'],
+		));
 
 		if(!$result)
 		{
@@ -99,10 +94,6 @@ class DBMssql extends DB
 	 */
 	function addQuotes($string)
 	{
-		if(version_compare(PHP_VERSION, "5.4.0", "<") && get_magic_quotes_gpc())
-		{
-			$string = stripslashes(str_replace("\\", "\\\\", $string));
-		}
 		//if(!is_numeric($string)) $string = str_replace("'","''",$string);
 
 		return $string;
@@ -952,8 +943,6 @@ class DBMssql extends DB
 
 		// TODO Decide if we continue to pass parameters like this
 		$this->param = $queryObject->getArguments();
-
-		$query .= (__DEBUG_QUERY__ & 1 && $output->query_id) ? sprintf(' ' . $this->comment_syntax, $this->query_id) : '';
 		$result = $this->_query($query, $connection);
 
 		if($this->isError())
@@ -1033,7 +1022,6 @@ class DBMssql extends DB
 				$count_query = sprintf('select count(*) as "count" from (%s) xet', $count_query);
 			}
 
-			$count_query .= (__DEBUG_QUERY__ & 1 && $queryObject->queryID) ? sprintf(' ' . $this->comment_syntax, $this->query_id) : '';
 			$this->param = $queryObject->getArguments();
 			$result_count = $this->_query($count_query, $connection);
 			$count_output = $this->_fetch($result_count);

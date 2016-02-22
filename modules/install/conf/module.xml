@@ -3,25 +3,18 @@
     <grants />
     <permissions />
     <actions>
-        <action name="dispInstallIntroduce" type="view" index="true" />
-        <action name="dispInstallLicenseAgreement" type="view" />
+        <action name="dispInstallIndex" type="view" index="true" />
         <action name="dispInstallCheckEnv" type="view" />
-        <action name="dispInstallSelectDB" type="view" />
-        <action name="dispInstallDBForm" type="view" />
-        <action name="dispInstallManagerForm" type="view" />
-        <action name="procDBSetting" type="controller" />
+        <action name="dispInstallDBConfig" type="view" />
+        <action name="dispInstallOtherConfig" type="view" />
+        <action name="procDBConfig" type="controller" />
         <action name="procInstall" type="controller" ruleset="install" />
-        <action name="procInstallLicenseAggrement" type="controller" />
+        <action name="procInstallLicenseAgreement" type="controller" />
         <action name="procInstallFTP" type="controller" />
         <action name="procInstallCheckFTP" type="controller" />
         <action name="procInstallAdminInstall" type="controller" />
         <action name="procInstallAdminUpdate" type="controller" />
-        <action name="procInstallAdminSaveTimeZone" type="controller" />
 		<action name="procInstallAdminUpdateIndexModule" type="controller" />
-        <action name="procInstallAdminSaveFTPInfo" type="controller" ruleset="installFtpInfo" />
-        <action name="procInstallAdminRemoveFTPInfo" type="controller" />
-		<action name="procInstallAdminConfig" type="controller" />
-		<action name="procInstallAdminConfigIconUpload" type="controller" />
         <action name="getInstallFTPList" type="model" />
     </actions>
 </module>

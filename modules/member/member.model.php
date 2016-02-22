@@ -92,8 +92,7 @@ class memberModel extends member
 			return FileHandler::readFile($agreement_file);
 		}
 
-		$db_info = Context::getDBInfo();
-		$agreement_file = _XE_PATH_.'files/member_extra_info/agreement_' . $db_info->lang_type . '.txt';
+		$agreement_file = _XE_PATH_.'files/member_extra_info/agreement_' . config('locale.default_lang') . '.txt';
 		if(is_readable($agreement_file))
 		{
 			return FileHandler::readFile($agreement_file);
@@ -295,8 +294,7 @@ class memberModel extends member
 
 		$args = new stdClass();
 		
-		$db_info = Context::getDBInfo ();
-		if($db_info->master_db['db_type'] == "cubrid")
+		if(config('db.master.type') == 'cubrid')
 		{
 			$args->email_address = strtolower($email_address);
 			$output = executeQuery('member.getMemberInfoByEmailAddressForCubrid', $args);

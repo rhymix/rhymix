@@ -156,6 +156,7 @@ $lang->msg_accept_agreement = '利用規約に同意しなければなりませ�
 $lang->msg_user_denied = '利用が中止されているユーザIDです。';
 $lang->msg_user_not_confirmed = 'メールでの認証が行われていません。メールを確認してください。';
 $lang->msg_user_limited = '入力したユーザIDは%s以前まで使用できません。';
+$lang->msg_admin_ip_not_allowed = '接続したIPアドレスでは、管理者のログインが許容されないです。';
 $lang->about_rechecked_password = '会員の情報を安全に保護するため、パスワードを再度確認します。';
 $lang->about_user_id = 'ユーザーIDは、3~20文字までの英数文字にしてください。先頭文字は英字でなければなりません。';
 $lang->about_password = 'パスワードは6~20文字にしてください。';

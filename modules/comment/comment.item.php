@@ -403,52 +403,49 @@ class commentItem extends Object
 		return $content;
 	}
 
-	function getRegdate($format = 'Y.m.d H:i:s', $conversion = TRUE)
+	function getRegdate($format = 'Y.m.d H:i:s', $conversion = true)
 	{
 		return zdate($this->get('regdate'), $format, $conversion);
 	}
 
 	function getRegdateTime()
 	{
-		$regdate = $this->get('regdate');
-		$year = substr($regdate, 0, 4);
-		$month = substr($regdate, 4, 2);
-		$day = substr($regdate, 6, 2);
-		$hour = substr($regdate, 8, 2);
-		$min = substr($regdate, 10, 2);
-		$sec = substr($regdate, 12, 2);
-		return mktime($hour, $min, $sec, $month, $day, $year);
+		return ztime($this->get('regdate'));
 	}
 
 	function getRegdateGM()
 	{
-		return $this->getRegdate('D, d M Y H:i:s', FALSE) . ' ' . $GLOBALS['_time_zone'];
+		return gmdate('r', ztime($this->get('regdate')));
 	}
 
-	function getUpdate($format = 'Y.m.d H:i:s', $conversion = TRUE)
+	function getRegdateDT()
+	{
+		return zdate($this->get('regdate'), 'c', false);
+	}
+
+	function getUpdate($format = 'Y.m.d H:i:s', $conversion = true)
 	{
 		return zdate($this->get('last_update'), $format, $conversion);
+	}
+
+	function getUpdateTime()
+	{
+		return ztime($this->get('last_update'));
+	}
+
+	function getUpdateGM()
+	{
+		return gmdate('r', ztime($this->get('last_update')));
+	}
+
+	function getUpdateDT()
+	{
+		return zdate($this->get('last_update'), 'c', false);
 	}
 
 	function getPermanentUrl()
 	{
 		return getFullUrl('', 'document_srl', $this->get('document_srl')) . '#comment_' . $this->get('comment_srl');
-	}
-
-	function getUpdateTime()
-	{
-		$year = substr($this->get('last_update'), 0, 4);
-		$month = substr($this->get('last_update'), 4, 2);
-		$day = substr($this->get('last_update'), 6, 2);
-		$hour = substr($this->get('last_update'), 8, 2);
-		$min = substr($this->get('last_update'), 10, 2);
-		$sec = substr($this->get('last_update'), 12, 2);
-		return mktime($hour, $min, $sec, $month, $day, $year);
-	}
-
-	function getUpdateGM()
-	{
-		return gmdate("D, d M Y H:i:s", $this->getUpdateTime());
 	}
 
 	function hasUploadedFiles()

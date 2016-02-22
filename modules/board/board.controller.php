@@ -114,9 +114,22 @@ class boardController extends board
 				return new Object(-1,'msg_not_permitted');
 			}
 
-			if($this->module_info->protect_content=="Y" && $oDocument->get('comment_count')>0 && $this->grant->manager==false)
+			if($this->module_info->protect_content == 'Y' || $this->module_info->protect_update_content == 'Y')
 			{
-				return new Object(-1,'msg_protect_content');
+				if($oDocument->get('comment_count') > 0 && $this->grant->manager == false)
+				{
+					return new Object(-1, 'msg_protect_update_content');
+				}
+			}
+
+			if($this->module_info->protect_document_regdate > 0 && $this->grant->manager == false)
+			{
+				if($oDocument->get('regdate') < date('YmdHis', strtotime('-'.$this->module_info->protect_document_regdate.' day')))
+				{
+					$format =  Context::getLang('msg_protect_regdate_document');
+					$massage = sprintf($format, $this->module_info->protect_document_regdate);
+					return new Object(-1, $massage);
+				}
 			}
 
 			if(!$this->grant->manager)
@@ -196,17 +209,29 @@ class boardController extends board
 		// if the document is not existed
 		if(!$document_srl)
 		{
-			return $this->doError('msg_invalid_document');
+			return new Object(-1, 'msg_invalid_document');
 		}
 
 		$oDocumentModel = &getModel('document');
 		$oDocument = $oDocumentModel->getDocument($document_srl);
 		// check protect content
-		if($this->module_info->protect_content=="Y" && $oDocument->get('comment_count')>0 && $this->grant->manager==false)
+		if($this->module_info->protect_content == 'Y' || $this->module_info->protect_delete_content == 'Y')
 		{
-			return new Object(-1, 'msg_protect_content');
+			if($oDocument->get('comment_count') > 0 && $this->grant->manager == false)
+			{
+				return new Object(-1, 'msg_protect_delete_content');
+			}
 		}
 
+		if($this->module_info->protect_document_regdate > 0 && $this->grant->manager == false)
+		{
+			if($oDocument->get('regdate') < date('YmdHis', strtotime('-'.$this->module_info->protect_document_regdate.' day')))
+			{
+				$format =  Context::getLang('msg_protect_regdate_document');
+				$massage = sprintf($format, $this->module_info->protect_document_regdate);
+				return new Object(-1, $massage);
+			}
+		}
 		// generate document module controller object
 		$oDocumentController = getController('document');
 
@@ -302,8 +327,18 @@ class boardController extends board
 		if(!$obj->comment_srl)
 		{
 			$obj->comment_srl = getNextSequence();
-		} else {
+		}
+		else
+		{
 			$comment = $oCommentModel->getComment($obj->comment_srl, $this->grant->manager);
+			if($this->module_info->protect_update_comment === 'Y' && $this->grant->manager == false)
+			{
+				$childs = $oCommentModel->getChildComments($obj->comment_srl);
+				if(count($childs) > 0)
+				{
+					return new Object(-1, 'msg_board_update_protect_comment');
+				}
+			}
 		}
 
 		$oMemberModel = getModel('member');
@@ -330,11 +365,24 @@ class boardController extends board
 				$output = $oCommentController->insertComment($obj, $bAnonymous);
 
 			// parent_srl is not existed
-			} else {
+			}
+			else
+			{
 				$output = $oCommentController->insertComment($obj, $bAnonymous);
 			}
 		// update the comment if it is not existed
-		} else {
+		}
+		else
+		{
+			if($this->module_info->protect_comment_regdate > 0 && $this->grant->manager == false)
+			{
+				if($comment->get('regdate') < date('YmdHis', strtotime('-'.$this->module_info->protect_document_regdate.' day')))
+				{
+					$format =  Context::getLang('msg_protect_regdate_comment');
+					$massage = sprintf($format, $this->module_info->protect_document_regdate);
+					return new Object(-1, $massage);
+				}
+			}
 			// check the grant
 			if(!$comment->isGranted())
 			{
@@ -343,7 +391,6 @@ class boardController extends board
 
 			$obj->parent_srl = $comment->parent_srl;
 			$output = $oCommentController->updateComment($obj, $this->grant->manager);
-			$comment_srl = $obj->comment_srl;
 		}
 
 		if(!$output->toBool())
@@ -366,9 +413,29 @@ class boardController extends board
 		$comment_srl = Context::get('comment_srl');
 		if(!$comment_srl)
 		{
-			return $this->doError('msg_invalid_request');
+			return new Object(-1, 'msg_invalid_request');
 		}
 
+		$oCommentModel = getModel('comment');
+
+		if($this->module_info->protect_delete_comment === 'Y' && $this->grant->manager == false)
+		{
+			$childs = $oCommentModel->getChildComments($comment_srl);
+			if(count($childs) > 0)
+			{
+				return new Object(-1, 'msg_board_delete_protect_comment');
+			}
+		}
+		$comment = $oCommentModel->getComment($comment_srl, $this->grant->manager);
+		if($this->module_info->protect_comment_regdate > 0 && $this->grant->manager == false)
+		{
+			if($comment->get('regdate') < date('YmdHis', strtotime('-'.$this->module_info->protect_document_regdate.' day')))
+			{
+				$format =  Context::getLang('msg_protect_regdate_comment');
+				$massage = sprintf($format, $this->module_info->protect_document_regdate);
+				return new Object(-1, $massage);
+			}
+		}
 		// generate comment  controller object
 		$oCommentController = getController('comment');
 

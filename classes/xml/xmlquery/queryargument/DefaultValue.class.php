@@ -126,14 +126,15 @@ class DefaultValue
 		switch($func_name)
 		{
 			case 'ipaddress' :
-				$val = '$_SERVER[\'REMOTE_ADDR\']';
+				$val = '\\RX_CLIENT_IP';
 				$this->_is_string_from_function = TRUE;
 				break;
 			case 'unixtime' :
-				$val = '$_SERVER[\'REQUEST_TIME\']';
+				$val = '\\RX_TIME';
+				$this->_is_string_from_function = TRUE;
 				break;
 			case 'curdate' :
-				$val = 'date("YmdHis")';
+				$val = 'getInternalDateTime()';
 				$this->_is_string_from_function = TRUE;
 				break;
 			case 'sequence' :

@@ -158,6 +158,7 @@ $lang->msg_accept_agreement = '약관에 동의해야 합니다.';
 $lang->msg_user_denied = '입력한 아이디의 사용이 중지 되었습니다.';
 $lang->msg_user_not_confirmed = '아직 메일 인증이 이루어지지 않았습니다. 메일을 확인해 주세요.';
 $lang->msg_user_limited = '입력한 아이디는 %s 까지 사용하실 수 없습니다.';
+$lang->msg_admin_ip_not_allowed = '접속하신 IP 주소에서는 관리자 로그인이 허용되지 않습니다.';
 $lang->about_rechecked_password = '회원의 정보를 안전하게 보호하기 위해 비밀번호를 다시 한번 확인 합니다.';
 $lang->about_user_id = '회원 ID는 3~20자 사이의 영문+숫자로 이루어져야 하며 영문으로 시작해야 합니다.';
 $lang->about_password = '비밀번호는 6~20자로 되어야 합니다.';

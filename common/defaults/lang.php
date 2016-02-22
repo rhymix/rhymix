@@ -1,7 +1,7 @@
 <?php
 
 /**
- * List of languages supported by RhymiX
+ * List of languages supported by Rhymix
  * 
  * Copyright (c) Rhymix Developers and Contributors
  */

@@ -120,6 +120,7 @@ $lang->msg_accept_agreement = 'Vous devez agréer l\'accord';
 $lang->msg_user_denied = 'Le compte que vous avez entré est suspendu';
 $lang->msg_user_not_confirmed = 'Vous n\'avez pas encore authentifié. Verifiez votre mél, S.V.P.';
 $lang->msg_user_limited = 'Vous avez entré un compte qui peut être utilisé depuis %s';
+$lang->msg_admin_ip_not_allowed = 'Votre adresse IP ne soit pas autorisé à se connecter en tant qu\'administrateur.';
 $lang->about_user_id = 'Le compte d\'utilisateur doit être long de 3~20 lettres et se composer des alphabets et des chiffres avec un alphabet au premier.';
 $lang->about_password = 'Le Mot de Passe doit être long de 6~20 lettres.';
 $lang->about_user_name = 'Le Nom doit être long de 2~20 lettres.';

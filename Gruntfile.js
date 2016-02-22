@@ -39,6 +39,8 @@ module.exports = function(grunt) {
 					import : 2,
 					'adjoining-classes' : false,
 					'box-model' : false,
+					'box-sizing' : false,
+					'font-sizes' : false,
 					'duplicate-background-images' : false,
 					'ids' : false,
 					'important' : false,

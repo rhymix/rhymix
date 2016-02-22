@@ -1,0 +1,76 @@
+<include target="header.html" />
+<form id="body" ruleset="install" method="post" action="./">
+	<include target="progress_menu.html" />
+	<div id="content">
+		<h2>{$lang->install_progress_menu['adminInfo']}</h2>
+		<div cond="$XE_VALIDATOR_MESSAGE" class="message {$XE_VALIDATOR_MESSAGE_TYPE}">
+			<p>{$XE_VALIDATOR_MESSAGE}</p>
+		</div>
+		<input type="hidden" name="act" value="procInstall" />
+		<div class="x_control-group">
+			<label for="aMail" class="x_control-label">{$lang->email_address}</label>
+			<div class="x_controls">
+				<input name="email_address" type="email" id="aMail" class="focus" required />
+			</div>
+		</div>
+		<div class="x_control-group">
+			<label for="aPw1" class="x_control-label">{$lang->password1}</label>
+			<div class="x_controls">
+				<input name="password" type="password" id="aPw1" required />
+			</div>
+		</div>
+		<div class="x_control-group">
+			<label for="aPw2" class="x_control-label">{$lang->password2}</label>
+			<div class="x_controls">
+				<input name="password2" type="password" id="aPw2" required />
+			</div>
+		</div>
+		<div class="x_control-group">
+			<label for="aNick" class="x_control-label">{$lang->nick_name}</label>
+			<div class="x_controls">
+				<input name="nick_name" type="text" id="aNick" required value="" />
+			</div>
+		</div>
+		<div class="x_control-group">
+			<label for="aId" class="x_control-label">{$lang->user_id}</label>
+			<div class="x_controls">
+				<input name="user_id" type="text" id="aId" required value="" />
+			</div>
+		</div>
+		<p class="install_help">{$lang->install_notandum}</p>
+		<div class="x_control-group">
+			<label for="time_zone" class="x_control-label">{$lang->time_zone}</label>
+			<div class="x_controls">
+				<select name="time_zone" style="width:100%">
+					<option loop="$timezones => $key,$val" value="{$key}" selected="selected"|cond="$key==$selected_timezone">{$val}</option>
+				</select>
+			</div>
+		</div>
+		<p class="install_help">{$lang->about_time_zone}</p>
+		<div class="x_control-group">
+			<label class="x_control-label">{$lang->use_ssl}</label>
+			<div class="x_controls">
+				<!--@foreach($lang->ssl_options as $key => $val)-->
+				<label for="ssl_{$key}" class="x_inline"><input type="radio" name="use_ssl" id="ssl_{$key}" value="{$key}" checked="checked"|cond="$use_ssl==$key" /> {$val}</label>
+				<!--@endforeach-->
+			</div>
+		</div>
+		<div class="x_control-group">
+			<label class="x_control-label">{$lang->use_sitelock}</label>
+			<div class="x_controls">
+				<label for="sitelock_n" class="x_inline"><input type="radio" name="use_sitelock" id="sitelock_n" value="N" checked="checked" /> {$lang->sitelock_options['none']}</label>
+				<label for="sitelock_y" class="x_inline"><input type="radio" name="use_sitelock" id="sitelock_y" value="Y" /> {$lang->sitelock_options['lock']}</label>
+			</div>
+		</div>
+		<p class="install_help">{$lang->about_sitelock_after_install($sitelock_ip_range)}</p>
+	</div>
+	<div id="buttons">
+		<div class="align-left">
+			<a href="{getUrl('', 'act','dispInstallDBConfig')}" class="button grey">&laquo; {$lang->cmd_back}</a>
+		</div>
+		<div class="align-right">
+			<button type="submit" id="task-complete-install" value="" data-installing="{$lang->msg_installing}">{$lang->cmd_complete} &raquo;</button>
+		</div>
+	</div>
+</form>
+<include target="footer.html" />

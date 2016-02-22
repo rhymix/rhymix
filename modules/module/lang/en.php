@@ -88,6 +88,7 @@ $lang->about_use_category = 'If checked, the category function will be enabled.'
 $lang->about_list_count = 'You can limit the number of article to show on one page. The default is 20.';
 $lang->about_search_list_count = 'You may set the number of articles to be exposed when you use search or category function. (default is 20)';
 $lang->about_page_count = 'You can set the number of page links to move pages in a bottom of the page. (default is 10)';
+$lang->about_mobile_page_count = 'You can set the number of page links to move pages in a bottom of the page. (default is 5)';
 $lang->about_admin_id = 'You can grant a manager to have all permissions to the module.';
 $lang->about_grant_deatil = 'Registered users mean users who signed-up to the virtual sites (e.g., cafeXE).';
 $lang->about_module = 'Rhymix consists of modules except the basic library. [Module Manage] module will show all installed modules and help you to manage them.';

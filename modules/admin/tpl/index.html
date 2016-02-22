@@ -8,7 +8,7 @@
 
 <div class="content" id="content">
 	<div class="x_page-header">
-		<h1>{$lang->control_panel} <a class="x_icon-question-sign" href="./common/manual/admin/#UMAN_dashboard" target="_blank">{$lang->help}</a></h1>
+		<h1>{$lang->control_panel} <a class="x_icon-question-sign" href="./common/manual/admin/index.html#UMAN_dashboard" target="_blank">{$lang->help}</a></h1>
 	</div>
 
 	<div id="checkBrowserMessage" class="message error" style="display:none;">
@@ -21,13 +21,13 @@
 
 	<div class="message error" cond="$db_info->use_sitelock == 'Y'">
 		<h2>{$lang->sitelock_in_use}</h2>
-		<p>{$lang->about_sitelock_in_use}</p>
+		<p>{$lang->about_sitelock_in_use} <a href="{getUrl('', 'module', 'admin', 'act', 'dispAdminConfigSitelock')}">{$lang->cmd_configure}</a></p>
 	</div>
 
 	<form action="./" method="post" class="message info x_clearfix" cond="!$isLicenseAgreement">
 		<input type="hidden" name="success_return_url" value="{getUrl('', 'module', 'admin')}" />
 		<input type="hidden" name="module" value="install" />
-		<input type="hidden" name="act" value="procInstallLicenseAggrement" />
+		<input type="hidden" name="act" value="procInstallLicenseAgreement" />
 		<input type="hidden" name="license_agreement" value="Y" />
 		<input type="hidden" name="XE_VALIDATOR_ID" value="modules/admin/tpl/index/1">
 

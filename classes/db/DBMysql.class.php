@@ -58,13 +58,13 @@ class DBMysql extends DB
 	function __connect($connection)
 	{
 		// Ignore if no DB information exists
-		if(strpos($connection["db_hostname"], ':') === false && $connection["db_port"])
+		if(strpos($connection['host'], ':') === false && $connection['port'])
 		{
-			$connection["db_hostname"] .= ':' . $connection["db_port"];
+			$connection['host'] .= ':' . $connection['port'];
 		}
 
 		// Attempt to connect
-		$result = @mysql_connect($connection["db_hostname"], $connection["db_userid"], $connection["db_password"]);
+		$result = @mysql_connect($connection['host'], $connection['user'], $connection['pass']);
 		if(!$result)
 		{
 			exit('Unable to connect to DB.');
@@ -79,16 +79,16 @@ class DBMysql extends DB
 		// Error appears if the version is lower than 4.1.13
 		if(version_compare(mysql_get_server_info($result), '4.1.13', '<'))
 		{
-			$this->setError(-1, 'RhymiX requires MySQL 4.1.13 or later. Current MySQL version is ' . mysql_get_server_info());
+			$this->setError(-1, 'Rhymix requires MySQL 4.1.13 or later. Current MySQL version is ' . mysql_get_server_info());
 			return;
 		}
 
 		// Set charset
-		$this->charset = isset($connection["db_charset"]) ? $connection["db_charset"] : 'utf8';
+		$this->charset = isset($connection['charset']) ? $connection['charset'] : 'utf8';
 		mysql_set_charset($this->charset, $result);
 
 		// select db
-		@mysql_select_db($connection["db_database"], $result);
+		@mysql_select_db($connection['database'], $result);
 		if(mysql_error())
 		{
 			$this->setError(mysql_errno(), mysql_error());
@@ -116,10 +116,6 @@ class DBMysql extends DB
 	 */
 	function addQuotes($string)
 	{
-		if(version_compare(PHP_VERSION, "5.4.0", "<") && get_magic_quotes_gpc())
-		{
-			$string = stripslashes(str_replace("\\", "\\\\", $string));
-		}
 		if(!is_numeric($string))
 		{
 			$string = @mysql_real_escape_string($string);
@@ -693,7 +689,6 @@ class DBMysql extends DB
 	function _executeInsertAct($queryObject, $with_values = true)
 	{
 		$query = $this->getInsertSql($queryObject, $with_values, true);
-		$query .= (__DEBUG_QUERY__ & 1 && $this->query_id) ? sprintf(' ' . $this->comment_syntax, $this->query_id) : '';
 		if(is_a($query, 'Object'))
 		{
 			return;
@@ -715,10 +710,6 @@ class DBMysql extends DB
 			if(!$query->toBool()) return $query;
 			else return;
 		}
-
-		$query .= (__DEBUG_QUERY__ & 1 && $this->query_id) ? sprintf(' ' . $this->comment_syntax, $this->query_id) : '';
-
-
 		return $this->_query($query);
 	}
 
@@ -731,7 +722,6 @@ class DBMysql extends DB
 	function _executeDeleteAct($queryObject, $with_values = true)
 	{
 		$query = $this->getDeleteSql($queryObject, $with_values, true);
-		$query .= (__DEBUG_QUERY__ & 1 && $this->query_id) ? sprintf(' ' . $this->comment_syntax, $this->query_id) : '';
 		if(is_a($query, 'Object'))
 		{
 			return;
@@ -763,7 +753,6 @@ class DBMysql extends DB
 			{
 				return;
 			}
-			$query .= (__DEBUG_QUERY__ & 1 && $queryObject->queryID) ? sprintf(' ' . $this->comment_syntax, $queryObject->queryID) : '';
 
 			$result = $this->_query($query, $connection);
 			if($this->isError())
@@ -884,7 +873,6 @@ class DBMysql extends DB
 			$count_query = sprintf('select count(*) as "count" from (%s) xet', $count_query);
 		}
 
-		$count_query .= (__DEBUG_QUERY__ & 1 && $queryObject->queryID) ? sprintf(' ' . $this->comment_syntax, $queryObject->queryID) : '';
 		$result_count = $this->_query($count_query, $connection);
 		$count_output = $this->_fetch($result_count);
 		$total_count = (int) (isset($count_output->count) ? $count_output->count : NULL);
@@ -931,7 +919,6 @@ class DBMysql extends DB
 
 		$query = $this->getSelectPageSql($queryObject, $with_values, $start_count, $list_count);
 
-		$query .= (__DEBUG_QUERY__ & 1 && $queryObject->query_id) ? sprintf(' ' . $this->comment_syntax, $this->query_id) : '';
 		$result = $this->_query($query, $connection);
 		if($this->isError())
 		{

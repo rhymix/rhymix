@@ -1,5 +1,14 @@
 <meta name="apple-mobile-web-app-capable" content="yes" />
 <meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1, maximum-scale=2, user-scalable=yes" />
+<script>
+	var admin_menu_srl = "{$admin_menu_srl}";
+	xe.cmd_find = "{$lang->cmd_find}";
+	xe.cmd_cancel = "{$lang->cmd_cancel}";
+	xe.cmd_confirm = "{$lang->cmd_confirm}";
+	xe.msg_select_menu = "{$lang->msg_select_menu}";
+	xe.lang.confirm_run = "{$lang->confirm_run}";
+	xe.lang.confirm_reset_admin_menu = "{$lang->confirm_reset_admin_menu}";
+</script>
 <div class="x">
 <p class="skipNav"><a href="#content">{$lang->skip_to_content}</a></p>
 	<header class="header">
@@ -28,7 +37,7 @@
 			<script>
 				var __xe_admin_gnb_txs = new Array();
 			</script>
-			<!--@foreach($gnbUrlList AS $key=>$value)-->
+			<!--@foreach($gnbUrlList as $key=>$value)-->
 				<!--@if(strstr($value['menu_name_key'], 'configuration'))-->
 				<li class="open"|cond="$_COOKIE['__xe_admin_gnb_tx_favorite'] == 'open'">
 					<script>

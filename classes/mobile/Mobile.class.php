@@ -50,9 +50,9 @@ class Mobile
 		{
 			return $this->ismobile;
 		}
-		if(Mobile::isMobileEnabled() === false || Context::get('full_browse') || $_COOKIE["FullBrowse"])
+		if(!config('use_mobile_view') || Context::get('full_browse') || $_COOKIE["FullBrowse"])
 		{
-			return ($this->ismobile = false);
+			return $this->ismobile = false;
 		}
 
 		$xe_web_path = Context::pathToUrl(_XE_PATH_);
@@ -231,6 +231,6 @@ class Mobile
 
 	public static function isMobileEnabled()
 	{
-		return (Context::getDBInfo()->use_mobile_view === 'Y');
+		return config('use_mobile_view');
 	}
 }

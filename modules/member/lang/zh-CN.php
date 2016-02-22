@@ -154,6 +154,7 @@ $lang->msg_accept_agreement = '您必须同意条款。';
 $lang->msg_user_denied = '您输入的用户名已禁止使用！';
 $lang->msg_user_not_confirmed = '您的注册信息还没有被激活，请确认您的电子邮箱。';
 $lang->msg_user_limited = '您输入的用户名%s以后才可以开始使用。';
+$lang->msg_admin_ip_not_allowed = '连接的IP地址中,管理者的登录在不允许的。';
 $lang->about_rechecked_password = '为了会员资料的安全保护，再次确认密码。';
 $lang->about_user_id = '用户名长度必须由 3 ~20 字以内的英文+数字组成，且首个字母必须是英文字母。';
 $lang->about_password = '密码长度必须在6~20字以内。';

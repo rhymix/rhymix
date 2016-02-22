@@ -86,10 +86,7 @@ class HTMLDisplayHandler
 
 			if(Context::get('layout') != 'none')
 			{
-				if(__DEBUG__ == 3)
-				{
-					$start = microtime(true);
-				}
+				$start = microtime(true);
 
 				Context::set('content', $output, false);
 
@@ -142,10 +139,7 @@ class HTMLDisplayHandler
 				$pathInfo = pathinfo($layout_file);
 				$onlyLayoutFile = $pathInfo['filename'];
 
-				if(__DEBUG__ == 3)
-				{
-					$GLOBALS['__layout_compile_elapsed__'] = microtime(true) - $start;
-				}
+				$GLOBALS['__layout_compile_elapsed__'] = microtime(true) - $start;
 
 				if(stripos($_SERVER['HTTP_USER_AGENT'], 'MSIE') !== FALSE && (Context::get('_use_ssl') == 'optional' || Context::get('_use_ssl') == 'always'))
 				{
@@ -168,10 +162,7 @@ class HTMLDisplayHandler
 			return;
 		}
 
-		if(__DEBUG__ == 3)
-		{
-			$start = microtime(true);
-		}
+		$start = microtime(true);
 
 		// move <style ..></style> in body to the header
 		$output = preg_replace_callback('!<style(.*?)>(.*?)<\/style>!is', array($this, '_moveStyleToHeader'), $output);
@@ -218,10 +209,7 @@ class HTMLDisplayHandler
 			$output = preg_replace_callback('@<textarea[^>]*\sname="' . $keys . '".+</textarea>@isU', array(&$this, '_preserveTextAreaValue'), $output);
 		}
 
-		if(__DEBUG__ == 3)
-		{
-			$GLOBALS['__trans_content_elapsed__'] = microtime(true) - $start;
-		}
+		$GLOBALS['__trans_content_elapsed__'] = microtime(true) - $start;
 
 		// Remove unnecessary information
 		$output = preg_replace('/member\_\-([0-9]+)/s', 'member_0', $output);
@@ -235,17 +223,17 @@ class HTMLDisplayHandler
 
 		// convert the final layout
 		Context::set('content', $output);
+		Context::set('m', $is_mobile = Mobile::isFromMobilePhone() ? 1 : 0);
 		$oTemplate = TemplateHandler::getInstance();
-		if(Mobile::isFromMobilePhone())
+		if($is_mobile)
 		{
 			$this->_loadMobileJSCSS();
-			$output = $oTemplate->compile('./common/tpl', 'mobile_layout');
 		}
 		else
 		{
 			$this->_loadDesktopJSCSS();
-			$output = $oTemplate->compile('./common/tpl', 'common_layout');
 		}
+		$output = $oTemplate->compile('./common/tpl', 'common_layout');
 
 		// replace the user-defined-language
 		$oModuleController = getController('module');
@@ -433,7 +421,7 @@ class HTMLDisplayHandler
 		$original_file_list = array('x', 'common', 'js_app', 'xml_handler', 'xml_js_filter');
 		$jquery_version = preg_match('/MSIE [5-8]\./', $_SERVER['HTTP_USER_AGENT']) ? '1.11.3' : '2.1.4';
 		
-		if(Context::getDBInfo()->minify_scripts === 'none')
+		if(config('view.minify_scripts') === 'none')
 		{
 			Context::loadFile(array('./common/js/jquery-' . $jquery_version . '.js', 'head', '', -1730000), true);
 			Context::loadFile(array('./common/js/plugins/jquery.migrate/jquery-migrate-1.2.1.js', 'head', '', -1720000), true);

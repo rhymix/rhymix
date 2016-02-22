@@ -54,7 +54,7 @@
 		waiting_obj.css("opacity", 0.0);
 		var wfsr_timeout = setTimeout(function() {
 			if (show_waiting_message) {
-				waiting_obj.css("opacity", "").html(waiting_message).show();
+				waiting_obj.css("opacity", "").show();
 			}
 		}, 1000);
 		
@@ -76,6 +76,16 @@
 					}
 				}
 			});
+			
+			// Add debug information.
+			if (data._rx_debug) {
+				data._rx_debug.page_title = "AJAX : " + params.module + "." + params.act;
+				if (window.rhymix_debug_add_data) {
+					window.rhymix_debug_add_data(data._rx_debug);
+				} else {
+					window.rhymix_debug_pending_data.push(data._rx_debug);
+				}
+			}
 			
 			// If the response contains an error, display the error message.
 			if (data.error != "0") {
@@ -165,7 +175,7 @@
 		waiting_obj.css("opacity", 0.0);
 		var wfsr_timeout = setTimeout(function() {
 			if (show_waiting_message) {
-				waiting_obj.css("opacity", "").html(waiting_message).show();
+				waiting_obj.css("opacity", "").show();
 			}
 		}, 1000);
 		
@@ -175,6 +185,16 @@
 			// Hide the waiting message.
 			clearTimeout(wfsr_timeout);
 			waiting_obj.hide().trigger("cancel_confirm");
+			
+			// Add debug information.
+			if (data._rx_debug) {
+				data._rx_debug.page_title = "AJAX : " + params.module + "." + params.act;
+				if (window.rhymix_debug_add_data) {
+					window.rhymix_debug_add_data(data._rx_debug);
+				} else {
+					window.rhymix_debug_pending_data.push(data._rx_debug);
+				}
+			}
 			
 			// If the response contains an error, display the error message.
 			if(data.error != "0" && data.error > -1000) {
@@ -250,7 +270,7 @@
 		waiting_obj.css("opacity", 0.0);
 		var wfsr_timeout = setTimeout(function() {
 			if (show_waiting_message) {
-				waiting_obj.css("opacity", "").html(waiting_message).show();
+				waiting_obj.css("opacity", "").show();
 			}
 		}, 1000);
 		

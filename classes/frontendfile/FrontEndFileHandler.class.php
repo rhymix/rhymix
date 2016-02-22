@@ -152,7 +152,7 @@ class FrontEndFileHandler extends Handler
 
 		if(self::$minify === null)
 		{
-			self::$minify = Context::getDBInfo()->minify_scripts ?: 'common';
+			self::$minify = config('view.minify_scripts') ?: 'common';
 		}
 
 		if(isset($existsInfo[$existsKey]))

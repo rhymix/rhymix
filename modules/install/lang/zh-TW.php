@@ -1,5 +1,5 @@
 <?php
-$lang->introduce_title = '安裝RhymiX';
+$lang->introduce_title = '安裝Rhymix';
 $lang->install_progress_menu['language'] = '選擇安裝語言';
 $lang->install_progress_menu['license_agreement'] = '許可協議';
 $lang->install_progress_menu['condition'] = '檢查安裝條件';
@@ -17,7 +17,7 @@ $lang->install_checklist_title['json'] = 'json';
 $lang->install_checklist_title['gd'] = 'gd';
 $lang->install_checklist_title['mcrypt'] = 'mcrypt / openssl';
 $lang->install_checklist_title['session'] = 'session.auto_start設置';
-$lang->install_checklist_desc['permission'] = '[必須] RhymiX的資料夾或『./files』資料夾權限必須是『777』。';
+$lang->install_checklist_desc['permission'] = '[必須] Rhymix的資料夾或『./files』資料夾權限必須是『777』。';
 $lang->install_checklist_desc['xml'] = '[必須] 必須要安裝『XML Library』，才能夠使用 XML 通訊。';
 $lang->install_checklist_desc['session'] = '[必須] 在『php.ini』中必須要設定『session.auto_start=0』，才能使用暫存功能';
 $lang->install_checklist_desc['iconv'] = '安裝『iconv』，才能使 UTF-8 和其他語言文字作互相轉換。';
@@ -33,10 +33,8 @@ $lang->cmd_install_refresh_page = '刷新屏幕';
 $lang->cmd_install_next = '開始進行安裝';
 $lang->cmd_ignore = '忽略';
 $lang->cmd_recommended = '推薦';
-$lang->db_desc['mysqli'] = '利用 PHP 的『mysqli*()』函數使用 MySQL 資料庫。<br />利用『myisam』建立資料庫檔案，因此不能實現transaction。';
-$lang->db_desc['mysqli_innodb'] = '利用『innodb』使用 Mysql 資料庫。<br />innodb可以使用 transaction。';
-$lang->db_desc['mysql'] = '利用 PHP 的『mysql_*()』函數使用 MySQL 資料庫。<br />利用『myisam』建立資料庫檔案，因此不能實現transaction。';
-$lang->db_desc['mysql_innodb'] = '利用『innodb』使用 Mysql 資料庫。<br />innodb可以使用 transaction。';
+$lang->db_desc['mysqli'] = '利用 PHP 的『mysqli*()』函數使用 MySQL 資料庫。';
+$lang->db_desc['mysql'] = '利用 PHP 的『mysql_*()』函數使用 MySQL 資料庫。';
 $lang->db_desc['cubrid'] = '使用 CUBRID DB。 <a href="http://www.cubrid.org/wiki_tutorials/entry/cubrid-installation-instructions" target="_blank">Manual</a>';
 $lang->db_desc['mssql'] = '使用 Microsoft SQL Server。';
 $lang->can_use_when_installed = '不是這個服務器上安裝';
@@ -87,5 +85,5 @@ $lang->msg_ftp_mkdir_fail = '新增資料夾失敗。請確認 FTP 主機設置�
 $lang->msg_ftp_chmod_fail = '修改資料夾權限失敗。請確認 FTP 主機設置。';
 $lang->msg_ftp_connect_success = 'FTP連線成功。';
 $lang->ftp_path_title = '請輸入 FTP 路經';
-$lang->msg_ftp_installed_realpath = 'RhymiX絕對路經';
-$lang->msg_ftp_installed_ftp_realpath = 'RhymiX的 FTP 絕對路經';
+$lang->msg_ftp_installed_realpath = 'Rhymix絕對路經';
+$lang->msg_ftp_installed_ftp_realpath = 'Rhymix的 FTP 絕對路經';

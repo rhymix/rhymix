@@ -26,17 +26,7 @@ class adminAdminView extends admin
 
 	function __construct()
 	{
-		$db_info = Context::getDBInfo();
-
-		if(strpos($db_info->default_url, 'xn--') !== FALSE)
-		{
-			$xe_default_url = Context::decodeIdna($db_info->default_url);
-		}
-		else
-		{
-			$xe_default_url = $db_info->default_url;
-		}
-		Context::set('xe_default_url', $xe_default_url);
+		Context::set('xe_default_url', Context::getDefaultUrl());
 	}
 
 	/**
@@ -61,30 +51,6 @@ class adminAdminView extends admin
 		$this->makeGnbUrl();
 
 		// Retrieve the list of installed modules
-
-		$db_info = Context::getDBInfo();
-
-		Context::set('time_zone_list', $GLOBALS['time_zone']);
-		Context::set('time_zone', $GLOBALS['_time_zone']);
-		Context::set('use_rewrite', $db_info->use_rewrite == 'Y' ? 'Y' : 'N');
-		Context::set('use_sso', $db_info->use_sso == 'Y' ? 'Y' : 'N');
-		Context::set('use_html5', $db_info->use_html5 == 'Y' ? 'Y' : 'N');
-		Context::set('use_spaceremover', $db_info->use_spaceremover ? $db_info->use_spaceremover : 'Y'); //not use
-		Context::set('qmail_compatibility', $db_info->qmail_compatibility == 'Y' ? 'Y' : 'N');
-		Context::set('minify_scripts', $db_info->minify_scripts ?: 'common');
-		Context::set('delay_session', $db_info->delay_session == 'Y' ? 'Y' : 'N');
-		Context::set('use_db_session', $db_info->use_db_session == 'N' ? 'N' : 'Y');
-		Context::set('use_mobile_view', $db_info->use_mobile_view == 'Y' ? 'Y' : 'N');
-		Context::set('use_ssl', $db_info->use_ssl ? $db_info->use_ssl : "none");
-		if($db_info->http_port)
-		{
-			Context::set('http_port', $db_info->http_port);
-		}
-		if($db_info->https_port)
-		{
-			Context::set('https_port', $db_info->https_port);
-		}
-
 		$this->checkEasyinstall();
 	}
 
@@ -163,14 +129,15 @@ class adminAdminView extends admin
 		$currentAct = Context::get('act');
 		$subMenuTitle = '';
 
-		foreach((array) $moduleActionInfo->menu as $key => $value)
+		foreach((array)$moduleActionInfo->menu as $key => $value)
 		{
-			if(isset($value->acts) && is_array($value->acts) && in_array($currentAct, $value->acts))
+			if(is_array($value->acts) && in_array($currentAct, $value->acts))
 			{
 				$subMenuTitle = $value->title;
 				break;
 			}
 		}
+		
 		// get current menu's srl(=parentSrl)
 		$parentSrl = 0;
 		$oMenuAdminConroller = getAdminController('menu');
@@ -198,7 +165,7 @@ class adminAdminView extends admin
 		// Admin logo, title setup
 		$objConfig = $oModuleModel->getModuleConfig('admin');
 		$gnbTitleInfo = new stdClass();
-		$gnbTitleInfo->adminTitle = $objConfig->adminTitle ? $objConfig->adminTitle : 'RhymiX Admin';
+		$gnbTitleInfo->adminTitle = $objConfig->adminTitle ? $objConfig->adminTitle : 'Admin';
 		$gnbTitleInfo->adminLogo = $objConfig->adminLogo ? $objConfig->adminLogo : '';
 
 		$browserTitle = ($subMenuTitle ? $subMenuTitle : 'Dashboard') . ' - ' . $gnbTitleInfo->adminTitle;
@@ -262,9 +229,6 @@ class adminAdminView extends admin
 	 */
 	function dispAdminIndex()
 	{
-		$db_info = Context::getDBInfo();
-		Context::set('db_info',$db_info);
-
 		// Get statistics
 		$args = new stdClass();
 		$args->date = date("Ymd000000", $_SERVER['REQUEST_TIME'] - 60 * 60 * 24);
@@ -338,7 +302,7 @@ class adminAdminView extends admin
 		{
 			foreach($needUpdateList AS $key => $value)
 			{
-				$helpUrl = './common/manual/admin/#';
+				$helpUrl = './common/manual/admin/index.html#';
 				switch($value->type)
 				{
 					case 'addon':
@@ -403,95 +367,197 @@ class adminAdminView extends admin
 	}
 
 	/**
-	 * Display Configuration(settings) page
+	 * Display General Settings page
 	 * @return void
 	 */
 	function dispAdminConfigGeneral()
 	{
-		Context::loadLang('modules/install/lang');
-
-		$db_info = Context::getDBInfo();
-
-		Context::set('selected_lang', $db_info->lang_type);
-
-		if(strpos($db_info->default_url, 'xn--') !== FALSE)
-		{
-			$db_info->default_url = Context::decodeIdna($db_info->default_url);
-		}
-		Context::set('default_url', $db_info->default_url);
-		Context::set('langs', Context::loadLangSupported());
-
-		// site lock
-		Context::set('IP', $_SERVER['REMOTE_ADDR']);
-		if(!$db_info->sitelock_title) $db_info->sitelock_title = 'Maintenance in progress...';
-		if(!in_array('127.0.0.1', $db_info->sitelock_whitelist)) $db_info->sitelock_whitelist[] = '127.0.0.1';
-		if(!in_array($_SERVER['REMOTE_ADDR'], $db_info->sitelock_whitelist)) $db_info->sitelock_whitelist[] = $_SERVER['REMOTE_ADDR'];
-		$db_info->sitelock_whitelist = array_unique($db_info->sitelock_whitelist);
-		Context::set('remote_addr', $_SERVER['REMOTE_ADDR']);
-		Context::set('use_sitelock', $db_info->use_sitelock);
-		Context::set('sitelock_title', $db_info->sitelock_title);
-		Context::set('sitelock_message', htmlspecialchars($db_info->sitelock_message, ENT_COMPAT | ENT_HTML401, 'UTF-8', false));
-
-		$whitelist = implode("\r\n", $db_info->sitelock_whitelist);
-		Context::set('sitelock_whitelist', $whitelist);
-
-
-		if($db_info->admin_ip_list) $admin_ip_list = implode("\r\n", $db_info->admin_ip_list);
-		else $admin_ip_list = '';
-		Context::set('admin_ip_list', $admin_ip_list);
-
-		Context::set('lang_selected', Context::loadLangSelected());
-
+		// Default and enabled languages
+		Context::set('supported_lang', Rhymix\Framework\Lang::getSupportedList());
+		Context::set('default_lang', Rhymix\Framework\Config::get('locale.default_lang'));
+		Context::set('enabled_lang', Rhymix\Framework\Config::get('locale.enabled_lang'));
+		
+		// Site title and HTML footer
+		$oModuleModel = getModel('module');
+		$config = $oModuleModel->getModuleConfig('module');
+		Context::set('site_title', escape($config->siteTitle));
+		Context::set('html_footer', escape($config->htmlFooter));
+		
+		// Index module
+		$columnList = array('modules.mid', 'modules.browser_title', 'sites.index_module_srl');
+		$start_module = $oModuleModel->getSiteInfo(0, $columnList);
+		Context::set('start_module', $start_module);
+		
+		// Thumbnail settings
+		$oDocumentModel = getModel('document');
+		$config = $oDocumentModel->getDocumentConfig();
+		Context::set('thumbnail_type', $config->thumbnail_type ?: 'crop');
+		
+		// Default time zone
+		Context::set('timezones', Rhymix\Framework\DateTime::getTimezoneList());
+		Context::set('selected_timezone', Rhymix\Framework\Config::get('locale.default_timezone'));
+		
+		// Mobile view
+		Context::set('use_mobile_view', config('use_mobile_view') ? 'Y' : 'N');
+		
+		// Favicon and mobicon
 		$oAdminModel = getAdminModel('admin');
 		$favicon_url = $oAdminModel->getFaviconUrl();
 		$mobicon_url = $oAdminModel->getMobileIconUrl();
 		Context::set('favicon_url', $favicon_url.'?'.$_SERVER['REQUEST_TIME']);
 		Context::set('mobicon_url', $mobicon_url.'?'.$_SERVER['REQUEST_TIME']);
-
-		$oDocumentModel = getModel('document');
-		$config = $oDocumentModel->getDocumentConfig();
-		Context::set('thumbnail_type', $config->thumbnail_type);
-
-
-		$oModuleModel = getModel('module');
-		$config = $oModuleModel->getModuleConfig('module');
-		Context::set('siteTitle', $config->siteTitle);
-		Context::set('htmlFooter', htmlspecialchars($config->htmlFooter));
-
-		// embed filter
-		$oEmbedFilter = EmbedFilter::getInstance();
-		context::set('embed_white_object', implode(PHP_EOL, $oEmbedFilter->whiteUrlList));
-		context::set('embed_white_iframe', implode(PHP_EOL, $oEmbedFilter->whiteIframeUrlList));
-
-		$columnList = array('modules.mid', 'modules.browser_title', 'sites.index_module_srl');
-		$start_module = $oModuleModel->getSiteInfo(0, $columnList);
-		Context::set('start_module', $start_module);
-
-		Context::set('pwd', $pwd);
+		
 		$this->setTemplateFile('config_general');
-
-		$security = new Security();
-		$security->encodeHTML('news..', 'released_version', 'download_link', 'selected_lang', 'module_list..', 'module_list..author..', 'addon_list..', 'addon_list..author..', 'start_module.');
 	}
-
+	
+	/**
+	 * Display Security Settings page
+	 * @return void
+	 */
+	function dispAdminConfigSecurity()
+	{
+		// Load embed filter.
+		$oEmbedFilter = EmbedFilter::getInstance();
+		context::set('embedfilter_iframe', implode(PHP_EOL, $oEmbedFilter->whiteIframeUrlList));
+		context::set('embedfilter_object', implode(PHP_EOL, $oEmbedFilter->whiteUrlList));
+		
+		// Admin IP access control
+		$allowed_ip = Rhymix\Framework\Config::get('admin.allow');
+		Context::set('admin_allowed_ip', implode(PHP_EOL, $allowed_ip));
+		$denied_ip = Rhymix\Framework\Config::get('admin.deny');
+		Context::set('admin_denied_ip', implode(PHP_EOL, $denied_ip));
+		Context::set('remote_addr', RX_CLIENT_IP);
+		
+		$this->setTemplateFile('config_security');
+	}
+	
+	/**
+	 * Display Advanced Settings page
+	 * @return void
+	 */
+	function dispAdminConfigAdvanced()
+	{
+		// Default URL
+		$default_url = Rhymix\Framework\Config::get('url.default');
+		if(strpos($default_url, 'xn--') !== FALSE)
+		{
+			$default_url = Context::decodeIdna($default_url);
+		}
+		Context::set('default_url', $default_url);
+		
+		// SSL and ports
+		Context::set('use_ssl', Rhymix\Framework\Config::get('url.ssl') ?: 'none');
+		Context::set('http_port', Rhymix\Framework\Config::get('url.http_port'));
+		Context::set('https_port', Rhymix\Framework\Config::get('url.https_port'));
+		
+		// Object cache
+		$object_cache_config = Rhymix\Framework\Config::get('cache');
+		if (is_array($object_cache_config))
+		{
+			$object_cache_config = array_first($object_cache_config);
+		}
+		$object_cache_types = array('apc', 'file', 'memcached', 'redis', 'wincache');
+		$object_cache_type = preg_match('/^(' . implode('|', $object_cache_types) . ')/', $object_cache_config, $matches) ? $matches[1] : '';
+		Context::set('object_cache_types', $object_cache_types);
+		Context::set('object_cache_type', $object_cache_type);
+		if ($object_cache_type)
+		{
+			Context::set('object_cache_host', parse_url($object_cache_config, PHP_URL_HOST) ?: null);
+			Context::set('object_cache_port', parse_url($object_cache_config, PHP_URL_PORT) ?: null);
+		}
+		else
+		{
+			Context::set('object_cache_host', null);
+			Context::set('object_cache_port', null);
+		}
+		
+		// Other settings
+		Context::set('use_mobile_view', Rhymix\Framework\Config::get('use_mobile_view'));
+		Context::set('use_rewrite', Rhymix\Framework\Config::get('use_rewrite'));
+		Context::set('use_sso', Rhymix\Framework\Config::get('use_sso'));
+		Context::set('delay_session', Rhymix\Framework\Config::get('session.delay'));
+		Context::set('use_db_session', Rhymix\Framework\Config::get('session.use_db'));
+		Context::set('minify_scripts', Rhymix\Framework\Config::get('view.minify_scripts'));
+		Context::set('use_gzip', Rhymix\Framework\Config::get('view.gzip'));
+		
+		$this->setTemplateFile('config_advanced');
+	}
+	
+	/**
+	 * Display Debug Settings page
+	 * @return void
+	 */
+	function dispAdminConfigDebug()
+	{
+		// Load debug settings.
+		Context::set('debug_enabled', Rhymix\Framework\Config::get('debug.enabled'));
+		Context::set('debug_log_errors', Rhymix\Framework\Config::get('debug.log_errors'));
+		Context::set('debug_log_queries', Rhymix\Framework\Config::get('debug.log_queries'));
+		Context::set('debug_log_slow_queries', Rhymix\Framework\Config::get('debug.log_slow_queries'));
+		Context::set('debug_log_slow_triggers', Rhymix\Framework\Config::get('debug.log_slow_triggers'));
+		Context::set('debug_log_slow_widgets', Rhymix\Framework\Config::get('debug.log_slow_widgets'));
+		Context::set('debug_log_filename', Rhymix\Framework\Config::get('debug.log_filename') ?: 'files/debug/YYYYMMDD.php');
+		Context::set('debug_display_type', Rhymix\Framework\Config::get('debug.display_type'));
+		Context::set('debug_display_to', Rhymix\Framework\Config::get('debug.display_to'));
+		
+		// IP access control
+		$allowed_ip = Rhymix\Framework\Config::get('debug.allow');
+		Context::set('debug_allowed_ip', implode(PHP_EOL, $allowed_ip));
+		Context::set('remote_addr', RX_CLIENT_IP);
+		
+		$this->setTemplateFile('config_debug');
+	}
+	
+	/**
+	 * Display Sitelock Settings page
+	 * @return void
+	 */
+	function dispAdminConfigSitelock()
+	{
+		Context::set('sitelock_locked', Rhymix\Framework\Config::get('lock.locked'));
+		Context::set('sitelock_title', escape(Rhymix\Framework\Config::get('lock.title')));
+		Context::set('sitelock_message', escape(Rhymix\Framework\Config::get('lock.message')));
+		
+		$allowed_ip = Rhymix\Framework\Config::get('lock.allow') ?: array();
+		$allowed_localhost = false;
+		$allowed_current = false;
+		foreach ($allowed_ip as $range)
+		{
+			if (Rhymix\Framework\IpFilter::inRange('127.0.0.1', $range))
+			{
+				$allowed_localhost = true;
+			}
+			if (Rhymix\Framework\IpFilter::inRange(RX_CLIENT_IP, $range))
+			{
+				$allowed_current = true;
+			}
+		}
+		if (!$allowed_localhost)
+		{
+			array_unshift($allowed_ip, '127.0.0.1');
+		}
+		if (!$allowed_current)
+		{
+			array_unshift($allowed_ip, RX_CLIENT_IP);
+		}
+		Context::set('sitelock_allowed_ip', implode(PHP_EOL, $allowed_ip));
+		Context::set('remote_addr', RX_CLIENT_IP);
+		
+		$this->setTemplateFile('config_sitelock');
+	}
+	
 	/**
 	 * Display FTP Configuration(settings) page
 	 * @return void
 	 */
 	function dispAdminConfigFtp()
 	{
-		Context::loadLang('modules/install/lang');
-
-		$ftp_info = Context::getFTPInfo();
-		Context::set('ftp_info', $ftp_info);
-		Context::set('sftp_support', function_exists(ssh2_sftp));
+		Context::set('ftp_info', Rhymix\Framework\Config::get('ftp'));
+		Context::set('sftp_support', function_exists('ssh2_sftp'));
 
 		$this->setTemplateFile('config_ftp');
-
-		//$security = new Security();
-		//$security->encodeHTML('ftp_info..');
 	}
-
+	
 	/**
 	 * Display Admin Menu Configuration(settings) page
 	 * @return void

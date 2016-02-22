@@ -14,7 +14,6 @@ class communicationController extends communication
 	 */
 	function init()
 	{
-
 	}
 
 	/**
@@ -131,7 +130,7 @@ class communicationController extends communication
 			$view_url = Context::getRequestUri();
 			$content = sprintf("%s<br /><br />From : <a href=\"%s\" target=\"_blank\">%s</a>", $content, $view_url, $view_url);
 			$oMail = new Mail();
-			$oMail->setTitle($title);
+			$oMail->setTitle(htmlspecialchars($title, ENT_COMPAT | ENT_HTML401, 'UTF-8', false));
 			$oMail->setContent(utf8_mbencode(removeHackTag($content)));
 			$oMail->setSender($logged_info->nick_name, $logged_info->email_address);
 			$oMail->setReceiptor($receiver_member_info->nick_name, $receiver_member_info->email_address);
@@ -778,6 +777,82 @@ class communicationController extends communication
 		return executeQuery('communication.setMessageReaded', $args);
 	}
 
+	function triggerModuleHandlerAfter($module)
+	{
+		if(!Context::get('is_logged') && isCrawler())
+		{
+			return new Object();
+		}
+
+		if($module->module == 'admin')
+		{
+			return new Object();
+		}
+
+		$oCommunicationModel = getModel('communication');
+		$config = $oCommunicationModel->getConfig();
+
+		if($config->member_menu != 'Y')
+		{
+			return new Object();
+		}
+		$act = Context::get('act');
+		if($module->module != 'member')
+		{
+			$oMemberController = getController('member');
+			$oMemberController->addMemberMenu('dispCommunicationFriend', 'cmd_view_friend');
+			$oMemberController->addMemberMenu('dispCommunicationMessages', 'cmd_view_message_box');
+
+			// Pop-up to display messages if a flag on new message is set
+			$new_message_count = $oCommunicationModel->getNewMessageCount();
+			if($new_message_count > 0)
+			{
+				Context::loadFile('./modules/communication/tpl/js/member_communication.js');
+				$text = preg_replace('@\r?\n@', '\\n', addslashes(Context::getLang('alert_new_message_arrived')));
+				Context::addHtmlHeader("<script type=\"text/javascript\">jQuery(function(){ xeNotifyMessage('{$text}','{$new_message_count}'); });</script>");
+			}
+
+		}
+		elseif($act == 'getMemberMenu')
+		{
+			$member_srl = Context::get('target_srl');
+			$oCommunicationModel = getModel('communication');
+			$logged_info = Context::get('logged_info');
+			// Add a feature to display own message box.
+			if($logged_info->member_srl == $member_srl)
+			{
+				$mid = Context::get('cur_mid');
+				$oMemberController = getController('member');
+				// Add your own viewing Note Template
+				$oMemberController->addMemberPopupMenu(getUrl('', 'mid', $mid, 'act', 'dispCommunicationMessages'), 'cmd_view_message_box', '', 'self');
+				// Display a list of friends
+				$oMemberController->addMemberPopupMenu(getUrl('', 'mid', $mid, 'act', 'dispCommunicationFriend'), 'cmd_view_friend', '', 'self');
+				// If not, Add menus to send message and to add friends
+			}
+			else
+			{
+				// Get member information
+				$oMemberModel = getModel('member');
+				$target_member_info = $oMemberModel->getMemberInfoByMemberSrl($member_srl);
+				if(!$target_member_info->member_srl)
+				{
+					return new Object();
+				}
+
+				$oMemberController = getController('member');
+				// Add a menu for sending message
+				if($logged_info->is_admin == 'Y' || $target_member_info->allow_message == 'Y' || ($target_member_info->allow_message == 'F' && $oCommunicationModel->isFriend($member_srl)))
+				{
+					$oMemberController->addMemberPopupMenu(getUrl('', 'mid', Context::get('cur_mid'), 'act', 'dispCommunicationSendMessage', 'receiver_srl', $member_srl), 'cmd_send_message', '', 'popup');
+				}
+				// Add a menu for listing friends (if a friend is new)
+				if(!$oCommunicationModel->isAddedFriend($member_srl))
+				{
+					$oMemberController->addMemberPopupMenu(getUrl('', 'mid', Context::get('cur_mid'), 'act', 'dispCommunicationAddFriend', 'target_srl', $member_srl), 'cmd_add_friend', '', 'popup');
+				}
+			}
+		}
+	}
 }
 /* End of file communication.controller.php */
 /* Location: ./modules/comment/communication.controller.php */

@@ -89,10 +89,7 @@ class XmlParser
 	function parse($input = '', $arg1 = NULL, $arg2 = NULL)
 	{
 		// Save the compile starting time for debugging
-		if(__DEBUG__ == 3)
-		{
-			$start = microtime(true);
-		}
+		$start = microtime(true);
 
 		$this->lang = Context::getLangType();
 
@@ -141,10 +138,7 @@ class XmlParser
 
 		$output = array_shift($this->output);
 		// Save compile starting time for debugging
-		if(__DEBUG__ == 3)
-		{
-			$GLOBALS['__xmlparse_elapsed__'] += microtime(true) - $start;
-		}
+		$GLOBALS['__xmlparse_elapsed__'] += microtime(true) - $start;
 
 		return $output;
 	}

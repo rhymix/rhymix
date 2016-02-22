@@ -4,7 +4,7 @@
 /**
  * @brief Function to change point icon.
  */
-function pointLevelIconTrans($matches)
+function pointLevelIconTrans($matches, $addon_info)
 {
 	$member_srl = $matches[3];
 	// If anonymous or not member_srl go to Hide Point Icon
@@ -15,12 +15,14 @@ function pointLevelIconTrans($matches)
 
 	$orig_text = preg_replace('/' . preg_quote($matches[5], '/') . '<\/' . $matches[6] . '>$/', '', $matches[0]);
 
-	$oMemberModel = getModel('member');
-	
-	// Check Group Image Mark
-	if($oMemberModel->getGroupImageMark($member_srl))
+	if($addon_info->icon_duplication != 'Y')
 	{
-		return $orig_text . $matches[5] . '</' . $matches[6] . '>';
+		// Check Group Image Mark
+		$oMemberModel = getModel('member');
+		if($oMemberModel->getGroupImageMark($member_srl))
+		{
+			return $orig_text . $matches[5] . '</' . $matches[6] . '>';
+		}
 	}
 
 	if(!isset($GLOBALS['_pointLevelIcon'][$member_srl]))

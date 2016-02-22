@@ -154,7 +154,7 @@ class admin extends ModuleObject
 		$output = $oMenuAdminModel->getMenuItems($menuSrl, 0, $columnList);
 		if(is_array($output->data))
 		{
-			foreach($output->data AS $key => $value)
+			foreach($output->data as $key => $value)
 			{
 				preg_match('/\{\$lang->menu_gnb\[(.*?)\]\}/i', $value->name, $m);
 				$gnbDBList[$m[1]] = $value->menu_item_srl;
@@ -162,90 +162,43 @@ class admin extends ModuleObject
 		}
 		unset($args);
 
-		$gnbModuleList = array(
-			0 => array(
-				'module' => 'menu',
-				'subMenu' => array('siteMap', 'siteDesign'),
+		$gnbMenuStructure = array(
+			'menu' => array(
+				'menu.siteMap',
+				'menu.siteDesign',
 			),
-			1 => array(
-				'module' => 'member',
-				'subMenu' => array('userList', 'userSetting', 'userGroup'),
+			'user' => array(
+				'member.userList',
+				'member.userSetting',
+				'member.userGroup',
+				'point.point',
 			),
-			2 => array(
-				'module' => 'document',
-				'subMenu' => array('document'),
+			'content' => array(
+				'board.board',
+				'document.document',
+				'comment.comment',
+				'file.file',
+				'poll.poll',
+				'editor.editor',
+				'importer.importer',
+				'spamfilter.spamFilter',
+				'trash.trash',
 			),
-			3 => array(
-				'module' => 'comment',
-				'subMenu' => array('comment'),
+			'configuration' => array(
+				'admin.adminConfigurationGeneral',
+				'admin.adminConfigurationFtp',
+				'admin.adminMenuSetup',
+				'file.fileUpload',
+				'module.filebox',
 			),
-			4 => array(
-				'module' => 'file',
-				'subMenu' => array('file'),
-			),
-			5 => array(
-				'module' => 'poll',
-				'subMenu' => array('poll'),
-			),
-			6 => array(
-				'module' => 'rss',
-				'subMenu' => array('rss'),
-			),
-			7 => array(
-				'module' => 'module',
-				'subMenu' => array('multilingual'),
-			),
-			8 => array(
-				'module' => 'importer',
-				'subMenu' => array('importer'),
-			),
-			9 => array(
-				'module' => 'trash',
-				'subMenu' => array('trash'),
-			),
-			10 => array(
-				'module' => 'autoinstall',
-				'subMenu' => array('easyInstall'),
-			),
-			11 => array(
-				'module' => 'layout',
-				'subMenu' => array('installedLayout'),
-			),
-			12 => array(
-				'module' => 'module',
-				'subMenu' => array('installedModule'),
-			),
-			13 => array(
-				'module' => 'widget',
-				'subMenu' => array('installedWidget'),
-			),
-			14 => array(
-				'module' => 'addon',
-				'subMenu' => array('installedAddon'),
-			),
-			15 => array(
-				'module' => 'editor',
-				'subMenu' => array('editor'),
-			),
-			16 => array(
-				'module' => 'spamfilter',
-				'subMenu' => array('spamFilter'),
-			),
-			17 => array(
-				'module' => 'admin',
-				'subMenu' => array('adminConfigurationGeneral', 'adminConfigurationFtp', 'adminMenuSetup'),
-			),
-			18 => array(
-				'module' => 'file',
-				'subMenu' => array('fileUpload'),
-			),
-			19 => array(
-				'module' => 'module',
-				'subMenu' => array('filebox'),
-			),
-			20 => array(
-				'module' => 'point',
-				'subMenu' => array('point')
+			'advanced' => array(
+				'autoinstall.easyInstall',
+				'layout.installedLayout',
+				'module.installedModule',
+				'addon.installedAddon',
+				'widget.installedWidget',
+				'module.multilingual',
+				'rss.rss',
 			),
 		);
 
@@ -253,8 +206,7 @@ class admin extends ModuleObject
 		$output = $oMemberModel->getAdminGroup(array('group_srl'));
 		$adminGroupSrl = $output->group_srl;
 
-		// gnb sub item create
-		// common argument setting
+		// gnb common argument setting
 		$args = new stdClass();
 		$args->menu_srl = $menuSrl;
 		$args->open_window = 'N';
@@ -264,24 +216,24 @@ class admin extends ModuleObject
 		$args->active_btn = '';
 		$args->group_srls = $adminGroupSrl;
 		$oModuleModel = getModel('module');
-
-		foreach($gnbModuleList AS $key => $value)
+		
+		$moduleActionInfo = array();
+		foreach ($gnbMenuStructure as $key => $items)
 		{
-			if(is_array($value['subMenu']))
+			foreach ($items as $item)
 			{
-				$moduleActionInfo = $oModuleModel->getModuleActionXml($value['module']);
-				foreach($value['subMenu'] AS $key2 => $value2)
+				list($module_name, $menu_name) = explode('.', $item);
+				if (!isset($moduleActionInfo[$module_name]))
 				{
-					$gnbKey = "'" . $this->_getGnbKey($value2) . "'";
-
-					//insert menu item
-					$args->menu_item_srl = getNextSequence();
-					$args->parent_srl = $gnbDBList[$gnbKey];
-					$args->name = '{$lang->menu_gnb_sub[\'' . $value2 . '\']}';
-					$args->url = 'index.php?module=admin&act=' . $moduleActionInfo->menu->{$value2}->index;
-					$args->listorder = -1 * $args->menu_item_srl;
-					$output = executeQuery('menu.insertMenuItem', $args);
+					$moduleActionInfo[$module_name] = $oModuleModel->getModuleActionXml($module_name);
 				}
+				
+				$args->menu_item_srl = getNextSequence();
+				$args->parent_srl = $gnbDBList["'" . $key . "'"];
+				$args->name = '{$lang->menu_gnb_sub[\'' . $menu_name . '\']}';
+				$args->url = 'index.php?module=admin&act=' . $moduleActionInfo[$module_name]->menu->{$menu_name}->index;
+				$args->listorder = -1 * $args->menu_item_srl;
+				$output = executeQuery('menu.insertMenuItem', $args);
 			}
 		}
 
@@ -291,55 +243,6 @@ class admin extends ModuleObject
 		// does not recreate lang cache sometimes
 		FileHandler::RemoveFilesInDir('./files/cache/lang');
 		FileHandler::RemoveFilesInDir('./files/cache/menu/admin_lang');
-	}
-
-	/**
-	 * Return parent menu key by child menu
-	 * @return string
-	 */
-	function _getGnbKey($menuName)
-	{
-		switch($menuName)
-		{
-			case 'siteMap':
-			case 'siteDesign':
-				return 'menu';
-				break;
-			case 'userList':
-			case 'userSetting':
-			case 'userGroup':
-			case 'point':
-				return 'user';
-				break;
-			case 'document':
-			case 'comment':
-			case 'file':
-			case 'poll':
-			case 'rss':
-			case 'multilingual':
-			case 'importer':
-			case 'trash':
-			case 'spamFilter':
-				return 'content';
-				break;
-			case 'easyInstall':
-			case 'installedLayout':
-			case 'installedModule':
-			case 'installedWidget':
-			case 'installedAddon':
-			case 'editor':
-				return 'advanced';
-				break;
-			case 'adminConfigurationGeneral':
-			case 'adminConfigurationFtp':
-			case 'adminMenuSetup':
-			case 'fileUpload':
-			case 'filebox':
-				return 'configuration';
-				break;
-			default:
-				return 'advanced';
-		}
 	}
 
 	/**

@@ -9,16 +9,21 @@
 class CacheHandler extends Handler
 {
 	/**
+	 * Instances are stored here.
+	 */
+	protected static $_instances = array();
+	
+	/**
 	 * instance of cache handler
 	 * @var CacheBase
 	 */
-	var $handler = null;
+	protected $handler = null;
 
 	/**
 	 * Version of key group
 	 * @var int
 	 */
-	var $keyGroupVersions = null;
+	protected $keyGroupVersions = null;
 
 	/**
 	 * Get a instance of CacheHandler(for singleton)
@@ -28,14 +33,14 @@ class CacheHandler extends Handler
 	 * @param boolean $always_use_file If set true, use a file cache always
 	 * @return CacheHandler
 	 */
-	function &getInstance($target = 'object', $info = null, $always_use_file = false)
+	public static function getInstance($target = 'object', $info = null, $always_use_file = false)
 	{
-		$cache_handler_key = $target . ($always_use_file ? '_file' : '');
-		if(!$GLOBALS['__XE_CACHE_HANDLER__'][$cache_handler_key])
+		$key = 'object' . ($always_use_file ? '_file' : '');
+		if (!isset(self::$_instances[$key]))
 		{
-			$GLOBALS['__XE_CACHE_HANDLER__'][$cache_handler_key] = new CacheHandler($target, $info, $always_use_file);
+			self::$_instances[$key] = new self($target, $info, $always_use_file);
 		}
-		return $GLOBALS['__XE_CACHE_HANDLER__'][$cache_handler_key];
+		return self::$_instances[$key];
 	}
 
 	/**
@@ -44,83 +49,52 @@ class CacheHandler extends Handler
 	 * Do not use this directly. You can use getInstance() instead.
 	 *
 	 * @see CacheHandler::getInstance
-	 * @param string $target type of cache (object|template)
+	 * @param string $target type of cache (object)
 	 * @param object $info info. of DB
 	 * @param boolean $always_use_file If set true, use a file cache always
 	 * @return CacheHandler
 	 */
-	function __construct($target, $info = null, $always_use_file = false)
+	protected function __construct($target, $info = null, $always_use_file = false)
 	{
-		if(!$info)
+		// Allow using custom cache info for backward compatibility.
+		if (is_object($info) && $info->use_object_cache)
 		{
-			$info = Context::getDBInfo();
+			$cache_config = $cache_config_array = $info->use_object_cache;
 		}
-
-		if($info)
+		else
 		{
-			if($target == 'object')
+			$cache_config = $cache_config_array = config('cache');
+			if (is_array($cache_config) && count($cache_config))
 			{
-				if($info->use_object_cache == 'apc')
-				{
-					$type = 'apc';
-				}
-				else if(substr($info->use_object_cache, 0, 8) == 'memcache')
-				{
-					$type = 'memcache';
-					$url = $info->use_object_cache;
-				}
-				else if(substr($info->use_object_cache, 0, 5) == 'redis')
-				{
-					$type = 'redis';
-					$url = $info->use_object_cache;
-				}
-				else if($info->use_object_cache == 'wincache')
-				{
-					$type = 'wincache';
-				}
-				else if($info->use_object_cache == 'file')
-				{
-					$type = 'file';
-				}
-				else if($always_use_file)
-				{
-					$type = 'file';
-				}
+				$cache_config = array_first($cache_config);
 			}
-			else if($target == 'template')
-			{
-				if($info->use_template_cache == 'apc')
-				{
-					$type = 'apc';
-				}
-				else if(substr($info->use_template_cache, 0, 8) == 'memcache')
-				{
-					$type = 'memcache';
-					$url = $info->use_template_cache;
-				}
-				else if(substr($info->use_template_cache, 0, 5) == 'redis')
-				{
-					$type = 'redis';
-					$url = $info->use_template_cache;
-				}
-				else if($info->use_template_cache == 'wincache')
-				{
-					$type = 'wincache';
-				}
-			}
-
-			if($type)
-			{
-				$class = 'Cache' . ucfirst($type);
-				include_once sprintf('%sclasses/cache/%s.class.php', _XE_PATH_, $class);
-				$this->handler = call_user_func(array($class, 'getInstance'), $url);
-				$this->keyGroupVersions = $this->handler->get('key_group_versions', 0);
-				if(!$this->keyGroupVersions)
-				{
-					$this->keyGroupVersions = array();
-					$this->handler->put('key_group_versions', $this->keyGroupVersions, 0);
-				}
-			}
+		}
+		
+		// Handle various types of cache backend.
+		if (preg_match('/^(apc|memcache|redis|wincache|file)/', strval($cache_config), $matches))
+		{
+			$type = $matches[1];
+		}
+		elseif ($always_use_file)
+		{
+			$type = 'file';
+		}
+		else
+		{
+			return;
+		}
+		
+		// Create an instance of cache backend.
+		$class = 'Cache' . ucfirst($type);
+		include_once sprintf('%sclasses/cache/%s.class.php', _XE_PATH_, $class);
+		$this->handler = $class::getInstance($cache_config_array);
+		
+		// Initialize key group versions.
+		$this->keyGroupVersions = $this->handler->get('key_group_versions', 0);
+		if(!$this->keyGroupVersions)
+		{
+			$this->keyGroupVersions = array();
+			$this->handler->put('key_group_versions', $this->keyGroupVersions, 0);
 		}
 	}
 
@@ -129,14 +103,19 @@ class CacheHandler extends Handler
 	 *
 	 * @return boolean
 	 */
-	function isSupport()
+	public function isSupport($type = null, $cache_config = null)
 	{
-		if($this->handler && $this->handler->isSupport())
+		if ($type === null)
 		{
-			return true;
+			return ($this->handler && $this->handler->isSupport());
 		}
-
-		return false;
+		else
+		{
+			$class = 'Cache' . ucfirst(str_replace('memcached', 'memcache', $type));
+			include_once sprintf('%sclasses/cache/%s.class.php', _XE_PATH_, $class);
+			$handler = $class::getInstance($cache_config, true);
+			return $handler->isSupport();
+		}
 	}
 
 	/**
@@ -145,11 +124,9 @@ class CacheHandler extends Handler
 	 * @param string $key The key that will be associated with the item.
 	 * @return string Returns cache name
 	 */
-	function getCacheKey($key)
+	public function getCacheKey($key)
 	{
-		$key = str_replace('/', ':', $key);
-
-		return __XE_VERSION__ . ':' . $key;
+		return RX_VERSION . ':' . str_replace('/', ':', $key);
 	}
 
 	/**
@@ -160,16 +137,10 @@ class CacheHandler extends Handler
 	 * 								If stored time is older then modified time, return false.
 	 * @return false|mixed Return false on failure or older then modified time. Return the string associated with the $key on success.
 	 */
-	function get($key, $modified_time = 0)
+	public function get($key, $modified_time = 0)
 	{
-		if(!$this->handler)
-		{
-			return false;
-		}
-
-		$key = $this->getCacheKey($key);
-
-		return $this->handler->get($key, $modified_time);
+		if (!$key) return false;
+		return $this->handler ? $this->handler->get($this->getCacheKey($key), $modified_time) : false;
 	}
 
 	/**
@@ -182,16 +153,10 @@ class CacheHandler extends Handler
 	 * 							If no ttl is supplied, use the default valid time.
 	 * @return bool|void Returns true on success or false on failure. If use CacheFile, returns void.
 	 */
-	function put($key, $obj, $valid_time = 0)
+	public function put($key, $obj, $valid_time = 0)
 	{
-		if(!$this->handler && !$key)
-		{
-			return false;
-		}
-
-		$key = $this->getCacheKey($key);
-
-		return $this->handler->put($key, $obj, $valid_time);
+		if (!$key) return false;
+		return $this->handler ? $this->handler->put($this->getCacheKey($key), $obj, $valid_time) : false;
 	}
 
 	/**
@@ -200,16 +165,10 @@ class CacheHandler extends Handler
 	 * @param string $key Cache key
 	 * @return void
 	 */
-	function delete($key)
+	public function delete($key)
 	{
-		if(!$this->handler)
-		{
-			return false;
-		}
-
-		$key = $this->getCacheKey($key);
-
-		return $this->handler->delete($key);
+		if (!$key) return false;
+		return $this->handler ? $this->handler->delete($this->getCacheKey($key)) : false;
 	}
 
 	/**
@@ -220,16 +179,10 @@ class CacheHandler extends Handler
 	 * 								If stored time is older then modified time, the data is invalid.
 	 * @return bool Return true on valid or false on invalid.
 	 */
-	function isValid($key, $modified_time)
+	public function isValid($key, $modified_time = 0)
 	{
-		if(!$this->handler)
-		{
-			return false;
-		}
-
-		$key = $this->getCacheKey($key);
-
-		return $this->handler->isValid($key, $modified_time);
+		if (!$key) return false;
+		return $this->handler ? $this->handler->isValid($this->getCacheKey($key), $modified_time) : false;
 	}
 
 	/**
@@ -237,14 +190,9 @@ class CacheHandler extends Handler
 	 *
 	 * @return bool|void Returns true on success or false on failure. If use CacheFile, returns void.
 	 */
-	function truncate()
+	public function truncate()
 	{
-		if(!$this->handler)
-		{
-			return false;
-		}
-
-		return $this->handler->truncate();
+		return $this->handler ? $this->handler->truncate() : false;
 	}
 
 	/**
@@ -263,7 +211,7 @@ class CacheHandler extends Handler
 	 * @param string $key Cache key
 	 * @return string
 	 */
-	function getGroupKey($keyGroupName, $key)
+	public function getGroupKey($keyGroupName, $key)
 	{
 		if(!$this->keyGroupVersions[$keyGroupName])
 		{
@@ -280,12 +228,11 @@ class CacheHandler extends Handler
 	 * @param string $keyGroupName Group name
 	 * @return void
 	 */
-	function invalidateGroupKey($keyGroupName)
+	public function invalidateGroupKey($keyGroupName)
 	{
 		$this->keyGroupVersions[$keyGroupName]++;
 		$this->handler->put('key_group_versions', $this->keyGroupVersions, 0);
 	}
-
 }
 
 /**
@@ -299,7 +246,7 @@ class CacheBase
 	 * Default valid time
 	 * @var int
 	 */
-	var $valid_time = 36000;
+	public $valid_time = 36000;
 
 	/**
 	 * Get cached data
@@ -309,7 +256,7 @@ class CacheBase
 	 * 								If stored time is older then modified time, return false.
 	 * @return false|mixed Return false on failure or older then modified time. Return the string associated with the $key on success.
 	 */
-	function get($key, $modified_time = 0)
+	public function get($key, $modified_time = 0)
 	{
 		return false;
 	}
@@ -324,9 +271,17 @@ class CacheBase
 	 * 							If no ttl is supplied, use the default valid time.
 	 * @return bool|void Returns true on success or false on failure. If use CacheFile, returns void.
 	 */
-	function put($key, $obj, $valid_time = 0)
+	public function put($key, $obj, $valid_time = 0)
 	{
 		return false;
+	}
+	
+	/**
+	 * Alias of put()
+	 */
+	public function set($key, $obj, $valid_time = 0)
+	{
+		return $this->put($key, $obj, $valid_time = 0);
 	}
 
 	/**
@@ -337,7 +292,7 @@ class CacheBase
 	 * 								If stored time is older then modified time, the data is invalid.
 	 * @return bool Return true on valid or false on invalid.
 	 */
-	function isValid($key, $modified_time = 0)
+	public function isValid($key, $modified_time = 0)
 	{
 		return false;
 	}
@@ -347,7 +302,7 @@ class CacheBase
 	 *
 	 * @return boolean
 	 */
-	function isSupport()
+	public function isSupport()
 	{
 		return false;
 	}
@@ -357,7 +312,7 @@ class CacheBase
 	 *
 	 * @return bool|void Returns true on success or false on failure. If use CacheFile, returns void.
 	 */
-	function truncate()
+	public function truncate()
 	{
 		return false;
 	}

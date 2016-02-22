@@ -37,4 +37,20 @@ jQuery(function($){
 			}
 		});
 	}
+	if($("#task-db-select").size()) {
+		$("#task-db-select").parents("form").on("submit", function() {
+			setTimeout(function() {
+				$("#task-db-select").text($("#task-db-select").data("checking"));
+				$("#task-db-select").prop("disabled", true);
+			}, 100);
+		});
+	}
+	if($("#task-complete-install").size()) {
+		$("#task-complete-install").parents("form").on("submit", function() {
+			setTimeout(function() {
+				$("#task-complete-install").text($("#task-complete-install").data("installing"));
+				$("#task-complete-install").prop("disabled", true);
+			}, 100);
+		});
+	}
 });
