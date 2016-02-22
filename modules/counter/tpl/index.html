@@ -47,7 +47,7 @@
 								}
 							};
 	
-							$.extend(option,$.datepicker.regional['{$lang_type}']);
+							$.extend($.datepicker.regional['{$lang_type}'],option);
 							$(".inputDate").datepicker(option);
 						});
 					})(jQuery);
