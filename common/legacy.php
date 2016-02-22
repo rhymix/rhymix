@@ -630,7 +630,7 @@ function zdate($str, $format = 'Y-m-d H:i:s', $conversion = TRUE)
 			{
 				$format = $convtable[$lang_type][$format];
 			}
-			elseif(isset($convtable[$convtable[$lang_type]][$format]))
+			elseif(is_string($convtable[$lang_type]) && isset($convtable[$convtable[$lang_type]][$format]))
 			{
 				$format = $convtable[$convtable[$lang_type]][$format];
 			}
@@ -643,8 +643,8 @@ function zdate($str, $format = 'Y-m-d H:i:s', $conversion = TRUE)
 	// change day and am/pm for each language
 	if(preg_match('/[MFAa]/', $format))
 	{
-		$unit_week = Context::getLang('unit_week');
-		$unit_meridiem = Context::getLang('unit_meridiem');
+		$unit_week = (Array)Context::getLang('unit_week');
+		$unit_meridiem = (Array)Context::getLang('unit_meridiem');
 		$string = str_replace(array('Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'), $unit_week, $string);
 		$string = str_replace(array('am', 'pm', 'AM', 'PM'), $unit_meridiem, $string);
 	}

@@ -5,7 +5,7 @@
 <!--%load_js_plugin("ui.tree")-->
 
 <load target="js/document_category.js" />
-<!--%load_js_plugin("ui.colorpicker")-->
+<!--%load_js_plugin("spectrum")-->
 <script>
     var category_title = "{$lang->category}";
 </script>
@@ -61,7 +61,7 @@
 			<div class="x_control-group">
 				<label class="x_control-label" for="category_color">{$lang->category_color}</label>
 				<div class="x_controls">
-					<span class="x_input-append"><input type="text" class="color-indicator" name="category_color" id="category_color" value="" /></span>
+					<span class="x_input-append"><input type="color" class="rx-spectrum" name="category_color" id="category_color" value="" /></span>
 					<a href="#categoy_color_help" class="x_icon-question-sign" data-toggle>{$lang->help}</a>
 					<p id="categoy_color_help" hidden style="margin:8px 0 0 0">{$lang->about_category_color}</p>
 				</div>

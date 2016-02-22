@@ -1,7 +1,7 @@
 <load target="../../module/tpl/js/multi_order.js" />
 <load target="../../module/tpl/js/module_list.js" />
 <load target="../../module/tpl/js/mid.js" />
-<!--%load_js_plugin("ui.colorpicker")-->
+<!--%load_js_plugin("spectrum")-->
 
 <div class="x_control-group">
 	<label class="x_control-label" for="skin">{$lang->skin}</label>
@@ -49,7 +49,7 @@
 				<input type="text" name="{$id}" />
 			</block>
 			<block cond="$var->type == 'color'">
-				<input type="text" name="{$id}" value="" id="{$id}" class="color-indicator" style="width:178px" />
+				<input type="color" name="{$id}" value="" id="{$id}" class="rx-spectrum" style="width:178px" />
 			</block>
 			<block cond="$var->type == 'textarea'">
 				<textarea cond="$var->type == 'textarea'" name="{$id}" id="{$id}" rows="8" cols="42"></textarea>

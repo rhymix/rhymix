@@ -32,13 +32,6 @@
 		// Fill in the XE vid.
 		if (typeof(xeVid) != "undefined") params.vid = xeVid;
 		
-		// Add 'error' and 'message' to response tags.
-		if (typeof(return_fields) == "undefined" || return_fields.length < 1) {
-			return_fields = ["error", "message"];
-		} else {
-			return_fields.push("error", "message");
-		}
-		
 		// Decide whether or not to use SSL.
 		var url = request_uri;
 		if ($.isArray(ssl_actions) && params.act && $.inArray(params.act, ssl_actions) >= 0) {
@@ -75,7 +68,7 @@
 			// Copy data to the result object.
 			var result = {};
 			$.each(data, function(key, val) {
-				if (key == "act" || key == "redirect_url" || $.inArray(key, return_fields)) {
+				if ($.inArray(key, ["error", "message", "act", "redirect_url"]) >= 0 || $.inArray(key, return_fields) >= 0) {
 					if ($.isArray(val)) {
 						result[key] = { item: val };
 					} else {
@@ -250,7 +243,7 @@
 		if (typeof(xeVid) != "undefined") params.vid = xeVid;
 		
 		// Determine the request type.
-		if(!$.inArray(type, ["html", "append", "prepend"])) type = "html";
+		if($.inArray(type, ["html", "append", "prepend"]) < 0) type = "html";
 		var self = $(this);
 		
 		// Delay the waiting message for 1 second to prevent rapid blinking.
