@@ -2413,7 +2413,7 @@ html:lang(ko) .x table,
 html:lang(ko) .x input,
 html:lang(ko) .x textarea,
 html:lang(ko) .x select,
-html:lang(ko) .x button{font-family:'나눔고딕',NanumGothic,'맑은 고딕','Apple SD Gothic Neo','돋움',Dotum,Arial,Helvetica,sans-serif}
+html:lang(ko) .x button{font-family: 'NanumGothic', 'Malgun Gothic', 'Apple SD Gothic Neo', 'Dotum', Arial, Helvetica, sans-serif}
 
 /* Japanese admin_jp.css */
 html:lang(ja) body>.x,
