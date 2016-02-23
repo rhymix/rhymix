@@ -2389,3 +2389,36 @@ html[lang="mn"] .x .g11n.active>[disabled],
 	height: 1px;
 	overflow: hidden;
 }
+
+/* language specific styles */
+/* English admin_en.css */
+html:lang(en) body>.x,
+html:lang(en) .x table,
+html:lang(en) .x input,
+html:lang(en) .x textarea,
+html:lang(en) .x select,
+html:lang(en) .x button{font-family:Arial,Helvetica,sans-serif}
+@media all and (max-width:980px){
+	html:lang(en) body>.x,
+	html:lang(en) .x table,
+	html:lang(en) .x input,
+	html:lang(en) .x textarea,
+	html:lang(en) .x select,
+	html:lang(en) .x button{font-family:sans-serif}
+}
+
+/* Korean admin_ko.css */
+html:lang(ko) body>.x,
+html:lang(ko) .x table,
+html:lang(ko) .x input,
+html:lang(ko) .x textarea,
+html:lang(ko) .x select,
+html:lang(ko) .x button{font-family: 'NanumGothic', 'Malgun Gothic', 'Apple SD Gothic Neo', 'Dotum', Arial, Helvetica, sans-serif}
+
+/* Japanese admin_jp.css */
+html:lang(ja) body>.x,
+html:lang(ja) .x table,
+html:lang(ja) .x input,
+html:lang(ja) .x textarea,
+html:lang(ja) .x select,
+html:lang(ja) .x button{font-family:'ヒラギノ角ゴ Pro W3','Hiragino Kaku Gothic Pro','メイリオ',Meiryo,'ＭＳ Ｐゴシック',sans-serif}
