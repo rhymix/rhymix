@@ -70,7 +70,7 @@ class LangParser
 		unset($xml);
 		
 		// Save the array as a cache file.
-		$buff = "<?php\n";
+		$buff = "<?php\n// $filename\n";
 		foreach ($lang as $key => $value)
 		{
 			if (is_array($value))
