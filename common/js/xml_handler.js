@@ -134,8 +134,13 @@
 			// Hide the waiting message and display an error notice.
 			clearTimeout(wfsr_timeout);
 			waiting_obj.hide().trigger("cancel_confirm");
-			var error_info = xhr.status + " " + xhr.statusText + " (" + textStatus + ")";
-			alert("AJAX communication error while requesting " + params.module + "." + params.act + "\n\n" + error_info);
+			if ($(".x_modal-body").size()) {
+				var error_info = xhr.status + " " + xhr.statusText + " (" + textStatus + ")" + "<br><br><pre>" + xhr.responseText + "</pre>";
+				alert("AJAX communication error while requesting " + params.module + "." + params.act + "<br><br>" + error_info);
+			} else {
+				var error_info = xhr.status + " " + xhr.statusText + " (" + textStatus + ")" + "\n\n" + xhr.responseText;
+				alert("AJAX communication error while requesting " + params.module + "." + params.act + "\n\n" + error_info);
+			}
 		};
 		
 		// Send the AJAX request.
