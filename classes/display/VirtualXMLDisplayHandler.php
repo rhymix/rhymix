@@ -24,11 +24,6 @@ class VirtualXMLDisplayHandler
 
 		if($error === 0)
 		{
-			if($message != 'success')
-			{
-				$output->message = $message;
-			}
-
 			if($redirect_url)
 			{
 				$output->url = $redirect_url;
@@ -40,10 +35,7 @@ class VirtualXMLDisplayHandler
 		}
 		else
 		{
-			if($message != 'fail')
-			{
-				$output->message = $message;
-			}
+			$output->message = $message;
 		}
 
 		$html = array();
@@ -52,12 +44,12 @@ class VirtualXMLDisplayHandler
 
 		if($output->message)
 		{
-			$html[] = 'alert("' . $output->message . '");';
+			$html[] = 'alert(' . json_encode($output->message) . ');';
 		}
 
 		if($output->url)
 		{
-			$url = preg_replace('/#(.+)$/i', '', $output->url);
+			$url = preg_replace('/#(.+)$/', '', $output->url);
 			$html[] = 'self.location.href = "' . $request_url . 'common/tpl/redirect.html?redirect_url=' . urlencode($url) . '";';
 		}
 		$html[] = '//]]>';
