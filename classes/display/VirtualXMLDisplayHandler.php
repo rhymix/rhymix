@@ -24,11 +24,6 @@ class VirtualXMLDisplayHandler
 
 		if($error === 0)
 		{
-			if($message != 'success')
-			{
-				$output->message = $message;
-			}
-
 			if($redirect_url)
 			{
 				$output->url = $redirect_url;
@@ -40,29 +35,32 @@ class VirtualXMLDisplayHandler
 		}
 		else
 		{
-			if($message != 'fail')
-			{
-				$output->message = $message;
-			}
+			$output->message = $message;
 		}
 
 		$html = array();
-		$html[] = '<script type="text/javascript">';
-		$html[] = '//<![CDATA[';
+		$html[] = '<html>';
+		$html[] = '<head>';
+		$html[] = '<script>';
 
 		if($output->message)
 		{
-			$html[] = 'alert("' . $output->message . '");';
+			$html[] = 'alert(' . json_encode($output->message) . ');';
 		}
 
 		if($output->url)
 		{
-			$url = preg_replace('/#(.+)$/i', '', $output->url);
-			$html[] = 'self.location.href = "' . $request_url . 'common/tpl/redirect.html?redirect_url=' . urlencode($url) . '";';
+			$output->url = preg_replace('/#(.+)$/', '', $output->url);
+			$html[] = 'if (opener) {';
+			$html[] = '  opener.location.href = ' . json_encode($output->url) . ';';
+			$html[] = '} else {';
+			$html[] = '  parent.location.href = ' . json_encode($output->url) . ';';
+			$html[] = '}';
 		}
-		$html[] = '//]]>';
+		
 		$html[] = '</script>';
-
+		$html[] = '</head><body></body></html>';
+		
 		return join(PHP_EOL, $html);
 	}
 
