@@ -1,0 +1,23 @@
+<include target="_header.html" />
+<div class="update-log" loop="$updatelog=>$val">
+	<div class="board_read" >
+		<!-- READ HEADER -->
+		<div class="read_header">
+			<h1>
+				<a href="{getUrl('category',$val->category_srl, 'document_srl', '')}" class="category" cond="$module_info->use_category=='Y' && $val->category_srl">{$category_list[$val->category_srl]->title}</a>
+				<a>{$val->title}</a>
+			</h1>
+			<p class="meta">
+				<span class="time">
+					<i class="xi-time"></i> {zdate($val->regdate,'Y.m.d H:i:s')}
+				</span>
+			</p>
+		</div>
+
+		<!-- READ BODY -->
+		<div class="read_body">
+			{$val->content}
+		</div>
+		<!-- /READ BODY -->
+	</div>
+</div>

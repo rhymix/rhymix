@@ -1548,6 +1548,16 @@ class documentModel extends document
 
 		return $document_list;	
 	}
+
+	function getDocumentUpdateLog($document_srl)
+	{
+		$args = new stdClass();
+		$args->document_srl = $document_srl;
+		$output = executeQueryArray('document.getDocumentUpdateLog', $args);
+		$update_list = $output->data;
+
+		return $update_list;
+	}
 }
 /* End of file document.model.php */
 /* Location: ./modules/document/document.model.php */

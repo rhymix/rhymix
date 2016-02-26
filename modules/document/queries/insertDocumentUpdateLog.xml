@@ -1,4 +1,4 @@
-<query id="insertUpdateLog" action="insert">
+<query id="insertDocumentUpdateLog" action="insert">
 	<tables>
 		<table name="document_update_list" />
 	</tables>
@@ -7,6 +7,7 @@
 		<column name="member_srl" var="member_srl" filter="number" notnull="notnull" />
 		<column name="module_srl" var="module_srl" filter="number" notnull="notnull" />
 		<column name="update_member_srl" var="update_member_srl" filter="number" />
+		<column name="category_srl" var="category_srl" filter="number" />
 		<column name="ipaddress" var="ipaddress" default="ipaddress()" />
 		<column name="nick_name" var="nick_name" notnull="notnull" />
 		<column name="title" var="title" notnull="notnull" />

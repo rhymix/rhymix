@@ -689,6 +689,14 @@ class documentController extends document
 			if($obj->update_log_setting === 'Y')
 			{
 				$update_args = new stdClass();
+				if($obj->category_srl)
+				{
+					$update_args->category_srl = $obj->category_srl;
+				}
+				else
+				{
+					$update_args->category_srl = $source_obj->get('category_srl');
+				}
 				$update_args->document_srl = $obj->document_srl;
 				$update_args->member_srl = $source_obj->get('member_srl');
 				$update_args->module_srl = $source_obj->get('module_srl');
@@ -701,7 +709,7 @@ class documentController extends document
 				$update_args->update_nick_name = $logged_info->nick_name;
 				$update_args->tags = $obj->tags;
 				$update_args->extra_vars = $obj->extra_vars;
-				$update_output = executeQuery('document.insertUpdateLog', $update_args);
+				$update_output = executeQuery('document.insertDocumentUpdateLog', $update_args);
 				if(!$update_output->toBool())
 				{
 					$oDB->rollback();
