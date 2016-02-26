@@ -438,6 +438,33 @@ class documentController extends document
 			$oDB->rollback();
 			return $output;
 		}
+		// update Document Log
+		else
+		{
+			if($obj->update_log_setting === 'Y')
+			{
+				$update_args = new stdClass();
+				$update_args->category_srl = $obj->category_srl;
+				$update_args->document_srl = $obj->document_srl;
+				$update_args->member_srl = $obj->member_srl;
+				$update_args->module_srl = $obj->module_srl;
+				$update_args->update_member_srl = $logged_info->member_srl;
+				$update_args->nick_name = $obj->nick_name;
+				$update_args->title = $obj->title;
+				$update_args->title_bold = $obj->title_bold;
+				$update_args->title_color = $obj->title_color;
+				$update_args->content = $obj->content.'<br><br>'.Context::getLang('original_letter');
+				$update_args->update_nick_name = $logged_info->nick_name;
+				$update_args->tags = $obj->tags;
+				$update_args->extra_vars = $obj->extra_vars;
+				$update_output = executeQuery('document.insertDocumentUpdateLog', $update_args);
+				if(!$update_output->toBool())
+				{
+					$oDB->rollback();
+					return $update_output;
+				}
+			}
+		}
 		// Insert extra variables if the document successfully inserted.
 		$extra_keys = $oDocumentModel->getExtraKeys($obj->module_srl);
 		if(count($extra_keys))

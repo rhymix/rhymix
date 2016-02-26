@@ -106,6 +106,11 @@ class boardController extends board
 			}
 		}
 
+		if($this->module_info->update_log == 'Y')
+		{
+			$obj->update_log_setting = 'Y';
+		}
+
 		// update the document if it is existed
 		if($is_update)
 		{
@@ -145,11 +150,6 @@ class boardController extends board
 			{
 				$obj->last_update = $obj->regdate = date('YmdHis');
 				$obj->update_order = $obj->list_order = (getNextSequence() * -1);
-			}
-
-			if($this->module_info->update_log == 'Y')
-			{
-				$obj->update_log_setting = 'Y';
 			}
 
 			$output = $oDocumentController->updateDocument($oDocument, $obj);
