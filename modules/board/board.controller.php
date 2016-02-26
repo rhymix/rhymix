@@ -147,6 +147,11 @@ class boardController extends board
 				$obj->update_order = $obj->list_order = (getNextSequence() * -1);
 			}
 
+			if($this->module_info->update_log == 'Y')
+			{
+				$obj->update_log_setting = 'Y';
+			}
+
 			$output = $oDocumentController->updateDocument($oDocument, $obj);
 			$msg_code = 'success_updated';
 
