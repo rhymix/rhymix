@@ -55,4 +55,5 @@ $lang->msg_board_delete_protect_comment = '댓글이 작성된 댓글의 글을 
 $lang->msg_board_update_protect_comment = '댓글이 작성된 댓글의 글을 수정할 수 없습니다.';
 $lang->msg_protect_regdate_document = '%s일 이전의 게시글은 수정 또는 삭제 할 수 없습니다.';
 $lang->msg_protect_regdate_comment = '%s일 이전의 댓글은 수정 또는 삭제 할 수 없습니다.';
+$lang->msg_dont_have_update_log = '업데이트 로그가 기록되어 있지 않은 게시글입니다.';
 $lang->original_letter = '원본글';

@@ -1,5 +1,5 @@
 <include target="_header.html" />
-<div class="update-log" loop="$updatelog=>$val">
+<div class="update-log" loop="$updatelog=>$val" cond="$updatelog">
 	<div class="board_read" >
 		<!-- READ HEADER -->
 		<div class="read_header">
@@ -20,4 +20,8 @@
 		</div>
 		<!-- /READ BODY -->
 	</div>
+</div>
+
+<div class="update-log" cond="!$updatelog">
+	{$lang->msg_dont_have_update_log}
 </div>
