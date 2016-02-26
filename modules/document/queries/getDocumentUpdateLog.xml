@@ -1,6 +1,6 @@
 <query id="getDocumentUpdateLog" action="select">
 	<tables>
-		<table name="document_update_list" />
+		<table name="document_update_log" />
 	</tables>
 	<columns>
 		<column name="*" />
