@@ -7,5 +7,6 @@
  */
 return array(
 	'member_communication' => true,
+	'smartphone' => true,
 	'zipperupper' => true,
 );

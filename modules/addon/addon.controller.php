@@ -1,4 +1,4 @@
-<?php
+s<?php
 /* Copyright (C) NAVER <http://www.navercorp.com> */
 
 /**
@@ -84,7 +84,7 @@ class addonController extends addon
 		$addon_list = $oAddonModel->getInsertedAddons($site_srl, $gtype);
 		foreach($addon_list as $addon => $val)
 		{
-			if($val->addon == "smartphone" || Context::isBlacklistedPlugin($addon)
+			if(Context::isBlacklistedPlugin($addon)
 				|| ($type == "pc" && $val->is_used != 'Y') 
 				|| ($type == "mobile" && $val->is_used_m != 'Y') 
 				|| ($gtype == 'global' && $val->is_fixed != 'Y')
