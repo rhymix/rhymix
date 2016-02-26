@@ -890,6 +890,7 @@ class documentController extends document
 		$this->_deleteDeclaredDocuments($args);
 		$this->_deleteDocumentReadedLog($args);
 		$this->_deleteDocumentVotedLog($args);
+		$this->_deleteDocumentUpdateLog($args);
 
 		// Remove the thumbnail file
 		FileHandler::removeDir(sprintf('files/thumbnails/%s',getNumberingPath($document_srl, 3)));
@@ -937,6 +938,11 @@ class documentController extends document
 	function _deleteDocumentVotedLog($documentSrls)
 	{
 		executeQuery('document.deleteDocumentVotedLog', $documentSrls);
+	}
+
+	function _deleteDocumentUpdateLog($document_srl)
+	{
+		executeQuery('document.deleteDocumentUpdateLog', $document_srl);
 	}
 
 	/**
