@@ -158,6 +158,11 @@ class Context
 	public $isSuccessInit = TRUE;
 
 	/**
+	 * Plugin blacklist cache
+	 */
+	private static $_blacklist = null;
+
+	/**
 	 * Singleton instance
 	 * @var object
 	 */
@@ -2564,6 +2569,26 @@ class Context
 	public static function isAllowRewrite()
 	{
 		return self::$_instance->allow_rewrite;
+	}
+
+	/**
+	 * Check whether an addon, module, or widget is blacklisted
+	 * 
+	 * @param string $plugin_name
+	 * @return bool
+	 */
+	public static function isBlacklistedPlugin($plugin_name)
+	{
+		if (self::$_blacklist === null)
+		{
+			self::$_blacklist = (include RX_BASEDIR . 'common/defaults/blacklist.php');
+			if (!is_array(self::$_blacklist))
+			{
+				self::$_blacklist = array();
+			}
+		}
+		
+		return isset(self::$_blacklist[$plugin_name]);
 	}
 
 	/**

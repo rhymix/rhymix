@@ -46,13 +46,23 @@ class addonAdminModel extends addon
 		$oAutoinstallModel = getModel('autoinstall');
 		foreach($addonList as $key => $addon)
 		{
+			// check blacklist
+			$addonList[$key]->isBlacklisted = Context::isBlacklistedPlugin($addon->addon);
+			
 			// get easyinstall remove url
 			$packageSrl = $oAutoinstallModel->getPackageSrlByPath($addon->path);
 			$addonList[$key]->remove_url = $oAutoinstallModel->getRemoveUrlByPackageSrl($packageSrl);
 
 			// get easyinstall need update
-			$package = $oAutoinstallModel->getInstalledPackages($packageSrl);
-			$addonList[$key]->need_update = $package[$packageSrl]->need_update;
+			if($addonList[$key]->isBlacklisted)
+			{
+				$addonList[$key]->need_update = 'N';
+			}
+			else
+			{
+				$package = $oAutoinstallModel->getInstalledPackages($packageSrl);
+				$addonList[$key]->need_update = $package[$packageSrl]->need_update;
+			}
 
 			// get easyinstall update url
 			if($addonList[$key]->need_update == 'Y')
