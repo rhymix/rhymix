@@ -30,6 +30,10 @@ class JSONDisplayHandler
 	{
 		foreach ($array as $key => &$value)
 		{
+			if (is_object($value))
+			{
+				$value = get_object_vars($value);
+			}
 			if (is_array($value))
 			{
 				self::_convertCompat($value, $compat_type);
