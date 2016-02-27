@@ -69,11 +69,7 @@
 			var result = {};
 			$.each(data, function(key, val) {
 				if ($.inArray(key, ["error", "message", "act", "redirect_url"]) >= 0 || $.inArray(key, return_fields) >= 0) {
-					if ($.isArray(val)) {
-						result[key] = { item: val };
-					} else {
-						result[key] = val;
-					}
+					result[key] = val;
 				}
 			});
 			
