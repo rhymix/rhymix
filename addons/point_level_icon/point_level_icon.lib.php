@@ -13,17 +13,17 @@ function pointLevelIconTrans($matches, $addon_info)
 		return $matches[0];
 	}
 
-	$orig_text = preg_replace('/' . preg_quote($matches[5], '/') . '<\/' . $matches[6] . '>$/', '', $matches[0]);
-
-	if($addon_info->icon_duplication != 'Y')
+	if($addon_info->icon_duplication != 'N')
 	{
 		// Check Group Image Mark
 		$oMemberModel = getModel('member');
 		if($oMemberModel->getGroupImageMark($member_srl))
 		{
-			return $orig_text . $matches[5] . '</' . $matches[6] . '>';
+			return $matches[0];
 		}
 	}
+
+	$orig_text = preg_replace('/' . preg_quote($matches[5], '/') . '<\/' . $matches[6] . '>$/', '', $matches[0]);
 
 	if(!isset($GLOBALS['_pointLevelIcon'][$member_srl]))
 	{
