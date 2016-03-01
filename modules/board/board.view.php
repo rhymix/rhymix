@@ -333,6 +333,8 @@ class boardView extends board
 			}
 		}
 
+		Context::set('update_view', $this->grant->update_view);
+
 		// setup the document oject on context
 		$oDocument->add('module_srl', $this->module_srl);
 		Context::set('oDocument', $oDocument);
