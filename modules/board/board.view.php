@@ -1142,12 +1142,10 @@ class boardView extends board
 
 	function dispBoardUpdateLog()
 	{
-		$document_srl = Context::get('document_srl');
-		$logged_info = Context::get('logged_info');
 		$oDocumentModel = getModel('document');
-		$oDocument = $oDocumentModel->getDocument($document_srl);
+		$document_srl = Context::get('document_srl');
 
-		if($logged_info->member_srl != $oDocument->get('member_srl') && $this->grant->manager !== true)
+		if($this->grant->update_view !== true)
 		{
 			return new Object(-1, 'msg_not_permitted');
 		}
