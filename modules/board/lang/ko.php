@@ -15,6 +15,7 @@ $lang->secret = '비밀글 기능';
 $lang->thisissecret = '비밀글입니다.';
 $lang->admin_mail = '관리자 메일';
 $lang->update_log = '게시글 수정 내역';
+$lang->last_updater = '수정한사람';
 $lang->cmd_board_list = '게시판 목록';
 $lang->cmd_module_config = '게시판 공통 설정';
 $lang->cmd_board_info = '게시판 정보';

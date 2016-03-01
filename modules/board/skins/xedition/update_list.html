@@ -1,27 +1,42 @@
 <include target="_header.html" />
-<div class="update-log" loop="$updatelog=>$val" cond="$updatelog">
-	<div class="board_read" >
-		<!-- READ HEADER -->
-		<div class="read_header">
-			<h1>
-				<a href="{getUrl('category',$val->category_srl, 'document_srl', '')}" class="category" cond="$module_info->use_category=='Y' && $val->category_srl">{$category_list[$val->category_srl]->title}</a>
-				<a>{$val->title}</a>
-			</h1>
-			<p class="meta">
-				<span class="time">
-					<i class="xi-time"></i> {zdate($val->regdate,'Y.m.d H:i:s')}
-				</span>
-			</p>
-		</div>
-
-		<!-- READ BODY -->
-		<div class="read_body">
-			{$val->content}
-		</div>
-		<!-- /READ BODY -->
-	</div>
+<div class="board_list" id="board_list">
+	<table width="100%" border="1" cellspacing="0" summary="List of Articles">
+		<thead>
+			<tr>
+				<th scope="col" class="title"><span>{$lang->title}</span></th>
+				<th scope="col"><span>{$lang->writer}</span></th>
+				<th scope="col"><span>{$lang->last_updater}</span></th>
+				<th scope="col"><span>{$lang->last_post}</span></th>
+			</tr>
+		</thead>
+		<tbody cond="$updatelog->data">
+			<tr loop="$updatelog->data=>$val">
+				<td class="title">
+					<a href="">{$val->title}</a>
+				</td>
+				<td class="author">
+					{$val->update_nick_name}
+				</td>
+				<td class="author">
+					{$val->nick_name}
+				</td>
+				<td class="time">
+					{zdate($val->regdate, 'Y.m.d H:i:s')}
+				</td>
+			</tr>
+		</tbody>
+		<tbody cond="!$updatelog->data">
+			<tr>
+				<td colspan="4" style="text-align: center">{$lang->msg_dont_have_update_log}</td>
+			</tr>
+		</tbody>
+	</table>
 </div>
-
-<div class="update-log" cond="!$updatelog">
-	{$lang->msg_dont_have_update_log}
+<div class="pagination pagination-centered">
+	<a href="{getUrl('page','','module_srl','')}" class="direction">&laquo; {$lang->first_page}</a>
+	<!--@while($page_no = $page_navigation->getNextPage())-->
+	<strong cond="$page==$page_no">{$page_no}</strong>
+	<a cond="$page!=$page_no" href="{getUrl('page',$page_no,'module_srl','')}">{$page_no}</a>
+	<!--@end-->
+	<a href="{getUrl('page',$page_navigation->last_page,'module_srl','')}" class="direction">{$lang->last_page} &raquo;</a>
 </div>

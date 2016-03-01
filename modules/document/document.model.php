@@ -1554,9 +1554,8 @@ class documentModel extends document
 		$args = new stdClass();
 		$args->document_srl = $document_srl;
 		$output = executeQueryArray('document.getDocumentUpdateLog', $args);
-		$update_list = $output->data;
 
-		return $update_list;
+		return $output;
 	}
 }
 /* End of file document.model.php */

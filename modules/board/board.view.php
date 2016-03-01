@@ -1147,12 +1147,16 @@ class boardView extends board
 		$oDocumentModel = getModel('document');
 		$oDocument = $oDocumentModel->getDocument($document_srl);
 
-		if($logged_info->member_srl != $oDocument->get('member_srl') || !$this->grant->manager)
+		if($logged_info->member_srl != $oDocument->get('member_srl') && $this->grant->manager !== true)
 		{
 			return new Object(-1, 'msg_not_permitted');
 		}
 
 		$updatelog = $oDocumentModel->getDocumentUpdateLog($document_srl);
+		Context::set('total_count', $updatelog->page_navigation->total_count);
+		Context::set('total_page', $updatelog->page_navigation->total_page);
+		Context::set('page', $updatelog->page);
+		Context::set('page_navigation', $updatelog->page_navigation);
 		Context::set('updatelog', $updatelog);
 
 		$this->setTemplateFile('update_list');
