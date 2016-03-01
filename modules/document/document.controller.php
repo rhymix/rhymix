@@ -524,7 +524,6 @@ class documentController extends document
 			$obj->member_srl = -1*$logged_info->member_srl;
 			$obj->email_address = $obj->homepage = $obj->user_id = '';
 			$obj->user_name = $obj->nick_name = 'anonymous';
-			debugPrint($obj);
 		}
 
 		$document_config = $oModuleModel->getModulePartConfig('document', $module_srl);
