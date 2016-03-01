@@ -1557,6 +1557,16 @@ class documentModel extends document
 
 		return $output;
 	}
+
+	function getUpdateLog($update_id)
+	{
+		$args = new stdClass();
+		$args->update_id = $update_id;
+		$output = exeCuteQuery('document.getUpdateLog', $args);
+		$updage_log = $output->data;
+
+		return $updage_log;
+	}
 }
 /* End of file document.model.php */
 /* Location: ./modules/document/document.model.php */

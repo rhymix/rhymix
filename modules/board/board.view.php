@@ -1162,6 +1162,21 @@ class boardView extends board
 		$this->setTemplateFile('update_list');
 	}
 
+	function dispBoardUpdateLogView()
+	{
+		$oDocumentModel = getModel('document');
+		$update_id = Context::get('update_id');
+
+		if($this->grant->update_view !== true)
+		{
+			return new Object(-1, 'msg_not_permitted');
+		}
+		$update_log = $oDocumentModel->getUpdateLog($update_id);
+		Context::set('update_log', $update_log);
+
+		$this->setTemplateFile('update_view');
+	}
+
 	/**
 	 * @brief the method for displaying the warning messages
 	 * display an error message if it has not  a special design

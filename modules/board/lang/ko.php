@@ -59,3 +59,4 @@ $lang->msg_protect_regdate_comment = '%s일 이전의 댓글은 수정 또는 �
 $lang->msg_dont_have_update_log = '업데이트 로그가 기록되어 있지 않은 게시글입니다.';
 $lang->original_letter = '원본글';
 $lang->msg_warning_update_log = '<span class="x_label x_label-important">주의!</span> 사용시 디비가 많이 늘어날 수 있습니다.';
+$lang->reason_update = '수정한 이유';
