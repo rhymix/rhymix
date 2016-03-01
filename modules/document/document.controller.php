@@ -518,13 +518,6 @@ class documentController extends document
 		if(!$obj->module_srl) $obj->module_srl = $source_obj->get('module_srl');
 		$module_srl = $obj->module_srl;
 		$module_info = $oModuleModel->getModuleInfoByModuleSrl($module_srl);
-		if($module_info->use_anonymous == 'Y')
-		{
-			$obj->notify_message = 'N';
-			$obj->member_srl = -1*$logged_info->member_srl;
-			$obj->email_address = $obj->homepage = $obj->user_id = '';
-			$obj->user_name = $obj->nick_name = 'anonymous';
-		}
 
 		$document_config = $oModuleModel->getModulePartConfig('document', $module_srl);
 		if(!$document_config)
