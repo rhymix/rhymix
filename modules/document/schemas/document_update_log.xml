@@ -14,5 +14,5 @@
     <column name="update_nick_name" type="varchar" size="80" />
     <column name="tags" type="text" />
     <column name="extra_vars" type="text" />
-	<column name="reason_update" type="text" />
+    <column name="reason_update" type="text" />
 </table>
