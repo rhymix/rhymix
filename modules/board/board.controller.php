@@ -151,12 +151,14 @@ class boardController extends board
 				$obj->last_update = $obj->regdate = date('YmdHis');
 				$obj->update_order = $obj->list_order = (getNextSequence() * -1);
 			}
-
+			$obj->reason_update = escape($obj->reason_update);
 			$output = $oDocumentController->updateDocument($oDocument, $obj);
 			$msg_code = 'success_updated';
 
 		// insert a new document otherwise
-		} else {
+		}
+		else
+		{
 			$output = $oDocumentController->insertDocument($obj, $bAnonymous);
 			$msg_code = 'success_registed';
 			$obj->document_srl = $output->get('document_srl');

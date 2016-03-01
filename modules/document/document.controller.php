@@ -808,6 +808,7 @@ class documentController extends document
 		$update_args->update_nick_name = $logged_info->nick_name;
 		$update_args->tags = $obj->tags;
 		$update_args->extra_vars = $obj->extra_vars;
+		$update_args->reason_update = $obj->reason_update;
 		$update_output = executeQuery('document.insertDocumentUpdateLog', $update_args);
 
 		return $update_output;
