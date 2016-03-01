@@ -1,7 +1,6 @@
 <table name="document_update_log">
     <column name="update_id"  type="number" size="11" notnull="notnull" auto_increment="auto_increment" primary_key="primary_key" />
     <column name="document_srl" type="number" size="11" notnull="notnull" index="idx_document_srl" />
-    <column name="member_srl" type="number" size="11" notnull="notnull" index="idx_member_srl" />
     <column name="update_member_srl" type="number" size="11" notnull="notnull" />
     <column name="module_srl" type="number" size="11" notnull="notnull" />
     <column name="category_srl" type="number" size="11" />

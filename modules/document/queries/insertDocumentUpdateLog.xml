@@ -4,7 +4,6 @@
 	</tables>
 	<columns>
 		<column name="document_srl" var="document_srl" filter="number" notnull="notnull" />
-		<column name="member_srl" var="member_srl" filter="number" notnull="notnull" />
 		<column name="module_srl" var="module_srl" filter="number" notnull="notnull" />
 		<column name="update_member_srl" var="update_member_srl" filter="number" />
 		<column name="category_srl" var="category_srl" filter="number" />
