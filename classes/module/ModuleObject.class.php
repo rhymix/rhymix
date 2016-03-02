@@ -60,7 +60,7 @@ class ModuleObject extends Object
 	function setRedirectUrl($url = './', $output = NULL)
 	{
 		$ajaxRequestMethod = array_flip($this->ajaxRequestMethod);
-		if(!isset($ajaxRequestMethod[Context::getRequestMethod()]))
+		if(isset($ajaxRequestMethod[Context::getRequestMethod()]))
 		{
 			$this->add('redirect_url', $url);
 		}
