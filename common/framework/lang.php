@@ -16,6 +16,7 @@ class Lang
 	 * Configuration.
 	 */
 	protected $_language;
+	protected $_other_lang = array();
 	protected $_loaded_directories = array();
 	protected $_loaded_plugins = array();
 	protected $_search_priority = array();
@@ -85,6 +86,7 @@ class Lang
 	 * Load translations from a directory.
 	 * 
 	 * @param string $dir
+	 * @param string $plugin_name
 	 * @return bool
 	 */
 	public function loadDirectory($dir, $plugin_name = null)
@@ -97,34 +99,34 @@ class Lang
 			return true;
 		}
 		
-		// Look for language files.
-		if (file_exists($dir . '/' . $this->_language . '.php'))
+		$default_lang = array('en', 'ko');
+		if (!in_array($this->_language, $default_lang))
 		{
-			$filename = $dir . '/' . $this->_language . '.php';
+			$default_lang[] = $this->_language;
 		}
-		elseif (($hyphen = strpos($this->_language, '-')) !== false)
+
+		foreach ($default_lang as $val)
 		{
-			if (file_exists($dir . '/' . substr($this->_language, 0, $hyphen) . '.php'))
+			$lang = $this->getPluginLang($dir, $val);
+			if (empty($lang))
 			{
-				$filename = $dir . '/' . substr($this->_language, 0, $hyphen) . '.php';
+				continue;
 			}
-		}
-		elseif (file_exists("$dir/lang.xml"))
-		{
-			$filename = Compat\LangParser::compileXMLtoPHP("$dir/lang.xml", $this->_language === 'ja' ? 'jp' : $this->_language);
-		}
-		elseif (file_exists($dir . '/' . ($this->_language === 'ja' ? 'jp' : $this->_language) . '.lang.php'))
-		{
-			$filename = $dir . '/' . ($this->_language === 'ja' ? 'jp' : $this->_language) . '.lang.php';
+			
+			if ($this->_language === $val)
+			{
+				$this->_loaded_plugins[$plugin_name] = $lang;
+			}
+			else
+			{
+				$this->_other_lang[$plugin_name][$val] = $lang;
+			}
 		}
 		
 		// Load the language file.
-		if ($filename)
+		if (isset($this->_loaded_plugins[$plugin_name]))
 		{
-			$lang = new \stdClass;
-			include $filename;
 			$this->_loaded_directories[$dir] = true;
-			$this->_loaded_plugins[$plugin_name] = $lang;
 			array_unshift($this->_search_priority, $plugin_name);
 			return true;
 		}
@@ -134,6 +136,48 @@ class Lang
 			$this->_loaded_plugins[$plugin_name] = new \stdClass;
 			return false;
 		}
+	}
+	
+	/**
+	 * get the language file from plugin.
+	 * 
+	 * @param string $dir
+	 * @param string $language
+	 * @return object
+	 */
+	public function getPluginLang($dir, $language = null)
+	{
+		if (!$language)
+		{
+			$language = $this->_language;
+		}
+		
+		if (file_exists($dir . '/' . $language . '.php'))
+		{
+			$filename = $dir . '/' . $language . '.php';
+		}
+		elseif (($hyphen = strpos($language, '-')) !== false && file_exists($dir . '/' . substr($language, 0, $hyphen) . '.php'))
+		{
+			$filename = $dir . '/' . substr($language, 0, $hyphen) . '.php';
+		}
+		elseif (file_exists("$dir/lang.xml"))
+		{
+			$filename = Compat\LangParser::compileXMLtoPHP("$dir/lang.xml", $language === 'ja' ? 'jp' : $language);
+		}
+		elseif (file_exists($dir . '/' . ($language === 'ja' ? 'jp' : $language) . '.lang.php'))
+		{
+			$filename = $dir . '/' . ($language === 'ja' ? 'jp' : $language) . '.lang.php';
+		}
+		
+		if (!$filename)
+		{
+			return new \stdClass;
+		}
+		
+		$lang = new \stdClass;
+		include $filename;
+		
+		return $lang;
 	}
 	
 	/**
@@ -179,10 +223,15 @@ class Lang
 			{
 				return $this->_loaded_plugins[$plugin_name]->{$key};
 			}
-			else
+			foreach ($this->_other_lang[$plugin_name] as $lang)
 			{
-				return $key;
+				if (isset($lang->{$key}))
+				{
+					return $lang->{$key};
+				}
 			}
+			
+			return $key;
 		}
 		
 		// Search custom translations first.
@@ -210,6 +259,18 @@ class Lang
 				else
 				{
 					return $this->_loaded_plugins[$plugin_name]->{$key};
+				}
+			}
+		}
+
+		// Search other language.
+		foreach ($this->_other_lang as $plugin_name => $val)
+		{
+			foreach ($this->_other_lang[$plugin_name] as $lang)
+			{
+				if (isset($lang->{$key}))
+				{
+					return $lang->{$key};
 				}
 			}
 		}
