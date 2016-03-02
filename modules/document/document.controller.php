@@ -517,6 +517,8 @@ class documentController extends document
 		$oModuleModel = getModel('module');
 		if(!$obj->module_srl) $obj->module_srl = $source_obj->get('module_srl');
 		$module_srl = $obj->module_srl;
+		$module_info = $oModuleModel->getModuleInfoByModuleSrl($module_srl);
+
 		$document_config = $oModuleModel->getModulePartConfig('document', $module_srl);
 		if(!$document_config)
 		{
@@ -588,7 +590,7 @@ class documentController extends document
 			$obj->password = getModel('member')->hashPassword($obj->password);
 		}
 		// If an author is identical to the modifier or history is used, use the logged-in user's information.
-		if(Context::get('is_logged'))
+		if(Context::get('is_logged') && $module_info->use_anonymous != 'Y')
 		{
 			$logged_info = Context::get('logged_info');
 			if($source_obj->get('member_srl')==$logged_info->member_srl)
