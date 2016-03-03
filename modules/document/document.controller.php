@@ -780,7 +780,6 @@ class documentController extends document
 		if($source_obj === null)
 		{
 			$update_args->category_srl = $obj->category_srl;
-			$update_args->member_srl = $logged_info->member_srl;
 			$update_args->module_srl = $obj->module_srl;
 			$update_args->nick_name = $obj->nick_name;
 		}
@@ -794,7 +793,6 @@ class documentController extends document
 			{
 				$update_args->category_srl = $source_obj->get('category_srl');
 			}
-			$update_args->member_srl = $source_obj->get('member_srl');
 			$update_args->module_srl = $source_obj->get('module_srl');
 			$update_args->nick_name = $source_obj->get('nick_name');
 		}
