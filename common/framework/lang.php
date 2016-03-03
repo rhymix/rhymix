@@ -16,7 +16,6 @@ class Lang
 	 * Configuration.
 	 */
 	protected $_language;
-	protected $_other_lang = array();
 	protected $_loaded_directories = array();
 	protected $_loaded_plugins = array();
 	protected $_search_priority = array();
@@ -87,9 +86,10 @@ class Lang
 	 * 
 	 * @param string $dir
 	 * @param string $plugin_name
+	 * @param array $default_lang
 	 * @return bool
 	 */
-	public function loadDirectory($dir, $plugin_name = null)
+	public function loadDirectory($dir, $plugin_name = null, $default_lang = null)
 	{
 		// Do not load the same directory twice.
 		$dir = rtrim($dir, '/');
@@ -99,27 +99,31 @@ class Lang
 			return true;
 		}
 		
-		$default_lang = array('en', 'ko');
+		if (!is_array($default_lang))
+		{
+			$default_lang = array('en', 'ko');
+		}
 		if (!in_array($this->_language, $default_lang))
 		{
 			$default_lang[] = $this->_language;
 		}
 
-		foreach ($default_lang as $val)
+		foreach ($default_lang as $language)
 		{
-			$lang = $this->getPluginLang($dir, $val);
-			if (empty($lang))
+			if ($this->_language === $language)
 			{
-				continue;
-			}
-			
-			if ($this->_language === $val)
-			{
+				$lang = $this->getPluginLang($dir, $language);
+				if (empty($lang))
+				{
+					continue;
+				}
+				
 				$this->_loaded_plugins[$plugin_name] = $lang;
 			}
 			else
 			{
-				$this->_other_lang[$plugin_name][$val] = $lang;
+				$other_lang = self::getInstance($language);
+				$other_lang->loadDirectory($dir, $plugin_name, array());
 			}
 		}
 		
@@ -139,7 +143,7 @@ class Lang
 	}
 	
 	/**
-	 * get the language file from plugin.
+	 * Get the language file from plugin.
 	 * 
 	 * @param string $dir
 	 * @param string $language
@@ -204,12 +208,13 @@ class Lang
 	}
 	
 	/**
-	 * Magic method for translations without arguments.
+	 * Get lang from key
 	 * 
 	 * @param string $key
+	 * @param bool $other_lang
 	 * @return string
 	 */
-	public function __get($key)
+	protected function _getLang($key, $other_lang = true)
 	{
 		// Separate the plugin name from the key.
 		if (preg_match('/^[a-z0-9_.-]+$/i', $key) && ($keys = explode('.', $key, 2)) && count($keys) === 2)
@@ -223,15 +228,8 @@ class Lang
 			{
 				return $this->_loaded_plugins[$plugin_name]->{$key};
 			}
-			foreach ($this->_other_lang[$plugin_name] as $lang)
-			{
-				if (isset($lang->{$key}))
-				{
-					return $lang->{$key};
-				}
-			}
 			
-			return $key;
+			goto end_other_lang;
 		}
 		
 		// Search custom translations first.
@@ -262,21 +260,42 @@ class Lang
 				}
 			}
 		}
-
+		
+		end_other_lang:
+		
 		// Search other language.
-		foreach ($this->_other_lang as $plugin_name => $val)
+		if ($other_lang)
 		{
-			foreach ($this->_other_lang[$plugin_name] as $lang)
+			foreach (self::$_instances as $language => $instance)
 			{
-				if (isset($lang->{$key}))
+				if ($this->_language === $language)
 				{
-					return $lang->{$key};
+					continue;
 				}
+				
+				$lang = $instance->_getLang($key, false);
+				if ($lang === $key)
+				{
+					continue;
+				}
+				
+				return $lang;
 			}
 		}
 		
 		// If no translation is found, return the key.
 		return $key;
+	}
+	
+	/**
+	 * Magic method for translations without arguments.
+	 * 
+	 * @param string $key
+	 * @return string
+	 */
+	public function __get($key)
+	{
+		return $this->_getLang($key);
 	}
 	
 	/**
@@ -339,7 +358,7 @@ class Lang
 		if ($key !== '' && $key[0] === ':') $key = substr($key, 1);
 		
 		// Find the translation.
-		$translation = $this->__get($key);
+		$translation = $this->_getLang($key);
 		
 		// If there are no arguments, return the translation.
 		if (!count($args)) return $translation;
