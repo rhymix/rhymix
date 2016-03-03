@@ -1,5 +1,4 @@
 <?php
-$lang->editor_now = '현재 설정 상태';
 $lang->editor_component = 'Editor Component';
 $lang->main_editor = 'Main editor';
 $lang->comment_editor = 'Comment editor';

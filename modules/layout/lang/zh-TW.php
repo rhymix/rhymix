@@ -91,7 +91,6 @@ $lang->about_faceoff['attribute'] = '除了 Widget 以外的各個區域都可�
 $lang->mobile_layout_list = '手機版面列表';
 $lang->mobile_downloaded_list = '下載手機版面';
 $lang->apply_mobile_view = '使用手機面板';
-$lang->about_apply_mobile_view = 'All connected module use mobile view to display when accessing with mobile device.';
 $lang->installed_layout = '已安裝版面';
 $lang->instance_layout = '已安裝版面';
 $lang->faceoff_export = '匯出 FaceOff 版面';

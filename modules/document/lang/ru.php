@@ -16,7 +16,6 @@ $lang->cmd_enable_move_category = 'Изменить местоположение
 $lang->about_category_title = 'Введите название категории';
 $lang->about_expand = 'Если эта опция выбрана, расширение будут применено всегда';
 $lang->about_category_group_srls = 'Только выбранные группы можно отнести к этой категории';
-$lang->about_category_color = '분류 폰트색깔을 지정합니다.';
 $lang->cmd_search_next = 'Искать дальше';
 $lang->cmd_temp_save = 'Сохранить временно';
 $lang->cmd_toggle_checked_document = 'Перевернуть выбранные объекты';

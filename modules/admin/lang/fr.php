@@ -44,6 +44,5 @@ $lang->trash = 'Poubelle';
 $lang->timezone = 'Fuseau horaire';
 $lang->about_use_sso = 'SSO will enable users to sign in just once for both default and virtual site. You will need this only if you are using virtual sites.';
 $lang->modify = 'Modifier';
-$lang->ftp_form_title = 'FTP 정보 입력';
 $lang->ftp = 'FTP';
 $lang->msg_ftp_no_directory = 'Succeed to connect to the host via FTP. However, can not read any directory list informaiton. Check the server configurations.';

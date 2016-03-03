@@ -1,5 +1,4 @@
 <?php
-$lang->about_communication = '회원간의 쪽지나 친구 관리 등 커뮤니케이션 기능을 수행합니다';
 $lang->allow_message = 'Permitir la recepción del mensaje';
 $lang->allow_message_type['Y'] = 'Recibir todo';
 $lang->allow_message_type['N'] = 'Rechazar';

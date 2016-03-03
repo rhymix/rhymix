@@ -4,4 +4,3 @@ $lang->about_page = 'Là Module tạo ra một trang đầy đủ. Sử dụng W
 $lang->cmd_page_modify = 'Sửa đổi';
 $lang->page_caching_interval = 'Thời gian lưu trữ';
 $lang->about_page_caching_interval = 'Đơn vị được tính bằng phút, nó sẽ là thời gian lưu trữ tạm thời. Đó là khuyến cáo thời gian lưu trữ tạm thời thích hợp khi cần để hiển thị. Nhập 0 nếu không sử dụng tính năng này.';
-$lang->about_mcontent = 'This is the page for the mobile view. If you do not write this page, the mobile view display reoragnized PC view\'s page.';
