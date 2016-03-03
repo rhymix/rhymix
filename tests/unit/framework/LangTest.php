@@ -14,10 +14,6 @@ class LangTest extends \Codeception\TestCase\Test
 		$jp = Rhymix\Framework\Lang::getInstance('jp');
 		$this->assertTrue($ja === $jp);
 		
-		$this->assertEquals('help', $ja->help);
-		$ja->loadPlugin('common');
-		$this->assertEquals('ヘルプ', $ja->help);	
-		
 		$this->assertEquals('도움말', $ko->get('common.help'));
 		$this->assertEquals('Help', $en->get('common.help'));
 		$this->assertEquals('도움말', $ko->help);
@@ -25,6 +21,12 @@ class LangTest extends \Codeception\TestCase\Test
 		
 		$this->assertEquals('common.nonexistent', $ko->get('common.nonexistent'));
 		$this->assertEquals('common.nonexistent', $ko->get('common.nonexistent', 'foo', 'bar'));
+		
+		$this->assertEquals('admin.help', $ko->get('admin.help'));
+		$this->assertEquals('admin.help', $en->get('admin.help'));
+		
+		$ja->loadPlugin('common');
+		$this->assertEquals('ヘルプ', $ja->help);
 		
 		$ko->foobartestlang = '%s님 안녕하세요?';
 		$this->assertEquals('Travis님 안녕하세요?', $ko->foobartestlang('Travis'));
