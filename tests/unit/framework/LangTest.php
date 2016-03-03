@@ -25,7 +25,6 @@ class LangTest extends \Codeception\TestCase\Test
 		$this->assertEquals('admin.help', $ko->get('admin.help'));
 		$this->assertEquals('admin.help', $en->get('admin.help'));
 		
-		$this->assertEquals('Help', $ja->help);
 		$ja->loadPlugin('common');
 		$this->assertEquals('ヘルプ', $ja->help);
 		
