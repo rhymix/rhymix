@@ -438,20 +438,8 @@ class documentController extends document
 			$oDB->rollback();
 			return $output;
 		}
-		// update Document Log
-		else
-		{
-			if($obj->update_log_setting === 'Y')
-			{
-				$update_output = $this->insertDocumentUpdateLog($obj);
-				if(!$update_output->toBool())
-				{
-					$oDB->rollback();
-					return $update_output;
-				}
-			}
-		}
 		// Insert extra variables if the document successfully inserted.
+		$extra_vars = array();
 		$extra_keys = $oDocumentModel->getExtraKeys($obj->module_srl);
 		if(count($extra_keys))
 		{
@@ -462,13 +450,20 @@ class documentController extends document
 				{
 					$tmp = $obj->{'extra_vars'.$idx};
 					if(is_array($tmp))
+					{
 						$value = implode('|@|', $tmp);
+					}
 					else
+					{
 						$value = trim($tmp);
+					}
 				}
-				else if(isset($obj->{$extra_item->name})) $value = trim($obj->{$extra_item->name});
+				else if(isset($obj->{$extra_item->name}))
+				{
+					$value = trim($obj->{$extra_item->name});
+				}
 				if($value == NULL) continue;
-
+				$extra_vars[$extra_item->name] = $value;
 				$this->insertDocumentExtraVar($obj->module_srl, $obj->document_srl, $idx, $value, $extra_item->eid);
 			}
 		}
@@ -477,6 +472,16 @@ class documentController extends document
 		// Call a trigger (after)
 		if($output->toBool())
 		{
+			if($obj->update_log_setting === 'Y')
+			{
+				$obj->extra_vars = serialize($extra_vars);
+				$update_output = $this->insertDocumentUpdateLog($obj);
+				if(!$update_output->toBool())
+				{
+					$oDB->rollback();
+					return $update_output;
+				}
+			}
 			$trigger_output = ModuleHandler::triggerCall('document.insertDocument', 'after', $obj);
 			if(!$trigger_output->toBool())
 			{
@@ -697,20 +702,9 @@ class documentController extends document
 			$oDB->rollback();
 			return $output;
 		}
-		// update Document Log
-		else
-		{
-			if($obj->update_log_setting === 'Y')
-			{
-				$update_output = $this->insertDocumentUpdateLog($obj, $source_obj);
-				if(!$update_output->toBool())
-				{
-					$oDB->rollback();
-					return $update_output;
-				}
-			}
-		}
+
 		// Remove all extra variables
+		$extra_vars = array();
 		if(Context::get('act')!='procFileDelete')
 		{
 			$this->deleteDocumentExtraVars($source_obj->get('module_srl'), $obj->document_srl, null, Context::getLangType());
@@ -731,6 +725,7 @@ class documentController extends document
 					}
 					else if(isset($obj->{$extra_item->name})) $value = trim($obj->{$extra_item->name});
 					if($value == NULL) continue;
+					$extra_vars[$extra_item->name] = $value;
 					$this->insertDocumentExtraVar($obj->module_srl, $obj->document_srl, $idx, $value, $extra_item->eid);
 				}
 			}
@@ -747,6 +742,16 @@ class documentController extends document
 		// Call a trigger (after)
 		if($output->toBool())
 		{
+			if($obj->update_log_setting === 'Y')
+			{
+				$obj->extra_vars = serialize($extra_vars);
+				$update_output = $this->insertDocumentUpdateLog($obj, $source_obj);
+				if(!$update_output->toBool())
+				{
+					$oDB->rollback();
+					return $update_output;
+				}
+			}
 			$trigger_output = ModuleHandler::triggerCall('document.updateDocument', 'after', $obj);
 			if(!$trigger_output->toBool())
 			{
