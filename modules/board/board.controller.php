@@ -106,6 +106,11 @@ class boardController extends board
 			}
 		}
 
+		if($this->module_info->update_log == 'Y')
+		{
+			$obj->update_log_setting = 'Y';
+		}
+
 		// update the document if it is existed
 		if($is_update)
 		{
@@ -146,12 +151,14 @@ class boardController extends board
 				$obj->last_update = $obj->regdate = date('YmdHis');
 				$obj->update_order = $obj->list_order = (getNextSequence() * -1);
 			}
-
+			$obj->reason_update = escape($obj->reason_update);
 			$output = $oDocumentController->updateDocument($oDocument, $obj);
 			$msg_code = 'success_updated';
 
 		// insert a new document otherwise
-		} else {
+		}
+		else
+		{
 			$output = $oDocumentController->insertDocument($obj, $bAnonymous);
 			$msg_code = 'success_registed';
 			$obj->document_srl = $output->get('document_srl');

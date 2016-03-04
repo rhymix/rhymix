@@ -54,7 +54,7 @@
 		waiting_obj.css("opacity", 0.0);
 		var wfsr_timeout = setTimeout(function() {
 			if (show_waiting_message) {
-				waiting_obj.css("opacity", "").html(waiting_message).show();
+				waiting_obj.css("opacity", "").show();
 			}
 		}, 1000);
 		
@@ -69,11 +69,7 @@
 			var result = {};
 			$.each(data, function(key, val) {
 				if ($.inArray(key, ["error", "message", "act", "redirect_url"]) >= 0 || $.inArray(key, return_fields) >= 0) {
-					if ($.isArray(val)) {
-						result[key] = { item: val };
-					} else {
-						result[key] = val;
-					}
+					result[key] = val;
 				}
 			});
 			
@@ -134,8 +130,15 @@
 			// Hide the waiting message and display an error notice.
 			clearTimeout(wfsr_timeout);
 			waiting_obj.hide().trigger("cancel_confirm");
-			var error_info = xhr.status + " " + xhr.statusText + " (" + textStatus + ")";
-			alert("AJAX communication error while requesting " + params.module + "." + params.act + "\n\n" + error_info);
+			var error_info;
+			
+			if ($(".x_modal-body").size()) {
+				error_info = xhr.status + " " + xhr.statusText + " (" + textStatus + ")" + "<br><br><pre>" + xhr.responseText + "</pre>";
+				alert("AJAX communication error while requesting " + params.module + "." + params.act + "<br><br>" + error_info);
+			} else {
+				error_info = xhr.status + " " + xhr.statusText + " (" + textStatus + ")" + "\n\n" + xhr.responseText;
+				alert("AJAX communication error while requesting " + params.module + "." + params.act + "\n\n" + error_info);
+			}
 		};
 		
 		// Send the AJAX request.
@@ -175,7 +178,7 @@
 		waiting_obj.css("opacity", 0.0);
 		var wfsr_timeout = setTimeout(function() {
 			if (show_waiting_message) {
-				waiting_obj.css("opacity", "").html(waiting_message).show();
+				waiting_obj.css("opacity", "").show();
 			}
 		}, 1000);
 		
@@ -227,8 +230,15 @@
 		var errorHandler = function(xhr, textStatus) {
 			clearTimeout(wfsr_timeout);
 			waiting_obj.hide().trigger("cancel_confirm");
-			var error_info = xhr.status + " " + xhr.statusText + " (" + textStatus + ")";
-			alert("AJAX communication error while requesting " + params.module + "." + params.act + "\n\n" + error_info);
+			var error_info;
+			
+			if ($(".x_modal-body").size()) {
+				error_info = xhr.status + " " + xhr.statusText + " (" + textStatus + ")" + "<br><br><pre>" + xhr.responseText + "</pre>";
+				alert("AJAX communication error while requesting " + params.module + "." + params.act + "<br><br>" + error_info);
+			} else {
+				error_info = xhr.status + " " + xhr.statusText + " (" + textStatus + ")" + "\n\n" + xhr.responseText;
+				alert("AJAX communication error while requesting " + params.module + "." + params.act + "\n\n" + error_info);
+			}
 		};
 		
 		// Send the AJAX request.
@@ -270,7 +280,7 @@
 		waiting_obj.css("opacity", 0.0);
 		var wfsr_timeout = setTimeout(function() {
 			if (show_waiting_message) {
-				waiting_obj.css("opacity", "").html(waiting_message).show();
+				waiting_obj.css("opacity", "").show();
 			}
 		}, 1000);
 		

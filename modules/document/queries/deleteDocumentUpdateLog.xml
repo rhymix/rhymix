@@ -1,0 +1,8 @@
+<query id="deleteDocumentUpdateLog" action="delete">
+	<tables>
+		<table name="document_update_log" />
+	</tables>
+	<conditions>
+		<condition operation="in" column="document_srl" var="document_srl" filter="number" notnull="notnull" />
+	</conditions>
+</query>

@@ -137,7 +137,7 @@ class Debug
 		$entry = (object)array(
 			'type' => 'Debug',
 			'time' => microtime(true),
-			'message' => $message,
+			'message' => unserialize(serialize($message)),
 			'file' => isset($backtrace[0]['file']) ? $backtrace[0]['file'] : null,
 			'line' => isset($backtrace[0]['line']) ? $backtrace[0]['line'] : 0,
 			'backtrace' => $backtrace,

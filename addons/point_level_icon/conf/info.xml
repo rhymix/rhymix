@@ -59,4 +59,19 @@
         <name xml:lang="ru">NAVER</name>
         <name xml:lang="zh-TW">NAVER</name>
     </author>
+
+	<extra_vars>
+		<var name="icon_duplication" type="select">
+			<title xml:lang="ko">아이콘 중복 방지</title>
+			<description xml:lang="ko">그룹아이콘이 있을 경우 중복으로 레벨 아이콘을 달지 않습니다.</description>
+			<options value="">
+				<title xml:lang="ko">사용함</title>
+				<title xml:lang="en">Enabled</title>
+			</options>
+			<options value="N">
+				<title xml:lang="ko">사용하지 않음</title>
+				<title xml:lang="en">Disabled</title>
+			</options>
+		</var>
+	</extra_vars>
 </addon>

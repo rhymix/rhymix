@@ -158,6 +158,11 @@ class Context
 	public $isSuccessInit = TRUE;
 
 	/**
+	 * Plugin blacklist cache
+	 */
+	private static $_blacklist = null;
+
+	/**
 	 * Singleton instance
 	 * @var object
 	 */
@@ -222,7 +227,6 @@ class Context
 		
 		// Set global variables for backward compatibility.
 		$GLOBALS['__Context__'] = $this;
-		$GLOBALS['lang'] = &$this->lang;
 		$this->_COOKIE = $_COOKIE;
 		
 		// Set information about the current request.
@@ -299,6 +303,7 @@ class Context
 		$this->lang = Rhymix\Framework\Lang::getInstance($this->lang_type);
 		$this->lang->loadDirectory(RX_BASEDIR . 'common/lang', 'common');
 		$this->lang->loadDirectory(RX_BASEDIR . 'modules/module/lang', 'module');
+		$GLOBALS['lang'] = $this->lang;
 		
 		// set session handler
 		if(self::isInstalled() && config('session.use_db'))
@@ -476,12 +481,13 @@ class Context
 		}
 		if (!count($config))
 		{
+			self::$_instance->db_info = self::$_instance->db_info ?: new stdClass;
 			return;
 		}
 
 		// Copy to old format for backward compatibility.
 		self::$_instance->db_info = self::convertDBInfo($config);
-		self::$_instance->allow_rewrite = self::$_instance->db_info->use_rewrite;
+		self::$_instance->allow_rewrite = self::$_instance->db_info->use_rewrite === 'Y';
 		self::set('_http_port', self::$_instance->db_info->http_port ?: null);
 		self::set('_https_port', self::$_instance->db_info->https_port ?: null);
 		self::set('_use_ssl', self::$_instance->db_info->use_ssl);
@@ -871,7 +877,14 @@ class Context
 		{
 			$plugin_name = null;
 		}
-		return self::$_instance->lang->loadDirectory($path, $plugin_name);
+		
+		if (!$GLOBALS['lang'] instanceof Rhymix\Framework\Lang)
+		{
+			$GLOBALS['lang'] = Rhymix\Framework\Lang::getInstance(self::$_instance->lang_type ?: config('locale.default_lang') ?: 'ko');
+			$GLOBALS['lang']->loadDirectory(RX_BASEDIR . 'common/lang', 'common');
+		}
+		
+		return $GLOBALS['lang']->loadDirectory($path, $plugin_name);
 	}
 
 	/**
@@ -914,14 +927,13 @@ class Context
 	 */
 	public static function getLang($code)
 	{
-		if (self::$_instance->lang)
+		if (!$GLOBALS['lang'] instanceof Rhymix\Framework\Lang)
 		{
-			return self::$_instance->lang->get($code);
+			$GLOBALS['lang'] = Rhymix\Framework\Lang::getInstance(self::$_instance->lang_type ?: config('locale.default_lang') ?: 'ko');
+			$GLOBALS['lang']->loadDirectory(RX_BASEDIR . 'common/lang', 'common');
 		}
-		else
-		{
-			return $code;
-		}
+		
+		return $GLOBALS['lang']->get($code);
 	}
 
 	/**
@@ -933,10 +945,13 @@ class Context
 	 */
 	public static function setLang($code, $val)
 	{
-		if (self::$_instance->lang)
+		if (!$GLOBALS['lang'] instanceof Rhymix\Framework\Lang)
 		{
-			self::$_instance->lang->set($code, $val);
+			$GLOBALS['lang'] = Rhymix\Framework\Lang::getInstance(self::$_instance->lang_type ?: config('locale.default_lang') ?: 'ko');
+			$GLOBALS['lang']->loadDirectory(RX_BASEDIR . 'common/lang', 'common');
 		}
+		
+		$GLOBALS['lang']->set($code, $val);
 	}
 
 	/**
@@ -1172,7 +1187,7 @@ class Context
 			{
 				continue;
 			}
-			$key = htmlentities($key);
+			$key = escape($key);
 			$val = $this->_filterRequestVar($key, $val);
 
 			if($requestMethod == 'GET' && isset($_GET[$key]))
@@ -1348,7 +1363,7 @@ class Context
 		$result = array();
 		foreach($val as $k => $v)
 		{
-			$k = htmlentities($k);
+			$k = escape($k);
 			if($key === 'page' || $key === 'cpage' || substr_compare($key, 'srl', -3) === 0)
 			{
 				$result[$k] = !preg_match('/^[0-9,]+$/', $v) ? (int) $v : $v;
@@ -1367,10 +1382,21 @@ class Context
 
 				if($do_stripslashes && version_compare(PHP_VERSION, '5.4.0', '<') && get_magic_quotes_gpc())
 				{
-					$result[$k] = stripslashes($result[$k]);
+					if (is_array($result[$k]))
+					{
+						array_walk_recursive($result[$k], function(&$val) { $val = stripslashes($val); });
+					}
+					else
+					{
+						$result[$k] = stripslashes($result[$k]);
+					}
 				}
 
-				if(!is_array($result[$k]))
+				if(is_array($result[$k]))
+				{
+					array_walk_recursive($result[$k], function(&$val) { $val = trim($val); });
+				}
+				else
 				{
 					$result[$k] = trim($result[$k]);
 				}
@@ -1874,7 +1900,7 @@ class Context
 		self::$_user_vars->{$key} = $val;
 		self::$_instance->{$key} = $val;
 
-		if($set_to_get_vars)
+		if($set_to_get_vars || isset(self::$_instance->get_vars->{$key}))
 		{
 			if($val === NULL || $val === '')
 			{
@@ -2031,6 +2057,10 @@ class Context
 		if(self::getSslStatus() == 'optional')
 		{
 			return self::$_instance->ssl_actions;
+		}
+		else
+		{
+			return array();
 		}
 	}
 
@@ -2539,6 +2569,26 @@ class Context
 	public static function isAllowRewrite()
 	{
 		return self::$_instance->allow_rewrite;
+	}
+
+	/**
+	 * Check whether an addon, module, or widget is blacklisted
+	 * 
+	 * @param string $plugin_name
+	 * @return bool
+	 */
+	public static function isBlacklistedPlugin($plugin_name)
+	{
+		if (self::$_blacklist === null)
+		{
+			self::$_blacklist = (include RX_BASEDIR . 'common/defaults/blacklist.php');
+			if (!is_array(self::$_blacklist))
+			{
+				self::$_blacklist = array();
+			}
+		}
+		
+		return isset(self::$_blacklist[$plugin_name]);
 	}
 
 	/**

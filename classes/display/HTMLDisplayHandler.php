@@ -223,17 +223,17 @@ class HTMLDisplayHandler
 
 		// convert the final layout
 		Context::set('content', $output);
+		Context::set('m', $is_mobile = Mobile::isFromMobilePhone() ? 1 : 0);
 		$oTemplate = TemplateHandler::getInstance();
-		if(Mobile::isFromMobilePhone())
+		if($is_mobile)
 		{
 			$this->_loadMobileJSCSS();
-			$output = $oTemplate->compile('./common/tpl', 'mobile_layout');
 		}
 		else
 		{
 			$this->_loadDesktopJSCSS();
-			$output = $oTemplate->compile('./common/tpl', 'common_layout');
 		}
+		$output = $oTemplate->compile('./common/tpl', 'common_layout');
 
 		// replace the user-defined-language
 		$oModuleController = getController('module');
@@ -394,7 +394,6 @@ class HTMLDisplayHandler
 		if(Context::get('module') == 'admin' || strpos(Context::get('act'), 'Admin') > 0)
 		{
 			Context::loadFile(array('./modules/admin/tpl/css/admin.css', '', '', 10), true);
-			Context::loadFile(array("./modules/admin/tpl/css/admin_{$lang_type}.css", '', '', 10), true);
 			Context::loadFile(array("./modules/admin/tpl/css/admin.iefix.css", '', 'ie', 10), true);
 			Context::loadFile('./modules/admin/tpl/js/admin.js', true);
 			Context::loadFile(array('./modules/admin/tpl/css/admin.bootstrap.css', '', '', 1), true);

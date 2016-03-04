@@ -15,20 +15,41 @@ class JSONDisplayHandler
 		$variables['error'] = $oModule->getError();
 		$variables['message'] = $oModule->getMessage();
 		
-		$temp = array();
-		foreach ($variables as $key => $value)
+		self::_convertCompat($variables, Context::getRequestMethod());
+		return json_encode($variables);
+	}
+	
+	/**
+	 * Convert arrays in a format that is compatible with XE.
+	 * 
+	 * @param array $array
+	 * @param string $compat_type
+	 * @return array
+	 */
+	protected static function _convertCompat(&$array, $compat_type = 'JSON')
+	{
+		foreach ($array as $key => &$value)
 		{
-			if (self::_isNumericArray($value))
+			if (is_object($value))
 			{
-				$temp[$key] = array_values($value);
+				$value = get_object_vars($value);
 			}
-			else
+			if (is_array($value))
 			{
-				$temp[$key] = $value;
+				self::_convertCompat($value, $compat_type);
+				if (self::_isNumericArray($value))
+				{
+					if ($compat_type === 'XMLRPC')
+					{
+						$value = array('item' => array_values($value));
+					}
+					else
+					{
+						$value = array_values($value);
+					}
+				}
 			}
 		}
-		
-		return json_encode($temp);
 	}
 	
 	/**

@@ -102,24 +102,20 @@ class Lang
 		{
 			$filename = $dir . '/' . $this->_language . '.php';
 		}
-		elseif (file_exists($dir . '/' . ($this->_language === 'ja' ? 'jp' : $this->_language) . '.lang.php'))
-		{
-			$filename = $dir . '/' . ($this->_language === 'ja' ? 'jp' : $this->_language) . '.lang.php';
-		}
 		elseif (($hyphen = strpos($this->_language, '-')) !== false)
 		{
 			if (file_exists($dir . '/' . substr($this->_language, 0, $hyphen) . '.php'))
 			{
 				$filename = $dir . '/' . substr($this->_language, 0, $hyphen) . '.php';
 			}
-			elseif (file_exists($dir . '/' . substr($this->_language, 0, $hyphen) . '.lang.php'))
-			{
-				$filename = $dir . '/' . substr($this->_language, 0, $hyphen) . '.lang.php';
-			}
 		}
 		elseif (file_exists("$dir/lang.xml"))
 		{
 			$filename = Compat\LangParser::compileXMLtoPHP("$dir/lang.xml", $this->_language === 'ja' ? 'jp' : $this->_language);
+		}
+		elseif (file_exists($dir . '/' . ($this->_language === 'ja' ? 'jp' : $this->_language) . '.lang.php'))
+		{
+			$filename = $dir . '/' . ($this->_language === 'ja' ? 'jp' : $this->_language) . '.lang.php';
 		}
 		
 		// Load the language file.

@@ -621,7 +621,7 @@ class documentModel extends document
 
 		$this->_setSearchOption($opt, $args, $query_id, $use_division);
 
-		if($sort_check->isExtraVars)
+		if($sort_check->isExtraVars || !$opt->list_count)
 		{
 			return 1;
 		}
@@ -1547,6 +1547,25 @@ class documentModel extends document
 		if(!is_array($document_list)) $document_list = array($document_list);
 
 		return $document_list;	
+	}
+
+	function getDocumentUpdateLog($document_srl)
+	{
+		$args = new stdClass();
+		$args->document_srl = $document_srl;
+		$output = executeQueryArray('document.getDocumentUpdateLog', $args);
+
+		return $output;
+	}
+
+	function getUpdateLog($update_id)
+	{
+		$args = new stdClass();
+		$args->update_id = $update_id;
+		$output = exeCuteQuery('document.getUpdateLog', $args);
+		$updage_log = $output->data;
+
+		return $updage_log;
 	}
 }
 /* End of file document.model.php */

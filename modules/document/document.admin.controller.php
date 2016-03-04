@@ -92,6 +92,7 @@ class documentAdminController extends document
 			$obj = $oDocument->getObjectVars();
 
 			// ISSUE https://github.com/xpressengine/xe-core/issues/32
+			$args_doc_origin = new stdClass();
 			$args_doc_origin->document_srl = $document_srl;
 			$output_ori = executeQuery('document.getDocument', $args_doc_origin, array('content'));              
 			$obj->content = $output_ori->data->content;
@@ -144,11 +145,20 @@ class documentAdminController extends document
 			$obj->module_srl = $module_srl;
 			$obj->category_srl = $category_srl;
 			$output = executeQuery('document.updateDocumentModule', $obj);
-			if(!$output->toBool()) {
+			if(!$output->toBool())
+			{
 				$oDB->rollback();
 				return $output;
 			}
-
+			else
+			{
+				$update_output = $oDocumentController->insertDocumentUpdateLog($obj);
+				if(!$update_output->toBool())
+				{
+					$oDB->rollback();
+					return $update_output;
+				}
+			}
 			//Move a module of the extra vars
 			$output = executeQuery('document.moveDocumentExtraVars', $obj);
 			if(!$output->toBool()) {
