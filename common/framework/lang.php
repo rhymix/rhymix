@@ -213,7 +213,7 @@ class Lang
 			if (isset($this->_loaded_plugins[$plugin_name]->{$lang_key}))
 			{
 				$lang = $this->_loaded_plugins[$plugin_name]->{$lang_key};
-				if (is_array($lang) && isset($lang_en) && count($lang_en, COUNT_RECURSIVE) > count($lang, COUNT_RECURSIVE))
+				if (is_array($lang) && is_array($lang_en) && count($lang_en, COUNT_RECURSIVE) > count($lang, COUNT_RECURSIVE))
 				{
 					return $lang_en;
 				}
@@ -229,7 +229,7 @@ class Lang
 				$lang = $this->_loaded_plugins['_custom_']->{$key};
 				if (is_array($lang))
 				{
-					if (isset($lang_en) && count($lang_en, COUNT_RECURSIVE) > count($lang, COUNT_RECURSIVE))
+					if (is_array($lang_en) && count($lang_en, COUNT_RECURSIVE) > count($lang, COUNT_RECURSIVE))
 					{
 						return new \ArrayObject($lang_en, 3);
 					}
@@ -250,7 +250,7 @@ class Lang
 					$lang = $this->_loaded_plugins[$plugin_name]->{$key};
 					if (is_array($lang))
 					{
-						if (isset($lang_en) && count($lang_en, COUNT_RECURSIVE) > count($lang, COUNT_RECURSIVE))
+						if (is_array($lang_en) && count($lang_en, COUNT_RECURSIVE) > count($lang, COUNT_RECURSIVE))
 						{
 							return new \ArrayObject($lang_en, 3);
 						}
