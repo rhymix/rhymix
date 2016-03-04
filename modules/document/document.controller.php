@@ -439,6 +439,7 @@ class documentController extends document
 			return $output;
 		}
 		// Insert extra variables if the document successfully inserted.
+		$extra_vars = array();
 		$extra_keys = $oDocumentModel->getExtraKeys($obj->module_srl);
 		if(count($extra_keys))
 		{
@@ -449,13 +450,20 @@ class documentController extends document
 				{
 					$tmp = $obj->{'extra_vars'.$idx};
 					if(is_array($tmp))
+					{
 						$value = implode('|@|', $tmp);
+					}
 					else
+					{
 						$value = trim($tmp);
+					}
 				}
-				else if(isset($obj->{$extra_item->name})) $value = trim($obj->{$extra_item->name});
+				else if(isset($obj->{$extra_item->name}))
+				{
+					$value = trim($obj->{$extra_item->name});
+				}
 				if($value == NULL) continue;
-
+				$extra_vars[$extra_item->name] = $value;
 				$this->insertDocumentExtraVar($obj->module_srl, $obj->document_srl, $idx, $value, $extra_item->eid);
 			}
 		}
@@ -464,6 +472,16 @@ class documentController extends document
 		// Call a trigger (after)
 		if($output->toBool())
 		{
+			if($obj->update_log_setting === 'Y')
+			{
+				$obj->extra_vars = serialize($extra_vars);
+				$update_output = $this->insertDocumentUpdateLog($obj);
+				if(!$update_output->toBool())
+				{
+					$oDB->rollback();
+					return $update_output;
+				}
+			}
 			$trigger_output = ModuleHandler::triggerCall('document.insertDocument', 'after', $obj);
 			if(!$trigger_output->toBool())
 			{
@@ -686,7 +704,9 @@ class documentController extends document
 			$oDB->rollback();
 			return $output;
 		}
+
 		// Remove all extra variables
+		$extra_vars = array();
 		if(Context::get('act')!='procFileDelete')
 		{
 			$this->deleteDocumentExtraVars($source_obj->get('module_srl'), $obj->document_srl, null, Context::getLangType());
@@ -707,6 +727,7 @@ class documentController extends document
 					}
 					else if(isset($obj->{$extra_item->name})) $value = trim($obj->{$extra_item->name});
 					if($value == NULL) continue;
+					$extra_vars[$extra_item->name] = $value;
 					$this->insertDocumentExtraVar($obj->module_srl, $obj->document_srl, $idx, $value, $extra_item->eid);
 				}
 			}
@@ -723,6 +744,16 @@ class documentController extends document
 		// Call a trigger (after)
 		if($output->toBool())
 		{
+			if($obj->update_log_setting === 'Y')
+			{
+				$obj->extra_vars = serialize($extra_vars);
+				$update_output = $this->insertDocumentUpdateLog($obj, $source_obj);
+				if(!$update_output->toBool())
+				{
+					$oDB->rollback();
+					return $update_output;
+				}
+			}
 			$trigger_output = ModuleHandler::triggerCall('document.updateDocument', 'after', $obj);
 			if(!$trigger_output->toBool())
 			{
@@ -747,6 +778,45 @@ class documentController extends document
 		}
 
 		return $output;
+	}
+
+	function insertDocumentUpdateLog($obj, $source_obj = null)
+	{
+		$update_args = new stdClass();
+		$logged_info = Context::get('logged_info');
+		if($source_obj === null)
+		{
+			$update_args->category_srl = $obj->category_srl;
+			$update_args->module_srl = $obj->module_srl;
+			$update_args->nick_name = $obj->nick_name;
+		}
+		else
+		{
+			if($obj->category_srl)
+			{
+				$update_args->category_srl = $obj->category_srl;
+			}
+			else
+			{
+				$update_args->category_srl = $source_obj->get('category_srl');
+			}
+			$update_args->module_srl = $source_obj->get('module_srl');
+			$update_args->nick_name = $source_obj->get('nick_name');
+		}
+
+		$update_args->document_srl = $obj->document_srl;
+		$update_args->update_member_srl = $logged_info->member_srl;
+		$update_args->title = $obj->title;
+		$update_args->title_bold = $obj->title_bold;
+		$update_args->title_color = $obj->title_color;
+		$update_args->content = $obj->content;
+		$update_args->update_nick_name = $logged_info->nick_name;
+		$update_args->tags = $obj->tags;
+		$update_args->extra_vars = $obj->extra_vars;
+		$update_args->reason_update = $obj->reason_update;
+		$update_output = executeQuery('document.insertDocumentUpdateLog', $update_args);
+
+		return $update_output;
 	}
 
 	/**
@@ -832,6 +902,7 @@ class documentController extends document
 		$this->_deleteDeclaredDocuments($args);
 		$this->_deleteDocumentReadedLog($args);
 		$this->_deleteDocumentVotedLog($args);
+		$this->_deleteDocumentUpdateLog($args);
 
 		// Remove the thumbnail file
 		FileHandler::removeDir(sprintf('files/thumbnails/%s',getNumberingPath($document_srl, 3)));
@@ -879,6 +950,11 @@ class documentController extends document
 	function _deleteDocumentVotedLog($documentSrls)
 	{
 		executeQuery('document.deleteDocumentVotedLog', $documentSrls);
+	}
+
+	function _deleteDocumentUpdateLog($document_srl)
+	{
+		executeQuery('document.deleteDocumentUpdateLog', $document_srl);
 	}
 
 	/**

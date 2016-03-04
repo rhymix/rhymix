@@ -333,6 +333,8 @@ class boardView extends board
 			}
 		}
 
+		Context::set('update_view', $this->grant->update_view);
+
 		// setup the document oject on context
 		$oDocument->add('module_srl', $this->module_srl);
 		Context::set('oDocument', $oDocument);
@@ -1138,6 +1140,44 @@ class boardView extends board
 		if(!$msg) $msg = $msg_code;
 		Context::set('message', $msg);
 		$this->setTemplateFile('message');
+	}
+
+	function dispBoardUpdateLog()
+	{
+		$oDocumentModel = getModel('document');
+		$document_srl = Context::get('document_srl');
+
+		if($this->grant->update_view !== true)
+		{
+			return new Object(-1, 'msg_not_permitted');
+		}
+
+		$updatelog = $oDocumentModel->getDocumentUpdateLog($document_srl);
+		Context::set('total_count', $updatelog->page_navigation->total_count);
+		Context::set('total_page', $updatelog->page_navigation->total_page);
+		Context::set('page', $updatelog->page);
+		Context::set('page_navigation', $updatelog->page_navigation);
+		Context::set('updatelog', $updatelog);
+
+		$this->setTemplateFile('update_list');
+	}
+
+	function dispBoardUpdateLogView()
+	{
+		$oDocumentModel = getModel('document');
+		$update_id = Context::get('update_id');
+
+		if($this->grant->update_view !== true)
+		{
+			return new Object(-1, 'msg_not_permitted');
+		}
+		$update_log = $oDocumentModel->getUpdateLog($update_id);
+		$extra_vars = unserialize($update_log->extra_vars);
+
+		Context::set('extra_vars', $extra_vars);
+		Context::set('update_log', $update_log);
+
+		$this->setTemplateFile('update_view');
 	}
 
 	/**
