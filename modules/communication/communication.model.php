@@ -25,44 +25,44 @@ class communicationModel extends communication
 	function getConfig()
 	{
 		$oModuleModel = getModel('module');
-		$communication_config = $oModuleModel->getModuleConfig('communication');
+		$config = $oModuleModel->getModuleConfig('communication');
 
-		if(!is_object($communication_config))
+		if(!$config->skin)
 		{
-			$communication_config = new stdClass();
+			$config->skin = 'default';
 		}
 
-		if(!$communication_config->skin)
+		if(!$config->colorset)
 		{
-			$communication_config->skin = 'default';
+			$config->colorset = 'white';
 		}
 
-		if(!$communication_config->colorset)
+		if(!$config->editor_skin)
 		{
-			$communication_config->colorset = 'white';
+			$config->editor_skin = 'ckeditor';
 		}
 
-		if(!$communication_config->editor_skin)
+		if(!$config->mskin)
 		{
-			$communication_config->editor_skin = 'ckeditor';
+			$config->mskin = 'default';
 		}
 
-		if(!$communication_config->mskin)
+		if(!$config->grant_write)
 		{
-			$communication_config->mskin = 'default';
+			$config->grant_write = array('default_grant' => 'member');
 		}
 
-		if(!$communication_config->grant_write)
+		if(!$config->enable_message)
 		{
-			$communication_config->grant_write = array('default_grant' => 'member');
+			$config->enable_message = 'Y';
+		}
+		
+		if(!$config->enable_friend)
+		{
+			$config->enable_friend = 'Y';
 		}
 
-		if(!$communication_config->member_menu)
-		{
-			$communication_config->member_menu = 'Y';
-		}
-
-		return $communication_config;
+		return $config;
 	}
 
 	/**
@@ -74,7 +74,7 @@ class communicationModel extends communication
 	function getGrantArray($default, $group)
 	{
 		$grant = array();
-		if($default!="")
+		if($default)
 		{
 			switch($default)
 			{
@@ -91,65 +91,51 @@ class communicationModel extends communication
 		} 
 		else if(is_array($group)) 
 		{
-			$oMemberModel = getModel('member');
-			$group_list = $oMemberModel->getGroups($this->site_srl);
-
 			$group_grant = array();
 			foreach($group as $group_srl)
 			{
-				$group_grant[$group_srl] = $group_list[$group_srl]->title;
+				$group_grant[$group_srl] = true;
 			}
-			$grant = array('group_grant'=>$group_grant);
+			
+			$grant = array('group_grant' => $group_grant);
 		} 
+		
 		return $grant;
 	}
 
 	/**
-	  * @brief check member's grant
-	  * @param object $member_info
+	  * @brief Check Write Grant
 	  * @param array $arrGrant
 	  * @return boolean
 	  */
-	function checkGrant($arrGrant)
+	function checkWriteGrant($arrGrant)
 	{
-		if(!$arrGrant)
-			return false;
-
-		if(!Context::get('is_logged'))
-			return false;
+		if(!$arrGrant) return false;
 		
 		$logged_info = Context::get('logged_info');
-		if($logged_info->is_admin == "Y")
-			return true;
+		if($logged_info->is_admin == "Y") return true;
 
 		if($arrGrant['default_grant'])
 		{
-			if($arrGrant['default_grant'] == "member" && $logged_info)
-				return true;
-
-			if($arrGrant['default_grant'] == "site" && $this->site_srl == $logged_info->site_srl)
-				return true;
-
-			if($arrGrant['default_grant'] == "manager" && $logged_info->is_admin == "Y")
-				return true;
+			if($arrGrant['default_grant'] == "member" && Context::get('is_logged')) return true;
+			
+			if($arrGrant['default_grant'] == "site" && $this->site_srl == $logged_info->site_srl) return true;
+			
+			if($arrGrant['default_grant'] == "manager" && $logged_info->is_admin == "Y") return true;
 		}
 
 		if($arrGrant['group_grant'])
 		{
 			$group_grant = $arrGrant['group_grant'];
-			if(!is_array($group_grant))
-				return false;
+			if(!is_array($group_grant)) return false;
 
-			foreach($logged_info->group_list as $group_srl=>$title)
+			foreach($logged_info->group_list as $group_srl => $title)
 			{
-				if(isset($group_grant[$group_srl])&&$group_grant[$group_srl]==$title)
-					return true;
+				if($group_grant[$group_srl]) return true;
 			}
-
 		}
 
 		return false;
-
 	}
 
 	/**
