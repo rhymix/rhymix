@@ -10,7 +10,7 @@
 				{str_repeat("&nbsp;&nbsp;",$val->depth)} {$val->title} ({$val->document_count})
 			</option>
 		</select>
-		<input cond="$oDocument->getTitleText()" type="text" name="title" class="iText" title="{$lang->title}" value="{htmlspecialchars($oDocument->getTitleText())}" />
+		<input cond="$oDocument->getTitleText()" type="text" name="title" class="iText" title="{$lang->title}" value="{escape($oDocument->getTitleText(), false)}" />
 		<input cond="!$oDocument->getTitleText()" type="text" name="title" class="iText" title="{$lang->title}" />
 		<input cond="$grant->manager" type="checkbox" name="is_notice" value="Y" class="iCheck" checked="checked"|cond="$oDocument->isNotice()" id="is_notice" />
 		<label cond="$grant->manager" for="is_notice">{$lang->notice}</label>
