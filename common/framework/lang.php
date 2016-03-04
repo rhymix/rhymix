@@ -86,10 +86,9 @@ class Lang
 	 * 
 	 * @param string $dir
 	 * @param string $plugin_name
-	 * @param array $default_lang
 	 * @return bool
 	 */
-	public function loadDirectory($dir, $plugin_name = null, $default_lang = null)
+	public function loadDirectory($dir, $plugin_name = null)
 	{
 		// Do not load the same directory twice.
 		$dir = rtrim($dir, '/');
@@ -99,38 +98,19 @@ class Lang
 			return true;
 		}
 		
-		if (!is_array($default_lang))
+		// Load the language file.
+		$lang = $this->getPluginLang($dir);
+		
+		// Load the default language file.
+		if ($this->_language !== 'en')
 		{
-			$default_lang = array('en', 'ko');
-		}
-		if (!in_array($this->_language, $default_lang))
-		{
-			$default_lang[] = $this->_language;
-		}
-
-		foreach ($default_lang as $language)
-		{
-			if ($this->_language === $language)
-			{
-				$lang = $this->getPluginLang($dir, $language);
-				if (empty($lang))
-				{
-					continue;
-				}
-				
-				$this->_loaded_plugins[$plugin_name] = $lang;
-			}
-			else
-			{
-				$other_lang = self::getInstance($language);
-				$other_lang->loadDirectory($dir, $plugin_name, array());
-			}
+			self::getInstance('en')->loadDirectory($dir, $plugin_name);
 		}
 		
-		// Load the language file.
-		if (isset($this->_loaded_plugins[$plugin_name]))
+		if (!empty($lang))
 		{
 			$this->_loaded_directories[$dir] = true;
+			$this->_loaded_plugins[$plugin_name] = $lang;
 			array_unshift($this->_search_priority, $plugin_name);
 			return true;
 		}
@@ -208,13 +188,12 @@ class Lang
 	}
 	
 	/**
-	 * Get lang from key
+	 * Magic method for translations without arguments.
 	 * 
 	 * @param string $key
-	 * @param bool $other_lang
 	 * @return string
 	 */
-	protected function _getLang($key, $other_lang = true)
+	public function __get($key)
 	{
 		// Separate the plugin name from the key.
 		if (preg_match('/^[a-z0-9_.-]+$/i', $key) && ($keys = explode('.', $key, 2)) && count($keys) === 2)
@@ -229,7 +208,13 @@ class Lang
 				return $this->_loaded_plugins[$plugin_name]->{$lang_key};
 			}
 			
-			goto end_other_lang;
+			// Search other language.
+			if ($this->_language !== 'en')
+			{
+				return self::getInstance('en')->{$key};
+			}
+			
+			return $key;
 		}
 		
 		// Search custom translations first.
@@ -261,41 +246,14 @@ class Lang
 			}
 		}
 		
-		end_other_lang:
-		
 		// Search other language.
-		if ($other_lang)
+		if ($this->_language !== 'en')
 		{
-			foreach (self::$_instances as $language => $instance)
-			{
-				if ($this->_language === $language)
-				{
-					continue;
-				}
-				
-				$lang = $instance->_getLang($key, false);
-				if ($lang === $key)
-				{
-					continue;
-				}
-				
-				return $lang;
-			}
+			return self::getInstance('en')->{$key};
 		}
 		
 		// If no translation is found, return the key.
 		return $key;
-	}
-	
-	/**
-	 * Magic method for translations without arguments.
-	 * 
-	 * @param string $key
-	 * @return string
-	 */
-	public function __get($key)
-	{
-		return $this->_getLang($key);
 	}
 	
 	/**
@@ -358,7 +316,7 @@ class Lang
 		if ($key !== '' && $key[0] === ':') $key = substr($key, 1);
 		
 		// Find the translation.
-		$translation = $this->_getLang($key);
+		$translation = $this->__get($key);
 		
 		// If there are no arguments, return the translation.
 		if (!count($args)) return $translation;
