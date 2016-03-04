@@ -102,9 +102,18 @@
 			}
 			
 			// If the response contains a redirect URL, redirect immediately.
-			if (result.redirect_url) {
-				window.location = result.redirect_url.replace(/&amp;/g, "&");
-				return null;
+			if (data.redirect_url) {
+				data.redirect_url = data.redirect_url.replace(/&amp;/g, "&");
+				if (data.redirect_url.indexOf(window.location.href.replace(/#.+$/, "") + "#") === 0)
+				{
+					window.location = data.redirect_url;
+					window.location.reload();
+				}
+				else
+				{
+					window.location = data.redirect_url;
+				}
+				return;
 			}
 			
 			// If there was a success callback, call it.
@@ -218,6 +227,21 @@
 					}
 					return;
 				}
+			}
+			
+			// If the response contains a redirect URL, redirect immediately.
+			if (data.redirect_url) {
+				data.redirect_url = data.redirect_url.replace(/&amp;/g, "&");
+				if (data.redirect_url.indexOf(window.location.href.replace(/#.+$/, "") + "#") === 0)
+				{
+					window.location = data.redirect_url;
+					window.location.reload();
+				}
+				else
+				{
+					window.location = data.redirect_url;
+				}
+				return;
 			}
 			
 			// If there was a success callback, call it.
