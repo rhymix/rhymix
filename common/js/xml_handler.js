@@ -104,6 +104,8 @@
 			// If the response contains a redirect URL, redirect immediately.
 			if (data.redirect_url) {
 				data.redirect_url = data.redirect_url.replace(/&amp;/g, "&");
+			}
+			if (data.redirect_url && !$.isFunction(callback_success)) {
 				if (data.redirect_url.indexOf(window.location.href.replace(/#.+$/, "") + "#") === 0)
 				{
 					window.location = data.redirect_url;
@@ -232,6 +234,8 @@
 			// If the response contains a redirect URL, redirect immediately.
 			if (data.redirect_url) {
 				data.redirect_url = data.redirect_url.replace(/&amp;/g, "&");
+			}
+			if (data.redirect_url && !$.isFunction(callback_success)) {
 				if (data.redirect_url.indexOf(window.location.href.replace(/#.+$/, "") + "#") === 0)
 				{
 					window.location = data.redirect_url;

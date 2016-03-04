@@ -13,19 +13,21 @@ function completeDocumentInserted(ret_obj)
 	var document_srl = ret_obj.document_srl;
 	var category_srl = ret_obj.category_srl;
 
-	//alert(message);
-
-	var url;
-	if(!document_srl)
-	{
-		url = current_url.setQuery('mid',mid).setQuery('act','');
+	if (ret_obj.redirect_url) {
+		location.href = ret_obj.redirect_url;
+	} else {
+		var url;
+		if(!document_srl)
+		{
+			url = current_url.setQuery('mid',mid).setQuery('act','');
+		}
+		else
+		{
+			url = current_url.setQuery('mid',mid).setQuery('document_srl',document_srl).setQuery('act','');
+		}
+		if(category_srl) url = url.setQuery('category',category_srl);
+		location.href = url;
 	}
-	else
-	{
-		url = current_url.setQuery('mid',mid).setQuery('document_srl',document_srl).setQuery('act','');
-	}
-	if(category_srl) url = url.setQuery('category',category_srl);
-	location.href = url;
 }
 
 /* delete the document */
@@ -38,9 +40,6 @@ function completeDeleteDocument(ret_obj)
 
 	var url = current_url.setQuery('mid',mid).setQuery('act','').setQuery('document_srl','');
 	if(page) url = url.setQuery('page',page);
-
-	//alert(message);
-
 	location.href = url;
 }
 
@@ -75,13 +74,21 @@ function completeInsertComment(ret_obj)
 	var mid = ret_obj.mid;
 	var document_srl = ret_obj.document_srl;
 	var comment_srl = ret_obj.comment_srl;
-
-	var url = current_url.setQuery('mid',mid).setQuery('document_srl',document_srl).setQuery('act','');
-	if(comment_srl) url = url.setQuery('rnd',comment_srl)+"#comment_"+comment_srl;
-
-	//alert(message);
-
-	location.href = url;
+	if (ret_obj.redirect_url) {
+		if (ret_obj.redirect_url.indexOf(window.location.href.replace(/#.+$/, "") + "#") === 0)
+		{
+			window.location = ret_obj.redirect_url;
+			window.location.reload();
+		}
+		else
+		{
+			window.location = ret_obj.redirect_url;
+		}
+	} else {
+		var url = current_url.setQuery('mid',mid).setQuery('document_srl',document_srl).setQuery('act','');
+		if (comment_srl) url = url.setQuery('rnd',comment_srl)+"#comment_"+comment_srl;
+		window.location.href = url;
+	}
 }
 
 /* delete the comment */
@@ -93,12 +100,21 @@ function completeDeleteComment(ret_obj)
 	var document_srl = ret_obj.document_srl;
 	var page = ret_obj.page;
 
-	var url = current_url.setQuery('mid',mid).setQuery('document_srl',document_srl).setQuery('act','');
-	if(page) url = url.setQuery('page',page);
-
-	//alert(message);
-
-	location.href = url;
+	if (ret_obj.redirect_url) {
+		if (ret_obj.redirect_url.indexOf(window.location.href.replace(/#.+$/, "") + "#") === 0)
+		{
+			window.location = ret_obj.redirect_url;
+			window.location.reload();
+		}
+		else
+		{
+			window.location = ret_obj.redirect_url;
+		}
+	} else {
+		var url = current_url.setQuery('mid',mid).setQuery('document_srl',document_srl).setQuery('act','');
+		if (page) url = url.setQuery('page',page);
+		window.location.href = url;
+	}
 }
 
 /* delete the trackback */
@@ -110,12 +126,21 @@ function completeDeleteTrackback(ret_obj)
 	var document_srl = ret_obj.document_srl;
 	var page = ret_obj.page;
 
-	var url = current_url.setQuery('mid',mid).setQuery('document_srl',document_srl).setQuery('act','');
-	if(page) url = url.setQuery('page',page);
-
-	//alert(message);
-
-	location.href = url;
+	if (ret_obj.redirect_url) {
+		if (ret_obj.redirect_url.indexOf(window.location.href.replace(/#.+$/, "") + "#") === 0)
+		{
+			window.location = ret_obj.redirect_url;
+			window.location.reload();
+		}
+		else
+		{
+			window.location = ret_obj.redirect_url;
+		}
+	} else {
+		var url = current_url.setQuery('mid',mid).setQuery('document_srl',document_srl).setQuery('act','');
+		if (page) url = url.setQuery('page',page);
+		window.location.href = url;
+	}
 }
 
 /* change category */
