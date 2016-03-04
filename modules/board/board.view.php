@@ -1172,6 +1172,9 @@ class boardView extends board
 			return new Object(-1, 'msg_not_permitted');
 		}
 		$update_log = $oDocumentModel->getUpdateLog($update_id);
+		$extra_vars = unserialize($update_log->extra_vars);
+
+		Context::set('extra_vars', $extra_vars);
 		Context::set('update_log', $update_log);
 
 		$this->setTemplateFile('update_view');

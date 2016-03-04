@@ -13,15 +13,17 @@
 				</span>
 			</p>
 		</div>
-
 		<!-- READ BODY -->
 		<div class="read_body">
 			{$update_log->content}
 		</div>
-		<div class="read_body">
+		<p loop="$extra_vars=>$key=>$val">
+			{$key} : {$val}
+		</p>
+		<p>
 			{$lang->reason_update} :
 			{$update_log->reason_update}
-		</div>
+		</p>
 		<!-- /READ BODY -->
 	</div>
 </div>
