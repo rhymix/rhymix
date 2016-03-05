@@ -254,15 +254,17 @@ class communicationController extends communication
 			$oDB->rollback();
 			return $trigger_output;
 		}
-
+		
+		$oDB->commit();
+		
 		// create a flag that message is sent (in file format) 
 		$flag_path = './files/member_extra_info/new_message_flags/' . getNumberingPath($receiver_srl);
 		FileHandler::makeDir($flag_path);
 		$flag_file = sprintf('%s%s', $flag_path, $receiver_srl);
-		$flag_count = FileHandler::readFile($flag_file);
-		FileHandler::writeFile($flag_file, ++$flag_count);
-
-		$oDB->commit();
+		
+		$oCommunicationModel = getModel('communication');
+		$new_message_count = $oCommunicationModel->getNewMessageCount($receiver_srl);
+		FileHandler::writeFile($flag_file, $new_message_count);
 
 		return new Object(0, 'success_sended');
 	}
@@ -771,10 +773,30 @@ class communicationController extends communication
 	 */
 	function setMessageReaded($message_srl)
 	{
-		$args = new stdClass();
+		$args = new stdClass;
 		$args->message_srl = $message_srl;
 		$args->related_srl = $message_srl;
-		return executeQuery('communication.setMessageReaded', $args);
+		$output = executeQuery('communication.setMessageReaded', $args);
+		
+		// Renew a flag
+		$logged_info = Context::get('logged_info');
+		$flag_path = './files/member_extra_info/new_message_flags/' . getNumberingPath($logged_info->member_srl);
+		$flag_file = sprintf('%s%s', $flag_path, $logged_info->member_srl);
+		if(file_exists($flag_file))
+		{
+			$oCommunicationModel = getModel('communication');
+			$new_message_count = $oCommunicationModel->getNewMessageCount();
+			if($new_message_count > 0)
+			{
+				FileHandler::writeFile($flag_file, $new_message_count);
+			}
+			else
+			{
+				FileHandler::removeFile($flag_file);
+			}
+		}
+		
+		return $output;
 	}
 
 	function triggerModuleHandlerBefore($obj)
@@ -805,18 +827,24 @@ class communicationController extends communication
 			$oMemberController->addMemberMenu('dispCommunicationFriend', 'cmd_view_friend');
 		}
 		
-		if($config->enable_message == 'Y')
+		if($config->enable_message == 'Y' && $obj->act != 'dispCommunicationNewMessage')
 		{
-			$flag_file = './files/member_extra_info/new_message_flags/' . getNumberingPath($logged_info->member_srl) . $logged_info->member_srl;
+			$flag_path = './files/member_extra_info/new_message_flags/' . getNumberingPath($logged_info->member_srl);
+			$flag_file = sprintf('%s%s', $flag_path, $logged_info->member_srl);
 			if(file_exists($flag_file))
 			{
 				// Pop-up to display messages if a flag on new message is set
 				$new_message_count = (int) trim(FileHandler::readFile($flag_file));
-				$text = preg_replace('@\r?\n@', '\\n', addslashes(Context::getLang('alert_new_message_arrived')));
-				Context::addHtmlFooter("<script>jQuery(function(){ xeNotifyMessage('{$text}','{$new_message_count}'); });</script>");
-				Context::loadFile(array('./modules/communication/tpl/js/member_communication.js'), true);
-				
-				FileHandler::removeFile($flag_file);
+				if($new_message_count > 0)
+				{
+					$text = preg_replace('@\r?\n@', '\\n', addslashes(Context::getLang('alert_new_message_arrived')));
+					Context::addHtmlFooter("<script>jQuery(function(){ xeNotifyMessage('{$text}','{$new_message_count}'); });</script>");
+					Context::loadFile(array('./modules/communication/tpl/js/member_communication.js'), true);
+				}
+				else
+				{
+					FileHandler::removeFile($flag_file);
+				}
 			}
 		}
 	}
