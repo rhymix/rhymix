@@ -50,6 +50,14 @@
 			</div>
 		</div>
 		<div class="x_control-group">
+			<label class="x_control-label" for="debug_log_slow_widgets">{$lang->debug_type}</label>
+			<div class="x_controls">
+				<label for="debug_type_all" class="x_inline"><input type="radio" name="debug_type" id="debug_type_all" value="all" checked="checked"|cond="$debug_type=='all'" /> {$lang->debug_type_all}</label>
+				<label for="debug_type_print" class="x_inline"><input type="radio" name="debug_type" id="debug_type_print" value="print" checked="checked"|cond="$debug_type=='print'" /> {$lang->debug_type_print}</label>
+				<p class="x_help-block">{$lang->about_debug_type}</p>
+			</div>
+		</div>
+		<div class="x_control-group">
 			<label class="x_control-label" for="debug_log_slow_widgets">{$lang->debug_display_type}</label>
 			<div class="x_controls">
 				<label for="debug_display_type_comment" class="x_inline"><input type="radio" name="debug_display_type" id="debug_display_type_comment" value="comment" checked="checked"|cond="$debug_display_type=='comment'" /> {$lang->debug_display_type_comment}</label>
