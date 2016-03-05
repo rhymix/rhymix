@@ -273,7 +273,6 @@ $lang->filter['invalid_alpha'] = '%s biçimi geçersiz. Lütfen sadece harfleri 
 $lang->filter['invalid_alpha_number'] = ' %s biçimi geçersiz. Lütfen harfleri ve sayıları kullanınız.';
 $lang->filter['invalid_mid'] = '%s formatı geçersizdir. Modülün ID\'si harf ile başlaması gerekmektedir.';
 $lang->filter['invalid_number'] = '%s bicimi geçersizdir . Lütfen sadece numaraları kullanın.';
-$lang->security_invalid_session = '바르지 않은 접근입니다. 인증을 위해 다시 로그인해야 합니다.';
 $lang->security_warning_embed = 'Güvenlik nedeniyle, yöneticiler yerleşik öğeleri görüntülemeye yetkili değildirler.<BR /> Yerleşik öğeleri görüntüleyebilmek için, lütfen yönetici olmayan bir hesap kullanın.';
 $lang->msg_pc_to_mobile = 'Bu sayfanın mobil versiyonu bulunmaktadır. Mobil sayfaya geçiş yapmak istiyor musunuz?';
 $lang->cmd_yes = 'Evet';
