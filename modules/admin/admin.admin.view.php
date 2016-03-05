@@ -499,7 +499,8 @@ class adminAdminView extends admin
 		Context::set('debug_log_filename', Rhymix\Framework\Config::get('debug.log_filename') ?: 'files/debug/YYYYMMDD.php');
 		Context::set('debug_display_type', Rhymix\Framework\Config::get('debug.display_type'));
 		Context::set('debug_display_to', Rhymix\Framework\Config::get('debug.display_to'));
-		
+		Context::set('debug_type', Rhymix\Framework\Config::get('debug.debug_type'));
+
 		// IP access control
 		$allowed_ip = Rhymix\Framework\Config::get('debug.allow');
 		Context::set('debug_allowed_ip', implode(PHP_EOL, $allowed_ip));

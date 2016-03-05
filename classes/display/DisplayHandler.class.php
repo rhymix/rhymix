@@ -204,9 +204,21 @@ class DisplayHandler extends Handler
 				{
 					return;
 				}
+				$debug_type = config('debug.debug_type');
 				ob_start();
 				$data = Rhymix\Framework\Debug::getDebugData();
-				include RX_BASEDIR . 'common/tpl/debug_comment.html';
+				if($debug_type == 'print' && !count($data->entries) && $data->errors === null)
+				{
+					return;
+				}
+				if($debug_type == 'all')
+				{
+					include RX_BASEDIR . 'common/tpl/debug_comment.html';
+				}
+				else
+				{
+					include RX_BASEDIR . 'common/tpl/only_debugprint_comment.html';
+				}
 				$content = ob_get_clean();
 				if ($display_type === 'file')
 				{
