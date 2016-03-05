@@ -89,7 +89,7 @@ class communicationController extends communication
 		$oCommunicationModel = getModel('communication');
 		$config = $oCommunicationModel->getConfig();
 
-		if(!$oCommunicationModel->checkWriteGrant($config->grant_write))
+		if(!$oCommunicationModel->checkGrant($config->grant_send))
 		{
 			return new Object(-1, 'msg_not_permitted');
 		}

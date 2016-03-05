@@ -46,10 +46,10 @@ class communicationModel extends communication
 		{
 			$config->mskin = 'default';
 		}
-
-		if(!$config->grant_write)
+		
+		if(!$config->grant_send)
 		{
-			$config->grant_write = array('default_grant' => 'member');
+			$config->grant_send = array('default' => 'member');
 		}
 
 		if(!$config->enable_message)
@@ -76,62 +76,54 @@ class communicationModel extends communication
 		$grant = array();
 		if($default)
 		{
-			switch($default)
-			{
-				case "-2":
-					$grant = array("default_grant"=>"site");
-					break;
-				case "-3":
-					$grant = array("default_grant"=>"manager");
-					break;
-				default :
-					$grant = array("default_grant"=>"member");
-					break;
-			}
-		} 
+			$grant = array('default' => $default);
+		}
 		else if(is_array($group)) 
 		{
-			$group_grant = array();
+			$grant_group = array();
 			foreach($group as $group_srl)
 			{
-				$group_grant[$group_srl] = true;
+				$grant_group[$group_srl] = true;
 			}
 			
-			$grant = array('group_grant' => $group_grant);
+			$grant = array('group' => $grant_group);
 		} 
 		
 		return $grant;
 	}
 
 	/**
-	  * @brief Check Write Grant
+	  * @brief Check Grant
 	  * @param array $arrGrant
 	  * @return boolean
 	  */
-	function checkWriteGrant($arrGrant)
+	function checkGrant($arrGrant)
 	{
 		if(!$arrGrant) return false;
 		
 		$logged_info = Context::get('logged_info');
-		if($logged_info->is_admin == "Y") return true;
+		if($logged_info->is_admin == 'Y') return true;
 
-		if($arrGrant['default_grant'])
+		if($arrGrant['default'])
 		{
-			if($arrGrant['default_grant'] == "member" && Context::get('is_logged')) return true;
-			
-			if($arrGrant['default_grant'] == "site" && $this->site_srl == $logged_info->site_srl) return true;
-			
-			if($arrGrant['default_grant'] == "manager" && $logged_info->is_admin == "Y") return true;
+			if($arrGrant['default'] == 'member')
+			{
+				if(Context::get('is_logged')) return true;
+			}
+			else if($arrGrant['default'] == 'site')
+			{
+				if($this->site_srl == $logged_info->site_srl) return true;
+			}
+			else if($arrGrant['default'] == 'manager')
+			{
+				if($logged_info->is_admin == 'Y') return true;
+			}
 		}
-
-		if($arrGrant['group_grant'])
+		else if(is_array($arrGrant['group']))
 		{
-			$group_grant = $arrGrant['group_grant'];
-			if(!is_array($group_grant)) return false;
-
 			foreach($logged_info->group_list as $group_srl => $title)
 			{
-				if($group_grant[$group_srl]) return true;
+				if(isset($arrGrant['group'][$group_srl])) return true;
 			}
 		}
 

@@ -101,18 +101,27 @@
 		</div>
 	</div>
 	<div class="x_control-group">
-		<label class="x_control-label" for="mlayout_srl">{$lang->communication_send_message_grant}</label>
+		<label class="x_control-label" for="grant_send">{$lang->communication_send_message_grant}</label>
 		<div class="x_controls">
-			<select name="grant_write_default" class="grant_default">
-				<option value="-1" selected="selected"|cond="$config->grant_write['default_grant']=='member'">{$lang->grant_to_login_user}</option>
-				<option value="-2" selected="selected"|cond="$config->grant_write['default_grant']=='site'">{$lang->grant_to_site_user}</option>
-				<option value="-3" selected="selected"|cond="$config->grant_write['default_grant']=='manager'">{$lang->grant_to_admin}</option>
-				<option value="" selected="selected"|cond="$config->grant_write['default_grant']==''">{$lang->grant_to_group}</option>
+			<select name="grant_send_default" class="grant_default" id="grant_send">
+				<option value="member" selected="selected"|cond="$config->grant_send['default'] == 'member'">
+					{$lang->grant_to_login_user}
+				</option>
+				<option value="site" selected="selected"|cond="$config->grant_send['default'] == 'site'">
+					{$lang->grant_to_site_user}
+				</option>
+				<option value="manager" selected="selected"|cond="$config->grant_send['default'] == 'manager'">
+					{$lang->grant_to_admin}
+				</option>
+				<option value="" selected="selected"|cond="$config->grant_send['default'] == ''">
+					{$lang->grant_to_group}
+				</option>
 			</select>
-			<div id="zone_grant_write" hidden style="margin:8px 0 0 0">
-				<label loop="$group_list => $group_srl, $group_item" for="group_{$group_srl}">
-					<input type="checkbox" class="checkbox" name="grant_write_group[]" value="{$group_item->group_srl}" id="group_{$group_item->group_srl}" checked="checked"|cond="isset($config->grant_write['group_grant'][$group_srl])"/>
-					{$group_item->title}
+			
+			<div id="zone_grant_send" style="margin:8px 0 0 0" hidden>
+				<label loop="$group_list => $group_srl, $item" for="group_{$group_srl}">
+					<input type="checkbox" name="grant_send_group[]" value="{$group_srl}" checked="checked"|cond="isset($config->grant_send['group'][$group_srl])" id="group_{$group_srl}"/>
+					{$item->title}
 				</label>
 			</div>
 		</div>
