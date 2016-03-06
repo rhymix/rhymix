@@ -702,13 +702,15 @@ class adminAdminController extends admin
 		
 		// Debug settings
 		Rhymix\Framework\Config::set('debug.enabled', $vars->debug_enabled === 'Y');
-		Rhymix\Framework\Config::set('debug.log_errors', $vars->debug_log_errors === 'Y');
-		Rhymix\Framework\Config::set('debug.log_queries', $vars->debug_log_queries === 'Y');
 		Rhymix\Framework\Config::set('debug.log_slow_queries', max(0, floatval($vars->debug_log_slow_queries)));
 		Rhymix\Framework\Config::set('debug.log_slow_triggers', max(0, floatval($vars->debug_log_slow_triggers)));
 		Rhymix\Framework\Config::set('debug.log_slow_widgets', max(0, floatval($vars->debug_log_slow_widgets)));
 		Rhymix\Framework\Config::set('debug.display_type', strval($vars->debug_display_type) ?: 'comment');
 		Rhymix\Framework\Config::set('debug.display_to', strval($vars->debug_display_to) ?: 'admin');
+		
+		// Debug content
+		$debug_content = array_values($vars->debug_display_content);
+		Rhymix\Framework\Config::set('debug.display_content', $debug_content);
 		
 		// Log filename
 		$log_filename = strval($vars->debug_log_filename);
