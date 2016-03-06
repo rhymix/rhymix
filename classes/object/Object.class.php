@@ -96,7 +96,7 @@ class Object
 	 */
 	function setMessage($message = 'success', $type = NULL)
 	{
-		if($str = Context::getLang($message))
+		if($str = lang($message))
 		{
 			$this->message = $str;
 		}

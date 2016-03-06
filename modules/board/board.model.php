@@ -48,7 +48,7 @@ class boardModel extends module
 			}
 			else
 			{
-				$output[$key] = new ExtraItem($module_srl, -1, Context::getLang($key), $key, 'N', 'N', 'N', null);
+				$output[$key] = new ExtraItem($module_srl, -1, lang($key), $key, 'N', 'N', 'N', null);
 			}
 		}
 		return $output;
@@ -64,7 +64,7 @@ class boardModel extends module
 				'user_id', 'user_name', 'readed_count', 'voted_count', 'blamed_count', 'thumbnail', 'summary', 'comment_status');
 		foreach($virtual_vars as $key)
 		{
-			$extra_vars[$key] = new ExtraItem($module_srl, -1, Context::getLang($key), $key, 'N', 'N', 'N', null);
+			$extra_vars[$key] = new ExtraItem($module_srl, -1, lang($key), $key, 'N', 'N', 'N', null);
 		}
 
 		// get the extra variables from the document model

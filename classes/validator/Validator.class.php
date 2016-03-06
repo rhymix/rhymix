@@ -467,7 +467,7 @@ class Validator
 		}
 		else
 		{
-			$lang_filter = Context::getLang('filter');
+			$lang_filter = lang('filter');
 			$msg = isset($lang_filter->{$msg}) ? $lang_filter->{$msg} : $lang_filter->invalid;
 		}
 
@@ -477,7 +477,7 @@ class Validator
 		}
 		else
 		{
-			$fieldName = Context::getLang($field);
+			$fieldName = lang($field);
 		}
 
 		$msg = sprintf($msg, $fieldName);

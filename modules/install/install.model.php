@@ -54,7 +54,7 @@ class installModel extends install
 		if(function_exists('ftp_connect'))
 		{
 			$connection = ftp_connect($ftp_info->ftp_host, $ftp_info->ftp_port);
-			if(!$connection) return new Object(-1, sprintf(Context::getLang('msg_ftp_not_connected'), $ftp_info->ftp_host));
+			if(!$connection) return new Object(-1, sprintf(lang('msg_ftp_not_connected'), $ftp_info->ftp_host));
 			if(! @ftp_login($connection, $ftp_info->ftp_user, $ftp_info->ftp_password))
 			{
 				ftp_close($connection);	

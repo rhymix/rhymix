@@ -15,7 +15,7 @@ class pageWap extends page
 	function procWAP(&$oMobile)
 	{
 		// Check permissions
-		if(!$this->grant->access) return $oMobile->setContent(Context::getLang('msg_not_permitted'));
+		if(!$this->grant->access) return $oMobile->setContent(lang('msg_not_permitted'));
 		// The contents of the widget chuchulham
 		$oWidgetController = getController('widget');
 		$content = $oWidgetController->transWidgetCode($this->module_info->content);

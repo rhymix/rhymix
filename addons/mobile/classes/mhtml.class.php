@@ -71,11 +71,11 @@ class wap extends mobileXE
 		if(!parent::isLangChange())
 		{
 			$url = getUrl('','lcm','1','sel_lang',Context::getLangType(),'return_uri',Context::get('current_url'));
-			printf('<a href="%s">%s</a><br>%s', $url, 'Language : '.Context::getLang('select_lang'), "\n");
+			printf('<a href="%s">%s</a><br>%s', $url, 'Language : '.lang('select_lang'), "\n");
 		}
 		else
 		{
-			printf('<a href="%s">%s</a><br>%s', Context::get('return_uri'), Context::getLang('lang_return'), "\n");
+			printf('<a href="%s">%s</a><br>%s', Context::get('return_uri'), lang('lang_return'), "\n");
 		}
 		if($this->upperUrl)
 		{

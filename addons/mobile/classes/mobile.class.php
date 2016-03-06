@@ -168,12 +168,12 @@ class mobileXE
 			if($parent_srl && $listed_items[$parent_srl])
 			{
 				$parent_item = $listed_items[$parent_srl];
-				if($parent_item) $this->setUpperUrl(getUrl('','mid',$parent_item['mid']), Context::getLang('cmd_go_upper'));
+				if($parent_item) $this->setUpperUrl(getUrl('','mid',$parent_item['mid']), lang('cmd_go_upper'));
 			}
 		}
 		elseif (!$this->isNavigationMode())
 		{
-			$this->setUpperUrl(getUrl('','mid',$this->index_mid,'nm','1','cmid',0), Context::getLang('cmd_view_sitemap'));
+			$this->setUpperUrl(getUrl('','mid',$this->index_mid,'nm','1','cmid',0), lang('cmd_view_sitemap'));
 		}
 	}
 
@@ -247,14 +247,14 @@ class mobileXE
 			if($this->mobilePage>1)
 			{
 				$url = getUrl('mid',$_GET['mid'],'mpage',$this->mobilePage-1);
-				$text = sprintf('%s (%d/%d)', Context::getLang('cmd_prev'), $this->mobilePage-1, $this->totalPage);
+				$text = sprintf('%s (%d/%d)', lang('cmd_prev'), $this->mobilePage-1, $this->totalPage);
 				$this->setPrevUrl($url, $text);
 			}
 
 			if($this->mobilePage<$this->totalPage)
 			{
 				$url = getUrl('mid',$_GET['mid'],'mpage',$this->mobilePage+1);
-				$text = sprintf('%s (%d/%d)', Context::getLang('cmd_next'), $this->mobilePage+1, $this->totalPage);
+				$text = sprintf('%s (%d/%d)', lang('cmd_next'), $this->mobilePage+1, $this->totalPage);
 				$this->setNextUrl($url, $text);
 			}
 		} 
@@ -353,14 +353,14 @@ class mobileXE
 		if($this->mobilePage>1)
 		{
 			$url = getUrl('mid',$_GET['mid'],'mpage',$this->mobilePage-1);
-			$text = sprintf('%s (%d/%d)', Context::getLang('cmd_prev'), $this->mobilePage-1, $this->totalPage);
+			$text = sprintf('%s (%d/%d)', lang('cmd_prev'), $this->mobilePage-1, $this->totalPage);
 			$this->setPrevUrl($url, $text);
 		}
 
 		if($this->mobilePage<$this->totalPage)
 		{
 			$url = getUrl('mid',$_GET['mid'],'mpage',$this->mobilePage+1);
-			$text = sprintf('%s (%d/%d)', Context::getLang('cmd_next'), $this->mobilePage+1, $this->totalPage);
+			$text = sprintf('%s (%d/%d)', lang('cmd_next'), $this->mobilePage+1, $this->totalPage);
 			$this->setNextUrl($url, $text);
 		}
 
@@ -442,7 +442,7 @@ class mobileXE
 	function display()
 	{
 		// Home button assignments
-		$this->setHomeUrl(getUrl(), Context::getLang('cmd_go_home'));
+		$this->setHomeUrl(getUrl(), lang('cmd_go_home'));
 		// Specify the title
 		if(!$this->title) $this->setTitle(Context::getBrowserTitle());
 
@@ -520,7 +520,7 @@ class mobileXE
 			$cur_item = $this->listed_items[$this->cmid];
 			$upper_srl = $cur_item['parent_srl'];;
 			$list = $cur_item['list'];;
-			$this->setUpperUrl(getUrl('cmid',$upper_srl), Context::getLang('cmd_go_upper'));
+			$this->setUpperUrl(getUrl('cmid',$upper_srl), lang('cmd_go_upper'));
 			if(preg_match('/^([a-zA-Z0-9\_\-]+)$/', $cur_item['url']))
 			{
 				$obj = array();
@@ -575,7 +575,7 @@ class mobileXE
 		$lang_supported = Context::get('lang_supported');
 		$lang_type = Context::getLangType();
 		$obj = array();
-		$obj['link'] = $obj['text'] = Context::getLang('president_lang').' : '.$lang_supported[$lang_type];
+		$obj['link'] = $obj['text'] = lang('president_lang').' : '.$lang_supported[$lang_type];
 		$obj['href'] = getUrl('sel_lang',$lang_type);
 		$childs[] = $obj;
 

@@ -207,7 +207,7 @@ class commentController extends comment
 
 		// if an user select message from options, message would be the option.
 		$message_option = strval(Context::get('message_option'));
-		$improper_comment_reasons = Context::getLang('improper_comment_reasons');
+		$improper_comment_reasons = lang('improper_comment_reasons');
 		$declare_message = ($message_option !== 'others' && isset($improper_comment_reasons[$message_option]))?
 			$improper_comment_reasons[$message_option] : trim(Context::get('declare_message'));
 
@@ -594,7 +594,7 @@ class commentController extends comment
 		if(!$manual_inserted)
 		{
 			// send a message if notify_message option in enabled in the original article
-			$oDocument->notify(Context::getLang('comment'), $obj->content);
+			$oDocument->notify(lang('comment'), $obj->content);
 
 			// send a message if notify_message option in enabled in the original comment
 			if($obj->parent_srl)
@@ -602,7 +602,7 @@ class commentController extends comment
 				$oParent = $oCommentModel->getComment($obj->parent_srl);
 				if($oParent->get('member_srl') != $oDocument->get('member_srl'))
 				{
-					$oParent->notify(Context::getLang('comment'), $obj->content);
+					$oParent->notify(lang('comment'), $obj->content);
 				}
 			}
 		}

@@ -907,7 +907,7 @@ class adminAdminController extends admin
 		else
 		{
 			$name = $tmpFileName = '';
-			Context::set('msg', Context::getLang('msg_invalid_format'));
+			Context::set('msg', lang('msg_invalid_format'));
 		}
 		
 		Context::set('name', $name);
@@ -934,7 +934,7 @@ class adminAdminController extends admin
 		if ($iconname == 'favicon.ico')
 		{
 			if(!preg_match('/^.*(x-icon|\.icon)$/i',$type)) {
-				Context::set('msg', '*.ico '.Context::getLang('msg_possible_only_file'));
+				Context::set('msg', '*.ico '.lang('msg_possible_only_file'));
 				return;
 			}
 		}
@@ -942,18 +942,18 @@ class adminAdminController extends admin
 		{
 			if (!preg_match('/^.*(png).*$/',$type))
 			{
-				Context::set('msg', '*.png '.Context::getLang('msg_possible_only_file'));
+				Context::set('msg', '*.png '.lang('msg_possible_only_file'));
 				return;
 			}
 			if (!(($height == '57' && $width == '57') || ($height == '114' && $width == '114')))
 			{
-				Context::set('msg', Context::getLang('msg_invalid_format').' (size : 57x57, 114x114)');
+				Context::set('msg', lang('msg_invalid_format').' (size : 57x57, 114x114)');
 				return;
 			}
 		}
 		else
 		{
-			Context::set('msg', Context::getLang('msg_invalid_format'));
+			Context::set('msg', lang('msg_invalid_format'));
 			return;
 		}
 		

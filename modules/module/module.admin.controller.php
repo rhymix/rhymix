@@ -826,7 +826,7 @@ class moduleAdminController extends module
 						}
 						else
 						{
-							$mid_list[$module]->list[$key]->module_category_srl = Context::getLang('none_category');
+							$mid_list[$module]->list[$key]->module_category_srl = lang('none_category');
 						}
 					}
 				}

@@ -41,7 +41,7 @@ class documentAdminController extends document
 			$oDocumentController->deleteDocument($document_srl, true);
 		}
 
-		$this->setMessage(sprintf(Context::getLang('msg_checked_document_is_deleted'), $document_count) );
+		$this->setMessage(sprintf(lang('msg_checked_document_is_deleted'), $document_count) );
 	}
 
 	/**

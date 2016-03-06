@@ -47,13 +47,13 @@ class editorController extends editor
 	{
 		$component = Context::get('component');
 		$method = Context::get('method');
-		if(!$component) return new Object(-1, sprintf(Context::getLang('msg_component_is_not_founded'), $component));
+		if(!$component) return new Object(-1, sprintf(lang('msg_component_is_not_founded'), $component));
 
 		$oEditorModel = getModel('editor');
 		$oComponent = &$oEditorModel->getComponentObject($component);
 		if(!$oComponent->toBool()) return $oComponent;
 
-		if(!method_exists($oComponent, $method)) return new Object(-1, sprintf(Context::getLang('msg_component_is_not_founded'), $component));
+		if(!method_exists($oComponent, $method)) return new Object(-1, sprintf(lang('msg_component_is_not_founded'), $component));
 
 		//$output = call_user_method($method, $oComponent);
 		//$output = call_user_func(array($oComponent, $method));

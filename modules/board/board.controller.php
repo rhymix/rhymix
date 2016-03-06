@@ -131,7 +131,7 @@ class boardController extends board
 			{
 				if($oDocument->get('regdate') < date('YmdHis', strtotime('-'.$this->module_info->protect_document_regdate.' day')))
 				{
-					$format =  Context::getLang('msg_protect_regdate_document');
+					$format =  lang('msg_protect_regdate_document');
 					$massage = sprintf($format, $this->module_info->protect_document_regdate);
 					return new Object(-1, $massage);
 				}
@@ -234,7 +234,7 @@ class boardController extends board
 		{
 			if($oDocument->get('regdate') < date('YmdHis', strtotime('-'.$this->module_info->protect_document_regdate.' day')))
 			{
-				$format =  Context::getLang('msg_protect_regdate_document');
+				$format =  lang('msg_protect_regdate_document');
 				$massage = sprintf($format, $this->module_info->protect_document_regdate);
 				return new Object(-1, $massage);
 			}
@@ -385,7 +385,7 @@ class boardController extends board
 			{
 				if($comment->get('regdate') < date('YmdHis', strtotime('-'.$this->module_info->protect_document_regdate.' day')))
 				{
-					$format =  Context::getLang('msg_protect_regdate_comment');
+					$format =  lang('msg_protect_regdate_comment');
 					$massage = sprintf($format, $this->module_info->protect_document_regdate);
 					return new Object(-1, $massage);
 				}
@@ -438,7 +438,7 @@ class boardController extends board
 		{
 			if($comment->get('regdate') < date('YmdHis', strtotime('-'.$this->module_info->protect_document_regdate.' day')))
 			{
-				$format =  Context::getLang('msg_protect_regdate_comment');
+				$format =  lang('msg_protect_regdate_comment');
 				$massage = sprintf($format, $this->module_info->protect_document_regdate);
 				return new Object(-1, $massage);
 			}
