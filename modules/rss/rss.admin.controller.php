@@ -76,7 +76,7 @@ class rssAdminController extends rss
 
 		if(!$alt_message) $alt_message = 'success_updated';
 
-		$alt_message = Context::getLang($alt_message);
+		$alt_message = lang($alt_message);
 		$this->setMessage($alt_message, 'info');
 
 		//$this->setLayoutPath('./common/tpl');

@@ -68,7 +68,7 @@ class documentAdminView extends document
 		$count_search_option = count($this->search_option);
 		for($i=0;$i<$count_search_option;$i++)
 		{
-			$search_option[$this->search_option[$i]] = Context::getLang($this->search_option[$i]);
+			$search_option[$this->search_option[$i]] = lang($this->search_option[$i]);
 		}
 		Context::set('search_option', $search_option);
 

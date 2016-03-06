@@ -78,7 +78,7 @@ class fileAdminController extends file
 			$oFileController->deleteFile($file_srl);
 		}
 
-		$this->setMessage( sprintf(Context::getLang('msg_checked_file_is_deleted'), $file_count) );
+		$this->setMessage( sprintf(lang('msg_checked_file_is_deleted'), $file_count) );
 
 		$returnUrl = Context::get('success_return_url') ? Context::get('success_return_url') : getNotEncodedUrl('', 'module', 'admin', 'act', 'dispFileAdminList');
 		$this->setRedirectUrl($returnUrl);

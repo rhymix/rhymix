@@ -26,6 +26,35 @@ function config($key, $value = null)
 }
 
 /**
+ * Get or set lang variable.
+ *
+ * @param string $code Lang variable name
+ * @param string $value `$code`s value
+ * @return mixed
+ */
+function lang($code = null, $value = null)
+{
+	if (!$GLOBALS['lang'] instanceof Rhymix\Framework\Lang)
+	{
+		$GLOBALS['lang'] = Rhymix\Framework\Lang::getInstance(Context::getLangType() ?: config('locale.default_lang') ?: 'ko');
+		$GLOBALS['lang']->loadDirectory(RX_BASEDIR . 'common/lang', 'common');
+	}
+	
+	if ($code !== null && $value === null)
+	{
+		return $GLOBALS['lang']->get($code);
+	}
+	else if ($code !== null && $value !== null)
+	{
+		$GLOBALS['lang']->set($code, $value);
+	}
+	else
+	{
+		return $GLOBALS['lang']->langType();
+	}
+}
+
+/**
  * Get the first value of an array.
  * 
  * @param array $array The input array

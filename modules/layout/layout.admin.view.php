@@ -324,7 +324,7 @@ class layoutAdminView extends layout
 		}
 
 		Context::set('layout_info', $layout_info);
-		Context::set('content', Context::getLang('layout_preview_content'));
+		Context::set('content', lang('layout_preview_content'));
 		// Temporary save the codes
 		$edited_layout_file = sprintf('./files/cache/layout/tmp.tpl');
 		FileHandler::writeFile($edited_layout_file, $code);

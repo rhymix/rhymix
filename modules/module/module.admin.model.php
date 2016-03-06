@@ -90,7 +90,7 @@ class moduleAdminModel extends module
 			$grantList =new stdClass();
 		}
 		$grantList->access = new stdClass();
-		$grantList->access->title = Context::getLang('grant_access');
+		$grantList->access->title = lang('grant_access');
 		$grantList->access->default = 'guest';
 		if(count($grantList))
 		{
@@ -102,7 +102,7 @@ class moduleAdminModel extends module
 			}
 		}
 		$grant_list->manager = new stdClass();
-		$grant_list->manager->title = Context::getLang('grant_manager');
+		$grant_list->manager->title = lang('grant_manager');
 		$grant_list->manager->default = 'manager';
 		Context::set('grant_list', $grant_list);
 
@@ -152,7 +152,7 @@ class moduleAdminModel extends module
 		// Grant virtual permission for access and manager
 		$grant_list = new stdClass();
 		$grant_list->access = new stdClass();
-		$grant_list->access->title = Context::getLang('grant_access');
+		$grant_list->access->title = lang('grant_access');
 		$grant_list->access->default = 'guest';
 		if(count($source_grant_list))
 		{
@@ -164,7 +164,7 @@ class moduleAdminModel extends module
 			}
 		}
 		$grant_list->manager = new stdClass();
-		$grant_list->manager->title = Context::getLang('grant_manager');
+		$grant_list->manager->title = lang('grant_manager');
 		$grant_list->manager->default = 'manager';
 		Context::set('grant_list', $grant_list);
 		// Get a permission group granted to the current module
@@ -229,7 +229,7 @@ class moduleAdminModel extends module
 		// Grant virtual permission for access and manager
 		$grantList = new stdClass();
 		$grantList->access = new stdClass();
-		$grantList->access->title = Context::getLang('grant_access');
+		$grantList->access->title = lang('grant_access');
 		$grantList->access->default = 'guest';
 		if(count($xmlInfo->grant))
 		{
@@ -241,7 +241,7 @@ class moduleAdminModel extends module
 			}
 		}
 		$grantList->manager = new stdClass();
-		$grantList->manager->title = Context::getLang('grant_manager');
+		$grantList->manager->title = lang('grant_manager');
 		$grantList->manager->default = 'manager';
 
 		// Get a permission group granted to the current module

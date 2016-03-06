@@ -205,7 +205,7 @@ class documentController extends document
 
 		// if an user select message from options, message would be the option.
 		$message_option = strval(Context::get('message_option'));
-		$improper_document_reasons = Context::getLang('improper_document_reasons');
+		$improper_document_reasons = lang('improper_document_reasons');
 		$declare_message = ($message_option !== 'others' && isset($improper_document_reasons[$message_option]))?
 			$improper_document_reasons[$message_option] : trim(Context::get('declare_message'));
 
@@ -1814,9 +1814,9 @@ class documentController extends document
 			$prev_category = $val;
 		}
 		// Return if the previous category doesn't exist
-		if(!$prev_category) return new Object(-1,Context::getLang('msg_category_not_moved'));
+		if(!$prev_category) return new Object(-1,lang('msg_category_not_moved'));
 		// Return if the selected category is the top level
-		if($category_srl_list[0]==$category_srl) return new Object(-1,Context::getLang('msg_category_not_moved'));
+		if($category_srl_list[0]==$category_srl) return new Object(-1,lang('msg_category_not_moved'));
 		// Information of the selected category
 		$cur_args = new stdClass;
 		$cur_args->category_srl = $category_srl;
@@ -1860,7 +1860,7 @@ class documentController extends document
 		}
 
 		$next_category_srl = $category_srl_list[$i+1];
-		if(!$category_list[$next_category_srl]) return new Object(-1,Context::getLang('msg_category_not_moved'));
+		if(!$category_list[$next_category_srl]) return new Object(-1,lang('msg_category_not_moved'));
 		$next_category = $category_list[$next_category_srl];
 		// Information of the selected category
 		$cur_args = new stdClass;
@@ -2529,10 +2529,10 @@ class documentController extends document
 		{
 			$logged_info = Context::get('logged_info');
 			$message_content = '';
-			$default_message_verbs = Context::getLang('default_message_verbs');
+			$default_message_verbs = lang('default_message_verbs');
 			if(isset($default_message_verbs[$type]) && is_string($default_message_verbs[$type]))
 			{
-				$message_content = sprintf(Context::getLang('default_message_format'), $logged_info->nick_name, $default_message_verbs[$type]);
+				$message_content = sprintf(lang('default_message_format'), $logged_info->nick_name, $default_message_verbs[$type]);
 			}
 		}
 		else

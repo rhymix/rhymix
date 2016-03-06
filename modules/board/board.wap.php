@@ -17,7 +17,7 @@ class boardWAP extends board
 		// check grant
 		if(!$this->grant->list || $this->module_info->consultation == 'Y')
 		{
-			return $oMobile->setContent(Context::getLang('msg_not_permitted'));
+			return $oMobile->setContent(lang('msg_not_permitted'));
 		}
 
 		// generate document model object
@@ -33,7 +33,7 @@ class boardWAP extends board
 				// check the grant
 				if(!$this->grant->view)
 				{
-					return $oMobile->setContent(Context::getLang('msg_not_permitted'));
+					return $oMobile->setContent(lang('msg_not_permitted'));
 				}
 
 				// setup the browser title
@@ -64,7 +64,7 @@ class boardWAP extends board
 					$oMobile->setContent( $content );
 
 					// setup upper URL
-					$oMobile->setUpperUrl( getUrl('act',''), Context::getLang('cmd_go_upper') );
+					$oMobile->setUpperUrl( getUrl('act',''), lang('cmd_go_upper') );
 
 				// display the document if the act is not display the comment list
 				} else {
@@ -74,14 +74,14 @@ class boardWAP extends board
 
 
 					// setup content information(include the comments link)
-					$content = Context::getLang('replies').' : <a href="'.getUrl('act','dispBoardContentCommentList').'">'.$oDocument->getCommentCount().'</a><br>'."\r\n".$content;
+					$content = lang('replies').' : <a href="'.getUrl('act','dispBoardContentCommentList').'">'.$oDocument->getCommentCount().'</a><br>'."\r\n".$content;
 					$content = '<b>'.$oDocument->getNickName().'</b> ('.$oDocument->getRegdate("Y-m-d").")<br>\r\n".$content;
 
 					// setup mobile contents
 					$oMobile->setContent( $content );
 
 					// setup upper URL
-					$oMobile->setUpperUrl( getUrl('document_srl',''), Context::getLang('cmd_list') );
+					$oMobile->setUpperUrl( getUrl('document_srl',''), lang('cmd_list') );
 
 				}
 
@@ -124,12 +124,12 @@ class boardWAP extends board
 		// next/prevUrl specification
 		if($page > 1)
 		{
-			$oMobile->setPrevUrl(getUrl('mid',$_GET['mid'],'page',$page-1), sprintf('%s (%d/%d)', Context::getLang('cmd_prev'), $page-1, $totalPage));
+			$oMobile->setPrevUrl(getUrl('mid',$_GET['mid'],'page',$page-1), sprintf('%s (%d/%d)', lang('cmd_prev'), $page-1, $totalPage));
 		}
 
 		if($page < $totalPage)
 		{
-			$oMobile->setNextUrl(getUrl('mid',$_GET['mid'],'page',$page+1), sprintf('%s (%d/%d)', Context::getLang('cmd_next'), $page+1, $totalPage));
+			$oMobile->setNextUrl(getUrl('mid',$_GET['mid'],'page',$page+1), sprintf('%s (%d/%d)', lang('cmd_next'), $page+1, $totalPage));
 		}
 
 		$oMobile->mobilePage = $page;

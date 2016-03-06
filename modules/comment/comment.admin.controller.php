@@ -267,7 +267,7 @@ class commentAdminController extends comment
 		{
 			$msgCode = 'success_deleted';
 		}
-		//$this->setMessage( sprintf(Context::getLang('msg_checked_comment_is_deleted'), $deleted_count) );
+		//$this->setMessage( sprintf(lang('msg_checked_comment_is_deleted'), $deleted_count) );
 		$this->setMessage($msgCode, 'info');
 
 		//set url params

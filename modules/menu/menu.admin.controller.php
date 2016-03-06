@@ -1517,12 +1517,12 @@ class menuAdminController extends menu
 		// Error occurs when the target is neither a uploaded file nor a valid file
 		if(!$menu_srl || !$menu_item_srl)
 		{
-			Context::set('error_messge', Context::getLang('msg_invalid_request'));
+			Context::set('error_messge', lang('msg_invalid_request'));
 
 		}
 		else if(!$target_file || !is_uploaded_file($target_file['tmp_name']) || !preg_match('/\.(gif|jpeg|jpg|png)$/i',$target_file['name'])  || !checkUploadedFile($target_file['tmp_name']))
 		{
-			Context::set('error_messge', Context::getLang('msg_invalid_request'));
+			Context::set('error_messge', lang('msg_invalid_request'));
 		}
 
 		// Move the file to a specific director if the uploaded file meets requirement

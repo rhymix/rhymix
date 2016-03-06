@@ -594,8 +594,8 @@ function zdate($str, $format = 'Y-m-d H:i:s', $conversion = false)
 	// change day and am/pm for each language
 	if(preg_match('/[MFAa]/', $format))
 	{
-		$unit_week = (Array)Context::getLang('unit_week');
-		$unit_meridiem = (Array)Context::getLang('unit_meridiem');
+		$unit_week = (Array)lang('unit_week');
+		$unit_meridiem = (Array)lang('unit_meridiem');
 		$result = str_replace(array('Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'), $unit_week, $result);
 		$result = str_replace(array('am', 'pm', 'AM', 'PM'), $unit_meridiem, $result);
 	}
@@ -639,7 +639,7 @@ function getTimeGap($date, $format = 'Y.m.d')
 {
 	$gap = RX_TIME - ztime($date);
 
-	$lang_time_gap = Context::getLang('time_gap');
+	$lang_time_gap = lang('time_gap');
 	if($gap < 60 * 1.5)
 	{
 		$buff = sprintf($lang_time_gap['min'], round($gap / 60));
@@ -1157,7 +1157,7 @@ function stripEmbedTagForAdmin(&$content, $writer_member_srl)
 				return;
 			}
 		}
-		$security_msg = "<div style='border: 1px solid #DDD; background: #FAFAFA; text-align:center; margin: 1em 0;'><p style='margin: 1em;'>" . Context::getLang('security_warning_embed') . "</p></div>";
+		$security_msg = "<div style='border: 1px solid #DDD; background: #FAFAFA; text-align:center; margin: 1em 0;'><p style='margin: 1em;'>" . lang('security_warning_embed') . "</p></div>";
 		$content = preg_replace('/<object[^>]+>(.*?<\/object>)?/is', $security_msg, $content);
 		$content = preg_replace('/<embed[^>]+>(\s*<\/embed>)?/is', $security_msg, $content);
 		$content = preg_replace('/<img[^>]+editor_component="multimedia_link"[^>]*>(\s*<\/img>)?/is', $security_msg, $content);

@@ -404,14 +404,14 @@ class Debug
 		}
 		
 		// Localize the error title.
-		$title = \Context::getLang('msg_server_error');
+		$title = lang('msg_server_error');
 		if ($title === 'msg_server_error')
 		{
 			$message = 'Server Error';
 		}
 		
 		// Localize the error message.
-		$message = ini_get('display_errors') ? $message : \Context::getLang('msg_server_error_see_log');
+		$message = ini_get('display_errors') ? $message : lang('msg_server_error_see_log');
 		if ($message === 'msg_server_error_see_log')
 		{
 			$message = 'Your server is configured to hide error messages. Please see your server\'s error log for details.';

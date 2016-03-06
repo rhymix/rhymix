@@ -128,7 +128,7 @@ class memberView extends member
 
 			if($formInfo->isDefaultForm)
 			{
-				$item->title = Context::getLang($formInfo->name);
+				$item->title = lang($formInfo->name);
 				$item->value = $memberInfo->{$formInfo->name};
 
 				if($formInfo->name == 'profile_image' && $memberInfo->profile_image)
@@ -265,12 +265,12 @@ class memberView extends member
 
 		if ($this->member_config->identifier == 'email_address')
 		{
-			Context::set('identifierTitle', Context::getLang('email_address'));
+			Context::set('identifierTitle', lang('email_address'));
 			Context::set('identifierValue', $logged_info->email_address); 
 		}
 		else
 		{
-			Context::set('identifierTitle', Context::getLang('user_id'));
+			Context::set('identifierTitle', lang('user_id'));
 			Context::set('identifierValue', $logged_info->user_id);
 		}
 

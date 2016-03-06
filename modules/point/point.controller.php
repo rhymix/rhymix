@@ -436,7 +436,7 @@ class pointController extends point
 		$_SESSION['banned_document'][$obj->document_srl] = false;
 		if($config->disable_read_document == 'Y' && $point < 0 && abs($point)>$cur_point)
 		{
-			$message = sprintf(Context::getLang('msg_disallow_by_point'), abs($point), $cur_point);
+			$message = sprintf(lang('msg_disallow_by_point'), abs($point), $cur_point);
 			$obj->add('content', $message);
 			$_SESSION['banned_document'][$obj->document_srl] = true;
 			return new Object(-1, $message);

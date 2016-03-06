@@ -528,7 +528,7 @@ class documentModel extends document
 		ModuleHandler::triggerCall('document.getDocumentMenu', 'after', $menu_list);
 		if($this->grant->manager)
 		{
-			$str_confirm = Context::getLang('confirm_move');
+			$str_confirm = lang('confirm_move');
 			$url = sprintf("if(!confirm('%s')) return; var params = new Array(); params['document_srl']='%s'; params['mid']=current_mid;params['cur_url']=current_url; exec_xml('document', 'procDocumentAdminMoveToTrash', params)", $str_confirm, $document_srl);
 			$oDocumentController->addDocumentPopupMenu($url,'cmd_trash','','javascript');
 		}
@@ -554,7 +554,7 @@ class documentModel extends document
 		$menus_count = count($menus);
 		for($i=0;$i<$menus_count;$i++)
 		{
-			$menus[$i]->str = Context::getLang($menus[$i]->str);
+			$menus[$i]->str = lang($menus[$i]->str);
 		}
 		// Wanted to finally clean pop-up menu list
 		$this->add('menus', $menus);
