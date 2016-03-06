@@ -529,6 +529,7 @@ class adminAdminController extends admin
 		}
 		Rhymix\Framework\Config::set('locale.default_lang', $vars->default_lang);
 		Rhymix\Framework\Config::set('locale.enabled_lang', array_values($enabled_lang));
+		Rhymix\Framework\Config::set('locale.auto_select_lang', $vars->auto_select_lang === 'Y');
 		
 		// Default time zone
 		Rhymix\Framework\Config::set('locale.default_timezone', $vars->default_timezone);

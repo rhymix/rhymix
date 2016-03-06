@@ -38,6 +38,7 @@ return array(
 	'locale' => array(
 		'default_lang' => 'ko',
 		'enabled_lang' => array('ko'),
+		'auto_select_lang' => false,
 		'default_timezone' => 'Asia/Seoul',
 		'internal_timezone' => 32400,
 	),

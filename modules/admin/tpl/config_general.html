@@ -46,6 +46,21 @@
 			</div>
 		</div>
 		<div class="x_control-group">
+			<label class="x_control-label">{$lang->auto_select_lang}</label>
+			<div class="x_controls">
+				<label for="auto_select_lang_y" class="x_inline">
+					<input type="radio" name="auto_select_lang" id="auto_select_lang_y" value="Y" checked="checked"|cond="$auto_select_lang" />
+					{$lang->cmd_yes}
+				</label>
+				<label for="auto_select_lang_n" class="x_inline">
+					<input type="radio" name="auto_select_lang" id="auto_select_lang_n" value="N" checked="checked"|cond="!$auto_select_lang" />
+					{$lang->cmd_no}
+				</label>
+				<br />
+				<p class="x_help-block">{$lang->about_auto_select_lang}</p>
+			</div>
+		</div>
+		<div class="x_control-group">
 			<label class="x_control-label" for="default_timezone">{$lang->timezone}</label>
 			<div class="x_controls">
 				<select name="default_timezone">
