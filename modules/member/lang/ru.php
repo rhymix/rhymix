@@ -48,7 +48,6 @@ $lang->allow_message = 'Сообщения разрешены';
 $lang->allow_message_type['Y'] = 'Разрешено всем';
 $lang->allow_message_type['F'] = 'Разрешено только зарегистрированным друзьям';
 $lang->allow_message_type['N'] = 'Запрещено всем';
-$lang->about_allow_message = '쪽지 허용 방법 및 대상을 지정할 수 있습니다';
 $lang->logged_users = 'Logged Users';
 $lang->webmaster_name = 'Имя веб-мастера';
 $lang->webmaster_email = 'Email веб-мастера';

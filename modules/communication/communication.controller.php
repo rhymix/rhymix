@@ -837,7 +837,7 @@ class communicationController extends communication
 				$new_message_count = (int) trim(FileHandler::readFile($flag_file));
 				if($new_message_count > 0)
 				{
-					$text = preg_replace('@\r?\n@', '\\n', addslashes(Context::getLang('alert_new_message_arrived')));
+					$text = preg_replace('@\r?\n@', '\\n', addslashes(lang('alert_new_message_arrived')));
 					Context::addHtmlFooter("<script>jQuery(function(){ xeNotifyMessage('{$text}','{$new_message_count}'); });</script>");
 					Context::loadFile(array('./modules/communication/tpl/js/member_communication.js'), true);
 				}

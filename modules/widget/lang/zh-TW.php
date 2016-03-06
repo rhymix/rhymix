@@ -38,7 +38,6 @@ $lang->cmd_content_insert = '新增內容';
 $lang->cmd_box_widget_insert = '新增 Widget Box';
 $lang->cmd_remove_all_widgets = '全部清空';
 $lang->cmd_widget_size = '大小';
-$lang->cmd_widget_css_class = '위젯 CSS class';
 $lang->cmd_widget_align = '對齊';
 $lang->cmd_widget_align_left = '靠左';
 $lang->cmd_widget_align_right = '靠右';

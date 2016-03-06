@@ -312,7 +312,7 @@ class commentItem extends Object
 	{
 		if($this->isSecret() && !$this->isAccessible())
 		{
-			return Context::getLang('msg_is_secret');
+			return lang('msg_is_secret');
 		}
 
 		$content = $this->get('content');
@@ -333,7 +333,7 @@ class commentItem extends Object
 	{
 		if($this->isSecret() && !$this->isAccessible())
 		{
-			return Context::getLang('msg_is_secret');
+			return lang('msg_is_secret');
 		}
 
 		$content = $this->get('content');
@@ -343,7 +343,7 @@ class commentItem extends Object
 		if($add_popup_menu && Context::get('is_logged'))
 		{
 			$content = sprintf(
-					'%s<div class="comment_popup_menu"><a href="#popup_menu_area" class="comment_%d" onclick="return false">%s</a></div>', $content, $this->comment_srl, Context::getLang('cmd_comment_do')
+					'%s<div class="comment_popup_menu"><a href="#popup_menu_area" class="comment_%d" onclick="return false">%s</a></div>', $content, $this->comment_srl, lang('cmd_comment_do')
 			);
 		}
 

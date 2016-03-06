@@ -55,7 +55,7 @@ class wap extends mobileXE {
 			foreach($this->getChilds() as $key => $val)
 			{
 				if(!$val['link']) continue;
-				printf('<ce task=go label="%s" dest="%s">%s%s',Context::getLang('cmd_select'), $val['href'], $val['text'], "\n");
+				printf('<ce task=go label="%s" dest="%s">%s%s',lang('cmd_select'), $val['href'], $val['text'], "\n");
 			}
 		}
 		else

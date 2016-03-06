@@ -61,5 +61,3 @@ $lang->msg_install_completed = 'Установка завершена. Спас�
 $lang->msg_install_failed = 'Произошла ошибка при создании файла конфигурации.';
 $lang->ftp_form_title = 'Введите данные FTP';
 $lang->ftp = 'FTP';
-$lang->msg_ftp_not_connected = 'Connection to localhost via FTP failed. Please check the port number and if FTP service is available.';
-$lang->msg_ftp_chmod_fail = 'Chmod failed. Please check the permission and configuration of FTP server.';

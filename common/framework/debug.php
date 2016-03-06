@@ -404,14 +404,14 @@ class Debug
 		}
 		
 		// Localize the error title.
-		$title = \Context::getLang('msg_server_error');
+		$title = lang('msg_server_error');
 		if ($title === 'msg_server_error')
 		{
 			$message = 'Server Error';
 		}
 		
 		// Localize the error message.
-		$message = ini_get('display_errors') ? $message : \Context::getLang('msg_server_error_see_log');
+		$message = ini_get('display_errors') ? $message : lang('msg_server_error_see_log');
 		if ($message === 'msg_server_error_see_log')
 		{
 			$message = 'Your server is configured to hide error messages. Please see your server\'s error log for details.';
@@ -496,8 +496,8 @@ class Debug
 				'trans' => sprintf('%0.4f sec', $GLOBALS['__trans_content_elapsed__']),
 			),
 			'entries' => self::$_entries,
-			'errors' => config('debug.log_errors') ? self::$_errors : null,
-			'queries' => config('debug.log_queries') ? self::$_queries : null,
+			'errors' => self::$_errors,
+			'queries' => self::$_queries,
 			'slow_queries' => self::$_slow_queries,
 			'slow_triggers' => self::$_slow_triggers,
 			'slow_widgets' => self::$_slow_widgets,

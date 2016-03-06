@@ -44,7 +44,7 @@ class memberModel extends member
 		//for multi language
 		foreach($config->signupForm AS $key=>$value)
 		{
-			$config->signupForm[$key]->title = ($value->isDefaultForm) ? Context::getLang($value->name) : $value->title;
+			$config->signupForm[$key]->title = ($value->isDefaultForm) ? lang($value->name) : $value->title;
 			if($config->signupForm[$key]->isPublic != 'N') $config->signupForm[$key]->isPublic = 'Y';
 			if($value->name == 'find_account_question') $config->signupForm[$key]->isPublic = 'N';
 		}
@@ -186,7 +186,7 @@ class memberModel extends member
 		$menus_count = count($menus);
 		for($i=0;$i<$menus_count;$i++)
 		{
-			$menus[$i]->str = Context::getLang($menus[$i]->str);
+			$menus[$i]->str = lang($menus[$i]->str);
 		}
 		// Get a list of finalized pop-up menu
 		$this->add('menus', $menus);

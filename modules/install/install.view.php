@@ -23,7 +23,7 @@ class installView extends install
 		}
 		
 		// Set the browser title.
-		Context::setBrowserTitle(Context::getLang('introduce_title'));
+		Context::setBrowserTitle(lang('introduce_title'));
 		
 		// Specify the template path.
 		$this->setTemplatePath($this->module_path.'tpl');

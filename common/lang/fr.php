@@ -224,7 +224,3 @@ $lang->filter['invalid_korean_number'] = 'La format de %s n\'est pas convenable.
 $lang->filter['invalid_alpha'] = 'La format de %s n\'est pas convenable. Entrez seulement en alphabet, S.V.P.';
 $lang->filter['invalid_alpha_number'] = 'La format de %s n\'est pas convenable. Entrez seulement des lettres d\'alphabet ou des chiffres.';
 $lang->filter['invalid_number'] = 'La format de %s n\'est pas convenable. Entrez seulement des chiffres.';
-$lang->security_invalid_session = '바르지 않은 접근입니다. 인증을 위해 다시 로그인해야 합니다.';
-$lang->msg_pc_to_mobile = '이 페이지는 모바일 보기가 있습니다. 모바일 보기로 이동하시겠습니까?';
-$lang->mobile_view = 'Use Mobile View';
-$lang->about_mobile_view = 'If accessing with a smartphone, display content with mobile layout.';

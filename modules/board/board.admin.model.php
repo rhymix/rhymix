@@ -48,10 +48,10 @@ class boardAdminModel extends board
 		// set order target list
 		foreach($this->order_target AS $key)
 		{
-			$order_target[$key] = Context::getLang($key);
+			$order_target[$key] = lang($key);
 		}
-		$order_target['list_order'] = Context::getLang('document_srl');
-		$order_target['update_order'] = Context::getLang('last_update');
+		$order_target['list_order'] = lang('document_srl');
+		$order_target['update_order'] = lang('last_update');
 		Context::set('order_target', $order_target);
 
 		// for advanced language & url

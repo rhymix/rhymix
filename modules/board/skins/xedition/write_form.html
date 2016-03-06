@@ -10,7 +10,7 @@
 				{str_repeat("&nbsp;&nbsp;",$val->depth)} {$val->title} ({$val->document_count})
 			</option>
 		</select>
-		<input cond="$oDocument->getTitleText()" type="text" name="title" class="iText" title="{$lang->title}" value="{htmlspecialchars($oDocument->getTitleText())}" />
+		<input cond="$oDocument->getTitleText()" type="text" name="title" class="iText" title="{$lang->title}" value="{escape($oDocument->getTitleText(), false)}" />
 		<input cond="!$oDocument->getTitleText()" type="text" name="title" class="iText" title="{$lang->title}" />
 		<input cond="$grant->manager" type="checkbox" name="is_notice" value="Y" class="iCheck" checked="checked"|cond="$oDocument->isNotice()" id="is_notice" />
 		<label cond="$grant->manager" for="is_notice">{$lang->notice}</label>
@@ -43,6 +43,7 @@
 				<input type="checkbox" name="notify_message" class="iCheck" value="Y" checked="checked"|cond="$oDocument->useNotify()" id="notify_message" />
 				<label for="notify_message">{$lang->notify}</label>
 			</block>
+
 			<!--@if(is_array($status_list))-->
 				<!--@foreach($status_list AS $key=>$value)-->
 				<input type="radio" name="status" value="{$key}" id="{$key}" <!--@if($oDocument->get('status') == $key || ($key == 'PUBLIC' && !$document_srl))-->checked="checked"<!--@end--> /> 
@@ -66,7 +67,11 @@
 			<span class="item">
 				<label for="tags" class="iLabel">{$lang->tag}: {$lang->about_tag}</label>
 				<input type="text" name="tags" id="tags" value="{htmlspecialchars($oDocument->get('tags'))}" class="iText" style="width:300px" title="Tag" />
-			</span>		
+			</span>
+			<span class="item" cond="$oDocument->get('document_srl') && $module_info->update_log == 'Y'">
+				<label for="reason_update" class="iLabel">{$lang->reason_update}</label>
+				<input type="text" name="reason_update" id="reason_update" value="" class="iText" style="width:300px" title="reason update" />
+			</span>
 		</div>
 		<div class="btnArea">
 			<block cond="!$oDocument->isExists() || $oDocument->get('status') == 'TEMP'">

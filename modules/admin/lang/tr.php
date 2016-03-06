@@ -64,7 +64,7 @@ $lang->use_ssl = '<abbr title="Secure Sockets Layer">SSL</abbr>\'i kullanmak ist
 $lang->ssl_options['none'] = 'Hiçbir zaman';
 $lang->ssl_options['optional'] = 'İsteğe Bağlı';
 $lang->ssl_options['always'] = 'Her zaman';
-$lang->about_use_ssl = '\'İsteği Bağlı\' seçiminde; SSL, kayıt olma/bilgi değiştirme gibi eylemler için kullanılacaktır. \'Her zaman\' seçiminde, siteniz sadece http yoluyla hizmet verecektir. SSL 환경이 갖춰지지 않은 상태에서 SSL을 사용할 경우 접속이 되지 않을 수 있으니 주의 바랍니다.';
+$lang->about_use_ssl = '\'İsteği Bağlı\' seçiminde; SSL, kayıt olma/bilgi değiştirme gibi eylemler için kullanılacaktır. \'Her zaman\' seçiminde, siteniz sadece http yoluyla hizmet verecektir.';
 $lang->server_ports = 'Sunucu Bağlantı Noktası (port)';
 $lang->about_server_ports = 'Eğer web sunucunuz, HTTP bağlantı noktaları için 80 ya da HTTPS 443 portunu kullanmıyorsa, sunucu bağlantı noktalarını belirtmeniz gerekmektedir.';
 $lang->use_db_session = 'Oturum Veritabanı Kullanımı';

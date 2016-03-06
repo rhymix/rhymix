@@ -51,7 +51,7 @@ class widgetController extends widget
 	{
 		$widget = Context::get('selected_widget');
 		if(!$widget) return new Object(-1,'msg_invalid_request');
-		if(!Context::get('skin')) return new Object(-1,Context::getLang('msg_widget_skin_is_null'));
+		if(!Context::get('skin')) return new Object(-1,lang('msg_widget_skin_is_null'));
 
 		$attribute = $this->arrangeWidgetVars($widget, Context::getRequestVars(), $vars);
 
@@ -68,7 +68,7 @@ class widgetController extends widget
 		$widget = Context::get('selected_widget');
 		if(!$widget) return new Object(-1,'msg_invalid_request');
 
-		if(!in_array($widget,array('widgetBox','widgetContent')) && !Context::get('skin')) return new Object(-1,Context::getLang('msg_widget_skin_is_null'));
+		if(!in_array($widget,array('widgetBox','widgetContent')) && !Context::get('skin')) return new Object(-1,lang('msg_widget_skin_is_null'));
 
 		$attribute = $this->arrangeWidgetVars($widget, Context::getRequestVars(), $vars);
 		// Wanted results
@@ -660,7 +660,7 @@ class widgetController extends widget
 	{
 		if(!preg_match('/^[a-zA-Z_\x7f-\xff][a-zA-Z0-9_\x7f-\xff]*$/', $widget))
 		{
-			return Context::getLang('msg_invalid_request');
+			return lang('msg_invalid_request');
 		}
 
 		if(!$GLOBALS['_xe_loaded_widgets_'][$widget])
@@ -670,20 +670,20 @@ class widgetController extends widget
 			$path = $oWidgetModel->getWidgetPath($widget);
 			// If you do not find the class file error output widget (html output)
 			$class_file = sprintf('%s%s.class.php', $path, $widget);
-			if(!file_exists($class_file)) return sprintf(Context::getLang('msg_widget_is_not_exists'), $widget);
+			if(!file_exists($class_file)) return sprintf(lang('msg_widget_is_not_exists'), $widget);
 			// Widget classes include
 			require_once($class_file);
 
 			// Creating Objects
 			if(!class_exists($widget, false))
 			{
-				return sprintf(Context::getLang('msg_widget_object_is_null'), $widget);
+				return sprintf(lang('msg_widget_object_is_null'), $widget);
 			}
 
 			$oWidget = new $widget();
-			if(!is_object($oWidget)) return sprintf(Context::getLang('msg_widget_object_is_null'), $widget);
+			if(!is_object($oWidget)) return sprintf(lang('msg_widget_object_is_null'), $widget);
 
-			if(!method_exists($oWidget, 'proc')) return sprintf(Context::getLang('msg_widget_proc_is_null'), $widget);
+			if(!method_exists($oWidget, 'proc')) return sprintf(lang('msg_widget_proc_is_null'), $widget);
 
 			$oWidget->widget_path = $path;
 

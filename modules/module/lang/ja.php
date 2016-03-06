@@ -47,7 +47,6 @@ $lang->grant_manager = '管理権限';
 $lang->grant_to_all = 'すべてのユーザー';
 $lang->grant_to_login_user = 'ログインユーザー';
 $lang->grant_to_site_user = '登録ユーザー';
-$lang->grant_to_admin = 'Administrator only';
 $lang->grant_to_group = '特定グループのユーザー';
 $lang->cmd_add_shortcut = 'ショートカット追加';
 $lang->cmd_install = 'インストール';

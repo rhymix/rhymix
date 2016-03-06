@@ -298,7 +298,6 @@ $lang->filter['invalid_alpha_number'] = 'The format of %s is invalid. Please ent
 $lang->filter['invalid_mid'] = 'The format of %s is invalid. Module ID should be begun with a letter. Subsequent characters may be letters, digits or underscore characters.';
 $lang->filter['invalid_number'] = 'The format of %s is invalid. Please enter numbers only.';
 $lang->filter['invalid_extension'] = 'The format of %s is invalid. e.g.) *.* or *.jpg;*.gif;.';
-$lang->security_invalid_session = '바르지 않은 접근입니다. 인증을 위해 다시 로그인해야 합니다.';
 $lang->security_warning_embed = 'Due to security concern, administrators are not allowed to view embedded items.<BR /> To view them, please use another non-administrator ID.';
 $lang->msg_pc_to_mobile = 'View mobile optimized version of this page';
 $lang->cmd_yes = 'Yes';

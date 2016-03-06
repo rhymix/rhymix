@@ -1129,7 +1129,7 @@ class moduleModel extends module
 				$defaultSkinInfo = $this->loadSkinInfo($path, $defaultSkinName, $dir);
 
 				$useDefault = new stdClass();
-				$useDefault->title = Context::getLang('use_site_default_skin') . ' (' . $defaultSkinInfo->title . ')';
+				$useDefault->title = lang('use_site_default_skin') . ' (' . $defaultSkinInfo->title . ')';
 
 				$useDefaultList['/USE_DEFAULT/'] = $useDefault;
 

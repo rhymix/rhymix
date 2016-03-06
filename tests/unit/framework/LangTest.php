@@ -19,10 +19,12 @@ class LangTest extends \Codeception\TestCase\Test
 		$this->assertEquals('도움말', $ko->help);
 		$this->assertEquals('Help', $en->help);
 		
-		$this->assertEquals('nonexistent', $ko->get('common.nonexistent'));
-		$this->assertEquals('nonexistent', $ko->get('common.nonexistent', 'foo', 'bar'));
+		$this->assertEquals('common.nonexistent', $ko->get('common.nonexistent'));
+		$this->assertEquals('common.nonexistent', $ko->get('common.nonexistent', 'foo', 'bar'));
 		
-		$this->assertEquals('help', $ja->help);
+		$this->assertEquals('admin.help', $ko->get('admin.help'));
+		$this->assertEquals('admin.help', $en->get('admin.help'));
+		
 		$ja->loadPlugin('common');
 		$this->assertEquals('ヘルプ', $ja->help);
 		

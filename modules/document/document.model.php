@@ -528,7 +528,7 @@ class documentModel extends document
 		ModuleHandler::triggerCall('document.getDocumentMenu', 'after', $menu_list);
 		if($this->grant->manager)
 		{
-			$str_confirm = Context::getLang('confirm_move');
+			$str_confirm = lang('confirm_move');
 			$url = sprintf("if(!confirm('%s')) return; var params = new Array(); params['document_srl']='%s'; params['mid']=current_mid;params['cur_url']=current_url; exec_xml('document', 'procDocumentAdminMoveToTrash', params)", $str_confirm, $document_srl);
 			$oDocumentController->addDocumentPopupMenu($url,'cmd_trash','','javascript');
 		}
@@ -554,7 +554,7 @@ class documentModel extends document
 		$menus_count = count($menus);
 		for($i=0;$i<$menus_count;$i++)
 		{
-			$menus[$i]->str = Context::getLang($menus[$i]->str);
+			$menus[$i]->str = lang($menus[$i]->str);
 		}
 		// Wanted to finally clean pop-up menu list
 		$this->add('menus', $menus);
@@ -1547,6 +1547,25 @@ class documentModel extends document
 		if(!is_array($document_list)) $document_list = array($document_list);
 
 		return $document_list;	
+	}
+
+	function getDocumentUpdateLog($document_srl)
+	{
+		$args = new stdClass();
+		$args->document_srl = $document_srl;
+		$output = executeQueryArray('document.getDocumentUpdateLog', $args);
+
+		return $output;
+	}
+
+	function getUpdateLog($update_id)
+	{
+		$args = new stdClass();
+		$args->update_id = $update_id;
+		$output = exeCuteQuery('document.getUpdateLog', $args);
+		$updage_log = $output->data;
+
+		return $updage_log;
 	}
 }
 /* End of file document.model.php */

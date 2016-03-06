@@ -149,6 +149,27 @@ class DisplayHandler extends Handler
 		{
 			case 'panel':
 				$data = Rhymix\Framework\Debug::getDebugData();
+				$display_content = array_fill_keys(config('debug.display_content'), true);
+				if (count($display_content) && !isset($display_content['entries']))
+				{
+					$data->entries = null;
+				}
+				if (count($display_content) && !isset($display_content['queries']))
+				{
+					unset($data->queries);
+				}
+				if (count($display_content) && !isset($display_content['slow_queries']))
+				{
+					unset($data->slow_queries);
+				}
+				if (count($display_content) && !isset($display_content['slow_triggers']))
+				{
+					unset($data->slow_triggers);
+				}
+				if (count($display_content) && !isset($display_content['slow_widgets']))
+				{
+					unset($data->slow_widgets);
+				}
 				if ($data->entries)
 				{
 					foreach ($data->entries as &$entry)
@@ -206,8 +227,9 @@ class DisplayHandler extends Handler
 				}
 				ob_start();
 				$data = Rhymix\Framework\Debug::getDebugData();
+				$display_content = array_fill_keys(config('debug.display_content'), true);
 				include RX_BASEDIR . 'common/tpl/debug_comment.html';
-				$content = ob_get_clean();
+				$content = preg_replace('/\n{2,}/', "\n\n", trim(ob_get_clean())) . PHP_EOL;
 				if ($display_type === 'file')
 				{
 					$log_filename = config('debug.log_filename') ?: 'files/debug/YYYYMMDD.php';
@@ -226,7 +248,7 @@ class DisplayHandler extends Handler
 					{
 						$phpheader = '';
 					}
-					FileHandler::writeFile($log_filename, $phpheader . $content, 'a');
+					FileHandler::writeFile($log_filename, $phpheader . $content . PHP_EOL, 'a');
 					return '';
 				}
 				else

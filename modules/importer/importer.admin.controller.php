@@ -328,10 +328,10 @@ class importerAdminController extends importer
 		// When completing, success message appears and remove the cache files
 		if($total <= $cur)
 		{
-			$this->setMessage( sprintf(Context::getLang('msg_import_finished'), $cur, $total) );
+			$this->setMessage( sprintf(lang('msg_import_finished'), $cur, $total) );
 			FileHandler::removeDir('./files/cache/importer/'.$key);
 		}
-		else $this->setMessage( sprintf(Context::getLang('msg_importing'), $total, $cur) );
+		else $this->setMessage( sprintf(lang('msg_importing'), $total, $cur) );
 	}
 
 	/**

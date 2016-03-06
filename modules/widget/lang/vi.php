@@ -35,7 +35,6 @@ $lang->cmd_content_insert = 'Chèn nội dung của bạn';
 $lang->cmd_box_widget_insert = 'Chèn khung Widget';
 $lang->cmd_remove_all_widgets = 'Xóa tất cả Widget';
 $lang->cmd_widget_size = 'Kích thước';
-$lang->cmd_widget_css_class = '위젯 CSS class';
 $lang->cmd_widget_align = 'Căn chỉnh';
 $lang->cmd_widget_align_left = 'Trái';
 $lang->cmd_widget_align_right = 'Phải';

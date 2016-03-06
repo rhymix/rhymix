@@ -228,7 +228,7 @@
 							</a>
 							<div class="ly ly_login">
 								<ul>
-									<li loop="$logged_info->menu_list => $key, $val"><a href="{getUrl('act', $key, 'member_srl', '', 'page', '')}">{Context::getLang($val)}</a></li>
+									<li loop="$logged_info->menu_list => $key, $val"><a href="{getUrl('act', $key, 'member_srl', '', 'page', '')}">{lang($val)}</a></li>
 									<li><a href="{getUrl('act', 'dispMemberLogout')}">{$lang->cmd_logout}</a></li>
 								</ul>
 								<span class="edge"></span>

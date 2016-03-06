@@ -63,7 +63,6 @@ $lang->allow_message_type['F'] = 'Allow for Friends only';
 $lang->allow_message_type['N'] = 'Reject All';
 $lang->about_allow_message = 'You may allow or reject messages.';
 $lang->logged_users = 'Logged on Users';
-$lang->msg_mail_authorization = '메일 인증을 사용하려면 웸마스터의 이름과 메일주소가 유효해야 합니다.';
 $lang->webmaster_name = 'Webmaster Name';
 $lang->webmaster_email = 'Webmaster Email';
 $lang->column_id = 'The column id';

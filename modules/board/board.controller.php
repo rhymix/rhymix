@@ -106,6 +106,11 @@ class boardController extends board
 			}
 		}
 
+		if($this->module_info->update_log == 'Y')
+		{
+			$obj->update_log_setting = 'Y';
+		}
+
 		// update the document if it is existed
 		if($is_update)
 		{
@@ -126,7 +131,7 @@ class boardController extends board
 			{
 				if($oDocument->get('regdate') < date('YmdHis', strtotime('-'.$this->module_info->protect_document_regdate.' day')))
 				{
-					$format =  Context::getLang('msg_protect_regdate_document');
+					$format =  lang('msg_protect_regdate_document');
 					$massage = sprintf($format, $this->module_info->protect_document_regdate);
 					return new Object(-1, $massage);
 				}
@@ -146,12 +151,14 @@ class boardController extends board
 				$obj->last_update = $obj->regdate = date('YmdHis');
 				$obj->update_order = $obj->list_order = (getNextSequence() * -1);
 			}
-
+			$obj->reason_update = escape($obj->reason_update);
 			$output = $oDocumentController->updateDocument($oDocument, $obj);
 			$msg_code = 'success_updated';
 
 		// insert a new document otherwise
-		} else {
+		}
+		else
+		{
 			$output = $oDocumentController->insertDocument($obj, $bAnonymous);
 			$msg_code = 'success_registed';
 			$obj->document_srl = $output->get('document_srl');
@@ -227,7 +234,7 @@ class boardController extends board
 		{
 			if($oDocument->get('regdate') < date('YmdHis', strtotime('-'.$this->module_info->protect_document_regdate.' day')))
 			{
-				$format =  Context::getLang('msg_protect_regdate_document');
+				$format =  lang('msg_protect_regdate_document');
 				$massage = sprintf($format, $this->module_info->protect_document_regdate);
 				return new Object(-1, $massage);
 			}
@@ -378,7 +385,7 @@ class boardController extends board
 			{
 				if($comment->get('regdate') < date('YmdHis', strtotime('-'.$this->module_info->protect_document_regdate.' day')))
 				{
-					$format =  Context::getLang('msg_protect_regdate_comment');
+					$format =  lang('msg_protect_regdate_comment');
 					$massage = sprintf($format, $this->module_info->protect_document_regdate);
 					return new Object(-1, $massage);
 				}
@@ -431,7 +438,7 @@ class boardController extends board
 		{
 			if($comment->get('regdate') < date('YmdHis', strtotime('-'.$this->module_info->protect_document_regdate.' day')))
 			{
-				$format =  Context::getLang('msg_protect_regdate_comment');
+				$format =  lang('msg_protect_regdate_comment');
 				$massage = sprintf($format, $this->module_info->protect_document_regdate);
 				return new Object(-1, $massage);
 			}

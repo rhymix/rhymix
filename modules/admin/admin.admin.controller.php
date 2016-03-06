@@ -702,13 +702,15 @@ class adminAdminController extends admin
 		
 		// Debug settings
 		Rhymix\Framework\Config::set('debug.enabled', $vars->debug_enabled === 'Y');
-		Rhymix\Framework\Config::set('debug.log_errors', $vars->debug_log_errors === 'Y');
-		Rhymix\Framework\Config::set('debug.log_queries', $vars->debug_log_queries === 'Y');
 		Rhymix\Framework\Config::set('debug.log_slow_queries', max(0, floatval($vars->debug_log_slow_queries)));
 		Rhymix\Framework\Config::set('debug.log_slow_triggers', max(0, floatval($vars->debug_log_slow_triggers)));
 		Rhymix\Framework\Config::set('debug.log_slow_widgets', max(0, floatval($vars->debug_log_slow_widgets)));
 		Rhymix\Framework\Config::set('debug.display_type', strval($vars->debug_display_type) ?: 'comment');
 		Rhymix\Framework\Config::set('debug.display_to', strval($vars->debug_display_to) ?: 'admin');
+		
+		// Debug content
+		$debug_content = array_values($vars->debug_display_content);
+		Rhymix\Framework\Config::set('debug.display_content', $debug_content);
 		
 		// Log filename
 		$log_filename = strval($vars->debug_log_filename);
@@ -907,7 +909,7 @@ class adminAdminController extends admin
 		else
 		{
 			$name = $tmpFileName = '';
-			Context::set('msg', Context::getLang('msg_invalid_format'));
+			Context::set('msg', lang('msg_invalid_format'));
 		}
 		
 		Context::set('name', $name);
@@ -934,7 +936,7 @@ class adminAdminController extends admin
 		if ($iconname == 'favicon.ico')
 		{
 			if(!preg_match('/^.*(x-icon|\.icon)$/i',$type)) {
-				Context::set('msg', '*.ico '.Context::getLang('msg_possible_only_file'));
+				Context::set('msg', '*.ico '.lang('msg_possible_only_file'));
 				return;
 			}
 		}
@@ -942,18 +944,18 @@ class adminAdminController extends admin
 		{
 			if (!preg_match('/^.*(png).*$/',$type))
 			{
-				Context::set('msg', '*.png '.Context::getLang('msg_possible_only_file'));
+				Context::set('msg', '*.png '.lang('msg_possible_only_file'));
 				return;
 			}
 			if (!(($height == '57' && $width == '57') || ($height == '114' && $width == '114')))
 			{
-				Context::set('msg', Context::getLang('msg_invalid_format').' (size : 57x57, 114x114)');
+				Context::set('msg', lang('msg_invalid_format').' (size : 57x57, 114x114)');
 				return;
 			}
 		}
 		else
 		{
-			Context::set('msg', Context::getLang('msg_invalid_format'));
+			Context::set('msg', lang('msg_invalid_format'));
 			return;
 		}
 		

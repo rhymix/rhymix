@@ -280,7 +280,6 @@ $lang->filter['invalid_korean_number'] = 'Das Format von% s ist ungültig. Bitte
 $lang->filter['invalid_alpha'] = 'Das Format von% s ist ungültig. Bitte nur Alphabete eingeben.';
 $lang->filter['invalid_alpha_number'] = 'Das Format von% s ist ungültig. Bitte nur Alphabete oder Zahlen eingeben.';
 $lang->filter['invalid_number'] = 'Das Format von% s ist ungültig. Bitte nur Zahlen eingeben.';
-$lang->security_invalid_session = '바르지 않은 접근입니다. 인증을 위해 다시 로그인해야 합니다.';
 $lang->security_warning_embed = 'Aus Sicherheitsgründen ist es nicht erlaubt, dass der Administrator den eingebetteten Teil sehen. Wenn Sie das sehen möchten, loggen Sie sich mit einem anderen ID ein.';
 $lang->msg_pc_to_mobile = 'Möchten Sie Mobile-Look?';
 $lang->cmd_yes = 'Ja';
