@@ -451,6 +451,21 @@ class addonAdminModel extends addon
 	 */
 	function isActivatedAddon($addon, $site_srl = 0, $type = "pc", $gtype = 'site')
 	{
+		$always_return_true_for_compatibility = array(
+			'member_communication' => true,
+		);
+		$always_return_false_for_compatibility = array(
+		);
+		
+		if(isset($always_return_true_for_compatibility[$addon]))
+		{
+			return true;
+		}
+		if(isset($always_return_false_for_compatibility[$addon]))
+		{
+			return false;
+		}
+		
 		$args = new stdClass();
 		$args->addon = $addon;
 		if($gtype == 'global')
