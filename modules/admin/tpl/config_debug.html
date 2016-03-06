@@ -15,37 +15,23 @@
 			</div>
 		</div>
 		<div class="x_control-group">
-			<label class="x_control-label">{$lang->debug_log_errors}</label>
-			<div class="x_controls">
-				<label for="debug_log_errors_y" class="x_inline"><input type="radio" name="debug_log_errors" id="debug_log_errors_y" value="Y" checked="checked"|cond="$debug_log_errors" /> {$lang->cmd_yes}</label>
-				<label for="debug_log_errors_n" class="x_inline"><input type="radio" name="debug_log_errors" id="debug_log_errors_n" value="N" checked="checked"|cond="!$debug_log_errors" /> {$lang->cmd_no}</label>
-			</div>
-		</div>
-		<div class="x_control-group">
-			<label class="x_control-label">{$lang->debug_log_queries}</label>
-			<div class="x_controls">
-				<label for="debug_log_queries_y" class="x_inline"><input type="radio" name="debug_log_queries" id="debug_log_queries_y" value="Y" checked="checked"|cond="$debug_log_queries" /> {$lang->cmd_yes}</label>
-				<label for="debug_log_queries_n" class="x_inline"><input type="radio" name="debug_log_queries" id="debug_log_queries_n" value="N" checked="checked"|cond="!$debug_log_queries" /> {$lang->cmd_no}</label>
-			</div>
-		</div>
-		<div class="x_control-group">
 			<label class="x_control-label" for="debug_log_slow_queries">{$lang->debug_log_slow_queries}</label>
 			<div class="x_controls">
-				<input type="text" name="debug_log_slow_queries" id="debug_log_slow_queries" size="5" value="{$debug_log_slow_queries}" />
+				<input type="text" name="debug_log_slow_queries" id="debug_log_slow_queries" size="5" value="{$debug_log_slow_queries}" style="width:60px" />
 				&nbsp;{$lang->debug_seconds}
 			</div>
 		</div>
 		<div class="x_control-group">
 			<label class="x_control-label" for="debug_log_slow_triggers">{$lang->debug_log_slow_triggers}</label>
 			<div class="x_controls">
-				<input type="text" name="debug_log_slow_triggers" id="debug_log_slow_triggers" size="5" value="{$debug_log_slow_triggers}" />
+				<input type="text" name="debug_log_slow_triggers" id="debug_log_slow_triggers" size="5" value="{$debug_log_slow_triggers}" style="width:60px" />
 				&nbsp;{$lang->debug_seconds}
 			</div>
 		</div>
 		<div class="x_control-group">
 			<label class="x_control-label" for="debug_log_slow_widgets">{$lang->debug_log_slow_widgets}</label>
 			<div class="x_controls">
-				<input type="text" name="debug_log_slow_widgets" id="debug_log_slow_widgets" size="5" value="{$debug_log_slow_widgets}" />
+				<input type="text" name="debug_log_slow_widgets" id="debug_log_slow_widgets" size="5" value="{$debug_log_slow_widgets}" style="width:60px" />
 				&nbsp;{$lang->debug_seconds}
 			</div>
 		</div>
@@ -58,9 +44,21 @@
 			</div>
 		</div>
 		<div class="x_control-group">
+			<label class="x_control-label" for="debug_log_slow_widgets">{$lang->debug_display_content}</label>
+			<div class="x_controls">
+				<label for="debug_display_content_request_info" class="x_inline"><input type="checkbox" name="debug_display_content[]" id="debug_display_content_request_info" value="request_info" checked="checked"|cond="!count($debug_display_content) || in_array('request_info', $debug_display_content)" /> {$lang->debug_display_content_request_info}</label>
+				<label for="debug_display_content_entries" class="x_inline"><input type="checkbox" name="debug_display_content[]" id="debug_display_content_entries" value="entries" checked="checked"|cond="!count($debug_display_content) || in_array('entries', $debug_display_content)" /> {$lang->debug_display_content_entries}</label>
+				<label for="debug_display_content_errors" class="x_inline"><input type="checkbox" name="debug_display_content[]" id="debug_display_content_errors" value="errors" checked="checked"|cond="!count($debug_display_content) || in_array('errors', $debug_display_content)" /> {$lang->debug_display_content_errors}</label>
+				<label for="debug_display_content_queries" class="x_inline"><input type="checkbox" name="debug_display_content[]" id="debug_display_content_queries" value="queries" checked="checked"|cond="!count($debug_display_content) || in_array('queries', $debug_display_content)" /> {$lang->debug_display_content_queries}</label>
+				<label for="debug_display_content_slow_queries" class="x_inline"><input type="checkbox" name="debug_display_content[]" id="debug_display_content_slow_queries" value="slow_queries" checked="checked"|cond="!count($debug_display_content) || in_array('slow_queries', $debug_display_content)" /> {$lang->debug_display_content_slow_queries}</label>
+				<label for="debug_display_content_slow_triggers" class="x_inline"><input type="checkbox" name="debug_display_content[]" id="debug_display_content_slow_triggers" value="slow_triggers" checked="checked"|cond="!count($debug_display_content) || in_array('slow_triggers', $debug_display_content)" /> {$lang->debug_display_content_slow_triggers}</label>
+				<label for="debug_display_content_slow_widgets" class="x_inline"><input type="checkbox" name="debug_display_content[]" id="debug_display_content_slow_widgets" value="slow_widgets" checked="checked"|cond="!count($debug_display_content) || in_array('slow_widgets', $debug_display_content)" /> {$lang->debug_display_content_slow_widgets}</label>
+			</div>
+		</div>
+		<div class="x_control-group">
 			<label class="x_control-label" for="debug_log_filename">{$lang->debug_log_filename}</label>
 			<div class="x_controls">
-				<input type="text" name="debug_log_filename" id="debug_log_filename" value="{$debug_log_filename}" />
+				<input type="text" name="debug_log_filename" id="debug_log_filename" value="{$debug_log_filename}" style="min-width: 80%" />
 				<p class="x_help-block">{$lang->about_debug_log_filename}</p>
 			</div>
 		</div>
