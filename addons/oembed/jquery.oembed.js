@@ -56,8 +56,10 @@
                 //Check if shorten URL
                 for (var j = 0, l = shortURLList.length; j < l; j++) {
                     var regExp = new RegExp('://' + shortURLList[j] + '/', "i");
+                    
+                    provider = $.fn.oembed.getOEmbedProvider(resourceURL);
 
-                    if (resourceURL.match(regExp) !== null) {
+                    if (!provider && window.location.protocol !== "https:" && resourceURL.match(regExp) !== null) {
                         //AJAX to http://api.longurl.org/v2/expand?url=http://bit.ly/JATvIs&format=json&callback=hhh
                         var ajaxopts = $.extend({
                             url: "http://api.longurl.org/v2/expand",
@@ -96,7 +98,6 @@
                         return container;
                     }
                 }
-                provider = $.fn.oembed.getOEmbedProvider(resourceURL);
 
                 //remove fallback
                 if (!!settings.fallback === false) {
