@@ -106,16 +106,7 @@
 				data.redirect_url = data.redirect_url.replace(/&amp;/g, "&");
 			}
 			if (data.redirect_url && !$.isFunction(callback_success)) {
-				if (data.redirect_url.indexOf(window.location.href.replace(/#.+$/, "") + "#") === 0)
-				{
-					window.location = data.redirect_url;
-					window.location.reload();
-				}
-				else
-				{
-					window.location = data.redirect_url;
-				}
-				return;
+				return redirect(data.redirect_url);
 			}
 			
 			// If there was a success callback, call it.
@@ -236,16 +227,7 @@
 				data.redirect_url = data.redirect_url.replace(/&amp;/g, "&");
 			}
 			if (data.redirect_url && !$.isFunction(callback_success)) {
-				if (data.redirect_url.indexOf(window.location.href.replace(/#.+$/, "") + "#") === 0)
-				{
-					window.location = data.redirect_url;
-					window.location.reload();
-				}
-				else
-				{
-					window.location = data.redirect_url;
-				}
-				return;
+				return redirect(data.redirect_url);
 			}
 			
 			// If there was a success callback, call it.
