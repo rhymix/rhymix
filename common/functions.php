@@ -32,7 +32,7 @@ function config($key, $value = null)
  * @param string $value `$code`s value
  * @return mixed
  */
-function lang($code, $value = null)
+function lang($code = null, $value = null)
 {
 	if (!$GLOBALS['lang'] instanceof Rhymix\Framework\Lang)
 	{
@@ -40,13 +40,17 @@ function lang($code, $value = null)
 		$GLOBALS['lang']->loadDirectory(RX_BASEDIR . 'common/lang', 'common');
 	}
 	
-	if ($value === null)
+	if ($code !== null && $value === null)
 	{
 		return $GLOBALS['lang']->get($code);
 	}
-	else
+	else if ($code !== null && $value !== null)
 	{
 		$GLOBALS['lang']->set($code, $value);
+	}
+	else
+	{
+		return $GLOBALS['lang']->langType();
 	}
 }
 

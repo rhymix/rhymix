@@ -51,6 +51,16 @@ class Lang
 	}
 	
 	/**
+	 * Return language type.
+	 * 
+	 * @return string
+	 */
+	public function langType()
+	{
+		return $this->_language;
+	}
+	
+	/**
 	 * Load translations from a plugin (module, addon).
 	 * 
 	 * @param string $name
@@ -185,6 +195,18 @@ class Lang
 		$args = func_get_args();
 		array_shift($args);
 		return $this->__call($key, $args);
+	}
+	
+	/**
+	 * Generic setter.
+	 * 
+	 * @param string $key
+	 * @param string $value
+	 * @return void
+	 */
+	public function set($key, $value)
+	{
+		$this->__set($key, $value);
 	}
 	
 	/**
