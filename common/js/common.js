@@ -378,6 +378,21 @@ function sendMailTo(to) {
 }
 
 /**
+ * @brief url이동 (Rhymix 개선된 버전)
+ */
+function redirect(url) {
+	if (url === window.location.href || url.indexOf(window.location.href.replace(/#.+$/, "") + "#") === 0)
+	{
+		window.location.href = url;
+		window.location.reload();
+	}
+	else
+	{
+		window.location.href = url;
+	}
+}
+
+/**
  * @brief url이동 (open_window 값이 N 가 아니면 새창으로 띄움)
  **/
 function move_url(url, open_window) {
@@ -394,7 +409,7 @@ function move_url(url, open_window) {
 	if(open_window) {
 		winopen(url);
 	} else {
-		location.href=url;
+		redirect(url);
 	}
 
 	return false;
