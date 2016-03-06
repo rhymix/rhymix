@@ -376,6 +376,7 @@ class adminAdminView extends admin
 		Context::set('supported_lang', Rhymix\Framework\Lang::getSupportedList());
 		Context::set('default_lang', Rhymix\Framework\Config::get('locale.default_lang'));
 		Context::set('enabled_lang', Rhymix\Framework\Config::get('locale.enabled_lang'));
+		Context::set('auto_select_lang', Rhymix\Framework\Config::get('locale.auto_select_lang'));
 		
 		// Site title and HTML footer
 		$oModuleModel = getModel('module');

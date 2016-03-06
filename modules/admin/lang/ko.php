@@ -67,6 +67,8 @@ $lang->yesterday = '어제';
 $lang->today = '오늘';
 $lang->default_lang = '기본 언어 선택';
 $lang->lang_select = '지원 언어 선택';
+$lang->auto_select_lang = '언어 자동 선택';
+$lang->about_auto_select_lang = '방문자의 브라우저 언어에 따라 자동으로 언어를 선택하는 기능입니다.';
 $lang->about_recompile_cache = '쓸모 없어졌거나 잘못된 캐시파일들을 지우시겠습니까?';
 $lang->confirm_run = '오랜 시간이 걸릴 수 있습니다. 실행하시겠습니까?';
 $lang->use_ssl = '<abbr title="Secure Sockets Layer">SSL</abbr> 사용';
