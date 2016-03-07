@@ -370,7 +370,6 @@ class widgetController extends widget
 		{
 			$widget_sequence = sha1(json_encode($args));
 		}
-		debugPrint($widget_sequence);
 		
 		// Set the widget cache duration
 		$widget_cache = $args->widget_cache;
