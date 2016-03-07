@@ -376,6 +376,7 @@ class adminAdminView extends admin
 		Context::set('supported_lang', Rhymix\Framework\Lang::getSupportedList());
 		Context::set('default_lang', Rhymix\Framework\Config::get('locale.default_lang'));
 		Context::set('enabled_lang', Rhymix\Framework\Config::get('locale.enabled_lang'));
+		Context::set('auto_select_lang', Rhymix\Framework\Config::get('locale.auto_select_lang'));
 		
 		// Site title and HTML footer
 		$oModuleModel = getModel('module');
@@ -491,13 +492,12 @@ class adminAdminView extends admin
 	{
 		// Load debug settings.
 		Context::set('debug_enabled', Rhymix\Framework\Config::get('debug.enabled'));
-		Context::set('debug_log_errors', Rhymix\Framework\Config::get('debug.log_errors'));
-		Context::set('debug_log_queries', Rhymix\Framework\Config::get('debug.log_queries'));
 		Context::set('debug_log_slow_queries', Rhymix\Framework\Config::get('debug.log_slow_queries'));
 		Context::set('debug_log_slow_triggers', Rhymix\Framework\Config::get('debug.log_slow_triggers'));
 		Context::set('debug_log_slow_widgets', Rhymix\Framework\Config::get('debug.log_slow_widgets'));
 		Context::set('debug_log_filename', Rhymix\Framework\Config::get('debug.log_filename') ?: 'files/debug/YYYYMMDD.php');
 		Context::set('debug_display_type', Rhymix\Framework\Config::get('debug.display_type'));
+		Context::set('debug_display_content', Rhymix\Framework\Config::get('debug.display_content'));
 		Context::set('debug_display_to', Rhymix\Framework\Config::get('debug.display_to'));
 		
 		// IP access control

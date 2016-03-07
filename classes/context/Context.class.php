@@ -275,7 +275,7 @@ class Context
 		
 		if($this->lang_type = self::get('l'))
 		{
-			if($_COOKIE['lang_type'] != $this->lang_type)
+			if($_COOKIE['lang_type'] !== $this->lang_type)
 			{
 				setcookie('lang_type', $this->lang_type, $_SERVER['REQUEST_TIME'] + 3600 * 24 * 1000, '/');
 			}
@@ -284,18 +284,31 @@ class Context
 		{
 			$this->lang_type = $_COOKIE['lang_type'];
 		}
-		elseif($site_module_info->default_language)
+		elseif(config('locale.auto_select_lang') && count($enabled_langs) > 1)
 		{
-			$this->lang_type = $this->db_info->lang_type = $site_module_info->default_language;
-		}
-		else
-		{
-			$this->lang_type = $this->db_info->lang_type;
+			if(isset($_SERVER['HTTP_ACCEPT_LANGUAGE']))
+			{
+				foreach($enabled_langs as $lang_code => $lang_name)
+				{
+					if(!strncasecmp($lang_code, $_SERVER['HTTP_ACCEPT_LANGUAGE'], strlen($lang_code)))
+					{
+						$this->lang_type = $lang_code;
+						setcookie('lang_type', $this->lang_type, $_SERVER['REQUEST_TIME'] + 3600 * 24 * 1000, '/');
+					}
+				}
+			}
 		}
 		
 		if(!$this->lang_type || !isset($enabled_langs[$this->lang_type]))
 		{
-			$this->lang_type = 'ko';
+			if($site_module_info->default_language)
+			{
+				$this->lang_type = $this->db_info->lang_type = $site_module_info->default_language;
+			}
+			else
+			{
+				$this->lang_type = $this->db_info->lang_type ?: 'ko';
+			}
 		}
 
 		self::setLangType($this->lang_type);

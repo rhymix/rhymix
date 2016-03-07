@@ -41,8 +41,8 @@ class spamfilterAdminController extends spamfilter
 			$output = $oSpamfilterController->insertIP($ipaddress_list);
 			if(!$output->toBool() && !$output->get('fail_list')) return $output;
 
-			if($output->get('fail_list')) $message_fail = '<em>'.sprintf(Context::getLang('msg_faillist'),$output->get('fail_list')).'</em>';
-			$this->setMessage(Context::getLang('success_registed').$message_fail);
+			if($output->get('fail_list')) $message_fail = '<em>'.sprintf(lang('msg_faillist'),$output->get('fail_list')).'</em>';
+			$this->setMessage(lang('success_registed').$message_fail);
 		}
 
 
@@ -59,8 +59,8 @@ class spamfilterAdminController extends spamfilter
 			$output = $this->insertWord($word_list);
 			if(!$output->toBool() && !$output->get('fail_list')) return $output;
 
-			if($output->get('fail_list')) $message_fail = '<em>'.sprintf(Context::getLang('msg_faillist'),$output->get('fail_list')).'</em>';
-			$this->setMessage(Context::getLang('success_registed').$message_fail);
+			if($output->get('fail_list')) $message_fail = '<em>'.sprintf(lang('msg_faillist'),$output->get('fail_list')).'</em>';
+			$this->setMessage(lang('success_registed').$message_fail);
 		}
 
 		$returnUrl = Context::get('success_return_url') ? Context::get('success_return_url') : getNotEncodedUrl('', 'module', 'admin', 'act', 'dispSpamfilterAdminDeniedWordList');
@@ -75,7 +75,7 @@ class spamfilterAdminController extends spamfilter
 		$ipAddressList = Context::get('ipaddress');
 		if($ipAddressList) $this->deleteIP($ipAddressList);
 
-		$this->setMessage(Context::getLang('success_deleted'));
+		$this->setMessage(lang('success_deleted'));
 
 		$returnUrl = Context::get('success_return_url') ? Context::get('success_return_url') : getNotEncodedUrl('', 'module', 'admin', 'act', 'dispSpamfilterAdminDeniedIPList');
 		return $this->setRedirectUrl($returnUrl);
@@ -89,7 +89,7 @@ class spamfilterAdminController extends spamfilter
 		$wordList = Context::get('word');
 		$this->deleteWord($wordList);
 
-		$this->setMessage(Context::getLang('success_deleted'));
+		$this->setMessage(lang('success_deleted'));
 
 		$returnUrl = Context::get('success_return_url') ? Context::get('success_return_url') : getNotEncodedUrl('', 'module', 'admin', 'act', 'dispSpamfilterAdminDeniedWordList','active','word');
 		return $this->setRedirectUrl($returnUrl);

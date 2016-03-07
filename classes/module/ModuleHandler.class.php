@@ -86,7 +86,7 @@ class ModuleHandler extends Handler
 		if($isInvalid)
 		{
 			htmlHeader();
-			echo Context::getLang("msg_invalid_request");
+			echo lang("msg_invalid_request");
 			htmlFooter();
 			Context::close();
 			exit;

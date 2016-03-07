@@ -227,7 +227,7 @@ class rssView extends rss
 	function dispError()
 	{
 		// Prepare the output message
-		$this->rss(null, null, Context::getLang('msg_rss_is_disabled') );
+		$this->rss(null, null, lang('msg_rss_is_disabled') );
 	}
 
 	/**

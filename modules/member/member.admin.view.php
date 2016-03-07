@@ -506,7 +506,7 @@ class memberAdminView extends member
 								$val);
 						}
 						$inputTag = sprintf($inputTag, implode('', $optionTag));
-						$inputTag .= '<input type="text" name="find_account_answer" id="find_account_answer" title="'.Context::getLang('find_account_answer').'" value="'.$memberInfo['find_account_answer'].'" />';
+						$inputTag .= '<input type="text" name="find_account_answer" id="find_account_answer" title="'.lang('find_account_answer').'" value="'.$memberInfo['find_account_answer'].'" />';
 					}
 					else if($formInfo->name == 'email_address')
 					{

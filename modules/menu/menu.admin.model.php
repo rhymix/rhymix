@@ -366,7 +366,7 @@ class menuAdminModel extends menu
 
 			if($module_name == 'page')
 			{
-				$pageTypeName = Context::getLang('page_type_name');
+				$pageTypeName = lang('page_type_name');
 				$module->title = $pageTypeName['ARTICLE'];
 				$allModules['ARTICLE'] = $module;
 				$wModuleInfo = clone $module;
@@ -451,7 +451,7 @@ class menuAdminModel extends menu
 
 				if($value == 'page')
 				{
-					$pageTypeName = Context::getLang('page_type_name');
+					$pageTypeName = lang('page_type_name');
 					$moduleInfo->title = $pageTypeName['ARTICLE'];
 					$moduleInfoList['ARTICLE'] = $moduleInfo;
 					$wModuleInfo = clone $moduleInfo;

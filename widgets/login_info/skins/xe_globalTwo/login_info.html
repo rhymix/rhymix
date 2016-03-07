@@ -19,7 +19,7 @@
     </div>
     <ul class="userMenu">
         <!--@foreach($logged_info->menu_list as $key => $val)-->
-        <li><a href="{getUrl('act',$key,'member_srl','','page','')}">{Context::getLang($val)}</a></li>
+        <li><a href="{getUrl('act',$key,'member_srl','','page','')}">{lang($val)}</a></li>
         <!--@end-->
 
         <!--@if($logged_info->is_admin=="Y" && !$site_module_info->site_srl)-->

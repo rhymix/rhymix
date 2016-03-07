@@ -271,12 +271,12 @@ class fileModel extends file
 		// Display upload status
 		$upload_status = sprintf(
 			'%s : %s/ %s<br /> %s : %s (%s : %s)',
-			Context::getLang('allowed_attach_size'),
+			lang('allowed_attach_size'),
 			FileHandler::filesize($attached_size),
 			FileHandler::filesize($file_config->allowed_attach_size*1024*1024),
-			Context::getLang('allowed_filesize'),
+			lang('allowed_filesize'),
 			FileHandler::filesize($file_config->allowed_filesize*1024*1024),
-			Context::getLang('allowed_filetypes'),
+			lang('allowed_filetypes'),
 			$file_config->allowed_filetypes
 		);
 		return $upload_status;

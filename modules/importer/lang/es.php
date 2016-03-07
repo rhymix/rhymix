@@ -1,7 +1,6 @@
 <?php
 $lang->cmd_sync_member = 'Sincronizar';
 $lang->cmd_continue = 'Continuar';
-$lang->preprocessing = '데이터 이전을 위한 사전 준비중입니다.';
 $lang->importer = 'Transferir los datos de Rhymix';
 $lang->source_type = 'Objetivo a transferir';
 $lang->type_member = 'Información del usuario';
@@ -21,7 +20,6 @@ $lang->import_step_desc['13'] = 'Seleccione la categoría para transferir los da
 $lang->import_step_desc['2'] = 'Ingrese la ubicación del archivo XML para transfer los datos.
 Puede ser ruta absoluto o relativo.';
 $lang->import_step_desc['3'] = 'La información del usuario y del documento podría ser incorrecto luego de la transferencia. Si ese es el caso, sincroniza para la corrección basado a la ID del usuario.';
-$lang->import_step_desc['99'] = '데이터를 이전중입니다';
 $lang->msg_sync_member = 'Al presionar el botón sincronizar comenzará a sincronizar la información del usuario y la del artículo.';
 $lang->msg_no_xml_file = 'No se puede encontrar el archivo XML. Verifique su ruta.';
 $lang->msg_invalid_xml_file = 'Tipo de archivo XML inválido.';

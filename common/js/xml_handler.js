@@ -102,9 +102,11 @@
 			}
 			
 			// If the response contains a redirect URL, redirect immediately.
-			if (result.redirect_url) {
-				window.location = result.redirect_url.replace(/&amp;/g, "&");
-				return null;
+			if (data.redirect_url) {
+				data.redirect_url = data.redirect_url.replace(/&amp;/g, "&");
+			}
+			if (data.redirect_url && !$.isFunction(callback_success)) {
+				return redirect(data.redirect_url);
 			}
 			
 			// If there was a success callback, call it.
@@ -218,6 +220,14 @@
 					}
 					return;
 				}
+			}
+			
+			// If the response contains a redirect URL, redirect immediately.
+			if (data.redirect_url) {
+				data.redirect_url = data.redirect_url.replace(/&amp;/g, "&");
+			}
+			if (data.redirect_url && !$.isFunction(callback_success)) {
+				return redirect(data.redirect_url);
 			}
 			
 			// If there was a success callback, call it.

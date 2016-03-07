@@ -38,6 +38,7 @@ return array(
 	'locale' => array(
 		'default_lang' => 'ko',
 		'enabled_lang' => array('ko'),
+		'auto_select_lang' => false,
 		'default_timezone' => 'Asia/Seoul',
 		'internal_timezone' => 32400,
 	),
@@ -87,13 +88,12 @@ return array(
 	),
 	'debug' => array(
 		'enabled' => true,
-		'log_errors' => true,
-		'log_queries' => false,
 		'log_slow_queries' => 0,
 		'log_slow_triggers' => 0,
 		'log_slow_widgets' => 0,
 		'log_filename' => null,
 		'display_type' => 'comment',
+		'display_content' => array(),
 		'display_to' => 'admin',
 		'allow' => array(),
 	),

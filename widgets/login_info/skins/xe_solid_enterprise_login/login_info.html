@@ -15,7 +15,7 @@
 				<!--@foreach($logged_info->menu_list as $key => $val)-->
 				<li class="i{$i}">
 
-				<a href="{getUrl('act',$key,'member_srl','','page','')}">{Context::getLang($val)}</a></li>
+				<a href="{getUrl('act',$key,'member_srl','','page','')}">{lang($val)}</a></li>
 				{@ $i++;}
 				<!--@end-->
 				<li class="i7"><a href="{getUrl('','module','admin')}" onclick="window.open(this.href);return false;">{$lang->cmd_management}</a></li>

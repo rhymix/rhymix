@@ -67,7 +67,7 @@ class memberController extends member
 			$oMemberModel = getModel('member');
 			if($this->memberInfo->change_password_date < date ('YmdHis', strtotime ('-' . $limit_date . ' day')))
 			{
-				$msg = sprintf(Context::getLang('msg_change_password_date'), $limit_date);
+				$msg = sprintf(lang('msg_change_password_date'), $limit_date);
 				return $this->setRedirectUrl(getNotEncodedUrl('','vid',Context::get('vid'),'mid',Context::get('mid'),'act','dispMemberModifyPassword'), new Object(-1, $msg));
 			}
 		}
@@ -245,7 +245,7 @@ class memberController extends member
 					$config = $oMemberModel->getMemberConfig();
 					$emailhost_check = $config->emailhost_check;
 
-					$managed_email_host = Context::getLang('managed_email_host');
+					$managed_email_host = lang('managed_email_host');
 
 					$email_hosts = $oMemberModel->getManagedEmailHosts();
 					foreach ($email_hosts as $host)
@@ -313,7 +313,7 @@ class memberController extends member
 		// check password strength
 		if(!$oMemberModel->checkPasswordStrength($args->password, $config->password_strength))
 		{
-			$message = Context::getLang('about_password_strength');
+			$message = lang('about_password_strength');
 			return new Object(-1, $message[$config->password_strength]);
 		}
 
@@ -412,7 +412,7 @@ class memberController extends member
 		if($config->redirect_url) $this->add('redirect_url', $config->redirect_url);
 		if($config->enable_confirm == 'Y')
 		{
-			$msg = sprintf(Context::getLang('msg_confirm_mail_sent'), $args->email_address);
+			$msg = sprintf(lang('msg_confirm_mail_sent'), $args->email_address);
 			$this->setMessage($msg);
 			return $this->setRedirectUrl(getUrl('', 'act', 'dispMemberLoginForm'), new Object(-12, $msg));
 		}
@@ -1048,13 +1048,13 @@ class memberController extends member
 		$member_config = $oModuleModel->getModuleConfig('member');
 		// Send a mail
 		$oMail = new Mail();
-		$oMail->setTitle( Context::getLang('msg_find_account_title') );
+		$oMail->setTitle( lang('msg_find_account_title') );
 		$oMail->setContent($content);
 		$oMail->setSender( $member_config->webmaster_name?$member_config->webmaster_name:'webmaster', $member_config->webmaster_email);
 		$oMail->setReceiptor( $member_info->user_name, $member_info->email_address );
 		$oMail->send();
 		// Return message
-		$msg = sprintf(Context::getLang('msg_auth_mail_sent'), $member_info->email_address);
+		$msg = sprintf(lang('msg_auth_mail_sent'), $member_info->email_address);
 		if(!in_array(Context::getRequestMethod(),array('XMLRPC','JSON')))
 		{
 			$returnUrl = Context::get('success_return_url') ? Context::get('success_return_url') : getNotEncodedUrl('', 'mid', Context::get('mid'), 'act', 'dispMemberFindAccount');
@@ -1273,13 +1273,13 @@ class memberController extends member
 		$content = $oTemplate->compile($tpl_path, 'confirm_member_account_mail');
 		// Send a mail
 		$oMail = new Mail();
-		$oMail->setTitle( Context::getLang('msg_confirm_account_title') );
+		$oMail->setTitle( lang('msg_confirm_account_title') );
 		$oMail->setContent($content);
 		$oMail->setSender( $member_config->webmaster_name?$member_config->webmaster_name:'webmaster', $member_config->webmaster_email);
 		$oMail->setReceiptor( $member_info->user_name, $member_info->email_address );
 		$oMail->send();
 
-		$msg = sprintf(Context::getLang('msg_confirm_mail_sent'), $args->email_address);
+		$msg = sprintf(lang('msg_confirm_mail_sent'), $args->email_address);
 		$this->setMessage($msg);
 
 		$returnUrl = Context::get('success_return_url') ? Context::get('success_return_url') : getNotEncodedUrl('', 'mid', Context::get('mid'), 'act', '');
@@ -1349,7 +1349,7 @@ class memberController extends member
 		// resend auth mail.
 		$this->_sendAuthMail($auth_args, $memberInfo);
 
-		$msg = sprintf(Context::getLang('msg_confirm_mail_sent'), $memberInfo->email_address);
+		$msg = sprintf(lang('msg_confirm_mail_sent'), $memberInfo->email_address);
 		$this->setMessage($msg);
 
 		$returnUrl = getUrl('');
@@ -1401,7 +1401,7 @@ class memberController extends member
 		$content = $oTemplate->compile($tpl_path, 'confirm_member_account_mail');
 		// Send a mail
 		$oMail = new Mail();
-		$oMail->setTitle( Context::getLang('msg_confirm_account_title') );
+		$oMail->setTitle( lang('msg_confirm_account_title') );
 		$oMail->setContent($content);
 		$oMail->setSender( $member_config->webmaster_name?$member_config->webmaster_name:'webmaster', $member_config->webmaster_email);
 		$oMail->setReceiptor( $member_info->user_name, $member_info->email_address );
@@ -1720,12 +1720,12 @@ class memberController extends member
 			if($term < $config->max_error_count_time)
 			{
 				$term = $config->max_error_count_time - $term;
-				if($term < 60) $term = intval($term).Context::getLang('unit_sec');
-				elseif(60 <= $term && $term < 3600) $term = intval($term/60).Context::getLang('unit_min');
-				elseif(3600 <= $term && $term < 86400) $term = intval($term/3600).Context::getLang('unit_hour');
-				else $term = intval($term/86400).Context::getLang('unit_day');
+				if($term < 60) $term = intval($term).lang('unit_sec');
+				elseif(60 <= $term && $term < 3600) $term = intval($term/60).lang('unit_min');
+				elseif(3600 <= $term && $term < 86400) $term = intval($term/3600).lang('unit_hour');
+				else $term = intval($term/86400).lang('unit_day');
 
-				return new Object(-1, sprintf(Context::getLang('excess_ip_access_count'),$term));
+				return new Object(-1, sprintf(lang('excess_ip_access_count'),$term));
 			}
 			else
 			{
@@ -1751,13 +1751,13 @@ class memberController extends member
 				$redirectUrl = getUrl('', 'act', 'dispMemberResendAuthMail');
 				return $this->setRedirectUrl($redirectUrl, new Object(-1,'msg_user_not_confirmed'));
 			}
-			return new Object(-1, ($this->memberInfo->refused_reason)? Context::getLang('msg_user_denied') . "\n" . $this->memberInfo->refused_reason : 'msg_user_denied');
+			return new Object(-1, ($this->memberInfo->refused_reason)? lang('msg_user_denied') . "\n" . $this->memberInfo->refused_reason : 'msg_user_denied');
 		}
 		
 		// Notify if user is limited
 		if($this->memberInfo->limit_date && substr($this->memberInfo->limit_date,0,8) >= date("Ymd"))
 		{
-			return new Object(-9,sprintf(Context::getLang('msg_user_limited'),zdate($this->memberInfo->limit_date,"Y-m-d")));
+			return new Object(-9,sprintf(lang('msg_user_limited'),zdate($this->memberInfo->limit_date,"Y-m-d")));
 		}
 		
 		// Do not allow login as admin if not in allowed IP list
@@ -1785,17 +1785,17 @@ class memberController extends member
 			$output = executeQuery('member.getLoginCountHistoryByMemberSrl', $args);
 			if($output->data && $output->data->content)
 			{
-				$title = Context::getLang('login_fail_report');
+				$title = lang('login_fail_report');
 				$message = '<ul>';
 				$content = unserialize($output->data->content);
 				if(count($content) > $config->max_error_count)
 				{
 					foreach($content as $val)
 					{
-						$message .= '<li>'.Context::getLang('regdate').': '.date('Y-m-d h:i:sa',$val[2]).'<ul><li>'.Context::getLang('ipaddress').': '.$val[0].'</li><li>'.Context::getLang('message').': '.$val[1].'</li></ul></li>';
+						$message .= '<li>'.lang('regdate').': '.date('Y-m-d h:i:sa',$val[2]).'<ul><li>'.lang('ipaddress').': '.$val[0].'</li><li>'.lang('message').': '.$val[1].'</li></ul></li>';
 					}
 					$message .= '</ul>';
-					$content = sprintf(Context::getLang('login_fail_report_contents'),$message,date('Y-m-d h:i:sa'));
+					$content = sprintf(lang('login_fail_report_contents'),$message,date('Y-m-d h:i:sa'));
 
 					//send message
 					$oCommunicationController = getController('communication');
@@ -1906,7 +1906,7 @@ class memberController extends member
 	{
 		$logged_info = Context::get('logged_info');
 
-		$logged_info->menu_list[$act] = Context::getLang($str);
+		$logged_info->menu_list[$act] = lang($str);
 
 		Context::set('logged_info', $logged_info);
 	}
@@ -1988,7 +1988,7 @@ class memberController extends member
 		{
 			if(!$oMemberModel->checkPasswordStrength($args->password, $config->password_strength))
 			{
-				$message = Context::getLang('about_password_strength');
+				$message = lang('about_password_strength');
 				return new Object(-1, $message[$config->password_strength]);
 			}
 			$args->password = $oMemberModel->hashPassword($args->password);
@@ -2030,7 +2030,7 @@ class memberController extends member
 			$config = $oMemberModel->getMemberConfig();
 			$emailhost_check = $config->emailhost_check;
 
-			$managed_email_host = Context::getLang('managed_email_host');
+			$managed_email_host = lang('managed_email_host');
 			$email_hosts = $oMemberModel->getManagedEmailHosts();
 			foreach ($email_hosts as $host)
 			{
@@ -2191,7 +2191,7 @@ class memberController extends member
 			$config = $oMemberModel->getMemberConfig();
 			$emailhost_check = $config->emailhost_check;
 
-			$managed_email_host = Context::getLang('managed_email_host');
+			$managed_email_host = lang('managed_email_host');
 			$email_hosts = $oMemberModel->getManagedEmailHosts();
 			foreach ($email_hosts as $host)
 			{
@@ -2261,7 +2261,7 @@ class memberController extends member
 		{
 			if(!$oMemberModel->checkPasswordStrength($args->password, $config->password_strength))
 			{
-				$message = Context::getLang('about_password_strength');
+				$message = lang('about_password_strength');
 				return new Object(-1, $message[$config->password_strength]);
 			}
 			$args->password = $oMemberModel->hashPassword($args->password);
@@ -2364,7 +2364,7 @@ class memberController extends member
 
 			if(!$oMemberModel->checkPasswordStrength($args->password, $config->password_strength))
 			{
-				$message = Context::getLang('about_password_strength');
+				$message = lang('about_password_strength');
 				return new Object(-1, $message[$config->password_strength]);
 			}
 
@@ -2542,7 +2542,7 @@ class memberController extends member
 			$config = $oMemberModel->getMemberConfig();
 			$emailhost_check = $config->emailhost_check;
 
-			$managed_email_host = Context::getLang('managed_email_host');
+			$managed_email_host = lang('managed_email_host');
 			$email_hosts = $oMemberModel->getManagedEmailHosts();
 			foreach ($email_hosts as $host)
 			{
@@ -2601,13 +2601,13 @@ class memberController extends member
 		$content = $oTemplate->compile($tpl_path, 'confirm_member_new_email');
 
 		$oMail = new Mail();
-		$oMail->setTitle( Context::getLang('title_modify_email_address') );
+		$oMail->setTitle( lang('title_modify_email_address') );
 		$oMail->setContent($content);
 		$oMail->setSender( $member_config->webmaster_name?$member_config->webmaster_name:'webmaster', $member_config->webmaster_email);
 		$oMail->setReceiptor( $member_info->nick_name, $newEmail );
 		$result = $oMail->send();
 
-		$msg = sprintf(Context::getLang('msg_confirm_mail_sent'), $newEmail);
+		$msg = sprintf(lang('msg_confirm_mail_sent'), $newEmail);
 		$this->setMessage($msg);
 
 		$returnUrl = Context::get('success_return_url') ? Context::get('success_return_url') : getNotEncodedUrl('', 'mid', Context::get('mid'), 'act', '');
@@ -2803,7 +2803,7 @@ class memberController extends member
 		$args->description = trim( $member_info->description );
 		if( $args->description != "" ) $args->description .= "\n";	// add new line
 
-		$args->description .= Context::getLang('cmd_spammer') . "[" . date("Y-m-d H:i:s") . " from:" . $logged_info->user_id . " info:" . $spam_description . " docuemnts count:" . $total_count . "]";
+		$args->description .= lang('cmd_spammer') . "[" . date("Y-m-d H:i:s") . " from:" . $logged_info->user_id . " info:" . $spam_description . " docuemnts count:" . $total_count . "]";
 
 		$output = $this->updateMember($args, true);
 

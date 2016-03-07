@@ -33,7 +33,7 @@ class editorView extends editor
 		$oComponent = &$oEditorModel->getComponentObject($component, $editor_sequence, $site_srl);
 		if(!$oComponent->toBool())
 		{
-			Context::set('message', sprintf(Context::getLang('msg_component_is_not_founded'), $component));
+			Context::set('message', sprintf(lang('msg_component_is_not_founded'), $component));
 			$this->setTemplatePath($this->module_path.'tpl');
 			$this->setTemplateFile('component_not_founded');
 		}

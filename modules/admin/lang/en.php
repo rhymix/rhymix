@@ -65,8 +65,10 @@ $lang->about_lang_env = 'If you want to make the language setting same for first
 $lang->xe_license = 'Rhymix complies with the GPL.';
 $lang->yesterday = 'Yesterday';
 $lang->today = 'Today';
-$lang->default_lang = 'Select default language.';
-$lang->lang_select = 'Select the supporting language(s).';
+$lang->default_lang = 'Default Language';
+$lang->lang_select = 'Supported Languages';
+$lang->auto_select_lang = 'Auto-select Language';
+$lang->about_auto_select_lang = 'Automatically select the language based on the language of each visitor\'s browser.';
 $lang->about_recompile_cache = 'Delete useless or invalid cache files?';
 $lang->confirm_run = 'It may take a long time. Do you want to run?';
 $lang->use_ssl = 'Use <abbr title="Secure Sockets Layer">SSL</abbr>';

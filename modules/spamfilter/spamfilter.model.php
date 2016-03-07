@@ -87,7 +87,7 @@ class spamfilterModel extends spamfilter
 			{
 				$args->word = $word;
 				$output = executeQuery('spamfilter.updateDeniedWordHit', $args);
-				return new Object(-1,sprintf(Context::getLang('msg_alert_denied_word'), $word));
+				return new Object(-1,sprintf(lang('msg_alert_denied_word'), $word));
 			}
 		}
 
@@ -120,11 +120,11 @@ class spamfilterModel extends spamfilter
 		{
 			if($isMessage)
 			{
-				$message = sprintf(Context::getLang('msg_alert_limited_message_by_config'), $interval);
+				$message = sprintf(lang('msg_alert_limited_message_by_config'), $interval);
 			}
 			else
 			{
-				$message = sprintf(Context::getLang('msg_alert_limited_by_config'), $interval);
+				$message = sprintf(lang('msg_alert_limited_by_config'), $interval);
 			}
 
 			$oSpamFilterController = getController('spamfilter');

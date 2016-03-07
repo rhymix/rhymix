@@ -17,8 +17,6 @@ $lang->skin_author = 'Developpeur de l\'habillage';
 $lang->skin_license = 'Licence';
 $lang->skin_history = 'Histoire des Mises à jour';
 $lang->module_copy = 'Copier un Module';
-$lang->about_vid = '별도의 도메인이 아닌 https://Rhymix주소/ID 로 접속할 수 있습니다. 모듈명(mid)와 중복될 수 없습니다. 첫글자는 영문으로 시작해야 하고 영문과 숫자 그리고 _ 만 사용할 수 있습니다';
-$lang->msg_already_registed_vid = '이미 등록된 사이트 ID 입니다. 게시판등의 mid와도 중복이 되지 않습니다. 다른 ID를 입력해주세요.';
 $lang->header_script = 'Script en-tête';
 $lang->about_header_script = 'Vous pouvez entrer un script en html par vous-même entre &lt;header&gt; et &lt;/header&gt;. Vous pouvez utiliser &lt;script&gt;, &lt;style&gt; ou &lt;meta&gt; tag';
 $lang->grant_to_site_user = 'Joined users';
@@ -37,8 +35,6 @@ $lang->msg_grant_is_null = 'Il n\'y a pas de liste de permission.';
 $lang->msg_no_checked_document = 'Pas un article est choisi.';
 $lang->msg_move_failed = 'Echoué de bouger';
 $lang->msg_cannot_delete_for_child = 'On ne peut pas supprimer une catégorie qui a des catégories inférieures.';
-$lang->msg_limit_mid = '모듈이름은 영문+[영문+숫자+_] 만 가능합니다.';
-$lang->msg_extra_name_exists = '이미 존재하는 사용자 정의 이름입니다. 다른 이름을 입력해주세요.';
 $lang->about_browser_title = 'C\'est la valeur qui se représentera dans le titre de navigateur Web. Ce sera encore utilisé dans RSS/Rétrolien.';
 $lang->about_mid = 'Le nom de module sera utilisé comme http://adresse/?mid=ModuleName.
 (alphabet anglais + [alphabet anglais, nombres, et soulignement(_)] sont seulement permis. The maximum length is 40.)';
@@ -54,9 +50,6 @@ $lang->about_search_list_count = 'Vous pouvez configurer combien d\'articles soi
 $lang->about_page_count = 'Vous pouvez configurer combien de liens pour les Pages à Bouger en bas de chaque page.(10 par défaut)';
 $lang->about_mobile_page_count = 'Vous pouvez configurer combien de liens pour les Pages à Bouger en bas de chaque page.(5 par défaut)';
 $lang->about_admin_id = 'Vous pouvez désigner un directeur qui aura tous les permissions sur le module.\\nVous pouvez entrer plusieurs compte en utilisant.';
-$lang->about_grant_deatil = '가입한 사용자는 cafeXE등 분양형 가상 사이트에 가입을 한 로그인 사용자를 의미합니다';
 $lang->about_module = 'Rhymix se compose des modules sauf la bibliothèque fondamental.
 Le module [Administration des Modules] montera tous les modules installés et vous aidera les administrer.';
 $lang->about_extra_vars_default_value = 'Si plusieurs valeurs sont nécessaires, vous pouvez les connecter avec la virgule(,).';
-$lang->about_search_virtual_site = '가상 사이트(카페XE등)의 도메인을 입력한 후 검색하세요. 가상 사이트이외의 모듈은 내용을 비우고 검색하면 됩니다.  (http:// 는 제외)';
-$lang->about_langcode = '언어별로 다르게 설정하고 싶으면 언어코드 찾기를 이용해주세요';

@@ -411,7 +411,7 @@ class SFTPModuleInstaller extends ModuleInstaller
 
 		if(!@ssh2_sftp_unlink($this->sftp, $target_path))
 		{
-			return new Object(-1, sprintf(Context::getLang('msg_delete_file_failed'), $path));
+			return new Object(-1, sprintf(lang('msg_delete_file_failed'), $path));
 		}
 		return new Object();
 	}
@@ -432,7 +432,7 @@ class SFTPModuleInstaller extends ModuleInstaller
 
 		if(!@ssh2_sftp_rmdir($this->sftp, $target_path))
 		{
-			return new Object(-1, sprintf(Context::getLang('msg_delete_dir_failed'), $path));
+			return new Object(-1, sprintf(lang('msg_delete_dir_failed'), $path));
 		}
 		return new Object();
 	}
@@ -532,7 +532,7 @@ class PHPFTPModuleInstaller extends ModuleInstaller
 		$this->connection = ftp_connect($ftp_host, $this->ftp_info->ftp_port);
 		if(!$this->connection)
 		{
-			return new Object(-1, sprintf(Context::getLang('msg_ftp_not_connected'), $ftp_host));
+			return new Object(-1, sprintf(lang('msg_ftp_not_connected'), $ftp_host));
 		}
 
 		$login_result = @ftp_login($this->connection, $this->ftp_info->ftp_user, $this->ftp_password);
@@ -745,7 +745,7 @@ class FTPModuleInstaller extends ModuleInstaller
 		$this->oFtp = new ftp();
 		if(!$this->oFtp->ftp_connect($ftp_host, $this->ftp_info->ftp_port))
 		{
-			return new Object(-1, sprintf(Context::getLang('msg_ftp_not_connected'), $ftp_host));
+			return new Object(-1, sprintf(lang('msg_ftp_not_connected'), $ftp_host));
 		}
 		if(!$this->oFtp->ftp_login($this->ftp_info->ftp_user, $this->ftp_password))
 		{
@@ -772,7 +772,7 @@ class FTPModuleInstaller extends ModuleInstaller
 
 		if(!$this->oFtp->ftp_delete($target_path))
 		{
-			return new Object(-1, sprintf(Context::getLang('msg_delete_file_failed'), $path));
+			return new Object(-1, sprintf(lang('msg_delete_file_failed'), $path));
 		}
 		return new Object();
 	}
@@ -792,7 +792,7 @@ class FTPModuleInstaller extends ModuleInstaller
 
 		if(!$this->oFtp->ftp_rmdir($target_path))
 		{
-			return new Object(-1, sprintf(Context::getLang('msg_delete_dir_failed'), $path));
+			return new Object(-1, sprintf(lang('msg_delete_dir_failed'), $path));
 		}
 		return new Object();
 	}
@@ -911,7 +911,7 @@ class DirectModuleInstaller extends ModuleInstaller
 
 		if(!FileHandler::removeFile($target_path))
 		{
-			return new Object(-1, sprintf(Context::getLang('msg_delete_file_failed'), $path));
+			return new Object(-1, sprintf(lang('msg_delete_file_failed'), $path));
 		}
 		return new Object();
 	}

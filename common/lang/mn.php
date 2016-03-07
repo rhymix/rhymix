@@ -245,5 +245,3 @@ $lang->filter['invalid_korean_number'] = '%s-ын хэлбэр буруу бай
 $lang->filter['invalid_alpha'] = '%s-ын хэлбэр буруу байна. Зөвхөн латин үсгээр оруулах ёстой';
 $lang->filter['invalid_alpha_number'] = '%s-ын хэлбэр буруу байна. Зөвхөн латин үсэг болон тоогоор л оруулах ёстой.';
 $lang->filter['invalid_number'] = '%s-ын хэлбэр буруу байна. Зөвхөн тоогоор оруулах ёстой.';
-$lang->security_invalid_session = '바르지 않은 접근입니다. 인증을 위해 다시 로그인해야 합니다.';
-$lang->msg_pc_to_mobile = '이 페이지는 모바일 보기가 있습니다. 모바일 보기로 이동하시겠습니까?';

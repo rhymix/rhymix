@@ -55,7 +55,7 @@ class pollAdminController extends poll
 			if(!$output->toBool()) return $output;
 		}
 
-		$this->setMessage( sprintf(Context::getLang('msg_checked_poll_is_deleted'), $poll_count) );
+		$this->setMessage( sprintf(lang('msg_checked_poll_is_deleted'), $poll_count) );
 
 		$returnUrl = Context::get('success_return_url') ? Context::get('success_return_url') : getNotEncodedUrl('', 'module', 'admin', 'act', 'dispPollAdminList');
 		$this->setRedirectUrl($returnUrl);

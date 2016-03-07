@@ -139,7 +139,7 @@ class pollModel extends poll
 						$ip = md5($value->ip_address);
 						$poll->member[$ip] = new stdClass();
 						$poll->member[$ip]->member_srl = 0;
-						$poll->member[$ip]->nick_name = Context::getLang("anonymous") . ' IP: ' . $value->ip_address;
+						$poll->member[$ip]->nick_name = lang("anonymous") . ' IP: ' . $value->ip_address;
 						$poll->member[$ip]->profile_image = "";
 					}
 					else
@@ -147,7 +147,7 @@ class pollModel extends poll
 						$ip = md5($value->ip_address);
 						$poll->member[$ip] = new stdClass();
 						$poll->member[$ip]->member_srl = 0;
-						$poll->member[$ip]->nick_name = Context::getLang("anonymous");
+						$poll->member[$ip]->nick_name = lang("anonymous");
 						$poll->member[$ip]->profile_image = "";
 					}
 				}

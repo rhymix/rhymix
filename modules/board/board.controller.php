@@ -131,7 +131,7 @@ class boardController extends board
 			{
 				if($oDocument->get('regdate') < date('YmdHis', strtotime('-'.$this->module_info->protect_document_regdate.' day')))
 				{
-					$format =  Context::getLang('msg_protect_regdate_document');
+					$format =  lang('msg_protect_regdate_document');
 					$massage = sprintf($format, $this->module_info->protect_document_regdate);
 					return new Object(-1, $massage);
 				}
@@ -198,6 +198,7 @@ class boardController extends board
 		}
 
 		// return the results
+		$this->setRedirectUrl(getNotEncodedUrl('', 'mid', Context::get('mid'), 'act', '', 'document_srl', $output->get('document_srl')));
 		$this->add('mid', Context::get('mid'));
 		$this->add('document_srl', $output->get('document_srl'));
 
@@ -234,7 +235,7 @@ class boardController extends board
 		{
 			if($oDocument->get('regdate') < date('YmdHis', strtotime('-'.$this->module_info->protect_document_regdate.' day')))
 			{
-				$format =  Context::getLang('msg_protect_regdate_document');
+				$format =  lang('msg_protect_regdate_document');
 				$massage = sprintf($format, $this->module_info->protect_document_regdate);
 				return new Object(-1, $massage);
 			}
@@ -385,7 +386,7 @@ class boardController extends board
 			{
 				if($comment->get('regdate') < date('YmdHis', strtotime('-'.$this->module_info->protect_document_regdate.' day')))
 				{
-					$format =  Context::getLang('msg_protect_regdate_comment');
+					$format =  lang('msg_protect_regdate_comment');
 					$massage = sprintf($format, $this->module_info->protect_document_regdate);
 					return new Object(-1, $massage);
 				}
@@ -406,6 +407,7 @@ class boardController extends board
 		}
 
 		$this->setMessage('success_registed');
+		$this->setRedirectUrl(getNotEncodedUrl('', 'mid', Context::get('mid'), 'act', '', 'document_srl', $obj->document_srl) . '#comment_' . $obj->comment_srl);
 		$this->add('mid', Context::get('mid'));
 		$this->add('document_srl', $obj->document_srl);
 		$this->add('comment_srl', $obj->comment_srl);
@@ -438,7 +440,7 @@ class boardController extends board
 		{
 			if($comment->get('regdate') < date('YmdHis', strtotime('-'.$this->module_info->protect_document_regdate.' day')))
 			{
-				$format =  Context::getLang('msg_protect_regdate_comment');
+				$format =  lang('msg_protect_regdate_comment');
 				$massage = sprintf($format, $this->module_info->protect_document_regdate);
 				return new Object(-1, $massage);
 			}
@@ -456,6 +458,7 @@ class boardController extends board
 		$this->add('page', Context::get('page'));
 		$this->add('document_srl', $output->get('document_srl'));
 		$this->setMessage('success_deleted');
+		$this->setRedirectUrl(getNotEncodedUrl('', 'mid', Context::get('mid'), 'act', '', 'page', Context::get('page'), 'document_srl', $output->get('document_srl')));
 	}
 
 	/**
@@ -480,6 +483,7 @@ class boardController extends board
 		$this->add('page', Context::get('page'));
 		$this->add('document_srl', $output->get('document_srl'));
 		$this->setMessage('success_deleted');
+		$this->setRedirectUrl(getNotEncodedUrl('', 'mid', Context::get('mid'), 'act', '', 'page', Context::get('page'), 'document_srl', $output->get('document_srl')));
 	}
 
 	/**
