@@ -333,7 +333,11 @@ class widgetController extends widget
 			$widget = $args->widget;
 			$sequence = $args->widget_sequence;
 			$cache = $args->widget_cache;
-			if(!$sequence || !$cache) continue;
+			if(!$cache) continue;
+			if(!$sequence)
+			{
+				$sequence = sha1(json_encode($args));
+			}
 
 			if(count($args))
 			{
@@ -342,9 +346,9 @@ class widgetController extends widget
 			// If the cache file for each language widget regeneration
 			foreach($lang_list as $lang_type => $val)
 			{
-				$cache_file = sprintf('%s%d.%s.cache', $this->cache_path, $sequence, $lang_type);
+				$cache_file = sprintf('%s%s.%s.cache', $this->cache_path, $sequence, $lang_type);
 				if(!file_exists($cache_file)) continue;
-				$this->getCache($widget, $args, $lang_type, true);
+				$this->getCache($widget, $args, $lang_type, true, $sequence);
 			}
 		}
 	}
@@ -352,12 +356,23 @@ class widgetController extends widget
 	/**
 	 * @brief Widget cache handling
 	 */
-	function getCache($widget, $args, $lang_type = null, $ignore_cache = false)
+	function getCache($widget, $args, $lang_type = null, $ignore_cache = false, $override_sequence = false)
 	{
-		// If the specified language specifies the current language
-		if(!$lang_type) $lang_type = Context::getLangType();
-		// widget, the cache number and cache values are set
-		$widget_sequence = $args->widget_sequence;
+		// Use the current language if not otherwise specified
+		if (!$lang_type)
+		{
+			$lang_type = Context::getLangType();
+		}
+		
+		// Fix the widget sequence if it is missing
+		$widget_sequence = $override_sequence ?: $args->widget_sequence;
+		if (!$widget_sequence)
+		{
+			$widget_sequence = sha1(json_encode($args));
+		}
+		debugPrint($widget_sequence);
+		
+		// Set the widget cache duration
 		$widget_cache = $args->widget_cache;
 		if (preg_match('/^([0-9\.]+)([smhd])$/i', $widget_cache, $matches))
 		{
@@ -368,12 +383,11 @@ class widgetController extends widget
 		{
 			$widget_cache = intval(floatval($widget_cache) * 60);
 		}
-		debugPrint($widget_cache);
 
 		/**
 		 * Even if the cache number and value of the cache and return it to extract data
 		 */
-		if(!$ignore_cache && (!$widget_cache || !$widget_sequence))
+		if(!$ignore_cache && !$widget_cache)
 		{
 			$oWidget = $this->getWidgetObject($widget);
 			if(!$oWidget || !method_exists($oWidget, 'proc')) return;
@@ -404,7 +418,7 @@ class widgetController extends widget
 			 */
 			FileHandler::makeDir($this->cache_path);
 			// Wanted cache file
-			$cache_file = sprintf('%s%d.%s.cache', $this->cache_path, $widget_sequence, $lang_type);
+			$cache_file = sprintf('%s%s.%s.cache', $this->cache_path, $widget_sequence, $lang_type);
 			// If the file exists in the cache, the file validation
 			if(!$ignore_cache && file_exists($cache_file))
 			{
@@ -797,7 +811,12 @@ class widgetController extends widget
 
 		if($vars->widget_sequence)
 		{
-			$cache_file = sprintf('%s%d.%s.cache', $this->cache_path, $vars->widget_sequence, Context::getLangType());
+			$oCacheHandler = CacheHandler::getInstance('object');
+			if($oCacheHandler->isSupport())
+			{
+				$cache_body = $oCacheHandler->delete('widget_cache:' . $vars->widget_sequence);
+			}
+			$cache_file = sprintf('%s%s.%s.cache', $this->cache_path, $vars->widget_sequence, Context::getLangType());
 			FileHandler::removeFile($cache_file);
 		}
 
