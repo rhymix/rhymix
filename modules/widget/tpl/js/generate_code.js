@@ -119,6 +119,20 @@ function doFillWidgetVars() {
 		if(node.type == 'button') continue;
 		if(node.name === '') continue;
 
+		if (node.name == 'widget_cache') {
+			var widget_cache = selected_node.getAttribute(node.name);
+			var widget_cache_unit = widget_cache.match(/[smhd]$/i);
+			if (widget_cache_unit) {
+				jQuery("#widget_cache_unit").val(widget_cache_unit);
+				widget_cache = widget_cache.replace(/[smhd]$/i, "");
+			}
+			jQuery("#widget_cache").val(widget_cache);
+			continue;
+		}
+		if (node.name == 'widget_cache_unit') {
+			continue;
+		}
+		
 		var length = node.length;
 		var type = node.type;
 
