@@ -359,6 +359,16 @@ class widgetController extends widget
 		// widget, the cache number and cache values are set
 		$widget_sequence = $args->widget_sequence;
 		$widget_cache = $args->widget_cache;
+		if (preg_match('/^([0-9\.]+)([smhd])$/i', $widget_cache, $matches))
+		{
+			$multipliers = array('s' => 1, 'm' => 60, 'h' => 3600, 'd' => 86400);
+			$widget_cache = intval(floatval($matches[1]) * $multipliers[strtolower($matches[2])]);
+		}
+		else
+		{
+			$widget_cache = intval(floatval($widget_cache) * 60);
+		}
+		debugPrint($widget_cache);
 
 		/**
 		 * Even if the cache number and value of the cache and return it to extract data
@@ -400,7 +410,7 @@ class widgetController extends widget
 			{
 				$filemtime = filemtime($cache_file);
 				// Should be modified compared to the time of the cache or in the future if creating more than widget.controller.php file a return value of the cache
-				if($filemtime + $widget_cache * 60 > $_SERVER['REQUEST_TIME'] && $filemtime > filemtime(_XE_PATH_.'modules/widget/widget.controller.php'))
+				if($filemtime + $widget_cache > $_SERVER['REQUEST_TIME'] && $filemtime > filemtime(_XE_PATH_.'modules/widget/widget.controller.php'))
 				{
 					$cache_body = FileHandler::readFile($cache_file);
 					$cache_body = preg_replace('@<\!--#Meta:@', '<!--Meta:', $cache_body);
@@ -411,7 +421,7 @@ class widgetController extends widget
 			// cache update and cache renewal of the file mtime
 			if(!$oCacheHandler->isSupport())
 			{
-			touch($cache_file);
+				touch($cache_file);
 			}
 
 			$oWidget = $this->getWidgetObject($widget);
@@ -422,7 +432,7 @@ class widgetController extends widget
 			$oModuleController->replaceDefinedLangCode($widget_content);
 			if($oCacheHandler->isSupport())
 			{
-				$oCacheHandler->put($key, $widget_content, $widget_cache * 60);
+				$oCacheHandler->put($key, $widget_content, $widget_cache);
 			}
 			else
 			{
@@ -751,6 +761,10 @@ class widgetController extends widget
 		$vars->colorset = trim($request_vars->colorset);
 		$vars->widget_sequence = (int)($request_vars->widget_sequence);
 		$vars->widget_cache = (int)($request_vars->widget_cache);
+		if($request_vars->widget_cache_unit && in_array($request_vars->widget_cache_unit, array('s', 'm', 'h', 'd')))
+		{
+			$vars->widget_cache .= $request_vars->widget_cache_unit;
+		}
 		$vars->style = trim($request_vars->style);
 		$vars->widget_padding_left = trim($request_vars->widget_padding_left);
 		$vars->widget_padding_right = trim($request_vars->widget_padding_right);
