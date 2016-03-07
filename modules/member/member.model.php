@@ -1047,6 +1047,10 @@ class memberModel extends member
 							$info->title = $group_info->title;
 							$info->description = $group_info->description;
 							$info->src = $group_info->image_mark;
+							if(parse_url($info->src, PHP_URL_HOST) === parse_url(Context::getDefaultUrl(), PHP_URL_HOST))
+							{
+								$info->src = preg_replace('@^https?://[^/]+@i', '', $info->src);
+							}
 							$GLOBALS['__member_info__']['group_image_mark'][$member_srl] = $info;
 							break;
 						}
