@@ -401,8 +401,8 @@ class widgetController extends widget
 		if($oCacheHandler->isSupport())
 		{
 			$key = 'widget_cache:' . $widget_sequence;
-
-			$cache_body = $oCacheHandler->get($key);
+			
+			$cache_body = $oCacheHandler->get($key, RX_TIME - $widget_cache);
 			$cache_body = preg_replace('@<\!--#Meta:@', '<!--Meta:', $cache_body);
 		}
 
