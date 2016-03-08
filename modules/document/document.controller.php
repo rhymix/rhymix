@@ -607,8 +607,9 @@ class documentController extends document
 		{
 			$obj->password = getModel('member')->hashPassword($obj->password);
 		}
+
 		// If an author is identical to the modifier or history is used, use the logged-in user's information.
-		if(Context::get('is_logged') && $module_info->use_anonymous != 'Y')
+		if(Context::get('is_logged') && !$manual_updated && $module_info->use_anonymous != 'Y')
 		{
 			$logged_info = Context::get('logged_info');
 			if($source_obj->get('member_srl')==$logged_info->member_srl)
@@ -620,6 +621,7 @@ class documentController extends document
 				$obj->homepage = $logged_info->homepage;
 			}
 		}
+
 		// For the document written by logged-in user however no nick_name exists
 		if($source_obj->get('member_srl')&& !$obj->nick_name)
 		{
