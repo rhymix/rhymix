@@ -1051,9 +1051,13 @@ class memberModel extends member
 							$info->title = $group_info->title;
 							$info->description = $group_info->description;
 							$info->src = $group_info->image_mark;
-							if(parse_url($info->src, PHP_URL_HOST) === parse_url(Context::getDefaultUrl(), PHP_URL_HOST))
+							if(preg_match('@^https?://@', $info->src))
 							{
-								$info->src = preg_replace('@^https?://[^/]+@i', '', $info->src);
+								$localpath = str_replace('/./', '/', parse_url($info->src, PHP_URL_PATH));
+								if(file_exists($_SERVER['DOCUMENT_ROOT'] . $localpath))
+								{
+									$info->src = $localpath . '?' . date('YmdHis', filemtime($_SERVER['DOCUMENT_ROOT'] . $localpath));
+								}
 							}
 							$GLOBALS['__member_info__']['group_image_mark'][$member_srl] = $info;
 							break;
