@@ -284,7 +284,7 @@ jQuery(function($) {
 			uri = uri.replace(re, toReplace);
 		}
 
-		var bUseSSL = !!window.enforce_ssl;
+		var bUseSSL = !!window.enforce_ssl || (location.protocol == 'https:');
 		if (!bUseSSL && isArray(window.ssl_actions) && (act=uri.getQuery('act'))) {
 			for (var i=0,c=ssl_actions.length; i < c; i++) {
 				if (ssl_actions[i] === act) {
