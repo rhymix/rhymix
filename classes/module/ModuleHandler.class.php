@@ -96,10 +96,13 @@ class ModuleHandler extends Handler
 		{
 			if(Context::get('_use_ssl') == 'optional' && Context::isExistsSSLAction($this->act) && !RX_SSL)
 			{
-				if(Context::get('_https_port')!=null) {
-					header('location:https://' . $_SERVER['HTTP_HOST'] . ':' . Context::get('_https_port') . $_SERVER['REQUEST_URI']);
-				} else {
-					header('location:https://' . $_SERVER['HTTP_HOST'] . $_SERVER['REQUEST_URI']);
+				if(Context::get('_https_port') != null)
+				{
+					header('location: https://' . $_SERVER['HTTP_HOST'] . ':' . Context::get('_https_port') . $_SERVER['REQUEST_URI']);
+				}
+				else
+				{
+					header('location: https://' . $_SERVER['HTTP_HOST'] . $_SERVER['REQUEST_URI']);
 				}
 				return;
 			}
@@ -182,7 +185,7 @@ class ModuleHandler extends Handler
 					if(Context::getRequestMethod() == 'GET')
 					{
 						$this->mid = $module_info->mid;
-						header('location:' . getNotEncodedSiteUrl($site_module_info->domain, 'mid', $this->mid, 'document_srl', $this->document_srl));
+						header('location: ' . getNotEncodedSiteUrl($site_module_info->domain, 'mid', $this->mid, 'document_srl', $this->document_srl), true, 301);
 						return FALSE;
 					}
 					else
@@ -212,7 +215,7 @@ class ModuleHandler extends Handler
 		if(!$this->module && !$module_info && $site_module_info->site_srl == 0 && $site_module_info->module_site_srl > 0)
 		{
 			$site_info = $oModuleModel->getSiteInfo($site_module_info->module_site_srl);
-			header("location:" . getNotEncodedSiteUrl($site_info->domain, 'mid', $site_module_info->mid));
+			header('location: ' . getNotEncodedSiteUrl($site_info->domain, 'mid', $site_module_info->mid), true, 301);
 			return FALSE;
 		}
 
@@ -241,7 +244,7 @@ class ModuleHandler extends Handler
 			{
 				$redirect_url = getNotEncodedSiteUrl(Context::getDefaultUrl(), 'mid', Context::get('mid'), 'document_srl', Context::get('document_srl'), 'module_srl', Context::get('module_srl'), 'entry', Context::get('entry'));
 			}
-			header("Location: $redirect_url");
+			header("Location: $redirect_url", true, 301);
 			return FALSE;
 		}
 
@@ -884,7 +887,7 @@ class ModuleHandler extends Handler
 
 			if($_SESSION['XE_VALIDATOR_RETURN_URL'])
 			{
-				header('location:' . $_SESSION['XE_VALIDATOR_RETURN_URL']);
+				header('location: ' . $_SESSION['XE_VALIDATOR_RETURN_URL']);
 				return;
 			}
 
