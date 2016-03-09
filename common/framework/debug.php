@@ -145,7 +145,7 @@ class Debug
 		self::$_entries[] = $entry;
 		
 		// Add the entry to the error log.
-		if (self::$write_to_error_log)
+		if (self::$write_to_error_log && self::isEnabledForCurrentUser())
 		{
 			$log_entry = str_replace("\0", '', sprintf('Rhymix Debug: %s in %s on line %d',
 				var_export($message, true), $entry->file, $entry->line));
