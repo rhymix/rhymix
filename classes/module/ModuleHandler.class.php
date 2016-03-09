@@ -184,6 +184,7 @@ class ModuleHandler extends Handler
 					
 					if(Context::getRequestMethod() == 'GET')
 					{
+						Context::setCacheControl(0);
 						$this->mid = $module_info->mid;
 						header('location: ' . getNotEncodedSiteUrl($site_module_info->domain, 'mid', $this->mid, 'document_srl', $this->document_srl), true, 301);
 						return FALSE;
@@ -214,6 +215,7 @@ class ModuleHandler extends Handler
 		// redirect, if module_site_srl and site_srl are different
 		if(!$this->module && !$module_info && $site_module_info->site_srl == 0 && $site_module_info->module_site_srl > 0)
 		{
+			Context::setCacheControl(0);
 			$site_info = $oModuleModel->getSiteInfo($site_module_info->module_site_srl);
 			header('location: ' . getNotEncodedSiteUrl($site_info->domain, 'mid', $site_module_info->mid), true, 301);
 			return FALSE;
@@ -244,6 +246,8 @@ class ModuleHandler extends Handler
 			{
 				$redirect_url = getNotEncodedSiteUrl(Context::getDefaultUrl(), 'mid', Context::get('mid'), 'document_srl', Context::get('document_srl'), 'module_srl', Context::get('module_srl'), 'entry', Context::get('entry'));
 			}
+			
+			Context::setCacheControl(0);
 			header("Location: $redirect_url", true, 301);
 			return FALSE;
 		}
