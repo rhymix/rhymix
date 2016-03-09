@@ -287,7 +287,7 @@ class content extends WidgetHandler
 				$content_item = new contentItem( $args->module_srls_info[$module_srl]->browser_title );
 				$content_item->adds($oDocument->getObjectVars());
 				$content_item->add('original_content', $oDocument->get('content'));
-				$content_item->setTitle(htmlspecialchars($oDocument->getTitleText()));
+				$content_item->setTitle($oDocument->getTitleText());
 				$content_item->setCategory( $category_lists[$module_srl][$category_srl]->title );
 				$content_item->setDomain( $args->module_srls_info[$module_srl]->domain );
 				$content_item->setContent($oDocument->getSummary($args->content_cut_size));
@@ -626,8 +626,7 @@ class content extends WidgetHandler
 
 				if(($item->content && stripos($value->content->attrs->type, "html") === FALSE) || (!$item->content && stripos($value->summary->attrs->type, "html") === FALSE))
 				{
-					$item->description = htmlspecialchars($item->description, ENT_COMPAT | ENT_HTML401, 'UTF-8', false);
-
+					$item->description = escape($item->description, false);
 				}
 
 				$content_item->setContent($this->_getSummary($item->description, $args->content_cut_size));
@@ -824,7 +823,7 @@ class contentItem extends Object
 	}
 	function setTitle($title)
 	{
-		$this->add('title', strip_tags($title));
+		$this->add('title', escape(strip_tags($title), false));
 	}
 	function setThumbnail($thumbnail)
 	{
@@ -879,7 +878,7 @@ class contentItem extends Object
 	}
 	function getTitle($cut_size = 0, $tail='...')
 	{
-		$title = strip_tags($this->get('title'));
+		$title = $this->get('title');
 
 		if($cut_size) $title = cut_str($title, $cut_size, $tail);
 
@@ -887,7 +886,7 @@ class contentItem extends Object
 		if($this->get('title_bold') == 'Y') $attrs[] = 'font-weight:bold';
 		if($this->get('title_color') && $this->get('title_color') != 'N') $attrs[] = 'color:#'.$this->get('title_color');
 
-		if(count($attrs)) $title = sprintf("<span style=\"%s\">%s</span>", implode(';', $attrs), htmlspecialchars($title));
+		if(count($attrs)) $title = sprintf("<span style=\"%s\">%s</span>", implode(';', $attrs), $title);
 
 		return $title;
 	}
