@@ -127,6 +127,11 @@ class boardController extends board
 				}
 			}
 
+			if($this->module_info->use_anonymous == 'Y') {
+				$obj->member_srl = abs($oDocument->get('member_srl')) * -1;
+				$oDocument->add('member_srl', $obj->member_srl);
+			}
+
 			if($this->module_info->protect_document_regdate > 0 && $this->grant->manager == false)
 			{
 				if($oDocument->get('regdate') < date('YmdHis', strtotime('-'.$this->module_info->protect_document_regdate.' day')))
@@ -152,7 +157,7 @@ class boardController extends board
 				$obj->update_order = $obj->list_order = (getNextSequence() * -1);
 			}
 			$obj->reason_update = escape($obj->reason_update);
-			$output = $oDocumentController->updateDocument($oDocument, $obj);
+			$output = $oDocumentController->updateDocument($oDocument, $obj, true);
 			$msg_code = 'success_updated';
 
 		// insert a new document otherwise
