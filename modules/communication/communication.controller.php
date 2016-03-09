@@ -809,7 +809,10 @@ class communicationController extends communication
 		$logged_info = Context::get('logged_info');
 		$oCommunicationModel = getModel('communication');
 		$config = $oCommunicationModel->getConfig();
-		
+		if($obj->module == 'admin')
+		{
+			return new Object();
+		}
 		if($config->enable_message == 'N' && $config->enable_friend == 'N')
 		{
 			return new Object();
