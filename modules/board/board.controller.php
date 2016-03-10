@@ -232,7 +232,6 @@ class boardController extends board
 			{
 				$oMemberModel = getModel('member');
 				$member_info = $oMemberModel->getMemberInfoByMemberSrl($val->update_member_srl);
-				debugPrint($val);
 				if($member_info->is_admin === 'Y')
 				{
 					$isadminDocument = true;
