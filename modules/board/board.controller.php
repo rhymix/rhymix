@@ -211,6 +211,58 @@ class boardController extends board
 		$this->setMessage($msg_code);
 	}
 
+	function procBoardUpdateDocument()
+	{
+		$update_id = Context::get('update_id');
+		$logged_info = Context::get('logged_info');
+		if(!$update_id)
+		{
+			return new Object(-1, 'msg_no_update_id');
+		}
+
+		$oDocumentModel = getModel('document');
+		$oDocumentController = getController('document');
+		$update_log = $oDocumentModel->getUpdateLog($update_id);
+
+		$isadminDocument = false;
+		if($logged_info->is_admin != 'Y')
+		{
+			$update_log_list = $oDocumentModel->getDocumentUpdateLog($update_log->document_srl);
+			foreach($update_log_list->data as $val)
+			{
+				$oMemberModel = getModel('member');
+				$member_info = $oMemberModel->getMemberInfoByMemberSrl($val->update_member_srl);
+				debugPrint($val);
+				if($member_info->is_admin === 'Y')
+				{
+					$isadminDocument = true;
+					break;
+				}
+			}
+			if($isadminDocument === true)
+			{
+				return new Object(-1, 'msg_admin_update_log');
+			}
+		}
+
+		if(!$update_log)
+		{
+			return new Object(-1, 'msg_no_update_log');
+		}
+
+		$oDocument = $oDocumentModel->getDocument($update_log->document_srl);
+		$obj = new stdClass();
+		$obj->title = $update_log->title;
+		$obj->document_srl = $update_log->document_srl;
+		$obj->title_bold = $update_log->title_bold;
+		$obj->title_color = $update_log->title_color;
+		$obj->content = $update_log->content;
+		$output = $oDocumentController->updateDocument($oDocument, $obj);
+		$this->setRedirectUrl(getNotEncodedUrl('', 'mid', Context::get('mid'),'act', '', 'document_srl', $update_log->document_srl));
+		$this->add('mid', Context::get('mid'));
+		$this->add('document_srl', $update_log->document_srl);
+	}
+
 	/**
 	 * @brief delete the document
 	 **/

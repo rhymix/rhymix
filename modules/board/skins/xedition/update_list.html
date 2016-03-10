@@ -15,10 +15,10 @@
 					<a href="{getUrl('', 'mid', $mid, 'act', 'dispBoardUpdateLogView', 'update_id', $val->update_id)}">{$val->title}</a>
 				</td>
 				<td class="author">
-					{$val->update_nick_name}
+					{$val->nick_name}
 				</td>
 				<td class="author">
-					{$val->nick_name}
+					{$val->update_nick_name}
 				</td>
 				<td class="time">
 					{zdate($val->regdate, 'Y.m.d H:i:s')}

@@ -26,4 +26,11 @@
 		</p>
 		<!-- /READ BODY -->
 	</div>
+
+	<form action="./" method="post" onsubmit="return procFilter(this, window.update)" >
+		<input type="hidden" name="module" value="board" />
+		<input type="hidden" name="act" value="procBoardUpdateDocument" />
+		<input type="hidden" name="update_id" value="{$update_log->update_id}" />
+		<button type="submit">{$lang->cmd_modify_by_update_log}</button>
+	</form>
 </div>

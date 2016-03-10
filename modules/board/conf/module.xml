@@ -80,6 +80,7 @@
 		<action name="dispBoardUpdateLogView" type="view" />
 
 		<action name="procBoardInsertDocument" type="controller" ruleset="insertDocument" standalone="false" />
+		<action name="procBoardUpdateDocument" type="controller" />
 		<action name="procBoardDeleteDocument" type="controller" standalone="false" />
 		<action name="procBoardVoteDocument" type="controller" standalone="false" />
 		<action name="procBoardInsertComment" type="controller" standalone="false" />
