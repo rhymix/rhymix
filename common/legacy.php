@@ -815,8 +815,7 @@ function url_decode($str)
 
 function purifierHtml(&$content)
 {
-	$oPurifier = Purifier::getInstance();
-	$oPurifier->purify($content);
+	$content = Rhymix\Framework\Security\HTMLFilter::clean($content);
 }
 
 /**
@@ -830,7 +829,7 @@ function removeHackTag($content)
 	$oEmbedFilter = EmbedFilter::getInstance();
 	$oEmbedFilter->check($content);
 
-	purifierHtml($content);
+	$content = Rhymix\Framework\Security\HTMLFilter::clean($content);
 
 	// change the specific tags to the common texts
 	$content = preg_replace('@<(\/?(?:html|body|head|title|meta|base|link|script|style|applet)(/*).*?>)@i', '&lt;$1', $content);
