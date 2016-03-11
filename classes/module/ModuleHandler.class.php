@@ -168,12 +168,14 @@ class ModuleHandler extends Handler
 		// Get module's information based on document_srl, if it's specified
 		if($this->document_srl)
 		{
-			
 			$module_info = $oModuleModel->getModuleInfoByDocumentSrl($this->document_srl);
-			// If the document does not exist, remove document_srl
+			
+			// redirect, if the document does not exist
 			if(!$module_info)
 			{
-				unset($this->document_srl);
+				$this->error = 'The document does not exist';
+				$this->httpStatusCode = '404';
+				return true;
 			}
 			else
 			{
@@ -181,20 +183,17 @@ class ModuleHandler extends Handler
 				// if mids are not matching, set it as the document's mid
 				if(!$this->mid || ($this->mid != $module_info->mid))
 				{
-					
 					if(Context::getRequestMethod() == 'GET')
 					{
 						Context::setCacheControl(0);
-						$this->mid = $module_info->mid;
-						header('location: ' . getNotEncodedSiteUrl($site_module_info->domain, 'mid', $this->mid, 'document_srl', $this->document_srl), true, 301);
-						return FALSE;
+						header('location: ' . getNotEncodedSiteUrl($site_module_info->domain, 'mid', $module_info->mid, 'document_srl', $this->document_srl), true, 301);
+						return false;
 					}
 					else
 					{
 						$this->mid = $module_info->mid;
 						Context::set('mid', $this->mid);
 					}
-					
 				}
 				// if requested module is different from one of the document, remove the module information retrieved based on the document number
 				if($this->module && $module_info->module != $this->module)
@@ -202,7 +201,6 @@ class ModuleHandler extends Handler
 					unset($module_info);
 				}
 			}
-
 		}
 
 		// If module_info is not set yet, and there exists mid information, get module information based on the mid
@@ -218,7 +216,7 @@ class ModuleHandler extends Handler
 			Context::setCacheControl(0);
 			$site_info = $oModuleModel->getSiteInfo($site_module_info->module_site_srl);
 			header('location: ' . getNotEncodedSiteUrl($site_info->domain, 'mid', $site_module_info->mid), true, 301);
-			return FALSE;
+			return false;
 		}
 
 		// If module_info is not set still, and $module does not exist, find the default module
@@ -249,7 +247,7 @@ class ModuleHandler extends Handler
 			
 			Context::setCacheControl(0);
 			header("Location: $redirect_url", true, 301);
-			return FALSE;
+			return false;
 		}
 
 		// If module info was set, retrieve variables from the module information
@@ -297,6 +295,7 @@ class ModuleHandler extends Handler
 		{
 			$this->error = 'msg_module_is_not_exists';
 			$this->httpStatusCode = '404';
+			return true;
 		}
 
 		// If mid exists, set mid into context
@@ -310,13 +309,13 @@ class ModuleHandler extends Handler
 		if(!$output->toBool())
 		{
 			$this->error = $output->getMessage();
-			return TRUE;
+			return true;
 		}
 
 		// Set current module info into context
 		Context::set('current_module_info', $this->module_info);
 
-		return TRUE;
+		return true;
 	}
 
 	/**
