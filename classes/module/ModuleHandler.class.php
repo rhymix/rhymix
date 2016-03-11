@@ -170,12 +170,19 @@ class ModuleHandler extends Handler
 		{
 			$module_info = $oModuleModel->getModuleInfoByDocumentSrl($this->document_srl);
 			
-			// redirect, if the document does not exist
+			// If the document does not exist, remove document_srl
 			if(!$module_info)
 			{
-				$this->error = 'The document does not exist';
-				$this->httpStatusCode = '404';
-				return true;
+				if(Context::getRequestMethod() == 'GET')
+				{
+					$this->error = 'The document does not exist';
+					$this->httpStatusCode = '404';
+					return true;
+				}
+				else
+				{
+					unset($this->document_srl);
+				}
 			}
 			else
 			{
@@ -471,7 +478,6 @@ class ModuleHandler extends Handler
 		// If there is no such action in the module object
 		if(!isset($xml_info->action->{$this->act}) || !method_exists($oModule, $this->act))
 		{
-
 			if(!Context::isInstalled())
 			{
 				self::_setInputErrorToContext();
@@ -766,10 +772,6 @@ class ModuleHandler extends Handler
 				}
 				self::_setInputValueToSession();
 			}
-			else
-			{
-
-			}
 
 			if($error != 0)
 			{
@@ -945,13 +947,11 @@ class ModuleHandler extends Handler
 
 			if($layout_srl && !$oModule->getLayoutFile())
 			{
-
 				// If layout_srl exists, get information of the layout, and set the location of layout_path/ layout_file
 				$oLayoutModel = getModel('layout');
 				$layout_info = $oLayoutModel->getLayout($layout_srl);
 				if($layout_info)
 				{
-
 					// Input extra_vars into $layout_info
 					if($layout_info->extra_var_count)
 					{
