@@ -43,19 +43,19 @@ class HTMLFilterTest extends \Codeception\TestCase\Test
             // issue #1813 https://github.com/xpressengine/xe-core/issues/1813
             array(
                 '<img src="?act=dispLayoutPreview" alt="dummy" />',
-                '<img alt="dummy" />'
+                '<img src="" alt="dummy" />'
             ),
             array(
                 '<img src="?act =dispLayoutPreview" alt="dummy" />',
-                '<img alt="dummy" />'
+                '<img src="" alt="dummy" />'
             ),
             array(
                 "<img src=\"?act\n=dispLayoutPreview\" alt=\"dummy\" />",
-                '<img alt="dummy" />'
+                '<img src="" alt="dummy" />'
             ),
             array(
                 "<img src=\"?pam=act&a\nct  =\r\n\tdispLayoutPreview\" alt=\"dummy\" />",
-                '<img alt="dummy" />'
+                '<img src="" alt="dummy" />'
             )
         );
         

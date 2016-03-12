@@ -11,7 +11,7 @@ class SecurityTest extends \Codeception\TestCase\Test
 		$this->assertEquals('foobar', Rhymix\Framework\Security::sanitize('foo<p>bar</p>', 'strip'));
 		
 		// HTML (more thorough tests in HTMLFilterTest)
-		$this->assertEquals('<p>safe</p>', Rhymix\Framework\Security::sanitize('<p>safe<script>unsafe();</script></p>', 'html'));
+		$this->assertEquals('<p>safe&lt;script&gt;&lt;/script&gt;</p>', Rhymix\Framework\Security::sanitize('<p>safe<script></script></p>', 'html'));
 		
 		// Filename (more thorough tests in FilenameFilterTest)
 		$this->assertEquals('foo(bar).xls', Rhymix\Framework\Security::sanitize('foo<bar>.xls', 'filename'));

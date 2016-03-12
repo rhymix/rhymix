@@ -830,17 +830,7 @@ function removeHackTag($content)
 	$oEmbedFilter = EmbedFilter::getInstance();
 	$oEmbedFilter->check($content);
 
-	$content = Rhymix\Framework\Security\HTMLFilter::clean($content);
-
-	// change the specific tags to the common texts
-	$content = preg_replace('@<(\/?(?:html|body|head|title|meta|base|link|script|style|applet)(/*).*?>)@i', '&lt;$1', $content);
-
-	/**
-	 * Remove codes to abuse the admin session in src by tags of imaages and video postings
-	 * - Issue reported by Sangwon Kim
-	 */
-	$content = preg_replace_callback('@<(/?)([a-z]+[0-9]?)((?>"[^"]*"|\'[^\']*\'|[^>])*?\b(?:on[a-z]+|data|style|background|href|(?:dyn|low)?src)\s*=[\s\S]*?)(/?)($|>|<)@i', 'removeSrcHack', $content);
-	return $content;
+	return Rhymix\Framework\Security\HTMLFilter::clean($content);
 }
 
 /**
@@ -866,6 +856,17 @@ function blockWidgetCode($content)
 }
 
 /**
+ * Remove src hack (Deprecated)
+ *
+ * @param array $match
+ * @return string
+ */
+function removeSrcHack($match)
+{
+	return $match[0];
+}
+
+/**
  * Check uploaded file (Deprecated)
  *
  * @param string $file Taget file path
@@ -874,111 +875,6 @@ function blockWidgetCode($content)
 function checkUploadedFile($file)
 {
 	return true;
-}
-
-/**
- * Remove src hack(preg_replace_callback)
- *
- * @param array $match
- * @return string
- */
-function removeSrcHack($match)
-{
-	$tag = strtolower($match[2]);
-
-	if($match[1])
-	{
-		return $match[0];
-	}
-	if($match[4])
-	{
-		$match[4] = ' ' . $match[4];
-	}
-
-	$attrs = array();
-	if(preg_match_all('/([\w:-]+)\s*=(?:\s*(["\']))?(?(2)(.*?)\2|([^ ]+))/s', $match[3], $m))
-	{
-		foreach($m[1] as $idx => $name)
-		{
-			if(strlen($name) >= 2 && substr_compare($name, 'on', 0, 2) === 0)
-			{
-				continue;
-			}
-
-			$val = preg_replace_callback('/&#(?:x([a-fA-F0-9]+)|0*(\d+));/', function($n) {return chr($n[1] ? ('0x00' . $n[1]) : ($n[2] + 0)); }, $m[3][$idx] . $m[4][$idx]);
-			$val = preg_replace('/^\s+|[\t\n\r]+/', '', $val);
-
-			if(preg_match('/^[a-z]+script:/i', $val))
-			{
-				continue;
-			}
-
-			$attrs[$name] = $val;
-		}
-	}
-
-	//Remove ACT URL (CSRF)
-	$except_act = array('procFileDownload');
-	$block_act = array('dispMemberLogout', 'dispLayoutPreview');
-
-	$filter_arrts = array('style', 'src', 'href');
-	if($tag === 'object') array_push($filter_arrts, 'data');
-	if($tag === 'param') array_push($filter_arrts, 'value');
-
-	foreach($filter_arrts as $attr)
-	{
-		if(!isset($attrs[$attr])) continue;
-
-		$attr_value = rawurldecode($attrs[$attr]);
-		$attr_value = htmlspecialchars_decode($attr_value, ENT_COMPAT);
-		$attr_value = preg_replace('/\s+|[\t\n\r]+/', '', $attr_value);
-
-		preg_match('@(\?|&|;)act=(disp|proc)([^&]*)@i', $attr_value, $actmatch);
-		$url_action = $actmatch[2].$actmatch[3];
-
-		if(!empty($url_action) && !in_array($url_action, $except_act))
-		{
-			if($actmatch[2] == 'proc' || in_array($url_action, $block_act))
-			{
-				unset($attrs[$attr]);
-			}
-		}
-	}
-
-	if(isset($attrs['style']) && preg_match('@(?:/\*|\*/|\n|:\s*expression\s*\()@i', $attrs['style']))
-	{
-		unset($attrs['style']);
-	}
-
-	$attr = array();
-	foreach($attrs as $name => $val)
-	{
-		if($tag == 'object' || $tag == 'embed' || $tag == 'a')
-		{
-			$attribute = strtolower(trim($name));
-			if($attribute == 'data' || $attribute == 'src' || $attribute == 'href')
-			{
-				if(stripos($val, 'data:') === 0)
-				{
-					continue;
-				}
-			}
-		}
-
-		if($tag == 'img')
-		{
-			$attribute = strtolower(trim($name));
-			if(stripos($val, 'data:') === 0)
-			{
-				continue;
-			}
-		}
-		$val = str_replace('"', '&quot;', $val);
-		$attr[] = $name . "=\"{$val}\"";
-	}
-	$attr = count($attr) ? ' ' . implode(' ', $attr) : '';
-
-	return "<{$match[1]}{$tag}{$attr}{$match[4]}>";
 }
 
 /**

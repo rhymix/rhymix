@@ -75,9 +75,9 @@ class HTMLFilter
 			$input = $callback($input);
 		}
 		
-		$input = self::_encodeWidgetsAndEditorComponents($input);
+		$input = self::_preprocess($input);
 		$output = self::getHTMLPurifier()->purify($input);
-		$output = self::_decodeWidgetsAndEditorComponents($output);
+		$output = self::_postprocess($output);
 		
 		foreach (self::$_postproc as $callback)
 		{
@@ -386,6 +386,55 @@ class HTMLFilter
 	}
 	
 	/**
+	 * Rhymix-specific preprocessing method.
+	 * 
+	 * @param string $content
+	 * @return string
+	 */
+	protected static function _preprocess($content)
+	{
+		// Remove tags not supported in Rhymix. Some of these may also be removed by HTMLPurifier.
+		$content = preg_replace_callback('!</?(?:html|body|head|title|meta|base|link|script|style|applet)\b[^>]*>!i', function($matches) {
+			return htmlspecialchars($matches[0], ENT_QUOTES, 'UTF-8');
+		}, $content);
+		
+		// Encode widget and editor component properties so that they are not removed by HTMLPurifier.
+		$content = self::_encodeWidgetsAndEditorComponents($content);
+		return $content;
+	}
+	
+	/**
+	 * Rhymix-specific postprocessing method.
+	 * 
+	 * @param string $content
+	 * @return string
+	 */
+	protected static function _postprocess($content)
+	{
+		// Define acts to allow and deny.
+		$allow_acts = array('procFileDownload');
+		$deny_acts = array('dispMemberLogout', 'dispLayoutPreview');
+		
+		// Remove URLs that may be CSRF attempts.
+		$content = preg_replace_callback('!\b(src|href|data|value)="([^"]+)"!i', function($matches) use($allow_acts, $deny_acts) {
+			$url = preg_replace('!\s+!', '', htmlspecialchars_decode(rawurldecode($matches[2])));
+			if (preg_match('!\bact=((disp|proc)[^&]+)!i', $url, $urlmatches))
+			{
+				$act = $urlmatches[1];
+				if (!in_array($act, $allow_acts) && (in_array($act, $deny_acts) || $urlmatches[2] === 'proc'))
+				{
+					return $matches[1] . '=""';
+				}
+			}
+			return $matches[0];
+		}, $content);
+		
+		// Restore widget and editor component properties.
+		$content = self::_decodeWidgetsAndEditorComponents($content);
+		return $content;
+	}
+	
+	/**
 	 * Encode widgets and editor components before processing.
 	 * 
 	 * @param string $content
@@ -402,20 +451,20 @@ class HTMLFilter
 			foreach ($found_attrs as $attr)
 			{
 				$attrkey = strtolower($attr[1]);
-				if (strtolower($match[1]) === 'img' && ($attrkey === 'width' || $attrkey === 'height' || $attrkey === 'alt'))
+				if (strtolower($match[1]) === 'img' && preg_match('/^(?:width|height|alt)$/', $attrkey))
 				{
 					continue;
 				}
-				if ($attrkey === 'src' || $attrkey === 'style' || substr($attrkey, 0, 2) === 'on')
+				if (preg_match('/^(?:on|data-|(?:src|style|class)$)/', $attrkey))
 				{
 					continue;
 				}
 				$attrs[$attrkey] = htmlspecialchars_decode($attr[2]);
 				$html = str_replace($attr[0], '', $html);
 			}
-			if (strtolower($match[1]) === 'img' && !isset($attrs['src']))
+			if (strtolower($match[1]) === 'img' && !preg_match('/\ssrc="/', $html))
 			{
-				//$html = substr($html, 0, 4) . ' src=""' . substr($html, 4);
+				$html = substr($html, 0, 4) . ' src=""' . substr($html, 4);
 			}
 			$encoded_properties = base64_encode(json_encode($attrs));
 			$html = substr($html, 0, 4) . ' rx_encoded_properties="' . $encoded_properties . '"' . substr($html, 4);
