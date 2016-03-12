@@ -814,20 +814,26 @@ function url_decode($str)
 	return htmlspecialchars(utf8RawUrlDecode($str), null, 'UTF-8');
 }
 
-function purifierHtml(&$content)
-{
-	$content = Rhymix\Framework\Security\HTMLFilter::clean($content);
-}
-
 /**
- * Pre-block the codes which may be hacking attempts
+ * Sanitize HTML content.
  *
- * @param string $content Taget content
+ * @param string $content Target content
  * @return string
  */
 function removeHackTag($content)
 {
 	return Rhymix\Framework\Security\HTMLFilter::clean($content);
+}
+
+/**
+ * HTMLPurifier wrapper (Deprecated)
+ *
+ * @param string &$content Target content
+ * @return string
+ */
+function purifierHtml(&$content)
+{
+	$content = Rhymix\Framework\Security\HTMLFilter::clean($content);
 }
 
 /**
@@ -918,7 +924,7 @@ function getScriptPath()
  */
 function getRequestUriByServerEnviroment()
 {
-	return str_replace('<', '&lt;', $_SERVER['REQUEST_URI']);
+	return escape($_SERVER['REQUEST_URI']);
 }
 
 /**
