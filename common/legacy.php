@@ -827,9 +827,6 @@ function purifierHtml(&$content)
  */
 function removeHackTag($content)
 {
-	$oEmbedFilter = EmbedFilter::getInstance();
-	$oEmbedFilter->check($content);
-
 	return Rhymix\Framework\Security\HTMLFilter::clean($content);
 }
 

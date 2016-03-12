@@ -53,9 +53,7 @@ class EmbedFilter
 	 */
 	function check(&$content)
 	{
-		$this->checkObjectTag($content);
-		$this->checkEmbedTag($content);
-		$this->checkParamTag($content);
+		// This functionality has been moved to the HTMLFilter class.
 	}
 
 	/**
@@ -64,8 +62,7 @@ class EmbedFilter
 	 */
 	function checkIframeTag(&$content)
 	{
-		// check in Purifier class
-		return;
+		// This functionality has been moved to the HTMLFilter class.
 	}
 
 	/**
@@ -74,21 +71,7 @@ class EmbedFilter
 	 */
 	function checkObjectTag(&$content)
 	{
-		$content = preg_replace_callback('/<\s*object\s*[^>]+(?:\/?>?)/is', function($m) {
-			$html = Sunra\PhpSimple\HtmlDomParser::str_get_html($m[0]);
-			foreach ($html->find('object') as $element)
-			{
-				if ($element->data && !$this->isWhiteDomain($element->data))
-				{
-					return escape($m[0], false);
-				}
-				if ($element->type && !$this->isWhiteMimetype($element->type))
-				{
-					return escape($m[0], false);
-				}
-			}
-			return $m[0];
-		}, $content);
+		// This functionality has been moved to the HTMLFilter class.
 	}
 
 	/**
@@ -97,21 +80,7 @@ class EmbedFilter
 	 */
 	function checkEmbedTag(&$content)
 	{
-		$content = preg_replace_callback('/<\s*embed\s*[^>]+(?:\/?>?)/is', function($m) {
-			$html = Sunra\PhpSimple\HtmlDomParser::str_get_html($m[0]);
-			foreach ($html->find('embed') as $element)
-			{
-				if ($element->src && !$this->isWhiteDomain($element->src))
-				{
-					return escape($m[0], false);
-				}
-				if ($element->type && !$this->isWhiteMimetype($element->type))
-				{
-					return escape($m[0], false);
-				}
-			}
-			return $m[0];
-		}, $content);
+		// This functionality has been moved to the HTMLFilter class.
 	}
 
 	/**
@@ -120,20 +89,7 @@ class EmbedFilter
 	 */
 	function checkParamTag(&$content)
 	{
-		$content = preg_replace_callback('/<\s*param\s*[^>]+(?:\/?>?)/is', function($m) {
-			$html = Sunra\PhpSimple\HtmlDomParser::str_get_html($m[0]);
-			foreach ($html->find('param') as $element)
-			{
-				foreach (array('movie', 'src', 'href', 'url', 'source') as $attr)
-				{
-					if ($element->$attr && !$this->isWhiteDomain($element->$attr))
-					{
-						return escape($m[0], false);
-					}
-				}
-			}
-			return $m[0];
-		}, $content);
+		// This functionality has been moved to the HTMLFilter class.
 	}
 
 	/**

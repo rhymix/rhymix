@@ -370,6 +370,22 @@ class HTMLFilter
 	}
 	
 	/**
+	 * Get the object whitelist as a regular expression.
+	 * 
+	 * @return string
+	 */
+	protected static function _getObjectWhitelist()
+	{
+		$domains = \EmbedFilter::getInstance()->getWhiteUrlList();
+		$result = array();
+		foreach($domains as $domain)
+		{
+			$result[] = preg_quote($domain, '%');
+		}
+		return '%^https?://(' . implode('|', $result) . ')%';
+	}
+	
+	/**
 	 * Get the iframe whitelist as a regular expression.
 	 * 
 	 * @return string
@@ -413,6 +429,21 @@ class HTMLFilter
 		// Remove tags not supported in Rhymix. Some of these may also have been removed by HTMLPurifier.
 		$content = preg_replace_callback('!</?(?:html|body|head|title|meta|base|link|script|style|applet)\b[^>]*>!i', function($matches) {
 			return htmlspecialchars($matches[0], ENT_QUOTES, 'UTF-8');
+		}, $content);
+		
+		// Remove object and embed URLs that are not allowed.
+		$whitelist = self::_getObjectWhitelist();
+		$content = preg_replace_callback('!<(object|embed|param)([^>]+)>!i', function($matches) use($whitelist) {
+			return preg_replace_callback('!([a-zA-Z0-9_-]+)="([^"]+)"!', function($attr) use($whitelist) {
+				if (in_array($attr[1], array('data', 'src', 'href', 'url', 'movie', 'source')))
+				{
+					if (!preg_match($whitelist, htmlspecialchars_decode($attr[2])))
+					{
+						return $attr[1] . '=""';
+					}
+				}
+				return $attr[0];
+			}, $matches[0]);
 		}, $content);
 		
 		// Remove link URLs that may be CSRF attempts.
