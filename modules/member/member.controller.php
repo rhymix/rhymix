@@ -301,7 +301,16 @@ class memberController extends member
 			$args->{$val} = Context::get($val);
 			if($val == 'birthday') $args->birthday_ui = Context::get('birthday_ui');
 		}
-		$args->birthday = intval(strtr($args->birthday, array('-'=>'', '/'=>'', '.'=>'', ' '=>'')));
+
+		// mobile input date format can be different
+		if($args->birthday !== intval($args->birthday))
+		{
+			$args->birthday = date('Ymd', strtotime($args->birthday));
+		}
+		else
+		{
+			$args->birthday = intval($args->birthday);
+		}
 		if(!$args->birthday && $args->birthday_ui) $args->birthday = intval(strtr($args->birthday_ui, array('-'=>'', '/'=>'', '.'=>'', ' '=>'')));
 
 		$args->find_account_answer = Context::get('find_account_answer');
@@ -535,8 +544,18 @@ class memberController extends member
 		// Login Information
 		$logged_info = Context::get('logged_info');
 		$args->member_srl = $logged_info->member_srl;
-		$args->birthday = intval(strtr($args->birthday, array('-'=>'', '/'=>'', '.'=>'', ' '=>'')));
+
+		// mobile input date format can be different
+		if($args->birthday !== intval($args->birthday))
+		{
+			$args->birthday = date('Ymd', strtotime($args->birthday));
+		}
+		else
+		{
+			$args->birthday = intval($args->birthday);
+		}
 		if(!$args->birthday && $args->birthday_ui) $args->birthday = intval(strtr($args->birthday_ui, array('-'=>'', '/'=>'', '.'=>'', ' '=>'')));
+
 		// Remove some unnecessary variables from all the vars
 		$all_args = Context::getRequestVars();
 		unset($all_args->module);
@@ -1938,10 +1957,23 @@ class memberController extends member
 		$output = ModuleHandler::triggerCall('member.insertMember', 'before', $args);
 		if(!$output->toBool()) return $output;
 		// Terms and Conditions portion of the information set up by members reaffirmed
-		$oModuleModel = getModel('module');
-		$config = $oModuleModel->getModuleConfig('member');
+		$oMemberModel = getModel('member');
+		$config = $oMemberModel->getMemberConfig();
 
 		$logged_info = Context::get('logged_info');
+		// limit_date format is YYYYMMDD
+		if($args->limit_date)
+		{
+			// mobile input date format can be different
+			if($args->limit_date !== intval($args->limit_date))
+			{
+				$args->limit_date = date('Ymd', strtotime($args->limit_date));
+			}
+			else
+			{
+				$args->limit_date = intval($args->limit_date);
+			}
+		}
 		// If the date of the temporary restrictions limit further information on the date of
 		if($config->limit_day) $args->limit_date = date("YmdHis", $_SERVER['REQUEST_TIME']+$config->limit_day*60*60*24);
 
@@ -1979,6 +2011,49 @@ class memberController extends member
 		$args->blog = htmlspecialchars($args->blog, ENT_COMPAT | ENT_HTML401, 'UTF-8', false);
 		if($args->homepage && !preg_match("/^[a-z]+:\/\//i",$args->homepage)) $args->homepage = 'http://'.$args->homepage;
 		if($args->blog && !preg_match("/^[a-z]+:\/\//i",$args->blog)) $args->blog = 'http://'.$args->blog;
+
+
+		$extend_form_list = $oMemberModel->getCombineJoinForm($memberInfo);
+		$security = new Security($extend_form_list);
+		$security->encodeHTML('..column_title', '..description', '..default_value.');
+		if($config->signupForm) {
+			foreach($config->signupForm as $no => $formInfo)
+			{
+				if(!$formInfo->isUse) continue;
+				if($formInfo->isDefaultForm)
+				{
+					// birthday format is YYYYMMDD
+					if($formInfo->name === 'birthday' && $args->{$formInfo->name})
+					{
+						// mobile input date format can be different
+						if($args->{$formInfo->name} !== intval($args->{$formInfo->name}))
+						{
+							$args->{$formInfo->name} = date('Ymd', strtotime($args->{$formInfo->name}));
+						}
+						else
+						{
+							$args->{$formInfo->name} = intval($args->{$formInfo->name});
+						}
+					}
+				}
+				else
+				{
+					$extendForm = $extend_form_list[$formInfo->member_join_form_srl];
+					// date format is YYYYMMDD
+					if($extendForm->column_type == 'date' && $args->{$formInfo->name})
+					{
+						if($args->{$formInfo->name} !== intval($args->{$formInfo->name}))
+						{
+							$args->{$formInfo->name} = date('Ymd', strtotime($args->{$formInfo->name}));
+						}
+						else
+						{
+							$args->{$formInfo->name} = intval($args->{$formInfo->name});
+						}
+					}
+				}
+			}
+		}
 
 		// Create a model object
 		$oMemberModel = getModel('member');
@@ -2096,7 +2171,6 @@ class memberController extends member
 			}
 		}
 
-		$member_config = $oModuleModel->getModuleConfig('member');
 		// When using email authentication mode (when you subscribed members denied a) certified mail sent
 		if($args->denied == 'Y')
 		{
@@ -2146,6 +2220,7 @@ class memberController extends member
 		if(!$output->toBool()) return $output;
 		// Create a model object
 		$oMemberModel = getModel('member');
+		$config = $oMemberModel->getMemberConfig();
 
 		$logged_info = Context::get('logged_info');
 		// Get what you want to modify the original information
@@ -2180,7 +2255,62 @@ class memberController extends member
 		if($args->blog && !preg_match("/^[a-z]+:\/\//is",$args->blog)) $args->blog = 'http://'.$args->blog;
 
 		// check member identifier form
-		$config = $oMemberModel->getMemberConfig();
+
+		// limit_date format is YYYYMMDD
+		if($args->limit_date)
+		{
+			// mobile input date format can be different
+			if($args->limit_date !== intval($args->limit_date))
+			{
+				$args->limit_date = date('Ymd', strtotime($args->limit_date));
+			}
+			else
+			{
+				$args->limit_date = intval($args->limit_date);
+			}
+		}
+
+		$extend_form_list = $oMemberModel->getCombineJoinForm($memberInfo);
+		$security = new Security($extend_form_list);
+		$security->encodeHTML('..column_title', '..description', '..default_value.');
+		if($config->signupForm){
+			foreach($config->signupForm as $no => $formInfo)
+			{
+				if(!$formInfo->isUse) continue;
+
+				if($formInfo->isDefaultForm)
+				{
+					// birthday format is YYYYMMDD
+					if($formInfo->name === 'birthday' && $args->{$formInfo->name})
+					{
+						if($args->{$formInfo->name} !== intval($args->{$formInfo->name}))
+						{
+							$args->{$formInfo->name} = date('Ymd', strtotime($args->{$formInfo->name}));
+						}
+						else
+						{
+							$args->{$formInfo->name} = intval($args->{$formInfo->name});
+						}
+					}
+				}
+				else
+				{
+					$extendForm = $extend_form_list[$formInfo->member_join_form_srl];
+					// date format is YYYYMMDD
+					if($extendForm->column_type == 'date' && $args->{$formInfo->name})
+					{
+						if($args->{$formInfo->name} !== intval($args->{$formInfo->name}))
+						{
+							$args->{$formInfo->name} = date('Ymd', strtotime($args->{$formInfo->name}));
+						}
+						else
+						{
+							$args->{$formInfo->name} = intval($args->{$formInfo->name});
+						}
+					}
+				}
+			}
+		}
 
 		$output = executeQuery('member.getMemberInfoByMemberSrl', $args);
 		$orgMemberInfo = $output->data;
