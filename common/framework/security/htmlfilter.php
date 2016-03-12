@@ -88,6 +88,21 @@ class HTMLFilter
 	}
 	
 	/**
+	 * Remove embedded media from HTML content.
+	 * 
+	 * @param string $input
+	 * @param string $replacement
+	 * @return string
+	 */
+	public static function removeEmbeddedMedia($input, $replacement = '')
+	{
+		$input = preg_replace('!<object[^>]*>(.*?</object>)?!is', $replacement, $input);
+		$input = preg_replace('!<embed[^>]*>(.*?</embed>)?!is', $replacement, $input);
+		$input = preg_replace('!<img[^>]*editor_component="multimedia_link"[^>]*>(.*?</img>)?!is', $replacement, $input);
+		return $input;
+	}
+	
+	/**
 	 * Get an instance of HTMLPurifier.
 	 * 
 	 * @return object

@@ -1012,29 +1012,31 @@ function isCrawler($agent = NULL)
  */
 function stripEmbedTagForAdmin(&$content, $writer_member_srl)
 {
-	if(!Context::get('is_logged'))
+	if (!Context::get('is_logged'))
 	{
 		return;
 	}
-
-	$oModuleModel = getModel('module');
+	
 	$logged_info = Context::get('logged_info');
-
-	if($writer_member_srl != $logged_info->member_srl && ($logged_info->is_admin == "Y" || $oModuleModel->isSiteAdmin($logged_info)))
+	if ($logged_info->member_srl == $writer_member_srl)
 	{
-		if($writer_member_srl)
+		return;
+	}
+	
+	if ($logged_info->is_admin === 'Y' || getModel('module')->isSiteAdmin($logged_info))
+	{
+		if ($writer_member_srl)
 		{
-			$oMemberModel = getModel('member');
-			$member_info = $oMemberModel->getMemberInfoByMemberSrl($writer_member_srl);
-			if($member_info->is_admin == "Y")
+			$member_info = getModel('member')->getMemberInfoByMemberSrl($writer_member_srl);
+			if ($member_info && $member_info->is_admin === 'Y')
 			{
 				return;
 			}
 		}
-		$security_msg = "<div style='border: 1px solid #DDD; background: #FAFAFA; text-align:center; margin: 1em 0;'><p style='margin: 1em;'>" . lang('security_warning_embed') . "</p></div>";
-		$content = preg_replace('/<object[^>]+>(.*?<\/object>)?/is', $security_msg, $content);
-		$content = preg_replace('/<embed[^>]+>(\s*<\/embed>)?/is', $security_msg, $content);
-		$content = preg_replace('/<img[^>]+editor_component="multimedia_link"[^>]*>(\s*<\/img>)?/is', $security_msg, $content);
+		
+		$security_msg = '<div style="border: 1px solid #DDD; background: #FAFAFA; text-align:center; margin: 1em 0;">' .
+			'<p style="margin: 1em;">' . lang('security_warning_embed') . '</p></div>';
+		$content = Rhymix\Framework\Security\HTMLFilter::removeEmbeddedMedia($content, $security_msg);
 	}
 
 	return;
