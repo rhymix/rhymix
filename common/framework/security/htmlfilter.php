@@ -473,35 +473,28 @@ class HTMLFilter
 	 */
 	protected static function _encodeWidgetsAndEditorComponents($content)
 	{
-		preg_match_all('!<(div|img)([^>]*)(editor_component="[^"]+"|class="zbxe_widget_output")([^>]*)>!i', $content, $matches, \PREG_SET_ORDER);
-		foreach ($matches as $match)
-		{
+		return preg_replace_callback('!<(div|img)([^>]*)(editor_component="[^"]+"|class="zbxe_widget_output")([^>]*)>!i', function($match) {
 			$attrs = array();
-			$html = $match[0];
-			preg_match_all('/([a-zA-Z0-9_-]+)="([^"]+)"/', $match[2] . ' ' . $match[4], $found_attrs, \PREG_SET_ORDER);
-			foreach ($found_attrs as $attr)
-			{
+			$html = preg_replace_callback('!([a-zA-Z0-9_-]+)="([^"]+)"!', function($attr) use(&$attrs) {
 				$attrkey = strtolower($attr[1]);
 				if (strtolower($match[1]) === 'img' && preg_match('/^(?:width|height|alt)$/', $attrkey))
 				{
-					continue;
+					return $attr[0];
 				}
-				if (preg_match('/^(?:on|data-|(?:src|style|class)$)/', $attrkey))
+				if (preg_match('/^(?:on|data-|(?:src|style|class|editor_component)$)/', $attrkey))
 				{
-					continue;
+					return $attr[0];
 				}
 				$attrs[$attrkey] = htmlspecialchars_decode($attr[2]);
-				$html = str_replace($attr[0], '', $html);
-			}
+				return '';
+			}, $match[0]);
 			if (strtolower($match[1]) === 'img' && !preg_match('/\ssrc="/', $html))
 			{
 				$html = substr($html, 0, 4) . ' src=""' . substr($html, 4);
 			}
 			$encoded_properties = base64_encode(json_encode($attrs));
-			$html = substr($html, 0, 4) . ' rx_encoded_properties="' . $encoded_properties . '"' . substr($html, 4);
-			$content = str_replace($match[0], $html, $content);
-		}
-		return $content;
+			return substr($html, 0, 4) . ' rx_encoded_properties="' . $encoded_properties . '"' . substr($html, 4);
+		}, $content);
 	}
 	
 	/**
@@ -512,17 +505,14 @@ class HTMLFilter
 	 */
 	protected static function _decodeWidgetsAndEditorComponents($content)
 	{
-		preg_match_all('!<(div|img)([^>]*)(rx_encoded_properties="([^"]+)")!i', $content, $matches, \PREG_SET_ORDER);
-		foreach ($matches as $match)
-		{
+		return preg_replace_callback('!<(div|img)([^>]*)(rx_encoded_properties="([^"]+)")!i', function($match) {
 			$attrs = array();
 			$decoded_properties = @json_decode(base64_decode($match[4])) ?: array();
 			foreach ($decoded_properties as $key => $val)
 			{
 				$attrs[] = $key . '="' . htmlspecialchars($val) . '"';
 			}
-			$content = str_replace($match[3], implode(' ', $attrs), $content);
-		}
-		return $content;
+			return str_replace($match[3], implode(' ', $attrs), $match[0]);
+		}, $content);
 	}
 }
