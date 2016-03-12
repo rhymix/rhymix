@@ -1,5 +1,7 @@
 <load target="css/msignup.css" />
 <load target="../../tpl/js/signup_check.js" />
+<!--// datepicker javascript plugin load -->
+<!--%load_js_plugin("ui.datepicker")-->
 <div class="bd">
 	<div class="hx h2">
 		<h2>{$lang->cmd_signup}</h2>
@@ -58,3 +60,34 @@
 	</div>
 	</form>
 </div>
+<script>
+(function($){
+	$(function(){
+		// check if the browser support type date.
+		if ( $(".inputDate").prop('type') != 'date' ) {
+			var option = {
+				changeMonth: true,
+				changeYear: true,
+				gotoCurrent: false,
+				yearRange:'-200:+10',
+				dateFormat:'yy-mm-dd',
+				defaultDate: new Date("{date('Y-m-d',time())}"),
+				minDate: new Date("{date('Y-m-d',strtotime('-200 years'))}"),
+
+				onSelect:function(){
+					$(this).prev('input[type="hidden"]').val(this.value.replace(/-/g,""))
+				}
+			};
+			$.extend($.datepicker.regional['{$lang_type}'],option);
+
+			//if the browser does not support type date input, start datepicker. If it does, brower's UI will show their datepicker.
+			$(".inputDate").datepicker(option);
+		} else {
+			$(".inputDate").prop('readonly', false);
+		}
+		$(".dateRemover").click(function() {
+			$(this).prevAll('input').val('');
+			return false;});
+	});
+})(jQuery);
+</script>

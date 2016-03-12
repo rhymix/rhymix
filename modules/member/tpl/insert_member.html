@@ -88,7 +88,7 @@
 		<label class="x_control-label" for="until">{$lang->limit_date}</label>
 		<div class="x_controls">
 			<input type="hidden" name="limit_date" id="date_limit_date" value="{$member_info->limit_date}" />
-			<input type="text" readonly placeholder="YYYY-MM-DD" class="inputDate" id="until" value="{zdate($member_info->limit_date,'Y-m-d',false)}" />
+			<input type="date" readonly placeholder="YYYY-MM-DD" class="inputDate" id="until" min="' . date('Y-m-d',strtotime('-10 years')) . '"  max="' . date('Y-m-d',strtotime('+100 years')) . '" onchange="jQuery('#date_limit_date').val(this.value.replace(/-/g,''));" value="{zdate($member_info->limit_date,'Y-m-d',false)}" />
 			<input type="button" value="{$lang->cmd_delete}" class="x_btn dateRemover" />
 			<span class="x_help-inline">{$lang->about_limit_date}</span>
 		</div>
@@ -124,15 +124,31 @@
 <script>
 (function($){
 	$(function(){
-		var option = { changeMonth: true, changeYear: true, gotoCurrent: false,yearRange:'-100:+10', dateFormat:'yy-mm-dd', onSelect:function(){
-			$(this).prev('input[type="hidden"]').val(this.value.replace(/-/g,""))}
-		};
-		$.extend(option,$.datepicker.regional['{$lang_type}']);
-		$(".inputDate").datepicker(option);
+		// check if the browser support type date.
+		if ( $(".inputDate").prop('type') != 'date' ) {
+			var option = {
+				changeMonth: true,
+				changeYear: true,
+				gotoCurrent: false,
+				yearRange:'-200:+10',
+				dateFormat:'yy-mm-dd',
+				defaultDate: new Date("{date('Y-m-d',time())}"),
+				minDate: new Date("{date('Y-m-d',strtotime('-200 years'))}"),
+
+				onSelect:function(){
+					$(this).prev('input[type="hidden"]').val(this.value.replace(/-/g,""))
+				}
+			};
+			$.extend($.datepicker.regional['{$lang_type}'],option);
+
+			//if the browser does not support type date input, start datepicker. If it does, brower's UI will show their datepicker.
+			$(".inputDate").datepicker(option);
+		} else {
+			$(".inputDate").prop('readonly', false);
+		}
 		$(".dateRemover").click(function() {
 			$(this).prevAll('input').val('');
-			return false;
-		});
+			return false;});
     });
 
 	var refused_reason_division = $('.div_refused_reason');
