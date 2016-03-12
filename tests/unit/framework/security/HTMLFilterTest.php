@@ -2,7 +2,7 @@
 
 class HTMLFilterTest extends \Codeception\TestCase\Test
 {
-	public function testRemoveHackTag()
+	public function testHTMLFilterClean()
 	{
 		$tests = array(
 			// remove iframe
@@ -61,7 +61,7 @@ class HTMLFilterTest extends \Codeception\TestCase\Test
 		
 		foreach ($tests as $test)
 		{
-			$this->assertEquals($test[1], removeHackTag($test[0]));
+			$this->assertEquals($test[1], Rhymix\Framework\Security\HTMLFilter::clean($test[0]));
 		}
 	}
 	
