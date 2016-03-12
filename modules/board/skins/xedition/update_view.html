@@ -27,7 +27,7 @@
 		<!-- /READ BODY -->
 	</div>
 
-	<form action="./" method="post" onsubmit="return procFilter(this, window.update)">
+	<form action="./" method="post" onsubmit="if(!confirm('{$lang->msg_update_log_revert}')) return false; return procFilter(this, window.update)">
 		<input type="hidden" name="module" value="board" />
 		<input type="hidden" name="act" value="procBoardUpdateDocument" />
 		<input type="hidden" name="update_id" value="{$update_log->update_id}" />

@@ -64,3 +64,4 @@ $lang->msg_no_update_id = '업데이트 고유 번호는 필수입니다.';
 $lang->msg_no_update_log = '업데이트 로그가 존재하지 않습니다.';
 $lang->cmd_modify_by_update_log = '이 로그로 게시물을 수정하기';
 $lang->msg_admin_update_log = '관리자가 수정한 적이 있는 게시물입니다. 관리자에게 문의하세요.';
+$lang->msg_update_log_revert = '정말로 이 게시물로 되돌리시겠습니까?';
