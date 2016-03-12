@@ -44,7 +44,7 @@ class URL
 	 */
 	public static function getCanonicalURL($url)
 	{
-		if (preg_match('#^\.?/([^/]|$)#', $url))
+		if (preg_match('#^\.?/([^/]|$)#', $url) || !preg_match('#^(https?:|/)#', $url))
 		{
 			$proto = \RX_SSL ? 'https://' : 'http://';
 			$host = isset($_SERVER['HTTP_HOST']) ? $_SERVER['HTTP_HOST'] : 'localhost';
@@ -89,7 +89,7 @@ class URL
 			return true;
 		}
 		
-		if ($domain === self::getDomainFromURL($_SERVER['HTTP_HOST']))
+		if ($domain === self::getDomainFromURL('http://' . $_SERVER['HTTP_HOST']))
 		{
 			return true;
 		}
