@@ -133,60 +133,9 @@ class HTMLFilter
 			$def->addAttribute('img', 'rx_encoded_properties', 'Text');
 			$def->addAttribute('div', 'rx_encoded_properties', 'Text');
 			
-			// Support HTML5: Based on https://github.com/xemlock/htmlpurifier-html5
-			$def->addAttribute('img', 'srcset', 'Text');
-			$def->addAttribute('iframe', 'allowfullscreen', 'Bool');
-			$def->addElement('header', 'Block', 'Flow', 'Common');
-			$def->addElement('footer', 'Block', 'Flow', 'Common');
-			$def->addElement('nav', 'Block', 'Flow', 'Common');
-			$def->addElement('main', 'Block', 'Flow', 'Common');
-			$def->addElement('section', 'Block', 'Flow', 'Common');
-			$def->addElement('article', 'Block', 'Flow', 'Common');
-			$def->addElement('aside', 'Block', 'Flow', 'Common');
-			$def->addElement('address', 'Block', 'Flow', 'Common');
-			$def->addElement('figure', 'Block', 'Optional: (figcaption, Flow) | (Flow, figcaption) | Flow', 'Common');
-			$def->addElement('figcaption', 'Inline', 'Flow', 'Common');
-			$def->addElement('s', 'Inline', 'Inline', 'Common');
-			$def->addElement('var', 'Inline', 'Inline', 'Common');
-			$def->addElement('sub', 'Inline', 'Inline', 'Common');
-			$def->addElement('sup', 'Inline', 'Inline', 'Common');
-			$def->addElement('mark', 'Inline', 'Inline', 'Common');
-			$def->addElement('wbr', 'Inline', 'Empty', 'Core');
-			$def->addElement('ins', 'Block', 'Flow', 'Common', array('cite' => 'URI', 'datetime' => 'Text'));
-			$def->addElement('del', 'Block', 'Flow', 'Common', array('cite' => 'URI', 'datetime' => 'Text'));
-			$time = $def->addElement('time', 'Inline', 'Inline', 'Common', array('datetime' => 'Text', 'pubdate' => 'Bool'));
-			$time->excludes = array('time' => true);
-			$def->addElement('audio', 'Block', 'Optional: (source, Flow) | (Flow, source) | Flow', 'Common', array(
-				'src' => 'URI',
-				'type' => 'Text',
-				'preload' => 'Enum#auto,metadata,none',
-				'controls' => 'Bool',
-				'muted' => 'Bool',
-				'loop' => 'Bool',
-			));
-			$def->addElement('video', 'Block', 'Optional: (source, Flow) | (Flow, source) | Flow', 'Common', array(
-				'src' => 'URI',
-				'type' => 'Text',
-				'width' => 'Length',
-				'height' => 'Length',
-				'poster' => 'URI',
-				'preload' => 'Enum#auto,metadata,none',
-				'controls' => 'Bool',
-				'muted' => 'Bool',
-				'loop' => 'Bool',
-			));
-			$def->addElement('source', 'Block', 'Empty', 'Common', array(
-				'src' => 'URI',
-				'media' => 'Text',
-				'type' => 'Text',
-			));
-			$def->addElement('track', 'Block', 'Empty', 'Common', array(
-				'src' => 'URI',
-				'srclang' => 'Text',
-				'label' => 'Text',
-				'kind' => 'Enum#captions,chapters,descriptions,metadata,subtitles',
-				'default' => 'Bool',
-			));
+			// Support HTML5 and CSS3.
+			self::_supportHTML5($config);
+			self::_supportCSS3($config);
 			
 			// Cache our instance of HTMLPurifier.
 			self::$_htmlpurifier = new \HTMLPurifier($config);
@@ -194,6 +143,232 @@ class HTMLFilter
 		
 		// Return the cached instance.
 		return self::$_htmlpurifier;
+	}
+	
+	/**
+	 * Patch HTMLPurifier to support some HTML5 tags and attributes.
+	 * 
+	 * These changes are based on https://github.com/xemlock/htmlpurifier-html5
+	 * but modified to support even more tags and attributes.
+	 * 
+	 * @param object $config
+	 * @return void
+	 */
+	protected static function _supportHTML5($config)
+	{
+		// Get the HTML definition.
+		$def = $config->getHTMLDefinition(true);
+		
+		// Add various block-level tags.
+		$def->addElement('header', 'Block', 'Flow', 'Common');
+		$def->addElement('footer', 'Block', 'Flow', 'Common');
+		$def->addElement('nav', 'Block', 'Flow', 'Common');
+		$def->addElement('main', 'Block', 'Flow', 'Common');
+		$def->addElement('section', 'Block', 'Flow', 'Common');
+		$def->addElement('article', 'Block', 'Flow', 'Common');
+		$def->addElement('aside', 'Block', 'Flow', 'Common');
+		$def->addElement('address', 'Block', 'Flow', 'Common');
+		
+		// Add various inline tags.
+		$def->addElement('s', 'Inline', 'Inline', 'Common');
+		$def->addElement('var', 'Inline', 'Inline', 'Common');
+		$def->addElement('sub', 'Inline', 'Inline', 'Common');
+		$def->addElement('sup', 'Inline', 'Inline', 'Common');
+		$def->addElement('mark', 'Inline', 'Inline', 'Common');
+		$def->addElement('wbr', 'Inline', 'Empty', 'Core');
+		
+		// Support figures.
+		$def->addElement('figure', 'Block', 'Optional: (figcaption, Flow) | (Flow, figcaption) | Flow', 'Common');
+		$def->addElement('figcaption', 'Inline', 'Flow', 'Common');
+		
+		// Support insertions and deletions.
+		$def->addElement('ins', 'Block', 'Flow', 'Common', array('cite' => 'URI', 'datetime' => 'Text'));
+		$def->addElement('del', 'Block', 'Flow', 'Common', array('cite' => 'URI', 'datetime' => 'Text'));
+		
+		// Support the <time> tag.
+		$time = $def->addElement('time', 'Inline', 'Inline', 'Common', array('datetime' => 'Text', 'pubdate' => 'Bool'));
+		$time->excludes = array('time' => true);
+		
+		// Suppport <audio> and <video> tags. DO NOT ALLOW AUTOPLAY.
+		$def->addElement('audio', 'Block', 'Optional: (source, Flow) | (Flow, source) | Flow', 'Common', array(
+			'src' => 'URI',
+			'type' => 'Text',
+			'preload' => 'Enum#auto,metadata,none',
+			'controls' => 'Bool',
+			'muted' => 'Bool',
+			'loop' => 'Bool',
+		));
+		$def->addElement('video', 'Block', 'Optional: (source, Flow) | (Flow, source) | Flow', 'Common', array(
+			'src' => 'URI',
+			'type' => 'Text',
+			'width' => 'Length',
+			'height' => 'Length',
+			'poster' => 'URI',
+			'preload' => 'Enum#auto,metadata,none',
+			'controls' => 'Bool',
+			'muted' => 'Bool',
+			'loop' => 'Bool',
+		));
+		$def->addElement('source', 'Block', 'Empty', 'Common', array(
+			'src' => 'URI',
+			'media' => 'Text',
+			'type' => 'Text',
+		));
+		$def->addElement('track', 'Block', 'Empty', 'Common', array(
+			'src' => 'URI',
+			'srclang' => 'Text',
+			'label' => 'Text',
+			'kind' => 'Enum#captions,chapters,descriptions,metadata,subtitles',
+			'default' => 'Bool',
+		));
+		
+		// Support additional properties.
+		$def->addAttribute('img', 'srcset', 'Text');
+		$def->addAttribute('iframe', 'allowfullscreen', 'Bool');
+	}
+	
+	/**
+	 * Patch HTMLPurifier to support more CSS2 and some CSS3 properties.
+	 * 
+	 * These changes are based on:
+	 *   - https://github.com/mattiaswelander/htmlpurifier
+	 * 
+	 * @param object $config
+	 * @return void
+	 */
+	protected static function _supportCSS3($config)
+	{
+		// Initialize $info.
+		$info = array();
+		
+		// min-width, max-width, etc.
+		$info['min-width'] = $info['max-width'] = $info['min-height'] =
+		$info['max-height'] = new \HTMLPurifier_AttrDef_CSS_Composite(array(
+			new \HTMLPurifier_AttrDef_CSS_Length(0),
+			new \HTMLPurifier_AttrDef_Enum(array('none', 'initial', 'inherit')),
+		));
+		
+		// border-radius, etc.
+		$border_radius = $info['border-top-left-radius'] =
+		$info['border-top-right-radius'] = $info['border-bottom-left-radius'] =
+		$info['border-bottom-right-radius'] = new \HTMLPurifier_AttrDef_CSS_Composite(array(
+			new \HTMLPurifier_AttrDef_CSS_Length(0),
+			new \HTMLPurifier_AttrDef_CSS_Percentage(true),
+			new \HTMLPurifier_AttrDef_Enum(array('initial', 'inherit')),
+		));
+		$info['border-radius'] = new \HTMLPurifier_AttrDef_CSS_Multiple($border_radius);
+		
+		// word-break word-wrap, etc.
+		$info['word-break'] = new \HTMLPurifier_AttrDef_Enum(array(
+			'normal', 'break-all', 'keep-all', 'initial', 'inherit',
+		));
+		$info['word-wrap'] = new \HTMLPurifier_AttrDef_Enum(array(
+			'normal', 'break-word', 'initial', 'inherit',
+		));
+		$info['text-overflow'] = new \HTMLPurifier_AttrDef_CSS_Composite(array(
+			new \HTMLPurifier_AttrDef_Enum(array('clip', 'ellipsis', 'initial', 'inherit')),
+		));
+		
+		// text-shadow
+		$info['text-shadow'] = new \HTMLPurifier_AttrDef_CSS_Composite(array(
+			new \HTMLPurifier_AttrDef_CSS_Multiple(new \HTMLPurifier_AttrDef_CSS_Composite(array(
+				new \HTMLPurifier_AttrDef_CSS_Length(),
+				new \HTMLPurifier_AttrDef_CSS_Color(),
+			))),
+			new \HTMLPurifier_AttrDef_Enum(array('none', 'initial', 'inherit')),
+		));
+		
+		// box-shadow and box-sizing
+		$info['box-shadow'] = new \HTMLPurifier_AttrDef_CSS_Multiple(new \HTMLPurifier_AttrDef_CSS_Composite(array(
+			new \HTMLPurifier_AttrDef_CSS_Length(),
+			new \HTMLPurifier_AttrDef_CSS_Percentage(),
+			new \HTMLPurifier_AttrDef_CSS_Color(),
+			new \HTMLPurifier_AttrDef_Enum(array('none', 'inset', 'initial', 'inherit')),
+		)));
+		$info['box-sizing'] = new \HTMLPurifier_AttrDef_Enum(array(
+			'content-box', 'border-box', 'initial', 'inherit',
+		));
+		
+		// outline
+		$info['outline-color'] = new \HTMLPurifier_AttrDef_CSS_Composite(array(
+			new \HTMLPurifier_AttrDef_CSS_Color(),
+			new \HTMLPurifier_AttrDef_Enum(array('invert', 'initial', 'inherit')),
+		));
+		$info['outline-offset'] = new \HTMLPurifier_AttrDef_CSS_Composite(array(
+			new \HTMLPurifier_AttrDef_CSS_Length(),
+			new \HTMLPurifier_AttrDef_Enum(array('initial', 'inherit')),
+		));
+		$info['outline-style'] = new \HTMLPurifier_AttrDef_Enum(array(
+			'none', 'hidden', 'dotted', 'dashed', 'solid', 'double', 'groove', 'ridge', 'inset', 'outset', 'initial', 'inherit',
+		));
+		$info['outline-width'] = new \HTMLPurifier_AttrDef_CSS_Composite(array(
+			new \HTMLPurifier_AttrDef_CSS_Length(),
+			new \HTMLPurifier_AttrDef_Enum(array('medium', 'thin', 'thick', 'initial', 'inherit')),
+		));
+		$info['outline'] = new \HTMLPurifier_AttrDef_CSS_Multiple(new \HTMLPurifier_AttrDef_CSS_Composite(array(
+			$info['outline-color'], $info['outline-style'], $info['outline-width'],
+			new \HTMLPurifier_AttrDef_Enum(array('initial', 'inherit')),
+		)));
+		
+		// flexbox
+		$info['display'] = new \HTMLPurifier_AttrDef_Enum(array(
+            'block', 'flex', '-webkit-flex', 'inline', 'inline-block', 'inline-flex', '-webkit-inline-flex', 'inline-table',
+            'list-item', 'run-in', 'compact', 'marker', 'table', 'table-row-group', 'table-header-group', 'table-footer-group',
+			'table-row', 'table-column-group', 'table-column', 'table-cell', 'table-caption',
+			'none', 'initial', 'inherit',
+		));
+		$info['order'] = new \HTMLPurifier_AttrDef_CSS_Number();
+		$info['align-content'] = $info['justify-content'] = new \HTMLPurifier_AttrDef_Enum(array(
+			'stretch', 'center', 'flex-start', 'flex-end', 'space-between', 'space-around', 'initial', 'inherit',
+		));
+		$info['align-items'] = $info['align-self'] = new \HTMLPurifier_AttrDef_Enum(array(
+			'stretch', 'center', 'flex-start', 'flex-end', 'baseline', 'initial', 'inherit',
+		));
+		$info['flex-basis'] = new \HTMLPurifier_AttrDef_CSS_Composite(array(
+			new \HTMLPurifier_AttrDef_CSS_Length(),
+			new \HTMLPurifier_AttrDef_CSS_Percentage(),
+			new \HTMLPurifier_AttrDef_Enum(array('auto', 'initial', 'inherit')),
+		));
+		$info['flex-direction'] = new \HTMLPurifier_AttrDef_Enum(array(
+			'row', 'row-reverse', 'column', 'column-reverse', 'initial', 'inherit',
+		));
+		$info['flex-wrap'] = new \HTMLPurifier_AttrDef_Enum(array(
+			'nowrap', 'wrap', 'wrap-reverse', 'initial', 'inherit',
+		));
+		$info['flex-flow'] = new \HTMLPurifier_AttrDef_CSS_Multiple(new \HTMLPurifier_AttrDef_CSS_Composite(array(
+			$info['flex-direction'], $info['flex-wrap'],
+		)));
+		$info['flex-grow'] = new \HTMLPurifier_AttrDef_CSS_Number();
+		$info['flex-shrink'] = new \HTMLPurifier_AttrDef_CSS_Number();
+		$info['flex'] = new \HTMLPurifier_AttrDef_CSS_Multiple(new \HTMLPurifier_AttrDef_CSS_Composite(array(
+			$info['flex-grow'], $info['flex-shrink'], $info['flex-basis'],
+			new \HTMLPurifier_AttrDef_Enum(array('auto', 'none', 'initial', 'inherit')),
+		)));
+		
+		// misc
+		$info['caption-side'] = new \HTMLPurifier_AttrDef_Enum(array(
+			'top', 'bottom', 'initial', 'inherit',
+		));
+		$info['empty-cells'] = new \HTMLPurifier_AttrDef_Enum(array(
+			'show', 'hide', 'initial', 'inherit',
+		));
+		$info['hanging-punctuation'] = new \HTMLPurifier_AttrDef_Enum(array(
+			'none', 'first', 'last', 'allow-end', 'force-end', 'initial', 'inherit',
+		));
+		$info['overflow'] = $info['overflow-x'] = $info['overflow-y'] = new \HTMLPurifier_AttrDef_Enum(array(
+			'visible', 'hidden', 'scroll', 'auto', 'initial', 'inherit',
+		));
+		$info['resize'] = new \HTMLPurifier_AttrDef_Enum(array(
+			'none', 'both', 'horizontal', 'vertical', 'initial', 'inherit',
+		));
+		
+		// Wrap all new properties with a decorator that handles !important.
+		$allow_important = $config->get('CSS.AllowImportant');
+		$css_definition = $config->getCSSDefinition();
+		foreach ($info as $key => $val)
+		{
+			$css_definition->info[$key] = new \HTMLPurifier_AttrDef_CSS_ImportantDecorator($val, $allow_important);
+		}
 	}
 	
 	/**
