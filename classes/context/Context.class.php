@@ -394,11 +394,11 @@ class Context
 		}
 		if (strpos($current_url, 'xn--') !== false)
 		{
-			$current_url = self::decodeIdna($current_url);
+			$current_url = Rhymix\Framework\URL::decodeIdna($current_url);
 		}
 		if (strpos($request_uri, 'xn--') !== false)
 		{
-			$request_uri = self::decodeIdna($request_uri);
+			$request_uri = Rhymix\Framework\URL::decodeIdna($request_uri);
 		}
 		self::set('current_url', $current_url);
 		self::set('request_uri', $request_uri);
@@ -1073,15 +1073,7 @@ class Context
 	 */
 	public static function encodeIdna($domain)
 	{
-		if(function_exists('idn_to_ascii'))
-		{
-			return idn_to_ascii($domain);
-		}
-		else
-		{
-			$encoder = new TrueBV\Punycode();
-			return $encoder->encode($domain);
-		}
+		return Rhymix\Framework\URL::encodeIdna($domain);
 	}
 
 	/**
@@ -1092,15 +1084,7 @@ class Context
 	 */
 	public static function decodeIdna($domain)
 	{
-		if(function_exists('idn_to_utf8'))
-		{
-			return idn_to_utf8($domain);
-		}
-		else
-		{
-			$decoder = new TrueBV\Punycode();
-			return $decoder->decode($domain);
-		}
+		return Rhymix\Framework\URL::decodeIdna($domain);
 	}
 
 	/**
@@ -1283,10 +1267,14 @@ class Context
 		}
 
 		$xml = $GLOBALS['HTTP_RAW_POST_DATA'];
-		if(Security::detectingXEE($xml))
+		if(!Rhymix\Framework\Security::checkXEE($xml))
 		{
 			header("HTTP/1.0 400 Bad Request");
 			exit;
+		}
+		if(function_exists('libxml_disable_entity_loader'))
+		{
+			libxml_disable_entity_loader(true);
 		}
 
 		$oXml = new XmlParser();

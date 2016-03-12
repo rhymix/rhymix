@@ -407,9 +407,10 @@ function getFullSiteUrl()
  *
  * @return string
  */
-function getCurrentPageUrl()
+function getCurrentPageUrl($escape = true)
 {
-	return escape((RX_SSL ? 'https://' : 'http://') . $_SERVER['HTTP_HOST'] . $_SERVER['REQUEST_URI']);
+	$url = Rhymix\Framework\URL::getCurrentURL();
+	return $escape ? escape($url) : $url;
 }
 
 /**
