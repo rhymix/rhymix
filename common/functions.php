@@ -51,6 +51,113 @@ function lang($code, $value = null)
 }
 
 /**
+ * Convert always absolute path
+ *
+ * @param string $path Absolute path or Relative path
+ * @param bool $check if the path does not exist, return false
+ * @param bool $web if true, return web path
+ * @return mixed
+ */
+function path($path, $check = true, $web = false)
+{
+	if(!$path)
+	{
+		return;
+	}
+	
+	$called_info = debug_backtrace(DEBUG_BACKTRACE_IGNORE_ARGS);
+	$called_path = pathinfo(str_replace('\\', '/',$called_info[0]['file']), PATHINFO_DIRNAME);
+	
+	if(strpos($called_path, 'files/cache/template_compiled') !== false)
+	{
+		$tpl_path = trim(Context::get('tpl_path'), '/');
+		$called_path = RX_BASEDIR . preg_replace('@^' . preg_quote(RX_BASEDIR, '@') . '|\./@', '', $tpl_path);
+	}
+	
+	$filtered = trim($path, '/');
+	$filtered = preg_replace('@\s*|\.{3,}@', '', $filtered);
+	$filtered = preg_replace('@/(\./)+@', '/', $filtered);
+	$filtered = preg_replace('@/{2,}@', '/', $filtered);
+	$filtered = preg_replace('@([^./]+)/(\.\./)+@', '$1/', $filtered);
+	
+	if(!$filtered && $path !== '/')
+	{
+		return;
+	}
+	
+	$compath = '/' . $filtered;
+	
+	if(strpos($filtered . '/', './') !== false)
+	{
+		$result = array();
+		$path_array = explode('/', $filtered);
+		krsort($path_array);
+		
+		$sub = 0;
+		$end = false;
+		foreach($path_array as $key => $val)
+		{
+			if($val === '..')
+			{
+				++$sub;
+				
+				if($key === 0)
+				{
+					$end = true;
+				}
+			}
+			else if($val === '.')
+			{
+				if($path_array[$key + 1] === '..')
+				{
+					$end = true;
+				}
+				else
+				{
+					$result[] = $called_path;
+					break;
+				}
+			}
+			else
+			{
+				$result[] = $val;
+			}
+			
+			if($end)
+			{
+				$cpath_array = explode('/', $called_path);
+				array_splice($cpath_array, $sub * -1);
+				$result[] = implode('/', $cpath_array);
+				break;
+			}
+		}
+		
+		krsort($result);
+		$compath = implode('/', $result);
+	}
+	else if(substr_compare($path, '/', 0, 1) !== 0)
+	{
+		$compath = $called_path . '/' . $filtered;
+	}
+	else if(strpos($filtered, trim(RX_BASEDIR, '/')) === false)
+	{
+		$compath = RX_BASEDIR . $filtered;
+	}
+	
+	if($check && !file_exists($compath))
+	{
+		return false;
+	}
+	
+	if($web)
+	{
+		$compath = str_replace(RX_BASEDIR, '/', $compath);
+	}
+	
+	return $compath;
+}
+
+/**
  * Get the first value of an array.
  * 
  * @param array $array The input array
