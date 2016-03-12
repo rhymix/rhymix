@@ -763,11 +763,9 @@ class fileController extends file
 			$filename = $path.$random->createSecureSalt(32, 'hex');
 			$direct_download = 'N';
 		}
+
 		// Create a directory
 		if(!FileHandler::makeDir($path)) return new Object(-1,'msg_not_permitted_create');
-
-		// Check uploaded file
-		if(!checkUploadedFile($file_info['tmp_name']))  return new Object(-1,'msg_file_upload_error');
 
 		// Get random number generator
 		$random = new Password();

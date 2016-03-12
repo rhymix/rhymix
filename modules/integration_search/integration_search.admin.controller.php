@@ -85,7 +85,7 @@ class integration_searchAdminController extends integration_search
 					continue;
 				}
 				// Ignore if the file is not successfully uploaded, and check uploaded file
-				if(!is_uploaded_file($image_obj['tmp_name']) || !checkUploadedFile($image_obj['tmp_name']))
+				if(!is_uploaded_file($image_obj['tmp_name']))
 				{
 					unset($obj->{$vars->name});
 					continue;

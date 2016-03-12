@@ -868,7 +868,7 @@ function blockWidgetCode($content)
  */
 function checkUploadedFile($file)
 {
-	return UploadFileFilter::check($file);
+	return true;
 }
 
 /**
