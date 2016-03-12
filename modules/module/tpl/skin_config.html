@@ -117,7 +117,7 @@
 					<!--// colorpicker-->
 					<div cond="$val->type == 'colorpicker'">
 						{@ $use_colorpicker = true; }
-						<input type="color" class="rx-spectrum" name="{$val->name}" id="{$val->name}" value="{$val->value}" />
+						<input type="text" class="rx-spectrum" name="{$val->name}" id="{$val->name}" value="{$val->value}" />
 						<p id="categoy_color_help" hidden style="margin:8px 0 0 0">{$lang->about_category_color}</p>
 					</div>
 					<a href="#about_{$val->name}" data-toggle class="x_icon-question-sign" cond="$val->description" style="vertical-align:top;margin-top:5px"|cond="$val->type == 'textarea'">{$lang->help}</a>
