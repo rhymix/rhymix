@@ -1183,42 +1183,8 @@ function requirePear()
  */
 function checkCSRF()
 {
-	// If this is not a POST request, FAIL.
-	if ($_SERVER['REQUEST_METHOD'] != 'POST')
-	{
-		return false;
-	}
-	
-	// Get the referer. If the referer is empty, PASS.
-	$referer = strval($_SERVER['HTTP_REFERER']);
-	if ($referer === '')
-	{
-		return true;
-	}
-	if (strpos($referer, 'xn--') !== false)
-	{
-		$referer = Context::decodeIdna($referer);
-	}
-	$referer_host = parse_url($referer, PHP_URL_HOST);
-	
-	// If the referer is the same domain as the current host, PASS.
-	$current_host = $_SERVER['HTTP_HOST'];
-	if (strpos($current_host, 'xn--') !== false)
-	{
-		$current_host = Context::decodeIdna($current_host);
-	}
-	if ($referer_host === $current_host)
-	{
-		return true;
-	}
-	
-	// If the referer is the same domain as the default URL, PASS.
-	$default_url = Context::getDefaultUrl();
-	if (strpos($default_url, 'xn--') !== false)
-	{
-		$default_url = Context::decodeIdna($default_url);
-	}
-	if ($referer_host === parse_url($default_url, PHP_URL_HOST))
+	// Use Rhymix Security class first.
+	if (Rhymix\Framework\Security::checkCSRF())
 	{
 		return true;
 	}
