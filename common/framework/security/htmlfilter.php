@@ -393,11 +393,6 @@ class HTMLFilter
 	 */
 	protected static function _preprocess($content)
 	{
-		// Remove tags not supported in Rhymix. Some of these may also be removed by HTMLPurifier.
-		$content = preg_replace_callback('!</?(?:html|body|head|title|meta|base|link|script|style|applet)\b[^>]*>!i', function($matches) {
-			return htmlspecialchars($matches[0], ENT_QUOTES, 'UTF-8');
-		}, $content);
-		
 		// Encode widget and editor component properties so that they are not removed by HTMLPurifier.
 		$content = self::_encodeWidgetsAndEditorComponents($content);
 		return $content;
@@ -415,7 +410,12 @@ class HTMLFilter
 		$allow_acts = array('procFileDownload');
 		$deny_acts = array('dispMemberLogout', 'dispLayoutPreview');
 		
-		// Remove URLs that may be CSRF attempts.
+		// Remove tags not supported in Rhymix. Some of these may also have been removed by HTMLPurifier.
+		$content = preg_replace_callback('!</?(?:html|body|head|title|meta|base|link|script|style|applet)\b[^>]*>!i', function($matches) {
+			return htmlspecialchars($matches[0], ENT_QUOTES, 'UTF-8');
+		}, $content);
+		
+		// Remove link URLs that may be CSRF attempts.
 		$content = preg_replace_callback('!\b(src|href|data|value)="([^"]+)"!i', function($matches) use($allow_acts, $deny_acts) {
 			$url = preg_replace('!\s+!', '', htmlspecialchars_decode(rawurldecode($matches[2])));
 			if (preg_match('!\bact=((disp|proc)[^&]+)!i', $url, $urlmatches))
