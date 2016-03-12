@@ -167,11 +167,9 @@ class HTMLFilter
 		$def->addElement('section', 'Block', 'Flow', 'Common');
 		$def->addElement('article', 'Block', 'Flow', 'Common');
 		$def->addElement('aside', 'Block', 'Flow', 'Common');
-		$def->addElement('address', 'Block', 'Flow', 'Common');
 		
 		// Add various inline tags.
 		$def->addElement('s', 'Inline', 'Inline', 'Common');
-		$def->addElement('var', 'Inline', 'Inline', 'Common');
 		$def->addElement('sub', 'Inline', 'Inline', 'Common');
 		$def->addElement('sup', 'Inline', 'Inline', 'Common');
 		$def->addElement('mark', 'Inline', 'Inline', 'Common');

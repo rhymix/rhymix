@@ -840,28 +840,33 @@ function removeHackTag($content)
 	 * - Issue reported by Sangwon Kim
 	 */
 	$content = preg_replace_callback('@<(/?)([a-z]+[0-9]?)((?>"[^"]*"|\'[^\']*\'|[^>])*?\b(?:on[a-z]+|data|style|background|href|(?:dyn|low)?src)\s*=[\s\S]*?)(/?)($|>|<)@i', 'removeSrcHack', $content);
-
-	$content = checkXmpTag($content);
-	$content = blockWidgetCode($content);
-
 	return $content;
 }
 
 /**
- * blocking widget code
+ * Check xmp tag (Deprecated)
+ *
+ * @param string $content Target content
+ * @return string
+ */
+function checkXmpTag($content)
+{
+	return $content;
+}
+
+/**
+ * Block widget code (Deprecated)
  *
  * @param string $content Taget content
  * @return string
  **/
 function blockWidgetCode($content)
 {
-	$content = preg_replace('/(<(?:img|div)(?:[^>]*))(widget)(?:(=([^>]*?)>))/is', '$1blocked-widget$3', $content);
-
-	return $content;
+	return preg_replace('/(<(?:img|div)(?:[^>]*))(widget)(?:(=([^>]*?)>))/is', '$1blocked-widget$3', $content);
 }
 
 /**
- * check uploaded file which may be hacking attempts
+ * Check uploaded file (Deprecated)
  *
  * @param string $file Taget file path
  * @return bool
@@ -869,31 +874,6 @@ function blockWidgetCode($content)
 function checkUploadedFile($file)
 {
 	return true;
-}
-
-/**
- * Check xmp tag, close it.
- *
- * @param string $content Target content
- * @return string
- */
-function checkXmpTag($content)
-{
-	$content = preg_replace('@<(/?)xmp.*?>@i', '<\1xmp>', $content);
-
-	if(($start_xmp = strrpos($content, '<xmp>')) !== FALSE)
-	{
-		if(($close_xmp = strrpos($content, '</xmp>')) === FALSE)
-		{
-			$content .= '</xmp>';
-		}
-		else if($close_xmp < $start_xmp)
-		{
-			$content .= '</xmp>';
-		}
-	}
-
-	return $content;
 }
 
 /**
@@ -906,11 +886,6 @@ function removeSrcHack($match)
 {
 	$tag = strtolower($match[2]);
 
-	// xmp tag ?뺣━
-	if($tag == 'xmp')
-	{
-		return "<{$match[1]}xmp>";
-	}
 	if($match[1])
 	{
 		return $match[0];
