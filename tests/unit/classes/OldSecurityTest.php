@@ -1,7 +1,7 @@
 <?php
 require_once _XE_PATH_.'classes/security/Security.class.php';
 
-class SecurityTest extends \Codeception\TestCase\Test
+class OldSecurityTest extends \Codeception\TestCase\Test
 {
     public function _before()
     {
