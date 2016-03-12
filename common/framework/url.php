@@ -1,0 +1,142 @@
+<?php
+
+namespace Rhymix\Framework;
+
+/**
+ * The URL class.
+ */
+class URL
+{
+	/**
+	 * Get the current URL.
+	 * 
+	 * If $changes are given, they will be appended to the current URL as a query string.
+	 * To delete an existing query string, set its value to null.
+	 * 
+	 * @param array $changes
+	 * @return string
+	 */
+	public static function getCurrentURL(array $changes = array())
+	{
+		$proto = \RX_SSL ? 'https://' : 'http://';
+		$host = isset($_SERVER['HTTP_HOST']) ? $_SERVER['HTTP_HOST'] : 'localhost';
+		$local = isset($_SERVER['REQUEST_URI']) ? $_SERVER['REQUEST_URI'] : '/';
+		if (count($changes))
+		{
+			if (($qpos = strpos($local, '?')) !== false)
+			{
+				$querystring = substr($local, $qpos + 1);
+				$local = substr($local, 0, $qpos);
+				parse_str($querystring, $args);
+				$changes = array_merge($args, $changes);
+			}
+			$changes = array_filter($changes, function($val) { return $val !== null; });
+			$local = $local . '?' . http_build_query($changes);
+		}
+		return self::getCanonicalURL($proto . $host) . $local;
+	}
+	
+	/**
+	 * Convert a URL to its canonical format.
+	 * 
+	 * @param string $url
+	 * @return string
+	 */
+	public static function getCanonicalURL($url)
+	{
+		if (preg_match('#^\.?/([^/]|$)#', $url))
+		{
+			$proto = \RX_SSL ? 'https://' : 'http://';
+			$host = isset($_SERVER['HTTP_HOST']) ? $_SERVER['HTTP_HOST'] : 'localhost';
+			$url = $proto . $host . \RX_BASEURL . ltrim($url, './');
+		}
+		return preg_replace_callback('#^(https?:|)//([^/]+)#i', function($matches) {
+			if ($matches[1] === '') $matches[1] = \RX_SSL ? 'https:' : 'http:';
+			return $matches[1] . '//' . self::decodeIdna($matches[2]);
+		}, $url);
+	}
+	
+	/**
+	 * Get the domain from a URL.
+	 * 
+	 * @param string $url
+	 * @return string|false
+	 */
+	public static function getDomainFromURL($url)
+	{
+		$domain = @parse_url($url, \PHP_URL_HOST);
+		if ($domain === false || $domain === null)
+		{
+			return false;
+		}
+		else
+		{
+			return self::decodeIdna($domain);
+		}
+	}
+	
+	/**
+	 * Check if a URL is internal to this site.
+	 * 
+	 * @param string $url
+	 * @return bool
+	 */
+	public static function isInternalURL($url)
+	{
+		$domain = self::getDomainFromURL($url);
+		if ($domain === false)
+		{
+			return true;
+		}
+		
+		if ($domain === self::getDomainFromURL($_SERVER['HTTP_HOST']))
+		{
+			return true;
+		}
+		
+		if ($domain === self::getDomainFromURL(\Context::getDefaultUrl()))
+		{
+			return true;
+		}
+		
+		return false;
+	}
+	
+	/**
+	 * Encode UTF-8 domain into IDNA (punycode)
+	 * 
+	 * @param string $domain
+	 * @return string
+	 */
+	public static function encodeIdna($domain)
+	{
+		if (function_exists('idn_to_ascii'))
+		{
+			return idn_to_ascii($domain);
+		}
+		else
+		{
+			$encoder = new \TrueBV\Punycode();
+			return $encoder->encode($domain);
+		}
+	}
+
+	/**
+	 * Convert IDNA (punycode) domain into UTF-8
+	 * 
+	 * @param string $domain
+	 * @return string
+	 */
+	public static function decodeIdna($domain)
+	{
+		if (function_exists('idn_to_utf8'))
+		{
+			return idn_to_utf8($domain);
+		}
+		else
+		{
+			$decoder = new \TrueBV\Punycode();
+			return $decoder->decode($domain);
+		}
+	}
+}
