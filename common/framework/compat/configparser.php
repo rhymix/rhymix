@@ -151,9 +151,9 @@ class ConfigParser
 		}
 		
 		// Create new crypto keys.
-		$config['crypto']['encryption_key'] = \Password::createSecureSalt(64, 'alnum');
-		$config['crypto']['authentication_key'] = \Password::createSecureSalt(64, 'alnum');
-		$config['crypto']['session_key'] = \Password::createSecureSalt(64, 'alnum');
+		$config['crypto']['encryption_key'] = \Rhymix\Framework\Security::getRandom(64, 'alnum');
+		$config['crypto']['authentication_key'] = \Rhymix\Framework\Security::getRandom(64, 'alnum');
+		$config['crypto']['session_key'] = \Rhymix\Framework\Security::getRandom(64, 'alnum');
 		
 		// Convert language configuration.
 		if (isset($db_info->lang_type))

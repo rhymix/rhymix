@@ -984,12 +984,11 @@ class memberController extends member
 		}
 
 		// Insert data into the authentication DB
-		$oPassword = new Password();
 		$args = new stdClass();
 		$args->user_id = $member_info->user_id;
 		$args->member_srl = $member_info->member_srl;
-		$args->new_password = $oPassword->createTemporaryPassword(8);
-		$args->auth_key = $oPassword->createSecureSalt(40);
+		$args->new_password = Rhymix\Framework\Password::getRandomPassword(8);
+		$args->auth_key = Rhymix\Framework\Security::getRandom(40, 'hex');
 		$args->is_register = 'N';
 
 		$output = executeQuery('member.insertAuthMail', $args);
@@ -1093,8 +1092,7 @@ class memberController extends member
 		}
 
 		// Update to a temporary password and set change_password_date to 1
-		$oPassword =  new Password();
-		$temp_password = $oPassword->createTemporaryPassword(8);
+		$temp_password = Rhymix\Framework\Password::getRandomPassword(8);
 
 		$args = new stdClass();
 		$args->member_srl = $member_srl;
@@ -1323,12 +1321,11 @@ class memberController extends member
 		$this->_clearMemberCache($args->member_srl);
 
 		// generate new auth key
-		$oPassword = new Password();
 		$auth_args = new stdClass();
 		$auth_args->user_id = $memberInfo->user_id;
 		$auth_args->member_srl = $memberInfo->member_srl;
 		$auth_args->new_password = $memberInfo->password;
-		$auth_args->auth_key = $oPassword->createSecureSalt(40);
+		$auth_args->auth_key = Rhymix\Framework\Security::getRandom(40, 'hex');
 		$auth_args->is_register = 'Y';
 
 		$output = executeQuery('member.insertAuthMail', $auth_args);
@@ -1813,8 +1810,7 @@ class memberController extends member
 		if($keep_signed)
 		{
 			// Key generate for auto login
-			$oPassword = new Password();
-			$random_key = $oPassword->createSecureSalt(32, 'hex');
+			$random_key = Rhymix\Framework\Security::getRandom(32, 'hex');
 			$extra_key = strtolower($user_id).$this->memberInfo->password.$_SERVER['HTTP_USER_AGENT'];
 			$extra_key = substr(hash_hmac('sha256', $extra_key, $random_key), 0, 32);
 			$autologin_args = new stdClass;
@@ -2091,12 +2087,11 @@ class memberController extends member
 		if($args->denied == 'Y')
 		{
 			// Insert data into the authentication DB
-			$oPassword = new Password();
 			$auth_args = new stdClass();
 			$auth_args->user_id = $args->user_id;
 			$auth_args->member_srl = $args->member_srl;
 			$auth_args->new_password = $args->password;
-			$auth_args->auth_key = $oPassword->createSecureSalt(40);
+			$auth_args->auth_key = Rhymix\Framework\Security::getRandom(40, 'hex');
 			$auth_args->is_register = 'Y';
 
 			$output = executeQuery('member.insertAuthMail', $auth_args);
@@ -2552,11 +2547,10 @@ class memberController extends member
 		}
 		unset($_SESSION['rechecked_password_step']);
 
-		$oPassword = new Password();
 		$auth_args = new stdClass();
 		$auth_args->user_id = $newEmail;
 		$auth_args->member_srl = $member_info->member_srl;
-		$auth_args->auth_key = $oPassword->createSecureSalt(40);
+		$auth_args->auth_key = Rhymix\Framework\Security::getRandom(40, 'hex');
 		$auth_args->new_password = 'XE_change_emaill_address';
 
 		$oDB = &DB::getInstance();

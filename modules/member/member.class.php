@@ -73,8 +73,7 @@ class member extends ModuleObject {
 		
 		if(!$config->password_hashing_algorithm)
 		{
-			$oPassword = new Password();
-			$config->password_hashing_algorithm = $oPassword->getBestAlgorithm();
+			$config->password_hashing_algorithm = Rhymix\Framework\Password::getBestSupportedAlgorithm();
 		}
 		if(!$config->password_hashing_work_factor)
 		{
