@@ -57,11 +57,11 @@ class SecurityTest extends \Codeception\TestCase\Test
 	
 	public function testGetRandom()
 	{
-		$this->assertEquals(1, preg_match('/^[0-9a-zA-Z]{32}$/', Rhymix\Framework\Security::getRandom()));
-		$this->assertEquals(1, preg_match('/^[0-9a-zA-Z]{256}$/', Rhymix\Framework\Security::getRandom(256)));
-		$this->assertEquals(1, preg_match('/^[0-9a-zA-Z]{16}$/', Rhymix\Framework\Security::getRandom(16, 'alnum')));
-		$this->assertEquals(1, preg_match('/^[0-9a-f]{16}$/', Rhymix\Framework\Security::getRandom(16, 'hex')));
-		$this->assertEquals(1, preg_match('/^[\x21-\x7e]{16}$/', Rhymix\Framework\Security::getRandom(16, 'printable')));
+		$this->assertRegExp('/^[0-9a-zA-Z]{32}$/', Rhymix\Framework\Security::getRandom());
+		$this->assertRegExp('/^[0-9a-zA-Z]{256}$/', Rhymix\Framework\Security::getRandom(256));
+		$this->assertRegExp('/^[0-9a-zA-Z]{16}$/', Rhymix\Framework\Security::getRandom(16, 'alnum'));
+		$this->assertRegExp('/^[0-9a-f]{16}$/', Rhymix\Framework\Security::getRandom(16, 'hex'));
+		$this->assertRegExp('/^[\x21-\x7e]{16}$/', Rhymix\Framework\Security::getRandom(16, 'printable'));
 	}
 	
 	public function testGetRandomNumber()
@@ -80,7 +80,7 @@ class SecurityTest extends \Codeception\TestCase\Test
 		$regex = '/^[0-9a-f]{8}-[0-9a-f]{4}-4[0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/';
 		for ($i = 0; $i < 10; $i++)
 		{
-			$this->assertEquals(1, preg_match($regex, Rhymix\Framework\Security::getRandomUUID()));
+			$this->assertRegExp($regex, Rhymix\Framework\Security::getRandomUUID());
 		}
 	}
 	
