@@ -173,22 +173,22 @@ class Password
 				$hash = explode(':', $hash);
 				$hash[3] = base64_decode($hash[3]);
 				$hash_to_compare = $this->pbkdf2($password, $hash[2], $hash[0], intval($hash[1], 10), strlen($hash[3]));
-				return $this->strcmpConstantTime($hash_to_compare, $hash[3]);
+				return Rhymix\Framework\Security::compareStrings($hash_to_compare, $hash[3]);
 
 			case 'bcrypt':
 				$hash_to_compare = $this->bcrypt($password, $hash);
-				return $this->strcmpConstantTime($hash_to_compare, $hash);
+				return Rhymix\Framework\Security::compareStrings($hash_to_compare, $hash);
 
 			default:
 				if($algorithm && isset(self::$_custom[$algorithm]))
 				{
 					$hash_callback = self::$_custom[$algorithm]['callback'];
 					$hash_to_compare = $hash_callback($password, $hash);
-					return $this->strcmpConstantTime($hash_to_compare, $hash);
+					return Rhymix\Framework\Security::compareStrings($hash_to_compare, $hash);
 				}
 				if(in_array($algorithm, hash_algos()))
 				{
-					return $this->strcmpConstantTime(hash($algorithm, $password), $hash);
+					return Rhymix\Framework\Security::compareStrings(hash($algorithm, $password), $hash);
 				}
 				return false;
 		}
@@ -280,90 +280,7 @@ class Password
 	 */
 	public function createSecureSalt($length, $format = 'hex')
 	{
-		// Find out how many bytes of entropy we really need
-		switch($format)
-		{
-			case 'hex':
-				$entropy_required_bytes = ceil($length / 2);
-				break;
-			case 'alnum':
-			case 'printable':
-				$entropy_required_bytes = ceil($length * 3 / 4);
-				break;
-			default:
-				$entropy_required_bytes = $length;
-		}
-
-		// Cap entropy to 256 bits from any one source, because anything more is meaningless
-		$entropy_capped_bytes = min(32, $entropy_required_bytes);
-
-		// Find and use the most secure way to generate a random string
-		$entropy = false;
-		$is_windows = (defined('PHP_OS') && strtoupper(substr(PHP_OS, 0, 3)) === 'WIN');
-		if(function_exists('random_bytes'))  // PHP 7
-		{
-			$entropy = random_bytes($entropy_capped_bytes);
-		}
-		elseif(function_exists('openssl_random_pseudo_bytes') && (!$is_windows || version_compare(PHP_VERSION, '5.4', '>=')))
-		{
-			$entropy = openssl_random_pseudo_bytes($entropy_capped_bytes);
-		}
-		elseif(function_exists('mcrypt_create_iv') && (!$is_windows || version_compare(PHP_VERSION, '5.3.7', '>=')))
-		{
-			$entropy = mcrypt_create_iv($entropy_capped_bytes, MCRYPT_DEV_URANDOM);
-		}
-		elseif(function_exists('mcrypt_create_iv') && $is_windows)
-		{
-			$entropy = mcrypt_create_iv($entropy_capped_bytes, MCRYPT_RAND);
-		}
-		elseif(!$is_windows && @is_readable('/dev/urandom'))
-		{
-			$fp = fopen('/dev/urandom', 'rb');
-			if (function_exists('stream_set_read_buffer'))  // This function does not exist in HHVM
-			{
-				stream_set_read_buffer($fp, 0);  // Prevent reading several KB of unnecessary data from urandom
-			}
-			$entropy = fread($fp, $entropy_capped_bytes);
-			fclose($fp);
-		}
-
-		// Use built-in source of entropy if an error occurs while using other functions
-		if($entropy === false || strlen($entropy) < $entropy_capped_bytes)
-		{
-			$entropy = '';
-			for($i = 0; $i < $entropy_capped_bytes; $i += 2)
-			{
-				$entropy .= pack('S', rand(0, 65536) ^ mt_rand(0, 65535));
-			}
-		}
-
-		// Mixing (see RFC 4086 section 5)
-		$output = '';
-		for($i = 0; $i < $entropy_required_bytes; $i += 32)
-		{
-			$output .= hash('sha256', $entropy . $i . rand(), true);
-		}
-
-		// Encode and return the random string
-		switch($format)
-		{
-			case 'hex':
-				return substr(bin2hex($output), 0, $length);
-			case 'binary':
-				return substr($output, 0, $length);
-			case 'printable':
-				$salt = '';
-				for($i = 0; $i < $length; $i++)
-				{
-					$salt .= chr(33 + (crc32(sha1($i . $output)) % 94));
-				}
-				return $salt;
-			case 'alnum':
-			default:
-				$salt = substr(base64_encode($output), 0, $length);
-				$replacements = chr(rand(65, 90)) . chr(rand(97, 122)) . rand(0, 9);
-				return strtr($salt, '+/=', $replacements);
-		}
+		return Rhymix\Framework\Security::getRandom($length, $format);
 	}
 
 	/**
@@ -446,13 +363,7 @@ class Password
 	 */
 	function strcmpConstantTime($a, $b)
 	{
-		$diff = strlen($a) ^ strlen($b);
-		$maxlen = min(strlen($a), strlen($b));
-		for($i = 0; $i < $maxlen; $i++)
-		{
-			$diff |= ord($a[$i]) ^ ord($b[$i]);
-		}
-		return $diff === 0;
+		return Rhymix\Framework\Security::compareStrings($a, $b);
 	}
 }
 /* End of file : Password.class.php */

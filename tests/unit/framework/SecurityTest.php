@@ -17,6 +17,80 @@ class SecurityTest extends \Codeception\TestCase\Test
 		$this->assertEquals('foo(bar).xls', Rhymix\Framework\Security::sanitize('foo<bar>.xls', 'filename'));
 	}
 	
+	public function testEncryption()
+	{
+		$plaintext = Rhymix\Framework\Security::getRandom();
+		
+		// Encryption with default key.
+		$encrypted = Rhymix\Framework\Security::encrypt($plaintext);
+		$this->assertNotEquals(false, $encrypted);
+		$decrypted = Rhymix\Framework\Security::decrypt($encrypted);
+		$this->assertEquals($plaintext, $decrypted);
+		
+		// Encryption with custom key.
+		$key = Rhymix\Framework\Security::getRandom();
+		$encrypted = Rhymix\Framework\Security::encrypt($plaintext, $key);
+		$this->assertNotEquals(false, $encrypted);
+		$decrypted = Rhymix\Framework\Security::decrypt($encrypted, $key);
+		$this->assertEquals($plaintext, $decrypted);
+		
+		// Encryption with defuse/php-encryption and decryption with CryptoCompat.
+		$encrypted = Rhymix\Framework\Security::encrypt($plaintext);
+		$this->assertNotEquals(false, $encrypted);
+		$decrypted = Rhymix\Framework\Security::decrypt($encrypted, null, true);
+		$this->assertEquals($plaintext, $decrypted);
+		
+		// Encryption with CryptoCompat and decryption with defuse/php-encryption.
+		$encrypted = Rhymix\Framework\Security::encrypt($plaintext, null, true);
+		$this->assertNotEquals(false, $encrypted);
+		$decrypted = Rhymix\Framework\Security::decrypt($encrypted);
+		$this->assertEquals($plaintext, $decrypted);
+		
+		// Test invalid ciphertext.
+		$decrypted = Rhymix\Framework\Security::decrypt('1234' . substr($encrypted, 4));
+		$this->assertEquals(false, $decrypted);
+		$decrypted = Rhymix\Framework\Security::decrypt(substr($encrypted, strlen($encrypted) - 4) . 'abcd');
+		$this->assertEquals(false, $decrypted);
+		$decrypted = Rhymix\Framework\Security::decrypt($plaintext);
+		$this->assertEquals(false, $decrypted);
+	}
+	
+	public function testGetRandom()
+	{
+		$this->assertEquals(1, preg_match('/^[0-9a-zA-Z]{32}$/', Rhymix\Framework\Security::getRandom()));
+		$this->assertEquals(1, preg_match('/^[0-9a-zA-Z]{256}$/', Rhymix\Framework\Security::getRandom(256)));
+		$this->assertEquals(1, preg_match('/^[0-9a-zA-Z]{16}$/', Rhymix\Framework\Security::getRandom(16, 'alnum')));
+		$this->assertEquals(1, preg_match('/^[0-9a-f]{16}$/', Rhymix\Framework\Security::getRandom(16, 'hex')));
+		$this->assertEquals(1, preg_match('/^[\x21-\x7e]{16}$/', Rhymix\Framework\Security::getRandom(16, 'printable')));
+	}
+	
+	public function testGetRandomNumber()
+	{
+		for ($i = 0; $i < 10; $i++)
+		{
+			$min = mt_rand(0, 10000);
+			$max = $min + mt_rand(0, 10000);
+			$random = Rhymix\Framework\Security::getRandomNumber($min, $max);
+			$this->assertTrue($random >= $min && $random < $max);
+		}
+	}
+	
+	public function testGetRandomUUID()
+	{
+		$regex = '/^[0-9a-f]{8}-[0-9a-f]{4}-4[0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/';
+		for ($i = 0; $i < 10; $i++)
+		{
+			$this->assertEquals(1, preg_match($regex, Rhymix\Framework\Security::getRandomUUID()));
+		}
+	}
+	
+	public function testCompareStrings()
+	{
+		$this->assertTrue(Rhymix\Framework\Security::compareStrings('foobar', 'foobar'));
+		$this->assertFalse(Rhymix\Framework\Security::compareStrings('foobar', 'foobar*'));
+		$this->assertFalse(Rhymix\Framework\Security::compareStrings('foo', 'bar'));
+	}
+	
 	public function testCheckCSRF()
 	{
 		$_SERVER['REQUEST_METHOD'] = 'GET';
