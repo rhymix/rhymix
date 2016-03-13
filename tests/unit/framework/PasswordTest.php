@@ -27,9 +27,9 @@ class PasswordTest extends \Codeception\TestCase\Test
 		$this->assertTrue($algo === 'bcrypt' || $algo === 'pbkdf2');
 	}
 	
-	public function testGetSelectedAlgorithm()
+	public function testGetDefaultAlgorithm()
 	{
-		$algo = Rhymix\Framework\Password::getSelectedAlgorithm();
+		$algo = Rhymix\Framework\Password::getDefaultAlgorithm();
 		$this->assertTrue($algo === 'bcrypt' || $algo === 'pbkdf2' || $algo === 'md5');
 	}
 	
@@ -38,6 +38,16 @@ class PasswordTest extends \Codeception\TestCase\Test
 		$work_factor = $algo = Rhymix\Framework\Password::getWorkFactor();
 		$this->assertTrue($work_factor >= 4);
 		$this->assertTrue($work_factor <= 31);
+	}
+	
+	public function testGetRandomPassword()
+	{
+		$password = Rhymix\Framework\Password::getRandomPassword(16);
+		$this->assertEquals(16, strlen($password));
+		$this->assertRegexp('/[a-z]/', $password);
+		$this->assertRegexp('/[A-Z]/', $password);
+		$this->assertRegexp('/[0-9]/', $password);
+		$this->assertRegexp('/[^a-zA-Z0-9]/', $password);
 	}
 	
 	public function testHashPassword()

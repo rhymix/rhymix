@@ -106,11 +106,11 @@ class Password
 	}
 
 	/**
-	 * Get the currently selected hashing algorithm.
+	 * Get the current default hashing algorithm.
 	 * 
 	 * @return string
 	 */
-	public static function getSelectedAlgorithm()
+	public static function getDefaultAlgorithm()
 	{
 		if (function_exists('getModel'))
 		{
@@ -153,6 +153,31 @@ class Password
 	}
 	
 	/**
+	 * Generate a reasonably strong random password.
+	 * 
+	 * @param int $length
+	 * @return string
+	 */
+	public static function getRandomPassword($length = 16)
+	{
+		while(true)
+		{
+			$source = base64_encode(Security::getRandom(64, 'binary'));
+			$source = strtr($source, 'iIoOjl10/', '@#$%&*-!?');
+			$source_length = strlen($source);
+			for($i = 0; $i < $source_length - $length; $i++)
+			{
+				$candidate = substr($source, $i, $length);
+				if(preg_match('/[a-z]/', $candidate) && preg_match('/[A-Z]/', $candidate) &&
+					preg_match('/[0-9]/', $candidate) && preg_match('/[^a-zA-Z0-9]/', $candidate))
+				{
+					return $candidate;
+				}
+			}
+		}
+	}
+	
+	/**
 	 * Hash a password.
 	 * 
 	 * To use multiple algorithms in series, provide them as an array.
@@ -160,12 +185,18 @@ class Password
 	 * On error, false will be returned.
 	 * 
 	 * @param string $password
-	 * @param string|array $algos
+	 * @param string|array $algos (optional)
 	 * @param string $salt (optional)
 	 * @return string|false
 	 */
-	public static function hashPassword($password, $algos, $salt = null)
+	public static function hashPassword($password, $algos = null, $salt = null)
 	{
+		// If the algorithm is null, use the default algorithm.
+		if ($algos === null)
+		{
+			$algos = self::getDefaultAlgorithm();
+		}
+		
 		// Initialize the chain of hashes.
 		$algos = array_map('strtolower', array_map('trim', is_array($algos) ? $algos : explode(',', $algos)));
 		$hashchain = preg_replace('/\\s+/', ' ', trim($password));
@@ -292,16 +323,22 @@ class Password
 	 */
 	public static function checkPassword($password, $hash, $algos = null)
 	{
-		if (!$algos)
+		if ($algos === null)
 		{
 			$algos = self::checkAlgorithm($hash);
+			foreach ($algos as $algo)
+			{
+				if (Security::compareStrings($hash, self::hashPassword($password, $algo, $hash)))
+				{
+					return true;
+				}
+			}
+			return false;
 		}
-		if (!is_array($algos))
+		else
 		{
-			$algos = explode(',', $algos);
+			return Security::compareStrings($hash, self::hashPassword($password, $algos, $hash));
 		}
-		
-		return Security::compareStrings($hash, self::hashPassword($password, $algos, $hash));
 	}
 	
 	/**
