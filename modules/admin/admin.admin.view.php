@@ -518,11 +518,11 @@ class adminAdminView extends admin
 		Context::set('sitelock_message', escape(Rhymix\Framework\Config::get('lock.message')));
 		
 		$allowed_ip = Rhymix\Framework\Config::get('lock.allow') ?: array();
-		if (!Rhymix\Framework\IpFilter::inRanges('127.0.0.1', $allowed_ip))
+		if (!Rhymix\Framework\Security\IpFilter::inRanges('127.0.0.1', $allowed_ip))
 		{
 			array_unshift($allowed_ip, '127.0.0.1');
 		}
-		if (!Rhymix\Framework\IpFilter::inRanges(RX_CLIENT_IP, $allowed_ip))
+		if (!Rhymix\Framework\Security\IpFilter::inRanges(RX_CLIENT_IP, $allowed_ip))
 		{
 			array_unshift($allowed_ip, RX_CLIENT_IP);
 		}

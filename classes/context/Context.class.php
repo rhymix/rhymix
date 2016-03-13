@@ -1478,7 +1478,7 @@ class Context
 		}
 		
 		// Allow if the current user is in the list of allowed IPs.
-		if (Rhymix\Framework\IpFilter::inRanges(RX_CLIENT_IP, config('lock.allow')))
+		if (Rhymix\Framework\Security\IpFilter::inRanges(RX_CLIENT_IP, config('lock.allow')))
 		{
 			return;
 		}
