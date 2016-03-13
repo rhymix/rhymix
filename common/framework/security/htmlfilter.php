@@ -442,10 +442,11 @@ class HTMLFilter
 	protected static function _encodeWidgetsAndEditorComponents($content)
 	{
 		return preg_replace_callback('!<(div|img)([^>]*)(editor_component="[^"]+"|class="zbxe_widget_output")([^>]*)>!i', function($match) {
+			$tag = strtolower($match[1]);
 			$attrs = array();
-			$html = preg_replace_callback('!([a-zA-Z0-9_-]+)="([^"]+)"!', function($attr) use(&$attrs) {
+			$html = preg_replace_callback('!([a-zA-Z0-9_-]+)="([^"]+)"!', function($attr) use($tag, &$attrs) {
 				$attrkey = strtolower($attr[1]);
-				if (strtolower($match[1]) === 'img' && preg_match('/^(?:width|height|alt)$/', $attrkey))
+				if ($tag === 'img' && preg_match('/^(?:width|height|alt)$/', $attrkey))
 				{
 					return $attr[0];
 				}
@@ -456,11 +457,11 @@ class HTMLFilter
 				$attrs[$attrkey] = htmlspecialchars_decode($attr[2]);
 				return '';
 			}, $match[0]);
-			if (strtolower($match[1]) === 'img' && !preg_match('/\ssrc="/', $html))
+			if ($tag === 'img' && !preg_match('/\ssrc="/', $html))
 			{
 				$html = substr($html, 0, 4) . ' src=""' . substr($html, 4);
 			}
-			$encoded_properties = base64_encode(json_encode($attrs));
+			$encoded_properties = \Rhymix\Framework\Security::encrypt(json_encode($attrs));
 			return substr($html, 0, 4) . ' rx_encoded_properties="' . $encoded_properties . '"' . substr($html, 4);
 		}, $content);
 	}
@@ -473,14 +474,23 @@ class HTMLFilter
 	 */
 	protected static function _decodeWidgetsAndEditorComponents($content)
 	{
-		return preg_replace_callback('!<(div|img)([^>]*)(rx_encoded_properties="([^"]+)")!i', function($match) {
+		return preg_replace_callback('!<(div|img)([^>]*)(\srx_encoded_properties="([^"]+)")!i', function($match) {
 			$attrs = array();
-			$decoded_properties = @json_decode(base64_decode($match[4])) ?: array();
+			$decoded_properties = \Rhymix\Framework\Security::decrypt($match[4]);
+			if (!$decoded_properties)
+			{
+				return str_replace($match[3], '', $match[0]);
+			}
+			$decoded_properties = json_decode($decoded_properties);
+			if (!$decoded_properties)
+			{
+				return str_replace($match[3], '', $match[0]);
+			}
 			foreach ($decoded_properties as $key => $val)
 			{
 				$attrs[] = $key . '="' . htmlspecialchars($val) . '"';
 			}
-			return str_replace($match[3], implode(' ', $attrs), $match[0]);
+			return str_replace($match[3], ' ' . implode(' ', $attrs), $match[0]);
 		}, $content);
 	}
 }
