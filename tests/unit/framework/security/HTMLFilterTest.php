@@ -64,20 +64,4 @@ class HTMLFilterTest extends \Codeception\TestCase\Test
 			$this->assertEquals($test[1], Rhymix\Framework\Security\HTMLFilter::clean($test[0]));
 		}
 	}
-	
-	public function testRemoveEmbeddedMedia()
-	{
-		$tests = array(
-			'<div><object></object></div>' => '<div></div>',
-			'<div><object><embed></embed></object></div>' => '<div></div>',
-			'<div><object><param /></object></div>' => '<div></div>',
-			'<div><img class="foo" editor_component="multimedia_link" /></div>' => '<div></div>',
-			'<div><img editor_component="multimedia_link"></img></div>' => '<div></div>',
-		);
-		
-		foreach ($tests as $from => $to)
-		{
-			$this->assertEquals($to, Rhymix\Framework\Security\HTMLFilter::removeEmbeddedMedia($from));
-		}
-	}
 }

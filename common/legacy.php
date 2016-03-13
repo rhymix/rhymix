@@ -1036,7 +1036,7 @@ function stripEmbedTagForAdmin(&$content, $writer_member_srl)
 		
 		$security_msg = '<div style="border: 1px solid #DDD; background: #FAFAFA; text-align:center; margin: 1em 0;">' .
 			'<p style="margin: 1em;">' . lang('security_warning_embed') . '</p></div>';
-		$content = Rhymix\Framework\Security\HTMLFilter::removeEmbeddedMedia($content, $security_msg);
+		$content = Rhymix\Framework\Security\MediaFilter::removeEmbeddedMedia($content, $security_msg);
 	}
 
 	return;

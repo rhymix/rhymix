@@ -88,21 +88,6 @@ class HTMLFilter
 	}
 	
 	/**
-	 * Remove embedded media from HTML content.
-	 * 
-	 * @param string $input
-	 * @param string $replacement
-	 * @return string
-	 */
-	public static function removeEmbeddedMedia($input, $replacement = '')
-	{
-		$input = preg_replace('!<object[^>]*>(.*?</object>)?!is', $replacement, $input);
-		$input = preg_replace('!<embed[^>]*>(.*?</embed>)?!is', $replacement, $input);
-		$input = preg_replace('!<img[^>]*editor_component="multimedia_link"[^>]*>(.*?</img>)?!is', $replacement, $input);
-		return $input;
-	}
-	
-	/**
 	 * Get an instance of HTMLPurifier.
 	 * 
 	 * @return object
@@ -136,7 +121,7 @@ class HTMLFilter
 			$config->set('HTML.SafeEmbed', true);
 			$config->set('HTML.SafeIframe', true);
 			$config->set('HTML.SafeObject', true);
-			$config->set('URI.SafeIframeRegexp', self::_getIframeWhitelist());
+			$config->set('URI.SafeIframeRegexp', MediaFilter::getIframeWhitelistRegex());
 			
 			// Set the serializer path.
 			$config->set('Cache.SerializerPath', RX_BASEDIR . 'files/cache/htmlpurifier');
@@ -385,38 +370,6 @@ class HTMLFilter
 	}
 	
 	/**
-	 * Get the object whitelist as a regular expression.
-	 * 
-	 * @return string
-	 */
-	protected static function _getObjectWhitelist()
-	{
-		$domains = \EmbedFilter::getInstance()->getWhiteUrlList();
-		$result = array();
-		foreach($domains as $domain)
-		{
-			$result[] = preg_quote($domain, '%');
-		}
-		return '%^https?://(' . implode('|', $result) . ')%';
-	}
-	
-	/**
-	 * Get the iframe whitelist as a regular expression.
-	 * 
-	 * @return string
-	 */
-	protected static function _getIframeWhitelist()
-	{
-		$domains = \EmbedFilter::getInstance()->getWhiteIframeUrlList();
-		$result = array();
-		foreach($domains as $domain)
-		{
-			$result[] = preg_quote($domain, '%');
-		}
-		return '%^https?://(' . implode('|', $result) . ')%';
-	}
-	
-	/**
 	 * Rhymix-specific preprocessing method.
 	 * 
 	 * @param string $content
@@ -447,7 +400,7 @@ class HTMLFilter
 		}, $content);
 		
 		// Remove object and embed URLs that are not allowed.
-		$whitelist = self::_getObjectWhitelist();
+		$whitelist = MediaFilter::getObjectWhitelistRegex();
 		$content = preg_replace_callback('!<(object|embed|param)([^>]+)>!i', function($matches) use($whitelist) {
 			return preg_replace_callback('!([a-zA-Z0-9_-]+)="([^"]+)"!', function($attr) use($whitelist) {
 				if (in_array($attr[1], array('data', 'src', 'href', 'url', 'movie', 'source')))
