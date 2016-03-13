@@ -71,7 +71,7 @@ class SecurityTest extends \Codeception\TestCase\Test
 			$min = mt_rand(0, 10000);
 			$max = $min + mt_rand(0, 10000);
 			$random = Rhymix\Framework\Security::getRandomNumber($min, $max);
-			$this->assertTrue($random >= $min && $random < $max);
+			$this->assertTrue($random >= $min && $random <= $max);
 		}
 	}
 	
