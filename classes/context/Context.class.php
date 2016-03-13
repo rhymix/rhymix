@@ -1478,13 +1478,9 @@ class Context
 		}
 		
 		// Allow if the current user is in the list of allowed IPs.
-		$allowed_list = config('lock.allow');
-		foreach ($allowed_list as $allowed_ip)
+		if (Rhymix\Framework\IpFilter::inRanges(RX_CLIENT_IP, config('lock.allow')))
 		{
-			if (Rhymix\Framework\IpFilter::inRange(RX_CLIENT_IP, $allowed_ip))
-			{
-				return;
-			}
+			return;
 		}
 		
 		// Set headers and constants for backward compatibility.
