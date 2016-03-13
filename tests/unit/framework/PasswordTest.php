@@ -69,10 +69,16 @@ class PasswordTest extends \Codeception\TestCase\Test
 		$this->assertEquals(60, strlen($hash));
 		$this->assertTrue(Rhymix\Framework\Password::checkPassword($password, $hash, $algos));
 		
-		$algos = array('pbkdf2');
+		$algos = array('sha384', 'pbkdf2');
 		$hash = Rhymix\Framework\Password::hashPassword($password, $algos);
 		$this->assertRegExp('/^(sha256|sha512):[0-9]+:/', $hash);
 		$this->assertEquals(60, strlen($hash));
+		$this->assertTrue(Rhymix\Framework\Password::checkPassword($password, $hash, $algos));
+		
+		$algos = array('sha1', 'portable');
+		$hash = Rhymix\Framework\Password::hashPassword($password, $algos);
+		$this->assertRegExp('/^\$P\$/', $hash);
+		$this->assertEquals(34, strlen($hash));
 		$this->assertTrue(Rhymix\Framework\Password::checkPassword($password, $hash, $algos));
 		
 		foreach (array('drupal', 'joomla', 'kimsqrb', 'mysql_old_password', 'mysql_new_password', 'mssql_pwdencrypt') as $algo)
