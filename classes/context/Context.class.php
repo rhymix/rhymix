@@ -574,8 +574,8 @@ class Context
 		$db_info->sitelock_title = $config['lock']['title'];
 		$db_info->sitelock_message = $config['lock']['message'];
 		$db_info->sitelock_whitelist = count($config['lock']['allow']) ? $config['lock']['allow'] : array('127.0.0.1');
-		$db_info->embed_white_iframe = $config['embedfilter']['iframe'];
-		$db_info->embed_white_object = $config['embedfilter']['object'];
+		$db_info->embed_white_iframe = $config['mediafilter']['iframe'] ?: $config['embedfilter']['iframe'];
+		$db_info->embed_white_object = $config['mediafilter']['object'] ?: $config['embedfilter']['object'];
 		$db_info->use_mobile_view = $config['use_mobile_view'] ? 'Y' : 'N';
 		$db_info->use_prepared_statements = $config['use_prepared_statements'] ? 'Y' : 'N';
 		$db_info->use_rewrite = $config['use_rewrite'] ? 'Y' : 'N';

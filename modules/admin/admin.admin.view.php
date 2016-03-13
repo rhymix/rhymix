@@ -418,9 +418,8 @@ class adminAdminView extends admin
 	function dispAdminConfigSecurity()
 	{
 		// Load embed filter.
-		$oEmbedFilter = EmbedFilter::getInstance();
-		context::set('embedfilter_iframe', implode(PHP_EOL, $oEmbedFilter->whiteIframeUrlList));
-		context::set('embedfilter_object', implode(PHP_EOL, $oEmbedFilter->whiteUrlList));
+		context::set('mediafilter_iframe', implode(PHP_EOL, Rhymix\Framework\Security\MediaFilter::getIframeWhitelist()));
+		context::set('mediafilter_object', implode(PHP_EOL, Rhymix\Framework\Security\MediaFilter::getObjectWhitelist()));
 		
 		// Admin IP access control
 		$allowed_ip = Rhymix\Framework\Config::get('admin.allow');

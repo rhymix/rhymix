@@ -556,26 +556,31 @@ class adminAdminController extends admin
 		$vars = Context::getRequestVars();
 		
 		// iframe filter
-		$embed_iframe = $vars->embedfilter_iframe;
-		$embed_iframe = array_filter(array_map('trim', preg_split('/[\r\n]/', $embed_iframe)), function($item) {
+		$iframe_whitelist = $vars->mediafilter_iframe;
+		$iframe_whitelist = array_filter(array_map('trim', preg_split('/[\r\n]/', $iframe_whitelist)), function($item) {
 			return $item !== '';
 		});
-		$embed_iframe = array_unique(array_map(function($item) {
+		$iframe_whitelist = array_unique(array_map(function($item) {
 			return preg_match('@^https?://(.*)$@i', $item, $matches) ? $matches[1] : $item;
-		}, $embed_iframe));
-		natcasesort($embed_iframe);
-		Rhymix\Framework\Config::set('embedfilter.iframe', array_values($embed_iframe));
+		}, $iframe_whitelist));
+		natcasesort($iframe_whitelist);
+		Rhymix\Framework\Config::set('mediafilter.iframe', array_values($iframe_whitelist));
 		
 		// object filter
-		$embed_object = $vars->embedfilter_object;
-		$embed_object = array_filter(array_map('trim', preg_split('/[\r\n]/', $embed_object)), function($item) {
+		$object_whitelist = $vars->mediafilter_object;
+		$object_whitelist = array_filter(array_map('trim', preg_split('/[\r\n]/', $object_whitelist)), function($item) {
 			return $item !== '';
 		});
-		$embed_object = array_unique(array_map(function($item) {
+		$object_whitelist = array_unique(array_map(function($item) {
 			return preg_match('@^https?://(.*)$@i', $item, $matches) ? $matches[1] : $item;
-		}, $embed_object));
-		natcasesort($embed_object);
-		Rhymix\Framework\Config::set('embedfilter.object', array_values($embed_object));
+		}, $object_whitelist));
+		natcasesort($object_whitelist);
+		Rhymix\Framework\Config::set('mediafilter.object', array_values($object_whitelist));
+		
+		// Remove old embed filter
+		$config = Rhymix\Framework\Config::getAll();
+		unset($config['embedfilter']);
+		Rhymix\Framework\Config::setAll($config);
 		
 		// Admin IP access control
 		$allowed_ip = array_map('trim', preg_split('/[\r\n]/', $vars->admin_allowed_ip));

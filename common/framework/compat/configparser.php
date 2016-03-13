@@ -216,14 +216,14 @@ class ConfigParser
 		}
 		$config['lock']['allow'] = array_values($db_info->sitelock_whitelist);
 		
-		// Convert embed filter configuration.
+		// Convert media filter configuration.
 		if (is_array($db_info->embed_white_iframe))
 		{
 			$whitelist = array_unique(array_map(function($item) {
 				return preg_match('@^https?://(.*)$@i', $item, $matches) ? $matches[1] : $item;
 			}, $db_info->embed_white_iframe));
 			natcasesort($whitelist);
-			$config['embedfilter']['iframe'] = $whitelist;
+			$config['mediafilter']['iframe'] = $whitelist;
 		}
 		if (is_array($db_info->embed_white_object))
 		{
@@ -231,7 +231,7 @@ class ConfigParser
 				return preg_match('@^https?://(.*)$@i', $item, $matches) ? $matches[1] : $item;
 			}, $db_info->embed_white_object));
 			natcasesort($whitelist);
-			$config['embedfilter']['object'] = $whitelist;
+			$config['mediafilter']['object'] = $whitelist;
 		}
 		
 		// Convert miscellaneous configuration.
