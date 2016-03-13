@@ -65,7 +65,7 @@ function path($path, $check = true, $web = false)
 		return;
 	}
 	
-	$called_info = debug_backtrace(DEBUG_BACKTRACE_IGNORE_ARGS);
+	$called_info = debug_backtrace(DEBUG_BACKTRACE_IGNORE_ARGS, 1);
 	$called_path = pathinfo(str_replace('\\', '/',$called_info[0]['file']), PATHINFO_DIRNAME);
 	
 	if(strpos($called_path, 'files/cache/template_compiled') !== false)
