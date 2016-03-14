@@ -445,13 +445,9 @@ class Debug
 				return $cache = true;
 			
 			case 'ip':
-				$allowed_ip = Config::get('debug.allow');
-				foreach ($allowed_ip as $range)
+				if (Filters\IpFilter::inRanges(RX_CLIENT_IP, Config::get('debug.allow')))
 				{
-					if (IpFilter::inRange(RX_CLIENT_IP, $range))
-					{
-						return $cache = true;
-					}
+					return $cache = true;
 				}
 				return $cache = false;
 			

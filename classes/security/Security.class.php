@@ -15,14 +15,14 @@ class Security
 	 * Action target variable. If this value is null, the method will use Context variables
 	 * @var mixed
 	 */
-	var $_targetVar = NULL;
+	public $_targetVar = NULL;
 
 	/**
 	 * @constructor
 	 * @param mixed $var Target context
 	 * @return void
 	 */
-	function __construct($var = NULL)
+	public function __construct($var = NULL)
 	{
 		$this->_targetVar = $var;
 	}
@@ -34,7 +34,7 @@ class Security
 	 * separate the owner(object or array) and the item(property or element) using a dot(.)
 	 * @return mixed
 	 */
-	function encodeHTML(/* , $varName1, $varName2, ... */)
+	public function encodeHTML(/* , $varName1, $varName2, ... */)
 	{
 		$varNames = func_get_args();
 		if(count($varNames) < 0)
@@ -109,7 +109,7 @@ class Security
 	 * @param array $name
 	 * @return mixed
 	 */
-	function _encodeHTML($var, $name = array())
+	protected function _encodeHTML($var, $name = array())
 	{
 		if(is_string($var))
 		{
@@ -183,46 +183,9 @@ class Security
 	 * @param string $xml
 	 * @return bool
 	 */
-	static function detectingXEE($xml)
+	public static function detectingXEE($xml)
 	{
-		if(!$xml) return FALSE;
-
-		if(strpos($xml, '<!ENTITY') !== FALSE)
-		{
-			return TRUE;
-		}
-
-		// Strip XML declaration.
-		$header = preg_replace('/<\?xml.*?\?'.'>/s', '', substr($xml, 0, 100), 1);
-		$xml = trim(substr_replace($xml, $header, 0, 100));
-		if($xml == '')
-		{
-			return TRUE;
-		}
-
-		// Strip DTD.
-		$header = preg_replace('/^<!DOCTYPE[^>]*+>/i', '', substr($xml, 0, 200), 1);
-		$xml = trim(substr_replace($xml, $header, 0, 200));
-		if($xml == '')
-		{
-			return TRUE;
-		}
-
-		// Confirm the XML now starts with a valid root tag. A root tag can end in [> \t\r\n]
-		$root_tag = substr($xml, 0, strcspn(substr($xml, 0, 20), "> \t\r\n"));
-
-		// Reject a second DTD.
-		if(strtoupper($root_tag) == '<!DOCTYPE')
-		{
-			return TRUE;
-		}
-
-		if(!in_array($root_tag, array('<methodCall', '<methodResponse', '<fault')))
-		{
-			return TRUE;
-		}
-
-		return FALSE;
+		return !Rhymix\Framework\Security::checkXEE($xml);
 	}
 }
 /* End of file : Security.class.php */

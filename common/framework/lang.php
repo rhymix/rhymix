@@ -156,7 +156,7 @@ class Lang
 		}
 		elseif (file_exists("$dir/lang.xml"))
 		{
-			$filename = Compat\LangParser::compileXMLtoPHP("$dir/lang.xml", $language === 'ja' ? 'jp' : $language);
+			$filename = Parsers\LangParser::compileXMLtoPHP("$dir/lang.xml", $language === 'ja' ? 'jp' : $language);
 		}
 		elseif (file_exists($dir . '/' . ($language === 'ja' ? 'jp' : $language) . '.lang.php'))
 		{

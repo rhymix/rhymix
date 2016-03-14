@@ -97,7 +97,7 @@ return array(
 		'display_to' => 'admin',
 		'allow' => array(),
 	),
-	'embedfilter' => array(
+	'mediafilter' => array(
 		'iframe' => array(),
 		'object' => array(),
 	),

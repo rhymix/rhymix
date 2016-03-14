@@ -1,9 +1,10 @@
 <?php
 
-namespace Rhymix\Framework\Compat;
+namespace Rhymix\Framework\Parsers;
 
 use Rhymix\Framework\Config;
 use Rhymix\Framework\DateTime;
+use Rhymix\Framework\Security;
 
 /**
  * Config parser class for XE compatibility.
@@ -151,9 +152,9 @@ class ConfigParser
 		}
 		
 		// Create new crypto keys.
-		$config['crypto']['encryption_key'] = \Password::createSecureSalt(64, 'alnum');
-		$config['crypto']['authentication_key'] = \Password::createSecureSalt(64, 'alnum');
-		$config['crypto']['session_key'] = \Password::createSecureSalt(64, 'alnum');
+		$config['crypto']['encryption_key'] = Security::getRandom(64, 'alnum');
+		$config['crypto']['authentication_key'] = Security::getRandom(64, 'alnum');
+		$config['crypto']['session_key'] = Security::getRandom(64, 'alnum');
 		
 		// Convert language configuration.
 		if (isset($db_info->lang_type))
@@ -216,14 +217,14 @@ class ConfigParser
 		}
 		$config['lock']['allow'] = array_values($db_info->sitelock_whitelist);
 		
-		// Convert embed filter configuration.
+		// Convert media filter configuration.
 		if (is_array($db_info->embed_white_iframe))
 		{
 			$whitelist = array_unique(array_map(function($item) {
 				return preg_match('@^https?://(.*)$@i', $item, $matches) ? $matches[1] : $item;
 			}, $db_info->embed_white_iframe));
 			natcasesort($whitelist);
-			$config['embedfilter']['iframe'] = $whitelist;
+			$config['mediafilter']['iframe'] = $whitelist;
 		}
 		if (is_array($db_info->embed_white_object))
 		{
@@ -231,7 +232,7 @@ class ConfigParser
 				return preg_match('@^https?://(.*)$@i', $item, $matches) ? $matches[1] : $item;
 			}, $db_info->embed_white_object));
 			natcasesort($whitelist);
-			$config['embedfilter']['object'] = $whitelist;
+			$config['mediafilter']['object'] = $whitelist;
 		}
 		
 		// Convert miscellaneous configuration.

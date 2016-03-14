@@ -129,8 +129,7 @@ class memberAdminView extends member
 	 */
 	public function dispMemberAdminConfig()
 	{
-		$oPassword = new Password();
-		Context::set('password_hashing_algos', $oPassword->getSupportedAlgorithms());
+		Context::set('password_hashing_algos', Rhymix\Framework\Password::getSupportedAlgorithms());
 		
 		$this->setTemplateFile('default_config');
 	}

@@ -1107,10 +1107,19 @@ class memberModel extends member
 		}
 		
 		// Check the password
-		$oPassword = new Password();
-		$current_algorithm = $oPassword->checkAlgorithm($hashed_password);
-		$match = $oPassword->checkPassword($password_text, $hashed_password, $current_algorithm);
-		if(!$match)
+		$password_match = false;
+		$current_algorithm = false;
+		$possible_algorithms = Rhymix\Framework\Password::checkAlgorithm($hashed_password);
+		foreach ($possible_algorithms as $algorithm)
+		{
+			if (Rhymix\Framework\Password::checkPassword($password_text, $hashed_password, $algorithm))
+			{
+				$password_match = true;
+				$current_algorithm = $algorithm;
+				break;
+			}
+		}
+		if (!$password_match)
 		{
 			return false;
 		}
@@ -1119,22 +1128,26 @@ class memberModel extends member
 		$config = $this->getMemberConfig();
 		if($member_srl > 0 && $config->password_hashing_auto_upgrade != 'N')
 		{
-			$need_upgrade = false;
-			
-			if(!$need_upgrade)
+			$required_algorithm = Rhymix\Framework\Password::getDefaultAlgorithm();
+			if ($required_algorithm !== $current_algorithm)
 			{
-				$required_algorithm = $oPassword->getCurrentlySelectedAlgorithm();
-				if($required_algorithm !== $current_algorithm) $need_upgrade = true;
+				$need_upgrade = true;
+			}
+			else
+			{
+				$required_work_factor = Rhymix\Framework\Password::getWorkFactor();
+				$current_work_factor = Rhymix\Framework\Password::checkWorkFactor($hashed_password);
+				if ($current_work_factor !== false && $required_work_factor > $current_work_factor)
+				{
+					$need_upgrade = true;
+				}
+				else
+				{
+					$need_upgrade = false;
+				}
 			}
 			
-			if(!$need_upgrade)
-			{
-				$required_work_factor = $oPassword->getWorkFactor();
-				$current_work_factor = $oPassword->checkWorkFactor($hashed_password);
-				if($current_work_factor !== false && $required_work_factor > $current_work_factor) $need_upgrade = true;
-			}
-			
-			if($need_upgrade === true)
+			if ($need_upgrade)
 			{
 				$args = new stdClass();
 				$args->member_srl = $member_srl;
@@ -1155,8 +1168,7 @@ class memberModel extends member
 	 */
 	function hashPassword($password_text, $algorithm = null)
 	{
-		$oPassword = new Password();
-		return $oPassword->createHash($password_text, $algorithm);
+		return Rhymix\Framework\Password::hashPassword($password_text, $algorithm);
 	}
 	
 	function checkPasswordStrength($password, $strength)

@@ -45,10 +45,11 @@ class DebugTest extends \Codeception\TestCase\Test
 			'backtrace' => array(),
 		));
 		$queries = Rhymix\Framework\Debug::getQueries();
-		$this->assertEquals(1, count($queries));
-		$this->assertEquals('SELECT foo FROM bar', $queries[0]->query_string);
-		$this->assertEquals('This is a unit test', $queries[0]->message);
-		$this->assertEquals(1234, $queries[0]->error_code);
+		$this->assertGreaterThanOrEqual(1, count($queries));
+		$query = array_pop($queries);
+		$this->assertEquals('SELECT foo FROM bar', $query->query_string);
+		$this->assertEquals('This is a unit test', $query->message);
+		$this->assertEquals(1234, $query->error_code);
 	}
 	
 	public function testDebugTranslateFilename()

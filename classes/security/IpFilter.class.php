@@ -6,26 +6,12 @@ class IpFilter
 	public function filter($ip_list, $ip = NULL)
 	{
 		if(!$ip) $ip = $_SERVER['REMOTE_ADDR'];
-		foreach($ip_list as $filter)
-		{
-			if(Rhymix\Framework\IpFilter::inRange($ip, $filter))
-			{
-				return true;
-			}
-		}
-		return false;
+		return Rhymix\Framework\Filters\IpFilter::inRanges($ip, $ip_list);
 	}
 	
 	public function validate($ip_list = array())
 	{
-		foreach($ip_list as $filter)
-		{
-			if(!Rhymix\Framework\IpFilter::validateRange($filter))
-			{
-				return false;
-			}
-		}
-		return true;
+		return Rhymix\Framework\Filters\IpFilter::validateRanges($ip_list);
 	}
 	
 }

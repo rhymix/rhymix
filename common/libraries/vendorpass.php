@@ -61,7 +61,7 @@ class VendorPass
         else
         {
             $iterations = 15;
-            $salt = Password::createSecureSalt(8, 'hex');
+            $salt = Rhymix\Framework\Security::getRandom(8, 'hex');
         }
         $count = 1 << $iterations;
         $hash = hash('sha512', $salt . $password, true);
@@ -104,7 +104,7 @@ class VendorPass
         }
         else
         {
-            $salt = Password::createSecureSalt(32, 'hex');
+            $salt = Rhymix\Framework\Security::getRandom(32, 'hex');
         }
         return md5($password . $salt) . ':' . $salt;
     }
@@ -137,7 +137,7 @@ class VendorPass
     {
         if (!isset($options['salt']) || !preg_match('/^[0-9a-zA-Z\.\/]{22,}$/', $options['salt']))
         {
-            $options['salt'] = Password::createSecureSalt(22, 'alnum');
+            $options['salt'] = Rhymix\Framework\Security::getRandom(22, 'alnum');
         }
         if (!isset($options['cost']) || $options['cost'] < 4 || $options['cost'] > 31)
         {

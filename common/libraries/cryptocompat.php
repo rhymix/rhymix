@@ -49,7 +49,7 @@ class CryptoCompat
         // Validate MAC
         $mac_key = self::_defuseCompatibleHKDF($key, self::ENCRYPTION_MAC_INFO);
         $mac_compare = hash_hmac(self::ENCRYPTION_MAC_ALGO, ($iv . $ciphertext), $mac_key, true);
-        if (!Password::strcmpConstantTime($mac, $mac_compare))
+        if (!Rhymix\Framework\Security::compareStrings($mac, $mac_compare))
         {
             return false;
         }
@@ -80,7 +80,7 @@ class CryptoCompat
      */
     protected static function _createIV()
     {
-        return hex2bin(Password::createSecureSalt(self::ENCRYPTION_BLOCK_SIZE * 2, 'hex'));
+        return Rhymix\Framework\Security::getRandom(self::ENCRYPTION_BLOCK_SIZE, 'binary');
     }
     
     /**

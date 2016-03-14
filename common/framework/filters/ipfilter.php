@@ -1,6 +1,6 @@
 <?php
 
-namespace Rhymix\Framework;
+namespace Rhymix\Framework\Filters;
 
 /**
  * The IP filter class.
@@ -67,6 +67,25 @@ class IpFilter
 	}
 	
 	/**
+	 * Check whether the given IP address belongs to a set of ranges.
+	 * 
+	 * @param string $ip
+	 * @param array $ranges
+	 * @return bool
+	 */
+	public static function inRanges($ip, array $ranges)
+	{
+		foreach ($ranges as $range)
+		{
+			if (self::inRange($ip, $range))
+			{
+				return true;
+			}
+		}
+		return false;
+	}
+	
+	/**
 	 * Check whether a range definition is valid.
 	 * 
 	 * @param string $range
@@ -89,6 +108,24 @@ class IpFilter
 			}
 		}
 		return false;
+	}
+	
+	/**
+	 * Check whether a set of range definitions is valid.
+	 * 
+	 * @param array $ranges
+	 * @return bool
+	 */
+	public static function validateRanges(array $ranges)
+	{
+		foreach ($ranges as $range)
+		{
+			if (!self::validateRange($range))
+			{
+				return false;
+			}
+		}
+		return true;
 	}
 	
 	/**
