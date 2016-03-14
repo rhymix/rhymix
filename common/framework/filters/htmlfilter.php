@@ -449,11 +449,11 @@ class HTMLFilter
 			$attrs = array();
 			$html = preg_replace_callback('!([a-zA-Z0-9_-]+)="([^"]+)"!', function($attr) use($tag, &$attrs) {
 				$attrkey = strtolower($attr[1]);
-				if ($tag === 'img' && preg_match('/^(?:width|height|alt)$/', $attrkey))
+				if ($tag === 'img' && preg_match('/^(?:width|height|src|alt|ismap|usemap)$/', $attrkey))
 				{
 					return $attr[0];
 				}
-				if (preg_match('/^(?:on|data-|(?:src|style|class|editor_component)$)/', $attrkey))
+				if (preg_match('/^(?:on|data-|(?:accesskey|class|contextmenu|contenteditable|dir|draggable|dropzone|editor_component|hidden|id|lang|name|style|tabindex|title)$)/', $attrkey))
 				{
 					return $attr[0];
 				}
