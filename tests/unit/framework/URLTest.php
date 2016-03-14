@@ -18,6 +18,9 @@ class URLTest extends \Codeception\TestCase\Test
 		// Removing item from the query string
 		$this->assertEquals($protocol . $_SERVER['HTTP_HOST'] . '/index.php?xe=sucks', Rhymix\Framework\URL::getCurrentURL(array('foo' => null)));
 		
+		// Removing all items from the query string
+		$this->assertEquals($protocol . $_SERVER['HTTP_HOST'] . '/index.php', Rhymix\Framework\URL::getCurrentURL(array('foo' => null, 'xe' => null)));
+		
 		// Adding and removing parameters at the same time
 		$this->assertEquals($protocol . $_SERVER['HTTP_HOST'] . '/index.php?xe=sucks&l=ko', Rhymix\Framework\URL::getCurrentURL(array('l' => 'ko', 'foo' => null)));
 	}
@@ -53,6 +56,25 @@ class URLTest extends \Codeception\TestCase\Test
 		{
 			$this->assertEquals($to, Rhymix\Framework\URL::getDomainFromURL($from));
 		}
+	}
+	
+	public function testModifyURL()
+	{
+		$protocol = \RX_SSL ? 'https://' : 'http://';
+		$_SERVER['HTTP_HOST'] = 'www.rhymix.org';
+		$url = $protocol . $_SERVER['HTTP_HOST'] . \RX_BASEURL . 'index.php?foo=bar';
+		
+		// Conversion to absolute
+		$this->assertEquals($url, Rhymix\Framework\URL::modifyURL('./index.php?foo=bar'));
+		
+		// Adding items to the query string
+		$this->assertEquals($url . '&var=1&arr%5B0%5D=2&arr%5B1%5D=3', Rhymix\Framework\URL::modifyURL($url, array('var' => '1', 'arr' => array(2, 3))));
+		
+		// Removing item from the query string
+		$this->assertEquals($protocol . $_SERVER['HTTP_HOST'] . \RX_BASEURL . 'index.php', Rhymix\Framework\URL::modifyURL($url, array('foo' => null)));
+		
+		// Adding and removing parameters at the same time
+		$this->assertEquals($protocol . $_SERVER['HTTP_HOST'] . \RX_BASEURL . 'index.php?l=ko', Rhymix\Framework\URL::modifyURL($url, array('l' => 'ko', 'foo' => null)));
 	}
 	
 	public function testIsInternalURL()

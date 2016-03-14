@@ -21,19 +21,15 @@ class URL
 		$proto = \RX_SSL ? 'https://' : 'http://';
 		$host = isset($_SERVER['HTTP_HOST']) ? $_SERVER['HTTP_HOST'] : 'localhost';
 		$local = isset($_SERVER['REQUEST_URI']) ? $_SERVER['REQUEST_URI'] : '/';
+		$url = $proto . $host . $local;
 		if (count($changes))
 		{
-			if (($qpos = strpos($local, '?')) !== false)
-			{
-				$querystring = substr($local, $qpos + 1);
-				$local = substr($local, 0, $qpos);
-				parse_str($querystring, $args);
-				$changes = array_merge($args, $changes);
-			}
-			$changes = array_filter($changes, function($val) { return $val !== null; });
-			$local = $local . '?' . http_build_query($changes);
+			return self::modifyURL($url, $changes);
 		}
-		return self::getCanonicalURL($proto . $host) . $local;
+		else
+		{
+			return self::getCanonicalURL($url);
+		}
 	}
 	
 	/**
@@ -100,6 +96,33 @@ class URL
 		}
 		
 		return false;
+	}
+	
+	/**
+	 * Modify a URL.
+	 * 
+	 * If $changes are given, they will be appended to the current URL as a query string.
+	 * To delete an existing query string, set its value to null.
+	 * 
+	 * @param string $url
+	 * @param array $changes
+	 * @return string
+	 */
+	public static function modifyURL($url, array $changes = array())
+	{
+		$url = parse_url(self::getCanonicalURL($url));
+		$prefix = sprintf('%s://%s%s%s', $url['scheme'], $url['host'], ($url['port'] ? (':' . $url['port']) : ''), $url['path']);
+		parse_str($url['query'], $args);
+		$changes = array_merge($args, $changes);
+		$changes = array_filter($changes, function($val) { return $val !== null; });
+		if (count($changes))
+		{
+			return $prefix . '?' . http_build_query($changes);
+		}
+		else
+		{
+			return $prefix;
+		}
 	}
 	
 	/**
