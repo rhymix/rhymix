@@ -215,7 +215,7 @@ class boardController extends board
 		$this->setMessage($msg_code);
 	}
 
-	function procBoardUpdateDocument()
+	function procBoardRevertDocument()
 	{
 		$update_id = Context::get('update_id');
 		$logged_info = Context::get('logged_info');
