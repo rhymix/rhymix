@@ -1567,6 +1567,25 @@ class documentModel extends document
 
 		return $updage_log;
 	}
+
+	function getUpdateLogAdminisExists($document_srl = null)
+	{
+		if($document_srl == null)
+		{
+			return;
+		}
+		$args = new stdClass();
+		$args->document_srl = $document_srl;
+		$args->is_admin = 'Y';
+		$output = executeQuery('document.getUpdateLogAdminisExists', $args);
+
+		if($output->data->count > 0)
+		{
+			return true;
+		}
+
+		return false;
+	}
 }
 /* End of file document.model.php */
 /* Location: ./modules/document/document.model.php */
