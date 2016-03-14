@@ -561,7 +561,7 @@ class adminAdminController extends admin
 			return $item !== '';
 		});
 		$iframe_whitelist = array_unique(array_map(function($item) {
-			return preg_match('@^https?://(.*)$@i', $item, $matches) ? $matches[1] : $item;
+			return Rhymix\Framework\Security\MediaFilter::formatPrefix($item);
 		}, $iframe_whitelist));
 		natcasesort($iframe_whitelist);
 		Rhymix\Framework\Config::set('mediafilter.iframe', array_values($iframe_whitelist));
@@ -572,7 +572,7 @@ class adminAdminController extends admin
 			return $item !== '';
 		});
 		$object_whitelist = array_unique(array_map(function($item) {
-			return preg_match('@^https?://(.*)$@i', $item, $matches) ? $matches[1] : $item;
+			return Rhymix\Framework\Security\MediaFilter::formatPrefix($item);
 		}, $object_whitelist));
 		natcasesort($object_whitelist);
 		Rhymix\Framework\Config::set('mediafilter.object', array_values($object_whitelist));

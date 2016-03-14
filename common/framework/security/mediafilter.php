@@ -27,7 +27,7 @@ class MediaFilter
 			self::_loadWhitelists();
 		}
 		
-		$prefix = preg_match('@^https?://(.*)$@i', $prefix, $matches) ? $matches[1] : $prefix;
+		$prefix = self::formatPrefix($prefix);
 		if (!in_array($prefix, self::$_iframe_whitelist))
 		{
 			self::$_iframe_whitelist[] = $prefix;
@@ -55,7 +55,7 @@ class MediaFilter
 			self::_loadWhitelists();
 		}
 		
-		$prefix = preg_match('@^https?://(.*)$@i', $prefix, $matches) ? $matches[1] : $prefix;
+		$prefix = self::formatPrefix($prefix);
 		if (!in_array($prefix, self::$_object_whitelist))
 		{
 			self::$_object_whitelist[] = $prefix;
@@ -67,6 +67,22 @@ class MediaFilter
 				\Rhymix\Framework\Config::save();
 			}
 		}
+	}
+	
+	/**
+	 * Format a prefix for standardization.
+	 * 
+	 * @param string $prefix
+	 * @return string
+	 */
+	public static function formatPrefix($prefix)
+	{
+		$prefix = preg_match('@^https?://(.*)$@i', $prefix, $matches) ? $matches[1] : $prefix;
+		if (strpos($prefix, '/') === false)
+		{
+			$prefix .= '/';
+		}
+		return $prefix;
 	}
 	
 	/**
@@ -195,11 +211,11 @@ class MediaFilter
 			}
 			foreach ($custom_whitelist['iframe'] as $prefix)
 			{
-				self::$_iframe_whitelist[] = preg_match('@^https?://(.*)$@i', $prefix, $matches) ? $matches[1] : $prefix;
+				self::$_iframe_whitelist[] = self::formatPrefix($prefix);
 			}
 			foreach ($custom_whitelist['object'] as $prefix)
 			{
-				self::$_object_whitelist[] = preg_match('@^https?://(.*)$@i', $prefix, $matches) ? $matches[1] : $prefix;
+				self::$_object_whitelist[] = self::formatPrefix($prefix);
 			}
 		}
 		else
@@ -216,14 +232,14 @@ class MediaFilter
 			{
 				foreach ($iframe_whitelist as $prefix)
 				{
-					self::$_iframe_whitelist[] = preg_match('@^https?://(.*)$@i', $prefix, $matches) ? $matches[1] : $prefix;
+					self::$_iframe_whitelist[] = self::formatPrefix($prefix);
 				}
 			}
 			if ($object_whitelist = config('mediafilter.object') ?: config('embedfilter.object'))
 			{
 				foreach ($object_whitelist as $prefix)
 				{
-					self::$_object_whitelist[] = preg_match('@^https?://(.*)$@i', $prefix, $matches) ? $matches[1] : $prefix;
+					self::$_object_whitelist[] = self::formatPrefix($prefix);
 				}
 			}
 		}
