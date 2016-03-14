@@ -68,6 +68,7 @@ return array(
 		'maps.google.co.kr/',
 		// Daum TV Pot
 		'flvs.daum.net/',
+		'videofarm.daum.net/',
 		// NAVER TVCAST
 		'serviceapi.rmcnmv.naver.com/',
 		// SBS
