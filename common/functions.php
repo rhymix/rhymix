@@ -132,9 +132,7 @@ function path($path, $web = false, $auto_fix = false)
 		
 		if($sub > 0)
 		{
-			$abs_array = explode('/', $called_path);
-			array_splice($abs_array, $sub * -1);
-			$abs_path = implode('/', $abs_array);
+			$abs_path = dirname($called_path, $sub);
 		}
 		else
 		{
