@@ -54,11 +54,11 @@ function lang($code, $value = null)
  * Convert always absolute path
  *
  * @param string $path Absolute path or Relative path
- * @param bool $check if the path does not exist, return false
  * @param bool $web if true, return web path
+ * @param bool $auto_fix if true, fixed the path
  * @return mixed
  */
-function path($path, $check = true, $web = false)
+function path($path, $web = false, $auto_fix = false)
 {
 	if(!$path)
 	{
@@ -75,11 +75,14 @@ function path($path, $check = true, $web = false)
 	}
 	
 	$filtered = trim($path, '/');
-	$filtered = preg_replace('@\s*|\.{3,}@', '', $filtered);
-	$filtered = preg_replace('@/(\./)+@', '/', $filtered);
-	$filtered = preg_replace('@/{2,}@', '/', $filtered);
-	$filtered = preg_replace('@([^./]+)/(\.\./)+@', '$1/', $filtered);
-	
+	if($auto_fix)
+	{
+		$filtered = preg_replace('@\s*|\.{3,}@', '', $filtered);
+		$filtered = preg_replace('@/(\./)+@', '/', $filtered);
+		$filtered = preg_replace('@/{2,}@', '/', $filtered);
+		$filtered = preg_replace('@([^./]+)/(\.\./)+@', '$1/', $filtered);
+	}
+
 	if(!$filtered && $path !== '/')
 	{
 		return;
@@ -142,11 +145,6 @@ function path($path, $check = true, $web = false)
 	else if(strpos($filtered, trim(RX_BASEDIR, '/')) === false)
 	{
 		$compath = RX_BASEDIR . $filtered;
-	}
-	
-	if($check && !file_exists($compath))
-	{
-		return false;
 	}
 	
 	if($web)
