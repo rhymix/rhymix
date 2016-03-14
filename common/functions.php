@@ -110,51 +110,38 @@ function path($path, $web = false, $auto_fix = false)
 	
 	if($work_step === 1)
 	{
-		$result = array();
-		$path_array = explode('/', $filtered);
-		krsort($path_array);
-		
 		$sub = 0;
-		$end = false;
+		$path_array = explode('/', $filtered);
+		
 		foreach($path_array as $key => $val)
 		{
-			if($val === '..')
+			if($val === '.' || $val === '..')
 			{
-				++$sub;
+				unset($path_array[$key]);
 				
-				if($key === 0)
+				if($val === '.' && $key === 0 && $path_array[1] !== '..')
 				{
-					$end = true;
-				}
-			}
-			else if($val === '.')
-			{
-				if($path_array[$key + 1] === '..')
-				{
-					$end = true;
-				}
-				else
-				{
-					$result[] = $called_path;
 					break;
 				}
-			}
-			else
-			{
-				$result[] = $val;
-			}
-			
-			if($end)
-			{
-				$cpath_array = explode('/', $called_path);
-				array_splice($cpath_array, $sub * -1);
-				$result[] = implode('/', $cpath_array);
-				break;
+				else if($val === '..')
+				{
+					++$sub;
+				}
 			}
 		}
 		
-		krsort($result);
-		$compath = implode('/', $result);
+		if($sub > 0)
+		{
+			$abs_array = explode('/', $called_path);
+			array_splice($abs_array, $sub * -1);
+			$abs_path = implode('/', $abs_array);
+		}
+		else
+		{
+			$abs_path = $called_path;
+		}
+		
+		$compath = $abs_path . '/' . implode('/', $path_array);
 	}
 	else if($work_step === 2)
 	{
