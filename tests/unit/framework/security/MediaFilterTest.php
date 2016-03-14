@@ -29,6 +29,17 @@ class MediaFilterTest extends \Codeception\TestCase\Test
 		$this->assertFalse(Rhymix\Framework\Security\MediaFilter::matchObjectWhitelist('http://www-youtube.com/v'));
 	}
 	
+	public function testAddPrefix()
+	{
+		$this->assertFalse(Rhymix\Framework\Security\MediaFilter::matchIframeWhitelist('http://some.custom.website.com/video.mp4'));
+		Rhymix\Framework\Security\MediaFilter::addIframePrefix('*.custom.website.com/');
+		$this->assertTrue(Rhymix\Framework\Security\MediaFilter::matchIframeWhitelist('http://some.custom.website.com/video.mp4'));
+		
+		$this->assertFalse(Rhymix\Framework\Security\MediaFilter::matchObjectWhitelist('http://some.custom.website.com/video.mp4'));
+		Rhymix\Framework\Security\MediaFilter::addObjectPrefix('*.custom.website.com/');
+		$this->assertTrue(Rhymix\Framework\Security\MediaFilter::matchObjectWhitelist('http://some.custom.website.com/video.mp4'));
+	}
+	
 	public function testRemoveEmbeddedMedia()
 	{
 		$tests = array(

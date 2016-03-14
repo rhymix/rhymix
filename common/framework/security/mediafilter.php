@@ -14,6 +14,62 @@ class MediaFilter
 	protected static $_object_whitelist;
 	
 	/**
+	 * Add a prefix to the iframe whitelist.
+	 * 
+	 * @param string $prefix
+	 * @parsm bool $permanently
+	 * @return void
+	 */
+	public static function addIframePrefix($prefix, $permanently = false)
+	{
+		if (!count(self::$_iframe_whitelist))
+		{
+			self::_loadWhitelists();
+		}
+		
+		$prefix = preg_match('@^https?://(.*)$@i', $prefix, $matches) ? $matches[1] : $prefix;
+		if (!in_array($prefix, self::$_iframe_whitelist))
+		{
+			self::$_iframe_whitelist[] = $prefix;
+			natcasesort(self::$_iframe_whitelist);
+			
+			if ($permanently)
+			{
+				\Rhymix\Framework\Config::set('mediafilter.iframe', self::$_iframe_whitelist);
+				\Rhymix\Framework\Config::save();
+			}
+		}
+	}
+	
+	/**
+	 * Add a prefix to the object whitelist.
+	 * 
+	 * @param string $prefix
+	 * @parsm bool $permanently
+	 * @return void
+	 */
+	public static function addObjectPrefix($prefix, $permanently = false)
+	{
+		if (!count(self::$_object_whitelist))
+		{
+			self::_loadWhitelists();
+		}
+		
+		$prefix = preg_match('@^https?://(.*)$@i', $prefix, $matches) ? $matches[1] : $prefix;
+		if (!in_array($prefix, self::$_object_whitelist))
+		{
+			self::$_object_whitelist[] = $prefix;
+			natcasesort(self::$_object_whitelist);
+			
+			if ($permanently)
+			{
+				\Rhymix\Framework\Config::set('mediafilter.object', self::$_object_whitelist);
+				\Rhymix\Framework\Config::save();
+			}
+		}
+	}
+	
+	/**
 	 * Get the iframe whitelist.
 	 * 
 	 * @return string
@@ -41,7 +97,7 @@ class MediaFilter
 		$result = array();
 		foreach(self::$_iframe_whitelist as $domain)
 		{
-			$result[] = preg_quote($domain, '%');
+			$result[] = str_replace('\*\.', '[a-z0-9-]+\.', preg_quote($domain, '%'));
 		}
 		return '%^https?://(' . implode('|', $result) . ')%';
 	}
@@ -74,7 +130,7 @@ class MediaFilter
 		$result = array();
 		foreach(self::$_object_whitelist as $domain)
 		{
-			$result[] = preg_quote($domain, '%');
+			$result[] = str_replace('\*\.', '[a-z0-9-]+\.', preg_quote($domain, '%'));
 		}
 		return '%^https?://(' . implode('|', $result) . ')%';
 	}
