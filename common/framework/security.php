@@ -20,22 +20,22 @@ class Security
 		{
 			// Escape HTML special characters.
 			case 'escape':
-				if (!detectUTF8($input)) return false;
+				if (!utf8_check($input)) return false;
 				return escape($input);
 			
 			// Strip all HTML tags.
 			case 'strip':
-				if (!detectUTF8($input)) return false;
+				if (!utf8_check($input)) return false;
 				return escape(strip_tags($input));
 			
 			// Clean up HTML content to prevent XSS attacks.
 			case 'html':
-				if (!detectUTF8($input)) return false;
+				if (!utf8_check($input)) return false;
 				return Security\HTMLFilter::clean($input);
 			
 			// Clean up the input to be used as a safe filename.
 			case 'filename':
-				if (!detectUTF8($input)) return false;
+				if (!utf8_check($input)) return false;
 				return Security\FilenameFilter::clean($input);
 			
 			// Unknown filters return false.
