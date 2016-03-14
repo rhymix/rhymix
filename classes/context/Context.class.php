@@ -712,61 +712,66 @@ class Context
 		$current_site = self::getRequestUri();
 
 		// Step 1: if the current site is not the default site, send SSO validation request to the default site
-		if($default_url !== $current_site && !self::get('SSOID') && $_COOKIE['sso'] !== md5($current_site))
+		if($default_url !== $current_site && !self::get('sso_response') && $_COOKIE['sso'] !== md5($current_site))
 		{
 			// Set sso cookie to prevent multiple simultaneous SSO validation requests
 			setcookie('sso', md5($current_site), 0, '/');
 			
 			// Redirect to the default site
-			$redirect_url = sprintf('%s?return_url=%s', $default_url, urlencode(base64_encode($current_site)));
+			$sso_request = Rhymix\Framework\Security::encrypt(Rhymix\Framework\URL::getCurrentURL());
+			$redirect_url = $default_url . '?sso_request=' . urlencode($sso_request);
 			header('Location:' . $redirect_url);
-			return FALSE;
+			return false;
 		}
 
 		// Step 2: receive and process SSO validation request at the default site
-		if($default_url === $current_site && self::get('return_url'))
+		if($default_url === $current_site && self::get('sso_request'))
 		{
 			// Get the URL of the origin site
-			$url = base64_decode(self::get('return_url'));
-			$url_info = parse_url($url);
+			$sso_request = Rhymix\Framework\Security::decrypt(self::get('sso_request'));
+			if (!$sso_request || !preg_match('!^https?://!', $sso_request))
+			{
+				self::displayErrorPage('SSO Error', 'Invalid SSO Request', 400);
+				return false;
+			}
 
 			// Check that the origin site is a valid site in this XE installation (to prevent open redirect vuln)
 			if(!getModel('module')->getSiteInfoByDomain(rtrim($url, '/'))->site_srl)
 			{
-				htmlHeader();
-				echo self::getLang("msg_invalid_request");
-				htmlFooter();
-				return FALSE;
+				self::displayErrorPage('SSO Error', 'Invalid SSO Request', 400);
+				return false;
 			}
 
 			// Redirect back to the origin site
-			$url_info['query'] .= ($url_info['query'] ? '&' : '') . 'SSOID=' . session_id();
-			$redirect_url = sprintf('%s://%s%s%s%s', $url_info['scheme'], $url_info['host'], $url_info['port'] ? (':' . $url_info['port']) : '', $url_info['path'], ($url_info['query'] ? ('?' . $url_info['query']) : ''));
-			header('Location:' . $redirect_url);
-			return FALSE;
+			$sso_response = Rhymix\Framework\Security::encrypt(session_id());
+			header('Location: ' . Rhymix\Framework\URL::modifyURL($sso_request, array('sso_response' => $sso_response)));
+			return false;
 		}
 
 		// Step 3: back at the origin site, set session ID to be the same as the default site
-		if($default_url !== $current_site && self::get('SSOID'))
+		if($default_url !== $current_site && self::get('sso_response'))
 		{
-			// Check that the session ID was given by the default site (to prevent session fixation CSRF)
+			// Check SSO response
+			$sso_response = Rhymix\Framework\Security::decrypt(self::get('sso_response'));
+			if ($sso_response === false)
+			{
+				self::displayErrorPage('SSO Error', 'Invalid SSO Response', 400);
+				return false;
+			}
+			
+			// Check that the response was given by the default site (to prevent session fixation CSRF)
 			if(isset($_SERVER['HTTP_REFERER']) && strpos($_SERVER['HTTP_REFERER'], $default_url) !== 0)
 			{
-				htmlHeader();
-				echo self::getLang("msg_invalid_request");
-				htmlFooter();
-				return FALSE;
+				self::displayErrorPage('SSO Error', 'Invalid SSO Response', 400);
+				return false;
 			}
 
 			// Set session ID
-			setcookie(session_name(), self::get('SSOID'));
+			setcookie(session_name(), $sso_response);
 
 			// Finally, redirect to the originally requested URL
-			$url_info = parse_url(self::getRequestUrl());
-			$url_info['query'] = preg_replace('/(^|\b)SSOID=([^&?]+)/', '', $url_info['query']);
-			$redirect_url = sprintf('%s://%s%s%s%s', $url_info['scheme'], $url_info['host'], $url_info['port'] ? (':' . $url_info['port']) : '', $url_info['path'], ($url_info['query'] ? ('?' . $url_info['query']) : ''));
-			header('Location:' . $redirect_url);
-			return FALSE;
+			header('Location: ' . Rhymix\Framework\URL::getCurrentURL(array('sso_response' => null)));
+			return false;
 		}
 
 		// If none of the conditions above apply, proceed normally
