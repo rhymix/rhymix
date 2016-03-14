@@ -127,6 +127,9 @@ class document extends ModuleObject
 		// 2016. 1. 27: Add a column(declare_message) for report
 		if(!$oDB->isColumnExists("document_declared_log","declare_message")) return true;
 
+		// 2016. 3. 14 Add a column(document_upate_log) for admin
+		if(!$oDB->isColumnExists('document_update_log', 'is_admin')) return true;
+
 		return false;
 	}
 
@@ -326,6 +329,12 @@ class document extends ModuleObject
 		if(!$oDB->isColumnExists("document_declared_log","declare_message"))
 		{
 			$oDB->addColumn('document_declared_log',"declare_message","text");
+		}
+
+		// 2016. 3. 14 Add a column(document_update_log) for admin
+		if(!$oDB->isColumnExists('document_update_log', 'is_admin'))
+		{
+			$oDB->addColumn('document_update_log', 'is_admin', 'varchar', 1);
 		}
 
 		return new Object(0,'success_updated');

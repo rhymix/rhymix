@@ -476,6 +476,7 @@ class documentController extends document
 			{
 				$obj->extra_vars = serialize($extra_vars);
 				$update_output = $this->insertDocumentUpdateLog($obj);
+
 				if(!$update_output->toBool())
 				{
 					$oDB->rollback();
@@ -749,6 +750,10 @@ class documentController extends document
 			if($obj->update_log_setting === 'Y')
 			{
 				$obj->extra_vars = serialize($extra_vars);
+				if($this->grant->manager)
+				{
+					$obj->is_admin = 'Y';
+				}
 				$update_output = $this->insertDocumentUpdateLog($obj, $source_obj);
 				if(!$update_output->toBool())
 				{
@@ -816,6 +821,7 @@ class documentController extends document
 		$update_args->tags = $obj->tags;
 		$update_args->extra_vars = $obj->extra_vars;
 		$update_args->reason_update = $obj->reason_update;
+		$update_args->is_admin = $obj->is_admin;
 		$update_output = executeQuery('document.insertDocumentUpdateLog', $update_args);
 
 		return $update_output;

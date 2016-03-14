@@ -50,6 +50,10 @@ class boardController extends board
 			unset($obj->title_color);
 			unset($obj->title_bold);
 		}
+		else
+		{
+			$obj->is_admin = 'Y';
+		}
 
 		// generate document module model object
 		$oDocumentModel = getModel('document');
@@ -227,12 +231,11 @@ class boardController extends board
 		$isadminDocument = false;
 		if($logged_info->is_admin != 'Y')
 		{
-			$update_log_list = $oDocumentModel->getDocumentUpdateLog($update_log->document_srl);
-			foreach($update_log_list->data as $val)
+			$update_log_list = $oDocumentModel->getUpdateLogAdminisExists($update_log->document_srl);
+
+			foreach($update_log_list as $val)
 			{
-				$oMemberModel = getModel('member');
-				$member_info = $oMemberModel->getMemberInfoByMemberSrl($val->update_member_srl);
-				if($member_info->is_admin === 'Y')
+				if($val->is_admin == 'Y')
 				{
 					$isadminDocument = true;
 					break;
