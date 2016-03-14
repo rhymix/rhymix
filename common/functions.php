@@ -65,6 +65,27 @@ function path($path, $web = false, $auto_fix = false)
 		return;
 	}
 	
+	if(version_compare(PHP_VERSION, '5.3.6') < 0)
+	{
+		$called_info = debug_backtrace();
+	}
+	else if(version_compare(PHP_VERSION, '5.4.0') < 0)
+	{
+		$called_info = debug_backtrace(DEBUG_BACKTRACE_IGNORE_ARGS);
+	}
+	else
+	{
+		$called_info = debug_backtrace(DEBUG_BACKTRACE_IGNORE_ARGS, 1);
+	}
+	
+	$called_path = pathinfo(str_replace('\\', '/',$called_info[0]['file']), PATHINFO_DIRNAME);
+	
+	if(strpos($called_path, 'files/cache/template_compiled') !== false)
+	{
+		$tpl_path = trim(Context::get('tpl_path'), '/');
+		$called_path = RX_BASEDIR . preg_replace('@^' . preg_quote(RX_BASEDIR, '@') . '|\./@', '', $tpl_path);
+	}
+	
 	$filtered = trim($path, '/');
 	if($auto_fix)
 	{
@@ -77,13 +98,6 @@ function path($path, $web = false, $auto_fix = false)
 	if(!$filtered && $path !== '/')
 	{
 		return;
-	}
-	
-	$current_path = str_replace('\\', '/', dirname($_SERVER['SCRIPT_FILENAME']));
-	if(strpos($current_path, 'files/cache/template_compiled') !== false)
-	{
-		$tpl_path = trim(Context::get('tpl_path'), '/');
-		$current_path = RX_BASEDIR . preg_replace('@^' . preg_quote(RX_BASEDIR, '@') . '|\./@', '', $tpl_path);
 	}
 	
 	$compath = '/' . $filtered;
@@ -115,7 +129,7 @@ function path($path, $web = false, $auto_fix = false)
 				}
 				else
 				{
-					$result[] = $current_path;
+					$result[] = $called_path;
 					break;
 				}
 			}
@@ -126,7 +140,7 @@ function path($path, $web = false, $auto_fix = false)
 			
 			if($end)
 			{
-				$cpath_array = explode('/', $current_path);
+				$cpath_array = explode('/', $called_path);
 				array_splice($cpath_array, $sub * -1);
 				$result[] = implode('/', $cpath_array);
 				break;
@@ -138,7 +152,7 @@ function path($path, $web = false, $auto_fix = false)
 	}
 	else if(substr_compare($path, '/', 0, 1) !== 0)
 	{
-		$compath = $current_path . '/' . $filtered;
+		$compath = $called_path . '/' . $filtered;
 	}
 	else if(strpos($filtered, trim(RX_BASEDIR, '/')) === false)
 	{
