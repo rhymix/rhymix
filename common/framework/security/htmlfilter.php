@@ -401,11 +401,12 @@ class HTMLFilter
 		
 		// Remove object and embed URLs that are not allowed.
 		$whitelist = MediaFilter::getObjectWhitelistRegex();
-		$content = preg_replace_callback('!<(object|embed|param)([^>]+)>!i', function($matches) use($whitelist) {
+		$content = preg_replace_callback('!<(object|embed|param|audio|video|source|track)([^>]+)>!i', function($matches) use($whitelist) {
 			return preg_replace_callback('!([a-zA-Z0-9_-]+)="([^"]+)"!', function($attr) use($whitelist) {
 				if (in_array($attr[1], array('data', 'src', 'href', 'url', 'movie', 'source')))
 				{
-					if (!preg_match($whitelist, htmlspecialchars_decode($attr[2])))
+					$url = trim(htmlspecialchars_decode($attr[2]));
+					if (preg_match('!^(https?:)?//!i', $url) && !preg_match($whitelist, $url))
 					{
 						return $attr[1] . '=""';
 					}
