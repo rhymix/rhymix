@@ -1,9 +1,10 @@
 <?php
 
-namespace Rhymix\Framework\Compat;
+namespace Rhymix\Framework\Parsers;
 
 use Rhymix\Framework\Config;
 use Rhymix\Framework\DateTime;
+use Rhymix\Framework\Security;
 
 /**
  * Config parser class for XE compatibility.
@@ -151,9 +152,9 @@ class ConfigParser
 		}
 		
 		// Create new crypto keys.
-		$config['crypto']['encryption_key'] = \Rhymix\Framework\Security::getRandom(64, 'alnum');
-		$config['crypto']['authentication_key'] = \Rhymix\Framework\Security::getRandom(64, 'alnum');
-		$config['crypto']['session_key'] = \Rhymix\Framework\Security::getRandom(64, 'alnum');
+		$config['crypto']['encryption_key'] = Security::getRandom(64, 'alnum');
+		$config['crypto']['authentication_key'] = Security::getRandom(64, 'alnum');
+		$config['crypto']['session_key'] = Security::getRandom(64, 'alnum');
 		
 		// Convert language configuration.
 		if (isset($db_info->lang_type))

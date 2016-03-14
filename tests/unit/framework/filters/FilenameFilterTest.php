@@ -35,7 +35,7 @@ class FilenameFilterTest extends \Codeception\TestCase\Test
         
 		foreach ($tests as $from => $to)
 		{
-			$result = Rhymix\Framework\Security\FilenameFilter::clean($from);
+			$result = Rhymix\Framework\Filters\FilenameFilter::clean($from);
 			$this->assertEquals($to, $result);
 		}
 	}

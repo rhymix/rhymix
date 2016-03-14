@@ -31,12 +31,12 @@ class Security
 			// Clean up HTML content to prevent XSS attacks.
 			case 'html':
 				if (!utf8_check($input)) return false;
-				return Security\HTMLFilter::clean($input);
+				return Filters\HTMLFilter::clean($input);
 			
 			// Clean up the input to be used as a safe filename.
 			case 'filename':
 				if (!utf8_check($input)) return false;
-				return Security\FilenameFilter::clean($input);
+				return Filters\FilenameFilter::clean($input);
 			
 			// Unknown filters return false.
 			default: return false;

@@ -732,7 +732,7 @@ class fileController extends file
 		}
 
 		// Sanitize filename
-		$file_info['name'] = Rhymix\Framework\Security\FilenameFilter::clean($file_info['name']);
+		$file_info['name'] = Rhymix\Framework\Filters\FilenameFilter::clean($file_info['name']);
 
 		// Set upload path by checking if the attachement is an image or other kinds of file
 		if(preg_match("/\.(jpe?g|gif|png|wm[va]|mpe?g|avi|swf|flv|mp[1-4]|as[fx]|wav|midi?|moo?v|qt|r[am]{1,2}|m4v)$/i", $file_info['name']))

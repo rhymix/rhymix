@@ -561,7 +561,7 @@ class adminAdminController extends admin
 			return $item !== '';
 		});
 		$iframe_whitelist = array_unique(array_map(function($item) {
-			return Rhymix\Framework\Security\MediaFilter::formatPrefix($item);
+			return Rhymix\Framework\Filters\MediaFilter::formatPrefix($item);
 		}, $iframe_whitelist));
 		natcasesort($iframe_whitelist);
 		Rhymix\Framework\Config::set('mediafilter.iframe', array_values($iframe_whitelist));
@@ -572,7 +572,7 @@ class adminAdminController extends admin
 			return $item !== '';
 		});
 		$object_whitelist = array_unique(array_map(function($item) {
-			return Rhymix\Framework\Security\MediaFilter::formatPrefix($item);
+			return Rhymix\Framework\Filters\MediaFilter::formatPrefix($item);
 		}, $object_whitelist));
 		natcasesort($object_whitelist);
 		Rhymix\Framework\Config::set('mediafilter.object', array_values($object_whitelist));
@@ -587,7 +587,7 @@ class adminAdminController extends admin
 		$allowed_ip = array_unique(array_filter($allowed_ip, function($item) {
 			return $item !== '';
 		}));
-		if (!Rhymix\Framework\Security\IpFilter::validateRanges($allowed_ip)) {
+		if (!Rhymix\Framework\Filters\IpFilter::validateRanges($allowed_ip)) {
 			return new Object(-1, 'msg_invalid_ip');
 		}
 		
@@ -595,7 +595,7 @@ class adminAdminController extends admin
 		$denied_ip = array_unique(array_filter($denied_ip, function($item) {
 			return $item !== '';
 		}));
-		if (!Rhymix\Framework\Security\IpFilter::validateRanges($denied_ip)) {
+		if (!Rhymix\Framework\Filters\IpFilter::validateRanges($denied_ip)) {
 			return new Object(-1, 'msg_invalid_ip');
 		}
 		
@@ -745,7 +745,7 @@ class adminAdminController extends admin
 		$allowed_ip = array_unique(array_filter($allowed_ip, function($item) {
 			return $item !== '';
 		}));
-		if (!Rhymix\Framework\Security\IpFilter::validate($allowed_ip)) {
+		if (!Rhymix\Framework\Filters\IpFilter::validate($allowed_ip)) {
 			return new Object(-1, 'msg_invalid_ip');
 		}
 		Rhymix\Framework\Config::set('debug.allow', array_values($allowed_ip));
@@ -771,17 +771,17 @@ class adminAdminController extends admin
 		
 		if ($vars->sitelock_locked === 'Y')
 		{
-			if (!Rhymix\Framework\Security\IpFilter::inRanges('127.0.0.1', $allowed_ip))
+			if (!Rhymix\Framework\Filters\IpFilter::inRanges('127.0.0.1', $allowed_ip))
 			{
 				array_unshift($allowed_ip, '127.0.0.1');
 			}
-			if (!Rhymix\Framework\Security\IpFilter::inRanges(RX_CLIENT_IP, $allowed_ip))
+			if (!Rhymix\Framework\Filters\IpFilter::inRanges(RX_CLIENT_IP, $allowed_ip))
 			{
 				array_unshift($allowed_ip, RX_CLIENT_IP);
 			}
 		}
 		
-		if (!Rhymix\Framework\Security\IpFilter::validateRanges($allowed_ip))
+		if (!Rhymix\Framework\Filters\IpFilter::validateRanges($allowed_ip))
 		{
 			return new Object(-1, 'msg_invalid_ip');
 		}

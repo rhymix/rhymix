@@ -34,7 +34,7 @@ class Config
 		}
 		else
 		{
-			if (self::$_config = Compat\ConfigParser::convert())
+			if (self::$_config = Parsers\ConfigParser::convert())
 			{
 				self::save();
 			}

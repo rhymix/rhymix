@@ -24,22 +24,22 @@ class EmbedFilter
 	
 	public function getWhiteUrlList()
 	{
-		return Rhymix\Framework\Security\MediaFilter::getObjectWhitelist();
+		return Rhymix\Framework\Filters\MediaFilter::getObjectWhitelist();
 	}
 	
 	public function getWhiteIframeUrlList()
 	{
-		return Rhymix\Framework\Security\MediaFilter::getIframeWhitelist();
+		return Rhymix\Framework\Filters\MediaFilter::getIframeWhitelist();
 	}
 	
 	function isWhiteDomain($urlAttribute)
 	{
-		return Rhymix\Framework\Security\MediaFilter::matchObjectWhitelist($urlAttribute);
+		return Rhymix\Framework\Filters\MediaFilter::matchObjectWhitelist($urlAttribute);
 	}
 	
 	function isWhiteIframeDomain($urlAttribute)
 	{
-		return Rhymix\Framework\Security\MediaFilter::matchIframeWhitelist($urlAttribute);
+		return Rhymix\Framework\Filters\MediaFilter::matchIframeWhitelist($urlAttribute);
 	}
 	
 	function isWhiteMimetype($mimeType)

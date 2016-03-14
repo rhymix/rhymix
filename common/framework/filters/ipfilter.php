@@ -1,6 +1,6 @@
 <?php
 
-namespace Rhymix\Framework\Security;
+namespace Rhymix\Framework\Filters;
 
 /**
  * The IP filter class.

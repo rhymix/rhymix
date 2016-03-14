@@ -418,8 +418,8 @@ class adminAdminView extends admin
 	function dispAdminConfigSecurity()
 	{
 		// Load embed filter.
-		context::set('mediafilter_iframe', implode(PHP_EOL, Rhymix\Framework\Security\MediaFilter::getIframeWhitelist()));
-		context::set('mediafilter_object', implode(PHP_EOL, Rhymix\Framework\Security\MediaFilter::getObjectWhitelist()));
+		context::set('mediafilter_iframe', implode(PHP_EOL, Rhymix\Framework\Filters\MediaFilter::getIframeWhitelist()));
+		context::set('mediafilter_object', implode(PHP_EOL, Rhymix\Framework\Filters\MediaFilter::getObjectWhitelist()));
 		
 		// Admin IP access control
 		$allowed_ip = Rhymix\Framework\Config::get('admin.allow');
@@ -518,11 +518,11 @@ class adminAdminView extends admin
 		Context::set('sitelock_message', escape(Rhymix\Framework\Config::get('lock.message')));
 		
 		$allowed_ip = Rhymix\Framework\Config::get('lock.allow') ?: array();
-		if (!Rhymix\Framework\Security\IpFilter::inRanges('127.0.0.1', $allowed_ip))
+		if (!Rhymix\Framework\Filters\IpFilter::inRanges('127.0.0.1', $allowed_ip))
 		{
 			array_unshift($allowed_ip, '127.0.0.1');
 		}
-		if (!Rhymix\Framework\Security\IpFilter::inRanges(RX_CLIENT_IP, $allowed_ip))
+		if (!Rhymix\Framework\Filters\IpFilter::inRanges(RX_CLIENT_IP, $allowed_ip))
 		{
 			array_unshift($allowed_ip, RX_CLIENT_IP);
 		}

@@ -1,6 +1,6 @@
 <?php
 
-namespace Rhymix\Framework\Compat;
+namespace Rhymix\Framework\Parsers;
 
 use Rhymix\Framework\Lang;
 

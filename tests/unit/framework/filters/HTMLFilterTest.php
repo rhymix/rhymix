@@ -61,7 +61,7 @@ class HTMLFilterTest extends \Codeception\TestCase\Test
 		
 		foreach ($tests as $test)
 		{
-			$this->assertEquals($test[1], Rhymix\Framework\Security\HTMLFilter::clean($test[0]));
+			$this->assertEquals($test[1], Rhymix\Framework\Filters\HTMLFilter::clean($test[0]));
 		}
 	}
 	
@@ -69,41 +69,41 @@ class HTMLFilterTest extends \Codeception\TestCase\Test
 	{
 		$source = '<div><audio autoplay="autoplay" src="./foo/bar.mp3"></audio></div>';
 		$target = '<div><audio src="./foo/bar.mp3"></audio></div>';
-		$this->assertEquals($target, Rhymix\Framework\Security\HTMLFilter::clean($source));
+		$this->assertEquals($target, Rhymix\Framework\Filters\HTMLFilter::clean($source));
 		
 		$source = '<video autoplay="autoplay" width="320" height="240"><source src="./foo/bar.mp4" type="video/mp4" /></video>';
 		$target = '<video width="320" height="240"><source src="./foo/bar.mp4" type="video/mp4" /></video>';
-		$this->assertEquals($target, Rhymix\Framework\Security\HTMLFilter::clean($source));
+		$this->assertEquals($target, Rhymix\Framework\Filters\HTMLFilter::clean($source));
 		
 		$source = '<nav>123</nav><section>456</section><article>789</article><aside>0</aside>';
 		$target = '<nav>123</nav><section>456</section><article>789</article><aside>0</aside>';
-		$this->assertEquals($target, Rhymix\Framework\Security\HTMLFilter::clean($source));
+		$this->assertEquals($target, Rhymix\Framework\Filters\HTMLFilter::clean($source));
 	}
 	
 	public function testHTMLFilterCSS3()
 	{
 		$source = '<div style="display:flex;border-radius:1px 2px 3px 4px;"></div>';
 		$target = '<div style="display:flex;border-radius:1px 2px 3px 4px;"></div>';
-		$this->assertEquals($target, Rhymix\Framework\Security\HTMLFilter::clean($source));
+		$this->assertEquals($target, Rhymix\Framework\Filters\HTMLFilter::clean($source));
 		
 		$source = '<div style="box-sizing:border-box;box-shadow:5px 5px 2px #123456;"></div>';
 		$target = '<div style="box-sizing:border-box;box-shadow:5px 5px 2px #123456;"></div>';
-		$this->assertEquals($target, Rhymix\Framework\Security\HTMLFilter::clean($source));
+		$this->assertEquals($target, Rhymix\Framework\Filters\HTMLFilter::clean($source));
 		
 		$source = '<div style="overflow-x:auto;overflow-y:scroll;left:-500px;"></div>';
 		$target = '<div style="overflow-x:auto;overflow-y:scroll;"></div>';
-		$this->assertEquals($target, Rhymix\Framework\Security\HTMLFilter::clean($source));
+		$this->assertEquals($target, Rhymix\Framework\Filters\HTMLFilter::clean($source));
 	}
 	
 	public function testHTMLFilterEmbeddedMedia()
 	{
 		$source = '<iframe title="Video Test" width="640" height="360" src="http://videofarm.daum.net/controller/video/viewer/Video.html?vid=s474b7BR2zzREo0g7OT7EKo&amp;play_loc=undefined&amp;alert=true" frameborder="0" scrolling="no"></iframe>';
 		$target = '<iframe title="Video Test" width="640" height="360" src="http://videofarm.daum.net/controller/video/viewer/Video.html?vid=s474b7BR2zzREo0g7OT7EKo&amp;play_loc=undefined&amp;alert=true" frameborder="0" scrolling="no"></iframe>';
-		$this->assertEquals($target, Rhymix\Framework\Security\HTMLFilter::clean($source));
+		$this->assertEquals($target, Rhymix\Framework\Filters\HTMLFilter::clean($source));
 		
 		$source = '<iframe title="Video Test" width="640" height="360" src="http://not-allowed.com/whatever-video.mp4" frameborder="0" scrolling="no"></iframe>';
 		$target = '<iframe title="Video Test" width="640" height="360" frameborder="0" scrolling="no"></iframe>';
-		$this->assertEquals($target, Rhymix\Framework\Security\HTMLFilter::clean($source));
+		$this->assertEquals($target, Rhymix\Framework\Filters\HTMLFilter::clean($source));
 		
 		$source = '<object type="application/x-shockwave-flash" id="DaumVodPlayer_s474b7BR2zzREo0g7OT7EKo" width="640px" height="360px" align="middle" classid="clsid:d27cdb6e-ae6d-11cf-96b8-444553540000" codebase="http://fpdownload.macromedia.com/pub/shockwave/cabs/flash/swflash.cab#version=10,3,0,0">' .
 			'<param name="movie" value="http://videofarm.daum.net/controller/player/VodPlayer.swf" />' .
@@ -123,33 +123,33 @@ class HTMLFilterTest extends \Codeception\TestCase\Test
 			'<param name="flashvars" value="vid=s474b7BR2zzREo0g7OT7EKo&amp;playLoc=undefined&amp;alert=true" />' .
 			'<embed src="http://videofarm.daum.net/controller/player/VodPlayer.swf" width="640" height="360" type="application/x-shockwave-flash" flashvars="vid=s474b7BR2zzREo0g7OT7EKo&amp;playLoc=undefined&amp;alert=true" allowscriptaccess="never" allownetworking="internal" />' .
 			'</object>';
-		$this->assertEquals($target, Rhymix\Framework\Security\HTMLFilter::clean($source));
+		$this->assertEquals($target, Rhymix\Framework\Filters\HTMLFilter::clean($source));
 		
 		$source = '<audio src="https://www.youtube.com/whatever"></audio>';
 		$target = '<audio src="https://www.youtube.com/whatever"></audio>';
-		$this->assertEquals($target, Rhymix\Framework\Security\HTMLFilter::clean($source));
+		$this->assertEquals($target, Rhymix\Framework\Filters\HTMLFilter::clean($source));
 		
 		$source = '<audio src="https://www-youtube.com/whatever"></audio>';
 		$target = '<audio src=""></audio>';
-		$this->assertEquals($target, Rhymix\Framework\Security\HTMLFilter::clean($source));
+		$this->assertEquals($target, Rhymix\Framework\Filters\HTMLFilter::clean($source));
 		
 		$source = '<video width="320" height="240"><source src="http://api.v.daum.net/something" type="video/mp4" /></video>';
 		$target = '<video width="320" height="240"><source src="http://api.v.daum.net/something" type="video/mp4" /></video>';
-		$this->assertEquals($target, Rhymix\Framework\Security\HTMLFilter::clean($source));
+		$this->assertEquals($target, Rhymix\Framework\Filters\HTMLFilter::clean($source));
 		
 		$source = '<video width="320" height="240"><source src="http://wrong-site.net/" type="video/mp4" /></video>';
 		$target = '<video width="320" height="240"><source src="" type="video/mp4" /></video>';
-		$this->assertEquals($target, Rhymix\Framework\Security\HTMLFilter::clean($source));
+		$this->assertEquals($target, Rhymix\Framework\Filters\HTMLFilter::clean($source));
 	}
 	
 	public function testHTMLFilterEditorComponent()
 	{
 		$source = '<img somekey="somevalue" otherkey="othervalue" onmouseover="alert(\'xss\');" editor_component="component_name" src="./foo/bar.jpg" alt="My Picture" style="width:320px;height:240px;" width="320" height="240" />';
 		$target = '<img somekey="somevalue" otherkey="othervalue" editor_component="component_name" src="./foo/bar.jpg" alt="My Picture" style="width:320px;height:240px;" width="320" height="240" />';
-		$this->assertEquals($target, Rhymix\Framework\Security\HTMLFilter::clean($source));
+		$this->assertEquals($target, Rhymix\Framework\Filters\HTMLFilter::clean($source));
 		
 		$source = '<img somekey="somevalue" otherkey="othervalue" onkeypress="alert(\'xss\');" editor_component="component_name" />';
 		$target = '<img somekey="somevalue" otherkey="othervalue" src="" editor_component="component_name" alt="" />';
-		$this->assertEquals($target, Rhymix\Framework\Security\HTMLFilter::clean($source));
+		$this->assertEquals($target, Rhymix\Framework\Filters\HTMLFilter::clean($source));
 	}
 }

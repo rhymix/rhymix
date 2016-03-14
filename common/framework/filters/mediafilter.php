@@ -1,6 +1,8 @@
 <?php
 
-namespace Rhymix\Framework\Security;
+namespace Rhymix\Framework\Filters;
+
+use Rhymix\Framework\Config;
 
 /**
  * The media filter class.
@@ -35,8 +37,8 @@ class MediaFilter
 			
 			if ($permanently)
 			{
-				\Rhymix\Framework\Config::set('mediafilter.iframe', self::$_iframe_whitelist);
-				\Rhymix\Framework\Config::save();
+				Config::set('mediafilter.iframe', self::$_iframe_whitelist);
+				Config::save();
 			}
 		}
 	}
@@ -63,8 +65,8 @@ class MediaFilter
 			
 			if ($permanently)
 			{
-				\Rhymix\Framework\Config::set('mediafilter.object', self::$_object_whitelist);
-				\Rhymix\Framework\Config::save();
+				Config::set('mediafilter.object', self::$_object_whitelist);
+				Config::save();
 			}
 		}
 	}

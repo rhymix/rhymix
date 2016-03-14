@@ -1,6 +1,8 @@
 <?php
 
-namespace Rhymix\Framework\Security;
+namespace Rhymix\Framework\Filters;
+
+use Rhymix\Framework\Security;
 
 /**
  * The HTML filter class.
@@ -462,7 +464,7 @@ class HTMLFilter
 			{
 				$html = substr($html, 0, 4) . ' src=""' . substr($html, 4);
 			}
-			$encoded_properties = \Rhymix\Framework\Security::encrypt(json_encode($attrs));
+			$encoded_properties = Security::encrypt(json_encode($attrs));
 			return substr($html, 0, 4) . ' rx_encoded_properties="' . $encoded_properties . '"' . substr($html, 4);
 		}, $content);
 	}
@@ -477,7 +479,7 @@ class HTMLFilter
 	{
 		return preg_replace_callback('!<(div|img)([^>]*)(\srx_encoded_properties="([^"]+)")!i', function($match) {
 			$attrs = array();
-			$decoded_properties = \Rhymix\Framework\Security::decrypt($match[4]);
+			$decoded_properties = Security::decrypt($match[4]);
 			if (!$decoded_properties)
 			{
 				return str_replace($match[3], '', $match[0]);
