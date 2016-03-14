@@ -66,3 +66,4 @@ $lang->cmd_modify_by_update_log = '이 로그로 게시물을 수정하기';
 $lang->msg_admin_update_log = '관리자가 수정한 적이 있는 게시물입니다. 관리자에게 문의하세요.';
 $lang->msg_update_log_revert = '정말로 이 게시물로 되돌리시겠습니까?';
 $lang->write_admin = '관리자작성';
+$lang->revert_reason_update = '작성글을 현재글로 되돌림';

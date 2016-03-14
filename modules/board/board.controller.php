@@ -259,6 +259,8 @@ class boardController extends board
 		$obj->title_bold = $update_log->title_bold;
 		$obj->title_color = $update_log->title_color;
 		$obj->content = $update_log->content;
+		$obj->update_log_setting = 'Y';
+		$obj->reason_update = lang('board.revert_reason_update');
 		$output = $oDocumentController->updateDocument($oDocument, $obj);
 		$this->setRedirectUrl(getNotEncodedUrl('', 'mid', Context::get('mid'),'act', '', 'document_srl', $update_log->document_srl));
 		$this->add('mid', Context::get('mid'));
