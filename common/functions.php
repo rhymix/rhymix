@@ -65,7 +65,19 @@ function path($path, $web = false, $auto_fix = false)
 		return;
 	}
 	
-	$called_info = debug_backtrace(DEBUG_BACKTRACE_IGNORE_ARGS, 1);
+	if(version_compare(PHP_VERSION, '5.3.6') < 0)
+	{
+		$called_info = debug_backtrace();
+	}
+	else if(version_compare(PHP_VERSION, '5.4.0') < 0)
+	{
+		$called_info = debug_backtrace(DEBUG_BACKTRACE_IGNORE_ARGS);
+	}
+	else
+	{
+		$called_info = debug_backtrace(DEBUG_BACKTRACE_IGNORE_ARGS, 1);
+	}
+	
 	$called_path = pathinfo(str_replace('\\', '/',$called_info[0]['file']), PATHINFO_DIRNAME);
 	
 	if(strpos($called_path, 'files/cache/template_compiled') !== false)
@@ -82,7 +94,7 @@ function path($path, $web = false, $auto_fix = false)
 		$filtered = preg_replace('@/{2,}@', '/', $filtered);
 		$filtered = preg_replace('@([^./]+)/(\.\./)+@', '$1/', $filtered);
 	}
-
+	
 	if(!$filtered && $path !== '/')
 	{
 		return;
