@@ -15,5 +15,5 @@
     <column name="tags" type="text" />
     <column name="extra_vars" type="text" />
     <column name="reason_update" type="text" />
-    <column name="is_admin" type="varchar" size="1" />
+    <column name="is_admin" type="varchar" size="1" index="idx_is_admin" />
 </table>

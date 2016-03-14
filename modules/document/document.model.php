@@ -1576,9 +1576,15 @@ class documentModel extends document
 		}
 		$args = new stdClass();
 		$args->document_srl = $document_srl;
-		$output = executeQueryArray('document.getUpdateLogAdminisExists', $args);
+		$args->is_admin = 'Y';
+		$output = executeQuery('document.getUpdateLogAdminisExists', $args);
 
-		return $output->data;
+		if($output->data->count > 0)
+		{
+			return true;
+		}
+
+		return false;
 	}
 }
 /* End of file document.model.php */

@@ -228,20 +228,10 @@ class boardController extends board
 		$oDocumentController = getController('document');
 		$update_log = $oDocumentModel->getUpdateLog($update_id);
 
-		$isadminDocument = false;
 		if($logged_info->is_admin != 'Y')
 		{
-			$update_log_list = $oDocumentModel->getUpdateLogAdminisExists($update_log->document_srl);
-
-			foreach($update_log_list as $val)
-			{
-				if($val->is_admin == 'Y')
-				{
-					$isadminDocument = true;
-					break;
-				}
-			}
-			if($isadminDocument === true)
+			$Exists_log = $oDocumentModel->getUpdateLogAdminisExists($update_log->document_srl);
+			if($Exists_log === true)
 			{
 				return new Object(-1, 'msg_admin_update_log');
 			}
