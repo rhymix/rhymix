@@ -65,27 +65,6 @@ function path($path, $web = false, $auto_fix = false)
 		return;
 	}
 	
-	if(version_compare(PHP_VERSION, '5.3.6') < 0)
-	{
-		$called_info = debug_backtrace();
-	}
-	else if(version_compare(PHP_VERSION, '5.4.0') < 0)
-	{
-		$called_info = debug_backtrace(DEBUG_BACKTRACE_IGNORE_ARGS);
-	}
-	else
-	{
-		$called_info = debug_backtrace(DEBUG_BACKTRACE_IGNORE_ARGS, 1);
-	}
-	
-	$called_path = pathinfo(str_replace('\\', '/',$called_info[0]['file']), PATHINFO_DIRNAME);
-	
-	if(strpos($called_path, 'files/cache/template_compiled') !== false)
-	{
-		$tpl_path = trim(Context::get('tpl_path'), '/');
-		$called_path = RX_BASEDIR . preg_replace('@^' . preg_quote(RX_BASEDIR, '@') . '|\./@', '', $tpl_path);
-	}
-	
 	$filtered = trim($path, '/');
 	if($auto_fix)
 	{
@@ -100,9 +79,36 @@ function path($path, $web = false, $auto_fix = false)
 		return;
 	}
 	
+	$work_step = 0;
+	if(strpos($filtered . '/', './') !== false)
+	{
+		$work_step = 1;
+	}
+	else if(strpos($path, '/') !== 0)
+	{
+		$work_step = 2;
+	}
+	else if(strpos($filtered, trim(RX_BASEDIR, '/')) === false)
+	{
+		$work_step = 3;
+	}
+	
+	if($work_step === 1 || $work_step === 2)
+	{
+		$backtrace = debug_backtrace(DEBUG_BACKTRACE_IGNORE_ARGS);
+		$called_path = str_replace('\\', '/', dirname($backtrace[0]['file']));
+		if(strpos($called_path, RX_BASEDIR . 'files/cache/template_compiled') !== false)
+		{
+			if($tpl_path = Context::get('tpl_path'))
+			{
+				$called_path = RX_BASEDIR . trim(str_replace(array('./', RX_BASEDIR), '', $tpl_path), '/');
+			}
+		}
+	}
+	
 	$compath = '/' . $filtered;
 	
-	if(strpos($filtered . '/', './') !== false)
+	if($work_step === 1)
 	{
 		$result = array();
 		$path_array = explode('/', $filtered);
@@ -150,11 +156,11 @@ function path($path, $web = false, $auto_fix = false)
 		krsort($result);
 		$compath = implode('/', $result);
 	}
-	else if(substr_compare($path, '/', 0, 1) !== 0)
+	else if($work_step === 2)
 	{
 		$compath = $called_path . '/' . $filtered;
 	}
-	else if(strpos($filtered, trim(RX_BASEDIR, '/')) === false)
+	else if($work_step === 3)
 	{
 		$compath = RX_BASEDIR . $filtered;
 	}
