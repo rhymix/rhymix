@@ -139,7 +139,7 @@ function path($path, $web = false, $auto_fix = false)
 			$abs_path = $called_path;
 		}
 		
-		$compath = $abs_path . '/' . implode('/', $path_array);
+		$compath = $abs_path . (!empty($path_array) ? '/':'') . implode('/', $path_array);
 	}
 	else if($work_step === 2)
 	{
