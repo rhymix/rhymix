@@ -56,6 +56,11 @@ class FilenameFilterTest extends \Codeception\TestCase\Test
 		
 		// Test Windows paths.
 		$this->assertEquals('C:/Windows/Notepad.exe', FilenameFilter::cleanPath('C:\\Windows\\System32\\..\\Notepad.exe'));
+		$this->assertEquals('//vboxsrv/hello/world', FilenameFilter::cleanPath('\\\\vboxsrv\\hello\\world'));
+		
+		// Test absolute URLs.
+		$this->assertEquals('https://www.rhymix.org/foo/bar', FilenameFilter::cleanPath('https://www.rhymix.org/foo/.//bar'));
+		$this->assertEquals('//www.rhymix.org/foo/bar', FilenameFilter::cleanPath('//www.rhymix.org/foo/.//bar'));
 		
 		// Do not remove .. if there is no parent directory.
 		$this->assertEquals('C:/../foobar', FilenameFilter::cleanPath('C:\\..\foobar\\'));

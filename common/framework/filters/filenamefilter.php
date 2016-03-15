@@ -55,19 +55,34 @@ class FilenameFilter
 	 */
 	public static function cleanPath($path)
 	{
-		if (!preg_match('@^(?:[a-z]:[\\\\/]|\\\\|/)@i', $path))
+		// Convert relative paths to absolute paths.
+		if (!preg_match('@^(?:/|[a-z]:[\\\\/]|\\\\|https?:)@i', $path))
 		{
 			$path = \RX_BASEDIR . $path;
 		}
+		
+		// Convert backslashes to forward slashes.
 		$path = str_replace('\\', '/', $path);
+		
+		// Remove querystrings and URL fragments.
 		$path = preg_replace('@[\?#].+$@', '', $path);
-		$path = preg_replace('@/{2,}@', '/', $path);
+		
+		// Remove duplicate slashes, except at the beginning of a URL.
+		$path = preg_replace('@(?<!^|^http:|^https:)/{2,}@', '/', $path);
+		
+		// Remove sequences of three or more dots.
 		$path = preg_replace('@/\.{3,}/@', '/', $path);
+		
+		// Remove single dots.
 		$path = preg_replace('@/(\./)+@', '/', $path);
+		
+		// Remove double dots and the preceding directory.
 		while (preg_match('@/[^/]+/\.\.(?:/|$)@', $path, $matches))
 		{
 			$path = str_replace($matches[0], '/', $path);
 		}
+		
+		// Trim trailing slashes.
 		return rtrim($path, '/');
 	}
 }
