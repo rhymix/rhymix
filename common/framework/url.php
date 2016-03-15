@@ -18,10 +18,7 @@ class URL
 	 */
 	public static function getCurrentURL(array $changes = array())
 	{
-		$proto = \RX_SSL ? 'https://' : 'http://';
-		$host = isset($_SERVER['HTTP_HOST']) ? $_SERVER['HTTP_HOST'] : 'localhost';
-		$local = isset($_SERVER['REQUEST_URI']) ? $_SERVER['REQUEST_URI'] : '/';
-		$url = $proto . $host . $local;
+		$url = self::getCurrentDomainURL(isset($_SERVER['REQUEST_URI']) ? $_SERVER['REQUEST_URI'] : '/');
 		if (count($changes))
 		{
 			return self::modifyURL($url, $changes);
@@ -30,6 +27,19 @@ class URL
 		{
 			return self::getCanonicalURL($url);
 		}
+	}
+	
+	/**
+	 * Get the current domain.
+	 * 
+	 * @param string $path
+	 * @return string
+	 */
+	public static function getCurrentDomainURL($path = '/')
+	{
+		$proto = \RX_SSL ? 'https://' : 'http://';
+		$host = isset($_SERVER['HTTP_HOST']) ? $_SERVER['HTTP_HOST'] : 'localhost';
+		return $proto . $host . '/' . ltrim($path, '/');
 	}
 	
 	/**
@@ -42,9 +52,7 @@ class URL
 	{
 		if (preg_match('#^\.?/([^/]|$)#', $url) || !preg_match('#^(https?:|/)#', $url))
 		{
-			$proto = \RX_SSL ? 'https://' : 'http://';
-			$host = isset($_SERVER['HTTP_HOST']) ? $_SERVER['HTTP_HOST'] : 'localhost';
-			$url = $proto . $host . \RX_BASEURL . ltrim($url, './');
+			$url = self::getCurrentDomainURL(\RX_BASEURL . ltrim($url, './'));
 		}
 		return preg_replace_callback('#^(https?:|)//([^/]+)#i', function($matches) {
 			if ($matches[1] === '') $matches[1] = \RX_SSL ? 'https:' : 'http:';
@@ -123,6 +131,53 @@ class URL
 		{
 			return $prefix;
 		}
+	}
+	
+	/**
+	 * Convert a server-side path to a URL.
+	 * 
+	 * This method returns false if the path cannot be converted to a URL,
+	 * e.g. if the path is outside of the document root.
+	 * 
+	 * @param string $path
+	 * @return string|false
+	 */
+	public static function fromServerPath($path)
+	{
+		$cleanpath = Filters\FilenameFilter::cleanPath($path);
+		if (substr($path, -1) === '/')
+		{
+			$cleanpath .= '/';
+		}
+		$root = Filters\FilenameFilter::cleanPath($_SERVER['DOCUMENT_ROOT']);
+		if ($cleanpath === $root)
+		{
+			return self::getCurrentDomainURL('/');
+		}
+		if (starts_with($root . '/', $cleanpath))
+		{
+			return self::getCurrentDomainURL(substr($cleanpath, strlen($root)));
+		}
+		return false;
+	}
+	
+	/**
+	 * Convert a URL to a server-side path.
+	 * 
+	 * This method returns false if the URL cannot be converted to a server-side path,
+	 * e.g. if the URL belongs to an external domain.
+	 * 
+	 * @param string $url
+	 * @return string
+	 */
+	public static function toServerPath($url)
+	{
+		$url = self::getCanonicalURL($url);
+		if (!self::isInternalURL($url))
+		{
+			return false;
+		}
+		return Filters\FilenameFilter::cleanPath($_SERVER['DOCUMENT_ROOT'] . parse_url($url, \PHP_URL_PATH));
 	}
 	
 	/**

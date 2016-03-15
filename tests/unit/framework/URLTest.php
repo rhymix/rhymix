@@ -25,6 +25,17 @@ class URLTest extends \Codeception\TestCase\Test
 		$this->assertEquals($protocol . $_SERVER['HTTP_HOST'] . '/index.php?xe=sucks&l=ko', Rhymix\Framework\URL::getCurrentURL(array('l' => 'ko', 'foo' => null)));
 	}
 	
+	public function testGetCurrentDomainURL()
+	{
+		$protocol = \RX_SSL ? 'https://' : 'http://';
+		$_SERVER['HTTP_HOST'] = 'www.rhymix.org';
+		
+		$this->assertEquals($protocol . $_SERVER['HTTP_HOST'] . '/', Rhymix\Framework\URL::getCurrentDomainURL());
+		$this->assertEquals($protocol . $_SERVER['HTTP_HOST'] . '/', Rhymix\Framework\URL::getCurrentDomainURL('/'));
+		$this->assertEquals($protocol . $_SERVER['HTTP_HOST'] . '/foo/bar', Rhymix\Framework\URL::getCurrentDomainURL('/foo/bar'));
+		$this->assertEquals($protocol . $_SERVER['HTTP_HOST'] . '/index.php?foo=bar', Rhymix\Framework\URL::getCurrentDomainURL('index.php?foo=bar'));
+	}
+	
 	public function testGetCanonicalURL()
 	{
 		$protocol = \RX_SSL ? 'https://' : 'http://';
@@ -80,6 +91,30 @@ class URLTest extends \Codeception\TestCase\Test
 	public function testIsInternalURL()
 	{
 		// This function is checked in Security::checkCSRF()
+	}
+	
+	public function testURLFromServerPath()
+	{
+		$protocol = \RX_SSL ? 'https://' : 'http://';
+		$_SERVER['HTTP_HOST'] = 'www.rhymix.org';
+		
+		$this->assertEquals($protocol . $_SERVER['HTTP_HOST'] . \RX_BASEURL, Rhymix\Framework\URL::fromServerPath(\RX_BASEDIR));
+		$this->assertEquals($protocol . $_SERVER['HTTP_HOST'] . \RX_BASEURL . 'index.php', Rhymix\Framework\URL::fromServerPath(\RX_BASEDIR . 'index.php'));
+		$this->assertEquals($protocol . $_SERVER['HTTP_HOST'] . \RX_BASEURL . 'foo/bar', Rhymix\Framework\URL::fromServerPath(\RX_BASEDIR . '/foo/bar'));
+		$this->assertEquals(false, Rhymix\Framework\URL::fromServerPath('C:/Windows'));
+	}
+	
+	public function testURLToServerPath()
+	{
+		$protocol = \RX_SSL ? 'https://' : 'http://';
+		$_SERVER['HTTP_HOST'] = 'www.rhymix.org';
+		
+		$this->assertEquals(\RX_BASEDIR . 'index.php', Rhymix\Framework\URL::toServerPath($protocol . $_SERVER['HTTP_HOST'] . \RX_BASEURL . 'index.php'));
+		$this->assertEquals(\RX_BASEDIR . 'foo/bar', Rhymix\Framework\URL::toServerPath($protocol . $_SERVER['HTTP_HOST'] . \RX_BASEURL . '/foo/bar?arg=baz'));
+		$this->assertEquals(\RX_BASEDIR . 'foo/bar', Rhymix\Framework\URL::toServerPath('./foo/bar'));
+		$this->assertEquals(\RX_BASEDIR . 'foo/bar', Rhymix\Framework\URL::toServerPath('foo/bar/../bar'));
+		$this->assertEquals(false, Rhymix\Framework\URL::toServerPath('http://other.domain.com/'));
+		$this->assertEquals(false, Rhymix\Framework\URL::toServerPath('//other.domain.com/'));
 	}
 	
 	public function testEncodeIdna()

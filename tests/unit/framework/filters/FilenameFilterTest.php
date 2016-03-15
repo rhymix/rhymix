@@ -1,5 +1,7 @@
 <?php
 
+use Rhymix\Framework\Filters\FilenameFilter;
+
 class FilenameFilterTest extends \Codeception\TestCase\Test
 {
 	public function testFilenameFilterClean()
@@ -35,8 +37,28 @@ class FilenameFilterTest extends \Codeception\TestCase\Test
         
 		foreach ($tests as $from => $to)
 		{
-			$result = Rhymix\Framework\Filters\FilenameFilter::clean($from);
+			$result = FilenameFilter::clean($from);
 			$this->assertEquals($to, $result);
 		}
+	}
+	
+	public function testFilenameFilterCleanPath()
+	{
+		// Remove extra dots and slashes.
+		$this->assertEquals('/usr/share/foo/bar.jpg', FilenameFilter::cleanPath('/usr/share/foo//./baz/../bar.jpg'));
+		$this->assertEquals('/usr/share/foo/bar.jpg', FilenameFilter::cleanPath('/usr/share/foo/././baz/../../foo/bar.jpg'));
+		$this->assertEquals('/usr/share', FilenameFilter::cleanPath('/usr/share/foo/..'));
+		$this->assertEquals('/usr/share', FilenameFilter::cleanPath('/usr/share/foo/bar/../baz/../../'));
+		
+		// Test Windows paths.
+		$this->assertEquals('C:/Windows/Notepad.exe', FilenameFilter::cleanPath('C:\\Windows\\System32\\..\\Notepad.exe'));
+		
+		// Do not remove .. if there is no parent directory.
+		$this->assertEquals('C:/../foobar', FilenameFilter::cleanPath('C:\\..\foobar\\'));
+		$this->assertEquals('/../foobar', FilenameFilter::cleanPath('/../foobar/'));
+		
+		// Remove query strings and URL fragments.
+		$this->assertEquals('index.php', FilenameFilter::cleanPath('index.php?foo=bar'));
+		$this->assertEquals('index.php', FilenameFilter::cleanPath('index.php#baz'));
 	}
 }

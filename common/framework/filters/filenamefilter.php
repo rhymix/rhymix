@@ -46,4 +46,24 @@ class FilenameFilter
 		
 		return $filename;
 	}
+	
+	/**
+	 * Clean a path to remove ./, ../, trailing slashes, etc.
+	 * 
+	 * @param string $path
+	 * @return string
+	 */
+	public static function cleanPath($path)
+	{
+		$path = str_replace('\\', '/', $path);
+		$path = preg_replace('@[\?#].+$@', '', $path);
+		$path = preg_replace('@/{2,}@', '/', $path);
+		$path = preg_replace('@/\.{3,}/@', '/', $path);
+		$path = preg_replace('@/(\./)+@', '/', $path);
+		while (preg_match('@/[^/]+/\.\.(?:/|$)@', $path, $matches))
+		{
+			$path = str_replace($matches[0], '/', $path);
+		}
+		return rtrim($path, '/');
+	}
 }
