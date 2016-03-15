@@ -50,6 +50,10 @@ class FilenameFilterTest extends \Codeception\TestCase\Test
 		$this->assertEquals('/usr/share', FilenameFilter::cleanPath('/usr/share/foo/..'));
 		$this->assertEquals('/usr/share', FilenameFilter::cleanPath('/usr/share/foo/bar/../baz/../../'));
 		
+		// Test internal paths.
+		$this->assertEquals(\RX_BASEDIR . 'common/js/debug.js', FilenameFilter::cleanPath('common/js/debug.js'));
+		$this->assertEquals(\RX_BASEDIR . 'common/js/debug.js', FilenameFilter::cleanPath('./common/js/debug.js'));
+		
 		// Test Windows paths.
 		$this->assertEquals('C:/Windows/Notepad.exe', FilenameFilter::cleanPath('C:\\Windows\\System32\\..\\Notepad.exe'));
 		
@@ -58,7 +62,7 @@ class FilenameFilterTest extends \Codeception\TestCase\Test
 		$this->assertEquals('/../foobar', FilenameFilter::cleanPath('/../foobar/'));
 		
 		// Remove query strings and URL fragments.
-		$this->assertEquals('index.php', FilenameFilter::cleanPath('index.php?foo=bar'));
-		$this->assertEquals('index.php', FilenameFilter::cleanPath('index.php#baz'));
+		$this->assertEquals(\RX_BASEDIR . 'index.php', FilenameFilter::cleanPath('index.php?foo=bar'));
+		$this->assertEquals(\RX_BASEDIR . 'index.php', FilenameFilter::cleanPath('index.php#baz'));
 	}
 }

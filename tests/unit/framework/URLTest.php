@@ -98,9 +98,10 @@ class URLTest extends \Codeception\TestCase\Test
 		$protocol = \RX_SSL ? 'https://' : 'http://';
 		$_SERVER['HTTP_HOST'] = 'www.rhymix.org';
 		
-		$this->assertEquals($protocol . $_SERVER['HTTP_HOST'] . \RX_BASEURL, Rhymix\Framework\URL::fromServerPath(\RX_BASEDIR));
-		$this->assertEquals($protocol . $_SERVER['HTTP_HOST'] . \RX_BASEURL . 'index.php', Rhymix\Framework\URL::fromServerPath(\RX_BASEDIR . 'index.php'));
-		$this->assertEquals($protocol . $_SERVER['HTTP_HOST'] . \RX_BASEURL . 'foo/bar', Rhymix\Framework\URL::fromServerPath(\RX_BASEDIR . '/foo/bar'));
+		$this->assertEquals($protocol . $_SERVER['HTTP_HOST'] . '/', Rhymix\Framework\URL::fromServerPath(\RX_BASEDIR));
+		$this->assertEquals($protocol . $_SERVER['HTTP_HOST'] . '/index.php', Rhymix\Framework\URL::fromServerPath(\RX_BASEDIR . 'index.php'));
+		$this->assertEquals($protocol . $_SERVER['HTTP_HOST'] . '/foo/bar', Rhymix\Framework\URL::fromServerPath(\RX_BASEDIR . '/foo/bar'));
+		$this->assertEquals(false, Rhymix\Framework\URL::fromServerPath(dirname(dirname(\RX_BASEDIR))));
 		$this->assertEquals(false, Rhymix\Framework\URL::fromServerPath('C:/Windows'));
 	}
 	
