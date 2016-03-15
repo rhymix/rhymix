@@ -449,6 +449,14 @@ class Debug
 				{
 					return $cache = true;
 				}
+				if (\RX_CLIENT_IP === '127.0.0.1' || \RX_CLIENT_IP === '::1')
+				{
+					return $cache = true;
+				}
+				if (\RX_CLIENT_IP === $_SERVER['SERVER_ADDR'] || \RX_CLIENT_IP === $_SERVER['LOCAL_ADDR'])
+				{
+					return $cache = true;
+				}
 				return $cache = false;
 			
 			case 'admin':
