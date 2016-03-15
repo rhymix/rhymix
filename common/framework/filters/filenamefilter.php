@@ -55,6 +55,10 @@ class FilenameFilter
 	 */
 	public static function cleanPath($path)
 	{
+		if (!preg_match('@^(?:[a-z]:[\\\\/]|\\\\|/)@i', $path))
+		{
+			$path = \RX_BASEDIR . $path;
+		}
 		$path = str_replace('\\', '/', $path);
 		$path = preg_replace('@[\?#].+$@', '', $path);
 		$path = preg_replace('@/{2,}@', '/', $path);
