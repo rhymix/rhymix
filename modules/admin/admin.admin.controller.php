@@ -745,7 +745,7 @@ class adminAdminController extends admin
 		$allowed_ip = array_unique(array_filter($allowed_ip, function($item) {
 			return $item !== '';
 		}));
-		if (!Rhymix\Framework\Filters\IpFilter::validate($allowed_ip)) {
+		if (!Rhymix\Framework\Filters\IpFilter::validateRanges($allowed_ip)) {
 			return new Object(-1, 'msg_invalid_ip');
 		}
 		Rhymix\Framework\Config::set('debug.allow', array_values($allowed_ip));
