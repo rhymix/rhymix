@@ -1,4 +1,4 @@
-<query id="getUpdateLog" action="select">
+<query id="getUpdateLogAdminisExists" action="select">
 	<tables>
 		<table name="document_update_log" />
 	</tables>
