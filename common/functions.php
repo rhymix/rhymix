@@ -134,6 +134,19 @@ function class_basename($class)
 }
 
 /**
+ * Clean a path to remove ./, ../, trailing slashes, etc.
+ * 
+ * This function is an alias to Rhymix\Framework\Filters\FilenameFilter::cleanPath().
+ * 
+ * @param string $path
+ * @return string
+ */
+function clean_path($path)
+{
+	return Rhymix\Framework\Filters\FilenameFilter::cleanPath($path);
+}
+
+/**
  * This function is a shortcut to htmlspecialchars().
  * 
  * @param string $str The string to escape
@@ -335,6 +348,34 @@ function base64_encode_urlsafe($str)
 function base64_decode_urlsafe($str)
 {
 	return @base64_decode(str_pad(strtr($str, '-_', '+/'), ceil(strlen($str) / 4) * 4, '=', STR_PAD_RIGHT));
+}
+
+/**
+ * Convert a server-side path to a URL.
+ * 
+ * This function is an alias to Rhymix\Framework\URL::fromServerPath().
+ * It returns false if the path cannot be converted.
+ * 
+ * @param string $path
+ * @return string|false
+ */
+function path2url($path)
+{
+	return Rhymix\Framework\URL::fromServerPath($path);
+}
+
+/**
+ * Convert a URL to a server-side path.
+ * 
+ * This function is an alias to Rhymix\Framework\URL::toServerPath().
+ * It returns false if the URL cannot be converted.
+ * 
+ * @param string $url
+ * @return string|false
+ */
+function url2path($url)
+{
+	return Rhymix\Framework\URL::toServerPath($url);
 }
 
 /**
