@@ -77,7 +77,7 @@ class FilenameFilter
 		$path = preg_replace('@/(\./)+@', '/', $path);
 		
 		// Remove double dots and the preceding directory.
-		while (preg_match('@/[^/]+/\.\.(?:/|$)@', $path, $matches))
+		while (preg_match('@/(?!\.\.)[^/]+/\.\.(?:/|$)@', $path, $matches))
 		{
 			$path = str_replace($matches[0], '/', $path);
 		}
