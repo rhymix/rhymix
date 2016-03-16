@@ -12,7 +12,7 @@
 		
 		text = text.replace('%d', count);
 		var link = jQuery('<a></a>');
-		link.attr("href", current_url.setQuery('module','').setQuery('act','dispCommunicationNewMessage'));
+		link.attr("href", current_url.setQuery('module','').setQuery('act','dispCommunicationMessages'));
 		//link.attr("onclick", "popopen(this.href, 'popup');xeNotifyMessageClose(); return false;");
 		link.text(text);
 		var para = jQuery('<p></p>');
