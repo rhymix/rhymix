@@ -808,6 +808,10 @@ class communicationController extends communication
 		{
 			return new Object();
 		}
+		if (starts_with('dispCommunication', Context::get('act')))
+		{
+			return new Object();
+		}
 
 		$logged_info = Context::get('logged_info');
 		$oCommunicationModel = getModel('communication');
