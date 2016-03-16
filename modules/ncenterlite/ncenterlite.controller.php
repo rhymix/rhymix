@@ -637,10 +637,6 @@ class ncenterliteController extends ncenterlite
 			}
 		}
 
-		Context::addHtmlFooter('<script>');
-		if($config->message_notify != 'N') Context::addHtmlFooter('window.xeNotifyMessage = function() {};');
-		Context::addHtmlFooter('(function(){setTimeout(function(){var s = jQuery(document).scrollTop();jQuery(document).scrollTop(s-30);}, 700);})();</script>');
-
 		$this->_addFile();
 		$html = $this->_getTemplate();
 		$output_display = $html . $output_display;
