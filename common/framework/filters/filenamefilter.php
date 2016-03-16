@@ -65,16 +65,16 @@ class FilenameFilter
 		$path = str_replace('\\', '/', $path);
 		
 		// Remove querystrings and URL fragments.
-		$path = preg_replace('@[\?#].+$@', '', $path);
+		if (($querystring = strpbrk($path, '?#')) !== false)
+		{
+			$path = substr($path, 0, -1 * strlen($querystring));
+		}
 		
-		// Remove duplicate slashes, except at the beginning of a URL.
-		$path = preg_replace('@(?<!^|^http:|^https:)/{2,}@', '/', $path);
-		
-		// Remove sequences of three or more dots.
-		$path = preg_replace('@/\.{3,}/@', '/', $path);
-		
-		// Remove single dots.
-		$path = preg_replace('@/(\./)+@', '/', $path);
+		// Remove single dots, three or more dots, and duplicate slashes.
+		$path = preg_replace(array(
+			'@(?<!^|^http:|^https:)/{2,}@',
+			'@/(?:(?:\.|\.{3,})/)+@',
+		), '/', $path);
 		
 		// Remove double dots and the preceding directory.
 		while (preg_match('@/(?!\.\.)[^/]+/\.\.(?:/|$)@', $path, $matches))
