@@ -1,14 +1,14 @@
 <?xml version='1.0' encoding='UTF-8'?>
 <lang>
 	<item name="ncenterlite">
-		<value xml:lang="ko"><![CDATA[XE 알림센터 Lite]]></value>
-		<value xml:lang="en"><![CDATA[XE Notification Center Lite]]></value>
-		<value xml:lang="jp"><![CDATA[XE 通知センター Lite]]></value>
+		<value xml:lang="ko"><![CDATA[Rhymix 알림센터 Lite]]></value>
+		<value xml:lang="en"><![CDATA[Rhymix Notification Center Lite]]></value>
+		<value xml:lang="jp"><![CDATA[Rhymix 通知センター Lite]]></value>
 	</item>
 	<item name="ncenterlite_install_version">
 		<value xml:lang="ko"><![CDATA[설치된 알림센터 Lite 버전]]></value>
 		<value xml:lang="en"><![CDATA[Installed Notification Center Lite version]]></value>
-		<value xml:lang="jp"><![CDATA[Installed XE 通知センター Lite version]]></value>
+		<value xml:lang="jp"><![CDATA[Installed Rhymix 通知センター Lite version]]></value>
 	</item>
 	<item name="ncenterlite_document">
 		<value xml:lang="ko"><![CDATA[글]]></value>

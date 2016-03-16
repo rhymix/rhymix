@@ -22,9 +22,9 @@
 	</actions>
 	<menus>
 		<menu name="ncenterlite" type="all">
-			<title xml:lang="ko">XE 알림센터 Lite</title>
-			<title xml:lang="en">XE Notification Center Lite</title>
-			<title xml:lang="jp">XE 通知センター Lite</title>
+			<title xml:lang="ko">Rhymix 알림센터 Lite</title>
+			<title xml:lang="en">Rhymix Notification Center Lite</title>
+			<title xml:lang="jp">Rhymix 通知センター Lite</title>
 		</menu>
 	</menus>
 </module>
