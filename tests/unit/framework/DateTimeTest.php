@@ -66,13 +66,26 @@ class DateTimeTest extends \Codeception\TestCase\Test
 	{
 		$timestamp = 1454000000;
 		
-		// Test zdate() when the internal time zone is different from the default time zone.
+		// Test when the internal time zone is different from the default time zone.
 		Rhymix\Framework\Config::set('locale.internal_timezone', 10800);
 		$this->assertEquals('20160128195320', getInternalDateTime($timestamp));
 		
-		// Test zdate() when the internal time zone is the same as the default time zone.
+		// Test when the internal time zone is the same as the default time zone.
 		Rhymix\Framework\Config::set('locale.internal_timezone', 32400);
 		$this->assertEquals('20160129015320', getInternalDateTime($timestamp));
+	}
+	
+	public function testGetDisplayDateTime()
+	{
+		$timestamp = 1454000000;
+		
+		// Test when the display time zone is different from the internal time zone.
+		$_SESSION['timezone'] = 'America/Los_Angeles';
+		$this->assertEquals('20160128085320', getDisplayDateTime($timestamp));
+		
+		// Test when the display time zone is the same as the internal time zone.
+		$_SESSION['timezone'] = 'Etc/GMT-3';
+		$this->assertEquals('20160128195320', getDisplayDateTime($timestamp));
 	}
 	
 	public function testGetTimeGap()

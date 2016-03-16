@@ -238,7 +238,7 @@ function starts_with($needle, $haystack, $case_sensitive = true)
 	}
 	else
 	{
-		!strncasecmp($needle, $haystack, strlen($needle));
+		return !strncasecmp($needle, $haystack, strlen($needle));
 	}
 }
 
@@ -452,8 +452,11 @@ if (!function_exists('hex2bin'))
  */
 function tobool($input)
 {
-	if (preg_match('/^(1|[ty].*|on|oui|si|vrai|aye)$/i', $input)) return true;
-	if (preg_match('/^(0|[fn].*|off)$/i', $input)) return false;
+	if (is_scalar($input))
+	{
+		if (preg_match('/^(1|[ty].*|on|ok.*oui|si|vrai|aye)$/i', $input)) return true;
+		if (preg_match('/^(0|[fn].*|off)$/i', $input)) return false;
+	}
 	return (bool)$input;
 }
 

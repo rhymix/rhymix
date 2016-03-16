@@ -421,7 +421,7 @@ function getCurrentPageUrl($escape = true)
  */
 function isSiteID($domain)
 {
-	return preg_match('/^([a-zA-Z0-9\_]+)$/', $domain);
+	return (bool)preg_match('/^([a-zA-Z0-9\_]+)$/', $domain);
 }
 
 /**
