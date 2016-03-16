@@ -397,6 +397,12 @@ class Debug
 	 */
 	public static function displayErrorScreen($message)
 	{
+		// Do not display error screen in CLI.
+		if (php_sapi_name() === 'cli')
+		{
+			return;
+		}
+		
 		// Disable output buffering.
 		while (ob_get_level())
 		{
