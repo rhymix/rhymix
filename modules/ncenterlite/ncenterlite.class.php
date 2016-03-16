@@ -43,6 +43,9 @@ class ncenterlite extends ModuleObject
 		array('document.updateVotedCount', 'ncenterlite', 'controller', 'triggerAfterVotedupdate', 'after'),
 		array('moduleHandler.init', 'ncenterlite', 'controller', 'triggerAddMemberMenu', 'after'),
 	);
+	private $delete_triggers = array(
+		array('moduleObject.proc', 'ncenterlite', 'controller', 'triggerBeforeModuleObjectProc', 'before')
+	);
 
 	function _isDisable()
 	{
@@ -69,6 +72,14 @@ class ncenterlite extends ModuleObject
 		foreach($this->triggers as $trigger)
 		{
 			if(!$oModuleModel->getTrigger($trigger[0], $trigger[1], $trigger[2], $trigger[3], $trigger[4])) return true;
+		}
+
+		foreach($this->delete_triggers as $trigger)
+		{
+			if($oModuleModel->getTrigger($trigger[0], $trigger[1], $trigger[2], $trigger[3], $trigger[4]))
+			{
+				return true;
+			}
 		}
 
 		if(!$oDB->isColumnExists('ncenterlite_notify', 'readed'))
@@ -135,6 +146,14 @@ class ncenterlite extends ModuleObject
 			if(!$oModuleModel->getTrigger($trigger[0], $trigger[1], $trigger[2], $trigger[3], $trigger[4]))
 			{
 				$oModuleController->insertTrigger($trigger[0], $trigger[1], $trigger[2], $trigger[3], $trigger[4]);
+			}
+		}
+
+		foreach($this->delete_triggers as $trigger)
+		{
+			if($oModuleModel->getTrigger($trigger[0], $trigger[1], $trigger[2], $trigger[3], $trigger[4]))
+			{
+				$oModuleController->deleteTrigger($trigger[0], $trigger[1], $trigger[2], $trigger[3], $trigger[4]);
 			}
 		}
 
