@@ -1,0 +1,46 @@
+<include target="../../../member/skins/default/common_header.html" />
+<table class="table table-striped table-hover" style="margin-top:20px;">
+	<thead class="bg_f_f9">
+		<tr>
+			<th scope="col" class="nowr">{$lang->ncenterlite_sender}</th>
+			<th scope="col">{$lang->ncenterlite_addressee}</th>
+			<th scope="col">{$lang->ncenterlite_noti_contents}</th>
+			<th scope="col">{$lang->ncenterlite_read}</th>
+			<th scope="col">{$lang->date}</th>
+		</tr>
+	</thead>
+	<tbody>
+		<!--@foreach($ncenterlite_list as $no => $val)-->
+		{@
+			$oMemberModel = getModel('member');
+			$member_info = $oMemberModel->getMemberInfoByMemberSrl($val->member_srl);
+		}
+		<tr>
+			<td>{$val->target_nick_name}</td>
+			<td cond="$member_info->member_srl">{$member_info->nick_name}</td> <td cond="!$member_info->member_srl">{$lang->ncenterlite_no_target}</td>
+			<td><a href="{$val->target_url}">{$val->text}</a></td>
+			<td>
+				<span class="history-auth" cond="$val->readed=='Y'">{$lang->ncenterlite_read_y}</span>
+				<span class="history-auth" cond="$val->readed=='N'">{$lang->ncenterlite_read_n}</span>
+			</td>
+			<td>
+				{zdate($val->regdate,"Y-m-d")}
+				</br>
+				{zdate($val->regdate,"H:i:s")}
+			</td>
+		</tr>
+		<!--@endforeach-->
+	</tbody>
+</table>
+
+<div class="pagination pagination-centered">
+	<ul>
+		<li><a href="{getUrl('page','')}" class="direction">&laquo; {$lang->first_page}</a></li> 
+		<!--@while($page_no = $page_navigation->getNextPage())-->
+		<li class="active"|cond="$page == $page_no"><a href="{getUrl('page',$page_no)}">{$page_no}</a></li> 
+		<!--@end-->
+		<li><a href="{getUrl('page',$page_navigation->last_page)}" class="direction">{$lang->last_page} &raquo;</a></li>
+	</ul>
+</div>
+
+<include target="../../../member/skins/default/common_footer.html" />

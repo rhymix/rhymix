@@ -1,0 +1,272 @@
+<load target="js/ncenter_admin.js" />
+<load target="css/ncenter_admin.css" />
+<include target="header.html" />
+
+<div cond="$_ncenterlite_env_agreement == 'NULL'">
+	<form action="{getUrl('')}" method="post" class="message info x_clearfix">
+		<input type="hidden" name="module" value="ncenterlite" />
+		<input type="hidden" name="act" value="procNcenterliteAdminEnviromentGatheringAgreement" />
+		<h2>{$lang->ncenterlite_config_environment}</h2>
+		{$lang->ncenterlite_config_environment_about}
+		<div class="x_pull-right" style="margin-bottom:10px">
+			<button type="submit" name="is_agree" value="Y" class="x_btn x_btn-small x_btn-primary">{$lang->ncenterlite_config_environment_agree}</button>
+			<button type="submit" name="is_agree" value="N" class="x_btn x_btn-small">{$lang->ncenterlite_config_environment_disagree}</button>
+		</div>
+	</form>
+</div>
+
+
+<form ruleset="insertConfig" action="./" method="post" class="x_form-horizontal" id="fo_ncenterlite">
+	<input type="hidden" name="module" value="ncenterlite" />
+	<input type="hidden" name="act" value="procNcenterliteAdminInsertConfig" />
+
+	<section class="section collapsed">
+		<h1>{$lang->ncenterlite_basic_settings} ({$lang->ncenterlite_click_to_open})</h1>
+		<div class="x_control-group">
+			<label class="x_control-label"><span class="x_label x_label-important">{$lang->ncenterlite_warning}</span> {$lang->ncenterlite_io}</label>
+			<div class="x_controls">
+				<label class="x_inline">
+					<input type="radio" id="use_y" name="use" value="Y" checked="checked"|cond="$config->use == 'Y'" /> {$lang->ncenterlite_on}
+				</label>
+				<label class="x_inline">
+					<input type="radio" id="use_n" name="use" value="N" checked="checked"|cond="$config->use == 'N'" /> {$lang->ncenterlite_off}
+				</label>
+				<p class="x_help-block"><span class="x_label x_label-important">{$lang->ncenterlite_warning}</span> {$lang->ncenterlite_io_about}</p>
+			</div>
+		</div>
+		<div class="x_control-group">
+			<label class="x_control-label"><span class="x_label x_label-important">{$lang->ncenterlite_warning}</span> {$lang->ncenterlite_display}</label>
+			<div class="x_controls">
+				<label class="x_inline">
+					<input type="radio" id="display_use_y" name="display_use" value="Y" checked="checked"|cond="$config->display_use == 'Y'" /> {$lang->ncenterlite_display_y}
+				</label>
+				<label class="x_inline">
+					<input type="radio" id="display_use_n" name="display_use" value="N" checked="checked"|cond="$config->display_use == 'N'" /> {$lang->ncenterlite_display_n}
+				</label>
+				<p class="x_help-block">{$lang->ncenterlite_display_about}</p>
+			</div>
+		</div>
+		<div class="x_control-group">
+			<label class="x_control-label">익명 알림에서 익명 이름 설정</label>
+			<div class="x_controls">
+				<input type="text" name="anonymous_name" value="{$config->anonymous_name}" />
+				<p class="x_help-block">익명 게시판 등에서 알림이 등록될 시, Anonymous 등 익명을 표시할 이름을 설정할 수 있습니다. 기본은 Anonymous 입니다.</p>
+			</div>
+		</div>
+		<div class="x_control-group">
+			<label class="x_control-label">멘션 설정</label>
+			<div class="x_controls mention_option">
+				<label class="x_inline">
+					<input type="checkbox" name="mention_format[]" value="respect" data-mention-split="님" checked="checked"|cond="in_array('respect', $config->mention_format)" /> '님'을 붙여 쓸 수 있도록 허용
+				</label>
+				<ul class="preview">
+					<li data-mention-default="enable"><strong>@스님</strong></li>
+					<li data-mention-default="enable"><strong>@선생님이다</strong></li>
+					<li data-mention-default="enable"><strong>@NAME</strong>&nbsp;&nbsp;…</li>
+					<li data-mention-default="enable"><strong>@NAME</strong>&nbsp;&nbsp;님</li>
+					<li><strong>@NAME</strong>님</li>
+					<li><strong>@NAME</strong>님과</li>
+					<li><strong>@NAME1</strong>님,&nbsp;&nbsp;<strong>@NAME2</strong>님이&nbsp;&nbsp;…</li>
+				</ul>
+				<p class="x_help-block">녹색으로 표시된 예시처럼 사용할 수 있습니다.</p>
+			</div>
+		</div>
+		<div class="x_control-group">
+			<label class="x_control-label">{$lang->ncenterlite_mention_target}</label>
+			<div class="x_controls">
+				<label class="x_inline">
+					<input type="radio" id="mention_names_id" name="mention_names" value="id" checked="checked"|cond="$config->mention_names == 'id'" /> {$lang->user_id}
+				</label>
+				<label class="x_inline">
+					<input type="radio" id="mention_names_nick_name" name="mention_names" value="nick_name" checked="checked"|cond="$config->mention_names == 'nick_name'" /> {$lang->nick_name}
+				</label>
+				<p class="x_help-block">{$lang->ncenterlite_mention_target_about}</p>
+			</div>
+		</div>
+		<div class="x_control-group">
+			<label class="x_control-label">회원정보 메뉴노출 설정</label>
+			<div class="x_controls">
+				<label class="x_inline">
+					<input type="radio" id="user_config_list_id" name="user_config_list" value="Y" checked="checked"|cond="$config->user_config_list == 'Y'" /> 회원정보에 표시함
+				</label>
+				<label class="x_inline">
+					<input type="radio" id="user_config_list_nick_name" name="user_config_list" value="N" checked="checked"|cond="$config->user_config_list == 'N'" /> 표기안함
+				</label>
+				<p class="x_help-block">회원정보보기에서 메뉴 목록에 회원알림센터 설정 및 회원알림목록을 접근할 수잇는 페이지를 노출하거나 노출 시키지 않을 수 있습니다.</p>
+			</div>
+		</div>
+		<div class="x_control-group">
+			<label class="x_control-label">안드로이드알림 솔루션</label>
+			<div class="x_controls">
+				<label class="x_inline"><input type="radio" name="android_format" value="N" checked="checked"|cond="$config->android_format == 'N'" /> 안드로이드 알림을 사용하지 않음</label>
+				<label class="x_inline"><input type="radio" name="android_format" value="mobileplus" checked="checked"|cond="$config->android_format == 'mobileplus'" />MobilePlus</label>
+				<p>알림센터와 함께 안드로이드 모바일 알림 솔루션을 선택하여 사용할 수 있습니다. 각각의 안드로이드 어플리케이션 플레폼을 사용하시면 선택하여 사용하시기 바랍니다.</p>
+			</div>
+		</div>
+
+		<div class="x_control-group">
+			<label class="x_control-label">{$lang->ncenterlite_message_event}</label>
+			<div class="x_controls">
+				<label><input type="checkbox" name="message_notify" value="N" checked="checked"|cond="$config->message_notify == 'N'" /> {$lang->ncenterlite_message_event_about}</label>
+			</div>
+		</div>
+
+		<div class="x_control-group">
+			<label class="x_control-label">알림센터 사용여부</label>
+			<div class="x_controls">
+				<p class="x_help-block">선택한 페이지에서 알림센터를 표시하지 않습니다.</p>
+				<div loop="$mid_list => $mid, $item">
+					<label>
+						<input type="checkbox" value="{$item->module_srl}" name="hide_module_srls[]" checked="checked"|cond="in_array($item->module_srl, $config->hide_module_srls)" />
+						<strong>{$item->browser_title}</strong> ({$item->mid} / {strtoupper($item->module)})
+					</label>
+				</div>
+			</div>
+		</div>
+		<div class="x_control-group">
+			<label class="x_control-label">댓글 알림 사용게시판</label>
+			<div class="x_controls">
+				<p class="x_help-block">선택한 게시판에서는 댓글의 모든 알림을 관리자가 받을 수 있습니다.</p>
+				<div loop="$mid_list => $mid, $item">
+					<label>
+						<input type="checkbox" value="{$item->module_srl}" name="admin_comment_module_srls[]" checked="checked"|cond="in_array($item->module_srl, $config->admin_comment_module_srls)" />
+						<strong>{$item->browser_title}</strong> ({$item->mid} / {strtoupper($item->module)})
+					</label>
+				</div>
+			</div>
+		</div>
+	</section>
+
+	<section class="section collapsed">
+		<h1>{$lang->ncenterlite_document_event_settings} ({$lang->ncenterlite_click_to_open}) </h1>
+		<div class="x_control-group">
+			<label class="x_control-label">{$lang->ncenterlite_document_event_vote}</label>
+			<div class="x_controls">
+				<label class="x_inline"><input type="radio" name="voted_format" value="Y" checked="checked"|cond="$config->voted_format == 'Y'" /> {$lang->ncenterlite_activate}</label>
+				<label class="x_inline"><input type="radio" name="voted_format" value="N" checked="checked"|cond="$config->voted_format == 'N'" /> {$lang->ncenterlite_inactivate}</label>
+				<p>{$lang->ncenterlite_document_event_vote_about}</p>
+			</div>
+		</div>
+		<div class="x_control-group">
+			<label class="x_control-label">{$lang->ncenterlite_document_event_read}</label>
+			<div class="x_controls">
+				<label class="x_inline"><input type="radio" name="document_read" value="N" checked="checked"|cond="$config->document_read == 'N'" />{$lang->ncenterlite_document_event_read_preserve}</label>
+				<label class="x_inline"><input type="radio" name="document_read" value="Y" checked="checked"|cond="$config->document_read == 'Y'" />{$lang->ncenterlite_document_event_read_delete}</label>
+				<p>{$lang->ncenterlite_document_event_read_about}</p>
+			</div>
+		</div>
+		<div class="x_control-group">
+			<label class="x_control-label">{$lang->ncenterlite_commnet_event}</label>
+			<div class="x_controls">
+				<label class="x_inline"><input type="radio" name="document_notify" value="all-comment" checked="checked"|cond="$config->document_notify == 'all-comment'" /> {$lang->ncenterlite_commnet_event_noti_all}</label>
+				<label class="x_inline"><input type="radio" name="document_notify" value="direct-comment" checked="checked"|cond="$config->document_notify == 'direct-comment'" /> {$lang->ncenterlite_commnet_event_noti_some}</label>
+			</div>
+		</div>
+	</section>
+
+
+
+	<section class="section collapsed">
+		<h1>{$lang->cmd_layout_setup} ({$lang->ncenterlite_click_to_open})</h1>
+		<div class="x_control-group">
+			<label class="x_control-label" for="layout_srl">{$lang->layout}</label>
+			<div class="x_controls">
+				<select name="layout_srl" id="layout_srl">
+					<option value="0">{$lang->notuse}</option>
+					<option loop="$layout_list => $key, $val" value="{$val->layout_srl}" selected="selected"|cond="$config->layout_srl==$val->layout_srl">{$val->title} ({$val->layout})</option>
+				</select>
+				<a href="#aboutLayout" data-toggle class="x_icon-question-sign">{$lang->help}</a>
+				<p class="x_help-block" id="aboutLayout" hidden>{$lang->about_layout}</p>
+			</div>
+		</div>
+		<div class="x_control-group">
+			<label class="x_control-label" for="layout_srl">{$lang->mobile} {$lang->layout}</label>
+			<div class="x_controls">
+				<select name="mlayout_srl" id="mlayout_srl">
+					<option value="0">{$lang->notuse}</option>
+					<option loop="$mlayout_list => $key, $val" value="{$val->layout_srl}" selected="selected"|cond="$config->mlayout_srl==$val->layout_srl">{$val->title} ({$val->layout})</option>
+				</select>
+				<a href="#aboutLayout" data-toggle class="x_icon-question-sign">{$lang->help}</a>
+				<p class="x_help-block" id="aboutLayout" hidden>{$lang->about_layout}</p>
+			</div>
+		</div>
+	</section>
+
+	<section class="section collapsed">
+		<h1>{$lang->ncenterlite_skin_settings} ({$lang->ncenterlite_click_to_open})</h1>
+		<div class="x_control-group">
+			<label class="x_control-label">{$lang->skin}</label>
+			<div class="x_controls">
+				<select name="skin" onchange="doDisplaySkinColorset(this); return false;">
+					<option loop="$skin_list => $key, $val" value="{$key}" selected="selected"|cond="$config->skin == $key">
+						{$val->title} ({htmlspecialchars($key)})
+					</option>
+				</select>
+			</div>
+		</div>
+		<div class="x_control-group">
+			<label class="x_control-label">{$lang->colorset}</label>
+			<div class="x_controls">
+				<select name="colorset" id="ncenterlite_colorset">
+					<option loop="$colorset_list => $key, $val" value="{$val->name}" selected="selected"|cond="$config->colorset == $val->name">
+						{$val->title} ({$val->name})
+					</option>
+				</select>
+			</div>
+		</div>
+		<div class="x_control-group">
+			<label class="x_control-label">mobile {$lang->mskin}</label>
+			<div class="x_controls">
+				<select name="mskin" onchange="doDisplayMobileSkinColorset(this); return false;">
+					<option loop="$mskin_list => $key, $val" value="{$key}" selected="selected"|cond="$config->mskin == $key">
+						{$val->title} ({htmlspecialchars($key)})
+					</option>
+				</select>
+			</div>
+		</div>
+		<div class="x_control-group">
+			<label class="x_control-label">mobile {$lang->colorset}</label>
+			<div class="x_controls">
+				<select name="mcolorset" id="ncenterlite_colorset">
+					<option loop="$mcolorset_list => $key, $val" value="{$val->name}" selected="selected"|cond="$config->mcolorset == $val->name">
+						{$val->title} ({$val->name})
+					</option>
+				</select>
+			</div>
+		</div>
+		<div class="x_control-group">
+			<label class="x_control-label">{$lang->ncenterlite_zindex}</label>
+			<div class="x_controls">
+				<input type="number" name="zindex" value="{$config->zindex}" />
+				<p class="x_help-block">{$lang->ncenterlite_zindex_about}</p>
+			</div>
+		</div>
+	</section>
+
+	<div class="x_clearfix btnArea">
+		<div class="x_pull-right">
+			<button class="x_btn x_btn-primary" type="submit">{$lang->cmd_registration}</button>
+		</div>
+	</div>
+
+	<section class="section">
+		<h1>{$lang->etc}</h1>
+		<div class="x_control-group">
+			<label class="x_control-label">{$lang->ncenterlite_test_mention}</label>
+			<div class="x_controls">
+				<label><input type="button" name="dummy" onClick="doDummyDataInsert();" class="x_btn" value="{$lang->ncenterlite_test_make_dummy}"> {$lang->ncenterlite_test_mention_about}</label>
+			</div>
+		</div>
+
+		<div class="x_control-group">
+			<label class="x_control-label">{$lang->ncenterlite_test_push}</label>
+			<div class="x_controls">
+				<label><input type="button" name="dummy" onClick="doDummyPushDataInsert();" class="x_btn" value="{$lang->ncenterlite_test_make_dummy}"> {$lang->ncenterlite_test_push_about}</label>
+			</div>
+		</div>
+	</section>
+</form>
+<div cond="$_ncenterlite_iframe_url">
+	<p>{$lang->ncenterlite_install_version} : Lite v{$ncenterlite_module_info->version}</p>
+	<iframe frameborder="0" src="{$_ncenterlite_iframe_url}" style="display:block; margin:10px auto; padding:0; width:90%;border:3px solid #7361d6; border-radius:10px; height:200px; overflow:scroll; "></iframe>
+</div>

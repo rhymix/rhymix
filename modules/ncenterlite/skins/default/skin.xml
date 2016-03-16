@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<skin version="0.2">
+	<title xml:lang="ko">XE 알림센터 Lite 기본스킨</title>
+	<title xml:lang="en">XE Notification Center Lite Default Skin</title>
+	<version>1.1.1</version>
+	<date>2013-03-21</date>
+
+	<author email_address="info@xemagazine.com" link="http://xmz.kr/">
+		<name xml:lang="ko">XE Public</name>
+		<name xml:lang="en">XE Public</name>
+	</author>
+
+	<colorset>
+		<color name="black">
+			<title xml:lang="ko">검은색</title>
+			<title xml:lang="en">Black</title>
+		</color>
+		<color name="gray">
+			<title xml:lang="ko">회색</title>
+			<title xml:lang="en">Gray</title>
+		</color>
+		<color name="white">
+			<title xml:lang="ko">흰색</title>
+			<title xml:lang="en">White</title>
+		</color>
+
+		<color name="blacknoprofile">
+			<title xml:lang="ko">검은색(no profile)</title>
+			<title xml:lang="en">Black (no profile)</title>
+		</color>
+		<color name="graynoprofile">
+			<title xml:lang="ko">회색(no profile)</title>
+			<title xml:lang="en">Gray (no profile)</title>
+		</color>
+		<color name="whitenoprofile">
+			<title xml:lang="ko">흰색(no profile)</title>
+			<title xml:lang="en">White (no profile)</title>
+		</color>
+	</colorset>
+</skin>

@@ -1,0 +1,12 @@
+.mention_option ul.preview,
+.mention_option ul.preview li { margin:0; padding:0; list-style:none; }
+
+.mention_option ul.preview li { display:inline-block; margin:5px; padding:3px 7px; border-radius:50px; color:red; font-size:1.2em; background:#EEE; }
+.mention_option ul.preview li strong { color:black; }
+
+.mention_option ul.preview li.enable,
+.mention_option ul.preview li.disable { color:black; }
+.mention_option ul.preview li.enable strong,
+.mention_option ul.preview li.disable strong { color:#FFF; }
+.mention_option ul.preview li.enable { background:green; }
+.mention_option ul.preview li.disable { background:red; }

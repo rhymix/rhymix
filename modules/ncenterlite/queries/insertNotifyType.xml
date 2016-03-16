@@ -1,0 +1,11 @@
+<query id="insertNotifyType" action="insert">
+	<tables>
+		<table name="ncenterlite_notify_type" />
+	</tables>
+	<columns>
+        <column name="notify_type_srl" var="notify_type_srl" notnull="notnull" />
+        <column name="notify_type_id" var="notify_type_id" notnull="notnull" />
+        <column name="notify_type_args" var="notify_type_args" />
+        <column name="notify_string" var="notify_string" notnull="notnull" />
+	</columns>
+</query>

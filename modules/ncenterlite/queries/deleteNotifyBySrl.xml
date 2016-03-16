@@ -1,0 +1,10 @@
+<query id="deleteNotifyBySrl" action="delete">
+	<tables>
+		<table name="ncenterlite_notify" />
+	</tables>
+
+	<conditions>
+		<condition operation="equal" column="srl" var="srl" filter="number" notnull="notnull" />
+		<condition operation="equal" column="target_srl" var="srl" filter="number" notnull="notnull" pipe="or" />
+	</conditions>
+</query>
