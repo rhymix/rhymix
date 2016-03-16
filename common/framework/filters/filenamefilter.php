@@ -46,4 +46,43 @@ class FilenameFilter
 		
 		return $filename;
 	}
+	
+	/**
+	 * Clean a path to remove ./, ../, trailing slashes, etc.
+	 * 
+	 * @param string $path
+	 * @return string
+	 */
+	public static function cleanPath($path)
+	{
+		// Convert relative paths to absolute paths.
+		if (!preg_match('@^(?:/|[a-z]:[\\\\/]|\\\\|https?:)@i', $path))
+		{
+			$path = \RX_BASEDIR . $path;
+		}
+		
+		// Convert backslashes to forward slashes.
+		$path = str_replace('\\', '/', $path);
+		
+		// Remove querystrings and URL fragments.
+		if (($querystring = strpbrk($path, '?#')) !== false)
+		{
+			$path = substr($path, 0, -1 * strlen($querystring));
+		}
+		
+		// Remove single dots, three or more dots, and duplicate slashes.
+		$path = preg_replace(array(
+			'@(?<!^|^http:|^https:)/{2,}@',
+			'@/(?:(?:\.|\.{3,})/)+@',
+		), '/', $path);
+		
+		// Remove double dots and the preceding directory.
+		while (preg_match('@/(?!\.\.)[^/]+/\.\.(?:/|$)@', $path, $matches))
+		{
+			$path = str_replace($matches[0], '/', $path);
+		}
+		
+		// Trim trailing slashes.
+		return rtrim($path, '/');
+	}
 }
