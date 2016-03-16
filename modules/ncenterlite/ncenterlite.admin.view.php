@@ -59,7 +59,7 @@ class ncenterliteAdminView extends ncenterlite
 				$_ncenterlite_iframe_url = 'http://sosifam.com/index.php?mid=ncenterlite_iframe';
 				if(!$agreement_ver)
 				{
-					$_host_info = urlencode($_SERVER['HTTP_HOST']) . '-NC' . $ncenterlite_module_info->version . '-PHP' . phpversion() . '-XE' . __XE_VERSION__;
+					$_host_info = urlencode($_SERVER['HTTP_HOST']) . '-NC' . $ncenterlite_module_info->version . '-PHP' . phpversion() . '-XE' . RX_VERSION;
 				}
 				Context::set('_ncenterlite_iframe_url', $_ncenterlite_iframe_url . '&_host='. $_host_info);
 				Context::set('ncenterlite_module_info', $ncenterlite_module_info);

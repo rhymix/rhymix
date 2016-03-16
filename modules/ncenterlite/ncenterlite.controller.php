@@ -270,7 +270,7 @@ class ncenterliteController extends ncenterlite
 		$messages_member_config = $oNcenterliteModel->getMemberConfig($trigger_obj->receiver_srl);
 		$message_member_config = $messages_member_config->data;
 
-		if(version_compare(__XE_VERSION__, '1.8', '>=') && $message_member_config->message_notify != 'N')
+		if(version_compare(RX_VERSION, '1.8', '>=') && $message_member_config->message_notify != 'N')
 		{
 			$args = new stdClass();
 			$args->member_srl = $trigger_obj->receiver_srl;
