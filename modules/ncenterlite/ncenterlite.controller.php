@@ -820,7 +820,7 @@ class ncenterliteController extends ncenterlite
 		$output = executeQuery('ncenterlite.updateNotifyReadedAll', $args);
 		//$output = executeQuery('ncenterlite.deleteNotifyByMemberSrl', $args);
 
-		return $ouptut;
+		return $output;
 	}
 
 	function procNcenterliteNotifyReadAll()
