@@ -116,6 +116,9 @@ class communicationView extends communication
 		$columnList = array('message_srl', 'readed', 'title', 'member.member_srl', 'member.nick_name', 'message.regdate', 'readed_date');
 		$output = $oCommunicationModel->getMessages($message_type, $columnList);
 
+		// Update flag file
+		getController('communication')->updateFlagFile($logged_info->member_srl);
+		
 		// set a template file
 		Context::set('total_count', $output->total_count);
 		Context::set('total_page', $output->total_page);

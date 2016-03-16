@@ -258,13 +258,7 @@ class communicationController extends communication
 		$oDB->commit();
 		
 		// create a flag that message is sent (in file format) 
-		$flag_path = './files/member_extra_info/new_message_flags/' . getNumberingPath($receiver_srl);
-		FileHandler::makeDir($flag_path);
-		$flag_file = sprintf('%s%s', $flag_path, $receiver_srl);
-		
-		$oCommunicationModel = getModel('communication');
-		$new_message_count = $oCommunicationModel->getNewMessageCount($receiver_srl);
-		FileHandler::writeFile($flag_file, $new_message_count);
+		$this->updateFlagFile($receiver_srl);
 
 		return new Object(0, 'success_sended');
 	}
@@ -305,7 +299,7 @@ class communicationController extends communication
 		{
 			return $output;
 		}
-
+		$this->updateFlagFile($logged_info->member_srl);
 		$this->setMessage('success_registed');
 	}
 
@@ -365,7 +359,7 @@ class communicationController extends communication
 		{
 			return $output;
 		}
-
+		$this->updateFlagFile($member_srl);
 		$this->setMessage('success_deleted');
 	}
 
@@ -443,7 +437,7 @@ class communicationController extends communication
 		{
 			return $output;
 		}
-
+		$this->updateFlagFile($member_srl);
 		$this->setMessage('success_deleted');
 
 		$returnUrl = Context::get('success_return_url') ? Context::get('success_return_url') : getNotEncodedUrl('', 'mid', Context::get('mid'), 'act', 'dispCommunicationMessages', 'message_type', Context::get('message_type'));
@@ -778,30 +772,43 @@ class communicationController extends communication
 		$args->related_srl = $message_srl;
 		$output = executeQuery('communication.setMessageReaded', $args);
 		
-		// Renew a flag
-		$logged_info = Context::get('logged_info');
-		$flag_path = './files/member_extra_info/new_message_flags/' . getNumberingPath($logged_info->member_srl);
-		$flag_file = sprintf('%s%s', $flag_path, $logged_info->member_srl);
-		if(file_exists($flag_file))
-		{
-			$oCommunicationModel = getModel('communication');
-			$new_message_count = $oCommunicationModel->getNewMessageCount();
-			if($new_message_count > 0)
-			{
-				FileHandler::writeFile($flag_file, $new_message_count);
-			}
-			else
-			{
-				FileHandler::removeFile($flag_file);
-			}
-		}
-		
+		// Update flag file
+		$this->updateFlagFile($logged_info->member_srl);
 		return $output;
+	}
+	
+	/**
+	 * Update flag file
+	 * @param int $member_srl
+	 * @return void
+	 */
+	function updateFlagFile($member_srl)
+	{
+		$flag_path = \RX_BASEDIR . 'files/member_extra_info/new_message_flags/' . getNumberingPath($member_srl);
+		$flag_file = $flag_path . $member_srl;
+		$new_message_count = getModel('communication')->getNewMessageCount($member_srl);
+		if($new_message_count > 0)
+		{
+			FileHandler::writeFile($flag_file, $new_message_count);
+		}
+		else
+		{
+			FileHandler::removeFile($flag_file);
+		}
 	}
 
 	function triggerModuleHandlerBefore($obj)
 	{
+		return $this->triggerModuleProcAfter($obj);
+	}
+	
+	function triggerModuleProcAfter($obj)
+	{
 		if(!Context::get('is_logged') || $obj->module == 'member')
+		{
+			return new Object();
+		}
+		if (starts_with('dispCommunication', Context::get('act')))
 		{
 			return new Object();
 		}
@@ -833,14 +840,14 @@ class communicationController extends communication
 		if($config->enable_message == 'Y' && $obj->act != 'dispCommunicationNewMessage')
 		{
 			$flag_path = './files/member_extra_info/new_message_flags/' . getNumberingPath($logged_info->member_srl);
-			$flag_file = sprintf('%s%s', $flag_path, $logged_info->member_srl);
+			$flag_file = $flag_path . $logged_info->member_srl;
 			if(file_exists($flag_file))
 			{
 				// Pop-up to display messages if a flag on new message is set
-				$new_message_count = (int) trim(FileHandler::readFile($flag_file));
+				$new_message_count = (int)trim(FileHandler::readFile($flag_file));
 				if($new_message_count > 0)
 				{
-					$text = preg_replace('@\r?\n@', '\\n', addslashes(lang('alert_new_message_arrived')));
+					$text = escape_js(lang('alert_new_message_arrived'));
 					Context::addHtmlFooter("<script>jQuery(function(){ xeNotifyMessage('{$text}','{$new_message_count}'); });</script>");
 					Context::loadFile(array('./modules/communication/tpl/js/member_communication.js'), true);
 				}
