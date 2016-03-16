@@ -799,6 +799,11 @@ class communicationController extends communication
 
 	function triggerModuleHandlerBefore($obj)
 	{
+		return $this->triggerModuleProcAfter($obj);
+	}
+	
+	function triggerModuleProcAfter($obj)
+	{
 		if(!Context::get('is_logged') || $obj->module == 'member')
 		{
 			return new Object();
