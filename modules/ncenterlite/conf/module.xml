@@ -13,7 +13,6 @@
 		<action name="procNcenterliteAdminInsertDummyData" type="controller" />
 		<action name="procNcenterliteAdminInsertPushData" type="controller" />
 		<action name="procNcenterliteAdminEnviromentGatheringAgreement" type="controller" />
-		<action name="procNcenterliteNotifyRead" type="controller" />
 		<action name="procNcenterliteNotifyReadAll" type="controller" />
 		<action name="procNcenterliteRedirect" type="controller" method="GET|POST" />
 

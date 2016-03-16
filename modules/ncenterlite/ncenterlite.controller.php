@@ -262,6 +262,11 @@ class ncenterliteController extends ncenterlite
 	{
 		$oNcenterliteModel = getModel('ncenterlite');
 		$config = $oNcenterliteModel->getConfig();
+		$communication_config = getModel('communication')->getConfig();
+		if($communication_config->enable_message != 'Y')
+		{
+			return new Object();
+		}
 		if($config->use != 'Y') return new Object();
 		if($config->message_notify == 'N')
 		{
@@ -740,16 +745,6 @@ class ncenterliteController extends ncenterlite
 		//$output = executeQuery('ncenterlite.deleteNotifyByMemberSrl', $args);
 
 		return $ouptut;
-	}
-
-	function procNcenterliteNotifyRead()
-	{
-		$logged_info = Context::get('logged_info');
-		$target_srl = Context::get('target_srl');
-		if(!$logged_info || !$target_srl) return new Object(-1, 'msg_invalid_request');
-
-		$output = $this->updateNotifyRead($notify, $logged_info->member_srl);
-		return $output;
 	}
 
 	function procNcenterliteNotifyReadAll()
