@@ -808,11 +808,6 @@ class communicationController extends communication
 		{
 			return new Object();
 		}
-		if (starts_with('dispCommunication', Context::get('act')))
-		{
-			return new Object();
-		}
-
 		$logged_info = Context::get('logged_info');
 		$oCommunicationModel = getModel('communication');
 		$config = $oCommunicationModel->getConfig();
@@ -837,6 +832,11 @@ class communicationController extends communication
 			$oMemberController->addMemberMenu('dispCommunicationFriend', 'cmd_view_friend');
 		}
 		
+		if (starts_with('dispCommunication', Context::get('act')))
+		{
+			return new Object();
+		}
+
 		if($config->enable_message == 'Y' && $obj->act != 'dispCommunicationNewMessage')
 		{
 			$flag_path = './files/member_extra_info/new_message_flags/' . getNumberingPath($logged_info->member_srl);
