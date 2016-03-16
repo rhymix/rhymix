@@ -654,10 +654,11 @@ class ncenterliteController extends ncenterlite
 
 		// 알림 목록 가져오기
 		$_output = $oNcenterliteModel->getMyNotifyList();
+		// 알림 메시지가 없어도 항상 표시하게 하려면 이 줄을 제거 또는 주석 처리하세요.
 		if(!$_output->data)
 		{
 			return;
-		} // 알림 메시지가 없어도 항상 표시하게 하려면 이 줄을 제거 또는 주석 처리하세요.
+		}
 
 		$_latest_notify_id = array_slice($_output->data, 0, 1);
 		$_latest_notify_id = $_latest_notify_id[0]->notify;
