@@ -161,14 +161,7 @@ class ncenterliteModel extends ncenterlite
 				break;
 				// 메시지. 쪽지
 				case 'E':
-					if(version_compare(RX_VERSION, '1.7.4', '>='))
-					{
-						$str = sprintf($lang->ncenterlite_message_mention,$target_member, $v->target_summary);
-					}
-					else
-					{
-						$str = sprintf($lang->ncenterlite_message_string, $v->target_summary);
-					}
+					$str = sprintf($lang->ncenterlite_message_mention,$target_member, $v->target_summary);
 				break;
 				case 'T':
 					$str = sprintf($lang->ncenterlite_test_noti, $target_member);
