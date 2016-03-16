@@ -9,11 +9,9 @@
 class communication extends ModuleObject
 {
 	private $triggers = array(
+		array('moduleHandler.init', 'communication', 'controller', 'triggerModuleHandlerBefore', 'before'),
 		array('moduleObject.proc', 'communication', 'controller', 'triggerModuleProcAfter', 'after'),
 		array('member.getMemberMenu', 'communication', 'controller', 'triggerMemberMenu', 'before')
-	);
-	private $delete_triggers = array(
-		array('moduleHandler.init', 'communication', 'controller', 'triggerModuleHandlerBefore', 'before'),
 	);
 	
 	/**
@@ -50,13 +48,6 @@ class communication extends ModuleObject
 				return TRUE;
 			}
 		}
-		foreach($this->delete_triggers as $trigger)
-		{
-			if($oModuleModel->getTrigger($trigger[0], $trigger[1], $trigger[2], $trigger[3], $trigger[4]))
-			{
-				return TRUE;
-			}
-		}
 		
 		if(!is_dir("./files/member_extra_info/new_message_flags"))
 		{
@@ -80,13 +71,6 @@ class communication extends ModuleObject
 			if(!$oModuleModel->getTrigger($trigger[0], $trigger[1], $trigger[2], $trigger[3], $trigger[4]))
 			{
 				$oModuleController->insertTrigger($trigger[0], $trigger[1], $trigger[2], $trigger[3], $trigger[4]);
-			}
-		}
-		foreach($this->delete_triggers as $trigger)
-		{
-			if($oModuleModel->getTrigger($trigger[0], $trigger[1], $trigger[2], $trigger[3], $trigger[4]))
-			{
-				$oModuleController->deleteTrigger($trigger[0], $trigger[1], $trigger[2], $trigger[3], $trigger[4]);
 			}
 		}
 		

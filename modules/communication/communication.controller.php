@@ -799,29 +799,10 @@ class communicationController extends communication
 
 	function triggerModuleHandlerBefore($obj)
 	{
-		return $this->triggerModuleProcAfter($obj);
-	}
-	
-	function triggerModuleProcAfter($obj)
-	{
-		if(!Context::get('is_logged') || $obj->module == 'member')
-		{
-			return new Object();
-		}
-		$logged_info = Context::get('logged_info');
-		$oCommunicationModel = getModel('communication');
-		$config = $oCommunicationModel->getConfig();
-		if($obj->module == 'admin')
-		{
-			return new Object();
-		}
-		if($config->enable_message == 'N' && $config->enable_friend == 'N')
-		{
-			return new Object();
-		}
-		
 		// Add menus on the member login information
+		$config = getModel('communication')->getConfig();
 		$oMemberController = getController('member');
+		
 		if($config->enable_message == 'Y')
 		{
 			$oMemberController->addMemberMenu('dispCommunicationMessages', 'cmd_view_message_box');
@@ -831,13 +812,23 @@ class communicationController extends communication
 		{
 			$oMemberController->addMemberMenu('dispCommunicationFriend', 'cmd_view_friend');
 		}
+	}
+	
+	function triggerModuleProcAfter($obj)
+	{
+		if (!Context::get('is_logged') || $obj->module == 'member' || $obj->module == 'admin')
+		{
+			return new Object();
+		}
 		
-		if (starts_with('dispCommunication', Context::get('act')))
+		$config = getModel('communication')->getConfig();
+		if ($config->enable_message == 'N' || starts_with('dispCommunication', Context::get('act')))
 		{
 			return new Object();
 		}
 
-		if($config->enable_message == 'Y' && $obj->act != 'dispCommunicationNewMessage')
+		$logged_info = Context::get('logged_info');
+		if ($config->enable_message == 'Y')
 		{
 			$flag_path = './files/member_extra_info/new_message_flags/' . getNumberingPath($logged_info->member_srl);
 			$flag_file = $flag_path . $logged_info->member_srl;
