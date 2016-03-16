@@ -587,11 +587,13 @@ class ncenterliteController extends ncenterlite
 
 		Context::set('ncenterlite_config', $config);
 
-		$oModuleModel = getModel('module');
-		$ncenterlite_module_info = $oModuleModel->getModuleInfoXml('ncenterlite');
-		$jsCacheRefresh = '?'.$ncenterlite_module_info->version.'.'.$ncenterlite_module_info->date.'.js';
-		Context::addJsFile('./modules/ncenterlite/tpl/js/ncenterlite.js'.$jsCacheRefresh, true, '', 100000);
-
+		$js_args = array(
+			'./modules/ncenterlite/tpl/js/ncenterlite.js',
+			'body',
+			'',
+			100000
+		);
+		Context::loadFile($js_args);
 
 		$oNcenterliteModel = getModel('ncenterlite');
 
