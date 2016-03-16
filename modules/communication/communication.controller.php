@@ -820,7 +820,13 @@ class communicationController extends communication
 		{
 			return new Object();
 		}
-		
+
+		$ncenterlite_config = getModel('ncenterlite')->getConfig();
+		if($ncenterlite_config->message_notify == 'Y' && $ncenterlite_config->use == 'Y')
+		{
+			return new Object();
+		}
+
 		$config = getModel('communication')->getConfig();
 		if ($config->enable_message == 'N' || starts_with('dispCommunication', Context::get('act')))
 		{
