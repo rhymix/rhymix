@@ -10,7 +10,7 @@ class Timer
 	/**
 	 * Timestamps are stored here.
 	 */
-	protected static $_timestamps = [];
+	protected static $_timestamps = array();
 	
 	/**
 	 * Start a timer.

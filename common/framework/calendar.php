@@ -101,7 +101,7 @@ class Calendar
 		$count = self::getMonthDays($month_number, $year);
 		$initial_blank_cells = (7 + $start - $start_dow) % 7;
 		$final_blank_cells = 42 - $count - $initial_blank_cells;
-		$temp = [];
+		$temp = array();
 		
 		for ($i = 0; $i < $initial_blank_cells; $i++)
 		{
@@ -116,7 +116,7 @@ class Calendar
 			$temp[] = null;
 		}
 		
-		$return = [];
+		$return = array();
 		for ($i = 0; $i < 6; $i++)
 		{
 			$week = [];
