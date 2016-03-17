@@ -5,9 +5,13 @@ class TimerTest extends \Codeception\TestCase\Test
 	function testStartStop()
 	{
 		$t1 = microtime(true);
+		usleep(1000);
 		$started = Rhymix\Framework\Timer::start();
+		usleep(1000);
 		$t2 = microtime(true);
+		usleep(1000);
 		$elapsed = Rhymix\Framework\Timer::stop();
+		usleep(1000);
 		$t3 = microtime(true);
 		
 		$this->assertGreaterThanOrEqual($t1, $started);
@@ -20,8 +24,11 @@ class TimerTest extends \Codeception\TestCase\Test
 	function testNestedTimers()
 	{
 		$t1 = Rhymix\Framework\Timer::start();
+		usleep(1000);
 		$t2 = Rhymix\Framework\Timer::start();
+		usleep(1000);
 		$t3 = Rhymix\Framework\Timer::stop();
+		usleep(1000);
 		$t4 = Rhymix\Framework\Timer::stop();
 		
 		$this->assertGreaterThanOrEqual($t1, $t2);
@@ -33,7 +40,7 @@ class TimerTest extends \Codeception\TestCase\Test
 		$t1 = Rhymix\Framework\Timer::start('timer1');
 		usleep(5000);
 		$t2 = Rhymix\Framework\Timer::start('timer2');
-		
+		usleep(1000);
 		$t3 = Rhymix\Framework\Timer::stop('timer1');
 		usleep(2000);
 		$t4 = Rhymix\Framework\Timer::stop('timer2');
@@ -45,6 +52,7 @@ class TimerTest extends \Codeception\TestCase\Test
 	function testTimerFormat()
 	{
 		$t1 = Rhymix\Framework\Timer::start();
+		usleep(1000);
 		$t2 = Rhymix\Framework\Timer::stopFormat();
 		
 		$this->assertRegexp('/^[0-9\.,]+ms$/', $t2);
