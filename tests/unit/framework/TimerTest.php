@@ -47,7 +47,7 @@ class TimerTest extends \Codeception\TestCase\Test
 		$t1 = Rhymix\Framework\Timer::start();
 		$t2 = Rhymix\Framework\Timer::stopFormat();
 		
-		$this->assertRegexp('/^[0-9\.]+ms$/', $t2);
+		$this->assertRegexp('/^[0-9\.,]+ms$/', $t2);
 	}
 	
 	function testTimerSinceStartup()
@@ -58,6 +58,6 @@ class TimerTest extends \Codeception\TestCase\Test
 		$this->assertGreaterThanOrEqual($t1, $t2);
 		
 		$t3 = Rhymix\Framework\Timer::sinceStartupFormat();
-		$this->assertRegexp('/^[0-9\.]+ms$/', $t3);
+		$this->assertRegexp('/^[0-9\.,]+ms$/', $t3);
 	}
 }
