@@ -119,7 +119,7 @@ class Calendar
 		$return = array();
 		for ($i = 0; $i < 6; $i++)
 		{
-			$week = [];
+			$week = array();
 			for ($j = 0; $j < 7; $j++)
 			{
 				$week[] = array_shift($temp);

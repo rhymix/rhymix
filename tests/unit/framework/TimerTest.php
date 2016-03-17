@@ -25,7 +25,7 @@ class TimerTest extends \Codeception\TestCase\Test
 		$t4 = Rhymix\Framework\Timer::stop();
 		
 		$this->assertGreaterThanOrEqual($t1, $t2);
-		$this->assertGreaterThan($t4, $t3);
+		$this->assertGreaterThan($t3, $t4);
 	}
 	
 	function testMultipleTimers()
