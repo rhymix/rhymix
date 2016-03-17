@@ -192,6 +192,24 @@ class Lang
 	}
 	
 	/**
+	 * Fallback method for getting the default translation.
+	 * 
+	 * @param string $key
+	 * @return string
+	 */
+	public function getFromDefaultLang($key)
+	{
+		if ($this->_language === 'en')
+		{
+			return $key;
+		}
+		else
+		{
+			return self::getInstance('en')->__get($key);
+		}
+	}
+	
+	/**
 	 * Magic method for translations without arguments.
 	 * 
 	 * @param string $key
@@ -199,45 +217,58 @@ class Lang
 	 */
 	public function __get($key)
 	{
-		// Get default language
-		if ($this->_language !== 'en')
+		// Load a dot-separated key (prefixed by plugin name).
+		if (preg_match('/^[a-z0-9_.-]+$/i', $key) && ($keys = explode('.', $key)) && count($keys) >= 2)
 		{
-			$lang_en = self::getInstance('en')->{$key};
-		}
-		
-		// Separate the plugin name from the key.
-		if (preg_match('/^[a-z0-9_.-]+$/i', $key) && ($keys = explode('.', $key, 2)) && count($keys) === 2)
-		{
-			list($plugin_name, $lang_key) = $keys;
+			// Attempt to load the plugin.
+			$plugin_name = array_shift($keys);
 			if (!isset($this->_loaded_plugins[$plugin_name]))
 			{
 				$this->loadPlugin($plugin_name);
 			}
-			
-			if (isset($this->_loaded_plugins[$plugin_name]->{$lang_key}))
+			if (!isset($this->_loaded_plugins[$plugin_name]))
 			{
-				$lang = $this->_loaded_plugins[$plugin_name]->{$lang_key};
-				if (is_array($lang) && is_array($lang_en) && count($lang_en, COUNT_RECURSIVE) > count($lang, COUNT_RECURSIVE))
+				return $this->getFromDefaultLang($key);
+			}
+			
+			// Find the given key.
+			$lang = $this->_loaded_plugins[$plugin_name];
+			foreach ($keys as $subkey)
+			{
+				if (isset($lang->{$subkey}))
 				{
-					return $lang_en;
+					$lang = is_scalar($lang->{$subkey}) ? $lang->{$subkey} : new \ArrayObject($lang->{$subkey}, 3);
 				}
-				
+				else
+				{
+					return $this->getFromDefaultLang($key);
+				}
+			}
+			return $lang;
+		}
+		
+		// Search custom translations first.
+		if (isset($this->_loaded_plugins['_custom_']->{$key}))
+		{
+			$lang = $this->_loaded_plugins['_custom_']->{$key};
+			if (is_array($lang))
+			{
+				return new \ArrayObject($lang, 3);
+			}
+			else
+			{
 				return $lang;
 			}
 		}
-		else
+		
+		// Search other plugins.
+		foreach ($this->_search_priority as $plugin_name)
 		{
-			// Search custom translations first.
-			if (isset($this->_loaded_plugins['_custom_']->{$key}))
+			if (isset($this->_loaded_plugins[$plugin_name]->{$key}))
 			{
-				$lang = $this->_loaded_plugins['_custom_']->{$key};
+				$lang = $this->_loaded_plugins[$plugin_name]->{$key};
 				if (is_array($lang))
 				{
-					if (is_array($lang_en) && count($lang_en, COUNT_RECURSIVE) > count($lang, COUNT_RECURSIVE))
-					{
-						return new \ArrayObject($lang_en, 3);
-					}
-					
 					return new \ArrayObject($lang, 3);
 				}
 				else
@@ -245,38 +276,10 @@ class Lang
 					return $lang;
 				}
 			}
-			
-			// Search other plugins.
-			foreach ($this->_search_priority as $plugin_name)
-			{
-				if (isset($this->_loaded_plugins[$plugin_name]->{$key}))
-				{
-					$lang = $this->_loaded_plugins[$plugin_name]->{$key};
-					if (is_array($lang))
-					{
-						if (is_array($lang_en) && count($lang_en, COUNT_RECURSIVE) > count($lang, COUNT_RECURSIVE))
-						{
-							return new \ArrayObject($lang_en, 3);
-						}
-						
-						return new \ArrayObject($lang, 3);
-					}
-					else
-					{
-						return $lang;
-					}
-				}
-			}
 		}
 		
-		// Search other language.
-		if (isset($lang_en))
-		{
-			return $lang_en;
-		}
-		
-		// If no translation is found, return the key.
-		return $key;
+		// If no translation is found, return the default language.
+		return $this->getFromDefaultLang($key);
 	}
 	
 	/**
