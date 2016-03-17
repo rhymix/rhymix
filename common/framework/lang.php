@@ -176,7 +176,19 @@ class Lang
 	{
 		$args = func_get_args();
 		array_shift($args);
-		return $this->__call($key, $args);
+		if (count($args) === 1 && is_array($args[0]))
+		{
+			$args = $args[0];
+		}
+		
+		// Get the translation.
+		$translation = $this->__get($key);
+		
+		// If there are no arguments, return the translation.
+		if (!count($args)) return $translation;
+		
+		// If there are arguments, interpolate them into the translation and return the result.
+		return vsprintf($translation, $args);
 	}
 	
 	/**
@@ -338,16 +350,6 @@ class Lang
 	 */
 	public function __call($key, $args = array())
 	{
-		// Remove a colon from the beginning of the string.
-		if ($key !== '' && $key[0] === ':') $key = substr($key, 1);
-		
-		// Find the translation.
-		$translation = $this->__get($key);
-		
-		// If there are no arguments, return the translation.
-		if (!count($args)) return $translation;
-		
-		// If there are arguments, interpolate them into the translation and return the result.
-		return vsprintf($translation, $args);
+		return $this->get($key, $args);
 	}
 }
