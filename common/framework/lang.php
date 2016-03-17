@@ -108,70 +108,52 @@ class Lang
 			return true;
 		}
 		
-		// Load the language file.
-		$lang = $this->getPluginLang($dir);
+		// Initialize variables.
+		$filename = null;
+		$lang = new \stdClass;
+		$result = true;
 		
-		// Load the default language file.
+		// Find a suitable language file in the given directory.
+		if (file_exists($dir . '/' . $this->_language . '.php'))
+		{
+			$filename = $dir . '/' . $this->_language . '.php';
+		}
+		elseif (($hyphen = strpos($this->_language, '-')) !== false && file_exists($dir . '/' . substr($this->_language, 0, $hyphen) . '.php'))
+		{
+			$filename = $dir . '/' . substr($this->_language, 0, $hyphen) . '.php';
+		}
+		elseif (file_exists("$dir/lang.xml"))
+		{
+			$filename = Parsers\LangParser::compileXMLtoPHP("$dir/lang.xml", $this->_language === 'ja' ? 'jp' : $this->_language);
+		}
+		elseif (file_exists($dir . '/' . ($this->_language === 'ja' ? 'jp' : $this->_language) . '.lang.php'))
+		{
+			$filename = $dir . '/' . ($this->_language === 'ja' ? 'jp' : $this->_language) . '.lang.php';
+		}
+		
+		// Load the language file.
+		if ($filename)
+		{
+			include $filename;
+			array_unshift($this->_search_priority, $plugin_name);
+			$result = true;
+		}
+		else
+		{
+			$result = false;
+		}
+		
+		// Mark this directory and plugin as loaded.
+		$this->_loaded_directories[$dir] = true;
+		$this->_loaded_plugins[$plugin_name] = $lang;
+		
+		// Load the same directory in the default language, too.
 		if ($this->_language !== 'en')
 		{
 			self::getInstance('en')->loadDirectory($dir, $plugin_name);
 		}
 		
-		if (!empty($lang))
-		{
-			$this->_loaded_directories[$dir] = true;
-			$this->_loaded_plugins[$plugin_name] = $lang;
-			array_unshift($this->_search_priority, $plugin_name);
-			return true;
-		}
-		else
-		{
-			$this->_loaded_directories[$dir] = true;
-			$this->_loaded_plugins[$plugin_name] = new \stdClass;
-			return false;
-		}
-	}
-	
-	/**
-	 * Get the language file from plugin.
-	 * 
-	 * @param string $dir
-	 * @param string $language
-	 * @return object
-	 */
-	public function getPluginLang($dir, $language = null)
-	{
-		if (!$language)
-		{
-			$language = $this->_language;
-		}
-		
-		if (file_exists($dir . '/' . $language . '.php'))
-		{
-			$filename = $dir . '/' . $language . '.php';
-		}
-		elseif (($hyphen = strpos($language, '-')) !== false && file_exists($dir . '/' . substr($language, 0, $hyphen) . '.php'))
-		{
-			$filename = $dir . '/' . substr($language, 0, $hyphen) . '.php';
-		}
-		elseif (file_exists("$dir/lang.xml"))
-		{
-			$filename = Parsers\LangParser::compileXMLtoPHP("$dir/lang.xml", $language === 'ja' ? 'jp' : $language);
-		}
-		elseif (file_exists($dir . '/' . ($language === 'ja' ? 'jp' : $language) . '.lang.php'))
-		{
-			$filename = $dir . '/' . ($language === 'ja' ? 'jp' : $language) . '.lang.php';
-		}
-		
-		if (!$filename)
-		{
-			return new \stdClass;
-		}
-		
-		$lang = new \stdClass;
-		include $filename;
-		
-		return $lang;
+		return $result;
 	}
 	
 	/**
@@ -194,7 +176,19 @@ class Lang
 	{
 		$args = func_get_args();
 		array_shift($args);
-		return $this->__call($key, $args);
+		if (count($args) === 1 && is_array($args[0]))
+		{
+			$args = $args[0];
+		}
+		
+		// Get the translation.
+		$translation = $this->__get($key);
+		
+		// If there are no arguments, return the translation.
+		if (!count($args)) return $translation;
+		
+		// If there are arguments, interpolate them into the translation and return the result.
+		return vsprintf($translation, $args);
 	}
 	
 	/**
@@ -210,6 +204,24 @@ class Lang
 	}
 	
 	/**
+	 * Fallback method for getting the default translation.
+	 * 
+	 * @param string $key
+	 * @return string
+	 */
+	public function getFromDefaultLang($key)
+	{
+		if ($this->_language === 'en')
+		{
+			return $key;
+		}
+		else
+		{
+			return self::getInstance('en')->__get($key);
+		}
+	}
+	
+	/**
 	 * Magic method for translations without arguments.
 	 * 
 	 * @param string $key
@@ -217,84 +229,59 @@ class Lang
 	 */
 	public function __get($key)
 	{
-		// Get default language
-		if ($this->_language !== 'en')
+		// Load a dot-separated key (prefixed by plugin name).
+		if (preg_match('/^[a-z0-9_.-]+$/i', $key) && ($keys = explode('.', $key)) && count($keys) >= 2)
 		{
-			$lang_en = self::getInstance('en')->{$key};
-		}
-		
-		// Separate the plugin name from the key.
-		if (preg_match('/^[a-z0-9_.-]+$/i', $key) && ($keys = explode('.', $key, 2)) && count($keys) === 2)
-		{
-			list($plugin_name, $lang_key) = $keys;
+			// Attempt to load the plugin.
+			$plugin_name = array_shift($keys);
 			if (!isset($this->_loaded_plugins[$plugin_name]))
 			{
 				$this->loadPlugin($plugin_name);
 			}
-			
-			if (isset($this->_loaded_plugins[$plugin_name]->{$lang_key}))
+			if (!isset($this->_loaded_plugins[$plugin_name]))
 			{
-				$lang = $this->_loaded_plugins[$plugin_name]->{$lang_key};
-				if (is_array($lang) && is_array($lang_en) && count($lang_en, COUNT_RECURSIVE) > count($lang, COUNT_RECURSIVE))
-				{
-					return $lang_en;
-				}
-				
-				return $lang;
+				return $this->getFromDefaultLang($key);
 			}
-		}
-		else
-		{
-			// Search custom translations first.
-			if (isset($this->_loaded_plugins['_custom_']->{$key}))
+			
+			// Find the given key.
+			$lang = $this->_loaded_plugins[$plugin_name];
+			foreach ($keys as $subkey)
 			{
-				$lang = $this->_loaded_plugins['_custom_']->{$key};
-				if (is_array($lang))
+				if (is_object($lang) && isset($lang->{$subkey}))
 				{
-					if (is_array($lang_en) && count($lang_en, COUNT_RECURSIVE) > count($lang, COUNT_RECURSIVE))
-					{
-						return new \ArrayObject($lang_en, 3);
-					}
-					
-					return new \ArrayObject($lang, 3);
+					$lang = $lang->{$subkey};
+				}
+				elseif (is_array($lang) && isset($lang[$subkey]))
+				{
+					$lang = $lang[$subkey];
 				}
 				else
 				{
-					return $lang;
+					return $this->getFromDefaultLang($key);
 				}
 			}
-			
-			// Search other plugins.
-			foreach ($this->_search_priority as $plugin_name)
-			{
-				if (isset($this->_loaded_plugins[$plugin_name]->{$key}))
-				{
-					$lang = $this->_loaded_plugins[$plugin_name]->{$key};
-					if (is_array($lang))
-					{
-						if (is_array($lang_en) && count($lang_en, COUNT_RECURSIVE) > count($lang, COUNT_RECURSIVE))
-						{
-							return new \ArrayObject($lang_en, 3);
-						}
-						
-						return new \ArrayObject($lang, 3);
-					}
-					else
-					{
-						return $lang;
-					}
-				}
-			}
+			return is_array($lang) ? new \ArrayObject($lang, 3) : $lang;
 		}
 		
-		// Search other language.
-		if (isset($lang_en))
+		// Search custom translations first.
+		if (isset($this->_loaded_plugins['_custom_']->{$key}))
 		{
-			return $lang_en;
+			$lang = $this->_loaded_plugins['_custom_']->{$key};
+			return is_array($lang) ? new \ArrayObject($lang, 3) : $lang;
 		}
 		
-		// If no translation is found, return the key.
-		return $key;
+		// Search other plugins.
+		foreach ($this->_search_priority as $plugin_name)
+		{
+			if (isset($this->_loaded_plugins[$plugin_name]->{$key}))
+			{
+				$lang = $this->_loaded_plugins[$plugin_name]->{$key};
+				return is_array($lang) ? new \ArrayObject($lang, 3) : $lang;
+			}
+		}
+		
+		// If no translation is found, return the default language.
+		return $this->getFromDefaultLang($key);
 	}
 	
 	/**
@@ -306,6 +293,73 @@ class Lang
 	 */
 	public function __set($key, $value)
 	{
+		// Set a dot-separated key (prefixed by plugin name).
+		if (preg_match('/^[a-z0-9_.-]+$/i', $key) && ($keys = explode('.', $key)) && count($keys) >= 2)
+		{
+			// Attempt to load the plugin.
+			$plugin_name = array_shift($keys);
+			if (!isset($this->_loaded_plugins[$plugin_name]))
+			{
+				$this->loadPlugin($plugin_name);
+			}
+			if (!isset($this->_loaded_plugins[$plugin_name]))
+			{
+				return false;
+			}
+			
+			// Set the given key.
+			$count = count($keys);
+			$lang = $this->_loaded_plugins[$plugin_name];
+			foreach ($keys as $i => $subkey)
+			{
+				if (is_object($lang) && isset($lang->{$subkey}))
+				{
+					if ($i === $count - 1)
+					{
+						$lang->{$subkey} = $value;
+						break;
+					}
+					elseif (is_array($lang->{$subkey}))
+					{
+						$lang = &$lang->{$subkey};
+					}
+					else
+					{
+						return false;
+					}
+				}
+				elseif (is_array($lang) && isset($lang[$subkey]))
+				{
+					if ($i === $count - 1)
+					{
+						$lang[$subkey] = $value;
+						break;
+					}
+					elseif (is_array($lang[$subkey]))
+					{
+						$lang = &$lang[$subkey];
+					}
+					else
+					{
+						return false;
+					}
+				}
+				else
+				{
+					if (is_object($lang))
+					{
+						$lang->{$subkey} = $value;
+					}
+					else
+					{
+						$lang[$subkey] = $value;
+					}
+					break;
+				}
+			}
+		}
+		
+		// Set a regular key.
 		$this->_loaded_plugins['_custom_']->{$key} = $value;
 	}
 	
@@ -335,13 +389,7 @@ class Lang
 	 */
 	public function __unset($key)
 	{
-		foreach ($this->_loaded_plugins as $plugin_name => $translations)
-		{
-			if (isset($translations->{$key}))
-			{
-				unset($translations->{$key});
-			}
-		}
+		$this->set($key, null);
 	}
 	
 	/**
@@ -353,16 +401,6 @@ class Lang
 	 */
 	public function __call($key, $args = array())
 	{
-		// Remove a colon from the beginning of the string.
-		if ($key !== '' && $key[0] === ':') $key = substr($key, 1);
-		
-		// Find the translation.
-		$translation = $this->__get($key);
-		
-		// If there are no arguments, return the translation.
-		if (!count($args)) return $translation;
-		
-		// If there are arguments, interpolate them into the translation and return the result.
-		return vsprintf($translation, $args);
+		return $this->get($key, $args);
 	}
 }
