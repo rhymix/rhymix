@@ -108,70 +108,52 @@ class Lang
 			return true;
 		}
 		
-		// Load the language file.
-		$lang = $this->getPluginLang($dir);
+		// Initialize variables.
+		$filename = null;
+		$lang = new \stdClass;
+		$result = true;
 		
-		// Load the default language file.
+		// Find a suitable language file in the given directory.
+		if (file_exists($dir . '/' . $this->_language . '.php'))
+		{
+			$filename = $dir . '/' . $this->_language . '.php';
+		}
+		elseif (($hyphen = strpos($this->_language, '-')) !== false && file_exists($dir . '/' . substr($this->_language, 0, $hyphen) . '.php'))
+		{
+			$filename = $dir . '/' . substr($this->_language, 0, $hyphen) . '.php';
+		}
+		elseif (file_exists("$dir/lang.xml"))
+		{
+			$filename = Parsers\LangParser::compileXMLtoPHP("$dir/lang.xml", $this->_language === 'ja' ? 'jp' : $this->_language);
+		}
+		elseif (file_exists($dir . '/' . ($this->_language === 'ja' ? 'jp' : $this->_language) . '.lang.php'))
+		{
+			$filename = $dir . '/' . ($this->_language === 'ja' ? 'jp' : $this->_language) . '.lang.php';
+		}
+		
+		// Load the language file.
+		if ($filename)
+		{
+			include $filename;
+			array_unshift($this->_search_priority, $plugin_name);
+			$result = true;
+		}
+		else
+		{
+			$result = false;
+		}
+		
+		// Mark this directory and plugin as loaded.
+		$this->_loaded_directories[$dir] = true;
+		$this->_loaded_plugins[$plugin_name] = $lang;
+		
+		// Load the same directory in the default language, too.
 		if ($this->_language !== 'en')
 		{
 			self::getInstance('en')->loadDirectory($dir, $plugin_name);
 		}
 		
-		if (!empty($lang))
-		{
-			$this->_loaded_directories[$dir] = true;
-			$this->_loaded_plugins[$plugin_name] = $lang;
-			array_unshift($this->_search_priority, $plugin_name);
-			return true;
-		}
-		else
-		{
-			$this->_loaded_directories[$dir] = true;
-			$this->_loaded_plugins[$plugin_name] = new \stdClass;
-			return false;
-		}
-	}
-	
-	/**
-	 * Get the language file from plugin.
-	 * 
-	 * @param string $dir
-	 * @param string $language
-	 * @return object
-	 */
-	public function getPluginLang($dir, $language = null)
-	{
-		if (!$language)
-		{
-			$language = $this->_language;
-		}
-		
-		if (file_exists($dir . '/' . $language . '.php'))
-		{
-			$filename = $dir . '/' . $language . '.php';
-		}
-		elseif (($hyphen = strpos($language, '-')) !== false && file_exists($dir . '/' . substr($language, 0, $hyphen) . '.php'))
-		{
-			$filename = $dir . '/' . substr($language, 0, $hyphen) . '.php';
-		}
-		elseif (file_exists("$dir/lang.xml"))
-		{
-			$filename = Parsers\LangParser::compileXMLtoPHP("$dir/lang.xml", $language === 'ja' ? 'jp' : $language);
-		}
-		elseif (file_exists($dir . '/' . ($language === 'ja' ? 'jp' : $language) . '.lang.php'))
-		{
-			$filename = $dir . '/' . ($language === 'ja' ? 'jp' : $language) . '.lang.php';
-		}
-		
-		if (!$filename)
-		{
-			return new \stdClass;
-		}
-		
-		$lang = new \stdClass;
-		include $filename;
-		
-		return $lang;
+		return $result;
 	}
 	
 	/**
