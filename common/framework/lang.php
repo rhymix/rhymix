@@ -247,30 +247,27 @@ class Lang
 			$lang = $this->_loaded_plugins[$plugin_name];
 			foreach ($keys as $subkey)
 			{
-				if (isset($lang->{$subkey}))
+				if (is_object($lang) && isset($lang->{$subkey}))
 				{
-					$lang = is_scalar($lang->{$subkey}) ? $lang->{$subkey} : new \ArrayObject($lang->{$subkey}, 3);
+					$lang = $lang->{$subkey};
+				}
+				elseif (is_array($lang) && isset($lang[$subkey]))
+				{
+					$lang = $lang[$subkey];
 				}
 				else
 				{
 					return $this->getFromDefaultLang($key);
 				}
 			}
-			return $lang;
+			return is_array($lang) ? new \ArrayObject($lang, 3) : $lang;
 		}
 		
 		// Search custom translations first.
 		if (isset($this->_loaded_plugins['_custom_']->{$key}))
 		{
 			$lang = $this->_loaded_plugins['_custom_']->{$key};
-			if (is_array($lang))
-			{
-				return new \ArrayObject($lang, 3);
-			}
-			else
-			{
-				return $lang;
-			}
+			return is_array($lang) ? new \ArrayObject($lang, 3) : $lang;
 		}
 		
 		// Search other plugins.
@@ -279,14 +276,7 @@ class Lang
 			if (isset($this->_loaded_plugins[$plugin_name]->{$key}))
 			{
 				$lang = $this->_loaded_plugins[$plugin_name]->{$key};
-				if (is_array($lang))
-				{
-					return new \ArrayObject($lang, 3);
-				}
-				else
-				{
-					return $lang;
-				}
+				return is_array($lang) ? new \ArrayObject($lang, 3) : $lang;
 			}
 		}
 		
@@ -303,6 +293,73 @@ class Lang
 	 */
 	public function __set($key, $value)
 	{
+		// Set a dot-separated key (prefixed by plugin name).
+		if (preg_match('/^[a-z0-9_.-]+$/i', $key) && ($keys = explode('.', $key)) && count($keys) >= 2)
+		{
+			// Attempt to load the plugin.
+			$plugin_name = array_shift($keys);
+			if (!isset($this->_loaded_plugins[$plugin_name]))
+			{
+				$this->loadPlugin($plugin_name);
+			}
+			if (!isset($this->_loaded_plugins[$plugin_name]))
+			{
+				return false;
+			}
+			
+			// Set the given key.
+			$count = count($keys);
+			$lang = $this->_loaded_plugins[$plugin_name];
+			foreach ($keys as $i => $subkey)
+			{
+				if (is_object($lang) && isset($lang->{$subkey}))
+				{
+					if ($i === $count - 1)
+					{
+						$lang->{$subkey} = $value;
+						break;
+					}
+					elseif (is_array($lang->{$subkey}))
+					{
+						$lang = &$lang->{$subkey};
+					}
+					else
+					{
+						return false;
+					}
+				}
+				elseif (is_array($lang) && isset($lang[$subkey]))
+				{
+					if ($i === $count - 1)
+					{
+						$lang[$subkey] = $value;
+						break;
+					}
+					elseif (is_array($lang[$subkey]))
+					{
+						$lang = &$lang[$subkey];
+					}
+					else
+					{
+						return false;
+					}
+				}
+				else
+				{
+					if (is_object($lang))
+					{
+						$lang->{$subkey} = $value;
+					}
+					else
+					{
+						$lang[$subkey] = $value;
+					}
+					break;
+				}
+			}
+		}
+		
+		// Set a regular key.
 		$this->_loaded_plugins['_custom_']->{$key} = $value;
 	}
 	
@@ -332,13 +389,7 @@ class Lang
 	 */
 	public function __unset($key)
 	{
-		foreach ($this->_loaded_plugins as $plugin_name => $translations)
-		{
-			if (isset($translations->{$key}))
-			{
-				unset($translations->{$key});
-			}
-		}
+		$this->set($key, null);
 	}
 	
 	/**

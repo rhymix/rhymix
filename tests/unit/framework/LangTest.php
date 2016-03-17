@@ -41,6 +41,19 @@ class LangTest extends \Codeception\TestCase\Test
 		$this->assertEquals('admin.help', $ko->get('admin.help'));
 		$this->assertEquals('admin.help', $en->get('admin.help'));
 		
+		// Test setting new keys with and without namespacing.
+		$ko->set('foo', 'FOO!');
+		$this->assertEquals('FOO!', $ko->get('foo'));
+		$ko->set('common.foobar', 'FOOBAR!');
+		$this->assertEquals('FOOBAR!', $ko->get('common.foobar'));
+		$this->assertEquals('FOOBAR!', $ko->get('foobar'));
+		
+		// Test setting new keys with multidimensional arrays.
+		$ko->set('common.time_gap.foobar', 'FOOBAR!');
+		$this->assertEquals('FOOBAR!', $ko->get('common.time_gap.foobar'));
+		$ko->set('common.foobar.baz', 'BAZ!');
+		$this->assertNotEquals('BAZ!', $ko->get('common.foobar.baz'));
+		
 		// Test fallback to English.
 		$en->only_in_english = 'Hello world';
 		$this->assertEquals('Hello world', $ko->only_in_english);
