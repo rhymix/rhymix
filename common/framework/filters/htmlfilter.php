@@ -313,8 +313,8 @@ class HTMLFilter
 		
 		// flexbox
 		$info['display'] = new \HTMLPurifier_AttrDef_Enum(array(
-            'block', 'flex', '-webkit-flex', 'inline', 'inline-block', 'inline-flex', '-webkit-inline-flex', 'inline-table',
-            'list-item', 'run-in', 'compact', 'marker', 'table', 'table-row-group', 'table-header-group', 'table-footer-group',
+			'block', 'flex', '-webkit-flex', 'inline', 'inline-block', 'inline-flex', '-webkit-inline-flex', 'inline-table',
+			'list-item', 'run-in', 'compact', 'marker', 'table', 'table-row-group', 'table-header-group', 'table-footer-group',
 			'table-row', 'table-column-group', 'table-column', 'table-cell', 'table-caption',
 			'none', 'initial', 'inherit',
 		));
