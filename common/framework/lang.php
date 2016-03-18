@@ -75,19 +75,19 @@ class Lang
 		
 		if ($name === 'common')
 		{
-			$this->loadDirectory(RX_BASEDIR . 'common/lang', 'common');
+			$this->loadDirectory(\RX_BASEDIR . 'common/lang', 'common');
 		}
-		elseif (file_exists(RX_BASEDIR . "plugins/$name/lang"))
+		elseif (file_exists(\RX_BASEDIR . "plugins/$name/lang"))
 		{
-			$this->loadDirectory(RX_BASEDIR . "plugins/$name/lang", $name);
+			$this->loadDirectory(\RX_BASEDIR . "plugins/$name/lang", $name);
 		}
-		elseif (file_exists(RX_BASEDIR . "modules/$name/lang"))
+		elseif (file_exists(\RX_BASEDIR . "modules/$name/lang"))
 		{
-			$this->loadDirectory(RX_BASEDIR . "modules/$name/lang", $name);
+			$this->loadDirectory(\RX_BASEDIR . "modules/$name/lang", $name);
 		}
-		elseif (file_exists(RX_BASEDIR . "addons/$name/lang"))
+		elseif (file_exists(\RX_BASEDIR . "addons/$name/lang"))
 		{
-			$this->loadDirectory(RX_BASEDIR . "addons/$name/lang", $name);
+			$this->loadDirectory(\RX_BASEDIR . "addons/$name/lang", $name);
 		}
 	}
 	
@@ -181,7 +181,7 @@ class Lang
 	 */
 	public static function getSupportedList()
 	{
-		return (include RX_BASEDIR . 'common/defaults/lang.php');
+		return (include \RX_BASEDIR . 'common/defaults/lang.php');
 	}
 	
 	/**

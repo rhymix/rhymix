@@ -199,7 +199,7 @@ class Formatter
 		}
 		
 		// Save the result to the target file.
-		\FileHandler::writeFile($target_filename, $content);
+		Storage::write($target_filename, $content);
 		return $result;
 	}
 	
@@ -238,7 +238,7 @@ class Formatter
 		}
 		
 		// Save the result to the target file.
-		\FileHandler::writeFile($target_filename, $content);
+		Storage::write($target_filename, $content);
 		return $result;
 	}
 	
@@ -253,7 +253,7 @@ class Formatter
 	{
 		$minifier = new \MatthiasMullie\Minify\CSS($source_filename);
 		$content = $minifier->execute($target_filename);
-		\FileHandler::writeFile($target_filename, $content);
+		Storage::write($target_filename, $content);
 		return strlen($content) ? true : false;
 	}
 	
@@ -268,7 +268,7 @@ class Formatter
 	{
 		$minifier = new \MatthiasMullie\Minify\JS($source_filename);
 		$content = $minifier->execute($target_filename);
-		\FileHandler::writeFile($target_filename, $content);
+		Storage::write($target_filename, $content);
 		return strlen($content) ? true : false;
 	}
 	

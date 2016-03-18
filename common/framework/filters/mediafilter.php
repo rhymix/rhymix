@@ -198,7 +198,7 @@ class MediaFilter
 	 */
 	protected static function _loadWhitelists($custom_whitelist = array())
 	{
-		$default_whitelist = (include RX_BASEDIR . 'common/defaults/whitelist.php');
+		$default_whitelist = (include \RX_BASEDIR . 'common/defaults/whitelist.php');
 		self::$_object_whitelist = array();
 		self::$_iframe_whitelist = array();
 		

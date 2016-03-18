@@ -3,6 +3,7 @@
 namespace Rhymix\Framework\Filters;
 
 use Rhymix\Framework\Security;
+use Rhymix\Framework\Storage;
 
 /**
  * The HTML filter class.
@@ -126,8 +127,8 @@ class HTMLFilter
 			$config->set('URI.SafeIframeRegexp', MediaFilter::getIframeWhitelistRegex());
 			
 			// Set the serializer path.
-			$config->set('Cache.SerializerPath', RX_BASEDIR . 'files/cache/htmlpurifier');
-			\FileHandler::makeDir(RX_BASEDIR . 'files/cache/htmlpurifier');
+			$config->set('Cache.SerializerPath', \RX_BASEDIR . 'files/cache/htmlpurifier');
+			Storage::createDirectory(\RX_BASEDIR . 'files/cache/htmlpurifier');
 			
 			// Modify the HTML definition to support editor components and widgets.			
 			$def = $config->getHTMLDefinition(true);
