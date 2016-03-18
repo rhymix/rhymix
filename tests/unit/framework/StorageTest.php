@@ -90,7 +90,7 @@ class StorageTest extends \Codeception\TestCase\Test
 		$this->assertTrue(Rhymix\Framework\Storage::isReadable(__FILE__));
 		$this->assertTrue(Rhymix\Framework\Storage::isReadable(__DIR__));
 		$this->assertFalse(Rhymix\Framework\Storage::isReadable(__FILE__ . '.nonexistent.suffix'));
-		$this->assertFalse(Rhymix\Framework\Storage::isReadable('/etc/shadow'));
+		$this->assertFalse(Rhymix\Framework\Storage::isReadable('/dev/nonexistent'));
 	}
 	
 	public function testIsWritable()
@@ -103,7 +103,7 @@ class StorageTest extends \Codeception\TestCase\Test
 		$this->assertTrue(Rhymix\Framework\Storage::isWritable($testfile));
 		$this->assertTrue(Rhymix\Framework\Storage::isWritable(dirname($testfile)));
 		$this->assertFalse(Rhymix\Framework\Storage::isWritable($testfile . '.nonexistent.suffix'));
-		$this->assertFalse(Rhymix\Framework\Storage::isWritable('/dev/zero'));
+		$this->assertFalse(Rhymix\Framework\Storage::isWritable('/dev/nonexistent'));
 	}
 	
 	public function testGetSize()
@@ -111,7 +111,7 @@ class StorageTest extends \Codeception\TestCase\Test
 		$this->assertEquals(filesize(__FILE__), Rhymix\Framework\Storage::getSize(__FILE__));
 		$this->assertFalse(Rhymix\Framework\Storage::getSize(__DIR__));
 		$this->assertFalse(Rhymix\Framework\Storage::getSize(__FILE__ . '.nonexistent.suffix'));
-		$this->assertFalse(Rhymix\Framework\Storage::getSize('/dev/null'));
+		$this->assertFalse(Rhymix\Framework\Storage::getSize('/dev/nonexistent'));
 	}
 	
 	public function testRead()
@@ -119,7 +119,7 @@ class StorageTest extends \Codeception\TestCase\Test
 		$this->assertEquals(file_get_contents(__FILE__), Rhymix\Framework\Storage::read(__FILE__));
 		$this->assertFalse(Rhymix\Framework\Storage::read(__FILE__ . '.nonexistent.suffix'));
 		$this->assertFalse(Rhymix\Framework\Storage::read(__DIR__));
-		$this->assertFalse(Rhymix\Framework\Storage::read('/etc/shadow'));
+		$this->assertFalse(Rhymix\Framework\Storage::read('/dev/nonexistent'));
 	}
 	
 	public function testWrite()
