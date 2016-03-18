@@ -1,0 +1,6 @@
+This is the first paragraph.
+It contains [b]bold[/b] [i]italic[/i] text.
+
+[quote]This is quoted text.[/quote]
+
+This example belongs to the test suite for [url="https://www.rhymix.org"]Rhymix[/url].

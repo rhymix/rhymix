@@ -520,6 +520,27 @@ function utf8_check($str)
 }
 
 /**
+ * Remove BOM and invalid UTF-8 sequences from file content.
+ * 
+ * @param string $str
+ * @return string
+ */
+function utf8_clean($str)
+{
+    if (strlen($str) >= 3 && substr($str, 0, 3) === "\xEF\xBB\xBF")
+    {
+        $str = substr($str, 3);
+    }
+    
+    if (!utf8_check($str))
+    {
+        $str = @iconv('UTF-8', 'UTF-8//IGNORE', $str);
+    }
+    
+    return $str;
+}
+
+/**
  * Encode UTF-8 characters outside of the Basic Multilingual Plane in the &#xxxxxx format.
  * This allows emoticons and other characters to be stored in MySQL without utf8mb4 support.
  * 
