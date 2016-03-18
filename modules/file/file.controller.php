@@ -45,13 +45,15 @@ class fileController extends file
 		if(!$upload_target_srl) $_SESSION['upload_info'][$editor_sequence]->upload_target_srl = $upload_target_srl = getNextSequence();
 
 		$output = $this->insertFile($file_info, $module_srl, $upload_target_srl);
+		
 		Context::setResponseMethod('JSON');
 		$this->add('file_srl', $output->get('file_srl'));
 		$this->add('file_size', $output->get('file_size'));
 		$this->add('direct_download', $output->get('direct_download'));
 		$this->add('source_filename', $output->get('source_filename'));
-		$this->add('download_url', $output->get('uploaded_filename'));
 		$this->add('upload_target_srl', $output->get('upload_target_srl'));
+		$this->add('download_url', $oFileModel->getDirectFileUrl($output->get('uploaded_filename')));
+		
 		if($output->error != '0') $this->stop($output->message);
 	}
 
