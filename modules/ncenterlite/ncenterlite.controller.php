@@ -653,7 +653,8 @@ class ncenterliteController extends ncenterlite
 		$oNcenterliteModel = getModel('ncenterlite');
 
 		// 알림 목록 가져오기
-		$_output = $oNcenterliteModel->getMyNotifyList();
+		$logged_info = Context::get('logged_info');
+		$_output = $oNcenterliteModel->getMyNotifyList($logged_info->member_srl);
 		// 알림 메시지가 없어도 항상 표시하게 하려면 이 줄을 제거 또는 주석 처리하세요.
 		if(!$_output->data)
 		{
@@ -966,8 +967,33 @@ class ncenterliteController extends ncenterlite
 			}
 		}
 
+		$flag_path = \RX_BASEDIR . 'files/cache/ncenterlite/new_notify/' . getNumberingPath($args->target_member_srl) . $args->target_member_srl . '.php';
+		if($flag_path)
+		{
+			//remove flag files
+			FileHandler::removeFile($flag_path);
+		}
+
 		return $output;
 	}
+
+	public static function updateFlagFile($member_srl = null, $output)
+	{
+		if(!$member_srl)
+		{
+			return;
+		}
+		$flag_path = \RX_BASEDIR . 'files/cache/ncenterlite/new_notify/' . getNumberingPath($member_srl) . $member_srl . '.php';
+		if(file_exists($flag_path))
+		{
+			return;
+		}
+
+		FileHandler::makeDir(\RX_BASEDIR . 'files/cache/ncenterlite/new_notify' . getNumberingPath($member_srl));
+		$buff = "<?php return unserialize(" . var_export(serialize($output), true) . ");\n";
+		FileHandler::writeFile($flag_path, $buff);
+	}
+
 
 	/**
 	 * @brief 노티 ID 반환

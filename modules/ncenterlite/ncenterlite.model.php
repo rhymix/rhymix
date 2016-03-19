@@ -202,6 +202,11 @@ class ncenterliteModel extends ncenterlite
 		}
 
 		$output->data = $list;
+		if($page <= 1)
+		{
+			$oNcenterliteController = getController('ncenterlite');
+			$oNcenterliteController->updateFlagFile($member_srl, $output);
+		}
 		return $output;
 	}
 
@@ -236,12 +241,18 @@ class ncenterliteModel extends ncenterlite
 
 			$member_srl = $logged_info->member_srl;
 		}
-
+		$flag_path = \RX_BASEDIR . 'files/cache/ncenterlite/new_notify/' . getNumberingPath($member_srl) . $member_srl . '.php';
+		if(FileHandler::exists($flag_path) && $page <= 1)
+		{
+			$output = require_once $flag_path;
+			return $output;
+		}
 		$args = new stdClass();
 		$args->member_srl = $member_srl;
 		$args->page = $page ? $page : 1;
 		if($readed) $args->readed = $readed;
 		$output = executeQueryArray('ncenterlite.getNotifyList', $args);
+
 		if(!$output->data) $output->data = array();
 
 		return $output;
