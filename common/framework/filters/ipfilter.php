@@ -140,7 +140,7 @@ class IpFilter
 			return false;
 		}
 		
-		$cloudflare_ranges = (include RX_BASEDIR . 'common/defaults/cloudflare.php');
+		$cloudflare_ranges = (include \RX_BASEDIR . 'common/defaults/cloudflare.php');
 		foreach ($cloudflare_ranges as $cloudflare_range)
 		{
 			if (self::inRange($_SERVER['REMOTE_ADDR'], $cloudflare_range))

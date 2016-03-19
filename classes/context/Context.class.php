@@ -686,7 +686,7 @@ class Context
 	public function checkSSO()
 	{
 		// pass if it's not GET request or XE is not yet installed
-		if(!config('use_sso') || isCrawler())
+		if(!config('use_sso') || Rhymix\Framework\UA::isRobot())
 		{
 			return TRUE;
 		}

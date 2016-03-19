@@ -3,6 +3,7 @@
 namespace Rhymix\Framework\Parsers;
 
 use Rhymix\Framework\Lang;
+use Rhymix\Framework\Storage;
 
 /**
  * Lang parser class for XE compatibility.
@@ -32,7 +33,7 @@ class LangParser
 			foreach ($files as $filename)
 			{
 				$new_filename = preg_replace('/\.lang\.php$/', '.php', str_replace('jp.lang', 'ja.lang', $filename));
-				\FileHandler::rename($filename, $new_filename);
+				Storage::move($filename, $new_filename);
 			}
 		}
 	}
@@ -49,7 +50,7 @@ class LangParser
 		// Check if the cache file already exists.
 		if ($output_filename === null)
 		{
-			$output_filename = RX_BASEDIR . 'files/cache/lang/' . md5($filename) . '.' . $language . '.php';
+			$output_filename = \RX_BASEDIR . 'files/cache/lang/' . md5($filename) . '.' . $language . '.php';
 			if (file_exists($output_filename) && filemtime($output_filename) > filemtime($filename))
 			{
 				return $output_filename;
@@ -60,7 +61,7 @@ class LangParser
 		$xml = @simplexml_load_file($filename);
 		if ($xml === false)
 		{
-			\FileHandler::writeFile($output_filename, '');
+			Storage::write($output_filename, '');
 			return false;
 		}
 		
@@ -95,7 +96,7 @@ class LangParser
 				$buff .= '$lang->' . $key . ' = ' . var_export($value, true) . ";\n";
 			}
 		}
-		\FileHandler::writeFile($output_filename, $buff);
+		Storage::write($output_filename, $buff);
 		return $output_filename;
 	}
 	

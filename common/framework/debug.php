@@ -173,8 +173,8 @@ class Debug
 		
 		// Rewrite the error message with relative paths.
 		$message = str_replace(array(
-			' called in ' . RX_BASEDIR,
-			' defined in ' . RX_BASEDIR,
+			' called in ' . \RX_BASEDIR,
+			' defined in ' . \RX_BASEDIR,
 		), array(
 			' called in ',
 			' defined in ',
@@ -485,7 +485,7 @@ class Debug
 	{
 		// Collect debug information.
 		$data = (object)array(
-			'timestamp' => DateTime::formatTimestamp('Y-m-d H:i:s', RX_TIME),
+			'timestamp' => DateTime::formatTimestamp('Y-m-d H:i:s', \RX_TIME),
 			'url' => getCurrentPageUrl(),
 			'request' => (object)array(
 				'method' => $_SERVER['REQUEST_METHOD'] . ($_SERVER['REQUEST_METHOD'] !== \Context::getRequestMethod() ? (' (' . \Context::getRequestMethod() . ')') : ''),

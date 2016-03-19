@@ -19,9 +19,9 @@ class ConfigParser
 	public static function convert()
 	{
 		// Load DB info file.
-		if (file_exists(RX_BASEDIR . Config::$old_db_config_filename))
+		if (file_exists(\RX_BASEDIR . Config::$old_db_config_filename))
 		{
-			include RX_BASEDIR . Config::$old_db_config_filename;
+			include \RX_BASEDIR . Config::$old_db_config_filename;
 		}
 		else
 		{
@@ -29,16 +29,16 @@ class ConfigParser
 		}
 		
 		// Load FTP info file.
-		if (file_exists(RX_BASEDIR . Config::$old_ftp_config_filename))
+		if (file_exists(\RX_BASEDIR . Config::$old_ftp_config_filename))
 		{
-			include RX_BASEDIR . Config::$old_ftp_config_filename;
+			include \RX_BASEDIR . Config::$old_ftp_config_filename;
 		}
 		
 		// Load selected language file.
-		if (file_exists(RX_BASEDIR . Config::$old_lang_config_filename))
+		if (file_exists(\RX_BASEDIR . Config::$old_lang_config_filename))
 		{
 			$lang_selected = array();
-			$lang_selected_raw = file_get_contents(RX_BASEDIR . Config::$old_lang_config_filename);
+			$lang_selected_raw = file_get_contents(\RX_BASEDIR . Config::$old_lang_config_filename);
 			$lang_selected_raw = array_map('trim', explode("\n", $lang_selected_raw));
 			foreach ($lang_selected_raw as $lang_selected_item)
 			{
@@ -59,7 +59,7 @@ class ConfigParser
 		}
 		
 		// Load defaults for the new configuration.
-		$config = (include RX_BASEDIR . Config::$default_config_filename);
+		$config = (include \RX_BASEDIR . Config::$default_config_filename);
 		
 		// Convert database configuration.
 		if (!isset($db_info->master_db))
@@ -184,7 +184,7 @@ class ConfigParser
 		{
 			$default_url = \Context::decodeIdna($default_url);
 		}
-		$config['url']['default'] = $default_url ?: (RX_SSL ? 'https://' : 'http://') . $_SERVER['HTTP_HOST'] . \RX_BASEURL;
+		$config['url']['default'] = $default_url ?: (\RX_SSL ? 'https://' : 'http://') . $_SERVER['HTTP_HOST'] . \RX_BASEURL;
 		$config['url']['http_port'] = $db_info->http_port ?: null;
 		$config['url']['https_port'] = $db_info->https_port ?: null;
 		$config['url']['ssl'] = $db_info->use_ssl ?: 'none';
