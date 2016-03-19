@@ -230,7 +230,7 @@ class Korea
 		if (!filter_var($ip, \FILTER_VALIDATE_IP)) return false;
 		
 		// Check IPv4.
-		if (filter_var($ip, \FILTER_VALIDATE_IP, ['flags' => \FILTER_FLAG_IPV4]))
+		if (filter_var($ip, \FILTER_VALIDATE_IP, array('flags' => \FILTER_FLAG_IPV4)))
 		{
 			// Convert to integer.
 			$ipnum = sprintf('%u', ip2long($ip));
