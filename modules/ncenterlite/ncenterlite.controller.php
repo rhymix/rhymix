@@ -284,7 +284,7 @@ class ncenterliteController extends ncenterlite
 		{
 			return new Object();
 		}
-		if($config->use != 'Y')
+		if($config->use != 'Y' && $config->use != 'message')
 		{
 			return new Object();
 		}
@@ -630,7 +630,7 @@ class ncenterliteController extends ncenterlite
 		$config = $oNcenterliteModel->getConfig();
 
 		// 알림센터가 비활성화 되어 있으면 중지
-		if($config->use != 'Y')
+		if($config->use != 'Y' && $config->use != 'message')
 		{
 			return new Object();
 		}
