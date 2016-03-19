@@ -999,8 +999,7 @@ function json_encode2($data)
  */
 function isCrawler($agent = NULL)
 {
-	$agent = $agent ?: $_SERVER['HTTP_USER_AGENT'];
-	return (bool)preg_match('@bot|crawl|sp[iy]der|https?://|google|yahoo|slurp|yeti|daum|teoma|fish|hanrss|facebook|yandex|infoseek|askjeeves|stackrambler@i', $agent);
+	return Rhymix\Framework\UA::isRobot($agent);
 }
 
 /**

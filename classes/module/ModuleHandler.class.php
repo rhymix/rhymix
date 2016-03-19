@@ -238,7 +238,7 @@ class ModuleHandler extends Handler
 		}
 
 		// redirect, if site_srl of module_info is different from one of site's module_info
-		if($module_info && $module_info->site_srl != $site_module_info->site_srl && !isCrawler())
+		if($module_info && $module_info->site_srl != $site_module_info->site_srl && !Rhymix\Framework\UA::isRobot())
 		{
 			// If the module is of virtual site
 			if($module_info->site_srl)

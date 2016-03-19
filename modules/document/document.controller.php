@@ -1098,7 +1098,11 @@ class documentController extends document
 	function updateReadedCount(&$oDocument)
 	{
 		// Pass if Crawler access
-		if(isCrawler()) return false;
+		if (\Rhymix\Framework\UA::isRobot())
+		{
+			return false;
+		}
+		
 		$oDocumentModel = getModel('document');
 		$config = $oDocumentModel->getDocumentConfig();
 
