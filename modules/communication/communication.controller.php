@@ -773,7 +773,9 @@ class communicationController extends communication
 		$output = executeQuery('communication.setMessageReaded', $args);
 		
 		// Update flag file
+		$logged_info = Context::get('logged_info');
 		$this->updateFlagFile($logged_info->member_srl);
+		
 		return $output;
 	}
 	
