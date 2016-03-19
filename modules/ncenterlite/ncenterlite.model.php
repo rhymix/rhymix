@@ -226,6 +226,7 @@ class ncenterliteModel extends ncenterlite
 			$tmp->data[$key]->url = str_replace('&amp;', '&', $obj->url);
 		}
 
+		$list = new stdClass();
 		$list->data = $tmp->data;
 		$list->page = $tmp->page_navigation;
 		$this->add('list', $list);
@@ -245,7 +246,10 @@ class ncenterliteModel extends ncenterlite
 		if(FileHandler::exists($flag_path) && $page <= 1)
 		{
 			$output = require_once $flag_path;
-			return $output;
+			if(is_object($output->data))
+			{
+				return $output;
+			}
 		}
 		$args = new stdClass();
 		$args->member_srl = $member_srl;
@@ -260,7 +264,6 @@ class ncenterliteModel extends ncenterlite
 
 	function getMyDispNotifyList($member_srl)
 	{
-
 		$logged_info = Context::get('logged_info');
 
 		$member_srl = $logged_info->member_srl;

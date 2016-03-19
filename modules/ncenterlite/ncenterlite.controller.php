@@ -968,7 +968,7 @@ class ncenterliteController extends ncenterlite
 		}
 
 		$flag_path = \RX_BASEDIR . 'files/cache/ncenterlite/new_notify/' . getNumberingPath($args->target_member_srl) . $args->target_member_srl . '.php';
-		if($flag_path)
+		if(file_exists($flag_path))
 		{
 			//remove flag files
 			FileHandler::removeFile($flag_path);
