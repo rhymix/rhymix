@@ -80,8 +80,8 @@ class DBMysqli extends DBMysql
 	{
 		if ($connection === null)
 		{
-			debug_print_backtrace();
-			exit;
+			$this->setError(-1, 'Unable to connect to DB.');
+			return false;
 		}
 		if($this->use_prepared_statements == 'Y')
 		{
