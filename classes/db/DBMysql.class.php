@@ -67,7 +67,8 @@ class DBMysql extends DB
 		$result = @mysql_connect($connection['host'], $connection['user'], $connection['pass']);
 		if(!$result)
 		{
-			exit('Unable to connect to DB.');
+			$this->setError(-1, 'Unable to connect to DB.');
+			return;
 		}
 
 		if(mysql_error())
@@ -164,7 +165,8 @@ class DBMysql extends DB
 	{
 		if(!$connection)
 		{
-			exit('Rhymix cannot handle DB connection.');
+			$this->setError(-1, 'Unable to connect to DB.');
+			return false;
 		}
 		// Run the query statement
 		$result = @mysql_query($query, $connection);
