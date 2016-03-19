@@ -813,49 +813,7 @@ class communicationController extends communication
 			$oMemberController->addMemberMenu('dispCommunicationFriend', 'cmd_view_friend');
 		}
 	}
-	
-	function triggerModuleProcAfter($obj)
-	{
-		if (!Context::get('is_logged') || $obj->module == 'member' || $obj->module == 'admin')
-		{
-			return new Object();
-		}
 
-		$ncenterlite_config = getModel('ncenterlite')->getConfig();
-		if($ncenterlite_config->message_notify == 'Y' && $ncenterlite_config->use == 'Y')
-		{
-			return new Object();
-		}
-
-		$config = getModel('communication')->getConfig();
-		if ($config->enable_message == 'N' || starts_with('dispCommunication', Context::get('act')))
-		{
-			return new Object();
-		}
-
-		$logged_info = Context::get('logged_info');
-		if ($config->enable_message == 'Y')
-		{
-			$flag_path = './files/member_extra_info/new_message_flags/' . getNumberingPath($logged_info->member_srl);
-			$flag_file = $flag_path . $logged_info->member_srl;
-			if(file_exists($flag_file))
-			{
-				// Pop-up to display messages if a flag on new message is set
-				$new_message_count = (int)trim(FileHandler::readFile($flag_file));
-				if($new_message_count > 0)
-				{
-					$text = escape_js(lang('alert_new_message_arrived'));
-					Context::addHtmlFooter("<script>jQuery(function(){ xeNotifyMessage('{$text}','{$new_message_count}'); });</script>");
-					Context::loadFile(array('./modules/communication/tpl/js/member_communication.js'), true);
-				}
-				else
-				{
-					FileHandler::removeFile($flag_file);
-				}
-			}
-		}
-	}
-	
 	function triggerMemberMenu()
 	{
 		if(!Context::get('is_logged'))
