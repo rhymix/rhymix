@@ -1,0 +1,67 @@
+<load target="css/ncenter_admin.css" />
+<include target="header.html" />
+
+<section class="section">
+	<h1>알림 목록</h1>
+
+	<p class="x_well x_well-small" cond="!$ncenterlite_list">알림이 없습니다.</p>
+
+	<block cond="$ncenterlite_list">
+		<div class="x_clearfix">
+			<form ruleset="cleanLogs" action="./" method="post">
+				<fieldset>
+					<input type="hidden" name="module" value="ncenterlite" />
+					<input type="hidden" name="act" value="procNcenterliteAdminDeleteNofity" />
+					<button type="submit" class="x_btn">전체 삭제</button>
+					<button type="submit" name="old_date" value="{date('Ymd', strtotime('-1 month'))}" class="x_btn">한 달 이전의 알림 삭제</button>
+					<p class="x_help-block"><span class="x_label x_label-important">주의!</span> 회원이 확인하지 않은 알림도 삭제됩니다.</p>
+				</fieldset>
+			</form>
+		</div>
+
+		<table class="x_table x_table-striped x_table-hover" style="margin-top:20px;">
+			<thead>
+				<tr>
+					<th scope="col" class="nowr" style="width:100px;">보낸사람</th>
+					<th scope="col" style="width:100px;">받은사람</th>
+					<th scope="col" style="width:500px;">내용</th>
+					<th scope="col" style="width:50px;">읽음여부</th>
+					<th scope="col" style="width:100px;">{$lang->date}</th>
+				</tr>
+			</thead>
+			<tbody>
+				<!--@foreach($ncenterlite_list as $no => $val)-->
+				{@
+					$oMemberModel = getModel('member');
+					$member_info = $oMemberModel->getMemberInfoByMemberSrl($val->member_srl);
+				}
+				<tr>
+					<td>{$val->target_nick_name}</td>
+					<td cond="$member_info->member_srl">{$member_info->nick_name}</td> <td cond="!$member_info->member_srl">타겟없음</td>
+					<td><a href="{$val->target_url}">{$val->text}</a></td>
+					<td>{$val->readed}</td>
+					<td>
+						{zdate($val->regdate,"Y-m-d")}
+						</br>
+						{zdate($val->regdate,"H:i:s")}
+					</td>
+				</tr>
+				<!--@endforeach-->
+			</tbody>
+		</table>
+
+		<div class="x_pagination">
+			<ul>
+				<li><a href="{getUrl('page','')}" class="prevEnd">{$lang->first_page}</a></li>
+				<!--@while($page_no = $page_navigation->getNextPage())-->
+					<!--@if($page == $page_no)-->
+						<li class="x_active"><a href="{getUrl('page',$page_no)}">{$page_no}</a></li>
+					<!--@else-->
+						<li><a href="{getUrl('page',$page_no)}">{$page_no}</a></li>
+					<!--@endif-->
+				<!--@end-->
+				<li><a href="{getUrl('page',$page_navigation->last_page)}" class="nextEnd">{$lang->last_page}</a></li>
+			</ul>
+		</div>
+	</block>
+</section>

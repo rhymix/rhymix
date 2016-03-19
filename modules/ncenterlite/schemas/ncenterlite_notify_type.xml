@@ -1,0 +1,6 @@
+<table name="ncenterlite_notify_type">
+	<column name="notify_type_srl" type="number" notnull="notnull" primary_key="primary_key"/>
+	<column name="notify_type_id" type="varchar" size="50" notnull="notnull"/>
+	<column name="notify_type_args" type="varchar" size="250"/>
+	<column name="notify_string" type="varchar" size="250" notnull="notnull"/>
+</table>

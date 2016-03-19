@@ -1,0 +1,68 @@
+<load target="../../../member/skins/default/css/member.css" />
+<include target="../../../member/skins/default/common_header.html" />
+<div class="xm">
+
+<div cond="$XE_VALIDATOR_MESSAGE && $XE_VALIDATOR_ID == 'modules/ncenterlite/skins/default_bottom/userconfig/1'" class="message {$XE_VALIDATOR_MESSAGE_TYPE}">
+	<p>{$XE_VALIDATOR_MESSAGE}</p>
+</div>
+
+
+<form ruleset="insertConfig" action="./" method="post" class="form-horizontal" id="fo_ncenterlite">
+	<input type="hidden" name="module" value="ncenterlite" />
+	<input type="hidden" name="act" value="procNcenterliteUserConfig" />
+	<input type="hidden" name="xe_validator_id" value="modules/ncenterlite/skins/default_bottom/userconfig/1" />
+	<input type="hidden" name="member_srl" value="{$member_srl}">
+	<section class="section">
+		<h1><block cond="$member_info">{@$user_str = $member_info->nick_name}</block>
+			<block cond="!$member_info">{@$user_str = $logged_info->nick_name}</block>
+			{@$title_str = Context::getLang('ncenterlite_userconfig_title')}
+			{sprintf($title_str, $user_str)}
+		</h1>
+
+		<p>{$lang->ncenterlite_userconfig_about} <strong style="color:#ff0000" cond="$member_srl && $member_srl != $logged_info->member_srl">({$lang->ncenterlite_userconfig_about_warning})</strong></p>
+		<div class="control-group">
+			<label class="control-label">{$lang->ncenterlite_comment_noti}</label>
+			<div class="controls">
+				<label class="inline">
+					<input type="radio" name="comment_notify" value="Y" checked="checked"|cond="$user_config->comment_notify == 'Y'" /> {$lang->ncenterlite_activate}
+				</label>
+				<label class="inline">
+					<input type="radio" name="comment_notify" value="N" checked="checked"|cond="$user_config->comment_notify == 'N'" /> {$lang->ncenterlite_inactivate}
+				</label>
+				<p class="help-block">{$lang->ncenterlite_comment_noti_about}</p>
+			</div>
+		</div>
+		<div class="control-group">
+			<label class="control-label">{$lang->ncenterlite_mention_noti}</label>
+			<div class="controls">
+				<label class="inline">
+					<input type="radio" name="mention_notify" value="Y" checked="checked"|cond="$user_config->mention_notify == 'Y'" /> {$lang->ncenterlite_activate}
+				</label>
+				<label class="inline">
+					<input type="radio" name="mention_notify" value="N" checked="checked"|cond="$user_config->mention_notify == 'N'" /> {$lang->ncenterlite_inactivate}
+				</label>
+				<p class="help-block">{$lang->ncenterlite_mention_noti_about}</p>
+			</div>
+		</div>
+		<div class="control-group">
+			<label class="control-label">{$lang->ncenterlite_message_noti}</label>
+			<div class="controls">
+				<label class="inline">
+					<input type="radio" name="message_notify" value="Y" checked="checked"|cond="$user_config->message_notify == 'Y'" /> {$lang->ncenterlite_activate}
+				</label>
+				<label class="inline">
+					<input type="radio" name="message_notify" value="N" checked="checked"|cond="$user_config->message_notify == 'N'" /> {$lang->ncenterlite_inactivate}
+				</label>
+				<p class="help-block">{$lang->ncenterlite_message_noti_about}</p>
+			</div>
+		</div>
+
+	</section>
+	<div class="clearfix btnArea">
+		<div class="pull-right">
+			<button class="btn btn-primary" type="submit">{$lang->cmd_registration}</button>
+		</div>
+	</div>
+</form>
+</div>
+<include target="../../../member/skins/default/common_footer.html" />

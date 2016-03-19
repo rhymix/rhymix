@@ -1,0 +1,24 @@
+<load target="notify.css" />
+<div class="sosifam">
+	<h2 class="sosi-title">{$lang->ncenterlite_my_list}</h2>
+	<ul class="history-list cfix">
+		<li class="history-item cfix" loop="$ncenterlite_list => $no, $val">
+		{@
+			$oMemberModel = getModel('member');
+			$member_info = $oMemberModel->getMemberInfoByMemberSrl($val->member_srl);
+		}
+			<div class="history-info">
+				<span class="history-gird text-ellipsis">
+					<span class="history-succeed">{$val->target_nick_name}</span> ->
+					<span class="history-title">{$member_info->nick_name}</span>
+				</span>
+				<div class="history-text">
+					<span class="history-ip"><strong><a href="{$val->target_url}">{$val->text}</a></strong></span>
+					<span class="history-auth">({zdate($val->regdate,"Y-m-d H:i:s")})</span>
+					<span class="history-auth" cond="$val->readed=='Y'">({$lang->ncenterlite_read_y})</span>
+					<span class="history-auth" cond="$val->readed=='N'">({$lang->ncenterlite_read_n})</span>
+				</div>
+			</div>
+		</li>
+	</ul>
+</div>

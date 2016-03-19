@@ -1,0 +1,12 @@
+<query id="insertUserConfig" action="insert">
+	<tables>
+		<table name="ncenterlite_user_set" />
+	</tables>
+	<columns>
+		<column name="member_srl" var="member_srl" notnull="notnull" />
+		<column name="comment_notify" var="comment_notify" notnull="notnull" />
+		<column name="mention_notify" var="mention_notify" notnull="notnull" />
+		<column name="message_notify" var="message_notify" notnull="notnull" />
+		<column name="regdate" var="regdate" default="curdate()" />
+	</columns>
+</query>
