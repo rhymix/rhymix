@@ -132,6 +132,7 @@ class HTMLFilter
 			// Modify the HTML definition to support editor components and widgets.			
 			$def = $config->getHTMLDefinition(true);
 			$def->addAttribute('img', 'editor_component', 'Text');
+			$def->addAttribute('div', 'editor_component', 'Text');
 			$def->addAttribute('img', 'rx_encoded_properties', 'Text');
 			$def->addAttribute('div', 'rx_encoded_properties', 'Text');
 			
