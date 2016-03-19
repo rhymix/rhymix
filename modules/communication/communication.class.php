@@ -52,6 +52,7 @@ class communication extends ModuleObject
 
 		foreach($this->delete_triggers as $trigger)
 		{
+
 			if($oModuleModel->getTrigger($trigger[0], $trigger[1], $trigger[2], $trigger[3], $trigger[4]))
 			{
 				return TRUE;
@@ -87,7 +88,7 @@ class communication extends ModuleObject
 		{
 			if($oModuleModel->getTrigger($trigger[0], $trigger[1], $trigger[2], $trigger[3], $trigger[4]))
 			{
-				return TRUE;
+				$oModuleController->deleteTrigger($trigger[0], $trigger[1], $trigger[2], $trigger[3], $trigger[4]);
 			}
 		}
 
