@@ -132,6 +132,15 @@ class StorageTest extends \Codeception\TestCase\Test
 		$this->assertEquals('foobarbazzjazz', file_get_contents($testfile));
 	}
 	
+	public function testReadWritePHPData()
+	{
+		$testfile = \RX_BASEDIR . 'tests/_output/test.php';
+		$data = array('foo' => 'bar', 'baz' => array('rhymix' => '\'"special\\chars' . chr(0) . chr(255), 'test' => 'wow'));
+		
+		$this->assertTrue(Rhymix\Framework\Storage::writePHPData($testfile, $data));
+		$this->assertEquals($data, Rhymix\Framework\Storage::readPHPData($testfile));
+	}
+	
 	public function testCopy()
 	{
 		$source = \RX_BASEDIR . 'tests/_output/copy.source.txt';

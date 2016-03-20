@@ -167,6 +167,27 @@ class Storage
 	}
 	
 	/**
+	 * Read PHP data from a file, formatted for easy retrieval.
+	 *
+	 * This method returns the data on success and false on failure.
+	 * 
+	 * @param string $filename
+	 * @return mixed
+	 */
+	public static function readPHPData($filename)
+	{
+		$filename = rtrim($filename, '/\\');
+		if (@is_file($filename) && @is_readable($filename))
+		{
+			return @include $filename;
+		}
+		else
+		{
+			return false;
+		}
+	}
+	
+	/**
 	 * Write $content to a file.
 	 *
 	 * This method returns true on success and false on failure.
@@ -199,6 +220,21 @@ class Storage
 			@opcache_invalidate($filename, true);
 		}
 		return $result;
+	}
+	
+	/**
+	 * Write PHP data to a file, formatted for easy retrieval.
+	 *
+	 * This method returns true on success and false on failure.
+	 * Resources and anonymous functions cannot be saved.
+	 * 
+	 * @param string $filename
+	 * @param mixed $data
+	 * @return string|false
+	 */
+	public static function writePHPData($filename, $data)
+	{
+		return self::write($filename, '<' . '?php return unserialize(' . var_export(serialize($data), true) . ');');
 	}
 	
 	/**
