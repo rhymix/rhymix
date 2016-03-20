@@ -22,7 +22,7 @@ class LegacyTest extends \Codeception\TestCase\Test
 	
 	public function testGetNextSequence()
 	{
-		if (!file_exists(\RX_BASEDIR . 'files/config/config.php'))
+		if (!DB::getInstance()->isConnected())
 		{
 			return;
 		}
