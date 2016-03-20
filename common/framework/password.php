@@ -218,7 +218,7 @@ class Password
 					{
 						$salt = Security::getRandom(12, 'alnum');
 						$hash_algorithm = 'sha512';
-						$iterations = pow(2, self::getWorkFactor() + 5);
+						$iterations = intval(pow(2, self::getWorkFactor() + 5)) ?: 16384;
 						$key_length = 24;
 					}
 					else
@@ -226,7 +226,7 @@ class Password
 						$parts = explode(':', $salt);
 						$salt = $parts[2];
 						$hash_algorithm = $parts[0];
-						$iterations = $parts[1];
+						$iterations = intval($parts[1], 10);
 						$key_length = strlen(base64_decode($parts[3]));
 					}
 					return self::pbkdf2($hashchain, $salt, $hash_algorithm, $iterations, $key_length);

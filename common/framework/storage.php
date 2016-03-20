@@ -339,7 +339,7 @@ class Storage
 		
 		try
 		{
-			$iterator = new \FilesystemIterator($dirname, \FilesystemIterator::CURRENT_AS_PATHNAME);
+			$iterator = new \FilesystemIterator($dirname, \FilesystemIterator::CURRENT_AS_PATHNAME | \FilesystemIterator::SKIP_DOTS);
 		}
 		catch (\UnexpectedValueException $e)
 		{

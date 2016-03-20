@@ -1063,7 +1063,11 @@ class Context
 	 */
 	public static function convertEncodingStr($str)
 	{
-        if(!$str) return null;
+        if (!$str || utf8_check($str))
+        {
+        	return $str;
+        }
+        
 		$obj = new stdClass;
 		$obj->str = $str;
 		$obj = self::convertEncoding($obj);
