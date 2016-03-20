@@ -148,17 +148,48 @@ class Storage
 	 * Get the content of a file.
 	 * 
 	 * This method returns the content if it exists and is readable.
-	 * Otherwise, it returns false.
+	 * If $stream is true, it will return the content as a stream instead of
+	 * loading the entire content in memory. This may be useful for large files.
+	 * If the file cannot be opened, this method returns false.
 	 * 
 	 * @param string $filename
-	 * @return string|false
+	 * @param bool $stream (optional)
+	 * @return string|resource|false
 	 */
-	public static function read($filename)
+	public static function read($filename, $stream = false)
 	{
 		$filename = rtrim($filename, '/\\');
 		if (self::exists($filename) && @is_file($filename) && @is_readable($filename))
 		{
-			return @file_get_contents($filename);
+			if ($stream)
+			{
+				return @fopen($filename, 'r');
+			}
+			else
+			{
+				return @file_get_contents($filename);
+			}
+		}
+		else
+		{
+			return false;
+		}
+	}
+	
+	/**
+	 * Read PHP data from a file, formatted for easy retrieval.
+	 *
+	 * This method returns the data on success and false on failure.
+	 * 
+	 * @param string $filename
+	 * @return mixed
+	 */
+	public static function readPHPData($filename)
+	{
+		$filename = rtrim($filename, '/\\');
+		if (@is_file($filename) && @is_readable($filename))
+		{
+			return @include $filename;
 		}
 		else
 		{
@@ -169,10 +200,12 @@ class Storage
 	/**
 	 * Write $content to a file.
 	 *
+	 * If $content is a stream, this method will copy it to the target file
+	 * without loading the entire content in memory. This may be useful for large files.
 	 * This method returns true on success and false on failure.
 	 * 
 	 * @param string $filename
-	 * @param string $content
+	 * @param string|resource $content
 	 * @param string $mode (optional)
 	 * @param int $perms (optional)
 	 * @return string|false
@@ -190,15 +223,47 @@ class Storage
 			}
 		}
 		
-		$flags = ($mode === 'a') ? (\FILE_APPEND | \LOCK_EX) : (\LOCK_EX);
-		$write_success = @file_put_contents($filename, $content, $flags);
-		$result = ($write_success === strlen($content)) ? true : false;
+		if ($fp = fopen($filename, $mode))
+		{
+			flock($fp, \LOCK_EX);
+			if (is_resource($content))
+			{
+				$result = stream_copy_to_stream($content, $fp) ? true : false;
+			}
+			else
+			{
+				$result = fwrite($fp, $content) ? true : false;
+			}
+			fflush($fp);
+			flock($fp, \LOCK_UN);
+			fclose($fp);
+		}
+		else
+		{
+			return false;
+		}
+		
 		@chmod($filename, ($perms === null ? (0666 & ~umask()) : $perms));
 		if (function_exists('opcache_invalidate') && substr($filename, -4) === '.php')
 		{
 			@opcache_invalidate($filename, true);
 		}
 		return $result;
+	}
+	
+	/**
+	 * Write PHP data to a file, formatted for easy retrieval.
+	 *
+	 * This method returns true on success and false on failure.
+	 * Resources and anonymous functions cannot be saved.
+	 * 
+	 * @param string $filename
+	 * @param mixed $data
+	 * @return string|false
+	 */
+	public static function writePHPData($filename, $data)
+	{
+		return self::write($filename, '<' . '?php return unserialize(' . var_export(serialize($data), true) . ');');
 	}
 	
 	/**

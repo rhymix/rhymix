@@ -116,20 +116,63 @@ class StorageTest extends \Codeception\TestCase\Test
 	
 	public function testRead()
 	{
+		// Simple read test
 		$this->assertEquals(file_get_contents(__FILE__), Rhymix\Framework\Storage::read(__FILE__));
 		$this->assertFalse(Rhymix\Framework\Storage::read(__FILE__ . '.nonexistent.suffix'));
 		$this->assertFalse(Rhymix\Framework\Storage::read(__DIR__));
 		$this->assertFalse(Rhymix\Framework\Storage::read('/dev/nonexistent'));
+		
+		// Stream read test
+		$fp = Rhymix\Framework\Storage::read(__FILE__, true);
+		$this->assertTrue(is_resource($fp));
+		$this->assertEquals(file_get_contents(__FILE__), fread($fp, filesize(__FILE__)));
+		fclose($fp);
 	}
 	
 	public function testWrite()
 	{
 		$testfile = \RX_BASEDIR . 'tests/_output/subdirectory/testfile.txt';
+		$copyfile = \RX_BASEDIR . 'tests/_output/subdirectory/copyfile.txt';
 		
-		$this->assertFalse(file_exists($testfile));
+		// Simple write test
 		$this->assertTrue(Rhymix\Framework\Storage::write($testfile, 'foobarbazzjazz'));
 		$this->assertTrue(file_exists($testfile));
 		$this->assertEquals('foobarbazzjazz', file_get_contents($testfile));
+		$this->assertEquals(0666 & ~umask(), fileperms($testfile) & 0777);
+		
+		// Append test
+		$this->assertTrue(Rhymix\Framework\Storage::write($testfile, 'rhymix', 'a', 0666));
+		$this->assertTrue(file_exists($testfile));
+		$this->assertEquals('foobarbazzjazzrhymix', file_get_contents($testfile));
+		$this->assertEquals(0666, fileperms($testfile) & 0777);
+		
+		// Stream copy test
+		$stream = fopen($testfile, 'r');
+		$this->assertTrue(Rhymix\Framework\Storage::write($copyfile, $stream));
+		$this->assertEquals('foobarbazzjazzrhymix', file_get_contents($copyfile));
+		fclose($stream);
+		
+		// Stream append test
+		$stream = fopen($testfile, 'r');
+		$this->assertTrue(Rhymix\Framework\Storage::write($copyfile, $stream, 'a'));
+		$this->assertEquals('foobarbazzjazzrhymixfoobarbazzjazzrhymix', file_get_contents($copyfile));
+		fclose($stream);
+		
+		// Partial stream append test
+		$stream = fopen($testfile, 'r');
+		fseek($stream, 14);
+		$this->assertTrue(Rhymix\Framework\Storage::write($copyfile, $stream, 'a'));
+		$this->assertEquals('foobarbazzjazzrhymixfoobarbazzjazzrhymixrhymix', file_get_contents($copyfile));
+		fclose($stream);
+	}
+	
+	public function testReadWritePHPData()
+	{
+		$testfile = \RX_BASEDIR . 'tests/_output/test.php';
+		$data = array('foo' => 'bar', 'baz' => array('rhymix' => '\'"special\\chars' . chr(0) . chr(255), 'test' => 'wow'));
+		
+		$this->assertTrue(Rhymix\Framework\Storage::writePHPData($testfile, $data));
+		$this->assertEquals($data, Rhymix\Framework\Storage::readPHPData($testfile));
 	}
 	
 	public function testCopy()
