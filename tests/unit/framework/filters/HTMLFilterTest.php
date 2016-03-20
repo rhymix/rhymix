@@ -151,5 +151,13 @@ class HTMLFilterTest extends \Codeception\TestCase\Test
 		$source = '<img somekey="somevalue" otherkey="othervalue" onkeypress="alert(\'xss\');" editor_component="component_name" />';
 		$target = '<img somekey="somevalue" otherkey="othervalue" src="" editor_component="component_name" alt="" />';
 		$this->assertEquals($target, Rhymix\Framework\Filters\HTMLFilter::clean($source));
+		
+		$source = '<div somekey="somevalue" otherkey="othervalue" onload="alert(\'xss\');" id="foo" class="bar" editor_component="component_name"></div>';
+		$target = '<div somekey="somevalue" otherkey="othervalue" class="bar" editor_component="component_name"></div>';
+		$this->assertEquals($target, Rhymix\Framework\Filters\HTMLFilter::clean($source));
+		
+		$source = '<div editor_component="component_name" style="width:400px;height:300px;" draggable dropzone contextmenu="whatever"></div>';
+		$target = '<div editor_component="component_name" style="width:400px;height:300px;"></div>';
+		$this->assertEquals($target, Rhymix\Framework\Filters\HTMLFilter::clean($source));
 	}
 }
