@@ -463,6 +463,16 @@ class communicationController extends communication
 		{
 			return new Object(-1, 'msg_invalid_request');
 		}
+		
+		// Check duplicate friend
+		$args = new stdClass();
+		$args->member_srl = $logged_info->member_srl;
+		$args->target_srl = $target_srl;
+		$output = executeQuery('communication.isAddedFriend', $args);
+		if($output->data->count)
+		{
+			return new Object(-1, 'msg_already_friend');
+		}
 
 		// Variable
 		$args = new stdClass();
