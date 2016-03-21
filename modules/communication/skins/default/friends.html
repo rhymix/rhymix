@@ -20,12 +20,12 @@
 			</select>
 			<button type="button" class="btn" onclick="doJumpFriendGroup()">{$lang->cmd_move}</button>
 		</span>
-		<select name="friend_group_list" id="friend_group_list" style="margin:0">
+		<select name="friend_group_list" id="friend_group_list" cond="count($friend_group_list)" style="margin:0">
 			<option loop="$friend_group_list => $key,$val" value="{$val->friend_group_srl}" selected="selected"|cond="$val->friend_group_srl == $friend_group_srl">{$val->title}</option>
 		</select>
 		<span class="btn-group">
-			<button type="button" class="btn" onclick="doRenameFriendGroup();return false;">{$lang->cmd_modify}</button>
-			<button type="button" class="btn" onclick="doDeleteFriendGroup();return false;">{$lang->cmd_delete}</button>
+			<button type="button" class="btn" cond="count($friend_group_list)" onclick="doRenameFriendGroup();return false;">{$lang->cmd_rename_friend_group}</button>
+			<button type="button" class="btn" cond="count($friend_group_list)" onclick="doDeleteFriendGroup();return false;">{$lang->cmd_delete_friend_group}</button>
 			<a href="{getUrl('','module','communication','act','dispCommunicationAddFriendGroup')}" class="btn" onclick="popopen(this.href);return false;">{$lang->cmd_add_friend_group}</a>
 		</span>
 	</div>
@@ -42,7 +42,7 @@
 		</thead>
 		<tbody>
 			<tr loop="$friend_list => $no,$val">
-				<td>{$val->group_title?$val->group_title:"&nbsp;"}</td>
+				<td>{$val->group_title?$val->group_title:$lang->default_friend_group}</td>
 				<td><a href="#popup_menu_area" class="member_{$val->target_srl}">{$val->nick_name}</a></td>
 				<td>{zdate($val->regdate,"Y-m-d")}</td>
 				<td><input type="checkbox" name="friend_srl_list[]" value="{$val->friend_srl}" /></td>
@@ -50,11 +50,11 @@
 		</tbody>
 	</table>
 	<div class="btnArea">
-		<select name="target_friend_group_srl" style="margin:0">
+		<select name="target_friend_group_srl" cond="count($friend_group_list)" style="margin:0">
 			<option loop="$friend_group_list => $key,$val" value="{$val->friend_group_srl}">{$val->title}</option>
 		</select>
 		<span class="btn-group __submit_group">
-			<button type="submit" name="act" class="btn" value="procCommunicationMoveFriend">{$lang->cmd_move}</button>
+			<button type="submit" name="act" class="btn" cond="count($friend_group_list)" value="procCommunicationMoveFriend">{$lang->cmd_move}</button>
 			<button type="submit" name="act" class="btn" value="procCommunicationDeleteFriend">{$lang->cmd_delete}</button>
 		</span>
 	</div>
