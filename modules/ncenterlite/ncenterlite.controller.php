@@ -738,11 +738,9 @@ class ncenterliteController extends ncenterlite
 
 	function _addFile()
 	{
-		$oModuleModel = getModel('module');
-		$module_info = $oModuleModel->getModuleInfoXml('ncenterlite');
 		if(file_exists(FileHandler::getRealPath($this->template_path . 'ncenterlite.css')))
 		{
-			Context::addCssFile($this->template_path . 'ncenterlite.css', true, 'all', '', 100);
+			Context::loadFile(array($this->template_path . 'ncenterlite.css', '', '', 100), true);
 		}
 
 		$oNcenterliteModel = getModel('ncenterlite');
@@ -751,19 +749,19 @@ class ncenterliteController extends ncenterlite
 		{
 			if($config->colorset && file_exists(FileHandler::getRealPath($this->template_path . 'ncenterlite.' . $config->colorset . '.css')))
 			{
-				Context::addCssFile($this->template_path . 'ncenterlite.' . $config->colorset . '.css', true, 'all', '', 100);
+				Context::loadFile(array($this->template_path . 'ncenterlite.' . $config->colorset . '.css', '', '', 100), true);
 			}
 		}
 		elseif(Mobile::isFromMobilePhone())
 		{
 			if($config->mcolorset && file_exists(FileHandler::getRealPath($this->template_path . 'ncenterlite.' . $config->mcolorset . '.css')))
 			{
-				Context::addCssFile($this->template_path . 'ncenterlite.' . $config->mcolorset . '.css', true, 'all', '', 100);
+				Context::loadFile(array($this->template_path . 'ncenterlite.' . $config->mcolorset . '.css', '', '', 100), true);
 			}
 
 			Context::loadFile(array('./common/js/jquery.min.js', 'head', '', -100000), true);
 			Context::loadFile(array('./common/js/xe.min.js', 'head', '', -100000), true);
-			Context::addCssFile($this->template_path . 'ncenterlite.mobile.css', true, 'all', '', 100);
+			Context::loadFile(array($this->template_path . 'ncenterlite.mobile.css', '', '', 100), true);
 		}
 		if($config->zindex)
 		{
