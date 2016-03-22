@@ -58,7 +58,7 @@ class Security
 		$key = substr(hash('sha256', $key, true), 0, 16);
 		
 		// Use defuse/php-encryption if possible.
-		if (!$force_compat && version_compare(\PHP_VERSION, '5.4.0', '>=') && function_exists('openssl_encrypt'))
+		if (!$force_compat && function_exists('openssl_encrypt'))
 		{
 			try
 			{
@@ -96,7 +96,7 @@ class Security
 		}
 		
 		// Use defuse/php-encryption if possible.
-		if (!$force_compat && version_compare(\PHP_VERSION, '5.4.0', '>=') && function_exists('openssl_decrypt'))
+		if (!$force_compat && function_exists('openssl_decrypt'))
 		{
 			try
 			{
@@ -147,11 +147,11 @@ class Security
 		{
 			$entropy = random_bytes($entropy_capped_bytes);
 		}
-		elseif(function_exists('openssl_random_pseudo_bytes') && (!$is_windows || version_compare(\PHP_VERSION, '5.4', '>=')))
+		elseif(function_exists('openssl_random_pseudo_bytes'))
 		{
 			$entropy = openssl_random_pseudo_bytes($entropy_capped_bytes);
 		}
-		elseif(function_exists('mcrypt_create_iv') && (!$is_windows || version_compare(\PHP_VERSION, '5.3.7', '>=')))
+		elseif(function_exists('mcrypt_create_iv') && !$is_windows)
 		{
 			$entropy = mcrypt_create_iv($entropy_capped_bytes, \MCRYPT_DEV_URANDOM);
 		}
