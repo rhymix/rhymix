@@ -12,7 +12,7 @@
 namespace Leafo\ScssPhp;
 
 /**
- * SCSS block
+ * Block
  *
  * @author Anthon Pang <anthon.pang@gmail.com>
  */
@@ -31,12 +31,17 @@ class Block
     /**
      * @var integer
      */
-    public $sourcePosition;
+    public $sourceIndex;
 
     /**
      * @var integer
      */
-    public $sourceIndex;
+    public $sourceLine;
+
+    /**
+     * @var integer
+     */
+    public $sourceColumn;
 
     /**
      * @var array

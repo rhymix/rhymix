@@ -124,7 +124,7 @@ define('__XE_VERSION_ALPHA__', false);
 define('__XE_VERSION_BETA__', false);
 define('__XE_VERSION_RC__', false);
 define('__XE_VERSION_STABLE__', true);
-define('__XE_MIN_PHP_VERSION__', '5.3.3');
+define('__XE_MIN_PHP_VERSION__', '5.5.9');
 define('__XE_RECOMMEND_PHP_VERSION__', '5.5.9');
 define('__ZBXE__', true);
 define('__ZBXE_VERSION__', RX_VERSION);

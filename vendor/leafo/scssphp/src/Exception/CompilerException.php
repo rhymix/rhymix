@@ -9,14 +9,13 @@
  * @link http://leafo.github.io/scssphp
  */
 
-namespace Leafo\ScssPhp;
+namespace Leafo\ScssPhp\Exception;
 
 /**
- * SCSSPHP version
+ * Compiler exception
  *
- * @author Leaf Corcoran <leafot@gmail.com>
+ * @author Oleksandr Savchenko <traveltino@gmail.com>
  */
-class Version
+class CompilerException extends \Exception
 {
-    const VERSION = 'v0.6.3';
 }

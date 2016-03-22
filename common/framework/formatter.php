@@ -220,8 +220,8 @@ class Formatter
 		// Compile!
 		try
 		{
-			$scss_compiler = new \scssc;
-			$scss_compiler->setFormatter($minify ? 'scss_formatter_compressed' : 'scss_formatter');
+			$scss_compiler = new \Leafo\ScssPhp\Compiler;
+			$scss_compiler->setFormatter($minify ? '\Leafo\ScssPhp\Formatter\Crunched' : '\Leafo\ScssPhp\Formatter\Expanded');
 			$scss_compiler->setImportPaths(array(dirname(is_array($source_filename) ? array_first($source_filename) : $source_filename)));
 			if ($variables)
 			{
