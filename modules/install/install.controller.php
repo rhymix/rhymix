@@ -364,14 +364,13 @@ class installController extends install
 		$checklist = array();
 
 		// Check PHP version
-		$checklist['php_version'] = true;
-		if(version_compare(PHP_VERSION, __XE_MIN_PHP_VERSION__, '<'))
+		if(version_compare(PHP_VERSION, __XE_MIN_PHP_VERSION__, '>='))
+		{
+			$checklist['php_version'] = true;
+		}
+		else
 		{
 			$checklist['php_version'] = false;
-		}
-		if(version_compare(PHP_VERSION, __XE_RECOMMEND_PHP_VERSION__, '<'))
-		{
-			Context::set('phpversion_warning', true);
 		}
 
 		// Check DB
