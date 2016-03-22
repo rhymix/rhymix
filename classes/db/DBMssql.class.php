@@ -71,6 +71,16 @@ class DBMssql extends DB
 			$this->setError(-1, 'database connect fail' . PHP_EOL . $errors);
 			return;
 		}
+		
+		$server_info = sqlsrv_server_info($result);
+		$server_version = $server_info['SQLServerVersion'];
+		if ($server_version && version_compare($server_version, '10', '<'))
+		{
+			$this->setError(-1, 'Rhymix requires Microsoft SQL Server 2008 or later. Current version is ' . $server_version);
+			return;
+		}
+		
+		
 		return $result;
 	}
 
