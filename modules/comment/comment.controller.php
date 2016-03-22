@@ -829,9 +829,9 @@ class commentController extends comment
 		}
 
 		// set modifier's information if logged-in and posting author and modifier are matched.
+		$logged_info = Context::get('logged_info');
 		if(Context::get('is_logged'))
 		{
-			$logged_info = Context::get('logged_info');
 			if($source_obj->member_srl == $logged_info->member_srl)
 			{
 				$obj->member_srl = $logged_info->member_srl;
