@@ -9,14 +9,13 @@
  * @link http://leafo.github.io/scssphp
  */
 
-namespace Leafo\ScssPhp;
+namespace Leafo\ScssPhp\Exception;
 
 /**
- * SCSSPHP version
+ * Server Exception
  *
- * @author Leaf Corcoran <leafot@gmail.com>
+ * @author Anthon Pang <anthon.pang@gmail.com>
  */
-class Version
+class ServerException extends \Exception
 {
-    const VERSION = 'v0.6.3';
 }

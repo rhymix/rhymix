@@ -15,7 +15,7 @@ use Leafo\ScssPhp\Formatter;
 use Leafo\ScssPhp\Formatter\OutputBlock;
 
 /**
- * SCSS nested formatter
+ * Nested formatter
  *
  * @author Leaf Corcoran <leafot@gmail.com>
  */
@@ -38,6 +38,7 @@ class Nested extends Formatter
         $this->close = ' }';
         $this->tagSeparator = ', ';
         $this->assignSeparator = ': ';
+        $this->keepSemicolons = true;
     }
 
     /**
@@ -154,7 +155,7 @@ class Nested extends Formatter
     private function adjustAllChildren(OutputBlock $block)
     {
         // flatten empty nested blocks
-        $children = array();
+        $children = [];
 
         foreach ($block->children as $i => $child) {
             if (empty($child->lines) && empty($child->children)) {
