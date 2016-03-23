@@ -4,14 +4,34 @@ class ncenterliteAdminView extends ncenterlite
 	function init()
 	{
 		$this->setTemplatePath($this->module_path.'tpl');
-		$this->setTemplateFile(str_replace('dispNcenterliteAdmin', '', $this->act));
+		$this->setTemplateFile(lcfirst(str_replace('dispNcenterliteAdmin', '', $this->act)));
 	}
 
 	function dispNcenterliteAdminConfig()
 	{
+		$oNcenterliteModel = getModel('ncenterlite');
+
+		$config = $oNcenterliteModel->getConfig();
+		Context::set('config', $config);
+	}
+
+	function dispNcenterliteAdminSeletedmid()
+	{
 		$oModuleModel = getModel('module');
 		$oNcenterliteModel = getModel('ncenterlite');
+		$config = $oNcenterliteModel->getConfig();
+
+		$mid_list = $oModuleModel->getMidList(null, array('module_srl', 'mid', 'browser_title', 'module'));
+
+		Context::set('mid_list', $mid_list);
+		Context::set('config', $config);
+	}
+
+	function dispNcenterliteAdminSkinsetting()
+	{
+		$oModuleModel = getModel('module');
 		$oLayoutModel = getModel('layout');
+		$oNcenterliteModel = getModel('ncenterlite');
 
 		$config = $oNcenterliteModel->getConfig();
 		Context::set('config', $config);
@@ -38,10 +58,6 @@ class ncenterliteAdminView extends ncenterlite
 		$security->encodeHTML('config..');
 		$security->encodeHTML('skin_list..title');
 		$security->encodeHTML('colorset_list..name','colorset_list..title');
-
-		$mid_list = $oModuleModel->getMidList(null, array('module_srl', 'mid', 'browser_title', 'module'));
-
-		Context::set('mid_list', $mid_list);
 	}
 
 	function dispNcenterliteAdminList()
@@ -59,4 +75,8 @@ class ncenterliteAdminView extends ncenterlite
 		$this->setTemplateFile('ncenter_list');
 	}
 
+	function dispNcenterliteAdminTest()
+	{
+
+	}
 }

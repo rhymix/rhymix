@@ -4,10 +4,10 @@
 
 <form ruleset="insertConfig" action="./" method="post" class="x_form-horizontal" id="fo_ncenterlite">
 	<input type="hidden" name="module" value="ncenterlite" />
+	<input type="hidden" name="disp_act" value="dispNcenterliteAdminConfig" />
 	<input type="hidden" name="act" value="procNcenterliteAdminInsertConfig" />
 
-	<section class="section collapsed">
-		<h1>{$lang->ncenterlite_basic_settings} ({$lang->ncenterlite_click_to_open})</h1>
+	<section class="section">
 		<div class="x_control-group">
 			<label class="x_control-label"><span class="x_label x_label-important">{$lang->ncenterlite_warning}</span> {$lang->ncenterlite_io}</label>
 			<div class="x_controls">
@@ -85,34 +85,6 @@
 			</div>
 		</div>
 		<div class="x_control-group">
-			<label class="x_control-label">알림센터 사용여부</label>
-			<div class="x_controls">
-				<p class="x_help-block">선택한 페이지에서 알림센터를 표시하지 않습니다.</p>
-				<div loop="$mid_list => $mid, $item">
-					<label>
-						<input type="checkbox" value="{$item->module_srl}" name="hide_module_srls[]" checked="checked"|cond="is_array($config->hide_module_srls) && in_array($item->module_srl, $config->hide_module_srls)" />
-						<strong>{$item->browser_title}</strong> ({$item->mid} / {strtoupper($item->module)})
-					</label>
-				</div>
-			</div>
-		</div>
-		<div class="x_control-group">
-			<label class="x_control-label">댓글 알림 사용게시판</label>
-			<div class="x_controls">
-				<p class="x_help-block">선택한 게시판에서는 댓글의 모든 알림을 관리자가 받을 수 있습니다.</p>
-				<div loop="$mid_list => $mid, $item">
-					<label>
-						<input type="checkbox" value="{$item->module_srl}" name="admin_comment_module_srls[]" checked="checked"|cond="is_array($config->admin_comment_module_srls) && in_array($item->module_srl, $config->admin_comment_module_srls)" />
-						<strong>{$item->browser_title}</strong> ({$item->mid} / {strtoupper($item->module)})
-					</label>
-				</div>
-			</div>
-		</div>
-	</section>
-
-	<section class="section collapsed">
-		<h1>{$lang->ncenterlite_document_event_settings} ({$lang->ncenterlite_click_to_open}) </h1>
-		<div class="x_control-group">
 			<label class="x_control-label">{$lang->ncenterlite_document_event_vote}</label>
 			<div class="x_controls">
 				<label class="x_inline"><input type="radio" name="voted_format" value="Y" checked="checked"|cond="$config->voted_format == 'Y'" /> {$lang->ncenterlite_activate}</label>
@@ -137,105 +109,9 @@
 		</div>
 	</section>
 
-
-
-	<section class="section collapsed">
-		<h1>{$lang->cmd_layout_setup} ({$lang->ncenterlite_click_to_open})</h1>
-		<div class="x_control-group">
-			<label class="x_control-label" for="layout_srl">{$lang->layout}</label>
-			<div class="x_controls">
-				<select name="layout_srl" id="layout_srl">
-					<option value="0">{$lang->notuse}</option>
-					<option loop="$layout_list => $key, $val" value="{$val->layout_srl}" selected="selected"|cond="$config->layout_srl==$val->layout_srl">{$val->title} ({$val->layout})</option>
-				</select>
-				<a href="#aboutLayout" data-toggle class="x_icon-question-sign">{$lang->help}</a>
-				<p class="x_help-block" id="aboutLayout" hidden>{$lang->about_layout}</p>
-			</div>
-		</div>
-		<div class="x_control-group">
-			<label class="x_control-label" for="layout_srl">{$lang->mobile} {$lang->layout}</label>
-			<div class="x_controls">
-				<select name="mlayout_srl" id="mlayout_srl">
-					<option value="0">{$lang->notuse}</option>
-					<option loop="$mlayout_list => $key, $val" value="{$val->layout_srl}" selected="selected"|cond="$config->mlayout_srl==$val->layout_srl">{$val->title} ({$val->layout})</option>
-				</select>
-				<a href="#aboutLayout" data-toggle class="x_icon-question-sign">{$lang->help}</a>
-				<p class="x_help-block" id="aboutLayout" hidden>{$lang->about_layout}</p>
-			</div>
-		</div>
-	</section>
-
-	<section class="section collapsed">
-		<h1>{$lang->ncenterlite_skin_settings} ({$lang->ncenterlite_click_to_open})</h1>
-		<div class="x_control-group">
-			<label class="x_control-label">{$lang->skin}</label>
-			<div class="x_controls">
-				<select name="skin" onchange="doDisplaySkinColorset(this); return false;">
-					<option loop="$skin_list => $key, $val" value="{$key}" selected="selected"|cond="$config->skin == $key">
-						{$val->title} ({htmlspecialchars($key)})
-					</option>
-				</select>
-			</div>
-		</div>
-		<div class="x_control-group">
-			<label class="x_control-label">{$lang->colorset}</label>
-			<div class="x_controls">
-				<select name="colorset" id="ncenterlite_colorset">
-					<option loop="$colorset_list => $key, $val" value="{$val->name}" selected="selected"|cond="$config->colorset == $val->name">
-						{$val->title} ({$val->name})
-					</option>
-				</select>
-			</div>
-		</div>
-		<div class="x_control-group">
-			<label class="x_control-label">mobile {$lang->mskin}</label>
-			<div class="x_controls">
-				<select name="mskin" onchange="doDisplayMobileSkinColorset(this); return false;">
-					<option loop="$mskin_list => $key, $val" value="{$key}" selected="selected"|cond="$config->mskin == $key">
-						{$val->title} ({htmlspecialchars($key)})
-					</option>
-				</select>
-			</div>
-		</div>
-		<div class="x_control-group">
-			<label class="x_control-label">mobile {$lang->colorset}</label>
-			<div class="x_controls">
-				<select name="mcolorset" id="ncenterlite_colorset">
-					<option loop="$mcolorset_list => $key, $val" value="{$val->name}" selected="selected"|cond="$config->mcolorset == $val->name">
-						{$val->title} ({$val->name})
-					</option>
-				</select>
-			</div>
-		</div>
-		<div class="x_control-group">
-			<label class="x_control-label">{$lang->ncenterlite_zindex}</label>
-			<div class="x_controls">
-				<input type="number" name="zindex" value="{$config->zindex}" />
-				<p class="x_help-block">{$lang->ncenterlite_zindex_about}</p>
-			</div>
-		</div>
-	</section>
-
 	<div class="x_clearfix btnArea">
 		<div class="x_pull-right">
 			<button class="x_btn x_btn-primary" type="submit">{$lang->cmd_registration}</button>
 		</div>
 	</div>
-
-	<section class="section">
-		<h1>{$lang->etc}</h1>
-		<div class="x_control-group">
-			<label class="x_control-label">{$lang->ncenterlite_test_mention}</label>
-			<div class="x_controls">
-				<label><input type="button" name="dummy" onClick="doDummyDataInsert();" class="x_btn" value="{$lang->ncenterlite_test_make_dummy}"> {$lang->ncenterlite_test_mention_about}</label>
-			</div>
-		</div>
-
-		<div class="x_control-group">
-			<label class="x_control-label">{$lang->ncenterlite_test_push}</label>
-			<div class="x_controls">
-				<label><input type="button" name="dummy" onClick="doDummyPushDataInsert();" class="x_btn" value="{$lang->ncenterlite_test_make_dummy}"> {$lang->ncenterlite_test_push_about}</label>
-			</div>
-		</div>
-	</section>
 </form>

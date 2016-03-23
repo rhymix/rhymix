@@ -101,3 +101,4 @@ $lang->ncenterlite_commnet_event_noti_all = '글쓴이에게 모든 댓글 알�
 $lang->ncenterlite_commnet_event_noti_some = '대댓글은 알리지 않음';
 $lang->ncenterlite_message_event = '쪽지 알림 설정';
 $lang->ncenterlite_message_event_about = '쪽지 알림을 사용하지 않음(XE의 기본 쪽지 알림을 사용)';
+$lang->ncenterlite_mid_use = '알림센터 사용설정';

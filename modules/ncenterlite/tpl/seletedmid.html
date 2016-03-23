@@ -1,0 +1,42 @@
+<load target="js/ncenter_admin.js" />
+<load target="css/ncenter_admin.css" />
+<include target="header.html" />
+
+
+<form ruleset="insertConfig" action="./" method="post" class="x_form-horizontal" id="fo_ncenterlite">
+	<input type="hidden" name="module" value="ncenterlite" />
+	<input type="hidden" name="disp_act" value="dispNcenterliteAdminSeletedmid" />
+	<input type="hidden" name="act" value="procNcenterliteAdminInsertConfig" />
+
+	<section class="section">
+		<div class="x_control-group">
+			<label class="x_control-label">알림센터 사용여부</label>
+			<div class="x_controls">
+				<p class="x_help-block">선택한 페이지에서 알림센터를 표시하지 않습니다.</p>
+				<div loop="$mid_list => $mid, $item">
+					<label>
+						<input type="checkbox" value="{$item->module_srl}" name="hide_module_srls[]" checked="checked"|cond="is_array($config->hide_module_srls) && in_array($item->module_srl, $config->hide_module_srls)" />
+						<strong>{$item->browser_title}</strong> ({$item->mid} / {strtoupper($item->module)})
+					</label>
+				</div>
+			</div>
+		</div>
+		<div class="x_control-group">
+			<label class="x_control-label">댓글 알림 사용게시판</label>
+			<div class="x_controls">
+				<p class="x_help-block">선택한 게시판에서는 댓글의 모든 알림을 관리자가 받을 수 있습니다.</p>
+				<div loop="$mid_list => $mid, $item">
+					<label>
+						<input type="checkbox" value="{$item->module_srl}" name="admin_comment_module_srls[]" checked="checked"|cond="is_array($config->admin_comment_module_srls) && in_array($item->module_srl, $config->admin_comment_module_srls)" />
+						<strong>{$item->browser_title}</strong> ({$item->mid} / {strtoupper($item->module)})
+					</label>
+				</div>
+			</div>
+		</div>
+	</section>
+	<div class="x_clearfix btnArea">
+		<div class="x_pull-right">
+			<button class="x_btn x_btn-primary" type="submit">{$lang->cmd_registration}</button>
+		</div>
+	</div>
+</form>

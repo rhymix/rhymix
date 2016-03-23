@@ -5,45 +5,63 @@ class ncenterliteAdminController extends ncenterlite
 	{
 		$oModuleController = getController('module');
 		$obj = Context::getRequestVars();
+		$config = getModel('ncenterlite')->getConfig();
 
-		$config = new stdClass();
-		$config->use = $obj->use;
-		$config->display_use = $obj->display_use;
-
-		$config->user_config_list = $obj->user_config_list;
-		$config->mention_format = $obj->mention_format;
-		$config->mention_names = $obj->mention_names;
-		$config->document_notify = $obj->document_notify;
-		$config->hide_module_srls = $obj->hide_module_srls;
-		if(!$config->mention_format && !is_array($config->mention_format))
+		$config_vars = array(
+			'use',
+			'display_use',
+			'user_config_list',
+			'mention_format',
+			'mention_names',
+			'document_notify',
+			'hide_module_srls',
+			'mention_format',
+			'admin_comment_module_srls',
+			'skin',
+			'mskin',
+			'mcolorset',
+			'colorset',
+			'zindex',
+			'anonymous_name',
+			'document_read',
+			'layout_srl',
+			'mlayout_srl',
+			'voted_format',
+			'document_notify'
+		);
+		foreach($config_vars as $val)
 		{
-			$config->mention_format = array();
-		}
-		$config->admin_comment_module_srls = $obj->admin_comment_module_srls;
 
-		$config->skin = $obj->skin;
-		$config->mskin = $obj->mskin;
-		$config->mcolorset = $obj->mcolorset;
-		$config->colorset = $obj->colorset;
-		$config->zindex = $obj->zindex;
-		$config->anonymous_name = $obj->anonymous_name;
-		$config->document_read = $obj->document_read;
-		$config->layout_srl = $obj->layout_srl;
-		$config->mlayout_srl = $obj->mlayout_srl;
-		$config->voted_format = $obj->voted_format;
+			if($obj->disp_act == 'dispNcenterliteAdminConfig' && !$obj->mention_format)
+			{
+				$config->mention_format = array();
+			}
+			if($obj->{$val})
+			{
+				$config->{$val} = $obj->{$val};
+			}
+
+			if($obj->disp_act == 'dispNcenterliteAdminSeletedmid' && !$obj->hide_module_srls)
+			{
+				$config->hide_module_srls = array();
+			}
+			if($obj->disp_act == 'dispNcenterliteAdminSeletedmid' && !$obj->admin_comment_module_srls)
+			{
+				$config->admin_comment_module_srls = array();
+			}
+		}
+		debugPrint($config);
 
 		if(!$config->document_notify)
 		{
 			$config->document_notify = 'direct-comment';
 		}
-
 		$this->setMessage('success_updated');
 
 		$oModuleController->updateModuleConfig('ncenterlite', $config);
-
 		if(!in_array(Context::getRequestMethod(),array('XMLRPC','JSON')))
 		{
-			$returnUrl = Context::get('success_return_url') ? Context::get('success_return_url') : getNotEncodedUrl('', 'module', 'admin', 'act', 'dispNcenterliteAdminConfig');
+			$returnUrl = Context::get('success_return_url') ? Context::get('success_return_url') : getNotEncodedUrl('', 'module', 'admin', 'act', $obj->disp_act);
 			header('location: ' . $returnUrl);
 			return;
 		}

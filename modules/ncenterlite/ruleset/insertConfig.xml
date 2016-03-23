@@ -6,8 +6,8 @@
 		<field name="use" />
 		<field name="mention_format" />
 		<field name="document_notify" />
-		<field name="skin" required="true" />
-		<field name="colorset" required="true" />
-		<field name="zindex" rule="number" />
+		<field name="skin" />
+		<field name="colorset" />
+		<field name="zindex" />
 	</fields>
 </ruleset>
