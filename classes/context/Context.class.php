@@ -3,7 +3,6 @@
 
 /**
  * Manages Context such as request arguments/environment variables
- * It has dual method structure, easy-to use methods which can be called as self::methodname(),and methods called with static object.
  *
  * @author NAVER (developers@xpressengine.com)
  */
