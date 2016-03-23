@@ -288,10 +288,6 @@ class ncenterliteController extends ncenterlite
 		{
 			return new Object();
 		}
-		if($config->message_notify == 'N')
-		{
-			return new Object();
-		}
 		$messages_member_config = $oNcenterliteModel->getMemberConfig($trigger_obj->receiver_srl);
 		$message_member_config = $messages_member_config->data;
 

@@ -14,7 +14,6 @@ class ncenterliteAdminController extends ncenterlite
 		$config->mention_format = $obj->mention_format;
 		$config->mention_names = $obj->mention_names;
 		$config->document_notify = $obj->document_notify;
-		$config->message_notify = $obj->message_notify;
 		$config->hide_module_srls = $obj->hide_module_srls;
 		if(!$config->mention_format && !is_array($config->mention_format))
 		{

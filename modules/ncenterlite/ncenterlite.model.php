@@ -15,7 +15,6 @@ class ncenterliteModel extends ncenterlite
 			if(!$config->display_use) $config->display_use = 'Y';
 
 			if(!$config->mention_names) $config->mention_names = 'nick_name';
-			if(!$config->message_notify) $config->message_notify = 'Y';
 			if(!$config->mention_format && !is_array($config->mention_format)) $config->mention_format = array('respect');
 			if(!is_array($config->mention_format)) $config->mention_format = explode('|@|', $config->mention_format);
 			if(!$config->document_notify) $config->document_notify = 'direct-comment';
