@@ -65,6 +65,8 @@ class MIME
 		'txt' => 'text/plain',
 		'text' => 'text/plain',
 		'log' => 'text/plain',
+		'md' => 'text/markdown',
+		'markdown' => 'text/markdown',
 		'rtf' => 'text/rtf',
 		'xml' => 'text/xml',
 		'xsl' => 'text/xml',
