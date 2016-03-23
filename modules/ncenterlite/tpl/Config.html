@@ -2,20 +2,6 @@
 <load target="css/ncenter_admin.css" />
 <include target="header.html" />
 
-<div cond="$_ncenterlite_env_agreement == 'NULL'">
-	<form action="{getUrl('')}" method="post" class="message info x_clearfix">
-		<input type="hidden" name="module" value="ncenterlite" />
-		<input type="hidden" name="act" value="procNcenterliteAdminEnviromentGatheringAgreement" />
-		<h2>{$lang->ncenterlite_config_environment}</h2>
-		{$lang->ncenterlite_config_environment_about}
-		<div class="x_pull-right" style="margin-bottom:10px">
-			<button type="submit" name="is_agree" value="Y" class="x_btn x_btn-small x_btn-primary">{$lang->ncenterlite_config_environment_agree}</button>
-			<button type="submit" name="is_agree" value="N" class="x_btn x_btn-small">{$lang->ncenterlite_config_environment_disagree}</button>
-		</div>
-	</form>
-</div>
-
-
 <form ruleset="insertConfig" action="./" method="post" class="x_form-horizontal" id="fo_ncenterlite">
 	<input type="hidden" name="module" value="ncenterlite" />
 	<input type="hidden" name="act" value="procNcenterliteAdminInsertConfig" />
