@@ -42,34 +42,6 @@ class ncenterliteAdminView extends ncenterlite
 		$mid_list = $oModuleModel->getMidList(null, array('module_srl', 'mid', 'browser_title', 'module'));
 
 		Context::set('mid_list', $mid_list);
-
-		// 사용환경정보 전송 확인
-		$ncenterlite_module_info = $oModuleModel->getModuleInfoXml('ncenterlite');
-		$agreement_file = FileHandler::getRealPath(sprintf('%s%s.txt', './files/ncenterlite/ncenterlite-', $ncenterlite_module_info->version));
-
-		$agreement_ver_file = FileHandler::getRealPath(sprintf('%s%s.txt', './files/ncenterlite/ncenterlite_ver-', $ncenterlite_module_info->version));
-
-		if(file_exists($agreement_file))
-		{
-			$agreement = FileHandler::readFile($agreement_file);
-			Context::set('_ncenterlite_env_agreement', $agreement);
-			$agreement_ver = FileHandler::readFile($agreement_ver_file);
-			if($agreement == 'Y')
-			{
-				$_ncenterlite_iframe_url = 'http://sosifam.com/index.php?mid=ncenterlite_iframe';
-				if(!$agreement_ver)
-				{
-					$_host_info = urlencode($_SERVER['HTTP_HOST']) . '-NC' . $ncenterlite_module_info->version . '-PHP' . phpversion() . '-RX' . RX_VERSION;
-				}
-				Context::set('_ncenterlite_iframe_url', $_ncenterlite_iframe_url . '&_host='. $_host_info);
-				Context::set('ncenterlite_module_info', $ncenterlite_module_info);
-			}
-			FileHandler::writeFile($agreement_ver_file, 'Y');
-		}
-		else
-		{
-			Context::set('_ncenterlite_env_agreement', 'NULL');
-		}
 	}
 
 	function dispNcenterliteAdminList()

@@ -131,21 +131,4 @@ class ncenterliteAdminController extends ncenterlite
 			return;
 		}
 	}
-
-	function procNcenterliteAdminEnviromentGatheringAgreement()
-	{
-		$vars = Context::getRequestVars();
-		$oModuleModel = getModel('module');
-		$ncenterlite_module_info = $oModuleModel->getModuleInfoXml('ncenterlite');
-		$agreement_file = FileHandler::getRealPath(sprintf('%s%s.txt', './files/ncenterlite/ncenterlite-', $ncenterlite_module_info->version));
-
-		FileHandler::writeFile($agreement_file, $vars->is_agree);
-
-		if(!in_array(Context::getRequestMethod(),array('XMLRPC','JSON')))
-		{
-			$returnUrl = Context::get('success_return_url') ? Context::get('success_return_url') : getNotEncodedUrl('', 'module', 'admin', 'act', 'dispNcenterliteAdminConfig');
-			header('location: ' . $returnUrl);
-			return;
-		}
-	}
 }
