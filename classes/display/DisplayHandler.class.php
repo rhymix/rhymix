@@ -12,6 +12,7 @@
 class DisplayHandler extends Handler
 {
 	public static $response_size = 0;
+	public static $debug_printed = 0;
 	var $content_size = 0; // /< The size of displaying contents
 	var $gz_enabled = FALSE; // / <a flog variable whether to call contents after compressing by gzip
 	var $handler = NULL;
@@ -136,16 +137,34 @@ class DisplayHandler extends Handler
 	 * 
 	 * @return string
 	 */
-	public function getDebugInfo(&$output)
+	public function getDebugInfo(&$output = null)
 	{
+		// Check if debugging information has already been printed.
+		
+		if (self::$debug_printed)
+		{
+			return;
+		}
+		else
+		{
+			self::$debug_printed = 1;
+		}
+		
 		// Check if debugging is enabled for this request.
 		if (!config('debug.enabled') || !Rhymix\Framework\Debug::isEnabledForCurrentUser())
 		{
 			return;
 		}
 		
+		// Do not display debugging information if there is no output.
+		$display_type = config('debug.display_type');
+		if ($output === null && $display_type !== 'file')
+		{
+			return;
+		}
+		
 		// Print debug information.
-		switch ($display_type = config('debug.display_type'))
+		switch ($display_type)
 		{
 			case 'panel':
 				$data = Rhymix\Framework\Debug::getDebugData();
