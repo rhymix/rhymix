@@ -448,6 +448,12 @@ class Context
 	 */
 	public static function close()
 	{
+		// Save debugging information.
+		if (!DisplayHandler::$debug_printed)
+		{
+			DisplayHandler::getDebugInfo();
+		}
+		
 		// Check session status and close it if open.
 		if (self::checkSessionStatus())
 		{
