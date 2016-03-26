@@ -256,7 +256,15 @@ class ModuleHandler extends Handler
 			header("Location: $redirect_url", true, 301);
 			return false;
 		}
-
+		
+		// redirect, if site start module
+		if(isset($_GET['mid']) && $_GET['mid'] === $site_module_info->mid && !$this->act && !$this->module && !$this->document_srl)
+		{
+			Context::setCacheControl(0);
+			header('location: ' . getNotEncodedSiteUrl($site_module_info->domain), true, 301);
+			return false;
+		}
+		
 		// If module info was set, retrieve variables from the module information
 		if($module_info)
 		{
