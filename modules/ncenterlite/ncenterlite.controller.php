@@ -625,11 +625,6 @@ class ncenterliteController extends ncenterlite
 		$oNcenterliteModel = getModel('ncenterlite');
 		$config = $oNcenterliteModel->getConfig();
 
-		// 알림센터가 비활성화 되어 있으면 중지
-		if($config->use != 'Y' && $config->use != 'message')
-		{
-			return new Object();
-		}
 		if($config->display_use == 'N')
 		{
 			return new Object();
