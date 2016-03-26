@@ -1022,6 +1022,19 @@ class ncenterliteController extends ncenterlite
 		// '님'문자 이후 제거
 		if(in_array('respect', $config->mention_format))
 		{
+			$nick_name = array_unique($matches[2]);
+			foreach($nick_name as $nick)
+			{
+				$nick_member_srl = getModel('member')->getMemberSrlByNickName($nick);
+				if($nick_member_srl)
+				{
+					$list[] = $nick_member_srl;
+				}
+			}
+			if(!empty($list))
+			{
+				return $list;
+			}
 			foreach($matches[2] as $idx => $item)
 			{
 				$pos = strpos($item, '님');
@@ -1035,7 +1048,6 @@ class ncenterliteController extends ncenterlite
 				}
 			}
 		}
-
 		$nicks = array_unique($matches[2]);
 
 		$oMemberModel = getModel('member');
@@ -1045,12 +1057,10 @@ class ncenterliteController extends ncenterlite
 		{
 			foreach($nicks as $user_id)
 			{
-				$vars = new stdClass();
-				$vars->user_id = $user_id;
-				$output = executeQuery('ncenterlite.getMemberSrlById', $vars);
-				if($output->data && $output->data->member_srl)
+				$id_member_srl = $oMemberModel->getMemberSrlByUserID($user_id);
+				if($id_member_srl)
 				{
-					$list[] = $output->data->member_srl;
+					$list[] = $id_member_srl;
 				}
 			}
 		}
@@ -1058,12 +1068,10 @@ class ncenterliteController extends ncenterlite
 		{
 			foreach($nicks as $nick_name)
 			{
-				$vars = new stdClass();
-				$vars->nick_name = $nick_name;
-				$output = executeQuery('ncenterlite.getMemberSrlByNickName', $vars);
-				if($output->data && $output->data->member_srl)
+				$nick_member_srl = $oMemberModel->getMemberSrlByNickName($nick_name);
+				if($nick_member_srl)
 				{
-					$list[] = $output->data->member_srl;
+					$list[] = $nick_member_srl;
 				}
 			}
 		}
