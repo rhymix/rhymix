@@ -11,16 +11,11 @@
 		<div class="x_control-group">
 			<label class="x_control-label"><span class="x_label x_label-important">{$lang->ncenterlite_warning}</span> {$lang->ncenterlite_io}</label>
 			<div class="x_controls">
-				<label class="x_inline">
-					<input type="radio" id="use_y" name="use" value="Y" checked="checked"|cond="$config->use == 'Y'" /> {$lang->ncenterlite_on}
-				</label>
-				<label class="x_inline">
-					<input type="radio" id="use_message" name="use" value="message" checked="checked"|cond="$config->use == 'message'" /> {$lang->ncenterlite_only_message}
-				</label>
-				<label class="x_inline">
-					<input type="radio" id="use_n" name="use" value="N" checked="checked"|cond="$config->use == 'N'" /> {$lang->ncenterlite_off}
-				</label>
-				<p class="x_help-block"><span class="x_label x_label-important">{$lang->ncenterlite_warning}</span> {$lang->ncenterlite_io_about}</p>
+				<label for="notify_mention" class="x_inline"><input type="checkbox" name="use[mention]" id="notify_mention" value="1" checked="checked"|cond="isset($config->use[mention])" /> mention</label>
+				<label for="notify_comment" class="x_inline"><input type="checkbox" name="use[comment]" id="notify_comment" value="1" checked="checked"|cond="isset($config->use[comment])" /> comment</label>
+				<label for="notify_comment_comment" class="x_inline"><input type="checkbox" name="use[comment_comment]" id="notify_comment_comment" value="1" checked="checked"|cond="isset($config->use[comment_comment])" /> comment_comment</label>
+				<label for="notify_vote" class="x_inline"><input type="checkbox" name="use[vote]" id="notify_vote" value="1" checked="checked"|cond="isset($config->use[vote])" /> vote</label>
+				<label for="notify_message" class="x_inline"><input type="checkbox" name="use[message]" id="notify_message" value="1" checked="checked"|cond="isset($config->use[message])" /> message</label>
 			</div>
 		</div>
 		<div class="x_control-group">
@@ -85,14 +80,6 @@
 			</div>
 		</div>
 		<div class="x_control-group">
-			<label class="x_control-label">{$lang->ncenterlite_document_event_vote}</label>
-			<div class="x_controls">
-				<label class="x_inline"><input type="radio" name="voted_format" value="Y" checked="checked"|cond="$config->voted_format == 'Y'" /> {$lang->ncenterlite_activate}</label>
-				<label class="x_inline"><input type="radio" name="voted_format" value="N" checked="checked"|cond="$config->voted_format == 'N'" /> {$lang->ncenterlite_inactivate}</label>
-				<p>{$lang->ncenterlite_document_event_vote_about}</p>
-			</div>
-		</div>
-		<div class="x_control-group">
 			<label class="x_control-label">{$lang->ncenterlite_document_event_read}</label>
 			<div class="x_controls">
 				<label class="x_inline"><input type="radio" name="document_read" value="N" checked="checked"|cond="$config->document_read == 'N'" />{$lang->ncenterlite_document_event_read_preserve}</label>
@@ -100,13 +87,7 @@
 				<p>{$lang->ncenterlite_document_event_read_about}</p>
 			</div>
 		</div>
-		<div class="x_control-group">
-			<label class="x_control-label">{$lang->ncenterlite_commnet_event}</label>
-			<div class="x_controls">
-				<label class="x_inline"><input type="radio" name="document_notify" value="all-comment" checked="checked"|cond="$config->document_notify == 'all-comment'" /> {$lang->ncenterlite_commnet_event_noti_all}</label>
-				<label class="x_inline"><input type="radio" name="document_notify" value="direct-comment" checked="checked"|cond="$config->document_notify == 'direct-comment'" /> {$lang->ncenterlite_commnet_event_noti_some}</label>
-			</div>
-		</div>
+
 	</section>
 
 	<div class="x_clearfix btnArea">

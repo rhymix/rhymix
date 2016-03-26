@@ -11,7 +11,10 @@ class ncenterliteModel extends ncenterlite
 		{
 			$oModuleModel = getModel('module');
 			$config = $oModuleModel->getModuleConfig('ncenterlite');
-			if(!$config->use) $config->use = 'Y';
+			if(!$config->use)
+			{
+				$config->use = array();
+			}
 			if(!$config->display_use) $config->display_use = 'Y';
 
 			if(!$config->mention_names) $config->mention_names = 'nick_name';

@@ -26,9 +26,12 @@ class ncenterliteAdminController extends ncenterlite
 			'document_read',
 			'layout_srl',
 			'mlayout_srl',
-			'voted_format',
 			'document_notify'
 		);
+		if(!$obj->use && $obj->disp_act == 'dispNcenterliteAdminConfig')
+		{
+			$config->use = array();
+		}
 		foreach($config_vars as $val)
 		{
 
@@ -40,7 +43,6 @@ class ncenterliteAdminController extends ncenterlite
 			{
 				$config->{$val} = $obj->{$val};
 			}
-
 			if($obj->disp_act == 'dispNcenterliteAdminSeletedmid' && !$obj->hide_module_srls)
 			{
 				$config->hide_module_srls = array();
@@ -50,15 +52,15 @@ class ncenterliteAdminController extends ncenterlite
 				$config->admin_comment_module_srls = array();
 			}
 		}
-		debugPrint($config);
 
-		if(!$config->document_notify)
+		$output = $oModuleController->updateModuleConfig('ncenterlite', $config);
+		if(!$output->toBool())
 		{
-			$config->document_notify = 'direct-comment';
+			return new Object(-1, 'message');
 		}
+
 		$this->setMessage('success_updated');
 
-		$oModuleController->updateModuleConfig('ncenterlite', $config);
 		if(!in_array(Context::getRequestMethod(),array('XMLRPC','JSON')))
 		{
 			$returnUrl = Context::get('success_return_url') ? Context::get('success_return_url') : getNotEncodedUrl('', 'module', 'admin', 'act', $obj->disp_act);
