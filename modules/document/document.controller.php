@@ -610,9 +610,9 @@ class documentController extends document
 		}
 
 		// If an author is identical to the modifier or history is used, use the logged-in user's information.
+		$logged_info = Context::get('logged_info');
 		if(Context::get('is_logged') && !$manual_updated && $module_info->use_anonymous != 'Y')
 		{
-			$logged_info = Context::get('logged_info');
 			if($source_obj->get('member_srl')==$logged_info->member_srl)
 			{
 				$obj->member_srl = $logged_info->member_srl;

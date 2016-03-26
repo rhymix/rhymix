@@ -15,7 +15,7 @@ use Leafo\ScssPhp\Formatter;
 use Leafo\ScssPhp\Formatter\OutputBlock;
 
 /**
- * SCSS crunched formatter
+ * Crunched formatter
  *
  * @author Anthon Pang <anthon.pang@gmail.com>
  */
@@ -33,18 +33,7 @@ class Crunched extends Formatter
         $this->close = '}';
         $this->tagSeparator = ',';
         $this->assignSeparator = ':';
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function stripSemicolon(&$lines)
-    {
-        if (($count = count($lines))
-            && substr($lines[$count - 1], -1) === ';'
-        ) {
-            $lines[$count - 1] = substr($lines[$count - 1], 0, -1);
-        }
+        $this->keepSemicolons = false;
     }
 
     /**

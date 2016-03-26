@@ -763,7 +763,10 @@ class fileController extends file
 		}
 
 		// Create a directory
-		if(!FileHandler::makeDir($path)) return new Object(-1,'msg_not_permitted_create');
+		if(!Rhymix\Framework\Storage::isDirectory($path) && !Rhymix\Framework\Storage::createDirectory($path))
+		{
+			return new Object(-1,'msg_not_permitted_create');
+		}
 		
 		// Move the file
 		if($manual_insert)

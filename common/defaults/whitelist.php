@@ -64,6 +64,7 @@ return array(
 		'www.youtube.com/',
 		'www.youtube-nocookie.com/',
 		// Google Maps
+		'www.google.com/maps/embed',
 		'maps.google.com/',
 		'maps.google.co.kr/',
 		// Daum TV Pot

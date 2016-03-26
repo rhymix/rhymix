@@ -15,7 +15,7 @@ use Leafo\ScssPhp\Formatter;
 use Leafo\ScssPhp\Formatter\OutputBlock;
 
 /**
- * SCSS debug formatter
+ * Debug formatter
  *
  * @author Anthon Pang <anthon.pang@gmail.com>
  */
@@ -33,6 +33,7 @@ class Debug extends Formatter
         $this->close = ' }';
         $this->tagSeparator = ', ';
         $this->assignSeparator = ': ';
+        $this->keepSemicolons = true;
     }
 
     /**

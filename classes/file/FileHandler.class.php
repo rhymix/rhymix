@@ -176,7 +176,8 @@ class FileHandler
 	{
 		if (!ini_get('safe_mode'))
 		{
-			return Rhymix\Framework\Storage::createDirectory(self::getRealPath($path_string));
+			$path = self::getRealPath($path_string);
+			return Rhymix\Framework\Storage::isDirectory($path) || Rhymix\Framework\Storage::createDirectory($path);
 		}
 		
 		// if safe_mode is on, use FTP
@@ -475,7 +476,7 @@ class FileHandler
 		{
 			return false;
 		}
-		return false;
+		return true;
 	}
 
 	/**

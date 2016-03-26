@@ -3,7 +3,6 @@
 
 /**
  * Manages Context such as request arguments/environment variables
- * It has dual method structure, easy-to use methods which can be called as self::methodname(),and methods called with static object.
  *
  * @author NAVER (developers@xpressengine.com)
  */
@@ -449,6 +448,12 @@ class Context
 	 */
 	public static function close()
 	{
+		// Save debugging information.
+		if (!DisplayHandler::$debug_printed)
+		{
+			DisplayHandler::getDebugInfo();
+		}
+		
 		// Check session status and close it if open.
 		if (self::checkSessionStatus())
 		{
@@ -1360,10 +1365,9 @@ class Context
 	 * @see Cast variables, such as _srl, page, and cpage, into interger
 	 * @param string $key Variable key
 	 * @param string $val Variable value
-	 * @param string $do_stripslashes Whether to strip slashes
 	 * @return mixed filtered value. Type are string or array
 	 */
-	public function _filterRequestVar($key, $val, $do_stripslashes = 1)
+	public function _filterRequestVar($key, $val)
 	{
 		if(!($isArray = is_array($val)))
 		{
@@ -1389,19 +1393,6 @@ class Context
 			else
 			{
 				$result[$k] = $v;
-
-				if($do_stripslashes && version_compare(PHP_VERSION, '5.4.0', '<') && get_magic_quotes_gpc())
-				{
-					if (is_array($result[$k]))
-					{
-						array_walk_recursive($result[$k], function(&$val) { $val = stripslashes($val); });
-					}
-					else
-					{
-						$result[$k] = stripslashes($result[$k]);
-					}
-				}
-
 				if(is_array($result[$k]))
 				{
 					array_walk_recursive($result[$k], function(&$val) { $val = trim($val); });

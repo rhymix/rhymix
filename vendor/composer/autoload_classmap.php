@@ -6,8 +6,6 @@ $vendorDir = dirname(dirname(__FILE__));
 $baseDir = dirname($vendorDir);
 
 return array(
-    'FB' => $vendorDir . '/firephp/firephp-core/lib/FirePHPCore/fb.php',
-    'FirePHP' => $vendorDir . '/firephp/firephp-core/lib/FirePHPCore/FirePHP.class.php',
     'HTMLPurifier' => $vendorDir . '/ezyang/htmlpurifier/library/HTMLPurifier.php',
     'HTMLPurifier_Arborize' => $vendorDir . '/ezyang/htmlpurifier/library/HTMLPurifier/Arborize.php',
     'HTMLPurifier_AttrCollections' => $vendorDir . '/ezyang/htmlpurifier/library/HTMLPurifier/AttrCollections.php',
@@ -262,6 +260,9 @@ return array(
     'Leafo\\ScssPhp\\Colors' => $vendorDir . '/leafo/scssphp/src/Colors.php',
     'Leafo\\ScssPhp\\Compiler' => $vendorDir . '/leafo/scssphp/src/Compiler.php',
     'Leafo\\ScssPhp\\Compiler\\Environment' => $vendorDir . '/leafo/scssphp/src/Compiler/Environment.php',
+    'Leafo\\ScssPhp\\Exception\\CompilerException' => $vendorDir . '/leafo/scssphp/src/Exception/CompilerException.php',
+    'Leafo\\ScssPhp\\Exception\\ParserException' => $vendorDir . '/leafo/scssphp/src/Exception/ParserException.php',
+    'Leafo\\ScssPhp\\Exception\\ServerException' => $vendorDir . '/leafo/scssphp/src/Exception/ServerException.php',
     'Leafo\\ScssPhp\\Formatter' => $vendorDir . '/leafo/scssphp/src/Formatter.php',
     'Leafo\\ScssPhp\\Formatter\\Compact' => $vendorDir . '/leafo/scssphp/src/Formatter/Compact.php',
     'Leafo\\ScssPhp\\Formatter\\Compressed' => $vendorDir . '/leafo/scssphp/src/Formatter/Compressed.php',
@@ -370,11 +371,4 @@ return array(
     'lessc_formatter_compressed' => $vendorDir . '/leafo/lessphp/lessc.inc.php',
     'lessc_formatter_lessjs' => $vendorDir . '/leafo/lessphp/lessc.inc.php',
     'lessc_parser' => $vendorDir . '/leafo/lessphp/lessc.inc.php',
-    'scss_formatter' => $vendorDir . '/leafo/scssphp/classmap.php',
-    'scss_formatter_compressed' => $vendorDir . '/leafo/scssphp/classmap.php',
-    'scss_formatter_crunched' => $vendorDir . '/leafo/scssphp/classmap.php',
-    'scss_formatter_nested' => $vendorDir . '/leafo/scssphp/classmap.php',
-    'scss_parser' => $vendorDir . '/leafo/scssphp/classmap.php',
-    'scss_server' => $vendorDir . '/leafo/scssphp/classmap.php',
-    'scssc' => $vendorDir . '/leafo/scssphp/classmap.php',
 );
