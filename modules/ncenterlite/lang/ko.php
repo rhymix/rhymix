@@ -65,7 +65,6 @@ $lang->ncenterlite_config_environment_about = '
 		';
 $lang->ncenterlite_config_environment_agree = '제공 동의';
 $lang->ncenterlite_config_environment_disagree = '제공 안 함';
-$lang->ncenterlite_click_to_open = '클릭하시면 기능설정을 할 수 있습니다.';
 $lang->ncenterlite_notice_list = '알림 목록';
 $lang->ncenterlite_basic_settings = '기본 기능 설정';
 $lang->ncenterlite_warning = '주의!';
