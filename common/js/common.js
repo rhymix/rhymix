@@ -381,13 +381,11 @@ function sendMailTo(to) {
  * @brief url이동 (Rhymix 개선된 버전)
  */
 function redirect(url) {
-	if (url === window.location.href || url.indexOf(window.location.href.replace(/#.+$/, "") + "#") === 0)
-	{
+	if (url === window.location.href || url.indexOf(window.location.href.replace(/#.+$/, "") + "#") === 0 ||
+		url === window.location.pathname || url.indexOf(window.location.pathname.replace(/#.+$/, "") + "#") === 0) {
 		window.location.href = url;
 		window.location.reload();
-	}
-	else
-	{
+	} else {
 		window.location.href = url;
 	}
 }
