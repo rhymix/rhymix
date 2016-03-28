@@ -25,44 +25,44 @@ class communicationModel extends communication
 	function getConfig()
 	{
 		$oModuleModel = getModel('module');
-		$communication_config = $oModuleModel->getModuleConfig('communication');
+		$config = $oModuleModel->getModuleConfig('communication');
 
-		if(!is_object($communication_config))
+		if(!$config->skin)
 		{
-			$communication_config = new stdClass();
+			$config->skin = 'default';
 		}
 
-		if(!$communication_config->skin)
+		if(!$config->colorset)
 		{
-			$communication_config->skin = 'default';
+			$config->colorset = 'white';
 		}
 
-		if(!$communication_config->colorset)
+		if(!$config->editor_skin)
 		{
-			$communication_config->colorset = 'white';
+			$config->editor_skin = 'ckeditor';
 		}
 
-		if(!$communication_config->editor_skin)
+		if(!$config->mskin)
 		{
-			$communication_config->editor_skin = 'ckeditor';
+			$config->mskin = 'default';
+		}
+		
+		if(!$config->grant_send)
+		{
+			$config->grant_send = array('default' => 'member');
 		}
 
-		if(!$communication_config->mskin)
+		if(!$config->enable_message)
 		{
-			$communication_config->mskin = 'default';
+			$config->enable_message = 'Y';
+		}
+		
+		if(!$config->enable_friend)
+		{
+			$config->enable_friend = 'Y';
 		}
 
-		if(!$communication_config->grant_write)
-		{
-			$communication_config->grant_write = array('default_grant' => 'member');
-		}
-
-		if(!$communication_config->member_menu)
-		{
-			$communication_config->member_menu = 'Y';
-		}
-
-		return $communication_config;
+		return $config;
 	}
 
 	/**
@@ -74,82 +74,60 @@ class communicationModel extends communication
 	function getGrantArray($default, $group)
 	{
 		$grant = array();
-		if($default!="")
+		if($default)
 		{
-			switch($default)
-			{
-				case "-2":
-					$grant = array("default_grant"=>"site");
-					break;
-				case "-3":
-					$grant = array("default_grant"=>"manager");
-					break;
-				default :
-					$grant = array("default_grant"=>"member");
-					break;
-			}
-		} 
+			$grant = array('default' => $default);
+		}
 		else if(is_array($group)) 
 		{
-			$oMemberModel = getModel('member');
-			$group_list = $oMemberModel->getGroups($this->site_srl);
-
-			$group_grant = array();
+			$grant_group = array();
 			foreach($group as $group_srl)
 			{
-				$group_grant[$group_srl] = $group_list[$group_srl]->title;
+				$grant_group[$group_srl] = true;
 			}
-			$grant = array('group_grant'=>$group_grant);
+			
+			$grant = array('group' => $grant_group);
 		} 
+		
 		return $grant;
 	}
 
 	/**
-	  * @brief check member's grant
-	  * @param object $member_info
+	  * @brief Check Grant
 	  * @param array $arrGrant
 	  * @return boolean
 	  */
 	function checkGrant($arrGrant)
 	{
-		if(!$arrGrant)
-			return false;
-
-		if(!Context::get('is_logged'))
-			return false;
+		if(!$arrGrant) return false;
 		
 		$logged_info = Context::get('logged_info');
-		if($logged_info->is_admin == "Y")
-			return true;
+		if($logged_info->is_admin == 'Y') return true;
 
-		if($arrGrant['default_grant'])
+		if($arrGrant['default'])
 		{
-			if($arrGrant['default_grant'] == "member" && $logged_info)
-				return true;
-
-			if($arrGrant['default_grant'] == "site" && $this->site_srl == $logged_info->site_srl)
-				return true;
-
-			if($arrGrant['default_grant'] == "manager" && $logged_info->is_admin == "Y")
-				return true;
-		}
-
-		if($arrGrant['group_grant'])
-		{
-			$group_grant = $arrGrant['group_grant'];
-			if(!is_array($group_grant))
-				return false;
-
-			foreach($logged_info->group_list as $group_srl=>$title)
+			if($arrGrant['default'] == 'member')
 			{
-				if(isset($group_grant[$group_srl])&&$group_grant[$group_srl]==$title)
-					return true;
+				if(Context::get('is_logged')) return true;
 			}
-
+			else if($arrGrant['default'] == 'site')
+			{
+				if($this->site_srl == $logged_info->site_srl) return true;
+			}
+			else if($arrGrant['default'] == 'manager')
+			{
+				if($logged_info->is_admin == 'Y') return true;
+			}
+		}
+		else if(is_array($arrGrant['group']))
+		{
+			foreach($logged_info->group_list as $group_srl => $title)
+			{
+				if(isset($arrGrant['group'][$group_srl])) return true;
+			}
 		}
 
 		return false;
-
 	}
 
 	/**

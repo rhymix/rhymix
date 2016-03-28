@@ -145,7 +145,7 @@ class Debug
 		self::$_entries[] = $entry;
 		
 		// Add the entry to the error log.
-		if (self::$write_to_error_log)
+		if (self::$write_to_error_log && self::isEnabledForCurrentUser())
 		{
 			$log_entry = str_replace("\0", '', sprintf('Rhymix Debug: %s in %s on line %d',
 				var_export($message, true), $entry->file, $entry->line));
@@ -173,8 +173,8 @@ class Debug
 		
 		// Rewrite the error message with relative paths.
 		$message = str_replace(array(
-			' called in ' . RX_BASEDIR,
-			' defined in ' . RX_BASEDIR,
+			' called in ' . \RX_BASEDIR,
+			' defined in ' . \RX_BASEDIR,
 		), array(
 			' called in ',
 			' defined in ',
@@ -397,6 +397,12 @@ class Debug
 	 */
 	public static function displayErrorScreen($message)
 	{
+		// Do not display error screen in CLI.
+		if (php_sapi_name() === 'cli')
+		{
+			return;
+		}
+		
 		// Disable output buffering.
 		while (ob_get_level())
 		{
@@ -445,13 +451,17 @@ class Debug
 				return $cache = true;
 			
 			case 'ip':
-				$allowed_ip = Config::get('debug.allow');
-				foreach ($allowed_ip as $range)
+				if (Filters\IpFilter::inRanges(\RX_CLIENT_IP, Config::get('debug.allow')))
 				{
-					if (IpFilter::inRange(RX_CLIENT_IP, $range))
-					{
-						return $cache = true;
-					}
+					return $cache = true;
+				}
+				if (\RX_CLIENT_IP === '127.0.0.1' || \RX_CLIENT_IP === '::1')
+				{
+					return $cache = true;
+				}
+				if (\RX_CLIENT_IP === $_SERVER['SERVER_ADDR'] || \RX_CLIENT_IP === $_SERVER['LOCAL_ADDR'])
+				{
+					return $cache = true;
 				}
 				return $cache = false;
 			
@@ -475,7 +485,7 @@ class Debug
 	{
 		// Collect debug information.
 		$data = (object)array(
-			'timestamp' => DateTime::formatTimestamp('Y-m-d H:i:s', RX_TIME),
+			'timestamp' => DateTime::formatTimestamp('Y-m-d H:i:s', \RX_TIME),
 			'url' => getCurrentPageUrl(),
 			'request' => (object)array(
 				'method' => $_SERVER['REQUEST_METHOD'] . ($_SERVER['REQUEST_METHOD'] !== \Context::getRequestMethod() ? (' (' . \Context::getRequestMethod() . ')') : ''),

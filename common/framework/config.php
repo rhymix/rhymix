@@ -28,13 +28,13 @@ class Config
 	 */
 	public static function init()
 	{
-		if (file_exists(RX_BASEDIR . self::$config_filename))
+		if (file_exists(\RX_BASEDIR . self::$config_filename))
 		{
-			self::$_config = (include RX_BASEDIR . self::$config_filename);
+			self::$_config = (include \RX_BASEDIR . self::$config_filename);
 		}
 		else
 		{
-			if (self::$_config = Compat\ConfigParser::convert())
+			if (self::$_config = Parsers\ConfigParser::convert())
 			{
 				self::save();
 			}
@@ -59,7 +59,7 @@ class Config
 	 */
 	public static function getDefaults()
 	{
-		return (include RX_BASEDIR . self::$default_config_filename);
+		return (include \RX_BASEDIR . self::$default_config_filename);
 	}
 	
 	/**
@@ -135,7 +135,7 @@ class Config
 		
 		// Save the main config file.
 		$buff = '<?php' . "\n" . '// Rhymix System Configuration' . "\n" . 'return ' . self::serialize(self::$_config) . ';' . "\n";
-		$result = \FileHandler::writeFile(RX_BASEDIR . self::$config_filename, $buff) ? true : false;
+		$result = Storage::write(\RX_BASEDIR . self::$config_filename, $buff) ? true : false;
 		//if (!$result) return false;
 		
 		// Save XE-compatible config files.
@@ -144,9 +144,9 @@ class Config
 		$db_info_without_ftp = clone $db_info;
 		unset($db_info_without_ftp->ftp_info);
 		$buff = '<?php' . "\n" . '$db_info = ' . self::serialize($db_info_without_ftp) . ';' . "\n";
-		\FileHandler::writeFile(RX_BASEDIR . self::$old_db_config_filename, $buff);
+		Storage::write(\RX_BASEDIR . self::$old_db_config_filename, $buff);
 		$buff = '<?php' . "\n" . '$ftp_info = ' . self::serialize($ftp_info) . ';' . "\n";
-		\FileHandler::writeFile(RX_BASEDIR . self::$old_ftp_config_filename, $buff);
+		Storage::write(\RX_BASEDIR . self::$old_ftp_config_filename, $buff);
 		return true;
 	}
 	

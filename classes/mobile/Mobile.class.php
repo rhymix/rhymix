@@ -55,9 +55,6 @@ class Mobile
 			return $this->ismobile = false;
 		}
 
-		$xe_web_path = Context::pathToUrl(_XE_PATH_);
-
-		// default setting. if there is cookie for a device, XE do not have to check if it is mobile or not and it will enhance performace of the server.
 		$this->ismobile = FALSE;
 
 		$m = Context::get('m');
@@ -87,28 +84,14 @@ class Mobile
 			}
 			else
 			{
-				$this->ismobile = FALSE;
-				setcookie("mobile", FALSE, 0, $xe_web_path);
-				setcookie("user-agent", FALSE, 0, $xe_web_path);
-				if(!self::isMobilePadCheckByAgent() && self::isMobileCheckByAgent())
-				{
-					$this->ismobile = TRUE;
-				}
+				setcookie("mobile", FALSE, 0, RX_BASEURL);
+				setcookie("user-agent", FALSE, 0, RX_BASEURL);
+				$this->ismobile = Rhymix\Framework\UA::isMobile() && !Rhymix\Framework\UA::isTablet();
 			}
 		}
 		else
 		{
-			if(self::isMobilePadCheckByAgent())
-			{
-				$this->ismobile = FALSE;
-			}
-			else
-			{
-				if(self::isMobileCheckByAgent())
-				{
-					$this->ismobile = TRUE;
-				}
-			}
+			$this->ismobile = Rhymix\Framework\UA::isMobile() && !Rhymix\Framework\UA::isTablet();
 		}
 
 		if($this->ismobile !== NULL)
@@ -118,18 +101,18 @@ class Mobile
 				if($_COOKIE['mobile'] != 'true')
 				{
 					$_COOKIE['mobile'] = 'true';
-					setcookie("mobile", 'true', 0, $xe_web_path);
+					setcookie("mobile", 'true', 0, RX_BASEURL);
 				}
 			}
 			elseif(isset($_COOKIE['mobile']) && $_COOKIE['mobile'] != 'false')
 			{
 				$_COOKIE['mobile'] = 'false';
-				setcookie("mobile", 'false', 0, $xe_web_path);
+				setcookie("mobile", 'false', 0, RX_BASEURL);
 			}
 
 			if(isset($_COOKIE['mobile']) && $_COOKIE['user-agent'] != md5($_SERVER['HTTP_USER_AGENT']))
 			{
-				setcookie("user-agent", md5($_SERVER['HTTP_USER_AGENT']), 0, $xe_web_path);
+				setcookie("user-agent", md5($_SERVER['HTTP_USER_AGENT']), 0, RX_BASEURL);
 			}
 		}
 
@@ -143,31 +126,7 @@ class Mobile
 	 */
 	public static function isMobileCheckByAgent()
 	{
-		static $UACheck;
-		if(isset($UACheck))
-		{
-			return $UACheck;
-		}
-
-		$oMobile = Mobile::getInstance();
-		$mobileAgent = array('iPod', 'iPhone', 'Android', 'BlackBerry', 'SymbianOS', 'Bada', 'Tizen', 'Kindle', 'Wii', 'SCH-', 'SPH-', 'CANU-', 'Windows Phone', 'Windows CE', 'POLARIS', 'Palm', 'Dorothy Browser', 'Mobile', 'Opera Mobi', 'Opera Mini', 'Minimo', 'AvantGo', 'NetFront', 'Nokia', 'LGPlayer', 'SonyEricsson', 'HTC');
-
-		if($oMobile->isMobilePadCheckByAgent())
-		{
-			$UACheck = TRUE;
-			return TRUE;
-		}
-
-		foreach($mobileAgent as $agent)
-		{
-			if(stripos($_SERVER['HTTP_USER_AGENT'], $agent) !== FALSE)
-			{
-				$UACheck = TRUE;
-				return TRUE;
-			}
-		}
-		$UACheck = FALSE;
-		return FALSE;
+		return Rhymix\Framework\UA::isMobile();
 	}
 
 	/**
@@ -177,45 +136,7 @@ class Mobile
 	 */
 	public static function isMobilePadCheckByAgent()
 	{
-		static $UACheck;
-		if(isset($UACheck))
-		{
-			return $UACheck;
-		}
-		$padAgent = array('iPad', 'Android', 'webOS', 'hp-tablet', 'PlayBook');
-
-		// Android with 'Mobile' string is not a tablet-like device, and 'Andoroid' without 'Mobile' string is a tablet-like device.
-		// $exceptionAgent[0] contains exception agents for all exceptions.
-		$exceptionAgent = array(0 => array('Opera Mini', 'Opera Mobi'), 'Android' => 'Mobile');
-
-		foreach($padAgent as $agent)
-		{
-			if(strpos($_SERVER['HTTP_USER_AGENT'], $agent) !== FALSE)
-			{
-				if(!isset($exceptionAgent[$agent]))
-				{
-					$UACheck = TRUE;
-					return TRUE;
-				}
-				elseif(strpos($_SERVER['HTTP_USER_AGENT'], $exceptionAgent[$agent]) === FALSE)
-				{
-					// If the agent is the Android, that can be either tablet and mobile phone.
-					foreach($exceptionAgent[0] as $val)
-					{
-						if(strpos($_SERVER['HTTP_USER_AGENT'], $val) !== FALSE)
-						{
-							$UACheck = FALSE;
-							return FALSE;
-						}
-					}
-					$UACheck = TRUE;
-					return TRUE;
-				}
-			}
-		}
-
-		$UACheck = FALSE;
-		return FALSE;
+		return Rhymix\Framework\UA::isTablet();
 	}
 
 	/**

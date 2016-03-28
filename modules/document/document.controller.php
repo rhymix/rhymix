@@ -476,6 +476,7 @@ class documentController extends document
 			{
 				$obj->extra_vars = serialize($extra_vars);
 				$update_output = $this->insertDocumentUpdateLog($obj);
+
 				if(!$update_output->toBool())
 				{
 					$oDB->rollback();
@@ -607,10 +608,11 @@ class documentController extends document
 		{
 			$obj->password = getModel('member')->hashPassword($obj->password);
 		}
+
 		// If an author is identical to the modifier or history is used, use the logged-in user's information.
-		if(Context::get('is_logged') && $module_info->use_anonymous != 'Y')
+		$logged_info = Context::get('logged_info');
+		if(Context::get('is_logged') && !$manual_updated && $module_info->use_anonymous != 'Y')
 		{
-			$logged_info = Context::get('logged_info');
 			if($source_obj->get('member_srl')==$logged_info->member_srl)
 			{
 				$obj->member_srl = $logged_info->member_srl;
@@ -620,6 +622,7 @@ class documentController extends document
 				$obj->homepage = $logged_info->homepage;
 			}
 		}
+
 		// For the document written by logged-in user however no nick_name exists
 		if($source_obj->get('member_srl')&& !$obj->nick_name)
 		{
@@ -747,6 +750,10 @@ class documentController extends document
 			if($obj->update_log_setting === 'Y')
 			{
 				$obj->extra_vars = serialize($extra_vars);
+				if($this->grant->manager)
+				{
+					$obj->is_admin = 'Y';
+				}
 				$update_output = $this->insertDocumentUpdateLog($obj, $source_obj);
 				if(!$update_output->toBool())
 				{
@@ -814,6 +821,7 @@ class documentController extends document
 		$update_args->tags = $obj->tags;
 		$update_args->extra_vars = $obj->extra_vars;
 		$update_args->reason_update = $obj->reason_update;
+		$update_args->is_admin = $obj->is_admin;
 		$update_output = executeQuery('document.insertDocumentUpdateLog', $update_args);
 
 		return $update_output;
@@ -1090,7 +1098,11 @@ class documentController extends document
 	function updateReadedCount(&$oDocument)
 	{
 		// Pass if Crawler access
-		if(isCrawler()) return false;
+		if (\Rhymix\Framework\UA::isRobot())
+		{
+			return false;
+		}
+		
 		$oDocumentModel = getModel('document');
 		$config = $oDocumentModel->getDocumentConfig();
 

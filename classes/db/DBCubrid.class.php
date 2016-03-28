@@ -81,9 +81,14 @@ class DBCubrid extends DB
 			define('__CUBRID_VERSION__', $cubrid_version);
 		}
 
-		if(__CUBRID_VERSION__ >= '8.4.0')
-			cubrid_set_autocommit($result, CUBRID_AUTOCOMMIT_TRUE);
-
+		if(version_compare(__CUBRID_VERSION__, '9.0', '<'))
+		{
+			$this->setError(-1, 'Rhymix requires CUBRID 9.0 or later. Current CUBRID version is ' . __CUBRID_VERSION__);
+			return;
+		}
+		
+		cubrid_set_autocommit($result, CUBRID_AUTOCOMMIT_TRUE);
+		
 		return $result;
 	}
 

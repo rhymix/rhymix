@@ -298,26 +298,12 @@ class memberAdminModel extends member
 	{
 		if ($allow_list = ($allow_list === null) ? config('admin.allow') : $allow_list)
 		{
-			foreach ($allow_list as $range)
-			{
-				if (Rhymix\Framework\IpFilter::inRange(RX_CLIENT_IP, $range))
-				{
-					return true;
-				}
-			}
-			return false;
+			return Rhymix\Framework\Filters\IpFilter::inRanges(RX_CLIENT_IP, $allow_list);
 		}
 		
 		if ($deny_list = ($deny_list === null) ? config('admin.deny') : $deny_list)
 		{
-			foreach ($deny_list as $range)
-			{
-				if (Rhymix\Framework\IpFilter::inRange(RX_CLIENT_IP, $range))
-				{
-					return false;
-				}
-			}
-			return true;
+			return !Rhymix\Framework\Filters\IpFilter::inRanges(RX_CLIENT_IP, $deny_list);
 		}
 		
 		return true;

@@ -50,6 +50,10 @@ class boardController extends board
 			unset($obj->title_color);
 			unset($obj->title_bold);
 		}
+		else
+		{
+			$obj->is_admin = 'Y';
+		}
 
 		// generate document module model object
 		$oDocumentModel = getModel('document');
@@ -127,6 +131,11 @@ class boardController extends board
 				}
 			}
 
+			if($this->module_info->use_anonymous == 'Y') {
+				$obj->member_srl = abs($oDocument->get('member_srl')) * -1;
+				$oDocument->add('member_srl', $obj->member_srl);
+			}
+
 			if($this->module_info->protect_document_regdate > 0 && $this->grant->manager == false)
 			{
 				if($oDocument->get('regdate') < date('YmdHis', strtotime('-'.$this->module_info->protect_document_regdate.' day')))
@@ -152,7 +161,7 @@ class boardController extends board
 				$obj->update_order = $obj->list_order = (getNextSequence() * -1);
 			}
 			$obj->reason_update = escape($obj->reason_update);
-			$output = $oDocumentController->updateDocument($oDocument, $obj);
+			$output = $oDocumentController->updateDocument($oDocument, $obj, true);
 			$msg_code = 'success_updated';
 
 		// insert a new document otherwise
@@ -204,6 +213,48 @@ class boardController extends board
 
 		// alert a message
 		$this->setMessage($msg_code);
+	}
+
+	function procBoardRevertDocument()
+	{
+		$update_id = Context::get('update_id');
+		$logged_info = Context::get('logged_info');
+		if(!$update_id)
+		{
+			return new Object(-1, 'msg_no_update_id');
+		}
+
+		$oDocumentModel = getModel('document');
+		$oDocumentController = getController('document');
+		$update_log = $oDocumentModel->getUpdateLog($update_id);
+
+		if($logged_info->is_admin != 'Y')
+		{
+			$Exists_log = $oDocumentModel->getUpdateLogAdminisExists($update_log->document_srl);
+			if($Exists_log === true)
+			{
+				return new Object(-1, 'msg_admin_update_log');
+			}
+		}
+
+		if(!$update_log)
+		{
+			return new Object(-1, 'msg_no_update_log');
+		}
+
+		$oDocument = $oDocumentModel->getDocument($update_log->document_srl);
+		$obj = new stdClass();
+		$obj->title = $update_log->title;
+		$obj->document_srl = $update_log->document_srl;
+		$obj->title_bold = $update_log->title_bold;
+		$obj->title_color = $update_log->title_color;
+		$obj->content = $update_log->content;
+		$obj->update_log_setting = 'Y';
+		$obj->reason_update = lang('board.revert_reason_update');
+		$output = $oDocumentController->updateDocument($oDocument, $obj);
+		$this->setRedirectUrl(getNotEncodedUrl('', 'mid', Context::get('mid'),'act', '', 'document_srl', $update_log->document_srl));
+		$this->add('mid', Context::get('mid'));
+		$this->add('document_srl', $update_log->document_srl);
 	}
 
 	/**

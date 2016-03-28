@@ -1,0 +1,13 @@
+<query id="getUserConfig" action="select">
+	<tables>
+		<table name="ncenterlite_user_set" />
+	</tables>
+
+	<columns>
+		<column name="*" />
+	</columns>
+
+	<conditions>
+		<condition operation="equal" column="member_srl" var="member_srl" filter="number" notnull="notnull" />
+	</conditions>
+</query>

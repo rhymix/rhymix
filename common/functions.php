@@ -134,6 +134,19 @@ function class_basename($class)
 }
 
 /**
+ * Clean a path to remove ./, ../, trailing slashes, etc.
+ * 
+ * This function is an alias to Rhymix\Framework\Filters\FilenameFilter::cleanPath().
+ * 
+ * @param string $path
+ * @return string
+ */
+function clean_path($path)
+{
+	return Rhymix\Framework\Filters\FilenameFilter::cleanPath($path);
+}
+
+/**
  * This function is a shortcut to htmlspecialchars().
  * 
  * @param string $str The string to escape
@@ -238,7 +251,7 @@ function starts_with($needle, $haystack, $case_sensitive = true)
 	}
 	else
 	{
-		!strncasecmp($needle, $haystack, strlen($needle));
+		return !strncasecmp($needle, $haystack, strlen($needle));
 	}
 }
 
@@ -335,6 +348,34 @@ function base64_encode_urlsafe($str)
 function base64_decode_urlsafe($str)
 {
 	return @base64_decode(str_pad(strtr($str, '-_', '+/'), ceil(strlen($str) / 4) * 4, '=', STR_PAD_RIGHT));
+}
+
+/**
+ * Convert a server-side path to a URL.
+ * 
+ * This function is an alias to Rhymix\Framework\URL::fromServerPath().
+ * It returns false if the path cannot be converted.
+ * 
+ * @param string $path
+ * @return string|false
+ */
+function path2url($path)
+{
+	return Rhymix\Framework\URL::fromServerPath($path);
+}
+
+/**
+ * Convert a URL to a server-side path.
+ * 
+ * This function is an alias to Rhymix\Framework\URL::toServerPath().
+ * It returns false if the URL cannot be converted.
+ * 
+ * @param string $url
+ * @return string|false
+ */
+function url2path($url)
+{
+	return Rhymix\Framework\URL::toServerPath($url);
 }
 
 /**
@@ -452,8 +493,11 @@ if (!function_exists('hex2bin'))
  */
 function tobool($input)
 {
-	if (preg_match('/^(1|[ty].*|on|oui|si|vrai|aye)$/i', $input)) return true;
-	if (preg_match('/^(0|[fn].*|off)$/i', $input)) return false;
+	if (is_scalar($input))
+	{
+		if (preg_match('/^(1|[ty].*|on|ok.*oui|si|vrai|aye)$/i', $input)) return true;
+		if (preg_match('/^(0|[fn].*|off)$/i', $input)) return false;
+	}
 	return (bool)$input;
 }
 
@@ -473,6 +517,27 @@ function utf8_check($str)
 	{
 		return ($str === @iconv('UTF-8', 'UTF-8', $str));
 	}
+}
+
+/**
+ * Remove BOM and invalid UTF-8 sequences from file content.
+ * 
+ * @param string $str
+ * @return string
+ */
+function utf8_clean($str)
+{
+    if (strlen($str) >= 3 && substr($str, 0, 3) === "\xEF\xBB\xBF")
+    {
+        $str = substr($str, 3);
+    }
+    
+    if (!utf8_check($str))
+    {
+        $str = @iconv('UTF-8', 'UTF-8//IGNORE', $str);
+    }
+    
+    return $str;
 }
 
 /**

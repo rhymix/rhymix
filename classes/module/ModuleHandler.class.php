@@ -96,10 +96,13 @@ class ModuleHandler extends Handler
 		{
 			if(Context::get('_use_ssl') == 'optional' && Context::isExistsSSLAction($this->act) && !RX_SSL)
 			{
-				if(Context::get('_https_port')!=null) {
-					header('location:https://' . $_SERVER['HTTP_HOST'] . ':' . Context::get('_https_port') . $_SERVER['REQUEST_URI']);
-				} else {
-					header('location:https://' . $_SERVER['HTTP_HOST'] . $_SERVER['REQUEST_URI']);
+				if(Context::get('_https_port') != null)
+				{
+					header('location: https://' . $_SERVER['HTTP_HOST'] . ':' . Context::get('_https_port') . $_SERVER['REQUEST_URI']);
+				}
+				else
+				{
+					header('location: https://' . $_SERVER['HTTP_HOST'] . $_SERVER['REQUEST_URI']);
 				}
 				return;
 			}
@@ -165,12 +168,21 @@ class ModuleHandler extends Handler
 		// Get module's information based on document_srl, if it's specified
 		if($this->document_srl)
 		{
-			
 			$module_info = $oModuleModel->getModuleInfoByDocumentSrl($this->document_srl);
+			
 			// If the document does not exist, remove document_srl
 			if(!$module_info)
 			{
-				unset($this->document_srl);
+				if(Context::getRequestMethod() == 'GET')
+				{
+					$this->error = 'The document does not exist';
+					$this->httpStatusCode = '404';
+					return true;
+				}
+				else
+				{
+					unset($this->document_srl);
+				}
 			}
 			else
 			{
@@ -178,19 +190,17 @@ class ModuleHandler extends Handler
 				// if mids are not matching, set it as the document's mid
 				if(!$this->mid || ($this->mid != $module_info->mid))
 				{
-					
 					if(Context::getRequestMethod() == 'GET')
 					{
-						$this->mid = $module_info->mid;
-						header('location:' . getNotEncodedSiteUrl($site_module_info->domain, 'mid', $this->mid, 'document_srl', $this->document_srl));
-						return FALSE;
+						Context::setCacheControl(0);
+						header('location: ' . getNotEncodedSiteUrl($site_module_info->domain, 'mid', $module_info->mid, 'document_srl', $this->document_srl), true, 301);
+						return false;
 					}
 					else
 					{
 						$this->mid = $module_info->mid;
 						Context::set('mid', $this->mid);
 					}
-					
 				}
 				// if requested module is different from one of the document, remove the module information retrieved based on the document number
 				if($this->module && $module_info->module != $this->module)
@@ -198,7 +208,6 @@ class ModuleHandler extends Handler
 					unset($module_info);
 				}
 			}
-
 		}
 
 		// If module_info is not set yet, and there exists mid information, get module information based on the mid
@@ -211,9 +220,10 @@ class ModuleHandler extends Handler
 		// redirect, if module_site_srl and site_srl are different
 		if(!$this->module && !$module_info && $site_module_info->site_srl == 0 && $site_module_info->module_site_srl > 0)
 		{
+			Context::setCacheControl(0);
 			$site_info = $oModuleModel->getSiteInfo($site_module_info->module_site_srl);
-			header("location:" . getNotEncodedSiteUrl($site_info->domain, 'mid', $site_module_info->mid));
-			return FALSE;
+			header('location: ' . getNotEncodedSiteUrl($site_info->domain, 'mid', $site_module_info->mid), true, 301);
+			return false;
 		}
 
 		// If module_info is not set still, and $module does not exist, find the default module
@@ -228,7 +238,7 @@ class ModuleHandler extends Handler
 		}
 
 		// redirect, if site_srl of module_info is different from one of site's module_info
-		if($module_info && $module_info->site_srl != $site_module_info->site_srl && !isCrawler())
+		if($module_info && $module_info->site_srl != $site_module_info->site_srl && !Rhymix\Framework\UA::isRobot())
 		{
 			// If the module is of virtual site
 			if($module_info->site_srl)
@@ -241,10 +251,20 @@ class ModuleHandler extends Handler
 			{
 				$redirect_url = getNotEncodedSiteUrl(Context::getDefaultUrl(), 'mid', Context::get('mid'), 'document_srl', Context::get('document_srl'), 'module_srl', Context::get('module_srl'), 'entry', Context::get('entry'));
 			}
-			header("Location: $redirect_url");
-			return FALSE;
+			
+			Context::setCacheControl(0);
+			header("Location: $redirect_url", true, 301);
+			return false;
 		}
-
+		
+		// redirect, if site start module
+		if(isset($_GET['mid']) && $_GET['mid'] === $site_module_info->mid && !$this->act && !$this->module && !$this->document_srl)
+		{
+			Context::setCacheControl(0);
+			header('location: ' . getNotEncodedSiteUrl($site_module_info->domain), true, 301);
+			return false;
+		}
+		
 		// If module info was set, retrieve variables from the module information
 		if($module_info)
 		{
@@ -290,6 +310,7 @@ class ModuleHandler extends Handler
 		{
 			$this->error = 'msg_module_is_not_exists';
 			$this->httpStatusCode = '404';
+			return true;
 		}
 
 		// If mid exists, set mid into context
@@ -303,13 +324,13 @@ class ModuleHandler extends Handler
 		if(!$output->toBool())
 		{
 			$this->error = $output->getMessage();
-			return TRUE;
+			return true;
 		}
 
 		// Set current module info into context
 		Context::set('current_module_info', $this->module_info);
 
-		return TRUE;
+		return true;
 	}
 
 	/**
@@ -465,7 +486,6 @@ class ModuleHandler extends Handler
 		// If there is no such action in the module object
 		if(!isset($xml_info->action->{$this->act}) || !method_exists($oModule, $this->act))
 		{
-
 			if(!Context::isInstalled())
 			{
 				self::_setInputErrorToContext();
@@ -760,10 +780,6 @@ class ModuleHandler extends Handler
 				}
 				self::_setInputValueToSession();
 			}
-			else
-			{
-
-			}
 
 			if($error != 0)
 			{
@@ -884,7 +900,7 @@ class ModuleHandler extends Handler
 
 			if($_SESSION['XE_VALIDATOR_RETURN_URL'])
 			{
-				header('location:' . $_SESSION['XE_VALIDATOR_RETURN_URL']);
+				header('location: ' . $_SESSION['XE_VALIDATOR_RETURN_URL']);
 				return;
 			}
 
@@ -939,13 +955,11 @@ class ModuleHandler extends Handler
 
 			if($layout_srl && !$oModule->getLayoutFile())
 			{
-
 				// If layout_srl exists, get information of the layout, and set the location of layout_path/ layout_file
 				$oLayoutModel = getModel('layout');
 				$layout_info = $oLayoutModel->getLayout($layout_srl);
 				if($layout_info)
 				{
-
 					// Input extra_vars into $layout_info
 					if($layout_info->extra_var_count)
 					{
@@ -1283,6 +1297,8 @@ class ModuleHandler extends Handler
 		$statusMessageList = array(
 			'100' => 'Continue',
 			'101' => 'Switching Protocols',
+			'102' => 'Processing',
+			'103' => 'Checkpoint',
 			'200' => 'OK',
 			'201' => 'Created',
 			'202' => 'Accepted',
@@ -1290,13 +1306,18 @@ class ModuleHandler extends Handler
 			'204' => 'No Content',
 			'205' => 'Reset Content',
 			'206' => 'Partial Content',
+			'207' => 'Multi-Status',
+			'208' => 'Already Reported',
+			'226' => 'IM Used',
 			'300' => 'Multiple Choices',
 			'301' => 'Moved Permanently',
 			'302' => 'Found',
 			'303' => 'See Other',
 			'304' => 'Not Modified',
 			'305' => 'Use Proxy',
+			'306' => 'Switch Proxy',
 			'307' => 'Temporary Redirect',
+			'308' => 'Permanent Redirect',
 			'400' => 'Bad Request',
 			'401' => 'Unauthorized',
 			'402' => 'Payment Required',
@@ -1310,19 +1331,39 @@ class ModuleHandler extends Handler
 			'410' => 'Gone',
 			'411' => 'Length Required',
 			'412' => 'Precondition Failed',
-			'413' => 'Request Entity Too Large',
-			'414' => 'Request-URI Too Long',
+			'413' => 'Payload Too Large',
+			'414' => 'URI Too Long',
 			'415' => 'Unsupported Media Type',
-			'416' => 'Requested Range Not Satisfiable',
+			'416' => 'Range Not Satisfiable',
 			'417' => 'Expectation Failed',
+			'418' => 'I\'m a teapot',
+			'420' => 'Enhance Your Calm',
+			'421' => 'Misdirected Request',
+			'422' => 'Unprocessable Entity',
+			'423' => 'Locked',
+			'424' => 'Failed Dependency',
+			'425' => 'Unordered Collection',
+			'426' => 'Upgrade Required',
+			'428' => 'Precondition Required',
+			'429' => 'Too Many Requests',
+			'431' => 'Request Header Fields Too Large',
+			'444' => 'No Response',
+			'449' => 'Retry With',
+			'451' => 'Unavailable For Legal Reasons',
 			'500' => 'Internal Server Error',
 			'501' => 'Not Implemented',
 			'502' => 'Bad Gateway',
 			'503' => 'Service Unavailable',
 			'504' => 'Gateway Timeout',
 			'505' => 'HTTP Version Not Supported',
+			'506' => 'Variant Also Negotiates',
+			'507' => 'Insufficient Storage',
+			'508' => 'Loop Detected',
+			'509' => 'Bandwidth Limit Exceeded',
+			'510' => 'Not Extended',
+			'511' => 'Network Authentication Required',
 		);
-		$statusMessage = $statusMessageList[$code];
+		$statusMessage = $statusMessageList[strval($code)];
 		if(!$statusMessage)
 		{
 			$statusMessage = 'OK';

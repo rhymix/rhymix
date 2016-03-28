@@ -30,7 +30,7 @@ class communicationAdminView extends communication
 		$oCommunicationModel = getModel('communication');
 
 		// get the configurations of communication module
-		Context::set('communication_config', $oCommunicationModel->getConfig());
+		Context::set('config', $oCommunicationModel->getConfig());
 
 		// get a list of layout
 		Context::set('layout_list', $oLayoutModel->getLayoutList());
@@ -39,10 +39,10 @@ class communicationAdminView extends communication
 		Context::set('editor_skin_list', $oEditorModel->getEditorSkinList());
 
 		// get a list of communication skins
-		Context::set('communication_skin_list', $oModuleModel->getSkins($this->module_path));
+		Context::set('skin_list', $oModuleModel->getSkins($this->module_path));
 
 		// get a list of communication skins
-		Context::set('communication_mobile_skin_list', $oModuleModel->getSkins($this->module_path, 'm.skins'));
+		Context::set('mobile_skin_list', $oModuleModel->getSkins($this->module_path, 'm.skins'));
 
 		// Get a layout list
 		$layout_list = $oLayoutModel->getLayoutList();
@@ -52,11 +52,11 @@ class communicationAdminView extends communication
 		Context::set('mlayout_list', $mlayout_list);
 
 		$security = new Security();
-		$security->encodeHTML('communication_config..');
+		$security->encodeHTML('config..');
 		$security->encodeHTML('layout_list..');
 		$security->encodeHTML('editor_skin_list..');
-		$security->encodeHTML('communication_skin_list..title');
-		$security->encodeHTML('communication_mobile_skin_list..title');
+		$security->encodeHTML('skin_list..title');
+		$security->encodeHTML('mobile_skin_list..title');
 
 		$oMemberModel = getModel('member');
 		$group_list = $oMemberModel->getGroups($this->site_srl);

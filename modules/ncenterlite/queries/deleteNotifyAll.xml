@@ -1,0 +1,8 @@
+<query id="deleteNotifyAll" action="delete">
+	<tables>
+		<table name="ncenterlite_notify" />
+	</tables>
+	<conditions>
+		<condition operation="below" column="regdate" var="old_date" />
+	</conditions>
+</query>

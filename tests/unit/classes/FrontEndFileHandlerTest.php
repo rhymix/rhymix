@@ -1,5 +1,4 @@
 <?php
-require_once _XE_PATH_.'classes/frontendfile/FrontEndFileHandler.class.php';
 
 class FrontEndFileHandlerTest extends \Codeception\TestCase\Test
 {
@@ -23,8 +22,8 @@ class FrontEndFileHandlerTest extends \Codeception\TestCase\Test
 			$handler->loadFile(array('./common/js/common.js', 'body'));
 			$handler->loadFile(array('./common/js/common.js', 'head'));
 			$handler->loadFile(array('./common/js/xml_js_filter.js', 'body'));
-			$expected[] = array('file' => '/xe/common/js/js_app.js' . $this->_filemtime('common/js/js_app.js'), 'targetie' => null);
-			$expected[] = array('file' => '/xe/common/js/common.js' . $this->_filemtime('common/js/common.js'), 'targetie' => null);
+			$expected[] = array('file' => '/rhymix/common/js/js_app.js' . $this->_filemtime('common/js/js_app.js'), 'targetie' => null);
+			$expected[] = array('file' => '/rhymix/common/js/common.js' . $this->_filemtime('common/js/common.js'), 'targetie' => null);
 			$this->assertEquals($handler->getJsFileList(), $expected);
 		});
 
@@ -39,8 +38,8 @@ class FrontEndFileHandlerTest extends \Codeception\TestCase\Test
 			$handler = new FrontEndFileHandler();
 			$handler->loadFile(array('./common/css/xe.css'));
 			$handler->loadFile(array('./common/css/mobile.css'));
-			$expected[] = array('file' => '/xe/common/css/xe.css' . $this->_filemtime('common/css/xe.css'), 'media' => 'all', 'targetie' => null);
-			$expected[] = array('file' => '/xe/common/css/mobile.css' . $this->_filemtime('common/css/mobile.css'), 'media' => 'all', 'targetie' => null);
+			$expected[] = array('file' => '/rhymix/common/css/xe.css' . $this->_filemtime('common/css/xe.css'), 'media' => 'all', 'targetie' => null);
+			$expected[] = array('file' => '/rhymix/common/css/mobile.css' . $this->_filemtime('common/css/mobile.css'), 'media' => 'all', 'targetie' => null);
 			$this->assertEquals($handler->getCssFileList(), $expected);
 		});
 
@@ -54,10 +53,10 @@ class FrontEndFileHandlerTest extends \Codeception\TestCase\Test
 			$handler->loadFile(array('./common/js/common.js', 'head', '', -100000));
 			$handler->loadFile(array('./common/js/xml_handler.js', 'head', '', -100000));
 			$handler->loadFile(array('./common/js/xml_js_filter.js', 'head', '', -100000));
-			$expected[] = array('file' => '/xe/common/js/js_app.js' . $this->_filemtime('common/js/js_app.js'), 'targetie' => null);
-			$expected[] = array('file' => '/xe/common/js/common.js' . $this->_filemtime('common/js/common.js'), 'targetie' => null);
-			$expected[] = array('file' => '/xe/common/js/xml_handler.js' . $this->_filemtime('common/js/xml_handler.js'), 'targetie' => null);
-			$expected[] = array('file' => '/xe/common/js/xml_js_filter.js' . $this->_filemtime('common/js/xml_js_filter.js'), 'targetie' => null);
+			$expected[] = array('file' => '/rhymix/common/js/js_app.js' . $this->_filemtime('common/js/js_app.js'), 'targetie' => null);
+			$expected[] = array('file' => '/rhymix/common/js/common.js' . $this->_filemtime('common/js/common.js'), 'targetie' => null);
+			$expected[] = array('file' => '/rhymix/common/js/xml_handler.js' . $this->_filemtime('common/js/xml_handler.js'), 'targetie' => null);
+			$expected[] = array('file' => '/rhymix/common/js/xml_js_filter.js' . $this->_filemtime('common/js/xml_js_filter.js'), 'targetie' => null);
 			$this->assertEquals($handler->getJsFileList(), $expected);
 		});
 
@@ -67,10 +66,10 @@ class FrontEndFileHandlerTest extends \Codeception\TestCase\Test
 			$handler->loadFile(array('./common/js/js_app.js', 'head', '', -100000));
 			$handler->loadFile(array('./common/js/common.js', 'head', '', -100000));
 			$handler->loadFile(array('./common/js/xml_js_filter.js', 'head', '', -100000));
-			$expected[] = array('file' => '/xe/common/js/js_app.js' . $this->_filemtime('common/js/js_app.js'), 'targetie' => null);
-			$expected[] = array('file' => '/xe/common/js/common.js' . $this->_filemtime('common/js/common.js'), 'targetie' => null);
-			$expected[] = array('file' => '/xe/common/js/xml_js_filter.js' . $this->_filemtime('common/js/xml_js_filter.js'), 'targetie' => null);
-			$expected[] = array('file' => '/xe/common/js/xml_handler.js' . $this->_filemtime('common/js/xml_handler.js'), 'targetie' => null);
+			$expected[] = array('file' => '/rhymix/common/js/js_app.js' . $this->_filemtime('common/js/js_app.js'), 'targetie' => null);
+			$expected[] = array('file' => '/rhymix/common/js/common.js' . $this->_filemtime('common/js/common.js'), 'targetie' => null);
+			$expected[] = array('file' => '/rhymix/common/js/xml_js_filter.js' . $this->_filemtime('common/js/xml_js_filter.js'), 'targetie' => null);
+			$expected[] = array('file' => '/rhymix/common/js/xml_handler.js' . $this->_filemtime('common/js/xml_handler.js'), 'targetie' => null);
 			$this->assertEquals($handler->getJsFileList(), $expected);
 		});
 
@@ -81,9 +80,9 @@ class FrontEndFileHandlerTest extends \Codeception\TestCase\Test
 			$handler->loadFile(array('./common/js/xml_handler.js', 'head', '', -100000));
 			$handler->loadFile(array('./common/js/xml_js_filter.js', 'head', '', -100000));
 			$handler->unloadFile('./common/js/js_app.js', '', 'all');
-			$expected[] = array('file' => '/xe/common/js/common.js' . $this->_filemtime('common/js/common.js'), 'targetie' => null);
-			$expected[] = array('file' => '/xe/common/js/xml_handler.js' . $this->_filemtime('common/js/xml_handler.js'), 'targetie' => null);
-			$expected[] = array('file' => '/xe/common/js/xml_js_filter.js' . $this->_filemtime('common/js/xml_js_filter.js'), 'targetie' => null);
+			$expected[] = array('file' => '/rhymix/common/js/common.js' . $this->_filemtime('common/js/common.js'), 'targetie' => null);
+			$expected[] = array('file' => '/rhymix/common/js/xml_handler.js' . $this->_filemtime('common/js/xml_handler.js'), 'targetie' => null);
+			$expected[] = array('file' => '/rhymix/common/js/xml_js_filter.js' . $this->_filemtime('common/js/xml_js_filter.js'), 'targetie' => null);
 			$this->assertEquals($handler->getJsFileList(), $expected);
 		});
 
@@ -92,9 +91,9 @@ class FrontEndFileHandlerTest extends \Codeception\TestCase\Test
 			$handler->loadFile(array('./common/js/js_app.js', 'head', 'ie6'));
 			$handler->loadFile(array('./common/js/js_app.js', 'head', 'ie7'));
 			$handler->loadFile(array('./common/js/js_app.js', 'head', 'ie8'));
-			$expected[] = array('file' => '/xe/common/js/js_app.js' . $this->_filemtime('common/js/js_app.js'), 'targetie' => 'ie6');
-			$expected[] = array('file' => '/xe/common/js/js_app.js' . $this->_filemtime('common/js/js_app.js'), 'targetie' => 'ie7');
-			$expected[] = array('file' => '/xe/common/js/js_app.js' . $this->_filemtime('common/js/js_app.js'), 'targetie' => 'ie8');
+			$expected[] = array('file' => '/rhymix/common/js/js_app.js' . $this->_filemtime('common/js/js_app.js'), 'targetie' => 'ie6');
+			$expected[] = array('file' => '/rhymix/common/js/js_app.js' . $this->_filemtime('common/js/js_app.js'), 'targetie' => 'ie7');
+			$expected[] = array('file' => '/rhymix/common/js/js_app.js' . $this->_filemtime('common/js/js_app.js'), 'targetie' => 'ie8');
 			$this->assertEquals($handler->getJsFileList(), $expected);
 		});
 
@@ -127,9 +126,9 @@ class FrontEndFileHandlerTest extends \Codeception\TestCase\Test
 			$handler->loadFile(array('./common/css/common.css', null, 'ie7'));
 			$handler->loadFile(array('./common/css/common.css', null, 'ie8'));
 
-			$expected[] = array('file' => '/xe/common/css/common.css', 'media'=>'all', 'targetie' => 'ie6');
-			$expected[] = array('file' => '/xe/common/css/common.css','media'=>'all',  'targetie' => 'ie7');
-			$expected[] = array('file' => '/xe/common/css/common.css', 'media'=>'all', 'targetie' => 'ie8');
+			$expected[] = array('file' => '/rhymix/common/css/common.css', 'media'=>'all', 'targetie' => 'ie6');
+			$expected[] = array('file' => '/rhymix/common/css/common.css','media'=>'all',  'targetie' => 'ie7');
+			$expected[] = array('file' => '/rhymix/common/css/common.css', 'media'=>'all', 'targetie' => 'ie8');
 			$this->assertEquals($handler->getCssFileList(), $expected);
 		});
 
@@ -139,9 +138,9 @@ class FrontEndFileHandlerTest extends \Codeception\TestCase\Test
 			$handler->loadFile(array('./common/css/common.css', 'screen'));
 			$handler->loadFile(array('./common/css/common.css', 'handled'));
 
-			$expected[] = array('file' => '/xe/common/css/common.css', 'media'=>'all', 'targetie' => null);
-			$expected[] = array('file' => '/xe/common/css/common.css','media'=>'screen',  'targetie' => null);
-			$expected[] = array('file' => '/xe/common/css/common.css', 'media'=>'handled', 'targetie' => null);
+			$expected[] = array('file' => '/rhymix/common/css/common.css', 'media'=>'all', 'targetie' => null);
+			$expected[] = array('file' => '/rhymix/common/css/common.css','media'=>'screen',  'targetie' => null);
+			$expected[] = array('file' => '/rhymix/common/css/common.css', 'media'=>'handled', 'targetie' => null);
 			$this->assertEquals($handler->getCssFileList(), $expected);
 		});
 
@@ -151,8 +150,8 @@ class FrontEndFileHandlerTest extends \Codeception\TestCase\Test
 			$handler = new FrontEndFileHandler();
 			$handler->loadFile(array('./common/css/xe.css'));
 			$handler->loadFile(array('./common/css/mobile.css'));
-			$expected[] = array('file' => '/xe/files/cache/minify/common.css.xe.min.css', 'media' => 'all', 'targetie' => null);
-			$expected[] = array('file' => '/xe/files/cache/minify/common.css.mobile.min.css', 'media' => 'all', 'targetie' => null);
+			$expected[] = array('file' => '/rhymix/files/cache/minify/common.css.xe.min.css', 'media' => 'all', 'targetie' => null);
+			$expected[] = array('file' => '/rhymix/files/cache/minify/common.css.mobile.min.css', 'media' => 'all', 'targetie' => null);
 			$result = $handler->getCssFileList();
 			$result[0]['file'] = preg_replace('/\?\d+$/', '', $result[0]['file']);
 			$result[1]['file'] = preg_replace('/\?\d+$/', '', $result[1]['file']);

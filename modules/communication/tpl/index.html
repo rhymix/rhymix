@@ -21,17 +21,36 @@
 	<input type="hidden" name="xe_validator_id" value="modules/communication/tpl/index/1" />
 
 	<div class="x_control-group">
+		<div class="x_control-label">{$lang->enable_communication_message}</div>
+		<div class="x_controls">
+			<label class="x_inline" for="enable_message_yes">
+				<input type="radio" name="enable_message" id="enable_message_yes" value="Y" checked="checked"|cond="$config->enable_message == 'Y'" /> {$lang->cmd_yes}
+			</label>
+			<label class="x_inline" for="enable_message_no">
+				<input type="radio" name="enable_message" id="enable_message_no" value="N" checked="checked"|cond="$config->enable_message == 'N'" /> {$lang->cmd_no}
+			</label>
+		</div>
+	</div>
+	<div class="x_control-group">
+		<div class="x_control-label">{$lang->enable_communication_friend}</div>
+		<div class="x_controls">
+			<label class="x_inline" for="enable_friend_yes">
+				<input type="radio" name="enable_friend" id="enable_friend_yes" value="Y" checked="checked"|cond="$config->enable_friend == 'Y'" /> {$lang->cmd_yes}
+			</label>
+			<label class="x_inline" for="enable_friend_no">
+				<input type="radio" name="enable_friend" id="enable_friend_no" value="N" checked="checked"|cond="$config->enable_friend == 'N'" /> {$lang->cmd_no}
+			</label>
+		</div>
+	</div>
+	<div class="x_control-group">
 		<label class="x_control-label" for="editor_skin">{$lang->editor_skin}</label>
 		<div class="x_controls">
 			<select name="editor_skin" id="editor_skin" onchange="getEditorSkinColorList(this.value)">
-				<option loop="$editor_skin_list => $editor_skin" value="{$editor_skin}" selected="selected"|cond="$editor_skin==$communication_config->editor_skin">{$editor_skin}</option>
+				<option loop="$editor_skin_list => $editor_skin" value="{$editor_skin}" selected="selected"|cond="$editor_skin==$config->editor_skin">{$editor_skin}</option>
 			</select>
-			<select name="sel_editor_colorset" style="display:none">
-			</select>
+			<select name="sel_editor_colorset" style="display:none"></select>
 			<script>
-			//<![CDATA[
-				getEditorSkinColorList('{$communication_config->editor_skin}','{$communication_config->editor_colorset}');
-			//]]>
+				getEditorSkinColorList('{$config->editor_skin}','{$config->editor_colorset}');
 			</script>
 		</div>
 	</div>
@@ -40,7 +59,7 @@
 		<div class="x_controls">
 			<select id="layout" name="layout_srl" style="width:auto">
 				<option value="0">{$lang->notuse}</option>
-				<option loop="$layout_list => $key,$val" value="{$val->layout_srl}" selected="selected"|cond="$val->layout_srl == $communication_config->layout_srl">{$val->title} ({$val->layout})</option>
+				<option loop="$layout_list => $key,$val" value="{$val->layout_srl}" selected="selected"|cond="$val->layout_srl == $config->layout_srl">{$val->title} ({$val->layout})</option>
 			</select>
 		</div>
 	</div>
@@ -48,7 +67,7 @@
 		<label class="x_control-label" for="skin">{$lang->skin}</label>
 		<div class="x_controls">
 			<select name="skin" id="skin" style="width:auto" onchange="doGetSkinColorset(this.options[this.selectedIndex].value, 'P')">
-				<option loop="$communication_skin_list => $key, $val" value="{$key}" selected="selected"|cond="$key==$communication_config->skin">{$val->title}</option>
+				<option loop="$skin_list => $key, $val" value="{$key}" selected="selected"|cond="$key==$config->skin">{$val->title}</option>
 			</select>
 		</div>
 	</div>
@@ -63,7 +82,7 @@
 		<div class="x_controls">
 			<select id="mlayout_srl" name="mlayout_srl" style="width:auto">
 				<option value="0">{$lang->notuse}</option>
-				<option loop="$mlayout_list => $key,$val" value="{$val->layout_srl}" selected="selected"|cond="$val->layout_srl == $communication_config->mlayout_srl">{$val->title} ({$val->layout})</option>
+				<option loop="$mlayout_list => $key,$val" value="{$val->layout_srl}" selected="selected"|cond="$val->layout_srl == $config->mlayout_srl">{$val->title} ({$val->layout})</option>
 			</select>
 		</div>
 	</div>
@@ -71,7 +90,7 @@
 		<label class="x_control-label" for="mskin">{$lang->mobile_skin}</label>
 		<div class="x_controls">
 			<select name="mskin" id="mskin" style="width:auto" onchange="doGetSkinColorset(this.options[this.selectedIndex].value, 'M')">
-				<option loop="$communication_mobile_skin_list => $key,$val" value="{$key}" selected="selected"|cond="$key==$communication_config->mskin" >{$val->title}</option>
+				<option loop="$mobile_skin_list => $key,$val" value="{$key}" selected="selected"|cond="$key==$config->mskin" >{$val->title}</option>
 			</select>
 		</div>
 	</div>
@@ -81,28 +100,30 @@
 			<div id="communication_mcolorset"></div>
 		</div>
 	</div>
-
 	<div class="x_control-group">
-		<label class="x_control-label" for="mlayout_srl">{$lang->cmd_write_communication}</label>
+		<label class="x_control-label" for="grant_send">{$lang->communication_send_message_grant}</label>
 		<div class="x_controls">
-			<select name="grant_write_default" class="grant_default">
-				<option value="-1" selected="selected"|cond="$communication_config->grant_write['default_grant']=='member'">{$lang->grant_to_login_user}</option>
-				<option value="-2" selected="selected"|cond="$communication_config->grant_write['default_grant']=='site'">{$lang->grant_to_site_user}</option>
-				<option value="-3" selected="selected"|cond="$communication_config->grant_write['default_grant']=='manager'">{$lang->grant_to_admin}</option>
-				<option value="" selected="selected"|cond="$communication_config->grant_write['default_grant']==''">{$lang->grant_to_group}</option>
+			<select name="grant_send_default" class="grant_default" id="grant_send">
+				<option value="member" selected="selected"|cond="$config->grant_send['default'] == 'member'">
+					{$lang->grant_to_login_user}
+				</option>
+				<option value="site" selected="selected"|cond="$config->grant_send['default'] == 'site'">
+					{$lang->grant_to_site_user}
+				</option>
+				<option value="manager" selected="selected"|cond="$config->grant_send['default'] == 'manager'">
+					{$lang->grant_to_admin}
+				</option>
+				<option value="" selected="selected"|cond="$config->grant_send['default'] == ''">
+					{$lang->grant_to_group}
+				</option>
 			</select>
-			<div id="zone_grant_write" hidden style="margin:8px 0 0 0">
-				<label loop="$group_list => $group_srl, $group_item" for="grant_write_group_{$group_srl}">
-					<input type="checkbox" class="checkbox" name="grant_write_group[]" value="{$group_item->group_srl}" id="grant_write_group_{$group_item->group_srl}" checked="checked"|cond="isset($communication_config->grant_write['group_grant'][$group_srl])&&$communication_config->grant_write['group_grant'][$group_srl]==$group_item->title"/>
-					{$group_item->title}
+			
+			<div id="zone_grant_send" style="margin:8px 0 0 0" hidden>
+				<label loop="$group_list => $group_srl, $item" for="group_{$group_srl}">
+					<input type="checkbox" name="grant_send_group[]" value="{$group_srl}" checked="checked"|cond="isset($config->grant_send['group'][$group_srl])" id="group_{$group_srl}"/>
+					{$item->title}
 				</label>
 			</div>
-		</div>
-	</div>
-	<div class="x_control-group">
-		<label class="x_control-label">communication option</label>
-		<div class="x_controls">
-			<label class="x_inline" for="member_menu"><input type="checkbox" name="member_menu" id="member_menu" value="Y" checked="checked"|cond="$communication_config->member_menu == 'Y'" /> {$lang->about_mobile_view}</label>
 		</div>
 	</div>
 	<div class="btnArea">
@@ -111,9 +132,9 @@
 </form>
 <script>
     jQuery(function() { 
-		doGetSkinColorset("{$communication_config->skin}", 'P'); 
-		doGetSkinColorset("{$communication_config->mskin}", 'M'); 
+		doGetSkinColorset("{$config->skin}", 'P'); 
+		doGetSkinColorset("{$config->mskin}", 'M'); 
 		jQuery('.grant_default').change( function(event) { doShowGrantZone(); } ); 
-		doShowGrantZone()
+		doShowGrantZone();
 	});
 </script>

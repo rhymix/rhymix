@@ -16,14 +16,13 @@
 						<span cond="!$val" class="error">ERROR</span>
 					</td>
 				</tr>
-				<tr cond="$key === 'php_version' && $phpversion_warning === true">
+				<tr cond="!$val && isset($lang->install_checklist_desc[$key])">
 					<td colspan="2" class="error_description">
-						{sprintf($lang->install_checklist_desc['php_version_warning'], __XE_RECOMMEND_PHP_VERSION__)} <a href="https://secure.php.net/supported-versions.php" target="_blank">[{$lang->more}]</a>
-					</td>
-				</tr>
-				<tr cond="$key !== 'php_version' && !$val && isset($lang->install_checklist_desc[$key])">
-					<td colspan="2" class="error_description">
-						{$lang->install_checklist_desc[$key]}
+						<!--@if($key === 'php_version')-->
+							{sprintf($lang->install_checklist_desc[$key], __XE_MIN_PHP_VERSION__)}
+						<!--@else-->
+							{$lang->install_checklist_desc[$key]}
+						<!--@end-->
 					</td>
 				</tr>
 			</block>

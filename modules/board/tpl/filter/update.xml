@@ -1,0 +1,7 @@
+<filter name="update" module="board" act="procBoardRevertDocument">
+	<form>
+		<node target="nick_name" required="true" maxlength="20"/>
+		<node target="title" required="true" minlength="1" maxlength="250" />
+		<node target="content" required="true" />
+	</form>
+</filter>

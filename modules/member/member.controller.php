@@ -301,7 +301,16 @@ class memberController extends member
 			$args->{$val} = Context::get($val);
 			if($val == 'birthday') $args->birthday_ui = Context::get('birthday_ui');
 		}
-		$args->birthday = intval(strtr($args->birthday, array('-'=>'', '/'=>'', '.'=>'', ' '=>'')));
+
+		// mobile input date format can be different
+		if($args->birthday !== intval($args->birthday))
+		{
+			$args->birthday = date('Ymd', strtotime($args->birthday));
+		}
+		else
+		{
+			$args->birthday = intval($args->birthday);
+		}
 		if(!$args->birthday && $args->birthday_ui) $args->birthday = intval(strtr($args->birthday_ui, array('-'=>'', '/'=>'', '.'=>'', ' '=>'')));
 
 		$args->find_account_answer = Context::get('find_account_answer');
@@ -535,8 +544,18 @@ class memberController extends member
 		// Login Information
 		$logged_info = Context::get('logged_info');
 		$args->member_srl = $logged_info->member_srl;
-		$args->birthday = intval(strtr($args->birthday, array('-'=>'', '/'=>'', '.'=>'', ' '=>'')));
+
+		// mobile input date format can be different
+		if($args->birthday !== intval($args->birthday))
+		{
+			$args->birthday = date('Ymd', strtotime($args->birthday));
+		}
+		else
+		{
+			$args->birthday = intval($args->birthday);
+		}
 		if(!$args->birthday && $args->birthday_ui) $args->birthday = intval(strtr($args->birthday_ui, array('-'=>'', '/'=>'', '.'=>'', ' '=>'')));
+
 		// Remove some unnecessary variables from all the vars
 		$all_args = Context::getRequestVars();
 		unset($all_args->module);
@@ -729,10 +748,6 @@ class memberController extends member
 	 */
 	function insertProfileImage($member_srl, $target_file)
 	{
-
-		// Check uploaded file
-		if(!checkUploadedFile($target_file)) return;
-
 		$oMemberModel = getModel('member');
 		$config = $oMemberModel->getMemberConfig();
 
@@ -808,9 +823,6 @@ class memberController extends member
 	 */
 	function insertImageName($member_srl, $target_file)
 	{
-		// Check uploaded file
-		if(!checkUploadedFile($target_file)) return;
-
 		$oModuleModel = getModel('module');
 		$config = $oModuleModel->getModuleConfig('member');
 		// Get an image size
@@ -917,9 +929,6 @@ class memberController extends member
 	 */
 	function insertImageMark($member_srl, $target_file)
 	{
-		// Check uploaded file
-		if(!checkUploadedFile($target_file)) return;
-
 		$oModuleModel = getModel('module');
 		$config = $oModuleModel->getModuleConfig('member');
 		// Get an image size
@@ -994,12 +1003,11 @@ class memberController extends member
 		}
 
 		// Insert data into the authentication DB
-		$oPassword = new Password();
 		$args = new stdClass();
 		$args->user_id = $member_info->user_id;
 		$args->member_srl = $member_info->member_srl;
-		$args->new_password = $oPassword->createTemporaryPassword(8);
-		$args->auth_key = $oPassword->createSecureSalt(40);
+		$args->new_password = Rhymix\Framework\Password::getRandomPassword(8);
+		$args->auth_key = Rhymix\Framework\Security::getRandom(40, 'hex');
 		$args->is_register = 'N';
 
 		$output = executeQuery('member.insertAuthMail', $args);
@@ -1103,8 +1111,7 @@ class memberController extends member
 		}
 
 		// Update to a temporary password and set change_password_date to 1
-		$oPassword =  new Password();
-		$temp_password = $oPassword->createTemporaryPassword(8);
+		$temp_password = Rhymix\Framework\Password::getRandomPassword(8);
 
 		$args = new stdClass();
 		$args->member_srl = $member_srl;
@@ -1333,12 +1340,11 @@ class memberController extends member
 		$this->_clearMemberCache($args->member_srl);
 
 		// generate new auth key
-		$oPassword = new Password();
 		$auth_args = new stdClass();
 		$auth_args->user_id = $memberInfo->user_id;
 		$auth_args->member_srl = $memberInfo->member_srl;
 		$auth_args->new_password = $memberInfo->password;
-		$auth_args->auth_key = $oPassword->createSecureSalt(40);
+		$auth_args->auth_key = Rhymix\Framework\Security::getRandom(40, 'hex');
 		$auth_args->is_register = 'Y';
 
 		$output = executeQuery('member.insertAuthMail', $auth_args);
@@ -1823,8 +1829,7 @@ class memberController extends member
 		if($keep_signed)
 		{
 			// Key generate for auto login
-			$oPassword = new Password();
-			$random_key = $oPassword->createSecureSalt(32, 'hex');
+			$random_key = Rhymix\Framework\Security::getRandom(32, 'hex');
 			$extra_key = strtolower($user_id).$this->memberInfo->password.$_SERVER['HTTP_USER_AGENT'];
 			$extra_key = substr(hash_hmac('sha256', $extra_key, $random_key), 0, 32);
 			$autologin_args = new stdClass;
@@ -1938,10 +1943,23 @@ class memberController extends member
 		$output = ModuleHandler::triggerCall('member.insertMember', 'before', $args);
 		if(!$output->toBool()) return $output;
 		// Terms and Conditions portion of the information set up by members reaffirmed
-		$oModuleModel = getModel('module');
-		$config = $oModuleModel->getModuleConfig('member');
+		$oMemberModel = getModel('member');
+		$config = $oMemberModel->getMemberConfig();
 
 		$logged_info = Context::get('logged_info');
+		// limit_date format is YYYYMMDD
+		if($args->limit_date)
+		{
+			// mobile input date format can be different
+			if($args->limit_date !== intval($args->limit_date))
+			{
+				$args->limit_date = date('Ymd', strtotime($args->limit_date));
+			}
+			else
+			{
+				$args->limit_date = intval($args->limit_date);
+			}
+		}
 		// If the date of the temporary restrictions limit further information on the date of
 		if($config->limit_day) $args->limit_date = date("YmdHis", $_SERVER['REQUEST_TIME']+$config->limit_day*60*60*24);
 
@@ -1979,6 +1997,49 @@ class memberController extends member
 		$args->blog = htmlspecialchars($args->blog, ENT_COMPAT | ENT_HTML401, 'UTF-8', false);
 		if($args->homepage && !preg_match("/^[a-z]+:\/\//i",$args->homepage)) $args->homepage = 'http://'.$args->homepage;
 		if($args->blog && !preg_match("/^[a-z]+:\/\//i",$args->blog)) $args->blog = 'http://'.$args->blog;
+
+
+		$extend_form_list = $oMemberModel->getCombineJoinForm($memberInfo);
+		$security = new Security($extend_form_list);
+		$security->encodeHTML('..column_title', '..description', '..default_value.');
+		if($config->signupForm) {
+			foreach($config->signupForm as $no => $formInfo)
+			{
+				if(!$formInfo->isUse) continue;
+				if($formInfo->isDefaultForm)
+				{
+					// birthday format is YYYYMMDD
+					if($formInfo->name === 'birthday' && $args->{$formInfo->name})
+					{
+						// mobile input date format can be different
+						if($args->{$formInfo->name} !== intval($args->{$formInfo->name}))
+						{
+							$args->{$formInfo->name} = date('Ymd', strtotime($args->{$formInfo->name}));
+						}
+						else
+						{
+							$args->{$formInfo->name} = intval($args->{$formInfo->name});
+						}
+					}
+				}
+				else
+				{
+					$extendForm = $extend_form_list[$formInfo->member_join_form_srl];
+					// date format is YYYYMMDD
+					if($extendForm->column_type == 'date' && $args->{$formInfo->name})
+					{
+						if($args->{$formInfo->name} !== intval($args->{$formInfo->name}))
+						{
+							$args->{$formInfo->name} = date('Ymd', strtotime($args->{$formInfo->name}));
+						}
+						else
+						{
+							$args->{$formInfo->name} = intval($args->{$formInfo->name});
+						}
+					}
+				}
+			}
+		}
 
 		// Create a model object
 		$oMemberModel = getModel('member');
@@ -2096,17 +2157,15 @@ class memberController extends member
 			}
 		}
 
-		$member_config = $oModuleModel->getModuleConfig('member');
 		// When using email authentication mode (when you subscribed members denied a) certified mail sent
 		if($args->denied == 'Y')
 		{
 			// Insert data into the authentication DB
-			$oPassword = new Password();
 			$auth_args = new stdClass();
 			$auth_args->user_id = $args->user_id;
 			$auth_args->member_srl = $args->member_srl;
 			$auth_args->new_password = $args->password;
-			$auth_args->auth_key = $oPassword->createSecureSalt(40);
+			$auth_args->auth_key = Rhymix\Framework\Security::getRandom(40, 'hex');
 			$auth_args->is_register = 'Y';
 
 			$output = executeQuery('member.insertAuthMail', $auth_args);
@@ -2146,6 +2205,7 @@ class memberController extends member
 		if(!$output->toBool()) return $output;
 		// Create a model object
 		$oMemberModel = getModel('member');
+		$config = $oMemberModel->getMemberConfig();
 
 		$logged_info = Context::get('logged_info');
 		// Get what you want to modify the original information
@@ -2180,7 +2240,62 @@ class memberController extends member
 		if($args->blog && !preg_match("/^[a-z]+:\/\//is",$args->blog)) $args->blog = 'http://'.$args->blog;
 
 		// check member identifier form
-		$config = $oMemberModel->getMemberConfig();
+
+		// limit_date format is YYYYMMDD
+		if($args->limit_date)
+		{
+			// mobile input date format can be different
+			if($args->limit_date !== intval($args->limit_date))
+			{
+				$args->limit_date = date('Ymd', strtotime($args->limit_date));
+			}
+			else
+			{
+				$args->limit_date = intval($args->limit_date);
+			}
+		}
+
+		$extend_form_list = $oMemberModel->getCombineJoinForm($memberInfo);
+		$security = new Security($extend_form_list);
+		$security->encodeHTML('..column_title', '..description', '..default_value.');
+		if($config->signupForm){
+			foreach($config->signupForm as $no => $formInfo)
+			{
+				if(!$formInfo->isUse) continue;
+
+				if($formInfo->isDefaultForm)
+				{
+					// birthday format is YYYYMMDD
+					if($formInfo->name === 'birthday' && $args->{$formInfo->name})
+					{
+						if($args->{$formInfo->name} !== intval($args->{$formInfo->name}))
+						{
+							$args->{$formInfo->name} = date('Ymd', strtotime($args->{$formInfo->name}));
+						}
+						else
+						{
+							$args->{$formInfo->name} = intval($args->{$formInfo->name});
+						}
+					}
+				}
+				else
+				{
+					$extendForm = $extend_form_list[$formInfo->member_join_form_srl];
+					// date format is YYYYMMDD
+					if($extendForm->column_type == 'date' && $args->{$formInfo->name})
+					{
+						if($args->{$formInfo->name} !== intval($args->{$formInfo->name}))
+						{
+							$args->{$formInfo->name} = date('Ymd', strtotime($args->{$formInfo->name}));
+						}
+						else
+						{
+							$args->{$formInfo->name} = intval($args->{$formInfo->name});
+						}
+					}
+				}
+			}
+		}
 
 		$output = executeQuery('member.getMemberInfoByMemberSrl', $args);
 		$orgMemberInfo = $output->data;
@@ -2562,11 +2677,10 @@ class memberController extends member
 		}
 		unset($_SESSION['rechecked_password_step']);
 
-		$oPassword = new Password();
 		$auth_args = new stdClass();
 		$auth_args->user_id = $newEmail;
 		$auth_args->member_srl = $member_info->member_srl;
-		$auth_args->auth_key = $oPassword->createSecureSalt(40);
+		$auth_args->auth_key = Rhymix\Framework\Security::getRandom(40, 'hex');
 		$auth_args->new_password = 'XE_change_emaill_address';
 
 		$oDB = &DB::getInstance();

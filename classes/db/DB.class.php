@@ -24,7 +24,6 @@ class DB
 	 */
 	protected static $priority_dbms = array(
 		'mysqli' => 6,
-		'mysql' => 4,
 		'cubrid' => 2,
 		'mssql' => 1
 	);
@@ -271,9 +270,13 @@ class DB
 		// after creating instance of class, check is supported
 		foreach ($supported_list as $db_type)
 		{
+			if (strncasecmp($db_type, 'mysql', 5) === 0 && strtolower($db_type) !== 'mysqli')
+			{
+				continue;
+			}
 			$class_name = sprintf("DB%s%s", strtoupper(substr($db_type, 0, 1)), strtolower(substr($db_type, 1)));
 			$class_file = sprintf(_XE_PATH_ . "classes/db/%s.class.php", $class_name);
-			if(!file_exists($class_file) || stripos($class_file, '_innodb') !== false)
+			if (!file_exists($class_file))
 			{
 				continue;
 			}

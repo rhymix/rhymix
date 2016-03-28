@@ -60,3 +60,10 @@ $lang->msg_dont_have_update_log = '업데이트 로그가 기록되어 있지 �
 $lang->original_letter = '원본글';
 $lang->msg_warning_update_log = '<span class="x_label x_label-important">주의!</span> 사용시 디비가 많이 늘어날 수 있습니다.';
 $lang->reason_update = '수정한 이유';
+$lang->msg_no_update_id = '업데이트 고유 번호는 필수입니다.';
+$lang->msg_no_update_log = '업데이트 로그가 존재하지 않습니다.';
+$lang->cmd_modify_by_update_log = '이 로그로 게시물을 수정하기';
+$lang->msg_admin_update_log = '관리자가 수정한 적이 있는 게시물입니다. 관리자에게 문의하세요.';
+$lang->msg_update_log_revert = '정말로 이 버전으로 되돌리시겠습니까?';
+$lang->write_admin = '관리자작성';
+$lang->revert_reason_update = '이 버전으로 되돌림';

@@ -1,0 +1,9 @@
+@charset "UTF-8";
+.rhymix {
+  color: #123456;
+  background: url("../_data/formatter/foo/bar.jpg");
+}
+.rhymix span {
+  margin: 320px;
+}
+

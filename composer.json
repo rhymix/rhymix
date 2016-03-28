@@ -1,38 +1,43 @@
 {
-    "name": "rhymix/rhymix",
-    "description": "Rhymix",
-    "homepage": "https://www.rhymix.org",
-    "license": "GPL-2.0+",
-    "type": "project",
-    "authors": [
-        { "name": "Rhymix Developers and Contributors", "email": "devops@rhymix.org" },
-        { "name": "NAVER", "email": "developers@xpressengine.com" }
-    ],
-    "require": {
-        "php": ">=5.3.0",
-        "ext-curl": "*",
-        "ext-gd": "*",
-        "ext-iconv": "*",
-        "ext-json": "*",
-        "ext-mbstring": "*",
-        "ext-mcrypt": "*",
-        "ext-openssl": "*",
-        "ext-pcre": "*",
-        "ext-xml": "*",
-        "defuse/php-encryption": "1.2.1",
-        "ezyang/htmlpurifier": "4.7.*",
-        "firephp/firephp-core": "0.4.0",
-        "matthiasmullie/minify": "1.3.*",
-        "michelf/php-markdown": "1.5.*",
-        "rmccue/requests": "1.6.*",
-        "sunra/php-simple-html-dom-parser": "1.5.*",
+	"name": "rhymix/rhymix",
+	"description": "Rhymix",
+	"homepage": "https://www.rhymix.org",
+	"license": "GPL-2.0+",
+	"type": "project",
+	"authors": [
+		{ "name": "Rhymix Developers and Contributors", "email": "devops@rhymix.org" },
+		{ "name": "NAVER", "email": "developers@xpressengine.com" }
+	],
+	"require": {
+		"php": ">=5.5.9",
+		"ext-curl": "*",
+		"ext-gd": "*",
+		"ext-iconv": "*",
+		"ext-json": "*",
+		"ext-mbstring": "*",
+		"ext-mcrypt": "*",
+		"ext-openssl": "*",
+		"ext-pcre": "*",
+		"ext-xml": "*",
+		"defuse/php-encryption": "1.2.1",
+		"ezyang/htmlpurifier": "4.7.*",
+		"hautelook/phpass": "0.3.*",
+		"jbbcode/jbbcode": "1.3.*",
+		"leafo/lessphp": "0.5.*",
+		"leafo/scssphp": "0.6.*",
+		"league/html-to-markdown": "4.2.*",
+		"matthiasmullie/minify": "1.3.*",
+		"matthiasmullie/path-converter": "1.*",
+		"michelf/php-markdown": "1.6.*",
+		"michelf/php-smartypants": "1.6.0-beta1",
+		"rmccue/requests": "1.6.*",
+		"sunra/php-simple-html-dom-parser": "1.5.*",
 		"swiftmailer/swiftmailer": "5.4.*",
 		"true/punycode": "2.*"
-    },
-    "require-dev": {
-        "php": ">=5.4.0",
-        "codeception/codeception": "2.1.*",
-        "codeception/verify": "0.3.*",
-        "codeception/specify": "0.4.*"
-    }
+	},
+	"require-dev": {
+		"codeception/codeception": "2.1.*",
+		"codeception/verify": "0.3.*",
+		"codeception/specify": "0.4.*"
+	}
 }

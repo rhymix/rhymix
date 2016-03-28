@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ruleset version="1.5.0">
+	<customrules>
+	</customrules>
+	<fields>
+		<field name="use" />
+		<field name="mention_format" />
+		<field name="document_notify" />
+		<field name="skin" required="true" />
+		<field name="colorset" required="true" />
+		<field name="zindex" rule="number" />
+	</fields>
+</ruleset>

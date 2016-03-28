@@ -12,6 +12,7 @@ jQuery(function($){
 		$.getScript(request_uri + "./common/js/plugins/spectrum/i18n/jquery.spectrum-"+ xe.current_lang.replace("jp", "ja").toLowerCase() +".js", function() {
 			var settings = {
 				showInput: true,
+				allowEmpty:true,
 				showInitial: true,
 				showPalette: true,
 				showSelectionPalette: true,

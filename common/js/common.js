@@ -284,7 +284,7 @@ jQuery(function($) {
 			uri = uri.replace(re, toReplace);
 		}
 
-		var bUseSSL = !!window.enforce_ssl;
+		var bUseSSL = !!window.enforce_ssl || (location.protocol == 'https:');
 		if (!bUseSSL && isArray(window.ssl_actions) && (act=uri.getQuery('act'))) {
 			for (var i=0,c=ssl_actions.length; i < c; i++) {
 				if (ssl_actions[i] === act) {
@@ -381,13 +381,11 @@ function sendMailTo(to) {
  * @brief url이동 (Rhymix 개선된 버전)
  */
 function redirect(url) {
-	if (url === window.location.href || url.indexOf(window.location.href.replace(/#.+$/, "") + "#") === 0)
-	{
+	if (url === window.location.href || url.indexOf(window.location.href.replace(/#.+$/, "") + "#") === 0 ||
+		url === window.location.pathname || url.indexOf(window.location.pathname.replace(/#.+$/, "") + "#") === 0) {
 		window.location.href = url;
 		window.location.reload();
-	}
-	else
-	{
+	} else {
 		window.location.href = url;
 	}
 }

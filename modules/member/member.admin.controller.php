@@ -166,8 +166,7 @@ class memberAdminController extends member
 			'update_nickname_log'
 		);
 		
-		$oPassword = new Password();
-		if(!array_key_exists($args->password_hashing_algorithm, $oPassword->getSupportedAlgorithms()))
+		if(!array_key_exists($args->password_hashing_algorithm, Rhymix\Framework\Password::getSupportedAlgorithms()))
 		{
 			$args->password_hashing_algorithm = 'md5';
 		}

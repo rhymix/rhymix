@@ -1,0 +1,12 @@
+#nc_container { width:100%; height:auto; position:relative; }
+#nc_container .list {  top:2px; position:relative; }
+#nc_container .list ul { display:block; position:relative; }
+#nc_container ul.nc_memu:after {
+	content: "";
+	display: block;
+	height: 0;
+	clear: both;
+	visibility: hidden;
+}
+#nc_container .listscroll { overflow: visible; }
+.ncenterlite_block { display:none; }

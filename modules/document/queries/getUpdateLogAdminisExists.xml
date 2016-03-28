@@ -1,0 +1,12 @@
+<query id="getUpdateLogAdminisExists" action="select">
+	<tables>
+		<table name="document_update_log" />
+	</tables>
+	<columns>
+		<column name="count(*)" alias="count" />
+	</columns>
+	<conditions>
+		<condition operation="equal" column="document_srl" var="document_srl" filter="number" notnull="notnull" />
+		<condition operation="equal" column="is_admin" var="is_admin" pipe="and" />
+	</conditions>
+</query>

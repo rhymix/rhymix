@@ -67,7 +67,8 @@ class DBMysql extends DB
 		$result = @mysql_connect($connection['host'], $connection['user'], $connection['pass']);
 		if(!$result)
 		{
-			exit('Unable to connect to DB.');
+			$this->setError(-1, 'Unable to connect to DB.');
+			return;
 		}
 
 		if(mysql_error())
@@ -76,10 +77,10 @@ class DBMysql extends DB
 			return;
 		}
 
-		// Error appears if the version is lower than 4.1.13
-		if(version_compare(mysql_get_server_info($result), '4.1.13', '<'))
+		// Error appears if the version is lower than 5.0.7
+		if(version_compare(mysql_get_server_info($result), '5.0.7', '<'))
 		{
-			$this->setError(-1, 'Rhymix requires MySQL 4.1.13 or later. Current MySQL version is ' . mysql_get_server_info());
+			$this->setError(-1, 'Rhymix requires MySQL 5.0.7 or later. Current MySQL version is ' . mysql_get_server_info());
 			return;
 		}
 
@@ -164,7 +165,8 @@ class DBMysql extends DB
 	{
 		if(!$connection)
 		{
-			exit('Rhymix cannot handle DB connection.');
+			$this->setError(-1, 'Unable to connect to DB.');
+			return false;
 		}
 		// Run the query statement
 		$result = @mysql_query($query, $connection);

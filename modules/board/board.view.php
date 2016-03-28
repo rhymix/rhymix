@@ -1174,6 +1174,8 @@ class boardView extends board
 		$update_log = $oDocumentModel->getUpdateLog($update_id);
 		$extra_vars = unserialize($update_log->extra_vars);
 
+		Context::addJsFilter($this->module_path.'tpl/filter', 'update.xml');
+
 		Context::set('extra_vars', $extra_vars);
 		Context::set('update_log', $update_log);
 

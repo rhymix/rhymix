@@ -1,0 +1,18 @@
+#nc_container { border-bottom-color:#C0C0C0; background-color:#efefef; color:#666; opacity:0.95; }
+#nc_container a { color:#666; }
+#nc_container a:hover { color:#666; }
+#nc_container strong { color:#666; }
+#nc_container a.notify strong { color:#FC2772; }
+#nc_container .list { background-color:#efefef; filter:alpha(opacity=95); opacity:0.95; -moz-opacity:0.95; }
+#nc_container .list li { border-color:#ddd; }
+#nc_container .list li a:hover { background-color: #ddd; }
+#nc_container .list span.ago { color:#D4AF37; }
+#nc_container .list a.notify sup.num { background-color:#D83722; color:white; }
+#nc_container .list .more { background: #ddd; }
+#nc_container a.readall { display:none; color:#555; font-size:10px; color:#D83722;}
+
+#nc_container a.notify { color:#666; }
+#nc_container a.notify .num { background-color:#D83722; color:white; }
+#nc_container ul.nc_memu li { padding-right:5px; }
+
+#nc_container img.nc_profile_img { display:none;}

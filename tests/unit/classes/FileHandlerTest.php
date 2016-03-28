@@ -1,5 +1,4 @@
 <?php
-require_once _XE_PATH_.'classes/file/FileHandler.class.php';
 
 class FileHandlerTest extends \Codeception\TestCase\Test
 {
