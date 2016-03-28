@@ -423,6 +423,12 @@ class FileHandler
 	 */
 	public static function getRemoteFile($url, $target_filename, $body = null, $timeout = 3, $method = 'GET', $content_type = null, $headers = array(), $cookies = array(), $post_data = array(), $request_config = array())
 	{
+		$target_dirname = dirname($target_filename);
+		if (!Rhymix\Framework\Storage::isDirectory($target_dirname) && !Rhymix\Framework\Storage::createDirectory($target_dirname))
+		{
+			return false;
+		}
+		
 		$request_config['filename'] = $target_filename;
 		$success = self::getRemoteResource($url, $body, $timeout, $method, $content_type, $headers, $cookies, $post_data, $request_config);
 		return $success ? true : false;
