@@ -43,6 +43,10 @@ class ncenterliteAdminController extends ncenterlite
 			{
 				$config->{$val} = $obj->{$val};
 			}
+			if($obj->{$val} == null)
+			{
+				$config->{$val} = null;
+			}
 			if($obj->disp_act == 'dispNcenterliteAdminSeletedmid' && !$obj->hide_module_srls)
 			{
 				$config->hide_module_srls = array();
