@@ -4,6 +4,9 @@
 	<permissions />
 	<actions>
 		<action name="dispNcenterliteAdminConfig" type="view" admin_index="true" menu_name="ncenterlite" menu_index="true" />
+		<action name="dispNcenterliteAdminSeletedmid" type="view" />
+		<action name="dispNcenterliteAdminTest" type="view" />
+		<action name="dispNcenterliteAdminSkinsetting" type="view" />
 		<action name="dispNcenterliteNotifyList" type="view" />
 		<action name="dispNcenterliteAdminList" type="view" />
 		<action name="dispNcenterliteUserConfig" type="view" />

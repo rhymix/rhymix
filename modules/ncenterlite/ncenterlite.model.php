@@ -11,11 +11,13 @@ class ncenterliteModel extends ncenterlite
 		{
 			$oModuleModel = getModel('module');
 			$config = $oModuleModel->getModuleConfig('ncenterlite');
-			if(!$config->use) $config->use = 'Y';
+			if(!$config->use)
+			{
+				$config->use = array();
+			}
 			if(!$config->display_use) $config->display_use = 'Y';
 
 			if(!$config->mention_names) $config->mention_names = 'nick_name';
-			if(!$config->message_notify) $config->message_notify = 'Y';
 			if(!$config->mention_format && !is_array($config->mention_format)) $config->mention_format = array('respect');
 			if(!is_array($config->mention_format)) $config->mention_format = explode('|@|', $config->mention_format);
 			if(!$config->document_notify) $config->document_notify = 'direct-comment';
@@ -25,6 +27,7 @@ class ncenterliteModel extends ncenterlite
 			if(!$config->voted_format) $config->voted_format = 'N';
 			if(!$config->skin) $config->skin = 'default';
 			if(!$config->colorset) $config->colorset = 'black';
+			if(!$config->zindex) $config->zindex = '9999';
 
 			self::$config = $config;
 		}
@@ -262,11 +265,13 @@ class ncenterliteModel extends ncenterlite
 		return $output;
 	}
 
-	function getMyDispNotifyList($member_srl)
+	function getMyDispNotifyList($member_srl = null)
 	{
-		$logged_info = Context::get('logged_info');
-
-		$member_srl = $logged_info->member_srl;
+		if(!$member_srl)
+		{
+			$logged_info = Context::get('logged_info');
+			$member_srl = $logged_info->member_srl;
+		}
 
 		$args = new stdClass();
 		$args->page = Context::get('page');
@@ -279,12 +284,8 @@ class ncenterliteModel extends ncenterlite
 		return $output;
 	}
 
-	function getNcenterliteAdminList($member_srl)
+	function getNcenterliteAdminList()
 	{
-		$logged_info = Context::get('logged_info');
-
-		$member_srl = $logged_info->member_srl;
-
 		$args = new stdClass();
 		$args->page = Context::get('page');
 		$args->list_count = '20';
@@ -315,6 +316,7 @@ class ncenterliteModel extends ncenterlite
 			$member_srl = $logged_info->member_srl;
 		}
 
+		$args = new stdClass();
 		$args->member_srl = $member_srl;
 		$output = executeQuery('ncenterlite.getNotifyNewCount', $args);
 		if(!$output->data) return 0;
