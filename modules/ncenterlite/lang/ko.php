@@ -138,3 +138,4 @@ $lang->anonymous_nick_name_setting = '익명의 지정 닉네임';
 $lang->about_anonymous_nick_name = '익명게시판에서 고정된 익명닉네임인 \'Anonymous\'를 사용하지 않고 표기할 이름을 지정합니다. 기본값은 \'Anonymous\'입니다.';
 $lang->mention_setting = '맨션 설정';
 $lang->mention_nim = '\'님\'을 붙여 쓸 수 있도록 허용';
+$lang->ncenterlite_msg_setting_error = '설정에 오류가 있습니다. 다시 설정해주세요.';
