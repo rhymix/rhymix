@@ -11,11 +11,11 @@
 		<div class="x_control-group">
 			<label class="x_control-label"><span class="x_label x_label-important">{$lang->ncenterlite_warning}</span> {$lang->ncenterlite_io}</label>
 			<div class="x_controls">
-				<label for="notify_mention" class="x_inline"><input type="checkbox" name="use[mention]" id="notify_mention" value="1" checked="checked"|cond="isset($config->use[mention])" /> mention</label>
-				<label for="notify_comment" class="x_inline"><input type="checkbox" name="use[comment]" id="notify_comment" value="1" checked="checked"|cond="isset($config->use[comment])" /> comment</label>
-				<label for="notify_comment_comment" class="x_inline"><input type="checkbox" name="use[comment_comment]" id="notify_comment_comment" value="1" checked="checked"|cond="isset($config->use[comment_comment])" /> comment_comment</label>
-				<label for="notify_vote" class="x_inline"><input type="checkbox" name="use[vote]" id="notify_vote" value="1" checked="checked"|cond="isset($config->use[vote])" /> vote</label>
-				<label for="notify_message" class="x_inline"><input type="checkbox" name="use[message]" id="notify_message" value="1" checked="checked"|cond="isset($config->use[message])" /> message</label>
+				<label for="notify_mention" class="x_inline"><input type="checkbox" name="use[mention]" id="notify_mention" value="1" checked="checked"|cond="isset($config->use[mention])" /> {$lang->ncenterlite_mention}</label>
+				<label for="notify_comment" class="x_inline"><input type="checkbox" name="use[comment]" id="notify_comment" value="1" checked="checked"|cond="isset($config->use[comment])" /> {$lang->ncenterlite_comment}</label>
+				<label for="notify_comment_comment" class="x_inline"><input type="checkbox" name="use[comment_comment]" id="notify_comment_comment" value="1" checked="checked"|cond="isset($config->use[comment_comment])" /> {$lang->ncenterlite_comment_comment}</label>
+				<label for="notify_vote" class="x_inline"><input type="checkbox" name="use[vote]" id="notify_vote" value="1" checked="checked"|cond="isset($config->use[vote])" /> {$lang->ncenterlite_cmd_vote}</label>
+				<label for="notify_message" class="x_inline"><input type="checkbox" name="use[message]" id="notify_message" value="1" checked="checked"|cond="isset($config->use[message])" /> {$lang->ncenterlite_type_message}</label>
 			</div>
 		</div>
 		<div class="x_control-group">
@@ -31,28 +31,19 @@
 			</div>
 		</div>
 		<div class="x_control-group">
-			<label class="x_control-label">익명 알림에서 익명 이름 설정</label>
+			<label class="x_control-label">{$lang->anonymous_nick_name_setting}</label>
 			<div class="x_controls">
 				<input type="text" name="anonymous_name" value="{$config->anonymous_name}" />
-				<p class="x_help-block">익명 게시판 등에서 알림이 등록될 시, Anonymous 등 익명을 표시할 이름을 설정할 수 있습니다. 기본은 Anonymous 입니다.</p>
+				<p class="x_help-block">{$lang->about_anonymous_nick_name}</p>
 			</div>
 		</div>
 		<div class="x_control-group">
-			<label class="x_control-label">멘션 설정</label>
+			<label class="x_control-label">{$lang->mention_setting}</label>
 			<div class="x_controls mention_option">
 				<label class="x_inline">
-					<input type="checkbox" name="mention_format[]" value="respect" data-mention-split="님" checked="checked"|cond="is_array($config->mention_format) && in_array('respect', $config->mention_format)" /> '님'을 붙여 쓸 수 있도록 허용
+					<input type="checkbox" name="mention_format[]" value="respect" data-mention-split="님" checked="checked"|cond="is_array($config->mention_format) && in_array('respect', $config->mention_format)" />{$lang->mention_nim}
 				</label>
-				<ul class="preview">
-					<li data-mention-default="enable"><strong>@스님</strong></li>
-					<li data-mention-default="enable"><strong>@선생님이다</strong></li>
-					<li data-mention-default="enable"><strong>@NAME</strong>&nbsp;&nbsp;…</li>
-					<li data-mention-default="enable"><strong>@NAME</strong>&nbsp;&nbsp;님</li>
-					<li><strong>@NAME</strong>님</li>
-					<li><strong>@NAME</strong>님과</li>
-					<li><strong>@NAME1</strong>님,&nbsp;&nbsp;<strong>@NAME2</strong>님이&nbsp;&nbsp;…</li>
-				</ul>
-				<p class="x_help-block">녹색으로 표시된 예시처럼 사용할 수 있습니다.</p>
+				{$lang->about_mention_preview}
 			</div>
 		</div>
 		<div class="x_control-group">
@@ -68,15 +59,15 @@
 			</div>
 		</div>
 		<div class="x_control-group">
-			<label class="x_control-label">회원정보 메뉴노출 설정</label>
+			<label class="x_control-label">{$lang->member_menu_view}</label>
 			<div class="x_controls">
 				<label class="x_inline">
-					<input type="radio" id="user_config_list_id" name="user_config_list" value="Y" checked="checked"|cond="$config->user_config_list == 'Y'" /> 회원정보에 표시함
+					<input type="radio" id="user_config_list_id" name="user_config_list" value="Y" checked="checked"|cond="$config->user_config_list == 'Y'" /> {$lang->member_menu_on}
 				</label>
 				<label class="x_inline">
-					<input type="radio" id="user_config_list_nick_name" name="user_config_list" value="N" checked="checked"|cond="$config->user_config_list == 'N'" /> 표기안함
+					<input type="radio" id="user_config_list_nick_name" name="user_config_list" value="N" checked="checked"|cond="$config->user_config_list == 'N'" /> {$lang->member_menu_off}
 				</label>
-				<p class="x_help-block">회원정보보기에서 메뉴 목록에 회원알림센터 설정 및 회원알림목록을 접근할 수잇는 페이지를 노출하거나 노출 시키지 않을 수 있습니다.</p>
+				<p class="x_help-block">{$lang->about_member_menu_view}</p>
 			</div>
 		</div>
 		<div class="x_control-group">
@@ -87,9 +78,7 @@
 				<p>{$lang->ncenterlite_document_event_read_about}</p>
 			</div>
 		</div>
-
 	</section>
-
 	<div class="x_clearfix btnArea">
 		<div class="x_pull-right">
 			<button class="x_btn x_btn-primary" type="submit">{$lang->cmd_registration}</button>

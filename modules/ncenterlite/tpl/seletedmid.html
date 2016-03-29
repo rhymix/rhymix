@@ -10,9 +10,9 @@
 
 	<section class="section">
 		<div class="x_control-group">
-			<label class="x_control-label">알림센터 사용여부</label>
+			<label class="x_control-label">{$lang->ncenterlite_notify_setting}</label>
 			<div class="x_controls">
-				<p class="x_help-block">선택한 페이지에서 알림센터를 표시하지 않습니다.</p>
+				<p class="x_help-block">{$lang->ncenterlite_about_notify_setting}</p>
 				<div loop="$mid_list => $mid, $item">
 					<label>
 						<input type="checkbox" value="{$item->module_srl}" name="hide_module_srls[]" checked="checked"|cond="is_array($config->hide_module_srls) && in_array($item->module_srl, $config->hide_module_srls)" />
@@ -22,9 +22,9 @@
 			</div>
 		</div>
 		<div class="x_control-group">
-			<label class="x_control-label">댓글 알림 사용게시판</label>
+			<label class="x_control-label">{$lang->ncenterlite_notify_comment}</label>
 			<div class="x_controls">
-				<p class="x_help-block">선택한 게시판에서는 댓글의 모든 알림을 관리자가 받을 수 있습니다.</p>
+				<p class="x_help-block">{$lang->ncenterlite_about_notify_comment}</p>
 				<div loop="$mid_list => $mid, $item">
 					<label>
 						<input type="checkbox" value="{$item->module_srl}" name="admin_comment_module_srls[]" checked="checked"|cond="is_array($config->admin_comment_module_srls) && in_array($item->module_srl, $config->admin_comment_module_srls)" />

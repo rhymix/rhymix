@@ -3,10 +3,17 @@ $lang->ncenterlite = 'Rhymix 알림센터 Lite';
 $lang->ncenterlite_install_version = '설치된 알림센터 Lite 버전';
 $lang->ncenterlite_document = '글';
 $lang->ncenterlite_comment = '댓글';
+$lang->ncenterlite_mention = '맨션';
+$lang->ncenterlite_cmd_vote = '추천';
+$lang->ncenterlite_comment_comment = '대댓글';
 $lang->ncenterlite_type_message = '쪽지';
 $lang->ncenterlite_sender = '보낸 사람';
 $lang->ncenterlite_addressee = '받는 사람';
 $lang->ncenterlite_noti_contents = '내용';
+$lang->ncenterlite_notify_setting = '알림센터 사용할 페이지';
+$lang->ncenterlite_about_notify_setting = '선택한 페이지에서 알림센터를 표시하지 않습니다.';
+$lang->ncenterlite_notify_comment = '댓글 전체 알림 사용할 페이지';
+$lang->ncenterlite_about_notify_comment = '선택한 게시판에서는 댓글의 모든 알림을 관리자가 받을 수 있습니다.';
 $lang->ncenterlite_read = '읽음 확인';
 $lang->ncenterlite_read_y = '읽음';
 $lang->ncenterlite_read_n = '읽지 않음';
@@ -63,6 +70,18 @@ $lang->ncenterlite_config_environment_about = '
 				<li>PHP 버전</li>
 			</ul>
 		';
+$lang->about_mention_preview = '
+				<ul class="preview">
+					<li data-mention-default="enable"><strong>@스님</strong></li>
+					<li data-mention-default="enable"><strong>@선생님이다</strong></li>
+					<li data-mention-default="enable"><strong>@NAME</strong>&nbsp;&nbsp;…</li>
+					<li data-mention-default="enable"><strong>@NAME</strong>&nbsp;&nbsp;님</li>
+					<li><strong>@NAME</strong>님</li>
+					<li><strong>@NAME</strong>님과</li>
+					<li><strong>@NAME1</strong>님,&nbsp;&nbsp;<strong>@NAME2</strong>님이&nbsp;&nbsp;…</li>
+				</ul>
+				<p class="x_help-block">녹색으로 표시된 예시처럼 사용할 수 있습니다.</p>
+';
 $lang->ncenterlite_config_environment_agree = '제공 동의';
 $lang->ncenterlite_config_environment_disagree = '제공 안 함';
 $lang->ncenterlite_notice_list = '알림 목록';
@@ -101,3 +120,21 @@ $lang->ncenterlite_commnet_event_noti_some = '대댓글은 알리지 않음';
 $lang->ncenterlite_message_event = '쪽지 알림 설정';
 $lang->ncenterlite_message_event_about = '쪽지 알림을 사용하지 않음(XE의 기본 쪽지 알림을 사용)';
 $lang->ncenterlite_mid_use = '알림센터 사용설정';
+$lang->member_menu_view = '회원정보 메뉴노출 설정';
+$lang->member_menu_on = '메뉴에 표시함';
+$lang->member_menu_off = '메뉴에 표시안함';
+$lang->about_member_menu_view = '회원정보보기에서 메뉴 목록에 회원알림센터 설정 및 회원알림목록을 접근할 수잇는 페이지를 노출하거나 노출 시키지 않을 수 있습니다.';
+$lang->ncenterlite_no_notify = '알림의 내역이 없습니다.';
+$lang->ncenterlite_all_delete = '전체 삭제';
+$lang->ncenterlite_month_before_delete = '한 달 이전의 알림 삭제';
+$lang->dont_check_notify_delete = '회원이 확인하지 않은 알림도 삭제됩니다.';
+$lang->send_member = '보낸 사람';
+$lang->resiver_member = '받는 사람';
+$lang->notify_content = '알림 내용';
+$lang->notify_read_check = '알림 읽음 여부';
+$lang->notify_readed = '읽음';
+$lang->notify_dont_readed = '읽지않음';
+$lang->anonymous_nick_name_setting = '익명의 지정 닉네임';
+$lang->about_anonymous_nick_name = '익명게시판에서 고정된 익명닉네임인 \'Anonymous\'를 사용하지 않고 표기할 이름을 지정합니다. 기본값은 \'Anonymous\'입니다.';
+$lang->mention_setting = '맨션 설정';
+$lang->mention_nim = '\'님\'을 붙여 쓸 수 있도록 허용';
