@@ -60,7 +60,7 @@ class ncenterliteAdminController extends ncenterlite
 		$output = $oModuleController->updateModuleConfig('ncenterlite', $config);
 		if(!$output->toBool())
 		{
-			return new Object(-1, 'message');
+			return new Object(-1, 'ncenterlite_msg_setting_error');
 		}
 
 		$this->setMessage('success_updated');
