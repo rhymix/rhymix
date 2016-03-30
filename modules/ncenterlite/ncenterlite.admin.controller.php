@@ -34,18 +34,17 @@ class ncenterliteAdminController extends ncenterlite
 		}
 		foreach($config_vars as $val)
 		{
-
-			if($obj->disp_act == 'dispNcenterliteAdminConfig' && !$obj->mention_format)
-			{
-				$config->mention_format = array();
-			}
 			if($obj->{$val})
 			{
 				$config->{$val} = $obj->{$val};
 			}
-			if($obj->{$val} == null)
+			if($obj->disp_act == 'dispNcenterliteAdminConfig' && !$obj->anonymous_name)
 			{
-				$config->{$val} = null;
+				$config->anonymous_name = null;
+			}
+			if($obj->disp_act == 'dispNcenterliteAdminConfig' && !$obj->mention_format)
+			{
+				$config->mention_format = array();
 			}
 			if($obj->disp_act == 'dispNcenterliteAdminSeletedmid' && !$obj->hide_module_srls)
 			{
@@ -56,7 +55,6 @@ class ncenterliteAdminController extends ncenterlite
 				$config->admin_comment_module_srls = array();
 			}
 		}
-
 		$output = $oModuleController->updateModuleConfig('ncenterlite', $config);
 		if(!$output->toBool())
 		{
