@@ -145,7 +145,7 @@ class FileHandler
 		$output = array();
 		foreach ($list as $filename)
 		{
-			$filename = str_replace(array('/\\', '//'), '/', $filename);
+			$filename = str_replace(array('\\', '//'), '/', $filename);
 			$basename = $concat_prefix ? basename($filename) : $filename;
 			if ($basename[0] === '.' || ($filter && !preg_match($filter, $basename)))
 			{

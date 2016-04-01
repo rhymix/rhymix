@@ -541,9 +541,7 @@ class installController extends install
 		foreach($module_list as $module_path)
 		{
 			// Get module name
-			$tmp_arr = explode('/',$module_path);
-			$module = $tmp_arr[count($tmp_arr)-1];
-
+			$module = basename($module_path);
 			$xml_info = $oModuleModel->getModuleInfoXml($module);
 			if(!$xml_info) continue;
 			$modules[$xml_info->category][] = $module;
