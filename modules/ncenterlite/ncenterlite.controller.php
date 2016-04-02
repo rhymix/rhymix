@@ -119,6 +119,10 @@ class ncenterliteController extends ncenterlite
 				$args->target_browser = $module_info->browser_title;
 				$args->notify = $this->_getNotifyId($args);
 				$output = $this->_insertNotify($args, $is_anonymous);
+				if($output->toBool())
+				{
+					return $output;
+				}
 			}
 		}
 
@@ -318,7 +322,7 @@ class ncenterliteController extends ncenterlite
 
 		$oNcenterliteModel = getModel('ncenterlite');
 		$config = $oNcenterliteModel->getConfig();
-		if(isset($config->use[vote]))
+		if(!isset($config->use[vote]))
 		{
 			return new Object();
 		}
@@ -346,6 +350,10 @@ class ncenterliteController extends ncenterlite
 	{
 		$oNcenterliteModel = getModel('ncenterlite');
 		$config = $oNcenterliteModel->getConfig();
+		if(empty($config->use))
+		{
+			return new Object();
+		}
 
 		$args = new stdClass();
 		$args->srl = $obj->comment_srl;
@@ -357,7 +365,7 @@ class ncenterliteController extends ncenterlite
 	{
 		$oNcenterliteModel = getModel('ncenterlite');
 		$config = $oNcenterliteModel->getConfig();
-		if($config->use != 'Y')
+		if(empty($config->use))
 		{
 			return new Object();
 		}
