@@ -318,7 +318,7 @@ class ncenterliteController extends ncenterlite
 
 		$oNcenterliteModel = getModel('ncenterlite');
 		$config = $oNcenterliteModel->getConfig();
-		if(isset($config->use[vote]))
+		if(!isset($config->use[vote]))
 		{
 			return new Object();
 		}
