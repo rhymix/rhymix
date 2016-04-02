@@ -11,6 +11,11 @@ class ncenterliteModel extends ncenterlite
 		{
 			$oModuleModel = getModel('module');
 			$config = $oModuleModel->getModuleConfig('ncenterlite');
+
+			if(!$config)
+			{
+				$config = new stdClass();
+			}
 			if(!$config->use)
 			{
 				$config->use = array();
