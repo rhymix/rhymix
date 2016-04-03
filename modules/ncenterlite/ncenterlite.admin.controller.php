@@ -16,7 +16,7 @@ class ncenterliteAdminController extends ncenterlite
 			'document_notify',
 			'hide_module_srls',
 			'mention_format',
-			'admin_comment_module_srls',
+			'admin_notify_module_srls',
 			'skin',
 			'mskin',
 			'mcolorset',
@@ -50,9 +50,9 @@ class ncenterliteAdminController extends ncenterlite
 			{
 				$config->hide_module_srls = array();
 			}
-			if($obj->disp_act == 'dispNcenterliteAdminSeletedmid' && !$obj->admin_comment_module_srls)
+			if($obj->disp_act == 'dispNcenterliteAdminSeletedmid' && !$obj->admin_notify_module_srls)
 			{
-				$config->admin_comment_module_srls = array();
+				$config->admin_notify_module_srls = array();
 			}
 		}
 		$output = $oModuleController->updateModuleConfig('ncenterlite', $config);

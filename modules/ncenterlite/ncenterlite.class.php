@@ -28,7 +28,8 @@ class ncenterlite extends ModuleObject
 	var $_TYPE_MESSAGE = 'E'; // 쪽지 mEssage
 	var $_TYPE_DOCUMENTS = 'P'; // 글 작성 알림
 	var $_TYPE_VOTED = 'V'; // 추천글 안내 알림
-	var $_TYPE_TEST = 'T';
+	var $_TYPE_TEST = 'T'; // Test Notify create.
+	var $_TYPE_ADMIN_DOCUMENT = 'B'; // Admin Document Alert
 	var $_TYPE_CUSTOM = 'U'; //Updated alert(uses type table)
 
 	var $triggers = array(
