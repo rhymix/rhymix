@@ -191,7 +191,7 @@ class ncenterliteModel extends ncenterlite
 					$str = sprintf($lang->ncenterlite_vote, $target_member, $v->target_summary);
 				break;
 				case 'B':
-					$str = sprintf($lang->ncenterlite_admin_content, $target_member, $v->target_browser, $v->target_summary);
+					$str = sprintf($lang->ncenterlite_admin_content_message, $target_member, $v->target_browser, $v->target_summary);
 				break;
 			}
 
