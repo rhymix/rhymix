@@ -1,0 +1,49 @@
+<include target="header.html" />
+
+<table class="x_table x_table-striped x_table-hover">
+	<thead>
+		<tr>
+			<th>{$lang->date}</th>
+			<th>{$lang->nick_name_before_changing}</th>
+			<th class="title">{$lang->nick_name_after_changing}</th>
+		</tr>
+	</thead>
+	<tbody cond="$nickname_list">
+		<tr loop="$nickname_list => $val">
+			<td>
+				{zdate($val->regdate,"Y-m-d H:i:s")}
+			</td>
+			<td>
+				{$val->before_nick_name}
+			</td>
+			<td>
+				{$val->after_nick_name}
+			</td>
+		</tr>
+	</tbody>
+	<tbody cond="!$nickname_list">
+		<tr>
+			<td colspan="3" style="text-align: center">{$lang->no_date}</td>
+
+		</tr>
+	</tbody>
+</table>
+<div class="x_clearfix">
+	<div class="x_pagination x_pull-left">
+		<ul>
+			<li class="x_disabled"|cond="!$page || $page == 1">
+				<a href="{getUrl('page','','module_srl','')}" class="direction">&laquo; {$lang->first_page}</a>
+			</li>
+			<!--@while($page_no = $page_navigation->getNextPage())-->
+			{@$last_page = $page_no}
+			<li class="x_active"|cond="$page_no == $page">
+				<a href="{getUrl('page', $page_no)}">{$page_no}</a>
+			</li>
+			<!--@end-->
+			<li class="x_disabled"|cond="$page == $page_navigation->last_page">
+				<a href="{getUrl('page',$page_navigation->last_page,'module_srl','')}" class="direction">{$lang->last_page} &raquo;</a>
+			</li>
+
+		</ul>
+	</div>
+</div>

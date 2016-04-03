@@ -10,6 +10,7 @@
 	<li id="signupTab" class="x_active"|cond="$act == 'dispMemberAdminSignUpConfig'"><a href="{getUrl('', 'module', 'admin', 'act', 'dispMemberAdminSignUpConfig')}">{$lang->cmd_signup}</a></li>
 	<li class="x_active"|cond="$act == 'dispMemberAdminLoginConfig'"><a href="{getUrl('', 'module', 'admin', 'act', 'dispMemberAdminLoginConfig')}">{$lang->cmd_login}</a></li>
 	<li class="x_active"|cond="$act == 'dispMemberAdminDesignConfig'"><a href="{getUrl('', 'module', 'admin', 'act', 'dispMemberAdminDesignConfig')}">{$lang->cmd_set_design_info}</a></li>
+	<li class="x_active"|cond="$act == 'dispMemberAdminNickNameLog'"><a href="{getUrl('', 'module', 'admin', 'act', 'dispMemberAdminNickNameLog')}">{$lang->cmd_modify_nickname_log}</a></li>
 </ul>
 <script>
 	enableSignUpTab({$config->enable_join == 'Y' ? 'true' : 'false'});

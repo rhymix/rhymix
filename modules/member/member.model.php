@@ -1218,6 +1218,16 @@ class memberModel extends member
 		}
 		return $groupSrl;
 	}
+	
+	function getMemberModifyNicknameLog($page = 1, $member_srl = null)
+	{
+		$args = new stdClass();
+		$args->member_srl = $member_srl;
+		$args->page = $page;
+		$output = executeQueryArray('member.getMemberModifyNickName', $args);
+		
+		return $output;
+	}
 }
 /* End of file member.model.php */
 /* Location: ./modules/member/member.model.php */
