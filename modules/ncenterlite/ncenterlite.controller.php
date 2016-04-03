@@ -91,7 +91,7 @@ class ncenterliteController extends ncenterlite
 		$admins_list = $admin_list->data;
 		$logged_info = Context::get('logged_info');
 
-		if(isset($config->use[admin_content]))
+		if(isset($config->use['admin_content']))
 		{
 			foreach($admins_list as $admins)
 			{
@@ -122,7 +122,7 @@ class ncenterliteController extends ncenterlite
 			}
 		}
 
-		if(!$mention_targets || !count($mention_targets) || !isset($config->use[mention]))
+		if(!$mention_targets || !count($mention_targets) || !isset($config->use['mention']))
 		{
 			return new Object();
 		}
@@ -191,7 +191,7 @@ class ncenterliteController extends ncenterlite
 		$is_anonymous = $this->_isAnonymous($this->_TYPE_COMMENT, $obj);
 
 		// check use the mention option.
-		if(isset($config->use[mention]))
+		if(isset($config->use['mention']))
 		{
 			$mention_targets = $this->_getMentionTarget(strip_tags($obj->content));
 			// !TODO 공용 메소드로 분리
@@ -223,14 +223,14 @@ class ncenterliteController extends ncenterlite
 			}
 		}
 
-		if(!isset($config->use[comment]))
+		if(!isset($config->use['comment']))
 		{
 			return new Object();
 		}
 
 		$admin_list = $oNcenterliteModel->getMemberAdmins();
 		$admins_list = $admin_list->data;
-		if(isset($config->use[admin_content]))
+		if(isset($config->use['admin_content']))
 		{
 			foreach($admins_list as $admins)
 			{
@@ -285,7 +285,7 @@ class ncenterliteController extends ncenterlite
 			}
 		}
 		// 대댓글이 아니고, 게시글의 댓글을 남길 경우
-		if(!$parent_srl || ($parent_srl && isset($config->use[comment_comment])))
+		if(!$parent_srl || ($parent_srl && isset($config->use['comment_comment'])))
 		{
 			$oDocumentModel = getModel('document');
 			$oDocument = $oDocumentModel->getDocument($document_srl);
@@ -329,7 +329,7 @@ class ncenterliteController extends ncenterlite
 			return new Object();
 		}
 
-		if(!isset($config->use[message]))
+		if(!isset($config->use['message']))
 		{
 			return new Object();
 		}
@@ -361,7 +361,7 @@ class ncenterliteController extends ncenterlite
 
 		$oNcenterliteModel = getModel('ncenterlite');
 		$config = $oNcenterliteModel->getConfig();
-		if(!isset($config->use[vote]))
+		if(!isset($config->use['vote']))
 		{
 			return new Object();
 		}
