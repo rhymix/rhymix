@@ -79,7 +79,7 @@ class MediaFilter
 	 */
 	public static function formatPrefix($prefix)
 	{
-		$prefix = preg_match('@^https?://(.*)$@i', $prefix, $matches) ? $matches[1] : $prefix;
+		$prefix = preg_match('@^(https?:)?//(.*)$@i', $prefix, $matches) ? $matches[2] : $prefix;
 		if (strpos($prefix, '/') === false)
 		{
 			$prefix .= '/';
@@ -117,7 +117,7 @@ class MediaFilter
 		{
 			$result[] = str_replace('\*\.', '[a-z0-9-]+\.', preg_quote($domain, '%'));
 		}
-		return '%^https?://(' . implode('|', $result) . ')%';
+		return '%^(https?:)?//(' . implode('|', $result) . ')%';
 	}
 	
 	/**
@@ -150,7 +150,7 @@ class MediaFilter
 		{
 			$result[] = str_replace('\*\.', '[a-z0-9-]+\.', preg_quote($domain, '%'));
 		}
-		return '%^https?://(' . implode('|', $result) . ')%';
+		return '%^(https?:)?//(' . implode('|', $result) . ')%';
 	}
 	
 	/**
