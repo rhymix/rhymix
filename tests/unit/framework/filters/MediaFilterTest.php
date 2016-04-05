@@ -16,6 +16,10 @@ class MediaFilterTest extends \Codeception\TestCase\Test
 		$this->assertTrue(Rhymix\Framework\Filters\MediaFilter::matchIframeWhitelist('https://www.youtube.com/v'));
 		$this->assertFalse(Rhymix\Framework\Filters\MediaFilter::matchIframeWhitelist('http://www-youtube.com/v'));
 		
+		// Match protocol-relative URLs.
+		$this->assertTrue(Rhymix\Framework\Filters\MediaFilter::matchIframeWhitelist('//www.youtube.com/v'));
+		$this->assertFalse(Rhymix\Framework\Filters\MediaFilter::matchIframeWhitelist('//www-youtube.com/v'));
+		
 		// object whitelist as array.
 		$this->assertTrue(in_array('www.youtube.com/', Rhymix\Framework\Filters\MediaFilter::getObjectWhitelist()));
 		$this->assertFalse(in_array('random-website.com/', Rhymix\Framework\Filters\MediaFilter::getObjectWhitelist()));
@@ -27,6 +31,10 @@ class MediaFilterTest extends \Codeception\TestCase\Test
 		// Match individual URL against object whitelist.
 		$this->assertTrue(Rhymix\Framework\Filters\MediaFilter::matchObjectWhitelist('https://www.youtube.com/v'));
 		$this->assertFalse(Rhymix\Framework\Filters\MediaFilter::matchObjectWhitelist('http://www-youtube.com/v'));
+		
+		// Match protocol-relative URLs.
+		$this->assertTrue(Rhymix\Framework\Filters\MediaFilter::matchObjectWhitelist('//www.youtube.com/v'));
+		$this->assertFalse(Rhymix\Framework\Filters\MediaFilter::matchObjectWhitelist('//www-youtube.com/v'));
 	}
 	
 	public function testAddPrefix()
