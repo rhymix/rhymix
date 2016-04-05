@@ -190,6 +190,9 @@ class ncenterliteModel extends ncenterlite
 				case 'V':
 					$str = sprintf($lang->ncenterlite_vote, $target_member, $v->target_summary);
 				break;
+				case 'B':
+					$str = sprintf($lang->ncenterlite_admin_content_message, $target_member, $v->target_browser, $v->target_summary);
+				break;
 			}
 
 			if($v->type=='U')

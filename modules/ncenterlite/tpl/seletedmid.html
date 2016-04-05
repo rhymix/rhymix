@@ -22,12 +22,12 @@
 			</div>
 		</div>
 		<div class="x_control-group">
-			<label class="x_control-label">{$lang->ncenterlite_notify_comment}</label>
+			<label class="x_control-label">{$lang->ncenterlite_notify_mid_all}</label>
 			<div class="x_controls">
-				<p class="x_help-block">{$lang->ncenterlite_about_notify_comment}</p>
+				<p class="x_help-block">{$lang->ncenterlite_about_mid_all}</p>
 				<div loop="$mid_list => $mid, $item">
 					<label>
-						<input type="checkbox" value="{$item->module_srl}" name="admin_comment_module_srls[]" checked="checked"|cond="is_array($config->admin_comment_module_srls) && in_array($item->module_srl, $config->admin_comment_module_srls)" />
+						<input type="checkbox" value="{$item->module_srl}" name="admin_notify_module_srls[]" checked="checked"|cond="is_array($config->admin_notify_module_srls) && in_array($item->module_srl, $config->admin_notify_module_srls)" />
 						<strong>{$item->browser_title}</strong> ({$item->mid} / {strtoupper($item->module)})
 					</label>
 				</div>
