@@ -679,6 +679,20 @@ class memberAdminView extends member
 		}
 		$this->setTemplateFile('insert_join_form');
 	}
+
+	function dispMemberAdminNickNameLog()
+	{
+		$page = Context::get('page');
+		$output = getModel('member')->getMemberModifyNicknameLog($page);
+
+		Context::set('total_count', $output->total_count);
+		Context::set('total_page', $output->total_page);
+		Context::set('page', $output->page);
+		Context::set('nickname_list', $output->data);
+		Context::set('page_navigation', $output->page_navigation);
+
+		$this->setTemplateFile('nick_name_log');
+	}
 }
 /* End of file member.admin.view.php */
 /* Location: ./modules/member/member.admin.view.php */

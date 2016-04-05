@@ -32,6 +32,7 @@
 		<action name="dispMemberAdminGroupList" type="view" menu_name="userGroup" menu_index="true" />
 		<action name="dispMemberAdminInfo" type="view" menu_name="userList" />
 		<action name="dispMemberAdminInsertJoinForm" type="view" />
+		<action name="dispMemberAdminNickNameLog" type="view" />
 
 		<action name="getMemberMenu" type="model" standalone="true" />
 		<action name="getMemberAdminColorset" type="model" />

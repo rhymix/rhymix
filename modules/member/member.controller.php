@@ -1897,7 +1897,7 @@ class memberController extends member
 		$this->addMemberMenu( 'dispMemberScrappedDocument', 'cmd_view_scrapped_document');
 		$this->addMemberMenu( 'dispMemberSavedDocument', 'cmd_view_saved_document');
 		$this->addMemberMenu( 'dispMemberOwnDocument', 'cmd_view_own_document');
-		if($config->update_nick_log == 'Y')
+		if($config->update_nickname_log == 'Y')
 		{
 			$this->addMemberMenu( 'dispMemberModifyNicknameLog', 'cmd_modify_nickname_log');
 		}
@@ -2401,7 +2401,7 @@ class memberController extends member
 		}
 		else
 		{
-			if($args->nick_name != $orgMemberInfo->nick_name && $config->update_nick_log == 'Y')
+			if($args->nick_name != $orgMemberInfo->nick_name && $config->update_nickname_log == 'Y')
 			{
 				$log_args = new stdClass();
 				$log_args->member_srl = $args->member_srl;

@@ -709,10 +709,8 @@ class memberView extends member
 			}
 		}
 
-		$args = new stdClass();
-		$args->member_srl = $member_srl;
-		$args->page = Context::get('page');
-		$output = executeQuery('member.getMemberModifyNickName', $args);
+		$page = Context::get('page');
+		$output = getModel('member')->getMemberModifyNicknameLog($page, $member_srl);
 
 		Context::set('total_count', $output->page_navigation->total_count);
 		Context::set('total_page', $output->page_navigation->total_page);
