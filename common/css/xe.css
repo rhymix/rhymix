@@ -293,6 +293,7 @@ button.btn {
 
 /* Debug */
 #rhymix_debug_button {
+	display: none;
 	position: fixed;
 	left: 0; bottom: 40px;
 	background: #eeeeee;
