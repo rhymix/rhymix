@@ -943,24 +943,30 @@ class adminAdminModel extends admin
 
 	function iconUrlCheck($iconname, $default_icon_name, $default)
 	{
+		if ($default)
+		{
+			return \RX_BASEURL . 'modules/admin/tpl/img/' . $default_icon_name;
+		}
+		
 		$site_info = Context::get('site_module_info');
-		$virtual_site = '';
-		if($site_info->site_srl) 
+		if ($site_info->site_srl) 
 		{
 			$virtual_site = $site_info->site_srl . '/';
 		}
-
-		$file_exsit = FileHandler::readFile(_XE_PATH_ . 'files/attach/xeicon/' . $virtual_site . $iconname);
-		if(!$file_exsit && $default === true)
-        {
-            $icon_url = './modules/admin/tpl/img/' . $default_icon_name;
-        }
-        elseif($file_exsit)
+		else
 		{
-			$default_url = Context::getDefaultUrl();
-			$icon_url = $default_url . 'files/attach/xeicon/' . $virtual_site . $iconname;
+			$virtual_site = '';
 		}
-		return $icon_url;
+		
+		$filename = 'files/attach/xeicon/' . $virtual_site . $iconname;
+		if (Rhymix\Framework\Storage::exists(\RX_BASEDIR . $filename))
+		{
+			return \RX_BASEURL . $filename . '?' . date('YmdHis', filemtime(\RX_BASEDIR . $filename));
+		}
+		else
+		{
+			return false;
+		}
 	}
 
 }
