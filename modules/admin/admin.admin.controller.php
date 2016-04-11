@@ -925,35 +925,13 @@ class adminAdminController extends admin
 		$relative_filename = 'files/attach/xeicon/'.$virtual_site.'tmp/'.$iconname;
 		$target_filename = RX_BASEDIR . $relative_filename;
 
-		list($width, $height, $type_no, $attrs) = @getimagesize($original_filename);
-		if ($iconname == 'favicon.ico')
-		{
-			if(!preg_match('/^.*(x-icon|\.icon)$/i',$type)) {
-				Context::set('msg', '*.ico '.lang('msg_possible_only_file'));
-				return;
-			}
-		}
-		elseif ($iconname == 'mobicon.png')
-		{
-			if (!preg_match('/^.*(png).*$/',$type))
-			{
-				Context::set('msg', '*.png '.lang('msg_possible_only_file'));
-				return;
-			}
-			if (!(($height == '57' && $width == '57') || ($height == '114' && $width == '114')))
-			{
-				Context::set('msg', lang('msg_invalid_format').' (size : 57x57, 114x114)');
-				return;
-			}
-		}
-		else
+		if ($iconname !== 'favicon.ico' && $iconname !== 'mobicon.png')
 		{
 			Context::set('msg', lang('msg_invalid_format'));
 			return;
 		}
 		
-		$fitHeight = $fitWidth = $height;
-		FileHandler::copyFile($original_filename, $target_filename);
+		Rhymix\Framework\Storage::copy($original_filename, $target_filename, 0666 & ~umask());
 		return $relative_filename;
 	}
 	
@@ -980,8 +958,6 @@ class adminAdminController extends admin
 		{
 			FileHandler::moveFile($tmpicon_filepath, $icon_filepath);
 		}
-		
-		FileHandler::removeFile($tmpicon_filepath);
 	}
 }
 /* End of file admin.admin.controller.php */

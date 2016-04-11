@@ -403,10 +403,10 @@ class adminAdminView extends admin
 		
 		// Favicon and mobicon
 		$oAdminModel = getAdminModel('admin');
-		$favicon_url = $oAdminModel->getFaviconUrl();
-		$mobicon_url = $oAdminModel->getMobileIconUrl();
-		Context::set('favicon_url', $favicon_url.'?'.$_SERVER['REQUEST_TIME']);
-		Context::set('mobicon_url', $mobicon_url.'?'.$_SERVER['REQUEST_TIME']);
+		$favicon_url = $oAdminModel->getFaviconUrl(false) ?: $oAdminModel->getFaviconUrl();
+		$mobicon_url = $oAdminModel->getMobileIconUrl(false) ?: $oAdminModel->getMobileIconUrl();
+		Context::set('favicon_url', $favicon_url);
+		Context::set('mobicon_url', $mobicon_url);
 		
 		$this->setTemplateFile('config_general');
 	}

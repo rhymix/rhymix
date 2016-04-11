@@ -154,9 +154,9 @@ $lang->about_admin_ip_deny = 'This list can be used to designate IP addresses th
 $lang->msg_current_ip_will_be_denied = 'The given IP list cannot be applied, as they would block your own IP address.';
 $lang->detail_about_ftp_info = 'FTP information is needed for easyinstall when save_mode = on.';
 $lang->allow_use_favicon = 'Do you want to use favicon?';
-$lang->about_use_favicon = 'You can upload 16x16 size<em>*.ico</em> file only.';
+$lang->about_use_favicon = 'The favicon should be 16x16 or 32x32, either ico or png format.';
 $lang->allow_use_mobile_icon = 'Do you want to use the mobile home screen icon?';
-$lang->detail_use_mobile_icon = 'You can upload 57x57 or 114x114 size<em>*.png</em> file only.';
+$lang->detail_use_mobile_icon = 'The mobile icon should be 57x57 or 114x114, only png format.';
 $lang->use_sso = 'Use <abbr title="Single Sign On">SSO</abbr>?';
 $lang->about_use_sso = 'SSO will enable users to sign in just once for both default and virtual site. You will need this only if you are using virtual sites.';
 $lang->about_arrange_session = 'Do you want to clean up session?';
