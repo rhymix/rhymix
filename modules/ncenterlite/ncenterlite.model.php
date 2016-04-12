@@ -309,9 +309,13 @@ class ncenterliteModel extends ncenterlite
 		$args = new stdClass();
 		$args->is_admin = 'Y';
 		$output = executeQueryArray('ncenterlite.getMemberAdmins', $args);
-		if(!$output->data) $output->data = array();
-
-		return $output;
+		$member_srl = array();
+		foreach($output->data as $member)
+		{
+			$member_srl[] = $member->member_srl;
+		}
+		
+		return $member_srl;
 	}
 
 	function _getNewCount($member_srl=null)
