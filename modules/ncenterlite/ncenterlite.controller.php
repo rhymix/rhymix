@@ -87,37 +87,35 @@ class ncenterliteController extends ncenterlite
 
 		$is_anonymous = $this->_isAnonymous($this->_TYPE_DOCUMENT, $obj);
 
-		$admin_list = $oNcenterliteModel->getMemberAdmins();
-		$admins_list = $admin_list->data;
 		$logged_info = Context::get('logged_info');
 
-		if(isset($config->use['admin_content']))
+		if(isset($config->use['admin_content']) && is_array($config->admin_notify_module_srls) && in_array($module_info->module_srl, $config->admin_notify_module_srls))
 		{
+			$admin_list = $oNcenterliteModel->getMemberAdmins();
+			$admins_list = $admin_list->data;
 			foreach($admins_list as $admins)
 			{
 				if($logged_info->member_srl == $admins->member_srl)
 				{
 					continue;
 				}
-				if(is_array($config->admin_notify_module_srls) && in_array($module_info->module_srl, $config->admin_notify_module_srls))
+
+				$args = new stdClass();
+				$args->member_srl = $admins->member_srl;
+				$args->srl = $obj->document_srl;
+				$args->target_p_srl = $obj->document_srl;
+				$args->target_srl = $obj->document_srl;
+				$args->type = $this->_TYPE_DOCUMENT;
+				$args->target_type = $this->_TYPE_ADMIN_DOCUMENT;
+				$args->target_url = getNotEncodedFullUrl('', 'document_srl', $obj->document_srl);
+				$args->target_summary = cut_str(strip_tags($obj->title), 50);
+				$args->regdate = date('YmdHis');
+				$args->target_browser = $module_info->browser_title;
+				$args->notify = $this->_getNotifyId($args);
+				$output = $this->_insertNotify($args, $is_anonymous);
+				if(!$output->toBool())
 				{
-					$args = new stdClass();
-					$args->member_srl = $admins->member_srl;
-					$args->srl = $obj->document_srl;
-					$args->target_p_srl = $obj->document_srl;
-					$args->target_srl = $obj->document_srl;
-					$args->type = $this->_TYPE_DOCUMENT;
-					$args->target_type = $this->_TYPE_ADMIN_DOCUMENT;
-					$args->target_url = getNotEncodedFullUrl('', 'document_srl', $obj->document_srl);
-					$args->target_summary = cut_str(strip_tags($obj->title), 50);
-					$args->regdate = date('YmdHis');
-					$args->target_browser = $module_info->browser_title;
-					$args->notify = $this->_getNotifyId($args);
-					$output = $this->_insertNotify($args, $is_anonymous);
-					if(!$output->toBool())
-					{
-						return $output;
-					}
+					return $output;
 				}
 			}
 		}
@@ -228,30 +226,27 @@ class ncenterliteController extends ncenterlite
 			return new Object();
 		}
 
-		$admin_list = $oNcenterliteModel->getMemberAdmins();
-		$admins_list = $admin_list->data;
-		if(isset($config->use['admin_content']))
+		if(isset($config->use['admin_content']) && is_array($config->admin_notify_module_srls) && in_array($module_info->module_srl, $config->admin_notify_module_srls))
 		{
+			$admin_list = $oNcenterliteModel->getMemberAdmins();
+			$admins_list = $admin_list->data;
 			foreach($admins_list as $admins)
 			{
-				if(is_array($config->admin_notify_module_srls) && in_array($module_info->module_srl, $config->admin_notify_module_srls))
-				{
-					$args = new stdClass();
-					$args->member_srl = $admins->member_srl;
-					$args->target_p_srl = $obj->comment_srl;
-					$args->srl = $obj->document_srl;
-					$args->target_srl = $obj->comment_srl;
-					$args->type = $this->_TYPE_COMMENT;
-					$args->target_type = $this->_TYPE_ADMIN_COMMENT;
-					$args->target_url = getNotEncodedFullUrl('', 'document_srl', $document_srl, '_comment_srl', $comment_srl) . '#comment_' . $comment_srl;
-					$args->target_summary = cut_str(strip_tags($content), 50);
-					$args->target_nick_name = $obj->nick_name;
-					$args->target_email_address = $obj->email_address;
-					$args->regdate = date('YmdHis');
-					$args->target_browser = $module_info->browser_title;
-					$args->notify = $this->_getNotifyId($args);
-					$output = $this->_insertNotify($args, $is_anonymous);
-				}
+				$args = new stdClass();
+				$args->member_srl = $admins->member_srl;
+				$args->target_p_srl = $obj->comment_srl;
+				$args->srl = $obj->document_srl;
+				$args->target_srl = $obj->comment_srl;
+				$args->type = $this->_TYPE_COMMENT;
+				$args->target_type = $this->_TYPE_ADMIN_COMMENT;
+				$args->target_url = getNotEncodedFullUrl('', 'document_srl', $document_srl, '_comment_srl', $comment_srl) . '#comment_' . $comment_srl;
+				$args->target_summary = cut_str(strip_tags($content), 50);
+				$args->target_nick_name = $obj->nick_name;
+				$args->target_email_address = $obj->email_address;
+				$args->regdate = date('YmdHis');
+				$args->target_browser = $module_info->browser_title;
+				$args->notify = $this->_getNotifyId($args);
+				$output = $this->_insertNotify($args, $is_anonymous);
 			}
 		}
 		// 대댓글
