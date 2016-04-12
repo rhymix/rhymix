@@ -88,11 +88,11 @@ class ncenterliteController extends ncenterlite
 		$is_anonymous = $this->_isAnonymous($this->_TYPE_DOCUMENT, $obj);
 
 		$logged_info = Context::get('logged_info');
+		$admin_list = $oNcenterliteModel->getMemberAdmins();
 
+		$admin_document_notify = false;
 		if(isset($config->use['admin_content']) && is_array($config->admin_notify_module_srls) && in_array($module_info->module_srl, $config->admin_notify_module_srls))
 		{
-			$admin_list = $oNcenterliteModel->getMemberAdmins();
-
 			foreach($admin_list as $admins)
 			{
 				if($logged_info->member_srl == $admins)
@@ -117,6 +117,10 @@ class ncenterliteController extends ncenterlite
 				{
 					return $output;
 				}
+				else
+				{
+					$admin_document_notify = true;
+				}
 			}
 		}
 
@@ -139,6 +143,11 @@ class ncenterliteController extends ncenterlite
 					continue;
 				}
 
+				if(is_array($admin_list) && in_array($mention_member_srl, $admin_list) && isset($config->use['admin_content']) && $admin_document_notify == true)
+				{
+					continue;
+				}
+
 				$args = new stdClass();
 				$args->member_srl = $mention_member_srl;
 				$args->srl = $obj->document_srl;
@@ -154,7 +163,7 @@ class ncenterliteController extends ncenterlite
 				$args->target_browser = $module_info->browser_title;
 				$args->notify = $this->_getNotifyId($args);
 				$output = $this->_insertNotify($args, $is_anonymous);
-				if($output->toBool())
+				if(!$output->toBool())
 				{
 					return $output;
 				}
@@ -234,6 +243,7 @@ class ncenterliteController extends ncenterlite
 				{
 					continue;
 				}
+
 				if(is_array($admin_list) && in_array($mention_member_srl, $admin_list) && isset($config->use['admin_content']) && $admin_comment_notify == true)
 				{
 					continue;
