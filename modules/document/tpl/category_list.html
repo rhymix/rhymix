@@ -61,7 +61,7 @@
 			<div class="x_control-group">
 				<label class="x_control-label" for="category_color">{$lang->category_color}</label>
 				<div class="x_controls">
-					<span class="x_input-append"><input type="color" class="rx-spectrum" name="category_color" id="category_color" value="" /></span>
+					<span class="x_input-append"><input type="text" class="rx-spectrum" name="category_color" id="category_color" value="" /></span>
 					<a href="#categoy_color_help" class="x_icon-question-sign" data-toggle>{$lang->help}</a>
 					<p id="categoy_color_help" hidden style="margin:8px 0 0 0">{$lang->about_category_color}</p>
 				</div>
@@ -77,7 +77,6 @@
 				<label class="x_control-label">{$lang->category_group_srls}</label>
 				<div class="x_controls">
 					<label loop="$group_list => $key, $val" class="x_inline" for="group_{$key}"><input type="checkbox" name="group_srls[]" value="{$key}" id="group_{$key}" /> {$val->title}</label>
-					<span class="x_help-block">{$lang->about_category_group_srls}</span>
 				</div>
 			</div>
 			<div class="x_control-group">

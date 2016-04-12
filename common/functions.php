@@ -26,6 +26,31 @@ function config($key, $value = null)
 }
 
 /**
+ * Get or set lang variable.
+ *
+ * @param string $code Lang variable name
+ * @param string $value `$code`s value
+ * @return mixed
+ */
+function lang($code, $value = null)
+{
+	if (!$GLOBALS['lang'] instanceof Rhymix\Framework\Lang)
+	{
+		$GLOBALS['lang'] = Rhymix\Framework\Lang::getInstance(Context::getLangType() ?: config('locale.default_lang') ?: 'ko');
+		$GLOBALS['lang']->loadDirectory(RX_BASEDIR . 'common/lang', 'common');
+	}
+	
+	if ($value === null)
+	{
+		return $GLOBALS['lang']->get($code);
+	}
+	else
+	{
+		$GLOBALS['lang']->set($code, $value);
+	}
+}
+
+/**
  * Get the first value of an array.
  * 
  * @param array $array The input array
@@ -106,6 +131,19 @@ function array_flatten(array $array, $preserve_keys = true)
 function class_basename($class)
 {
 	return basename(str_replace('\\', '/', is_object($class) ? get_class($class) : $class));
+}
+
+/**
+ * Clean a path to remove ./, ../, trailing slashes, etc.
+ * 
+ * This function is an alias to Rhymix\Framework\Filters\FilenameFilter::cleanPath().
+ * 
+ * @param string $path
+ * @return string
+ */
+function clean_path($path)
+{
+	return Rhymix\Framework\Filters\FilenameFilter::cleanPath($path);
 }
 
 /**
@@ -213,7 +251,7 @@ function starts_with($needle, $haystack, $case_sensitive = true)
 	}
 	else
 	{
-		!strncasecmp($needle, $haystack, strlen($needle));
+		return !strncasecmp($needle, $haystack, strlen($needle));
 	}
 }
 
@@ -310,6 +348,34 @@ function base64_encode_urlsafe($str)
 function base64_decode_urlsafe($str)
 {
 	return @base64_decode(str_pad(strtr($str, '-_', '+/'), ceil(strlen($str) / 4) * 4, '=', STR_PAD_RIGHT));
+}
+
+/**
+ * Convert a server-side path to a URL.
+ * 
+ * This function is an alias to Rhymix\Framework\URL::fromServerPath().
+ * It returns false if the path cannot be converted.
+ * 
+ * @param string $path
+ * @return string|false
+ */
+function path2url($path)
+{
+	return Rhymix\Framework\URL::fromServerPath($path);
+}
+
+/**
+ * Convert a URL to a server-side path.
+ * 
+ * This function is an alias to Rhymix\Framework\URL::toServerPath().
+ * It returns false if the URL cannot be converted.
+ * 
+ * @param string $url
+ * @return string|false
+ */
+function url2path($url)
+{
+	return Rhymix\Framework\URL::toServerPath($url);
 }
 
 /**
@@ -427,8 +493,11 @@ if (!function_exists('hex2bin'))
  */
 function tobool($input)
 {
-	if (preg_match('/^(1|[ty].*|on|oui|si|vrai|aye)$/i', $input)) return true;
-	if (preg_match('/^(0|[fn].*|off)$/i', $input)) return false;
+	if (is_scalar($input))
+	{
+		if (preg_match('/^(1|[ty].*|on|ok.*oui|si|vrai|aye)$/i', $input)) return true;
+		if (preg_match('/^(0|[fn].*|off)$/i', $input)) return false;
+	}
 	return (bool)$input;
 }
 
@@ -448,6 +517,27 @@ function utf8_check($str)
 	{
 		return ($str === @iconv('UTF-8', 'UTF-8', $str));
 	}
+}
+
+/**
+ * Remove BOM and invalid UTF-8 sequences from file content.
+ * 
+ * @param string $str
+ * @return string
+ */
+function utf8_clean($str)
+{
+    if (strlen($str) >= 3 && substr($str, 0, 3) === "\xEF\xBB\xBF")
+    {
+        $str = substr($str, 3);
+    }
+    
+    if (!utf8_check($str))
+    {
+        $str = @iconv('UTF-8', 'UTF-8//IGNORE', $str);
+    }
+    
+    return $str;
 }
 
 /**

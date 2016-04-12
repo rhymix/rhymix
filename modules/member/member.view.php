@@ -84,9 +84,9 @@ class memberView extends member
 
 		if($logged_info->is_admin != 'Y' && ($member_info->member_srl != $logged_info->member_srl))
 		{
-			$start = strpos($member_info->email_address, '@')+1;
-			$replaceStr = str_repeat('*', (strlen($member_info->email_address) - $start));
-			$member_info->email_address = substr_replace($member_info->email_address, $replaceStr, $start);
+			list($email_id, $email_host) = explode('@', $member_info->email_address);
+			$protect_id = substr($email_id, 0, 2) . str_repeat('*', strlen($email_id)-2);
+			$member_info->email_address = sprintf('%s@%s', $protect_id, $email_host);
 		}
 
 		if(!$member_info->member_srl) return $this->dispMemberSignUpForm();
@@ -128,7 +128,7 @@ class memberView extends member
 
 			if($formInfo->isDefaultForm)
 			{
-				$item->title = Context::getLang($formInfo->name);
+				$item->title = lang($formInfo->name);
 				$item->value = $memberInfo->{$formInfo->name};
 
 				if($formInfo->name == 'profile_image' && $memberInfo->profile_image)
@@ -265,12 +265,12 @@ class memberView extends member
 
 		if ($this->member_config->identifier == 'email_address')
 		{
-			Context::set('identifierTitle', Context::getLang('email_address'));
+			Context::set('identifierTitle', lang('email_address'));
 			Context::set('identifierValue', $logged_info->email_address); 
 		}
 		else
 		{
-			Context::set('identifierTitle', Context::getLang('user_id'));
+			Context::set('identifierTitle', lang('user_id'));
 			Context::set('identifierValue', $logged_info->user_id);
 		}
 
@@ -709,10 +709,8 @@ class memberView extends member
 			}
 		}
 
-		$args = new stdClass();
-		$args->member_srl = $member_srl;
-		$args->page = Context::get('page');
-		$output = executeQuery('member.getMemberModifyNickName', $args);
+		$page = Context::get('page');
+		$output = getModel('member')->getMemberModifyNicknameLog($page, $member_srl);
 
 		Context::set('total_count', $output->page_navigation->total_count);
 		Context::set('total_page', $output->page_navigation->total_page);

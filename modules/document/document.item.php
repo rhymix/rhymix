@@ -411,7 +411,7 @@ class documentItem extends Object
 	{
 		if(!$this->document_srl) return;
 
-		if($this->isSecret() && !$this->isGranted() && !$this->isAccessible()) return Context::getLang('msg_is_secret');
+		if($this->isSecret() && !$this->isGranted() && !$this->isAccessible()) return lang('msg_is_secret');
 
 		$result = $this->_checkAccessibleFromStatus();
 		if($result && Context::getSessionStatus())
@@ -475,7 +475,7 @@ class documentItem extends Object
 	{
 		if(!$this->document_srl) return;
 
-		if($this->isSecret() && !$this->isGranted() && !$this->isAccessible()) return Context::getLang('msg_is_secret');
+		if($this->isSecret() && !$this->isGranted() && !$this->isAccessible()) return lang('msg_is_secret');
 
 		$result = $this->_checkAccessibleFromStatus();
 		if($result && Context::getSessionStatus())
@@ -498,7 +498,7 @@ class documentItem extends Object
 			$content = sprintf(
 				'%s<div class="document_popup_menu"><a href="#popup_menu_area" class="document_%d" onclick="return false">%s</a></div>',
 				$content,
-				$this->document_srl, Context::getLang('cmd_document_do')
+				$this->document_srl, lang('cmd_document_do')
 			);
 		}
 		// If additional content information is set

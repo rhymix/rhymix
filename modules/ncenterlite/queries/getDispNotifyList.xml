@@ -1,0 +1,20 @@
+<query id="getDispNotifyList" action="select">
+	<tables>
+		<table name="ncenterlite_notify" />
+	</tables>
+
+	<columns>
+		<column name="*" />
+	</columns>
+
+	<conditions>
+		<condition operation="equal" column="member_srl" var="member_srl" filter="number" notnull="notnull" />
+	</conditions>
+
+	<navigation>
+		<index default="regdate" var="list_order" order="desc" />
+		<list_count var="list_count" default="20" />
+		<page_count var="page_count" default="10" />
+		<page var="page" default="1"  />
+	</navigation>
+</query>

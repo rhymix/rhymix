@@ -1,7 +1,5 @@
 <load target="../../admin/tpl/css/admin.bootstrap.css" />
 <load target="../../admin/tpl/css/admin.css" />
-<load cond="$lang_type=='ko'" target="../../admin/tpl/css/admin_ko.css" />
-<load cond="$lang_type=='en'" target="../../admin/tpl/css/admin_en.css" />
 <load target="css/widget.css" />
 <load target="../../admin/tpl/js/admin.js" />
 <load target="../../admin/tpl/js/jquery.tmpl.js" />
@@ -72,7 +70,7 @@
 								<input type="text" name="{$id}" value="" class="lang_code" />
 							</div>
 	
-							<input cond="$var->type == 'color'" type="color" name="{$id}" class="rx-spectrum" />
+							<input cond="$var->type == 'color'" type="text" name="{$id}" class="rx-spectrum" />
 	
 							<div cond="$var->type == 'textarea'">
 								<textarea name="{$id}" rows="8" cols="42" class="lang_code"></textarea>

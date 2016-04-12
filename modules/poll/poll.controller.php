@@ -23,7 +23,7 @@ class pollController extends poll
 		// mobile input date format can be different
 		if($stop_date != Context::get('stop_date'))
 		{
-			$stop_date = date('Ymd', strtodate(Context::get('stop_date')));
+			$stop_date = date('Ymd', strtotime(Context::get('stop_date')));
 		}
 		if($stop_date < date('Ymd'))
 		{

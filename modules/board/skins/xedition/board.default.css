@@ -263,6 +263,16 @@
 	right:0;
 	border-radius: 0 2px 2px 0;
 }
+
+.update-log {
+	width:100%;
+	border-bottom:1px solid #dbdbdb;
+	margin: 5px auto 5px auto;
+
+	padding:5px;
+
+}
+
 /* Board Write */
 
 /* write_form.html */
@@ -445,6 +455,13 @@
 	text-overflow: ellipsis;
 	color: #555;
 }
+.read_header h1 span.is_admin {
+	font-size: 15px;
+	font-weight: normal;
+	line-height:15px;
+	color:#FF6C00;
+}
+
 .read_header h1 a {
 	text-decoration: none;
 	color: #444;
@@ -462,6 +479,9 @@
 	zoom: 1;
 	white-space: nowrap;
 	color : #666;
+}
+.update-log .read_header .meta {
+	border-bottom:0;
 }
 .read_header .meta > span { margin-left: 8px ;}
 .read_header .meta > span:first-child {margin-left:0;}

@@ -6,12 +6,12 @@
 		<column name="*"/>
 	</columns>
 	<conditions>
-		<condition operation="equal" column="member_srl" var="member_srl" notnull="notnull" />
+		<condition operation="equal" column="member_srl" var="member_srl" />
 	</conditions>
 	<navigation>
 		<index var="sort_index" default="regdate" order="desc" />
 		<list_count var="list_count" default="20" />
 		<page_count var="page_count" default="10" />
-		<page var="page" defailt="1" />
+		<page var="page" default="1" />
 	</navigation>
 </query>

@@ -8,7 +8,7 @@
 	<form ruleset="sendMessage" action="./" method="post">
 		<input type="hidden" name="module" value="communication" />
 		<input type="hidden" name="act" value="procCommunicationSendMessage" />
-		<input type="hidden" name="content" value="{htmlspecialchars($source_message->content, ENT_COMPAT | ENT_HTML401, 'UTF-8', false)}" />
+		<input type="hidden" name="content" value="{htmlspecialchars($source_message->content)}" />
 		<input type="hidden" name="receiver_srl" value="{$receiver_info->member_srl}" />
 		<input type="hidden" name="xe_validator_id" value="modules/communication/skins/default/send_message/1" />
 		<table class="table table-striped table-hover">

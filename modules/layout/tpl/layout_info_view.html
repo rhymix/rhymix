@@ -129,7 +129,7 @@
 					</block>
 					<block cond="$var->type == 'colorpicker'">
 						{@ $use_colorpicker = true; }
-						<input type="color" class="rx-spectrum" name="{$name}" id="{$name}" value="{$var->value}" />
+						<input type="text" class="rx-spectrum" name="{$name}" id="{$name}" value="{$var->value}" />
 						<p id="categoy_color_help" hidden style="margin:8px 0 0 0">{$lang->about_category_color}</p>
 					</block>
 					<p class="x_help-block">{$var->description}</p>

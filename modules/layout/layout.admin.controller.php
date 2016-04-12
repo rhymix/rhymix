@@ -435,9 +435,6 @@ class layoutAdminController extends layout
 			$ext = substr(strrchr($filename,'.'),1);
 			$filename = sprintf('%s.%s', md5($filename), $ext);
 		}
-
-		// Check uploaded file
-		if(!checkUploadedFile($source['tmp_name'])) return false;
 		
 		if(file_exists($path .'/'. $filename)) @unlink($path . $filename);
 		if(!move_uploaded_file($source['tmp_name'], $path . $filename )) return false;
@@ -690,7 +687,7 @@ class layoutAdminController extends layout
 		// check upload
 		if(!Context::isUploaded()) exit();
 		$file = Context::get('file');
-		if(!is_uploaded_file($file['tmp_name']) || !checkUploadedFile($file['tmp_name'])) exit();
+		if(!is_uploaded_file($file['tmp_name'])) exit();
 
 		if(substr_compare($file['name'], '.tar', -4) !== 0) exit();
 
@@ -925,15 +922,15 @@ class layoutAdminController extends layout
 		$this->setTemplatePath($this->module_path.'tpl');
 		$this->setTemplateFile("after_upload_config_image.html");
 
-		if(!$img['tmp_name'] || !is_uploaded_file($img['tmp_name']) || !checkUploadedFile($img['tmp_name']))
+		if(!$img['tmp_name'] || !is_uploaded_file($img['tmp_name']))
 		{
-			Context::set('msg', Context::getLang('upload failed'));
+			Context::set('msg', lang('upload failed'));
 			return;
 		}
 
 		if(!preg_match('/\.(jpg|jpeg|gif|png|swf)$/i', $img['name']))
 		{
-			Context::set('msg', Context::getLang('msg_layout_image_target'));
+			Context::set('msg', lang('msg_layout_image_target'));
 			return;
 		}
 
@@ -941,7 +938,7 @@ class layoutAdminController extends layout
 		$tmpPath = $path . 'tmp/';
 		if(!FileHandler::makeDir($tmpPath))
 		{
-			Context::set('msg', Context::getLang('make directory failed'));
+			Context::set('msg', lang('make directory failed'));
 			return;
 		}
 
@@ -952,7 +949,7 @@ class layoutAdminController extends layout
 
 		if(!move_uploaded_file($img['tmp_name'], $tmpFileName))
 		{
-			Context::set('msg', Context::getLang('move file failed'));
+			Context::set('msg', lang('move file failed'));
 			return;
 		}
 
@@ -990,7 +987,7 @@ class layoutAdminController extends layout
 		$output = $this->updateLayout($args);
 		if(!$output->toBool())
 		{
-			Context::set('msg', Context::getLang($output->getMessage()));
+			Context::set('msg', lang($output->getMessage()));
 			return $output;
 		}
 

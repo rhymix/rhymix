@@ -13,7 +13,6 @@ $lang->cmd_board_info = 'Información del Tablero';
 $lang->about_layout_setup = 'Puede modificar manualmente el código del diseño de tableros. Insertar o modificar el código de widget.';
 $lang->about_board_category = 'Puede crear las categorias de tableros. Cuando no funciona la categoría de tableros, rehacer el archivo caché manualmente para solucionar.';
 $lang->about_except_notice = 'Aviso de los artículos no se mostrará en la lista normal.';
-$lang->about_use_anonymous = '글쓴이의 정보를 없애고 익명으로 게시판 사용을 할 수 있게 합니다. 스킨설정에서 글쓴이 정보등을 보이지 않도록 하시면 더욱 유용합니다';
 $lang->about_board = 'Este módulo es para crear y manejar los tableros.';
 $lang->about_consultation = 'No administrador de los miembros que consideran que su propia artocles. \\ NNon miembros no serían capaces de escribir artículos al utilizar la consulta.';
 $lang->about_secret = 'Boletín y los comentarios de bimilgeul utilizar.';

@@ -34,7 +34,7 @@ class rssView extends rss
 		{
 			$site_module_info = Context::get('site_module_info');
 			$site_srl = $site_module_info->site_srl;
-			$mid = Context::get('mid'); // The target module id, if absent, then all
+			$mid = isset($_REQUEST['mid']) ? Context::get('mid') : null;
 			$start_date = (int)Context::get('start_date');
 			$end_date = (int)Context::get('end_date');
 
@@ -42,6 +42,7 @@ class rssView extends rss
 			$rss_config = array();
 			$total_config = '';
 			$total_config = $oModuleModel->getModuleConfig('rss');
+			
 			// If one is specified, extract only for this mid
 			if($mid)
 			{
@@ -52,8 +53,8 @@ class rssView extends rss
 					$module_srls[] = $module_srl; 
 					$open_rss_config[$module_srl] = $config->open_rss;
 				}
-				// If mid is not selected, then get all
 			}
+			// If mid is not selected, then get all
 			else
 			{
 				if($total_config->use_total_feed != 'N')
@@ -73,7 +74,10 @@ class rssView extends rss
 				}
 			}
 
-			if(!count($module_srls) && !$add_description) return $this->dispError();
+			if (!count($module_srls) && !$add_description)
+			{
+				return $this->dispError();
+			}
 
 			$info = new stdClass;
 			$args = new stdClass;
@@ -227,7 +231,7 @@ class rssView extends rss
 	function dispError()
 	{
 		// Prepare the output message
-		$this->rss(null, null, Context::getLang('msg_rss_is_disabled') );
+		$this->rss(null, null, lang('msg_rss_is_disabled') );
 	}
 
 	/**

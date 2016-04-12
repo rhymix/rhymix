@@ -73,8 +73,7 @@ class member extends ModuleObject {
 		
 		if(!$config->password_hashing_algorithm)
 		{
-			$oPassword = new Password();
-			$config->password_hashing_algorithm = $oPassword->getBestAlgorithm();
+			$config->password_hashing_algorithm = Rhymix\Framework\Password::getBestSupportedAlgorithm();
 		}
 		if(!$config->password_hashing_work_factor)
 		{
@@ -110,19 +109,19 @@ class member extends ModuleObject {
 		{
 			// Set an administrator, regular member(group1), and associate member(group2)
 			$group_args = new stdClass;
-			$group_args->title = Context::getLang('admin_group');
+			$group_args->title = lang('admin_group');
 			$group_args->is_default = 'N';
 			$group_args->is_admin = 'Y';
 			$output = $oMemberAdminController->insertGroup($group_args);
 
 			$group_args = new stdClass;
-			$group_args->title = Context::getLang('default_group_1');
+			$group_args->title = lang('default_group_1');
 			$group_args->is_default = 'Y';
 			$group_args->is_admin = 'N';
 			$output = $oMemberAdminController->insertGroup($group_args);
 
 			$group_args = new stdClass;
-			$group_args->title = Context::getLang('default_group_2');
+			$group_args->title = lang('default_group_2');
 			$group_args->is_default = 'N';
 			$group_args->is_admin = 'N';
 			$oMemberAdminController->insertGroup($group_args);
@@ -455,14 +454,14 @@ class member extends ModuleObject {
 		{
 			//update
 			$content = unserialize($output->data->content);
-			$content[] = array($_SERVER['REMOTE_ADDR'],Context::getLang($message),$_SERVER['REQUEST_TIME']);
+			$content[] = array($_SERVER['REMOTE_ADDR'],lang($message),$_SERVER['REQUEST_TIME']);
 			$args->content = serialize($content);
 			$output = executeQuery('member.updateLoginCountHistoryByMemberSrl', $args);
 		}
 		else
 		{
 			//insert
-			$content[0] = array($_SERVER['REMOTE_ADDR'],Context::getLang($message),$_SERVER['REQUEST_TIME']);
+			$content[0] = array($_SERVER['REMOTE_ADDR'],lang($message),$_SERVER['REQUEST_TIME']);
 			$args->content = serialize($content);
 			$output = executeQuery('member.insertLoginCountHistoryByMemberSrl', $args);
 		}

@@ -55,7 +55,7 @@ class layoutView extends layout
 			$logged_info = Context::get('logged_info');
 			if($logged_info->is_admin != 'Y')
 			{
-				throw new Exception(Context::getLang('msg_invalid_request'));
+				throw new Exception(lang('msg_invalid_request'));
 			}
 
 			// if module is 'ARTiCLE' and from site design setting, make content directly
@@ -64,7 +64,7 @@ class layoutView extends layout
 				$oDocumentModel = getModel('document');
 				$oDocument = $oDocumentModel->getDocument(0, true);
 
-				$t = Context::getLang('article_preview_title');
+				$t = lang('article_preview_title');
 
 				$c = '';
 				for($i = 0; $i < 4; $i++)
@@ -72,7 +72,7 @@ class layoutView extends layout
 					$c .= '<p>';
 					for($j = 0; $j < 20; $j++)
 					{
-						$c .= Context::getLang('article_preview_content') . ' ';
+						$c .= lang('article_preview_content') . ' ';
 					}
 					$c .= '</p>';
 				}
@@ -259,7 +259,7 @@ class layoutView extends layout
 			// if there is no module instance, error...
 			if(!$output->data)
 			{
-				throw new Exception(Context::getLang('msg_unabled_preview'));
+				throw new Exception(lang('msg_unabled_preview'));
 			}
 		
 			$mid = current($output->data)->mid;
@@ -301,7 +301,7 @@ class layoutView extends layout
 		$oModule = $oModuleHandler->procModule();
 		if(!$oModule->toBool())
 		{
-			throw new Exception(Context::getLang('not_support_layout_preview'));
+			throw new Exception(lang('not_support_layout_preview'));
 		}
 
 		// get module html
@@ -361,7 +361,7 @@ class layoutView extends layout
 		}
 
 		Context::set('layout_info', $layout_info);
-		Context::set('content', Context::getLang('layout_preview_content'));
+		Context::set('content', lang('layout_preview_content'));
 		// Temporary save the codes
 		$edited_layout_file = _XE_PATH_ . 'files/cache/layout/tmp.tpl';
 		FileHandler::writeFile($edited_layout_file, $code);

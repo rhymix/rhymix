@@ -1,0 +1,97 @@
+@charset "utf-8";
+
+.sosi-title {
+	position: relative;
+	font-size: 16px;
+	font-style: bold;
+	display: block;
+	margin: 14px 0 14px 14px;
+	width: auto;
+}
+
+
+.history-list {
+	margin: 0 0 22px 0px;
+}
+
+.history-list .history-item {
+	position: relative;
+	padding: 4px 0 4px 14px;
+	border-top: 1px solid #ececec;
+	overflow: hidden;
+
+}
+
+.history-list .history-info {
+padding: 0 11px 9px 0;
+}
+
+.history-list .history-info .history-gird{
+	color: #252525;
+	font-size: 14px;
+	line-height: 16px;
+	font-weight: bold;
+	margin-top: 9px;
+	display:block;
+}
+
+.text-ellipsis {
+	white-space: nowrap;
+	overflow: hidden;
+	text-overflow: ellipsis;
+}
+
+.history-list .history-info .history-gird .history-succeed{
+	color:#3c763d
+}
+.history-list .history-info .history-gird .history-failed{
+	color:#a94442
+}
+.history-list .history-text{
+	color: #252525;
+	font-size: 11px;
+	line-height: 16px;
+}
+.history-list .history-text .history-ip{
+	color: #8A8D99;
+	font-size: 12px;
+}
+
+.history-list .history-text .history-auth{
+	color: #8A8D99;
+	margin-left:3px;
+}
+
+
+html{color:#000;background:#fff;}
+legend{color:#000;}
+html,body,div,span,applet,object,iframe,h1,h2,h3,h4,h5,h6,p,blockquote,pre,a,abbr,acronym,address,big,cite,code,del,dfn,em,font,img,ins,kbd,q,s,samp,small,strike,strong,sub,sup,tt,var,b,u,i,center,ul,li,ol,dl,dt,dd,fieldset,form,label,legend,table,caption,tbody,tfoot,thead,tr,th,td{margin:0;padding:0;border:0;outline:0;font-size:100%;}
+abbr,acronym,address,caption,cite,code,dfn,em,strong,th,var,h1,h2,h3,h4,h5,h6{font-style:normal;font-weight:normal;font-variant:normal;}
+
+
+
+body{line-height:1; color: #333; font: normal normal normal 13px/1.5 'Helvetica Neue', Helvetica, Arial, sans-serif;}
+ol,ul,li{list-style:none;}
+
+
+
+
+
+html {margin: 0; padding: 0; border: 0; overflow: auto; background-color: #f4f4f4;}
+body, .default-font {font: normal normal normal 12px/16px 'Helvetica Neue', Helvetica, Arial, sans-serif;}
+body, .default-color {color: #3b3b3b;}
+body, .default-background-color {background-color: #fff;}
+table {font-size: inherit; font: 100%;}
+
+h1, h2, h3, h4, h5, h6 {margin: 0; font-weight: bold;}
+h1 {font-size: 36px; line-height: 45px;}
+h2 {font-size: 24px; line-height: 30px;}
+h3 {font-size: 18px; line-height: 22px;}
+h4 {font-size: 16px; line-height: 20px;}
+h5 {font-size: 14px; line-height: 18px;}
+h6 {font-size: 12px; line-height: 16px;}
+
+.cfix { zoom:1 }
+.cfix:after { content: '.'; display:block; clear:both; visibility:hidden; line-height:0; height:0; overflow: hidden; }
+strong, .bold {font-weight: bold;}
+a { text-decoration:none; color:#1769FF;}

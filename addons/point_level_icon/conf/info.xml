@@ -62,25 +62,15 @@
 
 	<extra_vars>
 		<var name="icon_duplication" type="select">
-			<title xml:lang="ko">아이콘 중복 설정</title>
-			<description xml:lang="ko">아이콘 중복 설정을 적용할 경우 그룹아이콘이 있을때 포인트 레벨 아이콘은 띄우지 않도록 합니다.</description>
+			<title xml:lang="ko">아이콘 중복 방지</title>
+			<description xml:lang="ko">그룹아이콘이 있을 경우 중복으로 레벨 아이콘을 달지 않습니다.</description>
 			<options value="">
-				<title xml:lang="ko">적용하지 않음</title>
-				<title xml:lang="zh-CN">不启用</title>
-				<title xml:lang="jp">적용하지 않음</title>
-				<title xml:lang="zh-TW">關閉</title>
-				<title xml:lang="en">Not apply</title>
-				<title xml:lang="ru">Not apply</title>
-				<title xml:lang="vi">Không áp dụng</title>
+				<title xml:lang="ko">사용함</title>
+				<title xml:lang="en">Enabled</title>
 			</options>
-			<options value="Y">
-				<title xml:lang="ko">적용</title>
-				<title xml:lang="zh-CN">启用</title>
-				<title xml:lang="jp">적용</title>
-				<title xml:lang="zh-TW">開啟</title>
-				<title xml:lang="en">Apply</title>
-				<title xml:lang="ru">Apply</title>
-				<title xml:lang="vi">Áp dụng</title>
+			<options value="N">
+				<title xml:lang="ko">사용하지 않음</title>
+				<title xml:lang="en">Disabled</title>
 			</options>
 		</var>
 	</extra_vars>

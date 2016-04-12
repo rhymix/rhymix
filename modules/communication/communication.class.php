@@ -9,7 +9,11 @@
 class communication extends ModuleObject
 {
 	private $triggers = array(
-		array('moduleHandler.init', 'communication', 'controller', 'triggerModuleHandlerAfter', 'after')
+		array('moduleHandler.init', 'communication', 'controller', 'triggerModuleHandlerBefore', 'before'),
+		array('member.getMemberMenu', 'communication', 'controller', 'triggerMemberMenu', 'before')
+	);
+	private $delete_triggers = array(
+		array('moduleObject.proc', 'communication', 'controller', 'triggerModuleProcAfter', 'after')
 	);
 	/**
 	 * Implement if additional tasks are necessary when installing
@@ -18,6 +22,7 @@ class communication extends ModuleObject
 	function moduleInstall()
 	{
 		$oModuleController = getController('module');
+		
 		foreach($this->triggers as $trigger)
 		{
 			$oModuleController->insertTrigger($trigger[0], $trigger[1], $trigger[2], $trigger[3], $trigger[4]);
@@ -25,6 +30,7 @@ class communication extends ModuleObject
 
 		// Create a temporary file storage for one new private message notification
 		FileHandler::makeDir('./files/member_extra_info/new_message_flags');
+		
 		return new Object();
 	}
 
@@ -34,28 +40,8 @@ class communication extends ModuleObject
 	 */
 	function checkUpdate()
 	{
-		if(!is_dir("./files/member_extra_info/new_message_flags"))
-		{
-			return TRUE;
-		}
-
 		$oModuleModel = getModel('module');
-		$config = $oModuleModel->getModuleConfig('message');
-
-		if($config->skin)
-		{
-			$config_parse = explode('.', $config->skin);
-			if(count($config_parse) > 1)
-			{
-				$template_path = sprintf('./themes/%s/modules/communication/', $config_parse[0]);
-				if(is_dir($template_path))
-				{
-					return TRUE;
-				}
-			}
-		}
-
-		$oModuleModel = getModel('module');
+		
 		foreach($this->triggers as $trigger)
 		{
 			if(!$oModuleModel->getTrigger($trigger[0], $trigger[1], $trigger[2], $trigger[3], $trigger[4]))
@@ -63,6 +49,21 @@ class communication extends ModuleObject
 				return TRUE;
 			}
 		}
+
+		foreach($this->delete_triggers as $trigger)
+		{
+
+			if($oModuleModel->getTrigger($trigger[0], $trigger[1], $trigger[2], $trigger[3], $trigger[4]))
+			{
+				return TRUE;
+			}
+		}
+
+		if(!is_dir("./files/member_extra_info/new_message_flags"))
+		{
+			return TRUE;
+		}
+		
 		return FALSE;
 	}
 
@@ -72,13 +73,9 @@ class communication extends ModuleObject
 	 */
 	function moduleUpdate()
 	{
-		if(!is_dir("./files/member_extra_info/new_message_flags"))
-		{
-			FileHandler::makeDir('./files/member_extra_info/new_message_flags');
-		}
-
 		$oModuleModel = getModel('module');
 		$oModuleController = getController('module');
+		
 		foreach($this->triggers as $trigger)
 		{
 			if(!$oModuleModel->getTrigger($trigger[0], $trigger[1], $trigger[2], $trigger[3], $trigger[4]))
@@ -86,24 +83,18 @@ class communication extends ModuleObject
 				$oModuleController->insertTrigger($trigger[0], $trigger[1], $trigger[2], $trigger[3], $trigger[4]);
 			}
 		}
-		$config = $oModuleModel->getModuleConfig('message');
-		if(!is_object($config))
+
+		foreach($this->delete_triggers as $trigger)
 		{
-			$config = new stdClass();
+			if($oModuleModel->getTrigger($trigger[0], $trigger[1], $trigger[2], $trigger[3], $trigger[4]))
+			{
+				$oModuleController->deleteTrigger($trigger[0], $trigger[1], $trigger[2], $trigger[3], $trigger[4]);
+			}
 		}
 
-		if($config->skin)
+		if(!is_dir("./files/member_extra_info/new_message_flags"))
 		{
-			$config_parse = explode('.', $config->skin);
-			if(count($config_parse) > 1)
-			{
-				$template_path = sprintf('./themes/%s/modules/communication/', $config_parse[0]);
-				if(is_dir($template_path))
-				{
-					$config->skin = implode('|@|', $config_parse);
-					$oModuleController->updateModuleConfig('communication', $config);
-				}
-			}
+			FileHandler::makeDir('./files/member_extra_info/new_message_flags');
 		}
 		
 		return new Object(0, 'success_updated');

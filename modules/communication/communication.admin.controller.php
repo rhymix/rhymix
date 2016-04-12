@@ -24,39 +24,14 @@ class communicationAdminController extends communication
 	function procCommunicationAdminInsertConfig()
 	{
 		// get the default information
-		$args = Context::gets('skin', 'colorset', 'editor_skin', 'sel_editor_colorset', 'mskin', 'mcolorset', 'layout_srl', 'mlayout_srl', 'grant_write_default','grant_write_group', 'member_menu');
+		$args = Context::gets('enable_message', 'enable_friend', 'skin', 'colorset', 'editor_skin', 'sel_editor_colorset', 'mskin', 'mcolorset', 'layout_srl', 'mlayout_srl', 'grant_send_default','grant_send_group');
 		$args->editor_colorset = $args->sel_editor_colorset;
 		unset($args->sel_editor_colorset);
 
-		if(!$args->skin)
-		{
-			$args->skin = 'default';
-		}
-
-		if(!$args->colorset)
-		{
-			$args->colorset = 'white';
-		}
-
-		if(!$args->editor_skin)
-		{
-			$args->editor_skin = 'default';
-		}
-
-		if(!$args->mskin)
-		{
-			$args->mskin = 'default';
-		}
-
-		if(!$args->layout_srl)
-		{
-			$args->layout_srl = NULL;
-		}
-
 		$oCommunicationModel = getModel('communication');
-		$args->grant_write = $oCommunicationModel->getGrantArray($args->grant_write_default, $args->grant_write_group);
-		unset($args->grant_write_default);
-		unset($args->grant_write_group);
+		$args->grant_send = $oCommunicationModel->getGrantArray($args->grant_send_default, $args->grant_send_group);
+		unset($args->grant_send_default);
+		unset($args->grant_send_group);
 
 		// create the module module Controller object
 		$oModuleController = getController('module');

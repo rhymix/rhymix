@@ -1,0 +1,42 @@
+<load target="js/ncenter_admin.js" />
+<load target="css/ncenter_admin.css" />
+<include target="header.html" />
+
+
+<form ruleset="insertConfig" action="./" method="post" class="x_form-horizontal" id="fo_ncenterlite">
+	<input type="hidden" name="module" value="ncenterlite" />
+	<input type="hidden" name="disp_act" value="dispNcenterliteAdminSeletedmid" />
+	<input type="hidden" name="act" value="procNcenterliteAdminInsertConfig" />
+
+	<section class="section">
+		<div class="x_control-group">
+			<label class="x_control-label">{$lang->ncenterlite_notify_setting}</label>
+			<div class="x_controls">
+				<p class="x_help-block">{$lang->ncenterlite_about_notify_setting}</p>
+				<div loop="$mid_list => $mid, $item">
+					<label>
+						<input type="checkbox" value="{$item->module_srl}" name="hide_module_srls[]" checked="checked"|cond="is_array($config->hide_module_srls) && in_array($item->module_srl, $config->hide_module_srls)" />
+						<strong>{$item->browser_title}</strong> ({$item->mid} / {strtoupper($item->module)})
+					</label>
+				</div>
+			</div>
+		</div>
+		<div class="x_control-group">
+			<label class="x_control-label">{$lang->ncenterlite_notify_mid_all}</label>
+			<div class="x_controls">
+				<p class="x_help-block">{$lang->ncenterlite_about_mid_all}</p>
+				<div loop="$mid_list => $mid, $item">
+					<label>
+						<input type="checkbox" value="{$item->module_srl}" name="admin_notify_module_srls[]" checked="checked"|cond="is_array($config->admin_notify_module_srls) && in_array($item->module_srl, $config->admin_notify_module_srls)" />
+						<strong>{$item->browser_title}</strong> ({$item->mid} / {strtoupper($item->module)})
+					</label>
+				</div>
+			</div>
+		</div>
+	</section>
+	<div class="x_clearfix btnArea">
+		<div class="x_pull-right">
+			<button class="x_btn x_btn-primary" type="submit">{$lang->cmd_registration}</button>
+		</div>
+	</div>
+</form>

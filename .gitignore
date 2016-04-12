@@ -22,4 +22,5 @@ composer.phar
 *.sublime-workspace
 *.sublime-project
 .codeintel
+error_log
 

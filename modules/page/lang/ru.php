@@ -4,4 +4,3 @@ $lang->about_page = 'Это модуль блога, который создае
 $lang->cmd_page_modify = 'Изменить';
 $lang->page_caching_interval = 'Установить время кеширования';
 $lang->about_page_caching_interval = 'Единица измерения равна одной минуте. Это отображает временно сохраненные данные для присвоенного времени. Рекомендуется устанавливать разумное время кеширования, если множество ресурсов нуждаются в показе данных с других серверов. Значение 0 отключает кеширование.';
-$lang->about_mcontent = 'This is the page for the mobile view. If you do not write this page, the mobile view display reoragnized PC view\'s page.';

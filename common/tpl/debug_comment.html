@@ -2,9 +2,11 @@
 
 <?php echo '[' . $data->timestamp . ']' . "\n"; ?>
 
+<?php if (!count($display_content) || isset($display_content['request_info'])): ?>
 Request / Response
 ==================
 Request URL:         <?php echo $data->url . "\n"; ?>
+Request IP Address:  <?php echo \RX_CLIENT_IP . "\n"; ?>
 Request Method:      <?php echo $data->request->method . "\n" ?>
 Request Body Size:   <?php echo $data->request->size . "\n" ?>
 Response Method:     <?php echo $data->response->method . "\n"; ?>
@@ -25,7 +27,9 @@ Resource Usage
 ==============
 Peak Memory Usage:  <?php echo sprintf('%0.1f MB', memory_get_peak_usage(true) / 1024 / 1024) . "\n"; ?>
 Included Files:     <?php echo count(get_included_files()) . "\n"; ?>
+<?php endif; ?>
 
+<?php if (!count($display_content) || isset($display_content['entries'])): ?>
 Debug Entries
 =============
 <?php
@@ -51,12 +55,11 @@ Debug Entries
 		}
 	}
 ?>
+<?php endif; ?>
 
+<?php if (!count($display_content) || isset($display_content['errors'])): ?>
 PHP Errors and Warnings
 =======================
-<?php if ($data->errors === null): ?>
-Error logging is disabled.
-<?php else: ?>
 <?php
 	$error_count = 0;
 	if (!count($data->errors))
@@ -74,11 +77,9 @@ Error logging is disabled.
 ?>
 <?php endif; ?>
 
+<?php if (!count($display_content) || isset($display_content['queries'])): ?>
 Database Queries
 ================
-<?php if ($data->queries === null): ?>
-Query logging is disabled.
-<?php else: ?>
 <?php
 	$query_count = 0;
 	if (!count($data->queries))
@@ -99,6 +100,7 @@ Query logging is disabled.
 ?>
 <?php endif; ?>
 
+<?php if (!count($display_content) || isset($display_content['slow_queries'])): ?>
 Slow Queries
 ============
 <?php
@@ -119,7 +121,9 @@ Slow Queries
 		echo sprintf('    - Result:      %s', $query_result) . "\n";
 	}
 ?>
+<?php endif; ?>
 
+<?php if (!count($display_content) || isset($display_content['slow_triggers'])): ?>
 Slow Triggers
 =============
 <?php
@@ -135,7 +139,9 @@ Slow Triggers
 		echo sprintf('    - Exec Time:  %0.4f sec', $trigger->trigger_time) . "\n";
 	}
 ?>
+<?php endif; ?>
 
+<?php if (!count($display_content) || isset($display_content['slow_widgets'])): ?>
 Slow Widgets
 ============
 <?php
@@ -150,3 +156,4 @@ Slow Widgets
 		echo sprintf('    - Exec Time:  %0.4f sec', $widget->widget_time) . "\n";
 	}
 ?>
+<?php endif; ?>

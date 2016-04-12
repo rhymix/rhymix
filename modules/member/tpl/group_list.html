@@ -92,6 +92,13 @@
 		<h1>{$lang->group_image_mark} {$lang->cmd_setup}</h1>
 	</div>
 	<div class="x_modal-body">
+		<div class="_useImageMark x_control-group" style="display:none">
+ 			<p>{$lang->use_group_image_mark}</p>
+ 			<label for="useImageMark" class="x_inline"><input id="useImageMark" type="radio" name="useImageMark" value="Y" />
+ 			{$lang->use}</label>
+ 			<label for="noImageMark" class="x_inline"><input id="noImageMark" type="radio" name="useImageMark" value="N" />
+ 			{$lang->notuse}</label>
+ 		</div>
 		<block cond="$fileBoxList">
 			<p>{$lang->usable_group_image_mark_list}</p>
 			<div class="filebox_list">

@@ -228,7 +228,3 @@ $lang->filter['invalid_korean_number'] = 'Sólo puede introducir los caracteres 
 $lang->filter['invalid_alpha'] = 'Sólo puede introducir los alfabetos en el %s';
 $lang->filter['invalid_alpha_number'] = 'Sólo puede introducir los alfanuméricos en el %s es inválido';
 $lang->filter['invalid_number'] = 'Sólo puede introducir los dígitos numéricos en el %s';
-$lang->security_invalid_session = '바르지 않은 접근입니다. 인증을 위해 다시 로그인해야 합니다.';
-$lang->msg_pc_to_mobile = '이 페이지는 모바일 보기가 있습니다. 모바일 보기로 이동하시겠습니까?';
-$lang->mobile_view = 'Use Mobile View';
-$lang->about_mobile_view = 'If accessing with a smartphone, display content with mobile layout.';

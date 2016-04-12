@@ -190,7 +190,6 @@ $lang->about_column_name = 'テンプレートで使用できる英文字の名�
 $lang->about_column_title = '登録または情報修正・閲覧時に表示されるタイトルです。';
 $lang->about_default_value = 'デフォルトで入力される値を指定することができます。';
 $lang->about_active = '有効項目にチェックを入れないと加入時に正常に表示されません。';
-$lang->about_emailhost_check = 'Empty value will allow almost all email account providers.<br />You can set new member\'s e-mail address providers. You can allow or prohibit some e-mail hosts(eg.: naver.com, gmail.com).';
 $lang->about_form_description = '説明欄に入力すると登録時に表示されます。';
 $lang->about_required = 'チェックを入れると会員登録時に必須入力項目として設定されます。';
 $lang->about_enable_join = 'チェックを入れないとユーザーが会員に登録できません。';
@@ -260,7 +259,6 @@ $lang->cmd_input_extend_form = '会員拡張項目入力';
 $lang->about_multi_type = '多重または単一項目の選択値を入力してください。（改行で区別）';
 $lang->msg_delete_extend_form = '選択した項目を削除します。';
 $lang->set_manage_id = '改行で区別';
-$lang->count_manage_email_host = 'There are <span class="_managededEmailHostCount">%s</span> <span id="managededEmailHostType">%s</span> e-mail address providers below.';
 $lang->count_manage_id = '<span class="_deniedIDCount">%s</span>個の禁止IDがあります。';
 $lang->count_manage_nick_name = '<span class="_deniedNickNameCount">%s</span>個の禁止ニックネームがあります。';
 $lang->user_list = '会員リスト';
@@ -281,7 +279,6 @@ $lang->multi_line_input = '複数の項目は、改行して入力してくだ�
 $lang->add_extend_form = 'ユーザー定義項目追加';
 $lang->msg_null_prohibited_id = '追加する禁止IDを入力してください。';
 $lang->msg_null_prohibited_nick_name = '追加するニックネームを入力してください。';
-$lang->msg_null_managed_emailhost = 'Please enter email address providers to manage. (eg.: gmail.com)';
 $lang->identifier = 'ログインアカウント';
 $lang->about_identifier = 'ログインに使用するアカウントを選択してください。';
 $lang->about_public_item = '本人以外に他の会員にも露出される情報なのか選択します。';

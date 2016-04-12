@@ -284,7 +284,7 @@ class installController extends install
 			if(!$ftp_info->ftp_user || !$ftp_info->ftp_password) return new Object(-1,'msg_safe_mode_ftp_needed');
 
 			$oFtp = new ftp();
-			if(!$oFtp->ftp_connect($ftp_info->ftp_host, $ftp_info->ftp_port)) return new Object(-1, sprintf(Context::getLang('msg_ftp_not_connected'), $ftp_info->ftp_host));
+			if(!$oFtp->ftp_connect($ftp_info->ftp_host, $ftp_info->ftp_port)) return new Object(-1, sprintf(lang('msg_ftp_not_connected'), $ftp_info->ftp_host));
 
 			if(!$oFtp->ftp_login($ftp_info->ftp_user, $ftp_info->ftp_password))
 			{
@@ -342,7 +342,7 @@ class installController extends install
 		else
 		{
 			$oFtp = new ftp();
-			if(!$oFtp->ftp_connect('127.0.0.1', $ftp_info->ftp_port)) return new Object(-1, sprintf(Context::getLang('msg_ftp_not_connected'), 'localhost'));
+			if(!$oFtp->ftp_connect('127.0.0.1', $ftp_info->ftp_port)) return new Object(-1, sprintf(lang('msg_ftp_not_connected'), 'localhost'));
 
 			if(!$oFtp->ftp_login($ftp_info->ftp_user, $ftp_info->ftp_password))
 			{
@@ -364,14 +364,13 @@ class installController extends install
 		$checklist = array();
 
 		// Check PHP version
-		$checklist['php_version'] = true;
-		if(version_compare(PHP_VERSION, __XE_MIN_PHP_VERSION__, '<'))
+		if(version_compare(PHP_VERSION, __XE_MIN_PHP_VERSION__, '>='))
+		{
+			$checklist['php_version'] = true;
+		}
+		else
 		{
 			$checklist['php_version'] = false;
-		}
-		if(version_compare(PHP_VERSION, __XE_RECOMMEND_PHP_VERSION__, '<'))
-		{
-			Context::set('phpversion_warning', true);
 		}
 
 		// Check DB
@@ -542,9 +541,7 @@ class installController extends install
 		foreach($module_list as $module_path)
 		{
 			// Get module name
-			$tmp_arr = explode('/',$module_path);
-			$module = $tmp_arr[count($tmp_arr)-1];
-
+			$module = basename($module_path);
 			$xml_info = $oModuleModel->getModuleInfoXml($module);
 			if(!$xml_info) continue;
 			$modules[$xml_info->category][] = $module;

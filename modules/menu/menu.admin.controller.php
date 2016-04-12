@@ -1517,12 +1517,12 @@ class menuAdminController extends menu
 		// Error occurs when the target is neither a uploaded file nor a valid file
 		if(!$menu_srl || !$menu_item_srl)
 		{
-			Context::set('error_messge', Context::getLang('msg_invalid_request'));
+			Context::set('error_messge', lang('msg_invalid_request'));
 
 		}
-		else if(!$target_file || !is_uploaded_file($target_file['tmp_name']) || !preg_match('/\.(gif|jpeg|jpg|png)$/i',$target_file['name'])  || !checkUploadedFile($target_file['tmp_name']))
+		else if(!$target_file || !is_uploaded_file($target_file['tmp_name']) || !preg_match('/\.(gif|jpeg|jpg|png)$/i',$target_file['name']))
 		{
-			Context::set('error_messge', Context::getLang('msg_invalid_request'));
+			Context::set('error_messge', lang('msg_invalid_request'));
 		}
 
 		// Move the file to a specific director if the uploaded file meets requirement
@@ -2132,19 +2132,15 @@ class menuAdminController extends menu
 
 		$returnArray = array();
 		$date = date('YmdHis');
+
 		// normal button
 		if($args->menu_normal_btn)
 		{
 			$tmp_arr = explode('.',$args->menu_normal_btn['name']);
 			$ext = $tmp_arr[count($tmp_arr)-1];
-
 			$filename = sprintf('%s%d.%s.%s.%s', $path, $args->menu_item_srl, $date, 'menu_normal_btn', $ext);
-
-			if(checkUploadedFile($args->menu_normal_btn['tmp_name']))
-			{
-				move_uploaded_file ( $args->menu_normal_btn ['tmp_name'], $filename );
-				$returnArray ['normal_btn'] = $filename;
-			}
+			move_uploaded_file($args->menu_normal_btn['tmp_name'], $filename);
+			$returnArray['normal_btn'] = $filename;
 		}
 
 		// hover button
@@ -2152,14 +2148,9 @@ class menuAdminController extends menu
 		{
 			$tmp_arr = explode('.',$args->menu_hover_btn['name']);
 			$ext = $tmp_arr[count($tmp_arr)-1];
-
 			$filename = sprintf('%s%d.%s.%s.%s', $path, $args->menu_item_srl, $date, 'menu_hover_btn', $ext);
-
-			if(checkUploadedFile($args->menu_hover_btn['tmp_name']))
-			{
-				move_uploaded_file($args->menu_hover_btn['tmp_name'], $filename);
-				$returnArray['hover_btn'] = $filename;
-			}
+			move_uploaded_file($args->menu_hover_btn['tmp_name'], $filename);
+			$returnArray['hover_btn'] = $filename;
 		}
 
 		// active button
@@ -2167,15 +2158,9 @@ class menuAdminController extends menu
 		{
 			$tmp_arr = explode('.',$args->menu_active_btn['name']);
 			$ext = $tmp_arr[count($tmp_arr)-1];
-
 			$filename = sprintf('%s%d.%s.%s.%s', $path, $args->menu_item_srl, $date, 'menu_active_btn', $ext);
-
-			if(checkUploadedFile($args->menu_active_btn['tmp_name']))
-			{
-				move_uploaded_file($args->menu_active_btn['tmp_name'], $filename);
-				$returnArray['active_btn'] = $filename;
-			}
-
+			move_uploaded_file($args->menu_active_btn['tmp_name'], $filename);
+			$returnArray['active_btn'] = $filename;
 		}
 		return $returnArray;
 	}

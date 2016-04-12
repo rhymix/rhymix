@@ -45,13 +45,15 @@ class fileController extends file
 		if(!$upload_target_srl) $_SESSION['upload_info'][$editor_sequence]->upload_target_srl = $upload_target_srl = getNextSequence();
 
 		$output = $this->insertFile($file_info, $module_srl, $upload_target_srl);
+		
 		Context::setResponseMethod('JSON');
-		$this->add('file_srl',$output->get('file_srl'));
-		$this->add('file_size',$output->get('file_size'));
-		$this->add('direct_download',$output->get('direct_download'));
-		$this->add('source_filename',$output->get('source_filename'));
-		$this->add('download_url',$output->get('uploaded_filename'));
-		$this->add('upload_target_srl',$output->get('upload_target_srl'));
+		$this->add('file_srl', $output->get('file_srl'));
+		$this->add('file_size', $output->get('file_size'));
+		$this->add('direct_download', $output->get('direct_download'));
+		$this->add('source_filename', $output->get('source_filename'));
+		$this->add('upload_target_srl', $output->get('upload_target_srl'));
+		$this->add('download_url', $oFileModel->getDirectFileUrl($output->get('uploaded_filename')));
+		
 		if($output->error != '0') $this->stop($output->message);
 	}
 
@@ -285,8 +287,7 @@ class fileController extends file
 		// Redirect to procFileOutput using file key
 		if(!isset($_SESSION['__XE_FILE_KEY__']) || !is_string($_SESSION['__XE_FILE_KEY__']) || strlen($_SESSION['__XE_FILE_KEY__']) != 32)
 		{
-			$random = new Password();
-			$_SESSION['__XE_FILE_KEY__'] = $random->createSecureSalt(32, 'hex');
+			$_SESSION['__XE_FILE_KEY__'] = Rhymix\Framework\Security::getRandom(32, 'hex');
 		}
 		$file_key_data = $file_obj->file_srl . $file_obj->file_size . $file_obj->uploaded_filename . $_SERVER['REMOTE_ADDR'] . $_SERVER['HTTP_USER_AGENT'];
 		$file_key = substr(hash_hmac('sha256', $file_key_data, $_SESSION['__XE_FILE_KEY__']), 0, 32);
@@ -732,13 +733,8 @@ class fileController extends file
 			}
 		}
 
-		// https://github.com/xpressengine/xe-core/issues/1713
-		$file_info['name'] = preg_replace('/\.(php|phtm|phar|html?|cgi|pl|exe|jsp|asp|inc)/i', '$0-x',$file_info['name']);
-		$file_info['name'] = removeHackTag($file_info['name']);
-		$file_info['name'] = str_replace(array('<','>'),array('%3C','%3E'),$file_info['name']);
-
-		// Get random number generator
-		$random = new Password();
+		// Sanitize filename
+		$file_info['name'] = Rhymix\Framework\Filters\FilenameFilter::clean($file_info['name']);
 
 		// Set upload path by checking if the attachement is an image or other kinds of file
 		if(preg_match("/\.(jpe?g|gif|png|wm[va]|mpe?g|avi|swf|flv|mp[1-4]|as[fx]|wav|midi?|moo?v|qt|r[am]{1,2}|m4v)$/i", $file_info['name']))
@@ -749,7 +745,7 @@ class fileController extends file
 			// change to random file name. because window php bug. window php is not recognize unicode character file name - by cherryfilter
 			$ext = substr(strrchr($file_info['name'],'.'),1);
 			//$_filename = preg_replace('/[#$&*?+%"\']/', '_', $file_info['name']);
-			$_filename = $random->createSecureSalt(32, 'hex').'.'.$ext;
+			$_filename = Rhymix\Framework\Security::getRandom(32, 'hex') . '.' . $ext;
 			$filename  = $path.$_filename;
 			$idx = 1;
 			while(file_exists($filename))
@@ -762,17 +758,15 @@ class fileController extends file
 		else
 		{
 			$path = sprintf("./files/attach/binaries/%s/%s", $module_srl, getNumberingPath($upload_target_srl,3));
-			$filename = $path.$random->createSecureSalt(32, 'hex');
+			$filename = $path . Rhymix\Framework\Security::getRandom(32, 'hex');
 			$direct_download = 'N';
 		}
+
 		// Create a directory
-		if(!FileHandler::makeDir($path)) return new Object(-1,'msg_not_permitted_create');
-
-		// Check uploaded file
-		if(!checkUploadedFile($file_info['tmp_name']))  return new Object(-1,'msg_file_upload_error');
-
-		// Get random number generator
-		$random = new Password();
+		if(!Rhymix\Framework\Storage::isDirectory($path) && !Rhymix\Framework\Storage::createDirectory($path))
+		{
+			return new Object(-1,'msg_not_permitted_create');
+		}
 		
 		// Move the file
 		if($manual_insert)
@@ -780,7 +774,7 @@ class fileController extends file
 			@copy($file_info['tmp_name'], $filename);
 			if(!file_exists($filename))
 			{
-				$filename = $path.$random->createSecureSalt(32, 'hex').'.'.$ext;
+				$filename = $path . Rhymix\Framework\Security::getRandom(32, 'hex') . '.' . $ext;
 				@copy($file_info['tmp_name'], $filename);
 			}
 		}
@@ -788,7 +782,7 @@ class fileController extends file
 		{
 			if(!@move_uploaded_file($file_info['tmp_name'], $filename))
 			{
-				$filename = $path.$random->createSecureSalt(32, 'hex').'.'.$ext;
+				$filename = $path . Rhymix\Framework\Security::getRandom(32, 'hex') . '.' . $ext;
 				if(!@move_uploaded_file($file_info['tmp_name'], $filename))  return new Object(-1,'msg_file_upload_error');
 			}
 		}
@@ -807,7 +801,7 @@ class fileController extends file
 		$args->file_size = @filesize($filename);
 		$args->comment = NULL;
 		$args->member_srl = $member_srl;
-		$args->sid = $random->createSecureSalt(32, 'hex');
+		$args->sid = Rhymix\Framework\Security::getRandom(32, 'hex');
 
 		$output = executeQuery('file.insertFile', $args);
 		if(!$output->toBool()) return $output;
@@ -982,13 +976,12 @@ class fileController extends file
 			if(preg_match("/\.(jpg|jpeg|gif|png|wmv|wma|mpg|mpeg|avi|swf|flv|mp1|mp2|mp3|mp4|asf|wav|asx|mid|midi|asf|mov|moov|qt|rm|ram|ra|rmm|m4v)$/i", $file_info->source_filename))
 			{
 				$path = sprintf("./files/attach/images/%s/%s/", $target_module_srl,$target_srl);
-				$new_file = $path.$file_info->source_filename;
+				$new_file = $path . $file_info->source_filename;
 			}
 			else
 			{
 				$path = sprintf("./files/attach/binaries/%s/%s/", $target_module_srl, $target_srl);
-				$random = new Password();
-				$new_file = $path.$random->createSecureSalt(32, 'hex');
+				$new_file = $path . Rhymix\Framework\Security::getRandom(32, 'hex');
 			}
 			// Pass if a target document to move is same
 			if($old_file == $new_file) continue;

@@ -23,7 +23,7 @@ class installView extends install
 		}
 		
 		// Set the browser title.
-		Context::setBrowserTitle(Context::getLang('introduce_title'));
+		Context::setBrowserTitle(lang('introduce_title'));
 		
 		// Specify the template path.
 		$this->setTemplatePath($this->module_path.'tpl');
@@ -74,7 +74,7 @@ class installView extends install
 	function dispInstallCheckEnv()
 	{
 		// Create a temporary file for mod_rewrite check.
-		self::$rewriteCheckString = Password::createSecureSalt(32);
+		self::$rewriteCheckString = Rhymix\Framework\Security::getRandom(32);
 		FileHandler::writeFile(_XE_PATH_ . self::$rewriteCheckFilePath, self::$rewriteCheckString);;
 		
 		// Check if the web server is nginx.

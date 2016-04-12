@@ -8,7 +8,6 @@
  */
 class FileHandler
 {
-
 	/**
 	 * Changes path of target file, directory into absolute path
 	 *
@@ -17,12 +16,7 @@ class FileHandler
 	 */
 	public static function getRealPath($source)
 	{
-		if(strlen($source) >= 2 && substr_compare($source, './', 0, 2) === 0)
-		{
-			return _XE_PATH_ . substr($source, 2);
-		}
-
-		return $source;
+		return (strncmp($source, './', 2) === 0) ? (\RX_BASEDIR . substr($source, 2)) : $source;
 	}
 
 	/**
@@ -33,64 +27,11 @@ class FileHandler
 	 * @param string $source_dir Path of source directory
 	 * @param string $target_dir Path of target dir
 	 * @param string $filter Regex to filter files. If file matches this regex, the file is not copied.
-	 * @param string $type If set as 'force'. Even if the file exists in target, the file is copied.
 	 * @return void
 	 */
-	public static function copyDir($source_dir, $target_dir, $filter = null, $type = null)
+	public static function copyDir($source_dir, $target_dir, $filter = null)
 	{
-		$source_dir = self::getRealPath($source_dir);
-		$target_dir = self::getRealPath($target_dir);
-		if(!is_dir($source_dir))
-		{
-			return FALSE;
-		}
-
-		// generate when no target exists
-		self::makeDir($target_dir);
-
-		if(substr($source_dir, -1) != DIRECTORY_SEPARATOR)
-		{
-			$source_dir .= DIRECTORY_SEPARATOR;
-		}
-
-		if(substr($target_dir, -1) != DIRECTORY_SEPARATOR)
-		{
-			$target_dir .= DIRECTORY_SEPARATOR;
-		}
-
-		$oDir = dir($source_dir);
-		while($file = $oDir->read())
-		{
-			if($file{0} == '.')
-			{
-				continue;
-			}
-
-			if($filter && preg_match($filter, $file))
-			{
-				continue;
-			}
-
-			if(is_dir($source_dir . $file))
-			{
-				self::copyDir($source_dir . $file, $target_dir . $file, $type);
-			}
-			else
-			{
-				if($type == 'force')
-				{
-					@unlink($target_dir . $file);
-				}
-				else
-				{
-					if(!file_exists($target_dir . $file))
-					{
-						@copy($source_dir . $file, $target_dir . $file);
-					}
-				}
-			}
-		}
-		$oDir->close();
+		return Rhymix\Framework\Storage::copyDirectory(self::getRealPath($source_dir), self::getRealPath($target_dir), $filter);
 	}
 
 	/**
@@ -104,18 +45,7 @@ class FileHandler
 	public static function copyFile($source, $target, $force = 'Y')
 	{
 		setlocale(LC_CTYPE, 'en_US.UTF8', 'ko_KR.UTF8');
-		$source = self::getRealPath($source);
-		$target_dir = self::getRealPath(dirname($target));
-		$target = basename($target);
-
-		self::makeDir($target_dir);
-
-		if($force == 'Y')
-		{
-			@unlink($target_dir . DIRECTORY_SEPARATOR . $target);
-		}
-
-		@copy($source, $target_dir . DIRECTORY_SEPARATOR . $target);
+		return Rhymix\Framework\Storage::copy(self::getRealPath($source), self::getRealPath($target));
 	}
 
 	/**
@@ -126,12 +56,7 @@ class FileHandler
 	 */
 	public static function readFile($filename)
 	{
-		if(($filename = self::exists($filename)) === FALSE || filesize($filename) < 1)
-		{
-			return;
-		}
-
-		return @file_get_contents($filename);
+		return Rhymix\Framework\Storage::read(self::getRealPath($filename));
 	}
 
 	/**
@@ -144,22 +69,7 @@ class FileHandler
 	 */
 	public static function writeFile($filename, $buff, $mode = "w")
 	{
-		$filename = self::getRealPath($filename);
-		$pathinfo = pathinfo($filename);
-		self::makeDir($pathinfo['dirname']);
-
-		$flags = 0;
-		if(strtolower($mode) == 'a')
-		{
-			$flags = FILE_APPEND;
-		}
-
-		@file_put_contents($filename, $buff, $flags|LOCK_EX);
-		@chmod($filename, 0644);
-		if(function_exists('opcache_invalidate') && substr($filename, -4) === '.php')
-		{
-			@opcache_invalidate($filename, true);
-		}
+		return Rhymix\Framework\Storage::write(self::getRealPath($filename), $buff, $mode);
 	}
 
 	/**
@@ -170,16 +80,7 @@ class FileHandler
 	 */
 	public static function removeFile($filename)
 	{
-		if(($filename = self::exists($filename)) === false)
-		{
-			return false;
-		}
-		$status = @unlink($filename);
-		if(function_exists('opcache_invalidate') && substr($filename, -4) === '.php')
-		{
-			@opcache_invalidate($filename, true);
-		}
-		return $status;
+		return Rhymix\Framework\Storage::delete(self::getRealPath($filename));
 	}
 
 	/**
@@ -193,7 +94,7 @@ class FileHandler
 	 */
 	public static function rename($source, $target)
 	{
-		return @rename(self::getRealPath($source), self::getRealPath($target));
+		return Rhymix\Framework\Storage::move(self::getRealPath($source), self::getRealPath($target));
 	}
 
 	/**
@@ -205,12 +106,7 @@ class FileHandler
 	 */
 	public static function moveFile($source, $target)
 	{
-		if(($source = self::exists($source)) !== FALSE)
-		{
-			self::removeFile($target);
-			return self::rename($source, $target);
-		}
-		return FALSE;
+		return Rhymix\Framework\Storage::move(self::getRealPath($source), self::getRealPath($target));
 	}
 
 	/**
@@ -224,7 +120,7 @@ class FileHandler
 	 */
 	public static function moveDir($source_dir, $target_dir)
 	{
-		self::rename($source_dir, $target_dir);
+		return Rhymix\Framework\Storage::move(self::getRealPath($source_dir), self::getRealPath($target_dir));
 	}
 
 	/**
@@ -240,45 +136,31 @@ class FileHandler
 	 */
 	public static function readDir($path, $filter = '', $to_lower = FALSE, $concat_prefix = FALSE)
 	{
-		$path = self::getRealPath($path);
+		$list = Rhymix\Framework\Storage::readDirectory(self::getRealPath($path), $concat_prefix, true, false);
+		if (!$list)
+		{
+			return array();
+		}
+		
 		$output = array();
-
-		if(substr($path, -1) != '/')
+		foreach ($list as $filename)
 		{
-			$path .= '/';
-		}
-
-		if(!is_dir($path))
-		{
-			return $output;
-		}
-
-		$files = scandir($path);
-		foreach($files as $file)
-		{
-			if($file{0} == '.' || ($filter && !preg_match($filter, $file)))
+			$filename = str_replace(array('\\', '//'), '/', $filename);
+			$basename = $concat_prefix ? basename($filename) : $filename;
+			if ($basename[0] === '.' || ($filter && !preg_match($filter, $basename)))
 			{
 				continue;
 			}
-
-			if($to_lower)
+			if ($to_lower)
 			{
-				$file = strtolower($file);
+				$filename = strtolower($filename);
 			}
-
 			if($filter)
 			{
-				$file = preg_replace($filter, '$1', $file);
+				$filename = preg_replace($filter, '$1', $filename);
 			}
-
-			if($concat_prefix)
-			{
-				$file = sprintf('%s%s', str_replace(_XE_PATH_, '', $path), $file);
-			}
-
-			$output[] = str_replace(array('/\\', '//'), '/', $file);
+			$output[] = $filename;
 		}
-
 		return $output;
 	}
 
@@ -292,16 +174,12 @@ class FileHandler
 	 */
 	public static function makeDir($path_string)
 	{
-		if(self::exists($path_string) !== FALSE)
+		if (!ini_get('safe_mode'))
 		{
-			return TRUE;
+			$path = self::getRealPath($path_string);
+			return Rhymix\Framework\Storage::isDirectory($path) || Rhymix\Framework\Storage::createDirectory($path);
 		}
-
-		if(!ini_get('safe_mode'))
-		{
-			@mkdir($path_string, 0755, TRUE);
-			@chmod($path_string, 0755);
-		}
+		
 		// if safe_mode is on, use FTP
 		else
 		{
@@ -372,37 +250,7 @@ class FileHandler
 	 */
 	public static function removeDir($path)
 	{
-		if(($path = self::isDir($path)) === FALSE)
-		{
-			return;
-		}
-
-		if(self::isDir($path))
-		{
-			$files = array_diff(scandir($path), array('..', '.'));
-
-			foreach($files as $file)
-			{
-				if(($target = self::getRealPath($path . DIRECTORY_SEPARATOR . $file)) === FALSE)
-				{
-					continue;
-				}
-
-				if(is_dir($target))
-				{
-					self::removeDir($target);
-				}
-				else
-				{
-					unlink($target);
-				}
-			}
-			rmdir($path);
-		}
-		else
-		{
-			unlink($path);
-		}
+		return Rhymix\Framework\Storage::deleteDirectory(self::getRealPath($path));
 	}
 
 	/**
@@ -413,27 +261,14 @@ class FileHandler
 	 */
 	public static function removeBlankDir($path)
 	{
-		if(($path = self::isDir($path)) === FALSE)
+		$path = self::getRealPath($path);
+		if (Rhymix\Framework\Storage::isEmptyDirectory($path))
 		{
-			return;
+			return Rhymix\Framework\Storage::deleteDirectory($path);
 		}
-
-		$files = array_diff(scandir($path), array('..', '.'));
-
-		if(count($files) < 1)
+		else
 		{
-			rmdir($path);
-			return;
-		}
-
-		foreach($files as $file)
-		{
-			if(($target = self::isDir($path . DIRECTORY_SEPARATOR . $file)) === FALSE)
-			{
-				continue;
-			}
-
-			self::removeBlankDir($target);
+			return false;
 		}
 	}
 
@@ -447,37 +282,7 @@ class FileHandler
 	 */
 	public static function removeFilesInDir($path)
 	{
-		if(($path = self::getRealPath($path)) === FALSE)
-		{
-			return;
-		}
-
-		if(is_dir($path))
-		{
-			$files = array_diff(scandir($path), array('..', '.'));
-
-			foreach($files as $file)
-			{
-				if(($target = self::getRealPath($path . DIRECTORY_SEPARATOR . $file)) === FALSE)
-				{
-					continue;
-				}
-
-				if(is_dir($target))
-				{
-					self::removeFilesInDir($target);
-				}
-				else
-				{
-					unlink($target);
-				}
-			}
-		}
-		else
-		{
-			if(self::exists($path)) unlink($path);
-		}
-
+		return Rhymix\Framework\Storage::deleteDirectory(self::getRealPath($path), false);
 	}
 
 	/**
@@ -584,7 +389,14 @@ class FileHandler
 			
 			if($response->success)
 			{
-				return $response->body;
+				if (isset($request_config['filename']))
+				{
+					return true;
+				}
+				else
+				{
+					return $response->body;
+				}
 			}
 			else
 			{
@@ -611,13 +423,15 @@ class FileHandler
 	 */
 	public static function getRemoteFile($url, $target_filename, $body = null, $timeout = 3, $method = 'GET', $content_type = null, $headers = array(), $cookies = array(), $post_data = array(), $request_config = array())
 	{
-		if(!($body = self::getRemoteResource($url, $body, $timeout, $method, $content_type, $headers,$cookies,$post_data,$request_config)))
+		$target_dirname = dirname($target_filename);
+		if (!Rhymix\Framework\Storage::isDirectory($target_dirname) && !Rhymix\Framework\Storage::createDirectory($target_dirname))
 		{
-			return FALSE;
+			return false;
 		}
-
-		self::writeFile($target_filename, $body);
-		return TRUE;
+		
+		$request_config['filename'] = $target_filename;
+		$success = self::getRemoteResource($url, $body, $timeout, $method, $content_type, $headers, $cookies, $post_data, $request_config);
+		return $success ? true : false;
 	}
 
 	/**
@@ -658,12 +472,17 @@ class FileHandler
 			$channels = 6; //for png
 		}
 		$memoryNeeded = round(($imageInfo[0] * $imageInfo[1] * $imageInfo['bits'] * $channels / 8 + $K64 ) * $TWEAKFACTOR);
-		$availableMemory = self::returnBytes(ini_get('memory_limit')) - memory_get_usage();
+		$memoryLimit = self::returnBytes(ini_get('memory_limit'));
+		if($memoryLimit < 0)
+		{
+			return true;
+		}
+		$availableMemory = $memoryLimit - memory_get_usage();
 		if($availableMemory < $memoryNeeded)
 		{
-			return FALSE;
+			return false;
 		}
-		return TRUE;
+		return true;
 	}
 
 	/**
@@ -882,19 +701,13 @@ class FileHandler
 	 */
 	public static function readIniFile($filename)
 	{
-		if(($filename = self::exists($filename)) === FALSE)
+		if(!Rhymix\Framework\Storage::isReadable($filename))
 		{
-			return FALSE;
+			return false;
 		}
-		$arr = parse_ini_file($filename, TRUE);
-		if(is_array($arr) && count($arr) > 0)
-		{
-			return $arr;
-		}
-		else
-		{
-			return array();
-		}
+		
+		$arr = parse_ini_file($filename, true);
+		return is_array($arr) ? $arr : array();
 	}
 
 	/**
@@ -966,11 +779,9 @@ class FileHandler
 	 */
 	public static function openFile($filename, $mode)
 	{
-		$pathinfo = pathinfo($filename);
-		self::makeDir($pathinfo['dirname']);
-
-		require_once("FileObject.class.php");
-		return  new FileObject($filename, $mode);
+		$filename = self::getRealPath($filename);
+		Rhymix\Framework\Storage::createDirectory(dirname($filename));
+		return new FileObject($filename, $mode);
 	}
 
 	/**
@@ -981,7 +792,7 @@ class FileHandler
 	 */
 	public static function hasContent($filename)
 	{
-		return (is_readable($filename) && (filesize($filename) > 0));
+		return Rhymix\Framework\Storage::getSize(self::getRealPath($filename)) > 0;
 	}
 
 	/**
@@ -993,7 +804,7 @@ class FileHandler
 	public static function exists($filename)
 	{
 		$filename = self::getRealPath($filename);
-		return file_exists($filename) ? $filename : FALSE;
+		return Rhymix\Framework\Storage::exists($filename) ? $filename : false;
 	}
 
 	/**
@@ -1005,7 +816,7 @@ class FileHandler
 	public static function isDir($path)
 	{
 		$path = self::getRealPath($path);
-		return is_dir($path) ? $path : FALSE;
+		return Rhymix\Framework\Storage::isDirectory($path) ? $path : false;
 	}
 
 	/**
@@ -1017,22 +828,7 @@ class FileHandler
 	public static function isWritableDir($path)
 	{
 		$path = self::getRealPath($path);
-		if(is_dir($path)==FALSE)
-		{
-			return FALSE;
-		}
-
-		$checkFile = $path . '/_CheckWritableDir';
-
-		$fp = fopen($checkFile, 'w');
-		if(!is_resource($fp))
-		{
-			return FALSE;
-		}
-		fclose($fp);
-
-		self::removeFile($checkFile);
-		return TRUE;
+		return Rhymix\Framework\Storage::isDirectory($path) && Rhymix\Framework\Storage::isWritable($path);
 	}
 }
 

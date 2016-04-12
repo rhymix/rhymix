@@ -1,0 +1,23 @@
+<query id="insertDocumentUpdateLog" action="insert">
+	<tables>
+		<table name="document_update_log" />
+	</tables>
+	<columns>
+		<column name="document_srl" var="document_srl" filter="number" notnull="notnull" />
+		<column name="module_srl" var="module_srl" filter="number" notnull="notnull" />
+		<column name="update_member_srl" var="update_member_srl" filter="number" />
+		<column name="category_srl" var="category_srl" filter="number" />
+		<column name="ipaddress" var="ipaddress" default="ipaddress()" />
+		<column name="nick_name" var="nick_name" notnull="notnull" />
+		<column name="title" var="title" notnull="notnull" />
+		<column name="title_bold" var="title_bold" />
+		<column name="title_color" var="title_color" />
+		<column name="content" var="content" notnull="notnull" />
+		<column name="update_nick_name" var="update_nick_name" notnull="notnull" />
+		<column name="tags" var="tags" />
+		<column name="extra_vars" var="extra_vars" />
+		<column name="reason_update" var="reason_update" />
+		<column name="regdate" var="regdate" default="curdate()" />
+		<column name="is_admin" var="is_admin" />
+	</columns>
+</query>

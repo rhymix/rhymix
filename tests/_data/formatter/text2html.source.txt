@@ -1,0 +1,9 @@
+This is a sample text file.
+Some of these lines are close together.
+
+Other lines are separated by two newlines.
+
+
+Or three newlines.
+This is a <p>tag</p> that will be escaped if encoded.
+Hello world!

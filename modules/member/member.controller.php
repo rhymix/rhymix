@@ -67,7 +67,7 @@ class memberController extends member
 			$oMemberModel = getModel('member');
 			if($this->memberInfo->change_password_date < date ('YmdHis', strtotime ('-' . $limit_date . ' day')))
 			{
-				$msg = sprintf(Context::getLang('msg_change_password_date'), $limit_date);
+				$msg = sprintf(lang('msg_change_password_date'), $limit_date);
 				return $this->setRedirectUrl(getNotEncodedUrl('','vid',Context::get('vid'),'mid',Context::get('mid'),'act','dispMemberModifyPassword'), new Object(-1, $msg));
 			}
 		}
@@ -245,7 +245,7 @@ class memberController extends member
 					$config = $oMemberModel->getMemberConfig();
 					$emailhost_check = $config->emailhost_check;
 
-					$managed_email_host = Context::getLang('managed_email_host');
+					$managed_email_host = lang('managed_email_host');
 
 					$email_hosts = $oMemberModel->getManagedEmailHosts();
 					foreach ($email_hosts as $host)
@@ -301,7 +301,16 @@ class memberController extends member
 			$args->{$val} = Context::get($val);
 			if($val == 'birthday') $args->birthday_ui = Context::get('birthday_ui');
 		}
-		$args->birthday = intval(strtr($args->birthday, array('-'=>'', '/'=>'', '.'=>'', ' '=>'')));
+
+		// mobile input date format can be different
+		if($args->birthday !== intval($args->birthday))
+		{
+			$args->birthday = date('Ymd', strtotime($args->birthday));
+		}
+		else
+		{
+			$args->birthday = intval($args->birthday);
+		}
 		if(!$args->birthday && $args->birthday_ui) $args->birthday = intval(strtr($args->birthday_ui, array('-'=>'', '/'=>'', '.'=>'', ' '=>'')));
 
 		$args->find_account_answer = Context::get('find_account_answer');
@@ -313,7 +322,7 @@ class memberController extends member
 		// check password strength
 		if(!$oMemberModel->checkPasswordStrength($args->password, $config->password_strength))
 		{
-			$message = Context::getLang('about_password_strength');
+			$message = lang('about_password_strength');
 			return new Object(-1, $message[$config->password_strength]);
 		}
 
@@ -412,7 +421,7 @@ class memberController extends member
 		if($config->redirect_url) $this->add('redirect_url', $config->redirect_url);
 		if($config->enable_confirm == 'Y')
 		{
-			$msg = sprintf(Context::getLang('msg_confirm_mail_sent'), $args->email_address);
+			$msg = sprintf(lang('msg_confirm_mail_sent'), $args->email_address);
 			$this->setMessage($msg);
 			return $this->setRedirectUrl(getUrl('', 'act', 'dispMemberLoginForm'), new Object(-12, $msg));
 		}
@@ -535,8 +544,18 @@ class memberController extends member
 		// Login Information
 		$logged_info = Context::get('logged_info');
 		$args->member_srl = $logged_info->member_srl;
-		$args->birthday = intval(strtr($args->birthday, array('-'=>'', '/'=>'', '.'=>'', ' '=>'')));
+
+		// mobile input date format can be different
+		if($args->birthday !== intval($args->birthday))
+		{
+			$args->birthday = date('Ymd', strtotime($args->birthday));
+		}
+		else
+		{
+			$args->birthday = intval($args->birthday);
+		}
 		if(!$args->birthday && $args->birthday_ui) $args->birthday = intval(strtr($args->birthday_ui, array('-'=>'', '/'=>'', '.'=>'', ' '=>'')));
+
 		// Remove some unnecessary variables from all the vars
 		$all_args = Context::getRequestVars();
 		unset($all_args->module);
@@ -729,10 +748,6 @@ class memberController extends member
 	 */
 	function insertProfileImage($member_srl, $target_file)
 	{
-
-		// Check uploaded file
-		if(!checkUploadedFile($target_file)) return;
-
 		$oMemberModel = getModel('member');
 		$config = $oMemberModel->getMemberConfig();
 
@@ -808,9 +823,6 @@ class memberController extends member
 	 */
 	function insertImageName($member_srl, $target_file)
 	{
-		// Check uploaded file
-		if(!checkUploadedFile($target_file)) return;
-
 		$oModuleModel = getModel('module');
 		$config = $oModuleModel->getModuleConfig('member');
 		// Get an image size
@@ -917,9 +929,6 @@ class memberController extends member
 	 */
 	function insertImageMark($member_srl, $target_file)
 	{
-		// Check uploaded file
-		if(!checkUploadedFile($target_file)) return;
-
 		$oModuleModel = getModel('module');
 		$config = $oModuleModel->getModuleConfig('member');
 		// Get an image size
@@ -994,12 +1003,11 @@ class memberController extends member
 		}
 
 		// Insert data into the authentication DB
-		$oPassword = new Password();
 		$args = new stdClass();
 		$args->user_id = $member_info->user_id;
 		$args->member_srl = $member_info->member_srl;
-		$args->new_password = $oPassword->createTemporaryPassword(8);
-		$args->auth_key = $oPassword->createSecureSalt(40);
+		$args->new_password = Rhymix\Framework\Password::getRandomPassword(8);
+		$args->auth_key = Rhymix\Framework\Security::getRandom(40, 'hex');
 		$args->is_register = 'N';
 
 		$output = executeQuery('member.insertAuthMail', $args);
@@ -1048,13 +1056,13 @@ class memberController extends member
 		$member_config = $oModuleModel->getModuleConfig('member');
 		// Send a mail
 		$oMail = new Mail();
-		$oMail->setTitle( Context::getLang('msg_find_account_title') );
+		$oMail->setTitle( lang('msg_find_account_title') );
 		$oMail->setContent($content);
 		$oMail->setSender( $member_config->webmaster_name?$member_config->webmaster_name:'webmaster', $member_config->webmaster_email);
 		$oMail->setReceiptor( $member_info->user_name, $member_info->email_address );
 		$oMail->send();
 		// Return message
-		$msg = sprintf(Context::getLang('msg_auth_mail_sent'), $member_info->email_address);
+		$msg = sprintf(lang('msg_auth_mail_sent'), $member_info->email_address);
 		if(!in_array(Context::getRequestMethod(),array('XMLRPC','JSON')))
 		{
 			$returnUrl = Context::get('success_return_url') ? Context::get('success_return_url') : getNotEncodedUrl('', 'mid', Context::get('mid'), 'act', 'dispMemberFindAccount');
@@ -1103,8 +1111,7 @@ class memberController extends member
 		}
 
 		// Update to a temporary password and set change_password_date to 1
-		$oPassword =  new Password();
-		$temp_password = $oPassword->createTemporaryPassword(8);
+		$temp_password = Rhymix\Framework\Password::getRandomPassword(8);
 
 		$args = new stdClass();
 		$args->member_srl = $member_srl;
@@ -1273,13 +1280,13 @@ class memberController extends member
 		$content = $oTemplate->compile($tpl_path, 'confirm_member_account_mail');
 		// Send a mail
 		$oMail = new Mail();
-		$oMail->setTitle( Context::getLang('msg_confirm_account_title') );
+		$oMail->setTitle( lang('msg_confirm_account_title') );
 		$oMail->setContent($content);
 		$oMail->setSender( $member_config->webmaster_name?$member_config->webmaster_name:'webmaster', $member_config->webmaster_email);
 		$oMail->setReceiptor( $member_info->user_name, $member_info->email_address );
 		$oMail->send();
 
-		$msg = sprintf(Context::getLang('msg_confirm_mail_sent'), $args->email_address);
+		$msg = sprintf(lang('msg_confirm_mail_sent'), $args->email_address);
 		$this->setMessage($msg);
 
 		$returnUrl = Context::get('success_return_url') ? Context::get('success_return_url') : getNotEncodedUrl('', 'mid', Context::get('mid'), 'act', '');
@@ -1333,12 +1340,11 @@ class memberController extends member
 		$this->_clearMemberCache($args->member_srl);
 
 		// generate new auth key
-		$oPassword = new Password();
 		$auth_args = new stdClass();
 		$auth_args->user_id = $memberInfo->user_id;
 		$auth_args->member_srl = $memberInfo->member_srl;
 		$auth_args->new_password = $memberInfo->password;
-		$auth_args->auth_key = $oPassword->createSecureSalt(40);
+		$auth_args->auth_key = Rhymix\Framework\Security::getRandom(40, 'hex');
 		$auth_args->is_register = 'Y';
 
 		$output = executeQuery('member.insertAuthMail', $auth_args);
@@ -1349,7 +1355,7 @@ class memberController extends member
 		// resend auth mail.
 		$this->_sendAuthMail($auth_args, $memberInfo);
 
-		$msg = sprintf(Context::getLang('msg_confirm_mail_sent'), $memberInfo->email_address);
+		$msg = sprintf(lang('msg_confirm_mail_sent'), $memberInfo->email_address);
 		$this->setMessage($msg);
 
 		$returnUrl = getUrl('');
@@ -1401,7 +1407,7 @@ class memberController extends member
 		$content = $oTemplate->compile($tpl_path, 'confirm_member_account_mail');
 		// Send a mail
 		$oMail = new Mail();
-		$oMail->setTitle( Context::getLang('msg_confirm_account_title') );
+		$oMail->setTitle( lang('msg_confirm_account_title') );
 		$oMail->setContent($content);
 		$oMail->setSender( $member_config->webmaster_name?$member_config->webmaster_name:'webmaster', $member_config->webmaster_email);
 		$oMail->setReceiptor( $member_info->user_name, $member_info->email_address );
@@ -1720,12 +1726,12 @@ class memberController extends member
 			if($term < $config->max_error_count_time)
 			{
 				$term = $config->max_error_count_time - $term;
-				if($term < 60) $term = intval($term).Context::getLang('unit_sec');
-				elseif(60 <= $term && $term < 3600) $term = intval($term/60).Context::getLang('unit_min');
-				elseif(3600 <= $term && $term < 86400) $term = intval($term/3600).Context::getLang('unit_hour');
-				else $term = intval($term/86400).Context::getLang('unit_day');
+				if($term < 60) $term = intval($term).lang('unit_sec');
+				elseif(60 <= $term && $term < 3600) $term = intval($term/60).lang('unit_min');
+				elseif(3600 <= $term && $term < 86400) $term = intval($term/3600).lang('unit_hour');
+				else $term = intval($term/86400).lang('unit_day');
 
-				return new Object(-1, sprintf(Context::getLang('excess_ip_access_count'),$term));
+				return new Object(-1, sprintf(lang('excess_ip_access_count'),$term));
 			}
 			else
 			{
@@ -1751,13 +1757,13 @@ class memberController extends member
 				$redirectUrl = getUrl('', 'act', 'dispMemberResendAuthMail');
 				return $this->setRedirectUrl($redirectUrl, new Object(-1,'msg_user_not_confirmed'));
 			}
-			return new Object(-1, ($this->memberInfo->refused_reason)? Context::getLang('msg_user_denied') . "\n" . $this->memberInfo->refused_reason : 'msg_user_denied');
+			return new Object(-1, ($this->memberInfo->refused_reason)? lang('msg_user_denied') . "\n" . $this->memberInfo->refused_reason : 'msg_user_denied');
 		}
 		
 		// Notify if user is limited
 		if($this->memberInfo->limit_date && substr($this->memberInfo->limit_date,0,8) >= date("Ymd"))
 		{
-			return new Object(-9,sprintf(Context::getLang('msg_user_limited'),zdate($this->memberInfo->limit_date,"Y-m-d")));
+			return new Object(-9,sprintf(lang('msg_user_limited'),zdate($this->memberInfo->limit_date,"Y-m-d")));
 		}
 		
 		// Do not allow login as admin if not in allowed IP list
@@ -1785,17 +1791,17 @@ class memberController extends member
 			$output = executeQuery('member.getLoginCountHistoryByMemberSrl', $args);
 			if($output->data && $output->data->content)
 			{
-				$title = Context::getLang('login_fail_report');
+				$title = lang('login_fail_report');
 				$message = '<ul>';
 				$content = unserialize($output->data->content);
 				if(count($content) > $config->max_error_count)
 				{
 					foreach($content as $val)
 					{
-						$message .= '<li>'.Context::getLang('regdate').': '.date('Y-m-d h:i:sa',$val[2]).'<ul><li>'.Context::getLang('ipaddress').': '.$val[0].'</li><li>'.Context::getLang('message').': '.$val[1].'</li></ul></li>';
+						$message .= '<li>'.lang('regdate').': '.date('Y-m-d h:i:sa',$val[2]).'<ul><li>'.lang('ipaddress').': '.$val[0].'</li><li>'.lang('message').': '.$val[1].'</li></ul></li>';
 					}
 					$message .= '</ul>';
-					$content = sprintf(Context::getLang('login_fail_report_contents'),$message,date('Y-m-d h:i:sa'));
+					$content = sprintf(lang('login_fail_report_contents'),$message,date('Y-m-d h:i:sa'));
 
 					//send message
 					$oCommunicationController = getController('communication');
@@ -1823,8 +1829,7 @@ class memberController extends member
 		if($keep_signed)
 		{
 			// Key generate for auto login
-			$oPassword = new Password();
-			$random_key = $oPassword->createSecureSalt(32, 'hex');
+			$random_key = Rhymix\Framework\Security::getRandom(32, 'hex');
 			$extra_key = strtolower($user_id).$this->memberInfo->password.$_SERVER['HTTP_USER_AGENT'];
 			$extra_key = substr(hash_hmac('sha256', $extra_key, $random_key), 0, 32);
 			$autologin_args = new stdClass;
@@ -1892,7 +1897,7 @@ class memberController extends member
 		$this->addMemberMenu( 'dispMemberScrappedDocument', 'cmd_view_scrapped_document');
 		$this->addMemberMenu( 'dispMemberSavedDocument', 'cmd_view_saved_document');
 		$this->addMemberMenu( 'dispMemberOwnDocument', 'cmd_view_own_document');
-		if($config->update_nick_log == 'Y')
+		if($config->update_nickname_log == 'Y')
 		{
 			$this->addMemberMenu( 'dispMemberModifyNicknameLog', 'cmd_modify_nickname_log');
 		}
@@ -1906,7 +1911,7 @@ class memberController extends member
 	{
 		$logged_info = Context::get('logged_info');
 
-		$logged_info->menu_list[$act] = Context::getLang($str);
+		$logged_info->menu_list[$act] = lang($str);
 
 		Context::set('logged_info', $logged_info);
 	}
@@ -1938,10 +1943,23 @@ class memberController extends member
 		$output = ModuleHandler::triggerCall('member.insertMember', 'before', $args);
 		if(!$output->toBool()) return $output;
 		// Terms and Conditions portion of the information set up by members reaffirmed
-		$oModuleModel = getModel('module');
-		$config = $oModuleModel->getModuleConfig('member');
+		$oMemberModel = getModel('member');
+		$config = $oMemberModel->getMemberConfig();
 
 		$logged_info = Context::get('logged_info');
+		// limit_date format is YYYYMMDD
+		if($args->limit_date)
+		{
+			// mobile input date format can be different
+			if($args->limit_date !== intval($args->limit_date))
+			{
+				$args->limit_date = date('Ymd', strtotime($args->limit_date));
+			}
+			else
+			{
+				$args->limit_date = intval($args->limit_date);
+			}
+		}
 		// If the date of the temporary restrictions limit further information on the date of
 		if($config->limit_day) $args->limit_date = date("YmdHis", $_SERVER['REQUEST_TIME']+$config->limit_day*60*60*24);
 
@@ -1980,6 +1998,49 @@ class memberController extends member
 		if($args->homepage && !preg_match("/^[a-z]+:\/\//i",$args->homepage)) $args->homepage = 'http://'.$args->homepage;
 		if($args->blog && !preg_match("/^[a-z]+:\/\//i",$args->blog)) $args->blog = 'http://'.$args->blog;
 
+
+		$extend_form_list = $oMemberModel->getCombineJoinForm($memberInfo);
+		$security = new Security($extend_form_list);
+		$security->encodeHTML('..column_title', '..description', '..default_value.');
+		if($config->signupForm) {
+			foreach($config->signupForm as $no => $formInfo)
+			{
+				if(!$formInfo->isUse) continue;
+				if($formInfo->isDefaultForm)
+				{
+					// birthday format is YYYYMMDD
+					if($formInfo->name === 'birthday' && $args->{$formInfo->name})
+					{
+						// mobile input date format can be different
+						if($args->{$formInfo->name} !== intval($args->{$formInfo->name}))
+						{
+							$args->{$formInfo->name} = date('Ymd', strtotime($args->{$formInfo->name}));
+						}
+						else
+						{
+							$args->{$formInfo->name} = intval($args->{$formInfo->name});
+						}
+					}
+				}
+				else
+				{
+					$extendForm = $extend_form_list[$formInfo->member_join_form_srl];
+					// date format is YYYYMMDD
+					if($extendForm->column_type == 'date' && $args->{$formInfo->name})
+					{
+						if($args->{$formInfo->name} !== intval($args->{$formInfo->name}))
+						{
+							$args->{$formInfo->name} = date('Ymd', strtotime($args->{$formInfo->name}));
+						}
+						else
+						{
+							$args->{$formInfo->name} = intval($args->{$formInfo->name});
+						}
+					}
+				}
+			}
+		}
+
 		// Create a model object
 		$oMemberModel = getModel('member');
 
@@ -1988,7 +2049,7 @@ class memberController extends member
 		{
 			if(!$oMemberModel->checkPasswordStrength($args->password, $config->password_strength))
 			{
-				$message = Context::getLang('about_password_strength');
+				$message = lang('about_password_strength');
 				return new Object(-1, $message[$config->password_strength]);
 			}
 			$args->password = $oMemberModel->hashPassword($args->password);
@@ -2030,7 +2091,7 @@ class memberController extends member
 			$config = $oMemberModel->getMemberConfig();
 			$emailhost_check = $config->emailhost_check;
 
-			$managed_email_host = Context::getLang('managed_email_host');
+			$managed_email_host = lang('managed_email_host');
 			$email_hosts = $oMemberModel->getManagedEmailHosts();
 			foreach ($email_hosts as $host)
 			{
@@ -2096,17 +2157,15 @@ class memberController extends member
 			}
 		}
 
-		$member_config = $oModuleModel->getModuleConfig('member');
 		// When using email authentication mode (when you subscribed members denied a) certified mail sent
 		if($args->denied == 'Y')
 		{
 			// Insert data into the authentication DB
-			$oPassword = new Password();
 			$auth_args = new stdClass();
 			$auth_args->user_id = $args->user_id;
 			$auth_args->member_srl = $args->member_srl;
 			$auth_args->new_password = $args->password;
-			$auth_args->auth_key = $oPassword->createSecureSalt(40);
+			$auth_args->auth_key = Rhymix\Framework\Security::getRandom(40, 'hex');
 			$auth_args->is_register = 'Y';
 
 			$output = executeQuery('member.insertAuthMail', $auth_args);
@@ -2146,6 +2205,7 @@ class memberController extends member
 		if(!$output->toBool()) return $output;
 		// Create a model object
 		$oMemberModel = getModel('member');
+		$config = $oMemberModel->getMemberConfig();
 
 		$logged_info = Context::get('logged_info');
 		// Get what you want to modify the original information
@@ -2180,7 +2240,62 @@ class memberController extends member
 		if($args->blog && !preg_match("/^[a-z]+:\/\//is",$args->blog)) $args->blog = 'http://'.$args->blog;
 
 		// check member identifier form
-		$config = $oMemberModel->getMemberConfig();
+
+		// limit_date format is YYYYMMDD
+		if($args->limit_date)
+		{
+			// mobile input date format can be different
+			if($args->limit_date !== intval($args->limit_date))
+			{
+				$args->limit_date = date('Ymd', strtotime($args->limit_date));
+			}
+			else
+			{
+				$args->limit_date = intval($args->limit_date);
+			}
+		}
+
+		$extend_form_list = $oMemberModel->getCombineJoinForm($memberInfo);
+		$security = new Security($extend_form_list);
+		$security->encodeHTML('..column_title', '..description', '..default_value.');
+		if($config->signupForm){
+			foreach($config->signupForm as $no => $formInfo)
+			{
+				if(!$formInfo->isUse) continue;
+
+				if($formInfo->isDefaultForm)
+				{
+					// birthday format is YYYYMMDD
+					if($formInfo->name === 'birthday' && $args->{$formInfo->name})
+					{
+						if($args->{$formInfo->name} !== intval($args->{$formInfo->name}))
+						{
+							$args->{$formInfo->name} = date('Ymd', strtotime($args->{$formInfo->name}));
+						}
+						else
+						{
+							$args->{$formInfo->name} = intval($args->{$formInfo->name});
+						}
+					}
+				}
+				else
+				{
+					$extendForm = $extend_form_list[$formInfo->member_join_form_srl];
+					// date format is YYYYMMDD
+					if($extendForm->column_type == 'date' && $args->{$formInfo->name})
+					{
+						if($args->{$formInfo->name} !== intval($args->{$formInfo->name}))
+						{
+							$args->{$formInfo->name} = date('Ymd', strtotime($args->{$formInfo->name}));
+						}
+						else
+						{
+							$args->{$formInfo->name} = intval($args->{$formInfo->name});
+						}
+					}
+				}
+			}
+		}
 
 		$output = executeQuery('member.getMemberInfoByMemberSrl', $args);
 		$orgMemberInfo = $output->data;
@@ -2191,7 +2306,7 @@ class memberController extends member
 			$config = $oMemberModel->getMemberConfig();
 			$emailhost_check = $config->emailhost_check;
 
-			$managed_email_host = Context::getLang('managed_email_host');
+			$managed_email_host = lang('managed_email_host');
 			$email_hosts = $oMemberModel->getManagedEmailHosts();
 			foreach ($email_hosts as $host)
 			{
@@ -2261,7 +2376,7 @@ class memberController extends member
 		{
 			if(!$oMemberModel->checkPasswordStrength($args->password, $config->password_strength))
 			{
-				$message = Context::getLang('about_password_strength');
+				$message = lang('about_password_strength');
 				return new Object(-1, $message[$config->password_strength]);
 			}
 			$args->password = $oMemberModel->hashPassword($args->password);
@@ -2286,7 +2401,7 @@ class memberController extends member
 		}
 		else
 		{
-			if($args->nick_name != $orgMemberInfo->nick_name && $config->update_nick_log == 'Y')
+			if($args->nick_name != $orgMemberInfo->nick_name && $config->update_nickname_log == 'Y')
 			{
 				$log_args = new stdClass();
 				$log_args->member_srl = $args->member_srl;
@@ -2364,7 +2479,7 @@ class memberController extends member
 
 			if(!$oMemberModel->checkPasswordStrength($args->password, $config->password_strength))
 			{
-				$message = Context::getLang('about_password_strength');
+				$message = lang('about_password_strength');
 				return new Object(-1, $message[$config->password_strength]);
 			}
 
@@ -2542,7 +2657,7 @@ class memberController extends member
 			$config = $oMemberModel->getMemberConfig();
 			$emailhost_check = $config->emailhost_check;
 
-			$managed_email_host = Context::getLang('managed_email_host');
+			$managed_email_host = lang('managed_email_host');
 			$email_hosts = $oMemberModel->getManagedEmailHosts();
 			foreach ($email_hosts as $host)
 			{
@@ -2562,11 +2677,10 @@ class memberController extends member
 		}
 		unset($_SESSION['rechecked_password_step']);
 
-		$oPassword = new Password();
 		$auth_args = new stdClass();
 		$auth_args->user_id = $newEmail;
 		$auth_args->member_srl = $member_info->member_srl;
-		$auth_args->auth_key = $oPassword->createSecureSalt(40);
+		$auth_args->auth_key = Rhymix\Framework\Security::getRandom(40, 'hex');
 		$auth_args->new_password = 'XE_change_emaill_address';
 
 		$oDB = &DB::getInstance();
@@ -2601,13 +2715,13 @@ class memberController extends member
 		$content = $oTemplate->compile($tpl_path, 'confirm_member_new_email');
 
 		$oMail = new Mail();
-		$oMail->setTitle( Context::getLang('title_modify_email_address') );
+		$oMail->setTitle( lang('title_modify_email_address') );
 		$oMail->setContent($content);
 		$oMail->setSender( $member_config->webmaster_name?$member_config->webmaster_name:'webmaster', $member_config->webmaster_email);
 		$oMail->setReceiptor( $member_info->nick_name, $newEmail );
 		$result = $oMail->send();
 
-		$msg = sprintf(Context::getLang('msg_confirm_mail_sent'), $newEmail);
+		$msg = sprintf(lang('msg_confirm_mail_sent'), $newEmail);
 		$this->setMessage($msg);
 
 		$returnUrl = Context::get('success_return_url') ? Context::get('success_return_url') : getNotEncodedUrl('', 'mid', Context::get('mid'), 'act', '');
@@ -2803,7 +2917,7 @@ class memberController extends member
 		$args->description = trim( $member_info->description );
 		if( $args->description != "" ) $args->description .= "\n";	// add new line
 
-		$args->description .= Context::getLang('cmd_spammer') . "[" . date("Y-m-d H:i:s") . " from:" . $logged_info->user_id . " info:" . $spam_description . " docuemnts count:" . $total_count . "]";
+		$args->description .= lang('cmd_spammer') . "[" . date("Y-m-d H:i:s") . " from:" . $logged_info->user_id . " info:" . $spam_description . " docuemnts count:" . $total_count . "]";
 
 		$output = $this->updateMember($args, true);
 

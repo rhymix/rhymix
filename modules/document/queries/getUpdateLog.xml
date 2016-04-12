@@ -1,0 +1,11 @@
+<query id="getUpdateLog" action="select">
+	<tables>
+		<table name="document_update_log" />
+	</tables>
+	<columns>
+		<column name="*" />
+	</columns>
+	<conditions>
+		<condition operation="equal" column="update_id" var="update_id" filter="number" notnull="notnull" />
+	</conditions>
+</query>

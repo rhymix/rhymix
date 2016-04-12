@@ -137,7 +137,7 @@ class Debug
 		$entry = (object)array(
 			'type' => 'Debug',
 			'time' => microtime(true),
-			'message' => $message,
+			'message' => unserialize(serialize($message)),
 			'file' => isset($backtrace[0]['file']) ? $backtrace[0]['file'] : null,
 			'line' => isset($backtrace[0]['line']) ? $backtrace[0]['line'] : 0,
 			'backtrace' => $backtrace,
@@ -145,7 +145,7 @@ class Debug
 		self::$_entries[] = $entry;
 		
 		// Add the entry to the error log.
-		if (self::$write_to_error_log)
+		if (self::$write_to_error_log && self::isEnabledForCurrentUser())
 		{
 			$log_entry = str_replace("\0", '', sprintf('Rhymix Debug: %s in %s on line %d',
 				var_export($message, true), $entry->file, $entry->line));
@@ -173,8 +173,8 @@ class Debug
 		
 		// Rewrite the error message with relative paths.
 		$message = str_replace(array(
-			' called in ' . RX_BASEDIR,
-			' defined in ' . RX_BASEDIR,
+			' called in ' . \RX_BASEDIR,
+			' defined in ' . \RX_BASEDIR,
 		), array(
 			' called in ',
 			' defined in ',
@@ -397,6 +397,12 @@ class Debug
 	 */
 	public static function displayErrorScreen($message)
 	{
+		// Do not display error screen in CLI.
+		if (php_sapi_name() === 'cli')
+		{
+			return;
+		}
+		
 		// Disable output buffering.
 		while (ob_get_level())
 		{
@@ -404,14 +410,14 @@ class Debug
 		}
 		
 		// Localize the error title.
-		$title = \Context::getLang('msg_server_error');
+		$title = lang('msg_server_error');
 		if ($title === 'msg_server_error')
 		{
 			$message = 'Server Error';
 		}
 		
 		// Localize the error message.
-		$message = ini_get('display_errors') ? $message : \Context::getLang('msg_server_error_see_log');
+		$message = ini_get('display_errors') ? $message : lang('msg_server_error_see_log');
 		if ($message === 'msg_server_error_see_log')
 		{
 			$message = 'Your server is configured to hide error messages. Please see your server\'s error log for details.';
@@ -445,13 +451,17 @@ class Debug
 				return $cache = true;
 			
 			case 'ip':
-				$allowed_ip = Config::get('debug.allow');
-				foreach ($allowed_ip as $range)
+				if (Filters\IpFilter::inRanges(\RX_CLIENT_IP, Config::get('debug.allow')))
 				{
-					if (IpFilter::inRange(RX_CLIENT_IP, $range))
-					{
-						return $cache = true;
-					}
+					return $cache = true;
+				}
+				if (\RX_CLIENT_IP === '127.0.0.1' || \RX_CLIENT_IP === '::1')
+				{
+					return $cache = true;
+				}
+				if (\RX_CLIENT_IP === $_SERVER['SERVER_ADDR'] || \RX_CLIENT_IP === $_SERVER['LOCAL_ADDR'])
+				{
+					return $cache = true;
 				}
 				return $cache = false;
 			
@@ -475,7 +485,7 @@ class Debug
 	{
 		// Collect debug information.
 		$data = (object)array(
-			'timestamp' => DateTime::formatTimestamp('Y-m-d H:i:s', RX_TIME),
+			'timestamp' => DateTime::formatTimestamp('Y-m-d H:i:s', \RX_TIME),
 			'url' => getCurrentPageUrl(),
 			'request' => (object)array(
 				'method' => $_SERVER['REQUEST_METHOD'] . ($_SERVER['REQUEST_METHOD'] !== \Context::getRequestMethod() ? (' (' . \Context::getRequestMethod() . ')') : ''),
@@ -496,8 +506,8 @@ class Debug
 				'trans' => sprintf('%0.4f sec', $GLOBALS['__trans_content_elapsed__']),
 			),
 			'entries' => self::$_entries,
-			'errors' => config('debug.log_errors') ? self::$_errors : null,
-			'queries' => config('debug.log_queries') ? self::$_queries : null,
+			'errors' => self::$_errors,
+			'queries' => self::$_queries,
 			'slow_queries' => self::$_slow_queries,
 			'slow_triggers' => self::$_slow_triggers,
 			'slow_widgets' => self::$_slow_widgets,

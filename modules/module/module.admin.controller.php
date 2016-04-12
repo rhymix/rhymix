@@ -439,7 +439,7 @@ class moduleAdminController extends module
 						continue;
 					}
 					// Ignore if the file is not successfully uploaded
-					if(!is_uploaded_file($image_obj['tmp_name']) || !checkUploadedFile($image_obj['tmp_name']))
+					if(!is_uploaded_file($image_obj['tmp_name']))
 					{
 						unset($obj->{$vars->name});
 						continue;
@@ -826,7 +826,7 @@ class moduleAdminController extends module
 						}
 						else
 						{
-							$mid_list[$module]->list[$key]->module_category_srl = Context::getLang('none_category');
+							$mid_list[$module]->list[$key]->module_category_srl = lang('none_category');
 						}
 					}
 				}

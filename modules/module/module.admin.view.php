@@ -232,7 +232,7 @@ class moduleAdminView extends module
 		$xml_info = $oModuleModel->getModuleActionXml($module_info->module);
 		$source_grant_list = $xml_info->grant;
 		// Grant virtual permissions for access and manager
-		$grant_list->access->title = Context::getLang('grant_access');
+		$grant_list->access->title = lang('grant_access');
 		$grant_list->access->default = 'guest';
 		if(count($source_grant_list))
 		{
@@ -243,7 +243,7 @@ class moduleAdminView extends module
 				$grant_list->{$key} = $val;
 			}
 		}
-		$grant_list->manager->title = Context::getLang('grant_manager');
+		$grant_list->manager->title = lang('grant_manager');
 		$grant_list->manager->default = 'manager';
 		Context::set('grant_list', $grant_list);
 		// Get a list of groups

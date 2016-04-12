@@ -376,6 +376,7 @@ class adminAdminView extends admin
 		Context::set('supported_lang', Rhymix\Framework\Lang::getSupportedList());
 		Context::set('default_lang', Rhymix\Framework\Config::get('locale.default_lang'));
 		Context::set('enabled_lang', Rhymix\Framework\Config::get('locale.enabled_lang'));
+		Context::set('auto_select_lang', Rhymix\Framework\Config::get('locale.auto_select_lang'));
 		
 		// Site title and HTML footer
 		$oModuleModel = getModel('module');
@@ -402,10 +403,10 @@ class adminAdminView extends admin
 		
 		// Favicon and mobicon
 		$oAdminModel = getAdminModel('admin');
-		$favicon_url = $oAdminModel->getFaviconUrl();
-		$mobicon_url = $oAdminModel->getMobileIconUrl();
-		Context::set('favicon_url', $favicon_url.'?'.$_SERVER['REQUEST_TIME']);
-		Context::set('mobicon_url', $mobicon_url.'?'.$_SERVER['REQUEST_TIME']);
+		$favicon_url = $oAdminModel->getFaviconUrl(false) ?: $oAdminModel->getFaviconUrl();
+		$mobicon_url = $oAdminModel->getMobileIconUrl(false) ?: $oAdminModel->getMobileIconUrl();
+		Context::set('favicon_url', $favicon_url);
+		Context::set('mobicon_url', $mobicon_url);
 		
 		$this->setTemplateFile('config_general');
 	}
@@ -417,9 +418,8 @@ class adminAdminView extends admin
 	function dispAdminConfigSecurity()
 	{
 		// Load embed filter.
-		$oEmbedFilter = EmbedFilter::getInstance();
-		context::set('embedfilter_iframe', implode(PHP_EOL, $oEmbedFilter->whiteIframeUrlList));
-		context::set('embedfilter_object', implode(PHP_EOL, $oEmbedFilter->whiteUrlList));
+		context::set('mediafilter_iframe', implode(PHP_EOL, Rhymix\Framework\Filters\MediaFilter::getIframeWhitelist()));
+		context::set('mediafilter_object', implode(PHP_EOL, Rhymix\Framework\Filters\MediaFilter::getObjectWhitelist()));
 		
 		// Admin IP access control
 		$allowed_ip = Rhymix\Framework\Config::get('admin.allow');
@@ -491,13 +491,12 @@ class adminAdminView extends admin
 	{
 		// Load debug settings.
 		Context::set('debug_enabled', Rhymix\Framework\Config::get('debug.enabled'));
-		Context::set('debug_log_errors', Rhymix\Framework\Config::get('debug.log_errors'));
-		Context::set('debug_log_queries', Rhymix\Framework\Config::get('debug.log_queries'));
 		Context::set('debug_log_slow_queries', Rhymix\Framework\Config::get('debug.log_slow_queries'));
 		Context::set('debug_log_slow_triggers', Rhymix\Framework\Config::get('debug.log_slow_triggers'));
 		Context::set('debug_log_slow_widgets', Rhymix\Framework\Config::get('debug.log_slow_widgets'));
 		Context::set('debug_log_filename', Rhymix\Framework\Config::get('debug.log_filename') ?: 'files/debug/YYYYMMDD.php');
 		Context::set('debug_display_type', Rhymix\Framework\Config::get('debug.display_type'));
+		Context::set('debug_display_content', Rhymix\Framework\Config::get('debug.display_content'));
 		Context::set('debug_display_to', Rhymix\Framework\Config::get('debug.display_to'));
 		
 		// IP access control
@@ -519,24 +518,11 @@ class adminAdminView extends admin
 		Context::set('sitelock_message', escape(Rhymix\Framework\Config::get('lock.message')));
 		
 		$allowed_ip = Rhymix\Framework\Config::get('lock.allow') ?: array();
-		$allowed_localhost = false;
-		$allowed_current = false;
-		foreach ($allowed_ip as $range)
-		{
-			if (Rhymix\Framework\IpFilter::inRange('127.0.0.1', $range))
-			{
-				$allowed_localhost = true;
-			}
-			if (Rhymix\Framework\IpFilter::inRange(RX_CLIENT_IP, $range))
-			{
-				$allowed_current = true;
-			}
-		}
-		if (!$allowed_localhost)
+		if (!Rhymix\Framework\Filters\IpFilter::inRanges('127.0.0.1', $allowed_ip))
 		{
 			array_unshift($allowed_ip, '127.0.0.1');
 		}
-		if (!$allowed_current)
+		if (!Rhymix\Framework\Filters\IpFilter::inRanges(RX_CLIENT_IP, $allowed_ip))
 		{
 			array_unshift($allowed_ip, RX_CLIENT_IP);
 		}

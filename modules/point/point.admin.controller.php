@@ -332,7 +332,7 @@ class pointAdminController extends point
 
 		$this->add('total', count($member));
 		$this->add('position', 0);
-		$this->setMessage( sprintf(Context::getLang('point_recal_message'), 0, $this->get('total')) );
+		$this->setMessage( sprintf(lang('point_recal_message'), 0, $this->get('total')) );
 	}
 
 	/**
@@ -376,7 +376,7 @@ class pointAdminController extends point
 
 		$this->add('total', $total);
 		$this->add('position', $idx);
-		$this->setMessage(sprintf(Context::getLang('point_recal_message'), $idx, $total));
+		$this->setMessage(sprintf(lang('point_recal_message'), $idx, $total));
 
 	}
 

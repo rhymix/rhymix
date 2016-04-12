@@ -1,16 +1,4 @@
 <?php
-$lang->editor_now = '현재 설정 상태';
-$lang->editor_component = 'Editor Component';
-$lang->main_editor = 'Main editor';
-$lang->comment_editor = 'Comment editor';
-$lang->editor_option = 'Editor Option';
-$lang->guide_choose_main_editor = 'Main editor.';
-$lang->guide_set_height_main_editor = 'Height of the main editor.';
-$lang->guide_choose_comment_editor = 'Comment editor.';
-$lang->guide_set_height_comment_editor = 'Height of the comment editor.';
-$lang->guide_choose_text_formatting = 'Text formatting.';
-$lang->guide_choose_font_body = 'Font body.';
-$lang->guide_choose_font_size_body = 'Font size body.';
 $lang->editor = 'WYSIWYG-Редактор';
 $lang->component_name = 'Компонент';
 $lang->component_version = 'Версия';

@@ -166,8 +166,7 @@ class memberAdminController extends member
 			'update_nickname_log'
 		);
 		
-		$oPassword = new Password();
-		if(!array_key_exists($args->password_hashing_algorithm, $oPassword->getSupportedAlgorithms()))
+		if(!array_key_exists($args->password_hashing_algorithm, Rhymix\Framework\Password::getSupportedAlgorithms()))
 		{
 			$args->password_hashing_algorithm = 'md5';
 		}
@@ -1296,7 +1295,7 @@ class memberAdminController extends member
 		$default_args->group_srl = $defaultGroupSrl;
 		$output = $this->updateGroup($default_args);
 
-		$this->setMessage(Context::getLang('success_updated').' ('.Context::getLang('msg_insert_group_name_detail').')');
+		$this->setMessage(lang('success_updated').' ('.lang('msg_insert_group_name_detail').')');
 
 		$returnUrl = Context::get('success_return_url') ? Context::get('success_return_url') : getNotEncodedUrl('', 'module', 'admin', 'act', 'dispMemberAdminGroupList');
 		$this->setRedirectUrl($returnUrl);

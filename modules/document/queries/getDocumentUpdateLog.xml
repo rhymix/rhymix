@@ -1,0 +1,23 @@
+<query id="getDocumentUpdateLog" action="select">
+	<tables>
+		<table name="document_update_log" />
+	</tables>
+	<columns>
+		<column name="nick_name" />
+		<column name="update_nick_name" />
+		<column name="regdate" />
+		<column name="title" />
+		<column name="module_srl" />
+		<column name="update_id" />
+		<column name="update_member_srl" />
+	</columns>
+	<conditions>
+		<condition operation="equal" column="document_srl" var="document_srl" filter="number" notnull="notnull" />
+	</conditions>
+	<navigation>
+		<index var="sort_index" default="update_id" order="desc" />
+		<list_count var="list_count" default="20" />
+		<page_count var="page_count" default="10" />
+		<page var="page" default="1" />
+	</navigation>
+</query>

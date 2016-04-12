@@ -19,7 +19,6 @@ class addon extends ModuleObject
 		$oAddonController = getAdminController('addon');
 		$oAddonController->doInsert('autolink', 0, 'site', 'Y');
 		$oAddonController->doInsert('blogapi');
-		$oAddonController->doInsert('member_communication', 0, 'site', 'Y');
 		$oAddonController->doInsert('member_extra_info', 0, 'site', 'Y');
 		$oAddonController->doInsert('mobile', 0, 'site', 'Y');
 		$oAddonController->doInsert('resize_image', 0, 'site', 'Y');

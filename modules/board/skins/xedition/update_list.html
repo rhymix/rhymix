@@ -1,0 +1,43 @@
+<include target="_header.html" />
+<div class="board_list" id="board_list">
+	<table width="100%" border="1" cellspacing="0" summary="List of Articles">
+		<thead>
+			<tr>
+				<th scope="col" class="title"><span>{$lang->title}</span></th>
+				<th scope="col"><span>{$lang->writer}</span></th>
+				<th scope="col"><span>{$lang->last_updater}</span></th>
+				<th scope="col"><span>{$lang->last_post}</span></th>
+			</tr>
+		</thead>
+		<tbody cond="$updatelog->data">
+			<tr loop="$updatelog->data=>$val">
+				<td class="title">
+					<a href="{getUrl('', 'mid', $mid, 'act', 'dispBoardUpdateLogView', 'update_id', $val->update_id)}">{$val->title}</a>
+				</td>
+				<td class="author">
+					{$val->nick_name}
+				</td>
+				<td class="author">
+					{$val->update_nick_name}
+				</td>
+				<td class="time">
+					{zdate($val->regdate, 'Y.m.d H:i:s')}
+				</td>
+			</tr>
+		</tbody>
+		<tbody cond="!$updatelog->data">
+			<tr>
+				<td colspan="4" style="text-align: center">{$lang->msg_dont_have_update_log}</td>
+			</tr>
+		</tbody>
+	</table>
+</div>
+<div class="pagination pagination-centered">
+	<a href="{getUrl('page','','module_srl','')}" class="direction">&laquo; {$lang->first_page}</a>
+	<!--@while($page_no = $page_navigation->getNextPage())-->
+	<strong cond="$page==$page_no">{$page_no}</strong>
+	<a cond="$page!=$page_no" href="{getUrl('page',$page_no,'module_srl','')}">{$page_no}</a>
+	<!--@end-->
+	<a href="{getUrl('page',$page_navigation->last_page,'module_srl','')}" class="direction">{$lang->last_page} &raquo;</a>
+</div>
+<include target="_footer.html" />

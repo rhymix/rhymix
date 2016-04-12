@@ -3,7 +3,7 @@
 /**
  * RX_VERSION is the version number of the Rhymix CMS.
  */
-define('RX_VERSION', '1.8.17');
+define('RX_VERSION', '1.8.18');
 
 /**
  * RX_MICROTIME is the startup time of the current script, in microseconds since the Unix epoch.
@@ -25,11 +25,11 @@ define('RX_BASEDIR', str_replace('\\', '/', dirname(__DIR__)) . '/');
  */
 if (isset($_SERVER['DOCUMENT_ROOT']) && !strncmp(RX_BASEDIR,  str_replace('\\', '/', $_SERVER['DOCUMENT_ROOT']), strlen($_SERVER['DOCUMENT_ROOT'])))
 {
-    define('RX_BASEURL', rtrim(substr(RX_BASEDIR, strlen($_SERVER['DOCUMENT_ROOT'])), '/') . '/');
+    define('RX_BASEURL', str_replace('//', '/', '/' . trim(substr(RX_BASEDIR, strlen($_SERVER['DOCUMENT_ROOT'])), '/') . '/'));
 }
 elseif (isset($_SERVER['PHP_SELF']) && ($len = strlen($_SERVER['PHP_SELF'])) && $len >= 10 && substr($_SERVER['PHP_SELF'], $len - 10) === '/index.php')
 {
-    define('RX_BASEURL', rtrim(str_replace('\\', '/', substr($_SERVER['PHP_SELF'], 0, $len - 10)), '/') . '/');
+    define('RX_BASEURL', str_replace('//', '/', '/' . trim(str_replace('\\', '/', substr($_SERVER['PHP_SELF'], 0, $len - 10)), '/') . '/'));
 }
 else
 {
@@ -53,8 +53,8 @@ else
  */
 if (isset($_SERVER['HTTP_CF_CONNECTING_IP']))
 {
-	include_once __DIR__ . '/framework/ipfilter.php';
-	Rhymix\Framework\IpFilter::getCloudFlareRealIP();
+	include_once __DIR__ . '/framework/filters/ipfilter.php';
+	Rhymix\Framework\Filters\IpFilter::getCloudFlareRealIP();
 }
 if (isset($_SERVER['REMOTE_ADDR']) && preg_match('/[0-9]+\.[0-9]+\.[0-9]+\.[0-9]+$/', $_SERVER['REMOTE_ADDR'], $matches))
 {
@@ -124,7 +124,7 @@ define('__XE_VERSION_ALPHA__', false);
 define('__XE_VERSION_BETA__', false);
 define('__XE_VERSION_RC__', false);
 define('__XE_VERSION_STABLE__', true);
-define('__XE_MIN_PHP_VERSION__', '5.3.3');
+define('__XE_MIN_PHP_VERSION__', '5.5.9');
 define('__XE_RECOMMEND_PHP_VERSION__', '5.5.9');
 define('__ZBXE__', true);
 define('__ZBXE_VERSION__', RX_VERSION);

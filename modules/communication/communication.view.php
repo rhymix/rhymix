@@ -17,10 +17,10 @@ class communicationView extends communication
 	{
 		$oCommunicationModel = getModel('communication');
 
-		$this->communication_config = $oCommunicationModel->getConfig();
-		$skin = $this->communication_config->skin;
+		$this->config = $oCommunicationModel->getConfig();
+		$skin = $this->config->skin;
 
-		Context::set('communication_config', $this->communication_config);
+		Context::set('communication_config', $this->config);
 
 		$config_parse = explode('|@|', $skin);
 
@@ -36,10 +36,10 @@ class communicationView extends communication
 		$this->setTemplatePath($tpl_path);
 
 		$oLayoutModel = getModel('layout');
-		$layout_info = $oLayoutModel->getLayout($this->communication_config->layout_srl);
+		$layout_info = $oLayoutModel->getLayout($this->config->layout_srl);
 		if($layout_info)
 		{
-			$this->module_info->layout_srl = $this->communication_config->layout_srl;
+			$this->module_info->layout_srl = $this->config->layout_srl;
 			$this->setLayoutPath($layout_info->path);
 		}
 	}
@@ -50,6 +50,11 @@ class communicationView extends communication
 	 */
 	function dispCommunicationMessages()
 	{
+		if($this->config->enable_message == 'N')
+		{
+			return $this->stop('msg_invalid_request');
+		}
+		
 		// Error appears if not logged-in
 		if(!Context::get('is_logged'))
 		{
@@ -57,11 +62,6 @@ class communicationView extends communication
 		}
 
 		$logged_info = Context::get('logged_info');
-
-		if(!array_key_exists('dispCommunicationMessages', $logged_info->menu_list))
-		{
-			return $this->stop('msg_invalid_request');
-		}
 
 		// Set the variables
 		$message_srl = Context::get('message_srl');
@@ -115,7 +115,7 @@ class communicationView extends communication
 		// Extract a list
 		$columnList = array('message_srl', 'readed', 'title', 'member.member_srl', 'member.nick_name', 'message.regdate', 'readed_date');
 		$output = $oCommunicationModel->getMessages($message_type, $columnList);
-
+		
 		// set a template file
 		Context::set('total_count', $output->total_count);
 		Context::set('total_page', $output->total_page);
@@ -138,6 +138,11 @@ class communicationView extends communication
 		$this->setLayoutPath('./common/tpl/');
 		$this->setLayoutFile('popup_layout');
 
+		if($this->config->enable_message == 'N')
+		{
+			return $this->stop('msg_invalid_request');
+		}
+		
 		// Error appears if not logged-in
 		if(!Context::get('is_logged'))
 		{
@@ -157,11 +162,6 @@ class communicationView extends communication
 			Context::set('message', $message);
 		}
 
-		// Delete a flag
-		$flag_path = './files/communication_extra_info/new_message_flags/' . getNumberingPath($logged_info->member_srl);
-		$flag_file = sprintf('%s%s', $flag_path, $logged_info->member_srl);
-		FileHandler::removeFile($flag_file);
-
 		$this->setTemplateFile('new_message');
 	}
 
@@ -174,9 +174,11 @@ class communicationView extends communication
 		$this->setLayoutPath('./common/tpl/');
 		$this->setLayoutFile("popup_layout");
 
-		$oCommunicationModel = getModel('communication');
-		$oMemberModel = getModel('member');
-
+		if($this->config->enable_message == 'N')
+		{
+			return $this->stop('msg_invalid_request');
+		}
+		
 		// Error appears if not logged-in
 		if(!Context::get('is_logged'))
 		{
@@ -199,6 +201,9 @@ class communicationView extends communication
 			return $this->stop('msg_cannot_send_to_yourself');
 		}
 
+		$oCommunicationModel = getModel('communication');
+		$oMemberModel = getModel('member');
+		
 		// get message_srl of the original message if it is a reply
 		$message_srl = Context::get('message_srl');
 		if($message_srl)
@@ -235,8 +240,8 @@ class communicationView extends communication
 		$option->resizable = FALSE;
 		$option->disable_html = TRUE;
 		$option->height = 300;
-		$option->skin = $this->communication_config->editor_skin;
-		$option->colorset = $this->communication_config->editor_colorset;
+		$option->skin = $this->config->editor_skin;
+		$option->colorset = $this->config->editor_colorset;
 		$editor = $oEditorModel->getEditor($logged_info->member_srl, $option);
 		Context::set('editor', $editor);
 
@@ -249,12 +254,17 @@ class communicationView extends communication
 	 */
 	function dispCommunicationFriend()
 	{
+		if($this->config->enable_friend == 'N')
+		{
+			return $this->stop('msg_invalid_request');
+		}
+		
 		// Error appears if not logged-in
 		if(!Context::get('is_logged'))
 		{
 			return $this->stop('msg_not_logged');
 		}
-
+		
 		$oCommunicationModel = getModel('communication');
 
 		// get a group list
@@ -307,7 +317,12 @@ class communicationView extends communication
 	{
 		$this->setLayoutPath('./common/tpl/');
 		$this->setLayoutFile("popup_layout");
-
+		
+		if($this->config->enable_friend == 'N')
+		{
+			return $this->stop('msg_invalid_request');
+		}
+		
 		// error appears if not logged-in
 		if(!Context::get('is_logged'))
 		{
@@ -349,7 +364,12 @@ class communicationView extends communication
 	{
 		$this->setLayoutPath('./common/tpl/');
 		$this->setLayoutFile("popup_layout");
-
+		
+		if($this->config->enable_friend == 'N')
+		{
+			return $this->stop('msg_invalid_request');
+		}
+		
 		// error apprears if not logged-in
 		if(!Context::get('is_logged'))
 		{

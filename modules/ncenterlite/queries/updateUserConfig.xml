@@ -1,0 +1,14 @@
+<query id="updateUserConfig" action="update">
+	<tables>
+		<table name="ncenterlite_user_set" />
+	</tables>
+	<columns>
+		<column name="comment_notify" var="comment_notify" notnull="notnull" />
+		<column name="mention_notify" var="mention_notify" notnull="notnull" />
+		<column name="message_notify" var="message_notify" notnull="notnull" />
+		<column name="regdate" var="regdate" default="curdate()" />
+	</columns>
+	<conditions>
+		<condition operation="equal" column="member_srl" var="member_srl" filter="number" notnull="notnull" />
+	</conditions>
+</query>

@@ -529,6 +529,7 @@ class adminAdminController extends admin
 		}
 		Rhymix\Framework\Config::set('locale.default_lang', $vars->default_lang);
 		Rhymix\Framework\Config::set('locale.enabled_lang', array_values($enabled_lang));
+		Rhymix\Framework\Config::set('locale.auto_select_lang', $vars->auto_select_lang === 'Y');
 		
 		// Default time zone
 		Rhymix\Framework\Config::set('locale.default_timezone', $vars->default_timezone);
@@ -555,33 +556,38 @@ class adminAdminController extends admin
 		$vars = Context::getRequestVars();
 		
 		// iframe filter
-		$embed_iframe = $vars->embedfilter_iframe;
-		$embed_iframe = array_filter(array_map('trim', preg_split('/[\r\n]/', $embed_iframe)), function($item) {
+		$iframe_whitelist = $vars->mediafilter_iframe;
+		$iframe_whitelist = array_filter(array_map('trim', preg_split('/[\r\n]/', $iframe_whitelist)), function($item) {
 			return $item !== '';
 		});
-		$embed_iframe = array_unique(array_map(function($item) {
-			return preg_match('@^https?://(.*)$@i', $item, $matches) ? $matches[1] : $item;
-		}, $embed_iframe));
-		natcasesort($embed_iframe);
-		Rhymix\Framework\Config::set('embedfilter.iframe', array_values($embed_iframe));
+		$iframe_whitelist = array_unique(array_map(function($item) {
+			return Rhymix\Framework\Filters\MediaFilter::formatPrefix($item);
+		}, $iframe_whitelist));
+		natcasesort($iframe_whitelist);
+		Rhymix\Framework\Config::set('mediafilter.iframe', array_values($iframe_whitelist));
 		
 		// object filter
-		$embed_object = $vars->embedfilter_object;
-		$embed_object = array_filter(array_map('trim', preg_split('/[\r\n]/', $embed_object)), function($item) {
+		$object_whitelist = $vars->mediafilter_object;
+		$object_whitelist = array_filter(array_map('trim', preg_split('/[\r\n]/', $object_whitelist)), function($item) {
 			return $item !== '';
 		});
-		$embed_object = array_unique(array_map(function($item) {
-			return preg_match('@^https?://(.*)$@i', $item, $matches) ? $matches[1] : $item;
-		}, $embed_object));
-		natcasesort($embed_object);
-		Rhymix\Framework\Config::set('embedfilter.object', array_values($embed_object));
+		$object_whitelist = array_unique(array_map(function($item) {
+			return Rhymix\Framework\Filters\MediaFilter::formatPrefix($item);
+		}, $object_whitelist));
+		natcasesort($object_whitelist);
+		Rhymix\Framework\Config::set('mediafilter.object', array_values($object_whitelist));
+		
+		// Remove old embed filter
+		$config = Rhymix\Framework\Config::getAll();
+		unset($config['embedfilter']);
+		Rhymix\Framework\Config::setAll($config);
 		
 		// Admin IP access control
 		$allowed_ip = array_map('trim', preg_split('/[\r\n]/', $vars->admin_allowed_ip));
 		$allowed_ip = array_unique(array_filter($allowed_ip, function($item) {
 			return $item !== '';
 		}));
-		if (!IpFilter::validate($whitelist)) {
+		if (!Rhymix\Framework\Filters\IpFilter::validateRanges($allowed_ip)) {
 			return new Object(-1, 'msg_invalid_ip');
 		}
 		
@@ -589,7 +595,7 @@ class adminAdminController extends admin
 		$denied_ip = array_unique(array_filter($denied_ip, function($item) {
 			return $item !== '';
 		}));
-		if (!IpFilter::validate($whitelist)) {
+		if (!Rhymix\Framework\Filters\IpFilter::validateRanges($denied_ip)) {
 			return new Object(-1, 'msg_invalid_ip');
 		}
 		
@@ -702,13 +708,15 @@ class adminAdminController extends admin
 		
 		// Debug settings
 		Rhymix\Framework\Config::set('debug.enabled', $vars->debug_enabled === 'Y');
-		Rhymix\Framework\Config::set('debug.log_errors', $vars->debug_log_errors === 'Y');
-		Rhymix\Framework\Config::set('debug.log_queries', $vars->debug_log_queries === 'Y');
 		Rhymix\Framework\Config::set('debug.log_slow_queries', max(0, floatval($vars->debug_log_slow_queries)));
 		Rhymix\Framework\Config::set('debug.log_slow_triggers', max(0, floatval($vars->debug_log_slow_triggers)));
 		Rhymix\Framework\Config::set('debug.log_slow_widgets', max(0, floatval($vars->debug_log_slow_widgets)));
 		Rhymix\Framework\Config::set('debug.display_type', strval($vars->debug_display_type) ?: 'comment');
 		Rhymix\Framework\Config::set('debug.display_to', strval($vars->debug_display_to) ?: 'admin');
+		
+		// Debug content
+		$debug_content = array_values($vars->debug_display_content);
+		Rhymix\Framework\Config::set('debug.display_content', $debug_content);
 		
 		// Log filename
 		$log_filename = strval($vars->debug_log_filename);
@@ -737,7 +745,7 @@ class adminAdminController extends admin
 		$allowed_ip = array_unique(array_filter($allowed_ip, function($item) {
 			return $item !== '';
 		}));
-		if (!IpFilter::validate($whitelist)) {
+		if (!Rhymix\Framework\Filters\IpFilter::validateRanges($allowed_ip)) {
 			return new Object(-1, 'msg_invalid_ip');
 		}
 		Rhymix\Framework\Config::set('debug.allow', array_values($allowed_ip));
@@ -763,30 +771,17 @@ class adminAdminController extends admin
 		
 		if ($vars->sitelock_locked === 'Y')
 		{
-			$allowed_localhost = false;
-			$allowed_current = false;
-			foreach ($allowed_ip as $range)
-			{
-				if (Rhymix\Framework\IpFilter::inRange('127.0.0.1', $range))
-				{
-					$allowed_localhost = true;
-				}
-				if (Rhymix\Framework\IpFilter::inRange(RX_CLIENT_IP, $range))
-				{
-					$allowed_current = true;
-				}
-			}
-			if (!$allowed_localhost)
+			if (!Rhymix\Framework\Filters\IpFilter::inRanges('127.0.0.1', $allowed_ip))
 			{
 				array_unshift($allowed_ip, '127.0.0.1');
 			}
-			if (!$allowed_current)
+			if (!Rhymix\Framework\Filters\IpFilter::inRanges(RX_CLIENT_IP, $allowed_ip))
 			{
 				array_unshift($allowed_ip, RX_CLIENT_IP);
 			}
 		}
 		
-		if (!IpFilter::validate($whitelist))
+		if (!Rhymix\Framework\Filters\IpFilter::validateRanges($allowed_ip))
 		{
 			return new Object(-1, 'msg_invalid_ip');
 		}
@@ -907,7 +902,7 @@ class adminAdminController extends admin
 		else
 		{
 			$name = $tmpFileName = '';
-			Context::set('msg', Context::getLang('msg_invalid_format'));
+			Context::set('msg', lang('msg_invalid_format'));
 		}
 		
 		Context::set('name', $name);
@@ -930,35 +925,13 @@ class adminAdminController extends admin
 		$relative_filename = 'files/attach/xeicon/'.$virtual_site.'tmp/'.$iconname;
 		$target_filename = RX_BASEDIR . $relative_filename;
 
-		list($width, $height, $type_no, $attrs) = @getimagesize($original_filename);
-		if ($iconname == 'favicon.ico')
+		if ($iconname !== 'favicon.ico' && $iconname !== 'mobicon.png')
 		{
-			if(!preg_match('/^.*(x-icon|\.icon)$/i',$type)) {
-				Context::set('msg', '*.ico '.Context::getLang('msg_possible_only_file'));
-				return;
-			}
-		}
-		elseif ($iconname == 'mobicon.png')
-		{
-			if (!preg_match('/^.*(png).*$/',$type))
-			{
-				Context::set('msg', '*.png '.Context::getLang('msg_possible_only_file'));
-				return;
-			}
-			if (!(($height == '57' && $width == '57') || ($height == '114' && $width == '114')))
-			{
-				Context::set('msg', Context::getLang('msg_invalid_format').' (size : 57x57, 114x114)');
-				return;
-			}
-		}
-		else
-		{
-			Context::set('msg', Context::getLang('msg_invalid_format'));
+			Context::set('msg', lang('msg_invalid_format'));
 			return;
 		}
 		
-		$fitHeight = $fitWidth = $height;
-		FileHandler::copyFile($original_filename, $target_filename);
+		Rhymix\Framework\Storage::copy($original_filename, $target_filename, 0666 & ~umask());
 		return $relative_filename;
 	}
 	
@@ -985,8 +958,6 @@ class adminAdminController extends admin
 		{
 			FileHandler::moveFile($tmpicon_filepath, $icon_filepath);
 		}
-		
-		FileHandler::removeFile($tmpicon_filepath);
 	}
 }
 /* End of file admin.admin.controller.php */

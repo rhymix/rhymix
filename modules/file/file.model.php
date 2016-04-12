@@ -47,8 +47,14 @@ class fileModel extends file
 				$obj->source_filename = $file_info->source_filename;
 				$obj->file_size = $file_info->file_size;
 				$obj->disp_file_size = FileHandler::filesize($file_info->file_size);
-				if($file_info->direct_download=='N') $obj->download_url = $this->getDownloadUrl($file_info->file_srl, $file_info->sid, $file_info->module_srl);
-				else $obj->download_url = str_replace('./', '', $file_info->uploaded_filename);
+				if($file_info->direct_download == 'N')
+				{
+					$obj->download_url = $this->getDownloadUrl($file_info->file_srl, $file_info->sid, $file_info->module_srl);
+				}
+				else
+				{
+					$obj->download_url = $this->getDirectFileUrl($file_info->uploaded_filename);
+				}
 				$obj->direct_download = $file_info->direct_download;
 				$obj->cover_image = ($file_info->cover_image === 'Y') ? true : false;
 				$files[] = $obj;
@@ -109,7 +115,23 @@ class fileModel extends file
 	{
 		return sprintf('?module=%s&amp;act=%s&amp;file_srl=%s&amp;sid=%s&amp;module_srl=%s', 'file', 'procFileDownload', $file_srl, $sid, $module_srl);
 	}
+	
+	/**
+	 * Return direct download file url
+	 *
+	 * @param string $path
+	 * @return string
+	 */
+	function getDirectFileUrl($path)
+	{
+		if(dirname($_SERVER['SCRIPT_NAME']) == '/' || dirname($_SERVER['SCRIPT_NAME']) == '\\')
+		{
+			return '/' . substr($path, 2);
+		}
 
+		return dirname($_SERVER['SCRIPT_NAME']) . '/' . substr($path, 2);
+	}
+	
 	/**
 	 * Get file configurations
 	 *
@@ -271,12 +293,12 @@ class fileModel extends file
 		// Display upload status
 		$upload_status = sprintf(
 			'%s : %s/ %s<br /> %s : %s (%s : %s)',
-			Context::getLang('allowed_attach_size'),
+			lang('allowed_attach_size'),
 			FileHandler::filesize($attached_size),
 			FileHandler::filesize($file_config->allowed_attach_size*1024*1024),
-			Context::getLang('allowed_filesize'),
+			lang('allowed_filesize'),
 			FileHandler::filesize($file_config->allowed_filesize*1024*1024),
-			Context::getLang('allowed_filetypes'),
+			lang('allowed_filetypes'),
 			$file_config->allowed_filetypes
 		);
 		return $upload_status;

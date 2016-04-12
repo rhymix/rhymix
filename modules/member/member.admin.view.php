@@ -129,8 +129,7 @@ class memberAdminView extends member
 	 */
 	public function dispMemberAdminConfig()
 	{
-		$oPassword = new Password();
-		Context::set('password_hashing_algos', $oPassword->getSupportedAlgorithms());
+		Context::set('password_hashing_algos', Rhymix\Framework\Password::getSupportedAlgorithms());
 		
 		$this->setTemplateFile('default_config');
 	}
@@ -486,7 +485,7 @@ class memberAdminView extends member
 					else if($formInfo->name == 'birthday')
 					{
 						$formTag->type = 'date';
-						$inputTag = sprintf('<input type="hidden" name="birthday" id="date_birthday" value="%s" /><input type="text" placeholder="YYYY-MM-DD" name="birthday_ui" class="inputDate" id="birthday" value="%s" readonly="readonly" /> <input type="button" value="%s" class="btn dateRemover" />',
+						$inputTag = sprintf('<input type="hidden" name="birthday" id="date_birthday" value="%s" /><input type="date" placeholder="YYYY-MM-DD" name="birthday_ui" class="inputDate" id="birthday" value="%s" min="' . date('Y-m-d',strtotime('-200 years')) . '"  max="' . date('Y-m-d',strtotime('+10 years')) . '" onchange="jQuery(\'#date_birthday\').val(this.value.replace(/-/g,\'\'));" readonly="readonly" /> <input type="button" value="%s" class="btn dateRemover" />',
 							$memberInfo['birthday'],
 							zdate($memberInfo['birthday'], 'Y-m-d', false),
 							$lang->cmd_delete);
@@ -506,7 +505,7 @@ class memberAdminView extends member
 								$val);
 						}
 						$inputTag = sprintf($inputTag, implode('', $optionTag));
-						$inputTag .= '<input type="text" name="find_account_answer" id="find_account_answer" title="'.Context::getLang('find_account_answer').'" value="'.$memberInfo['find_account_answer'].'" />';
+						$inputTag .= '<input type="text" name="find_account_answer" id="find_account_answer" title="'.lang('find_account_answer').'" value="'.$memberInfo['find_account_answer'].'" />';
 					}
 					else if($formInfo->name == 'email_address')
 					{
@@ -627,7 +626,7 @@ class memberAdminView extends member
 					else if($extendForm->column_type == 'date')
 					{
 						$extentionReplace = array('date' => zdate($extendForm->value, 'Y-m-d'), 'cmd_delete' => $lang->cmd_delete);
-						$template = '<input type="hidden" name="%column_name%" id="date_%column_name%" value="%value%" /><input type="text" placeholder="YYYY-MM-DD" class="inputDate" value="%date%" readonly="readonly" /> <input type="button" value="%cmd_delete%" class="btn dateRemover" />';
+						$template = '<input type="hidden" name="%column_name%" id="date_%column_name%" value="%value%" /><input type="date" placeholder="YYYY-MM-DD" class="inputDate" value="%date%" onchange="jQuery(\'#date_%column_name%\').val(this.value.replace(/-/g,\'\'));" readonly="readonly" /> <input type="button" value="%cmd_delete%" class="btn dateRemover" />';
 					}
 
 					$replace = array_merge($extentionReplace, $replace);
@@ -679,6 +678,20 @@ class memberAdminView extends member
 
 		}
 		$this->setTemplateFile('insert_join_form');
+	}
+
+	function dispMemberAdminNickNameLog()
+	{
+		$page = Context::get('page');
+		$output = getModel('member')->getMemberModifyNicknameLog($page);
+
+		Context::set('total_count', $output->total_count);
+		Context::set('total_page', $output->total_page);
+		Context::set('page', $output->page);
+		Context::set('nickname_list', $output->data);
+		Context::set('page_navigation', $output->page_navigation);
+
+		$this->setTemplateFile('nick_name_log');
 	}
 }
 /* End of file member.admin.view.php */

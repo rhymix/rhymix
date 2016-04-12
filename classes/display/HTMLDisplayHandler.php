@@ -394,7 +394,6 @@ class HTMLDisplayHandler
 		if(Context::get('module') == 'admin' || strpos(Context::get('act'), 'Admin') > 0)
 		{
 			Context::loadFile(array('./modules/admin/tpl/css/admin.css', '', '', 10), true);
-			Context::loadFile(array("./modules/admin/tpl/css/admin_{$lang_type}.css", '', '', 10), true);
 			Context::loadFile(array("./modules/admin/tpl/css/admin.iefix.css", '', 'ie', 10), true);
 			Context::loadFile('./modules/admin/tpl/js/admin.js', true);
 			Context::loadFile(array('./modules/admin/tpl/css/admin.bootstrap.css', '', '', 1), true);

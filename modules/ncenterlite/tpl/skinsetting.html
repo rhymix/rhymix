@@ -1,0 +1,91 @@
+<load target="js/ncenter_admin.js" />
+<load target="css/ncenter_admin.css" />
+<include target="header.html" />
+
+
+<form ruleset="insertConfig" action="./" method="post" class="x_form-horizontal" id="fo_ncenterlite">
+	<input type="hidden" name="module" value="ncenterlite" />
+	<input type="hidden" name="disp_act" value="dispNcenterliteAdminSkinsetting" />
+	<input type="hidden" name="act" value="procNcenterliteAdminInsertConfig" />
+	<section class="section">
+		<h1>{$lang->cmd_layout_setup}</h1>
+		<div class="x_control-group">
+			<label class="x_control-label" for="layout_srl">{$lang->layout}</label>
+			<div class="x_controls">
+				<select name="layout_srl" id="layout_srl">
+					<option value="0">{$lang->notuse}</option>
+					<option loop="$layout_list => $key, $val" value="{$val->layout_srl}" selected="selected"|cond="$config->layout_srl==$val->layout_srl">{$val->title} ({$val->layout})</option>
+				</select>
+				<a href="#aboutLayout" data-toggle class="x_icon-question-sign">{$lang->help}</a>
+				<p class="x_help-block" id="aboutLayout" hidden>{$lang->about_layout}</p>
+			</div>
+		</div>
+		<div class="x_control-group">
+			<label class="x_control-label" for="mlayout_srl">{$lang->mobile} {$lang->layout}</label>
+			<div class="x_controls">
+				<select name="mlayout_srl" id="mlayout_srl">
+					<option value="0">{$lang->notuse}</option>
+					<option loop="$mlayout_list => $key, $val" value="{$val->layout_srl}" selected="selected"|cond="$config->mlayout_srl==$val->layout_srl">{$val->title} ({$val->layout})</option>
+				</select>
+				<a href="#aboutMLayout" data-toggle class="x_icon-question-sign">{$lang->help}</a>
+				<p class="x_help-block" id="aboutMLayout" hidden>{$lang->about_layout}</p>
+			</div>
+		</div>
+	</section>
+
+	<section class="section">
+		<h1>{$lang->ncenterlite_skin_settings}</h1>
+		<div class="x_control-group">
+			<label class="x_control-label" for="skin">{$lang->skin}</label>
+			<div class="x_controls">
+				<select name="skin" id="skin" onchange="doDisplaySkinColorset(this); return false;">
+					<option loop="$skin_list => $key, $val" value="{$key}" selected="selected"|cond="$config->skin == $key">
+						{$val->title} ({htmlspecialchars($key)})
+					</option>
+				</select>
+			</div>
+		</div>
+		<div class="x_control-group">
+			<label class="x_control-label" for="colorset">{$lang->colorset}</label>
+			<div class="x_controls">
+				<select name="colorset" id="colorset">
+					<option loop="$colorset_list => $key, $val" value="{$val->name}" selected="selected"|cond="$config->colorset == $val->name">
+						{$val->title} ({$val->name})
+					</option>
+				</select>
+			</div>
+		</div>
+		<div class="x_control-group">
+			<label class="x_control-label" for="mskin">mobile {$lang->mskin}</label>
+			<div class="x_controls">
+				<select name="mskin" id="mskin" onchange="doDisplayMobileSkinColorset(this); return false;">
+					<option loop="$mskin_list => $key, $val" value="{$key}" selected="selected"|cond="$config->mskin == $key">
+						{$val->title} ({htmlspecialchars($key)})
+					</option>
+				</select>
+			</div>
+		</div>
+		<div class="x_control-group">
+			<label class="x_control-label" for="mcolorset">mobile {$lang->colorset}</label>
+			<div class="x_controls">
+				<select name="mcolorset" id="mcolorset">
+					<option loop="$mcolorset_list => $key, $val" value="{$val->name}" selected="selected"|cond="$config->mcolorset == $val->name">
+						{$val->title} ({$val->name})
+					</option>
+				</select>
+			</div>
+		</div>
+		<div class="x_control-group">
+			<label class="x_control-label" for="zindex">{$lang->ncenterlite_zindex}</label>
+			<div class="x_controls">
+				<input type="number" name="zindex" id="zindex" value="{$config->zindex}" />
+				<p class="x_help-block">{$lang->ncenterlite_zindex_about}</p>
+			</div>
+		</div>
+	</section>
+	<div class="x_clearfix btnArea">
+		<div class="x_pull-right">
+			<button class="x_btn x_btn-primary" type="submit">{$lang->cmd_registration}</button>
+		</div>
+	</div>
+</form>

@@ -1,6 +1,5 @@
 language: php
 php:
-- 5.3
 - 5.4
 - 5.5
 - 5.6
@@ -11,14 +10,14 @@ before_script:
 - npm install grunt grunt-cli grunt-contrib-jshint grunt-contrib-csslint grunt-phplint --save-dev
 - mysql -u root -e "CREATE DATABASE rhymix"
 - mysql -u root -e "SET PASSWORD FOR 'travis'@'localhost' = PASSWORD('travis')"
-- if [[ $TRAVIS_PHP_VERSION != "hhvm" ]]; then php -S localhost:8000 & fi
-- if [[ $TRAVIS_PHP_VERSION == "5.3" ]]; then touch codecept.phar; fi
+- if [[ $TRAVIS_PHP_VERSION != "5.4" && $TRAVIS_PHP_VERSION != "hhvm" ]]; then php -S localhost:8000 & fi
 - if [[ $TRAVIS_PHP_VERSION == "5.4" ]]; then wget http://codeception.com/releases/2.0.16/codecept.phar; fi
-- if [[ ! -f codecept.phar ]]; then wget http://codeception.com/codecept.phar; fi
+- if [[ ! -f codecept.phar ]]; then wget http://codeception.com/releases/2.1.6/codecept.phar; fi
 script:
-- if [[ -f codecept.phar ]]; then php codecept.phar build; fi
-- if [[ $TRAVIS_PHP_VERSION == "hhvm" ]]; then php codecept.phar run -d --fail-fast --env travis --skip install; fi
-- if [[ $TRAVIS_PHP_VERSION != "hhvm" ]]; then php codecept.phar run -d --fail-fast --env travis; fi
+- if [[ -s codecept.phar ]]; then php codecept.phar build; fi
+- if [[ -s codecept.phar && $TRAVIS_PHP_VERSION == "hhvm" ]]; then php codecept.phar run -d --fail-fast --env travis --skip install; fi
+- if [[ -s codecept.phar && $TRAVIS_PHP_VERSION == "5.4" ]]; then php codecept.phar run -d --fail-fast --env travis --skip install; fi
+- if [[ -s codecept.phar && $TRAVIS_PHP_VERSION != "5.4" && $TRAVIS_PHP_VERSION != "hhvm" ]]; then php codecept.phar run -d --fail-fast --env travis; fi
 - grunt lint
 notifications:
   email: false

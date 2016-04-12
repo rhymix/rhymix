@@ -105,7 +105,7 @@ class boardMobile extends boardView
 
 	function dispBoardMessage($msg_code)
 	{
-		$msg = Context::getLang($msg_code);
+		$msg = lang($msg_code);
 		$oMessageObject = &ModuleHandler::getModuleInstance('message','mobile');
 		$oMessageObject->setError(-1);
 		$oMessageObject->setMessage($msg);

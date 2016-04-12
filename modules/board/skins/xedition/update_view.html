@@ -1,0 +1,37 @@
+<include target="_header.html" />
+<div class="update-log">
+	<div class="board_read" >
+		<!-- READ HEADER -->
+		<div class="read_header">
+			<h1>
+				<a href="{getUrl('category',$update_log->category_srl, 'document_srl', '')}" class="category" cond="$module_info->use_category=='Y' && $update_log->category_srl">{$category_list[$update_log->category_srl]->title}</a>
+				<a>{$update_log->title}</a> <span class="is_admin" cond="$update_log->is_admin == 'Y'">{$lang->write_admin}</span>
+			</h1>
+			<p class="meta">
+				<span class="time">
+					<i class="xi-time"></i> {zdate($update_log->regdate,'Y.m.d H:i:s')}
+				</span>
+			</p>
+		</div>
+		<!-- READ BODY -->
+		<div class="read_body">
+			{$update_log->content}
+		</div>
+		<p loop="$extra_vars=>$key=>$val">
+			{$key} : {$val}
+		</p>
+		<p>
+			{$lang->reason_update} :
+			{$update_log->reason_update}
+		</p>
+		<!-- /READ BODY -->
+	</div>
+
+	<form action="./" method="post" onsubmit="if(!confirm('{$lang->msg_update_log_revert}')) return false; return procFilter(this, window.update)" cond="$update_log->is_admin !== 'Y' && $logged_info->is_admin !=='Y' || $logged_info->is_admin === 'Y'">
+		<input type="hidden" name="module" value="board" />
+		<input type="hidden" name="act" value="procBoardUpdateDocument" />
+		<input type="hidden" name="update_id" value="{$update_log->update_id}" />
+		<button class="btn" type="submit">{$lang->cmd_modify_by_update_log}</button>
+	</form>
+</div>
+<include target="_footer.html" />

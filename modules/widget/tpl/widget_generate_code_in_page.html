@@ -1,12 +1,14 @@
 <load target="../../admin/tpl/css/admin.bootstrap.css" />
 <load target="../../admin/tpl/css/admin.css" />
-<load cond="$lang_type=='ko'" target="../../admin/tpl/css/admin_ko.css" />
-<load cond="$lang_type=='en'" target="../../admin/tpl/css/admin_en.css" />
 <load target="../../admin/tpl/js/admin.js" />
 <load target="js/generate_code.js" />
 <load target="../../admin/tpl/js/jquery.tmpl.js" />
 <load target="../../admin/tpl/js/jquery.jstree.js" />
 <script>
+	xe.cmd_find = "{$lang->cmd_find}";
+	xe.cmd_cancel = "{$lang->cmd_cancel}";
+	xe.cmd_confirm = "{$lang->cmd_confirm}";
+	xe.msg_select_menu = "{$lang->msg_select_menu}";
 	xe.lang.cmd_delete = '{$lang->cmd_delete}';
 
 	jQuery(document).ready(function(){

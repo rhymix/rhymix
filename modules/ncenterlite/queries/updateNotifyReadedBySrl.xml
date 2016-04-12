@@ -1,0 +1,13 @@
+<query id="updateNotifyReadedBySrl" action="update">
+	<tables>
+		<table name="ncenterlite_notify" />
+	</tables>
+	<columns>
+		<column name="readed" default="Y" />
+	</columns>
+	<conditions>
+		<condition operation="equal" column="member_srl" var="member_srl" filter="number" notnull="notnull" />
+		<condition operation="equal" column="srl" var="srl" filter="number" notnull="notnull" pipe="and" />
+		<condition operation="equal" column="type" var="type" pipe="and" />
+	</conditions>
+</query>

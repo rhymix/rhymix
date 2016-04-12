@@ -200,7 +200,6 @@ function doSyncPageContent() {
 			if(!fo_obj.document_srl || fo_obj.document_srl.value == '0') {
 				try {
 					var content = Base64.decode(xInnerHtml(obj));
-					content = editorReplacePath(content);
 					get_by_id("content_fo").content.value = content;
 					xe.Editors["1"].exec("SET_IR", [content]);
 				}

@@ -41,7 +41,7 @@ class documentAdminController extends document
 			$oDocumentController->deleteDocument($document_srl, true);
 		}
 
-		$this->setMessage(sprintf(Context::getLang('msg_checked_document_is_deleted'), $document_count) );
+		$this->setMessage(sprintf(lang('msg_checked_document_is_deleted'), $document_count) );
 	}
 
 	/**
@@ -145,11 +145,20 @@ class documentAdminController extends document
 			$obj->module_srl = $module_srl;
 			$obj->category_srl = $category_srl;
 			$output = executeQuery('document.updateDocumentModule', $obj);
-			if(!$output->toBool()) {
+			if(!$output->toBool())
+			{
 				$oDB->rollback();
 				return $output;
 			}
-
+			else
+			{
+				$update_output = $oDocumentController->insertDocumentUpdateLog($obj);
+				if(!$update_output->toBool())
+				{
+					$oDB->rollback();
+					return $update_output;
+				}
+			}
 			//Move a module of the extra vars
 			$output = executeQuery('document.moveDocumentExtraVars', $obj);
 			if(!$output->toBool()) {

@@ -13,17 +13,17 @@ function pointLevelIconTrans($matches, $addon_info)
 		return $matches[0];
 	}
 
-	$orig_text = preg_replace('/' . preg_quote($matches[5], '/') . '<\/' . $matches[6] . '>$/', '', $matches[0]);
-
-	if($addon_info->icon_duplication != 'Y')
+	if($addon_info->icon_duplication != 'N')
 	{
 		// Check Group Image Mark
 		$oMemberModel = getModel('member');
 		if($oMemberModel->getGroupImageMark($member_srl))
 		{
-			return $orig_text . $matches[5] . '</' . $matches[6] . '>';
+			return $matches[0];
 		}
 	}
+
+	$orig_text = preg_replace('/' . preg_quote($matches[5], '/') . '<\/' . $matches[6] . '>$/', '', $matches[0]);
 
 	if(!isset($GLOBALS['_pointLevelIcon'][$member_srl]))
 	{
@@ -70,8 +70,8 @@ function pointLevelIconTrans($matches, $addon_info)
 			}
 		}
 
-		$title = sprintf('%s:%s%s%s, %s:%s/%s', Context::getLang('point'), $point, $config->point_name, $per ? ' (' . $per . ')' : '', Context::getLang('level'), $level, $config->max_level);
-		$alt = sprintf('[%s:%s]', Context::getLang('level'), $level);
+		$title = sprintf('%s:%s%s%s, %s:%s/%s', lang('point'), $point, $config->point_name, $per ? ' (' . $per . ')' : '', lang('level'), $level, $config->max_level);
+		$alt = sprintf('[%s:%s]', lang('level'), $level);
 
 		$GLOBALS['_pointLevelIcon'][$member_srl] = sprintf('<img src="%s" alt="%s" title="%s" class="xe_point_level_icon" style="vertical-align:middle;margin-right:3px;" />', $level_icon, $alt, $title);
 	}

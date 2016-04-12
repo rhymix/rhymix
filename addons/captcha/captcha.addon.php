@@ -62,7 +62,7 @@ if(!class_exists('AddonCaptcha', false))
 					{
 						Context::loadLang(_XE_PATH_ . 'addons/captcha/lang');
 						$_SESSION['XE_VALIDATOR_ERROR'] = -1;
-						$_SESSION['XE_VALIDATOR_MESSAGE'] = Context::getLang('captcha_denied');
+						$_SESSION['XE_VALIDATOR_MESSAGE'] = lang('captcha_denied');
 						$_SESSION['XE_VALIDATOR_MESSAGE_TYPE'] = 'error';
 						$_SESSION['XE_VALIDATOR_RETURN_URL'] = Context::get('error_return_url');
 						$ModuleHandler->_setInputValueToSession();
@@ -113,7 +113,7 @@ if(!class_exists('AddonCaptcha', false))
 			// Generate keywords
 			$this->createKeyword();
 
-			$target = Context::getLang('target_captcha');
+			$target = lang('target_captcha');
 			header("Content-Type: text/xml; charset=UTF-8");
 			header("Expires: Mon, 26 Jul 1997 05:00:00 GMT");
 			header("Last-Modified: " . gmdate("D, d M Y H:i:s") . " GMT");
@@ -121,11 +121,11 @@ if(!class_exists('AddonCaptcha', false))
 			header("Cache-Control: post-check=0, pre-check=0", false);
 			header("Pragma: no-cache");
 			printf("<response>\r\n <error>0</error>\r\n <message>success</message>\r\n <about_captcha><![CDATA[%s]]></about_captcha>\r\n <captcha_reload><![CDATA[%s]]></captcha_reload>\r\n <captcha_play><![CDATA[%s]]></captcha_play>\r\n <cmd_input><![CDATA[%s]]></cmd_input>\r\n <cmd_cancel><![CDATA[%s]]></cmd_cancel>\r\n </response>"
-					, Context::getLang('about_captcha')
-					, Context::getLang('captcha_reload')
-					, Context::getLang('captcha_play')
-					, Context::getLang('cmd_input')
-					, Context::getLang('cmd_cancel')
+					, lang('about_captcha')
+					, lang('captcha_reload')
+					, lang('captcha_play')
+					, lang('cmd_input')
+					, lang('cmd_cancel')
 			);
 			Context::close();
 			exit();

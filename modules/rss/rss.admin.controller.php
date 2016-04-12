@@ -44,7 +44,7 @@ class rssAdminController extends rss
 				$total_config->image = '';
 			}
 			// Ignore if the file is not the one which has been successfully uploaded
-			if($image_obj['tmp_name'] && is_uploaded_file($image_obj['tmp_name']) && checkUploadedFile($image_obj['tmp_name']))
+			if($image_obj['tmp_name'] && is_uploaded_file($image_obj['tmp_name']))
 			{
 				// Ignore if the file is not an image (swf is accepted ~)
 				$image_obj['name'] = Context::convertEncodingStr($image_obj['name']);
@@ -76,7 +76,7 @@ class rssAdminController extends rss
 
 		if(!$alt_message) $alt_message = 'success_updated';
 
-		$alt_message = Context::getLang($alt_message);
+		$alt_message = lang($alt_message);
 		$this->setMessage($alt_message, 'info');
 
 		//$this->setLayoutPath('./common/tpl');

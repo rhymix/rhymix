@@ -50,6 +50,10 @@ class boardController extends board
 			unset($obj->title_color);
 			unset($obj->title_bold);
 		}
+		else
+		{
+			$obj->is_admin = 'Y';
+		}
 
 		// generate document module model object
 		$oDocumentModel = getModel('document');
@@ -106,6 +110,11 @@ class boardController extends board
 			}
 		}
 
+		if($this->module_info->update_log == 'Y')
+		{
+			$obj->update_log_setting = 'Y';
+		}
+
 		// update the document if it is existed
 		if($is_update)
 		{
@@ -122,11 +131,16 @@ class boardController extends board
 				}
 			}
 
+			if($this->module_info->use_anonymous == 'Y') {
+				$obj->member_srl = abs($oDocument->get('member_srl')) * -1;
+				$oDocument->add('member_srl', $obj->member_srl);
+			}
+
 			if($this->module_info->protect_document_regdate > 0 && $this->grant->manager == false)
 			{
 				if($oDocument->get('regdate') < date('YmdHis', strtotime('-'.$this->module_info->protect_document_regdate.' day')))
 				{
-					$format =  Context::getLang('msg_protect_regdate_document');
+					$format =  lang('msg_protect_regdate_document');
 					$massage = sprintf($format, $this->module_info->protect_document_regdate);
 					return new Object(-1, $massage);
 				}
@@ -146,12 +160,14 @@ class boardController extends board
 				$obj->last_update = $obj->regdate = date('YmdHis');
 				$obj->update_order = $obj->list_order = (getNextSequence() * -1);
 			}
-
-			$output = $oDocumentController->updateDocument($oDocument, $obj);
+			$obj->reason_update = escape($obj->reason_update);
+			$output = $oDocumentController->updateDocument($oDocument, $obj, true);
 			$msg_code = 'success_updated';
 
 		// insert a new document otherwise
-		} else {
+		}
+		else
+		{
 			$output = $oDocumentController->insertDocument($obj, $bAnonymous);
 			$msg_code = 'success_registed';
 			$obj->document_srl = $output->get('document_srl');
@@ -191,11 +207,54 @@ class boardController extends board
 		}
 
 		// return the results
+		$this->setRedirectUrl(getNotEncodedUrl('', 'mid', Context::get('mid'), 'act', '', 'document_srl', $output->get('document_srl')));
 		$this->add('mid', Context::get('mid'));
 		$this->add('document_srl', $output->get('document_srl'));
 
 		// alert a message
 		$this->setMessage($msg_code);
+	}
+
+	function procBoardRevertDocument()
+	{
+		$update_id = Context::get('update_id');
+		$logged_info = Context::get('logged_info');
+		if(!$update_id)
+		{
+			return new Object(-1, 'msg_no_update_id');
+		}
+
+		$oDocumentModel = getModel('document');
+		$oDocumentController = getController('document');
+		$update_log = $oDocumentModel->getUpdateLog($update_id);
+
+		if($logged_info->is_admin != 'Y')
+		{
+			$Exists_log = $oDocumentModel->getUpdateLogAdminisExists($update_log->document_srl);
+			if($Exists_log === true)
+			{
+				return new Object(-1, 'msg_admin_update_log');
+			}
+		}
+
+		if(!$update_log)
+		{
+			return new Object(-1, 'msg_no_update_log');
+		}
+
+		$oDocument = $oDocumentModel->getDocument($update_log->document_srl);
+		$obj = new stdClass();
+		$obj->title = $update_log->title;
+		$obj->document_srl = $update_log->document_srl;
+		$obj->title_bold = $update_log->title_bold;
+		$obj->title_color = $update_log->title_color;
+		$obj->content = $update_log->content;
+		$obj->update_log_setting = 'Y';
+		$obj->reason_update = lang('board.revert_reason_update');
+		$output = $oDocumentController->updateDocument($oDocument, $obj);
+		$this->setRedirectUrl(getNotEncodedUrl('', 'mid', Context::get('mid'),'act', '', 'document_srl', $update_log->document_srl));
+		$this->add('mid', Context::get('mid'));
+		$this->add('document_srl', $update_log->document_srl);
 	}
 
 	/**
@@ -227,7 +286,7 @@ class boardController extends board
 		{
 			if($oDocument->get('regdate') < date('YmdHis', strtotime('-'.$this->module_info->protect_document_regdate.' day')))
 			{
-				$format =  Context::getLang('msg_protect_regdate_document');
+				$format =  lang('msg_protect_regdate_document');
 				$massage = sprintf($format, $this->module_info->protect_document_regdate);
 				return new Object(-1, $massage);
 			}
@@ -378,7 +437,7 @@ class boardController extends board
 			{
 				if($comment->get('regdate') < date('YmdHis', strtotime('-'.$this->module_info->protect_document_regdate.' day')))
 				{
-					$format =  Context::getLang('msg_protect_regdate_comment');
+					$format =  lang('msg_protect_regdate_comment');
 					$massage = sprintf($format, $this->module_info->protect_document_regdate);
 					return new Object(-1, $massage);
 				}
@@ -399,6 +458,7 @@ class boardController extends board
 		}
 
 		$this->setMessage('success_registed');
+		$this->setRedirectUrl(getNotEncodedUrl('', 'mid', Context::get('mid'), 'act', '', 'document_srl', $obj->document_srl) . '#comment_' . $obj->comment_srl);
 		$this->add('mid', Context::get('mid'));
 		$this->add('document_srl', $obj->document_srl);
 		$this->add('comment_srl', $obj->comment_srl);
@@ -431,7 +491,7 @@ class boardController extends board
 		{
 			if($comment->get('regdate') < date('YmdHis', strtotime('-'.$this->module_info->protect_document_regdate.' day')))
 			{
-				$format =  Context::getLang('msg_protect_regdate_comment');
+				$format =  lang('msg_protect_regdate_comment');
 				$massage = sprintf($format, $this->module_info->protect_document_regdate);
 				return new Object(-1, $massage);
 			}
@@ -449,6 +509,7 @@ class boardController extends board
 		$this->add('page', Context::get('page'));
 		$this->add('document_srl', $output->get('document_srl'));
 		$this->setMessage('success_deleted');
+		$this->setRedirectUrl(getNotEncodedUrl('', 'mid', Context::get('mid'), 'act', '', 'page', Context::get('page'), 'document_srl', $output->get('document_srl')));
 	}
 
 	/**
@@ -473,6 +534,7 @@ class boardController extends board
 		$this->add('page', Context::get('page'));
 		$this->add('document_srl', $output->get('document_srl'));
 		$this->setMessage('success_deleted');
+		$this->setRedirectUrl(getNotEncodedUrl('', 'mid', Context::get('mid'), 'act', '', 'page', Context::get('page'), 'document_srl', $output->get('document_srl')));
 	}
 
 	/**

@@ -1,0 +1,9 @@
+This is a sample text file.
+This is a paragraph with multiple lines.
+This is the third line.
+
+This is another paragraph.
+
+This is a SPAN element that will be stripped away.
+This is a link <foobar.html> that will be preserved.
+This is an [Image Title] <test.jpg> that will be preserved.

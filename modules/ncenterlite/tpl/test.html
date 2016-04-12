@@ -1,0 +1,22 @@
+<load target="js/ncenter_admin.js" />
+<load target="css/ncenter_admin.css" />
+<include target="header.html" />
+
+<div class="x_form-horizontal" id="fo_ncenterlite">
+	<section class="section">
+		<h1>{$lang->etc}</h1>
+		<div class="x_control-group">
+			<label class="x_control-label">{$lang->ncenterlite_test_mention}</label>
+			<div class="x_controls">
+				<label><input type="button" name="dummy" onClick="doDummyDataInsert();" class="x_btn" value="{$lang->ncenterlite_test_make_dummy}"> {$lang->ncenterlite_test_mention_about}</label>
+			</div>
+		</div>
+
+		<div class="x_control-group">
+			<label class="x_control-label">{$lang->ncenterlite_test_push}</label>
+			<div class="x_controls">
+				<label><input type="button" name="dummy" onClick="doDummyPushDataInsert();" class="x_btn" value="{$lang->ncenterlite_test_make_dummy}"> {$lang->ncenterlite_test_push_about}</label>
+			</div>
+		</div>
+	</section>
+</div>

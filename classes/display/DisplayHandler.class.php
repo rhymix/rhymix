@@ -12,6 +12,7 @@
 class DisplayHandler extends Handler
 {
 	public static $response_size = 0;
+	public static $debug_printed = 0;
 	var $content_size = 0; // /< The size of displaying contents
 	var $gz_enabled = FALSE; // / <a flog variable whether to call contents after compressing by gzip
 	var $handler = NULL;
@@ -136,19 +137,58 @@ class DisplayHandler extends Handler
 	 * 
 	 * @return string
 	 */
-	public function getDebugInfo(&$output)
+	public function getDebugInfo(&$output = null)
 	{
+		// Check if debugging information has already been printed.
+		
+		if (self::$debug_printed)
+		{
+			return;
+		}
+		else
+		{
+			self::$debug_printed = 1;
+		}
+		
 		// Check if debugging is enabled for this request.
 		if (!config('debug.enabled') || !Rhymix\Framework\Debug::isEnabledForCurrentUser())
 		{
 			return;
 		}
 		
+		// Do not display debugging information if there is no output.
+		$display_type = config('debug.display_type');
+		if ($output === null && $display_type !== 'file')
+		{
+			return;
+		}
+		
 		// Print debug information.
-		switch ($display_type = config('debug.display_type'))
+		switch ($display_type)
 		{
 			case 'panel':
 				$data = Rhymix\Framework\Debug::getDebugData();
+				$display_content = array_fill_keys(config('debug.display_content'), true);
+				if (count($display_content) && !isset($display_content['entries']))
+				{
+					$data->entries = null;
+				}
+				if (count($display_content) && !isset($display_content['queries']))
+				{
+					unset($data->queries);
+				}
+				if (count($display_content) && !isset($display_content['slow_queries']))
+				{
+					unset($data->slow_queries);
+				}
+				if (count($display_content) && !isset($display_content['slow_triggers']))
+				{
+					unset($data->slow_triggers);
+				}
+				if (count($display_content) && !isset($display_content['slow_widgets']))
+				{
+					unset($data->slow_widgets);
+				}
 				if ($data->entries)
 				{
 					foreach ($data->entries as &$entry)
@@ -206,8 +246,9 @@ class DisplayHandler extends Handler
 				}
 				ob_start();
 				$data = Rhymix\Framework\Debug::getDebugData();
+				$display_content = array_fill_keys(config('debug.display_content'), true);
 				include RX_BASEDIR . 'common/tpl/debug_comment.html';
-				$content = ob_get_clean();
+				$content = preg_replace('/\n{2,}/', "\n\n", trim(ob_get_clean())) . PHP_EOL;
 				if ($display_type === 'file')
 				{
 					$log_filename = config('debug.log_filename') ?: 'files/debug/YYYYMMDD.php';
@@ -226,7 +267,7 @@ class DisplayHandler extends Handler
 					{
 						$phpheader = '';
 					}
-					FileHandler::writeFile($log_filename, $phpheader . $content, 'a');
+					FileHandler::writeFile($log_filename, $phpheader . $content . PHP_EOL, 'a');
 					return '';
 				}
 				else

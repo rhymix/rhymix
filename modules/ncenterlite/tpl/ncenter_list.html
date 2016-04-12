@@ -1,0 +1,70 @@
+<load target="css/ncenter_admin.css" />
+<include target="header.html" />
+
+<section class="section">
+	<h1>알림 목록</h1>
+
+	<p class="x_well x_well-small" cond="!$ncenterlite_list">{$lang->ncenterlite_no_notify}</p>
+
+	<block cond="$ncenterlite_list">
+		<div class="x_clearfix">
+			<form ruleset="cleanLogs" action="./" method="post">
+				<fieldset>
+					<input type="hidden" name="module" value="ncenterlite" />
+					<input type="hidden" name="act" value="procNcenterliteAdminDeleteNofity" />
+					<button type="submit" class="x_btn">{$lang->ncenterlite_all_delete}</button>
+					<button type="submit" name="old_date" value="{date('Ymd', strtotime('-1 month'))}" class="x_btn">{$lang->ncenterlite_month_before_delete}</button>
+					<p class="x_help-block"><span class="x_label x_label-important">{$lang->ncenterlite_warning}</span> {$lang->dont_check_notify_delete}</p>
+				</fieldset>
+			</form>
+		</div>
+
+		<table class="x_table x_table-striped x_table-hover" style="margin-top:20px;">
+			<thead>
+				<tr>
+					<th scope="col" class="nowr" style="width:100px;">{$lang->send_member}</th>
+					<th scope="col" style="width:100px;">{$lang->resiver_member}</th>
+					<th scope="col" style="width:500px;">{$lang->notify_content}</th>
+					<th scope="col" style="width:50px;">{$lang->notify_read_check}</th>
+					<th scope="col" style="width:100px;">{$lang->date}</th>
+				</tr>
+			</thead>
+			<tbody>
+				<!--@foreach($ncenterlite_list as $no => $val)-->
+				{@
+					$oMemberModel = getModel('member');
+					$member_info = $oMemberModel->getMemberInfoByMemberSrl($val->member_srl);
+				}
+				<tr>
+					<td>{$val->target_nick_name}</td>
+					<td cond="$member_info->member_srl">{$member_info->nick_name}</td> <td cond="!$member_info->member_srl">타겟없음</td>
+					<td><a href="{$val->target_url}">{$val->text}</a></td>
+					<td>
+						<span cond="$val->readed == 'Y'" style="color:#8582E6">{$lang->notify_readed}</span>
+						<span cond="$val->readed != 'Y'" style="color:#FF2828">{$lang->notify_dont_readed}</span>
+					</td>
+					<td>
+						{zdate($val->regdate,"Y-m-d")}
+						</br>
+						{zdate($val->regdate,"H:i:s")}
+					</td>
+				</tr>
+				<!--@endforeach-->
+			</tbody>
+		</table>
+
+		<div class="x_pagination">
+			<ul>
+				<li><a href="{getUrl('page','')}" class="prevEnd">{$lang->first_page}</a></li>
+				<!--@while($page_no = $page_navigation->getNextPage())-->
+					<!--@if($page == $page_no)-->
+						<li class="x_active"><a href="{getUrl('page',$page_no)}">{$page_no}</a></li>
+					<!--@else-->
+						<li><a href="{getUrl('page',$page_no)}">{$page_no}</a></li>
+					<!--@endif-->
+				<!--@end-->
+				<li><a href="{getUrl('page',$page_navigation->last_page)}" class="nextEnd">{$lang->last_page}</a></li>
+			</ul>
+		</div>
+	</block>
+</section>

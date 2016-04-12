@@ -1,0 +1,10 @@
+<query id="deleteNotifyByMemberSrl" action="delete">
+	<tables>
+		<table name="ncenterlite_notify" />
+	</tables>
+
+	<conditions>
+		<condition operation="equal" column="member_srl" var="member_srl" notnull="notnull" filter="number" />
+		<condition operation="equal" column="readed" var="readed" pipe="and" />
+	</conditions>
+</query>

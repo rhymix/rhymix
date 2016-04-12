@@ -68,4 +68,3 @@ $lang->msg_ftp_invalid_auth_info = 'Los datos de login para el FTP no son correc
 $lang->msg_ftp_mkdir_fail = 'Ha fallado el comando de FTP para la creación de directorio. Verifique la configuración del servicio FTP en el servidor';
 $lang->msg_ftp_chmod_fail = 'Ha fallado el comando de FTP para la modificación de atributos de directorio. Verifique la configuración del servicio FTP en el servidor.';
 $lang->msg_ftp_connect_success = 'conexión con éxito al FTP';
-$lang->msg_ftp_installed_ftp_realpath = '설치된 Rhymix의 FTP 절대경로';

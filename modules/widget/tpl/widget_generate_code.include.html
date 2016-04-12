@@ -25,7 +25,14 @@
 <div class="x_control-group">
 	<label class="x_control-label" for="widget_cache">{$lang->widget_cache}</label>
 	<div class="x_controls">
-		<input type="number" name="widget_cache" id="widget_cache" value="0" size="2" /> {$lang->unit_min}
+		<input type="number" name="widget_cache" id="widget_cache" value="0" size="5" />
+		<select name="widget_cache_unit" id="widget_cache_unit" style="width:60px;min-width:60px">
+			<option value="s">{$lang->unit_sec}</option>
+			<option value="m" selected="selected">{$lang->unit_min}</option>
+			<option value="h">{$lang->unit_hour}</option>
+			<option value="d">{$lang->unit_day}</option>
+		</select>
+		<br />
 		<p class="x_help-inline">{$lang->about_widget_cache}</p>
 	</div>
 </div>
@@ -49,7 +56,7 @@
 				<input type="text" name="{$id}" />
 			</block>
 			<block cond="$var->type == 'color'">
-				<input type="color" name="{$id}" value="" id="{$id}" class="rx-spectrum" style="width:178px" />
+				<input type="text" name="{$id}" value="" id="{$id}" class="rx-spectrum" style="width:178px" />
 			</block>
 			<block cond="$var->type == 'textarea'">
 				<textarea cond="$var->type == 'textarea'" name="{$id}" id="{$id}" rows="8" cols="42"></textarea>

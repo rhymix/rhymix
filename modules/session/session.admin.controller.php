@@ -22,7 +22,7 @@ class sessionAdminController extends session
 		$oSessionController = getController('session');
 		$oSessionController->gc(0);
 
-		$this->add('result',Context::getLang('session_cleared'));
+		$this->add('result',lang('session_cleared'));
 	}
 }
 /* End of file session.admin.controller.php */

@@ -73,7 +73,7 @@
 				</options>
 			</var>
 			<var name="content_fixed_width" type="select" default="index">
-				<title xml:lang="ko">contet_fixed_width</title>
+				<title xml:lang="ko">고정폭 사용</title>
 				<options value="index">
 					<title xml:lang="ko">시작 모듈만 전체 폭</title>
 				</options>

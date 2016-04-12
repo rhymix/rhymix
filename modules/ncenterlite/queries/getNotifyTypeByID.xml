@@ -1,0 +1,13 @@
+<query id="getNotifyTypeByID" action="select">
+	<tables>
+		<table name="ncenterlite_notify_type" />
+	</tables>
+
+	<columns>
+		<column name="*" />
+	</columns>
+
+	<conditions>
+		<condition operation="equal" column="notify_type_id" var="notify_type_id" notnull="notnull" />
+	</conditions>
+</query>

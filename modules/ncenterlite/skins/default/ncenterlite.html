@@ -1,0 +1,125 @@
+<div id="nc_container" {$ncenterlite_zindex}>
+	<ul class="nc_memu">
+		<li class="nc_profile fLeft">
+			<block cond="$useProfileImage">
+				<img cond="$profileImage" src="{$profileImage->src}" alt="my profile" class="nc_profile_img" />
+				<img cond="!$profileImage" src="{Context::getRequestUri()}modules/ncenterlite/skins/default/img/p.png" alt="my profile" class="nc_profile_img" />
+			</block>
+			<strong>{$logged_info->nick_name}</strong> {$lang->ncenterlite_sir}!
+		</li>
+
+		<li class="fLeft">
+			<a class="notify" href="#">
+				<!--@if($_ncenterlite_num > 1)-->
+					{sprintf($lang->ncenterlite_messages, $ncenterlite_page_navigation->total_count)}
+				<!--@else-->
+					{sprintf($lang->ncenterlite_message, $ncenterlite_page_navigation->total_count)}
+				<!--@endif-->
+			</a>
+			<a cond="$ncenterlite_page_navigation->total_count >= 1" href="#" class="readall">{$lang->ncenterlite_delete_all}</a>
+		</li>
+
+		<li class="fRight"><a class="close" href="#">× Close</a></li>
+	</ul>
+
+	<div class="list">
+		<ul>
+			<li loop="$ncenterlite_list => $o">
+				<a href="{$o->url}">
+					<block cond="$useProfileImage">
+						<img src="{$o->profileImage}"|cond="$o->profileImage" src="{Context::getRequestUri()}modules/ncenterlite/skins/default/img/p.png"|cond="!$o->profileImage" alt="" class="nc_profile_img" />
+					</block>
+					<span class="msg">{$o->text}</span><span class="ago">{$o->ago}</span>
+				</a>
+			</li>
+		</ul>
+		<a cond="$ncenterlite_page_navigation->total_count > 5" class="more" href="#" data-page="2">{$lang->ncenterlite_more}</a>
+	</div>
+</div>
+<div class="ncenterlite_block"></div>
+
+<script type="text/javascript">
+//<![CDATA[
+(function($){
+	$(function(){
+		function setCookie(n, v, d){
+			var e = "";
+			if(d){ var dt=new Date(); dt.setTime(dt.getTime() + (d*24*60*60000)); e="; expires=" + dt.toGMTString(); }
+			document.cookie = n + "=" + v + e + "; path=/";
+		}
+
+		var n = $('#nc_container');
+		$('.close',n).click(function(){
+			setCookie('_ncenterlite_hide_id', '{$ncenterlite_latest_notify_id}', 1); n.hide().next('div').hide(); return false;
+		});
+		$('.readall',n).click(function(){
+			exec_xml('ncenterlite', 'procNcenterliteNotifyReadAll'); $('.close',n).triggerHandler('click'); return false;
+		});
+		$('a.notify',n).click(function(){
+			$('.list',n).toggle(); $('.readall',n).toggle(); return false;
+		});
+		$(document).click(function(e){
+			var t = $(e.target);if(!t.is('#nc_container') && t.parents('#nc_container').length == 0){ if($('.list', n).is(':visible')) { $('.list',n).hide(); $('.readall',n).hide(); return false; } }
+		});
+
+		var $listWrap = $('.list ul',n);
+		var $btnMore = $('.more',n);
+		$btnMore.click(function(){
+			var page = $(this).data('page');
+			var $item_html = $('<li><a><span class="msg"></span><span class="ago"></span></a></li>');
+			var $profileImg = $('<img class="nc_profile_img" alt="" />');
+			$.exec_json('ncenterlite.getMyNotifyListTpl', { 'page':page }, function(ret) {
+				if(!ret.list.data) return;
+
+				for(var i in ret.list.data)
+				{
+					if(ret.list.data.hasOwnProperty(i))
+					{	
+						var item = ret.list.data[i];
+						var $html = $item_html.clone();
+						if(ret.useProfileImage == 'Y')
+						{
+							var $img = $profileImg.clone();
+							if(!item.profileImage) item.profileImage = request_uri + 'modules/ncenterlite/skins/default/img/p.png';
+							$img.attr('src', item.profileImage);
+							$html.find('a').prepend($img);
+						}
+
+						$('span.msg', $html).html(item.text);
+						$('span.ago', $html).html(item.ago);
+						$('a', $html).attr('href', item.url);
+
+						if(i == 0) $html.attr('id', 'ncenterlite_page_' + ret.list.page.cur_page);
+						$listWrap.append($html);
+					}
+				}
+
+				$listWrap.animate({scrollTop: (ret.list.page.cur_page-1) * 265}, 800);
+
+				if(ret['list'].page.total_page <= ret.list.page.cur_page)
+				{
+					$btnMore.remove();
+				}
+			}, ['list']);
+
+			$(this).data('page', ++page);
+			return false;
+		});
+	});
+
+<block cond="!Mobile::isFromMobilePhone()">
+	function sc(){
+		var wh = $(window).height();
+		var l = $('#nc_container .list');
+		if(l.height()+100 >= wh) {
+			l.height(wh-98).addClass('listscroll');
+		} else {
+			l.height('auto').removeClass('listscroll');
+		}
+		setTimeout(sc, 100);
+	}
+	sc();
+</block>
+})(jQuery);
+//]]>
+</script>

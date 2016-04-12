@@ -1,0 +1,89 @@
+<load target="js/ncenter_admin.js" />
+<load target="css/ncenter_admin.css" />
+<include target="header.html" />
+
+<form ruleset="insertConfig" action="./" method="post" class="x_form-horizontal" id="fo_ncenterlite">
+	<input type="hidden" name="module" value="ncenterlite" />
+	<input type="hidden" name="disp_act" value="dispNcenterliteAdminConfig" />
+	<input type="hidden" name="act" value="procNcenterliteAdminInsertConfig" />
+
+	<section class="section">
+		<div class="x_control-group">
+			<label class="x_control-label"><span class="x_label x_label-important">{$lang->ncenterlite_warning}</span> {$lang->ncenterlite_io}</label>
+			<div class="x_controls">
+				<label for="notify_mention" class="x_inline"><input type="checkbox" name="use['mention']" id="notify_mention" value="1" checked="checked"|cond="isset($config->use['mention'])" /> {$lang->ncenterlite_mention}</label>
+				<label for="notify_comment" class="x_inline"><input type="checkbox" name="use['comment']" id="notify_comment" value="1" checked="checked"|cond="isset($config->use['comment'])" /> {$lang->ncenterlite_comment}</label>
+				<label for="notify_comment_comment" class="x_inline"><input type="checkbox" name="use['comment_comment']" id="notify_comment_comment" value="1" checked="checked"|cond="isset($config->use['comment_comment'])" /> {$lang->ncenterlite_comment_comment}</label>
+				<label for="notify_vote" class="x_inline"><input type="checkbox" name="use['vote']" id="notify_vote" value="1" checked="checked"|cond="isset($config->use['vote'])" /> {$lang->ncenterlite_cmd_vote}</label>
+				<label for="notify_message" class="x_inline"><input type="checkbox" name="use['message']" id="notify_message" value="1" checked="checked"|cond="isset($config->use['message'])" /> {$lang->ncenterlite_type_message}</label>
+				<label for="notify_admin_content" class="x_inline"><input type="checkbox" name="use['admin_content']" id="notify_admin_content" value="1" checked="checked"|cond="isset($config->use['admin_content'])" /> {$lang->ncenterlite_admin_content}</label>
+				<p>{$lang->about_admin_content}</p>
+			</div>
+		</div>
+		<div class="x_control-group">
+			<label class="x_control-label"><span class="x_label x_label-important">{$lang->ncenterlite_warning}</span> {$lang->ncenterlite_display}</label>
+			<div class="x_controls">
+				<label class="x_inline">
+					<input type="radio" id="display_use_y" name="display_use" value="Y" checked="checked"|cond="$config->display_use == 'Y'" /> {$lang->ncenterlite_display_y}
+				</label>
+				<label class="x_inline">
+					<input type="radio" id="display_use_n" name="display_use" value="N" checked="checked"|cond="$config->display_use == 'N'" /> {$lang->ncenterlite_display_n}
+				</label>
+				<p class="x_help-block">{$lang->ncenterlite_display_about}</p>
+			</div>
+		</div>
+		<div class="x_control-group">
+			<label class="x_control-label">{$lang->anonymous_nick_name_setting}</label>
+			<div class="x_controls">
+				<input type="text" name="anonymous_name" value="{$config->anonymous_name}" />
+				<p class="x_help-block">{$lang->about_anonymous_nick_name}</p>
+			</div>
+		</div>
+		<div class="x_control-group">
+			<label class="x_control-label">{$lang->mention_setting}</label>
+			<div class="x_controls mention_option">
+				<label class="x_inline">
+					<input type="checkbox" name="mention_format[]" value="respect" data-mention-split="님" checked="checked"|cond="is_array($config->mention_format) && in_array('respect', $config->mention_format)" />{$lang->mention_nim}
+				</label>
+				{$lang->about_mention_preview}
+			</div>
+		</div>
+		<div class="x_control-group">
+			<label class="x_control-label">{$lang->ncenterlite_mention_target}</label>
+			<div class="x_controls">
+				<label class="x_inline">
+					<input type="radio" id="mention_names_id" name="mention_names" value="id" checked="checked"|cond="$config->mention_names == 'id'" /> {$lang->user_id}
+				</label>
+				<label class="x_inline">
+					<input type="radio" id="mention_names_nick_name" name="mention_names" value="nick_name" checked="checked"|cond="$config->mention_names == 'nick_name'" /> {$lang->nick_name}
+				</label>
+				<p class="x_help-block">{$lang->ncenterlite_mention_target_about}</p>
+			</div>
+		</div>
+		<div class="x_control-group">
+			<label class="x_control-label">{$lang->member_menu_view}</label>
+			<div class="x_controls">
+				<label class="x_inline">
+					<input type="radio" id="user_config_list_id" name="user_config_list" value="Y" checked="checked"|cond="$config->user_config_list == 'Y'" /> {$lang->member_menu_on}
+				</label>
+				<label class="x_inline">
+					<input type="radio" id="user_config_list_nick_name" name="user_config_list" value="N" checked="checked"|cond="$config->user_config_list == 'N'" /> {$lang->member_menu_off}
+				</label>
+				<p class="x_help-block">{$lang->about_member_menu_view}</p>
+			</div>
+		</div>
+		<div class="x_control-group">
+			<label class="x_control-label">{$lang->ncenterlite_document_event_read}</label>
+			<div class="x_controls">
+				<label class="x_inline"><input type="radio" name="document_read" value="N" checked="checked"|cond="$config->document_read == 'N'" />{$lang->ncenterlite_document_event_read_preserve}</label>
+				<label class="x_inline"><input type="radio" name="document_read" value="Y" checked="checked"|cond="$config->document_read == 'Y'" />{$lang->ncenterlite_document_event_read_delete}</label>
+				<p>{$lang->ncenterlite_document_event_read_about}</p>
+			</div>
+		</div>
+	</section>
+	<div class="x_clearfix btnArea">
+		<div class="x_pull-right">
+			<button class="x_btn x_btn-primary" type="submit">{$lang->cmd_registration}</button>
+		</div>
+	</div>
+</form>

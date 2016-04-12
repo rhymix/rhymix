@@ -1,7 +1,4 @@
 <?php
-require_once _XE_PATH_.'classes/context/Context.class.php';
-require_once _XE_PATH_.'classes/handler/Handler.class.php';
-require_once _XE_PATH_.'classes/frontendfile/FrontEndFileHandler.class.php';
 
 class ContextTest extends \Codeception\TestCase\Test
 {
