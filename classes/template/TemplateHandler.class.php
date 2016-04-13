@@ -142,7 +142,11 @@ class TemplateHandler
 			if(Rhymix\Framework\Storage::write($this->compiled_file, $buff) === false)
 			{
 				$tmpfilename = tempnam(sys_get_temp_dir(), 'rx-compiled');
-				Rhymix\Framework\Storage::write($tmpfilename, $buff);
+				if($tmpfilename === false || Rhymix\Framework\Storage::write($tmpfilename, $buff) === false)
+				{
+					return 'Fatal Error : Cannot create temporary file. Please check permissions.';
+				}
+				
 				$this->compiled_file = $tmpfilename;
 			}
 		}
