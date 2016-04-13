@@ -135,20 +135,25 @@ class TemplateHandler
 		$source_template_mtime = filemtime($this->file);
 		$latest_mtime = $source_template_mtime > $this->handler_mtime ? $source_template_mtime : $this->handler_mtime;
 		
-		// get cached buff
-		if(is_readable($this->compiled_file) && filemtime($this->compiled_file) > $latest_mtime && filesize($this->compiled_file))
-		{
-			$buff = Rhymix\Framework\Storage::read($this->compiled_file);
-		}
-		
-		// if not exist cached buff, parse template file
-		if(empty($buff))
+		// make compiled file
+		if(!file_exists($this->compiled_file) || filemtime($this->compiled_file) < $latest_mtime)
 		{
 			$buff = $this->parse();
-			Rhymix\Framework\Storage::write($this->compiled_file, $buff);
+			if(Rhymix\Framework\Storage::write($this->compiled_file, $buff) === false)
+			{
+				$tmpfilename = tempnam(sys_get_temp_dir(), 'rx-compiled');
+				Rhymix\Framework\Storage::write($tmpfilename, $buff);
+				$this->compiled_file = $tmpfilename;
+			}
 		}
-
-		$output = $this->_fetch($buff);
+		
+		$output = $this->_fetch($this->compiled_file);
+		
+		// delete tmpfile
+		if(isset($tmpfilename))
+		{
+			Rhymix\Framework\Storage::delete($tmpfilename);
+		}
 
 		if($__templatehandler_root_tpl == $this->file)
 		{
@@ -327,10 +332,10 @@ class TemplateHandler
 
 	/**
 	 * fetch using ob_* function
-	 * @param string $buff if buff is not null, eval it instead of including compiled template file
+	 * @param string $filename compiled template file name
 	 * @return string
 	 */
-	private function _fetch($buff)
+	private function _fetch($filename)
 	{
 		$__Context = Context::getInstance();
 		$__Context->tpl_path = $this->path;
@@ -338,7 +343,7 @@ class TemplateHandler
 		$__ob_level_before_fetch = ob_get_level();
 		ob_start();
 		
-		@eval('?>' . $buff);
+		include $filename;
 		
 		$contents = '';
 		while (ob_get_level() > $__ob_level_before_fetch)
