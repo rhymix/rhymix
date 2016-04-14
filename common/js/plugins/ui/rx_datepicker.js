@@ -8,6 +8,6 @@ if(typeof current_lang !== "undefined" && current_lang !== 'en') {
 			dateFormat:'yy-mm-dd'
 		};
 		jQuery.extend(jQuery.datepicker.regional[current_lang.replace("jp", "ja")],default_option);
-		jQuery.datepicker.setDefaults( datepicker.regional[current_lang.replace("jp", "ja")] );
+		jQuery.datepicker.setDefaults( jQuery.datepicker.regional[current_lang.replace("jp", "ja")] );
 	});
 }
