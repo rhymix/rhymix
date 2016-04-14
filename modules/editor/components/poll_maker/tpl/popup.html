@@ -20,7 +20,7 @@
 			<label for="" class="x_control-label">{$lang->poll_stop_date}</label>
 			<div class="x_controls">
 				<input type="hidden" name="stop_date" id="stop_date" value="{date('Ymd',time()+60*60*24*30)}" />
-				<input type="date" class="inputDate" min="{date('Y-m-d',time())}"  max="{date('Y-m-d',strtotime('+10 years'))}" onchange="jQuery('#stop_date').val(this.value.replace(/-/g,''));" value="{date('Y-m-d',time()+60*60*24*30)}" />
+				<input type="date" class="inputDate" min="{date('Y-m-d',time())}"  max="{date('Y-m-d',strtotime('+10 years'))}" onchange="$('#stop_date').val($.datepicker.formatDate('yymmdd', new Date(this.value)));" value="{date('Y-m-d',time()+60*60*24*30)}" />
 <script>
 (function($){
 $(function(){
@@ -32,7 +32,7 @@ $(function(){
 			,gotoCurrent: false
 			,yearRange:'-100:+10'
 			, onSelect:function(){
-				$('#stop_date').val(this.value.replace(/-/g,""));
+				$('#stop_date').val($.datepicker.formatDate('yymmdd', $(this).datepicker( "getDate" )));
 			}
 			,defaultDate: new Date("{date('Y-m-d',time()+60*60*24*30)}")
 			,minDate: new Date("{date('Y-m-d',time())}")
@@ -40,6 +40,9 @@ $(function(){
 
 		//if the browser does not support type date input, start datepicker. If it does, brower's UI will show their datepicker.
 		$(".inputDate").datepicker(option);
+	}
+	else
+	{
 	}
 });
 })(jQuery);
