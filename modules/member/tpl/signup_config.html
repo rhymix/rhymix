@@ -14,7 +14,6 @@
 	<input type="hidden" name="module" value="member" />
 	<input type="hidden" name="act" value="procMemberAdminInsertSignupConfig" />
 	<input type="hidden" name="success_return_url" value="{getUrl('act', $act)}" />
-	<input type="hidden" name="agreement" value="{$config->agreement}" />
 	<input type="hidden" name="xe_validator_id" value="modules/member/tpl/1" />
 	<div class="x_control-group">
 		<label class="x_control-label" for="limit_day">{$lang->limit_day}</label>
@@ -73,14 +72,6 @@
 			<button type="button" class="__redirect_url_btn x_btn" cond="$config->redirect_url">{$lang->delete}</button>
 			<p class="x_help-inline">{$lang->about_redirect_url}</p>
 		</div>
-	</div>
-	<div class="x_control-group">
-		<label class="x_control-label" for="agreement">{$lang->agreement}</label>
-		<div class="x_controls">{$editor}</div>
-<style scoped>
-#smart_content,
-#smart_content>.tool{clear:none !important}
-</style>
 	</div>
 	<div class="x_control-group">
 		<p class="x_control-label">{$lang->cmd_manage_form} <a class="x_icon-question-sign" href="./common/manual/admin/index.html#UMAN_faq_member_joinform" target="_blank">{$lang->help}</a></p>

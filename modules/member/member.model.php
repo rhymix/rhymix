@@ -49,8 +49,11 @@ class memberModel extends member
 			if($value->name == 'find_account_question') $config->signupForm[$key]->isPublic = 'N';
 		}
 
-		// Get terms of user
-		$config->agreement = memberModel::_getAgreement();
+		// Get agreement terms of user
+		$config->agreement = memberModel::_getAgreement('agreement');
+		
+		// Get privacy terms of user
+		$config->privacy = memberModel::_getAgreement('privacy');
 
 		if(!$config->webmaster_name) $config->webmaster_name = 'webmaster';
 		if(!$config->image_name_max_width) $config->image_name_max_width = 90;
@@ -84,15 +87,20 @@ class memberModel extends member
 		return $config;
 	}
 
-	function _getAgreement()
+	function _getAgreement($type)
 	{
-		$agreement_file = _XE_PATH_.'files/member_extra_info/agreement_' . Context::get('lang_type') . '.txt';
+		if(!$type)
+		{
+			$type = 'agreement';
+		}
+		
+		$agreement_file = _XE_PATH_.'files/member_extra_info/' . $type . '_' . Context::get('lang_type') . '.txt';
 		if(is_readable($agreement_file))
 		{
 			return FileHandler::readFile($agreement_file);
 		}
 
-		$agreement_file = _XE_PATH_.'files/member_extra_info/agreement_' . config('locale.default_lang') . '.txt';
+		$agreement_file = _XE_PATH_.'files/member_extra_info/' . $type . '_' . config('locale.default_lang') . '.txt';
 		if(is_readable($agreement_file))
 		{
 			return FileHandler::readFile($agreement_file);
@@ -101,7 +109,7 @@ class memberModel extends member
 		$lang_selected = Context::loadLangSelected();
 		foreach($lang_selected as $key => $val)
 		{
-			$agreement_file = _XE_PATH_.'files/member_extra_info/agreement_' . $key . '.txt';
+			$agreement_file = _XE_PATH_.'files/member_extra_info/' . $type . '_' . $key . '.txt';
 			if(is_readable($agreement_file))
 			{
 				return FileHandler::readFile($agreement_file);

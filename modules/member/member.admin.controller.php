@@ -204,12 +204,13 @@ class memberAdminController extends member
 	{
 		$oMemberModel = getModel('member');
 		$oModuleController = getController('module');
+		
+		$config = $oMemberModel->getMemberConfig();
 
 		$args = Context::gets(
 			'limit_day',
 			'limit_day_description',
 			'emailhost_check',
-			'agreement',
 			'redirect_url',
 			'profile_image', 'profile_image_max_width', 'profile_image_max_height',
 			'image_name', 'image_name_max_width', 'image_name_max_height',
@@ -308,10 +309,24 @@ class memberAdminController extends member
 		$args->signupForm = $signupForm;
 
 		// create Ruleset
-		$this->_createSignupRuleset($signupForm, $args->agreement);
+		$this->_createSignupRuleset($signupForm, $config->agreement, $config->privacy);
 		$this->_createLoginRuleset($args->identifier);
 		$this->_createFindAccountByQuestion($args->identifier);
 
+		$output = $oModuleController->updateModuleConfig('member', $args);
+
+		// default setting end
+		$this->setMessage('success_updated');
+
+		$returnUrl = Context::get('success_return_url') ? Context::get('success_return_url') : getNotEncodedUrl('', 'module', 'admin', 'act', 'dispMemberAdminSignUpConfig');
+		$this->setRedirectUrl($returnUrl);
+	}
+	
+	public function procMemberAdminInsertAgreement()
+	{
+		$oMemberModel = getModel('member');
+		$config = $oMemberModel->getMemberConfig();
+		
 		// check agreement value exist
 		if($args->agreement)
 		{
@@ -320,8 +335,31 @@ class memberAdminController extends member
 
 			unset($args->agreement);
 		}
+		
+		$this->_createSignupRuleset($config->signupForm, $config->agreement, $config->privacy);
 
-		$output = $oModuleController->updateModuleConfig('member', $args);
+		// default setting end
+		$this->setMessage('success_updated');
+
+		$returnUrl = Context::get('success_return_url') ? Context::get('success_return_url') : getNotEncodedUrl('', 'module', 'admin', 'act', 'dispMemberAdminSignUpConfig');
+		$this->setRedirectUrl($returnUrl);
+	}
+	
+	public function procMemberAdminInsertPrivacy()
+	{
+		$oMemberModel = getModel('member');
+		$config = $oMemberModel->getMemberConfig();
+		
+		// check agreement value exist
+		if($args->agreement)
+		{
+			$agreement_file = _XE_PATH_.'files/member_extra_info/privacy_' . Context::get('lang_type') . '.txt';
+			$output = FileHandler::writeFile($agreement_file, $args->agreement);
+
+			unset($args->agreement);
+		}
+		
+		$this->_createSignupRuleset($config->signupForm, $config->agreement, $config->privacy);
 
 		// default setting end
 		$this->setMessage('success_updated');
@@ -476,7 +514,7 @@ class memberAdminController extends member
 	 * @param string $agreement
 	 * @return void
 	 */
-	function _createSignupRuleset($signupForm, $agreement = null){
+	function _createSignupRuleset($signupForm, $agreement = null, $privacy = null){
 		$xml_file = './files/ruleset/insertMember.xml';
 		$buff = '<?xml version="1.0" encoding="utf-8"?>' . PHP_EOL.
 			'<ruleset version="1.5.0">' . PHP_EOL.
@@ -491,6 +529,12 @@ class memberAdminController extends member
 		{
 			$fields[] = '<field name="accept_agreement"><if test="$act == \'procMemberInsert\'" attr="required" value="true" /></field>';
 		}
+		
+		if ($privacy)
+		{
+			$fields[] = '<field name="accept_privacy"><if test="$act == \'procMemberInsert\'" attr="required" value="true" /></field>';
+		}
+		
 		foreach($signupForm as $formInfo)
 		{
 			if($formInfo->required || $formInfo->mustRequired)
