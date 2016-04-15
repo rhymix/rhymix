@@ -326,22 +326,21 @@ class memberAdminController extends member
 	{
 		$oMemberModel = getModel('member');
 		$config = $oMemberModel->getMemberConfig();
+		$agreement = Context::get('agreement');
 		
 		// check agreement value exist
-		if($args->agreement)
+		if($agreement)
 		{
 			$agreement_file = _XE_PATH_.'files/member_extra_info/agreement_' . Context::get('lang_type') . '.txt';
-			$output = FileHandler::writeFile($agreement_file, $args->agreement);
-
-			unset($args->agreement);
+			$output = FileHandler::writeFile($agreement_file, $agreement);
 		}
 		
-		$this->_createSignupRuleset($config->signupForm, $config->agreement, $config->privacy);
+		$this->_createSignupRuleset($config->signupForm, $agreement, $config->privacy);
 
 		// default setting end
 		$this->setMessage('success_updated');
 
-		$returnUrl = Context::get('success_return_url') ? Context::get('success_return_url') : getNotEncodedUrl('', 'module', 'admin', 'act', 'dispMemberAdminSignUpConfig');
+		$returnUrl = Context::get('success_return_url') ? Context::get('success_return_url') : getNotEncodedUrl('', 'module', 'admin', 'act', 'dispMemberAdminInsertAgreement');
 		$this->setRedirectUrl($returnUrl);
 	}
 	
@@ -349,22 +348,21 @@ class memberAdminController extends member
 	{
 		$oMemberModel = getModel('member');
 		$config = $oMemberModel->getMemberConfig();
+		$privacy = Context::get('agreement');
 		
 		// check agreement value exist
-		if($args->agreement)
+		if($privacy)
 		{
-			$agreement_file = _XE_PATH_.'files/member_extra_info/privacy_' . Context::get('lang_type') . '.txt';
-			$output = FileHandler::writeFile($agreement_file, $args->agreement);
-
-			unset($args->agreement);
+			$privacy_file = _XE_PATH_.'files/member_extra_info/privacy_' . Context::get('lang_type') . '.txt';
+			$output = FileHandler::writeFile($privacy_file, $privacy);
 		}
 		
-		$this->_createSignupRuleset($config->signupForm, $config->agreement, $config->privacy);
+		$this->_createSignupRuleset($config->signupForm, $config->agreement, $privacy);
 
 		// default setting end
 		$this->setMessage('success_updated');
 
-		$returnUrl = Context::get('success_return_url') ? Context::get('success_return_url') : getNotEncodedUrl('', 'module', 'admin', 'act', 'dispMemberAdminSignUpConfig');
+		$returnUrl = Context::get('success_return_url') ? Context::get('success_return_url') : getNotEncodedUrl('', 'module', 'admin', 'act', 'dispMemberAdminInsertPrivacy');
 		$this->setRedirectUrl($returnUrl);
 	}
 
