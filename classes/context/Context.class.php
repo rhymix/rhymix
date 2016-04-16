@@ -1529,7 +1529,7 @@ class Context
 		
 		if (in_array(Context::getRequestMethod(), array('XMLRPC', 'JSON', 'JS_CALLBACK')))
 		{
-			$oMessageObject->setMessage($title . ': ' . $message);
+			$oMessageObject->setMessage(trim($title . "\n\n" . $message));
 		}
 		else
 		{
