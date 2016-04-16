@@ -1521,9 +1521,21 @@ class Context
 		// Set the message.
 		$oMessageObject = getView('message');
 		$oMessageObject->setError(-1);
-		$oMessageObject->setHttpStatusCode($status);
-		$oMessageObject->setMessage($title);
-		$oMessageObject->dispMessage($message);
+		if ($status != 200)
+		{
+			$oMessageObject->setHttpStatusCode($status);
+			ModuleHandler::_setHttpStatusMessage($status);
+		}
+		
+		if (in_array(Context::getRequestMethod(), array('XMLRPC', 'JSON', 'JS_CALLBACK')))
+		{
+			$oMessageObject->setMessage(trim($title . "\n\n" . $message));
+		}
+		else
+		{
+			$oMessageObject->setMessage($title);
+			$oMessageObject->dispMessage($message);
+		}
 		
 		// Display the message.
 		$oModuleHandler = new ModuleHandler;
