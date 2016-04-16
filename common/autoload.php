@@ -202,3 +202,8 @@ Rhymix\Framework\Debug::registerErrorHandlers(error_reporting());
  */
 $internal_timezone = Rhymix\Framework\DateTime::getTimezoneNameByOffset(config('locale.internal_timezone'));
 date_default_timezone_set($internal_timezone);
+
+/**
+ * Initialize the cache handler.
+ */
+Rhymix\Framework\Cache::init(Rhymix\Framework\Config::get('cache'));
