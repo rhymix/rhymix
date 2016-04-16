@@ -58,7 +58,6 @@ $GLOBALS['RX_AUTOLOAD_FILE_MAP'] = array_change_key_case(array(
 	'ConditionWithArgument' => 'classes/db/queryparts/condition/ConditionWithArgument.class.php',
 	'ConditionWithoutArgument' => 'classes/db/queryparts/condition/ConditionWithoutArgument.class.php',
 	'ClickCountExpression' => 'classes/db/queryparts/expression/ClickCountExpression.class.php',
-	'documentItem' => 'modules/document/document.item.php',
 	'DeleteExpression' => 'classes/db/queryparts/expression/DeleteExpression.class.php',
 	'Expression' => 'classes/db/queryparts/expression/Expression.class.php',
 	'InsertExpression' => 'classes/db/queryparts/expression/InsertExpression.class.php',
@@ -169,7 +168,7 @@ spl_autoload_register(function($class_name)
 			{
 				$filename = RX_BASEDIR . $GLOBALS['RX_AUTOLOAD_FILE_MAP'][$lc_class_name];
 			}
-			elseif (preg_match('/^([a-zA-Z0-9_]+?)(Admin)?(View|Controller|Model|Api|Wap|Mobile)?$/', $class_name, $matches))
+			elseif (preg_match('/^([a-zA-Z0-9_]+?)(Admin)?(View|Controller|Model|Item|Api|Wap|Mobile)?$/', $class_name, $matches))
 			{
 				$filename = RX_BASEDIR . 'modules/' . strtolower($matches[1] . '/' . $matches[1]);
 				if (isset($matches[2]) && $matches[2]) $filename .= '.admin';
