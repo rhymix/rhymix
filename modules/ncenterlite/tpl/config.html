@@ -58,7 +58,7 @@
 		</div>
 		<div class="x_control-group">
 			<label class="x_control-label">{$lang->mention_suffixes}</label>
-			<div class="x_controls mention_option">
+			<div class="x_controls">
 				<label class="x_inline">
 					<input type="text" name="mention_suffixes" value="{escape(implode(', ', $config->mention_suffixes), false)}" />
 				</label>
@@ -67,7 +67,7 @@
 		</div>
 		<div class="x_control-group">
 			<label class="x_control-label">{$lang->mention_suffix_always_cut}</label>
-			<div class="x_controls mention_option">
+			<div class="x_controls">
 				<label class="x_inline">
 					<input type="radio" id="mention_suffix_always_cut_y" name="mention_suffix_always_cut" value="Y" checked="checked"|cond="$config->mention_suffix_always_cut == 'Y'" /> {$lang->mention_suffix_always_cut_y}
 				</label>
