@@ -11,11 +11,11 @@ class ncenterliteAdminController extends ncenterlite
 			'use',
 			'display_use',
 			'user_config_list',
-			'mention_format',
 			'mention_names',
+			'mention_suffixes',
+			'mention_suffix_always_cut',
 			'document_notify',
 			'hide_module_srls',
-			'mention_format',
 			'admin_notify_module_srls',
 			'skin',
 			'mskin',
@@ -42,9 +42,16 @@ class ncenterliteAdminController extends ncenterlite
 			{
 				$config->anonymous_name = null;
 			}
-			if($obj->disp_act == 'dispNcenterliteAdminConfig' && !$obj->mention_format)
+			if($obj->disp_act == 'dispNcenterliteAdminConfig')
 			{
-				$config->mention_format = array();
+				if ($obj->mention_suffixes)
+				{
+					$config->mention_suffixes = array_map('trim', implode(',', $obj->mention_suffixes));
+				}
+				else
+				{
+					$config->mention_suffixes = array();
+				}
 			}
 			if($obj->disp_act == 'dispNcenterliteAdminSeletedmid' && !$obj->hide_module_srls)
 			{

@@ -56,7 +56,7 @@
 			</div>
 		</div>
 		<div class="x_control-group">
-			<label class="x_control-label" for="mskin">mobile {$lang->mskin}</label>
+			<label class="x_control-label" for="mskin">{$lang->mobile_skin}</label>
 			<div class="x_controls">
 				<select name="mskin" id="mskin" onchange="doDisplayMobileSkinColorset(this); return false;">
 					<option loop="$mskin_list => $key, $val" value="{$key}" selected="selected"|cond="$config->mskin == $key">
@@ -66,7 +66,7 @@
 			</div>
 		</div>
 		<div class="x_control-group">
-			<label class="x_control-label" for="mcolorset">mobile {$lang->colorset}</label>
+			<label class="x_control-label" for="mcolorset">{$lang->mobile_colorset}</label>
 			<div class="x_controls">
 				<select name="mcolorset" id="mcolorset">
 					<option loop="$mcolorset_list => $key, $val" value="{$val->name}" selected="selected"|cond="$config->mcolorset == $val->name">
@@ -78,7 +78,7 @@
 		<div class="x_control-group">
 			<label class="x_control-label" for="zindex">{$lang->ncenterlite_zindex}</label>
 			<div class="x_controls">
-				<input type="number" name="zindex" id="zindex" value="{$config->zindex}" />
+				<input type="number" name="zindex" id="zindex" value="{$config->zindex}" style="width:100px" />
 				<p class="x_help-block">{$lang->ncenterlite_zindex_about}</p>
 			</div>
 		</div>

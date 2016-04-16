@@ -137,6 +137,7 @@ $lang->module = '모듈';
 $lang->skin = '스킨';
 $lang->mobile_skin = '모바일 스킨';
 $lang->colorset = '컬러셋';
+$lang->mobile_colorset = '모바일 컬러셋';
 $lang->extra_vars = '사용자 정의';
 $lang->domain = '도메인';
 $lang->url = 'URL';
