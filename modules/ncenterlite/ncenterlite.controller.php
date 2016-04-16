@@ -1128,7 +1128,7 @@ class ncenterliteController extends ncenterlite
 					$member_srl = $oMemberModel->getMemberSrlByNickName($mention);
 				}
 			}
-			if (!$member_srl || ($logged_info && $member_srl == $logged_info->member_srl))
+			if (!$member_srl || ($logged_info && ($member_srl == $logged_info->member_srl)))
 			{
 				continue;
 			}
