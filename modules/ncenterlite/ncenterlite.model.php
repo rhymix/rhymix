@@ -25,7 +25,7 @@ class ncenterliteModel extends ncenterlite
 			if(!$config->mention_names) $config->mention_names = 'nick_name';
 			if(!$config->mention_suffixes)
 			{
-				$config->mention_suffixes = array('님', '様');
+				$config->mention_suffixes = array('님', '様', 'さん', 'ちゃん');
 			}
 			unset($config->mention_format);
 			if(!$config->document_notify) $config->document_notify = 'direct-comment';
