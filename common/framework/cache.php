@@ -64,7 +64,7 @@ class Cache
 		foreach (Storage::readDirectory(__DIR__ . '/drivers/cache', false) as $filename)
 		{
 			$driver_name = substr($filename, 0, -4);
-			$class_name = '\Rhymix\Framework\Drivers\Cache\'' . $driver_name;
+			$class_name = '\Rhymix\Framework\Drivers\Cache\\' . $driver_name;
 			if ($class_name::isSupported())
 			{
 				$result[] = $driver_name;
@@ -74,13 +74,30 @@ class Cache
 	}
 	
 	/**
-	 * Get the currently enabled cache driver.
+	 * Get the currently enabled cache driver, or a named driver with the given settings.
 	 * 
-	 * return object|null
+	 * @param string $name (optional)
+	 * @param array $config (optional)
+	 * @return object|null
 	 */
-	public static function getCacheDriver()
+	public static function getCacheDriver($name = null, array $config = [])
 	{
-		return self::$_driver;
+		if ($name === null)
+		{
+			return self::$_driver;
+		}
+		else
+		{
+			$class_name = '\\Rhymix\\Framework\\Drivers\\Cache\\' . $name;
+			if (class_exists($class_name) && $class_name::isSupported() && $class_name::validateSettings($config))
+			{
+				return new $class_name($config);
+			}
+			else
+			{
+				return null;
+			}
+		}
 	}
 	
 	/**

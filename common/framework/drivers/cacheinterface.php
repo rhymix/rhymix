@@ -32,7 +32,7 @@ interface CacheInterface
 	 * @param mixed $config
 	 * @return bool
 	 */
-	public function validateSettings($config);
+	public static function validateSettings($config);
 	
 	/**
 	 * Get the value of a key.

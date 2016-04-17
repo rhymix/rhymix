@@ -673,7 +673,7 @@ class adminAdminController extends admin
 			{
 				$cache_config = $vars->object_cache_type;
 			}
-			if (!CacheHandler::isSupport($vars->object_cache_type, $cache_config))
+			if (!Rhymix\Framework\Cache::getCacheDriver($vars->object_cache_type, array($cache_config)))
 			{
 				return new Object(-1, 'msg_cache_handler_not_supported');
 			}

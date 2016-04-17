@@ -46,7 +46,6 @@ if(file_exists(RX_BASEDIR . 'config/config.user.inc.php'))
  * Define the list of legacy class names for the autoloader.
  */
 $GLOBALS['RX_AUTOLOAD_FILE_MAP'] = array_change_key_case(array(
-	'CacheBase' => 'classes/cache/CacheHandler.class.php',
 	'CacheHandler' => 'classes/cache/CacheHandler.class.php',
 	'Context' => 'classes/context/Context.class.php',
 	'DB' => 'classes/db/DB.class.php',

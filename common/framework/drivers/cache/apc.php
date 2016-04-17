@@ -38,7 +38,7 @@ class APC implements \Rhymix\Framework\Drivers\CacheInterface
 	 * @param mixed $config
 	 * @return bool
 	 */
-	public function validateSettings($config)
+	public static function validateSettings($config)
 	{
 		return true;
 	}
