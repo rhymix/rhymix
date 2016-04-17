@@ -62,7 +62,6 @@
 			<label class="x_control-label">{$lang->use_object_cache}</label>
 			<div class="x_controls">
 				<select name="object_cache_type" id="object_cache_type">
-					<option value="">{$lang->use_object_cache_do_not_use}</option>
 					<option value="{$key}" loop="$object_cache_types=>$key" selected="selected"|cond="$key==$object_cache_type">{$key}</option>
 				</select>
 				<div id="object_cache_additional_config" class="x_inline" style="display:none;margin-left:16px">

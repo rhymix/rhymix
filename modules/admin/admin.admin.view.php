@@ -458,6 +458,10 @@ class adminAdminView extends admin
 		}
 		$object_cache_types = Rhymix\Framework\Cache::getSupportedDrivers();
 		$object_cache_type = preg_replace('/^memcache$/', 'memcached', preg_replace('/:.+$/', '', $object_cache_config));
+		if (!$object_cache_type)
+		{
+			$object_cache_type = 'dummy';
+		}
 		Context::set('object_cache_types', $object_cache_types);
 		Context::set('object_cache_type', $object_cache_type);
 		if ($object_cache_type)

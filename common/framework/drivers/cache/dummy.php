@@ -2,17 +2,15 @@
 
 namespace Rhymix\Framework\Drivers\Cache;
 
-use Rhymix\Framework\Storage;
-
 /**
- * The file cache driver.
+ * The dummy cache driver.
  */
-class File implements \Rhymix\Framework\Drivers\CacheInterface
+class Dummy implements \Rhymix\Framework\Drivers\CacheInterface
 {
 	/**
-	 * The cache directory.
+	 * Dummy data is stored here.
 	 */
-	protected $_dir;
+	public $data = array();
 	
 	/**
 	 * Create a new instance of the current cache driver, using the given settings.
@@ -22,11 +20,7 @@ class File implements \Rhymix\Framework\Drivers\CacheInterface
 	 */
 	public function __construct(array $config)
 	{
-		$this->_dir = \RX_BASEDIR . 'files/cache/store';
-		if (!Storage::isDirectory($this->_dir))
-		{
-			Storage::createDirectory($this->_dir);
-		}
+		
 	}
 	
 	/**
@@ -64,21 +58,18 @@ class File implements \Rhymix\Framework\Drivers\CacheInterface
 	 */
 	public function get($key)
 	{
-		$filename = $this->_getFilename($key);
-		$data = Storage::readPHPData($filename);
-		
-		if ($data === false)
+		if (isset($this->data[$key]))
 		{
-			return null;
-		}
-		elseif (!is_array($data) || count($data) < 2 || ($data[0] > 0 && $data[0] < time()))
-		{
-			Storage::delete($filename);
-			return null;
+			if ($this->data[$key][0] > 0 && $this->data[$key][0] < time())
+			{
+				unset($this->data[$key]);
+				return null;
+			}
+			return $this->data[$key][1];
 		}
 		else
 		{
-			return $data[1];
+			return null;
 		}
 	}
 	
@@ -95,7 +86,8 @@ class File implements \Rhymix\Framework\Drivers\CacheInterface
 	 */
 	public function set($key, $value, $ttl)
 	{
-		return Storage::writePHPData($this->_getFilename($key), array($ttl ? (time() + $ttl) : 0, $value), $key);
+		$this->data[$key] = array($ttl ? (time() + $ttl) : 0, $value);
+		return true;
 	}
 	
 	/**
@@ -109,7 +101,15 @@ class File implements \Rhymix\Framework\Drivers\CacheInterface
 	 */
 	public function delete($key)
 	{
-		return Storage::delete($this->_getFilename($key));
+		if (isset($this->data[$key]))
+		{
+			unset($this->data[$key]);
+			return true;
+		}
+		else
+		{
+			return false;
+		}
 	}
 	
 	/**
@@ -122,7 +122,7 @@ class File implements \Rhymix\Framework\Drivers\CacheInterface
 	 */
 	public function exists($key)
 	{
-		return $this->get($key) !== null;
+		return isset($this->data[$key]);
 	}
 	
 	/**
@@ -137,9 +137,16 @@ class File implements \Rhymix\Framework\Drivers\CacheInterface
 	 */
 	public function incr($key, $amount)
 	{
-		$value = intval($this->get($key));
-		$success = $this->set($key, $value + $amount, 0);
-		return $success ? ($value + $amount) : false;
+		if (isset($this->data[$key]))
+		{
+			$this->data[$key][1] += $amount;
+			return $this->data[$key][1];
+		}
+		else
+		{
+			$this->set($key, $amount, 0);
+			return $amount;
+		}
 	}
 	
 	/**
@@ -166,18 +173,6 @@ class File implements \Rhymix\Framework\Drivers\CacheInterface
 	 */
 	public function clear()
 	{
-		Storage::deleteDirectory($this->_dir);
-	}
-	
-	/**
-	 * Get the filename to store a key.
-	 * 
-	 * @param string $key
-	 * @return string
-	 */
-	protected function _getFilename($key)
-	{
-		$hash = sha1($key);
-		return $this->_dir . '/' . substr($hash, 0, 2) . '/' . substr($hash, 2, 2) . '/' . $hash . '.php';
+		$this->data = array();
 	}
 }
