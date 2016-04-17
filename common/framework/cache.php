@@ -152,6 +152,10 @@ class Cache
 	{
 		if (self::$_driver !== null)
 		{
+			if ($ttl >= (3600 * 24 * 30))
+			{
+				$ttl = min(3600 * 24 * 30, max(0, $ttl - time()));
+			}
 			return self::$_driver->set(self::getRealKey($key, $group_name), $value, intval($ttl)) ? true : false;
 		}
 		else
