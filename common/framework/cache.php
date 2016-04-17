@@ -13,6 +13,11 @@ class Cache
 	protected static $_driver = null;
 	
 	/**
+	 * The default TTL.
+	 */
+	protected static $_ttl = 86400;
+	
+	/**
 	 * The automatically generated cache prefix.
 	 */
 	protected static $_prefix = null;
@@ -30,9 +35,14 @@ class Cache
 			$config = array($config);
 		}
 		
-		if (isset($config['driver']))
+		if (isset($config['type']))
 		{
-			$class_name = '\\Rhymix\\Framework\\Drivers\\Cache\\' . $config['driver'];
+			$class_name = '\\Rhymix\\Framework\\Drivers\\Cache\\' . $config['type'];
+			if (isset($config['ttl']))
+			{
+				self::$_ttl = intval($config['ttl']);
+			}
+			$config = isset($config['servers']) ? $config['servers'] : array();
 		}
 		elseif (preg_match('/^(apc|dummy|file|memcache|redis|sqlite|wincache|xcache)/', strval(array_first($config)), $matches))
 		{
@@ -148,13 +158,17 @@ class Cache
 	 * @param string $group_name (optional)
 	 * @return bool
 	 */
-	public static function set($key, $value, $ttl = 0, $group_name = null)
+	public static function set($key, $value, $ttl = null, $group_name = null)
 	{
 		if (self::$_driver !== null)
 		{
 			if ($ttl >= (3600 * 24 * 30))
 			{
 				$ttl = min(3600 * 24 * 30, max(0, $ttl - time()));
+			}
+			if ($ttl === null)
+			{
+				$ttl = self::$_ttl;
 			}
 			return self::$_driver->set(self::getRealKey($key, $group_name), $value, intval($ttl)) ? true : false;
 		}

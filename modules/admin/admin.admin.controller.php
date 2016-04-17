@@ -673,17 +673,21 @@ class adminAdminController extends admin
 		{
 			if ($vars->object_cache_type === 'memcached' || $vars->object_cache_type === 'redis')
 			{
-				$cache_config = $vars->object_cache_type . '://' . $vars->object_cache_host . ':' . intval($vars->object_cache_port);
+				$cache_servers = array($vars->object_cache_type . '://' . $vars->object_cache_host . ':' . intval($vars->object_cache_port));
 			}
 			else
 			{
-				$cache_config = $vars->object_cache_type;
+				$cache_servers = array();
 			}
-			if (!Rhymix\Framework\Cache::getCacheDriver($vars->object_cache_type, array($cache_config)))
+			if (!Rhymix\Framework\Cache::getCacheDriver($vars->object_cache_type, $cache_servers))
 			{
 				return new Object(-1, 'msg_cache_handler_not_supported');
 			}
-			Rhymix\Framework\Config::set('cache', array($cache_config));
+			Rhymix\Framework\Config::set('cache', array(
+				'type' => $vars->object_cache_type,
+				'ttl' => intval($vars->cache_default_ttl ?: 86400),
+				'servers' => $cache_servers,
+			));
 		}
 		else
 		{
