@@ -135,7 +135,7 @@ class Cache
 	{
 		if (self::$_driver !== null)
 		{
-			return self::$_driver::set(self::getRealKey($key, $group_name), $value, $ttl) ? true : false;
+			return self::$_driver::set(self::getRealKey($key, $group_name), $value, intval($ttl)) ? true : false;
 		}
 		else
 		{
