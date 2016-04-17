@@ -395,7 +395,7 @@ class widgetController extends widget
 		$cache_data = Rhymix\Framework\Cache::get('widget_cache:' . $widget_sequence);
 		if ($cache_data)
 		{
-			return $cache_data;
+			return preg_replace('@<\!--#Meta:@', '<!--Meta:', $cache_data);
 		}
 
 		$oWidget = $this->getWidgetObject($widget);
