@@ -25,11 +25,7 @@ class Cache
 	 */
 	public static function init($config)
 	{
-		if (!$config)
-		{
-			return;
-		}
-		elseif (!is_array($config))
+		if (!is_array($config))
 		{
 			$config = array($config);
 		}
@@ -44,12 +40,16 @@ class Cache
 		}
 		else
 		{
-			return;
+			$class_name = null;
 		}
 		
 		if (class_exists($class_name) && $class_name::isSupported())
 		{
-			self::$_driver = new $class_name($config);
+			return self::$_driver = new $class_name($config);
+		}
+		else
+		{
+			return self::$_driver = new Drivers\Cache\File(array());
 		}
 	}
 	
@@ -111,7 +111,7 @@ class Cache
 	{
 		if (self::$_driver !== null)
 		{
-			return self::$_driver::get(self::getRealKey($key, $group_name));
+			return self::$_driver->get(self::getRealKey($key, $group_name));
 		}
 		else
 		{
@@ -135,7 +135,7 @@ class Cache
 	{
 		if (self::$_driver !== null)
 		{
-			return self::$_driver::set(self::getRealKey($key, $group_name), $value, intval($ttl)) ? true : false;
+			return self::$_driver->set(self::getRealKey($key, $group_name), $value, intval($ttl)) ? true : false;
 		}
 		else
 		{
@@ -157,7 +157,7 @@ class Cache
 	{
 		if (self::$_driver !== null)
 		{
-			return self::$_driver::delete(self::getRealKey($key, $group_name)) ? true : false;
+			return self::$_driver->delete(self::getRealKey($key, $group_name)) ? true : false;
 		}
 		else
 		{
@@ -178,7 +178,7 @@ class Cache
 	{
 		if (self::$_driver !== null)
 		{
-			return self::$_driver::exists(self::getRealKey($key, $group_name)) ? true : false;
+			return self::$_driver->exists(self::getRealKey($key, $group_name)) ? true : false;
 		}
 		else
 		{
