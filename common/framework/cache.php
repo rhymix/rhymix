@@ -34,7 +34,7 @@ class Cache
 		{
 			$class_name = '\\Rhymix\\Framework\\Drivers\\Cache\\' . $config['driver'];
 		}
-		elseif (preg_match('/^(apc|memcache|redis|wincache|file)/', strval(array_first($config)), $matches))
+		elseif (preg_match('/^(apc|dummy|file|memcache|redis|sqlite|wincache|xcache)/', strval(array_first($config)), $matches))
 		{
 			$class_name = '\\Rhymix\\Framework\\Drivers\\Cache\\' . $matches[1] . ($matches[1] === 'memcache' ? 'd' : '');
 		}
