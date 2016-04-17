@@ -230,18 +230,17 @@ class Cache
 	 * 
 	 * @param string $key
 	 * @param string $group_name (optional)
+	 * @param bool $add_prefix (optional)
 	 * @return string
 	 */
-	public static function getRealKey($key, $group_name = null)
+	public static function getRealKey($key, $group_name = null, $add_prefix = true)
 	{
 		if ($group_name)
 		{
 			$group_version = intval(self::get('#GROUP:' . $group_name . ':v'));
-			return self::getCachePrefix() . '#GROUP:' . $group_name . ':' . $group_version . ':' . $key;
+			$key = '#GROUP:' . $group_name . ':' . $group_version . ':' . $key;
 		}
-		else
-		{
-			return self::getCachePrefix() . $key;
-		}
+		
+		return ($add_prefix ? self::getCachePrefix() : '') . $key;
 	}
 }

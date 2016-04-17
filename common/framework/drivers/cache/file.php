@@ -95,7 +95,7 @@ class File implements \Rhymix\Framework\Drivers\CacheInterface
 	 */
 	public function set($key, $value, $ttl)
 	{
-		return Storage::writePHPData($this->_getFilename($key), array($ttl ? (time() + $ttl) : 0, $value));
+		return Storage::writePHPData($this->_getFilename($key), array($ttl ? (time() + $ttl) : 0, $value), $key);
 	}
 	
 	/**
