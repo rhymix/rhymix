@@ -178,11 +178,7 @@ class layoutAdminController extends layout
 								$output = executeQuery('layout.updateModuleLayout', $update_args);
 							}
 
-							$oCacheHandler = CacheHandler::getInstance('object', null, true);
-							if($oCacheHandler->isSupport())
-							{
-								$oCacheHandler->invalidateGroupKey('site_and_module');
-							}
+							Rhymix\Framework\Cache::clearGroup('site_and_module');
 						}
 					}
 				}

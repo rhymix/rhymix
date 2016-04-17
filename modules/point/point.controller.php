@@ -688,21 +688,7 @@ class pointController extends point
 		$cache_filename = sprintf('%s%d.cache.txt', $cache_path, $member_srl);
 		FileHandler::writeFile($cache_filename, $point);
 
-		$oCacheHandler = CacheHandler::getInstance('object', null, true);
-		if($new_group_list && $del_group_list && $oCacheHandler->isSupport())
-		{
-			$object_key = 'member_groups:' . getNumberingPath($member_srl) . $member_srl . '_0';
-			$cache_key = $oCacheHandler->getGroupKey('member', $object_key);
-			$oCacheHandler->delete($cache_key);
-		}
-
-		$oCacheHandler = CacheHandler::getInstance('object');
-		if($new_group_list && $del_group_list && $oCacheHandler->isSupport())
-		{
-			$object_key = 'member_info:' . getNumberingPath($member_srl) . $member_srl;
-			$cache_key = $oCacheHandler->getGroupKey('member', $object_key);
-			$oCacheHandler->delete($cache_key);
-		}
+		getController('member')->_clearMemberCache($member_srl);
 
 		return $output;
 	}

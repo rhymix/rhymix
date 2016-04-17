@@ -326,31 +326,21 @@ class memberModel extends member
 		//columnList size zero... get full member info
 		if(!$GLOBALS['__member_info__'][$member_srl] || count($columnList) == 0)
 		{
-			$GLOBALS['__member_info__'][$member_srl] = false;
-
-			$oCacheHandler = CacheHandler::getInstance('object');
-			if($oCacheHandler->isSupport())
-			{
-				$columnList = array();
-				$object_key = 'member_info:' . getNumberingPath($member_srl) . $member_srl;
-				$cache_key = $oCacheHandler->getGroupKey('member', $object_key);
-				$GLOBALS['__member_info__'][$member_srl] = $oCacheHandler->get($cache_key);
-			}
-
-			if($GLOBALS['__member_info__'][$member_srl] === false)
+			$cache_key = 'member_info:' . getNumberingPath($member_srl) . $member_srl;
+			$GLOBALS['__member_info__'][$member_srl] = Rhymix\Framework\Cache::get($cache_key, 'member');
+			if(!$GLOBALS['__member_info__'][$member_srl])
 			{
 				$args = new stdClass();
 				$args->member_srl = $member_srl;
 				$output = executeQuery('member.getMemberInfoByMemberSrl', $args, $columnList);
 				if(!$output->data)
 				{
-					if($oCacheHandler->isSupport()) $oCacheHandler->put($cache_key, new stdClass);
+					Rhymix\Framework\Cache::set($cache_key, new stdClass, 0, 'member');
 					return new stdClass;
 				}
+				
 				$this->arrangeMemberInfo($output->data, $site_srl);
-
-				//insert in cache
-				if($oCacheHandler->isSupport()) $oCacheHandler->put($cache_key, $GLOBALS['__member_info__'][$member_srl]);
+				Rhymix\Framework\Cache::set($cache_key, $GLOBALS['__member_info__'][$member_srl], 0, 'member');
 			}
 		}
 
@@ -366,7 +356,6 @@ class memberModel extends member
 		{
 			$oModuleModel = getModel('module');
 			$config = $oModuleModel->getModuleConfig('member');
-
 
 			$info->profile_image = $this->getProfileImage($info->member_srl);
 			$info->image_name = $this->getImageName($info->member_srl);
@@ -494,18 +483,12 @@ class memberModel extends member
 		static $member_groups = array();
 
 		// cache controll
-		$group_list = false;
-		$oCacheHandler = CacheHandler::getInstance('object', null, true);
-		if($oCacheHandler->isSupport())
-		{
-			$object_key = 'member_groups:' . getNumberingPath($member_srl) . $member_srl . '_'.$site_srl;
-			$cache_key = $oCacheHandler->getGroupKey('member', $object_key);
-			$group_list = $oCacheHandler->get($cache_key);
-		}
+		$cache_key = 'member_groups:' . getNumberingPath($member_srl) . $member_srl . ':site:' . $site_srl;
+		$group_list = Rhymix\Framework\Cache::get($cache_key, 'member');
 
 		if(!$member_groups[$member_srl][$site_srl] || $force_reload)
 		{
-			if($group_list === false)
+			if(!$group_list)
 			{
 				$args = new stdClass();
 				$args->member_srl = $member_srl;
@@ -513,7 +496,7 @@ class memberModel extends member
 				$output = executeQueryArray('member.getMemberGroups', $args);
 				$group_list = $output->data;
 				//insert in cache
-				if($oCacheHandler->isSupport()) $oCacheHandler->put($cache_key, $group_list);
+				Rhymix\Framework\Cache::set($cache_key, $group_list, 0, 'member');
 			}
 			if(!$group_list) return array();
 
@@ -550,26 +533,15 @@ class memberModel extends member
 	 */
 	function getDefaultGroup($site_srl = 0, $columnList = array())
 	{
-		$default_group = false;
-		$oCacheHandler = CacheHandler::getInstance('object', null, true);
-		if($oCacheHandler->isSupport())
-		{
-			$columnList = array();
-			$object_key = 'default_group_' . $site_srl;
-			$cache_key = $oCacheHandler->getGroupKey('member', $object_key);
-			$default_group = $oCacheHandler->get($cache_key);
-		}
+		$default_group = Rhymix\Framework\Cache::get("default_group:$site_srl", 'member');
 
-		if($default_group === false)
+		if(!$default_group)
 		{
 			$args = new stdClass();
 			$args->site_srl = $site_srl;
 			$output = executeQuery('member.getDefaultGroup', $args, $columnList);
 			$default_group = $output->data;
-			if($oCacheHandler->isSupport())
-			{
-				$oCacheHandler->put($cache_key, $default_group);
-			}
+			Rhymix\Framework\Cache::set("default_group:$site_srl", $default_group, 0, 'member');
 		}
 
 		return $default_group;
@@ -609,16 +581,9 @@ class memberModel extends member
 				$site_srl = 0;
 			}
 
-			$group_list = false;
-			$oCacheHandler = CacheHandler::getInstance('object', null, true);
-			if($oCacheHandler->isSupport())
-			{
-				$object_key = 'member_groups:site_'.$site_srl;
-				$cache_key = $oCacheHandler->getGroupKey('member', $object_key);
-				$group_list = $oCacheHandler->get($cache_key);
-			}
+			$group_list = Rhymix\Framework\Cache::get("member_groups:site:$site_srl", 'member');
 
-			if($group_list === false)
+			if(!$group_list)
 			{
 				$args = new stdClass();
 				$args->site_srl = $site_srl;
@@ -626,15 +591,13 @@ class memberModel extends member
 				$args->order_type = 'asc';
 				$output = executeQueryArray('member.getGroups', $args);
 				$group_list = $output->data;
-				//insert in cache
-				if($oCacheHandler->isSupport()) $oCacheHandler->put($cache_key, $group_list);
+				Rhymix\Framework\Cache::set("member_groups:site:$site_srl", $group_list, 0, 'member');
 			}
 
 			if(!$group_list)
 			{
 				return array();
 			}
-
 
 			foreach($group_list as $val)
 			{

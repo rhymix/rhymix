@@ -282,13 +282,7 @@ class pageAdminController extends page
 			}
 		}
 
-		$oCacheHandler = CacheHandler::getInstance('object', null, true);
-		if($oCacheHandler->isSupport())
-		{
-			$object_key = 'mid_info:' . $module_info->module_srl;
-			$cache_key = $oCacheHandler->getGroupKey('site_and_module', $object_key);
-			$oCacheHandler->delete($cache_key);
-		}
+		Rhymix\Framework\Cache::delete('mid_info:' . $module_info->module_srl, 'site_and_module');
 	}
 
 	function procPageAdminArticleDocumentInsert()

@@ -209,12 +209,7 @@ class menuAdminController extends menu
 			return $output;
 		}
 
-		$oCacheHandler = CacheHandler::getInstance('object', null, true);
-		if($oCacheHandler->isSupport())
-		{
-			$oCacheHandler->invalidateGroupKey('site_and_module');
-		}
-
+		Rhymix\Framework\Cache::clearGroup('site_and_module');
 		$oMenuAdminController = getAdminController('menu');
 		$oMenuAdminController->makeXmlFile($menuSrl);
 
