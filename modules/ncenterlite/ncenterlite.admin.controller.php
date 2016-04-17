@@ -11,11 +11,11 @@ class ncenterliteAdminController extends ncenterlite
 			'use',
 			'display_use',
 			'user_config_list',
-			'mention_format',
 			'mention_names',
+			'mention_suffixes',
+			'mention_suffix_always_cut',
 			'document_notify',
 			'hide_module_srls',
-			'mention_format',
 			'admin_notify_module_srls',
 			'skin',
 			'mskin',
@@ -28,33 +28,47 @@ class ncenterliteAdminController extends ncenterlite
 			'mlayout_srl',
 			'document_notify'
 		);
-		if(!$obj->use && $obj->disp_act == 'dispNcenterliteAdminConfig')
-		{
-			$config->use = array();
-		}
+		
 		foreach($config_vars as $val)
 		{
 			if($obj->{$val})
 			{
 				$config->{$val} = $obj->{$val};
 			}
-			if($obj->disp_act == 'dispNcenterliteAdminConfig' && !$obj->anonymous_name)
+		}
+		
+		if ($obj->disp_act == 'dispNcenterliteAdminConfig')
+		{
+			if (!$obj->use)
+			{
+				$config->use = array();
+			}
+			if (!$config->anonymous_name)
 			{
 				$config->anonymous_name = null;
 			}
-			if($obj->disp_act == 'dispNcenterliteAdminConfig' && !$obj->mention_format)
+			if (!$config->mention_suffixes)
 			{
-				$config->mention_format = array();
+				$config->mention_suffixes = array();
 			}
-			if($obj->disp_act == 'dispNcenterliteAdminSeletedmid' && !$obj->hide_module_srls)
+			if (!is_array($config->mention_suffixes))
+			{
+				$config->mention_suffixes = array_map('trim', explode(',', $config->mention_suffixes));
+			}
+		}
+		
+		if ($obj->disp_act == 'dispNcenterliteAdminSeletedmid')
+		{
+			if (!$config->hide_module_srls)
 			{
 				$config->hide_module_srls = array();
 			}
-			if($obj->disp_act == 'dispNcenterliteAdminSeletedmid' && !$obj->admin_notify_module_srls)
+			if (!$config->admin_notify_module_srls)
 			{
 				$config->admin_notify_module_srls = array();
 			}
 		}
+		
 		$output = $oModuleController->updateModuleConfig('ncenterlite', $config);
 		if(!$output->toBool())
 		{

@@ -78,9 +78,7 @@ class ncenterliteController extends ncenterlite
 		$oNcenterliteModel = getModel('ncenterlite');
 		$config = $oNcenterliteModel->getConfig();
 
-		$content = strip_tags($obj->title . ' ' . $obj->content);
-
-		$mention_targets = $this->_getMentionTarget($content);
+		$mention_targets = $this->_getMentionTarget($obj->title . ' ' . $obj->content);
 
 		$document_srl = $obj->document_srl;
 		$module_info = $oModuleModel->getModuleInfoByDocumentSrl($document_srl);
@@ -233,7 +231,9 @@ class ncenterliteController extends ncenterlite
 		// check use the mention option.
 		if(isset($config->use['mention']))
 		{
-			$mention_targets = $this->_getMentionTarget(strip_tags($obj->content));
+			$mention_targets = $this->_getMentionTarget($content);
+			debugPrint($mention_targets);
+			
 			// !TODO 공용 메소드로 분리
 			foreach($mention_targets as $mention_member_srl)
 			{
@@ -1076,81 +1076,66 @@ class ncenterliteController extends ncenterlite
 	function _getMentionTarget($content)
 	{
 		$oNcenterliteModel = getModel('ncenterlite');
+		$oMemberModel =  getModel('member');
 		$config = $oNcenterliteModel->getConfig();
 		$logged_info = Context::get('logged_info');
-
-		$list = array();
-
-		$content = strip_tags($content);
-		$content = str_replace('&nbsp;', ' ', $content);
-
-		// 정규표현식 정리
-		$split = array();
-		if(in_array('comma', $config->mention_format))
+		
+		// Extract mentions.
+		$content = html_entity_decode(strip_tags($content));
+		preg_match_all('/(?:^|\s)@([^\pC\pM\pP\pS\pZ]+)/u', $content, $matches);
+		$mentions = array_unique($matches[1]);
+		$members = array();
+		
+		// Find members.
+		foreach ($mentions as $mention)
 		{
-			$split[] = ',';
-		}
-		$regx = join('', array('/(^|\s)@([^@\s', join('', $split), ']+)/i'));
-
-		preg_match_all($regx, $content, $matches);
-
-		// '님'문자 이후 제거
-		if(in_array('respect', $config->mention_format))
-		{
-			$nick_name = array_unique($matches[2]);
-			foreach($nick_name as $nick)
+			if ($config->mention_suffix_always_cut != 'Y')
 			{
-				$nick_member_srl = getModel('member')->getMemberSrlByNickName($nick);
-				if($nick_member_srl)
+				if ($config->mention_names === 'id')
 				{
-					$list[] = $nick_member_srl;
+					$member_srl = $oMemberModel->getMemberSrlByUserID($mention);
+				}
+				else
+				{
+					$member_srl = $oMemberModel->getMemberSrlByNickName($mention);
 				}
 			}
-			if(!empty($list))
+			else
 			{
-				return $list;
+				$member_srl = null;
 			}
-			foreach($matches[2] as $idx => $item)
+			
+			if (!$member_srl)
 			{
-				$pos = strpos($item, '님');
-				if($pos !== false && $pos > 0)
+				foreach ($config->mention_suffixes as $suffix)
 				{
-					$matches[2][$idx] = trim(substr($item, 0, $pos));
-					if($logged_info && $logged_info->nick_name == $matches[2][$idx])
+					if (($pos = strpos($mention, $suffix)) !== false && $pos > 0)
 					{
-						unset($matches[2][$idx]);
+						$mention = substr($mention, 0, $pos);
 					}
 				}
-			}
-		}
-		$nicks = array_unique($matches[2]);
-
-		$oMemberModel = getModel('member');
-		$member_config = $oMemberModel->getMemberConfig();
-
-		if($config->mention_names == 'id' && $member_config->identifier != 'email_address')
-		{
-			foreach($nicks as $user_id)
-			{
-				$id_member_srl = $oMemberModel->getMemberSrlByUserID($user_id);
-				if($id_member_srl)
+				
+				if (isset($members[$mention]))
 				{
-					$list[] = $id_member_srl;
+					continue;
+				}
+				elseif ($config->mention_names === 'id')
+				{
+					$member_srl = $oMemberModel->getMemberSrlByUserID($mention);
+				}
+				else
+				{
+					$member_srl = $oMemberModel->getMemberSrlByNickName($mention);
 				}
 			}
-		}
-		else
-		{
-			foreach($nicks as $nick_name)
+			if (!$member_srl || ($logged_info && ($member_srl == $logged_info->member_srl)))
 			{
-				$nick_member_srl = $oMemberModel->getMemberSrlByNickName($nick_name);
-				if($nick_member_srl)
-				{
-					$list[] = $nick_member_srl;
-				}
+				continue;
 			}
+			
+			$members[$mention] = $member_srl;
 		}
-
-		return $list;
+		
+		return array_values($members);
 	}
 }

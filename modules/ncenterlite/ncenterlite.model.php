@@ -18,13 +18,16 @@ class ncenterliteModel extends ncenterlite
 			}
 			if(!$config->use)
 			{
-				$config->use = array();
+				$config->use = array('message' => 1);
 			}
 			if(!$config->display_use) $config->display_use = 'Y';
 
 			if(!$config->mention_names) $config->mention_names = 'nick_name';
-			if(!$config->mention_format && !is_array($config->mention_format)) $config->mention_format = array('respect');
-			if(!is_array($config->mention_format)) $config->mention_format = explode('|@|', $config->mention_format);
+			if(!$config->mention_suffixes)
+			{
+				$config->mention_suffixes = array('님', '様', 'さん', 'ちゃん');
+			}
+			unset($config->mention_format);
 			if(!$config->document_notify) $config->document_notify = 'direct-comment';
 			if(!$config->hide_module_srls) $config->hide_module_srls = array();
 			if(!is_array($config->hide_module_srls)) $config->hide_module_srls = explode('|@|', $config->hide_module_srls);
@@ -33,6 +36,7 @@ class ncenterliteModel extends ncenterlite
 			if(!$config->skin) $config->skin = 'default';
 			if(!$config->colorset) $config->colorset = 'black';
 			if(!$config->zindex) $config->zindex = '9999';
+			if(!$config->anonymous_name) $config->anonymous_name = 'Anonymous';
 
 			self::$config = $config;
 		}
