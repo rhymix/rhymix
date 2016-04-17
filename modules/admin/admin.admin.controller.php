@@ -45,7 +45,7 @@ class adminAdminController extends admin
 			return $output;
 		}
 
-		FileHandler::removeDir('./files/cache/menu/admin_lang/');
+		Rhymix\Framework\Storage::deleteDirectory(\RX_BASEDIR . 'files/cache/menu/admin_lang/');
 
 		$this->setRedirectUrl(Context::get('error_return_url'));
 	}
@@ -57,17 +57,16 @@ class adminAdminController extends admin
 	function procAdminRecompileCacheFile()
 	{
 		// rename cache dir
-		$temp_cache_dir = './files/cache_' . $_SERVER['REQUEST_TIME'];
-		FileHandler::rename('./files/cache', $temp_cache_dir);
-		FileHandler::makeDir('./files/cache');
+		Rhymix\Framework\Storage::move(\RX_BASEDIR . 'files/cache', \RX_BASEDIR . 'files/cache_' . time());
+		Rhymix\Framework\Storage::createDirectory(\RX_BASEDIR . 'files/cache');
 
 		// remove module extend cache
-		FileHandler::removeFile(_XE_PATH_ . 'files/config/module_extend.php');
+		Rhymix\Framework\Storage::delete(RX_BASEDIR . 'files/config/module_extend.php');
 
 		// remove debug files
-		FileHandler::removeFile(_XE_PATH_ . 'files/_debug_message.php');
-		FileHandler::removeFile(_XE_PATH_ . 'files/_debug_db_query.php');
-		FileHandler::removeFile(_XE_PATH_ . 'files/_db_slow_query.php');
+		Rhymix\Framework\Storage::delete(RX_BASEDIR . 'files/_debug_message.php');
+		Rhymix\Framework\Storage::delete(RX_BASEDIR . 'files/_debug_db_query.php');
+		Rhymix\Framework\Storage::delete(RX_BASEDIR . 'files/_db_slow_query.php');
 
 		$oModuleModel = getModel('module');
 		$module_list = $oModuleModel->getModuleList();
@@ -83,35 +82,42 @@ class adminAdminController extends admin
 			}
 		}
 
-		// remove cache
-		$truncated = array();
-		$oObjectCacheHandler = CacheHandler::getInstance('object');
-		$oTemplateCacheHandler = CacheHandler::getInstance('template');
-
-		if($oObjectCacheHandler->isSupport())
+		// remove object cache
+		$cache_driver = Rhymix\Framework\Cache::getCacheDriver();
+		if (!($cache_driver instanceof Rhymix\Framework\Drivers\Cache\File))
 		{
-			$truncated[] = $oObjectCacheHandler->truncate();
+			$cache_driver->clear();
 		}
 
-		if($oTemplateCacheHandler->isSupport())
-		{
-			$truncated[] = $oTemplateCacheHandler->truncate();
-		}
-
-		if(count($truncated) && in_array(FALSE, $truncated))
-		{
-			return new Object(-1, 'msg_self_restart_cache_engine');
-		}
-
-		// remove cache dir
-		$tmp_cache_list = FileHandler::readDir('./files', '/(^cache_[0-9]+)/');
+		// remove old cache dir
+		$tmp_cache_list = FileHandler::readDir(\RX_BASEDIR . 'files', '/^(cache_[0-9]+)/');
 		if($tmp_cache_list)
 		{
 			foreach($tmp_cache_list as $tmp_dir)
 			{
-				if($tmp_dir)
+				if(strval($tmp_dir) !== '')
 				{
-					FileHandler::removeDir('./files/' . $tmp_dir);
+					$tmp_dir = \RX_BASEDIR . 'files/' . strval($tmp_dir);
+					if (!Rhymix\Framework\Storage::isDirectory($tmp_dir))
+					{
+						continue;
+					}
+					
+					// If possible, use system command to speed up recursive deletion
+					if (function_exists('exec') && !preg_match('/(?<!_)exec/', ini_get('disable_functions')))
+					{
+						if (strncasecmp(\PHP_OS, 'win', 3) == 0)
+						{
+							@exec('rmdir /S /Q ' . escapeshellarg($tmp_dir));
+						}
+						else
+						{
+							@exec('rm -rf ' . escapeshellarg($tmp_dir));
+						}
+					}
+					
+					// If the directory still exists, delete using PHP.
+					Rhymix\Framework\Storage::deleteDirectory($tmp_dir);
 				}
 			}
 		}
@@ -419,7 +425,7 @@ class adminAdminController extends admin
 		$oModuleModel = getModel('module');
 		$oAdminConfig = $oModuleModel->getModuleConfig('admin');
 
-		FileHandler::removeFile(_XE_PATH_ . $oAdminConfig->adminLogo);
+		Rhymix\Framework\Storage::delete(_XE_PATH_ . $oAdminConfig->adminLogo);
 		unset($oAdminConfig->adminLogo);
 
 		$oModuleController = getController('module');
@@ -486,7 +492,7 @@ class adminAdminController extends admin
 		$file_exist = FileHandler::readFile(_XE_PATH_ . 'files/attach/xeicon/' . $virtual_site . $iconname);
 		if($file_exist)
 		{
-			@FileHandler::removeFile(_XE_PATH_ . 'files/attach/xeicon/' . $virtual_site . $iconname);
+			@Rhymix\Framework\Storage::delete(_XE_PATH_ . 'files/attach/xeicon/' . $virtual_site . $iconname);
 		}
 		else
 		{
@@ -948,7 +954,7 @@ class adminAdminController extends admin
 		
 		if ($deleteIcon)
 		{
-			FileHandler::removeFile($image_filepath.$iconname);
+			Rhymix\Framework\Storage::delete($image_filepath.$iconname);
 			return;
 		}
 		
@@ -956,7 +962,7 @@ class adminAdminController extends admin
 		$icon_filepath = $image_filepath.$iconname;
 		if (file_exists($tmpicon_filepath))
 		{
-			FileHandler::moveFile($tmpicon_filepath, $icon_filepath);
+			Rhymix\Framework\Storage::move($tmpicon_filepath, $icon_filepath);
 		}
 	}
 }
