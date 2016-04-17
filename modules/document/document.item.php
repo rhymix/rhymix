@@ -82,29 +82,23 @@ class documentItem extends Object
 		$this->columnList = array();
 
 		// cache controll
-		$oCacheHandler = CacheHandler::getInstance('object');
-		if($oCacheHandler->isSupport())
+		$cache_key = 'document_item:' . getNumberingPath($this->document_srl) . $this->document_srl;
+		$document_item = Rhymix\Framework\Cache::get($cache_key);
+		if($document_item)
 		{
-			$cache_key = 'document_item:' . getNumberingPath($this->document_srl) . $this->document_srl;
-			$document_item = $oCacheHandler->get($cache_key);
-			if($document_item !== false)
-			{
-				$columnList = array('readed_count', 'voted_count', 'blamed_count', 'comment_count', 'trackback_count');
-			}
+			$columnList = array('readed_count', 'voted_count', 'blamed_count', 'comment_count', 'trackback_count');
 		}
 
 		$args = new stdClass();
 		$args->document_srl = $this->document_srl;
 		$output = executeQuery('document.getDocument', $args, $columnList);
 
-		if($document_item === false)
+		if(!$document_item)
 		{
 			$document_item = $output->data;
-
-				//insert in cache
-			if($document_item && $oCacheHandler->isSupport())
+			if($document_item)
 			{
-				$oCacheHandler->put($cache_key, $document_item);
+				Rhymix\Framework\Cache::set($cache_key, $document_item);
 			}
 		}
 		else

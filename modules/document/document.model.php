@@ -370,18 +370,10 @@ class documentModel extends document
 	{
 		if(!isset($GLOBALS['XE_EXTRA_KEYS'][$module_srl]))
 		{
-			$keys = false;
-			$oCacheHandler = CacheHandler::getInstance('object', null, true);
-			if($oCacheHandler->isSupport())
-			{
-				$object_key = 'module_document_extra_keys:' . $module_srl;
-				$cache_key = $oCacheHandler->getGroupKey('site_and_module', $object_key);
-				$keys = $oCacheHandler->get($cache_key);
-			}
-
+			$keys = Rhymix\Framework\Cache::get("module_document_extra_keys:$module_srl", 'site_and_module');
 			$oExtraVar = ExtraVar::getInstance($module_srl);
 
-			if($keys === false)
+			if(!$keys)
 			{
 				$obj = new stdClass();
 				$obj->module_srl = $module_srl;
@@ -437,10 +429,7 @@ class documentModel extends document
 				$keys = $oExtraVar->getExtraVars();
 				if(!$keys) $keys = array();
 
-				if($oCacheHandler->isSupport())
-				{
-					$oCacheHandler->put($cache_key, $keys);
-				}
+				Rhymix\Framework\Cache::set("module_document_extra_keys:$module_srl", $keys, 0, 'site_and_module');
 			}
 
 

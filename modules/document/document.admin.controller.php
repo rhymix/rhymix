@@ -218,15 +218,11 @@ class documentAdminController extends document
 		}
 
 		$oDB->commit();
+		
 		//remove from cache
-		$oCacheHandler = CacheHandler::getInstance('object');
-		if($oCacheHandler->isSupport())
+		foreach ($document_srl_list as $document_srl)
 		{
-			foreach($document_srl_list as $document_srl)
-			{
-				$cache_key_item = 'document_item:'. getNumberingPath($document_srl) . $document_srl;
-				$oCacheHandler->delete($cache_key_item);
-			}
+			Rhymix\Framework\Cache::delete('document_item:'. getNumberingPath($document_srl) . $document_srl);
 		}
 		return new Object();
 	}
@@ -472,18 +468,11 @@ class documentAdminController extends document
 				$document_srl_list[] = $oDocument->document_srl;
 			}
 		}
+		
 		//remove from cache
-		$oCacheHandler = CacheHandler::getInstance('object');
-		if($oCacheHandler->isSupport())
+		foreach ($document_srl_list as $document_srl)
 		{
-			if(is_array($document_srl_list))
-			{
-				foreach($document_srl_list as $document_srl)
-				{
-					$cache_key_item = 'document_item:'. getNumberingPath($document_srl) . $document_srl;
-					$oCacheHandler->delete($cache_key_item);
-				}
-			}
+			Rhymix\Framework\Cache::delete('document_item:'. getNumberingPath($document_srl) . $document_srl);
 		}
 		return $output;
 	}
@@ -690,13 +679,7 @@ class documentAdminController extends document
 			if(!$output->toBool()) return $output;
 		}
 
-		$oCacheHandler = CacheHandler::getInstance('object', NULL, TRUE);
-		if($oCacheHandler->isSupport())
-		{
-			$object_key = 'module_document_extra_keys:'.$module_srl;
-			$cache_key = $oCacheHandler->getGroupKey('site_and_module', $object_key);
-			$oCacheHandler->delete($cache_key);
-		}
+		Rhymix\Framework\Cache::delete("module_document_extra_keys:$module_srl", 'site_and_module');
 	}
 
 	/**
