@@ -1,6 +1,6 @@
 <?php
-$lang->ncenterlite = 'Rhymix Notification Center Lite';
-$lang->ncenterlite_install_version = 'Installed Notification Center Lite version';
+$lang->ncenterlite = 'Notification Center Lite';
+$lang->ncenterlite_install_version = 'Installed version';
 $lang->ncenterlite_document = 'document';
 $lang->ncenterlite_comment = 'comment';
 $lang->ncenterlite_type_message = 'message';
@@ -52,37 +52,24 @@ $lang->ncenterlite_stop_no_permission_other_user = 'You don\'t have the authorit
 $lang->ncenterlite_stop_no_permission_other_user_settings = 'You don\'t have the authority to control settings of other members.';
 $lang->ncenterlite_message_delete_notification_before = 'Notifications before %s are deleted.';
 $lang->ncenterlite_message_delete_notification_all = 'Every notification is deleted.';
-$lang->ncenterlite_config_environment = '<span class="x_label x_label-important">HELP!</span> Agreement on gathering server environment information';
-$lang->ncenterlite_config_environment_about = '
-			<p>\'Notification Center Lite\' is distributed as an <a href="https://en.wikipedia.org/wiki/Free_software" target="_blank">free software</a>.</p>
-			<p>\'Notification Center Lite\' is developing with collective intelligence, such as users\' bug reports, suggestions and/or contributions.<br />If you select to \'Agree on gathering\', the items below will be gathered by developers of this program, and the information will be referenced to enhance functions of this program. Thank you.</p>
-			<ul>
-				<li>Domain name of this website</li>
-				<li>Version value of Notification Center Lite</li>
-				<li>XE Core version value</li>
-				<li>PHP version value</li>
-			</ul>
-		';
-$lang->ncenterlite_config_environment_agree = 'Agree on gathering';
-$lang->ncenterlite_config_environment_disagree = 'Disagree on gathering';
 $lang->ncenterlite_click_to_open = 'Click here to open';
 $lang->ncenterlite_notice_list = 'Notification list';
 $lang->ncenterlite_basic_settings = 'Basic function settings';
 $lang->ncenterlite_warning = 'Watch out!';
-$lang->ncenterlite_io = 'Activate Notification Center';
+$lang->ncenterlite_io = 'Activate Notifications';
 $lang->ncenterlite_io_about = 'You can activate or inactivate every function of Notification Center Lite module.';
 $lang->ncenterlite_on = 'Active';
 $lang->ncenterlite_off = 'Inactive';
-$lang->ncenterlite_display = 'Display Notification Center';
-$lang->ncenterlite_display_y = 'Display';
-$lang->ncenterlite_display_n = 'Hide';
-$lang->ncenterlite_display_about = 'Whether to use the skins of the module is the option to choose whether to use the skin of the widget or layout. The default setting uses the skins of the module.
-				<span class="x_label x_label-important">Watch out!</span> Choose only if you use a layout or widget in Notification Center!';
+$lang->ncenterlite_display = 'Display Notifications';
+$lang->ncenterlite_display_y = 'Yes';
+$lang->ncenterlite_display_n = 'No';
+$lang->ncenterlite_display_about = 'You can hide notifications from Notification Center Lite if you are using a layout or widget that handles notifications for you.';
 $lang->ncenterlite_mention_target = 'Mention target';
 $lang->ncenterlite_mention_target_about = 'Mention target can be nicknames or IDs (@Nickname or @ID).';
 $lang->ncenterlite_skin_settings = 'Skin settings';
 $lang->ncenterlite_zindex = 'Z-index of notification';
 $lang->ncenterlite_zindex_about = 'Some elements that have high z-index can hide notification layer. If so, set z-index of notification layer as 100, 200, and so on to show it.';
+$lang->ncenterlite_test = 'Tests';
 $lang->ncenterlite_test_make_dummy = 'Make dummy data';
 $lang->ncenterlite_test_mention = 'Web page notification test';
 $lang->ncenterlite_test_mention_about = 'Create dummy data for module and/or skin test.';

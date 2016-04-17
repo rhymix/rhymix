@@ -4,7 +4,9 @@
 	</customrules>
 	<fields>
 		<field name="use" />
-		<field name="mention_format" />
+		<field name="display_use" />
+		<field name="mention_suffixes" />
+		<field name="mention_names" />
 		<field name="document_notify" />
 		<field name="skin" />
 		<field name="colorset" />
