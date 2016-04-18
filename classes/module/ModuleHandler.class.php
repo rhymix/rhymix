@@ -632,7 +632,7 @@ class ModuleHandler extends Handler
 					{
 						self::_setInputErrorToContext();
 
-						$this->error = 'msg_is_not_administrator';
+						$this->error = 'admin.msg_is_not_administrator';
 						$oMessageObject = self::getModuleInstance('message', $display_mode);
 						$oMessageObject->setError(-1);
 						$oMessageObject->setMessage($this->error);
@@ -646,7 +646,7 @@ class ModuleHandler extends Handler
 					if(!$grant->manager)
 					{
 						self::_setInputErrorToContext();
-						$this->error = 'msg_is_not_administrator';
+						$this->error = 'admin.msg_is_not_administrator';
 						$oMessageObject = self::getModuleInstance('message', $display_mode);
 						$oMessageObject->setError(-1);
 						$oMessageObject->setMessage($this->error);
@@ -658,7 +658,7 @@ class ModuleHandler extends Handler
 						if(!$grant->is_admin && $this->module != $this->orig_module->module && $xml_info->permission->{$this->act} != 'manager')
 						{
 							self::_setInputErrorToContext();
-							$this->error = 'msg_is_not_administrator';
+							$this->error = 'admin.msg_is_not_administrator';
 							$oMessageObject = self::getModuleInstance('message', $display_mode);
 							$oMessageObject->setError(-1);
 							$oMessageObject->setMessage($this->error);
@@ -914,10 +914,13 @@ class ModuleHandler extends Handler
 				$oMessageObject->setMessage($this->error);
 				$oMessageObject->dispMessage();
 
-				if($oMessageObject->getHttpStatusCode() && $oMessageObject->getHttpStatusCode() != '200')
+				if($oMessageObject->getHttpStatusCode() && $oMessageObject->getHttpStatusCode() !== '200')
 				{
 					self::_setHttpStatusMessage($oMessageObject->getHttpStatusCode());
-					$oMessageObject->setTemplateFile('http_status_code');
+					if($oMessageObject->getHttpStatusCode() !== '403')
+					{
+						$oMessageObject->setTemplateFile('http_status_code');
+					}
 				}
 
 				// If module was called normally, change the templates of the module into ones of the message view module
@@ -925,6 +928,7 @@ class ModuleHandler extends Handler
 				{
 					$oModule->setTemplatePath($oMessageObject->getTemplatePath());
 					$oModule->setTemplateFile($oMessageObject->getTemplateFile());
+					$oModule->setHttpStatusCode($oMessageObject->getHttpStatusCode());
 					// Otherwise, set message instance as the target module
 				}
 				else
