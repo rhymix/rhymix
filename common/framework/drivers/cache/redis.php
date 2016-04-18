@@ -8,6 +8,11 @@ namespace Rhymix\Framework\Drivers\Cache;
 class Redis implements \Rhymix\Framework\Drivers\CacheInterface
 {
 	/**
+	 * Set this flag to false to disable cache prefixes.
+	 */
+	public $prefix = true;
+	
+	/**
 	 * The Redis connection is stored here.
 	 */
 	protected $_conn = null;

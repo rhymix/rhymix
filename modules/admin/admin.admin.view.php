@@ -467,7 +467,7 @@ class adminAdminView extends admin
 			}
 			else
 			{
-				$object_cache_type = 'dummy';
+				$object_cache_type = 'file';
 			}
 			$cache_default_ttl = 86400;
 			$cache_servers = Rhymix\Framework\Config::get('cache');

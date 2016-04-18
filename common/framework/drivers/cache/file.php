@@ -10,6 +10,11 @@ use Rhymix\Framework\Storage;
 class File implements \Rhymix\Framework\Drivers\CacheInterface
 {
 	/**
+	 * Set this flag to false to disable cache prefixes.
+	 */
+	public $prefix = false;
+	
+	/**
 	 * The cache directory.
 	 */
 	protected $_dir;

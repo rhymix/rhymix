@@ -10,6 +10,11 @@ use Rhymix\Framework\Storage;
 class SQLite implements \Rhymix\Framework\Drivers\CacheInterface
 {
 	/**
+	 * Set this flag to false to disable cache prefixes.
+	 */
+	public $prefix = false;
+	
+	/**
 	 * The database handle and prepared statements are stored here.
 	 */
 	protected $_dbh = null;

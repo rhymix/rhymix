@@ -55,12 +55,23 @@ class Cache
 		
 		if (class_exists($class_name) && $class_name::isSupported())
 		{
-			return self::$_driver = new $class_name($config);
+			self::$_driver = new $class_name($config);
 		}
 		else
 		{
-			return self::$_driver = new Drivers\Cache\File(array());
+			self::$_driver = new Drivers\Cache\File(array());
 		}
+		
+		if (self::$_driver->prefix)
+		{
+			self::$_prefix = substr(sha1(\RX_BASEDIR), 0, 10) . ':' . \RX_VERSION . ':';
+		}
+		else
+		{
+			self::$_prefix = \RX_VERSION . ':';
+		}
+		
+		return self::$_driver;
 	}
 	
 	/**
@@ -117,11 +128,6 @@ class Cache
 	 */
 	public static function getCachePrefix()
 	{
-		if (self::$_prefix === null)
-		{
-			self::$_prefix = substr(sha1(\RX_BASEDIR), 0, 10) . ':' . \RX_VERSION . ':';
-		}
-		
 		return self::$_prefix;
 	}
 	
@@ -233,7 +239,7 @@ class Cache
 	{
 		if (self::$_driver !== null)
 		{
-			return self::$_driver->incr(self::getRealKey('#GROUP:' . $group_name . ':v'), 1) ? true : false;
+			return self::$_driver->incr(self::$_prefix . $group_name . '#version', 1) ? true : false;
 		}
 		else
 		{
@@ -261,6 +267,24 @@ class Cache
 	}
 	
 	/**
+	 * Get the group version.
+	 * 
+	 * @param string $group_name
+	 * @return int
+	 */
+	public static function getGroupVersion($group_name)
+	{
+		if (self::$_driver !== null)
+		{
+			return intval(self::$_driver->get(self::$_prefix . $group_name . '#version'));
+		}
+		else
+		{
+			return 0;
+		}
+	}
+	
+	/**
 	 * Get the actual key used by Rhymix.
 	 * 
 	 * @param string $key
@@ -272,10 +296,9 @@ class Cache
 	{
 		if ($group_name)
 		{
-			$group_version = intval(self::get('#GROUP:' . $group_name . ':v'));
-			$key = '#GROUP:' . $group_name . ':' . $group_version . ':' . $key;
+			$key = $group_name . '#' . self::getGroupVersion($group_name) . ':' . $key;
 		}
 		
-		return ($add_prefix ? self::getCachePrefix() : '') . $key;
+		return ($add_prefix ? self::$_prefix : '') . $key;
 	}
 }

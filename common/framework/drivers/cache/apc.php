@@ -8,6 +8,11 @@ namespace Rhymix\Framework\Drivers\Cache;
 class APC implements \Rhymix\Framework\Drivers\CacheInterface
 {
 	/**
+	 * Set this flag to false to disable cache prefixes.
+	 */
+	public $prefix = true;
+	
+	/**
 	 * Create a new instance of the current cache driver, using the given settings.
 	 * 
 	 * @param array $config

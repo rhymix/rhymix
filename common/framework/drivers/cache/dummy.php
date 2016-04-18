@@ -8,6 +8,11 @@ namespace Rhymix\Framework\Drivers\Cache;
 class Dummy implements \Rhymix\Framework\Drivers\CacheInterface
 {
 	/**
+	 * Set this flag to false to disable cache prefixes.
+	 */
+	public $prefix = true;
+	
+	/**
 	 * Dummy data is stored here.
 	 */
 	public $data = array();

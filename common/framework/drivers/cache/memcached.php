@@ -8,6 +8,11 @@ namespace Rhymix\Framework\Drivers\Cache;
 class Memcached implements \Rhymix\Framework\Drivers\CacheInterface
 {
 	/**
+	 * Set this flag to false to disable cache prefixes.
+	 */
+	public $prefix = true;
+	
+	/**
 	 * The Memcached connection is stored here.
 	 */
 	protected $_conn = null;
