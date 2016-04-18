@@ -115,26 +115,17 @@ class moduleModel extends module
 			}
 		}
 
-		$oCacheHandler = CacheHandler::getInstance('object', null, true);
 		// If domain is set, look for subsite
 		if($domain !== '')
 		{
-			$site_info = false;
-			if($oCacheHandler->isSupport())
-			{
-				$object_key = 'site_info:' . md5($domain);
-				$domain_cache_key = $oCacheHandler->getGroupKey('site_and_module', $object_key);
-				$site_info = $oCacheHandler->get($domain_cache_key);
-			}
-
-			if($site_info === false)
+			$site_info = Rhymix\Framework\Cache::get('site_info:' . md5($domain), 'site_and_module');
+			if($site_info === null)
 			{
 				$args = new stdClass();
 				$args->domain = $domain;
 				$output = executeQuery('module.getSiteInfoByDomain', $args);
 				$site_info = $output->data;
-
-				if($oCacheHandler->isSupport()) $oCacheHandler->put($domain_cache_key, $site_info);
+				Rhymix\Framework\Cache::set('site_info:' . md5($domain), $site_info, 0, 'site_and_module');
 			}
 
 			if($site_info && $vid)
@@ -148,15 +139,8 @@ class moduleModel extends module
 		// If no virtual website was found, get default website
 		if($domain === '')
 		{
-			$site_info = false;
-			if($oCacheHandler->isSupport())
-			{
-				$object_key = 'default_site';
-				$default_site_cache_key = $oCacheHandler->getGroupKey('site_and_module', $object_key);
-				$site_info = $oCacheHandler->get($default_site_cache_key);
-			}
-
-			if($site_info === false)
+			$site_info = Rhymix\Framework\Cache::get('default_site', 'site_and_module');
+			if($site_info === null)
 			{
 				$args = new stdClass();
 				$args->site_srl = 0;
@@ -193,7 +177,7 @@ class moduleModel extends module
 					$output = executeQuery('module.getSiteInfo', $args);
 				}
 				$site_info = $output->data;
-				if($oCacheHandler->isSupport()) $oCacheHandler->put($default_site_cache_key, $site_info);
+				Rhymix\Framework\Cache::set('default_site', $site_info, 0, 'site_and_module');
 			}
 		}
 
@@ -216,35 +200,23 @@ class moduleModel extends module
 		$args->mid = $mid;
 		$args->site_srl = (int)$site_srl;
 
-		$module_srl = false;
-		$module_info = false;
-
-		$oCacheHandler = CacheHandler::getInstance('object', null, true);
-		if($oCacheHandler->isSupport())
+		$module_srl = Rhymix\Framework\Cache::get('module_srl:' . $mid . '_' . $site_srl, 'site_and_module');
+		if($module_srl)
 		{
-			$object_key = 'module_srl:'.$mid.'_'.$site_srl;
-			$module_srl_cache_key = $oCacheHandler->getGroupKey('site_and_module', $object_key);
-			$module_srl = $oCacheHandler->get($module_srl_cache_key);
-			if($module_srl)
-			{
-				$object_key = 'mid_info:' . $module_srl;
-				$module_info_cache_key = $oCacheHandler->getGroupKey('site_and_module', $object_key);
-				$module_info = $oCacheHandler->get($module_info_cache_key);
-			}
+			$module_info = Rhymix\Framework\Cache::get('mid_info:' . $module_srl, 'site_and_module');
 		}
-
-		if($module_info === false)
+		else
+		{
+			$module_info = null;
+		}
+		
+		if($module_info === null)
 		{
 			$output = executeQuery('module.getMidInfo', $args);
 			$module_info = $output->data;
-			if($oCacheHandler->isSupport())
-			{
-				$oCacheHandler->put($module_srl_cache_key, $module_info->module_srl);
-
-				$object_key = 'mid_info:' . $module_info->module_srl;
-				$module_info_cache_key = $oCacheHandler->getGroupKey('site_and_module', $object_key);
-				$oCacheHandler->put($module_info_cache_key, $module_info);
-			}
+			
+			Rhymix\Framework\Cache::set('module_srl:' . $mid . '_' . $site_srl, $module_info->module_srl, 0, 'site_and_module');
+			Rhymix\Framework\Cache::set('mid_info:' . $module_info->module_srl, $module_info, 0, 'site_and_module');
 		}
 
 		$this->applyDefaultSkin($module_info);
@@ -317,35 +289,25 @@ class moduleModel extends module
 		$moduleInfo->designSettings->skin->mobileIsDefault = $moduleInfo->is_mskin_fix == 'N' ? 1 : 0;
 		$moduleInfo->designSettings->skin->mobile = $skinInfoMobile->title;
 
-		$module_srl = false;
-		$mid_info = false;
-
-		$oCacheHandler = CacheHandler::getInstance('object', null, true);
-		if($oCacheHandler->isSupport())
+		$module_srl = Rhymix\Framework\Cache::get('module_srl:' . $mid . '_' . $site_srl, 'site_and_module');
+		if($module_srl)
 		{
-			$object_key = 'module_srl:'.$mid.'_'.$site_srl;
-			$module_srl_cache_key = $oCacheHandler->getGroupKey('site_and_module', $object_key);
-			$module_srl = $oCacheHandler->get($module_srl_cache_key);
-			if($module_srl)
-			{
-				$object_key = 'mid_info:' . $module_srl;
-				$module_info_cache_key = $oCacheHandler->getGroupKey('site_and_module', $object_key);
-				$mid_info = $oCacheHandler->get($module_info_cache_key);
-			}
-
-			if($mid_info === false)
-			{
-				$oCacheHandler->put($module_srl_cache_key, $output->data->module_srl);
-
-				$object_key = 'mid_info:' . $output->data->module_srl;
-				$module_info_cache_key = $oCacheHandler->getGroupKey('site_and_module', $object_key);
-				$oCacheHandler->put($module_info_cache_key, $moduleInfo);
-			}
-			else
-			{
-				$mid_info->designSettings = $moduleInfo->designSettings;
-				$moduleInfo = $mid_info;
-			}
+			$mid_info = Rhymix\Framework\Cache::get('mid_info:' . $module_srl, 'site_and_module');
+		}
+		else
+		{
+			$mid_info = null;
+		}
+		
+		if($mid_info === null)
+		{
+			Rhymix\Framework\Cache::set('module_srl:' . $mid . '_' . $site_srl, $output->data->module_srl, 0, 'site_and_module');
+			Rhymix\Framework\Cache::set('mid_info:' . $output->data->module_srl, $moduleInfo, 0, 'site_and_module');
+		}
+		else
+		{
+			$mid_info->designSettings = $moduleInfo->designSettings;
+			$moduleInfo = $mid_info;
 		}
 
 		$moduleInfo = $this->addModuleExtraVars($moduleInfo);
@@ -366,27 +328,17 @@ class moduleModel extends module
 	 */
 	function getModuleInfoByModuleSrl($module_srl, $columnList = array())
 	{
-		$mid_info = false;
-
-		$oCacheHandler = CacheHandler::getInstance('object', null, true);
-		if($oCacheHandler->isSupport())
-		{
-			$object_key = 'mid_info:' . $module_srl;
-			$cache_key = $oCacheHandler->getGroupKey('site_and_module', $object_key);
-			$mid_info = $oCacheHandler->get($cache_key);
-		}
-
-		if($mid_info === false)
+		$mid_info = Rhymix\Framework\Cache::get('mid_info:' . $module_srl, 'site_and_module');
+		if($mid_info === null)
 		{
 			// Get data
 			$args = new stdClass();
 			$args->module_srl = $module_srl;
 			$output = executeQuery('module.getMidInfo', $args);
 			if(!$output->toBool()) return;
-
 			$mid_info = $output->data;
 			$this->applyDefaultSkin($mid_info);
-			if($oCacheHandler->isSupport()) $oCacheHandler->put($cache_key, $mid_info);
+			Rhymix\Framework\Cache::set('mid_info:' . $module_srl, $mid_info, 0, 'site_and_module');
 		}
 
 		if($mid_info && count($columnList))
@@ -498,21 +450,10 @@ class moduleModel extends module
 	 */
 	function getMidList($args = null, $columnList = array())
 	{
-		$list = false;
-		$oCacheHandler = CacheHandler::getInstance('object', null, true);
-		if($oCacheHandler->isSupport())
+		$list = Rhymix\Framework\Cache::get('module:mid_list_' . $args->site_srl, 'site_and_module');
+		if($list === null)
 		{
 			if(count($args) === 1 && isset($args->site_srl))
-			{
-				$object_key = 'module:mid_list_' . $args->site_srl;
-				$cache_key = $oCacheHandler->getGroupKey('site_and_module', $object_key);
-				$list = $oCacheHandler->get($cache_key);
-			}
-		}
-
-		if($list === false)
-		{
-			if($oCacheHandler->isSupport() && count($args) === 1 && isset($args->site_srl))
 			{
 				$columnList = array();
 			}
@@ -521,11 +462,12 @@ class moduleModel extends module
 			if(!$output->toBool()) return $output;
 			$list = $output->data;
 
-			if($oCacheHandler->isSupport() && count($args) === 1 && isset($args->site_srl))
+			if(count($args) === 1 && isset($args->site_srl))
 			{
-				$oCacheHandler->put($cache_key, $list);
+				Rhymix\Framework\Cache::set('module:mid_list_' . $args->site_srl, $list, 0, 'site_and_module');
 			}
 		}
+		
 		if(!$list) return;
 
 		if(!is_array($list)) $list = array($list);
@@ -585,17 +527,8 @@ class moduleModel extends module
 	 */
 	function getActionForward($act)
 	{
-		$action_forward = false;
-		// cache controll
-		$oCacheHandler = CacheHandler::getInstance('object', NULL, TRUE);
-		if($oCacheHandler->isSupport())
-		{
-			$cache_key = 'action_forward';
-			$action_forward = $oCacheHandler->get($cache_key);
-		}
-
-		// retrieve and caching all registered action_forward
-		if($action_forward === false)
+		$action_forward = Rhymix\Framework\Cache::get('action_forward');
+		if($action_forward === null)
 		{
 			$args = new stdClass();
 			$output = executeQueryArray('module.getActionForward',$args);
@@ -607,11 +540,8 @@ class moduleModel extends module
 			{
 				$action_forward[$item->act] = $item;
 			}
-
-			if($oCacheHandler->isSupport())
-			{
-				$oCacheHandler->put($cache_key, $action_forward);
-			}
+			
+			Rhymix\Framework\Cache::set('action_forward', $action_forward);
 		}
 
 		if($action_forward[$act])
@@ -646,20 +576,14 @@ class moduleModel extends module
 	{
 		if(is_null($GLOBALS['__triggers__']))
 		{
-			$triggers = FALSE;
-			$oCacheHandler = CacheHandler::getInstance('object', NULL, TRUE);
-			if($oCacheHandler->isSupport())
-			{
-				$cache_key = 'triggers';
-				$triggers = $oCacheHandler->get($cache_key);
-			}
-			if($triggers === FALSE)
+			$triggers = Rhymix\Framework\Cache::get('triggers');
+			if($triggers === null)
 			{
 				$output = executeQueryArray('module.getTriggers');
 				$triggers = $output->data;
-				if($output->toBool() && $oCacheHandler->isSupport())
+				if($output->toBool())
 				{
-					$oCacheHandler->put($cache_key, $triggers);
+					Rhymix\Framework\Cache::set('triggers', $triggers);
 				}
 			}
 			foreach($triggers as $item)
@@ -1380,17 +1304,8 @@ class moduleModel extends module
 	 */
 	function getModuleConfig($module, $site_srl = 0)
 	{
-		$config = false;
-		// cache controll
-		$oCacheHandler = CacheHandler::getInstance('object', null, true);
-		if($oCacheHandler->isSupport())
-		{
-			$object_key = 'module_config:' . $module . '_' . $site_srl;
-			$cache_key = $oCacheHandler->getGroupKey('site_and_module', $object_key);
-			$config = $oCacheHandler->get($cache_key);
-		}
-
-		if($config === false)
+		$config = Rhymix\Framework\Cache::get('module_config:' . $module . '_' . $site_srl, 'site_and_module');
+		if($config === null)
 		{
 			if(!$GLOBALS['__ModuleConfig__'][$site_srl][$module])
 			{
@@ -1402,10 +1317,7 @@ class moduleModel extends module
 				else $config = new stdClass;
 
 				//insert in cache
-				if($oCacheHandler->isSupport())
-				{
-					$oCacheHandler->put($cache_key, $config);
-				}
+				Rhymix\Framework\Cache::set('module_config:' . $module . '_' . $site_srl, $config, 0, 'site_and_module');
 				$GLOBALS['__ModuleConfig__'][$site_srl][$module] = $config;
 			}
 			return $GLOBALS['__ModuleConfig__'][$site_srl][$module];
@@ -1420,17 +1332,8 @@ class moduleModel extends module
 	 */
 	function getModulePartConfig($module, $module_srl)
 	{
-		$config = false;
-		// cache controll
-		$oCacheHandler = CacheHandler::getInstance('object', null, true);
-		if($oCacheHandler->isSupport())
-		{
-			$object_key = 'module_part_config:'.$module.'_'.$module_srl;
-			$cache_key = $oCacheHandler->getGroupKey('site_and_module', $object_key);
-			$config = $oCacheHandler->get($cache_key);
-		}
-
-		if($config === false)
+		$config = Rhymix\Framework\Cache::get('module_part_config:' . $module . '_' . $module_srl, 'site_and_module');
+		if($config === null)
 		{
 			if(!isset($GLOBALS['__ModulePartConfig__'][$module][$module_srl]))
 			{
@@ -1442,10 +1345,7 @@ class moduleModel extends module
 				else $config = null;
 
 				//insert in cache
-				if($oCacheHandler->isSupport())
-				{
-					$oCacheHandler->put($cache_key, $config);
-				}
+				Rhymix\Framework\Cache::set('module_part_config:' . $module . '_' . $module_srl, $config, 0, 'site_and_module');
 				$GLOBALS['__ModulePartConfig__'][$module][$module_srl] = $config;
 			}
 			return $GLOBALS['__ModulePartConfig__'][$module][$module_srl];
@@ -1741,30 +1641,17 @@ class moduleModel extends module
 		$get_module_srls = array();
 		if(!is_array($list_module_srl)) $list_module_srl = array($list_module_srl);
 
-		$vars = false;
-		// cache controll
-		$oCacheHandler = CacheHandler::getInstance('object', null, true);
-		if($oCacheHandler->isSupport())
+		foreach($list_module_srl as $module_srl)
 		{
-			foreach($list_module_srl as $module_srl)
+			$vars = Rhymix\Framework\Cache::get("module_extra_vars:$module_srl", 'site_and_module');
+			if($vars !== null)
 			{
-				$object_key = 'module_extra_vars:'.$module_srl;
-				$cache_key = $oCacheHandler->getGroupKey('site_and_module', $object_key);
-				$vars = $oCacheHandler->get($cache_key);
-
-				if($vars)
-				{
-					$extra_vars[$module_srl] = $vars;
-				}
-				else
-				{
-					$get_module_srls[] = $module_srl;
-				}
+				$extra_vars[$module_srl] = $vars;
 			}
-		}
-		else
-		{
-			$get_module_srls = $list_module_srl;
+			else
+			{
+				$get_module_srls[] = $module_srl;
+			}
 		}
 
 		if(count($get_module_srls) > 0)
@@ -1795,12 +1682,7 @@ class moduleModel extends module
 				}
 				$extra_vars[$val->module_srl]->{$val->name} = $val->value;
 
-				if($oCacheHandler->isSupport())
-				{
-					$object_key = 'module_extra_vars:'.$val->module_srl;
-					$cache_key = $oCacheHandler->getGroupKey('site_and_module', $object_key);
-					$oCacheHandler->put($cache_key, $extra_vars[$val->module_srl]);
-				}
+				Rhymix\Framework\Cache::set('module_extra_vars:' . $val->module_srl, $extra_vars[$val->module_srl], 0, 'site_and_module');
 			}
 		}
 
@@ -1812,16 +1694,8 @@ class moduleModel extends module
 	 */
 	function getModuleSkinVars($module_srl)
 	{
-		$skin_vars = false;
-		$oCacheHandler = CacheHandler::getInstance('object', null, true);
-		if($oCacheHandler->isSupport())
-		{
-			$object_key = 'module_skin_vars:'.$module_srl;
-			$cache_key = $oCacheHandler->getGroupKey('site_and_module', $object_key);
-			$skin_vars = $oCacheHandler->get($cache_key);
-		}
-
-		if($skin_vars === false)
+		$skin_vars = Rhymix\Framework\Cache::get("module_skin_vars:$module_srl", 'site_and_module');
+		if($skin_vars === null)
 		{
 			$args = new stdClass();
 			$args->module_srl = $module_srl;
@@ -1834,7 +1708,7 @@ class moduleModel extends module
 				$skin_vars[$vars->name] = $vars;
 			}
 
-			if($oCacheHandler->isSupport()) $oCacheHandler->put($cache_key, $skin_vars);
+			Rhymix\Framework\Cache::set("module_skin_vars:$module_srl", $skin_vars, 0, 'site_and_module');
 		}
 
 		return $skin_vars;
@@ -1901,7 +1775,6 @@ class moduleModel extends module
 	{
 		if(!$module_info->module_srl) return;
 
-		$oCacheHandler = CacheHandler::getInstance('object', null, true);
 		if(Mobile::isFromMobilePhone())
 		{
 			$skin_vars = $this->getModuleMobileSkinVars($module_info->module_srl);
@@ -1927,16 +1800,8 @@ class moduleModel extends module
 	 */
 	function getModuleMobileSkinVars($module_srl)
 	{
-		$skin_vars = false;
-		$oCacheHandler = CacheHandler::getInstance('object', null, true);
-		if($oCacheHandler->isSupport())
-		{
-			$object_key = 'module_mobile_skin_vars:'.$module_srl;
-			$cache_key = $oCacheHandler->getGroupKey('site_and_module', $object_key);
-			$skin_vars = $oCacheHandler->get($cache_key);
-		}
-
-		if($skin_vars === false)
+		$skin_vars = Rhymix\Framework\Cache::get("module_mobile_skin_vars:$module_srl", 'site_and_module');
+		if($skin_vars === null)
 		{
 			$args = new stdClass();
 			$args->module_srl = $module_srl;
@@ -1949,7 +1814,7 @@ class moduleModel extends module
 				$skin_vars[$vars->name] = $vars;
 			}
 
-			if($oCacheHandler->isSupport()) $oCacheHandler->put($cache_key, $skin_vars);
+			Rhymix\Framework\Cache::set("module_mobile_skin_vars:$module_srl", $skin_vars, 0, 'site_and_module');
 		}
 
 		return $skin_vars;
@@ -1962,16 +1827,9 @@ class moduleModel extends module
 	function syncMobileSkinInfoToModuleInfo(&$module_info)
 	{
 		if(!$module_info->module_srl) return;
-		$skin_vars = false;
-		// cache controll
-		$oCacheHandler = CacheHandler::getInstance('object', null, true);
-		if($oCacheHandler->isSupport())
-		{
-			$object_key = 'module_mobile_skin_vars:'.$module_info->module_srl;
-			$cache_key = $oCacheHandler->getGroupKey('site_and_module', $object_key);
-			$skin_vars = $oCacheHandler->get($cache_key);
-		}
-		if($skin_vars === false)
+		
+		$skin_vars = Rhymix\Framework\Cache::get('module_mobile_skin_vars:' . $module_info->module_srl, 'site_and_module');
+		if($skin_vars === null)
 		{
 			$args = new stdClass;
 			$args->module_srl = $module_info->module_srl;
@@ -1979,8 +1837,7 @@ class moduleModel extends module
 			if(!$output->toBool()) return;
 			$skin_vars = $output->data;
 
-			//insert in cache
-			if($oCacheHandler->isSupport()) $oCacheHandler->put($cache_key, $skin_vars);
+			Rhymix\Framework\Cache::set('module_mobile_skin_vars:' . $module_info->module_srl, $skin_vars, 0, 'site_and_module');
 		}
 		if(!$skin_vars) return;
 
