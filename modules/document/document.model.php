@@ -373,7 +373,7 @@ class documentModel extends document
 			$keys = Rhymix\Framework\Cache::get("site_and_module:module_document_extra_keys:$module_srl");
 			$oExtraVar = ExtraVar::getInstance($module_srl);
 
-			if(!$keys)
+			if($keys === null)
 			{
 				$obj = new stdClass();
 				$obj->module_srl = $module_srl;

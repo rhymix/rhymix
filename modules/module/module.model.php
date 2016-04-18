@@ -1669,6 +1669,7 @@ class moduleModel extends module
 			{
 				foreach($get_module_srls as $module_srl)
 				{
+					Rhymix\Framework\Cache::set("site_and_module:module_extra_vars:$module_srl", new stdClass);
 					$extra_vars[$module_srl] = new stdClass;
 				}
 			}
