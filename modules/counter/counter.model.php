@@ -33,7 +33,7 @@ class counterModel extends counter
 		$iplogged = false;
 		$cache_key = 'counter:' . $site_srl . '_' . str_replace(array('.', ':'), '-', $args->ipaddress);
 		$group_key = 'counterIpLogged_' . $args->regdate;
-		$iplogged = Rhymix\Framework\Cache::get($cache_key, $group_key);
+		$iplogged = Rhymix\Framework\Cache::get($group_key . ':' . $cache_key);
 
 		if($iplogged === false)
 		{
@@ -43,7 +43,7 @@ class counterModel extends counter
 
 		if($iplogged)
 		{
-			Rhymix\Framework\Cache::set($cache_key, $iplogged, 0, $group_key);
+			Rhymix\Framework\Cache::set($group_key . ':' . $cache_key, $iplogged);
 		}
 
 		return $iplogged;

@@ -326,8 +326,8 @@ class memberModel extends member
 		//columnList size zero... get full member info
 		if(!$GLOBALS['__member_info__'][$member_srl] || count($columnList) == 0)
 		{
-			$cache_key = 'member_info:' . getNumberingPath($member_srl) . $member_srl;
-			$GLOBALS['__member_info__'][$member_srl] = Rhymix\Framework\Cache::get($cache_key, 'member');
+			$cache_key = 'member:member_info:' . getNumberingPath($member_srl) . $member_srl;
+			$GLOBALS['__member_info__'][$member_srl] = Rhymix\Framework\Cache::get($cache_key);
 			if(!$GLOBALS['__member_info__'][$member_srl])
 			{
 				$args = new stdClass();
@@ -335,12 +335,12 @@ class memberModel extends member
 				$output = executeQuery('member.getMemberInfoByMemberSrl', $args, $columnList);
 				if(!$output->data)
 				{
-					Rhymix\Framework\Cache::set($cache_key, new stdClass, 0, 'member');
+					Rhymix\Framework\Cache::set($cache_key, new stdClass);
 					return new stdClass;
 				}
 				
 				$this->arrangeMemberInfo($output->data, $site_srl);
-				Rhymix\Framework\Cache::set($cache_key, $GLOBALS['__member_info__'][$member_srl], 0, 'member');
+				Rhymix\Framework\Cache::set($cache_key, $GLOBALS['__member_info__'][$member_srl]);
 			}
 		}
 
@@ -483,8 +483,8 @@ class memberModel extends member
 		static $member_groups = array();
 
 		// cache controll
-		$cache_key = 'member_groups:' . getNumberingPath($member_srl) . $member_srl . ':site:' . $site_srl;
-		$group_list = Rhymix\Framework\Cache::get($cache_key, 'member');
+		$cache_key = 'member:member_groups:' . getNumberingPath($member_srl) . $member_srl . ':site:' . $site_srl;
+		$group_list = Rhymix\Framework\Cache::get($cache_key);
 
 		if(!$member_groups[$member_srl][$site_srl] || $force_reload)
 		{
@@ -496,7 +496,7 @@ class memberModel extends member
 				$output = executeQueryArray('member.getMemberGroups', $args);
 				$group_list = $output->data;
 				//insert in cache
-				Rhymix\Framework\Cache::set($cache_key, $group_list, 0, 'member');
+				Rhymix\Framework\Cache::set($cache_key, $group_list);
 			}
 			if(!$group_list) return array();
 
@@ -533,7 +533,7 @@ class memberModel extends member
 	 */
 	function getDefaultGroup($site_srl = 0, $columnList = array())
 	{
-		$default_group = Rhymix\Framework\Cache::get("default_group:$site_srl", 'member');
+		$default_group = Rhymix\Framework\Cache::get("member:default_group:$site_srl");
 
 		if(!$default_group)
 		{
@@ -541,7 +541,7 @@ class memberModel extends member
 			$args->site_srl = $site_srl;
 			$output = executeQuery('member.getDefaultGroup', $args, $columnList);
 			$default_group = $output->data;
-			Rhymix\Framework\Cache::set("default_group:$site_srl", $default_group, 0, 'member');
+			Rhymix\Framework\Cache::set("member:default_group:$site_srl", $default_group);
 		}
 
 		return $default_group;
@@ -581,7 +581,7 @@ class memberModel extends member
 				$site_srl = 0;
 			}
 
-			$group_list = Rhymix\Framework\Cache::get("member_groups:site:$site_srl", 'member');
+			$group_list = Rhymix\Framework\Cache::get("member:member_groups:site:$site_srl");
 
 			if(!$group_list)
 			{
@@ -591,7 +591,7 @@ class memberModel extends member
 				$args->order_type = 'asc';
 				$output = executeQueryArray('member.getGroups', $args);
 				$group_list = $output->data;
-				Rhymix\Framework\Cache::set("member_groups:site:$site_srl", $group_list, 0, 'member');
+				Rhymix\Framework\Cache::set("member:member_groups:site:$site_srl", $group_list);
 			}
 
 			if(!$group_list)

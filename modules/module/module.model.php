@@ -118,14 +118,14 @@ class moduleModel extends module
 		// If domain is set, look for subsite
 		if($domain !== '')
 		{
-			$site_info = Rhymix\Framework\Cache::get('site_info:' . md5($domain), 'site_and_module');
+			$site_info = Rhymix\Framework\Cache::get('site_and_module:site_info:' . md5($domain));
 			if($site_info === null)
 			{
 				$args = new stdClass();
 				$args->domain = $domain;
 				$output = executeQuery('module.getSiteInfoByDomain', $args);
 				$site_info = $output->data;
-				Rhymix\Framework\Cache::set('site_info:' . md5($domain), $site_info, 0, 'site_and_module');
+				Rhymix\Framework\Cache::set('site_and_module:site_info:' . md5($domain), $site_info);
 			}
 
 			if($site_info && $vid)
@@ -139,7 +139,7 @@ class moduleModel extends module
 		// If no virtual website was found, get default website
 		if($domain === '')
 		{
-			$site_info = Rhymix\Framework\Cache::get('default_site', 'site_and_module');
+			$site_info = Rhymix\Framework\Cache::get('site_and_module:default_site');
 			if($site_info === null)
 			{
 				$args = new stdClass();
@@ -177,7 +177,7 @@ class moduleModel extends module
 					$output = executeQuery('module.getSiteInfo', $args);
 				}
 				$site_info = $output->data;
-				Rhymix\Framework\Cache::set('default_site', $site_info, 0, 'site_and_module');
+				Rhymix\Framework\Cache::set('site_and_module:default_site', $site_info);
 			}
 		}
 
@@ -200,10 +200,10 @@ class moduleModel extends module
 		$args->mid = $mid;
 		$args->site_srl = (int)$site_srl;
 
-		$module_srl = Rhymix\Framework\Cache::get('module_srl:' . $mid . '_' . $site_srl, 'site_and_module');
+		$module_srl = Rhymix\Framework\Cache::get('site_and_module:module_srl:' . $mid . '_' . $site_srl);
 		if($module_srl)
 		{
-			$module_info = Rhymix\Framework\Cache::get('mid_info:' . $module_srl, 'site_and_module');
+			$module_info = Rhymix\Framework\Cache::get('site_and_module:mid_info:' . $module_srl);
 		}
 		else
 		{
@@ -215,8 +215,8 @@ class moduleModel extends module
 			$output = executeQuery('module.getMidInfo', $args);
 			$module_info = $output->data;
 			
-			Rhymix\Framework\Cache::set('module_srl:' . $mid . '_' . $site_srl, $module_info->module_srl, 0, 'site_and_module');
-			Rhymix\Framework\Cache::set('mid_info:' . $module_info->module_srl, $module_info, 0, 'site_and_module');
+			Rhymix\Framework\Cache::set('site_and_module:module_srl:' . $mid . '_' . $site_srl, $module_info->module_srl);
+			Rhymix\Framework\Cache::set('site_and_module:mid_info:' . $module_info->module_srl, $module_info);
 		}
 
 		$this->applyDefaultSkin($module_info);
@@ -289,10 +289,10 @@ class moduleModel extends module
 		$moduleInfo->designSettings->skin->mobileIsDefault = $moduleInfo->is_mskin_fix == 'N' ? 1 : 0;
 		$moduleInfo->designSettings->skin->mobile = $skinInfoMobile->title;
 
-		$module_srl = Rhymix\Framework\Cache::get('module_srl:' . $mid . '_' . $site_srl, 'site_and_module');
+		$module_srl = Rhymix\Framework\Cache::get('site_and_module:module_srl:' . $mid . '_' . $site_srl);
 		if($module_srl)
 		{
-			$mid_info = Rhymix\Framework\Cache::get('mid_info:' . $module_srl, 'site_and_module');
+			$mid_info = Rhymix\Framework\Cache::get('site_and_module:mid_info:' . $module_srl);
 		}
 		else
 		{
@@ -301,8 +301,8 @@ class moduleModel extends module
 		
 		if($mid_info === null)
 		{
-			Rhymix\Framework\Cache::set('module_srl:' . $mid . '_' . $site_srl, $output->data->module_srl, 0, 'site_and_module');
-			Rhymix\Framework\Cache::set('mid_info:' . $output->data->module_srl, $moduleInfo, 0, 'site_and_module');
+			Rhymix\Framework\Cache::set('site_and_module:module_srl:' . $mid . '_' . $site_srl, $output->data->module_srl);
+			Rhymix\Framework\Cache::set('site_and_module:mid_info:' . $output->data->module_srl, $moduleInfo);
 		}
 		else
 		{
@@ -328,7 +328,7 @@ class moduleModel extends module
 	 */
 	function getModuleInfoByModuleSrl($module_srl, $columnList = array())
 	{
-		$mid_info = Rhymix\Framework\Cache::get('mid_info:' . $module_srl, 'site_and_module');
+		$mid_info = Rhymix\Framework\Cache::get("site_and_module:mid_info:$module_srl");
 		if($mid_info === null)
 		{
 			// Get data
@@ -338,7 +338,7 @@ class moduleModel extends module
 			if(!$output->toBool()) return;
 			$mid_info = $output->data;
 			$this->applyDefaultSkin($mid_info);
-			Rhymix\Framework\Cache::set('mid_info:' . $module_srl, $mid_info, 0, 'site_and_module');
+			Rhymix\Framework\Cache::set("site_and_module:mid_info:$module_srl", $mid_info);
 		}
 
 		if($mid_info && count($columnList))
@@ -450,7 +450,7 @@ class moduleModel extends module
 	 */
 	function getMidList($args = null, $columnList = array())
 	{
-		$list = Rhymix\Framework\Cache::get('module:mid_list_' . $args->site_srl, 'site_and_module');
+		$list = Rhymix\Framework\Cache::get('site_and_module:module:mid_list_' . $args->site_srl);
 		if($list === null)
 		{
 			if(count($args) === 1 && isset($args->site_srl))
@@ -464,7 +464,7 @@ class moduleModel extends module
 
 			if(count($args) === 1 && isset($args->site_srl))
 			{
-				Rhymix\Framework\Cache::set('module:mid_list_' . $args->site_srl, $list, 0, 'site_and_module');
+				Rhymix\Framework\Cache::set('site_and_module:module:mid_list_' . $args->site_srl, $list);
 			}
 		}
 		
@@ -1304,7 +1304,7 @@ class moduleModel extends module
 	 */
 	function getModuleConfig($module, $site_srl = 0)
 	{
-		$config = Rhymix\Framework\Cache::get('module_config:' . $module . '_' . $site_srl, 'site_and_module');
+		$config = Rhymix\Framework\Cache::get('site_and_module:module_config:' . $module . '_' . $site_srl);
 		if($config === null)
 		{
 			if(!$GLOBALS['__ModuleConfig__'][$site_srl][$module])
@@ -1317,7 +1317,7 @@ class moduleModel extends module
 				else $config = new stdClass;
 
 				//insert in cache
-				Rhymix\Framework\Cache::set('module_config:' . $module . '_' . $site_srl, $config, 0, 'site_and_module');
+				Rhymix\Framework\Cache::set('site_and_module:module_config:' . $module . '_' . $site_srl, $config);
 				$GLOBALS['__ModuleConfig__'][$site_srl][$module] = $config;
 			}
 			return $GLOBALS['__ModuleConfig__'][$site_srl][$module];
@@ -1332,7 +1332,7 @@ class moduleModel extends module
 	 */
 	function getModulePartConfig($module, $module_srl)
 	{
-		$config = Rhymix\Framework\Cache::get('module_part_config:' . $module . '_' . $module_srl, 'site_and_module');
+		$config = Rhymix\Framework\Cache::get('site_and_module:module_part_config:' . $module . '_' . $module_srl);
 		if($config === null)
 		{
 			if(!isset($GLOBALS['__ModulePartConfig__'][$module][$module_srl]))
@@ -1345,7 +1345,7 @@ class moduleModel extends module
 				else $config = null;
 
 				//insert in cache
-				Rhymix\Framework\Cache::set('module_part_config:' . $module . '_' . $module_srl, $config, 0, 'site_and_module');
+				Rhymix\Framework\Cache::set('site_and_module:module_part_config:' . $module . '_' . $module_srl, $config);
 				$GLOBALS['__ModulePartConfig__'][$module][$module_srl] = $config;
 			}
 			return $GLOBALS['__ModulePartConfig__'][$module][$module_srl];
@@ -1643,7 +1643,7 @@ class moduleModel extends module
 
 		foreach($list_module_srl as $module_srl)
 		{
-			$vars = Rhymix\Framework\Cache::get("module_extra_vars:$module_srl", 'site_and_module');
+			$vars = Rhymix\Framework\Cache::get("site_and_module:module_extra_vars:$module_srl");
 			if($vars !== null)
 			{
 				$extra_vars[$module_srl] = $vars;
@@ -1682,7 +1682,7 @@ class moduleModel extends module
 				}
 				$extra_vars[$val->module_srl]->{$val->name} = $val->value;
 
-				Rhymix\Framework\Cache::set('module_extra_vars:' . $val->module_srl, $extra_vars[$val->module_srl], 0, 'site_and_module');
+				Rhymix\Framework\Cache::set('site_and_module:module_extra_vars:' . $val->module_srl, $extra_vars[$val->module_srl]);
 			}
 		}
 
@@ -1694,7 +1694,7 @@ class moduleModel extends module
 	 */
 	function getModuleSkinVars($module_srl)
 	{
-		$skin_vars = Rhymix\Framework\Cache::get("module_skin_vars:$module_srl", 'site_and_module');
+		$skin_vars = Rhymix\Framework\Cache::get("site_and_module:module_skin_vars:$module_srl");
 		if($skin_vars === null)
 		{
 			$args = new stdClass();
@@ -1708,7 +1708,7 @@ class moduleModel extends module
 				$skin_vars[$vars->name] = $vars;
 			}
 
-			Rhymix\Framework\Cache::set("module_skin_vars:$module_srl", $skin_vars, 0, 'site_and_module');
+			Rhymix\Framework\Cache::set("site_and_module:module_skin_vars:$module_srl", $skin_vars, 0);
 		}
 
 		return $skin_vars;
@@ -1800,7 +1800,7 @@ class moduleModel extends module
 	 */
 	function getModuleMobileSkinVars($module_srl)
 	{
-		$skin_vars = Rhymix\Framework\Cache::get("module_mobile_skin_vars:$module_srl", 'site_and_module');
+		$skin_vars = Rhymix\Framework\Cache::get("site_and_module:module_mobile_skin_vars:$module_srl");
 		if($skin_vars === null)
 		{
 			$args = new stdClass();
@@ -1814,7 +1814,7 @@ class moduleModel extends module
 				$skin_vars[$vars->name] = $vars;
 			}
 
-			Rhymix\Framework\Cache::set("module_mobile_skin_vars:$module_srl", $skin_vars, 0, 'site_and_module');
+			Rhymix\Framework\Cache::set("site_and_module:module_mobile_skin_vars:$module_srl", $skin_vars);
 		}
 
 		return $skin_vars;
@@ -1828,7 +1828,7 @@ class moduleModel extends module
 	{
 		if(!$module_info->module_srl) return;
 		
-		$skin_vars = Rhymix\Framework\Cache::get('module_mobile_skin_vars:' . $module_info->module_srl, 'site_and_module');
+		$skin_vars = Rhymix\Framework\Cache::get('site_and_module:module_mobile_skin_vars:' . $module_info->module_srl);
 		if($skin_vars === null)
 		{
 			$args = new stdClass;
@@ -1837,7 +1837,7 @@ class moduleModel extends module
 			if(!$output->toBool()) return;
 			$skin_vars = $output->data;
 
-			Rhymix\Framework\Cache::set('module_mobile_skin_vars:' . $module_info->module_srl, $skin_vars, 0, 'site_and_module');
+			Rhymix\Framework\Cache::set('site_and_module:module_mobile_skin_vars:' . $module_info->module_srl, $skin_vars);
 		}
 		if(!$skin_vars) return;
 

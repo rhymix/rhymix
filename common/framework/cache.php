@@ -142,14 +142,13 @@ class Cache
 	 * This method returns null if the key was not found.
 	 * 
 	 * @param string $key
-	 * @param string $group_name (optional)
 	 * @return mixed
 	 */
-	public static function get($key, $group_name = null)
+	public static function get($key)
 	{
 		if (self::$_driver !== null)
 		{
-			return self::$_driver->get(self::getRealKey($key, $group_name));
+			return self::$_driver->get(self::getRealKey($key));
 		}
 		else
 		{
@@ -166,10 +165,9 @@ class Cache
 	 * @param string $key
 	 * @param mixed $value
 	 * @param int $ttl (optional)
-	 * @param string $group_name (optional)
 	 * @return bool
 	 */
-	public static function set($key, $value, $ttl = null, $group_name = null)
+	public static function set($key, $value, $ttl = null)
 	{
 		if (self::$_driver !== null)
 		{
@@ -181,7 +179,7 @@ class Cache
 			{
 				$ttl = self::$_ttl;
 			}
-			return self::$_driver->set(self::getRealKey($key, $group_name), $value, intval($ttl)) ? true : false;
+			return self::$_driver->set(self::getRealKey($key), $value, intval($ttl)) ? true : false;
 		}
 		else
 		{
@@ -196,14 +194,13 @@ class Cache
 	 * If the key does not exist, it should return false.
 	 * 
 	 * @param string $key
-	 * @param string $group_name (optional)
 	 * @return bool
 	 */
-	public static function delete($key, $group_name = null)
+	public static function delete($key)
 	{
 		if (self::$_driver !== null)
 		{
-			return self::$_driver->delete(self::getRealKey($key, $group_name)) ? true : false;
+			return self::$_driver->delete(self::getRealKey($key)) ? true : false;
 		}
 		else
 		{
@@ -217,14 +214,13 @@ class Cache
 	 * This method returns true on success and false on failure.
 	 * 
 	 * @param string $key
-	 * @param string $group_name (optional)
 	 * @return bool
 	 */
-	public static function exists($key, $group_name = null)
+	public static function exists($key)
 	{
 		if (self::$_driver !== null)
 		{
-			return self::$_driver->exists(self::getRealKey($key, $group_name)) ? true : false;
+			return self::$_driver->exists(self::getRealKey($key)) ? true : false;
 		}
 		else
 		{
@@ -302,15 +298,14 @@ class Cache
 	 * Get the actual key used by Rhymix.
 	 * 
 	 * @param string $key
-	 * @param string $group_name (optional)
 	 * @param bool $add_prefix (optional)
 	 * @return string
 	 */
-	public static function getRealKey($key, $group_name = null, $add_prefix = true)
+	public static function getRealKey($key, $add_prefix = true)
 	{
-		if ($group_name)
+		if (preg_match('/^([^:]+):(.+)$/i', $key, $matches))
 		{
-			$key = $group_name . '#' . self::getGroupVersion($group_name) . ':' . $key;
+			$key = $matches[1] . '#' . self::getGroupVersion($matches[1]) . ':' . $matches[2];
 		}
 		
 		return ($add_prefix ? self::$_prefix : '') . $key;

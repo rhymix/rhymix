@@ -2972,11 +2972,11 @@ class memberController extends member
 	function _clearMemberCache($member_srl, $site_srl = 0)
 	{
 		$member_srl = getNumberingPath($member_srl) . $member_srl;
-		Rhymix\Framework\Cache::delete("member_info:$member_srl", 'member');
-		Rhymix\Framework\Cache::delete("member_groups:$member_srl:site:$site_srl", 'member');
+		Rhymix\Framework\Cache::delete("member:member_info:$member_srl");
+		Rhymix\Framework\Cache::delete("member:member_groups:$member_srl:site:$site_srl");
 		if ($site_srl != 0)
 		{
-			Rhymix\Framework\Cache::delete("member_groups:$member_srl:site:0", 'member');
+			Rhymix\Framework\Cache::delete("member:member_groups:$member_srl:site:0");
 		}
 	}
 }

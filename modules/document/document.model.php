@@ -370,7 +370,7 @@ class documentModel extends document
 	{
 		if(!isset($GLOBALS['XE_EXTRA_KEYS'][$module_srl]))
 		{
-			$keys = Rhymix\Framework\Cache::get("module_document_extra_keys:$module_srl", 'site_and_module');
+			$keys = Rhymix\Framework\Cache::get("site_and_module:module_document_extra_keys:$module_srl");
 			$oExtraVar = ExtraVar::getInstance($module_srl);
 
 			if(!$keys)
@@ -429,7 +429,7 @@ class documentModel extends document
 				$keys = $oExtraVar->getExtraVars();
 				if(!$keys) $keys = array();
 
-				Rhymix\Framework\Cache::set("module_document_extra_keys:$module_srl", $keys, 0, 'site_and_module');
+				Rhymix\Framework\Cache::set("site_and_module:module_document_extra_keys:$module_srl", $keys);
 			}
 
 

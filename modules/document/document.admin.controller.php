@@ -679,7 +679,7 @@ class documentAdminController extends document
 			if(!$output->toBool()) return $output;
 		}
 
-		Rhymix\Framework\Cache::delete("module_document_extra_keys:$module_srl", 'site_and_module');
+		Rhymix\Framework\Cache::delete("site_and_module:module_document_extra_keys:$module_srl");
 	}
 
 	/**

@@ -1196,7 +1196,7 @@ class documentController extends document
 			$output = executeQuery('document.updateDocumentExtraVar', $obj);
 		}
 
-		Rhymix\Framework\Cache::delete("module_document_extra_keys:$module_srl", 'site_and_module');
+		Rhymix\Framework\Cache::delete("site_and_module:module_document_extra_keys:$module_srl");
 		return $output;
 	}
 
@@ -1252,7 +1252,7 @@ class documentController extends document
 
 		$oDB->commit();
 
-		Rhymix\Framework\Cache::delete("module_document_extra_keys:$module_srl", 'site_and_module');
+		Rhymix\Framework\Cache::delete("site_and_module:module_document_extra_keys:$module_srl");
 		return new Object();
 	}
 

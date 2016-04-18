@@ -980,17 +980,17 @@ class moduleController extends module
 
 		if($mode === 'P')
 		{
-			$object_key = 'module_skin_vars:'.$module_srl;
+			$object_key = 'site_and_module:module_skin_vars:' . $module_srl;
 			$query = 'module.deleteModuleSkinVars';
 		}
 		else
 		{
-			$object_key = 'module_mobile_skin_vars:'.$module_srl;
+			$object_key = 'site_and_module:module_mobile_skin_vars:' . $module_srl;
 			$query = 'module.deleteModuleMobileSkinVars';
 		}
 
 		//remove from cache
-		Rhymix\Framework\Cache::delete($object_key, 'site_and_module');
+		Rhymix\Framework\Cache::delete($object_key);
 		return executeQuery($query, $args);
 	}
 
@@ -1015,7 +1015,7 @@ class moduleController extends module
 			$output = executeQuery('module.insertModuleExtraVars', $args);
 		}
 		
-		Rhymix\Framework\Cache::delete("module_extra_vars:$module_srl", 'site_and_module');
+		Rhymix\Framework\Cache::delete("site_and_module:module_extra_vars:$module_srl");
 	}
 
 	/**
@@ -1028,7 +1028,7 @@ class moduleController extends module
 		$output = executeQuery('module.deleteModuleExtraVars', $args);
 
 		//remove from cache
-		Rhymix\Framework\Cache::delete("module_extra_vars:$module_srl", 'site_and_module');
+		Rhymix\Framework\Cache::delete("site_and_module:module_extra_vars:$module_srl");
 		return $output;
 	}
 

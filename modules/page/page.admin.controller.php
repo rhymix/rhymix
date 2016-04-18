@@ -282,7 +282,7 @@ class pageAdminController extends page
 			}
 		}
 
-		Rhymix\Framework\Cache::delete('mid_info:' . $module_info->module_srl, 'site_and_module');
+		Rhymix\Framework\Cache::delete('site_and_module:mid_info:' . $module_info->module_srl);
 	}
 
 	function procPageAdminArticleDocumentInsert()
