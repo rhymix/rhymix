@@ -298,16 +298,15 @@ class Cache
 	 * Get the actual key used by Rhymix.
 	 * 
 	 * @param string $key
-	 * @param bool $add_prefix (optional)
 	 * @return string
 	 */
-	public static function getRealKey($key, $add_prefix = true)
+	public static function getRealKey($key)
 	{
 		if (preg_match('/^([^:]+):(.+)$/i', $key, $matches))
 		{
 			$key = $matches[1] . '#' . self::getGroupVersion($matches[1]) . ':' . $matches[2];
 		}
 		
-		return ($add_prefix ? self::$_prefix : '') . $key;
+		return self::$_prefix . $key;
 	}
 }

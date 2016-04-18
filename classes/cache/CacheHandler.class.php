@@ -148,7 +148,7 @@ class CacheHandler extends Handler
 	 */
 	public function getGroupKey($keyGroupName, $key)
 	{
-		return Rhymix\Framework\Cache::getRealKey($keyGroupName . ':' . $key, false);
+		return $keyGroupName . ':' . $key;
 	}
 
 	/**
