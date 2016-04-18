@@ -13,14 +13,19 @@ class Cache
 	protected static $_driver = null;
 	
 	/**
+	 * The cache prefix.
+	 */
+	protected static $_prefix = null;
+	
+	/**
 	 * The default TTL.
 	 */
 	protected static $_ttl = 86400;
 	
 	/**
-	 * The automatically generated cache prefix.
+	 * Cache group versions.
 	 */
-	protected static $_prefix = null;
+	protected static $_group_versions = array();
 	
 	/**
 	 * Initialize the cache system.
@@ -239,7 +244,9 @@ class Cache
 	{
 		if (self::$_driver !== null)
 		{
-			return self::$_driver->incr(self::$_prefix . $group_name . '#version', 1) ? true : false;
+			$success = self::$_driver->incr(self::$_prefix . $group_name . '#version', 1) ? true : false;
+			unset(self::$_group_versions[$group_name]);
+			return $success;
 		}
 		else
 		{
@@ -274,13 +281,20 @@ class Cache
 	 */
 	public static function getGroupVersion($group_name)
 	{
-		if (self::$_driver !== null)
+		if (isset(self::$_group_versions[$group_name]))
 		{
-			return intval(self::$_driver->get(self::$_prefix . $group_name . '#version'));
+			return self::$_group_versions[$group_name];
 		}
 		else
 		{
-			return 0;
+			if (self::$_driver !== null)
+			{
+				return self::$_group_versions[$group_name] = intval(self::$_driver->get(self::$_prefix . $group_name . '#version'));
+			}
+			else
+			{
+				return self::$_group_versions[$group_name] = 0;
+			}
 		}
 	}
 	
