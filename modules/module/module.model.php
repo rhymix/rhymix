@@ -1345,13 +1345,13 @@ class moduleModel extends module
 				else $config = null;
 
 				//insert in cache
-				Rhymix\Framework\Cache::set('site_and_module:module_part_config:' . $module . '_' . $module_srl, $config);
+				Rhymix\Framework\Cache::set('site_and_module:module_part_config:' . $module . '_' . $module_srl, $config === null ? 0 : $config);
 				$GLOBALS['__ModulePartConfig__'][$module][$module_srl] = $config;
 			}
 			return $GLOBALS['__ModulePartConfig__'][$module][$module_srl];
 		}
 
-		return $config;
+		return $config === 0 ? null : $config;
 	}
 
 	/**
