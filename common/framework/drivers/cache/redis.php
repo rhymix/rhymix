@@ -62,7 +62,7 @@ class Redis implements \Rhymix\Framework\Drivers\CacheInterface
 	 */
 	public function isSupported()
 	{
-		return class_exists('\\Redis');
+		return class_exists('\\Redis', false);
 	}
 	
 	/**

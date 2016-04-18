@@ -26,12 +26,12 @@ class Memcached implements \Rhymix\Framework\Drivers\CacheInterface
 	 */
 	public function __construct(array $config)
 	{
-		if (class_exists('\\Memcached'))
+		if (class_exists('\\Memcached', false))
 		{
 			$this->_conn = new \Memcached;
 			$this->_ext = 'Memcached';
 		}
-		elseif (class_exists('\\Memcache'))
+		elseif (class_exists('\\Memcache', false))
 		{
 			$this->_conn = new \Memcache;
 			$this->_ext = 'Memcache';
@@ -60,7 +60,7 @@ class Memcached implements \Rhymix\Framework\Drivers\CacheInterface
 	 */
 	public function isSupported()
 	{
-		return class_exists('\\Memcached') || class_exists('\\Memcache');
+		return class_exists('\\Memcached', false) || class_exists('\\Memcache', false);
 	}
 	
 	/**
@@ -73,12 +73,12 @@ class Memcached implements \Rhymix\Framework\Drivers\CacheInterface
 	 */
 	public static function validateSettings($config)
 	{
-		if (class_exists('\\Memcached'))
+		if (class_exists('\\Memcached', false))
 		{
 			$conn = new \Memcached;
 			$ext = 'Memcached';
 		}
-		elseif (class_exists('\\Memcache'))
+		elseif (class_exists('\\Memcache', false))
 		{
 			$conn = new \Memcache;
 			$ext = 'Memcache';

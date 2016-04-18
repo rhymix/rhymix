@@ -72,7 +72,7 @@ class SQLite implements \Rhymix\Framework\Drivers\CacheInterface
 	 */
 	public function isSupported()
 	{
-		return class_exists('\\SQLite3');
+		return class_exists('\\SQLite3', false);
 	}
 	
 	/**
