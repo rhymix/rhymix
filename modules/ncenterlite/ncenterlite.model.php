@@ -168,7 +168,7 @@ class ncenterliteModel extends ncenterlite
 					//$str = sprintf('<strong>%1$s</strong>님이 게시판 <strong>"%2$s"</strong>에 <strong>"%3$s"</strong>라고 댓글을 남겼습니다.', $target_member, $type, $v->target_summary);
 				break;
 				case 'M':
-					$str = sprintf($lang->ncenterlite_mentioned, $target_member,  $v->target_summary, $type);
+					$str = sprintf($lang->ncenterlite_mentioned, $target_member, $v->target_browser, $v->target_summary);
 					//$str = sprintf('<strong>%s</strong>님이 <strong>"%s" %s</strong>에서 회원님을 언급하였습니다.', $target_member,  $v->target_summary, $type);
 				break;
 				// 메시지. 쪽지
