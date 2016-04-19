@@ -207,6 +207,17 @@ class ModuleHandler extends Handler
 				{
 					unset($module_info);
 				}
+				
+				// if the secret document permission does not have, specify HTTP 403
+				if(Context::getRequestMethod() == 'GET')
+				{
+					$oDocumentModel = getModel('document');
+					$oDocument = $oDocumentModel->getDocument($this->document_srl);
+					if($oDocument->isSecret() && !$oDocument->isGranted())
+					{
+						$this->httpStatusCode = '403';
+					}
+				}
 			}
 		}
 
@@ -1048,6 +1059,12 @@ class ModuleHandler extends Handler
 					$oModule->setLayoutFile('default_layout');
 				}
 			}
+		}
+		
+		// Set http status code
+		if($this->httpStatusCode && (!$oModule->getHttpStatusCode() || $oModule->getHttpStatusCode() == '200'))
+		{
+			$oModule->setHttpStatusCode($this->httpStatusCode);
 		}
 		
 		// Set http status message
