@@ -122,7 +122,7 @@ class ncenterliteController extends ncenterlite
 			}
 		}
 
-		if(!$mention_targets || !count($mention_targets) || !isset($config->use['mention']))
+		if(!$mention_targets && !count($mention_targets) || !isset($config->use['mention']))
 		{
 			return new Object();
 		}
