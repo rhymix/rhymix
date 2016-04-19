@@ -232,7 +232,6 @@ class ncenterliteController extends ncenterlite
 		if(isset($config->use['mention']))
 		{
 			$mention_targets = $this->_getMentionTarget($content);
-			debugPrint($mention_targets);
 			
 			// !TODO 공용 메소드로 분리
 			foreach($mention_targets as $mention_member_srl)
