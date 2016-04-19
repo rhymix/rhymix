@@ -34,6 +34,7 @@ $lang->ncenterlite_message_string = 'You have <strong>%d</strong> new <strong>me
 $lang->ncenterlite_message_mention = '<strong>%1$s</strong> sent a message as <strong>"%2$s"</strong>.';
 $lang->ncenterlite_test_noti = '<strong>%s</strong>! Skin test notification has been done.';
 $lang->ncenterlite_vote = '<strong>%1$s</strong> marked the article "%2$s" with a recommendation.';
+$lang->ncenterlite_admin_content_message = '<strong>%1$s</strong> wrote an article as "%3$s" on the board %2$s.';
 $lang->ncenterlite_ago = 'ago';
 $lang->ncenterlite_date['0'] = 'Year';
 $lang->ncenterlite_date['1'] = 'Month';
