@@ -236,6 +236,8 @@ class ModuleObject extends Object
 
 		$this->setTemplatePath($oMessageObject->getTemplatePath());
 		$this->setTemplateFile($oMessageObject->getTemplateFile());
+		$this->setHttpStatusCode($oMessageObject->getHttpStatusCode());
+		ModuleHandler::_setHttpStatusMessage($oMessageObject->getHttpStatusCode());
 
 		return $this;
 	}

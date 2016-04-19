@@ -897,7 +897,6 @@ class ModuleHandler extends Handler
 		$methodList = array('XMLRPC' => 1, 'JSON' => 1, 'JS_CALLBACK' => 1);
 		if(!isset($methodList[Context::getRequestMethod()]))
 		{
-
 			if($_SESSION['XE_VALIDATOR_RETURN_URL'])
 			{
 				header('location: ' . $_SESSION['XE_VALIDATOR_RETURN_URL']);
@@ -914,15 +913,14 @@ class ModuleHandler extends Handler
 				$oMessageObject->setMessage($this->error);
 				$oMessageObject->dispMessage();
 
-				if($oMessageObject->getHttpStatusCode() && $oMessageObject->getHttpStatusCode() != '200')
+				// display Error Page
+				if($oMessageObject->getHttpStatusCode() && !in_array($oMessageObject->getHttpStatusCode(), array('200', '403')))
 				{
-					self::_setHttpStatusMessage($oMessageObject->getHttpStatusCode());
-					if($oMessageObject->getHttpStatusCode() != '403')
-					{
-						$oMessageObject->setTemplateFile('http_status_code');
-					}
+					$oMessageObject->setTemplateFile('http_status_code');
 				}
-
+				
+				self::_setHttpStatusMessage($oMessageObject->getHttpStatusCode());
+				
 				// If module was called normally, change the templates of the module into ones of the message view module
 				if($oModule)
 				{
