@@ -919,8 +919,6 @@ class ModuleHandler extends Handler
 					$oMessageObject->setTemplateFile('http_status_code');
 				}
 				
-				self::_setHttpStatusMessage($oMessageObject->getHttpStatusCode());
-				
 				// If module was called normally, change the templates of the module into ones of the message view module
 				if($oModule)
 				{
@@ -933,7 +931,7 @@ class ModuleHandler extends Handler
 				{
 					$oModule = $oMessageObject;
 				}
-
+				
 				self::_clearErrorSession();
 			}
 
@@ -1051,7 +1049,10 @@ class ModuleHandler extends Handler
 				}
 			}
 		}
-
+		
+		// Set http status message
+		self::_setHttpStatusMessage($oModule->getHttpStatusCode());
+		
 		// Display contents
 		$oDisplayHandler = new DisplayHandler();
 		$oDisplayHandler->printContent($oModule);
