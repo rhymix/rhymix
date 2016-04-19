@@ -914,10 +914,10 @@ class ModuleHandler extends Handler
 				$oMessageObject->setMessage($this->error);
 				$oMessageObject->dispMessage();
 
-				if($oMessageObject->getHttpStatusCode() && $oMessageObject->getHttpStatusCode() !== '200')
+				if($oMessageObject->getHttpStatusCode() && $oMessageObject->getHttpStatusCode() != '200')
 				{
 					self::_setHttpStatusMessage($oMessageObject->getHttpStatusCode());
-					if($oMessageObject->getHttpStatusCode() !== '403')
+					if($oMessageObject->getHttpStatusCode() != '403')
 					{
 						$oMessageObject->setTemplateFile('http_status_code');
 					}

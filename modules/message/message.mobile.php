@@ -46,7 +46,7 @@ class messageMobile extends messageView
 		$this->setTemplateFile('system_message');
 		
 		// Default 403 Error
-		if(!$this->getHttpStatusCode() || $this->getHttpStatusCode() === '200')
+		if(!$this->getHttpStatusCode() || $this->getHttpStatusCode() == '200')
 		{
 			$this->setHttpStatusCode('403');
 		}
