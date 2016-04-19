@@ -925,7 +925,7 @@ class ModuleHandler extends Handler
 				$oMessageObject->dispMessage();
 
 				// display Error Page
-				if($oMessageObject->getHttpStatusCode() && !in_array($oMessageObject->getHttpStatusCode(), array('200', '403')))
+				if(!in_array($oMessageObject->getHttpStatusCode(), array(200, 403)))
 				{
 					$oMessageObject->setTemplateFile('http_status_code');
 				}
@@ -1062,7 +1062,7 @@ class ModuleHandler extends Handler
 		}
 		
 		// Set http status code
-		if($this->httpStatusCode && (!$oModule->getHttpStatusCode() || $oModule->getHttpStatusCode() == '200'))
+		if($this->httpStatusCode && $oModule->getHttpStatusCode() === 200)
 		{
 			$oModule->setHttpStatusCode($this->httpStatusCode);
 		}

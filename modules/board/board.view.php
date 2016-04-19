@@ -1138,7 +1138,7 @@ class boardView extends board
 	{
 		Context::set('message', lang($msg_code));
 		
-		$this->setHttpStatusCode('403');
+		$this->setHttpStatusCode(403);
 		$this->setTemplateFile('message');
 	}
 
@@ -1191,7 +1191,7 @@ class boardView extends board
 		$script =  sprintf('<script> jQuery(function(){ alert("%s"); } );</script>', lang($message));
 		Context::addHtmlFooter($script);
 		
-		$this->setHttpStatusCode('403');
+		$this->setHttpStatusCode(403);
 	}
 
 }
