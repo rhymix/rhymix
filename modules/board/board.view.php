@@ -1189,7 +1189,9 @@ class boardView extends board
 	function alertMessage($message)
 	{
 		$script =  sprintf('<script> jQuery(function(){ alert("%s"); } );</script>', lang($message));
-		Context::addHtmlFooter( $script );
+		Context::addHtmlFooter($script);
+		
+		$this->setHttpStatusCode('403');
 	}
 
 }
