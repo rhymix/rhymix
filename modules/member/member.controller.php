@@ -1911,10 +1911,12 @@ class memberController extends member
 	{
 		$logged_info = Context::get('logged_info');
 		
-		if(is_object($logged_info))
+		if(!is_object($logged_info))
 		{
-			$logged_info->menu_list[$act] = lang($str);
+			return;
 		}
+		
+		$logged_info->menu_list[$act] = lang($str);
 		
 		Context::set('logged_info', $logged_info);
 	}
