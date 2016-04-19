@@ -99,7 +99,7 @@ class ncenterliteController extends ncenterlite
 				}
 
 				$args = new stdClass();
-				$args->member_srl = $admins->member_srl;
+				$args->member_srl = $admins;
 				$args->srl = $obj->document_srl;
 				$args->target_p_srl = $obj->document_srl;
 				$args->target_srl = $obj->document_srl;
