@@ -1136,9 +1136,9 @@ class boardView extends board
 	 **/
 	function dispBoardMessage($msg_code)
 	{
-		$msg = lang($msg_code);
-		if(!$msg) $msg = $msg_code;
-		Context::set('message', $msg);
+		Context::set('message', lang($msg_code));
+		
+		$this->setHttpStatusCode(403);
 		$this->setTemplateFile('message');
 	}
 
@@ -1189,7 +1189,9 @@ class boardView extends board
 	function alertMessage($message)
 	{
 		$script =  sprintf('<script> jQuery(function(){ alert("%s"); } );</script>', lang($message));
-		Context::addHtmlFooter( $script );
+		Context::addHtmlFooter($script);
+		
+		$this->setHttpStatusCode(403);
 	}
 
 }

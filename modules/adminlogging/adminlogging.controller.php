@@ -23,7 +23,7 @@ class adminloggingController extends adminlogging
 		$logged_info = $oMemberModel->getLoggedInfo();
 		if($logged_info->is_admin != 'Y')
 		{
-			return $this->stop("msg_is_not_administrator");
+			return $this->stop("admin.msg_is_not_administrator");
 		}
 	}
 

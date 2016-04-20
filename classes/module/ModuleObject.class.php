@@ -191,7 +191,7 @@ class ModuleObject extends Object
 			{
 				case 'root' :
 				case 'manager' :
-					$this->stop('msg_is_not_administrator');
+					$this->stop('admin.msg_is_not_administrator');
 					return;
 				case 'member' :
 					if(!$is_logged)
@@ -236,7 +236,8 @@ class ModuleObject extends Object
 
 		$this->setTemplatePath($oMessageObject->getTemplatePath());
 		$this->setTemplateFile($oMessageObject->getTemplateFile());
-
+		$this->setHttpStatusCode($oMessageObject->getHttpStatusCode());
+		
 		return $this;
 	}
 

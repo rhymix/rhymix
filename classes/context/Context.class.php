@@ -1524,7 +1524,6 @@ class Context
 		if ($status != 200)
 		{
 			$oMessageObject->setHttpStatusCode($status);
-			ModuleHandler::_setHttpStatusMessage($status);
 		}
 		
 		if (in_array(Context::getRequestMethod(), array('XMLRPC', 'JSON', 'JS_CALLBACK')))

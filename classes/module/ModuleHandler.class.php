@@ -207,6 +207,20 @@ class ModuleHandler extends Handler
 				{
 					unset($module_info);
 				}
+				
+				// if the secret document permission does not have, specify HTTP 403
+				if(Context::getRequestMethod() == 'GET')
+				{
+					$oDocumentModel = getModel('document');
+					$oDocument = $oDocumentModel->getDocument($this->document_srl);
+					if($oDocument->isSecret() || $oDocument->get('status') === $oDocumentModel->getConfigStatus('temp'))
+					{
+						if(!$oDocument->isGranted() && !$oDocument->isAccessible())
+						{
+							$this->httpStatusCode = '403';
+						}
+					}
+				}
 			}
 		}
 
@@ -632,7 +646,7 @@ class ModuleHandler extends Handler
 					{
 						self::_setInputErrorToContext();
 
-						$this->error = 'msg_is_not_administrator';
+						$this->error = 'admin.msg_is_not_administrator';
 						$oMessageObject = self::getModuleInstance('message', $display_mode);
 						$oMessageObject->setError(-1);
 						$oMessageObject->setMessage($this->error);
@@ -646,7 +660,7 @@ class ModuleHandler extends Handler
 					if(!$grant->manager)
 					{
 						self::_setInputErrorToContext();
-						$this->error = 'msg_is_not_administrator';
+						$this->error = 'admin.msg_is_not_administrator';
 						$oMessageObject = self::getModuleInstance('message', $display_mode);
 						$oMessageObject->setError(-1);
 						$oMessageObject->setMessage($this->error);
@@ -658,7 +672,7 @@ class ModuleHandler extends Handler
 						if(!$grant->is_admin && $this->module != $this->orig_module->module && $xml_info->permission->{$this->act} != 'manager')
 						{
 							self::_setInputErrorToContext();
-							$this->error = 'msg_is_not_administrator';
+							$this->error = 'admin.msg_is_not_administrator';
 							$oMessageObject = self::getModuleInstance('message', $display_mode);
 							$oMessageObject->setError(-1);
 							$oMessageObject->setMessage($this->error);
@@ -897,7 +911,6 @@ class ModuleHandler extends Handler
 		$methodList = array('XMLRPC' => 1, 'JSON' => 1, 'JS_CALLBACK' => 1);
 		if(!isset($methodList[Context::getRequestMethod()]))
 		{
-
 			if($_SESSION['XE_VALIDATOR_RETURN_URL'])
 			{
 				header('location: ' . $_SESSION['XE_VALIDATOR_RETURN_URL']);
@@ -914,24 +927,25 @@ class ModuleHandler extends Handler
 				$oMessageObject->setMessage($this->error);
 				$oMessageObject->dispMessage();
 
-				if($oMessageObject->getHttpStatusCode() && $oMessageObject->getHttpStatusCode() != '200')
+				// display Error Page
+				if(!in_array($oMessageObject->getHttpStatusCode(), array(200, 403)))
 				{
-					self::_setHttpStatusMessage($oMessageObject->getHttpStatusCode());
 					$oMessageObject->setTemplateFile('http_status_code');
 				}
-
+				
 				// If module was called normally, change the templates of the module into ones of the message view module
 				if($oModule)
 				{
 					$oModule->setTemplatePath($oMessageObject->getTemplatePath());
 					$oModule->setTemplateFile($oMessageObject->getTemplateFile());
+					$oModule->setHttpStatusCode($oMessageObject->getHttpStatusCode());
 					// Otherwise, set message instance as the target module
 				}
 				else
 				{
 					$oModule = $oMessageObject;
 				}
-
+				
 				self::_clearErrorSession();
 			}
 
@@ -1049,7 +1063,16 @@ class ModuleHandler extends Handler
 				}
 			}
 		}
-
+		
+		// Set http status code
+		if($this->httpStatusCode && $oModule->getHttpStatusCode() === 200)
+		{
+			$oModule->setHttpStatusCode($this->httpStatusCode);
+		}
+		
+		// Set http status message
+		self::_setHttpStatusMessage($oModule->getHttpStatusCode());
+		
 		// Display contents
 		$oDisplayHandler = new DisplayHandler();
 		$oDisplayHandler->printContent($oModule);
