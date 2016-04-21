@@ -171,7 +171,7 @@ class File implements \Rhymix\Framework\Drivers\CacheInterface
 	 */
 	public function clear()
 	{
-		Storage::deleteDirectory($this->_dir);
+		return Storage::deleteDirectory($this->_dir) ? true : false;
 	}
 	
 	/**

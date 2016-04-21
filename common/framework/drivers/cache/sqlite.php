@@ -242,5 +242,7 @@ class SQLite implements \Rhymix\Framework\Drivers\CacheInterface
 		{
 			$this->_dbh->exec('CREATE TABLE cache_' . $i . ' (k TEXT PRIMARY KEY, v TEXT, exp INT)');
 		}
+		
+		return true;
 	}
 }

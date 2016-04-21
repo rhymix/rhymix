@@ -179,5 +179,6 @@ class Dummy implements \Rhymix\Framework\Drivers\CacheInterface
 	public function clear()
 	{
 		$this->data = array();
+		return true;
 	}
 }
