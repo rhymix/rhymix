@@ -2,6 +2,19 @@
 
 class CacheTest extends \Codeception\TestCase\Test
 {
+	public function _before()
+	{
+		if (!Rhymix\Framework\Config::get('crypto.authentication_key'))
+		{
+			Rhymix\Framework\Config::set('crypto.authentication_key', Rhymix\Framework\Security::getRandom(64, 'alnum'));
+		}
+	}
+	
+	public function _after()
+	{
+		$driver = Rhymix\Framework\Cache::clearAll();
+	}
+	
 	public function testInit()
 	{
 		$driver = Rhymix\Framework\Cache::init(array('type' => 'dummy'));
@@ -48,8 +61,6 @@ class CacheTest extends \Codeception\TestCase\Test
 	
 	public function testGetSet()
 	{
-		Rhymix\Framework\Cache::clearAll();
-		
 		$value = true;
 		$this->assertTrue(Rhymix\Framework\Cache::set('foobar1', $value));
 		$this->assertTrue(Rhymix\Framework\Cache::get('foobar1'));
@@ -80,7 +91,6 @@ class CacheTest extends \Codeception\TestCase\Test
 	
 	public function testDeleteAndExists()
 	{
-		Rhymix\Framework\Cache::clearAll();
 		Rhymix\Framework\Cache::set('foo', 'FOO');
 		Rhymix\Framework\Cache::set('bar', 'BAR');
 		
@@ -92,7 +102,6 @@ class CacheTest extends \Codeception\TestCase\Test
 	
 	public function testIncrDecr()
 	{
-		Rhymix\Framework\Cache::clearAll();
 		Rhymix\Framework\Cache::set('foo', 'foo');
 		Rhymix\Framework\Cache::set('bar', 42);
 		$prefix = Rhymix\Framework\Cache::getCachePrefix();
@@ -113,7 +122,6 @@ class CacheTest extends \Codeception\TestCase\Test
 	
 	public function testCacheGroups()
 	{
-		Rhymix\Framework\Cache::clearAll();
 		$prefix = Rhymix\Framework\Cache::getCachePrefix();
 		
 		$this->assertTrue(Rhymix\Framework\Cache::set('foobar:subkey:1234', 'rhymix'));
@@ -131,7 +139,6 @@ class CacheTest extends \Codeception\TestCase\Test
 	
 	public function testGetRealKey()
 	{
-		Rhymix\Framework\Cache::clearAll();
 		$prefix = Rhymix\Framework\Cache::getCachePrefix();
 		
 		$this->assertEquals($prefix . 'foo', Rhymix\Framework\Cache::getRealKey('foo'));
@@ -144,8 +151,6 @@ class CacheTest extends \Codeception\TestCase\Test
 	
 	public function testCompatibility()
 	{
-		Rhymix\Framework\Cache::clearAll();
-		
 		$ch = \CacheHandler::getInstance();
 		$this->assertTrue($ch instanceof \CacheHandler);
 		$this->assertTrue($ch->isSupport());
