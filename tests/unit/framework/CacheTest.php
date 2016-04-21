@@ -102,6 +102,7 @@ class CacheTest extends \Codeception\TestCase\Test
 	
 	public function testIncrDecr()
 	{
+		Rhymix\Framework\Cache::init(array('type' => 'dummy'));
 		Rhymix\Framework\Cache::set('foo', 'foo');
 		Rhymix\Framework\Cache::set('bar', 42);
 		$prefix = Rhymix\Framework\Cache::getCachePrefix();
