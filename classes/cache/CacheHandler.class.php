@@ -64,7 +64,7 @@ class CacheHandler extends Handler
 	 */
 	public function getCacheKey($key)
 	{
-		return Rhymix\Framework\Cache::getRealKey($key);
+		return $key;
 	}
 
 	/**
