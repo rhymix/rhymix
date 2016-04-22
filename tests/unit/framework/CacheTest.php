@@ -117,6 +117,7 @@ class CacheTest extends \Codeception\TestCase\Test
 	
 	public function testCacheGroups()
 	{
+		Rhymix\Framework\Cache::init(array('type' => 'sqlite'));
 		$prefix = Rhymix\Framework\Cache::getCachePrefix();
 		
 		$this->assertTrue(Rhymix\Framework\Cache::set('foobar:subkey:1234', 'rhymix'));
@@ -134,6 +135,7 @@ class CacheTest extends \Codeception\TestCase\Test
 	
 	public function testGetRealKey()
 	{
+		Rhymix\Framework\Cache::init(array('type' => 'sqlite'));
 		$prefix = Rhymix\Framework\Cache::getCachePrefix();
 		
 		$this->assertEquals($prefix . 'foo', Rhymix\Framework\Cache::getRealKey('foo'));
@@ -146,6 +148,7 @@ class CacheTest extends \Codeception\TestCase\Test
 	
 	public function testCompatibility()
 	{
+		Rhymix\Framework\Cache::init(array('type' => 'sqlite'));
 		$ch = \CacheHandler::getInstance();
 		$this->assertTrue($ch instanceof \CacheHandler);
 		$this->assertTrue($ch->isSupport());
