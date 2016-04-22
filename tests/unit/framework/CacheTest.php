@@ -8,6 +8,8 @@ class CacheTest extends \Codeception\TestCase\Test
 		{
 			Rhymix\Framework\Config::set('crypto.authentication_key', Rhymix\Framework\Security::getRandom(64, 'alnum'));
 		}
+		
+		$driver = Rhymix\Framework\Cache::init(array('file'));
 	}
 	
 	public function _after()
@@ -17,9 +19,6 @@ class CacheTest extends \Codeception\TestCase\Test
 	
 	public function testInit()
 	{
-		$driver = Rhymix\Framework\Cache::init(array('type' => 'dummy'));
-		$this->assertTrue($driver instanceof Rhymix\Framework\Drivers\Cache\Dummy);
-		
 		$driver = Rhymix\Framework\Cache::init(array('type' => 'file'));
 		$this->assertTrue($driver instanceof Rhymix\Framework\Drivers\Cache\File);
 		
@@ -27,7 +26,7 @@ class CacheTest extends \Codeception\TestCase\Test
 		$this->assertTrue($driver instanceof Rhymix\Framework\Drivers\Cache\SQLite);
 		
 		$driver = Rhymix\Framework\Cache::init(array());
-		$this->assertTrue($driver instanceof Rhymix\Framework\Drivers\Cache\File);
+		$this->assertTrue($driver instanceof Rhymix\Framework\Drivers\Cache\Dummy);
 	}
 	
 	public function testGetSupportedDrivers()
@@ -50,11 +49,6 @@ class CacheTest extends \Codeception\TestCase\Test
 	
 	public function testGetCachePrefix()
 	{
-		$driver = Rhymix\Framework\Cache::init(array('type' => 'dummy'));
-		$prefix = Rhymix\Framework\Cache::getCachePrefix();
-		$this->assertEquals(substr(sha1(\RX_BASEDIR), 0, 10) . ':' . \RX_VERSION . ':', $prefix);
-		
-		$driver = Rhymix\Framework\Cache::init(array());
 		$prefix = Rhymix\Framework\Cache::getCachePrefix();
 		$this->assertEquals(\RX_VERSION . ':', $prefix);
 	}
@@ -102,7 +96,7 @@ class CacheTest extends \Codeception\TestCase\Test
 	
 	public function testIncrDecr()
 	{
-		Rhymix\Framework\Cache::init(array('type' => 'dummy'));
+		Rhymix\Framework\Cache::init(array('type' => 'sqlite'));
 		Rhymix\Framework\Cache::set('foo', 'foo');
 		Rhymix\Framework\Cache::set('bar', 42);
 		$prefix = Rhymix\Framework\Cache::getCachePrefix();
