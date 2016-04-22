@@ -43,7 +43,7 @@ class counterModel extends counter
 
 		if($iplogged)
 		{
-			Rhymix\Framework\Cache::set($group_key . ':' . $cache_key, $iplogged);
+			Rhymix\Framework\Cache::set($group_key . ':' . $cache_key, $iplogged, 0, true);
 		}
 
 		return $iplogged;
@@ -79,7 +79,7 @@ class counterModel extends counter
 
 			if($insertedTodayStatus)
 			{
-				Rhymix\Framework\Cache::set($cache_key, true);
+				Rhymix\Framework\Cache::set($cache_key, true, 0, true);
 				$_old_date = date('Ymd', strtotime('-1 day'));
 				Rhymix\Framework\Cache::delete('counter:insertedTodayStatus:' . $site_srl . '_' . $_old_date);
 			}

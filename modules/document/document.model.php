@@ -429,7 +429,7 @@ class documentModel extends document
 				$keys = $oExtraVar->getExtraVars();
 				if(!$keys) $keys = array();
 
-				Rhymix\Framework\Cache::set("site_and_module:module_document_extra_keys:$module_srl", $keys);
+				Rhymix\Framework\Cache::set("site_and_module:module_document_extra_keys:$module_srl", $keys, 0, true);
 			}
 
 

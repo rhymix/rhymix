@@ -136,9 +136,10 @@ class Memcached implements \Rhymix\Framework\Drivers\CacheInterface
 	 * @param string $key
 	 * @param mixed $value
 	 * @param int $ttl
+	 * @param bool $force
 	 * @return bool
 	 */
-	public function set($key, $value, $ttl)
+	public function set($key, $value, $ttl = 0, $force = false)
 	{
 		if ($this->_ext === 'Memcached')
 		{

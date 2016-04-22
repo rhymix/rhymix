@@ -5,7 +5,7 @@ namespace Rhymix\Framework\Drivers\Cache;
 /**
  * The dummy cache driver.
  */
-class Dummy implements \Rhymix\Framework\Drivers\CacheInterface
+class Dummy extends File implements \Rhymix\Framework\Drivers\CacheInterface
 {
 	/**
 	 * Set this flag to false to disable cache prefixes.
@@ -18,42 +18,6 @@ class Dummy implements \Rhymix\Framework\Drivers\CacheInterface
 	public $data = array();
 	
 	/**
-	 * Create a new instance of the current cache driver, using the given settings.
-	 * 
-	 * @param array $config
-	 * @return void
-	 */
-	public function __construct(array $config)
-	{
-		
-	}
-	
-	/**
-	 * Check if the current cache driver is supported on this server.
-	 * 
-	 * This method returns true on success and false on failure.
-	 * 
-	 * @return bool
-	 */
-	public function isSupported()
-	{
-		return true;
-	}
-	
-	/**
-	 * Validate cache settings.
-	 * 
-	 * This method returns true on success and false on failure.
-	 * 
-	 * @param mixed $config
-	 * @return bool
-	 */
-	public static function validateSettings($config)
-	{
-		return true;
-	}
-	
-	/**
 	 * Get the value of a key.
 	 * 
 	 * This method returns null if the key was not found.
@@ -63,7 +27,12 @@ class Dummy implements \Rhymix\Framework\Drivers\CacheInterface
 	 */
 	public function get($key)
 	{
-		if (isset($this->data[$key]))
+		$value = parent::get($key);
+		if ($value !== null)
+		{
+			return $value;
+		}
+		elseif (isset($this->data[$key]))
 		{
 			if ($this->data[$key][0] > 0 && $this->data[$key][0] < time())
 			{
@@ -87,12 +56,20 @@ class Dummy implements \Rhymix\Framework\Drivers\CacheInterface
 	 * @param string $key
 	 * @param mixed $value
 	 * @param int $ttl
+	 * @param bool $force
 	 * @return bool
 	 */
-	public function set($key, $value, $ttl)
+	public function set($key, $value, $ttl = 0, $force = false)
 	{
-		$this->data[$key] = array($ttl ? (time() + $ttl) : 0, $value);
-		return true;
+		if ($force)
+		{
+			return parent::set($key, $value, $ttl, $force);
+		}
+		else
+		{
+			$this->data[$key] = array($ttl ? (time() + $ttl) : 0, $value);
+			return true;
+		}
 	}
 	
 	/**
@@ -106,7 +83,11 @@ class Dummy implements \Rhymix\Framework\Drivers\CacheInterface
 	 */
 	public function delete($key)
 	{
-		if (isset($this->data[$key]))
+		if (parent::delete($key))
+		{
+			return true;
+		}
+		elseif (isset($this->data[$key]))
 		{
 			unset($this->data[$key]);
 			return true;
@@ -127,46 +108,7 @@ class Dummy implements \Rhymix\Framework\Drivers\CacheInterface
 	 */
 	public function exists($key)
 	{
-		return isset($this->data[$key]);
-	}
-	
-	/**
-	 * Increase the value of a key by $amount.
-	 * 
-	 * If the key does not exist, this method assumes that the current value is zero.
-	 * This method returns the new value.
-	 * 
-	 * @param string $key
-	 * @param int $amount
-	 * @return int
-	 */
-	public function incr($key, $amount)
-	{
-		if (isset($this->data[$key]))
-		{
-			$this->data[$key][1] += $amount;
-			return $this->data[$key][1];
-		}
-		else
-		{
-			$this->set($key, $amount, 0);
-			return $amount;
-		}
-	}
-	
-	/**
-	 * Decrease the value of a key by $amount.
-	 * 
-	 * If the key does not exist, this method assumes that the current value is zero.
-	 * This method returns the new value.
-	 * 
-	 * @param string $key
-	 * @param int $amount
-	 * @return int
-	 */
-	public function decr($key, $amount)
-	{
-		return $this->incr($key, 0 - $amount);
+		return parent::exists($key) || isset($this->data[$key]);
 	}
 	
 	/**
@@ -178,6 +120,7 @@ class Dummy implements \Rhymix\Framework\Drivers\CacheInterface
 	 */
 	public function clear()
 	{
+		parent::clear();
 		$this->data = array();
 		return true;
 	}

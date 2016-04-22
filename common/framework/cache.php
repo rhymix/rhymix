@@ -64,7 +64,7 @@ class Cache
 		}
 		else
 		{
-			self::$_driver = new Drivers\Cache\File(array());
+			self::$_driver = new Drivers\Cache\Dummy(array());
 		}
 		
 		if (self::$_driver->prefix)
@@ -129,11 +129,32 @@ class Cache
 	/**
 	 * Get the automatically generated cache prefix for this installation of Rhymix.
 	 * 
-	 * return object|null
+	 * @return object|null
 	 */
 	public static function getCachePrefix()
 	{
 		return self::$_prefix;
+	}
+	
+	/**
+	 * Get the default TTL.
+	 * 
+	 * @return int
+	 */
+	public static function getDefaultTTL()
+	{
+		return self::$_ttl;
+	}
+	
+	/**
+	 * Set the default TTL.
+	 * 
+	 * @param int $ttl
+	 * @return void
+	 */
+	public static function setDefaultTTL($ttl)
+	{
+		self::$_ttl = $ttl;
 	}
 	
 	/**
@@ -160,26 +181,29 @@ class Cache
 	 * Set the value to a key.
 	 * 
 	 * This method returns true on success and false on failure.
-	 * $ttl is measured in seconds. If it is zero, the key should not expire.
+	 * $ttl is measured in seconds. If it is not given, the default TTL is used.
+	 * $force is used to cache essential data when using the default driver.
 	 * 
 	 * @param string $key
 	 * @param mixed $value
 	 * @param int $ttl (optional)
+	 * @param bool $force (optional)
 	 * @return bool
 	 */
-	public static function set($key, $value, $ttl = null)
+	public static function set($key, $value, $ttl = 0, $force = false)
 	{
 		if (self::$_driver !== null)
 		{
+			$ttl = intval($ttl);
 			if ($ttl >= (3600 * 24 * 30))
 			{
 				$ttl = min(3600 * 24 * 30, max(0, $ttl - time()));
 			}
-			if ($ttl === null)
+			if ($ttl === 0)
 			{
 				$ttl = self::$_ttl;
 			}
-			return self::$_driver->set(self::getRealKey($key), $value, intval($ttl)) ? true : false;
+			return self::$_driver->set(self::getRealKey($key), $value, $ttl, $force) ? true : false;
 		}
 		else
 		{

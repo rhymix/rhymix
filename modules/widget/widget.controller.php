@@ -405,7 +405,7 @@ class widgetController extends widget
 		$oModuleController = getController('module');
 		$oModuleController->replaceDefinedLangCode($widget_content);
 		
-		Rhymix\Framework\Cache::set('widget_cache:' . $widget_sequence, $widget_content, $widget_cache);
+		Rhymix\Framework\Cache::set('widget_cache:' . $widget_sequence, $widget_content, $widget_cache, true);
 
 		return $widget_content;
 	}

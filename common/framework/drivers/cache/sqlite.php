@@ -130,9 +130,10 @@ class SQLite implements \Rhymix\Framework\Drivers\CacheInterface
 	 * @param string $key
 	 * @param mixed $value
 	 * @param int $ttl
+	 * @param bool $force
 	 * @return bool
 	 */
-	public function set($key, $value, $ttl)
+	public function set($key, $value, $ttl = 0, $force = false)
 	{
 		$table = 'cache_' . (crc32($key) % 32);
 		$stmt = $this->_dbh->prepare('INSERT OR REPLACE INTO ' . $table . ' (k, v, exp) VALUES (:key, :val, :exp)');
