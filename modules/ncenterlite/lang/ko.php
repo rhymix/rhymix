@@ -1,6 +1,7 @@
 <?php
 $lang->ncenterlite = '알림센터 Lite';
 $lang->ncenterlite_install_version = '설치된 버전';
+$lang->ncenterlite_advenced_config = '고급설정';
 $lang->ncenterlite_document = '글';
 $lang->ncenterlite_comment = '댓글';
 $lang->ncenterlite_mention = '멘션';
@@ -38,7 +39,7 @@ $lang->ncenterlite_article = '<strong>%1$s</strong>님이 <strong>"%2$s"</strong
 $lang->ncenterlite_board = '<strong>%1$s</strong>님이 게시판 <strong>"%2$s"</strong>에 <strong>"%3$s"</strong>라고 글을 남겼습니다.';
 $lang->ncenterlite_commented = '<strong>%1$s</strong>님이 회원님의 %2$s에 <strong>"%3$s"</strong>라고 댓글을 남겼습니다.';
 $lang->ncenterlite_commented_board = '<strong>%1$s</strong>님이 <strong>"%2$s"</strong>게시판에 <strong>"%3$s"</strong>라고 댓글을 남겼습니다.';
-$lang->ncenterlite_mentioned = '<strong>%s</strong>님이 <strong>"%s" %s</strong>에서 회원님을 언급하였습니다.';
+$lang->ncenterlite_mentioned = '<strong>%s</strong>님이 <strong>"%s"</strong>게시판에서 <strong>"%s" </strong>게시글을 작성하며 회원님을 언급하였습니다.';
 $lang->ncenterlite_message_string = '<strong>%d</strong>개의 읽지 않은 <strong>메시지</strong>가 있습니다.';
 $lang->ncenterlite_message_mention = '<strong>%s</strong>님께서 <strong>"%s"</strong>라고 메시지를 보내셨습니다.';
 $lang->ncenterlite_test_noti = '<strong>%s</strong>님! 스킨 테스트 알림을 완료했습니다.';

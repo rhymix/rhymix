@@ -60,6 +60,14 @@ class ncenterliteAdminView extends ncenterlite
 		$security->encodeHTML('colorset_list..name','colorset_list..title');
 	}
 
+	function dispNcenterliteAdminAdvancedconfig()
+	{
+		$oNcenterliteModel = getModel('ncenterlite');
+
+		$config = $oNcenterliteModel->getConfig();
+		Context::set('config', $config);
+	}
+
 	function dispNcenterliteAdminList()
 	{
 		$oNcenterliteAdminModel = getAdminModel('ncenterlite');

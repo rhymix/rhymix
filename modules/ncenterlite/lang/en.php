@@ -1,6 +1,7 @@
 <?php
 $lang->ncenterlite = 'Notification Center Lite';
 $lang->ncenterlite_install_version = 'Installed version';
+$lang->ncenterlite_advenced_config = 'Advenced Setting';
 $lang->ncenterlite_document = 'document';
 $lang->ncenterlite_comment = 'comment';
 $lang->ncenterlite_type_message = 'message';
@@ -26,14 +27,15 @@ $lang->ncenterlite_activate = 'Activate';
 $lang->ncenterlite_inactivate = 'Inactivate';
 $lang->ncenterlite_userconfig_about_warning = 'Watch out! You are controlling other user\'s settings via this page.';
 $lang->ncenterlite_article = '<strong>%1$s</strong> wrote an article as "%2$s".';
-$lang->ncenterlite_board = '<strong>%1$s</strong> wrote an article as "%3$s" on the board %2$s.';
+$lang->ncenterlite_board = '<strong>%1$s</strong> wrote "%3$s" on %2$s.';
 $lang->ncenterlite_commented = '<strong>%1$s</strong> commented as "%3$s" on your %2$s.';
 $lang->ncenterlite_commented_board = '<strong>%1$s</strong> commented as "%3$s" on the board %2$s.';
-$lang->ncenterlite_mentioned = '<strong>%s</strong> mentioned you on <strong>"%s" %s</strong>.';
+$lang->ncenterlite_mentioned = '<strong>%s</strong> mentioned you on <strong>"%s"board</strong> to <strong>"%s"</strong> .';
 $lang->ncenterlite_message_string = 'You have <strong>%d</strong> new <strong>message(s)</strong>.';
 $lang->ncenterlite_message_mention = '<strong>%1$s</strong> sent a message as <strong>"%2$s"</strong>.';
 $lang->ncenterlite_test_noti = '<strong>%s</strong>! Skin test notification has been done.';
 $lang->ncenterlite_vote = '<strong>%1$s</strong> marked the article "%2$s" with a recommendation.';
+$lang->ncenterlite_admin_content_message = '<strong>%1$s</strong> wrote "%3$s" on %2$s.';
 $lang->ncenterlite_ago = 'ago';
 $lang->ncenterlite_date['0'] = 'Year';
 $lang->ncenterlite_date['1'] = 'Month';

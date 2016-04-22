@@ -14,7 +14,6 @@ class ncenterliteAdminController extends ncenterlite
 			'mention_names',
 			'mention_suffixes',
 			'mention_suffix_always_cut',
-			'document_notify',
 			'hide_module_srls',
 			'admin_notify_module_srls',
 			'skin',
@@ -26,7 +25,6 @@ class ncenterliteAdminController extends ncenterlite
 			'document_read',
 			'layout_srl',
 			'mlayout_srl',
-			'document_notify'
 		);
 		
 		foreach($config_vars as $val)
