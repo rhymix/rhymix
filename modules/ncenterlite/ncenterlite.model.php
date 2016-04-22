@@ -30,7 +30,7 @@ class ncenterliteModel extends ncenterlite
 			unset($config->mention_format);
 			if(!$config->hide_module_srls) $config->hide_module_srls = array();
 			if(!is_array($config->hide_module_srls)) $config->hide_module_srls = explode('|@|', $config->hide_module_srls);
-			if(!$config->document_read) $config->document_read = 'N';
+			if(!$config->document_read) $config->document_read = 'Y';
 			if(!$config->voted_format) $config->voted_format = 'N';
 			if(!$config->skin) $config->skin = 'default';
 			if(!$config->colorset) $config->colorset = 'black';
