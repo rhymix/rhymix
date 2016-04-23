@@ -9,10 +9,10 @@
 class CacheHandler extends Handler
 {
 	/**
-	 * The instance is stored here.
+	 * Force file cache.
 	 */
-	protected static $_instance = null;
-
+	protected $_always_use_file = false;
+	
 	/**
 	 * Get a instance of CacheHandler(for singleton)
 	 *
@@ -21,13 +21,9 @@ class CacheHandler extends Handler
 	 * @param boolean $always_use_file If set true, use a file cache always
 	 * @return CacheHandler
 	 */
-	public static function getInstance($target = 'object', $info = null, $always_use_file = false)
+	public static function getInstance($target = null, $info = null, $always_use_file = false)
 	{
-		if (!self::$_instance)
-		{
-			self::$_instance = new self;
-		}
-		return self::$_instance;
+		return new self($target, $info, $always_use_file);
 	}
 
 	/**
@@ -41,9 +37,9 @@ class CacheHandler extends Handler
 	 * @param boolean $always_use_file If set true, use a file cache always
 	 * @return CacheHandler
 	 */
-	protected function __construct()
+	protected function __construct($target = null, $info = null, $always_use_file = false)
 	{
-		
+		$this->_always_use_file = $always_use_file;
 	}
 
 	/**
@@ -53,7 +49,7 @@ class CacheHandler extends Handler
 	 */
 	public function isSupport()
 	{
-		return true;
+		return $this->_always_use_file || !(Rhymix\Framework\Cache::getCacheDriver() instanceof Rhymix\Framework\Drivers\Cache\Dummy);
 	}
 
 	/**
@@ -93,7 +89,7 @@ class CacheHandler extends Handler
 	 */
 	public function put($key, $obj, $valid_time = 0)
 	{
-		return Rhymix\Framework\Cache::set($key, $obj, $valid_time);
+		return Rhymix\Framework\Cache::set($key, $obj, $valid_time, $this->_always_use_file);
 	}
 
 	/**
