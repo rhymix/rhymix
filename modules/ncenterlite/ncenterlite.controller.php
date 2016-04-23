@@ -1040,7 +1040,7 @@ class ncenterliteController extends ncenterlite
 			return;
 		}
 
-		FileHandler::makeDir(\RX_BASEDIR . 'files/cache/ncenterlite/new_notify' . getNumberingPath($member_srl));
+		FileHandler::makeDir(\RX_BASEDIR . 'files/cache/ncenterlite/new_notify/' . getNumberingPath($member_srl));
 		$buff = "<?php return unserialize(" . var_export(serialize($output), true) . ");\n";
 		FileHandler::writeFile($flag_path, $buff);
 	}
