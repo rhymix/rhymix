@@ -203,7 +203,7 @@
 			
 			// If the response contains an error, display the error message.
 			if(data.error != "0" && data.error > -1000) {
-				if(data.error == -1 && data.message == "msg_is_not_administrator") {
+				if(data.error == -1 && data.message == "admin.msg_is_not_administrator") {
 					alert("You are not logged in as an administrator.");
 					if ($.isFunction(callback_error)) {
 						callback_error(data);

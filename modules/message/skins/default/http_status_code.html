@@ -11,7 +11,7 @@ section{margin-top:20px}
 </style>
 <section>
 	<div>
-		<h1>404 Not Found</h1>
+		<h1>{$http_status_code} {$http_status_message}</h1>
 		<p>{$lang->msg_module_is_not_exists}</p>
 	</div>
 </section>

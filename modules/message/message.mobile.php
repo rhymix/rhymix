@@ -20,12 +20,15 @@ class messageMobile extends messageView
 		$config = $oModuleModel->getModuleConfig('message');
 		if(!is_object($config)) $config = new stdClass;
 		if(!$config->mskin) $config->mskin = 'default';
+		
 		// Set the template path
 		$template_path = sprintf('%sm.skins/%s', $this->module_path, $config->mskin);
+		
 		// Get the member configuration
 		$oModuleModel = getModel('module');
 		$member_config = $oModuleModel->getModuleConfig('member');
 		Context::set('member_config', $member_config);
+		
 		// Set a flag to check if the https connection is made when using SSL and create https url 
 		$ssl_mode = false;
 		if($member_config->enable_ssl == 'Y')
@@ -41,6 +44,12 @@ class messageMobile extends messageView
 
 		$this->setTemplatePath($template_path);
 		$this->setTemplateFile('system_message');
+		
+		// Default 403 Error
+		if($this->getHttpStatusCode() === 200)
+		{
+			$this->setHttpStatusCode(403);
+		}
 	}
 }
 /* End of file message.mobile.php */

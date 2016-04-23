@@ -1910,9 +1910,14 @@ class memberController extends member
 	function addMemberMenu($act, $str)
 	{
 		$logged_info = Context::get('logged_info');
-
+		
+		if(!is_object($logged_info))
+		{
+			return;
+		}
+		
 		$logged_info->menu_list[$act] = lang($str);
-
+		
 		Context::set('logged_info', $logged_info);
 	}
 
