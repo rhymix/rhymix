@@ -178,11 +178,7 @@ class layoutAdminController extends layout
 								$output = executeQuery('layout.updateModuleLayout', $update_args);
 							}
 
-							$oCacheHandler = CacheHandler::getInstance('object', null, true);
-							if($oCacheHandler->isSupport())
-							{
-								$oCacheHandler->invalidateGroupKey('site_and_module');
-							}
+							Rhymix\Framework\Cache::clearGroup('site_and_module');
 						}
 					}
 				}
@@ -263,6 +259,7 @@ class layoutAdminController extends layout
 			$oLayoutModel = getModel('layout');
 			$cache_file = $oLayoutModel->getUserLayoutCache($args->layout_srl, Context::getLangType());
 			FileHandler::removeFile($cache_file);
+			Rhymix\Framework\Cache::delete('layout:' . $args->layout_srl);
 		}
 
 		return $output;
@@ -326,10 +323,13 @@ class layoutAdminController extends layout
 
 		$layout_file = $oLayoutModel->getUserLayoutHtml($layout_srl);
 		FileHandler::removeFile($layout_file);
+		
 		// Delete Layout
 		$args = new stdClass();
 		$args->layout_srl = $layout_srl;
 		$output = executeQuery("layout.deleteLayout", $args);
+		
+		Rhymix\Framework\Cache::delete('layout:' . $args->layout_srl);
 
 		if(!$output->toBool()) return $output;
 

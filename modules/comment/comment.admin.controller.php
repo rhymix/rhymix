@@ -436,12 +436,7 @@ class commentAdminController extends comment
 		$output = executeQuery('comment.deleteModuleCommentsList', $args);
 
 		//remove from cache
-		$oCacheHandler = CacheHandler::getInstance('object');
-		if($oCacheHandler->isSupport())
-		{
-			// Invalidate newest comments. Per document cache is invalidated inside document admin controller.
-			$oCacheHandler->invalidateGroupKey('newestCommentsList');
-		}
+		Rhymix\Framework\Cache::clearGroup('newestCommentsList');
 		return $output;
 	}
 

@@ -137,7 +137,13 @@ class ConfigParser
 		// Convert cache configuration.
 		if (isset($db_info->use_object_cache))
 		{
-			$config['cache'][] = $db_info->use_object_cache;
+			if (!is_array($db_info->use_object_cache))
+			{
+				$db_info->use_object_cache = array($db_info->use_object_cache);
+			}
+			$config['cache']['type'] = preg_replace('/^memcache$/', 'memcached', preg_replace('/:.+$/', '', array_first($db_info->use_object_cache)));
+			$config['cache']['ttl'] = 86400;
+			$config['cache']['servers'] = in_array($config['cache']['type'], array('memcached', 'redis')) ? $db_info->use_object_cache : array();
 		}
 		
 		// Convert FTP configuration.

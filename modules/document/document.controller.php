@@ -775,15 +775,9 @@ class documentController extends document
 		FileHandler::removeDir(sprintf('files/thumbnails/%s',getNumberingPath($obj->document_srl, 3)));
 
 		$output->add('document_srl',$obj->document_srl);
+		
 		//remove from cache
-		$oCacheHandler = CacheHandler::getInstance('object');
-		if($oCacheHandler->isSupport())
-		{
-			//remove document item from cache
-			$cache_key = 'document_item:'. getNumberingPath($obj->document_srl) . $obj->document_srl;
-			$oCacheHandler->delete($cache_key);
-		}
-
+		Rhymix\Framework\Cache::delete('document_item:' . getNumberingPath($obj->document_srl) . $obj->document_srl);
 		return $output;
 	}
 
@@ -919,13 +913,7 @@ class documentController extends document
 		$oDB->commit();
 
 		//remove from cache
-		$oCacheHandler = CacheHandler::getInstance('object');
-		if($oCacheHandler->isSupport())
-		{
-			$cache_key = 'document_item:'. getNumberingPath($document_srl) . $document_srl;
-			$oCacheHandler->delete($cache_key);
-		}
-
+		Rhymix\Framework\Cache::delete('document_item:' . getNumberingPath($document_srl) . $document_srl);
 		return $output;
 	}
 
@@ -1080,13 +1068,7 @@ class documentController extends document
 		$oDB->commit();
 
 		// Clear cache
-		$oCacheHandler = CacheHandler::getInstance('object');
-		if($oCacheHandler->isSupport())
-		{
-			$cache_key = 'document_item:'. getNumberingPath($oDocument->document_srl) . $oDocument->document_srl;
-			$oCacheHandler->delete($cache_key);
-		}
-
+		Rhymix\Framework\Cache::delete('document_item:' . getNumberingPath($oDocument->document_srl) . $oDocument->document_srl);
 		return $output;
 	}
 
@@ -1162,13 +1144,8 @@ class documentController extends document
 
 		$oDB->commit();
 
-		$oCacheHandler = CacheHandler::getInstance('object');
-		if($oCacheHandler->isSupport())
-		{
-			//remove document item from cache
-			$cache_key = 'document_item:'. getNumberingPath($document_srl) . $document_srl;
-			$oCacheHandler->delete($cache_key);
-		}
+		//remove document item from cache
+		Rhymix\Framework\Cache::delete('document_item:' . getNumberingPath($document_srl) . $document_srl);
 
 		// Register session
 		if(!$_SESSION['banned_document'][$document_srl] && Context::getSessionStatus()) 
@@ -1219,14 +1196,7 @@ class documentController extends document
 			$output = executeQuery('document.updateDocumentExtraVar', $obj);
 		}
 
-		$oCacheHandler = CacheHandler::getInstance('object', NULL, TRUE);
-		if($oCacheHandler->isSupport())
-		{
-			$object_key = 'module_document_extra_keys:'.$module_srl;
-			$cache_key = $oCacheHandler->getGroupKey('site_and_module', $object_key);
-			$oCacheHandler->delete($cache_key);
-		}
-
+		Rhymix\Framework\Cache::delete("site_and_module:module_document_extra_keys:$module_srl");
 		return $output;
 	}
 
@@ -1282,14 +1252,7 @@ class documentController extends document
 
 		$oDB->commit();
 
-		$oCacheHandler = CacheHandler::getInstance('object', NULL, TRUE);
-		if($oCacheHandler->isSupport())
-		{
-			$object_key = 'module_document_extra_keys:'.$module_srl;
-			$cache_key = $oCacheHandler->getGroupKey('site_and_module', $object_key);
-			$oCacheHandler->delete($cache_key);
-		}
-
+		Rhymix\Framework\Cache::delete("site_and_module:module_document_extra_keys:$module_srl");
 		return new Object();
 	}
 
@@ -1362,7 +1325,7 @@ class documentController extends document
 		// Pass if the author's IP address is as same as visitor's.
 		if($oDocument->get('ipaddress') == $_SERVER['REMOTE_ADDR'])
 		{
-			$_SESSION['voted_document'][$document_srl] = true;
+			$_SESSION['voted_document'][$document_srl] = false;
 			return new Object(-1, $failed_voted);
 		}
 
@@ -1376,7 +1339,7 @@ class documentController extends document
 			// Pass after registering a session if author's information is same as the currently logged-in user's.
 			if($member_srl && $member_srl == $oDocument->get('member_srl'))
 			{
-				$_SESSION['voted_document'][$document_srl] = true;
+				$_SESSION['voted_document'][$document_srl] = false;
 				return new Object(-1, $failed_voted);
 			}
 		}
@@ -1396,7 +1359,7 @@ class documentController extends document
 		// Pass after registering a session if log information has vote-up logs
 		if($output->data->count)
 		{
-			$_SESSION['voted_document'][$document_srl] = true;
+			$_SESSION['voted_document'][$document_srl] = false;
 			return new Object(-1, $failed_voted);
 		}
 
@@ -1442,13 +1405,8 @@ class documentController extends document
 
 		$oDB->commit();
 
-		$oCacheHandler = CacheHandler::getInstance('object');
-		if($oCacheHandler->isSupport())
-		{
-			//remove document item from cache
-			$cache_key = 'document_item:'. getNumberingPath($document_srl) . $document_srl;
-			$oCacheHandler->delete($cache_key);
-		}
+		//remove document item from cache
+		Rhymix\Framework\Cache::delete('document_item:' . getNumberingPath($document_srl) . $document_srl);
 
 		// Return result
 		$output = new Object();
@@ -1617,13 +1575,8 @@ class documentController extends document
 			$args->update_order = -1*getNextSequence();
 			$args->last_updater = $last_updater;
 
-			$oCacheHandler = CacheHandler::getInstance('object');
-			if($oCacheHandler->isSupport())
-			{
-				//remove document item from cache
-				$cache_key = 'document_item:'. getNumberingPath($document_srl) . $document_srl;
-				$oCacheHandler->delete($cache_key);
-			}
+			// remove document item from cache
+			Rhymix\Framework\Cache::delete('document_item:' . getNumberingPath($document_srl) . $document_srl);
 		}
 
 		return executeQuery('document.updateCommentCount', $args);
@@ -1641,13 +1594,8 @@ class documentController extends document
 		$args->document_srl = $document_srl;
 		$args->trackback_count = $trackback_count;
 
-		$oCacheHandler = CacheHandler::getInstance('object');
-		if($oCacheHandler->isSupport())
-		{
-			//remove document item from cache
-			$cache_key = 'document_item:'. getNumberingPath($document_srl) . $document_srl;
-			$oCacheHandler->delete($cache_key);
-		}
+		// remove document item from cache
+		Rhymix\Framework\Cache::delete('document_item:' . getNumberingPath($document_srl) . $document_srl);
 
 		return executeQuery('document.updateTrackbackCount', $args);
 	}
@@ -1752,27 +1700,25 @@ class documentController extends document
 		if(!$output->toBool()) return $output;
 
 		$this->makeCategoryFile($category_info->module_srl);
-		// remvove cache
-		$oCacheHandler = CacheHandler::getInstance('object');
-		if($oCacheHandler->isSupport())
+		
+		// remove cache
+		$page = 0;
+		while(true)
 		{
-			$page = 0;
-			while(true) {
-				$args = new stdClass();
-				$args->category_srl = $category_srl;
-				$args->list_count = 100;
-				$args->page = ++$page;
-				$output = executeQuery('document.getDocumentList', $args, array('document_srl'));
+			$args = new stdClass();
+			$args->category_srl = $category_srl;
+			$args->list_count = 100;
+			$args->page = ++$page;
+			$output = executeQuery('document.getDocumentList', $args, array('document_srl'));
 
-				if($output->data == array())
-					break;
+			if($output->data == array())
+			{
+				break;
+			}
 
-				foreach($output->data as $val)
-				{
-					//remove document item from cache
-					$cache_key = 'document_item:'. getNumberingPath($val->document_srl) . $val->document_srl;
-					$oCacheHandler->delete($cache_key);
-				}
+			foreach($output->data as $val)
+			{
+				Rhymix\Framework\Cache::delete('document_item:' . getNumberingPath($val->document_srl) . $val->document_srl);
 			}
 		}
 

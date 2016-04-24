@@ -79,32 +79,35 @@ class documentItem extends Object
 		$document_item = false;
 		$cache_put = false;
 		$columnList = array();
+		$reload_counts = true;
+		
+		if ($this->columnList === false)
+		{
+			$reload_counts = false;
+		}
 		$this->columnList = array();
 
 		// cache controll
-		$oCacheHandler = CacheHandler::getInstance('object');
-		if($oCacheHandler->isSupport())
+		$cache_key = 'document_item:' . getNumberingPath($this->document_srl) . $this->document_srl;
+		$document_item = Rhymix\Framework\Cache::get($cache_key);
+		if($document_item)
 		{
-			$cache_key = 'document_item:' . getNumberingPath($this->document_srl) . $this->document_srl;
-			$document_item = $oCacheHandler->get($cache_key);
-			if($document_item !== false)
-			{
-				$columnList = array('readed_count', 'voted_count', 'blamed_count', 'comment_count', 'trackback_count');
-			}
+			$columnList = array('readed_count', 'voted_count', 'blamed_count', 'comment_count', 'trackback_count');
 		}
 
-		$args = new stdClass();
-		$args->document_srl = $this->document_srl;
-		$output = executeQuery('document.getDocument', $args, $columnList);
+		if(!$document_item || $reload_counts)
+		{
+			$args = new stdClass();
+			$args->document_srl = $this->document_srl;
+			$output = executeQuery('document.getDocument', $args, $columnList);
+		}
 
-		if($document_item === false)
+		if(!$document_item)
 		{
 			$document_item = $output->data;
-
-				//insert in cache
-			if($document_item && $oCacheHandler->isSupport())
+			if($document_item)
 			{
-				$oCacheHandler->put($cache_key, $document_item);
+				Rhymix\Framework\Cache::set($cache_key, $document_item);
 			}
 		}
 		else
@@ -372,12 +375,13 @@ class documentItem extends Object
 	function getVoted()
 	{
 		if(!$this->document_srl) return false;
-		if($_SESSION['voted_document'][$this->document_srl])
+		if(isset($_SESSION['voted_document'][$this->document_srl]))
 		{
 			return $_SESSION['voted_document'][$this->document_srl];
 		}
 
 		$logged_info = Context::get('logged_info');
+		if(!$logged_info->member_srl) return false;
 
 		$args = new stdClass();
 		$args->member_srl = $logged_info->member_srl;
@@ -386,10 +390,10 @@ class documentItem extends Object
 
 		if($output->data->point)
 		{
-			return $output->data->point;
+			return $_SESSION['voted_document'][$this->document_srl] = $output->data->point;
 		}
 
-		return false;
+		return $_SESSION['voted_document'][$this->document_srl] = false;
 	}
 
 	function getTitle($cut_size = 0, $tail='...')
@@ -761,6 +765,7 @@ class documentItem extends Object
 		$oCommentModel = getModel('comment');
 		$output = $oCommentModel->getCommentList($this->document_srl, $cpage, $is_admin);
 		if(!$output->toBool() || !count($output->data)) return;
+		
 		// Create commentItem object from a comment list
 		// If admin priviledge is granted on parent posts, you can read its child posts.
 		$accessible = array();
@@ -782,6 +787,39 @@ class documentItem extends Object
 			}
 			$comment_list[$val->comment_srl] = $oCommentItem;
 		}
+		
+		// Cache the vote log for all comments.
+		$logged_info = Context::get('logged_info');
+		if ($logged_info->member_srl)
+		{
+			$comment_srls = array();
+			foreach ($comment_list as $comment_srl => $comment)
+			{
+				if (!isset($_SESSION['voted_comment'][$comment_srl]))
+				{
+					$comment_srls[] = $comment_srl;
+				}
+			}
+			if (count($comment_srls))
+			{
+				$output = executeQuery('comment.getCommentVotedLogMulti', (object)array(
+					'comment_srls' => $comment_srls,
+					'member_srl' => $logged_info->member_srl,
+				));
+				foreach ($output->data as $data)
+				{
+					$_SESSION['voted_comment'][$data->comment_srl] = $data->point;
+				}
+				foreach ($comment_srls as $comment_srl)
+				{
+					if (!isset($_SESSION['voted_comment'][$comment_srl]))
+					{
+						$_SESSION['voted_comment'][$comment_srl] = false;
+					}
+				}
+			}
+		}
+		
 		// Variable setting to be displayed on the skin
 		Context::set($cpageStr, $output->page_navigation->cur_page);
 		Context::set('cpage', $output->page_navigation->cur_page);

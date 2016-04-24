@@ -28,13 +28,7 @@ class moduleController extends module
 
 		$output = executeQuery('module.insertActionForward', $args);
 
-		$oCacheHandler = CacheHandler::getInstance('object', NULL, TRUE);
-		if($oCacheHandler->isSupport())
-		{
-			$cache_key = 'action_forward';
-			$oCacheHandler->delete($cache_key);
-		}
-
+		Rhymix\Framework\Cache::delete('action_forward');
 		return $output;
 	}
 
@@ -50,13 +44,7 @@ class moduleController extends module
 
 		$output = executeQuery('module.deleteActionForward', $args);
 
-		$oCacheHandler = CacheHandler::getInstance('object', NULL, TRUE);
-		if($oCacheHandler->isSupport())
-		{
-			$cache_key = 'action_forward';
-			$oCacheHandler->delete($cache_key);
-		}
-
+		Rhymix\Framework\Cache::delete('action_forward');
 		return $output;
 	}
 
@@ -92,12 +80,7 @@ class moduleController extends module
 		{
 			//remove from cache
 			$GLOBALS['__triggers__'] = NULL;
-			$oCacheHandler = CacheHandler::getInstance('object', NULL, TRUE);
-			if($oCacheHandler->isSupport())
-			{
-				$cache_key = 'triggers';
-				$oCacheHandler->delete($cache_key);
-			}
+			Rhymix\Framework\Cache::delete('triggers');
 		}
 
 		return $output;
@@ -121,12 +104,7 @@ class moduleController extends module
 		{
 			//remove from cache
 			$GLOBALS['__triggers__'] = NULL;
-			$oCacheHandler = CacheHandler::getInstance('object', NULL, TRUE);
-			if($oCacheHandler->isSupport())
-			{
-				$cache_key = 'triggers';
-				$oCacheHandler->delete($cache_key);
-			}
+			Rhymix\Framework\Cache::delete('triggers');
 		}
 
 		return $output;
@@ -146,12 +124,7 @@ class moduleController extends module
 		{
 			//remove from cache
 			$GLOBALS['__triggers__'] = NULL;
-			$oCacheHandler = CacheHandler::getInstance('object', NULL, TRUE);
-			if($oCacheHandler->isSupport())
-			{
-				$cache_key = 'triggers';
-				$oCacheHandler->delete($cache_key);
-			}
+			Rhymix\Framework\Cache::delete('triggers');
 		}
 
 		return $output;
@@ -253,11 +226,7 @@ class moduleController extends module
 		$output = executeQuery('module.insertModuleConfig', $args);
 
 		//remove from cache
-		$oCacheHandler = CacheHandler::getInstance('object', NULL, TRUE);
-		if($oCacheHandler->isSupport())
-		{
-			$oCacheHandler->invalidateGroupKey('site_and_module');
-		}
+		Rhymix\Framework\Cache::clearGroup('site_and_module');
 		return $output;
 	}
 
@@ -278,12 +247,7 @@ class moduleController extends module
 		$output = executeQuery('module.insertModulePartConfig', $args);
 
 		//remove from cache
-		$oCacheHandler = CacheHandler::getInstance('object', NULL, TRUE);
-		if($oCacheHandler->isSupport())
-		{
-			$oCacheHandler->invalidateGroupKey('site_and_module');
-		}
-
+		Rhymix\Framework\Cache::clearGroup('site_and_module');
 		return $output;
 	}
 
@@ -353,12 +317,7 @@ class moduleController extends module
 		$module_info = $oModuleModel->getModuleInfoByModuleSrl($args->index_module_srl);
 		$mid = $module_info->mid;
 
-		$oCacheHandler = CacheHandler::getInstance('object', null, true);
-		if($oCacheHandler->isSupport())
-		{
-			$oCacheHandler->invalidateGroupKey('site_and_module');
-		}
-
+		Rhymix\Framework\Cache::clearGroup('site_and_module');
 		return $output;
 	}
 
@@ -519,12 +478,8 @@ class moduleController extends module
 		// commit
 		$oDB->commit();
 
-		$oCacheHandler = CacheHandler::getInstance('object', null, true);
-		if($oCacheHandler->isSupport())
-		{
-			$oCacheHandler->invalidateGroupKey('site_and_module');
-		}
-
+		Rhymix\Framework\Cache::clearGroup('site_and_module');
+		
 		$output->add('module_srl',$args->module_srl);
 		return $output;
 	}
@@ -644,12 +599,7 @@ class moduleController extends module
 		$output->add('module_srl',$args->module_srl);
 
 		//remove from cache
-		$oCacheHandler = CacheHandler::getInstance('object', null, true);
-		if($oCacheHandler->isSupport())
-		{
-			$oCacheHandler->invalidateGroupKey('site_and_module');
-		}
-
+		Rhymix\Framework\Cache::clearGroup('site_and_module');
 		return $output;
 	}
 
@@ -666,12 +616,7 @@ class moduleController extends module
 		if(!$output->toBool()) return $output;
 
 		//remove from cache
-		$oCacheHandler = CacheHandler::getInstance('object', null, true);
-		if($oCacheHandler->isSupport())
-		{
-			$oCacheHandler->invalidateGroupKey('site_and_module');
-		}
-
+		Rhymix\Framework\Cache::clearGroup('site_and_module');
 		return $output;
 	}
 
@@ -795,11 +740,7 @@ class moduleController extends module
 		$oDB->commit();
 
 		//remove from cache
-		$oCacheHandler = CacheHandler::getInstance('object', null, true);
-		if($oCacheHandler->isSupport())
-		{
-			$oCacheHandler->invalidateGroupKey('site_and_module');
-		}
+		Rhymix\Framework\Cache::clearGroup('site_and_module');
 		return $output;
 	}
 
@@ -820,12 +761,7 @@ class moduleController extends module
 		$output = executeQuery('module.clearDefaultModule');
 		if(!$output->toBool()) return $output;
 
-		$oCacheHandler = CacheHandler::getInstance('object', null, true);
-		if($oCacheHandler->isSupport())
-		{
-			$oCacheHandler->invalidateGroupKey('site_and_module');
-		}
-
+		Rhymix\Framework\Cache::clearGroup('site_and_module');
 		return $output;
 	}
 
@@ -836,12 +772,7 @@ class moduleController extends module
 	{
 		$output = executeQuery('module.updateModuleMenu', $args);
 
-		$oCacheHandler = CacheHandler::getInstance('object', null, true);
-		if($oCacheHandler->isSupport())
-		{
-			$oCacheHandler->invalidateGroupKey('site_and_module');
-		}
-
+		Rhymix\Framework\Cache::clearGroup('site_and_module');
 		return $output;
 	}
 
@@ -857,12 +788,7 @@ class moduleController extends module
 		$args->menu_srls = implode(',',$menu_srl_list);
 		$output = executeQuery('module.updateModuleLayout', $args);
 
-		$oCacheHandler = CacheHandler::getInstance('object', null, true);
-		if($oCacheHandler->isSupport())
-		{
-			$oCacheHandler->invalidateGroupKey('site_and_module');
-		}
-
+		Rhymix\Framework\Cache::clearGroup('site_and_module');
 		return $output;
 	}
 
@@ -1054,23 +980,17 @@ class moduleController extends module
 
 		if($mode === 'P')
 		{
-			$object_key = 'module_skin_vars:'.$module_srl;
+			$object_key = 'site_and_module:module_skin_vars:' . $module_srl;
 			$query = 'module.deleteModuleSkinVars';
 		}
 		else
 		{
-			$object_key = 'module_mobile_skin_vars:'.$module_srl;
+			$object_key = 'site_and_module:module_mobile_skin_vars:' . $module_srl;
 			$query = 'module.deleteModuleMobileSkinVars';
 		}
 
 		//remove from cache
-		$oCacheHandler = CacheHandler::getInstance('object', null, true);
-		$cache_key = $oCacheHandler->getGroupKey('site_and_module', $object_key);
-		if($oCacheHandler->isSupport())
-		{
-			$oCacheHandler->delete($cache_key);
-		}
-
+		Rhymix\Framework\Cache::delete($object_key);
 		return executeQuery($query, $args);
 	}
 
@@ -1094,14 +1014,8 @@ class moduleController extends module
 			if(!$args->name || !$args->value) continue;
 			$output = executeQuery('module.insertModuleExtraVars', $args);
 		}
-
-		$oCacheHandler = CacheHandler::getInstance('object', null, true);
-		if($oCacheHandler->isSupport())
-		{
-			$object_key = 'module_extra_vars:'.$module_srl;
-			$cache_key = $oCacheHandler->getGroupKey('site_and_module', $object_key);
-			$oCacheHandler->delete($cache_key);
-		}
+		
+		Rhymix\Framework\Cache::delete("site_and_module:module_extra_vars:$module_srl");
 	}
 
 	/**
@@ -1114,14 +1028,7 @@ class moduleController extends module
 		$output = executeQuery('module.deleteModuleExtraVars', $args);
 
 		//remove from cache
-		$oCacheHandler = CacheHandler::getInstance('object', null, true);
-		if($oCacheHandler->isSupport())
-		{
-			$object_key = 'module_extra_vars:'.$module_srl;
-			$cache_key = $oCacheHandler->getGroupKey('site_and_module', $object_key);
-			$oCacheHandler->delete($cache_key);
-		}
-
+		Rhymix\Framework\Cache::delete("site_and_module:module_extra_vars:$module_srl");
 		return $output;
 	}
 
@@ -1426,12 +1333,7 @@ class moduleController extends module
 		$args->site_srls = $site_srls;
 		$output = executeQuery('module.updateModuleInSites', $args);
 
-		$oCacheHandler = CacheHandler::getInstance('object', null, true);
-		if($oCacheHandler->isSupport())
-		{
-			$oCacheHandler->invalidateGroupKey('site_and_module');
-		}
-
+		Rhymix\Framework\Cache::clearGroup('site_and_module');
 		return $output;
 	}
 }

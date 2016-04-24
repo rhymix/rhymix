@@ -12,9 +12,6 @@ class widgetController extends widget
 	var $javascript_mode = false;
 	var $layout_javascript_mode = false;
 
-	// Where the cache files are created widget
-	var $cache_path = './files/cache/widget_cache/';
-
 	/**
 	 * @brief Initialization
 	 */
@@ -343,11 +340,9 @@ class widgetController extends widget
 			{
 				foreach($args as $k => $v) $args->{$k} = urldecode($v);
 			}
-			// If the cache file for each language widget regeneration
+			
 			foreach($lang_list as $lang_type => $val)
 			{
-				$cache_file = sprintf('%s%s.%s.cache', $this->cache_path, $sequence, $lang_type);
-				if(!file_exists($cache_file)) continue;
 				$this->getCache($widget, $args, $lang_type, true, $sequence);
 			}
 		}
@@ -397,61 +392,20 @@ class widgetController extends widget
 			return $widget_content;
 		}
 
-		$oCacheHandler = CacheHandler::getInstance('object');
-		if($oCacheHandler->isSupport())
+		$cache_data = Rhymix\Framework\Cache::get('widget_cache:' . $widget_sequence);
+		if ($cache_data)
 		{
-			$key = 'widget_cache:' . $widget_sequence;
-			
-			$cache_body = $oCacheHandler->get($key, RX_TIME - $widget_cache);
-			$cache_body = preg_replace('@<\!--#Meta:@', '<!--Meta:', $cache_body);
+			return preg_replace('@<\!--#Meta:@', '<!--Meta:', $cache_data);
 		}
 
-		if($cache_body)
-		{
-			return $cache_body;
-		}
-		else
-		{
-			/**
-			 * Cache number and cache values are set so that the cache file should call
-			 */
-			FileHandler::makeDir($this->cache_path);
-			// Wanted cache file
-			$cache_file = sprintf('%s%s.%s.cache', $this->cache_path, $widget_sequence, $lang_type);
-			// If the file exists in the cache, the file validation
-			if(!$ignore_cache && file_exists($cache_file))
-			{
-				$filemtime = filemtime($cache_file);
-				// Should be modified compared to the time of the cache or in the future if creating more than widget.controller.php file a return value of the cache
-				if($filemtime + $widget_cache > $_SERVER['REQUEST_TIME'] && $filemtime > filemtime(_XE_PATH_.'modules/widget/widget.controller.php'))
-				{
-					$cache_body = FileHandler::readFile($cache_file);
-					$cache_body = preg_replace('@<\!--#Meta:@', '<!--Meta:', $cache_body);
+		$oWidget = $this->getWidgetObject($widget);
+		if(!$oWidget || !method_exists($oWidget,'proc')) return;
 
-					return $cache_body;
-				}
-			}
-			// cache update and cache renewal of the file mtime
-			if(!$oCacheHandler->isSupport())
-			{
-				touch($cache_file);
-			}
-
-			$oWidget = $this->getWidgetObject($widget);
-			if(!$oWidget || !method_exists($oWidget,'proc')) return;
-
-			$widget_content = $oWidget->proc($args);
-			$oModuleController = getController('module');
-			$oModuleController->replaceDefinedLangCode($widget_content);
-			if($oCacheHandler->isSupport())
-			{
-				$oCacheHandler->put($key, $widget_content, $widget_cache);
-			}
-			else
-			{
-				FileHandler::writeFile($cache_file, $widget_content);
-			}
-		}
+		$widget_content = $oWidget->proc($args);
+		$oModuleController = getController('module');
+		$oModuleController->replaceDefinedLangCode($widget_content);
+		
+		Rhymix\Framework\Cache::set('widget_cache:' . $widget_sequence, $widget_content, $widget_cache, true);
 
 		return $widget_content;
 	}
@@ -525,7 +479,7 @@ class widgetController extends widget
 					if($args->document_srl)
 					{
 						$oDocumentModel = getModel('document');
-						$oDocument = $oDocumentModel->getDocument($args->document_srl);
+						$oDocument = $oDocumentModel->getDocument($args->document_srl, false, false, false);
 						$body = $oDocument->getContent(false,false,false, false);
 					}
 					else
@@ -565,7 +519,7 @@ class widgetController extends widget
 					if($args->document_srl)
 					{
 						$oDocumentModel = getModel('document');
-						$oDocument = $oDocumentModel->getDocument($args->document_srl);
+						$oDocument = $oDocumentModel->getDocument($args->document_srl, false, false, false);
 						$body = $oDocument->getContent(false,false,false);
 					}
 					else
@@ -810,13 +764,7 @@ class widgetController extends widget
 
 		if($vars->widget_sequence)
 		{
-			$oCacheHandler = CacheHandler::getInstance('object');
-			if($oCacheHandler->isSupport())
-			{
-				$cache_body = $oCacheHandler->delete('widget_cache:' . $vars->widget_sequence);
-			}
-			$cache_file = sprintf('%s%s.%s.cache', $this->cache_path, $vars->widget_sequence, Context::getLangType());
-			FileHandler::removeFile($cache_file);
+			Rhymix\Framework\Cache::delete('widget_cache:' . $vars->widget_sequence);
 		}
 
 		if($vars->widget_cache>0) $vars->widget_sequence = getNextSequence();

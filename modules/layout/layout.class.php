@@ -99,6 +99,7 @@ class layout extends ModuleObject
 					$args->layout = implode('|@|', $layout_path);
 					$args->layout_srl = $layout->layout_srl;
 					$output = executeQuery('layout.updateLayout', $args);
+					Rhymix\Framework\Cache::delete('layout:' . $args->layout_srl);
 				}
 			}
 		}

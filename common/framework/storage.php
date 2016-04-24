@@ -259,11 +259,16 @@ class Storage
 	 * 
 	 * @param string $filename
 	 * @param mixed $data
+	 * @param string $comment (optional)
 	 * @return string|false
 	 */
-	public static function writePHPData($filename, $data)
+	public static function writePHPData($filename, $data, $comment = null)
 	{
-		return self::write($filename, '<' . '?php return unserialize(' . var_export(serialize($data), true) . ');');
+		if ($comment !== null)
+		{
+			$comment = "/* $comment */\n";
+		}
+		return self::write($filename, '<' . '?php ' . $comment . 'return unserialize(' . var_export(serialize($data), true) . ');');
 	}
 	
 	/**

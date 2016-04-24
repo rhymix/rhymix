@@ -1227,7 +1227,7 @@ class commentController extends comment
 		// invalid vote if both ip addresses between author's and the current user are same.
 		if($oComment->get('ipaddress') == $_SERVER['REMOTE_ADDR'])
 		{
-			$_SESSION['voted_comment'][$comment_srl] = TRUE;
+			$_SESSION['voted_comment'][$comment_srl] = false;
 			return new Object(-1, $failed_voted);
 		}
 
@@ -1241,7 +1241,7 @@ class commentController extends comment
 			// session registered if the author information matches to the current logged-in user's.
 			if($member_srl && $member_srl == $oComment->get('member_srl'))
 			{
-				$_SESSION['voted_comment'][$comment_srl] = TRUE;
+				$_SESSION['voted_comment'][$comment_srl] = false;
 				return new Object(-1, $failed_voted);
 			}
 		}
@@ -1264,7 +1264,7 @@ class commentController extends comment
 		// session registered if log info contains recommendation vote log.
 		if($output->data->count)
 		{
-			$_SESSION['voted_comment'][$comment_srl] = TRUE;
+			$_SESSION['voted_comment'][$comment_srl] = false;
 			return new Object(-1, $failed_voted);
 		}
 

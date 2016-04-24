@@ -294,11 +294,7 @@ class module extends ModuleObject
 					$module_info->admin_id = null;
 					executeQuery('module.updateModule', $module_info);
 
-					$oCacheHandler = CacheHandler::getInstance('object', null, true);
-					if($oCacheHandler->isSupport())
-					{
-						$oCacheHandler->invalidateGroupKey('site_and_module');
-					}
+					Rhymix\Framework\Cache::clearGroup('site_and_module');
 				}
 			}
 			// Various column drop
