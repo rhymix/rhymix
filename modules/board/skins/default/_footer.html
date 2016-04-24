@@ -1,2 +1,6 @@
-	{$module_info->footer_text}
+	<!--@if($m && $module_info->mobile_footer_text)-->
+		{$module_info->mobile_footer_text}
+	<!--@else-->
+		{$module_info->footer_text}
+	<!--@end-->
 </div>

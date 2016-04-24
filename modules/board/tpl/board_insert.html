@@ -72,19 +72,31 @@
 		<div class="x_control-group">
 			<label class="x_control-label" for="lang_header_text">{$lang->header_text}</label>
 			<div class="x_controls">
-				<textarea name="header_text" id="header_text" class="lang_code" rows="8" cols="42" placeholder="{$lang->about_header_text}"><!--@if(strpos($module_info->header_text, '$user_lang->') === false)-->{$module_info->header_text}<!--@else-->{htmlspecialchars($module_info->header_text)}<!--@end--></textarea>
-				<a href="#header_text_help" class="x_icon-question-sign" data-toggle>{$lang->help}</a>
-				<p id="header_text_help" class="x_help-block" hidden>{$lang->about_header_text}</p>
+				<textarea name="header_text" id="header_text" class="lang_code" rows="8" cols="42"><!--@if(strpos($module_info->header_text, '$user_lang->') === false)-->{$module_info->header_text}<!--@else-->{htmlspecialchars($module_info->header_text)}<!--@end--></textarea>
+				<p id="header_text_help" class="x_help-block">{$lang->about_header_text}</p>
 			</div>
 		</div>
 		<div class="x_control-group">
 			<label class="x_control-label" for="lang_footer_text">{$lang->footer_text}</label>
 			<div class="x_controls">
-				<textarea name="footer_text" id="footer_text" class="lang_code" rows="8" cols="42" placeholder="{$lang->about_footer_text}"><!--@if(strpos($module_info->footer_text, '$user_lang->') === false)-->{$module_info->footer_text}<!--@else-->{htmlspecialchars($module_info->footer_text)}<!--@end--></textarea>
-				<a href="#footer_text_help" class="x_icon-question-sign" data-toggle>{$lang->help}</a>
-				<p id="footer_text_help" class="x_help-block" hidden>{$lang->about_footer_text}</p>
+				<textarea name="footer_text" id="footer_text" class="lang_code" rows="8" cols="42"><!--@if(strpos($module_info->footer_text, '$user_lang->') === false)-->{$module_info->footer_text}<!--@else-->{htmlspecialchars($module_info->footer_text)}<!--@end--></textarea>
+				<p id="footer_text_help" class="x_help-block">{$lang->about_footer_text}</p>
 			</div>
 		</div>
+	<div class="x_control-group">
+		<label class="x_control-label" for="lang_mobile_header_text">{$lang->mobile_header_text}</label>
+		<div class="x_controls">
+			<textarea name="mobile_header_text" id="mobile_header_text" class="lang_code" rows="8" cols="42"><!--@if(strpos($module_info->footer_text, '$user_lang->') === false)-->{$module_info->mobile_header_text}<!--@else-->{htmlspecialchars($module_info->mobile_header_text)}<!--@end--></textarea>
+			<p id="mobile_header_text_help" class="x_help-block">{$lang->about_mobile_header_text}</p>
+		</div>
+	</div>
+	<div class="x_control-group">
+		<label class="x_control-label" for="lang_mobile_footer_text">{$lang->mobile_footer_text}</label>
+		<div class="x_controls">
+			<textarea name="mobile_footer_text" id="mobile_footer_text" class="lang_code" rows="8" cols="42"><!--@if(strpos($module_info->footer_text, '$user_lang->') === false)-->{$module_info->mobile_footer_text}<!--@else-->{htmlspecialchars($module_info->mobile_footer_text)}<!--@end--></textarea>
+			<p id="mobile_footer_text_help" class="x_help-block">{$lang->about_mobile_footer_text}</p>
+		</div>
+	</div>
 	</section>
 	<section class="section">
 		<h1>{$lang->mobile_settings}</h1>
