@@ -64,12 +64,12 @@ class Cache
 		
 		if ($class_name && class_exists($class_name) && $class_name::isSupported())
 		{
-			self::$_driver = new $class_name($config);
+			self::$_driver = $class_name::getInstance($config);
 			self::$_driver_name = strtolower($driver_name);
 		}
 		else
 		{
-			self::$_driver = new Drivers\Cache\Dummy(array());
+			self::$_driver = Drivers\Cache\Dummy::getInstance(array());
 			self::$_driver_name = 'dummy';
 		}
 		
@@ -133,7 +133,7 @@ class Cache
 			$class_name = '\\Rhymix\\Framework\\Drivers\\Cache\\' . $name;
 			if (class_exists($class_name) && $class_name::isSupported() && $class_name::validateSettings($config))
 			{
-				return new $class_name($config);
+				return $class_name::getInstance($config);
 			}
 			else
 			{

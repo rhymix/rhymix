@@ -13,14 +13,31 @@ class WinCache implements \Rhymix\Framework\Drivers\CacheInterface
 	public $prefix = true;
 	
 	/**
+	 * The singleton instance is stored here.
+	 */
+	protected static $_instance = null;
+	
+	/**
+	 * Direct invocation of the constructor is not permitted.
+	 */
+	protected function __construct()
+	{
+		
+	}
+	
+	/**
 	 * Create a new instance of the current cache driver, using the given settings.
 	 * 
 	 * @param array $config
 	 * @return void
 	 */
-	public function __construct(array $config)
+	public static function getInstance(array $config)
 	{
-		
+		if (self::$_instance === null)
+		{
+			self::$_instance = new self();
+		}
+		return self::$_instance;
 	}
 	
 	/**
@@ -30,7 +47,7 @@ class WinCache implements \Rhymix\Framework\Drivers\CacheInterface
 	 * 
 	 * @return bool
 	 */
-	public function isSupported()
+	public static function isSupported()
 	{
 		return function_exists('wincache_ucache_get');
 	}

@@ -10,7 +10,12 @@ class Dummy extends File implements \Rhymix\Framework\Drivers\CacheInterface
 	/**
 	 * Set this flag to false to disable cache prefixes.
 	 */
-	public $prefix = true;
+	public $prefix = false;
+	
+	/**
+	 * The singleton instance is stored here.
+	 */
+	protected static $_instance = null;
 	
 	/**
 	 * Dummy data is stored here.

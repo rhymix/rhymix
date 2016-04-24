@@ -15,18 +15,20 @@ class SQLite implements \Rhymix\Framework\Drivers\CacheInterface
 	public $prefix = false;
 	
 	/**
+	 * The singleton instance is stored here.
+	 */
+	protected static $_instance = null;
+	
+	/**
 	 * The database handle and prepared statements are stored here.
 	 */
 	protected $_dbh = null;
 	protected $_ps = array();
 	
 	/**
-	 * Create a new instance of the current cache driver, using the given settings.
-	 * 
-	 * @param array $config
-	 * @return void
+	 * Direct invocation of the constructor is not permitted.
 	 */
-	public function __construct(array $config)
+	protected function __construct()
 	{
 		$dir = \RX_BASEDIR . 'files/cache/store';
 		if (!Storage::isDirectory($dir))
@@ -64,15 +66,30 @@ class SQLite implements \Rhymix\Framework\Drivers\CacheInterface
 	}
 	
 	/**
+	 * Create a new instance of the current cache driver, using the given settings.
+	 * 
+	 * @param array $config
+	 * @return void
+	 */
+	public static function getInstance(array $config)
+	{
+		if (self::$_instance === null)
+		{
+			self::$_instance = new self();
+		}
+		return self::$_instance;
+	}
+	
+	/**
 	 * Check if the current cache driver is supported on this server.
 	 * 
 	 * This method returns true on success and false on failure.
 	 * 
 	 * @return bool
 	 */
-	public function isSupported()
+	public static function isSupported()
 	{
-		return class_exists('\\SQLite3', false) && config('crypto.authentication_key');
+		return class_exists('\\SQLite3', false) && config('crypto.authentication_key') !== null;
 	}
 	
 	/**

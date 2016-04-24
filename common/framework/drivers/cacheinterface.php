@@ -13,7 +13,7 @@ interface CacheInterface
 	 * @param array $config
 	 * @return void
 	 */
-	public function __construct(array $config);
+	public static function getInstance(array $config);
 	
 	/**
 	 * Check if the current cache driver is supported on this server.
@@ -22,7 +22,7 @@ interface CacheInterface
 	 * 
 	 * @return bool
 	 */
-	public function isSupported();
+	public static function isSupported();
 	
 	/**
 	 * Validate cache settings.

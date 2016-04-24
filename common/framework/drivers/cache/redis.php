@@ -13,17 +13,19 @@ class Redis implements \Rhymix\Framework\Drivers\CacheInterface
 	public $prefix = true;
 	
 	/**
+	 * The singleton instance is stored here.
+	 */
+	protected static $_instance = null;
+	
+	/**
 	 * The Redis connection is stored here.
 	 */
 	protected $_conn = null;
 	
 	/**
-	 * Create a new instance of the current cache driver, using the given settings.
-	 * 
-	 * @param array $config
-	 * @return void
+	 * Direct invocation of the constructor is not permitted.
 	 */
-	public function __construct(array $config)
+	protected function __construct(array $config)
 	{
 		try
 		{
@@ -54,13 +56,28 @@ class Redis implements \Rhymix\Framework\Drivers\CacheInterface
 	}
 	
 	/**
+	 * Create a new instance of the current cache driver, using the given settings.
+	 * 
+	 * @param array $config
+	 * @return void
+	 */
+	public static function getInstance(array $config)
+	{
+		if (self::$_instance === null)
+		{
+			self::$_instance = new self($config);
+		}
+		return self::$_instance;
+	}
+	
+	/**
 	 * Check if the current cache driver is supported on this server.
 	 * 
 	 * This method returns true on success and false on failure.
 	 * 
 	 * @return bool
 	 */
-	public function isSupported()
+	public static function isSupported()
 	{
 		return class_exists('\\Redis', false);
 	}
