@@ -79,6 +79,12 @@ class documentItem extends Object
 		$document_item = false;
 		$cache_put = false;
 		$columnList = array();
+		$reload_counts = true;
+		
+		if ($this->columnList === false)
+		{
+			$reload_counts = false;
+		}
 		$this->columnList = array();
 
 		// cache controll
@@ -89,9 +95,12 @@ class documentItem extends Object
 			$columnList = array('readed_count', 'voted_count', 'blamed_count', 'comment_count', 'trackback_count');
 		}
 
-		$args = new stdClass();
-		$args->document_srl = $this->document_srl;
-		$output = executeQuery('document.getDocument', $args, $columnList);
+		if(!$document_item || $reload_counts)
+		{
+			$args = new stdClass();
+			$args->document_srl = $this->document_srl;
+			$output = executeQuery('document.getDocument', $args, $columnList);
+		}
 
 		if(!$document_item)
 		{
