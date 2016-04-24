@@ -288,6 +288,7 @@ class ExtraItem
 			//case 'email_address' :
 			//case 'text' :
 			//case 'textarea' :
+			//case 'password' :
 			default :
 				return htmlspecialchars($value, ENT_COMPAT | ENT_HTML401, 'UTF-8', false);
 		}
@@ -346,6 +347,7 @@ class ExtraItem
 				return $value;
 
 			// case 'text' :
+			// case 'password' :
 			default :
 				return $value;
 		}
@@ -470,6 +472,10 @@ class ExtraItem
 				{
 					$buff[] =  $oKrzipModel->getKrzipCodeSearchHtml($column_name, $value);
 				}
+				break;
+			// Password
+			case "password" :
+				$buff[] =' <input type="password" name="' . $column_name . '" value="' . ($value ? $value : $default) . '" class="password" />';
 				break;
 			// General text
 			default :

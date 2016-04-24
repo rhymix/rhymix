@@ -202,6 +202,7 @@ $lang->column_type_list['homepage'] = 'URL';
 $lang->column_type_list['email_address'] = 'Mél';
 $lang->column_type_list['tel'] = 'Numéro de Telephone';
 $lang->column_type_list['textarea'] = 'Texte en plusieurs lignes';
+$lang->column_type_list['password'] = 'Texte de mot de passe';
 $lang->column_type_list['select'] = 'Case d\'option(seul choix)';
 $lang->column_type_list['checkbox'] = 'Case à cocher(multichoix)';
 $lang->column_type_list['kr_zip'] = 'Code postal(coréen)';
