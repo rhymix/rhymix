@@ -255,6 +255,7 @@ $lang->column_type_list['homepage'] = 'Url-Adresse';
 $lang->column_type_list['email_address'] = 'E-Mail';
 $lang->column_type_list['tel'] = 'Telefonnummer';
 $lang->column_type_list['textarea'] = 'Mehrere Zeilen Text';
+$lang->column_type_list['password'] = 'Passwort Text';
 $lang->column_type_list['radio'] = 'Radiobutton';
 $lang->column_type_list['select'] = 'Nur eine Auswahl';
 $lang->column_type_list['checkbox'] = 'Multiple Auswahl';

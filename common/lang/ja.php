@@ -266,6 +266,7 @@ $lang->column_type_list['homepage'] = 'URLタイプ(url)';
 $lang->column_type_list['email_address'] = 'メールアドレスタイプ(email)';
 $lang->column_type_list['tel'] = '電話番号タイプ(phone)';
 $lang->column_type_list['textarea'] = 'テキストエリア(textarea)';
+$lang->column_type_list['password'] = 'パスワードフィールド(password)';
 $lang->column_type_list['radio'] = 'ラジオボタン(radio)';
 $lang->column_type_list['select'] = 'ひとつ選択(select)';
 $lang->column_type_list['checkbox'] = 'チェックボックス(checkbox)';

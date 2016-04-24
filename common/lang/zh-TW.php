@@ -249,6 +249,7 @@ $lang->column_type_list['homepage'] = '網址格式';
 $lang->column_type_list['email_address'] = '電子郵件';
 $lang->column_type_list['tel'] = '電話號碼格式(phone)';
 $lang->column_type_list['textarea'] = '文字區域(textarea)';
+$lang->column_type_list['password'] = '密碼輸入(password)';
 $lang->column_type_list['radio'] = '選項按紐(radio)';
 $lang->column_type_list['select'] = '下拉式選單(select)';
 $lang->column_type_list['checkbox'] = '核取方塊(checkbox)';
