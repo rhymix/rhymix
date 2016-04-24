@@ -258,6 +258,13 @@ class layoutModel extends layout
 	 */
 	function getLayout($layout_srl)
 	{
+		// Get information from cache
+		$layout_info = Rhymix\Framework\Cache::get("layout:$layout_srl");
+		if ($layout_info !== null)
+		{
+			return $layout_info;
+		}
+		
 		// Get information from the DB
 		$args = new stdClass();
 		$args->layout_srl = $layout_srl;
@@ -267,6 +274,8 @@ class layoutModel extends layout
 		// Return xml file informaton after listing up the layout and extra_vars
 		$layout_info = $this->getLayoutInfo($layout, $output->data, $output->data->layout_type);
 
+		// Store in cache
+		Rhymix\Framework\Cache::set("layout:$layout_srl", $layout_info);
 		return $layout_info;
 	}
 
@@ -484,7 +493,7 @@ class layoutModel extends layout
 		{
 			$cache_file = $this->getUserLayoutCache($layout_srl, Context::getLangType());
 		}
-
+		
 		if(file_exists($cache_file)&&filemtime($cache_file)>filemtime($xml_file))
 		{
 			include($cache_file);
