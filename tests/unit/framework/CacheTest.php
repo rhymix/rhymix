@@ -38,18 +38,27 @@ class CacheTest extends \Codeception\TestCase\Test
 		$this->assertContains('sqlite', $drivers);
 	}
 	
-	public function testGetCacheDriver()
+	public function testGetDriverName()
 	{
-		$driver = Rhymix\Framework\Cache::getCacheDriver('dummy');
+		$driver = Rhymix\Framework\Cache::init(array('type' => 'dummy'));
+		$this->assertEquals('dummy', Rhymix\Framework\Cache::getDriverName());
+		
+		$driver = Rhymix\Framework\Cache::init(array('type' => 'sqlite'));
+		$this->assertEquals('sqlite', Rhymix\Framework\Cache::getDriverName());
+	}
+	
+	public function testGetDriverInstance()
+	{
+		$driver = Rhymix\Framework\Cache::getDriverInstance('dummy');
 		$this->assertTrue($driver instanceof Rhymix\Framework\Drivers\Cache\Dummy);
 		
-		$driver = Rhymix\Framework\Cache::getCacheDriver();
+		$driver = Rhymix\Framework\Cache::getDriverInstance();
 		$this->assertTrue($driver instanceof Rhymix\Framework\Drivers\Cache\File);
 	}
 	
-	public function testGetCachePrefix()
+	public function testGetPrefix()
 	{
-		$prefix = Rhymix\Framework\Cache::getCachePrefix();
+		$prefix = Rhymix\Framework\Cache::getPrefix();
 		$this->assertEquals(\RX_VERSION . ':', $prefix);
 	}
 	
@@ -99,12 +108,12 @@ class CacheTest extends \Codeception\TestCase\Test
 		Rhymix\Framework\Cache::init(array('type' => 'sqlite'));
 		Rhymix\Framework\Cache::set('foo', 'foo');
 		Rhymix\Framework\Cache::set('bar', 42);
-		$prefix = Rhymix\Framework\Cache::getCachePrefix();
+		$prefix = Rhymix\Framework\Cache::getPrefix();
 		
-		$this->assertEquals(1, Rhymix\Framework\Cache::getCacheDriver()->incr($prefix . 'foo', 1));
-		$this->assertEquals(45, Rhymix\Framework\Cache::getCacheDriver()->incr($prefix . 'bar', 3));
-		$this->assertEquals(-1, Rhymix\Framework\Cache::getCacheDriver()->decr($prefix . 'foo', 2));
-		$this->assertEquals(49, Rhymix\Framework\Cache::getCacheDriver()->decr($prefix . 'bar', -4));
+		$this->assertEquals(1, Rhymix\Framework\Cache::getDriverInstance()->incr($prefix . 'foo', 1));
+		$this->assertEquals(45, Rhymix\Framework\Cache::getDriverInstance()->incr($prefix . 'bar', 3));
+		$this->assertEquals(-1, Rhymix\Framework\Cache::getDriverInstance()->decr($prefix . 'foo', 2));
+		$this->assertEquals(49, Rhymix\Framework\Cache::getDriverInstance()->decr($prefix . 'bar', -4));
 	}
 	
 	public function testClearAll()
@@ -118,25 +127,25 @@ class CacheTest extends \Codeception\TestCase\Test
 	public function testCacheGroups()
 	{
 		Rhymix\Framework\Cache::init(array('type' => 'sqlite'));
-		$prefix = Rhymix\Framework\Cache::getCachePrefix();
+		$prefix = Rhymix\Framework\Cache::getPrefix();
 		
 		$this->assertTrue(Rhymix\Framework\Cache::set('foobar:subkey:1234', 'rhymix'));
 		$this->assertTrue(Rhymix\Framework\Cache::exists('foobar:subkey:1234'));
 		$this->assertEquals('rhymix', Rhymix\Framework\Cache::get('foobar:subkey:1234'));
-		$this->assertEquals('rhymix', Rhymix\Framework\Cache::getCacheDriver()->get($prefix . 'foobar#0:subkey:1234'));
+		$this->assertEquals('rhymix', Rhymix\Framework\Cache::getDriverInstance()->get($prefix . 'foobar#0:subkey:1234'));
 		$this->assertEquals(0, Rhymix\Framework\Cache::getGroupVersion('foobar'));
 		
 		$this->assertTrue(Rhymix\Framework\Cache::clearGroup('foobar'));
 		$this->assertFalse(Rhymix\Framework\Cache::exists('foobar:subkey:1234'));
 		$this->assertTrue(Rhymix\Framework\Cache::set('foobar:subkey:1234', 'rhymix'));
-		$this->assertEquals('rhymix', Rhymix\Framework\Cache::getCacheDriver()->get($prefix . 'foobar#1:subkey:1234'));
+		$this->assertEquals('rhymix', Rhymix\Framework\Cache::getDriverInstance()->get($prefix . 'foobar#1:subkey:1234'));
 		$this->assertEquals(1, Rhymix\Framework\Cache::getGroupVersion('foobar'));
 	}
 	
 	public function testGetRealKey()
 	{
 		Rhymix\Framework\Cache::init(array('type' => 'sqlite'));
-		$prefix = Rhymix\Framework\Cache::getCachePrefix();
+		$prefix = Rhymix\Framework\Cache::getPrefix();
 		
 		$this->assertEquals($prefix . 'foo', Rhymix\Framework\Cache::getRealKey('foo'));
 		$this->assertEquals($prefix . 'bar#0:2016', Rhymix\Framework\Cache::getRealKey('bar:2016'));

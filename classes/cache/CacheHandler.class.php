@@ -49,7 +49,7 @@ class CacheHandler extends Handler
 	 */
 	public function isSupport()
 	{
-		return $this->_always_use_file || !(Rhymix\Framework\Cache::getCacheDriver() instanceof Rhymix\Framework\Drivers\Cache\Dummy);
+		return $this->_always_use_file || (Rhymix\Framework\Cache::getDriverName() !== 'dummy');
 	}
 
 	/**

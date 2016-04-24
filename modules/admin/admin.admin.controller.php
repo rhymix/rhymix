@@ -83,10 +83,9 @@ class adminAdminController extends admin
 		}
 
 		// remove object cache
-		$cache_driver = Rhymix\Framework\Cache::getCacheDriver();
-		if (!($cache_driver instanceof Rhymix\Framework\Drivers\Cache\File))
+		if (!in_array(Rhymix\Framework\Cache::getDriverName(), array('file', 'sqlite', 'dummy')))
 		{
-			$cache_driver->clear();
+			Rhymix\Framework\Cache::clearAll();
 		}
 
 		// remove old cache dir
@@ -679,7 +678,7 @@ class adminAdminController extends admin
 			{
 				$cache_servers = array();
 			}
-			if (!Rhymix\Framework\Cache::getCacheDriver($vars->object_cache_type, $cache_servers))
+			if (!Rhymix\Framework\Cache::getDriverInstance($vars->object_cache_type, $cache_servers))
 			{
 				return new Object(-1, 'msg_cache_handler_not_supported');
 			}

@@ -11,6 +11,7 @@ class Cache
 	 * The currently enabled cache driver.
 	 */
 	protected static $_driver = null;
+	protected static $_driver_name = null;
 	
 	/**
 	 * The cache prefix.
@@ -42,6 +43,7 @@ class Cache
 		
 		if (isset($config['type']))
 		{
+			$driver_name = $config['type'];
 			$class_name = '\\Rhymix\\Framework\\Drivers\\Cache\\' . $config['type'];
 			if (isset($config['ttl']))
 			{
@@ -51,20 +53,24 @@ class Cache
 		}
 		elseif (preg_match('/^(apc|dummy|file|memcache|redis|sqlite|wincache|xcache)/', strval(array_first($config)), $matches))
 		{
-			$class_name = '\\Rhymix\\Framework\\Drivers\\Cache\\' . $matches[1] . ($matches[1] === 'memcache' ? 'd' : '');
+			$driver_name = $matches[1] . ($matches[1] === 'memcache' ? 'd' : '');
+			$class_name = '\\Rhymix\\Framework\\Drivers\\Cache\\' . $driver_name;
 		}
 		else
 		{
+			$driver_name = null;
 			$class_name = null;
 		}
 		
-		if (class_exists($class_name) && $class_name::isSupported())
+		if ($class_name && class_exists($class_name) && $class_name::isSupported())
 		{
 			self::$_driver = new $class_name($config);
+			self::$_driver_name = strtolower($driver_name);
 		}
 		else
 		{
 			self::$_driver = new Drivers\Cache\Dummy(array());
+			self::$_driver_name = 'dummy';
 		}
 		
 		if (self::$_driver->prefix)
@@ -100,13 +106,23 @@ class Cache
 	}
 	
 	/**
+	 * Get the name of the currently enabled cache driver.
+	 * 
+	 * @return string|null
+	 */
+	public static function getDriverName()
+	{
+		return self::$_driver_name;
+	}
+	
+	/**
 	 * Get the currently enabled cache driver, or a named driver with the given settings.
 	 * 
 	 * @param string $name (optional)
 	 * @param array $config (optional)
 	 * @return object|null
 	 */
-	public static function getCacheDriver($name = null, array $config = [])
+	public static function getDriverInstance($name = null, array $config = [])
 	{
 		if ($name === null)
 		{
@@ -131,7 +147,7 @@ class Cache
 	 * 
 	 * @return object|null
 	 */
-	public static function getCachePrefix()
+	public static function getPrefix()
 	{
 		return self::$_prefix;
 	}
