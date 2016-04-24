@@ -50,10 +50,45 @@ class adminAdminView extends admin
 
 		$this->makeGnbUrl();
 
+		// Check system configuration
+		$this->checkSystemConfiguration();
+		
 		// Retrieve the list of installed modules
 		$this->checkEasyinstall();
 	}
 
+	/**
+	 * check system configuration
+	 * @return void
+	 */
+	function checkSystemConfiguration()
+	{
+		$changed = false;
+		
+		// Check encryption keys.
+		if (config('crypto.encryption_key') === null)
+		{
+			config('crypto.encryption_key', Rhymix\Framework\Security::getRandom(64, 'alnum'));
+			$changed = true;
+		}
+		if (config('crypto.authentication_key') === null)
+		{
+			config('crypto.authentication_key', Rhymix\Framework\Security::getRandom(64, 'alnum'));
+			$changed = true;
+		}
+		if (config('crypto.session_key') === null)
+		{
+			config('crypto.session_key', Rhymix\Framework\Security::getRandom(64, 'alnum'));
+			$changed = true;
+		}
+		
+		// Save new configuration.
+		if ($changed)
+		{
+			Rhymix\Framework\Config::save();
+		}
+	}
+	
 	/**
 	 * check easy install
 	 * @return void
