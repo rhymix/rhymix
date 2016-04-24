@@ -1325,7 +1325,7 @@ class documentController extends document
 		// Pass if the author's IP address is as same as visitor's.
 		if($oDocument->get('ipaddress') == $_SERVER['REMOTE_ADDR'])
 		{
-			$_SESSION['voted_document'][$document_srl] = true;
+			$_SESSION['voted_document'][$document_srl] = false;
 			return new Object(-1, $failed_voted);
 		}
 
@@ -1339,7 +1339,7 @@ class documentController extends document
 			// Pass after registering a session if author's information is same as the currently logged-in user's.
 			if($member_srl && $member_srl == $oDocument->get('member_srl'))
 			{
-				$_SESSION['voted_document'][$document_srl] = true;
+				$_SESSION['voted_document'][$document_srl] = false;
 				return new Object(-1, $failed_voted);
 			}
 		}
@@ -1359,7 +1359,7 @@ class documentController extends document
 		// Pass after registering a session if log information has vote-up logs
 		if($output->data->count)
 		{
-			$_SESSION['voted_document'][$document_srl] = true;
+			$_SESSION['voted_document'][$document_srl] = false;
 			return new Object(-1, $failed_voted);
 		}
 

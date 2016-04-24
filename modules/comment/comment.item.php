@@ -284,12 +284,13 @@ class commentItem extends Object
 	function getVote()
 	{
 		if(!$this->comment_srl) return false;
-		if($_SESSION['voted_comment'][$this->comment_srl])
+		if(isset($_SESSION['voted_comment'][$this->comment_srl]))
 		{
 			return $_SESSION['voted_comment'][$this->comment_srl];
 		}
 
 		$logged_info = Context::get('logged_info');
+		if(!$logged_info->member_srl) return false;
 
 		$args = new stdClass();
 		$args->member_srl = $logged_info->member_srl;
@@ -298,10 +299,10 @@ class commentItem extends Object
 
 		if($output->data->point)
 		{
-			return $output->data->point;
+			return $_SESSION['voted_comment'][$this->comment_srl] = $output->data->point;
 		}
 
-		return false;
+		return $_SESSION['voted_comment'][$this->comment_srl] = false;
 	}
 
 	/**

@@ -1,0 +1,13 @@
+<query id="getCommentVotedLog" action="select">
+	<tables>
+		<table name="comment_voted_log" />
+	</tables>
+	<columns>
+		<column name="comment_srl" />
+		<column name="point" />
+	</columns>
+	<conditions>
+		<condition operation="in" column="comment_srl" var="comment_srls" filter="number" notnull="notnull" />
+		<condition operation="equal" column="member_srl" var="member_srl" filter="number" pipe="and" />
+	</conditions>
+</query>
