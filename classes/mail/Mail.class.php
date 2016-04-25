@@ -1,36 +1,12 @@
 <?php
 
 /**
- * Mail class
+ * Mail class for XE Compatibility
  * 
  * @author Kijin Sung <kijin@kijinsung.com>
  */
-class Mail
+class Mail extends Rhymix\Framework\Mail
 {
-	/**
-	 * Properties for compatibility with XE Mail class
-	 */
-	public $content = '';
-	public $content_type = 'html';
-	public $attachments = array();
-	public $cidAttachments = array();
-	
-	/**
-	 * Properties used by Advanced Mailer
-	 */
-	public $error = null;
-	public $caller = null;
-	public $message = null;
-	public static $transport = null;
-	
-	/**
-	 * Constructor
-	 */
-	public function __construct()
-	{
-		$this->message = \Swift_Message::newInstance();
-	}
-	
 	/**
 	 * Set parameters for using Gmail
 	 *
@@ -57,14 +33,13 @@ class Mail
 	 */
 	public static function useSMTP($auth = null, $host = null, $user = null, $pass = null, $secure = null, $port = 25)
 	{
-		self::$transport = \Swift_SmtpTransport::newInstance($host, $port, $secure);
-		self::$transport->setUsername($user);
-		self::$transport->setPassword($pass);
-		$local_domain = self::$transport->getLocalDomain();
-		if (preg_match('/^\*\.(.+)$/', $local_domain, $matches))
-		{
-			self::$transport->setLocalDomain($matches[1]);
-		}
+		self::$default_transport = Rhymix\Framework\Drivers\Mail\SMTP::getInstance(array(
+			'host' => $host,
+			'port' => $port,
+			'secure' => $secure,
+			'user' => $user,
+			'pass' => $pass,
+		));
 	}
 	
 	/**
@@ -76,7 +51,7 @@ class Mail
 	}
 	
 	/**
-	 * Set Sender (From:)
+	 * Set the sender (From:).
 	 *
 	 * @param string $name Sender name
 	 * @param string $email Sender email address
@@ -84,36 +59,17 @@ class Mail
 	 */
 	public function setSender($name, $email)
 	{
-		try
-		{
-			$this->message->setFrom(array($email => $name));
-		}
-		catch (\Exception $e)
-		{
-			$this->errors[] = array($e->getMessage());
-		}
+		$this->setFrom($email, $name ?: null);
 	}
 	
 	/**
-	 * Get Sender (From:)
+	 * Get the sender.
 	 *
 	 * @return string
 	 */
 	public function getSender()
 	{
-		$from = $this->message->getFrom();
-		foreach($from as $email => $name)
-		{
-			if($name === '')
-			{
-				return $email;
-			}
-			else
-			{
-				return $name . ' <' . $email . '>';
-			}
-		}
-		return FALSE;
+		return $this->getFrom() ?: false;
 	}
 	
 	/**
@@ -125,14 +81,7 @@ class Mail
 	 */
 	public function setReceiptor($name, $email)
 	{
-		try
-		{
-			$this->message->setTo(array($email => $name));
-		}
-		catch (\Exception $e)
-		{
-			$this->errors[] = array($e->getMessage());
-		}
+		return $this->addTo($email, $name ?: null);
 	}
 	
 	/**
@@ -142,19 +91,8 @@ class Mail
 	 */
 	public function getReceiptor()
 	{
-		$to = $this->message->getTo();
-		foreach($to as $email => $name)
-		{
-			if($name === '')
-			{
-				return $email;
-			}
-			else
-			{
-				return $name . ' <' . $email . '>';
-			}
-		}
-		return FALSE;
+		$list = $this->getRecipients();
+		return $list ? array_first($list) : false;
 	}
 	
 	/**
@@ -165,7 +103,7 @@ class Mail
 	 */
 	public function setTitle($subject)
 	{
-		$this->message->setSubject(strval($subject));
+		return $this->setSubject($subject);
 	}
 	
 	/**
@@ -175,7 +113,7 @@ class Mail
 	 */
 	public function getTitle()
 	{
-		return $this->message->getSubject();
+		return $this->getSubject();
 	}
 	
 	/**
@@ -186,96 +124,7 @@ class Mail
 	 */
 	public function setBCC($bcc)
 	{
-		try
-		{
-			$this->message->setBcc(array($bcc));
-		}
-		catch (\Exception $e)
-		{
-			$this->errors[] = array($e->getMessage());
-		}
-	}
-	
-	/**
-	 * Set ReplyTo
-	 *
-	 * @param string $replyTo
-	 * @return void
-	 */
-	public function setReplyTo($replyTo)
-	{
-		try
-		{
-			$this->message->setReplyTo(array($replyTo));
-		}
-		catch (\Exception $e)
-		{
-			$this->errors[] = array($e->getMessage());
-		}
-	}
-	
-	/**
-	 * Set Return Path
-	 *
-	 * @param string $returnPath
-	 * @return void
-	 */
-	public function setReturnPath($returnPath)
-	{
-		try
-		{
-			$this->message->setReturnPath($returnPath);
-		}
-		catch (\Exception $e)
-		{
-			$this->errors[] = array($e->getMessage());
-		}
-	}
-	
-	/**
-	 * Set Message ID
-	 *
-	 * @param string $messageId
-	 * @return void
-	 */
-	public function setMessageID($messageId)
-	{
-		$this->message->getHeaders()->get('Message-ID')->setId($messageId);
-	}
-	
-	/**
-	 * Set references
-	 *
-	 * @param string $references
-	 * @return void
-	 */
-	public function setReferences($references)
-	{
-		$headers = $this->message->getHeaders();
-		$headers->addTextHeader('References', $references);
-	}
-	
-	/**
-	 * Set message content
-	 *
-	 * @param string $content Content
-	 * @return void
-	 */
-	public function setContent($content)
-	{
-		$content = preg_replace_callback('/<img([^>]+)>/i', array($this, 'replaceResourceRealPath'), $content);
-		$this->content = $content;
-	}
-	
-	/**
-	 * Set the type of message content (html or plain text)
-	 * 
-	 * @param string $mode The type
-	 * @return void
-	 */
-	public function setContentType($type = 'html')
-	{
-		$this->content_type = $type === 'html' ? 'html' : '';
+		return $this->addBcc($bcc);
 	}
 	
 	/**
@@ -285,7 +134,7 @@ class Mail
 	 */
 	public function getPlainContent()
 	{
-		return chunk_split(base64_encode(str_replace(array("<", ">", "&"), array("&lt;", "&gt;", "&amp;"), $this->content)));
+		return chunk_split(base64_encode(str_replace(array("<", ">", "&"), array("&lt;", "&gt;", "&amp;"), $this->message->getBody())));
 	}
 	
 	/**
@@ -295,7 +144,7 @@ class Mail
 	 */
 	public function getHTMLContent()
 	{
-		return chunk_split(base64_encode($this->content_type != 'html' ? nl2br($this->content) : $this->content));
+		return chunk_split(base64_encode($this->content_type != 'text/html' ? nl2br($this->message->getBody()) : $this->message->getBody()));
 	}
 	
 	/**
@@ -307,7 +156,7 @@ class Mail
 	 */
 	public function addAttachment($filename, $original_filename)
 	{
-		$this->attachments[$original_filename] = $filename;
+		return $this->attach($original_filename, $filename);
 	}
 	
 	/**
@@ -317,21 +166,9 @@ class Mail
 	 * @param string $cid Content-CID
 	 * @return void
 	 */
-	public function addCidAttachment($original_filename, $cid)
+	public function addCidAttachment($original_filename, $cid = null)
 	{
-		$this->cidAttachments[$cid] = $original_filename;
-	}
-	
-	/**
-	 * Replace resourse path of the files
-	 *
-	 * @see Mail::setContent()
-	 * @param array $matches Match info.
-	 * @return string
-	 */
-	public function replaceResourceRealPath($matches)
-	{
-		return preg_replace('/src=(["\']?)files/i', 'src=$1' . \Context::getRequestUri() . 'files', $matches[0]);
+		return $this->embed($original_filename, $cid);
 	}
 	
 	/**
@@ -352,59 +189,6 @@ class Mail
 	public function procCidAttachments()
 	{
 		// no-op
-	}
-	
-	/**
-	 * Process the message before sending
-	 * 
-	 * @return void
-	 */
-	public function procAssembleMessage()
-	{
-		// Add all attachments
-		foreach($this->attachments as $original_filename => $filename)
-		{
-			$attachment = \Swift_Attachment::fromPath($original_filename);
-			$attachment->setFilename($filename);
-			$this->message->attach($attachment);
-		}
-		
-		// Add all CID attachments
-		foreach($this->cidAttachments as $cid => $original_filename)
-		{
-			$embedded = \Swift_EmbeddedFile::fromPath($original_filename);
-			$newcid = $this->message->embed($embedded);
-			$this->content = str_replace(array("cid:$cid", $cid), $newcid, $this->content);
-		}
-		
-		// Set content type
-		$content_type = $this->content_type === 'html' ? 'text/html' : 'text/plain';
-		$this->message->setBody($this->content, $content_type);
-	}
-	
-	/**
-	 * Send email
-	 * 
-	 * @return bool
-	 */
-	public function send()
-	{
-		try
-		{
-			$this->procAssembleMessage();
-			if(!self::$transport)
-			{
-				self::$transport = \Swift_MailTransport::newInstance();
-			}
-			$mailer = \Swift_Mailer::newInstance(self::$transport);
-			$result = $mailer->send($this->message, $this->errors);
-			return (bool)$result;
-		}
-		catch(\Exception $e)		
-		{
-			$this->error = $e->getMessage();
-			return false;
-		}
 	}
 	
 	/**

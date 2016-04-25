@@ -68,6 +68,7 @@ return array(
 		'smtp_pass' => null,
 		'api_domain' => null,
 		'api_token' => null,
+		'api_type' => null,
 		'api_user' => null,
 		'api_pass' => null,
 	),
