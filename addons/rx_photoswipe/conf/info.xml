@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<addon version="0.2">
+	<title xml:lang="ko">라이믹스 넘겨보는 사진</title>
+	<title xml:lang="en">Rx PhotoSwipe</title>
+	<description xml:lang="ko">
+		본문 이미지를 하나의 갤러리 처럼 볼 수 있도록 하는 애드온입니다.
+	</description>
+	<description xml:lang="en">
+		Swipe your images of an document on your screens.
+	</description>
+	<version>1.0</version>
+	<date>2016-04-23</date>
+
+	<author email_address="misol.kr@gmail.com" link="https://misol.kr/">
+		<name xml:lang="ko">misol</name>
+		<name xml:lang="en">misol</name>
+	</author>
+</addon>
