@@ -88,7 +88,7 @@ class boardController extends board
 				$obj->member_srl = -1*$logged_info->member_srl;
 			}
 			$obj->email_address = $obj->homepage = $obj->user_id = '';
-			$obj->user_name = $obj->nick_name = 'anonymous';
+			$obj->user_name = $obj->nick_name = $this->createAnonymousNickname($this->module_info->anonymous_name ?: 'anonymous', $logged_info);
 			$bAnonymous = true;
 			if($is_update===false)
 			{
@@ -187,7 +187,7 @@ class boardController extends board
 				$oMail = new Mail();
 				$oMail->setTitle($obj->title);
 				$oMail->setContent( sprintf("From : <a href=\"%s\">%s</a><br/>\r\n%s", getFullUrl('','document_srl',$obj->document_srl), getFullUrl('','document_srl',$obj->document_srl), $obj->content));
-				$oMail->setSender($obj->user_name ? $obj->user_name : 'anonymous', $obj->email_address ? $obj->email_address : $member_config->webmaster_email);
+				$oMail->setSender($obj->user_name ?: null, $obj->email_address ? $obj->email_address : $member_config->webmaster_email);
 
 				$target_mail = explode(',',$this->module_info->admin_mail);
 				for($i=0;$i<count($target_mail);$i++)
@@ -367,7 +367,7 @@ class boardController extends board
 			$obj->notify_message = 'N';
 			$obj->member_srl = -1*$logged_info->member_srl;
 			$obj->email_address = $obj->homepage = $obj->user_id = '';
-			$obj->user_name = $obj->nick_name = 'anonymous';
+			$obj->user_name = $obj->nick_name = $this->createAnonymousNickname($this->module_info->anonymous_name ?: 'anonymous', $logged_info);
 			$bAnonymous = true;
 		}
 		else
@@ -631,5 +631,26 @@ class boardController extends board
 		$oMemberController->addMemberPopupMenu($url, 'cmd_view_own_document', '');
 
 		return new Object();
+	}
+	
+	/**
+	 * Create an anonymous nickname.
+	 * 
+	 * @param string $format
+	 * @param object $logged_info
+	 * @return string
+	 */
+	public function createAnonymousNickname($format, $logged_info)
+	{
+		if (strpos($format, '$NUM') === false)
+		{
+			return $format;
+		}
+		else
+		{
+			$num = hash_hmac('sha256', $logged_info->member_srl ?: \RX_CLIENT_IP, config('crypto.authentication_key'));
+			$num = sprintf('%08d', hexdec(substr($num, 0, 8)) % 100000000);
+			return strtr($format, array('$NUM' => $num));
+		}
 	}
 }
