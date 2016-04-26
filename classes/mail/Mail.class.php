@@ -33,13 +33,13 @@ class Mail extends Rhymix\Framework\Mail
 	 */
 	public static function useSMTP($auth = null, $host = null, $user = null, $pass = null, $secure = null, $port = 25)
 	{
-		self::$default_transport = Rhymix\Framework\Drivers\Mail\SMTP::getInstance(array(
+		self::setDefaultDriver(Rhymix\Framework\Drivers\Mail\SMTP::getInstance(array(
 			'host' => $host,
 			'port' => $port,
 			'secure' => $secure,
 			'user' => $user,
 			'pass' => $pass,
-		));
+		)));
 	}
 	
 	/**

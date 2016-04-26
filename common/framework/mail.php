@@ -19,32 +19,40 @@ class Mail
 	/**
 	 * Static properties.
 	 */
-	public static $default_transport = null;
+	public static $default_driver = null;
+	public static $custom_drivers = array();
 	
 	/**
-	 * Set the default transport.
+	 * Set the default driver.
 	 * 
-	 * @param object $transport
+	 * @param object $driver
 	 * @return void
 	 */
-	public static function setDefaultTransport(Drivers\MailInterface $transport)
+	public static function setDefaultDriver(Drivers\MailInterface $driver)
 	{
-		self::$default_transport = $transport;
+		self::$default_driver = $driver;
 	}
 	
 	/**
-	 * Get the default transport.
+	 * Get the default driver.
 	 * 
-	 * @param object $transport
-	 * @return void
+	 * @return object
 	 */
-	public static function getDefaultTransport()
+	public static function getDefaultDriver()
 	{
-		if (!self::$default_transport)
+		if (!self::$default_driver)
 		{
-			self::$default_transport = Drivers\Mail\MailFunction::getInstance();
+			self::$default_driver = Drivers\Mail\MailFunction::getInstance();
 		}
-		return self::$default_transport;
+		return self::$default_driver;
+	}
+	
+	/**
+	 * Add a custom mail driver.
+	 */
+	public static function addDriver(Drivers\MailInterface $driver)
+	{
+		self::$custom_drivers[] = $driver;
 	}
 	
 	/**
@@ -64,6 +72,15 @@ class Mail
 				$result[] = $driver_name;
 			}
 		}
+		foreach (self::$custom_drivers as $driver)
+		{
+			if ($driver->isSupported())
+			{
+				$result[] = strtolower(class_basename($driver));
+			}
+		}
+		$result = array_unique($result);
+		sort($result);
 		return $result;
 	}
 	
@@ -73,7 +90,7 @@ class Mail
 	public function __construct()
 	{
 		$this->message = \Swift_Message::newInstance();
-		$this->driver = self::getDefaultTransport();
+		$this->driver = self::getDefaultDriver();
 	}
 	
 	/**
