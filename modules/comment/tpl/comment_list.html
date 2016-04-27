@@ -54,9 +54,9 @@ xe.lang.msg_empty_search_keyword = '{$lang->msg_empty_search_keyword}';
 					<a href="{getUrl('','document_srl',$val->document_srl)}#comment_{$val->comment_srl}" target="_blank"><!--@if(strlen($comment))-->{$comment}<!--@else--><em>{$lang->no_text_comment}</em><!--@end--></a>
 				</td>
 				<td class="nowr">
-					<span cond="$val->get('member_srl') == 0">{$val->getNickName()}</span>
+					<span cond="$val->get('member_srl') <= 0">{$val->getNickName()}</span>
+					<a href="#popup_menu_area" class="member_{abs($val->get('member_srl'))}" cond="$val->get('member_srl') < 0">({$member_nick_name[abs($val->get('member_srl'))]})</a>
 					<a href="#popup_menu_area" class="member_{$val->get('member_srl')}" cond="$val->get('member_srl') > 0">{$val->getNickName()}</a>
-					<a href="#popup_menu_area" class="member_{abs($val->get('member_srl'))}" cond="$val->get('member_srl') < 0 && $member_nick_name[abs($val->get('member_srl'))]">({$lang->anonymous}) {$member_nick_name[abs($val->get('member_srl'))]}</a>
 				</td>
 				<td class="nowr">{number_format($val->get('voted_count'))}/{number_format($val->get('blamed_count'))}</td>
 				<td class="nowr">{(zdate($val->regdate,"Y-m-d\nH:i:s"))}</td>
