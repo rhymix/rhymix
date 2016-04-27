@@ -1,4 +1,4 @@
-<query id="getDocumentSrlByAlias" action="select">
+<query id="getDocumentSrlByTitle" action="select">
     <tables>
         <table name="documents" />
         <table name="modules" />
