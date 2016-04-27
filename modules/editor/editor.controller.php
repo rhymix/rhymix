@@ -186,15 +186,35 @@ class editorController extends editor
 			}
 			$content_font = $editor_config->content_font;
 			$content_font_size = $editor_config->content_font_size;
-			if($content_font || $content_font_size)
+			$content_line_height = $editor_config->content_line_height;
+			$content_paragraph_spacing = $editor_config->content_paragraph_spacing;
+			$content_word_break = $editor_config->content_word_break;
+			$buff = array();
+			$buff[] = '<style> .xe_content {';
+			if ($content_font)
 			{
-				$buff = array();
-				$buff[] = '<style> .xe_content { ';
-				if($content_font) $buff[] = 'font-family:'.$content_font.';';
-				if($content_font_size) $buff[] = 'font-size:'.$content_font_size.';';
-				$buff[] = ' }</style>';
-				Context::addHtmlHeader(implode('', $buff));
+				$buff[] = "font-family: $content_font;";
 			}
+			if ($content_font_size)
+			{
+				$buff[] = "font-size: $content_font_size;";
+			}
+			if ($content_line_height)
+			{
+				$buff[] = "line-height: $content_line_height;";
+			}
+			if ($content_word_break === 'none')
+			{
+				$buff[] = 'white-space: nowrap;';
+			}
+			else
+			{
+				$buff[] = 'word-break: ' . ($content_word_break ?: 'normal') . '; word-wrap: break-word;';
+			}
+			$buff[] = '}';
+			if ($content_paragraph_spacing) $buff[] = ".xe_content p { margin: 0 0 $content_paragraph_spacing 0; }";
+			$buff[] = '</style>';
+			Context::addHtmlHeader(implode(' ', $buff));
 		}
 
 		$content = $this->transComponent($content);

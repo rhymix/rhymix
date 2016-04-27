@@ -14,17 +14,14 @@ var auto_saved_msg = "{$lang->msg_auto_saved}";
 
 {@ $css_content = null }
 <!--@if($content_font || $content_font_size)-->
-	<!--@if($content_style === 'ckeditor_light')-->{@ $css_content = '.xe_content.editable p { margin: 0;'. chr(125); }<!--@endif-->
-
 	{@ $css_content .= ' .xe_content.editable { '}
-	<block cond="$content_font">
-	{@ $css_content .= 'font-family:' . $content_font . ';';}
-	</block>
-
-	<block cond="$content_font_size">
-	{@ $css_content .= 'font-size:' . $content_font_size . ';';}
-	</block>
+	<block cond="$content_font">{@ $css_content .= 'font-family:' . $content_font . ';';}</block>
+	<block cond="$content_font_size">{@ $css_content .= 'font-size:' . $content_font_size . ';';}</block>
+	<block cond="$content_line_height">{@ $css_content .= 'line-height:' . $content_line_height . ';';}</block>
+	<block cond="$content_word_break === 'none'">{@ $css_content .= 'white-space: nowrap;';}</block>
+	<block cond="$content_word_break !== 'none'">{@ $css_content .= 'word-break:' . ($content_word_break ?: 'normal') . '; word-wrap: break-word;';}</block>
 	{@ $css_content .= chr(125);}
+	<block cond="$content_paragraph_spacing">{@ $css_content .= '.xe_content.editable p { margin: 0 0 ' . $content_paragraph_spacing . ' 0;' . chr(125);}</block>
 <!--@endif-->
 
 <!--@if($enable_autosave)-->
@@ -52,7 +49,7 @@ var auto_saved_msg = "{$lang->msg_auto_saved}";
 			ckeconfig: {
 				height: '{$editor_height}',
 				skin: '{$colorset}',
-				contentsCss: '{$content_style_path}/editor.css',
+				contentsCss: '{$content_style_path}/editor.css?{date("YmdHis", @filemtime($content_style_path."/editor.css"))}',
 				xe_editor_sequence: {$editor_sequence},
 				toolbarCanCollapse: true,
 				language: "{str_replace('jp','ja',$lang_type)}"

@@ -9,8 +9,16 @@ $lang->guide_set_height_main_editor = '본문 에디터 높이';
 $lang->guide_choose_comment_editor = '댓글 에디터';
 $lang->guide_set_height_comment_editor = '댓글 에디터 높이';
 $lang->guide_choose_text_formatting = '본문 서식';
+$lang->guide_choose_font_preview = '미리보기';
 $lang->guide_choose_font_body = '본문 글꼴';
-$lang->guide_choose_font_size_body = '본문 글꼴크기';
+$lang->guide_choose_font_size_body = '글꼴 크기';
+$lang->guide_choose_line_height = '줄 간격';
+$lang->guide_choose_paragraph_spacing = '문단 간격';
+$lang->guide_choose_word_break = '줄바꿈 방식';
+$lang->word_break_normal = '한글은 글자 단위로 줄바꿈, 영문은 단어 단위로 줄바꿈 (기본값)';
+$lang->word_break_keep_all = '모든 언어를 단어 단위로 줄바꿈';
+$lang->word_break_break_all = '모든 언어를 글자 단위로 줄바꿈';
+$lang->word_break_none = '줄을 바꾸지 않음';
 $lang->font_preview = 'The quick brown fox jumps over the lazy dog.
 いろはにほへと / ちりぬるを / わかよたれそ / つねならむ / うゐのおくやま / けふこえて / あさきゆめみし / ゑひもせす
 키스의 고유 조건은 입술끼리 만나야 하고 특별한 기술은 필요치 않다.';
