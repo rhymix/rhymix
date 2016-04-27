@@ -1154,7 +1154,10 @@ class memberController extends member
 		
 		// Call a trigger (before)
 		$trigger_output = ModuleHandler::triggerCall('member.procMemberAuthAccount', 'before', $args);
-		if(!$trigger_output->toBool()) return $trigger_output;
+		if(!$trigger_output->toBool())
+		{
+			return $trigger_output;
+		}
 		
 		$output = executeQuery('member.getAuthMail', $args);
 
@@ -1202,7 +1205,10 @@ class memberController extends member
 
 		// Call a trigger (after)
 		$trigger_output = ModuleHandler::triggerCall('member.procMemberAuthAccount', 'after', $args);
-		if(!$trigger_output->toBool()) return $trigger_output;
+		if(!$trigger_output->toBool())
+		{
+			return $trigger_output;
+		}
 		
 		// Notify the result
 		Context::set('is_register', $is_register);
