@@ -46,45 +46,54 @@ class editorModel extends editor
 		if(!is_array($editor_config->enable_component_grant)) $editor_config->enable_component_grant = array();
 		if(!is_array($editor_config->enable_comment_component_grant)) $editor_config->enable_comment_component_grant= array();
 
-		if(!$editor_config->editor_height)
+		if($editor_config->default_editor_settings !== 'Y' && $editor_default_config->editor_skin && $editor_config->editor_skin && $editor_default_config->editor_skin !== $editor_config->editor_skin)
+		{
+			$editor_config->default_editor_settings = 'N';
+		}
+		if(!$editor_config->default_editor_settings)
+		{
+			$editor_config->default_editor_settings = 'Y';
+		}
+
+		if(!$editor_config->editor_height || $editor_config->default_editor_settings === 'Y')
 		{
 			$editor_config->editor_height = ($editor_default_config->editor_height) ? $editor_default_config->editor_height : 500;
 		}
-		if(!$editor_config->comment_editor_height)
+		if(!$editor_config->comment_editor_height || $editor_config->default_editor_settings === 'Y')
 		{
 			$editor_config->comment_editor_height = ($editor_default_config->comment_editor_height) ? $editor_default_config->comment_editor_height : 120;
 		}
-		if(!$editor_config->editor_skin)
+		if(!$editor_config->editor_skin || $editor_config->default_editor_settings === 'Y')
 		{
 			$editor_config->editor_skin = ($editor_default_config->editor_skin) ? $editor_default_config->editor_skin : 'ckeditor';
 		}
-		if(!$editor_config->comment_editor_skin)
+		if(!$editor_config->comment_editor_skin || $editor_config->default_editor_settings === 'Y')
 		{
 			$editor_config->comment_editor_skin = ($editor_default_config->comment_editor_skin) ? $editor_default_config->comment_editor_skin : 'ckeditor';
 		}
-		if(!$editor_config->content_style)
+		if(!$editor_config->content_style || $editor_config->default_editor_settings === 'Y')
 		{
 			$editor_config->content_style = ($editor_default_config->content_style) ? $editor_default_config->content_style : 'ckeditor_light';
 		}
-		if(!$editor_config->content_font && $editor_default_config->content_font)
+		if((!$editor_config->content_font && $editor_default_config->content_font) || $editor_config->default_editor_settings === 'Y')
 		{
 			$editor_config->content_font = $editor_default_config->content_font;
 		}
-		if(!$editor_config->content_font_size && $editor_default_config->content_font_size)
+		if((!$editor_config->content_font_size && $editor_default_config->content_font_size) || $editor_config->default_editor_settings === 'Y')
 		{
 			$editor_config->content_font_size = $editor_default_config->content_font_size;
 		}
-		if(!$editor_config->sel_editor_colorset && $editor_default_config->sel_editor_colorset)
+		if((!$editor_config->sel_editor_colorset && $editor_default_config->sel_editor_colorset) || $editor_config->default_editor_settings === 'Y')
 		{
 			$editor_config->sel_editor_colorset = $editor_default_config->sel_editor_colorset;
 		}
-		if(!$editor_config->sel_comment_editor_colorset && $editor_default_config->sel_comment_editor_colorset)
+		if((!$editor_config->sel_comment_editor_colorset && $editor_default_config->sel_comment_editor_colorset) || $editor_config->default_editor_settings === 'Y')
 		{
 			$editor_config->sel_comment_editor_colorset = $editor_default_config->sel_comment_editor_colorset;
 		}
-		if(!$editor_config->comment_content_style && $editor_default_config->comment_content_style)
+		if(!$editor_config->comment_content_style || $editor_config->default_editor_settings === 'Y')
 		{
-			$editor_config->comment_content_style = $editor_default_config->comment_content_style;
+			$editor_config->comment_content_style = ($editor_default_config->comment_content_style) ? $editor_default_config->comment_content_style : 'ckeditor_light';
 		}
 
 		return $editor_config;
