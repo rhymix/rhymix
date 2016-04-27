@@ -108,7 +108,7 @@ class editorView extends editor
 			$info = $oModuleModel->loadSkinInfo($this->module_path,$style,'styles');
 			$content_style_list[$style] = new stdClass();
 			$content_style_list[$style]->title = $info->title;
-		}			
+		}
 		Context::set('content_style_list', $content_style_list);
 		// Get a group list
 		$oMemberModel = getModel('member');
@@ -121,7 +121,7 @@ class editorView extends editor
 		$security->encodeHTML('group_list..title');
 		$security->encodeHTML('group_list..description');
 		$security->encodeHTML('content_style_list..');
-		$security->encodeHTML('editor_comment_colorset_list..title');			
+		$security->encodeHTML('editor_comment_colorset_list..title');
 
 		// Set a template file
 		$oTemplate = &TemplateHandler::getInstance();

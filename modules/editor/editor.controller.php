@@ -86,6 +86,8 @@ class editorController extends editor
 		else $module_srl = array($module_srl);
 
 		$editor_config = new stdClass;
+		$editor_config->default_editor_settings = Context::get('default_editor_settings');
+		if($editor_config->default_editor_settings !== 'Y') $editor_config->default_editor_settings = 'N';
 		$editor_config->editor_skin = Context::get('editor_skin');
 		$editor_config->comment_editor_skin = Context::get('comment_editor_skin');
 		$editor_config->content_style = Context::get('content_style');
