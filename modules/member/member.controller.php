@@ -1151,6 +1151,11 @@ class memberController extends member
 		$args = new stdClass;
 		$args->member_srl = $member_srl;
 		$args->auth_key = $auth_key;
+		
+		// Call a trigger (before)
+		$trigger_output = ModuleHandler::triggerCall('member.procMemberAuthAccount', 'before', $args);
+		if(!$trigger_output->toBool()) return $trigger_output;
+		
 		$output = executeQuery('member.getAuthMail', $args);
 
 		if(!$output->toBool() || $output->data->auth_key != $auth_key)
@@ -1195,6 +1200,10 @@ class memberController extends member
 
 		$this->_clearMemberCache($args->member_srl);
 
+		// Call a trigger (after)
+		$trigger_output = ModuleHandler::triggerCall('member.procMemberAuthAccount', 'after', $args);
+		if(!$trigger_output->toBool()) return $trigger_output;
+		
 		// Notify the result
 		Context::set('is_register', $is_register);
 		$this->setTemplatePath($this->module_path.'tpl');
