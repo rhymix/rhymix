@@ -212,7 +212,7 @@ class editorController extends editor
 				$buff[] = 'word-break: ' . ($content_word_break ?: 'normal') . '; word-wrap: break-word;';
 			}
 			$buff[] = '}';
-			if ($content_paragraph_spacing) $buff[] = ".xe_content p { margin: 0 0 $content_paragraph_spacing 0; }";
+			$buff[] = '.xe_content p { margin: 0 0 ' . ($content_paragraph_spacing ?: 0) . ' 0; }';
 			$buff[] = '</style>';
 			Context::addHtmlHeader(implode(' ', $buff));
 		}

@@ -21,7 +21,7 @@ var auto_saved_msg = "{$lang->msg_auto_saved}";
 	<block cond="$content_word_break === 'none'">{@ $css_content .= 'white-space: nowrap;';}</block>
 	<block cond="$content_word_break !== 'none'">{@ $css_content .= 'word-break:' . ($content_word_break ?: 'normal') . '; word-wrap: break-word;';}</block>
 	{@ $css_content .= chr(125);}
-	<block cond="$content_paragraph_spacing">{@ $css_content .= '.xe_content.editable p { margin: 0 0 ' . $content_paragraph_spacing . ' 0;' . chr(125);}</block>
+	{@ $css_content .= '.xe_content.editable p { margin: 0 0 ' . ($content_paragraph_spacing ?: 0) . ' 0;' . chr(125);}
 <!--@endif-->
 
 <!--@if($enable_autosave)-->
