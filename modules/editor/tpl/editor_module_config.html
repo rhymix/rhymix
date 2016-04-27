@@ -18,6 +18,15 @@
 		</thead>
 		<tbody>
 			<tr>
+				<th scope="row" style="text-align:right">{$lang->default_editor_settings}</th>
+				<td colspan="2">
+					<label for="default_editor_settings" class="x_inline">
+						<input type="checkbox" value="Y" id="default_editor_settings" name="default_editor_settings" checked="checked"|cond="$editor_config->default_editor_settings!=='N'" />
+						{$lang->about_default_editor_settings}
+					</label>
+				</td>
+			</tr>
+			<tr class="editor_skin">
 				<th scope="row" style="text-align:right">{$lang->editor_skin}</th>
 				<td>
 					<select name="editor_skin" onchange="getEditorSkinColorList(this.value, null, 'document')">
@@ -38,7 +47,7 @@
 					</select>
 				</td>
 			</tr>
-			<tr>
+			<tr class="editor_skin">
 				<th scope="row" style="text-align:right">{$lang->content_style}</th>
 				<td>
 					<select name="content_style">
@@ -51,7 +60,7 @@
 					</select>
 				</td>
 			</tr>
-			<tr>
+			<tr class="editor_skin">
 				<th scope="row" style="text-align:right">{$lang->editor_height}</th>
 				<td>
 					<input type="number" min="0" name="editor_height" value="{$editor_config->editor_height}" /> px
@@ -60,14 +69,14 @@
 					<input type="number" min="0" name="comment_editor_height" value="{$editor_config->comment_editor_height}" /> px
 				</td>
 			</tr>
-			<tr>
+			<tr class="editor_skin">
 				<th scope="row" style="text-align:right"><label for="content_font">{$lang->content_font}</label></th>
 				<td colspan="2">
 					<input type="text" name="content_font" id="content_font" value="{str_replace(array('"','\''),'',$editor_config->content_font)}" placeholder="Ex) Tahoma, Geneva, sans-serif" />
 					{$lang->about_content_font}
 				</td>
 			</tr>
-			<tr>
+			<tr class="editor_skin">
 				<th scope="row" style="text-align:right"><label for="content_font_size">{$lang->content_font_size}</label></th>
 				<td colspan="2"><input type="text" name="content_font_size" id="content_font_size" value="{$editor_config->content_font_size}" style="width:50px" /> {$lang->about_content_font_size}</td>
 			</tr>
@@ -122,3 +131,20 @@
 		<button class="x_btn x_btn-primary x_pull-right" type="submit">{$lang->cmd_save}</button>
 	</div>
 </form>
+
+<script>
+jQuery(function($){
+	var editor_skiin_module_cfg = $('tr.editor_skin');
+	if($('#default_editor_settings').prop( 'checked' ))
+	{
+		editor_skiin_module_cfg.hide();
+	}
+	$('#default_editor_settings').change(function(){
+		if($(this).prop( 'checked' )){
+			editor_skiin_module_cfg.slideUp(200);
+		} else {
+			editor_skiin_module_cfg.slideDown(200);
+		}
+	});
+});
+</script>
