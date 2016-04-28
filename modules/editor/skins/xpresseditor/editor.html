@@ -60,7 +60,8 @@
                     <select class="xpress_xeditor_ui_fontName_select" disabled="disabled">
                         <option value="">{$lang->edit->fontname}</option>
                         <!--@foreach($lang->edit->fontlist as $key=>$obj)-->
-                        <option value="{htmlspecialchars($obj, ENT_COMPAT | ENT_HTML401, 'UTF-8', false)}" style="font-family:{$obj}">{$obj}</option>
+                        {@ $fontname_simplified = trim(array_first(explode(',', $obj)), "'\" ")}
+                        <option value="{htmlspecialchars($obj, ENT_COMPAT | ENT_HTML401, 'UTF-8', false)}" style="font-family:{$obj}">{$fontname_simplified}</option>
                         <!--@end-->
                     </select>
                 </li>

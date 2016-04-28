@@ -103,8 +103,9 @@
 				<label style="font-family:''" class="fontSelector">
 					<input type="radio" name="content_font" id="font_noFont" value="" checked="checked"|cond="!$editor_config->content_font && $editor_config->font_defined != 'Y'" /> none (inherit)
 				</label>
-				<label style="font-family:{$detail}" class="fontSelector" loop="$lang->edit->fontlist=>$name,$detail">
-					<input type="radio" name="content_font" id="font_{$name}" value="{$detail}" checked="checked"|cond="$editor_config->content_font == $detail && $editor_config->font_defined != 'Y'" /> {$detail}
+				<label style="display:inline-block;margin-right:16px;font-family:{$detail}" class="fontSelector" loop="$lang->edit->fontlist=>$name,$detail">
+					{@ $fontname_simplified = trim(array_first(explode(',', $detail)), "'\" ")}
+					<input type="radio" name="content_font" id="font_{$name}" value="{$detail}" checked="checked"|cond="$editor_config->content_font == $detail && $editor_config->font_defined != 'Y'" /> {$fontname_simplified}
 				</label>
 				<label>
 					<input type="radio" class="fontSelector" name="font_defined" id="font_defined" value="Y" checked="checked"|cond="$editor_config->font_defined== 'Y'" /> {$lang->by_you} : 
