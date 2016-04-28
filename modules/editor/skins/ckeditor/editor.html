@@ -54,7 +54,7 @@ var auto_saved_msg = "{$lang->msg_auto_saved}";
 		if (default_font_fullname !== null && !$.inArray(default_font_fullname, font_list)) {
 			font_list.push(default_font_fullname);
 		}
-		font_list = font_list.map(function(val) {
+		font_list = $.map(font_list, function(val) {
 			return $.trim(val.split(",")[0]) + "/" + val;
 		}).join(";");
 		
@@ -66,7 +66,7 @@ var auto_saved_msg = "{$lang->msg_auto_saved}";
 			font_sizes.push(default_font_size);
 			font_sizes.sort();
 		}
-		font_sizes = font_sizes.map(function(val) {
+		font_sizes = $.map(font_sizes, function(val) {
 			return val + "/" + val + "px";
 		}).join(";");
 		
