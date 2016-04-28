@@ -9,9 +9,9 @@
 				<img cond="$comment->getProfileImage()" src="{$comment->getProfileImage()}" alt="Profile" class="profile" />
 				<span cond="!$comment->getProfileImage()" class="profile"></span>
 				<h3 class="author">
-					<a cond="!$comment->member_srl && $comment->homepage" href="{$comment->getHomepageUrl()}">{$comment->getNickName()}</a>
-					<strong cond="!$comment->member_srl && !$comment->homepage">{$comment->getNickName()}</strong>
-					<a cond="$comment->member_srl" href="#popup_menu_area" class="member_{$comment->member_srl}" onclick="return false">{$comment->getNickName()}</a>
+					<a cond="$comment->member_srl <= 0 && $comment->homepage" href="{$comment->getHomepageUrl()}">{$comment->getNickName()}</a>
+					<strong cond="$comment->member_srl <= 0 && !$comment->homepage">{$comment->getNickName()}</strong>
+					<a cond="$comment->member_srl > 0" href="#popup_menu_area" class="member_{$comment->member_srl}" onclick="return false">{$comment->getNickName()}</a>
 				</h3>
 				<p class="time">{$comment->getRegdate('Y.m.d H:i')}</p>
 			</div>
