@@ -45,12 +45,41 @@ var auto_saved_msg = "{$lang->msg_auto_saved}";
 	// editor
 	$(function(){
 		<!--@if(!FileHandler::exists('common/js/plugins/ckeditor/ckeditor/config.js'))-->CKEDITOR.config.customConfig = '';<!--@endif-->
+		
+		// Get default font name and list of other supported fonts.
+		var default_font_name = {json_encode($content_font ? trim(array_first(explode(',', $content_font)), '\'" ') : null)};
+		var default_font_fullname = {json_encode($content_font ?: null)};
+		var font_list = [];
+		<block loop="$lang->edit->fontlist => $fontname">font_list.push({json_encode($fontname)});</block>
+		if (default_font_fullname !== null && !$.inArray(default_font_fullname, font_list)) {
+			font_list.push(default_font_fullname);
+		}
+		font_list = font_list.map(function(val) {
+			return $.trim(val.split(",")[0]) + "/" + val;
+		}).join(";");
+		
+		// Get default font size and list of other supported sizes.
+		var default_font_size = {json_encode($content_font_size ?: '13')};
+		default_font_size = parseInt(default_font_size.replace(/\D/, ''), 10);
+		var font_sizes = [8, 9, 10, 11, 12, 13, 14, 15, 16, 18, 20, 24, 28, 32, 36, 40, 48];
+		if (!$.inArray(default_font_size, font_sizes)) {
+			font_sizes.push(default_font_size);
+			font_sizes.sort();
+		}
+		font_sizes = font_sizes.map(function(val) {
+			return val + "/" + val + "px";
+		}).join(";");
+		
 		var settings = {
 			ckeconfig: {
 				height: '{$editor_height}',
 				skin: '{$colorset}',
 				contentsCss: '{$content_style_path}/editor.css?{date("YmdHis", @filemtime($content_style_path."/editor.css"))}',
 				xe_editor_sequence: {$editor_sequence},
+	            font_defaultLabel: default_font_name,
+	            font_names: font_list,
+	            fontSize_defaultLabel: default_font_size,
+	            fontSize_sizes: font_sizes,
 				toolbarCanCollapse: true,
 				language: "{str_replace('jp','ja',$lang_type)}"
 			},
