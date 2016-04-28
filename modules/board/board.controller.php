@@ -88,7 +88,7 @@ class boardController extends board
 				$obj->member_srl = -1*$logged_info->member_srl;
 			}
 			$obj->email_address = $obj->homepage = $obj->user_id = '';
-			$obj->user_name = $obj->nick_name = $this->createAnonymousNickname($this->module_info->anonymous_name ?: 'anonymous', $logged_info);
+			$obj->user_name = $obj->nick_name = $this->createAnonymousName($this->module_info->anonymous_name ?: 'anonymous', $logged_info->member_srl, $obj->document_srl);
 			$bAnonymous = true;
 			if($is_update===false)
 			{
@@ -367,7 +367,7 @@ class boardController extends board
 			$obj->notify_message = 'N';
 			$obj->member_srl = -1*$logged_info->member_srl;
 			$obj->email_address = $obj->homepage = $obj->user_id = '';
-			$obj->user_name = $obj->nick_name = $this->createAnonymousNickname($this->module_info->anonymous_name ?: 'anonymous', $logged_info);
+			$obj->user_name = $obj->nick_name = $this->createAnonymousName($this->module_info->anonymous_name ?: 'anonymous', $logged_info->member_srl, $obj->document_srl);
 			$bAnonymous = true;
 		}
 		else
@@ -637,22 +637,29 @@ class boardController extends board
 	 * Create an anonymous nickname.
 	 * 
 	 * @param string $format
-	 * @param object $logged_info
+	 * @param int $member_srl
+	 * @param int $document_srl
 	 * @return string
 	 */
-	public function createAnonymousNickname($format, $logged_info)
+	public function createAnonymousName($format, $member_srl, $document_srl)
 	{
 		if (strpos($format, '$NUM') !== false)
 		{
-			$num = hash_hmac('sha256', $logged_info->member_srl ?: \RX_CLIENT_IP, config('crypto.authentication_key'));
+			$num = hash_hmac('sha256', $member_srl ?: \RX_CLIENT_IP, config('crypto.authentication_key'));
 			$num = sprintf('%08d', hexdec(substr($num, 0, 8)) % 100000000);
 			return strtr($format, array('$NUM' => $num));
 		}
 		elseif (strpos($format, '$DAILYNUM') !== false)
 		{
-			$num = hash_hmac('sha256', ($logged_info->member_srl ?: \RX_CLIENT_IP) . date('Ymd'), config('crypto.authentication_key'));
+			$num = hash_hmac('sha256', ($member_srl ?: \RX_CLIENT_IP) . ':date:' . date('Y-m-d'), config('crypto.authentication_key'));
 			$num = sprintf('%08d', hexdec(substr($num, 0, 8)) % 100000000);
 			return strtr($format, array('$DAILYNUM' => $num));
+		}
+		elseif (strpos($format, '$DOCNUM') !== false)
+		{
+			$num = hash_hmac('sha256', ($member_srl ?: \RX_CLIENT_IP) . ':document_srl:' . $document_srl, config('crypto.authentication_key'));
+			$num = sprintf('%08d', hexdec(substr($num, 0, 8)) % 100000000);
+			return strtr($format, array('$DOCNUM' => $num));
 		}
 		else
 		{
