@@ -83,6 +83,18 @@ class editorModel extends editor
 		{
 			$editor_config->content_font_size = $editor_default_config->content_font_size;
 		}
+		if((!$editor_config->content_line_height && $editor_default_config->content_line_height) || $editor_config->default_editor_settings === 'Y')
+		{
+			$editor_config->content_line_height = $editor_default_config->content_line_height;
+		}
+		if((!$editor_config->content_paragraph_spacing && $editor_default_config->content_paragraph_spacing) || $editor_config->default_editor_settings === 'Y')
+		{
+			$editor_config->content_paragraph_spacing = $editor_default_config->content_paragraph_spacing;
+		}
+		if((!$editor_config->content_word_break && $editor_default_config->content_word_break) || $editor_config->default_editor_settings === 'Y')
+		{
+			$editor_config->content_word_break = $editor_default_config->content_word_break;
+		}
 		if((!$editor_config->sel_editor_colorset && $editor_default_config->sel_editor_colorset) || $editor_config->default_editor_settings === 'Y')
 		{
 			$editor_config->sel_editor_colorset = $editor_default_config->sel_editor_colorset;
@@ -218,8 +230,11 @@ class editorModel extends editor
 		Context::set('content_style', $option->content_style);
 		Context::set('content_style_path', $this->module_path . 'styles/' . $option->content_style);
 		// Default font setting
-		Context::set('content_font', addslashes($option->content_font));
+		Context::set('content_font', $option->content_font);
 		Context::set('content_font_size', $option->content_font_size);
+		Context::set('content_line_height', $option->content_line_height);
+		Context::set('content_paragraph_spacing', $option->content_paragraph_spacing);
+		Context::set('content_word_break', $option->content_word_break);
 
 		// Option setting to allow auto-save
 		if(!$option->enable_autosave) $enable_autosave = false;
@@ -379,6 +394,9 @@ class editorModel extends editor
 			$config->content_style = $editor_config->content_style;
 			$config->content_font = $editor_config->content_font;
 			$config->content_font_size = $editor_config->content_font_size;
+			$config->content_line_height = $editor_config->content_line_height;
+			$config->content_paragraph_spacing = $editor_config->content_paragraph_spacing;
+			$config->content_word_break = $editor_config->content_word_break;
 			$config->sel_editor_colorset = $editor_config->sel_editor_colorset;
 			$config->upload_file_grant = $editor_config->upload_file_grant;
 			$config->enable_default_component_grant = $editor_config->enable_default_component_grant;
@@ -393,6 +411,9 @@ class editorModel extends editor
 			$config->content_style = $editor_config->comment_content_style;
 			$config->content_font = $editor_config->content_font;
 			$config->content_font_size = $editor_config->content_font_size;
+			$config->content_line_height = $editor_config->content_line_height;
+			$config->content_paragraph_spacing = $editor_config->content_paragraph_spacing;
+			$config->content_word_break = $editor_config->content_word_break;
 			$config->sel_editor_colorset = $editor_config->sel_comment_editor_colorset;
 			$config->upload_file_grant = $editor_config->comment_upload_file_grant;
 			$config->enable_default_component_grant = $editor_config->enable_comment_default_component_grant;
@@ -418,6 +439,9 @@ class editorModel extends editor
 		$option->content_style = $config->content_style;
 		$option->content_font = $config->content_font;
 		$option->content_font_size = $config->content_font_size;
+		$option->content_line_height = $config->content_line_height;
+		$option->content_paragraph_spacing = $config->content_paragraph_spacing;
+		$option->content_word_break = $config->content_word_break;
 		$option->colorset = $config->sel_editor_colorset;
 		// Permission check for file upload
 		$option->allow_fileupload = false;
