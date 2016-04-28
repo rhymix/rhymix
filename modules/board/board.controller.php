@@ -642,15 +642,21 @@ class boardController extends board
 	 */
 	public function createAnonymousNickname($format, $logged_info)
 	{
-		if (strpos($format, '$NUM') === false)
-		{
-			return $format;
-		}
-		else
+		if (strpos($format, '$NUM') !== false)
 		{
 			$num = hash_hmac('sha256', $logged_info->member_srl ?: \RX_CLIENT_IP, config('crypto.authentication_key'));
 			$num = sprintf('%08d', hexdec(substr($num, 0, 8)) % 100000000);
 			return strtr($format, array('$NUM' => $num));
+		}
+		elseif (strpos($format, '$DAILYNUM') !== false)
+		{
+			$num = hash_hmac('sha256', ($logged_info->member_srl ?: \RX_CLIENT_IP) . date('Ymd'), config('crypto.authentication_key'));
+			$num = sprintf('%08d', hexdec(substr($num, 0, 8)) % 100000000);
+			return strtr($format, array('$DAILYNUM' => $num));
+		}
+		else
+		{
+			return $format;
 		}
 	}
 }
