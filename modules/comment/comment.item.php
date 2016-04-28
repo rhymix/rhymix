@@ -496,7 +496,7 @@ class commentItem extends Object
 	 */
 	function getProfileImage()
 	{
-		if(!$this->isExists() || !$this->get('member_srl'))
+		if(!$this->isExists() || $this->get('member_srl') <= 0)
 		{
 			return;
 		}
@@ -517,7 +517,7 @@ class commentItem extends Object
 	function getSignature()
 	{
 		// pass if the posting not exists.
-		if(!$this->isExists() || !$this->get('member_srl'))
+		if(!$this->isExists() || $this->get('member_srl') <= 0)
 		{
 			return;
 		}
