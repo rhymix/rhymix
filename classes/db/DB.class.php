@@ -369,7 +369,7 @@ class DB
 		$log['time'] = date('Y-m-d H:i:s');
 		$log['backtrace'] = array();
 
-		if (config('debug.enabled') && config('debug.log_queries'))
+		if (config('debug.enabled') && in_array('queries', config('debug.display_content')))
 		{
 			$bt = defined('DEBUG_BACKTRACE_IGNORE_ARGS') ? debug_backtrace(DEBUG_BACKTRACE_IGNORE_ARGS) : debug_backtrace();
 			foreach($bt as $no => $call)

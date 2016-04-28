@@ -83,7 +83,7 @@ class DisplayHandler extends Handler
 
 		// header output
 		$httpStatusCode = $oModule->getHttpStatusCode();
-		if($httpStatusCode && $httpStatusCode != 200)
+		if($httpStatusCode !== 200 && !in_array(Context::getRequestMethod(), array('XMLRPC', 'JSON', 'JS_CALLBACK')))
 		{
 			self::_printHttpStatusCode($httpStatusCode);
 		}

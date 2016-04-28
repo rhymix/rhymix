@@ -1330,11 +1330,7 @@ class memberAdminController extends member
 	function _deleteMemberGroupCache($site_srl = 0)
 	{
 		//remove from cache
-		$oCacheHandler = CacheHandler::getInstance('object', null, true);
-		if($oCacheHandler->isSupport())
-		{
-			$oCacheHandler->invalidateGroupKey('member');
-		}
+		Rhymix\Framework\Cache::clearGroup('member');
 	}
 
 	/**

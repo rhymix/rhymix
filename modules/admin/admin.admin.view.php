@@ -40,7 +40,7 @@ class adminAdminView extends admin
 		$logged_info = $oMemberModel->getLoggedInfo();
 		if($logged_info->is_admin != 'Y')
 		{
-			return $this->stop("msg_is_not_administrator");
+			return $this->stop("admin.msg_is_not_administrator");
 		}
 
 		// change into administration layout
@@ -50,10 +50,45 @@ class adminAdminView extends admin
 
 		$this->makeGnbUrl();
 
+		// Check system configuration
+		$this->checkSystemConfiguration();
+		
 		// Retrieve the list of installed modules
 		$this->checkEasyinstall();
 	}
 
+	/**
+	 * check system configuration
+	 * @return void
+	 */
+	function checkSystemConfiguration()
+	{
+		$changed = false;
+		
+		// Check encryption keys.
+		if (config('crypto.encryption_key') === null)
+		{
+			config('crypto.encryption_key', Rhymix\Framework\Security::getRandom(64, 'alnum'));
+			$changed = true;
+		}
+		if (config('crypto.authentication_key') === null)
+		{
+			config('crypto.authentication_key', Rhymix\Framework\Security::getRandom(64, 'alnum'));
+			$changed = true;
+		}
+		if (config('crypto.session_key') === null)
+		{
+			config('crypto.session_key', Rhymix\Framework\Security::getRandom(64, 'alnum'));
+			$changed = true;
+		}
+		
+		// Save new configuration.
+		if ($changed)
+		{
+			Rhymix\Framework\Config::save();
+		}
+	}
+	
 	/**
 	 * check easy install
 	 * @return void
@@ -451,19 +486,36 @@ class adminAdminView extends admin
 		Context::set('https_port', Rhymix\Framework\Config::get('url.https_port'));
 		
 		// Object cache
-		$object_cache_config = Rhymix\Framework\Config::get('cache');
-		if (is_array($object_cache_config))
-		{
-			$object_cache_config = array_first($object_cache_config);
-		}
-		$object_cache_types = array('apc', 'file', 'memcached', 'redis', 'wincache');
-		$object_cache_type = preg_match('/^(' . implode('|', $object_cache_types) . ')/', $object_cache_config, $matches) ? $matches[1] : '';
-		Context::set('object_cache_types', $object_cache_types);
-		Context::set('object_cache_type', $object_cache_type);
+		$object_cache_types = Rhymix\Framework\Cache::getSupportedDrivers();
+		$object_cache_type = Rhymix\Framework\Config::get('cache.type');
 		if ($object_cache_type)
 		{
-			Context::set('object_cache_host', parse_url($object_cache_config, PHP_URL_HOST) ?: null);
-			Context::set('object_cache_port', parse_url($object_cache_config, PHP_URL_PORT) ?: null);
+			$cache_default_ttl = Rhymix\Framework\Config::get('cache.ttl');
+			$cache_servers = Rhymix\Framework\Config::get('cache.servers');
+		}
+		else
+		{
+			$cache_config = array_first(Rhymix\Framework\Config::get('cache'));
+			if ($cache_config)
+			{
+				$object_cache_type = preg_replace('/^memcache$/', 'memcached', preg_replace('/:.+$/', '', $cache_config));
+			}
+			else
+			{
+				$object_cache_type = 'file';
+			}
+			$cache_default_ttl = 86400;
+			$cache_servers = Rhymix\Framework\Config::get('cache');
+		}
+		
+		Context::set('object_cache_types', $object_cache_types);
+		Context::set('object_cache_type', $object_cache_type);
+		Context::set('cache_default_ttl', $cache_default_ttl);
+		
+		if ($cache_servers)
+		{
+			Context::set('object_cache_host', parse_url(array_first($cache_servers), PHP_URL_HOST) ?: null);
+			Context::set('object_cache_port', parse_url(array_first($cache_servers), PHP_URL_PORT) ?: null);
 		}
 		else
 		{

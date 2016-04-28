@@ -417,7 +417,8 @@ class Debug
 		}
 		
 		// Localize the error message.
-		$message = ini_get('display_errors') ? $message : lang('msg_server_error_see_log');
+		$display_error_message = ini_get('display_errors') || (\Context::get('logged_info') && toBool(\Context::get('logged_info')->is_admin));
+		$message = $display_error_message ? $message : lang('msg_server_error_see_log');
 		if ($message === 'msg_server_error_see_log')
 		{
 			$message = 'Your server is configured to hide error messages. Please see your server\'s error log for details.';

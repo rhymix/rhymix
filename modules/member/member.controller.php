@@ -1910,9 +1910,14 @@ class memberController extends member
 	function addMemberMenu($act, $str)
 	{
 		$logged_info = Context::get('logged_info');
-
+		
+		if(!is_object($logged_info))
+		{
+			return;
+		}
+		
 		$logged_info->menu_list[$act] = lang($str);
-
+		
 		Context::set('logged_info', $logged_info);
 	}
 
@@ -2971,27 +2976,12 @@ class memberController extends member
 
 	function _clearMemberCache($member_srl, $site_srl = 0)
 	{
-		$oCacheHandler = CacheHandler::getInstance('object', NULL, TRUE);
-		if($oCacheHandler->isSupport())
+		$member_srl = getNumberingPath($member_srl) . $member_srl;
+		Rhymix\Framework\Cache::delete("member:member_info:$member_srl");
+		Rhymix\Framework\Cache::delete("member:member_groups:$member_srl:site:$site_srl");
+		if ($site_srl != 0)
 		{
-			$object_key = 'member_groups:' . getNumberingPath($member_srl) . $member_srl . '_' . $site_srl;
-			$cache_key = $oCacheHandler->getGroupKey('member', $object_key);
-			$oCacheHandler->delete($cache_key);
-
-			if($site_srl !== 0)
-			{
-				$object_key = 'member_groups:' . getNumberingPath($member_srl) . $member_srl . '_0';
-				$cache_key = $oCacheHandler->getGroupKey('member', $object_key);
-				$oCacheHandler->delete($cache_key);
-			}
-		}
-
-		$oCacheHandler = CacheHandler::getInstance('object');
-		if($oCacheHandler->isSupport())
-		{
-			$object_key = 'member_info:' . getNumberingPath($member_srl) . $member_srl;
-			$cache_key = $oCacheHandler->getGroupKey('member', $object_key);
-			$oCacheHandler->delete($cache_key);
+			Rhymix\Framework\Cache::delete("member:member_groups:$member_srl:site:0");
 		}
 	}
 }

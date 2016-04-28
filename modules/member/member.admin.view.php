@@ -561,6 +561,10 @@ class memberAdminView extends member
 					{
 						$template = '<textarea name="%column_name%" id="%column_name%" rows="4" cols="42">%value%</textarea>';
 					}
+					else if($extendForm->column_type == 'password')
+					{
+						$template = '<input type="password" name="%column_name%" id="%column_name%" value="%value%" />';
+					}
 					else if($extendForm->column_type == 'checkbox')
 					{
 						$template = '';

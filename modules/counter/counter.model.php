@@ -31,13 +31,9 @@ class counterModel extends counter
 		$args->site_srl = $site_srl;
 
 		$iplogged = false;
-		$oCacheHandler = CacheHandler::getInstance('object');
-		if($oCacheHandler->isSupport())
-		{
-			$object_key = 'counter:' . $site_srl . '_' . str_replace(array('.', ':'), '-', $args->ipaddress);
-			$cache_key = $oCacheHandler->getGroupKey('counterIpLogged_' . $args->regdate, $object_key);
-			$iplogged = $oCacheHandler->get($cache_key);
-		}
+		$cache_key = 'counter:' . $site_srl . '_' . str_replace(array('.', ':'), '-', $args->ipaddress);
+		$group_key = 'counterIpLogged_' . $args->regdate;
+		$iplogged = Rhymix\Framework\Cache::get($group_key . ':' . $cache_key);
 
 		if($iplogged === false)
 		{
@@ -45,9 +41,9 @@ class counterModel extends counter
 			if($output->data->count) $iplogged = TRUE;
 		}
 
-		if($iplogged && $oCacheHandler->isSupport())
+		if($iplogged)
 		{
-			$oCacheHandler->put($cache_key, $iplogged);
+			Rhymix\Framework\Cache::set($group_key . ':' . $cache_key, $iplogged, 0, true);
 		}
 
 		return $iplogged;
@@ -64,15 +60,10 @@ class counterModel extends counter
 		$args = new stdClass;
 		$args->regdate = date('Ymd');
 
-		$insertedTodayStatus = false;
-		$oCacheHandler = CacheHandler::getInstance('object', NULL, TRUE);
-		if($oCacheHandler->isSupport())
-		{
-			$cache_key = 'counter:insertedTodayStatus:' . $site_srl . '_' . $args->regdate;
-			$insertedTodayStatus = $oCacheHandler->get($cache_key);
-		}
+		$cache_key = 'counter:insertedTodayStatus:' . $site_srl . '_' . $args->regdate;
+		$insertedTodayStatus = Rhymix\Framework\Cache::get($cache_key);
 
-		if($insertedTodayStatus === false)
+		if(!$insertedTodayStatus)
 		{
 			if($site_srl)
 			{
@@ -86,11 +77,11 @@ class counterModel extends counter
 
 			$insertedTodayStatus = !!$output->data->count;
 
-			if($insertedTodayStatus && $oCacheHandler->isSupport())
+			if($insertedTodayStatus)
 			{
-				$oCacheHandler->put($cache_key, TRUE);
+				Rhymix\Framework\Cache::set($cache_key, true, 0, true);
 				$_old_date = date('Ymd', strtotime('-1 day'));
-				$oCacheHandler->delete('counter:insertedTodayStatus:' . $site_srl . '_' . $_old_date);
+				Rhymix\Framework\Cache::delete('counter:insertedTodayStatus:' . $site_srl . '_' . $_old_date);
 			}
 		}
 

@@ -18,21 +18,23 @@ class ncenterliteModel extends ncenterlite
 			}
 			if(!$config->use)
 			{
-				$config->use = array();
+				$config->use = array('message' => 1);
 			}
 			if(!$config->display_use) $config->display_use = 'Y';
 
 			if(!$config->mention_names) $config->mention_names = 'nick_name';
-			if(!$config->mention_format && !is_array($config->mention_format)) $config->mention_format = array('respect');
-			if(!is_array($config->mention_format)) $config->mention_format = explode('|@|', $config->mention_format);
-			if(!$config->document_notify) $config->document_notify = 'direct-comment';
+			if(!$config->mention_suffixes)
+			{
+				$config->mention_suffixes = array('님', '様', 'さん', 'ちゃん');
+			}
+			unset($config->mention_format);
 			if(!$config->hide_module_srls) $config->hide_module_srls = array();
 			if(!is_array($config->hide_module_srls)) $config->hide_module_srls = explode('|@|', $config->hide_module_srls);
-			if(!$config->document_read) $config->document_read = 'N';
-			if(!$config->voted_format) $config->voted_format = 'N';
+			if(!$config->document_read) $config->document_read = 'Y';
 			if(!$config->skin) $config->skin = 'default';
 			if(!$config->colorset) $config->colorset = 'black';
 			if(!$config->zindex) $config->zindex = '9999';
+			if(!$config->anonymous_name) $config->anonymous_name = 'Anonymous';
 
 			self::$config = $config;
 		}
@@ -164,7 +166,7 @@ class ncenterliteModel extends ncenterlite
 					//$str = sprintf('<strong>%1$s</strong>님이 게시판 <strong>"%2$s"</strong>에 <strong>"%3$s"</strong>라고 댓글을 남겼습니다.', $target_member, $type, $v->target_summary);
 				break;
 				case 'M':
-					$str = sprintf($lang->ncenterlite_mentioned, $target_member,  $v->target_summary, $type);
+					$str = sprintf($lang->ncenterlite_mentioned, $target_member, $v->target_browser, $v->target_summary);
 					//$str = sprintf('<strong>%s</strong>님이 <strong>"%s" %s</strong>에서 회원님을 언급하였습니다.', $target_member,  $v->target_summary, $type);
 				break;
 				// 메시지. 쪽지
@@ -309,9 +311,13 @@ class ncenterliteModel extends ncenterlite
 		$args = new stdClass();
 		$args->is_admin = 'Y';
 		$output = executeQueryArray('ncenterlite.getMemberAdmins', $args);
-		if(!$output->data) $output->data = array();
-
-		return $output;
+		$member_srl = array();
+		foreach($output->data as $member)
+		{
+			$member_srl[] = $member->member_srl;
+		}
+		
+		return $member_srl;
 	}
 
 	function _getNewCount($member_srl=null)

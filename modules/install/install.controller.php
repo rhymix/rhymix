@@ -149,6 +149,11 @@ class installController extends install
 			$config['db']['master']['prefix'] .= '_';
 		}
 		
+		// Create new crypto keys.
+		$config['crypto']['encryption_key'] = Rhymix\Framework\Security::getRandom(64, 'alnum');
+		$config['crypto']['authentication_key'] = Rhymix\Framework\Security::getRandom(64, 'alnum');
+		$config['crypto']['session_key'] = Rhymix\Framework\Security::getRandom(64, 'alnum');
+		
 		// Set the default language.
 		$config['locale']['default_lang'] = Context::getLangType();
 		$config['locale']['enabled_lang'] = array($config['locale']['default_lang']);

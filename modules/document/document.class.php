@@ -1,6 +1,5 @@
 <?php
 /* Copyright (C) NAVER <http://www.navercorp.com> */
-require_once(_XE_PATH_.'modules/document/document.item.php');
 
 /**
  * document class

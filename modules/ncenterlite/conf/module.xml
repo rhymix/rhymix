@@ -7,6 +7,7 @@
 		<action name="dispNcenterliteAdminSeletedmid" type="view" />
 		<action name="dispNcenterliteAdminTest" type="view" />
 		<action name="dispNcenterliteAdminSkinsetting" type="view" />
+		<action name="dispNcenterliteAdminAdvancedconfig" type="view" />
 		<action name="dispNcenterliteNotifyList" type="view" />
 		<action name="dispNcenterliteAdminList" type="view" />
 		<action name="dispNcenterliteUserConfig" type="view" />
@@ -24,9 +25,9 @@
 	</actions>
 	<menus>
 		<menu name="ncenterlite" type="all">
-			<title xml:lang="ko">Rhymix 알림센터 Lite</title>
-			<title xml:lang="en">Rhymix Notification Center Lite</title>
-			<title xml:lang="jp">Rhymix 通知センター Lite</title>
+			<title xml:lang="ko">알림센터 Lite</title>
+			<title xml:lang="en">Notification Center Lite</title>
+			<title xml:lang="jp">通知センター Lite</title>
 		</menu>
 	</menus>
 </module>

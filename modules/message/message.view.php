@@ -31,27 +31,16 @@ class messageView extends message
 		if(!$config->skin)
 		{
 			$config->skin = 'xedition';
-			$template_path = sprintf('%sskins/%s', $this->module_path, $config->skin);
 		}
-		else
-		{
-			//check theme
-			$config_parse = explode('|@|', $config->skin);
-			if (count($config_parse) > 1)
-			{
-				$template_path = sprintf('./themes/%s/modules/message/', $config_parse[0]);
-			}
-			else
-			{
-				$template_path = sprintf('%sskins/%s', $this->module_path, $config->skin);
-			}
-		}
+		$template_path = sprintf('%sskins/%s', $this->module_path, $config->skin);
+		
 		// Template path
 		$this->setTemplatePath($template_path);
 
 		// Get the member configuration
 		$member_config = $oModuleModel->getModuleConfig('member');
 		Context::set('member_config', $member_config);
+		
 		// Set a flag to check if the https connection is made when using SSL and create https url
 		$ssl_mode = false;
 		if($member_config->enable_ssl == 'Y')
@@ -64,6 +53,12 @@ class messageView extends message
 		Context::set('system_message_detail', nl2br($detail));
 
 		$this->setTemplateFile('system_message');
+		
+		// Default 403 Error
+		if($this->getHttpStatusCode() === 200)
+		{
+			$this->setHttpStatusCode(403);
+		}
 	}
 }
 /* End of file message.view.php */

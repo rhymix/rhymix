@@ -1,21 +1,22 @@
 <?php
-$lang->ncenterlite = 'Rhymix 알림센터 Lite';
-$lang->ncenterlite_install_version = '설치된 알림센터 Lite 버전';
+$lang->ncenterlite = '알림센터 Lite';
+$lang->ncenterlite_install_version = '설치된 버전';
+$lang->ncenterlite_advenced_config = '고급설정';
 $lang->ncenterlite_document = '글';
 $lang->ncenterlite_comment = '댓글';
-$lang->ncenterlite_mention = '맨션';
+$lang->ncenterlite_mention = '멘션';
 $lang->ncenterlite_cmd_vote = '추천';
 $lang->ncenterlite_comment_comment = '대댓글';
 $lang->ncenterlite_type_message = '쪽지';
 $lang->ncenterlite_sender = '보낸 사람';
 $lang->ncenterlite_addressee = '받는 사람';
 $lang->ncenterlite_noti_contents = '내용';
-$lang->ncenterlite_notify_setting = '알림센터 사용할 페이지';
-$lang->ncenterlite_about_notify_setting = '선택한 페이지에서 알림센터를 표시하지 않습니다.';
-$lang->ncenterlite_notify_mid_all = '전체 알림 사용할 페이지';
-$lang->ncenterlite_about_mid_all = '선택한 게시판에서는 모든 알림을 관리자가 받을 수 있습니다.';
+$lang->ncenterlite_notify_setting = '알림 미표시 페이지';
+$lang->ncenterlite_about_notify_setting = '선택한 모듈에서는 알림을 표시하지 않습니다.';
+$lang->ncenterlite_notify_mid_all = '관리자 알림 페이지';
+$lang->ncenterlite_about_mid_all = '선택한 모듈에서는 모든 알림이 관리자에게도 전달됩니다.';
 $lang->ncenterlite_admin_content = '관리자 알림';
-$lang->about_admin_content = '\'관리자 알림\'은 선택한 페이지에 대해서 관리자에게 새글과 댓글을 알려줍니다. 이 설정은 알림센터 사용설정에서 사용할 페이지를 선택해야합니다.';
+$lang->about_admin_content = '관리자 알림을 받을 모듈은 "모듈별 사용 설정" 페이지에서 선택할 수 있습니다.';
 $lang->ncenterlite_read = '읽음 확인';
 $lang->ncenterlite_read_y = '읽음';
 $lang->ncenterlite_read_n = '읽지 않음';
@@ -28,19 +29,19 @@ $lang->ncenterlite_userconfig_about = '알림센터의 개인의 설정을 저�
 $lang->ncenterlite_comment_noti = '댓글 알림';
 $lang->ncenterlite_comment_noti_about = '내 게시물의 혹은 내 댓글에 댓글이 달릴경우 알림을 받습니다.';
 $lang->ncenterlite_mention_noti = '멘션 알림';
-$lang->ncenterlite_mention_noti_about = '누군가 글, 혹은 댓글을 통해서 나를 맨션 했을 경우 알려줍니다. (맨션 방법 @닉네임 )';
+$lang->ncenterlite_mention_noti_about = '누군가 글, 혹은 댓글을 통해서 나를 멘션 했을 경우 알려줍니다. (멘션 방법 @닉네임 )';
 $lang->ncenterlite_message_noti = '쪽지 알림';
 $lang->ncenterlite_message_noti_about = '누군가에게 받은 쪽지를 알림을 받습니다.';
 $lang->ncenterlite_activate = '사용';
 $lang->ncenterlite_inactivate = '사용 안함';
-$lang->ncenterlite_userconfig_about_warning = '주의! 당신은 관리자 권한으로 다른 사용자의 설정창을 접속하였습니다.';
+$lang->ncenterlite_userconfig_about_warning = '주의! 당신은 관리자 권한으로 다른 사용자의 설정창에 접속하였습니다.';
 $lang->ncenterlite_article = '<strong>%1$s</strong>님이 <strong>"%2$s"</strong>라고 글을 남겼습니다.';
 $lang->ncenterlite_board = '<strong>%1$s</strong>님이 게시판 <strong>"%2$s"</strong>에 <strong>"%3$s"</strong>라고 글을 남겼습니다.';
 $lang->ncenterlite_commented = '<strong>%1$s</strong>님이 회원님의 %2$s에 <strong>"%3$s"</strong>라고 댓글을 남겼습니다.';
 $lang->ncenterlite_commented_board = '<strong>%1$s</strong>님이 <strong>"%2$s"</strong>게시판에 <strong>"%3$s"</strong>라고 댓글을 남겼습니다.';
-$lang->ncenterlite_mentioned = '<strong>%s</strong>님이 <strong>"%s" %s</strong>에서 회원님을 언급하였습니다.';
+$lang->ncenterlite_mentioned = '<strong>%s</strong>님이 <strong>"%s"</strong>게시판에서 <strong>"%s" </strong>게시글을 작성하며 회원님을 언급하였습니다.';
 $lang->ncenterlite_message_string = '<strong>%d</strong>개의 읽지 않은 <strong>메시지</strong>가 있습니다.';
-$lang->ncenterlite_message_mention = '<strong>%s</strong>님께서 <strong>"%s"</strong>라고 메세지를 보내셨습니다.';
+$lang->ncenterlite_message_mention = '<strong>%s</strong>님께서 <strong>"%s"</strong>라고 메시지를 보내셨습니다.';
 $lang->ncenterlite_test_noti = '<strong>%s</strong>님! 스킨 테스트 알림을 완료했습니다.';
 $lang->ncenterlite_vote = '<strong>%s</strong>님이 <strong>"%s"</strong> 글을 추천하였습니다.';
 $lang->ncenterlite_admin_content_message = '<strong>%1$s</strong>님이 <strong>"%2$s"</strong>게시판에 <strong>"%3$s"</strong>라고 글을 남겼습니다.';
@@ -62,49 +63,24 @@ $lang->ncenterlite_stop_no_permission_other_user = '다른 회원의 설정을 �
 $lang->ncenterlite_stop_no_permission_other_user_settings = '다른 회원의 설정을 변경할 권한이 없습니다.';
 $lang->ncenterlite_message_delete_notification_before = '%s까지 알림 정보를 삭제했습니다.';
 $lang->ncenterlite_message_delete_notification_all = '모든 알림을 삭제했습니다.';
-$lang->ncenterlite_config_environment = '<span class="x_label x_label-important">도와주세요!</span> 사용 환경 정보 제공 동의';
-$lang->ncenterlite_config_environment_about = '
-			<p>\'알림센터 Lite\'를 <a href="https://ko.wikipedia.org/wiki/자유소프트웨어" target="_blank">자유소프트웨어</a>로 제공하고 있습니다.</p>
-			<p>\'알림센터 Lite\'는 사용자의 버그 보고, 의견 제출을 통해 공동의 힘으로 발전하고 있습니다.<br>\'제공 동의\'를 선택하면 아래와 같은 항목이 전송되며, 알림센터 Lite의 기능을 개선하는데 참고하겠습니다. 감사합니다.</p>
-			<ul>
-				<li>이 사이트의 도메인</li>
-				<li>알림센터 Lite의 버전</li>
-				<li>XE 버전</li>
-				<li>PHP 버전</li>
-			</ul>
-		';
-$lang->about_mention_preview = '
-				<ul class="preview">
-					<li data-mention-default="enable"><strong>@스님</strong></li>
-					<li data-mention-default="enable"><strong>@선생님이다</strong></li>
-					<li data-mention-default="enable"><strong>@NAME</strong>&nbsp;&nbsp;…</li>
-					<li data-mention-default="enable"><strong>@NAME</strong>&nbsp;&nbsp;님</li>
-					<li><strong>@NAME</strong>님</li>
-					<li><strong>@NAME</strong>님과</li>
-					<li><strong>@NAME1</strong>님,&nbsp;&nbsp;<strong>@NAME2</strong>님이&nbsp;&nbsp;…</li>
-				</ul>
-				<p class="x_help-block">녹색으로 표시된 예시처럼 사용할 수 있습니다.</p>
-';
-$lang->ncenterlite_config_environment_agree = '제공 동의';
-$lang->ncenterlite_config_environment_disagree = '제공 안 함';
 $lang->ncenterlite_notice_list = '알림 목록';
-$lang->ncenterlite_basic_settings = '기본 기능 설정';
+$lang->ncenterlite_basic_settings = '기본 설정';
 $lang->ncenterlite_warning = '주의!';
-$lang->ncenterlite_io = '알림센터 동작여부';
+$lang->ncenterlite_io = '알림 대상 동작';
 $lang->ncenterlite_io_about = '알림센터의 모든 기능을 중지 시킬 수 있습니다.';
 $lang->ncenterlite_on = '동작';
 $lang->ncenterlite_only_message = '쪽지만';
 $lang->ncenterlite_off = '동작 안 함';
-$lang->ncenterlite_display = '알림센터 노출여부';
-$lang->ncenterlite_display_y = '노출';
-$lang->ncenterlite_display_n = '숨김';
-$lang->ncenterlite_display_about = '알림센터의 스킨을 사용할 것인지 혹은 위젯 레이아웃에서 제작되어 들어간 스킨을 사용할지 선택합니다. 기본은 알림센터모듈의 기본스킨을 사용하도록 합니다.
-			<span class="x_label x_label-important">주의!</span> 알림센터를 레이아웃이나 위젯으로 표현할 수 있을 때에만 동작안함 선택하세요.';
-$lang->ncenterlite_mention_target = '멘션 타겟 설정';
-$lang->ncenterlite_mention_target_about = '알림센터에서 닉네임 혹은 아이디 선택하여 맨션설정을 할 수 있습니다.';
+$lang->ncenterlite_display = '알림 표시 여부';
+$lang->ncenterlite_display_y = '표시';
+$lang->ncenterlite_display_n = '표시하지 않음';
+$lang->ncenterlite_display_about = '사용하는 레이아웃이나 위젯에 알림을 표시하는 기능이 있는 경우 중복을 막기 위해 알림센터의 알림을 숨길 수 있습니다.';
+$lang->ncenterlite_mention_target = '멘션 타겟';
+$lang->ncenterlite_mention_target_about = '멘션 알림을 @아이디 소유자에게 보낼지 @닉네임 소유자에게 보낼지 선택할 수 있습니다.';
 $lang->ncenterlite_skin_settings = '스킨 설정';
-$lang->ncenterlite_zindex = '알림센터의 z-index';
-$lang->ncenterlite_zindex_about = '알림센터가 다른 요소에 가려지는 경우에 100, 200, ... 이상으로 높여 보세요.';
+$lang->ncenterlite_zindex = '알림의 z-index';
+$lang->ncenterlite_zindex_about = '알림이 페이지 헤더 등 다른 요소에 가려지는 경우 z-index를 높여 보세요.';
+$lang->ncenterlite_test = '시험용 알림 생성';
 $lang->ncenterlite_test_make_dummy = '더미 데이터 생성';
 $lang->ncenterlite_test_mention = '시험용 스킨 알림 생성';
 $lang->ncenterlite_test_mention_about = '스킨 및 모듈 테스트를 위한 시험용 알림 생성.';
@@ -113,21 +89,21 @@ $lang->ncenterlite_test_push_about = '모듈 및 모바일 테스트를 위한 �
 $lang->ncenterlite_document_event_settings = '새 글 알림 및 문서알림';
 $lang->ncenterlite_document_event_vote = '글 추천 알림';
 $lang->ncenterlite_document_event_vote_about = '글이 추천받았을때 추천알림을 받을 수 있습니다.';
-$lang->ncenterlite_document_event_read = '게시판 읽을경우 관련알림 삭제';
-$lang->ncenterlite_document_event_read_preserve = '알림을 지우지 않음';
-$lang->ncenterlite_document_event_read_delete = '알림을 지움';
-$lang->ncenterlite_document_event_read_about = '게시판을 읽을경우 해당 글의 포함된 모든 알림내역을 알림내역에서 삭제 합니다. 기본값은 알림을 보존합니다.';
+$lang->ncenterlite_document_event_read = '글을 읽으면 관련 알림 삭제';
+$lang->ncenterlite_document_event_read_preserve = '삭제하지 않음';
+$lang->ncenterlite_document_event_read_delete = '삭제';
+$lang->ncenterlite_document_event_read_about = '글을 읽을 경우 해당 글과 관련된 모든 알림을 자동으로 삭제합니다.';
 $lang->ncenterlite_commnet_event = '댓글 알림 설정';
 $lang->ncenterlite_commnet_event_noti_all = '글쓴이에게 모든 댓글 알림';
 $lang->ncenterlite_commnet_event_noti_some = '대댓글은 알리지 않음';
 $lang->ncenterlite_message_event = '쪽지 알림 설정';
 $lang->ncenterlite_message_event_about = '쪽지 알림을 사용하지 않음(XE의 기본 쪽지 알림을 사용)';
-$lang->ncenterlite_mid_use = '알림센터 사용설정';
-$lang->member_menu_view = '회원정보 메뉴노출 설정';
-$lang->member_menu_on = '메뉴에 표시함';
-$lang->member_menu_off = '메뉴에 표시안함';
-$lang->about_member_menu_view = '회원정보보기에서 메뉴 목록에 회원알림센터 설정 및 회원알림목록을 접근할 수잇는 페이지를 노출하거나 노출 시키지 않을 수 있습니다.';
-$lang->ncenterlite_no_notify = '알림의 내역이 없습니다.';
+$lang->ncenterlite_mid_use = '모듈별 사용 설정';
+$lang->member_menu_view = '회원 메뉴 표시';
+$lang->member_menu_on = '표시';
+$lang->member_menu_off = '표시하지 않음';
+$lang->about_member_menu_view = '각 회원이 알림 설정을 변경할 수 있는 메뉴를 추가합니다.';
+$lang->ncenterlite_no_notify = '알림 내역이 없습니다.';
 $lang->ncenterlite_all_delete = '전체 삭제';
 $lang->ncenterlite_month_before_delete = '한 달 이전의 알림 삭제';
 $lang->dont_check_notify_delete = '회원이 확인하지 않은 알림도 삭제됩니다.';
@@ -137,8 +113,12 @@ $lang->notify_content = '알림 내용';
 $lang->notify_read_check = '알림 읽음 여부';
 $lang->notify_readed = '읽음';
 $lang->notify_dont_readed = '읽지않음';
-$lang->anonymous_nick_name_setting = '익명의 지정 닉네임';
-$lang->about_anonymous_nick_name = '익명게시판에서 고정된 익명닉네임인 \'Anonymous\'를 사용하지 않고 표기할 이름을 지정합니다. 기본값은 \'Anonymous\'입니다.';
-$lang->mention_setting = '맨션 설정';
-$lang->mention_nim = '\'님\'을 붙여 쓸 수 있도록 허용';
-$lang->ncenterlite_msg_setting_error = '설정에 오류가 있습니다. 다시 설정해주세요.';
+$lang->anonymous_nick_name_setting = '익명 닉네임 대체';
+$lang->about_anonymous_nick_name = '익명 게시판에서 발생한 알림에 표시할 이름을 지정합니다.';
+$lang->mention_suffixes = '멘션 접미사';
+$lang->about_mention_suffixes = '한국어처럼 존칭이나 조사를 붙여쓰는 언어에서 @알림센터님을 멘션해도 \'알림센터\' 회원에게 알립니다.<br>여러 접미사를 사용하려면 쉼표로 구분하여 입력해 주십시오.';
+$lang->mention_suffix_always_cut = '접미사가 포함된 이름 처리';
+$lang->mention_suffix_always_cut_y = '접미사를 제외한 이름의 회원 우선';
+$lang->mention_suffix_always_cut_n = '접미사를 포함한 이름의 회원 우선';
+$lang->about_mention_suffix_always_cut = '\'알림센터님\'이라는 회원과 \'알림센터\'라는 회원이 모두 있을 경우 @알림센터님을 멘션하면 누구에게 알릴지 선택합니다.';
+$lang->ncenterlite_msg_setting_error = '설정에 오류가 있습니다. 다시 설정해 주세요.';
