@@ -970,36 +970,24 @@ class ncenterliteController extends ncenterlite
 
 	function _insertNotify($args, $anonymous = FALSE)
 	{
-		$oNcenterliteModel = getModel('ncenterlite');
-		$config = $oNcenterliteModel->getConfig();
 		// 비회원 노티 제거
 		if($args->member_srl <= 0)
 		{
 			return new Object();
 		}
 
-		$logged_info = Context::get('logged_info');
+
 
 		if($anonymous == TRUE)
 		{
-			// 설정에서 익명 이름이 설정되어 있으면 익명 이름을 설정함. 없을 경우 Anonymous 를 사용한다.
-			if(!$config->anonymous_name)
-			{
-				$anonymous_name = 'Anonymous';
-			}
-			else
-			{
-				$anonymous_name = $config->anonymous_name;
-			}
-			// 익명 노티 시 회원정보 제거
 			$args->target_member_srl = 0;
-			$args->target_nick_name = $anonymous_name;
-			$args->target_user_id = $anonymous_name;
-			$args->target_email_address = $anonymous_name;
+			$args->target_user_id = $args->target_nick_name;
+			$args->target_email_address = $args->target_nick_name;
 		}
-		else if($logged_info)
+		// 로그인을 했을경우 logged_info 정보를 가져와 검사한다.
+		else if(Context::get('logged_info'))
 		{
-			// 익명 노티가 아닐 때 로그인 세션의 회원정보 넣기
+			$logged_info = Context::get('logged_info');
 			$args->target_member_srl = $logged_info->member_srl;
 			$args->target_nick_name = $logged_info->nick_name;
 			$args->target_user_id = $logged_info->user_id;
