@@ -658,10 +658,8 @@ class ncenterliteController extends ncenterlite
 			return;
 		}
 
-		$logged_info = Context::get('logged_info');
-
 		// 로그인 상태가 아니면 중지
-		if(!$logged_info)
+		if(!Context::get('is_logged'))
 		{
 			return;
 		}
@@ -706,8 +704,6 @@ class ncenterliteController extends ncenterlite
 
 		$js_args = array('./modules/ncenterlite/tpl/js/ncenterlite.js', 'body', '', 100000);
 		Context::loadFile($js_args);
-
-		$oNcenterliteModel = getModel('ncenterlite');
 
 		// 알림 목록 가져오기
 		$logged_info = Context::get('logged_info');
@@ -855,6 +851,12 @@ class ncenterliteController extends ncenterlite
 		$output = executeQuery('ncenterlite.updateNotifyReaded', $args);
 		//$output = executeQuery('ncenterlite.deleteNotify', $args);
 
+		//Remove flag files
+		$flag_path = \RX_BASEDIR . 'files/cache/ncenterlite/new_notify/' . getNumberingPath($args->member_srl) . $args->member_srl . '.php';
+		if(file_exists($flag_path))
+		{
+			FileHandler::removeFile($flag_path);
+		}
 		return $output;
 	}
 
@@ -866,6 +868,12 @@ class ncenterliteController extends ncenterlite
 		$output = executeQuery('ncenterlite.updateNotifyReadedByTargetSrl', $args);
 		//$output = executeQuery('ncenterlite.deleteNotifyByTargetSrl', $args);
 
+		//Remove flag files
+		$flag_path = \RX_BASEDIR . 'files/cache/ncenterlite/new_notify/' . getNumberingPath($args->member_srl) . $args->member_srl . '.php';
+		if(file_exists($flag_path))
+		{
+			FileHandler::removeFile($flag_path);
+		}
 		return $output;
 	}
 
@@ -876,6 +884,12 @@ class ncenterliteController extends ncenterlite
 		$output = executeQuery('ncenterlite.updateNotifyReadedAll', $args);
 		//$output = executeQuery('ncenterlite.deleteNotifyByMemberSrl', $args);
 
+		//Remove flag files
+		$flag_path = \RX_BASEDIR . 'files/cache/ncenterlite/new_notify/' . getNumberingPath($args->member_srl) . $args->member_srl . '.php';
+		if(file_exists($flag_path))
+		{
+			FileHandler::removeFile($flag_path);
+		}
 		return $output;
 	}
 
@@ -1022,7 +1036,7 @@ class ncenterliteController extends ncenterlite
 			}
 		}
 
-		$flag_path = \RX_BASEDIR . 'files/cache/ncenterlite/new_notify/' . getNumberingPath($args->target_member_srl) . $args->target_member_srl . '.php';
+		$flag_path = \RX_BASEDIR . 'files/cache/ncenterlite/new_notify/' . getNumberingPath($args->member_srl) . $args->member_srl . '.php';
 		if(file_exists($flag_path))
 		{
 			//remove flag files
@@ -1044,7 +1058,7 @@ class ncenterliteController extends ncenterlite
 			return;
 		}
 
-		FileHandler::makeDir(\RX_BASEDIR . 'files/cache/ncenterlite/new_notify' . getNumberingPath($member_srl));
+		FileHandler::makeDir(\RX_BASEDIR . 'files/cache/ncenterlite/new_notify/' . getNumberingPath($member_srl));
 		$buff = "<?php return unserialize(" . var_export(serialize($output), true) . ");\n";
 		FileHandler::writeFile($flag_path, $buff);
 	}

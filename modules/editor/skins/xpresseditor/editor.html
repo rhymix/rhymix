@@ -60,7 +60,8 @@
                     <select class="xpress_xeditor_ui_fontName_select" disabled="disabled">
                         <option value="">{$lang->edit->fontname}</option>
                         <!--@foreach($lang->edit->fontlist as $key=>$obj)-->
-                        <option value="{htmlspecialchars($obj, ENT_COMPAT | ENT_HTML401, 'UTF-8', false)}" style="font-family:{$obj}">{$obj}</option>
+                        {@ $fontname_simplified = trim(array_first(explode(',', $obj)), "'\" ")}
+                        <option value="{htmlspecialchars($obj, ENT_COMPAT | ENT_HTML401, 'UTF-8', false)}" style="font-family:{$obj}">{$fontname_simplified}</option>
                         <!--@end-->
                     </select>
                 </li>
@@ -458,7 +459,7 @@
         var auto_saved_msg = "{$lang->msg_auto_saved}";
 		var oEditor;
 		jQuery(function(){
-			oEditor = editorStart_xe("{$editor_sequence}", "{$editor_primary_key_name}", "{$editor_content_key_name}", "{$editor_height}", "{$colorset}", "{$content_style}",'{$content_font}','{$content_font_size}');
+			oEditor = editorStart_xe("{$editor_sequence}", "{$editor_primary_key_name}", "{$editor_content_key_name}", "{$editor_height}", "{$colorset}", "{$content_style}", '{$content_font}', '{$content_font_size}', '{$content_line_height}', '{$content_paragraph_spacing}', '{$content_word_break}');
 
 			<!--@if($allow_fileupload)-->
 			<load target="../../tpl/js/uploader.js" />

@@ -146,25 +146,30 @@ class editorAdminController extends editor
 		$configVars = Context::getRequestVars();
 		
 		$config = new stdClass;
-		if($configVars->font_defined != 'Y') $config->font_defined = $configVars->font_defined = 'N';
-		else $config->font_defined = 'Y';
-
-		if($config->font_defined == 'Y')
-			$config->content_font = $configVars->content_font_defined;
-		else
-			$config->content_font = $configVars->content_font;
-
 		$config->editor_skin = $configVars->editor_skin;
 		$config->editor_height = $configVars->editor_height;
 		$config->comment_editor_skin = $configVars->comment_editor_skin;
 		$config->comment_editor_height = $configVars->comment_editor_height;
 		$config->content_style = $configVars->content_style;
-
-		$config->content_font_size= $configVars->content_font_size.'px';
 		$config->sel_editor_colorset= $configVars->sel_editor_colorset;
 		$config->sel_comment_editor_colorset= $configVars->sel_comment_editor_colorset;
+		
+		if ($configVars->font_defined === 'Y')
+		{
+			$config->font_defined = 'Y';
+			$config->content_font = $configVars->content_font_defined;
+		}
+		else
+		{
+			$config->font_defined = $configVars->font_defined = 'N';
+			$config->content_font = $configVars->content_font;
+		}
+		$config->content_font_size = intval($configVars->content_font_size) . 'px';
+		$config->content_line_height = intval($configVars->content_line_height) . '%';
+		$config->content_paragraph_spacing = intval($configVars->content_paragraph_spacing) . 'px';
+		$config->content_word_break = $configVars->content_word_break;
 
-		$oModuleController->insertModuleConfig('editor',$config);
+		$oModuleController->insertModuleConfig('editor', $config);
 		$this->setRedirectUrl(Context::get('error_return_url'));
 	}
 
