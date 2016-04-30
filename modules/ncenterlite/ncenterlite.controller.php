@@ -985,7 +985,7 @@ class ncenterliteController extends ncenterlite
 			$args->target_email_address = $args->target_nick_name;
 		}
 		// 로그인을 했을경우 logged_info 정보를 가져와 검사한다.
-		else if(Context::get('logged_info'))
+		else if(Context::get('is_logged'))
 		{
 			$logged_info = Context::get('logged_info');
 			$args->target_member_srl = $logged_info->member_srl;
