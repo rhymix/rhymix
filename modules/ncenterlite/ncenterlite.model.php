@@ -34,7 +34,6 @@ class ncenterliteModel extends ncenterlite
 			if(!$config->skin) $config->skin = 'default';
 			if(!$config->colorset) $config->colorset = 'black';
 			if(!$config->zindex) $config->zindex = '9999';
-			if(!$config->anonymous_name) $config->anonymous_name = 'Anonymous';
 
 			self::$config = $config;
 		}
