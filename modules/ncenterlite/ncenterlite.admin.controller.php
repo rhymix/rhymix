@@ -41,10 +41,6 @@ class ncenterliteAdminController extends ncenterlite
 			{
 				$config->use = array();
 			}
-			if (!$config->anonymous_name)
-			{
-				$config->anonymous_name = null;
-			}
 			if (!$config->mention_suffixes)
 			{
 				$config->mention_suffixes = array();
