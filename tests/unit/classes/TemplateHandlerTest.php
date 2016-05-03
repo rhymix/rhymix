@@ -110,7 +110,7 @@ class TemplateHandlerTest extends \Codeception\TestCase\Test
             // <load target="style.css">
             array(
                 '<dummy /><load target="css/style.css" /><dummy />',
-                '?><dummy /><!--#Meta:tests/unit/classes/template/css/style.css--><?php $__tmp=array(\'tests/unit/classes/template/css/style.css\',\'\',\'\',\'\');Context::loadFile($__tmp);unset($__tmp); ?><dummy />'
+                '?><dummy /><!--#Meta:tests/unit/classes/template/css/style.css--><?php $__tmp=array(\'tests/unit/classes/template/css/style.css\',\'\',\'\',\'\',array());Context::loadFile($__tmp);unset($__tmp); ?><dummy />'
             ),
             // <unload target="style.css">
             array(
