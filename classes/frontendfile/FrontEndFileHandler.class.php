@@ -395,7 +395,11 @@ class FrontEndFileHandler extends Handler
 		{
 			foreach($indexedMap as $file)
 			{
-				$fullFilePath = $file->filePath . '/' . $file->fileName . '?' . date('YmdHis', filemtime($file->fileFullPath));
+				$fullFilePath = $file->filePath . '/' . $file->fileName;
+				if (!$file->isExternalURL && is_readable($file->fileFullPath))
+				{
+					$fullFilePath .= '?' . date('YmdHis', filemtime($file->fileFullPath));
+				}
 				$result[] = array('file' => $fullFilePath, 'media' => $file->media, 'targetie' => $file->targetIe);
 			}
 		}
@@ -429,7 +433,11 @@ class FrontEndFileHandler extends Handler
 		{
 			foreach($indexedMap as $file)
 			{
-				$fullFilePath = $file->filePath . '/' . $file->fileName . '?' . date('YmdHis', filemtime($file->fileFullPath));
+				$fullFilePath = $file->filePath . '/' . $file->fileName;
+				if (!$file->isExternalURL && is_readable($file->fileFullPath))
+				{
+					$fullFilePath .= '?' . date('YmdHis', filemtime($file->fileFullPath));
+				}
 				$result[] = array('file' => $fullFilePath, 'targetie' => $file->targetIe);
 			}
 		}
