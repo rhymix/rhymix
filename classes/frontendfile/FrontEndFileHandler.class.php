@@ -273,11 +273,11 @@ class FrontEndFileHandler extends Handler
 		}
 		
 		$file->fileName = $minifiedFileHash . '.' . $minifiedFileName;
-		$file->filePath = $this->_getAbsFileUrl('./files/cache/minify');
+		$file->filePath = \RX_BASEURL . 'files/cache/minify';
 		$file->fileRealPath = \RX_BASEDIR . 'files/cache/minify';
 		$file->fileFullPath = $minifiedFilePath;
 		$file->keyName = $minifiedFileHash . '.' . $file->fileNameNoExt . '.' . $file->fileExtension;
-		$file->cdnPath = $this->_normalizeFilePath('./files/cache/minify');
+		$file->cdnPath = './files/cache/minify';
 		$file->isMinified = true;
 	}
 	
@@ -311,11 +311,11 @@ class FrontEndFileHandler extends Handler
 		}
 		
 		$file->fileName = $compiledFileHash . '.' . $compiledFileName;
-		$file->filePath = $this->_getAbsFileUrl('./files/cache/minify');
+		$file->filePath = \RX_BASEURL . 'files/cache/minify';
 		$file->fileRealPath = \RX_BASEDIR . 'files/cache/minify';
 		$file->fileFullPath = $compiledFilePath;
 		$file->keyName = $compiledFileHash . '.' . $file->fileNameNoExt . '.' . $file->fileExtension;
-		$file->cdnPath = $this->_normalizeFilePath('./files/cache/minify');
+		$file->cdnPath = './files/cache/minify';
 		$file->isMinified = true;
 		$file->fileExtension = 'css';
 	}
@@ -488,24 +488,11 @@ class FrontEndFileHandler extends Handler
 	 */
 	function _getAbsFileUrl($path)
 	{
-		$path = $this->_normalizeFilePath($path);
-
-		if(strpos($path, './') === 0)
+		$path = Rhymix\Framework\Filters\FilenameFilter::cleanPath($path);
+		if (!strncmp($path, \RX_BASEDIR, strlen(\RX_BASEDIR)))
 		{
-			if(dirname($_SERVER['SCRIPT_NAME']) == '/' || dirname($_SERVER['SCRIPT_NAME']) == '\\')
-			{
-				$path = '/' . substr($path, 2);
-			}
-			else
-			{
-				$path = dirname($_SERVER['SCRIPT_NAME']) . '/' . substr($path, 2);
-			}
+			$path = \RX_BASEURL . substr($path, strlen(\RX_BASEDIR));
 		}
-		else if(strpos($file, '../') === 0)
-		{
-			$path = $this->_normalizeFilePath(dirname($_SERVER['SCRIPT_NAME']) . "/{$path}");
-		}
-
 		return $path;
 	}
 
