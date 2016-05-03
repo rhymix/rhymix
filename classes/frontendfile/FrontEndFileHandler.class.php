@@ -82,6 +82,7 @@ class FrontEndFileHandler extends Handler
 	 * 		$args[1]: media
 	 * 		$args[2]: target IE
 	 * 		$args[3]: index
+	 * 		$args[4]: vars for LESS and SCSS
 	 * </pre>
 	 *
 	 * @param array $args Arguments
@@ -99,7 +100,7 @@ class FrontEndFileHandler extends Handler
 		{
 			return;
 		}
-		$file = $this->getFileInfo($args[0], $args[2], $args[1], $isCommon);
+		$file = $this->getFileInfo($args[0], $args[2], $args[1], $args[4], $isCommon);
 		$file->index = (int)$args[3];
 
 		$availableExtension = array('css' => 1, 'js' => 1);
@@ -143,10 +144,11 @@ class FrontEndFileHandler extends Handler
 	 * @param string $fileName The file name
 	 * @param string $targetIe Target IE of file
 	 * @param string $media Media of file
+	 * @param array $vars Variables for LESS and SCSS
 	 * @param bool $forceMinify Whether this file should be minified
 	 * @return stdClass The file information
 	 */
-	protected function getFileInfo($fileName, $targetIe = '', $media = 'all', $forceMinify = false)
+	protected function getFileInfo($fileName, $targetIe = '', $media = 'all', $vars = array(), $forceMinify = false)
 	{
 		static $existsInfo = array();
 
@@ -217,7 +219,7 @@ class FrontEndFileHandler extends Handler
 				break;
 			case 'less':
 			case 'scss':
-				$this->proc_LESS_SCSS($file, $minify);
+				$this->proc_LESS_SCSS($file, $minify, (array)$vars);
 				break;
 			default:
 				break;
