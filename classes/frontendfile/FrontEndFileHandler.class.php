@@ -395,9 +395,7 @@ class FrontEndFileHandler extends Handler
 		{
 			foreach($indexedMap as $file)
 			{
-				$noneCache = (is_readable($file->cdnPath . '/' . $file->fileName)) ? '?' . date('YmdHis', filemtime($file->cdnPath . '/' . $file->fileName)) : '';
-				$fullFilePath = $file->filePath . '/' . $file->fileName . $noneCache;
-				
+				$fullFilePath = $file->filePath . '/' . $file->fileName . '?' . date('YmdHis', filemtime($file->fileFullPath));
 				$result[] = array('file' => $fullFilePath, 'media' => $file->media, 'targetie' => $file->targetIe);
 			}
 		}
@@ -431,9 +429,7 @@ class FrontEndFileHandler extends Handler
 		{
 			foreach($indexedMap as $file)
 			{
-				$noneCache = (is_readable($file->cdnPath . '/' . $file->fileName)) ? '?' . date('YmdHis', filemtime($file->cdnPath . '/' . $file->fileName)) : '';
-				$fullFilePath = $file->filePath . '/' . $file->fileName . $noneCache;
-				
+				$fullFilePath = $file->filePath . '/' . $file->fileName . '?' . date('YmdHis', filemtime($file->fileFullPath));
 				$result[] = array('file' => $fullFilePath, 'targetie' => $file->targetIe);
 			}
 		}
