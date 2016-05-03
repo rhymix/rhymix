@@ -87,7 +87,7 @@ class FrontEndFileHandler extends Handler
 	 * @param array $args Arguments
 	 * @return void
 	 * */
-	function loadFile($args)
+	public function loadFile($args)
 	{
 		if(!is_array($args))
 		{
@@ -113,7 +113,7 @@ class FrontEndFileHandler extends Handler
 			$map = &$this->cssMap;
 			$mapIndex = &$this->cssMapIndex;
 
-			$this->_arrangeCssIndex($pathInfo['dirname'], $file);
+			$this->_arrangeCssIndex($file->fileRealPath, $file);
 		}
 		else if($file->fileExtension == 'js')
 		{
@@ -131,7 +131,7 @@ class FrontEndFileHandler extends Handler
 
 		if(!isset($mapIndex[$file->key]) || $mapIndex[$file->key] > $file->index)
 		{
-			$this->unloadFile($args[0], $args[2], $args[1]);
+			//$this->unloadFile($args[0], $args[2], $args[1]);
 			$map[$file->index][$file->key] = $file;
 			$mapIndex[$file->key] = $file->index;
 		}
@@ -146,7 +146,7 @@ class FrontEndFileHandler extends Handler
 	 * @param bool $forceMinify Whether this file should be minified
 	 * @return stdClass The file information
 	 */
-	private function getFileInfo($fileName, $targetIe = '', $media = 'all', $forceMinify = false)
+	protected function getFileInfo($fileName, $targetIe = '', $media = 'all', $forceMinify = false)
 	{
 		static $existsInfo = array();
 
@@ -165,6 +165,7 @@ class FrontEndFileHandler extends Handler
 		$file->fileName = $pathInfo['basename'];
 		$file->filePath = $this->_getAbsFileUrl($pathInfo['dirname']);
 		$file->fileRealPath = FileHandler::getRealPath($pathInfo['dirname']);
+		$file->fileFullPath = $file->fileRealPath . '/' . $pathInfo['basename'];
 		$file->fileExtension = strtolower($pathInfo['extension']);
 		if(preg_match('/^(.+)\.min$/', $pathInfo['filename'], $matches))
 		{
@@ -180,65 +181,46 @@ class FrontEndFileHandler extends Handler
 		$file->isCachedScript = !$file->isExternalURL && strpos($file->filePath, 'files/cache/') !== false;
 		$file->keyName = $file->fileNameNoExt . '.' . $file->fileExtension;
 		$file->cdnPath = $this->_normalizeFilePath($pathInfo['dirname']);
-		$originalFilePath = $file->fileRealPath . '/' . $pathInfo['basename'];
 
 		// Fix incorrectly minified URL
-		if($file->isMinified && !$file->isExternalURL && (!file_exists($originalFilePath) || is_link($originalFilePath) ||
-			(filesize($originalFilePath) < 32 && trim(file_get_contents($originalFilePath)) === $file->keyName)))
+		if($file->isMinified && !$file->isExternalURL && (!file_exists($file->fileFullPath) || is_link($file->fileFullPath) ||
+			(filesize($file->fileFullPath) < 32 && trim(file_get_contents($file->fileFullPath)) === $file->keyName)))
 		{
 			if(file_exists($file->fileRealPath . '/' . $file->fileNameNoExt . '.' . $file->fileExtension))
 			{
 				$file->fileName = $file->fileNameNoExt . '.' . $file->fileExtension;
 				$file->isMinified = false;
-				$originalFilePath = $file->fileRealPath . '/' . $file->fileNameNoExt . '.' . $file->fileExtension;
+				$file->fileFullPath = $file->fileRealPath . '/' . $file->fileNameNoExt . '.' . $file->fileExtension;
 			}
 		}
 
 		// Decide whether to minify this file
-		if(self::$minify === 'all')
+		if ($file->isMinified || $file->isExternalURL || $file->isCachedScript || strpos($file->filePath, 'common/js/plugins') !== false || self::$minify === 'none')
 		{
-			$minify_enabled = true;
+			$minify = false;
 		}
-		elseif(self::$minify === 'none')
+		elseif (self::$minify === 'all')
 		{
-			$minify_enabled = false;
+			$minify = true;
 		}
 		else
 		{
-			$minify_enabled = $forceMinify;
+			$minify = $forceMinify;
 		}
 		
-		// Minify file
-		if($minify_enabled && !$file->isMinified && !$file->isExternalURL && !$file->isCachedScript && strpos($file->filePath, 'common/js/plugins') === false)
+		// Process according to file type
+		switch ($file->fileExtension)
 		{
-			if(($file->fileExtension === 'css' || $file->fileExtension === 'js') && file_exists($originalFilePath))
-			{
-				$minifiedFileName = $file->fileNameNoExt . '.min.' . $file->fileExtension;
-				$minifiedFileHash = ltrim(str_replace(array('/', '\\'), '.', $pathInfo['dirname']), '.');
-				$minifiedFilePath = _XE_PATH_ . 'files/cache/minify/' . $minifiedFileHash . '.' . $minifiedFileName;
-			
-				if(!file_exists($minifiedFilePath) || filemtime($minifiedFilePath) < filemtime($originalFilePath))
-				{
-					if($file->fileExtension === 'css')
-					{
-						$minifier = new MatthiasMullie\Minify\CSS($originalFilePath);
-						$content = $minifier->execute($minifiedFilePath);
-					}
-					else
-					{
-						$minifier = new MatthiasMullie\Minify\JS($originalFilePath);
-						$content = $minifier->execute($minifiedFilePath);
-					}
-					FileHandler::writeFile($minifiedFilePath, $content);
-				}
-				
-				$file->fileName = $minifiedFileHash . '.' . $minifiedFileName;
-				$file->filePath = $this->_getAbsFileUrl('./files/cache/minify');
-				$file->fileRealPath = _XE_PATH_ . 'files/cache/minify';
-				$file->keyName = $minifiedFileHash . '.' . $file->fileNameNoExt . '.' . $file->fileExtension;
-				$file->cdnPath = $this->_normalizeFilePath('./files/cache/minify');
-				$file->isMinified = true;
-			}
+			case 'css':
+			case 'js':
+				$this->proc_CSS_JS($file, $minify);
+				break;
+			case 'less':
+			case 'scss':
+				$this->proc_LESS_SCSS($file, $minify);
+				break;
+			default:
+				break;
 		}
 
 		// Process targetIe and media attributes
@@ -259,6 +241,82 @@ class FrontEndFileHandler extends Handler
 
 		return $file;
 	}
+	
+	/**
+	 * Process CSS and JS file
+	 * 
+	 * @param object $file
+	 * @param bool $minify
+	 * @return void
+	 */
+	protected function proc_CSS_JS($file, $minify)
+	{
+		if (!$minify || !file_exists($file->fileFullPath))
+		{
+			return;
+		}
+		
+		$minifiedFileName = $file->fileNameNoExt . '.min.' . $file->fileExtension;
+		$minifiedFileHash = ltrim(str_replace(array('/', '\\'), '.', substr($file->fileRealPath, strlen(\RX_BASEDIR))), '.');
+		$minifiedFilePath = \RX_BASEDIR . 'files/cache/minify/' . $minifiedFileHash . '.' . $minifiedFileName;
+		
+		if (!file_exists($minifiedFilePath) || filemtime($minifiedFilePath) < filemtime($file->fileFullPath))
+		{
+			$method_name = 'minify' . $file->fileExtension;
+			$success = Rhymix\Framework\Formatter::$method_name($file->fileFullPath, $minifiedFilePath);
+			if ($success === false)
+			{
+				return;
+			}
+		}
+		
+		$file->fileName = $minifiedFileHash . '.' . $minifiedFileName;
+		$file->filePath = $this->_getAbsFileUrl('./files/cache/minify');
+		$file->fileRealPath = \RX_BASEDIR . 'files/cache/minify';
+		$file->fileFullPath = $minifiedFilePath;
+		$file->keyName = $minifiedFileHash . '.' . $file->fileNameNoExt . '.' . $file->fileExtension;
+		$file->cdnPath = $this->_normalizeFilePath('./files/cache/minify');
+		$file->isMinified = true;
+	}
+	
+	/**
+	 * Process LESS and SCSS file
+	 * 
+	 * @param object $file
+	 * @param bool $minify
+	 * @param array $vars
+	 * @return void
+	 */
+	protected function proc_LESS_SCSS($file, $minify, $vars = array())
+	{
+		if (!file_exists($file->fileFullPath))
+		{
+			return;
+		}
+		
+		$compiledFileName = $file->fileName . ($minify ? '.min' : '') . '.css';
+		$compiledFileHash = ltrim(str_replace(array('/', '\\'), '.', substr($file->fileRealPath, strlen(\RX_BASEDIR))), '.');
+		$compiledFilePath = \RX_BASEDIR . 'files/cache/minify/' . $compiledFileHash . '.' . $compiledFileName;
+		
+		if (!file_exists($compiledFilePath) || filemtime($compiledFilePath) < filemtime($file->fileFullPath))
+		{
+			$method_name = 'compile' . $file->fileExtension;
+			$success = Rhymix\Framework\Formatter::$method_name($file->fileFullPath, $compiledFilePath, $vars, $minify);
+			if ($success === false)
+			{
+				return;
+			}
+		}
+		
+		$file->fileName = $compiledFileHash . '.' . $compiledFileName;
+		$file->filePath = $this->_getAbsFileUrl('./files/cache/minify');
+		$file->fileRealPath = \RX_BASEDIR . 'files/cache/minify';
+		$file->fileFullPath = $compiledFilePath;
+		$file->keyName = $compiledFileHash . '.' . $file->fileNameNoExt . '.' . $file->fileExtension;
+		$file->cdnPath = $this->_normalizeFilePath('./files/cache/minify');
+		$file->isMinified = true;
+		$file->fileExtension = 'css';
+	}
 
 	/**
 	 * Unload front end file
@@ -268,7 +326,7 @@ class FrontEndFileHandler extends Handler
 	 * @param string $media Media of file to unload. Only use when file is css.
 	 * @return void
 	 */
-	function unloadFile($fileName, $targetIe = '', $media = 'all')
+	public function unloadFile($fileName, $targetIe = '', $media = 'all')
 	{
 		$file = $this->getFileInfo($fileName, $targetIe, $media);
 
@@ -452,19 +510,23 @@ class FrontEndFileHandler extends Handler
 	/**
 	 * Arrage css index
 	 *
-	 * @param string $dirName First directory  name of css path
-	 * @param array $file file info.
+	 * @param string $dirname
+	 * @param object $file
 	 * @return void
 	 */
-	function _arrangeCssIndex($dirName, &$file)
+	function _arrangeCssIndex($dirname, $file)
 	{
-		if($file->index !== 0)
+		if ($file->index !== 0)
 		{
 			return;
 		}
-
-		$dirName = str_replace('./', '', $dirName);
-		$tmp = explode('/', $dirName);
+		
+		$dirname = substr($dirname, strlen(\RX_BASEDIR));
+		if (strncmp($dirname, 'files/cache/minify/', 19) === 0)
+		{
+			$dirname = substr($dirname, 19);
+		}
+		$tmp = array_first(explode('/', strtr($dirname, '\\.', '//')));
 
 		$cssSortList = array('common' => -100000, 'layouts' => -90000, 'modules' => -80000, 'widgets' => -70000, 'addons' => -60000);
 		$file->index = $cssSortList[$tmp[0]];
