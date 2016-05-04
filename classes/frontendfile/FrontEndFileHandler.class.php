@@ -97,13 +97,13 @@ class FrontEndFileHandler extends Handler
 		$file = $this->getFileInfo($args[0], $args[2], $args[1], $args[4], $isCommon);
 		$file->index = (int)$args[3];
 
-		$availableExtension = array('css' => 1, 'js' => 1);
+		$availableExtension = array('css' => 1, 'js' => 1, 'less' => 1, 'scss' => 1);
 		if(!isset($availableExtension[$file->fileExtension]))
 		{
 			return;
 		}
 
-		if($file->fileExtension == 'css')
+		if($file->fileExtension == 'css' || $file->fileExtension == 'less' || $file->fileExtension == 'scss')
 		{
 			$map = &$this->cssMap;
 			$mapIndex = &$this->cssMapIndex;
@@ -194,7 +194,7 @@ class FrontEndFileHandler extends Handler
 		
 		// Process targetIe and media attributes
 		$file->targetIe = $targetIe;
-		if($file->fileExtension == 'css')
+		if($file->fileExtension == 'css' || $file->fileExtension == 'less' || $file->fileExtension == 'scss')
 		{
 			$file->media = $media;
 			if(!$file->media)
