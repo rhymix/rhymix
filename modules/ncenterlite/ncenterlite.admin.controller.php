@@ -41,11 +41,15 @@ class ncenterliteAdminController extends ncenterlite
 			{
 				$config->use = array();
 			}
+		}
+		
+		if ($obj->disp_act == 'dispNcenterliteAdminAdvancedconfig')
+		{
 			if (!$config->mention_suffixes)
 			{
 				$config->mention_suffixes = array();
 			}
-			if (!is_array($config->mention_suffixes))
+			else if (!is_array($config->mention_suffixes))
 			{
 				$config->mention_suffixes = array_map('trim', explode(',', $config->mention_suffixes));
 			}
