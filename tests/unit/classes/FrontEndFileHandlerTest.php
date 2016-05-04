@@ -39,7 +39,7 @@ class FrontEndFileHandlerTest extends \Codeception\TestCase\Test
 			$handler = new FrontEndFileHandler();
 			$handler->loadFile(array('./common/css/rhymix.scss'));
 			$handler->loadFile(array('./common/css/mobile.css'));
-			$expected[] = array('file' => '/rhymix/files/cache/minify/common.css.rhymix.scss.css', 'media' => 'all', 'targetie' => null);
+			$expected[] = array('file' => '/rhymix/files/cache/assets/compiled/common.css.rhymix.scss.css', 'media' => 'all', 'targetie' => null);
 			$expected[] = array('file' => '/rhymix/common/css/mobile.css' . $this->_filemtime('common/css/mobile.css'), 'media' => 'all', 'targetie' => null);
 			$result = $handler->getCssFileList();
 			$result[0]['file'] = preg_replace('/\?\d+$/', '', $result[0]['file']);
@@ -153,8 +153,8 @@ class FrontEndFileHandlerTest extends \Codeception\TestCase\Test
 			$handler = new FrontEndFileHandler();
 			$handler->loadFile(array('./common/css/rhymix.scss'));
 			$handler->loadFile(array('./common/css/mobile.css'));
-			$expected[] = array('file' => '/rhymix/files/cache/minify/common.css.rhymix.scss.min.css', 'media' => 'all', 'targetie' => null);
-			$expected[] = array('file' => '/rhymix/files/cache/minify/common.css.mobile.min.css', 'media' => 'all', 'targetie' => null);
+			$expected[] = array('file' => '/rhymix/files/cache/assets/compiled/common.css.rhymix.scss.min.css', 'media' => 'all', 'targetie' => null);
+			$expected[] = array('file' => '/rhymix/files/cache/assets/minified/common.css.mobile.min.css', 'media' => 'all', 'targetie' => null);
 			$result = $handler->getCssFileList();
 			$result[0]['file'] = preg_replace('/\?\d+$/', '', $result[0]['file']);
 			$result[1]['file'] = preg_replace('/\?\d+$/', '', $result[1]['file']);
