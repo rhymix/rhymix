@@ -189,7 +189,8 @@ class Formatter
 				$less_compiler->setVariables($variables);
 			}
 			
-			$content = '@charset "UTF-8";' . "\n" . $less_compiler->compile($content) . "\n";
+			$charset = strpos($content, '@charset') === false ? ('@charset "UTF-8";' . "\n") : '';
+			$content = $charset . $less_compiler->compile($content) . "\n";
 			$result = true;
 		}
 		catch (\Exception $e)
@@ -228,7 +229,8 @@ class Formatter
 				$scss_compiler->setVariables($variables);
 			}
 			
-			$content = '@charset "UTF-8";' . "\n" . $scss_compiler->compile($content) . "\n";
+			$charset = strpos($content, '@charset') === false ? ('@charset "UTF-8";' . "\n") : '';
+			$content = $charset . $scss_compiler->compile($content) . "\n";
 			$result = true;
 		}
 		catch (\Exception $e)
