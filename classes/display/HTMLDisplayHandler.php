@@ -416,7 +416,7 @@ class HTMLDisplayHandler
 	 */
 	private function _loadCommonJSCSS()
 	{
-		Context::loadFile(array('./common/css/xe.css', '', '', -1600000), true);
+		Context::loadFile(array('./common/css/rhymix.scss', '', '', -1600000), true);
 		$original_file_list = array('x', 'common', 'js_app', 'xml_handler', 'xml_js_filter');
 		$jquery_version = preg_match('/MSIE [5-8]\./', $_SERVER['HTTP_USER_AGENT']) ? '1.11.3' : '2.1.4';
 		
