@@ -375,7 +375,7 @@ class Formatter
 				$content = 'if (' . self::convertIECondition($targetie) . ') {' . "\n\n" . $content . "\n\n" . '}';
 			}
 			$original_filename = starts_with(\RX_BASEDIR, $filename) ? substr($filename, strlen(\RX_BASEDIR)) : $filename;
-			$result .= '/* Original file: ' . $original_filename . ' */' . "\n\n" . trim($content) . "\n\n";
+			$result .= '/* Original file: ' . $original_filename . ' */' . "\n\n" . trim($content) . ";\n\n";
 		}
 		
 		return $result;
