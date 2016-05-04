@@ -15,6 +15,7 @@ class FrontEndFileHandlerTest extends \Codeception\TestCase\Test
 		HTMLDisplayHandler::$reservedCSS = '/xxx$/';
 		HTMLDisplayHandler::$reservedJS = '/xxx$/';
 		FrontEndFileHandler::$minify = 'none';
+		FrontEndFileHandler::$concat = 'none';
 
 		$this->specify("js(head)", function() {
 			$handler = new FrontEndFileHandler();

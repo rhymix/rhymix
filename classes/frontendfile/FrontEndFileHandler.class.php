@@ -8,9 +8,10 @@
 class FrontEndFileHandler extends Handler
 {
 	/**
-	 * Minification configuration.
+	 * Minification and concatenation configuration.
 	 */
 	public static $minify = null;
+	public static $concat = null;
 
 	/**
 	 * Map for css
@@ -353,7 +354,7 @@ class FrontEndFileHandler extends Handler
 		$map = &$this->cssMap;
 		$mapIndex = &$this->cssMapIndex;
 		$minify = self::$minify !== null ? self::$minify : (config('view.minify_scripts') ?: 'common');
-		$concat = strpos(config('view.concat_scripts'), 'css') !== false;
+		$concat = strpos(self::$concat !== null ? self::$concat : config('view.concat_scripts'), 'css') !== false;
 		$this->_sortMap($map, $mapIndex);
 		
 		// Minify all scripts, and compile LESS/SCSS into CSS.
@@ -446,7 +447,7 @@ class FrontEndFileHandler extends Handler
 		}
 		
 		$minify = self::$minify !== null ? self::$minify : (config('view.minify_scripts') ?: 'common');
-		$concat = strpos(config('view.concat_scripts'), 'js') !== false;
+		$concat = strpos(self::$concat !== null ? self::$concat : config('view.concat_scripts'), 'js') !== false;
 		$this->_sortMap($map, $mapIndex);
 		
 		// Minify all scripts.
