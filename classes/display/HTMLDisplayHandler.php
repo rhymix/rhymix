@@ -6,7 +6,7 @@ class HTMLDisplayHandler
 	/**
 	 * Reserved scripts
 	 */
-	public static $reservedCSS = '@\bcommon/css/(?:xe|mobile)\.(?:min\.)?css$@';
+	public static $reservedCSS = '@\bcommon/css/(?:xe|rhymix|mobile)\.(?:min\.)?(?:s?css|less)$@';
 	public static $reservedJS = '@\bcommon/js/(?:jquery(?:-[123][0-9.x-]+)?|xe?|common|js_app|xml_handler|xml_js_filter)\.(?:min\.)?js$@';
 	
 	/**
