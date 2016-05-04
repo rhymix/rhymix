@@ -337,9 +337,109 @@ class Formatter
 			{
 				$content = "@media $media {\n\n$content\n\n}";
 			}
-			$result .= trim($content) . "\n\n";
+			$original_filename = starts_with(\RX_BASEDIR, $filename) ? substr($filename, strlen(\RX_BASEDIR)) : $filename;
+			$result .= '/* Original file: ' . $original_filename . ' */' . "\n\n" . trim($content) . "\n\n";
 		}
 		
 		return $result;
+	}
+	
+	/**
+	 * JS concatenation subroutine.
+	 * 
+	 * @param string|array $source_filename
+	 * @param string $target_filename
+	 * @return string
+	 */
+	public static function concatJS($source_filename, $target_filename)
+	{
+		$result = '';
+		
+		if (!is_array($source_filename))
+		{
+			$source_filename = array($source_filename);
+		}
+		foreach ($source_filename as $filename)
+		{
+			if (is_array($filename) && count($filename) >= 2)
+			{
+				list($filename, $targetie) = $filename;
+			}
+			else
+			{
+				$targetie = null;
+			}
+			$content = utf8_clean(file_get_contents($filename));
+			if ($targetie !== null)
+			{
+				$content = 'if (' . self::convertIECondition($targetie) . ') {' . "\n\n" . $content . "\n\n" . '}';
+			}
+			$original_filename = starts_with(\RX_BASEDIR, $filename) ? substr($filename, strlen(\RX_BASEDIR)) : $filename;
+			$result .= '/* Original file: ' . $original_filename . ' */' . "\n\n" . trim($content) . "\n\n";
+		}
+		
+		return $result;
+	}
+	
+	/**
+	 * Convert IE conditional comments to JS conditions.
+	 * 
+	 * @param string $condition
+	 * @return string
+	 */
+	public static function convertIECondition($condition)
+	{
+		$conversions = array(
+			'/^true$/i' => 'true',
+			'/^false$/i' => 'false',
+			'/^IE$/i' => 'window.navigator.userAgent.match(/MSIE\s/)',
+			'/^IE\s*(\d+)$/i' => '(/MSIE (\d+)/.exec(window.navigator.userAgent) && /MSIE (\d+)/.exec(window.navigator.userAgent)[1] == %d)',
+			'/^gt IE\s*(\d+)$/i' => '(/MSIE (\d+)/.exec(window.navigator.userAgent) && /MSIE (\d+)/.exec(window.navigator.userAgent)[1] > %d)',
+			'/^gte IE\s*(\d+)$/i' => '(/MSIE (\d+)/.exec(window.navigator.userAgent) && /MSIE (\d+)/.exec(window.navigator.userAgent)[1] >= %d)',
+			'/^lt IE\s*(\d+)$/i' => '(/MSIE (\d+)/.exec(window.navigator.userAgent) && /MSIE (\d+)/.exec(window.navigator.userAgent)[1] < %d)',
+			'/^lte IE\s*(\d+)$/i' => '(/MSIE (\d+)/.exec(window.navigator.userAgent) && /MSIE (\d+)/.exec(window.navigator.userAgent)[1] <= %d)',
+		);
+		
+		$result = array();
+		$conditions = preg_split('/([\&\|])/', $condition, -1, \PREG_SPLIT_NO_EMPTY | \PREG_SPLIT_DELIM_CAPTURE);
+		foreach ($conditions as $condition)
+		{
+			$condition = trim(preg_replace('/[\(\)]/', '', $condition));
+			if ($condition === '')
+			{
+				continue;
+			}
+			
+			if ($condition === '&' || $condition === '|')
+			{
+				$result[] = $condition . $condition;
+				continue;
+			}
+			
+			$negation = $condition[0] === '!';
+			if ($negation)
+			{
+				$condition = trim(substr($condition, 1));
+			}
+			
+			foreach ($conversions as $regexp => $replacement)
+			{
+				if (preg_match($regexp, $condition, $matches))
+				{
+					if (count($matches) > 1)
+					{
+						array_shift($matches);
+						$result[] = ($negation ? '!' : '') . vsprintf($replacement, $matches);
+					}
+					else
+					{
+						$result[] = ($negation ? '!' : '') . $replacement;
+					}
+					break;
+				}
+			}
+		}
+		
+		return count($result) ? implode(' ', $result) : 'false';
 	}
 }
