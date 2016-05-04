@@ -434,13 +434,13 @@ class HTMLDisplayHandler
 			Context::loadFile(array('./common/js/jquery-' . $jquery_version . '.min.js', 'head', '', -1730000), true);
 			Context::loadFile(array('./common/js/plugins/jquery.migrate/jquery-migrate-1.2.1.min.js', 'head', '', -1720000), true);
 			$concat_target_filename = 'files/cache/minify/xe.min.js';
-			if(file_exists(_XE_PATH_ . $concat_target_filename))
+			if(file_exists(\RX_BASEDIR . $concat_target_filename))
 			{
-				$concat_target_mtime = filemtime(_XE_PATH_ . $concat_target_filename);
+				$concat_target_mtime = filemtime(\RX_BASEDIR . $concat_target_filename);
 				$original_mtime = 0;
 				foreach($original_file_list as $filename)
 				{
-					$original_mtime = max($original_mtime, filemtime(_XE_PATH_ . 'common/js/' . $filename . '.js'));
+					$original_mtime = max($original_mtime, filemtime(\RX_BASEDIR . 'common/js/' . $filename . '.js'));
 				}
 				if($concat_target_mtime > $original_mtime)
 				{
@@ -448,12 +448,9 @@ class HTMLDisplayHandler
 					return;
 				}
 			}
-			$minifier = new MatthiasMullie\Minify\JS();
-			foreach($original_file_list as $filename)
-			{
-				$minifier->add(_XE_PATH_ . 'common/js/' . $filename . '.js');
-			}
-			FileHandler::writeFile(_XE_PATH_ . $concat_target_filename, $minifier->execute());
+			Rhymix\Framework\Formatter::minifyJS(array_map(function($str) {
+				return \RX_BASEDIR . 'common/js/' . $str . '.js';
+			}, $original_file_list), \RX_BASEDIR . $concat_target_filename);
 			Context::loadFile(array('./' . $concat_target_filename, 'head', '', -100000), true);
 		}
 	}

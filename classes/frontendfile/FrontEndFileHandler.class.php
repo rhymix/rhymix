@@ -7,8 +7,9 @@
  * */
 class FrontEndFileHandler extends Handler
 {
-
-	public static $isSSL = null;
+	/**
+	 * Minification configuration.
+	 */
 	public static $minify = null;
 
 	/**
@@ -55,15 +56,7 @@ class FrontEndFileHandler extends Handler
 	 */
 	function isSsl()
 	{
-		if(!is_null(self::$isSSL))
-		{
-			return self::$isSSL;
-		}
-
-		$url_info = parse_url(Context::getRequestUrl());
-		self::$isSSL = ($url_info['scheme'] == 'https');
-
-		return self::$isSSL;
+		return \RX_SSL;
 	}
 
 	/**

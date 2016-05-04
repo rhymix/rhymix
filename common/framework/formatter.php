@@ -251,7 +251,18 @@ class Formatter
 	 */
 	public static function minifyCSS($source_filename, $target_filename)
 	{
-		$minifier = new \MatthiasMullie\Minify\CSS($source_filename);
+		$minifier = new \MatthiasMullie\Minify\CSS();
+		if (is_array($source_filename))
+		{
+			foreach ($source_filename as $filename)
+			{
+				$minifier->add($filename);
+			}
+		}
+		else
+		{
+			$minifier->add($source_filename);
+		}
 		$content = $minifier->execute($target_filename);
 		Storage::write($target_filename, $content);
 		return strlen($content) ? true : false;
@@ -266,7 +277,18 @@ class Formatter
 	 */
 	public static function minifyJS($source_filename, $target_filename)
 	{
-		$minifier = new \MatthiasMullie\Minify\JS($source_filename);
+		$minifier = new \MatthiasMullie\Minify\JS();
+		if (is_array($source_filename))
+		{
+			foreach ($source_filename as $filename)
+			{
+				$minifier->add($filename);
+			}
+		}
+		else
+		{
+			$minifier->add($source_filename);
+		}
 		$content = $minifier->execute($target_filename);
 		Storage::write($target_filename, $content);
 		return strlen($content) ? true : false;
