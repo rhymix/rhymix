@@ -395,8 +395,8 @@ class FrontEndFileHandler extends Handler
 					$concat_max_timestamp = 0;
 					foreach ($concat_fileset as $file)
 					{
-						$concat_files[] = $file->media === 'all' ? $file->fileFullPath : array($file->fileFullPath, $concat_file->media);
-						$concat_max_timestamp = max($concat_max_timestamp, filemtime($concat_file->fileFullPath));
+						$concat_files[] = $file->media === 'all' ? $file->fileFullPath : array($file->fileFullPath, $file->media);
+						$concat_max_timestamp = max($concat_max_timestamp, filemtime($file->fileFullPath));
 					}
 					$concat_filename = 'files/cache/minify/concat.' . sha1(serialize($concat_files)) . '.css';
 					if (!file_exists(\RX_BASEDIR . $concat_filename) || filemtime(\RX_BASEDIR . $concat_filename) < $concat_max_timestamp)
@@ -483,8 +483,8 @@ class FrontEndFileHandler extends Handler
 					$concat_max_timestamp = 0;
 					foreach ($concat_fileset as $file)
 					{
-						$concat_files[] = $file->targetIe ? $file->fileFullPath : array($file->fileFullPath, $concat_file->targetIe);
-						$concat_max_timestamp = max($concat_max_timestamp, filemtime($concat_file->fileFullPath));
+						$concat_files[] = $file->targetIe ? array($file->fileFullPath, $file->targetIe) : $file->fileFullPath;
+						$concat_max_timestamp = max($concat_max_timestamp, filemtime($file->fileFullPath));
 					}
 					$concat_filename = 'files/cache/minify/concat.' . sha1(serialize($concat_files)) . '.js';
 					if (!file_exists(\RX_BASEDIR . $concat_filename) || filemtime(\RX_BASEDIR . $concat_filename) < $concat_max_timestamp)
