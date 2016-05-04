@@ -37,11 +37,13 @@ class FrontEndFileHandlerTest extends \Codeception\TestCase\Test
 
 		$this->specify("css", function() {
 			$handler = new FrontEndFileHandler();
-			$handler->loadFile(array('./common/css/xe.css'));
+			$handler->loadFile(array('./common/css/rhymix.scss'));
 			$handler->loadFile(array('./common/css/mobile.css'));
-			$expected[] = array('file' => '/rhymix/common/css/xe.css' . $this->_filemtime('common/css/xe.css'), 'media' => 'all', 'targetie' => null);
+			$expected[] = array('file' => '/rhymix/files/cache/minify/common.css.rhymix.scss.css', 'media' => 'all', 'targetie' => null);
 			$expected[] = array('file' => '/rhymix/common/css/mobile.css' . $this->_filemtime('common/css/mobile.css'), 'media' => 'all', 'targetie' => null);
-			$this->assertEquals($handler->getCssFileList(), $expected);
+			$result = $handler->getCssFileList();
+			$result[0]['file'] = preg_replace('/\?\d+$/', '', $result[0]['file']);
+			$this->assertEquals($result, $expected);
 		});
 
 		$this->specify("order (duplicate)", function() {
@@ -149,9 +151,9 @@ class FrontEndFileHandlerTest extends \Codeception\TestCase\Test
 
 		$this->specify("minify", function() {
 			$handler = new FrontEndFileHandler();
-			$handler->loadFile(array('./common/css/xe.css'));
+			$handler->loadFile(array('./common/css/rhymix.scss'));
 			$handler->loadFile(array('./common/css/mobile.css'));
-			$expected[] = array('file' => '/rhymix/files/cache/minify/common.css.xe.min.css', 'media' => 'all', 'targetie' => null);
+			$expected[] = array('file' => '/rhymix/files/cache/minify/common.css.rhymix.scss.min.css', 'media' => 'all', 'targetie' => null);
 			$expected[] = array('file' => '/rhymix/files/cache/minify/common.css.mobile.min.css', 'media' => 'all', 'targetie' => null);
 			$result = $handler->getCssFileList();
 			$result[0]['file'] = preg_replace('/\?\d+$/', '', $result[0]['file']);
