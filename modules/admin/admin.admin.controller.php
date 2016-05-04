@@ -550,7 +550,7 @@ class adminAdminController extends admin
 		Rhymix\Framework\Config::save();
 		
 		$this->setMessage('success_updated');
-		$this->setRedirectUrl(Context::get('success_return_url') ?: getNotEncodedUrl('', 'act', 'dispAdminConfigGeneral'));
+		$this->setRedirectUrl(Context::get('success_return_url') ?: getNotEncodedUrl('', 'module', 'admin', 'act', 'dispAdminConfigGeneral'));
 	}
 	
 	/**
@@ -617,7 +617,7 @@ class adminAdminController extends admin
 		Rhymix\Framework\Config::save();
 		
 		$this->setMessage('success_updated');
-		$this->setRedirectUrl(Context::get('success_return_url') ?: getNotEncodedUrl('', 'act', 'dispAdminConfigSecurity'));
+		$this->setRedirectUrl(Context::get('success_return_url') ?: getNotEncodedUrl('', 'module', 'admin', 'act', 'dispAdminConfigSecurity'));
 	}
 	
 	/**
@@ -705,7 +705,7 @@ class adminAdminController extends admin
 		Rhymix\Framework\Config::save();
 		
 		$this->setMessage('success_updated');
-		$this->setRedirectUrl(Context::get('success_return_url') ?: $default_url . 'index.php?act=dispAdminConfigAdvanced');
+		$this->setRedirectUrl(Context::get('success_return_url') ?: getNotEncodedUrl('', 'module', 'admin', 'act', 'dispAdminConfigAdvanced'));
 	}
 	
 	/**
@@ -763,7 +763,7 @@ class adminAdminController extends admin
 		Rhymix\Framework\Config::save();
 		
 		$this->setMessage('success_updated');
-		$this->setRedirectUrl(Context::get('success_return_url') ?: getNotEncodedUrl('', 'act', 'dispAdminConfigDebug'));
+		$this->setRedirectUrl(Context::get('success_return_url') ?: getNotEncodedUrl('', 'module', 'admin', 'act', 'dispAdminConfigDebug'));
 	}
 	
 	/**
@@ -802,7 +802,7 @@ class adminAdminController extends admin
 		Rhymix\Framework\Config::save();
 		
 		$this->setMessage('success_updated');
-		$this->setRedirectUrl(Context::get('success_return_url') ?: getNotEncodedUrl('', 'act', 'dispAdminConfigSitelock'));
+		$this->setRedirectUrl(Context::get('success_return_url') ?: getNotEncodedUrl('', 'module', 'admin', 'act', 'dispAdminConfigSitelock'));
 	}
 	
 	/**
@@ -874,7 +874,7 @@ class adminAdminController extends admin
 		Rhymix\Framework\Config::save();
 		
 		$this->setMessage('success_updated');
-		$this->setRedirectUrl(Context::get('success_return_url') ?: getNotEncodedUrl('', 'act', 'dispAdminConfigFtp'));
+		$this->setRedirectUrl(Context::get('success_return_url') ?: getNotEncodedUrl('', 'module', 'admin', 'act', 'dispAdminConfigFtp'));
 	}
 	
 	/**

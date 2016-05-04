@@ -11,7 +11,7 @@ if(!defined('RX_VERSION'))
  * @author MinSoo Kim <misol.kr@gmail.com>
  * @brief Add-on to highlight an activated image.
  */
-if($called_position == 'after_module_proc' && Context::getResponseMethod() == "HTML" && !isCrawler())
+if($called_position == 'after_module_proc' && Context::getResponseMethod() == "HTML" && Context::get('module') != 'admin' && !isCrawler())
 {
 	Context::loadFile(array('./addons/photoswipe/PhotoSwipe/photoswipe.css', '', '', null), true);
 	Context::loadFile(array('./addons/photoswipe/PhotoSwipe/default-skin/default-skin.css', '', '', null), true);
