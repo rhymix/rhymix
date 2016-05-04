@@ -176,7 +176,7 @@ class Formatter
 	public static function compileLESS($source_filename, $target_filename, $variables = array(), $minify = false)
 	{
 		// Get the cleaned and concatenated content.
-		$content = self::_concatenate($source_filename, $target_filename);
+		$content = self::concatCSS($source_filename, $target_filename);
 		
 		// Compile!
 		try
@@ -215,7 +215,7 @@ class Formatter
 	public static function compileSCSS($source_filename, $target_filename, $variables = array(), $minify = false)
 	{
 		// Get the cleaned and concatenated content.
-		$content = self::_concatenate($source_filename, $target_filename);
+		$content = self::concatCSS($source_filename, $target_filename);
 		
 		// Compile!
 		try
@@ -301,7 +301,7 @@ class Formatter
 	 * @param string $target_filename
 	 * @return string
 	 */
-	protected static function _concatenate($source_filename, $target_filename)
+	public static function concatCSS($source_filename, $target_filename)
 	{
 		$result = '';
 		
@@ -311,6 +311,14 @@ class Formatter
 		}
 		foreach ($source_filename as $filename)
 		{
+			if (is_array($filename) && count($filename) >= 2)
+			{
+				list($filename, $media) = $filename;
+			}
+			else
+			{
+				$media = null;
+			}
 			$content = utf8_clean(file_get_contents($filename));
 			$path_converter = new \MatthiasMullie\PathConverter\Converter($filename, $target_filename);
 			$content = preg_replace_callback('/\burl\\(([^)]+)\\)/iU', function($matches) use ($path_converter) {
@@ -325,6 +333,10 @@ class Formatter
 				}
 			}, $content);
 			unset($path_converter);
+			if ($media !== null)
+			{
+				$content = "@media $media {\n\n$content\n\n}";
+			}
 			$result .= trim($content) . "\n\n";
 		}
 		
