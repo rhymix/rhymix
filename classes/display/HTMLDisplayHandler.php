@@ -433,7 +433,7 @@ class HTMLDisplayHandler
 		{
 			Context::loadFile(array('./common/js/jquery-' . $jquery_version . '.min.js', 'head', '', -1730000), true);
 			Context::loadFile(array('./common/js/plugins/jquery.migrate/jquery-migrate-1.2.1.min.js', 'head', '', -1720000), true);
-			$concat_target_filename = 'files/cache/minify/xe.min.js';
+			$concat_target_filename = 'files/cache/assets/minified/rhymix.min.js';
 			if(file_exists(\RX_BASEDIR . $concat_target_filename))
 			{
 				$concat_target_mtime = filemtime(\RX_BASEDIR . $concat_target_filename);

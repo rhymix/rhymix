@@ -12,6 +12,11 @@ class FrontEndFileHandler extends Handler
 	 */
 	public static $minify = null;
 	public static $concat = null;
+	
+	/**
+	 * Directory for minified, compiled, and concatenated CSS/JS assets.
+	 */
+	public static $assetdir = 'files/cache/assets';
 
 	/**
 	 * Map for css
@@ -227,7 +232,7 @@ class FrontEndFileHandler extends Handler
 		
 		$minifiedFileName = $file->fileNameNoExt . '.min.' . $file->fileExtension;
 		$minifiedFileHash = ltrim(str_replace(array('/', '\\'), '.', substr($file->fileRealPath, strlen(\RX_BASEDIR))), '.');
-		$minifiedFilePath = \RX_BASEDIR . 'files/cache/minify/' . $minifiedFileHash . '.' . $minifiedFileName;
+		$minifiedFilePath = \RX_BASEDIR . self::$assetdir . '/minified/' . $minifiedFileHash . '.' . $minifiedFileName;
 		
 		if (!file_exists($minifiedFilePath) || filemtime($minifiedFilePath) < filemtime($file->fileFullPath))
 		{
@@ -240,11 +245,11 @@ class FrontEndFileHandler extends Handler
 		}
 		
 		$file->fileName = $minifiedFileHash . '.' . $minifiedFileName;
-		$file->filePath = \RX_BASEURL . 'files/cache/minify';
-		$file->fileRealPath = \RX_BASEDIR . 'files/cache/minify';
+		$file->filePath = \RX_BASEURL . self::$assetdir . '/minified';
+		$file->fileRealPath = \RX_BASEDIR . self::$assetdir . '/minified';
 		$file->fileFullPath = $minifiedFilePath;
 		$file->keyName = $minifiedFileHash . '.' . $file->fileNameNoExt . '.' . $file->fileExtension;
-		$file->cdnPath = './files/cache/minify';
+		$file->cdnPath = './' . self::$assetdir . '/minified';
 		$file->isMinified = true;
 	}
 	
@@ -264,7 +269,7 @@ class FrontEndFileHandler extends Handler
 		
 		$compiledFileName = $file->fileName . ($minify ? '.min' : '') . '.css';
 		$compiledFileHash = ltrim(str_replace(array('/', '\\'), '.', substr($file->fileRealPath, strlen(\RX_BASEDIR))), '.');
-		$compiledFilePath = \RX_BASEDIR . 'files/cache/minify/' . $compiledFileHash . '.' . $compiledFileName;
+		$compiledFilePath = \RX_BASEDIR . self::$assetdir . '/compiled/' . $compiledFileHash . '.' . $compiledFileName;
 		
 		if (!file_exists($compiledFilePath) || filemtime($compiledFilePath) < filemtime($file->fileFullPath))
 		{
@@ -277,11 +282,11 @@ class FrontEndFileHandler extends Handler
 		}
 		
 		$file->fileName = $compiledFileHash . '.' . $compiledFileName;
-		$file->filePath = \RX_BASEURL . 'files/cache/minify';
-		$file->fileRealPath = \RX_BASEDIR . 'files/cache/minify';
+		$file->filePath = \RX_BASEURL . self::$assetdir . '/compiled';
+		$file->fileRealPath = \RX_BASEDIR . self::$assetdir . '/compiled';
 		$file->fileFullPath = $compiledFilePath;
 		$file->keyName = $compiledFileHash . '.' . $file->fileNameNoExt . '.' . $file->fileExtension;
-		$file->cdnPath = './files/cache/minify';
+		$file->cdnPath = './' . self::$assetdir . '/compiled';
 		$file->isMinified = true;
 		$file->fileExtension = 'css';
 	}
@@ -399,7 +404,7 @@ class FrontEndFileHandler extends Handler
 						$concat_files[] = $file->media === 'all' ? $file->fileFullPath : array($file->fileFullPath, $file->media);
 						$concat_max_timestamp = max($concat_max_timestamp, filemtime($file->fileFullPath));
 					}
-					$concat_filename = 'files/cache/minify/concat.' . sha1(serialize($concat_files)) . '.css';
+					$concat_filename = self::$assetdir . '/combined/' . sha1(serialize($concat_files)) . '.css';
 					if (!file_exists(\RX_BASEDIR . $concat_filename) || filemtime(\RX_BASEDIR . $concat_filename) < $concat_max_timestamp)
 					{
 						Rhymix\Framework\Storage::write(\RX_BASEDIR . $concat_filename, Rhymix\Framework\Formatter::concatCSS($concat_files, $concat_filename));
@@ -487,7 +492,7 @@ class FrontEndFileHandler extends Handler
 						$concat_files[] = $file->targetIe ? array($file->fileFullPath, $file->targetIe) : $file->fileFullPath;
 						$concat_max_timestamp = max($concat_max_timestamp, filemtime($file->fileFullPath));
 					}
-					$concat_filename = 'files/cache/minify/concat.' . sha1(serialize($concat_files)) . '.js';
+					$concat_filename = self::$assetdir . '/combined/' . sha1(serialize($concat_files)) . '.js';
 					if (!file_exists(\RX_BASEDIR . $concat_filename) || filemtime(\RX_BASEDIR . $concat_filename) < $concat_max_timestamp)
 					{
 						Rhymix\Framework\Storage::write(\RX_BASEDIR . $concat_filename, Rhymix\Framework\Formatter::concatJS($concat_files, $concat_filename));
@@ -614,9 +619,9 @@ class FrontEndFileHandler extends Handler
 		}
 		
 		$dirname = substr($dirname, strlen(\RX_BASEDIR));
-		if (strncmp($dirname, 'files/cache/minify/', 19) === 0)
+		if (strncmp($dirname, self::$assetdir . '/', strlen(self::$assetdir) + 1) === 0)
 		{
-			$dirname = substr($dirname, 19);
+			$dirname = substr($dirname, strlen(self::$assetdir) + 1);
 		}
 		$tmp = array_first(explode('/', strtr($dirname, '\\.', '//')));
 
