@@ -159,8 +159,15 @@ class editorController extends editor
 		$module_srl = $module_info->module_srl;
 		if($module_srl)
 		{
-			$oEditorModel = getModel('editor');
-			$editor_config = $oEditorModel->getEditorConfig($module_srl);
+			$editor_config = getModel('editor')->getEditorConfig($module_srl);
+		}
+		else
+		{
+			$editor_config = getModel('module')->getModuleConfig('editor');
+		}
+		
+		if ($editor_config)
+		{
 			$content_style = $editor_config->content_style;
 			if($content_style)
 			{
@@ -221,6 +228,16 @@ class editorController extends editor
 			$buff[] = '</style>';
 			Context::addHtmlHeader(implode(' ', $buff));
 			*/
+		}
+		else
+		{
+			Context::set('default_font_config', array(
+				'default_font_family' => 'inherit',
+				'default_font_size' => '13px',
+				'default_line_height' => '160%',
+				'default_paragraph_spacing' => '0',
+				'default_word_break' => 'normal',
+			));
 		}
 
 		$content = $this->transComponent($content);
