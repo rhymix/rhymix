@@ -1621,10 +1621,10 @@ html[lang="ko"] .x .g11n.active>[disabled],
 #g11n .flag.ko {
 	background-image: url(../img/flag.ko.gif);
 }
-html[lang="jp"] .x .g11n.active>[disabled],
-#g11n .item .jp,
-#g11n .flag.jp {
-	background-image: url(../img/flag.jp.gif);
+html[lang="ja"] .x .g11n.active>[disabled],
+#g11n .item .ja,
+#g11n .flag.ja {
+	background-image: url(../img/flag.ja.gif);
 }
 html[lang="zh"] .x .g11n.active>[disabled],
 #g11n .item .zh-CN,
@@ -2414,7 +2414,7 @@ html:lang(ko) .x textarea,
 html:lang(ko) .x select,
 html:lang(ko) .x button{font-family: 'NanumGothic', 'Malgun Gothic', 'Apple SD Gothic Neo', 'Dotum', Arial, Helvetica, sans-serif}
 
-/* Japanese admin_jp.css */
+/* Japanese admin_ja.css */
 html:lang(ja) body>.x,
 html:lang(ja) .x table,
 html:lang(ja) .x input,

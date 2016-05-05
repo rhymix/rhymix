@@ -131,4 +131,63 @@ class FormatterTest extends \Codeception\TestCase\Test
 		
 		unlink($test_target);
 	}
+	
+	public function testConcatCSS()
+	{
+		$source1 = \RX_BASEDIR . 'tests/_data/formatter/concat.source1.css';
+		$source2 = \RX_BASEDIR . 'tests/_data/formatter/concat.source2.css';
+		$real_target1 = \RX_BASEDIR . 'tests/_data/formatter/concat.target1.css';
+		$real_target2 = \RX_BASEDIR . 'tests/_data/formatter/concat.target2.css';
+		$test_target = \RX_BASEDIR . 'tests/_output/concat.target.css';
+		
+		$test_without_media_query = Rhymix\Framework\Formatter::concatCSS(array($source1, $source2), $test_target);
+		$this->assertEquals(trim(file_get_contents($real_target1)), trim($test_without_media_query));
+		
+		$test_with_media_query = Rhymix\Framework\Formatter::concatCSS(array(array($source1, 'screen and (max-width: 640px)'), $source2), $test_target);
+		$this->assertEquals(trim(file_get_contents($real_target2)), trim($test_with_media_query));
+	}
+	
+	public function testConcatJS()
+	{
+		$source1 = \RX_BASEDIR . 'tests/_data/formatter/concat.source1.js';
+		$source2 = \RX_BASEDIR . 'tests/_data/formatter/concat.source2.js';
+		$real_target1 = \RX_BASEDIR . 'tests/_data/formatter/concat.target1.js';
+		$real_target2 = \RX_BASEDIR . 'tests/_data/formatter/concat.target2.js';
+		$test_target = \RX_BASEDIR . 'tests/_output/concat.target.js';
+		
+		$test_without_targetie = Rhymix\Framework\Formatter::concatJS(array($source1, $source2), $test_target);
+		$this->assertEquals(trim(file_get_contents($real_target1)), trim($test_without_targetie));
+		
+		$test_with_targetie = Rhymix\Framework\Formatter::concatJS(array($source1, array($source2, '(gte IE 6) & (lte IE 8)')), $test_target);
+		$this->assertEquals(trim(file_get_contents($real_target2)), trim($test_with_targetie));
+	}
+	
+	public function testConvertIECondition()
+	{
+		$this->assertEquals('window.navigator.userAgent.match(/MSIE\s/)', Rhymix\Framework\Formatter::convertIECondition('IE'));
+		$this->assertEquals('!window.navigator.userAgent.match(/MSIE\s/)', Rhymix\Framework\Formatter::convertIECondition('!IE'));
+		$this->assertEquals('!window.navigator.userAgent.match(/MSIE\s/)', Rhymix\Framework\Formatter::convertIECondition('!(IE)'));
+		$this->assertEquals('true && false', Rhymix\Framework\Formatter::convertIECondition('true&false'));
+		$this->assertEquals('false', Rhymix\Framework\Formatter::convertIECondition('gobbledygook'));
+		
+		$source = 'gt IE 7';
+		$target = '(/MSIE (\d+)/.exec(window.navigator.userAgent) && /MSIE (\d+)/.exec(window.navigator.userAgent)[1] > 7)';
+		$this->assertEquals($target, Rhymix\Framework\Formatter::convertIECondition($source));
+		
+		$source = 'lte IE 8';
+		$target = '(/MSIE (\d+)/.exec(window.navigator.userAgent) && /MSIE (\d+)/.exec(window.navigator.userAgent)[1] <= 8)';
+		$this->assertEquals($target, Rhymix\Framework\Formatter::convertIECondition($source));
+		
+		$source = '(gte IE 6) & (lt IE 8)';
+		$target = '(/MSIE (\d+)/.exec(window.navigator.userAgent) && /MSIE (\d+)/.exec(window.navigator.userAgent)[1] >= 6) && (/MSIE (\d+)/.exec(window.navigator.userAgent) && /MSIE (\d+)/.exec(window.navigator.userAgent)[1] < 8)';
+		$this->assertEquals($target, Rhymix\Framework\Formatter::convertIECondition($source));
+		
+		$source = '!(gt IE 9)';
+		$target = '!(/MSIE (\d+)/.exec(window.navigator.userAgent) && /MSIE (\d+)/.exec(window.navigator.userAgent)[1] > 9)';
+		$this->assertEquals($target, Rhymix\Framework\Formatter::convertIECondition($source));
+		
+		$source = '!lt IE 8|lt IE 6';
+		$target = '!(/MSIE (\d+)/.exec(window.navigator.userAgent) && /MSIE (\d+)/.exec(window.navigator.userAgent)[1] < 8) || (/MSIE (\d+)/.exec(window.navigator.userAgent) && /MSIE (\d+)/.exec(window.navigator.userAgent)[1] < 6)';
+		$this->assertEquals($target, Rhymix\Framework\Formatter::convertIECondition($source));
+	}
 }

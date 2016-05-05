@@ -7,45 +7,52 @@
  * */
 class FrontEndFileHandler extends Handler
 {
-
-	public static $isSSL = null;
+	/**
+	 * Minification and concatenation configuration.
+	 */
 	public static $minify = null;
+	public static $concat = null;
+	
+	/**
+	 * Directory for minified, compiled, and concatenated CSS/JS assets.
+	 */
+	public static $assetdir = 'files/cache/assets';
 
 	/**
 	 * Map for css
 	 * @var array
 	 */
-	var $cssMap = array();
+	public $cssMap = array();
 
 	/**
 	 * Map for Javascript at head
 	 * @var array
 	 */
-	var $jsHeadMap = array();
+	public $jsHeadMap = array();
 
 	/**
 	 * Map for Javascript at body
 	 * @var array
 	 */
-	var $jsBodyMap = array();
+	public $jsBodyMap = array();
 
 	/**
 	 * Index for css
 	 * @var array
 	 */
-	var $cssMapIndex = array();
+	public $cssMapIndex = array();
 
 	/**
 	 * Index for javascript at head
 	 * @var array
 	 */
-	var $jsHeadMapIndex = array();
+	public $jsHeadMapIndex = array();
 
 	/**
 	 * Index for javascript at body
 	 * @var array
 	 */
-	var $jsBodyMapIndex = array();
+	public $jsBodyMapIndex = array();
 
 	/**
 	 * Check SSL
@@ -53,17 +60,9 @@ class FrontEndFileHandler extends Handler
 	 * @return bool If using ssl returns true, otherwise returns false.
      * @deprecated
 	 */
-	function isSsl()
+	public function isSsl()
 	{
-		if(!is_null(self::$isSSL))
-		{
-			return self::$isSSL;
-		}
-
-		$url_info = parse_url(Context::getRequestUrl());
-		self::$isSSL = ($url_info['scheme'] == 'https');
-
-		return self::$isSSL;
+		return \RX_SSL;
 	}
 
 	/**
@@ -82,12 +81,13 @@ class FrontEndFileHandler extends Handler
 	 * 		$args[1]: media
 	 * 		$args[2]: target IE
 	 * 		$args[3]: index
+	 * 		$args[4]: vars for LESS and SCSS
 	 * </pre>
 	 *
 	 * @param array $args Arguments
 	 * @return void
 	 * */
-	function loadFile($args)
+	public function loadFile($args)
 	{
 		if(!is_array($args))
 		{
@@ -99,21 +99,21 @@ class FrontEndFileHandler extends Handler
 		{
 			return;
 		}
-		$file = $this->getFileInfo($args[0], $args[2], $args[1], $isCommon);
+		$file = $this->getFileInfo($args[0], $args[2], $args[1], $args[4], $isCommon);
 		$file->index = (int)$args[3];
 
-		$availableExtension = array('css' => 1, 'js' => 1);
+		$availableExtension = array('css' => 1, 'js' => 1, 'less' => 1, 'scss' => 1);
 		if(!isset($availableExtension[$file->fileExtension]))
 		{
 			return;
 		}
 
-		if($file->fileExtension == 'css')
+		if($file->fileExtension == 'css' || $file->fileExtension == 'less' || $file->fileExtension == 'scss')
 		{
 			$map = &$this->cssMap;
 			$mapIndex = &$this->cssMapIndex;
 
-			$this->_arrangeCssIndex($pathInfo['dirname'], $file);
+			$this->_arrangeCssIndex($file->fileRealPath, $file);
 		}
 		else if($file->fileExtension == 'js')
 		{
@@ -131,7 +131,7 @@ class FrontEndFileHandler extends Handler
 
 		if(!isset($mapIndex[$file->key]) || $mapIndex[$file->key] > $file->index)
 		{
-			$this->unloadFile($args[0], $args[2], $args[1]);
+			//$this->unloadFile($args[0], $args[2], $args[1]);
 			$map[$file->index][$file->key] = $file;
 			$mapIndex[$file->key] = $file->index;
 		}
@@ -143,18 +143,13 @@ class FrontEndFileHandler extends Handler
 	 * @param string $fileName The file name
 	 * @param string $targetIe Target IE of file
 	 * @param string $media Media of file
+	 * @param array $vars Variables for LESS and SCSS
 	 * @param bool $forceMinify Whether this file should be minified
 	 * @return stdClass The file information
 	 */
-	private function getFileInfo($fileName, $targetIe = '', $media = 'all', $forceMinify = false)
+	protected function getFileInfo($fileName, $targetIe = '', $media = 'all', $vars = array(), $isCommon = false)
 	{
 		static $existsInfo = array();
-
-		if(self::$minify === null)
-		{
-			self::$minify = config('view.minify_scripts') ?: 'common';
-		}
-
 		if(isset($existsInfo[$existsKey]))
 		{
 			return $existsInfo[$existsKey];
@@ -165,8 +160,9 @@ class FrontEndFileHandler extends Handler
 		$file->fileName = $pathInfo['basename'];
 		$file->filePath = $this->_getAbsFileUrl($pathInfo['dirname']);
 		$file->fileRealPath = FileHandler::getRealPath($pathInfo['dirname']);
+		$file->fileFullPath = $file->fileRealPath . '/' . $pathInfo['basename'];
 		$file->fileExtension = strtolower($pathInfo['extension']);
-		if(preg_match('/^(.+)\.min$/', $pathInfo['filename'], $matches))
+		if (preg_match('/^(.+)\.min$/', $pathInfo['filename'], $matches))
 		{
 			$file->fileNameNoExt = $matches[1];
 			$file->isMinified = true;
@@ -178,72 +174,32 @@ class FrontEndFileHandler extends Handler
 		}
 		$file->isExternalURL = preg_match('@^(https?:)?//@i', $file->filePath) ? true : false;
 		$file->isCachedScript = !$file->isExternalURL && strpos($file->filePath, 'files/cache/') !== false;
+		$file->isCommon = $isCommon;
 		$file->keyName = $file->fileNameNoExt . '.' . $file->fileExtension;
 		$file->cdnPath = $this->_normalizeFilePath($pathInfo['dirname']);
-		$originalFilePath = $file->fileRealPath . '/' . $pathInfo['basename'];
+		$file->vars = (array)$vars;
 
 		// Fix incorrectly minified URL
-		if($file->isMinified && !$file->isExternalURL && (!file_exists($originalFilePath) || is_link($originalFilePath) ||
-			(filesize($originalFilePath) < 32 && trim(file_get_contents($originalFilePath)) === $file->keyName)))
+		if($file->isMinified && !$file->isExternalURL && (!file_exists($file->fileFullPath) || is_link($file->fileFullPath) ||
+			(filesize($file->fileFullPath) < 32 && trim(file_get_contents($file->fileFullPath)) === $file->keyName)))
 		{
 			if(file_exists($file->fileRealPath . '/' . $file->fileNameNoExt . '.' . $file->fileExtension))
 			{
 				$file->fileName = $file->fileNameNoExt . '.' . $file->fileExtension;
 				$file->isMinified = false;
-				$originalFilePath = $file->fileRealPath . '/' . $file->fileNameNoExt . '.' . $file->fileExtension;
+				$file->fileFullPath = $file->fileRealPath . '/' . $file->fileNameNoExt . '.' . $file->fileExtension;
 			}
-		}
-
-		// Decide whether to minify this file
-		if(self::$minify === 'all')
-		{
-			$minify_enabled = true;
-		}
-		elseif(self::$minify === 'none')
-		{
-			$minify_enabled = false;
-		}
-		else
-		{
-			$minify_enabled = $forceMinify;
 		}
 		
-		// Minify file
-		if($minify_enabled && !$file->isMinified && !$file->isExternalURL && !$file->isCachedScript && strpos($file->filePath, 'common/js/plugins') === false)
+		// Do not minify common JS plugins
+		if (strpos($file->filePath, 'common/js/plugins') !== false)
 		{
-			if(($file->fileExtension === 'css' || $file->fileExtension === 'js') && file_exists($originalFilePath))
-			{
-				$minifiedFileName = $file->fileNameNoExt . '.min.' . $file->fileExtension;
-				$minifiedFileHash = ltrim(str_replace(array('/', '\\'), '.', $pathInfo['dirname']), '.');
-				$minifiedFilePath = _XE_PATH_ . 'files/cache/minify/' . $minifiedFileHash . '.' . $minifiedFileName;
-			
-				if(!file_exists($minifiedFilePath) || filemtime($minifiedFilePath) < filemtime($originalFilePath))
-				{
-					if($file->fileExtension === 'css')
-					{
-						$minifier = new MatthiasMullie\Minify\CSS($originalFilePath);
-						$content = $minifier->execute($minifiedFilePath);
-					}
-					else
-					{
-						$minifier = new MatthiasMullie\Minify\JS($originalFilePath);
-						$content = $minifier->execute($minifiedFilePath);
-					}
-					FileHandler::writeFile($minifiedFilePath, $content);
-				}
-				
-				$file->fileName = $minifiedFileHash . '.' . $minifiedFileName;
-				$file->filePath = $this->_getAbsFileUrl('./files/cache/minify');
-				$file->fileRealPath = _XE_PATH_ . 'files/cache/minify';
-				$file->keyName = $minifiedFileHash . '.' . $file->fileNameNoExt . '.' . $file->fileExtension;
-				$file->cdnPath = $this->_normalizeFilePath('./files/cache/minify');
-				$file->isMinified = true;
-			}
+			$file->isMinified = true;
 		}
-
+		
 		// Process targetIe and media attributes
 		$file->targetIe = $targetIe;
-		if($file->fileExtension == 'css')
+		if($file->fileExtension == 'css' || $file->fileExtension == 'less' || $file->fileExtension == 'scss')
 		{
 			$file->media = $media;
 			if(!$file->media)
@@ -259,6 +215,88 @@ class FrontEndFileHandler extends Handler
 
 		return $file;
 	}
+	
+	/**
+	 * Process CSS and JS file
+	 * 
+	 * @param object $file
+	 * @param bool $minify
+	 * @return void
+	 */
+	protected function proc_CSS_JS($file, $minify)
+	{
+		if (!$minify || !file_exists($file->fileFullPath))
+		{
+			return;
+		}
+		
+		$minifiedFileName = $file->fileNameNoExt . '.min.' . $file->fileExtension;
+		$minifiedFileHash = ltrim(str_replace(array('/', '\\'), '.', substr($file->fileRealPath, strlen(\RX_BASEDIR))), '.');
+		$minifiedFilePath = \RX_BASEDIR . self::$assetdir . '/minified/' . $minifiedFileHash . '.' . $minifiedFileName;
+		
+		if (!file_exists($minifiedFilePath) || filemtime($minifiedFilePath) < filemtime($file->fileFullPath))
+		{
+			$method_name = 'minify' . $file->fileExtension;
+			$success = Rhymix\Framework\Formatter::$method_name($file->fileFullPath, $minifiedFilePath);
+			if ($success === false)
+			{
+				return;
+			}
+		}
+		
+		$file->fileName = $minifiedFileHash . '.' . $minifiedFileName;
+		$file->filePath = \RX_BASEURL . self::$assetdir . '/minified';
+		$file->fileRealPath = \RX_BASEDIR . self::$assetdir . '/minified';
+		$file->fileFullPath = $minifiedFilePath;
+		$file->keyName = $minifiedFileHash . '.' . $file->fileNameNoExt . '.' . $file->fileExtension;
+		$file->cdnPath = './' . self::$assetdir . '/minified';
+		$file->isMinified = true;
+	}
+	
+	/**
+	 * Process LESS and SCSS file
+	 * 
+	 * @param object $file
+	 * @param bool $minify
+	 * @return void
+	 */
+	protected function proc_LESS_SCSS($file, $minify)
+	{
+		if (!file_exists($file->fileFullPath))
+		{
+			return;
+		}
+		
+		if ($default_font_config = Context::get('default_font_config'))
+		{
+			$file->vars = array_merge($file->vars, $default_font_config);
+		}
+		if ($file->fileExtension === 'less')
+		{
+			$file->vars = array_map(function($str) {
+				return preg_match('/^[0-9a-zA-Z\.%_-]+$/', $str) ? $str : ('~"' . str_replace('"', '\\"', $str) . '"');
+			}, $file->vars);
+		}
+		
+		$compiledFileName = $file->fileName . ($minify ? '.min' : '') . '.css';
+		$compiledFileHash = sha1($file->fileRealPath . ':' . serialize($file->vars));
+		$compiledFilePath = \RX_BASEDIR . self::$assetdir . '/compiled/' . $compiledFileHash . '.' . $compiledFileName;
+		
+		if (!file_exists($compiledFilePath) || filemtime($compiledFilePath) < filemtime($file->fileFullPath))
+		{
+			$method_name = 'compile' . $file->fileExtension;
+			$success = Rhymix\Framework\Formatter::$method_name($file->fileFullPath, $compiledFilePath, $file->vars, $minify);
+		}
+		
+		$file->fileName = $compiledFileHash . '.' . $compiledFileName;
+		$file->filePath = \RX_BASEURL . self::$assetdir . '/compiled';
+		$file->fileRealPath = \RX_BASEDIR . self::$assetdir . '/compiled';
+		$file->fileFullPath = $compiledFilePath;
+		$file->keyName = $compiledFileHash . '.' . $file->fileNameNoExt . '.' . $file->fileExtension;
+		$file->cdnPath = './' . self::$assetdir . '/compiled';
+		$file->isMinified = true;
+		$file->fileExtension = 'css';
+	}
 
 	/**
 	 * Unload front end file
@@ -268,7 +306,7 @@ class FrontEndFileHandler extends Handler
 	 * @param string $media Media of file to unload. Only use when file is css.
 	 * @return void
 	 */
-	function unloadFile($fileName, $targetIe = '', $media = 'all')
+	public function unloadFile($fileName, $targetIe = '', $media = 'all')
 	{
 		$file = $this->getFileInfo($fileName, $targetIe, $media);
 
@@ -301,7 +339,7 @@ class FrontEndFileHandler extends Handler
 	 * @param string $type Type to unload. all, css, js
 	 * @return void
 	 */
-	function unloadAllFiles($type = 'all')
+	public function unloadAllFiles($type = 'all')
 	{
 		if($type == 'css' || $type == 'all')
 		{
@@ -323,25 +361,81 @@ class FrontEndFileHandler extends Handler
 	 *
 	 * @return array Returns css file list. Array contains file, media, targetie.
 	 */
-	function getCssFileList()
+	public function getCssFileList()
 	{
 		$map = &$this->cssMap;
 		$mapIndex = &$this->cssMapIndex;
-
+		$minify = self::$minify !== null ? self::$minify : (config('view.minify_scripts') ?: 'common');
+		$concat = strpos(self::$concat !== null ? self::$concat : config('view.concat_scripts'), 'css') !== false;
 		$this->_sortMap($map, $mapIndex);
-
-		$result = array();
-		foreach($map as $indexedMap)
+		
+		// Minify all scripts, and compile LESS/SCSS into CSS.
+		foreach ($map as $indexedMap)
 		{
-			foreach($indexedMap as $file)
+			foreach ($indexedMap as $file)
 			{
-				$noneCache = (is_readable($file->cdnPath . '/' . $file->fileName)) ? '?' . date('YmdHis', filemtime($file->cdnPath . '/' . $file->fileName)) : '';
-				$fullFilePath = $file->filePath . '/' . $file->fileName . $noneCache;
-				
-				$result[] = array('file' => $fullFilePath, 'media' => $file->media, 'targetie' => $file->targetIe);
+				$minify_this_file = !$file->isMinified && !$file->isExternalURL && !$file->isCachedScript && (($file->isCommon && $minify !== 'none') || $minify === 'all');
+				if ($file->fileExtension === 'css')
+				{
+					$this->proc_CSS_JS($file, $minify_this_file);
+				}
+				else
+				{
+					$this->proc_LESS_SCSS($file, $minify_this_file);
+				}
 			}
 		}
-
+		
+		// Add all files to the final result.
+		$result = array();
+		if ($concat && count($concat_list = $this->_concatMap($map)))
+		{
+			foreach ($concat_list as $concat_fileset)
+			{
+				if (count($concat_fileset) === 1)
+				{
+					$file = reset($concat_fileset);
+					$url = $file->filePath . '/' . $file->fileName;
+					if (!$file->isExternalURL && is_readable($file->fileFullPath))
+					{
+						$url .= '?' . date('YmdHis', filemtime($file->fileFullPath));
+					}
+					$result[] = array('file' => $url, 'media' => $file->media, 'targetie' => $file->targetIe);
+				}
+				else
+				{
+					$concat_files = array();
+					$concat_max_timestamp = 0;
+					foreach ($concat_fileset as $file)
+					{
+						$concat_files[] = $file->media === 'all' ? $file->fileFullPath : array($file->fileFullPath, $file->media);
+						$concat_max_timestamp = max($concat_max_timestamp, filemtime($file->fileFullPath));
+					}
+					$concat_filename = self::$assetdir . '/combined/' . sha1(serialize($concat_files)) . '.css';
+					if (!file_exists(\RX_BASEDIR . $concat_filename) || filemtime(\RX_BASEDIR . $concat_filename) < $concat_max_timestamp)
+					{
+						Rhymix\Framework\Storage::write(\RX_BASEDIR . $concat_filename, Rhymix\Framework\Formatter::concatCSS($concat_files, $concat_filename));
+					}
+					$concat_filename .= '?' . date('YmdHis', filemtime(\RX_BASEDIR . $concat_filename));
+					$result[] = array('file' => \RX_BASEURL . $concat_filename, 'media' => 'all', 'targetie' => '');
+				}
+			}
+		}
+		else
+		{
+			foreach ($map as $indexedMap)
+			{
+				foreach ($indexedMap as $file)
+				{
+					$url = $file->filePath . '/' . $file->fileName;
+					if (!$file->isExternalURL && is_readable($file->fileFullPath))
+					{
+						$url .= '?' . date('YmdHis', filemtime($file->fileFullPath));
+					}
+					$result[] = array('file' => $url, 'media' => $file->media, 'targetie' => $file->targetIe);
+				}
+			}
+		}
 		return $result;
 	}
 
@@ -351,7 +445,7 @@ class FrontEndFileHandler extends Handler
 	 * @param string $type Type of javascript. head, body
 	 * @return array Returns javascript file list. Array contains file, targetie.
 	 */
-	function getJsFileList($type = 'head')
+	public function getJsFileList($type = 'head')
 	{
 		if($type == 'head')
 		{
@@ -363,24 +457,105 @@ class FrontEndFileHandler extends Handler
 			$map = &$this->jsBodyMap;
 			$mapIndex = &$this->jsBodyMapIndex;
 		}
-
+		
+		$minify = self::$minify !== null ? self::$minify : (config('view.minify_scripts') ?: 'common');
+		$concat = strpos(self::$concat !== null ? self::$concat : config('view.concat_scripts'), 'js') !== false;
 		$this->_sortMap($map, $mapIndex);
-
-		$result = array();
-		foreach($map as $indexedMap)
+		
+		// Minify all scripts.
+		foreach ($map as $indexedMap)
 		{
-			foreach($indexedMap as $file)
+			foreach ($indexedMap as $file)
 			{
-				$noneCache = (is_readable($file->cdnPath . '/' . $file->fileName)) ? '?' . date('YmdHis', filemtime($file->cdnPath . '/' . $file->fileName)) : '';
-				$fullFilePath = $file->filePath . '/' . $file->fileName . $noneCache;
-				
-				$result[] = array('file' => $fullFilePath, 'targetie' => $file->targetIe);
+				if (!$file->isMinified && !$file->isExternalURL && !$file->isCachedScript && (($file->isCommon && $minify !== 'none') || $minify === 'all'))
+				{
+					$this->proc_CSS_JS($file, true);
+				}
 			}
 		}
-
+		
+		// Add all files to the final result.
+		$result = array();
+		if ($concat && $type === 'head' && count($concat_list = $this->_concatMap($map)))
+		{
+			foreach ($concat_list as $concat_fileset)
+			{
+				if (count($concat_fileset) === 1)
+				{
+					$file = reset($concat_fileset);
+					$url = $file->filePath . '/' . $file->fileName;
+					if (!$file->isExternalURL && is_readable($file->fileFullPath))
+					{
+						$url .= '?' . date('YmdHis', filemtime($file->fileFullPath));
+					}
+					$result[] = array('file' => $url, 'targetie' => $file->targetIe);
+				}
+				else
+				{
+					$concat_files = array();
+					$concat_max_timestamp = 0;
+					foreach ($concat_fileset as $file)
+					{
+						$concat_files[] = $file->targetIe ? array($file->fileFullPath, $file->targetIe) : $file->fileFullPath;
+						$concat_max_timestamp = max($concat_max_timestamp, filemtime($file->fileFullPath));
+					}
+					$concat_filename = self::$assetdir . '/combined/' . sha1(serialize($concat_files)) . '.js';
+					if (!file_exists(\RX_BASEDIR . $concat_filename) || filemtime(\RX_BASEDIR . $concat_filename) < $concat_max_timestamp)
+					{
+						Rhymix\Framework\Storage::write(\RX_BASEDIR . $concat_filename, Rhymix\Framework\Formatter::concatJS($concat_files, $concat_filename));
+					}
+					$concat_filename .= '?' . date('YmdHis', filemtime(\RX_BASEDIR . $concat_filename));
+					$result[] = array('file' => \RX_BASEURL . $concat_filename, 'targetie' => '');
+				}
+			}
+		}
+		else
+		{
+			foreach ($map as $indexedMap)
+			{
+				foreach ($indexedMap as $file)
+				{
+					$url = $file->filePath . '/' . $file->fileName;
+					if (!$file->isExternalURL && is_readable($file->fileFullPath))
+					{
+						$url .= '?' . date('YmdHis', filemtime($file->fileFullPath));
+					}
+					$result[] = array('file' => $url, 'targetie' => $file->targetIe);
+				}
+			}
+		}
 		return $result;
 	}
-
+	
+	/**
+	 * Create a concatenation map, skipping external URLs and unreadable scripts.
+	 * 
+	 * @param array $map
+	 * @return array
+	 */
+	protected function _concatMap(&$map)
+	{
+		$concat_list = array();
+		$concat_key = 0;
+		foreach ($map as $indexedMap)
+		{
+			foreach ($indexedMap as $file)
+			{
+				if ($file->isExternalURL || ($file->fileExtension === 'css' && $file->targetIe) || !is_readable($file->fileFullPath))
+				{
+					$concat_key++;
+					$concat_list[$concat_key][] = $file;
+					$concat_key++;
+				}
+				else
+				{
+					$concat_list[$concat_key][] = $file;
+				}
+			}
+		}
+		return $concat_list;
+	}
+	
 	/**
 	 * Sort a map
 	 *
@@ -388,7 +563,7 @@ class FrontEndFileHandler extends Handler
 	 * @param array $index Not used
 	 * @return void
 	 */
-	function _sortMap(&$map, &$index)
+	protected function _sortMap(&$map, &$index)
 	{
 		ksort($map);
 	}
@@ -399,7 +574,7 @@ class FrontEndFileHandler extends Handler
 	 * @param string $path Path to normalize
 	 * @return string Normalized path
 	 */
-	function _normalizeFilePath($path)
+	protected function _normalizeFilePath($path)
 	{
 		if(strpos($path, '://') === FALSE && $path{0} != '/' && $path{0} != '.')
 		{
@@ -426,50 +601,40 @@ class FrontEndFileHandler extends Handler
 	 * @param string $path Path to get absolute url
 	 * @return string Absolute url
 	 */
-	function _getAbsFileUrl($path)
+	protected function _getAbsFileUrl($path)
 	{
-		$path = $this->_normalizeFilePath($path);
-
-		if(strpos($path, './') === 0)
+		$path = Rhymix\Framework\Filters\FilenameFilter::cleanPath($path);
+		if (!strncmp($path, \RX_BASEDIR, strlen(\RX_BASEDIR)))
 		{
-			if(dirname($_SERVER['SCRIPT_NAME']) == '/' || dirname($_SERVER['SCRIPT_NAME']) == '\\')
-			{
-				$path = '/' . substr($path, 2);
-			}
-			else
-			{
-				$path = dirname($_SERVER['SCRIPT_NAME']) . '/' . substr($path, 2);
-			}
+			$path = \RX_BASEURL . substr($path, strlen(\RX_BASEDIR));
 		}
-		else if(strpos($file, '../') === 0)
-		{
-			$path = $this->_normalizeFilePath(dirname($_SERVER['SCRIPT_NAME']) . "/{$path}");
-		}
-
 		return $path;
 	}
 
 	/**
 	 * Arrage css index
 	 *
-	 * @param string $dirName First directory  name of css path
-	 * @param array $file file info.
+	 * @param string $dirname
+	 * @param object $file
 	 * @return void
 	 */
-	function _arrangeCssIndex($dirName, &$file)
+	protected function _arrangeCssIndex($dirname, $file)
 	{
-		if($file->index !== 0)
+		if ($file->index !== 0)
 		{
 			return;
 		}
-
-		$dirName = str_replace('./', '', $dirName);
-		$tmp = explode('/', $dirName);
+		
+		$dirname = substr($dirname, strlen(\RX_BASEDIR));
+		if (strncmp($dirname, self::$assetdir . '/', strlen(self::$assetdir) + 1) === 0)
+		{
+			$dirname = substr($dirname, strlen(self::$assetdir) + 1);
+		}
+		$tmp = array_first(explode('/', strtr($dirname, '\\.', '//')));
 
 		$cssSortList = array('common' => -100000, 'layouts' => -90000, 'modules' => -80000, 'widgets' => -70000, 'addons' => -60000);
 		$file->index = $cssSortList[$tmp[0]];
 	}
-
 }
 /* End of file FrontEndFileHandler.class.php */
 /* Location: ./classes/frontendfile/FrontEndFileHandler.class.php */

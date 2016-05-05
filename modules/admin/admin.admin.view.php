@@ -502,7 +502,7 @@ class adminAdminView extends admin
 			}
 			else
 			{
-				$object_cache_type = 'file';
+				$object_cache_type = 'dummy';
 			}
 			$cache_default_ttl = 86400;
 			$cache_servers = Rhymix\Framework\Config::get('cache');
@@ -530,6 +530,7 @@ class adminAdminView extends admin
 		Context::set('delay_session', Rhymix\Framework\Config::get('session.delay'));
 		Context::set('use_db_session', Rhymix\Framework\Config::get('session.use_db'));
 		Context::set('minify_scripts', Rhymix\Framework\Config::get('view.minify_scripts'));
+		Context::set('concat_scripts', Rhymix\Framework\Config::get('view.concat_scripts'));
 		Context::set('use_gzip', Rhymix\Framework\Config::get('view.gzip'));
 		
 		$this->setTemplateFile('config_advanced');
