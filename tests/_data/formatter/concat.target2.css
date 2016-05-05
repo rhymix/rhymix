@@ -1,0 +1,26 @@
+/* Original file: tests/_data/formatter/concat.source1.css */
+
+@media screen and (max-width: 640px) {
+
+@charset "UTF-8";
+.rhymix {
+	background: url("../_data/formatter/foo/bar.jpg");
+}
+
+}
+
+/* Original file: tests/_data/formatter/concat.source2.css */
+
+@charset "UTF-8";
+/* Original file: tests/_data/formatter/concat.source3.css */
+
+.imported {
+	background-image: url("../_data/_data/formatter/test.jpg");
+	font-family: sans-serif;
+}
+.wordpress {
+	border-radius: 4px;
+}
+.xpressengine {
+	margin: 320px;
+}

@@ -688,6 +688,8 @@ class TemplateHandler
 							}
 							break;
 						case 'css':
+						case 'less':
+						case 'scss':
 							if($doUnload)
 							{
 								$result = "Context::unloadFile('{$attr['target']}','{$attr['targetie']}','{$attr['media']}');";
@@ -695,7 +697,7 @@ class TemplateHandler
 							else
 							{
 								$metafile = $attr['target'];
-								$result = "\$__tmp=array('{$attr['target']}','{$attr['media']}','{$attr['targetie']}','{$attr['index']}');Context::loadFile(\$__tmp);unset(\$__tmp);";
+								$result = "\$__tmp=array('{$attr['target']}','{$attr['media']}','{$attr['targetie']}','{$attr['index']}'," . ($attr['vars'] ? self::_replaceVar($attr['vars']) : 'array()') . ");Context::loadFile(\$__tmp);unset(\$__tmp);";
 							}
 							break;
 					}

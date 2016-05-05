@@ -16,7 +16,18 @@ class FileHandler
 	 */
 	public static function getRealPath($source)
 	{
-		return (strncmp($source, './', 2) === 0) ? (\RX_BASEDIR . substr($source, 2)) : $source;
+		if (strncmp($source, './', 2) === 0)
+		{
+			return \RX_BASEDIR . substr($source, 2);
+		}
+		elseif (strncmp($source, '/', 1) === 0)
+		{
+			return $source;
+		}
+		else
+		{
+			return \RX_BASEDIR . $source;
+		}
 	}
 
 	/**
