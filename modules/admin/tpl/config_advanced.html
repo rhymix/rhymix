@@ -87,6 +87,17 @@
 			</div>
 		</div>
 		<div class="x_control-group">
+			<label class="x_control-label">{$lang->concat_scripts}</label>
+			<div class="x_controls">
+				<label for="concat_scripts_none" class="x_inline"><input type="radio" name="concat_scripts" id="concat_scripts_none" value="none" checked="checked"|cond="!contains('css', $concat_scripts) && !contains('js', $concat_scripts)" /> {$lang->cmd_concat_none}</label>
+				<label for="concat_scripts_css_only" class="x_inline"><input type="radio" name="concat_scripts" id="concat_scripts_css_only" value="css" checked="checked"|cond="$concat_scripts=='css'" /> {$lang->cmd_concat_css_only}</label>
+				<label for="concat_scripts_js_only" class="x_inline"><input type="radio" name="concat_scripts" id="concat_scripts_js_only" value="js" checked="checked"|cond="$concat_scripts=='js'" /> {$lang->cmd_concat_js_only}</label>
+				<label for="concat_scripts_css_js" class="x_inline"><input type="radio" name="concat_scripts" id="concat_scripts_css_js" value="css,js" checked="checked"|cond="$concat_scripts=='css,js'" /> {$lang->cmd_concat_css_js}</label>
+				<br />
+				<p class="x_help-block">{$lang->about_concat_scripts}</p>
+			</div>
+		</div>
+		<div class="x_control-group">
 			<label class="x_control-label">{$lang->use_gzip}</label>
 			<div class="x_controls">
 				<label for="use_gzip_y" class="x_inline"><input type="radio" name="use_gzip" id="use_gzip_y" value="Y" checked="checked"|cond="$use_gzip" /> {$lang->cmd_yes}</label>

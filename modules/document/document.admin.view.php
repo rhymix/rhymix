@@ -72,13 +72,34 @@ class documentAdminView extends document
 		}
 		Context::set('search_option', $search_option);
 
+		// Module List
 		$oModuleModel = getModel('module');
 		$module_list = array();
 		$mod_srls = array();
-		$anonymous_member_srls = array();
 		foreach($output->data as $oDocument)
 		{
 			$mod_srls[] = $oDocument->get('module_srl');
+		}
+		$mod_srls = array_unique($mod_srls);
+		$mod_srls_count = count($mod_srls);
+		if($mod_srls_count)
+		{
+			$columnList = array('module_srl', 'mid', 'browser_title');
+			$module_output = $oModuleModel->getModulesInfo($mod_srls, $columnList);
+			if($module_output && is_array($module_output))
+			{
+				foreach($module_output as $module)
+				{
+					$module_list[$module->module_srl] = $module;
+				}
+			}
+		}
+		Context::set('module_list', $module_list);
+		
+		// Get anonymous nicknames
+		$anonymous_member_srls = array();
+		foreach($output->data as $oDocument)
+		{
 			if($oDocument->get('member_srl') < 0)
 			{
 				$anonymous_member_srls[] = abs($oDocument->get('member_srl'));
@@ -99,22 +120,6 @@ class documentAdminView extends document
 			}
 		}
 		Context::set('member_nick_name', $member_nick_neme);
-		$mod_srls = array_unique($mod_srls);
-		// Module List
-		$mod_srls_count = count($mod_srls);
-		if($mod_srls_count)
-		{
-			$columnList = array('module_srl', 'mid', 'browser_title');
-			$module_output = $oModuleModel->getModulesInfo($mod_srls, $columnList);
-			if($module_output && is_array($module_output))
-			{
-				foreach($module_output as $module)
-				{
-					$module_list[$module->module_srl] = $module;
-				}
-			}
-		}
-		Context::set('module_list', $module_list);
 
 		// Specify a template
 		$this->setTemplatePath($this->module_path.'tpl');

@@ -21,35 +21,11 @@ class pointModel extends point
 	 */
 	function isExistsPoint($member_srl)
 	{
-		$member_srl = abs($member_srl);
-
-		// Get from instance memory
-		if($this->pointList[$member_srl]) return true;
-
-		// Get from file cache
-		$path = sprintf(_XE_PATH_ . 'files/member_extra_info/point/%s',getNumberingPath($member_srl));
-		$cache_filename = sprintf('%s%d.cache.txt', $path, $member_srl);
-		if(file_exists($cache_filename))
-		{
-			if(!$this->pointList[$member_srl])
-				$this->pointList[$member_srl] = trim(FileHandler::readFile($cache_filename));
-			return true;
-		}
-
-		$args =new stdClass();
-		$args->member_srl = $member_srl;
-		$output = executeQuery('point.getPoint', $args);
-		if($output->data->member_srl == $member_srl)
-		{
-			if(!$this->pointList[$member_srl])
-			{
-				$this->pointList[$member_srl] = (int)$output->data->point;
-				FileHandler::makeDir($path);
-				FileHandler::writeFile($cache_filename, (int)$output->data->point);
-			}
-			return true;
-		}
-		return false;
+		$args = new stdClass;
+		$args->member_srl = abs($member_srl);
+		$output = executeQuery('point.getPoint', $args, array('member_srl'));
+		
+		return isset($output->data->member_srl);
 	}
 
 	/**
@@ -70,7 +46,7 @@ class pointModel extends point
 			return $this->pointList[$member_srl] = trim(FileHandler::readFile($cache_filename));
 
 		// Get from the DB
-		$args =new stdClass();
+		$args = new stdClass;
 		$args->member_srl = $member_srl;
 		$output = executeQuery('point.getPoint', $args);
 

@@ -34,7 +34,6 @@ class ncenterliteModel extends ncenterlite
 			if(!$config->skin) $config->skin = 'default';
 			if(!$config->colorset) $config->colorset = 'black';
 			if(!$config->zindex) $config->zindex = '9999';
-			if(!$config->anonymous_name) $config->anonymous_name = 'Anonymous';
 
 			self::$config = $config;
 		}
@@ -215,7 +214,8 @@ class ncenterliteModel extends ncenterlite
 		}
 
 		$output->data = $list;
-		if($page <= 1)
+
+		if($page <= 1 && $output->flag_exists !== true)
 		{
 			$oNcenterliteController = getController('ncenterlite');
 			$oNcenterliteController->updateFlagFile($member_srl, $output);
@@ -256,11 +256,13 @@ class ncenterliteModel extends ncenterlite
 			$member_srl = $logged_info->member_srl;
 		}
 		$flag_path = \RX_BASEDIR . 'files/cache/ncenterlite/new_notify/' . getNumberingPath($member_srl) . $member_srl . '.php';
+
 		if(FileHandler::exists($flag_path) && $page <= 1)
 		{
 			$output = require_once $flag_path;
-			if(is_object($output->data))
+			if(is_object($output))
 			{
+				$output->flag_exists = true;
 				return $output;
 			}
 		}
@@ -269,7 +271,7 @@ class ncenterliteModel extends ncenterlite
 		$args->page = $page ? $page : 1;
 		if($readed) $args->readed = $readed;
 		$output = executeQueryArray('ncenterlite.getNotifyList', $args);
-
+		$output->flag_exists = false;
 		if(!$output->data) $output->data = array();
 
 		return $output;

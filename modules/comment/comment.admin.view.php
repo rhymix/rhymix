@@ -67,6 +67,7 @@ class commentAdminView extends comment
 		Context::set('page_navigation', $output->page_navigation);
 		Context::set('secret_name_list', $secretNameList);
 
+		// Module List
 		$oModuleModel = getModel('module');
 		$module_list = array();
 		$mod_srls = array();
@@ -75,7 +76,6 @@ class commentAdminView extends comment
 			$mod_srls[] = $val->module_srl;
 		}
 		$mod_srls = array_unique($mod_srls);
-		// Module List
 		$mod_srls_count = count($mod_srls);
 		if($mod_srls_count)
 		{
@@ -90,7 +90,32 @@ class commentAdminView extends comment
 			}
 		}
 		Context::set('module_list', $module_list);
-
+		
+		// Get anonymous nicknames
+		$anonymous_member_srls = array();
+		foreach($output->data as $val)
+		{
+			if($val->get('member_srl') < 0)
+			{
+				$anonymous_member_srls[] = abs($val->get('member_srl'));
+			}
+		}
+		if($anonymous_member_srls)
+		{
+			$member_args = new stdClass();
+			$member_args->member_srl = $anonymous_member_srls;
+			$member_output = executeQueryArray('member.getMembers', $member_args);
+			if($member_output)
+			{
+				$member_nick_neme = array();
+				foreach($member_output->data as $member)
+				{
+					$member_nick_neme[$member->member_srl] = $member->nick_name;
+				}
+			}
+		}
+		Context::set('member_nick_name', $member_nick_neme);
+		
 		// set the template 
 		$this->setTemplatePath($this->module_path . 'tpl');
 		$this->setTemplateFile('comment_list');

@@ -14,17 +14,14 @@ var auto_saved_msg = "{$lang->msg_auto_saved}";
 
 {@ $css_content = null }
 <!--@if($content_font || $content_font_size)-->
-	<!--@if($content_style === 'ckeditor_light')-->{@ $css_content = '.xe_content.editable p { margin: 0;'. chr(125); }<!--@endif-->
-
 	{@ $css_content .= ' .xe_content.editable { '}
-	<block cond="$content_font">
-	{@ $css_content .= 'font-family:' . $content_font . ';';}
-	</block>
-
-	<block cond="$content_font_size">
-	{@ $css_content .= 'font-size:' . $content_font_size . ';';}
-	</block>
+	<block cond="$content_font">{@ $css_content .= 'font-family:' . $content_font . ';';}</block>
+	<block cond="$content_font_size">{@ $css_content .= 'font-size:' . $content_font_size . ';';}</block>
+	<block cond="$content_line_height">{@ $css_content .= 'line-height:' . $content_line_height . ';';}</block>
+	<block cond="$content_word_break === 'none'">{@ $css_content .= 'white-space: nowrap;';}</block>
+	<block cond="$content_word_break !== 'none'">{@ $css_content .= 'word-break:' . ($content_word_break ?: 'normal') . '; word-wrap: break-word;';}</block>
 	{@ $css_content .= chr(125);}
+	{@ $css_content .= '.xe_content.editable p { margin: 0 0 ' . ($content_paragraph_spacing ?: 0) . ' 0;' . chr(125);}
 <!--@endif-->
 
 <!--@if($enable_autosave)-->
@@ -48,12 +45,55 @@ var auto_saved_msg = "{$lang->msg_auto_saved}";
 	// editor
 	$(function(){
 		<!--@if(!FileHandler::exists('common/js/plugins/ckeditor/ckeditor/config.js'))-->CKEDITOR.config.customConfig = '';<!--@endif-->
+		
+		// Import CSS content from PHP.
+		var css_content = {json_encode($css_content)};
+		
+		// Get default font name and list of other supported fonts.
+		var default_font_name = {json_encode($content_font ? trim(array_first(explode(',', $content_font)), '\'" ') : null)};
+		var default_font_fullname = {json_encode($content_font ?: null)};
+		if (default_font_fullname === null && window.getComputedStyle) {
+			var test_content = $('<div class="xe_content"></div>').hide().appendTo($(document.body));
+			var test_styles = window.getComputedStyle(test_content[0], null);
+			if (test_styles && test_styles.getPropertyValue) {
+				default_font_fullname = test_styles.getPropertyValue("font-family");
+				if (default_font_fullname) {
+					default_font_name = $.trim(default_font_fullname.split(',')[0].replace(/['"]/g, ''));
+					css_content = ".xe_content.editable { font-family:" + default_font_fullname + "; } " + css_content;
+				}
+			}
+		}
+		var font_list = [];
+		<block loop="$lang->edit->fontlist => $fontname">font_list.push({json_encode($fontname)});</block>
+		if (default_font_fullname !== null && !$.inArray(default_font_fullname, font_list)) {
+			font_list.push(default_font_fullname);
+		}
+		font_list = $.map(font_list, function(val) {
+			return $.trim(val.split(",")[0]) + "/" + val;
+		}).join(";");
+		
+		// Get default font size and list of other supported sizes.
+		var default_font_size = {json_encode($content_font_size ?: '13')};
+		default_font_size = parseInt(default_font_size.replace(/\D/, ''), 10);
+		var font_sizes = [8, 9, 10, 11, 12, 13, 14, 15, 16, 18, 20, 24, 28, 32, 36, 40, 48];
+		if (!$.inArray(default_font_size, font_sizes)) {
+			font_sizes.push(default_font_size);
+			font_sizes.sort();
+		}
+		font_sizes = $.map(font_sizes, function(val) {
+			return val + "/" + val + "px";
+		}).join(";");
+		
 		var settings = {
 			ckeconfig: {
 				height: '{$editor_height}',
 				skin: '{$colorset}',
-				contentsCss: '{$content_style_path}/editor.css',
+				contentsCss: '{$content_style_path}/editor.css?{date("YmdHis", @filemtime($content_style_path."/editor.css"))}',
 				xe_editor_sequence: {$editor_sequence},
+	            font_defaultLabel: default_font_name,
+	            font_names: font_list,
+	            fontSize_defaultLabel: default_font_size,
+	            fontSize_sizes: font_sizes,
 				toolbarCanCollapse: true,
 				language: "{str_replace('jp','ja',$lang_type)}"
 			},
@@ -89,7 +129,7 @@ var auto_saved_msg = "{$lang->msg_auto_saved}";
 			settings.ckeconfig.removeButtons = 'Save,Preview,Print,Cut,Copy,Paste,Source';
 		<!--@endif-->
 
-		<!--@if($css_content)-->CKEDITOR.addCss('{$css_content}');<!--@end-->
+		CKEDITOR.addCss(css_content);
 
 		var ckeApp = $('#ckeditor_instance_{$editor_sequence}').XeCkEditor(settings);
 

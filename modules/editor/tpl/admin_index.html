@@ -88,31 +88,64 @@
 			</div>
 		</div>
 		<div class="x_control-group">
+			<label class="x_control-label">{$lang->guide_choose_font_preview}</label>
+			<div class="x_controls">
+				<textarea rows="4" cols="42" class="fontPreview" style="
+					font-family: {$editor_config->content_font};
+					font-size: {$editor_config->content_font_size ?: '13px'};
+					line-height: {$editor_config->content_line_height ?: '160%'};
+					width:90%" title="Font Preview">{$lang->font_preview}</textarea>
+			</div>
+		</div>
+		<div class="x_control-group">
 			<label class="x_control-label">{$lang->guide_choose_font_body}</label>
 			<div class="x_controls">
-				{@ 
-					if($editor_config->content_font_size) $fontSize = str_replace('px','',$editor_config->content_font_size);
-					else $fontSize = str_replace('px','',$editor_config_default['content_font_size']);
-				}
-				<div style="margin-right:14px">
-					<textarea rows="4" cols="42" class="fontPreview" style="font-family:{$editor_config->content_font};font-size:{$fontSize}px;width:100%" title="Font Preview">{$lang->font_preview}</textarea>
-				</div>
 				<label style="font-family:''" class="fontSelector">
-					<input type="radio" name="content_font" id="font_noFont" value="" checked="checked"|cond="!$editor_config->content_font && $editor_config->font_defined!= 'Y'" />none(inherit)
+					<input type="radio" name="content_font" id="font_noFont" value="" checked="checked"|cond="!$editor_config->content_font && $editor_config->font_defined != 'Y'" /> none (inherit)
 				</label>
-				<label style="font-family:{$detail}" class="fontSelector" loop="$lang->edit->fontlist=>$name,$detail">
-					<input type="radio" name="content_font" id="font_{$name}" value="{$detail}" checked="checked"|cond="stripcslashes($editor_config->content_font)==$detail && $editor_config->font_defined!= 'Y'" />{$detail}
+				<label style="display:inline-block;margin-right:16px;font-family:{$detail}" class="fontSelector" loop="$lang->edit->fontlist=>$name,$detail">
+					{@ $fontname_simplified = trim(array_first(explode(',', $detail)), "'\" ")}
+					<input type="radio" name="content_font" id="font_{$name}" value="{$detail}" checked="checked"|cond="$editor_config->content_font == $detail && $editor_config->font_defined != 'Y'" /> {$fontname_simplified}
 				</label>
 				<label>
-					<input type="radio" name="font_defined" id="font_defined" value="Y" checked="checked"|cond="$editor_config->font_defined== 'Y'" />{$lang->by_you} : 
-					<input type="text" name="content_font_defined" value="{stripcslashes($editor_config->content_font)}"|cond="$editor_config->font_defined == 'Y'" />
+					<input type="radio" class="fontSelector" name="font_defined" id="font_defined" value="Y" checked="checked"|cond="$editor_config->font_defined== 'Y'" /> {$lang->by_you} : 
+					<input type="text" name="content_font_defined" value="{$editor_config->content_font}"|cond="$editor_config->font_defined == 'Y'" />
 				</label>
 			</div>
 		</div>
 		<div class="x_control-group">
-			<label class="x_control-label" for="fontSize">{$lang->guide_choose_font_size_body}</label>
+			<label class="x_control-label" for="font_size">{$lang->guide_choose_font_size_body}</label>
 			<div class="x_controls">
-				<input type="number" id="fontSize" name="content_font_size" value="{$fontSize}" /> px
+				<input type="number" id="font_size" name="content_font_size" value="{intval($editor_config->content_font_size) ?: 13}" /> px
+			</div>
+		</div>
+		<div class="x_control-group">
+			<label class="x_control-label" for="line_height">{$lang->guide_choose_line_height}</label>
+			<div class="x_controls">
+				<input type="number" id="line_height" name="content_line_height" value="{intval($editor_config->content_line_height) ?: 160}" /> %
+			</div>
+		</div>
+		<div class="x_control-group">
+			<label class="x_control-label" for="paragraph_spacing">{$lang->guide_choose_paragraph_spacing}</label>
+			<div class="x_controls">
+				<input type="number" id="paragraph_spacing" name="content_paragraph_spacing" value="{intval($editor_config->content_paragraph_spacing) ?: 0}" /> px
+			</div>
+		</div>
+		<div class="x_control-group">
+			<label class="x_control-label">{$lang->guide_choose_word_break}</label>
+			<div class="x_controls">
+				<label for="word_break_normal">
+					<input type="radio" name="content_word_break" id="word_break_normal" value="normal" checked="checked"|cond="$editor_config->content_word_break == 'normal' || !$editor_config->content_word_break" /> {$lang->word_break_normal}
+				</label>
+				<label for="word_break_keep_all">
+					<input type="radio" name="content_word_break" id="word_break_keep_all" value="keep-all" checked="checked"|cond="$editor_config->content_word_break == 'keep-all'" /> {$lang->word_break_keep_all}
+				</label>
+				<label for="word_break_break_all">
+					<input type="radio" name="content_word_break" id="word_break_break_all" value="break-all" checked="checked"|cond="$editor_config->content_word_break == 'break-all'" /> {$lang->word_break_break_all}
+				</label>
+				<label for="word_break_none">
+					<input type="radio" name="content_word_break" id="word_break_none" value="none" checked="checked"|cond="$editor_config->content_word_break == 'none'" /> {$lang->word_break_none}
+				</label>
 			</div>
 		</div>
 		<div class="x_clearfix btnArea">
@@ -192,16 +225,21 @@ jQuery(function($){
 	var fontPreview = $('.fontPreview');
 	var fontSelector = $('.fontSelector');
 	var checkedFont = fontSelector.filter(':checked').css('fontFamily');
-	var changedSize = $('#fontSize').val();
+	var changedSize = $('#font_size').val();
 
 //change event
 	fontSelector.change(function(){
-		var myFont = $(this).css('fontFamily');
-		fontPreview.css('fontFamily',myFont);
+		var myFont = $(this).css('font-family');
+		if ($(this).val() === 'Y') {
+			myFont = $("input[name='content_font_defined']").val();
+		}
+		fontPreview.css('font-family', myFont);
 	});
-	$('#fontSize').keyup(function(){
-		var mySize = $(this).val();
-		fontPreview.css('fontSize',mySize+'px');
+	$('#font_size').keyup(function(){
+		fontPreview.css('font-size', $(this).val() + 'px');
+	}).change(function(){$(this).keyup()});
+	$('#line_height').keyup(function(){
+		fontPreview.css('line-height', $(this).val() + '%');
 	}).change(function(){$(this).keyup()});
 
 	$('input[name=font_defined]').click(function(){

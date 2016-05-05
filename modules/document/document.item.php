@@ -1168,7 +1168,7 @@ class documentItem extends Object
 	 */
 	function getProfileImage()
 	{
-		if(!$this->isExists() || !$this->get('member_srl')) return;
+		if(!$this->isExists() || $this->get('member_srl') <= 0) return;
 		$oMemberModel = getModel('member');
 		$profile_info = $oMemberModel->getProfileImage($this->get('member_srl'));
 		if(!$profile_info) return;
@@ -1183,7 +1183,7 @@ class documentItem extends Object
 	function getSignature()
 	{
 		// Pass if a document doesn't exist
-		if(!$this->isExists() || !$this->get('member_srl')) return;
+		if(!$this->isExists() || $this->get('member_srl') <= 0) return;
 		// Get signature information
 		$oMemberModel = getModel('member');
 		$signature = $oMemberModel->getSignature($this->get('member_srl'));

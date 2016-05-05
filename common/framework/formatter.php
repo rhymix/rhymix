@@ -176,7 +176,7 @@ class Formatter
 	public static function compileLESS($source_filename, $target_filename, $variables = array(), $minify = false)
 	{
 		// Get the cleaned and concatenated content.
-		$content = self::_concatenate($source_filename, $target_filename);
+		$content = self::concatCSS($source_filename, $target_filename);
 		
 		// Compile!
 		try
@@ -189,7 +189,8 @@ class Formatter
 				$less_compiler->setVariables($variables);
 			}
 			
-			$content = '@charset "UTF-8";' . "\n" . $less_compiler->compile($content) . "\n";
+			$charset = strpos($content, '@charset') === false ? ('@charset "UTF-8";' . "\n") : '';
+			$content = $charset . $less_compiler->compile($content) . "\n";
 			$result = true;
 		}
 		catch (\Exception $e)
@@ -215,7 +216,7 @@ class Formatter
 	public static function compileSCSS($source_filename, $target_filename, $variables = array(), $minify = false)
 	{
 		// Get the cleaned and concatenated content.
-		$content = self::_concatenate($source_filename, $target_filename);
+		$content = self::concatCSS($source_filename, $target_filename);
 		
 		// Compile!
 		try
@@ -228,7 +229,8 @@ class Formatter
 				$scss_compiler->setVariables($variables);
 			}
 			
-			$content = '@charset "UTF-8";' . "\n" . $scss_compiler->compile($content) . "\n";
+			$charset = strpos($content, '@charset') === false ? ('@charset "UTF-8";' . "\n") : '';
+			$content = $charset . $scss_compiler->compile($content) . "\n";
 			$result = true;
 		}
 		catch (\Exception $e)
@@ -251,7 +253,18 @@ class Formatter
 	 */
 	public static function minifyCSS($source_filename, $target_filename)
 	{
-		$minifier = new \MatthiasMullie\Minify\CSS($source_filename);
+		$minifier = new \MatthiasMullie\Minify\CSS();
+		if (is_array($source_filename))
+		{
+			foreach ($source_filename as $filename)
+			{
+				$minifier->add($filename);
+			}
+		}
+		else
+		{
+			$minifier->add($source_filename);
+		}
 		$content = $minifier->execute($target_filename);
 		Storage::write($target_filename, $content);
 		return strlen($content) ? true : false;
@@ -266,7 +279,18 @@ class Formatter
 	 */
 	public static function minifyJS($source_filename, $target_filename)
 	{
-		$minifier = new \MatthiasMullie\Minify\JS($source_filename);
+		$minifier = new \MatthiasMullie\Minify\JS();
+		if (is_array($source_filename))
+		{
+			foreach ($source_filename as $filename)
+			{
+				$minifier->add($filename);
+			}
+		}
+		else
+		{
+			$minifier->add($source_filename);
+		}
 		$content = $minifier->execute($target_filename);
 		Storage::write($target_filename, $content);
 		return strlen($content) ? true : false;
@@ -279,7 +303,7 @@ class Formatter
 	 * @param string $target_filename
 	 * @return string
 	 */
-	protected static function _concatenate($source_filename, $target_filename)
+	public static function concatCSS($source_filename, $target_filename)
 	{
 		$result = '';
 		
@@ -287,25 +311,173 @@ class Formatter
 		{
 			$source_filename = array($source_filename);
 		}
+		
 		foreach ($source_filename as $filename)
 		{
+			// Get the media query.
+			if (is_array($filename) && count($filename) >= 2)
+			{
+				list($filename, $media) = $filename;
+			}
+			else
+			{
+				$media = null;
+			}
+			
+			// Clean the content.
 			$content = utf8_clean(file_get_contents($filename));
+			
+			// Convert all paths in LESS and SCSS imports, too.
+			$import_type = ends_with('.scss', $filename) ? 'scss' : 'normal';
+			$content = preg_replace_callback('/@import\s+(?:\\([^()]+\\))?([^;]+);/', function($matches) use($filename, $target_filename, $import_type) {
+				$import_content = '';
+				$import_files = array_map(function($str) use($filename, $import_type) {
+					$str = trim(trim(trim(preg_replace('/^url\\(([^()]+)\\)$/', '$1', trim($str))), '"\''));
+					return dirname($filename) . '/' . ($import_type === 'scss' ? "_$str.scss" : $str);
+				}, explode(',', $matches[1]));
+				foreach ($import_files as $import_filename)
+				{
+					if (file_exists($import_filename))
+					{
+						$import_content .= self::concatCSS($import_filename, $target_filename);
+					}
+				}
+				return trim($import_content);
+			}, $content);
+			
+			// Convert all paths to be relative to the new filename.
 			$path_converter = new \MatthiasMullie\PathConverter\Converter($filename, $target_filename);
 			$content = preg_replace_callback('/\burl\\(([^)]+)\\)/iU', function($matches) use ($path_converter) {
 				$url = trim($matches[1], '\'"');
-				if (!strlen($url) || $url[0] === '/')
+				if (!strlen($url) || $url[0] === '/' || preg_match('#^(?:https?|data):#', $url))
 				{
 					return $matches[0];
 				}
 				else
 				{
-					return 'url("' . escape_dqstr($path_converter->convert($url)) . '")';
+					return 'url("' . str_replace('\\$', '$', escape_dqstr($path_converter->convert($url))) . '")';
 				}
 			}, $content);
 			unset($path_converter);
-			$result .= trim($content) . "\n\n";
+			
+			// Wrap the content in a media query if there is one.
+			if ($media !== null)
+			{
+				$content = "@media $media {\n\n" . trim($content) . "\n\n}";
+			}
+			
+			// Append to the result string.
+			$original_filename = starts_with(\RX_BASEDIR, $filename) ? substr($filename, strlen(\RX_BASEDIR)) : $filename;
+			$result .= '/* Original file: ' . $original_filename . ' */' . "\n\n" . trim($content) . "\n\n";
 		}
 		
 		return $result;
+	}
+	
+	/**
+	 * JS concatenation subroutine.
+	 * 
+	 * @param string|array $source_filename
+	 * @param string $target_filename
+	 * @return string
+	 */
+	public static function concatJS($source_filename, $target_filename)
+	{
+		$result = '';
+		
+		if (!is_array($source_filename))
+		{
+			$source_filename = array($source_filename);
+		}
+		
+		foreach ($source_filename as $filename)
+		{
+			// Get the IE condition.
+			if (is_array($filename) && count($filename) >= 2)
+			{
+				list($filename, $targetie) = $filename;
+			}
+			else
+			{
+				$targetie = null;
+			}
+			
+			// Clean the content.
+			$content = utf8_clean(file_get_contents($filename));
+			
+			// Wrap the content in an IE condition if there is one.
+			if ($targetie !== null)
+			{
+				$content = 'if (' . self::convertIECondition($targetie) . ') {' . "\n\n" . trim($content) . ";\n\n" . '}';
+			}
+			
+			// Append to the result string.
+			$original_filename = starts_with(\RX_BASEDIR, $filename) ? substr($filename, strlen(\RX_BASEDIR)) : $filename;
+			$result .= '/* Original file: ' . $original_filename . ' */' . "\n\n" . trim($content) . ";\n\n";
+		}
+		
+		return $result;
+	}
+	
+	/**
+	 * Convert IE conditional comments to JS conditions.
+	 * 
+	 * @param string $condition
+	 * @return string
+	 */
+	public static function convertIECondition($condition)
+	{
+		$conversions = array(
+			'/^true$/i' => 'true',
+			'/^false$/i' => 'false',
+			'/^IE$/i' => 'window.navigator.userAgent.match(/MSIE\s/)',
+			'/^IE\s*(\d+)$/i' => '(/MSIE (\d+)/.exec(window.navigator.userAgent) && /MSIE (\d+)/.exec(window.navigator.userAgent)[1] == %d)',
+			'/^gt IE\s*(\d+)$/i' => '(/MSIE (\d+)/.exec(window.navigator.userAgent) && /MSIE (\d+)/.exec(window.navigator.userAgent)[1] > %d)',
+			'/^gte IE\s*(\d+)$/i' => '(/MSIE (\d+)/.exec(window.navigator.userAgent) && /MSIE (\d+)/.exec(window.navigator.userAgent)[1] >= %d)',
+			'/^lt IE\s*(\d+)$/i' => '(/MSIE (\d+)/.exec(window.navigator.userAgent) && /MSIE (\d+)/.exec(window.navigator.userAgent)[1] < %d)',
+			'/^lte IE\s*(\d+)$/i' => '(/MSIE (\d+)/.exec(window.navigator.userAgent) && /MSIE (\d+)/.exec(window.navigator.userAgent)[1] <= %d)',
+		);
+		
+		$result = array();
+		$conditions = preg_split('/([\&\|])/', $condition, -1, \PREG_SPLIT_NO_EMPTY | \PREG_SPLIT_DELIM_CAPTURE);
+		foreach ($conditions as $condition)
+		{
+			$condition = trim(preg_replace('/[\(\)]/', '', $condition));
+			if ($condition === '')
+			{
+				continue;
+			}
+			
+			if ($condition === '&' || $condition === '|')
+			{
+				$result[] = $condition . $condition;
+				continue;
+			}
+			
+			$negation = $condition[0] === '!';
+			if ($negation)
+			{
+				$condition = trim(substr($condition, 1));
+			}
+			
+			foreach ($conversions as $regexp => $replacement)
+			{
+				if (preg_match($regexp, $condition, $matches))
+				{
+					if (count($matches) > 1)
+					{
+						array_shift($matches);
+						$result[] = ($negation ? '!' : '') . vsprintf($replacement, $matches);
+					}
+					else
+					{
+						$result[] = ($negation ? '!' : '') . $replacement;
+					}
+					break;
+				}
+			}
+		}
+		
+		return count($result) ? implode(' ', $result) : 'false';
 	}
 }

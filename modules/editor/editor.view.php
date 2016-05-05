@@ -108,7 +108,7 @@ class editorView extends editor
 			$info = $oModuleModel->loadSkinInfo($this->module_path,$style,'styles');
 			$content_style_list[$style] = new stdClass();
 			$content_style_list[$style]->title = $info->title;
-		}			
+		}
 		Context::set('content_style_list', $content_style_list);
 		// Get a group list
 		$oMemberModel = getModel('member');
@@ -121,7 +121,7 @@ class editorView extends editor
 		$security->encodeHTML('group_list..title');
 		$security->encodeHTML('group_list..description');
 		$security->encodeHTML('content_style_list..');
-		$security->encodeHTML('editor_comment_colorset_list..title');			
+		$security->encodeHTML('editor_comment_colorset_list..title');
 
 		// Set a template file
 		$oTemplate = &TemplateHandler::getInstance();
@@ -161,6 +161,9 @@ class editorView extends editor
 			$option_com->content_style = $config->content_style;
 			$option_com->content_font = $config->content_font;
 			$option_com->content_font_size = $config->content_font_size;
+			$option_com->content_line_height = $config->content_line_height;
+			$option_com->content_paragraph_spacing = $config->content_paragraph_spacing;
+			$option_com->content_word_break = $config->content_word_break;
 			$option_com->enable_autosave = false;
 			$option_com->enable_default_component = true;
 			$option_com->enable_component = true;
@@ -180,6 +183,9 @@ class editorView extends editor
 			$option->content_style = $config->content_style;
 			$option->content_font = $config->content_font;
 			$option->content_font_size = $config->content_font_size;
+			$option->content_line_height = $config->content_line_height;
+			$option->content_paragraph_spacing = $config->content_paragraph_spacing;
+			$option->content_word_break = $config->content_word_break;
 			$option->enable_autosave = false;
 			$option->enable_default_component = true;
 			$option->enable_component = true;

@@ -1,6 +1,6 @@
 @charset "utf-8";
 /* NAVER (developers@xpressengine.com) */
-.xe_content.editable {color:#000;font-size:13px;font-family:sans-serif;line-height:1.5;word-break:break-all;word-wrap:break-word}
+.xe_content.editable { }
 .xe_content.editable img{border:0;max-width:100%;}
 .xe_content.editable blockquote.q1,
 .xe_content.editable blockquote.q2,
@@ -17,4 +17,3 @@
 .xe_content.editable blockquote.q6{border:1px dashed #707070}
 .xe_content.editable blockquote.q7{border:1px dashed #707070;background:#fbfbfb}
 .xe_content.editable table .xe_selected_cell{background-color:#d6e9ff}
-.xe_content.editable p{margin:0}

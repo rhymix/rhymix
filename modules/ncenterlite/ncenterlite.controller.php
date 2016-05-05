@@ -658,10 +658,8 @@ class ncenterliteController extends ncenterlite
 			return;
 		}
 
-		$logged_info = Context::get('logged_info');
-
 		// 로그인 상태가 아니면 중지
-		if(!$logged_info)
+		if(!Context::get('is_logged'))
 		{
 			return;
 		}
@@ -706,8 +704,6 @@ class ncenterliteController extends ncenterlite
 
 		$js_args = array('./modules/ncenterlite/tpl/js/ncenterlite.js', 'body', '', 100000);
 		Context::loadFile($js_args);
-
-		$oNcenterliteModel = getModel('ncenterlite');
 
 		// 알림 목록 가져오기
 		$logged_info = Context::get('logged_info');
@@ -855,6 +851,12 @@ class ncenterliteController extends ncenterlite
 		$output = executeQuery('ncenterlite.updateNotifyReaded', $args);
 		//$output = executeQuery('ncenterlite.deleteNotify', $args);
 
+		//Remove flag files
+		$flag_path = \RX_BASEDIR . 'files/cache/ncenterlite/new_notify/' . getNumberingPath($args->member_srl) . $args->member_srl . '.php';
+		if(file_exists($flag_path))
+		{
+			FileHandler::removeFile($flag_path);
+		}
 		return $output;
 	}
 
@@ -866,6 +868,12 @@ class ncenterliteController extends ncenterlite
 		$output = executeQuery('ncenterlite.updateNotifyReadedByTargetSrl', $args);
 		//$output = executeQuery('ncenterlite.deleteNotifyByTargetSrl', $args);
 
+		//Remove flag files
+		$flag_path = \RX_BASEDIR . 'files/cache/ncenterlite/new_notify/' . getNumberingPath($args->member_srl) . $args->member_srl . '.php';
+		if(file_exists($flag_path))
+		{
+			FileHandler::removeFile($flag_path);
+		}
 		return $output;
 	}
 
@@ -876,6 +884,12 @@ class ncenterliteController extends ncenterlite
 		$output = executeQuery('ncenterlite.updateNotifyReadedAll', $args);
 		//$output = executeQuery('ncenterlite.deleteNotifyByMemberSrl', $args);
 
+		//Remove flag files
+		$flag_path = \RX_BASEDIR . 'files/cache/ncenterlite/new_notify/' . getNumberingPath($args->member_srl) . $args->member_srl . '.php';
+		if(file_exists($flag_path))
+		{
+			FileHandler::removeFile($flag_path);
+		}
 		return $output;
 	}
 
@@ -956,36 +970,24 @@ class ncenterliteController extends ncenterlite
 
 	function _insertNotify($args, $anonymous = FALSE)
 	{
-		$oNcenterliteModel = getModel('ncenterlite');
-		$config = $oNcenterliteModel->getConfig();
 		// 비회원 노티 제거
 		if($args->member_srl <= 0)
 		{
 			return new Object();
 		}
 
-		$logged_info = Context::get('logged_info');
+
 
 		if($anonymous == TRUE)
 		{
-			// 설정에서 익명 이름이 설정되어 있으면 익명 이름을 설정함. 없을 경우 Anonymous 를 사용한다.
-			if(!$config->anonymous_name)
-			{
-				$anonymous_name = 'Anonymous';
-			}
-			else
-			{
-				$anonymous_name = $config->anonymous_name;
-			}
-			// 익명 노티 시 회원정보 제거
 			$args->target_member_srl = 0;
-			$args->target_nick_name = $anonymous_name;
-			$args->target_user_id = $anonymous_name;
-			$args->target_email_address = $anonymous_name;
+			$args->target_user_id = $args->target_nick_name;
+			$args->target_email_address = $args->target_nick_name;
 		}
-		else if($logged_info)
+		// 로그인을 했을경우 logged_info 정보를 가져와 검사한다.
+		else if(Context::get('is_logged'))
 		{
-			// 익명 노티가 아닐 때 로그인 세션의 회원정보 넣기
+			$logged_info = Context::get('logged_info');
 			$args->target_member_srl = $logged_info->member_srl;
 			$args->target_nick_name = $logged_info->nick_name;
 			$args->target_user_id = $logged_info->user_id;
@@ -1022,7 +1024,7 @@ class ncenterliteController extends ncenterlite
 			}
 		}
 
-		$flag_path = \RX_BASEDIR . 'files/cache/ncenterlite/new_notify/' . getNumberingPath($args->target_member_srl) . $args->target_member_srl . '.php';
+		$flag_path = \RX_BASEDIR . 'files/cache/ncenterlite/new_notify/' . getNumberingPath($args->member_srl) . $args->member_srl . '.php';
 		if(file_exists($flag_path))
 		{
 			//remove flag files
@@ -1044,7 +1046,7 @@ class ncenterliteController extends ncenterlite
 			return;
 		}
 
-		FileHandler::makeDir(\RX_BASEDIR . 'files/cache/ncenterlite/new_notify' . getNumberingPath($member_srl));
+		FileHandler::makeDir(\RX_BASEDIR . 'files/cache/ncenterlite/new_notify/' . getNumberingPath($member_srl));
 		$buff = "<?php return unserialize(" . var_export(serialize($output), true) . ");\n";
 		FileHandler::writeFile($flag_path, $buff);
 	}

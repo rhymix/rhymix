@@ -78,7 +78,6 @@ class trashAdminView extends trash
 	}
 	
 	
-	
 	// Trash View - sejin7940
 	function dispTrashAdminView() 
 	{
@@ -103,6 +102,7 @@ class trashAdminView extends trash
 		Context::set('module_info', $module_info);
 
 		if($originObject) {
+			$args_extra = new stdClass;
 			$args_extra->module_srl = $originObject->module_srl;
 			$args_extra->document_srl = $originObject->document_srl;
 			$output_extra = executeQueryArray('trash.getDocumentExtraVars', $args_extra);				
