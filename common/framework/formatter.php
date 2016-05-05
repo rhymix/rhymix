@@ -337,7 +337,7 @@ class Formatter
 			unset($path_converter);
 			if ($media !== null)
 			{
-				$content = "@media $media {\n\n$content\n\n}";
+				$content = "@media $media {\n\n" . trim($content) . "\n\n}";
 			}
 			$original_filename = starts_with(\RX_BASEDIR, $filename) ? substr($filename, strlen(\RX_BASEDIR)) : $filename;
 			$result .= '/* Original file: ' . $original_filename . ' */' . "\n\n" . trim($content) . "\n\n";
@@ -374,7 +374,7 @@ class Formatter
 			$content = utf8_clean(file_get_contents($filename));
 			if ($targetie !== null)
 			{
-				$content = 'if (' . self::convertIECondition($targetie) . ') {' . "\n\n" . $content . "\n\n" . '}';
+				$content = 'if (' . self::convertIECondition($targetie) . ') {' . "\n\n" . trim($content) . ";\n\n" . '}';
 			}
 			$original_filename = starts_with(\RX_BASEDIR, $filename) ? substr($filename, strlen(\RX_BASEDIR)) : $filename;
 			$result .= '/* Original file: ' . $original_filename . ' */' . "\n\n" . trim($content) . ";\n\n";

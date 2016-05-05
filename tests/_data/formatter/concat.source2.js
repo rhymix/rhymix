@@ -1,0 +1,3 @@
+(function($) {
+	$(".xe").hide();
+})(jQuery);
