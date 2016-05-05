@@ -311,8 +311,10 @@ class Formatter
 		{
 			$source_filename = array($source_filename);
 		}
+		
 		foreach ($source_filename as $filename)
 		{
+			// Get the media query.
 			if (is_array($filename) && count($filename) >= 2)
 			{
 				list($filename, $media) = $filename;
@@ -321,7 +323,11 @@ class Formatter
 			{
 				$media = null;
 			}
+			
+			// Clean the content.
 			$content = utf8_clean(file_get_contents($filename));
+			
+			// Convert all paths to be relative to the new filename.
 			$path_converter = new \MatthiasMullie\PathConverter\Converter($filename, $target_filename);
 			$content = preg_replace_callback('/\burl\\(([^)]+)\\)/iU', function($matches) use ($path_converter) {
 				$url = trim($matches[1], '\'"');
@@ -331,14 +337,36 @@ class Formatter
 				}
 				else
 				{
-					return 'url("' . escape_dqstr($path_converter->convert($url)) . '")';
+					return 'url("' . str_replace('\\$', '$', escape_dqstr($path_converter->convert($url))) . '")';
 				}
 			}, $content);
 			unset($path_converter);
+			
+			// Convert all paths in LESS and SCSS imports, too.
+			$import_type = ends_with('.scss', $filename) ? 'scss' : 'normal';
+			$content = preg_replace_callback('/@import\s+(?:\\([^()]+\\))?([^;]+);/', function($matches) use($filename, $target_filename, $import_type) {
+				$import_content = '';
+				$import_files = array_map(function($str) use($filename, $import_type) {
+					$str = trim(trim(trim($str), '"\''));
+					return dirname($filename) . '/' . ($import_type === 'scss' ? "_$str.scss" : $str);
+				}, explode(',', $matches[1]));
+				foreach ($import_files as $import_filename)
+				{
+					if (file_exists($import_filename))
+					{
+						$import_content .= self::concatCSS($import_filename, $target_filename);
+					}
+				}
+				return $import_content;
+			}, $content);
+			
+			// Wrap the content in a media query if there is one.
 			if ($media !== null)
 			{
 				$content = "@media $media {\n\n" . trim($content) . "\n\n}";
 			}
+			
+			// Append to the result string.
 			$original_filename = starts_with(\RX_BASEDIR, $filename) ? substr($filename, strlen(\RX_BASEDIR)) : $filename;
 			$result .= '/* Original file: ' . $original_filename . ' */' . "\n\n" . trim($content) . "\n\n";
 		}
@@ -361,8 +389,10 @@ class Formatter
 		{
 			$source_filename = array($source_filename);
 		}
+		
 		foreach ($source_filename as $filename)
 		{
+			// Get the IE condition.
 			if (is_array($filename) && count($filename) >= 2)
 			{
 				list($filename, $targetie) = $filename;
@@ -371,11 +401,17 @@ class Formatter
 			{
 				$targetie = null;
 			}
+			
+			// Clean the content.
 			$content = utf8_clean(file_get_contents($filename));
+			
+			// Wrap the content in an IE condition if there is one.
 			if ($targetie !== null)
 			{
 				$content = 'if (' . self::convertIECondition($targetie) . ') {' . "\n\n" . trim($content) . ";\n\n" . '}';
 			}
+			
+			// Append to the result string.
 			$original_filename = starts_with(\RX_BASEDIR, $filename) ? substr($filename, strlen(\RX_BASEDIR)) : $filename;
 			$result .= '/* Original file: ' . $original_filename . ' */' . "\n\n" . trim($content) . ";\n\n";
 		}
