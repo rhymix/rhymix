@@ -271,6 +271,12 @@ class FrontEndFileHandler extends Handler
 		{
 			$file->vars = array_merge($file->vars, $default_font_config);
 		}
+		if ($file->fileExtension === 'less')
+		{
+			$file->vars = array_map(function($str) {
+				return preg_match('/^[0-9a-zA-Z\.%_-]+$/', $str) ? $str : ('~"' . str_replace('"', '\\"', $str) . '"');
+			}, $file->vars);
+		}
 		
 		$compiledFileName = $file->fileName . ($minify ? '.min' : '') . '.css';
 		$compiledFileHash = sha1($file->fileRealPath . ':' . serialize($file->vars));
