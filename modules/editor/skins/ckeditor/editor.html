@@ -46,9 +46,23 @@ var auto_saved_msg = "{$lang->msg_auto_saved}";
 	$(function(){
 		<!--@if(!FileHandler::exists('common/js/plugins/ckeditor/ckeditor/config.js'))-->CKEDITOR.config.customConfig = '';<!--@endif-->
 		
+		// Import CSS content from PHP.
+		var css_content = {json_encode($css_content)};
+		
 		// Get default font name and list of other supported fonts.
 		var default_font_name = {json_encode($content_font ? trim(array_first(explode(',', $content_font)), '\'" ') : null)};
 		var default_font_fullname = {json_encode($content_font ?: null)};
+		if (default_font_fullname === null && window.getComputedStyle) {
+			var test_content = $('<div class="xe_content"></div>').hide().appendTo($(document.body));
+			var test_styles = window.getComputedStyle(test_content[0], null);
+			if (test_styles && test_styles.getPropertyValue) {
+				default_font_fullname = test_styles.getPropertyValue("font-family");
+				if (default_font_fullname) {
+					default_font_name = $.trim(default_font_fullname.split(',')[0].replace(/['"]/g, ''));
+					css_content = ".xe_content.editable { font-family:" + default_font_fullname + "; } " + css_content;
+				}
+			}
+		}
 		var font_list = [];
 		<block loop="$lang->edit->fontlist => $fontname">font_list.push({json_encode($fontname)});</block>
 		if (default_font_fullname !== null && !$.inArray(default_font_fullname, font_list)) {
@@ -115,7 +129,7 @@ var auto_saved_msg = "{$lang->msg_auto_saved}";
 			settings.ckeconfig.removeButtons = 'Save,Preview,Print,Cut,Copy,Paste,Source';
 		<!--@endif-->
 
-		<!--@if($css_content)-->CKEDITOR.addCss('{$css_content}');<!--@end-->
+		CKEDITOR.addCss(css_content);
 
 		var ckeApp = $('#ckeditor_instance_{$editor_sequence}').XeCkEditor(settings);
 
