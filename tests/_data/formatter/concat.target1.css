@@ -8,6 +8,12 @@
 /* Original file: tests/_data/formatter/concat.source2.css */
 
 @charset "UTF-8";
+/* Original file: tests/_data/formatter/concat.source3.css */
+
+.imported {
+	background-image: url("../_data/_data/formatter/test.jpg");
+	font-family: sans-serif;
+}
 .wordpress {
 	border-radius: 4px;
 }
