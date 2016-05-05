@@ -327,6 +327,24 @@ class Formatter
 			// Clean the content.
 			$content = utf8_clean(file_get_contents($filename));
 			
+			// Convert all paths in LESS and SCSS imports, too.
+			$import_type = ends_with('.scss', $filename) ? 'scss' : 'normal';
+			$content = preg_replace_callback('/@import\s+(?:\\([^()]+\\))?([^;]+);/', function($matches) use($filename, $target_filename, $import_type) {
+				$import_content = '';
+				$import_files = array_map(function($str) use($filename, $import_type) {
+					$str = trim(trim(trim(preg_replace('/^url\\(([^()]+)\\)$/', '$1', trim($str))), '"\''));
+					return dirname($filename) . '/' . ($import_type === 'scss' ? "_$str.scss" : $str);
+				}, explode(',', $matches[1]));
+				foreach ($import_files as $import_filename)
+				{
+					if (file_exists($import_filename))
+					{
+						$import_content .= self::concatCSS($import_filename, $target_filename);
+					}
+				}
+				return trim($import_content);
+			}, $content);
+			
 			// Convert all paths to be relative to the new filename.
 			$path_converter = new \MatthiasMullie\PathConverter\Converter($filename, $target_filename);
 			$content = preg_replace_callback('/\burl\\(([^)]+)\\)/iU', function($matches) use ($path_converter) {
@@ -341,24 +359,6 @@ class Formatter
 				}
 			}, $content);
 			unset($path_converter);
-			
-			// Convert all paths in LESS and SCSS imports, too.
-			$import_type = ends_with('.scss', $filename) ? 'scss' : 'normal';
-			$content = preg_replace_callback('/@import\s+(?:\\([^()]+\\))?([^;]+);/', function($matches) use($filename, $target_filename, $import_type) {
-				$import_content = '';
-				$import_files = array_map(function($str) use($filename, $import_type) {
-					$str = trim(trim(trim($str), '"\''));
-					return dirname($filename) . '/' . ($import_type === 'scss' ? "_$str.scss" : $str);
-				}, explode(',', $matches[1]));
-				foreach ($import_files as $import_filename)
-				{
-					if (file_exists($import_filename))
-					{
-						$import_content .= self::concatCSS($import_filename, $target_filename);
-					}
-				}
-				return $import_content;
-			}, $content);
 			
 			// Wrap the content in a media query if there is one.
 			if ($media !== null)
