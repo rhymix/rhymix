@@ -151,6 +151,7 @@ class TemplateHandler
 			}
 		}
 		
+		Rhymix\Framework\Debug::addFilenameAlias($this->file, $this->compiled_file);
 		$output = $this->_fetch($this->compiled_file);
 		
 		// delete tmpfile
