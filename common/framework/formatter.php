@@ -325,7 +325,7 @@ class Formatter
 			$path_converter = new \MatthiasMullie\PathConverter\Converter($filename, $target_filename);
 			$content = preg_replace_callback('/\burl\\(([^)]+)\\)/iU', function($matches) use ($path_converter) {
 				$url = trim($matches[1], '\'"');
-				if (!strlen($url) || $url[0] === '/')
+				if (!strlen($url) || $url[0] === '/' || preg_match('#^(?:https?|data):#', $url))
 				{
 					return $matches[0];
 				}
