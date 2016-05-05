@@ -470,7 +470,7 @@ class FrontEndFileHandler extends Handler
 		
 		// Add all files to the final result.
 		$result = array();
-		if ($concat && count($concat_list = $this->_concatMap($map)))
+		if ($concat && $type === 'head' && count($concat_list = $this->_concatMap($map)))
 		{
 			foreach ($concat_list as $concat_fileset)
 			{
