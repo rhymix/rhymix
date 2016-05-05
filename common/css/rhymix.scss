@@ -17,6 +17,18 @@ a img {
 [hidden] {
 	display: none;
 }
+.xe_content {
+	font-family: $default_font_family;
+	font-size: $default_font_size;
+	line-height: $default_line_height;
+	word-break: $default_word_break;
+	@if $default_word_break == 'none' {
+		white-space: nowrap;
+	}
+}
+.xe_content p {
+	margin: 0 0 $default_paragraph_spacing 0;
+}
 .xe_content img {
 	max-width: 100%;
 	height: auto;

@@ -184,11 +184,16 @@ class editorController extends editor
 					}
 				}
 			}
-			$content_font = $editor_config->content_font;
-			$content_font_size = $editor_config->content_font_size;
-			$content_line_height = $editor_config->content_line_height;
-			$content_paragraph_spacing = $editor_config->content_paragraph_spacing;
-			$content_word_break = $editor_config->content_word_break;
+			
+			Context::set('default_font_config', array(
+				'default_font_family' => $editor_config->content_font ?: 'inherit',
+				'default_font_size' => $editor_config->content_font_size ?: '13px',
+				'default_line_height' => $editor_config->content_line_height ?: '160%',
+				'default_paragraph_spacing' => $editor_config->content_paragraph_spacing ?: '0',
+				'default_word_break' => $editor_config->content_word_break ?: 'normal',
+			));
+			
+			/*
 			$buff = array();
 			$buff[] = '<style> .xe_content {';
 			if ($content_font)
@@ -215,6 +220,7 @@ class editorController extends editor
 			$buff[] = '.xe_content p { margin: 0 0 ' . ($content_paragraph_spacing ?: 0) . ' 0; }';
 			$buff[] = '</style>';
 			Context::addHtmlHeader(implode(' ', $buff));
+			*/
 		}
 
 		$content = $this->transComponent($content);

@@ -267,18 +267,19 @@ class FrontEndFileHandler extends Handler
 			return;
 		}
 		
+		if ($default_font_config = Context::get('default_font_config'))
+		{
+			$file->vars = array_merge($file->vars, $default_font_config);
+		}
+		
 		$compiledFileName = $file->fileName . ($minify ? '.min' : '') . '.css';
-		$compiledFileHash = sha1($file->fileRealPath . ':' . serialize($vars));
+		$compiledFileHash = sha1($file->fileRealPath . ':' . serialize($file->vars));
 		$compiledFilePath = \RX_BASEDIR . self::$assetdir . '/compiled/' . $compiledFileHash . '.' . $compiledFileName;
 		
 		if (!file_exists($compiledFilePath) || filemtime($compiledFilePath) < filemtime($file->fileFullPath))
 		{
 			$method_name = 'compile' . $file->fileExtension;
 			$success = Rhymix\Framework\Formatter::$method_name($file->fileFullPath, $compiledFilePath, $file->vars, $minify);
-			if ($success === false)
-			{
-				return;
-			}
 		}
 		
 		$file->fileName = $compiledFileHash . '.' . $compiledFileName;
