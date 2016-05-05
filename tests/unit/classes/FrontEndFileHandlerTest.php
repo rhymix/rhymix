@@ -39,11 +39,13 @@ class FrontEndFileHandlerTest extends \Codeception\TestCase\Test
 			$handler = new FrontEndFileHandler();
 			$handler->loadFile(array('./common/css/rhymix.scss'));
 			$handler->loadFile(array('./common/css/mobile.css'));
-			$expected[] = array('file' => '/rhymix/files/cache/assets/compiled/common.css.rhymix.scss.css', 'media' => 'all', 'targetie' => null);
-			$expected[] = array('file' => '/rhymix/common/css/mobile.css' . $this->_filemtime('common/css/mobile.css'), 'media' => 'all', 'targetie' => null);
 			$result = $handler->getCssFileList();
-			$result[0]['file'] = preg_replace('/\?\d+$/', '', $result[0]['file']);
-			$this->assertEquals($result, $expected);
+			$this->assertRegexp('/\.rhymix\.scss\.css\b/', $result[0]['file']);
+			$this->assertEquals('all', $result[0]['media']);
+			$this->assertEmpty($result[0]['targetie']);
+			$this->assertEquals('/rhymix/common/css/mobile.css' . $this->_filemtime('common/css/mobile.css'), $result[1]['file']);
+			$this->assertEquals('all', $result[1]['media']);
+			$this->assertEmpty($result[1]['targetie']);
 		});
 
 		$this->specify("order (duplicate)", function() {
@@ -153,12 +155,13 @@ class FrontEndFileHandlerTest extends \Codeception\TestCase\Test
 			$handler = new FrontEndFileHandler();
 			$handler->loadFile(array('./common/css/rhymix.scss'));
 			$handler->loadFile(array('./common/css/mobile.css'));
-			$expected[] = array('file' => '/rhymix/files/cache/assets/compiled/common.css.rhymix.scss.min.css', 'media' => 'all', 'targetie' => null);
-			$expected[] = array('file' => '/rhymix/files/cache/assets/minified/common.css.mobile.min.css', 'media' => 'all', 'targetie' => null);
 			$result = $handler->getCssFileList();
-			$result[0]['file'] = preg_replace('/\?\d+$/', '', $result[0]['file']);
-			$result[1]['file'] = preg_replace('/\?\d+$/', '', $result[1]['file']);
-			$this->assertEquals($result, $expected);
+			$this->assertRegexp('/\.rhymix\.scss\.min\.css\b/', $result[0]['file']);
+			$this->assertEquals('all', $result[0]['media']);
+			$this->assertEmpty($result[0]['targetie']);
+			$this->assertRegexp('/minified\/common\.css\.mobile\.min\.css\b/', $result[1]['file']);
+			$this->assertEquals('all', $result[1]['media']);
+			$this->assertEmpty($result[1]['targetie']);
 		});
 
 		$this->specify("external file", function() {

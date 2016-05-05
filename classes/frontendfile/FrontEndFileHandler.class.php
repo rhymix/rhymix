@@ -268,7 +268,7 @@ class FrontEndFileHandler extends Handler
 		}
 		
 		$compiledFileName = $file->fileName . ($minify ? '.min' : '') . '.css';
-		$compiledFileHash = ltrim(str_replace(array('/', '\\'), '.', substr($file->fileRealPath, strlen(\RX_BASEDIR))), '.');
+		$compiledFileHash = sha1($file->fileRealPath . ':' . serialize($vars));
 		$compiledFilePath = \RX_BASEDIR . self::$assetdir . '/compiled/' . $compiledFileHash . '.' . $compiledFileName;
 		
 		if (!file_exists($compiledFilePath) || filemtime($compiledFilePath) < filemtime($file->fileFullPath))
