@@ -74,6 +74,7 @@ return array(
 	'view' => array(
 		'minify_scripts' => 'common',
 		'concat_scripts' => 'none',
+		'server_push' => false,
 		'use_gzip' => false,
 	),
 	'admin' => array(

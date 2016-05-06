@@ -440,6 +440,18 @@ class FrontEndFileHandler extends Handler
 				}
 			}
 		}
+		
+		// Enable HTTP/2 server push for JS resources.
+		if ($finalize && config('view.server_push') && strncmp($_SERVER['SERVER_PROTOCOL'], 'HTTP/2', 6) === 0)
+		{
+			foreach ($result as $resource)
+			{
+				if ($resource['file'][0] === '/' && $resource['file'][1] !== '/')
+				{
+					header(sprintf('Link: <%s>; rel=preload; as=style', $resource['file']), false);
+				}
+			}
+		}
 		return $result;
 	}
 
@@ -529,6 +541,18 @@ class FrontEndFileHandler extends Handler
 						$url .= '?' . date('YmdHis', filemtime($file->fileFullPath));
 					}
 					$result[] = array('file' => $url, 'targetie' => $file->targetIe);
+				}
+			}
+		}
+		
+		// Enable HTTP/2 server push for JS resources.
+		if ($finalize && config('view.server_push') && strncmp($_SERVER['SERVER_PROTOCOL'], 'HTTP/2', 6) === 0)
+		{
+			foreach ($result as $resource)
+			{
+				if ($resource['file'][0] === '/' && $resource['file'][1] !== '/')
+				{
+					header(sprintf('Link: <%s>; rel=preload; as=script', $resource['file']), false);
 				}
 			}
 		}
