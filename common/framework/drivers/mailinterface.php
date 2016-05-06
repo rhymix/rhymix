@@ -16,6 +16,13 @@ interface MailInterface
 	public static function getInstance(array $config);
 	
 	/**
+	 * Get the human-readable name of this mail driver.
+	 * 
+	 * @return string
+	 */
+	public static function getName();
+	
+	/**
 	 * Check if the current mail driver is supported on this server.
 	 * 
 	 * This method returns true on success and false on failure.

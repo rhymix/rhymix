@@ -42,7 +42,7 @@ class Mail
 	{
 		if (!self::$default_driver)
 		{
-			self::$default_driver = Drivers\Mail\MailFunction::getInstance();
+			self::$default_driver = Drivers\Mail\MailFunction::getInstance(array());
 		}
 		return self::$default_driver;
 	}

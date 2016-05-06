@@ -5,13 +5,8 @@ namespace Rhymix\Framework\Drivers\Mail;
 /**
  * The Woorimail mail driver.
  */
-class Woorimail implements \Rhymix\Framework\Drivers\MailInterface
+class Woorimail extends Base implements \Rhymix\Framework\Drivers\MailInterface
 {
-	/**
-	 * The configuration is stored here.
-	 */
-	protected $_config = null;
-	
 	/**
 	 * The API URL.
 	 */
@@ -35,25 +30,6 @@ class Woorimail implements \Rhymix\Framework\Drivers\MailInterface
 		'me_012' => '포인트가 부족합니다.',
 		'me_013' => '전용채널에 도메인이 등록되어 있지 않습니다.',
 	);
-	
-	/**
-	 * Direct invocation of the constructor is not permitted.
-	 */
-	protected function __construct(array $config)
-	{
-		$this->_config = $config;
-	}
-	
-	/**
-	 * Create a new instance of the current mail driver, using the given settings.
-	 * 
-	 * @param array $config
-	 * @return void
-	 */
-	public static function getInstance(array $config)
-	{
-		return new self($config);
-	}
 	
 	/**
 	 * Check if the current mail driver is supported on this server.

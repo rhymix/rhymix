@@ -3,23 +3,23 @@
 namespace Rhymix\Framework\Drivers\Mail;
 
 /**
- * The SMTP mail driver.
+ * The Amazon SES mail driver.
  */
-class SMTP extends Base implements \Rhymix\Framework\Drivers\MailInterface
+class SES extends Base implements \Rhymix\Framework\Drivers\MailInterface
 {
+	/**
+	 * Cache the message here for debug access.
+	 */
+	protected $_message;
+	
 	/**
 	 * Direct invocation of the constructor is not permitted.
 	 */
 	protected function __construct(array $config)
 	{
-		$transport = \Swift_SmtpTransport::newInstance($config['host'], $config['port'], $config['secure']);
-		$transport->setUsername($config['user']);
-		$transport->setPassword($config['pass']);
-		$local_domain = $transport->getLocalDomain();
-		if (preg_match('/^\*\.(.+)$/', $local_domain, $matches))
-		{
-			$transport->setLocalDomain($matches[1]);
-		}
+		$transport = \Swift_AWSTransport::newInstance($config['user'], $config['pass']);
+		$transport->setDebug(array($this, 'debugCallback'));
+		$transport->setEndpoint('https://email.' . strtolower($config['type']) . '.amazonaws.com/');
 		$this->mailer = \Swift_Mailer::newInstance($transport);
 	}
 	
@@ -32,7 +32,7 @@ class SMTP extends Base implements \Rhymix\Framework\Drivers\MailInterface
 	 */
 	public static function isSupported()
 	{
-		return function_exists('proc_open');
+		return true;
 	}
 	
 	/**
@@ -45,6 +45,8 @@ class SMTP extends Base implements \Rhymix\Framework\Drivers\MailInterface
 	 */
 	public function send(\Rhymix\Framework\Mail $message)
 	{
+		$this->_message = $message;
+		
 		try
 		{
 			$result = $this->mailer->send($message->message, $errors);
@@ -60,5 +62,19 @@ class SMTP extends Base implements \Rhymix\Framework\Drivers\MailInterface
 			$message->errors[] = $error;
 		}
 		return (bool)$result;
+	}
+	
+	/**
+	 * Debug callback function for SES transport.
+	 * 
+	 * @param string $msg
+	 * @return void
+	 */
+	public function debugCallback($msg)
+	{
+		if ($this->_message)
+		{
+			$this->_message->errors[] = $msg;
+		}
 	}
 }

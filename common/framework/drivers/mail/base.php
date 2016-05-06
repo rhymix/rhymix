@@ -3,16 +3,37 @@
 namespace Rhymix\Framework\Drivers\Mail;
 
 /**
- * The mail() function mail driver.
+ * The base class for other mail drivers.
  */
-class MailFunction extends Base implements \Rhymix\Framework\Drivers\MailInterface
+abstract class Base implements \Rhymix\Framework\Drivers\MailInterface
 {
+	/**
+	 * The configuration is stored here.
+	 */
+	protected $_config = null;
+	
+	/**
+	 * The mailer instance is stored here.
+	 */
+	protected $_mailer = null;
+	
 	/**
 	 * Direct invocation of the constructor is not permitted.
 	 */
-	protected function __construct()
+	protected function __construct(array $config)
 	{
-		$this->mailer = \Swift_Mailer::newInstance(\Swift_MailTransport::newInstance());
+		$this->_config = $config;
+	}
+	
+	/**
+	 * Create a new instance of the current mail driver, using the given settings.
+	 * 
+	 * @param array $config
+	 * @return void
+	 */
+	public static function getInstance(array $config)
+	{
+		return new static($config);
 	}
 	
 	/**
@@ -22,7 +43,7 @@ class MailFunction extends Base implements \Rhymix\Framework\Drivers\MailInterfa
 	 */
 	public static function getName()
 	{
-		return 'PHP mail()';
+		return class_basename(get_called_class());
 	}
 	
 	/**
@@ -34,7 +55,7 @@ class MailFunction extends Base implements \Rhymix\Framework\Drivers\MailInterfa
 	 */
 	public static function isSupported()
 	{
-		return true;
+		return false;
 	}
 	
 	/**
@@ -47,20 +68,6 @@ class MailFunction extends Base implements \Rhymix\Framework\Drivers\MailInterfa
 	 */
 	public function send(\Rhymix\Framework\Mail $message)
 	{
-		try
-		{
-			$result = $this->mailer->send($message->message, $errors);
-		}
-		catch(\Exception $e)
-		{
-			$message->errors[] = $e->getMessage();
-			return false;
-		}
-		
-		foreach ($errors as $error)
-		{
-			$message->errors[] = $error;
-		}
-		return (bool)$result;
+		return false;
 	}
 }
