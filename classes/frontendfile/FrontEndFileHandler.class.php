@@ -441,7 +441,7 @@ class FrontEndFileHandler extends Handler
 			}
 		}
 		
-		// Enable HTTP/2 server push for JS resources.
+		// Enable HTTP/2 server push for CSS resources.
 		if ($finalize && config('view.server_push') && strncmp($_SERVER['SERVER_PROTOCOL'], 'HTTP/2', 6) === 0)
 		{
 			foreach ($result as $resource)
@@ -546,7 +546,7 @@ class FrontEndFileHandler extends Handler
 		}
 		
 		// Enable HTTP/2 server push for JS resources.
-		if ($finalize && config('view.server_push') && strncmp($_SERVER['SERVER_PROTOCOL'], 'HTTP/2', 6) === 0)
+		if ($type === 'head' && $finalize && config('view.server_push') && strncmp($_SERVER['SERVER_PROTOCOL'], 'HTTP/2', 6) === 0)
 		{
 			foreach ($result as $resource)
 			{
