@@ -6,6 +6,10 @@ $vendorDir = dirname(dirname(__FILE__));
 $baseDir = dirname($vendorDir);
 
 return array(
+    'AWSConnectionError' => $vendorDir . '/jmhobbs/swiftmailer-transport-aws-ses/classes/Swift/AWSTransport.php',
+    'AWSEmptyResponseException' => $vendorDir . '/jmhobbs/swiftmailer-transport-aws-ses/classes/Swift/AWSTransport.php',
+    'AWSResponse' => $vendorDir . '/jmhobbs/swiftmailer-transport-aws-ses/classes/Swift/AWSTransport.php',
+    'ChunkedTransferSocket' => $vendorDir . '/jmhobbs/swiftmailer-transport-aws-ses/classes/Swift/AWSTransport.php',
     'HTMLPurifier' => $vendorDir . '/ezyang/htmlpurifier/library/HTMLPurifier.php',
     'HTMLPurifier_Arborize' => $vendorDir . '/ezyang/htmlpurifier/library/HTMLPurifier/Arborize.php',
     'HTMLPurifier_AttrCollections' => $vendorDir . '/ezyang/htmlpurifier/library/HTMLPurifier/AttrCollections.php',
@@ -236,6 +240,8 @@ return array(
     'HTMLPurifier_VarParser_Native' => $vendorDir . '/ezyang/htmlpurifier/library/HTMLPurifier/VarParser/Native.php',
     'HTMLPurifier_Zipper' => $vendorDir . '/ezyang/htmlpurifier/library/HTMLPurifier/Zipper.php',
     'Hautelook\\Phpass\\PasswordHash' => $vendorDir . '/hautelook/phpass/src/Hautelook/Phpass/PasswordHash.php',
+    'InvalidHeaderException' => $vendorDir . '/jmhobbs/swiftmailer-transport-aws-ses/classes/Swift/AWSTransport.php',
+    'InvalidOperationException' => $vendorDir . '/jmhobbs/swiftmailer-transport-aws-ses/classes/Swift/AWSTransport.php',
     'JBBCode\\CodeDefinition' => $vendorDir . '/jbbcode/jbbcode/JBBCode/CodeDefinition.php',
     'JBBCode\\CodeDefinitionBuilder' => $vendorDir . '/jbbcode/jbbcode/JBBCode/CodeDefinitionBuilder.php',
     'JBBCode\\CodeDefinitionSet' => $vendorDir . '/jbbcode/jbbcode/JBBCode/CodeDefinitionSet.php',
@@ -365,6 +371,11 @@ return array(
     'Requests_Utility_CaseInsensitiveDictionary' => $vendorDir . '/rmccue/requests/library/Requests/Utility/CaseInsensitiveDictionary.php',
     'Requests_Utility_FilteredIterator' => $vendorDir . '/rmccue/requests/library/Requests/Utility/FilteredIterator.php',
     'Sunra\\PhpSimple\\HtmlDomParser' => $vendorDir . '/sunra/php-simple-html-dom-parser/Src/Sunra/PhpSimple/HtmlDomParser.php',
+    'Swift_AWSInputByteStream' => $vendorDir . '/jmhobbs/swiftmailer-transport-aws-ses/classes/Swift/AWSInputByteStream.php',
+    'Swift_AWSTransport' => $vendorDir . '/jmhobbs/swiftmailer-transport-aws-ses/classes/Swift/AWSTransport.php',
+    'Swift_Events_ResponseReceivedListener' => $vendorDir . '/jmhobbs/swiftmailer-transport-aws-ses/classes/Swift/Events/ResponseReceivedListener.php',
+    'Swift_Response_AWSResponse' => $vendorDir . '/jmhobbs/swiftmailer-transport-aws-ses/classes/Swift/Response/AWSResponse.php',
+    'Swift_Transport_AWSTransport' => $vendorDir . '/jmhobbs/swiftmailer-transport-aws-ses/classes/Swift/Transport/AWSTransport.php',
     'TrueBV\\Punycode' => $vendorDir . '/true/punycode/src/Punycode.php',
     'lessc' => $vendorDir . '/leafo/lessphp/lessc.inc.php',
     'lessc_formatter_classic' => $vendorDir . '/leafo/lessphp/lessc.inc.php',
