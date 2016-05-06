@@ -359,9 +359,10 @@ class FrontEndFileHandler extends Handler
 	/**
 	 * Get css file list
 	 *
+	 * @param bool $finalize (optional)
 	 * @return array Returns css file list. Array contains file, media, targetie.
 	 */
-	public function getCssFileList()
+	public function getCssFileList($finalize = false)
 	{
 		$map = &$this->cssMap;
 		$mapIndex = &$this->cssMapIndex;
@@ -370,25 +371,28 @@ class FrontEndFileHandler extends Handler
 		$this->_sortMap($map, $mapIndex);
 		
 		// Minify all scripts, and compile LESS/SCSS into CSS.
-		foreach ($map as $indexedMap)
+		if ($finalize)
 		{
-			foreach ($indexedMap as $file)
+			foreach ($map as $indexedMap)
 			{
-				$minify_this_file = !$file->isMinified && !$file->isExternalURL && !$file->isCachedScript && (($file->isCommon && $minify !== 'none') || $minify === 'all');
-				if ($file->fileExtension === 'css')
+				foreach ($indexedMap as $file)
 				{
-					$this->proc_CSS_JS($file, $minify_this_file);
-				}
-				else
-				{
-					$this->proc_LESS_SCSS($file, $minify_this_file);
+					$minify_this_file = !$file->isMinified && !$file->isExternalURL && !$file->isCachedScript && (($file->isCommon && $minify !== 'none') || $minify === 'all');
+					if ($file->fileExtension === 'css')
+					{
+						$this->proc_CSS_JS($file, $minify_this_file);
+					}
+					else
+					{
+						$this->proc_LESS_SCSS($file, $minify_this_file);
+					}
 				}
 			}
 		}
 		
 		// Add all files to the final result.
 		$result = array();
-		if ($concat && count($concat_list = $this->_concatMap($map)))
+		if ($concat && $finalize && count($concat_list = $this->_concatMap($map)))
 		{
 			foreach ($concat_list as $concat_fileset)
 			{
@@ -443,9 +447,10 @@ class FrontEndFileHandler extends Handler
 	 * Get javascript file list
 	 *
 	 * @param string $type Type of javascript. head, body
+	 * @param bool $finalize (optional)
 	 * @return array Returns javascript file list. Array contains file, targetie.
 	 */
-	public function getJsFileList($type = 'head')
+	public function getJsFileList($type = 'head', $finalize = false)
 	{
 		if($type == 'head')
 		{
@@ -463,20 +468,23 @@ class FrontEndFileHandler extends Handler
 		$this->_sortMap($map, $mapIndex);
 		
 		// Minify all scripts.
-		foreach ($map as $indexedMap)
+		if ($finalize)
 		{
-			foreach ($indexedMap as $file)
+			foreach ($map as $indexedMap)
 			{
-				if (!$file->isMinified && !$file->isExternalURL && !$file->isCachedScript && (($file->isCommon && $minify !== 'none') || $minify === 'all'))
+				foreach ($indexedMap as $file)
 				{
-					$this->proc_CSS_JS($file, true);
+					if (!$file->isMinified && !$file->isExternalURL && !$file->isCachedScript && (($file->isCommon && $minify !== 'none') || $minify === 'all'))
+					{
+						$this->proc_CSS_JS($file, true);
+					}
 				}
 			}
 		}
 		
 		// Add all files to the final result.
 		$result = array();
-		if ($concat && $type === 'head' && count($concat_list = $this->_concatMap($map)))
+		if ($concat && $finalize && $type === 'head' && count($concat_list = $this->_concatMap($map)))
 		{
 			foreach ($concat_list as $concat_fileset)
 			{

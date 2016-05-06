@@ -15,14 +15,14 @@
 <title>{Context::getBrowserTitle()}</title>
 
 <!-- CSS -->
-<block loop="Context::getCssFile() => $key, $css_file">
+<block loop="Context::getCssFile(true) => $key, $css_file">
 <block cond="$css_file['targetie']"><!--[if {$css_file['targetie']}]><block cond="stripos($css_file['targetie'], 'gt') === 0"><!--></block></block>
 <link rel="stylesheet" href="{$css_file['file']}" media="{$css_file['media']}"|cond="$css_file['media'] != 'all'" />
 <block cond="$css_file['targetie']"><block cond="stripos($css_file['targetie'], 'gt') === 0"><!--</block><![endif]-->{"\n"}</block>
 </block>
 
 <!-- JS -->
-<block loop="Context::getJsFile() => $key, $js_file">
+<block loop="Context::getJsFile('head', true) => $key, $js_file">
 <block cond="$js_file['targetie']"><!--[if {$js_file['targetie']}]><block cond="stripos($js_file['targetie'], 'gt') === 0"><!--></block></block>
 <script src="{$js_file['file']}"></script>
 <block cond="$js_file['targetie']"><block cond="stripos($js_file['targetie'], 'gt') === 0"><!--</block><![endif]-->{"\n"}</block>
@@ -70,7 +70,7 @@
 <div id="rhymix_debug_button"></div>
 
 <!-- BODY JS -->
-<block loop="Context::getJsFile('body') => $key, $js_file">
+<block loop="Context::getJsFile('body', true) => $key, $js_file">
 <block cond="$js_file['targetie']"><!--[if {$js_file['targetie']}]></block>
 <script src="{$js_file['file']}"></script>
 <block cond="$js_file['targetie']"><![endif]-->{"\n"}</block>

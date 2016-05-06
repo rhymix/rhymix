@@ -2270,11 +2270,12 @@ class Context
 	 * Returns the list of javascripts that matches the given type.
 	 *
 	 * @param string $type Added position. (head:<head>..</head>, body:<body>..</body>)
+	 * @param bool $finalize (optional)
 	 * @return array Returns javascript file list. Array contains file, targetie.
 	 */
-	public static function getJsFile($type = 'head')
+	public static function getJsFile($type = 'head', $finalize = false)
 	{
-		return self::$_instance->oFrontEndFileHandler->getJsFileList($type);
+		return self::$_instance->oFrontEndFileHandler->getJsFileList($type, $finalize);
 	}
 
 	/**
@@ -2322,11 +2323,12 @@ class Context
 	/**
 	 * Return a list of css files
 	 *
+	 * @param bool $finalize (optional)
 	 * @return array Returns css file list. Array contains file, media, targetie.
 	 */
-	public static function getCSSFile()
+	public static function getCSSFile($finalize = false)
 	{
-		return self::$_instance->oFrontEndFileHandler->getCssFileList();
+		return self::$_instance->oFrontEndFileHandler->getCssFileList($finalize);
 	}
 
 	/**
