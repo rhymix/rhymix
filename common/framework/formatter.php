@@ -333,7 +333,21 @@ class Formatter
 				$import_content = '';
 				$import_files = array_map(function($str) use($filename, $import_type) {
 					$str = trim(trim(trim(preg_replace('/^url\\(([^()]+)\\)$/', '$1', trim($str))), '"\''));
-					return dirname($filename) . '/' . ($import_type === 'scss' ? "_$str.scss" : $str);
+					if ($import_type === 'scss')
+					{
+						if (($dirpos = strrpos($str, '/')) !== false)
+						{
+							return dirname($filename) . '/' . substr($str, 0, $dirpos) . '/_' . substr($str, $dirpos + 1) . '.scss';
+						}
+						else
+						{
+							return dirname($filename) . "/_$str.scss";
+						}
+					}
+					else
+					{
+						return dirname($filename) . '/' . $str;
+					}
 				}, explode(',', $matches[1]));
 				foreach ($import_files as $import_filename)
 				{
