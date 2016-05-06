@@ -92,6 +92,7 @@ $lang->cmd_concat_css_only = 'CSS만 합침';
 $lang->cmd_concat_js_only = 'JS만 합침';
 $lang->cmd_concat_css_js = 'CSS와 JS를 모두 합침';
 $lang->about_concat_scripts = 'CSS, JS 파일들을 하나로 합쳐서 전송합니다. 외부에서 로딩하는 스크립트는 합쳐지지 않습니다.';
+$lang->use_server_push = 'Server Push 사용';
 $lang->use_gzip = 'gzip 압축';
 $lang->delay_session = '세션 시작 지연';
 $lang->about_delay_session = 'Varnish 등의 프록시 캐싱 서버 사용시 성능 개선을 위해, 로그인하지 않은 사용자에게는 인증 세션을 부여하지 않습니다.<br>이 옵션을 선택할 경우 방문자 수 및 조회수 집계가 정확하게 이루어지지 않을 수 있습니다.';

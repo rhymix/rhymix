@@ -700,6 +700,7 @@ class adminAdminController extends admin
 		Rhymix\Framework\Config::set('session.use_db', $vars->use_db_session === 'Y');
 		Rhymix\Framework\Config::set('view.minify_scripts', $vars->minify_scripts ?: 'common');
 		Rhymix\Framework\Config::set('view.concat_scripts', $vars->concat_scripts ?: 'none');
+		Rhymix\Framework\Config::set('view.server_push', $vars->use_server_push === 'Y');
 		Rhymix\Framework\Config::set('view.gzip', $vars->use_gzip === 'Y');
 		
 		// Save
