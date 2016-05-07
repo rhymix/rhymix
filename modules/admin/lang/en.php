@@ -92,6 +92,7 @@ $lang->cmd_concat_css_only = 'Combine all CSS';
 $lang->cmd_concat_js_only = 'Combine all JS';
 $lang->cmd_concat_css_js = 'Combine both CSS and JS';
 $lang->about_concat_scripts = 'Automatically combine CSS and JS scripts into as few files as possible. External scripts are not combined.';
+$lang->use_server_push = 'Use HTTP/2 Server Push';
 $lang->use_gzip = 'gzip Compression';
 $lang->delay_session = 'Delay session start';
 $lang->about_delay_session = 'To improve performance when using a caching proxy server such as Varnish, do not issue sessions to visitors until they log in.<br>Selecting this option may cause view counts and visitor counts to become inaccurate.';
