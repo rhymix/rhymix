@@ -132,6 +132,25 @@
 				<span class="x_help-block">{$lang->detail_use_mobile_icon}</span>
 			</div>
 		</div>
+		<div class="x_control-group">
+			<label class="x_control-label">{$lang->cmd_site_default_image}</label>
+			<div class="x_controls">
+				<p id="default_image_preview">
+					<img cond="$site_default_image_url" src="{$site_default_image_url}" alt="site default image" style="width:200px;height:auto" />
+					<block cond="!$site_default_image_url">{$lang->msg_no_site_default_image}</block>
+				</p>
+				<label><input type="checkbox" name="is_delete_site_default_image" value="1" /> {$lang->cmd_delete}</label>
+				<form action="./" enctype="multipart/form-data" method="post" target="hiddenIframe" class="imageUpload" style="margin:0">
+					<input type="hidden" name="module" value="admin">
+					<input type="hidden" name="act" value="procAdminSiteDefaultImageUpload">
+					<p>
+						<input type="file" name="default_image" id="default_image" title="Site default image"/>
+						<input class="x_btn" type="submit" value="{$lang->cmd_upload}" style="vertical-align:top">
+					</p>
+				</form>
+				<span class="x_help-block">{$lang->about_site_default_image}</span>
+			</div>
+		</div>
 		<div class="x_clearfix btnArea">
 			<div class="x_pull-right">
 				<button type="submit" class="x_btn x_btn-primary" onclick="doSubmitConfig()">{$lang->cmd_save}</button>
@@ -146,6 +165,11 @@ function afterUploadConfigImage(name, fileName, tmpFileName)
 {
 	jQuery('#' + name + 'Preview img').attr('src', tmpFileName);
 	jQuery('#' + name).val('');
+}
+
+function alertUploadSiteDefaultImage(url)
+{
+	jQuery('#default_image_preview').empty().append(jQuery('<img />').attr('src', url).css('width', '200px').css('height', 'auto'));
 }
 
 function alertUploadMessage(msg) {

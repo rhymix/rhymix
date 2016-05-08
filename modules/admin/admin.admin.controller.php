@@ -546,6 +546,12 @@ class adminAdminController extends admin
 		$this->_saveFavicon('favicon.ico', $vars->is_delete_favicon);
 		$this->_saveFavicon('mobicon.png', $vars->is_delete_mobicon);
 		
+		// Site default image
+		if ($vars->is_delete_site_default_image)
+		{
+			$this->_deleteSiteDefaultImage();
+		}
+		
 		// Save
 		Rhymix\Framework\Config::save();
 		
@@ -970,6 +976,70 @@ class adminAdminController extends admin
 			Rhymix\Framework\Storage::move($tmpicon_filepath, $icon_filepath);
 		}
 	}
+	
+	/**
+	 * Upload site default image.
+	 */
+	public function procAdminSiteDefaultImageUpload()
+	{
+		$site_info = Context::get('site_module_info');
+		$virtual_site = '';
+		if ($site_info->site_srl)
+		{
+			$virtual_site = $site_info->site_srl . '/';
+		}
+		
+		if ($image = Context::get('default_image'))
+		{
+			$image_type = strtolower(strrchr($image['name'], '.')) ?: '.png';
+			list($width, $height) = @getimagesize($image['tmp_name']);
+			if ($width && $height)
+			{
+				$target_filename = 'files/attach/xeicon/' . $virtual_site . 'default_image' . $image_type;
+				if (Rhymix\Framework\Storage::copy($image['tmp_name'], \RX_BASEDIR . $target_filename, 0666 & ~umask()))
+				{
+					Rhymix\Framework\Storage::writePHPData(\RX_BASEDIR . 'files/attach/xeicon/' . $virtual_site . 'default_image.php', array(
+						'filename' => $target_filename, 'width' => $width, 'height' => $height,
+					));
+				}
+				
+				Context::set('site_default_image_url', $target_filename . '?' . date('YmdHis', filemtime(\RX_BASEDIR . $target_filename)));
+			}
+			else
+			{
+				Context::set('site_default_image_url', $url);
+				Context::set('msg', lang('msg_invalid_format'));
+			}
+		}
+		else
+		{
+			Context::set('site_default_image_url', $url);
+			Context::set('msg', lang('msg_invalid_format'));
+		}
+		
+		$this->setTemplatePath($this->module_path . 'tpl');
+		$this->setTemplateFile("favicon_upload.html");
+	}
+	
+	/**
+	 * Delete site default image.
+	 */
+	private function _deleteSiteDefaultImage()
+	{
+		$site_info = Context::get('site_module_info');
+		$virtual_site = '';
+		if ($site_info->site_srl)
+		{
+			$virtual_site = $site_info->site_srl . '/';
+		}
+		
+		$info = Rhymix\Framework\Storage::readPHPData(\RX_BASEDIR . 'files/attach/xeicon/' . $virtual_site . 'default_image.php');
+		if ($info['filename'])
+		{
+			Rhymix\Framework\Storage::delete(\RX_BASEDIR . $info['filename']);
+		}
+		Rhymix\Framework\Storage::delete(\RX_BASEDIR . 'files/attach/xeicon/' . $virtual_site . 'default_image.php');
+	}	
 }
 /* End of file admin.admin.controller.php */
 /* Location: ./modules/admin/admin.admin.controller.php */

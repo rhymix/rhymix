@@ -436,12 +436,14 @@ class adminAdminView extends admin
 		// Mobile view
 		Context::set('use_mobile_view', config('use_mobile_view') ? 'Y' : 'N');
 		
-		// Favicon and mobicon
+		// Favicon and mobicon and site default image
 		$oAdminModel = getAdminModel('admin');
 		$favicon_url = $oAdminModel->getFaviconUrl(false) ?: $oAdminModel->getFaviconUrl();
 		$mobicon_url = $oAdminModel->getMobileIconUrl(false) ?: $oAdminModel->getMobileIconUrl();
+		$site_default_image_url = $oAdminModel->getSiteDefaultImageUrl();
 		Context::set('favicon_url', $favicon_url);
 		Context::set('mobicon_url', $mobicon_url);
+		Context::set('site_default_image_url', $site_default_image_url);
 		
 		$this->setTemplateFile('config_general');
 	}
