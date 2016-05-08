@@ -772,6 +772,24 @@ class adminAdminController extends admin
 	}
 	
 	/**
+	 * Update SEO configuration.
+	 */
+	function procAdminUpdateSEO()
+	{
+		$vars = Context::getRequestVars();
+		
+		$args = new stdClass;
+		$args->meta_keywords = $vars->site_meta_keywords ? implode(', ', array_map('trim', explode(',', $vars->site_meta_keywords))) : '';
+		$args->meta_description = trim(utf8_normalize_spaces($vars->site_meta_description));
+		
+		$oModuleController = getController('module');
+		$oModuleController->updateModuleConfig('module', $args);
+		
+		$this->setMessage('success_updated');
+		$this->setRedirectUrl(Context::get('success_return_url') ?: getNotEncodedUrl('', 'module', 'admin', 'act', 'dispAdminConfigSEO'));
+	}
+	
+	/**
 	 * Update sitelock configuration.
 	 */
 	function procAdminUpdateSitelock()

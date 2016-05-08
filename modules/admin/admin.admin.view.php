@@ -565,6 +565,21 @@ class adminAdminView extends admin
 	}
 	
 	/**
+	 * Display Debug Settings page
+	 * @return void
+	 */
+	function dispAdminConfigSEO()
+	{
+		// Site title and HTML footer
+		$oModuleModel = getModel('module');
+		$config = $oModuleModel->getModuleConfig('module');
+		Context::set('site_meta_keywords', escape($config->meta_keywords));
+		Context::set('site_meta_description', escape($config->meta_description));
+		
+		$this->setTemplateFile('config_seo');
+	}
+	
+	/**
 	 * Display Sitelock Settings page
 	 * @return void
 	 */
