@@ -521,11 +521,6 @@ class adminAdminController extends admin
 		$site_args->default_language = $vars->default_lang;
 		$oModuleController->updateSite($site_args);
 		
-		// Thumbnail settings
-		$args = new stdClass;
-		$args->thumbnail_type = $vars->thumbnail_type === 'ratio' ? 'ratio' : 'crop';
-		$oModuleController->insertModuleConfig('document', $args);
-		
 		// Default and enabled languages
 		$enabled_lang = $vars->enabled_lang;
 		if (!in_array($vars->default_lang, $enabled_lang))
@@ -693,6 +688,12 @@ class adminAdminController extends admin
 		{
 			Rhymix\Framework\Config::set('cache', array());
 		}
+		
+		// Thumbnail settings
+		$args = new stdClass;
+		$args->thumbnail_type = $vars->thumbnail_type === 'ratio' ? 'ratio' : 'crop';
+		$oModuleController = getController('module');
+		$oModuleController->insertModuleConfig('document', $args);
 		
 		// Other settings
 		Rhymix\Framework\Config::set('use_rewrite', $vars->use_rewrite === 'Y');

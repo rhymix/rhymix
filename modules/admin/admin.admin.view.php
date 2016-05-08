@@ -424,11 +424,6 @@ class adminAdminView extends admin
 		$start_module = $oModuleModel->getSiteInfo(0, $columnList);
 		Context::set('start_module', $start_module);
 		
-		// Thumbnail settings
-		$oDocumentModel = getModel('document');
-		$config = $oDocumentModel->getDocumentConfig();
-		Context::set('thumbnail_type', $config->thumbnail_type ?: 'crop');
-		
 		// Default time zone
 		Context::set('timezones', Rhymix\Framework\DateTime::getTimezoneList());
 		Context::set('selected_timezone', Rhymix\Framework\Config::get('locale.default_timezone'));
@@ -524,6 +519,11 @@ class adminAdminView extends admin
 			Context::set('object_cache_host', null);
 			Context::set('object_cache_port', null);
 		}
+		
+		// Thumbnail settings
+		$oDocumentModel = getModel('document');
+		$config = $oDocumentModel->getDocumentConfig();
+		Context::set('thumbnail_type', $config->thumbnail_type ?: 'crop');
 		
 		// Other settings
 		Context::set('use_mobile_view', Rhymix\Framework\Config::get('use_mobile_view'));
