@@ -1,5 +1,8 @@
 <include target="./_header.html" />
 <div class="content" id="content">
+	<div cond="Context::isBlacklistedPlugin(strtolower(preg_replace('/^disp([A-Z][a-z0-9_]+)[A-Z].+$/', '$1', $act)))" class="message error" style="margin-top:15px">
+		<p><em class="x_label x_label-important">{$lang->msg_warning}</em> {$lang->msg_blacklisted_module}</p>
+	</div>
 	{$content}
 </div>
 <include target="./_footer.html" />
