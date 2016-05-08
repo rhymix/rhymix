@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<module>
+	<grants />
+	<permissions />
+	<actions>
+		<action name="dispSeoAdminSetting" type="view" menu_name="setting" menu_index="true" admin_index="true" />
+		<action name="procSeoAdminEnviromentGatheringAgreement" type="controller" />
+
+		<action name="procSeoAdminSaveSetting" type="controller" />
+	</actions>
+	<menus>
+		<menu name="setting" type="all">
+			<title xml:lang="ko">XE SEO</title>
+		</menu>
+	</menus>
+</module>
