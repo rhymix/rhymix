@@ -773,8 +773,7 @@ class ModuleHandler extends Handler
 			}
 			if($module_config->siteTitle)
 			{
-				$siteTitle = Context::getBrowserTitle();
-				if(!$siteTitle)
+				if(!Context::getBrowserTitle())
 				{
 					Context::setBrowserTitle($module_config->siteTitle);
 				}

@@ -203,7 +203,7 @@ class adminAdminView extends admin
 		$gnbTitleInfo->adminTitle = $objConfig->adminTitle ? $objConfig->adminTitle : 'Admin';
 		$gnbTitleInfo->adminLogo = $objConfig->adminLogo ? $objConfig->adminLogo : '';
 
-		$browserTitle = ($subMenuTitle ? $subMenuTitle : 'Dashboard') . ' - ' . $gnbTitleInfo->adminTitle;
+		$browserTitle = $gnbTitleInfo->adminTitle . ' - ' . ($subMenuTitle ? $subMenuTitle : 'Dashboard');
 
 		// Get list of favorite
 		$oAdminAdminModel = getAdminModel('admin');
@@ -255,7 +255,7 @@ class adminAdminView extends admin
 		Context::set('gnbUrlList', $menu->list);
 		Context::set('parentSrl', $parentSrl);
 		Context::set('gnb_title_info', $gnbTitleInfo);
-		Context::setBrowserTitle($browserTitle);
+		Context::addBrowserTitle($browserTitle);
 	}
 
 	/**
@@ -416,8 +416,8 @@ class adminAdminView extends admin
 		// Site title and HTML footer
 		$oModuleModel = getModel('module');
 		$config = $oModuleModel->getModuleConfig('module');
-		Context::set('site_title', escape($config->siteTitle));
-		Context::set('site_subtitle', escape($config->siteSubtitle));
+		Context::set('var_site_title', escape($config->siteTitle));
+		Context::set('var_site_subtitle', escape($config->siteSubtitle));
 		Context::set('all_html_footer', escape($config->htmlFooter));
 		
 		// Index module

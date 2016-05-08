@@ -875,9 +875,11 @@ class Context
 	 */
 	public static function getBrowserTitle()
 	{
-		$oModuleController = getController('module');
-		$oModuleController->replaceDefinedLangCode(self::$_instance->site_title);
-
+		if (!self::$_instance->site_title)
+		{
+			return '';
+		}
+		getController('module')->replaceDefinedLangCode(self::$_instance->site_title);
 		return htmlspecialchars(self::$_instance->site_title, ENT_COMPAT | ENT_HTML401, 'UTF-8', FALSE);
 	}
 
@@ -889,7 +891,16 @@ class Context
 	public static function getSiteTitle()
 	{
 		$moduleConfig = getModel('module')->getModuleConfig('module');
-		return isset($moduleConfig->siteTitle) ? trim($moduleConfig->siteTitle) : '';
+		if (isset($moduleConfig->siteTitle))
+		{
+			$title = trim($moduleConfig->siteTitle);
+			getController('module')->replaceDefinedLangCode($title);
+			return $title;
+		}
+		else
+		{
+			return '';
+		}
 	}
 	
 	/**
@@ -900,7 +911,16 @@ class Context
 	public static function getSiteSubtitle()
 	{
 		$moduleConfig = getModel('module')->getModuleConfig('module');
-		return isset($moduleConfig->siteSubtitle) ? trim($moduleConfig->siteSubtitle) : '';
+		if (isset($moduleConfig->siteSubtitle))
+		{
+			$subtitle = trim($moduleConfig->siteSubtitle);
+			getController('module')->replaceDefinedLangCode($subtitle);
+			return $subtitle;
+		}
+		else
+		{
+			return '';
+		}
 	}
 
 	/**
