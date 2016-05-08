@@ -545,12 +545,7 @@ class adminAdminController extends admin
 		// Favicon and mobicon
 		$this->_saveFavicon('favicon.ico', $vars->is_delete_favicon);
 		$this->_saveFavicon('mobicon.png', $vars->is_delete_mobicon);
-		
-		// Site default image
-		if ($vars->is_delete_site_default_image)
-		{
-			$this->_deleteSiteDefaultImage();
-		}
+		$this->_saveDefaultImage($vars->is_delete_site_default_image);
 		
 		// Save
 		Rhymix\Framework\Config::save();
@@ -916,6 +911,11 @@ class adminAdminController extends admin
 			$name = 'mobicon';
 			$tmpFileName = $this->_saveFaviconTemp($mobicon, 'mobicon.png');
 		}
+		elseif ($default_image = Context::get('default_image'))
+		{
+			$name = 'default_image';
+			$tmpFileName = $this->_saveFaviconTemp($default_image, 'default_image.png');
+		}
 		else
 		{
 			$name = $tmpFileName = '';
@@ -928,7 +928,7 @@ class adminAdminController extends admin
 		$this->setTemplateFile("favicon_upload.html");
 	}
 	
-	private function _saveFaviconTemp($icon, $iconname)
+	protected function _saveFaviconTemp($icon, $iconname)
 	{
 		$site_info = Context::get('site_module_info');
 		$virtual_site = '';
@@ -940,9 +940,9 @@ class adminAdminController extends admin
 		$original_filename = $icon['tmp_name'];
 		$type = $icon['type'];
 		$relative_filename = 'files/attach/xeicon/'.$virtual_site.'tmp/'.$iconname;
-		$target_filename = RX_BASEDIR . $relative_filename;
+		$target_filename = \RX_BASEDIR . $relative_filename;
 
-		if ($iconname !== 'favicon.ico' && $iconname !== 'mobicon.png')
+		if (!preg_match('/^(favicon|mobicon|default_image)\.(ico|png|jpe?g)$/', $iconname))
 		{
 			Context::set('msg', lang('msg_invalid_format'));
 			return;
@@ -952,94 +952,65 @@ class adminAdminController extends admin
 		return $relative_filename;
 	}
 	
-	private function _saveFavicon($iconname, $deleteIcon = false)
+	protected function _saveFavicon($iconname, $deleteIcon = false)
 	{
+		$image_filepath = 'files/attach/xeicon/';
 		$site_info = Context::get('site_module_info');
-		$virtual_site = '';
-		if ($site_info->site_srl) 
+		if ($site_info->site_srl)
 		{
-			$virtual_site = $site_info->site_srl . '/';
+			$image_filepath .= $site_info->site_srl . '/';
 		}
-		
-		$image_filepath = RX_BASEDIR . 'files/attach/xeicon/' . $virtual_site;
 		
 		if ($deleteIcon)
 		{
-			Rhymix\Framework\Storage::delete($image_filepath.$iconname);
+			Rhymix\Framework\Storage::delete(\RX_BASEDIR . $image_filepath . $iconname);
 			return;
 		}
 		
-		$tmpicon_filepath = $image_filepath.'tmp/'.$iconname;
-		$icon_filepath = $image_filepath.$iconname;
+		$tmpicon_filepath = $image_filepath . 'tmp/' . $iconname;
+		$icon_filepath = $image_filepath . $iconname;
+		if (file_exists(\RX_BASEDIR . $tmpicon_filepath))
+		{
+			Rhymix\Framework\Storage::move(\RX_BASEDIR . $tmpicon_filepath, \RX_BASEDIR . $icon_filepath);
+		}
+	}
+	
+	protected function _saveDefaultImage($deleteIcon = false)
+	{
+		$image_filepath = 'files/attach/xeicon/';
+		$site_info = Context::get('site_module_info');
+		if ($site_info->site_srl)
+		{
+			$image_filepath .= $site_info->site_srl . '/';
+		}
+		
+		if ($deleteIcon)
+		{
+			$info = Rhymix\Framework\Storage::readPHPData($image_filepath . 'default_image.php');
+			if ($info['filename'])
+			{
+				Rhymix\Framework\Storage::delete(\RX_BASEDIR . $info['filename']);
+			}
+			Rhymix\Framework\Storage::delete($image_filepath . 'default_image.php');
+			return;
+		}
+		
+		$tmpicon_filepath = \RX_BASEDIR . $image_filepath . 'tmp/default_image.png';
 		if (file_exists($tmpicon_filepath))
 		{
-			Rhymix\Framework\Storage::move($tmpicon_filepath, $icon_filepath);
+			list($width, $height, $type) = @getimagesize($tmpicon_filepath);
+			switch ($type)
+			{
+				case 'image/gif': $target_filename = $image_filepath . 'default_image.gif'; break;
+				case 'image/jpeg': $target_filename = $image_filepath . 'default_image.jpg'; break;
+				case 'image/png': default: $target_filename = $image_filepath . 'default_image.png';
+			}
+			Rhymix\Framework\Storage::move($tmpicon_filepath, \RX_BASEDIR . $target_filename);
+			Rhymix\Framework\Storage::writePHPData(\RX_BASEDIR . 'files/attach/xeicon/' . $virtual_site . 'default_image.php', array(
+				'filename' => $target_filename, 'width' => $width, 'height' => $height,
+			));
 		}
 	}
-	
-	/**
-	 * Upload site default image.
-	 */
-	public function procAdminSiteDefaultImageUpload()
-	{
-		$site_info = Context::get('site_module_info');
-		$virtual_site = '';
-		if ($site_info->site_srl)
-		{
-			$virtual_site = $site_info->site_srl . '/';
-		}
-		
-		if ($image = Context::get('default_image'))
-		{
-			$image_type = strtolower(strrchr($image['name'], '.')) ?: '.png';
-			list($width, $height) = @getimagesize($image['tmp_name']);
-			if ($width && $height)
-			{
-				$target_filename = 'files/attach/xeicon/' . $virtual_site . 'default_image' . $image_type;
-				if (Rhymix\Framework\Storage::copy($image['tmp_name'], \RX_BASEDIR . $target_filename, 0666 & ~umask()))
-				{
-					Rhymix\Framework\Storage::writePHPData(\RX_BASEDIR . 'files/attach/xeicon/' . $virtual_site . 'default_image.php', array(
-						'filename' => $target_filename, 'width' => $width, 'height' => $height,
-					));
-				}
-				
-				Context::set('site_default_image_url', $target_filename . '?' . date('YmdHis', filemtime(\RX_BASEDIR . $target_filename)));
-			}
-			else
-			{
-				Context::set('site_default_image_url', $url);
-				Context::set('msg', lang('msg_invalid_format'));
-			}
-		}
-		else
-		{
-			Context::set('site_default_image_url', $url);
-			Context::set('msg', lang('msg_invalid_format'));
-		}
-		
-		$this->setTemplatePath($this->module_path . 'tpl');
-		$this->setTemplateFile("favicon_upload.html");
-	}
-	
-	/**
-	 * Delete site default image.
-	 */
-	private function _deleteSiteDefaultImage()
-	{
-		$site_info = Context::get('site_module_info');
-		$virtual_site = '';
-		if ($site_info->site_srl)
-		{
-			$virtual_site = $site_info->site_srl . '/';
-		}
-		
-		$info = Rhymix\Framework\Storage::readPHPData(\RX_BASEDIR . 'files/attach/xeicon/' . $virtual_site . 'default_image.php');
-		if ($info['filename'])
-		{
-			Rhymix\Framework\Storage::delete(\RX_BASEDIR . $info['filename']);
-		}
-		Rhymix\Framework\Storage::delete(\RX_BASEDIR . 'files/attach/xeicon/' . $virtual_site . 'default_image.php');
-	}	
 }
 /* End of file admin.admin.controller.php */
 /* Location: ./modules/admin/admin.admin.controller.php */

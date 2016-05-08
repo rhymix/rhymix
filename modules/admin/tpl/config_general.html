@@ -98,8 +98,8 @@
 			<label class="x_control-label">{$lang->allow_use_favicon}</label>
 			<div class="x_controls">
 				<p id="faviconPreview">
-					<img src="{$favicon_url}" alt="favicon" class="fn1" style="width:16px;height:16px">
-					<img src="{$favicon_url}" alt="favicon Image" class="fn2" style="width:16px;height:16px">
+					<img src="{$favicon_url}" alt="Favicon" class="fn1" style="width:16px;height:16px">
+					<img src="{$favicon_url}" alt="Favicon" class="fn2" style="width:16px;height:16px">
 				</p>
 				<label><input type="checkbox" name="is_delete_favicon" value="1" /> {$lang->cmd_delete}</label>
 				<form action="./" enctype="multipart/form-data" method="post" target="hiddenIframe" class="imageUpload" style="margin:0">
@@ -135,14 +135,13 @@
 		<div class="x_control-group">
 			<label class="x_control-label">{$lang->cmd_site_default_image}</label>
 			<div class="x_controls">
-				<p id="default_image_preview">
-					<img cond="$site_default_image_url" src="{$site_default_image_url}" alt="site default image" style="width:200px;height:auto" />
-					<block cond="!$site_default_image_url">{$lang->msg_no_site_default_image}</block>
+				<p id="default_imagePreview">
+					<img src="{$site_default_image_url}" alt="Default Image" style="width:200px;height:auto" />
 				</p>
 				<label><input type="checkbox" name="is_delete_site_default_image" value="1" /> {$lang->cmd_delete}</label>
 				<form action="./" enctype="multipart/form-data" method="post" target="hiddenIframe" class="imageUpload" style="margin:0">
 					<input type="hidden" name="module" value="admin">
-					<input type="hidden" name="act" value="procAdminSiteDefaultImageUpload">
+					<input type="hidden" name="act" value="procAdminFaviconUpload">
 					<p>
 						<input type="file" name="default_image" id="default_image" title="Site default image"/>
 						<input class="x_btn" type="submit" value="{$lang->cmd_upload}" style="vertical-align:top">
@@ -161,15 +160,10 @@
 
 <iframe name="hiddenIframe" src="about:blank" hidden></iframe>
 <script>
-function afterUploadConfigImage(name, fileName, tmpFileName)
-{
+function afterUploadConfigImage(name, tmpFileName) {
 	jQuery('#' + name + 'Preview img').attr('src', tmpFileName);
 	jQuery('#' + name).val('');
-}
-
-function alertUploadSiteDefaultImage(url)
-{
-	jQuery('#default_image_preview').empty().append(jQuery('<img />').attr('src', url).css('width', '200px').css('height', 'auto'));
+	jQuery("input[name='is_delete_'" + name + "']").prop('checked', false);
 }
 
 function alertUploadMessage(msg) {

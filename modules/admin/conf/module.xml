@@ -30,7 +30,6 @@
 		<action name="procAdminUpdateFTPInfo" type="controller" />
 		<action name="procAdminRemoveFTPInfo" type="controller" />
 		<action name="procAdminFaviconUpload" type="controller" />
-		<action name="procAdminSiteDefaultImageUpload" type="controller" />
 
         <action name="getSiteAllList" type="model" />
     </actions>

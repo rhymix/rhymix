@@ -1,9 +1,7 @@
 <script>
 <!--@if($msg)-->
 	parent.alertUploadMessage('{$msg}');
-<!--@elseif($site_default_image_url)-->
-	parent.alertUploadSiteDefaultImage('{$site_default_image_url}');
 <!--@else-->
-	parent.afterUploadConfigImage('{$name}', '{$fileName}', '{$tmpFileName}');
+	parent.afterUploadConfigImage('{$name}', '{$tmpFileName}');
 <!--@end-->
 </script>

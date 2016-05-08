@@ -169,12 +169,11 @@ $lang->about_admin_ip_allow = '여기에 IP 주소를 나열하면 해당 IP에�
 $lang->about_admin_ip_deny = '여기에 나열된 IP 주소에서는 관리자 로그인이 금지됩니다.';
 $lang->msg_current_ip_will_be_denied = '주어진 설정에 따르면 현재 로그인하신 관리자의 IP 주소도 차단됩니다. 다시 확인해 주십시오.';
 $lang->detail_about_ftp_info = 'safe_mode = on 상태에서 쉬운설치를 사용하려면 FTP 정보를 입력해야 합니다.';
-$lang->allow_use_favicon = '파비콘 지정';
+$lang->allow_use_favicon = '파비콘';
 $lang->about_use_favicon = '16x16 또는 32x32 크기의 ico 또는 png 파일을 권장합니다.';
 $lang->allow_use_mobile_icon = '모바일 홈 화면 아이콘';
 $lang->detail_use_mobile_icon = '57x57 또는 114x114 크기의 png 파일을 권장합니다.';
 $lang->cmd_site_default_image = '사이트 대표 이미지';
-$lang->msg_no_site_default_image = '대표 이미지가 등록되지 않았습니다.';
 $lang->about_site_default_image = 'SNS 등에 이 사이트가 링크되었을 때 표시되는 이미지입니다. 200x200 크기의 jpg 또는 png 파일을 권장합니다.';
 $lang->use_sso = '<abbr title="Single Sign On">SSO</abbr> 사용';
 $lang->about_use_sso = '사용자가 한 번만 로그인하면 기본 사이트와 가상 사이트에 동시에 로그인이 됩니다. 가상 사이트를 사용할 때만 필요합니다.';
