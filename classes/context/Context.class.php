@@ -810,24 +810,46 @@ class Context
 	}
 
 	/**
-	 * Add string to browser title
+	 * Append string to browser title
 	 *
-	 * @param string $site_title Browser title to be added
+	 * @param string $site_title Browser title to be appended
 	 * @return void
 	 */
-	public static function addBrowserTitle($site_title)
+	public static function addBrowserTitle($title)
 	{
-		if(!$site_title)
+		if(!$title)
 		{
 			return;
 		}
 		if(self::$_instance->site_title)
 		{
-			self::$_instance->site_title .= ' - ' . $site_title;
+			self::$_instance->site_title .= ' - ' . $title;
 		}
 		else
 		{
-			self::$_instance->site_title = $site_title;
+			self::$_instance->site_title = $title;
+		}
+	}
+
+	/**
+	 * Prepend string to browser title
+	 *
+	 * @param string $site_title Browser title to be prepended
+	 * @return void
+	 */
+	public static function prependBrowserTitle($title)
+	{
+		if(!$title)
+		{
+			return;
+		}
+		if(self::$_instance->site_title)
+		{
+			self::$_instance->site_title = $title . ' - ' . self::$_instance->site_title;
+		}
+		else
+		{
+			self::$_instance->site_title = $title;
 		}
 	}
 
@@ -837,13 +859,13 @@ class Context
 	 * @param string $site_title Browser title  to be set
 	 * @return void
 	 */
-	public static function setBrowserTitle($site_title)
+	public static function setBrowserTitle($title)
 	{
-		if(!$site_title)
+		if(!$title)
 		{
 			return;
 		}
-		self::$_instance->site_title = $site_title;
+		self::$_instance->site_title = $title;
 	}
 
 	/**
@@ -860,19 +882,25 @@ class Context
 	}
 
 	/**
-	 * Return layout's title
-	 * @return string layout's title
+	 * Return site title
+	 * 
+	 * @return string
 	 */
 	public static function getSiteTitle()
 	{
-		$oModuleModel = getModel('module');
-		$moduleConfig = $oModuleModel->getModuleConfig('module');
-
-		if(isset($moduleConfig->siteTitle))
-		{
-			return $moduleConfig->siteTitle;
-		}
-		return '';
+		$moduleConfig = getModel('module')->getModuleConfig('module');
+		return isset($moduleConfig->siteTitle) ? trim($moduleConfig->siteTitle) : '';
+	}
+	
+	/**
+	 * Return site subtitle
+	 * 
+	 * @return string
+	 */
+	public static function getSiteSubtitle()
+	{
+		$moduleConfig = getModel('module')->getModuleConfig('module');
+		return isset($moduleConfig->siteSubtitle) ? trim($moduleConfig->siteSubtitle) : '';
 	}
 
 	/**

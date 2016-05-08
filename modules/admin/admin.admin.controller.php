@@ -511,6 +511,7 @@ class adminAdminController extends admin
 		// Site title and HTML footer
 		$args = new stdClass;
 		$args->siteTitle = $vars->site_title;
+		$args->siteSubtitle = $vars->site_subtitle;
 		$args->htmlFooter = $vars->html_footer;
 		$oModuleController->updateModuleConfig('module', $args);
 		

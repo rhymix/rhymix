@@ -417,6 +417,7 @@ class adminAdminView extends admin
 		$oModuleModel = getModel('module');
 		$config = $oModuleModel->getModuleConfig('module');
 		Context::set('site_title', escape($config->siteTitle));
+		Context::set('site_subtitle', escape($config->siteSubtitle));
 		Context::set('all_html_footer', escape($config->htmlFooter));
 		
 		// Index module

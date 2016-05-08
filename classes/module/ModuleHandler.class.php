@@ -285,7 +285,16 @@ class ModuleHandler extends Handler
 			$this->module = $module_info->module;
 			$this->mid = $module_info->mid;
 			$this->module_info = $module_info;
-			Context::setBrowserTitle($module_info->browser_title);
+			if ($module_info->mid == $site_module_info->mid)
+			{
+				Context::setBrowserTitle(Context::getSiteTitle());
+				Context::addBrowserTitle(Context::getSiteSubtitle());
+			}
+			else
+			{
+				Context::setBrowserTitle(Context::getSiteTitle());
+				Context::addBrowserTitle($module_info->browser_title);
+			}
 
 			$viewType = (Mobile::isFromMobilePhone()) ? 'M' : 'P';
 			$targetSrl = (Mobile::isFromMobilePhone()) ? 'mlayout_srl' : 'layout_srl';
