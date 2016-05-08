@@ -93,6 +93,12 @@ class Context
 	public $meta_tags = array();
 
 	/**
+	 * OpenGraph metadata
+	 * @var array
+	 */
+	public $opengraph_metadata = array();
+
+	/**
 	 * path of Xpress Engine
 	 * @var string
 	 */
@@ -2708,34 +2714,80 @@ class Context
 
 	/**
 	 * Get meta tag
+	 * 
+	 * @param string $name (optional)
 	 * @return array The list of meta tags
 	 */
-	public static function getMetaTag()
+	public static function getMetaTag($name = null)
 	{
-		$ret = array();
-		foreach(self::$_instance->meta_tags as $key => $val)
+		if ($name !== null)
 		{
-			list($name, $is_http_equiv) = explode("\t", $key);
-			$ret[] = array('name' => $name, 'is_http_equiv' => $is_http_equiv, 'content' => escape($val, false));
+			return isset(self::$_instance->meta_tags[$name]) ? self::$_instance->meta_tags[$name]['content'] : null;
+		}
+		
+		$ret = array();
+		foreach(self::$_instance->meta_tags as $name => $content)
+		{
+			$ret[] = array('name' => $name, 'is_http_equiv' => $content['is_http_equiv'], 'content' => escape($content['content'], false));
 		}
 
 		return $ret;
 	}
 
 	/**
-	 * Add the meta tag
+	 * Add meta tag
 	 *
 	 * @param string $name name of meta tag
 	 * @param string $content content of meta tag
 	 * @param mixed $is_http_equiv value of http_equiv
 	 * @return void
 	 */
-	public static function addMetaTag($name, $content, $is_http_equiv = FALSE)
+	public static function addMetaTag($name, $content, $is_http_equiv = false)
 	{
 		getController('module')->replaceDefinedLangCode($content);
-		self::$_instance->meta_tags[$name . "\t" . ($is_http_equiv ? '1' : '0')] = $content;
+		self::$_instance->meta_tags[$name] = array('is_http_equiv' => (bool)$is_http_equiv, 'content' => $content);
 	}
-
+	
+	/**
+	 * Get OpenGraph metadata
+	 * 
+	 * @return array
+	 */
+	public static function getOpenGraphData()
+	{
+		$ret = array();
+		foreach(self::$_instance->opengraph_metadata as $key => $val)
+		{
+			if ($val[1] === false || $val[1] === null)
+			{
+				continue;
+			}
+			$ret[] = array('property' => escape($val[0], false), 'content' => escape($val[1], false));
+		}
+		return $ret;
+	}
+	
+	/**
+	 * Add OpenGraph metadata
+	 * 
+	 * @param string $name
+	 * @param mixed $content
+	 * @return void
+	 */
+	public static function addOpenGraphData($name, $content)
+	{
+		if (is_array($content))
+		{
+			foreach ($content as $key => $val)
+			{
+				self::addOpenGraphData("$name:$key", $val);
+			}
+		}
+		else
+		{
+			self::$_instance->opengraph_metadata[] = array($name, $content);
+		}
+	}
 }
 /* End of file Context.class.php */
 /* Location: ./classes/context/Context.class.php */

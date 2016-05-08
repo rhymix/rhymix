@@ -8,7 +8,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=yes" cond="$m" />
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <block loop="Context::getMetaTag() => $no, $val">
-<meta http-equiv="{$val['name']}"|cond="$val['is_http_equiv']" name="{$val['name']}"|cond="!$val['is_http_equiv']" content="{$val['content']}">
+<meta http-equiv="{$val['name']}"|cond="$val['is_http_equiv']" name="{$val['name']}"|cond="!$val['is_http_equiv']" content="{$val['content']}" />
 </block>
 
 <!-- TITLE -->
@@ -39,6 +39,9 @@
 <link cond="$mobicon_url" rel="apple-touch-icon" href="{$mobicon_url}" />
 
 <!-- OTHER HEADERS -->
+<block loop="Context::getOpenGraphData() => $og_metadata">
+<meta property="{$og_metadata['property']}" content="{$og_metadata['content']}" />
+</block>
 {Context::getHtmlHeader()}
 
 <!-- COMMON JS VARIABLES -->
