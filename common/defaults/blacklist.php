@@ -10,6 +10,7 @@ return array(
 	'errorlogger' => true,
 	'fix_mysql_utf8' => true,
 	'member_communication' => true,
+	'seo' => true,
 	'smartphone' => true,
 	'zipperupper' => true,
 );
