@@ -2716,7 +2716,7 @@ class Context
 		foreach(self::$_instance->meta_tags as $key => $val)
 		{
 			list($name, $is_http_equiv) = explode("\t", $key);
-			$ret[] = array('name' => $name, 'is_http_equiv' => $is_http_equiv, 'content' => $val);
+			$ret[] = array('name' => $name, 'is_http_equiv' => $is_http_equiv, 'content' => escape($val, false));
 		}
 
 		return $ret;
@@ -2732,6 +2732,7 @@ class Context
 	 */
 	public static function addMetaTag($name, $content, $is_http_equiv = FALSE)
 	{
+		getController('module')->replaceDefinedLangCode($content);
 		self::$_instance->meta_tags[$name . "\t" . ($is_http_equiv ? '1' : '0')] = $content;
 	}
 

@@ -299,20 +299,20 @@ class ModuleHandler extends Handler
 			$module_config = $oModuleModel->getModuleConfig('module');
 			if ($module_info->meta_keywords)
 			{
-				Context::addMetaTag('keywords', escape($module_info->meta_keywords));
+				Context::addMetaTag('keywords', $module_info->meta_keywords);
 			}
 			elseif($module_config->meta_keywords)
 			{
-				Context::addMetaTag('keywords', escape($module_config->meta_keywords));
+				Context::addMetaTag('keywords', $module_config->meta_keywords);
 			}
 			
 			if ($module_info->meta_description)
 			{
-				Context::addMetaTag('description', escape($module_info->meta_description));
+				Context::addMetaTag('description', $module_info->meta_description);
 			}
 			elseif($module_config->meta_description)
 			{
-				Context::addMetaTag('description', escape($module_config->meta_description));
+				Context::addMetaTag('description', $module_config->meta_description);
 			}
 
 			$viewType = (Mobile::isFromMobilePhone()) ? 'M' : 'P';
