@@ -570,11 +570,17 @@ class adminAdminView extends admin
 	 */
 	function dispAdminConfigSEO()
 	{
-		// Site title and HTML footer
+		// Meta keywords and description
 		$oModuleModel = getModel('module');
 		$config = $oModuleModel->getModuleConfig('module');
 		Context::set('site_meta_keywords', escape($config->meta_keywords));
 		Context::set('site_meta_description', escape($config->meta_description));
+		
+		// OpenGraph metadata
+		Context::set('og_enabled', Rhymix\Framework\Config::get('seo.og_enabled'));
+		Context::set('og_extract_description', Rhymix\Framework\Config::get('seo.og_extract_description'));
+		Context::set('og_extract_images', Rhymix\Framework\Config::get('seo.og_extract_images'));
+		Context::set('og_use_timestamps', Rhymix\Framework\Config::get('seo.og_use_timestamps'));
 		
 		$this->setTemplateFile('config_seo');
 	}

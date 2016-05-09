@@ -98,6 +98,12 @@ return array(
 		'display_to' => 'admin',
 		'allow' => array(),
 	),
+	'seo' => array(
+		'og_enabled' => false,
+		'og_extract_description' => false,
+		'og_extract_images' => false,
+		'og_use_timestamps' => false,
+	),
 	'mediafilter' => array(
 		'iframe' => array(),
 		'object' => array(),

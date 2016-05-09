@@ -215,7 +215,7 @@ class HTMLDisplayHandler
 		$output = preg_replace('/member\_\-([0-9]+)/s', 'member_0', $output);
 		
 		// Add OpenGraph metadata
-		if (Context::get('module') !== 'admin')
+		if (config('seo.og_enabled') && Context::get('module') !== 'admin')
 		{
 			$this->_addOpenGraphMetadata();
 		}
@@ -412,7 +412,7 @@ class HTMLDisplayHandler
 		// Add basic metadata.
 		Context::addOpenGraphData('og:title', Context::getBrowserTitle());
 		Context::addOpenGraphData('og:site_name', Context::getSiteTitle());
-		if ($page_type === 'article')
+		if ($page_type === 'article' && config('seo.og_extract_description'))
 		{
 			Context::addOpenGraphData('og:description', trim(utf8_normalize_spaces($oDocument->getContentText(200))));
 		}
@@ -426,7 +426,6 @@ class HTMLDisplayHandler
 		if ($page_type === 'article')
 		{
 			$document_canonical_url = getFullUrl('', 'mid', $current_module_info->mid, 'document_srl', $document_srl);
-			Context::addHtmlHeader(sprintf('<link rel="canonical" href="%s" />', escape($document_canonical_url)));
 			Context::addOpenGraphData('og:url', $document_canonical_url);
 		}
 		elseif (($page = Context::get('page')) > 1)
@@ -455,7 +454,7 @@ class HTMLDisplayHandler
 		}
 		
 		// Add image.
-		if ($page_type === 'article')
+		if ($page_type === 'article' && config('seo.og_extract_images'))
 		{
 			if (($document_images = Rhymix\Framework\Cache::get("seo:document_images:$document_srl")) === null)
 			{
@@ -515,7 +514,7 @@ class HTMLDisplayHandler
 		}
 		
 		// Add datetime for articles.
-		if ($page_type === 'article')
+		if ($page_type === 'article' && config('seo.og_use_timestamps'))
 		{
 			Context::addOpenGraphData('article:published_time', $oDocument->getRegdate('c'));
 			Context::addOpenGraphData('article:modified_time', $oDocument->getUpdate('c'));

@@ -2788,6 +2788,17 @@ class Context
 			self::$_instance->opengraph_metadata[] = array($name, $content);
 		}
 	}
+	
+	/**
+	 * Set canonical URL
+	 * 
+	 * @param string $url
+	 * @return void
+	 */
+	public static function setCanonicalURL($url)
+	{
+		self::addHtmlHeader(sprintf('<link rel="canonical" href="%s" />', escape($url)));
+	}
 }
 /* End of file Context.class.php */
 /* Location: ./classes/context/Context.class.php */

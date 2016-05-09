@@ -21,6 +21,34 @@
 				<p class="x_help-block">{$lang->about_site_meta_description}</p>
 			</div>
 		</div>
+		<div class="x_control-group">
+			<label class="x_control-label">{$lang->og_enabled}</label>
+			<div class="x_controls">
+				<label for="og_enabled_y" class="x_inline"><input type="radio" name="og_enabled" id="og_enabled_y" value="Y" checked="checked"|cond="$og_enabled" /> {$lang->cmd_yes}</label>
+				<label for="og_enabled_n" class="x_inline"><input type="radio" name="og_enabled" id="og_enabled_n" value="N" checked="checked"|cond="!$og_enabled" /> {$lang->cmd_no}</label>
+			</div>
+		</div>
+		<div class="x_control-group">
+			<label class="x_control-label">{$lang->og_extract_description}</label>
+			<div class="x_controls">
+				<label for="og_extract_description_y" class="x_inline"><input type="radio" name="og_extract_description" id="og_extract_description_y" value="Y" checked="checked"|cond="$og_extract_description" /> {$lang->cmd_yes}</label>
+				<label for="og_extract_description_n" class="x_inline"><input type="radio" name="og_extract_description" id="og_extract_description_n" value="N" checked="checked"|cond="!$og_extract_description" /> {$lang->cmd_no} ({$lang->og_extract_description_fallback})</label>
+			</div>
+		</div>
+		<div class="x_control-group">
+			<label class="x_control-label">{$lang->og_extract_images}</label>
+			<div class="x_controls">
+				<label for="og_extract_images_y" class="x_inline"><input type="radio" name="og_extract_images" id="og_extract_images_y" value="Y" checked="checked"|cond="$og_extract_images" /> {$lang->cmd_yes}</label>
+				<label for="og_extract_images_n" class="x_inline"><input type="radio" name="og_extract_images" id="og_extract_images_n" value="N" checked="checked"|cond="!$og_extract_images" /> {$lang->cmd_no} ({$lang->og_extract_images_fallback})</label>
+			</div>
+		</div>
+		<div class="x_control-group">
+			<label class="x_control-label">{$lang->og_use_timestamps}</label>
+			<div class="x_controls">
+				<label for="og_use_timestamps_y" class="x_inline"><input type="radio" name="og_use_timestamps" id="og_use_timestamps_y" value="Y" checked="checked"|cond="$og_use_timestamps" /> {$lang->cmd_yes}</label>
+				<label for="og_use_timestamps_n" class="x_inline"><input type="radio" name="og_use_timestamps" id="og_use_timestamps_n" value="N" checked="checked"|cond="!$og_use_timestamps" /> {$lang->cmd_no}</label>
+			</div>
+		</div>
 		<div class="x_clearfix btnArea">
 			<div class="x_pull-right">
 				<button type="submit" class="x_btn x_btn-primary">{$lang->cmd_save}</button>

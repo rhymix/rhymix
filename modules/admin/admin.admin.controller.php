@@ -781,9 +781,16 @@ class adminAdminController extends admin
 		$args = new stdClass;
 		$args->meta_keywords = $vars->site_meta_keywords ? implode(', ', array_map('trim', explode(',', $vars->site_meta_keywords))) : '';
 		$args->meta_description = trim(utf8_normalize_spaces($vars->site_meta_description));
-		
 		$oModuleController = getController('module');
 		$oModuleController->updateModuleConfig('module', $args);
+		
+		Rhymix\Framework\Config::set('seo.og_enabled', $vars->og_enabled === 'Y');
+		Rhymix\Framework\Config::set('seo.og_extract_description', $vars->og_extract_description === 'Y');
+		Rhymix\Framework\Config::set('seo.og_extract_images', $vars->og_extract_images === 'Y');
+		Rhymix\Framework\Config::set('seo.og_use_timestamps', $vars->og_use_timestamps === 'Y');
+		
+		// Save
+		Rhymix\Framework\Config::save();
 		
 		$this->setMessage('success_updated');
 		$this->setRedirectUrl(Context::get('success_return_url') ?: getNotEncodedUrl('', 'module', 'admin', 'act', 'dispAdminConfigSEO'));

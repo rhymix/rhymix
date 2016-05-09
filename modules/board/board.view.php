@@ -338,6 +338,12 @@ class boardView extends board
 		// setup the document oject on context
 		$oDocument->add('module_srl', $this->module_srl);
 		Context::set('oDocument', $oDocument);
+		
+		// set canonical URL
+		if ($oDocument->document_srl)
+		{
+			Context::setCanonicalURL($oDocument->getPermanentUrl());
+		}
 
 		/**
 		 * add javascript filters
