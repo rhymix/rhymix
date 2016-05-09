@@ -93,6 +93,12 @@ class Context
 	public $meta_tags = array();
 
 	/**
+	 * OpenGraph metadata
+	 * @var array
+	 */
+	public $opengraph_metadata = array();
+
+	/**
 	 * path of Xpress Engine
 	 * @var string
 	 */
@@ -810,24 +816,46 @@ class Context
 	}
 
 	/**
-	 * Add string to browser title
+	 * Append string to browser title
 	 *
-	 * @param string $site_title Browser title to be added
+	 * @param string $site_title Browser title to be appended
 	 * @return void
 	 */
-	public static function addBrowserTitle($site_title)
+	public static function addBrowserTitle($title)
 	{
-		if(!$site_title)
+		if(!$title)
 		{
 			return;
 		}
 		if(self::$_instance->site_title)
 		{
-			self::$_instance->site_title .= ' - ' . $site_title;
+			self::$_instance->site_title .= ' - ' . $title;
 		}
 		else
 		{
-			self::$_instance->site_title = $site_title;
+			self::$_instance->site_title = $title;
+		}
+	}
+
+	/**
+	 * Prepend string to browser title
+	 *
+	 * @param string $site_title Browser title to be prepended
+	 * @return void
+	 */
+	public static function prependBrowserTitle($title)
+	{
+		if(!$title)
+		{
+			return;
+		}
+		if(self::$_instance->site_title)
+		{
+			self::$_instance->site_title = $title . ' - ' . self::$_instance->site_title;
+		}
+		else
+		{
+			self::$_instance->site_title = $title;
 		}
 	}
 
@@ -835,15 +863,22 @@ class Context
 	 * Set string to browser title
 	 *
 	 * @param string $site_title Browser title  to be set
+	 * @param array $vars
 	 * @return void
 	 */
-	public static function setBrowserTitle($site_title)
+	public static function setBrowserTitle($title, $vars = array())
 	{
-		if(!$site_title)
+		if (!$title)
 		{
 			return;
 		}
-		self::$_instance->site_title = $site_title;
+		if (count($vars))
+		{
+			$title = preg_replace_callback('/\\$(\w+)/', function($matches) use($vars) {
+				return isset($vars[strtolower($matches[1])]) ? $vars[strtolower($matches[1])] : $matches[0];
+			}, $title);
+		}
+		self::$_instance->site_title = $title;
 	}
 
 	/**
@@ -853,26 +888,52 @@ class Context
 	 */
 	public static function getBrowserTitle()
 	{
-		$oModuleController = getController('module');
-		$oModuleController->replaceDefinedLangCode(self::$_instance->site_title);
-
+		if (!self::$_instance->site_title)
+		{
+			return '';
+		}
+		getController('module')->replaceDefinedLangCode(self::$_instance->site_title);
 		return htmlspecialchars(self::$_instance->site_title, ENT_COMPAT | ENT_HTML401, 'UTF-8', FALSE);
 	}
 
 	/**
-	 * Return layout's title
-	 * @return string layout's title
+	 * Return site title
+	 * 
+	 * @return string
 	 */
 	public static function getSiteTitle()
 	{
-		$oModuleModel = getModel('module');
-		$moduleConfig = $oModuleModel->getModuleConfig('module');
-
-		if(isset($moduleConfig->siteTitle))
+		$moduleConfig = getModel('module')->getModuleConfig('module');
+		if (isset($moduleConfig->siteTitle))
 		{
-			return $moduleConfig->siteTitle;
+			$title = trim($moduleConfig->siteTitle);
+			getController('module')->replaceDefinedLangCode($title);
+			return $title;
 		}
-		return '';
+		else
+		{
+			return '';
+		}
+	}
+	
+	/**
+	 * Return site subtitle
+	 * 
+	 * @return string
+	 */
+	public static function getSiteSubtitle()
+	{
+		$moduleConfig = getModel('module')->getModuleConfig('module');
+		if (isset($moduleConfig->siteSubtitle))
+		{
+			$subtitle = trim($moduleConfig->siteSubtitle);
+			getController('module')->replaceDefinedLangCode($subtitle);
+			return $subtitle;
+		}
+		else
+		{
+			return '';
+		}
 	}
 
 	/**
@@ -2660,33 +2721,91 @@ class Context
 
 	/**
 	 * Get meta tag
+	 * 
+	 * @param string $name (optional)
 	 * @return array The list of meta tags
 	 */
-	public static function getMetaTag()
+	public static function getMetaTag($name = null)
 	{
-		$ret = array();
-		foreach(self::$_instance->meta_tags as $key => $val)
+		if ($name !== null)
 		{
-			list($name, $is_http_equiv) = explode("\t", $key);
-			$ret[] = array('name' => $name, 'is_http_equiv' => $is_http_equiv, 'content' => $val);
+			return isset(self::$_instance->meta_tags[$name]) ? self::$_instance->meta_tags[$name]['content'] : null;
+		}
+		
+		$ret = array();
+		foreach(self::$_instance->meta_tags as $name => $content)
+		{
+			$ret[] = array('name' => $name, 'is_http_equiv' => $content['is_http_equiv'], 'content' => escape($content['content'], false));
 		}
 
 		return $ret;
 	}
 
 	/**
-	 * Add the meta tag
+	 * Add meta tag
 	 *
 	 * @param string $name name of meta tag
 	 * @param string $content content of meta tag
 	 * @param mixed $is_http_equiv value of http_equiv
 	 * @return void
 	 */
-	public static function addMetaTag($name, $content, $is_http_equiv = FALSE)
+	public static function addMetaTag($name, $content, $is_http_equiv = false)
 	{
-		self::$_instance->meta_tags[$name . "\t" . ($is_http_equiv ? '1' : '0')] = $content;
+		getController('module')->replaceDefinedLangCode($content);
+		self::$_instance->meta_tags[$name] = array('is_http_equiv' => (bool)$is_http_equiv, 'content' => $content);
 	}
-
+	
+	/**
+	 * Get OpenGraph metadata
+	 * 
+	 * @return array
+	 */
+	public static function getOpenGraphData()
+	{
+		$ret = array();
+		foreach(self::$_instance->opengraph_metadata as $key => $val)
+		{
+			if ($val[1] === false || $val[1] === null)
+			{
+				continue;
+			}
+			$ret[] = array('property' => escape($val[0], false), 'content' => escape($val[1], false));
+		}
+		return $ret;
+	}
+	
+	/**
+	 * Add OpenGraph metadata
+	 * 
+	 * @param string $name
+	 * @param mixed $content
+	 * @return void
+	 */
+	public static function addOpenGraphData($name, $content)
+	{
+		if (is_array($content))
+		{
+			foreach ($content as $key => $val)
+			{
+				self::addOpenGraphData("$name:$key", $val);
+			}
+		}
+		else
+		{
+			self::$_instance->opengraph_metadata[] = array($name, $content);
+		}
+	}
+	
+	/**
+	 * Set canonical URL
+	 * 
+	 * @param string $url
+	 * @return void
+	 */
+	public static function setCanonicalURL($url)
+	{
+		self::addHtmlHeader(sprintf('<link rel="canonical" href="%s" />', escape($url)));
+	}
 }
 /* End of file Context.class.php */
 /* Location: ./classes/context/Context.class.php */

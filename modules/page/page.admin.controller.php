@@ -31,6 +31,10 @@ class pageAdminController extends page
 		unset($args->page_name);
 
 		if($args->use_mobile != 'Y') $args->use_mobile = '';
+		$args->browser_title = trim(utf8_normalize_spaces($args->browser_title));
+		$args->meta_keywords = $args->meta_keywords ? implode(', ', array_map('trim', explode(',', $args->meta_keywords))) : '';
+		$args->meta_description = trim(utf8_normalize_spaces($args->meta_description));
+		
 		// Check if an original module exists by using module_srl
 		if($args->module_srl)
 		{

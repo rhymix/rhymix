@@ -59,6 +59,19 @@
 			</div>
 		</div>
 		<div class="x_control-group">
+			<label class="x_control-label">{$lang->thumbnail_type}</label>
+			<div class="x_controls">
+				<label for="thumbnail_type_crop" class="x_inline">
+					<input type="radio" name="thumbnail_type" id="thumbnail_type_crop" value="crop" checked="checked"|cond="$thumbnail_type != 'ratio'" />
+					{$lang->corp}
+				</label>
+				<label for="thumbnail_type_ratio" class="x_inline">
+					<input type="radio" name="thumbnail_type" id="thumbnail_type_ratio" value="ratio" checked="checked"|cond="$thumbnail_type == 'ratio'" />
+					{$lang->ratio}
+				</label>
+			</div>
+		</div>
+		<div class="x_control-group">
 			<label class="x_control-label">{$lang->use_object_cache}</label>
 			<div class="x_controls">
 				<select name="object_cache_type" id="object_cache_type">

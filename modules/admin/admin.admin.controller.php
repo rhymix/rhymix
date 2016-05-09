@@ -511,6 +511,7 @@ class adminAdminController extends admin
 		// Site title and HTML footer
 		$args = new stdClass;
 		$args->siteTitle = $vars->site_title;
+		$args->siteSubtitle = $vars->site_subtitle;
 		$args->htmlFooter = $vars->html_footer;
 		$oModuleController->updateModuleConfig('module', $args);
 		
@@ -520,11 +521,6 @@ class adminAdminController extends admin
 		$site_args->index_module_srl = $vars->index_module_srl;
 		$site_args->default_language = $vars->default_lang;
 		$oModuleController->updateSite($site_args);
-		
-		// Thumbnail settings
-		$args = new stdClass;
-		$args->thumbnail_type = $vars->thumbnail_type === 'ratio' ? 'ratio' : 'crop';
-		$oModuleController->insertModuleConfig('document', $args);
 		
 		// Default and enabled languages
 		$enabled_lang = $vars->enabled_lang;
@@ -545,6 +541,7 @@ class adminAdminController extends admin
 		// Favicon and mobicon
 		$this->_saveFavicon('favicon.ico', $vars->is_delete_favicon);
 		$this->_saveFavicon('mobicon.png', $vars->is_delete_mobicon);
+		$this->_saveDefaultImage($vars->is_delete_site_default_image);
 		
 		// Save
 		Rhymix\Framework\Config::save();
@@ -693,6 +690,12 @@ class adminAdminController extends admin
 			Rhymix\Framework\Config::set('cache', array());
 		}
 		
+		// Thumbnail settings
+		$args = new stdClass;
+		$args->thumbnail_type = $vars->thumbnail_type === 'ratio' ? 'ratio' : 'crop';
+		$oModuleController = getController('module');
+		$oModuleController->insertModuleConfig('document', $args);
+		
 		// Other settings
 		Rhymix\Framework\Config::set('use_rewrite', $vars->use_rewrite === 'Y');
 		Rhymix\Framework\Config::set('use_sso', $vars->use_sso === 'Y');
@@ -766,6 +769,35 @@ class adminAdminController extends admin
 		
 		$this->setMessage('success_updated');
 		$this->setRedirectUrl(Context::get('success_return_url') ?: getNotEncodedUrl('', 'module', 'admin', 'act', 'dispAdminConfigDebug'));
+	}
+	
+	/**
+	 * Update SEO configuration.
+	 */
+	function procAdminUpdateSEO()
+	{
+		$vars = Context::getRequestVars();
+		
+		$args = new stdClass;
+		$args->meta_keywords = $vars->site_meta_keywords ? implode(', ', array_map('trim', explode(',', $vars->site_meta_keywords))) : '';
+		$args->meta_description = trim(utf8_normalize_spaces($vars->site_meta_description));
+		$oModuleController = getController('module');
+		$oModuleController->updateModuleConfig('module', $args);
+		
+		Rhymix\Framework\Config::set('seo.main_title', trim(utf8_normalize_spaces($vars->seo_main_title)));
+		Rhymix\Framework\Config::set('seo.subpage_title', trim(utf8_normalize_spaces($vars->seo_subpage_title)));
+		Rhymix\Framework\Config::set('seo.document_title', trim(utf8_normalize_spaces($vars->seo_document_title)));
+		
+		Rhymix\Framework\Config::set('seo.og_enabled', $vars->og_enabled === 'Y');
+		Rhymix\Framework\Config::set('seo.og_extract_description', $vars->og_extract_description === 'Y');
+		Rhymix\Framework\Config::set('seo.og_extract_images', $vars->og_extract_images === 'Y');
+		Rhymix\Framework\Config::set('seo.og_use_timestamps', $vars->og_use_timestamps === 'Y');
+		
+		// Save
+		Rhymix\Framework\Config::save();
+		
+		$this->setMessage('success_updated');
+		$this->setRedirectUrl(Context::get('success_return_url') ?: getNotEncodedUrl('', 'module', 'admin', 'act', 'dispAdminConfigSEO'));
 	}
 	
 	/**
@@ -910,6 +942,11 @@ class adminAdminController extends admin
 			$name = 'mobicon';
 			$tmpFileName = $this->_saveFaviconTemp($mobicon, 'mobicon.png');
 		}
+		elseif ($default_image = Context::get('default_image'))
+		{
+			$name = 'default_image';
+			$tmpFileName = $this->_saveFaviconTemp($default_image, 'default_image.png');
+		}
 		else
 		{
 			$name = $tmpFileName = '';
@@ -922,7 +959,7 @@ class adminAdminController extends admin
 		$this->setTemplateFile("favicon_upload.html");
 	}
 	
-	private function _saveFaviconTemp($icon, $iconname)
+	protected function _saveFaviconTemp($icon, $iconname)
 	{
 		$site_info = Context::get('site_module_info');
 		$virtual_site = '';
@@ -934,9 +971,9 @@ class adminAdminController extends admin
 		$original_filename = $icon['tmp_name'];
 		$type = $icon['type'];
 		$relative_filename = 'files/attach/xeicon/'.$virtual_site.'tmp/'.$iconname;
-		$target_filename = RX_BASEDIR . $relative_filename;
+		$target_filename = \RX_BASEDIR . $relative_filename;
 
-		if ($iconname !== 'favicon.ico' && $iconname !== 'mobicon.png')
+		if (!preg_match('/^(favicon|mobicon|default_image)\.(ico|png|jpe?g)$/', $iconname))
 		{
 			Context::set('msg', lang('msg_invalid_format'));
 			return;
@@ -946,28 +983,63 @@ class adminAdminController extends admin
 		return $relative_filename;
 	}
 	
-	private function _saveFavicon($iconname, $deleteIcon = false)
+	protected function _saveFavicon($iconname, $deleteIcon = false)
 	{
+		$image_filepath = 'files/attach/xeicon/';
 		$site_info = Context::get('site_module_info');
-		$virtual_site = '';
-		if ($site_info->site_srl) 
+		if ($site_info->site_srl)
 		{
-			$virtual_site = $site_info->site_srl . '/';
+			$image_filepath .= $site_info->site_srl . '/';
 		}
-		
-		$image_filepath = RX_BASEDIR . 'files/attach/xeicon/' . $virtual_site;
 		
 		if ($deleteIcon)
 		{
-			Rhymix\Framework\Storage::delete($image_filepath.$iconname);
+			Rhymix\Framework\Storage::delete(\RX_BASEDIR . $image_filepath . $iconname);
 			return;
 		}
 		
-		$tmpicon_filepath = $image_filepath.'tmp/'.$iconname;
-		$icon_filepath = $image_filepath.$iconname;
+		$tmpicon_filepath = $image_filepath . 'tmp/' . $iconname;
+		$icon_filepath = $image_filepath . $iconname;
+		if (file_exists(\RX_BASEDIR . $tmpicon_filepath))
+		{
+			Rhymix\Framework\Storage::move(\RX_BASEDIR . $tmpicon_filepath, \RX_BASEDIR . $icon_filepath);
+		}
+	}
+	
+	protected function _saveDefaultImage($deleteIcon = false)
+	{
+		$image_filepath = 'files/attach/xeicon/';
+		$site_info = Context::get('site_module_info');
+		if ($site_info->site_srl)
+		{
+			$image_filepath .= $site_info->site_srl . '/';
+		}
+		
+		if ($deleteIcon)
+		{
+			$info = Rhymix\Framework\Storage::readPHPData($image_filepath . 'default_image.php');
+			if ($info['filename'])
+			{
+				Rhymix\Framework\Storage::delete(\RX_BASEDIR . $info['filename']);
+			}
+			Rhymix\Framework\Storage::delete($image_filepath . 'default_image.php');
+			return;
+		}
+		
+		$tmpicon_filepath = \RX_BASEDIR . $image_filepath . 'tmp/default_image.png';
 		if (file_exists($tmpicon_filepath))
 		{
-			Rhymix\Framework\Storage::move($tmpicon_filepath, $icon_filepath);
+			list($width, $height, $type) = @getimagesize($tmpicon_filepath);
+			switch ($type)
+			{
+				case 'image/gif': $target_filename = $image_filepath . 'default_image.gif'; break;
+				case 'image/jpeg': $target_filename = $image_filepath . 'default_image.jpg'; break;
+				case 'image/png': default: $target_filename = $image_filepath . 'default_image.png';
+			}
+			Rhymix\Framework\Storage::move($tmpicon_filepath, \RX_BASEDIR . $target_filename);
+			Rhymix\Framework\Storage::writePHPData(\RX_BASEDIR . 'files/attach/xeicon/' . $virtual_site . 'default_image.php', array(
+				'filename' => $target_filename, 'width' => $width, 'height' => $height,
+			));
 		}
 	}
 }

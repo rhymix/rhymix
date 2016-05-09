@@ -203,7 +203,7 @@ class adminAdminView extends admin
 		$gnbTitleInfo->adminTitle = $objConfig->adminTitle ? $objConfig->adminTitle : 'Admin';
 		$gnbTitleInfo->adminLogo = $objConfig->adminLogo ? $objConfig->adminLogo : '';
 
-		$browserTitle = ($subMenuTitle ? $subMenuTitle : 'Dashboard') . ' - ' . $gnbTitleInfo->adminTitle;
+		$browserTitle = $gnbTitleInfo->adminTitle . ' - ' . ($subMenuTitle ? $subMenuTitle : 'Dashboard');
 
 		// Get list of favorite
 		$oAdminAdminModel = getAdminModel('admin');
@@ -255,7 +255,7 @@ class adminAdminView extends admin
 		Context::set('gnbUrlList', $menu->list);
 		Context::set('parentSrl', $parentSrl);
 		Context::set('gnb_title_info', $gnbTitleInfo);
-		Context::setBrowserTitle($browserTitle);
+		Context::addBrowserTitle($browserTitle);
 	}
 
 	/**
@@ -416,18 +416,14 @@ class adminAdminView extends admin
 		// Site title and HTML footer
 		$oModuleModel = getModel('module');
 		$config = $oModuleModel->getModuleConfig('module');
-		Context::set('site_title', escape($config->siteTitle));
+		Context::set('var_site_title', escape($config->siteTitle));
+		Context::set('var_site_subtitle', escape($config->siteSubtitle));
 		Context::set('all_html_footer', escape($config->htmlFooter));
 		
 		// Index module
 		$columnList = array('modules.mid', 'modules.browser_title', 'sites.index_module_srl');
 		$start_module = $oModuleModel->getSiteInfo(0, $columnList);
 		Context::set('start_module', $start_module);
-		
-		// Thumbnail settings
-		$oDocumentModel = getModel('document');
-		$config = $oDocumentModel->getDocumentConfig();
-		Context::set('thumbnail_type', $config->thumbnail_type ?: 'crop');
 		
 		// Default time zone
 		Context::set('timezones', Rhymix\Framework\DateTime::getTimezoneList());
@@ -436,12 +432,14 @@ class adminAdminView extends admin
 		// Mobile view
 		Context::set('use_mobile_view', config('use_mobile_view') ? 'Y' : 'N');
 		
-		// Favicon and mobicon
+		// Favicon and mobicon and site default image
 		$oAdminModel = getAdminModel('admin');
 		$favicon_url = $oAdminModel->getFaviconUrl(false) ?: $oAdminModel->getFaviconUrl();
 		$mobicon_url = $oAdminModel->getMobileIconUrl(false) ?: $oAdminModel->getMobileIconUrl();
+		$site_default_image_url = $oAdminModel->getSiteDefaultImageUrl();
 		Context::set('favicon_url', $favicon_url);
 		Context::set('mobicon_url', $mobicon_url);
+		Context::set('site_default_image_url', $site_default_image_url);
 		
 		$this->setTemplateFile('config_general');
 	}
@@ -523,6 +521,11 @@ class adminAdminView extends admin
 			Context::set('object_cache_port', null);
 		}
 		
+		// Thumbnail settings
+		$oDocumentModel = getModel('document');
+		$config = $oDocumentModel->getDocumentConfig();
+		Context::set('thumbnail_type', $config->thumbnail_type ?: 'crop');
+		
 		// Other settings
 		Context::set('use_mobile_view', Rhymix\Framework\Config::get('use_mobile_view'));
 		Context::set('use_rewrite', Rhymix\Framework\Config::get('use_rewrite'));
@@ -559,6 +562,32 @@ class adminAdminView extends admin
 		Context::set('remote_addr', RX_CLIENT_IP);
 		
 		$this->setTemplateFile('config_debug');
+	}
+	
+	/**
+	 * Display Debug Settings page
+	 * @return void
+	 */
+	function dispAdminConfigSEO()
+	{
+		// Meta keywords and description
+		$oModuleModel = getModel('module');
+		$config = $oModuleModel->getModuleConfig('module');
+		Context::set('site_meta_keywords', escape($config->meta_keywords));
+		Context::set('site_meta_description', escape($config->meta_description));
+		
+		// Titles
+		Context::set('seo_main_title', escape(Rhymix\Framework\Config::get('seo.main_title') ?: '$SITE_TITLE - $SITE_SUBTITLE'));
+		Context::set('seo_subpage_title', escape(Rhymix\Framework\Config::get('seo.subpage_title') ?: '$SITE_TITLE - $SUBPAGE_TITLE'));
+		Context::set('seo_document_title', escape(Rhymix\Framework\Config::get('seo.document_title') ?: '$SITE_TITLE - $DOCUMENT_TITLE'));
+		
+		// OpenGraph metadata
+		Context::set('og_enabled', Rhymix\Framework\Config::get('seo.og_enabled'));
+		Context::set('og_extract_description', Rhymix\Framework\Config::get('seo.og_extract_description'));
+		Context::set('og_extract_images', Rhymix\Framework\Config::get('seo.og_extract_images'));
+		Context::set('og_use_timestamps', Rhymix\Framework\Config::get('seo.og_use_timestamps'));
+		
+		$this->setTemplateFile('config_seo');
 	}
 	
 	/**
