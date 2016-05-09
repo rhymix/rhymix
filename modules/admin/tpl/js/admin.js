@@ -1627,7 +1627,7 @@ jQuery(function($){
 					$textareas.each(function(){
 						var $this = $(this);
 						var value = data.langs[$this.data('lang')];
-						var pattern = /^\$user_lang->/;
+						var pattern = /^\$user_lang-(?:>|&(?:amp;)?gt;)/;
 
 						if(pattern.test(value)){
 							$this.val('').data('value', '');
@@ -1911,7 +1911,7 @@ jQuery(function($){
 					//var $displayInput = $this.siblings('.lang_code');
 
 					if($displayInput.data('active')){
-						$multilingualWindow.trigger('before-open.g11n', $displayInput.prev('.lang_code').val().replace('$user_lang->', ''));
+						$multilingualWindow.trigger('before-open.g11n', $displayInput.prev('.lang_code').val().replace(/\$user_lang-(?:>|&(?:amp;)?gt;)/, ''));
 					}else{
 						$multilingualWindow.trigger('before-open.g11n');
 					}
@@ -1964,7 +1964,7 @@ jQuery(function($){
 				// load value
 				function loadValue(){
 					reset();
-					var pattern = /^\$user_lang->/;
+					var pattern = /^\$user_lang-(?:>|&(?:amp;)?gt;)/;
 
 					function on_complete2(data){
 						if(!data || !data.langs) return;
@@ -1977,7 +1977,7 @@ jQuery(function($){
 
 					if(pattern.test($displayInput.val())){
 						$.exec_json('module.getModuleAdminLangCode', {
-							'name': $displayInput.val().replace('$user_lang->', ''),
+							'name': $displayInput.val().replace(pattern, ''),
 							'mid': current_url.getQuery('mid')
 						}, on_complete2);
 					}

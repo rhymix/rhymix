@@ -576,6 +576,11 @@ class adminAdminView extends admin
 		Context::set('site_meta_keywords', escape($config->meta_keywords));
 		Context::set('site_meta_description', escape($config->meta_description));
 		
+		// Titles
+		Context::set('seo_main_title', escape(Rhymix\Framework\Config::get('seo.main_title') ?: '$SITE_TITLE - $SITE_SUBTITLE'));
+		Context::set('seo_subpage_title', escape(Rhymix\Framework\Config::get('seo.subpage_title') ?: '$SITE_TITLE - $SUBPAGE_TITLE'));
+		Context::set('seo_document_title', escape(Rhymix\Framework\Config::get('seo.document_title') ?: '$SITE_TITLE - $DOCUMENT_TITLE'));
+		
 		// OpenGraph metadata
 		Context::set('og_enabled', Rhymix\Framework\Config::get('seo.og_enabled'));
 		Context::set('og_extract_description', Rhymix\Framework\Config::get('seo.og_extract_description'));

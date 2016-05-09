@@ -99,6 +99,9 @@ return array(
 		'allow' => array(),
 	),
 	'seo' => array(
+		'main_title' => '',
+		'subpage_title' => '',
+		'document_title' => '',
 		'og_enabled' => false,
 		'og_extract_description' => false,
 		'og_extract_images' => false,

@@ -1073,7 +1073,7 @@ class moduleController extends module
 	{
 		if($isReplaceLangCode)
 		{
-			$output = preg_replace_callback('!\$user_lang-(?:>|&(?:amp;)?gt;)([a-z0-9\_]+)!is', array($this,'_replaceLangCode'), $output);
+			$output = preg_replace_callback('!\$user_lang->([a-z0-9\_]+)!is', array($this,'_replaceLangCode'), $output);
 		}
 	}
 

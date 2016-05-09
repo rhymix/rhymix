@@ -784,6 +784,10 @@ class adminAdminController extends admin
 		$oModuleController = getController('module');
 		$oModuleController->updateModuleConfig('module', $args);
 		
+		Rhymix\Framework\Config::set('seo.main_title', trim(utf8_normalize_spaces($vars->seo_main_title)));
+		Rhymix\Framework\Config::set('seo.subpage_title', trim(utf8_normalize_spaces($vars->seo_subpage_title)));
+		Rhymix\Framework\Config::set('seo.document_title', trim(utf8_normalize_spaces($vars->seo_document_title)));
+		
 		Rhymix\Framework\Config::set('seo.og_enabled', $vars->og_enabled === 'Y');
 		Rhymix\Framework\Config::set('seo.og_extract_description', $vars->og_extract_description === 'Y');
 		Rhymix\Framework\Config::set('seo.og_extract_images', $vars->og_extract_images === 'Y');

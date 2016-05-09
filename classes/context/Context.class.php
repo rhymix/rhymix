@@ -863,13 +863,20 @@ class Context
 	 * Set string to browser title
 	 *
 	 * @param string $site_title Browser title  to be set
+	 * @param array $vars
 	 * @return void
 	 */
-	public static function setBrowserTitle($title)
+	public static function setBrowserTitle($title, $vars = array())
 	{
-		if(!$title)
+		if (!$title)
 		{
 			return;
+		}
+		if (count($vars))
+		{
+			$title = preg_replace_callback('/\\$(\w+)/', function($matches) use($vars) {
+				return isset($vars[strtolower($matches[1])]) ? $vars[strtolower($matches[1])] : $matches[0];
+			}, $title);
 		}
 		self::$_instance->site_title = $title;
 	}

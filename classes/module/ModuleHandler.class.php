@@ -287,14 +287,20 @@ class ModuleHandler extends Handler
 			$this->module_info = $module_info;
 			if ($module_info->mid == $site_module_info->mid)
 			{
-				Context::setBrowserTitle(Context::getSiteTitle());
-				Context::addBrowserTitle(Context::getSiteSubtitle());
+				$seo_title = config('seo.main_title') ?: '$SITE_TITLE - $SITE_SUBTITLE';
 			}
 			else
 			{
-				Context::setBrowserTitle(Context::getSiteTitle());
-				Context::addBrowserTitle($module_info->browser_title);
+				$seo_title = config('seo.subpage_title') ?: '$SITE_TITLE - $SUBPAGE_TITLE';
 			}
+			
+			getController('module')->replaceDefinedLangCode($seo_title);
+			Context::setBrowserTitle($seo_title, array(
+				'site_title' => Context::getSiteTitle(),
+				'site_subtitle' => Context::getSiteSubtitle(),
+				'subpage_title' => $module_info->browser_title,
+				'page' => Context::get('page') ?: 1,
+			));
 			
 			$module_config = $oModuleModel->getModuleConfig('module');
 			if ($module_info->meta_keywords)
