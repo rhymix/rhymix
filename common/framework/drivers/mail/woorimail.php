@@ -32,6 +32,26 @@ class Woorimail extends Base implements \Rhymix\Framework\Drivers\MailInterface
 	);
 	
 	/**
+	 * Get the list of configuration fields required by this mail driver.
+	 * 
+	 * @return array
+	 */
+	public static function getRequiredConfig()
+	{
+		return array('api_domain', 'api_token', 'api_type');
+	}
+	
+	/**
+	 * Get the list of API types supported by this mail driver.
+	 * 
+	 * @return array
+	 */
+	public static function getAPITypes()
+	{
+		return array('free', 'paid');
+	}
+	
+	/**
 	 * Check if the current mail driver is supported on this server.
 	 * 
 	 * This method returns true on success and false on failure.

@@ -17,10 +17,30 @@ class SES extends Base implements \Rhymix\Framework\Drivers\MailInterface
 	 */
 	protected function __construct(array $config)
 	{
-		$transport = \Swift_AWSTransport::newInstance($config['user'], $config['pass']);
+		$transport = \Swift_AWSTransport::newInstance($config['api_user'], $config['api_pass']);
 		$transport->setDebug(array($this, 'debugCallback'));
-		$transport->setEndpoint('https://email.' . strtolower($config['type']) . '.amazonaws.com/');
+		$transport->setEndpoint('https://email.' . strtolower($config['api_type']) . '.amazonaws.com/');
 		$this->mailer = \Swift_Mailer::newInstance($transport);
+	}
+	
+	/**
+	 * Get the list of configuration fields required by this mail driver.
+	 * 
+	 * @return array
+	 */
+	public static function getRequiredConfig()
+	{
+		return array('api_user', 'api_pass', 'api_type');
+	}
+	
+	/**
+	 * Get the list of API types supported by this mail driver.
+	 * 
+	 * @return array
+	 */
+	public static function getAPITypes()
+	{
+		return array('us-east-1', 'us-west-2', 'eu-west-1');
 	}
 	
 	/**

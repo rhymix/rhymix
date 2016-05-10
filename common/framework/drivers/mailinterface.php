@@ -23,6 +23,20 @@ interface MailInterface
 	public static function getName();
 	
 	/**
+	 * Get the list of configuration fields required by this mail driver.
+	 * 
+	 * @return array
+	 */
+	public static function getRequiredConfig();
+	
+	/**
+	 * Get the list of API types supported by this mail driver.
+	 * 
+	 * @return array
+	 */
+	public static function getAPITypes();
+	
+	/**
 	 * Check if the current mail driver is supported on this server.
 	 * 
 	 * This method returns true on success and false on failure.

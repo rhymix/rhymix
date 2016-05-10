@@ -13,6 +13,16 @@ class SparkPost extends Base implements \Rhymix\Framework\Drivers\MailInterface
 	protected static $_url = 'https://api.sparkpost.com/api/v1/transmissions';
 	
 	/**
+	 * Get the list of configuration fields required by this mail driver.
+	 * 
+	 * @return array
+	 */
+	public static function getRequiredConfig()
+	{
+		return array('api_token');
+	}
+	
+	/**
 	 * Check if the current mail driver is supported on this server.
 	 * 
 	 * This method returns true on success and false on failure.
