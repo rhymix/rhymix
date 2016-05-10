@@ -555,7 +555,6 @@ class Mail
 		if(!$output->toBool())
 		{
 			$this->errors[] = $output->getMessage();
-			return false;
 		}
 		
 		return $result;
