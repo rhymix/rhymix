@@ -12,9 +12,10 @@ class Mail
 	 */
 	public $message = null;
 	public $driver = null;
-	public $content_type = 'text/html';
-	public $attachments = array();
+	protected $content_type = 'text/html';
+	protected $attachments = array();
 	public $errors = array();
+	protected $sent = false;
 	
 	/**
 	 * Static properties.
@@ -543,12 +544,12 @@ class Mail
 		
 		try
 		{
-			$result = $this->driver->send($this);
+			$this->sent = $this->driver->send($this) ? true : false;
 		}
 		catch(\Exception $e)
 		{
 			$this->errors[] = $e->getMessage();
-			$result = false;
+			$this->sent = false;
 		}
 		
 		$output = \ModuleHandler::triggerCall('mail.send', 'after', $this);
@@ -557,7 +558,17 @@ class Mail
 			$this->errors[] = $output->getMessage();
 		}
 		
-		return $result;
+		return $this->sent;
+	}
+	
+	/**
+	 * Check if the message was sent.
+	 * 
+	 * @return bool
+	 */
+	public function isSent()
+	{
+		return $this->sent;
 	}
 	
 	/**
