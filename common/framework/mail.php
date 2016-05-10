@@ -534,15 +534,31 @@ class Mail
 	 */
 	public function send()
 	{
+		$output = \ModuleHandler::triggerCall('mail.send', 'before', $this);
+		if(!$output->toBool())
+		{
+			$this->errors[] = $output->getMessage();
+			return false;
+		}
+		
 		try
 		{
-			return $this->driver->send($this);
+			$result = $this->driver->send($this);
 		}
 		catch(\Exception $e)
 		{
 			$this->errors[] = $e->getMessage();
+			$result = false;
+		}
+		
+		$output = \ModuleHandler::triggerCall('mail.send', 'after', $this);
+		if(!$output->toBool())
+		{
+			$this->errors[] = $output->getMessage();
 			return false;
 		}
+		
+		return $result;
 	}
 	
 	/**
