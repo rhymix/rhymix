@@ -317,7 +317,16 @@ class boardView extends board
 			else
 			{
 				// add the document title to the browser
-				Context::addBrowserTitle($oDocument->getTitleText());
+				Context::setCanonicalURL($oDocument->getPermanentUrl());
+				$seo_title = config('seo.document_title') ?: '$SITE_TITLE - $DOCUMENT_TITLE';
+				getController('module')->replaceDefinedLangCode($seo_title);
+				Context::setBrowserTitle($seo_title, array(
+					'site_title' => Context::getSiteTitle(),
+					'site_subtitle' => Context::getSiteSubtitle(),
+					'subpage_title' => $module_info->browser_title,
+					'document_title' => $oDocument->getTitleText(),
+					'page' => Context::get('page') ?: 1,
+				));
 
 				// update the document view count (if the document is not secret)
 				if(!$oDocument->isSecret() || $oDocument->isGranted())

@@ -309,7 +309,14 @@ class Storage
 		
 		if ($destination_perms === null)
 		{
-			@chmod($destination, 0777 & @fileperms($source));
+			if (is_uploaded_file($source))
+			{
+				@chmod($destination, 0666 ^ intval(config('file.umask'), 8));
+			}
+			else
+			{
+				@chmod($destination, 0777 & @fileperms($source));
+			}
 		}
 		else
 		{
