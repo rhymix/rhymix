@@ -874,9 +874,9 @@ class Context
 		}
 		if (count($vars))
 		{
-			$title = preg_replace_callback('/\\$(\w+)/', function($matches) use($vars) {
+			$title = trim(trim(preg_replace_callback('/\\$(\w+)/', function($matches) use($vars) {
 				return isset($vars[strtolower($matches[1])]) ? $vars[strtolower($matches[1])] : $matches[0];
-			}, $title);
+			}, $title), ' -'));
 		}
 		self::$_instance->site_title = $title;
 	}
