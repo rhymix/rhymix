@@ -70,18 +70,25 @@ class Mail
 			$class_name = '\Rhymix\Framework\Drivers\Mail\\' . $driver_name;
 			if ($class_name::isSupported())
 			{
-				$result[] = $driver_name;
+				$result[$driver_name] = array(
+					'name' => $class_name::getName(),
+					'required' => $class_name::getRequiredConfig(),
+					'api_types' => $class_name::getAPITypes(),
+				);
 			}
 		}
 		foreach (self::$custom_drivers as $driver)
 		{
 			if ($driver->isSupported())
 			{
-				$result[] = strtolower(class_basename($driver));
+				$result[strtolower(class_basename($driver))] = array(
+					'name' => $driver->getName(),
+					'required' => $driver->getRequiredConfig(),
+					'api_types' => $driver->getAPITypes(),
+				);
 			}
 		}
-		$result = array_unique($result);
-		sort($result);
+		ksort($result);
 		return $result;
 	}
 	
