@@ -12,113 +12,73 @@ class Mobile
 	 * Whether mobile or not mobile mode
 	 * @var bool
 	 */
-	public $ismobile = NULL;
-
+	protected static $_ismobile = null;
+	
 	/**
-	 * Get instance of Mobile class(for singleton)
-	 *
+	 * Get instance of Mobile class
+	 * 
 	 * @return Mobile
 	 */
 	public function getInstance()
 	{
-		static $theInstance;
-		if(!isset($theInstance))
-		{
-			$theInstance = new Mobile();
-		}
-		return $theInstance;
+		return new self();
 	}
-
+	
 	/**
 	 * Get current mobile mode
-	 *
-	 * @return bool If mobile mode returns true or false
+	 * 
+	 * @return bool
 	 */
 	public static function isFromMobilePhone()
 	{
-		return self::getInstance()->_isFromMobilePhone();
+		// Return cached result.
+		if (self::$_ismobile !== null)
+		{
+			return self::$_ismobile;
+		}
+		
+		// Not mobile if disabled explicitly.
+		if (!self::isMobileEnabled() || Context::get('full_browse') || $_COOKIE["FullBrowse"])
+		{
+			return self::$_ismobile = false;
+		}
+		
+		// Try to detect from URL arguments and cookies, and finally fall back to user-agent detection.
+		$m = Context::get('m');
+		$cookie = isset($_COOKIE['mobile']) ? $_COOKIE['mobile'] : null;
+		if ($m === '1' || $cookie === 'true')
+		{
+			self::$_ismobile = TRUE;
+		}
+		elseif ($m === '0' || $cookie === 'false')
+		{
+			self::$_ismobile = FALSE;
+		}
+		else
+		{
+			self::$_ismobile = Rhymix\Framework\UA::isMobile() && (config('mobile.tablets') || !Rhymix\Framework\UA::isTablet());
+		}
+		
+		// Set cookie to prevent recalculation.
+		if (!$cookie)
+		{
+			$_COOKIE['mobile'] = self::$_ismobile ? 'true' : 'false';
+			setcookie('mobile', $_COOKIE['mobile'], 0, RX_BASEURL);
+		}
+		
+		return self::$_ismobile;
 	}
-
+	
 	/**
 	 * Get current mobile mode
 	 *
 	 * @return bool
 	 */
-	public function _isFromMobilePhone()
+	public static function _isFromMobilePhone()
 	{
-		if($this->ismobile !== NULL)
-		{
-			return $this->ismobile;
-		}
-		if(!config('use_mobile_view') || Context::get('full_browse') || $_COOKIE["FullBrowse"])
-		{
-			return $this->ismobile = false;
-		}
-
-		$this->ismobile = FALSE;
-
-		$m = Context::get('m');
-		if(strlen($m) == 1)
-		{
-			if($m == "1")
-			{
-				$this->ismobile = TRUE;
-			}
-			elseif($m == "0")
-			{
-				$this->ismobile = FALSE;
-			}
-		}
-		elseif(isset($_COOKIE['mobile']))
-		{
-			if($_COOKIE['user-agent'] == md5($_SERVER['HTTP_USER_AGENT']))
-			{
-				if($_COOKIE['mobile'] == 'true')
-				{
-					$this->ismobile = TRUE;
-				}
-				else
-				{
-					$this->ismobile = FALSE;
-				}
-			}
-			else
-			{
-				setcookie("mobile", FALSE, 0, RX_BASEURL);
-				setcookie("user-agent", FALSE, 0, RX_BASEURL);
-				$this->ismobile = Rhymix\Framework\UA::isMobile() && !Rhymix\Framework\UA::isTablet();
-			}
-		}
-		else
-		{
-			$this->ismobile = Rhymix\Framework\UA::isMobile() && !Rhymix\Framework\UA::isTablet();
-		}
-
-		if($this->ismobile !== NULL)
-		{
-			if($this->ismobile == TRUE)
-			{
-				if($_COOKIE['mobile'] != 'true')
-				{
-					$_COOKIE['mobile'] = 'true';
-					setcookie("mobile", 'true', 0, RX_BASEURL);
-				}
-			}
-			elseif(isset($_COOKIE['mobile']) && $_COOKIE['mobile'] != 'false')
-			{
-				$_COOKIE['mobile'] = 'false';
-				setcookie("mobile", 'false', 0, RX_BASEURL);
-			}
-
-			if(isset($_COOKIE['mobile']) && $_COOKIE['user-agent'] != md5($_SERVER['HTTP_USER_AGENT']))
-			{
-				setcookie("user-agent", md5($_SERVER['HTTP_USER_AGENT']), 0, RX_BASEURL);
-			}
-		}
-
-		return $this->ismobile;
+		return self::isFromMobilePhone();
 	}
-
+	
 	/**
 	 * Detect mobile device by user agent
 	 *
@@ -138,7 +98,7 @@ class Mobile
 	{
 		return Rhymix\Framework\UA::isTablet();
 	}
-
+	
 	/**
 	 * Set mobile mode
 	 *
@@ -147,11 +107,21 @@ class Mobile
 	 */
 	public static function setMobile($ismobile)
 	{
-		self::getInstance()->ismobile = (bool)$ismobile;
+		self::$_ismobile = (bool)$ismobile;
 	}
 
+	/**
+	 * Check if mobile view is enabled
+	 * 
+	 * @raturn bool
+	 */
 	public static function isMobileEnabled()
 	{
-		return config('use_mobile_view');
+		$mobile_enabled = config('mobile.enabled');
+		if ($mobile_enabled === null)
+		{
+			$mobile_enabled = config('use_mobile_view') ? true : false;
+		}
+		return $mobile_enabled;
 	}
 }

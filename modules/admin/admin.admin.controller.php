@@ -536,7 +536,12 @@ class adminAdminController extends admin
 		Rhymix\Framework\Config::set('locale.default_timezone', $vars->default_timezone);
 		
 		// Mobile view
-		Rhymix\Framework\Config::set('use_mobile_view', $vars->use_mobile_view === 'Y');
+		Rhymix\Framework\Config::set('mobile.enabled', $vars->use_mobile_view === 'Y');
+		Rhymix\Framework\Config::set('mobile.tablets', $vars->tablets_as_mobile === 'Y');
+		if (Rhymix\Framework\Config::get('use_mobile_view') !== null)
+		{
+			Rhymix\Framework\Config::set('use_mobile_view', $vars->use_mobile_view === 'Y');
+		}
 		
 		// Favicon and mobicon
 		$this->_saveFavicon('favicon.ico', $vars->is_delete_favicon);
