@@ -45,7 +45,7 @@ class Mobile
 		
 		// Try to detect from URL arguments and cookies, and finally fall back to user-agent detection.
 		$m = Context::get('m');
-		$cookie = isset($_COOKIE['mobile']) ? $_COOKIE['mobile'] : null;
+		$cookie = (isset($_COOKIE['mobile']) && $_SESSION['user_agent'] === md5($_SERVER['HTTP_USER_AGENT'])) ? $_COOKIE['mobile'] : null;
 		if ($m === '1' || $cookie === 'true')
 		{
 			self::$_ismobile = TRUE;
@@ -62,6 +62,7 @@ class Mobile
 		// Set cookie to prevent recalculation.
 		if (!$cookie)
 		{
+			$_SESSION['user_agent'] = md5($_SERVER['HTTP_USER_AGENT']);
 			$_COOKIE['mobile'] = self::$_ismobile ? 'true' : 'false';
 			setcookie('mobile', $_COOKIE['mobile'], 0, RX_BASEURL);
 		}
