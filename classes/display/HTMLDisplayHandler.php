@@ -414,7 +414,9 @@ class HTMLDisplayHandler
 		Context::addOpenGraphData('og:site_name', Context::getSiteTitle());
 		if ($page_type === 'article' && config('seo.og_extract_description'))
 		{
-			Context::addOpenGraphData('og:description', trim(utf8_normalize_spaces($oDocument->getContentText(200))));
+			$description = trim(utf8_normalize_spaces($oDocument->getContentText(200)));
+			Context::addOpenGraphData('og:description', $description);
+			Context::addMetaTag('description', $description);
 		}
 		else
 		{
