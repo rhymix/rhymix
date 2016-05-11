@@ -579,6 +579,16 @@ class Mail
 	}
 	
 	/**
+	 * Get errors.
+	 * 
+	 * @return array
+	 */
+	public function getErrors()
+	{
+		return $this->errors;
+	}
+	
+	/**
 	 * Convert image paths to absolute URLs.
 	 *
 	 * @see Mail::setContent()

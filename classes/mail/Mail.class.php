@@ -197,7 +197,7 @@ class Mail extends Rhymix\Framework\Mail
 	 * @param string $email_address Email address to check
 	 * @return bool
 	 */
-	public function checkMailMX($email_address)
+	public static function checkMailMX($email_address)
 	{
 		if(!self::isVaildMailAddress($email_address))
 		{
@@ -219,12 +219,22 @@ class Mail extends Rhymix\Framework\Mail
 	}
 	
 	/**
+	 * Check if this class supports Advanced Mailer features.
+	 * 
+	 * @return bool
+	 */
+	public static function isAdvancedMailer()
+	{
+		return true;
+	}
+	
+	/**
 	 * Check if param is a valid email or not
 	 * 
 	 * @param string $email_address Email address to check
 	 * @return string
 	 */
-	public function isVaildMailAddress($email_address)
+	public static function isVaildMailAddress($email_address)
 	{
 		if(preg_match("/([a-z0-9\_\-\.]+)@([a-z0-9\_\-\.]+)/i", $email_address))
 		{
@@ -242,7 +252,7 @@ class Mail extends Rhymix\Framework\Mail
 	 * @param string $filename filename
 	 * @return string MIME type of ext
 	 */
-	function returnMIMEType($filename)
+	public static function returnMIMEType($filename)
 	{
 		return Rhymix\Framework\MIME::getTypeByFilename($filename);
 	}
