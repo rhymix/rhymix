@@ -29,12 +29,13 @@ class Redis implements \Rhymix\Framework\Drivers\CacheInterface
 	{
 		try
 		{
-			$this->_conn = new \Redis;
+			$this->_conn = null;
 			foreach ($config as $url)
 			{
 				$info = parse_url($url);
 				if (isset($info['host']) && isset($info['port']))
 				{
+					$this->_conn = new \Redis;
 					$this->_conn->connect($info['host'], $info['port'], 0.15);
 					if(isset($info['user']) || isset($info['pass']))
 					{
@@ -47,7 +48,6 @@ class Redis implements \Rhymix\Framework\Drivers\CacheInterface
 					break;
 				}
 			}
-			$this->_conn = null;
 		}
 		catch (\RedisException $e)
 		{

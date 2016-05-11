@@ -96,6 +96,7 @@ $lang->about_delay_session = 'Varnishなどのプロキシキャッシュサー�
 $lang->use_object_cache = 'キャッシュ使用';
 $lang->cache_host = 'ホスト';
 $lang->cache_port = 'ポート';
+$lang->cache_dbnum = 'DB番号';
 $lang->msg_cache_handler_not_supported = '選択したキャッシュ方式をサーバーでサポートされていないか、与えられた情報でキャッシュにアクセスすることができません。';
 $lang->msg_invalid_default_url = '基本URLが正しくありません。';
 $lang->msg_default_url_ssl_inconsistent = 'SSLを常に使用する場合、基本URLもhttps：//で始まる必要があります。';
