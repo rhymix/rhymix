@@ -150,11 +150,11 @@ class Mail extends Rhymix\Framework\Mail
 	/**
 	 * Add file attachment
 	 *
-	 * @param string $filename File name to attach
 	 * @param string $original_filename Real path of file to attach
+	 * @param string $filename File name to attach
 	 * @return void
 	 */
-	public function addAttachment($filename, $original_filename)
+	public function addAttachment($original_filename, $filename)
 	{
 		return $this->attach($original_filename, $filename);
 	}
