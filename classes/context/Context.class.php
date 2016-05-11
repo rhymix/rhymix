@@ -97,6 +97,12 @@ class Context
 	 * @var array
 	 */
 	public $opengraph_metadata = array();
+	
+	/**
+	 * Canonical URL
+	 * @var string
+	 */
+	public $canonical_url = '';
 
 	/**
 	 * path of Xpress Engine
@@ -2804,7 +2810,7 @@ class Context
 	 */
 	public static function setCanonicalURL($url)
 	{
-		self::addHtmlHeader(sprintf('<link rel="canonical" href="%s" />', escape($url)));
+		self::$_instance->canonical_url = escape($url);
 	}
 }
 /* End of file Context.class.php */
