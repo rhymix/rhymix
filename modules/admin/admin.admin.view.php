@@ -515,11 +515,14 @@ class adminAdminView extends admin
 		{
 			Context::set('object_cache_host', parse_url(array_first($cache_servers), PHP_URL_HOST) ?: null);
 			Context::set('object_cache_port', parse_url(array_first($cache_servers), PHP_URL_PORT) ?: null);
+			$cache_dbnum = preg_replace('/[^\d]/', '', parse_url(array_first($cache_servers), PHP_URL_PATH));
+			Context::set('object_cache_dbnum', $cache_dbnum === '' ? 1 : intval($cache_dbnum));
 		}
 		else
 		{
 			Context::set('object_cache_host', null);
 			Context::set('object_cache_port', null);
+			Context::set('object_cache_dbnum', 1);
 		}
 		
 		// Thumbnail settings

@@ -106,6 +106,7 @@ $lang->use_object_cache = '캐시 사용';
 $lang->cache_default_ttl = '캐시 기본 TTL';
 $lang->cache_host = '호스트';
 $lang->cache_port = '포트';
+$lang->cache_dbnum = 'DB번호';
 $lang->msg_cache_handler_not_supported = '선택하신 캐시 방식을 서버에서 지원하지 않거나, 주어진 정보로 캐시에 접속할 수 없습니다.';
 $lang->msg_invalid_default_url = '기본 URL이 올바르지 않습니다.';
 $lang->msg_default_url_ssl_inconsistent = 'SSL을 항상 사용하실 경우 기본 URL도 https://로 시작해야 합니다.';

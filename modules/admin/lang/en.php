@@ -106,6 +106,7 @@ $lang->use_object_cache = 'Use Cache';
 $lang->cache_default_ttl = 'Cache default TTL';
 $lang->cache_host = 'Host';
 $lang->cache_port = 'Port';
+$lang->cache_dbnum = 'DB Number';
 $lang->msg_cache_handler_not_supported = 'Your server does not support the selected cache method, or Rhymix is unable to use the cache with the given settings.';
 $lang->msg_invalid_default_url = 'The default URL is invalid.';
 $lang->msg_default_url_ssl_inconsistent = 'In order to use SSL always, the default URL must also begin with https://';

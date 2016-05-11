@@ -675,6 +675,10 @@ class adminAdminController extends admin
 			if ($vars->object_cache_type === 'memcached' || $vars->object_cache_type === 'redis')
 			{
 				$cache_servers = array($vars->object_cache_type . '://' . $vars->object_cache_host . ':' . intval($vars->object_cache_port));
+				if ($vars->object_cache_type === 'redis')
+				{
+					$cache_servers[0] .= '/' . intval($vars->object_cache_dbnum);
+				}
 			}
 			else
 			{
