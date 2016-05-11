@@ -173,6 +173,7 @@ $lang->use_rewrite = '짧은 주소 사용';
 $lang->timezone = '표준 시간대';
 $lang->use_mobile_view = '모바일 뷰 사용';
 $lang->about_use_mobile_view = '모바일 기기로 접속시 모바일 페이지를 보여줍니다.';
+$lang->tablets_as_mobile = '태블릿도 모바일 취급';
 $lang->thumbnail_type = '썸네일 생성 방식';
 $lang->input_footer_script = '하단(footer) 스크립트';
 $lang->detail_input_footer_script = '최하단에 코드를 삽입합니다. 관리자 페이지에서는 수행되지 않습니다.';
