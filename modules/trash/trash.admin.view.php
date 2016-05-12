@@ -111,6 +111,15 @@ class trashAdminView extends trash
 		$this->setTemplateFile('trash_view');
 	}
 
+	function dispTrashAdminConfig()
+	{
+		$oTrashModel = getModel('trash');
+		$config = $oTrashModel->getConfig();
+
+		Context::set('config', $config);
+
+		$this->setTemplateFile('config');
+	}
 }
 /* End of file trash.admin.view.php */
 /* Location: ./modules/trash/trash.admin.view.php */

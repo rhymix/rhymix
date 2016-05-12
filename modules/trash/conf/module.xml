@@ -7,10 +7,12 @@
     </permissions>
     <actions>
         <action name="dispTrashAdminList" type="view" admin_index="true" menu_name="trash" menu_index="true" />
+        <action name="dispTrashAdminConfig" type="view" />
 
         <action name="procTrashAdminEmptyTrash" type="controller" ruleset="emptyTrash" />
         <action name="procTrashAdminRestore" type="controller" />
         <action name="procTrashAdminGetList" type="controller" />
+        <action name="procTrashAdminConfig" type="controller" />
         
         <action name="dispTrashAdminView" type="view" />
     </actions>
