@@ -1062,12 +1062,6 @@ class documentController extends document
 				$oDB->rollback();
 				return $trigger_output;
 			}
-			$trigger_deletedocument = ModuleHandler::triggerCall('document.deleteDocument', 'after', $obj);
-			if(!$trigger_deletedocument)
-			{
-				$oDB->rollback();
-				return $trigger_deletedocument;
-			}
 		}
 
 		// commit
