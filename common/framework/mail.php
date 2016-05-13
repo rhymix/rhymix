@@ -542,6 +542,12 @@ class Mail
 	 */
 	public function send()
 	{
+		// Reset Message-ID in case send() is called multiple times.
+		$random = substr(hash('sha256', mt_rand() . microtime() . getmypid()), 0, 32);
+		$sender = $this->message->getFrom(); reset($sender);
+		$id = $random . '@' . (preg_match('/^(.+)@([^@]+)$/', key($sender), $matches) ? $matches[2] : 'swift.generated');
+		$this->message->getHeaders()->get('Message-ID')->setId($id);
+		
 		$output = \ModuleHandler::triggerCall('mail.send', 'before', $this);
 		if(!$output->toBool())
 		{
