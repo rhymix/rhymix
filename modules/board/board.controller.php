@@ -292,10 +292,8 @@ class boardController extends board
 			}
 		}
 		// generate document module controller object
-		$oTrashModel = getModel('trash');
-		$config = $oTrashModel->getConfig();
 		$oDocumentController = getController('document');
-		if($config->trash_use == 'Y')
+		if($this->module_info->trash_use == 'Y')
 		{
 			// move the trash
 			$output = $oDocumentController->moveDocumentToTrash($oDocument);

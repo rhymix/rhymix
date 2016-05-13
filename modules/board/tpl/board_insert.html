@@ -239,6 +239,18 @@
 			</div>
 		</div>
 		<div class="x_control-group">
+			<label class="x_control-label">{$lang->document_force_to_move}</label>
+			<div class="x_controls">
+				<label class="x_inline">
+					<input type="radio" id="trash_use_y" name="trash_use" value="Y" checked="checked"|cond="$config->trash_use == 'Y'" /> {$lang->cmd_yes}
+				</label>
+				<label class="x_inline">
+					<input type="radio" id="trash_use_n" name="trash_use" value="N" checked="checked"|cond="$config->trash_use == 'N'" /> {$lang->cmd_no}
+				</label>
+				<p class="x_help-block">{$lang->about_document_force_to_move}</p>
+			</div>
+		</div>
+		<div class="x_control-group">
 			<label class="x_control-label">{$lang->protect_content}</label>
 			<div class="x_controls">
 				<label class="x_inline" for="protect_delete_content"><input type="checkbox" name="protect_delete_content" id="protect_delete_content" value="Y" checked="checked"|cond="$module_info->protect_delete_content == 'Y'" /> {$lang->cmd_delete}</label>

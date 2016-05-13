@@ -226,30 +226,6 @@ class trashAdminController extends trash
 
 		return true;
 	}
-
-	/**
-	 * set trash module config
-	 * @return void|Object
-	 */
-	function procTrashAdminConfig()
-	{
-		$oTrashModel = getModel('trash');
-		$config = $oTrashModel->getConfig();
-		$oModuleController = getController('module');
-
-		$obj = Context::getRequestVars();
-
-		$config->trash_use = $obj->trash_use;
-
-		$output = $oModuleController->updateModuleConfig('trash', $config);
-		if(!$output->toBool())
-		{
-			$this->setMessage('success_updated');
-		}
-
-		$returnUrl = Context::get('success_return_url') ? Context::get('success_return_url') : getNotEncodedUrl('', 'module', 'admin', 'act', 'dispTrashAdminConfig');
-		$this->setRedirectUrl($returnUrl);
-	}
 }
 /* End of file trash.admin.controller.php */
 /* Location: ./modules/trash/trash.admin.controller.php */

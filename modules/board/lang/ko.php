@@ -69,3 +69,5 @@ $lang->msg_admin_update_log = '관리자가 수정한 적이 있는 게시물입
 $lang->msg_update_log_revert = '정말로 이 버전으로 되돌리시겠습니까?';
 $lang->write_admin = '관리자작성';
 $lang->revert_reason_update = '이 버전으로 되돌림';
+$lang->document_force_to_move = '삭제시 휴지통으로 강제이동';
+$lang->about_document_force_to_move = '게시글을 삭제시 휴지통으로 강제이동할지 않할지를 선택하는 옵션입니다.';
