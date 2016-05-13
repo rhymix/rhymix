@@ -292,13 +292,26 @@ class boardController extends board
 			}
 		}
 		// generate document module controller object
+		$oTrashModel = getModel('trash');
+		$config = $oTrashModel->getConfig();
 		$oDocumentController = getController('document');
-
-		// delete the document
-		$output = $oDocumentController->deleteDocument($document_srl, $this->grant->manager);
-		if(!$output->toBool())
+		if($config->trash_use == 'Y')
 		{
-			return $output;
+			// move the trash
+			$output = $oDocumentController->moveDocumentToTrash($oDocument);
+			if(!$output->toBool())
+			{
+				return $output;
+			}
+		}
+		else
+		{
+			// delete the document
+			$output = $oDocumentController->deleteDocument($document_srl, $this->grant->manager);
+			if(!$output->toBool())
+			{
+				return $output;
+			}
 		}
 
 		// alert an message
