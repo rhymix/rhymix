@@ -144,7 +144,7 @@
 				<p id="default_imagePreview">
 					<img src="{$site_default_image_url}" alt="Default Image" style="width:200px;height:auto" />
 				</p>
-				<label><input type="checkbox" name="is_delete_site_default_image" value="1" /> {$lang->cmd_delete}</label>
+				<label><input type="checkbox" name="is_delete_default_image" value="1" /> {$lang->cmd_delete}</label>
 				<form action="./" enctype="multipart/form-data" method="post" target="hiddenIframe" class="imageUpload" style="margin:0">
 					<input type="hidden" name="module" value="admin">
 					<input type="hidden" name="act" value="procAdminFaviconUpload">
@@ -166,10 +166,17 @@
 
 <iframe name="hiddenIframe" src="about:blank" hidden></iframe>
 <script>
+jQuery(function() {
+	if (jQuery("#default_imagePreview img").attr("src") == "") {
+		jQuery("#default_imagePreview").hide();
+		jQuery("input[name='is_delete_default_image']").parent().hide();
+	}
+});
+
 function afterUploadConfigImage(name, tmpFileName) {
-	jQuery('#' + name + 'Preview img').attr('src', tmpFileName);
+	jQuery('#' + name + 'Preview img').attr('src', tmpFileName).parent().show();
 	jQuery('#' + name).val('');
-	jQuery("input[name='is_delete_'" + name + "']").prop('checked', false);
+	jQuery("input[name='is_delete_" + name + "']").prop('checked', false).parent().show();
 }
 
 function alertUploadMessage(msg) {

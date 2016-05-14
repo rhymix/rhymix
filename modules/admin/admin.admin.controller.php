@@ -546,7 +546,7 @@ class adminAdminController extends admin
 		// Favicon and mobicon
 		$this->_saveFavicon('favicon.ico', $vars->is_delete_favicon);
 		$this->_saveFavicon('mobicon.png', $vars->is_delete_mobicon);
-		$this->_saveDefaultImage($vars->is_delete_site_default_image);
+		$this->_saveDefaultImage($vars->is_delete_default_image);
 		
 		// Save
 		Rhymix\Framework\Config::save();
