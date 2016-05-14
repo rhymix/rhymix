@@ -65,6 +65,13 @@ $lang->msg_blacklisted_module = 'This module has been disabled because it confli
 $lang->msg_blacklisted_addon = 'This addon has been disabled because it conflicts with a feature that Rhymix supports by default, or is known to have other compatibility problems.';
 $lang->msg_blacklisted_widget = 'This widget has been disabled because it conflicts with a feature that Rhymix supports by default, or is known to have other compatibility problems.';
 $lang->msg_blacklisted_layout = 'This layout has been disabled because it conflicts with a feature that Rhymix supports by default, or is known to have other compatibility problems.';
+$lang->msg_blacklisted_reason['autolang'] = 'Similar functionality can be configured in the <a href="./index.php?module=admin&act=dispAdminConfigGeneral">System Settings</a> page.';
+$lang->msg_blacklisted_reason['errorlogger'] = 'Similar functionality can be configured in the <a href="./index.php?module=admin&act=dispAdminConfigDebug">Debug Settings</a> page.';
+$lang->msg_blacklisted_reason['fix_mysql_utf8'] = 'The functionality that this addon used to provide is included by default in Rhymix.';
+$lang->msg_blacklisted_reason['member_communication'] = 'The functionality that this addon used to provide has been moved to the member and ncenterlite modules.';
+$lang->msg_blacklisted_reason['seo'] = 'Similar functionality can be configured in the <a href="./index.php?module=admin&act=dispAdminConfigSEO">SEO Settings</a> page.';
+$lang->msg_blacklisted_reason['smartphone'] = 'This module was disabled in XE long before Rhymix even existed.';
+$lang->msg_blacklisted_reason['zipperupper'] = 'Similar functionality can be configured in the <a href="./index.php?module=admin&act=dispAdminConfigAdvanced">Advanced Settings</a> page.';
 $lang->msg_warning = 'Warning';
 $lang->welcome_to_xe = 'Welcome to the Rhymix admin page.';
 $lang->about_lang_env = 'If you want to make the language setting same for first-time visitors, change the language setting to what you want and click [Save] button below.';
