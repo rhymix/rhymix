@@ -413,8 +413,7 @@ class menuAdminModel extends menu
 		}
 
 		// after trigger
-		$output = ModuleHandler::triggerCall('menu.getModuleListInSitemap', 'after', $moduleList);
-		if(!$output->toBool()) return $output;
+		ModuleHandler::triggerCall('menu.getModuleListInSitemap', 'after', $moduleList);
 
 		$localModuleList = array_unique($moduleList);
 

@@ -115,8 +115,8 @@ class moduleAdminModel extends module
 		$content = '';
 		// Call a trigger for additional settings
 		// Considering uses in the other modules, trigger name cen be publicly used
-		$output = ModuleHandler::triggerCall('module.dispAdditionSetup', 'before', $content);
-		$output = ModuleHandler::triggerCall('module.dispAdditionSetup', 'after', $content);
+		ModuleHandler::triggerCall('module.dispAdditionSetup', 'before', $content);
+		ModuleHandler::triggerCall('module.dispAdditionSetup', 'after', $content);
 		Context::set('setup_content', $content);
 
 		if(count($tabChoice) == 0)

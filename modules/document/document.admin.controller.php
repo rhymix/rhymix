@@ -209,13 +209,9 @@ class documentAdminController extends document
 			$oDB->rollback();
 			return $output;
 		}
-		// Call a trigger (before)
-		$output = ModuleHandler::triggerCall('document.moveDocumentModule', 'after', $triggerObj);
-		if(!$output->toBool())
-		{
-			$oDB->rollback();
-			return $output;
-		}
+		
+		// Call a trigger (after)
+		ModuleHandler::triggerCall('document.moveDocumentModule', 'after', $triggerObj);
 
 		$oDB->commit();
 		
@@ -433,12 +429,7 @@ class documentAdminController extends document
 
 		// Call a trigger (before)
 		$triggerObj->copied_srls = $copied_srls;
-		$output = ModuleHandler::triggerCall('document.copyDocumentModule', 'after', $triggerObj);
-		if(!$output->toBool())
-		{
-			$oDB->rollback();
-			return $output;
-		}
+		ModuleHandler::triggerCall('document.copyDocumentModule', 'after', $triggerObj);
 
 		$oDB->commit();
 
@@ -899,15 +890,7 @@ class documentAdminController extends document
 		}
 
 		// call a trigger (after)
-		if($output->toBool())
-		{
-			$trigger_output = ModuleHandler::triggerCall('document.restoreTrash', 'after', $originObject);
-			if(!$trigger_output->toBool())
-			{
-				$oDB->rollback();
-				return $trigger_output;
-			}
-		}
+		ModuleHandler::triggerCall('document.restoreTrash', 'after', $originObject);
 
 		// commit
 		$oDB->commit();
