@@ -65,6 +65,13 @@ $lang->msg_blacklisted_module = '이 모듈은 Rhymix에서 기본 제공하는 
 $lang->msg_blacklisted_addon = '이 애드온은 Rhymix에서 기본 제공하는 기능과 충돌하거나 그 밖의 호환성 문제가 있으므로 사용이 중단되었습니다.';
 $lang->msg_blacklisted_widget = '이 위젯은 Rhymix에서 기본 제공하는 기능과 충돌하거나 그 밖의 호환성 문제가 있으므로 사용이 중단되었습니다.';
 $lang->msg_blacklisted_layout = '이 레이아웃은 Rhymix에서 기본 제공하는 기능과 충돌하거나 그 밖의 호환성 문제가 있으므로 사용이 중단되었습니다.';
+$lang->msg_blacklisted_reason['autolang'] = '이 애드온에서 제공하던 기능은 <a href="./index.php?module=admin&act=dispAdminConfigGeneral">시스템 설정</a> 페이지에서 관리할 수 있습니다.';
+$lang->msg_blacklisted_reason['errorlogger'] = '이 모듈에서 제공하던 기능은 <a href="./index.php?module=admin&act=dispAdminConfigDebug">디버그 설정</a> 페이지에서 관리할 수 있습니다.';
+$lang->msg_blacklisted_reason['fix_mysql_utf8'] = '이 애드온에서 제공하던 기능은 Rhymix에 포함되어 있습니다.';
+$lang->msg_blacklisted_reason['member_communication'] = '이 애드온에서 제공하던 기능은 알림센터 모듈에서 관리할 수 있습니다.';
+$lang->msg_blacklisted_reason['seo'] = '이 모듈에서 제공하던 기능은 <a href="./index.php?module=admin&act=dispAdminConfigSEO">SEO 설정</a> 페이지에서 관리할 수 있습니다.';
+$lang->msg_blacklisted_reason['smartphone'] = '이 모듈은 XE에서도 사용되지 않고 있었습니다.';
+$lang->msg_blacklisted_reason['zipperupper'] = '이 애드온에서 제공하던 기능은 <a href="./index.php?module=admin&act=dispAdminConfigAdvanced">고급 설정</a> 페이지에서 관리할 수 있습니다.';
 $lang->msg_warning = '경고';
 $lang->welcome_to_xe = 'Rhymix 관리자';
 $lang->about_lang_env = '처음 방문하는 사용자들의 언어 설정을 동일하게 하려면, 원하는 언어로 변경 후 아래 [저장] 버튼을 클릭하면 됩니다.';

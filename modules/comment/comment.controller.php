@@ -179,12 +179,9 @@ class commentController extends comment
 		$obj->before_point = ($point < 0) ? $oComment->get('blamed_count') : $oComment->get('voted_count');
 		$obj->after_point = ($point < 0) ? $args->blamed_count : $args->voted_count;
 		$obj->cancel = 1;
-		$trigger_output = ModuleHandler::triggerCall('comment.updateVotedCountCancel', 'after', $obj);
-		if(!$trigger_output->toBool())
-		{
-			$oDB->rollback();
-			return $trigger_output;
-		}
+		
+		ModuleHandler::triggerCall('comment.updateVotedCountCancel', 'after', $obj);
+		$oDB->commit();
 		return $output;
 	}
 
@@ -578,15 +575,7 @@ class commentController extends comment
 		}
 
 		// call a trigger(after)
-		if($output->toBool())
-		{
-			$trigger_output = ModuleHandler::triggerCall('comment.insertComment', 'after', $obj);
-			if(!$trigger_output->toBool())
-			{
-				$oDB->rollback();
-				return $trigger_output;
-			}
-		}
+		ModuleHandler::triggerCall('comment.insertComment', 'after', $obj);
 
 		// commit
 		$oDB->commit();
@@ -905,15 +894,7 @@ class commentController extends comment
 		}
 
 		// call a trigger (after)
-		if($output->toBool())
-		{
-			$trigger_output = ModuleHandler::triggerCall('comment.updateComment', 'after', $obj);
-			if(!$trigger_output->toBool())
-			{
-				$oDB->rollback();
-				return $trigger_output;
-			}
-		}
+		ModuleHandler::triggerCall('comment.updateComment', 'after', $obj);
 
 		// commit
 		$oDB->commit();
@@ -1054,17 +1035,9 @@ class commentController extends comment
 		}
 
 		// call a trigger (after)
-		if($output->toBool())
-		{
-			$comment->isMoveToTrash = $isMoveToTrash;
-			$trigger_output = ModuleHandler::triggerCall('comment.deleteComment', 'after', $comment);
-			if(!$trigger_output->toBool())
-			{
-				$oDB->rollback();
-				return $trigger_output;
-			}
-			unset($comment->isMoveToTrash);
-		}
+		$comment->isMoveToTrash = $isMoveToTrash;
+		ModuleHandler::triggerCall('comment.deleteComment', 'after', $comment);
+		unset($comment->isMoveToTrash);
 
 		if(!$isMoveToTrash)
 		{
@@ -1144,11 +1117,7 @@ class commentController extends comment
 				}
 
 				// call a trigger (after)
-				$output = ModuleHandler::triggerCall('comment.deleteComment', 'after', $comment);
-				if(!$output->toBool())
-				{
-					continue;
-				}
+				ModuleHandler::triggerCall('comment.deleteComment', 'after', $comment);
 			}
 		}
 
@@ -1299,13 +1268,8 @@ class commentController extends comment
 		$obj->point = $point;
 		$obj->before_point = ($point < 0) ? $oComment->get('blamed_count') : $oComment->get('voted_count');
 		$obj->after_point = ($point < 0) ? $args->blamed_count : $args->voted_count;
-		$trigger_output = ModuleHandler::triggerCall('comment.updateVotedCount', 'after', $obj);
-		if(!$trigger_output->toBool())
-		{
-			$oDB->rollback();
-			return $trigger_output;
-		}
-
+		
+		ModuleHandler::triggerCall('comment.updateVotedCount', 'after', $obj);
 		$oDB->commit();
 
 		// Return the result
@@ -1437,12 +1401,7 @@ class commentController extends comment
 
 		// Call a trigger (after)
 		$trigger_obj->declared_count = $declared_count + 1;
-		$trigger_output = ModuleHandler::triggerCall('comment.declaredComment', 'after', $trigger_obj);
-		if(!$trigger_output->toBool())
-		{
-			$oDB->rollback();
-			return $trigger_output;
-		}
+		ModuleHandler::triggerCall('comment.declaredComment', 'after', $trigger_obj);
 
 		// commit
 		$oDB->commit();

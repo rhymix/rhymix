@@ -751,6 +751,7 @@ class ncenterliteController extends ncenterlite
 
 		Context::set('ncenterlite_list', $_output->data);
 		Context::set('ncenterlite_page_navigation', $_output->page_navigation);
+		Context::set('_ncenterlite_num', $_output->page_navigation->total_count);
 
 		if(Mobile::isFromMobilePhone())
 		{
@@ -1096,6 +1097,16 @@ class ncenterliteController extends ncenterlite
 		// Find members.
 		foreach ($mentions as $mention)
 		{
+			if (isset($members[$mention]))
+			{
+				continue;
+			}
+			
+			if (count($members) >= $config->mention_limit)
+			{
+				break;
+			}
+			
 			if ($config->mention_suffix_always_cut != 'Y')
 			{
 				if ($config->mention_names === 'id')

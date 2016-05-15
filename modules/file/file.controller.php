@@ -282,7 +282,7 @@ class fileController extends file
 		executeQuery('file.updateFileDownloadCount', $args);
 
 		// Call a trigger (after)
-		$output = ModuleHandler::triggerCall('file.downloadFile', 'after', $file_obj);
+		ModuleHandler::triggerCall('file.downloadFile', 'after', $file_obj);
 
 		// Redirect to procFileOutput using file key
 		if(!isset($_SESSION['__XE_FILE_KEY__']) || !is_string($_SESSION['__XE_FILE_KEY__']) || strlen($_SESSION['__XE_FILE_KEY__']) != 32)
@@ -805,9 +805,9 @@ class fileController extends file
 
 		$output = executeQuery('file.insertFile', $args);
 		if(!$output->toBool()) return $output;
+		
 		// Call a trigger (after)
-		$trigger_output = ModuleHandler::triggerCall('file.insertFile', 'after', $args);
-		if(!$trigger_output->toBool()) return $trigger_output;
+		ModuleHandler::triggerCall('file.insertFile', 'after', $args);
 
 		$_SESSION['__XE_UPLOADING_FILES_INFO__'][$args->file_srl] = true;
 
@@ -895,8 +895,7 @@ class fileController extends file
 			if(!$output->toBool()) return $output;
 
 			// Call a trigger (after)
-			$trigger_output = ModuleHandler::triggerCall('file.deleteFile', 'after', $trigger_obj);
-			if(!$trigger_output->toBool()) return $trigger_output;
+			ModuleHandler::triggerCall('file.deleteFile', 'after', $trigger_obj);
 
 			// If successfully deleted, remove the file
 			FileHandler::removeFile($uploaded_filename);
