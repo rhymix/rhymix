@@ -414,32 +414,35 @@ class HTMLDisplayHandler
 		Context::addOpenGraphData('og:site_name', Context::getSiteTitle());
 		if ($page_type === 'article' && config('seo.og_extract_description'))
 		{
-			Context::addOpenGraphData('og:description', trim(utf8_normalize_spaces($oDocument->getContentText(200))));
+			$description = trim(utf8_normalize_spaces($oDocument->getContentText(200)));
 		}
 		else
 		{
-			Context::addOpenGraphData('og:description', Context::getMetaTag('description'));
+			$description = Context::getMetaTag('description');
 		}
+		Context::addOpenGraphData('og:description', $description);
+		Context::addMetaTag('description', $description);
 		
 		// Add metadata about this page.
 		Context::addOpenGraphData('og:type', $page_type);
 		if ($page_type === 'article')
 		{
-			$document_canonical_url = getFullUrl('', 'mid', $current_module_info->mid, 'document_srl', $document_srl);
-			Context::addOpenGraphData('og:url', $document_canonical_url);
+			$canonical_url = getFullUrl('', 'mid', $current_module_info->mid, 'document_srl', $document_srl);
 		}
 		elseif (($page = Context::get('page')) > 1)
 		{
-			Context::addOpenGraphData('og:url', getFullUrl('', 'mid', $current_module_info->mid, 'page', $page));
+			$canonical_url = getFullUrl('', 'mid', $current_module_info->mid, 'page', $page);
 		}
 		elseif ($current_module_info->module_srl == $site_module_info->module_srl)
 		{
-			Context::addOpenGraphData('og:url', Rhymix\Framework\URL::getCurrentDomainURL(\RX_BASEURL));
+			$canonical_url = getFullUrl('');
 		}
 		else
 		{
-			Context::addOpenGraphData('og:url', getFullUrl('', 'mid', $current_module_info->mid));
+			$canonical_url = getFullUrl('', 'mid', $current_module_info->mid);
 		}
+		Context::addOpenGraphData('og:url', $canonical_url);
+		Context::setCanonicalURL($canonical_url);
 		
 		// Add metadata about the locale.
 		$lang_type = Context::getLangType();

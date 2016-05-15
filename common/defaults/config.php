@@ -112,7 +112,10 @@ return array(
 		'iframe' => array(),
 		'object' => array(),
 	),
-	'use_mobile_view' => true,
+	'mobile' => array(
+		'enabled' => true,
+		'tablets' => false,
+	),
 	'use_prepared_statements' => true,
 	'use_rewrite' => true,
 	'use_sso' => false,

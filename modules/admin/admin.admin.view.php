@@ -430,7 +430,8 @@ class adminAdminView extends admin
 		Context::set('selected_timezone', Rhymix\Framework\Config::get('locale.default_timezone'));
 		
 		// Mobile view
-		Context::set('use_mobile_view', config('use_mobile_view') ? 'Y' : 'N');
+		Context::set('use_mobile_view', (config('mobile.enabled') !== null ? config('mobile.enabled') : config('use_mobile_view')) ? true : false);
+		Context::set('tablets_as_mobile', config('mobile.tablets') ? true : false);
 		
 		// Favicon and mobicon and site default image
 		$oAdminModel = getAdminModel('admin');
@@ -514,11 +515,14 @@ class adminAdminView extends admin
 		{
 			Context::set('object_cache_host', parse_url(array_first($cache_servers), PHP_URL_HOST) ?: null);
 			Context::set('object_cache_port', parse_url(array_first($cache_servers), PHP_URL_PORT) ?: null);
+			$cache_dbnum = preg_replace('/[^\d]/', '', parse_url(array_first($cache_servers), PHP_URL_PATH));
+			Context::set('object_cache_dbnum', $cache_dbnum === '' ? 1 : intval($cache_dbnum));
 		}
 		else
 		{
 			Context::set('object_cache_host', null);
 			Context::set('object_cache_port', null);
+			Context::set('object_cache_dbnum', 1);
 		}
 		
 		// Thumbnail settings
@@ -527,7 +531,6 @@ class adminAdminView extends admin
 		Context::set('thumbnail_type', $config->thumbnail_type ?: 'crop');
 		
 		// Other settings
-		Context::set('use_mobile_view', Rhymix\Framework\Config::get('use_mobile_view'));
 		Context::set('use_rewrite', Rhymix\Framework\Config::get('use_rewrite'));
 		Context::set('use_sso', Rhymix\Framework\Config::get('use_sso'));
 		Context::set('delay_session', Rhymix\Framework\Config::get('session.delay'));

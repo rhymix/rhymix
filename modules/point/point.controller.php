@@ -672,12 +672,7 @@ class pointController extends point
 		$trigger_obj->new_group_list = $new_group_list;
 		$trigger_obj->del_group_list = $del_group_list;
 		$trigger_obj->new_level = $level;
-		$trigger_output = ModuleHandler::triggerCall('point.setPoint', 'after', $trigger_obj);
-		if(!$trigger_output->toBool())
-		{
-			$oDB->rollback();
-			return $trigger_output;
-		}
+		ModuleHandler::triggerCall('point.setPoint', 'after', $trigger_obj);
 
 		$oDB->commit();
 

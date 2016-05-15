@@ -49,11 +49,7 @@
 				</td>
 				<td><span style="color:#aaa"|cond="$addon->isBlacklisted">{$addon->path}</span></td>
 				<td>
-					<!--@if($addon->isBlacklisted)-->
-						<span style="color:#aaa">{$lang->cmd_setup}</span>
-					<!--@else-->
-						<a href="{getUrl('act', 'dispAddonAdminSetup', 'selected_addon', $addon->addon_name)}">{$lang->cmd_setup}</a>
-					<!--@end-->
+					<a href="{getUrl('act', 'dispAddonAdminSetup', 'selected_addon', $addon->addon_name)}">{$lang->cmd_setup}</a>
 				</td>
 				<td><input type="checkbox" name="pc_on[]" title="PC" value="{htmlspecialchars($addon->addon_name, ENT_COMPAT | ENT_HTML401, 'UTF-8', false)}" checked="checked"|cond="$addon->activated && !$addon->isBlacklisted" disabled="disabled"|cond="$addon->isBlacklisted" /></td>
 				<td><input type="checkbox" name="mobile_on[]" title="Mobile" value="{htmlspecialchars($addon->addon_name, ENT_COMPAT | ENT_HTML401, 'UTF-8', false)}" checked="checked"|cond="$addon->mactivated && !$addon->isBlacklisted" disabled="disabled"|cond="$addon->isBlacklisted" /></td>

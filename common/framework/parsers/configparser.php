@@ -242,7 +242,7 @@ class ConfigParser
 		}
 		
 		// Convert miscellaneous configuration.
-		$config['use_mobile_view'] = $db_info->use_mobile_view === 'N' ? false : true;
+		$config['mobile']['enabled'] = $db_info->use_mobile_view === 'N' ? false : true;
 		$config['use_prepared_statements'] = $db_info->use_prepared_statements === 'Y' ? true : false;
 		$config['use_rewrite'] = $db_info->use_rewrite === 'Y' ? true : false;
 		$config['use_sso'] = $db_info->use_sso === 'Y' ? true : false;

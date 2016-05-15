@@ -99,11 +99,12 @@ class memberController extends member
 		$logged_info = Context::get('logged_info');
 		$trigger_output = ModuleHandler::triggerCall('member.doLogout', 'before', $logged_info);
 		if(!$trigger_output->toBool()) return $trigger_output;
+		
 		// Destroy session information
 		$this->destroySessionInfo();
+		
 		// Call a trigger after log-out (after)
-		$trigger_output = ModuleHandler::triggerCall('member.doLogout', 'after', $logged_info);
-		if(!$trigger_output->toBool()) return $trigger_output;
+		ModuleHandler::triggerCall('member.doLogout', 'after', $logged_info);
 
 		$output = new Object();
 
@@ -426,9 +427,9 @@ class memberController extends member
 			return $this->setRedirectUrl(getUrl('', 'act', 'dispMemberLoginForm'), new Object(-12, $msg));
 		}
 		else $this->setMessage('success_registed');
+		
 		// Call a trigger (after)
-		$trigger_output = ModuleHandler::triggerCall('member.procMemberInsert', 'after', $config);
-		if(!$trigger_output->toBool()) return $trigger_output;
+		ModuleHandler::triggerCall('member.procMemberInsert', 'after', $config);
 
 		if($config->redirect_url)
 		{
@@ -616,12 +617,10 @@ class memberController extends member
 		// Get user_id information
 		$this->memberInfo = $oMemberModel->getMemberInfoByMemberSrl($args->member_srl);
 
-
-		// Call a trigger after successfully log-in (after)
-		$trigger_output = ModuleHandler::triggerCall('member.procMemberModifyInfo', 'after', $this->memberInfo);
-		if(!$trigger_output->toBool()) return $trigger_output;
-
+		// Call a trigger after successfully modified (after)
+		ModuleHandler::triggerCall('member.procMemberModifyInfo', 'after', $this->memberInfo);
 		$this->setSessionInfo();
+		
 		// Return result
 		$this->add('member_srl', $args->member_srl);
 		$this->setMessage('success_updated');
@@ -1543,7 +1542,7 @@ class memberController extends member
 
 		// Add
 		$output = executeQuery('member.addMemberToGroup',$args);
-		$output2 = ModuleHandler::triggerCall('member.addMemberToGroup', 'after', $args);
+		ModuleHandler::triggerCall('member.addMemberToGroup', 'after', $args);
 
 		$this->_clearMemberCache($member_srl, $site_srl);
 
@@ -1822,9 +1821,10 @@ class memberController extends member
 				}
 			}
 		}
+		
 		// Call a trigger after successfully log-in (after)
-		$trigger_output = ModuleHandler::triggerCall('member.doLogin', 'after', $this->memberInfo);
-		if(!$trigger_output->toBool()) return $trigger_output;
+		ModuleHandler::triggerCall('member.doLogin', 'after', $this->memberInfo);
+		
 		// When user checked to use auto-login
 		if($keep_signed)
 		{
@@ -2181,16 +2181,8 @@ class memberController extends member
 			}
 			$this->_sendAuthMail($auth_args, $args);
 		}
-		// Call a trigger (after)
-		if($output->toBool())
-		{
-			$trigger_output = ModuleHandler::triggerCall('member.insertMember', 'after', $args);
-			if(!$trigger_output->toBool())
-			{
-				$oDB->rollback();
-				return $trigger_output;
-			}
-		}
+		
+		ModuleHandler::triggerCall('member.insertMember', 'after', $args);
 
 		$oDB->commit(true);
 
@@ -2447,15 +2439,9 @@ class memberController extends member
 				$this->_updatePointByGroup($orgMemberInfo->member_srl, $group_srl_list);
 			}
 		}
+		
 		// Call a trigger (after)
-		if($output->toBool()) {
-			$trigger_output = ModuleHandler::triggerCall('member.updateMember', 'after', $args);
-			if(!$trigger_output->toBool())
-			{
-				$oDB->rollback();
-				return $trigger_output;
-			}
-		}
+		ModuleHandler::triggerCall('member.updateMember', 'after', $args);
 
 		$oDB->commit();
 
@@ -2564,15 +2550,7 @@ class memberController extends member
 			return $output;
 		}
 		// Call a trigger (after)
-		if($output->toBool())
-		{
-			$trigger_output = ModuleHandler::triggerCall('member.deleteMember', 'after', $trigger_obj);
-			if(!$trigger_output->toBool())
-			{
-				$oDB->rollback();
-				return $trigger_output;
-			}
-		}
+		ModuleHandler::triggerCall('member.deleteMember', 'after', $trigger_obj);
 
 		$oDB->commit();
 		// Name, image, image, mark, sign, delete

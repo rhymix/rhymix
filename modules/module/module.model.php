@@ -1508,7 +1508,6 @@ class moduleModel extends module
 			// Get information of the module
 			$info = NULL;
 			$info = $this->getModuleInfoXml($module_name);
-
 			if(!$info) continue;
 
 			$info->module = $module_name;
@@ -1517,21 +1516,30 @@ class moduleModel extends module
 			$info->table_count = $table_count;
 			$info->path = $path;
 			$info->admin_index_act = $info->admin_index_act;
-			// Check if DB is installed
-			if($table_count > $created_table_count) $info->need_install = true;
-			else $info->need_install = false;
-			// Check if it is upgraded to module.class.php on each module
-			$oDummy = null;
-			$oDummy = getModule($module_name, 'class');
-			if($oDummy && method_exists($oDummy, "checkUpdate"))
+			
+			if(!Context::isBlacklistedPlugin($module_name))
 			{
-				$info->need_update = $oDummy->checkUpdate();
+				// Check if DB is installed
+				if($table_count > $created_table_count)
+				{
+					$info->need_install = true;
+				}
+				else
+				{
+					$info->need_install = false;
+				}
+				// Check if it is upgraded to module.class.php on each module
+				$oDummy = null;
+				$oDummy = getModule($module_name, 'class');
+				if($oDummy && method_exists($oDummy, "checkUpdate"))
+				{
+					$info->need_update = $oDummy->checkUpdate();
+				}
+				else
+				{
+					continue;
+				}
 			}
-			else
-			{
-				continue;
-			}
-
 			$list[] = $info;
 		}
 		return $list;

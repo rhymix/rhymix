@@ -2,7 +2,7 @@
 <include target="header.html" />
 
 <section class="section">
-	<h1>알림 목록</h1>
+	<h1>{$lang->ncenterlite_notice_list}</h1>
 
 	<p class="x_well x_well-small" cond="!$ncenterlite_list">{$lang->ncenterlite_no_notify}</p>
 
@@ -22,10 +22,10 @@
 		<table class="x_table x_table-striped x_table-hover" style="margin-top:20px;">
 			<thead>
 				<tr>
-					<th scope="col" class="nowr" style="width:100px;">{$lang->send_member}</th>
-					<th scope="col" style="width:100px;">{$lang->resiver_member}</th>
-					<th scope="col" style="width:500px;">{$lang->notify_content}</th>
-					<th scope="col" style="width:50px;">{$lang->notify_read_check}</th>
+					<th scope="col" class="nowr" style="width:100px;">{$lang->ncenterlite_sender}</th>
+					<th scope="col" style="width:100px;">{$lang->ncenterlite_addressee}</th>
+					<th scope="col" style="width:500px;">{$lang->ncenterlite_noti_contents}</th>
+					<th scope="col" style="width:50px;">{$lang->ncenterlite_read}</th>
 					<th scope="col" style="width:100px;">{$lang->date}</th>
 				</tr>
 			</thead>
@@ -40,8 +40,8 @@
 					<td cond="$member_info->member_srl">{$member_info->nick_name}</td> <td cond="!$member_info->member_srl">타겟없음</td>
 					<td><a href="{$val->target_url}">{$val->text}</a></td>
 					<td>
-						<span cond="$val->readed == 'Y'" style="color:#8582E6">{$lang->notify_readed}</span>
-						<span cond="$val->readed != 'Y'" style="color:#FF2828">{$lang->notify_dont_readed}</span>
+						<span cond="$val->readed == 'Y'" style="color:#8582E6">{$lang->ncenterlite_read_y}</span>
+						<span cond="$val->readed != 'Y'" style="color:#FF2828">{$lang->ncenterlite_read_n}</span>
 					</td>
 					<td>
 						{zdate($val->regdate,"Y-m-d")}

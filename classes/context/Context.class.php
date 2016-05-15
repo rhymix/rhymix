@@ -97,6 +97,12 @@ class Context
 	 * @var array
 	 */
 	public $opengraph_metadata = array();
+	
+	/**
+	 * Canonical URL
+	 * @var string
+	 */
+	public $canonical_url = '';
 
 	/**
 	 * path of Xpress Engine
@@ -587,7 +593,7 @@ class Context
 		$db_info->sitelock_whitelist = count($config['lock']['allow']) ? $config['lock']['allow'] : array('127.0.0.1');
 		$db_info->embed_white_iframe = $config['mediafilter']['iframe'] ?: $config['embedfilter']['iframe'];
 		$db_info->embed_white_object = $config['mediafilter']['object'] ?: $config['embedfilter']['object'];
-		$db_info->use_mobile_view = $config['use_mobile_view'] ? 'Y' : 'N';
+		$db_info->use_mobile_view = (isset($config['mobile']['enabled']) ? $config['mobile']['enabled'] : $config['use_mobile_view']) ? 'Y' : 'N';
 		$db_info->use_prepared_statements = $config['use_prepared_statements'] ? 'Y' : 'N';
 		$db_info->use_rewrite = $config['use_rewrite'] ? 'Y' : 'N';
 		$db_info->use_sso = $config['use_sso'] ? 'Y' : 'N';
@@ -2804,7 +2810,7 @@ class Context
 	 */
 	public static function setCanonicalURL($url)
 	{
-		self::addHtmlHeader(sprintf('<link rel="canonical" href="%s" />', escape($url)));
+		self::$_instance->canonical_url = escape($url);
 	}
 }
 /* End of file Context.class.php */
