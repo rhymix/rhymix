@@ -726,15 +726,7 @@ class moduleController extends module
 		// Remove the module manager
 		$this->deleteAdminId($module_srl);
 		// Call a trigger (after)
-		if($output->toBool())
-		{
-			$trigger_output = ModuleHandler::triggerCall('module.deleteModule', 'after', $trigger_obj);
-			if(!$trigger_output->toBool())
-			{
-				$oDB->rollback();
-				return $trigger_output;
-			}
-		}
+		ModuleHandler::triggerCall('module.deleteModule', 'after', $trigger_obj);
 
 		// commit
 		$oDB->commit();
