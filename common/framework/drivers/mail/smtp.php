@@ -67,7 +67,7 @@ class SMTP extends Base implements \Rhymix\Framework\Drivers\MailInterface
 		
 		foreach ($errors as $error)
 		{
-			$message->errors[] = $error;
+			$message->errors[] = 'Failed to send to ' . $error;
 		}
 		return (bool)$result;
 	}
