@@ -735,6 +735,7 @@ class ncenterliteController extends ncenterlite
 
 		Context::set('ncenterlite_list', $_output->data);
 		Context::set('ncenterlite_page_navigation', $_output->page_navigation);
+		Context::set('_ncenterlite_num', $_output->page_navigation->total_count);
 
 		if(Mobile::isFromMobilePhone())
 		{

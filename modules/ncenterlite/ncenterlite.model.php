@@ -323,10 +323,15 @@ class ncenterliteModel extends ncenterlite
 				$type = $lang->ncenterlite_type_message;
 				break;
 			
+			// Test.
+			case 'T':
+				$type = $lang->ncenterlite_type_test;
+				break;
+			
 			// Other.
 			case 'U':
 			default:
-				return $this->getNotifyTypeString($notification->notify_type, unserialize($notification->target_body));
+				return $this->getNotifyTypeString($notification->notify_type, unserialize($notification->target_body)) ?: $lang->ncenterlite;
 		}
 		
 		// Get the notification text.
@@ -402,9 +407,8 @@ class ncenterliteModel extends ncenterlite
 		global $lang;
 		$lang_type = Context::getLangType();
 
-		$display = $lang->ncenterlite_date; // array('Year', 'Month', 'Day', 'Hour', 'Minute', 'Second')
-
-		$ago = $lang->ncenterlite_ago; // 'Ago'
+		$display = $lang->ncenterlite_date;
+		$ago = $lang->ncenterlite_ago;
 
 		$date = getdate(strtotime(zdate($datetime, 'Y-m-d H:i:s')));
 
