@@ -1080,6 +1080,16 @@ class ncenterliteController extends ncenterlite
 		// Find members.
 		foreach ($mentions as $mention)
 		{
+			if (isset($members[$mention]))
+			{
+				continue;
+			}
+			
+			if (count($members) >= $config->mention_limit)
+			{
+				break;
+			}
+			
 			if ($config->mention_suffix_always_cut != 'Y')
 			{
 				if ($config->mention_names === 'id')

@@ -28,6 +28,10 @@ class ncenterliteModel extends ncenterlite
 				$config->mention_suffixes = array('님', '様', 'さん', 'ちゃん');
 			}
 			unset($config->mention_format);
+			if(!isset($config->mention_limit))
+			{
+				$config->mention_limit = 20;
+			}
 			if(!$config->hide_module_srls) $config->hide_module_srls = array();
 			if(!is_array($config->hide_module_srls)) $config->hide_module_srls = explode('|@|', $config->hide_module_srls);
 			if(!$config->document_read) $config->document_read = 'Y';

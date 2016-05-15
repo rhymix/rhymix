@@ -1,7 +1,7 @@
 <?php
 $lang->ncenterlite = '알림센터 Lite';
 $lang->ncenterlite_install_version = '설치된 버전';
-$lang->ncenterlite_advenced_config = '고급설정';
+$lang->ncenterlite_advenced_config = '고급 설정';
 $lang->ncenterlite_document = '글';
 $lang->ncenterlite_comment = '댓글';
 $lang->ncenterlite_mention = '멘션';
@@ -121,4 +121,6 @@ $lang->mention_suffix_always_cut = '접미사가 포함된 이름 처리';
 $lang->mention_suffix_always_cut_y = '접미사를 제외한 이름의 회원 우선';
 $lang->mention_suffix_always_cut_n = '접미사를 포함한 이름의 회원 우선';
 $lang->about_mention_suffix_always_cut = '\'알림센터님\'이라는 회원과 \'알림센터\'라는 회원이 모두 있을 경우 @알림센터님을 멘션하면 누구에게 알릴지 선택합니다.';
+$lang->mention_limit = '멘션 갯수 제한';
+$lang->about_mention_limit = '서버 과부하와 스팸을 방지하기 위해 한 글에서 지나치게 많은 회원들을 호출하지 못하도록 합니다.';
 $lang->ncenterlite_msg_setting_error = '설정에 오류가 있습니다. 다시 설정해 주세요.';
