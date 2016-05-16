@@ -15,7 +15,12 @@ var no_text_comment = '{$lang->no_text_comment}';
 	</p>
 	<table id="trashListTable" class="x_table x_table-striped x_table-hover">
 		<caption>
-			<strong>{$lang->all}({number_format($total_count)})</strong>
+			<strong></strong>
+			<a href="{getUrl('', 'module', 'admin', 'act', 'dispTrashAdminList', 'originModule', '')}" class="active"|cond="$originModule == ''">{$lang->all}({number_format($total_count)})</a>
+			<i>|</i>
+			<a href="{getUrl('originModule', 'document')}" class="active"|cond="$originModule == 'document'">{$lang->document}</a>
+			<i>|</i>
+			<a href="{getUrl('originModule', 'comment')}" class="active"|cond="$originModule == 'comment'">{$lang->comment}</a>
 			<div class="x_pull-right x_btn-group">
 				<a href="#fo_list" class="x_btn modalAnchor" data-name="is_all" data-value="false">{$lang->delete}</a>
 				<a href="#fo_list" class="x_btn modalAnchor" data-name="act" data-value="procTrashAdminRestore">{$lang->restore}</a>
