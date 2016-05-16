@@ -77,4 +77,4 @@ function drawChart(sContainerId, sTitle, aLastWeek, aThisWeek)
 			}
 		}
 	});
-};
+}
