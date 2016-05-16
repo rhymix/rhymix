@@ -38,10 +38,6 @@ class trashAdminView extends trash
 		$oTrashModel = getModel('trash');
 		$output = $oTrashModel->getTrashList($args);
 
-		// for no text comment language and for document manange language
-		$oCommentModel = getModel('comment');
-		$oDocumentModel = getModel('document');
-
 		Context::set('trash_list', $output->data);
 		Context::set('total_count', $output->total_count);
 		Context::set('total_page', $output->total_page);
