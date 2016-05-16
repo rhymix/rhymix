@@ -225,12 +225,12 @@ class Context
 	public function init()
 	{
 		// Fix missing HTTP_RAW_POST_DATA in PHP 5.6 and above.
-		if(!isset($GLOBALS['HTTP_RAW_POST_DATA']) && version_compare(PHP_VERSION, '5.6.0', '>=') === TRUE)
+		if(!isset($GLOBALS['HTTP_RAW_POST_DATA']) && !count($_FILES) && version_compare(PHP_VERSION, '5.6.0', '>=') === TRUE)
 		{
 			$GLOBALS['HTTP_RAW_POST_DATA'] = file_get_contents("php://input");
 			
 			// If content is not XML or JSON, unset
-			if(!preg_match('/^[\<\{\[]/', $GLOBALS['HTTP_RAW_POST_DATA']))
+			if(!preg_match('/^[\<\{\[]/', $GLOBALS['HTTP_RAW_POST_DATA']) && strpos($_SERVER['CONTENT_TYPE'], 'json') === false && strpos($_SERVER['HTTP_CONTENT_TYPE'], 'json') === false)
 			{
 				unset($GLOBALS['HTTP_RAW_POST_DATA']);
 			}
