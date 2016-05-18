@@ -22,3 +22,4 @@ $lang->cmd_restore = '복원';
 $lang->cmd_trash_list = '휴지통 목록';
 $lang->cmd_trash_type = '휴지통비우기 타입';
 $lang->trash_warning = '주의!';
+$lang->trash_nick_name = '옮긴사람';
