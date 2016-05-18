@@ -9,9 +9,21 @@ var no_text_comment = '{$lang->no_text_comment}';
 	<input type="hidden" name="act" value="procTrashAdminEmptyTrash" />
 	<input type="hidden" name="page" value="{$page}" />
 	<input type="hidden" name="is_all" value="true" />
+	<div class="x_control-group">
+		<h2>{$lang->cmd_trash_type}</h2>
+		<div class="x_controls">
+			<label class="x_inline">
+				<input type="radio" name="is_type" value="document" /> {$lang->document}
+			</label>
+			<label class="x_inline">
+				<input type="radio" name="is_type" value="comment" /> {$lang->comment}
+			</label>
+		</div>
+	</div>
+
 	<p>
 		<button type="submit" class="x_btn x_btn-warning x_btn-primary" name="is_all" value="true">{$lang->empty_trash_all}</button>
-		&nbsp;{$lang->remove_all_trash_item}
+		&nbsp;<span class="x_label x_label-important">{$lang->trash_warning}</span>{$lang->remove_all_trash_item}
 	</p>
 	<table id="trashListTable" class="x_table x_table-striped x_table-hover">
 		<caption>
