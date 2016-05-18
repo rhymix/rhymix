@@ -133,7 +133,7 @@ class trashAdminController extends trash
 				if(!$output2->toBool()) return new Object(-1, $output2->message);
 			}
 		}
-		return new Object(0, $lang->success_deleted);
+		return new Object(0, lang('success_deleted'));
 	}
 
 	/**
