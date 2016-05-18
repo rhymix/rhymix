@@ -23,3 +23,7 @@ $lang->cmd_trash_list = '휴지통 목록';
 $lang->cmd_trash_type = '휴지통비우기 타입';
 $lang->trash_warning = '주의!';
 $lang->trash_nick_name = '옮긴사람';
+$lang->search_target_trash_list['title'] = '제목';
+$lang->search_target_trash_list['user_id'] = '삭제자 아이디';
+$lang->search_target_trash_list['nick_name'] = '삭제자 닉네임';
+$lang->search_target_trash_list['trash_ipaddress'] = '삭제자 IP 주소';
