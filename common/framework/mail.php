@@ -84,6 +84,8 @@ class Mail
 					'name' => $class_name::getName(),
 					'required' => $class_name::getRequiredConfig(),
 					'api_types' => $class_name::getAPITypes(),
+					'spf_hint' => $class_name::getSPFHint(),
+					'dkim_hint' => $class_name::getDKIMHint(),
 				);
 			}
 		}
@@ -95,6 +97,8 @@ class Mail
 					'name' => $driver->getName(),
 					'required' => $driver->getRequiredConfig(),
 					'api_types' => $driver->getAPITypes(),
+					'spf_hint' => $class_name::getSPFHint(),
+					'dkim_hint' => $class_name::getDKIMHint(),
 				);
 			}
 		}
