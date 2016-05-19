@@ -8,15 +8,15 @@ class ConfigHelperTest extends \Codeception\TestCase\Test
 	{
 		$member_config = getModel('module')->getModuleConfig('member');
 		$consolidated = ConfigHelper::consolidate(array(
-			'dbtype' => array('db.type', 'member:nosuchconfig'),
-			'member' => array('no.such.config', 'member:enable_join'),
-			'nosuch' => array('no.such.config', 'member:no.such.config.either'),
+			'dbtype' => array('common:db.type', 'member:nosuchconfig'),
+			'member' => array('common:no.such.config', 'member:enable_join', 'tobool'),
+			'nosuch' => array('common:no.such.config', 'member:no.such.config.either', 'intval'),
 			'single' => 'member:identifier',
 		));
 		
 		$this->assertEquals(config('db.type'), $consolidated['dbtype']);
-		$this->assertEquals($member_config->enable_join, $consolidated['member']);
-		$this->assertNull($consolidated['nosuch']);
+		$this->assertEquals(tobool($member_config->enable_join), $consolidated['member']);
+		$this->assertEquals(0, $consolidated['nosuch']);
 		$this->assertEquals($member_config->identifier, $consolidated['single']);
 	}
 }

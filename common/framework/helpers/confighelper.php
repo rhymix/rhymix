@@ -43,22 +43,32 @@ class ConfigHelper
 	 */
 	protected static function _parseConfigValue(array $value)
 	{
+		$filters = array();
+		$result = null;
+		
 		foreach ($value as $option)
 		{
 			$option = array_map('trim', explode(':', $option, 2));
 			if (count($option) === 1)
 			{
-				$result = Config::get($option[0]);
-				if ($result !== null)
+				if (function_exists($option[0]))
 				{
-					return $result;
+					$filters[] = $option[0];
 				}
+			}
+			elseif ($result !== null)
+			{
+				continue;
+			}
+			elseif ($option[0] === 'common')
+			{
+				$result = Config::get($option[1]);
 			}
 			else
 			{
 				if (!isset(self::$_config_cache[$option[0]]))
 				{
-					self::$_config_cache[$option[0]] = getModel('module')->getModuleConfig($option[0]) ?: null;
+					self::$_config_cache[$option[0]] = getModel('module')->getModuleConfig($option[0]) ?: new stdClass;
 				}
 				$options = explode('.', $option[1]);
 				$temp = self::$_config_cache[$option[0]];
@@ -77,13 +87,15 @@ class ConfigHelper
 						$temp = null;
 					}
 				}
-				if ($temp !== null)
-				{
-					return $temp;
-				}
+				$result = $temp;
 			}
 		}
 		
-		return null;
+		foreach ($filters as $filter)
+		{
+			$result = $filter($result);
+		}
+		
+		return $result;
 	}
 }
