@@ -43,7 +43,17 @@ class Mail
 	{
 		if (!self::$default_driver)
 		{
-			self::$default_driver = Drivers\Mail\MailFunction::getInstance(array());
+			$default_driver = config('mail.type');
+			$default_driver_class = '\\Rhymix\\Framework\\Drivers\Mail\\' . $default_driver;
+			if (class_exists($default_driver_class))
+			{
+				$default_driver_config = config('mail.' . $default_driver) ?: array();
+				self::$default_driver = $default_driver_class::getInstance($default_driver_config);
+			}
+			else
+			{
+				self::$default_driver = Drivers\Mail\MailFunction::getInstance(array());
+			}
 		}
 		return self::$default_driver;
 	}
