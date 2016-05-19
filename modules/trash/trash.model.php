@@ -10,6 +10,30 @@
  */
 class trashModel extends trash
 {
+	private static $config = NULL;
+
+	/**
+	 * get Tresh Module Config
+	 *
+	 * @return trash config
+	 */
+	function getConfig()
+	{
+		if(self::$config === NULL)
+		{
+			$oModuleModel = getModel('module');
+			$config = $oModuleModel->getModuleConfig('trash');
+			if(!$config)
+			{
+				$config = new stdClass();
+			}
+
+			self::$config = $config;
+		}
+
+		return self::$config;
+	}
+
 	/**
 	 * Get one trash object
 	 * @param int $trashSrl

@@ -1,2 +1,15 @@
 <load target="js/trash_admin.js" />
-<h3 class="xeAdmin">{$lang->cmd_trash} <span class="gray">{$lang->cmd_management}</span></h3>
+<div class="x_page-header">
+	<h1>{$lang->cmd_trash}</h1>
+</div>
+
+<div class="header4">
+	<ul class="x_nav x_nav-tabs">
+		<li class="x_active"|cond="$act=='dispTrashAdminList'"><a href="{getUrl('', 'module', 'admin', 'act', 'dispTrashAdminList')}">{$lang->cmd_trash_list}</a></li>
+	</ul>
+</div>
+
+<div cond="$XE_VALIDATOR_MESSAGE" class="message {$XE_VALIDATOR_MESSAGE_TYPE}">
+	<p>{$XE_VALIDATOR_MESSAGE}</p>
+</div>
+

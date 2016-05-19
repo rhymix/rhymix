@@ -432,6 +432,22 @@ class ncenterliteController extends ncenterlite
 		return new Object();
 	}
 
+	function triggerAfterMoveToTrash(&$obj)
+	{
+		$oNcenterliteModel = getModel('ncenterlite');
+		$config = $oNcenterliteModel->getConfig();
+
+		if(empty($config->use))
+		{
+			return new Object();
+		}
+
+		$args = new stdClass();
+		$args->srl = $obj->document_srl;
+		$output = executeQuery('ncenterlite.deleteNotifyBySrl', $args);
+		return new Object();
+	}
+
 	function triggerAfterModuleHandlerProc(&$oModule)
 	{
 		$vars = Context::getRequestVars();
