@@ -52,6 +52,26 @@ class Woorimail extends Base implements \Rhymix\Framework\Drivers\MailInterface
 	}
 	
 	/**
+	 * Get the SPF hint.
+	 * 
+	 * @return string
+	 */
+	public static function getSPFHint()
+	{
+		return 'include:woorimail.com';
+	}
+	
+	/**
+	 * Get the DKIM hint.
+	 * 
+	 * @return string
+	 */
+	public static function getDKIMHint()
+	{
+		return '';
+	}
+	
+	/**
 	 * Check if the current mail driver is supported on this server.
 	 * 
 	 * This method returns true on success and false on failure.

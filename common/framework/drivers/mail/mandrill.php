@@ -29,4 +29,24 @@ class Mandrill extends SMTP implements \Rhymix\Framework\Drivers\MailInterface
 	{
 		return array('api_user', 'api_token');
 	}
+	
+	/**
+	 * Get the SPF hint.
+	 * 
+	 * @return string
+	 */
+	public static function getSPFHint()
+	{
+		return 'include:spf.mandrillapp.com';
+	}
+	
+	/**
+	 * Get the DKIM hint.
+	 * 
+	 * @return string
+	 */
+	public static function getDKIMHint()
+	{
+		return 'mandrill._domainkey';
+	}
 }

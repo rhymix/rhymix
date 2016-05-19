@@ -29,4 +29,24 @@ class Postmark extends SMTP implements \Rhymix\Framework\Drivers\MailInterface
 	{
 		return array('api_token');
 	}
+	
+	/**
+	 * Get the SPF hint.
+	 * 
+	 * @return string
+	 */
+	public static function getSPFHint()
+	{
+		return 'include:spf.mtasv.net';
+	}
+	
+	/**
+	 * Get the DKIM hint.
+	 * 
+	 * @return string
+	 */
+	public static function getDKIMHint()
+	{
+		return '********.pm._domainkey';
+	}
 }

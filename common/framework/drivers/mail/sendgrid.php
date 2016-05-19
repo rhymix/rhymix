@@ -29,4 +29,24 @@ class SendGrid extends SMTP implements \Rhymix\Framework\Drivers\MailInterface
 	{
 		return array('api_user', 'api_pass');
 	}
+	
+	/**
+	 * Get the SPF hint.
+	 * 
+	 * @return string
+	 */
+	public static function getSPFHint()
+	{
+		return 'include:sendgrid.net';
+	}
+	
+	/**
+	 * Get the DKIM hint.
+	 * 
+	 * @return string
+	 */
+	public static function getDKIMHint()
+	{
+		return 'smtpapi._domainkey';
+	}
 }
