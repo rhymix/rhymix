@@ -20,7 +20,7 @@ class FileHandler
 		{
 			return \RX_BASEDIR . substr($source, 2);
 		}
-		elseif (strncmp($source, '/', 1) === 0)
+		elseif (preg_match('@^(?:/|[a-z]:[\\\\/]|\\\\|https?:)@i', $source))
 		{
 			return $source;
 		}
