@@ -75,7 +75,7 @@
 			<label class="x_control-label">{$lang->use_object_cache}</label>
 			<div class="x_controls">
 				<select name="object_cache_type" id="object_cache_type">
-					<option value="{$key}" loop="$object_cache_types=>$key" selected="selected"|cond="$key==$object_cache_type">{$key}</option>
+					<option value="{$key}" loop="$object_cache_types=>$key" selected="selected"|cond="$key==$object_cache_type">{$key === 'dummy' ? $lang->msg_dummy_or_do_not_use : $key}</option>
 				</select>
 				<div id="object_cache_additional_config" class="x_inline" style="display:none;margin-left:16px">
 					<label for="object_cache_host" class="x_inline">{$lang->cache_host}: <input type="text" name="object_cache_host" id="object_cache_host" value="{$object_cache_host}" /></label>

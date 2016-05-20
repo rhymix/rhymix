@@ -119,6 +119,7 @@ $lang->msg_invalid_default_url = '기본 URL이 올바르지 않습니다.';
 $lang->msg_default_url_ssl_inconsistent = 'SSL을 항상 사용하실 경우 기본 URL도 https://로 시작해야 합니다.';
 $lang->msg_default_url_http_port_inconsistent = 'HTTP 포트를 변경하실 경우 기본 URL에도 동일한 포트가 포함되어야 합니다.';
 $lang->msg_default_url_https_port_inconsistent = 'HTTPS 포트를 변경하실 경우 기본 URL에도 동일한 포트가 포함되어야 합니다.';
+$lang->msg_dummy_or_do_not_use = '사용하지 않음';
 $lang->sftp = 'SFTP 사용';
 $lang->msg_ftp_not_connected = 'FTP 서버에 접속할 수 없습니다. 주소와 포트를 확인해 주십시오.';
 $lang->msg_ftp_invalid_auth_info = 'FTP 서버에 로그인할 수 없습니다. 아이디와 비밀번호를 확인해 주십시오.';

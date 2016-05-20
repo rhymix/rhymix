@@ -119,6 +119,7 @@ $lang->msg_invalid_default_url = 'The default URL is invalid.';
 $lang->msg_default_url_ssl_inconsistent = 'In order to use SSL always, the default URL must also begin with https://';
 $lang->msg_default_url_http_port_inconsistent = 'In order to change the HTTP port, the default URL must also include the port number.';
 $lang->msg_default_url_https_port_inconsistent = 'In order to change the HTTPS port, the default URL must also include the port number.';
+$lang->msg_dummy_or_do_not_use = 'disabled';
 $lang->sftp = 'Use SFTP';
 $lang->ftp_get_list = 'Get List';
 $lang->ftp_remove_info = 'Remove FTP Info.';
