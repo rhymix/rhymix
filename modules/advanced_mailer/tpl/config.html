@@ -1,0 +1,230 @@
+<include target="./common.html" />
+<load target="css/config.css" />
+<load target="js/config.js" />
+
+<form class="x_form-horizontal" action="./" method="post" id="advanced_mailer">
+	<input type="hidden" name="module" value="advanced_mailer" />
+	<input type="hidden" name="act" value="procAdvanced_mailerAdminInsertConfig" />
+	<input type="hidden" name="success_return_url" value="{getRequestUriByServerEnviroment()}" />
+	
+	<div cond="$XE_VALIDATOR_MESSAGE" class="message {$XE_VALIDATOR_MESSAGE_TYPE}">
+		<p>{$XE_VALIDATOR_MESSAGE}</p>
+	</div>
+	
+	<section class="section">
+		
+		<h2 style="padding-top:12px">{$lang->cmd_advanced_mailer_sending_method_config}</h2>
+		
+		<div class="advanced_mailer_description">
+			※ {$lang->cmd_advanced_mailer_about_sending_method}
+		</div>
+		
+		<div class="x_control-group show-always">
+			<label class="x_control-label" for="advanced_mailer_sending_method">{$lang->cmd_advanced_mailer_sending_method_default}</label>
+			<div class="x_controls">
+				<select name="sending_method" id="advanced_mailer_sending_method">
+					<!--@foreach($sending_methods as $driver_name => $driver_definition)-->
+						<option value="{$driver_name}" selected="selected"|cond="$sending_method === $driver_name">{$driver_definition['name']}</option>
+					<!--@end-->
+				</select>
+			</div>
+		</div>
+		
+		<script type="text/javascript">
+			var advanced_mailer_sending_methods = {json_encode($sending_methods)};
+		</script>
+		
+		<div class="x_control-group hidden-by-default show-for-dummy">
+			<label class="x_control-label"></label>
+			<div class="x_controls">
+				<p class="x_help-block">{$lang->msg_advanced_mailer_about_dummy}<br />{$lang->msg_advanced_mailer_about_dummy_exceptions}</p>
+			</div>
+		</div>
+		
+		<!--@foreach($sending_methods as $driver_name => $driver_definition)-->
+		<!--@foreach($driver_definition['required'] as $conf_name)-->
+		{@ $conf_value = escape(config("mail.$driver_name.$conf_name"))}
+		
+		<!--@if($conf_name === 'smtp_host')-->
+		<div class="x_control-group hidden-by-default show-for-{$driver_name}">
+			<label class="x_control-label" for="advanced_mailer_{$driver_name}_smtp_host">{$lang->cmd_advanced_mailer_smtp_host}</label>
+			<div class="x_controls">
+				<input type="text" name="{$driver_name}_smtp_host" id="advanced_mailer_{$driver_name}_smtp_host" value="{$conf_value}" />
+				<select id="advanced_mailer_{$driver_name}_manual_entry">
+					<option value="">{$lang->cmd_advanced_mailer_smtp_manual_entry}</option>
+					<option value="gmail">Gmail</option>
+					<option value="hanmail">Hanmail</option>
+					<option value="naver">Naver</option>
+					<option value="worksmobile">Works Mobile</option>
+					<option value="outlook">Outlook.com</option>
+					<option value="yahoo">Yahoo</option>
+				</select>
+			</div>
+		</div>
+		<!--@end-->
+		
+		<!--@if($conf_name === 'smtp_port')-->
+		<div class="x_control-group hidden-by-default show-for-{$driver_name}">
+			<label class="x_control-label" for="advanced_mailer_{$driver_name}_smtp_port">{$lang->cmd_advanced_mailer_smtp_port}</label>
+			<div class="x_controls">
+				<input type="text" name="{$driver_name}_smtp_port" id="advanced_mailer_{$driver_name}_smtp_port" value="{$conf_value}" />
+			</div>
+		</div>
+		<!--@end-->
+		
+		<!--@if($conf_name === 'smtp_security')-->
+		<div class="x_control-group hidden-by-default show-for-{$driver_name}">
+			<label class="x_control-label">{$lang->cmd_advanced_mailer_smtp_security}</label>
+			<div class="x_controls">
+				<label class="x_inline" for="advanced_mailer_{$driver_name}_security_none"><input type="radio" name="{$driver_name}_smtp_security" id="advanced_mailer_{$driver_name}_security_none" value="none" checked="checked"|cond="!in_array($conf_value, array('ssl', 'tls'))" /> {$lang->cmd_advanced_mailer_smtp_security_none}</label>
+				<label class="x_inline" for="advanced_mailer_{$driver_name}_security_ssl"><input type="radio" name="{$driver_name}_smtp_security" id="advanced_mailer_{$driver_name}_security_ssl" value="ssl" checked="checked"|cond="$conf_value === 'ssl'" /> {$lang->cmd_advanced_mailer_smtp_security_ssl}</label>
+				<label class="x_inline" for="advanced_mailer_{$driver_name}_security_tls"><input type="radio" name="{$driver_name}_smtp_security" id="advanced_mailer_{$driver_name}_security_tls" value="tls" checked="checked"|cond="$conf_value === 'tls'" /> {$lang->cmd_advanced_mailer_smtp_security_tls}</label>
+			</div>
+		</div>
+		<!--@end-->
+		
+		<!--@if($conf_name === 'smtp_user')-->
+		<div class="x_control-group hidden-by-default show-for-{$driver_name}">
+			<label class="x_control-label" for="advanced_mailer_{$driver_name}_smtp_user">{$lang->cmd_advanced_mailer_smtp_user}</label>
+			<div class="x_controls">
+				<input type="text" name="{$driver_name}_smtp_user" id="advanced_mailer_{$driver_name}_smtp_user" value="{$conf_value}" />
+			</div>
+		</div>
+		<!--@end-->
+		
+		<!--@if($conf_name === 'smtp_pass')-->
+		<div class="x_control-group hidden-by-default show-for-{$driver_name}">
+			<label class="x_control-label" for="advanced_mailer_smtp_pass">{$lang->cmd_advanced_mailer_smtp_pass}</label>
+			<div class="x_controls">
+				<input type="smtp_pass" name="{$driver_name}_smtp_pass" id="advanced_mailer_{$driver_name}_smtp_pass" value="{$conf_value}" />
+			</div>
+		</div>
+		<!--@end-->
+		
+		<!--@if($conf_name === 'api_type')-->
+		<div class="x_control-group hidden-by-default show-for-{$driver_name}">
+			<label class="x_control-label" for="advanced_mailer_{$driver_name}_api_type">{$lang->cmd_advanced_mailer_api_type}</label>
+			<div class="x_controls">
+				<select id="advanced_mailer_{$driver_name}_api_type" name="{$driver_name}_api_type">
+					<!--@foreach($driver_definition['api_types'] as $api_type)-->
+						<option value="{$api_type}" selected="selected"|cond="$api_type === $conf_value">{$api_type}</option>
+					<!--@end-->
+				</select>
+			</div>
+		</div>
+		<!--@end-->
+		
+		<!--@if($conf_name === 'api_domain')-->
+		<div class="x_control-group hidden-by-default show-for-{$driver_name}">
+			<label class="x_control-label" for="advanced_mailer_{$driver_name}_api_domain">{$lang->cmd_advanced_mailer_api_domain}</label>
+			<div class="x_controls">
+				<input type="text" name="{$driver_name}_api_domain" id="advanced_mailer_{$driver_name}_api_domain" value="{$conf_value}" />
+			</div>
+		</div>
+		<!--@end-->
+		
+		<!--@if($conf_name === 'api_token')-->
+		<div class="x_control-group hidden-by-default show-for-{$driver_name}">
+			<label class="x_control-label" for="advanced_mailer_{$driver_name}_api_token">{$lang->cmd_advanced_mailer_api_token}</label>
+			<div class="x_controls full-width">
+				<input type="text" name="{$driver_name}_api_token" id="advanced_mailer_{$driver_name}_api_token" value="{$conf_value}" />
+			</div>
+		</div>
+		<!--@end-->
+		
+		<!--@if($conf_name === 'api_user')-->
+		<div class="x_control-group hidden-by-default show-for-{$driver_name}">
+			<label class="x_control-label" for="advanced_mailer_{$driver_name}_api_user">{$lang->cmd_advanced_mailer_api_user}</label>
+			<div class="x_controls">
+				<input type="text" name="{$driver_name}_api_user" id="advanced_mailer_{$driver_name}_api_user" value="{$conf_value}" />
+			</div>
+		</div>
+		<!--@end-->
+		
+		<!--@if($conf_name === 'api_pass')-->
+		<div class="x_control-group hidden-by-default show-for-{$driver_name}">
+			<label class="x_control-label" for="advanced_mailer_{$driver_name}_api_pass">{$lang->cmd_advanced_mailer_api_pass}</label>
+			<div class="x_controls full-width">
+				<input type="password" name="{$driver_name}_api_pass" id="advanced_mailer_{$driver_name}_api_pass" value="{$conf_value}" />
+			</div>
+		</div>
+		<!--@end-->
+		
+		<!--@end-->
+		<!--@end-->
+		
+	</section>
+	
+	<section class="section">
+		
+		<h2 style="padding-top:12px">{$lang->cmd_advanced_mailer_sender_identity}</h2>
+		
+		<div class="advanced_mailer_description">
+			※ {$lang->cmd_advanced_mailer_about_sender_identity}
+		</div>
+		
+		<div class="x_control-group">
+			<label class="x_control-label" for="advanced_mailer_sender_name">{$lang->cmd_advanced_mailer_sender_name}</label>
+			<div class="x_controls">
+				<input type="text" name="sender_name" id="advanced_mailer_sender_name" value="{$webmaster_name}" />
+			</div>
+		</div>
+		
+		<div class="x_control-group">
+			<label class="x_control-label" for="advanced_mailer_sender_email">{$lang->cmd_advanced_mailer_sender_email}</label>
+			<div class="x_controls">
+				<input type="text" name="sender_email" id="advanced_mailer_sender_email" value="{$webmaster_email}" />
+			</div>
+		</div>
+	
+		<div class="x_control-group">
+			<label class="x_control-label" for="advanced_mailer_reply_to">{$lang->cmd_advanced_mailer_reply_to}</label>
+			<div class="x_controls">
+				<input type="text" name="reply_to" id="advanced_mailer_reply_to" value="{$advanced_mailer_config->reply_to}" />
+			</div>
+		</div>
+	
+		<div class="x_control-group">
+			<label class="x_control-label">{$lang->cmd_advanced_mailer_force_sender}</label>
+			<div class="x_controls">
+				<label for="advanced_mailer_force_sender">
+					<input type="checkbox" name="force_sender" id="advanced_mailer_force_sender" value="Y" checked="checked"|cond="toBool($advanced_mailer_config->force_sender)" />
+					{$lang->cmd_advanced_mailer_about_force_sender}
+				</label>
+				<p>※ {$lang->cmd_advanced_mailer_about_force_sender_caution_line_1}<br />※ {$lang->cmd_advanced_mailer_about_force_sender_caution_line_2}</p>
+			</div>
+		</div>
+	
+	</section>
+	
+	<section class="section">
+		
+		<h2 style="padding-top:12px">{$lang->cmd_advanced_mailer_logging}</h2>
+		
+		<div class="x_control-group">
+			<label class="x_control-label" for="advanced_mailer_log_sent_mail">{$lang->cmd_advanced_mailer_log_sent_mail}</label>
+			<div class="x_controls">
+				<select name="log_sent_mail" id="advanced_mailer_log_sent_mail">
+					<option value="Y" selected="selected"|cond="toBool($advanced_mailer_config->log_sent_mail)" />{$lang->cmd_advanced_mailer_log_yes}</option>
+					<option value="N" selected="selected"|cond="!toBool($advanced_mailer_config->log_sent_mail)" />{$lang->cmd_advanced_mailer_log_no}</option>
+				</select>
+			</div>
+		</div>
+		
+		<div class="x_control-group">
+			<label class="x_control-label">{$lang->cmd_advanced_mailer_log_errors}</label>
+			<div class="x_controls">
+				<select name="log_errors" id="advanced_mailer_log_errors">
+					<option value="Y" selected="selected"|cond="toBool($advanced_mailer_config->log_errors)" />{$lang->cmd_advanced_mailer_log_yes}</option>
+					<option value="N" selected="selected"|cond="!toBool($advanced_mailer_config->log_errors)" />{$lang->cmd_advanced_mailer_log_no}</option>
+				</select>
+			</div>
+		</div>
+		
+	</section>
+	
+	<div class="btnArea x_clearfix">
+		<button type="submit" class="x_btn x_btn-primary x_pull-right">{$lang->cmd_registration}</button>
+	</div>
+	
+</form>

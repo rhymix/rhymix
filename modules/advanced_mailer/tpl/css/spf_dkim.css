@@ -1,0 +1,31 @@
+
+div.advanced_mailer_description {
+	margin-bottom: 10px;
+	margin-left: 10px;
+}
+
+div.margin-top {
+	margin-top: 5px;
+}
+
+div.x_modal-body .monospace {
+	font-family: Consolas, monospace;
+	word-wrap: break-word;
+	word-break: break-word;
+}
+
+#spf_dkim_setting div.spf_dkim_item {
+	padding: 5px 0;
+}
+#spf_dkim_setting div.spf_dkim_separator {
+	border-top: 1px dotted #ddd;
+	margin: 8px 0;
+}
+#spf_dkim_setting span.label {
+	display: inline-block;
+	min-width: 94px;
+}
+#spf_dkim_setting span.monospace {
+	font-family: Consolas, monospace;
+	display: inline-block;
+}
