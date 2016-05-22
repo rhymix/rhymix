@@ -25,7 +25,16 @@
 				<input type="hidden" name="comment_srl" value="{$comment->get('comment_srl')}" />
 			</form>
 			<!--@else-->
-			{$comment->getContent(false)}
+			<div class="xe_content">
+				<!--@if($comment->status == 7)-->
+				댓글이 삭제되었습니다.
+				<!--@elseif($comment->status == 8)-->
+				관리자에 의해 댓글이 삭제되었습니다.
+				<!--@end-->
+			</div>
+			<block cond="$comment->status != '8' && $comment->status != '7'">
+				{$comment->getContent(false)}
+			</block>
 			<!--@end-->
 			<div cond="$comment->hasUploadedFiles()" class="fileList">
 				<button type="button" class="toggleFile" onclick="jQuery(this).next('ul.files').toggle();"><i class="xi-diskette"></i> {$lang->uploaded_file} [<strong>{$comment->get('uploaded_count')}</strong>]</button>
@@ -33,7 +42,7 @@
 					<li loop="$comment->getUploadedFiles()=>$key,$file"><a href="{getUrl('')}{$file->download_url}">{$file->source_filename} <span class="fileSize">[File Size:{FileHandler::filesize($file->file_size)}/Download:{number_format($file->download_count)}]</span></a></li>
 				</ul>
 			</div>
-			<p class="action">
+			<p class="action" cond="$comment->status < 7">
 				<a cond="$comment->getVote() === false || $comment->getVote() < 0" href="#" onclick="doCallModuleAction('comment','procCommentVoteUp','{$comment->comment_srl}');return false;"|cond="$is_logged" class="voted"><i class="xi-thumbs-up"></i>{$lang->cmd_vote}{$comment->get('voted_count')}</a>
 				<a cond="$comment->getVote() > 0" href="#" onclick="doCallModuleAction('comment','procCommentVoteUpCancel','{$comment->comment_srl}');return false;"|cond="$is_logged" class="voted"><i class="xi-thumbs-up"></i>{$lang->cmd_vote}{$comment->get('voted_count')}</a>
 				<a cond="$comment->getVote() === false || $comment->getVote() > 0" href="#" onclick="doCallModuleAction('comment','procCommentVoteDown','{$comment->comment_srl}');return false;"|cond="$is_logged" class="voted"><i class="xi-thumbs-up"></i>{$lang->cmd_vote_down}{$comment->get('blamed_count')}</a>
@@ -42,6 +51,9 @@
 				<a cond="$comment->isGranted()||!$comment->get('member_srl')" href="{getUrl('act','dispBoardModifyComment','comment_srl',$comment->comment_srl)}" class="modify"><i class="xi-eraser"></i> {$lang->cmd_modify}</a>
 				<a cond="$comment->isGranted()||!$comment->get('member_srl')" href="{getUrl('act','dispBoardDeleteComment','comment_srl',$comment->comment_srl)}" class="delete"><i class="xi-trash"></i> {$lang->cmd_delete}</a>
 				<a cond="$is_logged" class="comment_{$comment->comment_srl} this" href="#popup_menu_area" onclick="return false">{$lang->cmd_comment_do}</a>
+			</p>
+			<p class="action">
+
 			</p>
 		</li>
 	</ul>

@@ -73,3 +73,5 @@ $lang->document_force_to_move = '삭제시 휴지통으로 강제이동';
 $lang->about_document_force_to_move = '게시글을 삭제시 휴지통으로 강제이동할지 않할지를 선택하는 옵션입니다.';
 $lang->comment_delete_message = '댓글 삭제 메세지';
 $lang->about_comment_delete_message = '이 옵션을 사용할 경우 댓글을 삭제할 경우, 댓글이 삭제가 되지 않고 댓글의 내용에 삭제된 메세지를 띄우게 됩니다. 추후 다시 댓글을 복구 할 수 있습니다.';
+$lang->msg_delete_comment = '댓글이 삭제되었습니다.';
+$lang->msg_admin_delete_comment = '관리자에 의해 댓글이 삭제되었습니다.';

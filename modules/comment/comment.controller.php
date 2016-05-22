@@ -905,6 +905,48 @@ class commentController extends comment
 	}
 
 	/**
+	 * Fix comment the delete comment message
+	 * @param object $obj
+	 * @param bool $is_admin
+	 * @return object
+	 */
+	function updateCommentByDelete($obj, $is_admin = FALSE)
+	{
+		$logged_info = Context::get('logged_info');
+
+		// begin transaction
+		$oDB = DB::getInstance();
+		$oDB->begin();
+
+		// If the case manager to delete comments, it indicated that the administrator deleted.
+		if($is_admin === true && $obj->member_srl !== $logged_info->member_srl)
+		{
+			$obj->content = lang('msg_admin_delete_comment');
+			$obj->status = 8;
+		}
+		else
+		{
+			$obj->content = lang('msg_delete_comment');
+		}
+		$output = executeQuery('comment.updateCommentByDelete', $obj);
+		if(!$output->toBool())
+		{
+			$oDB->rollback();
+			return $output;
+		}
+
+		// call a trigger by delete (after)
+		ModuleHandler::triggerCall('comment.updateCommentByDelete', 'after', $obj);
+
+		$oDB->commit();
+
+		$output->add('document_srl', $obj->document_srl);
+
+		return $output;
+	}
+
+
+	/**
 	 * Delete comment
 	 * @param int $comment_srl
 	 * @param bool $is_admin
