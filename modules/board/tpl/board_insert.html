@@ -275,6 +275,19 @@
 			</div>
 		</div>
 		<div class="x_control-group">
+			<label class="x_control-label">{$lang->comment_delete_message}</label>
+			<div class="x_controls">
+				<label class="x_inline">
+					<input type="radio" id="comment_delete_message_y" name="comment_delete_message" value="Y" checked="checked"|cond="$module_info->comment_delete_message == 'Y'" /> {$lang->cmd_yes}
+				</label>
+				<label class="x_inline">
+					<input type="radio" id="comment_delete_message_n" name="comment_delete_message" value="N" checked="checked"|cond="$module_info->comment_delete_message == 'N'" /> {$lang->cmd_no}
+				</label>
+				<p class="x_help-block">{$lang->about_comment_delete_message}</p>
+			</div>
+		</div>
+
+		<div class="x_control-group">
 			<label class="x_control-label">{$lang->status}</label>
 			<div class="x_controls">
 				<input type="hidden" name="use_status[]" value="PUBLIC" />
