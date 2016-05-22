@@ -7,7 +7,7 @@
 		<column name="member_srl" var="member_srl" />
 		<column name="parent_srl" var="parent_srl" filter="number" default="0" />
 		<column name="is_secret" var="is_secret" default="N" />
-        <column name="notify_message" var="notify_message" default="N" />
+		<column name="notify_message" var="notify_message" default="N" />
 		<column name="content" var="content" notnull="notnull" />
 		<column name="password" var="password" minlength="2" maxlength="60" />
 		<column name="user_id" var="user_id" />
@@ -17,7 +17,7 @@
 		<column name="homepage" var="homepage" filter="homepage" maxlength="250" />
 		<column name="uploaded_count" var="uploaded_count" default="0" />
 		<column name="last_update" var="last_update" default="curdate()" />
-        <column name="status" var="status" default="1" />
+		<column name="status" var="status" default="1" />
 	</columns>
 	<conditions>
 		<condition operation="equal" column="comment_srl" var="comment_srl" filter="number" notnull="notnull" />
