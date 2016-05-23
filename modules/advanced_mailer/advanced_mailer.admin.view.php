@@ -151,6 +151,9 @@ class Advanced_MailerAdminView extends Advanced_Mailer
 		Context::set('page', $paging->page);
 		Context::set('page_navigation', $paging->page_navigation);
 		
+		$sending_methods = Rhymix\Framework\Mail::getSupportedDrivers();
+		Context::set('sending_methods', $sending_methods);
+		
 		$this->setTemplatePath($this->module_path.'tpl');
 		$this->setTemplateFile('view_log');
 	}
@@ -173,6 +176,9 @@ class Advanced_MailerAdminView extends Advanced_Mailer
 		Context::set('total_page', $paging->total_page);
 		Context::set('page', $paging->page);
 		Context::set('page_navigation', $paging->page_navigation);
+		
+		$sending_methods = Rhymix\Framework\Mail::getSupportedDrivers();
+		Context::set('sending_methods', $sending_methods);
 		
 		$this->setTemplatePath($this->module_path.'tpl');
 		$this->setTemplateFile('view_log');
