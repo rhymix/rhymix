@@ -22,7 +22,7 @@ class DateTime
 	public static function formatTimestamp($format, $timestamp = null)
 	{
 		$offset = Config::get('locale.internal_timezone') ?: date('Z', $timestamp);
-		return gmdate($format, $timestamp + $offset);
+		return gmdate($format, ($timestamp ?: time()) + $offset);
 	}
 	
 	/**
