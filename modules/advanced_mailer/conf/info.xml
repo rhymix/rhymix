@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<module version="0.2">
+	<title xml:lang="ko">고급 메일 발송 모듈</title>
+	<title xml:lang="en">Advanced Mailer</title>
+	<description xml:lang="ko">
+		외부 SMTP 서버 또는 API를 사용하여 메일을 발송합니다.
+	</description>
+	<description xml:lang="en">
+		Send mail using an external SMTP server or API service.
+	</description>
+	<version>2.0.0</version>
+	<date>2016-05-22</date>
+	<author email_address="kijin@kijinsung.com" link="https://github.com/kijin">
+		<name xml:lang="ko">Kijin Sung</name>
+		<name xml:lang="en">Kijin Sung</name>
+	</author>
+</module>

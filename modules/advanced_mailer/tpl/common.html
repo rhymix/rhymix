@@ -1,0 +1,13 @@
+
+<div class="x_page-header">
+	<h1>{$lang->cmd_advanced_mailer}</h1>
+</div>
+
+<ul class="x_nav x_nav-tabs">
+	<li class="x_active"|cond="$act == 'dispAdvanced_mailerAdminConfig'"><a href="{getUrl('', 'module', 'admin', 'act', 'dispAdvanced_mailerAdminConfig')}">{$lang->cmd_advanced_mailer_general_config}</a></li>
+	<li class="x_active"|cond="$act == 'dispAdvanced_mailerAdminExceptions'"><a href="{getUrl('', 'module', 'admin', 'act', 'dispAdvanced_mailerAdminExceptions')}">{$lang->cmd_advanced_mailer_exception_domains}</a></li>
+	<li class="x_active"|cond="$act == 'dispAdvanced_mailerAdminSpfDkim'"><a href="{getUrl('', 'module', 'admin', 'act', 'dispAdvanced_mailerAdminSpfDkim')}">{$lang->cmd_advanced_mailer_spf_dkim_setting}</a></li>
+	<li class="x_active"|cond="$act == 'dispAdvanced_mailerAdminTestConfig'"><a href="{getUrl('', 'module', 'admin', 'act', 'dispAdvanced_mailerAdminTestConfig')}">{$lang->cmd_advanced_mailer_test}</a></li>
+	<li class="x_active"|cond="$act == 'dispAdvanced_mailerAdminSentMail'"><a href="{getUrl('', 'module', 'admin', 'act', 'dispAdvanced_mailerAdminSentMail')}">{$lang->cmd_advanced_mailer_log_sent_mail}</a></li>
+	<li class="x_active"|cond="$act == 'dispAdvanced_mailerAdminErrors'"><a href="{getUrl('', 'module', 'admin', 'act', 'dispAdvanced_mailerAdminErrors')}">{$lang->cmd_advanced_mailer_log_errors}</a></li>
+</ul>

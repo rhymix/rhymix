@@ -60,16 +60,7 @@ return array(
 		'umask' => '022',
 	),
 	'mail' => array(
-		'transport' => 'mail',
-		'smtp_host' => null,
-		'smtp_port' => null,
-		'smtp_security' => 'none',
-		'smtp_user' => null,
-		'smtp_pass' => null,
-		'api_domain' => null,
-		'api_token' => null,
-		'api_user' => null,
-		'api_pass' => null,
+		'type' => 'mailfunction',
 	),
 	'view' => array(
 		'minify_scripts' => 'common',

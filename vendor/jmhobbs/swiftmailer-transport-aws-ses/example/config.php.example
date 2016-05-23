@@ -1,0 +1,13 @@
+<?php
+	// AWS Credentials
+	define( 'AWSAccessKeyId', 'your-access-key' );
+	define( 'AWSSecretKey', 'your-secret-key' );
+
+	// Email address to send test email from
+	define( 'FROM_ADDRESS', 'change-this@to-your-email.com' );
+
+	// Email address to send test email to
+	define( 'TO_ADDRESS', 'change-this@as-well-please.com' );
+	
+	// Set the correct endpoint. http://docs.aws.amazon.com/general/latest/gr/rande.html#ses_region
+	define( 'AWSSESEndpoint', 'https://email.us-east-1.amazonaws.com/' );
