@@ -15,15 +15,6 @@ class Advanced_MailerController extends Advanced_Mailer
 	{
 		$config = $this->getConfig();
 		
-		if (!$mail->getFrom())
-		{
-			$mail->setFrom($config->sender_email, $config->sender_name ?: null);
-		}
-		elseif (toBool($config->force_sender))
-		{
-			$mail->setFrom($config->sender_email, $config->sender_name ?: null);
-		}
-		
 		$first_recipient = array_first_key($mail->message->getTo());
 		if ($exception_driver = $this->getSendingMethodForEmailAddress($first_recipient, $config))
 		{
@@ -31,6 +22,28 @@ class Advanced_MailerController extends Advanced_Mailer
 			if (class_exists($driver_class))
 			{
 				$mail->driver = $driver_class::getInstance(config("mail.$exception_driver"));
+			}
+		}
+		
+		if (!$mail->getFrom())
+		{
+			$mail->setFrom($config->sender_email, $config->sender_name ?: null);
+		}
+		elseif (toBool($config->force_sender))
+		{
+			if (stripos($mail->driver->getName(), 'woorimail') !== false && config('mail.woorimail.api_type') === 'free')
+			{
+				// no-op
+			}
+			else
+			{
+				$original_sender_email = array_first_key($mail->message->getFrom());
+				$original_sender_name = array_first($mail->message->getFrom());
+				if ($original_sender_email !== $config->sender_email)
+				{
+					$mail->setFrom($config->sender_email, $original_sender_name ?: $config->sender_name);
+					$mail->setReplyTo($original_sender_email);
+				}
 			}
 		}
 	}

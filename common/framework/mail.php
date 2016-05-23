@@ -648,7 +648,7 @@ class Mail
 	{
 		$result = array();
 		
-		foreach($address as $email => $name)
+		foreach($addresses as $email => $name)
 		{
 			if(strval($name) === '')
 			{
