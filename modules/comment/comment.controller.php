@@ -929,7 +929,6 @@ class commentController extends comment
 			$obj->content = lang('msg_delete_comment');
 		}
 		$obj->member_srl = 0;
-		$obj->list_order = 0;
 		$output = executeQuery('comment.updateCommentByDelete', $obj);
 		if(!$output->toBool())
 		{
