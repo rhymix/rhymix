@@ -254,13 +254,15 @@ class Advanced_MailerAdminController extends Advanced_Mailer
 			return;
 		}
 		
+		$oAdvancedMailerController = getController('advanced_mailer');
+		$sending_method = $oAdvancedMailerController->getSendingMethodForEmailAddress($recipient_email) ?: config('mail.type');
+		
 		try
 		{
 			$oMail = new Rhymix\Framework\Mail();
-			$oMail->setTitle('Advanced Mailer Test : ' . strtoupper(config('mail.type')));
+			$oMail->setTitle('Advanced Mailer Test : ' . strtoupper($sending_method));
 			$oMail->setContent('<p>This is a <b>test email</b> from Advanced Mailer.</p><p>Thank you for trying Advanced Mailer.</p>' .
 				'<p>고급 메일 발송 모듈 <b>테스트</b> 메일입니다.</p><p>메일이 정상적으로 발송되고 있습니다.</p>');
-			$oMail->setFrom($advanced_mailer_config->sender_email, $advanced_mailer_config->sender_name);
 			$oMail->addTo($recipient_email, $recipient_name);
 			$result = $oMail->send();
 			

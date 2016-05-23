@@ -12,6 +12,7 @@ class Mail
 	 */
 	public $message = null;
 	public $driver = null;
+	public $caller = '';
 	protected $content_type = 'text/html';
 	protected $attachments = array();
 	public $errors = array();
@@ -143,8 +144,8 @@ class Mail
 	 */
 	public function getFrom()
 	{
-		$list = $this->formatAddresses($this->message->getFrom());
-		return $list ? array_first($list) : null;
+		$list = $this->message->getFrom();
+		return $list ? array_first($this->formatAddresses($list)) : null;
 	}
 	
 	/**
@@ -556,6 +557,13 @@ class Mail
 	 */
 	public function send()
 	{
+		// Get caller information.
+		$backtrace = debug_backtrace(0);
+		if(count($backtrace) && isset($backtrace[0]['file']))
+		{
+			$this->caller = $backtrace[0]['file'] . ($backtrace[0]['line'] ? (' line ' . $backtrace[0]['line']) : '');
+		}
+		
 		// Reset Message-ID in case send() is called multiple times.
 		$random = substr(hash('sha256', mt_rand() . microtime() . getmypid()), 0, 32);
 		$sender = $this->message->getFrom(); reset($sender);
@@ -596,6 +604,16 @@ class Mail
 	public function isSent()
 	{
 		return $this->sent;
+	}
+	
+	/**
+	 * Get caller information.
+	 * 
+	 * @return string
+	 */
+	public function getCaller()
+	{
+		return $this->caller;
 	}
 	
 	/**

@@ -33,7 +33,7 @@
 			<td class="nowr">{htmlspecialchars($val->subject)}</td>
 			<td class="nowr">
 				{@ if($val->sending_method === 'mail') $val->sending_method = 'mailfunction'}
-				{isset($sending_methods[$val->sending_method]['name']) ? $sending_methods[$val->sending_method]['name'] : $val->sending_method}
+				{strval(isset($sending_methods[$val->sending_method]['name']) ? $sending_methods[$val->sending_method]['name'] : $val->sending_method)}
 			</td>
 			<td class="nowr">{(zdate($val->regdate, "Y-m-d\nH:i:s"))}</td>
 			<td class="nowr">
