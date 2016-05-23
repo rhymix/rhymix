@@ -115,7 +115,7 @@ class Mail extends Rhymix\Framework\Mail
 	 */
 	public function getPlainContent()
 	{
-		return chunk_split(base64_encode(str_replace(array("<", ">", "&"), array("&lt;", "&gt;", "&amp;"), $this->message->getBody())));
+		return chunk_split(base64_encode(htmlspecialchars($this->message->getBody())));
 	}
 	
 	/**

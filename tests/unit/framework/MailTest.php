@@ -156,5 +156,21 @@ class MailTest extends \Codeception\TestCase\Test
 		$mail->setBcc('bcc-1@rhymix.org');
 		$mail->setBcc('bcc-2@rhymix.org');
 		$this->assertEquals(array('bcc-2@rhymix.org' => ''), $mail->message->getBcc());
+		
+		$content = '<p>Hello world!</p><p>This is a long message to test chunk splitting.</p><p>This feature is only available using the legacy Mail class.</p>';
+		$mail->setBody($content);
+		$this->assertEquals(chunk_split(base64_encode($content)), $mail->getHTMLContent());
+		$this->assertEquals(chunk_split(base64_encode(htmlspecialchars($content))), $mail->getPlainContent());
+		
+		$mail->addAttachment(\RX_BASEDIR . 'tests/_data/formatter/minify.target.css', 'target.css');
+		$cid = $mail->addCidAttachment(\RX_BASEDIR . 'tests/_data/formatter/minify.target.css', 'thisismyrandomcid@rhymix.org');
+		$this->assertEquals('cid:thisismyrandomcid@rhymix.org', $cid);
+		
+		$attachments = $mail->getAttachments();
+		$this->assertEquals(2, count($attachments));
+		$this->assertEquals('attach', $attachments[0]->type);
+		$this->assertEquals('target.css', $attachments[0]->display_filename);
+		$this->assertEquals('embed', $attachments[1]->type);
+		$this->assertEquals('cid:thisismyrandomcid@rhymix.org', $attachments[1]->cid);
 	}
 }
