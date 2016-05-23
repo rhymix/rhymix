@@ -644,9 +644,14 @@ class Mail
 	 * @param array $addresses
 	 * @return array
 	 */
-	protected function formatAddresses(array $addresses)
+	protected function formatAddresses($addresses)
 	{
 		$result = array();
+		
+		if (!$addresses)
+		{
+			return array();
+		}
 		
 		foreach($addresses as $email => $name)
 		{

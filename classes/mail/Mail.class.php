@@ -34,11 +34,11 @@ class Mail extends Rhymix\Framework\Mail
 	public static function useSMTP($auth = null, $host = null, $user = null, $pass = null, $secure = null, $port = 25)
 	{
 		self::setDefaultDriver(Rhymix\Framework\Drivers\Mail\SMTP::getInstance(array(
-			'host' => $host,
-			'port' => $port,
-			'secure' => $secure,
-			'user' => $user,
-			'pass' => $pass,
+			'smtp_host' => $host,
+			'smtp_port' => $port,
+			'smtp_security' => $secure,
+			'smtp_user' => $user,
+			'smtp_pass' => $pass,
 		)));
 	}
 	
@@ -81,6 +81,7 @@ class Mail extends Rhymix\Framework\Mail
 	 */
 	public function setReceiptor($name, $email)
 	{
+		$this->message->setTo(array());
 		return $this->addTo($email, $name ?: null);
 	}
 	
@@ -96,27 +97,6 @@ class Mail extends Rhymix\Framework\Mail
 	}
 	
 	/**
-	 * Set Subject
-	 *
-	 * @param string $subject The subject
-	 * @return void
-	 */
-	public function setTitle($subject)
-	{
-		return $this->setSubject($subject);
-	}
-	
-	/**
-	 * Get Subject
-	 *
-	 * @return string
-	 */
-	public function getTitle()
-	{
-		return $this->getSubject();
-	}
-	
-	/**
 	 * Set BCC
 	 *
 	 * @param string $bcc
@@ -124,6 +104,7 @@ class Mail extends Rhymix\Framework\Mail
 	 */
 	public function setBCC($bcc)
 	{
+		$this->message->setBcc(array());
 		return $this->addBcc($bcc);
 	}
 	
