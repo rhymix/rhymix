@@ -939,6 +939,24 @@ class commentController extends comment
 		// call a trigger by delete (after)
 		ModuleHandler::triggerCall('comment.updateCommentByDelete', 'after', $obj);
 
+		// update the number of comments
+		$oCommentModel = getModel('comment');
+		$comment_count = $oCommentModel->getCommentCount($obj->document_srl);
+		// only document is exists
+		if(isset($comment_count))
+		{
+			// create the controller object of the document
+			$oDocumentController = getController('document');
+
+			// update comment count of the article posting
+			$output = $oDocumentController->updateCommentCount($obj->document_srl, $comment_count, NULL, FALSE);
+			if(!$output->toBool())
+			{
+				$oDB->rollback();
+				return $output;
+			}
+		}
+
 		$oDB->commit();
 
 		$output->add('document_srl', $obj->document_srl);

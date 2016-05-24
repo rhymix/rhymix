@@ -248,9 +248,15 @@ class commentModel extends comment
 
 		//check if module is using validation system
 		$oCommentController = getController('comment');
-
 		$using_validation = $oCommentController->isModuleUsingPublishValidation($module_srl);
+		$module_info = getModel('module')->getModuleInfoByDocumentSrl($document_srl);
+		$use_comment_massage = $module_info->comment_delete_message;
+
 		if($using_validation)
+		{
+			$args->status = 1;
+		}
+		elseif($use_comment_massage == 'Y')
 		{
 			$args->status = 1;
 		}
