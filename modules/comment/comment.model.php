@@ -261,7 +261,7 @@ class commentModel extends comment
 			$args->status = 1;
 		}
 
-		$output = executeQuery('comment.getCommentCount', $args, NULL, 'master');
+		$output = executeQuery('comment.getCommentCount', $args, NULL);
 		$total_count = $output->data->count;
 
 		return (int) $total_count;
