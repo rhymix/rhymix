@@ -527,7 +527,7 @@ class boardController extends board
 			}
 			else
 			{
-				$output = $oCommentController->deleteComment($comment_srl, $this->grant->manager);
+				$output = $oCommentController->deleteComment($comment_srl, $this->grant->manager, FALSE, $childs);
 				if(!$output->toBool())
 				{
 					return $output;
