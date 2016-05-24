@@ -15,7 +15,6 @@
         <condition operation="more" column="comments_list.arrange" default="0" pipe="and" />
     </conditions>
     <navigation>
-		<index var="list_order" default="comments.status" order="desc" />
         <index var="list_order" default="comments_list.head" order="asc" />
         <index var="list_order" default="comments_list.arrange" order="asc" />
         <list_count var="list_count" default="list_count" />
