@@ -972,7 +972,7 @@ class commentController extends comment
 	 * @param object $childs
 	 * @return object
 	 */
-	function deleteComment($comment_srl, $is_admin = FALSE, $isMoveToTrash = FALSE, $childs)
+	function deleteComment($comment_srl, $is_admin = FALSE, $isMoveToTrash = FALSE, $childs = null)
 	{
 		// create the comment model object
 		$oCommentModel = getModel('comment');
