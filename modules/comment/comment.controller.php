@@ -946,7 +946,6 @@ class commentController extends comment
 		return $output;
 	}
 
-
 	/**
 	 * Delete comment
 	 * @param int $comment_srl
