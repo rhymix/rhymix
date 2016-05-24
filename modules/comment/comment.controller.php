@@ -969,9 +969,10 @@ class commentController extends comment
 	 * @param int $comment_srl
 	 * @param bool $is_admin
 	 * @param bool $isMoveToTrash
+	 * @param object $childs
 	 * @return object
 	 */
-	function deleteComment($comment_srl, $is_admin = FALSE, $isMoveToTrash = FALSE)
+	function deleteComment($comment_srl, $is_admin = FALSE, $isMoveToTrash = FALSE, $childs)
 	{
 		// create the comment model object
 		$oCommentModel = getModel('comment');
@@ -1004,7 +1005,10 @@ class commentController extends comment
 		}
 
 		// check if child comment exists on the comment
-		$childs = $oCommentModel->getChildComments($comment_srl);
+		if(!$childs)
+		{
+			$childs = $oCommentModel->getChildComments($comment_srl);
+		}
 		if(count($childs) > 0)
 		{
 			$deleteAllComment = TRUE;
