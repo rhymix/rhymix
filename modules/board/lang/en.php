@@ -42,3 +42,5 @@ $lang->about_hide_category = 'You can disable a category feature.';
 $lang->protect_content = 'Protect contents';
 $lang->about_protect_content = 'If there is any comment on document, document\'s owner cannot modify or delete that.';
 $lang->msg_protect_content = 'You cannot modify or delete document which has any comment on it.';
+$lang->comment_delete_message = 'Leave Placeholder for Deleted Comment';
+$lang->about_comment_delete_message = 'When a comment is deleted, leave a placeholder saying that it has been deleted.';
