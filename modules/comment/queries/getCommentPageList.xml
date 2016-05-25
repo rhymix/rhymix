@@ -8,7 +8,7 @@
         <column name="comments_list.depth" alias="depth" />
     </columns>
     <conditions>
-        <condition operation="equal" column="comments.status" var="status" pipe="and" />
+        <condition operation="more" column="comments.status" var="status" pipe="and" />
 		<condition operation="equal" column="comments_list.document_srl" var="document_srl" notnull="notnull" pipe="and" />
         <condition operation="equal" column="comments_list.comment_srl" var="comments.comment_srl" filter="number" pipe="and" />
         <condition operation="more" column="comments_list.head" default="0" pipe="and" />
