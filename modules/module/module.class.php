@@ -261,7 +261,7 @@ class module extends ModuleObject
 							$per_page = 100;
 							$total_pages = (int) (($total_count - 1) / $per_page) + 1;
 							// Get extra vars if exist
-							$doc_args = null;
+							$doc_args = new stdClass();
 							$doc_args->module_srl = $module_srl;
 							$doc_args->list_count = $per_page;
 							$doc_args->sort_index = 'list_order';
@@ -326,6 +326,7 @@ class module extends ModuleObject
 			$domain = Context::getDefaultUrl();
 			$url_info = parse_url($domain);
 			$domain = $url_info['host'].( (!empty($url_info['port'])&&$url_info['port']!=80)?':'.$url_info['port']:'').$url_info['path'];
+			$site_args = new stdClass();
 			$site_args->site_srl = 0;
 			$site_args->index_module_srl  = $mid_output->data->module_srl;
 			$site_args->domain = $domain;
@@ -382,7 +383,7 @@ class module extends ModuleObject
 				if(count($skin_path) != 2) continue;
 				if(is_dir(sprintf(_XE_PATH_ . 'themes/%s/modules/%s', $skin_path[0], $skin_path[1])))
 				{
-					unset($args);
+					$args = new stdClass();
 					$args->skin = $item->skin;
 					$args->new_skin = implode('|@|', $skin_path);
 					$output = executeQuery('module.updateSkinAll', $args);

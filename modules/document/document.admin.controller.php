@@ -495,6 +495,7 @@ class documentAdminController extends document
 
 		if($document_srl)
 		{
+			$args = new stdClass();
 			$args->document_srl = $document_srl;
 			$output = executeQuery('document.deleteDeclaredDocuments', $args);
 			if(!$output->toBool()) return $output;
@@ -578,7 +579,7 @@ class documentAdminController extends document
 
 		$this->setMessage('success_registed');
 
-		$returnUrl = Context::get('success_return_url') ? Context::get('success_return_url') : getNotEncodedUrl('', 'module', 'admin', 'act', 'dispDocumentAdminAlias', 'document_srl', $args->document_srl);
+		$returnUrl = Context::get('success_return_url') ? Context::get('success_return_url') : getNotEncodedUrl('', 'module', 'admin', 'act', 'dispDocumentAdminAlias');
 		$this->setRedirectUrl($returnUrl);
 	}
 
@@ -705,6 +706,7 @@ class documentAdminController extends document
 	{
 		$document_srl = Context::get('document_srl');
 		$alias_srl = Context::get('target_srl');
+		$args = new stdClass();
 		$args->alias_srl = $alias_srl;
 		$output = executeQuery("document.deleteAlias", $args);
 

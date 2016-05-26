@@ -157,6 +157,7 @@ class memberAdminModel extends member
 	 */
 	function getSiteMemberList($site_srl, $page = 1)
 	{
+		$args = new stdClass();
 		$args->site_srl = $site_srl;
 		$args->page = $page;
 		$args->list_count = 40;
@@ -240,10 +241,17 @@ class memberAdminModel extends member
 	 */
 	function getMemberGroupMemberCountByDate($date = '')
 	{
-		if($date) $args->regDate = date('Ymd', strtotime($date));
+		$args = new stdClass();
+		if($date)
+		{
+			$args->regDate = date('Ymd', strtotime($date));
+		}
 
 		$output = executeQuery('member.getMemberGroupMemberCountByDate', $args);
-		if(!$output->toBool()) return 0;
+		if(!$output->toBool())
+		{
+			return 0;
+		}
 
 		return count($output->data);
 	}

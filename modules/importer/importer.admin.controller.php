@@ -122,6 +122,7 @@ class importerAdminController extends importer
 				$total_count = 0;
 				foreach ($output->data as $val)
 				{
+					$args = new stdClass();
 					$args->user_id = $val->user_id;
 					$args->member_srl = $val->member_srl;
 					$tmp = executeQuery ('importer.updateDocumentSyncForCUBRID'.$postFix, $args);
@@ -145,6 +146,7 @@ class importerAdminController extends importer
 				$total_count = 0;
 				foreach ($output->data as $val)
 				{
+					$args = new stdClass();
 					$args->user_id = $val->user_id;
 					$args->member_srl = $val->member_srl;
 					$tmp = executeQuery ('importer.updateCommentSyncForCUBRID'.$postFix, $args);
@@ -516,7 +518,7 @@ class importerAdminController extends importer
 			FileHandler::removeFile($target_file);
 			if(!$xmlObj) continue;
 			// List objects
-			$obj = null;
+			$obj = new stdClass();
 			$obj->receiver = base64_decode($xmlObj->message->receiver->body);
 			$obj->sender = base64_decode($xmlObj->message->sender->body);
 			$obj->title = base64_decode($xmlObj->message->title->body);
@@ -526,25 +528,26 @@ class importerAdminController extends importer
 			$obj->readed_date = base64_decode($xmlObj->message->readed_date->body);
 			// Get member_srl of sender/recipient (If not exists, pass)
 			if(!$obj->sender) continue;
+			$sender_args = new stdClass();
 			$sender_args->user_id = $obj->sender;
 			$sender_output = executeQuery('member.getMemberInfo',$sender_args);
 			$sender_srl = $sender_output->data->member_srl;
 			if(!$sender_srl)
 			{
-				unset($sender_args);
+				$sender_args = new stdClass();
 				$sender_args->email_address = $obj->sender;
 				$sender_output = executeQuery('member.getMemberInfoByEmailAddress',$sender_args);
 				$sender_srl = $sender_output->data->member_srl;
 			}
 			if(!$sender_srl) continue;
-
+			$receiver_args = new stdClass();
 			$receiver_args->user_id = $obj->receiver;
 			if(!$obj->receiver) continue;
 			$receiver_output = executeQuery('member.getMemberInfo',$receiver_args);
 			$receiver_srl = $receiver_output->data->member_srl;
 			if(!$receiver_srl)
 			{
-				unset($receiver_args);
+				$receiver_args = new stdClass();
 				$receiver_args->email_address = $obj->receiver;
 				$receiver_output = executeQuery('member.getMemberInfoByEmailAddress',$receiver_args);
 				$receiver_srl = $receiver_output->data->member_srl;
@@ -645,6 +648,7 @@ class importerAdminController extends importer
 		$category_list = $oDocumentModel->getCategoryList($module_srl);
 		if(count($category_list)) foreach($category_list as $key => $val) $category_titles[$val->title] = $val->category_srl;
 
+		$ek_args = new stdClass();
 		$ek_args->module_srl = $module_srl;
 		$output = executeQueryArray('document.getDocumentExtraKeys', $ek_args);
 		if($output->data)
@@ -783,7 +787,7 @@ class importerAdminController extends importer
 				foreach($extra_vars as $key => $val)
 				{
 					if(!$val->value) continue;
-					unset($e_args);
+					$e_args = new stdClass;
 					$e_args->module_srl = $module_srl;
 					$e_args->document_srl = $obj->document_srl;
 					$e_args->var_idx = $val->var_idx;
@@ -793,7 +797,7 @@ class importerAdminController extends importer
 					// Create a key for extra vars if not exists (except vars for title and content)
 					if(!preg_match('/^(title|content)_(.+)$/i',$e_args->eid) && !$extra_keys[$e_args->eid])
 					{
-						unset($ek_args);
+						$ek_args = new stdClass();
 						$ek_args->module_srl = $module_srl;
 						$ek_args->var_idx = $val->var_idx;
 						$ek_args->var_name = $val->eid;
@@ -962,6 +966,7 @@ class importerAdminController extends importer
 				else
 				{
 					// Get parent comment infomation
+					$parent_args = new stdClass();
 					$parent_args->comment_srl = $obj->parent_srl;
 					$parent_output = executeQuery('comment.getCommentListItem', $parent_args);
 					// Return if parent comment doesn't exist

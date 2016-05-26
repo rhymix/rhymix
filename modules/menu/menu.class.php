@@ -39,7 +39,7 @@ class menu extends ModuleObject
 		{
 			return TRUE;
 		}
-		
+
 		
 		$oMenuAdminModel = getAdminModel('menu');
 		$args = new stdClass();
@@ -95,7 +95,7 @@ class menu extends ModuleObject
 				$menuItemAllList = array();
 				foreach($output  AS $key=>$value)
 				{
-					unset($args);
+					$args = new stdClass();
 					$args->menu_srl = $value->menu_srl;
 					$output2 = executeQueryArray('menu.getMenuItems', $args);
 					if(is_array($output2->data))
@@ -123,7 +123,7 @@ class menu extends ModuleObject
 				$shortcutItemList = array_diff_assoc($menuItemAllList, $menuItemUniqueList);
 				foreach($output AS $key=>$value)
 				{
-					unset($args);
+					$args = new stdClass();
 					$args->menu_srl = $value->menu_srl;
 					$output2 = executeQueryArray('menu.getMenuItems', $args);
 					if(is_array($output2->data))

@@ -237,6 +237,7 @@ class documentAdminView extends document
 	 */
 	function dispDocumentAdminAlias()
 	{
+		$args = new stdClass();
 		$args->document_srl = Context::get('document_srl');
 		if(!$args->document_srl) return $this->dispDocumentAdminList();
 
@@ -268,6 +269,7 @@ class documentAdminView extends document
 	function dispDocumentAdminTrashList()
 	{
 		// options for a list
+		$args = new stdClass();
 		$args->page = Context::get('page'); // /< Page
 		$args->list_count = 30; // /< the number of posts to display on a single page
 		$args->page_count = 10; // /< the number of pages that appear in the page navigation

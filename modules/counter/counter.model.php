@@ -139,6 +139,7 @@ class counterModel extends counter
 		$max = 0;
 		$sum = 0;
 
+		$status = new stdClass();
 		switch($type)
 		{
 			case 'year' :

@@ -142,7 +142,6 @@ class ncenterliteAdminController extends ncenterlite
 		$output = executeQuery('ncenterlite.deleteNotifyAll', $args);
 		if(!$output->toBool())
 		{
-			$oDB->rollback();
 			return $output;
 		}
 

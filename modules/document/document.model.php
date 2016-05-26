@@ -582,6 +582,7 @@ class documentModel extends document
 	function getDocumentExtraVarsCount($module_srl, $search_obj = NULL)
 	{
 		// Additional search options
+		$args = new stdClass();
 		$args->module_srl = $module_srl;
 
 		$args->category_srl = $search_obj->category_srl;
