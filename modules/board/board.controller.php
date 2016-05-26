@@ -483,10 +483,10 @@ class boardController extends board
 		// get the comment_srl
 		$comment_srl = Context::get('comment_srl');
 
-		$perfect_delete = null;
+		$instant_delete = null;
 		if($this->grant->manager == true)
 		{
-			$perfect_delete = Context::get('perfect_delete');
+			$instant_delete = Context::get('instant_delete');
 		}
 
 		if(!$comment_srl)
@@ -517,13 +517,13 @@ class boardController extends board
 		// generate comment  controller object
 		$oCommentController = getController('comment');
 
-		if($this->module_info->comment_delete_message === 'yes' && $perfect_delete != 'Y')
+		if($this->module_info->comment_delete_message === 'yes' && $instant_delete != 'Y')
 		{
 			$comment->content = '';
 			$comment->status = 7;
 			$output = $oCommentController->updateCommentByDelete($comment, $this->grant->manager);
 		}
-		elseif($this->module_info->comment_delete_message === 'only_commnet' && $perfect_delete != 'Y')
+		elseif($this->module_info->comment_delete_message === 'only_commnet' && $instant_delete != 'Y')
 		{
 			$childs = $oCommentModel->getChildComments($comment_srl);
 			if(count($childs) > 0)
