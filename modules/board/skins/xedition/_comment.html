@@ -52,6 +52,9 @@
 				<a cond="$comment->isGranted()||!$comment->get('member_srl')" href="{getUrl('act','dispBoardDeleteComment','comment_srl',$comment->comment_srl)}" class="delete"><i class="xi-trash"></i> {$lang->cmd_delete}</a>
 				<a cond="$is_logged" class="comment_{$comment->comment_srl} this" href="#popup_menu_area" onclick="return false">{$lang->cmd_comment_do}</a>
 			</p>
+			<p class="action" cond="$comment->status >= 7">
+				<a cond="$comment->isGranted()||!$comment->get('member_srl')" href="{getUrl('act','dispBoardDeleteComment','comment_srl',$comment->comment_srl)}" class="delete"><i class="xi-trash"></i> {$lang->delete_placeholder}</a>
+			</p>
 		</li>
 	</ul>
     <div cond="$oDocument->comment_page_navigation" class="pagination">

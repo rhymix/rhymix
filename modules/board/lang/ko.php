@@ -76,3 +76,4 @@ $lang->about_comment_delete_message = '댓글 삭제시 완전히 지우지 않�
 $lang->cmd_only_p_comment = '대댓글이 있는 경우에만 남김';
 $lang->cmd_all_comment_message = '모든 댓글에 남김';
 $lang->cmd_do_not_message = '남기지 않음';
+$lang->delete_placeholder = '완전 삭제';
