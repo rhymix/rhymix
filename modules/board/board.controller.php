@@ -510,10 +510,37 @@ class boardController extends board
 		// generate comment  controller object
 		$oCommentController = getController('comment');
 
-		$output = $oCommentController->deleteComment($comment_srl, $this->grant->manager);
-		if(!$output->toBool())
+		if($this->module_info->comment_delete_message === 'yes')
 		{
-			return $output;
+			$comment->content = '';
+			$comment->status = 7;
+			$output = $oCommentController->updateCommentByDelete($comment, $this->grant->manager);
+		}
+		elseif($this->module_info->comment_delete_message === 'only_commnet')
+		{
+			$childs = $oCommentModel->getChildComments($comment_srl);
+			if(count($childs) > 0)
+			{
+				$comment->content = '';
+				$comment->status = 7;
+				$output = $oCommentController->updateCommentByDelete($comment, $this->grant->manager);
+			}
+			else
+			{
+				$output = $oCommentController->deleteComment($comment_srl, $this->grant->manager, FALSE, $childs);
+				if(!$output->toBool())
+				{
+					return $output;
+				}
+			}
+		}
+		else
+		{
+			$output = $oCommentController->deleteComment($comment_srl, $this->grant->manager);
+			if(!$output->toBool())
+			{
+				return $output;
+			}
 		}
 
 		$this->add('mid', Context::get('mid'));

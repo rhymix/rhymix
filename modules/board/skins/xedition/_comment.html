@@ -25,7 +25,16 @@
 				<input type="hidden" name="comment_srl" value="{$comment->get('comment_srl')}" />
 			</form>
 			<!--@else-->
-			{$comment->getContent(false)}
+			<div class="xe_content">
+				<!--@if($comment->status == 7)-->
+				{$lang->msg_delete_comment}
+				<!--@elseif($comment->status == 8)-->
+				{$lang->msg_admin_delete_comment}
+				<!--@end-->
+			</div>
+			<block cond="$comment->status < 7">
+				{$comment->getContent(false)}
+			</block>
 			<!--@end-->
 			<div cond="$comment->hasUploadedFiles()" class="fileList">
 				<button type="button" class="toggleFile" onclick="jQuery(this).next('ul.files').toggle();"><i class="xi-diskette"></i> {$lang->uploaded_file} [<strong>{$comment->get('uploaded_count')}</strong>]</button>
@@ -33,7 +42,7 @@
 					<li loop="$comment->getUploadedFiles()=>$key,$file"><a href="{getUrl('')}{$file->download_url}">{$file->source_filename} <span class="fileSize">[File Size:{FileHandler::filesize($file->file_size)}/Download:{number_format($file->download_count)}]</span></a></li>
 				</ul>
 			</div>
-			<p class="action">
+			<p class="action" cond="$comment->status < 7">
 				<a cond="$comment->getVote() === false || $comment->getVote() < 0" href="#" onclick="doCallModuleAction('comment','procCommentVoteUp','{$comment->comment_srl}');return false;"|cond="$is_logged" class="voted"><i class="xi-thumbs-up"></i>{$lang->cmd_vote}{$comment->get('voted_count')}</a>
 				<a cond="$comment->getVote() > 0" href="#" onclick="doCallModuleAction('comment','procCommentVoteUpCancel','{$comment->comment_srl}');return false;"|cond="$is_logged" class="voted"><i class="xi-thumbs-up"></i>{$lang->cmd_vote}{$comment->get('voted_count')}</a>
 				<a cond="$comment->getVote() === false || $comment->getVote() > 0" href="#" onclick="doCallModuleAction('comment','procCommentVoteDown','{$comment->comment_srl}');return false;"|cond="$is_logged" class="voted"><i class="xi-thumbs-up"></i>{$lang->cmd_vote_down}{$comment->get('blamed_count')}</a>

@@ -275,6 +275,18 @@
 			</div>
 		</div>
 		<div class="x_control-group">
+			<label class="x_control-label" for="comment_delete_message">{$lang->comment_delete_message}</label>
+			<div class="x_controls">
+				<select name="comment_delete_message" id="comment_delete_message">
+					<option value="no" selected="selected"|cond="$module_info->comment_delete_message == 'no'">{$lang->cmd_do_not_massage}</option>
+					<option value="yes" selected="selected"|cond="$module_info->comment_delete_message == 'yes'">{$lang->cmd_all_comment_message}</option>
+					<option value="only_commnet" selected="selected"|cond="$module_info->comment_delete_message == 'only_commnet'">{$lang->cmd_only_p_comment}</option>
+				</select>
+				<p class="x_help-block">{$lang->about_comment_delete_message}</p>
+			</div>
+		</div>
+
+		<div class="x_control-group">
 			<label class="x_control-label">{$lang->status}</label>
 			<div class="x_controls">
 				<input type="hidden" name="use_status[]" value="PUBLIC" />
