@@ -23,10 +23,8 @@ class login_info extends WidgetHandler
 		Context::set('colorset', $args->colorset);
 
 		$is_logged = Context::get('is_logged');
-
-		// Specify a template file
-		$ncenter_count = 0;
-		$ncenter_list = array();
+		$oMemberModel = getModel('member');
+		$memberConfig = $oMemberModel->getMemberConfig();
 		if($is_logged)
 		{
 			$oNcenterliteModel = getModel('ncenterlite');
@@ -35,12 +33,21 @@ class login_info extends WidgetHandler
 			if(!empty($ncenter_config->use))
 			{
 				$logged_info = Context::get('logged_info');
-				$output = $oNcenterliteModel->getMyNotifyList($logged_info->member_srl);
-				$ncenter_list = $output->data;
-
-				$ncenter_count = $oNcenterliteModel->_getNewCount($logged_info->member_srl);
+				$ncenter_list = $oNcenterliteModel->getMyNotifyList($logged_info->member_srl);
+				$_latest_notify_id = array_slice($ncenter_list->data, 0, 1);
+				$_latest_notify_id = $_latest_notify_id[0]->notify;
+				if($memberConfig->profile_image == 'Y')
+				{
+					$profileImage = $oMemberModel->getProfileImage($logged_info->member_srl);
+					Context::set('profileImage', $profileImage);
+				}
+				Context::set('ncenterlite_latest_notify_id', $_latest_notify_id);
+				if($_COOKIE['_ncenterlite_hide_id'] && $_COOKIE['_ncenterlite_hide_id'] == $_latest_notify_id)
+				{
+					return;
+				}
+				setcookie('_ncenterlite_hide_id', '', 0, '/');
 			}
-
 			$tpl_file = 'login_info';
 		}
 		else
@@ -50,9 +57,12 @@ class login_info extends WidgetHandler
 		// Get the member configuration
 		$oModuleModel = getModel('module');
 		$this->member_config = $oModuleModel->getModuleConfig('member');
+
+		Context::set('useProfileImage', ($memberConfig->profile_image == 'Y') ? true : false);
+		Context::set('ncenterlite_list', $ncenter_list->data);
+		Context::set('ncenterlite_page_navigation', $ncenter_list->page_navigation);
+		Context::set('_ncenterlite_num', $ncenter_list->page_navigation->total_count);
 		Context::set('member_config', $this->member_config);
-		Context::set('ncenter_list', $ncenter_list);
-		Context::set('ncenter_count', $ncenter_count);
 
 		// Set a flag to check if the https connection is made when using SSL and create https url 
 		$ssl_mode = false;
