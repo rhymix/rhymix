@@ -95,13 +95,15 @@ class DateTimeTest extends \Codeception\TestCase\Test
 		
 		// Test getTimeGap() when the internal time zone is different from the default time zone.
 		Rhymix\Framework\Config::set('locale.internal_timezone', 10800);
+		$this->assertEquals('1 minute ago', getTimeGap(getInternalDateTime(RX_TIME - 30)));
 		$this->assertEquals('30 minutes ago', getTimeGap(getInternalDateTime(RX_TIME - 1800)));
-		$this->assertEquals('2 hours ago', getTimeGap(getInternalDateTime(RX_TIME - 6000)));
+		$this->assertEquals('2 hours ago', getTimeGap(getInternalDateTime(RX_TIME - 8000)));
 		
 		// Test getTimeGap() when the internal time zone is the same as the default time zone.
 		Rhymix\Framework\Config::set('locale.internal_timezone', 32400);
 		$this->assertEquals('30 minutes ago', getTimeGap(getInternalDateTime(RX_TIME - 1800)));
-		$this->assertEquals('2 hours ago', getTimeGap(getInternalDateTime(RX_TIME - 6000)));
+		$this->assertEquals('2 hours ago', getTimeGap(getInternalDateTime(RX_TIME - 8000)));
+		$this->assertEquals(getInternalDateTime(RX_TIME - 240000, 'Y.m.d'), getTimeGap(getInternalDateTime(RX_TIME - 240000)));
 	}
 	
 	public function testGetTimezoneForCurrentUser()
@@ -179,5 +181,28 @@ class DateTimeTest extends \Codeception\TestCase\Test
 		$this->assertEquals('Etc/UTC', Rhymix\Framework\DateTime::getTimezoneNameByOffset(0));
 		$this->assertEquals('Asia/Kolkata', Rhymix\Framework\DateTime::getTimezoneNameByOffset(19800));
 		$this->assertEquals('Australia/Eucla', Rhymix\Framework\DateTime::getTimezoneNameByOffset(31500));
+	}
+	
+	public function testGetRelativeTimestamp()
+	{
+		$GLOBALS['lang'] = Rhymix\Framework\Lang::getInstance('ko');
+		$GLOBALS['lang']->loadPlugin('common');
+		
+		$this->assertEquals('방금', Rhymix\Framework\DateTime::getRelativeTimestamp(RX_TIME));
+		$this->assertEquals('20초 전', Rhymix\Framework\DateTime::getRelativeTimestamp(RX_TIME - 20));
+		$this->assertEquals('1분 전', Rhymix\Framework\DateTime::getRelativeTimestamp(RX_TIME - 60));
+		$this->assertEquals('30분 전', Rhymix\Framework\DateTime::getRelativeTimestamp(RX_TIME - 1800));
+		$this->assertEquals('10일 전', Rhymix\Framework\DateTime::getRelativeTimestamp(RX_TIME - 86400 * 10));
+		$this->assertEquals('6개월 전', Rhymix\Framework\DateTime::getRelativeTimestamp(RX_TIME - 86400 * 190));
+		
+		$GLOBALS['lang'] = Rhymix\Framework\Lang::getInstance('en');
+		$GLOBALS['lang']->loadPlugin('common');
+		
+		$this->assertEquals('just now', getInternalDateTime(RX_TIME + 3600, 'relative'));
+		$this->assertEquals('5 days ago', getDisplayDateTime(RX_TIME - 86400 * 5.4, 'relative'));
+		$this->assertEquals('3 months ago', zdate(date('YmdHis', RX_TIME - 86400 * 100), 'relative'));
+		$this->assertEquals('1 year ago', Rhymix\Framework\DateTime::formatTimestamp('relative', RX_TIME - 86400 * 420));
+		$this->assertEquals('2000 years ago', Rhymix\Framework\DateTime::formatTimestampForCurrentUser('relative', RX_TIME - 86400 * 365.25 * 2000));
+		$this->assertEquals('just now', Rhymix\Framework\DateTime::formatTimestampForCurrentUser('relative', RX_TIME + pow(2, 31)));
 	}
 }

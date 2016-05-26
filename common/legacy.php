@@ -553,7 +553,7 @@ function zdate($str, $format = 'Y-m-d H:i:s', $conversion = false)
 	}
 	
 	// convert the date format according to the language
-	if($conversion)
+	if($conversion && $format !== 'relative')
 	{
 		static $convtable = array(
 			'en' => array(
@@ -638,31 +638,17 @@ function getDisplayDateTime($timestamp = null, $format = 'YmdHis')
  */
 function getTimeGap($date, $format = 'Y.m.d')
 {
-	$gap = RX_TIME - ztime($date);
-
-	$lang_time_gap = lang('time_gap');
-	if($gap < 60 * 1.5)
+	$timestamp = ztime($date);
+	$gap = RX_TIME - $timestamp;
+	
+	if ($gap < 60 * 60 * 24)
 	{
-		$buff = sprintf($lang_time_gap['min'], round($gap / 60));
-	}
-	elseif($gap < 60 * 60)
-	{
-		$buff = sprintf($lang_time_gap['mins'], round($gap / 60));
-	}
-	elseif($gap < 60 * 60 * 1.5)
-	{
-		$buff = sprintf($lang_time_gap['hour'], round($gap / 60 / 60));
-	}
-	elseif($gap < 60 * 60 * 24)
-	{
-		$buff = sprintf($lang_time_gap['hours'], round($gap / 60 / 60));
+		return Rhymix\Framework\DateTime::getRelativeTimestamp(($gap >= 60) ? $timestamp : (RX_TIME - 60));
 	}
 	else
 	{
-		$buff = zdate($date, $format);
+		return zdate($date, $format);
 	}
-
-	return $buff;
 }
 
 /**
