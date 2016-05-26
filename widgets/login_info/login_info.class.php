@@ -25,6 +25,8 @@ class login_info extends WidgetHandler
 		$is_logged = Context::get('is_logged');
 
 		// Specify a template file
+		$ncenter_count = 0;
+		$ncenter_list = array();
 		if($is_logged)
 		{
 			$oNcenterliteModel = getModel('ncenterlite');
