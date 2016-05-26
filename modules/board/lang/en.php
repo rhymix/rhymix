@@ -46,4 +46,4 @@ $lang->comment_delete_message = 'Leave Placeholder for Deleted Comment';
 $lang->about_comment_delete_message = 'When a comment is deleted, leave a placeholder saying that it has been deleted.';
 $lang->cmd_only_p_comment = 'Only if there are replies';
 $lang->cmd_all_comment_message = 'Always';
-$lang->cmd_do_not_massage = 'Never';
+$lang->cmd_do_not_message = 'Never';
