@@ -21,9 +21,22 @@ class login_info extends WidgetHandler
 		// Set a path of the template skin (values of skin, colorset settings)
 		$tpl_path = sprintf('%sskins/%s', $this->widget_path, $args->skin);
 		Context::set('colorset', $args->colorset);
+
+		$is_logged = Context::get('is_logged');
+
 		// Specify a template file
-		if(Context::get('is_logged'))
+		if($is_logged)
 		{
+			$oNcenterliteModel = getModel('ncenterlite');
+			$ncenter_config = $oNcenterliteModel->getConfig();
+
+			if(!empty($ncenter_config->use))
+			{
+				$logged_info = Context::get('logged_info');
+				$output = $oNcenterliteModel->getMyNotifyList($logged_info->member_srl);
+				$ncenter_list = $output->data;
+			}
+
 			$tpl_file = 'login_info';
 		}
 		else
@@ -34,6 +47,7 @@ class login_info extends WidgetHandler
 		$oModuleModel = getModel('module');
 		$this->member_config = $oModuleModel->getModuleConfig('member');
 		Context::set('member_config', $this->member_config);
+		Context::set('ncenter_list', $ncenter_list);
 
 		// Set a flag to check if the https connection is made when using SSL and create https url 
 		$ssl_mode = false;
