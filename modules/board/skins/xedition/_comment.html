@@ -27,9 +27,9 @@
 			<!--@else-->
 			<div class="xe_content">
 				<!--@if($comment->status == 7)-->
-				{$lang->msg_delete_comment}
+				{$lang->msg_deleted_comment}
 				<!--@elseif($comment->status == 8)-->
-				{$lang->msg_admin_delete_comment}
+				{$lang->msg_admin_deleted_comment}
 				<!--@end-->
 			</div>
 			<block cond="$comment->status < 7">

@@ -921,12 +921,12 @@ class commentController extends comment
 		// If the case manager to delete comments, it indicated that the administrator deleted.
 		if($is_admin === true && $obj->member_srl !== $logged_info->member_srl)
 		{
-			$obj->content = lang('msg_admin_delete_comment');
+			$obj->content = lang('msg_admin_deleted_comment');
 			$obj->status = 8;
 		}
 		else
 		{
-			$obj->content = lang('msg_delete_comment');
+			$obj->content = lang('msg_deleted_comment');
 		}
 		$obj->member_srl = 0;
 		$output = executeQuery('comment.updateCommentByDelete', $obj);
