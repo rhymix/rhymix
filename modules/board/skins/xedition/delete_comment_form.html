@@ -14,8 +14,8 @@
 
 	<h1>{sprintf($lang->comfirm_act_msg,$lang->comment,$lang->cmd_delete,$lang->msg_eul)}</h1>
 	<div class="btnArea">
-		<label for="perfect_delete" cond="$logged_info->is_admin == 'Y'" style="line-height: 24px;">
-			<input type="checkbox" id="perfect_delete" name="perfect_delete" value="Y" cond="$oComment->isGranted()" checked="checked"|cond="$oComment->status >= 7" style="vertical-align: middle;" />
+		<label for="perfect_delete" cond="$grant->manager" style="line-height: 24px;">
+			<input type="checkbox" id="perfect_delete" name="perfect_delete" value="Y" cond="$grant->manager" checked="checked"|cond="$oComment->status >= 7" style="vertical-align: middle;" />
 			{$lang->delete_placeholder}
 		</label>
 		<input type="submit" class="btn" value="{$lang->cmd_delete}" />
