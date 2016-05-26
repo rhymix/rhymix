@@ -514,6 +514,7 @@ class memberModel extends member
 	 */
 	function getMembersGroups($member_srls, $site_srl = 0)
 	{
+		$args = new stdClass;
 		$args->member_srls = implode(',',$member_srls);
 		$args->site_srl = $site_srl;
 		$args->sort_index = 'list_order';
