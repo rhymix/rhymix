@@ -1301,7 +1301,7 @@ class ModuleHandler extends Handler
 		foreach($trigger_functions as $item)
 		{
 			$before_each_trigger_time = microtime(true);
-			$item($obj);
+			$output = $item($obj);
 			$after_each_trigger_time = microtime(true);
 
 			if ($trigger_name !== 'common.writeSlowlog')
