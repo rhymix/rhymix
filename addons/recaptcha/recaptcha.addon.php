@@ -36,7 +36,6 @@ if (preg_match('/^procMemberInsert/i', Context::get('act')))
 		));
 		
 		$verify = @json_decode($verify_request->body, true);
-		var_dump($verify);exit;
 		if ($verify && isset($verify['error-codes']) && in_array('invalid-input-response', $verify['error-codes']))
 		{
 			return new Object(-1, lang('recaptcha.msg_recaptcha_invalid_response'));
