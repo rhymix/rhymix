@@ -35,6 +35,8 @@ class login_info extends WidgetHandler
 				$logged_info = Context::get('logged_info');
 				$output = $oNcenterliteModel->getMyNotifyList($logged_info->member_srl);
 				$ncenter_list = $output->data;
+
+				$ncenter_count = $oNcenterliteModel->_getNewCount($logged_info->member_srl);
 			}
 
 			$tpl_file = 'login_info';
@@ -48,6 +50,7 @@ class login_info extends WidgetHandler
 		$this->member_config = $oModuleModel->getModuleConfig('member');
 		Context::set('member_config', $this->member_config);
 		Context::set('ncenter_list', $ncenter_list);
+		Context::set('ncenter_count', $ncenter_count);
 
 		// Set a flag to check if the https connection is made when using SSL and create https url 
 		$ssl_mode = false;
