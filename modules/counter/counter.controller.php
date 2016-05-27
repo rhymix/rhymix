@@ -176,6 +176,7 @@ class counterController extends counter
 			$args->site_srl = $site_srl;
 			$query_id = 'counter.insertSiteTodayStatus';
 
+			$u_args = new stdClass();
 			$u_args->site_srl = $site_srl; // /< when inserting a daily row, attempt to inser total rows(where regdate=0) together
 			executeQuery($query_id, $u_args);
 		}

@@ -275,6 +275,7 @@ class commentModel extends comment
 	 */
 	function getCommentCountByDate($date = '', $moduleSrlList = array())
 	{
+		$args = new stdClass();
 		if($date)
 		{
 			$args->regDate = date('Ymd', strtotime($date));

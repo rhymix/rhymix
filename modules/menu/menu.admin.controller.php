@@ -190,6 +190,7 @@ class menuAdminController extends menu
 			else
 			{
 				// create menu item.
+				$item_args = new stdClass();
 				$item_args->menu_srl = $menuSrl;
 				$item_args->url = $moduleInfo->mid;
 				$item_args->name = $moduleInfo->mid;
@@ -1466,6 +1467,7 @@ class menuAdminController extends menu
 		}
 		elseif($mode == 'insert')
 		{
+			$args = new stdClass();
 			$args->menu_item_srl = $target_srl;
 			$args->parent_srl = $parent_srl;
 			$args->listorder = -1*getNextSequence();
@@ -2087,6 +2089,7 @@ class menuAdminController extends menu
 	{
 		if(!count($menu_srl_list)) return;
 		// Delete the value of menu_srls
+		$args = new stdClass();
 		$args->menu_srls = implode(',',$menu_srl_list);
 		$output = executeQuery('menu.deleteMenuLayout', $args);
 		if(!$output->toBool()) return $output;

@@ -305,6 +305,7 @@ class member extends ModuleObject {
 		{
 			$oDB->addColumn("member", "list_order", "number", 11);
 			@set_time_limit(0);
+			$args = new stdClass();
 			$args->list_order = 'member_srl';
 			executeQuery('member.updateMemberListOrderAll',$args);
 			executeQuery('member.updateMemberListOrderAll');
