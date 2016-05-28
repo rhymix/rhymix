@@ -127,18 +127,19 @@
 		});
 
 		<block cond="!Mobile::isFromMobilePhone()">
-				function sc(){
-					var wh = $(window).height();
-					var l = $('#nc_container .list');
-					if(l.height()+100 >= wh) {
-						l.height(wh-98).addClass('listscroll');
-					} else {
-						l.height('auto').removeClass('listscroll');
-					}
-					setTimeout(sc, 100);
-				}
-		sc();
+		function sc() {
+			var wh = $(window).height();
+			var l = $('#nc_container .list');
+			if (l.height() + 100 >= wh) {
+				l.height(wh - 98).addClass('listscroll');
+			} else {
+				l.height('auto').removeClass('listscroll');
+			}
+			setTimeout(sc, 100);
+		}
 		</block>
+		sc();
+
 	})(jQuery);
 	//]]>
 </script>
