@@ -30,10 +30,10 @@
 				<h2><i class="xi-user"></i>{$lang->cmd_login}</h2>
 				<button class="submit"><i class="xi-user-check"></i></button>
 				<span class="inputUserIcon"><i class="xi-user"></i></span>
-				<input name="user_id" id="user_id" type="text" class="user" placeholder="Your ID" required cond="$member_config->identifier != 'email_address'"/>
-				<input name="user_id" id="user_id" type="email" class="user" placeholder="Your Email Address" required cond="$member_config->identifier == 'email_address'"/>
+				<input name="user_id" id="user_id" type="text" class="user" placeholder="{$lang->user_id}" required cond="$member_config->identifier != 'email_address'"/>
+				<input name="user_id" id="user_id" type="email" class="user" placeholder="{$lang->email_address}" required cond="$member_config->identifier == 'email_address'"/>
 				<span class="inputPassIcon"><i class="xi-key"></i></span>
-				<input name="password" id="user_pw" type="password" class="pass" required placeholder="Password"/>
+				<input name="password" id="user_pw" type="password" class="pass" required placeholder="{$lang->password}"/>
 				<p class="keep">
 					<input type="checkbox" name="keep_signed" id="keep_signed" value="Y"/>
 					<label for="keep_signed">{$lang->keep_signed}</label>
