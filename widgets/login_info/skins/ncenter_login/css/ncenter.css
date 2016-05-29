@@ -291,6 +291,9 @@
 .nc_login .list li a {
 	padding:10px 10px 10px 15px !important;
 }
+.nc_login .list ul {
+	margin:10px 0px -1px 0 !important;
+}
 
 #account-signup input.user:focus,
 #account-signup input.pass:focus{
