@@ -30,7 +30,7 @@ class login_info extends WidgetHandler
 		$ncenter_config = $oNcenterliteModel->getConfig();
 		if($is_logged)
 		{
-			if(!empty($ncenter_config->use))
+			if(!empty($ncenter_config->use) && $args->ncenter_use == 'yes')
 			{
 				$logged_info = Context::get('logged_info');
 				$ncenter_list = $oNcenterliteModel->getMyNotifyList($logged_info->member_srl);
