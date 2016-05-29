@@ -25,11 +25,11 @@ class login_info extends WidgetHandler
 		$is_logged = Context::get('is_logged');
 		$oMemberModel = getModel('member');
 		$memberConfig = $oMemberModel->getMemberConfig();
+
+		$oNcenterliteModel = getModel('ncenterlite');
+		$ncenter_config = $oNcenterliteModel->getConfig();
 		if($is_logged)
 		{
-			$oNcenterliteModel = getModel('ncenterlite');
-			$ncenter_config = $oNcenterliteModel->getConfig();
-
 			if(!empty($ncenter_config->use))
 			{
 				$logged_info = Context::get('logged_info');
@@ -57,7 +57,10 @@ class login_info extends WidgetHandler
 		// Get the member configuration
 		$oModuleModel = getModel('module');
 		$this->member_config = $oModuleModel->getModuleConfig('member');
-
+		if($ncenter_config->zindex)
+		{
+			Context::set('ncenterlite_zindex', ' style="z-index:' . $ncenter_config->zindex . ';" ');
+		}
 		Context::set('useProfileImage', ($memberConfig->profile_image == 'Y') ? true : false);
 		Context::set('ncenterlite_list', $ncenter_list->data);
 		Context::set('ncenterlite_page_navigation', $ncenter_list->page_navigation);
