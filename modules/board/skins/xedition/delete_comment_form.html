@@ -11,8 +11,13 @@
 	<input type="hidden" name="page" value="{$page}" />
 	<input type="hidden" name="document_srl" value="{$oComment->get('document_srl')}" />
 	<input type="hidden" name="comment_srl" value="{$oComment->get('comment_srl')}" />
+
 	<h1>{sprintf($lang->comfirm_act_msg,$lang->comment,$lang->cmd_delete,$lang->msg_eul)}</h1>
 	<div class="btnArea">
+		<label for="instant_delete" cond="$grant->manager" style="line-height: 24px;">
+			<input type="checkbox" id="instant_delete" name="instant_delete" value="Y" cond="$grant->manager" checked="checked"|cond="$oComment->status >= 7" style="vertical-align: middle;" />
+			{$lang->delete_placeholder}
+		</label>
 		<input type="submit" class="btn" value="{$lang->cmd_delete}" />
 		<button type="button" class="btn" onclick="history.back()">{$lang->cmd_cancel}</button>
 	</div>

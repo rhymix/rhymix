@@ -211,6 +211,7 @@ class document extends ModuleObject
 		if(!$oDB->isColumnExists("documents","lang_code"))
 		{
 			$oDB->addColumn('documents',"lang_code","varchar",10, config('locale.default_lang'));
+			$obj = new stdClass();
 			$obj->lang_code = config('locale.default_lang');
 			executeQuery('document.updateDocumentsLangCode', $obj);
 		}
@@ -234,6 +235,7 @@ class document extends ModuleObject
 			$output = executeQuery('document.getGroupsExtraKeys', $obj);
 			if($output->toBool() && $output->data && count($output->data)) {
 				foreach($output->data as $extra_keys) {
+					$args = new stdClass();
 					$args->module_srl = $extra_keys->module_srl;
 					$args->var_idx = $extra_keys->idx;
 					$args->new_eid = "extra_vars".$extra_keys->idx;
@@ -245,12 +247,14 @@ class document extends ModuleObject
 		if(!$oDB->isColumnExists("document_extra_vars","eid"))
 		{
 			$oDB->addColumn("document_extra_vars","eid","varchar",40);
+			$obj = new stdClass();
 			$obj->var_idx = '-1,-2';
 			$output = executeQuery('document.getGroupsExtraVars', $obj);
 			if($output->toBool() && $output->data && count($output->data))
 			{
 				foreach($output->data as $extra_vars)
 				{
+					$args = new stdClass();
 					$args->module_srl = $extra_vars->module_srl;
 					$args->var_idx = $extra_vars->idx;
 					$args->new_eid = "extra_vars".$extra_vars->idx;
@@ -272,6 +276,7 @@ class document extends ModuleObject
 		if(!$oDB->isColumnExists('documents', 'status'))
 		{
 			$oDB->addColumn('documents', 'status', 'varchar', 20, 'PUBLIC');
+			$args = new stdClass();
 			$args->is_secret = 'Y';
 			$output = executeQuery('document.updateDocumentStatus', $args);
 		}
@@ -284,7 +289,7 @@ class document extends ModuleObject
 		if($oDB->isColumnExists('documents', 'allow_comment') || $oDB->isColumnExists('documents', 'lock_comment'))
 		{
 			$oDB->addColumn('documents', 'comment_status', 'varchar', 20, 'ALLOW');
-
+			$args = new stdClass();
 			$args->commentStatus = 'DENY';
 
 			// allow_comment='Y', lock_comment='Y'

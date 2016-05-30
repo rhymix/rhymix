@@ -1,0 +1,48 @@
+<load target="./css/ncenter.css" />
+<load target="./js/ncenter.js" type="body" />
+
+<div id="nc_container" class="nc_login" {$ncenterlite_zindex}>
+	<ul class="nc_memu guest">
+		<li class="nc_profile fLeft">
+			<block cond="$useProfileImage">
+				<img cond="!$profileImage" src="{Context::getRequestUri()}modules/ncenterlite/skins/default/img/p.png" alt="my profile" class="nc_profile_img" />
+			</block>
+			<strong>손님</strong>
+		</li>
+
+		<li class="fLeft">
+			<a class="notify" href="#">
+				로그인해주세요!
+			</a>
+		</li>
+	</ul>
+
+	<div class="list">
+		<form id="account-signup" action="{getUrl('','act','procMemberLogin')}" method="post" ruleset="@login" class="account">
+			<fieldset id="acField">
+				<input type="hidden" name="act" value="procMemberLogin"/>
+				<input type="hidden" name="success_return_url" value="{htmlspecialchars(getRequestUriByServerEnviroment(), ENT_COMPAT | ENT_HTML401, 'UTF-8', false)}"/>
+				<input type="hidden" name="xe_validator_id" value="widgets/login_info/skins/default/login_form/1"/>
+				<div cond="$XE_VALIDATOR_MESSAGE && $XE_VALIDATOR_ID == 'widgets/login_info/skins/default/login_form/1'"
+				     class="message {$XE_VALIDATOR_MESSAGE_TYPE}">
+					<p>{$XE_VALIDATOR_MESSAGE}</p>
+				</div>
+				<h2><i class="xi-user"></i>{$lang->cmd_login}</h2>
+				<button class="submit"><i class="xi-user-check"></i></button>
+				<span class="inputUserIcon"><i class="xi-user"></i></span>
+				<input name="user_id" id="user_id" type="text" class="user" placeholder="{$lang->user_id}" required cond="$member_config->identifier != 'email_address'"/>
+				<input name="user_id" id="user_id" type="email" class="user" placeholder="{$lang->email_address}" required cond="$member_config->identifier == 'email_address'"/>
+				<span class="inputPassIcon"><i class="xi-key"></i></span>
+				<input name="password" id="user_pw" type="password" class="pass" required placeholder="{$lang->password}"/>
+				<p class="keep">
+					<input type="checkbox" name="keep_signed" id="keep_signed" value="Y"/>
+					<label for="keep_signed">{$lang->keep_signed}</label>
+				</p>
+				<ul class="help">
+					<li><a href="{getUrl('act','dispMemberSignUpForm')}">{$lang->cmd_signup}</a></li>
+					<li><a href="{getUrl('act','dispMemberFindAccount')}">{$lang->cmd_find_member_account}</a></li>
+				</ul>
+			</fieldset>
+		</form>
+	</div>
+</div>

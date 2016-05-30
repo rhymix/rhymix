@@ -2522,6 +2522,7 @@ class documentController extends document
 		}
 		else if($type == 'cancelDeclare')
 		{
+			$args = new stdClass();
 			$args->document_srl = $document_srl_list;
 			$output = executeQuery('document.deleteDeclaredDocuments', $args);
 			$msg_code = 'success_declare_canceled';

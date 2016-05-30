@@ -20,7 +20,7 @@ class ncenterliteModel extends ncenterlite
 			{
 				$config->use = array('message' => 1);
 			}
-			if(!$config->display_use) $config->display_use = 'Y';
+			if(!$config->display_use) $config->display_use = 'all';
 
 			if(!$config->mention_names) $config->mention_names = 'nick_name';
 			if(!$config->mention_suffixes)

@@ -418,6 +418,7 @@ class pointController extends point
 		// Pass if there are no requested points
 		if(!$point) return new Object();
 		// In case of a registered member, if it is read but cannot just pass, then get the current points
+		$args = new stdClass();
 		if($member_srl)
 		{
 			$args->member_srl = $member_srl;

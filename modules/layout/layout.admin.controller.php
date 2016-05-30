@@ -27,6 +27,7 @@ class layoutAdminController extends layout
 
 		// Get information to create a layout
 		$site_module_info = Context::get('site_module_info');
+		$args = new stdClass();
 		$args->site_srl = (int)$site_module_info->site_srl;
 		$args->layout_srl = getNextSequence();
 		$args->layout = Context::get('layout');
@@ -981,7 +982,7 @@ class layoutAdminController extends layout
 		}
 
 		unset($newLayoutInfo->{$name});
-
+		$args = new stdClass();
 		$args->layout_srl = $layoutSrl;
 		$args->extra_vars = serialize($newLayoutInfo);
 		$output = $this->updateLayout($args);

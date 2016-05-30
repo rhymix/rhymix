@@ -770,6 +770,7 @@ class memberModel extends member
 	 */
 	function getJoinForm($member_join_form_srl)
 	{
+		$args = new stdClass();
 		$args->member_join_form_srl = $member_join_form_srl;
 		$output = executeQuery('member.getJoinForm', $args);
 		$join_form = $output->data;
@@ -797,6 +798,7 @@ class memberModel extends member
 	{
 		if(!$this->denied_id_list)
 		{
+			$args = new stdClass();
 			$args->sort_index = "list_order";
 			$args->page = Context::get('page');
 			$args->list_count = 40;

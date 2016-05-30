@@ -21,14 +21,14 @@
 			</div>
 		</div>
 		<div class="x_control-group">
-			<label class="x_control-label">{$lang->ncenterlite_display}</label>
+			<label class="x_control-label" for="display_use">{$lang->ncenterlite_display}</label>
 			<div class="x_controls">
-				<label class="x_inline">
-					<input type="radio" id="display_use_y" name="display_use" value="Y" checked="checked"|cond="$config->display_use == 'Y'" /> {$lang->ncenterlite_display_y}
-				</label>
-				<label class="x_inline">
-					<input type="radio" id="display_use_n" name="display_use" value="N" checked="checked"|cond="$config->display_use == 'N'" /> {$lang->ncenterlite_display_n}
-				</label>
+				<select name="display_use" id="display_use">
+					<option value="all" selected="selected"|cond="$config->display_use == 'all'">{$lang->ncenterlite_display_all}</option>
+					<option value="none" selected="selected"|cond="$config->display_use == 'none'">{$lang->ncenterlite_display_none}</option>
+					<option value="pc" selected="selected"|cond="$config->display_use == 'pc'">{$lang->ncenterlite_display_pc}</option>
+					<option value="mobile" selected="selected"|cond="$config->display_use == 'mobile'">{$lang->ncenterlite_display_mobile}</option>
+				</select>
 				<p class="x_help-block">{$lang->ncenterlite_display_about}</p>
 			</div>
 		</div>
