@@ -705,7 +705,7 @@ class ncenterliteController extends ncenterlite
 			return new Object();
 		}
 
-		if($config->display_use == 'N')
+		if($config->display_use == 'mobile' && !Mobile::isFromMobilePhone() || $config->display_use == 'pc' && Mobile::isFromMobilePhone() || $config->display_use == 'none')
 		{
 			return new Object();
 		}
