@@ -1,8 +1,8 @@
 <load target="./css/ncenter.css" />
 <load target="./js/ncenter.js" type="body" />
 
-<div id="nc_container" {$ncenterlite_zindex}>
-	<ul class="nc_memu">
+<div id="nc_container" class="nc_login"|cond="$ncenterlite_page_navigation->total_count == 0" {$ncenterlite_zindex}>
+	<ul class="nc_memu" cond="$ncenterlite_page_navigation->total_count > 0">
 		<li class="nc_profile fLeft">
 			<block cond="$useProfileImage">
 				<img cond="$profileImage" src="{$profileImage->src}" alt="my profile" class="nc_profile_img" />
