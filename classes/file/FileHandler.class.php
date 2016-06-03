@@ -345,6 +345,7 @@ class FileHandler
 	{
 		try
 		{
+			$host = parse_url($url, PHP_URL_HOST);
 			$request_headers = array();
 			$request_cookies = array();
 			$request_options = array('timeout' => $timeout);
