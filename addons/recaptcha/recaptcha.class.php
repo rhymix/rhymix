@@ -4,7 +4,8 @@ class reCAPTCHA
 {
 	protected static $verify = 'https://www.google.com/recaptcha/api/siteverify';
 	protected static $config = null;
-	protected static $script_added = false;
+	protected static $scripts_added = false;
+	protected static $instances_inserted = 0;
 	protected static $sequence = 1;
 	
 	public static function init($config)
@@ -41,22 +42,22 @@ class reCAPTCHA
 		}
 	}
 	
+	public function __construct()
+	{
+		if (!self::$scripts_added)
+		{
+			self::$scripts_added = true;
+			Context::loadFile(array('./addons/recaptcha/recaptcha.js', 'body'));
+			Context::addHtmlFooter('<script src="https://www.google.com/recaptcha/api.js?render=explicit&amp;onload=reCaptchaCallback" async defer></script>');
+			$html = '<div id="recaptcha-config" data-sitekey="%s" data-theme="%s" data-size="%s"></div>';
+			$html = sprintf($html, escape(self::$config->site_key), self::$config->theme ?: 'light', self::$config->size ?: 'normal');
+			Context::addHtmlFooter($html);
+		}
+	}
+	
 	public function __toString()
 	{
-		if (!self::$config)
-		{
-			return '';
-		}
-		
-		if (!self::$script_added)
-		{
-			Context::loadFile(array('./addons/recaptcha/recaptcha.js', 'body'));
-			Context::addHtmlFooter('<script src="https://www.google.com/recaptcha/api.js?render=explicit&onload=reCaptchaCallback" async defer></script>');
-			self::$script_added = true;
-		}
-		
-		$html = '<div id="recaptcha-instance-%d" class="g-recaptcha" data-sitekey="%s" data-theme="%s" data-size="%s"></div>';
-		$html = sprintf($html, self::$sequence++, escape(self::$config->site_key), self::$config->theme ?: 'light', self::$config->size ?: 'normal');
-		return $html;
+		self::$instances_inserted++;
+		return '<div id="recaptcha-instance-%d" class="g-recaptcha"></div>';
 	}
 }
