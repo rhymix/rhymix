@@ -9,7 +9,7 @@ if ($addon_info->use_signup === 'Y' && preg_match('/^(?:disp|proc)Member(?:SignU
 {
 	$enable_captcha = true;
 }
-if ($addon_info->use_recovery === 'Y' && preg_match('/^(?:disp|proc)Member(?:FindAccount|ResendAuthMail)/i', Context::get('act')))
+elseif ($addon_info->use_recovery === 'Y' && preg_match('/^(?:disp|proc)Member(?:FindAccount|ResendAuthMail)/i', Context::get('act')))
 {
 	$enable_captcha = true;
 }

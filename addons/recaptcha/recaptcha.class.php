@@ -5,6 +5,7 @@ class reCAPTCHA
 	protected static $verify = 'https://www.google.com/recaptcha/api/siteverify';
 	protected static $config = null;
 	protected static $script_added = false;
+	protected static $sequence = 1;
 	
 	public static function init($config)
 	{
@@ -49,12 +50,13 @@ class reCAPTCHA
 		
 		if (!self::$script_added)
 		{
-			Context::addHtmlFooter('<script src="https://www.google.com/recaptcha/api.js" async defer></script>');
+			Context::loadFile(array('./addons/recaptcha/recaptcha.js', 'body'));
+			Context::addHtmlFooter('<script src="https://www.google.com/recaptcha/api.js?render=explicit&onload=reCaptchaCallback" async defer></script>');
 			self::$script_added = true;
 		}
 		
-		$html = '<div class="g-recaptcha" data-sitekey="%s" data-theme="%s" data-size="%s"></div>';
-		$html = sprintf($html, escape(self::$config->site_key), self::$config->theme ?: 'light', self::$config->size ?: 'normal');
+		$html = '<div id="recaptcha-instance-%d" class="g-recaptcha" data-sitekey="%s" data-theme="%s" data-size="%s"></div>';
+		$html = sprintf($html, self::$sequence++, escape(self::$config->site_key), self::$config->theme ?: 'light', self::$config->size ?: 'normal');
 		return $html;
 	}
 }
