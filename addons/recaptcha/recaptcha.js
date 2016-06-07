@@ -7,7 +7,7 @@ function reCaptchaCallback() {
 	if (recaptcha_instances.size() === 0) {
 		var autoinsert_candidates = $("form").filter(function() {
 			var actinput = $("input[name='act']", this);
-			if (actinput.size() && actinput.val() && actinput.val().match(/^proc.+Insert(Document|Comment)/i)) {
+			if (actinput.size() && actinput.val() && actinput.val().match(/^proc.+(Insert(Document|Comment|)|FindAccount|ResendAuthMail)/i)) {
 				return true;
 			}
 			var procfilter = $(this).attr("onsubmit");
