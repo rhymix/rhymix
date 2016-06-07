@@ -38,6 +38,7 @@ class reCAPTCHA
 		}
 		else
 		{
+			$_SESSION['recaptcha_authenticated'] = true;
 			return true;
 		}
 	}

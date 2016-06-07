@@ -6,8 +6,21 @@ if (!defined('RX_BASEDIR') || !$addon_info->site_key || !$addon_info->secret_key
 }
 
 $current_action = Context::get('act');
+$current_member = Context::get('logged_info');
 
-if ($addon_info->use_signup === 'Y' && preg_match('/^(?:disp|proc)Member(?:SignUp|Insert)/i', $current_action))
+if ($current_member->is_admin === 'Y')
+{
+	$enable_captcha = false;
+}
+elseif ($addon_info->target_users !== 'everyone' && $current_member->member_srl)
+{
+	$enable_captcha = false;
+}
+elseif ($addon_info->target_frequency !== 'every_time' && isset($_SESSION['recaptcha_authenticated']) && $_SESSION['recaptcha_authenticated'])
+{
+	$enable_captcha = false;
+}
+elseif ($addon_info->use_signup === 'Y' && preg_match('/^(?:disp|proc)Member(?:SignUp|Insert)/i', $current_action))
 {
 	$enable_captcha = true;
 }
@@ -41,8 +54,4 @@ if ($enable_captcha)
 	{
 		Context::set('captcha', new reCAPTCHA());
 	}
-}
-else
-{
-	return;
 }
