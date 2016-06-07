@@ -19,6 +19,78 @@
             <title xml:lang="ko">Secret Key</title>
             <title xml:lang="en">Secret Key</title>
         </var>
+		<var name="use_signup" type="select">
+			<title xml:lang="ko">회원가입에 사용</title>
+			<title xml:lang="en">Use on Signup Form</title>
+            <options value="Y">
+                <title xml:lang="ko">예</title>
+                <title xml:lang="en">Yes</title>
+            </options>
+            <options value="N">
+                <title xml:lang="ko">아니오</title>
+                <title xml:lang="en">No</title>
+            </options>
+		</var>
+		<var name="use_recovery" type="select">
+			<title xml:lang="ko">ID/PW찾기에 사용</title>
+			<title xml:lang="en">Use on Account Recovery Form</title>
+            <options value="Y">
+                <title xml:lang="ko">예</title>
+                <title xml:lang="en">Yes</title>
+            </options>
+            <options value="N">
+                <title xml:lang="ko">아니오</title>
+                <title xml:lang="en">No</title>
+            </options>
+		</var>
+		<var name="use_document" type="select">
+			<title xml:lang="ko">글쓰기에 사용</title>
+			<title xml:lang="en">Use on New Document</title>
+            <options value="N">
+                <title xml:lang="ko">아니오</title>
+                <title xml:lang="en">No</title>
+            </options>
+            <options value="Y">
+                <title xml:lang="ko">예</title>
+                <title xml:lang="en">Yes</title>
+            </options>
+		</var>
+		<var name="use_comment" type="select">
+			<title xml:lang="ko">댓글쓰기에 사용</title>
+			<title xml:lang="en">Use on New Comment</title>
+            <options value="N">
+                <title xml:lang="ko">아니오</title>
+                <title xml:lang="en">No</title>
+            </options>
+            <options value="Y">
+                <title xml:lang="ko">예</title>
+                <title xml:lang="en">Yes</title>
+            </options>
+		</var>
+		<var name="target_users" type="select">
+			<title xml:lang="ko">사용 대상</title>
+			<title xml:lang="en">Target Users</title>
+            <options value="non_members">
+                <title xml:lang="ko">비회원만 사용</title>
+                <title xml:lang="en">Non-members Only</title>
+            </options>
+            <options value="everyone">
+                <title xml:lang="ko">모든 방문자에게 사용</title>
+                <title xml:lang="en">Everyone</title>
+            </options>
+		</var>
+		<var name="target_frequency" type="select">
+			<title xml:lang="ko">사용 빈도</title>
+			<title xml:lang="en">Target Frequency</title>
+            <options value="every_time">
+                <title xml:lang="ko">매번 사용</title>
+                <title xml:lang="en">Every Time</title>
+            </options>
+            <options value="first_time_only">
+                <title xml:lang="ko">방문자당 최초 1회만 사용</title>
+                <title xml:lang="en">First Time Only</title>
+            </options>
+		</var>
         <var name="theme" type="select">
             <title xml:lang="ko">테마</title>
             <title xml:lang="en">Theme</title>

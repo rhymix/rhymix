@@ -5,48 +5,34 @@ if (!defined('RX_BASEDIR') || !$addon_info->site_key || !$addon_info->secret_key
 	return;
 }
 
-if (preg_match('/^dispMemberSignUp/i', Context::get('act')))
+if ($addon_info->use_signup === 'Y' && preg_match('/^(?:disp|proc)Member(?:SignUp|Insert)/i', Context::get('act')))
 {
-	getController('module')->addTriggerFunction('moduleObject.proc', 'after', function() use($addon_info) {
-		$html = '<div class="g-recaptcha" data-sitekey="%s" data-theme="%s" data-size="%s"></div>';
-		$html = sprintf($html, escape($addon_info->site_key), $addon_info->theme ?: 'light', $addon_info->size ?: 'normal');
-		Context::addHtmlHeader('<script src="https://www.google.com/recaptcha/api.js" async defer></script>');
-		Context::getInstance()->formTags[] = (object)array(
-			'name' => 'recaptcha',
-			'title' => 'reCAPTCHA',
-			'inputTag' => $html,
-		);
-	});
+	$enable_captcha = true;
+}
+if ($addon_info->use_recovery === 'Y' && preg_match('/^(?:disp|proc)Member(?:FindAccount|ResendAuthMail)/i', Context::get('act')))
+{
+	$enable_captcha = true;
+}
+else
+{
+	$enable_captcha = false;
 }
 
-if (preg_match('/^procMemberInsert/i', Context::get('act')))
+if ($enable_captcha)
 {
-	getController('module')->addTriggerFunction('moduleObject.proc', 'before', function() use($addon_info) {
-		$response = Context::get('g-recaptcha-response');
-		if (!$response)
-		{
-			return new Object(-1, lang('recaptcha.msg_recaptcha_invalid_response'));
-		}
-		
-		$verify_url = 'https://www.google.com/recaptcha/api/siteverify';
-		$verify_request = \Requests::post($recaptcha_verify_url, array(), array(
-			'secret' => $addon_info->secret_key,
-			'response' => $recaptcha_response,
-			'remoteip' => \RX_CLIENT_IP,
-		));
-		
-		$verify = @json_decode($verify_request->body, true);
-		if ($verify && isset($verify['error-codes']) && in_array('invalid-input-response', $verify['error-codes']))
-		{
-			return new Object(-1, lang('recaptcha.msg_recaptcha_invalid_response'));
-		}
-		elseif (!$verify || !$verify['success'] || (isset($verify['error-codes']) && $verify['error-codes']))
-		{
-			return new Object(-1, lang('recaptcha.msg_recaptcha_server_error'));
-		}
-		else
-		{
-			return true;
-		}
-	});
+	include_once __DIR__ . '/recaptcha.class.php';
+	reCAPTCHA::init($addon_info);
+	
+	if (strncasecmp('proc', Context::get('act'), 4) === 0)
+	{
+		getController('module')->addTriggerFunction('moduleObject.proc', 'before', 'reCAPTCHA::check');
+	}
+	else
+	{
+		Context::set('captcha', new reCAPTCHA());
+	}
+}
+else
+{
+	return;
 }
