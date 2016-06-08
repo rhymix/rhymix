@@ -208,7 +208,7 @@ class memberView extends member
 		$oMemberAdminView = getAdminView('member');
 		$formTags = $oMemberAdminView->_getMemberInputTag($member_info);
 		Context::set('formTags', $formTags);
-
+		Context::set('email_confirmation_required', $member_config->enable_confirm);
 
 		// Editor of the module set for signing by calling getEditor
 		foreach($formTags as $formTag) {
