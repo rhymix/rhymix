@@ -58,7 +58,6 @@ class reCAPTCHA
 	
 	public function __toString()
 	{
-		self::$instances_inserted++;
-		return '<div id="recaptcha-instance-%d" class="g-recaptcha"></div>';
+		return sprintf('<div id="recaptcha-instance-%d" class="g-recaptcha"></div>', self::$instances_inserted++);
 	}
 }
