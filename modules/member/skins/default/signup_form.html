@@ -66,6 +66,10 @@
 				<label for="allow_{$key}" loop="$lang->allow_message_type=>$key,$val"><input type="radio" name="allow_message" value="{$key}" checked="checked"|cond="$member_info->allow_message == $key || (!$member_info && $key == 'Y')" id="allow_{$key}" /> {$val}</label>
 			</div>
 		</div>
+		<div class="control-group" cond="$captcha">
+			<div class="control-label">{$lang->captcha}</div>
+			<div class="controls">{$captcha}</div>
+		</div>
 		<div class="btnArea" style="border-top:1px solid #ccc;padding-top:10px">
 			<input type="submit" value="{$lang->cmd_registration}" class="btn btn-inverse pull-right" />
 			<a href="{getUrl('act','','member_srl','')}" class="btn pull-left">{$lang->cmd_cancel}</a>

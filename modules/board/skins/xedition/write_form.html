@@ -73,7 +73,10 @@
 				<input type="text" name="reason_update" id="reason_update" value="" class="iText" style="width:300px" title="reason update" />
 			</span>
 		</div>
-		<div class="btnArea">
+		<div class="write_captcha" cond="$captcha">
+			{$captcha}
+		</div>
+		<div style="float:right">
 			<block cond="!$oDocument->isExists() || $oDocument->get('status') == 'TEMP'">
 			<button cond="$is_logged" class="btn" type="button" onclick="doDocumentSave(this);">{$lang->cmd_temp_save}</button>
 			<button cond="$is_logged" class="btn" type="button" onclick="doDocumentLoad(this);">{$lang->cmd_load}</button>
