@@ -316,6 +316,10 @@
 .write_option label {
 	margin: 0 10px 0 0;
 }
+.write_captcha {
+	float: left;
+	margin: 0;
+}
 /* Extra Form */
 .exForm {
 	background: #fff;
@@ -946,7 +950,7 @@
 /* _read.html | write_form.html | comment_form.html */
 .write_author {
 	float: left;
-	margin: 0 4px 0 0;
+	margin: 0 4px 1em 0;
 }
 .write_author .item {
 	position: relative;
