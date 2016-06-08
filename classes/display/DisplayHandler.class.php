@@ -189,6 +189,10 @@ class DisplayHandler extends Handler
 				{
 					unset($data->slow_widgets);
 				}
+				if (count($display_content) && !isset($display_content['slow_remote_requests']))
+				{
+					unset($data->slow_remote_requests);
+				}
 				if ($data->entries)
 				{
 					foreach ($data->entries as &$entry)

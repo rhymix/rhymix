@@ -389,7 +389,39 @@ class FileHandler
 			}
 			
 			$url = str_replace('&amp;', '&', $url);
+			$start_time = microtime(true);
 			$response = Requests::request($url, $request_headers, $body ?: $post_data, $method, $request_options);
+			$elapsed_time = microtime(true) - $start_time;
+			$GLOBALS['__remote_request_elapsed__'] += $elapsed_time;
+			
+			$log = array();
+			$log['url'] = $url;
+			$log['status'] = $response ? $response->status_code : 0;
+			$log['elapsed_time'] = $elapsed_time;
+			
+			if (config('debug.enabled') && in_array('slow_remote_requests', config('debug.display_content')))
+			{
+				$bt = defined('DEBUG_BACKTRACE_IGNORE_ARGS') ? debug_backtrace(DEBUG_BACKTRACE_IGNORE_ARGS) : debug_backtrace();
+				foreach($bt as $no => $call)
+				{
+					if(strncasecmp($call['function'], 'getRemote', 9) === 0)
+					{
+						$call_no = $no + 1;
+						$log['called_file'] = $bt[$call_no]['file'];
+						$log['called_line'] = $bt[$call_no]['line'];
+						$call_no++;
+						$log['called_method'] = $bt[$call_no]['class'].$bt[$call_no]['type'].$bt[$call_no]['function'];
+						$log['backtrace'] = array_slice($bt, $call_no, 1);
+						break;
+					}
+				}
+			}
+			else
+			{
+				$log['called_file'] = $log['called_line'] = $log['called_method'] = null;
+				$log['backtrace'] = array();
+			}
+			Rhymix\Framework\Debug::addRemoteRequest($log);
 			
 			if(count($response->cookies))
 			{

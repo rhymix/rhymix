@@ -36,6 +36,13 @@
 			</div>
 		</div>
 		<div class="x_control-group">
+			<label class="x_control-label" for="debug_log_slow_remote_requests">{$lang->debug_log_slow_remote_requests}</label>
+			<div class="x_controls">
+				<input type="text" name="debug_log_slow_remote_requests" id="debug_log_slow_remote_requests" size="5" value="{$debug_log_slow_remote_requests}" style="width:60px" />
+				&nbsp;{$lang->debug_seconds}
+			</div>
+		</div>
+		<div class="x_control-group">
 			<label class="x_control-label" for="debug_log_slow_widgets">{$lang->debug_display_type}</label>
 			<div class="x_controls">
 				<label for="debug_display_type_comment" class="x_inline"><input type="radio" name="debug_display_type" id="debug_display_type_comment" value="comment" checked="checked"|cond="$debug_display_type=='comment'" /> {$lang->debug_display_type_comment}</label>
@@ -53,6 +60,7 @@
 				<label for="debug_display_content_slow_queries" class="x_inline"><input type="checkbox" name="debug_display_content[]" id="debug_display_content_slow_queries" value="slow_queries" checked="checked"|cond="!count($debug_display_content) || in_array('slow_queries', $debug_display_content)" /> {$lang->debug_display_content_slow_queries}</label>
 				<label for="debug_display_content_slow_triggers" class="x_inline"><input type="checkbox" name="debug_display_content[]" id="debug_display_content_slow_triggers" value="slow_triggers" checked="checked"|cond="!count($debug_display_content) || in_array('slow_triggers', $debug_display_content)" /> {$lang->debug_display_content_slow_triggers}</label>
 				<label for="debug_display_content_slow_widgets" class="x_inline"><input type="checkbox" name="debug_display_content[]" id="debug_display_content_slow_widgets" value="slow_widgets" checked="checked"|cond="!count($debug_display_content) || in_array('slow_widgets', $debug_display_content)" /> {$lang->debug_display_content_slow_widgets}</label>
+				<label for="debug_display_content_slow_remote_requests" class="x_inline"><input type="checkbox" name="debug_display_content[]" id="debug_display_content_slow_remote_requests" value="slow_remote_requests" checked="checked"|cond="!count($debug_display_content) || in_array('slow_remote_requests', $debug_display_content)" /> {$lang->debug_display_content_slow_remote_requests}</label>
 			</div>
 		</div>
 		<div class="x_control-group">
