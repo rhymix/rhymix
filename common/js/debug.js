@@ -173,6 +173,22 @@ $(function() {
 			}
 		}
 		
+		// Add slow remote requests.
+		if (data.slow_remote_requests && data.slow_remote_requests.length) {
+			page_body.append($('<h4></h4>').text('Slow Remote Requests (' + data.slow_remote_requests.length + ')'));
+			for (i in data.slow_remote_requests) {
+				entry = $('<div class="debug_entry"></div>').appendTo(page_body);
+				num = parseInt(i) + 1; if (num < 10) num = "0" + num;
+				entry.text(num + ". " + data.slow_remote_requests[i].url);
+				description = $('<ul class="debug_backtrace"></ul>').appendTo(entry);
+				if (data.slow_remote_requests[i].file && data.slow_remote_requests[i].line) {
+					description.append($('<li></li>').text("Caller: " + data.slow_remote_requests[i].file + ":" + data.slow_remote_requests[i].line).append("<br>(" + data.slow_remote_requests[i].method + ")"));
+					description.append($('<li></li>').text("Elapsed Time: " + (data.slow_remote_requests[i].elapsed_time ? (data.slow_remote_requests[i].elapsed_time.toFixed(4) + " sec") : "")));
+				}
+				description.append($('<li></li>').text("Status Code: " + data.slow_remote_requests[i].status));
+			}
+		}
+		
 		// If there are errors, turn the button text red.
 		if (data.errors && data.errors.length) {
 			button_link.addClass("has_errors");

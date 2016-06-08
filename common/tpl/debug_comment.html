@@ -21,6 +21,7 @@ DB Query Time:           <?php echo $data->timing->db_query . "\n"; ?>
 DB Processing Time:      <?php echo $data->timing->db_class . "\n"; ?>
 Layout Processing Time:  <?php echo $data->timing->layout . "\n"; ?>
 Widget Processing Time:  <?php echo $data->timing->widget . "\n"; ?>
+Remote Request Time:     <?php echo $data->timing->remote . "\n"; ?>
 Content Transform Time:  <?php echo $data->timing->trans . "\n"; ?>
 
 Resource Usage
@@ -154,6 +155,26 @@ Slow Widgets
 	{
 		echo sprintf('%02d. %s', ++$widget_count, $widget->widget_name) . "\n";
 		echo sprintf('    - Exec Time:  %0.4f sec', $widget->widget_time) . "\n";
+	}
+?>
+<?php endif; ?>
+
+<?php if (!count($display_content) || isset($display_content['slow_remote_requests'])): ?>
+Slow Remote Requests
+====================
+<?php
+	$request_count = 0;
+	if (!count($data->slow_remote_requests))
+	{
+		echo 'None'. "\n";
+	}
+	foreach ($data->slow_remote_requests as $request)
+	{
+		$request_caller = sprintf('%s line %d (%s)', $request->file, $request->line, $request->method);
+		echo sprintf('%02d. %s', ++$request_count, $request->url) . "\n";
+		echo sprintf('    - Caller:        %s', $request_caller) . "\n";
+		echo sprintf('    - Elapsed Time:  %0.4f sec', $request->elapsed_time) . "\n";
+		echo sprintf('    - Status Code:   %d', $request->status) . "\n";
 	}
 ?>
 <?php endif; ?>

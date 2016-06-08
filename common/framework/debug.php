@@ -19,6 +19,8 @@ class Debug
 	protected static $_slow_triggers = array();
 	protected static $_widgets = array();
 	protected static $_slow_widgets = array();
+	protected static $_remote_requests = array();
+	protected static $_slow_remote_requests = array();
 	
 	/**
 	 * Also write to error log.
@@ -103,6 +105,26 @@ class Debug
 	public static function getSlowWidgets()
 	{
 		return self::$_slow_widgets;
+	}
+	
+	/**
+	 * Get all remote requests.
+	 * 
+	 * @return array
+	 */
+	public static function getRemoteRequests()
+	{
+		return self::$_remote_requests;
+	}
+	
+	/**
+	 * Get all slow remote requests.
+	 * 
+	 * @return array
+	 */
+	public static function getSlowRemoteRequests()
+	{
+		return self::$_slow_remote_requests;
 	}
 	
 	/**
@@ -281,6 +303,33 @@ class Debug
 		if ($widget_object->widget_time && $widget_object->widget_time >= config('debug.log_slow_widgets'))
 		{
 			self::$_slow_widgets[] = $widget_object;
+		}
+	}
+	
+	/**
+	 * Add a remote request to the log.
+	 * 
+	 * @return bool
+	 */
+	public static function addRemoteRequest($request)
+	{
+		$request_object = (object)array(
+			'type' => 'Remote Request',
+			'time' => microtime(true),
+			'message' => null,
+			'url' => $request['url'],
+			'status' => $request['status'],
+			'file' => $request['called_file'],
+			'line' => $request['called_line'],
+			'method' => $request['called_method'],
+			'backtrace' => $request['backtrace'],
+			'elapsed_time' => $request['elapsed_time'],
+		);
+		
+		self::$_remote_requests[] = $request_object;
+		if ($request_object->elapsed_time && $request_object->elapsed_time >= config('debug.log_slow_remote_requests'))
+		{
+			self::$_slow_remote_requests[] = $request_object;
 		}
 	}
 	
@@ -504,6 +553,7 @@ class Debug
 				'db_class' => sprintf('%0.4f sec', $GLOBALS['__dbclass_elapsed_time__'] - $GLOBALS['__db_elapsed_time__']),
 				'layout' => sprintf('%0.4f sec', $GLOBALS['__layout_compile_elapsed__']),
 				'widget' => sprintf('%0.4f sec', $GLOBALS['__widget_excute_elapsed__']),
+				'remote' => sprintf('%0.4f sec', $GLOBALS['__remote_request_elapsed__']),
 				'trans' => sprintf('%0.4f sec', $GLOBALS['__trans_content_elapsed__']),
 			),
 			'entries' => self::$_entries,
@@ -512,10 +562,11 @@ class Debug
 			'slow_queries' => self::$_slow_queries,
 			'slow_triggers' => self::$_slow_triggers,
 			'slow_widgets' => self::$_slow_widgets,
+			'slow_remote_requests' => self::$_slow_remote_requests,
 		);
 		
 		// Clean up the backtrace.
-		foreach (array('entries', 'errors', 'queries', 'slow_queries') as $key)
+		foreach (array('entries', 'errors', 'queries', 'slow_queries', 'remote_requests', 'slow_remote_requests') as $key)
 		{
 			if (!$data->$key)
 			{
