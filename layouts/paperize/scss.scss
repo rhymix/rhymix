@@ -1,0 +1,48 @@
+/* Paperize Style control by misol (misol.kr@gmail.com) */
+// based on materialize.scss
+
+// basic layout style for Rx
+
+@import "materialize-src/sass/components/color";
+
+// Set colors for Rymix
+$primary-color: color("#{$p-color}", "lighten-2");
+$secondary-color: color("#{$s-color}", "lighten-1");
+$link-color: $secondary-color;
+
+
+// Variables;
+@import "materialize-src/sass/components/variables";
+
+// Reset
+@import "materialize-src/sass/components/normalize";
+
+// components
+@import "materialize-src/sass/components/global";
+@import "materialize-src/sass/components/icons-material-design";
+@import "materialize-src/sass/components/grid";
+@import "materialize-src/sass/components/navbar";
+
+@import "materialize-src/sass/components/typography";
+@import "materialize-src/sass/components/cards";
+@import "materialize-src/sass/components/toast";
+@import "materialize-src/sass/components/tabs";
+@import "materialize-src/sass/components/tooltip";
+@import "materialize-src/sass/components/buttons";
+@import "materialize-src/sass/components/dropdown";
+@import "materialize-src/sass/components/waves";
+@import "materialize-src/sass/components/modal";
+@import "materialize-src/sass/components/collapsible";
+@import "materialize-src/sass/components/chips";
+@import "materialize-src/sass/components/materialbox";
+@import "materialize-src/sass/components/forms/forms";
+@import "materialize-src/sass/components/table_of_contents";
+@import "materialize-src/sass/components/sideNav";
+@import "materialize-src/sass/components/preloader";
+@import "materialize-src/sass/components/slider";
+@import "materialize-src/sass/components/carousel";
+@import "materialize-src/sass/components/date_picker/default";
+@import "materialize-src/sass/components/date_picker/default.date";
+@import "materialize-src/sass/components/date_picker/default.time";
+
+

@@ -1,0 +1,69 @@
+
+@import "default.layout.css";
+
+@function color500($color) {
+  @if $#{$color}-500 {
+    @return $#{$color}-500;
+  }
+  @warn "Unknown 500 `#{name}` in $colors.";
+  @return null;
+}
+
+@function color700($color) {
+  @if $#{$color}-700 {
+    @return $#{$color}-700;
+  }
+  @warn "Unknown 700 `#{name}` in $colors.";
+  @return null;
+}
+
+
+@function colorA200($color) {
+  @if $#{$color}-A200 {
+    @return $#{$color}-A200;
+  }
+  @warn "Unknown A200 `#{name}` in $colors.";
+  @return null;
+}
+
+// Set colors for Rymix
+$color-primary: color500($p-color);
+$color-primary-dark: color700($p-color);
+$color-accent: colorA200($s-color);
+
+
+/* Material Design Lite */
+
+// Variables and mixins
+@import "src/variables";
+@import "src/mixins";
+
+@import "src/typography/typography";
+
+// Components
+@import "src/palette/palette";
+@import "src/ripple/ripple";
+@import "src/animation/animation";
+@import "src/badge/badge";
+@import "src/button/button";
+@import "src/card/card";
+@import "src/checkbox/checkbox";
+@import "src/data-table/data-table";
+@import "src/dialog/dialog";
+@import "src/footer/mega_footer";
+@import "src/footer/mini_footer";
+@import "src/icon-toggle/icon-toggle";
+@import "src/list/list";
+@import "src/menu/menu";
+@import "src/progress/progress";
+@import "src/layout/layout";
+@import "src/radio/radio";
+@import "src/slider/slider";
+@import "src/snackbar/snackbar";
+@import "src/spinner/spinner";
+@import "src/switch/switch";
+@import "src/tabs/tabs";
+@import "src/textfield/textfield";
+@import "src/tooltip/tooltip";
+@import "src/shadow/shadow";
+@import "src/grid/grid";

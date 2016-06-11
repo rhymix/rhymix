@@ -1,0 +1,121 @@
+<!--// responsible layout -->
+{Context::addMetaTag("viewport", "width=device-width, user-scalable=yes")}
+{@ if(!$layout_info->primary_color) $layout_info->primary_color = 'red'}
+{@ if(!$layout_info->secondary_color) $layout_info->secondary_color = 'indigo'}
+
+{@ if($layout_info->primary_color === $layout_info->secondary_color && $layout_info->primary_color === 'indigo') $layout_info->secondary_color = 'red'}
+{@ if($layout_info->primary_color === $layout_info->secondary_color && $layout_info->primary_color !== 'indigo') $layout_info->secondary_color = 'indigo'}
+
+<load target="default.layout.css" />
+
+{@ $getMdl = 'https://code.getmdl.io/1.1.3/material.' . $layout_info->primary_color . '-' . $layout_info->secondary_color . '.min.css'}
+{@ Context::loadFile(array($getMdl))}
+
+<script defer src="https://code.getmdl.io/1.1.3/material.min.js"></script>
+<link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons" />
+
+<p class="layout_skip"><a href="#layout_content">{$lang->skip_to_content}</a></p>
+<div class="mdl-layout mdl-js-layout mdl-layout--fixed-header">
+	<header class="header mdl-layout__header mdl-layout__header--waterfall">
+		<div class="mdl-layout__header-row">
+			<h1 class="mdl-layout__title">
+				<block cond="Context::getSiteTitle() && !$layout_info->LOGO_IMG && !$layout_info->LOGO_TEXT">{Context::getSiteTitle()}</block>
+				<img src="{$layout_info->LOGO_IMG}" alt="{$layout_info->LOGO_TEXT}" cond="$layout_info->LOGO_IMG">
+				<block cond="!$layout_info->LOGO_IMG && $layout_info->LOGO_TEXT">{$layout_info->LOGO_TEXT}</block>
+			</h1>
+			<div class="mdl-layout-spacer"></div>
+			<!-- Right aligned menu below button -->
+			<button id="layout-menu-lower-right" class="mdl-button mdl-js-button mdl-button--icon">
+				<i class="material-icons">more_vert</i>
+			</button>
+		</div>
+		<!-- Bottom row, not visible on scroll -->
+		<block loop="$GNB->list=>$key1,$val1">
+			<div class="mdl-layout__tab-bar mdl-js-ripple-effect" cond="$val1['selected'] && $val1['list']">
+			<!-- Tabs -->
+				<a loop="$val1['list']=>$key2,$val2" href="{$val2['href']}" target="_blank"|cond="$val2['open_window']=='Y'" class="mdl-layout__tab"|cond="!$val2['selected']" class="mdl-layout__tab is-active"|cond="$val2['selected']">{$val2['link']}</a></li>
+			</div>
+		</block>
+	</header>
+
+	<div class="mdl-layout__drawer">
+		<header class="layout-drawer-members">
+			<!--@if($is_logged && $logged_info->profile_image->src)-->
+				<img src="{$logged_info->profile_image->src}" alt="{$logged_info->nick_name}" class="layout-user-img" />
+			<!--@else-->
+				<div class="material-icons layout-user-img">account_circle</div>
+			<!--@end-->
+			<div class="layout-user-menu">
+				<span cond="$is_logged">{$logged_info->nick_name}</span>
+				<span cond="!$is_logged">Guest</span>
+				<div class="mdl-layout-spacer"></div>
+				<button id="layout-user-menu-btn" class="mdl-button mdl-js-button mdl-js-ripple-effect mdl-button--icon">
+					<i class="material-icons" role="presentation">arrow_drop_down</i>
+					<span class="visuallyhidden">Accounts</span>
+				</button>
+				<ul class="mdl-menu mdl-menu--bottom-right mdl-js-menu mdl-js-ripple-effect" for="layout-user-menu-btn" cond="$is_logged && $logged_info->menu_list && (!$member_srl || $member_srl == $logged_info->member_srl)">
+					<li loop="$logged_info->menu_list=>$key,$val">
+						<a href="{getUrl('', 'act',$key, 'mid', $mid, 'vid', $vid)}" class="mdl-menu__item">{lang($val)}</a>
+					</li>
+				</ul>
+				<ul class="mdl-menu mdl-menu--bottom-right mdl-js-menu mdl-js-ripple-effect" for="layout-user-menu-btn" cond="!$is_logged">
+					<li><a class="mdl-menu__item" href="{getUrl('act','dispMemberLoginForm')}">{$lang->cmd_login}...</a></li>
+					<li><a class="mdl-menu__item" href="{getUrl('act','dispMemberSignUpForm')}">{$lang->cmd_signup}...</a></li>
+				</ul>
+			</div>
+		</header>
+		<nav class="mdl-navigation">
+			<!-- GNB -->
+			<ul cond="$GNB">
+				<li loop="$GNB->list=>$key1,$val1" class="is-active"|cond="$val1['selected']">
+					<a href="{$val1['href']}" target="_blank"|cond="$val1['open_window']=='Y'" class="mdl-navigation__link"><span>{$val1['link']}</span></a>
+					<ul cond="$val1['list']" class="layout-sub-menus">
+						<li loop="$val1['list']=>$key2,$val2" class="is-active"|cond="$val2['selected']"><a href="{$val2['href']}" target="_blank"|cond="$val2['open_window']=='Y'" class="mdl-navigation__link">{$val2['link']}</a></li>
+					</ul>
+				</li>
+			</ul>
+			<!-- /GNB -->
+		</nav>
+	</div>
+	<main class="mdl-layout__content" id="layout_content">
+		<div class="page-content" id="content">{$content}</div>
+		<footer class="mdl-mega-footer">
+			<div class="mdl-mega-footer__middle-section" cond="$bottom_menu">
+				<div loop="$bottom_menu->list=>$key1,$val1" class="mdl-mega-footer__drop-down-section">
+					<input class="mdl-mega-footer__heading-checkbox" type="checkbox" checked="checked" cond="$val1['list']" />
+					<h1 class="mdl-mega-footer__heading">{$val1['link']}</h1>
+					<ul cond="$val1['list']" class="mdl-mega-footer__link-list">
+						<li loop="$val1['list']=>$key2,$val2"><a href="{$val2['href']}" target="_blank"|cond="$val2['open_window']=='Y'">{$val2['link']}</a></li>
+					</ul>
+				</div>
+			</div>
+			<div class="mdl-mega-footer__bottom-section">
+				<div class="mdl-logo">
+					<block cond="$layout_info->copyright_footer">
+						{$layout_info->copyright_footer}
+					</block>
+					<block cond="!$layout_info->copyright_footer">
+						Powered by <a href="https://www.rhymix.org/">Rhymix</a>.
+					</block>
+				</div>
+				<ul class="mdl-mega-footer__link-list" cond="$bottom_list">
+					<li loop="$bottom_list->list=>$key1,$val1" class="is-active"|cond="$val1['selected']">
+						<a href="{$val1['href']}" target="_blank"|cond="$val1['open_window']=='Y'">{$val1['link']}</a>
+					</li>
+				</ul>
+			</div>
+		</footer>
+	</main>
+	<!-- header top right more menus -->
+	<ul class="mdl-menu mdl-menu--bottom-right mdl-js-menu mdl-js-ripple-effect" for="layout-menu-lower-right">
+		<!--@if($is_logged)-->
+		<li><a class="mdl-menu__item" href="{getUrl('act','dispMemberLogout')}">{$lang->cmd_logout}</a></li>
+		<li><a class="mdl-menu__item mdl-menu__item--full-bleed-divider" href="{getUrl('act', 'dispMemberInfo')}">{$lang->cmd_view_member_info}</a></li>
+		<!--@elseif($act!='dispMemberLoginForm')-->
+		<li><a class="mdl-menu__item" href="{getUrl('act','dispMemberLoginForm')}">{$lang->cmd_login}...</a></li>
+		<li><a class="mdl-menu__item mdl-menu__item--full-bleed-divider" href="{getUrl('act','dispMemberSignUpForm')}">{$lang->cmd_signup}...</a></li>
+		<!--@end-->
+		<li><a class="mdl-menu__item mdl-menu__item--full-bleed-divider" href="{getUrl('act','IS')}">{$lang->cmd_search}...</a></li>
+		<li><a class="mdl-menu__item" href="{getUrl('act','dispModuleChangeLang','oldact',$act)}">Languages...</a></li>
+	</ul>
+</div>

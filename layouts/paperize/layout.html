@@ -1,0 +1,137 @@
+<!--// responsible layout -->
+{Context::addMetaTag("viewport", "width=device-width, user-scalable=yes")}
+
+{@ if(!$layout_info->primary_color) $layout_info->primary_color = 'red'}
+{@ if(!$layout_info->secondary_color) $layout_info->secondary_color = 'indigo'}
+
+{@ if($layout_info->primary_color === $layout_info->secondary_color && $layout_info->primary_color === 'indigo') $layout_info->secondary_color = 'red'}
+{@ if($layout_info->primary_color === $layout_info->secondary_color && $layout_info->primary_color !== 'indigo') $layout_info->secondary_color = 'indigo'}
+
+<load target="default.layout.css" />
+{Context::set('layout_scss_value', array('p-color' => $layout_info->primary_color, 's-color' => $layout_info->secondary_color, 'r' => 1))}
+<load target="scss.scss" vars="$layout_scss_value" />
+
+
+<!-- Compiled and minified JavaScript -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.97.6/js/materialize.min.js"></script>
+
+
+<link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons" />
+
+<div class="">
+	<header class="navbar-fixed">
+		<nav class="top-nav">
+			<div class="nav-wrapper {$layout_info->primary_color}">
+				<h1 class="brand-logo">
+					<block cond="Context::getSiteTitle() && !$layout_info->LOGO_IMG && !$layout_info->LOGO_TEXT">{Context::getSiteTitle()}</block>
+					<img src="{$layout_info->LOGO_IMG}" alt="{$layout_info->LOGO_TEXT}" cond="$layout_info->LOGO_IMG">
+					<block cond="!$layout_info->LOGO_IMG && $layout_info->LOGO_TEXT">{$layout_info->LOGO_TEXT}</block>
+				</h1>
+				<a href="#" data-activates="paperize_global_nav" class="button-collapse show-on-large"><i class="material-icons">menu</i></a>
+				<!-- GNB -->
+				<div class="side-nav show-on-large" id="paperize_global_nav">
+					<ul class="collapsible grey-text text-darken-4">
+						<li>
+							<div class="collapsible-header avatar">
+								<!--@if($is_logged && $logged_info->profile_image->src)-->
+									<img src="{$logged_info->profile_image->src}" alt="{$logged_info->nick_name}" class="circle" />
+								<!--@end-->
+								<span cond="$is_logged" class="title">{$logged_info->nick_name}</span>
+								<span cond="!$is_logged" class="title">Guest</span>
+								<i class="material-icons right" cond="$is_logged && $logged_info->menu_list && (!$member_srl || $member_srl == $logged_info->member_srl)">more_vert</i>
+							</div>
+							<div class="collapsible-body">
+								<ul cond="$is_logged && $logged_info->menu_list && (!$member_srl || $member_srl == $logged_info->member_srl)">
+									<li loop="$logged_info->menu_list=>$key,$val">
+										<a href="{getUrl('', 'act',$key, 'mid', $mid, 'vid', $vid)}">{lang($val)}</a>
+									</li>
+									<li><a href="{getUrl('act','procAdminLogout')}">{$lang->cmd_logout}</a></li>
+								</ul>
+								<ul cond="!$is_logged">
+									<li><a href="{getUrl('act','dispMemberLoginForm')}">{$lang->cmd_login}...</a></li>
+									<li><a href="{getUrl('act','dispMemberSignUpForm')}">{$lang->cmd_signup}...</a></li>
+								</ul>
+							</div>
+						</li>
+					</ul>
+					<hr />
+					<ul>
+						<li loop="$GNB->list=>$key1,$val1" class="active"|cond="$val1['selected'] && !$val1['list']" class="active no-padding"|cond="$val1['selected'] && $val1['list']" class="no-padding"|cond="!$val1['selected'] && $val1['list']">
+							<a href="{$val1['href']}" target="_blank"|cond="$val1['open_window']=='Y'" cond="!$val1['list']"><span>{$val1['link']}</span></a>
+							<ul class="collapsible collapsible-accordion" cond="$val1['list']">
+								<li>
+									<a href="{$val1['href']}"|cond="!$val1['list']" href="#"|cond="$val1['list']" target="_blank"|cond="$val1['open_window']=='Y'" class="collapsible-header active"|cond="$val1['selected'] && $val1['list']" class="collapsible-header"|cond="!$val1['selected'] && $val1['list']">{$val1['link']}<i class="material-icons" cond="$val1['list']">arrow_drop_down</i></a>
+									<div cond="$val1['list']" class="collapsible-body">
+										<ul>
+											<li class="active"|cond="$val1['selected']"><a href="{$val1['href']}" target="_blank"|cond="$val1['open_window']=='Y'"><span>{$val1['link']}</span></a></li>
+											<li loop="$val1['list']=>$key2,$val2" class="active"|cond="$val2['selected']"><a href="{$val2['href']}" target="_blank"|cond="$val2['open_window']=='Y'">{$val2['link']}</a></li>
+										</ul>
+									</div>
+								</li>
+							</ul>
+						</li>
+					</ul>
+				</div>
+				<script>$('.button-collapse').sideNav();</script>
+				<!--// GNB -->
+			</div>
+		</nav>
+	</header>
+
+	<main class="mdl-layout__content" id="layout_content">
+		<div class="container" id="content">{$content}</div>
+		<footer class="page-footer">
+			<div class="container" cond="$bottom_menu">
+				<div class="row">
+					<div class="col s12 m6">
+						<div loop="$bottom_menu->list=>$key1,$val1" class="mdl-mega-footer__drop-down-section">
+							<h2 class="white-text">{$val1['link']}</h1>
+							<ul cond="$val1['list']">
+								<li loop="$val1['list']=>$key2,$val2"><a class="grey-text text-lighten-3" href="{$val2['href']}" target="_blank"|cond="$val2['open_window']=='Y'">{$val2['link']}</a></li>
+							</ul>
+						</div>
+					</div>
+					<div class="col s12 m6">
+							<h2 class="white-text">{$lang->member}</h1>
+							<ul>
+								<!--@if($is_logged)-->
+								<li><a class="grey-text text-lighten-3" href="{getUrl('act','dispMemberLogout')}">{$lang->cmd_logout}</a></li>
+								<li><a class="grey-text text-lighten-3" href="{getUrl('act', 'dispMemberInfo')}">{$lang->cmd_view_member_info}</a></li>
+								<!--@elseif($act!='dispMemberLoginForm')-->
+								<li><a class="grey-text text-lighten-3" href="{getUrl('act','dispMemberLoginForm')}">{$lang->cmd_login}...</a></li>
+								<li><a class="grey-text text-lighten-3" href="{getUrl('act','dispMemberSignUpForm')}">{$lang->cmd_signup}...</a></li>
+								<!--@end-->
+							</ul>
+							<h2 class="white-text">More...</h1>
+							<ul>
+								<li><a class="grey-text text-lighten-3" href="{getUrl('act','IS')}">{$lang->cmd_search}...</a></li>
+								<li><a class="grey-text text-lighten-3" href="{getUrl('act','dispModuleChangeLang','oldact',$act)}">Languages...</a></li>
+							</ul>
+					</div>
+				</div>
+			</div>
+			<div class="footer-copyright">
+				<div class="container">
+					<div class="row">
+						<div class="col s12 m6">
+							<block cond="$layout_info->copyright_footer">
+								{$layout_info->copyright_footer}
+							</block>
+							<block cond="!$layout_info->copyright_footer">
+								Powered by <a href="https://www.rhymix.org/">Rhymix</a>.
+							</block>
+						</div>
+						<div class="col s12 m6">
+							<ul class="grey-text text-lighten-4 right" cond="$bottom_list">
+								<li loop="$bottom_list->list=>$key1,$val1" class="is-active"|cond="$val1['selected']">
+									<a href="{$val1['href']}" target="_blank"|cond="$val1['open_window']=='Y'">{$val1['link']}</a>
+								</li>
+							</ul>
+						</div>
+					</div>
+				</div>
+			</div>
+		</footer>
+	</main>
+
+</div>
