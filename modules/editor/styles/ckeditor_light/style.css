@@ -6,7 +6,7 @@
 .xe_content blockquote.q4,
 .xe_content blockquote.q5,
 .xe_content blockquote.q6,
-.xe_content blockquote.q7{padding:10px;margin:0 15px}
+.xe_content blockquote.q7{padding:10px;margin:0 15px;border:0;}
 .xe_content blockquote.q1{padding:0 10px;border-left:2px solid #ccc}
 .xe_content blockquote.q2{padding:0 10px;background:url(./img/bg_qmark.gif) no-repeat left top}
 .xe_content blockquote.q3{border:1px solid #d9d9d9}
