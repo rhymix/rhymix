@@ -19,9 +19,7 @@
 
 .xe_content.editable blockquote
 {
-	font-style: italic;
 	padding: 2px 0;
-	font-family: '돋움', dotum, Georgia, Times, "Times New Roman", serif;
 	border-style: solid;
 	border-color: #ccc;
 	border-width: 0;
