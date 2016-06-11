@@ -514,6 +514,7 @@ class memberModel extends member
 	 */
 	function getMembersGroups($member_srls, $site_srl = 0)
 	{
+		$args = new stdClass;
 		$args->member_srls = implode(',',$member_srls);
 		$args->site_srl = $site_srl;
 		$args->sort_index = 'list_order';
@@ -769,6 +770,7 @@ class memberModel extends member
 	 */
 	function getJoinForm($member_join_form_srl)
 	{
+		$args = new stdClass();
 		$args->member_join_form_srl = $member_join_form_srl;
 		$output = executeQuery('member.getJoinForm', $args);
 		$join_form = $output->data;
@@ -796,6 +798,7 @@ class memberModel extends member
 	{
 		if(!$this->denied_id_list)
 		{
+			$args = new stdClass();
 			$args->sort_index = "list_order";
 			$args->page = Context::get('page');
 			$args->list_count = 40;

@@ -47,3 +47,5 @@ $lang->improper_comment_reasons['pornography'] = 'Pornography.';
 $lang->improper_comment_reasons['privacy'] = 'Privacy issue.';
 $lang->improper_comment_reasons['others'] = 'Others (Write your own)';
 $lang->about_improper_comment_declare = 'Write here why you report this comment as an improper thing.';
+$lang->msg_deleted_comment = 'This comment has been deleted.';
+$lang->msg_admin_deleted_comment = 'This comment has been deleted by an administrator.';

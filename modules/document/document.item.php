@@ -626,7 +626,7 @@ class documentItem extends Object
 
 	function getPermanentUrl()
 	{
-		return getFullUrl('','document_srl',$this->get('document_srl'));
+		return getFullUrl('', 'mid', $this->getDocumentMid(), 'document_srl', $this->get('document_srl'));
 	}
 
 	function getTrackbackUrl()
@@ -980,6 +980,10 @@ class documentItem extends Object
 						if($is_img = @getimagesize($tmp_file))
 						{
 							list($_w, $_h, $_t, $_a) = $is_img;
+							if($_w < ($width * 0.3) && $_h < ($height * 0.3))
+							{
+								continue;
+							}
 						}
 						else
 						{

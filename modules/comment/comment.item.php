@@ -682,6 +682,10 @@ class commentItem extends Object
 						if($is_img = @getimagesize($tmp_file))
 						{
 							list($_w, $_h, $_t, $_a) = $is_img;
+							if($_w < ($width * 0.3) && $_h < ($height * 0.3))
+							{
+								continue;
+							}
 						}
 						else
 						{

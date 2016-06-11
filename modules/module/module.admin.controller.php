@@ -227,7 +227,7 @@ class moduleAdminController extends module
 			$triggerObj->moduleSrlList[] = $module_srl;
 		}
 
-		$output = ModuleHandler::triggerCall('module.procModuleAdminCopyModule', 'after', $triggerObj);
+		ModuleHandler::triggerCall('module.procModuleAdminCopyModule', 'after', $triggerObj);
 
 		$oDB->commit();
 

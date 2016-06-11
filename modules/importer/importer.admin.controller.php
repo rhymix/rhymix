@@ -122,6 +122,7 @@ class importerAdminController extends importer
 				$total_count = 0;
 				foreach ($output->data as $val)
 				{
+					$args = new stdClass();
 					$args->user_id = $val->user_id;
 					$args->member_srl = $val->member_srl;
 					$tmp = executeQuery ('importer.updateDocumentSyncForCUBRID'.$postFix, $args);
@@ -145,6 +146,7 @@ class importerAdminController extends importer
 				$total_count = 0;
 				foreach ($output->data as $val)
 				{
+					$args = new stdClass();
 					$args->user_id = $val->user_id;
 					$args->member_srl = $val->member_srl;
 					$tmp = executeQuery ('importer.updateCommentSyncForCUBRID'.$postFix, $args);
@@ -516,7 +518,7 @@ class importerAdminController extends importer
 			FileHandler::removeFile($target_file);
 			if(!$xmlObj) continue;
 			// List objects
-			$obj = null;
+			$obj = new stdClass();
 			$obj->receiver = base64_decode($xmlObj->message->receiver->body);
 			$obj->sender = base64_decode($xmlObj->message->sender->body);
 			$obj->title = base64_decode($xmlObj->message->title->body);
@@ -526,25 +528,26 @@ class importerAdminController extends importer
 			$obj->readed_date = base64_decode($xmlObj->message->readed_date->body);
 			// Get member_srl of sender/recipient (If not exists, pass)
 			if(!$obj->sender) continue;
+			$sender_args = new stdClass();
 			$sender_args->user_id = $obj->sender;
 			$sender_output = executeQuery('member.getMemberInfo',$sender_args);
 			$sender_srl = $sender_output->data->member_srl;
 			if(!$sender_srl)
 			{
-				unset($sender_args);
+				$sender_args = new stdClass();
 				$sender_args->email_address = $obj->sender;
 				$sender_output = executeQuery('member.getMemberInfoByEmailAddress',$sender_args);
 				$sender_srl = $sender_output->data->member_srl;
 			}
 			if(!$sender_srl) continue;
-
+			$receiver_args = new stdClass();
 			$receiver_args->user_id = $obj->receiver;
 			if(!$obj->receiver) continue;
 			$receiver_output = executeQuery('member.getMemberInfo',$receiver_args);
 			$receiver_srl = $receiver_output->data->member_srl;
 			if(!$receiver_srl)
 			{
-				unset($receiver_args);
+				$receiver_args = new stdClass();
 				$receiver_args->email_address = $obj->receiver;
 				$receiver_output = executeQuery('member.getMemberInfoByEmailAddress',$receiver_args);
 				$receiver_srl = $receiver_output->data->member_srl;
@@ -645,6 +648,7 @@ class importerAdminController extends importer
 		$category_list = $oDocumentModel->getCategoryList($module_srl);
 		if(count($category_list)) foreach($category_list as $key => $val) $category_titles[$val->title] = $val->category_srl;
 
+		$ek_args = new stdClass();
 		$ek_args->module_srl = $module_srl;
 		$output = executeQueryArray('document.getDocumentExtraKeys', $ek_args);
 		if($output->data)
@@ -783,7 +787,7 @@ class importerAdminController extends importer
 				foreach($extra_vars as $key => $val)
 				{
 					if(!$val->value) continue;
-					unset($e_args);
+					$e_args = new stdClass;
 					$e_args->module_srl = $module_srl;
 					$e_args->document_srl = $obj->document_srl;
 					$e_args->var_idx = $val->var_idx;
@@ -793,7 +797,7 @@ class importerAdminController extends importer
 					// Create a key for extra vars if not exists (except vars for title and content)
 					if(!preg_match('/^(title|content)_(.+)$/i',$e_args->eid) && !$extra_keys[$e_args->eid])
 					{
-						unset($ek_args);
+						$ek_args = new stdClass();
 						$ek_args->module_srl = $module_srl;
 						$ek_args->var_idx = $val->var_idx;
 						$ek_args->var_name = $val->eid;
@@ -962,6 +966,7 @@ class importerAdminController extends importer
 				else
 				{
 					// Get parent comment infomation
+					$parent_args = new stdClass();
 					$parent_args->comment_srl = $obj->parent_srl;
 					$parent_output = executeQuery('comment.getCommentListItem', $parent_args);
 					// Return if parent comment doesn't exist
@@ -1054,6 +1059,7 @@ class importerAdminController extends importer
 
 				if(file_exists($file_obj->file))
 				{
+					$random = new Password();
 					// Set upload path by checking if the attachement is an image or other kind of file
 					if(preg_match("/\.(jpe?g|gif|png|wm[va]|mpe?g|avi|swf|flv|mp[1-4]|as[fx]|wav|midi?|moo?v|qt|r[am]{1,2}|m4v)$/i", $file_obj->source_filename))
 					{
@@ -1064,7 +1070,7 @@ class importerAdminController extends importer
 						$path = sprintf("./files/attach/images/%s/%s", $module_srl, getNumberingPath($upload_target_srl, 3));
 
 						$ext = substr(strrchr($file_obj->source_filename,'.'),1);
-						$_filename = md5(crypt(rand(1000000, 900000), rand(0, 100))).'.'.$ext;
+						$_filename = $random->createSecureSalt(32, 'hex').'.'.$ext;
 						$filename  = $path.$_filename;
 
 						$idx = 1;
@@ -1079,7 +1085,7 @@ class importerAdminController extends importer
 					else
 					{
 						$path = sprintf("./files/attach/binaries/%s/%s", $module_srl, getNumberingPath($upload_target_srl,3));
-						$filename = $path.md5(crypt(rand(1000000,900000), rand(0,100)));
+						$filename = $path.$random->createSecureSalt(32, 'hex');
 						$file_obj->direct_download = 'N';
 					}
 					// Create a directory
@@ -1102,7 +1108,7 @@ class importerAdminController extends importer
 						$file_obj->file_size = filesize($filename);
 						$file_obj->comment = NULL;
 						$file_obj->member_srl = 0;
-						$file_obj->sid = md5(rand(rand(1111111,4444444),rand(4444445,9999999)));
+						$file_obj->sid = $random->createSecureSalt(32, 'hex');
 						$file_obj->isvalid = 'Y';
 						$output = executeQuery('file.insertFile', $file_obj);
 

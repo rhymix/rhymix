@@ -47,16 +47,23 @@ class trashAdminController extends trash
 		$isAll = Context::get('is_all');
 		$originModule = Context::get('origin_module');
 		$tmpTrashSrls = Context::get('cart');
+		$is_type = Context::get('is_type');
 
 		$trashSrls = array();
 		if($isAll != 'true')
 		{
-			if(is_array($tmpTrashSrls)) $trashSrls = $tmpTrashSrls;
-			else $trashSrls = explode('|@|', $tmpTrashSrls);
+			if(is_array($tmpTrashSrls))
+			{
+				$trashSrls = $tmpTrashSrls;
+			}
+			else
+			{
+				$trashSrls = explode('|@|', $tmpTrashSrls);
+			}
 		}
 
 		//module relation data delete...
-		$output = $this->_relationDataDelete($isAll, $trashSrls);
+		$output = $this->_relationDataDelete($isAll, $is_type, $trashSrls);
 		if(!$output->toBool()) return new Object(-1, $output->message);
 
 		if(!$this->_emptyTrash($trashSrls)) return new Object(-1, $lang->fail_empty);
@@ -70,15 +77,19 @@ class trashAdminController extends trash
 	/**
 	 * Empty trash - private method
 	 * @param string $isAll
+	 * @param string $is_type
 	 * @param array trashSrls
 	 * @return Object
 	 */
-	function _relationDataDelete($isAll, &$trashSrls)
+	function _relationDataDelete($isAll, $is_type, &$trashSrls)
 	{
 		$oTrashModel = getModel('trash');
 		if($isAll == 'true')
 		{
-			$output = $oTrashModel->getTrashAllList(array());
+			$args = new stdClass();
+			$args->originModule = $is_type;
+			$output = $oTrashModel->getTrashAllList($args);
+
 			if(!$output->toBool())
 			{
 				return new Object(-1, $output->message);
@@ -122,7 +133,7 @@ class trashAdminController extends trash
 				if(!$output2->toBool()) return new Object(-1, $output2->message);
 			}
 		}
-		return new Object(0, $lang->success_deleted);
+		return new Object(0, lang('success_deleted'));
 	}
 
 	/**

@@ -12,6 +12,12 @@
         <condition operation="equal" column="T.remover_srl" default="M.member_srl" notnull="notnull" />
         <condition operation="in" column="trash_srl" var="trashSrl" filter="number" pipe="and" />
         <condition operation="in" column="origin_module" var="originModule" pipe="and" />
+        <group pipe="and">
+            <condition operation="like" column="T.title" var="s_title" />
+            <condition operation="like" column="M.user_id" var="s_user_id" pipe="or" />
+            <condition operation="like" column="M.nick_name" var="s_nick_name" pipe="or" />
+            <condition operation="like_prefix" column="T.ipaddress" var="s_ipaddress" pipe="or" />
+        </group>
     </conditions>
     <navigation>
         <index var="sort_index" default="trash_srl" order="desc" />

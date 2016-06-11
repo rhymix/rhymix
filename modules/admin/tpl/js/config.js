@@ -12,11 +12,17 @@ jQuery(function($){
 				if (!$("#object_cache_port").val()) {
 					$("#object_cache_port").val($(this).val().match(/memcache/) ? '11211' : '6379');
 				}
-				if ($(this).val().match(/memcache/) && $("#object_cache_port").val() == '6379') {
-					$("#object_cache_port").val('11211');
+				if ($(this).val().match(/memcache/)) {
+					if ($("#object_cache_port").val() == '6379') {
+						$("#object_cache_port").val('11211');
+					}
+					$("#object_cache_dbnum").parents("label").hide();
 				}
-				if ($(this).val().match(/redis/) && $("#object_cache_port").val() == '11211') {
-					$("#object_cache_port").val('6379');
+				if ($(this).val().match(/redis/)) {
+					if ($("#object_cache_port").val() == '11211') {
+						$("#object_cache_port").val('6379');
+					}
+					$("#object_cache_dbnum").parents("label").show();
 				}
 			} else {
 				$("#object_cache_additional_config").hide();

@@ -93,6 +93,7 @@ class sessionModel extends session
 
 		if(!count($member_srls)) return $output;
 
+		$member_args = new stdClass();
 		$member_args->member_srl = implode(',',$member_srls);
 		$member_output = executeQueryArray('member.getMembers', $member_args);
 		if($member_output->data)

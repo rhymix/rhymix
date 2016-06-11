@@ -285,7 +285,41 @@ class ModuleHandler extends Handler
 			$this->module = $module_info->module;
 			$this->mid = $module_info->mid;
 			$this->module_info = $module_info;
-			Context::setBrowserTitle($module_info->browser_title);
+			if ($module_info->mid == $site_module_info->mid)
+			{
+				$seo_title = config('seo.main_title') ?: '$SITE_TITLE - $SITE_SUBTITLE';
+			}
+			else
+			{
+				$seo_title = config('seo.subpage_title') ?: '$SITE_TITLE - $SUBPAGE_TITLE';
+			}
+			
+			getController('module')->replaceDefinedLangCode($seo_title);
+			Context::setBrowserTitle($seo_title, array(
+				'site_title' => Context::getSiteTitle(),
+				'site_subtitle' => Context::getSiteSubtitle(),
+				'subpage_title' => $module_info->browser_title,
+				'page' => Context::get('page') ?: 1,
+			));
+			
+			$module_config = $oModuleModel->getModuleConfig('module');
+			if ($module_info->meta_keywords)
+			{
+				Context::addMetaTag('keywords', $module_info->meta_keywords);
+			}
+			elseif($module_config->meta_keywords)
+			{
+				Context::addMetaTag('keywords', $module_config->meta_keywords);
+			}
+			
+			if ($module_info->meta_description)
+			{
+				Context::addMetaTag('description', $module_info->meta_description);
+			}
+			elseif($module_config->meta_description)
+			{
+				Context::addMetaTag('description', $module_config->meta_description);
+			}
 
 			$viewType = (Mobile::isFromMobilePhone()) ? 'M' : 'P';
 			$targetSrl = (Mobile::isFromMobilePhone()) ? 'mlayout_srl' : 'layout_srl';
@@ -764,8 +798,7 @@ class ModuleHandler extends Handler
 			}
 			if($module_config->siteTitle)
 			{
-				$siteTitle = Context::getBrowserTitle();
-				if(!$siteTitle)
+				if(!Context::getBrowserTitle())
 				{
 					Context::setBrowserTitle($module_config->siteTitle);
 				}
@@ -1228,19 +1261,19 @@ class ModuleHandler extends Handler
 			$type = $item->type;
 			$called_method = $item->called_method;
 
-			// do not call if module is blacklisted
-			if (Context::isBlacklistedPlugin($module))
-			{
-				continue;
-			}
-
 			// todo why don't we call a normal class object ?
 			$oModule = getModule($module, $type);
 			if(!$oModule || !method_exists($oModule, $called_method))
 			{
 				continue;
 			}
-
+			
+			// do not call if module is blacklisted
+			if (Context::isBlacklistedPlugin($oModule->module))
+			{
+				continue;
+			}
+			
 			$before_each_trigger_time = microtime(true);
 			$output = $oModule->{$called_method}($obj);
 			$after_each_trigger_time = microtime(true);
@@ -1268,7 +1301,7 @@ class ModuleHandler extends Handler
 		foreach($trigger_functions as $item)
 		{
 			$before_each_trigger_time = microtime(true);
-			$item($obj);
+			$output = $item($obj);
 			$after_each_trigger_time = microtime(true);
 
 			if ($trigger_name !== 'common.writeSlowlog')

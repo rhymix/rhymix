@@ -35,7 +35,7 @@ class counterModel extends counter
 		$group_key = 'counterIpLogged_' . $args->regdate;
 		$iplogged = Rhymix\Framework\Cache::get($group_key . ':' . $cache_key);
 
-		if($iplogged === false)
+		if(!$iplogged)
 		{
 			$output = executeQuery('counter.getCounterLog', $args);
 			if($output->data->count) $iplogged = TRUE;
@@ -139,6 +139,7 @@ class counterModel extends counter
 		$max = 0;
 		$sum = 0;
 
+		$status = new stdClass();
 		switch($type)
 		{
 			case 'year' :

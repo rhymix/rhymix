@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<module>
+	<grants />
+	<permissions />
+	<actions>
+		<action name="dispAdvanced_mailerAdminConfig" type="view" admin_index="true" menu_name="advanced_mailer" />
+		<action name="dispAdvanced_mailerAdminExceptions" type="view" />
+		<action name="dispAdvanced_mailerAdminSpfDkim" type="view" />
+		<action name="dispAdvanced_mailerAdminTestConfig" type="view" />
+		<action name="dispAdvanced_mailerAdminSentMail" type="view" />
+		<action name="dispAdvanced_mailerAdminErrors" type="view" />
+		<action name="procAdvanced_mailerAdminInsertConfig" type="controller" />
+		<action name="procAdvanced_mailerAdminInsertExceptions" type="controller" />
+		<action name="procAdvanced_mailerAdminCheckDNSRecord" type="controller" />
+		<action name="procAdvanced_mailerAdminClearSentMail" type="controller" />
+		<action name="procAdvanced_mailerAdminTestSend" type="controller" />
+	</actions>
+	<menus>
+		<menu name="advanced_mailer" type="all">
+			<title xml:lang="ko">고급 메일 발송 모듈</title>
+			<title xml:lang="en">Advanced Mailer</title>
+		</menu>
+	</menus>
+</module>

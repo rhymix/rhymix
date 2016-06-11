@@ -8,21 +8,21 @@
 <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=yes" cond="$m" />
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <block loop="Context::getMetaTag() => $no, $val">
-<meta http-equiv="{$val['name']}"|cond="$val['is_http_equiv']" name="{$val['name']}"|cond="!$val['is_http_equiv']" content="{$val['content']}">
+<meta http-equiv="{$val['name']}"|cond="$val['is_http_equiv']" name="{$val['name']}"|cond="!$val['is_http_equiv']" content="{$val['content']}" />
 </block>
 
 <!-- TITLE -->
 <title>{Context::getBrowserTitle()}</title>
 
 <!-- CSS -->
-<block loop="Context::getCssFile() => $key, $css_file">
+<block loop="Context::getCssFile(true) => $key, $css_file">
 <block cond="$css_file['targetie']"><!--[if {$css_file['targetie']}]><block cond="stripos($css_file['targetie'], 'gt') === 0"><!--></block></block>
 <link rel="stylesheet" href="{$css_file['file']}" media="{$css_file['media']}"|cond="$css_file['media'] != 'all'" />
 <block cond="$css_file['targetie']"><block cond="stripos($css_file['targetie'], 'gt') === 0"><!--</block><![endif]-->{"\n"}</block>
 </block>
 
 <!-- JS -->
-<block loop="Context::getJsFile() => $key, $js_file">
+<block loop="Context::getJsFile('head', true) => $key, $js_file">
 <block cond="$js_file['targetie']"><!--[if {$js_file['targetie']}]><block cond="stripos($js_file['targetie'], 'gt') === 0"><!--></block></block>
 <script src="{$js_file['file']}"></script>
 <block cond="$js_file['targetie']"><block cond="stripos($js_file['targetie'], 'gt') === 0"><!--</block><![endif]-->{"\n"}</block>
@@ -34,11 +34,15 @@
 <link rel="alternate" type="application/atom+xml" title="Atom" href="{$atom_url}" cond="$rss_url" />
 <link rel="alternate" type="application/atom+xml" title="Site Atom" href="{$general_atom_url}" cond="$general_rss_url" />
 
-<!-- ICONS -->
+<!-- ICONS AND OTHER LINKS -->
+<link cond="$canonical_url" rel="canonical" href="{$canonical_url}" />
 <link cond="$favicon_url" rel="shortcut icon" href="{$favicon_url}" />
 <link cond="$mobicon_url" rel="apple-touch-icon" href="{$mobicon_url}" />
 
 <!-- OTHER HEADERS -->
+<block loop="Context::getOpenGraphData() => $og_metadata">
+<meta property="{$og_metadata['property']}" content="{$og_metadata['content']}" />
+</block>
 {Context::getHtmlHeader()}
 
 <!-- COMMON JS VARIABLES -->
@@ -70,7 +74,7 @@
 <div id="rhymix_debug_button"></div>
 
 <!-- BODY JS -->
-<block loop="Context::getJsFile('body') => $key, $js_file">
+<block loop="Context::getJsFile('body', true) => $key, $js_file">
 <block cond="$js_file['targetie']"><!--[if {$js_file['targetie']}]></block>
 <script src="{$js_file['file']}"></script>
 <block cond="$js_file['targetie']"><![endif]-->{"\n"}</block>

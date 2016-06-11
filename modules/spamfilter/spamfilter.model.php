@@ -85,6 +85,7 @@ class spamfilterModel extends spamfilter
 			$word = $word_list[$i]->word;
 			if(preg_match('/'.preg_quote($word,'/').'/is', $text))
 			{
+				$args = new stdClass();
 				$args->word = $word;
 				$output = executeQuery('spamfilter.updateDeniedWordHit', $args);
 				return new Object(-1,sprintf(lang('msg_alert_denied_word'), $word));
@@ -154,6 +155,7 @@ class spamfilterModel extends spamfilter
 	{
 		if(!$ipaddress) $ipaddress = $_SERVER['REMOTE_ADDR'];
 
+		$args = new stdClass();
 		$args->ipaddress = $ipaddress;
 		$args->regdate = date("YmdHis", $_SERVER['REQUEST_TIME']-$time);
 		$output = executeQuery('spamfilter.getLogCount', $args);

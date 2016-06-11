@@ -28,6 +28,10 @@
 					<strong cond="!$val->admin_index_act">{$val->title}</strong>
 				</p>
 				<p>{$val->description}</p>
+				<p cond="Context::isBlacklistedPlugin($val->module)" class="message error" style="margin-top:6px;padding:6px 10px">
+					{$lang->msg_blacklisted_module}<br />
+					{$lang->get('admin.msg_blacklisted_reason.'.$val->module)}
+				</p>
 				<p cond="$val->need_install" class="x_alert x_alert-info">{$lang->msg_avail_install} <button class="text" type="button" onclick="doInstallModule('{$val->module}')">{$lang->msg_do_you_like_install}</button></p>
 				<p cond="$val->need_update" class="x_alert x_alert-info">{$lang->msg_avail_update} <button class="text" type="button" onclick="doUpdateModule('{$val->module}')">{$lang->msg_do_you_like_update}</button></p>
 				<p cond="$val->need_autoinstall_update == 'Y'" class="x_alert x_alert-info">{$lang->msg_avail_easy_update} <a href="{$val->update_url}&amp;return_url={urlencode(getRequestUriByServerEnviroment())}">{$lang->msg_do_you_like_update}</a></p>

@@ -432,6 +432,22 @@ class ncenterliteController extends ncenterlite
 		return new Object();
 	}
 
+	function triggerAfterMoveToTrash(&$obj)
+	{
+		$oNcenterliteModel = getModel('ncenterlite');
+		$config = $oNcenterliteModel->getConfig();
+
+		if(empty($config->use))
+		{
+			return new Object();
+		}
+
+		$args = new stdClass();
+		$args->srl = $obj->document_srl;
+		$output = executeQuery('ncenterlite.deleteNotifyBySrl', $args);
+		return new Object();
+	}
+
 	function triggerAfterModuleHandlerProc(&$oModule)
 	{
 		$vars = Context::getRequestVars();
@@ -689,7 +705,7 @@ class ncenterliteController extends ncenterlite
 			return new Object();
 		}
 
-		if($config->display_use == 'N')
+		if($config->display_use == 'mobile' && !Mobile::isFromMobilePhone() || $config->display_use == 'pc' && Mobile::isFromMobilePhone() || $config->display_use == 'none')
 		{
 			return new Object();
 		}
@@ -735,6 +751,7 @@ class ncenterliteController extends ncenterlite
 
 		Context::set('ncenterlite_list', $_output->data);
 		Context::set('ncenterlite_page_navigation', $_output->page_navigation);
+		Context::set('_ncenterlite_num', $_output->page_navigation->total_count);
 
 		if(Mobile::isFromMobilePhone())
 		{
@@ -1080,6 +1097,16 @@ class ncenterliteController extends ncenterlite
 		// Find members.
 		foreach ($mentions as $mention)
 		{
+			if (isset($members[$mention]))
+			{
+				continue;
+			}
+			
+			if (count($members) >= $config->mention_limit)
+			{
+				break;
+			}
+			
 			if ($config->mention_suffix_always_cut != 'Y')
 			{
 				if ($config->mention_names === 'id')

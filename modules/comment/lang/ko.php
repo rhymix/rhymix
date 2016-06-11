@@ -51,3 +51,5 @@ $lang->improper_comment_reasons['pornography'] = '음란물을 포함하고 있�
 $lang->improper_comment_reasons['privacy'] = '민감한 개인정보가 노출 되어있습니다.';
 $lang->improper_comment_reasons['others'] = '기타(직접작성)';
 $lang->about_improper_comment_declare = '댓글을 신고하신 이유를 간단히 적어서 제출해주시면 관리자 검토 후 조치하겠습니다.';
+$lang->msg_deleted_comment = '삭제된 댓글입니다.';
+$lang->msg_admin_deleted_comment = '관리자가 삭제한 댓글입니다.';

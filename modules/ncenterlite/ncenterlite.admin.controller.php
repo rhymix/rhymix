@@ -14,6 +14,7 @@ class ncenterliteAdminController extends ncenterlite
 			'mention_names',
 			'mention_suffixes',
 			'mention_suffix_always_cut',
+			'mention_limit',
 			'hide_module_srls',
 			'admin_notify_module_srls',
 			'skin',
@@ -141,7 +142,6 @@ class ncenterliteAdminController extends ncenterlite
 		$output = executeQuery('ncenterlite.deleteNotifyAll', $args);
 		if(!$output->toBool())
 		{
-			$oDB->rollback();
 			return $output;
 		}
 

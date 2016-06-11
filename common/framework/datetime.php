@@ -21,8 +21,13 @@ class DateTime
 	 */
 	public static function formatTimestamp($format, $timestamp = null)
 	{
+		if ($format === 'relative')
+		{
+			return self::getRelativeTimestamp($timestamp ?: time());
+		}
+		
 		$offset = Config::get('locale.internal_timezone') ?: date('Z', $timestamp);
-		return gmdate($format, $timestamp + $offset);
+		return gmdate($format, ($timestamp ?: time()) + $offset);
 	}
 	
 	/**
@@ -34,6 +39,11 @@ class DateTime
 	 */
 	public static function formatTimestampForCurrentUser($format, $timestamp = null)
 	{
+		if ($format === 'relative')
+		{
+			return self::getRelativeTimestamp($timestamp ?: time());
+		}
+		
 		$timezone = self::getTimezoneForCurrentUser();
 		if (!isset(self::$_timezones[$timezone]))
 		{
@@ -162,6 +172,67 @@ class DateTime
 			case 31500: return 'Australia/Eucla';     // +08:45
 			case 34200: return 'Australia/Darwin';    // +09:30
 			default: return 'Etc/GMT' . ($offset > 0 ? '-' : '+') . intval(abs($offset / 3600));
+		}
+	}
+	
+	/**
+	 * Get a relative timestamp (3 hours ago, etc.)
+	 * 
+	 * @param int $timestamp
+	 * @return string
+	 */
+	public static function getRelativeTimestamp($timestamp)
+	{
+		$diff = \RX_TIME - $timestamp;
+		$langs = lang('common.time_gap');
+		
+		if ($diff < 3)
+		{
+			return $langs['now'];
+		}
+		if ($diff < 60)
+		{
+			return sprintf($langs['secs'], $diff);
+		}
+		if ($diff < 60 * 2)
+		{
+			return sprintf($langs['min'], 1);
+		}
+		if ($diff < 3600)
+		{
+			return sprintf($langs['mins'], $diff / 60);
+		}
+		if ($diff < 3600 * 2)
+		{
+			return sprintf($langs['hour'], 1);
+		}
+		if ($diff < 86400)
+		{
+			return sprintf($langs['hours'], $diff / 3600);
+		}
+		if ($diff < 86400 * 2)
+		{
+			return sprintf($langs['day'], 1);
+		}
+		if ($diff < 86400 * 32)
+		{
+			return sprintf($langs['days'], $diff / 86400);
+		}
+		if ($diff < 86400 * 60)
+		{
+			return sprintf($langs['month'], 1);
+		}
+		if ($diff < 86400 * 366)
+		{
+			return sprintf($langs['months'], $diff / (86400 * 30.5));
+		}
+		if ($diff < 86400 * 732)
+		{
+			return sprintf($langs['year'], 1);
+		}
+		else
+		{
+			return sprintf($langs['years'], $diff / (86400 * 365.25));
 		}
 	}
 }

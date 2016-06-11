@@ -26,6 +26,9 @@
 			<label for="{$identifierForm->name}" class="control-label"><em style="color:red">*</em> {$identifierForm->title}</label>
 			<div class="controls">
 				<input type="text"|cond="$identifierForm->name!='email_address'" type="email"|cond="$identifierForm->name=='email_address'" name="{$identifierForm->name}" id="{$identifierForm->name}" value="{$identifierForm->value}" required />
+				<p class="help-inline" cond="$identifierForm->name == 'email_address' && $email_confirmation_required == 'Y'">
+					{$lang->msg_email_confirmation_required}
+				</p>
 			</div>
 		</div>
 		<div class="control-group">
@@ -43,8 +46,13 @@
 		</div>
 		<div class="control-group" loop="$formTags=>$formTag">
 			<label for="{$formTag->name}" class="control-label">{$formTag->title}</label>
-			<div class="controls" cond="$formTag->name != 'signature'">{$formTag->inputTag}</div>
-			<div class="controls" cond="$formTag->name =='signature'">
+			<div class="controls" cond="$formTag->name != 'signature'">
+				{$formTag->inputTag}
+				<p class="help-inline" cond="$formTag->name == 'email_address' && $email_confirmation_required == 'Y'">
+					{$lang->msg_email_confirmation_required}
+				</p>
+			</div>
+			<div class="controls" cond="$formTag->name == 'signature'">
 				 <input type="hidden" name="signature" value="" />
 				{$editor}
 				<style scoped>
@@ -65,6 +73,10 @@
 			<div class="controls" style="padding-top:5px">
 				<label for="allow_{$key}" loop="$lang->allow_message_type=>$key,$val"><input type="radio" name="allow_message" value="{$key}" checked="checked"|cond="$member_info->allow_message == $key || (!$member_info && $key == 'Y')" id="allow_{$key}" /> {$val}</label>
 			</div>
+		</div>
+		<div class="control-group" cond="$captcha">
+			<div class="control-label">{$lang->captcha}</div>
+			<div class="controls">{$captcha}</div>
 		</div>
 		<div class="btnArea" style="border-top:1px solid #ccc;padding-top:10px">
 			<input type="submit" value="{$lang->cmd_registration}" class="btn btn-inverse pull-right" />

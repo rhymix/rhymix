@@ -10,8 +10,8 @@
 	var ip_re       = '(?:'+max_255_re+'\\.){3}'+max_255_re;
 	var port_re     = '(?::([0-9]+))?';
 	var user_re     = '(?:/~\\w+)?';
-	var path_re     = '(?:/[\\w!@$%&!?="/.,:;-]+)*';
-	var hash_re     = '(?:#[\\w!@$%&!?="/.,:;-]*)?';
+	var path_re     = '(?:/[\\w!@$%&!?+=_~"/.,:;-]*)?';
+	var hash_re     = '(?:#[\\w!@$%&!?+=_~"/.,:;-]*)?';
 
 	var url_regex = new RegExp('('+protocol_re+'('+domain_re+'|'+ip_re+'|localhost'+')'+port_re+user_re+path_re+hash_re+')', 'ig');
 

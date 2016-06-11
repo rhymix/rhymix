@@ -388,6 +388,7 @@ class editorController extends editor
 	 */
 	function removeEditorConfig($site_srl)
 	{
+		$args = new stdClass();
 		$args->site_srl = $site_srl;
 		executeQuery('editor.deleteSiteComponent', $args);
 	}

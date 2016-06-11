@@ -112,7 +112,7 @@ function getScreen() {
 
 		body.append(xScreen).append(controls);
 
-		imgframe.live('load', function(){
+		imgframe.bind('load', function(){
 			var clientWidth  = $(window).width();
 			var clientHeight = $(window).height();
 			imgframe.css({
@@ -256,7 +256,7 @@ $(window).load(function(){
 		});
 
 		/* live 이벤트로 적용 (image_gallery 컴포넌트와의 호환 위함) */
-		$('img[rel=xe_gallery]', this).live('mouseover', function() {
+		$(this).on('mouseover', 'img[rel=xe_gallery]', function() {
 			var $img = $(this);
 			if(!$img.parent('a').length && !$img.attr('onclick')) {
 				$img.css('cursor', 'pointer').click(slideshow);

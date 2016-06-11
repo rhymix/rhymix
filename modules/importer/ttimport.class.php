@@ -240,6 +240,7 @@ class ttimport
 
 			if($module_name == 'textyle')
 			{
+				$args = new stdClass();
 				$args->document_srl = $obj->document_srl;
 				$args->module_srl = $obj->module_srl;
 				$args->logs = serialize(null);
@@ -674,6 +675,7 @@ class ttimport
 		else
 		{
 			// Get parent_srl
+			$parent_args = new stdClass();
 			$parent_args->comment_srl = $tobj->parent_srl;
 			$parent_output = executeQuery('comment.getCommentListItem', $parent_args);
 			// Return if parent comment doesn't exist

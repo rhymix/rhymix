@@ -1,0 +1,79 @@
+<include target="config_header.html" />
+<div cond="$XE_VALIDATOR_MESSAGE && $XE_VALIDATOR_ID == 'modules/admin/tpl/config_seo/1'" class="message {$XE_VALIDATOR_MESSAGE_TYPE}">
+	<p>{$XE_VALIDATOR_MESSAGE}</p>
+</div>
+<section class="section">
+	<form action="./" method="post" class="x_form-horizontal">
+		<input type="hidden" name="module" value="admin" />
+		<input type="hidden" name="act" value="procAdminUpdateSEO" />
+		<input type="hidden" name="xe_validator_id" value="modules/admin/tpl/config_seo/1" />
+		<div class="x_control-group">
+			<label class="x_control-label" for="seo_main_title">{$lang->seo_main_title}</label>
+			<div class="x_controls">
+				<input type="text" name="seo_main_title" id="seo_main_title" value="{$seo_main_title}" style="min-width: 80%" class="lang_code" />
+				<p class="x_help-block">{$lang->about_seo_main_title}</p>
+			</div>
+		</div>
+		<div class="x_control-group">
+			<label class="x_control-label" for="seo_subpage_title">{$lang->seo_subpage_title}</label>
+			<div class="x_controls">
+				<input type="text" name="seo_subpage_title" id="seo_subpage_title" value="{$seo_subpage_title}" style="min-width: 80%" class="lang_code" />
+				<p class="x_help-block">{$lang->about_seo_subpage_title}</p>
+			</div>
+		</div>
+		<div class="x_control-group">
+			<label class="x_control-label" for="seo_document_title">{$lang->seo_document_title}</label>
+			<div class="x_controls">
+				<input type="text" name="seo_document_title" id="seo_document_title" value="{$seo_document_title}" style="min-width: 80%" class="lang_code" />
+				<p class="x_help-block">{$lang->about_seo_document_title}</p>
+			</div>
+		</div>
+		<div class="x_control-group">
+			<label class="x_control-label" for="site_meta_keywords">{$lang->site_meta_keywords}</label>
+			<div class="x_controls">
+				<input type="text" name="site_meta_keywords" id="site_meta_keywords" value="{$site_meta_keywords}" style="min-width: 80%" class="lang_code" />
+				<p class="x_help-block">{$lang->about_site_meta_keywords}</p>
+			</div>
+		</div>
+		<div class="x_control-group">
+			<label class="x_control-label" for="site_meta_description">{$lang->site_meta_description}</label>
+			<div class="x_controls">
+				<input type="text" name="site_meta_description" id="site_meta_description" value="{$site_meta_description}" style="min-width: 80%" class="lang_code" />
+				<p class="x_help-block">{$lang->about_site_meta_description}</p>
+			</div>
+		</div>
+		<div class="x_control-group">
+			<label class="x_control-label">{$lang->og_enabled}</label>
+			<div class="x_controls">
+				<label for="og_enabled_y" class="x_inline"><input type="radio" name="og_enabled" id="og_enabled_y" value="Y" checked="checked"|cond="$og_enabled" /> {$lang->cmd_yes}</label>
+				<label for="og_enabled_n" class="x_inline"><input type="radio" name="og_enabled" id="og_enabled_n" value="N" checked="checked"|cond="!$og_enabled" /> {$lang->cmd_no}</label>
+			</div>
+		</div>
+		<div class="x_control-group">
+			<label class="x_control-label">{$lang->og_extract_description}</label>
+			<div class="x_controls">
+				<label for="og_extract_description_y" class="x_inline"><input type="radio" name="og_extract_description" id="og_extract_description_y" value="Y" checked="checked"|cond="$og_extract_description" /> {$lang->cmd_yes}</label>
+				<label for="og_extract_description_n" class="x_inline"><input type="radio" name="og_extract_description" id="og_extract_description_n" value="N" checked="checked"|cond="!$og_extract_description" /> {$lang->cmd_no} ({$lang->og_extract_description_fallback})</label>
+			</div>
+		</div>
+		<div class="x_control-group">
+			<label class="x_control-label">{$lang->og_extract_images}</label>
+			<div class="x_controls">
+				<label for="og_extract_images_y" class="x_inline"><input type="radio" name="og_extract_images" id="og_extract_images_y" value="Y" checked="checked"|cond="$og_extract_images" /> {$lang->cmd_yes}</label>
+				<label for="og_extract_images_n" class="x_inline"><input type="radio" name="og_extract_images" id="og_extract_images_n" value="N" checked="checked"|cond="!$og_extract_images" /> {$lang->cmd_no} ({$lang->og_extract_images_fallback})</label>
+			</div>
+		</div>
+		<div class="x_control-group">
+			<label class="x_control-label">{$lang->og_use_timestamps}</label>
+			<div class="x_controls">
+				<label for="og_use_timestamps_y" class="x_inline"><input type="radio" name="og_use_timestamps" id="og_use_timestamps_y" value="Y" checked="checked"|cond="$og_use_timestamps" /> {$lang->cmd_yes}</label>
+				<label for="og_use_timestamps_n" class="x_inline"><input type="radio" name="og_use_timestamps" id="og_use_timestamps_n" value="N" checked="checked"|cond="!$og_use_timestamps" /> {$lang->cmd_no}</label>
+			</div>
+		</div>
+		<div class="x_clearfix btnArea">
+			<div class="x_pull-right">
+				<button type="submit" class="x_btn x_btn-primary">{$lang->cmd_save}</button>
+			</div>
+		</div>
+	</form>
+</section>

@@ -30,6 +30,18 @@
 			</div>
 		</div>
 		<div class="x_control-group">
+			<label class="x_control-label" for="lang_meta_keywords">{$lang->meta_keywords}</label>
+			<div class="x_controls">
+				<input type="text" name="meta_keywords" id="meta_keywords" value="<!--@if(strpos($module_info->meta_keywords, '$user_lang->') === false)-->{$module_info->meta_keywords}<!--@else-->{htmlspecialchars($module_info->meta_keywords)}<!--@end-->" class="lang_code" />
+			</div>
+		</div>
+		<div class="x_control-group">
+			<label class="x_control-label" for="lang_meta_description">{$lang->meta_description}</label>
+			<div class="x_controls">
+				<input type="text" name="meta_description" id="meta_description" value="<!--@if(strpos($module_info->meta_description, '$user_lang->') === false)-->{$module_info->meta_description}<!--@else-->{htmlspecialchars($module_info->meta_description)}<!--@end-->" class="lang_code" />
+			</div>
+		</div>
+		<div class="x_control-group">
 			<label class="x_control-label" for="layout_srl">{$lang->layout}</label>
 			<div class="x_controls">
 				<select name="layout_srl" id="layout_srl">
@@ -227,6 +239,18 @@
 			</div>
 		</div>
 		<div class="x_control-group">
+			<label class="x_control-label">{$lang->document_force_to_move}</label>
+			<div class="x_controls">
+				<label class="x_inline">
+					<input type="radio" id="trash_use_y" name="trash_use" value="Y" checked="checked"|cond="$module_info->trash_use == 'Y'" /> {$lang->cmd_yes}
+				</label>
+				<label class="x_inline">
+					<input type="radio" id="trash_use_n" name="trash_use" value="N" checked="checked"|cond="$module_info->trash_use == 'N'" /> {$lang->cmd_no}
+				</label>
+				<p class="x_help-block">{$lang->about_document_force_to_move}</p>
+			</div>
+		</div>
+		<div class="x_control-group">
 			<label class="x_control-label">{$lang->protect_content}</label>
 			<div class="x_controls">
 				<label class="x_inline" for="protect_delete_content"><input type="checkbox" name="protect_delete_content" id="protect_delete_content" value="Y" checked="checked"|cond="$module_info->protect_delete_content == 'Y'" /> {$lang->cmd_delete}</label>
@@ -250,6 +274,18 @@
 				<p>{$lang->about_protect_regdate}</p>
 			</div>
 		</div>
+		<div class="x_control-group">
+			<label class="x_control-label" for="comment_delete_message">{$lang->comment_delete_message}</label>
+			<div class="x_controls">
+				<select name="comment_delete_message" id="comment_delete_message">
+					<option value="no" selected="selected"|cond="$module_info->comment_delete_message == 'no'">{$lang->cmd_do_not_message}</option>
+					<option value="yes" selected="selected"|cond="$module_info->comment_delete_message == 'yes'">{$lang->cmd_all_comment_message}</option>
+					<option value="only_commnet" selected="selected"|cond="$module_info->comment_delete_message == 'only_commnet'">{$lang->cmd_only_p_comment}</option>
+				</select>
+				<p class="x_help-block">{$lang->about_comment_delete_message}</p>
+			</div>
+		</div>
+
 		<div class="x_control-group">
 			<label class="x_control-label">{$lang->status}</label>
 			<div class="x_controls">

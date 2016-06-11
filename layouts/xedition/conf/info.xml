@@ -30,6 +30,15 @@
 					<title xml:lang="ko">사용 안 함</title>
 				</options>
 			</var>
+			<var name="use_ncenter_widget" type="select">
+				<title xml:lang="ko">알림센터 로그인 위젯 사용</title>
+				<options value="Y">
+					<title xml:lang="ko">사용함</title>
+				</options>
+				<options value="N">
+					<title xml:lang="ko">사용 안 함</title>
+				</options>
+			</var>
 			<var name="layout_type" type="select" default="auto">
 				<title xml:lang="ko">레이아웃 타입</title>
 				<options value="auto">

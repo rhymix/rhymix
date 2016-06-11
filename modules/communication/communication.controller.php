@@ -219,10 +219,10 @@ class communicationController extends communication
 		$trigger_obj->title = $title;
 		$trigger_obj->content = $content;
 		$trigger_obj->sender_log = $sender_log;
-		$triggerOutput = ModuleHandler::triggerCall('communication.sendMessage', 'before', $trigger_obj);
-		if(!$triggerOutput->toBool())
+		$trigger_output = ModuleHandler::triggerCall('communication.sendMessage', 'before', $trigger_obj);
+		if(!$trigger_output->toBool())
 		{
-			return $triggerOutput;
+			return $trigger_output;
 		}
 
 		$oDB = DB::getInstance();
@@ -248,12 +248,7 @@ class communicationController extends communication
 		}
 
 		// Call a trigger (after)
-		$trigger_output = ModuleHandler::triggerCall('communication.sendMessage', 'after', $trigger_obj);
-		if(!$trigger_output->toBool())
-		{
-			$oDB->rollback();
-			return $trigger_output;
-		}
+		ModuleHandler::triggerCall('communication.sendMessage', 'after', $trigger_obj);
 		
 		$oDB->commit();
 		

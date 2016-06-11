@@ -1,0 +1,59 @@
+<load target="./css/ncenter.css" />
+<load target="./js/ncenter.js" type="body" />
+
+<div id="nc_container" class="nc_login"|cond="$ncenterlite_page_navigation->total_count == 0" {$ncenterlite_zindex}>
+	<ul class="nc_memu" cond="$ncenterlite_page_navigation->total_count > 0">
+		<li class="nc_profile fLeft">
+			<block cond="$useProfileImage">
+				<img cond="$profileImage" src="{$profileImage->src}" alt="my profile" class="nc_profile_img" />
+				<img cond="!$profileImage" src="{Context::getRequestUri()}modules/ncenterlite/skins/default/img/p.png" alt="my profile" class="nc_profile_img" />
+			</block>
+			<strong>{$logged_info->nick_name}</strong> {$lang->ncenterlite_sir}!
+		</li>
+
+		<li class="fLeft">
+			<a class="notify" href="#">
+				<!--@if($_ncenterlite_num > 1)-->
+				{sprintf($lang->ncenterlite_messages, $ncenterlite_page_navigation->total_count)}
+				<!--@else-->
+				{sprintf($lang->ncenterlite_message, $ncenterlite_page_navigation->total_count)}
+				<!--@endif-->
+			</a>
+			<a cond="$ncenterlite_page_navigation->total_count >= 1" href="#" class="readall">{$lang->ncenterlite_delete_all}</a>
+		</li>
+
+		<li class="fRight"><a class="close" href="#">× Close</a></li>
+	</ul>
+	<ul class="me_menu">
+		<li class="nc_profile fLeft">
+			<block cond="$useProfileImage">
+				<img cond="$profileImage" src="{$profileImage->src}" alt="my profile" class="nc_profile_img" />
+				<img cond="!$profileImage" src="{Context::getRequestUri()}modules/ncenterlite/skins/default/img/p.png" alt="my profile" class="nc_profile_img" />
+			</block>
+			<strong>{$logged_info->nick_name}</strong>
+		</li>
+		<li>
+			<a href="{getUrl('act','dispMemberLogout')}" >{$lang->cmd_logout}</a>
+		</li>
+		<li>
+			{$lang->last_login}: {zDate($logged_info->last_login, "Y-m-d")}
+		</li>
+		<li cond="$logged_info->is_admin == 'Y'" >
+			<a href="{getUrl('', 'module','admin')}" title="{$lang->admin}" class="admin">{$lang->cmd_management}</a>
+		</li>
+	</ul>
+
+	<div class="list">
+		<ul>
+			<li loop="$ncenterlite_list => $o">
+				<a href="{$o->url}">
+					<block cond="$useProfileImage">
+						<img src="{$o->profileImage}"|cond="$o->profileImage" src="{Context::getRequestUri()}modules/ncenterlite/skins/default/img/p.png"|cond="!$o->profileImage" alt="" class="nc_profile_img" />
+					</block>
+					<span class="msg">{$o->text}</span><span class="ago">{$o->ago}</span>
+				</a>
+			</li>
+		</ul>
+		<a cond="$ncenterlite_page_navigation->total_count > 5" class="more" href="#" data-page="2">{$lang->ncenterlite_more}</a>
+	</div>
+</div>

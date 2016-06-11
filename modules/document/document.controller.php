@@ -176,13 +176,8 @@ class documentController extends document
 		$obj->after_point = ($point < 0) ? $args->blamed_count : $args->voted_count;
 		$obj->cancel = 1;
 
-		$trigger_output = ModuleHandler::triggerCall('document.updateVotedCountCancel', 'after', $obj);
-		if(!$trigger_output->toBool())
-		{
-			$oDB->rollback();
-			return $trigger_output;
-		}
-
+		ModuleHandler::triggerCall('document.updateVotedCountCancel', 'after', $obj);
+		$oDB->commit();
 		return $output;
 	}
 
@@ -467,29 +462,23 @@ class documentController extends document
 				$this->insertDocumentExtraVar($obj->module_srl, $obj->document_srl, $idx, $value, $extra_item->eid);
 			}
 		}
+		
 		// Update the category if the category_srl exists.
 		if($obj->category_srl) $this->updateCategoryCount($obj->module_srl, $obj->category_srl);
+		
 		// Call a trigger (after)
-		if($output->toBool())
+		if($obj->update_log_setting === 'Y')
 		{
-			if($obj->update_log_setting === 'Y')
-			{
-				$obj->extra_vars = serialize($extra_vars);
-				$update_output = $this->insertDocumentUpdateLog($obj);
+			$obj->extra_vars = serialize($extra_vars);
+			$update_output = $this->insertDocumentUpdateLog($obj);
 
-				if(!$update_output->toBool())
-				{
-					$oDB->rollback();
-					return $update_output;
-				}
-			}
-			$trigger_output = ModuleHandler::triggerCall('document.insertDocument', 'after', $obj);
-			if(!$trigger_output->toBool())
+			if(!$update_output->toBool())
 			{
 				$oDB->rollback();
-				return $trigger_output;
+				return $update_output;
 			}
 		}
+		ModuleHandler::triggerCall('document.insertDocument', 'after', $obj);
 
 		// commit
 		$oDB->commit();
@@ -738,36 +727,30 @@ class documentController extends document
 			if($extra_content->title) $this->insertDocumentExtraVar($obj->module_srl, $obj->document_srl, -1, $extra_content->title, 'title_'.Context::getLangType());
 			if($extra_content->content) $this->insertDocumentExtraVar($obj->module_srl, $obj->document_srl, -2, $extra_content->content, 'content_'.Context::getLangType());
 		}
+		
 		// Update the category if the category_srl exists.
 		if($source_obj->get('category_srl') != $obj->category_srl || $source_obj->get('module_srl') == $logged_info->member_srl)
 		{
 			if($source_obj->get('category_srl') != $obj->category_srl) $this->updateCategoryCount($obj->module_srl, $source_obj->get('category_srl'));
 			if($obj->category_srl) $this->updateCategoryCount($obj->module_srl, $obj->category_srl);
 		}
+		
 		// Call a trigger (after)
-		if($output->toBool())
+		if($obj->update_log_setting === 'Y')
 		{
-			if($obj->update_log_setting === 'Y')
+			$obj->extra_vars = serialize($extra_vars);
+			if($this->grant->manager)
 			{
-				$obj->extra_vars = serialize($extra_vars);
-				if($this->grant->manager)
-				{
-					$obj->is_admin = 'Y';
-				}
-				$update_output = $this->insertDocumentUpdateLog($obj, $source_obj);
-				if(!$update_output->toBool())
-				{
-					$oDB->rollback();
-					return $update_output;
-				}
+				$obj->is_admin = 'Y';
 			}
-			$trigger_output = ModuleHandler::triggerCall('document.updateDocument', 'after', $obj);
-			if(!$trigger_output->toBool())
+			$update_output = $this->insertDocumentUpdateLog($obj, $source_obj);
+			if(!$update_output->toBool())
 			{
 				$oDB->rollback();
-				return $trigger_output;
+				return $update_output;
 			}
 		}
+		ModuleHandler::triggerCall('document.updateDocument', 'after', $obj);
 
 		// commit
 		$oDB->commit();
@@ -888,18 +871,10 @@ class documentController extends document
 		// Delete extra variable
 		$this->deleteDocumentExtraVars($oDocument->get('module_srl'), $oDocument->document_srl);
 
-		//this
 		// Call a trigger (after)
-		if($output->toBool())
-		{
-			$trigger_obj = $oDocument->getObjectVars();
-			$trigger_output = ModuleHandler::triggerCall('document.deleteDocument', 'after', $trigger_obj);
-			if(!$trigger_output->toBool())
-			{
-				$oDB->rollback();
-				return $trigger_output;
-			}
-		}
+		$trigger_obj = $oDocument->getObjectVars();
+		ModuleHandler::triggerCall('document.deleteDocument', 'after', $trigger_obj);
+		
 		// declared document, log delete
 		$this->_deleteDeclaredDocuments($args);
 		$this->_deleteDocumentReadedLog($args);
@@ -1053,16 +1028,9 @@ class documentController extends document
 			$args->isvalid = 'N';
 			executeQuery('file.updateFileValid', $args);
 		}
+		
 		// Call a trigger (after)
-		if($output->toBool())
-		{
-			$trigger_output = ModuleHandler::triggerCall('document.moveDocumentToTrash', 'after', $obj);
-			if(!$trigger_output->toBool())
-			{
-				$oDB->rollback();
-				return $trigger_output;
-			}
-		}
+		ModuleHandler::triggerCall('document.moveDocumentToTrash', 'after', $obj);
 
 		// commit
 		$oDB->commit();
@@ -1135,12 +1103,7 @@ class documentController extends document
 		executeQuery('document.updateReadedCount', $args);
 
 		// Call a trigger when the read count is updated (after)
-		$trigger_output = ModuleHandler::triggerCall('document.updateReadedCount', 'after', $oDocument);
-		if(!$trigger_output->toBool())
-		{
-			$oDB->rollback();
-			return $trigger_output;
-		}
+		ModuleHandler::triggerCall('document.updateReadedCount', 'after', $oDocument);
 
 		$oDB->commit();
 
@@ -1396,12 +1359,8 @@ class documentController extends document
 		$obj->point = $point;
 		$obj->before_point = ($point < 0) ? $oDocument->get('blamed_count') : $oDocument->get('voted_count');
 		$obj->after_point = ($point < 0) ? $args->blamed_count : $args->voted_count;
-		$trigger_output = ModuleHandler::triggerCall('document.updateVotedCount', 'after', $obj);
-		if(!$trigger_output->toBool())
-		{
-			$oDB->rollback();
-			return $trigger_output;
-		}
+		
+		ModuleHandler::triggerCall('document.updateVotedCount', 'after', $obj);
 
 		$oDB->commit();
 
@@ -1539,12 +1498,7 @@ class documentController extends document
 
 		// Call a trigger (after)
 		$trigger_obj->declared_count = $declared_count + 1;
-		$trigger_output = ModuleHandler::triggerCall('document.declaredDocument', 'after', $trigger_obj);
-		if(!$trigger_output->toBool())
-		{
-			$oDB->rollback();
-			return $trigger_output;
-		}
+		ModuleHandler::triggerCall('document.declaredDocument', 'after', $trigger_obj);
 
 		// commit
 		$oDB->commit();
@@ -2568,6 +2522,7 @@ class documentController extends document
 		}
 		else if($type == 'cancelDeclare')
 		{
+			$args = new stdClass();
 			$args->document_srl = $document_srl_list;
 			$output = executeQuery('document.deleteDeclaredDocuments', $args);
 			$msg_code = 'success_declare_canceled';

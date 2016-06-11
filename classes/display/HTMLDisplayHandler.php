@@ -213,6 +213,12 @@ class HTMLDisplayHandler
 
 		// Remove unnecessary information
 		$output = preg_replace('/member\_\-([0-9]+)/s', 'member_0', $output);
+		
+		// Add OpenGraph metadata
+		if (config('seo.og_enabled') && Context::get('module') !== 'admin')
+		{
+			$this->_addOpenGraphMetadata();
+		}
 
 		// set icon
 		$oAdminModel = getAdminModel('admin');
@@ -379,6 +385,143 @@ class HTMLDisplayHandler
 			return '';
 		}
 		Context::loadFile($matches[2]);
+	}
+	
+	/**
+	 * Add OpenGraph metadata tags.
+	 * 
+	 * @param string $output
+	 * @return void
+	 */
+	function _addOpenGraphMetadata()
+	{
+		// Get information about the current request.
+		$page_type = 'website';
+		$current_module_info = Context::get('current_module_info');
+		$site_module_info = Context::get('site_module_info');
+		$document_srl = Context::get('document_srl');
+		if ($document_srl)
+		{
+			$oDocument = Context::get('oDocument') ?: getModel('document')->getDocument($document_srl, false, false);
+			if ($oDocument instanceof documentItem && $oDocument->document_srl == $document_srl && !$oDocument->isSecret())
+			{
+				$page_type = 'article';
+			}
+		}
+		
+		// Add basic metadata.
+		Context::addOpenGraphData('og:title', Context::getBrowserTitle());
+		Context::addOpenGraphData('og:site_name', Context::getSiteTitle());
+		if ($page_type === 'article' && config('seo.og_extract_description'))
+		{
+			$description = trim(utf8_normalize_spaces($oDocument->getContentText(200)));
+		}
+		else
+		{
+			$description = Context::getMetaTag('description');
+		}
+		Context::addOpenGraphData('og:description', $description);
+		Context::addMetaTag('description', $description);
+		
+		// Add metadata about this page.
+		Context::addOpenGraphData('og:type', $page_type);
+		if ($page_type === 'article')
+		{
+			$canonical_url = getFullUrl('', 'mid', $current_module_info->mid, 'document_srl', $document_srl);
+		}
+		elseif (($page = Context::get('page')) > 1)
+		{
+			$canonical_url = getFullUrl('', 'mid', $current_module_info->mid, 'page', $page);
+		}
+		elseif ($current_module_info->module_srl == $site_module_info->module_srl)
+		{
+			$canonical_url = getFullUrl('');
+		}
+		else
+		{
+			$canonical_url = getFullUrl('', 'mid', $current_module_info->mid);
+		}
+		Context::addOpenGraphData('og:url', $canonical_url);
+		Context::setCanonicalURL($canonical_url);
+		
+		// Add metadata about the locale.
+		$lang_type = Context::getLangType();
+		$locales = (include \RX_BASEDIR . 'common/defaults/locales.php');
+		if (isset($locales[$lang_type]))
+		{
+			Context::addOpenGraphData('og:locale', $locales[$lang_type]);
+		}
+		if ($page_type === 'article' && $oDocument->getLangCode() !== $lang_type && isset($locales[$oDocument->getLangCode()]))
+		{
+			Context::addOpenGraphData('og:locale:alternate', $locales[$oDocument->getLangCode()]);
+		}
+		
+		// Add image.
+		if ($page_type === 'article' && config('seo.og_extract_images'))
+		{
+			if (($document_images = Rhymix\Framework\Cache::get("seo:document_images:$document_srl")) === null)
+			{
+				$document_images = array();
+				if ($oDocument->hasUploadedFiles())
+				{
+					foreach ($oDocument->getUploadedFiles() as $file)
+					{
+						if ($file->isvalid !== 'Y' || !preg_match('/\.(?:bmp|gif|jpe?g|png)$/i', $file->uploaded_filename))
+						{
+							continue;
+						}
+						list($width, $height) = @getimagesize($file->uploaded_filename);
+						if ($width < 100 && $height < 100)
+						{
+							continue;
+						}
+						$image = array('filepath' => $file->uploaded_filename, 'width' => $width, 'height' => $height);
+						if ($file->cover_image === 'Y')
+						{
+							array_unshift($document_images, $image);
+						}
+						else
+						{
+							$document_images[] = $image;
+						}
+						if (count($document_images) >= 1)
+						{
+							break;
+						}
+					}
+				}
+				Rhymix\Framework\Cache::set("seo:document_images:$document_srl", $document_images, 0, true);
+			}
+		}
+		else
+		{
+			$document_images = null;
+		}
+		
+		if ($document_images)
+		{
+			$first_image = reset($document_images);
+			$first_image['filepath'] = preg_replace('/^.\\/files\\//', \RX_BASEURL . 'files/', $first_image['filepath']);
+			Context::addOpenGraphData('og:image', Rhymix\Framework\URL::getCurrentDomainURL($first_image['filepath']));
+			Context::addOpenGraphData('og:image:width', $first_image['width']);
+			Context::addOpenGraphData('og:image:height', $first_image['height']);
+		}
+		elseif ($default_image = getAdminModel('admin')->getSiteDefaultImageUrl($width, $height))
+		{
+			Context::addOpenGraphData('og:image', Rhymix\Framework\URL::getCurrentDomainURL($default_image));
+			if ($width && $height)
+			{
+				Context::addOpenGraphData('og:image:width', $width);
+				Context::addOpenGraphData('og:image:height', $height);
+			}
+		}
+		
+		// Add datetime for articles.
+		if ($page_type === 'article' && config('seo.og_use_timestamps'))
+		{
+			Context::addOpenGraphData('article:published_time', $oDocument->getRegdate('c'));
+			Context::addOpenGraphData('article:modified_time', $oDocument->getUpdate('c'));
+		}
 	}
 
 	/**

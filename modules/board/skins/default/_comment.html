@@ -25,7 +25,14 @@
 				<input type="hidden" name="comment_srl" value="{$comment->get('comment_srl')}" />
 			</form>
 			<!--@else-->
-			{$comment->getContent(false)}
+				<!--@if($comment->status == 7)-->
+				{$lang->msg_deleted_comment}
+				<!--@elseif($comment->status == 8)-->
+				{$lang->msg_admin_deleted_comment}
+				<!--@end-->
+				<block cond="$comment->status < 7">
+					{$comment->getContent(false)}
+				</block>
 			<!--@end-->
 			<div cond="$comment->hasUploadedFiles()" class="fileList">
 				<button type="button" class="toggleFile" onclick="jQuery(this).next('ul.files').toggle();">{$lang->uploaded_file} [<strong>{$comment->get('uploaded_count')}</strong>]</button>

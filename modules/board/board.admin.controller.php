@@ -49,6 +49,10 @@ class boardAdminController extends board {
 		if($args->protect_content!= 'Y') $args->protect_content = 'N';
 		if(!in_array($args->order_target,$this->order_target) && !array_key_exists($args->order_target, $extra_order_target)) $args->order_target = 'list_order';
 		if(!in_array($args->order_type, array('asc', 'desc'))) $args->order_type = 'asc';
+		
+		$args->browser_title = trim(utf8_normalize_spaces($args->browser_title));
+		$args->meta_keywords = $args->meta_keywords ? implode(', ', array_map('trim', explode(',', $args->meta_keywords))) : '';
+		$args->meta_description = trim(utf8_normalize_spaces($args->meta_description));
 
 		// if there is an existed module
 		if($args->module_srl) {

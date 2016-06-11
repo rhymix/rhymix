@@ -39,6 +39,15 @@
 				<p class="x_help-block">{$lang->about_mention_suffix_always_cut}</p>
 			</div>
 		</div>
+		<div class="x_control-group">
+			<label class="x_control-label">{$lang->mention_limit}</label>
+			<div class="x_controls">
+				<label class="x_inline">
+					<input type="number" name="mention_limit" value="{intval($config->mention_limit)}" />
+				</label>
+				<p class="x_help-block">{$lang->about_mention_limit}</p>
+			</div>
+		</div>
 	</section>
 	<div class="x_clearfix btnArea">
 		<div class="x_pull-right">

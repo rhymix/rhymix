@@ -440,6 +440,11 @@
 <a href="#" class="btn_top"><i class="xi-angle-up"><span class="blind">{$lang->cmd_move_up}</span></i></a>
 <!-- /TOP -->
 
+<!-- Ncenter login widget -->
+<!--@if($layout_info->use_ncenter_widget == 'Y')-->
+	<img class="zbxe_widget_output" widget="login_info" skin="ncenter_login" colorset="layout" widget_cache="0m" ncenter_use="yes" />
+<!--@end-->
+
 <!-- Login widget -->
 <section cond="$layout_info->use_login_widget != 'N'" class="login_widget" style="display:none"|cond="$XE_VALIDATOR_ID != 'layouts/xedition/layout/1' || !$XE_VALIDATOR_MESSAGE">
 	<load target="./css/widget.login.css" />

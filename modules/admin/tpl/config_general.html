@@ -11,13 +11,19 @@
 	</form>
 	<div class="x_form-horizontal" id="admin_config">
 		<div class="x_control-group">
-			<label class="x_control-label">{$lang->site_title} <a class="x_icon-question-sign" href="./common/manual/admin/index.html#UMAN_config_general_site_title" target="_blank">{$lang->help}</a></label>
+			<label class="x_control-label">{$lang->site_title}</label>
 			<div class="x_controls">
-				<input type="text" name="site_title" value="{$site_title}" />
+				<input type="text" name="site_title" value="{$var_site_title}" class="lang_code" />
 			</div>
 		</div>
 		<div class="x_control-group">
-			<label class="x_control-label" for="_target_module">{$lang->start_module} <a class="x_icon-question-sign" href="./common/manual/admin/index.html#UMAN_config_general_homepage" target="_blank">{$lang->help}</a></label>
+			<label class="x_control-label">{$lang->site_subtitle}</label>
+			<div class="x_controls">
+				<input type="text" name="site_subtitle" value="{$var_site_subtitle}" class="lang_code" />
+			</div>
+		</div>
+		<div class="x_control-group">
+			<label class="x_control-label" for="_target_module">{$lang->start_module}</label>
 			<div class="x_controls">
 				<input class="module_search" type="text" name="index_module_srl" value="{$start_module->index_module_srl}" />
 			</div>
@@ -72,25 +78,25 @@
 			<label class="x_control-label">{$lang->use_mobile_view}</label>
 			<div class="x_controls">
 				<label for="use_mobile_view_y" class="x_inline">
-					<input type="radio" name="use_mobile_view" id="use_mobile_view_y" value="Y" checked="checked"|cond="$use_mobile_view == 'Y'" />
+					<input type="radio" name="use_mobile_view" id="use_mobile_view_y" value="Y" checked="checked"|cond="$use_mobile_view" />
 					{$lang->cmd_yes}
 				</label>
 				<label for="use_mobile_view_n" class="x_inline">
-					<input type="radio" name="use_mobile_view" id="use_mobile_view_n" value="N" checked="checked"|cond="$use_mobile_view != 'Y'" />
+					<input type="radio" name="use_mobile_view" id="use_mobile_view_n" value="N" checked="checked"|cond="!$use_mobile_view" />
 					{$lang->cmd_no}
 				</label>
 			</div>
 		</div>
 		<div class="x_control-group">
-			<label class="x_control-label">{$lang->thumbnail_type}</label>
+			<label class="x_control-label">{$lang->tablets_as_mobile}</label>
 			<div class="x_controls">
-				<label for="thumbnail_type_crop" class="x_inline">
-					<input type="radio" name="thumbnail_type" id="thumbnail_type_crop" value="corp" checked="checked"|cond="$thumbnail_type != 'ratio'" />
-					{$lang->corp}
+				<label for="tablets_as_mobile_y" class="x_inline">
+					<input type="radio" name="tablets_as_mobile" id="tablets_as_mobile_y" value="Y" checked="checked"|cond="$tablets_as_mobile" />
+					{$lang->cmd_yes}
 				</label>
-				<label for="thumbnail_type_ratio" class="x_inline">
-					<input type="radio" name="thumbnail_type" id="thumbnail_type_ratio" value="ratio" checked="checked"|cond="$thumbnail_type == 'ratio'" />
-					{$lang->ratio}
+				<label for="tablets_as_mobile_n" class="x_inline">
+					<input type="radio" name="tablets_as_mobile" id="tablets_as_mobile_n" value="N" checked="checked"|cond="!$tablets_as_mobile" />
+					{$lang->cmd_no}
 				</label>
 			</div>
 		</div>
@@ -98,8 +104,8 @@
 			<label class="x_control-label">{$lang->allow_use_favicon}</label>
 			<div class="x_controls">
 				<p id="faviconPreview">
-					<img src="{$favicon_url}" alt="favicon" class="fn1" style="width:16px;height:16px">
-					<img src="{$favicon_url}" alt="favicon Image" class="fn2" style="width:16px;height:16px">
+					<img src="{$favicon_url}" alt="Favicon" class="fn1" style="width:16px;height:16px">
+					<img src="{$favicon_url}" alt="Favicon" class="fn2" style="width:16px;height:16px">
 				</p>
 				<label><input type="checkbox" name="is_delete_favicon" value="1" /> {$lang->cmd_delete}</label>
 				<form action="./" enctype="multipart/form-data" method="post" target="hiddenIframe" class="imageUpload" style="margin:0">
@@ -132,6 +138,24 @@
 				<span class="x_help-block">{$lang->detail_use_mobile_icon}</span>
 			</div>
 		</div>
+		<div class="x_control-group">
+			<label class="x_control-label">{$lang->cmd_site_default_image}</label>
+			<div class="x_controls">
+				<p id="default_imagePreview">
+					<img src="{$site_default_image_url}" alt="Default Image" style="width:200px;height:auto" />
+				</p>
+				<label><input type="checkbox" name="is_delete_default_image" value="1" /> {$lang->cmd_delete}</label>
+				<form action="./" enctype="multipart/form-data" method="post" target="hiddenIframe" class="imageUpload" style="margin:0">
+					<input type="hidden" name="module" value="admin">
+					<input type="hidden" name="act" value="procAdminFaviconUpload">
+					<p>
+						<input type="file" name="default_image" id="default_image" title="Site default image"/>
+						<input class="x_btn" type="submit" value="{$lang->cmd_upload}" style="vertical-align:top">
+					</p>
+				</form>
+				<span class="x_help-block">{$lang->about_site_default_image}</span>
+			</div>
+		</div>
 		<div class="x_clearfix btnArea">
 			<div class="x_pull-right">
 				<button type="submit" class="x_btn x_btn-primary" onclick="doSubmitConfig()">{$lang->cmd_save}</button>
@@ -142,10 +166,17 @@
 
 <iframe name="hiddenIframe" src="about:blank" hidden></iframe>
 <script>
-function afterUploadConfigImage(name, fileName, tmpFileName)
-{
-	jQuery('#' + name + 'Preview img').attr('src', tmpFileName);
+jQuery(function() {
+	if (jQuery("#default_imagePreview img").attr("src") == "") {
+		jQuery("#default_imagePreview").hide();
+		jQuery("input[name='is_delete_default_image']").parent().hide();
+	}
+});
+
+function afterUploadConfigImage(name, tmpFileName) {
+	jQuery('#' + name + 'Preview img').attr('src', tmpFileName).parent().show();
 	jQuery('#' + name).val('');
+	jQuery("input[name='is_delete_" + name + "']").prop('checked', false).parent().show();
 }
 
 function alertUploadMessage(msg) {

@@ -37,6 +37,7 @@ class documentAdminModel extends document
 			unset($obj->mid);
 		}
 		// check if the module_srl is an array
+		$args = new stdClass();
 		if(is_array($obj->module_srl)) $args->module_srl = implode(',', $obj->module_srl);
 		else $args->module_srl = $obj->module_srl;
 		// Variable check
@@ -81,6 +82,7 @@ class documentAdminModel extends document
 	 */
 	function getDocumentTrash($trash_srl)
 	{
+		$args = new stdClass();
 		$args->trash_srl = $trash_srl;
 		$output = executeQuery('document.getTrash', $args);
 

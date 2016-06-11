@@ -200,8 +200,8 @@ class boardAdminView extends board {
 
 		// get the addtional setup trigger
 		// the additional setup triggers can be used in many modules
-		$output = ModuleHandler::triggerCall('module.dispAdditionSetup', 'before', $content);
-		$output = ModuleHandler::triggerCall('module.dispAdditionSetup', 'after', $content);
+		ModuleHandler::triggerCall('module.dispAdditionSetup', 'before', $content);
+		ModuleHandler::triggerCall('module.dispAdditionSetup', 'after', $content);
 		Context::set('setup_content', $content);
 
 		// setup the template file

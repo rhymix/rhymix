@@ -31,16 +31,29 @@ class trashAdminView extends trash
 		$args->page = Context::get('page'); // /< Page
 		$args->list_count = 30; // /< the number of posts to display on a single page
 		$args->page_count = 5; // /< the number of pages that appear in the page navigation
+		$args->originModule = Context::get('originModule');
 
-		$args->search_target = Context::get('search_target'); // /< search (title, contents ...)
-		$args->search_keyword = Context::get('search_keyword'); // /< keyword to search
+		$search_target = Context::get('search_target'); // /< search (title, contents ...)
+		$search_keyword = Context::get('search_keyword'); // /< keyword to search
+		
+		switch($search_target)
+		{
+			case 'title':
+				$args->s_title = $search_keyword;
+				break;
+			case 'user_id':
+				$args->s_user_id = $search_keyword;
+				break;
+			case 'nick_name':
+				$args->s_nick_name = $search_keyword;
+				break;
+			case 'trash_ipaddress':
+				$args->s_ipaddress = $search_keyword;
+				break;
+		}
 
 		$oTrashModel = getModel('trash');
 		$output = $oTrashModel->getTrashList($args);
-
-		// for no text comment language and for document manange language
-		$oCommentModel = getModel('comment');
-		$oDocumentModel = getModel('document');
 
 		Context::set('trash_list', $output->data);
 		Context::set('total_count', $output->total_count);
@@ -110,7 +123,6 @@ class trashAdminView extends trash
 		}
 		$this->setTemplateFile('trash_view');
 	}
-
 }
 /* End of file trash.admin.view.php */
 /* Location: ./modules/trash/trash.admin.view.php */

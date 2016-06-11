@@ -940,6 +940,31 @@ class adminAdminModel extends admin
 	{
 		return $this->iconUrlCheck('mobicon.png', 'mobiconSample.png', $default);
 	}
+	
+	function getSiteDefaultImageUrl(&$width = 0, &$height = 0)
+	{
+		$site_info = Context::get('site_module_info');
+		if ($site_info->site_srl) 
+		{
+			$virtual_site = $site_info->site_srl . '/';
+		}
+		else
+		{
+			$virtual_site = '';
+		}
+		
+		$info = Rhymix\Framework\Storage::readPHPData(\RX_BASEDIR . 'files/attach/xeicon/' . $virtual_site . 'default_image.php');
+		if ($info && Rhymix\Framework\Storage::exists(\RX_BASEDIR . $info['filename']))
+		{
+			$width = $info['width'];
+			$height = $info['height'];
+			return \RX_BASEURL . $info['filename'] . '?' . date('YmdHis', filemtime(\RX_BASEDIR . $info['filename']));
+		}
+		else
+		{
+			return false;
+		}
+	}
 
 	function iconUrlCheck($iconname, $default_icon_name, $default)
 	{

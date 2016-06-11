@@ -248,14 +248,20 @@ class commentModel extends comment
 
 		//check if module is using validation system
 		$oCommentController = getController('comment');
-
 		$using_validation = $oCommentController->isModuleUsingPublishValidation($module_srl);
+		$module_info = getModel('module')->getModuleInfoByDocumentSrl($document_srl);
+		$use_comment_massage = $module_info->comment_delete_message;
+
 		if($using_validation)
 		{
 			$args->status = 1;
 		}
+		elseif($use_comment_massage == 'Y')
+		{
+			$args->status = 1;
+		}
 
-		$output = executeQuery('comment.getCommentCount', $args, NULL, 'master');
+		$output = executeQuery('comment.getCommentCount', $args, NULL);
 		$total_count = $output->data->count;
 
 		return (int) $total_count;
@@ -269,6 +275,7 @@ class commentModel extends comment
 	 */
 	function getCommentCountByDate($date = '', $moduleSrlList = array())
 	{
+		$args = new stdClass();
 		if($date)
 		{
 			$args->regDate = date('Ymd', strtotime($date));

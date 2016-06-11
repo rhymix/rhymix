@@ -31,4 +31,20 @@
         <name xml:lang="zh-TW">NAVER</name>
         <name xml:lang="tr">NAVER</name>
     </author>
+	<extra_vars>
+		<var id="ncenter_use" type="select">
+			<name xml:lang="ko">알림센터 사용</name>
+			<name xml:lang="en">Use the ncenterlite</name>
+			<options>
+				<value>yes</value>
+				<name xml:lang="ko">사용함</name>
+				<name xml:lang="en">Enabled</name>
+			</options>
+			<options>
+				<value>no</value>
+				<name xml:lang="ko">사용 안 함</name>
+				<name xml:lang="en">Disabled</name>
+			</options>
+		</var>
+	</extra_vars>
 </widget>

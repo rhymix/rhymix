@@ -32,6 +32,9 @@
 			<input cond="$module_info->secret=='Y'" type="checkbox" name="is_secret" value="Y" id="is_secret" checked="checked"|cond="$oComment->get('is_secret')=='Y'" class="iCheck" />
 			<label cond="$module_info->secret=='Y'" for="is_secret">{$lang->secret}</label>
 		</div>
+		<div class="write_captcha" cond="$captcha">
+			{$captcha}
+		</div>
 		<div style="float:right">
 			<button type="submit" class="btn_insert"><i class="xi-message"></i> {$lang->cmd_comment_registration}</button>
 		</div>

@@ -20,7 +20,7 @@ class ncenterliteModel extends ncenterlite
 			{
 				$config->use = array('message' => 1);
 			}
-			if(!$config->display_use) $config->display_use = 'Y';
+			if(!$config->display_use) $config->display_use = 'all';
 
 			if(!$config->mention_names) $config->mention_names = 'nick_name';
 			if(!$config->mention_suffixes)
@@ -28,6 +28,10 @@ class ncenterliteModel extends ncenterlite
 				$config->mention_suffixes = array('님', '様', 'さん', 'ちゃん');
 			}
 			unset($config->mention_format);
+			if(!isset($config->mention_limit))
+			{
+				$config->mention_limit = 20;
+			}
 			if(!$config->hide_module_srls) $config->hide_module_srls = array();
 			if(!is_array($config->hide_module_srls)) $config->hide_module_srls = explode('|@|', $config->hide_module_srls);
 			if(!$config->document_read) $config->document_read = 'Y';
@@ -120,8 +124,6 @@ class ncenterliteModel extends ncenterlite
 
 	function getMyNotifyList($member_srl=null, $page=1, $readed='N')
 	{
-		global $lang;
-
 		$act = Context::get('act');
 		if($act=='dispNcenterliteNotifyList')
 		{
@@ -137,71 +139,7 @@ class ncenterliteModel extends ncenterlite
 
 		foreach($list as $k => $v)
 		{
-
-			$target_member = $v->target_nick_name;
-
-			switch($v->type)
-			{
-				case 'D':
-					$type = $lang->ncenterlite_document; //$type = '글';
-				break;
-				case 'C':
-					$type = $lang->ncenterlite_comment; //$type = '댓글';
-				break;
-				// 메시지. 쪽지
-				case 'E':
-					$type = $lang->ncenterlite_type_message; //$type = '쪽지';
-				break;
-			}
-
-			switch($v->target_type)
-			{
-				case 'C':
-					$str = sprintf($lang->ncenterlite_commented, $target_member, $type, $v->target_summary);
-					//$str = sprintf('<strong>%s</strong>님이 회원님의 %s에 <strong>"%s" 댓글</strong>을 남겼습니다.', $target_member, $type, $v->target_summary);
-				break;
-				case 'A':
-					$str = sprintf($lang->ncenterlite_commented_board, $target_member, $v->target_browser, $v->target_summary);
-					//$str = sprintf('<strong>%1$s</strong>님이 게시판 <strong>"%2$s"</strong>에 <strong>"%3$s"</strong>라고 댓글을 남겼습니다.', $target_member, $type, $v->target_summary);
-				break;
-				case 'M':
-					$str = sprintf($lang->ncenterlite_mentioned, $target_member, $v->target_browser, $v->target_summary);
-					//$str = sprintf('<strong>%s</strong>님이 <strong>"%s" %s</strong>에서 회원님을 언급하였습니다.', $target_member,  $v->target_summary, $type);
-				break;
-				// 메시지. 쪽지
-				case 'E':
-					$str = sprintf($lang->ncenterlite_message_mention,$target_member, $v->target_summary);
-				break;
-				case 'T':
-					$str = sprintf($lang->ncenterlite_test_noti, $target_member);
-				break;
-				case 'P':
-					$str = sprintf($lang->ncenterlite_board, $target_member, $v->target_browser, $v->target_summary);
-				break;
-				case 'S':
-					if($v->target_browser)
-					{
-						$str = sprintf($lang->ncenterlite_board, $target_member, $v->target_browser, $v->target_summary);
-					}
-					else
-					{
-						$str = sprintf($lang->ncenterlite_article, $target_member, $v->target_summary);
-					}
-				break;
-				case 'V':
-					$str = sprintf($lang->ncenterlite_vote, $target_member, $v->target_summary);
-				break;
-				case 'B':
-					$str = sprintf($lang->ncenterlite_admin_content_message, $target_member, $v->target_browser, $v->target_summary);
-				break;
-			}
-
-			if($v->type=='U')
-			{
-				$str = $this->getNotifyTypeString($v->notify_type,unserialize($v->target_body));
-			}
-
-			$v->text = $str;
+			$v->text = $this->getNotificationText($v);
 			$v->ago = $this->getAgo($v->regdate);
 			$v->url = getUrl('','act','procNcenterliteRedirect', 'notify', $v->notify, 'url', $v->target_url);
 			if($v->target_member_srl)
@@ -356,7 +294,109 @@ class ncenterliteModel extends ncenterlite
 		if(count($colorset_list)) $colorsets = implode("\n", $colorset_list);
 		$this->add('colorset_list', $colorsets);
 	}
-
+	
+	/**
+	 * Return the notification text.
+	 * 
+	 * @param object $notification
+	 * @return string
+	 */
+	public function getNotificationText($notification)
+	{
+		global $lang;
+		
+		// Get the type of notification.
+		switch ($notification->type)
+		{
+			// Document.
+			case 'D':
+				$type = $lang->ncenterlite_document;
+				break;
+			
+			// Comment.
+			case 'C':
+				$type = $lang->ncenterlite_comment;
+				break;
+			
+			// Message.
+			case 'E':
+				$type = $lang->ncenterlite_type_message;
+				break;
+			
+			// Test.
+			case 'T':
+				$type = $lang->ncenterlite_type_test;
+				break;
+			
+			// Other.
+			case 'U':
+			default:
+				return $this->getNotifyTypeString($notification->notify_type, unserialize($notification->target_body)) ?: $lang->ncenterlite;
+		}
+		
+		// Get the notification text.
+		switch ($notification->target_type)
+		{
+			// Comment on your document.
+			case 'C':
+				$str = sprintf($lang->ncenterlite_commented, $notification->target_nick_name, $type, $notification->target_summary);
+				break;
+			
+			// Comment on a board.
+			case 'A':
+				$str = sprintf($lang->ncenterlite_commented_board, $notification->target_nick_name, $notification->target_browser, $notification->target_summary);
+				break;
+			
+			// Mentioned.
+			case 'M':
+				$str = sprintf($lang->ncenterlite_mentioned, $notification->target_nick_name, $notification->target_browser, $notification->target_summary, $type);
+				break;
+			
+			// Message arrived.
+			case 'E':
+				$str = sprintf($lang->ncenterlite_message_mention, $notification->target_nick_name, $notification->target_summary);
+				break;
+			
+			// Test notification.
+			case 'T':
+				$str = sprintf($lang->ncenterlite_test_noti, $notification->target_nick_name);
+				break;
+			
+			// New document on a board.
+			case 'P':
+				$str = sprintf($lang->ncenterlite_board, $notification->target_nick_name, $notification->target_browser, $notification->target_summary);
+				break;
+			
+			// New document.
+			case 'S':
+				if($notification->target_browser)
+				{
+					$str = sprintf($lang->ncenterlite_board, $notification->target_nick_name, $notification->target_browser, $notification->target_summary);
+				}
+				else
+				{
+					$str = sprintf($lang->ncenterlite_article, $notification->target_nick_name, $notification->target_summary);
+				}
+				break;
+			
+			// Voted.
+			case 'V':
+				$str = sprintf($lang->ncenterlite_vote, $notification->target_nick_name, $notification->target_summary, $type);
+				break;
+			
+			// Admin notification.
+			case 'B':
+				$str = sprintf($lang->ncenterlite_admin_content_message, $notification->target_nick_name, $notification->target_browser, $notification->target_summary);
+				break;
+			
+			// Other.
+			default:
+				$str = $lang->ncenterlite;
+		}
+		
+		return $str;
+	}
+	
 	/**
 	 * @brief 주어진 시간이 얼마 전 인지 반환
 	 * @param string YmdHis
@@ -367,9 +407,8 @@ class ncenterliteModel extends ncenterlite
 		global $lang;
 		$lang_type = Context::getLangType();
 
-		$display = $lang->ncenterlite_date; // array('Year', 'Month', 'Day', 'Hour', 'Minute', 'Second')
-
-		$ago = $lang->ncenterlite_ago; // 'Ago'
+		$display = $lang->ncenterlite_date;
+		$ago = $lang->ncenterlite_ago;
 
 		$date = getdate(strtotime(zdate($datetime, 'Y-m-d H:i:s')));
 
