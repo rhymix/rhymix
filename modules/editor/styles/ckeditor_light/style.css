@@ -1,6 +1,5 @@
 @charset "utf-8";
 /* NAVER (developers@xpressengine.com) */
-.xe_content {color:#000;font-size:13px;font-family:sans-serif;line-height:1.5}
 .xe_content blockquote.q1,
 .xe_content blockquote.q2,
 .xe_content blockquote.q3,
@@ -16,3 +15,16 @@
 .xe_content blockquote.q6{border:1px dashed #707070}
 .xe_content blockquote.q7{border:1px dashed #707070;background:#fbfbfb}
 .xe_content p{margin:0}
+
+.xe_content blockquote
+{
+	font-style: italic;
+	padding: 2px 0;
+	font-family: '돋움', dotum, Georgia, Times, "Times New Roman", serif;
+	border-style: solid;
+	border-color: #ccc;
+	border-width: 0;
+	padding-left: 20px;
+	padding-right: 8px;
+	border-left-width: 5px;
+}
