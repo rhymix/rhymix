@@ -1,7 +1,7 @@
 RewriteEngine On
 
 # reserve Rhymix Layout Template Source File (*.html)
-RewriteRule ^(layouts|m.layouts)/(.+)\.html$ - [L,F]
+RewriteRule ^(common|layouts|m.layouts)/(.+)\.html$ - [L,F]
 # reserve Rhymix Template Source Files (*.html)
 RewriteCond %{REQUEST_URI} !/modules/editor/
 RewriteRule /(skins|m.skins)/(.+)\.html$ - [L,F]
