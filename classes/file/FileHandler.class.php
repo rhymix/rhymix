@@ -401,7 +401,7 @@ class FileHandler
 			
 			if (config('debug.enabled') && in_array('slow_remote_requests', config('debug.display_content')))
 			{
-				$bt = defined('DEBUG_BACKTRACE_IGNORE_ARGS') ? debug_backtrace(DEBUG_BACKTRACE_IGNORE_ARGS) : debug_backtrace();
+				$bt = debug_backtrace(\DEBUG_BACKTRACE_IGNORE_ARGS);
 				foreach($bt as $no => $call)
 				{
 					if(strncasecmp($call['function'], 'getRemote', 9) === 0)

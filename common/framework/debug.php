@@ -148,8 +148,7 @@ class Debug
 	public static function addEntry($message)
 	{
 		// Get the backtrace.
-		$backtrace_args = defined('\DEBUG_BACKTRACE_IGNORE_ARGS') ? \DEBUG_BACKTRACE_IGNORE_ARGS : 0;
-		$backtrace = debug_backtrace($backtrace_args);
+		$backtrace = debug_backtrace(\DEBUG_BACKTRACE_IGNORE_ARGS);
 		if (count($backtrace) > 1 && $backtrace[1]['function'] === 'debugPrint' && !$backtrace[1]['class'])
 		{
 			array_shift($backtrace);
@@ -203,8 +202,7 @@ class Debug
 		), $errstr);
 		
 		// Get the backtrace.
-		$backtrace_args = defined('\DEBUG_BACKTRACE_IGNORE_ARGS') ? \DEBUG_BACKTRACE_IGNORE_ARGS : 0;
-		$backtrace = debug_backtrace($backtrace_args);
+		$backtrace = debug_backtrace(\DEBUG_BACKTRACE_IGNORE_ARGS);
 		
 		// Prepare the error entry.
 		self::$_errors[] = $errinfo = (object)array(
@@ -219,9 +217,8 @@ class Debug
 		// Add the entry to the error log.
 		if (self::$write_to_error_log)
 		{
-			$log_entry = str_replace("\0", '', sprintf('PHP %s: %s in %s on line %d',
-				$errinfo->type, $errstr, $errfile, intval($errline)));
-			error_log($log_entry);
+			$log_entry = strtr(sprintf('PHP %s: %s in %s on line %d', $errinfo->type, $errstr, $errfile, intval($errline)), "\0\r\n\t\v\e\f", '       ');
+			error_log($log_entry . \PHP_EOL . self::formatBacktrace($backtrace));
 		}
 	}
 	
@@ -374,7 +371,7 @@ class Debug
 			$log_entry = str_replace("\0", '', sprintf('%s #%d "%s" in %s on line %d',
 				get_class($e), $e->getCode(), $e->getMessage(), $errfile, $e->getLine()));
 		}
-		error_log('PHP Exception: ' . $log_entry . "\n" . str_replace("\0", '',  $e->getTraceAsString()));
+		error_log('PHP Exception: ' . $log_entry . \PHP_EOL . self::formatBacktrace($e->getTrace()));
 		
 		// Display the error screen.
 		self::displayErrorScreen($log_entry);
@@ -405,6 +402,25 @@ class Debug
 		
 		// Display the error screen.
 		self::displayErrorScreen($log_entry);
+	}
+	
+	/**
+	 * Format a backtrace for error logging.
+	 */
+	public static function formatBacktrace($backtrace)
+	{
+		$result = array();
+		foreach ($backtrace as $step)
+		{
+			$stepstr = '#' . count($result) . ' ';
+			$stepstr .= $step['file'] . '(' . $step['line'] . ')';
+			if ($step['function'])
+			{
+				$stepstr .= ': ' . ($step['type'] ? ($step['class'] . $step['type'] . $step['function']) : $step['function']) . '()';
+			}
+			$result[] = strtr($stepstr, "\0\r\n\t\v\e\f", '       ');
+		}
+		return implode(\PHP_EOL, $result);
 	}
 	
 	/**
