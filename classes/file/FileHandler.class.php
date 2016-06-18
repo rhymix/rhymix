@@ -377,14 +377,17 @@ class FileHandler
 				$request_headers['Content-Type'] = $content_type;
 			}
 			
-			$proxy = parse_url(__PROXY_SERVER__);
-			if($proxy["host"])
+			if(defined('__PROXY_SERVER__'))
 			{
-				$request_options['proxy'] = array($proxy['host'] . ($proxy['port'] ? (':' . $proxy['port']) : ''));
-				if($proxy['user'] && $proxy['pass'])
+				$proxy = parse_url(__PROXY_SERVER__);
+				if($proxy["host"])
 				{
-					$request_options['proxy'][] = $proxy['user'];
-					$request_options['proxy'][] = $proxy['pass'];
+					$request_options['proxy'] = array($proxy['host'] . ($proxy['port'] ? (':' . $proxy['port']) : ''));
+					if($proxy['user'] && $proxy['pass'])
+					{
+						$request_options['proxy'][] = $proxy['user'];
+						$request_options['proxy'][] = $proxy['pass'];
+					}
 				}
 			}
 			
