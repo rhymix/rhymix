@@ -10,7 +10,6 @@ $primary-color: color("#{$p-color}", "lighten-2");
 $secondary-color: color("#{$s-color}", "lighten-1");
 $link-color: $secondary-color;
 
-
 // Variables;
 @import "materialize-src/sass/components/variables";
 

@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <layout version="0.2">
-	<title xml:lang="ko">종이 모바일</title>
-	<title xml:lang="en">Papers mobile</title>
-	<description xml:lang="ko">빛이 비치는 종이를 연상시키는 레이아웃</description>
+	<title xml:lang="ko">종이 넘기기</title>
+	<title xml:lang="en">Slidable Pages</title>
+	<description xml:lang="ko">구글의 머티리얼 디자인을 활용하였습니다. 빛이 비치는 종이를 연상시키는 레이아웃 입니다.</description>
 	<description xml:lang="en">Simple lines and shadows</description>
 	<version>0.2</version>
 	<date>2016-05-10</date>
@@ -21,7 +21,7 @@
 			<title xml:lang="ko">하단 메뉴</title>
 			<title xml:lang="en">Page footer menu</title>
 		</menu>
-		<menu name="bottom_list" maxdepth="1" default="true">
+		<menu name="bottom_list" maxdepth="2" default="true">
 			<title xml:lang="ko">하단 1 단 메뉴</title>
 			<title xml:lang="en">Page footer the lowest menu</title>
 			<description xml:lang="ko">페이지 가장 아랫 부분에 한 줄로 나타날 메뉴입니다.</description>
@@ -37,9 +37,37 @@
 			<title xml:lang="ko">사이트 로고 문자</title>
 			<title xml:lang="en">Site logo text</title>
 		</var>
+		<var name="logo_url" type="text">
+			<title xml:lang="ko">사이트 주소</title>
+			<title xml:lang="en">Site URL</title>
+		</var>
+		<var name="main_max_width" type="select">
+			<title xml:lang="ko">본문 폭 제한</title>
+			<title xml:lang="en">Limit contents width</title>
+			<options value="limit">
+				<title xml:lang="ko">최대 폭 제한, 여백 두기</title>
+				<title xml:lang="en">Limited maximum width with margin</title>
+			</options>
+			<options value="unlimited">
+				<title xml:lang="ko">제한 없음</title>
+				<title xml:lang="en">Unlimited without margin</title>
+			</options>
+		</var>
 		<var name="copyright_footer" type="text">
-			<title xml:lang="ko">하단 제목</title>
-			<title xml:lang="en">Footer title</title>
+			<title xml:lang="ko">하단 문구</title>
+			<title xml:lang="en">Footer text</title>
+		</var>
+		<var name="footer_view" type="select">
+			<title xml:lang="ko">하단 종류</title>
+			<title xml:lang="en">Footer type</title>
+			<options value="large">
+				<title xml:lang="ko">커다란 하단</title>
+				<title xml:lang="en">Large footer</title>
+			</options>
+			<options value="small">
+				<title xml:lang="ko">작은 하단</title>
+				<title xml:lang="en">Small footer</title>
+			</options>
 		</var>
 	</extra_vars>
 	<extra_vars>
