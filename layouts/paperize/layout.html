@@ -57,7 +57,7 @@
 			<h1 class="brand-logo">
 				<a href="<!--@if($layout_info->logo_url)-->{$layout_info->logo_url}<!--@elseif(Context::getDefaultUrl())-->{Context::getDefaultUrl()}<!--@else-->{getUrl('')}<!--@end-->">
 					<block cond="Context::getSiteTitle() && !$layout_info->LOGO_IMG && !$layout_info->LOGO_TEXT">{Context::getSiteTitle()}</block>
-					<img src="{$layout_info->LOGO_IMG}" alt="{$layout_info->LOGO_TEXT}" cond="$layout_info->LOGO_IMG">
+					<img src="{$layout_info->LOGO_IMG}" alt="{htmlspecialchars($layout_info->LOGO_TEXT)}"|cond="trim($layout_info->LOGO_TEXT)" alt="{htmlspecialchars(Context::getSiteTitle())}"|cond="!trim($layout_info->LOGO_TEXT)" cond="$layout_info->LOGO_IMG" />
 					<block cond="!$layout_info->LOGO_IMG && $layout_info->LOGO_TEXT">{$layout_info->LOGO_TEXT}</block>
 				</a>
 			</h1>
