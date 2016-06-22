@@ -8,6 +8,11 @@ namespace Rhymix\Framework;
 class Storage
 {
 	/**
+	 * Use atomic rename to overwrite files.
+	 */
+	public static $safe_overwrite = true;
+	
+	/**
 	 * Check if a path really exists.
 	 * 
 	 * @param string $path
@@ -217,10 +222,16 @@ class Storage
 		if (!self::exists($destination_dir))
 		{
 			$mkdir_success = self::createDirectory($destination_dir);
-			if (!$mkdir_success)
+			if (!$mkdir_success && !self::exists($destination_dir))
 			{
 				return false;
 			}
+		}
+		
+		if (self::$safe_overwrite && strncasecmp($mode, 'a', 1))
+		{
+			$original_filename = $filename;
+			$filename = $filename . '.tmp.' . microtime(true);
 		}
 		
 		if ($fp = fopen($filename, $mode))
@@ -241,6 +252,23 @@ class Storage
 		else
 		{
 			return false;
+		}
+		
+		if (self::$safe_overwrite && strncasecmp($mode, 'a', 1))
+		{
+			$rename_success = @rename($filename, $original_filename);
+			if (!$rename_success)
+			{
+				@unlink($original_filename);
+				$rename_success = @rename($filename, $original_filename);
+				if (!$rename_success)
+				{
+					@unlink($filename);
+					throw new Exception('foo');
+					return false;
+				}
+			}
+			$filename = $original_filename;
 		}
 		
 		@chmod($filename, ($perms === null ? (0666 & ~umask()) : $perms));
@@ -301,10 +329,33 @@ class Storage
 			$destination = $destination . '/' . basename($source);
 		}
 		
+		if (self::$safe_overwrite)
+		{
+			$original_destination = $destination;
+			$destination = $destination . '.tmp.' . microtime(true);
+		}
+		
 		$copy_success = @copy($source, $destination);
 		if (!$copy_success)
 		{
 			return false;
+		}
+		
+		if (self::$safe_overwrite)
+		{
+			$rename_success = @rename($destination, $original_destination);
+			if (!$rename_success)
+			{
+				@unlink($original_destination);
+				$rename_success = @rename($destination, $original_destination);
+				if (!$rename_success)
+				{
+					@unlink($destination);
+					throw new Exception('foo');
+					return false;
+				}
+			}
+			$destination = $original_destination;
 		}
 		
 		if ($destination_perms === null)
