@@ -682,7 +682,7 @@ class Validator
 			return FALSE;
 		}
 
-		@file_put_contents($filepath, $content, LOCK_EX);
+		Rhymix\Framework\Storage::write($filepath, $content);
 
 		return $filepath;
 	}
