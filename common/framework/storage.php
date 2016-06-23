@@ -276,6 +276,8 @@ class Storage
 		{
 			@opcache_invalidate($filename, true);
 		}
+		
+		clearstatcache(true, $filename);
 		return $result;
 	}
 	
@@ -373,6 +375,8 @@ class Storage
 		{
 			@chmod($destination, $destination_perms);
 		}
+		
+		clearstatcache(true, $destination);
 		return true;
 	}
 	
@@ -409,6 +413,8 @@ class Storage
 		{
 			@opcache_invalidate($source, true);
 		}
+		
+		clearstatcache(true, $destination);
 		return $result;
 	}
 	
