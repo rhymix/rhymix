@@ -173,6 +173,7 @@ class UA
 			'os' => null,
 			'is_mobile' => null,
 			'is_tablet' => null,
+			'is_robot' => null,
 		);
 		if (is_null($ua))
 		{
@@ -180,29 +181,40 @@ class UA
 		}
 		
 		// Try to guess the OS.
-		if (preg_match('#(Windows|Android|Linux|iOS|OS X|Macintosh)#i', $ua, $matches))
+		if (preg_match('#(Windows|Android|Linux|i(?:Phone|P[ao]d)|OS X|Macintosh)#i', $ua, $matches))
 		{
 			if ($matches[1] === 'Linux' && strpos($ua, 'Android') !== false)
 			{
-				$matches[1] = 'Android';
+				$result->os = 'Android';
 			}
-			if ($matches[1] === 'Macintosh' && strpos($ua, 'OS X') !== false)
+			elseif ($matches[1] === 'iPhone' || $matches[1] === 'iPad' || $matches[1] === 'iPod')
 			{
-				$matches[1] = 'OS X';
+				$result->os = 'iOS';
 			}
-			$result->os = $matches[1];
+			elseif ($matches[1] === 'Macintosh' && strpos($ua, 'OS X') !== false)
+			{
+				$result->os = 'OS X';
+			}
+			else
+			{
+				$result->os = $matches[1];
+			}
 		}
 		
 		// Fill in miscellaneous fields.
 		$result->is_mobile = self::isMobile($ua);
 		$result->is_tablet = self::isTablet($ua);
+		$result->is_robot = self::isRobot($ua);
 		
 		// Try to match some of the most common browsers.
-		if (preg_match('#Android ([0-9]+\\.[0-9]+)#', $ua, $matches) && strpos($ua, 'Chrome') === false)
+		if ($result->os === 'Android' && preg_match('#Android ([0-9]+\\.[0-9]+)#', $ua, $matches))
 		{
-			$result->browser = 'Android';
-			$result->version = $matches[1];
-			return $result;
+			if (strpos($ua, 'Chrome') === false || preg_match('#(?:Version|Browser)/[0-9]+#', $ua) || preg_match('#\\bwv\\b#', $ua))
+			{
+				$result->browser = 'Android';
+				$result->version = $matches[1];
+				return $result;
+			}
 		}
 		if (preg_match('#Edge/([0-9]+\\.)#', $ua, $matches))
 		{
@@ -216,10 +228,31 @@ class UA
 			$result->version = ($matches[1] + 4) . '.0';
 			return $result;
 		}
-		if (preg_match('#(MSIE|Chrome|Firefox|Safari)[ /:]([0-9]+\\.[0-9]+)#', $ua, $matches))
+		if (preg_match('#(MSIE|Chrome|CriOS|Firefox|FxiOS|Yeti|[a-z]+bot(?:-Image)?)[ /:]([0-9]+\\.[0-9]+)#i', $ua, $matches))
 		{
-			$result->browser = $matches[1] === 'MSIE' ? 'IE' : $matches[1];
+			if ($matches[1] === 'MSIE')
+			{
+				$result->browser = 'IE';
+			}
+			elseif ($matches[1] === 'CriOS')
+			{
+				$result->browser = 'Chrome';
+			}
+			elseif ($matches[1] === 'FxiOS')
+			{
+				$result->browser = 'Firefox';
+			}
+			else
+			{
+				$result->browser = ucfirst($matches[1]);
+			}
 			$result->version = $matches[2];
+			return $result;
+		}
+		if (preg_match('#Safari/[0-9]+#', $ua) && preg_match('#Version/([0-9]+\\.[0-9]+)#', $ua, $matches) && $matches[1] < 500)
+		{
+			$result->browser = 'Safari';
+			$result->version = $matches[1];
 			return $result;
 		}
 		if (preg_match('#^Opera/.+(?:Opera |Version/)([0-9]+\\.[0-9]+)$#', $ua, $matches))
