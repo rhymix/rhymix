@@ -303,13 +303,21 @@ class UA
 		{
 			$output_format = 'rfc5987';
 		}
+		elseif ($browser->browser === 'Edge')
+		{
+			$output_format = 'rfc5987';
+		}
 		elseif ($browser->browser === 'IE')
 		{
 			$output_format = 'old_ie';
 		}
-		else
+		elseif ($browser->browser === 'Android' || $browser->browser === 'Chrome' || $browser->browser === 'Safari')
 		{
 			$output_format = 'raw';
+		}
+		else
+		{
+			$output_format = 'old_ie';
 		}
 		
 		// Clean the filename.
