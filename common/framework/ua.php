@@ -270,4 +270,65 @@ class UA
 		
 		return $result;
 	}
+	
+	/**
+	 * This method encodes a UTF-8 filename for downloading in the current visitor's browser.
+	 * 
+	 * @param string $filename
+	 * @param string $ua (optional)
+	 * @return string
+	 */
+	public static function encodeFilenameForDownload($filename, $ua = null)
+	{
+		// Get the User-Agent header if the caller did not specify $ua.
+		$ua = $ua ?: (isset($_SERVER['HTTP_USER_AGENT']) ? $_SERVER['HTTP_USER_AGENT'] : null);
+		
+		// Get the browser name and version.
+		$browser = self::getBrowserInfo($ua);
+		
+		// Find the best format that this browser supports.
+		if ($browser->browser === 'Chrome' && $browser->version >= 11)
+		{
+			$output_format = 'rfc5987';
+		}
+		elseif ($browser->browser === 'Firefox' && $browser->version >= 6)
+		{
+			$output_format = 'rfc5987';
+		}
+		elseif ($browser->browser === 'Safari' && $browser->version >= 6)
+		{
+			$output_format = 'rfc5987';
+		}
+		elseif ($browser->browser === 'IE' && $browser->version >= 10)
+		{
+			$output_format = 'rfc5987';
+		}
+		elseif ($browser->browser === 'IE')
+		{
+			$output_format = 'old_ie';
+		}
+		else
+		{
+			$output_format = 'raw';
+		}
+		
+		// Clean the filename.
+		$filename = Filters\FilenameFilter::clean($filename);
+		
+		// Apply the format and return.
+		switch ($output_format)
+		{
+			case 'raw':
+				return 'filename="' . $filename . '"';
+				
+			case 'rfc5987':
+				$filename = rawurlencode($filename);
+				return "filename*=UTF-8''" . $filename . '; filename="' . $filename . '"';
+				
+			case 'old_ie':
+			default:
+				$filename = rawurlencode($filename);
+				return 'filename="' . preg_replace('/\./', '%2e', $filename, substr_count($filename, '.') - 1) . '"';
+		}
+	}
 }
