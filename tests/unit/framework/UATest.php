@@ -161,25 +161,25 @@ class UATest extends \Codeception\TestCase\Test
 		$this->assertTrue($browser->is_mobile);
 		$this->assertTrue($browser->is_tablet);
 		
-		// OS X Safari
+		// macOS (OS X) Safari
 		$browser = Rhymix\Framework\UA::getBrowserInfo('Mozilla/5.0 (Macintosh; Intel Mac OS X 10_10_2) AppleWebKit/600.3.18 (KHTML, like Gecko) Version/8.0.3 Safari/600.3.18');
 		$this->assertEquals('Safari', $browser->browser);
 		$this->assertEquals('8.0', $browser->version);
-		$this->assertEquals('OS X', $browser->os);
+		$this->assertEquals('macOS', $browser->os);
 		$this->assertFalse($browser->is_mobile);
 		
-		// OS X Chrome
+		// macOS (OS X) Chrome
 		$browser = Rhymix\Framework\UA::getBrowserInfo('Mozilla/5.0 (Macintosh; Intel Mac OS X 10_10_1) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/41.0.2227.1 Safari/537.36');
 		$this->assertEquals('Chrome', $browser->browser);
 		$this->assertEquals('41.0', $browser->version);
-		$this->assertEquals('OS X', $browser->os);
+		$this->assertEquals('macOS', $browser->os);
 		$this->assertFalse($browser->is_mobile);
 		
-		// OS X Firefox
+		// macOS (OS X) Firefox
 		$browser = Rhymix\Framework\UA::getBrowserInfo('Mozilla/5.0 (Macintosh; Intel Mac OS X 10_10; rv:33.0) Gecko/20100101 Firefox/33.0');
 		$this->assertEquals('Firefox', $browser->browser);
 		$this->assertEquals('33.0', $browser->version);
-		$this->assertEquals('OS X', $browser->os);
+		$this->assertEquals('macOS', $browser->os);
 		$this->assertFalse($browser->is_mobile);
 		
 		// Googlebot

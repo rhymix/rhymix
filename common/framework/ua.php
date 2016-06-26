@@ -191,9 +191,9 @@ class UA
 			{
 				$result->os = 'iOS';
 			}
-			elseif ($matches[1] === 'Macintosh' && strpos($ua, 'OS X') !== false)
+			elseif ($matches[1] === 'Macintosh' || $matches[1] === 'OS X')
 			{
-				$result->os = 'OS X';
+				$result->os = 'macOS';
 			}
 			else
 			{
