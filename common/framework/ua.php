@@ -228,7 +228,7 @@ class UA
 			$result->version = ($matches[1] + 4) . '.0';
 			return $result;
 		}
-		if (preg_match('#(MSIE|Chrome|CriOS|Firefox|FxiOS|Yeti|[a-z]+bot(?:-Image)?)[ /:]([0-9]+\\.[0-9]+)#i', $ua, $matches))
+		if (preg_match('#(MSIE|OPR|CriOS|Firefox|FxiOS|Iceweasel|Yeti|[a-z]+bot(?:-Image)?)[ /:]([0-9]+\\.[0-9]+)#i', $ua, $matches))
 		{
 			if ($matches[1] === 'MSIE')
 			{
@@ -238,9 +238,13 @@ class UA
 			{
 				$result->browser = 'Chrome';
 			}
-			elseif ($matches[1] === 'FxiOS')
+			elseif ($matches[1] === 'FxiOS' || $matches[1] === 'Iceweasel')
 			{
 				$result->browser = 'Firefox';
+			}
+			elseif ($matches[1] === 'OPR')
+			{
+				$result->browser = 'Opera';
 			}
 			else
 			{
@@ -249,21 +253,34 @@ class UA
 			$result->version = $matches[2];
 			return $result;
 		}
-		if (preg_match('#Safari/[0-9]+#', $ua) && preg_match('#Version/([0-9]+\\.[0-9]+)#', $ua, $matches) && $matches[1] < 500)
-		{
-			$result->browser = 'Safari';
-			$result->version = $matches[1];
-			return $result;
-		}
-		if (preg_match('#^Opera/.+(?:Opera |Version/)([0-9]+\\.[0-9]+)$#', $ua, $matches))
+		if (preg_match('#(?:Opera|OPR)[/ ]([0-9]+\\.[0-9]+)#', $ua, $matches))
 		{
 			$result->browser = 'Opera';
-			$result->version = $matches[1];
+			if ($matches[1] >= 9.79 && preg_match('#Version/([0-9]+\\.[0-9]+)#', $ua, $operamatches))
+			{
+				$result->version = $operamatches[1];
+			}
+			else
+			{
+				$result->version = $matches[1];
+			}
 			return $result;
 		}
 		if (preg_match('#(?:Konqueror|KHTML)/([0-9]+\\.[0-9]+)$#', $ua, $matches))
 		{
 			$result->browser = 'Konqueror';
+			$result->version = $matches[1];
+			return $result;
+		}
+		if (preg_match('#Chrome/([0-9]+\\.[0-9]+)#', $ua, $matches))
+		{
+			$result->browser = 'Chrome';
+			$result->version = $matches[1];
+			return $result;
+		}
+		if (preg_match('#Safari/[0-9]+#', $ua) && preg_match('#Version/([0-9]+\\.[0-9]+)#', $ua, $matches) && $matches[1] < 500)
+		{
+			$result->browser = 'Safari';
 			$result->version = $matches[1];
 			return $result;
 		}
