@@ -173,6 +173,7 @@ class UA
 			'os' => null,
 			'is_mobile' => null,
 			'is_tablet' => null,
+			'is_robot' => null,
 		);
 		if (is_null($ua))
 		{
@@ -180,29 +181,40 @@ class UA
 		}
 		
 		// Try to guess the OS.
-		if (preg_match('#(Windows|Android|Linux|iOS|OS X|Macintosh)#i', $ua, $matches))
+		if (preg_match('#(Windows|Android|Linux|i(?:Phone|P[ao]d)|OS X|Macintosh)#i', $ua, $matches))
 		{
 			if ($matches[1] === 'Linux' && strpos($ua, 'Android') !== false)
 			{
-				$matches[1] = 'Android';
+				$result->os = 'Android';
 			}
-			if ($matches[1] === 'Macintosh' && strpos($ua, 'OS X') !== false)
+			elseif ($matches[1] === 'iPhone' || $matches[1] === 'iPad' || $matches[1] === 'iPod')
 			{
-				$matches[1] = 'OS X';
+				$result->os = 'iOS';
 			}
-			$result->os = $matches[1];
+			elseif ($matches[1] === 'Macintosh' || $matches[1] === 'OS X')
+			{
+				$result->os = 'macOS';
+			}
+			else
+			{
+				$result->os = $matches[1];
+			}
 		}
 		
 		// Fill in miscellaneous fields.
 		$result->is_mobile = self::isMobile($ua);
 		$result->is_tablet = self::isTablet($ua);
+		$result->is_robot = self::isRobot($ua);
 		
 		// Try to match some of the most common browsers.
-		if (preg_match('#Android ([0-9]+\\.[0-9]+)#', $ua, $matches) && strpos($ua, 'Chrome') === false)
+		if ($result->os === 'Android' && preg_match('#Android ([0-9]+\\.[0-9]+)#', $ua, $matches))
 		{
-			$result->browser = 'Android';
-			$result->version = $matches[1];
-			return $result;
+			if (strpos($ua, 'Chrome') === false || preg_match('#(?:Version|Browser)/[0-9]+#', $ua) || preg_match('#\\bwv\\b#', $ua))
+			{
+				$result->browser = 'Android';
+				$result->version = $matches[1];
+				return $result;
+			}
 		}
 		if (preg_match('#Edge/([0-9]+\\.)#', $ua, $matches))
 		{
@@ -216,16 +228,42 @@ class UA
 			$result->version = ($matches[1] + 4) . '.0';
 			return $result;
 		}
-		if (preg_match('#(MSIE|Chrome|Firefox|Safari)[ /:]([0-9]+\\.[0-9]+)#', $ua, $matches))
+		if (preg_match('#(MSIE|OPR|CriOS|Firefox|FxiOS|Iceweasel|Yeti|[a-z]+(?:bot|spider)(?:-Image)?|wget|curl)[ /:]([0-9]+\\.[0-9]+)#i', $ua, $matches))
 		{
-			$result->browser = $matches[1] === 'MSIE' ? 'IE' : $matches[1];
+			if ($matches[1] === 'MSIE')
+			{
+				$result->browser = 'IE';
+			}
+			elseif ($matches[1] === 'CriOS')
+			{
+				$result->browser = 'Chrome';
+			}
+			elseif ($matches[1] === 'FxiOS' || $matches[1] === 'Iceweasel')
+			{
+				$result->browser = 'Firefox';
+			}
+			elseif ($matches[1] === 'OPR')
+			{
+				$result->browser = 'Opera';
+			}
+			else
+			{
+				$result->browser = ucfirst($matches[1]);
+			}
 			$result->version = $matches[2];
 			return $result;
 		}
-		if (preg_match('#^Opera/.+(?:Opera |Version/)([0-9]+\\.[0-9]+)$#', $ua, $matches))
+		if (preg_match('#(?:Opera|OPR)[/ ]([0-9]+\\.[0-9]+)#', $ua, $matches))
 		{
 			$result->browser = 'Opera';
-			$result->version = $matches[1];
+			if ($matches[1] >= 9.79 && preg_match('#Version/([0-9]+\\.[0-9]+)#', $ua, $operamatches))
+			{
+				$result->version = $operamatches[1];
+			}
+			else
+			{
+				$result->version = $matches[1];
+			}
 			return $result;
 		}
 		if (preg_match('#(?:Konqueror|KHTML)/([0-9]+\\.[0-9]+)$#', $ua, $matches))
@@ -234,7 +272,106 @@ class UA
 			$result->version = $matches[1];
 			return $result;
 		}
+		if (preg_match('#Chrome/([0-9]+\\.[0-9]+)#', $ua, $matches))
+		{
+			$result->browser = 'Chrome';
+			$result->version = $matches[1];
+			return $result;
+		}
+		if (preg_match('#Safari/[0-9]+#', $ua) && preg_match('#Version/([0-9]+\\.[0-9]+)#', $ua, $matches) && $matches[1] < 500)
+		{
+			$result->browser = 'Safari';
+			$result->version = $matches[1];
+			return $result;
+		}
+		if (preg_match('#\\bPHP(/[0-9]+\\.[0-9]+)?#', $ua, $matches))
+		{
+			$result->browser = 'PHP';
+			$result->version = (isset($matches[1]) && $matches[1]) ? substr($matches[1], 1) : null;
+			return $result;
+		}
+		if (preg_match('#^Mozilla/([0-9]+\\.[0-9]+)#', $ua, $matches))
+		{
+			$result->browser = 'Mozilla';
+			$result->version = $matches[1];
+			return $result;
+		}
+		if (preg_match('#^([a-zA-Z0-9_-]+)/([0-9]+\\.[0-9]+)#', $ua, $matches))
+		{
+			$result->browser = ucfirst($matches[1]);
+			$result->version = $matches[2];
+			return $result;
+		}
 		
 		return $result;
+	}
+	
+	/**
+	 * This method encodes a UTF-8 filename for downloading in the current visitor's browser.
+	 * 
+	 * @param string $filename
+	 * @param string $ua (optional)
+	 * @return string
+	 */
+	public static function encodeFilenameForDownload($filename, $ua = null)
+	{
+		// Get the User-Agent header if the caller did not specify $ua.
+		$ua = $ua ?: (isset($_SERVER['HTTP_USER_AGENT']) ? $_SERVER['HTTP_USER_AGENT'] : null);
+		
+		// Get the browser name and version.
+		$browser = self::getBrowserInfo($ua);
+		
+		// Find the best format that this browser supports.
+		if ($browser->browser === 'Chrome' && $browser->version >= 11)
+		{
+			$output_format = 'rfc5987';
+		}
+		elseif ($browser->browser === 'Firefox' && $browser->version >= 6)
+		{
+			$output_format = 'rfc5987';
+		}
+		elseif ($browser->browser === 'Safari' && $browser->version >= 6)
+		{
+			$output_format = 'rfc5987';
+		}
+		elseif ($browser->browser === 'IE' && $browser->version >= 10)
+		{
+			$output_format = 'rfc5987';
+		}
+		elseif ($browser->browser === 'Edge')
+		{
+			$output_format = 'rfc5987';
+		}
+		elseif ($browser->browser === 'IE')
+		{
+			$output_format = 'old_ie';
+		}
+		elseif ($browser->browser === 'Android' || $browser->browser === 'Chrome' || $browser->browser === 'Safari')
+		{
+			$output_format = 'raw';
+		}
+		else
+		{
+			$output_format = 'old_ie';
+		}
+		
+		// Clean the filename.
+		$filename = Filters\FilenameFilter::clean($filename);
+		
+		// Apply the format and return.
+		switch ($output_format)
+		{
+			case 'raw':
+				return 'filename="' . $filename . '"';
+				
+			case 'rfc5987':
+				$filename = rawurlencode($filename);
+				return "filename*=UTF-8''" . $filename . '; filename="' . $filename . '"';
+				
+			case 'old_ie':
+			default:
+				$filename = rawurlencode($filename);
+				return 'filename="' . preg_replace('/\./', '%2e', $filename, substr_count($filename, '.') - 1) . '"';
+		}
 	}
 }
