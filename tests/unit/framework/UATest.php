@@ -229,6 +229,50 @@ class UATest extends \Codeception\TestCase\Test
 		$this->assertEquals('Yeti', $browser->browser);
 		$this->assertEquals('1.0', $browser->version);
 		$this->assertTrue($browser->is_robot);
+		
+		// Baiduspider
+		$browser = Rhymix\Framework\UA::getBrowserInfo('Mozilla/5.0 (compatible; Baiduspider/2.0; +http://www.baidu.com/search/spider.html)');
+		$this->assertEquals('Baiduspider', $browser->browser);
+		$this->assertEquals('2.0', $browser->version);
+		$this->assertTrue($browser->is_robot);
+		
+		// wget
+		$browser = Rhymix\Framework\UA::getBrowserInfo('wget/1.17.1');
+		$this->assertEquals('Wget', $browser->browser);
+		$this->assertEquals('1.17', $browser->version);
+		$this->assertFalse($browser->is_robot);
+		
+		// curl
+		$browser = Rhymix\Framework\UA::getBrowserInfo('curl/7.47.0');
+		$this->assertEquals('Curl', $browser->browser);
+		$this->assertEquals('7.47', $browser->version);
+		$this->assertFalse($browser->is_robot);
+		
+		// PHP with version
+		$browser = Rhymix\Framework\UA::getBrowserInfo('PHP/5.2.9');
+		$this->assertEquals('PHP', $browser->browser);
+		$this->assertEquals('5.2', $browser->version);
+		$this->assertFalse($browser->is_robot);
+		
+		// PHP without version
+		$browser = Rhymix\Framework\UA::getBrowserInfo('PHP');
+		$this->assertEquals('PHP', $browser->browser);
+		$this->assertNull($browser->version);
+		
+		// PHP with HTTP_Request2
+		$browser = Rhymix\Framework\UA::getBrowserInfo('HTTP_Request2/2.1.1 (http://pear.php.net/package/http_request2) PHP/5.3.2');
+		$this->assertEquals('PHP', $browser->browser);
+		$this->assertEquals('5.3', $browser->version);
+		
+		// Some random browser with the 'Mozilla' version
+		$browser = Rhymix\Framework\UA::getBrowserInfo('Mozilla/5.0 (Macintosh; U; PPC Mac OS X Mach-O; XH; rv:8.578.498) fr, Gecko/20121021 Camino/8.723+ (Firefox compatible)');
+		$this->assertEquals('Mozilla', $browser->browser);
+		$this->assertEquals('5.0', $browser->version);
+		
+		// Some random browser without the 'Mozilla' version
+		$browser = Rhymix\Framework\UA::getBrowserInfo('W3C_Validator/1.650');
+		$this->assertEquals('W3C_Validator', $browser->browser);
+		$this->assertEquals('1.650', $browser->version);
 	}
 	
 	public function testEncodeFilenameForDownload()

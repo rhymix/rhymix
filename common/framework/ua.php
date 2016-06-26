@@ -228,7 +228,7 @@ class UA
 			$result->version = ($matches[1] + 4) . '.0';
 			return $result;
 		}
-		if (preg_match('#(MSIE|OPR|CriOS|Firefox|FxiOS|Iceweasel|Yeti|[a-z]+bot(?:-Image)?)[ /:]([0-9]+\\.[0-9]+)#i', $ua, $matches))
+		if (preg_match('#(MSIE|OPR|CriOS|Firefox|FxiOS|Iceweasel|Yeti|[a-z]+(?:bot|spider)(?:-Image)?|wget|curl)[ /:]([0-9]+\\.[0-9]+)#i', $ua, $matches))
 		{
 			if ($matches[1] === 'MSIE')
 			{
@@ -282,6 +282,24 @@ class UA
 		{
 			$result->browser = 'Safari';
 			$result->version = $matches[1];
+			return $result;
+		}
+		if (preg_match('#\\bPHP(/[0-9]+\\.[0-9]+)?#', $ua, $matches))
+		{
+			$result->browser = 'PHP';
+			$result->version = (isset($matches[1]) && $matches[1]) ? substr($matches[1], 1) : null;
+			return $result;
+		}
+		if (preg_match('#^Mozilla/([0-9]+\\.[0-9]+)#', $ua, $matches))
+		{
+			$result->browser = 'Mozilla';
+			$result->version = $matches[1];
+			return $result;
+		}
+		if (preg_match('#^([a-zA-Z0-9_-]+)/([0-9]+\\.[0-9]+)#', $ua, $matches))
+		{
+			$result->browser = ucfirst($matches[1]);
+			$result->version = $matches[2];
 			return $result;
 		}
 		
