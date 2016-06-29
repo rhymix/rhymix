@@ -181,7 +181,7 @@ class FrontEndFileHandler extends Handler
 
 		// Fix incorrectly minified URL
 		if($file->isMinified && !$file->isExternalURL && (!file_exists($file->fileFullPath) || is_link($file->fileFullPath) ||
-			(filesize($file->fileFullPath) < 32 && trim(file_get_contents($file->fileFullPath)) === $file->keyName)))
+			(filesize($file->fileFullPath) < 40 && trim(file_get_contents($file->fileFullPath)) === $file->keyName)))
 		{
 			if(file_exists($file->fileRealPath . '/' . $file->fileNameNoExt . '.' . $file->fileExtension))
 			{
