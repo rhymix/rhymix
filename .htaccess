@@ -11,6 +11,8 @@ RewriteRule ^(\.|codeception\.|composer\.|Gruntfile\.js|package\.json|CONTRIBUTI
 # static files
 RewriteCond %{SCRIPT_FILENAME} !-f
 RewriteRule ^(.+)/(addons|files|layouts|m\.layouts|modules|widgets|widgetstyles)/(.*) ./$2/$3 [L]
+RewriteCond %{SCRIPT_FILENAME} !-f
+RewriteRule ^(.+)\.min\.(css|js)$ ./$1.$2 [L]
 
 # rss, blogAPI
 RewriteRule ^(rss|atom)$ ./index.php?module=rss&act=$1 [L]
