@@ -3,7 +3,7 @@ RewriteEngine On
 # block direct access to templates, XML schema files, config files, dotfiles, environment, etc.
 RewriteCond %{REQUEST_URI} !/modules/editor/(skins|styles)/
 RewriteCond %{REQUEST_URI} !/common/manual/
-RewriteRule ^(addons|common|files/ruleset|(m\.)?layouts|modules|plugins|themes|widgets|widgetstyles)/.+\.(html|xml)$ -  [L,F]
+RewriteRule ^(addons|common/tpl|files/ruleset|(m\.)?layouts|modules|plugins|themes|widgets|widgetstyles)/.+\.(html|xml)$ - [L,F]
 RewriteRule ^files/(attach|config|cache/store)/.+\.php$ - [L,F]
 RewriteRule ^files/env/ - [L,F]
 RewriteRule ^(\.|codeception\.|composer\.|Gruntfile\.js|package\.json|CONTRIBUTING|COPYRIGHT|LICENSE|README) - [L,F]
