@@ -195,6 +195,9 @@ class installController extends install
 		// Set the default URL.
 		$config['url']['default'] = Context::getRequestUri();
 		
+		// Set the default umask.
+		$config['file']['umask'] = Rhymix\Framework\Storage::recommendUmask();
+		
 		// Load the new configuration.
 		Rhymix\Framework\Config::setAll($config);
 		Context::loadDBInfo($config);
@@ -240,7 +243,7 @@ class installController extends install
 		}
 		
 		// Apply site lock.
-		
+
 		if (Context::get('use_sitelock') === 'Y')
 		{
 			$user_ip_range = getView('install')->detectUserIPRange();

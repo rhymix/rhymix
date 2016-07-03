@@ -738,7 +738,7 @@ class Storage
 		// On Windows, set the umask to 0000.
 		if (strncasecmp(\PHP_OS, 'Win', 3) === 0)
 		{
-			return 0000;
+			return '0000';
 		}
 		
 		// Get the UID of the owner of the current file.
@@ -770,13 +770,13 @@ class Storage
 		// If both UIDs are the same, set the umask to 0022.
 		if ($file_uid == $php_uid)
 		{
-			return 0022;
+			return '0022';
 		}
 		
 		// Otherwise, set the umask to 0000.
 		else
 		{
-			return 0000;
+			return '0000';
 		}
 	}
 }

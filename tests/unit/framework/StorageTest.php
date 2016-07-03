@@ -333,16 +333,16 @@ class StorageTest extends \Codeception\TestCase\Test
 		{
 			if (get_current_user() === exec('whoami'))
 			{
-				$this->assertEquals(0022, $umask);
+				$this->assertEquals('0022', $umask);
 			}
 			else
 			{
-				$this->assertEquals(0, $umask);
+				$this->assertEquals('0000', $umask);
 			}
 		}
 		else
 		{
-			$this->assertEquals(0, $umask);
+			$this->assertEquals('0000', $umask);
 		}
 		
 		$this->assertFalse(file_exists(\RX_BASEDIR . 'files/cache/uidcheck'));
