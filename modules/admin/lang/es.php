@@ -48,7 +48,6 @@ $lang->modify = 'Modificar';
 $lang->ftp_form_title = 'Datos de conexión para FTP';
 $lang->ftp = 'FTP';
 $lang->cmd_check_ftp_connect = 'conexión de FTP confirmada';
-$lang->msg_safe_mode_ftp_needed = 'Si la la variable safe_mode está activa[safe_mode=On], debe rellenar los datos de FTP para seguir instalando y usar con normalidad el Rhymix.';
 $lang->msg_ftp_no_directory = 'Succeed to connect to the host via FTP. However, can not read any directory list informaiton. Check the server configurations.';
 $lang->msg_ftp_mkdir_fail = 'Ha fallado el comando de FTP para la creación de directorio. Verifique la configuración del servicio FTP en el servidor';
 $lang->msg_ftp_chmod_fail = 'Ha fallado el comando de FTP para la modificación de atributos de directorio. Verifique la configuración del servicio FTP en el servidor.';

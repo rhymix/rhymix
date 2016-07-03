@@ -102,18 +102,6 @@ class installView extends install
 			Context::set('use_rewrite', $_SESSION['use_rewrite'] = 'Y');
 		}
 		
-		// FTP config is disabled in Rhymix.
-		/*
-		if(ini_get('safe_mode') && !Context::isFTPRegisted())
-		{
-			Context::set('progressMenu', '3');
-			Context::set('server_ip_address', $_SERVER['SERVER_ADDR']);
-			Context::set('server_ftp_user', get_current_user());
-			$this->setTemplateFile('ftp');
-			return;
-		}
-		*/
-		
 		$defaultDatabase = 'mysqli';
 		$disableList = DB::getDisableList();
 		if(is_array($disableList))
@@ -128,8 +116,6 @@ class installView extends install
 			}
 		}
 		Context::set('defaultDatabase', $defaultDatabase);
-		
-		Context::set('progressMenu', '4');
 		Context::set('error_return_url', getNotEncodedUrl('', 'act', Context::get('act'), 'db_type', Context::get('db_type')));
 		$this->setTemplateFile('db_config');
 	}
