@@ -324,4 +324,27 @@ class StorageTest extends \Codeception\TestCase\Test
 		$this->assertTrue(file_exists($sourcedir));
 		$this->assertFalse(Rhymix\Framework\Storage::deleteDirectory($nonexistent));
 	}
+	
+	public function testRecommendUmask()
+	{
+		$umask = Rhymix\Framework\Storage::recommendUmask();
+		
+		if (strncasecmp(\PHP_OS, 'Win', 3) !== 0)
+		{
+			if (get_current_user() === exec('whoami'))
+			{
+				$this->assertEquals(0022, $umask);
+			}
+			else
+			{
+				$this->assertEquals(0, $umask);
+			}
+		}
+		else
+		{
+			$this->assertEquals(0, $umask);
+		}
+		
+		$this->assertFalse(file_exists(\RX_BASEDIR . 'files/cache/uidcheck'));
+	}
 }

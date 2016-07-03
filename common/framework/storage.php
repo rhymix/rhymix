@@ -727,4 +727,56 @@ class Storage
 	{
 		self::$_umask = intval($umask);
 	}
+	
+	/**
+	 * Determine the best umask for this installation of Rhymix.
+	 * 
+	 * @return int
+	 */
+	public static function recommendUmask()
+	{
+		// On Windows, set the umask to 0000.
+		if (strncasecmp(\PHP_OS, 'Win', 3) === 0)
+		{
+			return 0000;
+		}
+		
+		// Get the UID of the owner of the current file.
+		$file_uid = fileowner(__FILE__);
+		
+		// Get the UID of the current PHP process.
+		if (function_exists('posix_geteuid'))
+		{
+			$php_uid = posix_geteuid();
+		}
+		else
+		{
+			$testfile = \RX_BASEDIR . 'files/cache/uidcheck';
+			if (self::exists($testfile))
+			{
+				self::delete($testfile);
+			}
+			if (self::write($testfile, 'TEST'))
+			{
+				$php_uid = fileowner($testfile);
+				self::delete($testfile);
+			}
+			else
+			{
+				$php_uid = -1;
+			}
+		}
+		
+		// If both UIDs are the same, set the umask to 0022.
+		if ($file_uid == $php_uid)
+		{
+			return 0022;
+		}
+		
+		// Otherwise, set the umask to 0000.
+		else
+		{
+			return 0000;
+		}
+	}
 }
