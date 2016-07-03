@@ -173,12 +173,18 @@ class Storage
 		{
 			if ($stream)
 			{
-				return @fopen($filename, 'r');
+				$result = @fopen($filename, 'r');
 			}
 			else
 			{
-				return @file_get_contents($filename);
+				$result = @file_get_contents($filename);
 			}
+			
+			if ($result === false)
+			{
+				trigger_error('Cannot read file: ' . $filename, \E_USER_WARNING);
+			}
+			return $result;
 		}
 		else
 		{
@@ -229,6 +235,7 @@ class Storage
 			$mkdir_success = self::createDirectory($destination_dir);
 			if (!$mkdir_success && !self::exists($destination_dir))
 			{
+				trigger_error('Cannot create directory to write file: ' . $filename, \E_USER_WARNING);
 				return false;
 			}
 		}
@@ -239,7 +246,7 @@ class Storage
 			$filename = $filename . '.tmp.' . microtime(true);
 		}
 		
-		if ($fp = fopen($filename, $mode))
+		if ($fp = @fopen($filename, $mode))
 		{
 			flock($fp, \LOCK_EX);
 			if (is_resource($content))
@@ -253,9 +260,16 @@ class Storage
 			fflush($fp);
 			flock($fp, \LOCK_UN);
 			fclose($fp);
+			
+			if (!$result)
+			{
+				trigger_error('Cannot write file: ' . (isset($original_filename) ? $original_filename : $filename), \E_USER_WARNING);
+				return false;
+			}
 		}
 		else
 		{
+			trigger_error('Cannot write file: ' . (isset($original_filename) ? $original_filename : $filename), \E_USER_WARNING);
 			return false;
 		}
 		
@@ -269,7 +283,7 @@ class Storage
 				if (!$rename_success)
 				{
 					@unlink($filename);
-					throw new Exception('foo');
+					trigger_error('Cannot write file: ' . (isset($original_filename) ? $original_filename : $filename), \E_USER_WARNING);
 					return false;
 				}
 			}
@@ -323,12 +337,14 @@ class Storage
 		$destination = rtrim($destination, '/\\');
 		if (!self::exists($source))
 		{
+			trigger_error('Cannot copy because the source does not exist: ' . $source, \E_USER_WARNING);
 			return false;
 		}
 		
 		$destination_dir = dirname($destination);
 		if (!self::exists($destination_dir) && !self::createDirectory($destination_dir))
 		{
+			trigger_error('Cannot create directory to copy into: ' . $destination_dir, \E_USER_WARNING);
 			return false;
 		}
 		elseif (self::isDirectory($destination))
@@ -345,6 +361,7 @@ class Storage
 		$copy_success = @copy($source, $destination);
 		if (!$copy_success)
 		{
+			trigger_error('Cannot copy ' . $source . ' to ' . (isset($original_destination) ? $original_destination : $destination), \E_USER_WARNING);
 			return false;
 		}
 		
@@ -358,7 +375,7 @@ class Storage
 				if (!$rename_success)
 				{
 					@unlink($destination);
-					throw new Exception('foo');
+					trigger_error('Cannot copy ' . $source . ' to ' . (isset($original_destination) ? $original_destination : $destination), \E_USER_WARNING);
 					return false;
 				}
 			}
@@ -400,12 +417,14 @@ class Storage
 		$destination = rtrim($destination, '/\\');
 		if (!self::exists($source))
 		{
+			trigger_error('Cannot move because the source does not exist: ' . $source, \E_USER_WARNING);
 			return false;
 		}
 		
 		$destination_dir = dirname($destination);
 		if (!self::exists($destination_dir) && !self::createDirectory($destination_dir))
 		{
+			trigger_error('Cannot create directory to move into: ' . $destination_dir, \E_USER_WARNING);
 			return false;
 		}
 		elseif (self::isDirectory($destination))
@@ -414,13 +433,19 @@ class Storage
 		}
 		
 		$result = @rename($source, $destination);
+		if (!$result)
+		{
+			trigger_error('Cannot move ' . $source . ' to ' . $destination, \E_USER_WARNING);
+			return false;
+		}
+		
 		if (function_exists('opcache_invalidate') && substr($source, -4) === '.php')
 		{
 			@opcache_invalidate($source, true);
 		}
 		
 		clearstatcache(true, $destination);
-		return $result;
+		return true;
 	}
 	
 	/**
@@ -435,7 +460,17 @@ class Storage
 	public static function delete($filename)
 	{
 		$filename = rtrim($filename, '/\\');
-		$result = @self::exists($filename) && @is_file($filename) && @unlink($filename);
+		if (!self::exists($filename))
+		{
+			return false;
+		}
+		
+		$result = @is_file($filename) && @unlink($filename);
+		if (!$result)
+		{
+			trigger_error('Cannot delete file: ' . $filename, \E_USER_WARNING);
+		}
+		
 		if (function_exists('opcache_invalidate') && substr($filename, -4) === '.php')
 		{
 			@opcache_invalidate($filename, true);
@@ -456,7 +491,24 @@ class Storage
 		{
 			$mode = 0777 & ~self::getUmask();
 		}
-		return @mkdir($dirname, $mode, true);
+		
+		$result = @mkdir($dirname, $mode, true);
+		if (!$result)
+		{
+			if (!is_dir($dirname))
+			{
+				trigger_error('Cannot create directory: ' . $dirname, \E_USER_WARNING);
+			}
+			else
+			{
+				@chmod($dirname, $mode);
+			}
+			return false;
+		}
+		else
+		{
+			return true;
+		}
 	}
 	
 	/**
@@ -482,6 +534,7 @@ class Storage
 		}
 		catch (\UnexpectedValueException $e)
 		{
+			trigger_error('Cannot read directory: ' . $dirname, \E_USER_WARNING);
 			return false;
 		}
 		
@@ -515,10 +568,12 @@ class Storage
 		$destination = rtrim($destination, '/\\');
 		if (!self::isDirectory($source))
 		{
+			trigger_error('Cannot copy because the source does not exist: ' . $source, \E_USER_WARNING);
 			return false;
 		}
 		if (!self::isDirectory($destination) && !self::createDirectory($destination))
 		{
+			trigger_error('Cannot create directory to copy into: ' . $destination, \E_USER_WARNING);
 			return false;
 		}
 		
@@ -582,8 +637,13 @@ class Storage
 	public static function deleteDirectory($dirname, $delete_self = true)
 	{
 		$dirname = rtrim($dirname, '/\\');
+		if (!self::exists($dirname))
+		{
+			return false;
+		}
 		if (!self::isDirectory($dirname))
 		{
+			trigger_error('Delete target is not a directory: ' . $dirname, \E_USER_WARNING);
 			return false;
 		}
 		
@@ -597,6 +657,7 @@ class Storage
 			{
 				if (!@rmdir($path->getPathname()))
 				{
+					trigger_error('Cannot delete directory: ' . $path->getPathname(), \E_USER_WARNING);
 					return false;
 				}
 			}
@@ -604,6 +665,7 @@ class Storage
 			{
 				if (!@unlink($path->getPathname()))
 				{
+					trigger_error('Cannot delete file: ' . $path->getPathname(), \E_USER_WARNING);
 					return false;
 				}
 			}
@@ -611,7 +673,16 @@ class Storage
 		
 		if ($delete_self)
 		{
-			return @rmdir($dirname);
+			$result = @rmdir($dirname);
+			if (!$result)
+			{
+				trigger_error('Cannot delete directory: ' . $dirname, \E_USER_WARNING);
+				return false;
+			}
+			else
+			{
+				return true;
+			}
 		}
 		else
 		{

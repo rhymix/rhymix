@@ -10,8 +10,6 @@
         <action name="procDBConfig" type="controller" />
         <action name="procInstall" type="controller" ruleset="install" />
         <action name="procInstallLicenseAgreement" type="controller" />
-        <action name="procInstallFTP" type="controller" />
-        <action name="procInstallCheckFTP" type="controller" />
         <action name="procInstallAdminInstall" type="controller" />
         <action name="procInstallAdminUpdate" type="controller" />
 		<action name="procInstallAdminUpdateIndexModule" type="controller" />

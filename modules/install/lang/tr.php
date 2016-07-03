@@ -66,7 +66,6 @@ $lang->ftp_host = 'FTP sistem adı';
 $lang->ftp_port = 'FTP portu';
 $lang->about_ftp_password = 'FTP şifresi saklanmayacaktır.';
 $lang->cmd_check_ftp_connect = 'FTP Bağlantısını kontrol ediniz';
-$lang->msg_safe_mode_ftp_needed = 'Eğer PHP güvenli mod ayarları etkinse, Rhymix\'yi kurmak için FTP hesap bilgilerini girmelisiniz.';
 $lang->msg_ftp_not_connected = 'Yerel web alanına FTP bağlantısı sağlanamadı. Lütfen port numarasını ve FTP servisinin mevcut olup-olmadığını kontrol ediniz .';
 $lang->msg_ftp_invalid_auth_info = 'Kimlik doğrulama başarısız oldu. Lütfen kullanıcı adını ve şifreyi kontrol ediniz.';
 $lang->msg_ftp_mkdir_fail = 'Dizin oluşturma başarısız oldu. Lütfen FTP hesap iznini kontrol ediniz.';

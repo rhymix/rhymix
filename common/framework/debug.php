@@ -626,8 +626,8 @@ class Debug
 			case \E_COMPILE_ERROR: return 'Compile-time Error';
 			case \E_COMPILE_WARNING: return 'Compile-time Warning';
 			case \E_USER_ERROR: return 'User Error';
-			case \E_USER_WARNING: return 'User Warning';
-			case \E_USER_NOTICE: return 'User Notice';
+			case \E_USER_WARNING: return 'Warning';
+			case \E_USER_NOTICE: return 'Notice';
 			case \E_STRICT: return 'Strict Standards';
 			case \E_PARSE: return 'Parse Error';
 			case \E_DEPRECATED: return 'Deprecated';

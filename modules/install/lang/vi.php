@@ -61,7 +61,6 @@ $lang->ftp_host = 'Tên Host FTP';
 $lang->ftp_port = 'Cổng kết nối';
 $lang->about_ftp_password = 'Mật khẩu của FTP sẽ không lưu lại';
 $lang->cmd_check_ftp_connect = 'Kiểm tra kết nối bằng FTP';
-$lang->msg_safe_mode_ftp_needed = 'Nếu safe_mode của PHP mở, bạn có thể cài đặt các thành phần bổ xung cho Rhymix một cách tự động qua FTP.';
 $lang->msg_ftp_not_connected = 'Kết nối bằng FTP không thành công. Xin vui lòng kiểm tra lại thông tin tài khoản và cổng kết nối!';
 $lang->msg_ftp_invalid_auth_info = 'Xác nhận thất bại. Xin vui lòng kiểm tra lại tên sử dụng và mật khẩu.';
 $lang->msg_ftp_mkdir_fail = 'Lỗi khi tạo thư mục. Xin vui lòng kiểm tra lại quyền truy cập FTP.';

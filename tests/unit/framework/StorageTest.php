@@ -277,7 +277,7 @@ class StorageTest extends \Codeception\TestCase\Test
 		$this->assertTrue(Rhymix\Framework\Storage::copyDirectory($sourcedir, $targetdir));
 		$this->assertTrue(file_exists($targetdir . '/bar'));
 		$this->assertTrue(file_exists($targetdir . '/subdir/baz'));
-		$this->assertFalse(Rhymix\Framework\Storage::copyDirectory($sourcedir, '/opt/nonexistent.foobar'));
+		$this->assertFalse(@Rhymix\Framework\Storage::copyDirectory($sourcedir, '/opt/nonexistent.foobar'));
 	}
 	
 	public function testMoveDirectory()
