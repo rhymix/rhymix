@@ -5,7 +5,7 @@
  */
 if (PHP_SAPI !== 'cli')
 {
-    exit 1;
+    exit(1);
 }
 
 /**
@@ -22,7 +22,7 @@ $content = file_get_contents($download_url, false, stream_context_create(array(
 $content = gzdecode($content);
 if (!$content)
 {
-    exit 2;
+    exit(2);
 }
 
 /**
