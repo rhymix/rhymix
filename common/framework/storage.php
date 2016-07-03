@@ -13,6 +13,11 @@ class Storage
 	public static $safe_overwrite = true;
 	
 	/**
+	 * Cache the umask here.
+	 */
+	protected static $_umask;
+	
+	/**
 	 * Check if a path really exists.
 	 * 
 	 * @param string $path
@@ -268,6 +273,8 @@ class Storage
 			return false;
 		}
 		
+		@chmod($filename, ($perms === null ? (0666 & ~self::getUmask()) : $perms));
+		
 		if (self::$safe_overwrite && strncasecmp($mode, 'a', 1))
 		{
 			$rename_success = @rename($filename, $original_filename);
@@ -285,7 +292,6 @@ class Storage
 			$filename = $original_filename;
 		}
 		
-		@chmod($filename, ($perms === null ? (0666 & ~umask()) : $perms));
 		if (function_exists('opcache_invalidate') && substr($filename, -4) === '.php')
 		{
 			@opcache_invalidate($filename, true);
@@ -360,6 +366,22 @@ class Storage
 			return false;
 		}
 		
+		if ($destination_perms === null)
+		{
+			if (is_uploaded_file($source))
+			{
+				@chmod($destination, 0666 & ~self::getUmask());
+			}
+			else
+			{
+				@chmod($destination, 0777 & @fileperms($source));
+			}
+		}
+		else
+		{
+			@chmod($destination, $destination_perms);
+		}
+		
 		if (self::$safe_overwrite)
 		{
 			$rename_success = @rename($destination, $original_destination);
@@ -377,20 +399,9 @@ class Storage
 			$destination = $original_destination;
 		}
 		
-		if ($destination_perms === null)
+		if (function_exists('opcache_invalidate') && substr($destination, -4) === '.php')
 		{
-			if (is_uploaded_file($source))
-			{
-				@chmod($destination, 0666 ^ intval(config('file.umask'), 8));
-			}
-			else
-			{
-				@chmod($destination, 0777 & @fileperms($source));
-			}
-		}
-		else
-		{
-			@chmod($destination, $destination_perms);
+			@opcache_invalidate($destination, true);
 		}
 		
 		clearstatcache(true, $destination);
@@ -434,9 +445,16 @@ class Storage
 			return false;
 		}
 		
-		if (function_exists('opcache_invalidate') && substr($source, -4) === '.php')
+		if (function_exists('opcache_invalidate'))
 		{
-			@opcache_invalidate($source, true);
+			if (substr($source, -4) === '.php')
+			{
+				@opcache_invalidate($source, true);
+			}
+			if (substr($destination, -4) === '.php')
+			{
+				@opcache_invalidate($destination, true);
+			}
 		}
 		
 		clearstatcache(true, $destination);
@@ -484,7 +502,7 @@ class Storage
 		$dirname = rtrim($dirname, '/\\');
 		if ($mode === null)
 		{
-			$mode = 0777 & ~umask();
+			$mode = 0777 & ~self::getUmask();
 		}
 		
 		$result = @mkdir($dirname, $mode, true);
@@ -682,6 +700,83 @@ class Storage
 		else
 		{
 			return true;
+		}
+	}
+	
+	/**
+	 * Get the current umask.
+	 * 
+	 * @return int
+	 */
+	public static function getUmask()
+	{
+		if (self::$_umask === null)
+		{
+			self::$_umask = intval(config('file.umask'), 8) ?: 0;
+		}
+		return self::$_umask;
+	}
+	
+	/**
+	 * Set the current umask.
+	 * 
+	 * @param int $umask
+	 * @return void
+	 */
+	public static function setUmask($umask)
+	{
+		self::$_umask = intval($umask);
+	}
+	
+	/**
+	 * Determine the best umask for this installation of Rhymix.
+	 * 
+	 * @return int
+	 */
+	public static function recommendUmask()
+	{
+		// On Windows, set the umask to 0000.
+		if (strncasecmp(\PHP_OS, 'Win', 3) === 0)
+		{
+			return '0000';
+		}
+		
+		// Get the UID of the owner of the current file.
+		$file_uid = fileowner(__FILE__);
+		
+		// Get the UID of the current PHP process.
+		if (function_exists('posix_geteuid'))
+		{
+			$php_uid = posix_geteuid();
+		}
+		else
+		{
+			$testfile = \RX_BASEDIR . 'files/cache/uidcheck';
+			if (self::exists($testfile))
+			{
+				self::delete($testfile);
+			}
+			if (self::write($testfile, 'TEST'))
+			{
+				$php_uid = fileowner($testfile);
+				self::delete($testfile);
+			}
+			else
+			{
+				$php_uid = -1;
+			}
+		}
+		
+		// If both UIDs are the same, set the umask to 0022.
+		if ($file_uid == $php_uid)
+		{
+			return '0022';
+		}
+		
+		// Otherwise, set the umask to 0000.
+		else
+		{
+			return '0000';
 		}
 	}
 }

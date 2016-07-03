@@ -5,6 +5,7 @@ namespace Rhymix\Framework\Parsers;
 use Rhymix\Framework\Config;
 use Rhymix\Framework\DateTime;
 use Rhymix\Framework\Security;
+use Rhymix\Framework\Storage;
 
 /**
  * Config parser class for XE compatibility.
@@ -242,6 +243,7 @@ class ConfigParser
 		}
 		
 		// Convert miscellaneous configuration.
+		$config['file']['umask'] = Storage::recommendUmask();
 		$config['mobile']['enabled'] = $db_info->use_mobile_view === 'N' ? false : true;
 		$config['use_prepared_statements'] = $db_info->use_prepared_statements === 'Y' ? true : false;
 		$config['use_rewrite'] = $db_info->use_rewrite === 'Y' ? true : false;
