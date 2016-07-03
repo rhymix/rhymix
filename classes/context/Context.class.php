@@ -665,7 +665,8 @@ class Context
 	 */
 	public static function loadLangSupported()
 	{
-		return Rhymix\Framework\Lang::getSupportedList();
+		$list = Rhymix\Framework\Lang::getSupportedList();
+		return array_map(function($val) { return $val['name']; }, $list);
 	}
 
 	/**
@@ -684,12 +685,12 @@ class Context
 			{
 				foreach ($selected as $lang)
 				{
-					$lang_selected[$lang] = $supported[$lang];
+					$lang_selected[$lang] = $supported[$lang]['name'];
 				}
 			}
 			else
 			{
-				$lang_selected = $supported;
+				$lang_selected = array_map(function($val) { return $val['name']; }, $supported);
 			}
 		}
 		return $lang_selected;

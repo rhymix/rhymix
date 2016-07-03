@@ -1,21 +1,21 @@
 <?php
 
 /**
- * Conversion map from languages to locales
+ * Languages and locales supported by Rhymix
  * 
  * Copyright (c) Rhymix Developers and Contributors
  */
 return array(
-	'ko' => 'ko_KR',
-	'en' => 'en_US',
-	'ja' => 'ja_JP',
-	'zh-CN' => 'zh_CN',
-	'zh-TW' => 'zh_TW',
-	'de' => 'de_DE',
-	'es' => 'es_ES',
-	'fr' => 'fr_FR',
-	'mn' => 'mn_MN',
-	'ru' => 'ru_RU',
-	'tr' => 'tr_TR',
-	'vi' => 'vi_VN',
+	'ko' => array('name' => '한국어', 'locale' => 'ko_KR'),
+	'en' => array('name' => 'English', 'locale' => 'en_US'),
+	'ja' => array('name' => '日本語', 'locale' => 'ja_JP'),
+	'zh-CN' => array('name' => '中文(中国)', 'locale' => 'zh_CN'),
+	'zh-TW' => array('name' => '中文(臺灣)', 'locale' => 'zh_TW'),
+	'de' => array('name' => 'Deutsch', 'locale' => 'de_DE'),
+	'es' => array('name' => 'Español', 'locale' => 'es_ES'),
+	'fr' => array('name' => 'Français', 'locale' => 'fr_FR'),
+	'mn' => array('name' => 'Mongolian', 'locale' => 'mn_MN'),
+	'ru' => array('name' => 'Русский', 'locale' => 'ru_RU'),
+	'tr' => array('name' => 'Türkçe', 'locale' => 'tr_TR'),
+	'vi' => array('name' => 'Tiếng Việt', 'locale' => 'vi_VN'),
 );
