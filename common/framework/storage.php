@@ -273,6 +273,8 @@ class Storage
 			return false;
 		}
 		
+		@chmod($filename, ($perms === null ? (0666 & ~self::getUmask()) : $perms));
+		
 		if (self::$safe_overwrite && strncasecmp($mode, 'a', 1))
 		{
 			$rename_success = @rename($filename, $original_filename);
@@ -290,7 +292,6 @@ class Storage
 			$filename = $original_filename;
 		}
 		
-		@chmod($filename, ($perms === null ? (0666 & ~self::getUmask()) : $perms));
 		if (function_exists('opcache_invalidate') && substr($filename, -4) === '.php')
 		{
 			@opcache_invalidate($filename, true);
@@ -365,6 +366,22 @@ class Storage
 			return false;
 		}
 		
+		if ($destination_perms === null)
+		{
+			if (is_uploaded_file($source))
+			{
+				@chmod($destination, 0666 & ~self::getUmask());
+			}
+			else
+			{
+				@chmod($destination, 0777 & @fileperms($source));
+			}
+		}
+		else
+		{
+			@chmod($destination, $destination_perms);
+		}
+		
 		if (self::$safe_overwrite)
 		{
 			$rename_success = @rename($destination, $original_destination);
@@ -382,20 +399,9 @@ class Storage
 			$destination = $original_destination;
 		}
 		
-		if ($destination_perms === null)
+		if (function_exists('opcache_invalidate') && substr($destination, -4) === '.php')
 		{
-			if (is_uploaded_file($source))
-			{
-				@chmod($destination, 0666 & ~self::getUmask());
-			}
-			else
-			{
-				@chmod($destination, 0777 & @fileperms($source));
-			}
-		}
-		else
-		{
-			@chmod($destination, $destination_perms);
+			@opcache_invalidate($destination, true);
 		}
 		
 		clearstatcache(true, $destination);
@@ -439,9 +445,16 @@ class Storage
 			return false;
 		}
 		
-		if (function_exists('opcache_invalidate') && substr($source, -4) === '.php')
+		if (function_exists('opcache_invalidate'))
 		{
-			@opcache_invalidate($source, true);
+			if (substr($source, -4) === '.php')
+			{
+				@opcache_invalidate($source, true);
+			}
+			if (substr($destination, -4) === '.php')
+			{
+				@opcache_invalidate($destination, true);
+			}
 		}
 		
 		clearstatcache(true, $destination);
