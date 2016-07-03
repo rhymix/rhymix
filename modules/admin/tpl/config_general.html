@@ -47,7 +47,7 @@
 			<div class="x_controls">
 				<label for="lang_{$key}" class="x_inline" loop="$supported_lang=>$key,$val">
 					<input type="checkbox" name="enabled_lang[]" id="lang_{$key}" value="{$key}" disabled="disabled"|cond="$key==$default_lang" checked="checked"|cond="in_array($key, $enabled_lang)" />
-					{$val}
+					{$val['name']}
 				</label>
 			</div>
 		</div>
