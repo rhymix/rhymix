@@ -138,7 +138,7 @@ class StorageTest extends \Codeception\TestCase\Test
 		$this->assertTrue(Rhymix\Framework\Storage::write($testfile, 'foobarbazzjazz'));
 		$this->assertTrue(file_exists($testfile));
 		$this->assertEquals('foobarbazzjazz', file_get_contents($testfile));
-		$this->assertEquals(0666 & ~umask(), fileperms($testfile) & 0777);
+		$this->assertEquals(0666 & ~Rhymix\Framework\Storage::getUmask(), fileperms($testfile) & 0777);
 		
 		// Append test
 		$this->assertTrue(Rhymix\Framework\Storage::write($testfile, 'rhymix', 'a', 0666));
