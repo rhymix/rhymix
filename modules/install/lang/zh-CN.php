@@ -77,7 +77,6 @@ $lang->ftp_host = 'FTP服务器名';
 $lang->ftp_port = 'FTP端口';
 $lang->about_ftp_password = 'FTP密码不会被保存。';
 $lang->cmd_check_ftp_connect = '测试FTP连接';
-$lang->msg_safe_mode_ftp_needed = '当PHP的safe_mode=On时，请必须输入相关FTP信息，否则将无法正常安装或使用Rhymix程序。';
 $lang->msg_ftp_not_connected = '发生本地(localhost)FTP连接错误。请确认ftp端口号及支持ftp服务与否。';
 $lang->msg_ftp_invalid_auth_info = 'FTP登录失败。请确认输入的FTP信息。';
 $lang->msg_ftp_mkdir_fail = '新建文件夹失败。请确认 FTP服务器设置。';

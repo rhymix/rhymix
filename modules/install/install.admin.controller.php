@@ -106,10 +106,7 @@ class installAdminController extends install
 			$ftp_info->ftp_root_path = $ftp_root_path.'/';
 		}
 
-		if(ini_get('safe_mode'))
-		{
-			$ftp_info->ftp_password = Context::get('ftp_password');
-		}
+		$ftp_info->ftp_password = Context::get('ftp_password');
 
 		$buff = '<?php if(!defined("__XE__")) exit();'."\n\$ftp_info = new stdClass;\n";
 		foreach($ftp_info as $key => $val)
