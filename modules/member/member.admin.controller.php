@@ -47,10 +47,31 @@ class memberAdminController extends member
 		{
 			$args->{$val} = Context::get($val);
 		}
-		$args->member_srl = Context::get('member_srl');
-		if(Context::get('reset_password'))
-			$args->password = Context::get('reset_password');
-		else unset($args->password);
+		$member_srl = Context::get('member_srl');
+		// Check if an original member exists having the member_srl
+		$args->member_srl = $member_srl;
+		if($args->member_srl)
+		{
+			// Create a member model object
+			$oMemberModel = getModel('member');
+			// Get memebr profile
+			$columnList = array('member_srl', 'user_id', 'password');
+			$member_info = $oMemberModel->getMemberInfoByMemberSrl($args->member_srl, 0, $columnList);
+			// If no original member exists, make a new one
+			if($member_info->member_srl != $member_srl)
+			{
+				unset($args->member_srl);
+			}
+
+			if(Context::get('reset_password'))
+			{
+				$args->password = Context::get('reset_password');
+			}
+			else
+			{
+				unset($args->password);
+			}
+		}
 
 		// Remove some unnecessary variables from all the vars
 		$all_args = Context::getRequestVars();
@@ -67,17 +88,6 @@ class memberAdminController extends member
 		// Add extra vars after excluding necessary information from all the requested arguments
 		$extra_vars = delObjectVars($all_args, $args);
 		$args->extra_vars = serialize($extra_vars);
-		// Check if an original member exists having the member_srl
-		if($args->member_srl)
-		{
-			// Create a member model object
-			$oMemberModel = getModel('member');
-			// Get memebr profile
-			$columnList = array('member_srl');
-			$member_info = $oMemberModel->getMemberInfoByMemberSrl($args->member_srl, 0, $columnList);
-			// If no original member exists, make a new one
-			if($member_info->member_srl != $args->member_srl) unset($args->member_srl);
-		}
 
 		// remove whitespace
 		$checkInfos = array('user_id', 'user_name', 'nick_name', 'email_address');
