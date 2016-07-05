@@ -55,7 +55,7 @@ class memberAdminController extends member
 			// Create a member model object
 			$oMemberModel = getModel('member');
 			// Get memebr profile
-			$columnList = array('member_srl', 'user_id', 'password');
+			$columnList = array('member_srl');
 			$member_info = $oMemberModel->getMemberInfoByMemberSrl($args->member_srl, 0, $columnList);
 			// If no original member exists, make a new one
 			if($member_info->member_srl != $member_srl)
