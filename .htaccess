@@ -6,7 +6,7 @@ RewriteCond %{REQUEST_URI} !/common/manual/
 RewriteRule ^(addons|common/tpl|files/ruleset|(m\.)?layouts|modules|plugins|themes|widgets|widgetstyles)/.+\.(html|xml)$ - [L,F]
 RewriteRule ^files/(attach|config|cache/store)/.+\.php$ - [L,F]
 RewriteRule ^files/env/ - [L,F]
-RewriteRule ^(\.|codeception\.|composer\.|Gruntfile\.js|package\.json|CONTRIBUTING|COPYRIGHT|LICENSE|README) - [L,F]
+RewriteRule ^(\.git|\.ht|\.travis|codeception\.|composer\.|Gruntfile\.js|package\.json|CONTRIBUTING|COPYRIGHT|LICENSE|README) - [L,F]
 
 # static files
 RewriteCond %{SCRIPT_FILENAME} !-f
