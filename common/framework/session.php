@@ -15,6 +15,29 @@ class Session
 	protected static $_must_refresh = false;
 	
 	/**
+	 * Get a session variable.
+	 * 
+	 * @param string $key
+	 * @return mixed
+	 */
+	public static function get($key)
+	{
+		
+	}
+	
+	/**
+	 * Set a session variable.
+	 * 
+	 * @param string $key
+	 * @param mixed $value
+	 * @return void
+	 */
+	public static function set($key, $value)
+	{
+		
+	}
+	
+	/**
 	 * Start the session.
 	 * 
 	 * This method is called automatically at Rhymix startup.
