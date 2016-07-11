@@ -9,11 +9,13 @@ class StorageTest extends \Codeception\TestCase\Test
 	
 	public function _after()
 	{
+		@chmod(\RX_BASEDIR . 'tests/_output', 0755);
 		Rhymix\Framework\Storage::deleteDirectory(\RX_BASEDIR . 'tests/_output', false);
 	}
 	
 	public function _failed()
 	{
+		@chmod(\RX_BASEDIR . 'tests/_output', 0755);
 		Rhymix\Framework\Storage::deleteDirectory(\RX_BASEDIR . 'tests/_output', false);
 	}
 	
@@ -191,12 +193,27 @@ class StorageTest extends \Codeception\TestCase\Test
 	{
 		$source = \RX_BASEDIR . 'tests/_output/copy.source.txt';
 		$target = \RX_BASEDIR . 'tests/_output/copy.target.txt';
+		$target_dir = \RX_BASEDIR . 'tests/_output';
 		file_put_contents($source, 'foobarbaz');
 		chmod($source, 0646);
 		
+		// Copy with exact destination filename
 		$this->assertTrue(Rhymix\Framework\Storage::copy($source, $target));
 		$this->assertTrue(file_exists($target));
 		$this->assertTrue(file_get_contents($target) === 'foobarbaz');
+		
+		// Copy into directory with source filename
+		$this->assertTrue(Rhymix\Framework\Storage::copy($source, $target_dir));
+		$this->assertTrue(file_exists($target_dir . '/copy.source.txt'));
+		$this->assertTrue(file_get_contents($target_dir . '/copy.source.txt') === 'foobarbaz');
+		
+		// Copy into directory with no write permissions
+		chmod($target_dir, 0555);
+		file_put_contents($source, 'foobarbaz has changed');
+		$this->assertTrue(Rhymix\Framework\Storage::copy($source, $target));
+		$this->assertTrue(file_exists($target));
+		$this->assertTrue(file_get_contents($target) === 'foobarbaz has changed');
+		chmod($target_dir, 0755);
 		
 		if (strncasecmp(\PHP_OS, 'Win', 3) !== 0)
 		{
