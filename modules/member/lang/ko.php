@@ -48,6 +48,7 @@ $lang->enable_find_account_question = '질문/답변 인증 사용';
 $lang->enable_ssl = 'SSL 기능 사용';
 $lang->msg_email_confirmation_required = '인증 메일이 발송되니 정확하게 입력해 주시기 바랍니다.';
 $lang->security_sign_in = '보안로그인 사용';
+$lang->member_limited = '임시 제한';
 $lang->limit_day = '임시 제한 일자';
 $lang->limit_day_description = '임시 제한 일자 설명';
 $lang->limit_date = '제한일';

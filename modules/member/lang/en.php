@@ -48,6 +48,7 @@ $lang->enable_find_account_question = 'Account recovery using question/answer';
 $lang->enable_ssl = 'Enable SSL';
 $lang->msg_email_confirmation_required = 'A confirmation e-mail will be sent. Please check your email address carefully.';
 $lang->security_sign_in = 'Sign in using enhanced security';
+$lang->member_limited = 'Limited';
 $lang->limit_day = 'Temporary Limit Date';
 $lang->limit_day_description = 'Description for Temporary Limit Date';
 $lang->limit_date = 'Limit Date';

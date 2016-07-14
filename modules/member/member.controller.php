@@ -1756,13 +1756,16 @@ class memberController extends member
 				$redirectUrl = getUrl('', 'act', 'dispMemberResendAuthMail');
 				return $this->setRedirectUrl($redirectUrl, new Object(-1,'msg_user_not_confirmed'));
 			}
-			return new Object(-1, ($this->memberInfo->refused_reason)? lang('msg_user_denied') . "\n" . $this->memberInfo->refused_reason : 'msg_user_denied');
+			
+			$refused_reason = $this->memberInfo->refused_reason ? ('<br>' . lang('refused_reason') . ': ' . $this->memberInfo->refused_reason) : '';
+			return new Object(-1, lang('msg_user_denied') . $refused_reason);
 		}
 		
 		// Notify if user is limited
 		if($this->memberInfo->limit_date && substr($this->memberInfo->limit_date,0,8) >= date("Ymd"))
 		{
-			return new Object(-9,sprintf(lang('msg_user_limited'),zdate($this->memberInfo->limit_date,"Y-m-d")));
+			$limited_reason = $this->memberInfo->limited_reason ? ('<br>' . lang('refused_reason') . ': ' . $this->memberInfo->limited_reason) : '';
+			return new Object(-9, sprintf(lang('msg_user_limited'), zdate($this->memberInfo->limit_date,"Y-m-d")) . $limited_reason);
 		}
 		
 		// Do not allow login as admin if not in allowed IP list
