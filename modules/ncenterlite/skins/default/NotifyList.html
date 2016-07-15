@@ -36,8 +36,10 @@
 <div class="pagination pagination-centered">
 	<ul>
 		<li><a href="{getUrl('page','')}" class="direction">&laquo; {$lang->first_page}</a></li> 
+		<!--@if($page_navigation)-->
 		<!--@while($page_no = $page_navigation->getNextPage())-->
 		<li class="active"|cond="$page == $page_no"><a href="{getUrl('page',$page_no)}">{$page_no}</a></li> 
+		<!--@end-->
 		<!--@end-->
 		<li><a href="{getUrl('page',$page_navigation->last_page)}" class="direction">{$lang->last_page} &raquo;</a></li>
 	</ul>
