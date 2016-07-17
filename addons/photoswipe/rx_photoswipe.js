@@ -217,6 +217,7 @@ var initPhotoSwipeFromDOM = function(gallerySelector) {
 		// do not activate PhotoSwipe at the editor-component or other module components
 		var regx_skip = /(?:(modules|addons|classes|common|layouts|libs|widgets|widgetstyles)\/)/i;
 		var regx_allow_i6pngfix = /(?:common\/tpl\/images\/blank\.gif$)/i;
+		var ps_skip_class = 'rx-escape';
 		var galleryImgEls = $(galleryElements[i]).find('img');
 		for(var j = 0, jl = galleryImgEls.length; j < jl; j++) {
 			// if the item has skip class, skip it.
