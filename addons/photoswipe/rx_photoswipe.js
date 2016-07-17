@@ -219,6 +219,10 @@ var initPhotoSwipeFromDOM = function(gallerySelector) {
 		var regx_allow_i6pngfix = /(?:common\/tpl\/images\/blank\.gif$)/i;
 		var galleryImgEls = $(galleryElements[i]).find('img');
 		for(var j = 0, jl = galleryImgEls.length; j < jl; j++) {
+			// if the item has skip class, skip it.
+			if($(galleryImgEls[j]).hasClass(ps_skip_class)) continue;
+
+			// skip components
 			if(regx_skip.test($(galleryImgEls[j]).attr('src')) && !regx_allow_i6pngfix.test($(galleryImgEls[j]).attr('src'))) continue;
 
 			//$(galleryImgEls[j]).attr('data-pswp-uid', i+1);
