@@ -240,10 +240,15 @@ class Storage
 			}
 		}
 		
-		if (self::$safe_overwrite && strncasecmp($mode, 'a', 1))
+		if (self::$safe_overwrite && strncasecmp($mode, 'a', 1) && @is_writable($destination_dir))
 		{
+			$use_atomic_rename = true;
 			$original_filename = $filename;
 			$filename = $filename . '.tmp.' . microtime(true);
+		}
+		else
+		{
+			$use_atomic_rename = false;
 		}
 		
 		if ($fp = @fopen($filename, $mode))
@@ -275,7 +280,7 @@ class Storage
 		
 		@chmod($filename, ($perms === null ? (0666 & ~self::getUmask()) : $perms));
 		
-		if (self::$safe_overwrite && strncasecmp($mode, 'a', 1))
+		if ($use_atomic_rename)
 		{
 			$rename_success = @rename($filename, $original_filename);
 			if (!$rename_success)
@@ -350,13 +355,19 @@ class Storage
 		}
 		elseif (self::isDirectory($destination))
 		{
+			$destination_dir = $destination;
 			$destination = $destination . '/' . basename($source);
 		}
 		
-		if (self::$safe_overwrite)
+		if (self::$safe_overwrite && @is_writable($destination_dir))
 		{
+			$use_atomic_rename = true;
 			$original_destination = $destination;
 			$destination = $destination . '.tmp.' . microtime(true);
+		}
+		else
+		{
+			$use_atomic_rename = false;
 		}
 		
 		$copy_success = @copy($source, $destination);
@@ -382,7 +393,7 @@ class Storage
 			@chmod($destination, $destination_perms);
 		}
 		
-		if (self::$safe_overwrite)
+		if ($use_atomic_rename)
 		{
 			$rename_success = @rename($destination, $original_destination);
 			if (!$rename_success)

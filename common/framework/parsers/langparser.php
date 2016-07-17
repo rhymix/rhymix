@@ -58,7 +58,7 @@ class LangParser
 		}
 		
 		// Load the XML lang file.
-		$xml = @simplexml_load_file($filename);
+		$xml = simplexml_load_string(Storage::read($filename));
 		if ($xml === false)
 		{
 			Storage::write($output_filename, '');
