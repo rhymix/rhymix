@@ -167,6 +167,20 @@ class StorageTest extends \Codeception\TestCase\Test
 		$this->assertEquals('foobarbazzjazzrhymixfoobarbazzjazzrhymixrhymix', file_get_contents($copyfile));
 		fclose($stream);
 		
+		// Empty file write test
+		$this->assertTrue(Rhymix\Framework\Storage::write($testfile . '1', ''));
+		$this->assertTrue(file_exists($testfile . '1'));
+		$this->assertEquals(0, filesize($testfile . '1'));
+		$this->assertEmpty(0, glob($testfile . '1.tmp.*'));
+		
+		// Empty stream copy test
+		$stream = fopen('php://temp', 'r');
+		$this->assertTrue(Rhymix\Framework\Storage::write($testfile . '2', $stream));
+		$this->assertTrue(file_exists($testfile . '2'));
+		$this->assertEquals(0, filesize($testfile . '2'));
+		$this->assertEmpty(0, glob($testfile . '2.tmp.*'));
+		fclose($stream);
+		
 		// Umask test
 		if (strncasecmp(\PHP_OS, 'Win', 3) !== 0)
 		{
