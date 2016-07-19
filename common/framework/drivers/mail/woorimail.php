@@ -118,7 +118,7 @@ class Woorimail extends Base implements \Rhymix\Framework\Drivers\MailInterface
 		foreach($from as $email => $name)
 		{
 			$data['sender_email'] = $email;
-			$data['sender_nickname'] = $name;
+			$data['sender_nickname'] = trim($name) ?: substr($email, 0, strpos($email, '@'));
 			break;
 		}
 		if(isset($this->_config['api_type']) && $this->_config['api_type'] === 'paid')
@@ -137,7 +137,7 @@ class Woorimail extends Base implements \Rhymix\Framework\Drivers\MailInterface
 			foreach($to as $email => $name)
 			{
 				$data['receiver_email'][] = $email;
-				$data['receiver_nickname'][] = str_replace(',', '', $name);
+				$data['receiver_nickname'][] = str_replace(',', '', trim($name) ?: substr($email, 0, strpos($email, '@')));
 			}
 		}
 		if ($cc = $message->message->getCc())
@@ -145,7 +145,7 @@ class Woorimail extends Base implements \Rhymix\Framework\Drivers\MailInterface
 			foreach($cc as $email => $name)
 			{
 				$data['receiver_email'][] = $email;
-				$data['receiver_nickname'][] = str_replace(',', '', $name);
+				$data['receiver_nickname'][] = str_replace(',', '', trim($name) ?: substr($email, 0, strpos($email, '@')));
 			}
 		}
 		if ($bcc = $message->message->getBcc())
@@ -153,7 +153,7 @@ class Woorimail extends Base implements \Rhymix\Framework\Drivers\MailInterface
 			foreach($bcc as $email => $name)
 			{
 				$data['receiver_email'][] = $email;
-				$data['receiver_nickname'][] = str_replace(',', '', $name);
+				$data['receiver_nickname'][] = str_replace(',', '', trim($name) ?: substr($email, 0, strpos($email, '@')));
 			}
 		}
 		$data['receiver_email'] = implode(',', $data['receiver_email']);

@@ -55,7 +55,7 @@ class Advanced_MailerController extends Advanced_Mailer
 	{
 		$config = $this->getConfig();
 		
-		if (toBool($config->log_sent_mail) || (toBool(self::$config->log_errors) && count($mail->errors)))
+		if (toBool($config->log_sent_mail) || (toBool($config->log_errors) && count($mail->errors)))
 		{
 			$obj = new \stdClass();
 			$obj->mail_srl = getNextSequence();

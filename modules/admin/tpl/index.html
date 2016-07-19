@@ -77,18 +77,13 @@
 	</div>
 </div>
 
+<!--[if lt IE 9]>
 <script>
-jQuery(function($)
-{
-	// check browser version
-	if (var msie = navigator.userAgent.match(/MSIE (\d)/)) {
-		if (parseInt(msie[1], 10) <== 8) {
-			$('#checkBrowserMessage').show();
-		}
-	}
+$(function() {
+	$('#checkBrowserMessage').show();
 });
 </script>
-
+<![endif]-->
 
 <include target="./_footer.html" />
 

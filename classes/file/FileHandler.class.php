@@ -185,72 +185,8 @@ class FileHandler
 	 */
 	public static function makeDir($path_string)
 	{
-		if (!ini_get('safe_mode'))
-		{
-			$path = self::getRealPath($path_string);
-			return Rhymix\Framework\Storage::isDirectory($path) || Rhymix\Framework\Storage::createDirectory($path);
-		}
-		
-		// if safe_mode is on, use FTP
-		else
-		{
-			static $oFtp = NULL;
-
-			$ftp_info = Context::getFTPInfo();
-			if($oFtp == NULL)
-			{
-				if(!Context::isFTPRegisted())
-				{
-					return;
-				}
-
-				$oFtp = new ftp();
-				if(!$ftp_info->ftp_host)
-				{
-					$ftp_info->ftp_host = "127.0.0.1";
-				}
-				if(!$ftp_info->ftp_port)
-				{
-					$ftp_info->ftp_port = 21;
-				}
-				if(!$oFtp->ftp_connect($ftp_info->ftp_host, $ftp_info->ftp_port))
-				{
-					return;
-				}
-				if(!$oFtp->ftp_login($ftp_info->ftp_user, $ftp_info->ftp_password))
-				{
-					$oFtp->ftp_quit();
-					return;
-				}
-			}
-
-			if(!($ftp_path = $ftp_info->ftp_root_path))
-			{
-				$ftp_path = DIRECTORY_SEPARATOR;
-			}
-
-			$path_string = str_replace(_XE_PATH_, '', $path_string);
-			$path_list = explode(DIRECTORY_SEPARATOR, $path_string);
-
-			$path = _XE_PATH_;
-			for($i = 0, $c = count($path_list); $i < $c; $i++)
-			{
-				if(!$path_list[$i])
-				{
-					continue;
-				}
-
-				$path .= $path_list[$i] . DIRECTORY_SEPARATOR;
-				$ftp_path .= $path_list[$i] . DIRECTORY_SEPARATOR;
-				if(!is_dir($path))
-				{
-					$oFtp->ftp_mkdir($ftp_path);
-					$oFtp->ftp_site("CHMOD 777 " . $ftp_path);
-				}
-			}
-		}
-
-		return is_dir($path_string);
+		$path = self::getRealPath($path_string);
+		return Rhymix\Framework\Storage::isDirectory($path) || Rhymix\Framework\Storage::createDirectory($path);
 	}
 
 	/**
@@ -377,14 +313,17 @@ class FileHandler
 				$request_headers['Content-Type'] = $content_type;
 			}
 			
-			$proxy = parse_url(__PROXY_SERVER__);
-			if($proxy["host"])
+			if(defined('__PROXY_SERVER__'))
 			{
-				$request_options['proxy'] = array($proxy['host'] . ($proxy['port'] ? (':' . $proxy['port']) : ''));
-				if($proxy['user'] && $proxy['pass'])
+				$proxy = parse_url(__PROXY_SERVER__);
+				if($proxy["host"])
 				{
-					$request_options['proxy'][] = $proxy['user'];
-					$request_options['proxy'][] = $proxy['pass'];
+					$request_options['proxy'] = array($proxy['host'] . ($proxy['port'] ? (':' . $proxy['port']) : ''));
+					if($proxy['user'] && $proxy['pass'])
+					{
+						$request_options['proxy'][] = $proxy['user'];
+						$request_options['proxy'][] = $proxy['pass'];
+					}
 				}
 			}
 			
@@ -401,7 +340,7 @@ class FileHandler
 			
 			if (config('debug.enabled') && in_array('slow_remote_requests', config('debug.display_content')))
 			{
-				$bt = defined('DEBUG_BACKTRACE_IGNORE_ARGS') ? debug_backtrace(DEBUG_BACKTRACE_IGNORE_ARGS) : debug_backtrace();
+				$bt = debug_backtrace(\DEBUG_BACKTRACE_IGNORE_ARGS);
 				foreach($bt as $no => $call)
 				{
 					if(strncasecmp($call['function'], 'getRemote', 9) === 0)

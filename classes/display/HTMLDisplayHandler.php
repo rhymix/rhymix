@@ -449,7 +449,7 @@ class HTMLDisplayHandler
 		$locales = (include \RX_BASEDIR . 'common/defaults/locales.php');
 		if (isset($locales[$lang_type]))
 		{
-			Context::addOpenGraphData('og:locale', $locales[$lang_type]);
+			Context::addOpenGraphData('og:locale', $locales[$lang_type]['locale']);
 		}
 		if ($page_type === 'article' && $oDocument->getLangCode() !== $lang_type && isset($locales[$oDocument->getLangCode()]))
 		{

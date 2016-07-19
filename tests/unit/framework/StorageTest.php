@@ -9,11 +9,13 @@ class StorageTest extends \Codeception\TestCase\Test
 	
 	public function _after()
 	{
+		@chmod(\RX_BASEDIR . 'tests/_output', 0755);
 		Rhymix\Framework\Storage::deleteDirectory(\RX_BASEDIR . 'tests/_output', false);
 	}
 	
 	public function _failed()
 	{
+		@chmod(\RX_BASEDIR . 'tests/_output', 0755);
 		Rhymix\Framework\Storage::deleteDirectory(\RX_BASEDIR . 'tests/_output', false);
 	}
 	
@@ -138,7 +140,7 @@ class StorageTest extends \Codeception\TestCase\Test
 		$this->assertTrue(Rhymix\Framework\Storage::write($testfile, 'foobarbazzjazz'));
 		$this->assertTrue(file_exists($testfile));
 		$this->assertEquals('foobarbazzjazz', file_get_contents($testfile));
-		$this->assertEquals(0666 & ~umask(), fileperms($testfile) & 0777);
+		$this->assertEquals(0666 & ~Rhymix\Framework\Storage::getUmask(), fileperms($testfile) & 0777);
 		
 		// Append test
 		$this->assertTrue(Rhymix\Framework\Storage::write($testfile, 'rhymix', 'a', 0666));
@@ -164,6 +166,32 @@ class StorageTest extends \Codeception\TestCase\Test
 		$this->assertTrue(Rhymix\Framework\Storage::write($copyfile, $stream, 'a'));
 		$this->assertEquals('foobarbazzjazzrhymixfoobarbazzjazzrhymixrhymix', file_get_contents($copyfile));
 		fclose($stream);
+		
+		// Empty file write test
+		$this->assertTrue(Rhymix\Framework\Storage::write($testfile . '1', ''));
+		$this->assertTrue(file_exists($testfile . '1'));
+		$this->assertEquals(0, filesize($testfile . '1'));
+		$this->assertEmpty(0, glob($testfile . '1.tmp.*'));
+		
+		// Empty stream copy test
+		$stream = fopen('php://temp', 'r');
+		$this->assertTrue(Rhymix\Framework\Storage::write($testfile . '2', $stream));
+		$this->assertTrue(file_exists($testfile . '2'));
+		$this->assertEquals(0, filesize($testfile . '2'));
+		$this->assertEmpty(0, glob($testfile . '2.tmp.*'));
+		fclose($stream);
+		
+		// Umask test
+		if (strncasecmp(\PHP_OS, 'Win', 3) !== 0)
+		{
+			$umask = Rhymix\Framework\Storage::getUmask();
+			Rhymix\Framework\Storage::setUmask(0046);
+			$this->assertEquals(0046, Rhymix\Framework\Storage::getUmask());
+			$this->assertTrue(Rhymix\Framework\Storage::write($testfile, 'foobarbazzjazz'));
+			$this->assertEquals('foobarbazzjazz', file_get_contents($testfile));
+			$this->assertEquals(0620, fileperms($testfile) & 0777);
+			Rhymix\Framework\Storage::setUmask($umask);
+		}
 	}
 	
 	public function testReadWritePHPData()
@@ -179,12 +207,27 @@ class StorageTest extends \Codeception\TestCase\Test
 	{
 		$source = \RX_BASEDIR . 'tests/_output/copy.source.txt';
 		$target = \RX_BASEDIR . 'tests/_output/copy.target.txt';
+		$target_dir = \RX_BASEDIR . 'tests/_output';
 		file_put_contents($source, 'foobarbaz');
 		chmod($source, 0646);
 		
+		// Copy with exact destination filename
 		$this->assertTrue(Rhymix\Framework\Storage::copy($source, $target));
 		$this->assertTrue(file_exists($target));
 		$this->assertTrue(file_get_contents($target) === 'foobarbaz');
+		
+		// Copy into directory with source filename
+		$this->assertTrue(Rhymix\Framework\Storage::copy($source, $target_dir));
+		$this->assertTrue(file_exists($target_dir . '/copy.source.txt'));
+		$this->assertTrue(file_get_contents($target_dir . '/copy.source.txt') === 'foobarbaz');
+		
+		// Copy into directory with no write permissions
+		chmod($target_dir, 0555);
+		file_put_contents($source, 'foobarbaz has changed');
+		$this->assertTrue(Rhymix\Framework\Storage::copy($source, $target));
+		$this->assertTrue(file_exists($target));
+		$this->assertTrue(file_get_contents($target) === 'foobarbaz has changed');
+		chmod($target_dir, 0755);
 		
 		if (strncasecmp(\PHP_OS, 'Win', 3) !== 0)
 		{
@@ -221,6 +264,18 @@ class StorageTest extends \Codeception\TestCase\Test
 		
 		$this->assertTrue(Rhymix\Framework\Storage::createDirectory($emptydir));
 		$this->assertTrue(file_exists($emptydir) && is_dir($emptydir));
+		
+		// Umask test
+		if (strncasecmp(\PHP_OS, 'Win', 3) !== 0)
+		{
+			$umask = Rhymix\Framework\Storage::getUmask();
+			Rhymix\Framework\Storage::setUmask(0037);
+			$this->assertEquals(0037, Rhymix\Framework\Storage::getUmask());
+			$this->assertTrue(Rhymix\Framework\Storage::createDirectory($emptydir . '/umasktest'));
+			$this->assertTrue(is_dir($emptydir . '/umasktest'));
+			$this->assertEquals(0740, fileperms($emptydir . '/umasktest') & 0777);
+			Rhymix\Framework\Storage::setUmask($umask);
+		}
 	}
 	
 	public function testReadDirectory()
@@ -253,7 +308,7 @@ class StorageTest extends \Codeception\TestCase\Test
 		$this->assertTrue(Rhymix\Framework\Storage::copyDirectory($sourcedir, $targetdir));
 		$this->assertTrue(file_exists($targetdir . '/bar'));
 		$this->assertTrue(file_exists($targetdir . '/subdir/baz'));
-		$this->assertFalse(Rhymix\Framework\Storage::copyDirectory($sourcedir, '/opt/nonexistent.foobar'));
+		$this->assertFalse(@Rhymix\Framework\Storage::copyDirectory($sourcedir, '/opt/nonexistent.foobar'));
 	}
 	
 	public function testMoveDirectory()
@@ -299,5 +354,28 @@ class StorageTest extends \Codeception\TestCase\Test
 		$this->assertFalse(file_exists($sourcedir . '/subdir/baz'));
 		$this->assertTrue(file_exists($sourcedir));
 		$this->assertFalse(Rhymix\Framework\Storage::deleteDirectory($nonexistent));
+	}
+	
+	public function testRecommendUmask()
+	{
+		$umask = Rhymix\Framework\Storage::recommendUmask();
+		
+		if (strncasecmp(\PHP_OS, 'Win', 3) !== 0)
+		{
+			if (get_current_user() === exec('whoami'))
+			{
+				$this->assertEquals('0022', $umask);
+			}
+			else
+			{
+				$this->assertEquals('0000', $umask);
+			}
+		}
+		else
+		{
+			$this->assertEquals('0000', $umask);
+		}
+		
+		$this->assertFalse(file_exists(\RX_BASEDIR . 'files/cache/uidcheck'));
 	}
 }

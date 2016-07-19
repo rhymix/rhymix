@@ -57,7 +57,7 @@ return array(
 		'refresh' => 300,
 	),
 	'file' => array(
-		'umask' => '022',
+		'umask' => '0022',
 	),
 	'mail' => array(
 		'type' => 'mailfunction',

@@ -48,7 +48,15 @@
 				</td>
 				{@ $member_info['group_list'] = implode(', ', $member_info['group_list'])}
 				<td class="nowr" loop="$usedIdentifiers=>$name,$title">{$member_info[$name]}</td>
-				<td class="nowr"><!--@if($member_info['denied']=='Y')--><span style="color:red;">{$lang->denied}</span><!--@else-->{$lang->approval}<!--@end--></td>
+				<td class="nowr">
+					<!--@if($member_info['denied']=='Y')-->
+						<span style="color:red;">{$lang->denied}</span>
+					<!--@elseif($member_info['limit_date'] && substr($member_info['limit_date'], 0, 8) >= date('Ymd'))-->
+						<span style="color:red;">{$lang->member_limited}</span>
+					<!--@else-->
+						{$lang->approval}
+					<!--@end-->
+				</td>
 				<td class="nowr" title="{zdate($member_info['regdate'], 'Y-m-d H:i:s')}">{zdate($member_info['regdate'], 'Y-m-d')}</td>
 				<td class="nowr" title="{zdate($member_info['last_login'], 'Y-m-d H:i:s')}">{zdate($member_info['last_login'], 'Y-m-d')}</td>
 				<td>{$member_info['group_list']}&nbsp;</td>

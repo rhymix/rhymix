@@ -62,7 +62,6 @@ $lang->msg_install_failed = 'Ha ocurrido un error al crear el archivo de instala
 $lang->ftp_form_title = 'Datos de conexión para FTP';
 $lang->ftp = 'FTP';
 $lang->cmd_check_ftp_connect = 'conexión de FTP confirmada';
-$lang->msg_safe_mode_ftp_needed = 'Si la la variable safe_mode está activa[safe_mode=On], debe rellenar los datos de FTP para seguir instalando y usar con normalidad el Rhymix.';
 $lang->msg_ftp_not_connected = 'Ha ocurrico un error de conexión al FTP del localhost. Verifique el puerto del FTP y/o el funcionamiento del servicio FTP.';
 $lang->msg_ftp_invalid_auth_info = 'Los datos de login para el FTP no son correctos. Veriféquelos.';
 $lang->msg_ftp_mkdir_fail = 'Ha fallado el comando de FTP para la creación de directorio. Verifique la configuración del servicio FTP en el servidor';

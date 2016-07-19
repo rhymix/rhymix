@@ -55,20 +55,19 @@ class ncenterliteAdminController extends ncenterlite
 				$config->mention_suffixes = array_map('trim', explode(',', $config->mention_suffixes));
 			}
 		}
-		
+
 		if ($obj->disp_act == 'dispNcenterliteAdminSeletedmid')
 		{
-			if (!$config->hide_module_srls)
+			if (!$obj->hide_module_srls)
 			{
 				$config->hide_module_srls = array();
 			}
-			if (!$config->admin_notify_module_srls)
+			if (!$obj->admin_notify_module_srls)
 			{
 				$config->admin_notify_module_srls = array();
 			}
 		}
-		
-		$output = $oModuleController->updateModuleConfig('ncenterlite', $config);
+		$output = $oModuleController->insertModuleConfig('ncenterlite', $config);
 		if(!$output->toBool())
 		{
 			return new Object(-1, 'ncenterlite_msg_setting_error');

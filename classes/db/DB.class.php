@@ -371,7 +371,7 @@ class DB
 
 		if (config('debug.enabled') && in_array('queries', config('debug.display_content')))
 		{
-			$bt = defined('DEBUG_BACKTRACE_IGNORE_ARGS') ? debug_backtrace(DEBUG_BACKTRACE_IGNORE_ARGS) : debug_backtrace();
+			$bt = debug_backtrace(\DEBUG_BACKTRACE_IGNORE_ARGS);
 			foreach($bt as $no => $call)
 			{
 				if($call['function'] == 'executeQuery' || $call['function'] == 'executeQueryArray')

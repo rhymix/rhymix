@@ -8,6 +8,16 @@ namespace Rhymix\Framework;
 class Storage
 {
 	/**
+	 * Use atomic rename to overwrite files.
+	 */
+	public static $safe_overwrite = true;
+	
+	/**
+	 * Cache the umask here.
+	 */
+	protected static $_umask;
+	
+	/**
 	 * Check if a path really exists.
 	 * 
 	 * @param string $path
@@ -163,12 +173,18 @@ class Storage
 		{
 			if ($stream)
 			{
-				return @fopen($filename, 'r');
+				$result = @fopen($filename, 'r');
 			}
 			else
 			{
-				return @file_get_contents($filename);
+				$result = @file_get_contents($filename);
 			}
+			
+			if ($result === false)
+			{
+				trigger_error('Cannot read file: ' . $filename, \E_USER_WARNING);
+			}
+			return $result;
 		}
 		else
 		{
@@ -217,38 +233,77 @@ class Storage
 		if (!self::exists($destination_dir))
 		{
 			$mkdir_success = self::createDirectory($destination_dir);
-			if (!$mkdir_success)
+			if (!$mkdir_success && !self::exists($destination_dir))
 			{
+				trigger_error('Cannot create directory to write file: ' . $filename, \E_USER_WARNING);
 				return false;
 			}
 		}
 		
-		if ($fp = fopen($filename, $mode))
+		if (self::$safe_overwrite && strncasecmp($mode, 'a', 1) && @is_writable($destination_dir))
+		{
+			$use_atomic_rename = true;
+			$original_filename = $filename;
+			$filename = $filename . '.tmp.' . microtime(true);
+		}
+		else
+		{
+			$use_atomic_rename = false;
+		}
+		
+		if ($fp = @fopen($filename, $mode))
 		{
 			flock($fp, \LOCK_EX);
 			if (is_resource($content))
 			{
-				$result = stream_copy_to_stream($content, $fp) ? true : false;
+				$result = stream_copy_to_stream($content, $fp);
 			}
 			else
 			{
-				$result = fwrite($fp, $content) ? true : false;
+				$result = fwrite($fp, $content);
 			}
 			fflush($fp);
 			flock($fp, \LOCK_UN);
 			fclose($fp);
+			
+			if ($result === false)
+			{
+				trigger_error('Cannot write file: ' . (isset($original_filename) ? $original_filename : $filename), \E_USER_WARNING);
+				return false;
+			}
 		}
 		else
 		{
+			trigger_error('Cannot write file: ' . (isset($original_filename) ? $original_filename : $filename), \E_USER_WARNING);
 			return false;
 		}
 		
-		@chmod($filename, ($perms === null ? (0666 & ~umask()) : $perms));
+		@chmod($filename, ($perms === null ? (0666 & ~self::getUmask()) : $perms));
+		
+		if ($use_atomic_rename)
+		{
+			$rename_success = @rename($filename, $original_filename);
+			if (!$rename_success)
+			{
+				@unlink($original_filename);
+				$rename_success = @rename($filename, $original_filename);
+				if (!$rename_success)
+				{
+					@unlink($filename);
+					trigger_error('Cannot write file: ' . (isset($original_filename) ? $original_filename : $filename), \E_USER_WARNING);
+					return false;
+				}
+			}
+			$filename = $original_filename;
+		}
+		
 		if (function_exists('opcache_invalidate') && substr($filename, -4) === '.php')
 		{
 			@opcache_invalidate($filename, true);
 		}
-		return $result;
+		
+		clearstatcache(true, $filename);
+		return true;
 	}
 	
 	/**
@@ -288,22 +343,37 @@ class Storage
 		$destination = rtrim($destination, '/\\');
 		if (!self::exists($source))
 		{
+			trigger_error('Cannot copy because the source does not exist: ' . $source, \E_USER_WARNING);
 			return false;
 		}
 		
 		$destination_dir = dirname($destination);
 		if (!self::exists($destination_dir) && !self::createDirectory($destination_dir))
 		{
+			trigger_error('Cannot create directory to copy into: ' . $destination_dir, \E_USER_WARNING);
 			return false;
 		}
 		elseif (self::isDirectory($destination))
 		{
+			$destination_dir = $destination;
 			$destination = $destination . '/' . basename($source);
+		}
+		
+		if (self::$safe_overwrite && @is_writable($destination_dir))
+		{
+			$use_atomic_rename = true;
+			$original_destination = $destination;
+			$destination = $destination . '.tmp.' . microtime(true);
+		}
+		else
+		{
+			$use_atomic_rename = false;
 		}
 		
 		$copy_success = @copy($source, $destination);
 		if (!$copy_success)
 		{
+			trigger_error('Cannot copy ' . $source . ' to ' . (isset($original_destination) ? $original_destination : $destination), \E_USER_WARNING);
 			return false;
 		}
 		
@@ -311,7 +381,7 @@ class Storage
 		{
 			if (is_uploaded_file($source))
 			{
-				@chmod($destination, 0666 ^ intval(config('file.umask'), 8));
+				@chmod($destination, 0666 & ~self::getUmask());
 			}
 			else
 			{
@@ -322,6 +392,30 @@ class Storage
 		{
 			@chmod($destination, $destination_perms);
 		}
+		
+		if ($use_atomic_rename)
+		{
+			$rename_success = @rename($destination, $original_destination);
+			if (!$rename_success)
+			{
+				@unlink($original_destination);
+				$rename_success = @rename($destination, $original_destination);
+				if (!$rename_success)
+				{
+					@unlink($destination);
+					trigger_error('Cannot copy ' . $source . ' to ' . (isset($original_destination) ? $original_destination : $destination), \E_USER_WARNING);
+					return false;
+				}
+			}
+			$destination = $original_destination;
+		}
+		
+		if (function_exists('opcache_invalidate') && substr($destination, -4) === '.php')
+		{
+			@opcache_invalidate($destination, true);
+		}
+		
+		clearstatcache(true, $destination);
 		return true;
 	}
 	
@@ -340,12 +434,14 @@ class Storage
 		$destination = rtrim($destination, '/\\');
 		if (!self::exists($source))
 		{
+			trigger_error('Cannot move because the source does not exist: ' . $source, \E_USER_WARNING);
 			return false;
 		}
 		
 		$destination_dir = dirname($destination);
 		if (!self::exists($destination_dir) && !self::createDirectory($destination_dir))
 		{
+			trigger_error('Cannot create directory to move into: ' . $destination_dir, \E_USER_WARNING);
 			return false;
 		}
 		elseif (self::isDirectory($destination))
@@ -354,11 +450,26 @@ class Storage
 		}
 		
 		$result = @rename($source, $destination);
-		if (function_exists('opcache_invalidate') && substr($source, -4) === '.php')
+		if (!$result)
 		{
-			@opcache_invalidate($source, true);
+			trigger_error('Cannot move ' . $source . ' to ' . $destination, \E_USER_WARNING);
+			return false;
 		}
-		return $result;
+		
+		if (function_exists('opcache_invalidate'))
+		{
+			if (substr($source, -4) === '.php')
+			{
+				@opcache_invalidate($source, true);
+			}
+			if (substr($destination, -4) === '.php')
+			{
+				@opcache_invalidate($destination, true);
+			}
+		}
+		
+		clearstatcache(true, $destination);
+		return true;
 	}
 	
 	/**
@@ -373,7 +484,17 @@ class Storage
 	public static function delete($filename)
 	{
 		$filename = rtrim($filename, '/\\');
-		$result = @self::exists($filename) && @is_file($filename) && @unlink($filename);
+		if (!self::exists($filename))
+		{
+			return false;
+		}
+		
+		$result = @is_file($filename) && @unlink($filename);
+		if (!$result)
+		{
+			trigger_error('Cannot delete file: ' . $filename, \E_USER_WARNING);
+		}
+		
 		if (function_exists('opcache_invalidate') && substr($filename, -4) === '.php')
 		{
 			@opcache_invalidate($filename, true);
@@ -392,9 +513,26 @@ class Storage
 		$dirname = rtrim($dirname, '/\\');
 		if ($mode === null)
 		{
-			$mode = 0777 & ~umask();
+			$mode = 0777 & ~self::getUmask();
 		}
-		return @mkdir($dirname, $mode, true);
+		
+		$result = @mkdir($dirname, $mode, true);
+		if (!$result)
+		{
+			if (!is_dir($dirname))
+			{
+				trigger_error('Cannot create directory: ' . $dirname, \E_USER_WARNING);
+			}
+			else
+			{
+				@chmod($dirname, $mode);
+			}
+			return false;
+		}
+		else
+		{
+			return true;
+		}
 	}
 	
 	/**
@@ -420,6 +558,7 @@ class Storage
 		}
 		catch (\UnexpectedValueException $e)
 		{
+			trigger_error('Cannot read directory: ' . $dirname, \E_USER_WARNING);
 			return false;
 		}
 		
@@ -453,10 +592,12 @@ class Storage
 		$destination = rtrim($destination, '/\\');
 		if (!self::isDirectory($source))
 		{
+			trigger_error('Cannot copy because the source does not exist: ' . $source, \E_USER_WARNING);
 			return false;
 		}
 		if (!self::isDirectory($destination) && !self::createDirectory($destination))
 		{
+			trigger_error('Cannot create directory to copy into: ' . $destination, \E_USER_WARNING);
 			return false;
 		}
 		
@@ -520,8 +661,13 @@ class Storage
 	public static function deleteDirectory($dirname, $delete_self = true)
 	{
 		$dirname = rtrim($dirname, '/\\');
+		if (!self::exists($dirname))
+		{
+			return false;
+		}
 		if (!self::isDirectory($dirname))
 		{
+			trigger_error('Delete target is not a directory: ' . $dirname, \E_USER_WARNING);
 			return false;
 		}
 		
@@ -535,6 +681,7 @@ class Storage
 			{
 				if (!@rmdir($path->getPathname()))
 				{
+					trigger_error('Cannot delete directory: ' . $path->getPathname(), \E_USER_WARNING);
 					return false;
 				}
 			}
@@ -542,6 +689,7 @@ class Storage
 			{
 				if (!@unlink($path->getPathname()))
 				{
+					trigger_error('Cannot delete file: ' . $path->getPathname(), \E_USER_WARNING);
 					return false;
 				}
 			}
@@ -549,11 +697,97 @@ class Storage
 		
 		if ($delete_self)
 		{
-			return @rmdir($dirname);
+			$result = @rmdir($dirname);
+			if (!$result)
+			{
+				trigger_error('Cannot delete directory: ' . $dirname, \E_USER_WARNING);
+				return false;
+			}
+			else
+			{
+				return true;
+			}
 		}
 		else
 		{
 			return true;
+		}
+	}
+	
+	/**
+	 * Get the current umask.
+	 * 
+	 * @return int
+	 */
+	public static function getUmask()
+	{
+		if (self::$_umask === null)
+		{
+			self::$_umask = intval(config('file.umask'), 8) ?: 0;
+		}
+		return self::$_umask;
+	}
+	
+	/**
+	 * Set the current umask.
+	 * 
+	 * @param int $umask
+	 * @return void
+	 */
+	public static function setUmask($umask)
+	{
+		self::$_umask = intval($umask);
+	}
+	
+	/**
+	 * Determine the best umask for this installation of Rhymix.
+	 * 
+	 * @return int
+	 */
+	public static function recommendUmask()
+	{
+		// On Windows, set the umask to 0000.
+		if (strncasecmp(\PHP_OS, 'Win', 3) === 0)
+		{
+			return '0000';
+		}
+		
+		// Get the UID of the owner of the current file.
+		$file_uid = fileowner(__FILE__);
+		
+		// Get the UID of the current PHP process.
+		if (function_exists('posix_geteuid'))
+		{
+			$php_uid = posix_geteuid();
+		}
+		else
+		{
+			$testfile = \RX_BASEDIR . 'files/cache/uidcheck';
+			if (self::exists($testfile))
+			{
+				self::delete($testfile);
+			}
+			if (self::write($testfile, 'TEST'))
+			{
+				$php_uid = fileowner($testfile);
+				self::delete($testfile);
+			}
+			else
+			{
+				$php_uid = -1;
+			}
+		}
+		
+		// If both UIDs are the same, set the umask to 0022.
+		if ($file_uid == $php_uid)
+		{
+			return '0022';
+		}
+		
+		// Otherwise, set the umask to 0000.
+		else
+		{
+			return '0000';
 		}
 	}
 }

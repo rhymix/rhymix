@@ -163,7 +163,12 @@ class Lang
 	 */
 	public static function getSupportedList()
 	{
-		return (include \RX_BASEDIR . 'common/defaults/lang.php');
+		static $list = null;
+		if ($list === null)
+		{
+			$list = (include \RX_BASEDIR . 'common/defaults/locales.php');
+		}
+		return $list;
 	}
 	
 	/**

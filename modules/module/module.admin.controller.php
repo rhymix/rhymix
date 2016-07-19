@@ -904,7 +904,7 @@ class moduleAdminController extends module
 			{
 				$buff[] = sprintf('$lang[\'%s\'] = \'%s\';', $code, addcslashes($value, "'"));
 			}
-			if (!@file_put_contents(sprintf('%s/%d.%s.php', $cache_path, $args->site_srl, $langCode), join(PHP_EOL, $buff), LOCK_EX))
+			if (!Rhymix\Framework\Storage::write(sprintf('%s/%d.%s.php', $cache_path, $args->site_srl, $langCode), join(PHP_EOL, $buff)))
 			{
 				return;
 			}
