@@ -41,11 +41,12 @@ var initPhotoSwipeFromDOM = function(gallerySelector) {
 				pid: $(imgEl).attr('data-pswp-pid')
 			};
 
-			if(imgEl.alt) {
+			var ps_skip_alt_class = '.photoswipe-no-caption';
+			if(imgEl.alt && !$(imgEl).is(ps_skip_alt_class)) {
 				item.title = imgEl.alt; 
 			}
 
-			if(imgEl.title) {
+			if(imgEl.title && !$(imgEl).is(ps_skip_alt_class)) {
 				item.title = imgEl.title; 
 			}
 
@@ -217,14 +218,18 @@ var initPhotoSwipeFromDOM = function(gallerySelector) {
 		// do not activate PhotoSwipe at the editor-component or other module components
 		var regx_skip = /(?:(modules|addons|classes|common|layouts|libs|widgets|widgetstyles)\/)/i;
 		var regx_allow_i6pngfix = /(?:common\/tpl\/images\/blank\.gif$)/i;
-		var ps_skip_class = 'rx-escape';
+		var ps_skip_class = '.rx-escape, .photoswipe-escape';
+		var ps_skip_elements = 'a, pre, xml, textarea, input, select, option, code, script, style, iframe, button, img, embed, object, ins';
 		var galleryImgEls = $(galleryElements[i]).find('img');
 		for(var j = 0, jl = galleryImgEls.length; j < jl; j++) {
-			// if the item has skip class, skip it.
-			if($(galleryImgEls[j]).hasClass(ps_skip_class)) continue;
+			// if the item has skip class(es), skip it.
+			if($(galleryImgEls[j]).is(ps_skip_class)) continue;
 
 			// skip components
 			if(regx_skip.test($(galleryImgEls[j]).attr('src')) && !regx_allow_i6pngfix.test($(galleryImgEls[j]).attr('src'))) continue;
+
+			// if the image is an item of some elements, skip it.
+			if($(galleryImgEls[j]).parent(ps_skip_elements).length > 0) continue;
 
 			//$(galleryImgEls[j]).attr('data-pswp-uid', i+1);
 			$(galleryImgEls[j]).attr('data-pswp-pid', j+1);
