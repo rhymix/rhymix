@@ -70,9 +70,19 @@
 					</ul>
 				</li>
 			</ul>
+			<form class="right hide-on-med-and-down" method="GET" action="{getUrl()}">
+				<input type="hidden" name="vid" value="{$vid}" cond="$vid" />
+				<input type="hidden" name="mid" value="{$mid}" />
+				<input type="hidden" value="IS" name="act">
+				<div class="input-field col s12 grey-text">
+					<input id="layout_search_keyword" name="is_keyword" type="search" required="required">
+					<label for="layout_search_keyword"><i class="material-icons">search</i></label>
+					<i class="material-icons">close</i>
+				</div>
+			</form>
 			<!-- GNB -->
 			<div class="side-nav show-on-large" id="paperize_global_nav">
-				<div class="z-depth-1">
+				<div class="card z-depth-1">
 					<ul class="collapsible grey-text text-darken-4">
 						<li>
 							<div class="collapsible-header avatar">
@@ -96,7 +106,19 @@
 						</li>
 					</ul>
 				</div>
-				<ul cond="$GNB->list">
+				<div class="divider"></div>
+				<form class="layout_content" id="layout_gnb_search" method="GET" action="{getUrl()}">
+					<input type="hidden" name="vid" value="{$vid}" cond="$vid" />
+					<input type="hidden" name="mid" value="{$mid}" />
+					<input type="hidden" value="IS" name="act">
+					<div class="input-field col s12 grey-text">
+						<input id="layout_search_keyword_mini" class="layout_content" name="is_keyword" type="search" required="required">
+						<label for="layout_search_keyword_mini" class="layout_content"><i class="material-icons grey-text text-darken-4">search</i></label>
+						<i class="material-icons" class="layout_content">close</i>
+					</div>
+				</form>
+				<div class="divider"></div>
+				<ul class="layout_gnb_nav" cond="$GNB->list">
 					<li loop="$GNB->list=>$key1,$val1" class="active"|cond="$val1['selected'] && !$val1['list']" class="active no-padding"|cond="$val1['selected'] && $val1['list']" class="no-padding"|cond="!$val1['selected'] && $val1['list']">
 						<a href="{$val1['href']}" target="_blank"|cond="$val1['open_window']=='Y'" cond="!$val1['list']"><span>{$val1['link']}</span></a>
 						<ul class="collapsible collapsible-accordion" cond="$val1['list']">
@@ -172,7 +194,7 @@
 					</block>
 					<span>
 						<a cond="$bottom_list->list" loop="$bottom_list->list=>$key1,$val1" href="{$val1['href']}" target="_blank"|cond="$val1['open_window']=='Y'" class="footer-links">{$val1['link']}</a>
-						<a class="footer-links" href="{getUrl('act', 'dispMemberInfo')}">{$lang->cmd_view_member_info}</a>
+						<a class="footer-links" href="{getUrl('act', 'dispMemberInfo')}" cond="$is_logged">{$lang->cmd_view_member_info}</a>
 					</span>
 		</div>
 	</div>
