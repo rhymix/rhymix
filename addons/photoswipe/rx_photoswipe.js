@@ -72,7 +72,7 @@ var initPhotoSwipeFromDOM = function(gallerySelector) {
 
 		// find root element of slide
 		var clickedListItem = closest(eTarget, function(el) {
-			return (el.tagName && el.tagName.toUpperCase() === 'IMG' && el.hasAttribute('data-pswp-uid'));
+			return (el.tagName && el.tagName.toUpperCase() === 'IMG' && el.hasAttribute('data-pswp-pid'));
 		});
 
 		if(!clickedListItem) {
