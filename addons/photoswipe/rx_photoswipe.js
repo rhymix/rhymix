@@ -11,11 +11,15 @@ var getPSImageSize = function(src) {
 }
 
 var initPhotoSwipeFromDOM = function(gallerySelector) {
+	var ps_skip_class = '.rx-escape, .photoswipe-escape';
+	var ps_skip_elements_array = ['a', 'pre', 'xml', 'textarea', 'input', 'select', 'option', 'code', 'script', 'style', 'iframe', 'button', 'img', 'embed', 'object', 'ins'];
+	var ps_skip_elements = '';
+	ps_skip_elements_array.forEach(function(el, i) { ps_skip_elements += el + ' img,'; })
 
 	// parse slide data (url, title, size ...) from DOM elements 
 	// (children of gallerySelector)
 	var parseThumbnailElements = function(el) {
-		var imgElements = $(el).find("img"),
+		var imgElements = $(el).find("img:not(" + ps_skip_elements + ps_skip_class + ")"),
 			numNodes = imgElements.length,
 			items = [],
 			imgEl,
@@ -68,7 +72,7 @@ var initPhotoSwipeFromDOM = function(gallerySelector) {
 
 		// find root element of slide
 		var clickedListItem = closest(eTarget, function(el) {
-			return (el.tagName && el.tagName.toUpperCase() === 'IMG');
+			return (el.tagName && el.tagName.toUpperCase() === 'IMG' && el.hasAttribute('data-pswp-pid'));
 		});
 
 		if(!clickedListItem) {
@@ -81,7 +85,7 @@ var initPhotoSwipeFromDOM = function(gallerySelector) {
 		// find index of clicked item by looping through all child nodes
 		// alternatively, you may define index via data- attribute
 		var clickedGallery = $(clickedListItem).closest(gallerySelector).get(0),
-			childNodes = $(clickedGallery).find('img'),
+			childNodes = $(clickedGallery).find("img:not(" + ps_skip_elements + ps_skip_class + ")"),
 			numChildNodes = childNodes.length,
 			nodeIndex = 0,
 			index;
@@ -218,18 +222,11 @@ var initPhotoSwipeFromDOM = function(gallerySelector) {
 		// do not activate PhotoSwipe at the editor-component or other module components
 		var regx_skip = /(?:(modules|addons|classes|common|layouts|libs|widgets|widgetstyles)\/)/i;
 		var regx_allow_i6pngfix = /(?:common\/tpl\/images\/blank\.gif$)/i;
-		var ps_skip_class = '.rx-escape, .photoswipe-escape';
-		var ps_skip_elements = 'a, pre, xml, textarea, input, select, option, code, script, style, iframe, button, img, embed, object, ins';
-		var galleryImgEls = $(galleryElements[i]).find('img');
-		for(var j = 0, jl = galleryImgEls.length; j < jl; j++) {
-			// if the item has skip class(es), skip it.
-			if($(galleryImgEls[j]).is(ps_skip_class)) continue;
 
+		var galleryImgEls = $(galleryElements[i]).find("img:not(" + ps_skip_elements + ps_skip_class + ")");
+		for(var j = 0, jl = galleryImgEls.length; j < jl; j++) {
 			// skip components
 			if(regx_skip.test($(galleryImgEls[j]).attr('src')) && !regx_allow_i6pngfix.test($(galleryImgEls[j]).attr('src'))) continue;
-
-			// if the image is an item of some elements, skip it.
-			if($(galleryImgEls[j]).parent(ps_skip_elements).length > 0) continue;
 
 			//$(galleryImgEls[j]).attr('data-pswp-uid', i+1);
 			$(galleryImgEls[j]).attr('data-pswp-pid', j+1);
