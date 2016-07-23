@@ -1172,6 +1172,14 @@ class memberAdminController extends member
 	function insertGroup($args)
 	{
 		if(!$args->site_srl) $args->site_srl = 0;
+
+		// Call trigger (before)
+		$trigger_output = ModuleHandler::triggerCall('member.insertGroup', 'before', $args);
+		if(!$trigger_output->toBool())
+		{
+			return $trigger_output;
+		}
+
 		// Check the value of is_default.
 		if($args->is_default != 'Y')
 		{
@@ -1193,6 +1201,9 @@ class memberAdminController extends member
 		$output = executeQuery('member.insertGroup', $args);
 		$this->_deleteMemberGroupCache($args->site_srl);
 
+		// Call trigger (after)
+		ModuleHandler::triggerCall('member.insertGroup', 'after', $args);
+		
 		return $output;
 	}
 
@@ -1204,8 +1215,16 @@ class memberAdminController extends member
 	function updateGroup($args)
 	{
 		if(!$args->site_srl) $args->site_srl = 0;
-		// Check the value of is_default.
 		if(!$args->group_srl) return new Object(-1, 'lang->msg_not_founded');
+		
+		// Call trigger (before)
+		$trigger_output = ModuleHandler::triggerCall('member.updateGroup', 'before', $args);
+		if(!$trigger_output->toBool())
+		{
+			return $trigger_output;
+		}
+
+		// Check the value of is_default.
 		if($args->is_default!='Y')
 		{
 			$args->is_default = 'N';
@@ -1218,6 +1237,10 @@ class memberAdminController extends member
 
 		$output = executeQuery('member.updateGroup', $args);
 		$this->_deleteMemberGroupCache($args->site_srl);
+		
+		// Call trigger (after)
+		ModuleHandler::triggerCall('member.updateGroup', 'after', $args);
+		
 		return $output;
 	}
 
@@ -1238,6 +1261,13 @@ class memberAdminController extends member
 
 		if(!$group_info) return new Object(-1, 'lang->msg_not_founded');
 		if($group_info->is_default == 'Y') return new Object(-1, 'msg_not_delete_default');
+		
+		// Call trigger (before)
+		$trigger_output = ModuleHandler::triggerCall('member.deleteGroup', 'before', $group_info);
+		if(!$trigger_output->toBool())
+		{
+			return $trigger_output;
+		}
 
 		// Get groups where is_default == 'Y'
 		$columnList = array('site_srl', 'group_srl');
@@ -1251,6 +1281,14 @@ class memberAdminController extends member
 		$args->group_srl = $group_srl;
 		$output = executeQuery('member.deleteGroup', $args);
 		$this->_deleteMemberGroupCache($site_srl);
+		if (!$output->toBool())
+		{
+			return $output;
+		}
+
+		// Call trigger (after)
+		ModuleHandler::triggerCall('member.deleteGroup', 'after', $group_info);
+
 		return $output;
 	}
 
