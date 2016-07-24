@@ -12,10 +12,10 @@ var getPSImageSize = function(src) {
 
 var initPhotoSwipeFromDOM = function(gallerySelector) {
 	// photoswipe will skip images that have these classes or are children of these elements.
-	var ps_skip_class = '.rx-escape, .photoswipe-escape';
-	var ps_skip_elements_array = ['a', 'pre', 'xml', 'textarea', 'input', 'select', 'option', 'code', 'script', 'style', 'iframe', 'button', 'img', 'embed', 'object', 'ins'];
-	var ps_skip_elements = '';
-	ps_skip_elements_array.forEach(function(el, i) { ps_skip_elements += el + ' img,'; })
+	var ps_skip_class = '.rx-escape, .photoswipe-escape',
+		ps_skip_elements_array = ['a', 'pre', 'xml', 'textarea', 'input', 'select', 'option', 'code', 'script', 'style', 'iframe', 'button', 'img', 'embed', 'object', 'ins'],
+		ps_skip_elements = '';
+	ps_skip_elements_array.forEach(function(el, i) { ps_skip_elements += el + ' img,'; });
 
 	// Photoswipe will enroll images that have this class, though the image is marked as skip item by criteria above.
 	var ps_enroll_class = '.photoswipe-images';
