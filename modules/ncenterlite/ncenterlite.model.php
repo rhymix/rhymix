@@ -328,6 +328,26 @@ class ncenterliteModel extends ncenterlite
 				$type = $lang->ncenterlite_type_test;
 				break;
 			
+			// Custom string.
+			case 'X':
+				return $notification->target_body;
+			
+			// Custom language.
+			case 'Y':
+				return $lang->{$notification->target_body};
+			
+			// Custom language with string interpolation.
+			case 'Z':
+				return vsprintf($lang->{$notification->target_body}, array(
+					$notification->target_member_srl,     // %1$d
+					$notification->target_nick_name,      // %2$s
+					$notification->target_user_id,        // %3$s
+					$notification->target_email_address,  // %4$s
+					$notification->target_browser,        // %5$s
+					$notification->target_summary,        // %6$s
+					$notification->target_url,            // %7$s
+				));
+			
 			// Other.
 			case 'U':
 			default:
