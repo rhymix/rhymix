@@ -61,6 +61,25 @@ class pointController extends point
 	}
 
 	/**
+	 * @brief Member group deletion trigger
+	 */
+	function triggerDeleteGroup(&$obj)
+	{
+		// Get the point module config
+		$config = getModel('module')->getModuleConfig('point');
+		// Get the group_srl of the deleted group
+		$group_srl = $obj->group_srl;
+		// Exclude deleted group from point/level/group integration
+		if($config->point_group && isset($config->point_group[$group_srl]))
+		{
+			unset($config->point_group[$group_srl]);
+			getController('module')->insertModuleConfig('point', $config);
+		}
+
+		return new Object();
+	}
+	
+	/**
 	 * @brief A trigger to add points to the member for creating a post
 	 */
 	function triggerInsertDocument(&$obj)
