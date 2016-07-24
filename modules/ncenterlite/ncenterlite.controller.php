@@ -998,6 +998,12 @@ class ncenterliteController extends ncenterlite
 		{
 			$args->notify = $this->_getNotifyId($args);
 		}
+		
+		// 날짜가 없는 경우 자동 생성
+		if (!$args->regdate)
+		{
+			$args->regdate = date('YmdHis');
+		}
 
 		if($anonymous == TRUE)
 		{
