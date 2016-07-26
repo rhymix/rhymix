@@ -92,7 +92,7 @@ class Validator
 			'alpha' => '/^[a-z]*$/i',
 			'alpha_number' => '/^[a-z][a-z0-9_]*$/i',
 			'number' => '/^(?:[1-9]\\d*|0)$/',
-			'float' => '/^\d*(\.?\d*)$/'
+			'float' => '/^\d+(\.\d+)?$/'
 		));
 
 		$this->_has_mb_func = is_callable('mb_strlen');

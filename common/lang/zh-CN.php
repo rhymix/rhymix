@@ -277,6 +277,7 @@ $lang->filter['invalid_alpha'] = '%s只能输入英文字母';
 $lang->filter['invalid_alpha_number'] = '%s只能输入英文或数字';
 $lang->filter['invalid_mid'] = '%s 格式错误。 模块名称只能用英文、数字及下划线，开头必须是英文。';
 $lang->filter['invalid_number'] = '%s只能输入数字';
+$lang->filter['invalid_float'] = '%s只能输入数字';
 $lang->security_warning_embed = '由于安全问题，不允许用系统管理员ID操作embed对象，请使用其他拥有管理权限的ID操作。';
 $lang->cmd_yes = '是';
 $lang->cmd_no = '否';

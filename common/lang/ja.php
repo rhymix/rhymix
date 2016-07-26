@@ -293,6 +293,7 @@ $lang->filter['invalid_alpha'] = '%sの形式が正しくありません。半�
 $lang->filter['invalid_alpha_number'] = '%sの形式が正しくありません。半角英数字で入力してください。';
 $lang->filter['invalid_mid'] = '%sの形式が正しくありません。 最初の文字は英文から始め、「英文＋数字＋_」組合せで入力が必要です。';
 $lang->filter['invalid_number'] = '%sの形式が正しくありません。半角数字で入力してください。';
+$lang->filter['invalid_float'] = '%sの形式が正しくありません。半角数字で入力してください。';
 $lang->security_warning_embed = 'セキュリティ問題のため、管理者IDではembedを見ることができません。<br />他のIDでログインしてください。';
 $lang->msg_pc_to_mobile = 'このページは、モバイル表示が可能です。モバイル表示へ移動しますか?';
 $lang->cmd_yes = 'はい';
