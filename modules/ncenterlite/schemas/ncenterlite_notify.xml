@@ -1,5 +1,5 @@
 <table name="ncenterlite_notify">
-	<column name="notify" type="char" size="32" notnull="notnull" primary_key="primary_key" index="idx_notify" breif="메시지 ID" />
+	<column name="notify" type="char" size="32" notnull="notnull" primary_key="primary_key" breif="메시지 ID" />
 
 	<column name="srl" type="number" size="11" notnull="notnull" index="idx_srl" breif="이벤트 대상의 상위 srl" />
 	<column name="target_srl" type="number" size="11" notnull="notnull" index="idx_target_srl" breif="이벤트 대상 srl(문서/댓글)" />
