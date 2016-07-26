@@ -129,6 +129,12 @@ class ncenterlite extends ModuleObject
 			return true;
 		}
 
+		// Composite index to speed up getNotifyList
+		if(!$oDB->isIndexExists('ncenterlite_notify', 'idx_member_srl_and_readed'))
+		{
+			return true;
+		}
+
 		// PK duplicate
 		if($oDB->isIndexExists('ncenterlite_notify', 'idx_notify'))
 		{
@@ -206,6 +212,12 @@ class ncenterlite extends ModuleObject
 		if(!$oDB->isIndexExists('ncenterlite_notify', 'idx_target_member_srl'))
 		{
 			$oDB->addIndex('ncenterlite_notify', 'idx_target_member_srl', array('target_member_srl'));
+		}
+
+		// Composite index to speed up getNotifyList
+		if(!$oDB->isIndexExists('ncenterlite_notify', 'idx_member_srl_and_readed'))
+		{
+			$oDB->addIndex('ncenterlite_notify', 'idx_member_srl_and_readed', array('member_srl', 'readed'));
 		}
 
 		// PK duplicate
