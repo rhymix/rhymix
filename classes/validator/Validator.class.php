@@ -92,7 +92,7 @@ class Validator
 			'alpha' => '/^[a-z]*$/i',
 			'alpha_number' => '/^[a-z][a-z0-9_]*$/i',
 			'number' => '/^(?:[1-9]\\d*|0)$/',
-			'real' => '/^\d*(\.?\d*)$/'
+			'float' => '/^\d*(\.?\d*)$/'
 		));
 
 		$this->_has_mb_func = is_callable('mb_strlen');
@@ -715,7 +715,7 @@ class Validator
 		{
 			$name = strtolower($name);
 
-			if(in_array($name, array('email', 'userid', 'url', 'alpha', 'alpha_number', 'number', 'real')))
+			if(in_array($name, array('email', 'userid', 'url', 'alpha', 'alpha_number', 'number', 'float')))
 			{
 				continue;
 			}
