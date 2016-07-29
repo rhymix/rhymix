@@ -177,26 +177,27 @@ class boardController extends board
 			{
 				$oModuleModel = getModel('module');
 				$member_config = $oModuleModel->getModuleConfig('member');
-				$is_logged = Context::get('is_logged');
 
-				if(!$is_logged && !$member_config->webmaster_email)
+				if($member_config->webmaster_email)
 				{
-					$obj->email_address = $this->module_info->admin_mail;
+					$mail_title = sprintf(lang('msg_document_notify_mail'), $obj->mid, cut_str($obj->title, 20, '...'));
+
+					$oMail = new Mail();
+					$oMail->setTitle($mail_title);
+					$oMail->setContent( sprintf("From : <a href=\"%s\">%s</a><br/>\r\n%s", getFullUrl('','document_srl',$obj->document_srl), getFullUrl('','document_srl',$obj->document_srl), $obj->content));
+					$oMail->setSender($member_config->webmaster_name ?: null, $member_config->webmaster_email);
+
+					$target_mail = explode(',',$this->module_info->admin_mail);
+					for($i=0;$i<count($target_mail);$i++)
+					{
+						$email_address = trim($target_mail[$i]);
+						if(!$email_address) continue;
+						$oMail->setReceiptor($email_address, $email_address);
+						$oMail->send();
+					}
 				}
 				
-				$oMail = new Mail();
-				$oMail->setTitle($obj->title);
-				$oMail->setContent( sprintf("From : <a href=\"%s\">%s</a><br/>\r\n%s", getFullUrl('','document_srl',$obj->document_srl), getFullUrl('','document_srl',$obj->document_srl), $obj->content));
-				$oMail->setSender($obj->user_name ?: null, $obj->email_address ? $obj->email_address : $member_config->webmaster_email);
 
-				$target_mail = explode(',',$this->module_info->admin_mail);
-				for($i=0;$i<count($target_mail);$i++)
-				{
-					$email_address = trim($target_mail[$i]);
-					if(!$email_address) continue;
-					$oMail->setReceiptor($email_address, $email_address);
-					$oMail->send();
-				}
 			}
 		}
 
