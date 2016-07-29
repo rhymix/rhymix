@@ -652,8 +652,7 @@ class commentController extends comment
 			}
 			// 매일 보내는 이를 관리자 계정으로 설정한다.
 			$oMail->setSender($member_config->webmaster_name, $member_config->webmaster_email);
-			$mail_title = sprintf(lang('msg_comment_notify_mail'), Context::get('mid'), $oDocument->getTitleText());
-			//$mail_title = "[" . Context::get('mid') . "] A new comment was posted on document: \"" . $oDocument->getTitleText() . "\"";
+			$mail_title = sprintf(lang('msg_comment_notify_mail'), Context::get('mid'), cut_str($oDocument->getTitleText(), 20, '...'));
 			$oMail->setTitle($mail_title);
 			$url_comment = getFullUrl('','document_srl',$obj->document_srl).'#comment_'.$obj->comment_srl;
 			if($using_validation)
