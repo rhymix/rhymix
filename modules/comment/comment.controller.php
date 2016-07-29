@@ -638,7 +638,7 @@ class commentController extends comment
 		$module_info = $oModuleModel->getModuleInfoByDocumentSrl($obj->document_srl);
 
 		// If there is no problem to register comment then send an email to all admin were set in module admin panel
-		if($module_info->admin_mail/* && $member_info->is_admin != 'Y'*/)
+		if($module_info->admin_mail && $member_info->is_admin != 'Y')
 		{
 			$oMail = new Mail();
 
