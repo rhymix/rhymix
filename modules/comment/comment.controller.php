@@ -642,12 +642,17 @@ class commentController extends comment
 		{
 			$oMail = new Mail();
 
-			if($is_logged)
+			// 메일 발신자 조작으로 취급하여 스팸으로 직행할 수 있기때문에 회원설정에서 입력된 웹마스터 메일주소를 이용하도록 함
+			$member_config = $oMemberModel->getMemberConfig();
+			$admin_email_adress = $member_config->webmaster_email;
+			// 관리자 메일을 입력하지 않으면 메일을 보내지 않음.
+			if(!$admin_email_adress)
 			{
-				$oMail->setSender($obj->email_address, $obj->email_address);
+				return;
 			}
-
-			$mail_title = "[Rhymix - " . Context::get('mid') . "] A new comment was posted on document: \"" . $oDocument->getTitleText() . "\"";
+			// 매일 보내는 이를 관리자 계정으로 설정한다.
+			$oMail->setSender($member_config->webmaster_name, $member_config->webmaster_email);
+			$mail_title = sprintf(lang('msg_comment_notify_mail'), Context::get('mid'), cut_str($oDocument->getTitleText(), 20, '...'));
 			$oMail->setTitle($mail_title);
 			$url_comment = getFullUrl('','document_srl',$obj->document_srl).'#comment_'.$obj->comment_srl;
 			if($using_validation)
@@ -710,7 +715,6 @@ class commentController extends comment
 			// get all admins emails
 			$admins_emails = $module_info->admin_mail;
 			$target_mail = explode(',', $admins_emails);
-
 			// send email to all admins - START
 			for($i = 0; $i < count($target_mail); $i++)
 			{
@@ -718,10 +722,6 @@ class commentController extends comment
 				if(!$email_address)
 				{
 					continue;
-				}
-				if(!$is_logged)
-				{
-					$oMail->setSender($email_address, $email_address);
 				}
 				$oMail->setReceiptor($email_address, $email_address);
 				$oMail->send();
