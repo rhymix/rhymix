@@ -180,7 +180,7 @@ class boardController extends board
 
 				if($member_config->webmaster_email)
 				{
-					$mail_title = sprintf(lang('msg_document_notify_mail'), $obj->mid, cut_str($obj->title, 20, '...'));
+					$mail_title = sprintf(lang('msg_document_notify_mail'), $this->module_info->browser_title, cut_str($obj->title, 20, '...'));
 
 					$oMail = new Mail();
 					$oMail->setTitle($mail_title);
