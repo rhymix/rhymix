@@ -51,6 +51,10 @@
 			// number
 			var regNum = /^[0-9]*$/;
 			this.cast('ADD_RULE', ['number', regNum]);
+
+			// float
+			var regFloat = /^\d+(\.\d+)?$/;
+			this.cast('ADD_RULE', ['float', regFloat]);
 			// }}} add filters
 		},
 		// run validator

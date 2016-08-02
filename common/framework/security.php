@@ -113,6 +113,40 @@ class Security
 	}
 	
 	/**
+	 * Create a digital signature to verify the authenticity of a string.
+	 * 
+	 * @param string $string
+	 * @return string
+	 */
+	public static function createSignature($string)
+	{
+		$key = config('crypto.authentication_key');
+		$salt = self::getRandom(8, 'alnum');
+		$hash = substr(base64_encode(hash_hmac('sha256', hash_hmac('sha256', $string, $salt), $key, true)), 0, 32);
+		return $salt . strtr($hash, '+/', '-_');
+	}
+	
+	/**
+	 * Check whether a signature is valid.
+	 * 
+	 * @param string $string
+	 * @param string $signature
+	 * @return bool
+	 */
+	public static function verifySignature($string, $signature)
+	{
+		if(strlen($signature) !== 40)
+		{
+			return false;
+		}
+		
+		$key = config('crypto.authentication_key');
+		$salt = substr($signature, 0, 8);
+		$hash = substr(base64_encode(hash_hmac('sha256', hash_hmac('sha256', $string, $salt), $key, true)), 0, 32);
+		return self::compareStrings(substr($signature, 8), strtr($hash, '+/', '-_'));
+	}
+	
+	/**
 	 * Generate a cryptographically secure random string.
 	 * 
 	 * @param int $length
