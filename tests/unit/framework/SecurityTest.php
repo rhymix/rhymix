@@ -20,6 +20,7 @@ class SecurityTest extends \Codeception\TestCase\Test
 	public function testEncryption()
 	{
 		$plaintext = Rhymix\Framework\Security::getRandom();
+		config('crypto.encryption_key', Rhymix\Framework\Security::getRandom());
 		
 		// Encryption with default key.
 		$encrypted = Rhymix\Framework\Security::encrypt($plaintext);
@@ -58,6 +59,7 @@ class SecurityTest extends \Codeception\TestCase\Test
 	public function testSignature()
 	{
 		$plaintext = Rhymix\Framework\Security::getRandom();
+		config('crypto.authentication_key', Rhymix\Framework\Security::getRandom());
 		
 		$signature = Rhymix\Framework\Security::createSignature($plaintext);
 		$this->assertRegexp('/^[a-zA-Z0-9-_]{40}$/', $signature);
