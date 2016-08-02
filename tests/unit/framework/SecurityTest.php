@@ -55,6 +55,17 @@ class SecurityTest extends \Codeception\TestCase\Test
 		$this->assertEquals(false, $decrypted);
 	}
 	
+	public function testSignature()
+	{
+		$plaintext = Rhymix\Framework\Security::getRandom();
+		
+		$signature = Rhymix\Framework\Security::createSignature($plaintext);
+		$this->assertRegexp('/^[a-zA-Z0-9-_]{40}$/', $signature);
+		$this->assertEquals(true, Rhymix\Framework\Security::verifySignature($plaintext, $signature));
+		$this->assertEquals(false, Rhymix\Framework\Security::verifySignature($plaintext, $signature . 'x'));
+		$this->assertEquals(false, Rhymix\Framework\Security::verifySignature($plaintext, 'x' . $signature));
+	}
+	
 	public function testGetRandom()
 	{
 		$this->assertRegExp('/^[0-9a-zA-Z]{32}$/', Rhymix\Framework\Security::getRandom());
