@@ -160,7 +160,7 @@ class ConfigParser
 		
 		// Create new crypto keys.
 		$config['crypto']['encryption_key'] = Security::getRandom(64, 'alnum');
-		$config['crypto']['authentication_key'] = Security::getRandom(64, 'alnum');
+		$config['crypto']['authentication_key'] = $db_info->secret_key ?: Security::getRandom(64, 'alnum');
 		$config['crypto']['session_key'] = Security::getRandom(64, 'alnum');
 		
 		// Convert language configuration.
