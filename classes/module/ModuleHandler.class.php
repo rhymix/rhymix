@@ -475,8 +475,8 @@ class ModuleHandler extends Handler
 			}
 		}
 		
-		// check CSRF for POST actions
-		if(Context::getRequestMethod() === 'POST' && Context::isInstalled())
+		// check CSRF for non-GET (POST, PUT, etc.) actions
+		if(Context::getRequestMethod() !== 'GET' && Context::isInstalled())
 		{
 			if($xml_info->action->{$this->act} && $xml_info->action->{$this->act}->check_csrf !== 'false' && !checkCSRF())
 			{
@@ -617,8 +617,8 @@ class ModuleHandler extends Handler
 					}
 				}
 				
-				// check CSRF for POST actions
-				if(Context::getRequestMethod() === 'POST' && Context::isInstalled())
+				// check CSRF for non-GET (POST, PUT, etc.) actions
+				if(Context::getRequestMethod() !== 'GET' && Context::isInstalled())
 				{
 					if($xml_info->action->{$this->act} && $xml_info->action->{$this->act}->check_csrf !== 'false' && !checkCSRF())
 					{
