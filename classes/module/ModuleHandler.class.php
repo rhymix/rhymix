@@ -780,7 +780,9 @@ class ModuleHandler extends Handler
 				'dispLayoutPreviewWithModule' => 1
 		);
 		$db_use_mobile = Mobile::isMobileEnabled();
-		if($type == "view" && $this->module_info->use_mobile == "Y" && Mobile::isMobileCheckByAgent() && !isset($skipAct[Context::get('act')]) && $db_use_mobile === true)
+		$tablet_use = Rhymix\Framework\UA::isTablet();
+		$config_talbet_use = config('mobile.tablets');
+		if($type == "view" && $this->module_info->use_mobile == "Y" && Mobile::isMobileCheckByAgent() && !isset($skipAct[Context::get('act')]) && $db_use_mobile === true && ($tablet_use === true && $config_talbet_use === false) === false)
 		{
 			global $lang;
 			$header = '<style>div.xe_mobile{opacity:0.7;margin:1em 0;padding:.5em;background:#333;border:1px solid #666;border-left:0;border-right:0}p.xe_mobile{text-align:center;margin:1em 0}a.xe_mobile{color:#ff0;font-weight:bold;font-size:24px}@media only screen and (min-width:500px){a.xe_mobile{font-size:15px}}</style>';
