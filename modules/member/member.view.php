@@ -314,7 +314,14 @@ class memberView extends member
 			$option = new stdClass();
 			$option->primary_key_name = 'member_srl';
 			$option->content_key_name = 'signature';
-			$option->allow_fileupload = true;
+			if($member_config->member_allow_fileupload === 'Y')
+			{
+				$option->allow_fileupload = true;
+			}
+			else
+			{
+				$option->allow_fileupload = false;
+			}
 			$option->enable_autosave = false;
 			$option->enable_default_component = true;
 			$option->enable_component = false;
