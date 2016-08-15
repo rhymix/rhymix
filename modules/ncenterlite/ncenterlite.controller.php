@@ -993,7 +993,17 @@ class ncenterliteController extends ncenterlite
 			return new Object();
 		}
 
-
+		// 노티 ID가 없는 경우 자동 생성
+		if (!$args->notify)
+		{
+			$args->notify = $this->_getNotifyId($args);
+		}
+		
+		// 날짜가 없는 경우 자동 생성
+		if (!$args->regdate)
+		{
+			$args->regdate = date('YmdHis');
+		}
 
 		if($anonymous == TRUE)
 		{

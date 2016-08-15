@@ -11,11 +11,22 @@ var getPSImageSize = function(src) {
 }
 
 var initPhotoSwipeFromDOM = function(gallerySelector) {
+	// photoswipe will skip images that have these classes or are children of these elements.
+	var ps_skip_class = '.rx-escape, .photoswipe-escape',
+		ps_skip_elements_array = ['a', 'pre', 'xml', 'textarea', 'input', 'select', 'option', 'code', 'script', 'style', 'iframe', 'button', 'img', 'embed', 'object', 'ins'],
+		ps_skip_elements = '';
+	ps_skip_elements_array.forEach(function(el, i) { ps_skip_elements += el + ' img,'; });
+
+	// Photoswipe will enroll images that have this class, though the image is marked as skip item by criteria above.
+	var ps_enroll_class = '.photoswipe-images';
+
+	// CSS selector for photoswipe items.
+	var ps_find_selector = 'img:not(' + ps_skip_elements + ps_skip_class + '), img' + ps_enroll_class;
 
 	// parse slide data (url, title, size ...) from DOM elements 
 	// (children of gallerySelector)
 	var parseThumbnailElements = function(el) {
-		var imgElements = $(el).find("img"),
+		var imgElements = $(el).find(ps_find_selector),
 			numNodes = imgElements.length,
 			items = [],
 			imgEl,
@@ -41,11 +52,12 @@ var initPhotoSwipeFromDOM = function(gallerySelector) {
 				pid: $(imgEl).attr('data-pswp-pid')
 			};
 
-			if(imgEl.alt) {
+			var ps_skip_alt_class = '.photoswipe-no-caption';
+			if(imgEl.alt && !$(imgEl).is(ps_skip_alt_class)) {
 				item.title = imgEl.alt; 
 			}
 
-			if(imgEl.title) {
+			if(imgEl.title && !$(imgEl).is(ps_skip_alt_class)) {
 				item.title = imgEl.title; 
 			}
 
@@ -67,7 +79,7 @@ var initPhotoSwipeFromDOM = function(gallerySelector) {
 
 		// find root element of slide
 		var clickedListItem = closest(eTarget, function(el) {
-			return (el.tagName && el.tagName.toUpperCase() === 'IMG');
+			return (el.tagName && el.tagName.toUpperCase() === 'IMG' && el.hasAttribute('data-pswp-pid'));
 		});
 
 		if(!clickedListItem) {
@@ -80,7 +92,7 @@ var initPhotoSwipeFromDOM = function(gallerySelector) {
 		// find index of clicked item by looping through all child nodes
 		// alternatively, you may define index via data- attribute
 		var clickedGallery = $(clickedListItem).closest(gallerySelector).get(0),
-			childNodes = $(clickedGallery).find('img'),
+			childNodes = $(clickedGallery).find(ps_find_selector),
 			numChildNodes = childNodes.length,
 			nodeIndex = 0,
 			index;
@@ -217,8 +229,10 @@ var initPhotoSwipeFromDOM = function(gallerySelector) {
 		// do not activate PhotoSwipe at the editor-component or other module components
 		var regx_skip = /(?:(modules|addons|classes|common|layouts|libs|widgets|widgetstyles)\/)/i;
 		var regx_allow_i6pngfix = /(?:common\/tpl\/images\/blank\.gif$)/i;
-		var galleryImgEls = $(galleryElements[i]).find('img');
+
+		var galleryImgEls = $(galleryElements[i]).find(ps_find_selector);
 		for(var j = 0, jl = galleryImgEls.length; j < jl; j++) {
+			// skip components
 			if(regx_skip.test($(galleryImgEls[j]).attr('src')) && !regx_allow_i6pngfix.test($(galleryImgEls[j]).attr('src'))) continue;
 
 			//$(galleryImgEls[j]).attr('data-pswp-uid', i+1);

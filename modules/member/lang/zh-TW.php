@@ -180,6 +180,7 @@ $lang->about_member_default = '將成為註冊會員時的預設群組。';
 $lang->about_find_member_account = '帳號/密碼將發送到您註冊時，所輸入的電子郵件當中。輸入註冊時的電子郵件地址後，請按「查詢帳號/密碼」按鈕。<br />';
 $lang->about_temp_password = '已發送臨時密碼。<br />請登入後修改密碼。<br />';
 $lang->about_ssl_port = '請輸入想要使用 SSL 預設埠口以外的埠口。';
+$lang->about_reset_auth_mail = '目前註冊的電子郵件地址為 %s 。如果你想改變你的e-mail>地址，你可以註冊更新，新的E-mail地址認證信息後重新發送郵件';
 $lang->about_resend_auth_mail = '如果沒有收到認證郵件可以再重寄一次。';
 $lang->no_article = '主題不存在';
 $lang->find_account_question = '密碼提示問答';

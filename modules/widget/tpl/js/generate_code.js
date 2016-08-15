@@ -121,10 +121,10 @@ function doFillWidgetVars() {
 
 		if (node.name == 'widget_cache') {
 			var widget_cache = selected_node.getAttribute(node.name);
-			var widget_cache_unit = widget_cache.match(/[smhd]$/i);
+			var widget_cache_unit = widget_cache ? widget_cache.match(/[smhd]$/i) : 'm';
 			if (widget_cache_unit) {
 				jQuery("#widget_cache_unit").val(widget_cache_unit);
-				widget_cache = widget_cache.replace(/[smhd]$/i, "");
+				widget_cache = widget_cache ? widget_cache.replace(/[smhd]$/i, "") : 0;
 			}
 			jQuery("#widget_cache").val(widget_cache);
 			continue;

@@ -71,7 +71,8 @@ class pointAdminController extends point
 
 			$oMemberModel = getModel('member');
 			$group_list = $oMemberModel->getGroups();
-	
+			$config->point_group = array();
+
 			// Per-level group configurations
 			foreach($group_list as $group)
 			{
@@ -94,10 +95,6 @@ class pointAdminController extends point
 						$args->{'point_group_'.$group_srl} = 1;
 					}
 					$config->point_group[$group_srl] = $args->{'point_group_'.$group_srl};
-				}
-				else
-				{
-					unset($config->point_group[$group_srl]);
 				}
 			}
 

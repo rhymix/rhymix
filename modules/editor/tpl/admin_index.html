@@ -116,19 +116,22 @@
 		<div class="x_control-group">
 			<label class="x_control-label" for="font_size">{$lang->guide_choose_font_size_body}</label>
 			<div class="x_controls">
-				<input type="number" id="font_size" name="content_font_size" value="{intval($editor_config->content_font_size) ?: 13}" /> px
+				<input type="text" id="font_size" name="content_font_size" value="{$editor_config->content_font_size ?: 13}" />
+				<p class="x_help-block">{$lang->about_unit_default_px}</p>
 			</div>
 		</div>
 		<div class="x_control-group">
 			<label class="x_control-label" for="line_height">{$lang->guide_choose_line_height}</label>
 			<div class="x_controls">
-				<input type="number" id="line_height" name="content_line_height" value="{intval($editor_config->content_line_height) ?: 160}" /> %
+				<input type="text" id="line_height" name="content_line_height" value="{$editor_config->content_line_height ?: 160}" />
+				<p class="x_help-block">{$lang->about_unit_default_percent}</p>
 			</div>
 		</div>
 		<div class="x_control-group">
 			<label class="x_control-label" for="paragraph_spacing">{$lang->guide_choose_paragraph_spacing}</label>
 			<div class="x_controls">
-				<input type="number" id="paragraph_spacing" name="content_paragraph_spacing" value="{intval($editor_config->content_paragraph_spacing) ?: 0}" /> px
+				<input type="text" id="paragraph_spacing" name="content_paragraph_spacing" value="{$editor_config->content_paragraph_spacing ?: 0}" />
+				<p class="x_help-block">{$lang->about_unit_default_px}</p>
 			</div>
 		</div>
 		<div class="x_control-group">

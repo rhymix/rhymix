@@ -18,6 +18,8 @@ $lang->word_break_normal = 'Wrap Asian scripts at character boundary and Latin s
 $lang->word_break_keep_all = 'Wrap at word boundary';
 $lang->word_break_break_all = 'Wrap at character boundary';
 $lang->word_break_none = 'Do not wrap long lines';
+$lang->about_unit_default_px = 'The unit is px unless otherwise specified.';
+$lang->about_unit_default_percent = 'The unit is % unless otherwise specified.';
 $lang->font_preview = 'The quick brown fox jumps over the lazy dog.
 いろはにほへと / ちりぬるを / わかよたれそ / つねならむ / うゐのおくやま / けふこえて / あさきゆめみし / ゑひもせす
 키스의 고유 조건은 입술끼리 만나야 하고 특별한 기술은 필요치 않다.';

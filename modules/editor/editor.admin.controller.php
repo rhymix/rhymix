@@ -164,10 +164,14 @@ class editorAdminController extends editor
 			$config->font_defined = $configVars->font_defined = 'N';
 			$config->content_font = $configVars->content_font;
 		}
-		$config->content_font_size = intval($configVars->content_font_size) . 'px';
-		$config->content_line_height = intval($configVars->content_line_height) . '%';
-		$config->content_paragraph_spacing = intval($configVars->content_paragraph_spacing) . 'px';
+		$config->content_font_size = trim($configVars->content_font_size);
+		$config->content_font_size = ctype_digit($config->content_font_size) ? ($config->content_font_size . 'px') : $config->content_font_size;
+		$config->content_line_height = trim($configVars->content_line_height);
+		$config->content_line_height = ctype_digit($config->content_line_height) ? ($config->content_line_height . '%') : $config->content_line_height;
+		$config->content_paragraph_spacing = trim($configVars->content_paragraph_spacing);
+		$config->content_paragraph_spacing = ctype_digit($config->content_paragraph_spacing) ? ($config->content_paragraph_spacing . '%') : $config->content_paragraph_spacing;
 		$config->content_word_break = $configVars->content_word_break;
+		$config->content_word_break = in_array($config->content_word_break, array('normal', 'keep-all', 'break-all', 'none')) ? $config->content_word_break : 'normal';
 
 		$oModuleController->insertModuleConfig('editor', $config);
 		$this->setRedirectUrl(Context::get('error_return_url'));

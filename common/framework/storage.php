@@ -256,17 +256,17 @@ class Storage
 			flock($fp, \LOCK_EX);
 			if (is_resource($content))
 			{
-				$result = stream_copy_to_stream($content, $fp) ? true : false;
+				$result = stream_copy_to_stream($content, $fp);
 			}
 			else
 			{
-				$result = fwrite($fp, $content) ? true : false;
+				$result = fwrite($fp, $content);
 			}
 			fflush($fp);
 			flock($fp, \LOCK_UN);
 			fclose($fp);
 			
-			if (!$result)
+			if ($result === false)
 			{
 				trigger_error('Cannot write file: ' . (isset($original_filename) ? $original_filename : $filename), \E_USER_WARNING);
 				return false;
@@ -303,7 +303,7 @@ class Storage
 		}
 		
 		clearstatcache(true, $filename);
-		return $result;
+		return true;
 	}
 	
 	/**

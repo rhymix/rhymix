@@ -77,3 +77,4 @@ $lang->cmd_only_p_comment = '대댓글이 있는 경우에만 남김';
 $lang->cmd_all_comment_message = '모든 댓글에 남김';
 $lang->cmd_do_not_message = '남기지 않음';
 $lang->delete_placeholder = '완전 삭제';
+$lang->msg_document_notify_mail = '[%s] 새로운 게시글이 등록되었습니다 : %s';

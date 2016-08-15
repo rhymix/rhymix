@@ -44,6 +44,11 @@
 			<title xml:lang="zh-TW">發表評論</title>
 			<title xml:lang="es">yorum yaz</title>
 		</grant>
+		<grant name="consultation_read" default="manager">
+			<title xml:lang="ko">상담글 조회</title>
+			<title xml:lang="en">Consultation Document Read</title>
+			<title xml:lang="jp">相談文照会</title>
+		</grant>
 	</grants>
 	<permissions>
 		<permission action="dispBoardAdminInsertBoard" target="manager" />

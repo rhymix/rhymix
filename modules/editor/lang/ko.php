@@ -19,6 +19,8 @@ $lang->word_break_normal = '한글은 글자 단위로 줄바꿈, 영문은 단�
 $lang->word_break_keep_all = '모든 언어를 단어 단위로 줄바꿈';
 $lang->word_break_break_all = '모든 언어를 글자 단위로 줄바꿈';
 $lang->word_break_none = '줄을 바꾸지 않음';
+$lang->about_unit_default_px = '단위를 지정하지 않을 경우 px 단위를 사용합니다.';
+$lang->about_unit_default_percent = '단위를 지정하지 않을 경우 % 단위를 사용합니다.';
 $lang->font_preview = 'The quick brown fox jumps over the lazy dog.
 いろはにほへと / ちりぬるを / わかよたれそ / つねならむ / うゐのおくやま / けふこえて / あさきゆめみし / ゑひもせす
 키스의 고유 조건은 입술끼리 만나야 하고 특별한 기술은 필요치 않다.';

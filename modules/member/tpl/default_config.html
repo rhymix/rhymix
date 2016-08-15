@@ -92,6 +92,14 @@
 			<p class="x_help-inline">{$lang->about_member_sync}</p>
 		</div>
 	</div>
+	<div class="x_control-group">
+		<label class="x_control-label">{$lang->cmd_member_file_upload}</label>
+		<div class="x_controls">
+			<label for="member_allow_fileupload_y" class="x_inline"><input type="radio" name="member_allow_fileupload" id="member_allow_fileupload_y" value="Y" checked="checked"|cond="$config->member_allow_fileupload == 'Y'" /> {$lang->cmd_yes}</label>
+			<label for="member_allow_fileupload_n" class="x_inline"><input type="radio" name="member_allow_fileupload" id="member_allow_fileupload_n" value="N" checked="checked"|cond="$config->member_allow_fileupload != 'Y'" /> {$lang->cmd_no}</label>
+			<p class="x_help-block">{$lang->about_member_file_upload}</p>
+		</div>
+	</div>
 	<div class="btnArea x_clearfix">
 		<span class="x_pull-right"><input class="x_btn x_btn-primary" type="submit" value="{$lang->cmd_save}" /></span>
 	</div>

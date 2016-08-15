@@ -20,8 +20,8 @@ class installController extends install
 			return new Object(-1, 'msg_already_installed');
 		}
 		
-		$this->db_tmp_config_file = _XE_PATH_.'files/config/tmpDB.config.php';
-		$this->etc_tmp_config_file = _XE_PATH_.'files/config/tmpEtc.config.php';
+		// Increase time limit.
+		@set_time_limit(0);
 	}
 
 	/**

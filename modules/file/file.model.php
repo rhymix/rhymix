@@ -175,6 +175,16 @@ class fileModel extends file
 		if(!$config->allow_outlink) $config->allow_outlink = 'Y';
 		if(!$config->download_grant) $config->download_grant = array();
 
+		$size = preg_replace('/[a-z]/is', '', ini_get('upload_max_filesize'));
+		if($config->allowed_filesize > $size) 
+		{	
+			$config->allowed_filesize = $size;
+		}
+		if($config->allowed_attach_size > $size) 
+		{
+			$config->allowed_attach_size = $size;
+		}
+		
 		return $config;
 	}
 

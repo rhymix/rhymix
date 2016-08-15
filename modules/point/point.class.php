@@ -85,6 +85,7 @@ class point extends ModuleObject
 		$oModuleController->insertTrigger('file.downloadFile', 'point', 'controller', 'triggerBeforeDownloadFile', 'before');
 		$oModuleController->insertTrigger('file.downloadFile', 'point', 'controller', 'triggerDownloadFile', 'after');
 		$oModuleController->insertTrigger('member.doLogin', 'point', 'controller', 'triggerAfterLogin', 'after');
+		$oModuleController->insertTrigger('member.deleteGroup', 'point', 'controller', 'triggerDeleteGroup', 'after');
 		$oModuleController->insertTrigger('module.dispAdditionSetup', 'point', 'view', 'triggerDispPointAdditionSetup', 'after');
 		$oModuleController->insertTrigger('document.updateReadedCount', 'point', 'controller', 'triggerUpdateReadedCount', 'after');
 		// Add a trigger for voting up and down 2008.05.13 haneul
@@ -121,6 +122,7 @@ class point extends ModuleObject
 			if(!$oModuleModel->getTrigger('file.downloadFile', 'point', 'controller', 'triggerBeforeDownloadFile', 'before')) return true;
 			if(!$oModuleModel->getTrigger('file.downloadFile', 'point', 'controller', 'triggerDownloadFile', 'after')) return true;
 			if(!$oModuleModel->getTrigger('member.doLogin', 'point', 'controller', 'triggerAfterLogin', 'after')) return true;
+			if(!$oModuleModel->getTrigger('member.deleteGroup', 'point', 'controller', 'triggerDeleteGroup', 'after')) return true;
 			if(!$oModuleModel->getTrigger('module.dispAdditionSetup', 'point', 'view', 'triggerDispPointAdditionSetup', 'after')) return true;
 			if(!$oModuleModel->getTrigger('document.updateReadedCount', 'point', 'controller', 'triggerUpdateReadedCount', 'after')) return true;
 			// Add a trigger for voting up and down 2008.05.13 haneul
@@ -169,6 +171,8 @@ class point extends ModuleObject
 			$oModuleController->insertTrigger('file.downloadFile', 'point', 'controller', 'triggerDownloadFile', 'after');
 		if(!$oModuleModel->getTrigger('member.doLogin', 'point', 'controller', 'triggerAfterLogin', 'after'))
 			$oModuleController->insertTrigger('member.doLogin', 'point', 'controller', 'triggerAfterLogin', 'after');
+		if(!$oModuleModel->getTrigger('member.deleteGroup', 'point', 'controller', 'triggerDeleteGroup', 'after'))
+			$oModuleController->insertTrigger('member.deleteGroup', 'point', 'controller', 'triggerDeleteGroup', 'after');
 		if(!$oModuleModel->getTrigger('module.dispAdditionSetup', 'point', 'view', 'triggerDispPointAdditionSetup', 'after')) 
 			$oModuleController->insertTrigger('module.dispAdditionSetup', 'point', 'view', 'triggerDispPointAdditionSetup', 'after');
 		if(!$oModuleModel->getTrigger('document.updateReadedCount', 'point', 'controller', 'triggerUpdateReadedCount', 'after')) 
