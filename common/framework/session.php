@@ -11,8 +11,6 @@ class Session
 	 * Properties for internal use only.
 	 */
 	protected static $_started = false;
-	protected static $_must_create = false;
-	protected static $_must_refresh = false;
 	
 	/**
 	 * Get a session variable.
@@ -22,7 +20,17 @@ class Session
 	 */
 	public static function get($key)
 	{
-		
+		$data = $_SESSION;
+		$key = explode('.', $key);
+		foreach ($key as $step)
+		{
+			if ($key === '' || !isset($data[$step]))
+			{
+				return null;
+			}
+			$data = $data[$step];
+		}
+		return $data;
 	}
 	
 	/**
@@ -34,7 +42,13 @@ class Session
 	 */
 	public static function set($key, $value)
 	{
-		
+		$data = &$_SESSION;
+		$key = explode('.', $key);
+		foreach ($key as $step)
+		{
+			$data = &$data[$step];
+		}
+		$data = $value;
 	}
 	
 	/**
@@ -43,11 +57,140 @@ class Session
 	 * This method is called automatically at Rhymix startup.
 	 * There is usually no need to call it manually.
 	 *
+	 * @param bool $relax_key_checks (optional)
 	 * @return bool
 	 */
-	public static function start()
+	public static function start($relax_key_checks = false)
 	{
+		// Do not start the session if it is already started.
+		if (self::$_started)
+		{
+			return false;
+		}
 		
+		// Set session parameters.
+        list($lifetime, $refresh_interval, $domain, $path) = self::_getParams();
+        ini_set('session.gc_maxlifetime', $lifetime + 28800);
+        ini_set('session.use_cookies', 1);
+        ini_set('session.use_only_cookies', 1);
+        ini_set('session.use_strict_mode', 1);
+        session_set_cookie_params($lifetime, $path, $domain, false, false);
+		session_name(Config::get('session.name') ?: session_name());
+		
+		// Start the PHP native session.
+		if (!session_start())
+		{
+			return false;
+		}
+		
+		// Fetch session keys.
+		list($key1, $key2) = self::_getKeys();
+		$must_create = $must_refresh = $must_resend_keys = false;
+		
+		// Validate the HTTP key.
+		if (isset($_SESSION['RHYMIX']) && $_SESSION['RHYMIX'])
+		{
+			if ($_SESSION['RHYMIX']['keys'][$domain]['key1'] === $key1)
+			{
+				// OK
+			}
+			elseif ($_SESSION['RHYMIX']['keys'][$domain]['key1_prev'] === $key1)
+			{
+				$must_resend_keys = true;
+			}
+			elseif (!$relax_key_checks)
+			{
+				unset($_SESSION['RHYMIX']);
+				$must_create = true;
+			}
+		}
+		else
+		{
+			$must_create = true;
+		}
+		
+		// Validate the SSL key.
+		if (!$must_create && \RX_SSL)
+		{
+			if (!isset($_SESSION['RHYMIX']['keys'][$domain]['key2']))
+			{
+				$must_refresh = true;
+			}
+			elseif ($_SESSION['RHYMIX']['keys'][$domain]['key2'] === $key2)
+			{
+				// OK
+			}
+			elseif ($_SESSION['RHYMIX']['keys'][$domain]['key2_prev'] === $key2)
+			{
+				$must_resend_keys = true;
+			}
+			elseif (!$relax_key_checks)
+			{
+				unset($_SESSION['RHYMIX']);
+				$must_create = true;
+			}
+		}
+		
+		// Check the IP address.
+		if (!$must_create && !Filters\IpFilter::inRange(\RX_CLIENT_IP, $_SESSION['RHYMIX']['ipaddress']))
+		{
+			$must_create = true;
+		}
+		
+		// Check the refresh interval.
+		if (!$must_create && $_SESSION['RHYMIX']['keys'][$domain]['key1_time'] < time() - $refresh_interval && !$relax_key_checks)
+		{
+			$must_refresh = true;
+		}
+		elseif (!$must_create && \RX_SSL && $_SESSION['RHYMIX']['keys'][$domain]['key2_time'] < time() - $refresh_interval && !$relax_key_checks)
+		{
+			$must_refresh = true;
+		}
+		
+		// Create or refresh the session if needed.
+		if ($must_create)
+		{
+			return self::create();
+		}
+		elseif ($must_refresh)
+		{
+			return self::refresh();
+		}
+		elseif ($must_resend_keys)
+		{
+			return self::_setKeys();
+		}
+		else
+		{
+			return true;
+		}
+	}
+	
+	/**
+	 * Create the data structure for a new Rhymix session.
+	 * 
+	 * This method is called automatically by start() when needed.
+	 * 
+	 * @return bool
+	 */
+	public static function create()
+	{
+		// Ensure backward compatibility with XE session.
+		$member_srl = $_SESSION['member_srl'] ?: false;
+		$_SESSION['is_logged'] = (bool)$member_srl;
+		
+		// Create the data structure for a new Rhymix session.
+		$_SESSION['RHYMIX'] = array();
+		$_SESSION['RHYMIX']['login'] = $_SESSION['member_srl'] = $member_srl;
+		$_SESSION['RHYMIX']['ipaddress'] = $_SESSION['ipaddress'] = \RX_CLIENT_IP;
+		$_SESSION['RHYMIX']['useragent'] = isset($_SERVER['HTTP_USER_AGENT']) ? $_SERVER['HTTP_USER_AGENT'] : '';
+		$_SESSION['RHYMIX']['language'] = \Context::getLangType();
+		$_SESSION['RHYMIX']['timezone'] = DateTime::getTimezoneForCurrentUser();
+		$_SESSION['RHYMIX']['secret'] = Security::getRandom(32, 'alnum');
+		$_SESSION['RHYMIX']['tokens'] = array();
+		
+		// Pass control to refresh() to generate security keys.
+		return self::refresh();
 	}
 	
 	/**
@@ -60,7 +203,36 @@ class Session
 	 */
 	public static function refresh()
 	{
+		// Get session parameters.
+		list($lifetime, $refresh_interval, $domain, $path) = self::_getParams();
 		
+		// Reset the trusted information.
+		if (!isset($_SESSION['RHYMIX']['keys'][$domain]['trusted']))
+		{
+			$_SESSION['RHYMIX']['keys'][$domain]['trusted'] = 0;
+		}
+		
+		// Create or refresh the HTTP-only key.
+		if (isset($_SESSION['RHYMIX']['keys'][$domain]['key1']))
+		{
+			$_SESSION['RHYMIX']['keys'][$domain]['key1_prev'] = $_SESSION['RHYMIX']['keys'][$domain]['key1'];
+		}
+		$_SESSION['RHYMIX']['keys'][$domain]['key1'] = Security::getRandom(24, 'alnum');
+		$_SESSION['RHYMIX']['keys'][$domain]['key1_time'] = time();
+		
+		// Create or refresh the HTTPS-only key.
+		if (\RX_SSL)
+		{
+			if (isset($_SESSION['RHYMIX']['keys'][$domain]['key2']))
+			{
+				$_SESSION['RHYMIX']['keys'][$domain]['key2_prev'] = $_SESSION['RHYMIX']['keys'][$domain]['key2'];
+			}
+			$_SESSION['RHYMIX']['keys'][$domain]['key2'] = Security::getRandom(24, 'alnum');
+			$_SESSION['RHYMIX']['keys'][$domain]['key2_time'] = time();
+		}
+		
+		// Pass control to _setKeys() to send the keys to the client.
+		return self::_setKeys();
 	}
 	
 	/**
@@ -73,7 +245,8 @@ class Session
 	 */
 	public static function close()
 	{
-		
+		self::$_started = false;
+		session_write_close();
 	}
 	
 	/**
@@ -85,7 +258,10 @@ class Session
 	 */
 	public static function destroy()
 	{
-		
+		unset($_SESSION['RHYMIX']);
+		self::$_started = false;
+		self::_setKeys();
+		session_destroy();
 	}
 	
 	/**
@@ -95,12 +271,22 @@ class Session
 	 * It returns true on success and false on failure.
 	 * 
 	 * @param int $member_srl
-	 * @param bool $is_admin
 	 * @return bool
 	 */
-	public static function login($member_srl, $is_admin = false)
+	public static function login($member_srl)
 	{
+		if (is_object($member_srl) && isset($member_srl->member_srl))
+		{
+			$member_srl = $member_srl->member_srl;
+		}
+		if ($member_srl < 1)
+		{
+			return false;
+		}
 		
+		$_SESSION['RHYMIX']['login'] = $_SESSION['member_srl'] = $member_srl;
+		$_SESSION['is_logged'] = (bool)$member_srl;
+		self::refresh();
 	}
 	
 	/**
@@ -112,7 +298,9 @@ class Session
 	 */
 	public static function logout()
 	{
-		
+		$_SESSION['RHYMIX']['login'] = $_SESSION['member_srl'] = false;
+		$_SESSION['is_logged'] = false;
+		self::refresh();
 	}
 	
 	/**
@@ -124,7 +312,7 @@ class Session
 	 */
 	public static function isMember()
 	{
-		
+		return ($_SESSION['member_srl'] > 0 && $_SESSION['RHYMIX']['login'] > 0);
 	}
 	
 	/**
@@ -150,7 +338,18 @@ class Session
 	 */
 	public static function isTrusted()
 	{
+		// Get session parameters.
+		list($lifetime, $refresh_interval, $domain, $path) = self::_getParams();
 		
+		// Check the 'trusted' parameter.
+		if ($_SESSION['RHYMIX']['keys'][$domain]['trusted'] > time())
+		{
+			return true;
+		}
+		else
+		{
+			return false;
+		}
 	}
 	
 	/**
@@ -162,7 +361,7 @@ class Session
 	 */
 	public static function getMemberSrl()
 	{
-		
+		return $_SESSION['member_srl'] ?: ($_SESSION['RHYMIX']['login'] ?: false);
 	}
 	
 	/**
@@ -187,7 +386,7 @@ class Session
 	 */
 	public static function getLanguage()
 	{
-		
+		return isset($_SESSION['RHYMIX']['language']) ? $_SESSION['RHYMIX']['language'] : \Context::getLangType();
 	}
 	
 	/**
@@ -198,7 +397,7 @@ class Session
 	 */
 	public static function setLanguage($language)
 	{
-		
+		$_SESSION['RHYMIX']['language'] = $language;
 	}
 	
 	/**
@@ -211,7 +410,7 @@ class Session
 	 */
 	public static function getTimezone()
 	{
-		
+		return DateTime::getTimezoneForCurrentUser();
 	}
 	
 	/**
@@ -222,7 +421,7 @@ class Session
 	 */
 	public static function setTimezone($timezone)
 	{
-		
+		$_SESSION['RHYMIX']['timezone'] = $timezone;
 	}
 	
 	/**
@@ -235,7 +434,19 @@ class Session
 	 */
 	public static function setTrusted($duration = 300)
 	{
+		// Get session parameters.
+		list($lifetime, $refresh_interval, $domain, $path) = self::_getParams();
 		
+		// Update the 'trusted' parameter if the current user is logged in.
+		if (isset($_SESSION['RHYMIX']['keys'][$domain]) && $_SESSION['RHYMIX']['login'])
+		{
+			$_SESSION['RHYMIX']['keys'][$domain]['trusted'] = time() + $duration;
+			return true;
+		}
+		else
+		{
+			return false;
+		}
 	}
 	
 	/**
@@ -249,7 +460,9 @@ class Session
 	 */
 	public static function createToken($key = null)
 	{
-		
+		$token_id = Security::getRandom(16, 'alnum');
+		$_SESSION['RHYMIX']['tokens'][$token_id] = strval($key);
+		return $token_id;
 	}
 	
 	/**
@@ -263,7 +476,14 @@ class Session
 	 */
 	public static function verifyToken($token, $key = null)
 	{
-		
+		if (isset($_SESSION['RHYMIX']['tokens'][$token_id]) && $_SESSION['RHYMIX']['tokens'][$token_id] === strval($key))
+		{
+			return true;
+		}
+		else
+		{
+			return false;
+		}
 	}
 	
 	/**
@@ -275,7 +495,15 @@ class Session
 	 */
 	public static function invalidateToken($token)
 	{
-		
+		if (isset($_SESSION['RHYMIX']['tokens'][$token_id]))
+		{
+			unset($_SESSION['RHYMIX']['tokens'][$token_id]);
+			return true;
+		}
+		else
+		{
+			return false;
+		}
 	}
 	
 	/**
@@ -289,7 +517,8 @@ class Session
 	 */
 	public static function encrypt($plaintext)
 	{
-		
+		$key = $_SESSION['RHYMIX']['secret'] . Config::get('crypto.encryption_key');
+		return Security::encrypt($plaintext, $key);
 	}
 	
 	/**
@@ -303,6 +532,76 @@ class Session
 	 */
 	public static function decrypt($ciphertext)
 	{
+		$key = $_SESSION['RHYMIX']['secret'] . Config::get('crypto.encryption_key');
+		return Security::encrypt($ciphertext, $key);
+	}
+	
+	/**
+	 * Get session parameters.
+	 * 
+	 * @return array
+	 */
+	protected static function _getParams()
+	{
+        $lifetime = Config::get('session.lifetime');
+		$refresh = Config::get('session.refresh') ?: 300;
+        $domain = Config::get('session.domain') ?: (ini_get('session.cookie_domain') ?: preg_replace('/:\\d+$/', '', $_SERVER['HTTP_HOST']));
+        $path = Config::get('session.path') ?: ini_get('session.cookie_path');
+        return array($lifetime, $refresh, $domain, $path);
+	}
+	
+	/**
+	 * Get session keys.
+	 * 
+	 * @return array
+	 */
+	protected static function _getKeys()
+	{
+		// Initialize keys.
+		$key1 = $key2 = null;
 		
+		// Fetch and validate the HTTP-only key.
+		if (isset($_COOKIE['rx_sesskey1']) && ctype_alnum($_COOKIE['rx_sesskey1']) && strlen($_COOKIE['rx_sesskey1']) === 24)
+		{
+			$key1 = $_COOKIE['rx_sesskey1'];
+		}
+		
+		// Fetch and validate the HTTPS-only key.
+		if (isset($_COOKIE['rx_sesskey2']) && ctype_alnum($_COOKIE['rx_sesskey2']) && strlen($_COOKIE['rx_sesskey2']) === 24)
+		{
+			$key2 = $_COOKIE['rx_sesskey2'];
+		}
+		return array($key1, $key1 === null ? null : $key2);
+	}
+	
+	/**
+	 * Set session keys.
+	 * 
+	 * @return bool
+	 */
+	protected static function _setKeys()
+	{
+		// Get session parameters.
+		list($lifetime, $refresh_interval, $domain, $path) = self::_getParams();
+		$lifetime = $lifetime ? ($lifetime + time()) : 0;
+		
+		// Set or destroy the HTTP-only key.
+		if (isset($_SESSION['RHYMIX']['keys'][$domain]['key1']))
+		{
+			setcookie('rx_sesskey1', $_SESSION['RHYMIX']['keys'][$domain]['key1'], $lifetime, $path, $domain, false, true);
+			$_COOKIE['rx_sesskey1'] = $_SESSION['RHYMIX']['keys'][$domain]['key1'];
+		}
+		else
+		{
+			setcookie('rx_sesskey1', 'deleted', time() - 86400, $path, $domain, false, true);
+			unset($_COOKIE['rx_sesskey1']);
+		}
+		
+		// Set or delete the HTTPS-only key.
+		if (\RX_SSL && isset($_SESSION['RHYMIX']['keys'][$domain]['key2']))
+		{
+			setcookie('rx_sesskey2', $_SESSION['RHYMIX']['keys'][$domain]['key2'], $lifetime, $path, $domain, true, true);
+			$_COOKIE['rx_sesskey2'] = $_SESSION['RHYMIX']['keys'][$domain]['key2'];
+		}
 	}
 }
