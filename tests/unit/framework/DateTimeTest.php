@@ -22,11 +22,11 @@ class DateTimeTest extends \Codeception\TestCase\Test
 	public function testZgap()
 	{
 		// Test zgap() when the current user's time zone is different from the system default.
-		$_SESSION['timezone'] = 'Etc/UTC';
+		$_SESSION['RHYMIX']['timezone'] = 'Etc/UTC';
 		$this->assertEquals(-10800, zgap());
 		
 		// Test zgap() when the current user's time zone is the same as the system default.
-		unset($_SESSION['timezone']);
+		unset($_SESSION['RHYMIX']['timezone']);
 		$this->assertEquals(21600, zgap());
 	}
 	
@@ -80,11 +80,11 @@ class DateTimeTest extends \Codeception\TestCase\Test
 		$timestamp = 1454000000;
 		
 		// Test when the display time zone is different from the internal time zone.
-		$_SESSION['timezone'] = 'America/Los_Angeles';
+		$_SESSION['RHYMIX']['timezone'] = 'America/Los_Angeles';
 		$this->assertEquals('20160128085320', getDisplayDateTime($timestamp));
 		
 		// Test when the display time zone is the same as the internal time zone.
-		$_SESSION['timezone'] = 'Etc/GMT-3';
+		$_SESSION['RHYMIX']['timezone'] = 'Etc/GMT-3';
 		$this->assertEquals('20160128195320', getDisplayDateTime($timestamp));
 	}
 	
@@ -109,11 +109,11 @@ class DateTimeTest extends \Codeception\TestCase\Test
 	public function testGetTimezoneForCurrentUser()
 	{
 		// Test when the current user's time zone is different from the system default.
-		$_SESSION['timezone'] = 'Pacific/Auckland';
+		$_SESSION['RHYMIX']['timezone'] = 'Pacific/Auckland';
 		$this->assertEquals('Pacific/Auckland', Rhymix\Framework\DateTime::getTimezoneForCurrentUser());
 		
 		// Test when the current user's time zone is the same as the system default.
-		unset($_SESSION['timezone']);
+		unset($_SESSION['RHYMIX']['timezone']);
 		$this->assertEquals('Asia/Seoul', Rhymix\Framework\DateTime::getTimezoneForCurrentUser());
 	}
 	
@@ -123,19 +123,19 @@ class DateTimeTest extends \Codeception\TestCase\Test
 		$timestamp_summer = $timestamp_winter - (86400 * 184);
 		
 		// Test when the current user's time zone is in the Northern hemisphere with DST.
-		$_SESSION['timezone'] = 'America/Chicago';
+		$_SESSION['RHYMIX']['timezone'] = 'America/Chicago';
 		$this->assertEquals('20160128 105320', Rhymix\Framework\DateTime::formatTimestampForCurrentUser('Ymd His', $timestamp_winter));
 		$this->assertEquals('20150728 115320', Rhymix\Framework\DateTime::formatTimestampForCurrentUser('Ymd His', $timestamp_summer));
 		$this->assertEquals('20150728 115320', getDisplayDateTime($timestamp_summer, 'Ymd His'));
 		
 		// Test when the current user's time zone is in the Southern hemisphere with DST.
-		$_SESSION['timezone'] = 'Pacific/Auckland';
+		$_SESSION['RHYMIX']['timezone'] = 'Pacific/Auckland';
 		$this->assertEquals('20160129 055320', Rhymix\Framework\DateTime::formatTimestampForCurrentUser('Ymd His', $timestamp_winter));
 		$this->assertEquals('20150729 045320', Rhymix\Framework\DateTime::formatTimestampForCurrentUser('Ymd His', $timestamp_summer));
 		$this->assertEquals('20150729 045320', getDisplayDateTime($timestamp_summer, 'Ymd His'));
 		
 		// Test when the current user's time zone is the same as the system default without DST.
-		unset($_SESSION['timezone']);
+		unset($_SESSION['RHYMIX']['timezone']);
 		$this->assertEquals('20160129 015320', Rhymix\Framework\DateTime::formatTimestampForCurrentUser('Ymd His', $timestamp_winter));
 		$this->assertEquals('20150729 015320', Rhymix\Framework\DateTime::formatTimestampForCurrentUser('Ymd His', $timestamp_summer));
 		$this->assertEquals('20150729 015320', getDisplayDateTime($timestamp_summer, 'Ymd His'));
