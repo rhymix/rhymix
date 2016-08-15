@@ -11,6 +11,7 @@ class Session
 	 * Properties for internal use only.
 	 */
 	protected static $_started = false;
+	protected static $_member_info = false;
 	
 	/**
 	 * Get a session variable.
@@ -83,6 +84,9 @@ class Session
 			return false;
 		}
 		
+		// Mark the session as started.
+		self::$_started = true;
+		
 		// Fetch session keys.
 		list($key1, $key2) = self::_getKeys();
 		$must_create = $must_refresh = $must_resend_keys = false;
@@ -131,12 +135,6 @@ class Session
 			}
 		}
 		
-		// Check the IP address.
-		if (!$must_create && !Filters\IpFilter::inRange(\RX_CLIENT_IP, $_SESSION['RHYMIX']['ipaddress']))
-		{
-			$must_create = true;
-		}
-		
 		// Check the refresh interval.
 		if (!$must_create && $_SESSION['RHYMIX']['keys'][$domain]['key1_time'] < time() - $refresh_interval && !$relax_key_checks)
 		{
@@ -178,6 +176,7 @@ class Session
 		// Ensure backward compatibility with XE session.
 		$member_srl = $_SESSION['member_srl'] ?: false;
 		$_SESSION['is_logged'] = (bool)$member_srl;
+		$_SESSION['is_admin'] = '';
 		
 		// Create the data structure for a new Rhymix session.
 		$_SESSION['RHYMIX'] = array();
@@ -300,7 +299,17 @@ class Session
 	{
 		$_SESSION['RHYMIX']['login'] = $_SESSION['member_srl'] = false;
 		$_SESSION['is_logged'] = false;
-		self::refresh();
+		self::destroy();
+	}
+	
+	/**
+	 * Check if the session has been started.
+	 * 
+	 * @return bool
+	 */
+	public static function isStarted()
+	{
+		return self::$_started;
 	}
 	
 	/**
@@ -324,7 +333,8 @@ class Session
 	 */
 	public static function isAdmin()
 	{
-		
+		$member_info = self::getMemberInfo();
+		return ($member_info && $member_info->is_admin === 'Y');
 	}
 	
 	/**
@@ -373,7 +383,21 @@ class Session
 	 */
 	public static function getMemberInfo()
 	{
+		// Return false if the current user is not logged in.
+		$member_srl = self::getMemberSrl();
+		if (!$member_srl)
+		{
+			return false;
+		}
 		
+		// Create a member info object.
+		if (!self::$_member_info)
+		{
+			!self::$_member_info = getModel('member')->getMemberInfoByMemberSrl($member_srl);
+		}
+		
+		// Return the member info object.
+		return self::$_member_info;
 	}
 	
 	/**

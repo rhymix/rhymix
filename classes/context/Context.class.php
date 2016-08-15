@@ -338,7 +338,7 @@ class Context
 					array(&$oSessionController, 'open'), array(&$oSessionController, 'close'), array(&$oSessionModel, 'read'), array(&$oSessionController, 'write'), array(&$oSessionController, 'destroy'), array(&$oSessionController, 'gc')
 			);
 		}
-
+		
 		// start session if it was previously started
 		$session_name = session_name();
 		$session_id = NULL;
@@ -354,7 +354,8 @@ class Context
 		if($session_id !== NULL || !config('session.delay'))
 		{
 			$this->setCacheControl(0, false);
-			session_start();
+			$relax_key_checks = ($this->act === 'procFileUpload' && preg_match('/shockwave\s?flash/i', $_SERVER['HTTP_USER_AGENT']));
+			Rhymix\Framework\Session::start($relax_key_checks);
 		}
 		else
 		{
@@ -376,7 +377,7 @@ class Context
 			if($oMemberController && $oMemberModel)
 			{
 				// if signed in, validate it.
-				if($oMemberModel->isLogged())
+				if(Rhymix\Framework\Session::getMemberSrl())
 				{
 					$oMemberController->setSessionInfo();
 				}
@@ -385,12 +386,9 @@ class Context
 				{
 					$oMemberController->doAutologin();
 				}
-
+				
 				self::set('is_logged', $oMemberModel->isLogged());
-				if($oMemberModel->isLogged())
-				{
-					self::set('logged_info', $oMemberModel->getLoggedInfo());
-				}
+				self::set('logged_info', $oMemberModel->getLoggedInfo());
 			}
 		}
 		
@@ -428,7 +426,7 @@ class Context
 	 */
 	public static function getSessionStatus()
 	{
-		return (session_id() !== '');
+		return Rhymix\Framework\Session::isStarted();
 	}
 
 	/**
@@ -446,8 +444,14 @@ class Context
 		{
 			$tempSession = $_SESSION;
 			unset($_SESSION);
-			session_start();
-			$_SESSION = $tempSession;
+			Rhymix\Framework\Session::start();
+			foreach ($tempSession as $key => $val)
+			{
+				if ($key !== 'RHYMIX')
+				{
+					$_SESSION[$key] = $val;
+				}
+			}
 			return true;
 		}
 		return false;
@@ -469,7 +473,7 @@ class Context
 		// Check session status and close it if open.
 		if (self::checkSessionStatus())
 		{
-			session_write_close();
+			Rhymix\Framework\Session::close();
 		}
 	}
 

@@ -200,36 +200,9 @@ class memberModel extends member
 	/**
 	 * @brief Check if logged-in
 	 */
-	function isLogged() {
-		if($_SESSION['is_logged'])
-		{
-			if(Mobile::isFromMobilePhone())
-			{
-				return true;
-			}
-			elseif(filter_var($_SESSION['ipaddress'], FILTER_VALIDATE_IP, FILTER_FLAG_IPV6))
-			{
-				// IPv6: require same /48
-				if(strncmp(inet_pton($_SESSION['ipaddress']), inet_pton($_SERVER['REMOTE_ADDR']), 6) == 0)
-				{
-					return true;
-				}
-			}
-			else
-			{
-				// IPv4: require same /24
-				if(ip2long($_SESSION['ipaddress']) >> 8 == ip2long($_SERVER['REMOTE_ADDR']) >> 8)
-				{
-					return true;
-				}
-			}
-		}
-
-		if(Context::getSessionStatus())
-		{
-			$_SESSION['is_logged'] = false;
-		}
-		return false;
+	function isLogged()
+	{
+		return Rhymix\Framework\Session::getMemberSrl() ? true : false;
 	}
 
 	/**
@@ -238,7 +211,7 @@ class memberModel extends member
 	function getLoggedInfo()
 	{
 		// Return session info if session info is requested and the user is logged-in
-		if($this->isLogged())
+		if(Rhymix\Framework\Session::getMemberSrl())
 		{
 			$logged_info = Context::get('logged_info');
 			// Admin/Group list defined depending on site_module_info
@@ -462,8 +435,7 @@ class memberModel extends member
 	 */
 	function getLoggedMemberSrl()
 	{
-		if(!$this->isLogged()) return;
-		return $_SESSION['member_srl'];
+		return Rhymix\Framework\Session::getMemberSrl();
 	}
 
 	/**

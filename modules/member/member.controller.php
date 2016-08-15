@@ -101,7 +101,8 @@ class memberController extends member
 		if(!$trigger_output->toBool()) return $trigger_output;
 		
 		// Destroy session information
-		$this->destroySessionInfo();
+		Rhymix\Framework\Session::logout();
+		$this->_clearMemberCache($logged_info->member_srl);
 		
 		// Call a trigger after log-out (after)
 		ModuleHandler::triggerCall('member.doLogout', 'after', $logged_info);
@@ -111,9 +112,9 @@ class memberController extends member
 		$oModuleModel = getModel('module');
 		$config = $oModuleModel->getModuleConfig('member');
 		if($config->after_logout_url)
+		{
 			$output->redirect_url = $config->after_logout_url;
-
-		$this->_clearMemberCache($logged_info->member_srl);
+		}
 
 		return $output;
 	}
@@ -700,7 +701,7 @@ class memberController extends member
 		$output = $this->deleteMember($member_srl);
 		if(!$output->toBool()) return $output;
 		// Destroy all session information
-		$this->destroySessionInfo();
+		Rhymix\Framework\Session::logout();
 		// Return success message
 		$this->setMessage('success_leaved');
 
@@ -1844,6 +1845,7 @@ class memberController extends member
 		}
 
 		$this->setSessionInfo();
+		Rhymix\Framework\Session::login($this->memberInfo->member_srl);
 		return $output;
 	}
 
@@ -1855,11 +1857,11 @@ class memberController extends member
 		$oMemberModel = getModel('member');
 		$config = $oMemberModel->getMemberConfig();
 		// If your information came through the current session information to extract information from the users
-		if(!$this->memberInfo && $_SESSION['member_srl'] && $oMemberModel->isLogged() )
+		if(!$this->memberInfo && $member_srl = Rhymix\Framework\Session::getMemberSrl())
 		{
-			$this->memberInfo = $oMemberModel->getMemberInfoByMemberSrl($_SESSION['member_srl']);
+			$this->memberInfo = $oMemberModel->getMemberInfoByMemberSrl($member_srl);
 			// If you do not destroy the session Profile
-			if($this->memberInfo->member_srl != $_SESSION['member_srl'])
+			if($this->memberInfo->member_srl != $member_srl)
 			{
 				$this->destroySessionInfo();
 				return;
@@ -1872,11 +1874,11 @@ class memberController extends member
 			return;
 		}
 		// Log in for treatment sessions set
+		/*
 		$_SESSION['is_logged'] = true;
-		$_SESSION['ipaddress'] = $_SERVER['REMOTE_ADDR'];
-		$_SESSION['member_srl'] = $this->memberInfo->member_srl;
+		$_SESSION['member_srl'] = $_SESSION['RHYMIX']['login'] = $this->memberInfo->member_srl;
 		$_SESSION['is_admin'] = '';
-		setcookie('xe_logged', 'true', 0, '/');
+		*/
 		// Do not save your password in the session jiwojum;;
 		//unset($this->memberInfo->password);
 		// User Group Settings
@@ -2582,7 +2584,7 @@ class memberController extends member
 			$_SESSION[$key] = '';
 		}
 
-		session_destroy();
+		Rhymix\Framework\Session::destroy();
 		setcookie(session_name(), '', $_SERVER['REQUEST_TIME']-42000, '/');
 		setcookie('sso','',$_SERVER['REQUEST_TIME']-42000, '/');
 		setcookie('xeak','',$_SERVER['REQUEST_TIME']-42000, '/');
