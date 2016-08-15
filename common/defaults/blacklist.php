@@ -11,6 +11,7 @@ return array(
 	'fix_mysql_utf8' => true,
 	'member_communication' => true,
 	'seo' => true,
+	'session_shield' => true,
 	'smartphone' => true,
 	'zipperupper' => true,
 );

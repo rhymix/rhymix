@@ -70,6 +70,7 @@ $lang->msg_blacklisted_reason['errorlogger'] = 'Similar functionality can be con
 $lang->msg_blacklisted_reason['fix_mysql_utf8'] = 'The functionality that this addon used to provide is included by default in Rhymix.';
 $lang->msg_blacklisted_reason['member_communication'] = 'The functionality that this addon used to provide has been moved to the member and ncenterlite modules.';
 $lang->msg_blacklisted_reason['seo'] = 'Similar functionality can be configured in the <a href="./index.php?module=admin&act=dispAdminConfigSEO">SEO Settings</a> page.';
+$lang->msg_blacklisted_reason['session_shield'] = 'The functionality that this addon used to provide is included by default in Rhymix.';
 $lang->msg_blacklisted_reason['smartphone'] = 'This module was disabled in XE long before Rhymix even existed.';
 $lang->msg_blacklisted_reason['zipperupper'] = 'Similar functionality can be configured in the <a href="./index.php?module=admin&act=dispAdminConfigAdvanced">Advanced Settings</a> page.';
 $lang->msg_warning = 'Warning';

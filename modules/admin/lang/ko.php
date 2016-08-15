@@ -70,6 +70,7 @@ $lang->msg_blacklisted_reason['errorlogger'] = '이 모듈에서 제공하던 �
 $lang->msg_blacklisted_reason['fix_mysql_utf8'] = '이 애드온에서 제공하던 기능은 Rhymix에 포함되어 있습니다.';
 $lang->msg_blacklisted_reason['member_communication'] = '이 애드온에서 제공하던 기능은 알림센터 모듈에서 관리할 수 있습니다.';
 $lang->msg_blacklisted_reason['seo'] = '이 모듈에서 제공하던 기능은 <a href="./index.php?module=admin&act=dispAdminConfigSEO">SEO 설정</a> 페이지에서 관리할 수 있습니다.';
+$lang->msg_blacklisted_reason['session_shield'] = '이 애드온에서 제공하던 기능은 Rhymix에 포함되어 있습니다.';
 $lang->msg_blacklisted_reason['smartphone'] = '이 모듈은 XE에서도 사용되지 않고 있었습니다.';
 $lang->msg_blacklisted_reason['zipperupper'] = '이 애드온에서 제공하던 기능은 <a href="./index.php?module=admin&act=dispAdminConfigAdvanced">고급 설정</a> 페이지에서 관리할 수 있습니다.';
 $lang->msg_warning = '경고';
