@@ -484,9 +484,9 @@ class Session
 	 */
 	public static function createToken($key = null)
 	{
-		$token_id = Security::getRandom(16, 'alnum');
-		$_SESSION['RHYMIX']['tokens'][$token_id] = strval($key);
-		return $token_id;
+		$token = Security::getRandom(16, 'alnum');
+		$_SESSION['RHYMIX']['tokens'][$token] = strval($key);
+		return $token;
 	}
 	
 	/**
@@ -500,7 +500,7 @@ class Session
 	 */
 	public static function verifyToken($token, $key = null)
 	{
-		if (isset($_SESSION['RHYMIX']['tokens'][$token_id]) && $_SESSION['RHYMIX']['tokens'][$token_id] === strval($key))
+		if (isset($_SESSION['RHYMIX']['tokens'][$token]) && $_SESSION['RHYMIX']['tokens'][$token] === strval($key))
 		{
 			return true;
 		}
@@ -519,9 +519,9 @@ class Session
 	 */
 	public static function invalidateToken($token)
 	{
-		if (isset($_SESSION['RHYMIX']['tokens'][$token_id]))
+		if (isset($_SESSION['RHYMIX']['tokens'][$token]))
 		{
-			unset($_SESSION['RHYMIX']['tokens'][$token_id]);
+			unset($_SESSION['RHYMIX']['tokens'][$token]);
 			return true;
 		}
 		else
