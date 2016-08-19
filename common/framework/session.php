@@ -94,17 +94,18 @@ class Session
 		// Validate the HTTP key.
 		if (isset($_SESSION['RHYMIX']) && $_SESSION['RHYMIX'])
 		{
-			if ($_SESSION['RHYMIX']['keys'][$domain]['key1'] === $key1)
+			if ($_SESSION['RHYMIX']['keys'][$domain]['key1'] === $key1 && $key1 !== null)
 			{
 				// OK
 			}
-			elseif ($_SESSION['RHYMIX']['keys'][$domain]['key1_prev'] === $key1)
+			elseif ($_SESSION['RHYMIX']['keys'][$domain]['key1_prev'] === $key1 && $key1 !== null)
 			{
+				return 2;
 				$must_resend_keys = true;
 			}
 			elseif (!$relax_key_checks)
 			{
-				unset($_SESSION['RHYMIX']);
+				$_SESSION = array();
 				$must_create = true;
 			}
 		}
@@ -120,17 +121,17 @@ class Session
 			{
 				$must_refresh = true;
 			}
-			elseif ($_SESSION['RHYMIX']['keys'][$domain]['key2'] === $key2)
+			elseif ($_SESSION['RHYMIX']['keys'][$domain]['key2'] === $key2 && $key2 !== null)
 			{
 				// OK
 			}
-			elseif ($_SESSION['RHYMIX']['keys'][$domain]['key2_prev'] === $key2)
+			elseif ($_SESSION['RHYMIX']['keys'][$domain]['key2_prev'] === $key2 && $key2 !== null)
 			{
 				$must_resend_keys = true;
 			}
 			elseif (!$relax_key_checks)
 			{
-				unset($_SESSION['RHYMIX']);
+				$_SESSION = array();
 				$must_create = true;
 			}
 		}
@@ -259,8 +260,10 @@ class Session
 	{
 		unset($_SESSION['RHYMIX']);
 		self::$_started = false;
+		self::$_member_info = false;
 		self::_setKeys();
 		session_destroy();
+		return true;
 	}
 	
 	/**
@@ -285,7 +288,8 @@ class Session
 		
 		$_SESSION['RHYMIX']['login'] = $_SESSION['member_srl'] = $member_srl;
 		$_SESSION['is_logged'] = (bool)$member_srl;
-		self::refresh();
+		self::$_member_info = false;
+		return self::refresh();
 	}
 	
 	/**
@@ -299,7 +303,8 @@ class Session
 	{
 		$_SESSION['RHYMIX']['login'] = $_SESSION['member_srl'] = false;
 		$_SESSION['is_logged'] = false;
-		self::destroy();
+		self::$_member_info = false;
+		return self::destroy();
 	}
 	
 	/**
@@ -391,13 +396,33 @@ class Session
 		}
 		
 		// Create a member info object.
-		if (!self::$_member_info)
+		if (!self::$_member_info || self::$_member_info->member_srl != $member_srl)
 		{
-			!self::$_member_info = getModel('member')->getMemberInfoByMemberSrl($member_srl);
+			self::$_member_info = getModel('member')->getMemberInfoByMemberSrl($member_srl);
 		}
 		
 		// Return the member info object.
-		return self::$_member_info;
+		if (self::$_member_info == new \stdClass)
+		{
+			return false;
+		}
+		else
+		{
+			return self::$_member_info;
+		}
+	}
+	
+	/**
+	 * Set the member info.
+	 * 
+	 * This method is for debugging and testing purposes only.
+	 * 
+	 * @param object $member_info
+	 * @return void
+	 */
+	public static function setMemberInfo($member_info)
+	{
+		self::$_member_info = $member_info;
 	}
 	
 	/**
@@ -557,7 +582,7 @@ class Session
 	public static function decrypt($ciphertext)
 	{
 		$key = $_SESSION['RHYMIX']['secret'] . Config::get('crypto.encryption_key');
-		return Security::encrypt($ciphertext, $key);
+		return Security::decrypt($ciphertext, $key);
 	}
 	
 	/**
@@ -595,6 +620,7 @@ class Session
 		{
 			$key2 = $_COOKIE['rx_sesskey2'];
 		}
+		
 		return array($key1, $key1 === null ? null : $key2);
 	}
 	
@@ -627,5 +653,7 @@ class Session
 			setcookie('rx_sesskey2', $_SESSION['RHYMIX']['keys'][$domain]['key2'], $lifetime, $path, $domain, true, true);
 			$_COOKIE['rx_sesskey2'] = $_SESSION['RHYMIX']['keys'][$domain]['key2'];
 		}
+		
+		return true;
 	}
 }
