@@ -5,7 +5,7 @@ class SessionTest extends \Codeception\TestCase\Test
 	public function _before()
 	{
 		Rhymix\Framework\Session::close();
-		session_id('rhymix_test_session');
+		session_id('rhymix-test-session');
 		$_SESSION = array();
 		$_COOKIE = array();
 	}
@@ -13,7 +13,7 @@ class SessionTest extends \Codeception\TestCase\Test
 	public function _after()
 	{
 		Rhymix\Framework\Session::close();
-		session_id('rhymix_test_session');
+		session_id('rhymix-test-session');
 		$_SESSION = array();
 		$_COOKIE = array();
 	}
@@ -21,7 +21,7 @@ class SessionTest extends \Codeception\TestCase\Test
 	public function _failed()
 	{
 		Rhymix\Framework\Session::close();
-		session_id('rhymix_test_session');
+		session_id('rhymix-test-session');
 		$_SESSION = array();
 		$_COOKIE = array();
 	}
@@ -231,7 +231,7 @@ class SessionTest extends \Codeception\TestCase\Test
 	public function testGetSetLanguage()
 	{
 		Rhymix\Framework\Session::start();
-		$this->assertEquals(config('locale.default_language'), Rhymix\Framework\Session::getLanguage());
+		$this->assertEquals(\Context::getLangType(), Rhymix\Framework\Session::getLanguage());
 		
 		Rhymix\Framework\Session::setLanguage('ja');
 		$this->assertEquals('ja', Rhymix\Framework\Session::getLanguage());
