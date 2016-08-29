@@ -914,7 +914,7 @@ class documentItem extends Object
 		$source_file = null;
 		$is_tmp_file = false;
 
-		// Find an iamge file among attached files if exists
+		// Find an image file among attached files if exists
 		if($this->hasUploadedFiles())
 		{
 			$file_list = $this->getUploadedFiles();
