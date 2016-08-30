@@ -32,6 +32,10 @@ class board extends ModuleObject
 			$ssl_actions = array('dispBoardWrite', 'dispBoardWriteComment', 'dispBoardReplyComment', 'dispBoardModifyComment', 'dispBoardDelete', 'dispBoardDeleteComment', 'procBoardInsertDocument', 'procBoardDeleteDocument', 'procBoardInsertComment', 'procBoardDeleteComment', 'procBoardVerificationPassword');
 			Context::addSSLActions($ssl_actions);
 		}
+		if(!Context::isExistsSSLAction('dispTempSavedList') && Context::getSslStatus() == 'optional')
+		{
+			Context::addSSLAction('dispTempSavedList');
+		}
 	}
 
 	/**
