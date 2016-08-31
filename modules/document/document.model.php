@@ -222,9 +222,24 @@ class documentModel extends document
 		$obj->sort_index = $sort_check->sort_index;
 		$obj->isExtraVars = $sort_check->isExtraVars;
 
-		$this->_setSearchOption($obj, $args, $query_id, $use_division);
+		$output = ModuleHandler::triggerCall('document.getDocumentList', 'before', $obj);
+		if($output instanceof Object && !$output->toBool())
+		{
+			return $output;
+		}
 
-		if ($sort_check->isExtraVars && substr_count($obj->search_target,'extra_vars'))
+		$use_alternative_list = (isset($GLOBALS['XE_DOCUMENT_ALTERNATIVE_LIST']) && $GLOBALS['XE_DOCUMENT_ALTERNATIVE_LIST'] instanceof Object);
+		if (!$use_alternative_list)
+		{
+			$this->_setSearchOption($obj, $args, $query_id, $use_division);
+		}
+
+		if ($use_alternative_list)
+		{
+			$output = $GLOBALS['XE_DOCUMENT_ALTERNATIVE_LIST'];
+			unset($GLOBALS['XE_DOCUMENT_ALTERNATIVE_LIST']);
+		}
+		elseif ($sort_check->isExtraVars && substr_count($obj->search_target,'extra_vars'))
 		{
 			$query_id = 'document.getDocumentListWithinExtraVarsExtraSort';
 			$args->sort_index = str_replace('documents.','',$args->sort_index);
@@ -319,6 +334,7 @@ class documentModel extends document
 			}
 		}
 
+		ModuleHandler::triggerCall('document.getDocumentList', 'after', $obj);
 		return $output;
 	}
 
