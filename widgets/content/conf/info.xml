@@ -701,6 +701,11 @@
                     <name xml:lang="tr">En yeni gönderim sırası</name>
                 </options>
                 <options>
+                    <value>list_order</value>
+                    <name xml:lang="ko">문서번호 순</name>
+                    <name xml:lang="en">Article No. Order</name>
+                </options>
+                <options>
                     <value>update_order</value>
                     <name xml:lang="ko">최근 변경순</name>
                     <name xml:lang="zh-CN">最新修改顺</name>

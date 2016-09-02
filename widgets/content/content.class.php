@@ -18,7 +18,7 @@ class content extends WidgetHandler
 	function proc($args)
 	{
 		// Targets to sort
-		if(!in_array($args->order_target, array('regdate','update_order'))) $args->order_target = 'regdate';
+		if(!in_array($args->order_target, array('regdate', 'list_order', 'update_order'))) $args->order_target = 'regdate';
 		// Sort order
 		if(!in_array($args->order_type, array('asc','desc'))) $args->order_type = 'asc';
 		// Pages
