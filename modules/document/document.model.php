@@ -223,12 +223,15 @@ class documentModel extends document
 		$obj->isExtraVars = $sort_check->isExtraVars;
 		unset($obj->use_alternate_output);
 
+		// Call trigger (before)
+		// This trigger can be used to set an alternative output using a different search method
 		$output = ModuleHandler::triggerCall('document.getDocumentList', 'before', $obj);
 		if($output instanceof Object && !$output->toBool())
 		{
 			return $output;
 		}
 
+		// If an alternate output is set, use it instead of running the default queries
 		$use_alternate_otuput = (isset($obj->use_alternate_output) && $obj->use_alternate_output instanceof Object);
 		if (!$use_alternate_otuput)
 		{
@@ -335,7 +338,9 @@ class documentModel extends document
 			}
 		}
 
-		ModuleHandler::triggerCall('document.getDocumentList', 'after', $obj);
+		// Call trigger (after)
+		// This trigger can be used to modify search results
+		ModuleHandler::triggerCall('document.getDocumentList', 'after', $output);
 		return $output;
 	}
 
