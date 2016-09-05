@@ -12,8 +12,12 @@
 	</author>
 	<menus>
 		<menu name="GNB" maxdepth="2" default="true">
-			<title xml:lang="ko">사이트 중심 메뉴</title>
+			<title xml:lang="ko">상단 메뉴</title>
 			<title xml:lang="en">Global Navigation Menu</title>
+		</menu>
+		<menu name="FNB" maxdepth="1">
+			<title xml:lang="ko">하단 메뉴</title>
+			<title xml:lang="en">Footer Navigation Menu</title>
 		</menu>
 	</menus>
 	<extra_vars>

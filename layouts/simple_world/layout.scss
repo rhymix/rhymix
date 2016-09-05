@@ -206,7 +206,7 @@ body {
 	float: left;
 }
 
-.layout_menu>ul>li:first-child {
+#layout_gnb>ul>li:first-child {
 	float: right;
 
 }
@@ -231,7 +231,10 @@ body {
 .layout_menu li a:active,
 .layout_dropdown:hover .dropbtn,
 .layout_dropdown:focus .dropbtn,
-.layout_dropdown:active .dropbtn {
+.layout_dropdown:active .dropbtn,
+.language li:hover button,
+.language li:focus button,
+.language li:active button {
 	background-color: $primary-color;
 	color: layoutGrayContrast($primary-color, 0.710);
 }
@@ -247,7 +250,6 @@ body {
 	z-index: 9999999;
 	box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
 }
-
 
 .layout_menu .layout_dropdown-content a {
 	color: black;
@@ -269,7 +271,59 @@ body {
 .layout_menu .layout_dropdown:hover .layout_dropdown-content {
 	display: block;
 }
+/* Language */
+.language{
+	display: inline-block;
+	width: 100%;
+	text-align: right;
+}
 
+.language ul::before {
+	content: "";
+	display: block;
+	clear: both;
+}
+.language ul {
+	display: none;
+	float:right;
+	width:120px;
+	clear:both;
+	margin: 0;
+	padding: 0;
+	z-index: 9999999;
+	box-shadow: 0px 8px 16px 0px rgba(255,255,255,0.2);
+}
+.language .toggle{
+	background:none;
+	display: block;
+	float: right;
+	width:120px;
+	border:0;
+	color:#fff;
+	cursor:pointer;
+	vertical-align:top;
+	text-align:right;
+	padding:0;
+	height:45px;
+}
+
+.language li{
+	list-style:none;
+	background: lighten($grey, 40%);
+}
+.language li button {
+	display:block;
+	color: black;
+	background: lighten($grey, 40%);
+	padding: 12px 16px;
+	text-decoration: none;
+	width: 100%;
+	display: block;
+	text-align: left;
+	box-sizing: border-box;
+	border:0;
+	cursor:pointer;
+}
 
 /* Hamberger menu http://callmenick.com/post/animating-css-only-hamburger-menu-icons Licensed under the MIT license, http://www.opensource.org/licenses/mit-license.php Copyright 2014, Call Me Nick http://callmenick.com */
 .layout_mobile_menu {
@@ -416,7 +470,7 @@ body {
 		background-color: lighten($grey, 31%);
 	}
 
-	.layout_menu>ul>li, .layout_menu>ul>li:first-child {
+	.layout_menu>ul>li, #layout_gnb>ul>li:first-child {
 		float: none;
 	}
 
@@ -461,6 +515,16 @@ body {
 		text-align: left;
 	}
 
+	.language ul {
+		display: none;
+		float:none;
+		width:100%;
+	}
+	.language .toggle{
+		display: block;
+		float: none;
+		width:100%;
+	}
 	/* PC only */
 	.layout_pc {
 		display: none;
