@@ -217,8 +217,8 @@ body {
 	text-align: center;
 	padding: 14px 16px;
 	text-decoration: none;
-        font-size: 13px;
-        line-height: 1;
+	font-size: 13px;
+	line-height: 1;
 }
 
 .layout_menu li.active>a {
@@ -447,7 +447,7 @@ body {
 		position: relative;
 		background-color: lighten($grey, 35%);
 		color: layoutGrayContrast(lighten($grey, 35%), 0.710);
-                width: 100%;
+		width: 100%;
 		min-width: 100%;
 		box-shadow: none;
 	}
