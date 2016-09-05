@@ -277,7 +277,9 @@ body {
 	width: 100%;
 	text-align: right;
 }
-
+.language button {
+	outline: none;
+}
 .language ul::before {
 	content: "";
 	display: block;
@@ -514,7 +516,9 @@ body {
 		display: block;
 		text-align: left;
 	}
-
+	.language {
+		margin-top: 30px;
+	}
 	.language ul {
 		display: none;
 		float:none;
