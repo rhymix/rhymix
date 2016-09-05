@@ -13,7 +13,7 @@ class boardMobile extends boardView
 		if($this->module_info->list_count) $this->list_count = $this->module_info->list_count;
 		if($this->module_info->mobile_list_count) $this->list_count = $this->module_info->mobile_list_count;
 		if($this->module_info->search_list_count) $this->search_list_count = $this->module_info->search_list_count;
-		if($this->module_info->mobile_search_list_count) $this->list_count = $this->module_info->mobile_search_list_count;
+		if($this->module_info->mobile_search_list_count) $this->search_list_count = $this->module_info->mobile_search_list_count;
 		if($this->module_info->page_count) $this->page_count = $this->module_info->page_count;
 		if($this->module_info->mobile_page_count) $this->page_count = $this->module_info->mobile_page_count;
 		$this->except_notice = $this->module_info->except_notice == 'N' ? false : true;
