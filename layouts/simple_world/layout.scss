@@ -208,6 +208,7 @@ body {
 
 .layout_menu>ul>li:first-child {
 	float: right;
+
 }
 
 .layout_menu li a, .dropbtn {
@@ -216,10 +217,8 @@ body {
 	text-align: center;
 	padding: 14px 16px;
 	text-decoration: none;
-}
-
-.layout_menu>ul>li:first-child {
-	float: right;
+        font-size: 13px;
+        line-height: 1;
 }
 
 .layout_menu li.active>a {
@@ -238,7 +237,7 @@ body {
 }
 
 .layout_menu li.layout_dropdown {
-	display: inline-block;
+	display: block;
 }
 
 .layout_menu .layout_dropdown-content {
@@ -448,6 +447,7 @@ body {
 		position: relative;
 		background-color: lighten($grey, 35%);
 		color: layoutGrayContrast(lighten($grey, 35%), 0.710);
+                width: 100%;
 		min-width: 100%;
 		box-shadow: none;
 	}
