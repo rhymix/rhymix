@@ -120,9 +120,9 @@ body {
 	display: none;
 }
 
-/*.layout_footer */
+/* .layout_footer */
 .layout_footer {
-	padding:30px 10px 70px;
+	padding:10px;
 	border-top:1px solid lighten($grey, 10%);
 	background-color: darken($grey, 35%);
 	color: lighten($grey, 30%);
@@ -271,6 +271,12 @@ body {
 .layout_menu .layout_dropdown:hover .layout_dropdown-content {
 	display: block;
 }
+.layout_footer .layout_menu li a, .layout_footer  .dropbtn {
+	color: #fff;
+	font-weight: normal;
+	text-decoration: none;
+}
+
 /* Language */
 .language{
 	display: inline-block;
@@ -516,6 +522,16 @@ body {
 		display: block;
 		text-align: left;
 	}
+
+	.layout_footer .layout_menu {
+		display: block;
+		margin-bottom: 10px;
+	}
+
+	.layout_footer .layout_menu ul {
+		background-color: transparent;
+	}
+
 	.language {
 		margin-top: 30px;
 	}
