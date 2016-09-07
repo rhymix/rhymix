@@ -498,11 +498,24 @@ class ncenterliteController extends ncenterlite
 			$oDocument = Context::get('oDocument');
 			$logged_info = Context::get('logged_info');
 
-			if($document_srl && $logged_info && $config->document_read == 'Y')
+			if($document_srl && Context::get('is_logged') && $config->document_read == 'Y')
 			{
-				$args->srl = $document_srl;
-				$args->member_srl = $logged_info->member_srl;
-				$outputs = executeQuery('ncenterlite.updateNotifyReadedBySrl', $args);
+				$notify_count = getModel('ncenterlite')->_getNewCount();
+				if($notify_count)
+				{
+					$args->srl = $document_srl;
+					$args->member_srl = $logged_info->member_srl;
+					$outputs = executeQuery('ncenterlite.updateNotifyReadedBySrl', $args);
+					if($outputs->toBool())
+					{
+						//Remove flag files
+						$flag_path = \RX_BASEDIR . 'files/cache/ncenterlite/new_notify/' . getNumberingPath($args->member_srl) . $args->member_srl . '.php';
+						if(file_exists($flag_path))
+						{
+							FileHandler::removeFile($flag_path);
+						}
+					}
+				}
 			}
 
 			if($comment_srl && $document_srl && $oDocument)
@@ -574,7 +587,16 @@ class ncenterliteController extends ncenterlite
 				$args = new stdClass();
 				$args->target_srl = $message_srl;
 				$args->member_srl = $logged_info->member_srl;
-				executeQuery('ncenterlite.updateNotifyReadedByTargetSrl', $args);
+				$update_output = executeQuery('ncenterlite.updateNotifyReadedByTargetSrl', $args);
+				if($update_output->toBool())
+				{
+					//Remove flag files
+					$flag_path = \RX_BASEDIR . 'files/cache/ncenterlite/new_notify/' . getNumberingPath($args->member_srl) . $args->member_srl . '.php';
+					if(file_exists($flag_path))
+					{
+						FileHandler::removeFile($flag_path);
+					}
+				}
 			}
 		}
 
@@ -631,6 +653,15 @@ class ncenterliteController extends ncenterlite
 				$args->srl = $vars->document_srl;
 				$args->type = $this->_TYPE_DOCUMENT;
 				$output = executeQuery('ncenterlite.updateNotifyReadedBySrl', $args);
+				if($output->toBool())
+				{
+					//Remove flag files
+					$flag_path = \RX_BASEDIR . 'files/cache/ncenterlite/new_notify/' . getNumberingPath($args->member_srl) . $args->member_srl . '.php';
+					if(file_exists($flag_path))
+					{
+						FileHandler::removeFile($flag_path);
+					}
+				}
 			}
 		}
 		else if($oModule->act == 'getKinComments')
@@ -640,6 +671,15 @@ class ncenterliteController extends ncenterlite
 			$args->member_srl = $logged_info->member_srl;
 			$args->target_srl = $vars->parent_srl;
 			$output = executeQuery('ncenterlite.updateNotifyReadedByTargetSrl', $args);
+			if($output->toBool())
+			{
+				//Remove flag files
+				$flag_path = \RX_BASEDIR . 'files/cache/ncenterlite/new_notify/' . getNumberingPath($args->member_srl) . $args->member_srl . '.php';
+				if(file_exists($flag_path))
+				{
+					FileHandler::removeFile($flag_path);
+				}
+			}
 		}
 
 		return new Object();
