@@ -526,7 +526,6 @@ class ncenterliteController extends ncenterlite
 					if(array_key_exists($comment_srl, $_comment_list))
 					{
 						$url = getNotEncodedUrl('_comment_srl', '') . '#comment_' . $comment_srl;
-						$need_check_socialxe = true;
 					}
 					else
 					{
@@ -534,40 +533,10 @@ class ncenterliteController extends ncenterlite
 						if($cpage > 1)
 						{
 							$url = getNotEncodedUrl('cpage', $cpage - 1) . '#comment_' . $comment_srl;
-							$need_check_socialxe = true;
 						}
 						else
 						{
 							$url = getNotEncodedUrl('_comment_srl', '', 'cpage', '') . '#comment_' . $comment_srl;
-						}
-					}
-
-					if($need_check_socialxe)
-					{
-						$oDB = &DB::getInstance();
-						if($oDB->isTableExists('socialxe'))
-						{
-							$args = new stdClass();
-							$oModuleModel = getModel('module');
-							$module_info = $oModuleModel->getModuleInfoByDocumentSrl($document_srl);
-							$args->module_srl = $module_info->module_srl;
-							$output = executeQuery('ncenterlite.getSocialxeCount', $args);
-							if($output->data->cnt)
-							{
-								$socialxe_comment_srl = $comment_srl;
-
-								$args = new stdClass();
-								$args->comment_srl = $comment_srl;
-								$oCommentModel = getModel('comment');
-								$oComment = $oCommentModel->getComment($comment_srl);
-								$parent_srl = $oComment->get('parent_srl');
-								if($parent_srl)
-								{
-									$socialxe_comment_srl = $parent_srl;
-								}
-
-								$url = getNotEncodedUrl('_comment_srl', '', 'cpage', '', 'comment_srl', $socialxe_comment_srl) . '#comment_' . $comment_srl;
-							}
 						}
 					}
 
