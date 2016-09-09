@@ -421,7 +421,7 @@ class ncenterliteController extends ncenterlite
 		}
 
 		$args = new stdClass();
-		$args->srl = $obj->comment_srl;
+		$args->target_srl = $obj->comment_srl;
 		$output = executeQuery('ncenterlite.deleteNotifyBySrl', $args);
 		if($output->toBool())
 		{
