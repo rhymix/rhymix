@@ -1105,6 +1105,11 @@ class ncenterliteController extends ncenterlite
 
 	public static function removeFlagFile($member_srl = null)
 	{
+		if($member_srl === null)
+		{
+			return;
+		}
+
 		$flag_path = \RX_BASEDIR . 'files/cache/ncenterlite/new_notify/' . getNumberingPath($member_srl) . $member_srl . '.php';
 		if(file_exists($flag_path))
 		{
