@@ -417,7 +417,7 @@ class ncenterliteController extends ncenterlite
 
 		$notify_list = $oNcenterliteModel->getNotifyMemberSrlByCommentSrl($obj->comment_srl);
 
-		// 대댓글이 2개이상일경우 comment
+		// 대댓글의 대댓글일 경우 혹은 중복적으로 받는 경우 comment_srl 당 2개이상 notify가 생성될 수 있다.
 		$member_srls = array();
 		foreach($notify_list as $value)
 		{
