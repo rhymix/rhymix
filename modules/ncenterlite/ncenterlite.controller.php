@@ -435,11 +435,7 @@ class ncenterliteController extends ncenterlite
 			foreach($member_srls as $member_srl)
 			{
 				//Remove flag files
-				$flag_path = \RX_BASEDIR . 'files/cache/ncenterlite/new_notify/' . getNumberingPath($member_srl) . $member_srl . '.php';
-				if(file_exists($flag_path))
-				{
-					FileHandler::removeFile($flag_path);
-				}
+				self::removeFlagFile($member_srl);
 			}
 		}
 
@@ -494,11 +490,7 @@ class ncenterliteController extends ncenterlite
 			foreach($member_srls as $member_srl)
 			{
 				//Remove flag files
-				$flag_path = \RX_BASEDIR . 'files/cache/ncenterlite/new_notify/' . getNumberingPath($member_srl) . $member_srl . '.php';
-				if(file_exists($flag_path))
-				{
-					FileHandler::removeFile($flag_path);
-				}
+				self::removeFlagFile($member_srl);
 			}
 		}
 		return new Object();
