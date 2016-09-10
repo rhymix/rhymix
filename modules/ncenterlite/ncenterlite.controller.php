@@ -463,7 +463,7 @@ class ncenterliteController extends ncenterlite
 		{
 			if(!in_array($value->member_srl, $member_srls))
 			{
-				$member_srls = $value->member_srl;
+				$member_srls[] = $value->member_srl;
 			}
 		}
 
