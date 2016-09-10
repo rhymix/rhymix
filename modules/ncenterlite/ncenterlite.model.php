@@ -474,4 +474,21 @@ class ncenterliteModel extends ncenterlite
 
 		return $output->data;
 	}
+
+	function getNotifyMemberSrlByCommentSrl($comment_srl)
+	{
+		if(!$comment_srl === null)
+		{
+			return false;
+		}
+		$args = new stdClass();
+		$args->srl = $comment_srl;
+		$output = executeQueryArray('ncenterlite.getNotifyMemberSrlByCommentSrl', $args);
+		if(!$output->toBool())
+		{
+			return $output;
+		}
+
+		return $output->data;
+	}
 }

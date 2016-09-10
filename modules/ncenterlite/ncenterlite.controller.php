@@ -415,19 +415,31 @@ class ncenterliteController extends ncenterlite
 			return new Object();
 		}
 
+		$notify_list = $oNcenterliteModel->getNotifyMemberSrlByCommentSrl($obj->comment_srl);
+
+		// 대댓글이 2개이상일경우 comment
+		$member_srls = array();
+		foreach($notify_list as $value)
+		{
+			if(!in_array($value->member_srl, $member_srls))
+			{
+				$member_srls[] = $value->member_srl;
+			}
+		}
+
 		$args = new stdClass();
 		$args->srl = $obj->comment_srl;
 		$output = executeQuery('ncenterlite.deleteNotifyBySrl', $args);
 		if($output->toBool())
 		{
-			$oDocumentModel = getModel('document');
-			$oDocument = $oDocumentModel->getDocument($obj->document_srl);
-
-			//Remove flag files
-			$flag_path = \RX_BASEDIR . 'files/cache/ncenterlite/new_notify/' . getNumberingPath($oDocument->get('member_srl')) . $oDocument->get('member_srl') . '.php';
-			if(file_exists($flag_path))
+			foreach($member_srls as $member_srl)
 			{
-				FileHandler::removeFile($flag_path);
+				//Remove flag files
+				$flag_path = \RX_BASEDIR . 'files/cache/ncenterlite/new_notify/' . getNumberingPath($member_srl) . $member_srl . '.php';
+				if(file_exists($flag_path))
+				{
+					FileHandler::removeFile($flag_path);
+				}
 			}
 		}
 
