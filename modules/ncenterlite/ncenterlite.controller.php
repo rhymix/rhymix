@@ -1096,11 +1096,6 @@ class ncenterliteController extends ncenterlite
 
 	public static function removeFlagFile($member_srl = null)
 	{
-		$logged_info = Context::get('logged_info');
-		if($member_srl === null && Context::get('is_logged'))
-		{
-			$member_srl = $logged_info->member_srl;
-		}
 		$flag_path = \RX_BASEDIR . 'files/cache/ncenterlite/new_notify/' . getNumberingPath($member_srl) . $member_srl . '.php';
 		if(file_exists($flag_path))
 		{
