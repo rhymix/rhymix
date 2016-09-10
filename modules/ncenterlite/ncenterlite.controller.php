@@ -446,14 +446,9 @@ class ncenterliteController extends ncenterlite
 		$args = new stdClass();
 		$args->srl = $obj->document_srl;
 		$output = executeQuery('ncenterlite.deleteNotifyBySrl', $args);
-		if($output->toBool())
+		if(!$output->toBool())
 		{
-			//Remove flag files
-			$flag_path = \RX_BASEDIR . 'files/cache/ncenterlite/new_notify/' . getNumberingPath($args->member_srl) . $args->member_srl . '.php';
-			if(file_exists($flag_path))
-			{
-				FileHandler::removeFile($flag_path);
-			}
+			return $output;
 		}
 		return new Object();
 	}
@@ -461,6 +456,17 @@ class ncenterliteController extends ncenterlite
 	function triggerAfterMoveToTrash(&$obj)
 	{
 		$oNcenterliteModel = getModel('ncenterlite');
+		$notify_list = $oNcenterliteModel->getNotifyListByDocumentSrl($obj->document_srl);
+
+		$member_srls = array();
+		foreach($notify_list as $value)
+		{
+			if(!in_array($value->member_srl, $member_srls))
+			{
+				$member_srls = $value->member_srl;
+			}
+		}
+
 		$config = $oNcenterliteModel->getConfig();
 
 		if(empty($config->use))
@@ -473,11 +479,14 @@ class ncenterliteController extends ncenterlite
 		$output = executeQuery('ncenterlite.deleteNotifyBySrl', $args);
 		if($output->toBool())
 		{
-			//Remove flag files
-			$flag_path = \RX_BASEDIR . 'files/cache/ncenterlite/new_notify/' . getNumberingPath($args->member_srl) . $args->member_srl . '.php';
-			if(file_exists($flag_path))
+			foreach($member_srls as $member_srl)
 			{
-				FileHandler::removeFile($flag_path);
+				//Remove flag files
+				$flag_path = \RX_BASEDIR . 'files/cache/ncenterlite/new_notify/' . getNumberingPath($member_srl) . $member_srl . '.php';
+				if(file_exists($flag_path))
+				{
+					FileHandler::removeFile($flag_path);
+				}
 			}
 		}
 		return new Object();

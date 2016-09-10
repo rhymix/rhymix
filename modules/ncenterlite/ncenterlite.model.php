@@ -457,4 +457,21 @@ class ncenterliteModel extends ncenterlite
 
 		return zdate($datetime, 'Y-m-d');
 	}
+
+	function getNotifyListByDocumentSrl($document_srl = null)
+	{
+		if($document_srl === null)
+		{
+			return false;
+		}
+		$args = new stdClass();
+		$args->document_srl = $document_srl;
+		$output = executeQueryArray('ncenterlite.getNotifyListByDocumentSrl', $args);
+		if(!$output->toBool())
+		{
+			return $output;
+		}
+
+		return $output->data;
+	}
 }
