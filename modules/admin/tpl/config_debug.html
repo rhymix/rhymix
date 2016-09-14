@@ -84,6 +84,14 @@
 				<textarea name="debug_allowed_ip" id="debug_allowed_ip" rows="4" cols="42" placeholder="{$remote_addr} ({$lang->local_ip_address})" style="margin-right:10px">{$debug_allowed_ip}</textarea>
 			</div>
 		</div>
+		<div class="x_control-group">
+			<label class="x_control-label" for="debug_log_slow_widgets">{$lang->debug_write_error_log}</label>
+			<div class="x_controls">
+				<label for="debug_write_error_log_all" class="x_inline"><input type="radio" name="debug_write_error_log" id="debug_write_error_log_all" value="all" checked="checked"|cond="$debug_write_error_log=='all'" /> {$lang->debug_write_error_log_all}</label>
+				<label for="debug_write_error_log_fatal" class="x_inline"><input type="radio" name="debug_write_error_log" id="debug_write_error_log_fatal" value="fatal" checked="checked"|cond="$debug_write_error_log=='fatal' || !$debug_write_error_log" /> {$lang->debug_write_error_log_fatal}</label>
+				<label for="debug_write_error_log_none" class="x_inline"><input type="radio" name="debug_write_error_log" id="debug_write_error_log_none" value="none" checked="checked"|cond="$debug_write_error_log=='none'" /> {$lang->debug_write_error_log_none}</label>
+			</div>
+		</div>
 		<div class="x_clearfix btnArea">
 			<div class="x_pull-right">
 				<button type="submit" class="x_btn x_btn-primary">{$lang->cmd_save}</button>
