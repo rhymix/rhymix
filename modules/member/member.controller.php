@@ -102,6 +102,7 @@ class memberController extends member
 		
 		// Destroy session information
 		Rhymix\Framework\Session::logout();
+		$this->destroySessionInfo();
 		$this->_clearMemberCache($logged_info->member_srl);
 		
 		// Call a trigger after log-out (after)
@@ -1896,6 +1897,7 @@ class memberController extends member
 		// Information stored in the session login user
 		Context::set('is_logged', true);
 		Context::set('logged_info', $this->memberInfo);
+		setcookie('xe_logged', 'true', 0, '/');
 
 		// Only the menu configuration of the user (such as an add-on to the menu can be changed)
 		$this->addMemberMenu( 'dispMemberInfo', 'cmd_view_member_info');
