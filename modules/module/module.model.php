@@ -1862,6 +1862,13 @@ class moduleModel extends module
 	 */
 	function getGrant($module_info, $member_info, $xml_info = '')
 	{
+		$cache_key = sprintf('site_and_module:module_grant:%d:%d', $module_info->module_srl, $member_info->member_srl);
+		$grant = Rhymix\Framework\Cache::get($cache_key);
+		if ($grant !== null)
+		{
+			return $grant;
+		}
+		
 		$grant = new stdClass();
 
 		if(!$xml_info)
@@ -2014,6 +2021,9 @@ class moduleModel extends module
 				}
 			}
 		}
+		
+		// Set to cache and return
+		Rhymix\Framework\Cache::set($cache_key, $grant, 0, true);
 		return $grant;
 	}
 
