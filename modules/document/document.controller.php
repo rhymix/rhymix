@@ -1300,7 +1300,7 @@ class documentController extends document
 		if($oDocument->get('member_srl'))
 		{
 			// Pass after registering a session if author's information is same as the currently logged-in user's.
-			if($member_srl && $member_srl == $oDocument->get('member_srl'))
+			if($member_srl && $member_srl == abs($oDocument->get('member_srl')))
 			{
 				$_SESSION['voted_document'][$document_srl] = false;
 				return new Object(-1, $failed_voted);
@@ -1437,7 +1437,7 @@ class documentController extends document
 			$oMemberModel = getModel('member');
 			$member_srl = $oMemberModel->getLoggedMemberSrl();
 			// Pass after registering a session if author's information is same as the currently logged-in user's.
-			if($member_srl && $member_srl == $oDocument->get('member_srl'))
+			if($member_srl && $member_srl == abs($oDocument->get('member_srl')))
 			{
 				$_SESSION['declared_document'][$document_srl] = true;
 				return new Object(-1, 'failed_declared');
