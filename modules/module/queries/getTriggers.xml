@@ -9,4 +9,11 @@
         <condition operation="equal" column="trigger_name" var="trigger_name" />
         <condition operation="equal" column="called_position" var="called_position" pipe="and" />
     </conditions>
+    <navigation>
+        <index default="trigger_name" order="asc" />
+        <index default="called_position" order="asc" />
+        <index default="module" order="asc" />
+        <index default="type" order="asc" />
+        <index default="called_method" order="asc" />
+    </navigation>
 </query>
