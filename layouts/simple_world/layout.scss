@@ -217,9 +217,9 @@ header.layout_frame {
 .layout_dropdown:hover .dropbtn,
 .layout_dropdown:focus .dropbtn,
 .layout_dropdown:active .dropbtn,
-.language li:hover button,
-.language li:focus button,
-.language li:active button {
+.layout_language li:hover button,
+.layout_language li:focus button,
+.layout_language li:active button {
 	background-color: $primary-color;
 	color: layoutGrayContrast($primary-color, 0.710);
 }
@@ -256,37 +256,59 @@ header.layout_frame {
 .layout_menu .layout_dropdown:hover .layout_dropdown-content {
 	display: block;
 }
+#layout_fnb{
+	background-color: transparent;
+}
+
 .layout_footer .layout_menu li a, .layout_footer  .dropbtn {
-	color: #fff;
+	color: lighten($grey, 10%);
 	font-weight: normal;
 	text-decoration: none;
+	padding: 14px 0px;
+}
+.layout_footer .layout_menu li a>span {
+	padding: 0px 16px;
+	border-right: 1px solid lighten($grey, 10%);
+}
+.layout_footer .layout_menu li:first-child{
+	margin-left:-16px;
+}
+.layout_footer .layout_menu li:last-child a>span {
+	border-right: none;
+}
+
+.layout_footer .layout_menu li a:hover,
+.layout_footer .layout_menu li a:focus,
+.layout_footer .layout_menu li a:active{
+	background-color: transparent;
+	color: #fff;
 }
 
 /* Language */
-.language{
-	display: inline-block;
-	width: 100%;
-	text-align: right;
+.layout_language{
+	display: absolute;
+	right: 0;
+	top: 15px;
 }
-.language button {
+.layout_language button {
 	outline: none;
 }
-.language ul::before {
+.layout_language ul::before {
 	content: "";
 	display: block;
 	clear: both;
 }
-.language ul {
+.layout_language ul {
 	display: none;
 	float:right;
 	width:120px;
 	clear:both;
-	margin: 0;
+	margin: 0px 0px 10px;
 	padding: 0;
 	z-index: 9999999;
 	box-shadow: 0px 8px 16px 0px rgba(255,255,255,0.2);
 }
-.language .toggle{
+.layout_language .toggle{
 	background:none;
 	display: block;
 	float: right;
@@ -300,11 +322,11 @@ header.layout_frame {
 	height:45px;
 }
 
-.language li{
+.layout_language li{
 	list-style:none;
 	background: lighten($grey, 40%);
 }
-.language li button {
+.layout_language li button {
 	display:block;
 	color: black;
 	background: lighten($grey, 40%);
@@ -509,19 +531,26 @@ header.layout_frame {
 		margin-bottom: 10px;
 	}
 
+	.layout_footer .layout_menu li a>span {
+		border-right: none;
+	}
+	.layout_footer .layout_menu li:first-child{
+		margin-left:0px;
+	}
+
 	.layout_footer .layout_menu ul {
 		background-color: transparent;
 	}
 
-	.language {
+	.layout_language {
 		margin-top: 15px;
 	}
-	.language ul {
+	.layout_language ul {
 		display: none;
 		float:none;
 		width:100%;
 	}
-	.language .toggle{
+	.layout_language .toggle{
 		display: block;
 		float: none;
 		width:100%;
