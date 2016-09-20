@@ -133,7 +133,7 @@
 		</nav>
 		<!--// Footer Menu -->
 		<!-- Language -->
-		<div class="layout_language" cond="count($lang_supported) > 0">
+		<div class="layout_language" cond="count($lang_supported) > 1">
 			<button type="button" class="toggle">Language: {$lang_supported[$lang_type]}</button>
 			<ul class="selectLang">
 				<li loop="$lang_supported=>$key,$val" cond="$key!= $lang_type"><button type="button" onclick="doChangeLangType('{$key}');return false;">{$val}</button></li>
