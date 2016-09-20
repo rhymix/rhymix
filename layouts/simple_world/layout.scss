@@ -234,7 +234,7 @@ header.layout_frame {
 	display: none;
 	position: absolute;
 	background-color: lighten($grey, 40%);
-	z-index: 9999999;
+	z-index: 1000;
 	box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
 }
 
@@ -307,7 +307,7 @@ header.layout_frame {
 	clear:both;
 	margin: 0px 0px 10px;
 	padding: 0;
-	z-index: 9999999;
+	z-index: 1000;
 	box-shadow: 0px 8px 16px 0px rgba(255,255,255,0.2);
 }
 .layout_language .toggle{
@@ -460,7 +460,7 @@ header.layout_frame {
 		position: fixed;
 		top:0;
 		right:0;
-		z-index:99999999;
+		z-index:1001;
 		opacity: 0.9;
 		box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
 	}
