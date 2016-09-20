@@ -19,6 +19,7 @@ body {
 }
 /* Skin to content */
 .skip {
+	background-color: lighten($grey, 35%);
 	position: relative;
 	margin:0
 }
@@ -183,10 +184,11 @@ header.layout_frame {
 	padding: 0;
 	overflow: hidden;
 	max-width:960px;
-	width:100%;
 	margin:0 auto;
 }
-
+.layout_menu>ul{
+	width:100%;
+}
 .layout_menu>ul>li {
 	float: left;
 }
