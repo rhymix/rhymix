@@ -34,6 +34,7 @@ $(function() {
 		else {
 			$('#layout_gnb>ul>li:first-child .layout_dropdown-content, #layout_gnb>ul>li:first-child .layout_dropdown-content a').css('width', '').css('min-width', '');
 			var targetMenu = $(obj).attr('data-target');
+			$('html,body').animate({scrollTop:0}, 200);
 			$('#' + targetMenu).slideDown('300');
 
 			obj.classList.add("is-active");
@@ -48,7 +49,7 @@ $(function() {
 	}
 
 	// Language Select
-	$('.language>.toggle').click(function(){
+	$('.layout_language>.toggle').click(function(){
 		$('.selectLang').toggle();
 	});
 });

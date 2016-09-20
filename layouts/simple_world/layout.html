@@ -51,8 +51,8 @@
 <load target="layout.js" />
 
 <div class="skip"><a href="#content">{$lang->skip_to_content}</a></div>
-<div id="layout_canvas">
-	<header class="layout_header">
+<header class="layout_frame">
+	<div class="layout_header layout_canvas">
 		<h1>
 			<a href="<!--@if($layout_info->logo_url)-->{$layout_info->logo_url}<!--@elseif(Context::getDefaultUrl())-->{Context::getDefaultUrl()}<!--@else-->{getUrl('')}<!--@end-->" id="siteTitle">
 				<block cond="!Context::getSiteTitle() && !$layout_info->LOGO_IMG && !$layout_info->LOGO_TEXT">Rhymix</block>
@@ -79,48 +79,50 @@
 				<!--// Search -->
 			</div>
 		</div>
-		<!-- Menu -->
-		<nav class="layout_menu" id="layout_gnb">
-			<ul>
-				<li class="layout_dropdown">
-					<a href="{getUrl('act', 'dispMemberLoginForm')}" cond="!$is_logged">{sprintf($lang->simple_hello, $lang->simple_guest)}</a>
-					<ul class="layout_dropdown-content" cond="!$is_logged">
-						<li><a href="{getUrl('act', 'dispMemberLoginForm')}">{$lang->cmd_login}...</a></li>
-						<li><a href="{getUrl('act', 'dispMemberSignUpForm')}" cond="$member_config->enable_join === 'Y'">{$lang->cmd_signup}...</a></li>
-					</ul>
-					<a href="{getUrl('act', 'dispMemberInfo')}" cond="$is_logged">{sprintf($lang->simple_hello, $logged_info->nick_name)}</a>
-					<ul class="layout_dropdown-content" cond="$is_logged">
-						<li><a href="{getUrl('act', 'dispMemberInfo')}">{$lang->cmd_view_member_info}</a></li>
-						<li cond="$logged_info->is_admin == 'Y'">
-							<a href="{getUrl('', 'module','admin')}">{$lang->cmd_management}</a>
-						</li>
-						<li><a href="{getUrl('act', 'dispMemberLogout')}">{$lang->cmd_logout}</a></li>
-					</ul>
-				</li>
-				<li loop="$GNB->list=>$key1,$val1" class="<!--@if($val1['selected'])-->active <!--@endif--><!--@if($val1['list'])-->layout_dropdown<!--@endif-->">
-					<a href="{$val1['href']}" target="_blank"|cond="$val1['open_window']=='Y'"><span>{$val1['link']}</span></a>
-					<ul cond="$val1['list']" class="layout_dropdown-content">
-						<li loop="$val1['list']=>$key2,$val2" class="active"|cond="$val2['selected']"><a href="{$val2['href']}" target="_blank"|cond="$val2['open_window']=='Y'">{$val2['link']}</a></li>
-					</ul>
-				</li>
-				<li id="layout_search_link">
-					<a href="{getUrl('vid', $vid, 'mid', $mid, 'act', 'IS')}"><span>{$lang->cmd_search}</span></a>
-				</li>
-			</ul>
-		</nav>
-		<!--// Menu -->
-	</header>
-	<div class="layout_container">
-		<!--// VISUAL -->
-		<div class="layout_body">
-			<!-- CONTENT -->
-			<div class="layout_content" id="content">
-				{$content}
-			</div>
-			<!--// CONTENT -->
-		</div>
 	</div>
-	<footer class="layout_footer">
+	<!-- Menu -->
+	<nav class="layout_frame layout_menu" id="layout_gnb">
+		<ul>
+			<li class="layout_dropdown">
+				<a href="{getUrl('act', 'dispMemberLoginForm')}" cond="!$is_logged">{sprintf($lang->simple_hello, $lang->simple_guest)}</a>
+				<ul class="layout_dropdown-content" cond="!$is_logged">
+					<li><a href="{getUrl('act', 'dispMemberLoginForm')}">{$lang->cmd_login}...</a></li>
+					<li><a href="{getUrl('act', 'dispMemberSignUpForm')}" cond="$member_config->enable_join === 'Y'">{$lang->cmd_signup}...</a></li>
+				</ul>
+				<a href="{getUrl('act', 'dispMemberInfo')}" cond="$is_logged">{sprintf($lang->simple_hello, $logged_info->nick_name)}</a>
+				<ul class="layout_dropdown-content" cond="$is_logged">
+					<li><a href="{getUrl('act', 'dispMemberInfo')}">{$lang->cmd_view_member_info}</a></li>
+					<li cond="$logged_info->is_admin == 'Y'">
+						<a href="{getUrl('', 'module','admin')}">{$lang->cmd_management}</a>
+					</li>
+					<li><a href="{getUrl('act', 'dispMemberLogout')}">{$lang->cmd_logout}</a></li>
+				</ul>
+			</li>
+			<li loop="$GNB->list=>$key1,$val1" class="<!--@if($val1['selected'])-->active <!--@endif--><!--@if($val1['list'])-->layout_dropdown<!--@endif-->">
+				<a href="{$val1['href']}" target="_blank"|cond="$val1['open_window']=='Y'"><span>{$val1['link']}</span></a>
+				<ul cond="$val1['list']" class="layout_dropdown-content">
+					<li loop="$val1['list']=>$key2,$val2" class="active"|cond="$val2['selected']"><a href="{$val2['href']}" target="_blank"|cond="$val2['open_window']=='Y'">{$val2['link']}</a></li>
+				</ul>
+			</li>
+			<li id="layout_search_link">
+				<a href="{getUrl('vid', $vid, 'mid', $mid, 'act', 'IS')}"><span>{$lang->cmd_search}</span></a>
+			</li>
+		</ul>
+	</nav>
+	<!--// Menu -->
+</header>
+<div class="layout_frame layout_body">
+	<!--// VISUAL -->
+	<div class="layout_body layout_canvas">
+		<!-- CONTENT -->
+		<div class="layout_content" id="content">
+			{$content}
+		</div>
+		<!--// CONTENT -->
+	</div>
+</div>
+<footer class="layout_frame layout_footer">
+	<div class="layout_footer layout_canvas">
 		<!-- Footer Menu -->
 		<nav class="layout_menu" id="layout_fnb" cond="count($FNB->list) > 0">
 			<ul>
@@ -130,14 +132,14 @@
 			</ul>
 		</nav>
 		<!--// Footer Menu -->
-		<p cond="!$layout_info->FOOTER">Powered by <a href="https://www.rhymix.org/">Rhymix</a>.</p>
-		<p cond="$layout_info->FOOTER">{$layout_info->FOOTER}</p>
 		<!-- Language -->
-		<div class="language" cond="count($lang_supported) > 0">
+		<div class="layout_language" cond="count($lang_supported) > 1">
 			<button type="button" class="toggle">Language: {$lang_supported[$lang_type]}</button>
 			<ul class="selectLang">
 				<li loop="$lang_supported=>$key,$val" cond="$key!= $lang_type"><button type="button" onclick="doChangeLangType('{$key}');return false;">{$val}</button></li>
 			</ul>
 		</div>
-	</footer>
-</div>
+		<p cond="!$layout_info->FOOTER">Powered by <a href="https://www.rhymix.org/">Rhymix</a>.</p>
+		<p cond="$layout_info->FOOTER">{$layout_info->FOOTER}</p>
+	</div>
+</footer>
