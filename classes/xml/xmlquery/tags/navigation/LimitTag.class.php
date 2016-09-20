@@ -36,6 +36,12 @@ class LimitTag
 	var $list_count;
 
 	/**
+	 * QueryArgument object
+	 * @var QueryArgument
+	 */
+	var $offset;
+
+	/**
 	 * constructor
 	 * @param object $index
 	 * @return void
@@ -58,6 +64,12 @@ class LimitTag
 			$index->list_count->attrs->default = 0;
 		$this->list_count = new QueryArgument($index->list_count);
 		$this->arguments[] = $this->list_count;
+		
+		if(isset($index->offset) && isset($index->offset->attrs))
+		{
+			$this->offset = new QueryArgument($index->offset);
+			$this->arguments[] = $this->offset;
+		}
 	}
 
 	function toString()
@@ -65,6 +77,10 @@ class LimitTag
 		if($this->page)
 		{
 			return sprintf('new Limit(${\'%s_argument\'}, ${\'%s_argument\'}, ${\'%s_argument\'})', $this->list_count->getArgumentName(), $this->page->getArgumentName(), $this->page_count->getArgumentName());
+		}
+		elseif($this->offset)
+		{
+			return sprintf('new Limit(${\'%s_argument\'}, NULL, NULL, ${\'%s_argument\'})', $this->list_count->getArgumentName(), $this->offset->getArgumentName());
 		}
 		else
 		{

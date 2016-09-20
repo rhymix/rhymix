@@ -1,0 +1,15 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<lang>
+	<item name="simple_guest">
+		<value xml:lang="ko"><![CDATA[방문자]]></value>
+		<value xml:lang="en"><![CDATA[guest]]></value>
+		<value xml:lang="jp"><![CDATA[訪問者]]></value>
+		<value xml:lang="zh-CN"><![CDATA[游客]]></value>
+	</item>
+	<item name="simple_hello">
+		<value xml:lang="ko"><![CDATA[%s님 안녕하세요!]]></value>
+		<value xml:lang="en"><![CDATA[Hello %s!]]></value>
+		<value xml:lang="jp"><![CDATA[%s様、こんにちは!]]></value>
+		<value xml:lang="zh-CN"><![CDATA[%s, 你好!]]></value>
+	</item>
+</lang>

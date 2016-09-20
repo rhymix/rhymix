@@ -38,9 +38,10 @@ class Limit
 	 * @param int $list_count
 	 * @param int $page
 	 * @param int $page_count
+	 * @param int $offset
 	 * @return void
 	 */
-	function __construct($list_count, $page = NULL, $page_count = NULL)
+	function __construct($list_count, $page = NULL, $page_count = NULL, $offset = NULL)
 	{
 		$this->list_count = $list_count;
 		if($page)
@@ -50,6 +51,10 @@ class Limit
 			$this->start = ($page_value - 1) * $list_count_value;
 			$this->page_count = $page_count;
 			$this->page = $page;
+		}
+		elseif($offset)
+		{
+			$this->start = $offset->getValue();
 		}
 	}
 
@@ -81,7 +86,7 @@ class Limit
 
 	function toString()
 	{
-		if($this->page)
+		if($this->page || $this->start)
 		{
 			return $this->start . ' , ' . $this->list_count->getValue();
 		}
