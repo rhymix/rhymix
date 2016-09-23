@@ -162,14 +162,14 @@ class documentItem extends Object
 
 	function isGranted()
 	{
-		if ($this->grant_cache !== null)
-		{
-			return $this->grant_cache;
-		}
-		
 		if ($_SESSION['own_document'][$this->document_srl])
 		{
 			return $this->grant_cache = true;
+		}
+		
+		if ($this->grant_cache !== null)
+		{
+			return $this->grant_cache;
 		}
 		
 		$logged_info = Context::get('logged_info');
