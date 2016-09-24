@@ -827,6 +827,7 @@ class moduleController extends module
 			$output = executeQueryArray('module.insertSiteAdmin', $args);
 			if(!$output->toBool()) return $output;
 		}
+		Rhymix\Framework\Cache::delete("site_and_module:site_admins:$site_srl");
 		return new Object();
 	}
 
@@ -842,8 +843,11 @@ class moduleController extends module
 			$member_info = $oMemberModel->getMemberInfoByEmailAddress($admin_id);
 		else
 			$member_info = $oMemberModel->getMemberInfoByUserID($admin_id);
-
+		
 		if(!$member_info->member_srl) return;
+		
+		Rhymix\Framework\Cache::delete("site_and_module:module_admins:$module_srl");
+		
 		$args = new stdClass();
 		$args->module_srl = $module_srl;
 		$args->member_srl = $member_info->member_srl;
@@ -864,6 +868,9 @@ class moduleController extends module
 			$member_info = $oMemberModel->getMemberInfoByUserID($admin_id);
 			if($member_info->member_srl) $args->member_srl = $member_info->member_srl;
 		}
+		
+		Rhymix\Framework\Cache::delete("site_and_module:module_admins:$module_srl");
+		
 		return executeQuery('module.deleteAdminId', $args);
 	}
 
@@ -1046,6 +1053,8 @@ class moduleController extends module
 				executeQuery('module.insertModuleGrant', $args);
 			}
 		}
+		
+		Rhymix\Framework\Cache::delete("site_and_module:module_grants:$module_srl");
 	}
 
 	/**
@@ -1055,7 +1064,10 @@ class moduleController extends module
 	{
 		$args = new stdClass();
 		$args->module_srl = $module_srl;
-		return executeQuery('module.deleteModuleGrants', $args);
+		$output = executeQuery('module.deleteModuleGrants', $args);
+		
+		Rhymix\Framework\Cache::delete("site_and_module:module_grants:$module_srl");
+		return $output;
 	}
 
 	/**

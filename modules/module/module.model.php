@@ -1594,25 +1594,36 @@ class moduleModel extends module
 	 */
 	function isSiteAdmin($member_info, $site_srl = null)
 	{
-		if(!$member_info->member_srl) return false;
-		if($member_info->is_admin == 'Y') return true;
-
-		$args = new stdClass();
-		if(!isset($site_srl))
+		if (!$member_info || !$member_info->member_srl)
+		{
+			return false;
+		}
+		if ($member_info->is_admin == 'Y')
+		{
+			return true;
+		}
+		if ($site_srl === null)
 		{
 			$site_module_info = Context::get('site_module_info');
-			if(!$site_module_info) return;
-			$args->site_srl = $site_module_info->site_srl;
+			if(!$site_module_info) return false;
+			$site_srl = $site_module_info->site_srl;
 		}
-		else
+		
+		$site_srl = $site_srl ?: 0;
+		$site_admins = Rhymix\Framework\Cache::get("site_and_module:site_admins:$site_srl");
+		if ($site_admins === null)
 		{
+			$args = new stdClass;
 			$args->site_srl = $site_srl;
+			$output = executeQueryArray('module.isSiteAdmin', $args);
+			$site_admins = array();
+			foreach ($output->data as $site_admin)
+			{
+				$site_admins[$site_admin->member_srl] = true;
+			}
+			Rhymix\Framework\Cache::set("site_and_module:site_admins:$site_srl", $site_admins, 0, true);
 		}
-
-		$args->member_srl = $member_info->member_srl;
-		$output = executeQuery('module.isSiteAdmin', $args);
-		if($output->data->member_srl == $args->member_srl) return true;
-		return false;
+		return isset($site_admins[$member_info->member_srl]);
 	}
 
 	/**
@@ -1624,6 +1635,43 @@ class moduleModel extends module
 		$args->site_srl = $site_srl;
 		$output = executeQueryArray('module.getSiteAdmin', $args);
 		return $output->data;
+	}
+
+	/**
+	 * @brief Check if a member is a module administrator
+	 */
+	function isModuleAdmin($member_info, $module_srl = null)
+	{
+		if (!$member_info || !$member_info->member_srl)
+		{
+			return false;
+		}
+		if ($member_info->is_admin == 'Y')
+		{
+			return true;
+		}
+		if ($module_srl === null)
+		{
+			$site_module_info = Context::get('site_module_info');
+			if(!$site_module_info) return false;
+			$module_srl = $site_module_info->module_srl;
+		}
+		
+		$module_srl = $module_srl ?: 0;
+		$module_admins = Rhymix\Framework\Cache::get("site_and_module:module_admins:$module_srl");
+		if ($module_admins === null)
+		{
+			$args = new stdClass;
+			$args->module_srl = $module_srl;
+			$output = executeQueryArray('module.getModuleAdmin', $args);
+			$module_admins = array();
+			foreach ($output->data as $module_admin)
+			{
+				$module_admins[$module_admin->member_srl] = true;
+			}
+			Rhymix\Framework\Cache::set("site_and_module:module_admins:$module_srl", $module_admins, 0, true);
+		}
+		return isset($module_admins[$member_info->member_srl]);
 	}
 
 	/**
@@ -1862,13 +1910,18 @@ class moduleModel extends module
 	 */
 	function getGrant($module_info, $member_info, $xml_info = '')
 	{
+		if (!$xml_info && isset($GLOBALS['__MODULE_GRANT__'][intval($module_info->module_srl)][intval($member_info->member_srl)]))
+		{
+			return $GLOBALS['__MODULE_GRANT__'][intval($module_info->module_srl)][intval($member_info->member_srl)];
+		}
+		
 		$grant = new stdClass();
-
 		if(!$xml_info)
 		{
 			$module = $module_info->module;
 			$xml_info = $this->getModuleActionXml($module);
 		}
+		
 		// Set variables to grant group permission
 		$module_srl = $module_info->module_srl;
 		$grant_info = $xml_info->grant;
@@ -1898,15 +1951,13 @@ class moduleModel extends module
 			// Get a type of granted permission
 			$grant->access = $grant->manager = $grant->is_site_admin = ($member_info->is_admin=='Y'||$this->isSiteAdmin($member_info, $module_info->site_srl))?true:false;
 			$grant->is_admin = ($member_info->is_admin == 'Y') ? true : false;
+			
 			// If a just logged-in member is, check if the member is a module administrator
-			if(!$grant->manager && $member_info->member_srl)
+			if (!$grant->manager && $member_info->member_srl && $this->isModuleAdmin($member_info, $module_srl))
 			{
-				$args = new stdClass();
-				$args->module_srl = $module_srl;
-				$args->member_srl = $member_info->member_srl;
-				$output = executeQuery('module.getModuleAdmin',$args);
-				if($output->data && $output->data->member_srl == $member_info->member_srl) $grant->manager = true;
+				$grant->manager = true;
 			}
+			
 			// If not an administrator, get information from the DB and grant manager privilege.
 			if(!$grant->manager)
 			{
@@ -1918,9 +1969,7 @@ class moduleModel extends module
 				}
 				else
 				{
-					$args = new stdClass;
-					$args->module_srl = $module_srl;
-					$output = executeQueryArray('module.getModuleGrants', $args);
+					$output = $this->getModuleGrants($module_srl);
 				}
 
 				$grant_exists = $granted = array();
@@ -2015,7 +2064,25 @@ class moduleModel extends module
 			}
 		}
 		
+		$GLOBALS['__MODULE_GRANT__'][intval($module_info->module_srl)][intval($member_info->member_srl)] = $grant;
+		
 		return $grant;
+	}
+
+	/**
+	 * @brief Get module grants
+	 */
+	function getModuleGrants($module_srl)
+	{
+		$output = Rhymix\Framework\Cache::get("site_and_module:module_grants:$module_srl");
+		if ($output === null)
+		{
+			$args = new stdClass;
+			$args->module_srl = $module_srl;
+			$output = executeQueryArray('module.getModuleGrants', $args);
+			Rhymix\Framework\Cache::set("site_and_module:module_grants:$module_srl", $output, 0, true);
+		}
+		return $output;
 	}
 
 	function getModuleFileBox($module_filebox_srl)
