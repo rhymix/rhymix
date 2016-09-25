@@ -108,7 +108,7 @@ class SecurityTest extends \Codeception\TestCase\Test
 	{
 		$_SERVER['REQUEST_METHOD'] = 'GET';
 		$_SERVER['HTTP_REFERER'] = '';
-		$this->assertFalse(Rhymix\Framework\Security::checkCSRF());
+		$this->assertTrue(Rhymix\Framework\Security::checkCSRF());
 		
 		$_SERVER['REQUEST_METHOD'] = 'POST';
 		$this->assertTrue(Rhymix\Framework\Security::checkCSRF());
