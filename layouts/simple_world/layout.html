@@ -3,31 +3,38 @@
 
 <load target="./lang" />
 
-{@ $material_colors = array(
-	'red'	=>	'#f44336',
-	'crimson'	=>	'#66001f',
-	'pink'	=>	'#e91e63',
-	'purple'	=>	'#9c27b0',
-	'deep-purple'	=>	'#673ab7',
-	'indigo'	=>	'#3f51b5',
-	'deep-blue'	=>	'#00397f',
-	'blue'	=>	'#2196f3',
-	'light-blue'	=>	'#03a9f4',
-	'cyan'	=>	'#00bcd4',
-	'teal'	=>	'#009688',
-	'green'	=>	'#4caf50',
-	'light-green'	=>	'#8bc34a',
-	'lime'	=>	'#cddc39',
-	'yellow'	=>	'#ffeb3b',
-	'amber'	=>	'#ffc107',
-	'orange'	=>	'#ff9800',
-	'deep-orange'	=>	'#ff5722',
-	'brown'	=>	'#795548',
-	'grey'	=>	'#9e9e9e',
-	'blue-grey'	=>	'#607d8b',
-	'black'	=>	'#000000',
-	'white'	=>	'#ffffff'
-);
+{@
+	if(!$layout_info->primary_color)
+		$layout_info->primary_color = 'red';
+	if(!$layout_info->customized_primary_color)
+		$layout_info->customized_primary_color = '#f44336';
+
+	$material_colors = array(
+		'red'	=>	'#f44336',
+		'crimson'	=>	'#66001f',
+		'pink'	=>	'#e91e63',
+		'purple'	=>	'#9c27b0',
+		'deep-purple'	=>	'#673ab7',
+		'indigo'	=>	'#3f51b5',
+		'deep-blue'	=>	'#00397f',
+		'blue'	=>	'#2196f3',
+		'light-blue'	=>	'#03a9f4',
+		'cyan'	=>	'#00bcd4',
+		'teal'	=>	'#009688',
+		'green'	=>	'#4caf50',
+		'light-green'	=>	'#8bc34a',
+		'lime'	=>	'#cddc39',
+		'yellow'	=>	'#ffeb3b',
+		'amber'	=>	'#ffc107',
+		'orange'	=>	'#ff9800',
+		'deep-orange'	=>	'#ff5722',
+		'brown'	=>	'#795548',
+		'grey'	=>	'#9e9e9e',
+		'blue-grey'	=>	'#607d8b',
+		'black'	=>	'#000000',
+		'white'	=>	'#ffffff',
+		'customized'	=>	$layout_info->customized_primary_color,
+	);
 
 	$oMemberModel = getModel('member');
 	$member_config = $oMemberModel->getMemberConfig();
@@ -35,19 +42,12 @@
 }
 
 
-{@ if(!$layout_info->primary_color) $layout_info->primary_color = 'red'}
-{@ if(!$layout_info->secondary_color) $layout_info->secondary_color = 'indigo'}
-
-{@ if($layout_info->primary_color === $layout_info->secondary_color && $layout_info->primary_color === 'indigo') $layout_info->secondary_color = 'red'}
-{@ if($layout_info->primary_color === $layout_info->secondary_color && $layout_info->primary_color !== 'indigo') $layout_info->secondary_color = 'indigo'}
-
 <!--// theme-color for mobile chrome browser -->
 {Context::addMetaTag("theme-color", $material_colors[$layout_info->primary_color])}
 
 <!--// Load styles -->
-{Context::set('layout_scss_value', array('grey' => $material_colors['grey'], 'primary_color' => $material_colors[$layout_info->primary_color], 'secondary_color' => $layout_info->secondary_color, ))}
+{Context::set('layout_scss_value', array('grey' => $material_colors['grey'], 'primary_color' => $material_colors[$layout_info->primary_color], 'menu_position' => $layout_info->menu_position))}
 <load target="layout.scss" vars="$layout_scss_value" />
-
 <load target="layout.js" />
 
 <div class="skip"><a href="#content">{$lang->skip_to_content}</a></div>
@@ -68,7 +68,7 @@
 		</div>
 		<div class="hside layout_pc">
 			<div class="side">
-				<!-- Search -->
+				<!--// Search -->
 				<form action="{getUrl()}" method="get" class="layout_search">
 					<input type="hidden" name="vid" value="{$vid}" />
 					<input type="hidden" name="mid" value="{$mid}" />
@@ -80,7 +80,7 @@
 			</div>
 		</div>
 	</div>
-	<!-- Menu -->
+	<!--// Menu -->
 	<nav class="layout_frame layout_menu" id="layout_gnb">
 		<ul>
 			<li class="layout_dropdown">
@@ -114,16 +114,18 @@
 <div class="layout_frame layout_body">
 	<!--// VISUAL -->
 	<div class="layout_body layout_canvas">
-		<!-- CONTENT -->
-		<div class="layout_content" id="content">
+		<!--// CONTENT -->
+			<div class="layout_content" id="content">
+			{$layout_info->before_content}
 			{$content}
+			{$layout_info->after_content}
 		</div>
 		<!--// CONTENT -->
 	</div>
 </div>
 <footer class="layout_frame layout_footer">
 	<div class="layout_footer layout_canvas">
-		<!-- Footer Menu -->
+		<!--// Footer Menu -->
 		<nav class="layout_menu" id="layout_fnb" cond="count($FNB->list) > 0">
 			<ul>
 				<li loop="$FNB->list=>$key1,$val1" class="footer_menu">
@@ -132,7 +134,7 @@
 			</ul>
 		</nav>
 		<!--// Footer Menu -->
-		<!-- Language -->
+		<!--// Language -->
 		<div class="layout_language" cond="count($lang_supported) > 1">
 			<button type="button" class="toggle">Language: {$lang_supported[$lang_type]}</button>
 			<ul class="selectLang">
