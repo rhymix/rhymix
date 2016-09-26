@@ -161,5 +161,11 @@
 			<description xml:lang="ko">분위기를 형성하는데 사용되는 중심 색상을 위에서 선택하지 않고 Hex 코드로 직접 입력 합니다. (기본 값: #f44336) 위 항목에서 '커스텀' 항목을 선택해야 적용됩니다.</description>
 			<description xml:lang="en">Please type the mood color you want, if there is no choice before. Insert your color in hex code. (dafault value:  #f44336) To use this option, you have to select 'Customized' for the options before.</description>
 		</var>
+		<var name="content_color" type="colorpicker">
+			<title xml:lang="ko">본문 영역 색상</title>
+			<title xml:lang="en">Content area color</title>
+			<description xml:lang="ko">레이아웃 본문 영역 색상을 지정합니다. 기본 색상은 흰색입니다.</description>
+			<description xml:lang="en">Set content area color. The default color is white.</description>
+		</var>
 	</extra_vars>
 </layout>

@@ -54,9 +54,11 @@ body {
 	top: 25px
 }
 
+.layout_body.layout_frame {
+	background-color: $content_color;
+}
 .layout_body {
 	position: relative;
-	background-color: #fff;
 }
 
 .layout_header:after,
@@ -68,6 +70,7 @@ body {
 
 .layout_content {
 	overflow: auto;
+	padding:10px 0px;
 }
 
 .layout_content>*:first-child {
@@ -81,7 +84,10 @@ body {
 
 /* Header */
 header.layout_frame {
+	position:relative;
 	background-color: lighten($primary-color, 10%);
+	z-index: 1;
+	box-shadow: 0 1px 3px rgba(0,0,0,0.12), 0 1px 2px rgba(0,0,0,0.24);
 }
 .layout_header>h1 {
 	margin:0 auto;
@@ -212,7 +218,11 @@ header.layout_frame {
 	background-color: lighten($primary-color, 15%);
 	color: layoutGrayContrast(lighten($primary-color, 15%), 0.710);
 }
-
+header .layout_menu li:hover,
+header .layout_menu li:focus,
+header .layout_menu li:active {
+	background-color: lighten($grey, 40%);
+}
 .layout_menu li a:hover,
 .layout_menu li a:focus,
 .layout_menu li a:active,
@@ -249,13 +259,22 @@ header.layout_frame {
 }
 
 .
-.layout_menu .layout_dropdown-content a:hover {
+.layout_menu .layout_dropdown-content a:hover,
+.layout_menu .layout_dropdown-content a:active,
+.layout_menu .layout_dropdown-content a:focus {
 	display: block;
 	background-color: lighten($primary-color, 10%);
 	color: layoutGrayContrast(lighten($primary-color, 10%), 0.710);
 }
 
-.layout_menu .layout_dropdown:hover .layout_dropdown-content {
+.layout_menu .layout_dropdown:hover .layout_dropdown-content,
+.layout_menu .layout_dropdown:active .layout_dropdown-content,
+.layout_menu .layout_dropdown:focus .layout_dropdown-content,
+.layout_menu .layout_dropdown a:hover ~ .layout_dropdown-content,
+.layout_menu .layout_dropdown a:active ~ .layout_dropdown-content,
+.layout_menu .layout_dropdown a:focus ~ .layout_dropdown-content/* ,
+.layout_menu .layout_dropdown .layout_dropdown-content:has(> a:hover),
+.layout_menu .layout_dropdown .layout_dropdown-content:has(> a:focus) */ {
 	display: block;
 }
 #layout_fnb{
@@ -511,7 +530,8 @@ header.layout_frame {
 		color: layoutGrayContrast(lighten($primary-color, 15%), 0.710);
 	}
 
-	.layout_menu li a:hover, .layout_dropdown:hover .dropbtn {
+	.layout_menu li a:hover, .layout_dropdown:hover .dropbtn,
+	.layout_menu li a:focus, .layout_dropdown:focus .dropbtn {
 		background-color: $primary-color;
 		color: layoutGrayContrast($primary-color, 10%, 0.710);
 	}

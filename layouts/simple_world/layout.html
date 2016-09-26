@@ -8,6 +8,8 @@
 		$layout_info->primary_color = 'red';
 	if(!$layout_info->customized_primary_color)
 		$layout_info->customized_primary_color = '#f44336';
+	if(!$layout_info->content_color)
+		$layout_info->content_color = '#ffffff';
 
 	$material_colors = array(
 		'red'	=>	'#f44336',
@@ -46,7 +48,7 @@
 {Context::addMetaTag("theme-color", $material_colors[$layout_info->primary_color])}
 
 <!--// Load styles -->
-{Context::set('layout_scss_value', array('grey' => $material_colors['grey'], 'primary_color' => $material_colors[$layout_info->primary_color], 'menu_position' => $layout_info->menu_position))}
+{Context::set('layout_scss_value', array('grey' => $material_colors['grey'], 'primary_color' => $material_colors[$layout_info->primary_color], 'menu_position' => $layout_info->menu_position, 'content_color' => $layout_info->content_color))}
 <load target="layout.scss" vars="$layout_scss_value" />
 <load target="layout.js" />
 
