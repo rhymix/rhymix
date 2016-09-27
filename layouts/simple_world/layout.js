@@ -1,6 +1,7 @@
 $(function() {
 	"use strict";
 
+	/* adjust the width of the right member menu */
 	var menu_width = function() {
 		if($('#layout_gnb>ul>li:first-child').width() > 50) {
 			$('#layout_gnb>ul>li:first-child .layout_dropdown-content, #layout_gnb>ul>li:first-child .layout_dropdown-content a').css('width', $('#layout_gnb>ul>li:first-child').width()).css('min-width', $('#layout_gnb>ul>li:first-child').width());
@@ -15,37 +16,49 @@ $(function() {
 
 	menu_width();
 
-	var toggles = document.querySelectorAll(".layout_mobile_menu");
+	/* mobile hamburger menu toggle */
+	$(".layout_mobile_menu").each(function() {
+		$( this ).click(function( event ) {
+			event.preventDefault();
+			layout_toggleMenuOpener( $( this ).get(0) );
+		});
+	});
 
-	for (var i = toggles.length - 1; i >= 0; i--) {
-		var toggle = toggles[i];
-		layout_toggleHandler(toggle);
-	};
+	/* keyboard accessibility for dropdown menu */
+	$(".layout_dropdown").each(function() {
+		$( this ).focusin( function( event ) {
+			$( this ).addClass('layout_focus');
+			$( this ).find("ul.layout_dropdown-content").css('display', 'block').attr('data-dropdown', 'active');
+		});
+	});
+
+	$('body').focusin(function( event ) {
+		if (!$(event.target).parents('.layout_dropdown').is('.layout_dropdown')) {
+			$('*[data-dropdown="active"]').css('display', '').attr('data-dropdown', '').parents('li.layout_dropdown').removeClass('layout_focus');
+		}
+	});
+	/* keyboard accessibility for dropdown menu END */
 
 	function layout_toggleMenuOpener(obj) {
 		if(obj.classList.contains("is-active") === true){
 			var targetMenu = $(obj).attr('data-target');
 			$('#' + targetMenu).slideUp('300', function() {
-				$(this).css('display', '')
+				$(this).css('display', '');
 			});
 
 			obj.classList.remove("is-active");
 		}
 		else {
-			$('#layout_gnb>ul>li:first-child .layout_dropdown-content, #layout_gnb>ul>li:first-child .layout_dropdown-content a').css('width', '').css('min-width', '');
 			var targetMenu = $(obj).attr('data-target');
-			$('html,body').animate({scrollTop:0}, 200);
+			if(targetMenu == 'layout_gnb')
+			{
+				$('#layout_gnb>ul>li:first-child .layout_dropdown-content, #layout_gnb>ul>li:first-child .layout_dropdown-content a').css('width', '').css('min-width', '');
+				$('html,body').animate({scrollTop:0}, 200);
+			}
 			$('#' + targetMenu).slideDown('300');
 
 			obj.classList.add("is-active");
 		}
-	}
-
-	function layout_toggleHandler(toggle) {
-		toggle.addEventListener( "click", function(e) {
-			e.preventDefault();
-			layout_toggleMenuOpener(this);
-		});
 	}
 
 	// Language Select

@@ -220,7 +220,8 @@ header.layout_frame {
 }
 header .layout_menu li:hover,
 header .layout_menu li:focus,
-header .layout_menu li:active {
+header .layout_menu li:active,
+header .layout_menu .layout_focus {
 	background-color: lighten($grey, 40%);
 }
 .layout_menu li a:hover,
@@ -272,7 +273,10 @@ header .layout_menu li:active {
 .layout_menu .layout_dropdown:focus .layout_dropdown-content,
 .layout_menu .layout_dropdown a:hover ~ .layout_dropdown-content,
 .layout_menu .layout_dropdown a:active ~ .layout_dropdown-content,
-.layout_menu .layout_dropdown a:focus ~ .layout_dropdown-content/* ,
+.layout_menu .layout_dropdown a:focus ~ .layout_dropdown-content,
+.layout_menu .layout_dropdown layout_dropdown-content:hover,
+.layout_menu .layout_dropdown layout_dropdown-content:active,
+.layout_menu .layout_dropdown layout_dropdown-content:focus/* ,
 .layout_menu .layout_dropdown .layout_dropdown-content:has(> a:hover),
 .layout_menu .layout_dropdown .layout_dropdown-content:has(> a:focus) */ {
 	display: block;
