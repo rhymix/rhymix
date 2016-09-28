@@ -222,7 +222,7 @@ class documentModel extends document
 		$obj->sort_index = $sort_check->sort_index;
 		$obj->isExtraVars = $sort_check->isExtraVars;
 		unset($obj->use_alternate_output);
-
+		$obj->columnList = $columnList;
 		// Call trigger (before)
 		// This trigger can be used to set an alternative output using a different search method
 		$output = ModuleHandler::triggerCall('document.getDocumentList', 'before', $obj);
@@ -232,13 +232,13 @@ class documentModel extends document
 		}
 
 		// If an alternate output is set, use it instead of running the default queries
-		$use_alternate_otuput = (isset($obj->use_alternate_output) && $obj->use_alternate_output instanceof Object);
-		if (!$use_alternate_otuput)
+		$use_alternate_output = (isset($obj->use_alternate_output) && $obj->use_alternate_output instanceof Object);
+		if (!$use_alternate_output)
 		{
 			$this->_setSearchOption($obj, $args, $query_id, $use_division);
 		}
 
-		if ($use_alternate_otuput)
+		if ($use_alternate_output)
 		{
 			$output = $obj->use_alternate_output;
 			unset($obj->use_alternate_output);
