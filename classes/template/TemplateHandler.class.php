@@ -123,7 +123,7 @@ class TemplateHandler
 		// if target file does not exist exit
 		if(!$this->file || !file_exists($this->file))
 		{
-			return "Err : '{$this->file}' template file does not exists.";
+			return escape("Template not found: ${tpl_path}${tpl_filename}" . ($tpl_file ? " (${tpl_file})" : ''));
 		}
 
 		// for backward compatibility
@@ -184,8 +184,7 @@ class TemplateHandler
 		// if target file does not exist exit
 		if(!$this->file || !file_exists($this->file))
 		{
-			Context::close();
-			exit("Cannot find the template file: '{$this->file}'");
+			return escape("Template not found: ${tpl_path}${tpl_filename}");
 		}
 
 		return $this->parse();
