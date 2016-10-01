@@ -19,7 +19,11 @@ class trashAdminController extends trash
 	{
 		if(!Context::get('is_logged'))
 		{
-			return new Object(-1, 'msg_not_permitted');
+			$trash_array = unserialize($obj->serializedObject);
+			if($_SERVER['REMOTE_ADDR'] !== $trash_array['ipaddress'])
+			{
+				return new Object(-1, 'msg_not_permitted');
+			}
 		}
 
 		$logged_info = Context::get('logged_info');

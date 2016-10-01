@@ -951,7 +951,6 @@ class documentController extends document
 			return new Object(-1, 'msg_admin_document_no_move_to_trash');
 		}
 
-
 		$trash_args->module_srl = $oDocument->get('module_srl');
 		$obj->module_srl = $oDocument->get('module_srl');
 		// Cannot throw data from the trash to the trash
