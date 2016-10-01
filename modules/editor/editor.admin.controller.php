@@ -164,6 +164,18 @@ class editorAdminController extends editor
 			$config->font_defined = $configVars->font_defined = 'N';
 			$config->content_font = $configVars->content_font;
 		}
+		
+		if ($configVars->additional_css)
+		{
+			$additional_css = array_map('trim', explode("\n", $configVars->additional_css));
+			$additional_css = array_filter($additional_css, function($str) { return !empty($str); });
+			$config->additional_css = $additional_css;
+		}
+		else
+		{
+			$config->additional_css = array();
+		}
+		
 		$config->content_font_size = trim($configVars->content_font_size);
 		$config->content_font_size = ctype_digit($config->content_font_size) ? ($config->content_font_size . 'px') : $config->content_font_size;
 		$config->content_line_height = trim($configVars->content_line_height);

@@ -114,6 +114,14 @@
 			</div>
 		</div>
 		<div class="x_control-group">
+			<label class="x_control-label">{$lang->guide_additional_css}</label>
+			<div class="x_controls">
+			{@ var_dump($editor_config)}
+				<textarea id="additional_css" name="additional_css" style="width:90%" rows="4" cols="42">{escape(implode("\n", $editor_config->additional_css ?: array()))}</textarea>
+				<p class="x_help-block">{$lang->about_additional_css}</p>
+			</div>
+		</div>
+		<div class="x_control-group">
 			<label class="x_control-label" for="font_size">{$lang->guide_choose_font_size_body}</label>
 			<div class="x_controls">
 				<input type="text" id="font_size" name="content_font_size" value="{$editor_config->content_font_size ?: 13}" />
