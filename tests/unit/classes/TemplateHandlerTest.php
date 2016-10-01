@@ -276,6 +276,31 @@ class TemplateHandlerTest extends \Codeception\TestCase\Test
                 '<input>asdf src="../img/img.gif" asdf</input>',
                 '?><input>asdf src="../img/img.gif" asdf</input>'
             ),
+			// Rhymix improvements (PR #604)
+            array(
+                '<span>{$_SERVER["REMOTE_ADDR"]}</span>',
+                '?><span><?php echo $_SERVER["REMOTE_ADDR"] ?></span>'
+            ),
+            array(
+                '<span>{escape($_COOKIE[$var], false)}</span>',
+                '?><span><?php echo escape($_COOKIE[$__Context->var], false) ?></span>'
+            ),
+            array(
+                '<span>{$GLOBALS[$__Context->rhymix->rules]}</span>',
+                '?><span><?php echo $GLOBALS[$__Context->rhymix->rules] ?></span>'
+            ),
+            array(
+                '<span>{$FOOBAR}</span>',
+                '?><span><?php echo $__Context->FOOBAR ?></span>'
+            ),
+            array(
+                '<span>{RX_BASEDIR}</span>',
+                '?><span>{RX_BASEDIR}</span>'
+            ),
+            array(
+                '<span>{\RX_BASEDIR}</span>',
+                '?><span><?php echo \RX_BASEDIR ?></span>'
+            ),
         );
 
         foreach ($tests as $test)
