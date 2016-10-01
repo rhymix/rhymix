@@ -11,11 +11,9 @@
  */
 class TemplateHandler
 {
-	private $compiled_path = 'files/cache/template_compiled/'; ///< path of compiled caches files
 	private $path = NULL; ///< target directory
 	private $filename = NULL; ///< target filename
 	private $file = NULL; ///< target file (fullpath)
-	private $xe_path = NULL;  ///< XpressEngine base path
 	private $web_path = NULL; ///< tpl file web path
 	private $compiled_file = NULL; ///< tpl file web path
 	private $config = NULL;
@@ -29,9 +27,8 @@ class TemplateHandler
 	 */
 	public function __construct()
 	{
-		$this->xe_path = rtrim(preg_replace('/([^\.^\/]+)\.php$/i', '', $_SERVER['SCRIPT_NAME']), '/');
-		$this->compiled_path = _XE_PATH_ . $this->compiled_path;
-		$this->config = new stdClass();
+		$this->config = new stdClass;
+		$this->handler_mtime = filemtime(__FILE__);
 	}
 
 	/**
@@ -93,16 +90,12 @@ class TemplateHandler
 		$this->filename = $tpl_filename;
 		$this->file = $tpl_file;
 
-		$this->web_path = $this->xe_path . '/' . ltrim(preg_replace('@^' . preg_quote(_XE_PATH_, '@') . '|\./@', '', $this->path), '/');
+		// set absolute URL of template path
+		$this->web_path = \RX_BASEURL . ltrim(preg_replace('@^' . preg_quote(\RX_BASEDIR, '@') . '|\./@', '', $this->path), '/');
 
-		// get compiled file name
-		$hash = md5($this->file . __XE_VERSION__);
-		$this->compiled_file = "{$this->compiled_path}{$hash}.compiled.php";
-
-		// compare various file's modified time for check changed
-		$this->handler_mtime = filemtime(__FILE__);
-
-		$skip = array('');
+		// set compiled file name
+		$converted_path = str_replace(array('\\', '..'), array('/', 'dotdot'), ltrim($this->file, './'));
+		$this->compiled_file = \RX_BASEDIR . 'files/cache/template/' . $converted_path . '.php'; 
 	}
 
 	/**
@@ -134,8 +127,7 @@ class TemplateHandler
 			self::$rootTpl = $this->file;
 		}
 
-		$source_template_mtime = filemtime($this->file);
-		$latest_mtime = $source_template_mtime > $this->handler_mtime ? $source_template_mtime : $this->handler_mtime;
+		$latest_mtime = max(filemtime($this->file), $this->handler_mtime);
 		
 		// make compiled file
 		if(!file_exists($this->compiled_file) || filemtime($this->compiled_file) < $latest_mtime)
@@ -808,7 +800,7 @@ class TemplateHandler
 			}
 		}
 
-		$path = preg_replace('/^' . preg_quote(_XE_PATH_, '/') . '/', '', $path);
+		$path = preg_replace('/^' . preg_quote(\RX_BASEDIR, '/') . '/', '', $path);
 
 		return $path;
 	}
