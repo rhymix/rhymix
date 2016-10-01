@@ -123,7 +123,9 @@ class TemplateHandler
 		// if target file does not exist exit
 		if(!$this->file || !file_exists($this->file))
 		{
-			return escape("Template not found: ${tpl_path}${tpl_filename}" . ($tpl_file ? " (${tpl_file})" : ''));
+			$error_message = "Template not found: ${tpl_path}${tpl_filename}" . ($tpl_file ? " (${tpl_file})" : '');
+			trigger_error($error_message, \E_USER_WARNING);
+			return escape($error_message);
 		}
 
 		// for backward compatibility
@@ -184,7 +186,9 @@ class TemplateHandler
 		// if target file does not exist exit
 		if(!$this->file || !file_exists($this->file))
 		{
-			return escape("Template not found: ${tpl_path}${tpl_filename}");
+			$error_message = "Template not found: ${tpl_path}${tpl_filename}";
+			trigger_error($error_message, \E_USER_WARNING);
+			return escape($error_message);
 		}
 
 		return $this->parse();
