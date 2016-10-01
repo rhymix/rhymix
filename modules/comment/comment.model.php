@@ -211,10 +211,6 @@ class commentModel extends comment
 			$oComment = NULL;
 			$oComment = new commentItem();
 			$oComment->setAttribute($attribute);
-			if($is_admin)
-			{
-				$oComment->setGrant();
-			}
 
 			$result[$attribute->comment_srl] = $oComment;
 		}
