@@ -107,6 +107,10 @@ class editorModel extends editor
 		{
 			$editor_config->comment_content_style = ($editor_default_config->comment_content_style) ? $editor_default_config->comment_content_style : 'ckeditor_light';
 		}
+		if((!$editor_config->additional_css && $editor_default_config->additional_css) || $editor_config->default_editor_settings === 'Y')
+		{
+			$editor_config->additional_css = $editor_default_config->additional_css ?: array();
+		}
 
 		return $editor_config;
 	}
@@ -235,6 +239,7 @@ class editorModel extends editor
 		Context::set('content_line_height', $option->content_line_height);
 		Context::set('content_paragraph_spacing', $option->content_paragraph_spacing);
 		Context::set('content_word_break', $option->content_word_break);
+		Context::set('editor_additional_css', $option->additional_css);
 
 		// Option setting to allow auto-save
 		if(!$option->enable_autosave) $enable_autosave = false;
@@ -404,6 +409,7 @@ class editorModel extends editor
 			$config->enable_html_grant = $editor_config->enable_html_grant;
 			$config->editor_height = $editor_config->editor_height;
 			$config->enable_autosave = $editor_config->enable_autosave;
+			$config->additional_css = $editor_config->additional_css;
 		}
 		else
 		{
@@ -421,6 +427,7 @@ class editorModel extends editor
 			$config->enable_html_grant = $editor_config->enable_comment_html_grant;
 			$config->editor_height = $editor_config->comment_editor_height;
 			$config->enable_autosave = 'N';
+			$config->additional_css = $editor_config->additional_css;
 		}
 		// Check a group_list of the currently logged-in user for permission check
 		if(Context::get('is_logged'))
@@ -442,6 +449,7 @@ class editorModel extends editor
 		$option->content_line_height = $config->content_line_height;
 		$option->content_paragraph_spacing = $config->content_paragraph_spacing;
 		$option->content_word_break = $config->content_word_break;
+		$option->additional_css = $config->additional_css;
 		$option->colorset = $config->sel_editor_colorset;
 		// Permission check for file upload
 		$option->allow_fileupload = false;

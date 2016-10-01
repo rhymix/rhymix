@@ -87,6 +87,7 @@ class editorAdminView extends editor
 		$option->content_line_height = $config->content_line_height;
 		$option->content_paragraph_spacing = $config->content_paragraph_spacing;
 		$option->content_word_break = $config->content_word_break;
+		$option->additional_css = $config->additional_css ?: array();
 		$option->enable_autosave = false;
 		$option->enable_default_component = true;
 		$option->enable_component = true;
@@ -108,6 +109,7 @@ class editorAdminView extends editor
 		$option_com->content_line_height = $config->content_line_height;
 		$option_com->content_paragraph_spacing = $config->content_paragraph_spacing;
 		$option_com->content_word_break = $config->content_word_break;
+		$option_com->additional_css = $config->additional_css ?: array();
 		$option_com->enable_autosave = false;
 		$option_com->enable_default_component = true;
 		$option_com->enable_component = true;
