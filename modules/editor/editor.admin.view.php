@@ -132,6 +132,11 @@ class editorAdminView extends editor
 		Context::set('component_list', $component_list);
 		Context::set('component_count', $component_count);
 		Context::set('editor_config_default', $editor_config_default);
+		
+		foreach ($config->additional_css as $additional_css_url)
+		{
+			Context::loadFile(array($additional_css_url));
+		}
 
 		$security = new Security();
 		$security->encodeHTML('component_list....');
