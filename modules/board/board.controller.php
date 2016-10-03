@@ -297,10 +297,13 @@ class boardController extends board
 		if($this->module_info->trash_use == 'Y')
 		{
 			// move the trash
-			$output = $oDocumentController->moveDocumentToTrash($oDocument);
-			if(!$output->toBool())
+			if($oDocument->isGranted() === true)
 			{
-				return $output;
+				$output = $oDocumentController->moveDocumentToTrash($oDocument);
+				if(!$output->toBool())
+				{
+					return $output;
+				}
 			}
 		}
 		else
