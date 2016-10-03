@@ -2,10 +2,10 @@
     <tables>
         <table name="trash" alias="T" />
         <table name="member" alias="M" type="left join">
-		    <conditions>
-			    <condition operation="equal" column="T.remover_srl" default="M.member_srl" />
-		    </conditions>
-	    </table>
+            <conditions>
+                <condition operation="equal" column="T.remover_srl" default="M.member_srl" />
+            </conditions>
+        </table>
     </tables>
     <columns>
         <column name="T.*" />
