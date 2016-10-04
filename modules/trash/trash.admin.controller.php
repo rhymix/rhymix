@@ -17,11 +17,6 @@ class trashAdminController extends trash
 	 */
 	function insertTrash($obj)
 	{
-		if(!Context::get('is_logged'))
-		{
-			return new Object(-1, 'msg_not_permitted');
-		}
-
 		$logged_info = Context::get('logged_info');
 
 		$oTrashVO = new TrashVO();
