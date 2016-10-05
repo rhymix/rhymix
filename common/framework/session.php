@@ -77,16 +77,16 @@ class Session
         ini_set('session.use_only_cookies', 1);
         ini_set('session.use_strict_mode', 1);
         session_set_cookie_params($lifetime, $path, $domain, false, false);
-		session_name(Config::get('session.name') ?: session_name());
+		session_name($session_name = Config::get('session.name') ?: session_name());
 		
 		// Get session ID from POST parameter if using relaxed key checks.
-		if ($relax_key_checks && isset($_POST[session_name()]))
+		if ($relax_key_checks && isset($_POST[$session_name]))
 		{
-			session_id($_POST[session_name()]);
+			session_id($_POST[$session_name]);
 		}
 		
 		// Abort if using delayed session.
-		if(Config::get('session.delay') && !$force && !isset($_COOKIE[session_name()]))
+		if(Config::get('session.delay') && !$force && !isset($_COOKIE[$session_name]))
 		{
 			$_SESSION = array();
 			return false;
@@ -114,7 +114,6 @@ class Session
 			}
 			elseif ($_SESSION['RHYMIX']['keys'][$domain]['key1_prev'] === $key1 && $key1 !== null)
 			{
-				return 2;
 				$must_resend_keys = true;
 			}
 			elseif (!$relax_key_checks)
