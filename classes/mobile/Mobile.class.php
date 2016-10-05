@@ -45,12 +45,22 @@ class Mobile
 		
 		// Try to detect from URL arguments and cookies, and finally fall back to user-agent detection.
 		$m = Context::get('m');
-		$cookie = (isset($_COOKIE['mobile']) && $_SESSION['user_agent'] === md5($_SERVER['HTTP_USER_AGENT'])) ? $_COOKIE['mobile'] : null;
-		if ($m === '1' || ($m === null && $cookie === 'true'))
+		$cookie = isset($_COOKIE['rx_uatype']) ? $_COOKIE['rx_uatype'] : null;
+		$uahash = base64_encode_urlsafe(md5($_SERVER['HTTP_USER_AGENT'], true));
+		if (strncmp($cookie, $uahash . ':', strlen($uahash) + 1) !== 0)
+		{
+			$cookie = null;
+		}
+		elseif ($m === null)
+		{
+			$m = substr($cookie, -1);
+		}
+		
+		if ($m === '1')
 		{
 			self::$_ismobile = TRUE;
 		}
-		elseif ($m === '0' || ($m === null && $cookie === 'false'))
+		elseif ($m === '0')
 		{
 			self::$_ismobile = FALSE;
 		}
@@ -60,11 +70,11 @@ class Mobile
 		}
 		
 		// Set cookie to prevent recalculation.
-		if ($cookie !== (self::$_ismobile ? 'true' : 'false'))
+		$uatype = $uahash . ':' . (self::$_ismobile ? '1' : '0');
+		if ($cookie !== $uatype)
 		{
-			$_SESSION['user_agent'] = md5($_SERVER['HTTP_USER_AGENT']);
-			$_COOKIE['mobile'] = self::$_ismobile ? 'true' : 'false';
-			setcookie('mobile', $_COOKIE['mobile'], 0, RX_BASEURL);
+			setcookie('rx_uatype', $uatype, 0, RX_BASEURL);
+			$_COOKIE['rx_uatype'] = $uatype;
 		}
 		
 		return self::$_ismobile;
