@@ -87,6 +87,7 @@ class editorAdminView extends editor
 		$option->content_line_height = $config->content_line_height;
 		$option->content_paragraph_spacing = $config->content_paragraph_spacing;
 		$option->content_word_break = $config->content_word_break;
+		$option->additional_css = $config->additional_css ?: array();
 		$option->enable_autosave = false;
 		$option->enable_default_component = true;
 		$option->enable_component = true;
@@ -108,6 +109,7 @@ class editorAdminView extends editor
 		$option_com->content_line_height = $config->content_line_height;
 		$option_com->content_paragraph_spacing = $config->content_paragraph_spacing;
 		$option_com->content_word_break = $config->content_word_break;
+		$option_com->additional_css = $config->additional_css ?: array();
 		$option_com->enable_autosave = false;
 		$option_com->enable_default_component = true;
 		$option_com->enable_component = true;
@@ -130,6 +132,11 @@ class editorAdminView extends editor
 		Context::set('component_list', $component_list);
 		Context::set('component_count', $component_count);
 		Context::set('editor_config_default', $editor_config_default);
+		
+		foreach ($config->additional_css as $additional_css_url)
+		{
+			Context::loadFile(array($additional_css_url));
+		}
 
 		$security = new Security();
 		$security->encodeHTML('component_list....');

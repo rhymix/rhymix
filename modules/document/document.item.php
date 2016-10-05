@@ -21,6 +21,11 @@ class documentItem extends Object
 	 */
 	var $lang_code = null;
 	/**
+	 * grant
+	 * @var bool
+	 */
+	var $grant_cache = null;
+	/**
 	 * Status of allow trackback
 	 * @var bool
 	 */
@@ -157,25 +162,44 @@ class documentItem extends Object
 
 	function isGranted()
 	{
-		if($_SESSION['own_document'][$this->document_srl]) return true;
-
-		if(!Context::get('is_logged')) return false;
-
+		if ($_SESSION['own_document'][$this->document_srl])
+		{
+			return $this->grant_cache = true;
+		}
+		
+		if ($this->grant_cache !== null)
+		{
+			return $this->grant_cache;
+		}
+		
 		$logged_info = Context::get('logged_info');
-		if($logged_info->is_admin == 'Y') return true;
+		if (!$logged_info->member_srl)
+		{
+			return $this->grant_cache = false;
+		}
+		if ($logged_info->is_admin == 'Y')
+		{
+			return $this->grant_cache = true;
+		}
+		if ($this->get('member_srl') && abs($this->get('member_srl')) == $logged_info->member_srl)
+		{
+			return $this->grant_cache = true;
+		}
 
 		$oModuleModel = getModel('module');
 		$grant = $oModuleModel->getGrant($oModuleModel->getModuleInfoByModuleSrl($this->get('module_srl')), $logged_info);
-		if($grant->manager) return true;
+		if ($grant->manager)
+		{
+			return $this->grant_cache = true;
+		}
 
-		if($this->get('member_srl') && ($this->get('member_srl') == $logged_info->member_srl || $this->get('member_srl')*-1 == $logged_info->member_srl)) return true;
-
-		return false;
+		return $this->grant_cache = false;
 	}
 
 	function setGrant()
 	{
 		$_SESSION['own_document'][$this->document_srl] = true;
+		$this->grant_cache = true;
 	}
 
 	function isAccessible()
@@ -914,7 +938,7 @@ class documentItem extends Object
 		$source_file = null;
 		$is_tmp_file = false;
 
-		// Find an iamge file among attached files if exists
+		// Find an image file among attached files if exists
 		if($this->hasUploadedFiles())
 		{
 			$file_list = $this->getUploadedFiles();

@@ -323,7 +323,7 @@ class boardView extends board
 				Context::setBrowserTitle($seo_title, array(
 					'site_title' => Context::getSiteTitle(),
 					'site_subtitle' => Context::getSiteSubtitle(),
-					'subpage_title' => $module_info->browser_title,
+					'subpage_title' => $this->module_info->browser_title,
 					'document_title' => $oDocument->getTitleText(),
 					'page' => Context::get('page') ?: 1,
 				));

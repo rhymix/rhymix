@@ -538,7 +538,7 @@ class adminAdminView extends admin
 		Context::set('minify_scripts', Rhymix\Framework\Config::get('view.minify_scripts'));
 		Context::set('concat_scripts', Rhymix\Framework\Config::get('view.concat_scripts'));
 		Context::set('use_server_push', Rhymix\Framework\Config::get('view.server_push'));
-		Context::set('use_gzip', Rhymix\Framework\Config::get('view.gzip'));
+		Context::set('use_gzip', Rhymix\Framework\Config::get('view.use_gzip'));
 		
 		$this->setTemplateFile('config_advanced');
 	}
@@ -559,6 +559,7 @@ class adminAdminView extends admin
 		Context::set('debug_display_type', Rhymix\Framework\Config::get('debug.display_type'));
 		Context::set('debug_display_content', Rhymix\Framework\Config::get('debug.display_content'));
 		Context::set('debug_display_to', Rhymix\Framework\Config::get('debug.display_to'));
+		Context::set('debug_write_error_log', Rhymix\Framework\Config::get('debug.write_error_log'));
 		
 		// IP access control
 		$allowed_ip = Rhymix\Framework\Config::get('debug.allow');

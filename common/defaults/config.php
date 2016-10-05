@@ -88,6 +88,7 @@ return array(
 		'display_type' => 'comment',
 		'display_content' => array(),
 		'display_to' => 'admin',
+		'write_error_log' => 'fatal',
 		'allow' => array(),
 	),
 	'seo' => array(

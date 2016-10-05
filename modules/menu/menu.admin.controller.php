@@ -1601,25 +1601,23 @@ class menuAdminController extends menu
 		$oModuleModel = getModel('module');
 		//$info = $oModuleModel->getModuleInfoXml($moduleName);
 		$info = $oModuleModel->getModuleActionXml($moduleName);
-
-		$url = getNotEncodedFullUrl('', 'module', 'admin', 'act', $info->menu->{$menuName}->index);
-		if(empty($url)) $url = getNotEncodedFullUrl('', 'module', 'admin', 'act', $info->admin_index_act);
-		if(empty($url)) $url = getNotEncodedFullUrl('', 'module', 'admin');
-
+		
 		$args = new stdClass();
+		$args->url = 'index.php?module=admin';
+		
+		if($info->menu->{$menuName}->index)
+		{
+			$args->url .= '&act=' . $info->menu->{$menuName}->index;
+		}
+		else if($info->admin_index_act)
+		{
+			$args->url .= '&act=' . $info->admin_index_act;
+		}
+		
 		$args->menu_item_srl = (!$requestArgs->menu_item_srl) ? getNextSequence() : $requestArgs->menu_item_srl;
 		$args->parent_srl = $requestArgs->parent_srl;
 		$args->menu_srl = $requestArgs->menu_srl;
 		$args->name = sprintf('{$lang->menu_gnb_sub[\'%s\']}', $menuName);
-		//if now page is https...
-		if(strpos($url, 'https') !== false)
-		{
-			$args->url = str_replace('https'.substr(Context::getDefaultUrl(), 4), '', $url);
-		}
-		else
-		{
-			$args->url = str_replace(Context::getDefaultUrl(), '', $url);
-		}
 		$args->open_window = 'N';
 		$args->expand = 'N';
 		$args->normal_btn = '';

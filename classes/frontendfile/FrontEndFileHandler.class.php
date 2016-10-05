@@ -156,6 +156,7 @@ class FrontEndFileHandler extends Handler
 		}
 		
 		$pathInfo = pathinfo($fileName);
+		
 		$file = new stdClass();
 		$file->fileName = $pathInfo['basename'];
 		$file->filePath = $this->_getAbsFileUrl($pathInfo['dirname']);
@@ -173,6 +174,10 @@ class FrontEndFileHandler extends Handler
 			$file->isMinified = false;
 		}
 		$file->isExternalURL = preg_match('@^(https?:)?//@i', $file->filePath) ? true : false;
+		if ($file->isExternalURL && !$file->fileExtension)
+		{
+			$file->fileExtension = preg_match('/[\.\/](css|js)\b/', $fileName, $matches) ? $matches[1] : null;
+		}
 		$file->isCachedScript = !$file->isExternalURL && strpos($file->filePath, 'files/cache/') !== false;
 		$file->isCommon = $isCommon;
 		$file->keyName = $file->fileNameNoExt . '.' . $file->fileExtension;

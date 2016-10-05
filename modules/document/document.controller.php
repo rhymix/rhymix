@@ -951,7 +951,6 @@ class documentController extends document
 			return new Object(-1, 'msg_admin_document_no_move_to_trash');
 		}
 
-
 		$trash_args->module_srl = $oDocument->get('module_srl');
 		$obj->module_srl = $oDocument->get('module_srl');
 		// Cannot throw data from the trash to the trash
@@ -1300,7 +1299,7 @@ class documentController extends document
 		if($oDocument->get('member_srl'))
 		{
 			// Pass after registering a session if author's information is same as the currently logged-in user's.
-			if($member_srl && $member_srl == $oDocument->get('member_srl'))
+			if($member_srl && $member_srl == abs($oDocument->get('member_srl')))
 			{
 				$_SESSION['voted_document'][$document_srl] = false;
 				return new Object(-1, $failed_voted);
@@ -1437,7 +1436,7 @@ class documentController extends document
 			$oMemberModel = getModel('member');
 			$member_srl = $oMemberModel->getLoggedMemberSrl();
 			// Pass after registering a session if author's information is same as the currently logged-in user's.
-			if($member_srl && $member_srl == $oDocument->get('member_srl'))
+			if($member_srl && $member_srl == abs($oDocument->get('member_srl')))
 			{
 				$_SESSION['declared_document'][$document_srl] = true;
 				return new Object(-1, 'failed_declared');

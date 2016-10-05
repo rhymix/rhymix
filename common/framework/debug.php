@@ -23,11 +23,6 @@ class Debug
 	protected static $_slow_remote_requests = array();
 	
 	/**
-	 * Also write to error log.
-	 */
-	public static $write_to_error_log = true;
-	
-	/**
 	 * Get all entries.
 	 * 
 	 * @return array
@@ -166,7 +161,7 @@ class Debug
 		self::$_entries[] = $entry;
 		
 		// Add the entry to the error log.
-		if (self::$write_to_error_log && self::isEnabledForCurrentUser())
+		if (config('debug.write_error_log') === 'all' && self::isEnabledForCurrentUser())
 		{
 			$log_entry = str_replace("\0", '', sprintf('Rhymix Debug: %s in %s on line %d',
 				var_export($message, true), $entry->file, $entry->line));
@@ -215,7 +210,7 @@ class Debug
 		);
 		
 		// Add the entry to the error log.
-		if (self::$write_to_error_log)
+		if (config('debug.write_error_log') === 'all')
 		{
 			$log_entry = strtr(sprintf('PHP %s: %s in %s on line %d', $errinfo->type, $errstr, $errfile, intval($errline)), "\0\r\n\t\v\e\f", '       ');
 			error_log($log_entry . \PHP_EOL . self::formatBacktrace($backtrace));
@@ -371,7 +366,10 @@ class Debug
 			$log_entry = str_replace("\0", '', sprintf('%s #%d "%s" in %s on line %d',
 				get_class($e), $e->getCode(), $e->getMessage(), $errfile, $e->getLine()));
 		}
-		error_log('PHP Exception: ' . $log_entry . \PHP_EOL . self::formatBacktrace($e->getTrace()));
+		if (config('debug.write_error_log') !== 'none')
+		{
+			error_log('PHP Exception: ' . $log_entry . \PHP_EOL . self::formatBacktrace($e->getTrace()));
+		}
 		
 		// Display the error screen.
 		self::displayErrorScreen($log_entry);
@@ -398,7 +396,10 @@ class Debug
 		// Add the entry to the error log.
 		$message = sprintf('%s in %s on line %d', $errinfo['message'], $errinfo['file'], intval($errinfo['line']));
 		$log_entry = str_replace("\0", '', 'PHP ' . self::getErrorType($errinfo['type']) . ': ' . $message);
-		error_log($log_entry);
+		if (config('debug.write_error_log') !== 'none')
+		{
+			error_log($log_entry);
+		}
 		
 		// Display the error screen.
 		self::displayErrorScreen($log_entry);

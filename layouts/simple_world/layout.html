@@ -1,0 +1,149 @@
+<!--// responsible layout -->
+{Context::addMetaTag("viewport", "width=device-width, user-scalable=yes")}
+
+<load target="./lang" />
+
+{@
+	if(!$layout_info->primary_color)
+		$layout_info->primary_color = 'red';
+	if(!$layout_info->customized_primary_color)
+		$layout_info->customized_primary_color = '#f44336';
+	if(!$layout_info->content_color)
+		$layout_info->content_color = '#ffffff';
+
+	$material_colors = array(
+		'red'	=>	'#f44336',
+		'crimson'	=>	'#66001f',
+		'pink'	=>	'#e91e63',
+		'purple'	=>	'#9c27b0',
+		'deep-purple'	=>	'#673ab7',
+		'indigo'	=>	'#3f51b5',
+		'deep-blue'	=>	'#00397f',
+		'blue'	=>	'#2196f3',
+		'light-blue'	=>	'#03a9f4',
+		'cyan'	=>	'#00bcd4',
+		'teal'	=>	'#009688',
+		'green'	=>	'#4caf50',
+		'light-green'	=>	'#8bc34a',
+		'lime'	=>	'#cddc39',
+		'yellow'	=>	'#ffeb3b',
+		'amber'	=>	'#ffc107',
+		'orange'	=>	'#ff9800',
+		'deep-orange'	=>	'#ff5722',
+		'brown'	=>	'#795548',
+		'grey'	=>	'#9e9e9e',
+		'blue-grey'	=>	'#607d8b',
+		'black'	=>	'#000000',
+		'white'	=>	'#ffffff',
+		'customized'	=>	$layout_info->customized_primary_color,
+	);
+
+	$oMemberModel = getModel('member');
+	$member_config = $oMemberModel->getMemberConfig();
+
+}
+
+
+<!--// theme-color for mobile chrome browser -->
+{Context::addMetaTag("theme-color", $material_colors[$layout_info->primary_color])}
+
+<!--// Load styles -->
+{Context::set('layout_scss_value', array('grey' => $material_colors['grey'], 'primary_color' => $material_colors[$layout_info->primary_color], 'menu_position' => $layout_info->menu_position, 'content_color' => $layout_info->content_color))}
+<load target="layout.scss" vars="$layout_scss_value" />
+<load target="layout.js" />
+
+<div class="skip"><a href="#content">{$lang->skip_to_content}</a></div>
+<header class="layout_frame">
+	<div class="layout_header layout_canvas">
+		<h1>
+			<a href="<!--@if($layout_info->logo_url)-->{$layout_info->logo_url}<!--@elseif(Context::getDefaultUrl())-->{Context::getDefaultUrl()}<!--@else-->{getUrl('')}<!--@end-->" id="siteTitle">
+				<block cond="!Context::getSiteTitle() && !$layout_info->LOGO_IMG && !$layout_info->LOGO_TEXT">Rhymix</block>
+				<block cond="Context::getSiteTitle() && !$layout_info->LOGO_IMG && !$layout_info->LOGO_TEXT">{Context::getSiteTitle()}</block>
+				<img src="{$layout_info->LOGO_IMG}" alt="{$layout_info->LOGO_TEXT}" cond="$layout_info->LOGO_IMG">
+				<block cond="!$layout_info->LOGO_IMG && $layout_info->LOGO_TEXT">{$layout_info->LOGO_TEXT}</block>
+			</a>
+		</h1>
+		<div id="layout_menu_toggle">
+			<button class="layout_mobile_menu layout_mobile_menu--htx" data-target="layout_gnb">
+				<span>{$lang->menu}</span>
+			</button>
+		</div>
+		<div class="hside layout_pc">
+			<div class="side">
+				<!--// Search -->
+				<form action="{getUrl()}" method="get" class="layout_search">
+					<input type="hidden" name="vid" value="{$vid}" />
+					<input type="hidden" name="mid" value="{$mid}" />
+					<input type="hidden" name="act" value="IS" />
+					<input type="text" name="is_keyword" value="{$is_keyword}" required placeholder="{$lang->cmd_search}" title="{$lang->cmd_search}" />
+					<input type="submit" value="{$lang->cmd_search}" />
+				</form>
+				<!--// Search -->
+			</div>
+		</div>
+	</div>
+	<!--// Menu -->
+	<nav class="layout_frame layout_menu" id="layout_gnb">
+		<ul>
+			<li class="layout_dropdown">
+				<a href="{getUrl('act', 'dispMemberLoginForm')}" cond="!$is_logged">{sprintf($lang->simple_hello, $lang->simple_guest)}</a>
+				<ul class="layout_dropdown-content" cond="!$is_logged">
+					<li><a href="{getUrl('act', 'dispMemberLoginForm')}">{$lang->cmd_login}...</a></li>
+					<li><a href="{getUrl('act', 'dispMemberSignUpForm')}" cond="$member_config->enable_join === 'Y'">{$lang->cmd_signup}...</a></li>
+				</ul>
+				<a href="{getUrl('act', 'dispMemberInfo')}" cond="$is_logged">{sprintf($lang->simple_hello, $logged_info->nick_name)}</a>
+				<ul class="layout_dropdown-content" cond="$is_logged">
+					<li><a href="{getUrl('act', 'dispMemberInfo')}">{$lang->cmd_view_member_info}</a></li>
+					<li cond="$logged_info->is_admin == 'Y'">
+						<a href="{getUrl('', 'module','admin')}">{$lang->cmd_management}</a>
+					</li>
+					<li><a href="{getUrl('act', 'dispMemberLogout')}">{$lang->cmd_logout}</a></li>
+				</ul>
+			</li>
+			<li loop="$GNB->list=>$key1,$val1" class="<!--@if($val1['selected'])-->active <!--@endif--><!--@if($val1['list'])-->layout_dropdown<!--@endif-->">
+				<a href="{$val1['href']}" target="_blank"|cond="$val1['open_window']=='Y'"><span>{$val1['link']}</span></a>
+				<ul cond="$val1['list']" class="layout_dropdown-content">
+					<li loop="$val1['list']=>$key2,$val2" class="active"|cond="$val2['selected']"><a href="{$val2['href']}" target="_blank"|cond="$val2['open_window']=='Y'">{$val2['link']}</a></li>
+				</ul>
+			</li>
+			<li id="layout_search_link">
+				<a href="{getUrl('vid', $vid, 'mid', $mid, 'act', 'IS')}"><span>{$lang->cmd_search}</span></a>
+			</li>
+		</ul>
+	</nav>
+	<!--// Menu -->
+</header>
+<div class="layout_frame layout_body">
+	<!--// VISUAL -->
+	<div class="layout_body layout_canvas">
+		<!--// CONTENT -->
+			<div class="layout_content" id="content">
+			{$layout_info->before_content}
+			{$content}
+			{$layout_info->after_content}
+		</div>
+		<!--// CONTENT -->
+	</div>
+</div>
+<footer class="layout_frame layout_footer">
+	<div class="layout_footer layout_canvas">
+		<!--// Footer Menu -->
+		<nav class="layout_menu" id="layout_fnb" cond="count($FNB->list) > 0">
+			<ul>
+				<li loop="$FNB->list=>$key1,$val1" class="footer_menu">
+					<a href="{$val1['href']}" target="_blank"|cond="$val1['open_window']=='Y'"><span>{$val1['link']}</span></a>
+				</li>
+			</ul>
+		</nav>
+		<!--// Footer Menu -->
+		<!--// Language -->
+		<div class="layout_language" cond="count($lang_supported) > 1">
+			<button type="button" class="toggle">Language: {$lang_supported[$lang_type]}</button>
+			<ul class="selectLang">
+				<li loop="$lang_supported=>$key,$val" cond="$key!= $lang_type"><button type="button" onclick="doChangeLangType('{$key}');return false;">{$val}</button></li>
+			</ul>
+		</div>
+		<p cond="!$layout_info->FOOTER">Powered by <a href="https://www.rhymix.org/">Rhymix</a>.</p>
+		<p cond="$layout_info->FOOTER">{$layout_info->FOOTER}</p>
+	</div>
+</footer>

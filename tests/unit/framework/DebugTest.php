@@ -5,8 +5,7 @@ class DebugTest extends \Codeception\TestCase\Test
 	public function testDebugEntry()
 	{
 		$file = __FILE__;
-		$line = __LINE__ + 2;
-		Rhymix\Framework\Debug::$write_to_error_log = false;
+		$line = __LINE__ + 1;
 		Rhymix\Framework\Debug::addEntry('foobar entry');
 		$entries = Rhymix\Framework\Debug::getEntries();
 		$this->assertEquals(1, count($entries));
@@ -18,8 +17,7 @@ class DebugTest extends \Codeception\TestCase\Test
 	public function testDebugError()
 	{
 		$file = __FILE__;
-		$line = __LINE__ + 2;
-		Rhymix\Framework\Debug::$write_to_error_log = false;
+		$line = __LINE__ + 1;
 		Rhymix\Framework\Debug::addError(~0, 'Rhymix', $file, $line, null);
 		$errors = Rhymix\Framework\Debug::getErrors();
 		$this->assertGreaterThanOrEqual(1, count($errors));

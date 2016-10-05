@@ -1,0 +1,601 @@
+@charset "UTF-8";
+@function layoutGrayContrast($color, $ratio) {
+	$grayColor: grayscale($color);
+	$grayValue: red($grayColor);
+
+	@if $grayValue > ($ratio * 255) {
+		$return: 0;
+	} @else {
+		$return: 255;
+	}
+
+	@return rgb($return, $return, $return);
+}
+
+body {
+	margin:0;
+	padding:0;
+	background-color: darken($grey, 35%);
+}
+/* Skin to content */
+.skip {
+	background-color: lighten($grey, 35%);
+	position: relative;
+	margin:0
+}
+
+.skip>a {
+	display: block;
+	text-align: center;
+	line-height:28px;
+	height:0px;
+	overflow: hidden
+}
+
+.skip>a:focus {
+	height: auto
+}
+
+/* Layout */
+.layout_canvas {
+	position: relative;
+	max-width:960px;
+	width:100%;
+	margin:0 auto;
+}
+
+.layout_header {
+	padding:0;
+}
+
+.layout_header>.hside {
+	position: absolute;
+	right:5px;
+	top: 25px
+}
+
+.layout_body.layout_frame {
+	background-color: $content_color;
+}
+.layout_body {
+	position: relative;
+}
+
+.layout_header:after,
+.layout_body:after {
+	content:"";
+	display: block;
+	clear: both
+}
+
+.layout_content {
+	overflow: auto;
+	padding:10px 0px;
+}
+
+.layout_content>*:first-child {
+	margin-top:0
+}
+
+.layout_content img {
+	max-width:100%;
+	height: auto
+}
+
+/* Header */
+header.layout_frame {
+	position:relative;
+	background-color: lighten($primary-color, 10%);
+	z-index: 1;
+	box-shadow: 0 1px 3px rgba(0,0,0,0.12), 0 1px 2px rgba(0,0,0,0.24);
+}
+.layout_header>h1 {
+	margin:0 auto;
+	padding:20px 5px;
+	box-sizing: border-box;
+	color: layoutGrayContrast(lighten($primary-color, 10%), 0.710);
+}
+
+.layout_header>h1>a {
+	font-size:32px;
+	text-decoration: none;
+	color: layoutGrayContrast(lighten($primary-color, 10%), 0.710);
+	padding:0 5px;
+}
+
+#layout_menu_toggle {
+	width:90px;
+	display: none;
+}
+
+/* .layout_footer */
+.layout_footer {
+	box-sizing: border-box;
+	padding: 13px 7px;
+	background-color: darken($grey, 35%);
+	color: lighten($grey, 30%);
+}
+
+.layout_footer p {
+	font-size:12px
+}
+
+.layout_footer a {
+	font-weight: bold;
+	text-decoration: none;
+	color: lighten($primary_color, 31%);
+}
+
+.layout_footer a:hover,
+.layout_footer a:focus {
+	text-decoration: underline
+}
+
+/* Search */
+.layout_header .layout_search {
+	display: inline-block;
+	vertical-align: bottom;
+	margin:0
+}
+
+.layout_header .layout_search>input {
+	font-size:12px;
+	-webkit-appearance: none;
+	border-radius: 0;
+}
+
+.layout_header .layout_search>input[type="text"] {
+	width: 126px;
+	line-height: 18px;
+	font-size: 14px;
+	margin: 0;
+	padding: 8px 8px 6px 8px;
+	position: relative;
+	display: inline-block;
+	outline: none;
+	border-radius: 0;
+	border: none;
+	background: lighten($primary-color, 20%);
+	color: layoutGrayContrast(lighten($primary-color, 20%), 0.710);
+}
+
+.layout_header .layout_search>input[type="text"]:hover,
+.layout_header .layout_search>input[type="text"]:focus {
+	background: lighten($primary-color, 50%);
+	color: layoutGrayContrast(lighten($primary-color, 50%), 0.710);
+}
+
+.layout_header .layout_search>input[type="submit"] {
+	vertical-align: bottom;
+	background: lighten($primary-color,15%);
+	color: layoutGrayContrast(lighten($primary-color, 15%), 0.710);
+	border: none;
+	height:32px;
+	padding:0 15px;
+	margin:0;
+}
+
+.layout_header .layout_search>input[type="submit"]:hover,
+ .layout_header .layout_search>input[type="submit"]:focus {
+	background:$primary-color;
+	color: layoutGrayContrast($primary-color, 0.710);
+}
+
+/* GNB */
+.layout_menu {
+	background-color: lighten($grey, 31%);
+}
+.layout_menu ul {
+	list-style-type: none;
+	padding: 0;
+	overflow: hidden;
+	max-width:960px;
+	margin:0 auto;
+}
+.layout_menu>ul{
+	width:100%;
+}
+.layout_menu>ul>li {
+	float: left;
+}
+
+#layout_gnb>ul>li:first-child {
+	float: right;
+
+}
+
+.layout_menu li a, .dropbtn {
+	display: inline-block;
+	color: black;
+	text-align: center;
+	padding: 14px 16px;
+	text-decoration: none;
+	font-size: 13px;
+	line-height: 1;
+}
+
+.layout_menu li.active>a {
+	background-color: lighten($primary-color, 15%);
+	color: layoutGrayContrast(lighten($primary-color, 15%), 0.710);
+}
+header .layout_menu li:hover,
+header .layout_menu li:focus,
+header .layout_menu li:active,
+header .layout_menu .layout_focus {
+	background-color: lighten($grey, 40%);
+}
+.layout_menu li a:hover,
+.layout_menu li a:focus,
+.layout_menu li a:active,
+.layout_dropdown:hover .dropbtn,
+.layout_dropdown:focus .dropbtn,
+.layout_dropdown:active .dropbtn,
+.layout_language li:hover button,
+.layout_language li:focus button,
+.layout_language li:active button {
+	background-color: $primary-color;
+	color: layoutGrayContrast($primary-color, 0.710);
+}
+
+.layout_menu li.layout_dropdown {
+	display: block;
+}
+
+.layout_menu .layout_dropdown-content {
+	display: none;
+	position: absolute;
+	background-color: lighten($grey, 40%);
+	z-index: 1000;
+	box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+}
+
+.layout_menu .layout_dropdown-content a {
+	color: black;
+	padding: 12px 16px;
+	text-decoration: none;
+	min-width: 160px;
+	display: block;
+	text-align: left;
+	box-sizing: border-box;
+}
+
+.
+.layout_menu .layout_dropdown-content a:hover,
+.layout_menu .layout_dropdown-content a:active,
+.layout_menu .layout_dropdown-content a:focus {
+	display: block;
+	background-color: lighten($primary-color, 10%);
+	color: layoutGrayContrast(lighten($primary-color, 10%), 0.710);
+}
+
+.layout_menu .layout_dropdown:hover .layout_dropdown-content,
+.layout_menu .layout_dropdown:active .layout_dropdown-content,
+.layout_menu .layout_dropdown:focus .layout_dropdown-content,
+.layout_menu .layout_dropdown a:hover ~ .layout_dropdown-content,
+.layout_menu .layout_dropdown a:active ~ .layout_dropdown-content,
+.layout_menu .layout_dropdown a:focus ~ .layout_dropdown-content,
+.layout_menu .layout_dropdown layout_dropdown-content:hover,
+.layout_menu .layout_dropdown layout_dropdown-content:active,
+.layout_menu .layout_dropdown layout_dropdown-content:focus/* ,
+.layout_menu .layout_dropdown .layout_dropdown-content:has(> a:hover),
+.layout_menu .layout_dropdown .layout_dropdown-content:has(> a:focus) */ {
+	display: block;
+}
+#layout_fnb{
+	background-color: transparent;
+}
+
+.layout_footer .layout_menu li a, .layout_footer  .dropbtn {
+	color: lighten($grey, 10%);
+	font-weight: normal;
+	text-decoration: none;
+	padding: 14px 0px;
+}
+.layout_footer .layout_menu li a>span {
+	padding: 0px 16px;
+	border-right: 1px solid lighten($grey, 10%);
+}
+.layout_footer .layout_menu li:first-child{
+	margin-left:-16px;
+}
+.layout_footer .layout_menu li:last-child a>span {
+	border-right: none;
+}
+
+.layout_footer .layout_menu li a:hover,
+.layout_footer .layout_menu li a:focus,
+.layout_footer .layout_menu li a:active{
+	background-color: transparent;
+	color: #fff;
+}
+
+/* Language */
+.layout_language{
+	display: absolute;
+	right: 0;
+	top: 15px;
+}
+.layout_language button {
+	outline: none;
+}
+.layout_language ul::before {
+	content: "";
+	display: block;
+	clear: both;
+}
+.layout_language ul {
+	display: none;
+	float:right;
+	width:120px;
+	clear:both;
+	margin: 0px 0px 10px;
+	padding: 0;
+	z-index: 1000;
+	box-shadow: 0px 8px 16px 0px rgba(255,255,255,0.2);
+}
+.layout_language .toggle{
+	background:none;
+	display: block;
+	float: right;
+	width:120px;
+	border:0;
+	color:#fff;
+	cursor:pointer;
+	vertical-align:top;
+	text-align:right;
+	padding:0;
+	height:45px;
+}
+
+.layout_language li{
+	list-style:none;
+	background: lighten($grey, 40%);
+}
+.layout_language li button {
+	display:block;
+	color: black;
+	background: lighten($grey, 40%);
+	padding: 12px 16px;
+	text-decoration: none;
+	width: 100%;
+	display: block;
+	text-align: left;
+	box-sizing: border-box;
+	border:0;
+	cursor:pointer;
+}
+
+/* Hamberger menu http://callmenick.com/post/animating-css-only-hamburger-menu-icons Licensed under the MIT license, http://www.opensource.org/licenses/mit-license.php Copyright 2014, Call Me Nick http://callmenick.com */
+.layout_mobile_menu {
+	display: block;
+	position: relative;
+	overflow: hidden;
+	margin: 0;
+	padding: 0;
+	width: 90px;
+	height: 90px;
+	font-size: 0;
+	text-indent: -9999px;
+	appearance: none;
+	box-shadow: none;
+	border-radius: none;
+	border: none;
+	cursor: pointer;
+	transition: background 0.3s;
+}
+
+.layout_mobile_menu:focus {
+	outline: none;
+}
+
+.layout_mobile_menu span {
+	display: block;
+	position: absolute;
+	top: 41px;
+	left: 17px;
+	right: 17px;
+	height: 8px;
+	background: white;
+}
+
+.layout_mobile_menu span::before,
+.layout_mobile_menu span::after {
+	position: absolute;
+	display: block;
+	left: 0;
+	width: 100%;
+	height: 8px;
+	background-color: #fff;
+	content: "";
+}
+
+.layout_mobile_menu span::before {
+	top: -19px;
+}
+
+.layout_mobile_menu span::after {
+	bottom: -19px;
+}
+
+.layout_mobile_menu--htx {
+	background-color: $primary-color;
+}
+
+.layout_mobile_menu--htx span {
+	transition: background 0s 0.3s;
+}
+
+.layout_mobile_menu--htx span::before,
+.layout_mobile_menu--htx span::after {
+	transition-duration: 0.3s, 0.3s;
+	transition-delay: 0.3s, 0s;
+}
+
+.layout_mobile_menu--htx span::before {
+	transition-property: top, transform;
+}
+
+.layout_mobile_menu--htx span::after {
+	transition-property: bottom, transform;
+}
+
+/* active state, i.e. menu open */
+.layout_mobile_menu--htx.is-active {
+	background-color: darken( $primary-color, 10% );
+}
+
+.layout_mobile_menu--htx.is-active span {
+	background: none;
+}
+
+.layout_mobile_menu--htx.is-active span::before {
+	top: 0;
+	transform: rotate(45deg);
+}
+
+.layout_mobile_menu--htx.is-active span::after {
+	bottom: 0;
+	transform: rotate(-45deg);
+}
+
+.layout_mobile_menu--htx.is-active span::before,
+.layout_mobile_menu--htx.is-active span::after {
+	transition-delay: 0s, 0.3s;
+}
+#layout_search_link {
+	display: none;
+}
+
+@media (max-width: 750px) {
+	#layout_menu_toggle, #layout_search_link {
+		display: block;
+	}
+
+	.layout_header>h1 {
+		/* Menu position option */
+		@if $menu_position == 'left_right' {
+			padding:20px 5px 20px 95px;
+		} @else {
+			padding:20px 95px 20px 5px;
+		}
+	}
+
+	.layout_header>h1>a {
+		color: layoutGrayContrast(lighten($primary-color, 10%), 0.710);
+	}
+
+	#layout_menu_toggle {
+		position: fixed;
+		top:0;
+
+		/* Menu position option */
+		@if $menu_position == 'left_right' {
+			left:0;
+		} @else {
+			right:0;
+		}
+
+		z-index:1001;
+		opacity: 0.9;
+		box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+	}
+
+	/* GNB */
+	.layout_menu {
+		display: none;
+		font-size:15px;
+		width:100%;
+		height: auto;
+		clear: both;
+	}
+
+	.layout_menu ul {
+		list-style-type: none;
+		margin: 0;
+		padding: 0;
+		width: 100%;
+		height: auto;
+	}
+
+	.layout_menu>ul>li, #layout_gnb>ul>li:first-child {
+		float: none;
+	}
+
+	.layout_menu li a, .dropbtn {
+		display: block;
+		color: #000;
+		text-align: left;
+		padding: 15px;
+		text-decoration: none;
+	}
+
+	.layout_menu li.active>a {
+		background-color: lighten($primary-color, 15%);
+		color: layoutGrayContrast(lighten($primary-color, 15%), 0.710);
+	}
+
+	.layout_menu li a:hover, .layout_dropdown:hover .dropbtn,
+	.layout_menu li a:focus, .layout_dropdown:focus .dropbtn {
+		background-color: $primary-color;
+		color: layoutGrayContrast($primary-color, 10%, 0.710);
+	}
+
+	.layout_menu li.layout_dropdown {
+		display: block;
+	}
+
+	.layout_menu .layout_dropdown-content {
+		display: block;
+		position: relative;
+		background-color: lighten($grey, 35%);
+		color: layoutGrayContrast(lighten($grey, 35%), 0.710);
+		width: 100%;
+		min-width: 100%;
+		box-shadow: none;
+		z-index:1;
+	}
+
+	.layout_menu .layout_dropdown-content a {
+		background-color: lighten($grey, 35%);
+		color: layoutGrayContrast(lighten($grey, 35%), 0.710);
+		padding: 15px 30px;
+		text-decoration: none;
+		display: block;
+		text-align: left;
+	}
+
+	.layout_footer .layout_menu {
+		display: block;
+		margin-bottom: 10px;
+	}
+
+	.layout_footer .layout_menu li a>span {
+		border-right: none;
+	}
+	.layout_footer .layout_menu li:first-child{
+		margin-left:0px;
+	}
+
+	.layout_footer .layout_menu ul {
+		background-color: transparent;
+	}
+
+	.layout_language {
+		margin-top: 15px;
+	}
+	.layout_language ul {
+		display: none;
+		float:none;
+		width:100%;
+	}
+	.layout_language .toggle{
+		display: block;
+		float: none;
+		width:100%;
+	}
+	/* PC only */
+	.layout_pc {
+		display: none;
+	}
+
+}

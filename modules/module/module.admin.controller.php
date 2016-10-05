@@ -352,6 +352,8 @@ class moduleAdminController extends module
 				if(!$output->toBool()) return $output;
 			}
 		}
+		
+		Rhymix\Framework\Cache::delete("site_and_module:module_grants:$module_srl");
 		$this->setMessage('success_registed');
 	}
 
@@ -632,7 +634,10 @@ class moduleAdminController extends module
 				}
 			}
 		}
+		
+		Rhymix\Framework\Cache::delete("site_and_module:module_grants:$module_srl");
 		$this->setMessage('success_registed');
+		
 		if(!in_array(Context::getRequestMethod(),array('XMLRPC','JSON')))
 		{
 			if(Context::get('success_return_url'))

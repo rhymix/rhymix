@@ -272,7 +272,7 @@ class ModuleHandler extends Handler
 		}
 		
 		// redirect, if site start module
-		if(isset($_GET['mid']) && $_GET['mid'] === $site_module_info->mid && count($_GET) === 1)
+		if(Context::getRequestMethod() === 'GET' && isset($_GET['mid']) && $_GET['mid'] === $site_module_info->mid && count($_GET) === 1)
 		{
 			Context::setCacheControl(0);
 			header('location: ' . getNotEncodedSiteUrl($site_module_info->domain), true, 301);

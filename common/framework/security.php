@@ -307,11 +307,6 @@ class Security
 	 */
 	public static function checkCSRF($referer = null)
 	{
-		if ($_SERVER['REQUEST_METHOD'] !== 'POST')
-		{
-			return false;
-		}
-		
 		if (!$referer)
 		{
 			$referer = strval($_SERVER['HTTP_REFERER']);

@@ -3,7 +3,7 @@
         <table name="module_admins" />
     </tables>
     <conditions>
-        <condition operation="equal" column="module_srl" var="module_srl" notnull="notnull" filter="number" />
-        <condition operation="equal" column="member_srl" var="member_srl" notnull="notnull" pipe="and" />
+        <condition operation="equal" column="module_srl" var="module_srl" filter="number" />
+        <condition operation="equal" column="member_srl" var="member_srl" pipe="and" />
     </conditions>
 </query>
