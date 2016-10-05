@@ -57,11 +57,12 @@ class Session
 	 * 
 	 * This method is called automatically at Rhymix startup.
 	 * There is usually no need to call it manually.
-	 *
+	 * 
+	 * @param bool $force (optional)
 	 * @param bool $relax_key_checks (optional)
 	 * @return bool
 	 */
-	public static function start($relax_key_checks = false)
+	public static function start($force = false, $relax_key_checks = false)
 	{
 		// Do not start the session if it is already started.
 		if (self::$_started)
@@ -77,6 +78,19 @@ class Session
         ini_set('session.use_strict_mode', 1);
         session_set_cookie_params($lifetime, $path, $domain, false, false);
 		session_name(Config::get('session.name') ?: session_name());
+		
+		// Get session ID from POST parameter if using relaxed key checks.
+		if ($relax_key_checks && isset($_POST[session_name()]))
+		{
+			session_id($_POST[session_name()]);
+		}
+		
+		// Abort if using delayed session.
+		if(Config::get('session.delay') && !$force && !isset($_COOKIE[session_name()]))
+		{
+			$_SESSION = array();
+			return false;
+		}
 		
 		// Start the PHP native session.
 		if (!session_start())
@@ -163,6 +177,48 @@ class Session
 		{
 			return true;
 		}
+	}
+	
+	/**
+	 * Check if the session needs to be started.
+	 * 
+	 * This method is called automatically at Rhymix shutdown.
+	 * It is only necessary if the session is delayed.
+	 * 
+	 * @param bool $force (optional)
+	 * @return bool
+	 */
+	public static function checkStart($force = false)
+	{
+		// Return if the session is already started.
+		if (self::$_started)
+		{
+			return true;
+		}
+		
+		// Start the session if it contains data.
+		if ($force || (count($_SESSION) && !headers_sent()))
+		{
+			// Copy session data to a temporary array.
+			$temp = $_SESSION;
+			unset($_SESSION);
+			
+			// Start the session.
+			self::start(true);
+			
+			// Copy session data back to $_SESSION.
+			foreach ($temp as $key => $val)
+			{
+				if ($key !== 'RHYMIX')
+				{
+					$_SESSION[$key] = $val;
+				}
+			}
+			return true;
+		}
+		
+		// Return false if nothing needed to be done.
+		return false;
 	}
 	
 	/**

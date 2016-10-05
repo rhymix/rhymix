@@ -339,30 +339,11 @@ class Context
 			);
 		}
 		
-		// start session if it was previously started
-		$session_name = session_name();
-		$session_id = NULL;
-		if($session_id = $_POST[$session_name])
-		{
-			session_id($session_id);
-		}
-		else
-		{
-			$session_id = $_COOKIE[$session_name];
-		}
+		// start session
+		$relax_key_checks = ($this->act === 'procFileUpload' && preg_match('/shockwave\s?flash/i', $_SERVER['HTTP_USER_AGENT']));
+		Rhymix\Framework\Session::start(false, $relax_key_checks);
 
-		if($session_id !== NULL || !config('session.delay'))
-		{
-			$this->setCacheControl(0, false);
-			$relax_key_checks = ($this->act === 'procFileUpload' && preg_match('/shockwave\s?flash/i', $_SERVER['HTTP_USER_AGENT']));
-			Rhymix\Framework\Session::start($relax_key_checks);
-		}
-		else
-		{
-			$this->setCacheControl(-1, true);
-			$_SESSION = array();
-		}
-
+		// start output buffer
 		ob_start();
 
 		// set authentication information in Context and session
@@ -434,27 +415,9 @@ class Context
 	 * 
 	 * @return void
 	 */
-	public static function checkSessionStatus($force_start = false)
+	public static function checkSessionStatus($force = false)
 	{
-		if(self::getSessionStatus())
-		{
-			return true;
-		}
-		if($force_start || (count($_SESSION) && !headers_sent()))
-		{
-			$tempSession = $_SESSION;
-			unset($_SESSION);
-			Rhymix\Framework\Session::start();
-			foreach ($tempSession as $key => $val)
-			{
-				if ($key !== 'RHYMIX')
-				{
-					$_SESSION[$key] = $val;
-				}
-			}
-			return true;
-		}
-		return false;
+		return Rhymix\Framework\Session::checkStart($force);
 	}
 
 	/**
@@ -471,7 +434,7 @@ class Context
 		}
 		
 		// Check session status and close it if open.
-		if (self::checkSessionStatus())
+		if (Rhymix\Framework\Session::checkStart())
 		{
 			Rhymix\Framework\Session::close();
 		}
