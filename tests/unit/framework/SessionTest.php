@@ -4,6 +4,7 @@ class SessionTest extends \Codeception\TestCase\Test
 {
 	public function _before()
 	{
+		Rhymix\Framework\Config::set('session.delay', false);
 		Rhymix\Framework\Session::close();
 		session_id('rhymix-test-session');
 		$_SESSION = array();
@@ -12,6 +13,7 @@ class SessionTest extends \Codeception\TestCase\Test
 	
 	public function _after()
 	{
+		Rhymix\Framework\Config::set('session.delay', false);
 		Rhymix\Framework\Session::close();
 		session_id('rhymix-test-session');
 		$_SESSION = array();
@@ -20,6 +22,7 @@ class SessionTest extends \Codeception\TestCase\Test
 	
 	public function _failed()
 	{
+		Rhymix\Framework\Config::set('session.delay', false);
 		Rhymix\Framework\Session::close();
 		session_id('rhymix-test-session');
 		$_SESSION = array();
@@ -94,6 +97,36 @@ class SessionTest extends \Codeception\TestCase\Test
 		$this->assertEquals($session_secret, $_SESSION['RHYMIX']['secret']);
 		$session_secret = $_SESSION['RHYMIX']['secret'];
 		Rhymix\Framework\Session::close();
+	}
+	
+	public function testCheckStart()
+	{
+		Rhymix\Framework\Config::set('session.delay', true);
+		
+		$_SESSION = array();
+		unset($_COOKIE['PHPSESSID']);
+		$this->assertFalse(Rhymix\Framework\Session::start());
+		$this->assertFalse(Rhymix\Framework\Session::isStarted());
+		$this->assertFalse(Rhymix\Framework\Session::checkStart());
+		$this->assertFalse(Rhymix\Framework\Session::isStarted());
+		
+		$_SESSION['foo'] = 'bar';
+		$this->assertTrue(Rhymix\Framework\Session::checkStart());
+		$this->assertTrue(Rhymix\Framework\Session::isStarted());
+		$this->assertEquals('bar', $_SESSION['foo']);
+		$this->assertEquals('bar', Rhymix\Framework\Session::get('foo'));
+		Rhymix\Framework\Session::close();
+		
+		$_SESSION = array();
+		unset($_COOKIE['PHPSESSID']);
+		$this->assertTrue(Rhymix\Framework\Session::checkStart(true));
+		$this->assertTrue(Rhymix\Framework\Session::isStarted());
+		Rhymix\Framework\Session::close();
+		
+		$_SESSION = array();
+		unset($_COOKIE['PHPSESSID']);
+		$this->assertTrue(Rhymix\Framework\Session::start(true));
+		$this->assertTrue(Rhymix\Framework\Session::isStarted());
 	}
 	
 	public function testRefresh()

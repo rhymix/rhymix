@@ -317,7 +317,7 @@ class Session
 		self::$_started = false;
 		self::$_member_info = false;
 		self::_setKeys();
-		session_destroy();
+		@session_destroy();
 		return true;
 	}
 	
