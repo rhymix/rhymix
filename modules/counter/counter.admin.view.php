@@ -28,7 +28,7 @@ class counterAdminView extends counter
 	function dispCounterAdminIndex()
 	{
 		// set today's if no date is given
-		$selected_date = Context::get('selected_date');
+		$selected_date = (int)Context::get('selected_date');
 
 		if(!$selected_date)
 		{
