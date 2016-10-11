@@ -27,9 +27,9 @@ if (isset($_SERVER['DOCUMENT_ROOT']) && !strncmp(RX_BASEDIR,  str_replace('\\', 
 {
     define('RX_BASEURL', str_replace('//', '/', '/' . trim(substr(RX_BASEDIR, strlen($_SERVER['DOCUMENT_ROOT'])), '/') . '/'));
 }
-elseif (isset($_SERVER['PHP_SELF']) && ($len = strlen($_SERVER['PHP_SELF'])) && $len >= 10 && substr($_SERVER['PHP_SELF'], $len - 10) === '/index.php')
+elseif (isset($_SERVER['PHP_SELF']) && ($pos = strpos($_SERVER['PHP_SELF'], '/index.php')) !== false)
 {
-    define('RX_BASEURL', str_replace('//', '/', '/' . trim(str_replace('\\', '/', substr($_SERVER['PHP_SELF'], 0, $len - 10)), '/') . '/'));
+    define('RX_BASEURL', str_replace('//', '/', '/' . trim(str_replace('\\', '/', substr($_SERVER['PHP_SELF'], 0, $pos)), '/') . '/'));
 }
 else
 {
