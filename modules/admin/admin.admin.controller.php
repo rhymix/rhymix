@@ -631,7 +631,7 @@ class adminAdminController extends admin
 		
 		// Default URL
 		$default_url = rtrim(trim($vars->default_url), '/\\') . '/';
-		if (!filter_var($default_url, FILTER_VALIDATE_URL) || !preg_match('@^https?://@', $default_url))
+		if (!filter_var(Rhymix\Framework\URL::encodeIdna($default_url), FILTER_VALIDATE_URL) || !preg_match('@^https?://@', $default_url))
 		{
 			return new Object(-1, 'msg_invalid_default_url');
 		}
