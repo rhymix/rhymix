@@ -68,7 +68,7 @@ class image_gallery extends EditorHandler
 			$output = array();
 			for($i=0;$i<count($gallery_info->images_list);$i++)
 			{
-				$output[] = sprintf('<img src="%s" alt="" />', $gallery_info->images_list[$i]);
+				$output[] = sprintf('<img src="%s" alt="Gallery image no.%d" />', $gallery_info->images_list[$i], $i+1);
 			}
 			$output[] = '<br />';
 			return implode('<br />', $output);
