@@ -38,7 +38,7 @@ $(function()
 		var currentScroll = $(this).scrollTop();
 		if (currentScroll > previousScroll)
 		{
-			if($("#layout_menu_toggle").attr('data-scroll-down') !== 'true')
+			if($("#layout_menu_toggle").css( 'position' ) === 'fixed' && $("#layout_menu_toggle").attr('data-scroll-down') !== 'true')
 			{
 				$("#layout_menu_toggle").attr('data-scroll-down', 'true');
 				$("#layout_menu_toggle").fadeOut();
@@ -46,7 +46,7 @@ $(function()
 		}
 		else
 		{
-			if($("#layout_menu_toggle").attr('data-scroll-down') === 'true')
+			if($("#layout_menu_toggle").css( 'position' ) === 'fixed' && $("#layout_menu_toggle").attr('data-scroll-down') === 'true')
 			{
 				$("#layout_menu_toggle").attr('data-scroll-down', '');
 				$("#layout_menu_toggle").fadeIn();
