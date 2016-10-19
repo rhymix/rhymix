@@ -134,17 +134,17 @@ class memberView extends member
 				if($formInfo->name == 'profile_image' && $memberInfo->profile_image)
 				{
 					$target = $memberInfo->profile_image;
-					$item->value = '<img src="'.$target->src.'" alt="' . lang('member.profile_image') . ' ('.htmlspecialchars($memberInfo->nick_name).')' . '" />';
+					$item->value = '<img src="'.$target->src.'" alt="' . lang('member.profile_image') . '" />';
 				}
 				elseif($formInfo->name == 'image_name' && $memberInfo->image_name)
 				{
 					$target = $memberInfo->image_name;
-					$item->value = '<img src="'.$target->src.'" alt="' . lang('member.image_name') . ' ('.htmlspecialchars($memberInfo->nick_name).')' . '" />';
+					$item->value = '<img src="'.$target->src.'" alt="' . lang('member.image_name') . ' ('.escape($memberInfo->nick_name, false).')' . '" />';
 				}
 				elseif($formInfo->name == 'image_mark' && $memberInfo->image_mark)
 				{
 					$target = $memberInfo->image_mark;
-					$item->value = '<img src="'.$target->src.'" alt="' . lang('member.image_mark') . ' ('.htmlspecialchars($memberInfo->nick_name).')' . '" />';
+					$item->value = '<img src="'.$target->src.'" alt="' . lang('member.image_mark') . '" />';
 				}
 				elseif($formInfo->name == 'birthday' && $memberInfo->birthday)
 				{

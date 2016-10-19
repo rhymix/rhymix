@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="UTF-8"?>
 <module>
 	<grants />
 	<permissions>
@@ -32,7 +32,7 @@
 		<action name="dispMemberAdminGroupList" type="view" menu_name="userGroup" menu_index="true" />
 		<action name="dispMemberAdminInfo" type="view" menu_name="userList" />
 		<action name="dispMemberAdminInsertJoinForm" type="view" />
-		<action name="dispMemberAdminNickNameLog" type="view" />
+		<action name="dispMemberAdminNickNameLog" type="view" menu_name="userSetting" />
 
 		<action name="getMemberMenu" type="model" standalone="true" />
 		<action name="getMemberAdminColorset" type="model" />
