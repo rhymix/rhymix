@@ -36,7 +36,7 @@
 			var content  = textNode.nodeValue;
 			var dummy    = $('<span>');
 
-			//content = content.replace(/</g, '&lt;').replace(/>/g, '&gt;');
+			content = content.replace(/</g, '&lt;').replace(/>/g, '&gt;');
 			content = content.replace(url_regex, '<a href="$1" target="_blank">$1</a>');
 
 			$(textNode).before(dummy);
