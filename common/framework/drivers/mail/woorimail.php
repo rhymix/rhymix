@@ -160,13 +160,16 @@ class Woorimail extends Base implements \Rhymix\Framework\Drivers\MailInterface
 		$data['receiver_nickname'] = implode(',', $data['receiver_nickname']);
 		
 		// Define connection options.
+		$headers = array(
+			'Accept' => 'application/json, text/javascript, */*; q=0.1',
+		);
 		$options = array(
 			'timeout' => 5,
 			'useragent' => 'PHP',
 		);
 		
 		// Send the API request.
-		$request = \Requests::post(self::$_url, array(), $data, $options);
+		$request = \Requests::post(self::$_url, $headers, $data, $options);
 		$result = @json_decode($request->body);
 		
 		// Parse the result.
