@@ -772,8 +772,8 @@ class memberController extends member
 		FileHandler::removeFilesInDir($target_path);
 
 		$target_filename = sprintf('%s%d.%s', $target_path, $member_srl, $ext);
-		// Convert if the image size is larger than a given size or if the format is not a gif
-		if(($width > $max_width || $height > $max_height ) && $type != 1)
+		// Convert if the image size is larger than a given size
+		if($width > $max_width || $height > $max_height)
 		{
 			FileHandler::createImageFile($target_file, $target_filename, $max_width, $max_height, $ext);
 		}
