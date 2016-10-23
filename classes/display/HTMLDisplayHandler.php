@@ -403,7 +403,7 @@ class HTMLDisplayHandler
 		if ($document_srl)
 		{
 			$oDocument = Context::get('oDocument') ?: getModel('document')->getDocument($document_srl, false, false);
-			if ($oDocument instanceof documentItem && $oDocument->document_srl == $document_srl && !$oDocument->isSecret())
+			if (is_object($oDocument) && $oDocument->document_srl == $document_srl && (!method_exists($oDocument, 'isSecret') || !$oDocument->isSecret()))
 			{
 				$page_type = 'article';
 			}
