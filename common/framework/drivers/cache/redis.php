@@ -143,6 +143,10 @@ class Redis implements \Rhymix\Framework\Drivers\CacheInterface
 		{
 			return null;
 		}
+		if (ctype_digit($value))
+		{
+			return $value;
+		}
 		
 		$value = unserialize($value);
 		if ($value === false)
@@ -168,7 +172,8 @@ class Redis implements \Rhymix\Framework\Drivers\CacheInterface
 	{
 		try
 		{
-			return $this->_conn->setex($key, $ttl, serialize($value)) ? true : false;
+			$value = (is_scalar($value) && ctype_digit($value)) ? $value : serialize($value);
+			return $this->_conn->setex($key, $ttl, $value) ? true : false;
 		}
 		catch (\RedisException $e)
 		{
