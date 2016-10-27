@@ -1052,7 +1052,7 @@ class memberModel extends member
 			{
 				$buff = FileHandler::readFile($filename);
 				$signature = preg_replace('/<\?.*\?>/', '', $buff);
-				$GLOBALS['__member_info__']['signature'][$member_srl] = $signature;
+				$GLOBALS['__member_info__']['signature'][$member_srl] = removeHackTag($signature);
 			}
 			else $GLOBALS['__member_info__']['signature'][$member_srl] = null;
 		}
