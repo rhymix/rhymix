@@ -99,8 +99,10 @@ if($called_position == 'before_module_proc')
 	$category_list = $oDocumentModel->getCategoryList($this->module_srl);
 
 	// Specifies a temporary file storage
-	$tmp_uploaded_path = sprintf(_XE_PATH_ . 'files/cache/blogapi/%s/%s/', $this->mid, $user_id);
-	$uploaded_target_path = sprintf(_XE_PATH_ . 'files/cache/blogapi/%s/%s/', $this->mid, $user_id);
+	$logged_info = Context::get('logged_info');
+	$mediaPath = sprintf('files/cache/blogapi/%s/%s/', $this->mid, $logged_info->member_srl);
+	$mediaAbsPath = _XE_PATH_ . $mediaPath;
+	$mediaUrlPath = Context::getRequestUri() . $mediaPath;
 
 	switch($method_name)
 	{
@@ -167,22 +169,56 @@ if($called_position == 'before_module_proc')
 			foreach($fileinfo as $key => $val)
 			{
 				$nodename = (string)$val->name;
-				if($nodename == 'bits')
+				if($nodename === 'bits')
+				{
 					$filedata = base64_decode((string)$val->value->base64);
-				elseif($nodename == 'name')
-					$filename = (string)$val->value->string;
+				}
+				else if($nodename === 'name')
+				{
+					$filename = pathinfo((string)$val->value->string, PATHINFO_BASENAME);
+				}
 			}
 
-			$tmp_arr = explode('/', $filename);
-			$filename = array_pop($tmp_arr);
+			if($logged_info->is_admin != 'Y')
+			{
+				// check file type
+				if(isset($file_module_config->allowed_filetypes) && $file_module_config->allowed_filetypes !== '*.*')
+				{
+					$filetypes = explode(';', $file_module_config->allowed_filetypes);
+					$ext = array();
 
-			FileHandler::makeDir($tmp_uploaded_path);
+					foreach($filetypes as $item)
+					{
+						$item = explode('.', $item);
+						$ext[] = strtolower(array_pop($item));
+					}
 
-			$target_filename = sprintf('%s%s', $tmp_uploaded_path, $filename);
+					$uploaded_ext = explode('.', $filename);
+					$uploaded_ext = strtolower(array_pop($uploaded_ext));
+
+					if(!in_array($uploaded_ext, $ext))
+					{
+						printContent(getXmlRpcFailure(1, 'Not allowed file type'));
+						break;
+					}
+				}
+
+				$allowed_filesize = $file_module_config->allowed_filesize * 1024 * 1024;
+				if($allowed_filesize < strlen($filedata))
+				{
+					printContent(getXmlRpcFailure(1, 'This file exceeds the attachment limit'));
+					break;
+				}
+			}
+
+			$temp_filename = Password::createSecureSalt(12, 'alnum');
+			$target_filename = sprintf('%s%s', $mediaAbsPath, $temp_filename);
+			FileHandler::makeDir($mediaAbsPath);
 			FileHandler::writeFile($target_filename, $filedata);
-			$obj = new stdClass();
-			$obj->url = Context::getRequestUri() . $target_filename;
+			FileHandler::writeFile($target_filename . '_source_filename', $filename);
 
+			$obj = new stdClass();
+			$obj->url = Context::getRequestUri() . $mediaPath . $temp_filename;
 			$content = getXmlRpcResponse($obj);
 			printContent($content);
 			break;
@@ -291,21 +327,34 @@ if($called_position == 'before_module_proc')
 			$obj->module_srl = $this->module_srl;
 
 			// Attachment
-			if(is_dir($tmp_uploaded_path))
+			if(is_dir($mediaAbsPath))
 			{
-				$file_list = FileHandler::readDir($tmp_uploaded_path);
+				$file_list = FileHandler::readDir($mediaAbsPath, '/(_source_filename)$/is');
 				$file_count = count($file_list);
 				if($file_count)
 				{
 					$oFileController = getController('file');
-					for($i = 0; $i < $file_count; $i++)
+					$oFileModel = getModel('file');
+					foreach($file_list as $file)
 					{
-						$file_info['tmp_name'] = sprintf('%s%s', $tmp_uploaded_path, $file_list[$i]);
-						$file_info['name'] = $file_list[$i];
+						$filename = FileHandler::readFile($mediaAbsPath . $file);
+						$temp_filename = str_replace('_source_filename', '', $file);
+
+						$file_info = array();
+						$file_info['tmp_name'] = sprintf('%s%s', $mediaAbsPath, $temp_filename);
+						$file_info['name'] = $filename;
 						$fileOutput = $oFileController->insertFile($file_info, $this->module_srl, $document_srl, 0, true);
-						$uploaded_filename = $fileOutput->get('uploaded_filename');
-						$source_filename = $fileOutput->get('source_filename');
-						$obj->content = str_replace($uploaded_target_path . $source_filename, sprintf('/files/attach/images/%s/%s%s', $this->module_srl, getNumberingPath($document_srl, 3), $uploaded_filename), $obj->content);
+
+						if($fileOutput->get('direct_download') === 'N')
+						{
+							$replace_url =  Context::getRequestUri() . $oFileModel->getDownloadUrl($fileOutput->file_srl, $fileOutput->sid, $this->module_srl);
+						}
+						else
+						{
+							$replace_url = Context::getRequestUri() . $fileOutput->get('uploaded_filename');
+						}
+
+						$obj->content = str_replace($mediaUrlPath . $temp_filename, $replace_url, $obj->content);
 					}
 					$obj->uploaded_count = $file_count;
 				}
@@ -332,7 +381,7 @@ if($called_position == 'before_module_proc')
 			{
 				$content = getXmlRpcResponse(strval($document_srl));
 			}
-			FileHandler::removeDir($tmp_uploaded_path);
+			FileHandler::removeDir($mediaAbsPath);
 
 			printContent($content);
 			break;
@@ -404,27 +453,36 @@ if($called_position == 'before_module_proc')
 			// Document srl
 			$obj->document_srl = $document_srl;
 			$obj->module_srl = $this->module_srl;
+
 			// Attachment
-			if(is_dir($tmp_uploaded_path))
+			if(is_dir($mediaAbsPath))
 			{
-				$file_list = FileHandler::readDir($tmp_uploaded_path);
+				$file_list = FileHandler::readDir($mediaAbsPath, '/(_source_filename)$/is');
 				$file_count = count($file_list);
 				if($file_count)
 				{
 					$oFileController = getController('file');
-					for($i = 0; $i < $file_count; $i++)
+					$oFileModel = getModel('file');
+					foreach($file_list as $file)
 					{
-						$file_info['tmp_name'] = sprintf('%s%s', $tmp_uploaded_path, $file_list[$i]);
-						$file_info['name'] = $file_list[$i];
+						$filename = FileHandler::readFile($mediaAbsPath . $file);
+						$temp_filename = str_replace('_source_filename', '', $file);
 
-						$moved_filename = sprintf('./files/attach/images/%s/%s/%s', $this->module_srl, $document_srl, $file_info['name']);
-						if(file_exists($moved_filename))
-							continue;
-
+						$file_info = array();
+						$file_info['tmp_name'] = sprintf('%s%s', $mediaAbsPath, $temp_filename);
+						$file_info['name'] = $filename;
 						$fileOutput = $oFileController->insertFile($file_info, $this->module_srl, $document_srl, 0, true);
-						$uploaded_filename = $fileOutput->get('uploaded_filename');
-						$source_filename = $fileOutput->get('source_filename');
-						$obj->content = str_replace($uploaded_target_path . $source_filename, sprintf('/files/attach/images/%s/%s%s', $this->module_srl, getNumberingPath($document_srl, 3), $uploaded_filename), $obj->content);
+
+						if($fileOutput->get('direct_download') === 'N')
+						{
+							$replace_url =  Context::getRequestUri() . $oFileModel->getDownloadUrl($fileOutput->file_srl, $fileOutput->sid, $this->module_srl);
+						}
+						else
+						{
+							$replace_url = Context::getRequestUri() . $fileOutput->get('uploaded_filename');
+						}
+
+						$obj->content = str_replace($mediaUrlPath . $temp_filename, $replace_url, $obj->content);
 					}
 					$obj->uploaded_count += $file_count;
 				}
@@ -440,7 +498,7 @@ if($called_position == 'before_module_proc')
 			else
 			{
 				$content = getXmlRpcResponse(true);
-				FileHandler::removeDir($tmp_uploaded_path);
+				FileHandler::removeDir($mediaAbsPath);
 			}
 
 			printContent($content);
