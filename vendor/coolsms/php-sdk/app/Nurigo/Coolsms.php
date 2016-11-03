@@ -85,7 +85,7 @@ class Coolsms
         // Set curl info
         curl_setopt($ch, CURLOPT_URL, $url);
         curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false); // check SSL certificate
-        curl_setopt($ch, CURLOPT_SSLVERSION, 3); // SSL protocol version (need for https connect, 3 -> SSLv3)
+        //curl_setopt($ch, CURLOPT_SSLVERSION, 3); // SSL protocol version (need for https connect, 3 -> SSLv3)
         curl_setopt($ch, CURLOPT_HEADER, 0); // include the header in the output (1 = true, 0 = false) 
         curl_setopt($ch, CURLOPT_POST, $this->is_post); // POST GET method
 
@@ -126,7 +126,7 @@ class Coolsms
                 if ($key != "text") $val = trim($val);
                 
                 if ($key == "image") {
-                    $this->content[$key] = '@' . realpath("$val");
+                    $this->content[$key] = curl_file_create(realpath($val));
                 } else {
                     $this->content[$key] = sprintf("%s", $val);
                 }
