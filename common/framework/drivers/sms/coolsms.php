@@ -8,6 +8,16 @@ namespace Rhymix\Framework\Drivers\SMS;
 class CoolSMS extends Base implements \Rhymix\Framework\Drivers\SMSInterface
 {
 	/**
+	 * Maximum length of an SMS.
+	 */
+	protected $_maxlength_sms = 90;
+	
+	/**
+	 * Maximum length of an LMS.
+	 */
+	protected $_maxlength_lms = 2000;
+	
+	/**
 	 * Get the list of configuration fields required by this mail driver.
 	 * 
 	 * @return array
@@ -50,7 +60,7 @@ class CoolSMS extends Base implements \Rhymix\Framework\Drivers\SMSInterface
 				$options->charset = 'UTF-8';
 				
 				// Determine the message type based on the length.
-				$options->type = $this->_isShort($options->text) ? 'SMS' : 'LMS';
+				$options->type = $message->checkLength($options->text, $this->_maxlength_sms) ? 'SMS' : 'LMS';
 				
 				// If the message has a subject, it must be an LMS.
 				if ($subject = $message->getSubject())
@@ -68,11 +78,11 @@ class CoolSMS extends Base implements \Rhymix\Framework\Drivers\SMSInterface
 				}
 				
 				// If the recipient is not a Korean number, force SMS.
-				if ($recipient->country && $recipient->country != 82)
+				if ($message->isForceSMS() || ($recipient->country && $recipient->country != 82))
 				{
 					unset($options->subject);
 					unset($options->image);
-					$options->text = $this->_cutShort($options->text);
+					$options->text = array_first($message->splitMessage($options->text, $this->_maxlength_sms));
 					$options->type = 'SMS';
 				}
 				
@@ -87,35 +97,5 @@ class CoolSMS extends Base implements \Rhymix\Framework\Drivers\SMSInterface
 			$message->errors[] = class_basename($e) . ': ' . $e->getMessage();
 			return false;
 		}
-	}
-	
-	/**
-	 * Check if a message is short enough to fit in an SMS.
-	 * 
-	 * @param string $message
-	 * @param int $maxlength (optional)
-	 * @return bool
-	 */
-	protected function _isShort($message, $maxlength = 90)
-	{
-		$message = @iconv('UTF-8', 'CP949//IGNORE', $message);
-		return strlen($message) <= $maxlength;
-	}
-	
-	/**
-	 * Cut a message to fit in an SMS.
-	 * 
-	 * @param string $message
-	 * @param int $maxlength (optional)
-	 * @return string
-	 */
-	protected function _cutShort($message, $maxlength = 90)
-	{
-		$message = @iconv('UTF-8', 'CP949//IGNORE', $message);
-		while (strlen($message) > $maxlength)
-		{
-			$message = iconv_substr($message, 0, iconv_strlen($str, 'CP949') - 1, 'CP949');
-		}
-		return iconv('CP949', 'UTF-8', $message);
 	}
 }

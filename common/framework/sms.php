@@ -17,6 +17,7 @@ class SMS
 	protected $subject = '';
 	protected $content = '';
 	protected $attachments = array();
+	protected $force_sms = false;
 	public $errors = array();
 	protected $sent = false;
 	
@@ -47,7 +48,7 @@ class SMS
 		if (!self::$default_driver)
 		{
 			$default_driver = config('sms.type');
-			$default_driver_class = '\\Rhymix\\Framework\\Drivers\SMS\\' . $default_driver;
+			$default_driver_class = '\Rhymix\Framework\Drivers\SMS\\' . $default_driver;
 			if (class_exists($default_driver_class))
 			{
 				$default_driver_config = config('sms.' . $default_driver) ?: array();
@@ -293,6 +294,26 @@ class SMS
 	}
 	
 	/**
+	 * Force this message to use SMS (not LMS or MMS).
+	 * 
+	 * @return void
+	 */
+	public function forceSMS()
+	{
+		$this->force_sms = true;
+	}
+	
+	/**
+	 * Check if this message is forced to use SMS.
+	 * 
+	 * @return void
+	 */
+	public function isForceSMS()
+	{
+		return $this->force_sms;
+	}
+	
+	/**
 	 * Send the email.
 	 * 
 	 * @return bool
@@ -368,5 +389,63 @@ class SMS
 	public function getErrors()
 	{
 		return $this->errors;
+	}
+	
+	/**
+	 * Check if a message is no longer than the given length.
+	 * 
+	 * This is useful when checking whether a message can fit into a single SMS.
+	 * 
+	 * @param string $message
+	 * @param int $maxlength
+	 * @param string $measure_in_charset (optional)
+	 * @return 
+	 */
+	public function checkLength($message, $maxlength, $measure_in_charset = 'CP949')
+	{
+		$message = @iconv('UTF-8', $measure_in_charset . '//IGNORE', $message);
+		return strlen($message) <= $maxlength;
+	}
+	
+	/**
+	 * Split a message into several short messages.
+	 * 
+	 * This is useful when sending a long message as a series of SMS.
+	 * 
+	 * @param string $message
+	 * @param int $maxlength
+	 * @param string $measure_in_charset (optional)
+	 * @return array
+	 */
+	public function splitMessage($message, $maxlength, $measure_in_charset = 'CP949')
+	{
+		$message = utf8_trim(utf8_normalize_spaces($message));
+		$chars = preg_split('//u', $message, -1, PREG_SPLIT_NO_EMPTY);
+		$result = array();
+		$current_entry = '';
+		$current_length = 0;
+		
+		foreach ($chars as $char)
+		{
+			$char_length = strlen(@iconv('UTF-8', $measure_in_charset . '//IGNORE', $char));
+			if ($current_length + $char_length > $maxlength)
+			{
+				$result[] = $current_entry;
+				$current_entry = $char;
+				$current_length = $char_length;
+			}
+			else
+			{
+				$current_entry .= $char;
+				$current_length += $char_length;
+			}
+		}
+		
+		if ($current_entry !== '')
+		{
+			$result[] = $current_entry;
+		}
+		
+		return $result;
 	}
 }
