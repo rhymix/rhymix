@@ -17,6 +17,7 @@ class SMS
 	protected $subject = '';
 	protected $content = '';
 	protected $attachments = array();
+	protected $delay_timestamp = 0;
 	protected $force_sms = false;
 	protected $allow_split_sms = true;
 	protected $allow_split_lms = true;
@@ -311,6 +312,43 @@ class SMS
 	public function getAttachments()
 	{
 		return $this->attachments;
+	}
+	
+	/**
+	 * Delay sending the message.
+	 * 
+	 * Delays (in seconds) less than 1 year will be treated as relative to the
+	 * current time. Greater values will be interpreted as a Unix timestamp.
+	 * 
+	 * This feature may not be implemented by all drivers.
+	 * 
+	 * @param int $when Unix timestamp
+	 * @return bool
+	 */
+	public function setDelay($when)
+	{
+		if ($when <= (86400 * 365))
+		{
+			$when = time() + $when;
+		}
+		
+		$this->delay_timestamp = intval($when);
+		return true;
+	}
+	
+	/**
+	 * Get the Unix timestamp of when to send the message.
+	 * 
+	 * This method always returns a Unix timestamp, even if the original value
+	 * was given as a relative delay.
+	 * 
+	 * This feature may not be implemented by all drivers.
+	 * 
+	 * @return int
+	 */
+	public function getDelay()
+	{
+		return $this->delay_timestamp;
 	}
 	
 	/**

@@ -67,9 +67,18 @@ class CoolSMS extends Base implements \Rhymix\Framework\Drivers\SMSInterface
 					$options->from = $message->getFrom();
 					$options->to = $recipient_number;
 					$options->charset = 'utf8';
-					$content_full = $message->getContent();
+					
+					// Determine when to send this message.
+					if ($datetime = $message->getDelay())
+					{
+						if ($datetime > time())
+						{
+							$options->datetime = gmdate('YmdHis', $datetime + (3600 * 9));
+						}
+					}
 					
 					// Determine the message type based on the length.
+					$content_full = $message->getContent();
 					$detected_type = $message->checkLength($content_full, $this->_maxlength_sms) ? 'SMS' : 'LMS';
 					$options->type = $detected_type;
 					
