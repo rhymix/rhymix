@@ -51,6 +51,7 @@ class CoolSMS extends Base implements \Rhymix\Framework\Drivers\SMSInterface
 		{
 			// Initialize the sender.
 			$sender = new \Nurigo\Api\Message($this->_config['api_key'], $this->_config['api_secret']);
+			$status = true;
 			
 			// Get the list of recipients.
 			$recipients = $message->getRecipientsGroupedByCountry();
@@ -96,8 +97,6 @@ class CoolSMS extends Base implements \Rhymix\Framework\Drivers\SMSInterface
 					// If the message has an attachment, it must be an MMS.
 					if ($attachments = $message->getAttachments())
 					{
-						$image = reset($attachments);
-						$options->image = $image->local_filename;
 						$options->type = 'MMS';
 					}
 					
@@ -105,9 +104,10 @@ class CoolSMS extends Base implements \Rhymix\Framework\Drivers\SMSInterface
 					if ($message->isForceSMS() || ($country > 0 && $country != 82))
 					{
 						unset($options->subject);
-						unset($options->image);
+						$attachments = array();
 						$options->country = $country;
 						$options->type = 'SMS';
+						$message->forceSMS();
 					}
 					
 					// Split the message if necessary.
@@ -124,36 +124,50 @@ class CoolSMS extends Base implements \Rhymix\Framework\Drivers\SMSInterface
 						$content_split = array($content_full);
 					}
 					
-					// Send the message.
-					$sent_once = false;
-					foreach ($content_split as $i => $content)
+					// Send all parts of the split message.
+					$message_count = max(count($content_split), count($attachments));
+					$last_content = 'MMS';
+					for ($i = 1; $i <= $message_count; $i++)
 					{
-						// If splitting a message, don't send the subject and image more than once.
-						if ($sent_once)
+						// Get the message content.
+						if ($content = array_shift($content_split))
 						{
-							unset($options->subject);
-							unset($options->image);
-							if ($options->type === 'MMS')
-							{
-								$options->type = 'LMS';
-							}
+							$options->text = $last_content = $content;
+						}
+						else
+						{
+							$options->text = $last_content ?: 'MMS';
 						}
 						
-						// Set the content and send.
-						$options->text = $content;
-						$result = $sender->send($options);
-						$sent_once = true;
+						// Get the attachment.
+						if ($attachment = array_shift($attachments))
+						{
+							$options->image = $attachment->local_filename;
+						}
+						else
+						{
+							unset($options->image);
+						}
 						
+						// Determine the best message type for this combination of content and attachment.
+						if (!$message->isForceSMS())
+						{
+							$options->type = $attachment ? 'MMS' : ($message->checkLength($content, $this->_maxlength_sms) ? 'SMS' : 'LMS');
+						}
+						
+						// Send the current part of the message.
+						$result = $sender->send($options);
 						if (!$result->success_count)
 						{
-							$message->errors[] = 'Error while sending message ' . $i . ' of ' . count($content_split) . ' to ' . $options->to;
-							return false;
+							$error_codes = implode(', ', $result->error_list ?: array('Unknown'));
+							$message->errors[] = 'Error (' . $error_codes . ') while sending message ' . $i . ' of ' . $message_count . ' to ' . $options->to;
+							$status = false;
 						}
 					}
 				}
 			}
 			
-			return true;
+			return $status;
 		}
 		catch (\Nurigo\Exceptions\CoolsmsException $e)
 		{
