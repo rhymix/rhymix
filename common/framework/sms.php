@@ -243,6 +243,7 @@ class SMS
 	public function setBody($content)
 	{
 		$this->content = utf8_trim(utf8_clean($content));
+		$this->content = strtr($this->content, array("\r\n" => "\n"));
 		return true;
 	}
 	
