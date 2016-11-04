@@ -56,10 +56,9 @@ class CoolSMS extends Base implements \Rhymix\Framework\Drivers\SMSInterface
 			$recipients = $message->getRecipientsGroupedByCountry();
 			foreach ($recipients as $country => $country_recipients)
 			{
-				if (!$country)
-				{
-					$country_recipients = array(implode(',', $country_recipients));
-				}
+				$country_recipients = array_map(function($chunk) {
+					return implode(',', $chunk);
+				}, array_chunk($country_recipients, 1000));
 				
 				foreach ($country_recipients as $recipient_number)
 				{
