@@ -11,7 +11,7 @@ class SMS
 	 * Instance properties.
 	 */
 	public $driver = null;
-	public $caller = '';
+	protected $caller = '';
 	protected $from = '';
 	protected $to = array();
 	protected $subject = '';
@@ -21,7 +21,7 @@ class SMS
 	protected $force_sms = false;
 	protected $allow_split_sms = true;
 	protected $allow_split_lms = true;
-	public $errors = array();
+	protected $errors = array();
 	protected $sent = false;
 	
 	/**
@@ -474,7 +474,7 @@ class SMS
 				$messages = $this->_formatSpec($this->driver->getAPISpec());
 				if (count($messages))
 				{
-					$this->sent = $this->driver->send($messages) ? true : false;
+					$this->sent = $this->driver->send($messages, $this) ? true : false;
 				}
 				else
 				{
@@ -534,6 +534,17 @@ class SMS
 	}
 	
 	/**
+	 * Add an error message.
+	 * 
+	 * @param string $message
+	 * @return void
+	 */
+	public function addError($message)
+	{
+		$this->errors[] = $message;
+	}
+	
+	/**
 	 * Format the current message according to an API spec.
 	 * 
 	 * @param array $spec API specifications
@@ -574,7 +585,6 @@ class SMS
 				$subject = $this->getSubject();
 				$content = $this->getContent();
 				$attachments = $attachments = $this->getAttachments();
-				$last_content = 'MMS';
 				
 				// Determine the message type.
 				if (!$this->isForceSMS() && ($spec['lms_supported'] || $spec['mms_supported']))
@@ -654,6 +664,7 @@ class SMS
 				
 				// Generate a message for each part of the content and attachments.
 				$message_count = max(count($content_parts), count($attachments));
+				$last_content = $item->type;
 				for ($i = 1; $i <= $message_count; $i++)
 				{
 					// Get the message content.
@@ -663,7 +674,7 @@ class SMS
 					}
 					else
 					{
-						$item->content = $last_content ?: 'MMS';
+						$item->content = $last_content ?: $item->type;
 					}
 					
 					// Get the attachment.

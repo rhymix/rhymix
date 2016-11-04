@@ -43,9 +43,10 @@ class CoolSMS extends Base implements \Rhymix\Framework\Drivers\SMSInterface
 	 * This method returns true on success and false on failure.
 	 * 
 	 * @param array $messages
+	 * @param object $original
 	 * @return bool
 	 */
-	public function send(array $messages)
+	public function send(array $messages, \Rhymix\Framework\SMS $original)
 	{
 		try
 		{
@@ -58,7 +59,7 @@ class CoolSMS extends Base implements \Rhymix\Framework\Drivers\SMSInterface
 				$options->type = $message->type;
 				$options->from = $message->from;
 				$options->to = implode(',', $message->to);
-				$options->text = $message->content ?: 'SMS';
+				$options->text = $message->content ?: $message->type;
 				$options->charset = 'utf8';
 				if ($message->delay && $message->delay > time())
 				{
@@ -81,7 +82,7 @@ class CoolSMS extends Base implements \Rhymix\Framework\Drivers\SMSInterface
 				if (!$result->success_count)
 				{
 					$error_codes = implode(', ', $result->error_list ?: array('Unknown'));
-					$message->errors[] = 'Error (' . $error_codes . ') while sending message ' . $i . ' of ' . count($messages) . ' to ' . $options->to;
+					$original->addError('Error (' . $error_codes . ') while sending message ' . ($i + 1) . ' of ' . count($messages) . ' to ' . $options->to);
 					$status = false;
 				}
 			}

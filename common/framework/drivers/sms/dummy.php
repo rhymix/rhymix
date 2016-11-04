@@ -38,9 +38,10 @@ class Dummy extends Base implements \Rhymix\Framework\Drivers\SMSInterface
 	 * This method returns true on success and false on failure.
 	 * 
 	 * @param array $messages
+	 * @param object $original
 	 * @return bool
 	 */
-	public function send(array $messages)
+	public function send(array $messages, \Rhymix\Framework\SMS $original)
 	{
 		return true;
 	}
