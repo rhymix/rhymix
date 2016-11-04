@@ -124,7 +124,6 @@ class CoolSMS extends Base implements \Rhymix\Framework\Drivers\SMSInterface
 						
 						// Set the content and send.
 						$options->text = $content;
-						var_dump($options);
 						$result = $sender->send($options);
 						$sent_once = true;
 						
