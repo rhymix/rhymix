@@ -53,78 +53,87 @@ class CoolSMS extends Base implements \Rhymix\Framework\Drivers\SMSInterface
 			$sender = new \Nurigo\Api\Message($this->_config['api_key'], $this->_config['api_secret']);
 			
 			// Get recipients.
-			$recipients = $message->getRecipientsWithCountry();
-			foreach ($recipients as $recipient)
+			$recipients = $message->getRecipientsGroupedByCountry();
+			foreach ($recipients as $country => $country_recipients)
 			{
-				// Populate the options object.
-				$options = new \stdClass;
-				$options->from = $message->getFrom();
-				$options->to = $recipient->number;
-				$options->charset = 'UTF-8';
-				$content_full = $message->getContent();
-				
-				// Determine the message type based on the length.
-				$detected_type = $message->checkLength($content_full, $this->_maxlength_sms) ? 'SMS' : 'LMS';
-				$options->type = $detected_type;
-				
-				// If the message has a subject, it must be an LMS.
-				if ($subject = $message->getSubject())
+				if (!$country)
 				{
-					$options->subject = $subject;
-					$options->type = 'LMS';
+					$country_recipients = array(implode(',', $country_recipients));
 				}
 				
-				// If the message has an attachment, it must be an MMS.
-				if ($attachments = $message->getAttachments())
+				foreach ($country_recipients as $recipient_number)
 				{
-					$image = reset($attachments);
-					$options->image = $image->local_filename;
-					$options->type = 'MMS';
-				}
-				
-				// If the recipient is not a Korean number, force SMS.
-				if ($message->isForceSMS() || ($recipient->country && $recipient->country != 82))
-				{
-					unset($options->subject);
-					unset($options->image);
-					$options->country = $recipient->country;
-					$options->type = 'SMS';
-				}
-				
-				// Split the message if necessary.
-				if ($options->type === 'SMS' && $detected_type !== 'SMS')
-				{
-					$content_split = $message->splitMessage($content_full, $this->_maxlength_sms);
-				}
-				elseif ($options->type !== 'SMS' && !$message->checkLength($content_full, $this->_maxlength_lms))
-				{
-					$content_split = $message->splitMessage($content_full, $this->_maxlength_lms);
-				}
-				else
-				{
-					$content_split = array($content_full);
-				}
-				
-				// Send the message.
-				$sent_once = false;
-				foreach ($content_split as $i => $content)
-				{
-					// If splitting a message, don't send the subject and image more than once.
-					if ($sent_once)
+					// Populate the options object.
+					$options = new \stdClass;
+					$options->from = $message->getFrom();
+					$options->to = $recipient_number;
+					$options->charset = 'utf8';
+					$content_full = $message->getContent();
+					
+					// Determine the message type based on the length.
+					$detected_type = $message->checkLength($content_full, $this->_maxlength_sms) ? 'SMS' : 'LMS';
+					$options->type = $detected_type;
+					
+					// If the message has a subject, it must be an LMS.
+					if ($subject = $message->getSubject())
+					{
+						$options->subject = $subject;
+						$options->type = 'LMS';
+					}
+					
+					// If the message has an attachment, it must be an MMS.
+					if ($attachments = $message->getAttachments())
+					{
+						$image = reset($attachments);
+						$options->image = $image->local_filename;
+						$options->type = 'MMS';
+					}
+					
+					// If the recipient is not a Korean number, force SMS.
+					if ($message->isForceSMS() || ($country > 0 && $country != 82))
 					{
 						unset($options->subject);
 						unset($options->image);
+						$options->country = $country;
+						$options->type = 'SMS';
 					}
 					
-					// Set the content and send.
-					$options->text = $content;
-					$result = $sender->send($options);
-					$sent_once = true;
-					
-					if (!$result->success_count)
+					// Split the message if necessary.
+					if ($options->type === 'SMS' && $detected_type !== 'SMS')
 					{
-						$message->errors[] = 'Error while sending message ' . $i . ' of ' . count($content_split) . ' to ' . $options->to;
-						return false;
+						$content_split = $message->splitMessage($content_full, $this->_maxlength_sms);
+					}
+					elseif ($options->type !== 'SMS' && !$message->checkLength($content_full, $this->_maxlength_lms))
+					{
+						$content_split = $message->splitMessage($content_full, $this->_maxlength_lms);
+					}
+					else
+					{
+						$content_split = array($content_full);
+					}
+					
+					// Send the message.
+					$sent_once = false;
+					foreach ($content_split as $i => $content)
+					{
+						// If splitting a message, don't send the subject and image more than once.
+						if ($sent_once)
+						{
+							unset($options->subject);
+							unset($options->image);
+						}
+						
+						// Set the content and send.
+						$options->text = $content;
+						var_dump($options);
+						$result = $sender->send($options);
+						$sent_once = true;
+						
+						if (!$result->success_count)
+						{
+							$message->errors[] = 'Error while sending message ' . $i . ' of ' . count($content_split) . ' to ' . $options->to;
+							return false;
+						}
 					}
 				}
 			}

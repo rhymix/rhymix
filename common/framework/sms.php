@@ -110,6 +110,7 @@ class SMS
 	public function __construct()
 	{
 		$this->driver = self::getDefaultDriver();
+		$this->from = trim(config('sms.default_from'));
 		$this->allow_split_sms = (config('sms.allow_split.sms') !== false);
 		$this->allow_split_lms = (config('sms.allow_split.lms') !== false);
 	}
@@ -129,7 +130,7 @@ class SMS
 	/**
 	 * Get the sender's phone number.
 	 *
-	 * @return string|null
+	 * @return string
 	 */
 	public function getFrom()
 	{
@@ -143,11 +144,11 @@ class SMS
 	 * @param string $country Country code (optional)
 	 * @return bool
 	 */
-	public function addTo($number, $country = null)
+	public function addTo($number, $country = 0)
 	{
 		$this->to[] = (object)array(
 			'number' => preg_replace('/[^0-9]/', '', $number),
-			'country' => $country,
+			'country' => intval(preg_replace('/[^0-9]/', '', $country)),
 		);
 		return true;
 	}
@@ -172,6 +173,21 @@ class SMS
 	public function getRecipientsWithCountry()
 	{
 		return $this->to;
+	}
+	
+	/**
+	 * Get the list of recipients grouped by country code.
+	 *
+	 * @return array
+	 */
+	public function getRecipientsGroupedByCountry()
+	{
+		$result = array();
+		foreach ($this->to as $recipient)
+		{
+			$result[$recipient->country][] = $recipient->number;
+		}
+		return $result;
 	}
 	
 	/**
