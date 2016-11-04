@@ -52,14 +52,18 @@ class CoolSMS extends Base implements \Rhymix\Framework\Drivers\SMSInterface
 			// Initialize the sender.
 			$sender = new \Nurigo\Api\Message($this->_config['api_key'], $this->_config['api_secret']);
 			
-			// Get recipients.
+			// Get the list of recipients.
 			$recipients = $message->getRecipientsGroupedByCountry();
+			
+			// Group the recipients by country code.
 			foreach ($recipients as $country => $country_recipients)
 			{
+				// Merge recipients into groups of 1000.
 				$country_recipients = array_map(function($chunk) {
 					return implode(',', $chunk);
 				}, array_chunk($country_recipients, 1000));
 				
+				// Send to each set of merged recipients.
 				foreach ($country_recipients as $recipient_number)
 				{
 					// Populate the options object.
