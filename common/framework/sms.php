@@ -467,7 +467,16 @@ class SMS
 		{
 			if ($this->driver)
 			{
-				$this->sent = $this->driver->send($this) ? true : false;
+				$messages = $this->_formatSpec($this->driver->getAPISpec());
+				if (count($messages))
+				{
+					$this->sent = $this->driver->send($messages) ? true : false;
+				}
+				else
+				{
+					$this->errors[] = 'No recipients selected';
+					$this->sent = false;
+				}
 			}
 			else
 			{
@@ -477,7 +486,7 @@ class SMS
 		}
 		catch(\Exception $e)
 		{
-			$this->errors[] = $e->getMessage();
+			$this->errors[] = class_basename($e) . ': ' . $e->getMessage();
 			$this->sent = false;
 		}
 		
@@ -521,43 +530,200 @@ class SMS
 	}
 	
 	/**
-	 * Check if a message is no longer than the given length.
+	 * Format the current message according to an API spec.
 	 * 
-	 * This is useful when checking whether a message can fit into a single SMS.
-	 * 
-	 * @param string $message
-	 * @param int $maxlength
-	 * @param string $measure_in_charset (optional)
-	 * @return 
+	 * @param array $spec API specifications
+	 * @return array
 	 */
-	public function checkLength($message, $maxlength, $measure_in_charset = 'CP949')
+	protected function _formatSpec(array $spec)
 	{
-		$message = @iconv('UTF-8', $measure_in_charset . '//IGNORE', $message);
-		return strlen($message) <= $maxlength;
+		// Initialize the return array.
+		$result = array();
+		
+		// Get the list of recipients.
+		$recipients = $this->getRecipientsGroupedByCountry();
+		
+		// Group the recipients by country code.
+		foreach ($recipients as $country_code => $country_recipients)
+		{
+			// Merge recipients into groups.
+			if ($spec['max_recipients'] > 1)
+			{
+				$country_recipients = array_chunk($country_recipients, $spec['max_recipients']);
+			}
+			
+			// Send to each set of merged recipients.
+			foreach ($country_recipients as $recipient_numbers)
+			{
+				// Populate the item.
+				$item = new \stdClass;
+				$item->type = 'SMS';
+				$item->from = $this->getFrom();
+				$item->to = $recipient_numbers;
+				$item->country = $country_code;
+				if ($spec['delay_supported'])
+				{
+					$item->delay = $this->getDelay() ?: 0;
+				}
+				
+				// Get message content.
+				$subject = $this->getSubject();
+				$content = $this->getContent();
+				$attachments = $attachments = $this->getAttachments();
+				$last_content = 'MMS';
+				
+				// Determine the message type.
+				if (!$this->isForceSMS() && ($spec['lms_supported'] || $spec['mms_supported']))
+				{
+					// Check attachments, subject, and message length.
+					if ($spec['mms_supported'] && count($attachments))
+					{
+						$item->type = 'MMS';
+					}
+					elseif ($spec['lms_supported'] && $subject)
+					{
+						$item->subject = $subject;
+						$item->type = 'LMS';
+					}
+					elseif ($spec['lms_supported'] && $this->_getLengthInCharset($content, $spec['sms_max_length_in_charset']) > $spec['sms_max_length'])
+					{
+						$item->type = 'LMS';
+					}
+					else
+					{
+						$item->type = 'SMS';
+					}
+					
+					// Check the country code.
+					if ($item->type === 'MMS' && is_array($spec['mms_supported_country_codes']) && !in_array($country_code, $spec['mms_supported_country_codes']))
+					{
+						$item->type = 'LMS';
+					}
+					if ($item->type === 'LMS' && is_array($spec['lms_supported_country_codes']) && !in_array($country_code, $spec['lms_supported_country_codes']))
+					{
+						$item->type = 'SMS';
+					}
+				}
+				
+				// Remove subject and attachments if the message type is SMS.
+				if ($item->type === 'SMS')
+				{
+					if ($item->subject)
+					{
+						$content = $item->subject . "\n" . $content;
+						unset($item->subject);
+					}
+					$attachments = array();
+				}
+				
+				// If message subject is not supported, prepend it to the content instead.
+				if ($item->subject && !$spec[strtolower($item->type) . '_subject_supported'])
+				{
+					$content = $item->subject . "\n" . $content;
+					unset($item->subject);
+				}
+				elseif ($item->subject && $this->_getLengthInCharset($item->subject, $spec[strtolower($item->type) . '_max_length_in_charset']) > $spec[strtolower($item->type) . '_subject_max_length'])
+				{
+					$subject_parts = $this->_splitString($item->subject, $spec[strtolower($item->type) . '_subject_max_length'], $spec[strtolower($item->type) . '_max_length_in_charset']);
+					$subject_short = array_shift($subject_parts);
+					$subject_remainder = utf8_trim(substr($item->subject, strlen($subject_short)));
+					$item->subject = $subject_short;
+					$content = $subject_remainder . "\n" . $content;
+				}
+				
+				// Split the content if necessary.
+				if (($item->type === 'SMS' && $this->allow_split_sms) || ($item->type !== 'SMS' && $this->allow_split_lms))
+				{
+					if ($this->_getLengthInCharset($content, $spec[strtolower($item->type) . '_max_length_in_charset']) > $spec[strtolower($item->type) . '_max_length'])
+					{
+						$content_parts = $this->_splitString($content, $spec[strtolower($item->type) . '_max_length'], $spec[strtolower($item->type) . '_max_length_in_charset']);
+					}
+					else
+					{
+						$content_parts = array($content);
+					}
+				}
+				else
+				{
+					$content_parts = array($content);
+				}
+				
+				// Generate a message for each part of the content and attachments.
+				$message_count = max(count($content_parts), count($attachments));
+				for ($i = 1; $i <= $message_count; $i++)
+				{
+					// Get the message content.
+					if ($content_part = array_shift($content_parts))
+					{
+						$item->content = $last_content = $content_part;
+					}
+					else
+					{
+						$item->content = $last_content ?: 'MMS';
+					}
+					
+					// Get the attachment.
+					if ($attachment = array_shift($attachments))
+					{
+						$item->image = $attachment->local_filename;
+					}
+					else
+					{
+						unset($item->image);
+					}
+					
+					// Clone the item to make a part.
+					$cloneitem = clone $item;
+					
+					// Determine the best message type for this part.
+					if ($cloneitem->type !== 'SMS')
+					{
+						$cloneitem->type = $attachment ? 'MMS' : ($this->_getLengthInCharset($content_part, $spec['sms_max_length_in_charset']) > $spec['sms_max_length'] ? 'LMS' : 'SMS');
+					}
+					
+					// Add the cloned part to the result array.
+					$result[] = $cloneitem;
+				}
+			}
+		}
+		
+		// Return the message parts.
+		return $result;
 	}
 	
 	/**
-	 * Split a message into several short messages.
+	 * Get the length of a string in another character set.
 	 * 
-	 * This is useful when sending a long message as a series of SMS.
+	 * @param string $str String to measure
+	 * @param string $charset Character set to measure length
+	 * @return 
+	 */
+	protected function _getLengthInCharset($str, $charset)
+	{
+		$str = @iconv('UTF-8', $charset . '//IGNORE', $str);
+		return strlen($str);
+	}
+	
+	/**
+	 * Split a string into several short chunks.
 	 * 
-	 * @param string $message
-	 * @param int $maxlength
-	 * @param string $measure_in_charset (optional)
+	 * @param string $str String to split
+	 * @param int $max_length Maximum length of a chunk
+	 * @param string $charset Character set to measure length
 	 * @return array
 	 */
-	public function splitMessage($message, $maxlength, $measure_in_charset = 'CP949')
+	protected function _splitString($str, $max_length, $charset)
 	{
-		$message = utf8_trim(utf8_normalize_spaces($message, true));
-		$chars = preg_split('//u', $message, -1, PREG_SPLIT_NO_EMPTY);
+		$str = utf8_trim(utf8_normalize_spaces($str, true));
+		$chars = preg_split('//u', $str, -1, \PREG_SPLIT_NO_EMPTY);
 		$result = array();
 		$current_entry = '';
 		$current_length = 0;
 		
 		foreach ($chars as $char)
 		{
-			$char_length = strlen(@iconv('UTF-8', $measure_in_charset . '//IGNORE', $char));
-			if ($current_length + $char_length > $maxlength)
+			$char_length = strlen(@iconv('UTF-8', $charset . '//IGNORE', $char));
+			if (($current_length + $char_length > $max_length) || ($current_length + $char_length > $max_length - 7 && ctype_space($char)))
 			{
 				$result[] = $current_entry;
 				$current_entry = $char;

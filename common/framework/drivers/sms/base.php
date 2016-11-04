@@ -13,6 +13,11 @@ abstract class Base implements \Rhymix\Framework\Drivers\SMSInterface
 	protected $_config = null;
 	
 	/**
+	 * The driver specification is stored here.
+	 */
+	protected static $_spec = array();
+	
+	/**
 	 * Direct invocation of the constructor is not permitted.
 	 */
 	protected function __construct(array $config)
@@ -21,7 +26,7 @@ abstract class Base implements \Rhymix\Framework\Drivers\SMSInterface
 	}
 	
 	/**
-	 * Create a new instance of the current mail driver, using the given settings.
+	 * Create a new instance of the current SMS driver, using the given settings.
 	 * 
 	 * @param array $config
 	 * @return object
@@ -32,7 +37,7 @@ abstract class Base implements \Rhymix\Framework\Drivers\SMSInterface
 	}
 	
 	/**
-	 * Get the human-readable name of this mail driver.
+	 * Get the human-readable name of this SMS driver.
 	 * 
 	 * @return string
 	 */
@@ -42,7 +47,7 @@ abstract class Base implements \Rhymix\Framework\Drivers\SMSInterface
 	}
 	
 	/**
-	 * Get the list of configuration fields required by this mail driver.
+	 * Get the list of configuration fields required by this SMS driver.
 	 * 
 	 * @return array
 	 */
@@ -52,7 +57,7 @@ abstract class Base implements \Rhymix\Framework\Drivers\SMSInterface
 	}
 	
 	/**
-	 * Get the list of API types supported by this mail driver.
+	 * Get the list of API types supported by this SMS driver.
 	 * 
 	 * @return array
 	 */
@@ -62,7 +67,17 @@ abstract class Base implements \Rhymix\Framework\Drivers\SMSInterface
 	}
 	
 	/**
-	 * Check if the current mail driver is supported on this server.
+	 * Get the spec for this SMS driver.
+	 * 
+	 * @return array
+	 */
+	public static function getAPISpec()
+	{
+		return static::$_spec;
+	}
+	
+	/**
+	 * Check if the current SMS driver is supported on this server.
 	 * 
 	 * This method returns true on success and false on failure.
 	 * 
@@ -78,10 +93,10 @@ abstract class Base implements \Rhymix\Framework\Drivers\SMSInterface
 	 * 
 	 * This method returns true on success and false on failure.
 	 * 
-	 * @param object $message
+	 * @param array $messages
 	 * @return bool
 	 */
-	public function send(\Rhymix\Framework\SMS $message)
+	public function send(array $messages)
 	{
 		return false;
 	}

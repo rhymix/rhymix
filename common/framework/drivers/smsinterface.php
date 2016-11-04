@@ -37,6 +37,13 @@ interface SMSInterface
 	public static function getAPITypes();
 	
 	/**
+	 * Get the spec for this SMS driver.
+	 * 
+	 * @return array
+	 */
+	public static function getAPISpec();
+	
+	/**
 	 * Check if the current SMS driver is supported on this server.
 	 * 
 	 * This method returns true on success and false on failure.
@@ -50,8 +57,8 @@ interface SMSInterface
 	 * 
 	 * This method returns true on success and false on failure.
 	 * 
-	 * @param object $message
+	 * @param array $messages
 	 * @return bool
 	 */
-	public function send(\Rhymix\Framework\SMS $message);
+	public function send(array $messages);
 }
