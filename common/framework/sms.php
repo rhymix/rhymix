@@ -548,7 +548,7 @@ class SMS
 	 */
 	public function splitMessage($message, $maxlength, $measure_in_charset = 'CP949')
 	{
-		$message = utf8_trim(utf8_normalize_spaces($message));
+		$message = utf8_trim(utf8_normalize_spaces($message, true));
 		$chars = preg_split('//u', $message, -1, PREG_SPLIT_NO_EMPTY);
 		$result = array();
 		$current_entry = '';
@@ -572,7 +572,7 @@ class SMS
 		
 		if ($current_entry !== '')
 		{
-			$result[] = $current_entry;
+			$result[] = trim($current_entry);
 		}
 		
 		return $result;
