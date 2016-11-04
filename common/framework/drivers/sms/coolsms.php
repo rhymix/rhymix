@@ -129,6 +129,10 @@ class CoolSMS extends Base implements \Rhymix\Framework\Drivers\SMSInterface
 						{
 							unset($options->subject);
 							unset($options->image);
+							if ($options->type === 'MMS')
+							{
+								$options->type = 'LMS';
+							}
 						}
 						
 						// Set the content and send.
