@@ -24,7 +24,7 @@ class CoolSMS extends Base implements \Rhymix\Framework\Drivers\SMSInterface
 	 */
 	public static function getRequiredConfig()
 	{
-		return array('api_key', 'api_secret');
+		return array('api_key', 'api_secret', 'sender_key');
 	}
 	
 	/**
