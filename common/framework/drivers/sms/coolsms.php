@@ -15,13 +15,13 @@ class CoolSMS extends Base implements \Rhymix\Framework\Drivers\SMSInterface
 		'sms_max_length' => 90,
 		'sms_max_length_in_charset' => 'CP949',
 		'lms_supported' => true,
-		'lms_supported_country_codes' => array(0, 82),
+		'lms_supported_country_codes' => array(82),
 		'lms_max_length' => 2000,
 		'lms_max_length_in_charset' => 'CP949',
 		'lms_subject_supported' => true,
 		'lms_subject_max_length' => 40,
 		'mms_supported' => true,
-		'mms_supported_country_codes' => array(0, 82),
+		'mms_supported_country_codes' => array(82),
 		'mms_max_length' => 2000,
 		'mms_max_length_in_charset' => 'CP949',
 		'mms_subject_supported' => true,
@@ -33,14 +33,9 @@ class CoolSMS extends Base implements \Rhymix\Framework\Drivers\SMSInterface
 	);
 	
 	/**
-	 * Get the list of configuration fields required by this mail driver.
-	 * 
-	 * @return array
+	 * Config keys used by this driver are stored here.
 	 */
-	public static function getRequiredConfig()
-	{
-		return array('api_key', 'api_secret', 'sender_key');
-	}
+	protected static $_required_config = array('api_key', 'api_secret', 'sender_key');
 	
 	/**
 	 * Send a message.

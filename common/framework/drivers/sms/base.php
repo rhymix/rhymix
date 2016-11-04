@@ -18,6 +18,11 @@ abstract class Base implements \Rhymix\Framework\Drivers\SMSInterface
 	protected static $_spec = array();
 	
 	/**
+	 * Config keys used by this driver are stored here.
+	 */
+	protected static $_required_config = array();
+	
+	/**
 	 * Direct invocation of the constructor is not permitted.
 	 */
 	protected function __construct(array $config)
@@ -53,7 +58,7 @@ abstract class Base implements \Rhymix\Framework\Drivers\SMSInterface
 	 */
 	public static function getRequiredConfig()
 	{
-		return array();
+		return static::$_required_config;
 	}
 	
 	/**

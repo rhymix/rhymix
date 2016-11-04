@@ -57,6 +57,10 @@ class SMS
 				$default_driver_config = config('sms.' . $default_driver) ?: array();
 				self::$default_driver = $default_driver_class::getInstance($default_driver_config);
 			}
+			else
+			{
+				self::$default_driver = Drivers\SMS\Dummy::getInstance(array());
+			}
 		}
 		return self::$default_driver;
 	}
@@ -595,11 +599,11 @@ class SMS
 					}
 					
 					// Check the country code.
-					if ($item->type === 'MMS' && is_array($spec['mms_supported_country_codes']) && !in_array($country_code, $spec['mms_supported_country_codes']))
+					if ($item->type === 'MMS' && $country_code && is_array($spec['mms_supported_country_codes']) && !in_array($country_code, $spec['mms_supported_country_codes']))
 					{
 						$item->type = 'LMS';
 					}
-					if ($item->type === 'LMS' && is_array($spec['lms_supported_country_codes']) && !in_array($country_code, $spec['lms_supported_country_codes']))
+					if ($item->type === 'LMS' && $country_code && is_array($spec['lms_supported_country_codes']) && !in_array($country_code, $spec['lms_supported_country_codes']))
 					{
 						$item->type = 'SMS';
 					}
