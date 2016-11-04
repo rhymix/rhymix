@@ -18,6 +18,8 @@ class SMS
 	protected $content = '';
 	protected $attachments = array();
 	protected $force_sms = false;
+	protected $allow_split_sms = true;
+	protected $allow_split_lms = true;
 	public $errors = array();
 	protected $sent = false;
 	
@@ -108,6 +110,8 @@ class SMS
 	public function __construct()
 	{
 		$this->driver = self::getDefaultDriver();
+		$this->allow_split_sms = (config('sms.allow_split.sms') !== false);
+		$this->allow_split_lms = (config('sms.allow_split.lms') !== false);
 	}
 	
 	/**
@@ -304,9 +308,19 @@ class SMS
 	}
 	
 	/**
-	 * Check if this message is forced to use SMS.
+	 * Unforce this message to use SMS (not LMS or MMS).
 	 * 
 	 * @return void
+	 */
+	public function unforceSMS()
+	{
+		$this->force_sms = false;
+	}
+	
+	/**
+	 * Check if this message is forced to use SMS.
+	 * 
+	 * @return bool
 	 */
 	public function isForceSMS()
 	{
@@ -314,7 +328,67 @@ class SMS
 	}
 	
 	/**
-	 * Send the email.
+	 * Allow this message to be split into multiple SMS.
+	 * 
+	 * @return void
+	 */
+	public function allowSplitSMS()
+	{
+		$this->allow_split_sms = true;
+	}
+	
+	/**
+	 * Allow this message to be split into multiple LMS.
+	 * 
+	 * @return void
+	 */
+	public function allowSplitLMS()
+	{
+		$this->allow_split_lms = true;
+	}
+	
+	/**
+	 * Disallow this message to be split into multiple SMS.
+	 * 
+	 * @return void
+	 */
+	public function disallowSplitSMS()
+	{
+		$this->allow_split_sms = false;
+	}
+	
+	/**
+	 * Disallow this message to be split into multiple LMS.
+	 * 
+	 * @return void
+	 */
+	public function disallowSplitLMS()
+	{
+		$this->allow_split_lms = false;
+	}
+	
+	/**
+	 * Check if splitting this message into multiple SMS is allowed.
+	 * 
+	 * @return bool
+	 */
+	public function isSplitSMSAllowed()
+	{
+		return $this->allow_split_sms;
+	}
+	
+	/**
+	 * Check if splitting this message into multiple LMS is allowed.
+	 * 
+	 * @return bool
+	 */
+	public function isSplitLMSAllowed()
+	{
+		return $this->allow_split_lms;
+	}
+	
+	/**
+	 * Send the message.
 	 * 
 	 * @return bool
 	 */
