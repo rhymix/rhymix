@@ -586,6 +586,8 @@ class moduleModel extends module
 					Rhymix\Framework\Cache::set('triggers', $triggers, 0, true);
 				}
 			}
+			
+			$triggers = $triggers ?: array();
 			foreach($triggers as $item)
 			{
 				$GLOBALS['__triggers__'][$item->trigger_name][$item->called_position][] = $item;
