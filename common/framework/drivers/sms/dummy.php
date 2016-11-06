@@ -33,6 +33,11 @@ class Dummy extends Base implements \Rhymix\Framework\Drivers\SMSInterface
 	);
 	
 	/**
+	 * Sent messages are stored here for debugging and testing.
+	 */
+	protected $_sent_messages = array();
+	
+	/**
 	 * Send a message.
 	 * 
 	 * This method returns true on success and false on failure.
@@ -43,6 +48,30 @@ class Dummy extends Base implements \Rhymix\Framework\Drivers\SMSInterface
 	 */
 	public function send(array $messages, \Rhymix\Framework\SMS $original)
 	{
+		foreach ($messages as $message)
+		{
+			$this->_sent_messages[] = $message;
+		}
 		return true;
+	}
+	
+	/**
+	 * Get sent messages.
+	 * 
+	 * @return array
+	 */
+	public function getSentMessages()
+	{
+		return $this->_sent_messages;
+	}
+	
+	/**
+	 * Reset sent messages.
+	 * 
+	 * @return void
+	 */
+	public function resetSentMessages()
+	{
+		$this->_sent_messages = array();
 	}
 }

@@ -12,7 +12,7 @@ class SMS
 	 */
 	public $driver = null;
 	protected $caller = '';
-	protected $from = '';
+	protected $from = null;
 	protected $to = array();
 	protected $subject = '';
 	protected $content = '';
@@ -91,6 +91,7 @@ class SMS
 					'name' => $class_name::getName(),
 					'required' => $class_name::getRequiredConfig(),
 					'api_types' => $class_name::getAPITypes(),
+					'api_spec' => $class_name::getAPISpec(),
 				);
 			}
 		}
@@ -102,6 +103,7 @@ class SMS
 					'name' => $driver->getName(),
 					'required' => $driver->getRequiredConfig(),
 					'api_types' => $driver->getAPITypes(),
+					'api_spec' => $class_name::getAPISpec(),
 				);
 			}
 		}
@@ -115,7 +117,7 @@ class SMS
 	public function __construct()
 	{
 		$this->driver = self::getDefaultDriver();
-		$this->from = trim(config('sms.default_from'));
+		$this->from = trim(preg_replace('/[^0-9]/', '', config('sms.default_from'))) ?: null;
 		$this->allow_split_sms = (config('sms.allow_split.sms') !== false);
 		$this->allow_split_lms = (config('sms.allow_split.lms') !== false);
 	}
@@ -135,7 +137,7 @@ class SMS
 	/**
 	 * Get the sender's phone number.
 	 *
-	 * @return string
+	 * @return string|null
 	 */
 	public function getFrom()
 	{
@@ -335,6 +337,10 @@ class SMS
 		if ($when <= (86400 * 365))
 		{
 			$when = time() + $when;
+		}
+		if ($when <= time())
+		{
+			$when = 0;
 		}
 		
 		$this->delay_timestamp = intval($when);
