@@ -746,7 +746,7 @@ class SMS
 			$char_length = strlen(@iconv('UTF-8', $charset . '//IGNORE', $char));
 			if (($current_length + $char_length > $max_length) || ($current_length + $char_length > $max_length - 7 && ctype_space($char)))
 			{
-				$result[] = $current_entry;
+				$result[] = trim($current_entry);
 				$current_entry = $char;
 				$current_length = $char_length;
 			}
