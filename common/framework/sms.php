@@ -628,9 +628,9 @@ class SMS
 				// Remove subject and attachments if the message type is SMS.
 				if ($item->type === 'SMS')
 				{
-					if ($item->subject)
+					if ($subject)
 					{
-						$content = $item->subject . "\n" . $content;
+						$content = $subject . "\n" . $content;
 						unset($item->subject);
 					}
 					$attachments = array();
@@ -697,7 +697,7 @@ class SMS
 					$cloneitem = clone $item;
 					
 					// Determine the best message type for this part.
-					if ($cloneitem->type !== 'SMS')
+					if ($cloneitem->type !== 'SMS' && !$cloneitem->subject)
 					{
 						$cloneitem->type = $attachment ? 'MMS' : ($this->_getLengthInCharset($content_part, $spec['sms_max_length_in_charset']) > $spec['sms_max_length'] ? 'LMS' : 'SMS');
 					}
