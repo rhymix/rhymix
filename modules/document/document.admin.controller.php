@@ -79,13 +79,6 @@ class documentAdminController extends document
 			$oDocument = $oDocumentModel->getDocument($document_srl);
 			if(!$oDocument->isExists()) continue;
 
-			$oMemberModel = getModel('member');
-			$logged_info = Context::get('logged_info');
-			$member_info = $oMemberModel->getMemberInfoByMemberSrl($oDocument->get('member_srl'));
-			if($member_info->is_admin == 'Y' && $logged_info->is_admin != 'Y')
-			{
-				return new Object();
-			}
 			$source_category_srl = $oDocument->get('category_srl');
 
 			unset($obj);
