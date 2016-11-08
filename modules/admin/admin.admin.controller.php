@@ -700,10 +700,11 @@ class adminAdminController extends admin
 		}
 		
 		// Thumbnail settings
-		$args = new stdClass;
-		$args->thumbnail_type = $vars->thumbnail_type === 'ratio' ? 'ratio' : 'crop';
+		$oDocumentModel = getModel('document');
+		$document_config = $oDocumentModel->getDocumentConfig();
+		$document_config->thumbnail_type = $vars->thumbnail_type === 'ratio' ? 'ratio' : 'crop';
 		$oModuleController = getController('module');
-		$oModuleController->insertModuleConfig('document', $args);
+		$oModuleController->insertModuleConfig('document', $document_config);
 		
 		// Other settings
 		Rhymix\Framework\Config::set('use_rewrite', $vars->use_rewrite === 'Y');
