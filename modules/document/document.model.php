@@ -928,7 +928,6 @@ class documentModel extends document
 			$config = $oModuleModel->getModuleConfig('document');
 
 			if(!$config) $config = new stdClass();
-			if(!$config->view_count_option) $config->view_count_option = 'once';
 			$GLOBALS['__document_config__'] = $config;
 		}
 		return $GLOBALS['__document_config__'];
