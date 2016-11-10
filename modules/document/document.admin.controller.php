@@ -468,8 +468,10 @@ class documentAdminController extends document
 	function procDocumentAdminInsertConfig()
 	{
 		// Get the basic information
-		$config = new stdClass();
+		$oDocumentModel = getModel('document');
+		$config = $oDocumentModel->getDocumentConfig();
 		$config->view_count_option = Context::get('view_count_option');
+
 		// Insert by creating the module Controller object
 		$oModuleController = getController('module');
 		$output = $oModuleController->insertModuleConfig('document',$config);
