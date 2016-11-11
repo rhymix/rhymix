@@ -527,7 +527,7 @@ class boardController extends board
 			$comment->status = 7;
 			$output = $oCommentController->updateCommentByDelete($comment, $this->grant->manager);
 		}
-		elseif($this->module_info->comment_delete_message === 'only_commnet' && $instant_delete != 'Y')
+		elseif(starts_with('only_comm', $this->module_info->comment_delete_message) && $instant_delete != 'Y')
 		{
 			$childs = $oCommentModel->getChildComments($comment_srl);
 			if(count($childs) > 0)
