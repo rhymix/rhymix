@@ -5,6 +5,7 @@
     <actions>
         <action name="dispAdminIndex" type="view" index="true" />
         <action name="dispAdminConfigGeneral" type="view" menu_name="adminConfigurationGeneral" menu_index="true" />
+		<action name="dispAdminConfigNotification" type="view" menu_name="adminConfigurationGeneral" />
         <action name="dispAdminConfigSecurity" type="view" menu_name="adminConfigurationGeneral" />
         <action name="dispAdminConfigAdvanced" type="view" menu_name="adminConfigurationGeneral" />
         <action name="dispAdminConfigDebug" type="view" menu_name="adminConfigurationGeneral" />
@@ -24,6 +25,7 @@
 		<action name="procAdminDeleteLogo" type="controller" />
 		<action name="procAdminMenuReset" type="controller" />
 		<action name="procAdminUpdateConfigGeneral" type="controller" />
+		<action name="procAdminUpdateNotification" type="controller" />
 		<action name="procAdminUpdateSecurity" type="controller" />
 		<action name="procAdminUpdateAdvanced" type="controller" />
 		<action name="procAdminUpdateDebug" type="controller" />

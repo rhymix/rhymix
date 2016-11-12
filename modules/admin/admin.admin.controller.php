@@ -556,6 +556,72 @@ class adminAdminController extends admin
 	}
 	
 	/**
+	 * Update notification configuration.
+	 */
+	function procAdminUpdateNotification()
+	{
+		$vars = Context::getRequestVars();
+		
+		// Load advanced mailer module (for lang).
+		$oAdvancedMailerAdminView = getAdminView('advanced_mailer');
+		
+		// Validate the mail driver.
+		$mail_drivers = Rhymix\Framework\Mail::getSupportedDrivers();
+		$mail_driver = $vars->mail_driver;
+		if (!array_key_exists($mail_driver, $mail_drivers))
+		{
+			return new Object(-1, 'msg_advanced_mailer_sending_method_is_invalid');
+		}
+		
+		// Validate the mail driver settings.
+		$mail_driver_config = array();
+		foreach ($mail_drivers[$mail_driver]['required'] as $conf_name)
+		{
+			$conf_value = $vars->{'mail_' . $mail_driver . '_' . $conf_name} ?: null;
+			if (!$conf_value)
+			{
+				return new Object(-1, 'msg_advanced_mailer_smtp_host_is_invalid');
+			}
+			$mail_driver_config[$conf_name] = $conf_value;
+		}
+		
+		// Validate the SMS driver.
+		$sms_drivers = Rhymix\Framework\SMS::getSupportedDrivers();
+		$sms_driver = $vars->sms_driver;
+		if (!array_key_exists($sms_driver, $sms_drivers))
+		{
+			return new Object(-1, 'msg_advanced_mailer_sending_method_is_invalid');
+		}
+		
+		// Validate the SMS driver settings.
+		$sms_driver_config = array();
+		foreach ($sms_drivers[$sms_driver]['required'] as $conf_name)
+		{
+			$conf_value = $vars->{'sms_' . $sms_driver . '_' . $conf_name} ?: null;
+			if (!$conf_value)
+			{
+				return new Object(-1, 'msg_advanced_mailer_smtp_host_is_invalid');
+			}
+			$sms_driver_config[$conf_name] = $conf_value;
+		}
+		foreach ($sms_drivers[$sms_driver]['optional'] as $conf_name)
+		{
+			$conf_value = $vars->{'sms_' . $sms_driver . '_' . $conf_name} ?: null;
+			$sms_driver_config[$conf_name] = $conf_value;
+		}
+		
+		// Save.
+		Rhymix\Framework\Config::set("mail.type", $mail_driver);
+		Rhymix\Framework\Config::set("mail.$mail_driver", $mail_driver_config);
+		Rhymix\Framework\Config::set("sms.type", $sms_driver);
+		Rhymix\Framework\Config::set("sms.$sms_driver", $sms_driver_config);
+		Rhymix\Framework\Config::save();
+		
+		$this->setMessage('success_updated');
+		$this->setRedirectUrl(Context::get('success_return_url') ?: getNotEncodedUrl('', 'module', 'admin', 'act', 'dispAdminConfigNotification'));
+	}
+	
+	/**
 	 * Update security configuration.
 	 */
 	function procAdminUpdateSecurity()

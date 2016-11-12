@@ -2,6 +2,7 @@
 $lang->admin = 'Admin';
 $lang->cmd_configure = 'Configure';
 $lang->subtitle_primary = 'General Settings';
+$lang->subtitle_notification = 'Notification Settings';
 $lang->subtitle_security = 'Security Settings';
 $lang->subtitle_advanced = 'Advanced Settings';
 $lang->subtitle_debug = 'Debug Settings';
