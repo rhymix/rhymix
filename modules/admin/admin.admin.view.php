@@ -446,6 +446,42 @@ class adminAdminView extends admin
 	}
 	
 	/**
+	 * Display Notification Settings page
+	 * @return void
+	 */
+	function dispAdminConfigNotification()
+	{
+		// Load advanced mailer module (for lang).
+		$oAdvancedMailerAdminView = getAdminView('advanced_mailer');
+		
+		// Load advanced mailer config.
+		$advanced_mailer_config = $oAdvancedMailerAdminView->getConfig();
+		Context::set('advanced_mailer_config', $advanced_mailer_config);
+		
+		// Load member config.
+		$member_config = getModel('module')->getModuleConfig('member');
+		Context::set('member_config', $member_config);
+		Context::set('webmaster_name', $member_config->webmaster_name ? $member_config->webmaster_name : 'webmaster');
+		Context::set('webmaster_email', $member_config->webmaster_email);
+		
+		// Load module config.
+		$module_config = getModel('module')->getModuleConfig('module');
+		Context::set('module_config', $module_config);
+
+		// Load mail drivers.
+		$mail_drivers = Rhymix\Framework\Mail::getSupportedDrivers();
+		Context::set('mail_drivers', $mail_drivers);
+		Context::set('mail_driver', config('mail.type') ?: 'mailfunction');
+		
+		// Load SMS drivers.
+		$sms_drivers = Rhymix\Framework\SMS::getSupportedDrivers();
+		Context::set('sms_drivers', $sms_drivers);
+		Context::set('sms_driver', config('sms.type') ?: 'dummy');
+		
+		$this->setTemplateFile('config_notification');
+	}
+	
+	/**
 	 * Display Security Settings page
 	 * @return void
 	 */

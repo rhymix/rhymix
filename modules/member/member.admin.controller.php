@@ -167,8 +167,6 @@ class memberAdminController extends member
 			'enable_join',
 			'enable_confirm',
 			'enable_find_account_question',
-			'webmaster_name',
-			'webmaster_email',
 			'password_strength',
 			'password_hashing_algorithm',
 			'password_hashing_work_factor',
@@ -194,11 +192,6 @@ class memberAdminController extends member
 		if($args->password_hashing_auto_upgrade != 'Y')
 		{
 			$args->password_hashing_auto_upgrade = 'N';
-		}
-
-		if((!$args->webmaster_name || !$args->webmaster_email) && $args->enable_confirm == 'Y')
-		{
-			return new Object(-1, 'msg_mail_authorization');
 		}
 
 		$oModuleController = getController('module');

@@ -15,49 +15,9 @@ class Advanced_MailerAdminController extends Advanced_Mailer
 	{
 		// Get and validate the new configuration.
 		$vars = Context::getRequestVars();
-		if (!$vars->sender_name)
-		{
-			return new Object(-1, 'msg_advanced_mailer_sender_name_is_empty');
-		}
-		if (!$vars->sender_email)
-		{
-			return new Object(-1, 'msg_advanced_mailer_sender_email_is_empty');
-		}
-		if (!Mail::isVaildMailAddress($vars->sender_email))
-		{
-			return new Object(-1, 'msg_advanced_mailer_sender_email_is_invalid');
-		}
-		if ($vars->reply_to && !Mail::isVaildMailAddress($vars->reply_to))
-		{
-			return new Object(-1, 'msg_advanced_mailer_reply_to_is_invalid');
-		}
-		
-		// Validate the sending method.
-		$sending_methods = Rhymix\Framework\Mail::getSupportedDrivers();
-		$sending_method = $vars->sending_method;
-		if (!array_key_exists($sending_method, $sending_methods))
-		{
-			return new Object(-1, 'msg_advanced_mailer_sending_method_is_invalid');
-		}
-		
-		// Validate the configuration for the selected sending method.
-		$sending_method_config = array();
-		foreach ($sending_methods[$sending_method]['required'] as $conf_name)
-		{
-			$conf_value = $vars->{$sending_method . '_' . $conf_name} ?: null;
-			if (!$conf_value)
-			{
-				return new Object(-1, 'msg_advanced_mailer_smtp_host_is_invalid');
-			}
-			$sending_method_config[$conf_name] = $conf_value;
-		}
 		
 		// Update the current module's configuration.
 		$config = $this->getConfig();
-		$config->sender_name = $vars->sender_name;
-		$config->sender_email = $vars->sender_email;
-		$config->reply_to = $vars->reply_to;
-		$config->force_sender = toBool($vars->force_sender);
 		$config->log_sent_mail = toBool($vars->log_sent_mail);
 		$config->log_errors = toBool($vars->log_errors);
 		$output = getController('module')->insertModuleConfig('advanced_mailer', $config);
@@ -69,17 +29,6 @@ class Advanced_MailerAdminController extends Advanced_Mailer
 		{
 			return $output;
 		}
-		
-		// Update the webmaster's name and email in the member module.
-		getController('module')->updateModuleConfig('member', (object)array(
-			'webmaster_name' => $config->sender_name,
-			'webmaster_email' => $config->sender_email,
-		));
-		
-		// Update system configuration.
-		Rhymix\Framework\Config::set("mail.type", $sending_method);
-		Rhymix\Framework\Config::set("mail.$sending_method", $sending_method_config);
-		Rhymix\Framework\Config::save();
 		
 		if (Context::get('success_return_url'))
 		{
