@@ -148,9 +148,40 @@ class SMSTest extends \Codeception\TestCase\Test
 		$sms->disallowSplitLMS();
 		$this->assertFalse($sms->isSplitLMSAllowed());
 	}
+	
+	public function testForceSender()
+	{
+		config('sms.default_from', '010-9999-8888');
+		config('sms.default_force', true);
+		$driver = Rhymix\Framework\Drivers\SMS\Dummy::getInstance(array());
+		Rhymix\Framework\SMS::setDefaultDriver($driver);
 		
+		$driver->resetSentMessages();
+		$sms = new Rhymix\Framework\SMS;
+		$sms->setFrom('010-7777-6666');
+		$sms->addTo('010-5555-4444');
+		$sms->setContent('Hello World');
+		$sms->send();
+		
+		$messages = $driver->getSentMessages();
+		$this->assertEquals('01099998888', $messages[0]->from);
+		
+		config('sms.default_force', false);
+		
+		$driver->resetSentMessages();
+		$sms = new Rhymix\Framework\SMS;
+		$sms->setFrom('010-7777-6666');
+		$sms->addTo('010-5555-4444');
+		$sms->setContent('Hello World');
+		$sms->send();
+		
+		$messages = $driver->getSentMessages();
+		$this->assertEquals('01077776666', $messages[0]->from);
+	}
+	
 	public function testSMSSendSMSAndLMS()
 	{
+		config('sms.default_force', false);
 		config('sms.allow_split.sms', true);
 		config('sms.allow_split.lms', true);
 		
@@ -238,6 +269,7 @@ class SMSTest extends \Codeception\TestCase\Test
 	
 	public function testSMSSendMMS()
 	{
+		config('sms.default_force', false);
 		config('sms.allow_split.sms', true);
 		config('sms.allow_split.lms', true);
 		

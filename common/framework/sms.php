@@ -475,6 +475,11 @@ class SMS
 			return false;
 		}
 		
+		if (config('sms.default_force') && config('sms.default_from'))
+		{
+			$this->setFrom(config('sms.default_from'));
+		}
+		
 		try
 		{
 			if ($this->driver)
