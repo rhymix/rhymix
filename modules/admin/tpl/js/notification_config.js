@@ -12,12 +12,6 @@
 					$(this).hide();
 				}
 			});
-			var reply_to = $("#mail_reply_to").parents("div.x_control-group");
-			if (selected_driver === "woorimail") {
-				reply_to.hide();
-			} else {
-				reply_to.show();
-			}
 		}).triggerHandler("change");
 		
 		$("#sms_driver").on("change", function() {
@@ -82,14 +76,6 @@
 				$("#mail_force_default_sender").prop("checked", true).parent().addClass("checked");
 			}
 		});
-		
-		$("#mail_woorimail_account_type_free,#mail_woorimail_account_type_paid").on("change", function() {
-			if ($("#mail_woorimail_account_type_paid").is(":checked")) {
-				$("#mail_reply_to").attr("disabled", "disabled");
-			} else {
-				$("#mail_reply_to").removeAttr("disabled");
-			}
-		}).triggerHandler("change");
 		
 	});
 	
