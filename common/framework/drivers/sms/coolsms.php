@@ -35,7 +35,20 @@ class CoolSMS extends Base implements \Rhymix\Framework\Drivers\SMSInterface
 	/**
 	 * Config keys used by this driver are stored here.
 	 */
-	protected static $_required_config = array('api_key', 'api_secret', 'sender_key');
+	protected static $_required_config = array('api_key', 'api_secret');
+	protected static $_optional_config = array('sender_key');
+	
+	/**
+	 * Check if the current SMS driver is supported on this server.
+	 * 
+	 * This method returns true on success and false on failure.
+	 * 
+	 * @return bool
+	 */
+	public static function isSupported()
+	{
+		return true;
+	}
 	
 	/**
 	 * Send a message.

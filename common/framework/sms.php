@@ -90,6 +90,7 @@ class SMS
 				$result[$driver_name] = array(
 					'name' => $class_name::getName(),
 					'required' => $class_name::getRequiredConfig(),
+					'optional' => $class_name::getOptionalConfig(),
 					'api_types' => $class_name::getAPITypes(),
 					'api_spec' => $class_name::getAPISpec(),
 				);
@@ -102,6 +103,7 @@ class SMS
 				$result[strtolower(class_basename($driver))] = array(
 					'name' => $driver->getName(),
 					'required' => $driver->getRequiredConfig(),
+					'optional' => $driver->getOptionalConfig(),
 					'api_types' => $driver->getAPITypes(),
 					'api_spec' => $class_name::getAPISpec(),
 				);

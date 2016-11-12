@@ -30,6 +30,13 @@ interface SMSInterface
 	public static function getRequiredConfig();
 	
 	/**
+	 * Get the list of configuration fields optionally used by this SMS driver.
+	 * 
+	 * @return array
+	 */
+	public static function getOptionalConfig();
+	
+	/**
 	 * Get the list of API types supported by this SMS driver.
 	 * 
 	 * @return array

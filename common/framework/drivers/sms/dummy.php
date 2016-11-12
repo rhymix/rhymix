@@ -38,6 +38,18 @@ class Dummy extends Base implements \Rhymix\Framework\Drivers\SMSInterface
 	protected $_sent_messages = array();
 	
 	/**
+	 * Check if the current SMS driver is supported on this server.
+	 * 
+	 * This method returns true on success and false on failure.
+	 * 
+	 * @return bool
+	 */
+	public static function isSupported()
+	{
+		return true;
+	}
+	
+	/**
 	 * Send a message.
 	 * 
 	 * This method returns true on success and false on failure.

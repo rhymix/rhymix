@@ -21,6 +21,7 @@ abstract class Base implements \Rhymix\Framework\Drivers\SMSInterface
 	 * Config keys used by this driver are stored here.
 	 */
 	protected static $_required_config = array();
+	protected static $_optional_config = array();
 	
 	/**
 	 * Direct invocation of the constructor is not permitted.
@@ -62,6 +63,16 @@ abstract class Base implements \Rhymix\Framework\Drivers\SMSInterface
 	}
 	
 	/**
+	 * Get the list of configuration fields optionally used by this SMS driver.
+	 * 
+	 * @return array
+	 */
+	public static function getOptionalConfig()
+	{
+		return static::$_optional_config;
+	}
+	
+	/**
 	 * Get the list of API types supported by this SMS driver.
 	 * 
 	 * @return array
@@ -90,7 +101,7 @@ abstract class Base implements \Rhymix\Framework\Drivers\SMSInterface
 	 */
 	public static function isSupported()
 	{
-		return true;
+		return false;
 	}
 	
 	/**
