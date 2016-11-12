@@ -653,6 +653,8 @@ class adminAdminController extends admin
 		Rhymix\Framework\Config::set("sms.default_force", toBool($vars->sms_force_default_sender));
 		Rhymix\Framework\Config::set("sms.type", $sms_driver);
 		Rhymix\Framework\Config::set("sms.$sms_driver", $sms_driver_config);
+		Rhymix\Framework\Config::set("sms.allow_split.sms", toBool($vars->allow_split_sms));
+		Rhymix\Framework\Config::set("sms.allow_split.lms", toBool($vars->allow_split_lms));
 		Rhymix\Framework\Config::save();
 		
 		$this->setMessage('success_updated');

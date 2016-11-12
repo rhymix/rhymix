@@ -241,6 +241,34 @@
 			
 		<!--@end-->
 	
+		<div class="x_control-group">
+			<label class="x_control-label">{$lang->cmd_admin_allow_split_sms}</label>
+			<div class="x_controls">
+				<label for="allow_split_sms_y" class="x_inline">
+					<input type="radio" name="allow_split_sms" id="allow_split_sms_y" value="Y" checked="checked"|cond="config('sms.allow_split.sms') !== false" />
+					{$lang->cmd_yes}
+				</label>
+				<label for="allow_split_sms_n" class="x_inline">
+					<input type="radio" name="allow_split_sms" id="allow_split_sms_n" value="N" checked="checked"|cond="config('sms.allow_split.sms') === false" />
+					{$lang->cmd_no}
+				</label>
+			</div>
+		</div>
+		
+		<div class="x_control-group">
+			<label class="x_control-label">{$lang->cmd_admin_allow_split_lms}</label>
+			<div class="x_controls">
+				<label for="allow_split_lms_y" class="x_inline">
+					<input type="radio" name="allow_split_lms" id="allow_split_lms_y" value="Y" checked="checked"|cond="config('sms.allow_split.lms') !== false" />
+					{$lang->cmd_yes}
+				</label>
+				<label for="allow_split_lms_n" class="x_inline">
+					<input type="radio" name="allow_split_lms" id="allow_split_lms_n" value="N" checked="checked"|cond="config('sms.allow_split.lms') === false" />
+					{$lang->cmd_no}
+				</label>
+			</div>
+		</div>
+		
 	</section>
 
 	<div class="x_clearfix btnArea">
