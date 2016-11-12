@@ -74,6 +74,7 @@ class CoolSMS extends Base implements \Rhymix\Framework\Drivers\SMSInterface
 				$options->to = implode(',', $message->to);
 				$options->text = $message->content ?: $message->type;
 				$options->charset = 'utf8';
+				$options->srk = 'K0009334574';
 				if ($message->delay && $message->delay > time())
 				{
 					$options->datetime = gmdate('YmdHis', $message->delay + (3600 * 9));
