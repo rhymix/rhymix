@@ -610,9 +610,29 @@ class adminAdminController extends admin
 			$sms_driver_config[$conf_name] = $conf_value;
 		}
 		
-		// Save.
+		// Save advanced mailer config.
+		getController('module')->updateModuleConfig('advanced_mailer', (object)array(
+			'sender_name' => trim($vars->mail_default_name),
+			'sender_email' => trim($vars->mail_default_from),
+			'force_sender' => toBool($vars->mail_force_default_sender),
+			'reply_to' => trim($vars->mail_default_reply_to),
+		));
+		
+		// Save member config.
+		getController('module')->updateModuleConfig('member', (object)array(
+			'webmaster_name' => trim($vars->mail_default_name),
+			'webmaster_email' => trim($vars->mail_default_from),
+		));
+		
+		// Save system config.
+		Rhymix\Framework\Config::set("mail.default_name", trim($vars->mail_default_name));
+		Rhymix\Framework\Config::set("mail.default_from", trim($vars->mail_default_from));
+		Rhymix\Framework\Config::set("mail.default_force", toBool($vars->mail_force_default_sender));
+		Rhymix\Framework\Config::set("mail.default_reply_to", trim($vars->mail_default_reply_to));
 		Rhymix\Framework\Config::set("mail.type", $mail_driver);
 		Rhymix\Framework\Config::set("mail.$mail_driver", $mail_driver_config);
+		Rhymix\Framework\Config::set("sms.default_from", trim($vars->sms_default_from));
+		Rhymix\Framework\Config::set("sms.default_force", toBool($vars->sms_force_default_sender));
 		Rhymix\Framework\Config::set("sms.type", $sms_driver);
 		Rhymix\Framework\Config::set("sms.$sms_driver", $sms_driver_config);
 		Rhymix\Framework\Config::save();

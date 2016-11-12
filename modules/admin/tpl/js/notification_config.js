@@ -39,7 +39,7 @@
 				$("#mail_smtp_security_ssl").prop("checked", true).parent().addClass("checked");
 				$("#mail_smtp_security_tls").parent().removeClass("checked");
 				$("#mail_smtp_security_none").parent().removeClass("checked");
-				$("#mail_force_sender").prop("checked", true).parent().addClass("checked");
+				$("#mail_force_default_sender").prop("checked", true).parent().addClass("checked");
 			}
 			if (auto_fill === 'hanmail') {
 				$("#mail_smtp_smtp_host").val('smtp.daum.net');
@@ -47,7 +47,7 @@
 				$("#mail_smtp_security_ssl").prop("checked", true).parent().addClass("checked");
 				$("#mail_smtp_security_tls").parent().removeClass("checked");
 				$("#mail_smtp_security_none").parent().removeClass("checked");
-				$("#mail_force_sender").prop("checked", true).parent().addClass("checked");
+				$("#mail_force_default_sender").prop("checked", true).parent().addClass("checked");
 			}
 			if (auto_fill === 'naver') {
 				$("#mail_smtp_smtp_host").val('smtp.naver.com');
@@ -55,7 +55,7 @@
 				$("#mail_smtp_security_tls").prop("checked", true).parent().addClass("checked");
 				$("#mail_smtp_security_ssl").parent().removeClass("checked");
 				$("#mail_smtp_security_none").parent().removeClass("checked");
-				$("#mail_force_sender").prop("checked", true).parent().addClass("checked");
+				$("#mail_force_default_sender").prop("checked", true).parent().addClass("checked");
 			}
 			if (auto_fill === 'worksmobile') {
 				$("#mail_smtp_smtp_host").val('smtp.worksmobile.com');
@@ -63,7 +63,7 @@
 				$("#mail_smtp_security_tls").prop("checked", true).parent().addClass("checked");
 				$("#mail_smtp_security_ssl").parent().removeClass("checked");
 				$("#mail_smtp_security_none").parent().removeClass("checked");
-				$("#mail_force_sender").prop("checked", true).parent().addClass("checked");
+				$("#mail_force_default_sender").prop("checked", true).parent().addClass("checked");
 			}
 			if (auto_fill === 'outlook') {
 				$("#mail_smtp_smtp_host").val('smtp-mail.outlook.com');
@@ -71,7 +71,7 @@
 				$("#mail_smtp_security_tls").prop("checked", true).parent().addClass("checked");
 				$("#mail_smtp_security_ssl").parent().removeClass("checked");
 				$("#mail_smtp_security_none").parent().removeClass("checked");
-				$("#mail_force_sender").prop("checked", true).parent().addClass("checked");
+				$("#mail_force_default_sender").prop("checked", true).parent().addClass("checked");
 			}
 			if (auto_fill === 'yahoo') {
 				$("#mail_smtp_smtp_host").val('smtp.mail.yahoo.com');
@@ -79,7 +79,7 @@
 				$("#mail_smtp_security_ssl").prop("checked", true).parent().addClass("checked");
 				$("#mail_smtp_security_tls").parent().removeClass("checked");
 				$("#mail_smtp_security_none").parent().removeClass("checked");
-				$("#mail_force_sender").prop("checked", true).parent().addClass("checked");
+				$("#mail_force_default_sender").prop("checked", true).parent().addClass("checked");
 			}
 		});
 		

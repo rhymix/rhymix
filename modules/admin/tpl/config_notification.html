@@ -18,8 +18,34 @@
 		
 		<h2>{$lang->email}</h2>
 		
+		<div class="x_control-group">
+			<label class="x_control-label" for="mail_default_name">{$lang->cmd_admin_default_from_name}</label>
+			<div class="x_controls">
+				<input type="text" name="mail_default_name" id="mail_default_name" value="{escape($member_config->webmaster_name) ?: $module_config->siteTitle}" />
+			</div>
+		</div>
+		
+		<div class="x_control-group">
+			<label class="x_control-label" for="mail_default_from">{$lang->cmd_admin_default_from_email}</label>
+			<div class="x_controls">
+				<input type="text" name="mail_default_from" id="mail_default_from" value="{escape($member_config->webmaster_email)}" />
+				&nbsp;
+				<label for="mail_force_default_sender" class="x_inline">
+					<input type="checkbox" name="mail_force_default_sender" id="mail_force_default_sender" value="Y" checked="checked"|cond="toBool($advanced_mailer_config->force_sender)" />
+					{$lang->cmd_admin_force_default_sender}
+				</label>
+			</div>
+		</div>
+	
+		<div class="x_control-group">
+			<label class="x_control-label" for="mail_default_reply_to">{$lang->cmd_admin_default_reply_to}</label>
+			<div class="x_controls">
+				<input type="text" name="mail_default_reply_to" id="mail_default_reply_to" value="{escape($advanced_mailer_config->reply_to ?: config('mail.default_reply_to'))}" />
+			</div>
+		</div>
+		
 		<div class="x_control-group show-always">
-			<label class="x_control-label" for="mail_driver">{$lang->cmd_advanced_mailer_sending_method_default}</label>
+			<label class="x_control-label" for="mail_driver">{$lang->cmd_admin_sending_method}</label>
 			<div class="x_controls">
 				<select name="mail_driver" id="mail_driver">
 					<!--@foreach($mail_drivers as $driver_name => $driver_definition)-->
@@ -153,8 +179,20 @@
 		
 		<h2>{$lang->sms}</h2>
 	
+		<div class="x_control-group">
+			<label class="x_control-label" for="sms_default_from">{$lang->cmd_admin_default_from_phone}</label>
+			<div class="x_controls">
+				<input type="text" name="sms_default_from" id="sms_default_from" value="{escape(config('sms.default_from'))}" />
+				&nbsp;
+				<label for="sms_force_default_sender" class="x_inline">
+					<input type="checkbox" name="sms_force_default_sender" id="sms_force_default_sender" value="Y" checked="checked"|cond="config('sms.default_force')" />
+					{$lang->cmd_admin_force_default_sender}
+				</label>
+			</div>
+		</div>
+		
 		<div class="x_control-group show-always">
-			<label class="x_control-label" for="sms_driver">{$lang->cmd_advanced_mailer_sending_method_default}</label>
+			<label class="x_control-label" for="sms_driver">{$lang->cmd_admin_sending_method}</label>
 			<div class="x_controls">
 				<select name="sms_driver" id="sms_driver">
 					<!--@foreach($sms_drivers as $driver_name => $driver_definition)-->
@@ -163,7 +201,6 @@
 				</select>
 			</div>
 		</div>
-		
 		
 		<!--@foreach($sms_drivers as $driver_name => $driver_definition)-->
 		
