@@ -565,6 +565,24 @@ class adminAdminController extends admin
 		// Load advanced mailer module (for lang).
 		$oAdvancedMailerAdminView = getAdminView('advanced_mailer');
 		
+		// Validate the mail sender's information.
+		if (!$vars->mail_default_name)
+		{
+			return new Object(-1, 'msg_advanced_mailer_sender_name_is_empty');
+		}
+		if (!$vars->mail_default_from)
+		{
+			return new Object(-1, 'msg_advanced_mailer_sender_email_is_empty');
+		}
+		if (!Mail::isVaildMailAddress($vars->mail_default_from))
+		{
+			return new Object(-1, 'msg_advanced_mailer_sender_email_is_invalid');
+		}
+		if ($vars->mail_default_reply_to && !Mail::isVaildMailAddress($vars->mail_default_reply_to))
+		{
+			return new Object(-1, 'msg_advanced_mailer_reply_to_is_invalid');
+		}
+		
 		// Validate the mail driver.
 		$mail_drivers = Rhymix\Framework\Mail::getSupportedDrivers();
 		$mail_driver = $vars->mail_driver;
