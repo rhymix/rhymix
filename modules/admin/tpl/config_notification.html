@@ -22,6 +22,8 @@
 			<label class="x_control-label" for="mail_default_name">{$lang->cmd_admin_default_from_name}</label>
 			<div class="x_controls">
 				<input type="text" name="mail_default_name" id="mail_default_name" value="{escape($member_config->webmaster_name) ?: $module_config->siteTitle}" />
+				<br />
+				<p class="x_help-block">{$lang->cmd_admin_default_from_name_help}</p>
 			</div>
 		</div>
 		
@@ -34,6 +36,8 @@
 					<input type="checkbox" name="mail_force_default_sender" id="mail_force_default_sender" value="Y" checked="checked"|cond="toBool($advanced_mailer_config->force_sender)" />
 					{$lang->cmd_admin_force_default_sender}
 				</label>
+				<br />
+				<p class="x_help-block">{$lang->cmd_admin_default_from_email_help}</p>
 			</div>
 		</div>
 	
@@ -41,10 +45,12 @@
 			<label class="x_control-label" for="mail_default_reply_to">{$lang->cmd_admin_default_reply_to}</label>
 			<div class="x_controls">
 				<input type="text" name="mail_default_reply_to" id="mail_default_reply_to" value="{escape($advanced_mailer_config->reply_to ?: config('mail.default_reply_to'))}" />
+				<br />
+				<p class="x_help-block">{$lang->cmd_admin_default_reply_to_help}</p>
 			</div>
 		</div>
 		
-		<div class="x_control-group show-always">
+		<div class="x_control-group">
 			<label class="x_control-label" for="mail_driver">{$lang->cmd_admin_sending_method}</label>
 			<div class="x_controls">
 				<select name="mail_driver" id="mail_driver">
@@ -52,7 +58,7 @@
 						<option value="{$driver_name}" selected="selected"|cond="$mail_driver === $driver_name">{$driver_definition['name']}</option>
 					<!--@end-->
 				</select>
-				<p class="x_help-block show-for-dummy">
+				<p class="x_help-block hidden-by-default show-for-dummy">
 					{$lang->msg_advanced_mailer_about_dummy}<br />{$lang->msg_advanced_mailer_about_dummy_exceptions}
 				</p>
 			</div>
@@ -185,13 +191,15 @@
 				<input type="text" name="sms_default_from" id="sms_default_from" value="{escape(config('sms.default_from'))}" />
 				&nbsp;
 				<label for="sms_force_default_sender" class="x_inline">
-					<input type="checkbox" name="sms_force_default_sender" id="sms_force_default_sender" value="Y" checked="checked"|cond="config('sms.default_force')" />
+					<input type="checkbox" name="sms_force_default_sender" id="sms_force_default_sender" value="Y" checked="checked"|cond="config('sms.default_force') !== false" />
 					{$lang->cmd_admin_force_default_sender}
 				</label>
+				<br />
+				<p class="x_help-block">{$lang->cmd_admin_default_from_phone_help}</p>
 			</div>
 		</div>
 		
-		<div class="x_control-group show-always">
+		<div class="x_control-group">
 			<label class="x_control-label" for="sms_driver">{$lang->cmd_admin_sending_method}</label>
 			<div class="x_controls">
 				<select name="sms_driver" id="sms_driver">
@@ -199,6 +207,9 @@
 						<option value="{$driver_name}" selected="selected"|cond="$sms_driver === $driver_name">{$driver_definition['name']}</option>
 					<!--@end-->
 				</select>
+				<p class="x_help-block hidden-by-default show-for-dummy">
+					{$lang->cmd_admin_sms_dummy_driver_help}
+				</p>
 			</div>
 		</div>
 		
@@ -233,6 +244,8 @@
 					<label class="x_control-label" for="sms_{$driver_name}_sender_key">{$lang->cmd_advanced_mailer_sender_key}</label>
 					<div class="x_controls">
 						<input type="text" name="sms_{$driver_name}_sender_key" id="sms_{$driver_name}_sender_key" value="{$conf_value}" />
+						<br />
+						<p class="x_help-block">{$lang->cmd_admin_sms_sender_key_help}</p>
 					</div>
 				</div>
 				<!--@end-->
@@ -252,6 +265,8 @@
 					<input type="radio" name="allow_split_sms" id="allow_split_sms_n" value="N" checked="checked"|cond="config('sms.allow_split.sms') === false" />
 					{$lang->cmd_no}
 				</label>
+				<br />
+				<p class="x_help-block">{$lang->cmd_admin_allow_split_sms_help}</p>
 			</div>
 		</div>
 		
@@ -266,6 +281,8 @@
 					<input type="radio" name="allow_split_lms" id="allow_split_lms_n" value="N" checked="checked"|cond="config('sms.allow_split.lms') === false" />
 					{$lang->cmd_no}
 				</label>
+				<br />
+				<p class="x_help-block">{$lang->cmd_admin_allow_split_lms_help}</p>
 			</div>
 		</div>
 		
