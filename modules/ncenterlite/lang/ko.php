@@ -124,3 +124,4 @@ $lang->about_mention_suffix_always_cut = '\'알림센터님\'이라는 회원과
 $lang->mention_limit = '멘션 갯수 제한';
 $lang->about_mention_limit = '서버 과부하와 스팸을 방지하기 위해 한 글에서 지나치게 많은 회원들을 호출하지 못하도록 합니다.';
 $lang->ncenterlite_msg_setting_error = '설정에 오류가 있습니다. 다시 설정해 주세요.';
+$lang->ncenterlite_use_sms_help = '이 옵션을 사용하게 되면 회원들에게 문자메세지 서비스를 이용하여 알림을 보낼 수 있습니다.';
