@@ -65,11 +65,19 @@ class CoolSMS extends Base implements \Rhymix\Framework\Drivers\SMSInterface
 		{
 			$sender = new \Nurigo\Api\Message($this->_config['api_key'], $this->_config['api_secret']);
 			$status = true;
-			
+
 			foreach ($messages as $i => $message)
 			{
 				$options = new \stdClass;
-				$options->type = $message->type;
+				if ($this->_config['sender_key'])
+				{
+					$options->sender_key = $this->_config['sender_key'];
+					$options->type = 'CTA';
+				}
+				else
+				{
+					$options->type = $message->type;
+				}
 				$options->from = $message->from;
 				$options->to = implode(',', $message->to);
 				$options->text = $message->content ?: $message->type;
@@ -91,7 +99,6 @@ class CoolSMS extends Base implements \Rhymix\Framework\Drivers\SMSInterface
 				{
 					$options->image = $message->image;
 				}
-				
 				$result = $sender->send($options);
 				if (!$result->success_count)
 				{
