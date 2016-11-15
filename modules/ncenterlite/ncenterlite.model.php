@@ -491,4 +491,29 @@ class ncenterliteModel extends ncenterlite
 
 		return $output->data;
 	}
+
+	public static function getSmsHandler()
+	{
+		static $oSmsHandler = null;
+
+		if($oSmsHandler === null)
+		{
+			$config = self::getConfig();
+			if($config->use_sms != 'Y')
+			{
+				$oSmsHandler = false;
+			}
+			else
+			{
+				$oSmsHandler = new Rhymix\Framework\SMS;
+
+				if($oSmsHandler::getDefaultDriver()->getName() === 'Dummy')
+				{
+					$oSmsHandler = false;
+				}
+			}
+		}
+
+		return $oSmsHandler;
+	}
 }
