@@ -21,6 +21,7 @@ class ncenterliteAdminView extends ncenterlite
 		{
 			$sms_available = true;
 		}
+
 		$config = $oNcenterliteModel->getConfig();
 		Context::set('config', $config);
 		Context::set('sms_available', $sms_available);
@@ -75,8 +76,19 @@ class ncenterliteAdminView extends ncenterlite
 	{
 		$oNcenterliteModel = getModel('ncenterlite');
 
+		$member_config = getModel('member')->getMemberConfig();
+		$variable_name = array();
+		foreach($member_config->signupForm as $value)
+		{
+			if($value->type == 'tel')
+			{
+				$variable_name[] = $value->name;
+			}
+		}
+
 		$config = $oNcenterliteModel->getConfig();
 		Context::set('config', $config);
+		Context::set('variable_name', $variable_name);
 	}
 
 	function dispNcenterliteAdminList()

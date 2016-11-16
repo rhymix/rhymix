@@ -141,6 +141,23 @@ class ncenterlite extends ModuleObject
 			return true;
 		}
 
+		$config = getModel('ncenterlite')->getConfig();
+
+		$member_config = getModel('member')->getMemberConfig();
+		$variable_name = array();
+		foreach($member_config->signupForm as $value)
+		{
+			if($value->type == 'tel')
+			{
+				$variable_name[] = $value->name;
+			}
+		}
+
+		if(!$config->variable_name && count($variable_name) == 1)
+		{
+			return true;
+		}
+
 		return false;
 	}
 
@@ -224,6 +241,38 @@ class ncenterlite extends ModuleObject
 		if($oDB->isIndexExists('ncenterlite_notify', 'idx_notify'))
 		{
 			$oDB->dropIndex('ncenterlite_notify', 'idx_notify');
+		}
+
+
+		$config = getModel('ncenterlite')->getConfig();
+		if(!$config)
+		{
+			$config = new stdClass();
+		}
+
+		if(!$config->variable_name)
+		{
+			$member_config = getModel('member')->getMemberConfig();
+			$variable_name = array();
+			foreach($member_config->signupForm as $value)
+			{
+				if($value->type === 'tel')
+				{
+					$variable_name[] = $value->name;
+				}
+			}
+			if(count($variable_name) === 1)
+			{
+				foreach($variable_name as $item)
+				{
+					$config->variable_name = $item;
+				}
+				$output = $oModuleController->insertModuleConfig('ncenterlite', $config);
+				if(!$output->toBool())
+				{
+					return new Object(-1, 'fail_module_install');
+				}
+			}
 		}
 
 		return new Object(0, 'success_updated');

@@ -27,6 +27,7 @@ class ncenterliteAdminController extends ncenterlite
 			'layout_srl',
 			'mlayout_srl',
 			'use_sms',
+			'variable_name',
 		);
 		
 		foreach($config_vars as $val)
