@@ -499,7 +499,7 @@ class ncenterliteController extends ncenterlite
 	function triggerAfterMemberInsert(&$obj)
 	{
 		// 관리자가 회원을 추가하는 경우 알림을 발송하지 않는다.
-		if($obj->is_admin)
+		if($obj->is_admin && Context::get('logged_info')->is_admin === 'Y')
 		{
 			return new Object();
 		}
