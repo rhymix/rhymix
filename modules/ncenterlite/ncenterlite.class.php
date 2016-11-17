@@ -31,6 +31,7 @@ class ncenterlite extends ModuleObject
 	var $_TYPE_TEST = 'T'; // Test Notify create.
 	var $_TYPE_ADMIN_DOCUMENT = 'B'; // Admin Document Alert
 	var $_TYPE_CUSTOM = 'U'; //Updated alert(uses type table)
+	var $_TYPE_INSERT_MEMBER = 'I'; // Insert Member
 
 	var $triggers = array(
 		array('comment.insertComment', 'ncenterlite', 'controller', 'triggerAfterInsertComment', 'after'),
@@ -44,7 +45,9 @@ class ncenterlite extends ModuleObject
 		array('document.updateVotedCount', 'ncenterlite', 'controller', 'triggerAfterVotedupdate', 'after'),
 		array('moduleHandler.init', 'ncenterlite', 'controller', 'triggerAddMemberMenu', 'after'),
 		array('document.moveDocumentToTrash', 'ncenterlite', 'controller', 'triggerAfterMoveToTrash', 'after'),
+		array('member.insertMember', 'ncenterlite', 'controller', 'triggerAfterMemberInsert', 'after'),
 	);
+
 	private $delete_triggers = array(
 		array('moduleObject.proc', 'ncenterlite', 'controller', 'triggerBeforeModuleObjectProc', 'before')
 	);
