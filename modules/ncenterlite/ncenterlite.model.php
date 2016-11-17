@@ -38,6 +38,7 @@ class ncenterliteModel extends ncenterlite
 			if(!$config->skin) $config->skin = 'default';
 			if(!$config->colorset) $config->colorset = 'black';
 			if(!$config->zindex) $config->zindex = '9999';
+			if(!$config->use_sms) $config->use_sms = 'N';
 
 			self::$config = $config;
 		}
@@ -502,6 +503,7 @@ class ncenterliteModel extends ncenterlite
 			if($config->use_sms != 'Y')
 			{
 				$oSmsHandler = false;
+				return $oSmsHandler;
 			}
 			else
 			{
@@ -510,6 +512,23 @@ class ncenterliteModel extends ncenterlite
 				if($oSmsHandler::getDefaultDriver()->getName() === 'Dummy')
 				{
 					$oSmsHandler = false;
+					return $oSmsHandler;
+				}
+
+				$variable_name = array();
+				$member_config = getModel('member')->getMemberConfig();
+				foreach($member_config->signupForm as $value)
+				{
+					if($value->type == 'tel')
+					{
+						$variable_name[] = $value->name;
+					}
+				}
+
+				if(empty($variable_name))
+				{
+					$oSmsHandler = false;
+					return $oSmsHandler;
 				}
 			}
 		}

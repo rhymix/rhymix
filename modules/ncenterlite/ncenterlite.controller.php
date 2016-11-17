@@ -1076,6 +1076,8 @@ class ncenterliteController extends ncenterlite
 			return $output;
 		}
 
+		$this->sendSmsMessage($args);
+
 		if($output->toBool())
 		{
 			$trigger_notify = ModuleHandler::triggerCall('ncenterlite._insertNotify', 'after', $args);
@@ -1207,5 +1209,36 @@ class ncenterliteController extends ncenterlite
 		}
 		
 		return array_values($members);
+	}
+
+	function sendSmsMessage($args)
+	{
+		$logged_info = Context::get('logged_info');
+		if($logged_info->member_srl == $args->member_srl)
+		{
+			return false;
+		}
+
+		$config = getModel('ncenterlite')->getConfig();
+
+		$content = getModel('ncenterlite')->getNotificationText($args);
+		$content = preg_replace('/<\/?(strong|)[^>]*>/', '', $content);
+
+		$sms = ncenterliteModel::getSmsHandler();
+		if($sms === false)
+		{
+			return false;
+		}
+
+		$member_info = getModel('member')->getMemberInfoByMemberSrl($args->member_srl);
+		if($config->variable_name)
+		{
+			$phone_number = $member_info->{$config->variable_name}[0].$member_info->{$config->variable_name}[1].$member_info->{$config->variable_name}[2];
+		}
+
+		$sms->addTo($phone_number);
+		$sms->setContent($content);
+		$output = $sms->send();
+		return $output;
 	}
 }
