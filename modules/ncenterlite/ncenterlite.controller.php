@@ -1234,6 +1234,13 @@ class ncenterliteController extends ncenterlite
 		if($config->variable_name)
 		{
 			$phone_number = $member_info->{$config->variable_name}[0].$member_info->{$config->variable_name}[1].$member_info->{$config->variable_name}[2];
+
+			// Check if a Korean phone number contains a valid area code and the correct number of digits.
+			$phone_format = Rhymix\Framework\Korea::isValidPhoneNumber($phone_number);
+			if($phone_format === false)
+			{
+				return false;
+			}
 		}
 
 		$sms->addTo($phone_number);
