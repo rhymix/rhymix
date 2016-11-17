@@ -127,3 +127,4 @@ $lang->ncenterlite_msg_setting_error = '설정에 오류가 있습니다. 다시
 $lang->ncenterlite_use_sms_help = '이 옵션을 사용하게 되면 회원들에게 문자메세지 서비스를 이용하여 알림을 보낼 수 있습니다.';
 $lang->member_phone_variable = '회원전화번호 변수';
 $lang->member_phone_variable_about = '회원전화번호 변수를 선택합니다. 회원전화번호 변수가 1개일 경우 설치시 자동으로 설정이 저장됩니다. 이 경우 설정을 할 필요가 없어서 설정을 선택할 수 없습니다.';
+$lang->fail_module_install = '모듈설치에 실패하였습니다.';
