@@ -38,6 +38,7 @@ class ncenterliteModel extends ncenterlite
 			if(!$config->skin) $config->skin = 'default';
 			if(!$config->colorset) $config->colorset = 'black';
 			if(!$config->zindex) $config->zindex = '9999';
+			if(!$config->use_sms) $config->use_sms = 'N';
 
 			self::$config = $config;
 		}
@@ -304,7 +305,7 @@ class ncenterliteModel extends ncenterlite
 	public function getNotificationText($notification)
 	{
 		global $lang;
-		
+
 		// Get the type of notification.
 		switch ($notification->type)
 		{
@@ -312,30 +313,35 @@ class ncenterliteModel extends ncenterlite
 			case 'D':
 				$type = $lang->ncenterlite_document;
 				break;
-			
+
 			// Comment.
 			case 'C':
 				$type = $lang->ncenterlite_comment;
 				break;
-			
+
 			// Message.
 			case 'E':
 				$type = $lang->ncenterlite_type_message;
 				break;
-			
+
 			// Test.
 			case 'T':
 				$type = $lang->ncenterlite_type_test;
 				break;
-			
+
 			// Custom string.
 			case 'X':
 				return $notification->target_body;
-			
+
+			// Insert member
+			case 'I':
+				$type = $lang->cmd_signup;
+				break;
+
 			// Custom language.
 			case 'Y':
 				return $lang->{$notification->target_body};
-			
+
 			// Custom language with string interpolation.
 			case 'Z':
 				return vsprintf($lang->{$notification->target_body}, array(
@@ -353,7 +359,7 @@ class ncenterliteModel extends ncenterlite
 			default:
 				return $this->getNotifyTypeString($notification->notify_type, unserialize($notification->target_body)) ?: $lang->ncenterlite;
 		}
-		
+
 		// Get the notification text.
 		switch ($notification->target_type)
 		{
@@ -361,32 +367,32 @@ class ncenterliteModel extends ncenterlite
 			case 'C':
 				$str = sprintf($lang->ncenterlite_commented, $notification->target_nick_name, $type, $notification->target_summary);
 				break;
-			
+
 			// Comment on a board.
 			case 'A':
 				$str = sprintf($lang->ncenterlite_commented_board, $notification->target_nick_name, $notification->target_browser, $notification->target_summary);
 				break;
-			
+
 			// Mentioned.
 			case 'M':
 				$str = sprintf($lang->ncenterlite_mentioned, $notification->target_nick_name, $notification->target_browser, $notification->target_summary, $type);
 				break;
-			
+
 			// Message arrived.
 			case 'E':
 				$str = sprintf($lang->ncenterlite_message_mention, $notification->target_nick_name, $notification->target_summary);
 				break;
-			
+
 			// Test notification.
 			case 'T':
 				$str = sprintf($lang->ncenterlite_test_noti, $notification->target_nick_name);
 				break;
-			
+
 			// New document on a board.
 			case 'P':
 				$str = sprintf($lang->ncenterlite_board, $notification->target_nick_name, $notification->target_browser, $notification->target_summary);
 				break;
-			
+
 			// New document.
 			case 'S':
 				if($notification->target_browser)
@@ -398,22 +404,26 @@ class ncenterliteModel extends ncenterlite
 					$str = sprintf($lang->ncenterlite_article, $notification->target_nick_name, $notification->target_summary);
 				}
 				break;
-			
+
 			// Voted.
 			case 'V':
 				$str = sprintf($lang->ncenterlite_vote, $notification->target_nick_name, $notification->target_summary, $type);
 				break;
-			
+
 			// Admin notification.
 			case 'B':
 				$str = sprintf($lang->ncenterlite_admin_content_message, $notification->target_nick_name, $notification->target_browser, $notification->target_summary);
 				break;
-			
+
+			case 'I':
+				$str = sprintf($lang->ncenterlite_insert_member_message, $notification->target_nick_name);
+				break;
+
 			// Other.
 			default:
 				$str = $lang->ncenterlite;
 		}
-		
+
 		return $str;
 	}
 	
@@ -490,5 +500,48 @@ class ncenterliteModel extends ncenterlite
 		}
 
 		return $output->data;
+	}
+
+	public static function getSmsHandler()
+	{
+		static $oSmsHandler = null;
+
+		if($oSmsHandler === null)
+		{
+			$config = self::getConfig();
+			if($config->use_sms != 'Y')
+			{
+				$oSmsHandler = false;
+				return $oSmsHandler;
+			}
+			else
+			{
+				$oSmsHandler = new Rhymix\Framework\SMS;
+
+				if($oSmsHandler::getDefaultDriver()->getName() === 'Dummy')
+				{
+					$oSmsHandler = false;
+					return $oSmsHandler;
+				}
+
+				$variable_name = array();
+				$member_config = getModel('member')->getMemberConfig();
+				foreach($member_config->signupForm as $value)
+				{
+					if($value->type == 'tel')
+					{
+						$variable_name[] = $value->name;
+					}
+				}
+
+				if(empty($variable_name))
+				{
+					$oSmsHandler = false;
+					return $oSmsHandler;
+				}
+			}
+		}
+
+		return $oSmsHandler;
 	}
 }

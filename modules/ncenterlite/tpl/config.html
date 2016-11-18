@@ -21,6 +21,16 @@
 			</div>
 		</div>
 		<div class="x_control-group">
+			<label class="x_control-label" for="use_sms">{$lang->ncenterlite_sms_message_use}</label>
+			<div class="x_controls">
+				<select name="use_sms" disabled="disabled"|cond="!$sms_available" id="use_sms">
+					<option value="Y" selected="selected"|cond="$config->use_sms=='Y' && $sms_available">{$lang->ncenterlite_activate}</option>
+					<option value="N" selected="selected"|cond="$config->use_sms=='N' || !$sms_available">{$lang->ncenterlite_inactivate}</option>
+				</select>
+				<p>{$lang->ncenterlite_use_sms_help}</p>
+			</div>
+		</div>
+		<div class="x_control-group">
 			<label class="x_control-label" for="display_use">{$lang->ncenterlite_display}</label>
 			<div class="x_controls">
 				<select name="display_use" id="display_use">

@@ -7,6 +7,16 @@
 
 	<section class="section">
 		<div class="x_control-group">
+			<label class="x_control-label" for="variable_name">{$lang->member_phone_variable}</label>
+			<div class="x_controls">
+				<select name="variable_name" id="variable_name" disabled="disabled"|cond="empty($variable_name)">
+					<option value="0">{$lang->notuse}</option>
+					<option loop="$variable_name => $val" value="{$val}" selected="selected"|cond="$config->variable_name == $val">{$val}</option>
+				</select>
+				<p class="x_help-block">{$lang->member_phone_variable_about}</p>
+			</div>
+		</div>
+		<div class="x_control-group">
 			<label class="x_control-label">{$lang->ncenterlite_mention_target}</label>
 			<div class="x_controls">
 				<label class="x_inline">

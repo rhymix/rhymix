@@ -496,6 +496,31 @@ class ncenterliteController extends ncenterlite
 		return new Object();
 	}
 
+	function triggerAfterMemberInsert(&$obj)
+	{
+		// 관리자가 회원을 추가하는 경우 알림을 발송하지 않는다.
+		if($obj->is_admin && Context::get('logged_info')->is_admin === 'Y')
+		{
+			return new Object();
+		}
+
+		$args = new stdClass();
+		$args->member_srl = $obj->member_srl;
+		$args->srl = $obj->member_srl;
+		$args->target_p_srl = '1';
+		$args->target_srl = $obj->member_srl;
+		$args->target_member_srl = $obj->member_srl;
+		$args->type = $this->_TYPE_INSERT_MEMBER;
+		$args->target_type = $this->_TYPE_INSERT_MEMBER;
+		$args->target_summary = lang('cmd_signup');
+		$args->regdate = date('YmdHis');
+		$args->notify = $this->_getNotifyId($args);
+		$args->target_url = getNotEncodedFullUrl('', 'act', 'dispMemberInfo');
+		$this->_insertNotify($args);
+
+		return new Object();
+	}
+
 	function triggerAfterModuleHandlerProc(&$oModule)
 	{
 		$vars = Context::getRequestVars();
@@ -1076,6 +1101,8 @@ class ncenterliteController extends ncenterlite
 			return $output;
 		}
 
+		$this->sendSmsMessage($args);
+
 		if($output->toBool())
 		{
 			$trigger_notify = ModuleHandler::triggerCall('ncenterlite._insertNotify', 'after', $args);
@@ -1207,5 +1234,48 @@ class ncenterliteController extends ncenterlite
 		}
 		
 		return array_values($members);
+	}
+
+	function sendSmsMessage($args)
+	{
+		$logged_info = Context::get('logged_info');
+		if($logged_info->member_srl == $args->member_srl)
+		{
+			return false;
+		}
+
+		$config = getModel('ncenterlite')->getConfig();
+
+		$content = getModel('ncenterlite')->getNotificationText($args);
+		$content = preg_replace('/<\/?(strong|)[^>]*>/', '', $content);
+
+		$sms = getModel('ncenterlite')->getSmsHandler();
+		if($sms === false)
+		{
+			return false;
+		}
+
+		$member_info = getModel('member')->getMemberInfoByMemberSrl($args->member_srl);
+		if($config->variable_name)
+		{
+			$phone_number = $member_info->{$config->variable_name}[0].$member_info->{$config->variable_name}[1].$member_info->{$config->variable_name}[2];
+
+			// Check if a Korean phone number contains a valid area code and the correct number of digits.
+			$phone_format = Rhymix\Framework\Korea::isValidPhoneNumber($phone_number);
+			if($phone_format === false)
+			{
+				return false;
+			}
+		}
+		else
+		{
+			return false;
+		}
+
+		$sms->addTo($phone_number);
+		$sms->setContent($content);
+		$output = $sms->send();
+
+		return $output;
 	}
 }

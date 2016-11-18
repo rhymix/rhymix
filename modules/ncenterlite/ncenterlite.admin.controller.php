@@ -26,8 +26,10 @@ class ncenterliteAdminController extends ncenterlite
 			'document_read',
 			'layout_srl',
 			'mlayout_srl',
+			'use_sms',
+			'variable_name',
 		);
-		
+
 		foreach($config_vars as $val)
 		{
 			if($obj->{$val})
@@ -35,7 +37,7 @@ class ncenterliteAdminController extends ncenterlite
 				$config->{$val} = $obj->{$val};
 			}
 		}
-		
+
 		if ($obj->disp_act == 'dispNcenterliteAdminConfig')
 		{
 			if (!$obj->use)
@@ -43,7 +45,7 @@ class ncenterliteAdminController extends ncenterlite
 				$config->use = array();
 			}
 		}
-		
+
 		if ($obj->disp_act == 'dispNcenterliteAdminAdvancedconfig')
 		{
 			if (!$config->mention_suffixes)
@@ -53,6 +55,11 @@ class ncenterliteAdminController extends ncenterlite
 			else if (!is_array($config->mention_suffixes))
 			{
 				$config->mention_suffixes = array_map('trim', explode(',', $config->mention_suffixes));
+			}
+
+			if($obj->variable_name === '0')
+			{
+				$config->variable_name = null;
 			}
 		}
 
@@ -155,7 +162,7 @@ class ncenterliteAdminController extends ncenterlite
 		{
 			$this->setMessage('ncenterlite_message_delete_notification_all');
 		}
-		
+
 		if(!in_array(Context::getRequestMethod(),array('XMLRPC','JSON')))
 		{
 			$returnUrl = Context::get('success_return_url') ?  Context::get('success_return_url') : getNotEncodedUrl('', 'module', 'admin', 'act', 'dispNcenterliteAdminList');
