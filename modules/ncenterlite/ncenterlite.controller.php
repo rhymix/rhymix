@@ -1249,7 +1249,7 @@ class ncenterliteController extends ncenterlite
 		$content = getModel('ncenterlite')->getNotificationText($args);
 		$content = preg_replace('/<\/?(strong|)[^>]*>/', '', $content);
 
-		$sms = ncenterliteModel::getSmsHandler();
+		$sms = getModel('ncenterlite')->getSmsHandler();
 		if($sms === false)
 		{
 			return false;
@@ -1267,10 +1267,15 @@ class ncenterliteController extends ncenterlite
 				return false;
 			}
 		}
+		else
+		{
+			return false;
+		}
 
 		$sms->addTo($phone_number);
 		$sms->setContent($content);
 		$output = $sms->send();
+
 		return $output;
 	}
 }
