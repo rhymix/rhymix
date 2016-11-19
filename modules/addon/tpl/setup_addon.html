@@ -47,7 +47,7 @@
 	<block cond="count($addon_info->extra_vars)">
 		<block loop="$addon_info->extra_vars => $id, $var">
 			<block cond="$group != $var->group">
-				<h2>{$var->group}</h2>
+				<h2 style="margin-top:50px;">{$var->group}</h2>
 				{@$group = $var->group}
 			</block>
 			{@$not_first = true}
