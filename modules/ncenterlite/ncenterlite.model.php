@@ -24,12 +24,11 @@ class ncenterliteModel extends ncenterlite
 			{
 				if(count($config->use) && !is_array(array_first($config->use)))
 				{
-					$config->use['mention']['web'] = $config->use['mention'];
-					$config->use['comment']['web'] = $config->use['comment'];
-					$config->use['comment_comment']['web'] = $config->use['comment_comment'];
-					$config->use['vote']['web'] = $config->use['vote'];
-					$config->use['message']['web'] = $config->use['message'];
-					$config->use['admin_content']['web'] = $config->use['admin_content'];
+					foreach($config->use as $key => $value)
+					{
+						$config->use[$key] = array();
+						$config->use[$key]['web'] = $value;
+					}
 					getController('module')->insertModuleConfig('ncenterlite', $config);
 				}
 			}
