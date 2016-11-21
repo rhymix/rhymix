@@ -22,9 +22,12 @@ class ncenterliteAdminView extends ncenterlite
 			$sms_available = true;
 		}
 
+		$push_avaliable = false;
+
 		$config = $oNcenterliteModel->getConfig();
 		Context::set('config', $config);
 		Context::set('sms_available', $sms_available);
+		Context::set('push_available', $push_avaliable);
 	}
 
 	function dispNcenterliteAdminSeletedmid()
