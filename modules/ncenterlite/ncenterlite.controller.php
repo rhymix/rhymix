@@ -496,31 +496,6 @@ class ncenterliteController extends ncenterlite
 		return new Object();
 	}
 
-	function triggerAfterMemberInsert(&$obj)
-	{
-		// 관리자가 회원을 추가하는 경우 알림을 발송하지 않는다.
-		if($obj->is_admin && Context::get('logged_info')->is_admin === 'Y')
-		{
-			return new Object();
-		}
-
-		$args = new stdClass();
-		$args->member_srl = $obj->member_srl;
-		$args->srl = $obj->member_srl;
-		$args->target_p_srl = '1';
-		$args->target_srl = $obj->member_srl;
-		$args->target_member_srl = $obj->member_srl;
-		$args->type = $this->_TYPE_INSERT_MEMBER;
-		$args->target_type = $this->_TYPE_INSERT_MEMBER;
-		$args->target_summary = lang('cmd_signup');
-		$args->regdate = date('YmdHis');
-		$args->notify = $this->_getNotifyId($args);
-		$args->target_url = getNotEncodedFullUrl('', 'act', 'dispMemberInfo');
-		$this->_insertNotify($args);
-
-		return new Object();
-	}
-
 	function triggerAfterModuleHandlerProc(&$oModule)
 	{
 		$vars = Context::getRequestVars();
