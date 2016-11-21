@@ -20,6 +20,19 @@ class ncenterliteModel extends ncenterlite
 			{
 				$config->use = array('message' => 1);
 			}
+			else
+			{
+				if(count($config->use) && !is_array(array_first($config->use)))
+				{
+					$config->use['mention']['web'] = $config->use['mention'];
+					$config->use['comment']['web'] = $config->use['comment'];
+					$config->use['comment_comment']['web'] = $config->use['comment_comment'];
+					$config->use['vote']['web'] = $config->use['vote'];
+					$config->use['message']['web'] = $config->use['message'];
+					$config->use['admin_content']['web'] = $config->use['admin_content'];
+					getController('module')->insertModuleConfig('ncenterlite', $config);
+				}
+			}
 			if(!$config->display_use) $config->display_use = 'all';
 
 			if(!$config->mention_names) $config->mention_names = 'nick_name';
@@ -38,7 +51,6 @@ class ncenterliteModel extends ncenterlite
 			if(!$config->skin) $config->skin = 'default';
 			if(!$config->colorset) $config->colorset = 'black';
 			if(!$config->zindex) $config->zindex = '9999';
-			if(!$config->use_sms) $config->use_sms = 'N';
 
 			self::$config = $config;
 		}
@@ -508,37 +520,28 @@ class ncenterliteModel extends ncenterlite
 
 		if($oSmsHandler === null)
 		{
-			$config = self::getConfig();
-			if($config->use_sms != 'Y')
+			$oSmsHandler = new Rhymix\Framework\SMS;
+
+			if($oSmsHandler::getDefaultDriver()->getName() === 'Dummy')
 			{
 				$oSmsHandler = false;
 				return $oSmsHandler;
 			}
-			else
+
+			$variable_name = array();
+			$member_config = getModel('member')->getMemberConfig();
+			foreach($member_config->signupForm as $value)
 			{
-				$oSmsHandler = new Rhymix\Framework\SMS;
-
-				if($oSmsHandler::getDefaultDriver()->getName() === 'Dummy')
+				if($value->type == 'tel')
 				{
-					$oSmsHandler = false;
-					return $oSmsHandler;
+					$variable_name[] = $value->name;
 				}
+			}
 
-				$variable_name = array();
-				$member_config = getModel('member')->getMemberConfig();
-				foreach($member_config->signupForm as $value)
-				{
-					if($value->type == 'tel')
-					{
-						$variable_name[] = $value->name;
-					}
-				}
-
-				if(empty($variable_name))
-				{
-					$oSmsHandler = false;
-					return $oSmsHandler;
-				}
+			if(empty($variable_name))
+			{
+				$oSmsHandler = false;
+				return $oSmsHandler;
 			}
 		}
 
