@@ -1086,7 +1086,6 @@ class ncenterliteController extends ncenterlite
 
 		$this->sendSmsMessage($args);
 		$this->sendMailMessage($args);
-		debugPrint($args);
 
 		if($output->toBool())
 		{
