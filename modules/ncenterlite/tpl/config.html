@@ -9,15 +9,47 @@
 
 	<section class="section">
 		<div class="x_control-group">
-			<label class="x_control-label">{$lang->ncenterlite_io}</label>
+			<label class="x_control-label">{$lang->ncenterlite_mention}</label>
 			<div class="x_controls">
-				<label for="notify_mention" class="x_inline"><input type="checkbox" name="use[mention]" id="notify_mention" value="1" checked="checked"|cond="isset($config->use['mention'])" /> {$lang->ncenterlite_mention}</label>
-				<label for="notify_comment" class="x_inline"><input type="checkbox" name="use[comment]" id="notify_comment" value="1" checked="checked"|cond="isset($config->use['comment'])" /> {$lang->ncenterlite_comment}</label>
-				<label for="notify_comment_comment" class="x_inline"><input type="checkbox" name="use[comment_comment]" id="notify_comment_comment" value="1" checked="checked"|cond="isset($config->use['comment_comment'])" /> {$lang->ncenterlite_comment_comment}</label>
-				<label for="notify_vote" class="x_inline"><input type="checkbox" name="use[vote]" id="notify_vote" value="1" checked="checked"|cond="isset($config->use['vote'])" /> {$lang->ncenterlite_cmd_vote}</label>
-				<label for="notify_message" class="x_inline"><input type="checkbox" name="use[message]" id="notify_message" value="1" checked="checked"|cond="isset($config->use['message'])" /> {$lang->ncenterlite_type_message}</label>
-				<label for="notify_admin_content" class="x_inline"><input type="checkbox" name="use[admin_content]" id="notify_admin_content" value="1" checked="checked"|cond="isset($config->use['admin_content'])" /> {$lang->ncenterlite_admin_content}</label>
-				<p class="x_help-block">{$lang->about_admin_content}</p>
+				<label for="mention_web" class="x_inline"><input type="checkbox" name="use[mention][web]" id="mention_web" value="1" checked="checked"|cond="isset($config->use['mention']['web'])" /> {$lang->cmd_web_notify}</label>
+				<label for="mention_mail" class="x_inline"><input type="checkbox" name="use[mention][mail]" id="mention_mail" value="1" checked="checked"|cond="isset($config->use['mention']['mail'])" /> {$lang->cmd_mail_notify}</label>
+				<label for="mention_sms" class="x_inline"><input type="checkbox" name="use[mention][sms]" id="mention_sms" value="1" checked="checked"|cond="isset($config->use['mention']['sms'])" /> {$lang->cmd_sms_notify}</label>
+				<label for="mention_push" class="x_inline"><input type="checkbox" name="use[mention][push]" id="mention_push" value="1" checked="checked"|cond="isset($config->use['mention']['push'])" /> {$lang->cmd_push_notify}</label>
+			</div>
+			<label class="x_control-label">{$lang->ncenterlite_comment}</label>
+			<div class="x_controls">
+				<label for="comment_web" class="x_inline"><input type="checkbox" name="use[comment][web]" id="comment_web" value="1" checked="checked"|cond="isset($config->use['comment']['web'])" /> {$lang->cmd_web_notify}</label>
+				<label for="comment_mail" class="x_inline"><input type="checkbox" name="use[comment][mail]" id="comment_mail" value="1" checked="checked"|cond="isset($config->use['comment']['mail'])" /> {$lang->cmd_mail_notify}</label>
+				<label for="comment_sms" class="x_inline"><input type="checkbox" name="use[comment][sms]" id="comment_sms" value="1" checked="checked"|cond="isset($config->use['comment']['sms'])" /> {$lang->cmd_sms_notify}</label>
+				<label for="comment_push" class="x_inline"><input type="checkbox" name="use[comment][push]" id="comment_push" value="1" checked="checked"|cond="isset($config->use['comment']['push'])" /> {$lang->cmd_push_notify}</label>
+			</div>
+			<label class="x_control-label">{$lang->ncenterlite_comment_comment}</label>
+			<div class="x_controls">
+				<label for="comment_comment_web" class="x_inline"><input type="checkbox" name="use[comment_comment][web]" id="comment_comment_web" value="1" checked="checked"|cond="isset($config->use['comment_comment']['web'])" /> {$lang->cmd_web_notify}</label>
+				<label for="comment_comment_mail" class="x_inline"><input type="checkbox" name="use[comment_comment][mail]" id="comment_comment_mail" value="1" checked="checked"|cond="isset($config->use['comment_comment']['mail'])" /> {$lang->cmd_mail_notify}</label>
+				<label for="comment_comment_sms" class="x_inline"><input type="checkbox" name="use[comment_comment][sms]" id="comment_comment_sms" value="1" checked="checked"|cond="isset($config->use['comment_comment']['sms'])" /> {$lang->cmd_sms_notify}</label>
+				<label for="comment_comment_push" class="x_inline"><input type="checkbox" name="use[comment_comment][push]" id="comment_comment_push" value="1" checked="checked"|cond="isset($config->use['comment_comment']['push'])" /> {$lang->cmd_push_notify}</label>
+			</div>
+			<label class="x_control-label">{$lang->ncenterlite_cmd_vote}</label>
+			<div class="x_controls">
+				<label for="vote_web" class="x_inline"><input type="checkbox" name="use[vote][web]" id="vote_web" value="1" checked="checked"|cond="isset($config->use['vote']['web'])" /> {$lang->cmd_web_notify}</label>
+				<label for="vote_mail" class="x_inline"><input type="checkbox" name="use[vote][mail]" id="vote_mail" value="1" checked="checked"|cond="isset($config->use['vote']['mail'])" /> {$lang->cmd_mail_notify}</label>
+				<label for="vote_sms" class="x_inline"><input type="checkbox" name="use[vote][sms]" id="vote_sms" value="1" checked="checked"|cond="isset($config->use['vote']['sms'])" /> {$lang->cmd_sms_notify}</label>
+				<label for="vote_push" class="x_inline"><input type="checkbox" name="use[vote][push]" id="vote_push" value="1" checked="checked"|cond="isset($config->use['vote']['push'])" /> {$lang->cmd_push_notify}</label>
+			</div>
+			<label class="x_control-label">{$lang->ncenterlite_message_noti}</label>
+			<div class="x_controls">
+				<label for="message_web" class="x_inline"><input type="checkbox" name="use[message][web]" id="message_web" value="1" checked="checked"|cond="isset($config->use['message']['web'])" /> {$lang->cmd_web_notify}</label>
+				<label for="message_mail" class="x_inline"><input type="checkbox" name="use[message][mail]" id="message_mail" value="1" checked="checked"|cond="isset($config->use['message']['mail'])" /> {$lang->cmd_mail_notify}</label>
+				<label for="message_sms" class="x_inline"><input type="checkbox" name="use[message][sms]" id="message_sms" value="1" checked="checked"|cond="isset($config->use['message']['sms'])" /> {$lang->cmd_sms_notify}</label>
+				<label for="message_push" class="x_inline"><input type="checkbox" name="use[message][push]" id="message_push" value="1" checked="checked"|cond="isset($config->use['message']['push'])" /> {$lang->cmd_push_notify}</label>
+			</div>
+			<label class="x_control-label">{$lang->ncenterlite_admin_content}</label>
+			<div class="x_controls">
+				<label for="admin_content_web" class="x_inline"><input type="checkbox" name="use[admin_content][web]" id="admin_content_web" value="1" checked="checked"|cond="isset($config->use['admin_content']['web'])" /> {$lang->cmd_web_notify}</label>
+				<label for="admin_content_mail" class="x_inline"><input type="checkbox" name="use[admin_content][mail]" id="admin_content_mail" value="1" checked="checked"|cond="isset($config->use['admin_content']['mail'])" /> {$lang->cmd_mail_notify}</label>
+				<label for="admin_content_sms" class="x_inline"><input type="checkbox" name="use[admin_content][sms]" id="admin_content_sms" value="1" checked="checked"|cond="isset($config->use['admin_content']['sms'])" /> {$lang->cmd_sms_notify}</label>
+				<label for="admin_content_push" class="x_inline"><input type="checkbox" name="use[admin_content][push]" id="admin_content_push" value="1" checked="checked"|cond="isset($config->use['admin_content']['push'])" /> {$lang->cmd_push_notify}</label>
 			</div>
 		</div>
 		<div class="x_control-group">

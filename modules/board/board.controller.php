@@ -196,8 +196,6 @@ class boardController extends board
 						$oMail->send();
 					}
 				}
-				
-
 			}
 		}
 
