@@ -66,6 +66,11 @@ elseif (isset($_SERVER['REMOTE_ADDR']) && @inet_pton($_SERVER['REMOTE_ADDR']) !=
     define('RX_CLIENT_IP_VERSION', 6);
     define('RX_CLIENT_IP', $_SERVER['REMOTE_ADDR']);
 }
+elseif (PHP_SAPI === 'cli')
+{
+    define('RX_CLIENT_IP_VERSION', 4);
+    define('RX_CLIENT_IP', '127.0.0.1');
+}
 else
 {
     define('RX_CLIENT_IP_VERSION', 4);
