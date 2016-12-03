@@ -99,6 +99,10 @@ class CoolSMS extends Base implements \Rhymix\Framework\Drivers\SMSInterface
 				{
 					$options->image = $message->image;
 				}
+				foreach ($original->getExtraVars() as $key => $value)
+				{
+					$options->$key = $value;
+				}
 				$result = $sender->send($options);
 				if (!$result->success_count)
 				{

@@ -17,6 +17,7 @@ class SMS
 	protected $subject = '';
 	protected $content = '';
 	protected $attachments = array();
+	protected $extra_vars = array();
 	protected $delay_timestamp = 0;
 	protected $force_sms = false;
 	protected $allow_split_sms = true;
@@ -321,6 +322,51 @@ class SMS
 	public function getAttachments()
 	{
 		return $this->attachments;
+	}
+	
+	/**
+	 * Set an extra variable.
+	 * 
+	 * @param string $key
+	 * @param mixed $value
+	 * @return void
+	 */
+	public function setExtraVar($key, $value)
+	{
+		$this->extra_vars[$key] = $value;
+	}
+	
+	/**
+	 * Get an extra variable.
+	 * 
+	 * @param string $key
+	 * @return mixed
+	 */
+	public function getExtraVar($key)
+	{
+		return isset($this->extra_vars[$key]) ? $this->extra_vars[$key] : null;
+	}
+	
+	/**
+	 * Get all extra variables.
+	 * 
+	 * @param string $key
+	 * @return mixed
+	 */
+	public function getExtraVars()
+	{
+		return $this->extra_vars;
+	}
+	
+	/**
+	 * Set all extra variables.
+	 * 
+	 * @param array $vars
+	 * @return void
+	 */
+	public function setExtraVars(array $vars)
+	{
+		$this->extra_vars = $vars;
 	}
 	
 	/**

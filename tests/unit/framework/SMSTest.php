@@ -93,6 +93,19 @@ class SMSTest extends \Codeception\TestCase\Test
 		$this->assertEquals('minify.target.css', $attachments[1]->display_filename);
 	}
 	
+	public function testSMSExtraVars()
+	{
+		$sms = new Rhymix\Framework\SMS;
+		
+		$sms->setExtraVar('foo', 'bar');
+		$this->assertEquals('bar', $sms->getExtraVar('foo'));
+		$this->assertNull($sms->getExtraVar('nonexistent!'));
+		$sms->setExtraVar('baz', 'moo');
+		$this->assertEquals(array('foo' => 'bar', 'baz' => 'moo'), $sms->getExtraVars());
+		$sms->setExtraVars(array('rhymix' => 'test'));
+		$this->assertEquals(array('rhymix' => 'test'), $sms->getExtraVars());
+	}
+	
 	public function testSMSDelay()
 	{
 		$sms = new Rhymix\Framework\SMS;
