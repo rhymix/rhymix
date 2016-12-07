@@ -14,14 +14,7 @@ class Advanced_MailerAdminView extends Advanced_Mailer
 	public function dispAdvanced_MailerAdminConfig()
 	{
 		$advanced_mailer_config = $this->getConfig();
-		$member_config = getModel('module')->getModuleConfig('member');
-		$sending_methods = Rhymix\Framework\Mail::getSupportedDrivers();
-		
 		Context::set('advanced_mailer_config', $advanced_mailer_config);
-		Context::set('sending_methods', $sending_methods);
-		Context::set('sending_method', config('mail.type'));
-		Context::set('webmaster_name', $member_config->webmaster_name ? $member_config->webmaster_name : 'webmaster');
-		Context::set('webmaster_email', $member_config->webmaster_email);
 		
 		$this->setTemplatePath($this->module_path.'tpl');
 		$this->setTemplateFile('config');

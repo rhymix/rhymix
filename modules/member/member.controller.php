@@ -300,20 +300,31 @@ class memberController extends member
 		foreach($getVars as $val)
 		{
 			$args->{$val} = Context::get($val);
-			if($val == 'birthday') $args->birthday_ui = Context::get('birthday_ui');
+			
+			if($val == 'birthday')
+			{
+				$args->birthday_ui = Context::get('birthday_ui');
+			}
 		}
-
+		
 		// mobile input date format can be different
-		if($args->birthday !== intval($args->birthday))
+		if($args->birthday)
 		{
-			$args->birthday = date('Ymd', strtotime($args->birthday));
+			if($args->birthday !== intval($args->birthday))
+			{
+				$args->birthday = date('Ymd', strtotime($args->birthday));
+			}
+			else
+			{
+				$args->birthday = intval($args->birthday);
+			}
 		}
-		else
+		
+		if(!$args->birthday && $args->birthday_ui)
 		{
-			$args->birthday = intval($args->birthday);
+			$args->birthday = intval(strtr($args->birthday_ui, array('-'=>'', '/'=>'', '.'=>'', ' '=>'')));
 		}
-		if(!$args->birthday && $args->birthday_ui) $args->birthday = intval(strtr($args->birthday_ui, array('-'=>'', '/'=>'', '.'=>'', ' '=>'')));
-
+		
 		$args->find_account_answer = Context::get('find_account_answer');
 		$args->allow_mailing = Context::get('allow_mailing');
 		$args->allow_message = Context::get('allow_message');
@@ -540,23 +551,35 @@ class memberController extends member
 		foreach($getVars as $val)
 		{
 			$args->{$val} = Context::get($val);
-			if($val == 'birthday') $args->birthday_ui = Context::get('birthday_ui');
+			
+			if($val == 'birthday')
+			{
+				$args->birthday_ui = Context::get('birthday_ui');
+			}
 		}
+		
 		// Login Information
 		$logged_info = Context::get('logged_info');
 		$args->member_srl = $logged_info->member_srl;
 
 		// mobile input date format can be different
-		if($args->birthday !== intval($args->birthday))
+		if($args->birthday)
 		{
-			$args->birthday = date('Ymd', strtotime($args->birthday));
+			if($args->birthday !== intval($args->birthday))
+			{
+				$args->birthday = date('Ymd', strtotime($args->birthday));
+			}
+			else
+			{
+				$args->birthday = intval($args->birthday);
+			}
 		}
-		else
+		
+		if(!$args->birthday && $args->birthday_ui)
 		{
-			$args->birthday = intval($args->birthday);
-		}
-		if(!$args->birthday && $args->birthday_ui) $args->birthday = intval(strtr($args->birthday_ui, array('-'=>'', '/'=>'', '.'=>'', ' '=>'')));
-
+			$args->birthday = intval(strtr($args->birthday_ui, array('-'=>'', '/'=>'', '.'=>'', ' '=>'')));
+		} 
+		
 		// Remove some unnecessary variables from all the vars
 		$all_args = Context::getRequestVars();
 		unset($all_args->module);

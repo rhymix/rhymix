@@ -1052,62 +1052,77 @@ class documentController extends document
 			return false;
 		}
 		
+		// Get the view count option, and use the default if the value is empty or invalid.
+		$valid_options = array(
+			'all' => true,
+			'some' => true,
+			'once' => true,
+			'none' => true,
+		);
+		
 		$oDocumentModel = getModel('document');
 		$config = $oDocumentModel->getDocumentConfig();
+		if (!$config->view_count_option || !isset($valid_options[$config->view_count_option]))
+		{
+			$config->view_count_option = 'once';
+		}
 
-		if($config->view_count_option == 'none') return false;
-
+		// If not counting, return now.
+		if ($config->view_count_option == 'none')
+		{
+			return false;
+		}
+		
+		// Get document and user information.
 		$document_srl = $oDocument->document_srl;
 		$member_srl = $oDocument->get('member_srl');
 		$logged_info = Context::get('logged_info');
+		
+		// Option 'some': only count once per session.
+		if ($config->view_count_option != 'all' && $_SESSION['readed_document'][$document_srl])
+		{
+			if (Context::getSessionStatus())
+			{
+				$_SESSION['readed_document'][$document_srl] = true;
+			}
+			return false;
+		}
+
+		// Option 'once': check member_srl and IP address.
+		if ($config->view_count_option == 'once')
+		{
+			// Pass if the author's IP address is as same as visitor's.
+			if($oDocument->get('ipaddress') == $_SERVER['REMOTE_ADDR'])
+			{
+				if (Context::getSessionStatus())
+				{
+					$_SESSION['readed_document'][$document_srl] = true;
+				}
+				return false;
+			}
+			
+			// Pass if the author's member_srl is the same as the visitor's.
+			if($member_srl && $logged_info->member_srl && $logged_info->member_srl == $member_srl)
+			{
+				$_SESSION['readed_document'][$document_srl] = true;
+				return false;
+			}
+		}
 
 		// Call a trigger when the read count is updated (before)
 		$trigger_output = ModuleHandler::triggerCall('document.updateReadedCount', 'before', $oDocument);
 		if(!$trigger_output->toBool()) return $trigger_output;
-
-		// Pass if read count is increaded on the session information
-		if($_SESSION['readed_document'][$document_srl] && $config->view_count_option == 'once')
-		{
-			return false;
-		}
-		else if($config->view_count_option == 'some')
-		{
-			if($_SESSION['readed_document'][$document_srl])
-			{
-				return false;
-			}
-		}
-
-		if($config->view_count_option == 'once')
-		{
-			// Pass if the author's IP address is as same as visitor's.
-			if($oDocument->get('ipaddress') == $_SERVER['REMOTE_ADDR'] && Context::getSessionStatus())
-			{
-				$_SESSION['readed_document'][$document_srl] = true;
-				return false;
-			}
-			// Pass ater registering sesscion if the author is a member and has same information as the currently logged-in user.
-			if($member_srl && $logged_info->member_srl == $member_srl)
-			{
-				$_SESSION['readed_document'][$document_srl] = true;
-				return false;
-			}
-		}
+		
+		// Update read counts
 		$oDB = DB::getInstance();
 		$oDB->begin();
-
-		// Update read counts
 		$args = new stdClass;
 		$args->document_srl = $document_srl;
 		executeQuery('document.updateReadedCount', $args);
 
 		// Call a trigger when the read count is updated (after)
 		ModuleHandler::triggerCall('document.updateReadedCount', 'after', $oDocument);
-
 		$oDB->commit();
-
-		//remove document item from cache
-		Rhymix\Framework\Cache::delete('document_item:' . getNumberingPath($document_srl) . $document_srl);
 
 		// Register session
 		if(!$_SESSION['banned_document'][$document_srl] && Context::getSessionStatus()) 

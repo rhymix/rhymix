@@ -1,0 +1,296 @@
+<include target="config_header.html" />
+<load target="js/notification_config.js" />
+<div cond="$XE_VALIDATOR_MESSAGE && $XE_VALIDATOR_ID == 'modules/admin/tpl/config_notification/1'" class="message {$XE_VALIDATOR_MESSAGE_TYPE}">
+	<p>{$XE_VALIDATOR_MESSAGE}</p>
+</div>
+
+<script type="text/javascript">
+	var mail_drivers = {json_encode($mail_drivers)};
+	var sms_drivers = {json_encode($sms_drivers)};
+</script>
+	
+<form action="./" method="post" class="x_form-horizontal">
+	<input type="hidden" name="module" value="admin" />
+	<input type="hidden" name="act" value="procAdminUpdateNotification" />
+	<input type="hidden" name="xe_validator_id" value="modules/admin/tpl/config_notification/1" />
+	
+	<section class="section">
+		
+		<h2>{$lang->email}</h2>
+		
+		<div class="x_control-group">
+			<label class="x_control-label" for="mail_default_name">{$lang->cmd_admin_default_from_name}</label>
+			<div class="x_controls">
+				<input type="text" name="mail_default_name" id="mail_default_name" value="{escape($member_config->webmaster_name) ?: $module_config->siteTitle}" />
+				<br />
+				<p class="x_help-block">{$lang->cmd_admin_default_from_name_help}</p>
+			</div>
+		</div>
+		
+		<div class="x_control-group">
+			<label class="x_control-label" for="mail_default_from">{$lang->cmd_admin_default_from_email}</label>
+			<div class="x_controls">
+				<input type="text" name="mail_default_from" id="mail_default_from" value="{escape($member_config->webmaster_email)}" />
+				&nbsp;
+				<label for="mail_force_default_sender" class="x_inline">
+					<input type="checkbox" name="mail_force_default_sender" id="mail_force_default_sender" value="Y" checked="checked"|cond="toBool($advanced_mailer_config->force_sender)" />
+					{$lang->cmd_admin_force_default_sender}
+				</label>
+				<br />
+				<p class="x_help-block">{$lang->cmd_admin_default_from_email_help}</p>
+			</div>
+		</div>
+	
+		<div class="x_control-group">
+			<label class="x_control-label" for="mail_default_reply_to">{$lang->cmd_admin_default_reply_to}</label>
+			<div class="x_controls">
+				<input type="text" name="mail_default_reply_to" id="mail_default_reply_to" value="{escape($advanced_mailer_config->reply_to ?: config('mail.default_reply_to'))}" />
+				<br />
+				<p class="x_help-block">{$lang->cmd_admin_default_reply_to_help}</p>
+			</div>
+		</div>
+		
+		<div class="x_control-group">
+			<label class="x_control-label" for="mail_driver">{$lang->cmd_admin_sending_method}</label>
+			<div class="x_controls">
+				<select name="mail_driver" id="mail_driver">
+					<!--@foreach($mail_drivers as $driver_name => $driver_definition)-->
+						<option value="{$driver_name}" selected="selected"|cond="$mail_driver === $driver_name">{$driver_definition['name']}</option>
+					<!--@end-->
+				</select>
+				<p class="x_help-block hidden-by-default show-for-dummy">
+					{$lang->msg_advanced_mailer_about_dummy}<br />{$lang->msg_advanced_mailer_about_dummy_exceptions}
+				</p>
+			</div>
+		</div>
+		
+		<!--@foreach($mail_drivers as $driver_name => $driver_definition)-->
+		
+			<!--@foreach($driver_definition['required'] as $conf_name)-->
+			
+				{@ $conf_value = escape(config("mail.$driver_name.$conf_name"))}
+			
+				<!--@if($conf_name === 'smtp_host')-->
+				<div class="x_control-group hidden-by-default show-for-{$driver_name}">
+					<label class="x_control-label" for="mail_{$driver_name}_smtp_host">{$lang->cmd_advanced_mailer_smtp_host}</label>
+					<div class="x_controls">
+						<input type="text" name="mail_{$driver_name}_smtp_host" id="mail_{$driver_name}_smtp_host" value="{$conf_value}" />
+						<select id="mail_{$driver_name}_manual_entry">
+							<option value="">{$lang->cmd_advanced_mailer_smtp_manual_entry}</option>
+							<option value="gmail">Gmail</option>
+							<option value="hanmail">Hanmail</option>
+							<option value="naver">Naver</option>
+							<option value="worksmobile">Works Mobile</option>
+							<option value="outlook">Outlook.com</option>
+							<option value="yahoo">Yahoo</option>
+						</select>
+					</div>
+				</div>
+				<!--@end-->
+				
+				<!--@if($conf_name === 'smtp_port')-->
+				<div class="x_control-group hidden-by-default show-for-{$driver_name}">
+					<label class="x_control-label" for="mail_{$driver_name}_smtp_port">{$lang->cmd_advanced_mailer_smtp_port}</label>
+					<div class="x_controls">
+						<input type="text" name="mail_{$driver_name}_smtp_port" id="mail_{$driver_name}_smtp_port" value="{$conf_value}" />
+					</div>
+				</div>
+				<!--@end-->
+				
+				<!--@if($conf_name === 'smtp_security')-->
+				<div class="x_control-group hidden-by-default show-for-{$driver_name}">
+					<label class="x_control-label">{$lang->cmd_advanced_mailer_smtp_security}</label>
+					<div class="x_controls">
+						<label class="x_inline" for="mail_{$driver_name}_security_none"><input type="radio" name="mail_{$driver_name}_smtp_security" id="mail_{$driver_name}_security_none" value="none" checked="checked"|cond="!in_array($conf_value, array('ssl', 'tls'))" /> {$lang->cmd_advanced_mailer_smtp_security_none}</label>
+						<label class="x_inline" for="mail_{$driver_name}_security_ssl"><input type="radio" name="mail_{$driver_name}_smtp_security" id="mail_{$driver_name}_security_ssl" value="ssl" checked="checked"|cond="$conf_value === 'ssl'" /> {$lang->cmd_advanced_mailer_smtp_security_ssl}</label>
+						<label class="x_inline" for="mail_{$driver_name}_security_tls"><input type="radio" name="mail_{$driver_name}_smtp_security" id="mail_{$driver_name}_security_tls" value="tls" checked="checked"|cond="$conf_value === 'tls'" /> {$lang->cmd_advanced_mailer_smtp_security_tls}</label>
+					</div>
+				</div>
+				<!--@end-->
+				
+				<!--@if($conf_name === 'smtp_user')-->
+				<div class="x_control-group hidden-by-default show-for-{$driver_name}">
+					<label class="x_control-label" for="mail_{$driver_name}_smtp_user">{$lang->cmd_advanced_mailer_smtp_user}</label>
+					<div class="x_controls">
+						<input type="text" name="mail_{$driver_name}_smtp_user" id="mail_{$driver_name}_smtp_user" value="{$conf_value}" />
+					</div>
+				</div>
+				<!--@end-->
+				
+				<!--@if($conf_name === 'smtp_pass')-->
+				<div class="x_control-group hidden-by-default show-for-{$driver_name}">
+					<label class="x_control-label" for="mail_smtp_pass">{$lang->cmd_advanced_mailer_smtp_pass}</label>
+					<div class="x_controls">
+						<input type="password" name="mail_{$driver_name}_smtp_pass" id="mail_{$driver_name}_smtp_pass" value="{$conf_value}" />
+					</div>
+				</div>
+				<!--@end-->
+				
+				<!--@if($conf_name === 'api_type')-->
+				<div class="x_control-group hidden-by-default show-for-{$driver_name}">
+					<label class="x_control-label" for="mail_{$driver_name}_api_type">{$lang->cmd_advanced_mailer_api_type}</label>
+					<div class="x_controls">
+						<select id="mail_{$driver_name}_api_type" name="mail_{$driver_name}_api_type">
+							<!--@foreach($driver_definition['api_types'] as $api_type)-->
+								<option value="{$api_type}" selected="selected"|cond="$api_type === $conf_value">{$api_type}</option>
+							<!--@end-->
+						</select>
+					</div>
+				</div>
+				<!--@end-->
+				
+				<!--@if($conf_name === 'api_domain')-->
+				<div class="x_control-group hidden-by-default show-for-{$driver_name}">
+					<label class="x_control-label" for="mail_{$driver_name}_api_domain">{$lang->cmd_advanced_mailer_api_domain}</label>
+					<div class="x_controls">
+						<input type="text" name="mail_{$driver_name}_api_domain" id="mail_{$driver_name}_api_domain" value="{$conf_value}" />
+					</div>
+				</div>
+				<!--@end-->
+				
+				<!--@if($conf_name === 'api_token')-->
+				<div class="x_control-group hidden-by-default show-for-{$driver_name}">
+					<label class="x_control-label" for="mail_{$driver_name}_api_token">{$lang->cmd_advanced_mailer_api_token}</label>
+					<div class="x_controls full-width">
+						<input type="text" name="mail_{$driver_name}_api_token" id="mail_{$driver_name}_api_token" value="{$conf_value}" />
+					</div>
+				</div>
+				<!--@end-->
+				
+				<!--@if($conf_name === 'api_user')-->
+				<div class="x_control-group hidden-by-default show-for-{$driver_name}">
+					<label class="x_control-label" for="mail_{$driver_name}_api_user">{$lang->cmd_advanced_mailer_api_user}</label>
+					<div class="x_controls">
+						<input type="text" name="mail_{$driver_name}_api_user" id="mail_{$driver_name}_api_user" value="{$conf_value}" />
+					</div>
+				</div>
+				<!--@end-->
+				
+				<!--@if($conf_name === 'api_pass')-->
+				<div class="x_control-group hidden-by-default show-for-{$driver_name}">
+					<label class="x_control-label" for="mail_{$driver_name}_api_pass">{$lang->cmd_advanced_mailer_api_pass}</label>
+					<div class="x_controls full-width">
+						<input type="password" name="mail_{$driver_name}_api_pass" id="mail_{$driver_name}_api_pass" value="{$conf_value}" />
+					</div>
+				</div>
+				<!--@end-->
+				
+			<!--@end-->
+			
+		<!--@end-->
+		
+	</section>
+	
+	<section class="section">
+		
+		<h2>{$lang->sms}</h2>
+	
+		<div class="x_control-group">
+			<label class="x_control-label" for="sms_default_from">{$lang->cmd_admin_default_from_phone}</label>
+			<div class="x_controls">
+				<input type="text" name="sms_default_from" id="sms_default_from" value="{escape(config('sms.default_from'))}" />
+				&nbsp;
+				<label for="sms_force_default_sender" class="x_inline">
+					<input type="checkbox" name="sms_force_default_sender" id="sms_force_default_sender" value="Y" checked="checked"|cond="config('sms.default_force') !== false" />
+					{$lang->cmd_admin_force_default_sender}
+				</label>
+				<br />
+				<p class="x_help-block">{$lang->cmd_admin_default_from_phone_help}</p>
+			</div>
+		</div>
+		
+		<div class="x_control-group">
+			<label class="x_control-label" for="sms_driver">{$lang->cmd_admin_sending_method}</label>
+			<div class="x_controls">
+				<select name="sms_driver" id="sms_driver">
+					<!--@foreach($sms_drivers as $driver_name => $driver_definition)-->
+						<option value="{$driver_name}" selected="selected"|cond="$sms_driver === $driver_name">{$driver_definition['name']}</option>
+					<!--@end-->
+				</select>
+				<p class="x_help-block hidden-by-default show-for-dummy">
+					{$lang->cmd_admin_sms_dummy_driver_help}
+				</p>
+			</div>
+		</div>
+		
+		<!--@foreach($sms_drivers as $driver_name => $driver_definition)-->
+		
+			{@ $conf_names = array_merge($driver_definition['required'], $driver_definition['optional'])}
+			
+			<!--@foreach($conf_names as $conf_name)-->
+			
+				{@ $conf_value = escape(config("sms.$driver_name.$conf_name"))}
+				
+				<!--@if($conf_name === 'api_key')-->
+				<div class="x_control-group hidden-by-default show-for-{$driver_name}">
+					<label class="x_control-label" for="sms_{$driver_name}_api_key">{$lang->cmd_advanced_mailer_api_key}</label>
+					<div class="x_controls">
+						<input type="text" name="sms_{$driver_name}_api_key" id="sms_{$driver_name}_api_key" value="{$conf_value}" />
+					</div>
+				</div>
+				<!--@end-->
+				
+				<!--@if($conf_name === 'api_secret')-->
+				<div class="x_control-group hidden-by-default show-for-{$driver_name}">
+					<label class="x_control-label" for="sms_{$driver_name}_api_secret">{$lang->cmd_advanced_mailer_api_secret}</label>
+					<div class="x_controls">
+						<input type="password" name="sms_{$driver_name}_api_secret" id="sms_{$driver_name}_api_secret" value="{$conf_value}" />
+					</div>
+				</div>
+				<!--@end-->
+				
+				<!--@if($conf_name === 'sender_key')-->
+				<div class="x_control-group hidden-by-default show-for-{$driver_name}">
+					<label class="x_control-label" for="sms_{$driver_name}_sender_key">{$lang->cmd_advanced_mailer_sender_key}</label>
+					<div class="x_controls">
+						<input type="text" name="sms_{$driver_name}_sender_key" id="sms_{$driver_name}_sender_key" value="{$conf_value}" />
+						<br />
+						<p class="x_help-block">{$lang->cmd_admin_sms_sender_key_help}</p>
+					</div>
+				</div>
+				<!--@end-->
+				
+			<!--@end-->
+			
+		<!--@end-->
+	
+		<div class="x_control-group">
+			<label class="x_control-label">{$lang->cmd_admin_allow_split_sms}</label>
+			<div class="x_controls">
+				<label for="allow_split_sms_y" class="x_inline">
+					<input type="radio" name="allow_split_sms" id="allow_split_sms_y" value="Y" checked="checked"|cond="config('sms.allow_split.sms') !== false" />
+					{$lang->cmd_yes}
+				</label>
+				<label for="allow_split_sms_n" class="x_inline">
+					<input type="radio" name="allow_split_sms" id="allow_split_sms_n" value="N" checked="checked"|cond="config('sms.allow_split.sms') === false" />
+					{$lang->cmd_no}
+				</label>
+				<br />
+				<p class="x_help-block">{$lang->cmd_admin_allow_split_sms_help}</p>
+			</div>
+		</div>
+		
+		<div class="x_control-group">
+			<label class="x_control-label">{$lang->cmd_admin_allow_split_lms}</label>
+			<div class="x_controls">
+				<label for="allow_split_lms_y" class="x_inline">
+					<input type="radio" name="allow_split_lms" id="allow_split_lms_y" value="Y" checked="checked"|cond="config('sms.allow_split.lms') !== false" />
+					{$lang->cmd_yes}
+				</label>
+				<label for="allow_split_lms_n" class="x_inline">
+					<input type="radio" name="allow_split_lms" id="allow_split_lms_n" value="N" checked="checked"|cond="config('sms.allow_split.lms') === false" />
+					{$lang->cmd_no}
+				</label>
+				<br />
+				<p class="x_help-block">{$lang->cmd_admin_allow_split_lms_help}</p>
+			</div>
+		</div>
+		
+	</section>
+
+	<div class="x_clearfix btnArea">
+		<div class="x_pull-right">
+			<button type="submit" class="x_btn x_btn-primary">{$lang->cmd_save}</button>
+		</div>
+	</div>
+</form>

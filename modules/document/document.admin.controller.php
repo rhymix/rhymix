@@ -79,13 +79,6 @@ class documentAdminController extends document
 			$oDocument = $oDocumentModel->getDocument($document_srl);
 			if(!$oDocument->isExists()) continue;
 
-			$oMemberModel = getModel('member');
-			$logged_info = Context::get('logged_info');
-			$member_info = $oMemberModel->getMemberInfoByMemberSrl($oDocument->get('member_srl'));
-			if($member_info->is_admin == 'Y' && $logged_info->is_admin != 'Y')
-			{
-				return new Object();
-			}
 			$source_category_srl = $oDocument->get('category_srl');
 
 			unset($obj);
@@ -475,8 +468,10 @@ class documentAdminController extends document
 	function procDocumentAdminInsertConfig()
 	{
 		// Get the basic information
-		$config = new stdClass();
+		$oDocumentModel = getModel('document');
+		$config = $oDocumentModel->getDocumentConfig();
 		$config->view_count_option = Context::get('view_count_option');
+
 		// Insert by creating the module Controller object
 		$oModuleController = getController('module');
 		$output = $oModuleController->insertModuleConfig('document',$config);

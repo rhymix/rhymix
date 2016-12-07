@@ -1546,6 +1546,10 @@ class Context
 		}
 		
 		// Allow if the current user is in the list of allowed IPs.
+		if (PHP_SAPI === 'cli')
+		{
+			return;
+		}
 		if (Rhymix\Framework\Filters\IpFilter::inRanges(RX_CLIENT_IP, config('lock.allow')))
 		{
 			return;
