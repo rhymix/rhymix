@@ -104,6 +104,7 @@ class HTMLFilter
 			$config = \HTMLPurifier_Config::createDefault();
 			
 			// Customize the default configuration.
+			$config->set('Attr.AllowedClasses', array());
 			$config->set('Attr.AllowedFrameTargets', array('_blank'));
 			$config->set('Attr.DefaultImageAlt', '');
 			$config->set('Attr.EnableID', true);

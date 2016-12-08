@@ -8,12 +8,12 @@ class HTMLFilterTest extends \Codeception\TestCase\Test
 			// remove iframe
 			array(
 				'<div class="frame"><iframe src="path/to/file.html"></iframe><p><a href="#iframe">IFrame</a></p></div>',
-				'<div class="frame"><iframe></iframe><p><a href="#iframe">IFrame</a></p></div>'
+				'<div><iframe></iframe><p><a href="#iframe">IFrame</a></p></div>'
 			),
 			// expression
 			array(
 				'<div class="dummy" style="xss:expr/*XSS*/ession(alert(\'XSS\'))">',
-				'<div class="dummy"></div>'
+				'<div></div>'
 			),
 			// no quotes and no semicolon - http://ha.ckers.org/xss.html
 			array(
@@ -153,7 +153,7 @@ class HTMLFilterTest extends \Codeception\TestCase\Test
 		$this->assertEquals($target, Rhymix\Framework\Filters\HTMLFilter::clean($source));
 		
 		$source = '<div somekey="somevalue" otherkey="othervalue" onload="alert(\'xss\');" id="foo" class="bar" editor_component="component_name"></div>';
-		$target = '<div somekey="somevalue" otherkey="othervalue" id="user_content_foo" class="bar" editor_component="component_name"></div>';
+		$target = '<div somekey="somevalue" otherkey="othervalue" id="user_content_foo" editor_component="component_name"></div>';
 		$this->assertEquals($target, Rhymix\Framework\Filters\HTMLFilter::clean($source));
 		
 		$source = '<div editor_component="component_name" style="width:400px;height:300px;" draggable dropzone contextmenu="whatever"></div>';
