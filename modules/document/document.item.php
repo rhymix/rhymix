@@ -826,11 +826,11 @@ class documentItem extends Object
 			}
 			if (count($comment_srls))
 			{
-				$output = executeQuery('comment.getCommentVotedLogMulti', (object)array(
+				$v_output = executeQuery('comment.getCommentVotedLogMulti', (object)array(
 					'comment_srls' => $comment_srls,
 					'member_srl' => $logged_info->member_srl,
 				));
-				foreach ($output->data as $data)
+				foreach ($v_output->data as $data)
 				{
 					$_SESSION['voted_comment'][$data->comment_srl] = $data->point;
 				}
