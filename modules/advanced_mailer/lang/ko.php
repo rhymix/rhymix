@@ -107,6 +107,7 @@ $lang->msg_advanced_mailer_log_is_empty = '표시할 항목이 없습니다.';
 $lang->cmd_advanced_mailer_status_sender = '보낸이';
 $lang->cmd_advanced_mailer_status_recipient = '받는이';
 $lang->cmd_advanced_mailer_status_subject = '제목';
+$lang->cmd_advanced_mailer_status_content = '내용';
 $lang->cmd_advanced_mailer_status_sending_method = '발송 방법';
 $lang->cmd_advanced_mailer_status_time = '발송 시간';
 $lang->cmd_advanced_mailer_status = '상태';

@@ -107,6 +107,7 @@ $lang->msg_advanced_mailer_log_is_empty = 'There are no entries to display.';
 $lang->cmd_advanced_mailer_status_sender = 'Sender';
 $lang->cmd_advanced_mailer_status_recipient = 'Recipient';
 $lang->cmd_advanced_mailer_status_subject = 'Subject';
+$lang->cmd_advanced_mailer_status_content = 'Content';
 $lang->cmd_advanced_mailer_status_sending_method = 'Method';
 $lang->cmd_advanced_mailer_status_time = 'Time';
 $lang->cmd_advanced_mailer_status = 'Status';

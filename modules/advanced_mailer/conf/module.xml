@@ -16,7 +16,9 @@
 		<action name="procAdvanced_mailerAdminInsertExceptions" type="controller" />
 		<action name="procAdvanced_mailerAdminCheckDNSRecord" type="controller" />
 		<action name="procAdvanced_mailerAdminClearSentMail" type="controller" />
+		<action name="procAdvanced_mailerAdminClearSentSMS" type="controller" />
 		<action name="procAdvanced_mailerAdminTestSendMail" type="controller" />
+		<action name="procAdvanced_mailerAdminTestSendSMS" type="controller" />
 	</actions>
 	<menus>
 		<menu name="advanced_mailer" type="all">

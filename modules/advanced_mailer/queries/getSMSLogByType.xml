@@ -1,0 +1,17 @@
+<query id="getSMSLogByType" action="select">
+    <tables>
+        <table name="advanced_mailer_sms_log" />
+    </tables>
+    <columns>
+        <column name="*" />
+    </columns>
+    <conditions>
+        <condition operation="equal" column="status" var="status" />
+    </conditions>
+    <navigation>
+        <index var="sort_index" default="sms_id" order="desc" />
+        <list_count var="list_count" default="20" />
+        <page_count var="page_count" default="10" />
+        <page var="page" default="1" />
+    </navigation>
+</query>

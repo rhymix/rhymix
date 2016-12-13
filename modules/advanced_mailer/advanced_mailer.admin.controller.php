@@ -149,7 +149,7 @@ class Advanced_MailerAdminController extends Advanced_Mailer
 	}
 	
 	/**
-	 * Clear old sending log.
+	 * Clear old mail sending log.
 	 */
 	public function procAdvanced_mailerAdminClearSentMail()
 	{
@@ -167,15 +167,46 @@ class Advanced_MailerAdminController extends Advanced_Mailer
 		$obj = new stdClass();
 		$obj->status = $status;
 		$obj->regdate = date('YmdHis', time() - ($clear_before_days * 86400) + zgap());
-		$output = executeQuery('advanced_mailer.deleteLogs', $obj);
+		$output = executeQuery('advanced_mailer.deleteMailLogs', $obj);
 		
 		if ($status === 'success')
 		{
-			$this->setRedirectUrl(getNotEncodedUrl('', 'module', 'admin', 'act', 'dispAdvanced_mailerAdminSentMail'));
+			$this->setRedirectUrl(getNotEncodedUrl('', 'module', 'admin', 'act', 'dispAdvanced_mailerAdminMailLog'));
 		}
 		else
 		{
-			$this->setRedirectUrl(getNotEncodedUrl('', 'module', 'admin', 'act', 'dispAdvanced_mailerAdminErrors'));
+			$this->setRedirectUrl(getNotEncodedUrl('', 'module', 'admin', 'act', 'dispAdvanced_mailerAdminMailErrors'));
+		}
+	}
+	
+	/**
+	 * Clear old SMS sending log.
+	 */
+	public function procAdvanced_mailerAdminClearSentSMS()
+	{
+		$status = Context::get('status');
+		$clear_before_days = intval(Context::get('clear_before_days'));
+		if (!in_array($status, array('success', 'error')))
+		{
+			return new Object(-1, 'msg_invalid_request');
+		}
+		if ($clear_before_days < 0)
+		{
+			return new Object(-1, 'msg_invalid_request');
+		}
+		
+		$obj = new stdClass();
+		$obj->status = $status;
+		$obj->regdate = date('YmdHis', time() - ($clear_before_days * 86400) + zgap());
+		$output = executeQuery('advanced_mailer.deleteSMSLogs', $obj);
+		
+		if ($status === 'success')
+		{
+			$this->setRedirectUrl(getNotEncodedUrl('', 'module', 'admin', 'act', 'dispAdvanced_mailerAdminSMSLog'));
+		}
+		else
+		{
+			$this->setRedirectUrl(getNotEncodedUrl('', 'module', 'admin', 'act', 'dispAdvanced_mailerAdminSMSErrors'));
 		}
 	}
 	
