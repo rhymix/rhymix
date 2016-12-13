@@ -130,7 +130,7 @@ class spamfilterAdminController extends spamfilter
 			
 			if (mb_strlen($word, 'UTF-8') < 2 || mb_strlen($word, 'UTF-8') > 40)
 			{
-				return new Object(-1, 'msg_invalid');
+				return new Object(-1, 'msg_invalid_word');
 			}
 			
 			$args = new stdClass;

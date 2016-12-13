@@ -184,7 +184,7 @@ class spamfilterController extends spamfilter
 			
 			if (!Rhymix\Framework\Filters\IpFilter::validateRange($args->ipaddress))
 			{
-				return new Object(-1, 'msg_invalid');
+				return new Object(-1, 'msg_invalid_ip');
 			}
 			
 			$output = executeQuery('spamfilter.insertDeniedIP', $args);
