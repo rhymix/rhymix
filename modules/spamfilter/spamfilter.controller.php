@@ -128,32 +128,24 @@ class spamfilterController extends spamfilter
 		// Check if the IP is prohibited
 		$output = $oFilterModel->isDeniedIP();
 		if(!$output->toBool()) return $output;
+		
 		// Check if there is a ban on the word
 		$text = $obj->blog_name . ' ' . $obj->title . ' ' . $obj->excerpt . ' ' . $obj->url;
 		$output = $oFilterModel->isDeniedWord($text);
 		if(!$output->toBool()) return $output;
+		
 		// Start Filtering
-		$oTrackbackModel = getModel('trackback');
 		$oTrackbackController = getController('trackback');
-
-		list($ipA,$ipB,$ipC,$ipD) = explode('.',$_SERVER['REMOTE_ADDR']);
-		$ipaddress = $ipA.'.'.$ipB.'.'.$ipC;
-		// In case the title and the blog name are indentical, investigate the IP address of the last 6 hours, delete and ban it.
-		if($obj->title == $obj->excerpt)
+		if (is_object($oTrackbackController) && method_exists($oTrackbackController, 'deleteTrackbackSender'))
 		{
-			$oTrackbackController->deleteTrackbackSender(60*60*6, $ipaddress, $obj->url, $obj->blog_name, $obj->title, $obj->excerpt);
-			$this->insertIP($ipaddress.'.*', 'AUTO-DENIED : trackback.insertTrackback');
-			return new Object(-1,'msg_alert_trackback_denied');
+			// In case the title and the blog name are indentical, investigate the IP address of the last 6 hours, delete and ban it.
+			if($obj->title == $obj->excerpt)
+			{
+				$oTrackbackController->deleteTrackbackSender(60*60*6, \RX_CLIENT_IP, $obj->url, $obj->blog_name, $obj->title, $obj->excerpt);
+				$this->insertIP(\RX_CLIENT_IP, 'AUTO-DENIED : trackback.insertTrackback');
+				return new Object(-1, 'msg_alert_trackback_denied');
+			}
 		}
-		// If trackbacks have been registered by one C-class IP address more than once for the last 30 minutes, ban the IP address and delete all the posts
-		/* 호스팅 환경을 감안하여 일단 이 부분은 동작하지 않도록 주석 처리
-		   $count = $oTrackbackModel->getRegistedTrackback(30*60, $ipaddress, $obj->url, $obj->blog_name, $obj->title, $obj->excerpt);
-		   if($count > 1) {
-		   $oTrackbackController->deleteTrackbackSender(3*60, $ipaddress, $obj->url, $obj->blog_name, $obj->title, $obj->excerpt);
-		   $this->insertIP($ipaddress.'.*');
-		   return new Object(-1,'msg_alert_trackback_denied');
-		   }
-		 */
 
 		return new Object();
 	}

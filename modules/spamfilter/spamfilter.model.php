@@ -141,9 +141,14 @@ class spamfilterModel extends spamfilter
 	function isInsertedTrackback($document_srl)
 	{
 		$oTrackbackModel = getModel('trackback');
-		$count = $oTrackbackModel->getTrackbackCountByIPAddress($document_srl, \RX_CLIENT_IP);
-		if($count>0) return new Object(-1, 'msg_alert_trackback_denied');
-
+		if (is_object($oTrackbackModel) && method_exists($oTrackbackModel, 'getTrackbackCountByIPAddress'))
+		{
+			$count = $oTrackbackModel->getTrackbackCountByIPAddress($document_srl, \RX_CLIENT_IP);
+			if ($count > 0)
+			{
+				return new Object(-1, 'msg_alert_trackback_denied');
+			}
+		}
 		return new Object();
 	}
 
