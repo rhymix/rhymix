@@ -13,7 +13,7 @@ $lang->word = '키워드';
 $lang->hit = '히트';
 $lang->latest_hit = '최근 히트';
 $lang->about_interval = '지정된 시간 내에 글을 등록하지 못하게 합니다.';
-$lang->about_denied_ip = '한 줄에 하나씩 IP 주소(예: 127.0.0.1) 또는 대역(예: 127.0.0.0/24)을 입력하세요. // 뒷부분은 설명으로 저장됩니다. 예: 127.0.0.1 // 설명';
+$lang->about_denied_ip = '한 줄에 하나씩 IP 주소 또는 대역을 입력하세요. &quot;//&quot; 또는 &quot;#&quot; 뒷부분은 설명으로 저장됩니다. 예: 127.0.0.1 //설명, 127.0.0.1 #설명<br>IP 대역 표기법은 <a href="https://github.com/rhymix/rhymix-docs/blob/master/ko/misc/ipfilter.md" target="_blank">매뉴얼</a>을 참고하십시오.';
 $lang->about_denied_word = '한 줄에 하나씩 스팸 키워드를 입력하세요. (2~40자)';
 $lang->msg_alert_limited_by_config = '%d초 이내에 연속 글 작성은 금지됩니다. 계속 시도하면 IP가 차단될 수 있습니다.';
 $lang->msg_alert_limited_message_by_config = '%d초 이내에 연속 쪽지 발송은 금지됩니다. 계속 시도하면 IP가 차단될 수 있습니다.';

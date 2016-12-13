@@ -35,12 +35,13 @@
 			</tbody>
 		</table>
 	</form>
-	<form action="./" style="margin-right:14px" method="post">
+	<form action="./" style="margin-right:14px" method="post" class="x_form-horizontal">
 		<input type="hidden" name="act" value="procSpamfilterAdminInsertDeniedIP" />
 		<input type="hidden" name="module" value="spamfilter" />
 		<input type="hidden" name="xe_validator_id" value="modules/spamfilter/tpl/1" />
 		<input type="hidden" name="active" value="ip" />
-		<textarea name="ipaddress_list" title="{$lang->add_denied_ip}: {$lang->about_denied_ip}" rows="4" cols="42" style="width:100%" placeholder="{$lang->about_denied_ip}"></textarea>
+		<textarea name="ipaddress_list" title="{$lang->add_denied_ip}" rows="4" cols="42" style="width:100%"></textarea>
+		<p class="x_help-block">{$lang->about_denied_ip}</p>
 		<span class="x_pull-right" style="margin-right:-14px">
 			<button type="submit" class="x_btn x_btn-primary">{$lang->add_denied_ip}</button>
 		</span>
