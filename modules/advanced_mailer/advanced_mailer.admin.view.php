@@ -138,7 +138,7 @@ class Advanced_MailerAdminView extends Advanced_Mailer
 		Context::set('advanced_mailer_log', $maillog);
 		Context::set('advanced_mailer_status', 'success');
 		
-		$paging = $this->procPaging('success', $page);
+		$paging = $this->procPaging('success', 'mail', $page);
 		Context::set('total_count', $paging->total_count);
 		Context::set('total_page', $paging->total_page);
 		Context::set('page', $paging->page);
@@ -164,7 +164,7 @@ class Advanced_MailerAdminView extends Advanced_Mailer
 		Context::set('advanced_mailer_log', $maillog);
 		Context::set('advanced_mailer_status', 'error');
 		
-		$paging = $this->procPaging('error', $page);
+		$paging = $this->procPaging('error', 'mail', $page);
 		Context::set('total_count', $paging->total_count);
 		Context::set('total_page', $paging->total_page);
 		Context::set('page', $paging->page);
@@ -206,7 +206,7 @@ class Advanced_MailerAdminView extends Advanced_Mailer
 		Context::set('advanced_mailer_log', $smslog);
 		Context::set('advanced_mailer_status', 'success');
 		
-		$paging = $this->procPaging('success', $page);
+		$paging = $this->procPaging('success', 'sms', $page);
 		Context::set('total_count', $paging->total_count);
 		Context::set('total_page', $paging->total_page);
 		Context::set('page', $paging->page);
@@ -232,7 +232,7 @@ class Advanced_MailerAdminView extends Advanced_Mailer
 		Context::set('advanced_mailer_log', $smslog);
 		Context::set('advanced_mailer_status', 'error');
 		
-		$paging = $this->procPaging('error', $page);
+		$paging = $this->procPaging('error', 'sms', $page);
 		Context::set('total_count', $paging->total_count);
 		Context::set('total_page', $paging->total_page);
 		Context::set('page', $paging->page);
@@ -287,11 +287,18 @@ class Advanced_MailerAdminView extends Advanced_Mailer
 	/**
 	 * Process paging.
 	 */
-	public function procPaging($status, $page = 1)
+	public function procPaging($status, $type, $page = 1)
 	{
 		$args = new stdClass;
 		$args->status = $status;
-		$count = executeQuery('advanced_mailer.countLogByType', $args);
+		if ($type === 'mail')
+		{
+			$count = executeQuery('advanced_mailer.countMailLogByType', $args);
+		}
+		else
+		{
+			$count = executeQuery('advanced_mailer.countSMSLogByType', $args);
+		}
 		$total_count = $count->data->count;
 		$total_page = max(1, ceil($total_count / 20));
 		

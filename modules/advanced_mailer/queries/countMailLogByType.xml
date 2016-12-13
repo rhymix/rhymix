@@ -1,4 +1,4 @@
-<query id="countLogByType" action="select">
+<query id="countMailLogByType" action="select">
     <tables>
         <table name="advanced_mailer_log" />
     </tables>
