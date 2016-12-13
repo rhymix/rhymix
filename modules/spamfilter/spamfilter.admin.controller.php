@@ -17,16 +17,34 @@ class spamfilterAdminController extends spamfilter
 	function procSpamfilterAdminInsertConfig()
 	{
 		// Get the default information
-		$argsConfig = Context::gets('limits','check_trackback');
-		$flag = Context::get('flag');
-		//interval, limit_count
-		if($argsConfig->check_trackback!='Y') $argsConfig->check_trackback = 'N';
-		if($argsConfig->limits!='Y') $argsConfig->limits = 'N';
+		$args = Context::gets('limits', 'limits_interval', 'limits_count', 'check_trackback', 'ipv4_block_range', 'ipv6_block_range');
+		
+		// Set default values
+		if ($args->limits != 'Y')
+		{
+			$args->limits = 'N';
+		}
+		if ($args->check_trackback != 'Y')
+		{
+			$args->check_trackback = 'N';
+		}
+		if (!preg_match('#^/(\d+)$#', $args->ipv4_block_range, $matches) || $matches[1] > 32 || $matches[1] < 16)
+		{
+			$args->ipv4_block_range = '';
+		}
+		if (!preg_match('#^/(\d+)$#', $args->ipv6_block_range, $matches) || $matches[1] > 128 || $matches[1] < 64)
+		{
+			$args->ipv6_block_range = '';
+		}
+		$args->limits_interval = intval($args->limits_interval);
+		$args->limits_count = intval($args->limits_count);
+		
 		// Create and insert the module Controller object
 		$oModuleController = getController('module');
-		$moduleConfigOutput = $oModuleController->insertModuleConfig('spamfilter',$argsConfig);
+		$moduleConfigOutput = $oModuleController->insertModuleConfig('spamfilter', $args);
 		if(!$moduleConfigOutput->toBool()) return $moduleConfigOutput;
 
+		$this->setMessage('success_updated');
 		$returnUrl = Context::get('success_return_url') ? Context::get('success_return_url') : getNotEncodedUrl('', 'module', 'admin', 'act', 'dispSpamfilterAdminConfigBlock');
 		$this->setRedirectUrl($returnUrl);
 	}
@@ -114,27 +132,38 @@ class spamfilterAdminController extends spamfilter
 	 */
 	function insertWord($word_list)
 	{
-
-		$word_list = str_replace("\r","",$word_list);
-		$word_list = explode("\n",$word_list);
-
-		foreach($word_list as $word)
+		if (!is_array($word_list))
 		{
-			if(!preg_match("/^(.{2,40}[\r\n]+)*.{2,40}$/", $word))
+			$word_list = array_map('trim', explode("\n", $word_list));
+		}
+		$fail_list = '';
+		$output = null;
+
+		foreach ($word_list as $word)
+		{
+			if ($word === '')
 			{
-				return new Object(-1, 'msg_invalid');
+				continue;
+			}
+			
+			if (mb_strlen($word, 'UTF-8') < 2 || mb_strlen($word, 'UTF-8') > 40)
+			{
+				return new Object(-1, 'msg_invalid_word');
+			}
+			
+			$args = new stdClass;
+			$args->word = $word;
+			$output = executeQuery('spamfilter.insertDeniedWord', $args);
+			if (!$output->toBool())
+			{
+				$fail_list .= $args->word . '<br />';
 			}
 		}
-
-		$fail_word = '';
-		foreach($word_list as $word)
+		
+		if ($output)
 		{
-			$args = new stdClass;
-			if(trim($word)) $args->word = $word;
-			$output = executeQuery('spamfilter.insertDeniedWord', $args);
-			if(!$output->toBool()) $fail_word .= $word.'<br />';
+			$output->add('fail_list', $fail_list);
 		}
-		$output->add('fail_list',$fail_word);
 		return $output;
 	}
 
