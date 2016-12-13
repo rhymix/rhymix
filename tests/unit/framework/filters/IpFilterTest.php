@@ -10,6 +10,9 @@ class IpFilterTest extends \Codeception\TestCase\Test
 		$this->assertFalse(Rhymix\Framework\Filters\IpFilter::inRange('172.34.0.0', '172.16.0.0/12'));
 		$this->assertTrue(Rhymix\Framework\Filters\IpFilter::inRange('192.168.18.214', '192.168.16.0/22'));
 		$this->assertFalse(Rhymix\Framework\Filters\IpFilter::inRange('192.168.18.214', '192.168.16.0/23'));
+		$this->assertTrue(Rhymix\Framework\Filters\IpFilter::inRange('192.168.18.214', '192.168.19.7/23'));
+		$this->assertTrue(Rhymix\Framework\Filters\IpFilter::inRange('192.168.18.214', '192.168.16.211/22'));
+		$this->assertFalse(Rhymix\Framework\Filters\IpFilter::inRange('192.168.18.214', '192.168.17.255/23'));
 	}
 	
 	public function testIPv6CIDR()
@@ -18,14 +21,18 @@ class IpFilterTest extends \Codeception\TestCase\Test
 		$this->assertFalse(Rhymix\Framework\Filters\IpFilter::inRange('::1', '::2'));
 		$this->assertTrue(Rhymix\Framework\Filters\IpFilter::inRange('2400:cb00::1234', '2400:cb00::/32'));
 		$this->assertFalse(Rhymix\Framework\Filters\IpFilter::inRange('2405:8100::1234', '2400:cb00::/32'));
+		$this->assertTrue(Rhymix\Framework\Filters\IpFilter::inRange('2400:cb00::1234', '2400:cb00::ffff:1234/96'));
+		$this->assertFalse(Rhymix\Framework\Filters\IpFilter::inRange('2405:8100::1234', '2400:cb00::ffff:1234/96'));
 	}
 	
 	public function testIPv4Wildcard()
 	{
 		$this->assertTrue(Rhymix\Framework\Filters\IpFilter::inRange('192.168.134.241', '192.168.134.*'));
 		$this->assertTrue(Rhymix\Framework\Filters\IpFilter::inRange('192.168.134.241', '192.168.*.*'));
+		$this->assertTrue(Rhymix\Framework\Filters\IpFilter::inRange('192.168.134.241', '192.168.*'));
 		$this->assertFalse(Rhymix\Framework\Filters\IpFilter::inRange('192.168.134.241', '192.168.136.*'));
 		$this->assertFalse(Rhymix\Framework\Filters\IpFilter::inRange('192.168.134.241', '192.172.*.*'));
+		$this->assertFalse(Rhymix\Framework\Filters\IpFilter::inRange('192.168.134.241', '192.172.*'));
 	}
 	
 	public function testIPv4Hyphen()
