@@ -17,7 +17,7 @@ class spamfilterAdminController extends spamfilter
 	function procSpamfilterAdminInsertConfig()
 	{
 		// Get the default information
-		$args = Context::gets('limits', 'check_trackback', 'ipv4_block_range', 'ipv6_block_range');
+		$args = Context::gets('limits', 'limits_interval', 'limits_count', 'check_trackback', 'ipv4_block_range', 'ipv6_block_range');
 		
 		// Set default values
 		if ($args->limits != 'Y')
@@ -36,6 +36,8 @@ class spamfilterAdminController extends spamfilter
 		{
 			$args->ipv6_block_range = '';
 		}
+		$args->limits_interval = intval($args->limits_interval);
+		$args->limits_count = intval($args->limits_count);
 		
 		// Create and insert the module Controller object
 		$oModuleController = getController('module');

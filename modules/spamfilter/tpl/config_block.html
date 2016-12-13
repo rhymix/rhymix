@@ -39,6 +39,20 @@
 			</div>
 		</div>
 		<div class="x_control-group">
+			<label for="limits_interval" class="x_control-label">{$lang->cmd_limits_interval}</label>
+			<div class="x_controls">
+				<input type="number" name="limits_interval" id="limits_interval" value="{intval($config->limits_interval) ?: 10}" /> {$lang->unit_sec}
+				<p class="x_help-block">{$lang->cmd_limits_interval_help}</p>
+			</div>
+		</div>
+		<div class="x_control-group">
+			<label for="limits_count" class="x_control-label">{$lang->cmd_limits_count}</label>
+			<div class="x_controls">
+				<input type="number" name="limits_count" id="limits_count" value="{intval($config->limits_count) ?: 3}" /> {$lang->unit_write_count}
+				<p class="x_help-block">{$lang->cmd_limits_count_help}</p>
+			</div>
+		</div>
+		<div class="x_control-group">
 			<label for="ipv4_block_range" class="x_control-label">{$lang->cmd_ipv4_block_range}</label>
 			<div class="x_controls">
 				<select name="ipv4_block_range" id="ipv4_block_range">
