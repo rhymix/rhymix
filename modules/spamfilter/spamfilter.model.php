@@ -108,12 +108,11 @@ class spamfilterModel extends spamfilter
 
 		$count = $this->getLogCount($interval);
 
-		$ipaddress = $_SERVER['REMOTE_ADDR'];
 		// Ban the IP address if the interval is exceeded
 		if($count>=$limit_count)
 		{
 			$oSpamFilterController = getController('spamfilter');
-			$oSpamFilterController->insertIP($ipaddress, 'AUTO-DENIED : Over limit');
+			$oSpamFilterController->insertIP(\RX_CLIENT_IP, 'AUTO-DENIED : Over limit');
 			return new Object(-1, 'msg_alert_registered_denied_ip');
 		}
 		// If the number of limited posts is not reached, keep creating.
@@ -142,7 +141,7 @@ class spamfilterModel extends spamfilter
 	function isInsertedTrackback($document_srl)
 	{
 		$oTrackbackModel = getModel('trackback');
-		$count = $oTrackbackModel->getTrackbackCountByIPAddress($document_srl, $_SERVER['REMOTE_ADDR']);
+		$count = $oTrackbackModel->getTrackbackCountByIPAddress($document_srl, \RX_CLIENT_IP);
 		if($count>0) return new Object(-1, 'msg_alert_trackback_denied');
 
 		return new Object();
@@ -153,11 +152,11 @@ class spamfilterModel extends spamfilter
 	 */
 	function getLogCount($time = 60, $ipaddress='')
 	{
-		if(!$ipaddress) $ipaddress = $_SERVER['REMOTE_ADDR'];
+		if(!$ipaddress) $ipaddress = \RX_CLIENT_IP;
 
 		$args = new stdClass();
 		$args->ipaddress = $ipaddress;
-		$args->regdate = date("YmdHis", $_SERVER['REQUEST_TIME']-$time);
+		$args->regdate = date("YmdHis", time() - $time);
 		$output = executeQuery('spamfilter.getLogCount', $args);
 		$count = $output->data->count;
 		return $count;
