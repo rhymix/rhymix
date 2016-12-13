@@ -145,4 +145,32 @@ class Advanced_MailerController extends Advanced_Mailer
 		
 		return null;
 	}
+	
+	/**
+	 * After SMS send trigger.
+	 */
+	public function triggerAfterSMSSend($sms)
+	{
+		$config = $this->getConfig();
+		
+		if (toBool($config->log_sent_sms) || (toBool($config->log_sms_errors) && count($sms->errors)))
+		{
+			return new Object();
+			
+			$obj = new \stdClass();
+			$obj->sms_srl = getNextSequence();
+			$obj->sms_from = '';
+			$obj->sms_to = '';
+			$obj->content = $sms->getContent();
+			$obj->calling_script = $sms->getCaller();
+			$obj->sending_method = strtolower(class_basename($sms->driver));
+			$obj->status = !count($sms->errors) ? 'success' : 'error';
+			$obj->errors = count($sms->errors) ? implode("\n", $sms->errors) : null;
+			$output = executeQuery('advanced_mailer.insertLog', $obj);
+			if (!$output->toBool())
+			{
+				return $output;
+			}
+		}
+	}
 }
