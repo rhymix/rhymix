@@ -1,6 +1,6 @@
-<query id="deleteLogs" action="delete">
+<query id="deleteSMSLogs" action="delete">
     <tables>
-        <table name="advanced_mailer_log" />
+        <table name="advanced_mailer_sms_log" />
     </tables>
     <conditions>
         <condition operation="equal" column="status" var="status" />

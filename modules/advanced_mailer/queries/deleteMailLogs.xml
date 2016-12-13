@@ -1,0 +1,9 @@
+<query id="deleteMailLogs" action="delete">
+    <tables>
+        <table name="advanced_mailer_log" />
+    </tables>
+    <conditions>
+        <condition operation="equal" column="status" var="status" />
+        <condition operation="less" column="regdate" var="regdate" pipe="and" />
+    </conditions>
+</query>

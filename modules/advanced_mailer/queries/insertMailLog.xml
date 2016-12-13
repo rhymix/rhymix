@@ -1,4 +1,4 @@
-<query id="insertLog" action="insert">
+<query id="insertMailLog" action="insert">
     <tables>
         <table name="advanced_mailer_log" />
     </tables>

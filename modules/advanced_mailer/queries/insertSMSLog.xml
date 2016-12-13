@@ -1,0 +1,15 @@
+<query id="insertSMSLog" action="insert">
+    <tables>
+        <table name="advanced_mailer_sms_log" />
+    </tables>
+    <columns>
+        <column name="sms_from" var="sms_from" notnull="notnull" />
+        <column name="sms_to" var="sms_to" notnull="notnull" />
+        <column name="content" var="content" notnull="notnull" />
+        <column name="calling_script" var="calling_script" notnull="notnull" />
+        <column name="sending_method" var="sending_method" notnull="notnull" />
+        <column name="regdate" var="regdate" notnull="notnull" default="curdate()" />
+        <column name="status" var="status" notnull="notnull" default="success" />
+        <column name="errors" var="errors" />
+    </columns>
+</query>

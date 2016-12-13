@@ -58,7 +58,6 @@ class Advanced_MailerController extends Advanced_Mailer
 		if (toBool($config->log_sent_mail) || (toBool($config->log_errors) && count($mail->errors)))
 		{
 			$obj = new \stdClass();
-			$obj->mail_srl = getNextSequence();
 			$obj->mail_from = '';
 			$obj->mail_to = '';
 			
@@ -99,9 +98,9 @@ class Advanced_MailerController extends Advanced_Mailer
 			$obj->subject = $mail->message->getSubject();
 			$obj->calling_script = $mail->getCaller();
 			$obj->sending_method = strtolower(class_basename($mail->driver));
-			$obj->status = !count($mail->errors) ? 'success' : 'error';
-			$obj->errors = count($mail->errors) ? implode("\n", $mail->errors) : null;
-			$output = executeQuery('advanced_mailer.insertLog', $obj);
+			$obj->status = !count($mail->getErrors()) ? 'success' : 'error';
+			$obj->errors = count($mail->getErrors()) ? implode("\n", $mail->getErrors()) : null;
+			$output = executeQuery('advanced_mailer.insertMailLog', $obj);
 			if (!$output->toBool())
 			{
 				return $output;
@@ -144,5 +143,42 @@ class Advanced_MailerController extends Advanced_Mailer
 		}
 		
 		return null;
+	}
+	
+	/**
+	 * After SMS send trigger.
+	 */
+	public function triggerAfterSMSSend($sms)
+	{
+		$config = $this->getConfig();
+		
+		if (toBool($config->log_sent_sms) || (toBool($config->log_sms_errors) && count($sms->errors)))
+		{
+			$obj = new \stdClass();
+			$obj->sms_from = $sms->getFrom();
+			$obj->sms_to = array();
+			foreach ($sms->getRecipientsWithCountry() as $to)
+			{
+				if ($to->country)
+				{
+					$obj->sms_to[] = '+' . $to->country . '.' . $to->number;
+				}
+				else
+				{
+					$obj->sms_to[] = $to->number;
+				}
+			}
+			$obj->sms_to = implode(', ', $obj->sms_to);
+			$obj->content = trim($sms->getSubject() . "\n" . $sms->getBody());
+			$obj->calling_script = $sms->getCaller();
+			$obj->sending_method = strtolower(class_basename($sms->driver));
+			$obj->status = !count($sms->getErrors()) ? 'success' : 'error';
+			$obj->errors = count($sms->getErrors()) ? implode("\n", $sms->getErrors()) : null;
+			$output = executeQuery('advanced_mailer.insertSMSLog', $obj);
+			if (!$output->toBool())
+			{
+				return $output;
+			}
+		}
 	}
 }

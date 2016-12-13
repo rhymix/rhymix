@@ -1,0 +1,48 @@
+<include target="./common.html" />
+<load target="css/config.css" />
+<load target="js/config.js" />
+
+<form class="x_form-horizontal" action="./" method="post" id="advanced_mailer">
+	<input type="hidden" name="module" value="advanced_mailer" />
+	<input type="hidden" name="act" value="procAdvanced_mailerAdminTestSendSMS" />
+	<input type="hidden" name="success_return_url" value="{getRequestUriByServerEnviroment()}" />
+	
+	<div cond="$XE_VALIDATOR_MESSAGE" class="message {$XE_VALIDATOR_MESSAGE_TYPE}">
+		<p>{$XE_VALIDATOR_MESSAGE}</p>
+	</div>
+	
+	<section class="section">
+		
+		<h2>{$lang->cmd_advanced_mailer_sms_test}</h2>
+		
+		<div class="x_control-group">
+			<label class="x_control-label" for="advanced_mailer_recipient_number">{$lang->cmd_advanced_mailer_recipient_number}</label>
+			<div class="x_controls">
+				<input type="text" id="advanced_mailer_recipient_number" value="{config('sms.default_from')}" />
+				&nbsp;{$lang->cmd_advanced_mailer_country_code}&nbsp;
+				<input type="number" id="advanced_mailer_country_code" value="" />
+				<p class="x_help-block">{$lang->cmd_advanced_mailer_country_code_help}</p>
+			</div>
+		</div>
+		
+		<div class="x_control-group">
+			<label class="x_control-label" for="advanced_mailer_content">{$lang->cmd_advanced_mailer_status_content}</label>
+			<div class="x_controls">
+				<textarea id="advanced_mailer_content">{$lang->cmd_advanced_mailer_test_content}</textarea>
+			</div>
+		</div>
+		
+		<div class="x_control-group">
+			<label class="x_control-label">{$lang->cmd_advanced_mailer_test_result}</label>
+			<div class="x_controls">
+				<div id="advanced_mailer_test_result"></div>
+			</div>
+		</div>
+		
+	</section>
+	
+	<div class="btnArea x_clearfix">
+		<button id="advanced_mailer_test_send_sms" type="submit" class="x_btn x_btn-primary x_pull-right">{$lang->cmd_advanced_mailer_send}</button>
+	</div>
+	
+</form>

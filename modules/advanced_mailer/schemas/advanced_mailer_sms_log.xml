@@ -1,0 +1,11 @@
+<table name="advanced_mailer_sms_log">
+    <column name="sms_id" type="number" size="11" notnull="notnull" primary_key="primary_key" auto_increment="auto_increment" />
+    <column name="sms_from" type="varchar" size="250" notnull="notnull" />
+    <column name="sms_to" type="text" notnull="notnull" />
+	<column name="content" type="text" notnull="notnull" />
+    <column name="calling_script" type="varchar" size="250" notnull="notnull" />
+    <column name="sending_method" type="varchar" size="40" notnull="notnull" />
+    <column name="regdate" type="date" notnull="notnull" index="idx_regdate" />
+    <column name="status" type="varchar" size="40" notnull="notnull" index="idx_status" />
+    <column name="errors" type="bigtext" />
+</table>
