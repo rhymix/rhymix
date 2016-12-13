@@ -32,9 +32,8 @@ class spamfilterModel extends spamfilter
 		$args = new stdClass();
 		$args->sort_index = "regdate";
 		$args->page = Context::get('page')?Context::get('page'):1;
-		$output = executeQuery('spamfilter.getDeniedIPList', $args);
+		$output = executeQueryArray('spamfilter.getDeniedIPList', $args);
 		if(!$output->data) return;
-		if(!is_array($output->data)) return array($output->data);
 		return $output->data;
 	}
 
@@ -43,18 +42,20 @@ class spamfilterModel extends spamfilter
 	 */
 	function isDeniedIP()
 	{
-		$ipaddress = $_SERVER['REMOTE_ADDR'];
-
 		$ip_list = $this->getDeniedIPList();
 		if(!count($ip_list)) return new Object();
-
-		$count = count($ip_list);
-		for($i=0;$i<$count;$i++)
+		
+		$ip_ranges = array();
+		foreach ($ip_list as $ip_range)
 		{
-			$ip = str_replace('.', '\.', str_replace('*','(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)',$ip_list[$i]->ipaddress));
-			if(preg_match('/^'.$ip.'$/', $ipaddress, $matches)) return new Object(-1,'msg_alert_registered_denied_ip');
+			$ip_ranges[] = $ip_range->ipaddress;
 		}
-
+		
+		if (Rhymix\Framework\Filters\IpFilter::inRanges(\RX_CLIENT_IP, $ip_ranges))
+		{
+			return new Object(-1, 'msg_alert_registered_denied_ip');
+		}
+		
 		return new Object();
 	}
 

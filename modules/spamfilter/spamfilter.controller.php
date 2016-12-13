@@ -164,25 +164,44 @@ class spamfilterController extends spamfilter
 	 */
 	function insertIP($ipaddress_list, $description = null)
 	{
-		$regExr = "/^((\d{1,3}(?:.(\d{1,3}|\*)){3})\s*(\/\/(.*)\s*)?)*\s*$/";
-		if(!preg_match($regExr,$ipaddress_list)) return new Object(-1, 'msg_invalid');
-		$ipaddress_list = str_replace("\r","",$ipaddress_list);
-		$ipaddress_list = explode("\n",$ipaddress_list);
-		foreach($ipaddress_list as $ipaddressValue)
+		if (!is_array($ipaddress_list))
 		{
-			$args = new stdClass();
-			preg_match("/(\d{1,3}(?:.(\d{1,3}|\*)){3})\s*(\/\/(.*)\s*)?/",$ipaddressValue,$matches);
-			if($ipaddress=trim($matches[1]))
+			$ipaddress_list = array_map('trim', explode("\n", $ipaddress_list));
+		}
+		$fail_list = '';
+		$output = null;
+		
+		foreach ($ipaddress_list as $ipaddress)
+		{
+			$args = new stdClass;
+			if (preg_match('@^(.+?)(?://|#)(.*)$@', $ipaddress, $matches))
+			{
+				$args->ipaddress = trim($matches[1]);
+				$args->description = trim($matches[2]);
+			}
+			else
 			{
 				$args->ipaddress = $ipaddress;
-				if(!$description && $matches[4]) $args->description = $matches[4];
-				else $args->description = $description;
+				$args->description = $description;
 			}
+			
+			if (!Rhymix\Framework\Filters\IpFilter::validateRange($args->ipaddress))
+			{
+				return new Object(-1, 'msg_invalid');
+			}
+			
 			$output = executeQuery('spamfilter.insertDeniedIP', $args);
-			if(!$output->toBool()) $fail_list .= $ipaddress.'<br/>';
+			if (!$output->toBool())
+			{
+				$fail_list .= $args->ipaddress . '<br />';
+			}
 		}
-
-		$output->add('fail_list',$fail_list);
+		
+		if ($output)
+		{
+			$output->add('fail_list', $fail_list);
+		}
+		
 		return $output;
 	}
 
