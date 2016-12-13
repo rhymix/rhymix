@@ -3,7 +3,7 @@
 	
 	$(function() {
 		
-		$("#advanced_mailer_test_send").click(function(event) {
+		$("#advanced_mailer_test_send_mail").click(function(event) {
 			event.preventDefault();
 			$("#advanced_mailer_test_result").text("");
 			$(this).attr("disabled", "disabled");
@@ -12,7 +12,7 @@
 				recipient_email: $("#advanced_mailer_recipient_email").val(),
 			};
 			$.exec_json(
-				"advanced_mailer.procAdvanced_mailerAdminTestSend", ajax_data,
+				"advanced_mailer.procAdvanced_mailerAdminTestSendMail", ajax_data,
 				function(response) {
 					$("#advanced_mailer_test_result").html(response.test_result);
 					$("#advanced_mailer_test_send").removeAttr("disabled");

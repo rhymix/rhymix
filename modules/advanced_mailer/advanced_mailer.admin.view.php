@@ -112,7 +112,7 @@ class Advanced_MailerAdminView extends Advanced_Mailer
 	/**
 	 * Display the test send form.
 	 */
-	public function dispAdvanced_MailerAdminTestConfig()
+	public function dispAdvanced_MailerAdminMailTest()
 	{
 		$advanced_mailer_config = $this->getConfig();
 		$sending_methods = Rhymix\Framework\Mail::getSupportedDrivers();
@@ -128,7 +128,7 @@ class Advanced_MailerAdminView extends Advanced_Mailer
 	/**
 	 * Display the sent mail log.
 	 */
-	public function dispAdvanced_MailerAdminSentMail()
+	public function dispAdvanced_MailerAdminMailLog()
 	{
 		$obj = new stdClass();
 		$obj->status = 'success';
@@ -154,7 +154,7 @@ class Advanced_MailerAdminView extends Advanced_Mailer
 	/**
 	 * Display the error log.
 	 */
-	public function dispAdvanced_MailerAdminErrors()
+	public function dispAdvanced_MailerAdminMailErrors()
 	{
 		$obj = new stdClass();
 		$obj->status = 'error';

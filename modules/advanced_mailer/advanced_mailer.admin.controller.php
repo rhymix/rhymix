@@ -20,6 +20,8 @@ class Advanced_MailerAdminController extends Advanced_Mailer
 		$config = $this->getConfig();
 		$config->log_sent_mail = toBool($vars->log_sent_mail);
 		$config->log_errors = toBool($vars->log_errors);
+		$config->log_sent_sms = toBool($vars->log_sent_sms);
+		$config->log_sms_errors = toBool($vars->log_sms_errors);
 		$output = getController('module')->insertModuleConfig('advanced_mailer', $config);
 		if ($output->toBool())
 		{
@@ -180,7 +182,7 @@ class Advanced_MailerAdminController extends Advanced_Mailer
 	/**
 	 * Send a test email using a temporary configuration.
 	 */
-	public function procAdvanced_MailerAdminTestSend()
+	public function procAdvanced_MailerAdminTestSendMail()
 	{
 		$advanced_mailer_config = $this->getConfig();
 		$recipient_config = Context::gets('recipient_name', 'recipient_email');

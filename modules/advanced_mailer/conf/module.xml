@@ -6,14 +6,17 @@
 		<action name="dispAdvanced_mailerAdminConfig" type="view" admin_index="true" menu_name="advanced_mailer" />
 		<action name="dispAdvanced_mailerAdminExceptions" type="view" />
 		<action name="dispAdvanced_mailerAdminSpfDkim" type="view" />
-		<action name="dispAdvanced_mailerAdminTestConfig" type="view" />
-		<action name="dispAdvanced_mailerAdminSentMail" type="view" />
-		<action name="dispAdvanced_mailerAdminErrors" type="view" />
+		<action name="dispAdvanced_mailerAdminMailTest" type="view" />
+		<action name="dispAdvanced_mailerAdminMailLog" type="view" />
+		<action name="dispAdvanced_mailerAdminMailErrors" type="view" />
+		<action name="dispAdvanced_mailerAdminSMSTest" type="view" />
+		<action name="dispAdvanced_mailerAdminSMSLog" type="view" />
+		<action name="dispAdvanced_mailerAdminSMSErrors" type="view" />
 		<action name="procAdvanced_mailerAdminInsertConfig" type="controller" />
 		<action name="procAdvanced_mailerAdminInsertExceptions" type="controller" />
 		<action name="procAdvanced_mailerAdminCheckDNSRecord" type="controller" />
 		<action name="procAdvanced_mailerAdminClearSentMail" type="controller" />
-		<action name="procAdvanced_mailerAdminTestSend" type="controller" />
+		<action name="procAdvanced_mailerAdminTestSendMail" type="controller" />
 	</actions>
 	<menus>
 		<menu name="advanced_mailer" type="all">
