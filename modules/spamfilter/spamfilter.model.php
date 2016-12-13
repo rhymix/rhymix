@@ -80,11 +80,10 @@ class spamfilterModel extends spamfilter
 		$word_list = $this->getDeniedWordList();
 		if(!count($word_list)) return new Object();
 
-		$count = count($word_list);
-		for($i=0;$i<$count;$i++)
+		foreach ($word_list as $word_item)
 		{
-			$word = $word_list[$i]->word;
-			if(preg_match('/'.preg_quote($word,'/').'/is', $text))
+			$word = $word_item->word;
+			if (strpos($text, $word) !== false)
 			{
 				$args = new stdClass();
 				$args->word = $word;
