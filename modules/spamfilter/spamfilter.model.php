@@ -111,10 +111,20 @@ class spamfilterModel extends spamfilter
 		// Ban the IP address if the interval is exceeded
 		if($count>=$limit_count)
 		{
+			if (\RX_CLIENT_IP_VERSION == 4)
+			{
+				$suffix = $config->ipv4_block_range ?: '';
+			}
+			else
+			{
+				$suffix = $config->ipv6_block_range ?: '';
+			}
+			
 			$oSpamFilterController = getController('spamfilter');
-			$oSpamFilterController->insertIP(\RX_CLIENT_IP, 'AUTO-DENIED : Over limit');
+			$oSpamFilterController->insertIP(\RX_CLIENT_IP .  $suffix, 'AUTO-DENIED : Over limit');
 			return new Object(-1, 'msg_alert_registered_denied_ip');
 		}
+
 		// If the number of limited posts is not reached, keep creating.
 		if($count)
 		{
