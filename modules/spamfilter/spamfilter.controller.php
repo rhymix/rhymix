@@ -173,6 +173,11 @@ class spamfilterController extends spamfilter
 		
 		foreach ($ipaddress_list as $ipaddress)
 		{
+			if ($ipaddress === '')
+			{
+				continue;
+			}
+			
 			$args = new stdClass;
 			if (preg_match('@^(.+?)(?://|#)(.*)$@', $ipaddress, $matches))
 			{

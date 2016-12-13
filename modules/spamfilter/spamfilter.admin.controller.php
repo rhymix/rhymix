@@ -114,27 +114,38 @@ class spamfilterAdminController extends spamfilter
 	 */
 	function insertWord($word_list)
 	{
-
-		$word_list = str_replace("\r","",$word_list);
-		$word_list = explode("\n",$word_list);
-
-		foreach($word_list as $word)
+		if (!is_array($word_list))
 		{
-			if(!preg_match("/^(.{2,40}[\r\n]+)*.{2,40}$/", $word))
+			$word_list = array_map('trim', explode("\n", $word_list));
+		}
+		$fail_list = '';
+		$output = null;
+
+		foreach ($word_list as $word)
+		{
+			if ($word === '')
+			{
+				continue;
+			}
+			
+			if (mb_strlen($word, 'UTF-8') < 2 || mb_strlen($word, 'UTF-8') > 40)
 			{
 				return new Object(-1, 'msg_invalid');
 			}
-		}
-
-		$fail_word = '';
-		foreach($word_list as $word)
-		{
+			
 			$args = new stdClass;
-			if(trim($word)) $args->word = $word;
+			$args->word = $word;
 			$output = executeQuery('spamfilter.insertDeniedWord', $args);
-			if(!$output->toBool()) $fail_word .= $word.'<br />';
+			if (!$output->toBool())
+			{
+				$fail_list .= $args->word . '<br />';
+			}
 		}
-		$output->add('fail_list',$fail_word);
+		
+		if ($output)
+		{
+			$output->add('fail_list', $fail_list);
+		}
 		return $output;
 	}
 
