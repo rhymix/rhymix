@@ -230,7 +230,7 @@ class communicationView extends communication
 
 		// set a signiture by calling getEditor of the editor module
 		$oEditorModel = getModel('editor');
-		$option = new stdClass();
+		$option = $oEditorModel->getEditorConfig();
 		$option->primary_key_name = 'receiver_srl';
 		$option->content_key_name = 'content';
 		$option->allow_fileupload = FALSE;

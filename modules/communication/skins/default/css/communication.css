@@ -195,7 +195,7 @@
 .xc .nav-tabs>.active>a:hover,
 .xc .nav-tabs>.active>a:focus{color:#555555;cursor:default;background-color:#ffffff;border:1px solid #ddd;border-bottom-color:transparent}
 /* Table */
-.xc .table{max-width:100%;background-color:transparent;border-collapse:collapse;border-spacing:0;width:100%;margin-bottom:20px}
+.xc .table{max-width:100%;background-color:transparent;border-collapse:collapse;border-spacing:0;width:100%;margin-bottom:0}
 .xc .table th,
 .xc .table td{padding:8px;line-height:20px;text-align:left;vertical-align:top;border-top:1px solid #dddddd}
 .xc .table th{font-weight:bold}

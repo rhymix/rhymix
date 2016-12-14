@@ -311,7 +311,7 @@ class memberView extends member
 		if($member_info->member_srl)
 		{
 			$oEditorModel = getModel('editor');
-			$option = new stdClass();
+			$option = $oEditorModel->getEditorConfig();
 			$option->primary_key_name = 'member_srl';
 			$option->content_key_name = 'signature';
 			if($member_config->member_allow_fileupload === 'Y')

@@ -164,8 +164,7 @@ class memberAdminView extends member
 		Context::set('editor_skin_list', $oEditorModel->getEditorSkinList());
 
 		// get an editor
-		$option = new stdClass();
-		$option->skin = $oEditorModel->getEditorConfig()->editor_skin;
+		$option = $oEditorModel->getEditorConfig();
 		$option->primary_key_name = 'temp_srl';
 		$option->content_key_name = 'agreement';
 		$option->allow_fileupload = false;
