@@ -511,17 +511,17 @@ function setFixedPopupSize() {
 
 	if(w < 800) w = 800 + offset.left*2;
 
-
 	dw = $win.width();
 	dh = $win.height();
 
 	// Window 의 너비나 높이는 스크린의 너비나 높이보다 클 수 없다. 스크린의 너비나 높이와 내용의 너비나 높이를 비교해서 최소값을 이용한다.
-	if(Math.min(w, window.screen.availWidth) != dw) window.resizeBy(Math.min(w, window.screen.availWidth) - dw, 0);
-	if(Math.min(h, window.screen.availHeight-100) != dh) window.resizeBy(0, Math.min(h, window.screen.availHeight-100) - dh);
+	w = Math.min(w, window.screen.availWidth);
+	h = Math.min(h, window.screen.availHeight - 100);
+	window.resizeBy(w - dw, h - dh);
 
-	$pc.width(Math.min(w, window.screen.availWidth)-offset.left*2).css({overflow:'',height:''});
-	if(Math.min(h, window.screen.availHeight-100) === window.screen.availHeight-100) {
-		$pc.width(Math.min(w, window.screen.availWidth)-offset.left*2-scbw).css({overflow:'',height:''});
+	$pc.width(w - offset.left*2).css({overflow:'',height:''});
+	if(h === window.screen.availHeight - 100) {
+		$pc.width(w - offset.left*2-scbw).css({overflow:'',height:''});
 	}
 }
 

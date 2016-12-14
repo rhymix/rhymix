@@ -4,6 +4,8 @@
     {$content}
 </div>
 <script>
-	jQuery(window).load(setFixedPopupSize);
+	jQuery(function() {
+		setTimeout(setFixedPopupSize, 500);
+	});
     var _isPoped = true;
 </script>
