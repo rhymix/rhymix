@@ -2007,7 +2007,7 @@ class memberController extends member
 		// Control of essential parameters
 		if($args->allow_mailing!='Y') $args->allow_mailing = 'N';
 		if($args->denied!='Y') $args->denied = 'N';
-		$args->allow_message= 'Y';
+		if(!in_array($args->allow_message, array('Y', 'N', 'F'))) $args->allow_message = 'Y';
 
 		if($logged_info->is_admin == 'Y')
 		{
