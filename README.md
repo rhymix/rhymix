@@ -3,7 +3,7 @@
 Rhymix(라이믹스)는 누구든지 쉽고 자유롭게 독립적인 홈페이지를 만들어
 자신을 표현하고 커뮤니티를 키워나갈 수 있도록 돕기 위한 CMS(content management system)입니다.
 
-XETOWN 커뮤니티에서 [XE](https://www.xpressengine.com)를 fork(가지치기)하여 진행하는 프로젝트로,
+[XpressEngine](https://www.xpressengine.com) 1.8 버전을 fork(가지치기)하여 진행하는 프로젝트로,
 누구나 무료로 사용할 수 있고 개발에 참여할 수도 있는 자유 소프트웨어(free software)입니다.
 
 Rhymix는 "시를 짓다, 운을 맞추다"라는 의미의 "rhyme"과
@@ -28,7 +28,7 @@ Rhymix는 개발자와 사용자가 서로의 권리와 책임을 존중하는 �
 - 초보자도 쉽게 클릭 몇 번으로 웹사이트를 완성할 수 있을 만큼 편리한 CMS
 - 최신 기술을 적극적으로 사용하고 속도가 빠르며 보안이 우수한 CMS
 - 커뮤니티를 통해 사용자와 개발자의 건전한 의사소통을 돕는 CMS
-- **애드온, 모듈, 위젯 등 기존 XE 서드파티 자료와의 호환성 100% 목표!**
+- 애드온, 모듈, 위젯 등 기존 XE 서드파티 자료들과의 호환성을 최대한 보장하려고 노력합니다.
 
 ### 설치 환경
 
@@ -46,9 +46,6 @@ Rhymix를 사용하려면 아래의 조건을 충족하는 웹호스팅이나 �
   - simplexml
 - php.ini에서 session.auto_start = Off로 설정되어 있어야 합니다.
 - 설치 폴더 또는 files 폴더에 쓰기 권한이 주어져야 합니다.
-- MySQL/MariaDB 외에도 아래의 DB를 사용할 수 있습니다.
-  - CUBRID 9.0 이상
-  - Microsoft SQL Server 2008 이상
 
 ### 개발 참여
 
@@ -61,8 +58,11 @@ devops@rhymix.org로 알려 주시면 감사하겠습니다.
 
 ### 공식 홈페이지
 
-- XETOWN : https://www.xetown.com
 - Rhymix : https://www.rhymix.org
+
+### 커뮤니티
+
+- XETOWN : https://www.xetown.com
 
 ### 저작권 및 라이선스
 
