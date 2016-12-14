@@ -61,6 +61,7 @@ class SQLite implements \Rhymix\Framework\Drivers\CacheInterface
 	protected function _connect($filename)
 	{
 		$this->_dbh = new \SQLite3($filename);
+		$this->_dbh->busyTimeout(250);
 		$this->_dbh->exec('PRAGMA journal_mode = MEMORY');
 		$this->_dbh->exec('PRAGMA synchronous = OFF');
 	}
@@ -89,7 +90,7 @@ class SQLite implements \Rhymix\Framework\Drivers\CacheInterface
 	 */
 	public static function isSupported()
 	{
-		return class_exists('\\SQLite3', false) && config('crypto.authentication_key') !== null;
+		return class_exists('\\SQLite3', false) && config('crypto.authentication_key') !== null && stripos(\PHP_SAPI, 'win') === false;
 	}
 	
 	/**
@@ -117,8 +118,18 @@ class SQLite implements \Rhymix\Framework\Drivers\CacheInterface
 	{
 		$table = 'cache_' . (crc32($key) % 32);
 		$stmt = $this->_dbh->prepare('SELECT v, exp FROM ' . $table . ' WHERE k = :key');
+		if (!$stmt)
+		{
+			return null;
+		}
+		
 		$stmt->bindValue(':key', $key, \SQLITE3_TEXT);
 		$result = $stmt->execute();
+		if (!$result)
+		{
+			return null;
+		}
+		
 		$row = $result->fetchArray(\SQLITE3_NUM);
 		if ($row)
 		{
@@ -154,6 +165,11 @@ class SQLite implements \Rhymix\Framework\Drivers\CacheInterface
 	{
 		$table = 'cache_' . (crc32($key) % 32);
 		$stmt = $this->_dbh->prepare('INSERT OR REPLACE INTO ' . $table . ' (k, v, exp) VALUES (:key, :val, :exp)');
+		if (!$stmt)
+		{
+			return false;
+		}
+		
 		$stmt->bindValue(':key', $key, \SQLITE3_TEXT);
 		$stmt->bindValue(':val', serialize($value), \SQLITE3_TEXT);
 		$stmt->bindValue(':exp', $ttl ? (time() + $ttl) : 0, \SQLITE3_INTEGER);
@@ -173,6 +189,11 @@ class SQLite implements \Rhymix\Framework\Drivers\CacheInterface
 	{
 		$table = 'cache_' . (crc32($key) % 32);
 		$stmt = $this->_dbh->prepare('DELETE FROM ' . $table . ' WHERE k = :key');
+		if (!$stmt)
+		{
+			return false;
+		}
+		
 		$stmt->bindValue(':key', $key, \SQLITE3_TEXT);
 		return $stmt->execute() ? true : false;
 	}
@@ -189,9 +210,19 @@ class SQLite implements \Rhymix\Framework\Drivers\CacheInterface
 	{
 		$table = 'cache_' . (crc32($key) % 32);
 		$stmt = $this->_dbh->prepare('SELECT 1 FROM ' . $table . ' WHERE k = :key AND (exp = 0 OR exp >= :exp)');
+		if (!$stmt)
+		{
+			return false;
+		}
+		
 		$stmt->bindValue(':key', $key, \SQLITE3_TEXT);
 		$stmt->bindValue(':exp', time(), \SQLITE3_INTEGER);
 		$result = $stmt->execute();
+		if (!$result)
+		{
+			return false;
+		}
+		
 		$row = $result->fetchArray(\SQLITE3_NUM);
 		if ($row)
 		{
@@ -215,14 +246,17 @@ class SQLite implements \Rhymix\Framework\Drivers\CacheInterface
 	 */
 	public function incr($key, $amount)
 	{
+		$this->_dbh->exec('BEGIN');
 		$current_value = $this->get($key);
 		$new_value = intval($current_value) + $amount;
 		if ($this->set($key, $new_value))
 		{
+			$this->_dbh->exec('COMMIT');
 			return $new_value;
 		}
 		else
 		{
+			$this->_dbh->exec('ROLLBACK');
 			return false;
 		}
 	}
