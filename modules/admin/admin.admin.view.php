@@ -490,6 +490,7 @@ class adminAdminView extends admin
 		// Load embed filter.
 		context::set('mediafilter_iframe', implode(PHP_EOL, Rhymix\Framework\Filters\MediaFilter::getIframeWhitelist()));
 		context::set('mediafilter_object', implode(PHP_EOL, Rhymix\Framework\Filters\MediaFilter::getObjectWhitelist()));
+		context::set('mediafilter_classes', implode(PHP_EOL, Rhymix\Framework\Config::get('mediafilter.classes') ?: array()));
 		
 		// Admin IP access control
 		$allowed_ip = Rhymix\Framework\Config::get('admin.allow');
