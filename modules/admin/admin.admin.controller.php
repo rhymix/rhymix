@@ -690,6 +690,14 @@ class adminAdminController extends admin
 		natcasesort($object_whitelist);
 		Rhymix\Framework\Config::set('mediafilter.object', array_values($object_whitelist));
 		
+		// HTML classes
+		$classes = $vars->mediafilter_classes;
+		$classes = array_filter(array_map('trim', preg_split('/[\r\n]/', $classes)), function($item) {
+			return preg_match('/^[a-zA-Z0-9_-]+$/u', $item);
+		});
+		natcasesort($classes);
+		Rhymix\Framework\Config::set('mediafilter.classes', array_values($classes));
+		
 		// Remove old embed filter
 		$config = Rhymix\Framework\Config::getAll();
 		unset($config['embedfilter']);

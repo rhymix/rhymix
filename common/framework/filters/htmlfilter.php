@@ -2,6 +2,7 @@
 
 namespace Rhymix\Framework\Filters;
 
+use Rhymix\Framework\Config;
 use Rhymix\Framework\Security;
 use Rhymix\Framework\Storage;
 
@@ -11,9 +12,9 @@ use Rhymix\Framework\Storage;
 class HTMLFilter
 {
 	/**
-	 * HTMLPurifier instance is cached here.
+	 * HTMLPurifier instances are cached here.
 	 */
-	protected static $_htmlpurifier;
+	protected static $_instances = array();
 	
 	/**
 	 * Pre-processing and post-processing filters are stored here.
@@ -69,18 +70,26 @@ class HTMLFilter
 	 * Filter HTML content to block XSS attacks.
 	 * 
 	 * @param string $input
+	 * @param bool $allow_editor_components (optional)
+	 * @param bool $allow_widgets (optional)
 	 * @return string
 	 */
-	public static function clean($input)
+	public static function clean($input, $allow_editor_components = true, $allow_widgets = false)
 	{
 		foreach (self::$_preproc as $callback)
 		{
 			$input = $callback($input);
 		}
 		
-		$input = self::_preprocess($input);
-		$output = self::getHTMLPurifier()->purify($input);
-		$output = self::_postprocess($output);
+		$allowed_classes = Config::get('mediafilter.classes') ?: array();
+		if ($allow_widgets)
+		{
+			$allowed_classes[] = 'zbxe_widget_output';
+		}
+		
+		$input = self::_preprocess($input, $allow_editor_components, $allow_widgets);
+		$output = self::getHTMLPurifier($allowed_classes)->purify($input);
+		$output = self::_postprocess($output, $allow_editor_components, $allow_widgets);
 		
 		foreach (self::$_postproc as $callback)
 		{
@@ -93,18 +102,24 @@ class HTMLFilter
 	/**
 	 * Get an instance of HTMLPurifier.
 	 * 
+	 * @param array $allowed_classes (optional)
 	 * @return object
 	 */
-	public static function getHTMLPurifier()
+	public static function getHTMLPurifier($allowed_classes = array())
 	{
+		// Keep separate instances for different sets of allowed classes.
+		$allowed_classes = array_unique($allowed_classes);
+		sort($allowed_classes);
+		$key = sha1(serialize($allowed_classes));
+		
 		// Create an instance with reasonable defaults.
-		if (self::$_htmlpurifier === null)
+		if (!isset(self::$_instances[$key]))
 		{
 			// Get the default configuration.
 			$config = \HTMLPurifier_Config::createDefault();
 			
 			// Customize the default configuration.
-			$config->set('Attr.AllowedClasses', array());
+			$config->set('Attr.AllowedClasses', $allowed_classes);
 			$config->set('Attr.AllowedFrameTargets', array('_blank'));
 			$config->set('Attr.DefaultImageAlt', '');
 			$config->set('Attr.EnableID', true);
@@ -144,11 +159,11 @@ class HTMLFilter
 			self::_supportCSS3($config);
 			
 			// Cache our instance of HTMLPurifier.
-			self::$_htmlpurifier = new \HTMLPurifier($config);
+			self::$_instances[$key] = new \HTMLPurifier($config);
 		}
 		
 		// Return the cached instance.
-		return self::$_htmlpurifier;
+		return self::$_instances[$key];
 	}
 	
 	/**
@@ -379,12 +394,17 @@ class HTMLFilter
 	 * Rhymix-specific preprocessing method.
 	 * 
 	 * @param string $content
+	 * @param bool $allow_editor_components (optional)
+	 * @param bool $allow_widgets (optional)
 	 * @return string
 	 */
-	protected static function _preprocess($content)
+	protected static function _preprocess($content, $allow_editor_components = true, $allow_widgets = false)
 	{
 		// Encode widget and editor component properties so that they are not removed by HTMLPurifier.
-		$content = self::_encodeWidgetsAndEditorComponents($content);
+		if ($allow_editor_components || $allow_widgets)
+		{
+			$content = self::_encodeWidgetsAndEditorComponents($content, $allow_editor_components, $allow_widgets);
+		}
 		return $content;
 	}
 	
@@ -392,9 +412,11 @@ class HTMLFilter
 	 * Rhymix-specific postprocessing method.
 	 * 
 	 * @param string $content
+	 * @param bool $allow_editor_components (optional)
+	 * @param bool $allow_widgets (optional)
 	 * @return string
 	 */
-	protected static function _postprocess($content)
+	protected static function _postprocess($content, $allow_editor_components = true, $allow_widgets = false)
 	{
 		// Define acts to allow and deny.
 		$allow_acts = array('procFileDownload');
@@ -436,7 +458,7 @@ class HTMLFilter
 		}, $content);
 		
 		// Restore widget and editor component properties.
-		$content = self::_decodeWidgetsAndEditorComponents($content);
+		$content = self::_decodeWidgetsAndEditorComponents($content, $allow_editor_components, $allow_widgets);
 		return $content;
 	}
 	
@@ -444,11 +466,27 @@ class HTMLFilter
 	 * Encode widgets and editor components before processing.
 	 * 
 	 * @param string $content
+	 * @param bool $allow_editor_components (optional)
+	 * @param bool $allow_widgets (optional)
 	 * @return string
 	 */
-	protected static function _encodeWidgetsAndEditorComponents($content)
+	protected static function _encodeWidgetsAndEditorComponents($content, $allow_editor_components = true, $allow_widgets = false)
 	{
-		return preg_replace_callback('!<(div|img)([^>]*)(editor_component="[^"]+"|class="zbxe_widget_output")([^>]*)>!i', function($match) {
+		$regexp = array();
+		if ($allow_editor_components)
+		{
+			$regexp[] = 'editor_component="[^"]+"';
+		}
+		if ($allow_widgets)
+		{
+			$regexp[] = 'class="zbxe_widget_output"';
+		}
+		if (!count($regexp))
+		{
+			return $content;
+		}
+		
+		return preg_replace_callback('!<(div|img)([^>]*)(' . implode('|', $regexp) . ')([^>]*)>!i', function($match) {
 			$tag = strtolower($match[1]);
 			$attrs = array();
 			$html = preg_replace_callback('!([a-zA-Z0-9_-]+)="([^"]+)"!', function($attr) use($tag, &$attrs) {
@@ -477,10 +515,25 @@ class HTMLFilter
 	 * Decode widgets and editor components after processing.
 	 * 
 	 * @param string $content
+	 * @param bool $allow_editor_components (optional)
+	 * @param bool $allow_widgets (optional)
 	 * @return string
 	 */
-	protected static function _decodeWidgetsAndEditorComponents($content)
+	protected static function _decodeWidgetsAndEditorComponents($content, $allow_editor_components = true, $allow_widgets = false)
 	{
+		if (!$allow_editor_components)
+		{
+			$content = preg_replace('!(<(?:div|img)[^>]*)\s(editor_component="(?:[^"]+)")!i', '$1', $content);
+		}
+		if (!$allow_widgets)
+		{
+			$content = preg_replace('!(<(?:div|img)[^>]*)\s(widget="(?:[^"]+)")!i', '$1blocked-$2', $content);
+		}
+		if (!$allow_editor_components && !$allow_widgets)
+		{
+			return $content;
+		}
+		
 		return preg_replace_callback('!<(div|img)([^>]*)(\srx_encoded_properties="([^"]+)")!i', function($match) {
 			$attrs = array();
 			$decoded_properties = Security::decrypt($match[4]);
