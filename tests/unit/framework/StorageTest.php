@@ -362,7 +362,7 @@ class StorageTest extends \Codeception\TestCase\Test
 		
 		if (strncasecmp(\PHP_OS, 'Win', 3) !== 0)
 		{
-			if (get_current_user() === exec('whoami'))
+			if (fileowner(__FILE__) == exec('id -u'))
 			{
 				$this->assertEquals('0022', $umask);
 			}
