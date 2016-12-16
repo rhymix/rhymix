@@ -178,6 +178,10 @@ class communicationView extends communication
 		{
 			return $this->stop('msg_invalid_request');
 		}
+		if(!getModel('communication')->checkGrant($this->config->grant_send))
+		{
+			return $this->stop('msg_not_permitted');
+		}
 		
 		// Error appears if not logged-in
 		if(!Context::get('is_logged'))
