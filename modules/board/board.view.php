@@ -673,6 +673,7 @@ class boardView extends board
 			$group_srls_count = count($group_srls);
 
 			// check the grant after obtained the category list
+			$category_list = array();
 			$normal_category_list = $oDocumentModel->getCategoryList($this->module_srl);
 			if(count($normal_category_list))
 			{
@@ -689,7 +690,24 @@ class boardView extends board
 					if($is_granted) $category_list[$category_srl] = $category;
 				}
 			}
-			Context::set('category_list', $category_list);
+			
+			// check if at least one category is granted
+			$grant_exists = false;
+			foreach ($category_list as $category)
+			{
+				if ($category->grant)
+				{
+					$grant_exists = true;
+				}
+			}
+			if ($grant_exists)
+			{
+				Context::set('category_list', $category_list);
+			}
+			else
+			{
+				Context::set('category_list', array());
+			}
 		}
 
 		// GET parameter document_srl from request
