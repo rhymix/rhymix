@@ -175,6 +175,7 @@ class fileModel extends file
 		if(!$config->allow_outlink) $config->allow_outlink = 'Y';
 		if(!$config->download_grant) $config->download_grant = array();
 
+		/*
 		$size = ini_get('upload_max_filesize');
 		$unit = strtolower($size[strlen($size) - 1]);
 		$size = (float)$size;
@@ -189,6 +190,7 @@ class fileModel extends file
 		{
 			$config->allowed_attach_size = $size;
 		}
+		*/
 		
 		return $config;
 	}
@@ -286,11 +288,13 @@ class fileModel extends file
 
 		if($logged_info->is_admin == 'Y')
 		{
+			/*
 			$iniPostMaxSize = FileHandler::returnbytes(ini_get('post_max_size'));
 			$iniUploadMaxSize = FileHandler::returnbytes(ini_get('upload_max_filesize'));
 			$size = min($iniPostMaxSize, $iniUploadMaxSize) / 1048576;
 			$file_config->allowed_attach_size = $size;
 			$file_config->allowed_filesize = $size;
+			*/
 			$file_config->allowed_filetypes = '*.*';
 		}
 		return $file_config;
