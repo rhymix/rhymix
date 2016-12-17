@@ -567,6 +567,24 @@ class commentItem extends Object
 			return;
 		}
 
+		// Get thumbnai_type information from document module's configuration
+		if(!in_array($thumbnail_type, array('crop', 'ratio', 'none')))
+		{
+			$config = $GLOBALS['__document_config__'];
+			if(!$config)
+			{
+				$oDocumentModel = getModel('document');
+				$config = $oDocumentModel->getDocumentConfig();
+				$GLOBALS['__document_config__'] = $config;
+			}
+			$thumbnail_type = $config->thumbnail_type ?: 'crop';
+		}
+		
+		if ($thumbnail_type === 'none')
+		{
+			return;
+		}
+		
 		if($this->isSecret() && !$this->isGranted())
 		{
 			return;
@@ -582,12 +600,6 @@ class commentItem extends Object
 		if(!$this->hasUploadedFiles() && !preg_match("!<img!is", $this->get('content')))
 		{
 			return;
-		}
-
-		// get thumbail generation info on the doc module configuration.
-		if(!in_array($thumbnail_type, array('crop', 'ratio')))
-		{
-			$thumbnail_type = 'crop';
 		}
 
 		// Define thumbnail information
