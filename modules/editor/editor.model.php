@@ -305,6 +305,8 @@ class editorModel extends editor
 			$file_config = $oFileModel->getUploadConfig();
 			$file_config->allowed_attach_size = $file_config->allowed_attach_size*1024*1024;
 			$file_config->allowed_filesize = $file_config->allowed_filesize*1024*1024;
+			$file_config->allowed_chunk_size = min(FileHandler::returnBytes(ini_get('upload_max_filesize')), FileHandler::returnBytes(ini_get('post_max_size')) * 0.95, 100 * 1024 * 1024);
+			$file_config->allowed_chunk_size = floor($file_config->allowed_chunk_size / 131072) * 131072;
 
 			Context::set('file_config',$file_config);
 			// Configure upload status such as file size

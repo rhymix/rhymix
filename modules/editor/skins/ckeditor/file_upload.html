@@ -56,7 +56,7 @@
 		// uploader
 		var setting = {
 			maxFileSize: {$file_config->allowed_filesize},
-			maxChunkSize: 0,
+			maxChunkSize: {$file_config->allowed_chunk_size},
 			singleFileUploads: true
 		};
 		$container = $('#xefu-container-{$editor_sequence}');
