@@ -95,6 +95,10 @@ class editorModel extends editor
 		{
 			$editor_config->content_word_break = $editor_default_config->content_word_break;
 		}
+		if((!$editor_config->autoinsert_image && $editor_default_config->autoinsert_image) || $editor_config->default_editor_settings === 'Y')
+		{
+			$editor_config->autoinsert_image = $editor_default_config->autoinsert_image;
+		}
 		if((!$editor_config->sel_editor_colorset && $editor_default_config->sel_editor_colorset) || $editor_config->default_editor_settings === 'Y')
 		{
 			$editor_config->sel_editor_colorset = $editor_default_config->sel_editor_colorset;
@@ -239,6 +243,7 @@ class editorModel extends editor
 		Context::set('content_line_height', $option->content_line_height);
 		Context::set('content_paragraph_spacing', $option->content_paragraph_spacing);
 		Context::set('content_word_break', $option->content_word_break);
+		Context::set('editor_autoinsert_image', $option->autoinsert_image);
 		Context::set('editor_additional_css', $option->additional_css);
 
 		// Option setting to allow auto-save
@@ -430,6 +435,7 @@ class editorModel extends editor
 			$config->content_line_height = $editor_config->content_line_height;
 			$config->content_paragraph_spacing = $editor_config->content_paragraph_spacing;
 			$config->content_word_break = $editor_config->content_word_break;
+			$config->autoinsert_image = $editor_config->autoinsert_image;
 			$config->sel_editor_colorset = $editor_config->sel_editor_colorset;
 			$config->upload_file_grant = $editor_config->upload_file_grant;
 			$config->enable_default_component_grant = $editor_config->enable_default_component_grant;
@@ -448,6 +454,7 @@ class editorModel extends editor
 			$config->content_line_height = $editor_config->content_line_height;
 			$config->content_paragraph_spacing = $editor_config->content_paragraph_spacing;
 			$config->content_word_break = $editor_config->content_word_break;
+			$config->autoinsert_image = $editor_config->autoinsert_image;
 			$config->sel_editor_colorset = $editor_config->sel_comment_editor_colorset;
 			$config->upload_file_grant = $editor_config->comment_upload_file_grant;
 			$config->enable_default_component_grant = $editor_config->enable_comment_default_component_grant;
@@ -477,6 +484,7 @@ class editorModel extends editor
 		$option->content_line_height = $config->content_line_height;
 		$option->content_paragraph_spacing = $config->content_paragraph_spacing;
 		$option->content_word_break = $config->content_word_break;
+		$option->autoinsert_image = $config->autoinsert_image;
 		$option->additional_css = $config->additional_css;
 		$option->colorset = $config->sel_editor_colorset;
 		// Permission check for file upload

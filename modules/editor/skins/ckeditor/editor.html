@@ -126,7 +126,7 @@ var auto_saved_msg = "{$lang->msg_auto_saved}";
 			settings.loadXeComponent = false;
 		<!--@endif-->
 
-		<!--@if($module_type === 'comment' || $m)-->
+		<!--@if($module_type === 'comment' || Rhymix\Framework\UA::isMobile())-->
 			settings.ckeconfig.toolbarStartupExpanded = false;
 		<!--@endif-->
 		

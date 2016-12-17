@@ -144,10 +144,12 @@
 					if(result.error == 0) {
 						if(/\.(jpe?g|png|gif)$/i.test(result.source_filename)) {
 							temp_code += '<img src="' + result.download_url + '" alt="' + result.source_filename + '" editor_component="image_link" data-file-srl="' + result.file_srl + '" />';
-							temp_code += "\r\n<p><br></p>\r\n";
+							if (opt.autoinsertImage === 'paragraph') {
+								_getCkeInstance(settings.formData.editor_sequence).insertHtml("<p>" + temp_code + "</p>\n", "unfiltered_html");
+							} else if (opt.autoinsertImage === 'inline') {
+								_getCkeInstance(settings.formData.editor_sequence).insertHtml(temp_code, "unfiltered_html");
+							}
 						}
-
-						_getCkeInstance(settings.formData.editor_sequence).insertHtml(temp_code, "unfiltered_html");
 					} else if (result.message) {
 						alert(result.message);
 						return false;

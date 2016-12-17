@@ -56,7 +56,8 @@
 		// uploader
 		var setting = {
 			maxFileSize: {$logged_info->is_admin === 'Y' ? 0 : $file_config->allowed_filesize},
-			maxChunkSize: {$file_config->allowed_chunk_size},
+			maxChunkSize: {$file_config->allowed_chunk_size ?: 0},
+			autoinsertImage: {json_encode($editor_autoinsert_image ?: 'paragraph')},
 			singleFileUploads: true
 		};
 		$container = $('#xefu-container-{$editor_sequence}');
