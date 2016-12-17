@@ -118,7 +118,7 @@
 				},
 				chunkfail: function(e, data) {
 					if (chunkStatus) {
-						alert(window.xe.msg_file_upload_error + " (Type 3)" + "\n" + data.errorThrown + "\n" + data.textStatus);
+						alert(window.xe.msg_file_upload_error + " (Type 3)" + "<br>\n" + data.errorThrown + "<br>\n" + data.textStatus);
 						return chunkStatus = false;
 					}
 				},
@@ -133,7 +133,7 @@
 						result = jQuery.parseJSON(result);
 					}
 					if (!result) {
-						alert(window.xe.msg_file_upload_error + " (Type 5)");
+						alert(window.xe.msg_file_upload_error + " (Type 5)" + "<br>\n" + res.response().result);
 						return false;
 					}
 
@@ -148,13 +148,13 @@
 						alert(result.message);
 						return false;
 					} else {
-						alert(window.xe.msg_file_upload_error + " (Type 6)");
+						alert(window.xe.msg_file_upload_error + " (Type 6)" + "<br>\n" + res.response().result);
 						return false;
 					}
 				},
 				fail: function(e, data) {
 					if (chunkStatus) {
-						alert(window.xe.msg_file_upload_error + " (Type 7)" + "\n" + data.errorThrown + "\n" + data.textStatus);
+						alert(window.xe.msg_file_upload_error + " (Type 7)" + "<br>\n" + data.errorThrown + "<br>\n" + data.textStatus);
 						return false;
 					}
 				},

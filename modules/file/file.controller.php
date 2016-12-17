@@ -58,13 +58,15 @@ class fileController extends file
 		if (preg_match('!^bytes (\d+)-(\d+)/(\d+)$!', $_SERVER['HTTP_CONTENT_RANGE'], $matches))
 		{
 			// Check basic sanity
-			$chunk_start = $matches[1];
+			$chunk_start = intval($matches[1]);
 			$chunk_size = ($matches[2] - $matches[1]) + 1;
-			$total_size = $matches[3];
+			$total_size = intval($matches[3]);
 			if ($chunk_start < 0 || $chunk_size < 0 || $total_size < 0 || $chunk_start + $chunk_size > $total_size || $chunk_size != $file_info['size'])
 			{
 				return new Object(-1, 'msg_upload_invalid_chunk');
 			}
+			$this->add('chunk_current_size', $chunk_size);
+			$this->add('chunk_uploaded_size', $chunk_start);
 			
 			// Check existing chunks
 			$nonce = Context::get('nonce');
@@ -73,16 +75,13 @@ class fileController extends file
 			if ($chunk_start == 0 && Rhymix\Framework\Storage::isFile($temp_filename))
 			{
 				Rhymix\Framework\Storage::delete($temp_filename);
+				$this->add('chunk_status', 11);
 				return new Object(-1, 'msg_upload_invalid_chunk');
 			}
 			if ($chunk_start != 0 && (!Rhymix\Framework\Storage::isFile($temp_filename) || Rhymix\Framework\Storage::getSize($temp_filename) != $chunk_start))
 			{
 				Rhymix\Framework\Storage::delete($temp_filename);
-				return new Object(-1, 'msg_upload_invalid_chunk');
-			}
-			if ($chunk_start >= 2 * 1024 * 1024)
-			{
-				Rhymix\Framework\Storage::delete($temp_filename);
+				$this->add('chunk_status', 12);
 				return new Object(-1, 'msg_upload_invalid_chunk');
 			}
 			
@@ -95,11 +94,13 @@ class fileController extends file
 				$allowed_filesize = $module_config->allowed_filesize * 1024 * 1024;
 				if ($total_size > $allowed_filesize)
 				{
+					$this->add('chunk_status', 21);
 					return new Object(-1, 'msg_exceeds_limit_size');
 				}
 				$output = executeQuery('file.getAttachedFileSize', (object)array('upload_target_srl' => $upload_target_srl));
 				if (intval($output->data->attached_size) + $total_size > $allowed_attach_size)
 				{
+					$this->add('chunk_status', 22);
 					return new Object(-1, 'msg_exceeds_limit_size');
 				}
 			}
@@ -109,6 +110,8 @@ class fileController extends file
 			$success = Rhymix\Framework\Storage::write($temp_filename, $fp, 'a');
 			if ($success && Rhymix\Framework\Storage::getSize($temp_filename) == $chunk_start + $chunk_size)
 			{
+				$this->add('chunk_status', 0);
+				$this->add('chunk_uploaded_size', $chunk_start + $chunk_size);
 				if ($chunk_start + $chunk_size == $total_size)
 				{
 					$file_info['tmp_name'] = $temp_filename;
@@ -122,8 +125,13 @@ class fileController extends file
 			else
 			{
 				Rhymix\Framework\Storage::delete($temp_filename);
+				$this->add('chunk_status', 40);
 				return new Object(-1, 'msg_upload_invalid_chunk');
 			}
+		}
+		else
+		{
+			$this->add('chunk_status', -1);
 		}
 		
 		// Save the file
@@ -805,26 +813,27 @@ class fileController extends file
 		// Set upload path by checking if the attachement is an image or other kinds of file
 		if(preg_match("/\.(jpe?g|gif|png|wm[va]|mpe?g|avi|swf|flv|mp[1-4]|as[fx]|wav|midi?|moo?v|qt|r[am]{1,2}|m4v)$/i", $file_info['name']))
 		{
-			$path = sprintf("./files/attach/images/%s/%s", $module_srl,getNumberingPath($upload_target_srl,3));
+			$path = RX_BASEDIR . sprintf("files/attach/images/%s/%s", $module_srl,getNumberingPath($upload_target_srl,3));
 
 			// special character to '_'
 			// change to random file name. because window php bug. window php is not recognize unicode character file name - by cherryfilter
 			$ext = substr(strrchr($file_info['name'],'.'),1);
 			//$_filename = preg_replace('/[#$&*?+%"\']/', '_', $file_info['name']);
-			$_filename = Rhymix\Framework\Security::getRandom(32, 'hex') . '.' . $ext;
-			$filename  = $path.$_filename;
-			$idx = 1;
+			$filename = $path . Rhymix\Framework\Security::getRandom(32, 'hex') . '.' . $ext;
 			while(file_exists($filename))
 			{
-				$filename = $path.preg_replace('/\.([a-z0-9]+)$/i','_'.$idx.'.$1',$_filename);
-				$idx++;
+				$filename = $path . Rhymix\Framework\Security::getRandom(32, 'hex') . '.' . $ext;
 			}
 			$direct_download = 'Y';
 		}
 		else
 		{
-			$path = sprintf("./files/attach/binaries/%s/%s", $module_srl, getNumberingPath($upload_target_srl,3));
+			$path = RX_BASEDIR . sprintf("files/attach/binaries/%s/%s", $module_srl, getNumberingPath($upload_target_srl,3));
 			$filename = $path . Rhymix\Framework\Security::getRandom(32, 'hex');
+			while(file_exists($filename))
+			{
+				$filename = $path . Rhymix\Framework\Security::getRandom(32, 'hex');
+			}
 			$direct_download = 'N';
 		}
 
@@ -835,7 +844,6 @@ class fileController extends file
 		}
 		
 		// Move the file
-		$filename = $path . Rhymix\Framework\Security::getRandom(32, 'hex') . '.' . $ext;
 		if($manual_insert)
 		{
 			@copy($file_info['tmp_name'], $filename);
