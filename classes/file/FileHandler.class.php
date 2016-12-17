@@ -256,12 +256,22 @@ class FileHandler
 			return $size . 'Bytes';
 		}
 
-		if($size >= 1024 && $size < 1024 * 1024)
+		if($size >= 1024 && $size < (1024 * 1024))
 		{
 			return sprintf("%0.1fKB", $size / 1024);
 		}
 
-		return sprintf("%0.2fMB", $size / (1024 * 1024));
+		if($size >= (1024 * 1024) && $size < (1024 * 1024 * 1024))
+		{
+			return sprintf("%0.2fMB", $size / (1024 * 1024));
+		}
+
+		if($size >= (1024 * 1024 * 1024) && $size < (1024 * 1024 * 1024 * 1024))
+		{
+			return sprintf("%0.2fGB", $size / (1024 * 1024 * 1024));
+		}
+
+		return sprintf("%0.2fTB", $size / (1024 * 1024 * 1024 * 1024));
 	}
 
 	/**
