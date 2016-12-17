@@ -123,6 +123,10 @@
 					}
 				},
 				done: function(e, res) {
+					data.settings.progressbarGraph.width('100%');
+					data.settings.progressPercent.text('100%');
+					data.settings.progressbar.delay(1000).slideUp();
+					data.settings.progressStatus.delay(1000).slideUp();
 					var result = res.response().result;
 					var temp_code = '';
 					if (!result) {
@@ -153,6 +157,8 @@
 					}
 				},
 				fail: function(e, data) {
+					data.settings.progressbar.delay(1000).slideUp();
+					data.settings.progressStatus.delay(1000).slideUp();
 					if (chunkStatus) {
 						alert(window.xe.msg_file_upload_error + " (Type 7)" + "<br>\n" + data.errorThrown + "<br>\n" + data.textStatus);
 						return false;
@@ -167,14 +173,9 @@
 					data.settings.progressbar.show();
 				},
 				progressall: function (e, d) {
-					var progress = parseInt(d.loaded / d.total * 100, 10);
+					var progress = Math.round(d.loaded / d.total * 999) / 10;
 					data.settings.progressbarGraph.width(progress+'%');
 					data.settings.progressPercent.text(progress+'%');
-
-					if(progress >= 100) {
-						data.settings.progressbar.delay(3000).slideUp();
-						data.settings.progressStatus.delay(3000).slideUp();
-					}
 				}
 			};
 			window.enforce_ssl = currentEnforce_ssl;
