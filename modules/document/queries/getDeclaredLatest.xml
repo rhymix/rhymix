@@ -1,0 +1,22 @@
+<query id="getDeclaredLatest" action="select">
+    <tables>
+        <table name="document_declared_log" alias="document_declared_log" />
+    </tables>
+    <columns>
+        <column name="document_srl" />
+		<column name="count(*)" alias="declared_count" />
+		<column name="max(regdate)" alias="latest_declared" />
+    </columns>
+    <conditions>
+        <condition operation="in" column="document_srl" var="document_srls" />
+    </conditions>
+    <groups>
+        <group column="document_srl" />
+    </groups>
+    <navigation>
+        <index var="sort_index" default="latest_declared" order="order_type" />
+        <list_count var="list_count" default="20" />
+        <page_count var="page_count" default="10" />
+        <page var="page" default="1" />
+    </navigation>
+</query>

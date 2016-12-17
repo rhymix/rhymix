@@ -147,31 +147,66 @@ class documentAdminView extends document
 	 */
 	function dispDocumentAdminDeclared()
 	{
-		// option for a list
-		$args =new stdClass();
-		$args->page = Context::get('page'); // /< Page
-		$args->list_count = 30; // /< the number of posts to display on a single page
-		$args->page_count = 10; // /< the number of pages that appear in the page navigation
-
-		$args->sort_index = 'document_declared.declared_count'; // /< sorting values
-		$args->order_type = 'desc'; // /< sorting values by order
-
 		// get Status name list
 		$oDocumentModel = getModel('document');
 		$statusNameList = $oDocumentModel->getStatusNameList();
 
-		// get a list
-		$declared_output = executeQuery('document.getDeclaredList', $args);
-		if($declared_output->data && count($declared_output->data))
+		// option for a list
+		$args = new stdClass();
+		$args->page = Context::get('page'); // /< Page
+		$args->list_count = 30; // /< the number of posts to display on a single page
+		$args->page_count = 10; // /< the number of pages that appear in the page navigation
+		$args->order_type = strtolower(Context::get('order_type')) === 'asc' ? 'asc' : 'desc';
+		
+		// get latest declared list
+		if (Context::get('sort_index') === 'declared_latest')
 		{
-			$document_list = array();
-
-			foreach($declared_output->data as $key => $document)
+			$declared_output = executeQueryArray('document.getDeclaredLatest', $args);
+			if ($declared_output->data && count($declared_output->data))
 			{
-				$document_list[$key] = new documentItem();
-				$document_list[$key]->setAttribute($document);
+				$args->document_srls = array_map(function($item) { return $item->document_srl; }, $declared_output->data);
+				$documents = executeQueryArray('document.getDocuments', $args);
+				$document_list = array();
+				foreach ($declared_output->data as $key => $declared_info)
+				{
+					foreach ($documents->data as $document)
+					{
+						if ($document->document_srl == $declared_info->document_srl)
+						{
+							$document->declared_count = $declared_info->declared_count;
+							$document->latest_declared = $declared_info->latest_declared;
+							$document_list[$key] = new documentItem();
+							$document_list[$key]->setAttribute($document);
+							break;
+						}
+					}
+				}
+				$declared_output->data = $document_list;
 			}
-			$declared_output->data = $document_list;
+		}
+		else
+		{
+			$declared_output = executeQueryArray('document.getDeclaredList', $args);
+			if ($declared_output->data && count($declared_output->data))
+			{
+				$args->document_srls = array_map(function($item) { return $item->document_srl; }, $declared_output->data);
+				$declared_latest = executeQueryArray('document.getDeclaredLatest', $args);
+				$document_list = array();
+				foreach ($declared_output->data as $key => $document)
+				{
+					foreach ($declared_latest->data as $key => $declared_info)
+					{
+						if ($document->document_srl == $declared_info->document_srl)
+						{
+							$document->declared_count = $declared_info->declared_count;
+							$document->latest_declared = $declared_info->latest_declared;
+							$document_list[$key] = new documentItem();
+							$document_list[$key]->setAttribute($document);
+						}
+					}
+				}
+				$declared_output->data = $document_list;
+			}
 		}
 
 		// Set values of document_model::getDocumentList() objects for a template
