@@ -300,8 +300,8 @@ class editorModel extends editor
 		$files_count = 0;
 		if($allow_fileupload)
 		{
+			// Get file upload limits
 			$oFileModel = getModel('file');
-			// Get upload configuration to set on SWFUploader
 			$file_config = $oFileModel->getUploadConfig();
 			$file_config->allowed_attach_size = $file_config->allowed_attach_size*1024*1024;
 			$file_config->allowed_filesize = $file_config->allowed_filesize*1024*1024;
@@ -317,6 +317,14 @@ class editorModel extends editor
 			else
 			{
 				$file_config->allowed_chunk_size = floor($file_config->allowed_chunk_size / 65536) * 65536;
+			}
+			
+			// Do not allow chunked uploads in IE < 10, Android browser, and Opera
+			$browser = Rhymix\Framework\UA::getBrowserInfo();
+			if (($browser->browser === 'IE' && version_compare($browser->version, '10', '<')) || $browser->browser === 'Android' || $browser->browser === 'Opera')
+			{
+				$file_config->allowed_filesize = min(FileHandler::returnBytes(ini_get('upload_max_filesize')), FileHandler::returnBytes(ini_get('post_max_size')));
+				$file_config->allowed_chunk_size = 0;
 			}
 
 			Context::set('file_config',$file_config);
