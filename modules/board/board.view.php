@@ -706,6 +706,7 @@ class boardView extends board
 			}
 			else
 			{
+				$this->module_info->use_category = 'N';
 				Context::set('category_list', array());
 			}
 		}
