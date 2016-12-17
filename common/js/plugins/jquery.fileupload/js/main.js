@@ -343,6 +343,7 @@
 			var obj = {};
 			obj.mid = window.current_mid;
 			obj.editor_sequence = data.editorSequence;
+			obj.allow_chunks = 'Y';
 
 			$.exec_json('file.getFileList', obj, function(res){
 				data.uploadTargetSrl = res.upload_target_srl;

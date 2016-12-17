@@ -326,6 +326,13 @@ class editorModel extends editor
 				$file_config->allowed_filesize = min(FileHandler::returnBytes(ini_get('upload_max_filesize')), FileHandler::returnBytes(ini_get('post_max_size')));
 				$file_config->allowed_chunk_size = 0;
 			}
+			
+			// Do not allow chunked uploads in XpressEditor.
+			if (starts_with($option->skin, 'xpresseditor'))
+			{
+				$file_config->allowed_filesize = min(FileHandler::returnBytes(ini_get('upload_max_filesize')), FileHandler::returnBytes(ini_get('post_max_size')));
+				$file_config->allowed_chunk_size = 0;
+			}
 
 			Context::set('file_config',$file_config);
 			// Configure upload status such as file size

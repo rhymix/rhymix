@@ -309,6 +309,15 @@ class fileModel extends file
 	function getUploadStatus($attached_size = 0)
 	{
 		$file_config = $this->getUploadConfig();
+		if (Context::get('allow_chunks') === 'Y')
+		{
+			$allowed_filesize = $file_config->allowed_filesize * 1024 * 1024;
+		}
+		else
+		{
+			$allowed_filesize = min(FileHandler::returnBytes(ini_get('upload_max_filesize')), FileHandler::returnBytes(ini_get('post_max_size')));
+		}
+		
 		// Display upload status
 		$upload_status = sprintf(
 			'%s : %s/ %s<br /> %s : %s (%s : %s)',
@@ -316,7 +325,7 @@ class fileModel extends file
 			FileHandler::filesize($attached_size),
 			FileHandler::filesize($file_config->allowed_attach_size*1024*1024),
 			lang('allowed_filesize'),
-			FileHandler::filesize($file_config->allowed_filesize*1024*1024),
+			FileHandler::filesize($allowed_filesize),
 			lang('allowed_filetypes'),
 			$file_config->allowed_filetypes
 		);
