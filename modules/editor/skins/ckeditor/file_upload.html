@@ -55,7 +55,7 @@
 	jQuery(function($){
 		// uploader
 		var setting = {
-			maxFileSize: {$file_config->allowed_filesize},
+			maxFileSize: {$logged_info->is_admin === 'Y' ? 0 : $file_config->allowed_filesize},
 			maxChunkSize: {$file_config->allowed_chunk_size},
 			singleFileUploads: true
 		};

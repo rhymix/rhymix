@@ -144,6 +144,13 @@ class fileAdminController extends file
 		if($userFileAllowSize > $iniMinSzie || $userAttachAllowSize > $iniMinSzie)
 			return new Object(-1, 'input size over than config in php.ini');
 		*/
+		if (PHP_INT_SIZE < 8)
+		{
+			if ($file_config->allowed_filesize > 2047 || $file_config->allowed_attach_size > 2047)
+			{
+				return new Object(-1, 'msg_32bit_max_2047mb');
+			}
+		}
 		
 		$oModuleController = getController('module');
 		for($i=0;$i<count($module_srl);$i++)

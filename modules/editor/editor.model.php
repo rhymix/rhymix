@@ -305,6 +305,10 @@ class editorModel extends editor
 			$file_config = $oFileModel->getUploadConfig();
 			$file_config->allowed_attach_size = $file_config->allowed_attach_size*1024*1024;
 			$file_config->allowed_filesize = $file_config->allowed_filesize*1024*1024;
+			if (PHP_INT_SIZE < 8)
+			{
+				$file_config->allowed_filesize = min($file_config->allowed_filesize, 2147483647);
+			}
 			$file_config->allowed_chunk_size = min(FileHandler::returnBytes(ini_get('upload_max_filesize')), FileHandler::returnBytes(ini_get('post_max_size')) * 0.95, 64 * 1024 * 1024);
 			if ($file_config->allowed_chunk_size > 4 * 1048576)
 			{
