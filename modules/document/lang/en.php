@@ -1,8 +1,6 @@
 <?php
 $lang->document_list = 'Documents List';
 $lang->thumbnail_type = 'Thumbnail Type';
-$lang->thumbnail_crop = 'Crop (to a specific size)';
-$lang->thumbnail_ratio = 'Ratio (keeping the same aspect ratio as the original image)';
 $lang->cmd_delete_all_thumbnail = 'Delete all thumbnails';
 $lang->title_bold = 'Bold';
 $lang->title_color = 'Color';
