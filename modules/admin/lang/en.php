@@ -216,6 +216,7 @@ $lang->input_footer_script = 'Footer script';
 $lang->detail_input_footer_script = 'The script is inserted into the bottom of body. It does not work at admin page.';
 $lang->corp = 'Crop (Cut)';
 $lang->ratio = 'Ratio (Keep Aspect Ratio)';
+$lang->thumbnail_none = 'Do not create thumbnails';
 $lang->admin_ip_allow = 'IP addresses allowed to log in as administrator';
 $lang->admin_ip_deny = 'IP addresses forbidden to log in as administrator';
 $lang->local_ip_address = 'Local IP address';

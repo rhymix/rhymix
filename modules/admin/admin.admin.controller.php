@@ -816,7 +816,7 @@ class adminAdminController extends admin
 		// Thumbnail settings
 		$oDocumentModel = getModel('document');
 		$document_config = $oDocumentModel->getDocumentConfig();
-		$document_config->thumbnail_type = $vars->thumbnail_type === 'ratio' ? 'ratio' : 'crop';
+		$document_config->thumbnail_type = $vars->thumbnail_type ?: 'crop';
 		$oModuleController = getController('module');
 		$oModuleController->insertModuleConfig('document', $document_config);
 		
