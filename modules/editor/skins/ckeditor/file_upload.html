@@ -56,7 +56,8 @@
 		// uploader
 		var setting = {
 			maxFileSize: {$file_config->allowed_filesize},
-			limitMultiFileUploadSize: {$file_config->allowed_filesize}
+			maxChunkSize: 0,
+			singleFileUploads: true
 		};
 		$container = $('#xefu-container-{$editor_sequence}');
 		$container.data('instance',$container.xeUploader(setting));
