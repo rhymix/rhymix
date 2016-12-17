@@ -44,6 +44,7 @@ $lang->file_search_target_list['isvalid'] = 'Status';
 $lang->msg_not_allowed_outlink = 'It is not allowed to download files from sites other than this.';
 $lang->msg_not_permitted_create = 'Failed to create a file or directory.';
 $lang->msg_file_upload_error = 'An error has occurred during uploading.';
+$lang->msg_upload_invalid_chunk = 'An error has occurred during chunked uploading.';
 $lang->no_files = 'No Files';
 $lang->file_manager = 'Manage selected files';
 $lang->selected_file = 'Selected files';

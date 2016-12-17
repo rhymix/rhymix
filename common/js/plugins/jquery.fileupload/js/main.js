@@ -62,21 +62,24 @@
 
 			var currentEnforce_ssl = window.enforce_ssl;
 			if(location.protocol == 'https:') { window.enforce_ssl = true; }
+			
+			var chunkStatus = true;
+			var defaultFormData = {
+				"editor_sequence": data.editorSequence,
+				"upload_target_srl" : data.uploadTargetSrl,
+				"mid" : window.current_mid,
+				"act": 'procFileUpload'
+			};
 
 			var settings = {
 				url: request_uri,
-				formData: {
-					"editor_sequence": data.editorSequence,
-					"upload_target_srl" : data.uploadTargetSrl,
-					"mid" : window.current_mid,
-					"act": 'procFileUpload'
-				},
+				formData: defaultFormData,
 				dropZone: $container,
 				add: function(e, d) {
 					var dfd = jQuery.Deferred();
 
 					$.each(d.files, function(index, file) {
-						if(data.settings.maxFileSize <= file.size) {
+						if(data.settings.maxFileSize > 0 && data.settings.maxFileSize < file.size) {
 							dfd.reject();
 							alert(window.xe.msg_exceeds_limit_size);
 							return false;
@@ -88,15 +91,51 @@
 						d.submit();
 					});
 				},
+				submit: function(e, data) {
+					data.formData = defaultFormData;
+					data.formData.nonce = "T" + new Date().getTime() + "." + Math.random();
+					chunkStatus = true;
+				},
+				chunksend: function(e, data) {
+					if (!chunkStatus) {
+						return false;
+					}
+				},
+				chunkdone: function(e, res) {
+					if (res.result) {
+						if (res.result.error != 0) {
+							if (res.result.message) {
+								alert(res.result.message);
+							} else {
+								alert(window.xe.msg_file_upload_error + " (Type 1)");
+							}
+							return chunkStatus = false;
+						}
+					} else {
+						alert(window.xe.msg_file_upload_error + " (Type 2)");
+						return chunkStatus = false;
+					}
+				},
+				chunkfail: function(e, data) {
+					if (chunkStatus) {
+						alert(window.xe.msg_file_upload_error + " (Type 3)" + "\n" + data.errorThrown + "\n" + data.textStatus);
+						return chunkStatus = false;
+					}
+				},
 				done: function(e, res) {
 					var result = res.response().result;
 					var temp_code = '';
-
-					if(!result) return;
-
-					if(!jQuery.isPlainObject(result)) result = jQuery.parseJSON(result);
-
-					if(!result) return;
+					if (!result) {
+						alert(window.xe.msg_file_upload_error + " (Type 4)");
+						return false;
+					}
+					if (!jQuery.isPlainObject(result)) {
+						result = jQuery.parseJSON(result);
+					}
+					if (!result) {
+						alert(window.xe.msg_file_upload_error + " (Type 5)");
+						return false;
+					}
 
 					if(result.error == 0) {
 						if(/\.(jpe?g|png|gif)$/i.test(result.source_filename)) {
@@ -105,8 +144,18 @@
 						}
 
 						_getCkeInstance(settings.formData.editor_sequence).insertHtml(temp_code, "unfiltered_html");
-					} else {
+					} else if (result.message) {
 						alert(result.message);
+						return false;
+					} else {
+						alert(window.xe.msg_file_upload_error + " (Type 6)");
+						return false;
+					}
+				},
+				fail: function(e, data) {
+					if (chunkStatus) {
+						alert(window.xe.msg_file_upload_error + " (Type 7)" + "\n" + data.errorThrown + "\n" + data.textStatus);
+						return false;
 					}
 				},
 				stop: function() {

@@ -67,7 +67,8 @@ class fileController extends file
 			}
 			
 			// Check existing chunks
-			$temp_key = hash_hmac('sha1', sprintf('%d:%d:%d:%s', $editor_sequence, $upload_target_srl, $module_srl, $file_info['name']), config('crypto.authentication_key'));
+			$nonce = Context::get('nonce');
+			$temp_key = hash_hmac('sha1', sprintf('%d:%d:%d:%s:%s', $editor_sequence, $upload_target_srl, $module_srl, $file_info['name'], $nonce), config('crypto.authentication_key'));
 			$temp_filename = RX_BASEDIR . 'files/attach/chunks/' . $temp_key;
 			if ($chunk_start == 0 && Rhymix\Framework\Storage::isFile($temp_filename))
 			{
@@ -75,6 +76,11 @@ class fileController extends file
 				return new Object(-1, 'msg_upload_invalid_chunk');
 			}
 			if ($chunk_start != 0 && (!Rhymix\Framework\Storage::isFile($temp_filename) || Rhymix\Framework\Storage::getSize($temp_filename) != $chunk_start))
+			{
+				Rhymix\Framework\Storage::delete($temp_filename);
+				return new Object(-1, 'msg_upload_invalid_chunk');
+			}
+			if ($chunk_start >= 2 * 1024 * 1024)
 			{
 				Rhymix\Framework\Storage::delete($temp_filename);
 				return new Object(-1, 'msg_upload_invalid_chunk');
@@ -116,7 +122,7 @@ class fileController extends file
 			else
 			{
 				Rhymix\Framework\Storage::delete($temp_filename);
-				return new Object(-1, 'msg_upload_chunk_append_failed');
+				return new Object(-1, 'msg_upload_invalid_chunk');
 			}
 		}
 		
@@ -829,23 +835,40 @@ class fileController extends file
 		}
 		
 		// Move the file
-		if($manual_insert || starts_with(RX_BASEDIR . 'files/attach/chunks/', $file_info['tmp_name']))
+		$filename = $path . Rhymix\Framework\Security::getRandom(32, 'hex') . '.' . $ext;
+		if($manual_insert)
 		{
 			@copy($file_info['tmp_name'], $filename);
 			if(!file_exists($filename))
 			{
-				$filename = $path . Rhymix\Framework\Security::getRandom(32, 'hex') . '.' . $ext;
 				@copy($file_info['tmp_name'], $filename);
+				if(!file_exists($filename))
+				{
+					return new Object(-1,'msg_file_upload_error');
+				}
+			}
+		}
+		elseif(starts_with(RX_BASEDIR . 'files/attach/chunks/', $file_info['tmp_name']))
+		{
+			if (!Rhymix\Framework\Storage::move($file_info['tmp_name'], $filename))
+			{
+				if (!Rhymix\Framework\Storage::move($file_info['tmp_name'], $filename))
+				{
+					return new Object(-1,'msg_file_upload_error');
+				}
 			}
 		}
 		else
 		{
 			if(!@move_uploaded_file($file_info['tmp_name'], $filename))
 			{
-				$filename = $path . Rhymix\Framework\Security::getRandom(32, 'hex') . '.' . $ext;
-				if(!@move_uploaded_file($file_info['tmp_name'], $filename))  return new Object(-1,'msg_file_upload_error');
+				if(!@move_uploaded_file($file_info['tmp_name'], $filename))
+				{
+					return new Object(-1,'msg_file_upload_error');
+				}
 			}
 		}
+		
 		// Get member information
 		$oMemberModel = getModel('member');
 		$member_srl = $oMemberModel->getLoggedMemberSrl();

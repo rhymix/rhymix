@@ -45,6 +45,7 @@ $lang->file_search_target_list['isvalid'] = '상태';
 $lang->msg_not_allowed_outlink = '외부링크에서 다운로드할 수 없습니다.';
 $lang->msg_not_permitted_create = '파일 또는 디렉터리를 생성할 수 없습니다.';
 $lang->msg_file_upload_error = '파일 업로드 중 에러가 발생하였습니다.';
+$lang->msg_upload_invalid_chunk = '분할 업로드 처리 중 오류가 발생하였습니다.';
 $lang->no_files = '파일이 없습니다.';
 $lang->file_manager = '선택한 파일 관리';
 $lang->selected_file = '선택한 파일';
