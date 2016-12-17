@@ -985,11 +985,11 @@ class fileController extends file
 			$output = executeQuery('file.deleteFile', $args);
 			if(!$output->toBool()) return $output;
 
-			// Call a trigger (after)
-			ModuleHandler::triggerCall('file.deleteFile', 'after', $trigger_obj);
-
 			// If successfully deleted, remove the file
 			FileHandler::removeFile($uploaded_filename);
+
+			// Call a trigger (after)
+			ModuleHandler::triggerCall('file.deleteFile', 'after', $trigger_obj);
 		}
 
 		$oDocumentController->updateUploaedCount($documentSrlList);
