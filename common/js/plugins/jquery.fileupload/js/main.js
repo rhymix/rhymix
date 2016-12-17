@@ -64,10 +64,7 @@
 			if(location.protocol == 'https:') { window.enforce_ssl = true; }
 
 			var settings = {
-				url: request_uri
-				.setQuery('module', 'file')
-				.setQuery('act', 'procFileUpload')
-				.setQuery('mid', window.current_mid),
+				url: request_uri,
 				formData: {
 					"editor_sequence": data.editorSequence,
 					"upload_target_srl" : data.uploadTargetSrl,
