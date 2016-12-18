@@ -326,13 +326,13 @@
 				file_srls.push(file_srl);
 			}
 
-			file_srls = file_srls.join(',');
-
-			exec_json('file.procFileDelete', {'file_srls': file_srls, 'editor_sequence': data.editorSequence}, function() {
-				file_srls = file_srls.split(',');
+			exec_json('file.procFileDelete', {'file_srls': file_srls.join(','), 'editor_sequence': data.editorSequence}, function() {
 				$.each(file_srls, function(idx, srl){
 					data.settings.fileList.find('ul').find('li[data-file-srl=' + srl + ']').remove();
 				});
+				var ckeditor = _getCkeInstance(data.editorSequence);
+				var regexp = new RegExp('<(img) [^>]*data-file-srl="(' + file_srls.join('|') + ')"[^>]*>', 'g');
+				ckeditor.setData(ckeditor.getData().replace(regexp, ''));
 				self.loadFilelist($container);
 			});
 		 },
