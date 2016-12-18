@@ -211,7 +211,7 @@ class ncenterliteController extends ncenterlite
 				$args->type = $this->_TYPE_COMMENT;
 				$args->target_type = $this->_TYPE_ADMIN_COMMENT;
 				$args->target_url = getNotEncodedFullUrl('', 'document_srl', $document_srl, '_comment_srl', $comment_srl) . '#comment_' . $comment_srl;
-				$args->target_summary = cut_str(strip_tags($content), 50);
+				$args->target_summary = cut_str(trim(utf8_normalize_spaces(strip_tags($content))), 50) ?: (strpos($content, '<img') !== false ? lang('ncenterlite_content_image') : lang('ncenterlite_content_empty'));
 				$args->target_nick_name = $obj->nick_name;
 				$args->target_email_address = $obj->email_address;
 				$args->regdate = date('YmdHis');
@@ -254,7 +254,7 @@ class ncenterliteController extends ncenterlite
 				$args->type = $this->_TYPE_COMMENT;
 				$args->target_type = $this->_TYPE_MENTION;
 				$args->target_url = getNotEncodedFullUrl('', 'document_srl', $document_srl, '_comment_srl', $comment_srl) . '#comment_' . $comment_srl;
-				$args->target_summary = cut_str(strip_tags($content), 50);
+				$args->target_summary = cut_str(trim(utf8_normalize_spaces(strip_tags($content))), 50) ?: (strpos($content, '<img') !== false ? lang('ncenterlite_content_image') : lang('ncenterlite_content_empty'));
 				$args->target_nick_name = $obj->nick_name;
 				$args->target_email_address = $obj->email_address;
 				$args->regdate = date('YmdHis');
@@ -295,7 +295,7 @@ class ncenterliteController extends ncenterlite
 				$args->type = $this->_TYPE_COMMENT;
 				$args->target_type = $this->_TYPE_COMMENT;
 				$args->target_url = getNotEncodedFullUrl('', 'document_srl', $document_srl, '_comment_srl', $comment_srl) . '#comment_' . $comment_srl;
-				$args->target_summary = cut_str(strip_tags($content), 50);
+				$args->target_summary = cut_str(trim(utf8_normalize_spaces(strip_tags($content))), 50) ?: (strpos($content, '<img') !== false ? lang('ncenterlite_content_image') : lang('ncenterlite_content_empty'));
 				$args->target_nick_name = $obj->nick_name;
 				$args->target_email_address = $obj->email_address;
 				$args->regdate = $regdate;
@@ -332,7 +332,7 @@ class ncenterliteController extends ncenterlite
 				$args->type = $this->_TYPE_DOCUMENT;
 				$args->target_type = $this->_TYPE_COMMENT;
 				$args->target_url = getNotEncodedFullUrl('', 'document_srl', $document_srl, '_comment_srl', $comment_srl) . '#comment_' . $comment_srl;
-				$args->target_summary = cut_str(strip_tags($content), 50);
+				$args->target_summary = cut_str(trim(utf8_normalize_spaces(strip_tags($content))), 50) ?: (strpos($content, '<img') !== false ? lang('ncenterlite_content_image') : lang('ncenterlite_content_empty'));
 				$args->target_nick_name = $obj->nick_name;
 				$args->target_email_address = $obj->email_address;
 				$args->regdate = $regdate;
