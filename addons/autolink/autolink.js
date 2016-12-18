@@ -92,4 +92,11 @@
 	});
 
 	xe.registerPlugin(new AutoLink());
+	
+	$(document).on('click', '.xe_content a', function() {
+		if (!$(this).attr("target")) {
+			$(this).attr("target", "_blank");
+		}
+	});
+	
 })(jQuery);
