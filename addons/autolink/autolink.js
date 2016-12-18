@@ -4,14 +4,14 @@
  * @author NAVER (developers@xpressengine.com)
  */
 (function($){
-	var protocol_re = '(https?|ftp|news|telnet|irc|mms)://';
-	var domain_re   = '(?:[^\\s./]+\\.)+[^\\s./]+';
+	var protocol_re = '(?:(?:https?|ftp|news|telnet|irc|mms)://)';
+	var domain_re   = '(?:[^\\s./)>]+\\.)+[^\\s./)>]+';
 	var max_255_re  = '(?:1[0-9]{2}|2[0-4][0-9]|25[0-5]|[1-9]?[0-9])';
 	var ip_re       = '(?:'+max_255_re+'\\.){3}'+max_255_re;
 	var port_re     = '(?::([0-9]+))?';
 	var user_re     = '(?:/~\\w+)?';
-	var path_re     = '(?:/[\\w!@$%&!?+=_~"/.,:;-]*)?';
-	var hash_re     = '(?:#[\\w!@$%&!?+=_~"/.,:;-]*)?';
+	var path_re     = '(?:/[^\\s]*)?';
+	var hash_re     = '(?:#[^\\s]*)?';
 
 	var url_regex = new RegExp('('+protocol_re+'('+domain_re+'|'+ip_re+'|localhost'+')'+port_re+user_re+path_re+hash_re+')', 'ig');
 
@@ -37,7 +37,24 @@
 			var dummy    = $('<span>');
 
 			content = content.replace(/</g, '&lt;').replace(/>/g, '&gt;');
-			content = content.replace(url_regex, '<a href="$1" target="_blank">$1</a>');
+			content = content.replace(url_regex, function(match, p1, offset, string) {
+				var match;
+				var suffix = '';
+				if (p1.indexOf('(') < 0 && p1.match(/\)$/)) {
+					p1 = p1.replace(/\)$/, '');
+					suffix = ')';
+				} else if (p1.indexOf('[') < 0 && p1.match(/\]$/)) {
+					p1 = p1.replace(/\]$/, '');
+					suffix = ']';
+				} else if (p1.indexOf('&lt;') < 0 && p1.match(/&gt;$/)) {
+					p1 = p1.replace(/&gt;$/, '');
+					suffix = '&gt;';
+				} else if (match = /^([\x21-\x7E]+\.[a-z]+)([가-힣]{1,3})$/.exec(p1)) {
+					p1 = match[1];
+					suffix = match[2];
+				}
+				return '<a href="' + encodeURI(p1) + '" target="_blank">' + p1 + '</a>' + suffix;
+			});
 
 			$(textNode).before(dummy);
 			$(textNode).replaceWith(content);
