@@ -887,7 +887,7 @@ class fileController extends file
 		$args->module_srl = $module_srl;
 		$args->direct_download = $direct_download;
 		$args->source_filename = $file_info['name'];
-		$args->uploaded_filename = $filename;
+		$args->uploaded_filename = './' . substr($filename, strlen(RX_BASEDIR));
 		$args->download_count = $download_count;
 		$args->file_size = @filesize($filename);
 		$args->comment = NULL;
