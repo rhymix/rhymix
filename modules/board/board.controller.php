@@ -521,8 +521,6 @@ class boardController extends board
 
 		if($this->module_info->comment_delete_message === 'yes' && $instant_delete != 'Y')
 		{
-			$comment->content = '';
-			$comment->status = 7;
 			$output = $oCommentController->updateCommentByDelete($comment, $this->grant->manager);
 		}
 		elseif(starts_with('only_comm', $this->module_info->comment_delete_message) && $instant_delete != 'Y')
@@ -530,8 +528,6 @@ class boardController extends board
 			$childs = $oCommentModel->getChildComments($comment_srl);
 			if(count($childs) > 0)
 			{
-				$comment->content = '';
-				$comment->status = 7;
 				$output = $oCommentController->updateCommentByDelete($comment, $this->grant->manager);
 			}
 			else

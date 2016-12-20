@@ -912,23 +912,29 @@ class commentController extends comment
 	 */
 	function updateCommentByDelete($obj, $is_admin = FALSE)
 	{
-		$logged_info = Context::get('logged_info');
-
+		if (!$obj->comment_srl)
+		{
+			return new Object(-1, 'msg_invalid_request');
+		}
+		
 		// begin transaction
 		$oDB = DB::getInstance();
 		$oDB->begin();
 
 		// If the case manager to delete comments, it indicated that the administrator deleted.
+		$logged_info = Context::get('logged_info');
 		if($is_admin === true && $obj->member_srl !== $logged_info->member_srl)
 		{
 			$obj->content = lang('msg_admin_deleted_comment');
-			$obj->status = 8;
+			$obj->status = RX_STATUS_DELETED_BY_ADMIN;
 		}
 		else
 		{
 			$obj->content = lang('msg_deleted_comment');
+			$obj->status = RX_STATUS_DELETED;
 		}
 		$obj->member_srl = 0;
+		unset($obj->last_update);
 		$output = executeQuery('comment.updateCommentByDelete', $obj);
 		if(!$output->toBool())
 		{
