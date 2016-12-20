@@ -141,6 +141,20 @@ define('_XE_DOWNLOAD_SERVER_', 'https://download.xpressengine.com/');
 define('__DEBUG__', 0);
 
 /**
+ * Status constants for various content types.
+ */
+define('RX_STATUS_TEMP', 0);
+define('RX_STATUS_PUBLIC', 1);
+define('RX_STATUS_SECRET', 2);
+define('RX_STATUS_EMBARGO', 3);
+define('RX_STATUS_TRASH', 4);
+define('RX_STATUS_CENSORED', 5);
+define('RX_STATUS_CENSORED_BY_ADMIN', 6);
+define('RX_STATUS_DELETED', 7);
+define('RX_STATUS_DELETED_BY_ADMIN', 8);
+define('RX_STATUS_OTHER', 9);
+
+/**
  * Other useful constants.
  */
 define('DIGITS', '0123456789');
