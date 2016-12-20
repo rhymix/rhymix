@@ -737,6 +737,10 @@
 .feedback .xe_content *:first-child {
 	margin-top: 0;
 }
+.feedback .xe_content.is_deleted,
+.feedback .xe_content.is_secret {
+	color: #999;
+}
 #trackback .xe_content {
 	color: #888;
 }
