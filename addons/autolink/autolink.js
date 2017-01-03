@@ -53,7 +53,7 @@
 					p1 = match[1];
 					suffix = match[2];
 				}
-				return '<a href="' + encodeURI(p1) + '" target="_blank">' + p1 + '</a>' + suffix;
+				return '<a href="' + p1 + '" target="_blank">' + p1 + '</a>' + suffix;
 			});
 
 			$(textNode).before(dummy);
