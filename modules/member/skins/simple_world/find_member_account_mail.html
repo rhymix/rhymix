@@ -1,0 +1,10 @@
+{$lang->msg_find_account_info}<br />
+<hr noshade="noshade" />
+<ul>
+	<li>{$lang->site} : <a href="{getUrl()}" target="_blank">{getUrl()}</a></li>
+	<li loop="$memberInfo=>$name,$value" cond="!is_object($value)&&!is_array($value)">{$name} : {$value}</li>
+	<li>{$lang->password} : <span style="color:red">{$auth_args->new_password}</span></li>
+</ul>
+<hr noshade="noshade" />
+{$lang->msg_find_account_comment}<br />
+<a href="{$find_url}">{$find_url}</a>

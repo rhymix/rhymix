@@ -1,0 +1,23 @@
+<include target="./common_header.html" />
+<h1>{$member_title = $lang->msg_leave_member}</h1>
+<div cond="$XE_VALIDATOR_MESSAGE && $XE_VALIDATOR_ID == 'modules/member/skin/default/1'" class="message {$XE_VALIDATOR_MESSAGE_TYPE}">
+	<p>{$XE_VALIDATOR_MESSAGE}</p>
+</div>
+<form ruleset="leaveMember" id="fo_insert_member" action="./" method="post">
+	<input type="hidden" name="module" value="member" />
+	<input type="hidden" name="act" value="procMemberLeave" />
+    <input type="hidden" name="mid" value="{$mid}" />
+    <input type="hidden" name="document_srl" value="{$document_srl}" />
+    <input type="hidden" name="page" value="{$page}" />
+	<input type="hidden" name="xe_validator_id" value="modules/member/skin/default/1" />
+	<div>
+		<input type="email" value="{$formValue}" readonly title="{lang($identifier)}" />
+	</div>
+	<div>
+		<span class="input-append">
+			<input type="password" name="password" id="cpw" required placeholder="{$lang->password}" title="{$lang->password}" />
+			<input type="submit" value="{$lang->cmd_leave}" class="btn btn-inverse" />
+		</span>
+	</div>
+</form>
+<include target="./common_footer.html" />

@@ -1,0 +1,83 @@
+@charset "UTF-8";
+/* 전체 스타일 */
+.rx_simple_member
+{
+	font-family: "맑은 고딕", "Apple SD Gothic Neo","나눔고딕",NanumGothic,'Nanum Gothic',"돋움",Dotum,"굴림",Gulim,Helvetica,sans-serif;
+	font-size: 14px;
+	margin: 8px 0px;
+	padding: 0 15px;
+}
+
+/* Horizontal Align */
+.rx_simple_member .pull-right{float:right}
+.rx_simple_member .pull-left{float:left}
+.rx_simple_member .pos-right
+{
+	position:absolute;
+	right:0
+}
+
+/* Sign-in form */
+.rx_simple_member .signin
+{
+	max-width:400px;
+	margin:30px auto;
+	box-sizing:border-box
+}
+.rx_simple_member fieldset
+{
+	box-sizing:border-box;
+	background-color:#ffffff;
+	padding: 20px;
+	margin: 0 0 20px;
+	border: 1px solid #e0e0e0;
+}
+.rx_simple_member form fieldset div.control-group>*
+{
+	display:block;
+	position:relative;
+	box-sizing: border-box;
+	width:100%;
+	min-height:25px;
+	margin-top: 10px;
+	padding-bottom: 5px;
+}
+.rx_simple_member form fieldset div.control-group>input
+{
+	border: 1px solid #bdbdbd;
+	font-size:14px;
+	line-height: 18px;
+	margin-top: 0;
+	padding:8px 8px 6px;
+}
+.rx_simple_member form
+{
+	overflow: hidden;
+	width:100%;
+	white-space: normal;
+	box-sizing: border-box;
+}
+.rx_simple_member form fieldset div.control-group>input[type="submit"], .rx_simple_member .login-footer>a
+{
+	display:block;
+	background: #2196f3 none repeat scroll 0 0;
+	border: medium none;
+	color: #fff;
+	margin: 0;
+	padding: 10px;
+	vertical-align: bottom;
+}
+.rx_simple_member .login-footer>a
+{
+	background: #757575 none repeat scroll 0 0;
+	text-decoration: none;
+	text-align: center;
+}
+#rx_member-warning
+{
+	background: #e3f2fd;
+	padding: 15px;
+	margin-top:0;
+	margin-bottom: 10px;
+	text-align: justify;
+}

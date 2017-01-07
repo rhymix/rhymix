@@ -1,0 +1,10 @@
+<filter name="resend_auth_mail" module="member" act="procMemberResendAuthMail">
+    <form>
+        <node target="email_address" required="true" filter="email_address" />
+    </form>
+    <parameter />
+    <response callback_func="completeResendAuthMail">
+        <tag name="error" />
+        <tag name="message" />
+    </response>
+</filter>

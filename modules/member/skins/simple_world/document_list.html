@@ -1,0 +1,48 @@
+<include target="./common_header.html" />
+<h1>{$member_title = $lang->cmd_view_own_document }</h1>
+<table class="table table-striped table-hover">
+	<caption>
+		Total: {number_format($total_count)}, Page {number_format($page)}/{number_format($total_page)}
+		<span class="pull-right">
+			<a href="{getUrl('','module','module','act','dispModuleSelectList','id','target_module','type','single')}" class="btn" onclick="popopen(this.href,'ModuleSelect');return false;">{$lang->cmd_find_module}</a>
+			<a href="{getUrl('selected_module_srl','')}" cond="$selected_module_srl" class="btn">{$lang->cmd_cancel}</a>
+		</span>
+	</caption>
+	<thead>
+		<tr>
+			<th>{$lang->no}</th>
+			<th class="title">{$lang->title}</th>
+			<th>{$lang->date}</th>
+			<th>{$lang->readed_count}</th>
+			<th>{$lang->voted_count}</th>
+		</tr>
+	</thead>
+	<tbody>
+		<tr loop="$document_list => $no,$oDocument">
+			<td>{$no}</td>
+			<td class="title">
+				<a href="{getUrl('','document_srl',$oDocument->document_srl)}" onclick="window.open(this.href);return false;">{$oDocument->getTitleText()}</a>
+				<!--@if($oDocument->getCommentCount())-->
+					[{$oDocument->getCommentCount()}]
+				<!--@end-->
+	
+				<!--@if($oDocument->getTrackbackCount())-->
+					[{$oDocument->getTrackbackCount()}]
+				<!--@end-->
+			</td>
+			<td>{$oDocument->getRegdate("Y-m-d")}</td>
+			<td>{$oDocument->get('readed_count')}</td>
+			<td>{$oDocument->get('voted_count')}</td>
+		</tr>
+	</tbody>
+</table>
+<div class="pagination pagination-centered">
+	<ul>
+		<li><a href="{getUrl('page','','module_srl','')}" class="direction">&laquo; {$lang->first_page}</a></li> 
+		<!--@while($page_no = $page_navigation->getNextPage())-->
+		<li class="active"|cond="$page == $page_no"><a href="{getUrl('page',$page_no,'module_srl','')}">{$page_no}</a></li>
+		<!--@end-->
+		<li><a href="{getUrl('page',$page_navigation->last_page,'module_srl','')}" class="direction">{$lang->last_page} &raquo;</a></li>
+	</ul>
+</div>
+<include target="./common_footer.html" />

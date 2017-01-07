@@ -1,0 +1,17 @@
+<include target="./common_header.html" />
+<h1>{$lang->cmd_modify_member_email_address}</h1>
+<p>{$lang->about_modify_member_email_address}</p>
+<div cond="$XE_VALIDATOR_MESSAGE && $XE_VALIDATOR_ID == 'modules/member/skins/default/1'" class="message {$XE_VALIDATOR_MESSAGE_TYPE}">
+	<p>{$XE_VALIDATOR_MESSAGE}</p>
+</div>
+<form ruleset="modifyEmailAddress" action="./" method="post">
+	<input type="hidden" name="module" value="member" />
+	<input type="hidden" name="act" value="procMemberModifyEmailAddress" />
+	<input type="hidden" name="success_return_url" value="{getRequestUriByServerEnviroment()}" />
+	<input type="hidden" name="xe_validator_id" value="modules/member/skins/default/1" />
+	<span class="input-append">
+		<input type="email" id="email_address" name="email_address" value="" required placeholder="{$lang->email_address}" title="{$lang->email_address}" />
+		<input type="submit" value="{$lang->cmd_send_auth_new_emaill_address}" class="btn btn-inverse" />
+	</span>
+</form>
+<include target="./common_footer.html" />

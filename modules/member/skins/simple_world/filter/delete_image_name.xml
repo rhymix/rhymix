@@ -1,0 +1,1 @@
+<filter name="delete_image_name" module="member" act="procMemberDeleteImageName" confirm_msg_code="confirm_delete" />

@@ -1,0 +1,14 @@
+<filter name="find_member_account_by_question" module="member" act="procMemberFindAccountByQuestion">
+    <form>
+        <node target="user_id" required="true" />
+		<node target="email_address" required="true" minlength="2" maxlength="255" filter="email" />
+		<node target="find_account_question" required="true" />
+		<node target="find_account_answer" required="true" maxlength="250" />
+    </form>
+    <parameter />
+    <response callback_func="completeFindMemberAccountByQuestion">
+        <tag name="error" />
+        <tag name="message" />
+        <tag name="user_id" />
+    </response>
+</filter>
