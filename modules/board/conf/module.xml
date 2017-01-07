@@ -72,6 +72,7 @@
 		<action name="dispBoardContentCommentList" type="view" />
 		<action name="dispBoardContentFileList" type="view" />
 		<action name="dispBoardUpdateLog" type="view" />
+		<action name="dispBoardVoteLog" type="view" />
 
 		<action name="dispBoardTagList" type="view" />
 		<action name="dispBoardWrite" type="view" standalone="false" />

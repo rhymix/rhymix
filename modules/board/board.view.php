@@ -1210,6 +1210,55 @@ class boardView extends board
 		$this->setTemplateFile('update_view');
 	}
 
+	function dispBoardVoteLog()
+	{
+		iF(Context::get('logged_info')->is_admin !== 'Y')
+		{
+			return new Object(-1, 'msg_not_permitted');
+		}
+
+		$document_srl = Context::get('document_srl');
+		$oMemberModel = getModel('member');
+
+		$args = new stdClass();
+		$args->document_srl = $document_srl;
+
+		$output = executeQueryArray('document.getDocumentVotedLog', $args);
+		if(!$output->toBool())
+		{
+			return $output;
+		}
+
+		$vote_member_infos = array();
+		$blame_member_infos = array();
+		if(count($output->data) > 0)
+		{
+			foreach($output->data as $key => $log)
+			{
+				if($log->point > 0)
+				{
+					if($log->member_srl == $vote_member_infos[$log->member_srl]->member_srl)
+					{
+						continue;
+					}
+					$vote_member_infos[$log->member_srl] = $oMemberModel->getMemberInfoByMemberSrl($log->member_srl);
+				}
+				else
+				{
+					if($log->member_srl == $blame_member_infos[$log->member_srl]->member_srl)
+					{
+						continue;
+					}
+					$blame_member_infos[$log->member_srl] = $oMemberModel->getMemberInfoByMemberSrl($log->member_srl);
+				}
+			}
+		}
+
+		Context::set('vote_member_info', $vote_member_infos);
+		Context::set('blame_member_infos', $blame_member_infos);
+		$this->setTemplateFile('vote_log');
+	}
+
 	/**
 	 * @brief the method for displaying the warning messages
 	 * display an error message if it has not  a special design
