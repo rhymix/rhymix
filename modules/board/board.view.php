@@ -1235,7 +1235,7 @@ class boardView extends board
 		}
 		else
 		{
-			return new Object(-1, 'Target name error');
+			return new Object(-1, 'msg_not_target');
 		}
 
 		$output = executeQueryArray($queryId, $args);

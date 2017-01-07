@@ -80,3 +80,4 @@ $lang->delete_placeholder = '완전 삭제';
 $lang->msg_document_notify_mail = '[%s] 새로운 게시글이 등록되었습니다 : %s';
 $lang->cmd_document_vote_user = '이 글의 추천인 목록';
 $lang->cmd_comment_vote_user = '이 댓글의 추천인 목록';
+$lang->msg_not_target = '문서 또는 댓글의 추천인목록만 조회가능합니다.';
