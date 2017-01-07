@@ -1260,7 +1260,7 @@ class boardView extends board
 		}
 
 		Context::set('vote_member_info', $vote_member_infos);
-		Context::set('blame_member_infos', $blame_member_infos);
+		Context::set('blame_member_info', $blame_member_infos);
 		$this->setTemplateFile('vote_log');
 	}
 
