@@ -115,6 +115,7 @@
 			<div cond="$oDocument->getSignature()" class="tx">{$oDocument->getSignature()}</div>
 		</div>
 		<div class="btnArea">
+			<a class="btn" href="{getUrl('act','dispBoardVoteLog','document_srl',$oDocument->document_srl,'target','document')}"><i class="xi-list-ul"></i>추천인 목록</a>
 			<a cond="$update_view" class="btn" href="{getUrl('act','dispBoardUpdateLog','document_srl',$oDocument->document_srl,'comment_srl','')}"><i class="xi-list-ul"></i>{$lang->update_log}</a>
 			<a cond="$oDocument->isEditable()" class="btn" href="{getUrl('act','dispBoardWrite','document_srl',$oDocument->document_srl,'comment_srl','')}"><i class="xi-eraser"></i>{$lang->cmd_modify}</a>
 			<a cond="$oDocument->isEditable()" class="btn" href="{getUrl('act','dispBoardDelete','document_srl',$oDocument->document_srl,'comment_srl','')}"><i class="xi-trash"></i>{$lang->cmd_delete}</a>

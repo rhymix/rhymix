@@ -1217,39 +1217,44 @@ class boardView extends board
 			return new Object(-1, 'msg_not_permitted');
 		}
 
-		$document_srl = Context::get('document_srl');
-		$oMemberModel = getModel('member');
+		$target = Context::get('target');
 
-		$args = new stdClass();
-		$args->document_srl = $document_srl;
-
-		$output = executeQueryArray('document.getDocumentVotedLog', $args);
-		if(!$output->toBool())
+		if($target === 'document')
 		{
-			return $output;
-		}
+			$document_srl = Context::get('document_srl');
+			$oMemberModel = getModel('member');
 
-		$vote_member_infos = array();
-		$blame_member_infos = array();
-		if(count($output->data) > 0)
-		{
-			foreach($output->data as $key => $log)
+			$args = new stdClass();
+			$args->document_srl = $document_srl;
+
+			$output = executeQueryArray('document.getDocumentVotedLog', $args);
+			if(!$output->toBool())
 			{
-				if($log->point > 0)
+				return $output;
+			}
+
+			$vote_member_infos = array();
+			$blame_member_infos = array();
+			if(count($output->data) > 0)
+			{
+				foreach($output->data as $key => $log)
 				{
-					if($log->member_srl == $vote_member_infos[$log->member_srl]->member_srl)
+					if($log->point > 0)
 					{
-						continue;
+						if($log->member_srl == $vote_member_infos[$log->member_srl]->member_srl)
+						{
+							continue;
+						}
+						$vote_member_infos[$log->member_srl] = $oMemberModel->getMemberInfoByMemberSrl($log->member_srl);
 					}
-					$vote_member_infos[$log->member_srl] = $oMemberModel->getMemberInfoByMemberSrl($log->member_srl);
-				}
-				else
-				{
-					if($log->member_srl == $blame_member_infos[$log->member_srl]->member_srl)
+					else
 					{
-						continue;
+						if($log->member_srl == $blame_member_infos[$log->member_srl]->member_srl)
+						{
+							continue;
+						}
+						$blame_member_infos[$log->member_srl] = $oMemberModel->getMemberInfoByMemberSrl($log->member_srl);
 					}
-					$blame_member_infos[$log->member_srl] = $oMemberModel->getMemberInfoByMemberSrl($log->member_srl);
 				}
 			}
 		}
