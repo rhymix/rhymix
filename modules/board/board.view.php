@@ -1212,10 +1212,11 @@ class boardView extends board
 
 	function dispBoardVoteLog()
 	{
-		iF(Context::get('logged_info')->is_admin !== 'Y')
+		iF($this->grant->vote_log_view !== true)
 		{
 			return new Object(-1, 'msg_not_permitted');
 		}
+
 		$oMemberModel = getModel('member');
 
 		$target = Context::get('target');
