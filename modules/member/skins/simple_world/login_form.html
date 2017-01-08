@@ -1,6 +1,6 @@
 <include target="./common_header.html" />
 <div class="signin">
-	<div class="login-body">
+	<div class="sw-body">
 		<div cond="$XE_VALIDATOR_MESSAGE && $XE_VALIDATOR_ID == 'modules/member/skins'" class="message {$XE_VALIDATOR_MESSAGE_TYPE}">
 			<p>{$XE_VALIDATOR_MESSAGE}</p>
 		</div>
@@ -9,32 +9,28 @@
 			<input type="hidden" name="success_return_url" value="{$referer_url}" />
 			<input type="hidden" name="act" value="procMemberLogin" />
 			<input type="hidden" name="xe_validator_id" value="modules/member/skins" />
-			<fieldset>
-				<div class="control-group">
-					<label for="uid">
-						<block cond="$identifier == 'user_id'">
-							{lang('common.user_id')}
-						</block>
-						<block cond="$identifier != 'user_id'">
-							{lang('common.email_address')}
-						</block>
-					</label>
-					<input type="text" cond="$identifier == 'user_id'" name="user_id" id="uid" required title="{$lang->user_id}" />
-					<input type="email" cond="$identifier != 'user_id'" name="user_id" id="uid" required title="{$lang->email_address}" />
-					<label for="upw">{lang('common.password')}<a class="pos-right" href="{getUrl('act','dispMemberFindAccount')}">{lang('member.cmd_find_member_account')}</a></label>
-					<input type="password" name="password" id="upw" required title="{$lang->password}" />
+			<div class="control-group">
+				<label for="uid">
+					<block cond="$identifier == 'user_id'">
+						{lang('common.user_id')}
+					</block>
+					<block cond="$identifier != 'user_id'">
+						{lang('common.email_address')}
+					</block>
+				</label>
+				<input type="text" cond="$identifier == 'user_id'" name="user_id" id="uid" required title="{$lang->user_id}" />
+				<input type="email" cond="$identifier != 'user_id'" name="user_id" id="uid" required title="{$lang->email_address}" />
+				<label for="upw">{lang('common.password')}<a class="pos-right" href="{getUrl('act','dispMemberFindAccount')}">{lang('member.cmd_find_member_account')}</a></label>
+				<input type="password" name="password" id="upw" required title="{$lang->password}" />
+				<label for="keepid_opt">
+					<input type="checkbox" name="keep_signed" id="keepid_opt" value="Y" />
+					{$lang->keep_signed}
+				</label>
+				<div id="rx_member-warning" class="rx_member-notice">
+					{$lang->about_keep_warning}
 				</div>
-				<div class="control-group">
-					<label for="keepid_opt">
-						<input type="checkbox" name="keep_signed" id="keepid_opt" value="Y" />
-						{$lang->keep_signed}
-					</label>
-					<div id="rx_member-warning">
-						{$lang->about_keep_warning}
-					</div>
-					<input type="submit" value="{$lang->cmd_login}" />
-				</div>
-			</fieldset>
+				<input type="submit" value="{$lang->cmd_login}" />
+			</div>
 		</form>
 	</div>
 	<div class="login-footer">
