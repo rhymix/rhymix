@@ -21,14 +21,27 @@
 	position:absolute;
 	right:0
 }
-
-.rx_member-notice
+/* message */
+.rx_member-notice, .rx_member-notice.info
 {
 	background: #e3f2fd;
 	padding: 15px;
 	margin:0;
 	margin-top:0;
 	text-align: justify;
+}
+.rx_member-notice.error
+{
+	background: #fff3e0;
+}
+.rx_member-notice.update
+{
+	background: #e8f5e9;
+}
+.rx_member-notice>*
+{
+	padding: 0;
+	margin:0;
 }
 /* member forms */
 .rx_simple_member .signin
@@ -84,7 +97,7 @@
 	list-style:none;
 	border-bottom: 1px solid #e0e0e0;
 }
-.rx_simple_member .sw-body dl dt
+.rx_simple_member .sw-body dl dt, .rx_simple_member form>div.control-group>label
 {
 	font-weight: bold;
 	border:0;
@@ -96,7 +109,7 @@
 	white-space: normal;
 	box-sizing: border-box;
 }
-.rx_simple_member form div.control-group>input[type="submit"], .rx_simple_member .login-footer>a
+.rx_simple_member form div.control-group>input[type="submit"], .rx_simple_member .sw-footer>a, .rx_simple_member .sw-anchor-buttons a 
 {
 	display:block;
 	background: #2196f3 none repeat scroll 0 0;
@@ -106,7 +119,11 @@
 	padding: 10px;
 	vertical-align: bottom;
 }
-.rx_simple_member .login-footer>a
+.rx_simple_member .sw-footer
+{
+	margin-bottom:30px;
+}
+.rx_simple_member .sw-footer>a
 {
 	background: #757575 none repeat scroll 0 0;
 	text-decoration: none;
@@ -159,4 +176,10 @@
 }
 .rx_simple_member ul.rx_simple_tab>li:first-child a span {
 	border-left: 0 none;
+}
+.rx_simple_member .sw-anchor-buttons {
+	float:right
+}
+.rx_simple_member .sw-anchor-buttons a {
+	display:inline-block;
 }

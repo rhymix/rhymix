@@ -1,10 +1,10 @@
 <include target="./common_header.html" />
 <div class="signin">
 	<div class="sw-body">
-		<div cond="$XE_VALIDATOR_MESSAGE && $XE_VALIDATOR_ID == 'modules/member/skins'" class="message {$XE_VALIDATOR_MESSAGE_TYPE}">
+		<h1>{$lang->cmd_login}</h1>
+		<div cond="$XE_VALIDATOR_MESSAGE && $XE_VALIDATOR_ID == 'modules/member/skins'" class="rx_member-notice {$XE_VALIDATOR_MESSAGE_TYPE}">
 			<p>{$XE_VALIDATOR_MESSAGE}</p>
 		</div>
-		<h1>{$lang->cmd_login}</h1>
 		<form ruleset="@login" action="{getUrl('', 'act', 'procMemberLogin')}" method="post" id="fo_member_login">
 			<input type="hidden" name="success_return_url" value="{$referer_url}" />
 			<input type="hidden" name="act" value="procMemberLogin" />
@@ -33,7 +33,7 @@
 			</div>
 		</form>
 	</div>
-	<div class="login-footer">
+	<div class="sw-footer">
 		<a href="{getUrl('act','dispMemberSignUpForm')}">{lang('member.cmd_signup')}</a>
 	</div>
 </div>
