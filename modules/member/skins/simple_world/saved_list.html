@@ -1,32 +1,34 @@
 <include target="./common_header.html" />
-<h1>{$member_title = $lang->cmd_view_saved_document}</h1>
-<table class="table table-striped table-hover">
-	<caption>Total: {number_format($total_count)}, Page: {number_format($page)}/{number_format($total_page)}</caption>
-	<thead>
-		<tr>
-			<th class="title">{$lang->title}</th>
-			<th>{$lang->date}</th>
-			<th>{$lang->cmd_delete}</th>
-		</tr>
-	</thead>
-	<tbody>
-		<tr loop="$document_list => $no,$val">
-			<td class="title">
-				<a href="#saved_document_{$val->document_srl}" onclick="jQuery('#saved_document_{$val->document_srl}').toggle(); return false;">{$val->getTitle()}</a>
-				<div id="saved_document_{$val->document_srl}" class="savedContent" style="display:none;">{$val->getContent(false)}</div>
-			</td>
-			<td>{$val->getRegdate("Y-m-d")}</td>
-			<td><button type="button" class="text" onclick="doDeleteSavedDocument('{$val->document_srl}','{$lang->confirm_delete}');">{$lang->cmd_delete}</button></td>
-		</tr>
-	</tbody>
-</table>
+<section class="sw-body">
+	<h1>{$member_title = $lang->cmd_view_saved_document}</h1>
+	<div class="rx_member-notice">{lang('common.total')}: {number_format($total_count)}</div>
+	<div>
+		<ul class="rx_sw_list">
+			<li loop="$document_list => $key, $item">
+				<a href="{getUrl('','document_srl',$item->document_srl)}" class="cont_a" onclick="window.open(this.href);return false;">
+					<span class="content_basic">
+						<span class="content_title">
+							{escape($item->getTitle())}
+						</span>
+						<span class="content_subinfo">
+							{$item->getRegdate("Y-m-d")}
+						</span>
+					</span>
+				</a>
+					<span class="content_delete">
+						<button type="button" class="text" onclick="doDeleteSavedDocument({$item->document_srl},'{lang('common.confirm_delete')}');return false;">{$lang->cmd_delete}</button>
+					</span>
+			</li>
+		</ul>
+	</div>
+</section>
 <div class="pagination pagination-centered">
 	<ul>
-		<li><a href="{getUrl('page','','module_srl','')}" class="direction">&laquo; {$lang->first_page}</a></li> 
+		<li><a href="{getUrl('page','','module_srl','')}" class="direction">&lsaquo; {$lang->first_page}</a></li> 
 		<!--@while($page_no = $page_navigation->getNextPage())-->
 		<li class="active"|cond="$page == $page_no"><a href="{getUrl('page',$page_no,'module_srl','')}">{$page_no}</a></li> 
 		<!--@end-->
-		<li><a href="{getUrl('page',$page_navigation->last_page,'module_srl','')}" class="direction">{$lang->last_page} &raquo;</a></li>
+		<li><a href="{getUrl('page',$page_navigation->last_page,'module_srl','')}" class="direction">{$lang->last_page} &rsaquo;</a></li>
 	</ul>
 </div>
 <include target="./common_footer.html" />

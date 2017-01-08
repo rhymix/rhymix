@@ -5,7 +5,7 @@
 <!--%load_js_plugin("ui.datepicker")-->
 <section class="sw-body">
 	<h1 style="border-bottom:1px solid #ccc">{$lang->msg_update_member}</h1>
-	<div cond="$XE_VALIDATOR_MESSAGE && $XE_VALIDATOR_ID == 'modules/member/skins/simple_world/1'" class="message {$XE_VALIDATOR_MESSAGE_TYPE}">
+	<div cond="$XE_VALIDATOR_MESSAGE && $XE_VALIDATOR_ID == 'modules/member/skins/simple_world/1'" class="rx_member-notice {$XE_VALIDATOR_MESSAGE_TYPE}">
 		<p>{$XE_VALIDATOR_MESSAGE}</p>
 	</div>
 	<form ruleset="@insertMember" id="fo_insert_member" action="./" method="post" enctype="multipart/form-data" class="form-horizontal">
