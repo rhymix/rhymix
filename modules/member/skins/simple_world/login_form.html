@@ -1,6 +1,6 @@
 <include target="./common_header.html" />
 <div class="signin">
-	<div class="sw-body">
+	<section class="sw-body">
 		<h1>{$lang->cmd_login}</h1>
 		<div cond="$XE_VALIDATOR_MESSAGE && $XE_VALIDATOR_ID == 'modules/member/skins'" class="rx_member-notice {$XE_VALIDATOR_MESSAGE_TYPE}">
 			<p>{$XE_VALIDATOR_MESSAGE}</p>
@@ -32,7 +32,7 @@
 				<input type="submit" value="{$lang->cmd_login}" />
 			</div>
 		</form>
-	</div>
+	</section>
 	<div class="sw-footer">
 		<a href="{getUrl('act','dispMemberSignUpForm')}">{lang('member.cmd_signup')}</a>
 	</div>

@@ -4,7 +4,7 @@
 	<div cond="$XE_VALIDATOR_MESSAGE && $XE_VALIDATOR_ID == 'modules/member/skins/simple_world/1'" class="rx_member-notice {$XE_VALIDATOR_MESSAGE_TYPE}">
 		<p>{$XE_VALIDATOR_MESSAGE}</p>
 	</div>
-	<dl class="dl-horizontal">
+	<dl>
 		<block loop="$displayDatas => $item">
 			<dt>{$item->title}<sup cond="$item->required || $item->mustRequired">*</sup></dt>
 			<dd cond="$item->value">{$item->value}</dd>
@@ -26,4 +26,5 @@
 	<a href="{getUrl('act','dispMemberModifyPassword','member_srl','')}">{$lang->cmd_modify_member_password}</a>
 	<a href="{getUrl('act','dispMemberLeave','member_srl','')}">{$lang->cmd_leave}</a>
 </div>
+
 <include target="./common_footer.html" />

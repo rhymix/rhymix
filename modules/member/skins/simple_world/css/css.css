@@ -115,13 +115,11 @@
 	background: #2196f3 none repeat scroll 0 0;
 	border: medium none;
 	color: #fff;
-	margin-top: 20px;
 	padding: 10px;
 	vertical-align: bottom;
 }
-.rx_simple_member .sw-footer
-{
-	margin-bottom:30px;
+.rx_simple_member form div.control-group>input[type="submit"], .rx_simple_member .sw-footer{
+	margin: 20px 0;
 }
 .rx_simple_member .sw-footer>a
 {
@@ -178,7 +176,7 @@
 	border-left: 0 none;
 }
 .rx_simple_member .sw-anchor-buttons {
-	float:right
+	text-align:right;
 }
 .rx_simple_member .sw-anchor-buttons a {
 	display:inline-block;
@@ -197,6 +195,9 @@
 	text-overflow: ellipsis;
 	white-space: nowrap;
 	text-decoration: none;
+}
+.rx_simple_member .rx_sw_list .cont_a.no_delete {
+	padding-right: 15px;
 }
 .rx_simple_member .rx_sw_list .cont_a:hover {
 	color: #2196f3;
