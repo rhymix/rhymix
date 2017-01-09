@@ -917,6 +917,13 @@ class commentController extends comment
 			return new Object(-1, 'msg_invalid_request');
 		}
 		
+		// call a trigger (before)
+		$output = ModuleHandler::triggerCall('comment.deleteComment', 'before', $comment);
+		if(!$output->toBool())
+		{
+			return $output;
+		}
+
 		// begin transaction
 		$oDB = DB::getInstance();
 		$oDB->begin();
@@ -942,8 +949,8 @@ class commentController extends comment
 			return $output;
 		}
 
-		// call a trigger by delete (after)
-		ModuleHandler::triggerCall('comment.updateCommentByDelete', 'after', $obj);
+		// call a trigger (after)
+		ModuleHandler::triggerCall('comment.deleteComment', 'after', $obj);
 
 		// update the number of comments
 		$oCommentModel = getModel('comment');
