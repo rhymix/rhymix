@@ -1,11 +1,12 @@
 <include target="./common_header.html" />
-<import target="filter/logout.xml" />
 <div class="signin">
 	<section class="sw-body">
 		<h1>{lang('member.cmd_logout')}</h1>
 		<p class="rx_member-notice">{lang('common.confirm_logout')}</p>
-		<form action="./" method="get" onsubmit="return procFilter(this, logout)">
+		<form action="./" method="post">
 			<input type="hidden" name="mid" value="{$mid}" />
+			<input type="hidden" name="module" value="member" />
+			<input type="hidden" name="act" value="procMemberLogout" />
 			<div class="control-group">
 				<input type="submit" value="{lang('member.cmd_logout')}" />
 			</div>
