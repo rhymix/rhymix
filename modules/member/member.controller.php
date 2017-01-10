@@ -223,20 +223,20 @@ class memberController extends member
 		{
 			case 'user_id' :
 				// Check denied ID
-				if($oMemberModel->isDeniedID($value)) return new Object(0,'denied_user_id');
+				if($oMemberModel->isDeniedID($value)) return ModuleObject::setMessage('denied_user_id', 'error');
 				// Check if duplicated
 				$member_srl = $oMemberModel->getMemberSrlByUserID($value);
-				if($member_srl && $logged_info->member_srl != $member_srl ) return new Object(0,'msg_exists_user_id');
+				if($member_srl && $logged_info->member_srl != $member_srl ) return ModuleObject::setMessage('msg_exists_user_id', 'error');
 				break;
 			case 'nick_name' :
 				// Check denied ID
 				if($oMemberModel->isDeniedNickName($value))
 				{
-					return new Object(0,'denied_nick_name');
+					return ModuleObject::setMessage('denied_nick_name', 'error');
 				}
 				// Check if duplicated
 				$member_srl = $oMemberModel->getMemberSrlByNickName($value);
-				if($member_srl && $logged_info->member_srl != $member_srl ) return new Object(0,'msg_exists_nick_name');
+				if($member_srl && $logged_info->member_srl != $member_srl ) return ModuleObject::setMessage('msg_exists_nick_name', 'error');
 
 				break;
 			case 'email_address' :
@@ -259,7 +259,7 @@ class memberController extends member
 
 				// Check if duplicated
 				$member_srl = $oMemberModel->getMemberSrlByEmailAddress($value);
-				if($member_srl && $logged_info->member_srl != $member_srl ) return new Object(0,'msg_exists_email_address');
+				if($member_srl && $logged_info->member_srl != $member_srl ) return ModuleObject::setMessage('msg_exists_email_address', 'error');
 				break;
 		}
 	}
