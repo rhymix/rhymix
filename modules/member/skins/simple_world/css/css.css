@@ -1,4 +1,8 @@
 @charset "UTF-8";
+script, style
+{
+	display:none!important;
+}
 .rx_simple_member
 {
 	font-family: "맑은 고딕", "Apple SD Gothic Neo","나눔고딕",NanumGothic,'Nanum Gothic',"돋움",Dotum,"굴림",Gulim,Helvetica,sans-serif;
