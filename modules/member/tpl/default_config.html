@@ -72,8 +72,16 @@
 		</div>
 	</div>
 	<div class="x_control-group">
-		<label class="x_control-label">{$lang->webmaster_email}</label>
+		<label class="x_control-label" for="webmaster_name">{$lang->webmaster_name}</label>
 		<div class="x_controls">
+			<input type="text" id="webmaster_name" name="webmaster_name" value="{$config->webmaster_name}" />
+			<label>{$lang->about_webmaster_name}</label>
+		</div>
+	</div>
+	<div class="x_control-group">
+		<label class="x_control-label" for="webmaster_email">{$lang->webmaster_email}</label>
+		<div class="x_controls">
+			<input type="email" id="webmaster_email" name="webmaster_email" value="{$config->webmaster_email}" />
 			<label>{$lang->about_webmaster_email}</label>
 		</div>
 	</div>
