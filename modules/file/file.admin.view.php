@@ -202,7 +202,6 @@ class fileAdminView extends file
 		$security = new Security();
 		$security->encodeHTML('file_list..');
 		$security->encodeHTML('module_list..');
-		$security->encodeHTML('search_target', 'search_keyword');
 
 		$this->setTemplatePath($this->module_path.'tpl');
 		$this->setTemplateFile('file_list');

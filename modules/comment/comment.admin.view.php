@@ -116,9 +116,6 @@ class commentAdminView extends comment
 		}
 		Context::set('member_nick_name', $member_nick_neme);
 		
-		$security = new Security();
-		$security->encodeHTML('search_target', 'search_keyword');
-
 		// set the template 
 		$this->setTemplatePath($this->module_path . 'tpl');
 		$this->setTemplateFile('comment_list');

@@ -1975,23 +1975,20 @@ class menuAdminController extends menu
 			// Get data from child nodes if exist.
 			if($menu_item_srl&&$tree[$menu_item_srl]) $child_output = $this->getPhpCacheCode($tree[$menu_item_srl], $tree, $site_srl, $domain);
 			else $child_output = array("buff"=>"", "url_list"=>array());
-
 			// List variables
 			$names = $oMenuAdminModel->getMenuItemNames($node->name, $site_srl);
 			unset($name_arr_str);
 			foreach($names as $key => $val)
 			{
-				$name_arr_str .= sprintf('"%s"=>\'%s\',', $key, str_replace(array('\\','\''), array('\\\\','\\\''), strip_tags($val)));
+				$name_arr_str .= sprintf('"%s"=>"%s",',$key, str_replace(array('\\','"'),array('\\\\','&quot;'),$val));
 			}
 			$name_str = sprintf('$_menu_names[%d] = array(%s); %s', $node->menu_item_srl, $name_arr_str, $child_output['name']);
-
 			// If url value is not empty in the current node, put the value into an array url_list
 			if($node->url) $child_output['url_list'][] = $node->url;
 			$output['url_list'] = array_merge($output['url_list'], $child_output['url_list']);
 			// If node->group_srls value exists
 			if($node->group_srls)$group_check_code = sprintf('($is_admin==true||(is_array($group_srls)&&count(array_intersect($group_srls, array(%s))))||($is_logged && %s))',$node->group_srls,$node->group_srls == -1?1:0);
 			else $group_check_code = "true";
-
 			// List variables
 			$href = str_replace(array('&','"','<','>'),array('&amp;','&quot;','&lt;','&gt;'),$node->href);
 			$url = str_replace(array('&','"','<','>'),array('&amp;','&quot;','&lt;','&gt;'),$node->url);
@@ -2045,10 +2042,10 @@ class menuAdminController extends menu
 			}
 			// Create properties (check if it belongs to the menu node by url_list. It looks a trick but fast and powerful)
 			$attribute = sprintf(
-				'"node_srl" => %d, "parent_srl" => %d, "menu_name_key" => \'%s\', "isShow" => (%s ? true : false), "text" => (%s ? $_menu_names[%d][$lang_type] : ""), "href" => (%s ? %s : ""), "url" => (%s ? "%s" : ""), "is_shortcut" => "%s", "desc" => \'%s\', "open_window" => "%s", "normal_btn" => "%s", "hover_btn" => "%s", "active_btn" => "%s", "selected" => (array(%s) && in_array(Context::get("mid"), array(%s)) ? 1 : 0), "expand" => \'%s\', "list" => array(%s), "link" => (%s ? (array(%s) && in_array(Context::get("mid"), array(%s)) ? %s : %s) : ""),',
+				'"node_srl"=>"%s","parent_srl"=>"%s","menu_name_key"=>\'%s\',"isShow"=>(%s?true:false),"text"=>(%s?$_menu_names[%d][$lang_type]:""),"href"=>(%s?%s:""),"url"=>(%s?"%s":""),"is_shortcut"=>"%s","desc"=>\'%s\',"open_window"=>"%s","normal_btn"=>"%s","hover_btn"=>"%s","active_btn"=>"%s","selected"=>(array(%s)&&in_array(Context::get("mid"),array(%s))?1:0),"expand"=>"%s", "list"=>array(%s),  "link"=>(%s? ( array(%s)&&in_array(Context::get("mid"),array(%s)) ?%s:%s):""),',
 				$node->menu_item_srl,
 				$node->parent_srl,
-				strip_tags(addslashes($node->name)),
+				addslashes($node->name),
 				$group_check_code,
 				$group_check_code,
 				$node->menu_item_srl,
