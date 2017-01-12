@@ -1458,7 +1458,7 @@ class Context
 			{
 				$result[$k] = urlencode($v);
 			}
-			elseif(stripos($key, 'XE_VALIDATOR', 0) === 0)
+			elseif(starts_with('XE_VALIDATOR_', $key, false))
 			{
 				unset($result[$k]);
 			}
