@@ -24,8 +24,6 @@ class documentController extends document
 	 */
 	function procDocumentVoteUp()
 	{
-		if(!Context::get('is_logged')) return new Object(-1, 'msg_invalid_request');
-
 		$document_srl = Context::get('target_srl');
 		if(!$document_srl) return new Object(-1, 'msg_invalid_request');
 
@@ -46,8 +44,6 @@ class documentController extends document
 
 	function procDocumentVoteUpCancel()
 	{
-		if(!Context::get('is_logged')) return new Object(-1, 'msg_invalid_request');
-
 		$document_srl = Context::get('target_srl');
 		if(!$document_srl) return new Object(-1, 'msg_invalid_request');
 
@@ -90,8 +86,6 @@ class documentController extends document
 	 */
 	function procDocumentVoteDown()
 	{
-		if(!Context::get('is_logged')) return new Object(-1, 'msg_invalid_request');
-
 		$document_srl = Context::get('target_srl');
 		if(!$document_srl) return new Object(-1, 'msg_invalid_request');
 
@@ -112,8 +106,6 @@ class documentController extends document
 
 	function procDocumentVoteDownCancel()
 	{
-		if(!Context::get('is_logged')) return new Object(-1, 'msg_invalid_request');
-
 		$document_srl = Context::get('target_srl');
 		if(!$document_srl) return new Object(-1, 'msg_invalid_request');
 
@@ -1311,7 +1303,6 @@ class documentController extends document
 			$_SESSION['voted_document'][$document_srl] = false;
 			return new Object(-1, $failed_voted);
 		}
-
 		// Create a member model object
 		$oMemberModel = getModel('member');
 		$member_srl = $oMemberModel->getLoggedMemberSrl();
@@ -1326,7 +1317,6 @@ class documentController extends document
 				return new Object(-1, $failed_voted);
 			}
 		}
-
 		// Use member_srl for logged-in members and IP address for non-members.
 		$args = new stdClass();
 		if($member_srl)
@@ -1345,7 +1335,6 @@ class documentController extends document
 			$_SESSION['voted_document'][$document_srl] = false;
 			return new Object(-1, $failed_voted);
 		}
-
 		// begin transaction
 		$oDB = DB::getInstance();
 		$oDB->begin();
