@@ -24,6 +24,14 @@ class documentController extends document
 	 */
 	function procDocumentVoteUp()
 	{
+		if($this->module_info->non_login_vote !== 'Y')
+		{
+			if(!Context::get('is_logged'))
+			{
+				return new Object(-1, 'msg_invalid_request');
+			}
+		}
+
 		$document_srl = Context::get('target_srl');
 		if(!$document_srl) return new Object(-1, 'msg_invalid_request');
 
@@ -44,6 +52,14 @@ class documentController extends document
 
 	function procDocumentVoteUpCancel()
 	{
+		if($this->module_info->non_login_vote !== 'Y')
+		{
+			if(!Context::get('is_logged'))
+			{
+				return new Object(-1, 'msg_invalid_request');
+			}
+		}
+
 		$document_srl = Context::get('target_srl');
 		if(!$document_srl) return new Object(-1, 'msg_invalid_request');
 
@@ -86,6 +102,14 @@ class documentController extends document
 	 */
 	function procDocumentVoteDown()
 	{
+		if($this->module_info->non_login_vote !== 'Y')
+		{
+			if(!Context::get('is_logged'))
+			{
+				return new Object(-1, 'msg_invalid_request');
+			}
+		}
+
 		$document_srl = Context::get('target_srl');
 		if(!$document_srl) return new Object(-1, 'msg_invalid_request');
 
@@ -106,6 +130,14 @@ class documentController extends document
 
 	function procDocumentVoteDownCancel()
 	{
+		if($this->module_info->non_login_vote !== 'Y')
+		{
+			if(!Context::get('is_logged'))
+			{
+				return new Object(-1, 'msg_invalid_request');
+			}
+		}
+
 		$document_srl = Context::get('target_srl');
 		if(!$document_srl) return new Object(-1, 'msg_invalid_request');
 
