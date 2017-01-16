@@ -46,6 +46,10 @@ class documentController extends document
 
 		$point = 1;
 		$output = $this->updateVotedCount($document_srl, $point);
+		if(!$output->toBool())
+		{
+			return $output;
+		}
 		$this->add('voted_count', $output->get('voted_count'));
 		return $output;
 	}
@@ -71,6 +75,10 @@ class documentController extends document
 		}
 		$point = 1;
 		$output = $this->updateVotedCountCancel($document_srl, $oDocument, $point);
+		if(!$output->toBool())
+		{
+			return $output;
+		}
 
 		$output = new Object();
 		$output->setMessage('success_voted_canceled');
@@ -124,6 +132,10 @@ class documentController extends document
 
 		$point = -1;
 		$output = $this->updateVotedCount($document_srl, $point);
+		if(!$output->toBool())
+		{
+			return $output;
+		}
 		$this->add('blamed_count', $output->get('blamed_count'));
 		return $output;
 	}
@@ -149,6 +161,10 @@ class documentController extends document
 		}
 		$point = -1;
 		$output = $this->updateVotedCountCancel($document_srl, $oDocument, $point);
+		if(!$output->toBool())
+		{
+			return $output;
+		}
 
 		$output = new Object();
 		$output->setMessage('success_blamed_canceled');
