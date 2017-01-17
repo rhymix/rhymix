@@ -24,7 +24,13 @@ class documentController extends document
 	 */
 	function procDocumentVoteUp()
 	{
-		if(!Context::get('is_logged')) return new Object(-1, 'msg_invalid_request');
+		if($this->module_info->non_login_vote !== 'Y')
+		{
+			if(!Context::get('is_logged'))
+			{
+				return new Object(-1, 'msg_invalid_request');
+			}
+		}
 
 		$document_srl = Context::get('target_srl');
 		if(!$document_srl) return new Object(-1, 'msg_invalid_request');
@@ -40,13 +46,23 @@ class documentController extends document
 
 		$point = 1;
 		$output = $this->updateVotedCount($document_srl, $point);
+		if(!$output->toBool())
+		{
+			return $output;
+		}
 		$this->add('voted_count', $output->get('voted_count'));
 		return $output;
 	}
 
 	function procDocumentVoteUpCancel()
 	{
-		if(!Context::get('is_logged')) return new Object(-1, 'msg_invalid_request');
+		if($this->module_info->non_login_vote !== 'Y')
+		{
+			if(!Context::get('is_logged'))
+			{
+				return new Object(-1, 'msg_invalid_request');
+			}
+		}
 
 		$document_srl = Context::get('target_srl');
 		if(!$document_srl) return new Object(-1, 'msg_invalid_request');
@@ -59,6 +75,10 @@ class documentController extends document
 		}
 		$point = 1;
 		$output = $this->updateVotedCountCancel($document_srl, $oDocument, $point);
+		if(!$output->toBool())
+		{
+			return $output;
+		}
 
 		$output = new Object();
 		$output->setMessage('success_voted_canceled');
@@ -90,7 +110,13 @@ class documentController extends document
 	 */
 	function procDocumentVoteDown()
 	{
-		if(!Context::get('is_logged')) return new Object(-1, 'msg_invalid_request');
+		if($this->module_info->non_login_vote !== 'Y')
+		{
+			if(!Context::get('is_logged'))
+			{
+				return new Object(-1, 'msg_invalid_request');
+			}
+		}
 
 		$document_srl = Context::get('target_srl');
 		if(!$document_srl) return new Object(-1, 'msg_invalid_request');
@@ -106,13 +132,23 @@ class documentController extends document
 
 		$point = -1;
 		$output = $this->updateVotedCount($document_srl, $point);
+		if(!$output->toBool())
+		{
+			return $output;
+		}
 		$this->add('blamed_count', $output->get('blamed_count'));
 		return $output;
 	}
 
 	function procDocumentVoteDownCancel()
 	{
-		if(!Context::get('is_logged')) return new Object(-1, 'msg_invalid_request');
+		if($this->module_info->non_login_vote !== 'Y')
+		{
+			if(!Context::get('is_logged'))
+			{
+				return new Object(-1, 'msg_invalid_request');
+			}
+		}
 
 		$document_srl = Context::get('target_srl');
 		if(!$document_srl) return new Object(-1, 'msg_invalid_request');
@@ -125,6 +161,10 @@ class documentController extends document
 		}
 		$point = -1;
 		$output = $this->updateVotedCountCancel($document_srl, $oDocument, $point);
+		if(!$output->toBool())
+		{
+			return $output;
+		}
 
 		$output = new Object();
 		$output->setMessage('success_blamed_canceled');
@@ -1289,8 +1329,14 @@ class documentController extends document
 	 */
 	function updateVotedCount($document_srl, $point = 1)
 	{
-		if($point > 0) $failed_voted = 'failed_voted';
-		else $failed_voted = 'failed_blamed';
+		if($point > 0)
+		{
+			$failed_voted = 'failed_voted';
+		}
+		else
+		{
+			$failed_voted = 'failed_blamed';
+		}
 		// Return fail if session already has information about votes
 		if($_SESSION['voted_document'][$document_srl])
 		{
@@ -1305,7 +1351,6 @@ class documentController extends document
 			$_SESSION['voted_document'][$document_srl] = false;
 			return new Object(-1, $failed_voted);
 		}
-
 		// Create a member model object
 		$oMemberModel = getModel('member');
 		$member_srl = $oMemberModel->getLoggedMemberSrl();
@@ -1320,7 +1365,6 @@ class documentController extends document
 				return new Object(-1, $failed_voted);
 			}
 		}
-
 		// Use member_srl for logged-in members and IP address for non-members.
 		$args = new stdClass();
 		if($member_srl)
@@ -1339,7 +1383,6 @@ class documentController extends document
 			$_SESSION['voted_document'][$document_srl] = false;
 			return new Object(-1, $failed_voted);
 		}
-
 		// begin transaction
 		$oDB = DB::getInstance();
 		$oDB->begin();

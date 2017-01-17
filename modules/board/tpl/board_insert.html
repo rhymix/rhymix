@@ -285,7 +285,6 @@
 				<p class="x_help-block">{$lang->about_comment_delete_message}</p>
 			</div>
 		</div>
-
 		<div class="x_control-group">
 			<label class="x_control-label">{$lang->status}</label>
 			<div class="x_controls">
@@ -297,6 +296,18 @@
 					</block>
 				</block>
 				<p class="x_help-block">{$lang->about_use_status}</p>
+			</div>
+		</div>
+		<div class="x_control-group">
+			<label class="x_control-label">{$lang->non_login_vote}</label>
+			<div class="x_controls">
+				<label class="x_inline">
+					<input type="radio" id="non_login_vote_y" name="non_login_vote" value="Y" checked="checked"|cond="$module_info->non_login_vote == 'Y'" /> {$lang->use}
+				</label>
+				<label class="x_inline">
+					<input type="radio" id="non_login_vote_n" name="non_login_vote" value="N" checked="checked"|cond="$module_info->non_login_vote != 'Y'" /> {$lang->notuse}
+				</label>
+				<p class="x_help-block">{$lang->about_document_force_to_move}</p>
 			</div>
 		</div>
 		<div class="x_control-group">

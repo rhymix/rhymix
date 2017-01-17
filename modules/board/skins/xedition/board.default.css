@@ -1131,4 +1131,25 @@
 .board .secretForm .btn {border-radius: 0 2px 2px 0; }
 .board .secretForm p {margin-bottom:5px;}
 
+.vote-list {
+	display:block;
+	overflow-x: hidden;
+	overflow-y: auto;
+	margin: 0px !important;
+	padding: 20px;
+	color: rgb(34, 34, 34);
+	font-size: 15px;
+	font-family: "Open Sans","나눔바른고딕",NanumBarunGothic,"맑은 고딕","Malgun Gothic","돋움",Dotum,"애플 SD 산돌고딕 Neo","Apple SD Gothic Neo",AppleGothic,Helvetica,sans-serif;
+	line-height: 1.6;
+	-webkit-font-smoothing: antialiased;
+	background: rgb(255, 255, 255);
+}
 
+.votelog {
+	display:inline-block;
+	padding:2px 15px;
+	background:#00b0a2;
+	border-radius: 23px;
+	color:#fff;
+	text-decoration: inherit;
+}
