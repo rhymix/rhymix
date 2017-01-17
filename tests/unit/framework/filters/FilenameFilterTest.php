@@ -12,6 +12,7 @@ class FilenameFilterTest extends \Codeception\TestCase\Test
 			'foo*\.bar' => 'foo.bar',
 			'foobar{baz}.jpg' => 'foobar(baz).jpg',
 			'foobar^%.docx' => 'foobar_.docx',
+			'foo&bar@rhymix.docx' => 'foo&bar@rhymix.docx',
 			
 			// Control characters
 			'foobar' . chr(127) . '.gif' => 'foobar.gif',

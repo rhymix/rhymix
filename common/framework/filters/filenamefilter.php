@@ -16,8 +16,8 @@ class FilenameFilter
 	public static function clean($filename)
 	{
 		// Replace dangerous characters with safe alternatives, maintaining meaning as much as possible.
-		$illegal = array('\\', '/', '<', '>', '{', '}', ':', ';', '|', '"', '~', '`', '@', '#', '$', '%', '^', '&', '*', '?');
-		$replace = array('', '', '(', ')', '(', ')', '_', ',', '_', '', '_', '\'', '_', '_', '_', '_', '_', '_', '', '');
+		$illegal = array('\\', '/', '<', '>', '{', '}', ':', ';', '|', '"', '~', '`', '$', '%', '^', '*', '?');
+		$replace = array('', '', '(', ')', '(', ')', '_', ',', '_', '', '_', '\'', '_', '_', '_', '', '');
 		$filename = str_replace($illegal, $replace, $filename);
 		
 		// Remove control characters.
