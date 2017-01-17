@@ -278,7 +278,7 @@ class fileController extends file
 		$filename = $file_obj->source_filename;
 		$file_module_config = $oFileModel->getFileModuleConfig($file_obj->module_srl);
 		// Not allow the file outlink
-		if($file_module_config->allow_outlink == 'N')
+		if($file_module_config->allow_outlink == 'N' && $_SERVER["HTTP_REFERER"])
 		{
 			// Handles extension to allow outlink
 			if($file_module_config->allow_outlink_format)
@@ -380,7 +380,7 @@ class fileController extends file
 		{
 			$_SESSION['__XE_FILE_KEY__'] = Rhymix\Framework\Security::getRandom(32, 'hex');
 		}
-		$file_key_data = $file_obj->file_srl . $file_obj->file_size . $file_obj->uploaded_filename . $_SERVER['REMOTE_ADDR'] . $_SERVER['HTTP_USER_AGENT'];
+		$file_key_data = $file_obj->file_srl . $file_obj->file_size . $file_obj->uploaded_filename . $_SERVER['REMOTE_ADDR'];
 		$file_key = substr(hash_hmac('sha256', $file_key_data, $_SESSION['__XE_FILE_KEY__']), 0, 32);
 		header('Location: '.getNotEncodedUrl('', 'act', 'procFileOutput','file_srl',$file_srl,'file_key',$file_key));
 		Context::close();
@@ -405,7 +405,7 @@ class fileController extends file
 		{
 			return $this->stop('msg_invalid_request');
 		}
-		$file_key_data = $file_srl . $file_obj->file_size . $file_obj->uploaded_filename . $_SERVER['REMOTE_ADDR'] . $_SERVER['HTTP_USER_AGENT'];
+		$file_key_data = $file_srl . $file_obj->file_size . $file_obj->uploaded_filename . $_SERVER['REMOTE_ADDR'];
 		$file_key_compare = substr(hash_hmac('sha256', $file_key_data, $_SESSION['__XE_FILE_KEY__']), 0, 32);
 		if($file_key !== $file_key_compare)
 		{
