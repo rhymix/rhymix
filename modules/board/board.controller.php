@@ -161,7 +161,7 @@ class boardController extends board
 				$obj->update_order = $obj->list_order = (getNextSequence() * -1);
 			}
 			$obj->reason_update = escape($obj->reason_update);
-			$output = $oDocumentController->updateDocument($oDocument, $obj, true);
+			$output = $oDocumentController->updateDocument($oDocument, $obj, $bAnonymous);
 			$msg_code = 'success_updated';
 
 		// insert a new document otherwise

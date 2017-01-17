@@ -547,10 +547,9 @@ class documentController extends document
 		{
 			return new Object(-1, 'msg_invalid_request');
 		}
-
+		
 		if(!$source_obj->document_srl || !$obj->document_srl) return new Object(-1,'msg_invalied_request');
-
-
+		
 		if(!$obj->status && $obj->is_secret == 'Y') $obj->status = 'SECRET';
 		if(!$obj->status) $obj->status = 'PUBLIC';
 
@@ -561,13 +560,11 @@ class documentController extends document
 		// begin transaction
 		$oDB = &DB::getInstance();
 		$oDB->begin();
-
-		$oModuleModel = getModel('module');
+		
 		if(!$obj->module_srl) $obj->module_srl = $source_obj->get('module_srl');
-		$module_srl = $obj->module_srl;
-		$module_info = $oModuleModel->getModuleInfoByModuleSrl($module_srl);
-
-		$document_config = $oModuleModel->getModulePartConfig('document', $module_srl);
+		
+		$oModuleModel = getModel('module');
+		$document_config = $oModuleModel->getModulePartConfig('document', $obj->module_srl);
 		if(!$document_config)
 		{
 			$document_config = new stdClass();
@@ -580,7 +577,7 @@ class documentController extends document
 			$args = new stdClass;
 			$args->history_srl = getNextSequence();
 			$args->document_srl = $obj->document_srl;
-			$args->module_srl = $module_srl;
+			$args->module_srl = $obj->module_srl;
 			if($document_config->use_history == 'Y') $args->content = $source_obj->get('content');
 			$args->nick_name = $source_obj->get('nick_name');
 			$args->member_srl = $source_obj->get('member_srl');
@@ -609,7 +606,7 @@ class documentController extends document
 		if($obj->notify_message != 'Y') $obj->notify_message = 'N';
 		
 		// can modify regdate only manager
-                $grant = Context::get('grant');
+        $grant = Context::get('grant');
 		if(!$grant->manager)
 		{
 			unset($obj->regdate);
@@ -640,7 +637,7 @@ class documentController extends document
 
 		// If an author is identical to the modifier or history is used, use the logged-in user's information.
 		$logged_info = Context::get('logged_info');
-		if(Context::get('is_logged') && !$manual_updated && $module_info->use_anonymous != 'Y')
+		if(Context::get('is_logged') && !$manual_updated)
 		{
 			if($source_obj->get('member_srl')==$logged_info->member_srl)
 			{
