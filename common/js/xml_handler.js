@@ -168,7 +168,7 @@
 		// Convert params to object and fill in the module and act.
 		params = params ? ($.isArray(params) ? arr2obj(params) : params) : {};
 		action = action.split(".");
-		if (action.length != 2) return;
+		//if (action.length != 2) return;
 		params.module = action[0];
 		params.act = action[1];
 		params._rx_ajax_compat = 'JSON';
@@ -275,7 +275,7 @@
 		// Convert params to object and fill in the module and act.
 		params = params ? ($.isArray(params) ? arr2obj(params) : params) : {};
 		action = action.split(".");
-		if (action.length != 2) return;
+		//if (action.length != 2) return;
 		params.module = action[0];
 		params.act = action[1];
 		
