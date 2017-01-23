@@ -606,7 +606,7 @@ class documentController extends document
 		if($obj->notify_message != 'Y') $obj->notify_message = 'N';
 		
 		// can modify regdate only manager
-        $grant = Context::get('grant');
+		$grant = Context::get('grant');
 		if(!$grant->manager)
 		{
 			unset($obj->regdate);
@@ -1459,12 +1459,14 @@ class documentController extends document
 		{
 			return $output;
 		}
-
+		
 		$declared_count = ($output->data->declared_count) ? $output->data->declared_count : 0;
-
+		$declare_message = trim(htmlspecialchars($declare_message));
+		
 		$trigger_obj = new stdClass();
 		$trigger_obj->document_srl = $document_srl;
 		$trigger_obj->declared_count = $declared_count;
+		$trigger_obj->declare_message = $declare_message;
 
 		// Call a trigger (before)
 		$trigger_output = ModuleHandler::triggerCall('document.declaredDocument', 'before', $trigger_obj);
@@ -1510,7 +1512,7 @@ class documentController extends document
 		}
 
 		$args->document_srl = $document_srl;
-		$args->declare_message = trim(htmlspecialchars($declare_message));
+		$args->declare_message = $declare_message;
 		$output = executeQuery('document.getDocumentDeclaredLogInfo', $args);
 
 		// Pass after registering a sesson if reported/declared documents are in the logs.
