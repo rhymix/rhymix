@@ -1385,13 +1385,15 @@ class commentController extends comment
 		{
 			return $output;
 		}
-
+		
 		$declared_count = ($output->data->declared_count) ? $output->data->declared_count : 0;
-
+		$declare_message = trim(htmlspecialchars($declare_message));
+		
 		$trigger_obj = new stdClass();
 		$trigger_obj->comment_srl = $comment_srl;
 		$trigger_obj->declared_count = $declared_count;
-
+		$trigger_obj->declare_message = $declare_message;
+		
 		// Call a trigger (before)
 		$trigger_output = ModuleHandler::triggerCall('comment.declaredComment', 'before', $trigger_obj);
 		if(!$trigger_output->toBool())
@@ -1436,7 +1438,7 @@ class commentController extends comment
 		}
 
 		$args->comment_srl = $comment_srl;
-		$args->declare_message = trim(htmlspecialchars($declare_message));
+		$args->declare_message = $declare_message;
 		$log_output = executeQuery('comment.getCommentDeclaredLogInfo', $args);
 
 		// session registered if log info contains report log.
