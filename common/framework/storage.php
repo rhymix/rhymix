@@ -715,6 +715,35 @@ class Storage
 	}
 	
 	/**
+	 * Delete a directory only if it is empty.
+	 * 
+	 * @param string $dirname
+	 * @param bool $delete_empty_parents (optional)
+	 * @return bool
+	 */
+	public static function deleteEmptyDirectory($dirname, $delete_empty_parents = false)
+	{
+		if (!self::isDirectory($dirname) || !self::isEmptyDirectory($dirname))
+		{
+			return false;
+		}
+		
+		$result = @rmdir($dirname);
+		if (!$result)
+		{
+			return false;
+		}
+		else
+		{
+			if ($delete_empty_parents)
+			{
+				self::deleteEmptyDirectory(dirname($dirname), true);
+			}
+			return true;
+		}
+	}
+	
+	/**
 	 * Get the current umask.
 	 * 
 	 * @return int
