@@ -1129,6 +1129,9 @@ class commentController extends comment
 			$output = executeQuery('file.updateFileValid', $args);
 		}
 
+		// Remove the thumbnail file
+		Rhymix\Framework\Storage::deleteEmptyDirectory(RX_BASEDIR . sprintf('files/thumbnails/%s', getNumberingPath($comment_srl, 3)), true);
+
 		// commit
 		$oDB->commit();
 

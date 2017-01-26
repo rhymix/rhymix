@@ -986,10 +986,13 @@ class fileController extends file
 			if(!$output->toBool()) return $output;
 
 			// If successfully deleted, remove the file
-			FileHandler::removeFile($uploaded_filename);
+			Rhymix\Framework\Storage::delete(FileHandler::getRealPath($uploaded_filename));
 
 			// Call a trigger (after)
 			ModuleHandler::triggerCall('file.deleteFile', 'after', $trigger_obj);
+			
+			// Remove empty directories
+			Rhymix\Framework\Storage::deleteEmptyDirectory(dirname(FileHandler::getRealPath($uploaded_filename)), true);
 		}
 
 		$oDocumentController->updateUploaedCount($documentSrlList);
@@ -1013,15 +1016,9 @@ class fileController extends file
 		if(!is_array($file_list)||!count($file_list)) return new Object();
 
 		// Delete the file
-		$path = array();
-		$file_count = count($file_list);
-		for($i=0;$i<$file_count;$i++)
+		foreach ($file_list as $file)
 		{
-			$this->deleteFile($file_list[$i]->file_srl);
-
-			$uploaded_filename = $file_list[$i]->uploaded_filename;
-			$path_info = pathinfo($uploaded_filename);
-			if(!in_array($path_info['dirname'], $path)) $path[] = $path_info['dirname'];
+			$this->deleteFile($file->file_srl);
 		}
 
 		// Remove from the DB
@@ -1029,12 +1026,6 @@ class fileController extends file
 		$args->upload_target_srl = $upload_target_srl;
 		$output = executeQuery('file.deleteFiles', $args);
 		if(!$output->toBool()) return $output;
-		
-		// Remove a file directory of the document
-		for($i=0, $c=count($path); $i<$c; $i++)
-		{
-			FileHandler::removeBlankDir($path[$i]);
-		}
 
 		return $output;
 	}
@@ -1065,12 +1056,12 @@ class fileController extends file
 			// Determine the file path by checking if the file is an image or other kinds
 			if(preg_match("/\.(jpg|jpeg|gif|png|wmv|wma|mpg|mpeg|avi|swf|flv|mp1|mp2|mp3|mp4|asf|wav|asx|mid|midi|asf|mov|moov|qt|rm|ram|ra|rmm|m4v)$/i", $file_info->source_filename))
 			{
-				$path = sprintf("./files/attach/images/%s/%s/", $target_module_srl,$target_srl);
+				$path = sprintf("./files/attach/images/%s/%s", $target_module_srl, getNumberingPath($target_srl, 3));
 				$new_file = $path . $file_info->source_filename;
 			}
 			else
 			{
-				$path = sprintf("./files/attach/binaries/%s/%s/", $target_module_srl, $target_srl);
+				$path = sprintf("./files/attach/binaries/%s/%s", $target_module_srl, getNumberingPath($target_srl, 3));
 				$new_file = $path . Rhymix\Framework\Security::getRandom(32, 'hex');
 			}
 			// Pass if a target document to move is same
@@ -1079,6 +1070,8 @@ class fileController extends file
 			FileHandler::makeDir($path);
 			// Move the file
 			FileHandler::rename($old_file, $new_file);
+			// Delete old path
+			Rhymix\Framework\Storage::deleteEmptyDirectory(dirname(FileHandler::getRealPath($old_file)), true);
 			// Update DB information
 			$args = new stdClass;
 			$args->file_srl = $file_info->file_srl;
