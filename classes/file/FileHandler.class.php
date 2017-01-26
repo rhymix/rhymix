@@ -208,15 +208,7 @@ class FileHandler
 	 */
 	public static function removeBlankDir($path)
 	{
-		$path = self::getRealPath($path);
-		if (Rhymix\Framework\Storage::isEmptyDirectory($path))
-		{
-			return Rhymix\Framework\Storage::deleteDirectory($path);
-		}
-		else
-		{
-			return false;
-		}
+		return Rhymix\Framework\Storage::deleteEmptyDirectory(self::getRealPath($path), false);
 	}
 
 	/**
