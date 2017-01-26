@@ -723,6 +723,7 @@ class Storage
 	 */
 	public static function deleteEmptyDirectory($dirname, $delete_empty_parents = false)
 	{
+		$dirname = rtrim($dirname, '/\\');
 		if (!self::isDirectory($dirname) || !self::isEmptyDirectory($dirname))
 		{
 			return false;
