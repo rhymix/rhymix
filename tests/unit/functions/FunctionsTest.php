@@ -18,6 +18,14 @@ class FunctionsTest extends \Codeception\TestCase\Test
 		$this->assertEquals($flattened2, array_flatten($array, false));
 	}
 	
+	public function testArrayEscape()
+	{
+		$this->assertEquals(array('foo&lt;' => 'bar&gt;', 'baz&quot;baz' => array('fuzz&amp;amp;bazz' => '&lt;rhymix&gt;')), array_escape(array('foo<' => 'bar>', 'baz"baz' => array('fuzz&amp;bazz' => '<rhymix>'))));
+		$this->assertEquals(array('invalid' => 'unicode' . "\xEF\xBF\xBD", 'other' => array('key&amp;key')), array_escape(array('invalid' => 'unicode' . "\xE4\xA8", 'other' => array('key&amp;key')), false));
+		$this->assertEquals(array('object' => (object)array('foo&gt;' => 'bar&lt;', 'baz&quot;' => '&amp;amp;')), array_escape(array('object' => (object)array('foo>' => 'bar<', 'baz"' => '&amp;'))));
+		$this->assertEquals(array('object' => (object)array('foo&gt;' => array('bar&lt;' => array('&amp;')))), array_escape(array('object' => (object)array('foo>' => array('bar<' => array('&amp;')))), false));
+	}
+	
 	public function testClassBasename()
 	{
 		$this->assertEquals('FunctionsTest', class_basename($this));
@@ -28,6 +36,8 @@ class FunctionsTest extends \Codeception\TestCase\Test
 	{
 		$this->assertEquals('&lt;foo&gt;&amp;amp;&lt;/foo&gt;', escape('<foo>&amp;</foo>'));
 		$this->assertEquals('&lt;foo&gt;&amp;&lt;/foo&gt;', escape('<foo>&amp;</foo>', false));
+		$this->assertEquals('&lt;foo&gt;invalid'. "\xEF\xBF\xBD" . 'unicode&lt;/foo&gt;', escape('<foo>invalid' . "\xE4\xA8" . 'unicode</foo>'));
+		$this->assertEquals('&lt;foo&gt;invalid'. "\xEF\xBF\xBD" . 'unicode&lt;/foo&gt;', escape('<foo>invalid' . "\xE4\xA8" . 'unicode&lt;/foo&gt;', false));
 		
 		$this->assertEquals('expressionalertXSS', escape_css('expression:alert("XSS")'));
 		$this->assertEquals('#123456', escape_css('#123456'));
