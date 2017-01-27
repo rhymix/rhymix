@@ -40,6 +40,11 @@ while (true)
 				$oFileController->deleteFile($file_info->file_srl);
 			}
 			$oDB->commit();
+			
+			if ($output->page_navigation && $output->page_navigation->total_count == count($output->data))
+			{
+				break;
+			}
 		}
 		else
 		{
