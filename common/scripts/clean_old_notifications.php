@@ -27,7 +27,7 @@ else
 {
 	echo "Error while deleting notifications older than $days days.\n";
 	echo $output->getMessage() . "\n";
-	$exit_status = abs($output->getError());
+	$exit_status = 11;
 }
 
 // Set the exit status if there were any errors.
