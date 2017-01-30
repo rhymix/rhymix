@@ -30,6 +30,8 @@
 }
 <block cond="$layout_info->extra_var->primary_color->type === 'select' || $layout_info->extra_var->customized_primary_color->type === 'colorpicker'">
 	{@
+		if(!$layout_info->primary_color && $layout_info->customized_primary_color)
+			$layout_info->primary_color = 'customized';
 		if(!$layout_info->primary_color)
 			$layout_info->primary_color = 'red';
 		if(!$layout_info->customized_primary_color)
