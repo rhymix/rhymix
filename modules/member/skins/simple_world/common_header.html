@@ -1,6 +1,49 @@
-<load target="css/css.css" />
 <load target="js/member.js" />
+<!--// Check layout. If it is Simple World, select layout primary colors as a primary color of this skin -->
+{@
+	$material_colors = array(
+		'red'	=>	'#f44336',
+		'crimson'	=>	'#66001f',
+		'pink'	=>	'#e91e63',
+		'purple'	=>	'#9c27b0',
+		'deep-purple'	=>	'#673ab7',
+		'indigo'	=>	'#3f51b5',
+		'deep-blue'	=>	'#00397f',
+		'blue'	=>	'#2196f3',
+		'light-blue'	=>	'#03a9f4',
+		'cyan'	=>	'#00bcd4',
+		'teal'	=>	'#009688',
+		'green'	=>	'#4caf50',
+		'light-green'	=>	'#8bc34a',
+		'lime'	=>	'#cddc39',
+		'yellow'	=>	'#ffeb3b',
+		'amber'	=>	'#ffc107',
+		'orange'	=>	'#ff9800',
+		'deep-orange'	=>	'#ff5722',
+		'brown'	=>	'#795548',
+		'grey'	=>	'#9e9e9e',
+		'blue-grey'	=>	'#607d8b',
+		'black'	=>	'#000000',
+		'white'	=>	'#ffffff',
+		'customized'	=>	$layout_info->customized_primary_color,
+	);
+}
+<block cond="$layout_info->layout === 'simple_world' && ($layout_info->extra_var->primary_color->type === 'select' || $layout_info->extra_var->customized_primary_color->type === 'colorpicker')">
+	{@
+		if(!$layout_info->primary_color)
+			$layout_info->primary_color = 'red';
+		if(!$layout_info->customized_primary_color)
+			$layout_info->customized_primary_color = '#f44336';
+	}
 
+</block>
+<block cond="$layout_info->layout !== 'simple_world' || ($layout_info->extra_var->primary_color->type !== 'select' && $layout_info->extra_var->customized_primary_color->type !== 'colorpicker')">
+	{@$layout_info->primary_color = 'blue';}
+</block>
+<!--// Load styles -->
+{@$skin_color = $material_colors[$layout_info->primary_color]}
+{Context::set('simple_less_value', array('red' => hexdec(substr($skin_color, 1, 2)), 'green' => hexdec(substr($skin_color, 3, 2)), 'blue' => hexdec(substr($skin_color, 5, 2)) ))}
+<load target="css/css.less" vars="$simple_less_value" />
 <section class="rx_simple_member">
 	<div class="rx_simple_tab" cond="$is_logged && $logged_info->menu_list && (!$member_srl || $member_srl == $logged_info->member_srl)">
 		<ul class="rx_simple_tab">
