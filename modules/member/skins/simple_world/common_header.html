@@ -28,7 +28,7 @@
 		'customized'	=>	$layout_info->customized_primary_color,
 	);
 }
-<block cond="$layout_info->layout === 'simple_world' && ($layout_info->extra_var->primary_color->type === 'select' || $layout_info->extra_var->customized_primary_color->type === 'colorpicker')">
+<block cond="$layout_info->extra_var->primary_color->type === 'select' || $layout_info->extra_var->customized_primary_color->type === 'colorpicker'">
 	{@
 		if(!$layout_info->primary_color)
 			$layout_info->primary_color = 'red';
@@ -37,7 +37,7 @@
 	}
 
 </block>
-<block cond="$layout_info->layout !== 'simple_world' || ($layout_info->extra_var->primary_color->type !== 'select' && $layout_info->extra_var->customized_primary_color->type !== 'colorpicker')">
+<block cond="$layout_info->extra_var->primary_color->type !== 'select' && $layout_info->extra_var->customized_primary_color->type !== 'colorpicker'">
 	{@$layout_info->primary_color = 'blue';}
 </block>
 <!--// Load styles -->
