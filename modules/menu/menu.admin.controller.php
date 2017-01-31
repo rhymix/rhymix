@@ -1987,7 +1987,7 @@ class menuAdminController extends menu
 				}
 				else
 				{
-					$name_arr_str .= sprintf('"%s"=>\'%s\',', $key, str_replace(array('\\','\''), array('\\\\','\\\''), strip_tags($val)));
+					$name_arr_str .= sprintf('"%s"=>\'%s\',', $key, str_replace(array('\\','\''), array('\\\\','\\\''), Rhymix\Framework\Filters\HTMLFilter::clean($val, true)));
 				}
 			}
 			$name_str = sprintf('$_menu_names[%d] = array(%s); %s', $node->menu_item_srl, $name_arr_str, $child_output['name']);

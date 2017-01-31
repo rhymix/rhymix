@@ -1943,8 +1943,7 @@ jQuery(function($){
 			$(this).addClass('page');
 		}
 
-		//$(this).find('#menuName').val(htInfo.sText);
-		$(this).find('#menuName').val(htInfo.sMenuNameKey);
+		$(this).find('#menuName').val(htInfo.sMenuNameKey.match(/\$user_lang->/) ? htInfo.sMenuNameKey : htInfo.sText);
 		$(this).find('#menuDesc').val(htInfo.desc);
 		//menu_name_key
 
