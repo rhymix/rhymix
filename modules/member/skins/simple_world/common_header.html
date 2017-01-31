@@ -42,15 +42,18 @@
 <block cond="$layout_info->extra_var->primary_color->type !== 'select' && $layout_info->extra_var->customized_primary_color->type !== 'colorpicker'">
 	{@$layout_info->primary_color = 'blue';}
 </block>
+
 <!--// Load styles -->
 {@$skin_color = $material_colors[$layout_info->primary_color];}
 <block cond="!$skin_color">
-	<block cond="preg_match('/#([a-f0-9]{3}){1,2}\b/i', $layout_info->primary_color)">
+	<!--@if(preg_match("/#([a-f0-9]{3}){1,2}/i", $layout_info->primary_color))-->
 		{@$skin_color = $layout_info->primary_color}
-	</block>
-	<block cond="!preg_match('/#([a-f0-9]{3}){1,2}\b/i', $layout_info->primary_color)">
+		<!--@if(strlen($layout_info->primary_color) === 4)-->
+			{@$skin_color = $layout_info->primary_color[1].$layout_info->primary_color[1].$layout_info->primary_color[2].$layout_info->primary_color[2].$layout_info->primary_color[3].$layout_info->primary_color[3]}
+		<!--@endif-->
+	<!--@else-->
 		{@$skin_color = '#f44336'}
-	</block>
+	<!--@endif-->
 </block>
 {Context::set('simple_less_value', array('red' => hexdec(substr($skin_color, 1, 2)), 'green' => hexdec(substr($skin_color, 3, 2)), 'blue' => hexdec(substr($skin_color, 5, 2)) ))}
 <load target="css/css.less" vars="$simple_less_value" />
