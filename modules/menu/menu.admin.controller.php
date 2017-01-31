@@ -1884,29 +1884,32 @@ class menuAdminController extends menu
 			$names = $oMenuAdminModel->getMenuItemNames($node->name, $site_srl);
 			foreach($names as $key => $val)
 			{
-				$name_arr_str .= sprintf('"%s"=>\'%s\',',$key, str_replace(array('\\', '\''), array('\\\\', '\\\''), $val));
+				$name_arr_str .= sprintf('"%s"=>%s,', $key, var_export($val, true));
 			}
 			$name_str = sprintf('$_names = array(%s); print $_names[$lang_type];', $name_arr_str);
 
-			$url = str_replace(array('&','"','<','>'),array('&amp;','&quot;','&lt;','&gt;'),$node->url);
-			$desc = str_replace(array('&','"',"'"),array('&amp;','&quot;','\\\''),$node->desc);
+			$url = escape($node->url);
+			$desc = escape($node->desc, false);
 			if(preg_match('/^([0-9a-zA-Z\_\-]+)$/', $node->url))
 			{
 				$href = "getSiteUrl('$domain', '','mid','$node->url')";
 			}
-			else $href = sprintf('"%s"', $url);
+			else
+			{
+				$href = var_export($url, true);
+			}
 			$is_shortcut = $node->is_shortcut;
 			$open_window = $node->open_window;
 			$expand = $node->expand;
 
 			$normal_btn = $node->normal_btn;
-			if($normal_btn && strncasecmp('./files/attach/menu_button', $normal_btn, 26) === 0) $normal_btn = str_replace(array('&','"','<','>'),array('&amp;','&quot;','&lt;','&gt;'),$normal_btn);
+			if($normal_btn && strncasecmp('./files/attach/menu_button', $normal_btn, 26) === 0) $normal_btn = escape($normal_btn);
 			else $normal_btn = '';
 			$hover_btn = $node->hover_btn;
-			if($hover_btn && strncasecmp('./files/attach/menu_button', $hover_btn, 26) === 0) $hover_btn = str_replace(array('&','"','<','>'),array('&amp;','&quot;','&lt;','&gt;'),$hover_btn);
+			if($hover_btn && strncasecmp('./files/attach/menu_button', $hover_btn, 26) === 0) $hover_btn = escape($hover_btn);
 			else $hover_btn = '';
 			$active_btn = $node->active_btn;
-			if($active_btn && strncasecmp('./files/attach/menu_button', $active_btn, 26) === 0) $active_btn = str_replace(array('&','"','<','>'),array('&amp;','&quot;','&lt;','&gt;'),$active_btn);
+			if($active_btn && strncasecmp('./files/attach/menu_button', $active_btn, 26) === 0) $active_btn = escape($active_btn);
 			else $active_btn = '';
 
 			$group_srls = $node->group_srls;
@@ -1987,7 +1990,7 @@ class menuAdminController extends menu
 				}
 				else
 				{
-					$name_arr_str .= sprintf('"%s"=>\'%s\',', $key, str_replace(array('\\','\''), array('\\\\','\\\''), Rhymix\Framework\Filters\HTMLFilter::clean($val, true)));
+					$name_arr_str .= sprintf('"%s"=>%s,', $key, var_export(Rhymix\Framework\Filters\HTMLFilter::clean($val, true), true));
 				}
 			}
 			$name_str = sprintf('$_menu_names[%d] = array(%s); %s', $node->menu_item_srl, $name_arr_str, $child_output['name']);
@@ -2000,19 +2003,22 @@ class menuAdminController extends menu
 			else $group_check_code = "true";
 
 			// List variables
-			$href = str_replace(array('&','"','<','>'),array('&amp;','&quot;','&lt;','&gt;'),$node->href);
-			$url = str_replace(array('&','"','<','>'),array('&amp;','&quot;','&lt;','&gt;'),$node->url);
-			$desc = str_replace(array('&','"',"'"),array('&amp;','&quot;','\\\''),$node->desc);
+			$href = escape($node->href);
+			$url = escape($node->url);
+			$desc = escape($node->desc, false);
 			if(preg_match('/^([0-9a-zA-Z\_\-]+)$/i', $node->url))
 			{
 				$href = "getSiteUrl('$domain', '','mid','$node->url')";
 			}
-			else $href = sprintf('"%s"', $url);
+			else
+			{
+				$href = var_export($url, true);
+			}
 			$is_shortcut = $node->is_shortcut;
 			$open_window = $node->open_window;
-			$normal_btn = str_replace(array('&','"','<','>'),array('&amp;','&quot;','&lt;','&gt;'),$node->normal_btn);
-			$hover_btn = str_replace(array('&','"','<','>'),array('&amp;','&quot;','&lt;','&gt;'),$node->hover_btn);
-			$active_btn = str_replace(array('&','"','<','>'),array('&amp;','&quot;','&lt;','&gt;'),$node->active_btn);
+			$normal_btn = escape($node->normal_btn);
+			$hover_btn = escape($node->hover_btn);
+			$active_btn = escape($node->active_btn);
 
 			foreach($child_output['url_list'] as $key =>$val)
 			{
@@ -2024,17 +2030,16 @@ class menuAdminController extends menu
 			$expand = $node->expand;
 
 			$normal_btn = $node->normal_btn;
-			if($normal_btn && strncasecmp('./files/attach/menu_button', $normal_btn, 26) === 0) $normal_btn = str_replace(array('&','"','<','>'),array('&amp;','&quot;','&lt;','&gt;'),$normal_btn);
+			if($normal_btn && strncasecmp('./files/attach/menu_button', $normal_btn, 26) === 0) $normal_btn = escape($normal_btn);
 			else $normal_btn = '';
 
 			$hover_btn = $node->hover_btn;
-			if($hover_btn && strncasecmp('./files/attach/menu_button', $hover_btn, 26) === 0) $hover_btn = str_replace(array('&','"','<','>'),array('&amp;','&quot;','&lt;','&gt;'),$hover_btn);
+			if($hover_btn && strncasecmp('./files/attach/menu_button', $hover_btn, 26) === 0) $hover_btn = escape($hover_btn);
 			else $hover_btn = '';
 
 			$active_btn = $node->active_btn;
-			if($active_btn && strncasecmp('./files/attach/menu_button', $active_btn, 26) === 0) $active_btn = str_replace(array('&','"','<','>'),array('&amp;','&quot;','&lt;','&gt;'),$active_btn);
+			if($active_btn && strncasecmp('./files/attach/menu_button', $active_btn, 26) === 0) $active_btn = escape($active_btn);
 			else $active_btn = '';
-
 
 			$group_srls = $node->group_srls;
 
