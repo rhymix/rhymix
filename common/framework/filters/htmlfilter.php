@@ -70,21 +70,37 @@ class HTMLFilter
 	 * Filter HTML content to block XSS attacks.
 	 * 
 	 * @param string $input
+	 * @param array|bool $allow_classes (optional)
 	 * @param bool $allow_editor_components (optional)
 	 * @param bool $allow_widgets (optional)
 	 * @return string
 	 */
-	public static function clean($input, $allow_editor_components = true, $allow_widgets = false)
+	public static function clean($input, $allow_classes = false, $allow_editor_components = true, $allow_widgets = false)
 	{
 		foreach (self::$_preproc as $callback)
 		{
 			$input = $callback($input);
 		}
 		
-		$allowed_classes = Config::get('mediafilter.classes') ?: array();
-		if ($allow_widgets)
+		if ($allow_classes === true)
 		{
-			$allowed_classes[] = 'zbxe_widget_output';
+			$allowed_classes = null;
+		}
+		else
+		{
+			if (is_array($allow_classes))
+			{
+				$allowed_classes = array_values($allow_classes);
+			}
+			else
+			{
+				$allowed_classes = Config::get('mediafilter.classes') ?: array();
+			}
+			
+			if ($allow_widgets)
+			{
+				$allowed_classes[] = 'zbxe_widget_output';
+			}
 		}
 		
 		$input = self::_preprocess($input, $allow_editor_components, $allow_widgets);
@@ -102,14 +118,17 @@ class HTMLFilter
 	/**
 	 * Get an instance of HTMLPurifier.
 	 * 
-	 * @param array $allowed_classes (optional)
+	 * @param array|null $allowed_classes (optional)
 	 * @return object
 	 */
-	public static function getHTMLPurifier($allowed_classes = array())
+	public static function getHTMLPurifier($allowed_classes = null)
 	{
 		// Keep separate instances for different sets of allowed classes.
-		$allowed_classes = array_unique($allowed_classes);
-		sort($allowed_classes);
+		if ($allowed_classes !== null)
+		{
+			$allowed_classes = array_unique($allowed_classes);
+			sort($allowed_classes);
+		}
 		$key = sha1(serialize($allowed_classes));
 		
 		// Create an instance with reasonable defaults.
@@ -242,6 +261,7 @@ class HTMLFilter
 		));
 		
 		// Support additional properties.
+		$def->addAttribute('i', 'aria-hidden', 'Text');
 		$def->addAttribute('img', 'srcset', 'Text');
 		$def->addAttribute('iframe', 'allowfullscreen', 'Bool');
 	}
