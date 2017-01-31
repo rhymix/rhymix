@@ -43,7 +43,15 @@
 	{@$layout_info->primary_color = 'blue';}
 </block>
 <!--// Load styles -->
-{@$skin_color = $material_colors[$layout_info->primary_color]}
+{@$skin_color = $material_colors[$layout_info->primary_color];}
+<block cond="!$skin_color">
+	<block cond="preg_match('/#([a-f0-9]{3}){1,2}\b/i', $layout_info->primary_color)">
+		{@$skin_color = $layout_info->primary_color}
+	</block>
+	<block cond="!preg_match('/#([a-f0-9]{3}){1,2}\b/i', $layout_info->primary_color)">
+		{@$skin_color = '#f44336'}
+	</block>
+</block>
 {Context::set('simple_less_value', array('red' => hexdec(substr($skin_color, 1, 2)), 'green' => hexdec(substr($skin_color, 3, 2)), 'blue' => hexdec(substr($skin_color, 5, 2)) ))}
 <load target="css/css.less" vars="$simple_less_value" />
 <section class="rx_simple_member">
