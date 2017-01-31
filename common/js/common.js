@@ -313,12 +313,27 @@ jQuery(function($) {
 	};
 
 	/**
-	 * @brief string prototype으로 trim 함수 추가
+	 * @brief string prototype으로 escape 함수 추가
 	 **/
-	String.prototype.trim = function() {
-		return this.replace(/(^\s*)|(\s*$)/g, "");
+	String.prototype.escape = function(double_escape) {
+		var map = { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#039;' };
+		var revmap = { '&amp;amp;': '&amp;', '&amp;lt;': '&lt;', '&amp;gt;': '&gt;', '&amp;quot;': '&quot;', "&amp;#039;": '&#039;' };
+		var result = String(this).replace(/[&<>"']/g, function(m) { return map[m]; });
+		if (double_escape === false) {
+			return result.replace(/&amp;(amp|lt|gt|quot|#039);/g, function(m) { return revmap[m]; });
+		} else {
+			return result;
+		}
 	};
 
+	/**
+	 * @brief string prototype으로 trim 함수 추가
+	 **/
+	if (!String.prototype.trim) {
+		String.prototype.trim = function() {
+			return String(this).replace(/^[\s\uFEFF\xA0]+|[\s\uFEFF\xA0]+$/g, '');
+		};
+	}
 })();
 
 /**

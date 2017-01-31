@@ -154,6 +154,15 @@ class HTMLFilterTest extends \Codeception\TestCase\Test
 		$source = '<p class="mytest">Hello World</p>';
 		$target = '<p class="mytest">Hello World</p>';
 		$this->assertEquals($target, Rhymix\Framework\Filters\HTMLFilter::clean($source));
+		
+		config('mediafilter.classes', array());
+		$source = '<p class="whatever">Hello World</p>';
+		$target = '<p class="whatever">Hello World</p>';
+		$this->assertEquals($target, Rhymix\Framework\Filters\HTMLFilter::clean($source, true));
+		
+		$source = '<p class="foobar whatever">Hello World</p>';
+		$target = '<p class="foobar">Hello World</p>';
+		$this->assertEquals($target, Rhymix\Framework\Filters\HTMLFilter::clean($source, array('foobar')));
 	}
 	
 	public function testHTMLFilterEditorComponent()
@@ -176,11 +185,11 @@ class HTMLFilterTest extends \Codeception\TestCase\Test
 		
 		$source = '<img somekey="somevalue" otherkey="othervalue" onmouseover="alert(\'xss\');" editor_component="component_name" src="./foo/bar.jpg" alt="My Picture" style="width:320px;height:240px;" width="320" height="240" />';
 		$target = '<img src="./foo/bar.jpg" alt="My Picture" style="width:320px;height:240px;" width="320" height="240" />';
-		$this->assertEquals($target, Rhymix\Framework\Filters\HTMLFilter::clean($source, false));
+		$this->assertEquals($target, Rhymix\Framework\Filters\HTMLFilter::clean($source, false, false));
 		
 		$source = '<img somekey="somevalue" otherkey="othervalue" onkeypress="alert(\'xss\');" editor_component="component_name" />';
 		$target = '';
-		$this->assertEquals($target, Rhymix\Framework\Filters\HTMLFilter::clean($source, false));
+		$this->assertEquals($target, Rhymix\Framework\Filters\HTMLFilter::clean($source, false, false));
 	}
 	
 	public function testHTMLFilterWidgetCode()
@@ -191,11 +200,11 @@ class HTMLFilterTest extends \Codeception\TestCase\Test
 		
 		$source = '<p>Hello World</p><img class="zbxe_widget_output" widget="content" skin="default" colorset="white" widget_sequence="1234" widget_cache="1m" content_type="document" module_srls="56" list_type="normal" tab_type="none" markup_type="table" page_count="1" option_view="title,regdate,nickname" show_browser_title="Y" show_comment_count="Y" show_trackback_count="Y" show_category="Y" show_icon="Y" show_secret="N" order_target="regdate" order_type="desc" thumbnail_type="crop" />';
 		$target = '<p>Hello World</p><img widget="content" skin="default" colorset="white" widget_sequence="1234" widget_cache="1m" content_type="document" module_srls="56" list_type="normal" tab_type="none" markup_type="table" page_count="1" option_view="title,regdate,nickname" show_browser_title="Y" show_comment_count="Y" show_trackback_count="Y" show_category="Y" show_icon="Y" show_secret="N" order_target="regdate" order_type="desc" thumbnail_type="crop" src="" class="zbxe_widget_output" alt="" />';
-		$this->assertEquals($target, Rhymix\Framework\Filters\HTMLFilter::clean($source, true, true));
+		$this->assertEquals($target, Rhymix\Framework\Filters\HTMLFilter::clean($source, true, true, true));
 		
 		$source = '<p>Hello World</p><img class="zbxe_widget_output" widget="content" onmouseover="alert(\'xss\');" skin="default" colorset="white" widget_sequence="1234" widget_cache="1m" content_type="document" module_srls="56" list_type="normal" tab_type="none" markup_type="table" page_count="1" option_view="title,regdate,nickname" show_browser_title="Y" show_comment_count="Y" show_trackback_count="Y" show_category="Y" show_icon="Y" show_secret="N" order_target="regdate" order_type="desc" thumbnail_type="crop" />';
 		$target = '<p>Hello World</p><img widget="content" skin="default" colorset="white" widget_sequence="1234" widget_cache="1m" content_type="document" module_srls="56" list_type="normal" tab_type="none" markup_type="table" page_count="1" option_view="title,regdate,nickname" show_browser_title="Y" show_comment_count="Y" show_trackback_count="Y" show_category="Y" show_icon="Y" show_secret="N" order_target="regdate" order_type="desc" thumbnail_type="crop" src="" class="zbxe_widget_output" alt="" />';
-		$this->assertEquals($target, Rhymix\Framework\Filters\HTMLFilter::clean($source, true, true));
+		$this->assertEquals($target, Rhymix\Framework\Filters\HTMLFilter::clean($source, true, true, true));
 	}
 	
 	public function testHTMLFilterUserContentID()
