@@ -1458,6 +1458,10 @@ class Context
 			{
 				$result[$k] = urlencode($v);
 			}
+			elseif($key === 'xe_validator_id')
+			{
+				$result[$k] = htmlspecialchars($v, ENT_COMPAT | ENT_HTML401, 'UTF-8', FALSE);
+			}
 			elseif(starts_with('XE_VALIDATOR_', $key, false))
 			{
 				unset($result[$k]);
