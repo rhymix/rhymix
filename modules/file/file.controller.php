@@ -756,6 +756,7 @@ class fileController extends file
 	{
 		// Call a trigger (before)
 		$trigger_obj = new stdClass;
+		$trigger_obj->file_info = $file_info;
 		$trigger_obj->module_srl = $module_srl;
 		$trigger_obj->upload_target_srl = $upload_target_srl;
 		$output = ModuleHandler::triggerCall('file.insertFile', 'before', $trigger_obj);
