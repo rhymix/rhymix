@@ -209,6 +209,64 @@ class memberAdminView extends member
 
 		$this->setTemplateFile('signup_config');
 	}
+	
+	public function dispMemberAdminInsertAgreement()
+	{
+		$config = $this->memberConfig;
+
+		Context::set('config', $config);
+		Context::set('procact', 'procMemberAdminInsertAgreement');
+		Context::set('agreement', $config->agreement);
+		
+		// retrieve skins of editor
+		$oEditorModel = getModel('editor');
+		Context::set('editor_skin_list', $oEditorModel->getEditorSkinList());
+
+		// get an editor
+		$option = new stdClass();
+		$option->skin = $oEditorModel->getEditorConfig()->editor_skin;
+		$option->primary_key_name = 'temp_srl';
+		$option->content_key_name = 'agreement';
+		$option->allow_fileupload = false;
+		$option->enable_autosave = false;
+		$option->enable_default_component = true;
+		$option->enable_component = true;
+		$option->resizable = true;
+		$option->height = 300;
+		$editor = $oEditorModel->getEditor(0, $option);
+		Context::set('editor', $editor);
+		
+		$this->setTemplateFile('agreement_config');
+	}
+	
+	public function dispMemberAdminInsertPrivacy()
+	{
+		$config = $this->memberConfig;
+
+		Context::set('config', $config);
+		Context::set('procact', 'procMemberAdminInsertPrivacy');
+		Context::set('agreement', $config->privacy);
+		
+		// retrieve skins of editor
+		$oEditorModel = getModel('editor');
+		Context::set('editor_skin_list', $oEditorModel->getEditorSkinList());
+
+		// get an editor
+		$option = new stdClass();
+		$option->skin = $oEditorModel->getEditorConfig()->editor_skin;
+		$option->primary_key_name = 'temp_srl';
+		$option->content_key_name = 'agreement';
+		$option->allow_fileupload = false;
+		$option->enable_autosave = false;
+		$option->enable_default_component = true;
+		$option->enable_component = true;
+		$option->resizable = true;
+		$option->height = 300;
+		$editor = $oEditorModel->getEditor(0, $option);
+		Context::set('editor', $editor);
+		
+		$this->setTemplateFile('privacy_config');
+	}
 
 	public function dispMemberAdminLoginConfig()
 	{

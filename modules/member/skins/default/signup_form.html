@@ -22,6 +22,17 @@
 				</label>
 			</div>
 		</div>
+		<div class="agreement" cond="$member_config->privacy">
+			<div class="text">
+				{$member_config->privacy}
+			</div>
+			<div class="confirm">
+				<label for="accept_privacy">
+					<input type="checkbox" name="accept_privacy" value="Y" id="accept_privacy" />
+					{$lang->about_accept_privacy}
+				</label>
+			</div>
+		</div>
 		<div class="control-group">
 			<label for="{$identifierForm->name}" class="control-label"><em style="color:red">*</em> {$identifierForm->title}</label>
 			<div class="controls">

@@ -1,0 +1,23 @@
+<include target="header.html" />
+<load target="js/signup_config.js" />
+<load target="../../editor/tpl/js/editor_module_config.js" />
+<form action="./" class="x_form-horizontal" method="post">
+	<input type="hidden" name="module" value="member" />
+	<input type="hidden" name="act" value="{$procact}" />
+	<input type="hidden" name="success_return_url" value="{getUrl('act', $act)}" />
+	<input type="hidden" name="agreement" value="{$agreement}" />
+	<input type="hidden" name="xe_validator_id" value="modules/member/tpl/1" />
+	<div class="x_control-group">
+		<label class="x_control-label" for="agreement">{$lang->privacy}</label>
+		<div class="x_controls">{$editor}</div>
+		<p class="x_help-block">{$lang->about_privacy}</p>
+		<style scoped>
+		#smart_content,
+		#smart_content>.tool{clear:none !important}
+		</style>
+	</div>
+	</section>
+	<div class="x_clearfix btnArea">
+		<span class="x_pull-right"><input class="x_btn x_btn-primary" type="submit" value="{$lang->cmd_save}" /></span>
+	</div>
+</form>
