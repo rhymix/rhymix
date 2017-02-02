@@ -74,6 +74,7 @@ $lang->msg_blacklisted_reason['seo'] = 'Similar functionality can be configured 
 $lang->msg_blacklisted_reason['smartphone'] = 'This module was disabled in XE long before Rhymix even existed.';
 $lang->msg_blacklisted_reason['zipperupper'] = 'Similar functionality can be configured in the <a href="./index.php?module=admin&act=dispAdminConfigAdvanced">Advanced Settings</a> page.';
 $lang->msg_warning = 'Warning';
+$lang->msg_failed_to_save_config = 'Failed to save configuration. Please check permissions on files/config.';
 $lang->welcome_to_xe = 'Welcome to the Rhymix admin page.';
 $lang->about_lang_env = 'If you want to make the language setting same for first-time visitors, change the language setting to what you want and click [Save] button below.';
 $lang->xe_license = 'Rhymix complies with the GPL.';

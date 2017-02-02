@@ -74,6 +74,7 @@ $lang->msg_blacklisted_reason['seo'] = '이 모듈에서 제공하던 기능은 
 $lang->msg_blacklisted_reason['smartphone'] = '이 모듈은 XE에서도 사용되지 않고 있었습니다.';
 $lang->msg_blacklisted_reason['zipperupper'] = '이 애드온에서 제공하던 기능은 <a href="./index.php?module=admin&act=dispAdminConfigAdvanced">고급 설정</a> 페이지에서 관리할 수 있습니다.';
 $lang->msg_warning = '경고';
+$lang->msg_failed_to_save_config = '설정을 저장할 수 없습니다. files/config 폴더 및 설정파일들의 퍼미션을 확인해 주시기 바랍니다.';
 $lang->welcome_to_xe = 'Rhymix 관리자';
 $lang->about_lang_env = '처음 방문하는 사용자들의 언어 설정을 동일하게 하려면, 원하는 언어로 변경 후 아래 [저장] 버튼을 클릭하면 됩니다.';
 $lang->xe_license = 'Rhymix는 GPL을 따릅니다.';

@@ -549,7 +549,10 @@ class adminAdminController extends admin
 		$this->_saveDefaultImage($vars->is_delete_default_image);
 		
 		// Save
-		Rhymix\Framework\Config::save();
+		if (!Rhymix\Framework\Config::save())
+		{
+			return new Object(-1, 'msg_failed_to_save_config');
+		}
 		
 		$this->setMessage('success_updated');
 		$this->setRedirectUrl(Context::get('success_return_url') ?: getNotEncodedUrl('', 'module', 'admin', 'act', 'dispAdminConfigGeneral'));
@@ -655,7 +658,10 @@ class adminAdminController extends admin
 		Rhymix\Framework\Config::set("sms.$sms_driver", $sms_driver_config);
 		Rhymix\Framework\Config::set("sms.allow_split.sms", toBool($vars->allow_split_sms));
 		Rhymix\Framework\Config::set("sms.allow_split.lms", toBool($vars->allow_split_lms));
-		Rhymix\Framework\Config::save();
+		if (!Rhymix\Framework\Config::save())
+		{
+			return new Object(-1, 'msg_failed_to_save_config');
+		}
 		
 		$this->setMessage('success_updated');
 		$this->setRedirectUrl(Context::get('success_return_url') ?: getNotEncodedUrl('', 'module', 'admin', 'act', 'dispAdminConfigNotification'));
@@ -730,7 +736,10 @@ class adminAdminController extends admin
 		Rhymix\Framework\Config::set('admin.deny', array_values($denied_ip));
 		
 		// Save
-		Rhymix\Framework\Config::save();
+		if (!Rhymix\Framework\Config::save())
+		{
+			return new Object(-1, 'msg_failed_to_save_config');
+		}
 		
 		$this->setMessage('success_updated');
 		$this->setRedirectUrl(Context::get('success_return_url') ?: getNotEncodedUrl('', 'module', 'admin', 'act', 'dispAdminConfigSecurity'));
@@ -831,7 +840,10 @@ class adminAdminController extends admin
 		Rhymix\Framework\Config::set('view.use_gzip', $vars->use_gzip === 'Y');
 		
 		// Save
-		Rhymix\Framework\Config::save();
+		if (!Rhymix\Framework\Config::save())
+		{
+			return new Object(-1, 'msg_failed_to_save_config');
+		}
 		
 		$this->setMessage('success_updated');
 		$this->setRedirectUrl(Context::get('success_return_url') ?: getNotEncodedUrl('', 'module', 'admin', 'act', 'dispAdminConfigAdvanced'));
@@ -891,7 +903,10 @@ class adminAdminController extends admin
 		Rhymix\Framework\Config::set('debug.allow', array_values($allowed_ip));
 		
 		// Save
-		Rhymix\Framework\Config::save();
+		if (!Rhymix\Framework\Config::save())
+		{
+			return new Object(-1, 'msg_failed_to_save_config');
+		}
 		
 		$this->setMessage('success_updated');
 		$this->setRedirectUrl(Context::get('success_return_url') ?: getNotEncodedUrl('', 'module', 'admin', 'act', 'dispAdminConfigDebug'));
@@ -920,7 +935,10 @@ class adminAdminController extends admin
 		Rhymix\Framework\Config::set('seo.og_use_timestamps', $vars->og_use_timestamps === 'Y');
 		
 		// Save
-		Rhymix\Framework\Config::save();
+		if (!Rhymix\Framework\Config::save())
+		{
+			return new Object(-1, 'msg_failed_to_save_config');
+		}
 		
 		$this->setMessage('success_updated');
 		$this->setRedirectUrl(Context::get('success_return_url') ?: getNotEncodedUrl('', 'module', 'admin', 'act', 'dispAdminConfigSEO'));
@@ -959,7 +977,10 @@ class adminAdminController extends admin
 		Rhymix\Framework\Config::set('lock.title', trim($vars->sitelock_title));
 		Rhymix\Framework\Config::set('lock.message', trim($vars->sitelock_message));
 		Rhymix\Framework\Config::set('lock.allow', array_values($allowed_ip));
-		Rhymix\Framework\Config::save();
+		if (!Rhymix\Framework\Config::save())
+		{
+			return new Object(-1, 'msg_failed_to_save_config');
+		}
 		
 		$this->setMessage('success_updated');
 		$this->setRedirectUrl(Context::get('success_return_url') ?: getNotEncodedUrl('', 'module', 'admin', 'act', 'dispAdminConfigSitelock'));
@@ -1031,7 +1052,10 @@ class adminAdminController extends admin
 		Rhymix\Framework\Config::set('ftp.path', $vars->ftp_path);
 		Rhymix\Framework\Config::set('ftp.pasv', $vars->ftp_pasv === 'Y');
 		Rhymix\Framework\Config::set('ftp.sftp', $vars->ftp_sftp === 'Y');
-		Rhymix\Framework\Config::save();
+		if (!Rhymix\Framework\Config::save())
+		{
+			return new Object(-1, 'msg_failed_to_save_config');
+		}
 		
 		$this->setMessage('success_updated');
 		$this->setRedirectUrl(Context::get('success_return_url') ?: getNotEncodedUrl('', 'module', 'admin', 'act', 'dispAdminConfigFtp'));
@@ -1049,7 +1073,11 @@ class adminAdminController extends admin
 		Rhymix\Framework\Config::set('ftp.path', null);
 		Rhymix\Framework\Config::set('ftp.pasv', true);
 		Rhymix\Framework\Config::set('ftp.sftp', false);
-		Rhymix\Framework\Config::save();
+		if (!Rhymix\Framework\Config::save())
+		{
+			return new Object(-1, 'msg_failed_to_save_config');
+		}
+		
 		$this->setMessage('success_deleted');
 	}
 	
