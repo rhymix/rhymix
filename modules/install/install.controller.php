@@ -526,7 +526,9 @@ class installController extends install
 			if(!$file || substr($file,-4)!='.xml') continue;
 			$output = $oDB->createTableByXmlFile($file);
 			if($output === false)
-				throw new Exception('msg_create_table_failed');
+			{
+				throw new Exception(lang('msg_create_table_failed') . ': ' . $oDB->getError()->getMessage());
+			}
 		}
 		// Create a table and module instance and then execute install() method
 		unset($oModule);
