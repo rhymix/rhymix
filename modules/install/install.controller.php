@@ -58,7 +58,7 @@ class installController extends install
 			$show_engines = $oDB->_fetch($oDB->_query('SHOW ENGINES'));
 			foreach($show_engines as $engine_info)
 			{
-				if ($engine_info->Engine === 'InnoDB')
+				if ($engine_info->Engine === 'InnoDB' && $engine_info->Support !== 'NO')
 				{
 					$config->db_type .= '_innodb';
 					break;
