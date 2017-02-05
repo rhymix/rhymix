@@ -29,10 +29,10 @@
 	@author misol <misol.kr@gmail.com>
 	@brief Select a background color, which has less contrast background color than WCAG 2.0 contrast guideline. On the WCAG 2.0 guideline, bigger string can have less contrast as 3.0.
 */
-.bg-contrast(@text_color; @bright_color:#fff; @dark_color:#000; @i:0) when (@i >= 10) and ( ( (luma(@bg_color) + 0.05) / (luma(@dark_color) + 0.05) ) =< ( ( luma(@bright_color) + 0.05) / ( luma(@bg_color) + 0.05) )) {
+.bg-contrast(@text_color; @bright_color:#fff; @dark_color:#000; @i:0) when (@i >= 10) and ( ( (luma(@text_color) + 0.05) / (luma(@dark_color) + 0.05) ) =< ( ( luma(@bright_color) + 0.05) / ( luma(@text_color) + 0.05) )) {
 	background: @bright_color;
 }
-.bg-contrast(@text_color; @bright_color:#fff; @dark_color:#000; @i:0) when (@i >= 10) and ( ( (luma(@bg_color) + 0.05) / (luma(@dark_color) + 0.05) ) > ( ( luma(@bright_color) + 0.05) / ( luma(@bg_color) + 0.05) )) {
+.bg-contrast(@text_color; @bright_color:#fff; @dark_color:#000; @i:0) when (@i >= 10) and ( ( (luma(@text_color) + 0.05) / (luma(@dark_color) + 0.05) ) > ( ( luma(@bright_color) + 0.05) / ( luma(@text_color) + 0.05) )) {
 	background: @dark_color;
 }
 
@@ -175,6 +175,7 @@ script, style
 	display:block;
 	padding: 10px;
 	vertical-align: bottom;
+	darken: darken(@color,45%);
 	.bg-contrast(darken(@color,45%), lighten(@color,10%),darken(@color,10%));
 	font-weight: bold;
 	border:0;
@@ -288,14 +289,15 @@ script, style
 }
 .rx_simple_member .rx_sw_list .content_delete{
 	position:absolute;
-	top:1px;
-	right:0;
+	top:0;
+	right:2px;
 }
 .rx_simple_member .rx_sw_list .content_delete button{
-	background: @color;
+	background: lighten(@color, 30%);
 	font-size: 14px;
 	border:0;
-	.text-contrast(@color);
+	.text-contrast(lighten(@color, 20%));
+	box-shadow: 0 1px 2px rgba(0,0,0,0.16), 0 1px 2px rgba(0,0,0,0.23);
 	padding: 10px;
 	vertical-align: bottom;
 }
