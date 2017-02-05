@@ -356,6 +356,29 @@ class StorageTest extends \Codeception\TestCase\Test
 		$this->assertFalse(Rhymix\Framework\Storage::deleteDirectory($nonexistent));
 	}
 	
+	public function testDeleteEmptyDirectory()
+	{
+		$sourcedir = \RX_BASEDIR . 'tests/_output/sourcedir';
+		mkdir($sourcedir);
+		file_put_contents($sourcedir . '/foo', 'bar');
+		mkdir($sourcedir . '/subdir');
+		mkdir($sourcedir . '/subdir/subsubdir');
+		mkdir($sourcedir . '/subdir/subsubdir/subsubdir');
+		file_put_contents($sourcedir . '/subdir/subsubdir/subsubdir/foo', 'bar');
+		
+		$this->assertFalse(Rhymix\Framework\Storage::deleteEmptyDirectory($sourcedir . '/subdir/subsubdir/subsubdir'));
+		Rhymix\Framework\Storage::delete($sourcedir . '/subdir/subsubdir/subsubdir/foo');
+		$this->assertTrue(Rhymix\Framework\Storage::deleteEmptyDirectory($sourcedir . '/subdir/subsubdir/subsubdir'));
+		$this->assertFalse(file_exists($sourcedir . '/subdir/subsubdir/subsubdir'));
+		$this->assertTrue(file_exists($sourcedir . '/subdir/subsubdir'));
+		$this->assertTrue(file_exists($sourcedir . '/foo'));
+		$this->assertTrue(Rhymix\Framework\Storage::deleteEmptyDirectory($sourcedir . '/subdir/subsubdir', true));
+		$this->assertFalse(file_exists($sourcedir . '/subdir/subsubdir'));
+		$this->assertFalse(file_exists($sourcedir . '/subdir'));
+		$this->assertTrue(file_exists($sourcedir));
+		$this->assertTrue(file_exists($sourcedir . '/foo'));
+	}
+	
 	public function testRecommendUmask()
 	{
 		$umask = Rhymix\Framework\Storage::recommendUmask();

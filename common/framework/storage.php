@@ -715,6 +715,36 @@ class Storage
 	}
 	
 	/**
+	 * Delete a directory only if it is empty.
+	 * 
+	 * @param string $dirname
+	 * @param bool $delete_empty_parents (optional)
+	 * @return bool
+	 */
+	public static function deleteEmptyDirectory($dirname, $delete_empty_parents = false)
+	{
+		$dirname = rtrim($dirname, '/\\');
+		if (!self::isDirectory($dirname) || !self::isEmptyDirectory($dirname))
+		{
+			return false;
+		}
+		
+		$result = @rmdir($dirname);
+		if (!$result)
+		{
+			return false;
+		}
+		else
+		{
+			if ($delete_empty_parents)
+			{
+				self::deleteEmptyDirectory(dirname($dirname), true);
+			}
+			return true;
+		}
+	}
+	
+	/**
 	 * Get the current umask.
 	 * 
 	 * @return int
@@ -742,7 +772,7 @@ class Storage
 	/**
 	 * Determine the best umask for this installation of Rhymix.
 	 * 
-	 * @return int
+	 * @return string
 	 */
 	public static function recommendUmask()
 	{
@@ -756,27 +786,7 @@ class Storage
 		$file_uid = fileowner(__FILE__);
 		
 		// Get the UID of the current PHP process.
-		if (function_exists('posix_geteuid'))
-		{
-			$php_uid = posix_geteuid();
-		}
-		else
-		{
-			$testfile = \RX_BASEDIR . 'files/cache/uidcheck';
-			if (self::exists($testfile))
-			{
-				self::delete($testfile);
-			}
-			if (self::write($testfile, 'TEST'))
-			{
-				$php_uid = fileowner($testfile);
-				self::delete($testfile);
-			}
-			else
-			{
-				$php_uid = -1;
-			}
-		}
+		$php_uid = self::getServerUID();
 		
 		// If both UIDs are the same, set the umask to 0022.
 		if ($file_uid == $php_uid)
@@ -788,6 +798,38 @@ class Storage
 		else
 		{
 			return '0000';
+		}
+	}
+	
+	/**
+	 * Get the UID of the server process.
+	 * 
+	 * @return int|false
+	 */
+	public static function getServerUID()
+	{
+		if (function_exists('posix_geteuid'))
+		{
+			return posix_geteuid();
+		}
+		else
+		{
+			$testfile = \RX_BASEDIR . 'files/cache/uidcheck_' . time();
+			if (self::exists($testfile))
+			{
+				self::delete($testfile);
+			}
+			
+			if (self::write($testfile, 'TEST'))
+			{
+				$uid = fileowner($testfile);
+				self::delete($testfile);
+				return $uid;
+			}
+			else
+			{
+				return false;
+			}
 		}
 	}
 }

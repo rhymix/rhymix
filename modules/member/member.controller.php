@@ -884,6 +884,7 @@ class memberController extends member
 			$oMemberModel = getModel('member');
 			$profile_image = $oMemberModel->getProfileImage($member_srl);
 			FileHandler::removeFile($profile_image->file);
+			Rhymix\Framework\Storage::deleteEmptyDirectory(dirname(FileHandler::getRealPath($profile_image->file)), true);
 		}
 		return new Object(0,'success');
 	}
@@ -908,6 +909,7 @@ class memberController extends member
 			$oMemberModel = getModel('member');
 			$image_name = $oMemberModel->getImageName($member_srl);
 			FileHandler::removeFile($image_name->file);
+			Rhymix\Framework\Storage::deleteEmptyDirectory(dirname(FileHandler::getRealPath($image_name->file)), true);
 		}
 		return new Object(0,'success');
 	}
@@ -990,6 +992,7 @@ class memberController extends member
 			$oMemberModel = getModel('member');
 			$image_mark = $oMemberModel->getImageMark($member_srl);
 			FileHandler::removeFile($image_mark->file);
+			Rhymix\Framework\Storage::deleteEmptyDirectory(dirname(FileHandler::getRealPath($image_mark->file)), true);
 		}
 		return new Object(0,'success');
 	}
@@ -1543,8 +1546,9 @@ class memberController extends member
 	 */
 	function delSignature($member_srl)
 	{
-		$filename = sprintf('files/member_extra_info/signature/%s%d.gif', getNumberingPath($member_srl), $member_srl);
-		FileHandler::removeFile($filename);
+		$dirname = RX_BASEDIR . sprintf('files/member_extra_info/signature/%s', getNumberingPath($member_srl));
+		Rhymix\Framework\Storage::deleteDirectory($dirname, false);
+		Rhymix\Framework\Storage::deleteEmptyDirectory($dirname, true);
 	}
 
 	/**
@@ -2579,13 +2583,22 @@ class memberController extends member
 		ModuleHandler::triggerCall('member.deleteMember', 'after', $trigger_obj);
 
 		$oDB->commit();
+		
 		// Name, image, image, mark, sign, delete
 		$this->procMemberDeleteImageName($member_srl);
 		$this->procMemberDeleteImageMark($member_srl);
 		$this->procMemberDeleteProfileImage($member_srl);
 		$this->delSignature($member_srl);
-
 		$this->_clearMemberCache($member_srl);
+		
+		// Delete all remaining extra info
+		$dirs = Rhymix\Framework\Storage::readDirectory(RX_BASEDIR . 'files/member_extra_info', true, true, false);
+		foreach ($dirs as $dir)
+		{
+			$member_dir = $dir . '/' . getNumberingPath($member_srl);
+			Rhymix\Framework\Storage::deleteDirectory($member_dir, false);
+			Rhymix\Framework\Storage::deleteEmptyDirectory($member_dir, true);
+		}
 
 		return $output;
 	}

@@ -919,7 +919,7 @@ class documentController extends document
 		$this->_deleteDocumentUpdateLog($args);
 
 		// Remove the thumbnail file
-		FileHandler::removeDir(sprintf('files/thumbnails/%s',getNumberingPath($document_srl, 3)));
+		Rhymix\Framework\Storage::deleteEmptyDirectory(RX_BASEDIR . sprintf('files/thumbnails/%s', getNumberingPath($document_srl, 3)), true);
 
 		// commit
 		$oDB->commit();
