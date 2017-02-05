@@ -1,0 +1,110 @@
+<load target="./js/signup_check.js" type="body" />
+<load target="./lang" />
+<!--// datepicker javascript plugin load -->
+<!--%load_js_plugin("ui")-->
+<!--%load_js_plugin("ui.datepicker")-->
+<include target="./common_header.html" />
+<section class="sw-body">
+	<h1>{lang('member.cmd_signup')}</h1>
+	<div cond="$XE_VALIDATOR_MESSAGE && $XE_VALIDATOR_ID == 'modules/member/skins'" class="rx_member-notice {$XE_VALIDATOR_MESSAGE_TYPE}">
+		<p>{$XE_VALIDATOR_MESSAGE}</p>
+	</div>
+	<div class="rx_member-notice info">
+		<p>{lang('member_simple_world_about_star')}</p>
+	</div>
+	<form ruleset="@insertMember" id="rx_insert_member" action="./" method="post" enctype="multipart/form-data" class="form-horizontal">
+		<input type="hidden" name="act" value="procMemberInsert" />
+		<input type="hidden" name="xe_validator_id" value="modules/member/skins" />
+		<input type="hidden" name="success_return_url" value="{getUrl('act','dispMemberInfo')}" />
+		<div class="agreement" cond="$member_config->agreement">
+			<div class="text">
+				{$member_config->agreement}
+			</div>
+			<div class="confirm">
+				<label for="accept_agree">
+					<input type="checkbox" name="accept_agreement" value="Y" id="accept_agree" />
+					{$lang->about_accept_agreement}
+				</label>
+			</div>
+		</div>
+		<div class="control-group">
+			<label for="{$identifierForm->name}">{$identifierForm->title}<sup style="color:red">*</sup></label>
+			<input type="text"|cond="$identifierForm->name!='email_address'" type="email"|cond="$identifierForm->name=='email_address'" name="{$identifierForm->name}" id="{$identifierForm->name}" value="{$identifierForm->value}" required />
+			<p class="rx_member-notice" cond="$identifierForm->name == 'email_address' && $email_confirmation_required == 'Y'">
+				{$lang->msg_email_confirmation_required}
+			</p>
+			<label for="password" class="control-label">{lang('common.password')}<sup style="color:red">*</sup></label>
+			<input type="password" name="password" id="password" value="" required />
+			<p class="rx_member-notice">{lang('member.about_password_strength')[$member_config->password_strength]}</p>
+			<label for="password2" class="control-label">{lang('common.password3')}<sup style="color:red">*</sup></label>
+			<input type="password" name="password2" id="password2" value="" required />
+			<block loop="$formTags=>$formTag">
+				<label for="{$formTag->name}" class="control-label">{trim(str_replace('*','',strip_tags($formTag->title)))}<!--@if(strpos($formTag->title,'<em style="color:red">*</em>') !== false)--><sup style="color:red">*</sup><!--@endif--></label>
+				<block cond="$formTag->name != 'signature'">
+					{$formTag->inputTag}
+					<p class="rx_member-notice" cond="$formTag->name == 'email_address' && $email_confirmation_required == 'Y'">
+						{$lang->msg_email_confirmation_required}
+					</p>
+				</block>
+				<block cond="$formTag->name == 'signature'">
+					 <input type="hidden" name="signature" value="" />
+					{$editor}
+				</block>
+			</block>
+			<div class="control-label">{$lang->allow_mailing}</div>
+			<div class="controls" style="padding-top:5px">
+				<label for="mailingYes"><input type="radio" name="allow_mailing" id="mailingYes" value="Y" checked="checked"|cond="$member_info->allow_mailing == 'Y'" /> {$lang->cmd_yes}</label>
+				<label for="mailingNo"><input type="radio" name="allow_mailing" id="mailingNo" value="N" checked="checked"|cond="$member_info->allow_mailing != 'Y'" /> {$lang->cmd_no}</label>
+			</div>
+			<div class="control-label">{$lang->allow_message}</div>
+			<div class="controls" style="padding-top:5px">
+				<label for="allow_{$key}" loop="$lang->allow_message_type=>$key,$val"><input type="radio" name="allow_message" value="{$key}" checked="checked"|cond="$member_info->allow_message == $key || (!$member_info && $key == 'Y')" id="allow_{$key}" /> {$val}</label>
+			</div>
+			<block cond="$captcha">
+				<div class="control-label">{$lang->captcha}</div>
+				<div class="controls">{$captcha}</div>
+			</block>
+			<input type="submit" value="{$lang->cmd_registration}" />
+		</div>
+	</form>
+</section>
+<script>
+(function($){
+	// label for setup
+	$('.control-label[for]').each(function(){
+		var $this = $(this);
+		if($this.attr('for') == ''){
+			$this.attr('for', $this.next().children(':visible:first').attr('id'));
+		}
+	});
+
+	$(function(){
+		// check if the browser support type date.
+		if ( $(".inputDate").prop('type') != 'date' ) {
+			var option = {
+				changeMonth: true,
+				changeYear: true,
+				gotoCurrent: false,
+				yearRange:'-200:+10',
+				dateFormat:'yy-mm-dd',
+				defaultDate: new Date("{date('Y-m-d',time())}"),
+				minDate: new Date("{date('Y-m-d',strtotime('-200 years'))}"),
+
+				onSelect:function(){
+					$(this).prev('input[type="hidden"]').val(this.value.replace(/-/g,""))
+				}
+			};
+			$.extend($.datepicker.regional['{$lang_type}'],option);
+
+			//if the browser does not support type date input, start datepicker. If it does, brower's UI will show their datepicker.
+			$(".inputDate").datepicker(option);
+		} else {
+			$(".inputDate").prop('readonly', false);
+		}
+		$(".dateRemover").click(function() {
+			$(this).prevAll('input').val('');
+			return false;});
+	});
+})(jQuery);
+</script>
+<include target="./common_footer.html" />

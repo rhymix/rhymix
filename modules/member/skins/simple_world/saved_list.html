@@ -1,0 +1,34 @@
+<include target="./common_header.html" />
+<section class="sw-body">
+	<h1>{$member_title = lang('member.cmd_view_saved_document')}</h1>
+	<div class="rx_member-notice">{lang('common.total')}: {number_format($total_count)}</div>
+	<div>
+		<ul class="rx_sw_list">
+			<li loop="$document_list => $key, $item">
+				<a href="{getUrl('','document_srl',$item->document_srl)}" class="cont_a" onclick="window.open(this.href);return false;">
+					<span class="content_basic">
+						<span class="content_title">
+							{escape($item->getTitle())}
+						</span>
+						<span class="content_subinfo">
+							{$item->getRegdate("Y-m-d")}
+						</span>
+					</span>
+				</a>
+					<span class="content_delete">
+						<button type="button" class="text" onclick="doDeleteSavedDocument({$item->document_srl},'{lang('common.confirm_delete')}');return false;">{$lang->cmd_delete}</button>
+					</span>
+			</li>
+		</ul>
+	</div>
+</section>
+<div class="pagination pagination-centered">
+	<ul>
+		<li><a href="{getUrl('page','','module_srl','')}" class="direction">&lsaquo; {$lang->first_page}</a></li> 
+		<!--@while($page_no = $page_navigation->getNextPage())-->
+		<li class="active"|cond="$page == $page_no"><a href="{getUrl('page',$page_no,'module_srl','')}">{$page_no}</a></li> 
+		<!--@end-->
+		<li><a href="{getUrl('page',$page_navigation->last_page,'module_srl','')}" class="direction">{$lang->last_page} &rsaquo;</a></li>
+	</ul>
+</div>
+<include target="./common_footer.html" />
