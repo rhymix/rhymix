@@ -1,4 +1,9 @@
 @charset "UTF-8";
+/*
+	@method .text-contrast()
+	@author misol <misol.kr@gmail.com>
+	@brief Select a text color according to WCAG 2.0 contrast guideline. The calcualtion of contrast follows the formula on the guideline.
+*/
 .text-contrast(@bg_color; @bright_color:#fff; @dark_color:#000; @i:0) when (@i >= 10) and ( ( (luma(@bg_color) + 0.05) / (luma(@dark_color) + 0.05) ) =< ( ( luma(@bright_color) + 0.05) / ( luma(@bg_color) + 0.05) )) {
 	color: @bright_color;
 }
@@ -18,6 +23,12 @@
 	.text-contrast(@bg_color; @bright_color; darken(@dark_color, 5%); @i + 1);
 }
 
+
+/*
+	@method .bg-contrast()
+	@author misol <misol.kr@gmail.com>
+	@brief Select a background color, which has less contrast background color than WCAG 2.0 contrast guideline. On the WCAG 2.0 guideline, bigger string can have less contrast as 3.0.
+*/
 .bg-contrast(@text_color; @bright_color:#fff; @dark_color:#000; @i:0) when (@i >= 10) and ( ( (luma(@bg_color) + 0.05) / (luma(@dark_color) + 0.05) ) =< ( ( luma(@bright_color) + 0.05) / ( luma(@bg_color) + 0.05) )) {
 	background: @bright_color;
 }
@@ -38,18 +49,22 @@
 	.bg-contrast(@text_color; @bright_color; darken(@dark_color, 5%); @i + 1);
 }
 
+/* As LESS library in Rhymix substitude variables as an strings, convert colors as the color objects of LESS. */
 @color: rgb(@red, @green, @blue);
 
+/* As this file handle some wild-selectors to control display settings, hide inline script and style codes. */
 script, style
 {
 	display:none!important;
 }
+
+/* Member skin container, default settings */
 .rx_simple_member
 {
 	font-family: "맑은 고딕", "Apple SD Gothic Neo","나눔고딕",NanumGothic,'Nanum Gothic',Arial,Helvetica,sans-serif;
 	font-size: 14px;
 	margin: 8px 0px;
-	padding: 0 15px;
+	padding: 0 5px;
 }
 
 .rx_simple_member a
@@ -57,13 +72,13 @@ script, style
 	color: @color;
 	text-decoration: none;
 }
-/* Horizontal Align */
+/* Horizontal align */
 .rx_simple_member .pos-right
 {
 	position:absolute;
 	right:0
 }
-/* message */
+/* message; error, info, update */
 .rx_member-notice, .rx_member-notice.info
 {
 
@@ -101,7 +116,7 @@ script, style
 	box-sizing:border-box;
 	background:#ffffff;
 	margin: 0 0 20px;
-	border: 1px solid #e0e0e0;
+	box-shadow: 0 1px 2px rgba(0,0,0,0.16), 0 1px 2px rgba(0,0,0,0.23);
 }
 .rx_simple_member .sw-body>*
 {
@@ -143,7 +158,7 @@ script, style
 	list-style:none;
 	border-bottom: 1px solid #e0e0e0;
 }
-.rx_simple_member .sw-body dl dt, .rx_simple_member form>div.control-group>label
+.rx_simple_member .sw-body dl dt, .rx_simple_member form>div.control-group>label, .rx_simple_member form>div.control-group>div.control-label
 {
 	font-weight: bold;
 	border:0;
@@ -155,29 +170,29 @@ script, style
 	white-space: normal;
 	box-sizing: border-box;
 }
-.rx_simple_member form div.control-group>input[type="submit"], .rx_simple_member .sw-footer>a, .rx_simple_member .sw-anchor-buttons a 
+.rx_simple_member form div.control-group>input[type="submit"], .rx_simple_member form div.control-group>input.btn.dateRemover, .rx_simple_member .sw-footer>a, .rx_simple_member .sw-anchor-buttons a
 {
 	display:block;
-	.bg-contrast(#fff, lighten(@color,10%),darken(@color,10%));
-	font-weight: bold;
-	border: medium none;
-	color: #fff;
 	padding: 10px;
 	vertical-align: bottom;
+	.bg-contrast(darken(@color,45%), lighten(@color,10%),darken(@color,10%));
+	font-weight: bold;
+	border:0;
+	box-shadow: 0 1px 2px rgba(0,0,0,0.16), 0 1px 2px rgba(0,0,0,0.23);
+	color: darken(@color,45%);
 }
 .rx_simple_member form div.control-group>input[type="submit"], .rx_simple_member .sw-footer{
-	margin: 20px 0;
+	margin: 20px 0 0;
 }
 
-/* 상단 탭 스타일 */
+/* Tab over the main content. */
 .rx_simple_member div.rx_simple_tab{
-	overflow: hidden;
 	background: #ffffff;
-	width:100%;
+	margin: 5px 0;
 	height: 52px;
+	overflow: hidden;
 	white-space: nowrap;
-	border: 1px solid #e0e0e0;
-	margin-bottom:5px;
+	box-shadow: 0 1px 2px rgba(0,0,0,0.16), 0 1px 2px rgba(0,0,0,0.23);
 	box-sizing: border-box;
 }
 .rx_simple_member ul.rx_simple_tab{
@@ -223,7 +238,7 @@ script, style
 }
 
 
-/* 글 목록 스타일 */
+/* The list of document style */
 .rx_simple_member .rx_sw_list .cont_a {
 	color: #222;
 	display: block;
@@ -302,8 +317,9 @@ script, style
 	display: inline-block;
 	background: #fff;
 	font-size: 14px;
-	border: 1px solid #e0e0e0;
+	box-shadow: 0 1px 2px rgba(0,0,0,0.16), 0 1px 2px rgba(0,0,0,0.23);
 	color: #000;
+	font-weight: bold;
 	padding: 10px;
 	min-width:25px;
 	text-decoration: none;
@@ -321,11 +337,12 @@ script, style
 }
 
 /* button hover */
-.rx_simple_member form div.control-group>input[type="submit"]:hover, .rx_simple_member .sw-footer>a:hover, .rx_simple_member .sw-anchor-buttons a:hover, .rx_simple_member .pagination ul li>a:hover, .rx_simple_member .rx_sw_list .content_delete button:hover,
-.rx_simple_member form div.control-group>input[type="submit"]:focus, .rx_simple_member .sw-footer>a:focus, .rx_simple_member .sw-anchor-buttons a:focus, .rx_simple_member .pagination ul li>a:focus, .rx_simple_member .rx_sw_list .content_delete button:focus
+.rx_simple_member form div.control-group>input[type="submit"]:hover, .rx_simple_member form div.control-group>input.btn.dateRemover:hover, .rx_simple_member .sw-footer>a:hover, .rx_simple_member .sw-anchor-buttons a:hover, .rx_simple_member .pagination ul li>a:hover, .rx_simple_member .rx_sw_list .content_delete button:hover,
+.rx_simple_member form div.control-group>input[type="submit"]:focus, .rx_simple_member form div.control-group>input.btn.dateRemover:focus, .rx_simple_member .sw-footer>a:focus, .rx_simple_member .sw-anchor-buttons a:focus, .rx_simple_member .pagination ul li>a:focus, .rx_simple_member .rx_sw_list .content_delete button:focus
 
 {
 	.bg-contrast(#fff, lighten(@color, 13%), darken(@color, 13%));
 	font-weight:bold;
 	color:#fff;
+	box-shadow: 0 2px 4px rgba(0,0,0,0.16), 0 2px 4px rgba(0,0,0,0.23);
 }

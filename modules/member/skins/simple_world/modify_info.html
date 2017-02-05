@@ -1,5 +1,6 @@
 <include target="./common_header.html" />
 <load target="../../tpl/js/signup_check.js" />
+<load target="./lang" />
 <!--// datepicker javascript plugin load -->
 <!--%load_js_plugin("ui")-->
 <!--%load_js_plugin("ui.datepicker")-->
@@ -7,6 +8,9 @@
 	<h1 style="border-bottom:1px solid #ccc">{$lang->msg_update_member}</h1>
 	<div cond="$XE_VALIDATOR_MESSAGE && $XE_VALIDATOR_ID == 'modules/member/skins/simple_world/1'" class="rx_member-notice {$XE_VALIDATOR_MESSAGE_TYPE}">
 		<p>{$XE_VALIDATOR_MESSAGE}</p>
+	</div>
+	<div class="rx_member-notice info">
+		<p>{lang('member_simple_world_about_star')}</p>
 	</div>
 	<form ruleset="@insertMember" id="fo_insert_member" action="./" method="post" enctype="multipart/form-data" class="form-horizontal">
 		<input type="hidden" name="act" value="procMemberModifyInfo" />
@@ -16,10 +20,10 @@
 		<input type="hidden" name="page" value="{$page}" />
 		<input type="hidden" name="xe_validator_id" value="modules/member/skins/simple_world/1" />
 		<div class="control-group">
-			<label for="{$identifierForm->name}">{$identifierForm->title}<sup>*</sup></label>
+			<label for="{$identifierForm->name}">{$identifierForm->title}<sup style="color:red">*</sup></label>
 			<input type="text" name="{$identifierForm->name}" id="{$identifierForm->name}" value="{$identifierForm->value}" readonly />
 			<block loop="$formTags=>$formTag">
-				<label for="{$formTag->name}">{$formTag->title}</label>
+				<label for="{$formTag->name}" class="control-label">{trim(str_replace('*','',strip_tags($formTag->title)))}<!--@if(strpos($formTag->title,'<em style="color:red">*</em>') !== false)--><sup style="color:red">*</sup><!--@endif--></label>
 				<block cond="$formTag->name != 'signature'">{$formTag->inputTag}</block>
 				<block cond="$formTag->name =='signature'">{$editor}</block>
 			</block>
@@ -75,7 +79,7 @@ jQuery(function($){
 			$(".inputDate").prop('readonly', false);
 		}
 		$(".dateRemover").click(function() {
-			$(this).prevAll('input').val('');
+			$('#date_birthday,#birthday').val('');
 			return false;});
 	});
 })(jQuery);

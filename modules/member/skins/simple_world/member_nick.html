@@ -27,11 +27,11 @@
 </section>
 <div class="pagination pagination-centered">
 	<ul>
-		<li><a href="{getUrl('page','','module_srl','')}" class="direction">&laquo; {$lang->first_page}</a></li>
+		<li><a href="{getUrl('page','','module_srl','')}" class="direction">&lsaquo; {$lang->first_page}</a></li>
 		<!--@while($page_no = $page_navigation->getNextPage())-->
 		<li class="active"|cond="$page == $page_no"><a href="{getUrl('page',$page_no,'module_srl','')}">{$page_no}</a></li>
 		<!--@end-->
-		<li><a href="{getUrl('page',$page_navigation->last_page,'module_srl','')}" class="direction">{$lang->last_page} &raquo;</a></li>
+		<li><a href="{getUrl('page',$page_navigation->last_page,'module_srl','')}" class="direction">{$lang->last_page} &rsaquo;</a></li>
 	</ul>
 </div>
 <include target="./common_footer.html" />
