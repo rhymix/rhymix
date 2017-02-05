@@ -4,22 +4,22 @@
 	@author misol <misol.kr@gmail.com>
 	@brief Select a text color according to WCAG 2.0 contrast guideline. The calcualtion of contrast follows the formula on the guideline.
 */
-.text-contrast(@bg_color; @bright_color:#fff; @dark_color:#000; @multi:1; @i:0) when (@i >= 20) and ( ( (luma(@bg_color) + 0.05) / (luma(@dark_color) + 0.05) ) =< ( ( luma(@bright_color) + 0.05) / ( luma(@bg_color) + 0.05) )) {
+.text-contrast(@bg_color; @bright_color:#fff; @dark_color:#000; @multi:1; @i:0) when (@i >= 100) and ( ( (luma(@bg_color) + 0.05) / (luma(@dark_color) + 0.05) ) =< ( ( luma(@bright_color) + 0.05) / ( luma(@bg_color) + 0.05) )) {
 	color: @bright_color;
 }
-.text-contrast(@bg_color; @bright_color:#fff; @dark_color:#000; @multi:1; @i:0) when (@i >= 20) and ( ( (luma(@bg_color) + 0.05) / (luma(@dark_color) + 0.05) ) > ( ( luma(@bright_color) + 0.05) / ( luma(@bg_color) + 0.05) )) {
+.text-contrast(@bg_color; @bright_color:#fff; @dark_color:#000; @multi:1; @i:0) when (@i >= 100) and ( ( (luma(@bg_color) + 0.05) / (luma(@dark_color) + 0.05) ) > ( ( luma(@bright_color) + 0.05) / ( luma(@bg_color) + 0.05) )) {
 	color: @dark_color;
 }
-.text-contrast(@bg_color; @bright_color:#fff; @dark_color:#000; @multi:1; @i:0) when (@i < 20) and ( ( (luma(@bg_color) + 0.05) / (luma(@dark_color) + 0.05) ) =< ( ( luma(@bright_color) + 0.05) / ( luma(@bg_color) + 0.05) )) and ( ( ( luma(@bright_color) + 0.05) / ( luma(@bg_color) + 0.05) ) > 4.5 * @multi ) {
+.text-contrast(@bg_color; @bright_color:#fff; @dark_color:#000; @multi:1; @i:0) when (@i < 100) and ( ( (luma(@bg_color) + 0.05) / (luma(@dark_color) + 0.05) ) =< ( ( luma(@bright_color) + 0.05) / ( luma(@bg_color) + 0.05) )) and ( ( ( luma(@bright_color) + 0.05) / ( luma(@bg_color) + 0.05) ) > 4.5 * @multi ) {
 	color: @bright_color;
 }
-.text-contrast(@bg_color; @bright_color:#fff; @dark_color:#000; @multi:1; @i:0) when (@i < 20) and ( ( (luma(@bg_color) + 0.05) / (luma(@dark_color) + 0.05) ) =< ( ( luma(@bright_color) + 0.05) / ( luma(@bg_color) + 0.05) ) ) and ( ( ( luma(@bright_color) + 0.05) / ( luma(@bg_color) + 0.05) ) =< 4.5 * @multi )  {
+.text-contrast(@bg_color; @bright_color:#fff; @dark_color:#000; @multi:1; @i:0) when (@i < 100) and ( ( (luma(@bg_color) + 0.05) / (luma(@dark_color) + 0.05) ) =< ( ( luma(@bright_color) + 0.05) / ( luma(@bg_color) + 0.05) ) ) and ( ( ( luma(@bright_color) + 0.05) / ( luma(@bg_color) + 0.05) ) =< 4.5 * @multi )  {
 	.text-contrast(@bg_color; lighten(@bright_color, 5%); @dark_color; @multi; @i + 1);
 }
-.text-contrast(@bg_color; @bright_color:#fff; @dark_color:#000; @multi:1; @i:0) when (@i < 20) and ( ( (luma(@bg_color) + 0.05) / (luma(@dark_color) + 0.05) ) > ( ( luma(@bright_color) + 0.05) / ( luma(@bg_color) + 0.05) )) and ( ( (luma(@bg_color) + 0.05) / (luma(@dark_color) + 0.05) ) > 4.5 * @multi ) {
+.text-contrast(@bg_color; @bright_color:#fff; @dark_color:#000; @multi:1; @i:0) when (@i < 100) and ( ( (luma(@bg_color) + 0.05) / (luma(@dark_color) + 0.05) ) > ( ( luma(@bright_color) + 0.05) / ( luma(@bg_color) + 0.05) )) and ( ( (luma(@bg_color) + 0.05) / (luma(@dark_color) + 0.05) ) > 4.5 * @multi ) {
 	color: @dark_color;
 }
-.text-contrast(@bg_color; @bright_color:#fff; @dark_color:#000; @multi:1; @i:0) when (@i < 20) and (( (luma(@bg_color) + 0.05) / (luma(@dark_color) + 0.05) ) > ( ( luma(@bright_color) + 0.05) / ( luma(@bg_color) + 0.05) )) and ( ( (luma(@bg_color) + 0.05) / (luma(@dark_color) + 0.05) ) =< 4.5 * @multi ) {
+.text-contrast(@bg_color; @bright_color:#fff; @dark_color:#000; @multi:1; @i:0) when (@i < 100) and (( (luma(@bg_color) + 0.05) / (luma(@dark_color) + 0.05) ) > ( ( luma(@bright_color) + 0.05) / ( luma(@bg_color) + 0.05) )) and ( ( (luma(@bg_color) + 0.05) / (luma(@dark_color) + 0.05) ) =< 4.5 * @multi ) {
 	.text-contrast(@bg_color; @bright_color; darken(@dark_color, 5%); @multi; @i + 1);
 }
 
