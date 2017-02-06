@@ -8,7 +8,7 @@
 		<block loop="$displayDatas => $item">
 			<dt>{$item->title}<sup cond="$item->required || $item->mustRequired">*</sup></dt>
 			<dd cond="$item->value">{$item->value}</dd>
-			<dd cond="!$item->value" style="color:#ccc">&hellip;</dd>
+			<dd cond="!$item->value">&hellip;</dd>
 		</block>
 		<dt>{$lang->member_group}</dt>
 		<dd>{implode(', ', $memberInfo['group_list'])}</dd>
@@ -26,5 +26,4 @@
 	<a href="{getUrl('act','dispMemberModifyPassword','member_srl','')}">{$lang->cmd_modify_member_password}</a>
 	<a href="{getUrl('act','dispMemberLeave','member_srl','')}">{$lang->cmd_leave}</a>
 </div>
-
 <include target="./common_footer.html" />
