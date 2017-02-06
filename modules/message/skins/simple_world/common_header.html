@@ -1,4 +1,3 @@
-<load target="js/member.js" />
 <!--// Check layout. If it is Simple World, select layout primary colors as a primary color of this skin -->
 {@
 	$material_colors = array(
@@ -37,6 +36,7 @@
 		if(!$layout_info->customized_primary_color)
 			$layout_info->customized_primary_color = '#f44336';
 	}
+
 </block>
 <block cond="$layout_info->extra_var->primary_color->type !== 'select' && $layout_info->extra_var->customized_primary_color->type !== 'colorpicker'">
 	{@$layout_info->primary_color = 'blue';}
@@ -55,12 +55,5 @@
 	<!--@endif-->
 </block>
 {Context::set('simple_less_value', array('red' => hexdec(substr($skin_color, 1, 2)), 'green' => hexdec(substr($skin_color, 3, 2)), 'blue' => hexdec(substr($skin_color, 5, 2)) ))}
-<load target="css/css.less" vars="$simple_less_value" />
-<section class="rx_simple_member">
-	<div class="rx_simple_tab" cond="$is_logged && $logged_info->menu_list && (!$member_srl || $member_srl == $logged_info->member_srl)">
-		<ul class="rx_simple_tab">
-			<li loop="$logged_info->menu_list=>$key,$val" class="active"|cond="$key==$act">
-				<a href="{getUrl('', 'act',$key, 'mid', $mid, 'vid', $vid)}"><span>{lang($val)}</span></a>
-			</li>
-		</ul>
-	</div>
+<load target="css/message.less" vars="$simple_less_value" />
+<section class="rx_simple_message">
