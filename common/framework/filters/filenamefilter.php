@@ -85,4 +85,22 @@ class FilenameFilter
 		// Trim trailing slashes.
 		return rtrim($path, '/');
 	}
+	
+	/**
+	 * Check if a file has an extension that would allow direct download.
+	 * 
+	 * @param string $filename
+	 * @return bool
+	 */
+	public static function isDirectDownload($filename)
+	{
+		if (preg_match('/\.(as[fx]|avi|flac|flv|gif|jpe?g|m4[av]|midi?|mkv|moov|mov|mp[1234]|mpe?g|ogg|png|qt|ram?|rmm?|swf|wav|web[mp]|wm[av])$/i', $filename))
+		{
+			return true;
+		}
+		else
+		{
+			return false;
+		}
+	}
 }

@@ -71,4 +71,25 @@ class FilenameFilterTest extends \Codeception\TestCase\Test
 		$this->assertEquals(\RX_BASEDIR . 'index.php', FilenameFilter::cleanPath('index.php?foo=bar'));
 		$this->assertEquals(\RX_BASEDIR . 'index.php', FilenameFilter::cleanPath('index.php#baz'));
 	}
+	
+	public function testFilenameFilterIsDirectDownload()
+	{
+		$this->assertTrue(FilenameFilter::isDirectDownload('foobar.GIF'));
+		$this->assertTrue(FilenameFilter::isDirectDownload('foobar.jpg'));
+		$this->assertTrue(FilenameFilter::isDirectDownload('foo.bar.jpeg'));
+		$this->assertTrue(FilenameFilter::isDirectDownload('/foo/bar/baz.png'));
+		$this->assertTrue(FilenameFilter::isDirectDownload('picture.webm'));
+		$this->assertTrue(FilenameFilter::isDirectDownload('/audio.MP3'));
+		$this->assertTrue(FilenameFilter::isDirectDownload('/audio.FLac'));
+		$this->assertTrue(FilenameFilter::isDirectDownload('//foo.bar/video.mp4'));
+		
+		$this->assertFalse(FilenameFilter::isDirectDownload('rhymix.docx'));
+		$this->assertFalse(FilenameFilter::isDirectDownload('rhymix.HWP'));
+		$this->assertFalse(FilenameFilter::isDirectDownload('rhymix.jpg.exe'));
+		$this->assertFalse(FilenameFilter::isDirectDownload('/foo/bar/rhymix.gif.php'));
+		$this->assertFalse(FilenameFilter::isDirectDownload('rhymix.php?filename=test.vbs'));
+		$this->assertFalse(FilenameFilter::isDirectDownload(''));
+		$this->assertFalse(FilenameFilter::isDirectDownload('http://www.google.com'));
+		$this->assertFalse(FilenameFilter::isDirectDownload('/'));
+	}
 }
