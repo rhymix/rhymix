@@ -24,7 +24,13 @@ class documentController extends document
 	 */
 	function procDocumentVoteUp()
 	{
-		if(!Context::get('is_logged')) return new Object(-1, 'msg_invalid_request');
+		if($this->module_info->non_login_vote !== 'Y')
+		{
+			if(!Context::get('is_logged'))
+			{
+				return new Object(-1, 'msg_invalid_request');
+			}
+		}
 
 		$document_srl = Context::get('target_srl');
 		if(!$document_srl) return new Object(-1, 'msg_invalid_request');
@@ -40,13 +46,23 @@ class documentController extends document
 
 		$point = 1;
 		$output = $this->updateVotedCount($document_srl, $point);
+		if(!$output->toBool())
+		{
+			return $output;
+		}
 		$this->add('voted_count', $output->get('voted_count'));
 		return $output;
 	}
 
 	function procDocumentVoteUpCancel()
 	{
-		if(!Context::get('is_logged')) return new Object(-1, 'msg_invalid_request');
+		if($this->module_info->non_login_vote !== 'Y')
+		{
+			if(!Context::get('is_logged'))
+			{
+				return new Object(-1, 'msg_invalid_request');
+			}
+		}
 
 		$document_srl = Context::get('target_srl');
 		if(!$document_srl) return new Object(-1, 'msg_invalid_request');
@@ -59,6 +75,10 @@ class documentController extends document
 		}
 		$point = 1;
 		$output = $this->updateVotedCountCancel($document_srl, $oDocument, $point);
+		if(!$output->toBool())
+		{
+			return $output;
+		}
 
 		$output = new Object();
 		$output->setMessage('success_voted_canceled');
@@ -90,7 +110,13 @@ class documentController extends document
 	 */
 	function procDocumentVoteDown()
 	{
-		if(!Context::get('is_logged')) return new Object(-1, 'msg_invalid_request');
+		if($this->module_info->non_login_vote !== 'Y')
+		{
+			if(!Context::get('is_logged'))
+			{
+				return new Object(-1, 'msg_invalid_request');
+			}
+		}
 
 		$document_srl = Context::get('target_srl');
 		if(!$document_srl) return new Object(-1, 'msg_invalid_request');
@@ -106,13 +132,23 @@ class documentController extends document
 
 		$point = -1;
 		$output = $this->updateVotedCount($document_srl, $point);
+		if(!$output->toBool())
+		{
+			return $output;
+		}
 		$this->add('blamed_count', $output->get('blamed_count'));
 		return $output;
 	}
 
 	function procDocumentVoteDownCancel()
 	{
-		if(!Context::get('is_logged')) return new Object(-1, 'msg_invalid_request');
+		if($this->module_info->non_login_vote !== 'Y')
+		{
+			if(!Context::get('is_logged'))
+			{
+				return new Object(-1, 'msg_invalid_request');
+			}
+		}
 
 		$document_srl = Context::get('target_srl');
 		if(!$document_srl) return new Object(-1, 'msg_invalid_request');
@@ -125,6 +161,10 @@ class documentController extends document
 		}
 		$point = -1;
 		$output = $this->updateVotedCountCancel($document_srl, $oDocument, $point);
+		if(!$output->toBool())
+		{
+			return $output;
+		}
 
 		$output = new Object();
 		$output->setMessage('success_blamed_canceled');
@@ -507,10 +547,9 @@ class documentController extends document
 		{
 			return new Object(-1, 'msg_invalid_request');
 		}
-
+		
 		if(!$source_obj->document_srl || !$obj->document_srl) return new Object(-1,'msg_invalied_request');
-
-
+		
 		if(!$obj->status && $obj->is_secret == 'Y') $obj->status = 'SECRET';
 		if(!$obj->status) $obj->status = 'PUBLIC';
 
@@ -521,13 +560,11 @@ class documentController extends document
 		// begin transaction
 		$oDB = &DB::getInstance();
 		$oDB->begin();
-
-		$oModuleModel = getModel('module');
+		
 		if(!$obj->module_srl) $obj->module_srl = $source_obj->get('module_srl');
-		$module_srl = $obj->module_srl;
-		$module_info = $oModuleModel->getModuleInfoByModuleSrl($module_srl);
-
-		$document_config = $oModuleModel->getModulePartConfig('document', $module_srl);
+		
+		$oModuleModel = getModel('module');
+		$document_config = $oModuleModel->getModulePartConfig('document', $obj->module_srl);
 		if(!$document_config)
 		{
 			$document_config = new stdClass();
@@ -540,7 +577,7 @@ class documentController extends document
 			$args = new stdClass;
 			$args->history_srl = getNextSequence();
 			$args->document_srl = $obj->document_srl;
-			$args->module_srl = $module_srl;
+			$args->module_srl = $obj->module_srl;
 			if($document_config->use_history == 'Y') $args->content = $source_obj->get('content');
 			$args->nick_name = $source_obj->get('nick_name');
 			$args->member_srl = $source_obj->get('member_srl');
@@ -569,7 +606,7 @@ class documentController extends document
 		if($obj->notify_message != 'Y') $obj->notify_message = 'N';
 		
 		// can modify regdate only manager
-                $grant = Context::get('grant');
+		$grant = Context::get('grant');
 		if(!$grant->manager)
 		{
 			unset($obj->regdate);
@@ -600,7 +637,7 @@ class documentController extends document
 
 		// If an author is identical to the modifier or history is used, use the logged-in user's information.
 		$logged_info = Context::get('logged_info');
-		if(Context::get('is_logged') && !$manual_updated && $module_info->use_anonymous != 'Y')
+		if(Context::get('is_logged') && !$manual_updated)
 		{
 			if($source_obj->get('member_srl')==$logged_info->member_srl)
 			{
@@ -882,7 +919,7 @@ class documentController extends document
 		$this->_deleteDocumentUpdateLog($args);
 
 		// Remove the thumbnail file
-		FileHandler::removeDir(sprintf('files/thumbnails/%s',getNumberingPath($document_srl, 3)));
+		Rhymix\Framework\Storage::deleteEmptyDirectory(RX_BASEDIR . sprintf('files/thumbnails/%s', getNumberingPath($document_srl, 3)), true);
 
 		// commit
 		$oDB->commit();
@@ -1052,62 +1089,77 @@ class documentController extends document
 			return false;
 		}
 		
+		// Get the view count option, and use the default if the value is empty or invalid.
+		$valid_options = array(
+			'all' => true,
+			'some' => true,
+			'once' => true,
+			'none' => true,
+		);
+		
 		$oDocumentModel = getModel('document');
 		$config = $oDocumentModel->getDocumentConfig();
+		if (!$config->view_count_option || !isset($valid_options[$config->view_count_option]))
+		{
+			$config->view_count_option = 'once';
+		}
 
-		if($config->view_count_option == 'none') return false;
-
+		// If not counting, return now.
+		if ($config->view_count_option == 'none')
+		{
+			return false;
+		}
+		
+		// Get document and user information.
 		$document_srl = $oDocument->document_srl;
 		$member_srl = $oDocument->get('member_srl');
 		$logged_info = Context::get('logged_info');
+		
+		// Option 'some': only count once per session.
+		if ($config->view_count_option != 'all' && $_SESSION['readed_document'][$document_srl])
+		{
+			if (Context::getSessionStatus())
+			{
+				$_SESSION['readed_document'][$document_srl] = true;
+			}
+			return false;
+		}
+
+		// Option 'once': check member_srl and IP address.
+		if ($config->view_count_option == 'once')
+		{
+			// Pass if the author's IP address is as same as visitor's.
+			if($oDocument->get('ipaddress') == $_SERVER['REMOTE_ADDR'])
+			{
+				if (Context::getSessionStatus())
+				{
+					$_SESSION['readed_document'][$document_srl] = true;
+				}
+				return false;
+			}
+			
+			// Pass if the author's member_srl is the same as the visitor's.
+			if($member_srl && $logged_info->member_srl && $logged_info->member_srl == $member_srl)
+			{
+				$_SESSION['readed_document'][$document_srl] = true;
+				return false;
+			}
+		}
 
 		// Call a trigger when the read count is updated (before)
 		$trigger_output = ModuleHandler::triggerCall('document.updateReadedCount', 'before', $oDocument);
 		if(!$trigger_output->toBool()) return $trigger_output;
-
-		// Pass if read count is increaded on the session information
-		if($_SESSION['readed_document'][$document_srl] && $config->view_count_option == 'once')
-		{
-			return false;
-		}
-		else if($config->view_count_option == 'some')
-		{
-			if($_SESSION['readed_document'][$document_srl])
-			{
-				return false;
-			}
-		}
-
-		if($config->view_count_option == 'once')
-		{
-			// Pass if the author's IP address is as same as visitor's.
-			if($oDocument->get('ipaddress') == $_SERVER['REMOTE_ADDR'] && Context::getSessionStatus())
-			{
-				$_SESSION['readed_document'][$document_srl] = true;
-				return false;
-			}
-			// Pass ater registering sesscion if the author is a member and has same information as the currently logged-in user.
-			if($member_srl && $logged_info->member_srl == $member_srl)
-			{
-				$_SESSION['readed_document'][$document_srl] = true;
-				return false;
-			}
-		}
+		
+		// Update read counts
 		$oDB = DB::getInstance();
 		$oDB->begin();
-
-		// Update read counts
 		$args = new stdClass;
 		$args->document_srl = $document_srl;
 		executeQuery('document.updateReadedCount', $args);
 
 		// Call a trigger when the read count is updated (after)
 		ModuleHandler::triggerCall('document.updateReadedCount', 'after', $oDocument);
-
 		$oDB->commit();
-
-		//remove document item from cache
-		Rhymix\Framework\Cache::delete('document_item:' . getNumberingPath($document_srl) . $document_srl);
 
 		// Register session
 		if(!$_SESSION['banned_document'][$document_srl] && Context::getSessionStatus()) 
@@ -1274,8 +1326,14 @@ class documentController extends document
 	 */
 	function updateVotedCount($document_srl, $point = 1)
 	{
-		if($point > 0) $failed_voted = 'failed_voted';
-		else $failed_voted = 'failed_blamed';
+		if($point > 0)
+		{
+			$failed_voted = 'failed_voted';
+		}
+		else
+		{
+			$failed_voted = 'failed_blamed';
+		}
 		// Return fail if session already has information about votes
 		if($_SESSION['voted_document'][$document_srl])
 		{
@@ -1290,7 +1348,6 @@ class documentController extends document
 			$_SESSION['voted_document'][$document_srl] = false;
 			return new Object(-1, $failed_voted);
 		}
-
 		// Create a member model object
 		$oMemberModel = getModel('member');
 		$member_srl = $oMemberModel->getLoggedMemberSrl();
@@ -1305,7 +1362,6 @@ class documentController extends document
 				return new Object(-1, $failed_voted);
 			}
 		}
-
 		// Use member_srl for logged-in members and IP address for non-members.
 		$args = new stdClass();
 		if($member_srl)
@@ -1324,7 +1380,6 @@ class documentController extends document
 			$_SESSION['voted_document'][$document_srl] = false;
 			return new Object(-1, $failed_voted);
 		}
-
 		// begin transaction
 		$oDB = DB::getInstance();
 		$oDB->begin();
@@ -1404,12 +1459,14 @@ class documentController extends document
 		{
 			return $output;
 		}
-
+		
 		$declared_count = ($output->data->declared_count) ? $output->data->declared_count : 0;
-
+		$declare_message = trim(htmlspecialchars($declare_message));
+		
 		$trigger_obj = new stdClass();
 		$trigger_obj->document_srl = $document_srl;
 		$trigger_obj->declared_count = $declared_count;
+		$trigger_obj->declare_message = $declare_message;
 
 		// Call a trigger (before)
 		$trigger_output = ModuleHandler::triggerCall('document.declaredDocument', 'before', $trigger_obj);
@@ -1455,7 +1512,7 @@ class documentController extends document
 		}
 
 		$args->document_srl = $document_srl;
-		$args->declare_message = trim(htmlspecialchars($declare_message));
+		$args->declare_message = $declare_message;
 		$output = executeQuery('document.getDocumentDeclaredLogInfo', $args);
 
 		// Pass after registering a sesson if reported/declared documents are in the logs.

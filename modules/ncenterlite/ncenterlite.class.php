@@ -31,6 +31,7 @@ class ncenterlite extends ModuleObject
 	var $_TYPE_TEST = 'T'; // Test Notify create.
 	var $_TYPE_ADMIN_DOCUMENT = 'B'; // Admin Document Alert
 	var $_TYPE_CUSTOM = 'U'; //Updated alert(uses type table)
+	var $_TYPE_INSERT_MEMBER = 'I'; // Insert Member
 
 	var $triggers = array(
 		array('comment.insertComment', 'ncenterlite', 'controller', 'triggerAfterInsertComment', 'after'),
@@ -45,6 +46,7 @@ class ncenterlite extends ModuleObject
 		array('moduleHandler.init', 'ncenterlite', 'controller', 'triggerAddMemberMenu', 'after'),
 		array('document.moveDocumentToTrash', 'ncenterlite', 'controller', 'triggerAfterMoveToTrash', 'after'),
 	);
+
 	private $delete_triggers = array(
 		array('moduleObject.proc', 'ncenterlite', 'controller', 'triggerBeforeModuleObjectProc', 'before')
 	);
@@ -141,6 +143,23 @@ class ncenterlite extends ModuleObject
 			return true;
 		}
 
+		$config = getModel('ncenterlite')->getConfig();
+
+		$member_config = getModel('member')->getMemberConfig();
+		$variable_name = array();
+		foreach($member_config->signupForm as $value)
+		{
+			if($value->type == 'tel')
+			{
+				$variable_name[] = $value->name;
+			}
+		}
+
+		if(!$config->variable_name && count($variable_name) == 1)
+		{
+			return true;
+		}
+
 		return false;
 	}
 
@@ -224,6 +243,38 @@ class ncenterlite extends ModuleObject
 		if($oDB->isIndexExists('ncenterlite_notify', 'idx_notify'))
 		{
 			$oDB->dropIndex('ncenterlite_notify', 'idx_notify');
+		}
+
+
+		$config = getModel('ncenterlite')->getConfig();
+		if(!$config)
+		{
+			$config = new stdClass();
+		}
+
+		if(!$config->variable_name)
+		{
+			$member_config = getModel('member')->getMemberConfig();
+			$variable_name = array();
+			foreach($member_config->signupForm as $value)
+			{
+				if($value->type === 'tel')
+				{
+					$variable_name[] = $value->name;
+				}
+			}
+			if(count($variable_name) === 1)
+			{
+				foreach($variable_name as $item)
+				{
+					$config->variable_name = $item;
+				}
+				$output = $oModuleController->insertModuleConfig('ncenterlite', $config);
+				if(!$output->toBool())
+				{
+					return new Object(-1, 'fail_module_install');
+				}
+			}
 		}
 
 		return new Object(0, 'success_updated');

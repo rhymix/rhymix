@@ -302,20 +302,31 @@ class memberController extends member
 		foreach($getVars as $val)
 		{
 			$args->{$val} = Context::get($val);
-			if($val == 'birthday') $args->birthday_ui = Context::get('birthday_ui');
+			
+			if($val == 'birthday')
+			{
+				$args->birthday_ui = Context::get('birthday_ui');
+			}
 		}
-
+		
 		// mobile input date format can be different
-		if($args->birthday !== intval($args->birthday))
+		if($args->birthday)
 		{
-			$args->birthday = date('Ymd', strtotime($args->birthday));
+			if($args->birthday !== intval($args->birthday))
+			{
+				$args->birthday = date('Ymd', strtotime($args->birthday));
+			}
+			else
+			{
+				$args->birthday = intval($args->birthday);
+			}
 		}
-		else
+		
+		if(!$args->birthday && $args->birthday_ui)
 		{
-			$args->birthday = intval($args->birthday);
+			$args->birthday = intval(strtr($args->birthday_ui, array('-'=>'', '/'=>'', '.'=>'', ' '=>'')));
 		}
-		if(!$args->birthday && $args->birthday_ui) $args->birthday = intval(strtr($args->birthday_ui, array('-'=>'', '/'=>'', '.'=>'', ' '=>'')));
-
+		
 		$args->find_account_answer = Context::get('find_account_answer');
 		$args->allow_mailing = Context::get('allow_mailing');
 		$args->allow_message = Context::get('allow_message');
@@ -542,23 +553,35 @@ class memberController extends member
 		foreach($getVars as $val)
 		{
 			$args->{$val} = Context::get($val);
-			if($val == 'birthday') $args->birthday_ui = Context::get('birthday_ui');
+			
+			if($val == 'birthday')
+			{
+				$args->birthday_ui = Context::get('birthday_ui');
+			}
 		}
+		
 		// Login Information
 		$logged_info = Context::get('logged_info');
 		$args->member_srl = $logged_info->member_srl;
 
 		// mobile input date format can be different
-		if($args->birthday !== intval($args->birthday))
+		if($args->birthday)
 		{
-			$args->birthday = date('Ymd', strtotime($args->birthday));
+			if($args->birthday !== intval($args->birthday))
+			{
+				$args->birthday = date('Ymd', strtotime($args->birthday));
+			}
+			else
+			{
+				$args->birthday = intval($args->birthday);
+			}
 		}
-		else
+		
+		if(!$args->birthday && $args->birthday_ui)
 		{
-			$args->birthday = intval($args->birthday);
-		}
-		if(!$args->birthday && $args->birthday_ui) $args->birthday = intval(strtr($args->birthday_ui, array('-'=>'', '/'=>'', '.'=>'', ' '=>'')));
-
+			$args->birthday = intval(strtr($args->birthday_ui, array('-'=>'', '/'=>'', '.'=>'', ' '=>'')));
+		} 
+		
 		// Remove some unnecessary variables from all the vars
 		$all_args = Context::getRequestVars();
 		unset($all_args->module);
@@ -774,8 +797,8 @@ class memberController extends member
 		FileHandler::removeFilesInDir($target_path);
 
 		$target_filename = sprintf('%s%d.%s', $target_path, $member_srl, $ext);
-		// Convert if the image size is larger than a given size or if the format is not a gif
-		if(($width > $max_width || $height > $max_height ) && $type != 1)
+		// Convert if the image size is larger than a given size
+		if($width > $max_width || $height > $max_height)
 		{
 			FileHandler::createImageFile($target_file, $target_filename, $max_width, $max_height, $ext);
 		}
@@ -863,6 +886,7 @@ class memberController extends member
 			$oMemberModel = getModel('member');
 			$profile_image = $oMemberModel->getProfileImage($member_srl);
 			FileHandler::removeFile($profile_image->file);
+			Rhymix\Framework\Storage::deleteEmptyDirectory(dirname(FileHandler::getRealPath($profile_image->file)), true);
 		}
 		return new Object(0,'success');
 	}
@@ -887,6 +911,7 @@ class memberController extends member
 			$oMemberModel = getModel('member');
 			$image_name = $oMemberModel->getImageName($member_srl);
 			FileHandler::removeFile($image_name->file);
+			Rhymix\Framework\Storage::deleteEmptyDirectory(dirname(FileHandler::getRealPath($image_name->file)), true);
 		}
 		return new Object(0,'success');
 	}
@@ -969,6 +994,7 @@ class memberController extends member
 			$oMemberModel = getModel('member');
 			$image_mark = $oMemberModel->getImageMark($member_srl);
 			FileHandler::removeFile($image_mark->file);
+			Rhymix\Framework\Storage::deleteEmptyDirectory(dirname(FileHandler::getRealPath($image_mark->file)), true);
 		}
 		return new Object(0,'success');
 	}
@@ -1522,8 +1548,9 @@ class memberController extends member
 	 */
 	function delSignature($member_srl)
 	{
-		$filename = sprintf('files/member_extra_info/signature/%s%d.gif', getNumberingPath($member_srl), $member_srl);
-		FileHandler::removeFile($filename);
+		$dirname = RX_BASEDIR . sprintf('files/member_extra_info/signature/%s', getNumberingPath($member_srl));
+		Rhymix\Framework\Storage::deleteDirectory($dirname, false);
+		Rhymix\Framework\Storage::deleteEmptyDirectory($dirname, true);
 	}
 
 	/**
@@ -1988,7 +2015,7 @@ class memberController extends member
 		// Control of essential parameters
 		if($args->allow_mailing!='Y') $args->allow_mailing = 'N';
 		if($args->denied!='Y') $args->denied = 'N';
-		$args->allow_message= 'Y';
+		if(!in_array($args->allow_message, array('Y', 'N', 'F'))) $args->allow_message = 'Y';
 
 		if($logged_info->is_admin == 'Y')
 		{
@@ -2393,8 +2420,8 @@ class memberController extends member
 		if(!$args->user_name) $args->user_name = $orgMemberInfo->user_name;
 		if(!$args->user_id) $args->user_id = $orgMemberInfo->user_id;
 		if(!$args->nick_name) $args->nick_name = $orgMemberInfo->nick_name;
-		if(!$args->description) $args->description = '';
-		if(!$args->birthday) $args->birthday = '';
+		if(!$args->description) $args->description = $orgMemberInfo->description;
+		if(!$args->birthday) $args->birthday = $orgMemberInfo->birthday;
 
 		$output = executeQuery('member.updateMember', $args);
 
@@ -2560,13 +2587,22 @@ class memberController extends member
 		ModuleHandler::triggerCall('member.deleteMember', 'after', $trigger_obj);
 
 		$oDB->commit();
+		
 		// Name, image, image, mark, sign, delete
 		$this->procMemberDeleteImageName($member_srl);
 		$this->procMemberDeleteImageMark($member_srl);
 		$this->procMemberDeleteProfileImage($member_srl);
 		$this->delSignature($member_srl);
-
 		$this->_clearMemberCache($member_srl);
+		
+		// Delete all remaining extra info
+		$dirs = Rhymix\Framework\Storage::readDirectory(RX_BASEDIR . 'files/member_extra_info', true, true, false);
+		foreach ($dirs as $dir)
+		{
+			$member_dir = $dir . '/' . getNumberingPath($member_srl);
+			Rhymix\Framework\Storage::deleteDirectory($member_dir, false);
+			Rhymix\Framework\Storage::deleteEmptyDirectory($member_dir, true);
+		}
 
 		return $output;
 	}

@@ -826,11 +826,11 @@ class documentItem extends Object
 			}
 			if (count($comment_srls))
 			{
-				$output = executeQuery('comment.getCommentVotedLogMulti', (object)array(
+				$v_output = executeQuery('comment.getCommentVotedLogMulti', (object)array(
 					'comment_srls' => $comment_srls,
 					'member_srl' => $logged_info->member_srl,
 				));
-				foreach ($output->data as $data)
+				foreach ($v_output->data as $data)
 				{
 					$_SESSION['voted_comment'][$data->comment_srl] = $data->point;
 				}
@@ -879,6 +879,24 @@ class documentItem extends Object
 		// Return false if the document doesn't exist
 		if(!$this->document_srl) return;
 
+		// Get thumbnai_type information from document module's configuration
+		if(!in_array($thumbnail_type, array('crop', 'ratio', 'none')))
+		{
+			$config = $GLOBALS['__document_config__'];
+			if(!$config)
+			{
+				$oDocumentModel = getModel('document');
+				$config = $oDocumentModel->getDocumentConfig();
+				$GLOBALS['__document_config__'] = $config;
+			}
+			$thumbnail_type = $config->thumbnail_type ?: 'crop';
+		}
+		
+		if ($thumbnail_type === 'none')
+		{
+			return;
+		}
+		
 		if($this->isSecret() && !$this->isGranted())
 		{
 			return;
@@ -897,20 +915,9 @@ class documentItem extends Object
 			$output = executeQuery('document.getDocument', $args);
 			$content = $output->data->content;
 		}
+		
 		// Return false if neither attachement nor image files in the document
 		if(!$this->get('uploaded_count') && !preg_match("!<img!is", $content)) return;
-		// Get thumbnai_type information from document module's configuration
-		if(!in_array($thumbnail_type, array('crop','ratio')))
-		{
-			$config = $GLOBALS['__document_config__'];
-			if(!$config)
-			{
-				$oDocumentModel = getModel('document');
-				$config = $oDocumentModel->getDocumentConfig();
-				$GLOBALS['__document_config__'] = $config;
-			}
-			$thumbnail_type = $config->thumbnail_type ?: 'crop';
-		}
 
 		// Define thumbnail information
 		$thumbnail_path = sprintf('files/thumbnails/%s',getNumberingPath($this->document_srl, 3));

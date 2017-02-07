@@ -909,7 +909,7 @@ class ModuleHandler extends Handler
 	public static function _setInputValueToSession()
 	{
 		$requestVars = Context::getRequestVars();
-		unset($requestVars->act, $requestVars->mid, $requestVars->vid, $requestVars->success_return_url, $requestVars->error_return_url);
+		unset($requestVars->act, $requestVars->mid, $requestVars->vid, $requestVars->success_return_url, $requestVars->error_return_url, $requestVars->xe_validator_id);
 		foreach($requestVars AS $key => $value)
 		{
 			$_SESSION['INPUT_ERROR'][$key] = $value;

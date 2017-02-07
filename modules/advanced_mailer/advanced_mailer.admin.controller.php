@@ -15,51 +15,13 @@ class Advanced_MailerAdminController extends Advanced_Mailer
 	{
 		// Get and validate the new configuration.
 		$vars = Context::getRequestVars();
-		if (!$vars->sender_name)
-		{
-			return new Object(-1, 'msg_advanced_mailer_sender_name_is_empty');
-		}
-		if (!$vars->sender_email)
-		{
-			return new Object(-1, 'msg_advanced_mailer_sender_email_is_empty');
-		}
-		if (!Mail::isVaildMailAddress($vars->sender_email))
-		{
-			return new Object(-1, 'msg_advanced_mailer_sender_email_is_invalid');
-		}
-		if ($vars->reply_to && !Mail::isVaildMailAddress($vars->reply_to))
-		{
-			return new Object(-1, 'msg_advanced_mailer_reply_to_is_invalid');
-		}
-		
-		// Validate the sending method.
-		$sending_methods = Rhymix\Framework\Mail::getSupportedDrivers();
-		$sending_method = $vars->sending_method;
-		if (!array_key_exists($sending_method, $sending_methods))
-		{
-			return new Object(-1, 'msg_advanced_mailer_sending_method_is_invalid');
-		}
-		
-		// Validate the configuration for the selected sending method.
-		$sending_method_config = array();
-		foreach ($sending_methods[$sending_method]['required'] as $conf_name)
-		{
-			$conf_value = $vars->{$sending_method . '_' . $conf_name} ?: null;
-			if (!$conf_value)
-			{
-				return new Object(-1, 'msg_advanced_mailer_smtp_host_is_invalid');
-			}
-			$sending_method_config[$conf_name] = $conf_value;
-		}
 		
 		// Update the current module's configuration.
 		$config = $this->getConfig();
-		$config->sender_name = $vars->sender_name;
-		$config->sender_email = $vars->sender_email;
-		$config->reply_to = $vars->reply_to;
-		$config->force_sender = toBool($vars->force_sender);
 		$config->log_sent_mail = toBool($vars->log_sent_mail);
 		$config->log_errors = toBool($vars->log_errors);
+		$config->log_sent_sms = toBool($vars->log_sent_sms);
+		$config->log_sms_errors = toBool($vars->log_sms_errors);
 		$output = getController('module')->insertModuleConfig('advanced_mailer', $config);
 		if ($output->toBool())
 		{
@@ -69,17 +31,6 @@ class Advanced_MailerAdminController extends Advanced_Mailer
 		{
 			return $output;
 		}
-		
-		// Update the webmaster's name and email in the member module.
-		getController('module')->updateModuleConfig('member', (object)array(
-			'webmaster_name' => $config->sender_name,
-			'webmaster_email' => $config->sender_email,
-		));
-		
-		// Update system configuration.
-		Rhymix\Framework\Config::set("mail.type", $sending_method);
-		Rhymix\Framework\Config::set("mail.$sending_method", $sending_method_config);
-		Rhymix\Framework\Config::save();
 		
 		if (Context::get('success_return_url'))
 		{
@@ -198,7 +149,7 @@ class Advanced_MailerAdminController extends Advanced_Mailer
 	}
 	
 	/**
-	 * Clear old sending log.
+	 * Clear old mail sending log.
 	 */
 	public function procAdvanced_mailerAdminClearSentMail()
 	{
@@ -216,22 +167,53 @@ class Advanced_MailerAdminController extends Advanced_Mailer
 		$obj = new stdClass();
 		$obj->status = $status;
 		$obj->regdate = date('YmdHis', time() - ($clear_before_days * 86400) + zgap());
-		$output = executeQuery('advanced_mailer.deleteLogs', $obj);
+		$output = executeQuery('advanced_mailer.deleteMailLogs', $obj);
 		
 		if ($status === 'success')
 		{
-			$this->setRedirectUrl(getNotEncodedUrl('', 'module', 'admin', 'act', 'dispAdvanced_mailerAdminSentMail'));
+			$this->setRedirectUrl(getNotEncodedUrl('', 'module', 'admin', 'act', 'dispAdvanced_mailerAdminMailLog'));
 		}
 		else
 		{
-			$this->setRedirectUrl(getNotEncodedUrl('', 'module', 'admin', 'act', 'dispAdvanced_mailerAdminErrors'));
+			$this->setRedirectUrl(getNotEncodedUrl('', 'module', 'admin', 'act', 'dispAdvanced_mailerAdminMailErrors'));
 		}
 	}
 	
 	/**
-	 * Send a test email using a temporary configuration.
+	 * Clear old SMS sending log.
 	 */
-	public function procAdvanced_MailerAdminTestSend()
+	public function procAdvanced_mailerAdminClearSentSMS()
+	{
+		$status = Context::get('status');
+		$clear_before_days = intval(Context::get('clear_before_days'));
+		if (!in_array($status, array('success', 'error')))
+		{
+			return new Object(-1, 'msg_invalid_request');
+		}
+		if ($clear_before_days < 0)
+		{
+			return new Object(-1, 'msg_invalid_request');
+		}
+		
+		$obj = new stdClass();
+		$obj->status = $status;
+		$obj->regdate = date('YmdHis', time() - ($clear_before_days * 86400) + zgap());
+		$output = executeQuery('advanced_mailer.deleteSMSLogs', $obj);
+		
+		if ($status === 'success')
+		{
+			$this->setRedirectUrl(getNotEncodedUrl('', 'module', 'admin', 'act', 'dispAdvanced_mailerAdminSMSLog'));
+		}
+		else
+		{
+			$this->setRedirectUrl(getNotEncodedUrl('', 'module', 'admin', 'act', 'dispAdvanced_mailerAdminSMSErrors'));
+		}
+	}
+	
+	/**
+	 * Send a test mail.
+	 */
+	public function procAdvanced_MailerAdminTestSendMail()
 	{
 		$advanced_mailer_config = $this->getConfig();
 		$recipient_config = Context::gets('recipient_name', 'recipient_email');
@@ -268,23 +250,23 @@ class Advanced_MailerAdminController extends Advanced_Mailer
 			
 			if (!$result)
 			{
-				if (count($oMail->errors))
+				if (count($oMail->getErrors()))
 				{
 					if (config('mail.type') === 'smtp')
 					{
-						if (strpos(config('mail.smtp.smtp_host'), 'gmail.com') !== false && strpos(implode("\n", $oMail->errors), 'code "535"') !== false)
+						if (strpos(config('mail.smtp.smtp_host'), 'gmail.com') !== false && strpos(implode("\n", $oMail->getErrors()), 'code "535"') !== false)
 						{
 							$this->add('test_result', Context::getLang('msg_advanced_mailer_google_account_security'));
 							return;
 						}
-						if (strpos(config('mail.smtp.smtp_host'), 'naver.com') !== false && strpos(implode("\n", $oMail->errors), 'Failed to authenticate') !== false)
+						if (strpos(config('mail.smtp.smtp_host'), 'naver.com') !== false && strpos(implode("\n", $oMail->getErrors()), 'Failed to authenticate') !== false)
 						{
 							$this->add('test_result', Context::getLang('msg_advanced_mailer_naver_smtp_disabled'));
 							return;
 						}
 					}
 					
-					$this->add('test_result', nl2br(htmlspecialchars(implode("\n", $oMail->errors))));
+					$this->add('test_result', nl2br(htmlspecialchars(implode("\n", $oMail->getErrors()))));
 					return;
 				}
 				else
@@ -301,6 +283,58 @@ class Advanced_MailerAdminController extends Advanced_Mailer
 		}
 		
 		$this->add('test_result', Context::getLang('msg_advanced_mailer_test_success'));
+		return;
+	}
+	
+	/**
+	 * Send a test SMS.
+	 */
+	public function procAdvanced_MailerAdminTestSendSMS()
+	{
+		$advanced_mailer_config = $this->getConfig();
+		$recipient_number = Context::get('recipient_number');
+		$country_code = intval(Context::get('country_code'));
+		$content = trim(Context::get('content'));
+		
+		if (!$recipient_number)
+		{
+			$this->add('test_result', 'Error: ' . Context::getLang('msg_advanced_mailer_recipient_number_is_empty'));
+			return;
+		}
+		if (!$content)
+		{
+			$this->add('test_result', 'Error: ' . Context::getLang('msg_advanced_mailer_content_is_empty'));
+			return;
+		}
+		
+		try
+		{
+			$oSMS = new Rhymix\Framework\SMS();
+			$oSMS->addTo($recipient_number, $country_code);
+			$oSMS->setBody($content);
+			$result = $oSMS->send();
+			
+			if (!$result)
+			{
+				if (count($oSMS->getErrors()))
+				{
+					$this->add('test_result', nl2br(htmlspecialchars(implode("\n", $oSMS->getErrors()))));
+					return;
+				}
+				else
+				{
+					$this->add('test_result', Context::getLang('msg_advanced_mailer_unknown_error'));
+					return;
+				}
+			}
+		}
+		catch (Exception $e)
+		{
+			$this->add('test_result', nl2br(htmlspecialchars($e->getMessage())));
+			return;
+		}
+		
+		$this->add('test_result', Context::getLang('msg_advanced_mailer_test_success_sms'));
 		return;
 	}
 }

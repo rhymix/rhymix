@@ -13,7 +13,7 @@
 
 	$material_colors = array(
 		'red'	=>	'#f44336',
-		'crimson'	=>	'#66001f',
+		'crimson'	=>	'#aa0000',
 		'pink'	=>	'#e91e63',
 		'purple'	=>	'#9c27b0',
 		'deep-purple'	=>	'#673ab7',
@@ -52,7 +52,7 @@
 <load target="layout.scss" vars="$layout_scss_value" />
 <load target="layout.js" />
 
-<div class="skip"><a href="#content">{$lang->skip_to_content}</a></div>
+<div class="skip"><a href="#content">{lang('skip_to_content')}</a></div>
 <header class="layout_frame">
 	<div class="layout_header layout_canvas">
 		<h1>
@@ -65,7 +65,7 @@
 		</h1>
 		<div id="layout_menu_toggle">
 			<button class="layout_mobile_menu layout_mobile_menu--htx" data-target="layout_gnb">
-				<span>{$lang->menu}</span>
+				<span>{lang('common.menu')}</span>
 			</button>
 		</div>
 		<div class="hside layout_pc">
@@ -75,8 +75,8 @@
 					<input type="hidden" name="vid" value="{$vid}" />
 					<input type="hidden" name="mid" value="{$mid}" />
 					<input type="hidden" name="act" value="IS" />
-					<input type="text" name="is_keyword" value="{$is_keyword}" required placeholder="{$lang->cmd_search}" title="{$lang->cmd_search}" />
-					<input type="submit" value="{$lang->cmd_search}" />
+					<input type="text" name="is_keyword" value="{$is_keyword}" required placeholder="{lang('common.cmd_search')}" title="{lang('common.cmd_search')}" />
+					<input type="submit" value="{lang('common.cmd_search')}" />
 				</form>
 				<!--// Search -->
 			</div>
@@ -86,18 +86,18 @@
 	<nav class="layout_frame layout_menu" id="layout_gnb">
 		<ul>
 			<li class="layout_dropdown">
-				<a href="{getUrl('act', 'dispMemberLoginForm')}" cond="!$is_logged">{sprintf($lang->simple_hello, $lang->simple_guest)}</a>
+				<a href="{getUrl('act', 'dispMemberLoginForm')}" cond="!$is_logged">{sprintf(lang('simple_hello'), lang('simple_guest'))}</a>
 				<ul class="layout_dropdown-content" cond="!$is_logged">
-					<li><a href="{getUrl('act', 'dispMemberLoginForm')}">{$lang->cmd_login}...</a></li>
-					<li><a href="{getUrl('act', 'dispMemberSignUpForm')}" cond="$member_config->enable_join === 'Y'">{$lang->cmd_signup}...</a></li>
+					<li><a href="{getUrl('act', 'dispMemberLoginForm')}">{lang('member.cmd_login')}...</a></li>
+					<li><a href="{getUrl('act', 'dispMemberSignUpForm')}" cond="$member_config->enable_join === 'Y'">{lang('member.cmd_signup')}...</a></li>
 				</ul>
-				<a href="{getUrl('act', 'dispMemberInfo')}" cond="$is_logged">{sprintf($lang->simple_hello, $logged_info->nick_name)}</a>
+				<a href="{getUrl('act', 'dispMemberInfo')}" cond="$is_logged">{sprintf(lang('simple_hello'), $logged_info->nick_name)}</a>
 				<ul class="layout_dropdown-content" cond="$is_logged">
-					<li><a href="{getUrl('act', 'dispMemberInfo')}">{$lang->cmd_view_member_info}</a></li>
+					<li><a href="{getUrl('act', 'dispMemberInfo')}">{lang('member.cmd_view_member_info')}</a></li>
 					<li cond="$logged_info->is_admin == 'Y'">
-						<a href="{getUrl('', 'module','admin')}">{$lang->cmd_management}</a>
+						<a href="{getUrl('', 'module','admin')}">{lang('common.cmd_management')}</a>
 					</li>
-					<li><a href="{getUrl('act', 'dispMemberLogout')}">{$lang->cmd_logout}</a></li>
+					<li><a href="{getUrl('act', 'dispMemberLogout')}">{lang('member.cmd_logout')}</a></li>
 				</ul>
 			</li>
 			<li loop="$GNB->list=>$key1,$val1" class="<!--@if($val1['selected'])-->active <!--@endif--><!--@if($val1['list'])-->layout_dropdown<!--@endif-->">
@@ -107,7 +107,7 @@
 				</ul>
 			</li>
 			<li id="layout_search_link">
-				<a href="{getUrl('vid', $vid, 'mid', $mid, 'act', 'IS')}"><span>{$lang->cmd_search}</span></a>
+				<a href="{getUrl('vid', $vid, 'mid', $mid, 'act', 'IS')}"><span>{lang('common.cmd_search')}</span></a>
 			</li>
 		</ul>
 	</nav>

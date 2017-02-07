@@ -62,24 +62,24 @@
 
 			var currentEnforce_ssl = window.enforce_ssl;
 			if(location.protocol == 'https:') { window.enforce_ssl = true; }
+			
+			var chunkStatus = true;
+			var defaultFormData = {
+				"editor_sequence": data.editorSequence,
+				"upload_target_srl" : data.uploadTargetSrl,
+				"mid" : window.current_mid,
+				"act": 'procFileUpload'
+			};
 
 			var settings = {
-				url: request_uri
-				.setQuery('module', 'file')
-				.setQuery('act', 'procFileUpload')
-				.setQuery('mid', window.current_mid),
-				formData: {
-					"editor_sequence": data.editorSequence,
-					"upload_target_srl" : data.uploadTargetSrl,
-					"mid" : window.current_mid,
-					"act": 'procFileUpload'
-				},
+				url: request_uri,
+				formData: defaultFormData,
 				dropZone: $container,
 				add: function(e, d) {
 					var dfd = jQuery.Deferred();
 
 					$.each(d.files, function(index, file) {
-						if(data.settings.maxFileSize <= file.size) {
+						if(data.settings.maxFileSize > 0 && data.settings.maxFileSize < file.size) {
 							dfd.reject();
 							alert(window.xe.msg_exceeds_limit_size);
 							return false;
@@ -91,25 +91,79 @@
 						d.submit();
 					});
 				},
+				submit: function(e, data) {
+					data.formData = defaultFormData;
+					data.formData.nonce = "T" + new Date().getTime() + "." + Math.random();
+					chunkStatus = true;
+				},
+				chunksend: function(e, data) {
+					if (!chunkStatus) {
+						return false;
+					}
+				},
+				chunkdone: function(e, res) {
+					if (res.result) {
+						if (res.result.error != 0) {
+							if (res.result.message) {
+								alert(res.result.message);
+							} else {
+								alert(window.xe.msg_file_upload_error + " (Type 1)");
+							}
+							return chunkStatus = false;
+						}
+					} else {
+						alert(window.xe.msg_file_upload_error + " (Type 2)");
+						return chunkStatus = false;
+					}
+				},
+				chunkfail: function(e, data) {
+					if (chunkStatus) {
+						alert(window.xe.msg_file_upload_error + " (Type 3)" + "<br>\n" + data.errorThrown + "<br>\n" + data.textStatus);
+						return chunkStatus = false;
+					}
+				},
 				done: function(e, res) {
+					data.settings.progressbarGraph.width('100%');
+					data.settings.progressPercent.text('100%');
+					data.settings.progressbar.delay(1000).slideUp();
+					data.settings.progressStatus.delay(1000).slideUp();
 					var result = res.response().result;
 					var temp_code = '';
-
-					if(!result) return;
-
-					if(!jQuery.isPlainObject(result)) result = jQuery.parseJSON(result);
-
-					if(!result) return;
+					if (!result) {
+						alert(window.xe.msg_file_upload_error + " (Type 4)");
+						return false;
+					}
+					if (!jQuery.isPlainObject(result)) {
+						result = jQuery.parseJSON(result);
+					}
+					if (!result) {
+						alert(window.xe.msg_file_upload_error + " (Type 5)" + "<br>\n" + res.response().result);
+						return false;
+					}
 
 					if(result.error == 0) {
 						if(/\.(jpe?g|png|gif)$/i.test(result.source_filename)) {
 							temp_code += '<img src="' + result.download_url + '" alt="' + result.source_filename + '" editor_component="image_link" data-file-srl="' + result.file_srl + '" />';
-							temp_code += "\r\n<p><br></p>\r\n";
+							if (opt.autoinsertImage === 'paragraph') {
+								_getCkeInstance(settings.formData.editor_sequence).insertHtml("<p>" + temp_code + "</p>\n", "unfiltered_html");
+							} else if (opt.autoinsertImage === 'inline') {
+								_getCkeInstance(settings.formData.editor_sequence).insertHtml(temp_code, "unfiltered_html");
+							}
 						}
-
-						_getCkeInstance(settings.formData.editor_sequence).insertHtml(temp_code, "unfiltered_html");
-					} else {
+					} else if (result.message) {
 						alert(result.message);
+						return false;
+					} else {
+						alert(window.xe.msg_file_upload_error + " (Type 6)" + "<br>\n" + res.response().result);
+						return false;
+					}
+				},
+				fail: function(e, data) {
+					data.settings.progressbar.delay(1000).slideUp();
+					data.settings.progressStatus.delay(1000).slideUp();
+					if (chunkStatus) {
+						alert(window.xe.msg_file_upload_error + " (Type 7)" + "<br>\n" + data.errorThrown + "<br>\n" + data.textStatus);
+						return false;
 					}
 				},
 				stop: function() {
@@ -121,14 +175,9 @@
 					data.settings.progressbar.show();
 				},
 				progressall: function (e, d) {
-					var progress = parseInt(d.loaded / d.total * 100, 10);
+					var progress = Math.round(d.loaded / d.total * 999) / 10;
 					data.settings.progressbarGraph.width(progress+'%');
 					data.settings.progressPercent.text(progress+'%');
-
-					if(progress >= 100) {
-						data.settings.progressbar.delay(3000).slideUp();
-						data.settings.progressStatus.delay(3000).slideUp();
-					}
 				}
 			};
 			window.enforce_ssl = currentEnforce_ssl;
@@ -277,13 +326,13 @@
 				file_srls.push(file_srl);
 			}
 
-			file_srls = file_srls.join(',');
-
-			exec_json('file.procFileDelete', {'file_srls': file_srls, 'editor_sequence': data.editorSequence}, function() {
-				file_srls = file_srls.split(',');
+			exec_json('file.procFileDelete', {'file_srls': file_srls.join(','), 'editor_sequence': data.editorSequence}, function() {
 				$.each(file_srls, function(idx, srl){
 					data.settings.fileList.find('ul').find('li[data-file-srl=' + srl + ']').remove();
 				});
+				var ckeditor = _getCkeInstance(data.editorSequence);
+				var regexp = new RegExp('<(img) [^>]*data-file-srl="(' + file_srls.join('|') + ')"[^>]*>', 'g');
+				ckeditor.setData(ckeditor.getData().replace(regexp, ''));
 				self.loadFilelist($container);
 			});
 		 },
@@ -296,6 +345,7 @@
 			var obj = {};
 			obj.mid = window.current_mid;
 			obj.editor_sequence = data.editorSequence;
+			obj.allow_chunks = 'Y';
 
 			$.exec_json('file.getFileList', obj, function(res){
 				data.uploadTargetSrl = res.upload_target_srl;

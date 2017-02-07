@@ -201,7 +201,7 @@ class HTMLDisplayHandler
 		if(is_array(Context::get('INPUT_ERROR')))
 		{
 			$INPUT_ERROR = Context::get('INPUT_ERROR');
-			$keys = array_keys($INPUT_ERROR);
+			$keys = array_map(function($str) { return preg_quote($str, '@'); }, array_keys($INPUT_ERROR));
 			$keys = '(' . implode('|', $keys) . ')';
 
 			$output = preg_replace_callback('@(<input)([^>]*?)\sname="' . $keys . '"([^>]*?)/?>@is', array(&$this, '_preserveValue'), $output);
@@ -259,42 +259,28 @@ class HTMLDisplayHandler
 
 		// get type
 		$type = 'text';
-		if(preg_match('/\stype="([a-z]+)"/i', $str, $m))
+		if(preg_match('/\stype="([^"]+)"/i', $str, $m))
 		{
 			$type = strtolower($m[1]);
 		}
 
 		switch($type)
 		{
-			case 'text':
-			case 'hidden':
-			case 'email':
-			case 'search':
-			case 'tel':
-			case 'url':
-			case 'email':
-			case 'datetime':
-			case 'date':
-			case 'month':
-			case 'week':
-			case 'time':
-			case 'datetime-local':
-			case 'number':
-			case 'range':
-			case 'color':
-				$str = preg_replace('@\svalue="[^"]*?"@', ' ', $str) . ' value="' . htmlspecialchars($INPUT_ERROR[$match[3]], ENT_COMPAT | ENT_HTML401, 'UTF-8', false) . '"';
-				break;
-			case 'password':
-				$str = preg_replace('@\svalue="[^"]*?"@', ' ', $str);
-				break;
 			case 'radio':
 			case 'checkbox':
-				$str = preg_replace('@\schecked(="[^"]*?")?@', ' ', $str);
-				if(@preg_match('@\s(?i:value)="' . $INPUT_ERROR[$match[3]] . '"@', $str))
+				if(preg_match('@\s(?i:value)="' . preg_quote($INPUT_ERROR[$match[3]], '@') . '"@', $str))
 				{
-					$str .= ' checked="checked"';
+					$str = preg_replace('@\schecked(="[^"]*?")?@', ' checked="checked"', $str);
 				}
 				break;
+			default:
+				if (!preg_match('@\svalue="([^"]*?)"@', $str))
+				{
+					$str = $str . ' value=""';
+				}
+				$str = preg_replace_callback('@\svalue="([^"]*?)"@', function() use($INPUT_ERROR, $match) {
+					return ' value="' . escape($INPUT_ERROR[$match[3]], true) . '"';
+				}, $str);
 		}
 
 		return $str . ' />';
@@ -333,7 +319,7 @@ class HTMLDisplayHandler
 	{
 		$INPUT_ERROR = Context::get('INPUT_ERROR');
 		preg_match('@<textarea.*?>@is', $matches[0], $mm);
-		return $mm[0] . $INPUT_ERROR[$matches[1]] . '</textarea>';
+		return $mm[0] . escape($INPUT_ERROR[$matches[1]], true) . '</textarea>';
 	}
 
 	/**
@@ -403,7 +389,7 @@ class HTMLDisplayHandler
 		if ($document_srl)
 		{
 			$oDocument = Context::get('oDocument') ?: getModel('document')->getDocument($document_srl, false, false);
-			if ($oDocument instanceof documentItem && $oDocument->document_srl == $document_srl && !$oDocument->isSecret())
+			if (is_object($oDocument) && $oDocument->document_srl == $document_srl && (!method_exists($oDocument, 'isSecret') || !$oDocument->isSecret()))
 			{
 				$page_type = 'article';
 			}

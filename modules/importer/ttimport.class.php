@@ -486,7 +486,7 @@ class ttimport
 		$file_obj->download_count = $xmlDoc->attachment->downloads->body;
 		$name = $xmlDoc->attachment->name->body;
 		// Set upload path by checking if the attachement is an image or other kind of file
-		if(preg_match("/\.(jpg|jpeg|gif|png|wmv|wma|mpg|mpeg|avi|swf|flv|mp1|mp2|mp3|mp4|asf|wav|asx|mid|midi|asf|mov|moov|qt|rm|ram|ra|rmm|m4v)$/i", $file_obj->source_filename))
+		if (Rhymix\Framework\Filters\FilenameFilter::isDirectDownload($file_obj->source_filename))
 		{
 			$path = sprintf("./files/attach/images/%s/%s", $module_srl,getNumberingPath($upload_target_srl,3));
 			$filename = $path.$file_obj->source_filename;

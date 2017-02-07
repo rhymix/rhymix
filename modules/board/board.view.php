@@ -673,6 +673,7 @@ class boardView extends board
 			$group_srls_count = count($group_srls);
 
 			// check the grant after obtained the category list
+			$category_list = array();
 			$normal_category_list = $oDocumentModel->getCategoryList($this->module_srl);
 			if(count($normal_category_list))
 			{
@@ -689,7 +690,25 @@ class boardView extends board
 					if($is_granted) $category_list[$category_srl] = $category;
 				}
 			}
-			Context::set('category_list', $category_list);
+			
+			// check if at least one category is granted
+			$grant_exists = false;
+			foreach ($category_list as $category)
+			{
+				if ($category->grant)
+				{
+					$grant_exists = true;
+				}
+			}
+			if ($grant_exists)
+			{
+				Context::set('category_list', $category_list);
+			}
+			else
+			{
+				$this->module_info->use_category = 'N';
+				Context::set('category_list', array());
+			}
 		}
 
 		// GET parameter document_srl from request
@@ -1189,6 +1208,69 @@ class boardView extends board
 		Context::set('update_log', $update_log);
 
 		$this->setTemplateFile('update_view');
+	}
+
+	function dispBoardVoteLog()
+	{
+		iF($this->grant->vote_log_view !== true)
+		{
+			return new Object(-1, 'msg_not_permitted');
+		}
+
+		$oMemberModel = getModel('member');
+
+		$target = Context::get('target');
+		$target_srl = Context::get('target_srl');
+
+		$args = new stdClass();
+		if($target === 'document')
+		{
+			$queryId = 'document.getDocumentVotedLog';
+			$args->document_srl = $target_srl;
+		}
+		elseif($target === 'comment')
+		{
+			$queryId = 'comment.getCommentVotedLog';
+			$args->comment_srl = $target_srl;
+		}
+		else
+		{
+			return new Object(-1, 'msg_not_target');
+		}
+
+		$output = executeQueryArray($queryId, $args);
+		if(!$output->toBool())
+		{
+			return $output;
+		}
+
+		$vote_member_infos = array();
+		$blame_member_infos = array();
+		if(count($output->data) > 0)
+		{
+			foreach($output->data as $key => $log)
+			{
+				if($log->point > 0)
+				{
+					if($log->member_srl == $vote_member_infos[$log->member_srl]->member_srl)
+					{
+						continue;
+					}
+					$vote_member_infos[$log->member_srl] = $oMemberModel->getMemberInfoByMemberSrl($log->member_srl);
+				}
+				else
+				{
+					if($log->member_srl == $blame_member_infos[$log->member_srl]->member_srl)
+					{
+						continue;
+					}
+					$blame_member_infos[$log->member_srl] = $oMemberModel->getMemberInfoByMemberSrl($log->member_srl);
+				}
+			}
+		}
+		Context::set('vote_member_info', $vote_member_infos);
+		Context::set('blame_member_info', $blame_member_infos);
+		$this->setTemplateFile('vote_log');
 	}
 
 	/**

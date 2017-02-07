@@ -29,7 +29,7 @@ abstract class Base implements \Rhymix\Framework\Drivers\MailInterface
 	 * Create a new instance of the current mail driver, using the given settings.
 	 * 
 	 * @param array $config
-	 * @return void
+	 * @return object
 	 */
 	public static function getInstance(array $config)
 	{

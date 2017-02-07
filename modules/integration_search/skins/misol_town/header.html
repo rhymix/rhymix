@@ -14,7 +14,7 @@
 	{@ $_misolSearch = 1905; }
 
 	<div class="searchBox">
-		<form action="{getUrl()}" method="post" class="search" id="misolSearchForm" no-error-return-url="true" >
+		<form action="{getUrl()}" method="get" class="search" id="misolSearchForm" no-error-return-url="true" >
 			<input type="hidden" name="mid" value="{$mid}" />
 			<input type="hidden" name="act" value="IS" />
 			<input type="hidden" name="where" value="{$where}" />

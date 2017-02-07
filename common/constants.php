@@ -3,7 +3,7 @@
 /**
  * RX_VERSION is the version number of the Rhymix CMS.
  */
-define('RX_VERSION', '1.8.25');
+define('RX_VERSION', '1.8.29');
 
 /**
  * RX_MICROTIME is the startup time of the current script, in microseconds since the Unix epoch.
@@ -27,9 +27,9 @@ if (isset($_SERVER['DOCUMENT_ROOT']) && !strncmp(RX_BASEDIR,  str_replace('\\', 
 {
     define('RX_BASEURL', str_replace('//', '/', '/' . trim(substr(RX_BASEDIR, strlen($_SERVER['DOCUMENT_ROOT'])), '/') . '/'));
 }
-elseif (isset($_SERVER['PHP_SELF']) && ($len = strlen($_SERVER['PHP_SELF'])) && $len >= 10 && substr($_SERVER['PHP_SELF'], $len - 10) === '/index.php')
+elseif (isset($_SERVER['PHP_SELF']) && ($pos = strpos($_SERVER['PHP_SELF'], '/index.php')) !== false)
 {
-    define('RX_BASEURL', str_replace('//', '/', '/' . trim(str_replace('\\', '/', substr($_SERVER['PHP_SELF'], 0, $len - 10)), '/') . '/'));
+    define('RX_BASEURL', str_replace('//', '/', '/' . trim(str_replace('\\', '/', substr($_SERVER['PHP_SELF'], 0, $pos)), '/') . '/'));
 }
 else
 {
@@ -65,6 +65,11 @@ elseif (isset($_SERVER['REMOTE_ADDR']) && @inet_pton($_SERVER['REMOTE_ADDR']) !=
 {
     define('RX_CLIENT_IP_VERSION', 6);
     define('RX_CLIENT_IP', $_SERVER['REMOTE_ADDR']);
+}
+elseif (PHP_SAPI === 'cli')
+{
+    define('RX_CLIENT_IP_VERSION', 4);
+    define('RX_CLIENT_IP', '127.0.0.1');
 }
 else
 {
@@ -134,6 +139,20 @@ define('_XE_LOCATION_', 'en');
 define('_XE_LOCATION_SITE_', 'https://www.xpressengine.com/');
 define('_XE_DOWNLOAD_SERVER_', 'https://download.xpressengine.com/');
 define('__DEBUG__', 0);
+
+/**
+ * Status constants for various content types.
+ */
+define('RX_STATUS_TEMP', 0);
+define('RX_STATUS_PUBLIC', 1);
+define('RX_STATUS_SECRET', 2);
+define('RX_STATUS_EMBARGO', 3);
+define('RX_STATUS_TRASH', 4);
+define('RX_STATUS_CENSORED', 5);
+define('RX_STATUS_CENSORED_BY_ADMIN', 6);
+define('RX_STATUS_DELETED', 7);
+define('RX_STATUS_DELETED_BY_ADMIN', 8);
+define('RX_STATUS_OTHER', 9);
 
 /**
  * Other useful constants.

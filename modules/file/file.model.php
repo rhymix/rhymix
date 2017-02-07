@@ -175,6 +175,7 @@ class fileModel extends file
 		if(!$config->allow_outlink) $config->allow_outlink = 'Y';
 		if(!$config->download_grant) $config->download_grant = array();
 
+		/*
 		$size = ini_get('upload_max_filesize');
 		$unit = strtolower($size[strlen($size) - 1]);
 		$size = (float)$size;
@@ -189,6 +190,7 @@ class fileModel extends file
 		{
 			$config->allowed_attach_size = $size;
 		}
+		*/
 		
 		return $config;
 	}
@@ -257,8 +259,7 @@ class fileModel extends file
 		for($i=0;$i<$file_count;$i++)
 		{
 			$file = $file_list[$i];
-			$file->source_filename = stripslashes($file->source_filename);
-			$file->source_filename = htmlspecialchars($file->source_filename);
+			$file->source_filename = escape($file->source_filename, false);
 			$file->download_url = $this->getDownloadUrl($file->file_srl, $file->sid, $file->module_srl);
 			$file_list[$i] = $file;
 		}
@@ -286,11 +287,13 @@ class fileModel extends file
 
 		if($logged_info->is_admin == 'Y')
 		{
+			/*
 			$iniPostMaxSize = FileHandler::returnbytes(ini_get('post_max_size'));
 			$iniUploadMaxSize = FileHandler::returnbytes(ini_get('upload_max_filesize'));
 			$size = min($iniPostMaxSize, $iniUploadMaxSize) / 1048576;
 			$file_config->allowed_attach_size = $size;
 			$file_config->allowed_filesize = $size;
+			*/
 			$file_config->allowed_filetypes = '*.*';
 		}
 		return $file_config;
@@ -305,6 +308,15 @@ class fileModel extends file
 	function getUploadStatus($attached_size = 0)
 	{
 		$file_config = $this->getUploadConfig();
+		if (Context::get('allow_chunks') === 'Y')
+		{
+			$allowed_filesize = $file_config->allowed_filesize * 1024 * 1024;
+		}
+		else
+		{
+			$allowed_filesize = min(FileHandler::returnBytes(ini_get('upload_max_filesize')), FileHandler::returnBytes(ini_get('post_max_size')));
+		}
+		
 		// Display upload status
 		$upload_status = sprintf(
 			'%s : %s/ %s<br /> %s : %s (%s : %s)',
@@ -312,7 +324,7 @@ class fileModel extends file
 			FileHandler::filesize($attached_size),
 			FileHandler::filesize($file_config->allowed_attach_size*1024*1024),
 			lang('allowed_filesize'),
-			FileHandler::filesize($file_config->allowed_filesize*1024*1024),
+			FileHandler::filesize($allowed_filesize),
 			lang('allowed_filetypes'),
 			$file_config->allowed_filetypes
 		);

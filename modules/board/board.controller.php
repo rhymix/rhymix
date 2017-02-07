@@ -161,7 +161,7 @@ class boardController extends board
 				$obj->update_order = $obj->list_order = (getNextSequence() * -1);
 			}
 			$obj->reason_update = escape($obj->reason_update);
-			$output = $oDocumentController->updateDocument($oDocument, $obj, true);
+			$output = $oDocumentController->updateDocument($oDocument, $obj, $bAnonymous);
 			$msg_code = 'success_updated';
 
 		// insert a new document otherwise
@@ -196,8 +196,6 @@ class boardController extends board
 						$oMail->send();
 					}
 				}
-				
-
 			}
 		}
 
@@ -523,17 +521,13 @@ class boardController extends board
 
 		if($this->module_info->comment_delete_message === 'yes' && $instant_delete != 'Y')
 		{
-			$comment->content = '';
-			$comment->status = 7;
 			$output = $oCommentController->updateCommentByDelete($comment, $this->grant->manager);
 		}
-		elseif($this->module_info->comment_delete_message === 'only_commnet' && $instant_delete != 'Y')
+		elseif(starts_with('only_comm', $this->module_info->comment_delete_message) && $instant_delete != 'Y')
 		{
 			$childs = $oCommentModel->getChildComments($comment_srl);
 			if(count($childs) > 0)
 			{
-				$comment->content = '';
-				$comment->status = 7;
 				$output = $oCommentController->updateCommentByDelete($comment, $this->grant->manager);
 			}
 			else

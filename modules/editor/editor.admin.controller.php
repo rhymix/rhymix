@@ -184,6 +184,8 @@ class editorAdminController extends editor
 		$config->content_paragraph_spacing = ctype_digit($config->content_paragraph_spacing) ? ($config->content_paragraph_spacing . '%') : $config->content_paragraph_spacing;
 		$config->content_word_break = $configVars->content_word_break;
 		$config->content_word_break = in_array($config->content_word_break, array('normal', 'keep-all', 'break-all', 'none')) ? $config->content_word_break : 'normal';
+		$config->autoinsert_image = $configVars->autoinsert_image;
+		$config->autoinsert_image = in_array($config->autoinsert_image, array('paragraph', 'inline', 'none')) ? $config->autoinsert_image : 'paragraph';
 
 		$oModuleController->insertModuleConfig('editor', $config);
 		$this->setRedirectUrl(Context::get('error_return_url'));

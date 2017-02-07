@@ -32,9 +32,8 @@ class spamfilterModel extends spamfilter
 		$args = new stdClass();
 		$args->sort_index = "regdate";
 		$args->page = Context::get('page')?Context::get('page'):1;
-		$output = executeQuery('spamfilter.getDeniedIPList', $args);
+		$output = executeQueryArray('spamfilter.getDeniedIPList', $args);
 		if(!$output->data) return;
-		if(!is_array($output->data)) return array($output->data);
 		return $output->data;
 	}
 
@@ -43,18 +42,20 @@ class spamfilterModel extends spamfilter
 	 */
 	function isDeniedIP()
 	{
-		$ipaddress = $_SERVER['REMOTE_ADDR'];
-
 		$ip_list = $this->getDeniedIPList();
 		if(!count($ip_list)) return new Object();
-
-		$count = count($ip_list);
-		for($i=0;$i<$count;$i++)
+		
+		$ip_ranges = array();
+		foreach ($ip_list as $ip_range)
 		{
-			$ip = str_replace('.', '\.', str_replace('*','(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)',$ip_list[$i]->ipaddress));
-			if(preg_match('/^'.$ip.'$/', $ipaddress, $matches)) return new Object(-1,'msg_alert_registered_denied_ip');
+			$ip_ranges[] = $ip_range->ipaddress;
 		}
-
+		
+		if (Rhymix\Framework\Filters\IpFilter::inRanges(\RX_CLIENT_IP, $ip_ranges))
+		{
+			return new Object(-1, 'msg_alert_registered_denied_ip');
+		}
+		
 		return new Object();
 	}
 
@@ -79,11 +80,10 @@ class spamfilterModel extends spamfilter
 		$word_list = $this->getDeniedWordList();
 		if(!count($word_list)) return new Object();
 
-		$count = count($word_list);
-		for($i=0;$i<$count;$i++)
+		foreach ($word_list as $word_item)
 		{
-			$word = $word_list[$i]->word;
-			if(preg_match('/'.preg_quote($word,'/').'/is', $text))
+			$word = $word_item->word;
+			if (strpos($text, $word) !== false)
 			{
 				$args = new stdClass();
 				$args->word = $word;
@@ -103,19 +103,28 @@ class spamfilterModel extends spamfilter
 		$config = $this->getConfig();
 
 		if($config->limits != 'Y') return new Object(); 
-		$limit_count = '3';
-		$interval = '10';
+		$limit_count = $config->limits_count ?: 3;
+		$interval = $config->limits_interval ?: 10;
 
 		$count = $this->getLogCount($interval);
 
-		$ipaddress = $_SERVER['REMOTE_ADDR'];
 		// Ban the IP address if the interval is exceeded
 		if($count>=$limit_count)
 		{
+			if (\RX_CLIENT_IP_VERSION == 4)
+			{
+				$suffix = $config->ipv4_block_range ?: '';
+			}
+			else
+			{
+				$suffix = $config->ipv6_block_range ?: '';
+			}
+			
 			$oSpamFilterController = getController('spamfilter');
-			$oSpamFilterController->insertIP($ipaddress, 'AUTO-DENIED : Over limit');
+			$oSpamFilterController->insertIP(\RX_CLIENT_IP .  $suffix, 'AUTO-DENIED : Over limit');
 			return new Object(-1, 'msg_alert_registered_denied_ip');
 		}
+
 		// If the number of limited posts is not reached, keep creating.
 		if($count)
 		{
@@ -142,9 +151,14 @@ class spamfilterModel extends spamfilter
 	function isInsertedTrackback($document_srl)
 	{
 		$oTrackbackModel = getModel('trackback');
-		$count = $oTrackbackModel->getTrackbackCountByIPAddress($document_srl, $_SERVER['REMOTE_ADDR']);
-		if($count>0) return new Object(-1, 'msg_alert_trackback_denied');
-
+		if (is_object($oTrackbackModel) && method_exists($oTrackbackModel, 'getTrackbackCountByIPAddress'))
+		{
+			$count = $oTrackbackModel->getTrackbackCountByIPAddress($document_srl, \RX_CLIENT_IP);
+			if ($count > 0)
+			{
+				return new Object(-1, 'msg_alert_trackback_denied');
+			}
+		}
 		return new Object();
 	}
 
@@ -153,11 +167,11 @@ class spamfilterModel extends spamfilter
 	 */
 	function getLogCount($time = 60, $ipaddress='')
 	{
-		if(!$ipaddress) $ipaddress = $_SERVER['REMOTE_ADDR'];
+		if(!$ipaddress) $ipaddress = \RX_CLIENT_IP;
 
 		$args = new stdClass();
 		$args->ipaddress = $ipaddress;
-		$args->regdate = date("YmdHis", $_SERVER['REQUEST_TIME']-$time);
+		$args->regdate = date("YmdHis", time() - $time);
 		$output = executeQuery('spamfilter.getLogCount', $args);
 		$count = $output->data->count;
 		return $count;

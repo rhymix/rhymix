@@ -1425,6 +1425,14 @@ class Context
 			{
 				$result[$k] = urlencode($v);
 			}
+			elseif($key === 'xe_validator_id')
+			{
+				$result[$k] = htmlspecialchars($v, ENT_COMPAT | ENT_HTML401, 'UTF-8', FALSE);
+			}
+			elseif(starts_with('XE_VALIDATOR_', $key, false))
+			{
+				unset($result[$k]);
+			}
 			else
 			{
 				$result[$k] = $v;
@@ -1513,6 +1521,10 @@ class Context
 		}
 		
 		// Allow if the current user is in the list of allowed IPs.
+		if (PHP_SAPI === 'cli')
+		{
+			return;
+		}
 		if (Rhymix\Framework\Filters\IpFilter::inRanges(RX_CLIENT_IP, config('lock.allow')))
 		{
 			return;

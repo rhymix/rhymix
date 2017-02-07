@@ -912,23 +912,36 @@ class commentController extends comment
 	 */
 	function updateCommentByDelete($obj, $is_admin = FALSE)
 	{
-		$logged_info = Context::get('logged_info');
+		if (!$obj->comment_srl)
+		{
+			return new Object(-1, 'msg_invalid_request');
+		}
+		
+		// call a trigger (before)
+		$output = ModuleHandler::triggerCall('comment.deleteComment', 'before', $comment);
+		if(!$output->toBool())
+		{
+			return $output;
+		}
 
 		// begin transaction
 		$oDB = DB::getInstance();
 		$oDB->begin();
 
 		// If the case manager to delete comments, it indicated that the administrator deleted.
+		$logged_info = Context::get('logged_info');
 		if($is_admin === true && $obj->member_srl !== $logged_info->member_srl)
 		{
 			$obj->content = lang('msg_admin_deleted_comment');
-			$obj->status = 8;
+			$obj->status = RX_STATUS_DELETED_BY_ADMIN;
 		}
 		else
 		{
 			$obj->content = lang('msg_deleted_comment');
+			$obj->status = RX_STATUS_DELETED;
 		}
 		$obj->member_srl = 0;
+		unset($obj->last_update);
 		$output = executeQuery('comment.updateCommentByDelete', $obj);
 		if(!$output->toBool())
 		{
@@ -936,8 +949,8 @@ class commentController extends comment
 			return $output;
 		}
 
-		// call a trigger by delete (after)
-		ModuleHandler::triggerCall('comment.updateCommentByDelete', 'after', $obj);
+		// call a trigger (after)
+		ModuleHandler::triggerCall('comment.deleteComment', 'after', $obj);
 
 		// update the number of comments
 		$oCommentModel = getModel('comment');
@@ -1115,6 +1128,9 @@ class commentController extends comment
 			$args->isvalid = 'N';
 			$output = executeQuery('file.updateFileValid', $args);
 		}
+
+		// Remove the thumbnail file
+		Rhymix\Framework\Storage::deleteEmptyDirectory(RX_BASEDIR . sprintf('files/thumbnails/%s', getNumberingPath($comment_srl, 3)), true);
 
 		// commit
 		$oDB->commit();
@@ -1372,13 +1388,15 @@ class commentController extends comment
 		{
 			return $output;
 		}
-
+		
 		$declared_count = ($output->data->declared_count) ? $output->data->declared_count : 0;
-
+		$declare_message = trim(htmlspecialchars($declare_message));
+		
 		$trigger_obj = new stdClass();
 		$trigger_obj->comment_srl = $comment_srl;
 		$trigger_obj->declared_count = $declared_count;
-
+		$trigger_obj->declare_message = $declare_message;
+		
 		// Call a trigger (before)
 		$trigger_output = ModuleHandler::triggerCall('comment.declaredComment', 'before', $trigger_obj);
 		if(!$trigger_output->toBool())
@@ -1423,7 +1441,7 @@ class commentController extends comment
 		}
 
 		$args->comment_srl = $comment_srl;
-		$args->declare_message = trim(htmlspecialchars($declare_message));
+		$args->declare_message = $declare_message;
 		$log_output = executeQuery('comment.getCommentDeclaredLogInfo', $args);
 
 		// session registered if log info contains report log.

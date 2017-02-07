@@ -136,7 +136,6 @@ class Config
 		// Save the main config file.
 		$buff = '<?php' . "\n" . '// Rhymix System Configuration' . "\n" . 'return ' . self::serialize(self::$_config) . ';' . "\n";
 		$result = Storage::write(\RX_BASEDIR . self::$config_filename, $buff) ? true : false;
-		//if (!$result) return false;
 		
 		// Save XE-compatible config files.
 		$db_info = \Context::convertDBInfo(self::$_config);
@@ -148,7 +147,7 @@ class Config
 		Storage::write(\RX_BASEDIR . self::$old_db_config_filename, $buff);
 		$buff = '<?php' . "\n\n" . $warning . "\n\n" . '$ftp_info = ' . self::serialize($ftp_info) . ';' . "\n";
 		Storage::write(\RX_BASEDIR . self::$old_ftp_config_filename, $buff);
-		return true;
+		return $result;
 	}
 	
 	/**

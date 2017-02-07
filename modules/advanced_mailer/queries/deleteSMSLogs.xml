@@ -1,0 +1,9 @@
+<query id="deleteSMSLogs" action="delete">
+    <tables>
+        <table name="advanced_mailer_sms_log" />
+    </tables>
+    <conditions>
+        <condition operation="equal" column="status" var="status" />
+        <condition operation="less" column="regdate" var="regdate" pipe="and" />
+    </conditions>
+</query>

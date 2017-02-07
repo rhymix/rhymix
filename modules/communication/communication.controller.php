@@ -835,6 +835,10 @@ class communicationController extends communication
 		{
 			return new Object();
 		}
+		if(!$oCommunicationModel->checkGrant($config->grant_send))
+		{
+			return new Object();
+		}
 		
 		$mid = Context::get('cur_mid');
 		$member_srl = Context::get('target_srl');

@@ -103,6 +103,7 @@ return array(
 	'mediafilter' => array(
 		'iframe' => array(),
 		'object' => array(),
+		'classes' => array(),
 	),
 	'mobile' => array(
 		'enabled' => true,

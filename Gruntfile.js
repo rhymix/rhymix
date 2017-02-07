@@ -42,6 +42,7 @@ module.exports = function(grunt) {
 					'box-sizing' : false,
 					'font-sizes' : false,
 					'duplicate-background-images' : false,
+					'order-alphabetical' : false,
 					'ids' : false,
 					'important' : false,
 					'overqualified-elements' : false,

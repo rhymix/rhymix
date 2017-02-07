@@ -1,0 +1,15 @@
+<query id="insertMailLog" action="insert">
+    <tables>
+        <table name="advanced_mailer_log" />
+    </tables>
+    <columns>
+        <column name="mail_from" var="mail_from" notnull="notnull" />
+        <column name="mail_to" var="mail_to" notnull="notnull" />
+        <column name="subject" var="subject" notnull="notnull" />
+        <column name="calling_script" var="calling_script" notnull="notnull" />
+        <column name="sending_method" var="sending_method" notnull="notnull" />
+        <column name="regdate" var="regdate" notnull="notnull" default="curdate()" />
+        <column name="status" var="status" notnull="notnull" default="success" />
+        <column name="errors" var="errors" />
+    </columns>
+</query>

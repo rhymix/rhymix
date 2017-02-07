@@ -1,0 +1,14 @@
+<include target="_header.html" />
+
+<div class="vote-list">
+	<h2>추천인</h2>
+	<block loop="$vote_member_info => $val">
+		<a href="#popup_menu_area" class="votelog member_{$val->member_srl}" onclick="return false">{$val->nick_name}</a>
+	</block>
+	<h2>비추천인</h2>
+	<block loop="$blame_member_info => $val">
+		<a href="#popup_menu_area" class="votelog member_{$val->member_srl}" onclick="return false">{$val->nick_name}</a>
+	</block>
+</div>
+
+<include target="_footer.html" />

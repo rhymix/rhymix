@@ -97,6 +97,35 @@ function array_last_key(array $array)
 }
 
 /**
+ * Escape all keys and values in a multi-dimensional array.
+ * 
+ * @param array $array The array to escape
+ * @param bool $double_escape Set this to false to skip symbols that are already escaped (default: true)
+ * @return array
+ */
+function array_escape(array $array, $double_escape = true)
+{
+	$flags = ENT_QUOTES | ENT_SUBSTITUTE;
+	$result = array();
+	foreach ($array as $key => $value)
+	{
+		if (is_array($value))
+		{
+			$result[htmlspecialchars($key, $flags, 'UTF-8', $double_escape)] = array_escape($value, $double_escape, $flags);
+		}
+		elseif (is_object($value))
+		{
+			$result[htmlspecialchars($key, $flags, 'UTF-8', $double_escape)] = (object)array_escape(get_object_vars($value), $double_escape, $flags);
+		}
+		else
+		{
+			$result[htmlspecialchars($key, $flags, 'UTF-8', $double_escape)] = htmlspecialchars($value, $flags, 'UTF-8', $double_escape);
+		}
+	}
+	return $result;
+}
+
+/**
  * Flatten a multi-dimensional array into a one-dimensional array.
  * Based on util.php <https://github.com/brandonwamboldt/utilphp>
  * Contributed by Theodore R. Smith of PHP Experts, Inc. <http://www.phpexperts.pro/>
@@ -155,7 +184,7 @@ function clean_path($path)
  */
 function escape($str, $double_escape = true)
 {
-	$flags = defined('ENT_SUBSTITUTE') ? (ENT_QUOTES | ENT_SUBSTITUTE) : (ENT_QUOTES | ENT_IGNORE);
+	$flags = ENT_QUOTES | ENT_SUBSTITUTE;
 	return htmlspecialchars($str, $flags, 'UTF-8', $double_escape);
 }
 
@@ -178,8 +207,7 @@ function escape_css($str)
  */
 function escape_js($str)
 {
-	$flags = JSON_HEX_TAG | JSON_HEX_AMP | JSON_HEX_APOS | JSON_HEX_QUOT;
-	if (defined('JSON_UNESCAPED_UNICODE')) $flags = $flags | JSON_UNESCAPED_UNICODE;
+	$flags = JSON_HEX_TAG | JSON_HEX_AMP | JSON_HEX_APOS | JSON_HEX_QUOT | JSON_UNESCAPED_UNICODE;
 	$str = json_encode((string)$str, $flags);
 	return substr($str, 1, strlen($str) - 2);
 }

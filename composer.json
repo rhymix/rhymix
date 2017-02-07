@@ -19,6 +19,7 @@
 		"ext-openssl": "*",
 		"ext-pcre": "*",
 		"ext-xml": "*",
+		"coolsms/php-sdk": "2.0.*",
 		"defuse/php-encryption": "1.2.1",
 		"ezyang/htmlpurifier": "4.7.*",
 		"hautelook/phpass": "0.3.*",

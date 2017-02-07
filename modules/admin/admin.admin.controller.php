@@ -549,10 +549,122 @@ class adminAdminController extends admin
 		$this->_saveDefaultImage($vars->is_delete_default_image);
 		
 		// Save
-		Rhymix\Framework\Config::save();
+		if (!Rhymix\Framework\Config::save())
+		{
+			return new Object(-1, 'msg_failed_to_save_config');
+		}
 		
 		$this->setMessage('success_updated');
 		$this->setRedirectUrl(Context::get('success_return_url') ?: getNotEncodedUrl('', 'module', 'admin', 'act', 'dispAdminConfigGeneral'));
+	}
+	
+	/**
+	 * Update notification configuration.
+	 */
+	function procAdminUpdateNotification()
+	{
+		$vars = Context::getRequestVars();
+		
+		// Load advanced mailer module (for lang).
+		$oAdvancedMailerAdminView = getAdminView('advanced_mailer');
+		
+		// Validate the mail sender's information.
+		if (!$vars->mail_default_name)
+		{
+			return new Object(-1, 'msg_advanced_mailer_sender_name_is_empty');
+		}
+		if (!$vars->mail_default_from)
+		{
+			return new Object(-1, 'msg_advanced_mailer_sender_email_is_empty');
+		}
+		if (!Mail::isVaildMailAddress($vars->mail_default_from))
+		{
+			return new Object(-1, 'msg_advanced_mailer_sender_email_is_invalid');
+		}
+		if ($vars->mail_default_reply_to && !Mail::isVaildMailAddress($vars->mail_default_reply_to))
+		{
+			return new Object(-1, 'msg_advanced_mailer_reply_to_is_invalid');
+		}
+		
+		// Validate the mail driver.
+		$mail_drivers = Rhymix\Framework\Mail::getSupportedDrivers();
+		$mail_driver = $vars->mail_driver;
+		if (!array_key_exists($mail_driver, $mail_drivers))
+		{
+			return new Object(-1, 'msg_advanced_mailer_sending_method_is_invalid');
+		}
+		
+		// Validate the mail driver settings.
+		$mail_driver_config = array();
+		foreach ($mail_drivers[$mail_driver]['required'] as $conf_name)
+		{
+			$conf_value = $vars->{'mail_' . $mail_driver . '_' . $conf_name} ?: null;
+			if (!$conf_value)
+			{
+				return new Object(-1, 'msg_advanced_mailer_smtp_host_is_invalid');
+			}
+			$mail_driver_config[$conf_name] = $conf_value;
+		}
+		
+		// Validate the SMS driver.
+		$sms_drivers = Rhymix\Framework\SMS::getSupportedDrivers();
+		$sms_driver = $vars->sms_driver;
+		if (!array_key_exists($sms_driver, $sms_drivers))
+		{
+			return new Object(-1, 'msg_advanced_mailer_sending_method_is_invalid');
+		}
+		
+		// Validate the SMS driver settings.
+		$sms_driver_config = array();
+		foreach ($sms_drivers[$sms_driver]['required'] as $conf_name)
+		{
+			$conf_value = $vars->{'sms_' . $sms_driver . '_' . $conf_name} ?: null;
+			if (!$conf_value)
+			{
+				return new Object(-1, 'msg_advanced_mailer_smtp_host_is_invalid');
+			}
+			$sms_driver_config[$conf_name] = $conf_value;
+		}
+		foreach ($sms_drivers[$sms_driver]['optional'] as $conf_name)
+		{
+			$conf_value = $vars->{'sms_' . $sms_driver . '_' . $conf_name} ?: null;
+			$sms_driver_config[$conf_name] = $conf_value;
+		}
+		
+		// Save advanced mailer config.
+		getController('module')->updateModuleConfig('advanced_mailer', (object)array(
+			'sender_name' => trim($vars->mail_default_name),
+			'sender_email' => trim($vars->mail_default_from),
+			'force_sender' => toBool($vars->mail_force_default_sender),
+			'reply_to' => trim($vars->mail_default_reply_to),
+		));
+		
+		// Save member config.
+		getController('module')->updateModuleConfig('member', (object)array(
+			'webmaster_name' => trim($vars->mail_default_name),
+			'webmaster_email' => trim($vars->mail_default_from),
+		));
+		
+		// Save system config.
+		Rhymix\Framework\Config::set("mail.default_name", trim($vars->mail_default_name));
+		Rhymix\Framework\Config::set("mail.default_from", trim($vars->mail_default_from));
+		Rhymix\Framework\Config::set("mail.default_force", toBool($vars->mail_force_default_sender));
+		Rhymix\Framework\Config::set("mail.default_reply_to", trim($vars->mail_default_reply_to));
+		Rhymix\Framework\Config::set("mail.type", $mail_driver);
+		Rhymix\Framework\Config::set("mail.$mail_driver", $mail_driver_config);
+		Rhymix\Framework\Config::set("sms.default_from", trim($vars->sms_default_from));
+		Rhymix\Framework\Config::set("sms.default_force", toBool($vars->sms_force_default_sender));
+		Rhymix\Framework\Config::set("sms.type", $sms_driver);
+		Rhymix\Framework\Config::set("sms.$sms_driver", $sms_driver_config);
+		Rhymix\Framework\Config::set("sms.allow_split.sms", toBool($vars->allow_split_sms));
+		Rhymix\Framework\Config::set("sms.allow_split.lms", toBool($vars->allow_split_lms));
+		if (!Rhymix\Framework\Config::save())
+		{
+			return new Object(-1, 'msg_failed_to_save_config');
+		}
+		
+		$this->setMessage('success_updated');
+		$this->setRedirectUrl(Context::get('success_return_url') ?: getNotEncodedUrl('', 'module', 'admin', 'act', 'dispAdminConfigNotification'));
 	}
 	
 	/**
@@ -583,6 +695,14 @@ class adminAdminController extends admin
 		}, $object_whitelist));
 		natcasesort($object_whitelist);
 		Rhymix\Framework\Config::set('mediafilter.object', array_values($object_whitelist));
+		
+		// HTML classes
+		$classes = $vars->mediafilter_classes;
+		$classes = array_filter(array_map('trim', preg_split('/[\r\n]/', $classes)), function($item) {
+			return preg_match('/^[a-zA-Z0-9_-]+$/u', $item);
+		});
+		natcasesort($classes);
+		Rhymix\Framework\Config::set('mediafilter.classes', array_values($classes));
 		
 		// Remove old embed filter
 		$config = Rhymix\Framework\Config::getAll();
@@ -616,7 +736,10 @@ class adminAdminController extends admin
 		Rhymix\Framework\Config::set('admin.deny', array_values($denied_ip));
 		
 		// Save
-		Rhymix\Framework\Config::save();
+		if (!Rhymix\Framework\Config::save())
+		{
+			return new Object(-1, 'msg_failed_to_save_config');
+		}
 		
 		$this->setMessage('success_updated');
 		$this->setRedirectUrl(Context::get('success_return_url') ?: getNotEncodedUrl('', 'module', 'admin', 'act', 'dispAdminConfigSecurity'));
@@ -631,7 +754,7 @@ class adminAdminController extends admin
 		
 		// Default URL
 		$default_url = rtrim(trim($vars->default_url), '/\\') . '/';
-		if (!filter_var($default_url, FILTER_VALIDATE_URL) || !preg_match('@^https?://@', $default_url))
+		if (!filter_var(Rhymix\Framework\URL::encodeIdna($default_url), FILTER_VALIDATE_URL) || !preg_match('@^https?://@', $default_url))
 		{
 			return new Object(-1, 'msg_invalid_default_url');
 		}
@@ -700,10 +823,11 @@ class adminAdminController extends admin
 		}
 		
 		// Thumbnail settings
-		$args = new stdClass;
-		$args->thumbnail_type = $vars->thumbnail_type === 'ratio' ? 'ratio' : 'crop';
+		$oDocumentModel = getModel('document');
+		$document_config = $oDocumentModel->getDocumentConfig();
+		$document_config->thumbnail_type = $vars->thumbnail_type ?: 'crop';
 		$oModuleController = getController('module');
-		$oModuleController->insertModuleConfig('document', $args);
+		$oModuleController->insertModuleConfig('document', $document_config);
 		
 		// Other settings
 		Rhymix\Framework\Config::set('use_rewrite', $vars->use_rewrite === 'Y');
@@ -716,7 +840,10 @@ class adminAdminController extends admin
 		Rhymix\Framework\Config::set('view.use_gzip', $vars->use_gzip === 'Y');
 		
 		// Save
-		Rhymix\Framework\Config::save();
+		if (!Rhymix\Framework\Config::save())
+		{
+			return new Object(-1, 'msg_failed_to_save_config');
+		}
 		
 		$this->setMessage('success_updated');
 		$this->setRedirectUrl(Context::get('success_return_url') ?: getNotEncodedUrl('', 'module', 'admin', 'act', 'dispAdminConfigAdvanced'));
@@ -776,7 +903,10 @@ class adminAdminController extends admin
 		Rhymix\Framework\Config::set('debug.allow', array_values($allowed_ip));
 		
 		// Save
-		Rhymix\Framework\Config::save();
+		if (!Rhymix\Framework\Config::save())
+		{
+			return new Object(-1, 'msg_failed_to_save_config');
+		}
 		
 		$this->setMessage('success_updated');
 		$this->setRedirectUrl(Context::get('success_return_url') ?: getNotEncodedUrl('', 'module', 'admin', 'act', 'dispAdminConfigDebug'));
@@ -805,7 +935,10 @@ class adminAdminController extends admin
 		Rhymix\Framework\Config::set('seo.og_use_timestamps', $vars->og_use_timestamps === 'Y');
 		
 		// Save
-		Rhymix\Framework\Config::save();
+		if (!Rhymix\Framework\Config::save())
+		{
+			return new Object(-1, 'msg_failed_to_save_config');
+		}
 		
 		$this->setMessage('success_updated');
 		$this->setRedirectUrl(Context::get('success_return_url') ?: getNotEncodedUrl('', 'module', 'admin', 'act', 'dispAdminConfigSEO'));
@@ -844,7 +977,10 @@ class adminAdminController extends admin
 		Rhymix\Framework\Config::set('lock.title', trim($vars->sitelock_title));
 		Rhymix\Framework\Config::set('lock.message', trim($vars->sitelock_message));
 		Rhymix\Framework\Config::set('lock.allow', array_values($allowed_ip));
-		Rhymix\Framework\Config::save();
+		if (!Rhymix\Framework\Config::save())
+		{
+			return new Object(-1, 'msg_failed_to_save_config');
+		}
 		
 		$this->setMessage('success_updated');
 		$this->setRedirectUrl(Context::get('success_return_url') ?: getNotEncodedUrl('', 'module', 'admin', 'act', 'dispAdminConfigSitelock'));
@@ -916,7 +1052,10 @@ class adminAdminController extends admin
 		Rhymix\Framework\Config::set('ftp.path', $vars->ftp_path);
 		Rhymix\Framework\Config::set('ftp.pasv', $vars->ftp_pasv === 'Y');
 		Rhymix\Framework\Config::set('ftp.sftp', $vars->ftp_sftp === 'Y');
-		Rhymix\Framework\Config::save();
+		if (!Rhymix\Framework\Config::save())
+		{
+			return new Object(-1, 'msg_failed_to_save_config');
+		}
 		
 		$this->setMessage('success_updated');
 		$this->setRedirectUrl(Context::get('success_return_url') ?: getNotEncodedUrl('', 'module', 'admin', 'act', 'dispAdminConfigFtp'));
@@ -934,7 +1073,11 @@ class adminAdminController extends admin
 		Rhymix\Framework\Config::set('ftp.path', null);
 		Rhymix\Framework\Config::set('ftp.pasv', true);
 		Rhymix\Framework\Config::set('ftp.sftp', false);
-		Rhymix\Framework\Config::save();
+		if (!Rhymix\Framework\Config::save())
+		{
+			return new Object(-1, 'msg_failed_to_save_config');
+		}
+		
 		$this->setMessage('success_deleted');
 	}
 	

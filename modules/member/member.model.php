@@ -142,6 +142,7 @@ class memberModel extends member
 			$url = getUrl('','mid',$mid,'act','dispMemberInfo','member_srl',$member_srl);
 			$oMemberController->addMemberPopupMenu($url,'cmd_view_member_info',$icon_path,'self');
 		}
+
 		// When click other's nickname
 		if($member_srl != $logged_info->member_srl && $logged_info->member_srl)
 		{
@@ -166,12 +167,42 @@ class memberModel extends member
 				}
 			}
 		}
+		
+		// Check if homepage and blog are public
+		$homepage_is_public = false;
+		$blog_is_public = false;
+		if ($logged_info->is_admin === 'Y' || ($logged_info->member_srl && $logged_info->member_srl == $member_srl))
+		{
+			$homepage_is_public = true;
+			$blog_is_public = true;
+		}
+		else
+		{
+			foreach ($this->module_config->signupForm as $field)
+			{
+				if ($field->name === 'homepage' && $field->isPublic === 'Y')
+				{
+					$homepage_is_public = true;
+				}
+				if ($field->name === 'blog' && $field->isPublic === 'Y')
+				{
+					$blog_is_public = true;
+				}
+			}
+		}
+		
 		// View homepage info
-		if($member_info->homepage)
+		if($member_info->homepage && $homepage_is_public)
+		{
 			$oMemberController->addMemberPopupMenu(htmlspecialchars($member_info->homepage, ENT_COMPAT | ENT_HTML401, 'UTF-8', false), 'homepage', '', 'blank');
+		}
+		
 		// View blog info
-		if($member_info->blog)
+		if($member_info->blog && $blog_is_public)
+		{
 			$oMemberController->addMemberPopupMenu(htmlspecialchars($member_info->blog, ENT_COMPAT | ENT_HTML401, 'UTF-8', false), 'blog', '', 'blank');
+		}
+		
 		// Call a trigger (after)
 		ModuleHandler::triggerCall('member.getMemberMenu', 'after', $null);
 		// Display a menu for editting member info to a top administrator

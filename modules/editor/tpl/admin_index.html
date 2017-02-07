@@ -158,6 +158,20 @@
 				</label>
 			</div>
 		</div>
+		<div class="x_control-group">
+			<label class="x_control-label">{$lang->guide_choose_autoinsert_image}</label>
+			<div class="x_controls">
+				<label for="autoinsert_image_paragraph">
+					<input type="radio" name="autoinsert_image" id="autoinsert_image_paragraph" value="paragraph" checked="checked"|cond="$editor_config->autoinsert_image == 'paragraph' || !$editor_config->autoinsert_image" /> {$lang->autoinsert_image_paragraph}
+				</label>
+				<label for="autoinsert_image_inline">
+					<input type="radio" name="autoinsert_image" id="autoinsert_image_inline" value="inline" checked="checked"|cond="$editor_config->autoinsert_image == 'inline'" /> {$lang->autoinsert_image_inline}
+				</label>
+				<label for="autoinsert_image_none">
+					<input type="radio" name="autoinsert_image" id="autoinsert_image_none" value="none" checked="checked"|cond="$editor_config->autoinsert_image == 'none'" /> {$lang->autoinsert_image_none}
+				</label>
+			</div>
+		</div>
 		<div class="x_clearfix btnArea">
 			<div class="x_pull-right">
 				<button type="submit" class="x_btn x_btn-primary">{$lang->cmd_save}</button>

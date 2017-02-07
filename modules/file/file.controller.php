@@ -29,21 +29,112 @@ class fileController extends file
 		$file_info = $_FILES['Filedata'];
 
 		// An error appears if not a normally uploaded file
-		if(!is_uploaded_file($file_info['tmp_name'])) exit();
+		if(!$file_info || !is_uploaded_file($file_info['tmp_name'])) exit();
 
 		// Basic variables setting
 		$oFileModel = getModel('file');
 		$editor_sequence = Context::get('editor_sequence');
-		$upload_target_srl = intval(Context::get('uploadTargetSrl'));
-		if(!$upload_target_srl) $upload_target_srl = intval(Context::get('upload_target_srl'));
 		$module_srl = $this->module_srl;
+		
 		// Exit a session if there is neither upload permission nor information
-		if(!$_SESSION['upload_info'][$editor_sequence]->enabled) exit();
-		// Extract from session information if upload_target_srl is not specified
-		if(!$upload_target_srl) $upload_target_srl = $_SESSION['upload_info'][$editor_sequence]->upload_target_srl;
-		// Create if upload_target_srl is not defined in the session information
-		if(!$upload_target_srl) $_SESSION['upload_info'][$editor_sequence]->upload_target_srl = $upload_target_srl = getNextSequence();
-
+		if(!$_SESSION['upload_info'][$editor_sequence]->enabled)
+		{
+			return new Object(-1, 'msg_not_permitted');
+		}
+		
+		// Get upload_target_srl
+		$upload_target_srl = intval(Context::get('uploadTargetSrl')) ?: intval(Context::get('upload_target_srl'));
+		if (!$upload_target_srl)
+		{
+			$upload_target_srl = $_SESSION['upload_info'][$editor_sequence]->upload_target_srl;
+		}
+		if (!$upload_target_srl)
+		{
+			$upload_target_srl = getNextSequence();
+			$_SESSION['upload_info'][$editor_sequence]->upload_target_srl = $upload_target_srl;
+		}
+		
+		// Handle chunking
+		if (preg_match('!^bytes (\d+)-(\d+)/(\d+)$!', $_SERVER['HTTP_CONTENT_RANGE'], $matches))
+		{
+			// Check basic sanity
+			$chunk_start = intval($matches[1]);
+			$chunk_size = ($matches[2] - $matches[1]) + 1;
+			$total_size = intval($matches[3]);
+			if ($chunk_start < 0 || $chunk_size < 0 || $total_size < 0 || $chunk_start + $chunk_size > $total_size || $chunk_size != $file_info['size'])
+			{
+				return new Object(-1, 'msg_upload_invalid_chunk');
+			}
+			$this->add('chunk_current_size', $chunk_size);
+			$this->add('chunk_uploaded_size', $chunk_start);
+			
+			// Check existing chunks
+			$nonce = Context::get('nonce');
+			$temp_key = hash_hmac('sha1', sprintf('%d:%d:%d:%s:%s', $editor_sequence, $upload_target_srl, $module_srl, $file_info['name'], $nonce), config('crypto.authentication_key'));
+			$temp_filename = RX_BASEDIR . 'files/attach/chunks/' . $temp_key;
+			if ($chunk_start == 0 && Rhymix\Framework\Storage::isFile($temp_filename))
+			{
+				Rhymix\Framework\Storage::delete($temp_filename);
+				$this->add('chunk_status', 11);
+				return new Object(-1, 'msg_upload_invalid_chunk');
+			}
+			if ($chunk_start != 0 && (!Rhymix\Framework\Storage::isFile($temp_filename) || Rhymix\Framework\Storage::getSize($temp_filename) != $chunk_start))
+			{
+				Rhymix\Framework\Storage::delete($temp_filename);
+				$this->add('chunk_status', 12);
+				return new Object(-1, 'msg_upload_invalid_chunk');
+			}
+			
+			// Check size limit
+			$is_admin = (Context::get('logged_info')->is_admin === 'Y');
+			if (!$is_admin)
+			{
+				$module_config = getModel('file')->getFileConfig($module_srl);
+				$allowed_attach_size = $module_config->allowed_attach_size * 1024 * 1024;
+				$allowed_filesize = $module_config->allowed_filesize * 1024 * 1024;
+				if ($total_size > $allowed_filesize)
+				{
+					$this->add('chunk_status', 21);
+					return new Object(-1, 'msg_exceeds_limit_size');
+				}
+				$output = executeQuery('file.getAttachedFileSize', (object)array('upload_target_srl' => $upload_target_srl));
+				if (intval($output->data->attached_size) + $total_size > $allowed_attach_size)
+				{
+					$this->add('chunk_status', 22);
+					return new Object(-1, 'msg_exceeds_limit_size');
+				}
+			}
+			
+			// Append to chunk
+			$fp = fopen($file_info['tmp_name'], 'r');
+			$success = Rhymix\Framework\Storage::write($temp_filename, $fp, 'a');
+			if ($success && Rhymix\Framework\Storage::getSize($temp_filename) == $chunk_start + $chunk_size)
+			{
+				$this->add('chunk_status', 0);
+				$this->add('chunk_uploaded_size', $chunk_start + $chunk_size);
+				if ($chunk_start + $chunk_size == $total_size)
+				{
+					$file_info['tmp_name'] = $temp_filename;
+					$file_info['size'] = Rhymix\Framework\Storage::getSize($temp_filename);
+				}
+				else
+				{
+					return new Object();
+				}
+			}
+			else
+			{
+				Rhymix\Framework\Storage::delete($temp_filename);
+				$this->add('chunk_status', 40);
+				return new Object(-1, 'msg_upload_invalid_chunk');
+			}
+		}
+		else
+		{
+			$this->add('chunk_status', -1);
+		}
+		
+		// Save the file
 		$output = $this->insertFile($file_info, $module_srl, $upload_target_srl);
 		
 		Context::setResponseMethod('JSON');
@@ -187,7 +278,7 @@ class fileController extends file
 		$filename = $file_obj->source_filename;
 		$file_module_config = $oFileModel->getFileModuleConfig($file_obj->module_srl);
 		// Not allow the file outlink
-		if($file_module_config->allow_outlink == 'N')
+		if($file_module_config->allow_outlink == 'N' && $_SERVER["HTTP_REFERER"])
 		{
 			// Handles extension to allow outlink
 			if($file_module_config->allow_outlink_format)
@@ -289,7 +380,7 @@ class fileController extends file
 		{
 			$_SESSION['__XE_FILE_KEY__'] = Rhymix\Framework\Security::getRandom(32, 'hex');
 		}
-		$file_key_data = $file_obj->file_srl . $file_obj->file_size . $file_obj->uploaded_filename . $_SERVER['REMOTE_ADDR'] . $_SERVER['HTTP_USER_AGENT'];
+		$file_key_data = $file_obj->file_srl . $file_obj->file_size . $file_obj->uploaded_filename . $_SERVER['REMOTE_ADDR'];
 		$file_key = substr(hash_hmac('sha256', $file_key_data, $_SESSION['__XE_FILE_KEY__']), 0, 32);
 		header('Location: '.getNotEncodedUrl('', 'act', 'procFileOutput','file_srl',$file_srl,'file_key',$file_key));
 		Context::close();
@@ -314,7 +405,7 @@ class fileController extends file
 		{
 			return $this->stop('msg_invalid_request');
 		}
-		$file_key_data = $file_srl . $file_obj->file_size . $file_obj->uploaded_filename . $_SERVER['REMOTE_ADDR'] . $_SERVER['HTTP_USER_AGENT'];
+		$file_key_data = $file_srl . $file_obj->file_size . $file_obj->uploaded_filename . $_SERVER['REMOTE_ADDR'];
 		$file_key_compare = substr(hash_hmac('sha256', $file_key_data, $_SESSION['__XE_FILE_KEY__']), 0, 32);
 		if($file_key !== $file_key_compare)
 		{
@@ -665,6 +756,7 @@ class fileController extends file
 	{
 		// Call a trigger (before)
 		$trigger_obj = new stdClass;
+		$trigger_obj->file_info = $file_info;
 		$trigger_obj->module_srl = $module_srl;
 		$trigger_obj->upload_target_srl = $upload_target_srl;
 		$output = ModuleHandler::triggerCall('file.insertFile', 'before', $trigger_obj);
@@ -722,26 +814,27 @@ class fileController extends file
 		// Set upload path by checking if the attachement is an image or other kinds of file
 		if(preg_match("/\.(jpe?g|gif|png|wm[va]|mpe?g|avi|swf|flv|mp[1-4]|as[fx]|wav|midi?|moo?v|qt|r[am]{1,2}|m4v)$/i", $file_info['name']))
 		{
-			$path = sprintf("./files/attach/images/%s/%s", $module_srl,getNumberingPath($upload_target_srl,3));
+			$path = RX_BASEDIR . sprintf("files/attach/images/%s/%s", $module_srl,getNumberingPath($upload_target_srl,3));
 
 			// special character to '_'
 			// change to random file name. because window php bug. window php is not recognize unicode character file name - by cherryfilter
 			$ext = substr(strrchr($file_info['name'],'.'),1);
 			//$_filename = preg_replace('/[#$&*?+%"\']/', '_', $file_info['name']);
-			$_filename = Rhymix\Framework\Security::getRandom(32, 'hex') . '.' . $ext;
-			$filename  = $path.$_filename;
-			$idx = 1;
+			$filename = $path . Rhymix\Framework\Security::getRandom(32, 'hex') . '.' . $ext;
 			while(file_exists($filename))
 			{
-				$filename = $path.preg_replace('/\.([a-z0-9]+)$/i','_'.$idx.'.$1',$_filename);
-				$idx++;
+				$filename = $path . Rhymix\Framework\Security::getRandom(32, 'hex') . '.' . $ext;
 			}
 			$direct_download = 'Y';
 		}
 		else
 		{
-			$path = sprintf("./files/attach/binaries/%s/%s", $module_srl, getNumberingPath($upload_target_srl,3));
+			$path = RX_BASEDIR . sprintf("files/attach/binaries/%s/%s", $module_srl, getNumberingPath($upload_target_srl,3));
 			$filename = $path . Rhymix\Framework\Security::getRandom(32, 'hex');
+			while(file_exists($filename))
+			{
+				$filename = $path . Rhymix\Framework\Security::getRandom(32, 'hex');
+			}
 			$direct_download = 'N';
 		}
 
@@ -757,18 +850,34 @@ class fileController extends file
 			@copy($file_info['tmp_name'], $filename);
 			if(!file_exists($filename))
 			{
-				$filename = $path . Rhymix\Framework\Security::getRandom(32, 'hex') . '.' . $ext;
 				@copy($file_info['tmp_name'], $filename);
+				if(!file_exists($filename))
+				{
+					return new Object(-1,'msg_file_upload_error');
+				}
+			}
+		}
+		elseif(starts_with(RX_BASEDIR . 'files/attach/chunks/', $file_info['tmp_name']))
+		{
+			if (!Rhymix\Framework\Storage::move($file_info['tmp_name'], $filename))
+			{
+				if (!Rhymix\Framework\Storage::move($file_info['tmp_name'], $filename))
+				{
+					return new Object(-1,'msg_file_upload_error');
+				}
 			}
 		}
 		else
 		{
 			if(!@move_uploaded_file($file_info['tmp_name'], $filename))
 			{
-				$filename = $path . Rhymix\Framework\Security::getRandom(32, 'hex') . '.' . $ext;
-				if(!@move_uploaded_file($file_info['tmp_name'], $filename))  return new Object(-1,'msg_file_upload_error');
+				if(!@move_uploaded_file($file_info['tmp_name'], $filename))
+				{
+					return new Object(-1,'msg_file_upload_error');
+				}
 			}
 		}
+		
 		// Get member information
 		$oMemberModel = getModel('member');
 		$member_srl = $oMemberModel->getLoggedMemberSrl();
@@ -779,7 +888,7 @@ class fileController extends file
 		$args->module_srl = $module_srl;
 		$args->direct_download = $direct_download;
 		$args->source_filename = $file_info['name'];
-		$args->uploaded_filename = $filename;
+		$args->uploaded_filename = './' . substr($filename, strlen(RX_BASEDIR));
 		$args->download_count = $download_count;
 		$args->file_size = @filesize($filename);
 		$args->comment = NULL;
@@ -877,11 +986,14 @@ class fileController extends file
 			$output = executeQuery('file.deleteFile', $args);
 			if(!$output->toBool()) return $output;
 
+			// If successfully deleted, remove the file
+			Rhymix\Framework\Storage::delete(FileHandler::getRealPath($uploaded_filename));
+
 			// Call a trigger (after)
 			ModuleHandler::triggerCall('file.deleteFile', 'after', $trigger_obj);
-
-			// If successfully deleted, remove the file
-			FileHandler::removeFile($uploaded_filename);
+			
+			// Remove empty directories
+			Rhymix\Framework\Storage::deleteEmptyDirectory(dirname(FileHandler::getRealPath($uploaded_filename)), true);
 		}
 
 		$oDocumentController->updateUploaedCount($documentSrlList);
@@ -905,15 +1017,9 @@ class fileController extends file
 		if(!is_array($file_list)||!count($file_list)) return new Object();
 
 		// Delete the file
-		$path = array();
-		$file_count = count($file_list);
-		for($i=0;$i<$file_count;$i++)
+		foreach ($file_list as $file)
 		{
-			$this->deleteFile($file_list[$i]->file_srl);
-
-			$uploaded_filename = $file_list[$i]->uploaded_filename;
-			$path_info = pathinfo($uploaded_filename);
-			if(!in_array($path_info['dirname'], $path)) $path[] = $path_info['dirname'];
+			$this->deleteFile($file->file_srl);
 		}
 
 		// Remove from the DB
@@ -921,12 +1027,6 @@ class fileController extends file
 		$args->upload_target_srl = $upload_target_srl;
 		$output = executeQuery('file.deleteFiles', $args);
 		if(!$output->toBool()) return $output;
-		
-		// Remove a file directory of the document
-		for($i=0, $c=count($path); $i<$c; $i++)
-		{
-			FileHandler::removeBlankDir($path[$i]);
-		}
 
 		return $output;
 	}
@@ -955,14 +1055,14 @@ class fileController extends file
 			$file_info = $file_list[$i];
 			$old_file = $file_info->uploaded_filename;
 			// Determine the file path by checking if the file is an image or other kinds
-			if(preg_match("/\.(jpg|jpeg|gif|png|wmv|wma|mpg|mpeg|avi|swf|flv|mp1|mp2|mp3|mp4|asf|wav|asx|mid|midi|asf|mov|moov|qt|rm|ram|ra|rmm|m4v)$/i", $file_info->source_filename))
+			if (Rhymix\Framework\Filters\FilenameFilter::isDirectDownload($file_info->source_filename))
 			{
-				$path = sprintf("./files/attach/images/%s/%s/", $target_module_srl,$target_srl);
+				$path = sprintf("./files/attach/images/%s/%s", $target_module_srl, getNumberingPath($target_srl, 3));
 				$new_file = $path . $file_info->source_filename;
 			}
 			else
 			{
-				$path = sprintf("./files/attach/binaries/%s/%s/", $target_module_srl, $target_srl);
+				$path = sprintf("./files/attach/binaries/%s/%s", $target_module_srl, getNumberingPath($target_srl, 3));
 				$new_file = $path . Rhymix\Framework\Security::getRandom(32, 'hex');
 			}
 			// Pass if a target document to move is same
@@ -971,6 +1071,8 @@ class fileController extends file
 			FileHandler::makeDir($path);
 			// Move the file
 			FileHandler::rename($old_file, $new_file);
+			// Delete old path
+			Rhymix\Framework\Storage::deleteEmptyDirectory(dirname(FileHandler::getRealPath($old_file)), true);
 			// Update DB information
 			$args = new stdClass;
 			$args->file_srl = $file_info->file_srl;

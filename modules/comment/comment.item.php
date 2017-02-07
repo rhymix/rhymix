@@ -151,6 +151,16 @@ class commentItem extends Object
 		return $this->get('is_secret') == 'Y' ? TRUE : FALSE;
 	}
 
+	function isDeleted()
+	{
+		return $this->get('status') == RX_STATUS_DELETED || $this->get('status') == RX_STATUS_DELETED_BY_ADMIN;
+	}
+
+	function isDeletedByAdmin()
+	{
+		return $this->get('status') == RX_STATUS_DELETED_BY_ADMIN;
+	}
+
 	function isAccessible()
 	{
 		if($_SESSION['accessibled_comment'][$this->comment_srl])
@@ -311,12 +321,22 @@ class commentItem extends Object
 	 */
 	function getContentText($strlen = 0)
 	{
-		if($this->isSecret() && !$this->isAccessible())
+		if($this->isDeletedByAdmin())
 		{
-			return lang('msg_is_secret');
+			$content = lang('msg_admin_deleted_comment');
 		}
-
-		$content = $this->get('content');
+		elseif($this->isDeleted())
+		{
+			$content = lang('msg_deleted_comment');
+		}
+		elseif($this->isSecret() && !$this->isAccessible())
+		{
+			$content = lang('msg_is_secret');
+		}
+		else
+		{
+			$content = $this->get('content');
+		}
 
 		if($strlen)
 		{
@@ -332,13 +352,27 @@ class commentItem extends Object
 	 */
 	function getContent($add_popup_menu = TRUE, $add_content_info = TRUE, $add_xe_content_class = TRUE)
 	{
-		if($this->isSecret() && !$this->isAccessible())
+		if($this->isDeletedByAdmin())
 		{
-			return lang('msg_is_secret');
+			$content = lang('msg_admin_deleted_comment');
+			$additional_class = ' is_deleted is_deleted_by_admin';
 		}
-
-		$content = $this->get('content');
-		stripEmbedTagForAdmin($content, $this->get('member_srl'));
+		elseif($this->isDeleted())
+		{
+			$content = lang('msg_deleted_comment');
+			$additional_class = ' is_deleted';
+		}
+		elseif($this->isSecret() && !$this->isAccessible())
+		{
+			$content = lang('msg_is_secret');
+			$additional_class = ' is_secret';
+		}
+		else
+		{
+			$content = $this->get('content');
+			$additional_class = '';
+			stripEmbedTagForAdmin($content, $this->get('member_srl'));
+		}
 
 		// when displaying the comment on the pop-up menu
 		if($add_popup_menu && Context::get('is_logged'))
@@ -351,21 +385,20 @@ class commentItem extends Object
 		// if additional information which can access contents is set
 		if($add_content_info)
 		{
-			$memberSrl = $this->get('member_srl');
-			if($memberSrl < 0)
+			$member_srl = $this->get('member_srl');
+			if($member_srl < 0)
 			{
-				$memberSrl = 0;
+				$member_srl = 0;
 			}
-			$content = sprintf(
-					'<!--BeforeComment(%d,%d)--><div class="comment_%d_%d xe_content">%s</div><!--AfterComment(%d,%d)-->', $this->comment_srl, $memberSrl, $this->comment_srl, $memberSrl, $content, $this->comment_srl, $memberSrl
-			);
-			// xe_content class name should be specified although content access is not necessary.
+			$content = vsprintf('<!--BeforeComment(%d,%d)--><div class="comment_%d_%d xe_content%s">%s</div><!--AfterComment(%d,%d)-->', array(
+				$this->comment_srl, $member_srl, $this->comment_srl, $member_srl, $additional_class, $content, $this->comment_srl, $member_srl
+			));
 		}
 		else
 		{
 			if($add_xe_content_class)
 			{
-				$content = sprintf('<div class="xe_content">%s</div>', $content);
+				$content = sprintf('<div class="xe_content%s">%s</div>', $additional_class, $content);
 			}
 		}
 
@@ -567,6 +600,24 @@ class commentItem extends Object
 			return;
 		}
 
+		// Get thumbnai_type information from document module's configuration
+		if(!in_array($thumbnail_type, array('crop', 'ratio', 'none')))
+		{
+			$config = $GLOBALS['__document_config__'];
+			if(!$config)
+			{
+				$oDocumentModel = getModel('document');
+				$config = $oDocumentModel->getDocumentConfig();
+				$GLOBALS['__document_config__'] = $config;
+			}
+			$thumbnail_type = $config->thumbnail_type ?: 'crop';
+		}
+		
+		if ($thumbnail_type === 'none')
+		{
+			return;
+		}
+		
 		if($this->isSecret() && !$this->isGranted())
 		{
 			return;
@@ -582,12 +633,6 @@ class commentItem extends Object
 		if(!$this->hasUploadedFiles() && !preg_match("!<img!is", $this->get('content')))
 		{
 			return;
-		}
-
-		// get thumbail generation info on the doc module configuration.
-		if(!in_array($thumbnail_type, array('crop', 'ratio')))
-		{
-			$thumbnail_type = 'crop';
 		}
 
 		// Define thumbnail information

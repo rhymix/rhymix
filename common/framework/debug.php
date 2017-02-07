@@ -236,10 +236,33 @@ class Debug
 			'file' => $query['called_file'],
 			'line' => $query['called_line'],
 			'method' => $query['called_method'],
-			'backtrace' => $query['backtrace'],
+			'backtrace' => $query['backtrace'] ?: array(),
 		);
 		
 		self::$_queries[] = $query_object;
+		
+		// Add the entry to the error log if the result wasn't successful.
+		if ($query['result'] === 'error')
+		{
+			$error_object = (object)array(
+				'type' => 'Query Error',
+				'time' => $query_object->time,
+				'message' => $query['errstr'] . ' (code ' . intval($query['errno']) . ')',
+				'file' => $query_object->file,
+				'line' => $query_object->line,
+				'backtrace' => $query_object->backtrace ?: array(),
+			);
+			
+			self::$_errors[] = $error_object;
+			
+			if (config('debug.write_error_log') === 'all')
+			{
+				$log_entry = strtr(sprintf('Query Error: %s in %s on line %d', $error_object->message, $error_object->file, intval($error_object->line)), "\0\r\n\t\v\e\f", '       ');
+				error_log($log_entry . \PHP_EOL . self::formatBacktrace($error_object->backtrace));
+			}
+		}
+		
+		// Add the entry to the slow query log.
 		if ($query_object->query_time && $query_object->query_time >= config('debug.log_slow_queries'))
 		{
 			self::$_slow_queries[] = $query_object;

@@ -4,15 +4,30 @@ class ncenterliteAdminView extends ncenterlite
 	function init()
 	{
 		$this->setTemplatePath($this->module_path.'tpl');
-		$this->setTemplateFile(lcfirst(str_replace('dispNcenterliteAdmin', '', $this->act)));
+		$this->setTemplateFile(strtolower(str_replace('dispNcenterliteAdmin', '', $this->act)));
 	}
 
 	function dispNcenterliteAdminConfig()
 	{
 		$oNcenterliteModel = getModel('ncenterlite');
 
+		$sms = new Rhymix\Framework\SMS;
+
+		if($sms::getDefaultDriver()->getName() === 'Dummy')
+		{
+			$sms_available = false;
+		}
+		else
+		{
+			$sms_available = true;
+		}
+
+		$push_avaliable = false;
+
 		$config = $oNcenterliteModel->getConfig();
 		Context::set('config', $config);
+		Context::set('sms_available', $sms_available);
+		Context::set('push_available', $push_avaliable);
 	}
 
 	function dispNcenterliteAdminSeletedmid()
@@ -64,8 +79,19 @@ class ncenterliteAdminView extends ncenterlite
 	{
 		$oNcenterliteModel = getModel('ncenterlite');
 
+		$member_config = getModel('member')->getMemberConfig();
+		$variable_name = array();
+		foreach($member_config->signupForm as $value)
+		{
+			if($value->type == 'tel')
+			{
+				$variable_name[] = $value->name;
+			}
+		}
+
 		$config = $oNcenterliteModel->getConfig();
 		Context::set('config', $config);
+		Context::set('variable_name', $variable_name);
 	}
 
 	function dispNcenterliteAdminList()

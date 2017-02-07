@@ -58,7 +58,7 @@ class installController extends install
 			$show_engines = $oDB->_fetch($oDB->_query('SHOW ENGINES'));
 			foreach($show_engines as $engine_info)
 			{
-				if ($engine_info->Engine === 'InnoDB')
+				if ($engine_info->Engine === 'InnoDB' && $engine_info->Support !== 'NO')
 				{
 					$config->db_type .= '_innodb';
 					break;
@@ -526,7 +526,9 @@ class installController extends install
 			if(!$file || substr($file,-4)!='.xml') continue;
 			$output = $oDB->createTableByXmlFile($file);
 			if($output === false)
-				throw new Exception('msg_create_table_failed');
+			{
+				throw new Exception(lang('msg_create_table_failed') . ': ' . $oDB->getError()->getMessage());
+			}
 		}
 		// Create a table and module instance and then execute install() method
 		unset($oModule);

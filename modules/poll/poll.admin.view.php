@@ -92,6 +92,8 @@ class pollAdminView extends poll
 
 		$security = new Security();
 		$security->encodeHTML('poll_list..title', 'poll_list..nick_name');
+		$security->encodeHTML('search_target', 'search_keyword');
+
 		// Set a template
 		$this->setTemplatePath($this->module_path.'tpl');
 		$this->setTemplateFile('poll_list');

@@ -208,15 +208,7 @@ class FileHandler
 	 */
 	public static function removeBlankDir($path)
 	{
-		$path = self::getRealPath($path);
-		if (Rhymix\Framework\Storage::isEmptyDirectory($path))
-		{
-			return Rhymix\Framework\Storage::deleteDirectory($path);
-		}
-		else
-		{
-			return false;
-		}
+		return Rhymix\Framework\Storage::deleteEmptyDirectory(self::getRealPath($path), false);
 	}
 
 	/**
@@ -256,12 +248,22 @@ class FileHandler
 			return $size . 'Bytes';
 		}
 
-		if($size >= 1024 && $size < 1024 * 1024)
+		if($size >= 1024 && $size < (1024 * 1024))
 		{
 			return sprintf("%0.1fKB", $size / 1024);
 		}
 
-		return sprintf("%0.2fMB", $size / (1024 * 1024));
+		if($size >= (1024 * 1024) && $size < (1024 * 1024 * 1024))
+		{
+			return sprintf("%0.2fMB", $size / (1024 * 1024));
+		}
+
+		if($size >= (1024 * 1024 * 1024) && $size < (1024 * 1024 * 1024 * 1024))
+		{
+			return sprintf("%0.2fGB", $size / (1024 * 1024 * 1024));
+		}
+
+		return sprintf("%0.2fTB", $size / (1024 * 1024 * 1024 * 1024));
 	}
 
 	/**
@@ -426,11 +428,14 @@ class FileHandler
 	 */
 	public static function returnBytes($val)
 	{
+		$val = preg_replace('/[^0-9\.PTGMK]/', '', $val);
 		$unit = strtoupper(substr($val, -1));
 		$val = (float)$val;
 
 		switch ($unit)
 		{
+			case 'P': $val *= 1024;
+			case 'T': $val *= 1024;
 			case 'G': $val *= 1024;
 			case 'M': $val *= 1024;
 			case 'K': $val *= 1024;
