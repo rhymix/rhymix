@@ -129,6 +129,11 @@ class SessionTest extends \Codeception\TestCase\Test
 		$this->assertTrue(Rhymix\Framework\Session::isStarted());
 	}
 	
+	public function testCheckSSO()
+	{
+		$this->assertFalse(Rhymix\Framework\Session::checkSSO());
+	}
+	
 	public function testRefresh()
 	{
 		Rhymix\Framework\Session::start();

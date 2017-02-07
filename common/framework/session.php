@@ -108,7 +108,11 @@ class Session
 		// Validate the HTTP key.
 		if (isset($_SESSION['RHYMIX']) && $_SESSION['RHYMIX'])
 		{
-			if ($_SESSION['RHYMIX']['keys'][$domain]['key1'] === $key1 && $key1 !== null)
+			if (!isset($_SESSION['RHYMIX']['keys'][$domain]) && config('use_sso'))
+			{
+				$must_refresh = true;
+			}
+			elseif ($_SESSION['RHYMIX']['keys'][$domain]['key1'] === $key1 && $key1 !== null)
 			{
 				// OK
 			}
@@ -221,6 +225,95 @@ class Session
 	}
 	
 	/**
+	 * Check if this session needs to be shared with another site with SSO.
+	 * 
+	 * This method uses more or less the same logic as XE's SSO mechanism.
+	 * It may need to be changed to a more secure mechanism later.
+	 * 
+	 * @return bool
+	 */
+	public static function checkSSO()
+	{
+		// Abort if SSO is disabled, the visitor is a robot, or this is not a typical GET request.
+		if ($_SERVER['REQUEST_METHOD'] !== 'GET' || !config('use_sso') || UA::isRobot() || in_array(\Context::get('act'), array('rss', 'atom')))
+		{
+			return false;
+		}
+		
+		// Abort of the default URL is not set.
+		$default_url = \Context::getDefaultUrl();
+		if (!$default_url)
+		{
+			return false;
+		}
+		
+		// Get the current site information.
+		$current_url = URL::getCurrentURL();
+		$current_host = parse_url($current_url, \PHP_URL_HOST);
+		$default_host = parse_url($default_url, \PHP_URL_HOST);
+		
+		// Step 1: if the current site is not the default site, send SSO validation request to the default site.
+		if($default_host !== $current_host && !\Context::get('sso_response') && $_COOKIE['sso'] !== md5($current_host))
+		{
+			// Set sso cookie to prevent multiple simultaneous SSO validation requests.
+			setcookie('sso', md5($current_host), 0, '/');
+			
+			// Redirect to the default site.
+			$sso_request = Security::encrypt($current_url);
+			header('Location:' . URL::modifyURL($default_url, array('sso_request' => $sso_request)));
+			return true;
+		}
+		
+		// Step 2: receive and process SSO validation request at the default site.
+		if($default_host === $current_host && \Context::get('sso_request'))
+		{
+			// Get the URL of the origin site
+			$sso_request = Security::decrypt(\Context::get('sso_request'));
+			if (!$sso_request || !preg_match('!^https?://!', $sso_request))
+			{
+				\Context::displayErrorPage('SSO Error', 'Invalid SSO Request', 400);
+				return true;
+			}
+			
+			// Redirect back to the origin site.
+			$sso_response = Security::encrypt(session_id());
+			header('Location: ' . URL::modifyURL($sso_request, array('sso_response' => $sso_response)));
+			return true;
+		}
+		
+		// Step 3: back at the origin site, set session ID to be the same as the default site.
+		if($default_host !== $current_host && \Context::get('sso_response'))
+		{
+			// Check SSO response
+			$sso_response = Security::decrypt(\Context::get('sso_response'));
+			if ($sso_response === false)
+			{
+				\Context::displayErrorPage('SSO Error', 'Invalid SSO Response', 400);
+				return true;
+			}
+			
+			// Check that the response was given by the default site (to prevent session fixation CSRF).
+			if(isset($_SERVER['HTTP_REFERER']) && strpos($_SERVER['HTTP_REFERER'], $default_url) !== 0)
+			{
+				\Context::displayErrorPage('SSO Error', 'Invalid SSO Response', 400);
+				return true;
+			}
+			
+			// Set session ID.
+			self::close();
+			session_id($sso_response);
+			self::start();
+			
+			// Finally, redirect to the originally requested URL.
+			header('Location: ' . URL::getCurrentURL(array('sso_response' => null)));
+			return true;
+		}
+		
+		// If none of the conditions above apply, proceed normally.
+		return false;
+	}
+	
+	/**
 	 * Create the data structure for a new Rhymix session.
 	 * 
 	 * This method is called automatically by start() when needed.
@@ -260,6 +353,12 @@ class Session
 	{
 		// Get session parameters.
 		list($lifetime, $refresh_interval, $domain, $path) = self::_getParams();
+		
+		// Set the domain initialization timestamp.
+		if (!isset($_SESSION['RHYMIX']['keys'][$domain]['started']))
+		{
+			$_SESSION['RHYMIX']['keys'][$domain]['started'] = time();
+		}
 		
 		// Reset the trusted information.
 		if (!isset($_SESSION['RHYMIX']['keys'][$domain]['trusted']))
