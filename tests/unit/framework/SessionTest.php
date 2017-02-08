@@ -238,6 +238,34 @@ class SessionTest extends \Codeception\TestCase\Test
 		Rhymix\Framework\Session::close();
 	}
 	
+	public function testIsValid()
+	{
+		Rhymix\Framework\Session::start();
+
+		$member_srl = 4;
+		Rhymix\Framework\Session::login($member_srl);
+		
+		$invalid_before = time() - 300;
+		$filename = \RX_BASEDIR . sprintf('files/member_extra_info/invalid_before/%s%d.txt', getNumberingPath($member_srl), $member_srl);
+		Rhymix\Framework\Storage::write($filename, $invalid_before);
+		Rhymix\Framework\Cache::set(sprintf('session:invalid_before:%d', $member_srl), $invalid_before);
+		$this->assertTrue(Rhymix\Framework\Session::isValid());
+		
+		$invalid_before = time() + 300;
+		$filename = \RX_BASEDIR . sprintf('files/member_extra_info/invalid_before/%s%d.txt', getNumberingPath($member_srl), $member_srl);
+		Rhymix\Framework\Storage::write($filename, $invalid_before);
+		Rhymix\Framework\Cache::set(sprintf('session:invalid_before:%d', $member_srl), $invalid_before);
+		$this->assertFalse(Rhymix\Framework\Session::isValid());
+		
+		$invalid_before = time();
+		$filename = \RX_BASEDIR . sprintf('files/member_extra_info/invalid_before/%s%d.txt', getNumberingPath($member_srl), $member_srl);
+		Rhymix\Framework\Storage::write($filename, $invalid_before);
+		Rhymix\Framework\Cache::set(sprintf('session:invalid_before:%d', $member_srl), $invalid_before);
+		$this->assertTrue(Rhymix\Framework\Session::isValid());
+		
+		Rhymix\Framework\Session::close();
+	}
+	
 	public function testGetMemberSrl()
 	{
 		Rhymix\Framework\Session::start();

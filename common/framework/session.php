@@ -353,9 +353,13 @@ class Session
 		{
 			self::login($member_srl, false);
 		}
+		else
+		{
+			$_SESSION['member_srl'] = false;
+		}
 		
 		// Try autologin.
-		elseif (self::$_autologin_key)
+		if (!$member_srl && self::$_autologin_key)
 		{
 			$member_srl = getController('member')->doAutologin(self::$_autologin_key);
 			if ($member_srl && self::isValid($member_srl))
