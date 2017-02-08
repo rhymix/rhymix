@@ -11,6 +11,7 @@ class Session
 	 * Properties for internal use only.
 	 */
 	protected static $_started = false;
+	protected static $_autologin_key = false;
 	protected static $_member_info = false;
 	
 	/**
@@ -102,7 +103,7 @@ class Session
 		self::$_started = true;
 		
 		// Fetch session keys.
-		list($key1, $key2, $autologin_key) = self::_getKeys();
+		list($key1, $key2, self::$_autologin_key) = self::_getKeys();
 		$must_create = $must_refresh = $must_resend_keys = false;
 		
 		// Validate the HTTP key.
@@ -126,7 +127,6 @@ class Session
 				$_SESSION = array();
 				$must_create = true;
 				self::setAutologinKeys(null, null);
-				$autologin_key = null;
 			}
 		}
 		else
@@ -155,7 +155,6 @@ class Session
 				$_SESSION = array();
 				$must_create = true;
 				self::setAutologinKeys(null, null);
-				$autologin_key = null;
 			}
 		}
 		
@@ -172,7 +171,7 @@ class Session
 		// Create or refresh the session if needed.
 		if ($must_create)
 		{
-			return self::create($autologin_key);
+			return self::create();
 		}
 		elseif ($must_refresh)
 		{
@@ -324,10 +323,9 @@ class Session
 	 * 
 	 * This method is called automatically by start() when needed.
 	 * 
-	 * @param string $autologin_key (optional)
 	 * @return bool
 	 */
-	public static function create($autologin_key = null)
+	public static function create()
 	{
 		// Ensure backward compatibility with XE session.
 		$member_srl = $_SESSION['member_srl'] ?: false;
@@ -337,6 +335,7 @@ class Session
 		// Create the data structure for a new Rhymix session.
 		$_SESSION['RHYMIX'] = array();
 		$_SESSION['RHYMIX']['login'] = $_SESSION['member_srl'] = $member_srl;
+		$_SESSION['RHYMIX']['last_login'] = $member_srl ? time() : false;
 		$_SESSION['RHYMIX']['ipaddress'] = $_SESSION['ipaddress'] = \RX_CLIENT_IP;
 		$_SESSION['RHYMIX']['useragent'] = isset($_SERVER['HTTP_USER_AGENT']) ? $_SERVER['HTTP_USER_AGENT'] : '';
 		$_SESSION['RHYMIX']['language'] = \Context::getLangType();
@@ -348,9 +347,9 @@ class Session
 		$result = self::refresh();
 		
 		// Try autologin.
-		if (!$member_srl && $autologin_key)
+		if (!$member_srl && self::$_autologin_key)
 		{
-			$member_srl = getController('member')->doAutologin($autologin_key);
+			$member_srl = getController('member')->doAutologin(self::$_autologin_key);
 			if ($member_srl)
 			{
 				$_SESSION['RHYMIX']['login'] = $_SESSION['member_srl'] = intval($member_srl);
@@ -467,6 +466,7 @@ class Session
 		}
 		
 		$_SESSION['RHYMIX']['login'] = $_SESSION['member_srl'] = $member_srl;
+		$_SESSION['RHYMIX']['last_login'] = time();
 		$_SESSION['is_logged'] = (bool)$member_srl;
 		self::$_member_info = false;
 		return self::refresh();
@@ -482,6 +482,7 @@ class Session
 	public static function logout()
 	{
 		$_SESSION['RHYMIX']['login'] = $_SESSION['member_srl'] = false;
+		$_SESSION['RHYMIX']['last_login'] = false;
 		$_SESSION['is_logged'] = false;
 		self::$_member_info = false;
 		return self::destroy();
@@ -864,6 +865,11 @@ class Session
 		}
 		else
 		{
+			if (self::$_autologin_key)
+			{
+				executeQuery('member.deleteAutologin', (object)array('autologin_key' => substr(self::$_autologin_key, 0, 24)));
+				self::$_autologin_key = false;
+			}
 			setcookie('rx_autologin', 'deleted', time() - 86400, $path, $domain, false, true);
 			unset($_COOKIE['rx_autologin']);
 		}

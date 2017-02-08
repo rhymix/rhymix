@@ -216,6 +216,10 @@ class memberController extends member
 		
 		$autologin_id = intval(Context::get('autologin_id'));
 		$autologin_key = Context::get('autologin_key');
+		if (!$autologin_id || !$autologin_key)
+		{
+			return new Object(-1, 'msg_invalid_request');
+		}
 		
 		$args = new stdClass;
 		$args->autologin_id = $autologin_id;
@@ -2645,14 +2649,6 @@ class memberController extends member
 		setcookie('sso','',$_SERVER['REQUEST_TIME']-42000, '/');
 		setcookie('xeak','',$_SERVER['REQUEST_TIME']-42000, '/');
 		setcookie('xe_logged', 'false', $_SERVER['REQUEST_TIME'] - 42000, '/');
-
-		if($memberSrl || $_COOKIE['xeak'])
-		{
-			$args = new stdClass();
-			$args->member_srl = $memberSrl;
-			$args->autologin_key = $_COOKIE['xeak'];
-			$output = executeQuery('member.deleteAutologin', $args);
-		}
 	}
 
 	function _updatePointByGroup($memberSrl, $groupSrlList)
