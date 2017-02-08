@@ -102,7 +102,7 @@ class Session
 		self::$_started = true;
 		
 		// Fetch session keys.
-		list($key1, $key2) = self::_getKeys();
+		list($key1, $key2, $autologin_key) = self::_getKeys();
 		$must_create = $must_refresh = $must_resend_keys = false;
 		
 		// Validate the HTTP key.
@@ -122,8 +122,11 @@ class Session
 			}
 			elseif (!$relax_key_checks)
 			{
+				// Hacked session! Destroy everything.
 				$_SESSION = array();
 				$must_create = true;
+				self::setAutologinKeys(null, null);
+				$autologin_key = null;
 			}
 		}
 		else
@@ -148,8 +151,11 @@ class Session
 			}
 			elseif (!$relax_key_checks)
 			{
+				// Hacked session! Destroy everything.
 				$_SESSION = array();
 				$must_create = true;
+				self::setAutologinKeys(null, null);
+				$autologin_key = null;
 			}
 		}
 		
@@ -166,7 +172,7 @@ class Session
 		// Create or refresh the session if needed.
 		if ($must_create)
 		{
-			return self::create();
+			return self::create($autologin_key);
 		}
 		elseif ($must_refresh)
 		{
@@ -318,9 +324,10 @@ class Session
 	 * 
 	 * This method is called automatically by start() when needed.
 	 * 
+	 * @param string $autologin_key (optional)
 	 * @return bool
 	 */
-	public static function create()
+	public static function create($autologin_key = null)
 	{
 		// Ensure backward compatibility with XE session.
 		$member_srl = $_SESSION['member_srl'] ?: false;
@@ -329,7 +336,7 @@ class Session
 		
 		// Create the data structure for a new Rhymix session.
 		$_SESSION['RHYMIX'] = array();
-		$_SESSION['RHYMIX']['login'] = $_SESSION['member_srl'] = $member_srl;
+		$_SESSION['RHYMIX']['login'] = $_SESSION['member_srl'] = intval($member_srl);
 		$_SESSION['RHYMIX']['ipaddress'] = $_SESSION['ipaddress'] = \RX_CLIENT_IP;
 		$_SESSION['RHYMIX']['useragent'] = isset($_SERVER['HTTP_USER_AGENT']) ? $_SERVER['HTTP_USER_AGENT'] : '';
 		$_SESSION['RHYMIX']['language'] = \Context::getLangType();
@@ -338,7 +345,25 @@ class Session
 		$_SESSION['RHYMIX']['tokens'] = array();
 		
 		// Pass control to refresh() to generate security keys.
-		return self::refresh();
+		$result = self::refresh();
+		
+		// Try autologin.
+		if (!$member_srl && $autologin_key)
+		{
+			$member_srl = getController('member')->doAutologin($autologin_key);
+			if ($member_srl)
+			{
+				$_SESSION['RHYMIX']['login'] = $_SESSION['member_srl'] = intval($member_srl);
+				$_SESSION['is_logged'] = true;
+			}
+			else
+			{
+				self::setAutologinKeys(null, null);
+			}
+		}
+		
+		// Return the result obtained above.
+		return $result;
 	}
 	
 	/**
@@ -416,6 +441,7 @@ class Session
 		self::$_started = false;
 		self::$_member_info = false;
 		self::_setKeys();
+		self::setAutologinKeys(null, null);
 		@session_destroy();
 		return true;
 	}
@@ -761,7 +787,7 @@ class Session
 	protected static function _getKeys()
 	{
 		// Initialize keys.
-		$key1 = $key2 = null;
+		$key1 = $key2 = $key3 = null;
 		
 		// Fetch and validate the HTTP-only key.
 		if (isset($_COOKIE['rx_sesskey1']) && ctype_alnum($_COOKIE['rx_sesskey1']) && strlen($_COOKIE['rx_sesskey1']) === 24)
@@ -775,7 +801,13 @@ class Session
 			$key2 = $_COOKIE['rx_sesskey2'];
 		}
 		
-		return array($key1, $key1 === null ? null : $key2);
+		// Fetch and validate the autologin key.
+		if (isset($_COOKIE['rx_autologin']) && ctype_alnum($_COOKIE['rx_autologin']) && strlen($_COOKIE['rx_autologin']) === 48)
+		{
+			$key3 = $_COOKIE['rx_autologin'];
+		}
+		
+		return array($key1, $key1 === null ? null : $key2, $key3);
 	}
 	
 	/**
@@ -806,6 +838,34 @@ class Session
 		{
 			setcookie('rx_sesskey2', $_SESSION['RHYMIX']['keys'][$domain]['key2'], $lifetime, $path, $domain, true, true);
 			$_COOKIE['rx_sesskey2'] = $_SESSION['RHYMIX']['keys'][$domain]['key2'];
+		}
+		
+		return true;
+	}
+	
+	/**
+	 * Set autologin key.
+	 * 
+	 * @param string $autologin_key
+	 * @param string $security_key
+	 * @return bool
+	 */
+	public static function setAutologinKeys($autologin_key = null, $security_key = null)
+	{
+		// Get session parameters.
+		list($lifetime, $refresh_interval, $domain, $path) = self::_getParams();
+		$lifetime = time() + (86400 * 365);
+		
+		// Set or destroy the HTTP-only key.
+		if ($autologin_key && $security_key)
+		{
+			setcookie('rx_autologin', $autologin_key . $security_key, $lifetime, $path, $domain, false, true);
+			$_COOKIE['rx_autologin'] = $autologin_key . $security_key;
+		}
+		else
+		{
+			setcookie('rx_autologin', 'deleted', time() - 86400, $path, $domain, false, true);
+			unset($_COOKIE['rx_autologin']);
 		}
 		
 		return true;

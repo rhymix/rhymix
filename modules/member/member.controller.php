@@ -1623,82 +1623,56 @@ class memberController extends member
 	/**
 	 * Auto-login
 	 *
-	 * @return void
+	 * @param string $autologin_key
+	 * @return int|false
 	 */
-	function doAutologin()
+	function doAutologin($autologin_key = null)
 	{
-		// Get a key value of auto log-in
-		$args = new stdClass;
-		$args->autologin_key = $_COOKIE['xeak'];
-		// Get information of the key
-		$output = executeQuery('member.getAutologin', $args);
-		// If no information exists, delete a cookie
-		if(!$output->toBool() || !$output->data)
+		// Validate the key.
+		if (strlen($autologin_key) == 48)
 		{
-			setCookie('xeak',null,$_SERVER['REQUEST_TIME']+60*60*24*365, '/');
-			return;
-		}
-
-		$oMemberModel = getModel('member');
-		$config = $oMemberModel->getMemberConfig();
-
-		$user_id = ($config->identifier == 'user_id') ? $output->data->user_id : $output->data->email_address;
-		$password = $output->data->password;
-
-		if(!$user_id || !$password)
-		{
-			setCookie('xeak',null,$_SERVER['REQUEST_TIME']+60*60*24*365, '/');
-			return;
-		}
-
-		$do_auto_login = false;
-
-		// Compare key values based on the information
-		$check_key = strtolower($user_id).$password.$_SERVER['HTTP_USER_AGENT'];
-		$check_key = substr(hash_hmac('sha256', $check_key, substr($args->autologin_key, 0, 32)), 0, 32);
-
-		if($check_key === substr($args->autologin_key, 32))
-		{
-			// Check change_password_date
-			$oModuleModel = getModel('module');
-			$member_config = $oModuleModel->getModuleConfig('member');
-			$limit_date = $member_config->change_password_date;
-
-			// Check if change_password_date is set
-			if($limit_date > 0)
-			{
-				$oMemberModel = getModel('member');
-				$columnList = array('member_srl', 'change_password_date');
-
-				if($config->identifier == 'user_id')
-				{
-					$member_info = $oMemberModel->getMemberInfoByUserID($user_id, $columnList);
-				}
-				else
-				{
-					$member_info = $oMemberModel->getMemberInfoByEmailAddress($user_id, $columnList);
-				}
-
-				if($member_info->change_password_date >= date('YmdHis', strtotime('-'.$limit_date.' day')) ){
-					$do_auto_login = true;
-				}
-
-			}
-			else
-			{
-				$do_auto_login = true;
-			}
-		}
-
-		if($do_auto_login)
-		{
-			$output = $this->doLogin($user_id);
+			$security_key = substr($autologin_key, 24, 24);
+			$autologin_key = substr($autologin_key, 0, 24);
 		}
 		else
 		{
-			executeQuery('member.deleteAutologin', $args);
-			setCookie('xeak',null,$_SERVER['REQUEST_TIME']+60*60*24*365, '/');
+			return false;
 		}
+		
+		// Fetch autologin information from DB.
+		$args = new stdClass;
+		$args->autologin_key = $autologin_key;
+		$output = executeQuery('member.getAutologin', $args);
+		if (!$output->toBool() || !$output->data)
+		{
+			return false;
+		}
+		if (is_array($output->data))
+		{
+			$output->data = array_first($output->data);
+		}
+		
+		// Check the security key.
+		if ($output->data->security_key !== $security_key || !$output->data->member_srl)
+		{
+			$args = new stdClass;
+			$args->autologin_key = $autologin_key;
+			executeQuery('member.deleteAutologin', $args);
+			return false;
+		}
+		
+		// Update the security key.
+		$new_security_key = Rhymix\Framework\Security::getRandom(24, 'alnum');
+		$args = new stdClass;
+		$args->security_key = $new_security_key;
+		$update_output = executeQuery('member.updateAutologin', $args);
+		if ($update_output->toBool())
+		{
+			Rhymix\Framework\Session::setAutologinKeys($autologin_key, $new_security_key);
+		}
+		
+		// Return the member_srl.
+		return intval($output->data->member_srl);
 	}
 
 	/**
@@ -1860,16 +1834,16 @@ class memberController extends member
 		// When user checked to use auto-login
 		if($keep_signed)
 		{
-			// Key generate for auto login
-			$random_key = Rhymix\Framework\Security::getRandom(32, 'hex');
-			$extra_key = strtolower($user_id).$this->memberInfo->password.$_SERVER['HTTP_USER_AGENT'];
-			$extra_key = substr(hash_hmac('sha256', $extra_key, $random_key), 0, 32);
+			$random_key = Rhymix\Framework\Security::getRandom(48, 'alnum');
 			$autologin_args = new stdClass;
-			$autologin_args->autologin_key = $random_key.$extra_key;
+			$autologin_args->autologin_key = substr($random_key, 0, 24);
+			$autologin_args->security_key = substr($random_key, 24, 24);
 			$autologin_args->member_srl = $this->memberInfo->member_srl;
-			executeQuery('member.deleteAutologin', $autologin_args);
 			$autologin_output = executeQuery('member.insertAutologin', $autologin_args);
-			if($autologin_output->toBool()) setCookie('xeak',$autologin_args->autologin_key, $_SERVER['REQUEST_TIME']+31536000, '/');
+			if ($autologin_output->toBool())
+			{
+				Rhymix\Framework\Session::setAutologinKeys(substr($random_key, 0, 24), substr($random_key, 24, 24));
+			}
 		}
 
 		$this->setSessionInfo();

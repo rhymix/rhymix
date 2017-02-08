@@ -362,11 +362,6 @@ class Context
 				{
 					$oMemberController->setSessionInfo();
 				}
-				// check auto sign-in
-				elseif($_COOKIE['xeak'])
-				{
-					$oMemberController->doAutologin();
-				}
 				
 				self::set('is_logged', $oMemberModel->isLogged());
 				self::set('logged_info', $oMemberModel->getLoggedInfo());
