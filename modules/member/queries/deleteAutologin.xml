@@ -4,6 +4,7 @@
     </tables>
     <conditions>
         <condition operation="equal" column="autologin_key" var="autologin_key" />
+		<condition operation="notequal" column="autologin_key" var="not_autologin_key" pipe="and" />
         <condition operation="equal" column="member_srl" var="member_srl" pipe="and" />
     </conditions>
 </query>

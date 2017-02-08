@@ -126,7 +126,7 @@ class Session
 				// Hacked session! Destroy everything.
 				$_SESSION = array();
 				$must_create = true;
-				self::setAutologinKeys(null, null);
+				self::destroyAutologinKeys();
 			}
 		}
 		else
@@ -154,7 +154,7 @@ class Session
 				// Hacked session! Destroy everything.
 				$_SESSION = array();
 				$must_create = true;
-				self::setAutologinKeys(null, null);
+				self::destroyAutologinKeys();
 			}
 		}
 		
@@ -353,11 +353,12 @@ class Session
 			if ($member_srl)
 			{
 				$_SESSION['RHYMIX']['login'] = $_SESSION['member_srl'] = intval($member_srl);
+				$_SESSION['RHYMIX']['last_login'] = time();
 				$_SESSION['is_logged'] = true;
 			}
 			else
 			{
-				self::setAutologinKeys(null, null);
+				self::destroyAutologinKeys();
 			}
 		}
 		
@@ -440,7 +441,7 @@ class Session
 		self::$_started = false;
 		self::$_member_info = false;
 		self::_setKeys();
-		self::setAutologinKeys(null, null);
+		self::destroyAutologinKeys();
 		@session_destroy();
 		return true;
 	}
@@ -851,7 +852,7 @@ class Session
 	 * @param string $security_key
 	 * @return bool
 	 */
-	public static function setAutologinKeys($autologin_key = null, $security_key = null)
+	public static function setAutologinKeys($autologin_key, $security_key)
 	{
 		// Get session parameters.
 		list($lifetime, $refresh_interval, $domain, $path) = self::_getParams();
@@ -862,18 +863,59 @@ class Session
 		{
 			setcookie('rx_autologin', $autologin_key . $security_key, $lifetime, $path, $domain, false, true);
 			$_COOKIE['rx_autologin'] = $autologin_key . $security_key;
+			return true;
 		}
 		else
 		{
-			if (self::$_autologin_key)
-			{
-				executeQuery('member.deleteAutologin', (object)array('autologin_key' => substr(self::$_autologin_key, 0, 24)));
-				self::$_autologin_key = false;
-			}
-			setcookie('rx_autologin', 'deleted', time() - 86400, $path, $domain, false, true);
-			unset($_COOKIE['rx_autologin']);
+			return false;
+		}
+	}
+	
+	/**
+	 * Destroy autologin keys.
+	 * 
+	 * @return bool
+	 */
+	public static function destroyAutologinKeys()
+	{
+		if (self::$_autologin_key)
+		{
+			executeQuery('member.deleteAutologin', (object)array('autologin_key' => substr(self::$_autologin_key, 0, 24)));
+			self::$_autologin_key = false;
+			$result = true;
+		}
+		else
+		{
+			$result = false;
 		}
 		
+		setcookie('rx_autologin', 'deleted', time() - 86400, $path, $domain, false, true);
+		unset($_COOKIE['rx_autologin']);
+		return $result;
+	}
+	
+	/**
+	 * Destroy all other autologin keys (except the current session).
+	 * 
+	 * @param int $member_srl
+	 * @return bool
+	 */
+	public static function destroyOtherAutologinKeys($member_srl)
+	{
+		$member_srl = intval($member_srl);
+		if (!$member_srl)
+		{
+			return false;
+		}
+		
+		if (self::$_autologin_key)
+		{
+			executeQuery('member.deleteAutologin', (object)array('member_srl' => $member_srl, 'not_autologin_key' => substr(self::$_autologin_key, 0, 24)));
+		}
+		else
+		{
+			executeQuery('member.deleteAutologin', (object)array('member_srl' => $member_srl));
+		}
 		return true;
 	}
 }

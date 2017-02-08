@@ -735,6 +735,21 @@ class memberController extends member
 		$args->password = $password;
 		$output = $this->updateMemberPassword($args);
 		if(!$output->toBool()) return $output;
+		
+		// Log out all other sessions.
+		$oModuleModel = getModel('module');
+		$member_config = $oModuleModel->getModuleConfig('member');
+		if ($member_config->password_change_invalidate_other_sessions === 'Y')
+		{
+			$invalid_before = time();
+			$filename = RX_BASEDIR . sprintf('files/member_extra_info/invalid_before/%s%d.txt', getNumberingPath($member_srl), $member_srl);
+			Rhymix\Framework\Storage::write($filename, $invalid_before);
+			Rhymix\Framework\Session::destroyOtherAutologinKeys($member_srl);
+			if ($_SESSION['RHYMIX'] && $_SESSION['RHYMIX']['last_login'])
+			{
+				$_SESSION['RHYMIX']['last_login'] = $invalid_before;
+			}
+		}
 
 		$this->add('member_srl', $args->member_srl);
 		$this->setMessage('success_updated');
@@ -771,6 +786,7 @@ class memberController extends member
 		$output = $this->deleteMember($member_srl);
 		if(!$output->toBool()) return $output;
 		// Destroy all session information
+		executeQuery('member.deleteAutologin', (object)array('member_srl' => $member_srl));
 		Rhymix\Framework\Session::logout();
 		// Return success message
 		$this->setMessage('success_leaved');
@@ -1922,6 +1938,21 @@ class memberController extends member
 			$this->destroySessionInfo();
 			return;
 		}
+		
+		// Invalidate the session if the member's password has changed
+		$oModuleModel = getModel('module');
+		$member_config = $oModuleModel->getModuleConfig('member');
+		if ($member_config->password_change_invalidate_other_sessions === 'Y')
+		{
+			$filename = RX_BASEDIR . sprintf('files/member_extra_info/invalid_before/%s%d.txt', getNumberingPath($member_srl), $member_srl);
+			$invalid_before = Rhymix\Framework\Storage::read($filename);
+			if ($invalid_before && $_SESSION['RHYMIX'] && $_SESSION['RHYMIX']['last_login'] && $_SESSION['RHYMIX']['last_login'] < $invalid_before)
+			{
+				$this->destroySessionInfo();
+				return;
+			}
+		}
+		
 		// Log in for treatment sessions set
 		/*
 		$_SESSION['is_logged'] = true;

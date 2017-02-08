@@ -72,6 +72,14 @@
 		</div>
 	</div>
 	<div class="x_control-group">
+		<label class="x_control-label">{$lang->cmd_password_change_invalidate_other_sessions}</label>
+		<div class="x_controls">
+			<label for="password_change_invalidate_other_sessions_y" class="x_inline"><input type="radio" name="password_change_invalidate_other_sessions" id="password_change_invalidate_other_sessions_y" value="Y" checked="checked"|cond="$config->password_change_invalidate_other_sessions == 'Y'" /> {$lang->cmd_yes}</label>
+			<label for="password_change_invalidate_other_sessions_n" class="x_inline"><input type="radio" name="password_change_invalidate_other_sessions" id="password_change_invalidate_other_sessions_n" value="N" checked="checked"|cond="$config->password_change_invalidate_other_sessions != 'Y'" /> {$lang->cmd_no}</label>
+			<p class="x_help-block">{$lang->about_password_change_invalidate_other_sessions}</p>
+		</div>
+	</div>
+	<div class="x_control-group">
 		<label class="x_control-label" for="webmaster_name">{$lang->webmaster_name}</label>
 		<div class="x_controls">
 			<input type="text" id="webmaster_name" name="webmaster_name" value="{$config->webmaster_name}" />
