@@ -225,6 +225,7 @@ $lang->msg_call_server = 'Requesting to the server, please wait.';
 $lang->msg_db_not_setted = 'DB configuration has not been set.';
 $lang->msg_dbconnect_failed = 'Error has occurred while connecting to the DB. Please check the DB information again.';
 $lang->msg_invalid_queryid = 'Specified query ID value is invalid.';
+$lang->msg_failed_to_load_query = 'Failed to load query %s.';
 $lang->msg_not_permitted = 'You do not have permission to access.';
 $lang->msg_input_password = 'Please type the password.';
 $lang->msg_invalid_document = 'Invalid Article Number';

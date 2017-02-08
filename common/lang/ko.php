@@ -225,6 +225,7 @@ $lang->msg_call_server = '서버에 요청 중입니다. 잠시만 기다려 주
 $lang->msg_db_not_setted = 'DB 설정이 되어 있지 않습니다.';
 $lang->msg_dbconnect_failed = 'DB 접속 오류가 발생했습니다. DB정보를 다시 확인해주세요.';
 $lang->msg_invalid_queryid = 'Query ID값이 잘못 지정되었습니다.';
+$lang->msg_failed_to_load_query = '%s 쿼리가 정상적으로 로딩되지 않았습니다.';
 $lang->msg_not_permitted = '권한이 없습니다.';
 $lang->msg_input_password = '비밀번호를 입력하세요.';
 $lang->msg_invalid_document = '잘못된 문서번호입니다.';

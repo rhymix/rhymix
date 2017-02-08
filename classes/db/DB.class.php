@@ -577,6 +577,10 @@ class DB
 		{
 			return $output;
 		}
+		if(!is_object($output) || !method_exists($output, 'getAction'))
+		{
+			return new Object(-1, sprintf(lang('msg_failed_to_load_query'), $query_id));
+		}
 
 		// execute appropriate query
 		switch($output->getAction())
