@@ -168,6 +168,13 @@ class Session
 			$must_refresh = true;
 		}
 		
+		// If a member is logged in, check if the current session is valid for the member_srl.
+		if (isset($_SESSION['RHYMIX']['login']) && $_SESSION['RHYMIX']['login'] && !self::isValid($_SESSION['RHYMIX']['login']))
+		{
+			$_SESSION['RHYMIX']['login'] = $_SESSION['member_srl'] = false;
+			$must_create = true;
+		}
+		
 		// Create or refresh the session if needed.
 		if ($must_create)
 		{
@@ -327,34 +334,33 @@ class Session
 	 */
 	public static function create()
 	{
-		// Ensure backward compatibility with XE session.
-		$member_srl = $_SESSION['member_srl'] ?: false;
-		$_SESSION['is_logged'] = (bool)$member_srl;
-		$_SESSION['is_admin'] = '';
-		
 		// Create the data structure for a new Rhymix session.
 		$_SESSION['RHYMIX'] = array();
-		$_SESSION['RHYMIX']['login'] = $_SESSION['member_srl'] = $member_srl;
-		$_SESSION['RHYMIX']['last_login'] = $member_srl ? time() : false;
+		$_SESSION['RHYMIX']['login'] = false;
+		$_SESSION['RHYMIX']['last_login'] = false;
 		$_SESSION['RHYMIX']['ipaddress'] = $_SESSION['ipaddress'] = \RX_CLIENT_IP;
 		$_SESSION['RHYMIX']['useragent'] = isset($_SERVER['HTTP_USER_AGENT']) ? $_SERVER['HTTP_USER_AGENT'] : '';
 		$_SESSION['RHYMIX']['language'] = \Context::getLangType();
 		$_SESSION['RHYMIX']['timezone'] = DateTime::getTimezoneForCurrentUser();
 		$_SESSION['RHYMIX']['secret'] = Security::getRandom(32, 'alnum');
 		$_SESSION['RHYMIX']['tokens'] = array();
+		$_SESSION['is_logged'] = false;
+		$_SESSION['is_admin'] = '';
 		
-		// Pass control to refresh() to generate security keys.
-		$result = self::refresh();
+		// Ensure backward compatibility with XE session.
+		$member_srl = isset($_SESSION['member_srl']) ? ($_SESSION['member_srl'] ?: false) : false;
+		if ($member_srl && self::isValid($member_srl))
+		{
+			self::login($member_srl, false);
+		}
 		
 		// Try autologin.
-		if (!$member_srl && self::$_autologin_key)
+		elseif (self::$_autologin_key)
 		{
 			$member_srl = getController('member')->doAutologin(self::$_autologin_key);
-			if ($member_srl)
+			if ($member_srl && self::isValid($member_srl))
 			{
-				$_SESSION['RHYMIX']['login'] = $_SESSION['member_srl'] = intval($member_srl);
-				$_SESSION['RHYMIX']['last_login'] = time();
-				$_SESSION['is_logged'] = true;
+				self::login($member_srl, false);
 			}
 			else
 			{
@@ -362,8 +368,8 @@ class Session
 			}
 		}
 		
-		// Return the result obtained above.
-		return $result;
+		// Pass control to refresh() to generate security keys.
+		return self::refresh();
 	}
 	
 	/**
@@ -453,10 +459,12 @@ class Session
 	 * It returns true on success and false on failure.
 	 * 
 	 * @param int $member_srl
+	 * @param bool $refresh (optional)
 	 * @return bool
 	 */
-	public static function login($member_srl)
+	public static function login($member_srl, $refresh = true)
 	{
+		// Check the validity of member_srl.
 		if (is_object($member_srl) && isset($member_srl->member_srl))
 		{
 			$member_srl = $member_srl->member_srl;
@@ -466,11 +474,21 @@ class Session
 			return false;
 		}
 		
+		// Set member_srl to session.
 		$_SESSION['RHYMIX']['login'] = $_SESSION['member_srl'] = $member_srl;
 		$_SESSION['RHYMIX']['last_login'] = time();
 		$_SESSION['is_logged'] = (bool)$member_srl;
 		self::$_member_info = false;
-		return self::refresh();
+		
+		// Refresh the session keys.
+		if ($refresh)
+		{
+			return self::refresh();
+		}
+		else
+		{
+			return true;
+		}
 	}
 	
 	/**
@@ -546,6 +564,42 @@ class Session
 		else
 		{
 			return false;
+		}
+	}
+	
+	/**
+	 * Check if the current session is valid for a given member_srl.
+	 * 
+	 * The session can be invalidated by password changes and other user action.
+	 * 
+	 * @param int $member_srl (optional)
+	 * @return bool
+	 */
+	public static function isValid($member_srl = null)
+	{
+		// If no member_srl is given, the session is always valid.
+		$member_srl = intval($member_srl) ?: (isset($_SESSION['RHYMIX']['login']) ? $_SESSION['RHYMIX']['login'] : 0);
+		if (!$member_srl)
+		{
+			return true;
+		}
+		
+		// Get the invalidation timestamp.
+		$invalid_before = Cache::get(sprintf('session:invalid_before:%d', $member_srl));
+		if (!$invalid_before)
+		{
+			$filename = \RX_BASEDIR . sprintf('files/member_extra_info/invalid_before/%s%d.txt', getNumberingPath($member_srl), $member_srl);
+			$invalid_before = intval(Storage::read($filename, $invalid_before));
+		}
+		
+		// Check the invalidation timestamp against the current session.
+		if ($invalid_before && self::isStarted() && $_SESSION['RHYMIX']['last_login'] && $_SESSION['RHYMIX']['last_login'] < $invalid_before)
+		{
+			return false;
+		}
+		else
+		{
+			return true;
 		}
 	}
 	
@@ -900,14 +954,30 @@ class Session
 	 * @param int $member_srl
 	 * @return bool
 	 */
-	public static function destroyOtherAutologinKeys($member_srl)
+	public static function destroyOtherSessions($member_srl)
 	{
+		// Check the validity of member_srl.
 		$member_srl = intval($member_srl);
 		if (!$member_srl)
 		{
 			return false;
 		}
 		
+		// Invalidate all sessions that were logged in before the current timestamp.
+		if (self::isStarted())
+		{
+			$invalid_before = time();
+			$filename = \RX_BASEDIR . sprintf('files/member_extra_info/invalid_before/%s%d.txt', getNumberingPath($member_srl), $member_srl);
+			Storage::write($filename, $invalid_before);
+			Cache::set(sprintf('session:invalid_before:%d', $member_srl), $invalid_before);
+			$_SESSION['RHYMIX']['last_login'] = $invalid_before;
+		}
+		else
+		{
+			return false;
+		}
+		
+		// Destroy all other autologin keys.
 		if (self::$_autologin_key)
 		{
 			executeQuery('member.deleteAutologin', (object)array('member_srl' => $member_srl, 'not_autologin_key' => substr(self::$_autologin_key, 0, 24)));
@@ -916,6 +986,7 @@ class Session
 		{
 			executeQuery('member.deleteAutologin', (object)array('member_srl' => $member_srl));
 		}
+		
 		return true;
 	}
 }
