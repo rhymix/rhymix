@@ -226,8 +226,24 @@ class memberController extends member
 			$autologin_info = array_first($output->data);
 			if ($autologin_info->member_srl == $logged_info->member_srl)
 			{
-				executeQuery('member.deleteAutologin', $args);
+				$output = executeQuery('member.deleteAutologin', $args);
+				if ($output->toBool())
+				{
+					$this->add('deleted', 'Y');
+				}
+				else
+				{
+					$this->add('deleted', 'N');
+				}
 			}
+			else
+			{
+				$this->add('deleted', 'N');
+			}
+		}
+		else
+		{
+			$this->add('deleted', 'N');
 		}
 	}
 
