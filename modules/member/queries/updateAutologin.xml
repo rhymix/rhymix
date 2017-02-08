@@ -1,0 +1,12 @@
+<query id="updateAutologin" action="update">
+	<tables>
+		<table name="member_autologin" />
+	</tables>
+	<columns>
+		<column name="security_key" var="security_key" />
+		<column name="member_srl" var="member_srl" filter="number" />
+		<column name="last_visit" var="last_visit" default="curdate()" />
+		<column name="last_ipaddress" var="last_ipaddress" default="ipaddress()" />
+		<column name="user_agent" var="user_agent" />
+	</columns>
+</query>
