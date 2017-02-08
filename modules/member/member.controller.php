@@ -204,6 +204,32 @@ class memberController extends member
 		$oDocumentController = getController('document');
 		$oDocumentController->deleteDocument($document_srl, true);
 	}
+	
+	/**
+	 * Delete an autologin
+	 */
+	function procMemberDeleteAutologin()
+	{
+		// Check login information
+		if(!Context::get('is_logged')) return new Object(-1, 'msg_not_logged');
+		$logged_info = Context::get('logged_info');
+		
+		$autologin_id = intval(Context::get('autologin_id'));
+		$autologin_key = Context::get('autologin_key');
+		
+		$args = new stdClass;
+		$args->autologin_id = $autologin_id;
+		$args->autologin_key = $autologin_key;
+		$output = executeQueryArray('member.getAutologin', $args);
+		if ($output->toBool() && $output->data)
+		{
+			$autologin_info = array_first($output->data);
+			if ($autologin_info->member_srl == $logged_info->member_srl)
+			{
+				executeQuery('member.deleteAutologin', $args);
+			}
+		}
+	}
 
 	/**
 	 * Check values when member joining
@@ -1906,6 +1932,7 @@ class memberController extends member
 		$this->addMemberMenu( 'dispMemberScrappedDocument', 'cmd_view_scrapped_document');
 		$this->addMemberMenu( 'dispMemberSavedDocument', 'cmd_view_saved_document');
 		$this->addMemberMenu( 'dispMemberOwnDocument', 'cmd_view_own_document');
+		$this->addMemberMenu( 'dispMemberActiveLogins', 'cmd_view_active_logins');
 		if($config->update_nickname_log == 'Y')
 		{
 			$this->addMemberMenu( 'dispMemberModifyNicknameLog', 'cmd_modify_nickname_log');

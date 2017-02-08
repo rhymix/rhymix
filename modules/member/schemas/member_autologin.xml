@@ -1,6 +1,6 @@
 <table name="member_autologin">
 	<column name="id" type="number" primary_key="primary_key" auto_increment="auto_increment" />
-	<column name="autologin_key" type="varchar" size="80" notnull="notnull" index="idx_autologin_key" />
+	<column name="autologin_key" type="varchar" size="80" notnull="notnull" unique="unique_autologin_key" />
 	<column name="security_key" type="varchar" size="80" notnull="notnull" />
 	<column name="member_srl" type="number" notnull="notnull" index="idx_member_srl" />
 	<column name="regdate" type="date" index="idx_regdate" />

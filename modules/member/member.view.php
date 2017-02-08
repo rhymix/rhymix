@@ -431,6 +431,30 @@ class memberView extends member
 	}
 
 	/**
+	 * @brief Display the login management page
+	 */
+	function dispMemberActiveLogins()
+	{
+		$logged_info = Context::get('logged_info');
+		if (!$logged_info->member_srl)
+		{
+			return $this->stop('msg_not_logged');
+		}
+		
+		$args = new stdClass();
+		$args->member_srl = $logged_info->member_srl;
+		$args->page = (int)Context::get('page');
+		$output = executeQueryArray('member.getAutologin', $args);
+		Context::set('total_count', $output->total_count);
+		Context::set('total_page', $output->total_page);
+		Context::set('page', $output->page);
+		Context::set('active_logins', $output->data);
+		Context::set('page_navigation', $output->page_navigation);
+
+		$this->setTemplateFile('active_logins');
+	}
+	
+	/**
 	 * @brief Display the login form 
 	 */
 	function dispMemberLoginForm()
