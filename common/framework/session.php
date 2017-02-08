@@ -336,7 +336,7 @@ class Session
 		
 		// Create the data structure for a new Rhymix session.
 		$_SESSION['RHYMIX'] = array();
-		$_SESSION['RHYMIX']['login'] = $_SESSION['member_srl'] = intval($member_srl);
+		$_SESSION['RHYMIX']['login'] = $_SESSION['member_srl'] = $member_srl;
 		$_SESSION['RHYMIX']['ipaddress'] = $_SESSION['ipaddress'] = \RX_CLIENT_IP;
 		$_SESSION['RHYMIX']['useragent'] = isset($_SERVER['HTTP_USER_AGENT']) ? $_SERVER['HTTP_USER_AGENT'] : '';
 		$_SESSION['RHYMIX']['language'] = \Context::getLangType();
