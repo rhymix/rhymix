@@ -15,7 +15,7 @@
 		<condition operation="equal" column="member_autologin.member_srl" var="member_srl" pipe="and" />
     </conditions>
     <navigation>
-        <index var="sort_index" default="regdate" order="asc" />
+        <index var="sort_index" default="member_autologin.id" order="asc" />
         <list_count var="list_count" default="20" />
         <page_count var="page_count" default="10" />
         <page var="page" default="1" />

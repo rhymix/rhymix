@@ -1839,6 +1839,7 @@ class memberController extends member
 			$autologin_args->autologin_key = substr($random_key, 0, 24);
 			$autologin_args->security_key = substr($random_key, 24, 24);
 			$autologin_args->member_srl = $this->memberInfo->member_srl;
+			$autologin_args->user_agent = json_encode(Rhymix\Framework\UA::getBrowserInfo());
 			$autologin_output = executeQuery('member.insertAutologin', $autologin_args);
 			if ($autologin_output->toBool())
 			{
