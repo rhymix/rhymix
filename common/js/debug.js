@@ -172,7 +172,20 @@ $(function() {
 				description.append($('<li></li>').text("Exec Time: " + (data.slow_widgets[i].widget_time ? (data.slow_widgets[i].widget_time.toFixed(4) + " sec") : "")));
 			}
 		}
-		
+
+		// Add slow addons.
+		if (data.slow_addons && data.slow_addons.length) {
+			page_body.append($('<h4></h4>').text('Slow Addons (' + data.slow_addons.length + ')'));
+			for (i in data.slow_addons) {
+				entry = $('<div class="debug_entry"></div>').appendTo(page_body);
+				num = parseInt(i) + 1; if (num < 10) num = "0" + num;
+				entry.text(num + ". " + data.slow_addons[i].addon_name);
+				description = $('<ul class="debug_backtrace"></ul>').appendTo(entry);
+				description.append($('<li></li>').text("Called: " + data.slow_addons[i].addon_called));
+				description.append($('<li></li>').text("Exec Time: " + (data.slow_addons[i].addon_time ? (data.slow_addons[i].addon_time.toFixed(4) + " sec") : "")));
+			}
+		}
+
 		// Add slow remote requests.
 		if (data.slow_remote_requests && data.slow_remote_requests.length) {
 			page_body.append($('<h4></h4>').text('Slow Remote Requests (' + data.slow_remote_requests.length + ')'));
