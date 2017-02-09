@@ -19,6 +19,8 @@ class Debug
 	protected static $_slow_triggers = array();
 	protected static $_widgets = array();
 	protected static $_slow_widgets = array();
+	protected static $_addons = array();
+	protected static $_slow_addons = array();
 	protected static $_remote_requests = array();
 	protected static $_slow_remote_requests = array();
 	
@@ -101,7 +103,27 @@ class Debug
 	{
 		return self::$_slow_widgets;
 	}
-	
+
+	/**
+	 * Get all addons
+	 *
+	 * @return array
+	 */
+	public static function getAddons()
+	{
+		return self::$_addons;
+	}
+
+	/**
+	 * Get all slow addons
+	 *
+	 * @return array
+	 */
+	public static function getSlowAddons()
+	{
+		return self::$_slow_addons;
+	}
+
 	/**
 	 * Get all remote requests.
 	 * 
@@ -299,7 +321,7 @@ class Debug
 	/**
 	 * Add a widget to the log.
 	 * 
-	 * @return bool
+	 * @param $widget
 	 */
 	public static function addWidget($widget)
 	{
@@ -320,7 +342,33 @@ class Debug
 			self::$_slow_widgets[] = $widget_object;
 		}
 	}
-	
+
+	/**
+	 * Add a addon to log.
+	 *
+	 * @param $addon
+	 */
+	public static function addAddon($addon)
+	{
+		$addon_object = (object)array(
+			'type' => 'Addon',
+			'time' => microtime(true),
+			'message' => null,
+			'file' => null,
+			'line' => null,
+			'backtrace' => array(),
+			'addon_name' => $addon['name'],
+			'addon_time' => $addon['elapsed_time'],
+			'addon_called' => $addon['called'],
+		);
+
+		self::$_addons[] = $addon_object;
+		if ($addon_object->addon_time && $addon_object->addon_time >= config('debug.log_slow_addons'))
+		{
+			self::$_slow_addons[] = $addon_object;
+		}
+	}
+
 	/**
 	 * Add a remote request to the log.
 	 * 
@@ -602,9 +650,10 @@ class Debug
 			'slow_queries' => self::$_slow_queries,
 			'slow_triggers' => self::$_slow_triggers,
 			'slow_widgets' => self::$_slow_widgets,
+			'slow_addons' => self::$_slow_addons,
 			'slow_remote_requests' => self::$_slow_remote_requests,
 		);
-		
+
 		// Clean up the backtrace.
 		foreach (array('entries', 'errors', 'queries', 'slow_queries', 'remote_requests', 'slow_remote_requests') as $key)
 		{

@@ -159,6 +159,24 @@ Slow Widgets
 ?>
 <?php endif; ?>
 
+<?php if (!count($display_content) || isset($display_content['slow_addons'])): ?>
+Slow Addons
+============
+<?php
+	$widget_count = 0;
+	if (!count($data->slow_addons))
+	{
+		echo 'None'. "\n";
+	}
+	foreach ($data->slow_addons as $addon)
+	{
+		echo sprintf('%02d. %s', ++$addon_count, $addon->addon_name) . "\n";
+		echo sprintf('    - Called:     %s', $addon->addon_called) . "\n";
+		echo sprintf('    - Exec Time:  %0.4f sec', $addon->addon_time) . "\n";
+	}
+?>
+<?php endif; ?>
+
 <?php if (!count($display_content) || isset($display_content['slow_remote_requests'])): ?>
 Slow Remote Requests
 ====================
