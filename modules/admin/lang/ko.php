@@ -67,6 +67,7 @@ $lang->msg_blacklisted_addon = '이 애드온은 Rhymix에서 기본 제공하�
 $lang->msg_blacklisted_widget = '이 위젯은 Rhymix에서 기본 제공하는 기능과 충돌하거나 그 밖의 호환성 문제가 있으므로 사용이 중단되었습니다.';
 $lang->msg_blacklisted_layout = '이 레이아웃은 Rhymix에서 기본 제공하는 기능과 충돌하거나 그 밖의 호환성 문제가 있으므로 사용이 중단되었습니다.';
 $lang->msg_blacklisted_reason['autolang'] = '이 애드온에서 제공하던 기능은 <a href="./index.php?module=admin&act=dispAdminConfigGeneral">시스템 설정</a> 페이지에서 관리할 수 있습니다.';
+$lang->msg_blacklisted_reason['auto_login'] = '이 애드온에서 제공하던 기능은 Rhymix에 포함되어 있습니다.';
 $lang->msg_blacklisted_reason['errorlogger'] = '이 모듈에서 제공하던 기능은 <a href="./index.php?module=admin&act=dispAdminConfigDebug">디버그 설정</a> 페이지에서 관리할 수 있습니다.';
 $lang->msg_blacklisted_reason['fix_mysql_utf8'] = '이 애드온에서 제공하던 기능은 Rhymix에 포함되어 있습니다.';
 $lang->msg_blacklisted_reason['member_communication'] = '이 애드온에서 제공하던 기능은 알림센터 모듈에서 관리할 수 있습니다.';
