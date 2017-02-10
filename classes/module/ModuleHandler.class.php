@@ -1178,6 +1178,12 @@ class ModuleHandler extends Handler
 			{
 				return NULL;
 			}
+			
+			// Populate default properties
+			if($oModule->user === false)
+			{
+				$oModule->user = Context::get('logged_info');
+			}
 
 			// Load language files for the class
 			if($module !== 'module')
