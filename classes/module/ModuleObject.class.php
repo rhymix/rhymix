@@ -37,7 +37,7 @@ class ModuleObject extends Object
 	 */
 	function __construct($error = 0, $message = 'success')
 	{
-		$this->user = Context::get('logged_info');
+		$this->user = Context::get('logged_info') ?: new Rhymix\Framework\Helpers\SessionHelper;
 		parent::__construct($error, $message);
 	}
 

@@ -1182,7 +1182,7 @@ class ModuleHandler extends Handler
 			// Populate default properties
 			if($oModule->user === false)
 			{
-				$oModule->user = Context::get('logged_info');
+				$oModule->user = Context::get('logged_info') ?: new Rhymix\Framework\Helpers\SessionHelper;
 			}
 
 			// Load language files for the class
