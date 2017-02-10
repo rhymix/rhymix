@@ -1954,6 +1954,7 @@ class memberController extends member
 		$this->addMemberMenu( 'dispMemberScrappedDocument', 'cmd_view_scrapped_document');
 		$this->addMemberMenu( 'dispMemberSavedDocument', 'cmd_view_saved_document');
 		$this->addMemberMenu( 'dispMemberOwnDocument', 'cmd_view_own_document');
+		$this->addMemberMenu( 'dispMemberOwnComment', 'cmd_view_own_comment');
 		$this->addMemberMenu( 'dispMemberActiveLogins', 'cmd_view_active_logins');
 		if($config->update_nickname_log == 'Y')
 		{

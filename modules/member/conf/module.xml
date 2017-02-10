@@ -14,6 +14,7 @@
 		<action name="dispMemberLogout" type="view" standalone="true" />
 		<action name="dispMemberLeave" type="view" standalone="true" />
 		<action name="dispMemberOwnDocument" type="view" standalone="true" />
+		<action name="dispMemberOwnComment" type="view" standalone="true" />
 		<action name="dispMemberScrappedDocument" type="view" standalone="true" />
 		<action name="dispMemberSavedDocument" type="view" standalone="true" />
 		<action name="dispMemberActiveLogins" type="view" standalone="true" />
