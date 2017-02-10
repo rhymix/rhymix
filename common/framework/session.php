@@ -585,7 +585,7 @@ class Session
 		$member_srl = intval($member_srl) ?: (isset($_SESSION['RHYMIX']['login']) ? $_SESSION['RHYMIX']['login'] : 0);
 		if (!$member_srl)
 		{
-			return true;
+			return false;
 		}
 		
 		// Get the invalidation timestamp.
@@ -601,10 +601,20 @@ class Session
 		{
 			return false;
 		}
-		else
+		
+		// Check member information to see if denied or limited.
+		$member_info = getModel('member')->getMemberInfoByMemberSrl($member_srl);
+		if ($member_info->denied === 'Y')
 		{
-			return true;
+			return false;
 		}
+		if ($member_info->limit_date && substr($member_info->limit_date, 0, 8) >= date('Ymd'))
+		{
+			return false;
+		}
+		
+		// Return true if all checks have passed.
+		return true;
 	}
 	
 	/**
@@ -638,18 +648,11 @@ class Session
 		// Create a member info object.
 		if (!self::$_member_info || self::$_member_info->member_srl != $member_srl)
 		{
-			self::$_member_info = getModel('member')->getMemberInfoByMemberSrl($member_srl);
+			self::$_member_info = new Helpers\SessionHelper($member_srl);
 		}
 		
 		// Return the member info object.
-		if (self::$_member_info == new \stdClass)
-		{
-			return false;
-		}
-		else
-		{
-			return self::$_member_info;
-		}
+		return self::$_member_info->member_srl ? self::$_member_info : false;
 	}
 	
 	/**

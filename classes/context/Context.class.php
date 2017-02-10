@@ -347,24 +347,14 @@ class Context
 		ob_start();
 
 		// set authentication information in Context and session
-		if(self::isInstalled())
+		if (self::isInstalled())
 		{
 			$oModuleModel = getModel('module');
 			$oModuleModel->loadModuleExtends();
 
-			$oMemberModel = getModel('member');
-			$oMemberController = getController('member');
-
-			if($oMemberController && $oMemberModel)
+			if (Rhymix\Framework\Session::getMemberSrl())
 			{
-				// if signed in, validate it.
-				if(Rhymix\Framework\Session::getMemberSrl())
-				{
-					$oMemberController->setSessionInfo();
-				}
-				
-				self::set('is_logged', $oMemberModel->isLogged());
-				self::set('logged_info', $oMemberModel->getLoggedInfo());
+				getController('member')->setSessionInfo();
 			}
 		}
 		

@@ -1914,22 +1914,11 @@ class memberController extends member
 	{
 		$oMemberModel = getModel('member');
 		$config = $oMemberModel->getMemberConfig();
+		
 		// If your information came through the current session information to extract information from the users
-		if(!$this->memberInfo && $member_srl = Rhymix\Framework\Session::getMemberSrl())
+		if(!$this->memberInfo && Rhymix\Framework\Session::getMemberSrl())
 		{
-			$this->memberInfo = $oMemberModel->getMemberInfoByMemberSrl($member_srl);
-			// If you do not destroy the session Profile
-			if($this->memberInfo->member_srl != $member_srl)
-			{
-				$this->destroySessionInfo();
-				return;
-			}
-		}
-		// Stop using the session id is destroyed
-		if($this->memberInfo->denied=='Y')
-		{
-			$this->destroySessionInfo();
-			return;
+			$this->memberInfo = Rhymix\Framework\Session::getMemberInfo();
 		}
 		
 		// Log in for treatment sessions set
