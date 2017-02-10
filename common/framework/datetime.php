@@ -62,9 +62,9 @@ class DateTime
 	 */
 	public static function getTimezoneForCurrentUser()
 	{
-		if (isset($_SESSION['timezone']) && $_SESSION['timezone'])
+		if (isset($_SESSION['RHYMIX']['timezone']) && $_SESSION['RHYMIX']['timezone'])
 		{
-			return $_SESSION['timezone'];
+			return $_SESSION['RHYMIX']['timezone'];
 		}
 		elseif ($default = Config::get('locale.default_timezone'))
 		{

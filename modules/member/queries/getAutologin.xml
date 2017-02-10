@@ -4,13 +4,21 @@
         <table name="member_autologin" alias="member_autologin" />
     </tables>
     <columns>
+        <column name="member_autologin.*" />
         <column name="member.email_address" alias="email_address" />
         <column name="member.user_id" alias="user_id" />
         <column name="member.password" alias="password" />
-        <column name="member_autologin.autologin_key" alias="autologin_key" />
     </columns>
     <conditions>
-        <condition operation="equal" column="member_autologin.autologin_key" var="autologin_key" notnull="notnull" />
-        <condition operation="equal" column="member.member_srl" var="member_autologin.member_srl" notnull="notnull" pipe="and" />
+        <condition operation="equal" column="member.member_srl" var="member_autologin.member_srl" />
+		<condition operation="equal" column="member_autologin.id" var="autologin_id" pipe="and" />
+        <condition operation="equal" column="member_autologin.autologin_key" var="autologin_key" pipe="and" />
+		<condition operation="equal" column="member_autologin.member_srl" var="member_srl" pipe="and" />
     </conditions>
+    <navigation>
+        <index var="sort_index" default="member_autologin.id" order="asc" />
+        <list_count var="list_count" default="20" />
+        <page_count var="page_count" default="10" />
+        <page var="page" default="1" />
+    </navigation>
 </query>

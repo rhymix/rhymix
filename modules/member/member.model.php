@@ -231,36 +231,9 @@ class memberModel extends member
 	/**
 	 * @brief Check if logged-in
 	 */
-	function isLogged() {
-		if($_SESSION['is_logged'])
-		{
-			if(Mobile::isFromMobilePhone())
-			{
-				return true;
-			}
-			elseif(filter_var($_SESSION['ipaddress'], FILTER_VALIDATE_IP, FILTER_FLAG_IPV6))
-			{
-				// IPv6: require same /48
-				if(strncmp(inet_pton($_SESSION['ipaddress']), inet_pton($_SERVER['REMOTE_ADDR']), 6) == 0)
-				{
-					return true;
-				}
-			}
-			else
-			{
-				// IPv4: require same /24
-				if(ip2long($_SESSION['ipaddress']) >> 8 == ip2long($_SERVER['REMOTE_ADDR']) >> 8)
-				{
-					return true;
-				}
-			}
-		}
-
-		if(Context::getSessionStatus())
-		{
-			$_SESSION['is_logged'] = false;
-		}
-		return false;
+	function isLogged()
+	{
+		return Rhymix\Framework\Session::getMemberSrl() ? true : false;
 	}
 
 	/**
@@ -268,39 +241,7 @@ class memberModel extends member
 	 */
 	function getLoggedInfo()
 	{
-		// Return session info if session info is requested and the user is logged-in
-		if($this->isLogged())
-		{
-			$logged_info = Context::get('logged_info');
-			// Admin/Group list defined depending on site_module_info
-			$site_module_info = Context::get('site_module_info');
-			if($site_module_info->site_srl)
-			{
-				$logged_info->group_list = $this->getMemberGroups($logged_info->member_srl, $site_module_info->site_srl);
-				// Add is_site_admin bool variable into logged_info if site_administrator is
-				$oModuleModel = getModel('module');
-				if($oModuleModel->isSiteAdmin($logged_info)) $logged_info->is_site_admin = true;
-				else $logged_info->is_site_admin = false;
-			}
-			else
-			{
-				// Register a default group if the site doesn't have a member group
-				if(count($logged_info->group_list) === 0)
-				{
-					$default_group = $this->getDefaultGroup(0);
-					$oMemberController = getController('member');
-					$oMemberController->addMemberToGroup($logged_info->member_srl, $default_group->group_srl, 0);
-					$groups[$default_group->group_srl] = $default_group->title;
-					$logged_info->group_list = $groups;
-				}
-
-				$logged_info->is_site_admin = false;
-			}
-			Context::set('logged_info', $logged_info);
-
-			return $logged_info;
-		}
-		return new stdClass;
+		return Context::get('logged_info');
 	}
 
 	/**
@@ -398,6 +339,7 @@ class memberModel extends member
 			}
 			$info->signature = $this->getSignature($info->member_srl);
 			$info->group_list = $this->getMemberGroups($info->member_srl, $site_srl);
+			$info->is_site_admin = $oModuleModel->isSiteAdmin($info) ? true : false;
 
 			$extra_vars = unserialize($info->extra_vars);
 			unset($info->extra_vars);
@@ -493,8 +435,7 @@ class memberModel extends member
 	 */
 	function getLoggedMemberSrl()
 	{
-		if(!$this->isLogged()) return;
-		return $_SESSION['member_srl'];
+		return Rhymix\Framework\Session::getMemberSrl();
 	}
 
 	/**
@@ -527,6 +468,12 @@ class memberModel extends member
 				$args->site_srl = $site_srl;
 				$output = executeQueryArray('member.getMemberGroups', $args);
 				$group_list = $output->data;
+				if (!count($group_list))
+				{
+					$default_group = $this->getDefaultGroup($site_srl);
+					getController('member')->addMemberToGroup($member_srl, $default_group->group_srl, $site_srl);
+					$group_list[$default_group->group_srl] = $default_group->title;
+				}
 				//insert in cache
 				Rhymix\Framework\Cache::set($cache_key, $group_list, 0, true);
 			}

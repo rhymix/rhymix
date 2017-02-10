@@ -204,6 +204,9 @@ class member extends ModuleObject {
 
 		if(!$oDB->isColumnExists("member", "list_order")) return true;
 		if(!$oDB->isIndexExists("member","idx_list_order")) return true;
+		
+		// Check autologin table
+		if(!$oDB->isColumnExists("member_autologin", "security_key")) return true;
 
 		$oModuleModel = getModel('module');
 		$config = $oModuleModel->getModuleConfig('member');
@@ -313,6 +316,13 @@ class member extends ModuleObject {
 		if(!$oDB->isIndexExists("member","idx_list_order"))
 		{
 			$oDB->addIndex("member","idx_list_order", array("list_order"));
+		}
+		
+		// Check autologin table
+		if(!$oDB->isColumnExists("member_autologin", "security_key"))
+		{
+			$oDB->dropTable('member_autologin');
+			$oDB->createTableByXmlFile($this->module_path . '/schemas/member_autologin.xml');
 		}
 
 		$oModuleModel = getModel('module');

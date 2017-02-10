@@ -749,6 +749,29 @@ class DBMssql extends DB
 	}
 
 	/**
+	 * Drop table
+	 *
+	 * @param string $name
+	 * @return bool
+	 */
+	function dropTable($table_name)
+	{
+		// Generate the drop query
+		$query = sprintf('DROP TABLE %s', $this->addQuotes($this->prefix . $table_name));
+		
+		// Execute the drop query
+		$output = $this->_query($query);
+		if($output)
+		{
+			return true;
+		}
+		else
+		{
+			return false;
+		}
+	}
+
+	/**
 	 * Handles insertAct
 	 * @todo Lookup _filterNumber against sql injection - see if it is still needed and how to integrate
 	 * @param Object $queryObject

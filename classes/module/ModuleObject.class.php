@@ -26,6 +26,20 @@ class ModuleObject extends Object
 	var $module_config = NULL;
 	var $ajaxRequestMethod = array('XMLRPC', 'JSON');
 	var $gzhandler_enable = TRUE;
+	var $user = FALSE;
+
+	/**
+	 * Constructor
+	 *
+	 * @param int $error Error code
+	 * @param string $message Error message
+	 * @return void
+	 */
+	function __construct($error = 0, $message = 'success')
+	{
+		$this->user = Context::get('logged_info') ?: new Rhymix\Framework\Helpers\SessionHelper;
+		parent::__construct($error, $message);
+	}
 
 	/**
 	 * setter to set the name of module

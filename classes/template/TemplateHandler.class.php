@@ -20,6 +20,11 @@ class TemplateHandler
 	private $skipTags = NULL;
 	private $handler_mtime = 0;
 	private static $rootTpl = NULL;
+	
+	/**
+	 * Context variables accessible as $this in template files
+	 */
+	public $user = FALSE;
 
 	/**
 	 * constructor
@@ -29,6 +34,7 @@ class TemplateHandler
 	{
 		$this->config = new stdClass;
 		$this->handler_mtime = filemtime(__FILE__);
+		$this->user = Context::get('logged_info') ?: new Rhymix\Framework\Helpers\SessionHelper;
 	}
 
 	/**
@@ -818,7 +824,7 @@ class TemplateHandler
 		}
 		
 		return preg_replace_callback('@(?<!::|\\\\|(?<!eval\()\')\$([a-z_][a-z0-9_]*)@i', function($matches) {
-			if (preg_match('/^(?:GLOBALS|_SERVER|_COOKIE|_GET|_POST|_REQUEST|__Context)$/', $matches[1]))
+			if (preg_match('/^(?:GLOBALS|_SERVER|_COOKIE|_GET|_POST|_REQUEST|__Context|this)$/', $matches[1]))
 			{
 				return '$' . $matches[1];
 			}

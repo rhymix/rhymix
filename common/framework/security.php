@@ -153,7 +153,7 @@ class Security
 	 * @param string $format
 	 * @return string
 	 */
-	public function getRandom($length = 32, $format = 'alnum')
+	public static function getRandom($length = 32, $format = 'alnum')
 	{
 		// Find out how many bytes of entropy we really need.
 		switch($format)

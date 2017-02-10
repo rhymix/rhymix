@@ -683,6 +683,29 @@ class DBMysql extends DB
 	}
 
 	/**
+	 * Drop table
+	 *
+	 * @param string $name
+	 * @return bool
+	 */
+	function dropTable($table_name)
+	{
+		// Generate the drop query
+		$query = sprintf('DROP TABLE `%s`', $this->addQuotes($this->prefix . $table_name));
+		
+		// Execute the drop query
+		$output = $this->_query($query);
+		if($output)
+		{
+			return true;
+		}
+		else
+		{
+			return false;
+		}
+	}
+
+	/**
 	 * Handles insertAct
 	 * @param Object $queryObject
 	 * @param boolean $with_values

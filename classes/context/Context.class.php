@@ -338,59 +338,23 @@ class Context
 					array(&$oSessionController, 'open'), array(&$oSessionController, 'close'), array(&$oSessionModel, 'read'), array(&$oSessionController, 'write'), array(&$oSessionController, 'destroy'), array(&$oSessionController, 'gc')
 			);
 		}
+		
+		// start session
+		$relax_key_checks = ($this->act === 'procFileUpload' && preg_match('/shockwave\s?flash/i', $_SERVER['HTTP_USER_AGENT']));
+		Rhymix\Framework\Session::start(false, $relax_key_checks);
 
-		// start session if it was previously started
-		$session_name = session_name();
-		$session_id = NULL;
-		if($session_id = $_POST[$session_name])
-		{
-			session_id($session_id);
-		}
-		else
-		{
-			$session_id = $_COOKIE[$session_name];
-		}
-
-		if($session_id !== NULL || !config('session.delay'))
-		{
-			$this->setCacheControl(0, false);
-			session_start();
-		}
-		else
-		{
-			$this->setCacheControl(-1, true);
-			$_SESSION = array();
-		}
-
+		// start output buffer
 		ob_start();
 
 		// set authentication information in Context and session
-		if(self::isInstalled())
+		if (self::isInstalled())
 		{
 			$oModuleModel = getModel('module');
 			$oModuleModel->loadModuleExtends();
 
-			$oMemberModel = getModel('member');
-			$oMemberController = getController('member');
-
-			if($oMemberController && $oMemberModel)
+			if (Rhymix\Framework\Session::getMemberSrl())
 			{
-				// if signed in, validate it.
-				if($oMemberModel->isLogged())
-				{
-					$oMemberController->setSessionInfo();
-				}
-				// check auto sign-in
-				elseif($_COOKIE['xeak'])
-				{
-					$oMemberController->doAutologin();
-				}
-
-				self::set('is_logged', $oMemberModel->isLogged());
-				if($oMemberModel->isLogged())
-				{
-					self::set('logged_info', $oMemberModel->getLoggedInfo());
-				}
+				getController('member')->setSessionInfo();
 			}
 		}
 		
@@ -428,7 +392,7 @@ class Context
 	 */
 	public static function getSessionStatus()
 	{
-		return (session_id() !== '');
+		return Rhymix\Framework\Session::isStarted();
 	}
 
 	/**
@@ -436,21 +400,9 @@ class Context
 	 * 
 	 * @return void
 	 */
-	public static function checkSessionStatus($force_start = false)
+	public static function checkSessionStatus($force = false)
 	{
-		if(self::getSessionStatus())
-		{
-			return true;
-		}
-		if($force_start || (count($_SESSION) && !headers_sent()))
-		{
-			$tempSession = $_SESSION;
-			unset($_SESSION);
-			session_start();
-			$_SESSION = $tempSession;
-			return true;
-		}
-		return false;
+		return Rhymix\Framework\Session::checkStart($force);
 	}
 
 	/**
@@ -467,9 +419,9 @@ class Context
 		}
 		
 		// Check session status and close it if open.
-		if (self::checkSessionStatus())
+		if (Rhymix\Framework\Session::checkStart())
 		{
-			session_write_close();
+			Rhymix\Framework\Session::close();
 		}
 	}
 
@@ -703,97 +655,7 @@ class Context
 	 */
 	public function checkSSO()
 	{
-		// pass if it's not GET request or XE is not yet installed
-		if(!config('use_sso') || Rhymix\Framework\UA::isRobot())
-		{
-			return TRUE;
-		}
-		$checkActList = array('rss' => 1, 'atom' => 1);
-		if(self::getRequestMethod() != 'GET' || !self::isInstalled() || isset($checkActList[self::get('act')]))
-		{
-			return TRUE;
-		}
-
-		// pass if default URL is not set
-		$default_url = trim($this->db_info->default_url);
-		if(!$default_url)
-		{
-			return TRUE;
-		}
-
-		if(substr_compare($default_url, '/', -1) !== 0)
-		{
-			$default_url .= '/';
-		}
-
-		// Get current site information (only the base URL, not the full URL)
-		$current_site = self::getRequestUri();
-
-		// Step 1: if the current site is not the default site, send SSO validation request to the default site
-		if($default_url !== $current_site && !self::get('sso_response') && $_COOKIE['sso'] !== md5($current_site))
-		{
-			// Set sso cookie to prevent multiple simultaneous SSO validation requests
-			setcookie('sso', md5($current_site), 0, '/');
-			
-			// Redirect to the default site
-			$sso_request = Rhymix\Framework\Security::encrypt(Rhymix\Framework\URL::getCurrentURL());
-			$redirect_url = $default_url . '?sso_request=' . urlencode($sso_request);
-			header('Location:' . $redirect_url);
-			return false;
-		}
-
-		// Step 2: receive and process SSO validation request at the default site
-		if($default_url === $current_site && self::get('sso_request'))
-		{
-			// Get the URL of the origin site
-			$sso_request = Rhymix\Framework\Security::decrypt(self::get('sso_request'));
-			if (!$sso_request || !preg_match('!^https?://!', $sso_request))
-			{
-				self::displayErrorPage('SSO Error', 'Invalid SSO Request', 400);
-				return false;
-			}
-
-			// Check that the origin site is a valid site in this XE installation (to prevent open redirect vuln)
-			if(!getModel('module')->getSiteInfoByDomain(rtrim($url, '/'))->site_srl)
-			{
-				self::displayErrorPage('SSO Error', 'Invalid SSO Request', 400);
-				return false;
-			}
-
-			// Redirect back to the origin site
-			$sso_response = Rhymix\Framework\Security::encrypt(session_id());
-			header('Location: ' . Rhymix\Framework\URL::modifyURL($sso_request, array('sso_response' => $sso_response)));
-			return false;
-		}
-
-		// Step 3: back at the origin site, set session ID to be the same as the default site
-		if($default_url !== $current_site && self::get('sso_response'))
-		{
-			// Check SSO response
-			$sso_response = Rhymix\Framework\Security::decrypt(self::get('sso_response'));
-			if ($sso_response === false)
-			{
-				self::displayErrorPage('SSO Error', 'Invalid SSO Response', 400);
-				return false;
-			}
-			
-			// Check that the response was given by the default site (to prevent session fixation CSRF)
-			if(isset($_SERVER['HTTP_REFERER']) && strpos($_SERVER['HTTP_REFERER'], $default_url) !== 0)
-			{
-				self::displayErrorPage('SSO Error', 'Invalid SSO Response', 400);
-				return false;
-			}
-
-			// Set session ID
-			setcookie(session_name(), $sso_response);
-
-			// Finally, redirect to the originally requested URL
-			header('Location: ' . Rhymix\Framework\URL::getCurrentURL(array('sso_response' => null)));
-			return false;
-		}
-
-		// If none of the conditions above apply, proceed normally
-		return TRUE;
+		return !Rhymix\Framework\Session::checkSSO();
 	}
 
 	/**

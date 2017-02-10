@@ -101,7 +101,9 @@ class memberController extends member
 		if(!$trigger_output->toBool()) return $trigger_output;
 		
 		// Destroy session information
+		Rhymix\Framework\Session::logout();
 		$this->destroySessionInfo();
+		$this->_clearMemberCache($logged_info->member_srl);
 		
 		// Call a trigger after log-out (after)
 		ModuleHandler::triggerCall('member.doLogout', 'after', $logged_info);
@@ -111,9 +113,9 @@ class memberController extends member
 		$oModuleModel = getModel('module');
 		$config = $oModuleModel->getModuleConfig('member');
 		if($config->after_logout_url)
+		{
 			$output->redirect_url = $config->after_logout_url;
-
-		$this->_clearMemberCache($logged_info->member_srl);
+		}
 
 		return $output;
 	}
@@ -201,6 +203,52 @@ class memberController extends member
 		// Variables
 		$oDocumentController = getController('document');
 		$oDocumentController->deleteDocument($document_srl, true);
+	}
+	
+	/**
+	 * Delete an autologin
+	 */
+	function procMemberDeleteAutologin()
+	{
+		// Check login information
+		if(!Context::get('is_logged')) return new Object(-1, 'msg_not_logged');
+		$logged_info = Context::get('logged_info');
+		
+		$autologin_id = intval(Context::get('autologin_id'));
+		$autologin_key = Context::get('autologin_key');
+		if (!$autologin_id || !$autologin_key)
+		{
+			return new Object(-1, 'msg_invalid_request');
+		}
+		
+		$args = new stdClass;
+		$args->autologin_id = $autologin_id;
+		$args->autologin_key = $autologin_key;
+		$output = executeQueryArray('member.getAutologin', $args);
+		if ($output->toBool() && $output->data)
+		{
+			$autologin_info = array_first($output->data);
+			if ($autologin_info->member_srl == $logged_info->member_srl)
+			{
+				$output = executeQuery('member.deleteAutologin', $args);
+				if ($output->toBool())
+				{
+					$this->add('deleted', 'Y');
+				}
+				else
+				{
+					$this->add('deleted', 'N');
+				}
+			}
+			else
+			{
+				$this->add('deleted', 'N');
+			}
+		}
+		else
+		{
+			$this->add('deleted', 'N');
+		}
 	}
 
 	/**
@@ -687,6 +735,14 @@ class memberController extends member
 		$args->password = $password;
 		$output = $this->updateMemberPassword($args);
 		if(!$output->toBool()) return $output;
+		
+		// Log out all other sessions.
+		$oModuleModel = getModel('module');
+		$member_config = $oModuleModel->getModuleConfig('member');
+		if ($member_config->password_change_invalidate_other_sessions === 'Y')
+		{
+			Rhymix\Framework\Session::destroyOtherSessions($member_srl);
+		}
 
 		$this->add('member_srl', $args->member_srl);
 		$this->setMessage('success_updated');
@@ -723,7 +779,8 @@ class memberController extends member
 		$output = $this->deleteMember($member_srl);
 		if(!$output->toBool()) return $output;
 		// Destroy all session information
-		$this->destroySessionInfo();
+		executeQuery('member.deleteAutologin', (object)array('member_srl' => $member_srl));
+		Rhymix\Framework\Session::logout();
 		// Return success message
 		$this->setMessage('success_leaved');
 
@@ -1621,82 +1678,56 @@ class memberController extends member
 	/**
 	 * Auto-login
 	 *
-	 * @return void
+	 * @param string $autologin_key
+	 * @return int|false
 	 */
-	function doAutologin()
+	function doAutologin($autologin_key = null)
 	{
-		// Get a key value of auto log-in
-		$args = new stdClass;
-		$args->autologin_key = $_COOKIE['xeak'];
-		// Get information of the key
-		$output = executeQuery('member.getAutologin', $args);
-		// If no information exists, delete a cookie
-		if(!$output->toBool() || !$output->data)
+		// Validate the key.
+		if (strlen($autologin_key) == 48)
 		{
-			setCookie('xeak',null,$_SERVER['REQUEST_TIME']+60*60*24*365, '/');
-			return;
-		}
-
-		$oMemberModel = getModel('member');
-		$config = $oMemberModel->getMemberConfig();
-
-		$user_id = ($config->identifier == 'user_id') ? $output->data->user_id : $output->data->email_address;
-		$password = $output->data->password;
-
-		if(!$user_id || !$password)
-		{
-			setCookie('xeak',null,$_SERVER['REQUEST_TIME']+60*60*24*365, '/');
-			return;
-		}
-
-		$do_auto_login = false;
-
-		// Compare key values based on the information
-		$check_key = strtolower($user_id).$password.$_SERVER['HTTP_USER_AGENT'];
-		$check_key = substr(hash_hmac('sha256', $check_key, substr($args->autologin_key, 0, 32)), 0, 32);
-
-		if($check_key === substr($args->autologin_key, 32))
-		{
-			// Check change_password_date
-			$oModuleModel = getModel('module');
-			$member_config = $oModuleModel->getModuleConfig('member');
-			$limit_date = $member_config->change_password_date;
-
-			// Check if change_password_date is set
-			if($limit_date > 0)
-			{
-				$oMemberModel = getModel('member');
-				$columnList = array('member_srl', 'change_password_date');
-
-				if($config->identifier == 'user_id')
-				{
-					$member_info = $oMemberModel->getMemberInfoByUserID($user_id, $columnList);
-				}
-				else
-				{
-					$member_info = $oMemberModel->getMemberInfoByEmailAddress($user_id, $columnList);
-				}
-
-				if($member_info->change_password_date >= date('YmdHis', strtotime('-'.$limit_date.' day')) ){
-					$do_auto_login = true;
-				}
-
-			}
-			else
-			{
-				$do_auto_login = true;
-			}
-		}
-
-		if($do_auto_login)
-		{
-			$output = $this->doLogin($user_id);
+			$security_key = substr($autologin_key, 24, 24);
+			$autologin_key = substr($autologin_key, 0, 24);
 		}
 		else
 		{
-			executeQuery('member.deleteAutologin', $args);
-			setCookie('xeak',null,$_SERVER['REQUEST_TIME']+60*60*24*365, '/');
+			return false;
 		}
+		
+		// Fetch autologin information from DB.
+		$args = new stdClass;
+		$args->autologin_key = $autologin_key;
+		$output = executeQuery('member.getAutologin', $args);
+		if (!$output->toBool() || !$output->data)
+		{
+			return false;
+		}
+		if (is_array($output->data))
+		{
+			$output->data = array_first($output->data);
+		}
+		
+		// Check the security key.
+		if ($output->data->security_key !== $security_key || !$output->data->member_srl)
+		{
+			$args = new stdClass;
+			$args->autologin_key = $autologin_key;
+			executeQuery('member.deleteAutologin', $args);
+			return false;
+		}
+		
+		// Update the security key.
+		$new_security_key = Rhymix\Framework\Security::getRandom(24, 'alnum');
+		$args = new stdClass;
+		$args->security_key = $new_security_key;
+		$update_output = executeQuery('member.updateAutologin', $args);
+		if ($update_output->toBool())
+		{
+			Rhymix\Framework\Session::setAutologinKeys($autologin_key, $new_security_key);
+		}
+		
+		// Return the member_srl.
+		return intval($output->data->member_srl);
 	}
 
 	/**
@@ -1858,19 +1889,21 @@ class memberController extends member
 		// When user checked to use auto-login
 		if($keep_signed)
 		{
-			// Key generate for auto login
-			$random_key = Rhymix\Framework\Security::getRandom(32, 'hex');
-			$extra_key = strtolower($user_id).$this->memberInfo->password.$_SERVER['HTTP_USER_AGENT'];
-			$extra_key = substr(hash_hmac('sha256', $extra_key, $random_key), 0, 32);
+			$random_key = Rhymix\Framework\Security::getRandom(48, 'alnum');
 			$autologin_args = new stdClass;
-			$autologin_args->autologin_key = $random_key.$extra_key;
+			$autologin_args->autologin_key = substr($random_key, 0, 24);
+			$autologin_args->security_key = substr($random_key, 24, 24);
 			$autologin_args->member_srl = $this->memberInfo->member_srl;
-			executeQuery('member.deleteAutologin', $autologin_args);
+			$autologin_args->user_agent = json_encode(Rhymix\Framework\UA::getBrowserInfo());
 			$autologin_output = executeQuery('member.insertAutologin', $autologin_args);
-			if($autologin_output->toBool()) setCookie('xeak',$autologin_args->autologin_key, $_SERVER['REQUEST_TIME']+31536000, '/');
+			if ($autologin_output->toBool())
+			{
+				Rhymix\Framework\Session::setAutologinKeys(substr($random_key, 0, 24), substr($random_key, 24, 24));
+			}
 		}
 
 		$this->setSessionInfo();
+		Rhymix\Framework\Session::login($this->memberInfo->member_srl);
 		return $output;
 	}
 
@@ -1881,29 +1914,23 @@ class memberController extends member
 	{
 		$oMemberModel = getModel('member');
 		$config = $oMemberModel->getMemberConfig();
+		
 		// If your information came through the current session information to extract information from the users
-		if(!$this->memberInfo && $_SESSION['member_srl'] && $oMemberModel->isLogged() )
+		if(!$this->memberInfo && Rhymix\Framework\Session::getMemberSrl())
 		{
-			$this->memberInfo = $oMemberModel->getMemberInfoByMemberSrl($_SESSION['member_srl']);
-			// If you do not destroy the session Profile
-			if($this->memberInfo->member_srl != $_SESSION['member_srl'])
-			{
-				$this->destroySessionInfo();
-				return;
-			}
+			$this->memberInfo = Rhymix\Framework\Session::getMemberInfo();
 		}
-		// Stop using the session id is destroyed
-		if($this->memberInfo->denied=='Y')
+		if(!$this->memberInfo->member_srl)
 		{
-			$this->destroySessionInfo();
 			return;
 		}
+		
 		// Log in for treatment sessions set
+		/*
 		$_SESSION['is_logged'] = true;
-		$_SESSION['ipaddress'] = $_SERVER['REMOTE_ADDR'];
-		$_SESSION['member_srl'] = $this->memberInfo->member_srl;
+		$_SESSION['member_srl'] = $_SESSION['RHYMIX']['login'] = $this->memberInfo->member_srl;
 		$_SESSION['is_admin'] = '';
-		setcookie('xe_logged', 'true', 0, '/');
+		*/
 		// Do not save your password in the session jiwojum;;
 		//unset($this->memberInfo->password);
 		// User Group Settings
@@ -1927,6 +1954,7 @@ class memberController extends member
 		$this->addMemberMenu( 'dispMemberScrappedDocument', 'cmd_view_scrapped_document');
 		$this->addMemberMenu( 'dispMemberSavedDocument', 'cmd_view_saved_document');
 		$this->addMemberMenu( 'dispMemberOwnDocument', 'cmd_view_own_document');
+		$this->addMemberMenu( 'dispMemberActiveLogins', 'cmd_view_active_logins');
 		if($config->update_nickname_log == 'Y')
 		{
 			$this->addMemberMenu( 'dispMemberModifyNicknameLog', 'cmd_modify_nickname_log');
@@ -2618,19 +2646,11 @@ class memberController extends member
 			$_SESSION[$key] = '';
 		}
 
-		session_destroy();
+		Rhymix\Framework\Session::destroy();
 		setcookie(session_name(), '', $_SERVER['REQUEST_TIME']-42000, '/');
 		setcookie('sso','',$_SERVER['REQUEST_TIME']-42000, '/');
 		setcookie('xeak','',$_SERVER['REQUEST_TIME']-42000, '/');
 		setcookie('xe_logged', 'false', $_SERVER['REQUEST_TIME'] - 42000, '/');
-
-		if($memberSrl || $_COOKIE['xeak'])
-		{
-			$args = new stdClass();
-			$args->member_srl = $memberSrl;
-			$args->autologin_key = $_COOKIE['xeak'];
-			$output = executeQuery('member.deleteAutologin', $args);
-		}
 	}
 
 	function _updatePointByGroup($memberSrl, $groupSrlList)
