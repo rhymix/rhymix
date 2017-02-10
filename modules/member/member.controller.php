@@ -1920,6 +1920,10 @@ class memberController extends member
 		{
 			$this->memberInfo = Rhymix\Framework\Session::getMemberInfo();
 		}
+		if(!$this->memberInfo->member_srl)
+		{
+			return;
+		}
 		
 		// Log in for treatment sessions set
 		/*
