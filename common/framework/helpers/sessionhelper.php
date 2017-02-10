@@ -46,7 +46,7 @@ class SessionHelper
 	 * 
 	 * @return bool
 	 */
-	public static function isMember()
+	public function isMember()
 	{
 		return $this->member_srl > 0;
 	}
@@ -56,7 +56,7 @@ class SessionHelper
 	 * 
 	 * @return bool
 	 */
-	public static function isAdmin()
+	public function isAdmin()
 	{
 		return $this->is_admin === 'Y';
 	}
@@ -67,7 +67,7 @@ class SessionHelper
 	 * @param int $module_srl (optional)
 	 * @return bool
 	 */
-	public static function isModuleAdmin($module_srl = null)
+	public function isModuleAdmin($module_srl = null)
 	{
 		return $this->is_admin === 'Y' || getModel('module')->isModuleAdmin($this, $module_srl);
 	}
@@ -77,7 +77,7 @@ class SessionHelper
 	 * 
 	 * @return bool
 	 */
-	public static function isValid()
+	public function isValid()
 	{
 		if ($this->denied === 'N' && (!$this->limit_date || substr($this->limit_date, 0, 8) < date('Ymd')))
 		{
@@ -94,7 +94,7 @@ class SessionHelper
 	 * 
 	 * @return array
 	 */
-	public static function getGroups()
+	public function getGroups()
 	{
 		return $this->group_list;
 	}
