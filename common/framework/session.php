@@ -447,11 +447,13 @@ class Session
 	 */
 	public static function destroy()
 	{
-		unset($_SESSION['RHYMIX']);
+		$_SESSION = array();
 		self::$_started = false;
+		self::$_autologin_key = false;
 		self::$_member_info = false;
 		self::_setKeys();
 		self::destroyAutologinKeys();
+		@session_write_close();
 		@session_destroy();
 		return true;
 	}

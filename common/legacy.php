@@ -191,6 +191,7 @@ function setUserSequence($seq)
 	{
 		$_SESSION['seq'] = array();
 	}
+	debugPrint($_SESSION['seq']);
 	$_SESSION['seq'][] = $seq;
 }
 
