@@ -105,10 +105,16 @@ class URLTest extends \Codeception\TestCase\Test
 	public function testEncodeIdna()
 	{
 		$this->assertEquals('xn--9i1bl3b186bf9e.xn--3e0b707e', Rhymix\Framework\URL::encodeIdna('퓨니코드.한국'));
+		$this->assertEquals('http://xn--9i1bl3b186bf9e.xn--3e0b707e', Rhymix\Framework\URL::encodeIdna('http://퓨니코드.한국'));
+		$this->assertEquals('//xn--9i1bl3b186bf9e.xn--3e0b707e#한글부분', Rhymix\Framework\URL::encodeIdna('//퓨니코드.한국#한글부분'));
+		$this->assertEquals('https://xn--9i1bl3b186bf9e.xn--3e0b707e/hello/world/라이믹스.php?i=4', Rhymix\Framework\URL::encodeIdna('https://퓨니코드.한국/hello/world/라이믹스.php?i=4'));
 	}
 	
 	public function testDecodeIdna()
 	{
 		$this->assertEquals('퓨니코드.한국', Rhymix\Framework\URL::decodeIdna('xn--9i1bl3b186bf9e.xn--3e0b707e'));
+		$this->assertEquals('http://퓨니코드.한국', Rhymix\Framework\URL::decodeIdna('http://xn--9i1bl3b186bf9e.xn--3e0b707e'));
+		$this->assertEquals('//퓨니코드.한국#한글부분', Rhymix\Framework\URL::decodeIdna('//xn--9i1bl3b186bf9e.xn--3e0b707e#한글부분'));
+		$this->assertEquals('https://퓨니코드.한국/hello/world/라이믹스.php?i=4', Rhymix\Framework\URL::decodeIdna('https://xn--9i1bl3b186bf9e.xn--3e0b707e/hello/world/라이믹스.php?i=4'));
 	}
 }

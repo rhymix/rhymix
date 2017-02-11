@@ -183,38 +183,72 @@ class URL
 	/**
 	 * Encode UTF-8 domain into IDNA (punycode)
 	 * 
-	 * @param string $domain
+	 * @param string $url
 	 * @return string
 	 */
-	public static function encodeIdna($domain)
+	public static function encodeIdna($url)
 	{
+		if (preg_match('@[:/#]@', $url))
+		{
+			$domain = parse_url($url, \PHP_URL_HOST);
+			$position = strpos($url, $domain);
+			if ($position === false)
+			{
+				return $url;
+			}
+		}
+		else
+		{
+			$domain = $url;
+			$position = 0;
+		}
+		
 		if (function_exists('idn_to_ascii'))
 		{
-			return idn_to_ascii($domain);
+			$new_domain = idn_to_ascii($domain);
 		}
 		else
 		{
 			$encoder = new \TrueBV\Punycode();
-			return $encoder->encode($domain);
+			$new_domain = $encoder->encode($domain);
 		}
+		
+		return substr_replace($url, $new_domain, $position, strlen($domain));
 	}
 
 	/**
 	 * Convert IDNA (punycode) domain into UTF-8
 	 * 
-	 * @param string $domain
+	 * @param string $url
 	 * @return string
 	 */
-	public static function decodeIdna($domain)
+	public static function decodeIdna($url)
 	{
+		if (preg_match('@[:/#]@', $url))
+		{
+			$domain = parse_url($url, \PHP_URL_HOST);
+			$position = strpos($url, $domain);
+			if ($position === false)
+			{
+				return $url;
+			}
+		}
+		else
+		{
+			$domain = $url;
+			$position = 0;
+		}
+		
 		if (function_exists('idn_to_utf8'))
 		{
-			return idn_to_utf8($domain);
+			$new_domain = idn_to_utf8($domain);
 		}
 		else
 		{
 			$decoder = new \TrueBV\Punycode();
-			return $decoder->decode($domain);
+			$new_domain = $decoder->decode($domain);
 		}
+		
+		return substr_replace($url, $new_domain, $position, strlen($domain));
 	}
 }
