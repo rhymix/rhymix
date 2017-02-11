@@ -1665,6 +1665,7 @@ class Context
 					'vid' => $vid,
 					'mid' => $mid,
 					'mid.vid' => "$vid/$mid",
+					'category.mid' => "$mid/category/" . $get_vars['category'],
 					'entry.mid' => "$mid/entry/" . $get_vars['entry'],
 					'entry.mid.vid' => "$vid/$mid/entry/" . $get_vars['entry'],
 					'document_srl' => $srl,
