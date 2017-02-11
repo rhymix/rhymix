@@ -135,6 +135,16 @@ class memberAdminView extends member
 		$this->setTemplateFile('default_config');
 	}
 
+	/**
+	 * Set the features config.
+	 *
+	 * @return void
+	 */
+	public function dispMemberAdminFeaturesConfig()
+	{
+		$this->setTemplateFile('features_config');
+	}
+
 	public function dispMemberAdminSignUpConfig()
 	{
 		$config = $this->memberConfig;

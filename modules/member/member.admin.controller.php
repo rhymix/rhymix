@@ -205,6 +205,33 @@ class memberAdminController extends member
 		$this->setRedirectUrl($returnUrl);
 	}
 
+	public function procMemberAdminInsertFeaturesConfig()
+	{
+		$config = getModel('member')->getMemberConfig();
+		$config->features = array();
+		
+		$args = Context::gets(
+			'scrapped_documents',
+			'saved_documents',
+			'my_documents',
+			'my_comments',
+			'active_logins'
+		);
+		foreach ($args as $key => $value)
+		{
+			$config->features[$key] = toBool($value);
+		}
+		
+		$oModuleController = getController('module');
+		$output = $oModuleController->updateModuleConfig('member', $config);
+
+		// default setting end
+		$this->setMessage('success_updated');
+
+		$returnUrl = Context::get('success_return_url') ? Context::get('success_return_url') : getNotEncodedUrl('', 'module', 'admin', 'act', 'dispMemberAdminFeaturesConfig');
+		$this->setRedirectUrl($returnUrl);
+	}
+	
 	public function procMemberAdminInsertSignupConfig()
 	{
 		$oMemberModel = getModel('member');

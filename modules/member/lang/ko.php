@@ -1,6 +1,8 @@
 <?php
 $lang->member = '회원';
 $lang->site = '사이트';
+$lang->member_default_config = '기본 설정';
+$lang->member_features_config = '기능 설정';
 $lang->member_default_info = '기본 정보';
 $lang->member_extend_info = '추가 정보';
 $lang->default_group_1 = '준회원';
@@ -109,6 +111,7 @@ $lang->cmd_manage_email_host = '이메일 제공자 관리';
 $lang->cmd_manage_nick_name = '금지 닉네임 관리';
 $lang->cmd_manage_form = '가입 폼 관리';
 $lang->cmd_view_own_document = '작성 글 보기';
+$lang->cmd_view_own_comment = '작성 댓글 보기';
 $lang->cmd_view_active_logins = '로그인 관리';
 $lang->cmd_manage_member_info = '회원 정보 관리';
 $lang->cmd_trace_document = '작성글 추적';

@@ -381,6 +381,33 @@ class memberView extends member
 	}
 
 	/**
+	 * @brief Display comments written by the member
+	 */
+	function dispMemberOwnComment()
+	{
+		$oMemberModel = getModel('member');
+		// A message appears if the user is not logged-in
+		if(!$oMemberModel->isLogged()) return $this->stop('msg_not_logged');
+
+		$logged_info = Context::get('logged_info');
+		$member_srl = $logged_info->member_srl;
+
+		$module_srl = Context::get('module_srl');
+		Context::set('module_srl',Context::get('selected_module_srl'));
+		Context::set('search_target','member_srl');
+		Context::set('search_keyword',$member_srl);
+
+		$oCommentAdminView = getAdminView('comment');
+		$oCommentAdminView->dispCommentAdminList();
+
+		$oSecurity = new Security();
+		$oSecurity->encodeHTML('search_target', 'search_keyword');
+
+		Context::set('module_srl', $module_srl);
+		$this->setTemplateFile('comment_list');
+	}
+
+	/**
 	 * @brief Display documents scrapped by the member
 	 */
 	function dispMemberScrappedDocument()

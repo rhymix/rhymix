@@ -1,6 +1,8 @@
 <?php
 $lang->member = 'Member';
 $lang->site = 'Site';
+$lang->member_default_config = 'Basic Settings';
+$lang->member_features_config = 'Features';
 $lang->member_default_info = 'Basic Info';
 $lang->member_extend_info = 'Additional Info';
 $lang->default_group_1 = 'Associate Member';
@@ -106,7 +108,8 @@ $lang->cmd_manage_id = 'Prohibited IDs';
 $lang->cmd_manage_email_host = 'E-mail provider check';
 $lang->cmd_manage_nick_name = 'Prohibited NickNames';
 $lang->cmd_manage_form = 'Signup Form';
-$lang->cmd_view_own_document = 'Written Articles';
+$lang->cmd_view_own_document = 'My Articles';
+$lang->cmd_view_own_comment = 'My Comments';
 $lang->cmd_view_active_logins = 'Active Logins';
 $lang->cmd_manage_member_info = 'Manage Member Info';
 $lang->cmd_trace_document = 'Trace Written Articles';
