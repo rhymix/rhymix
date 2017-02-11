@@ -5,6 +5,9 @@ php:
 - 7.0
 - 7.1
 - hhvm
+matrix:
+  allow_failures:
+  - php: hhvm
 sudo: false
 before_script:
 - npm install grunt grunt-cli grunt-contrib-jshint grunt-contrib-csslint grunt-phplint --save-dev
