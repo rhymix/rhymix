@@ -27,6 +27,7 @@
 
 		<action name="dispMemberAdminList" type="view" index="true" admin_index="true" menu_name="userList" menu_index="true"/>
 		<action name="dispMemberAdminConfig" type="view" menu_name="userSetting" menu_index="true" />
+		<action name="dispMemberAdminFeaturesConfig" type="view" menu_name="userSetting" />
 		<action name="dispMemberAdminSignUpConfig" type="view" menu_name="userSetting" />
 		<action name="dispMemberAdminLoginConfig" type="view" menu_name="userSetting" />
 		<action name="dispMemberAdminDesignConfig" type="view" menu_name="userSetting" />
@@ -77,6 +78,7 @@
 		<action name="procMemberAdminInsert" type="controller" ruleset="insertAdminMember" />
 		<action name="procMemberAdminDelete" type="controller" />
 		<action name="procMemberAdminInsertDefaultConfig" type="controller" ruleset="insertDefaultConfig" />
+		<action name="procMemberAdminInsertFeaturesConfig" type="controller" />
 		<action name="procMemberAdminInsertSignupConfig" type="controller" />
 		<action name="procMemberAdminInsertLoginConfig" type="controller" />
 		<action name="procMemberAdminInsertDesignConfig" type="controller" />

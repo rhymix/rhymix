@@ -1912,9 +1912,6 @@ class memberController extends member
 	 */
 	function setSessionInfo()
 	{
-		$oMemberModel = getModel('member');
-		$config = $oMemberModel->getMemberConfig();
-		
 		// If your information came through the current session information to extract information from the users
 		if(!$this->memberInfo && Rhymix\Framework\Session::getMemberSrl())
 		{
@@ -1950,13 +1947,29 @@ class memberController extends member
 		Context::set('logged_info', $this->memberInfo);
 
 		// Only the menu configuration of the user (such as an add-on to the menu can be changed)
+		$config = getModel('member')->getMemberConfig();
 		$this->addMemberMenu( 'dispMemberInfo', 'cmd_view_member_info');
-		$this->addMemberMenu( 'dispMemberScrappedDocument', 'cmd_view_scrapped_document');
-		$this->addMemberMenu( 'dispMemberSavedDocument', 'cmd_view_saved_document');
-		$this->addMemberMenu( 'dispMemberOwnDocument', 'cmd_view_own_document');
-		$this->addMemberMenu( 'dispMemberOwnComment', 'cmd_view_own_comment');
-		$this->addMemberMenu( 'dispMemberActiveLogins', 'cmd_view_active_logins');
-		if($config->update_nickname_log == 'Y')
+		if ($config->features['scrapped_documents'] !== false)
+		{
+			$this->addMemberMenu( 'dispMemberScrappedDocument', 'cmd_view_scrapped_document');
+		}
+		if ($config->features['saved_documents'] !== false)
+		{
+			$this->addMemberMenu( 'dispMemberSavedDocument', 'cmd_view_saved_document');
+		}
+		if ($config->features['my_documents'] !== false)
+		{
+			$this->addMemberMenu( 'dispMemberOwnDocument', 'cmd_view_own_document');
+		}
+		if ($config->features['my_comments'] !== false)
+		{
+			$this->addMemberMenu( 'dispMemberOwnComment', 'cmd_view_own_comment');
+		}
+		if ($config->features['active_logins'] !== false)
+		{
+			$this->addMemberMenu( 'dispMemberActiveLogins', 'cmd_view_active_logins');
+		}
+		if ($config->features['nickname_log'] !== false && $config->update_nickname_log == 'Y')
 		{
 			$this->addMemberMenu( 'dispMemberModifyNicknameLog', 'cmd_modify_nickname_log');
 		}

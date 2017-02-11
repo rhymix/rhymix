@@ -1,6 +1,8 @@
 <?php
 $lang->member = '회원';
 $lang->site = '사이트';
+$lang->member_default_config = '기본 설정';
+$lang->member_features_config = '기능 설정';
 $lang->member_default_info = '기본 정보';
 $lang->member_extend_info = '추가 정보';
 $lang->default_group_1 = '준회원';

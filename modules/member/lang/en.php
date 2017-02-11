@@ -1,6 +1,8 @@
 <?php
 $lang->member = 'Member';
 $lang->site = 'Site';
+$lang->member_default_config = 'Basic Settings';
+$lang->member_features_config = 'Features';
 $lang->member_default_info = 'Basic Info';
 $lang->member_extend_info = 'Additional Info';
 $lang->default_group_1 = 'Associate Member';
