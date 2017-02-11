@@ -102,7 +102,6 @@ class memberController extends member
 		
 		// Destroy session information
 		Rhymix\Framework\Session::logout();
-		$this->destroySessionInfo();
 		$this->_clearMemberCache($logged_info->member_srl);
 		
 		// Call a trigger after log-out (after)
@@ -2650,16 +2649,7 @@ class memberController extends member
 	 */
 	function destroySessionInfo()
 	{
-		if (!Rhymix\Framework\Session::isStarted())
-		{
-			return;
-		}
-
 		Rhymix\Framework\Session::destroy();
-		setcookie(session_name(), '', $_SERVER['REQUEST_TIME']-42000, '/');
-		setcookie('sso','',$_SERVER['REQUEST_TIME']-42000, '/');
-		setcookie('xeak','',$_SERVER['REQUEST_TIME']-42000, '/');
-		setcookie('xe_logged', 'false', $_SERVER['REQUEST_TIME'] - 42000, '/');
 	}
 
 	function _updatePointByGroup($memberSrl, $groupSrlList)

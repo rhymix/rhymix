@@ -457,15 +457,38 @@ class Session
 	 */
 	public static function destroy()
 	{
+		// Get session parameters.
+		list($lifetime, $refresh_interval, $domain, $path) = self::_getParams();
+		
+		// Delete all cookies.
+		self::_setKeys();
+		self::destroyAutologinKeys();
+		setcookie(session_name(), 'deleted', time() - 86400, $path, $domain, false, false);
+		setcookie('xe_logged', 'deleted', time() - 86400, $path, $domain, false, false);
+		setcookie('xeak', 'deleted', time() - 86400, $path, $domain, false, false);
+		setcookie('sso', 'deleted', time() - 86400, $path, $domain, false, false);
+		unset($_COOKIE[session_name()]);
+		unset($_COOKIE['rx_autologin']);
+		unset($_COOKIE['rx_sesskey1']);
+		unset($_COOKIE['rx_sesskey2']);
+		unset($_COOKIE['xe_logged']);
+		unset($_COOKIE['xeak']);
+		unset($_COOKIE['sso']);
+		
+		// Clear session data.
 		$_SESSION = array();
+		
+		// Close and delete the session.
+		@session_write_close();
+		$result = @session_destroy();
+		
+		// Clear local state.
 		self::$_started = false;
 		self::$_autologin_key = false;
 		self::$_member_info = false;
-		self::_setKeys();
-		self::destroyAutologinKeys();
-		@session_write_close();
-		@session_destroy();
-		return true;
+		$_SESSION = array();
+		
+		return $result;
 	}
 	
 	/**
@@ -951,6 +974,10 @@ class Session
 	 */
 	public static function destroyAutologinKeys()
 	{
+		// Get session parameters.
+		list($lifetime, $refresh_interval, $domain, $path) = self::_getParams();
+		
+		// Delete the autologin keys from the database.
 		if (self::$_autologin_key)
 		{
 			executeQuery('member.deleteAutologin', (object)array('autologin_key' => substr(self::$_autologin_key, 0, 24)));
@@ -962,7 +989,8 @@ class Session
 			$result = false;
 		}
 		
-		setcookie('rx_autologin', 'deleted', time() - 86400, $path, $domain, false, true);
+		// Delete the autologin cookie.
+		setcookie('rx_autologin', 'deleted', time() - 86400, $path, $domain, false, false);
 		unset($_COOKIE['rx_autologin']);
 		return $result;
 	}
