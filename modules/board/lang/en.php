@@ -2,6 +2,7 @@
 $lang->board = 'Board';
 $lang->except_notice = 'Exclude Notices';
 $lang->use_anonymous = 'Use Anonymous';
+$lang->anonymous_name = 'Display anonymous user as';
 $lang->cmd_manage_menu = 'Manage Menus';
 $lang->list_target_item = 'Target Item';
 $lang->list_display_item = 'Display Item';
@@ -42,6 +43,8 @@ $lang->about_hide_category = 'You can disable a category feature.';
 $lang->protect_content = 'Protect Content';
 $lang->protect_comment = 'Protect Comment';
 $lang->protect_regdate = 'Update/Delete Time Limit';
+$lang->non_login_vote = 'Allow guest votes';
+$lang->about_non_login_vote = 'Allow users who are not logged in to vote on articles.';
 $lang->about_protect_regdate = 'Prevent updating or deleting a document or comment after a certain amount of time has passed. (Unit: day)';
 $lang->about_protect_content = 'Prevent updating a document if there are comments on it.';
 $lang->msg_protect_delete_content = 'You cannot delete a document with comments on it.';
