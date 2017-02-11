@@ -187,11 +187,12 @@ function getNextSequence()
  */
 function setUserSequence($seq)
 {
-	if(!isset($_SESSION['seq']))
+	if (!isset($_SESSION['seq']) || !is_array($_SESSION['seq']))
 	{
 		$_SESSION['seq'] = array();
 	}
-	$_SESSION['seq'][] = $seq;
+	$seq = intval($seq);
+	$_SESSION['seq'][$seq] = $seq;
 }
 
 /**
@@ -202,6 +203,7 @@ function setUserSequence($seq)
  */
 function checkUserSequence($seq)
 {
+	$seq = intval($seq);
 	return isset($_SESSION['seq']) && in_array($seq, $_SESSION['seq']);
 }
 

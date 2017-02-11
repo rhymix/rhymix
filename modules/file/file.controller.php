@@ -699,6 +699,10 @@ class fileController extends file
 	 */
 	function setUploadInfo($editor_sequence, $upload_target_srl=0)
 	{
+		if(!isset($_SESSION['upload_info']) || !is_array($_SESSION['upload_info']))
+		{
+			$_SESSION['upload_info'] = array();
+		}
 		if(!isset($_SESSION['upload_info'][$editor_sequence]))
 		{
 			$_SESSION['upload_info'][$editor_sequence] = new stdClass();

@@ -183,8 +183,8 @@ class SessionTest extends \Codeception\TestCase\Test
 		
 		Rhymix\Framework\Session::logout();
 		$this->assertFalse(isset($_SESSION['RHYMIX']['login']));
-		$this->assertFalse($_SESSION['member_srl']);
-		$this->assertFalse($_SESSION['is_logged']);
+		$this->assertFalse(isset($_SESSION['member_srl']));
+		$this->assertFalse(isset($_SESSION['is_logged']));
 		
 		Rhymix\Framework\Session::close();
 	}

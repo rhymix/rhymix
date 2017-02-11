@@ -2637,14 +2637,9 @@ class memberController extends member
 	 */
 	function destroySessionInfo()
 	{
-		if(!$_SESSION || !is_array($_SESSION)) return;
-
-		$memberInfo = Context::get('logged_info');
-		$memberSrl = $memberInfo->member_srl;
-
-		foreach($_SESSION as $key => $val)
+		if (!Rhymix\Framework\Session::isStarted())
 		{
-			$_SESSION[$key] = '';
+			return;
 		}
 
 		Rhymix\Framework\Session::destroy();
