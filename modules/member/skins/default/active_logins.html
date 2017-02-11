@@ -20,7 +20,7 @@
 			</td>
 			<td>{zdate($autologin_info->regdate, 'Y-m-d H:i')}<br />{$autologin_info->ipaddress}</td>
 			<td>{zdate($autologin_info->last_visit, 'Y-m-d H:i')}<br />{$autologin_info->last_ipaddress}</td>
-			<td><button class="delele_autologin" data-autologin-id="{$autologin_info->id}" data-autologin-key="{$autologin_info->autologin_key}">{$lang->cmd_delete}</button></td>
+			<td><button class="delete_autologin" data-autologin-id="{$autologin_info->id}" data-autologin-key="{$autologin_info->autologin_key}">{$lang->cmd_delete}</button></td>
 		</tr>
 	</tbody>
 </table>
@@ -35,7 +35,7 @@
 </div>
 <script>
 	$(function() {
-		$("button.delele_autologin").on("click", function(event) {
+		$("button.delete_autologin").on("click", function(event) {
 			event.preventDefault();
 			exec_json('member.procMemberDeleteAutologin', { autologin_id: $(this).data("autologin-id"), autologin_key: $(this).data("autologin-key") }, function(data) {
 				window.location.reload();
