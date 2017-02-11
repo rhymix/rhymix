@@ -434,7 +434,17 @@ class Session
 	 */
 	public static function close()
 	{
+		// Restore member_srl from XE-compatible variable if it has changed.
+		if ($_SESSION['RHYMIX'] && $_SESSION['RHYMIX']['login'] !== intval($_SESSION['member_srl']))
+		{
+			$_SESSION['RHYMIX']['login'] = intval($_SESSION['member_srl']);
+			$_SESSION['RHYMIX']['last_login'] = time();
+			$_SESSION['is_logged'] = (bool)$member_srl;
+		}
+		
+		// Close the session and write it to disk.
 		self::$_started = false;
+		self::$_member_info = false;
 		session_write_close();
 	}
 	
