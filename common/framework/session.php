@@ -72,12 +72,12 @@ class Session
 		}
 		
 		// Set session parameters.
-        list($lifetime, $refresh_interval, $domain, $path) = self::_getParams();
-        ini_set('session.gc_maxlifetime', $lifetime + 28800);
-        ini_set('session.use_cookies', 1);
-        ini_set('session.use_only_cookies', 1);
-        ini_set('session.use_strict_mode', 1);
-        session_set_cookie_params($lifetime, $path, $domain, false, false);
+		list($lifetime, $refresh_interval, $domain, $path) = self::_getParams();
+		ini_set('session.gc_maxlifetime', $lifetime + 28800);
+		ini_set('session.use_cookies', 1);
+		ini_set('session.use_only_cookies', 1);
+		ini_set('session.use_strict_mode', 1);
+		session_set_cookie_params($lifetime, $path, $domain, false, false);
 		session_name($session_name = Config::get('session.name') ?: session_name());
 		
 		// Get session ID from POST parameter if using relaxed key checks.
@@ -870,11 +870,11 @@ class Session
 	 */
 	protected static function _getParams()
 	{
-        $lifetime = Config::get('session.lifetime');
+		$lifetime = Config::get('session.lifetime');
 		$refresh = Config::get('session.refresh') ?: 300;
-        $domain = Config::get('session.domain') ?: (ini_get('session.cookie_domain') ?: preg_replace('/:\\d+$/', '', $_SERVER['HTTP_HOST']));
-        $path = Config::get('session.path') ?: ini_get('session.cookie_path');
-        return array($lifetime, $refresh, $domain, $path);
+		$domain = Config::get('session.domain') ?: (ini_get('session.cookie_domain') ?: preg_replace('/:\\d+$/', '', $_SERVER['HTTP_HOST']));
+		$path = Config::get('session.path') ?: ini_get('session.cookie_path');
+		return array($lifetime, $refresh, $domain, $path);
 	}
 	
 	/**
