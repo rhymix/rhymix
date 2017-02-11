@@ -1902,8 +1902,8 @@ class memberController extends member
 			}
 		}
 
-		$this->setSessionInfo();
 		Rhymix\Framework\Session::login($this->memberInfo->member_srl);
+		$this->setSessionInfo();
 		return $output;
 	}
 
