@@ -31,29 +31,48 @@ $(function()
 		});
 	});
 
-	/* detect scrolling up or down to hide or show hamburger menu */
+	/* detect scrolling up or down to hide or show the hamburger menu */
 	var previousScroll = 0;
+	var simpleScrolled = false;
+	var scrollThreshold = 5;
+
+	/* detect window scrolling */
 	$( window ).scroll(function()
 	{
-		var currentScroll = $(this).scrollTop();
+		simpleScrolled = true;
+	});
+
+	/* refresh window scrolling per 250 ms, and show/hide the menu */
+	setInterval(function()
+	{
+		if (simpleScrolled) {
+			display_menu();
+			simpleScrolled = false;
+		}
+	}, 250);
+
+	/* function to show/hide the menu */
+	var display_menu = function()
+	{
+		var currentScroll = $(window).scrollTop();
+
 		if (currentScroll > previousScroll)
 		{
-			if($("#layout_menu_toggle").css( 'position' ) === 'fixed' && $("#layout_menu_toggle").attr('data-scroll-down') !== 'true')
+			if($("#layout_menu_toggle").css( 'position' ) === 'fixed')
 			{
-				$("#layout_menu_toggle").attr('data-scroll-down', 'true');
 				$("#layout_menu_toggle").fadeOut();
 			}
 		}
 		else
 		{
-			if($("#layout_menu_toggle").css( 'position' ) === 'fixed' && $("#layout_menu_toggle").attr('data-scroll-down') === 'true')
+			if($("#layout_menu_toggle").css( 'position' ) === 'fixed')
 			{
-				$("#layout_menu_toggle").attr('data-scroll-down', '');
 				$("#layout_menu_toggle").fadeIn();
+				$("#layout_menu_toggle").css('display', '');
 			}
 		}
 		previousScroll = currentScroll;
-	});
+	}
 
 	/* keyboard accessibility for dropdown menu */
 	$(".layout_dropdown").each(function()
