@@ -67,8 +67,10 @@ $(function()
 		{
 			if($("#layout_menu_toggle").css( 'position' ) === 'fixed')
 			{
-				$("#layout_menu_toggle").fadeIn();
-				$("#layout_menu_toggle").css('display', '');
+				$("#layout_menu_toggle").fadeIn(400, function() {
+					$("#layout_menu_toggle").css('display', '')
+				});
+				;
 			}
 		}
 		previousScroll = currentScroll;
