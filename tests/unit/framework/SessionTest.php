@@ -44,7 +44,7 @@ class SessionTest extends \Codeception\TestCase\Test
 	public function testStart()
 	{
 		// Test normal start.
-		$this->assertTrue(Rhymix\Framework\Session::start());
+		$this->assertTrue(@Rhymix\Framework\Session::start());
 		$this->assertTrue(isset($_COOKIE['rx_sesskey1']));
 		$this->assertTrue(isset($_COOKIE['rx_sesskey2']));
 		$this->assertNotEmpty($_SESSION['RHYMIX']['secret']);
@@ -55,35 +55,35 @@ class SessionTest extends \Codeception\TestCase\Test
 		Rhymix\Framework\Session::close();
 		
 		// Test normal restart.
-		$this->assertTrue(Rhymix\Framework\Session::start());
+		$this->assertTrue(@Rhymix\Framework\Session::start());
 		$this->assertEquals($session_secret, $_SESSION['RHYMIX']['secret']);
 		$session_secret = $_SESSION['RHYMIX']['secret'];
 		Rhymix\Framework\Session::close();
 		
 		// Test missing HTTP key.
 		unset($_COOKIE['rx_sesskey1']);
-		$this->assertTrue(Rhymix\Framework\Session::start());
+		$this->assertTrue(@Rhymix\Framework\Session::start());
 		$this->assertNotEquals($session_secret, $_SESSION['RHYMIX']['secret']);
 		$session_secret = $_SESSION['RHYMIX']['secret'];
 		Rhymix\Framework\Session::close();
 		
 		// Test missing HTTPS key.
 		unset($_COOKIE['rx_sesskey2']);
-		$this->assertTrue(Rhymix\Framework\Session::start());
+		$this->assertTrue(@Rhymix\Framework\Session::start());
 		$this->assertNotEquals($session_secret, $_SESSION['RHYMIX']['secret']);
 		$session_secret = $_SESSION['RHYMIX']['secret'];
 		Rhymix\Framework\Session::close();
 		
 		// Test invalid HTTP key.
 		$_COOKIE['rx_sesskey1'] = substr(md5(mt_rand()), 0, 24);
-		$this->assertTrue(Rhymix\Framework\Session::start());
+		$this->assertTrue(@Rhymix\Framework\Session::start());
 		$this->assertNotEquals($session_secret, $_SESSION['RHYMIX']['secret']);
 		$session_secret = $_SESSION['RHYMIX']['secret'];
 		Rhymix\Framework\Session::close();
 		
 		// Test invalid HTTPS key.
 		$_COOKIE['rx_sesskey2'] = substr(md5(mt_rand()), 0, 24);
-		$this->assertTrue(Rhymix\Framework\Session::start());
+		$this->assertTrue(@Rhymix\Framework\Session::start());
 		$this->assertNotEquals($session_secret, $_SESSION['RHYMIX']['secret']);
 		$session_secret = $_SESSION['RHYMIX']['secret'];
 		Rhymix\Framework\Session::close();
@@ -93,7 +93,7 @@ class SessionTest extends \Codeception\TestCase\Test
 		unset($_SESSION['RHYMIX']['keys']['www.rhymix.org']['key2']);
 		unset($_COOKIE['rx_sesskey2']);
 		session_write_close();
-		$this->assertTrue(Rhymix\Framework\Session::start());
+		$this->assertTrue(@Rhymix\Framework\Session::start());
 		$this->assertEquals($session_secret, $_SESSION['RHYMIX']['secret']);
 		$session_secret = $_SESSION['RHYMIX']['secret'];
 		Rhymix\Framework\Session::close();
@@ -105,13 +105,14 @@ class SessionTest extends \Codeception\TestCase\Test
 		
 		$_SESSION = array();
 		unset($_COOKIE['PHPSESSID']);
-		$this->assertFalse(Rhymix\Framework\Session::start());
+		$this->assertFalse(@Rhymix\Framework\Session::start());
 		$this->assertFalse(Rhymix\Framework\Session::isStarted());
 		$this->assertFalse(Rhymix\Framework\Session::checkStart());
 		$this->assertFalse(Rhymix\Framework\Session::isStarted());
+		Rhymix\Framework\Session::close();
 		
 		$_SESSION['foo'] = 'bar';
-		$this->assertTrue(Rhymix\Framework\Session::checkStart());
+		$this->assertTrue(@Rhymix\Framework\Session::checkStart());
 		$this->assertTrue(Rhymix\Framework\Session::isStarted());
 		$this->assertEquals('bar', $_SESSION['foo']);
 		$this->assertEquals('bar', Rhymix\Framework\Session::get('foo'));
@@ -119,13 +120,13 @@ class SessionTest extends \Codeception\TestCase\Test
 		
 		$_SESSION = array();
 		unset($_COOKIE['PHPSESSID']);
-		$this->assertTrue(Rhymix\Framework\Session::checkStart(true));
+		$this->assertTrue(@Rhymix\Framework\Session::checkStart(true));
 		$this->assertTrue(Rhymix\Framework\Session::isStarted());
 		Rhymix\Framework\Session::close();
 		
 		$_SESSION = array();
 		unset($_COOKIE['PHPSESSID']);
-		$this->assertTrue(Rhymix\Framework\Session::start(true));
+		$this->assertTrue(@Rhymix\Framework\Session::start(true));
 		$this->assertTrue(Rhymix\Framework\Session::isStarted());
 	}
 	
@@ -136,7 +137,7 @@ class SessionTest extends \Codeception\TestCase\Test
 	
 	public function testRefresh()
 	{
-		Rhymix\Framework\Session::start();
+		@Rhymix\Framework\Session::start();
 		$session_secret = $_SESSION['RHYMIX']['secret'];
 		$key1 = $_SESSION['RHYMIX']['keys']['www.rhymix.org']['key1'];
 		$key2 = $_SESSION['RHYMIX']['keys']['www.rhymix.org']['key2'];
@@ -144,7 +145,7 @@ class SessionTest extends \Codeception\TestCase\Test
 		$_SESSION['RHYMIX']['keys']['www.rhymix.org']['key2_time'] = time() - 3600;
 		Rhymix\Framework\Session::close();
 		
-		Rhymix\Framework\Session::start();
+		@Rhymix\Framework\Session::start();
 		$this->assertNotEquals($key1, $_SESSION['RHYMIX']['keys']['www.rhymix.org']['key1']);
 		$this->assertNotEquals($key2, $_SESSION['RHYMIX']['keys']['www.rhymix.org']['key2']);
 		$this->assertEquals($key1, $_SESSION['RHYMIX']['keys']['www.rhymix.org']['key1_prev']);
@@ -155,7 +156,7 @@ class SessionTest extends \Codeception\TestCase\Test
 	
 	public function testClose()
 	{
-		Rhymix\Framework\Session::start();
+		@Rhymix\Framework\Session::start();
 		$this->assertEquals(\PHP_SESSION_ACTIVE, session_status());
 		Rhymix\Framework\Session::close();
 		$this->assertEquals(\PHP_SESSION_NONE, session_status());
@@ -163,7 +164,7 @@ class SessionTest extends \Codeception\TestCase\Test
 	
 	public function testDestroy()
 	{
-		Rhymix\Framework\Session::start();
+		@Rhymix\Framework\Session::start();
 		$this->assertTrue(isset($_SESSION['RHYMIX']));
 		Rhymix\Framework\Session::destroy();
 		$this->assertFalse(isset($_SESSION['RHYMIX']));
@@ -171,7 +172,7 @@ class SessionTest extends \Codeception\TestCase\Test
 	
 	public function testLoginLogout()
 	{
-		Rhymix\Framework\Session::start();
+		@Rhymix\Framework\Session::start();
 		$this->assertFalse($_SESSION['RHYMIX']['login']);
 		$this->assertFalse($_SESSION['member_srl']);
 		$this->assertFalse($_SESSION['is_logged']);
@@ -192,7 +193,7 @@ class SessionTest extends \Codeception\TestCase\Test
 	public function testIsStarted()
 	{
 		$this->assertFalse(Rhymix\Framework\Session::isStarted());
-		Rhymix\Framework\Session::start();
+		@Rhymix\Framework\Session::start();
 		$this->assertTrue(Rhymix\Framework\Session::isStarted());
 		Rhymix\Framework\Session::close();
 		$this->assertFalse(Rhymix\Framework\Session::isStarted());
@@ -200,7 +201,7 @@ class SessionTest extends \Codeception\TestCase\Test
 	
 	public function testIsMember()
 	{
-		Rhymix\Framework\Session::start();
+		@Rhymix\Framework\Session::start();
 		$this->assertFalse(Rhymix\Framework\Session::isMember());
 		
 		Rhymix\Framework\Session::login(42);
@@ -211,7 +212,7 @@ class SessionTest extends \Codeception\TestCase\Test
 	
 	public function testIsAdmin()
 	{
-		Rhymix\Framework\Session::start();
+		@Rhymix\Framework\Session::start();
 		$this->assertFalse(Rhymix\Framework\Session::isAdmin());
 		
 		Rhymix\Framework\Session::login(42);
@@ -228,7 +229,7 @@ class SessionTest extends \Codeception\TestCase\Test
 	
 	public function testIsTrusted()
 	{
-		Rhymix\Framework\Session::start();
+		@Rhymix\Framework\Session::start();
 		
 		$_SESSION['RHYMIX']['keys']['www.rhymix.org']['trusted'] = 0;
 		$this->assertFalse(Rhymix\Framework\Session::isTrusted());
@@ -240,27 +241,24 @@ class SessionTest extends \Codeception\TestCase\Test
 	
 	public function testIsValid()
 	{
-		Rhymix\Framework\Session::start();
+		@Rhymix\Framework\Session::start();
 
 		$member_srl = 4;
-		Rhymix\Framework\Session::login($member_srl);
+		$this->assertTrue(Rhymix\Framework\Session::login($member_srl));
+		$validity_info = Rhymix\Framework\Session::getValidityInfo($member_srl);
+		$this->assertTrue(is_object($validity_info));
+		$this->assertTrue(isset($validity_info->invalid_before));
 		
-		$invalid_before = time() - 300;
-		$filename = \RX_BASEDIR . sprintf('files/member_extra_info/invalid_before/%s%d.txt', getNumberingPath($member_srl), $member_srl);
-		Rhymix\Framework\Storage::write($filename, $invalid_before);
-		Rhymix\Framework\Cache::set(sprintf('session:invalid_before:%d', $member_srl), $invalid_before);
+		$validity_info->invalid_before = time() - 300;
+		$this->assertTrue(Rhymix\Framework\Session::setValidityInfo($member_srl, $validity_info));
 		$this->assertTrue(Rhymix\Framework\Session::isValid());
 		
-		$invalid_before = time() + 300;
-		$filename = \RX_BASEDIR . sprintf('files/member_extra_info/invalid_before/%s%d.txt', getNumberingPath($member_srl), $member_srl);
-		Rhymix\Framework\Storage::write($filename, $invalid_before);
-		Rhymix\Framework\Cache::set(sprintf('session:invalid_before:%d', $member_srl), $invalid_before);
-		$this->assertFalse(Rhymix\Framework\Session::isValid());
+		$validity_info->invalid_before = time() + 300;
+		$this->assertTrue(Rhymix\Framework\Session::setValidityInfo($member_srl, $validity_info));
+		$this->assertFalse(@Rhymix\Framework\Session::isValid());
 		
-		$invalid_before = time();
-		$filename = \RX_BASEDIR . sprintf('files/member_extra_info/invalid_before/%s%d.txt', getNumberingPath($member_srl), $member_srl);
-		Rhymix\Framework\Storage::write($filename, $invalid_before);
-		Rhymix\Framework\Cache::set(sprintf('session:invalid_before:%d', $member_srl), $invalid_before);
+		$validity_info->invalid_before = time();
+		$this->assertTrue(Rhymix\Framework\Session::setValidityInfo($member_srl, $validity_info));
 		$this->assertTrue(Rhymix\Framework\Session::isValid());
 		
 		Rhymix\Framework\Session::close();
@@ -268,7 +266,7 @@ class SessionTest extends \Codeception\TestCase\Test
 	
 	public function testGetMemberSrl()
 	{
-		Rhymix\Framework\Session::start();
+		@Rhymix\Framework\Session::start();
 		$this->assertEquals(false, Rhymix\Framework\Session::getMemberSrl());
 		
 		Rhymix\Framework\Session::login(42);
@@ -279,7 +277,7 @@ class SessionTest extends \Codeception\TestCase\Test
 	
 	public function testGetMemberInfo()
 	{
-		Rhymix\Framework\Session::start();
+		@Rhymix\Framework\Session::start();
 		$this->assertEquals(false, Rhymix\Framework\Session::getMemberInfo());
 		
 		Rhymix\Framework\Session::login(42);
@@ -296,7 +294,7 @@ class SessionTest extends \Codeception\TestCase\Test
 	
 	public function testGetSetLanguage()
 	{
-		Rhymix\Framework\Session::start();
+		@Rhymix\Framework\Session::start();
 		$this->assertEquals(\Context::getLangType(), Rhymix\Framework\Session::getLanguage());
 		
 		Rhymix\Framework\Session::setLanguage('ja');
@@ -307,7 +305,7 @@ class SessionTest extends \Codeception\TestCase\Test
 	
 	public function testGetSetTimezone()
 	{
-		Rhymix\Framework\Session::start();
+		@Rhymix\Framework\Session::start();
 		$this->assertEquals(config('locale.default_timezone'), Rhymix\Framework\Session::getTimezone());
 		
 		Rhymix\Framework\Session::setTimezone('Asia/Beijing');
@@ -318,7 +316,7 @@ class SessionTest extends \Codeception\TestCase\Test
 	
 	public function testTokens()
 	{
-		Rhymix\Framework\Session::start();
+		@Rhymix\Framework\Session::start();
 		
 		$token1 = Rhymix\Framework\Session::createToken();
 		$this->assertTrue(ctype_alnum($token1));
@@ -339,7 +337,7 @@ class SessionTest extends \Codeception\TestCase\Test
 	
 	public function testEncryption()
 	{
-		Rhymix\Framework\Session::start();
+		@Rhymix\Framework\Session::start();
 		
 		$plaintext = 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.';
 		$ciphertext = Rhymix\Framework\Session::encrypt($plaintext);
@@ -349,7 +347,7 @@ class SessionTest extends \Codeception\TestCase\Test
 		Rhymix\Framework\Session::destroy();
 		$this->assertFalse(Rhymix\Framework\Session::decrypt($ciphertext));
 		
-		Rhymix\Framework\Session::start();
+		@Rhymix\Framework\Session::start();
 		$this->assertFalse(Rhymix\Framework\Session::decrypt($ciphertext));
 		
 		Rhymix\Framework\Session::close();

@@ -6,8 +6,8 @@ class ValidatorTest extends \Codeception\TestCase\Test
     {
     	$ob_level = ob_get_level();
     	
-    	$oContext = Context::getInstance();
-    	$oContext->init();
+    	//$oContext = Context::getInstance();
+    	//$oContext->init();
     	
     	while (ob_get_level() > $ob_level)
     	{
