@@ -68,6 +68,7 @@ class Session
 		// Do not start the session if it is already started.
 		if (self::$_started)
 		{
+			trigger_error('Session has already started', \E_USER_WARNING);
 			return false;
 		}
 		
@@ -96,6 +97,7 @@ class Session
 		// Start the PHP native session.
 		if (!session_start())
 		{
+			trigger_error('Session cannot be started', \E_USER_WARNING);
 			return false;
 		}
 		
@@ -124,6 +126,7 @@ class Session
 			elseif (!$relax_key_checks)
 			{
 				// Hacked session! Destroy everything.
+				trigger_error('Session is invalid (missing key 1)', \E_USER_WARNING);
 				$_SESSION = array();
 				$must_create = true;
 				self::destroyAutologinKeys();
@@ -152,6 +155,7 @@ class Session
 			elseif (!$relax_key_checks)
 			{
 				// Hacked session! Destroy everything.
+				trigger_error('Session is invalid (missing key 2)', \E_USER_WARNING);
 				$_SESSION = array();
 				$must_create = true;
 				self::destroyAutologinKeys();
@@ -171,6 +175,7 @@ class Session
 		// If a member is logged in, check if the current session is valid for the member_srl.
 		if (isset($_SESSION['RHYMIX']['login']) && $_SESSION['RHYMIX']['login'] && !self::isValid($_SESSION['RHYMIX']['login']))
 		{
+			trigger_error('Session failed validation checks for member_srl=' . intval($_SESSION['RHYMIX']['login']), \E_USER_WARNING);
 			$_SESSION['RHYMIX']['login'] = $_SESSION['member_srl'] = false;
 			$must_create = true;
 		}
@@ -209,6 +214,10 @@ class Session
 		if (self::$_started)
 		{
 			return true;
+		}
+		if (!Config::get('session.delay'))
+		{
+			return false;
 		}
 		
 		// Start the session if it contains data.
@@ -629,6 +638,7 @@ class Session
 		$validity_info = self::getValidityInfo($member_srl);
 		if ($validity_info->invalid_before && self::isStarted() && $_SESSION['RHYMIX']['last_login'] && $_SESSION['RHYMIX']['last_login'] < $validity_info->invalid_before)
 		{
+			trigger_error('Session is invalid for member_srl=' . intval($_SESSION['RHYMIX']['login']) . ' (expired timestamp)', \E_USER_WARNING);
 			return false;
 		}
 		
@@ -636,10 +646,12 @@ class Session
 		$member_info = getModel('member')->getMemberInfoByMemberSrl($member_srl);
 		if ($member_info->denied === 'Y')
 		{
+			trigger_error('Session is invalid for member_srl=' . intval($_SESSION['RHYMIX']['login']) . ' (denied)', \E_USER_WARNING);
 			return false;
 		}
 		if ($member_info->limit_date && substr($member_info->limit_date, 0, 8) >= date('Ymd'))
 		{
+			trigger_error('Session is invalid for member_srl=' . intval($_SESSION['RHYMIX']['login']) . ' (limited)', \E_USER_WARNING);
 			return false;
 		}
 		
