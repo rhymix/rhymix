@@ -62,28 +62,28 @@ class SessionTest extends \Codeception\TestCase\Test
 		
 		// Test missing HTTP key.
 		unset($_COOKIE['rx_sesskey1']);
-		$this->assertTrue(Rhymix\Framework\Session::start());
+		$this->assertTrue(@Rhymix\Framework\Session::start());
 		$this->assertNotEquals($session_secret, $_SESSION['RHYMIX']['secret']);
 		$session_secret = $_SESSION['RHYMIX']['secret'];
 		Rhymix\Framework\Session::close();
 		
 		// Test missing HTTPS key.
 		unset($_COOKIE['rx_sesskey2']);
-		$this->assertTrue(Rhymix\Framework\Session::start());
+		$this->assertTrue(@Rhymix\Framework\Session::start());
 		$this->assertNotEquals($session_secret, $_SESSION['RHYMIX']['secret']);
 		$session_secret = $_SESSION['RHYMIX']['secret'];
 		Rhymix\Framework\Session::close();
 		
 		// Test invalid HTTP key.
 		$_COOKIE['rx_sesskey1'] = substr(md5(mt_rand()), 0, 24);
-		$this->assertTrue(Rhymix\Framework\Session::start());
+		$this->assertTrue(@Rhymix\Framework\Session::start());
 		$this->assertNotEquals($session_secret, $_SESSION['RHYMIX']['secret']);
 		$session_secret = $_SESSION['RHYMIX']['secret'];
 		Rhymix\Framework\Session::close();
 		
 		// Test invalid HTTPS key.
 		$_COOKIE['rx_sesskey2'] = substr(md5(mt_rand()), 0, 24);
-		$this->assertTrue(Rhymix\Framework\Session::start());
+		$this->assertTrue(@Rhymix\Framework\Session::start());
 		$this->assertNotEquals($session_secret, $_SESSION['RHYMIX']['secret']);
 		$session_secret = $_SESSION['RHYMIX']['secret'];
 		Rhymix\Framework\Session::close();
@@ -254,7 +254,7 @@ class SessionTest extends \Codeception\TestCase\Test
 		
 		$validity_info->invalid_before = time() + 300;
 		$this->assertTrue(Rhymix\Framework\Session::setValidityInfo($member_srl, $validity_info));
-		$this->assertFalse(Rhymix\Framework\Session::isValid());
+		$this->assertFalse(@Rhymix\Framework\Session::isValid());
 		
 		$validity_info->invalid_before = time();
 		$this->assertTrue(Rhymix\Framework\Session::setValidityInfo($member_srl, $validity_info));
