@@ -338,6 +338,7 @@ class Session
 		$_SESSION['RHYMIX'] = array();
 		$_SESSION['RHYMIX']['login'] = false;
 		$_SESSION['RHYMIX']['last_login'] = false;
+		$_SESSION['RHYMIX']['autologin_key'] = false;
 		$_SESSION['RHYMIX']['ipaddress'] = $_SESSION['ipaddress'] = \RX_CLIENT_IP;
 		$_SESSION['RHYMIX']['useragent'] = isset($_SERVER['HTTP_USER_AGENT']) ? $_SERVER['HTTP_USER_AGENT'] : '';
 		$_SESSION['RHYMIX']['language'] = \Context::getLangType();
@@ -365,6 +366,7 @@ class Session
 			if ($member_srl && self::isValid($member_srl))
 			{
 				self::login($member_srl, false);
+				$_SESSION['RHYMIX']['autologin_key'] = substr(self::$_autologin_key, 0, 24);
 			}
 			else
 			{
@@ -614,7 +616,7 @@ class Session
 	 * @param int $member_srl (optional)
 	 * @return bool
 	 */
-	public static function isValid($member_srl = null)
+	public static function isValid($member_srl = 0)
 	{
 		// If no member_srl is given, the session is always valid.
 		$member_srl = intval($member_srl) ?: (isset($_SESSION['RHYMIX']['login']) ? $_SESSION['RHYMIX']['login'] : 0);
@@ -623,16 +625,9 @@ class Session
 			return false;
 		}
 		
-		// Get the invalidation timestamp.
-		$invalid_before = Cache::get(sprintf('session:invalid_before:%d', $member_srl));
-		if (!$invalid_before)
-		{
-			$filename = \RX_BASEDIR . sprintf('files/member_extra_info/invalid_before/%s%d.txt', getNumberingPath($member_srl), $member_srl);
-			$invalid_before = intval(Storage::read($filename, $invalid_before));
-		}
-		
 		// Check the invalidation timestamp against the current session.
-		if ($invalid_before && self::isStarted() && $_SESSION['RHYMIX']['last_login'] && $_SESSION['RHYMIX']['last_login'] < $invalid_before)
+		$validity_info = self::getValidityInfo($member_srl);
+		if ($validity_info->invalid_before && self::isStarted() && $_SESSION['RHYMIX']['last_login'] && $_SESSION['RHYMIX']['last_login'] < $validity_info->invalid_before)
 		{
 			return false;
 		}
@@ -834,6 +829,57 @@ class Session
 	}
 	
 	/**
+	 * Get validity information.
+	 * 
+	 * @param int $member_srl
+	 * @return object
+	 */
+	public static function getValidityInfo($member_srl)
+	{
+		$member_srl = intval($member_srl);
+		$validity_info = Cache::get(sprintf('session:validity_info:%d', $member_srl), $invalid_before);
+		if ($validity_info)
+		{
+			return $validity_info;
+		}
+		
+		$filename = \RX_BASEDIR . sprintf('files/member_extra_info/session_validity/%s%d.php', getNumberingPath($member_srl), $member_srl);
+		$validity_info = Storage::readPHPData($filename);
+		if (!$validity_info)
+		{
+			$validity_info = (object)array(
+				'invalid_before' => 0,
+				'invalid_autologin_keys' => array(),
+				'invalid_session_keys' => array(),
+			);
+		}
+		
+		Cache::set(sprintf('session:validity_info:%d', $member_srl), $validity_info);
+		return $validity_info;
+	}
+	
+	/**
+	 * Set validity information.
+	 * 
+	 * @param int $member_srl
+	 * @param object $validity_info
+	 * @return bool
+	 */
+	public static function setValidityInfo($member_srl, $validity_info)
+	{
+		$member_srl = intval($member_srl);
+		if (!$member_srl)
+		{
+			return false;
+		}
+		
+		$filename = \RX_BASEDIR . sprintf('files/member_extra_info/session_validity/%s%d.php', getNumberingPath($member_srl), $member_srl);
+		$result = Storage::writePHPData($filename, $validity_info);
+		Cache::set(sprintf('session:validity_info:%d', $member_srl), $validity_info);
+		return $result;
+	}
+	
+	/**
 	 * Encrypt data so that it can only be decrypted in the same session.
 	 * 
 	 * Arrays and objects can also be encrypted. (They will be serialized.)
@@ -1013,11 +1059,10 @@ class Session
 		// Invalidate all sessions that were logged in before the current timestamp.
 		if (self::isStarted())
 		{
-			$invalid_before = time();
-			$filename = \RX_BASEDIR . sprintf('files/member_extra_info/invalid_before/%s%d.txt', getNumberingPath($member_srl), $member_srl);
-			Storage::write($filename, $invalid_before);
-			Cache::set(sprintf('session:invalid_before:%d', $member_srl), $invalid_before);
-			$_SESSION['RHYMIX']['last_login'] = $invalid_before;
+			$validity_info = self::getValidityInfo($member_srl);
+			$validity_info->invalid_before = time();
+			self::setValidityInfo($member_srl, $validity_info);
+			$_SESSION['RHYMIX']['last_login'] = $validity_info->invalid_before;
 		}
 		else
 		{
