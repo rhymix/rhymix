@@ -43,6 +43,7 @@
 </block>
 
 <!--// Load styles -->
+{@$colorset = $material_colors[$member_config->colorset];}
 {@$skin_color = $material_colors[$layout_info->primary_color];}
 <block cond="!$skin_color">
 	<!--@if(preg_match("/#([a-f0-9]{3}){1,2}/i", $layout_info->primary_color))-->
@@ -53,6 +54,9 @@
 	<!--@else-->
 		{@$skin_color = '#f44336'}
 	<!--@endif-->
+</block>
+<block cond="$colorset">
+	{@$skin_color = $colorset}
 </block>
 {Context::set('simple_less_value', array('red' => hexdec(substr($skin_color, 1, 2)), 'green' => hexdec(substr($skin_color, 3, 2)), 'blue' => hexdec(substr($skin_color, 5, 2)) ))}
 <load target="css/css.less" vars="$simple_less_value" />
