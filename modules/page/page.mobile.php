@@ -64,7 +64,7 @@ class pageMobile extends pageView
 				if($mtime + $interval*60 > $_SERVER['REQUEST_TIME']) 
 				{
 					$page_content = FileHandler::readFile($cache_file); 
-					$page_content = preg_replace('@<\!--#Meta:@', '<!--Meta:', $page_content);
+					$page_content = str_replace('<!--#Meta:', '<!--Meta:', $page_content);
 				} 
 				else 
 				{

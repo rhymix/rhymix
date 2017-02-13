@@ -693,15 +693,20 @@ class TemplateHandler
 							else
 							{
 								$metafile = $attr['target'];
+								$metavars = ($attr['vars'] ? self::_replaceVar($attr['vars']) : '');
 								$result = "\$__tmp=array('{$attr['target']}','{$attr['media']}','{$attr['targetie']}','{$attr['index']}'," . ($attr['vars'] ? self::_replaceVar($attr['vars']) : 'array()') . ");Context::loadFile(\$__tmp);unset(\$__tmp);";
 							}
 							break;
 					}
 
 					$result = "<?php {$result} ?>";
-					if($metafile)
+					if($metafile && !$metavars)
 					{
 						$result = "<!--#Meta:{$metafile}-->" . $result;
+					}
+					elseif($metafile && $metavars)
+					{
+						$result = "<!--#Meta:File:{$metafile};ENDFILES--Vars:{$metavars};ENDVARS-->" . $result;
 					}
 
 					return $result;

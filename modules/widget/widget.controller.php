@@ -395,7 +395,15 @@ class widgetController extends widget
 		$cache_data = Rhymix\Framework\Cache::get('widget_cache:' . $widget_sequence);
 		if ($cache_data)
 		{
-			return preg_replace('@<\!--#Meta:@', '<!--Meta:', $cache_data);
+			$cache_data = preg_replace_callback('/<!--(#)?WidgetVars:([a-z0-9\_\-\/\.\@\:]+)-->/is', function($matches) {
+				if($matches[2])
+				{
+					$cache_var_data = Rhymix\Framework\Cache::get('widget_cache:' . $widget_sequence . ';Vars:' . $matches[2]);
+					Context::set($matches[2], $cache_var_data);
+				}
+				return;
+			}, $cache_data);
+			return str_replace('<!--#Meta:', '<!--Meta:', $cache_data);
 		}
 
 		$oWidget = $this->getWidgetObject($widget);
@@ -404,8 +412,18 @@ class widgetController extends widget
 		$widget_content = $oWidget->proc($args);
 		$oModuleController = getController('module');
 		$oModuleController->replaceDefinedLangCode($widget_content);
-		
+
 		Rhymix\Framework\Cache::set('widget_cache:' . $widget_sequence, $widget_content, $widget_cache, true);
+		if(preg_match_all('/<!--(#)?WidgetVars:([a-z0-9\_\-\/\.\@\:]+)-->/is', $widget_content, $widget_var_matches, PREG_SET_ORDER))
+		{
+			foreach($widget_var_matches as $matches)
+			{
+				if($matches[2])
+				{
+					Rhymix\Framework\Cache::set('widget_cache:' . $widget_sequence . ';Vars:' . $matches[2], Context::get($matches[2]), $widget_cache, true);
+				}
+			}
+		}
 
 		return $widget_content;
 	}

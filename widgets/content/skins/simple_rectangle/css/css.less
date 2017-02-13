@@ -1,0 +1,282 @@
+@charset "UTF-8";
+/*
+	@method .text-contrast()
+	@author misol <misol.kr@gmail.com>
+	@brief Select a text color according to WCAG 2.0 contrast guideline. The calcualtion of contrast follows the formula on the guideline.
+*/
+.text-contrast(@bg_color; @bright_color:#fff; @dark_color:#000; @multi:1; @i:0) when (@i >= 100) and ( ( (luma(@bg_color) + 0.05) / (luma(@dark_color) + 0.05) ) =< ( ( luma(@bright_color) + 0.05) / ( luma(@bg_color) + 0.05) )) {
+	color: @bright_color;
+}
+.text-contrast(@bg_color; @bright_color:#fff; @dark_color:#000; @multi:1; @i:0) when (@i >= 100) and ( ( (luma(@bg_color) + 0.05) / (luma(@dark_color) + 0.05) ) > ( ( luma(@bright_color) + 0.05) / ( luma(@bg_color) + 0.05) )) {
+	color: @dark_color;
+}
+.text-contrast(@bg_color; @bright_color:#fff; @dark_color:#000; @multi:1; @i:0) when (@i < 100) and ( ( (luma(@bg_color) + 0.05) / (luma(@dark_color) + 0.05) ) =< ( ( luma(@bright_color) + 0.05) / ( luma(@bg_color) + 0.05) )) and ( ( ( luma(@bright_color) + 0.05) / ( luma(@bg_color) + 0.05) ) > 4.5 * @multi ) {
+	color: @bright_color;
+}
+.text-contrast(@bg_color; @bright_color:#fff; @dark_color:#000; @multi:1; @i:0) when (@i < 100) and ( ( (luma(@bg_color) + 0.05) / (luma(@dark_color) + 0.05) ) =< ( ( luma(@bright_color) + 0.05) / ( luma(@bg_color) + 0.05) ) ) and ( ( ( luma(@bright_color) + 0.05) / ( luma(@bg_color) + 0.05) ) =< 4.5 * @multi )  {
+	.text-contrast(@bg_color; lighten(@bright_color, 5%); @dark_color; @multi; @i + 1);
+}
+.text-contrast(@bg_color; @bright_color:#fff; @dark_color:#000; @multi:1; @i:0) when (@i < 100) and ( ( (luma(@bg_color) + 0.05) / (luma(@dark_color) + 0.05) ) > ( ( luma(@bright_color) + 0.05) / ( luma(@bg_color) + 0.05) )) and ( ( (luma(@bg_color) + 0.05) / (luma(@dark_color) + 0.05) ) > 4.5 * @multi ) {
+	color: @dark_color;
+}
+.text-contrast(@bg_color; @bright_color:#fff; @dark_color:#000; @multi:1; @i:0) when (@i < 100) and (( (luma(@bg_color) + 0.05) / (luma(@dark_color) + 0.05) ) > ( ( luma(@bright_color) + 0.05) / ( luma(@bg_color) + 0.05) )) and ( ( (luma(@bg_color) + 0.05) / (luma(@dark_color) + 0.05) ) =< 4.5 * @multi ) {
+	.text-contrast(@bg_color; @bright_color; darken(@dark_color, 5%); @multi; @i + 1);
+}
+
+/*
+	@method .bg-contrast()
+	@author misol <misol.kr@gmail.com>
+	@brief Select a background color, which has less contrast background color than WCAG 2.0 contrast guideline. On the WCAG 2.0 guideline, bigger string can have less contrast as 3.0.
+*/
+.bg-contrast(@text_color; @bright_color:#fff; @dark_color:#000; @multi:1; @i:0) when (@i >= 100) and ( ( (luma(@text_color) + 0.05) / (luma(@dark_color) + 0.05) ) =< ( ( luma(@bright_color) + 0.05) / ( luma(@text_color) + 0.05) )) {
+	background: @bright_color;
+}
+.bg-contrast(@text_color; @bright_color:#fff; @dark_color:#000; @multi:1; @i:0) when (@i >= 100) and ( ( (luma(@text_color) + 0.05) / (luma(@dark_color) + 0.05) ) > ( ( luma(@bright_color) + 0.05) / ( luma(@text_color) + 0.05) )) {
+	background: @dark_color;
+}
+
+.bg-contrast(@text_color; @bright_color:#fff; @dark_color:#000; @multi:1; @i:0) when (@i < 100) and ( ( (luma(@text_color) + 0.05) / (luma(@dark_color) + 0.05) ) =< ( ( luma(@bright_color) + 0.05) / ( luma(@text_color) + 0.05) )) and ( ( ( luma(@bright_color) + 0.05) / ( luma(@text_color) + 0.05) ) > 3 * @multi ) {
+	background: @bright_color;
+}
+.bg-contrast(@text_color; @bright_color:#fff; @dark_color:#000; @multi:1; @i:0) when (@i < 100) and ( ( (luma(@text_color) + 0.05) / (luma(@dark_color) + 0.05) ) =< ( ( luma(@bright_color) + 0.05) / ( luma(@text_color) + 0.05) ) ) and ( ( ( luma(@bright_color) + 0.05) / ( luma(@text_color) + 0.05) ) =< 3 * @multi )  {
+	.bg-contrast(@text_color; lighten(@bright_color,3%); @dark_color; @multi; @i + 1);
+}
+.bg-contrast(@text_color; @bright_color:#fff; @dark_color:#000; @multi:1; @i:0) when (@i < 100) and ( ( (luma(@text_color) + 0.05) / (luma(@dark_color) + 0.05) ) > ( ( luma(@bright_color) + 0.05) / ( luma(@text_color) + 0.05) )) and ( ( (luma(@text_color) + 0.05) / (luma(@dark_color) + 0.05) ) > 3 * @multi ) {
+	background: @dark_color;
+}
+.bg-contrast(@text_color; @bright_color:#fff; @dark_color:#000; @multi:1; @i:0) when (@i < 100) and (( (luma(@text_color) + 0.05) / (luma(@dark_color) + 0.05) ) > ( ( luma(@bright_color) + 0.05) / ( luma(@text_color) + 0.05) )) and ( ( (luma(@text_color) + 0.05) / (luma(@dark_color) + 0.05) ) =< 3 * @multi ) {
+	.bg-contrast(@text_color; @bright_color; darken(@dark_color, 3%); @multi; @i + 1);
+}
+
+/* As LESS library in Rhymix substitude variables as an strings, convert colors as the color objects of LESS. */
+@color: rgb(@red, @green, @blue);
+
+/* 앱 전체 스타일 */
+.misolContent
+{
+	background-color:#ffffff;
+	font-family: "맑은 고딕", "Apple SD Gothic Neo","나눔고딕",NanumGothic,'Nanum Gothic',"돋움",Dotum,"굴림",Gulim,Helvetica,sans-serif;
+	font-size: 14px;
+	background-color: #fff;
+	box-shadow: 0 0 2px rgba(0, 0, 0, 0.25);
+	margin: 8px 0px;
+	padding: 0 15px;
+}
+/* 글 목록 스타일 */
+.misolContent .misolContent_list .cont_a {
+	color: #222;
+	display: block;
+	letter-spacing: -1px;
+	line-height: 18px;
+	margin: 0 -15px;
+	overflow: hidden;
+	padding: 0.667em 15px 0.733em;
+	text-overflow: ellipsis;
+	white-space: nowrap;
+	text-decoration: none;
+}
+.misolContent .misolContent_list .cont_a:hover {
+	color: @color;
+}
+.misolContent .cont_a {
+	color: #222;
+	display: block;
+	letter-spacing: -1px;
+	overflow: hidden;
+	padding: 0.467em 0;
+	text-overflow: ellipsis;
+	white-space: nowrap;
+	text-decoration: none;
+}
+.misolContent .content_image {
+	display:inline-block;
+	float:left;
+	position:relative;
+	margin-right: 5px;
+}
+.misolContent .content_basic{
+	position:relative;
+	display:inline-block;
+	max-width:100%;
+	vertical-align: middle;
+	overflow:hidden;
+	text-overflow: ellipsis;
+	white-space: nowrap;
+}
+.misolContent .content_category {
+	color: @color;
+	font-family: HelveticaNeue-Light,AppleSDGothicNeo-Light,sans-serif-light,sans-serif;
+	margin: 0 7px 0 3px;
+}
+.misolContent .content_nickname, .misolContent .content_recnt{
+	color: #9e9e9e;
+	font-size: 12px;
+	margin: 0 3px 0 7px;
+	overflow:hidden;
+}
+.misolContent  ul.misolContent_list, .misolContent  ul.misolContentTabA {
+	list-style: outside none none;
+	padding: 0px 0px 6px;
+	margin: 0;
+}
+
+.misolContent  .misolContent_list li {
+	position:relative;
+	border-top: 1px solid #e0e0e0;
+	overflow: hidden;
+	padding:0;
+}
+.misolContent  .misolContent_list li:first-child, .misolContent.misolContent_list li.first-child{
+	border-top: 0 none;
+}
+.misolContent .content_recnt{ /* 코멘트 */
+	position:absolute;
+	height:18px;
+	width:44px;
+	text-align:right;
+	font-size: 13px;
+	margin:3px;
+	top:0.6em;
+	right:3px;
+}
+.misolContent  .misolContent_list li i{ /* 아이콘 */
+	margin-right:3px;
+	font-size:0.9em;
+}
+.misolContent .misolContent_list li.content_reext .cont_a { /* 코멘트 있는 항목 */
+	padding-right:70px;
+}
+/* 상단 제목 스타일 */
+.misolContent .misolTop {
+	border-bottom: 1px solid #e0e0e0;
+	height: 40px;
+	line-height: 18px;
+	margin: 0;
+	position: relative;
+}
+.misolContent div.misolTop h3
+{
+	color: #000;
+	font-weight: 400;
+	letter-spacing: -1px;
+	line-height: 40px;
+}
+.misolContent div.misolTop .misol_top_a {
+	color: #000;
+	font-weight: 400;
+	display: block;
+	margin: 0 -10px;
+	padding: 0 10px;
+	text-decoration: none;
+}
+.misolContent div.misolTop .misol_more {
+	position: absolute;
+	right: 1px;
+	top: 12px;
+	height: 16px;
+	width: 9px;
+}
+/* 갤러리 스타일 */
+.misolContent div.misolGallery{
+	overflow: hidden;
+	width:100%;
+	white-space: nowrap;
+	box-sizing: border-box;
+}
+div.misolGallery ul.misolGallery{
+	display: block;
+	list-style: outside none none;
+	padding: 6px 0px 100px;
+	margin: 0;
+	overflow-x: auto;
+	-webkit-overflow-scrolling: touch;
+}
+div.misolGallery ul.misolGallery li{
+	position: relative;
+	display: inline-block;
+	padding:0 5px;
+}
+div.misolGallery ul.misolGallery li .gallery_text
+{
+	display:inline-block;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	white-space: nowrap;
+}
+div.misolGallery ul.misolGallery li .cont_a:hover {
+	color: @color;
+}
+/* 상단 탭 스타일 */
+.misolContent div.misolTab{
+	overflow: hidden;
+	width:100%;
+	height: 52px;
+	white-space: nowrap;
+	border-bottom: 1px solid #e0e0e0;
+	box-sizing: border-box;
+}
+.misolContent ul.misolContentTabA{
+	display: block;
+	overflow-x: auto;
+	-webkit-overflow-scrolling: touch;
+	padding: 6px 0px 100px;
+	text-decoration: none;
+}
+.misolContent ul.misolContentTabA>li {
+	display:inline-block;
+	height: 40px;
+	line-height: 18px;
+	position: relative;
+}
+.misolContent ul.misolContentTabA>li a {
+	display:inline-block;
+	color: #000;
+	font-weight: 400;
+	letter-spacing: -1px;
+	line-height: 40px;
+	text-decoration: none;
+}
+.misolContent ul.misolContentTabA>li a:hover, .misolContent ul.misolContentTabA>li.active a {
+	color: @color;
+	font-weight: 700;
+}
+.misolContent ul.misolContentTabA>li a span {
+	border-left: 1px solid #e0e0e0;
+	padding: 0 15px;
+}
+.misolContent ul.misolContentTabA>li:first-child a span {
+	border-left: 0 none;
+	padding-left: 0;
+}
+
+.misolContent dl.widgetDivider{ margin:0;}
+.misolContent dl.widgetDivider dt{ position:absolute; width:0; height:0; overflow:hidden; font-size:0; line-height:0;}
+.misolContent dl.widgetDivider dd{ display:none; margin:0;} 
+.widgetContainer .misolContent .open{ display:block !important;}
+
+.misolContent .misolContentNavigator {
+	text-align: center;
+	color: #9e9e9e;
+	margin: 0;
+	padding: 10px 0;
+	border-top: 1px solid #e0e0e0;
+}
+
+.misolContent .misolContentNavigator button {
+	background-color:transparent;
+	color: inherit;
+	border: 0 none;
+	cursor: pointer;
+	line-height: 20px;
+	height:35px;
+	width: 100%;
+	margin:0;
+	font-size: 15px;
+}
+.misolContent .misolContentNavigator li button:hover{
+	color: @color;
+}
+.misolContent .misolContentNavigator li button i{
+	font-size:16px;
+	line-height:16px;
+}

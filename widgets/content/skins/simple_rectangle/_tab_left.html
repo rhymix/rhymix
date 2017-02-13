@@ -1,0 +1,38 @@
+{@
+	$misol_contents = array();
+	$misol_contents_count = 0;
+}
+{$widget_info->content_type}
+<!--@if($widget_info->page_count > 1)-->
+	{@$misol_contents_count = $widget_info->list_count * $widget_info->page_count}
+<!--@else-->
+	{@$misol_contents_count = $widget_info->list_count}
+<!--@end-->
+
+<!--@foreach($widget_info->tab as $module_srl => $tab)-->
+	{@ $contents_key = ''; }
+	<block loop="$tab->content_items => $key, $item">
+		{@
+			$contents_key = intval(preg_replace("/[^0-9]*/s", '', $item->getLink()));
+			$misol_contents[$contents_key] = $item;
+		}
+	</block>
+<!--@end-->
+
+{@ krsort($misol_contents);}
+{@$i = 0;}
+<!--@foreach($misol_contents as $key => $val)-->
+	{@$i = $i + 1;}
+	<!--@if($i > $misol_contents_count)-->
+		{@ unset($misol_contents[$key])}
+	<!--@end-->
+<!--@end-->
+{@
+	$tab = new stdClass();
+	$tab->content_items = $misol_contents;
+	$tab->title = $lang->all;
+	$tab->url = getUrl('mid',Context::get('mid'));
+	$tab->tab_type = 'all';
+}
+{@ array_unshift($widget_info->tab, $tab) }
+<!--#include("./_tab_top.html")-->
