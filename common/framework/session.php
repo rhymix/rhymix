@@ -188,6 +188,12 @@ class Session
 			$must_create = true;
 		}
 		
+		// If this is not a GET request, do not refresh now.
+		if ($_SERVER['REQUEST_METHOD'] !== 'GET')
+		{
+			$must_refresh = false;
+		}
+		
 		// Create or refresh the session if needed.
 		if ($must_create)
 		{
