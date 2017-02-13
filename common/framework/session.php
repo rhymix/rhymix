@@ -113,7 +113,7 @@ class Session
 		// Check whether the visitor uses Android webview.
 		if (!isset($_SESSION['is_webview']))
 		{
-			$_SESSION['is_webview'] = UA::getBrowserInfo()->browser === 'Android' ? true : false;
+			$_SESSION['is_webview'] = self::_isBuggyUserAgent();
 		}
 		
 		// Validate the HTTP key.
@@ -362,7 +362,7 @@ class Session
 		$_SESSION['RHYMIX']['timezone'] = DateTime::getTimezoneForCurrentUser();
 		$_SESSION['RHYMIX']['secret'] = Security::getRandom(32, 'alnum');
 		$_SESSION['RHYMIX']['tokens'] = array();
-		$_SESSION['is_webview'] = UA::getBrowserInfo()->browser === 'Android' ? true : false;
+		$_SESSION['is_webview'] = self::_isBuggyUserAgent();
 		$_SESSION['is_logged'] = false;
 		$_SESSION['is_admin'] = '';
 		
@@ -970,6 +970,24 @@ class Session
 	{
 		$key = $_SESSION['RHYMIX']['secret'] . Config::get('crypto.encryption_key');
 		return Security::decrypt($ciphertext, $key);
+	}
+	
+	/**
+	 * Check if the user-agent is known to have a problem with security keys.
+	 * 
+	 * @return bool
+	 */
+	protected static function _isBuggyUserAgent()
+	{
+		$browser = UA::getBrowserInfo();
+		if ($browser->browser === 'Android' || ($browser->os === 'Android' && $browser->browser === 'Chrome'))
+		{
+			return true;
+		}
+		else
+		{
+			return false;
+		}
 	}
 	
 	/**
