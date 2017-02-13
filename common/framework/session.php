@@ -187,7 +187,6 @@ class Session
 			$_SESSION['RHYMIX']['login'] = $_SESSION['member_srl'] = false;
 			$must_create = true;
 		}
-		var_dump($_SESSION);
 		
 		// Create or refresh the session if needed.
 		if ($must_create)
