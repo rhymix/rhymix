@@ -10,6 +10,8 @@ class Session
 	/**
 	 * Properties for internal use only.
 	 */
+	protected static $_domain = false;
+	protected static $_subdomain = false;
 	protected static $_started = false;
 	protected static $_autologin_key = false;
 	protected static $_member_info = false;
@@ -759,6 +761,48 @@ class Session
 	}
 	
 	/**
+	 * Get session domain.
+	 * 
+	 * @return string
+	 */
+	public static function getDomain()
+	{
+		if (self::$_domain || (self::$_domain = Config::get('session.domain')))
+		{
+			return self::$_domain;
+		}
+		else
+		{
+			self::$_domain = ini_get('session.cookie_domain') ?: preg_replace('/:\\d+$/', '', strtolower($_SERVER['HTTP_HOST']));
+			if (!strncmp(self::$_domain, 'www.', 4))
+			{
+				self::$_subdomain = self::$_domain;
+				self::$_domain = substr(self::$_domain, 4);
+			}
+			return self::$_domain;
+		}
+	}
+	
+	/**
+	 * Set session domain.
+	 * 
+	 * @return bool
+	 */
+	public static function setDomain($domain)
+	{
+		if (self::$_started)
+		{
+			return false;
+		}
+		else
+		{
+			self::$_domain = $domain;
+			self::$_subdomain = false;
+			return true;
+		}
+	}
+	
+	/**
 	 * Mark the current session as trusted for a given duration.
 	 * 
 	 * See isTrusted() for description.
@@ -930,7 +974,7 @@ class Session
 	{
 		$lifetime = Config::get('session.lifetime');
 		$refresh = Config::get('session.refresh') ?: 300;
-		$domain = Config::get('session.domain') ?: (ini_get('session.cookie_domain') ?: preg_replace('/:\\d+$/', '', $_SERVER['HTTP_HOST']));
+		$domain = self::getDomain();
 		$path = Config::get('session.path') ?: ini_get('session.cookie_path');
 		return array($lifetime, $refresh, $domain, $path);
 	}
@@ -996,6 +1040,15 @@ class Session
 			$_COOKIE['rx_sesskey2'] = $_SESSION['RHYMIX']['keys'][$domain]['key2'];
 		}
 		
+		// Delete keys from subdomain.
+		if (self::$_subdomain && !isset($_SESSION['RHYMIX']['keys'][self::$_subdomain]['deleted']))
+		{
+			setcookie(session_name(), session_id(), $lifetime, $path, $domain, false, false);
+			setcookie(session_name(), 'deleted', time() - 86400, $path, self::$_subdomain, false, false);
+			setcookie('rx_sesskey1', 'deleted', time() - 86400, $path, self::$_subdomain, false, false);
+			setcookie('rx_sesskey2', 'deleted', time() - 86400, $path, self::$_subdomain, false, false);
+			$_SESSION['RHYMIX']['keys'][self::$_subdomain]['deleted'] = true;
+		}
 		return true;
 	}
 	
