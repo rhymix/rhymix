@@ -139,6 +139,8 @@ class SessionTest extends \Codeception\TestCase\Test
 	
 	public function testRefresh()
 	{
+		$_SERVER['REQUEST_METHOD'] = 'GET';
+		
 		@Rhymix\Framework\Session::start();
 		$session_secret = $_SESSION['RHYMIX']['secret'];
 		$key1 = $_SESSION['RHYMIX']['keys']['rhymix.org']['key1'];
