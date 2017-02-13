@@ -110,6 +110,12 @@ class Session
 		list($key1, $key2, self::$_autologin_key) = self::_getKeys();
 		$must_create = $must_refresh = $must_resend_keys = false;
 		
+		// Check whether the visitor uses Android webview.
+		if (!isset($_SESSION['is_webview']))
+		{
+			$_SESSION['is_webview'] = UA::getBrowserInfo()->browser === 'Android' ? true : false;
+		}
+		
 		// Validate the HTTP key.
 		if (isset($_SESSION['RHYMIX']) && $_SESSION['RHYMIX'])
 		{
@@ -125,7 +131,7 @@ class Session
 			{
 				$must_resend_keys = true;
 			}
-			elseif (!$relax_key_checks)
+			elseif (!$relax_key_checks && !$_SESSION['is_webview'])
 			{
 				// Hacked session! Destroy everything.
 				trigger_error('Session is invalid (missing key 1)', \E_USER_WARNING);
@@ -154,7 +160,7 @@ class Session
 			{
 				$must_resend_keys = true;
 			}
-			elseif (!$relax_key_checks)
+			elseif (!$relax_key_checks && !$_SESSION['is_webview'])
 			{
 				// Hacked session! Destroy everything.
 				trigger_error('Session is invalid (missing key 2)', \E_USER_WARNING);
@@ -181,6 +187,7 @@ class Session
 			$_SESSION['RHYMIX']['login'] = $_SESSION['member_srl'] = false;
 			$must_create = true;
 		}
+		var_dump($_SESSION);
 		
 		// Create or refresh the session if needed.
 		if ($must_create)
@@ -356,6 +363,7 @@ class Session
 		$_SESSION['RHYMIX']['timezone'] = DateTime::getTimezoneForCurrentUser();
 		$_SESSION['RHYMIX']['secret'] = Security::getRandom(32, 'alnum');
 		$_SESSION['RHYMIX']['tokens'] = array();
+		$_SESSION['is_webview'] = UA::getBrowserInfo()->browser === 'Android' ? true : false;
 		$_SESSION['is_logged'] = false;
 		$_SESSION['is_admin'] = '';
 		
@@ -1033,7 +1041,7 @@ class Session
 			unset($_COOKIE['rx_sesskey1']);
 		}
 		
-		// Set or delete the HTTPS-only key.
+		// Set the HTTPS-only key.
 		if (\RX_SSL && isset($_SESSION['RHYMIX']['keys'][$domain]['key2']))
 		{
 			setcookie('rx_sesskey2', $_SESSION['RHYMIX']['keys'][$domain]['key2'], $lifetime, $path, $domain, true, true);
