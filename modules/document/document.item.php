@@ -879,22 +879,19 @@ class documentItem extends Object
 		// Return false if the document doesn't exist
 		if(!$this->document_srl) return;
 
-		// Get thumbnai_type information from document module's configuration
-		if(!in_array($thumbnail_type, array('crop', 'ratio', 'none')))
+		// Get thumbnail type information from document module's configuration
+		$config = $GLOBALS['__document_config__'];
+		if(!$config)
 		{
-			$config = $GLOBALS['__document_config__'];
-			if(!$config)
-			{
-				$oDocumentModel = getModel('document');
-				$config = $oDocumentModel->getDocumentConfig();
-				$GLOBALS['__document_config__'] = $config;
-			}
-			$thumbnail_type = $config->thumbnail_type ?: 'crop';
+			$config = $GLOBALS['__document_config__'] = getModel('document')->getDocumentConfig();
 		}
-		
-		if ($thumbnail_type === 'none')
+		if ($config->thumbnail_type === 'none')
 		{
 			return;
+		}
+		if(!in_array($thumbnail_type, array('crop', 'ratio', 'none')))
+		{
+			$thumbnail_type = $config->thumbnail_type ?: 'crop';
 		}
 		
 		if($this->isSecret() && !$this->isGranted())
