@@ -51,6 +51,8 @@ return array(
 	'session' => array(
 		'delay' => false,
 		'use_db' => false,
+		'use_keys' => true,
+		'use_ssl' => false,
 		'domain' => null,
 		'path' => null,
 		'lifetime' => 0,

@@ -571,6 +571,8 @@ class adminAdminView extends admin
 		Context::set('use_rewrite', Rhymix\Framework\Config::get('use_rewrite'));
 		Context::set('use_sso', Rhymix\Framework\Config::get('use_sso'));
 		Context::set('delay_session', Rhymix\Framework\Config::get('session.delay'));
+		Context::set('use_session_keys', Rhymix\Framework\Config::get('session.use_keys'));
+		Context::set('use_session_ssl', Rhymix\Framework\Config::get('session.use_ssl'));
 		Context::set('use_db_session', Rhymix\Framework\Config::get('session.use_db'));
 		Context::set('minify_scripts', Rhymix\Framework\Config::get('view.minify_scripts'));
 		Context::set('concat_scripts', Rhymix\Framework\Config::get('view.concat_scripts'));

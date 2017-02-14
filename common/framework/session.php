@@ -76,11 +76,12 @@ class Session
 		
 		// Set session parameters.
 		list($lifetime, $refresh_interval, $domain, $path) = self::_getParams();
+		$ssl_only = (\RX_SSL && config('session.use_ssl')) ? true : false;
 		ini_set('session.gc_maxlifetime', $lifetime + 28800);
 		ini_set('session.use_cookies', 1);
 		ini_set('session.use_only_cookies', 1);
 		ini_set('session.use_strict_mode', 1);
-		session_set_cookie_params($lifetime, $path, $domain, false, false);
+		session_set_cookie_params($lifetime, $path, $domain, $ssl_only, false);
 		session_name($session_name = Config::get('session.name') ?: session_name());
 		
 		// Get session ID from POST parameter if using relaxed key checks.
@@ -109,6 +110,10 @@ class Session
 		// Fetch session keys.
 		list($key1, $key2, self::$_autologin_key) = self::_getKeys();
 		$must_create = $must_refresh = $must_resend_keys = false;
+		if (config('session.use_keys') === false)
+		{
+			$relax_key_checks = true;
+		}
 		
 		// Check whether the visitor uses Android webview.
 		if (!isset($_SESSION['is_webview']))
@@ -1051,11 +1056,12 @@ class Session
 		// Get session parameters.
 		list($lifetime, $refresh_interval, $domain, $path) = self::_getParams();
 		$lifetime = $lifetime ? ($lifetime + time()) : 0;
+		$ssl_only = (\RX_SSL && config('session.use_ssl')) ? true : false;
 		
 		// Set or destroy the HTTP-only key.
 		if (isset($_SESSION['RHYMIX']['keys'][$domain]['key1']))
 		{
-			setcookie('rx_sesskey1', $_SESSION['RHYMIX']['keys'][$domain]['key1'], $lifetime, $path, $domain, false, true);
+			setcookie('rx_sesskey1', $_SESSION['RHYMIX']['keys'][$domain]['key1'], $lifetime, $path, $domain, $ssl_only, true);
 			$_COOKIE['rx_sesskey1'] = $_SESSION['RHYMIX']['keys'][$domain]['key1'];
 		}
 		else
@@ -1074,7 +1080,7 @@ class Session
 		// Delete keys from subdomain.
 		if (self::$_subdomain && !isset($_SESSION['RHYMIX']['keys'][self::$_subdomain]['deleted']))
 		{
-			setcookie(session_name(), session_id(), $lifetime, $path, $domain, false, false);
+			setcookie(session_name(), session_id(), $lifetime, $path, $domain, $ssl_only, false);
 			setcookie(session_name(), 'deleted', time() - 86400, $path, self::$_subdomain, false, false);
 			setcookie('rx_sesskey1', 'deleted', time() - 86400, $path, self::$_subdomain, false, false);
 			setcookie('rx_sesskey2', 'deleted', time() - 86400, $path, self::$_subdomain, false, false);
@@ -1095,11 +1101,12 @@ class Session
 		// Get session parameters.
 		list($lifetime, $refresh_interval, $domain, $path) = self::_getParams();
 		$lifetime = time() + (86400 * 365);
+		$ssl_only = (\RX_SSL && config('session.use_ssl')) ? true : false;
 		
 		// Set or destroy the HTTP-only key.
 		if ($autologin_key && $security_key)
 		{
-			setcookie('rx_autologin', $autologin_key . $security_key, $lifetime, $path, $domain, false, true);
+			setcookie('rx_autologin', $autologin_key . $security_key, $lifetime, $path, $domain, $ssl_only, true);
 			$_COOKIE['rx_autologin'] = $autologin_key . $security_key;
 			return true;
 		}
