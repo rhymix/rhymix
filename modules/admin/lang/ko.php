@@ -112,7 +112,7 @@ $lang->about_use_ssl = '\'선택적으로\'는 회원가입, 정보수정 등의
 $lang->server_ports = '서버 포트 지정';
 $lang->about_server_ports = 'HTTP는 80, HTTPS는 443 이 아닌, 다른 포트를 사용할 경우에 포트를 지정해 주어야 합니다.';
 $lang->use_db_session = '인증 세션 DB 사용';
-$lang->about_db_session = '인증 시 사용되는 PHP 세션을 DB로 사용하는 기능입니다. 웹서버의 사용률이 낮은 사이트에서는 비활성화시 사이트 응답 속도가 향상될 수 있습니다. 단, 현재 접속자를 구할 수 없어 관련된 기능을 사용할 수 없게 됩니다.';
+$lang->about_db_session = '세션을 DB에 저장합니다. 현재 접속자를 파악하려면 이 기능을 켜야 합니다.<br>불필요하게 사용하면 서버 성능에 악영향을 줄 수 있으니 주의하십시오.';
 $lang->qmail_compatibility = '큐메일(Qmail) 사용';
 $lang->minify_scripts = '스크립트 자동 압축';
 $lang->cmd_minify_all = '모든 파일을 압축';
@@ -232,7 +232,7 @@ $lang->detail_use_mobile_icon = '57x57 또는 114x114 크기의 png 파일을 �
 $lang->cmd_site_default_image = '사이트 대표 이미지';
 $lang->about_site_default_image = 'SNS 등에 이 사이트가 링크되었을 때 표시되는 이미지입니다. 200x200 크기의 jpg 또는 png 파일을 권장합니다.';
 $lang->use_sso = '<abbr title="Single Sign On">SSO</abbr> 사용';
-$lang->about_use_sso = '사용자가 한 번만 로그인하면 기본 사이트와 가상 사이트에 동시에 로그인이 됩니다. 가상 사이트를 사용할 때만 필요합니다.';
+$lang->about_use_sso = '여러 도메인을 사용하는 사이트에서 한 번만 로그인하면 모든 도메인에 로그인되도록 합니다.';
 $lang->about_arrange_session = '세션을 정리하시겠습니까?';
 $lang->cmd_clear_session = '세션 정리';
 $lang->save = '저장';
