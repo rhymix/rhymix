@@ -63,13 +63,15 @@
 <load target="css/css.less" vars="$less_color" />
 
 <div class="widgetContainer">
-	<div class="misolContent">
-		<!--@if($widget_info->tab_type  == "tab_left")-->
-			<!--#include("./_tab_left.html")-->
-		<!--@elseif($widget_info->tab_type == "tab_top")-->
-			<!--#include("./_tab_top.html")-->
-		<!--@else-->
-			<!--#include("./_tab_none.html")-->
-		<!--@end-->
+	<div class="simple_content">
+		<section class="simple_content">
+			<!--@if($widget_info->tab_type  == "tab_left")-->
+				<!--#include("./_tab_left.html")-->
+			<!--@elseif($widget_info->tab_type == "tab_top")-->
+				<!--#include("./_tab_top.html")-->
+			<!--@else-->
+				<!--#include("./_tab_none.html")-->
+			<!--@end-->
+		</section>
 	</div>
 </div>

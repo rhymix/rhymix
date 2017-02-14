@@ -1,5 +1,5 @@
 <div class="inner">
-	<ul class="misolContent_list">
+	<ul class="simple_content_list">
 	{@$_idx=0}
 		<li loop="$widget_info->content_items => $key, $item" style="display:none"|cond="$_idx >= $widget_info->list_count" class="content_reext"|cond="$widget_info->show_comment_count=='Y' && $item->getCommentCount()">
 			<a href="{$item->getLink()}" class="cont_a" target="_blank"|cond="$widget_info->new_window">
@@ -22,8 +22,8 @@
 		</li>
 	</ul>
 	<!--@if($widget_info->page_count > 1 && $widget_info->list_count<$_idx)-->
-	<div class="misolContentNavigator">
-		<button type="button" class="soo_cont_more" title="{$lang->more}" onclick="content_widget_plus(jQuery(this).parents('div.misolContentNavigator').prev('ul.misolContent_list'),{$widget_info->list_count})"><span class="page_info">1/{intval(($_idx - 1) / $widget_info->list_count) + 1}</span> {$lang->more}</button>
+	<div class="simple_contentNavigator">
+		<button type="button" class="soo_cont_more" title="{$lang->more}" onclick="content_widget_plus(jQuery(this).parents('div.simple_contentNavigator').prev('ul.simple_content_list'),{$widget_info->list_count})"><span class="page_info">1/{intval(($_idx - 1) / $widget_info->list_count) + 1}</span> {$lang->more}</button>
 	</div>
 	<!--@end-->
 </div>

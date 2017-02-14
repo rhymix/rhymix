@@ -396,14 +396,14 @@ class widgetController extends widget
 		if ($cache_data)
 		{
 			// Load the variables, marked to be cached.
-			$cache_data = preg_replace_callback('/<!--#WidgetVars:([a-z0-9\_\-\/\.\@\:]+)-->/is', function($matches) {
-				if($matches[1])
+			if(!is_string($cache_data))
+			{
+				foreach ($cache_data->variables as $key => $value)
 				{
-					$cache_var_data = Rhymix\Framework\Cache::get('widget_cache:' . $widget_sequence . ';Vars:' . $matches[1]);
-					Context::set($matches[1], $cache_var_data);
+					Context::set($key, $value);
 				}
-				return;
-			}, $cache_data);
+				$cache_data = $cache_data->content;
+			}
 			return str_replace('<!--#Meta:', '<!--Meta:', $cache_data);
 		}
 
@@ -419,13 +419,16 @@ class widgetController extends widget
 		// Keep the variables, marked to be cached.
 		if(preg_match_all('/<!--#WidgetVars:([a-z0-9\_\-\/\.\@\:]+)-->/is', $widget_content, $widget_var_matches, PREG_SET_ORDER))
 		{
+			$cache_content = new stdClass();
+			$cache_content->content = $widget_content;
 			foreach($widget_var_matches as $matches)
 			{
 				if($matches[1])
 				{
-					Rhymix\Framework\Cache::set('widget_cache:' . $widget_sequence . ';Vars:' . $matches[1], Context::get($matches[1]), $widget_cache, true);
+					$cache_content->variables->{$matches[1]} = Context::get($matches[1]);
 				}
 			}
+			Rhymix\Framework\Cache::set('widget_cache:' . $widget_sequence, $cache_content, $widget_cache, true);
 		}
 
 		return $widget_content;

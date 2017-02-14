@@ -1,11 +1,11 @@
 <div class="misolTab">
-	<ul class="misolContentTabA widgetTab">
+	<ul class="simple_contentTabA widgetTab">
 	{@$i=0}
-		<li loop="$widget_info->tab => $module_srl, $tab" class="active"|cond="$i==0"><a href="{$tab->url}" onmouseover="content_widget_tab_show(jQuery(this),jQuery(this).parents('div.misolTab').next('dl.widgetDivider'),{$i})" onclick="this.onmouseover();return false;"><span>{$tab->title}</span></a>{@$i++}</li>
+		<li loop="$widget_info->tab => $module_srl, $tab" class="active"|cond="$i==0"><a href="{$tab->url}" onmouseover="content_widget_tab_show(jQuery(this),jQuery(this).parents('div.misolTab').next('dl.simple_columns'),{$i})" onclick="this.onmouseover();return false;"><span>{$tab->title}</span></a>{@$i++}</li>
 	</ul>
 </div>
 
-<dl class="widgetDivider">
+<dl class="simple_columns">
 {@$i=0}
 <!--@foreach($widget_info->tab as $module_srl => $tab)-->
 	<dt>{$tab->title}</dt>
