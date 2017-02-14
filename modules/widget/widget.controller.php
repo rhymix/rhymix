@@ -395,11 +395,12 @@ class widgetController extends widget
 		$cache_data = Rhymix\Framework\Cache::get('widget_cache:' . $widget_sequence);
 		if ($cache_data)
 		{
-			$cache_data = preg_replace_callback('/<!--(#)?WidgetVars:([a-z0-9\_\-\/\.\@\:]+)-->/is', function($matches) {
-				if($matches[2])
+			// Load the variables, marked to be cached.
+			$cache_data = preg_replace_callback('/<!--#WidgetVars:([a-z0-9\_\-\/\.\@\:]+)-->/is', function($matches) {
+				if($matches[1])
 				{
-					$cache_var_data = Rhymix\Framework\Cache::get('widget_cache:' . $widget_sequence . ';Vars:' . $matches[2]);
-					Context::set($matches[2], $cache_var_data);
+					$cache_var_data = Rhymix\Framework\Cache::get('widget_cache:' . $widget_sequence . ';Vars:' . $matches[1]);
+					Context::set($matches[1], $cache_var_data);
 				}
 				return;
 			}, $cache_data);
@@ -414,13 +415,15 @@ class widgetController extends widget
 		$oModuleController->replaceDefinedLangCode($widget_content);
 
 		Rhymix\Framework\Cache::set('widget_cache:' . $widget_sequence, $widget_content, $widget_cache, true);
-		if(preg_match_all('/<!--(#)?WidgetVars:([a-z0-9\_\-\/\.\@\:]+)-->/is', $widget_content, $widget_var_matches, PREG_SET_ORDER))
+
+		// Keep the variables, marked to be cached.
+		if(preg_match_all('/<!--#WidgetVars:([a-z0-9\_\-\/\.\@\:]+)-->/is', $widget_content, $widget_var_matches, PREG_SET_ORDER))
 		{
 			foreach($widget_var_matches as $matches)
 			{
-				if($matches[2])
+				if($matches[1])
 				{
-					Rhymix\Framework\Cache::set('widget_cache:' . $widget_sequence . ';Vars:' . $matches[2], Context::get($matches[2]), $widget_cache, true);
+					Rhymix\Framework\Cache::set('widget_cache:' . $widget_sequence . ';Vars:' . $matches[1], Context::get($matches[1]), $widget_cache, true);
 				}
 			}
 		}

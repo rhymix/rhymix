@@ -700,13 +700,17 @@ class TemplateHandler
 					}
 
 					$result = "<?php {$result} ?>";
-					if($metafile && !$metavars)
+					if($metafile)
 					{
-						$result = "<!--#Meta:{$metafile}-->" . $result;
-					}
-					elseif($metafile && $metavars)
-					{
-						$result = "<!--#Meta:File:{$metafile};ENDFILES--Vars:{$metavars};ENDVARS-->" . $result;
+						if(!$metavars)
+						{
+							$result = "<!--#Meta:{$metafile}-->" . $result;
+						}
+						else
+						{
+							// LESS or SCSS needs the variables to be substituted.
+							$result = "<!--#Meta:{$metafile}?{$metavars}-->" . $result;
+						}
 					}
 
 					return $result;
