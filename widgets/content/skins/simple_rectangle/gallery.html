@@ -1,13 +1,13 @@
 <div class="inner">
-	<div class="misolGallery" style="height:{$widget_info->thumbnail_height+57}px;">
+	<div class="misolGallery">
 		<ul class="misolGallery">
 			{@$_idx=0}
-			<li class="misolGallery_item" loop="$widget_info->content_items => $key, $item" style="width:{$widget_info->thumbnail_width}px;">
-				<a href="{$item->getLink()}" class="cont_a" style="width:{$widget_info->thumbnail_width}px;">
+			<li class="misolGallery_item" loop="$widget_info->content_items => $key, $item">
+				<a href="{$item->getLink()}" class="cont_a">
 					<img class="up_m fade" cond="array_search('thumbnail', $widget_info->option_view_arr) && $item->getThumbnail()" src="{$item->getThumbnail()}" alt="{str_replace(array('&amp;amp;','&amp;lt;','&amp;gt;','&amp;quot;','&amp;apos;'),array('&amp;','&lt;','&gt;','&quot;','&apos;'),$item->getTitle($widget_info->subject_cut_size))}" width="{$widget_info->thumbnail_width}" height="{$widget_info->thumbnail_height}" />
-					<div class="fake_img" cond="!array_search('thumbnail', $widget_info->option_view_arr) || !$item->getThumbnail()" style="width:{$widget_info->thumbnail_width}px;height:{$widget_info->thumbnail_height}px;"></div>
+					<div class="fake_img" cond="!array_search('thumbnail', $widget_info->option_view_arr) || !$item->getThumbnail()"></div>
 					<div class="up_tw"|cond="array_search('thumbnail', $widget_info->option_view_arr) && $item->getThumbnail()">
-						<span class="gallery_text" style="width:{$widget_info->thumbnail_width}px;">
+						<span class="gallery_text">
 							<span class="content_title">
 								<span class="content_category" cond="$widget_info->show_category=='Y' && $item->get('category_srl')">{$item->getCategory()}</span> {str_replace(array('&amp;amp;','&amp;lt;','&amp;gt;','&amp;quot;','&amp;apos;'),array('&amp;','&lt;','&gt;','&quot;','&apos;'),$item->getTitle($widget_info->subject_cut_size))}
 							</span>

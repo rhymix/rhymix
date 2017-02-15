@@ -3,7 +3,7 @@
 	{@$_idx=0}
 		<li loop="$widget_info->content_items => $key, $item" style="display:none"|cond="$_idx >= $widget_info->list_count" class="content_reext"|cond="$widget_info->show_comment_count=='Y' && $item->getCommentCount()">
 			<a href="{$item->getLink()}" class="cont_a" target="_blank"|cond="$widget_info->new_window">
-				<span cond="array_search('thumbnail', $widget_info->option_view_arr) && $item->getThumbnail()" class="content_image" style="width:{$widget_info->thumbnail_width}px;height:{$widget_info->thumbnail_height}px;">
+				<span cond="array_search('thumbnail', $widget_info->option_view_arr) && $item->getThumbnail()" class="content_image">
 					<img src="{$item->getThumbnail()}" width="{$widget_info->thumbnail_width}" height="{$widget_info->thumbnail_height}" alt="{str_replace(array('&amp;amp;','&amp;lt;','&amp;gt;','&amp;quot;','&amp;apos;'),array('&amp;','&lt;','&gt;','&quot;','&apos;'),$item->getTitle($widget_info->subject_cut_size))}" />
 				</span>
 				<span class="content_basic" style="line-height:{$widget_info->thumbnail_height}px;vertical-align:middle;"|cond="array_search('thumbnail', $widget_info->option_view_arr) && $item->getThumbnail()">

@@ -395,7 +395,7 @@ class widgetController extends widget
 		$cache_data = Rhymix\Framework\Cache::get('widget_cache:' . $widget_sequence);
 		if ($cache_data)
 		{
-			// Load the variables, marked to be cached.
+			// Load the variables, need to load the LESS or SCSS files.
 			if(!is_string($cache_data))
 			{
 				foreach ($cache_data->variables as $key => $value)
@@ -416,16 +416,18 @@ class widgetController extends widget
 
 		Rhymix\Framework\Cache::set('widget_cache:' . $widget_sequence, $widget_content, $widget_cache, true);
 
-		// Keep the variables, marked to be cached.
-		if(preg_match_all('/<!--#WidgetVars:([a-z0-9\_\-\/\.\@\:]+)-->/is', $widget_content, $widget_var_matches, PREG_SET_ORDER))
+		// Keep the variables, need to load the LESS or SCSS files.
+		if(preg_match_all('/<!--#Meta:([a-z0-9\_\-\/\.\@\:]+)(\?\$\_\_Context\-\>[a-z0-9\_\-\/\.\@\:]+)?-->/is', $widget_content, $widget_var_matches, PREG_SET_ORDER))
 		{
 			$cache_content = new stdClass();
 			$cache_content->content = $widget_content;
+			$cache_content->variables = new stdClass();
 			foreach($widget_var_matches as $matches)
 			{
-				if($matches[1])
+				if($matches[2])
 				{
-					$cache_content->variables->{$matches[1]} = Context::get($matches[1]);
+					$key = str_replace('?$__Context->', '', $matches[2]);
+					$cache_content->variables->{$key} = Context::get($key);
 				}
 			}
 			Rhymix\Framework\Cache::set('widget_cache:' . $widget_sequence, $cache_content, $widget_cache, true);

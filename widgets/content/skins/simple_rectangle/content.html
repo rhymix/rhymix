@@ -58,18 +58,20 @@
 <block cond="$colorset">
 	{@$skin_color = $colorset}
 </block>
-{@Context::set('less_color', array('red' => hexdec(substr($skin_color, 1, 2)), 'green' => hexdec(substr($skin_color, 3, 2)), 'blue' => hexdec(substr($skin_color, 5, 2)) ))}
-<!--#WidgetVars:less_color-->
+{@Context::set('less_color', array('red' => hexdec(substr($skin_color, 1, 2)), 'green' => hexdec(substr($skin_color, 3, 2)), 'blue' => hexdec(substr($skin_color, 5, 2)), 'thumbnail_height' => intval($widget_info->thumbnail_height), 'thumbnail_width' => intval($widget_info->thumbnail_width)))}
 <load target="css/css.less" vars="$less_color" />
 
 <div class="widgetContainer">
 	<div class="simple_content">
 		<section class="simple_content">
-			<!--@if($widget_info->tab_type  == "tab_left")-->
+			<!--@if($widget_info->tab_type  == "tab_left" && count($widget_info->tab) > 1)-->
 				<!--#include("./_tab_left.html")-->
-			<!--@elseif($widget_info->tab_type == "tab_top")-->
+			<!--@elseif($widget_info->tab_type == "tab_top" && count($widget_info->tab) > 1)-->
 				<!--#include("./_tab_top.html")-->
 			<!--@else-->
+				<!--@if($widget_info->tab_type  == "tab_left" || $widget_info->tab_type == "tab_top")-->
+					{@$widget_info->content_items = $widget_info->tab[0]->content_items}
+				<!--@end-->
 				<!--#include("./_tab_none.html")-->
 			<!--@end-->
 		</section>

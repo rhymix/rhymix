@@ -65,6 +65,7 @@ section.simple_content
 	box-shadow: 0 1px 2px rgba(0,0,0,0.16), 0 1px 2px rgba(0,0,0,0.23);
 }
 /* 글 목록 스타일 */
+.simple_content ul.simple_content_list { margin:0; padding:0 8px;}
 .simple_content .simple_content_list .cont_a {
 	color: #222;
 	display: block;
@@ -115,13 +116,13 @@ section.simple_content
 	margin: 0 3px 0 7px;
 	overflow:hidden;
 }
-.simple_content  ul.simple_content_list, .simple_content  ul.simple_contentTabA {
+.simple_content ul.simple_contentTabA {
 	list-style: outside none none;
 	padding: 0;
 	margin: 0;
 }
 
-.simple_content  .simple_content_list li {
+.simple_content .simple_content_list li {
 	position:relative;
 	border-top: 1px solid #e0e0e0;
 	overflow: hidden;
@@ -140,47 +141,27 @@ section.simple_content
 	top:0.6em;
 	right:15px;
 }
-.simple_content  .simple_content_list li i{ /* 아이콘 */
-	margin-right:3px;
-	font-size:0.9em;
-}
 .simple_content .simple_content_list li.content_reext .cont_a { /* 코멘트 있는 항목 */
 	padding-right:70px;
 }
 /* 상단 제목 스타일 */
-.simple_content .misolTop {
+.simple_content h1.misolTop {
 	border-bottom: 1px solid #e0e0e0;
-	height: 40px;
-	line-height: 18px;
+	font-weight: 400;
 	margin: 0;
 	position: relative;
 }
-.simple_content div.misolTop h3
-{
-	color: #000;
-	font-weight: 400;
-	letter-spacing: -1px;
-	line-height: 40px;
-}
-.simple_content div.misolTop .misol_top_a {
-	color: #000;
-	font-weight: 400;
+.simple_content h1.misolTop .misol_top_a {
 	display: block;
-	margin: 0 -10px;
-	padding: 0 10px;
+	margin: 0;
+	padding: 10px;
 	text-decoration: none;
-}
-.simple_content div.misolTop .misol_more {
-	position: absolute;
-	right: 1px;
-	top: 12px;
-	height: 16px;
-	width: 9px;
 }
 /* 갤러리 스타일 */
 .simple_content div.misolGallery{
 	overflow: hidden;
 	width:100%;
+	height: @thumbnail_height + 57px;
 	white-space: nowrap;
 	box-sizing: border-box;
 }
@@ -192,20 +173,29 @@ div.misolGallery ul.misolGallery{
 	overflow-x: auto;
 	-webkit-overflow-scrolling: touch;
 }
-div.misolGallery ul.misolGallery li{
+div.misolGallery ul.misolGallery>li{
 	position: relative;
 	display: inline-block;
+	width: @thumbnail_width + 0px;
 	padding:0 5px;
 }
-div.misolGallery ul.misolGallery li .gallery_text
+div.misolGallery ul.misolGallery>li .cont_a{
+	width: @thumbnail_width + 0px;
+}
+div.misolGallery ul.misolGallery>li .gallery_text
 {
 	display:inline-block;
+	width: @thumbnail_width + 0px;
 	overflow: hidden;
 	text-overflow: ellipsis;
 	white-space: nowrap;
 }
-div.misolGallery ul.misolGallery li .cont_a:hover {
+div.misolGallery ul.misolGallery>li .cont_a:hover {
 	color: @color;
+}
+div.misolGallery ul.misolGallery>li .cont_a .fake_img, .simple_content_list .content_image{
+	width: @thumbnail_width + 0px;
+	height: @thumbnail_height + 0px;
 }
 /* 상단 탭 스타일 */
 .simple_content div.misolTab{
@@ -237,9 +227,8 @@ div.misolGallery ul.misolGallery li .cont_a:hover {
 	line-height: 40px;
 	text-decoration: none;
 }
-.simple_content ul.simple_contentTabA>li a:hover, .simple_content ul.simple_contentTabA>li.active a {
+.simple_content ul.simple_contentTabA>li a:hover, .simple_content ul.simple_contentTabA>li.active a, .simple_content h1.misolTop .misol_top_a {
 	color: @color;
-	font-weight: 700;
 }
 .simple_content ul.simple_contentTabA>li a span {
 	border-left: 1px solid #e0e0e0;
@@ -249,7 +238,7 @@ div.misolGallery ul.misolGallery li .cont_a:hover {
 	border-left: 0 none;
 }
 
-.simple_content dl.simple_columns{ margin:0; padding:15px;}
+.simple_content dl.simple_columns{ margin:0; padding:0}
 .simple_content dl.simple_columns dt{ position:absolute; width:0; height:0; overflow:hidden; font-size:0; line-height:0;}
 .simple_content dl.simple_columns dd{ display:none; margin:0;} 
 .widgetContainer .simple_content .open{ display:block !important;}
