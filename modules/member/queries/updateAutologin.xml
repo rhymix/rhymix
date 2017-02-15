@@ -4,14 +4,13 @@
 	</tables>
 	<columns>
 		<column name="security_key" var="security_key" />
-		<column name="member_srl" var="member_srl" filter="number" />
 		<column name="last_visit" var="last_visit" default="curdate()" />
 		<column name="last_ipaddress" var="last_ipaddress" default="ipaddress()" />
 		<column name="user_agent" var="user_agent" />
 	</columns>
-    <conditions>
-        <condition operation="equal" column="autologin_key" var="autologin_key" />
+	<conditions>
+		<condition operation="equal" column="autologin_key" var="autologin_key" />
 		<condition operation="notequal" column="autologin_key" var="not_autologin_key" pipe="and" />
-        <condition operation="equal" column="member_srl" var="member_srl" pipe="and" />
-    </conditions>
+		<condition operation="equal" column="member_srl" var="member_srl" pipe="and" />
+	</conditions>
 </query>
