@@ -43,6 +43,8 @@ class SessionTest extends \Codeception\TestCase\Test
 	
 	public function testStart()
 	{
+		Rhymix\Framework\Config::set('session.use_keys', true);
+		
 		// Test normal start.
 		$this->assertTrue(@Rhymix\Framework\Session::start());
 		$this->assertTrue(isset($_COOKIE['rx_sesskey1']));
