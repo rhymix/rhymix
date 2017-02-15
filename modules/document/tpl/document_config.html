@@ -12,7 +12,7 @@
 				<select name="view_count_option">
 					<option value="all" selected="selected"|cond="$config->view_count_option=='all'">{$lang->view_count_option_all}</option>
 					<option value="some" selected="selected"|cond="$config->view_count_option=='some'">{$lang->view_count_option_some}</option>
-					<option value="once" selected="selected"|cond="$config->view_count_option=='once'">{$lang->view_count_option_once}</option>
+					<option value="once" selected="selected"|cond="$config->view_count_option=='once' || !$config->view_count_option">{$lang->view_count_option_once}</option>
 					<option value="none" selected="selected"|cond="$config->view_count_option=='none'">{$lang->view_count_option_none}</option>
 				</select>
 				<p>{$lang->about_view_count_option}</p>
