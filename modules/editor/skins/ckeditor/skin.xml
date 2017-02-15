@@ -16,5 +16,8 @@
         <color name="moono-dark">
             <title xml:lang="ko">Moono Dark</title>
         </color>
+        <color name="moono-lisa">
+            <title xml:lang="ko">Moono Lisa</title>
+        </color>
     </colorset>
 </skin>
