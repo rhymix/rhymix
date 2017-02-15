@@ -141,12 +141,12 @@ class Password
 			$work_factor = $config->password_hashing_work_factor;
 			if (!$work_factor || $work_factor < 4 || $work_factor > 31)
 			{
-				$work_factor = 9;
+				$work_factor = 10;
 			}
 		}
 		else
 		{
-			$work_factor = 9;
+			$work_factor = 10;
 		}
 		
 		return $work_factor;

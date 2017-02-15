@@ -77,7 +77,7 @@ class member extends ModuleObject {
 		}
 		if(!$config->password_hashing_work_factor)
 		{
-			$config->password_hashing_work_factor = 8;
+			$config->password_hashing_work_factor = 10;
 		}
 		if(!$config->password_hashing_auto_upgrade)
 		{
