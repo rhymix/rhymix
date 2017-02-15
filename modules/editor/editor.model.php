@@ -267,7 +267,7 @@ class editorModel extends editor
 		if(!$skin) $skin = 'ckeditor';
 
 		$colorset = $option->colorset;
-		if(!$colorset) $colorset = 'moono';
+		if(!$colorset) $colorset = 'moono-lisa';
 		Context::set('colorset', $colorset);
 		Context::set('skin', $skin);
 		Context::set('module_type', $option->module_type);
