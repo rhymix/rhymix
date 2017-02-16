@@ -949,8 +949,18 @@ class ModuleHandler extends Handler
 		{
 			if($_SESSION['XE_VALIDATOR_RETURN_URL'])
 			{
-				header('location: ' . $_SESSION['XE_VALIDATOR_RETURN_URL']);
-				return;
+				if ($_SESSION['is_new_session'])
+				{
+					ob_end_clean();
+					echo sprintf('<html><head><meta charset="UTF-8" /><meta http-equiv="refresh" content="0; url=%s" /></head><body></body></html>', escape($_SESSION['XE_VALIDATOR_RETURN_URL']));
+					return;
+				}
+				else
+				{
+					ob_end_clean();
+					header('location: ' . $_SESSION['XE_VALIDATOR_RETURN_URL']);
+					return;
+				}
 			}
 
 			// If error occurred, handle it

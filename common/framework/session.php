@@ -214,6 +214,7 @@ class Session
 		}
 		else
 		{
+			$_SESSION['is_new_session'] = false;
 			return true;
 		}
 	}
@@ -374,6 +375,7 @@ class Session
 		$_SESSION['RHYMIX']['secret'] = Security::getRandom(32, 'alnum');
 		$_SESSION['RHYMIX']['tokens'] = array();
 		$_SESSION['is_webview'] = self::_isBuggyUserAgent();
+		$_SESSION['is_new_session'] = true;
 		$_SESSION['is_logged'] = false;
 		$_SESSION['is_admin'] = '';
 		
