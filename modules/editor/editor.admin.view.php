@@ -39,8 +39,8 @@ class editorAdminView extends editor
 		if(!$editor_config->comment_editor_height) $editor_config->comment_editor_height = 100;
 		if(!$editor_config->editor_skin) $editor_config->editor_skin = 'ckeditor';
 		if(!$editor_config->comment_editor_skin) $editor_config->comment_editor_skin = 'ckeditor';
-		if(!$editor_config->sel_editor_colorset) $editor_config->sel_editor_colorset= 'moono';
-		if(!$editor_config->sel_comment_editor_colorset) $editor_config->sel_comment_editor_colorset= 'moono';
+		if(!$editor_config->sel_editor_colorset) $editor_config->sel_editor_colorset= 'moono-lisa';
+		if(!$editor_config->sel_comment_editor_colorset) $editor_config->sel_comment_editor_colorset= 'moono-lisa';
 
 		$component_list = $oEditorModel->getComponentList(false, $site_srl, true);
 		$editor_skin_list = FileHandler::readDir(_XE_PATH_.'modules/editor/skins');
