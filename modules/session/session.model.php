@@ -28,20 +28,9 @@ class sessionModel extends session
 		$columnList = array('session_key', 'cur_mid', 'val');
 		$output = executeQuery('session.getSession', $args, $columnList);
 
-		// Confirm there is a table created if read error occurs
-		if(!$output->toBool())
+		if(!$output->data)
 		{
-			$oDB = DB::getInstance();
-			if(!$oDB->isTableExists('session')) $oDB->createTableByXmlFile($this->module_path.'schemas/session.xml');
-			if(!$oDB->isColumnExists("session", "cur_mid")) $oDB->addColumn('session',"cur_mid","varchar",128);
-			$output = executeQuery('session.getSession', $args);
-		}
-
-		// Check if there is a table created in case there is no "cur_mid" value in the sessions information
-		if(!isset($output->data->cur_mid))
-		{
-			$oDB = DB::getInstance();
-			if(!$oDB->isColumnExists("session", "cur_mid")) $oDB->addColumn('session',"cur_mid","varchar",128);
+			return '';
 		}
 
 		return $output->data->val;
