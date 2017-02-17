@@ -499,6 +499,7 @@ class Session
 		setcookie('xe_logged', 'deleted', time() - 86400, $path, null, false, false);
 		setcookie('xeak', 'deleted', time() - 86400, $path, null, false, false);
 		setcookie('sso', 'deleted', time() - 86400, $path, null, false, false);
+		self::destroyCookiesFromConflictingDomains(array('xe_logged', 'xeak', 'sso'));
 		unset($_COOKIE[session_name()]);
 		unset($_COOKIE['rx_autologin']);
 		unset($_COOKIE['rx_sesskey1']);
@@ -1072,16 +1073,8 @@ class Session
 			$_COOKIE['rx_sesskey2'] = $_SESSION['RHYMIX']['keys'][$domain]['key2'];
 		}
 		
-		// Delete conflicting wildcard cookies.
-		if (!strncmp($domain, 'www.', 4) && !Config::get('session.domain') && !ini_get('session.cookie_domain'))
-		{
-			$domain = substr($domain, 4);
-			setcookie(session_name(), 'deleted', time() - 86400, $path, $domain);
-			setcookie('rx_autologin', 'deleted', time() - 86400, $path, $domain);
-			setcookie('rx_sesskey1', 'deleted', time() - 86400, $path, $domain);
-			setcookie('rx_sesskey2', 'deleted', time() - 86400, $path, $domain);
-		}
-		
+		// Delete conflicting domain cookies.
+		self::destroyCookiesFromConflictingDomains(array(session_name(), 'rx_autologin', 'rx_sesskey1', 'rx_sesskey2'));
 		return true;
 	}
 	
@@ -1099,10 +1092,11 @@ class Session
 		$lifetime = time() + (86400 * 365);
 		$ssl_only = (\RX_SSL && config('session.use_ssl')) ? true : false;
 		
-		// Set or destroy the HTTP-only key.
+		// Set the autologin keys.
 		if ($autologin_key && $security_key)
 		{
 			setcookie('rx_autologin', $autologin_key . $security_key, $lifetime, $path, null, $ssl_only, true);
+			self::destroyCookiesFromConflictingDomains(array('rx_autologin'));
 			$_COOKIE['rx_autologin'] = $autologin_key . $security_key;
 			return true;
 		}
@@ -1136,6 +1130,7 @@ class Session
 		
 		// Delete the autologin cookie.
 		setcookie('rx_autologin', 'deleted', time() - 86400, $path, null, false, false);
+		self::destroyCookiesFromConflictingDomains(array('rx_autologin'));
 		unset($_COOKIE['rx_autologin']);
 		return $result;
 	}
@@ -1176,6 +1171,36 @@ class Session
 		else
 		{
 			executeQuery('member.deleteAutologin', (object)array('member_srl' => $member_srl));
+		}
+		
+		return true;
+	}
+	
+	/**
+	 * Destroy cookies from potentially conflicting domains.
+	 * 
+	 * @param array $cookies
+	 * @return bool
+	 */
+	public static function destroyCookiesFromConflictingDomains($cookies)
+	{
+		$override_domains = config('session.override_domains');
+		if ($override_domains === null && !Config::get('session.domain') && !ini_get('session.cookie_domain'))
+		{
+			list($lifetime, $refresh_interval, $domain, $path) = self::_getParams();
+			if (substr($domain, 0, 4) === 'www.')
+			{
+				$override_domains[] = $domain;
+				$override_domains[] = substr($domain, 4);
+			}
+		}
+		
+		foreach ($cookies as $cookie)
+		{
+			foreach ($override_domains as $domain)
+			{
+				setcookie($cookie, 'deleted', time() - 86400, $path, $domain);
+			}
 		}
 		
 		return true;
