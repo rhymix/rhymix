@@ -263,6 +263,7 @@ class HTMLFilter
 		// Support additional properties.
 		$def->addAttribute('i', 'aria-hidden', 'Text');
 		$def->addAttribute('img', 'srcset', 'Text');
+		$def->addAttribute('img', 'data-file-srl', 'Number');
 		$def->addAttribute('iframe', 'allowfullscreen', 'Bool');
 	}
 	
