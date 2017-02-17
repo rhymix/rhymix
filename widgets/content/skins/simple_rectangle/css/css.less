@@ -110,6 +110,13 @@ section.simple_content
 	font-family: HelveticaNeue-Light,AppleSDGothicNeo-Light,sans-serif-light,sans-serif;
 	margin: 0 7px 0 3px;
 }
+.simple_content .simple_gallery_item .content_category {
+	position: absolute;
+	top: 0;
+	right: 0;
+	background: #fff;
+	margin: 0;
+}
 .simple_content .content_nickname, .simple_content .content_recnt{
 	color: #9e9e9e;
 	font-size: 12px;
@@ -158,14 +165,14 @@ section.simple_content
 	text-decoration: none;
 }
 /* 갤러리 스타일 */
-.simple_content div.misolGallery{
+.simple_content div.simple_gallery{
 	overflow: hidden;
 	width:100%;
-	height: @thumbnail_height + 57px;
+	height: @thumbnail_height + 62px;
 	white-space: nowrap;
 	box-sizing: border-box;
 }
-div.misolGallery ul.misolGallery{
+div.simple_gallery ul.simple_gallery{
 	display: block;
 	list-style: outside none none;
 	padding: 6px 0px 100px;
@@ -173,29 +180,42 @@ div.misolGallery ul.misolGallery{
 	overflow-x: auto;
 	-webkit-overflow-scrolling: touch;
 }
-div.misolGallery ul.misolGallery>li{
+div.simple_gallery ul.simple_gallery > li{
 	position: relative;
 	display: inline-block;
 	width: @thumbnail_width + 0px;
-	padding:0 5px;
+	padding: 7px;
 }
-div.misolGallery ul.misolGallery>li .cont_a{
+div.simple_gallery ul.simple_gallery>li .cont_a{
+	position: relative;
+	padding:0;
 	width: @thumbnail_width + 0px;
 }
-div.misolGallery ul.misolGallery>li .gallery_text
+div.simple_gallery ul.simple_gallery>li .gallery_text>span
 {
-	display:inline-block;
+	display: block;
 	width: @thumbnail_width + 0px;
 	overflow: hidden;
 	text-overflow: ellipsis;
 	white-space: nowrap;
 }
-div.misolGallery ul.misolGallery>li .cont_a:hover {
+div.simple_gallery ul.simple_gallery>li .gallery_text>span.content_nickname
+{
+	margin: 0;
+	text-align: right;
+}
+div.simple_gallery ul.simple_gallery>li .cont_a:hover {
 	color: @color;
 }
-div.misolGallery ul.misolGallery>li .cont_a .fake_img, .simple_content_list .content_image{
+div.simple_gallery ul.simple_gallery>li .cont_a .fake_img, .simple_content_list .content_image{
 	width: @thumbnail_width + 0px;
 	height: @thumbnail_height + 0px;
+	vertical-align: middle;
+	text-align: center;
+	line-height: @thumbnail_height + 0px;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	white-space: nowrap;
 }
 /* 상단 탭 스타일 */
 .simple_content div.misolTab{
