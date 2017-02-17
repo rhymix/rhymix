@@ -632,8 +632,6 @@ class commentController extends comment
 		}
 
 		$oCommentModel = getModel("comment");
-		$nr_comments_not_approved = $oCommentModel->getCommentAllCount(NULL, FALSE);
-
 		$oModuleModel = getModel("module");
 		$module_info = $oModuleModel->getModuleInfoByDocumentSrl($obj->document_srl);
 
@@ -657,6 +655,7 @@ class commentController extends comment
 			$url_comment = getFullUrl('','document_srl',$obj->document_srl).'#comment_'.$obj->comment_srl;
 			if($using_validation)
 			{
+				$nr_comments_not_approved = $oCommentModel->getCommentAllCount(NULL, FALSE);
 				$url_approve = getFullUrl('', 'module', 'admin', 'act', 'procCommentAdminChangePublishedStatusChecked', 'cart[]', $obj->comment_srl, 'will_publish', '1', 'search_target', 'is_published', 'search_keyword', 'N');
 				$url_trash = getFullUrl('', 'module', 'admin', 'act', 'procCommentAdminDeleteChecked', 'cart[]', $obj->comment_srl, 'search_target', 'is_trash', 'search_keyword', 'true');
 				$mail_content = "
