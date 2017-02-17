@@ -986,7 +986,7 @@ class Session
 	protected static function _isBuggyUserAgent()
 	{
 		$browser = UA::getBrowserInfo();
-		if ($browser->browser === 'Android' || ($browser->os === 'Android' && $browser->browser === 'Chrome'))
+		if ($browser->browser === 'Android')
 		{
 			return true;
 		}
