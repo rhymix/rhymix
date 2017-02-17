@@ -1061,7 +1061,7 @@ class Session
 		}
 		else
 		{
-			setcookie('rx_sesskey1', 'deleted', time() - 86400, $path, $domain, false, true);
+			setcookie('rx_sesskey1', 'deleted', time() - 86400, $path);
 			unset($_COOKIE['rx_sesskey1']);
 		}
 		
@@ -1070,6 +1070,16 @@ class Session
 		{
 			setcookie('rx_sesskey2', $_SESSION['RHYMIX']['keys'][$domain]['key2'], $lifetime, $path, null, true, true);
 			$_COOKIE['rx_sesskey2'] = $_SESSION['RHYMIX']['keys'][$domain]['key2'];
+		}
+		
+		// Delete conflicting wildcard keys.
+		if (!strncmp($domain, 'www.', 4) && !Config::get('session.domain') && !ini_get('session.cookie_domain'))
+		{
+			$domain = preg_replace('/^www\./', '', $domain);
+			setcookie(session_name(), 'deleted', time() - 86400, $path, $domain);
+			setcookie('rx_autologin', 'deleted', time() - 86400, $path, $domain);
+			setcookie('rx_sesskey1', 'deleted', time() - 86400, $path, $domain);
+			setcookie('rx_sesskey2', 'deleted', time() - 86400, $path, $domain);
 		}
 		
 		return true;
