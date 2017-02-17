@@ -1072,10 +1072,10 @@ class Session
 			$_COOKIE['rx_sesskey2'] = $_SESSION['RHYMIX']['keys'][$domain]['key2'];
 		}
 		
-		// Delete conflicting wildcard keys.
+		// Delete conflicting wildcard cookies.
 		if (!strncmp($domain, 'www.', 4) && !Config::get('session.domain') && !ini_get('session.cookie_domain'))
 		{
-			$domain = preg_replace('/^www\./', '', $domain);
+			$domain = substr($domain, 4);
 			setcookie(session_name(), 'deleted', time() - 86400, $path, $domain);
 			setcookie('rx_autologin', 'deleted', time() - 86400, $path, $domain);
 			setcookie('rx_sesskey1', 'deleted', time() - 86400, $path, $domain);
