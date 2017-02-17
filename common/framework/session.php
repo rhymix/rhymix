@@ -11,7 +11,6 @@ class Session
 	 * Properties for internal use only.
 	 */
 	protected static $_domain = false;
-	protected static $_subdomain = false;
 	protected static $_started = false;
 	protected static $_autologin_key = false;
 	protected static $_member_info = false;
@@ -81,7 +80,7 @@ class Session
 		ini_set('session.use_cookies', 1);
 		ini_set('session.use_only_cookies', 1);
 		ini_set('session.use_strict_mode', 1);
-		session_set_cookie_params($lifetime, $path, $domain, $ssl_only, false);
+		session_set_cookie_params($lifetime, $path, null, $ssl_only, false);
 		session_name($session_name = Config::get('session.name') ?: session_name());
 		
 		// Get session ID from POST parameter if using relaxed key checks.
@@ -496,10 +495,10 @@ class Session
 		// Delete all cookies.
 		self::_setKeys();
 		self::destroyAutologinKeys();
-		setcookie(session_name(), 'deleted', time() - 86400, $path, $domain, false, false);
-		setcookie('xe_logged', 'deleted', time() - 86400, $path, $domain, false, false);
-		setcookie('xeak', 'deleted', time() - 86400, $path, $domain, false, false);
-		setcookie('sso', 'deleted', time() - 86400, $path, $domain, false, false);
+		setcookie(session_name(), 'deleted', time() - 86400, $path, null, false, false);
+		setcookie('xe_logged', 'deleted', time() - 86400, $path, null, false, false);
+		setcookie('xeak', 'deleted', time() - 86400, $path, null, false, false);
+		setcookie('sso', 'deleted', time() - 86400, $path, null, false, false);
 		unset($_COOKIE[session_name()]);
 		unset($_COOKIE['rx_autologin']);
 		unset($_COOKIE['rx_sesskey1']);
@@ -787,18 +786,13 @@ class Session
 	 */
 	public static function getDomain()
 	{
-		if (self::$_domain || (self::$_domain = Config::get('session.domain')))
+		if (self::$_domain || (self::$_domain = ltrim(Config::get('session.domain'), '.')))
 		{
 			return self::$_domain;
 		}
 		else
 		{
 			self::$_domain = ini_get('session.cookie_domain') ?: preg_replace('/:\\d+$/', '', strtolower($_SERVER['HTTP_HOST']));
-			if (!strncmp(self::$_domain, 'www.', 4))
-			{
-				self::$_subdomain = self::$_domain;
-				self::$_domain = substr(self::$_domain, 4);
-			}
 			return self::$_domain;
 		}
 	}
@@ -817,7 +811,6 @@ class Session
 		else
 		{
 			self::$_domain = $domain;
-			self::$_subdomain = false;
 			return true;
 		}
 	}
@@ -1063,7 +1056,7 @@ class Session
 		// Set or destroy the HTTP-only key.
 		if (isset($_SESSION['RHYMIX']['keys'][$domain]['key1']))
 		{
-			setcookie('rx_sesskey1', $_SESSION['RHYMIX']['keys'][$domain]['key1'], $lifetime, $path, $domain, $ssl_only, true);
+			setcookie('rx_sesskey1', $_SESSION['RHYMIX']['keys'][$domain]['key1'], $lifetime, $path, null, $ssl_only, true);
 			$_COOKIE['rx_sesskey1'] = $_SESSION['RHYMIX']['keys'][$domain]['key1'];
 		}
 		else
@@ -1075,19 +1068,10 @@ class Session
 		// Set the HTTPS-only key.
 		if (\RX_SSL && isset($_SESSION['RHYMIX']['keys'][$domain]['key2']))
 		{
-			setcookie('rx_sesskey2', $_SESSION['RHYMIX']['keys'][$domain]['key2'], $lifetime, $path, $domain, true, true);
+			setcookie('rx_sesskey2', $_SESSION['RHYMIX']['keys'][$domain]['key2'], $lifetime, $path, null, true, true);
 			$_COOKIE['rx_sesskey2'] = $_SESSION['RHYMIX']['keys'][$domain]['key2'];
 		}
 		
-		// Delete keys from subdomain.
-		if (self::$_subdomain && !isset($_SESSION['RHYMIX']['keys'][self::$_subdomain]['deleted']))
-		{
-			setcookie(session_name(), session_id(), $lifetime, $path, $domain, $ssl_only, false);
-			setcookie(session_name(), 'deleted', time() - 86400, $path, self::$_subdomain, false, false);
-			setcookie('rx_sesskey1', 'deleted', time() - 86400, $path, self::$_subdomain, false, false);
-			setcookie('rx_sesskey2', 'deleted', time() - 86400, $path, self::$_subdomain, false, false);
-			$_SESSION['RHYMIX']['keys'][self::$_subdomain]['deleted'] = true;
-		}
 		return true;
 	}
 	
@@ -1108,7 +1092,7 @@ class Session
 		// Set or destroy the HTTP-only key.
 		if ($autologin_key && $security_key)
 		{
-			setcookie('rx_autologin', $autologin_key . $security_key, $lifetime, $path, $domain, $ssl_only, true);
+			setcookie('rx_autologin', $autologin_key . $security_key, $lifetime, $path, null, $ssl_only, true);
 			$_COOKIE['rx_autologin'] = $autologin_key . $security_key;
 			return true;
 		}
@@ -1141,7 +1125,7 @@ class Session
 		}
 		
 		// Delete the autologin cookie.
-		setcookie('rx_autologin', 'deleted', time() - 86400, $path, $domain, false, false);
+		setcookie('rx_autologin', 'deleted', time() - 86400, $path, null, false, false);
 		unset($_COOKIE['rx_autologin']);
 		return $result;
 	}
