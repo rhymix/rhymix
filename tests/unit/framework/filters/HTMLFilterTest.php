@@ -217,4 +217,16 @@ class HTMLFilterTest extends \Codeception\TestCase\Test
 		$target = '<p id="user_content_foobar">Hello World!</p>';
 		$this->assertEquals($target, Rhymix\Framework\Filters\HTMLFilter::clean($source));
 	}
+	
+	public function testHTMLFilterMiscellaneous()
+	{
+		// data-file-srl attribute
+		$source = '<p><img src="foo.jpg" alt="foobar" data-file-srl="1234" /></p>';
+		$target = '<p><img src="foo.jpg" alt="foobar" data-file-srl="1234" /></p>';
+		$this->assertEquals($target, Rhymix\Framework\Filters\HTMLFilter::clean($source));
+		
+		$source = '<p><img src="foo.jpg" alt="foobar" data-file-srl="javascript:xss()" /></p>';
+		$target = '<p><img src="foo.jpg" alt="foobar" /></p>';
+		$this->assertEquals($target, Rhymix\Framework\Filters\HTMLFilter::clean($source));
+	}
 }
