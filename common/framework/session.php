@@ -1185,15 +1185,6 @@ class Session
 	public static function destroyCookiesFromConflictingDomains(array $cookies)
 	{
 		$override_domains = config('session.override_domains');
-		if ($override_domains === null && !Config::get('session.domain') && !ini_get('session.cookie_domain'))
-		{
-			list($lifetime, $refresh_interval, $domain, $path) = self::_getParams();
-			if (substr($domain, 0, 4) === 'www.')
-			{
-				$override_domains[] = $domain;
-				$override_domains[] = substr($domain, 4);
-			}
-		}
 		if (!$override_domains)
 		{
 			return false;
