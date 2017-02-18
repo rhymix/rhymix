@@ -16,7 +16,7 @@
 .xe_content.editable blockquote.q6{border:1px dashed #707070}
 .xe_content.editable blockquote.q7{border:1px dashed #707070;background:#fbfbfb}
 .xe_content.editable table .xe_selected_cell{background-color:#d6e9ff}
-
+.xe_content.editable img.cke_iframe{background-color:#444}
 .xe_content.editable blockquote
 {
 	padding: 2px 0;
