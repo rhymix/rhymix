@@ -327,6 +327,14 @@ jQuery(function($) {
 	};
 
 	/**
+	 * @brief string prototype으로 unescape 함수 추가
+	 **/
+	String.prototype.unescape = function() {
+		var map = { '&amp;': '&', '&lt;': '<', '&gt;': '>', '&quot;': '"', '&#039;': "'" };
+		return String(this).replace(/&(amp|lt|gt|quot|#039);/g, function(m) { return map[m]; });
+	};
+
+	/**
 	 * @brief string prototype으로 trim 함수 추가
 	 **/
 	if (!String.prototype.trim) {
