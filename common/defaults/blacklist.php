@@ -10,6 +10,7 @@ return array(
 	'auto_login' => true,
 	'errorlogger' => true,
 	'fix_mysql_utf8' => true,
+	'homepage' => true,
 	'member_communication' => true,
 	'seo' => true,
 	'session_shield' => true,
