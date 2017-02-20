@@ -421,7 +421,7 @@ class adminAdminView extends admin
 		Context::set('all_html_footer', escape($config->htmlFooter));
 		
 		// Index module
-		$columnList = array('modules.mid', 'modules.browser_title', 'sites.index_module_srl');
+		$columnList = array('modules.mid', 'modules.browser_title', 'index_module_srl');
 		$start_module = $oModuleModel->getSiteInfo(0, $columnList);
 		Context::set('start_module', $start_module);
 		

@@ -516,11 +516,10 @@ class adminAdminController extends admin
 		$oModuleController->updateModuleConfig('module', $args);
 		
 		// Index module
-		$site_args = new stdClass();
-		$site_args->site_srl = 0;
-		$site_args->index_module_srl = $vars->index_module_srl;
-		$site_args->default_language = $vars->default_lang;
-		$oModuleController->updateSite($site_args);
+		$domain_args = new stdClass();
+		$domain_args->domain_srl = 0;
+		$domain_args->index_module_srl = $vars->index_module_srl;
+		executeQuery('module.updateDomain', $domain_args);
 		
 		// Default and enabled languages
 		$enabled_lang = $vars->enabled_lang;
