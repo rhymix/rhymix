@@ -4,17 +4,7 @@
 		<table name="modules" />
 	</tables>
 	<columns>
-		<column name="domains.domain_srl" />
-		<column name="domains.domain" />
-		<column name="domains.index_module_srl" />
-		<column name="domains.index_document_srl" />
-		<column name="domains.default_layout_srl" />
-		<column name="domains.default_mlayout_srl" />
-		<column name="domains.default_menu_srl" />
-		<column name="domains.http_port" />
-		<column name="domains.https_port" />
-		<column name="domains.security" />
-		<column name="domains.settings" />
+		<column name="domains.*" />
 		<column name="modules.*" />
 	</columns>
     <conditions>
