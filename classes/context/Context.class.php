@@ -262,14 +262,10 @@ class Context
 		{
 			$oModuleModel = getModel('module');
 			$site_module_info = $oModuleModel->getDefaultMid() ?: new stdClass;
-			
-			// if site_srl of site_module_info is 0 (default site), compare the domain to default_url of db_config
-			if($site_module_info->site_srl == 0 && $site_module_info->domain != $this->db_info->default_url)
-			{
-				$site_module_info->domain = $this->db_info->default_url;
-			}
-			
 			self::set('site_module_info', $site_module_info);
+			self::set('_http_port', self::$_instance->db_info->http_port = $site_module_info->http_port ?: null);
+			self::set('_https_port', self::$_instance->db_info->https_port = $site_module_info->https_port ?: null);
+			self::set('_use_ssl', self::$_instance->db_info->use_ssl = $site_module_info->security ?: 'none');
 			if($site_module_info->site_srl && isSiteID($site_module_info->domain))
 			{
 				self::set('vid', $site_module_info->domain, TRUE);
@@ -312,9 +308,9 @@ class Context
 		
 		if(!$this->lang_type || !isset($enabled_langs[$this->lang_type]))
 		{
-			if($site_module_info->default_language)
+			if($site_module_info->settings->language)
 			{
-				$this->lang_type = $this->db_info->lang_type = $site_module_info->default_language;
+				$this->lang_type = $this->db_info->lang_type = $site_module_info->settings->language;
 			}
 			else
 			{
@@ -470,9 +466,6 @@ class Context
 		// Copy to old format for backward compatibility.
 		self::$_instance->db_info = self::convertDBInfo($config);
 		self::$_instance->allow_rewrite = self::$_instance->db_info->use_rewrite === 'Y';
-		self::set('_http_port', self::$_instance->db_info->http_port ?: null);
-		self::set('_https_port', self::$_instance->db_info->https_port ?: null);
-		self::set('_use_ssl', self::$_instance->db_info->use_ssl);
 		$GLOBALS['_time_zone'] = self::$_instance->db_info->time_zone;
 	}
 
@@ -1568,18 +1561,13 @@ class Context
 		// if $domain is set, compare current URL. If they are same, remove the domain, otherwise link to the domain.
 		if($domain)
 		{
-			$domain_info = parse_url($domain);
 			if(is_null($current_info))
 			{
-				$current_info = parse_url((RX_SSL ? 'https' : 'http') . '://' . $_SERVER['HTTP_HOST'] . RX_BASEURL);
+				$current_info = parse_url((RX_SSL ? 'https' : 'http') . '://' . Rhymix\Framework\URL::decodeIdna($_SERVER['HTTP_HOST']) . RX_BASEURL);
 			}
-			if($domain_info['host'] . $domain_info['path'] == $current_info['host'] . $current_info['path'])
+			if($domain === $current_info['host'])
 			{
 				unset($domain);
-			}
-			else
-			{
-				$domain = rtrim(preg_replace('/^(http|https):\/\//i', '', trim($domain)), '/') . '/';
 			}
 		}
 
@@ -1794,7 +1782,7 @@ class Context
 
 		if($domain)
 		{
-			$target_url = rtrim(trim($domain), '/') . '/';
+			$target_url = rtrim(trim($domain), '/') . RX_BASEURL;
 		}
 		else
 		{

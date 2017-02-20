@@ -51,16 +51,21 @@ class moduleModel extends module
 	function getSiteInfo($site_srl, $columnList = array())
 	{
 		$args = new stdClass();
-		$args->site_srl = $site_srl;
-		$output = executeQuery('module.getSiteInfo', $args, $columnList);
+		$args->domain_srl = $site_srl;
+		$output = executeQuery('module.getDomainInfo', $args, $columnList);
 		return $output->data;
 	}
 
 	function getSiteInfoByDomain($domain, $columnList = array())
 	{
+		if (strpos($domain, '/') !== false)
+		{
+			$domain = parse_url($domain, PHP_URL_HOST);
+		}
+		
 		$args = new stdClass();
 		$args->domain = $domain;
-		$output = executeQuery('module.getSiteInfoByDomain', $args, $columnList);
+		$output = executeQuery('module.getDomainInfo', $args, $columnList);
 		return $output->data;
 	}
 
@@ -82,108 +87,52 @@ class moduleModel extends module
 	 */
 	function getDefaultMid()
 	{
-		$default_url = Context::getDefaultUrl();
-		if($default_url && substr_compare($default_url, '/', -1) === 0) $default_url = substr($default_url, 0, -1);
-
-		$request_url = Context::getRequestUri();
-		if($request_url && substr_compare($request_url, '/', -1) === 0) $request_url = substr($request_url, 0, -1);
-
-		$default_url_parse = parse_url($default_url);
-		$request_url_parse = parse_url($request_url);
-		$vid = Context::get('vid');
-		$mid = Context::get('mid');
-
-		// Set up
-		$domain = '';
-		$site_info = NULL;
-		if($default_url && $default_url_parse['host'] != $request_url_parse['host'])
+		// Get current domain.
+		$domain = strtolower(preg_replace('/:\d+$/', '', $_SERVER['HTTP_HOST']));
+		if (strpos($domain, 'xn--') !== false)
 		{
-			$url_info = parse_url($request_url);
-			$hostname = $url_info['host'];
-			$path = $url_info['path'];
-			if(strlen($path) >= 1 && substr_compare($path, '/', -1) === 0) $path = substr($path, 0, -1);
-
-			$domain = sprintf('%s%s%s', $hostname, $url_info['port']&&$url_info['port']!=80?':'.$url_info['port']:'',$path);
+			$domain = Rhymix\Framework\URL::decodeIdna($domain);
 		}
-
-		if($domain === '')
+		
+		// Find the domain information.
+		$domain_info = Rhymix\Framework\Cache::get('site_and_module:domain_info:' . $domain);
+		if (!$domain_info)
 		{
-			if(!$vid) $vid = $mid;
-			if($vid)
+			$output = executeQuery('module.getDomainInfo', (object)array('domain' => $domain));
+			if ($output->data)
 			{
-				$domain = $vid;
+				$domain_info = $output->data;
 			}
-		}
-
-		// If domain is set, look for subsite
-		if($domain !== '')
-		{
-			$site_info = Rhymix\Framework\Cache::get('site_and_module:site_info:' . md5($domain));
-			if($site_info === null)
+			else
 			{
-				$args = new stdClass();
-				$args->domain = $domain;
-				$output = executeQuery('module.getSiteInfoByDomain', $args);
-				$site_info = $output->data;
-				Rhymix\Framework\Cache::set('site_and_module:site_info:' . md5($domain), $site_info, 0, true);
-			}
-
-			if($site_info && $vid)
-			{
-				Context::set('vid', $site_info->domain, true);
-				if(strtolower($mid)==strtolower($site_info->domain)) Context::set('mid', $site_info->mid,true);
-			}
-			if(!$site_info || !$site_info->domain) { $domain = ''; unset($site_info); }
-		}
-
-		// If no virtual website was found, get default website
-		if($domain === '')
-		{
-			$site_info = Rhymix\Framework\Cache::get('site_and_module:default_site');
-			if($site_info === null)
-			{
-				$args = new stdClass();
-				$args->site_srl = 0;
-				$output = executeQuery('module.getSiteInfo', $args);
-				// Update the related informaion if there is no default site info
-				if(!$output->data)
+				$output = executeQuery('module.getDomainInfo', (object)array('domain_srl' => 0));
+				if ($output->data)
 				{
-					// Create a table if sites table doesn't exist
-					$oDB = &DB::getInstance();
-					if(!$oDB->isTableExists('sites')) $oDB->createTableByXmlFile(_XE_PATH_.'modules/module/schemas/sites.xml');
-					if(!$oDB->isTableExists('sites')) return;
-
-					// Get mid, language
-					$mid_output = $oDB->executeQuery('module.getDefaultMidInfo', $args);
-					$domain = Context::getDefaultUrl();
-					$url_info = parse_url($domain);
-					$domain = $url_info['host'].( (!empty($url_info['port'])&&$url_info['port']!=80)?':'.$url_info['port']:'').$url_info['path'];
-
-					$site_args = new stdClass;
-					$site_args->site_srl = 0;
-					$site_args->index_module_srl  = $mid_output->data->module_srl;
-					$site_args->domain = $domain;
-					$site_args->default_language = config('locale.default_lang');
-
-					if($output->data && !$output->data->index_module_srl)
-					{
-						$output = executeQuery('module.updateSite', $site_args);
-					}
-					else
-					{
-						$output = executeQuery('module.insertSite', $site_args);
-						if(!$output->toBool()) return $output;
-					}
-					$output = executeQuery('module.getSiteInfo', $args);
+					$domain_info = $output->data;
 				}
-				$site_info = $output->data;
-				Rhymix\Framework\Cache::set('site_and_module:default_site', $site_info, 0, true);
+				else
+				{
+					$this->migrateDomains();
+					return $this->getDefaultMid();
+				}
 			}
+			
+			$domain_info->site_srl = $domain_info->domain_srl;
+			$domain_info->settings = $domain_info->settings ? json_decode($domain_info->settings) : new stdClass;
+			$domain_info->default_language = $domain_info->settings->language ?: config('locale.default_lang');
+			
+			Rhymix\Framework\Cache::set('site_and_module:domain_info:' . $domain, $domain_info, 0, true);
 		}
-
-		if(!$site_info->module_srl) return $site_info;
-		if(is_array($site_info) && $site_info->data[0]) $site_info = $site_info[0];
-		return $this->addModuleExtraVars($site_info);
+		
+		// Fill in module extra vars and return.
+		if ($domain_info->module_srl)
+		{
+			return $this->addModuleExtraVars($domain_info);
+		}
+		else
+		{
+			return $domain_info;
+		}
 	}
 
 	/**

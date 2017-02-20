@@ -1,0 +1,25 @@
+<query id="getDomainInfo" action="select">
+	<tables>
+		<table name="domains" />
+		<table name="modules" />
+	</tables>
+	<columns>
+		<column name="domains.domain_srl" />
+		<column name="domains.domain" />
+		<column name="domains.index_module_srl" />
+		<column name="domains.index_document_srl" />
+		<column name="domains.default_layout_srl" />
+		<column name="domains.default_mlayout_srl" />
+		<column name="domains.default_menu_srl" />
+		<column name="domains.http_port" />
+		<column name="domains.https_port" />
+		<column name="domains.security" />
+		<column name="domains.settings" />
+		<column name="modules.*" />
+	</columns>
+    <conditions>
+		<condition operation="equal" column="modules.module_srl" default="domains.index_module_srl" notnull="notnull" />
+		<condition operation="equal" column="domain_srl" var="domain_srl" pipe="and" />
+        <condition operation="equal" column="domain" var="domain" pipe="and" />
+	</conditions>
+</query>

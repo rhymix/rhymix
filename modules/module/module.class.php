@@ -79,6 +79,7 @@ class module extends ModuleObject
 
 		if(!is_dir('./files/ruleset')) return true;
 
+		$args = new stdClass;
 		$args->skin = '.';
 		$output = executeQueryArray('module.getModuleSkinDotList', $args);
 		if($output->data && count($output->data) > 0)
@@ -313,12 +314,7 @@ class module extends ModuleObject
 		}
 
 		// Migrate domains
-		if (!$oDB->isTableExists('domains'))
-		{
-			$oDB->createTableByXmlFile($this->module_path . 'schemas/domains.xml');
-		}
-		
-		$output = executeQuery('module.getDomains');
+		$output = @executeQuery('module.getDomains');
 		if (!$output->data)
 		{
 			$this->migrateDomains();
@@ -397,6 +393,12 @@ class module extends ModuleObject
 	 */
 	function migrateDomains()
 	{
+		// Create the domains table.
+		if (!$oDB->isTableExists('domains'))
+		{
+			$oDB->createTableByXmlFile($this->module_path . 'schemas/domains.xml');
+		}
+		
 		// Initialize domains data.
 		$domains = array();
 		
