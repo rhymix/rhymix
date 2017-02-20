@@ -53,7 +53,18 @@ class moduleModel extends module
 		$args = new stdClass();
 		$args->domain_srl = $site_srl;
 		$output = executeQuery('module.getDomainInfo', $args, $columnList);
-		return $output->data;
+		if ($output->data)
+		{
+			$domain_info = $output->data;
+			$domain_info->site_srl = 0;
+			$domain_info->settings = $domain_info->settings ? json_decode($domain_info->settings) : new stdClass;
+			$domain_info->default_language = $domain_info->settings->language ?: config('locale.default_lang');
+			return $domain_info;
+		}
+		else
+		{
+			return $output->data;
+		}
 	}
 
 	function getSiteInfoByDomain($domain, $columnList = array())
@@ -70,7 +81,18 @@ class moduleModel extends module
 		$args = new stdClass();
 		$args->domain = $domain;
 		$output = executeQuery('module.getDomainInfo', $args, $columnList);
-		return $output->data;
+		if ($output->data)
+		{
+			$domain_info = $output->data;
+			$domain_info->site_srl = 0;
+			$domain_info->settings = $domain_info->settings ? json_decode($domain_info->settings) : new stdClass;
+			$domain_info->default_language = $domain_info->settings->language ?: config('locale.default_lang');
+			return $domain_info;
+		}
+		else
+		{
+			return $output->data;
+		}
 	}
 
 	/**
