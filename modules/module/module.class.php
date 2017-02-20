@@ -17,31 +17,33 @@ class module extends ModuleObject
 
 		$oDB = &DB::getInstance();
 		$oDB->addIndex("modules","idx_site_mid", array("site_srl","mid"), true);
-		$oDB->addIndex('sites','unique_domain',array('domain'),true);
+
+		// Insert new domain
+		$output = executeQuery('module.getDomains');
+		if(!$output->data || !$output->data->index_module_srl)
+		{
+			$current_url = Rhymix\Framework\Url::getCurrentUrl();
+			$domain = new stdClass();
+			$domain->domain_srl = 0;
+			$domain->domain = Rhymix\Framework\URL::decodeIdna(parse_url($current_url, PHP_URL_HOST));
+			$domain->index_module_srl = 0;
+			$domain->index_document_srl = 0;
+			$domain->http_port = null;
+			$domain->https_port = null;
+			$domain->security = config('url.ssl') ?: 'none';
+			$domain->description = '';
+			$domain->settings = json_encode(array('language' => null, 'timezone' => null));
+			$output = executeQuery('module.insertDomain', $domain);
+			if (!$output->toBool())
+			{
+				return $output;
+			}
+		}
+		
 		// Create a directory to use in the module module
 		FileHandler::makeDir('./files/cache/module_info');
 		FileHandler::makeDir('./files/cache/triggers');
 		FileHandler::makeDir('./files/ruleset');
-
-		// Insert site information into the sites table
-		$args = new stdClass;
-		$args->site_srl = 0;
-		$output = $oDB->executeQuery('module.getSite', $args);
-		if(!$output->data || !$output->data->index_module_srl)
-		{
-			$domain = Context::getDefaultUrl();
-			$url_info = parse_url($domain);
-			$domain = $url_info['host'].( (!empty($url_info['port'])&&$url_info['port']!=80)?':'.$url_info['port']:'').$url_info['path'];
-
-			$site_args = new stdClass;
-			$site_args->site_srl = 0;
-			$site_args->index_module_srl  = 0;
-			$site_args->domain = $domain;
-			$site_args->default_language = config('locale.default_lang');
-
-			$output = executeQuery('module.insertSite', $site_args);
-			if(!$output->toBool()) return $output;
-		}
 
 		return new Object();
 	}
@@ -58,23 +60,13 @@ class module extends ModuleObject
 		if(!$oDB->isIndexExists('modules',"idx_site_mid")) return true;
 		// Move permissions/skin information of all modules to the table, grants.
 		if($oDB->isColumnExists('modules', 'grants')) return true;
-		// Move permissions/skin information of all modules to the table, grants.
-		if(!$oDB->isColumnExists('sites', 'default_language')) return true;
 		// Delete extra_vars* column
 		for($i=1;$i<=20;$i++)
 		{
 			if($oDB->isColumnExists("documents","extra_vars".$i)) return true;
 		}
-		// Insert site information to the table, sites
-		$args = new stdClass();
-		$args->site_srl = 0;
-		$output = $oDB->executeQuery('module.getSite', $args);
-		if(!$output->data) return true;
 
-		// If domain index is defined on the table, sites
-		if($oDB->isIndexExists('sites', 'idx_domain')) return true;
-		if(!$oDB->isIndexExists('sites','unique_domain')) return true;
-
+		// Check indexes
 		if(!$oDB->isColumnExists("modules", "use_mobile")) return true;
 		if(!$oDB->isColumnExists("modules", "mlayout_srl")) return true;
 		if(!$oDB->isColumnExists("modules", "mcontent")) return true;
@@ -99,7 +91,16 @@ class module extends ModuleObject
 			}
 		}
 
-		// XE 1.7
+		// Check domains
+		if (!$oDB->isTableExists('domains'))
+		{
+			return true;
+		}
+		$output = $oDB->executeQuery('module.getDomains', new stdClass);
+		if (!$output->data)
+		{
+			return true;
+		}
 
 		// check fix mskin
 		if(!$oDB->isColumnExists("modules", "is_mskin_fix")) return true;
@@ -303,11 +304,7 @@ class module extends ModuleObject
 			$oDB->dropColumn('modules','skin_vars');
 			$oDB->dropColumn('modules','extra_vars');
 		}
-		// Rights of all modules/skins transferring the information into a table Update grants
-		if(!$oDB->isColumnExists('sites', 'default_language'))
-		{
-			$oDB->addColumn('sites','default_language','varchar',255,0,false);
-		}
+		
 		// extra_vars * Remove Column
 		for($i=1;$i<=20;$i++)
 		{
@@ -315,35 +312,16 @@ class module extends ModuleObject
 			$oDB->dropColumn('documents','extra_vars'.$i);
 		}
 
-		// Enter the main site information sites on the table
-		$args = new stdClass;
-		$args->site_srl = 0;
-		$output = $oDB->executeQuery('module.getSite', $args);
-		if(!$output->data)
+		// Migrate domains
+		if (!$oDB->isTableExists('domains'))
 		{
-			// Basic mid, language Wanted
-			$mid_output = $oDB->executeQuery('module.getDefaultMidInfo', $args);
-			$domain = Context::getDefaultUrl();
-			$url_info = parse_url($domain);
-			$domain = $url_info['host'].( (!empty($url_info['port'])&&$url_info['port']!=80)?':'.$url_info['port']:'').$url_info['path'];
-			$site_args = new stdClass();
-			$site_args->site_srl = 0;
-			$site_args->index_module_srl  = $mid_output->data->module_srl;
-			$site_args->domain = $domain;
-			$site_args->default_language = config('locale.default_lang');
-
-			$output = executeQuery('module.insertSite', $site_args);
-			if(!$output->toBool()) return $output;
+			$oDB->createTableByXmlFile($this->module_path . 'schemas/domains.xml');
 		}
-
-		if($oDB->isIndexExists('sites','idx_domain'))
+		
+		$output = executeQuery('module.getDomains');
+		if (!$output->data)
 		{
-			$oDB->dropIndex('sites','idx_domain');
-		}
-		if(!$oDB->isIndexExists('sites','unique_domain'))
-		{
-			$this->updateForUniqueSiteDomain();
-			$oDB->addIndex('sites','unique_domain',array('domain'),true);
+			$this->migrateDomains();
 		}
 
 		if(!$oDB->isColumnExists("modules", "use_mobile"))
@@ -414,30 +392,95 @@ class module extends ModuleObject
 		return new Object(0, 'success_updated');
 	}
 	
-	function updateForUniqueSiteDomain()
+	/**
+	 * @brief Migrate old sites and multidomain info to new 'domains' table
+	 */
+	function migrateDomains()
 	{
-		$output = executeQueryArray("module.getNonuniqueDomains");
-		if(!$output->data) return;
-		foreach($output->data as $data)
+		// Initialize domains data.
+		$domains = array();
+		
+		// Check XE sites.
+		$output = executeQueryArray('module.getSites');
+		if ($output->data)
 		{
-			if($data->count == 1) continue;
-			$domain = $data->domain;
-			$args = new stdClass;
-			$args->domain = $domain;
-			$output2 = executeQueryArray("module.getSiteByDomain", $args);
-			$bFirst = true;
-			foreach($output2->data as $site)
+			foreach ($output->data as $site_info)
 			{
-				if($bFirst)
+				$site_domain = $site_info->domain;
+				if (!preg_match('@^https?://@', $site_domain))
 				{
-					$bFirst = false;
-					continue;
+					$site_domain = 'http://' . $site_domain;
 				}
-				$domain .= "_";
-				$args = new stdClass;
-				$args->domain = $domain;
-				$args->site_srl = $site->site_srl;
-				$output3 = executeQuery("module.updateSite", $args);
+				
+				$domain = new stdClass();
+				$domain->domain_srl = $site_info->site_srl;
+				$domain->domain = Rhymix\Framework\URL::decodeIdna(strtolower(parse_url($site_domain, PHP_URL_HOST)));
+				$domain->index_module_srl = $site_info->index_module_srl;
+				$domain->index_document_srl = 0;
+				$domain->http_port = config('url.http_port') ?: null;
+				$domain->https_port = config('url.https_port') ?: null;
+				$domain->security = config('url.ssl') ?: 'none';
+				$domain->description = '';
+				$domain->settings = json_encode(array('language' => $site_info->default_language, 'timezone' => null));
+				$domain->regdate = $site_info->regdate;
+				$domains[$domain->domain] = $domain;
+			}
+		}
+		else
+		{
+			$output = executeQuery('module.getDefaultMidInfo', $args);
+			$default_hostinfo = parse_url(Context::getDefaultUrl());
+			
+			$domain = new stdClass();
+			$domain->domain_srl = 0;
+			$domain->domain = Rhymix\Framework\URL::decodeIdna(strtolower($default_hostinfo['host']));
+			$domain->index_module_srl = $output->data->module_srl;
+			$domain->index_document_srl = 0;
+			$domain->http_port = isset($default_hostinfo['port']) ? intval($default_hostinfo['port']) : null;
+			$domain->https_port = null;
+			$domain->security = config('url.ssl') ?: 'none';
+			$domain->description = '';
+			$domain->settings = json_encode(array('language' => null, 'timezone' => null));
+			$domains[$domain->domain] = $domain;
+		}
+		
+		// Check multidomain module.
+		if (getModel('multidomain'))
+		{
+			$output = executeQueryArray('multidomain.getMultidomainList', (object)array('order_type' => 'asc', 'list_count' => 100000000));
+			if ($output->data)
+			{
+				foreach ($output->data as $site_info)
+				{
+					$site_domain = $site_info->domain;
+					if (!preg_match('@^https?://@', $site_domain))
+					{
+						$site_domain = 'http://' . $site_domain;
+					}
+					
+					$domain = new stdClass();
+					$domain->domain_srl = $site_info->multidomain_srl;
+					$domain->domain = Rhymix\Framework\URL::decodeIdna(strtolower(parse_url($site_domain, PHP_URL_HOST)));
+					$domain->index_module_srl = intval($site_info->module_srl);
+					$domain->index_document_srl = intval($site_info->document_srl);
+					$domain->http_port = config('url.http_port') ?: null;
+					$domain->https_port = config('url.https_port') ?: null;
+					$domain->security = config('url.ssl') ?: 'none';
+					$domain->description = '';
+					$domain->settings = json_encode(array('language' => null, 'timezone' => null));
+					$domain->regdate = $site_info->regdate;
+					$domains[$domain->domain] = $domain;
+				}
+			}
+		}
+		
+		// Insert into DB.
+		foreach ($domains as $domain)
+		{
+			$output = executeQuery('module.insertDomain', $domain);
+			if (!$output->toBool())
+			{
+				return $output;
 			}
 		}
 	}
