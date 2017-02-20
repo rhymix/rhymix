@@ -60,7 +60,11 @@ class moduleModel extends module
 	{
 		if (strpos($domain, '/') !== false)
 		{
-			$domain = parse_url($domain, PHP_URL_HOST);
+			$domain = Rhymix\Framework\URL::getDomainFromURL($domain);
+			if ($domain === false)
+			{
+				return null;
+			}
 		}
 		
 		$args = new stdClass();
@@ -117,7 +121,7 @@ class moduleModel extends module
 				}
 			}
 			
-			$domain_info->site_srl = $domain_info->domain_srl;
+			$domain_info->site_srl = 0;
 			$domain_info->settings = $domain_info->settings ? json_decode($domain_info->settings) : new stdClass;
 			$domain_info->default_language = $domain_info->settings->language ?: config('locale.default_lang');
 			

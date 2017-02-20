@@ -1087,18 +1087,11 @@ class moduleController extends module
 
 		if(is_null($lang))
 		{
-			$site_module_info = Context::get('site_module_info');
-			if(!$site_module_info)
-			{
-				$oModuleModel = getModel('module');
-				$site_module_info = $oModuleModel->getDefaultMid();
-				Context::set('site_module_info', $site_module_info);
-			}
-			$cache_file = sprintf('%sfiles/cache/lang_defined/%d.%s.php', _XE_PATH_, $site_module_info->site_srl, Context::getLangType());
+			$cache_file = sprintf('%sfiles/cache/lang_defined/%d.%s.php', _XE_PATH_, 0, Context::getLangType());
 			if(!file_exists($cache_file))
 			{
 				$oModuleAdminController = getAdminController('module');
-				$oModuleAdminController->makeCacheDefinedLangCode($site_module_info->site_srl);
+				$oModuleAdminController->makeCacheDefinedLangCode(0);
 			}
 
 			if(file_exists($cache_file))
@@ -1108,7 +1101,7 @@ class moduleController extends module
 				if($cacheFileMtime < $moduleAdminControllerMtime)
 				{
 					$oModuleAdminController = getAdminController('module');
-					$oModuleAdminController->makeCacheDefinedLangCode($site_module_info->site_srl);
+					$oModuleAdminController->makeCacheDefinedLangCode(0);
 				}
 
 				require_once($cache_file);

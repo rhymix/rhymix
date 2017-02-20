@@ -251,26 +251,6 @@ class ModuleHandler extends Handler
 			$module_info = $site_module_info;
 		}
 
-		// redirect, if site_srl of module_info is different from one of site's module_info
-		if($module_info && $module_info->site_srl != $site_module_info->site_srl && !Rhymix\Framework\UA::isRobot())
-		{
-			// If the module is of virtual site
-			if($module_info->site_srl)
-			{
-				$site_info = $oModuleModel->getSiteInfo($module_info->site_srl);
-				$redirect_url = getNotEncodedSiteUrl($site_info->domain, 'mid', Context::get('mid'), 'document_srl', Context::get('document_srl'), 'module_srl', Context::get('module_srl'), 'entry', Context::get('entry'));
-				// If it's called from a virtual site, though it's not a module of the virtual site
-			}
-			else
-			{
-				$redirect_url = getNotEncodedSiteUrl(Context::getDefaultUrl(), 'mid', Context::get('mid'), 'document_srl', Context::get('document_srl'), 'module_srl', Context::get('module_srl'), 'entry', Context::get('entry'));
-			}
-			
-			Context::setCacheControl(0);
-			header("Location: $redirect_url", true, 301);
-			return false;
-		}
-		
 		// redirect, if site start module
 		if(Context::getRequestMethod() === 'GET' && isset($_GET['mid']) && $_GET['mid'] === $site_module_info->mid && count($_GET) === 1)
 		{

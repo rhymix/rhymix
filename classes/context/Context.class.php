@@ -238,7 +238,6 @@ class Context
 		
 		// Set global variables for backward compatibility.
 		$GLOBALS['__Context__'] = $this;
-		$this->_COOKIE = $_COOKIE;
 		
 		// Set information about the current request.
 		$this->setRequestMethod();
@@ -263,6 +262,7 @@ class Context
 			$oModuleModel = getModel('module');
 			$site_module_info = $oModuleModel->getDefaultMid() ?: new stdClass;
 			self::set('site_module_info', $site_module_info);
+			self::set('_default_url', self::$_instance->db_info->default_url = self::getDefaultUrl($site_module_info));
 			self::set('_http_port', self::$_instance->db_info->http_port = $site_module_info->http_port ?: null);
 			self::set('_https_port', self::$_instance->db_info->https_port = $site_module_info->https_port ?: null);
 			self::set('_use_ssl', self::$_instance->db_info->use_ssl = $site_module_info->security ?: 'none');
@@ -338,6 +338,7 @@ class Context
 		// start session
 		$relax_key_checks = ($this->act === 'procFileUpload' && preg_match('/shockwave\s?flash/i', $_SERVER['HTTP_USER_AGENT']));
 		Rhymix\Framework\Session::start(false, $relax_key_checks);
+		$this->_COOKIE = $_COOKIE;
 
 		// start output buffer
 		ob_start();
@@ -517,14 +518,6 @@ class Context
 		$db_info->ftp_info->ftp_pasv = $config['ftp']['pasv'] ? 'Y' : 'N';
 		$db_info->ftp_info->ftp_root_path = $config['ftp']['path'];
 		$db_info->ftp_info->sftp = $config['ftp']['sftp'] ? 'Y' : 'N';
-		$db_info->default_url = $config['url']['default'];
-		if (!$db_info->default_url)
-		{
-			$db_info->default_url = (RX_SSL ? 'https://' : 'http://') . $_SERVER['HTTP_HOST'] . RX_BASEURL;
-		}
-		$db_info->http_port = $config['url']['http_port'];
-		$db_info->https_port = $config['url']['https_port'];
-		$db_info->use_ssl = $config['url']['ssl'];
 		$db_info->lang_type = $config['locale']['default_lang'];
 		$db_info->time_zone = $config['locale']['internal_timezone'];
 		$db_info->time_zone = sprintf('%s%02d%02d', $db_info->time_zone >= 0 ? '+' : '-', abs($db_info->time_zone) / 3600, (abs($db_info->time_zone) % 3600 / 60));
@@ -596,11 +589,26 @@ class Context
 	/**
 	 * Return default URL
 	 *
+	 * @param object $site_module_info (optional)
 	 * @return string Default URL
 	 */
-	public static function getDefaultUrl()
+	public static function getDefaultUrl($site_module_info = null)
 	{
-		return self::$_instance->db_info->default_url;
+		if ($site_module_info === null && ($default_url = self::get('_default_url')))
+		{
+			return $default_url;
+		}
+		
+		if ($site_module_info === null)
+		{
+			$site_module_info === self::get('site_module_info');
+		}
+		
+		$prefix = $site_module_info->security === 'always' ? 'https://' : 'http://';
+		$hostname = $site_module_info->domain;
+		$port = $site_module_info->security === 'always' ? $site_module_info->https_port : $site_module_info->http_port;
+		$result = $prefix . $hostname . ($port ? sprintf(':%d', $port) : '') . RX_BASEURL;
+		return $result;
 	}
 
 	/**
@@ -1539,6 +1547,10 @@ class Context
 		}
 
 		// If $domain is set, handle it (if $domain is vid type, remove $domain and handle with $vid)
+		if (strpos($domain, '/') !== false)
+		{
+			$domain = Rhymix\Framework\URL::getDomainFromURL($domain);
+		}
 		if($domain && isSiteID($domain))
 		{
 			$vid = $domain;
@@ -1743,7 +1755,7 @@ class Context
 	 */
 	public static function getRequestUri($ssl_mode = FOLLOW_REQUEST_SSL, $domain = null)
 	{
-		static $url = array();
+		static $domain_infos = array();
 
 		// Check HTTP Request
 		if(!isset($_SERVER['SERVER_PROTOCOL']))
@@ -1756,20 +1768,6 @@ class Context
 			$ssl_mode = ENFORCE_SSL;
 		}
 
-		if($domain)
-		{
-			$domain_key = md5($domain);
-		}
-		else
-		{
-			$domain_key = 'default';
-		}
-
-		if(isset($url[$ssl_mode][$domain_key]))
-		{
-			return $url[$ssl_mode][$domain_key];
-		}
-
 		switch($ssl_mode)
 		{
 			case FOLLOW_REQUEST_SSL: $use_ssl = RX_SSL;
@@ -1780,50 +1778,21 @@ class Context
 				break;
 		}
 
-		if($domain)
+		$site_module_info = self::get('site_module_info');
+		if ($domain !== null && $domain !== $site_module_info->domain)
 		{
-			$target_url = rtrim(trim($domain), '/') . RX_BASEURL;
-		}
-		else
-		{
-			$target_url = $_SERVER['HTTP_HOST'] . RX_BASEURL;
-		}
-
-		$url_info = parse_url('http://' . $target_url);
-
-		if($use_ssl != RX_SSL)
-		{
-			unset($url_info['port']);
-		}
-
-		if($use_ssl)
-		{
-			$port = self::get('_https_port');
-			if($port && $port != 443)
+			if (!isset($domain_infos[$domain]))
 			{
-				$url_info['port'] = $port;
+				$domain_infos[$domain] = getModel('module')->getSiteInfoByDomain($domain);
 			}
-			elseif($url_info['port'] == 443)
-			{
-				unset($url_info['port']);
-			}
+			$site_module_info = $domain_infos[$domain] ?: $site_module_info;
 		}
-		else
-		{
-			$port = self::get('_http_port');
-			if($port && $port != 80)
-			{
-				$url_info['port'] = $port;
-			}
-			elseif($url_info['port'] == 80)
-			{
-				unset($url_info['port']);
-			}
-		}
-
-		$url[$ssl_mode][$domain_key] = sprintf('%s://%s%s%s', $use_ssl ? 'https' : $url_info['scheme'], $url_info['host'], $url_info['port'] && $url_info['port'] != 80 ? ':' . $url_info['port'] : '', $url_info['path']);
-
-		return $url[$ssl_mode][$domain_key];
+		
+		$prefix = ($use_ssl && $site_module_info->security !== 'none') ? 'https://' : 'http://';
+		$hostname = $site_module_info->domain;
+		$port = ($use_ssl && $site_module_info->security !== 'none') ? $site_module_info->https_port : $site_module_info->http_port;
+		$result = $prefix . $hostname . ($port ? sprintf(':%d', $port) : '') . RX_BASEURL;
+		return $result;
 	}
 
 	/**
