@@ -394,6 +394,7 @@ class module extends ModuleObject
 	function migrateDomains()
 	{
 		// Create the domains table.
+		$oDB = DB::getInstance();
 		if (!$oDB->isTableExists('domains'))
 		{
 			$oDB->createTableByXmlFile($this->module_path . 'schemas/domains.xml');
