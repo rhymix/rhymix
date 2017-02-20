@@ -432,12 +432,12 @@ class module extends ModuleObject
 		else
 		{
 			$output = executeQuery('module.getDefaultMidInfo', $args);
-			$default_hostinfo = parse_url(Context::getDefaultUrl());
+			$default_hostinfo = parse_url(Rhymix\Framework\URL::getCurrentURL());
 			
 			$domain = new stdClass();
 			$domain->domain_srl = 0;
 			$domain->domain = Rhymix\Framework\URL::decodeIdna(strtolower($default_hostinfo['host']));
-			$domain->index_module_srl = $output->data->module_srl;
+			$domain->index_module_srl = $output->data ? $output->data->module_srl : 0;
 			$domain->index_document_srl = 0;
 			$domain->http_port = isset($default_hostinfo['port']) ? intval($default_hostinfo['port']) : null;
 			$domain->https_port = null;
