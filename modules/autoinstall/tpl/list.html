@@ -132,12 +132,12 @@
 	</tbody>
 </table>
 <div class="x_clearfix" style="margin-top:-10px">
-	{@
-		$urlInfo = parse_url(getRequestUriByServerEnviroment());
-		parse_str($urlInfo['query'], $param);
-	}
 	<form cond="$page_navigation" action="./" class="x_pagination x_pull-left" no-error-return-url="true">
-		<input loop="$param => $key, $val" cond="!in_array($key, array('mid', 'vid', 'act'))" type="hidden" name="{$key}" value="{$val}" />
+		<input type="hidden" name="module" value="admin" />
+		<input type="hidden" name="act" value="{$act}" />
+		<input type="hidden" name="order_target" value="{$order_target}" />
+		<input type="hidden" name="order_type" value="{$order_type}" />
+		<input type="hidden" name="search_keyword" value="{$search_keyword}" />
 		<ul>
 			<li class="x_disabled"|cond="!$page || $page == 1"><a href="{getUrl('page', '')}">&laquo; {$lang->first_page}</a></li>
 			<block cond="$page_navigation->first_page != 1 && $page_navigation->first_page + $page_navigation->page_count > $page_navigation->last_page - 1 && $page_navigation->page_count != $page_navigation->total_page">
@@ -168,8 +168,11 @@
 		</ul>
 	</form>
 	<form action="./" class="search x_input-append x_pull-right" no-error-return-url="true" cond="$act!=dispAutoinstallAdminInstalledPackages">
-		<input loop="$param => $key, $val" cond="!in_array($key, array('mid', 'vid', 'act', 'page'))" type="hidden" name="{$key}" value="{$val}" />
-		<input type="search" name="search_keyword" required title="Search" value="{htmlspecialchars($search_keyword, ENT_COMPAT | ENT_HTML401, 'UTF-8', false)}">
+		<input type="hidden" name="module" value="admin" />
+		<input type="hidden" name="act" value="{$act}" />
+		<input type="hidden" name="order_target" value="{$order_target}" />
+		<input type="hidden" name="order_type" value="{$order_type}" />
+		<input type="search" name="search_keyword" required title="Search" value="{$search_keyword}" />
 		<button class="x_btn x_btn-inverse" type="submit">{$lang->cmd_search}</button>
 		<a href="{getUrl('page', '', 'search_keyword', '')}" class="x_btn">{$lang->cmd_cancel}</a>
 	</form>
