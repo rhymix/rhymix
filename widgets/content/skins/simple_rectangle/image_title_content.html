@@ -6,7 +6,7 @@
 			<p class="simple_gallery_item simple_gallery_image">
 					<!--@if($item->getThumbnail())-->
 						<span class="content_category" cond="$widget_info->show_category=='Y' && $item->get('category_srl')">{$item->getCategory()}</span>
-						<img src="{$item->getThumbnail()}" width="{$widget_info->thumbnail_width}" height="{$widget_info->thumbnail_height}" />
+						<img src="{$item->getThumbnail()}" srcset="{$item->getThumbnail(2)} 2x"|cond="$item->getThumbnail(2)" width="{$widget_info->thumbnail_width}" height="{$widget_info->thumbnail_height}" />
 					<!--@else-->
 						<span class="fake_img">{$lang->none_image}</span>
 					<!--@end-->
