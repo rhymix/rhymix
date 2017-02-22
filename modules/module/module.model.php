@@ -48,26 +48,33 @@ class moduleModel extends module
 	/**
 	 * @brief Get site information
 	 */
-	function getSiteInfo($site_srl, $columnList = array())
+	function getSiteInfo($domain_srl)
 	{
-		$args = new stdClass();
-		$args->domain_srl = $site_srl;
-		$output = executeQuery('module.getDomainInfo', $args, $columnList);
-		if ($output->data)
+		$domain_srl = intval($domain_srl);
+		$domain_info = Rhymix\Framework\Cache::get('site_and_module:domain_info:srl_' . $domain_srl);
+		if ($domain_info === null)
 		{
-			$domain_info = $output->data;
-			$domain_info->site_srl = 0;
-			$domain_info->settings = $domain_info->settings ? json_decode($domain_info->settings) : new stdClass;
-			$domain_info->default_language = $domain_info->settings->language ?: config('locale.default_lang');
-			return $domain_info;
+			$args = new stdClass();
+			$args->domain_srl = $domain_srl;
+			$output = executeQuery('module.getDomainInfo', $args);
+			if ($output->data)
+			{
+				$domain_info = $output->data;
+				$domain_info->site_srl = 0;
+				$domain_info->settings = $domain_info->settings ? json_decode($domain_info->settings) : new stdClass;
+				$domain_info->default_language = $domain_info->settings->language ?: config('locale.default_lang');
+			}
+			else
+			{
+				$domain_info = false;
+			}
+			Rhymix\Framework\Cache::set('site_and_module:domain_info:srl_' . $domain_srl, $domain_info, 0, true);
 		}
-		else
-		{
-			return $output->data;
-		}
+		
+		return $domain_info;
 	}
 
-	function getSiteInfoByDomain($domain, $columnList = array())
+	function getSiteInfoByDomain($domain)
 	{
 		if (strpos($domain, '/') !== false)
 		{
@@ -77,22 +84,33 @@ class moduleModel extends module
 				return null;
 			}
 		}
+		if (strpos($domain, 'xn--') !== false)
+		{
+			$domain = Rhymix\Framework\URL::decodeIdna($domain);
+		}
 		
-		$args = new stdClass();
-		$args->domain = $domain;
-		$output = executeQuery('module.getDomainInfo', $args, $columnList);
-		if ($output->data)
+		$domain = strtolower($domain);
+		$domain_info = Rhymix\Framework\Cache::get('site_and_module:domain_info:' . $domain);
+		if ($domain_info === null)
 		{
-			$domain_info = $output->data;
-			$domain_info->site_srl = 0;
-			$domain_info->settings = $domain_info->settings ? json_decode($domain_info->settings) : new stdClass;
-			$domain_info->default_language = $domain_info->settings->language ?: config('locale.default_lang');
-			return $domain_info;
+			$args = new stdClass();
+			$args->domain = $domain;
+			$output = executeQuery('module.getDomainInfo', $args);
+			if ($output->data)
+			{
+				$domain_info = $output->data;
+				$domain_info->site_srl = 0;
+				$domain_info->settings = $domain_info->settings ? json_decode($domain_info->settings) : new stdClass;
+				$domain_info->default_language = $domain_info->settings->language ?: config('locale.default_lang');
+			}
+			else
+			{
+				$domain_info = false;
+			}
+			Rhymix\Framework\Cache::set('site_and_module:domain_info:' . $domain, $domain_info, 0, true);
 		}
-		else
-		{
-			return $output->data;
-		}
+		
+		return $domain_info;
 	}
 
 	/**
@@ -115,39 +133,17 @@ class moduleModel extends module
 	{
 		// Get current domain.
 		$domain = strtolower(preg_replace('/:\d+$/', '', $_SERVER['HTTP_HOST']));
-		if (strpos($domain, 'xn--') !== false)
-		{
-			$domain = Rhymix\Framework\URL::decodeIdna($domain);
-		}
 		
 		// Find the domain information.
-		$domain_info = Rhymix\Framework\Cache::get('site_and_module:domain_info:' . $domain);
+		$domain_info = $this->getSiteInfoByDomain($domain);
 		if (!$domain_info)
 		{
-			$output = executeQuery('module.getDomainInfo', (object)array('domain' => $domain));
-			if ($output->data)
+			$domain_info = $this->getSiteInfo(0);
+			if (!$domain_info)
 			{
-				$domain_info = $output->data;
+				$this->migrateDomains();
+				return $this->getDefaultMid();
 			}
-			else
-			{
-				$output = executeQuery('module.getDomainInfo', (object)array('domain_srl' => 0));
-				if ($output->data)
-				{
-					$domain_info = $output->data;
-				}
-				else
-				{
-					$this->migrateDomains();
-					return $this->getDefaultMid();
-				}
-			}
-			
-			$domain_info->site_srl = 0;
-			$domain_info->settings = $domain_info->settings ? json_decode($domain_info->settings) : new stdClass;
-			$domain_info->default_language = $domain_info->settings->language ?: config('locale.default_lang');
-			
-			Rhymix\Framework\Cache::set('site_and_module:domain_info:' . $domain, $domain_info, 0, true);
 		}
 		
 		// Fill in module extra vars and return.
