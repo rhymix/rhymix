@@ -47,8 +47,6 @@ class moduleModel extends module
 	
 	/**
 	 * @brief Get all domains
-	 * 
-	 * @return array
 	 */
 	function getAllDomains($count = 20, $page = 1)
 	{
@@ -60,7 +58,7 @@ class moduleModel extends module
 		{
 			$domain->settings = $domain->settings ? json_decode($domain->settings) : new stdClass;
 		}
-		return $output->data;
+		return $output;
 	}
 
 	/**
