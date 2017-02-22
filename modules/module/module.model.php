@@ -44,6 +44,24 @@ class moduleModel extends module
 
 		return false;
 	}
+	
+	/**
+	 * @brief Get all domains
+	 * 
+	 * @return array
+	 */
+	function getAllDomains($count = 20, $page = 1)
+	{
+		$args = new stdClass;
+		$args->list_count = $count;
+		$args->page = $page;
+		$output = executeQueryArray('module.getDomains', $args);
+		foreach ($output->data as &$domain)
+		{
+			$domain->settings = $domain->settings ? json_decode($domain->settings) : new stdClass;
+		}
+		return $output->data;
+	}
 
 	/**
 	 * @brief Get site information

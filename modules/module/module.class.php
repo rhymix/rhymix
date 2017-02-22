@@ -19,8 +19,7 @@ class module extends ModuleObject
 		$oDB->addIndex("modules","idx_site_mid", array("site_srl","mid"), true);
 
 		// Insert new domain
-		$output = executeQuery('module.getDomains');
-		if(!$output->data || !$output->data->index_module_srl)
+		if(!getModel('module')->getSiteInfo(0))
 		{
 			$current_url = Rhymix\Framework\Url::getCurrentUrl();
 			$domain = new stdClass();
@@ -93,12 +92,7 @@ class module extends ModuleObject
 		}
 
 		// Check domains
-		if (!$oDB->isTableExists('domains'))
-		{
-			return true;
-		}
-		$output = $oDB->executeQuery('module.getDomains', new stdClass);
-		if (!$output->data)
+		if (!$oDB->isTableExists('domains') || !getModel('module')->getSiteInfo(0))
 		{
 			return true;
 		}
@@ -314,8 +308,7 @@ class module extends ModuleObject
 		}
 
 		// Migrate domains
-		$output = @executeQuery('module.getDomains');
-		if (!$output->data)
+		if (!getModel('module')->getSiteInfo(0))
 		{
 			$this->migrateDomains();
 		}
