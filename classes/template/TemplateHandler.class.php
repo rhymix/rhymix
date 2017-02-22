@@ -623,6 +623,10 @@ class TemplateHandler
 							$var = $filter_option ? "strip_tags({$var}, {$filter_option})" : "strip_tags({$var})";
 							break;
 							
+						case 'trim':
+							$var = "trim({$var})";
+							break;
+							
 						case 'urlencode':
 							$var = "rawurlencode({$var})";
 							break;
@@ -669,7 +673,8 @@ class TemplateHandler
 							break;
 							
 						default:
-							$var = "INVALID FILTER ({$filter})";
+							$filter = escape_sqstr($filter);
+							$var = "'INVALID FILTER ({$filter})'";
 					}
 				}
 				
