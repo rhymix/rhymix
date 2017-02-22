@@ -301,6 +301,120 @@ class TemplateHandlerTest extends \Codeception\TestCase\Test
                 '<span>{\RX_BASEDIR}</span>',
                 '?><span><?php echo \RX_BASEDIR ?></span>'
             ),
+			// Rhymix autoescape
+            array(
+                '<config autoescape="on" />{$foo}',
+                PHP_EOL . '$this->config->autoescape = \'on\';' . "\n" . 'echo ($this->config->autoescape === \'on\' ? htmlspecialchars($__Context->foo, ENT_COMPAT, \'UTF-8\', false) : $__Context->foo) ?>'
+            ),
+            array(
+                '<config autoescape="off" />{$foo}',
+                PHP_EOL . '$this->config->autoescape = \'off\';' . "\n" . 'echo ($this->config->autoescape === \'on\' ? htmlspecialchars($__Context->foo, ENT_COMPAT, \'UTF-8\', false) : $__Context->foo) ?>'
+            ),
+            array(
+                '<config autoescape="on" />{$foo|auto}',
+                PHP_EOL . '$this->config->autoescape = \'on\';' . "\n" . 'echo ($this->config->autoescape === \'on\' ? htmlspecialchars($__Context->foo, ENT_COMPAT, \'UTF-8\', false) : $__Context->foo) ?>'
+            ),
+            array(
+                '<config autoescape="off" />{$foo|autoescape}',
+                PHP_EOL . '$this->config->autoescape = \'off\';' . "\n" . 'echo ($this->config->autoescape === \'on\' ? htmlspecialchars($__Context->foo, ENT_COMPAT, \'UTF-8\', false) : $__Context->foo) ?>'
+            ),
+            array(
+                '<config autoescape="on" />{$foo|escape}',
+                PHP_EOL . '$this->config->autoescape = \'on\';' . "\n" . 'echo htmlspecialchars($__Context->foo, ENT_COMPAT, \'UTF-8\', true) ?>'
+            ),
+            array(
+                '<config autoescape="off" />{$foo|escape}',
+                PHP_EOL . '$this->config->autoescape = \'off\';' . "\n" . 'echo htmlspecialchars($__Context->foo, ENT_COMPAT, \'UTF-8\', true) ?>'
+            ),
+            array(
+                '<config autoescape="on" />{$foo|noescape}',
+                PHP_EOL . '$this->config->autoescape = \'on\';' . "\n" . 'echo $__Context->foo ?>'
+            ),
+            array(
+                '<config autoescape="off" />{$foo|noescape}',
+                PHP_EOL . '$this->config->autoescape = \'off\';' . "\n" . 'echo $__Context->foo ?>'
+            ),
+			// Rhymix filters
+            array(
+                '<p>{$foo|escape}</p>',
+                '?><p><?php echo htmlspecialchars($__Context->foo, ENT_COMPAT, \'UTF-8\', true) ?></p>'
+            ),
+            array(
+                '<p>{$foo|json}</p>',
+                '?><p><?php echo json_encode($__Context->foo) ?></p>'
+            ),
+            array(
+                '<p>{$foo|urlencode}</p>',
+                '?><p><?php echo rawurlencode($__Context->foo) ?></p>'
+            ),
+            array(
+                '<p>{$foo|lower|nl2br}</p>',
+                '?><p><?php echo nl2br(strtolower($__Context->foo)) ?></p>'
+            ),
+            array(
+                '<p>{$foo|join:/|upper}</p>',
+                '?><p><?php echo strtoupper(implode(\'/\', $__Context->foo)) ?></p>'
+            ),
+            array(
+                '<p>{$foo|join:\||upper}</p>',
+                '?><p><?php echo strtoupper(implode(\'|\', $__Context->foo)) ?></p>'
+            ),
+            array(
+                '<p>{$foo|join:$separator}</p>',
+                '?><p><?php echo implode($__Context->separator, $__Context->foo) ?></p>'
+            ),
+            array(
+                '<p>{$foo|strip}</p>',
+                '?><p><?php echo strip_tags($__Context->foo) ?></p>'
+            ),
+            array(
+                '<p>{$foo|strip:<br>}</p>',
+                '?><p><?php echo strip_tags($__Context->foo, \'<br>\') ?></p>'
+            ),
+            array(
+                '<p>{$foo|strip:$mytags}</p>',
+                '?><p><?php echo strip_tags($__Context->foo, $__Context->mytags) ?></p>'
+            ),
+            array(
+                '<p>{$foo|strip:myfunc($mytags)}</p>',
+                '?><p><?php echo strip_tags($__Context->foo, myfunc($__Context->mytags)) ?></p>'
+            ),
+            array(
+                '<p>{$foo|trim|date}</p>',
+                '?><p><?php echo getDisplayDateTime(ztime(trim($__Context->foo)), \'Y-m-d H:i:s\') ?></p>'
+            ),
+            array(
+                '<p>{$foo|date:His}</p>',
+                '?><p><?php echo getDisplayDateTime(ztime($__Context->foo), \'His\') ?></p>'
+            ),
+            array(
+                '<p>{$foo|format:2}</p>',
+                '?><p><?php echo number_format($__Context->foo, \'2\') ?></p>'
+            ),
+            array(
+                '<p>{$foo|date:His}</p>',
+                '?><p><?php echo getDisplayDateTime(ztime($__Context->foo), \'His\') ?></p>'
+            ),
+            array(
+                '<p>{$foo|link}</p>',
+                '?><p><?php echo \'<a href="\' . $__Context->foo . \'">\' . $__Context->foo . \'</a>\' ?></p>'
+            ),
+            array(
+                '<p>{$foo|link:http://www.rhymix.org}</p>',
+                '?><p><?php echo \'<a href="\' . \'http://www.rhymix.org\' . \'">\' . $__Context->foo . \'</a>\' ?></p>'
+            ),
+            array(
+                '<p>{$foo|link:$url}</p>',
+                '?><p><?php echo \'<a href="\' . $__Context->url . \'">\' . $__Context->foo . \'</a>\' ?></p>'
+            ),
+            array(
+                '<config autoescape="on" /><p>{$foo|link:$url}</p>',
+                PHP_EOL . '$this->config->autoescape = \'on\'; ?><p><?php echo \'<a href="\' . ($this->config->autoescape === \'on\' ? htmlspecialchars($__Context->url, ENT_COMPAT, \'UTF-8\', false) : $__Context->url) . \'">\' . ($this->config->autoescape === \'on\' ? htmlspecialchars($__Context->foo, ENT_COMPAT, \'UTF-8\', false) : $__Context->foo) . \'</a>\' ?></p>'
+            ),
+            array(
+                '<p>{$foo|dafuq}</p>',
+                '?><p><?php echo \'INVALID FILTER (dafuq)\' ?></p>'
+            ),
         );
 
         foreach ($tests as $test)
