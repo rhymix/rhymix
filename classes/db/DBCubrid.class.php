@@ -87,6 +87,7 @@ class DBCubrid extends DB
 			return;
 		}
 		
+		$this->db_version = __CUBRID_VERSION__;
 		cubrid_set_autocommit($result, CUBRID_AUTOCOMMIT_TRUE);
 		
 		return $result;

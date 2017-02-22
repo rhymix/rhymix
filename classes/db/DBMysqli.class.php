@@ -39,6 +39,7 @@ class DBMysqli extends DBMysql
 			return;
 		}
 		$this->charset = isset($connection['charset']) ? $connection['charset'] : 'utf8';
+		$this->db_version = $result->server_info;
 		mysqli_set_charset($result, $this->charset);
 		return $result;
 	}

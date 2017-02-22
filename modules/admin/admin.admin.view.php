@@ -697,93 +697,181 @@ class adminAdminView extends admin
 	function dispAdminViewServerEnv()
 	{
 		$info = array();
-
-		$oAdminModel = getAdminModel('admin');
-		$envInfo = $oAdminModel->getEnv();
-		$tmp = explode("&", $envInfo);
-		$arrInfo = array();
-		$xe_check_env = array();
-		foreach($tmp as $value) {
-			$arr = explode("=", $value);
-			if($arr[0]=="type") {
-				continue;
-			}elseif($arr[0]=="phpext" ) {
-				$str = urldecode($arr[1]);
-				$xe_check_env[$arr[0]]= str_replace("|", ", ", $str);
-			} elseif($arr[0]=="module" ) {
-				$str = urldecode($arr[1]);
-				$arrModuleName = explode("|", $str);
-				$oModuleModel = getModel("module");
-				$mInfo = array();
-				foreach($arrModuleName as $moduleName) {
-					$moduleInfo = $oModuleModel->getModuleInfoXml($moduleName);
-					$mInfo[] = "{$moduleName}({$moduleInfo->version})";
-				}
-				$xe_check_env[$arr[0]]= join(", ", $mInfo);
-			} elseif($arr[0]=="addon") {
-				$str = urldecode($arr[1]);
-				$arrAddonName = explode("|", $str);
-				$oAddonModel = getAdminModel("addon");
-				$mInfo = array();
-				foreach($arrAddonName as $addonName) {
-					$addonInfo = $oAddonModel->getAddonInfoXml($addonName);
-					$mInfo[] = "{$addonName}({$addonInfo->version})";
-				}
-				$xe_check_env[$arr[0]]= join(", ", $mInfo);
-			} elseif($arr[0]=="widget") {
-				$str = urldecode($arr[1]);
-				$arrWidgetName = explode("|", $str);
-				$oWidgetModel = getModel("widget");
-				$mInfo = array();
-				foreach($arrWidgetName as $widgetName) {
-					$widgetInfo = $oWidgetModel->getWidgetInfo($widgetName);
-					$mInfo[] = "{$widgetName}({$widgetInfo->version})";
-				}
-				$xe_check_env[$arr[0]]= join(", ", $mInfo);
-			} elseif($arr[0]=="widgetstyle") {
-				$str = urldecode($arr[1]);
-				$arrWidgetstyleName = explode("|", $str);
-				$oWidgetModel = getModel("widget");
-				$mInfo = array();
-				foreach($arrWidgetstyleName as $widgetstyleName) {
-					$widgetstyleInfo = $oWidgetModel->getWidgetStyleInfo($widgetstyleName);
-					$mInfo[] = "{$widgetstyleName}({$widgetstyleInfo->version})";
-				}
-				$xe_check_env[$arr[0]]= join(", ", $mInfo);
-
-			} elseif($arr[0]=="layout") {
-				$str = urldecode($arr[1]);
-				$arrLayoutName = explode("|", $str);
-				$oLayoutModel = getModel("layout");
-				$mInfo = array();
-				foreach($arrLayoutName as $layoutName) {
-					$layoutInfo = $oLayoutModel->getLayoutInfo($layoutName);
-					$mInfo[] = "{$layoutName}({$layoutInfo->version})";
-				}
-				$xe_check_env[$arr[0]]= join(", ", $mInfo);
-			} else {
-				$xe_check_env[$arr[0]] = urldecode($arr[1]);
+		$skip = array(
+			'phpext' => array('core', 'session', 'spl', 'standard', 'date', 'ctype', 'tokenizer', 'apache2handler', 'filter', 'reflection'),
+			'module' => array('addon', 'admin', 'autoinstall', 'comment', 'communication', 'counter', 'document', 'editor', 'file', 'importer', 'install', 'integration_search', 'layout', 'member', 'menu', 'message', 'module', 'opage', 'page', 'point', 'poll', 'rss', 'session', 'spamfilter', 'tag', 'trackback', 'trash', 'widget'),
+			'addon' => array('autolink', 'blogapi', 'captcha', 'counter', 'member_communication', 'member_extra_info', 'mobile', 'openid_delegation_id', 'point_level_icon', 'resize_image'),
+			'layout' => array('default'),
+			'widget' => array('content', 'language_select', 'login_info', 'mcontent'),
+			'widgetstyle' => array(),
+		);
+		
+		// Basic environment
+		$info[] = '[Basic Information]';
+		$info['rhymix_version'] = RX_VERSION;
+		$info['date'] = date('Y-m-d H:i:s O');
+		$info['php'] = sprintf('%s (%d-bit)', phpversion(), PHP_INT_SIZE * 8);
+		$info['server'] = $_SERVER['SERVER_SOFTWARE'];
+		$info['os'] = sprintf('%s %s', php_uname('s'), php_uname('r'));
+		$info['baseurl'] = Context::getRequestUri();
+		$info['basedir'] = RX_BASEDIR;
+		$info['owner'] = sprintf('%s (%d:%d)', get_current_user(), getmyuid(), getmygid());
+		if (function_exists('posix_getpwuid') && function_exists('posix_geteuid') && $user = @posix_getpwuid(posix_geteuid()))
+		{
+			$info['user'] = sprintf('%s (%d:%d)', $user['name'], $user['uid'], $user['gid']);
+		}
+		else
+		{
+			$info['user'] = 'unknown';
+		}
+		$info['ssl'] = Context::get('site_module_info')->security ?: Context::getDbInfo()->use_ssl;
+		$info[] = '';
+		
+		// System settings
+		$info[] = '[System Settings]';
+		$info['db.type'] = config('db.master.type');
+		$db_extra_info = array();
+		if (config('db.master.engine')) $db_extra_info[] = config('db.master.engine');
+		if (config('db.master.charset')) $db_extra_info[] = config('db.master.charset');
+		if (count($db_extra_info))
+		{
+			$info['db.type'] .= ' (' . implode(', ', $db_extra_info) . ')';
+		}
+		$info['db.version'] = DB::getInstance()->db_version;
+		if (preg_match('/\d+\.\d+\.\d+-MariaDB.*$/', $info['db.version'], $matches))
+		{
+			$info['db.version'] = $matches[0];
+		}
+		$info['cache.type'] = config('cache.type') ?: 'none';
+		$info['locale.default_lang'] = config('locale.default_lang');
+		$info['locale.default_timezone'] = config('locale.default_timezone');
+		$info['locale.internal_timezone'] = config('locale.internal_timezone');
+		$info['mobile.enabled'] = config('mobile.enabled') ? 'true' : 'false';
+		$info['mobile.tablets'] = config('mobile.tablets') ? 'true' : 'false';
+		$info['session.use_db'] = config('session.use_db') ? 'true' : 'false';
+		$info['session.use_keys'] = config('session.use_keys') ? 'true' : 'false';
+		$info['session.use_ssl'] = config('session.use_ssl') ? 'true' : 'false';
+		$info['view.concat_scripts'] = config('view.concat_scripts');
+		$info['view.minify_scripts'] = config('view.minify_scripts');
+		$info['use_rewrite'] = config('use_rewrite') ? 'true' : 'false';
+		$info['use_sso'] = config('use_sso') ? 'true' : 'false';
+		$info[] = '';
+		
+		// PHP settings
+		$ini_info = ini_get_all();
+		$info[] = '[PHP Settings]';
+		$info['session.auto_start'] = $ini_info['session.auto_start']['local_value'];
+		$info['max_file_uploads'] = $ini_info['max_file_uploads']['local_value'];
+		$info['memory_limit'] = $ini_info['memory_limit']['local_value'];
+		$info['post_max_size'] = $ini_info['post_max_size']['local_value'];
+		$info['upload_max_filesize'] = $ini_info['upload_max_filesize']['local_value'];
+		$info['extensions'] = array();
+		foreach(get_loaded_extensions() as $ext)
+		{
+			$ext = strtolower($ext);
+			if (!in_array($ext, $skip['phpext']))
+			{
+				$info['extensions'][] = $ext;
 			}
 		}
-		$info['XE_Check_Evn'] = $xe_check_env;
-
-		$ini_info = ini_get_all();
-		$php_core = array();
-		$php_core['max_file_uploads'] = "{$ini_info['max_file_uploads']['local_value']}";
-		$php_core['post_max_size'] = "{$ini_info['post_max_size']['local_value']}";
-		$php_core['memory_limit'] = "{$ini_info['memory_limit']['local_value']}";
-		$info['PHP_Core'] = $php_core;
-
-		$str_info = "[Rhymix Server Environment " . date("Y-m-d") . "]\n\n";
-		$str_info .= "realpath : ".realpath('./')."\n";
-		foreach( $info as $key=>$value )
+		natcasesort($info['extensions']);
+		$info[] = '';
+		
+		// Modules
+		$info[] = '[Modules]';
+		$info['module'] = array();
+		$oModuleModel = getModel('module');
+		$module_list = $oModuleModel->getModuleList() ?: array();
+		foreach ($module_list as $module)
 		{
-			if( is_array( $value ) == false ) {
-				$str_info .= "{$key} : {$value}\n";
-			} else {
-				//$str_info .= "\n{$key} \n";
-				foreach( $value as $key2=>$value2 )
-					$str_info .= "{$key2} : {$value2}\n";
+			if (!in_array($module->module, $skip['module']))
+			{
+				$moduleInfo = $oModuleModel->getModuleInfoXml($module->module);
+				$info['module'][] = sprintf('%s (%s)', $module->module, $moduleInfo->version);
+			}
+		}
+		natcasesort($info['module']);
+		$info[] = '';
+		
+		// Addons
+		$info[] = '[Addons]';
+		$info['addon'] = array();
+		$oAddonAdminModel = getAdminModel('addon');
+		$addon_list = $oAddonAdminModel->getAddonList() ?: array();
+		foreach ($addon_list as $addon)
+		{
+			if (!in_array($addon->addon, $skip['addon']))
+			{
+				$addonInfo = $oAddonAdminModel->getAddonInfoXml($addon->addon);
+				$info['addon'][] = sprintf('%s (%s)', $addon->addon, $addonInfo->version);
+			}
+		}
+		natcasesort($info['addon']);
+		$info[] = '';
+		
+		// Layouts
+		$info[] = '[Layouts]';
+		$info['layout'] = array();
+		$oLayoutModel = getModel('layout');
+		$layout_list = $oLayoutModel->getDownloadedLayoutList() ?: array();
+		foreach($layout_list as $layout)
+		{
+			if (!in_array($layout->layout, $skip['layout']))
+			{
+				$layoutInfo = $oLayoutModel->getLayoutInfo($layout->layout);
+				$info['layout'][] = sprintf('%s (%s)', $layout->layout, $layoutInfo->version);
+			}
+		}
+		natcasesort($info['layout']);
+		$info[] = '';
+		
+		// Widgets
+		$info[] = '[Widgets]';
+		$info['widget'] = "";
+		$oWidgetModel = getModel('widget');
+		$widget_list = $oWidgetModel->getDownloadedWidgetList() ?: array();
+		foreach ($widget_list as $widget)
+		{
+			if (!in_array($widget->widget, $skip['widget']))
+			{
+				$widgetInfo = $oWidgetModel->getWidgetInfo($widget->widget);
+				$info['widget'][] = sprintf('%s (%s)', $widget->widget, $widgetInfo->version);
+			}
+		}
+		natcasesort($info['widget']);
+		$info[] = '';
+		
+		// Widgetstyles
+		$info[] = '[Widgetstyles]';
+		$info['widgetstyle'] = array();
+		$oWidgetModel = getModel('widget');
+		$widgetstyle_list = $oWidgetModel->getDownloadedWidgetStyleList() ?: array();
+		foreach ($widgetstyle_list as $widgetstyle)
+		{
+			if (!in_array($widgetstyle->widgetStyle, $skip['widgetstyle']))
+			{
+				$widgetstyleInfo = $oWidgetModel->getWidgetStyleInfo($widgetstyle->widgetStyle);
+				$info['widgetstyle'][] = sprintf('%s (%s)', $widgetstyle->widgetStyle, $widgetstyleInfo->version);
+			}
+		}
+		natcasesort($info['widgetstyle']);
+		$info[] = '';
+		
+		// Convert to string.
+		foreach ($info as $key => $value)
+		{
+			if (is_array($value))
+			{
+				$value = implode(', ', $value);
+			}
+			
+			if (is_int($key) || ctype_digit($key))
+			{
+				$str_info .= "$value\n";
+			}
+			else
+			{
+				$str_info .= "$key : $value\n";
 			}
 		}
 
