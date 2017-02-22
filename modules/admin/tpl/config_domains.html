@@ -1,0 +1,74 @@
+<include target="config_header.html" />
+<div cond="$XE_VALIDATOR_MESSAGE && $XE_VALIDATOR_ID == 'modules/admin/tpl/config_domains/1'" class="message {$XE_VALIDATOR_MESSAGE_TYPE}">
+	<p>{$XE_VALIDATOR_MESSAGE}</p>
+</div>
+<section class="section">
+		
+	<table id="domain_list" class="x_table x_table-striped x_table-hover">
+		<thead>
+			<tr>
+				<th scope="col" class="nowr">{$lang->domain}</th>
+				<th scope="col" class="nowr">{$lang->cmd_http_port}</th>
+				<th scope="col" class="nowr">{$lang->cmd_https_port}</th>
+				<th scope="col" class="nowr">{$lang->use_ssl}</th>
+				<th scope="col" class="nowr">{$lang->cmd_index_module_srl}</th>
+				<th scope="col" class="nowr">{$lang->cmd_index_document_srl}</th>
+				<th scope="col" class="nowr">{$lang->cmd_default_language}</th>
+				<th scope="col" class="nowr">{$lang->cmd_modify} / {$lang->cmd_delete}</th>
+			</tr>
+		</thead>
+		<tbody>
+			<tr loop="$domain_list->data => $domain">
+				<td class="nowr">{$domain->domain}</td>
+				<td class="nowr">{$domain->http_port ?: ''}</td>
+				<td class="nowr">{$domain->https_port ?: ''}</td>
+				<td class="nowr">{$lang->ssl_options[$domain->security ?: 'none']}</td>
+				<td class="nowr">
+					<a href="{getSiteUrl($domain->domain, '', 'mid', $module_list[$domain->index_module_srl]->mid)}" cond="$domain->index_module_srl && $module_list[$domain->index_module_srl]" target="_blank">
+						{($domain->index_module_srl && $module_list[$domain->index_module_srl]) ? $module_list[$domain->index_module_srl]->browser_title : ''}</td>
+					</a>
+				<td class="nowr">
+					<a href="{getSiteUrl($domain->domain, '', 'document_srl', $domain->index_document_srl)}" cond="$domain->index_document_srl" target="_blank">
+						{$domain->index_document_srl ?: ''}
+					</a>
+				</td>
+				<td class="nowr">{$domain->settings->language ? $supported_lang[$domain->settings->language]['name'] : $supported_lang[config('locale.default_lang')]['name']}</td>
+				<td class="nowr">
+					<a href="{getUrl('', 'module', 'admin', 'act', 'dispAdminInsertDomain', 'domain_srl', $domain->domain_srl)}">{$lang->cmd_modify}</a>
+					/
+					<a href="{getUrl('', 'module', 'admin', 'act', 'dispAdminDeleteDomain', 'domain_srl', $domain->domain_srl)}">{$lang->cmd_delete}</a>
+				</td>
+			</tr>
+			<tr cond="$page_navigation->total_count == 0">
+				<td>{$lang->msg_no_result}</td>
+			</tr>
+		</tbody>
+	</table>
+	<div class="x_clearfix">
+		<div class="x_pull-left x_pagination" style="margin:0">
+			<ul>
+				<li class="x_disabled"|cond="$page == 1"><a href="{getUrl('page', '')}">&laquo; {$lang->first_page}</a></li>
+				<!--@while($page_no = $page_navigation->getNextPage())-->
+					<li class="x_active"|cond="$page_no == $page"><a href="{getUrl('page', $page_no)}">{$page_no}</a></li>
+				<!--@end-->
+				<li class="x_disabled"|cond="$page == $page_navigation->last_page"><a href="{getUrl('page', $page_navigation->last_page)}">{$lang->last_page} &raquo;</a></li>
+			</ul>
+		</div>
+		<div class="x_pull-right x_btn-group">
+			<a class="x_btn x_btn-inverse" href="{getUrl('', 'module', 'admin', 'act', 'dispAdminInsertDomain')}">{$lang->cmd_new_domain}</a>
+		</div>
+	</div>
+</section>
+
+<section class="section">
+	<form action="./" method="post" class="x_form-horizontal">
+		<input type="hidden" name="module" value="admin" />
+		<input type="hidden" name="act" value="procAdminUpdateDomains" />
+		<input type="hidden" name="xe_validator_id" value="modules/admin/tpl/config_domains/1" />
+		<div class="x_clearfix btnArea">
+			<div class="x_pull-right">
+				<button type="submit" class="x_btn x_btn-primary">{$lang->cmd_save}</button>
+			</div>
+		</div>
+	</form>
+</section>

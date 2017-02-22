@@ -8,6 +8,7 @@
 		<action name="dispAdminConfigNotification" type="view" menu_name="adminConfigurationGeneral" />
         <action name="dispAdminConfigSecurity" type="view" menu_name="adminConfigurationGeneral" />
         <action name="dispAdminConfigAdvanced" type="view" menu_name="adminConfigurationGeneral" />
+        <action name="dispAdminConfigDomains" type="view" menu_name="adminConfigurationDomains" />
         <action name="dispAdminConfigDebug" type="view" menu_name="adminConfigurationGeneral" />
         <action name="dispAdminConfigSEO" type="view" menu_name="adminConfigurationGeneral" />
         <action name="dispAdminConfigSitelock" type="view" menu_name="adminConfigurationGeneral" />
@@ -28,6 +29,7 @@
 		<action name="procAdminUpdateNotification" type="controller" />
 		<action name="procAdminUpdateSecurity" type="controller" />
 		<action name="procAdminUpdateAdvanced" type="controller" />
+		<action name="procAdminUpdateDomains" type="controller" />
 		<action name="procAdminUpdateDebug" type="controller" />
 		<action name="procAdminUpdateSEO" type="controller" />
 		<action name="procAdminUpdateSitelock" type="controller" />

@@ -586,6 +586,38 @@ class adminAdminView extends admin
 	 * Display Debug Settings page
 	 * @return void
 	 */
+	function dispAdminConfigDomains()
+	{
+		// Get domain list.
+		$oModuleModel = getModel('module');
+		$page = intval(Context::get('page')) ?: 1;
+		$domain_list = $oModuleModel->getAllDomains(20, $page);
+		Context::set('domain_list', $domain_list);
+		Context::set('page_navigation', $domain_list->page_navigation);
+		Context::set('page', $page);
+		
+		// Get index module info.
+		$module_list = array();
+		$oModuleModel = getModel('module');
+		foreach ($domain_list->data as $domain)
+		{
+			if ($domain->index_module_srl && !isset($module_list[$domain->index_module_srl]))
+			{
+				$module_list[$domain->index_module_srl] = $oModuleModel->getModuleInfoByModuleSrl($domain->index_module_srl);
+			}
+		}
+		Context::set('module_list', $module_list);
+		
+		// Get language list.
+		Context::set('supported_lang', Rhymix\Framework\Lang::getSupportedList());
+		
+		$this->setTemplateFile('config_domains');
+	}
+	
+	/**
+	 * Display Debug Settings page
+	 * @return void
+	 */
 	function dispAdminConfigDebug()
 	{
 		// Load debug settings.
