@@ -315,8 +315,16 @@ class TemplateHandlerTest extends \Codeception\TestCase\Test
                 PHP_EOL . '$this->config->autoescape = \'on\';' . "\n" . 'echo ($this->config->autoescape === \'on\' ? htmlspecialchars($__Context->foo, ENT_COMPAT, \'UTF-8\', false) : $__Context->foo) ?>'
             ),
             array(
-                '<config autoescape="off" />{$foo|autoescape}',
+                '<config autoescape="off" />{$foo|auto}',
                 PHP_EOL . '$this->config->autoescape = \'off\';' . "\n" . 'echo ($this->config->autoescape === \'on\' ? htmlspecialchars($__Context->foo, ENT_COMPAT, \'UTF-8\', false) : $__Context->foo) ?>'
+            ),
+            array(
+                '<config autoescape="on" />{$foo|autoescape}',
+                PHP_EOL . '$this->config->autoescape = \'on\';' . "\n" . 'echo htmlspecialchars($__Context->foo, ENT_COMPAT, \'UTF-8\', false) ?>'
+            ),
+            array(
+                '<config autoescape="off" />{$foo|autoescape}',
+                PHP_EOL . '$this->config->autoescape = \'off\';' . "\n" . 'echo htmlspecialchars($__Context->foo, ENT_COMPAT, \'UTF-8\', false) ?>'
             ),
             array(
                 '<config autoescape="on" />{$foo|escape}',

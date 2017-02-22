@@ -561,7 +561,7 @@ class TemplateHandler
 				}
 				else
 				{
-					$escape_option = $this->config->autoescape !== null ? 'autoescape' : 'noescape';
+					$escape_option = $this->config->autoescape !== null ? 'auto' : 'noescape';
 				}
 				
 				// Separate filters from variable.
@@ -890,8 +890,9 @@ class TemplateHandler
 				return "htmlspecialchars({$str}, ENT_COMPAT, 'UTF-8', true)";
 			case 'noescape':
 				return "{$str}";
-			case 'auto':
 			case 'autoescape':
+				return "htmlspecialchars({$str}, ENT_COMPAT, 'UTF-8', false)";
+			case 'auto':
 			default:
 				return "(\$this->config->autoescape === 'on' ? htmlspecialchars({$str}, ENT_COMPAT, 'UTF-8', false) : {$str})";
 		}
