@@ -1547,11 +1547,15 @@ class Context
 		}
 
 		// If $domain is set, handle it (if $domain is vid type, remove $domain and handle with $vid)
-		if (strpos($domain, '/') !== false)
+		if ($domain && strpos($domain, '/') !== false)
 		{
 			$domain = Rhymix\Framework\URL::getDomainFromURL($domain);
 		}
-		if($domain && isSiteID($domain))
+		if ($domain && strpos($domain, 'xn--') !== false)
+		{
+			$domain = Rhymix\Framework\URL::decodeIdna($domain);
+		}
+		if ($domain && isSiteID($domain))
 		{
 			$vid = $domain;
 			$domain = '';
