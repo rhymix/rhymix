@@ -554,26 +554,132 @@ class TemplateHandler
 			}
 			else
 			{
-				$escape_option = $this->config->autoescape !== null ? 'auto' : 'noescape';
-				if(preg_match('@^(.+)\\|((?:no)?escape)$@', $m[1], $mm))
-				{
-					$m[1] = $mm[1];
-					$escape_option = $mm[2];
-				}
-				elseif($m[1] === '$content' && preg_match('@/layouts/.+/layout\.html$@', $this->file))
+				// Get escape options.
+				if($m[1] === '$content' && preg_match('@/layouts/.+/layout\.html$@', $this->file))
 				{
 					$escape_option = 'noescape';
 				}
-				$m[1] = self::_replaceVar($m[1]);
-				switch($escape_option)
+				else
 				{
-					case 'auto':
-						return "<?php echo (\$this->config->autoescape === 'on' ? htmlspecialchars({$m[1]}, ENT_COMPAT, 'UTF-8', false) : {$m[1]}) ?>";
-					case 'escape':
-						return "<?php echo htmlspecialchars({$m[1]}, ENT_COMPAT, 'UTF-8', true) ?>";
-					case 'noescape':
-						return "<?php echo {$m[1]} ?>";
+					$escape_option = $this->config->autoescape !== null ? 'auto' : 'noescape';
 				}
+				
+				// Separate filters from variable.
+				if (preg_match('@^(.+?)(?<![|\s])((?:\|[a-z]{2}[a-z0-9_]+(?::.+)?)+)$@', $m[1], $mm))
+				{
+					$m[1] = $mm[1];
+					$filters = array_map('trim', explode_with_escape('|', substr($mm[2], 1)));
+				}
+				else
+				{
+					$filters = array();
+				}
+				
+				// Process the variable.
+				$var = self::_replaceVar($m[1]);
+				
+				// Apply filters.
+				foreach ($filters as $filter)
+				{
+					// Separate filter option from the filter name.
+					if (preg_match('/^([a-z0-9_-]+):(.+)$/', $filter, $matches))
+					{
+						$filter = $matches[1];
+						$filter_option = $matches[2];
+						if (!self::_isVar($filter_option) && !preg_match("/^'.*'$/", $filter_option) && !preg_match('/^".*"$/', $filter_option))
+						{
+							$filter_option = "'" . escape_sqstr($filter_option) . "'";
+						}
+						else
+						{
+							$filter_option = self::_replaceVar($filter_option);
+						}
+					}
+					else
+					{
+						$filter_option = null;
+					}
+					
+					// Apply each filter.
+					switch ($filter)
+					{
+						case 'auto':
+						case 'autoescape':
+						case 'escape':
+						case 'noescape':
+							$escape_option = $filter;
+							break;
+							
+						case 'escapejs':
+							$var = "escape_js({$var})";
+							break;
+							
+						case 'json':
+							$var = "json_encode({$var})";
+							break;
+							
+						case 'strip':
+						case 'strip_tags':
+							$var = $filter_option ? "strip_tags({$var}, {$filter_option})" : "strip_tags({$var})";
+							break;
+							
+						case 'trim':
+							$var = "trim({$var})";
+							break;
+							
+						case 'urlencode':
+							$var = "rawurlencode({$var})";
+							break;
+							
+						case 'lower':
+							$var = "strtolower({$var})";
+							break;
+							
+						case 'upper':
+							$var = "strtoupper({$var})";
+							break;
+							
+						case 'nl2br':
+							$var = $this->_applyEscapeOption($var, $escape_option);
+							$var = "nl2br({$var})";
+							$escape_option = 'noescape';
+							break;
+							
+						case 'join':
+							$var = $filter_option ? "implode({$filter_option}, {$var})" : "implode(', ', {$var})";
+							break;
+							
+						case 'date':
+							$var = $filter_option ? "getDisplayDateTime(ztime({$var}), {$filter_option})" : "getDisplayDateTime(ztime({$var}), 'Y-m-d H:i:s')";
+							break;
+							
+						case 'format':
+						case 'number_format':
+							$var = $filter_option ? "number_format({$var}, {$filter_option})" : "number_format({$var})";
+							break;
+							
+						case 'link':
+							$var = $this->_applyEscapeOption($var, $escape_option);
+							if ($filter_option)
+							{
+								$filter_option = $this->_applyEscapeOption($filter_option, $escape_option);
+								$var = "'<a href=\"' . {$filter_option} . '\">' . {$var} . '</a>'";
+							}
+							else
+							{
+								$var = "'<a href=\"' . {$var} . '\">' . {$var} . '</a>'";
+							}
+							$escape_option = 'noescape';
+							break;
+							
+						default:
+							$filter = escape_sqstr($filter);
+							$var = "'INVALID FILTER ({$filter})'";
+					}
+				}
+				
+				// Apply the escape option and return.
+				return '<?php echo ' . $this->_applyEscapeOption($var, $escape_option) . ' ?>';
 			}
 		}
 
@@ -774,6 +880,25 @@ class TemplateHandler
 	}
 
 	/**
+	 * Apply escape option to an expression.
+	 */
+	private function _applyEscapeOption($str, $escape_option)
+	{
+		switch($escape_option)
+		{
+			case 'escape':
+				return "htmlspecialchars({$str}, ENT_COMPAT, 'UTF-8', true)";
+			case 'noescape':
+				return "{$str}";
+			case 'autoescape':
+				return "htmlspecialchars({$str}, ENT_COMPAT, 'UTF-8', false)";
+			case 'auto':
+			default:
+				return "(\$this->config->autoescape === 'on' ? htmlspecialchars({$str}, ENT_COMPAT, 'UTF-8', false) : {$str})";
+		}
+	}
+
+	/**
 	 * change relative path
 	 * @param string $path
 	 * @return string
@@ -810,9 +935,21 @@ class TemplateHandler
 
 		return $path;
 	}
+	
+	/**
+	 * Check if a string seems to contain a variable.
+	 * 
+	 * @param string $str
+	 * @return bool
+	 */
+	private static function _isVar($str)
+	{
+		return preg_match('@(?<!::|\\\\|(?<!eval\()\')\$([a-z_][a-z0-9_]*)@i', $str) ? true : false;
+	}
 
 	/**
-	 * replace PHP variables of $ character
+	 * Replace PHP variables of $ character
+	 * 
 	 * @param string $php
 	 * @return string $__Context->varname
 	 */
