@@ -419,17 +419,42 @@ class TemplateHandlerTest extends \Codeception\TestCase\Test
                 '<config autoescape="on" /><p>{$foo|link:$url}</p>',
                 PHP_EOL . '$this->config->autoescape = \'on\'; ?><p><?php echo \'<a href="\' . ($this->config->autoescape === \'on\' ? htmlspecialchars($__Context->url, ENT_COMPAT, \'UTF-8\', false) : $__Context->url) . \'">\' . ($this->config->autoescape === \'on\' ? htmlspecialchars($__Context->foo, ENT_COMPAT, \'UTF-8\', false) : $__Context->foo) . \'</a>\' ?></p>'
             ),
+			// Rhymix filters (reject malformed filters)
             array(
                 '<p>{$foo|dafuq}</p>',
                 '?><p><?php echo \'INVALID FILTER (dafuq)\' ?></p>'
             ),
             array(
-                '<p>{$foo||$bar}</p>',
-                '?><p><?php echo $__Context->foo||$__Context->bar ?></p>'
+                '<p>{$foo|4}</p>',
+                '?><p><?php echo $__Context->foo|4 ?></p>'
             ),
             array(
-                '<p>{htmlspecialchars($var, ENT_COMPAT|ENT_HTML401)}</p>',
-                '?><p><?php echo htmlspecialchars($__Context->var, ENT_COMPAT|ENT_HTML401) ?></p>'
+                '<p>{$foo|a+7|lower}</p>',
+                '?><p><?php echo strtolower($__Context->foo|a+7) ?></p>'
+            ),
+            array(
+                '<p>{$foo|Filter}</p>',
+                '?><p><?php echo $__Context->foo|Filter ?></p>'
+            ),
+            array(
+                '<p>{$foo|filter++}</p>',
+                '?><p><?php echo $__Context->foo|filter++ ?></p>'
+            ),
+            array(
+                '<p>{$foo|filter:}</p>',
+                '?><p><?php echo $__Context->foo|filter: ?></p>'
+            ),
+            array(
+                '<p>{$foo|$bar}</p>',
+                '?><p><?php echo $__Context->foo|$__Context->bar ?></p>'
+            ),
+            array(
+                '<p>{$foo||bar}</p>',
+                '?><p><?php echo $__Context->foo||bar ?></p>'
+            ),
+            array(
+                '<p>{htmlspecialchars($var, ENT_COMPAT | ENT_HTML401)}</p>',
+                '?><p><?php echo htmlspecialchars($__Context->var, ENT_COMPAT | ENT_HTML401) ?></p>'
             ),
             array(
                 '<p>{$foo | $bar}</p>',
