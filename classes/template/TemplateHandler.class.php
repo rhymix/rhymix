@@ -565,7 +565,7 @@ class TemplateHandler
 				}
 				
 				// Separate filters from variable.
-				if (preg_match('@^(.+?)(?<![|\s])\\|([a-z0-9_].+)$@', $m[1], $mm))
+				if (preg_match('@^(.+?)(?<![|\s])\\|([a-z].+)$@', $m[1], $mm))
 				{
 					$m[1] = $mm[1];
 					$filters = array_map('trim', explode_with_escape('|', $mm[2]));
