@@ -423,6 +423,18 @@ class TemplateHandlerTest extends \Codeception\TestCase\Test
                 '<p>{$foo|dafuq}</p>',
                 '?><p><?php echo \'INVALID FILTER (dafuq)\' ?></p>'
             ),
+            array(
+                '<p>{$foo||$bar}</p>',
+                '?><p><?php echo $__Context->foo||$__Context->bar ?></p>'
+            ),
+            array(
+                '<p>{htmlspecialchars($var, ENT_COMPAT|ENT_HTML401)}</p>',
+                '?><p><?php echo htmlspecialchars($__Context->var, ENT_COMPAT|ENT_HTML401) ?></p>'
+            ),
+            array(
+                '<p>{$foo | $bar}</p>',
+                '?><p><?php echo $__Context->foo | $__Context->bar ?></p>'
+            ),
         );
 
         foreach ($tests as $test)
