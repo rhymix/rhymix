@@ -133,7 +133,7 @@ class commentItem extends Object
 	{
 		if(Context::getSessionStatus())
 		{
-			$_SESSION['accessibled_comment'][$this->comment_srl] = TRUE;
+			$_SESSION['accessible'][$this->comment_srl] = $this->get('last_update');
 		}
 	}
 
@@ -163,12 +163,12 @@ class commentItem extends Object
 
 	function isAccessible()
 	{
-		if($_SESSION['accessibled_comment'][$this->comment_srl])
+		if (isset($_SESSION['accessible'][$this->comment_srl]) && $_SESSION['accessible'][$this->comment_srl] === $this->get('last_update'))
 		{
 			return TRUE;
 		}
 
-		if($this->isGranted() || !$this->isSecret())
+		if (!$this->isSecret() || $this->isGranted())
 		{
 			$this->setAccessible();
 			return TRUE;
@@ -176,7 +176,7 @@ class commentItem extends Object
 
 		$oDocumentModel = getModel('document');
 		$oDocument = $oDocumentModel->getDocument($this->get('document_srl'));
-		if($oDocument->isGranted())
+		if ($oDocument->isExists() && $oDocument->isGranted())
 		{
 			$this->setAccessible();
 			return TRUE;

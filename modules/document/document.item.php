@@ -204,7 +204,55 @@ class documentItem extends Object
 
 	function isAccessible()
 	{
-		return $_SESSION['accessible'][$this->document_srl]==true?true:false;
+		if (isset($_SESSION['accessible'][$this->document_srl]) && $_SESSION['accessible'][$this->document_srl] === $this->get('last_update'))
+		{
+			return true;
+		}
+		
+		if ($this->grant_cache === true)
+		{
+			$this->setAccessible();
+			return true;
+		}
+		
+		$logged_info = Context::get('logged_info');
+		if ($logged_info->is_admin == 'Y')
+		{
+			$this->setAccessible();
+			return true;
+		}
+
+		$status = $this->get('status');
+		if (empty($status))
+		{
+			return false;
+		}
+
+		$configStatusList = getModel('document')->getStatusList();
+
+		if ($status == $configStatusList['public'] || $status == $configStatusList['publish'])
+		{
+			$this->setAccessible();
+			return true;
+		}
+		elseif ($status == $configStatusList['private'] || $status == $configStatusList['secret'])
+		{
+			if ($this->get('member_srl') == $logged_info->member_srl)
+			{
+				$this->setAccessible();
+				return true;
+			}
+		}
+		
+		return false;
+	}
+
+	function setAccessible()
+	{
+		if(Context::getSessionStatus())
+		{
+			$_SESSION['accessible'][$this->document_srl] = $this->get('last_update');
+		}
 	}
 
 	function allowComment()
@@ -444,7 +492,7 @@ class documentItem extends Object
 		$result = $this->_checkAccessibleFromStatus();
 		if($result && Context::getSessionStatus())
 		{
-			$_SESSION['accessible'][$this->document_srl] = true;
+			$this->setAccessible();
 		}
 
 		$content = $this->get('content');
@@ -506,9 +554,9 @@ class documentItem extends Object
 		if($this->isSecret() && !$this->isGranted() && !$this->isAccessible()) return lang('msg_is_secret');
 
 		$result = $this->_checkAccessibleFromStatus();
-		if($result && Context::getSessionStatus())
+		if($result)
 		{
-			$_SESSION['accessible'][$this->document_srl] = true;
+			$this->setAccessible();
 		}
 
 		$content = $this->get('content');
@@ -1252,23 +1300,7 @@ class documentItem extends Object
 	 */
 	function _checkAccessibleFromStatus()
 	{
-		$logged_info = Context::get('logged_info');
-		if($logged_info->is_admin == 'Y') return true;
-
-		$status = $this->get('status');
-		if(empty($status)) return false;
-
-		$oDocumentModel = getModel('document');
-		$configStatusList = $oDocumentModel->getStatusList();
-
-		if($status == $configStatusList['public'] || $status == $configStatusList['publish'])
-			return true;
-		else if($status == $configStatusList['private'] || $status == $configStatusList['secret'])
-		{
-			if($this->get('member_srl') == $logged_info->member_srl)
-				return true;
-		}
-		return false;
+		return $this->isAccessible();
 	}
 
 	function getTranslationLangCodes()
