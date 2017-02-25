@@ -91,19 +91,24 @@ section.simple_content
 	text-decoration: none;
 }
 .simple_content .content_image {
-	display:inline-block;
-	float:left;
-	position:relative;
-	margin-right: 5px;
+	display:block;
+	left:0;
+	position:absolute;
 }
 .simple_content .content_basic{
 	position:relative;
 	display:inline-block;
 	max-width:100%;
+	box-sizing: border-box;
 	vertical-align: middle;
 	overflow:hidden;
 	text-overflow: ellipsis;
 	white-space: nowrap;
+}
+.simple_content .content_basic.content_with_thumbnail{
+	line-height: @thumbnail_height + 0px;
+	vertical-align:middle;
+	padding-left: @thumbnail_width + 5px;
 }
 .simple_content .content_category {
 	.text-contrast(#fff; darken(@color,5%); lighten(@color,5%));
@@ -148,6 +153,12 @@ section.simple_content
 	top:0.6em;
 	right:15px;
 }
+.simple_content .content_recnt.content_with_thumbnail{
+	height: @thumbnail_height + 0px;
+	line-height: @thumbnail_height + 0px;
+	vertical-align:middle;
+}
+
 .simple_content .simple_content_list li.content_reext .cont_a { /* 코멘트 있는 항목 */
 	padding-right:70px;
 }

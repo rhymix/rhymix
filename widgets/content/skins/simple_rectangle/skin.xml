@@ -5,8 +5,9 @@
 	<description xml:lang="ko">직사각형과 그림자, 테마색상을 활용한 컨텐츠 스킨입니다.</description>
 	<description xml:lang="en">Rectangles, shadows, theme-color.</description>
 	<version>1.0</version>
-	<date>2017-02-12</date>
+	<date>2017-02-26</date>
 	<link>https://github.com/rhymix/rhymix/</link>
+	<license link="https://www.gnu.org/licenses/old-licenses/gpl-2.0.html">GPLv2</license>
 
 	<author email_address="misol.kr@gmail.com" link="https://github.com/misol/">
 		<name xml:lang="ko">misol</name>

@@ -11,8 +11,7 @@
 						<span class="fake_img">{$lang->none_image}</span>
 					<!--@end-->
 			</p>
-			<p class="content_basic">
-
+			<p class="content_basic <!--@if($widget_info->show_comment_count=='Y' && $item->getCommentCount())-->content_reext<!--@end-->">
 				<span class="content_title">
 					<span class="content_category" cond="$widget_info->show_browser_title=='Y' && $item->getBrowserTitle()">{$item->getBrowserTitle()}</span> {str_replace(array('&amp;amp;','&amp;lt;','&amp;gt;','&amp;quot;','&amp;apos;'),array('&amp;','&lt;','&gt;','&quot;','&apos;'),$item->getTitle($widget_info->subject_cut_size))}
 				</span>
