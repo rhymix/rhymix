@@ -19,7 +19,7 @@ class ncenterliteModel extends ncenterlite
 			
 			if(!is_array($config->use))
 			{
-				if($config->use != 'N')
+				if($config->use == 'Y')
 				{
 					$config->use = array(
 						'mention' => array('web' => 1),
@@ -32,7 +32,7 @@ class ncenterliteModel extends ncenterlite
 				}
 				else
 				{
-					$config->use = array();
+					$config->use = array('message' => array('web' => 1));
 				}
 			}
 			else
