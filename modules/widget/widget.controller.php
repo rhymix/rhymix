@@ -396,7 +396,7 @@ class widgetController extends widget
 		if ($cache_data)
 		{
 			// Load the variables, need to load the LESS or SCSS files.
-			if(is_object($cache_data))
+			if(!is_string($cache_data))
 			{
 				foreach ($cache_data->variables as $key => $value)
 				{
