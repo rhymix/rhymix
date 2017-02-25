@@ -516,11 +516,16 @@ class HTMLFilter
 				{
 					return $attr[0];
 				}
-				if (preg_match('/^(?:on|data-|(?:accesskey|class|contextmenu|contenteditable|dir|draggable|dropzone|editor_component|hidden|id|lang|name|style|tabindex|title)$)/', $attrkey))
+				if (preg_match('/^(?:on|data-|(?:accesskey|class|contextmenu|contenteditable|dir|draggable|dropzone|editor_component|hidden|id|lang|name|style|tabindex|title|rx_encoded_properties)$)/i', $attrkey))
 				{
 					return $attr[0];
 				}
-				$attrs[$attrkey] = htmlspecialchars_decode($attr[2]);
+				$attrval = utf8_normalize_spaces(utf8_clean(html_entity_decode($attr[2])));
+				if (preg_match('/^javascript:/i', preg_replace('/\s+/', '', $attrval)))
+				{
+					return '';
+				}
+				$attrs[$attrkey] = $attrval;
 				return '';
 			}, $match[0]);
 			if ($tag === 'img' && !preg_match('/\ssrc="/', $html))

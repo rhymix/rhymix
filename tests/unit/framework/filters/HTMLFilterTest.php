@@ -187,6 +187,14 @@ class HTMLFilterTest extends \Codeception\TestCase\Test
 		$target = '<img src="./foo/bar.jpg" alt="My Picture" style="width:320px;height:240px;" width="320" height="240" />';
 		$this->assertEquals($target, Rhymix\Framework\Filters\HTMLFilter::clean($source, false, false));
 		
+		$source = '<img src="./foo/bar.jpg" alt="Picture" editor_component="component_name" editor_component_property="java Script:alert()" />';
+		$target = '<img src="./foo/bar.jpg" alt="Picture" editor_component="component_name" />';
+		$this->assertEquals($target, Rhymix\Framework\Filters\HTMLFilter::clean($source));
+		
+		$source = '<img src="./foo/bar.jpg" alt="Picture" editor_component="component_name" rx_encoded_properties="alert()" />';
+		$target = '<img src="./foo/bar.jpg" alt="Picture" editor_component="component_name" />';
+		$this->assertEquals($target, Rhymix\Framework\Filters\HTMLFilter::clean($source));
+		
 		$source = '<img somekey="somevalue" otherkey="othervalue" onkeypress="alert(\'xss\');" editor_component="component_name" />';
 		$target = '';
 		$this->assertEquals($target, Rhymix\Framework\Filters\HTMLFilter::clean($source, false, false));
