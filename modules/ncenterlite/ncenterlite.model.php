@@ -11,14 +11,29 @@ class ncenterliteModel extends ncenterlite
 		{
 			$oModuleModel = getModel('module');
 			$config = $oModuleModel->getModuleConfig('ncenterlite');
-
+			
 			if(!$config)
 			{
 				$config = new stdClass();
 			}
-			if(!$config->use)
+			
+			if(!is_array($config->use))
 			{
-				$config->use = array('message' => 1);
+				if($config->use != 'N')
+				{
+					$config->use = array(
+						'mention' => array('web' => 1),
+						'comment' => array('web' => 1),
+						'comment_comment' => array('web' => 1),
+						'vote' => array('web' => 1),
+						'message' => array('web' => 1),
+						'admin_content' => array('web' => 1),
+					);
+				}
+				else
+				{
+					$config->use = array();
+				}
 			}
 			else
 			{
@@ -32,8 +47,8 @@ class ncenterliteModel extends ncenterlite
 					getController('module')->insertModuleConfig('ncenterlite', $config);
 				}
 			}
+			
 			if(!$config->display_use) $config->display_use = 'all';
-
 			if(!$config->mention_names) $config->mention_names = 'nick_name';
 			if(!$config->mention_suffixes)
 			{
