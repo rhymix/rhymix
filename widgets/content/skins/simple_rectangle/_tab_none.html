@@ -1,0 +1,15 @@
+<h1 class="misolTop" cond="count($widget_info->modules_info) === 1">
+{@$soo_module_info = current($widget_info->modules_info);}
+	<a href="{getUrl('','mid',$soo_module_info->mid)}" target="_blank"|cond="$widget_info->new_window" class="misol_top_a">{$soo_module_info->browser_title}</a>
+</h1>
+<!--@if($widget_info->list_type == "gallery")-->
+	<!--#include("./gallery.html")-->
+<!--@elseif($widget_info->list_type == "image_title")-->
+	<!--#include("./image_title.html")-->
+<!--@elseif($widget_info->list_type == "image_title_content")-->
+	<!--#include("./image_title_content.html")-->
+<!--@elseif($widget_info->list_type == "title_content")-->
+	<!--#include("./title_content.html")-->
+<!--@else-->
+	<!--#include("./normal.html")-->
+<!--@end-->

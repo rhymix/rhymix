@@ -1,0 +1,39 @@
+<ul class="simple_content_list simple_content_webzine">
+{@$_idx=0}
+<!--@foreach($widget_info->content_items as $key => $item)-->
+	<li style="display:none"|cond="$_idx >= $widget_info->list_count">
+		<a href="{$item->getLink()}" class="cont_a" target="_blank"|cond="$widget_info->new_window">
+			<p class="simple_gallery_item simple_gallery_image">
+					<!--@if($item->getThumbnail())-->
+						<span class="content_category" cond="$widget_info->show_category=='Y' && $item->get('category_srl')">{$item->getCategory()}</span>
+						<img src="{$item->getThumbnail()}" srcset="{$item->getThumbnail(2)} 2x"|cond="$item->getThumbnail(2)" width="{$widget_info->thumbnail_width}" height="{$widget_info->thumbnail_height}" />
+					<!--@else-->
+						<span class="fake_img">{$lang->none_image}</span>
+					<!--@end-->
+			</p>
+			<p class="content_basic <!--@if($widget_info->show_comment_count=='Y' && $item->getCommentCount())-->content_reext<!--@end-->">
+				<span class="content_title">
+					<span class="content_category" cond="$widget_info->show_browser_title=='Y' && $item->getBrowserTitle()">{$item->getBrowserTitle()}</span> {str_replace(array('&amp;amp;','&amp;lt;','&amp;gt;','&amp;quot;','&amp;apos;'),array('&amp;','&lt;','&gt;','&quot;','&apos;'),$item->getTitle($widget_info->subject_cut_size))}
+				</span>
+				<span class="content_nickname">
+					{$item->getNickName($widget_info->nickname_cut_size)}
+				</span>
+
+				<span class="content_recnt" cond="$widget_info->show_comment_count=='Y' && $item->getCommentCount()">
+					<!--@if($item->getCommentCount()<999)-->{$item->getCommentCount()}<!--@else-->999+<!--@end-->
+				</span>
+				<span class="simple_content_longtext" cond="in_array('content', $widget_info->option_view_arr)">
+					{$item->getContent()}
+				</span>
+			</p>
+		</a>
+	</li>
+{@$_idx++}
+<!--@end-->
+</ul>
+
+	<!--@if($widget_info->page_count > 1 && $widget_info->list_count<$_idx)-->
+	<div class="simple_content_nav">
+		<button type="button" class="soo_cont_more" title="{$lang->more}" onclick="content_widget_plus(jQuery(this).parents('div.simple_content_nav').prev('ul.simple_content_list'),{$widget_info->list_count})"><span class="page_info">1/{intval(($_idx - 1) / $widget_info->list_count) + 1}</span> {$lang->more}</button>
+	</div>
+	<!--@end-->

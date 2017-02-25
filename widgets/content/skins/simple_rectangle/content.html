@@ -1,7 +1,6 @@
-<!--// responsible layout -->
-{@Context::addMetaTag("viewport", "width=device-width, user-scalable=yes")}
-
+<load target="./js/content_widget.js" cond="$widget_info->page_count || count($widget_info->tab)" />
 <!--// Check layout. If it is Simple World, select layout primary colors as a primary color of this skin -->
+{@$layout_info = Context::get('layout_info')}
 {@
 	$material_colors = array(
 		'red'	=>	'#f44336',
@@ -39,13 +38,12 @@
 		if(!$layout_info->customized_primary_color)
 			$layout_info->customized_primary_color = '#f44336';
 	}
-
 </block>
 <block cond="$layout_info->extra_var->primary_color->type !== 'select' && $layout_info->extra_var->customized_primary_color->type !== 'colorpicker'">
 	{@$layout_info->primary_color = 'blue';}
 </block>
-
 <!--// Load styles -->
+{@$colorset = $material_colors[$colorset];}
 {@$skin_color = $material_colors[$layout_info->primary_color];}
 <block cond="!$skin_color">
 	<!--@if(preg_match("/#([a-f0-9]{3}){1,2}/i", $layout_info->primary_color))-->
@@ -57,6 +55,25 @@
 		{@$skin_color = '#f44336'}
 	<!--@endif-->
 </block>
-{@Context::set('simple_less_value', array('red' => hexdec(substr($skin_color, 1, 2)), 'green' => hexdec(substr($skin_color, 3, 2)), 'blue' => hexdec(substr($skin_color, 5, 2)) ))}
-<load target="css/message.less" vars="$simple_less_value" />
-<section class="rx_simple_message">
+<block cond="$colorset">
+	{@$skin_color = $colorset}
+</block>
+{@Context::set('less_color', array('red' => hexdec(substr($skin_color, 1, 2)), 'green' => hexdec(substr($skin_color, 3, 2)), 'blue' => hexdec(substr($skin_color, 5, 2)), 'thumbnail_height' => intval($widget_info->thumbnail_height), 'thumbnail_width' => intval($widget_info->thumbnail_width)))}
+<load target="css/css.less" vars="$less_color" />
+
+<div class="widgetContainer">
+	<div class="simple_content">
+		<section class="simple_content">
+			<!--@if($widget_info->tab_type  == "tab_left" && count($widget_info->tab) > 1)-->
+				<!--#include("./_tab_left.html")-->
+			<!--@elseif($widget_info->tab_type == "tab_top" && count($widget_info->tab) > 1)-->
+				<!--#include("./_tab_top.html")-->
+			<!--@else-->
+				<!--@if($widget_info->tab_type  == "tab_left" || $widget_info->tab_type == "tab_top")-->
+					{@$widget_info->content_items = $widget_info->tab[0]->content_items}
+				<!--@end-->
+				<!--#include("./_tab_none.html")-->
+			<!--@end-->
+		</section>
+	</div>
+</div>

@@ -395,7 +395,16 @@ class widgetController extends widget
 		$cache_data = Rhymix\Framework\Cache::get('widget_cache:' . $widget_sequence);
 		if ($cache_data)
 		{
-			return preg_replace('@<\!--#Meta:@', '<!--Meta:', $cache_data);
+			// Load the variables, need to load the LESS or SCSS files.
+			if(is_object($cache_data))
+			{
+				foreach ($cache_data->variables as $key => $value)
+				{
+					Context::set($key, $value);
+				}
+				$cache_data = $cache_data->content;
+			}
+			return str_replace('<!--#Meta:', '<!--Meta:', $cache_data);
 		}
 
 		$oWidget = $this->getWidgetObject($widget);
@@ -404,8 +413,25 @@ class widgetController extends widget
 		$widget_content = $oWidget->proc($args);
 		$oModuleController = getController('module');
 		$oModuleController->replaceDefinedLangCode($widget_content);
-		
+
 		Rhymix\Framework\Cache::set('widget_cache:' . $widget_sequence, $widget_content, $widget_cache, true);
+
+		// Keep the variables, need to load the LESS or SCSS files.
+		if(preg_match_all('/<!--#Meta:([a-z0-9\_\-\/\.\@\:]+)(\?\$\_\_Context\-\>[a-z0-9\_\-\/\.\@\:]+)?-->/is', $widget_content, $widget_var_matches, PREG_SET_ORDER))
+		{
+			$cache_content = new stdClass();
+			$cache_content->content = $widget_content;
+			$cache_content->variables = new stdClass();
+			foreach($widget_var_matches as $matches)
+			{
+				if($matches[2])
+				{
+					$key = str_replace('?$__Context->', '', $matches[2]);
+					$cache_content->variables->{$key} = Context::get($key);
+				}
+			}
+			Rhymix\Framework\Cache::set('widget_cache:' . $widget_sequence, $cache_content, $widget_cache, true);
+		}
 
 		return $widget_content;
 	}

@@ -1,0 +1,274 @@
+@charset "UTF-8";
+/* sample code for css.less by misol */
+div.simple_content {
+	font-family: "맑은 고딕", "Apple SD Gothic Neo", "나눔고딕", NanumGothic, 'Nanum Gothic', Arial, Helvetica, sans-serif;
+	font-size: 14px;
+	padding: 3px;
+}
+section.simple_content {
+	font-size: 14px;
+	background-color: #fff;
+	box-shadow: 0 1px 2px rgba(0,0,0,0.16), 0 1px 2px rgba(0,0,0,0.23);
+}
+.simple_content ul.simple_content_list {
+	margin: 0;
+	padding: 0 8px;
+}
+.simple_content .simple_content_list .cont_a {
+	color: #222;
+	display: block;
+	letter-spacing: -1px;
+	line-height: 18px;
+	overflow: hidden;
+	padding: 0.667em 3px;
+	text-overflow: ellipsis;
+	white-space: nowrap;
+	text-decoration: none;
+}
+.simple_content .simple_content_list .cont_a:hover {
+	color: #2196f3;
+}
+.simple_content .cont_a {
+	color: #222;
+	display: block;
+	letter-spacing: -1px;
+	overflow: hidden;
+	padding: 0.467em 0;
+	text-overflow: ellipsis;
+	white-space: nowrap;
+	text-decoration: none;
+}
+.simple_content .content_image {
+	display: inline-block;
+	float: left;
+	position: relative;
+	margin-right: 5px;
+}
+.simple_content .content_basic {
+	position: relative;
+	display: inline-block;
+	max-width: 100%;
+	vertical-align: middle;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	white-space: nowrap;
+}
+.simple_content .content_category {
+	color: #2196f3;
+	font-family: HelveticaNeue-Light, AppleSDGothicNeo-Light, sans-serif-light, sans-serif;
+	margin: 0 7px 0 3px;
+}
+.simple_content .simple_gallery_item .content_category {
+	position: absolute;
+	top: 0;
+	right: 0;
+	background: #fff;
+	margin: 0;
+}
+.simple_content .content_nickname,
+.simple_content .content_recnt {
+	color: #616161;
+	font-size: 12px;
+	margin: 0 3px 0 7px;
+	overflow: hidden;
+}
+.simple_content ul.simple_contentTabA {
+	list-style: outside none none;
+	padding: 0;
+	margin: 0;
+}
+.simple_content .simple_content_list li {
+	position: relative;
+	border-top: 1px solid #e0e0e0;
+	overflow: hidden;
+	padding: 0;
+}
+.simple_content	.simple_content_list li:first-child,
+.simple_content.simple_content_list li.first-child {
+	border-top: 0 none;
+}
+.simple_content .content_recnt {
+	position: absolute;
+	height: 18px;
+	width: 44px;
+	text-align: right;
+	font-size: 13px;
+	margin: 3px;
+	top: 0.6em;
+	right: 15px;
+}
+.simple_content .simple_content_list li.content_reext .cont_a {
+	padding-right: 70px;
+}
+.simple_content h1.misolTop {
+	border-bottom: 1px solid #e0e0e0;
+	font-weight: 400;
+	margin: 0;
+	position: relative;
+}
+.simple_content h1.misolTop .misol_top_a {
+	display: block;
+	margin: 0;
+	padding: 10px;
+	text-decoration: none;
+}
+.simple_content div.simple_gallery {
+	overflow: hidden;
+	width: 100%;
+	height: 137px;
+	white-space: nowrap;
+	box-sizing: border-box;
+}
+div.simple_gallery ul.simple_gallery {
+	display: block;
+	list-style: outside none none;
+	padding: 6px 0px 100px;
+	margin: 0;
+	overflow-x: auto;
+	-webkit-overflow-scrolling: touch;
+}
+div.simple_gallery ul.simple_gallery > li {
+	position: relative;
+	display: inline-block;
+	width: 100px;
+	padding: 7px;
+}
+div.simple_gallery ul.simple_gallery>li .cont_a {
+	position: relative;
+	padding: 0;
+	width: 100px;
+}
+div.simple_gallery ul.simple_gallery>li .gallery_text>span {
+	display: block;
+	width: 100px;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	white-space: nowrap;
+}
+div.simple_gallery ul.simple_gallery>li .gallery_text>span.content_nickname {
+	margin: 0;
+	text-align: right;
+}
+div.simple_gallery ul.simple_gallery>li .cont_a:hover {
+	color: #2196f3;
+}
+.simple_gallery_item .fake_img,
+.simple_content_list .content_image {
+	display: inline-block;
+	box-sizing: border-box;
+	background: #fff;
+	border: 1px solid #e0e0e0;
+	color: #000;
+	width: 100px;
+	height: 75px;
+	vertical-align: middle;
+	text-align: center;
+	line-height: 75px;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	white-space: nowrap;
+}
+.simple_content div.misolTab {
+	overflow: hidden;
+	width: 100%;
+	height: 52px;
+	white-space: nowrap;
+	border-bottom: 1px solid #e0e0e0;
+	box-sizing: border-box;
+}
+.simple_content ul.simple_contentTabA {
+	display: block;
+	overflow-x: auto;
+	-webkit-overflow-scrolling: touch;
+	padding: 6px 0px 100px;
+	text-decoration: none;
+}
+.simple_content ul.simple_contentTabA>li {
+	display: inline-block;
+	height: 40px;
+	line-height: 18px;
+	position: relative;
+}
+.simple_content ul.simple_contentTabA>li a {
+	display: inline-block;
+	color: #000;
+	font-weight: 400;
+	letter-spacing: -1px;
+	line-height: 40px;
+	text-decoration: none;
+}
+.simple_content ul.simple_contentTabA>li a:hover,
+.simple_content ul.simple_contentTabA>li.active a,
+.simple_content h1.misolTop .misol_top_a {
+	color: #2196f3;
+}
+.simple_content ul.simple_contentTabA>li a span {
+	border-left: 1px solid #e0e0e0;
+	padding: 0 15px;
+}
+.simple_content ul.simple_contentTabA>li:first-child a span {
+	border-left: 0 none;
+}
+.simple_content dl.simple_columns {
+	margin: 0;
+	padding: 0;
+}
+.simple_content dl.simple_columns dt {
+	position: absolute;
+	width: 0;
+	height: 0;
+	overflow: hidden;
+	font-size: 0;
+	line-height: 0;
+}
+.simple_content dl.simple_columns dd {
+	display: none;
+	margin: 0;
+}
+.widgetContainer .simple_content .open {
+	display: block !important;
+}
+.simple_content .simple_content_nav {
+	text-align: center;
+	color: #616161;
+	margin: 0;
+	padding: 10px 0;
+	border-top: 1px solid #e0e0e0;
+}
+.simple_content .simple_content_nav button {
+	background-color: transparent;
+	color: inherit;
+	border: 0 none;
+	cursor: pointer;
+	line-height: 20px;
+	height: 35px;
+	width: 100%;
+	margin: 0;
+	font-size: 15px;
+}
+.simple_content .simple_content_nav li button:hover {
+	color: #2196f3;
+}
+.simple_content .simple_content_nav li button i {
+	font-size: 16px;
+	line-height: 16px;
+}
+.simple_content_list.simple_content_webzine .simple_gallery_image {
+	position: relative;
+	width: 100px;
+	float: left;
+}
+.simple_content_list.simple_content_webzine .content_basic {
+	display: block;
+	padding: 10px;
+	margin: 0;
+}
+.simple_content_list.simple_content_webzine .content_basic .simple_content_longtext {
+	display: block;
+	margin: 7px 0;
+	max-width: 100%;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	white-space: nowrap;
+}
+

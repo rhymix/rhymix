@@ -805,6 +805,7 @@ class TemplateHandler
 							else
 							{
 								$metafile = $attr['target'];
+								$metavars = ($attr['vars'] ? self::_replaceVar($attr['vars']) : '');
 								$result = "\$__tmp=array('{$attr['target']}','{$attr['media']}','{$attr['targetie']}','{$attr['index']}'," . ($attr['vars'] ? self::_replaceVar($attr['vars']) : 'array()') . ");Context::loadFile(\$__tmp);unset(\$__tmp);";
 							}
 							break;
@@ -813,7 +814,15 @@ class TemplateHandler
 					$result = "<?php {$result} ?>";
 					if($metafile)
 					{
-						$result = "<!--#Meta:{$metafile}-->" . $result;
+						if(!$metavars)
+						{
+							$result = "<!--#Meta:{$metafile}-->" . $result;
+						}
+						else
+						{
+							// LESS or SCSS needs the variables to be substituted.
+							$result = "<!--#Meta:{$metafile}?{$metavars}-->" . $result;
+						}
 					}
 
 					return $result;
