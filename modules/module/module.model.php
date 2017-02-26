@@ -462,7 +462,7 @@ class moduleModel extends module
 			if(!$output->toBool()) return $output;
 			$list = $output->data;
 
-			if(count($args) === 1 && isset($args->site_srl))
+			if(count($args) === 1 && isset($args->site_srl) && !$columnList)
 			{
 				Rhymix\Framework\Cache::set('site_and_module:module:mid_list_' . $args->site_srl, $list, 0, true);
 			}
