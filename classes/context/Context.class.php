@@ -247,7 +247,6 @@ class Context
 		$this->_setJSONRequestArgument();
 		$this->_setRequestArgument();
 		$this->_setUploadedArgument();
-		
 		if(isset($_POST['_rx_ajax_compat']) && $_POST['_rx_ajax_compat'] === 'XMLRPC')
 		{
 			self::$_instance->request_method = 'XMLRPC';
@@ -355,6 +354,11 @@ class Context
 			if (Rhymix\Framework\Session::getMemberSrl())
 			{
 				getController('member')->setSessionInfo();
+			}
+			else
+			{
+				self::set('is_logged', false);
+				self::set('logged_info', Rhymix\Framework\Session::getMemberInfo());
 			}
 		}
 		
