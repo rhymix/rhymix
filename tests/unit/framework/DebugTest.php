@@ -2,6 +2,22 @@
 
 class DebugTest extends \Codeception\TestCase\Test
 {
+	public $error_log;
+	
+	public function _before()
+	{
+		$this->error_log = ini_get('error_log');
+		ini_set('error_log', '/dev/null');
+	}
+	
+	public function _after()
+	{
+		if ($this->error_log)
+		{
+			ini_set('error_log', $this->error_log);
+		}
+	}
+
 	public function testDebugEntry()
 	{
 		$file = __FILE__;
