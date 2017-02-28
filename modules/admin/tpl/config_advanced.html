@@ -14,11 +14,12 @@
 			</div>
 		</div>
 		<div class="x_control-group">
-			<label class="x_control-label">{$lang->use_ssl} <a class="x_icon-question-sign" href="./common/manual/admin/index.html#UMAN_config_general_ssl" target="_blank">{$lang->help}</a></label>
+			<label class="x_control-label">{lang('admin.use_ssl')} <a class="x_icon-question-sign" href="./common/manual/admin/index.html#UMAN_config_general_ssl" target="_blank">{$lang->help}</a></label>
 			<div class="x_controls">
 				<!--@foreach($lang->ssl_options as $key => $val)-->
 				<label for="ssl_{$key}" class="x_inline"><input type="radio" name="use_ssl" id="ssl_{$key}" value="{$key}" checked="checked"|cond="$use_ssl==$key" /> {$val}</label>
 				<!--@endforeach-->
+				<div class="x_help-block">{lang('admin.about_use_ssl')}</div>
 			</div>
 		</div>
 		<div class="x_control-group">
