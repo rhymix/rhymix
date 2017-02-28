@@ -1912,7 +1912,7 @@ class memberController extends member
 			$random_key = Rhymix\Framework\Security::getRandom(48, 'alnum');
 			$autologin_args = new stdClass;
 			$autologin_args->autologin_key = substr($random_key, 0, 24);
-			$autologin_args->security_key = base64_encode(hash_hmac('sha256', substr($random_key, 24, 24), $autologin_key, true));
+			$autologin_args->security_key = base64_encode(hash_hmac('sha256', substr($random_key, 24, 24), $autologin_args->autologin_key, true));
 			$autologin_args->member_srl = $this->memberInfo->member_srl;
 			$autologin_args->user_agent = json_encode(Rhymix\Framework\UA::getBrowserInfo());
 			$autologin_output = executeQuery('member.insertAutologin', $autologin_args);
