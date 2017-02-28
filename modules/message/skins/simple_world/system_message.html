@@ -19,18 +19,18 @@
 						{lang('common.email_address')}
 					</block>
 				</label>
-				<input type="text" cond="$member_config->identifier == 'user_id'" name="user_id" id="uid" required title="{lang('common.user_id')}" />
-				<input type="email" cond="$member_config->identifier != 'user_id'" name="user_id" id="uid" required title="{lang('common.email_address')}" />
+				<input type="text" cond="$member_config->identifier == 'user_id'" autocapitalize="off" autocorrect="off" autofocus="autofocus" name="user_id" id="uid" required="required" tabindex="1" title="{lang('common.user_id')}" />
+				<input type="email" cond="$member_config->identifier != 'user_id'" autocapitalize="off" autocorrect="off" autofocus="autofocus" name="user_id" id="uid" required="required" tabindex="1" title="{lang('common.email_address')}" />
 				<label for="upw">{lang('common.password')}<a class="pos-right" href="{getUrl('act','dispMemberFindAccount')}">{lang('member.cmd_find_member_account')}</a></label>
-				<input type="password" name="password" id="upw" required title="{lang('common.password')}" />
+				<input type="password" name="password" id="upw" required="required" tabindex="2" title="{lang('common.password')}" />
 				<label for="keepid_opt">
-					<input type="checkbox" name="keep_signed" id="keepid_opt" value="Y" />
+					<input type="checkbox" name="keep_signed" id="keepid_opt" tabindex="3" value="Y" />
 					{lang('member.keep_signed')}
 				</label>
 				<div id="rx_message-warning" class="rx_message-notice">
 					{lang('member.about_keep_warning')}
 				</div>
-				<input type="submit" value="{$lang->cmd_login}" />
+				<input type="submit" tabindex="4" value="{$lang->cmd_login}" />
 			</div>
 		</form>
 	</section>
