@@ -132,7 +132,7 @@ To use Rhymix, you must have a web hosting or server that meets the following re
 - In php.ini, session.auto_start = Off should be set.
 - The installation folder or the files folder must have write permission.
 
-### Participation in development
+### Participation in Development
 
 Rhymix welcomes developers, designers, translators, and bugs to the public.
 If you would like to participate, please read [CONTRIBUTING.md](./CONTRIBUTING.md) first to ensure efficient and orderly project management.
