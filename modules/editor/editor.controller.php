@@ -210,13 +210,13 @@ class editorController extends editor
 				}
 			}
 			
-			Context::set('default_font_config', array(
-				'default_font_family' => $editor_config->content_font ?: 'inherit',
-				'default_font_size' => $editor_config->content_font_size ?: '13px',
-				'default_line_height' => $editor_config->content_line_height ?: '160%',
-				'default_paragraph_spacing' => $editor_config->content_paragraph_spacing ?: '0',
-				'default_word_break' => $editor_config->content_word_break ?: 'normal',
-			));
+			$default_font_config = $this->default_font_config;
+			if ($editor_config->content_font) $default_font_config['default_font_family'] = $editor_config->content_font;
+			if ($editor_config->content_font_size) $default_font_config['default_font_size'] = $editor_config->content_font_size;
+			if ($editor_config->content_line_height) $default_font_config['default_line_height'] = $editor_config->content_line_height;
+			if ($editor_config->content_paragraph_spacing) $default_font_config['default_paragraph_spacing'] = $editor_config->content_paragraph_spacing;
+			if ($editor_config->content_word_break) $default_font_config['default_word_break'] = $editor_config->content_word_break;
+			Context::set('default_font_config', $default_font_config);
 			
 			/*
 			$buff = array();
@@ -249,13 +249,7 @@ class editorController extends editor
 		}
 		else
 		{
-			Context::set('default_font_config', array(
-				'default_font_family' => 'inherit',
-				'default_font_size' => '13px',
-				'default_line_height' => '160%',
-				'default_paragraph_spacing' => '0',
-				'default_word_break' => 'normal',
-			));
+			Context::set('default_font_config', $this->default_font_config);
 		}
 
 		$content = $this->transComponent($content);

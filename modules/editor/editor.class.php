@@ -8,6 +8,17 @@
 class editor extends ModuleObject
 {
 	/**
+	 * @brief Default font config
+	 */
+	public $default_font_config = array(
+		'default_font_family' => 'inherit',
+		'default_font_size' => '13px',
+		'default_line_height' => '160%',
+		'default_paragraph_spacing' => '0',
+		'default_word_break' => 'normal',
+	);
+	
+	/**
 	 * @brief Implement if additional tasks are necessary when installing
 	 */
 	function moduleInstall()

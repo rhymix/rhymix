@@ -271,10 +271,8 @@ class FrontEndFileHandler extends Handler
 			return;
 		}
 		
-		if ($default_font_config = Context::get('default_font_config'))
-		{
-			$file->vars = array_merge($file->vars, $default_font_config);
-		}
+		$default_font_config = Context::get('default_font_config') ?: getController('editor')->default_font_config;
+		$file->vars = array_merge($file->vars, $default_font_config);
 		if ($file->fileExtension === 'less')
 		{
 			$file->vars = array_map(function($str) {
