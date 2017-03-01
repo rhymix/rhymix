@@ -2621,9 +2621,29 @@ class documentController extends document
 	 */
 	function procDocumentInsertModuleConfig()
 	{
-		$module_srl = Context::get('target_module_srl');
-		if(preg_match('/^([0-9,]+)$/',$module_srl)) $module_srl = explode(',',$module_srl);
-		else $module_srl = array($module_srl);
+		$target_module_srl = Context::get('target_module_srl');
+		$target_module_srl = array_map('trim', explode(',', $target_module_srl));
+		$logged_info = Context::get('logged_info');
+		$module_srl = array();
+		$oModuleModel = getModel('module');
+		foreach ($target_module_srl as $srl)
+		{
+			if (!$srl) continue;
+			
+			$module_info = $oModuleModel->getModuleInfoByModuleSrl($srl);
+			if (!$module_info->module_srl)
+			{
+				return new Object(-1, 'msg_invalid_request');
+			}
+			
+			$module_grant = $oModuleModel->getGrant($module_info, $logged_info);
+			if (!$module_grant->manager)
+			{
+				return new Object(-1, 'msg_not_permitted');
+			}
+			
+			$module_srl[] = $srl;
+		}
 
 		$document_config = new stdClass();
 		$document_config->use_history = Context::get('use_history');
@@ -2638,12 +2658,11 @@ class documentController extends document
 		$document_config->use_status = Context::get('use_status');
 
 		$oModuleController = getController('module');
-		for($i=0;$i<count($module_srl);$i++)
+		foreach ($module_srl as $srl)
 		{
-			$srl = trim($module_srl[$i]);
-			if(!$srl) continue;
 			$output = $oModuleController->insertModulePartConfig('document',$srl,$document_config);
 		}
+		
 		$this->setError(-1);
 		$this->setMessage('success_updated', 'info');
 
