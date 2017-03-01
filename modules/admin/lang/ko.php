@@ -106,9 +106,9 @@ $lang->about_recompile_cache = '쓸모 없어졌거나 잘못된 캐시파일들
 $lang->confirm_run = '오랜 시간이 걸릴 수 있습니다. 실행하시겠습니까?';
 $lang->use_ssl = '<abbr title="Secure Sockets Layer">SSL</abbr> 사용';
 $lang->ssl_options['none'] = '사용안함';
-$lang->ssl_options['optional'] = '선택적으로';
-$lang->ssl_options['always'] = '항상 사용';
-$lang->about_use_ssl = '\'선택적으로\'는 회원가입, 정보수정 등의 지정된 동작(action)에서 보안접속(SSL)을 사용합니다. \'항상 사용\'은 모든 서비스에 SSL을 사용 합니다. SSL 환경이 갖춰지지 않은 상태에서 SSL을 사용할 경우 접속이 되지 않을 수 있으니 주의 바랍니다.';
+$lang->ssl_options['optional'] = '선택적으로 (권장하지 않음)';
+$lang->ssl_options['always'] = '항상 사용 (권장)';
+$lang->about_use_ssl = '<p>\'선택적으로\'는 회원가입, 정보수정 등의 일부 동작에서만 선택적으로 보안접속(SSL)을 사용합니다.<br />\'항상 사용\'은 모든 서비스에 SSL을 사용 합니다.</p><p>SSL 환경이 갖춰지지 않은 상태에서 SSL을 사용할 경우, 접속이 되지 않을 수 있습니다. SSL 인증서가 정상적으로 설치되었는지 반드시 확인하고 설정하시기 바랍니다.</p>';
 $lang->server_ports = '서버 포트 지정';
 $lang->about_server_ports = 'HTTP는 80, HTTPS는 443 이 아닌, 다른 포트를 사용할 경우에 포트를 지정해 주어야 합니다.';
 $lang->use_db_session = '인증 세션 DB 사용';
