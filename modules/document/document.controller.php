@@ -2480,22 +2480,20 @@ class documentController extends document
 	{
 		@set_time_limit(0);
 		if(!Context::get('is_logged')) return new Object(-1,'msg_not_permitted');
+		$logged_info = Context::get('logged_info');
 
-		if(!checkCSRF())
-		{
-			return new Object(-1, 'msg_invalid_request');
-		}
-
+		// Get request parameters.
+		$cart = Context::get('cart');
+		if(!is_array($cart)) $cart = explode('|@|', $cart);
+		$cart = array_unique(array_map('intval', $cart));
 		$type = Context::get('type');
-		$target_module = Context::get('target_module');
-		$module_srl = Context::get('module_srl');
-		if($target_module && !$module_srl) $module_srl = $target_module;
-		$category_srl = Context::get('target_category');
+		$target_module_srl = Context::get('module_srl') ?: Context::get('target_module');
+		$target_category_srl = Context::get('target_category');
+		
 		// send default message - misol 2015-07-23
 		$send_default_message = Context::get('send_default_message');
 		if($send_default_message === 'Y')
 		{
-			$logged_info = Context::get('logged_info');
 			$message_content = '';
 			$default_message_verbs = lang('default_message_verbs');
 			if(isset($default_message_verbs[$type]) && is_string($default_message_verbs[$type]))
@@ -2509,31 +2507,54 @@ class documentController extends document
 			if($message_content) $message_content = nl2br($message_content);
 		}
 
-		$cart = Context::get('cart');
-		if(!is_array($cart)) $document_srl_list = explode('|@|', $cart);
-		else $document_srl_list = $cart;
-
-		$document_srl_count = count($document_srl_list);
-
-		$oDocumentModel = getModel('document');
+		// Check permissions on all documents.
 		$document_items = array();
-		foreach($document_srl_list as $document_srl)
+		$document_srl_list = array();
+		$module_srl_list = array();
+		$oDocumentModel = getModel('document');
+		foreach ($cart as $document_srl)
 		{
 			$oDocument = $oDocumentModel->getDocument($document_srl);
 			$document_items[] = $oDocument;
-			if(!$oDocument->isGranted()) return $this->stop('msg_not_permitted');
+			$document_srl_list[] = $document_srl;
+			$module_srl_list[] = $oDocument->get('module_srl');
+			if (!$oDocument->isGranted())
+			{
+				return $this->stop('msg_not_permitted');
+			}
 		}
-
+		
+		// Check permissions on all modules.
+		$oModuleModel = getModel('module');
+		if (!in_array($target_module_srl, $module_srl_list))
+		{
+			$module_srl_list[] = $target_module_srl;
+		}
+		foreach ($module_srl_list as $module_srl)
+		{
+			$module_info = $oModuleModel->getModuleInfoByModuleSrl($module_srl);
+			if (!$module_info->module_srl)
+			{
+				return new Object(-1, 'msg_invalid_request');
+			}
+			
+			$module_grant = $oModuleModel->getGrant($module_info, $logged_info);
+			if (!$module_grant->manager)
+			{
+				return new Object(-1, 'msg_not_permitted');
+			}
+		}
+		
 		// Set a spam-filer not to be filtered to spams
 		$oSpamController = getController('spamfilter');
 		$oSpamController->setAvoidLog();
 
-		$oDocumentAdminController = getAdminController('document');
 		if($type == 'move')
 		{
-			if(!$module_srl) return new Object(-1, 'fail_to_move');
+			if(!$target_module_srl) return new Object(-1, 'fail_to_move');
 
-			$output = $oDocumentAdminController->moveDocumentModule($document_srl_list, $module_srl, $category_srl);
+			$oDocumentAdminController = getAdminController('document');
+			$output = $oDocumentAdminController->moveDocumentModule($document_srl_list, $target_module_srl, $target_category_srl);
 			if(!$output->toBool()) return new Object(-1, 'fail_to_move');
 
 			$msg_code = 'success_moved';
@@ -2541,9 +2562,10 @@ class documentController extends document
 		}
 		else if($type == 'copy')
 		{
-			if(!$module_srl) return new Object(-1, 'fail_to_move');
+			if(!$target_module_srl) return new Object(-1, 'fail_to_move');
 
-			$output = $oDocumentAdminController->copyDocumentModule($document_srl_list, $module_srl, $category_srl);
+			$oDocumentAdminController = getAdminController('document');
+			$output = $oDocumentAdminController->copyDocumentModule($document_srl_list, $target_module_srl, $target_category_srl);
 			if(!$output->toBool()) return new Object(-1, 'fail_to_move');
 
 			$msg_code = 'success_copied';
@@ -2552,9 +2574,8 @@ class documentController extends document
 		{
 			$oDB = &DB::getInstance();
 			$oDB->begin();
-			for($i=0;$i<$document_srl_count;$i++)
+			foreach ($document_srl_list as $document_srl)
 			{
-				$document_srl = $document_srl_list[$i];
 				$output = $this->deleteDocument($document_srl, true);
 				if(!$output->toBool()) return new Object(-1, 'fail_to_delete');
 			}
@@ -2568,8 +2589,9 @@ class documentController extends document
 
 			$oDB = &DB::getInstance();
 			$oDB->begin();
-			for($i=0;$i<$document_srl_count;$i++) {
-				$args->document_srl = $document_srl_list[$i];
+			foreach ($document_srl_list as $document_srl)
+			{
+				$args->document_srl = $document_srl;
 				$output = $this->moveDocumentToTrash($args);
 				if(!$output || !$output->toBool()) return new Object(-1, 'fail_to_trash');
 			}
@@ -2587,11 +2609,7 @@ class documentController extends document
 		// Send a message
 		if($message_content)
 		{
-
 			$oCommunicationController = getController('communication');
-
-			$logged_info = Context::get('logged_info');
-
 			$title = cut_str($message_content,10,'...');
 			$sender_member_srl = $logged_info->member_srl;
 
