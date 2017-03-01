@@ -73,7 +73,7 @@ Rhymix는 [GNU GPL v2](http://korea.gnu.org/documents/copyleft/gpl.ko.html)
 개발자와 사용자의 자유와 권리, 참여와 책임을 강조하는 프로그램으로
 누구나 무료로 사용할 수 있고 개발에 참여할 수도 있습니다.
 
-Rhymix는 [NAVER](https://www.navercorp.com/)가 저작권을 가진
+Rhymix는 [NAVER](https://www.navercorp.com/)가 일부 저작권을 가진
 [XpressEngine](https://www.xpressengine.com)의 소스코드에 바탕을 두고 있습니다.
 Rhymix 개발자들이 추가 및 변경한 부분의 저작권은 해당 개발자들에게 있습니다.
 
