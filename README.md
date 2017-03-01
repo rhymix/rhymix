@@ -79,7 +79,7 @@ Rhymix 개발자들이 추가 및 변경한 부분의 저작권은 해당 개발
 
 XpressEngine은 초창기에 GPL을 사용하다가 버전 1.4.0부터 LGPL로 전환했지만,
 Rhymix는 사용자의 권리를 더욱 보호하고 자유 소프트웨어 본연의 정신에 충실하기 위해 라이선스를 GPL로 되돌렸습니다.
-(라이선스 전환은 [LGPL v2.1 제3조](http://korea.gnu.org/people/chsong/copyleft/lgpl.ko.html#term3)에서 허용하고 있습니다.)
+(라이선스 전환은 [LGPL v2.1 제3조](http://korea.gnu.org/documents/copyleft/lgpl.ko.html#term3)에서 허용하고 있습니다.)
 
 GPL은 WordPress, Drupal, Joomla 등 세계적인 CMS들이 공통으로 채택하고 있는 라이선스이므로
 사용자 및 개발자의 권리와 의무도 이러한 CMS들의 경우와 동일합니다.
@@ -99,7 +99,7 @@ Rhymix is a project to fork [XpressEngine](https://www.xpressengine.com) version
 Rhymix is a combination of "rhyme" in the sense of "making a poem, adjusting the sound", and "remix" in the sense of "combining, changing".
 Rhymix cheers everyone who freely creates and/or assembles new things in the Internet space by combining various software and contents.
 
-### Development direction
+### Development Direction
 
 Rhymix developers want an Internet ecosystem where developers and users respect each other's rights and responsibilities, 
 a world where everyone can voice their voice without relying on a centralized SNS platform, 
