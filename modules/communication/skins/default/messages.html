@@ -38,7 +38,7 @@
 	<button class="btn" type="button" onclick="doDeleteMessage('{$message->message_srl}');">{$lang->cmd_delete}</button>
 </div>
 
-<form action="./" method="get" id="fo_message_list">
+<form action="./" method="post" id="fo_message_list">
 	<input type="hidden" name="module" value="communication" />
 	<input type="hidden" name="act" value="procCommunicationDeleteMessages" />
 	<input type="hidden" name="message_type" value="{$message_type}" />

@@ -127,7 +127,7 @@ class fileAdminView extends file
 					}
 				}
 
-				if($file->upload_target_type)
+				if($file->upload_target_type && is_array(${$file->upload_target_type.'_srls'}))
 				{
 					if(!in_array($file->upload_target_srl, ${$file->upload_target_type.'_srls'}))
 					{

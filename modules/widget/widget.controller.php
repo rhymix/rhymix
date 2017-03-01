@@ -105,6 +105,7 @@ class widgetController extends widget
 		$oLayoutModel = getModel('layout');
 		$layout_info = $oLayoutModel->getLayout($module_srl);
 		if(!$layout_info || $layout_info->type != 'faceoff') $err++;
+		
 		// Destination Information Wanted page module
 		$oModuleModel = getModel('module');
 		$columnList = array('module_srl', 'module');
@@ -112,20 +113,19 @@ class widgetController extends widget
 		if(!$page_info->module_srl || $page_info->module != 'page') $err++;
 
 		if($err > 1) return new Object(-1,'msg_invalid_request');
+		
 		// Check permissions
-		$is_logged = Context::get('is_logged');
 		$logged_info = Context::get('logged_info');
-		$user_group = $logged_info->group_list;
-		$is_admin = false;
-		if(count($user_group)&&count($page_info->grants['manager']))
+		if (!$logged_info->member_srl)
 		{
-			$manager_group = $page_info->grants['manager'];
-			foreach($user_group as $group_srl => $group_info)
-			{
-				if(in_array($group_srl, $manager_group)) $is_admin = true;
-			}
+			return new Object(-1,'msg_not_permitted');
 		}
-		if(!$is_admin && !$is_logged && $logged_info->is_admin != 'Y' && !$oModuleModel->isSiteAdmin($logged_info) && !(is_array($page_info->admin_id) && in_array($logged_info->user_id, $page_info->admin_id))) return new Object(-1,'msg_not_permitted');
+		$module_grant = $oModuleModel->getGrant($page_info, $logged_info);
+		if (!$module_grant->manager)
+		{
+			return new Object(-1,'msg_not_permitted');
+		}
+		
 		// Enter post
 		$oDocumentModel = getModel('document');
 		$oDocumentController = getController('document');
@@ -145,8 +145,10 @@ class widgetController extends widget
 			$output = $oDocumentController->insertDocument($obj);
 			$obj->document_srl = $output->get('document_srl');
 		}
+		
 		// Stop when an error occurs
 		if(!$output->toBool()) return $output;
+		
 		// Return results
 		$this->add('document_srl', $obj->document_srl);
 	}
@@ -166,28 +168,28 @@ class widgetController extends widget
 		$oDocument = $oDocumentModel->getDocument($document_srl, true);
 		if(!$oDocument->isExists()) return new Object(-1,'msg_invalid_request');
 		$module_srl = $oDocument->get('module_srl');
+		
 		// Destination Information Wanted page module
 		$oModuleModel = getModel('module');
 		$columnList = array('module_srl', 'module');
 		$page_info = $oModuleModel->getModuleInfoByModuleSrl($module_srl, $columnList);
 		if(!$page_info->module_srl || $page_info->module != 'page') return new Object(-1,'msg_invalid_request');
+		
 		// Check permissions
-		$is_logged = Context::get('is_logged');
 		$logged_info = Context::get('logged_info');
-		$user_group = $logged_info->group_list;
-		$is_admin = false;
-		if(count($user_group)&&count($page_info->grants['manager']))
+		if (!$logged_info->member_srl)
 		{
-			$manager_group = $page_info->grants['manager'];
-			foreach($user_group as $group_srl => $group_info)
-			{
-				if(in_array($group_srl, $manager_group)) $is_admin = true;
-			}
+			return new Object(-1,'msg_not_permitted');
 		}
-		if(!$is_admin && !$is_logged && $logged_info->is_admin != 'Y' && !$oModuleModel->isSiteAdmin($logged_info) && !(is_array($page_info->admin_id) && in_array($logged_info->user_id, $page_info->admin_id))) return new Object(-1,'msg_not_permitted');
-
+		$module_grant = $oModuleModel->getGrant($page_info, $logged_info);
+		if (!$module_grant->manager)
+		{
+			return new Object(-1,'msg_not_permitted');
+		}
+		
 		$output = $oDocumentAdminController->copyDocumentModule(array($oDocument->get('document_srl')), $oDocument->get('module_srl'),0);
 		if(!$output->toBool()) return $output;
+		
 		// Return results
 		$copied_srls = $output->get('copied_srls');
 		$this->add('document_srl', $copied_srls[$oDocument->get('document_srl')]);
@@ -207,25 +209,24 @@ class widgetController extends widget
 		$oDocument = $oDocumentModel->getDocument($document_srl, true);
 		if(!$oDocument->isExists()) return new Object();
 		$module_srl = $oDocument->get('module_srl');
+		
 		// Destination Information Wanted page module
 		$oModuleModel = getModel('module');
 		$page_info = $oModuleModel->getModuleInfoByModuleSrl($module_srl);
 		if(!$page_info->module_srl || $page_info->module != 'page') return new Object(-1,'msg_invalid_request');
+		
 		// Check permissions
-		$is_logged = Context::get('is_logged');
 		$logged_info = Context::get('logged_info');
-		$user_group = $logged_info->group_list;
-		$is_admin = false;
-		if(count($user_group)&&count($page_info->grants['manager']))
+		if (!$logged_info->member_srl)
 		{
-			$manager_group = $page_info->grants['manager'];
-			foreach($user_group as $group_srl => $group_info)
-			{
-				if(in_array($group_srl, $manager_group)) $is_admin = true;
-			}
+			return new Object(-1,'msg_not_permitted');
 		}
-		if(!$is_admin && !$is_logged && $logged_info->is_admin != 'Y' && !$oModuleModel->isSiteAdmin($logged_info) && !(is_array($page_info->admin_id) && in_array($logged_info->user_id, $page_info->admin_id))) return new Object(-1,'msg_not_permitted');
-
+		$module_grant = $oModuleModel->getGrant($page_info, $logged_info);
+		if (!$module_grant->manager)
+		{
+			return new Object(-1,'msg_not_permitted');
+		}
+		
 		$output = $oDocumentController->deleteDocument($oDocument->get('document_srl'), true);
 		if(!$output->toBool()) return $output;
 	}
@@ -395,7 +396,16 @@ class widgetController extends widget
 		$cache_data = Rhymix\Framework\Cache::get('widget_cache:' . $widget_sequence);
 		if ($cache_data)
 		{
-			return preg_replace('@<\!--#Meta:@', '<!--Meta:', $cache_data);
+			// Load the variables, need to load the LESS or SCSS files.
+			if(is_object($cache_data))
+			{
+				foreach ($cache_data->variables as $key => $value)
+				{
+					Context::set($key, $value);
+				}
+				$cache_data = $cache_data->content;
+			}
+			return str_replace('<!--#Meta:', '<!--Meta:', $cache_data);
 		}
 
 		$oWidget = $this->getWidgetObject($widget);
@@ -404,8 +414,25 @@ class widgetController extends widget
 		$widget_content = $oWidget->proc($args);
 		$oModuleController = getController('module');
 		$oModuleController->replaceDefinedLangCode($widget_content);
-		
+
 		Rhymix\Framework\Cache::set('widget_cache:' . $widget_sequence, $widget_content, $widget_cache, true);
+
+		// Keep the variables, need to load the LESS or SCSS files.
+		if(preg_match_all('/<!--#Meta:([a-z0-9\_\-\/\.\@\:]+)(\?\$\_\_Context\-\>[a-z0-9\_\-\/\.\@\:]+)?-->/is', $widget_content, $widget_var_matches, PREG_SET_ORDER))
+		{
+			$cache_content = new stdClass();
+			$cache_content->content = $widget_content;
+			$cache_content->variables = new stdClass();
+			foreach($widget_var_matches as $matches)
+			{
+				if($matches[2])
+				{
+					$key = str_replace('?$__Context->', '', $matches[2]);
+					$cache_content->variables->{$key} = Context::get($key);
+				}
+			}
+			Rhymix\Framework\Cache::set('widget_cache:' . $widget_sequence, $cache_content, $widget_cache, true);
+		}
 
 		return $widget_content;
 	}

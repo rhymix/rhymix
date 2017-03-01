@@ -2388,6 +2388,10 @@ html[lang="mn"] .x .g11n.active>[disabled],
 	height: 1px;
 	overflow: hidden;
 }
+.server_env {
+	white-space: pre-wrap;
+	font-family: Consolas, Courier New, monospace;
+}
 
 /* language specific styles */
 /* English admin_en.css */

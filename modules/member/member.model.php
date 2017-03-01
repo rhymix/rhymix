@@ -133,7 +133,7 @@ class memberModel extends member
 		$user_id = $member_info->user_id;
 		$user_name = $member_info->user_name;
 
-		ModuleHandler::triggerCall('member.getMemberMenu', 'before', $null);
+		ModuleHandler::triggerCall('member.getMemberMenu', 'before', new stdClass);
 
 		$oMemberController = getController('member');
 		// Display member information (Don't display to non-logged user)
@@ -247,7 +247,7 @@ class memberModel extends member
 	/**
 	 * @brief Return member information with user_id
 	 */
-	function getMemberInfoByUserID($user_id, $columnList = array())
+	function getMemberInfoByUserID($user_id)
 	{
 		if(!$user_id) return;
 
@@ -292,28 +292,27 @@ class memberModel extends member
 	/**
 	 * @brief Return member information with member_srl
 	 */
-	function getMemberInfoByMemberSrl($member_srl, $site_srl = 0, $columnList = array())
+	function getMemberInfoByMemberSrl($member_srl, $site_srl = 0)
 	{
 		if(!$member_srl) return new stdClass;
 
-		//columnList size zero... get full member info
-		if(!$GLOBALS['__member_info__'][$member_srl] || count($columnList) == 0)
+		if(!$GLOBALS['__member_info__'][$member_srl])
 		{
-			$cache_key = 'member:member_info:' . getNumberingPath($member_srl) . $member_srl;
+			$cache_key = sprintf('member:member_info:%d', $member_srl);
 			$GLOBALS['__member_info__'][$member_srl] = Rhymix\Framework\Cache::get($cache_key);
 			if(!$GLOBALS['__member_info__'][$member_srl])
 			{
 				$args = new stdClass();
 				$args->member_srl = $member_srl;
-				$output = executeQuery('member.getMemberInfoByMemberSrl', $args, $columnList);
+				$output = executeQuery('member.getMemberInfoByMemberSrl', $args);
 				if(!$output->data)
 				{
 					Rhymix\Framework\Cache::set($cache_key, new stdClass);
 					return new stdClass;
 				}
 				
-				$this->arrangeMemberInfo($output->data, $site_srl);
-				Rhymix\Framework\Cache::set($cache_key, $GLOBALS['__member_info__'][$member_srl]);
+				$member_info = $this->arrangeMemberInfo($output->data, $site_srl);
+				Rhymix\Framework\Cache::set($cache_key, $member_info);
 			}
 		}
 
@@ -456,7 +455,7 @@ class memberModel extends member
 		static $member_groups = array();
 
 		// cache controll
-		$cache_key = 'member:member_groups:' . getNumberingPath($member_srl) . $member_srl . ':site:' . $site_srl;
+		$cache_key = sprintf('member:member_groups:%d:site:%d', $member_srl, $site_srl);
 		$group_list = Rhymix\Framework\Cache::get($cache_key);
 
 		if(!$member_groups[$member_srl][$site_srl] || $force_reload)
@@ -511,17 +510,18 @@ class memberModel extends member
 	/**
 	 * @brief Get a default group
 	 */
-	function getDefaultGroup($site_srl = 0, $columnList = array())
+	function getDefaultGroup($site_srl = 0)
 	{
-		$default_group = Rhymix\Framework\Cache::get("member:default_group:$site_srl");
+		$cache_key = sprintf('member:default_group:site:%d', $site_srl);
+		$default_group = Rhymix\Framework\Cache::get($cache_key);
 
 		if(!$default_group)
 		{
 			$args = new stdClass();
 			$args->site_srl = $site_srl;
-			$output = executeQuery('member.getDefaultGroup', $args, $columnList);
+			$output = executeQuery('member.getDefaultGroup', $args);
 			$default_group = $output->data;
-			Rhymix\Framework\Cache::set("member:default_group:$site_srl", $default_group, 0, true);
+			Rhymix\Framework\Cache::set($cache_key, $default_group, 0, true);
 		}
 
 		return $default_group;
@@ -532,6 +532,7 @@ class memberModel extends member
 	 */
 	function getAdminGroup($columnList = array())
 	{
+		$args = new stdClass;
 		$output = executeQuery('member.getAdminGroup', $args, $columnList);
 		return $output->data;
 	}

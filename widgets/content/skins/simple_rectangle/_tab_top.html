@@ -1,0 +1,18 @@
+<div class="misolTab">
+	<ul class="simple_contentTabA widgetTab">
+	{@$i=0}
+		<li loop="$widget_info->tab => $module_srl, $tab" class="active"|cond="$i==0"><a href="{$tab->url}" onmouseover="content_widget_tab_show(jQuery(this),jQuery(this).parents('div.misolTab').next('dl.simple_columns'),{$i})" onclick="this.onmouseover();return false;"><span>{$tab->title}</span></a>{@$i++}</li>
+	</ul>
+</div>
+
+<dl class="simple_columns">
+{@$i=0}
+<!--@foreach($widget_info->tab as $module_srl => $tab)-->
+	<dt>{$tab->title}</dt>
+	<dd <!--@if($i==0)--> class="open"<!--@end-->>
+		{@$widget_info->content_items = $tab->content_items}
+		<!--#include("_tab_none.html")-->
+	</dd>
+{@$i++}
+<!--@end-->
+</dl>

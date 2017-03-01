@@ -80,10 +80,30 @@ class editorController extends editor
 	 */
 	function procEditorInsertModuleConfig()
 	{
-		$module_srl = Context::get('target_module_srl');
 		// To configure many of modules at once
-		if(preg_match('/^([0-9,]+)$/',$module_srl)) $module_srl = explode(',',$module_srl);
-		else $module_srl = array($module_srl);
+		$target_module_srl = Context::get('target_module_srl');
+		$target_module_srl = array_map('trim', explode(',', $target_module_srl));
+		$logged_info = Context::get('logged_info');
+		$module_srl = array();
+		$oModuleModel = getModel('module');
+		foreach ($target_module_srl as $srl)
+		{
+			if (!$srl) continue;
+			
+			$module_info = $oModuleModel->getModuleInfoByModuleSrl($srl);
+			if (!$module_info->module_srl)
+			{
+				return new Object(-1, 'msg_invalid_request');
+			}
+			
+			$module_grant = $oModuleModel->getGrant($module_info, $logged_info);
+			if (!$module_grant->manager)
+			{
+				return new Object(-1, 'msg_not_permitted');
+			}
+			
+			$module_srl[] = $srl;
+		}
 
 		$editor_config = new stdClass;
 		$editor_config->default_editor_settings = Context::get('default_editor_settings');
@@ -134,10 +154,8 @@ class editorController extends editor
 		if($editor_config->enable_autosave != 'Y') $editor_config->enable_autosave = 'N';
 
 		$oModuleController = getController('module');
-		for($i=0;$i<count($module_srl);$i++)
+		foreach ($module_srl as $srl)
 		{
-			$srl = trim($module_srl[$i]);
-			if(!$srl) continue;
 			$oModuleController->insertModulePartConfig('editor',$srl,$editor_config);
 		}
 
@@ -192,13 +210,13 @@ class editorController extends editor
 				}
 			}
 			
-			Context::set('default_font_config', array(
-				'default_font_family' => $editor_config->content_font ?: 'inherit',
-				'default_font_size' => $editor_config->content_font_size ?: '13px',
-				'default_line_height' => $editor_config->content_line_height ?: '160%',
-				'default_paragraph_spacing' => $editor_config->content_paragraph_spacing ?: '0',
-				'default_word_break' => $editor_config->content_word_break ?: 'normal',
-			));
+			$default_font_config = $this->default_font_config;
+			if ($editor_config->content_font) $default_font_config['default_font_family'] = $editor_config->content_font;
+			if ($editor_config->content_font_size) $default_font_config['default_font_size'] = $editor_config->content_font_size;
+			if ($editor_config->content_line_height) $default_font_config['default_line_height'] = $editor_config->content_line_height;
+			if ($editor_config->content_paragraph_spacing) $default_font_config['default_paragraph_spacing'] = $editor_config->content_paragraph_spacing;
+			if ($editor_config->content_word_break) $default_font_config['default_word_break'] = $editor_config->content_word_break;
+			Context::set('default_font_config', $default_font_config);
 			
 			/*
 			$buff = array();
@@ -231,13 +249,7 @@ class editorController extends editor
 		}
 		else
 		{
-			Context::set('default_font_config', array(
-				'default_font_family' => 'inherit',
-				'default_font_size' => '13px',
-				'default_line_height' => '160%',
-				'default_paragraph_spacing' => '0',
-				'default_word_break' => 'normal',
-			));
+			Context::set('default_font_config', $this->default_font_config);
 		}
 
 		$content = $this->transComponent($content);

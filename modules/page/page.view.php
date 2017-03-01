@@ -69,7 +69,7 @@ class pageView extends page
 			if($mtime + $this->interval*60 > $_SERVER['REQUEST_TIME'])
 			{
 				$page_content = FileHandler::readFile($this->cache_file); 
-				$page_content = preg_replace('@<\!--#Meta:@', '<!--Meta:', $page_content);
+				$page_content = str_replace('<!--#Meta:', '<!--Meta:', $page_content);
 			}
 			else
 			{

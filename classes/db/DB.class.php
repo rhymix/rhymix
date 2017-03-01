@@ -112,6 +112,7 @@ class DB
 	 * @var string
 	 */
 	public $db_type;
+	public $db_version = '';
 
 	/**
 	 * flag to decide if class prepared statements or not (when supported); can be changed from db.config.info

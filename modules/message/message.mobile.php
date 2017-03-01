@@ -13,7 +13,7 @@ class messageMobile extends messageView
 	/**
 	 * @brief Message output
 	 **/
-	function dispMessage()
+	function dispMessage($detail = null)
 	{
 		// Get configurations (using module model object)
 		$oModuleModel = getModel('module');
@@ -36,8 +36,8 @@ class messageMobile extends messageView
 			if(strncasecmp('https://', Context::getRequestUri(), 8) === 0) $ssl_mode = true;
 		}
 		Context::set('ssl_mode',$ssl_mode);
-
 		Context::set('system_message', nl2br($this->getMessage()));
+		Context::set('system_message_detail', nl2br($detail));
 
 		Context::set('act', 'procMemberLogin');
 		Context::set('mid', '');

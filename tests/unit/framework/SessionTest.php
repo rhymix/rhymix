@@ -253,7 +253,7 @@ class SessionTest extends \Codeception\TestCase\Test
 		$this->assertTrue(is_object($validity_info));
 		$this->assertTrue(isset($validity_info->invalid_before));
 		
-		$validity_info->invalid_before = time() - 300;
+		$validity_info->invalid_before = time() - 3600;
 		$this->assertTrue(Rhymix\Framework\Session::setValidityInfo($member_srl, $validity_info));
 		$this->assertTrue(Rhymix\Framework\Session::isValid());
 		
@@ -261,7 +261,7 @@ class SessionTest extends \Codeception\TestCase\Test
 		$this->assertTrue(Rhymix\Framework\Session::setValidityInfo($member_srl, $validity_info));
 		$this->assertFalse(@Rhymix\Framework\Session::isValid());
 		
-		$validity_info->invalid_before = time();
+		$validity_info->invalid_before = time() - 900;
 		$this->assertTrue(Rhymix\Framework\Session::setValidityInfo($member_srl, $validity_info));
 		$this->assertTrue(Rhymix\Framework\Session::isValid());
 		

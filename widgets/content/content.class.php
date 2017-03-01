@@ -204,6 +204,7 @@ class content extends WidgetHandler
 			$attribute = $oComment->getObjectVars();
 			$title = $oComment->getSummary($args->content_cut_size);
 			$thumbnail = $oComment->getThumbnail($args->thumbnail_width,$args->thumbnail_height,$args->thumbnail_type);
+			$thumbnail_x2 = $oComment->getThumbnail($args->thumbnail_width * 2, $args->thumbnail_height * 2, $args->thumbnail_type);
 			$url = sprintf("%s#comment_%s",getUrl('','document_srl',$oComment->get('document_srl')),$oComment->get('comment_srl'));
 
 			$attribute->mid = $args->mid_lists[$attribute->module_srl];
@@ -214,6 +215,7 @@ class content extends WidgetHandler
 			$content_item->adds($attribute);
 			$content_item->setTitle($title);
 			$content_item->setThumbnail($thumbnail);
+			$content_item->setThumbnail($thumbnail_x2, 2);
 			$content_item->setLink($url);
 			$content_item->setDomain($domain);
 			$content_item->add('mid', $args->mid_lists[$attribute->module_srl]);
@@ -283,6 +285,7 @@ class content extends WidgetHandler
 				$module_srl = $oDocument->get('module_srl');
 				$category_srl = $oDocument->get('category_srl');
 				$thumbnail = $oDocument->getThumbnail($args->thumbnail_width,$args->thumbnail_height,$args->thumbnail_type);
+				$thumbnail_x2 = $oDocument->getThumbnail($args->thumbnail_width * 2,$args->thumbnail_height * 2,$args->thumbnail_type);
 
 				$content_item = new contentItem( $args->module_srls_info[$module_srl]->browser_title );
 				$content_item->adds($oDocument->getObjectVars());
@@ -293,6 +296,7 @@ class content extends WidgetHandler
 				$content_item->setContent($oDocument->getSummary($args->content_cut_size));
 				$content_item->setLink( getSiteUrl($domain,'','document_srl',$document_srl) );
 				$content_item->setThumbnail($thumbnail);
+				$content_item->setThumbnail($thumbnail_x2, 2);
 				$content_item->setExtraImages($oDocument->printExtraImages($args->duration_new * 60 * 60));
 				$content_item->add('mid', $args->mid_lists[$module_srl]);
 				if($first_thumbnail_idx==-1 && $thumbnail) $first_thumbnail_idx = $i;
@@ -347,6 +351,7 @@ class content extends WidgetHandler
 			$content = $oDocument->getSummary($args->content_cut_size);
 			$url = sprintf("%s#%s",$oDocument->getPermanentUrl() ,$oDocument->getCommentCount());
 			$thumbnail = $oDocument->getThumbnail($args->thumbnail_width,$args->thumbnail_height,$args->thumbnail_type);
+			$thumbnail_x2 = $oDocument->getThumbnail($args->thumbnail_width * 2, $args->thumbnail_height * 2, $args->thumbnail_type);
 			$extra_images = $oDocument->printExtraImages($args->duration_new);
 
 			$content_item = new contentItem($browser_title);
@@ -355,6 +360,7 @@ class content extends WidgetHandler
 			$content_item->setContent($content);
 			$content_item->setLink($url);
 			$content_item->setThumbnail($thumbnail);
+			$content_item->setThumbnail($thumbnail_x2, 2);
 			$content_item->setExtraImages($extra_images);
 			$content_item->setDomain($domain);
 			$content_item->add('mid', $args->mid_lists[$attribute->module_srl]);
@@ -825,9 +831,14 @@ class contentItem extends Object
 	{
 		$this->add('title', escape(strip_tags($title), false));
 	}
-	function setThumbnail($thumbnail)
+	function setThumbnail($thumbnail, $source_size = 1)
 	{
-		$this->add('thumbnail', $thumbnail);
+		if($source_size === 1)
+		{
+			$this->add('thumbnail', $thumbnail);
+		} else {
+			$this->add('thumbnail_x' . $source_size, $thumbnail);
+		}
 	}
 	function setContent($content)
 	{
@@ -931,9 +942,16 @@ class contentItem extends Object
 	{
 		return $this->has_first_thumbnail_idx;
 	}
-	function getThumbnail()
+	function getThumbnail($source_size = 1)
 	{
-		return $this->get('thumbnail');
+		if(intval($source_size) === 1)
+		{
+			return $this->get('thumbnail');
+		}
+		else
+		{
+			return $this->get('thumbnail_x' . intval($source_size));
+		}
 	}
 	function getMemberSrl() 
 	{

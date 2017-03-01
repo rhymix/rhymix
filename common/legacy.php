@@ -520,6 +520,11 @@ function ztime($str)
 	{
 		return null;
 	}
+	if (strlen($str) === 9 || (strlen($str) === 10 && $str <= 2147483647))
+	{
+		return intval($str);
+	}
+	
 	$year = (int)substr($str, 0, 4);
 	$month = (int)substr($str, 4, 2) ?: 1;
 	$day = (int)substr($str, 6, 2) ?: 1;

@@ -199,9 +199,22 @@ class memberController extends member
 
 		$document_srl = (int)Context::get('document_srl');
 		if(!$document_srl) return new Object(-1,'msg_invalid_request');
+		
+		$oDocumentModel = getModel('document');
+		$oDocument = $oDocumentModel->getDocument($document_srl);
+		if ($oDocument->get('member_srl') != $logged_info->member_srl)
+		{
+			return new Object(-1,'msg_invalid_request');
+		}
+		$configStatusList = $oDocumentModel->getStatusList();
+		if ($oDocument->get('status') != $configStatusList['temp'])
+		{
+			return new Object(-1,'msg_invalid_request');
+		}
+
 		// Variables
 		$oDocumentController = getController('document');
-		$oDocumentController->deleteDocument($document_srl, true);
+		$oDocumentController->deleteDocument($document_srl);
 	}
 	
 	/**
@@ -1706,8 +1719,15 @@ class memberController extends member
 			$output->data = array_first($output->data);
 		}
 		
+		// Hash the security key, but allow raw keys for a limited time.
+		$valid_security_keys = array(base64_encode(hash_hmac('sha256', $security_key, $autologin_key, true)));
+		if (time() < 1489503600)
+		{
+			$valid_security_keys[] = $security_key;
+		}
+		
 		// Check the security key.
-		if ($output->data->security_key !== $security_key || !$output->data->member_srl)
+		if (!in_array($output->data->security_key, $valid_security_keys) || !$output->data->member_srl)
 		{
 			$args = new stdClass;
 			$args->autologin_key = $autologin_key;
@@ -1719,7 +1739,7 @@ class memberController extends member
 		$new_security_key = Rhymix\Framework\Security::getRandom(24, 'alnum');
 		$args = new stdClass;
 		$args->autologin_key = $autologin_key;
-		$args->security_key = $new_security_key;
+		$args->security_key = base64_encode(hash_hmac('sha256', $security_key, $autologin_key, true));
 		$update_output = executeQuery('member.updateAutologin', $args);
 		if ($update_output->toBool())
 		{
@@ -1892,7 +1912,7 @@ class memberController extends member
 			$random_key = Rhymix\Framework\Security::getRandom(48, 'alnum');
 			$autologin_args = new stdClass;
 			$autologin_args->autologin_key = substr($random_key, 0, 24);
-			$autologin_args->security_key = substr($random_key, 24, 24);
+			$autologin_args->security_key = base64_encode(hash_hmac('sha256', substr($random_key, 24, 24), $autologin_args->autologin_key, true));
 			$autologin_args->member_srl = $this->memberInfo->member_srl;
 			$autologin_args->user_agent = json_encode(Rhymix\Framework\UA::getBrowserInfo());
 			$autologin_output = executeQuery('member.insertAutologin', $autologin_args);

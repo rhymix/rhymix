@@ -1,0 +1,29 @@
+<div class="inner">
+	<ul class="simple_content_list">
+	{@$_idx=0}
+		<li loop="$widget_info->content_items => $key, $item" style="display:none"|cond="$_idx >= $widget_info->list_count" class="content_reext"|cond="$widget_info->show_comment_count=='Y' && $item->getCommentCount()">
+			<a href="{$item->getLink()}" class="cont_a" target="_blank"|cond="$widget_info->new_window">
+				<span cond="array_search('thumbnail', $widget_info->option_view_arr) && $item->getThumbnail()" class="content_image">
+					<img src="{$item->getThumbnail()}" width="{$widget_info->thumbnail_width}" srcset="{$item->getThumbnail(2)} 2x"|cond="$item->getThumbnail(2)" height="{$widget_info->thumbnail_height}" alt="{str_replace(array('&amp;amp;','&amp;lt;','&amp;gt;','&amp;quot;','&amp;apos;'),array('&amp;','&lt;','&gt;','&quot;','&apos;'),$item->getTitle($widget_info->subject_cut_size))}" />
+				</span>
+				<span class="content_basic <!--@if(array_search('thumbnail', $widget_info->option_view_arr) && $item->getThumbnail())-->content_with_thumbnail<!--@end-->">
+					<span class="content_title">
+						<span class="content_category" cond="$widget_info->tab_type  == 'tab_left' && $tab->tab_type == 'all'">{$item->getBrowserTitle()}</span>
+						<span class="content_category" cond="$widget_info->show_category=='Y' && $item->get('category_srl') && trim($item->getCategory()) && !$tab->tab_type">{$item->getCategory()}</span> {str_replace(array('&amp;amp;','&amp;lt;','&amp;gt;','&amp;quot;','&amp;apos;'),array('&amp;','&lt;','&gt;','&quot;','&apos;'),$item->getTitle($widget_info->subject_cut_size))}
+					</span>
+					<span class="content_nickname">
+						{$item->getNickName($widget_info->nickname_cut_size)}
+					</span>
+				</span>
+				<span class="content_recnt <!--@if(array_search('thumbnail', $widget_info->option_view_arr) && $item->getThumbnail())-->content_with_thumbnail<!--@end-->" cond="$widget_info->show_comment_count=='Y' && $item->getCommentCount()">
+					<!--@if($item->getCommentCount()<999)-->{$item->getCommentCount()}<!--@else-->999+<!--@end-->
+				</span>
+			</a>{@$_idx++}
+		</li>
+	</ul>
+	<!--@if($widget_info->page_count > 1 && $widget_info->list_count<$_idx)-->
+	<div class="simple_content_nav">
+		<button type="button" class="soo_cont_more" title="{$lang->more}" onclick="content_widget_plus(jQuery(this).parents('div.simple_content_nav').prev('ul.simple_content_list'),{$widget_info->list_count})"><span class="page_info">1/{intval(($_idx - 1) / $widget_info->list_count) + 1}</span> {$lang->more}</button>
+	</div>
+	<!--@end-->
+</div>

@@ -78,9 +78,10 @@ class DBMysql extends DB
 		}
 
 		// Error appears if the version is lower than 5.0.7
-		if(version_compare(mysql_get_server_info($result), '5.0.7', '<'))
+		$this->db_version = mysql_get_server_info($result);
+		if(version_compare($this->db_version, '5.0.7', '<'))
 		{
-			$this->setError(-1, 'Rhymix requires MySQL 5.0.7 or later. Current MySQL version is ' . mysql_get_server_info());
+			$this->setError(-1, 'Rhymix requires MySQL 5.0.7 or later. Current MySQL version is ' . $this->db_version);
 			return;
 		}
 

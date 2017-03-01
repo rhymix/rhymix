@@ -1,0 +1,32 @@
+<div class="inner">
+	<div class="simple_gallery">
+		<ul class="simple_gallery">
+			{@$_idx=0}
+			<li class="simple_gallery_item" loop="$widget_info->content_items => $key, $item">
+				<a href="{$item->getLink()}" class="cont_a">
+					<span class="content_category" cond="$widget_info->show_category=='Y' && $item->get('category_srl')">{$item->getCategory()}</span>
+					<img class="up_m fade" cond="array_search('thumbnail', $widget_info->option_view_arr) && $item->getThumbnail()" src="{$item->getThumbnail()}" srcset="{$item->getThumbnail(2)} 2x"|cond="$item->getThumbnail(2)" alt="{str_replace(array('&amp;amp;','&amp;lt;','&amp;gt;','&amp;quot;','&amp;apos;'),array('&amp;','&lt;','&gt;','&quot;','&apos;'),$item->getTitle($widget_info->subject_cut_size))}" width="{$widget_info->thumbnail_width}" height="{$widget_info->thumbnail_height}" />
+					<div class="fake_img" cond="!array_search('thumbnail', $widget_info->option_view_arr) || !$item->getThumbnail()">{$lang->none_image}</div>
+					<div class="up_tw"|cond="array_search('thumbnail', $widget_info->option_view_arr) && $item->getThumbnail()">
+						<span class="gallery_text">
+							<span class="content_title">
+								{str_replace(array('&amp;amp;','&amp;lt;','&amp;gt;','&amp;quot;','&amp;apos;'),array('&amp;','&lt;','&gt;','&quot;','&apos;'),$item->getTitle($widget_info->subject_cut_size))}
+							</span>
+							<span class="content_nickname">
+								{$item->getNickName($widget_info->nickname_cut_size)}
+							</span>
+						</span>
+					</div>
+				</a>
+			</li>
+		</ul>
+		<!--@if($widget_info->page_count > 1 && $widget_info->list_count<$_idx)-->
+		<ul class="widgetNavigator">
+			<li><button type="button" class="prev" title="{$lang->cmd_prev}" onclick="content_widget_prev(jQuery(this).parents('ul.widgetNavigator').prev('ul.widgetGalleryA'),{$widget_info->list_count})"><span>{$lang->cmd_prev}</span></button></li>
+			<li><button type="button" class="next" title="{$lang->cmd_next}" onclick="content_widget_next(jQuery(this).parents('ul.widgetNavigator').prev('ul.widgetGalleryA'),{$widget_info->list_count})"><span>{$lang->cmd_next}</span></button></li>
+		</ul>
+		<!--@end-->
+	</div>
+</div>
+
+
