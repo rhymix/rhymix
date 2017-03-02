@@ -8,19 +8,51 @@
 class point extends ModuleObject
 {
 	/**
-	 * @brief Configuration cache
+	 * Cache for the point module's own configuration.
 	 */
 	protected static $_config = null;
 	
 	/**
-	 * @brief Module configuration cache
+	 * Cache for other modules' point configuration.
 	 */
 	protected static $_module_config_cache = array();
 	
 	/**
-	 * @brief Member point cache
+	 * Cache for member points.
 	 */
 	protected static $_member_point_cache = array();
+	
+	/**
+	 * Triggers to insert.
+	 */
+	protected static $_insert_triggers = array(
+		array('member.insertMember', 'after', 'controller', 'triggerInsertMember'),
+		array('member.doLogin', 'after', 'controller', 'triggerAfterLogin'),
+		array('member.deleteGroup', 'after', 'controller', 'triggerDeleteGroup'),
+		array('document.insertDocument', 'after', 'controller', 'triggerInsertDocument'),
+		array('document.updateDocument', 'before', 'controller', 'triggerUpdateDocument'),
+		array('document.deleteDocument', 'after', 'controller', 'triggerDeleteDocument'),
+		array('comment.insertComment', 'after', 'controller', 'triggerInsertComment'),
+		array('comment.deleteComment', 'after', 'controller', 'triggerDeleteComment'),
+		array('file.deleteFile', 'after', 'controller', 'triggerDeleteFile'),
+		array('file.downloadFile', 'before', 'controller', 'triggerBeforeDownloadFile'),
+		array('file.downloadFile', 'after', 'controller', 'triggerDownloadFile'),
+		array('document.updateReadedCount', 'after', 'controller', 'triggerUpdateReadedCount'),
+		array('document.updateVotedCount', 'after', 'controller', 'triggerUpdateVotedCount'),
+		array('document.updateVotedCountCancel', 'after', 'controller', 'triggerUpdateVotedCount'),
+		array('comment.updateVotedCount', 'after', 'controller', 'triggerUpdateVotedCount'),
+		array('comment.updateVotedCountCancel', 'after', 'controller', 'triggerUpdateVotedCount'),
+		array('module.procModuleAdminCopyModule', 'after', 'controller', 'triggerCopyModule'),
+		array('module.dispAdditionSetup', 'after', 'view', 'triggerDispPointAdditionSetup'),
+	);
+	
+	/**
+	 * Triggers to delete.
+	 */
+	protected static $_delete_triggers = array(
+		array('document.deleteDocument', 'before', 'controller', 'triggerBeforeDeleteDocument'),
+		array('file.insertFile', 'after', 'controller', 'triggerInsertFile'),
+	);
 	
 	/**
 	 * @brief Shortcut to getting module configuration
@@ -35,94 +67,95 @@ class point extends ModuleObject
 	}
 	
 	/**
+	 * Check triggers.
+	 * 
+	 * @return bool
+	 */
+	public function checkTriggers()
+	{
+		$oModuleModel = getModel('module');
+		foreach (self::$_insert_triggers as $trigger)
+		{
+			if (!$oModuleModel->getTrigger($trigger[0], $this->module, $trigger[2], $trigger[3], $trigger[1]))
+			{
+				return true;
+			}
+		}
+		foreach (self::$_delete_triggers as $trigger)
+		{
+			if ($oModuleModel->getTrigger($trigger[0], $this->module, $trigger[2], $trigger[3], $trigger[1]))
+			{
+				return true;
+			}
+		}
+		return false;
+	}
+	
+	/**
+	 * Register triggers.
+	 * 
+	 * @return object
+	 */
+	public function registerTriggers()
+	{
+		$oModuleModel = getModel('module');
+		$oModuleController = getController('module');
+		foreach (self::$_insert_triggers as $trigger)
+		{
+			if (!$oModuleModel->getTrigger($trigger[0], $this->module, $trigger[2], $trigger[3], $trigger[1]))
+			{
+				$oModuleController->insertTrigger($trigger[0], $this->module, $trigger[2], $trigger[3], $trigger[1]);
+			}
+		}
+		foreach (self::$_delete_triggers as $trigger)
+		{
+			if ($oModuleModel->getTrigger($trigger[0], $this->module, $trigger[2], $trigger[3], $trigger[1]))
+			{
+				$oModuleController->deleteTrigger($trigger[0], $this->module, $trigger[2], $trigger[3], $trigger[1]);
+			}
+		}
+		return new Object(0, 'success_updated');
+	}
+	
+	/**
 	 * @brief Additional tasks required to accomplish during the installation
 	 */
 	function moduleInstall()
 	{
-		// Registration in action forward (for using in the administrator mode)
-		$oModuleController = getController('module');
-		// Create a directory to store points information
-		FileHandler::makeDir('./files/member_extra_info/point');
-
-		$oModuleController = getController('module');
-		// The highest level
+		// Define default configuration.
 		$config = new stdClass;
-		// default, point module is OFF
 		$config->able_module = 'N';
-		$config->max_level = 30;
-		// Per-level score
-		for($i=1;$i<=30;$i++)
-		{
-			$config->level_step[$i] = pow($i,2)*90;
-		}
-		// Points for registration
-		$config->signup_point = 10;
-		// Login points
-		$config->login_point = 5;
-		// Point's name
 		$config->point_name = 'point';
-		// Level icon directory
-		$config->level_icon = "default";
-		// Prevent downloads if there are no scores
-		$config->disable_download = false;
-
-		/**
-		 * Define the default points per module as well as all actions (as we do not know if it is forum or blogs, specify "act")
-		 */
-		// Insert document
+		$config->level_icon = 'default';
+		$config->disable_read_document = 'N';
+		$config->disable_download = 'N';
+		$config->max_level = 30;
+		for ($i = 1; $i <= 30; $i++)
+		{
+			$config->level_step[$i] = pow($i, 2) * 90;
+		}
+		
+		// Define default points.
+		$config->signup_point = 10;
+		$config->login_point = 5;
 		$config->insert_document = 10;
-
-		$config->insert_document_act = 'procBoardInsertDocument';
-		$config->delete_document_act = 'procBoardDeleteDocument';
-		// Insert comment
 		$config->insert_comment = 5;
-
-		$config->insert_comment_act = 'procBoardInsertComment,procBlogInsertComment';
-		$config->delete_comment_act = 'procBoardDeleteComment,procBlogDeleteComment';
-		// Upload
 		$config->upload_file = 5;
-
-		$config->upload_file_act = 'procFileUpload';
-		$config->delete_file_act = 'procFileDelete';
-		// Download
 		$config->download_file = -5;
-		$config->download_file_act = 'procFileDownload';
-		// View
 		$config->read_document = 0;
-		// Vote up / Vote down
 		$config->voted = 0;
 		$config->blamed = 0;
-		// Comment Vote up / Comment Vote down
 		$config->voted_comment = 0;
 		$config->blamed_comment = 0;
-		// Save configurations
-		$oModuleController->insertModuleConfig('point', $config);
-		// Cash act list for faster execution
-		$oPointController = getAdminController('point');
-		$oPointController->cacheActList();
-		// Add a trigger for registration/insert document/insert comment/upload a file/download
-		$oModuleController->insertTrigger('member.insertMember', 'point', 'controller', 'triggerInsertMember', 'after');
-		$oModuleController->insertTrigger('document.insertDocument', 'point', 'controller', 'triggerInsertDocument', 'after');
-		$oModuleController->insertTrigger('document.deleteDocument', 'point', 'controller', 'triggerBeforeDeleteDocument', 'before');
-		$oModuleController->insertTrigger('document.deleteDocument', 'point', 'controller', 'triggerDeleteDocument', 'after');
-		$oModuleController->insertTrigger('comment.insertComment', 'point', 'controller', 'triggerInsertComment', 'after');
-		$oModuleController->insertTrigger('comment.deleteComment', 'point', 'controller', 'triggerDeleteComment', 'after');
-		$oModuleController->insertTrigger('file.insertFile', 'point', 'controller', 'triggerInsertFile', 'after');
-		$oModuleController->insertTrigger('file.deleteFile', 'point', 'controller', 'triggerDeleteFile', 'after');
-		$oModuleController->insertTrigger('file.downloadFile', 'point', 'controller', 'triggerBeforeDownloadFile', 'before');
-		$oModuleController->insertTrigger('file.downloadFile', 'point', 'controller', 'triggerDownloadFile', 'after');
-		$oModuleController->insertTrigger('member.doLogin', 'point', 'controller', 'triggerAfterLogin', 'after');
-		$oModuleController->insertTrigger('member.deleteGroup', 'point', 'controller', 'triggerDeleteGroup', 'after');
-		$oModuleController->insertTrigger('module.dispAdditionSetup', 'point', 'view', 'triggerDispPointAdditionSetup', 'after');
-		$oModuleController->insertTrigger('document.updateReadedCount', 'point', 'controller', 'triggerUpdateReadedCount', 'after');
-		// Add a trigger for voting up and down 2008.05.13 haneul
-		$oModuleController->insertTrigger('document.updateVotedCount', 'point', 'controller', 'triggerUpdateVotedCount', 'after');
-		// Add a trigger for using points for permanent saving of a temporarily saved document 2009.05.19 zero
-		$oModuleController->insertTrigger('document.updateDocument', 'point', 'controller', 'triggerUpdateDocument', 'before');
-		// Add a trigger for comment voting up and down 2014.08.30 sejin7940
-		$oModuleController->insertTrigger('comment.updateVotedCount', 'point', 'controller', 'triggerUpdateVotedCount', 'after');
-		$oModuleController->insertTrigger('document.updateVotedCountCancel', 'point', 'controller', 'triggerUpdateVotedCount', 'after');
-		return new Object();
+		
+		// Save module config.
+		getController('module')->insertModuleConfig('point', $config);
+		
+		// Create a directory to store points information.
+		FileHandler::makeDir('./files/member_extra_info/point');
+		
+		// Register triggers.
+		return $this->registerTriggers();
 	}
 
 	/**
@@ -130,41 +163,11 @@ class point extends ModuleObject
 	 */
 	function checkUpdate()
 	{
-		// Get the information of the point module
-		$oModuleModel = getModel('module');
-
-		$config = $oModuleModel->getModuleConfig('point');
-		// check if module is abled
-		if($config->able_module != 'N')
+		$config = $this->getConfig();
+		if ($config->able_module === 'Y')
 		{
-			// Add a trigger for registration/insert document/insert comment/upload a file/download
-			if(!$oModuleModel->getTrigger('member.insertMember', 'point', 'controller', 'triggerInsertMember', 'after')) return true;
-			if(!$oModuleModel->getTrigger('document.insertDocument', 'point', 'controller', 'triggerInsertDocument', 'after')) return true;
-			if(!$oModuleModel->getTrigger('document.deleteDocument', 'point', 'controller', 'triggerBeforeDeleteDocument', 'before')) return true;
-			if(!$oModuleModel->getTrigger('document.deleteDocument', 'point', 'controller', 'triggerDeleteDocument', 'after')) return true;
-			if(!$oModuleModel->getTrigger('comment.insertComment', 'point', 'controller', 'triggerInsertComment', 'after')) return true;
-			if(!$oModuleModel->getTrigger('comment.deleteComment', 'point', 'controller', 'triggerDeleteComment', 'after')) return true;
-			if(!$oModuleModel->getTrigger('file.insertFile', 'point', 'controller', 'triggerInsertFile', 'after')) return true;
-			if(!$oModuleModel->getTrigger('file.deleteFile', 'point', 'controller', 'triggerDeleteFile', 'after')) return true;
-			if(!$oModuleModel->getTrigger('file.downloadFile', 'point', 'controller', 'triggerBeforeDownloadFile', 'before')) return true;
-			if(!$oModuleModel->getTrigger('file.downloadFile', 'point', 'controller', 'triggerDownloadFile', 'after')) return true;
-			if(!$oModuleModel->getTrigger('member.doLogin', 'point', 'controller', 'triggerAfterLogin', 'after')) return true;
-			if(!$oModuleModel->getTrigger('member.deleteGroup', 'point', 'controller', 'triggerDeleteGroup', 'after')) return true;
-			if(!$oModuleModel->getTrigger('module.dispAdditionSetup', 'point', 'view', 'triggerDispPointAdditionSetup', 'after')) return true;
-			if(!$oModuleModel->getTrigger('document.updateReadedCount', 'point', 'controller', 'triggerUpdateReadedCount', 'after')) return true;
-			// Add a trigger for voting up and down 2008.05.13 haneul
-			if(!$oModuleModel->getTrigger('document.updateVotedCount', 'point', 'controller', 'triggerUpdateVotedCount', 'after')) return true;
-			// Add a trigger for using points for permanent saving of a temporarily saved document 2009.05.19 zero
-			if(!$oModuleModel->getTrigger('document.updateDocument', 'point', 'controller', 'triggerUpdateDocument', 'before')) return true;
-
-			// 2012. 08. 29 Add a trigger to copy additional setting when the module is copied 
-			if(!$oModuleModel->getTrigger('module.procModuleAdminCopyModule', 'point', 'controller', 'triggerCopyModule', 'after')) return true;
-
-			// Add a trigger for comment voting up and down 2014.08.30 sejin7940
-			if(!$oModuleModel->getTrigger('comment.updateVotedCount', 'point', 'controller', 'triggerUpdateVotedCount', 'after')) return true;
-			if(!$oModuleModel->getTrigger('document.updateVotedCountCancel', 'point', 'controller', 'triggerUpdateVotedCount', 'after')) return true;
+			return $this->checkTriggers();
 		}
-		return false;
 	}
 
 	/**
@@ -172,62 +175,7 @@ class point extends ModuleObject
 	 */
 	function moduleUpdate()
 	{
-		// Get the information of the point module
-		$oModuleModel = getModel('module');
-		$oModuleController = getController('module');
-		// Add a trigger for registration/insert document/insert comment/upload a file/download
-		if(!$oModuleModel->getTrigger('member.insertMember', 'point', 'controller', 'triggerInsertMember', 'after')) 
-			$oModuleController->insertTrigger('member.insertMember', 'point', 'controller', 'triggerInsertMember', 'after');
-		if(!$oModuleModel->getTrigger('document.insertDocument', 'point', 'controller', 'triggerInsertDocument', 'after')) 
-			$oModuleController->insertTrigger('document.insertDocument', 'point', 'controller', 'triggerInsertDocument', 'after');
-		if(!$oModuleModel->getTrigger('document.deleteDocument', 'point', 'controller', 'triggerBeforeDeleteDocument', 'before')) 
-			$oModuleController->insertTrigger('document.deleteDocument', 'point', 'controller', 'triggerBeforeDeleteDocument', 'before');
-		if(!$oModuleModel->getTrigger('document.deleteDocument', 'point', 'controller', 'triggerDeleteDocument', 'after')) 
-			$oModuleController->insertTrigger('document.deleteDocument', 'point', 'controller', 'triggerDeleteDocument', 'after');
-		if(!$oModuleModel->getTrigger('comment.insertComment', 'point', 'controller', 'triggerInsertComment', 'after')) 
-			$oModuleController->insertTrigger('comment.insertComment', 'point', 'controller', 'triggerInsertComment', 'after');
-		if(!$oModuleModel->getTrigger('comment.deleteComment', 'point', 'controller', 'triggerDeleteComment', 'after')) 
-			$oModuleController->insertTrigger('comment.deleteComment', 'point', 'controller', 'triggerDeleteComment', 'after');
-		if(!$oModuleModel->getTrigger('file.insertFile', 'point', 'controller', 'triggerInsertFile', 'after')) 
-			$oModuleController->insertTrigger('file.insertFile', 'point', 'controller', 'triggerInsertFile', 'after');
-		if(!$oModuleModel->getTrigger('file.deleteFile', 'point', 'controller', 'triggerDeleteFile', 'after')) 
-			$oModuleController->insertTrigger('file.deleteFile', 'point', 'controller', 'triggerDeleteFile', 'after');
-		if(!$oModuleModel->getTrigger('file.downloadFile', 'point', 'controller', 'triggerBeforeDownloadFile', 'before')) 
-			$oModuleController->insertTrigger('file.downloadFile', 'point', 'controller', 'triggerBeforeDownloadFile', 'before');
-		if(!$oModuleModel->getTrigger('file.downloadFile', 'point', 'controller', 'triggerDownloadFile', 'after')) 
-			$oModuleController->insertTrigger('file.downloadFile', 'point', 'controller', 'triggerDownloadFile', 'after');
-		if(!$oModuleModel->getTrigger('member.doLogin', 'point', 'controller', 'triggerAfterLogin', 'after'))
-			$oModuleController->insertTrigger('member.doLogin', 'point', 'controller', 'triggerAfterLogin', 'after');
-		if(!$oModuleModel->getTrigger('member.deleteGroup', 'point', 'controller', 'triggerDeleteGroup', 'after'))
-			$oModuleController->insertTrigger('member.deleteGroup', 'point', 'controller', 'triggerDeleteGroup', 'after');
-		if(!$oModuleModel->getTrigger('module.dispAdditionSetup', 'point', 'view', 'triggerDispPointAdditionSetup', 'after')) 
-			$oModuleController->insertTrigger('module.dispAdditionSetup', 'point', 'view', 'triggerDispPointAdditionSetup', 'after');
-		if(!$oModuleModel->getTrigger('document.updateReadedCount', 'point', 'controller', 'triggerUpdateReadedCount', 'after')) 
-			$oModuleController->insertTrigger('document.updateReadedCount', 'point', 'controller', 'triggerUpdateReadedCount', 'after');
-		// Add a trigger for voting up and down 2008.05.13 haneul
-		if(!$oModuleModel->getTrigger('document.updateVotedCount', 'point', 'controller', 'triggerUpdateVotedCount', 'after'))
-			$oModuleController->insertTrigger('document.updateVotedCount', 'point', 'controller', 'triggerUpdateVotedCount', 'after');
-		if(!$oModuleModel->getTrigger('document.updateVotedCountCancel', 'point', 'controller', 'triggerUpdateVotedCount', 'after'))
-			$oModuleController->insertTrigger('document.updateVotedCountCancel', 'point', 'controller', 'triggerUpdateVotedCount', 'after');
-		// Add a trigger for using points for permanent saving of a temporarily saved document 2009.05.19 zero
-		if(!$oModuleModel->getTrigger('document.updateDocument', 'point', 'controller', 'triggerUpdateDocument', 'before')) 
-			$oModuleController->insertTrigger('document.updateDocument', 'point', 'controller', 'triggerUpdateDocument', 'before');
-		// 2012. 08. 29 Add a trigger to copy additional setting when the module is copied 
-		if(!$oModuleModel->getTrigger('module.procModuleAdminCopyModule', 'point', 'controller', 'triggerCopyModule', 'after'))
-		{
-			$oModuleController->insertTrigger('module.procModuleAdminCopyModule', 'point', 'controller', 'triggerCopyModule', 'after');
-		}
-		// Add a trigger for comment voting up and down 2014.08.30 sejin7940
-		if(!$oModuleModel->getTrigger('comment.updateVotedCount', 'point', 'controller', 'triggerUpdateVotedCount', 'after')) 
-		{
-			$config = $oModuleModel->getModuleConfig('point');
-			$config->voted_comment = 0;
-			$config->blamed_comment = 0;
-			$oModuleController->insertModuleConfig('point', $config);
-			$oModuleController->insertTrigger('comment.updateVotedCount', 'point', 'controller', 'triggerUpdateVotedCount', 'after');
-		}
-
-		return new Object(0, 'success_updated');
+		return $this->registerTriggers();
 	}
 
 	/**
@@ -235,9 +183,7 @@ class point extends ModuleObject
 	 */
 	function recompileCache()
 	{
-		// redefine point action file
-		$oPointAdminController = getAdminController('point');
-		$oPointAdminController->cacheActList();
+		
 	}
 }
 /* End of file point.class.php */
