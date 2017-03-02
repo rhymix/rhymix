@@ -359,32 +359,51 @@ class pointController extends point
 		$member_srl = $logged_info->member_srl;
 		$module_srl = $obj->module_srl;
 		if(!$module_srl) return new Object();
+		
 		// Pass if it is your file
-		if(abs($obj->member_srl) == abs($member_srl)) return new Object();
+		if($member_srl && abs($obj->member_srl) == $member_srl) return new Object();
 
 		$oModuleModel = getModel('module');
 		$config = $oModuleModel->getModuleConfig('point');
 		$module_config = $oModuleModel->getModulePartConfig('point', $module_srl);
-		// If it is set not to allow downloading for non-logged in users, do not permit
+		if (isset($module_config['download_file']))
+		{
+			$point = intval($module_config['download_file']);
+		}
+		else
+		{
+			$point = intval($config->download_file);
+		}
+		
+		// If the user is not logged in and download requires points, deny access.
 		if(!Context::get('is_logged'))
 		{
-			if($config->disable_download == 'Y' && strlen($module_config['download_file']) == 0 && !is_int($module_config['download_file'])) return new Object(-1,'msg_not_permitted_download');
-			else return new Object();
+			if($config->disable_download == 'Y' && $point)
+			{
+				return new Object(-1,'msg_not_permitted_download');
+			}
+			else
+			{
+				return new Object();
+			}
 		}
+		
 		// Get the points of the member
 		$oPointModel = getModel('point');
 		$cur_point = $oPointModel->getPoint($member_srl, true);
-		// Get the points
-		$point = $module_config['download_file'];
-		if(strlen($point) == 0 && !is_int($point)) $point = $config->download_file;
-		// If points are less than 0, and if downloading a file is not allowed in this case, give an errors
-		if($cur_point + $point < 0 && $config->disable_download == 'Y') return new Object(-1,'msg_cannot_download');
-
+		
+		// If the member does not have enough points, deny access.
+		if ($config->disable_download == 'Y' && $cur_point + $point < 0)
+		{
+			return new Object(-1,'msg_cannot_download');
+		}
+		
+		// Otherwise, points will be adjusted after downloading (triggerDownloadFile).
 		return new Object();
 	}
 
 	/**
-	 * @brief The trigger to give points for downloading the file
+	 * @brief The trigger to give or take points for downloading the file
 	 */
 	function triggerDownloadFile(&$obj)
 	{
@@ -394,21 +413,32 @@ class pointController extends point
 		$module_srl = $obj->module_srl;
 		$member_srl = $logged_info->member_srl;
 		if(!$module_srl) return new Object();
+		
 		// Pass if it is your file
-		if(abs($obj->member_srl) == abs($member_srl)) return new Object();
+		if($member_srl && abs($obj->member_srl) == $member_srl) return new Object();
+		
 		// Get the point module information
 		$oModuleModel = getModel('module');
 		$config = $oModuleModel->getModuleConfig('point');
 		$module_config = $oModuleModel->getModulePartConfig('point', $module_srl);
+		if (isset($module_config['download_file']))
+		{
+			$point = intval($module_config['download_file']);
+		}
+		else
+		{
+			$point = intval($config->download_file);
+		}
+		
 		// Get the points of the member
 		$oPointModel = getModel('point');
 		$cur_point = $oPointModel->getPoint($member_srl, true);
-		// Get the points
-		$point = $module_config['download_file'];
-		if(strlen($point) == 0 && !is_int($point)) $point = $config->download_file;
-		// Increase the point
-		$cur_point += $point;
-		$this->setPoint($member_srl,$cur_point);
+		
+		// Increase or decrease points.
+		if ($point)
+		{
+			$this->setPoint($member_srl, $cur_point += $point);
+		}
 
 		return new Object();
 	}
