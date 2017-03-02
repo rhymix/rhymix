@@ -19,20 +19,22 @@ class pointController extends point
 	 */
 	public function triggerInsertMember($obj)
 	{
-		// Get the point module information
-		$oModuleModel = getModel('module');
-		$config = $oModuleModel->getModuleConfig('point');
-		// Get the member_srl of the newly registered member
 		$member_srl = $obj->member_srl;
-		// Get the points of the member
-		$oPointModel = getModel('point');
-		$cur_point = $oPointModel->getPoint($member_srl, true);
-
-		$point = $config->signup_point;
-		// Increase the point
-		$cur_point += $point;
-		$this->setPoint($member_srl,$cur_point, 'signup');
-
+		if (!$member_srl)
+		{
+			return new Object();
+		}
+		
+		$config = getModel('module')->getModuleConfig('point');
+		$point = intval($config->signup_point);
+		if (!$point)
+		{
+			return new Object();
+		}
+		
+		$cur_point = getModel('point')->getPoint($member_srl, true);
+		$this->setPoint($member_srl, $cur_point + $point, 'signup');
+		
 		return new Object();
 	}
 
@@ -42,21 +44,27 @@ class pointController extends point
 	public function triggerAfterLogin($obj)
 	{
 		$member_srl = $obj->member_srl;
-		if(!$member_srl) return new Object();
-		// If the last login is not today, give the points
-		if(substr($obj->last_login,0,8)==date("Ymd")) return new Object();
-		// Get the point module information
-		$oModuleModel = getModel('module');
-		$config = $oModuleModel->getModuleConfig('point');
-		// Get the points of the member
-		$oPointModel = getModel('point');
-		$cur_point = $oPointModel->getPoint($member_srl, true);
-
-		$point = $config->login_point;
-		// Increase the point
-		$cur_point += $point;
-		$this->setPoint($member_srl,$cur_point);
-
+		if (!$member_srl)
+		{
+			return new Object();
+		}
+		
+		// Points are given only once a day.
+		if (substr($obj->last_login, 0, 8) === date('Ymd'))
+		{
+			return new Object();
+		}
+		
+		$config = getModel('module')->getModuleConfig('point');
+		$point = intval($config->login_point);
+		if (!$point)
+		{
+			return new Object();
+		}
+		
+		$cur_point = getModel('point')->getPoint($member_srl, true);
+		$this->setPoint($member_srl, $cur_point + $point);
+		
 		return new Object();
 	}
 
@@ -65,10 +73,9 @@ class pointController extends point
 	 */
 	public function triggerDeleteGroup($obj)
 	{
-		// Get the point module config
-		$config = getModel('module')->getModuleConfig('point');
-		// Get the group_srl of the deleted group
 		$group_srl = $obj->group_srl;
+		$config = getModel('module')->getModuleConfig('point');
+		
 		// Exclude deleted group from point/level/group integration
 		if($config->point_group && isset($config->point_group[$group_srl]))
 		{
@@ -721,13 +728,22 @@ class pointController extends point
 	{
 		$module_srl = intval($module_srl);
 		$config_key = strval($config_key);
-		if (!$module_srl || !$config_key)
+		if (!$config_key)
 		{
 			return 0;
 		}
 		
 		$oModuleModel = getModel('module');
-		$module_config = $oModuleModel->getModulePartConfig('point', $module_srl);
+		
+		if ($module_srl)
+		{
+			$module_config = $oModuleModel->getModulePartConfig('point', $module_srl);
+		}
+		else
+		{
+			$module_config = null;
+		}
+		
 		if (isset($module_config[$config_key]) && $module_config[$config_key] !== '')
 		{
 			$point = $module_config[$config_key];
