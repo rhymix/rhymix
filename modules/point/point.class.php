@@ -13,6 +13,16 @@ class point extends ModuleObject
 	protected static $_config = null;
 	
 	/**
+	 * @brief Module configuration cache
+	 */
+	protected static $_module_config_cache = array();
+	
+	/**
+	 * @brief Member point cache
+	 */
+	protected static $_member_point_cache = array();
+	
+	/**
 	 * @brief Shortcut to getting module configuration
 	 */
 	public function getConfig()

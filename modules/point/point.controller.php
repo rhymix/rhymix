@@ -8,11 +8,6 @@
 class pointController extends point
 {
 	/**
-	 * @brief Cache module point config
-	 */
-	protected static $_module_point_config = array();
-	
-	/**
 	 * @brief Initialization
 	 */
 	public function init()
@@ -691,6 +686,7 @@ class pointController extends point
 		FileHandler::writeFile($cache_filename, $point);
 
 		getController('member')->_clearMemberCache($member_srl);
+		unset(self::$_member_point_cache[$member_srl]);
 
 		return $output;
 	}
@@ -715,11 +711,11 @@ class pointController extends point
 		
 		if ($module_srl)
 		{
-			if (!isset(self::$_module_point_config[$module_srl]))
+			if (!isset(self::$_module_config_cache[$module_srl]))
 			{
-				self::$_module_point_config[$module_srl] = $oModuleModel->getModulePartConfig('point', $module_srl);
+				self::$_module_config_cache[$module_srl] = $oModuleModel->getModulePartConfig('point', $module_srl);
 			}
-			$module_config = self::$_module_point_config[$module_srl];
+			$module_config = self::$_module_config_cache[$module_srl];
 		}
 		else
 		{
