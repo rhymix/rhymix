@@ -1919,7 +1919,7 @@ class memberController extends member
 	function setSessionInfo()
 	{
 		// If your information came through the current session information to extract information from the users
-		$member_info = Rhymix\Framework\Session::getMemberInfo();
+		$member_info = Rhymix\Framework\Session::getMemberInfo(true);
 		if (!$member_info->member_srl)
 		{
 			return;
