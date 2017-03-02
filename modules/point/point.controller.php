@@ -479,61 +479,45 @@ class pointController extends point
 	 */
 	public function triggerUpdateVotedCount($obj)
 	{
+		$logged_info = Context::get('logged_info');
+		$logged_member_srl = $logged_info->member_srl;
 		$module_srl = $obj->module_srl;
-		$member_srl = $obj->member_srl;
-		if(!$module_srl || !$member_srl) return new Object();
-
-		$oModuleModel = getModel('module');
-		$config = $oModuleModel->getModuleConfig('point');
-		$module_config = $oModuleModel->getModulePartConfig('point', $module_srl);
-
-		$oPointModel = getModel('point');
-		$cur_point = $oPointModel->getPoint($member_srl, true);
-
-		if( $obj->point > 0 )
+		$member_srl = abs($obj->member_srl);
+		if ($logged_member_srl && $logged_member_srl == $member_srl)
 		{
-			if($obj->comment_srl)
-			{
-				$point = $module_config['voted_comment'];
-				if(strlen($point) == 0 && !is_int($point)) $point = $config->voted_comment;
-			}
-			else
-			{
-				$point = $module_config['voted'];
-				if(strlen($point) == 0 && !is_int($point)) $point = $config->voted;
-			}
+			return new Object();
+		}
+		elseif (!$member_srl)
+		{
+			return new Object();
+		}
+		
+		// Get current points.
+		$cur_point = getModel('point')->getPoint($member_srl, true);
+		
+		// Get adjustment amount.
+		if ($obj->point > 0)
+		{
+			$config_key = (isset($obj->comment_srl) && $obj->comment_srl) ? 'voted_comment' : 'voted';
 		}
 		else
 		{
-			if($obj->comment_srl)
-			{
-				$point = $module_config['blamed_comment'];
-				if(strlen($point) == 0 && !is_int($point)) $point = $config->blamed_comment;
-			}
-			else
-			{
-				$point = $module_config['blamed'];
-				if(strlen($point) == 0 && !is_int($point)) $point = $config->blamed;
-			}
+			$config_key = (isset($obj->comment_srl) && $obj->comment_srl) ? 'blamed_comment' : 'blamed';
 		}
-
-
-		if(!$point) return new Object();
-		// Increase the point
-		if($obj->cancel > 0)
+		
+		$point = $this->_getModulePointConfig($module_srl, $config_key);
+		if (!$point)
 		{
-			$cur_point -= $point;
+			return new Object();
 		}
-		else if($obj->cancel == null)
+		
+		if (isset($obj->cancel) && $obj->cancel)
 		{
-			$cur_point += $point;
+			$point = -1 * $point;
 		}
-		else
-		{
-			$cur_point += $point;
-		}
-		$this->setPoint($member_srl,$cur_point);
-
+		
+		$this->setPoint($member_srl, $cur_point + $point);
+		
 		return new Object();
 	}
 
