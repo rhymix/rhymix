@@ -135,7 +135,7 @@ class widgetController extends widget
 		$obj->content = $content;
 		$obj->document_srl = $document_srl;
 
-		$oDocument = $oDocumentModel->getDocument($obj->document_srl, true);
+		$oDocument = $oDocumentModel->getDocument($obj->document_srl);
 		if($oDocument->isExists() && $oDocument->document_srl == $obj->document_srl)
 		{
 			$output = $oDocumentController->updateDocument($oDocument, $obj);
@@ -165,7 +165,7 @@ class widgetController extends widget
 		$oDocumentController = getController('document');
 		$oDocumentAdminController = getAdminController('document');
 
-		$oDocument = $oDocumentModel->getDocument($document_srl, true);
+		$oDocument = $oDocumentModel->getDocument($document_srl);
 		if(!$oDocument->isExists()) return new Object(-1,'msg_invalid_request');
 		$module_srl = $oDocument->get('module_srl');
 		
@@ -206,7 +206,7 @@ class widgetController extends widget
 		$oDocumentModel = getModel('document');
 		$oDocumentController = getController('document');
 
-		$oDocument = $oDocumentModel->getDocument($document_srl, true);
+		$oDocument = $oDocumentModel->getDocument($document_srl);
 		if(!$oDocument->isExists()) return new Object();
 		$module_srl = $oDocument->get('module_srl');
 		
@@ -227,7 +227,7 @@ class widgetController extends widget
 			return new Object(-1,'msg_not_permitted');
 		}
 		
-		$output = $oDocumentController->deleteDocument($oDocument->get('document_srl'), true);
+		$output = $oDocumentController->deleteDocument($oDocument->get('document_srl'));
 		if(!$output->toBool()) return $output;
 	}
 
