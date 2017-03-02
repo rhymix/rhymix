@@ -34,7 +34,7 @@ class pointModel extends point
 		$member_srl = abs($member_srl);
 
 		// Get from instance memory
-		if (!$from_db && isset(self::$_member_point_cache[$member_srl])
+		if (!$from_db && isset(self::$_member_point_cache[$member_srl]))
 		{
 			return self::$_member_point_cache[$member_srl];
 		}
@@ -70,11 +70,19 @@ class pointModel extends point
 	function getLevel($point, $level_step)
 	{
 		$level_count = count($level_step);
-		for($level=0;$level<=$level_count;$level++) if($point < $level_step[$level]) break;
-		$level --;
-		return $level;
+		for ($level = 0; $level <= $level_count; $level++)
+		{
+			if ($point < $level_step[$level])
+			{
+				break;
+			}
+		}
+		return $level - 1;
 	}
 
+	/**
+	 * @deprecated
+	 */
 	function getMembersPointInfo()
 	{
 		$member_srls = Context::get('member_srls');
@@ -113,7 +121,6 @@ class pointModel extends point
 
 		$this->add('point_info',$info);
 	}
-
 
 	/**
 	 * @brief Get a list of points members list
