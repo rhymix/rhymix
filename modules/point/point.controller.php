@@ -96,33 +96,39 @@ class pointController extends point
 	 */
 	public function triggerInsertDocument($obj)
 	{
-		$oDocumentModel = getModel('document');
-		if($obj->status != $oDocumentModel->getConfigStatus('temp'))
+		$module_srl = $obj->module_srl;
+		$member_srl = abs($obj->member_srl);
+		if (!$module_srl || !$member_srl)
 		{
-			$module_srl = $obj->module_srl;
-			$member_srl = $obj->member_srl;
-			if(!$module_srl || !$member_srl) return new Object();
-			// The fix to disable giving points for saving the document temporarily
-			if($module_srl == $member_srl) return new Object();
-			// Get the point module information
-			$oModuleModel = getModel('module');
-			$config = $oModuleModel->getModuleConfig('point');
-			$module_config = $oModuleModel->getModulePartConfig('point',$module_srl);
-			// Get the points of the member
-			$oPointModel = getModel('point');
-			$cur_point = $oPointModel->getPoint($member_srl, true);
-
-			$point = $module_config['insert_document'];
-			if(strlen($point) == 0 && !is_int($point)) $point = $config->insert_document;
-			$cur_point += $point;
-			// Add points for attaching a file
-			$point = $module_config['upload_file'];
-			if(strlen($point) == 0 && !is_int($point)) $point = $config->upload_file;
-			if($obj->uploaded_count) $cur_point += $point * $obj->uploaded_count;
-			// Increase the point
-			$this->setPoint($member_srl,$cur_point);
+			return new Object();
 		}
+		
+		// The fix to disable giving points for saving the document temporarily
+		if ($module_srl == $member_srl)
+		{
+			return new Object();
+		}
+		if ($obj->status === getModel('document')->getConfigStatus('temp'))
+		{
+			return new Object();
+		}
+		
+		// Get the points of the member
+		$cur_point = getModel('point')->getPoint($member_srl, true);
 
+		// Add points for the document.
+		$document_point = $this->_getModulePointConfig($module_srl, 'insert_document');
+		$cur_point += $document_point;
+		
+		// Add points for attached files.
+		if ($obj->uploaded_count > 0)
+		{
+			$attached_files_point = $this->_getModulePointConfig($module_srl, 'upload_file');
+			$cur_point += $attached_files_point * $obj->uploaded_count;
+		}
+		
+		// Increase the point.
+		$this->setPoint($member_srl, $cur_point);
 		return new Object();
 	}
 
@@ -133,32 +139,37 @@ class pointController extends point
 	public function triggerUpdateDocument($obj)
 	{
 		$oDocumentModel = getModel('document');
-		$document_srl = $obj->document_srl;
-		$oDocument = $oDocumentModel->getDocument($document_srl);
-
-		// if status is TEMP or PUBLIC... give not point, only status is empty
-		if($oDocument->get('status') == $oDocumentModel->getConfigStatus('temp') && $obj->status != $oDocumentModel->getConfigStatus('temp'))
+		$oDocument = $oDocumentModel->getDocument($obj->document_srl);
+		
+		$module_srl = $oDocument->get('module_srl');
+		$member_srl = abs($oDocument->get('member_srl'));
+		if (!$module_srl || !$member_srl)
 		{
-			$oModuleModel = getModel('module');
-
-			// Get the point module information
-			$config = $oModuleModel->getModuleConfig('point');
-			$module_config = $oModuleModel->getModulePartConfig('point',$obj->module_srl);
-			// Get the points of the member
-			$oPointModel = getModel('point');
-			$cur_point = $oPointModel->getPoint($oDocument->get('member_srl'), true);
-
-			$point = $module_config['insert_document'];
-			if(strlen($point) == 0 && !is_int($point)) $point = $config->insert_document;
-			$cur_point += $point;
-			// Add points for attaching a file
-			$point = $module_config['upload_file'];
-			if(strlen($point) == 0 && !is_int($point)) $point = $config->upload_file;
-			if($obj->uploaded_count) $cur_point += $point * $obj->uploaded_count;
-			// Increase the point
-			$this->setPoint($oDocument->get('member_srl'), $cur_point);
+			return new Object();
+		}
+		
+		// Only give points if the document is being updated from TEMP to another status such as PUBLIC.
+		if ($obj->status === $oDocumentModel->getConfigStatus('temp') || $oDocument->get('status') !== $oDocumentModel->getConfigStatus('temp'))
+		{
+			return new Object();
 		}
 
+		// Get the points of the member
+		$cur_point = getModel('point')->getPoint($member_srl, true);
+
+		// Add points for the document.
+		$document_point = $this->_getModulePointConfig($module_srl, 'insert_document');
+		$cur_point += $document_point;
+		
+		// Add points for attached files.
+		if ($obj->uploaded_count > 0)
+		{
+			$attached_files_point = $this->_getModulePointConfig($module_srl, 'upload_file');
+			$cur_point += $attached_files_point * $obj->uploaded_count;
+		}
+		
+		// Increase the point.
+		$this->setPoint($member_srl, $cur_point);
 		return new Object();
 	}
 
@@ -168,48 +179,57 @@ class pointController extends point
 	public function triggerBeforeDeleteDocument($obj)
 	{
 		$document_srl = $obj->document_srl;
-		$member_srl = $obj->member_srl;
-
-		$oDocumentModel = getModel('document');
-		$oDocument = $oDocumentModel->getDocument($document_srl);
-		if(!$oDocument->isExists()) return new Object();
-		// Get the point module information
-		$oModuleModel = getModel('module');
-		$config = $oModuleModel->getModuleConfig('point');
-		$module_config = $oModuleModel->getModulePartConfig('point',$oDocument->get('module_srl'));
-		// The process related to clearing the post comments
-		$comment_point = $module_config['insert_comment'];
-		if(strlen($comment_point) == 0 && !is_int($comment_point)) $comment_point = $config->insert_comment;
-		// If there are comment points, attempt to deduct
-		if($comment_point>0) return new Object();
-		// Get all the comments related to this post
+		$oDocument = getModel('document')->getDocument($document_srl);
+		if (!$oDocument->isExists())
+		{
+			return new Object();
+		}
+		if (!$oDocument->get('comment_count'))
+		{
+			return new Object();
+		}
+		
+		$comment_point = $this->_getModulePointConfig($module_srl, 'insert_comment');
+		if (!$comment_point)
+		{
+			return new Object();
+		}
+		
+		// Find out which members wrote how many comments on this document.
 		$cp_args = new stdClass();
 		$cp_args->document_srl = $document_srl;
 		$output = executeQueryArray('point.getCommentUsers', $cp_args);
-		// Return if there is no object
-		if(!$output->data) return new Object();
-		// Organize the member number
-		$member_srls = array();
-		$cnt = count($output->data);
-		for($i=0;$i<$cnt;$i++)
+		if (!$output->data)
 		{
-			if($output->data[$i]->member_srl<1) continue;
-			$member_srls[abs($output->data[$i]->member_srl)] = $output->data[$i]->count;
+			return new Object();
 		}
-		// Remove the member number who has written the original post
-		if($member_srl) unset($member_srls[abs($member_srl)]);
-		if(!count($member_srls)) return new Object();
-		// Remove all the points for each member
+		
+		$member_srls = array();
+		foreach ($output->data as $data)
+		{
+			if ($data->member_srl && abs($data->member_srl) != abs($oDocument->get('member_srl')))
+			{
+				if (!isset($member_srls[abs($data->member_srl)]))
+				{
+					$member_srls[abs($data->member_srl)] = 0;
+				}
+				$member_srls[abs($data->member_srl)] += $data->count;
+			}
+		}
+		if (!count($member_srls))
+		{
+			return new Object();
+		}
+		
+		// Remove points from each member.
 		$oPointModel = getModel('point');
-		// Get the points
-		$point = $module_config['download_file'];
-		foreach($member_srls as $member_srl => $cnt)
+		foreach ($member_srls as $member_srl => $count)
 		{
 			$cur_point = $oPointModel->getPoint($member_srl, true);
-			$cur_point -= $cnt * $comment_point;
-			$this->setPoint($member_srl,$cur_point);
+			$cur_point -= $count * $comment_point;
+			$this->setPoint($member_srl, $cur_point);
 		}
-
+		
 		return new Object();
 	}
 
@@ -218,38 +238,45 @@ class pointController extends point
 	 */
 	public function triggerDeleteDocument($obj)
 	{
-		$oDocumentModel = getModel('document');
-		
-		if($obj->status != $oDocumentModel->getConfigStatus('temp'))
+		$module_srl = $obj->module_srl;
+		$member_srl = abs($obj->member_srl);
+		if (!$module_srl || !$member_srl)
 		{
-			$module_srl = $obj->module_srl;
-			$member_srl = $obj->member_srl;
-			// The process related to clearing the post object
-			if(!$module_srl || !$member_srl) return new Object();
-			// Run only when logged in
-			$logged_info = Context::get('logged_info');
-			if(!$logged_info->member_srl) return new Object();
-			// Get the points of the member
-			$oPointModel = getModel('point');
-			$cur_point = $oPointModel->getPoint($member_srl, true);
-			// Get the point module information
-			$oModuleModel = getModel('module');
-			$config = $oModuleModel->getModuleConfig('point');
-			$module_config = $oModuleModel->getModulePartConfig('point', $module_srl);
-	
-			$point = $module_config['insert_document'];
-			if(strlen($point) == 0 && !is_int($point)) $point = $config->insert_document;
-			// if the point is set to decrease when writing a document, make sure it does not increase the points when deleting an article
-			if($point < 0) return new Object();
-			$cur_point -= $point;
-			// Add points related to deleting an attachment
-			$point = $module_config['upload_file'];
-			if(strlen($point) == 0 && !is_int($point)) $point = $config->upload_file;
-			if($obj->uploaded_count) $cur_point -= $point * $obj->uploaded_count;
-			// Increase the point
-			$this->setPoint($member_srl,$cur_point);
+			return new Object();
 		}
+		
+		// The fix to disable giving points for saving the document temporarily
+		if ($module_srl == $member_srl)
+		{
+			return new Object();
+		}
+		if ($obj->status === getModel('document')->getConfigStatus('temp'))
+		{
+			return new Object();
+		}
+		
+		// Get the points of the member
+		$cur_point = getModel('point')->getPoint($member_srl, true);
 
+		// Subtract points for the document.
+		$document_point = $this->_getModulePointConfig($module_srl, 'insert_document');
+		if ($document_point > 0)
+		{
+			$cur_point -= $document_point;
+		}
+		
+		// Subtract points for attached files.
+		if ($obj->uploaded_count > 0)
+		{
+			$attached_files_point = $this->_getModulePointConfig($module_srl, 'upload_file');
+			if ($attached_files_point > 0)
+			{
+				$cur_point -= $attached_files_point * $obj->uploaded_count;
+			}
+		}
+		
+		// Increase the point.
+		$this->setPoint($member_srl, $cur_point);
 		return new Object();
 	}
 
@@ -259,35 +286,35 @@ class pointController extends point
 	public function triggerInsertComment($obj)
 	{
 		$module_srl = $obj->module_srl;
-		$member_srl = $obj->member_srl;
-		if(!$module_srl || !$member_srl) return new Object();
-		// Do not increase the points if the member is the author of the post
-		$document_srl = $obj->document_srl;
-		$oDocumentModel = getModel('document');
-		$oDocument = $oDocumentModel->getDocument($document_srl);
-		// Get the point module information
-		$oModuleModel = getModel('module');
-		$config = $oModuleModel->getModuleConfig('point');
-		if($config->no_point_date > 0)
+		$member_srl = abs($obj->member_srl);
+		if (!$module_srl || !$member_srl)
 		{
-			if($oDocument->get('regdate') < date('YmdHis', strtotime('-'.$config->no_point_date.' day')))
-			{
-				return new Object();
-			}
+			return new Object();
 		}
-		if(!$oDocument->isExists() || abs($oDocument->get('member_srl'))==abs($member_srl)) return new Object();
-
-		$module_config = $oModuleModel->getModulePartConfig('point', $module_srl);
+		
+		// Abort if the comment and the document have the same author.
+		$oDocument = getModel('document')->getDocument($obj->document_srl);
+		if (!$oDocument->isExists() || abs($oDocument->get('member_srl')) == $member_srl)
+		{
+			return new Object();
+		}
+		
+		// Abort if the document is older than a configured limit.
+		$config = $this->getConfig();
+		if ($config->no_point_date > 0 && ztime($oDocument->get('regdate')) < time() - ($config->no_point_date * 86400))
+		{
+			return new Object();
+		}
+		
 		// Get the points of the member
-		$oPointModel = getModel('point');
-		$cur_point = $oPointModel->getPoint($member_srl, true);
+		$cur_point = getModel('point')->getPoint($member_srl, true);
 
-		$point = $module_config['insert_comment'];
-		if(strlen($point) == 0 && !is_int($point)) $point = $config->insert_comment;
-		// Increase the point
-		$cur_point += $point;
-		$this->setPoint($member_srl,$cur_point);
-
+		// Add points for the comment.
+		$comment_point = $this->_getModulePointConfig($module_srl, 'insert_comment');
+		$cur_point += $comment_point;
+		
+		// Increase the point.
+		$this->setPoint($member_srl, $cur_point);
 		return new Object();
 	}
 
@@ -296,32 +323,36 @@ class pointController extends point
 	 */
 	public function triggerDeleteComment($obj)
 	{
-		$oModuleModel = getModel('module');
-		$oPointModel = getModel('point');
-		$oDocumentModel = getModel('document');
-
 		$module_srl = $obj->module_srl;
 		$member_srl = abs($obj->member_srl);
-		$document_srl = $obj->document_srl;
-		if(!$module_srl || !$member_srl) return new Object();
-		// Get the original article (if the original article is missing or if the member is its author, do not apply the points)
-		$oDocument = $oDocumentModel->getDocument($document_srl);
-		if(!$oDocument->isExists()) return new Object();
-		if($oDocument->get('member_srl')==$member_srl) return new Object();
-		// Get the point module information
-		$config = $oModuleModel->getModuleConfig('point');
-		$module_config = $oModuleModel->getModulePartConfig('point', $module_srl);
+		if (!$module_srl || !$member_srl)
+		{
+			return new Object();
+		}
+		
+		// Abort if the comment and the document have the same author.
+		$oDocument = getModel('document')->getDocument($obj->document_srl);
+		if (!$oDocument->isExists() || abs($oDocument->get('member_srl')) == $member_srl)
+		{
+			return new Object();
+		}
+		
+		// Abort if the document is older than a configured limit.
+		$config = $this->getConfig();
+		if ($config->no_point_date > 0 && ztime($oDocument->get('regdate')) < ztime($obj->regdate) - ($config->no_point_date * 86400))
+		{
+			return new Object();
+		}
+		
 		// Get the points of the member
-		$cur_point = $oPointModel->getPoint($member_srl, true);
+		$cur_point = getModel('point')->getPoint($member_srl, true);
 
-		$point = $module_config['insert_comment'];
-		if(strlen($point) == 0 && !is_int($point)) $point = $config->insert_comment;
-		// if the point is set to decrease when writing a comment, make sure it does not increase the points when deleting a comment
-		if($point < 0) return new Object();
-		// Increase the point
-		$cur_point -= $point;
-		$this->setPoint($member_srl,$cur_point);
-
+		// Add points for the comment.
+		$comment_point = $this->_getModulePointConfig($module_srl, 'insert_comment');
+		$cur_point -= $comment_point;
+		
+		// Increase the point.
+		$this->setPoint($member_srl, $cur_point);
 		return new Object();
 	}
 
@@ -340,25 +371,22 @@ class pointController extends point
 	 */
 	public function triggerDeleteFile($obj)
 	{
-		if($obj->isvalid != 'Y') return new Object();
-
 		$module_srl = $obj->module_srl;
-		$member_srl = $obj->member_srl;
-		if(!$module_srl || !$member_srl) return new Object();
-		// Get the point module information
-		$oModuleModel = getModel('module');
-		$config = $oModuleModel->getModuleConfig('point');
-		$module_config = $oModuleModel->getModulePartConfig('point', $module_srl);
+		$member_srl = abs($obj->member_srl);
+		if (!$module_srl || !$member_srl || $obj->isvalid !== 'Y')
+		{
+			return new Object();
+		}
+		
 		// Get the points of the member
-		$oPointModel = getModel('point');
-		$cur_point = $oPointModel->getPoint($member_srl, true);
+		$cur_point = getModel('point')->getPoint($member_srl, true);
 
-		$point = $module_config['upload_file'];
-		if(strlen($point) == 0 && !is_int($point)) $point = $config->upload_file;
-		// Increase the point
-		$cur_point -= $point;
-		$this->setPoint($member_srl,$cur_point);
-
+		// Subtract points for the file.
+		$file_point = $this->_getModulePointConfig($module_srl, 'upload_file');
+		$cur_point -= $file_point;
+		
+		// Update the point.
+		$this->setPoint($member_srl, $cur_point);
 		return new Object();
 	}
 
