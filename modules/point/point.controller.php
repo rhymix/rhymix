@@ -8,6 +8,11 @@
 class pointController extends point
 {
 	/**
+	 * @brief Cache module point config
+	 */
+	protected static $_module_point_config = array();
+	
+	/**
 	 * @brief Initialization
 	 */
 	public function init()
@@ -25,7 +30,7 @@ class pointController extends point
 			return new Object();
 		}
 		
-		$config = getModel('module')->getModuleConfig('point');
+		$config = $this->getConfig();
 		$point = intval($config->signup_point);
 		if (!$point)
 		{
@@ -55,7 +60,7 @@ class pointController extends point
 			return new Object();
 		}
 		
-		$config = getModel('module')->getModuleConfig('point');
+		$config = $this->getConfig();
 		$point = intval($config->login_point);
 		if (!$point)
 		{
@@ -74,7 +79,7 @@ class pointController extends point
 	public function triggerDeleteGroup($obj)
 	{
 		$group_srl = $obj->group_srl;
-		$config = getModel('module')->getModuleConfig('point');
+		$config = $this->getConfig();
 		
 		// Exclude deleted group from point/level/group integration
 		if($config->point_group && isset($config->point_group[$group_srl]))
@@ -381,7 +386,7 @@ class pointController extends point
 		$cur_point = $member_srl ? getModel('point')->getPoint($member_srl, true) : 0;
 		
 		// If the user (member or guest) does not have enough points, deny access.
-		$config = getModel('module')->getModuleConfig('point');
+		$config = $this->getConfig();
 		if ($config->disable_download == 'Y' && $cur_point + $point < 0)
 		{
 			return new Object(-1, 'msg_cannot_download');
@@ -455,7 +460,7 @@ class pointController extends point
 		$cur_point = $member_srl ? getModel('point')->getPoint($member_srl, true) : 0;
 		
 		// If the user (member or guest) does not have enough points, deny access.
-		$config = getModel('module')->getModuleConfig('point');
+		$config = $this->getConfig();
 		if($config->disable_read_document == 'Y' && $cur_point + $point < 0)
 		{
 			$message = sprintf(lang('msg_disallow_by_point'), abs($point), $cur_point);
@@ -737,11 +742,15 @@ class pointController extends point
 		
 		if ($module_srl)
 		{
-			$module_config = $oModuleModel->getModulePartConfig('point', $module_srl);
+			if (!isset(self::$_module_point_config[$module_srl]))
+			{
+				self::$_module_point_config[$module_srl] = $oModuleModel->getModulePartConfig('point', $module_srl);
+			}
+			$module_config = self::$_module_point_config[$module_srl];
 		}
 		else
 		{
-			$module_config = null;
+			$module_config = array();
 		}
 		
 		if (isset($module_config[$config_key]) && $module_config[$config_key] !== '')
@@ -750,7 +759,7 @@ class pointController extends point
 		}
 		else
 		{
-			$default_config = $oModuleModel->getModuleConfig('point');
+			$default_config = $this->getConfig();
 			$point = $default_config->{$config_key};
 		}
 		

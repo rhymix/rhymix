@@ -8,6 +8,23 @@
 class point extends ModuleObject
 {
 	/**
+	 * @brief Configuration cache
+	 */
+	protected static $_config = null;
+	
+	/**
+	 * @brief Shortcut to getting module configuration
+	 */
+	public function getConfig()
+	{
+		if (self::$_config === null)
+		{
+			self::$_config = getModel('module')->getModuleConfig('point');
+		}
+		return self::$_config;
+	}
+	
+	/**
 	 * @brief Additional tasks required to accomplish during the installation
 	 */
 	function moduleInstall()
