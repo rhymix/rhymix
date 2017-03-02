@@ -1739,7 +1739,7 @@ class memberController extends member
 		$new_security_key = Rhymix\Framework\Security::getRandom(24, 'alnum');
 		$args = new stdClass;
 		$args->autologin_key = $autologin_key;
-		$args->security_key = base64_encode(hash_hmac('sha256', $security_key, $autologin_key, true));
+		$args->security_key = base64_encode(hash_hmac('sha256', $new_security_key, $autologin_key, true));
 		$update_output = executeQuery('member.updateAutologin', $args);
 		if ($update_output->toBool())
 		{
