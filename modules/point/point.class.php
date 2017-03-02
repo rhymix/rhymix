@@ -33,6 +33,7 @@ class point extends ModuleObject
 		array('document.updateDocument', 'before', 'controller', 'triggerUpdateDocument'),
 		array('document.deleteDocument', 'after', 'controller', 'triggerDeleteDocument'),
 		array('comment.insertComment', 'after', 'controller', 'triggerInsertComment'),
+		array('comment.updateComment', 'after', 'controller', 'triggerUpdateComment'),
 		array('comment.deleteComment', 'after', 'controller', 'triggerDeleteComment'),
 		array('file.deleteFile', 'after', 'controller', 'triggerDeleteFile'),
 		array('file.downloadFile', 'before', 'controller', 'triggerBeforeDownloadFile'),

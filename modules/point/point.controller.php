@@ -146,6 +146,13 @@ class pointController extends point
 		// Only give points if the document is being updated from TEMP to another status such as PUBLIC.
 		if ($obj->status === $oDocumentModel->getConfigStatus('temp') || $oDocument->get('status') !== $oDocumentModel->getConfigStatus('temp'))
 		{
+			if ($obj->uploaded_count > $oDocument->get('uploaded_count'))
+			{
+				$cur_point = getModel('point')->getPoint($member_srl, true);
+				$attached_files_point = $this->_getModulePointConfig($module_srl, 'upload_file');
+				$cur_point += $attached_files_point * ($obj->uploaded_count - $oDocument->get('uploaded_count'));
+				$this->setPoint($member_srl, $cur_point);
+			}
 			return new Object();
 		}
 
@@ -258,6 +265,14 @@ class pointController extends point
 		return new Object();
 	}
 
+	/**
+	 * @brief A trigger which gives points for uploaded file changes to a comment
+	 */
+	public function triggerUpdateComment($obj)
+	{
+		return new Object();
+	}
+	
 	/**
 	 * @brief A trigger which gives points for deleting a comment
 	 */
