@@ -93,7 +93,7 @@ class commentItem extends Object
 
 	function isGranted()
 	{
-		if($_SESSION['own_comment'][$this->comment_srl])
+		if($_SESSION['granted_comment'][$this->comment_srl])
 		{
 			return TRUE;
 		}
@@ -130,7 +130,7 @@ class commentItem extends Object
 
 	function setGrantForSession()
 	{
-		$_SESSION['own_comment'][$this->comment_srl] = true;
+		$_SESSION['granted_comment'][$this->comment_srl] = true;
 		$this->setGrant();
 	}
 

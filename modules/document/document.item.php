@@ -162,7 +162,7 @@ class documentItem extends Object
 
 	function isGranted()
 	{
-		if ($_SESSION['own_document'][$this->document_srl])
+		if ($_SESSION['granted_document'][$this->document_srl])
 		{
 			return $this->grant_cache = true;
 		}
@@ -203,7 +203,7 @@ class documentItem extends Object
 	
 	function setGrantForSession()
 	{
-		$_SESSION['own_document'][$this->document_srl] = true;
+		$_SESSION['granted_document'][$this->document_srl] = true;
 		$this->setGrant();
 	}
 

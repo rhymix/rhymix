@@ -255,7 +255,11 @@ class commentController extends comment
 	 */
 	function addGrant($comment_srl)
 	{
-		$_SESSION['own_comment'][$comment_srl] = TRUE;
+		$comment = getModel('comment')->getComment($comment_srl);
+		if ($comment->isExists())
+		{
+			$comment->setGrant();
+		}
 	}
 
 	/**
@@ -568,17 +572,17 @@ class commentController extends comment
 			}
 		}
 
-		// grant autority of the comment
-		if(!$manual_inserted)
-		{
-			$this->addGrant($obj->comment_srl);
-		}
-
 		// call a trigger(after)
 		ModuleHandler::triggerCall('comment.insertComment', 'after', $obj);
 
 		// commit
 		$oDB->commit();
+
+		// grant autority of the comment
+		if(!$manual_inserted)
+		{
+			$this->addGrant($obj->comment_srl);
+		}
 
 		if(!$manual_inserted)
 		{

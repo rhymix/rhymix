@@ -331,7 +331,11 @@ class documentController extends document
 	 */
 	function addGrant($document_srl)
 	{
-		$_SESSION['own_document'][$document_srl] = true;
+		$oDocument = getModel('document')->getDocument($document_srl);
+		if ($oDocument->isExists())
+		{
+			$oDocument->setGrant();
+		}
 	}
 
 	/**
