@@ -125,8 +125,13 @@ class commentItem extends Object
 
 	function setGrant()
 	{
-		$_SESSION['own_comment'][$this->comment_srl] = TRUE;
 		$this->is_granted = TRUE;
+	}
+
+	function setGrantForSession()
+	{
+		$_SESSION['own_comment'][$this->comment_srl] = true;
+		$this->setGrant();
 	}
 
 	function setAccessible()

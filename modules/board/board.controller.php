@@ -609,7 +609,7 @@ class boardController extends board
 				return new Object(-1, 'msg_invalid_password');
 			}
 
-			$oComment->setGrant();
+			$oComment->setGrantForSession();
 		} else {
 			 // get the document information
 			$oDocumentModel = getModel('document');
@@ -625,7 +625,7 @@ class boardController extends board
 				return new Object(-1, 'msg_invalid_password');
 			}
 
-			$oDocument->setGrant();
+			$oDocument->setGrantForSession();
 		}
 	}
 

@@ -198,8 +198,13 @@ class documentItem extends Object
 
 	function setGrant()
 	{
-		$_SESSION['own_document'][$this->document_srl] = true;
 		$this->grant_cache = true;
+	}
+	
+	function setGrantForSession()
+	{
+		$_SESSION['own_document'][$this->document_srl] = true;
+		$this->setGrant();
 	}
 
 	function isAccessible()
