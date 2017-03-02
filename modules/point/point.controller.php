@@ -178,58 +178,6 @@ class pointController extends point
 	 */
 	public function triggerBeforeDeleteDocument($obj)
 	{
-		$document_srl = $obj->document_srl;
-		$oDocument = getModel('document')->getDocument($document_srl);
-		if (!$oDocument->isExists())
-		{
-			return new Object();
-		}
-		if (!$oDocument->get('comment_count'))
-		{
-			return new Object();
-		}
-		
-		$comment_point = $this->_getModulePointConfig($module_srl, 'insert_comment');
-		if (!$comment_point)
-		{
-			return new Object();
-		}
-		
-		// Find out which members wrote how many comments on this document.
-		$cp_args = new stdClass();
-		$cp_args->document_srl = $document_srl;
-		$output = executeQueryArray('point.getCommentUsers', $cp_args);
-		if (!$output->data)
-		{
-			return new Object();
-		}
-		
-		$member_srls = array();
-		foreach ($output->data as $data)
-		{
-			if ($data->member_srl && abs($data->member_srl) != abs($oDocument->get('member_srl')))
-			{
-				if (!isset($member_srls[abs($data->member_srl)]))
-				{
-					$member_srls[abs($data->member_srl)] = 0;
-				}
-				$member_srls[abs($data->member_srl)] += $data->count;
-			}
-		}
-		if (!count($member_srls))
-		{
-			return new Object();
-		}
-		
-		// Remove points from each member.
-		$oPointModel = getModel('point');
-		foreach ($member_srls as $member_srl => $count)
-		{
-			$cur_point = $oPointModel->getPoint($member_srl, true);
-			$cur_point -= $count * $comment_point;
-			$this->setPoint($member_srl, $cur_point);
-		}
-		
 		return new Object();
 	}
 
