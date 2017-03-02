@@ -129,6 +129,8 @@ class point extends ModuleObject
 		$config->level_icon = 'default';
 		$config->disable_read_document = 'N';
 		$config->disable_download = 'N';
+		$config->group_reset = 'Y';
+		$config->group_ratchet = 'N';
 		$config->max_level = 30;
 		for ($i = 1; $i <= 30; $i++)
 		{

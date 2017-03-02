@@ -585,7 +585,18 @@ class pointController extends point
 		$level = $oPointModel->getLevel($point, $config->level_step);
 
 		// If existing level and a new one are different attempt to set a point group
-		if($level != $current_level)
+		$new_group_list = array();
+		$del_group_list = array();
+		if ($config->group_ratchet === 'Y')
+		{
+			$change_group = ($level > $current_level);
+		}
+		else
+		{
+			$change_group = ($level != $current_level);
+		}
+		
+		if ($change_group)
 		{
 			// Check if the level, for which the current points are prepared, is calculate and set the correct group
 			$point_group = $config->point_group;
@@ -594,11 +605,8 @@ class pointController extends point
 			{
 				// Get the default group
 				$default_group = $oMemberModel->getDefaultGroup();
-				// Get the removed group and the newly granted group
-				$del_group_list = array();
-				$new_group_list = array();
-
 				asort($point_group);
+				
 				// Reset group after initialization
 				if($config->group_reset != 'N')
 				{
