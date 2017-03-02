@@ -250,23 +250,15 @@ class commentController extends comment
 
 	/**
 	 * Authorization of the comments
-	 * @param int $comment_srl
-	 * @param bool $session
+	 * available only in the current connection of the session value
 	 * @return void
 	 */
-	function addGrant($comment_srl, $session = false)
+	function addGrant($comment_srl)
 	{
 		$comment = getModel('comment')->getComment($comment_srl);
 		if ($comment->isExists())
 		{
-			if ($session)
-			{
-				$comment->setGrantForSession();
-			}
-			else
-			{
-				$comment->setGrant();
-			}
+			$comment->setGrant();
 		}
 	}
 
@@ -589,7 +581,7 @@ class commentController extends comment
 		// grant autority of the comment
 		if(!$manual_inserted)
 		{
-			$this->addGrant($obj->comment_srl, true);
+			$this->addGrant($obj->comment_srl);
 		}
 
 		if(!$manual_inserted)

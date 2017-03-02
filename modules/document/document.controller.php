@@ -325,23 +325,16 @@ class documentController extends document
 
 	/**
 	 * Grant a permisstion of the document
+	 * Available in the current connection with session value
 	 * @param int $document_srl
-	 * @param bool $session
 	 * @return void
 	 */
-	function addGrant($document_srl, $session = false)
+	function addGrant($document_srl)
 	{
 		$oDocument = getModel('document')->getDocument($document_srl);
 		if ($oDocument->isExists())
 		{
-			if ($session)
-			{
-				$oDocument->setGrantForSession();
-			}
-			else
-			{
-				$oDocument->setGrant();
-			}
+			$oDocument->setGrant();
 		}
 	}
 
@@ -537,7 +530,7 @@ class documentController extends document
 		// return
 		if(!$manual_inserted)
 		{
-			$this->addGrant($obj->document_srl, true);
+			$this->addGrant($obj->document_srl);
 		}
 		$output->add('document_srl',$obj->document_srl);
 		$output->add('category_srl',$obj->category_srl);
