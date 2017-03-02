@@ -313,6 +313,13 @@ class pointController extends point
 		$comment_point = $this->_getModulePointConfig($module_srl, 'insert_comment');
 		$cur_point += $comment_point;
 		
+		// Add points for attached files.
+		if ($obj->uploaded_count > 0)
+		{
+			$attached_files_point = $this->_getModulePointConfig($module_srl, 'upload_file');
+			$cur_point += $attached_files_point * $obj->uploaded_count;
+		}
+		
 		// Increase the point.
 		$this->setPoint($member_srl, $cur_point);
 		return new Object();
@@ -350,6 +357,16 @@ class pointController extends point
 		// Add points for the comment.
 		$comment_point = $this->_getModulePointConfig($module_srl, 'insert_comment');
 		$cur_point -= $comment_point;
+		
+		// Subtract points for attached files.
+		if ($obj->uploaded_count > 0)
+		{
+			$attached_files_point = $this->_getModulePointConfig($module_srl, 'upload_file');
+			if ($attached_files_point > 0)
+			{
+				$cur_point -= $attached_files_point * $obj->uploaded_count;
+			}
+		}
 		
 		// Increase the point.
 		$this->setPoint($member_srl, $cur_point);
