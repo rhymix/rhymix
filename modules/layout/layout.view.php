@@ -62,7 +62,7 @@ class layoutView extends layout
 			if($module == 'ARTICLE' && !$mid)
 			{
 				$oDocumentModel = getModel('document');
-				$oDocument = $oDocumentModel->getDocument(0, true);
+				$oDocument = $oDocumentModel->getDocument(0);
 
 				$t = lang('article_preview_title');
 

@@ -265,7 +265,7 @@ class pageAdminView extends page
 	function _setArticleTypeContentModify($isMobile = false)
 	{
 		$oDocumentModel = getModel('document');
-		$oDocument = $oDocumentModel->getDocument(0, true);
+		$oDocument = $oDocumentModel->getDocument(0);
 
 		if($isMobile)
 		{

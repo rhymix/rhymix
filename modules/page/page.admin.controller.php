@@ -316,7 +316,7 @@ class pageAdminController extends page
 		$document_srl = $obj->document_srl;
 
 		// 이미 존재하는 글인지 체크
-		$oDocument = $oDocumentModel->getDocument($obj->document_srl, true);
+		$oDocument = $oDocumentModel->getDocument($obj->document_srl);
 
 		$bAnonymous = false;
 		$target = ($obj->ismobile == 'Y') ? 'mdocument_srl' : 'document_srl';
