@@ -99,6 +99,7 @@ class pointAdminController extends point
 			}
 
 			$config->group_reset = $args->group_reset;
+			$config->group_ratchet = $args->group_ratchet;
 			// Per-level point configurations
 			unset($config->level_step);
 			for($i=1;$i<=$config->max_level;$i++)
