@@ -1,3 +1,4 @@
+# 한국어
 [![Rhymix](https://cloud.githubusercontent.com/assets/8565457/12881857/7c3e69d6-ce90-11e5-94dc-8a592cf9ab7d.png)](https://www.rhymix.org)
 
 Rhymix(라이믹스)는 누구든지 쉽고 자유롭게 독립적인 홈페이지를 만들어
@@ -21,7 +22,7 @@ Rhymix는 개발자와 사용자가 서로의 권리와 책임을 존중하는 �
 개발자 위주, 서비스 제공자 위주로 나아가는 현대의 IT 동향을 무차별적으로 받아들이기보다는
 사용자의 주권과 열린 인터넷 환경을 보호하는 기술을 집중적으로 발굴하며,
 우리나라 인터넷 커뮤니티의 성장을 이끌었던 90년대 제로보드와 2000년대 XE의 정신을 이어받아
-2016년 현재 위기에 처한 오픈 웹을 지키고 회복시키는 일에 앞장서고자 합니다.
+2010년대 후반 현재 위기에 처한 오픈 웹을 지키고 회복시키는 일에 앞장서고자 합니다.
 
 그러기 위해서는 다른 어떤 CMS보다도 일반 사용자를 위한 편리성이 가장 뛰어나야 합니다.
 
@@ -72,13 +73,13 @@ Rhymix는 [GNU GPL v2](http://korea.gnu.org/documents/copyleft/gpl.ko.html)
 개발자와 사용자의 자유와 권리, 참여와 책임을 강조하는 프로그램으로
 누구나 무료로 사용할 수 있고 개발에 참여할 수도 있습니다.
 
-Rhymix는 [NAVER](https://www.navercorp.com/)가 저작권을 가진
+Rhymix는 [NAVER](https://www.navercorp.com/)가 일부 저작권을 가진
 [XpressEngine](https://www.xpressengine.com)의 소스코드에 바탕을 두고 있습니다.
 Rhymix 개발자들이 추가 및 변경한 부분의 저작권은 해당 개발자들에게 있습니다.
 
 XpressEngine은 초창기에 GPL을 사용하다가 버전 1.4.0부터 LGPL로 전환했지만,
 Rhymix는 사용자의 권리를 더욱 보호하고 자유 소프트웨어 본연의 정신에 충실하기 위해 라이선스를 GPL로 되돌렸습니다.
-(라이선스 전환은 [LGPL v2.1 제3조](http://korea.gnu.org/people/chsong/copyleft/lgpl.ko.html#term3)에서 허용하고 있습니다.)
+(라이선스 전환은 [LGPL v2.1 제3조](http://korea.gnu.org/documents/copyleft/lgpl.ko.html#term3)에서 허용하고 있습니다.)
 
 GPL은 WordPress, Drupal, Joomla 등 세계적인 CMS들이 공통으로 채택하고 있는 라이선스이므로
 사용자 및 개발자의 권리와 의무도 이러한 CMS들의 경우와 동일합니다.
@@ -87,3 +88,77 @@ GPL은 WordPress, Drupal, Joomla 등 세계적인 CMS들이 공통으로 채택�
 Rhymix의 소스코드를 수정하거나 확장 기능을 직접 개발하여 사용하더라도 마찬가지입니다.
 그러나 직접 개발한 확장 기능을 제3자에게 배포 또는 판매할 경우에는 반드시 소스코드를 제공해야 하며,
 이러한 소스코드는 모두 GPL 라이선스의 적용을 받습니다.
+
+# English
+[![Rhymix](https://cloud.githubusercontent.com/assets/8565457/12881857/7c3e69d6-ce90-11e5-94dc-8a592cf9ab7d.png)](https://www.rhymix.org)
+
+Rhymix is a content management system (CMS) for anyone who wants to create independent homepages to express themselves and grow their communities easily and freely.
+
+Rhymix is a project to fork [XpressEngine](https://www.xpressengine.com) version 1.8 and is free software that anyone can use for free and participate in.
+
+Rhymix is a combination of "rhyme" in the sense of "making a poem, adjusting the sound", and "remix" in the sense of "combining, changing".
+Rhymix cheers everyone who freely creates and/or assembles new things in the Internet space by combining various software and contents.
+
+### Development Direction
+
+Rhymix developers want an Internet ecosystem where developers and users respect each other's rights and responsibilities, 
+a world where everyone can voice their voice without relying on a centralized SNS platform, 
+a future where ordinary bloggers, students, the disabled and others as well as developers of startups can build a home in cyberspace and communicate with each other.
+
+Rather than indiscriminately accepting modern IT trends that are centered on developers and service providers, 
+we focused on technologies that protect users' sovereignty and open Internet environment. Taking the spirit of ZeroBoard and XpressEngine, which led the growth of the Korean Internet communities in the 1990s and 2000s respectively, Rhymix wants to take the lead in recovering and restoring the open web in the crisis of late 2010s.
+
+
+This requires the most convenience for the average user over any other CMS.
+
+- CMS that is convenient enough for beginners to easily create the website with a few clicks
+- CMS that is actively using the latest technology, fast and secure
+- CMS to help users and developers communicate well through community
+- We try to ensure maximum compatibility with existing XpressEngine third-party materials such as add-ons, modules and widgets.
+
+### Installation Environment
+
+To use Rhymix, you must have a web hosting or server that meets the following requirements.
+
+- PHP 5.5.9 or higher (PHP 7 recommended)
+- MySQL 5.0.7 or higher (MariaDB recommended)
+- Required PHP module
+  - curl
+  - gd
+  - iconv or mbstring
+  - json
+  - mcrypt or openssl
+  - simplexml
+- In php.ini, session.auto_start = Off should be set.
+- The installation folder or the files folder must have write permission.
+
+### Participation in Development
+
+Rhymix welcomes developers, designers, translators, and bugs to the public.
+If you would like to participate, please read [CONTRIBUTING.md](./CONTRIBUTING.md) first to ensure efficient and orderly project management.
+
+If you have found a security vulnerability, please let us know at devops@rhymix.org so that we can create a patch before it is exploited.
+
+### Official Website
+
+- Rhymix : https://www.rhymix.org
+
+### Community
+
+- XETOWN (Korean) : https://www.xetown.com
+
+### Copyright and License
+
+Rhymix is a free software licensed under the [GNU GPL v2](http://korea.gnu.org/documents/copyleft/gpl.ko.html) or later.
+Free software, also known as "open source" or "open", is a program that emphasizes the freedom and rights of developers and users, their participation and responsibilities, and is free to use and participate in development.
+
+Rhymix is based on the source code of [XpressEngine](https://www.xpressengine.com), which [NAVER](https://www.navercorp.com/) is partly copyrighted free software.
+Rhymix developers have copyrights on the added and modified code.
+
+XpressEngine had used the GPL in its early days and switched from version 1.4.0 to LGPL, but Rhymix has reverted its licenses to the GPL to further protect its rights and adhere to the spirit of free software.
+(License conversion is allowed in [LGPL v2.1 Section 3](https://www.gnu.org/licenses/old-licenses/lgpl-2.1.html).)
+
+GPL is a license that is commonly adopted by global CMSs such as WordPress, Drupal, and Joomla, so the rights and obligations of users and developers are the same as those of CMS.
+
+The use of Rhymix on the homepage does not oblige you to release the source code, even if you modify the Rhymix source code or develop the extension yourself.
+However, if you distribute or sell your own extensions to a third party, you must provide the source code, which is subject to the GPL license.
