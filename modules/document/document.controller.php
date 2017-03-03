@@ -2491,7 +2491,7 @@ class documentController extends document
 		if(!is_array($cart)) $cart = explode('|@|', $cart);
 		$cart = array_unique(array_map('intval', $cart));
 		$type = Context::get('type');
-		$target_module_srl = Context::get('module_srl') ?: Context::get('target_module');
+		$target_module_srl = intval(Context::get('module_srl') ?: Context::get('target_module'));
 		$target_category_srl = Context::get('target_category');
 		
 		// send default message - misol 2015-07-23
@@ -2530,7 +2530,7 @@ class documentController extends document
 		
 		// Check permissions on all modules.
 		$oModuleModel = getModel('module');
-		if (!in_array($target_module_srl, $module_srl_list))
+		if ($target_module_srl && !in_array($target_module_srl, $module_srl_list))
 		{
 			$module_srl_list[] = $target_module_srl;
 		}
