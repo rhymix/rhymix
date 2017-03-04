@@ -1003,7 +1003,7 @@ class adminAdminController extends admin
 		}
 		if ($vars->https_port !== 0 && ($vars->https_port < 1 || $vars->https_port > 65535 || $vars->https_port == 80))
 		{
-			return new Object(-1, 'msg_invalid_http_port');
+			return new Object(-1, 'msg_invalid_https_port');
 		}
 		
 		// Validate the security setting.
