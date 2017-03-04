@@ -97,7 +97,7 @@ class moduleModel extends module
 			$domain = Rhymix\Framework\URL::getDomainFromURL($domain);
 			if ($domain === false)
 			{
-				return null;
+				return false;
 			}
 		}
 		if (strpos($domain, 'xn--') !== false)

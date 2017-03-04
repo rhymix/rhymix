@@ -1051,24 +1051,7 @@ function requirePear()
  */
 function checkCSRF()
 {
-	// Use Rhymix Security class first.
-	if (Rhymix\Framework\Security::checkCSRF())
-	{
-		return true;
-	}
-	
-	// Check if we have a virtual site with a matching domain.
-	$oModuleModel = getModel('module');
-	$siteModuleInfo = $oModuleModel->getDefaultMid();
-	$virtualSiteInfo = $oModuleModel->getSiteInfo($siteModuleInfo->site_srl);
-	if (strcasecmp($virtualSiteInfo->domain, Context::get('vid')) && stristr($virtualSiteInfo->domain, $referer_host))
-	{
-		return true;
-	}
-	else
-	{
-		return false;
-	}
+	return Rhymix\Framework\Security::checkCSRF();
 }
 
 /**

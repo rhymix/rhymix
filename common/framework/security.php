@@ -310,10 +310,10 @@ class Security
 		if (!$referer)
 		{
 			$referer = strval($_SERVER['HTTP_REFERER']);
-			if ($referer === '')
-			{
-				return true;
-			}
+		}
+		if (strval($referer) === '')
+		{
+			return true;
 		}
 		
 		return URL::isInternalURL($referer);
