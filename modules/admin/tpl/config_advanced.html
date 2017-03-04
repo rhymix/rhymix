@@ -8,28 +8,6 @@
 		<input type="hidden" name="act" value="procAdminUpdateAdvanced" />
 		<input type="hidden" name="xe_validator_id" value="modules/admin/tpl/config_advanced/1" />
 		<div class="x_control-group">
-			<label class="x_control-label" for="default_url">{$lang->default_url} <a class="x_icon-question-sign" href="./common/manual/admin/index.html#UMAN_config_general_default_url" target="_blank">{$lang->help}</a></label>
-			<div class="x_controls">
-				<input type="url" name="default_url" id="default_url" style="min-width:90%" value="{$default_url}"/>
-			</div>
-		</div>
-		<div class="x_control-group">
-			<label class="x_control-label">{lang('admin.use_ssl')} <a class="x_icon-question-sign" href="./common/manual/admin/index.html#UMAN_config_general_ssl" target="_blank">{$lang->help}</a></label>
-			<div class="x_controls">
-				<!--@foreach($lang->ssl_options as $key => $val)-->
-				<label for="ssl_{$key}" class="x_inline"><input type="radio" name="use_ssl" id="ssl_{$key}" value="{$key}" checked="checked"|cond="$use_ssl==$key" /> {$val}</label>
-				<!--@endforeach-->
-				<div class="x_help-block">{lang('admin.about_use_ssl')}</div>
-			</div>
-		</div>
-		<div class="x_control-group">
-			<label class="x_control-label">{$lang->server_ports}</label>
-			<div class="x_controls">
-				<label for="http_port" class="x_inline" style="margin-bottom:0;padding-top:0">HTTP: <input type="number" name="http_port" id="http_port" size="5" value="{$http_port}" /></label>
-				<label for="https_port" class="x_inline" style="margin-bottom:0;padding-top:0">HTTPS: <input type="number" name="https_port" id="https_port" size="5" value="{$https_port}" /></label>
-			</div>
-		</div>
-		<div class="x_control-group">
 			<label class="x_control-label">{$lang->use_rewrite}</label>
 			<div class="x_controls">
 				<label for="use_rewrite_y" class="x_inline"><input type="radio" name="use_rewrite" id="use_rewrite_y" value="Y" checked="checked"|cond="$use_rewrite" /> {$lang->cmd_yes}</label>

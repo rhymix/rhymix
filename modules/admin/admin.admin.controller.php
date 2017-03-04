@@ -751,46 +751,6 @@ class adminAdminController extends admin
 	{
 		$vars = Context::getRequestVars();
 		
-		// Default URL
-		$default_url = rtrim(trim($vars->default_url), '/\\') . '/';
-		if (!filter_var(Rhymix\Framework\URL::encodeIdna($default_url), FILTER_VALIDATE_URL) || !preg_match('@^https?://@', $default_url))
-		{
-			return new Object(-1, 'msg_invalid_default_url');
-		}
-		if (parse_url($default_url, PHP_URL_PATH) !== RX_BASEURL)
-		{
-			return new Object(-1, 'msg_invalid_default_url');
-		}
-		
-		// SSL and ports
-		if ($vars->http_port == 80) $vars->http_port = null;
-		if ($vars->https_port == 443) $vars->https_port = null;
-		$use_ssl = $vars->use_ssl ?: 'none';
-		
-		// Check if all URL configuration is consistent
-		if ($use_ssl === 'always' && !preg_match('@^https://@', $default_url))
-		{
-			return new Object(-1, 'msg_default_url_ssl_inconsistent');
-		}
-		if ($vars->http_port && preg_match('@^http://@', $default_url) && parse_url($default_url, PHP_URL_PORT) != $vars->http_port)
-		{
-			return new Object(-1, 'msg_default_url_http_port_inconsistent');
-		}
-		if ($vars->https_port && preg_match('@^https://@', $default_url) && parse_url($default_url, PHP_URL_PORT) != $vars->https_port)
-		{
-			return new Object(-1, 'msg_default_url_https_port_inconsistent');
-		}
-		
-		// Set all URL configuration
-		Rhymix\Framework\Config::set('url.default', $default_url);
-		Rhymix\Framework\Config::set('url.http_port', $vars->http_port ?: null);
-		Rhymix\Framework\Config::set('url.https_port', $vars->https_port ?: null);
-		Rhymix\Framework\Config::set('url.ssl', $use_ssl);
-		getController('module')->updateSite((object)array(
-			'site_srl' => 0,
-			'domain' => preg_replace('@^https?://@', '', $default_url),
-		));
-		
 		// Object cache
 		if ($vars->object_cache_type)
 		{
@@ -1116,7 +1076,20 @@ class adminAdminController extends admin
 			{
 				return $output;
 			}
-			
+		}
+		
+		// Update system configuration to match the default domain.
+		if ($domain_info && $domain_srl === '0')
+		{
+			$domain_info->domain = $vars->domain;
+			$domain_info->http_port = $vars->http_port;
+			$domain_info->https_port = $vars->https_port;
+			$domain_info->security = $vars->domain_security;
+			Rhymix\Framework\Config::set('url.default', Context::getDefaultUrl($domain_info));
+			Rhymix\Framework\Config::set('url.http_port', $vars->http_port ?: null);
+			Rhymix\Framework\Config::set('url.https_port', $vars->https_port ?: null);
+			Rhymix\Framework\Config::set('url.ssl', $vars->domain_security);
+			Rhymix\Framework\Config::save();
 		}
 		
 		// Clear cache.

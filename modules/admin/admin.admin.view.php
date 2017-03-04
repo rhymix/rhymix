@@ -508,19 +508,6 @@ class adminAdminView extends admin
 	 */
 	function dispAdminConfigAdvanced()
 	{
-		// Default URL
-		$default_url = Rhymix\Framework\Config::get('url.default');
-		if(strpos($default_url, 'xn--') !== FALSE)
-		{
-			$default_url = Context::decodeIdna($default_url);
-		}
-		Context::set('default_url', $default_url);
-		
-		// SSL and ports
-		Context::set('use_ssl', Rhymix\Framework\Config::get('url.ssl') ?: 'none');
-		Context::set('http_port', Rhymix\Framework\Config::get('url.http_port'));
-		Context::set('https_port', Rhymix\Framework\Config::get('url.https_port'));
-		
 		// Object cache
 		$object_cache_types = Rhymix\Framework\Cache::getSupportedDrivers();
 		$object_cache_type = Rhymix\Framework\Config::get('cache.type');
