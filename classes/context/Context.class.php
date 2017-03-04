@@ -265,10 +265,6 @@ class Context
 			self::set('_http_port', self::$_instance->db_info->http_port = $site_module_info->http_port ?: null);
 			self::set('_https_port', self::$_instance->db_info->https_port = $site_module_info->https_port ?: null);
 			self::set('_use_ssl', self::$_instance->db_info->use_ssl = $site_module_info->security ?: 'none');
-			if($site_module_info->site_srl && isSiteID($site_module_info->domain))
-			{
-				self::set('vid', $site_module_info->domain, TRUE);
-			}
 		}
 		else
 		{
@@ -336,6 +332,7 @@ class Context
 		
 		// start session
 		$relax_key_checks = ($this->act === 'procFileUpload' && preg_match('/shockwave\s?flash/i', $_SERVER['HTTP_USER_AGENT']));
+		Rhymix\Framework\Session::checkSSO($site_module_info);
 		Rhymix\Framework\Session::start(false, $relax_key_checks);
 		$this->_COOKIE = $_COOKIE;
 
@@ -660,7 +657,7 @@ class Context
 	 */
 	public function checkSSO()
 	{
-		return !Rhymix\Framework\Session::checkSSO();
+		return true;
 	}
 
 	/**
