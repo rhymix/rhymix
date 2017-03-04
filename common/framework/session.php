@@ -313,6 +313,11 @@ class Session
 				\Context::displayErrorPage('SSO Error', 'Invalid SSO Request', 400);
 				exit;
 			}
+			if (!URL::isInternalUrl($sso_request) || !Security::checkCSRF())
+			{
+				\Context::displayErrorPage('SSO Error', 'Invalid SSO Request', 400);
+				exit;
+			}
 			
 			// Encrypt the session ID.
 			self::start(true);
@@ -336,7 +341,7 @@ class Session
 			}
 			
 			// Check that the response was given by the default site (to prevent session fixation CSRF).
-			if(isset($_SERVER['HTTP_REFERER']) && strpos($_SERVER['HTTP_REFERER'], $default_url) !== 0)
+			if(isset($_SERVER['HTTP_REFERER']) && strpos(URL::decodeIdna($_SERVER['HTTP_REFERER']), $default_url) !== 0)
 			{
 				\Context::displayErrorPage('SSO Error', 'Invalid SSO Response', 400);
 				exit;
