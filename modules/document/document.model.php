@@ -25,7 +25,7 @@ class documentModel extends document
 	 */
 	function isGranted($document_srl)
 	{
-		return $_SESSION['own_document'][$document_srl];
+		return $_SESSION['granted_document'][$document_srl];
 	}
 
 	/**

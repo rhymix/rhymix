@@ -255,7 +255,11 @@ class commentController extends comment
 	 */
 	function addGrant($comment_srl)
 	{
-		$_SESSION['own_comment'][$comment_srl] = TRUE;
+		$comment = getModel('comment')->getComment($comment_srl);
+		if ($comment->isExists())
+		{
+			$comment->setGrant();
+		}
 	}
 
 	/**
@@ -568,17 +572,17 @@ class commentController extends comment
 			}
 		}
 
-		// grant autority of the comment
-		if(!$manual_inserted)
-		{
-			$this->addGrant($obj->comment_srl);
-		}
-
 		// call a trigger(after)
 		ModuleHandler::triggerCall('comment.insertComment', 'after', $obj);
 
 		// commit
 		$oDB->commit();
+
+		// grant autority of the comment
+		if(!$manual_inserted)
+		{
+			$this->addGrant($obj->comment_srl);
+		}
 
 		if(!$manual_inserted)
 		{
@@ -1525,14 +1529,28 @@ class commentController extends comment
 	 */
 	function procCommentInsertModuleConfig()
 	{
-		$module_srl = Context::get('target_module_srl');
-		if(preg_match('/^([0-9,]+)$/', $module_srl))
+		$target_module_srl = Context::get('target_module_srl');
+		$target_module_srl = array_map('trim', explode(',', $target_module_srl));
+		$logged_info = Context::get('logged_info');
+		$module_srl = array();
+		$oModuleModel = getModel('module');
+		foreach ($target_module_srl as $srl)
 		{
-			$module_srl = explode(',', $module_srl);
-		}
-		else
-		{
-			$module_srl = array($module_srl);
+			if (!$srl) continue;
+			
+			$module_info = $oModuleModel->getModuleInfoByModuleSrl($srl);
+			if (!$module_info->module_srl)
+			{
+				return new Object(-1, 'msg_invalid_request');
+			}
+			
+			$module_grant = $oModuleModel->getGrant($module_info, $logged_info);
+			if (!$module_grant->manager)
+			{
+				return new Object(-1, 'msg_not_permitted');
+			}
+			
+			$module_srl[] = $srl;
 		}
 
 		$comment_config = new stdClass();
@@ -1560,14 +1578,8 @@ class commentController extends comment
 			$comment_config->use_comment_validation = 'N';
 		}
 
-		for($i = 0; $i < count($module_srl); $i++)
+		foreach ($module_srl as $srl)
 		{
-			$srl = trim($module_srl[$i]);
-			if(!$srl)
-			{
-				continue;
-			}
-
 			$output = $this->setCommentModuleConfig($srl, $comment_config);
 		}
 

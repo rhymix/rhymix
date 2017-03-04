@@ -7,8 +7,6 @@
  */
 class pointModel extends point
 {
-	var $pointList = array();
-
 	/**
 	 * @brief Initialization
 	 */
@@ -36,29 +34,34 @@ class pointModel extends point
 		$member_srl = abs($member_srl);
 
 		// Get from instance memory
-		if(!$from_db && $this->pointList[$member_srl]) return $this->pointList[$member_srl];
+		if (!$from_db && isset(self::$_member_point_cache[$member_srl]))
+		{
+			return self::$_member_point_cache[$member_srl];
+		}
 
 		// Get from file cache
-		$path = sprintf(_XE_PATH_ . 'files/member_extra_info/point/%s',getNumberingPath($member_srl));
-		$cache_filename = sprintf('%s%d.cache.txt', $path, $member_srl);
-
-		if(!$from_db && file_exists($cache_filename))
-			return $this->pointList[$member_srl] = trim(FileHandler::readFile($cache_filename));
+		$cache_path = sprintf(_XE_PATH_ . 'files/member_extra_info/point/%s', getNumberingPath($member_srl));
+		$cache_filename = sprintf('%s%d.cache.txt', $cache_path, $member_srl);
+		if (!$from_db && file_exists($cache_filename))
+		{
+			return self::$_member_point_cache[$member_srl] = trim(FileHandler::readFile($cache_filename));
+		}
 
 		// Get from the DB
 		$args = new stdClass;
 		$args->member_srl = $member_srl;
 		$output = executeQuery('point.getPoint', $args);
-
-		if(isset($output->data->member_srl))
+		if (isset($output->data->member_srl))
 		{
-			$point = (int)$output->data->point;
-			$this->pointList[$member_srl] = $point;
-			if(!is_dir($path)) FileHandler::makeDir($path);
+			$point = intval($output->data->point);
+			self::$_member_point_cache[$member_srl] = $point;
 			FileHandler::writeFile($cache_filename, $point);
 			return $point;
 		}
-		return 0;
+		else
+		{
+			return 0;
+		}
 	}
 
 	/**
@@ -67,11 +70,19 @@ class pointModel extends point
 	function getLevel($point, $level_step)
 	{
 		$level_count = count($level_step);
-		for($level=0;$level<=$level_count;$level++) if($point < $level_step[$level]) break;
-		$level --;
-		return $level;
+		for ($level = 0; $level <= $level_count; $level++)
+		{
+			if ($point < $level_step[$level])
+			{
+				break;
+			}
+		}
+		return $level - 1;
 	}
 
+	/**
+	 * @deprecated
+	 */
 	function getMembersPointInfo()
 	{
 		$member_srls = Context::get('member_srls');
@@ -110,7 +121,6 @@ class pointModel extends point
 
 		$this->add('point_info',$info);
 	}
-
 
 	/**
 	 * @brief Get a list of points members list

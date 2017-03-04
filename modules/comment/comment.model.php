@@ -121,7 +121,7 @@ class commentModel extends comment
 	 */
 	function isGranted($comment_srl)
 	{
-		return $_SESSION['own_comment'][$comment_srl];
+		return $_SESSION['granted_comment'][$comment_srl];
 	}
 
 	/**

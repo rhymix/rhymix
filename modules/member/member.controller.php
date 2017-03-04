@@ -8,13 +8,6 @@
 class memberController extends member
 {
 	/**
-	 * Info of selected member
-	 *
-	 * @var object
-	 */
-	var $memberInfo;
-
-	/**
 	 * Initialization
 	 *
 	 * @return void
@@ -57,6 +50,7 @@ class memberController extends member
 
 		$oModuleModel = getModel('module');
 		$config = $oModuleModel->getModuleConfig('member');
+		$member_info = Context::get('logged_info');
 
 		// Check change_password_date
 		$limit_date = $config->change_password_date;
@@ -65,7 +59,7 @@ class memberController extends member
 		if($limit_date > 0)
 		{
 			$oMemberModel = getModel('member');
-			if($this->memberInfo->change_password_date < date ('YmdHis', strtotime ('-' . $limit_date . ' day')))
+			if($member_info->change_password_date < date ('YmdHis', strtotime ('-' . $limit_date . ' day')))
 			{
 				$msg = sprintf(lang('msg_change_password_date'), $limit_date);
 				return $this->setRedirectUrl(getNotEncodedUrl('','vid',Context::get('vid'),'mid',Context::get('mid'),'act','dispMemberModifyPassword'), new Object(-1, $msg));
@@ -74,7 +68,7 @@ class memberController extends member
 
 		// Delete all previous authmail if login is successful
 		$args = new stdClass();
-		$args->member_srl = $this->memberInfo->member_srl;
+		$args->member_srl = $member_info->member_srl;
 		executeQuery('member.deleteAuthMail', $args);
 
 		if(!$config->after_login_url)
@@ -545,18 +539,14 @@ class memberController extends member
 
 		$oMemberModel = getModel('member');
 
-		if(!$this->memberInfo->password)
-		{
-			// Get information of logged-in user
-			$logged_info = Context::get('logged_info');
-			$member_srl = $logged_info->member_srl;
-			
-			$columnList = array('member_srl', 'password');
-			$memberInfo = $oMemberModel->getMemberInfoByMemberSrl($member_srl, 0, $columnList);
-			$this->memberInfo->password = $memberInfo->password;
-		}
+		// Get information of logged-in user
+		$logged_info = Context::get('logged_info');
+		$member_srl = $logged_info->member_srl;
+		$columnList = array('member_srl', 'password');
+		$member_info = $oMemberModel->getMemberInfoByMemberSrl($member_srl, 0, $columnList);
+		
 		// Verify the current password
-		if(!$oMemberModel->isValidPassword($this->memberInfo->password, $password))
+		if(!$oMemberModel->isValidPassword($member_info->password, $password))
 		{
 			return new Object(-1, 'invalid_password');
 		}
@@ -698,10 +688,10 @@ class memberController extends member
 		$this->putSignature($args->member_srl, $signature);
 
 		// Get user_id information
-		$this->memberInfo = $oMemberModel->getMemberInfoByMemberSrl($args->member_srl);
+		$member_info = $oMemberModel->getMemberInfoByMemberSrl($args->member_srl);
 
 		// Call a trigger after successfully modified (after)
-		ModuleHandler::triggerCall('member.procMemberModifyInfo', 'after', $this->memberInfo);
+		ModuleHandler::triggerCall('member.procMemberModifyInfo', 'after', $member_info);
 		$this->setSessionInfo();
 		
 		// Return result
@@ -779,14 +769,10 @@ class memberController extends member
 		// Create a member model object
 		$oMemberModel = getModel('member');
 		// Get information of member_srl
-		if(!$this->memberInfo->password)
-		{
-			$columnList = array('member_srl', 'password');
-			$memberInfo = $oMemberModel->getMemberInfoByMemberSrl($member_srl, 0, $columnList);
-			$this->memberInfo->password = $memberInfo->password;
-		}
+		$columnList = array('member_srl', 'password');
+		$member_info = $oMemberModel->getMemberInfoByMemberSrl($member_srl, 0, $columnList);
 		// Verify the cuttent password
-		if(!$oMemberModel->isValidPassword($this->memberInfo->password, $password)) return new Object(-1, 'invalid_password');
+		if(!$oMemberModel->isValidPassword($member_info->password, $password)) return new Object(-1, 'invalid_password');
 
 		$output = $this->deleteMember($member_srl);
 		if(!$output->toBool()) return $output;
@@ -1739,7 +1725,7 @@ class memberController extends member
 		$new_security_key = Rhymix\Framework\Security::getRandom(24, 'alnum');
 		$args = new stdClass;
 		$args->autologin_key = $autologin_key;
-		$args->security_key = base64_encode(hash_hmac('sha256', $security_key, $autologin_key, true));
+		$args->security_key = base64_encode(hash_hmac('sha256', $new_security_key, $autologin_key, true));
 		$update_output = executeQuery('member.updateAutologin', $args);
 		if ($update_output->toBool())
 		{
@@ -1781,17 +1767,17 @@ class memberController extends member
 		if($config->identifier == 'email_address' || strpos($user_id, '@') !== false)
 		{
 			// Get user_id information
-			$this->memberInfo = $oMemberModel->getMemberInfoByEmailAddress($user_id);
+			$member_info = $oMemberModel->getMemberInfoByEmailAddress($user_id);
 			// Set an invalid user if no value returned
-			if(!$user_id || strtolower($this->memberInfo->email_address) != strtolower($user_id)) return $this->recordLoginError(-1, 'invalid_email_address');
+			if(!$user_id || strtolower($member_info->email_address) != strtolower($user_id)) return $this->recordLoginError(-1, 'invalid_email_address');
 
 		}
 		else
 		{
 			// Get user_id information
-			$this->memberInfo = $oMemberModel->getMemberInfoByUserID($user_id);
+			$member_info = $oMemberModel->getMemberInfoByUserID($user_id);
 			// Set an invalid user if no value returned
-			if(!$user_id || strtolower($this->memberInfo->user_id) != strtolower($user_id)) return $this->recordLoginError(-1, 'invalid_user_id');
+			if(!$user_id || strtolower($member_info->user_id) != strtolower($user_id)) return $this->recordLoginError(-1, 'invalid_user_id');
 		}
 
 		$output = executeQuery('member.getLoginCountByIp', $args);
@@ -1818,36 +1804,36 @@ class memberController extends member
 		}
 
 		// Password Check
-		if($password && !$oMemberModel->isValidPassword($this->memberInfo->password, $password, $this->memberInfo->member_srl))
+		if($password && !$oMemberModel->isValidPassword($member_info->password, $password, $member_info->member_srl))
 		{
-			return $this->recordMemberLoginError(-1, 'invalid_password',$this->memberInfo);
+			return $this->recordMemberLoginError(-1, 'invalid_password', $member_info);
 		}
 
 		// If denied == 'Y', notify
-		if($this->memberInfo->denied == 'Y')
+		if($member_info->denied == 'Y')
 		{
-			$args->member_srl = $this->memberInfo->member_srl;
+			$args->member_srl = $member_info->member_srl;
 			$output = executeQuery('member.chkAuthMail', $args);
 			if ($output->toBool() && $output->data->count != '0')
 			{
-				$_SESSION['auth_member_srl'] = $this->memberInfo->member_srl;
+				$_SESSION['auth_member_srl'] = $member_info->member_srl;
 				$redirectUrl = getUrl('', 'act', 'dispMemberResendAuthMail');
 				return $this->setRedirectUrl($redirectUrl, new Object(-1,'msg_user_not_confirmed'));
 			}
 			
-			$refused_reason = $this->memberInfo->refused_reason ? ('<br>' . lang('refused_reason') . ': ' . $this->memberInfo->refused_reason) : '';
+			$refused_reason = $member_info->refused_reason ? ('<br>' . lang('refused_reason') . ': ' . $member_info->refused_reason) : '';
 			return new Object(-1, lang('msg_user_denied') . $refused_reason);
 		}
 		
 		// Notify if user is limited
-		if($this->memberInfo->limit_date && substr($this->memberInfo->limit_date,0,8) >= date("Ymd"))
+		if($member_info->limit_date && substr($member_info->limit_date,0,8) >= date("Ymd"))
 		{
-			$limited_reason = $this->memberInfo->limited_reason ? ('<br>' . lang('refused_reason') . ': ' . $this->memberInfo->limited_reason) : '';
-			return new Object(-9, sprintf(lang('msg_user_limited'), zdate($this->memberInfo->limit_date,"Y-m-d")) . $limited_reason);
+			$limited_reason = $member_info->limited_reason ? ('<br>' . lang('refused_reason') . ': ' . $member_info->limited_reason) : '';
+			return new Object(-9, sprintf(lang('msg_user_limited'), zdate($member_info->limit_date,"Y-m-d")) . $limited_reason);
 		}
 		
 		// Do not allow login as admin if not in allowed IP list
-		if($this->memberInfo->is_admin === 'Y' && $this->act === 'procMemberLogin')
+		if($member_info->is_admin === 'Y' && $this->act === 'procMemberLogin')
 		{
 			$oMemberAdminModel = getAdminModel('member');
 			if(!$oMemberAdminModel->getMemberAdminIPCheck())
@@ -1857,7 +1843,7 @@ class memberController extends member
 		}
 		
 		// Update the latest login time
-		$args->member_srl = $this->memberInfo->member_srl;
+		$args->member_srl = $member_info->member_srl;
 		$output = executeQuery('member.updateLastLogin', $args);
 
 		$site_module_info = Context::get('site_module_info');
@@ -1887,15 +1873,15 @@ class memberController extends member
 					$oCommunicationController = getController('communication');
 					$oCommunicationController->sendMessage($args->member_srl, $args->member_srl, $title, $content, true);
 
-					if($this->memberInfo->email_address && $this->memberInfo->allow_mailing == 'Y')
+					if($member_info->email_address && $member_info->allow_mailing == 'Y')
 					{
 						$view_url = Context::getRequestUri();
-						$content = sprintf("%s<hr /><p>From: <a href=\"%s\" target=\"_blank\">%s</a><br />To: %s(%s)</p>",$content, $view_url, $view_url, $this->memberInfo->nick_name, $this->memberInfo->email_id);
+						$content = sprintf("%s<hr /><p>From: <a href=\"%s\" target=\"_blank\">%s</a><br />To: %s(%s)</p>",$content, $view_url, $view_url, $member_info->nick_name, $member_info->email_id);
 						$oMail = new Mail();
 						$oMail->setTitle($title);
 						$oMail->setContent($content);
 						$oMail->setSender($config->webmaster_name?$config->webmaster_name:'webmaster', $config->webmaster_email);
-						$oMail->setReceiptor($this->memberInfo->email_id.'('.$this->memberInfo->nick_name.')', $this->memberInfo->email_address);
+						$oMail->setReceiptor($member_info->email_id.'('.$member_info->nick_name.')', $member_info->email_address);
 						$oMail->send();
 					}
 					$output = executeQuery('member.deleteLoginCountHistoryByMemberSrl', $args);
@@ -1904,7 +1890,7 @@ class memberController extends member
 		}
 		
 		// Call a trigger after successfully log-in (after)
-		ModuleHandler::triggerCall('member.doLogin', 'after', $this->memberInfo);
+		ModuleHandler::triggerCall('member.doLogin', 'after', $member_info);
 		
 		// When user checked to use auto-login
 		if($keep_signed)
@@ -1913,7 +1899,7 @@ class memberController extends member
 			$autologin_args = new stdClass;
 			$autologin_args->autologin_key = substr($random_key, 0, 24);
 			$autologin_args->security_key = base64_encode(hash_hmac('sha256', substr($random_key, 24, 24), $autologin_args->autologin_key, true));
-			$autologin_args->member_srl = $this->memberInfo->member_srl;
+			$autologin_args->member_srl = $member_info->member_srl;
 			$autologin_args->user_agent = json_encode(Rhymix\Framework\UA::getBrowserInfo());
 			$autologin_output = executeQuery('member.insertAutologin', $autologin_args);
 			if ($autologin_output->toBool())
@@ -1922,7 +1908,7 @@ class memberController extends member
 			}
 		}
 
-		Rhymix\Framework\Session::login($this->memberInfo->member_srl);
+		Rhymix\Framework\Session::login($member_info->member_srl);
 		$this->setSessionInfo();
 		return $output;
 	}
@@ -1933,38 +1919,15 @@ class memberController extends member
 	function setSessionInfo()
 	{
 		// If your information came through the current session information to extract information from the users
-		if(!$this->memberInfo && Rhymix\Framework\Session::getMemberSrl())
-		{
-			$this->memberInfo = Rhymix\Framework\Session::getMemberInfo();
-		}
-		if(!$this->memberInfo->member_srl)
+		$member_info = Rhymix\Framework\Session::getMemberInfo(true);
+		if (!$member_info->member_srl)
 		{
 			return;
 		}
-		
-		// Log in for treatment sessions set
-		/*
-		$_SESSION['is_logged'] = true;
-		$_SESSION['member_srl'] = $_SESSION['RHYMIX']['login'] = $this->memberInfo->member_srl;
-		$_SESSION['is_admin'] = '';
-		*/
-		// Do not save your password in the session jiwojum;;
-		//unset($this->memberInfo->password);
-		// User Group Settings
-		/*
-		   if($this->memberInfo->group_list) {
-		   $group_srl_list = array_keys($this->memberInfo->group_list);
-		   $_SESSION['group_srls'] = $group_srl_list;
-		// If the group is designated as an administrator administrator
-		$oMemberModel = getModel('member');
-		$admin_group = $oMemberModel->getAdminGroup();
-		if($admin_group->group_srl && in_array($admin_group->group_srl, $group_srl_list)) $_SESSION['is_admin'] = 'Y';
-		}
-		 */
 
 		// Information stored in the session login user
 		Context::set('is_logged', true);
-		Context::set('logged_info', $this->memberInfo);
+		Context::set('logged_info', $member_info);
 
 		// Only the menu configuration of the user (such as an add-on to the menu can be changed)
 		$config = getModel('member')->getMemberConfig();
@@ -2297,8 +2260,10 @@ class memberController extends member
 		$config = $oMemberModel->getMemberConfig();
 
 		$logged_info = Context::get('logged_info');
+		
 		// Get what you want to modify the original information
-		if(!$this->memberInfo) $this->memberInfo = $oMemberModel->getMemberInfoByMemberSrl($args->member_srl);
+		$orgMemberInfo = $oMemberModel->getMemberInfoByMemberSrl($args->member_srl);
+		
 		// Control of essential parameters
 		if($args->allow_mailing!='Y') $args->allow_mailing = 'N';
 		if($args->allow_message && !in_array($args->allow_message, array('Y','N','F'))) $args->allow_message = 'Y';
@@ -2385,9 +2350,6 @@ class memberController extends member
 				}
 			}
 		}
-
-		$output = executeQuery('member.getMemberInfoByMemberSrl', $args);
-		$orgMemberInfo = $output->data;
 
 		// Check managed Email Host
 		if($logged_info->is_admin !== 'Y' && $oMemberModel->isDeniedEmailHost($args->email_address))
@@ -2537,12 +2499,8 @@ class memberController extends member
 
 		$oDB->commit();
 
-		//remove from cache
+		// Remove from cache
 		$this->_clearMemberCache($args->member_srl, $args->site_srl);
-
-		// Save Session
-		if(!$this->memberInfo) $this->memberInfo = $oMemberModel->getMemberInfoByMemberSrl($args->member_srl);
-		$logged_info = Context::get('logged_info');
 
 		$output->add('member_srl', $args->member_srl);
 		return $output;
@@ -2555,7 +2513,6 @@ class memberController extends member
 	{
 		if($args->password)
 		{
-
 			// check password strength
 			$oMemberModel = getModel('member');
 			$config = $oMemberModel->getMemberConfig();
@@ -2597,14 +2554,11 @@ class memberController extends member
 		// Create a model object
 		$oMemberModel = getModel('member');
 		// Bringing the user's information
-		if(!$this->memberInfo || $this->memberInfo->member_srl != $member_srl || !isset($this->memberInfo->is_admin))
-		{
-			$columnList = array('member_srl', 'is_admin');
-			$this->memberInfo = $oMemberModel->getMemberInfoByMemberSrl($member_srl, 0, $columnList);
-		}
-		if(!$this->memberInfo) return new Object(-1, 'msg_not_exists_member');
+		$columnList = array('member_srl', 'is_admin');
+		$member_info = $oMemberModel->getMemberInfoByMemberSrl($member_srl, 0, $columnList);
+		if(!$member_info) return new Object(-1, 'msg_not_exists_member');
 		// If managers can not be deleted
-		if($this->memberInfo->is_admin == 'Y') return new Object(-1, 'msg_cannot_delete_admin');
+		if($member_info->is_admin == 'Y') return new Object(-1, 'msg_cannot_delete_admin');
 
 		$oDB = &DB::getInstance();
 		$oDB->begin();

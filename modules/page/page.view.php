@@ -91,7 +91,7 @@ class pageView extends page
 		$oTemplate = &TemplateHandler::getInstance();
 
 		$oDocumentModel = getModel('document');
-		$oDocument = $oDocumentModel->getDocument(0, true);
+		$oDocument = $oDocumentModel->getDocument(0);
 
 		if($this->module_info->document_srl)
 		{

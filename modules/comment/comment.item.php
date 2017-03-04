@@ -93,7 +93,7 @@ class commentItem extends Object
 
 	function isGranted()
 	{
-		if($_SESSION['own_comment'][$this->comment_srl])
+		if($_SESSION['granted_comment'][$this->comment_srl])
 		{
 			return TRUE;
 		}
@@ -125,8 +125,13 @@ class commentItem extends Object
 
 	function setGrant()
 	{
-		$_SESSION['own_comment'][$this->comment_srl] = TRUE;
 		$this->is_granted = TRUE;
+	}
+
+	function setGrantForSession()
+	{
+		$_SESSION['granted_comment'][$this->comment_srl] = true;
+		$this->setGrant();
 	}
 
 	function setAccessible()

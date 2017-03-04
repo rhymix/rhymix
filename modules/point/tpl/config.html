@@ -105,11 +105,23 @@
 
 	<section class="section">
 		<h1>{$lang->point_link_group}</h1>
-		<div class="x_clearfix" style="margin-bottom:-10px">
-			<p class="x_pull-left">{$lang->about_point_link_group}</p>
-			<div class="x_pull-right">
-				<label for="group_reset_y" class="x_inline"><input type="radio" name="group_reset" id="group_reset_y" value="Y" checked="checked"|cond="$config->group_reset != 'N'" /> {$lang->point_group_reset_and_add}</label>
-				<label for="group_reset_n" class="x_inline"><input type="radio" name="group_reset" id="group_reset_n" value="N" checked="checked"|cond="$config->group_reset == 'N'" /> {$lang->point_group_add_only}</label>
+		<p>{$lang->about_point_link_group}</p>
+		<div class="x_control-group">
+			<label for="group_reset" class="x_control-label">{$lang->point_group_reset_type}</label>
+			<div class="x_controls">
+				<select name="group_reset" id="group_reset">
+					<option value="Y" selected="selected"|cond="$config->group_reset != 'N'" />{$lang->point_group_reset_and_add}</option>
+					<option value="N" selected="selected"|cond="$config->group_reset == 'N'" />{$lang->point_group_add_only}</option>
+				</select>
+			</div>
+		</div>
+		<div class="x_control-group">
+			<label for="group_ratchet" class="x_control-label">{$lang->point_group_ratchet}</label>
+			<div class="x_controls">
+				<select name="group_ratchet" id="group_ratchet">
+					<option value="Y" selected="selected"|cond="$config->group_ratchet == 'Y'" />{$lang->point_group_ratchet_yes}</option>
+					<option value="N" selected="selected"|cond="$config->group_ratchet != 'Y'" />{$lang->point_group_ratchet_no}</option>
+				</select>
 			</div>
 		</div>
 		<div class="x_control-group" loop="$group_list => $key,$val">

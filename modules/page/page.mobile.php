@@ -95,7 +95,7 @@ class pageMobile extends pageView
 		$oTemplate = &TemplateHandler::getInstance();
 
 		$oDocumentModel = getModel('document');
-		$oDocument = $oDocumentModel->getDocument(0, true);
+		$oDocument = $oDocumentModel->getDocument(0);
 
 		if($this->module_info->mdocument_srl)
 		{

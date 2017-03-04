@@ -115,7 +115,7 @@ class boardController extends board
 			$obj->update_log_setting = 'Y';
 		}
 
-		// update the document if it is existed
+		// UPDATE if the document already exists.
 		if($is_update)
 		{
 			if(!$oDocument->isGranted())
@@ -163,14 +163,20 @@ class boardController extends board
 			$obj->reason_update = escape($obj->reason_update);
 			$output = $oDocumentController->updateDocument($oDocument, $obj, $bAnonymous);
 			$msg_code = 'success_updated';
-
-		// insert a new document otherwise
 		}
+		// INSERT a new document.
 		else
 		{
 			$output = $oDocumentController->insertDocument($obj, $bAnonymous);
 			$msg_code = 'success_registed';
 			$obj->document_srl = $output->get('document_srl');
+			
+			// Set grant for the new document.
+			if ($output->toBool())
+			{
+				$oDocument = $oDocumentModel->getDocument($output->get('document_srl'));
+				$oDocument->setGrantForSession();
+			}
 
 			// send an email to admin user
 			if($output->toBool() && $this->module_info->admin_mail)
@@ -421,11 +427,10 @@ class boardController extends board
 			return new Object(-1, 'msg_admin_comment_no_modify');
 		}
 
-		// if comment_srl is not existed, then insert the comment
+		// INSERT if comment_srl does not exist.
 		if($comment->comment_srl != $obj->comment_srl)
 		{
-
-			// parent_srl is existed
+			// Parent exists.
 			if($obj->parent_srl)
 			{
 				$parent_comment = $oCommentModel->getComment($obj->parent_srl);
@@ -433,17 +438,21 @@ class boardController extends board
 				{
 					return new Object(-1, 'msg_invalid_request');
 				}
-
 				$output = $oCommentController->insertComment($obj, $bAnonymous);
-
-			// parent_srl is not existed
 			}
+			// Parent does not exist.
 			else
 			{
 				$output = $oCommentController->insertComment($obj, $bAnonymous);
 			}
-		// update the comment if it is not existed
+			// Set grant for the new comment.
+			if ($output->toBool())
+			{
+				$comment = $oCommentModel->getComment($output->get('comment_srl'));
+				$comment->setGrantForSession();
+			}
 		}
+		// UPDATE if comment_srl already exists.
 		else
 		{
 			if($this->module_info->protect_comment_regdate > 0 && $this->grant->manager == false)
@@ -460,7 +469,6 @@ class boardController extends board
 			{
 				return new Object(-1,'msg_not_permitted');
 			}
-
 			$obj->parent_srl = $comment->parent_srl;
 			$output = $oCommentController->updateComment($obj, $this->grant->manager);
 		}
@@ -609,7 +617,7 @@ class boardController extends board
 				return new Object(-1, 'msg_invalid_password');
 			}
 
-			$oComment->setGrant();
+			$oComment->setGrantForSession();
 		} else {
 			 // get the document information
 			$oDocumentModel = getModel('document');
@@ -625,7 +633,7 @@ class boardController extends board
 				return new Object(-1, 'msg_invalid_password');
 			}
 
-			$oDocument->setGrant();
+			$oDocument->setGrantForSession();
 		}
 	}
 
