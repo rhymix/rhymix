@@ -1583,36 +1583,14 @@ class moduleModel extends module
 	 */
 	function isSiteAdmin($member_info, $site_srl = null)
 	{
-		if (!$member_info || !$member_info->member_srl)
-		{
-			return false;
-		}
-		if ($member_info->is_admin == 'Y')
+		if ($member_info && $member_info->is_admin == 'Y')
 		{
 			return true;
 		}
-		if ($site_srl === null)
+		else
 		{
-			$site_module_info = Context::get('site_module_info');
-			if(!$site_module_info) return false;
-			$site_srl = $site_module_info->site_srl;
+			return false;
 		}
-		
-		$site_srl = $site_srl ?: 0;
-		$site_admins = Rhymix\Framework\Cache::get("site_and_module:site_admins:$site_srl");
-		if ($site_admins === null)
-		{
-			$args = new stdClass;
-			$args->site_srl = $site_srl;
-			$output = executeQueryArray('module.isSiteAdmin', $args);
-			$site_admins = array();
-			foreach ($output->data as $site_admin)
-			{
-				$site_admins[$site_admin->member_srl] = true;
-			}
-			Rhymix\Framework\Cache::set("site_and_module:site_admins:$site_srl", $site_admins, 0, true);
-		}
-		return isset($site_admins[$member_info->member_srl]);
 	}
 
 	/**
@@ -1620,10 +1598,7 @@ class moduleModel extends module
 	 */
 	function getSiteAdmin($site_srl)
 	{
-		$args = new stdClass;
-		$args->site_srl = $site_srl;
-		$output = executeQueryArray('module.getSiteAdmin', $args);
-		return $output->data;
+		return array();
 	}
 
 	/**
@@ -1927,19 +1902,13 @@ class moduleModel extends module
 		if(!$module_srl)
 		{
 			$grant->access = true;
-			if($this->isSiteAdmin($member_info, $module_info->site_srl))
-			{
-				$grant->access = $grant->manager = $grant->is_site_admin = true;
-			}
-
-			$grant->is_admin = $grant->manager = ($member_info->is_admin == 'Y') ? true : false;
+			$grant->is_admin = $grant->manager = $grant->is_site_admin = ($member_info->is_admin == 'Y') ? true : false;
 		}
 		else
 		{
 			// If module_srl exists
 			// Get a type of granted permission
-			$grant->access = $grant->manager = $grant->is_site_admin = ($member_info->is_admin=='Y'||$this->isSiteAdmin($member_info, $module_info->site_srl))?true:false;
-			$grant->is_admin = ($member_info->is_admin == 'Y') ? true : false;
+			$grant->access = $grant->is_admin = $grant->manager = $grant->is_site_admin = ($member_info->is_admin == 'Y') ? true : false;
 			
 			// If a just logged-in member is, check if the member is a module administrator
 			if (!$grant->manager && $member_info->member_srl && $this->isModuleAdmin($member_info, $module_srl))
