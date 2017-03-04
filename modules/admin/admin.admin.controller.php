@@ -988,6 +988,145 @@ class adminAdminController extends admin
 	}
 	
 	/**
+	 * Insert or update domain info
+	 * @return void
+	 */
+	function procAdminInsertDomain()
+	{
+		$vars = Context::getRequestVars();
+		$domain_srl = strval($vars->domain_srl);
+		$domain_info = null;
+		if ($domain_srl !== '')
+		{
+			$output = executeQuery('module.getDomainInfo', (object)array('domain_srl' => $domain_srl));
+			if ($output->toBool() && $output->data)
+			{
+				$domain_info = $output->data;
+			}
+		}
+		
+		// Validate the domain.
+		if (!preg_match('@^https?://@', $vars->domain))
+		{
+			$vars->domain = 'http://' . $vars->domain;
+		}
+		try
+		{
+			$vars->domain = Rhymix\Framework\URL::getDomainFromUrl(strtolower($vars->domain));
+		}
+		catch (Exception $e)
+		{
+			$vars->domain = '';
+		}
+		if (!$vars->domain)
+		{
+			return new Object(-1, 'msg_invalid_domain');
+		}
+		$existing_domain = getModel('module')->getSiteInfoByDomain($vars->domain);
+		if ($existing_domain && $existing_domain->domain == $vars->domain && (!$domain_info || $existing_domain->domain_srl != $domain_info->domain_srl))
+		{
+			return new Object(-1, 'msg_domain_already_exists');
+		}
+		
+		// Validate the ports.
+		if ($vars->http_port == 80 || !$vars->http_port)
+		{
+			$vars->http_port = 0;
+		}
+		if ($vars->https_port == 443 || !$vars->https_port)
+		{
+			$vars->https_port = 0;
+		}
+		if ($vars->http_port !== 0 && ($vars->http_port < 1 || $vars->http_port > 65535 || $vars->http_port == 443))
+		{
+			return new Object(-1, 'msg_invalid_http_port');
+		}
+		if ($vars->https_port !== 0 && ($vars->https_port < 1 || $vars->https_port > 65535 || $vars->https_port == 80))
+		{
+			return new Object(-1, 'msg_invalid_http_port');
+		}
+		
+		// Validate the security setting.
+		$valid_security_options = array('none', 'optional', 'always');
+		if (!in_array($vars->domain_security, $valid_security_options))
+		{
+			$vars->domain_security = 'none';
+		}
+		
+		// Validate the index module setting.
+		$module_info = getModel('module')->getModuleInfoByModuleSrl(intval($vars->index_module_srl));
+		if (!$module_info || $module_info->module_srl != $vars->index_module_srl)
+		{
+			return new Object(-1, 'msg_invalid_index_module_srl');
+		}
+		
+		// Validate the index document setting.
+		if ($vars->index_document_srl)
+		{
+			$oDocument = getModel('document')->getDocument($vars->index_document_srl);
+			if (!$oDocument || !$oDocument->isExists())
+			{
+				return new Object(-1, 'msg_invalid_index_document_srl');
+			}
+		}
+		else
+		{
+			$vars->index_document_srl = 0;
+		}
+		
+		// Validate the default language.
+		$enabled_lang = Rhymix\Framework\Config::get('locale.enabled_lang');
+		if (!in_array($vars->default_lang, $enabled_lang))
+		{
+			return new Object(-1, 'msg_lang_is_not_enabled');
+		}
+		
+		// Insert or update the domain.
+		if (!$domain_info)
+		{
+			$args = new stdClass();
+			$args->domain_srl = getNextSequence();
+			$args->domain = $vars->domain;
+			$args->index_module_srl = $vars->index_module_srl;
+			$args->index_document_srl = $vars->index_document_srl;
+			$args->http_port = $vars->http_port;
+			$args->https_port = $vars->https_port;
+			$args->security = $vars->domain_security;
+			$args->description = '';
+			$args->settings = json_encode(array('language' => $vars->default_lang, 'timezone' => null));
+			$output = executeQuery('module.insertDomain', $args);
+			if (!$output->toBool())
+			{
+				return $output;
+			}
+		}
+		else
+		{
+			$args = new stdClass();
+			$args->domain_srl = $domain_info->domain_srl;
+			$args->domain = $vars->domain;
+			$args->index_module_srl = $vars->index_module_srl;
+			$args->index_document_srl = $vars->index_document_srl;
+			$args->http_port = $vars->http_port;
+			$args->https_port = $vars->https_port;
+			$args->security = $vars->domain_security;
+			$args->settings = json_encode(array_merge($domain_info->settings, array('language' => $vars->default_lang)));
+			$output = executeQuery('module.updateDomain', $args);
+			if (!$output->toBool())
+			{
+				return $output;
+			}
+			
+		}
+		
+		// Clear cache.
+		Rhymix\Framework\Cache::clearGroup('site_and_module');
+		
+		// Redirect to the domain list.
+		$this->setRedirectUrl(Context::get('success_return_url') ?: getNotEncodedUrl('', 'module', 'admin', 'act', 'dispAdminConfigDomains'));
+	}
+	
+	/**
 	 * Update FTP configuration.
 	 */
 	function procAdminUpdateFTPInfo()

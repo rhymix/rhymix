@@ -12,6 +12,7 @@
         <action name="dispAdminConfigDebug" type="view" menu_name="adminConfigurationGeneral" />
         <action name="dispAdminConfigSEO" type="view" menu_name="adminConfigurationGeneral" />
         <action name="dispAdminConfigSitelock" type="view" menu_name="adminConfigurationGeneral" />
+		<action name="dispAdminInsertDomain" type="view" menu_name="adminConfigurationGeneral" />
         <action name="dispAdminConfigFtp" type="view" menu_name="adminConfigurationFtp" menu_index="true" />
         <action name="dispAdminSetup" type="view" menu_name="adminMenuSetup" menu_index="true" />
         <action name="dispAdminViewServerEnv" type="view" />
@@ -33,6 +34,7 @@
 		<action name="procAdminUpdateDebug" type="controller" />
 		<action name="procAdminUpdateSEO" type="controller" />
 		<action name="procAdminUpdateSitelock" type="controller" />
+		<action name="procAdminInsertDomain" type="controller" />
 		<action name="procAdminUpdateFTPInfo" type="controller" />
 		<action name="procAdminRemoveFTPInfo" type="controller" />
 		<action name="procAdminFaviconUpload" type="controller" />

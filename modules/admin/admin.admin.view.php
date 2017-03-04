@@ -692,6 +692,54 @@ class adminAdminView extends admin
 	}
 	
 	/**
+	 * Display domain edit screen
+	 * @return void
+	 */
+	function dispAdminInsertDomain()
+	{
+		// Get selected domain.
+		$domain_srl = strval(Context::get('domain_srl'));
+		$domain_info = null;
+		if ($domain_srl !== '')
+		{
+			$output = executeQuery('module.getDomainInfo', (object)array('domain_srl' => $domain_srl));
+			if ($output->toBool() && $output->data)
+			{
+				$domain_info = $output->data;
+			}
+		}
+		Context::set('domain_info', $domain_info);
+		
+		// Get modules.
+		$module_list = getModel('module')->getMidList();
+		if ($domain_info && $domain_info->index_module_srl)
+		{
+			$index_module_srl = $domain_info->index_module_srl;
+		}
+		else
+		{
+			$index_module_srl = 0;
+		}
+		Context::set('module_list', $module_list);
+		Context::set('index_module_srl', $index_module_srl);
+		
+		// Get language list.
+		Context::set('supported_lang', Rhymix\Framework\Lang::getSupportedList());
+		Context::set('enabled_lang', Rhymix\Framework\Config::get('locale.enabled_lang'));
+		if ($domain_info && $domain_info->settings->language)
+		{
+			$domain_lang = $domain_info->settings->language;
+		}
+		else
+		{
+			$domain_lang = Rhymix\Framework\Config::get('locale.default_lang');
+		}
+		Context::set('domain_lang', $domain_lang);
+		
+		$this->setTemplateFile('config_domains_edit');
+	}
+	
+	/**
 	 * Display FTP Configuration(settings) page
 	 * @return void
 	 */
