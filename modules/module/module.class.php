@@ -24,7 +24,7 @@ class module extends ModuleObject
 			$current_url = Rhymix\Framework\Url::getCurrentUrl();
 			$domain = new stdClass();
 			$domain->domain_srl = 0;
-			$domain->domain = Rhymix\Framework\URL::decodeIdna(parse_url($current_url, PHP_URL_HOST));
+			$domain->domain = Rhymix\Framework\URL::getDomainFromURL($current_url);
 			$domain->index_module_srl = 0;
 			$domain->index_document_srl = 0;
 			$domain->http_port = null;
@@ -410,7 +410,7 @@ class module extends ModuleObject
 				
 				$domain = new stdClass();
 				$domain->domain_srl = $site_info->site_srl;
-				$domain->domain = Rhymix\Framework\URL::decodeIdna(strtolower(parse_url($site_domain, PHP_URL_HOST)));
+				$domain->domain = Rhymix\Framework\URL::getDomainFromURL(strtolower($site_domain));
 				$domain->index_module_srl = $site_info->index_module_srl;
 				$domain->index_document_srl = 0;
 				$domain->http_port = config('url.http_port') ?: null;
@@ -456,7 +456,7 @@ class module extends ModuleObject
 					
 					$domain = new stdClass();
 					$domain->domain_srl = $site_info->multidomain_srl;
-					$domain->domain = Rhymix\Framework\URL::decodeIdna(strtolower(parse_url($site_domain, PHP_URL_HOST)));
+					$domain->domain = Rhymix\Framework\URL::getDomainFromURL(strtolower($site_domain));
 					$domain->index_module_srl = intval($site_info->module_srl);
 					$domain->index_document_srl = intval($site_info->document_srl);
 					$domain->http_port = config('url.http_port') ?: null;
