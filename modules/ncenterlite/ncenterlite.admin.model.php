@@ -27,8 +27,6 @@ class ncenterliteAdminModel extends ncenterlite
 				$value->profileImage = $profileImage->src;
 			}
 
-
-
 			$list[$key] = $value;
 			$member_info = $oMemberModel->getMemberInfoByMemberSrl($value->member_srl);
 
