@@ -28,6 +28,7 @@
 		</caption>
 		<thead>
 			<tr>
+				<th scope="col" class="nowr">{$lang->profile_image}</th>
 				<th scope="col" class="nowr">{$lang->email}</th>
 				<th scope="col" class="nowr" loop="$usedIdentifiers=>$name,$title">{$title}</th>
 				<th scope="col" class="nowr">{$lang->status}</th>
@@ -43,6 +44,13 @@
 		<tbody>
 			<tr loop="$member_list=>$no,$member_info">
 				{@$member_info = get_object_vars($member_info)}
+				<td class="nowr">
+					<!--@if($member_info['profile_image'])-->
+					<img src="{$member_info['profile_image']->src}" style="border-radius: 50%; border:1px solid #e0e0e0; padding:1px;width:40px; height:40px;" />
+					<!--@else-->
+					<i style="display:block;font-style:normal;border:1px solid #ddd;width:40px;height:40px;line-height:40px;font-size:16px;font-weight:bold;background:#fff;color:#666;border-radius:50%;text-align:center;">?</i>
+					<!--@end-->
+				</td>
 				<td class="nowr">
 					<a href="#popup_menu_area" class="member_{$member_info['member_srl']}" title="Info">{getEncodeEmailAddress($member_info['email_address'])}</a>
 				</td>

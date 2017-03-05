@@ -91,6 +91,7 @@ class memberAdminView extends member
 			foreach($output->data as $key => $member)
 			{
 				$output->data[$key]->group_list = $oMemberModel->getMemberGroups($member->member_srl,0);
+				$output->data[$key]->profile_image = $oMemberModel->getProfileImage($member->member_srl);
 			}
 		}
 		$config = $this->memberConfig;
