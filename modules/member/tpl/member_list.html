@@ -28,7 +28,7 @@
 		</caption>
 		<thead>
 			<tr>
-				<th scope="col" class="nowr">{$lang->profile_image}</th>
+				<th scope="col" class="nowr" cond="$profileImageConfig == 'Y'">{$lang->profile_image}</th>
 				<th scope="col" class="nowr">{$lang->email}</th>
 				<th scope="col" class="nowr" loop="$usedIdentifiers=>$name,$title">{$title}</th>
 				<th scope="col" class="nowr">{$lang->status}</th>
@@ -44,7 +44,7 @@
 		<tbody>
 			<tr loop="$member_list=>$no,$member_info">
 				{@$member_info = get_object_vars($member_info)}
-				<td class="nowr">
+				<td class="nowr" cond="$profileImageConfig == 'Y'">
 					<!--@if($member_info['profile_image'])-->
 					<img src="{$member_info['profile_image']->src}" style="border-radius: 50%; border:1px solid #e0e0e0; padding:1px;width:40px; height:40px;" />
 					<!--@else-->

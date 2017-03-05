@@ -116,6 +116,7 @@ class memberAdminView extends member
 		Context::set('member_list', $output->data);
 		Context::set('usedIdentifiers', $usedIdentifiers);
 		Context::set('page_navigation', $output->page_navigation);
+		Context::set('profileImageConfig', $config->profile_image);
 
 		$security = new Security();
 		$security->encodeHTML('member_list..user_name', 'member_list..nick_name', 'member_list..group_list..');
