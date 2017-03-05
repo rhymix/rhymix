@@ -100,6 +100,7 @@ class ncenterliteAdminView extends ncenterlite
 
 		$output = $oNcenterliteAdminModel->getAdminNotifyList();
 
+
 		Context::set('total_count', $output->page_navigation->total_count);
 		Context::set('total_page', $output->page_navigation->total_page);
 		Context::set('page', $output->page);

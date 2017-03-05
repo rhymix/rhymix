@@ -16,18 +16,18 @@ class ncenterliteAdminModel extends ncenterlite
 		$oMemberModel = getModel('member');
 		$list = $output->data;
 
-		foreach($list as $k => $v)
+		foreach($list as $key => $value)
 		{
-			$v->text = $oNcenterliteModel->getNotificationText($v);
-			$v->ago = $oNcenterliteModel->getAgo($v->regdate);
-			$v->url = getUrl('','act','procNcenterliteRedirect', 'notify', $v->notify, 'url', $v->target_url);
-			if($v->target_member_srl)
+			$value->text = $oNcenterliteModel->getNotificationText($value);
+			$value->ago = $oNcenterliteModel->getAgo($value->regdate);
+			$value->url = getUrl('','act','procNcenterliteRedirect', 'notify', $value->notify, 'url', $value->target_url);
+			if($value->target_member_srl)
 			{
-				$profileImage = $oMemberModel->getProfileImage($v->target_member_srl);
-				$v->profileImage = $profileImage->src;
+				$profileImage = $oMemberModel->getProfileImage($value->target_member_srl);
+				$value->profileImage = $profileImage->src;
 			}
 
-			$list[$k] = $v;
+			$list[$key] = $value;
 		}
 
 		$output->data = $list;
