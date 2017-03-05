@@ -30,7 +30,7 @@ class ncenterliteAdminModel extends ncenterlite
 			$list[$key] = $value;
 			$member_info = $oMemberModel->getMemberInfoByMemberSrl($value->member_srl);
 
-			$list[$key]->member_info = $member_info;
+			$list[$key]->nick_name = $member_info->nick_name;
 		}
 
 		$output->data = $list;

@@ -33,7 +33,7 @@
 				<!--@foreach($ncenterlite_list as $no => $val)-->
 				<tr>
 					<td>{$val->target_nick_name}</td>
-					<td cond="$val->member_info->member_srl">{$val->member_info->nick_name}</td> <td cond="!$val->member_info->member_srl">타겟없음</td>
+					<td cond="$val->member_srl">{$val->nick_name}</td>
 					<td><a href="{$val->target_url}">{$val->text}</a></td>
 					<td>
 						<span cond="$val->readed == 'Y'" style="color:#8582E6">{$lang->ncenterlite_read_y}</span>
