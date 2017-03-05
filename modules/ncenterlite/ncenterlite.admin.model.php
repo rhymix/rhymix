@@ -2,15 +2,10 @@
 
 class ncenterliteAdminModel extends ncenterlite
 {
-
 	function getAdminNotifyList($member_srl=null, $page=1, $readed='N')
 	{
 		$oNcenterliteModel = getModel('ncenterlite');
-		$config = $oNcenterliteModel->getConfig();
 
-		global $lang;
-
-		$act = Context::get('act');
 		$output = $oNcenterliteModel->getNcenterliteAdminList();
 
 		$oMemberModel = getModel('member');
@@ -36,5 +31,4 @@ class ncenterliteAdminModel extends ncenterlite
 		$output->data = $list;
 		return $output;
 	}
-
 }
