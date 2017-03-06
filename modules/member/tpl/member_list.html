@@ -1,3 +1,4 @@
+<load target="css/member.css" />
 <load target="js/member_admin_list.js" type="body" />
 <script>
 	xe.lang.msg_select_user = '{$lang->msg_select_user}';
@@ -46,9 +47,9 @@
 				{@$member_info = get_object_vars($member_info)}
 				<td class="nowr" cond="$profileImageConfig == 'Y'">
 					<!--@if($member_info['profile_image'])-->
-					<img src="{$member_info['profile_image']->src}" style="border-radius: 50%; border:1px solid #e0e0e0; padding:1px;width:40px; height:40px;" />
+					<img src="{$member_info['profile_image']->src}" class="profile_img" />
 					<!--@else-->
-					<i style="display:block;font-style:normal;border:1px solid #ddd;width:40px;height:40px;line-height:40px;font-size:16px;font-weight:bold;background:#fff;color:#666;border-radius:50%;text-align:center;">?</i>
+					<i class="no_profile">?</i>
 					<!--@end-->
 				</td>
 				<td class="nowr">
