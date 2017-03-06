@@ -995,7 +995,7 @@ class commentController extends comment
 		$obj->member_srl = 0;
 		// use to query default
 		unset($obj->last_update);
-		$output = executeQuery('comment.updateCommentByDelete', $obj);
+		$output = executeQuery('comment.updateCommentByRestore', $obj);
 		if(!$output->toBool())
 		{
 			$oDB->rollback();
