@@ -10,6 +10,7 @@
 <block loop="Context::getMetaTag() => $no, $val">
 <meta http-equiv="{$val['name']}"|cond="$val['is_http_equiv']" name="{$val['name']}"|cond="!$val['is_http_equiv']" content="{$val['content']}" />
 </block>
+<meta name="csrf-token" content="{$is_logged ? \Rhymix\Framework\Session::getGenericToken() : ''}" />
 
 <!-- TITLE -->
 <title>{Context::getBrowserTitle()}</title>
