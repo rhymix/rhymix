@@ -41,14 +41,14 @@
 		if (a1.hostname !== a2.hostname) return false;
 		if (a1.port !== a2.port) return false;
 		return true;
-	}
+	};
 
 	/**
 	 * @brief Get CSRF token for the document
 	 */
 	window.getCSRFToken = function() {
 		return $("meta[name='csrf-token']").attr("content");
-	}
+	};
 
 	/* Intercept jQuery AJAX calls to add CSRF headers */
 	$.ajaxPrefilter(function(options) {
