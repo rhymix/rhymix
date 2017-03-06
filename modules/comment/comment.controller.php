@@ -980,7 +980,7 @@ class commentController extends comment
 		return $output;
 	}
 
-	function updateCommentByRestore($obj, $is_admin = FALSE)
+	function updateCommentByRestore($obj)
 	{
 		if (!$obj->comment_srl)
 		{
@@ -993,6 +993,8 @@ class commentController extends comment
 
 		$obj->status = RX_STATUS_PUBLIC;
 		$obj->member_srl = 0;
+		// use to query default
+		unset($obj->last_update);
 		$output = executeQuery('comment.updateCommentByDelete', $obj);
 		if(!$output->toBool())
 		{
