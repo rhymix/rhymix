@@ -473,7 +473,7 @@ class commentAdminController extends comment
 
 		if($oComment)
 		{
-			$output = $oCommentController->updateCommentByRestore();
+			$output = $oCommentController->updateCommentByRestore($originObject, true);
 		}
 		else
 		{
