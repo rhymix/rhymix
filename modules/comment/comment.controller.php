@@ -1144,6 +1144,94 @@ class commentController extends comment
 	}
 
 	/**
+	 * Comment move to trash
+	 * @param $obj
+	 * @return object
+	 */
+	function moveCommentToTrash($obj)
+	{
+		$logged_info = Context::get('logged_info');
+		$trash_args = new stdClass();
+		if(!$obj->trash_srl)
+		{
+			$trash_args->trash_srl = getNextSequence();
+		}
+		else
+		{
+			$trash_args->trash_srl = $obj->trash_srl;
+		}
+
+		$oCommentModel = getModel('comment');
+		$oComment = $oCommentModel->getComment($obj->comment_srl);
+
+		$oMemberModel = getModel('member');
+		$member_info = $oMemberModel->getMemberInfoByMemberSrl($oComment->get('member_srl'));
+		if($member_info->is_admin == 'Y' && $logged_info->is_admin != 'Y')
+		{
+			return new Object(-1, 'msg_admin_comment_no_move_to_trash');
+		}
+
+		$trash_args->module_srl = $oComment->variables['module_srl'];
+		$obj->module_srl = $oComment->variables['module_srl'];
+
+		if($trash_args->module_srl === 0)
+		{
+			return false;
+		}
+		$trash_args->document_srl = $obj->document_srl;
+		$trash_args->comment_srl = $obj->comment_srl;
+		$trash_args->description = $obj->description;
+
+		if(!Context::get('is_logged'))
+		{
+			$trash_args->member_Srl = $logged_info->member_srl;
+			$trash_args->user_id = htmlspecialchars_decode($logged_info->user_id);
+			$trash_args->user_name = htmlspecialchars_decode($logged_info->user_name);
+			$trash_args->nick_name = htmlspecialchars_decode($logged_info->nick_name);
+		}
+
+		$oDB = &DB::getInstance();
+		$oDB->begin();
+
+		require_once(RX_BASEDIR.'modules/trash/model/TrashVO.php');
+		$oTrashVO = new TrashVO();
+		$oTrashVO->setTrashSrl(getNextSequence());
+		$oTrashVO->setTitle(trim(strip_tags($oComment->variables['content'])));
+		$oTrashVO->setOriginModule('comment');
+		$oTrashVO->setSerializedObject(serialize($oComment->variables));
+		$oTrashVO->setDescription($obj->description);
+
+		$oTrashAdminController = getAdminController('trash');
+		$output = $oTrashAdminController->insertTrash($oTrashVO);
+		if(!$output->toBool())
+		{
+			$oDB->rollback();
+			return $output;
+		}
+
+		$output = executeQuery('comment.deleteComment', $trash_args);
+		if(!$output->toBool())
+		{
+			$oDB->rollback();
+			return $output;
+		}
+
+		if($oComment->hasUploadedFiles())
+		{
+			$args = new stdClass();
+			$args->upload_target_srl = $oComment->comment_srl;
+			$args->isvalid = 'N';
+			executeQuery('file.updateFileValid', $args);
+		}
+
+		ModuleHandler::triggerCall('comment.moveCommentToTrash', 'after', $obj);
+
+		$oDB->commit();
+
+		return $output;
+	}
+
+	/**
 	 * Remove all comment relation log
 	 * @return Object
 	 */
