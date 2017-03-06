@@ -992,7 +992,6 @@ class commentController extends comment
 		$oDB->begin();
 
 		$obj->status = RX_STATUS_PUBLIC;
-		$obj->member_srl = 0;
 		// use to query default
 		unset($obj->last_update);
 		$output = executeQuery('comment.updateCommentByRestore', $obj);
