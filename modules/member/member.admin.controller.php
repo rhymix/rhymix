@@ -127,10 +127,6 @@ class memberAdminController extends member
 		// Save Signature
 		$signature = Context::get('signature');
 		$oMemberController->putSignature($args->member_srl, $signature);
-		
-		// Return result
-		$this->add('member_srl', $args->member_srl);
-		$this->setMessage($msg_code);
 
 		$profile_image = $_FILES['profile_image'];
 		if(is_uploaded_file($profile_image['tmp_name']))
@@ -150,6 +146,12 @@ class memberAdminController extends member
 			$oMemberController->insertImageName($args->member_srl, $image_name['tmp_name']);
 		}
 
+		// Clear cache
+		$oMemberController->_clearMemberCache($args->member_srl);
+		
+		// Return result
+		$this->add('member_srl', $args->member_srl);
+		$this->setMessage($msg_code);
 		$returnUrl = Context::get('success_return_url') ? Context::get('success_return_url') : getNotEncodedUrl('', 'module', 'admin', 'act', 'dispMemberAdminList');
 		$this->setRedirectUrl($returnUrl);
 	}
