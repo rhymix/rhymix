@@ -425,6 +425,11 @@ class commentController extends comment
 
 		// remove Rhymix's own tags from the contents
 		$obj->content = preg_replace('!<\!--(Before|After)(Document|Comment)\(([0-9]+),([0-9]+)\)-->!is', '', $obj->content);
+		// Return error if content is empty.
+		if (!$manual_inserted && is_empty_html_content($obj->content))
+		{
+			return new Object(-1, 'msg_empty_content');
+		}
 		
 		// if use editor of nohtml, Remove HTML tags from the contents.
 		if(!$manual_inserted)
@@ -851,6 +856,11 @@ class commentController extends comment
 
 		// remove Rhymix's wn tags from contents
 		$obj->content = preg_replace('!<\!--(Before|After)(Document|Comment)\(([0-9]+),([0-9]+)\)-->!is', '', $obj->content);
+		// Return error if content is empty.
+		if (!$manual_inserted && is_empty_html_content($obj->content))
+		{
+			return new Object(-1, 'msg_empty_content');
+		}
 
 		// if use editor of nohtml, Remove HTML tags from the contents.
 		if(!$manual_updated)

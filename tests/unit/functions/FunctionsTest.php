@@ -159,4 +159,16 @@ class FunctionsTest extends \Codeception\TestCase\Test
 		$this->assertEquals("Trimmed", utf8_trim("\x20\xe2\x80\x80Trimmed\xe2\x80\x84\xe2\x80\x86\xe2\x80\x8b"));
 		$this->assertEquals("Trimmed", utf8_trim("\x20\xe2\x80\x80Trimmed\x0a\x0c\x07\x09"));
 	}
+	
+	public function testIsEmptyHTMLContent()
+	{
+		$this->assertTrue(is_empty_html_content('<p>&nbsp;<br><br></p>'));
+		$this->assertTrue(is_empty_html_content('<p>&nbsp;</p>' . "\n\n" . '<p><span> </span></p>'));
+		$this->assertTrue(is_empty_html_content('<p>&#8194; &#8203; &#8205;</p>'));
+		$this->assertFalse(is_empty_html_content('<p>&nbsp;</p>' . "\n\n" . '<p>Hello world</p>'));
+		$this->assertFalse(is_empty_html_content('<p><img src="foobar.jpg"></p>'));
+		$this->assertFalse(is_empty_html_content('<p><iframe src="http://www.youtube.com/" /></p>'));
+		$this->assertFalse(is_empty_html_content('<p><video src="rickroll.webm" /></p>'));
+		$this->assertFalse(is_empty_html_content('<p><object></object></p>'));
+	}
 }

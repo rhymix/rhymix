@@ -608,3 +608,18 @@ function utf8_trim($str)
 {
 	return preg_replace('/^[\s\pZ\pC]+|[\s\pZ\pC]+$/u', '', $str);
 }
+
+/**
+ * Check if HTML content is empty.
+ * This function checks whether any printable characters remain
+ * after removing all tags except images, videos, iframes, etc.
+ * 
+ * @param string $str The input string
+ * @return bool
+ */
+function is_empty_html_content($str)
+{
+	$str = strip_tags($str, '<img><audio><video><iframe><object><embed>');
+	$str = utf8_trim(utf8_clean(html_entity_decode($str, ENT_QUOTES, 'UTF-8')));
+	return $str === '';
+}
