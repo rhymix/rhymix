@@ -99,7 +99,7 @@
 		<label class="x_control-label" for="until">{$lang->limit_date}</label>
 		<div class="x_controls">
 			<input type="hidden" name="limit_date" id="date_limit_date" value="{$member_info->limit_date}" />
-			<input type="date" readonly placeholder="YYYY-MM-DD" class="inputDate" id="until" min="' . date('Y-m-d',strtotime('-10 years')) . '"  max="' . date('Y-m-d',strtotime('+100 years')) . '" onchange="jQuery('#date_limit_date').val(this.value.replace(/-/g,''));" value="{zdate($member_info->limit_date,'Y-m-d',false)}" />
+			<input type="date" readonly placeholder="YYYY-MM-DD" class="inputDate" id="until" min="{date('Y-m-d',strtotime('-10 years'))}" max="{date('Y-m-d',strtotime('+100 years'))}" onchange="jQuery('#date_limit_date').val(this.value.replace(/-/g,''));" value="{zdate($member_info->limit_date,'Y-m-d',false)}" />
 			<input type="button" value="{$lang->cmd_delete}" class="x_btn dateRemover" />
 			<span class="x_help-inline">{$lang->about_limit_date}</span>
 		</div>

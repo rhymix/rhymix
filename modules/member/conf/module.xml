@@ -2,6 +2,36 @@
 <module>
 	<grants />
 	<permissions>
+		<permission action="dispMemberModifyEmailAddress" target="member" />
+		<permission action="dispMemberModifyInfo" target="member" />
+		<permission action="dispMemberModifyPassword" target="member" />
+		<permission action="dispMemberLeave" target="member" />
+		<permission action="dispMemberOwnDocument" target="member" />
+		<permission action="dispMemberScrappedDocument" target="member" />
+		<permission action="dispMemberSavedDocument" target="member" />
+
+		<permission action="procMemberModifyEmailAddress" target="member" />
+		<permission action="procMemberModifyInfoBefore" target="member" />
+		<permission action="procMemberModifyInfo" target="member" />
+		<permission action="procMemberModifyPassword" target="member" />
+		<permission action="procMemberLeave" target="member" />
+
+		<permission action="procMemberInsertProfileImage" target="member" />
+		<permission action="procMemberInsertImageName" target="member" />
+		<permission action="procMemberInsertImageMark" target="member" />
+		<permission action="procMemberDeleteProfileImage" target="member" />
+		<permission action="procMemberDeleteImageName" target="member" />
+		<permission action="procMemberDeleteImageMark" target="member" />
+		<permission action="procMemberSiteSignUp" target="member" />
+		<permission action="procMemberSiteLeave" target="member" />
+
+		<permission action="procMemberScrapDocument" target="member" />
+		<permission action="procMemberDeleteScrap" target="member" />
+		<permission action="procMemberSaveDocument" target="member" />
+		<permission action="procMemberDeleteSavedDocument" target="member" />
+
+		<permission action="dispMemberSpammer" target="manager" />
+		<permission action="procMemberSpammerManage" target="manager" />
 		<permission action="getApiGroups" target="manager" />
 	</permissions>
 	<actions>
@@ -22,7 +52,6 @@
 		<action name="dispMemberGetTempPassword" type="view" standalone="true" />
 		<action name="dispMemberResendAuthMail" type="view" standalone="true" />
 		<action name="dispSavedDocumentList" type="view" standalone="true" />
-		<action name="dispMemberSpammer" type="view" standalone="true" />
 		<action name="dispMemberModifyNicknameLog" type="view" standalone="true" />
 
 		<action name="dispMemberAdminList" type="view" index="true" admin_index="true" menu_name="userList" menu_index="true"/>
@@ -36,12 +65,8 @@
 		<action name="dispMemberAdminInfo" type="view" menu_name="userList" />
 		<action name="dispMemberAdminInsertJoinForm" type="view" />
 		<action name="dispMemberAdminNickNameLog" type="view" menu_name="userSetting" />
-
+		
 		<action name="getMemberMenu" type="model" standalone="true" />
-		<action name="getMemberAdminColorset" type="model" />
-		<action name="getMemberAdminInsertJoinForm" type="model" />
-		<action name="getMemberAdminIPCheck" type="model" />
-		<action name="getApiGroups" type="model" standalone="true" />
 
 		<action name="procMemberLogin" type="controller" ruleset="@login" standalone="true" />
 		<action name="procMemberLogout" type="controller" standalone="true" />
@@ -73,7 +98,26 @@
 		<action name="procMemberAuthEmailAddress" type="controller" method="GET|POST" standalone="true" />
 		<action name="procMemberResendAuthMail" type="controller" ruleset="resendAuthMail" standalone="true" />
 		<action name="procMemberResetAuthMail" type="controller" ruleset="resetAuthMail" standalone="true" />
+
+		<!-- manager -->
+		<action name="dispMemberSpammer" type="view" standalone="true" />
 		<action name="procMemberSpammerManage" type="controller" standalone="true" />
+		<action name="getApiGroups" type="model" standalone="true" />
+
+		<!-- admin -->
+		<action name="dispMemberAdminList" type="view" index="true" admin_index="true" menu_name="userList" menu_index="true"/>
+		<action name="dispMemberAdminConfig" type="view" menu_name="userSetting" menu_index="true" />
+		<action name="dispMemberAdminSignUpConfig" type="view" menu_name="userSetting" />
+		<action name="dispMemberAdminLoginConfig" type="view" menu_name="userSetting" />
+		<action name="dispMemberAdminDesignConfig" type="view" menu_name="userSetting" />
+		<action name="dispMemberAdminInsert" type="view" menu_name="userList" />
+		<action name="dispMemberAdminGroupList" type="view" menu_name="userGroup" menu_index="true" />
+		<action name="dispMemberAdminInfo" type="view" menu_name="userList" />
+		<action name="dispMemberAdminInsertJoinForm" type="view" />
+
+		<action name="getMemberAdminColorset" type="model" />
+		<action name="getMemberAdminInsertJoinForm" type="model" />
+		<action name="getMemberAdminIPCheck" type="model" />
 
 		<action name="procMemberAdminInsert" type="controller" ruleset="insertAdminMember" />
 		<action name="procMemberAdminDelete" type="controller" />

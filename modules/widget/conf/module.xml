@@ -1,30 +1,39 @@
 <?xml version="1.0" encoding="utf-8"?>
 <module>
-    <grants />
-    <permissions />
-    <actions>
-        <action name="dispWidgetInfo" type="view" />
-        <action name="dispWidgetGenerateCode" type="view" />
-        <action name="dispWidgetGenerateCodeInPage" type="view" />
-        <action name="dispWidgetStyleGenerateCodeInPage" type="view" />
-        
-		<action name="dispWidgetAdminDownloadedList" type="view" admin_index="true" menu_name="installedWidget" menu_index="true" />
-        <action name="dispWidgetAdminAddContent" type="view" />
-		<action name="dispWidgetAdminGenerateCode" type="view" menu_name="installedWidget" />
-        
+	<grants />
+	<permissions>
+		<permission action="dispWidgetGenerateCode" target="manager" />
+		<permission action="dispWidgetGenerateCodeInPage" target="manager" />
+		<permission action="dispWidgetStyleGenerateCodeInPage" target="manager" />
+		<permission action="procWidgetGenerateCode" target="manager" />
+		<permission action="procWidgetStyleGenerateCodeInPage" target="manager" />
+		<permission action="procWidgetInsertDocument" target="manager" />
+		<permission action="procWidgetCopyDocument" target="manager" />
+		<permission action="procWidgetDeleteDocument" target="manager" />
+		<permission action="procWidgetGenerateCodeInPage" target="manager" />
+		<permission action="procWidgetGetColorsetList" target="manager" />
+		<permission action="procWidgetStyleExtraImageUpload" target="manager" />
+	</permissions>
+	<actions>
+		<action name="dispWidgetInfo" type="view" />
+		<action name="dispWidgetGenerateCode" type="view" />
+		<action name="dispWidgetGenerateCodeInPage" type="view" />
+		<action name="dispWidgetStyleGenerateCodeInPage" type="view" />
 		<action name="procWidgetGenerateCode" type="controller" />
-        <action name="procWidgetStyleExtraImageUpload" type="controller" />
-        <action name="procWidgetStyleGenerateCodeInPage" type="controller" />
-        <action name="procWidgetAddContent" type="controller" />
-        <action name="procWidgetInsertDocument" type="controller" />
-        <action name="procWidgetCopyDocument" type="controller" />
-        <action name="procWidgetDeleteDocument" type="controller" />
-        <action name="procWidgetGenerateCodeInPage" type="controller" ruleset="generateCodeInPage" />
-        <action name="procWidgetGetColorsetList" type="controller" />
+		<action name="procWidgetStyleGenerateCodeInPage" type="controller" />
+		<action name="procWidgetInsertDocument" type="controller" />
+		<action name="procWidgetCopyDocument" type="controller" />
+		<action name="procWidgetDeleteDocument" type="controller" />
+		<action name="procWidgetGenerateCodeInPage" type="controller" ruleset="generateCodeInPage" />
+		<action name="procWidgetGetColorsetList" type="controller" />
+		<action name="procWidgetStyleExtraImageUpload" type="controller" />
 
-        <action name="procWidgetStyleExtraImageUpload" type="controller" />
-        <action name="procWidgetStyleGenerateCodeInPage" type="controller" />
-    </actions>
+		<!-- admin -->
+		<action name="dispWidgetAdminDownloadedList" type="view" admin_index="true" menu_name="installedWidget" menu_index="true" />
+		<action name="dispWidgetAdminAddContent" type="view" />
+		<action name="dispWidgetAdminGenerateCode" type="view" menu_name="installedWidget" />
+
+	</actions>
 	<menus>
 		<menu name="installedWidget">
 			<title xml:lang="en">Widgets</title>
