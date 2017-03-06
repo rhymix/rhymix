@@ -1,24 +1,24 @@
 <?xml version="1.0" encoding="utf-8"?>
 <module>
-    <grants />
-    <permissions>
-        <permission action="procPointAdminInsertPointModuleConfig" target="manager" />
-    </permissions>
-    <actions>
-        <action name="dispPointAdminConfig" type="view" admin_index="true" menu_name="point" menu_index="true" />
-        <action name="dispPointAdminModuleConfig" type="view" menu_name="point" />
-        <action name="dispPointAdminPointList" type="view" menu_name="point" />
+	<grants />
+	<permissions>
+		<permission action="procPointAdminInsertPointModuleConfig" target="manager" />
+	</permissions>
+	<actions>
+		<action name="getMembersPointInfo" type="model" />
 
-        <action name="procPointAdminInsertConfig" type="controller" ruleset="insertConfig" />
-        <action name="procPointAdminInsertModuleConfig" type="controller" />
-        <action name="procPointAdminUpdatePoint" type="controller" ruleset="updatePoint" />
-        <action name="procPointAdminInsertPointModuleConfig" type="controller" />
-        <action name="procPointAdminApplyPoint" type="controller" />
-        <action name="procPointAdminReset" type="controller" />
-
-        <action name="procPointAdminReCal" type="controller" />
-        <action name="getMembersPointInfo" type="model" />
-    </actions>
+		<!-- admin -->
+		<action name="dispPointAdminConfig" type="view" admin_index="true" menu_name="point" menu_index="true" />
+		<action name="dispPointAdminModuleConfig" type="view" menu_name="point" />
+		<action name="dispPointAdminPointList" type="view" menu_name="point" />
+		<action name="procPointAdminInsertConfig" type="controller" ruleset="insertConfig" />
+		<action name="procPointAdminInsertModuleConfig" type="controller" />
+		<action name="procPointAdminUpdatePoint" type="controller" ruleset="updatePoint" />
+		<action name="procPointAdminInsertPointModuleConfig" type="controller" />
+		<action name="procPointAdminApplyPoint" type="controller" />
+		<action name="procPointAdminReset" type="controller" />
+		<action name="procPointAdminReCal" type="controller" />
+	</actions>
 	<menus>
 		<menu name="point">
 			<title xml:lang="en">Point</title>

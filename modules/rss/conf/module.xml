@@ -1,17 +1,19 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <module>
-    <grants />
-    <permissions>
-        <permission action="procRssAdminInsertModuleConfig" target="manager" />
-    </permissions>
-    <actions>
-        <action name="dispRssAdminIndex" type="view" index="true" admin_index="true" menu_name="rss" menu_index="true" />
-        <action name="rss" type="view" />
-        <action name="atom" type="view" />
-        <action name="procRssAdminInsertConfig" type="controller" ruleset="insertRssConfig" />
-        <action name="procRssAdminDeleteFeedImage" type="controller" />
-        <action name="procRssAdminInsertModuleConfig" type="controller" />
-    </actions>
+	<grants />
+	<permissions>
+		<permission action="procRssAdminInsertModuleConfig" target="manager" />
+	</permissions>
+	<actions>
+		<action name="dispRssAdminIndex" type="view" index="true" admin_index="true" menu_name="rss" menu_index="true" />
+		<action name="rss" type="view" />
+		<action name="atom" type="view" />
+
+		<!-- admin -->
+		<action name="procRssAdminInsertConfig" type="controller" ruleset="insertRssConfig" />
+		<action name="procRssAdminDeleteFeedImage" type="controller" />
+		<action name="procRssAdminInsertModuleConfig" type="controller" />
+	</actions>
 	<menus>
 		<menu name="rss">
 			<title xml:lang="en">RSS</title>

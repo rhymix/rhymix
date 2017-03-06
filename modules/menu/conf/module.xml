@@ -1,40 +1,42 @@
 <?xml version="1.0" encoding="utf-8"?>
 <module>
-    <grants />
+	<grants />
+	<permissions>
 		<permission action="getMenuAdminSiteMap" target="manager" />
 		<permission action="procMenuAdminUpdateAuth" target="manager" />
-    <permissions />
-    <actions>
-        <action name="dispMenuAdminMidList" type="view" />
-        <action name="dispMenuAdminSiteMap" type="view" admin_index="true" menu_name="siteMap" menu_index="true" />
-        <action name="dispMenuAdminSiteDesign" type="view" menu_name="siteDesign" menu_index="true" />
-
-        <action name="getMenuAdminTplInfo" type="model" />
-        <action name="getMenuAdminItemInfo" type="model" />
-        <action name="getMenuAdminSiteMap" type="model" />
-        <action name="getMenuAdminInstalledMenuType" type="model" />
-        <action name="getMenuAdminDetailSetup" type="model" />
-
-        <action name="procMenuAdminInsert" type="controller" ruleset="insertMenu" />
-        <action name="procMenuAdminUpdate" type="controller" ruleset="updateMenuTitle" />
-        <action name="procMenuAdminDelete" type="controller" />
-        <action name="procMenuAdminInsertItem" type="controller" ruleset="insertMenuItem" />
-        <action name="procMenuAdminUpdateItem" type="controller" ruleset="updateMenuItem" />
-        <action name="procMenuAdminButtonUpload" type="controller" />
-        <action name="procMenuAdminInsertItemForAdminMenu" type="controller" />
-        <action name="procMenuAdminDeleteItem" type="controller" />
-        <action name="procMenuAdminMakeXmlFile" type="controller" />
-        <action name="procMenuAdminMoveItem" type="controller" />
-        <action name="procMenuAdminCopyItem" type="controller" />
-        <action name="procMenuAdminArrangeItem" type="controller" />
-
-        <action name="procMenuAdminUploadButton" type="controller" />
-        <action name="procMenuAdminDeleteButton" type="controller" />
-        <action name="procMenuAdminAllActList" type="controller" />
-        <action name="procMenuAdminUpdateAuth" type="controller" />
-
+	</permissions>
+	<actions>
 		<action name="dispMenuMenu" type="mobile" />
-    </actions>
+
+		<!-- admin -->
+		<action name="dispMenuAdminMidList" type="view" />
+		<action name="dispMenuAdminSiteMap" type="view" admin_index="true" menu_name="siteMap" menu_index="true" />
+		<action name="dispMenuAdminSiteDesign" type="view" menu_name="siteDesign" menu_index="true" />
+
+		<action name="getMenuAdminTplInfo" type="model" />
+		<action name="getMenuAdminItemInfo" type="model" />
+		<action name="getMenuAdminSiteMap" type="model" />
+		<action name="getMenuAdminInstalledMenuType" type="model" />
+		<action name="getMenuAdminDetailSetup" type="model" />
+
+		<action name="procMenuAdminInsert" type="controller" ruleset="insertMenu" />
+		<action name="procMenuAdminUpdate" type="controller" ruleset="updateMenuTitle" />
+		<action name="procMenuAdminDelete" type="controller" />
+		<action name="procMenuAdminInsertItem" type="controller" ruleset="insertMenuItem" />
+		<action name="procMenuAdminUpdateItem" type="controller" ruleset="updateMenuItem" />
+		<action name="procMenuAdminButtonUpload" type="controller" />
+		<action name="procMenuAdminInsertItemForAdminMenu" type="controller" />
+		<action name="procMenuAdminDeleteItem" type="controller" />
+		<action name="procMenuAdminMakeXmlFile" type="controller" />
+		<action name="procMenuAdminMoveItem" type="controller" />
+		<action name="procMenuAdminCopyItem" type="controller" />
+		<action name="procMenuAdminArrangeItem" type="controller" />
+
+		<action name="procMenuAdminUploadButton" type="controller" />
+		<action name="procMenuAdminDeleteButton" type="controller" />
+		<action name="procMenuAdminAllActList" type="controller" />
+		<action name="procMenuAdminUpdateAuth" type="controller" />
+	</actions>
 	<menus>
 		<menu name="siteMap">
 			<title xml:lang="en">Menu Editor</title>
