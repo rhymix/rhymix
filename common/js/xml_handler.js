@@ -149,7 +149,6 @@
 			$.ajax({
 				url : url,
 				type : "POST",
-				headers: { "X-CSRF-Token": params._rx_csrf_token },
 				dataType : "json",
 				data : params,
 				success : successHandler,
@@ -259,7 +258,6 @@
 			$.ajax({
 				type: "POST",
 				dataType: "json",
-				headers: { "X-CSRF-Token": params._rx_csrf_token },
 				url: request_uri,
 				data: params,
 				success : successHandler,
@@ -324,7 +322,6 @@
 			$.ajax({
 				type: "POST",
 				dataType: "html",
-				headers: { "X-CSRF-Token": params._rx_csrf_token },
 				url: request_uri,
 				data: params,
 				success: successHandler,

@@ -17,7 +17,19 @@
 		($.os.Linux) ? 'Linux' :
 		($.os.Unix) ? 'Unix' :
 		($.os.Mac) ? 'Mac' : '';
-
+	
+	/* Intercept jQuery AJAX calls to add CSRF headers */
+	$.ajaxPrefilter(function(options) {
+		var _u1 = $("<a>").attr("href", location.href)[0];
+		var _u2 = $("<a>").attr("href", options.url)[0];
+		if (_u2.hostname && (_u1.hostname !== _u2.hostname)) return;
+		var token = getCSRFToken();
+		if (token) {
+			if (!options.headers) options.headers = {};
+			options.headers["X-CSRF-Token"] = token;
+		}
+	});
+	
 	/* Intercept getScript error due to broken minified script URL */
 	$(document).ajaxError(function(event, jqxhr, settings, thrownError) {
 		if(settings.dataType === "script" && (jqxhr.status >= 400 || (jqxhr.responseText && jqxhr.responseText.length < 40))) {
