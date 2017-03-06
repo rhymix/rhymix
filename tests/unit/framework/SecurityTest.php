@@ -106,6 +106,8 @@ class SecurityTest extends \Codeception\TestCase\Test
 	
 	public function testCheckCSRF()
 	{
+		$error_reporting = error_reporting(0);
+		
 		$_SERVER['REQUEST_METHOD'] = 'GET';
 		$_SERVER['HTTP_REFERER'] = '';
 		$this->assertTrue(Rhymix\Framework\Security::checkCSRF());
@@ -117,6 +119,8 @@ class SecurityTest extends \Codeception\TestCase\Test
 		$this->assertFalse(Rhymix\Framework\Security::checkCSRF());
 		
 		$this->assertTrue(Rhymix\Framework\Security::checkCSRF('http://www.rhymix.org/'));
+		
+		error_reporting($error_reporting);
 	}
 	
 	public function testCheckXEE()
