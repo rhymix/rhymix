@@ -18,16 +18,6 @@
 		($.os.Unix) ? 'Unix' :
 		($.os.Mac) ? 'Mac' : '';
 	
-	/* Intercept jQuery AJAX calls to add CSRF headers */
-	$.ajaxPrefilter(function(options) {
-		if (!isSameOrigin(location.href, options.url, true)) return;
-		var token = getCSRFToken();
-		if (token) {
-			if (!options.headers) options.headers = {};
-			options.headers["X-CSRF-Token"] = token;
-		}
-	});
-	
 	/* Intercept getScript error due to broken minified script URL */
 	$(document).ajaxError(function(event, jqxhr, settings, thrownError) {
 		if(settings.dataType === "script" && (jqxhr.status >= 400 || (jqxhr.responseText && jqxhr.responseText.length < 40))) {
@@ -37,7 +27,56 @@
 			}
 		}
 	});
+	
+	/**
+	 * @brief Check if two URLs belong to the same origin
+	 */
+	window.isSameOrigin = function(url1, url2, allow_relative_url2) {
+		var a1 = $("<a>").attr("href", url1)[0];
+		var a2 = $("<a>").attr("href", url2)[0];
+		if (!a2.hostname && allow_relative_url2) {
+			return true;
+		}
+		if (a1.protocol !== a2.protocol) return false;
+		if (a1.hostname !== a2.hostname) return false;
+		if (a1.port !== a2.port) return false;
+		return true;
+	}
 
+	/**
+	 * @brief Get CSRF token for the document
+	 */
+	window.getCSRFToken = function() {
+		return $("meta[name='csrf-token']").attr("content");
+	}
+
+	/* Intercept jQuery AJAX calls to add CSRF headers */
+	$.ajaxPrefilter(function(options) {
+		if (!isSameOrigin(location.href, options.url, true)) return;
+		var token = getCSRFToken();
+		if (token) {
+			if (!options.headers) options.headers = {};
+			options.headers["X-CSRF-Token"] = token;
+		}
+	});
+
+	/* Add CSRF token to dynamically loaded forms */
+	$.fn.addCSRFTokenToForm = function() {
+		var token = getCSRFToken();
+		if (token) {
+			return $(this).each(function() {
+				if ($(this).data("csrf-token-checked") === "Y") return;
+				if (!isSameOrigin(location.href, $(this).attr("action"), true)) {
+					return $(this).data("csrf-token-checked", "Y");
+				}
+				$("<input />").attr({ type: "hidden", name: "_rx_csrf_token", value: token }).appendTo($(this));
+				return $(this).data("csrf-token-checked", "Y");
+			});
+		} else {
+			return $(this);
+		}
+	};
+	
 	/* Array for pending debug data */
 	window.rhymix_debug_pending_data = [];
 
@@ -163,6 +202,13 @@
 
 /* jQuery(document).ready() */
 jQuery(function($) {
+
+	/* CSRF token */
+	$("form[method]").filter(function() { return this.method.toUpperCase() == "POST"; }).addCSRFTokenToForm();
+	$(document).on("submit", "form[method='post']", $.fn.addCSRFTokenToForm);
+	$(document).on("focus", "input,select,textarea", function() {
+		$(this).parents("form[method]").filter(function() { return this.method.toUpperCase() == "POST"; }).addCSRFTokenToForm();
+	});
 
 	/* select - option의 disabled=disabled 속성을 IE에서도 체크하기 위한 함수 */
 	if(navigator.userAgent.match(/MSIE/)) {
@@ -449,28 +495,6 @@ function move_url(url, open_window) {
 	}
 
 	return false;
-}
-
-/**
- * @brief Check if two URLs belong to the same origin
- */
-function isSameOrigin(url1, url2, allow_relative_url2) {
-	var a1 = $("<a>").attr("href", url1)[0];
-	var a2 = $("<a>").attr("href", url2)[0];
-	if (!a2.hostname && allow_relative_url2) {
-		return true;
-	}
-	if (a1.protocol !== a2.protocol) return false;
-	if (a1.hostname !== a2.hostname) return false;
-	if (a1.port !== a2.port) return false;
-	return true;
-}
-
-/**
- * @brief Get CSRF token for the document
- */
-function getCSRFToken() {
-	return $("meta[name='csrf-token']").attr("content");
 }
 
 /**
