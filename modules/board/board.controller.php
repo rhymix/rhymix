@@ -527,12 +527,14 @@ class boardController extends board
 		// generate comment  controller object
 		$oCommentController = getController('comment');
 
+		$updateComment = false;
 		if($this->module_info->comment_delete_message === 'yes' && $instant_delete != 'Y')
 		{
 			$output = $oCommentController->updateCommentByDelete($comment, $this->grant->manager);
+			$updateComment = true;
 			if($this->module_info->trash_use == 'Y')
 			{
-				$output = $oCommentController->moveCommentToTrash($comment);
+				$output = $oCommentController->moveCommentToTrash($comment, $updateComment);
 			}
 		}
 		elseif(starts_with('only_comm', $this->module_info->comment_delete_message) && $instant_delete != 'Y')
@@ -541,16 +543,17 @@ class boardController extends board
 			if(count($childs) > 0)
 			{
 				$output = $oCommentController->updateCommentByDelete($comment, $this->grant->manager);
+				$updateComment = true;
 				if($this->module_info->trash_use == 'Y')
 				{
-					$output = $oCommentController->moveCommentToTrash($comment);
+					$output = $oCommentController->moveCommentToTrash($comment, $updateComment);
 				}
 			}
 			else
 			{
 				if($this->module_info->trash_use == 'Y')
 				{
-					$output = $oCommentController->moveCommentToTrash($comment);
+					$output = $oCommentController->moveCommentToTrash($comment, $updateComment);
 				}
 				else
 				{
@@ -566,7 +569,7 @@ class boardController extends board
 		{
 			if($this->module_info->trash_use == 'Y')
 			{
-				$output = $oCommentController->moveCommentToTrash($comment);
+				$output = $oCommentController->moveCommentToTrash($comment, $this->module_info->comment_delete_message);
 			}
 			else
 			{

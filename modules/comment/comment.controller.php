@@ -1193,7 +1193,7 @@ class commentController extends comment
 	 * @param $obj
 	 * @return object
 	 */
-	function moveCommentToTrash($obj)
+	function moveCommentToTrash($obj, $updateComment = false)
 	{
 		$logged_info = Context::get('logged_info');
 		$trash_args = new stdClass();
@@ -1221,7 +1221,7 @@ class commentController extends comment
 
 		if($trash_args->module_srl === 0)
 		{
-			return false;
+			return new Object(-1, 'msg_module_srl_not_exists');
 		}
 		$trash_args->document_srl = $obj->document_srl;
 		$trash_args->comment_srl = $obj->comment_srl;
@@ -1241,9 +1241,9 @@ class commentController extends comment
 		require_once(RX_BASEDIR.'modules/trash/model/TrashVO.php');
 		$oTrashVO = new TrashVO();
 		$oTrashVO->setTrashSrl(getNextSequence());
-		$oTrashVO->setTitle(trim(strip_tags($oComment->variables['content'])));
+		$oTrashVO->setTitle(trim(strip_tags($obj->variables['content'])));
 		$oTrashVO->setOriginModule('comment');
-		$oTrashVO->setSerializedObject(serialize($oComment->variables));
+		$oTrashVO->setSerializedObject(serialize($obj->variables));
 		$oTrashVO->setDescription($obj->description);
 
 		$oTrashAdminController = getAdminController('trash');
@@ -1254,11 +1254,14 @@ class commentController extends comment
 			return $output;
 		}
 
-		$output = executeQuery('comment.deleteComment', $trash_args);
-		if(!$output->toBool())
+		if($updateComment !== true)
 		{
-			$oDB->rollback();
-			return $output;
+			$output = executeQuery('comment.deleteComment', $trash_args);
+			if(!$output->toBool())
+			{
+				$oDB->rollback();
+				return $output;
+			}
 		}
 
 		if($oComment->hasUploadedFiles())
