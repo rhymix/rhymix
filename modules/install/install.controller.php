@@ -17,7 +17,7 @@ class installController extends install
 		// Stop if already installed.
 		if (Context::isInstalled())
 		{
-			return new Object(-1, 'msg_already_installed');
+			$this->stop('msg_already_installed');
 		}
 		
 		// Increase time limit.
