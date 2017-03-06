@@ -20,9 +20,7 @@
 	
 	/* Intercept jQuery AJAX calls to add CSRF headers */
 	$.ajaxPrefilter(function(options) {
-		var _u1 = $("<a>").attr("href", location.href)[0];
-		var _u2 = $("<a>").attr("href", options.url)[0];
-		if (_u2.hostname && (_u1.hostname !== _u2.hostname)) return;
+		if (!isSameOrigin(location.href, options.url, true)) return;
 		var token = getCSRFToken();
 		if (token) {
 			if (!options.headers) options.headers = {};
@@ -451,6 +449,21 @@ function move_url(url, open_window) {
 	}
 
 	return false;
+}
+
+/**
+ * @brief Check if two URLs belong to the same origin
+ */
+function isSameOrigin(url1, url2, allow_relative_url2) {
+	var a1 = $("<a>").attr("href", url1)[0];
+	var a2 = $("<a>").attr("href", url2)[0];
+	if (!a2.hostname && allow_relative_url2) {
+		return true;
+	}
+	if (a1.protocol !== a2.protocol) return false;
+	if (a1.hostname !== a2.hostname) return false;
+	if (a1.port !== a2.port) return false;
+	return true;
 }
 
 /**
