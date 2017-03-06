@@ -3,6 +3,7 @@
 	<grants />
 	<permissions>
 		<permission action="dispDocumentAdminList" target="manager" />
+		<permission action="procDocumentInsertModuleConfig" target="manager" />
 
 		<permission action="dispDocumentManageDocument" target="member" />
 		<permission action="getDocumentCategories" target="member" />

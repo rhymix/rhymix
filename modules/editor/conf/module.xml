@@ -1,7 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <module>
 	<grants />
-	<permissions />
+	<permissions>
+		<permission action="procEditorInsertModuleConfig" target="manager" />
+	</permissions>
 	<actions>
 		<action name="dispEditorPopup" type="view" />
 		<action name="dispEditorComponentInfo" type="view" />

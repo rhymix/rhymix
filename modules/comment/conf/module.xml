@@ -3,6 +3,7 @@
 	<grants />
 	<permissions>
 		<permission action="procCommentAdminAddCart" target="manager" />
+		<permission action="procCommentInsertModuleConfig" target="manager" />
 		<permission action="procCommentGetList" target="manager" />
 		<permission action="procCommentAdminMoveToTrash" target="manager" />
 	</permissions>
