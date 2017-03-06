@@ -2,7 +2,7 @@
 
 class ncenterliteAdminModel extends ncenterlite
 {
-	function getAdminNotifyList($member_srl=null, $page=1, $readed='N')
+	function getAdminNotifyList()
 	{
 		$oNcenterliteModel = getModel('ncenterlite');
 
