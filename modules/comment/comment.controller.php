@@ -980,6 +980,49 @@ class commentController extends comment
 		return $output;
 	}
 
+	function updateCommentByRestore($obj, $is_admin = FALSE)
+	{
+		if (!$obj->comment_srl)
+		{
+			return new Object(-1, 'msg_invalid_request');
+		}
+
+		// begin transaction
+		$oDB = DB::getInstance();
+		$oDB->begin();
+
+		$obj->status = RX_STATUS_PUBLIC;
+		$obj->member_srl = 0;
+		$output = executeQuery('comment.updateCommentByDelete', $obj);
+		if(!$output->toBool())
+		{
+			$oDB->rollback();
+			return $output;
+		}
+
+		// update the number of comments
+		$oCommentModel = getModel('comment');
+		$comment_count = $oCommentModel->getCommentCount($obj->document_srl);
+		// only document is exists
+		if(isset($comment_count))
+		{
+			// create the controller object of the document
+			$oDocumentController = getController('document');
+
+			// update comment count of the article posting
+			$output = $oDocumentController->updateCommentCount($obj->document_srl, $comment_count, NULL, FALSE);
+			if(!$output->toBool())
+			{
+				$oDB->rollback();
+				return $output;
+			}
+		}
+
+		$oDB->commit();
+
+		return $output;
+	}
+
 	/**
 	 * Delete comment
 	 * @param int $comment_srl
