@@ -28,6 +28,7 @@
 		params.module = module;
 		params.act = act;
 		params._rx_ajax_compat = 'XMLRPC';
+		params._rx_csrf_token = getCSRFToken();
 		
 		// Fill in the XE vid.
 		if (typeof(xeVid) != "undefined") params.vid = xeVid;
@@ -148,6 +149,7 @@
 			$.ajax({
 				url : url,
 				type : "POST",
+				headers: { "X-CSRF-Token": params._rx_csrf_token },
 				dataType : "json",
 				data : params,
 				success : successHandler,
@@ -172,6 +174,7 @@
 		params.module = action[0];
 		params.act = action[1];
 		params._rx_ajax_compat = 'JSON';
+		params._rx_csrf_token = getCSRFToken();
 		
 		// Fill in the XE vid.
 		if (typeof(xeVid) != "undefined") params.vid = xeVid;
@@ -256,6 +259,7 @@
 			$.ajax({
 				type: "POST",
 				dataType: "json",
+				headers: { "X-CSRF-Token": params._rx_csrf_token },
 				url: request_uri,
 				data: params,
 				success : successHandler,
@@ -278,6 +282,7 @@
 		//if (action.length != 2) return;
 		params.module = action[0];
 		params.act = action[1];
+		params._rx_csrf_token = getCSRFToken();
 		
 		// Fill in the XE vid.
 		if (typeof(xeVid) != "undefined") params.vid = xeVid;
@@ -319,6 +324,7 @@
 			$.ajax({
 				type: "POST",
 				dataType: "html",
+				headers: { "X-CSRF-Token": params._rx_csrf_token },
 				url: request_uri,
 				data: params,
 				success: successHandler,

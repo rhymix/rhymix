@@ -442,6 +442,13 @@ function move_url(url, open_window) {
 }
 
 /**
+ * @brief Get CSRF token for the document
+ */
+function getCSRFToken() {
+	return $("meta[name='csrf-token']").attr("content");
+}
+
+/**
  * @brief 멀티미디어 출력용 (IE에서 플래쉬/동영상 주변에 점선 생김 방지용)
  **/
 function displayMultimedia(src, width, height, options) {
