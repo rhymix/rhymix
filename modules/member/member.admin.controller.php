@@ -114,9 +114,20 @@ class memberAdminController extends member
 		}
 
 		if(!$output->toBool()) return $output;
+		
+		// Invalidate sessions if denied or limited
+		if ($args->denied === 'Y' || $args->limited >= date('Ymd'))
+		{
+			$validity_info = Rhymix\Framework\Session::getValidityInfo($args->member_srl);
+			$validity_info->invalid_before = time();
+			Rhymix\Framework\Session::setValidityInfo($args->member_srl, $validity_info);
+			executeQuery('member.deleteAutologin', (object)array('member_srl' => $args->member_srl));
+		}
+		
 		// Save Signature
 		$signature = Context::get('signature');
 		$oMemberController->putSignature($args->member_srl, $signature);
+		
 		// Return result
 		$this->add('member_srl', $args->member_srl);
 		$this->setMessage($msg_code);
