@@ -1,0 +1,14 @@
+<query id="updateCommentByRestore" action="update">
+	<tables>
+		<table name="comments" />
+	</tables>
+	<columns>
+		<column name="member_srl" var="member_srl" />
+		<column name="content" var="content" notnull="notnull" />
+		<column name="last_update" var="last_update" default="curdate()" />
+		<column name="status" var="status" default="1" />
+	</columns>
+	<conditions>
+		<condition operation="equal" column="comment_srl" var="comment_srl" filter="number" notnull="notnull" />
+	</conditions>
+</query>
