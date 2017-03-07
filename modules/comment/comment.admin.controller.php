@@ -471,9 +471,9 @@ class commentAdminController extends comment
 
 		$oComment = $oCommentModel->getComment($originObject->comment_srl);
 
-		if($oComment)
+		if($oComment->isExists())
 		{
-			$output = $oCommentController->updateCommentByRestore($originObject);
+			$output = $oCommentController->updateCommentByRestore($obj);
 		}
 		else
 		{

@@ -1263,6 +1263,28 @@ class commentController extends comment
 			}
 		}
 
+		$args = new stdClass();
+		$args->comment_srl = $obj->comment_srl;
+		$output = executeQuery('comment.deleteCommentList', $args);
+
+		// update the number of comments
+		$comment_count = $oCommentModel->getCommentCount($obj->document_srl);
+
+		// only document is exists
+		if(isset($comment_count))
+		{
+			// create the controller object of the document
+			$oDocumentController = getController('document');
+
+			// update comment count of the article posting
+			$output = $oDocumentController->updateCommentCount($obj->document_srl, $comment_count, NULL, FALSE);
+			if(!$output->toBool())
+			{
+				$oDB->rollback();
+				return $output;
+			}
+		}
+
 		if($oComment->hasUploadedFiles())
 		{
 			$args = new stdClass();
@@ -1274,6 +1296,10 @@ class commentController extends comment
 		ModuleHandler::triggerCall('comment.moveCommentToTrash', 'after', $obj);
 
 		$oDB->commit();
+
+
+		Rhymix\Framework\Storage::deleteEmptyDirectory(RX_BASEDIR . sprintf('files/thumbnails/%s', getNumberingPath($comment_srl, 3)), true);
+		$output->add('document_srl', $obj->document_srl);
 
 		return $output;
 	}
