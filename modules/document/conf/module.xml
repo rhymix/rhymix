@@ -2,27 +2,31 @@
 <module>
 	<grants />
 	<permissions>
-		<permission action="dispDocumentAdminList" target="manager" />
-
-		<permission action="dispDocumentManageDocument" target="member" />
+		<!-- member -->
 		<permission action="getDocumentCategories" target="member" />
-		<permission action="getDocumentCategoryTplInfo" target="member" />
-		<permission action="procDocumentAddCart" target="member" />
+		<permission action="procDocumentTempSave" target="member" />
 
-		<permission action="procDocumentInsertCategory" target="member" />
-		<permission action="procDocumentManageCheckedDocument" target="member" />
-		<permission action="procDocumentMoveCategory" target="member" />
-		<permission action="procDocumentDeleteCategory" target="member" />
-		<permission action="procDocumentMakeXmlFile" target="member" />
-		<permission action="procDocumentAdminMoveToTrash" target="member" />
+		<!-- manager -->
+		<permission action="getDocumentCategoryTplInfo" target="manager" />
+		<permission action="procDocumentInsertCategory" target="manager" />
+		<permission action="procDocumentDeleteCategory" target="manager" />
+		<permission action="procDocumentMoveCategory" target="manager" />
+		<permission action="procDocumentMakeXmlFile" target="manager" />
 
+		<permission action="procDocumentAddCart" target="manager" />
+		<permission action="procDocumentGetList" target="manager" />
+		<permission action="dispDocumentManageDocument" target="manager" />
+		<permission action="procDocumentManageCheckedDocument" target="manager" />
+		<permission action="procDocumentAdminMoveToTrash" target="manager" />
+		
+		<permission action="dispDocumentAdminList" target="manager" />
+		<permission action="procDocumentInsertModuleConfig" target="manager" />
 		<permission action="procDocumentAdminInsertExtraVar" target="manager" />
 		<permission action="procDocumentAdminDeleteExtraVar" target="manager" />
 	</permissions>
 	<actions>
 		<action name="dispDocumentPrint" type="view" />
 		<action name="dispDocumentPreview" type="view" />
-		<action name="dispDocumentManageDocument" type="view" />
 		<action name="dispTempSavedList" type="view" />
 		<action name="dispDocumentDeclare" type="view" />
 
@@ -35,6 +39,7 @@
 		<action name="procDocumentVoteDownCancel" type="controller" />
 		<action name="procDocumentDeclare" type="controller" />
 		<action name="procDocumentAddCart" type="controller" />
+		<action name="dispDocumentManageDocument" type="view" />
 		<action name="procDocumentManageCheckedDocument" type="controller" />
 		<action name="procDocumentInsertModuleConfig" type="controller" />
 

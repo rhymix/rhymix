@@ -105,8 +105,6 @@ class ncenterliteAdminView extends ncenterlite
 		Context::set('page', $output->page);
 		Context::set('ncenterlite_list', $output->data);
 		Context::set('page_navigation', $output->page_navigation);
-
-		$this->setTemplateFile('ncenter_list');
 	}
 
 	function dispNcenterliteAdminTest()

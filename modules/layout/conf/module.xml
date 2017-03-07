@@ -1,13 +1,22 @@
 <?xml version="1.0" encoding="utf-8"?>
 <module>
-    <grants />
-    <permissions />
-    <actions>
-        <action name="dispLayoutInfo" type="view" />
-        <action name="dispLayoutAdminContent" type="view" />
-        <action name="dispLayoutAdminInfo" type="view" />
-        <action name="dispLayoutAdminLayoutModify" type="view" />
-        <action name="dispLayoutAdminLayoutImageList" type="view" />
+	<grants />
+	<permissions>
+		<permission action="dispLayoutPreview" target="manager" />
+		<permission action="dispLayoutPreviewWithModule" target="manager" />
+		<permission action="getLayoutInstanceListForJSONP" target="manager" />
+	</permissions>
+	<actions>
+		<action name="dispLayoutInfo" type="view" />
+		<action name="dispLayoutPreview" type="view" />
+		<action name="dispLayoutPreviewWithModule" type="view" />
+		<action name="getLayoutInstanceListForJSONP" type="model" />
+
+		<!-- admin -->
+		<action name="dispLayoutAdminContent" type="view" />
+		<action name="dispLayoutAdminInfo" type="view" />
+		<action name="dispLayoutAdminLayoutModify" type="view" />
+		<action name="dispLayoutAdminLayoutImageList" type="view" />
 		<action name="dispLayoutAdminMobileContent" type="view" />
 
 		<action name="dispLayoutAdminInstalledList" type="view" admin_index="true" menu_name="installedLayout" menu_index="true" />
@@ -22,9 +31,6 @@
 		<action name="getLayoutAdminSetHTMLCSS" type="model" />
 		<action name="getLayoutAdminSiteDefaultLayout" type="model" />
 
-		<action name="dispLayoutPreview" type="view" />
-		<action name="dispLayoutPreviewWithModule" type="view" />
-
 		<action name="procLayoutAdminUpdate" type="controller" ruleset="updateLayout" />
 		<action name="procLayoutAdminCodeUpdate" type="controller" ruleset="codeUpdate" />
 		<action name="procLayoutAdminUserImageUpload" type="controller" ruleset="imageUpload" />
@@ -33,18 +39,15 @@
 		<action name="procLayoutAdminConfigImageDelete" type="controller" />
 		<action name="procLayoutAdminDelete" type="controller" ruleset="deleteLayout" />
 
-        <action name="procLayoutAdminInsert" type="controller" ruleset="insertLayout" />
+		<action name="procLayoutAdminInsert" type="controller" ruleset="insertLayout" />
 
-        <action name="procLayoutAdminCodeReset" type="controller" />
+		<action name="procLayoutAdminCodeReset" type="controller" />
 
-        <action name="procLayoutAdminUserValueInsert" type="controller" />
-        <action name="procLayoutAdminUserLayoutExport" type="controller" />
-        <action name="procLayoutAdminUserLayoutImport" type="controller" ruleset="userLayoutImport" />
-        <action name="procLayoutAdminCopyLayout" type="controller" />
-
-		<action name="getLayoutInstanceListForJSONP" type="model" />
-
-    </actions>
+		<action name="procLayoutAdminUserValueInsert" type="controller" />
+		<action name="procLayoutAdminUserLayoutExport" type="controller" />
+		<action name="procLayoutAdminUserLayoutImport" type="controller" ruleset="userLayoutImport" />
+		<action name="procLayoutAdminCopyLayout" type="controller" />
+	</actions>
 	<menus>
 		<menu name="installedLayout">
 			<title xml:lang="en">Layouts</title>

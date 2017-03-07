@@ -2987,7 +2987,7 @@ class memberController extends member
 
 	function _clearMemberCache($member_srl, $site_srl = 0)
 	{
-		$member_srl = getNumberingPath($member_srl) . $member_srl;
+		$member_srl = intval($member_srl);
 		Rhymix\Framework\Cache::delete("member:member_info:$member_srl");
 		Rhymix\Framework\Cache::delete("member:member_groups:$member_srl:site:$site_srl");
 		if ($site_srl != 0)

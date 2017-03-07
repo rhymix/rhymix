@@ -1,7 +1,30 @@
 <?xml version="1.0" encoding="utf-8"?>
 <module>
 	<grants />
-	<permissions />
+	<permissions>
+		<permission action="dispCommunicationMessages" target="member" />
+		<permission action="dispCommunicationSendMessage" target="member" />
+		<permission action="dispCommunicationNewMessage" target="member" />
+
+		<permission action="dispCommunicationFriend" target="member" />
+		<permission action="dispCommunicationAddFriend" target="member" />
+		<permission action="dispCommunicationAddFriendGroup" target="member" />
+		<permission action="dispCommunicationMessageBoxList" target="member" />
+
+		<permission action="procCommunicationUpdateAllowMessage" target="member" />
+		<permission action="procCommunicationSendMessage" target="member" />
+		<permission action="procCommunicationStoreMessage" target="member" />
+		<permission action="procCommunicationDeleteMessage" target="member" />
+		<permission action="procCommunicationDeleteMessages" target="member" />
+
+		<permission action="procCommunicationAddFriend" target="member" />
+		<permission action="procCommunicationMoveFriend" target="member" />
+		<permission action="procCommunicationDeleteFriend" target="member" />
+
+		<permission action="procCommunicationAddFriendGroup" target="member" />
+		<permission action="procCommunicationRenameFriendGroup" target="member" />
+		<permission action="procCommunicationDeleteFriendGroup" target="member" />
+	</permissions>
 	<actions>
 		<action name="dispCommunicationMessages" type="view" standalone="true" />
 		<action name="dispCommunicationSendMessage" type="view" standalone="true" />
@@ -26,6 +49,7 @@
 		<action name="procCommunicationRenameFriendGroup" type="controller" standalone="true" />
 		<action name="procCommunicationDeleteFriendGroup" type="controller" standalone="true" />
 
+		<!-- admin -->
 		<action name="getCommunicationAdminColorset" type="model" />
 		<action name="procCommunicationAdminInsertConfig" type="controller" ruleset="insertConfig" />
 		<action name="dispCommunicationAdminConfig" type="view" admin_index="true" />

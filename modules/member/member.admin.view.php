@@ -91,6 +91,7 @@ class memberAdminView extends member
 			foreach($output->data as $key => $member)
 			{
 				$output->data[$key]->group_list = $oMemberModel->getMemberGroups($member->member_srl,0);
+				$output->data[$key]->profile_image = $oMemberModel->getProfileImage($member->member_srl);
 			}
 		}
 		$config = $this->memberConfig;
@@ -115,6 +116,7 @@ class memberAdminView extends member
 		Context::set('member_list', $output->data);
 		Context::set('usedIdentifiers', $usedIdentifiers);
 		Context::set('page_navigation', $output->page_navigation);
+		Context::set('profileImageConfig', $config->profile_image);
 
 		$security = new Security();
 		$security->encodeHTML('member_list..user_name', 'member_list..nick_name', 'member_list..group_list..');

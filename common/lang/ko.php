@@ -241,6 +241,7 @@ $lang->msg_module_is_not_exists = '요청한 페이지를 찾을 수 없습니�
 $lang->msg_module_is_not_standalone = '요청한 페이지는 독립적으로 동작할 수 없습니다.';
 $lang->msg_empty_search_target = '검색대상이 없습니다.';
 $lang->msg_empty_search_keyword = '검색어가 없습니다.';
+$lang->msg_empty_content = '내용이 없습니다.';
 $lang->msg_server_error = '서버 오류';
 $lang->msg_server_error_see_log = '오류 메시지를 표시하지 않도록 설정되어 있습니다. 서버의 에러 로그에서 자세한 내용을 확인해 주십시오.';
 $lang->comment_to_be_approved = '관리자의 확인이 필요한 댓글입니다.';

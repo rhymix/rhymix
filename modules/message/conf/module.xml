@@ -4,6 +4,8 @@
 	<permissions />
 	<actions>
 		<action name="dispMessage" type="view" index="true" />
+
+		<!-- admin -->
 		<action name="dispMessageAdminConfig" type="view" admin_index="true" />
 		<action name="procMessageAdminInsertConfig" type="controller" />
 		<action name="getMessageAdminColorset" type="model" />
