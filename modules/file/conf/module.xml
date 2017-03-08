@@ -2,6 +2,7 @@
 <module>
     <grants />
     <permissions>
+		<permission action="procFileGetList" target="manager" />
         <permission action="procFileAdminInsertModuleConfig" target="manager" />
     </permissions>
     <actions>
