@@ -170,7 +170,16 @@ class fileController extends file
 		if(!$upload_target_srl) $_SESSION['upload_info'][$editor_sequence]->upload_target_srl = $upload_target_srl = getNextSequence();
 		// Delete and then attempt to re-upload if file_srl is requested
 		$file_srl = Context::get('file_srl');
-		if($file_srl) $this->deleteFile($file_srl);
+		if($file_srl)
+		{
+			$oFileModel = getModel('file');
+			$logged_info = Context::get('logged_info');
+			$file_info = $oFileModel->getFile($file_srl);
+			if($file_info->file_srl == $file_srl && $oFileModel->getFileGrant($file_info, $logged_info)->is_deletable)
+			{
+				$this->deleteFile($file_srl);
+			}
+		}
 
 		$file_info = Context::get('Filedata');
 		// An error appears if not a normally uploaded file
