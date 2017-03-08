@@ -467,7 +467,18 @@ class commentAdminController extends comment
 		$obj->module_srl = $originObject->module_srl;
 
 		$oCommentController = getController('comment');
-		$output = $oCommentController->insertComment($obj, true);
+		$oCommentModel = getModel('comment');
+
+		$oComment = $oCommentModel->getComment($originObject->comment_srl);
+
+		if($oComment->isExists())
+		{
+			$output = $oCommentController->updateCommentByRestore($obj);
+		}
+		else
+		{
+			$output = $oCommentController->insertComment($obj, true);
+		}
 
 		return $output;
 	}
