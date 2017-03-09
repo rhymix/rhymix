@@ -827,7 +827,7 @@ class adminAdminView extends admin
 		
 		// Widgets
 		$info[] = '[Widgets]';
-		$info['widget'] = "";
+		$info['widget'] = array();
 		$oWidgetModel = getModel('widget');
 		$widget_list = $oWidgetModel->getDownloadedWidgetList() ?: array();
 		foreach ($widget_list as $widget)
