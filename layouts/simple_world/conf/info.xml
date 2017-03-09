@@ -4,8 +4,8 @@
 	<title xml:lang="en">Rectangular World</title>
 	<description xml:lang="ko">깔끔한 면과 그림자 레이아웃</description>
 	<description xml:lang="en">Simple rectangular planes and shadows</description>
-	<version>1.0.1</version>
-	<date>2016-09-25</date>
+	<version>1.1.0</version>
+	<date>2017-03-10</date>
 	<author email_address="misol.kr@gmail.com" link="https://github.com/misol">
 		<name xml:lang="ko">misol</name>
 		<name xml:lang="en">misol</name>
@@ -35,6 +35,24 @@
 				<title xml:lang="en">Top left</title>
 			</options>
 		</var>
+		<var name="left_space" type="select">
+			<title xml:lang="ko">죄측 공간 만들기</title>
+			<title xml:lang="en">Make a space on the left</title>
+			<description xml:lang="ko">본문 좌측에 공간을 만듭니다.</description>
+			<description xml:lang="en">Make a space on the left of contents area.</description>
+			<options value="N">
+				<title xml:lang="ko">만들지 않습니다.</title>
+				<title xml:lang="en">I don't need it.</title>
+			</options>
+			<options value="Y">
+				<title xml:lang="ko">공간을 만듭니다.</title>
+				<title xml:lang="en">I need it.</title>
+			</options>
+			<options value="YM">
+				<title xml:lang="ko">공간을 만들고, 서브 메뉴를 나타냅니다.</title>
+				<title xml:lang="en">I need it, and place there submenus.</title>
+			</options>
+		</var>
 		<var name="LOGO_IMG" type="image">
 			<title xml:lang="ko">사이트 로고 이미지</title>
 			<title xml:lang="en">Site logo image</title>
@@ -51,6 +69,11 @@
 			<title xml:lang="ko">사이트 본문 상단 내용</title>
 			<title xml:lang="en">Before the content area content</title>
 			<description xml:lang="ko">사이트 본문 영역 상단에 내용을 입력할 수 있습니다.</description>
+		</var>
+		<var name="left_content" type="textarea">
+			<title xml:lang="ko">사이트 본문 좌측 내용</title>
+			<title xml:lang="en">The contents of the left of contents area</title>
+			<description xml:lang="ko">사이트 본문 영역 좌측 영역이 나타나게 선택되었을 경우 추가될 내용을 입력할 수 있습니다.</description>
 		</var>
 		<var name="after_content" type="textarea">
 			<title xml:lang="ko">사이트 본문 하단 내용</title>
