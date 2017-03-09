@@ -43,8 +43,9 @@ body {
 	width:100%;
 	margin:0 auto;
 }
-header.layout_frame, footer.layout_frame{
+header.layout_frame, footer.layout_frame, .layout_frame.layout_left_content .layout_left_content{
 	font-family: "맑은 고딕", "Apple SD Gothic Neo","나눔고딕",NanumGothic,'Nanum Gothic',Arial,Helvetica,sans-serif;
+	font-size: 14px;
 }
 .layout_header {
 	padding:0;
@@ -61,6 +62,54 @@ header.layout_frame, footer.layout_frame{
 }
 .layout_body {
 	position: relative;
+}
+.layout_left_content.layout_frame>.layout_canvas {
+	div.layout_content {
+		float:left;
+		width: 20%;
+		box-sizing: border-box;
+		section.layout_left{
+			margin: 2px;
+			background: #fff;
+			box-shadow: 0 1px 2px rgba(0,0,0,0.16), 0 1px 2px rgba(0,0,0,0.23);
+			h1 {
+				border-bottom: 1px solid #e0e0e0;
+				font-weight: 400;
+				margin: 0;
+				position: relative;
+				a {
+					display: block;
+					margin: 0;
+					padding: 14px 16px;
+					font-size: 14px;
+					color: $primary-color;
+					text-decoration: none;
+				}
+			}
+			ul.layout_dropdown-content {
+				display: block;
+				position: relative;
+				z-index: none;
+				padding: 0;
+				margin: 0;
+				list-style: none;
+				a {
+					display: block;
+					padding: 14px 16px;
+					text-decoration: none;
+					color: #000;
+					&:hover, &:active, &:focus, &.active {
+						background: #eeeeee;
+						outline: none;
+					}
+				}
+			}
+		}
+	}
+
+	#content {
+		width: 80%;
+	}
 }
 
 .layout_header:after,
@@ -122,10 +171,9 @@ header.layout_frame {
 		font-weight: bold;
 		text-decoration: none;
 		color: lighten($primary_color, 31%);
-	}
-	a:hover,
-	a:focus {
-		text-decoration: underline
+		&:hover, &:active, &:focus {
+			text-decoration: underline
+		}
 	}
 }
 
@@ -144,7 +192,6 @@ header.layout_frame {
 	input[type="text"] {
 		width: 126px;
 		line-height: 18px;
-		font-size: 14px;
 		margin: 0;
 		padding: 8px 8px 6px 8px;
 		position: relative;
@@ -154,11 +201,10 @@ header.layout_frame {
 		border: none;
 		background: lighten($primary-color, 20%);
 		color: layoutGrayContrast(lighten($primary-color, 20%), 0.710);
-	}
-	input[type="text"]:hover,
-	input[type="text"]:focus {
-		background: lighten($primary-color, 50%);
-		color: layoutGrayContrast(lighten($primary-color, 50%), 0.710);
+		&:hover, &:active, &:focus {
+			background: lighten($primary-color, 50%);
+			color: layoutGrayContrast(lighten($primary-color, 50%), 0.710);
+		}
 	}
 	input[type="submit"] {
 		vertical-align: bottom;
@@ -168,11 +214,10 @@ header.layout_frame {
 		height:32px;
 		padding:0 15px;
 		margin:0;
-	}
-	input[type="submit"]:hover,
-	input[type="submit"]:focus {
-		background:$primary-color;
-		color: layoutGrayContrast($primary-color, 0.710);
+		&:hover, &:active, &:focus {
+			background:$primary-color;
+			color: layoutGrayContrast($primary-color, 0.710);
+		}
 	}
 }
 
@@ -192,7 +237,6 @@ header.layout_frame {
 		text-align: center;
 		padding: 14px 16px;
 		text-decoration: none;
-		font-size: 13px;
 		line-height: 1;
 	}
 	li.active>a {
@@ -348,19 +392,19 @@ header.layout_frame .layout_menu{
 .layout_language li{
 	list-style:none;
 	background: lighten($grey, 40%);
-}
-.layout_language li button {
-	display:block;
-	color: black;
-	background: lighten($grey, 40%);
-	padding: 12px 16px;
-	text-decoration: none;
-	width: 100%;
-	display: block;
-	text-align: left;
-	box-sizing: border-box;
-	border:0;
-	cursor:pointer;
+	button {
+		display:block;
+		color: black;
+		background: lighten($grey, 40%);
+		padding: 12px 16px;
+		text-decoration: none;
+		width: 100%;
+		display: block;
+		text-align: left;
+		box-sizing: border-box;
+		border:0;
+		cursor:pointer;
+	}
 }
 
 /* Hamberger menu http://callmenick.com/post/animating-css-only-hamburger-menu-icons Licensed under the MIT license, http://www.opensource.org/licenses/mit-license.php Copyright 2014, Call Me Nick http://callmenick.com */
@@ -408,12 +452,12 @@ header.layout_frame .layout_menu{
 	span::after {
 		bottom: -19px;
 	}
+	&:focus {
+		outline: none;
+	}
 
 }
 
-.layout_mobile_menu:focus {
-	outline: none;
-}
 
 .layout_mobile_menu--htx {
 	background-color: $primary-color;
@@ -497,7 +541,14 @@ header.layout_frame .layout_menu{
 		opacity: 0.9;
 		box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
 	}
-
+	.layout_left_content.layout_frame>.layout_canvas {
+		div.layout_content {
+			display:none;
+		}
+		#content{
+			width:100%;
+		}
+	}
 	/* GNB */
 	.layout_menu {
 		display: none;
@@ -550,15 +601,14 @@ header.layout_frame .layout_menu{
 		min-width: 100%;
 		box-shadow: none;
 		z-index:1;
-	}
-
-	.layout_menu .layout_dropdown-content a {
-		background-color: lighten($grey, 35%);
-		color: layoutGrayContrast(lighten($grey, 35%), 0.710);
-		padding: 15px 30px;
-		text-decoration: none;
-		display: block;
-		text-align: left;
+		a {
+			background-color: lighten($grey, 35%);
+			color: layoutGrayContrast(lighten($grey, 35%), 0.710);
+			padding: 15px 30px;
+			text-decoration: none;
+			display: block;
+			text-align: left;
+		}
 	}
 
 	.layout_footer .layout_menu {
