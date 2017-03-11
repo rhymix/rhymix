@@ -10,6 +10,20 @@
 		<input type="hidden" name="domain_srl" value="{$domain_info ? $domain_info->domain_srl : ''}" />
 		
 		<div class="x_control-group">
+			<label class="x_control-label">{$lang->site_title}</label>
+			<div class="x_controls">
+				<input type="text" name="title" value="{$domain_info ? escape($domain_info->settings->title) : ''}" class="lang_code" />
+			</div>
+		</div>
+		
+		<div class="x_control-group">
+			<label class="x_control-label">{$lang->site_subtitle}</label>
+			<div class="x_controls">
+				<input type="text" name="subtitle" value="{$domain_info ? escape($domain_info->settings->subtitle) : ''}" class="lang_code" />
+			</div>
+		</div>
+		
+		<div class="x_control-group">
 			<label class="x_control-label" for="domain">{$lang->domain}</label>
 			<div class="x_controls">
 				<input type="text" name="domain" id="domain" value="{$domain_info ? escape($domain_info->domain) : ''}"/>
@@ -45,11 +59,7 @@
 		<div class="x_control-group">
 			<label class="x_control-label" for="index_module_srl">{$lang->cmd_index_module_srl}</label>
 			<div class="x_controls">
-				<select id="index_module_srl" name="index_module_srl">
-					<!--@foreach($module_list as $module_info)-->
-						<option value="{$module_info->module_srl}" selected="selected"|cond="$module_info->module_srl == $index_module_srl">{escape($module_info->browser_title)}</option>
-					<!--@endforeach-->
-				</select>
+				<input class="module_search" type="text" id="index_module_srl" name="index_module_srl" value="{$index_module_srl}" />
 			</div>
 		</div>
 		
@@ -66,6 +76,67 @@
 				<select name="default_lang" id="default_lang">
 					<option value="{$key}" loop="$enabled_lang => $key" selected="selected"|cond="$key == $domain_lang">{$supported_lang[$key]['name']}</option>
 				</select>
+			</div>
+		</div>
+		
+		<div class="x_control-group">
+			<label class="x_control-label" for="default_timezone">{$lang->timezone}</label>
+			<div class="x_controls">
+				<select name="default_timezone">
+					<option loop="$timezones => $key,$val" value="{$key}" selected="selected"|cond="$key == $domain_timezone">{$val}</option>
+				</select>
+			</div>
+		</div>
+		
+		<div class="x_control-group">
+			<label class="x_control-label" for="html_footer">{$lang->input_footer_script}</label>
+			<div class="x_controls" style="margin-right:14px">
+				<textarea name="html_footer" id="html_footer" rows="6" style="width:100%">{$domain_info ? $domain_info->settings->html_footer : ''}</textarea>
+				<div class="x_help-block">{$lang->detail_input_footer_script}</div>
+			</div>
+		</div>
+		
+		<div class="x_control-group">
+			<label class="x_control-label">{$lang->allow_use_favicon}</label>
+			<div class="x_controls">
+				<p id="faviconPreview">
+					<img src="{$favicon_url ?: (\RX_BASEURL . 'modules/admin/tpl/img/faviconSample.png')}" alt="Favicon" class="fn1" style="width:16px;height:16px">
+					<img src="{$favicon_url ?: (\RX_BASEURL . 'modules/admin/tpl/img/faviconSample.png')}" alt="Favicon" class="fn2" style="width:16px;height:16px">
+				</p>
+				<label cond="$favicon_url">
+					<input type="checkbox" name="delete_favicon" value="1" /> {$lang->cmd_delete}
+				</label>
+				<input type="file" name="favicon" id="favicon" title="Favicon"/>
+				<span class="x_help-block">{$lang->about_use_favicon}</span>
+			</div>
+		</div>
+		
+		<div class="x_control-group">
+			<label class="x_control-label">{$lang->allow_use_mobile_icon}</label>
+			<div class="x_controls">
+				<p id="mobiconPreview">
+					<img src="{$mobicon_url ?: (\RX_BASEURL . 'modules/admin/tpl/img/mobiconSample.png')}" alt="Mobile Home Icon" width="32" height="32" />
+					<span>Rhymix</span>
+				</p>
+				<label cond="$mobicon_url">
+					<input type="checkbox" name="delete_mobicon" value="1" /> {$lang->cmd_delete}
+				</label>
+				<input type="file" name="mobicon" id="mobicon" title="Mobile Home Icon"/>
+				<span class="x_help-block">{$lang->detail_use_mobile_icon}</span>
+			</div>
+		</div>
+		
+		<div class="x_control-group">
+			<label class="x_control-label">{$lang->cmd_site_default_image}</label>
+			<div class="x_controls">
+				<p id="default_imagePreview" cond="$default_image_url">
+					<img src="{$default_image_url}" alt="Default Image" style="width:200px;height:auto" />
+				</p>
+				<label cond="$default_image_url">
+					<input type="checkbox" name="delete_default_image" value="1" /> {$lang->cmd_delete}
+				</label>
+				<input type="file" name="default_image" id="default_image" title="Default Image"/>
+				<span class="x_help-block">{$lang->about_site_default_image}</span>
 			</div>
 		</div>
 		

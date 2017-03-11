@@ -689,10 +689,10 @@ class adminAdminView extends admin
 		$domain_info = null;
 		if ($domain_srl !== '')
 		{
-			$output = executeQuery('module.getDomainInfo', (object)array('domain_srl' => $domain_srl));
-			if ($output->toBool() && $output->data)
+			$domain_info = getModel('module')->getSiteInfo($domain_srl);
+			if ($domain_info->domain_srl != $domain_srl)
 			{
-				$domain_info = $output->data;
+				$domain_info = null;
 			}
 		}
 		Context::set('domain_info', $domain_info);
@@ -722,6 +722,24 @@ class adminAdminView extends admin
 			$domain_lang = Rhymix\Framework\Config::get('locale.default_lang');
 		}
 		Context::set('domain_lang', $domain_lang);
+		
+		// Get timezone list.
+		Context::set('timezones', Rhymix\Framework\DateTime::getTimezoneList());
+		if ($domain_info && $domain_info->settings->timezone)
+		{
+			$domain_timezone = $domain_info->settings->timezone;
+		}
+		else
+		{
+			$domain_timezone = Rhymix\Framework\Config::get('locale.default_timezone');
+		}
+		Context::set('domain_timezone', $domain_timezone);
+		
+		// Get favicon and images.
+		$oAdminAdminModel = getAdminModel('admin');
+		Context::set('favicon_url', $oAdminAdminModel->getFaviconUrl($domain_info->domain_srl));
+		Context::set('mobicon_url', $oAdminAdminModel->getMobileIconUrl($domain_info->domain_srl));
+		Context::set('default_image_url', $oAdminAdminModel->getSiteDefaultImageUrl($domain_info->domain_srl));
 		
 		$this->setTemplateFile('config_domains_edit');
 	}

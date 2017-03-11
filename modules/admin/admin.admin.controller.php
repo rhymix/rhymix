@@ -958,11 +958,19 @@ class adminAdminController extends admin
 		$domain_info = null;
 		if ($domain_srl !== '')
 		{
-			$output = executeQuery('module.getDomainInfo', (object)array('domain_srl' => $domain_srl));
-			if ($output->toBool() && $output->data)
+			$domain_info = getModel('module')->getSiteInfo($domain_srl);
+			if ($domain_info->domain_srl != $domain_srl)
 			{
-				$domain_info = $output->data;
+				$domain_info = null;
 			}
+		}
+		
+		// Validate the title and subtitle.
+		$vars->title = utf8_trim($vars->title);
+		$vars->subtitle = utf8_trim($vars->subtitle);
+		if ($vars->title === '')
+		{
+			return new Object(-1, 'msg_site_title_is_empty');
 		}
 		
 		// Validate the domain.
@@ -1041,6 +1049,25 @@ class adminAdminController extends admin
 			return new Object(-1, 'msg_lang_is_not_enabled');
 		}
 		
+		// Validate the default time zone.
+		$timezone_list = Rhymix\Framework\DateTime::getTimezoneList();
+		if (!isset($timezone_list[$vars->default_timezone]))
+		{
+			return new Object(-1, 'msg_invalid_timezone');
+		}
+		
+		// Clean up the footer script.
+		$vars->html_footer = utf8_trim($vars->html_footer);
+		
+		// Merge all settings into an array.
+		$settings = array(
+			'title' => $vars->title,
+			'subtitle' => $vars->subtitle,
+			'language' => $vars->default_lang,
+			'timezone' => $vars->default_timezone,
+			'html_footer' => $vars->html_footer,
+		);
+		
 		// Insert or update the domain.
 		if (!$domain_info)
 		{
@@ -1053,7 +1080,7 @@ class adminAdminController extends admin
 			$args->https_port = $vars->https_port;
 			$args->security = $vars->domain_security;
 			$args->description = '';
-			$args->settings = json_encode(array('language' => $vars->default_lang, 'timezone' => null));
+			$args->settings = json_encode($settings);
 			$output = executeQuery('module.insertDomain', $args);
 			if (!$output->toBool())
 			{
@@ -1070,7 +1097,7 @@ class adminAdminController extends admin
 			$args->http_port = $vars->http_port;
 			$args->https_port = $vars->https_port;
 			$args->security = $vars->domain_security;
-			$args->settings = json_encode(array_merge($domain_info->settings, array('language' => $vars->default_lang)));
+			$args->settings = json_encode(array_merge(get_object_vars($domain_info->settings), $settings));
 			$output = executeQuery('module.updateDomain', $args);
 			if (!$output->toBool())
 			{
