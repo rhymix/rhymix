@@ -38,7 +38,7 @@
 		<var name="left_space" type="select">
 			<title xml:lang="ko">죄측 공간 만들기</title>
 			<title xml:lang="en">Make a space on the left</title>
-			<description xml:lang="ko">본문 좌측에 공간을 만듭니다.</description>
+			<description xml:lang="ko">본문 좌측에 공간을 만듭니다. 모바일 화면에서는 나타나지 않습니다.</description>
 			<description xml:lang="en">Make a space on the left of contents area.</description>
 			<options value="N">
 				<title xml:lang="ko">만들지 않습니다.</title>
@@ -73,7 +73,12 @@
 		<var name="left_content" type="textarea">
 			<title xml:lang="ko">사이트 본문 좌측 내용</title>
 			<title xml:lang="en">The contents of the left of contents area</title>
-			<description xml:lang="ko">사이트 본문 영역 좌측 영역이 나타나게 선택되었을 경우 추가될 내용을 입력할 수 있습니다.</description>
+			<description xml:lang="ko">사이트 본문 영역 좌측 영역이 나타나게 선택되었을 경우 추가될 내용을 입력할 수 있습니다. 모바일 화면에서는 나타나지 않습니다. 상단 옵션 중 '죄측 공간 만들기'를 먼저 설정해주십시오.</description>
+		</var>
+		<var name="right_content" type="textarea">
+			<title xml:lang="ko">레이아웃 틀 오른쪽 내용 (width: 160px)</title>
+			<title xml:lang="en">The right area of the layout frame (width: 160px)</title>
+			<description xml:lang="ko">레이아웃 상-하단이 만들어내는 직사각형 영역 바깥 오른편에 나타낼 내용을 입력합니다. 공간 폭은 160px 입니다. 작은 화면에서는 나타나지 않습니다.</description>
 		</var>
 		<var name="after_content" type="textarea">
 			<title xml:lang="ko">사이트 본문 하단 내용</title>

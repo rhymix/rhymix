@@ -12,6 +12,11 @@
 	@return rgb($return, $return, $return);
 }
 
+@mixin layout_box($shadow){
+	background: #fff;
+	box-shadow: 0 $shadow/2 $shadow rgba(0,0,0,0.16), 0 $shadow/2 $shadow rgba(0,0,0,0.23);
+}
+
 body {
 	margin:0;
 	padding:0;
@@ -59,19 +64,29 @@ header.layout_frame, footer.layout_frame, .layout_frame.layout_left_content .lay
 
 .layout_body.layout_frame {
 	background-color: $content_color;
+	overflow: hidden;
 }
 .layout_body {
 	position: relative;
+}
+.layout_outright{
+	position: absolute;
+	top: 15px;
+	right: 0;
+	box-sizing: border-box;
+	width: 160px;
+	@include layout_box(2px);
+	margin-right:-170px;
 }
 .layout_left_content.layout_frame>.layout_canvas {
 	div.layout_content {
 		float:left;
 		width: 20%;
 		box-sizing: border-box;
+		padding-right:5px;
 		section.layout_left{
-			margin: 2px;
-			background: #fff;
-			box-shadow: 0 1px 2px rgba(0,0,0,0.16), 0 1px 2px rgba(0,0,0,0.23);
+			margin: 2px 2px 10px;
+			@include layout_box(2px);
 			h1 {
 				border-bottom: 1px solid #e0e0e0;
 				font-weight: 400;
@@ -86,21 +101,28 @@ header.layout_frame, footer.layout_frame, .layout_frame.layout_left_content .lay
 					text-decoration: none;
 				}
 			}
-			ul.layout_dropdown-content {
-				display: block;
-				position: relative;
-				z-index: none;
-				padding: 0;
-				margin: 0;
+			ul{
 				list-style: none;
-				a {
+				&.layout_dropdown-content {
 					display: block;
-					padding: 14px 16px;
-					text-decoration: none;
-					color: #000;
-					&:hover, &:active, &:focus, &.active {
-						background: #eeeeee;
-						outline: none;
+					position: relative;
+					z-index: none;
+					padding: 0;
+					margin: 0;
+					a {
+						display: block;
+						padding: 14px 16px;
+						text-decoration: none;
+						color: #000;
+						&.active {
+							background: #e0e0e0;
+						}
+						&:hover, &:active, &:focus {
+							background: #eeeeee;
+						}
+					}
+					ul {
+						padding-left: 10px;
 					}
 				}
 			}
@@ -226,10 +248,13 @@ header.layout_frame {
 	background-color: lighten($grey, 31%);
 	ul {
 		list-style-type: none;
-		padding: 0;
 		overflow: hidden;
 		max-width:1050px;
 		margin:0 auto;
+		padding: 0;
+		&.layout_dropdown-content ul{
+			padding-left:10px;
+		}
 	}
 	li a, .dropbtn {
 		display: inline-block;

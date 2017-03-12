@@ -81,6 +81,7 @@ $(function()
 	{
 		$( this ).focusin( function( event )
 		{
+			$('*[data-dropdown="active"]').css('display', '').attr('data-dropdown', '').parents('li.layout_dropdown').removeClass('layout_focus');
 			$( this ).addClass('layout_focus');
 			$( this ).find("ul.layout_dropdown-content").css('display', 'block').attr('data-dropdown', 'active');
 		});
