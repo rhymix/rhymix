@@ -774,10 +774,10 @@ class Context
 	 */
 	public static function getSiteTitle()
 	{
-		$moduleConfig = getModel('module')->getModuleConfig('module');
-		if (isset($moduleConfig->siteTitle))
+		$domain_info = self::get('site_module_info');
+		if ($domain_info && $domain_info->settings && $domain_info->settings->title)
 		{
-			$title = trim($moduleConfig->siteTitle);
+			$title = trim($domain_info->settings->title);
 			getController('module')->replaceDefinedLangCode($title);
 			return $title;
 		}
@@ -794,10 +794,10 @@ class Context
 	 */
 	public static function getSiteSubtitle()
 	{
-		$moduleConfig = getModel('module')->getModuleConfig('module');
-		if (isset($moduleConfig->siteSubtitle))
+		$domain_info = self::get('site_module_info');
+		if ($domain_info && $domain_info->settings && $domain_info->settings->subtitle)
 		{
-			$subtitle = trim($moduleConfig->siteSubtitle);
+			$subtitle = trim($domain_info->settings->subtitle);
 			getController('module')->replaceDefinedLangCode($subtitle);
 			return $subtitle;
 		}

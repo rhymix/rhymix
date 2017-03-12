@@ -774,16 +774,16 @@ class ModuleHandler extends Handler
 
 		if($type == "view" && $kind != 'admin')
 		{
-			$module_config = $oModuleModel->getModuleConfig('module');
-			if($module_config->htmlFooter)
+			$domain_info = Context::get('site_module_info');
+			if ($domain_info && $domain_info->settings && $domain_info->settings->html_footer)
 			{
-				Context::addHtmlFooter($module_config->htmlFooter);
+				Context::addHtmlFooter($domain_info->settings->html_footer);				
 			}
-			if($module_config->siteTitle)
+			if ($domain_info && $domain_info->settings && $domain_info->settings->title)
 			{
 				if(!Context::getBrowserTitle())
 				{
-					Context::setBrowserTitle($module_config->siteTitle);
+					Context::setBrowserTitle($domain_info->settings->title);
 				}
 			}
 		}
