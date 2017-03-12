@@ -407,42 +407,30 @@ class adminAdminView extends admin
 	 */
 	function dispAdminConfigGeneral()
 	{
-		// Default and enabled languages
-		Context::set('supported_lang', Rhymix\Framework\Lang::getSupportedList());
-		Context::set('default_lang', Rhymix\Framework\Config::get('locale.default_lang'));
-		Context::set('enabled_lang', Rhymix\Framework\Config::get('locale.enabled_lang'));
-		Context::set('auto_select_lang', Rhymix\Framework\Config::get('locale.auto_select_lang'));
-		
-		// Site title and HTML footer
+		// Get domain list.
 		$oModuleModel = getModel('module');
-		$config = $oModuleModel->getModuleConfig('module');
-		Context::set('var_site_title', escape($config->siteTitle));
-		Context::set('var_site_subtitle', escape($config->siteSubtitle));
-		Context::set('all_html_footer', escape($config->htmlFooter));
+		$page = intval(Context::get('page')) ?: 1;
+		$domain_list = $oModuleModel->getAllDomains(20, $page);
+		Context::set('domain_list', $domain_list);
+		Context::set('page_navigation', $domain_list->page_navigation);
+		Context::set('page', $page);
 		
-		// Index module
-		$columnList = array('modules.mid', 'modules.browser_title', 'index_module_srl');
-		$start_module = $oModuleModel->getSiteInfo(0, $columnList);
-		Context::set('start_module', $start_module);
+		// Get index module info.
+		$module_list = array();
+		$oModuleModel = getModel('module');
+		foreach ($domain_list->data as $domain)
+		{
+			if ($domain->index_module_srl && !isset($module_list[$domain->index_module_srl]))
+			{
+				$module_list[$domain->index_module_srl] = $oModuleModel->getModuleInfoByModuleSrl($domain->index_module_srl);
+			}
+		}
+		Context::set('module_list', $module_list);
 		
-		// Default time zone
-		Context::set('timezones', Rhymix\Framework\DateTime::getTimezoneList());
-		Context::set('selected_timezone', Rhymix\Framework\Config::get('locale.default_timezone'));
+		// Get language list.
+		Context::set('supported_lang', Rhymix\Framework\Lang::getSupportedList());
 		
-		// Mobile view
-		Context::set('use_mobile_view', (config('mobile.enabled') !== null ? config('mobile.enabled') : config('use_mobile_view')) ? true : false);
-		Context::set('tablets_as_mobile', config('mobile.tablets') ? true : false);
-		
-		// Favicon and mobicon and site default image
-		$oAdminModel = getAdminModel('admin');
-		$favicon_url = $oAdminModel->getFaviconUrl(false) ?: $oAdminModel->getFaviconUrl();
-		$mobicon_url = $oAdminModel->getMobileIconUrl(false) ?: $oAdminModel->getMobileIconUrl();
-		$site_default_image_url = $oAdminModel->getSiteDefaultImageUrl();
-		Context::set('favicon_url', $favicon_url);
-		Context::set('mobicon_url', $mobicon_url);
-		Context::set('site_default_image_url', $site_default_image_url);
-		
-		$this->setTemplateFile('config_general');
+		$this->setTemplateFile('config_domains');
 	}
 	
 	/**
@@ -554,8 +542,20 @@ class adminAdminView extends admin
 		$config = $oDocumentModel->getDocumentConfig();
 		Context::set('thumbnail_type', $config->thumbnail_type ?: 'crop');
 		
+		// Default and enabled languages
+		Context::set('supported_lang', Rhymix\Framework\Lang::getSupportedList());
+		Context::set('default_lang', Rhymix\Framework\Config::get('locale.default_lang'));
+		Context::set('enabled_lang', Rhymix\Framework\Config::get('locale.enabled_lang'));
+		Context::set('auto_select_lang', Rhymix\Framework\Config::get('locale.auto_select_lang'));
+		
+		// Default time zone
+		Context::set('timezones', Rhymix\Framework\DateTime::getTimezoneList());
+		Context::set('selected_timezone', Rhymix\Framework\Config::get('locale.default_timezone'));
+		
 		// Other settings
 		Context::set('use_rewrite', Rhymix\Framework\Config::get('use_rewrite'));
+		Context::set('use_mobile_view', (config('mobile.enabled') !== null ? config('mobile.enabled') : config('use_mobile_view')) ? true : false);
+		Context::set('tablets_as_mobile', config('mobile.tablets') ? true : false);
 		Context::set('use_sso', Rhymix\Framework\Config::get('use_sso'));
 		Context::set('use_ssl', Rhymix\Framework\Config::get('url.ssl'));
 		Context::set('delay_session', Rhymix\Framework\Config::get('session.delay'));
@@ -568,38 +568,6 @@ class adminAdminView extends admin
 		Context::set('use_gzip', Rhymix\Framework\Config::get('view.use_gzip'));
 		
 		$this->setTemplateFile('config_advanced');
-	}
-	
-	/**
-	 * Display Debug Settings page
-	 * @return void
-	 */
-	function dispAdminConfigDomains()
-	{
-		// Get domain list.
-		$oModuleModel = getModel('module');
-		$page = intval(Context::get('page')) ?: 1;
-		$domain_list = $oModuleModel->getAllDomains(20, $page);
-		Context::set('domain_list', $domain_list);
-		Context::set('page_navigation', $domain_list->page_navigation);
-		Context::set('page', $page);
-		
-		// Get index module info.
-		$module_list = array();
-		$oModuleModel = getModel('module');
-		foreach ($domain_list->data as $domain)
-		{
-			if ($domain->index_module_srl && !isset($module_list[$domain->index_module_srl]))
-			{
-				$module_list[$domain->index_module_srl] = $oModuleModel->getModuleInfoByModuleSrl($domain->index_module_srl);
-			}
-		}
-		Context::set('module_list', $module_list);
-		
-		// Get language list.
-		Context::set('supported_lang', Rhymix\Framework\Lang::getSupportedList());
-		
-		$this->setTemplateFile('config_domains');
 	}
 	
 	/**

@@ -501,58 +501,6 @@ class adminAdminController extends admin
 	}
 	
 	/**
-	 * Update general configuration.
-	 */
-	function procAdminUpdateConfigGeneral()
-	{
-		$oModuleController = getController('module');
-		$vars = Context::getRequestVars();
-		
-		// Site title and HTML footer
-		$args = new stdClass;
-		$args->siteTitle = $vars->site_title;
-		$args->siteSubtitle = $vars->site_subtitle;
-		$args->htmlFooter = $vars->html_footer;
-		$oModuleController->updateModuleConfig('module', $args);
-		
-		// Index module
-		$domain_args = new stdClass();
-		$domain_args->domain_srl = 0;
-		$domain_args->index_module_srl = $vars->index_module_srl;
-		executeQuery('module.updateDomain', $domain_args);
-		
-		// Default and enabled languages
-		$enabled_lang = $vars->enabled_lang;
-		if (!in_array($vars->default_lang, $enabled_lang))
-		{
-			$enabled_lang[] = $vars->default_lang;
-		}
-		Rhymix\Framework\Config::set('locale.default_lang', $vars->default_lang);
-		Rhymix\Framework\Config::set('locale.enabled_lang', array_values($enabled_lang));
-		Rhymix\Framework\Config::set('locale.auto_select_lang', $vars->auto_select_lang === 'Y');
-		
-		// Default time zone
-		Rhymix\Framework\Config::set('locale.default_timezone', $vars->default_timezone);
-		
-		// Mobile view
-		Rhymix\Framework\Config::set('mobile.enabled', $vars->use_mobile_view === 'Y');
-		Rhymix\Framework\Config::set('mobile.tablets', $vars->tablets_as_mobile === 'Y');
-		if (Rhymix\Framework\Config::get('use_mobile_view') !== null)
-		{
-			Rhymix\Framework\Config::set('use_mobile_view', $vars->use_mobile_view === 'Y');
-		}
-		
-		// Save
-		if (!Rhymix\Framework\Config::save())
-		{
-			return new Object(-1, 'msg_failed_to_save_config');
-		}
-		
-		$this->setMessage('success_updated');
-		$this->setRedirectUrl(Context::get('success_return_url') ?: getNotEncodedUrl('', 'module', 'admin', 'act', 'dispAdminConfigGeneral'));
-	}
-	
-	/**
 	 * Update notification configuration.
 	 */
 	function procAdminUpdateNotification()
@@ -782,6 +730,25 @@ class adminAdminController extends admin
 		$document_config->thumbnail_type = $vars->thumbnail_type ?: 'crop';
 		$oModuleController = getController('module');
 		$oModuleController->insertModuleConfig('document', $document_config);
+		
+		// Mobile view
+		Rhymix\Framework\Config::set('mobile.enabled', $vars->use_mobile_view === 'Y');
+		Rhymix\Framework\Config::set('mobile.tablets', $vars->tablets_as_mobile === 'Y');
+		if (Rhymix\Framework\Config::get('use_mobile_view') !== null)
+		{
+			Rhymix\Framework\Config::set('use_mobile_view', $vars->use_mobile_view === 'Y');
+		}
+		
+		// Languages and time zone
+		$enabled_lang = $vars->enabled_lang;
+		if (!in_array($vars->default_lang, $enabled_lang))
+		{
+			$enabled_lang[] = $vars->default_lang;
+		}
+		Rhymix\Framework\Config::set('locale.default_lang', $vars->default_lang);
+		Rhymix\Framework\Config::set('locale.enabled_lang', array_values($enabled_lang));
+		Rhymix\Framework\Config::set('locale.auto_select_lang', $vars->auto_select_lang === 'Y');
+		Rhymix\Framework\Config::set('locale.default_timezone', $vars->default_timezone);
 		
 		// Other settings
 		Rhymix\Framework\Config::set('use_rewrite', $vars->use_rewrite === 'Y');
@@ -1133,7 +1100,7 @@ class adminAdminController extends admin
 		Rhymix\Framework\Cache::clearGroup('site_and_module');
 		
 		// Redirect to the domain list.
-		$this->setRedirectUrl(Context::get('success_return_url') ?: getNotEncodedUrl('', 'module', 'admin', 'act', 'dispAdminConfigDomains'));
+		$this->setRedirectUrl(Context::get('success_return_url') ?: getNotEncodedUrl('', 'module', 'admin', 'act', 'dispAdminConfigGeneral'));
 	}
 	
 	/**

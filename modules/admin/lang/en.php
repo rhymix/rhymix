@@ -1,7 +1,7 @@
 <?php
 $lang->admin = 'Admin';
 $lang->cmd_configure = 'Configure';
-$lang->subtitle_primary = 'General';
+$lang->subtitle_site_info = 'Site';
 $lang->subtitle_notification = 'Notifications';
 $lang->subtitle_security = 'Security';
 $lang->subtitle_advanced = 'Advanced';
