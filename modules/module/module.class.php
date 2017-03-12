@@ -19,12 +19,13 @@ class module extends ModuleObject
 		$oDB->addIndex("modules","idx_site_mid", array("site_srl","mid"), true);
 
 		// Insert new domain
-		if(!getModel('module')->getSiteInfo(0))
+		if(!getModel('module')->getDefaultDomainInfo())
 		{
 			$current_url = Rhymix\Framework\Url::getCurrentUrl();
 			$domain = new stdClass();
 			$domain->domain_srl = 0;
 			$domain->domain = Rhymix\Framework\URL::getDomainFromURL($current_url);
+			$domain->is_default_domain = 'Y';
 			$domain->index_module_srl = 0;
 			$domain->index_document_srl = 0;
 			$domain->http_port = null;
@@ -92,7 +93,7 @@ class module extends ModuleObject
 		}
 
 		// Check domains
-		if (!$oDB->isTableExists('domains') || !getModel('module')->getSiteInfo(0))
+		if (!$oDB->isTableExists('domains') || !getModel('module')->getDefaultDomainInfo())
 		{
 			return true;
 		}
@@ -308,7 +309,7 @@ class module extends ModuleObject
 		}
 
 		// Migrate domains
-		if (!getModel('module')->getSiteInfo(0))
+		if (!getModel('module')->getDefaultDomainInfo())
 		{
 			$this->migrateDomains();
 		}
@@ -393,8 +394,13 @@ class module extends ModuleObject
 			$oDB->createTableByXmlFile($this->module_path . 'schemas/domains.xml');
 		}
 		
+		// Get current site configuration.
+		$oModuleModel = getModel('module');
+		$config = $oModuleModel->getModuleConfig('module');
+		
 		// Initialize domains data.
 		$domains = array();
+		$default_domain = new stdClass;
 		
 		// Check XE sites.
 		$output = executeQueryArray('module.getSites');
@@ -411,15 +417,26 @@ class module extends ModuleObject
 				$domain = new stdClass();
 				$domain->domain_srl = $site_info->site_srl;
 				$domain->domain = Rhymix\Framework\URL::getDomainFromURL(strtolower($site_domain));
+				$domain->is_default_domain = $site_info->site_srl == 0 ? 'Y' : 'N';
 				$domain->index_module_srl = $site_info->index_module_srl;
 				$domain->index_document_srl = 0;
 				$domain->http_port = config('url.http_port') ?: null;
 				$domain->https_port = config('url.https_port') ?: null;
 				$domain->security = config('url.ssl') ?: 'none';
 				$domain->description = '';
-				$domain->settings = json_encode(array('language' => $site_info->default_language, 'timezone' => null));
+				$domain->settings = json_encode(array(
+					'title' => $config->siteTitle,
+					'subtitle' => $config->siteSubtitle,
+					'language' => $site_info->default_language,
+					'timezone' => config('locale.default_timezone'),
+					'html_footer' => $config->htmlFooter,
+				));
 				$domain->regdate = $site_info->regdate;
 				$domains[$domain->domain] = $domain;
+				if ($domain->is_default_domain === 'Y')
+				{
+					$default_domain = $domain;
+				}
 			}
 		}
 		else
@@ -430,14 +447,22 @@ class module extends ModuleObject
 			$domain = new stdClass();
 			$domain->domain_srl = 0;
 			$domain->domain = Rhymix\Framework\URL::decodeIdna(strtolower($default_hostinfo['host']));
+			$domain->is_default_domain = 'Y';
 			$domain->index_module_srl = $output->data ? $output->data->module_srl : 0;
 			$domain->index_document_srl = 0;
 			$domain->http_port = isset($default_hostinfo['port']) ? intval($default_hostinfo['port']) : null;
 			$domain->https_port = null;
 			$domain->security = config('url.ssl') ?: 'none';
 			$domain->description = '';
-			$domain->settings = json_encode(array('language' => null, 'timezone' => null));
+			$domain->settings = json_encode(array(
+				'title' => $config->siteTitle,
+				'subtitle' => $config->siteSubtitle,
+				'language' => $site_info->default_language,
+				'timezone' => config('locale.default_timezone'),
+				'html_footer' => $config->htmlFooter,
+			));
 			$domains[$domain->domain] = $domain;
+			$default_domain = $domain;
 		}
 		
 		// Check multidomain module.
@@ -457,15 +482,26 @@ class module extends ModuleObject
 					$domain = new stdClass();
 					$domain->domain_srl = $site_info->multidomain_srl;
 					$domain->domain = Rhymix\Framework\URL::getDomainFromURL(strtolower($site_domain));
+					$domain->is_default_domain = isset($domains[$domain->domain]) ? $domains[$domain->domain]->is_default_domain : 'N';
 					$domain->index_module_srl = intval($site_info->module_srl);
 					$domain->index_document_srl = intval($site_info->document_srl);
 					$domain->http_port = config('url.http_port') ?: null;
 					$domain->https_port = config('url.https_port') ?: null;
 					$domain->security = config('url.ssl') ?: 'none';
 					$domain->description = '';
-					$domain->settings = json_encode(array('language' => null, 'timezone' => null));
+					$domain->settings = json_encode(array(
+						'title' => $config->siteTitle,
+						'subtitle' => $config->siteSubtitle,
+						'language' => $site_info->default_language,
+						'timezone' => config('locale.default_timezone'),
+						'html_footer' => $config->htmlFooter,
+					));
 					$domain->regdate = $site_info->regdate;
 					$domains[$domain->domain] = $domain;
+					if ($domain->is_default_domain === 'Y')
+					{
+						$default_domain = $domain;
+					}
 				}
 			}
 		}
@@ -479,6 +515,12 @@ class module extends ModuleObject
 				return $output;
 			}
 		}
+		
+		// Clear cache.
+		Rhymix\Framework\Cache::clearGroup('site_and_module');
+		
+		// Return the default domain info.
+		return $default_domain;
 	}
 
 	/**

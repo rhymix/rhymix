@@ -4,6 +4,7 @@
 	</tables>
 	<columns>
 		<column name="domain" var="domain" />
+		<column name="is_default_domain" var="is_default_domain" />
 		<column name="index_module_srl" var="index_module_srl" />
 		<column name="index_document_srl" var="index_document_srl" />
 		<column name="default_layout_srl" var="default_layout_srl" />
