@@ -542,11 +542,6 @@ class adminAdminController extends admin
 			Rhymix\Framework\Config::set('use_mobile_view', $vars->use_mobile_view === 'Y');
 		}
 		
-		// Favicon and mobicon
-		$this->_saveFavicon('favicon.ico', $vars->is_delete_favicon);
-		$this->_saveFavicon('mobicon.png', $vars->is_delete_mobicon);
-		$this->_saveDefaultImage($vars->is_delete_default_image);
-		
 		// Save
 		if (!Rhymix\Framework\Config::save())
 		{
@@ -1105,6 +1100,20 @@ class adminAdminController extends admin
 			}
 		}
 		
+		// Save the favicon, mobicon, and default image.
+		if ($vars->favicon || $vars->delete_favicon)
+		{
+			$this->_saveFavicon($args->domain_srl, $vars->favicon, 'favicon.ico', $vars->delete_favicon);
+		}
+		if ($vars->mobicon || $vars->delete_mobicon)
+		{
+			$this->_saveFavicon($args->domain_srl, $vars->mobicon, 'mobicon.png', $vars->delete_mobicon);
+		}
+		if ($vars->default_image || $vars->delete_default_image)
+		{
+			$this->_saveDefaultImage($args->domain_srl, $vars->default_image, $vars->delete_default_image);
+		}
+		
 		// Update system configuration to match the default domain.
 		if ($domain_info && $domain_srl === '0')
 		{
@@ -1221,69 +1230,12 @@ class adminAdminController extends admin
 		$this->setMessage('success_deleted');
 	}
 	
-	/**
-	 * Upload favicon and mobicon.
-	 */
-	public function procAdminFaviconUpload()
-	{
-		if ($favicon = Context::get('favicon'))
-		{
-			$name = 'favicon';
-			$tmpFileName = $this->_saveFaviconTemp($favicon, 'favicon.ico');
-		}
-		elseif ($mobicon = Context::get('mobicon'))
-		{
-			$name = 'mobicon';
-			$tmpFileName = $this->_saveFaviconTemp($mobicon, 'mobicon.png');
-		}
-		elseif ($default_image = Context::get('default_image'))
-		{
-			$name = 'default_image';
-			$tmpFileName = $this->_saveFaviconTemp($default_image, 'default_image.png');
-		}
-		else
-		{
-			$name = $tmpFileName = '';
-			Context::set('msg', lang('msg_invalid_format'));
-		}
-		
-		Context::set('name', $name);
-		Context::set('tmpFileName', $tmpFileName . '?' . time());
-		$this->setTemplatePath($this->module_path . 'tpl');
-		$this->setTemplateFile("favicon_upload.html");
-	}
-	
-	protected function _saveFaviconTemp($icon, $iconname)
-	{
-		$site_info = Context::get('site_module_info');
-		$virtual_site = '';
-		if ($site_info->site_srl) 
-		{
-			$virtual_site = $site_info->site_srl . '/';
-		}
-
-		$original_filename = $icon['tmp_name'];
-		$type = $icon['type'];
-		$relative_filename = 'files/attach/xeicon/'.$virtual_site.'tmp/'.$iconname;
-		$target_filename = \RX_BASEDIR . $relative_filename;
-
-		if (!preg_match('/^(favicon|mobicon|default_image)\.(ico|png|jpe?g)$/', $iconname))
-		{
-			Context::set('msg', lang('msg_invalid_format'));
-			return;
-		}
-		
-		Rhymix\Framework\Storage::copy($original_filename, $target_filename, 0666 & ~umask());
-		return $relative_filename;
-	}
-	
-	protected function _saveFavicon($iconname, $deleteIcon = false)
+	protected function _saveFavicon($domain_srl, $uploaded_fileinfo, $iconname, $deleteIcon = false)
 	{
 		$image_filepath = 'files/attach/xeicon/';
-		$site_info = Context::get('site_module_info');
-		if ($site_info->site_srl)
+		if ($domain_srl)
 		{
-			$image_filepath .= $site_info->site_srl . '/';
+			$image_filepath .= intval($domain_srl) . '/';
 		}
 		
 		if ($deleteIcon)
@@ -1292,21 +1244,20 @@ class adminAdminController extends admin
 			return;
 		}
 		
-		$tmpicon_filepath = $image_filepath . 'tmp/' . $iconname;
+		$original_filename = $uploaded_fileinfo['tmp_name'];
 		$icon_filepath = $image_filepath . $iconname;
-		if (file_exists(\RX_BASEDIR . $tmpicon_filepath))
+		if (is_uploaded_file($original_filename))
 		{
-			Rhymix\Framework\Storage::move(\RX_BASEDIR . $tmpicon_filepath, \RX_BASEDIR . $icon_filepath);
+			Rhymix\Framework\Storage::move($original_filename, \RX_BASEDIR . $icon_filepath);
 		}
 	}
 	
-	protected function _saveDefaultImage($deleteIcon = false)
+	protected function _saveDefaultImage($domain_srl, $uploaded_fileinfo, $deleteIcon = false)
 	{
 		$image_filepath = 'files/attach/xeicon/';
-		$site_info = Context::get('site_module_info');
-		if ($site_info->site_srl)
+		if ($domain_srl)
 		{
-			$image_filepath .= $site_info->site_srl . '/';
+			$image_filepath .= intval($domain_srl) . '/';
 		}
 		
 		if ($deleteIcon)
@@ -1320,17 +1271,17 @@ class adminAdminController extends admin
 			return;
 		}
 		
-		$tmpicon_filepath = \RX_BASEDIR . $image_filepath . 'tmp/default_image.png';
-		if (file_exists($tmpicon_filepath))
+		$original_filename = $uploaded_fileinfo['tmp_name'];
+		if (is_uploaded_file($original_filename))
 		{
-			list($width, $height, $type) = @getimagesize($tmpicon_filepath);
+			list($width, $height, $type) = @getimagesize($original_filename);
 			switch ($type)
 			{
 				case 'image/gif': $target_filename = $image_filepath . 'default_image.gif'; break;
 				case 'image/jpeg': $target_filename = $image_filepath . 'default_image.jpg'; break;
 				case 'image/png': default: $target_filename = $image_filepath . 'default_image.png';
 			}
-			Rhymix\Framework\Storage::move($tmpicon_filepath, \RX_BASEDIR . $target_filename);
+			Rhymix\Framework\Storage::move($original_filename, \RX_BASEDIR . $target_filename);
 			Rhymix\Framework\Storage::writePHPData(\RX_BASEDIR . 'files/attach/xeicon/' . $virtual_site . 'default_image.php', array(
 				'filename' => $target_filename, 'width' => $width, 'height' => $height,
 			));

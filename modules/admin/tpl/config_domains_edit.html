@@ -3,7 +3,7 @@
 	<p>{$XE_VALIDATOR_MESSAGE}</p>
 </div>
 <section class="section">
-	<form action="./" method="post" class="x_form-horizontal">
+	<form action="./" method="post" class="x_form-horizontal" enctype="multipart/form-data">
 		<input type="hidden" name="module" value="admin" />
 		<input type="hidden" name="act" value="procAdminInsertDomain" />
 		<input type="hidden" name="xe_validator_id" value="modules/admin/tpl/config_domains_edit/1" />
@@ -103,10 +103,10 @@
 					<img src="{$favicon_url ?: (\RX_BASEURL . 'modules/admin/tpl/img/faviconSample.png')}" alt="Favicon" class="fn1" style="width:16px;height:16px">
 					<img src="{$favicon_url ?: (\RX_BASEURL . 'modules/admin/tpl/img/faviconSample.png')}" alt="Favicon" class="fn2" style="width:16px;height:16px">
 				</p>
-				<label cond="$favicon_url">
-					<input type="checkbox" name="delete_favicon" value="1" /> {$lang->cmd_delete}
+				<label for="delete_favicon" cond="$favicon_url">
+					<input type="checkbox" name="delete_favicon" id="delete_favicon" value="1" /> {$lang->cmd_delete}
 				</label>
-				<input type="file" name="favicon" id="favicon" title="Favicon"/>
+				<input type="file" name="favicon" id="favicon" title="Favicon" />
 				<span class="x_help-block">{$lang->about_use_favicon}</span>
 			</div>
 		</div>
@@ -118,10 +118,10 @@
 					<img src="{$mobicon_url ?: (\RX_BASEURL . 'modules/admin/tpl/img/mobiconSample.png')}" alt="Mobile Home Icon" width="32" height="32" />
 					<span>Rhymix</span>
 				</p>
-				<label cond="$mobicon_url">
-					<input type="checkbox" name="delete_mobicon" value="1" /> {$lang->cmd_delete}
+				<label for="delete_mobicon" cond="$mobicon_url">
+					<input type="checkbox" name="delete_mobicon" id="delete_mobicon" value="1" /> {$lang->cmd_delete}
 				</label>
-				<input type="file" name="mobicon" id="mobicon" title="Mobile Home Icon"/>
+				<input type="file" name="mobicon" id="mobicon" title="Mobile Home Icon" />
 				<span class="x_help-block">{$lang->detail_use_mobile_icon}</span>
 			</div>
 		</div>
@@ -132,10 +132,10 @@
 				<p id="default_imagePreview" cond="$default_image_url">
 					<img src="{$default_image_url}" alt="Default Image" style="width:200px;height:auto" />
 				</p>
-				<label cond="$default_image_url">
-					<input type="checkbox" name="delete_default_image" value="1" /> {$lang->cmd_delete}
+				<label for="delete_default_image" cond="$default_image_url">
+					<input type="checkbox" name="delete_default_image" id="delete_default_image" value="1" /> {$lang->cmd_delete}
 				</label>
-				<input type="file" name="default_image" id="default_image" title="Default Image"/>
+				<input type="file" name="default_image" id="default_image" title="Default Image" />
 				<span class="x_help-block">{$lang->about_site_default_image}</span>
 			</div>
 		</div>

@@ -456,6 +456,11 @@ class Storage
 			return false;
 		}
 		
+		if (is_uploaded_file($source))
+		{
+			@chmod($destination, 0666 & ~self::getUmask());
+		}
+		
 		if (function_exists('opcache_invalidate'))
 		{
 			if (substr($source, -4) === '.php')
