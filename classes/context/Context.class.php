@@ -270,6 +270,15 @@ class Context
 		{
 			$site_module_info = new stdClass;
 		}
+		
+		// Redirect to SSL if the current domain always uses SSL.
+		if ($site_module_info->security === 'always' && !RX_SSL)
+		{
+			$ssl_url = self::getDefaultUrl($site_module_info) . RX_REQUEST_URL;
+			self::setCacheControl(0);
+			header('Location: ' . $ssl_url, true, 301);
+			exit;
+		}
 
 		// Load language support.
 		$enabled_langs = self::loadLangSelected();
