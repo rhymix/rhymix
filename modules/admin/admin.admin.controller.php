@@ -501,6 +501,15 @@ class adminAdminController extends admin
 	}
 	
 	/**
+	 * Update domains configuration.
+	 */
+	function procAdminUpdateDomains()
+	{
+		$vars = Context::getRequestVars();
+		
+	}
+	
+	/**
 	 * Update notification configuration.
 	 */
 	function procAdminUpdateNotification()
