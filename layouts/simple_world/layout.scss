@@ -101,23 +101,28 @@ header.layout_frame, footer.layout_frame, .layout_frame.layout_left_content .lay
 					text-decoration: none;
 				}
 			}
-			ul.layout_dropdown-content {
-				display: block;
-				position: relative;
-				z-index: none;
-				padding: 0;
-				margin: 0;
+			ul{
 				list-style: none;
-				a {
+				&.layout_dropdown-content {
 					display: block;
-					padding: 14px 16px;
-					text-decoration: none;
-					color: #000;
-					&.active {
-						background: #e0e0e0;
+					position: relative;
+					z-index: none;
+					padding: 0;
+					margin: 0;
+					a {
+						display: block;
+						padding: 14px 16px;
+						text-decoration: none;
+						color: #000;
+						&.active {
+							background: #e0e0e0;
+						}
+						&:hover, &:active, &:focus {
+							background: #eeeeee;
+						}
 					}
-					&:hover, &:active, &:focus {
-						background: #eeeeee;
+					ul {
+						padding-left: 10px;
 					}
 				}
 			}
@@ -243,10 +248,13 @@ header.layout_frame {
 	background-color: lighten($grey, 31%);
 	ul {
 		list-style-type: none;
-		padding: 0;
 		overflow: hidden;
 		max-width:1050px;
 		margin:0 auto;
+		padding: 0;
+		&.layout_dropdown-content ul{
+			padding-left:10px;
+		}
 	}
 	li a, .dropbtn {
 		display: inline-block;
