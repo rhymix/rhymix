@@ -113,9 +113,11 @@ header.layout_frame, footer.layout_frame, .layout_frame.layout_left_content .lay
 					padding: 14px 16px;
 					text-decoration: none;
 					color: #000;
-					&:hover, &:active, &:focus, &.active {
+					&.active {
+						background: #e0e0e0;
+					}
+					&:hover, &:active, &:focus {
 						background: #eeeeee;
-						outline: none;
 					}
 				}
 			}
