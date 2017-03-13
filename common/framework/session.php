@@ -287,7 +287,7 @@ class Session
 		{
 			$current_domain = $site_module_info->domain;
 			$current_url = URL::getCurrentUrl();
-			$default_domain = getModel('module')->getSiteInfo(0);
+			$default_domain = getModel('module')->getDefaultDomainInfo();
 			$default_url = \Context::getDefaultUrl($default_domain);
 		}
 		
