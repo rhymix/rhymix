@@ -1548,18 +1548,18 @@ class Context
 	 */
 	public static function getUrl($num_args = 0, $args_list = array(), $domain = null, $encode = TRUE, $autoEncode = FALSE)
 	{
+		static $current_domain = null;
 		static $site_module_info = null;
-		static $current_info = null;
 		if ($site_module_info === null)
 		{
 			$site_module_info = self::get('site_module_info');
 		}
-		if ($current_info === null)
+		if ($current_domain === null)
 		{
-			$current_info = parse_url(Rhymix\Framework\URL::getCurrentDomainURL(RX_BASEURL));
+			$current_domain = parse_url(Rhymix\Framework\URL::getCurrentDomainURL(), PHP_URL_HOST);
 		}
 
-		// If $domain is set, handle it (if $domain is vid type, remove $domain and handle with $vid)
+		// Find the canonical form of the domain.
 		if ($domain)
 		{
 			if (strpos($domain, '/') !== false)
@@ -1570,58 +1570,37 @@ class Context
 			{
 				$domain = Rhymix\Framework\URL::decodeIdna($domain);
 			}
-			if (isSiteID($domain))
-			{
-				$vid = $domain;
-				$domain = '';
-			}
 		}
-		
-		// If $domain, $vid are not set, use current site information
-		if(!$domain && !$vid)
+		else
 		{
-			if($site_module_info->domain && isSiteID($site_module_info->domain))
-			{
-				$vid = $site_module_info->domain;
-			}
-			else
-			{
-				$domain = $site_module_info->domain;
-			}
+			$domain = $site_module_info->domain;
 		}
 
-		// if $domain is set, compare current URL. If they are same, remove the domain, otherwise link to the domain.
-		if($domain)
+		// If the domain is the same as the current domain, do not use it.
+		if ($domain && $domain === $current_domain)
 		{
-			if($domain === $current_info['host'])
-			{
-				unset($domain);
-			}
+			$domain = null;
 		}
 
-		$get_vars = array();
-
-		// If there is no GET variables or first argument is '' to reset variables
-		if(!self::$_instance->get_vars || $args_list[0] == '')
+		// Get URL parameters. If the first argument is '', reset existing parameters.
+		if (!self::$_instance->get_vars || strval($args_list[0]) === '')
 		{
-			// rearrange args_list
-			if(is_array($args_list) && $args_list[0] == '')
+			$get_vars = array();
+			if(is_array($args_list) && strval($args_list[0]) === '')
 			{
 				array_shift($args_list);
 			}
 		}
 		else
 		{
-			// Otherwise, make GET variables into array
 			$get_vars = get_object_vars(self::$_instance->get_vars);
 		}
-
+		
 		// arrange args_list
 		for($i = 0, $c = count($args_list); $i < $c; $i += 2)
 		{
 			$key = $args_list[$i];
 			$val = trim($args_list[$i + 1]);
-
 			// If value is not set, remove the key
 			if(!isset($val) || !strlen($val))
 			{
@@ -1631,18 +1610,11 @@ class Context
 			// set new variables
 			$get_vars[$key] = $val;
 		}
-
+		
 		// remove vid, rnd
 		unset($get_vars['rnd']);
-		if($vid)
-		{
-			$get_vars['vid'] = $vid;
-		}
-		else
-		{
-			unset($get_vars['vid']);
-		}
-
+		unset($get_vars['vid']);
+		
 		// for compatibility to lower versions
 		$act = $get_vars['act'];
 		$act_alias = array(
@@ -1655,7 +1627,7 @@ class Context
 		{
 			$get_vars['act'] = $act_alias[$act];
 		}
-
+		
 		// organize URL
 		$query = '';
 		if(count($get_vars) > 0)
@@ -1665,47 +1637,32 @@ class Context
 			{
 				$var_keys = array_keys($get_vars);
 				sort($var_keys);
-
 				$target = join('.', $var_keys);
-
 				$act = $get_vars['act'];
-				$vid = $get_vars['vid'];
 				$mid = $get_vars['mid'];
 				$key = $get_vars['key'];
 				$srl = $get_vars['document_srl'];
-
 				$tmpArray = array('rss' => 1, 'atom' => 1, 'api' => 1);
 				$is_feed = isset($tmpArray[$act]);
-
 				$target_map = array(
-					'vid' => $vid,
 					'mid' => $mid,
-					'mid.vid' => "$vid/$mid",
 					'category.mid' => "$mid/category/" . $get_vars['category'],
 					'entry.mid' => "$mid/entry/" . $get_vars['entry'],
-					'entry.mid.vid' => "$vid/$mid/entry/" . $get_vars['entry'],
 					'document_srl' => $srl,
 					'document_srl.mid' => "$mid/$srl",
-					'document_srl.vid' => "$vid/$srl",
-					'document_srl.mid.vid' => "$vid/$mid/$srl",
 					'act' => ($is_feed && $act !== 'api') ? $act : '',
 					'act.mid' => $is_feed ? "$mid/$act" : '',
-					'act.mid.vid' => $is_feed ? "$vid/$mid/$act" : '',
 					'act.document_srl.key' => ($act == 'trackback') ? "$srl/$key/$act" : '',
 					'act.document_srl.key.mid' => ($act == 'trackback') ? "$mid/$srl/$key/$act" : '',
-					'act.document_srl.key.vid' => ($act == 'trackback') ? "$vid/$srl/$key/$act" : '',
-					'act.document_srl.key.mid.vid' => ($act == 'trackback') ? "$vid/$mid/$srl/$key/$act" : ''
 				);
-
 				$query = $target_map[$target];
 			}
-
 			if(!$query && count($get_vars) > 0)
 			{
 				$query = 'index.php?' . http_build_query($get_vars);
 			}
 		}
-
+		
 		// If using SSL always
 		$_use_ssl = self::get('_use_ssl');
 		if($_use_ssl == 'always')
