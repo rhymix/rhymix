@@ -1,0 +1,8 @@
+<query id="deleteDomain" action="delete">
+	<tables>
+		<table name="domains" />
+	</tables>
+    <conditions>
+        <condition operation="equal" column="domain_srl" var="domain_srl" filter="number" notnull="notnull" />
+    </conditions>
+</query>

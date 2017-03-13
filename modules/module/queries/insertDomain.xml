@@ -1,0 +1,21 @@
+<query id="insertDomain" action="insert">
+	<tables>
+		<table name="domains" />
+	</tables>
+	<columns>
+		<column name="domain_srl" var="domain_srl" notnull="notnull" filter="number" />
+		<column name="domain" var="domain" notnull="notnull" />
+		<column name="is_default_domain" var="is_default_domain" notnull="notnull" default="N" />
+		<column name="index_module_srl" var="index_module_srl" notnull="notnull" />
+		<column name="index_document_srl" var="index_document_srl" notnull="notnull" />
+		<column name="default_layout_srl" var="default_layout_srl" notnull="notnull" default="0" />
+		<column name="default_mlayout_srl" var="default_mlayout_srl" notnull="notnull" default="0" />
+		<column name="default_menu_srl" var="default_menu_srl" notnull="notnull" default="0" />
+		<column name="http_port" var="http_port" />
+		<column name="https_port" var="https_port" />
+		<column name="security" var="security" notnull="notnull" default="none" />
+		<column name="description" var="description" />
+		<column name="settings" var="settings" />
+		<column name="regdate" var="regdate" default="curdate()" />
+	</columns>
+</query>

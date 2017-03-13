@@ -1,0 +1,16 @@
+<query id="getDomainInfo" action="select">
+	<tables>
+		<table name="domains" />
+		<table name="modules" />
+	</tables>
+	<columns>
+		<column name="domains.*" />
+		<column name="modules.*" />
+	</columns>
+    <conditions>
+		<condition operation="equal" column="modules.module_srl" default="domains.index_module_srl" notnull="notnull" />
+		<condition operation="equal" column="domain_srl" var="domain_srl" pipe="and" />
+        <condition operation="equal" column="domain" var="domain" pipe="and" />
+		<condition operation="equal" column="is_default_domain" var="is_default_domain" pipe="and" />
+	</conditions>
+</query>

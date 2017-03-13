@@ -44,6 +44,7 @@ return array(
 	),
 	'url' => array(
 		'default' => null,
+		'unregistered_domain_action' => 'redirect_301',
 		'http_port' => null,
 		'https_port' => null,
 		'ssl' => 'none',

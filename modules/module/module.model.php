@@ -44,24 +44,120 @@ class moduleModel extends module
 
 		return false;
 	}
-
+	
 	/**
-	 * @brief Get site information
+	 * @brief Get all domains
 	 */
-	function getSiteInfo($site_srl, $columnList = array())
+	function getAllDomains($count = 20, $page = 1)
 	{
-		$args = new stdClass();
-		$args->site_srl = $site_srl;
-		$output = executeQuery('module.getSiteInfo', $args, $columnList);
-		return $output->data;
+		$args = new stdClass;
+		$args->list_count = $count;
+		$args->page = $page;
+		$output = executeQueryArray('module.getDomains', $args);
+		foreach ($output->data as &$domain)
+		{
+			$domain->settings = $domain->settings ? json_decode($domain->settings) : new stdClass;
+		}
+		return $output;
 	}
 
-	function getSiteInfoByDomain($domain, $columnList = array())
+	/**
+	 * @brief Get default domain information
+	 */
+	function getDefaultDomainInfo()
 	{
-		$args = new stdClass();
-		$args->domain = $domain;
-		$output = executeQuery('module.getSiteInfoByDomain', $args, $columnList);
-		return $output->data;
+		$domain_info = Rhymix\Framework\Cache::get('site_and_module:domain_info:default');
+		if ($domain_info === null)
+		{
+			$args = new stdClass();
+			$args->is_default_domain = 'Y';
+			$output = executeQuery('module.getDomainInfo', $args);
+			if ($output->data)
+			{
+				$domain_info = $output->data;
+				$domain_info->site_srl = 0;
+				$domain_info->settings = $domain_info->settings ? json_decode($domain_info->settings) : new stdClass;
+				$domain_info->default_language = $domain_info->settings->language ?: config('locale.default_lang');
+			}
+			else
+			{
+				$domain_info = false;
+			}
+			Rhymix\Framework\Cache::set('site_and_module:domain_info:default', $domain_info, 0, true);
+		}
+		
+		return $domain_info;
+	}
+
+	/**
+	 * @brief Get site information by domain_srl
+	 */
+	function getSiteInfo($domain_srl)
+	{
+		$domain_srl = intval($domain_srl);
+		$domain_info = Rhymix\Framework\Cache::get('site_and_module:domain_info:srl:' . $domain_srl);
+		if ($domain_info === null)
+		{
+			$args = new stdClass();
+			$args->domain_srl = $domain_srl;
+			$output = executeQuery('module.getDomainInfo', $args);
+			if ($output->data)
+			{
+				$domain_info = $output->data;
+				$domain_info->site_srl = 0;
+				$domain_info->settings = $domain_info->settings ? json_decode($domain_info->settings) : new stdClass;
+				$domain_info->default_language = $domain_info->settings->language ?: config('locale.default_lang');
+			}
+			else
+			{
+				$domain_info = false;
+			}
+			Rhymix\Framework\Cache::set('site_and_module:domain_info:srl:' . $domain_srl, $domain_info, 0, true);
+		}
+		
+		return $domain_info;
+	}
+
+	/**
+	 * @brief Get site information by domain name
+	 */
+	function getSiteInfoByDomain($domain)
+	{
+		if (strpos($domain, '/') !== false)
+		{
+			$domain = Rhymix\Framework\URL::getDomainFromURL($domain);
+			if ($domain === false)
+			{
+				return false;
+			}
+		}
+		if (strpos($domain, 'xn--') !== false)
+		{
+			$domain = Rhymix\Framework\URL::decodeIdna($domain);
+		}
+		
+		$domain = strtolower($domain);
+		$domain_info = Rhymix\Framework\Cache::get('site_and_module:domain_info:domain:' . $domain);
+		if ($domain_info === null)
+		{
+			$args = new stdClass();
+			$args->domain = $domain;
+			$output = executeQuery('module.getDomainInfo', $args);
+			if ($output->data)
+			{
+				$domain_info = $output->data;
+				$domain_info->site_srl = 0;
+				$domain_info->settings = $domain_info->settings ? json_decode($domain_info->settings) : new stdClass;
+				$domain_info->default_language = $domain_info->settings->language ?: config('locale.default_lang');
+			}
+			else
+			{
+				$domain_info = false;
+			}
+			Rhymix\Framework\Cache::set('site_and_module:domain_info:domain:' . $domain, $domain_info, 0, true);
+		}
+		
+		return $domain_info;
 	}
 
 	/**
@@ -82,108 +178,30 @@ class moduleModel extends module
 	 */
 	function getDefaultMid()
 	{
-		$default_url = Context::getDefaultUrl();
-		if($default_url && substr_compare($default_url, '/', -1) === 0) $default_url = substr($default_url, 0, -1);
-
-		$request_url = Context::getRequestUri();
-		if($request_url && substr_compare($request_url, '/', -1) === 0) $request_url = substr($request_url, 0, -1);
-
-		$default_url_parse = parse_url($default_url);
-		$request_url_parse = parse_url($request_url);
-		$vid = Context::get('vid');
-		$mid = Context::get('mid');
-
-		// Set up
-		$domain = '';
-		$site_info = NULL;
-		if($default_url && $default_url_parse['host'] != $request_url_parse['host'])
+		// Get current domain.
+		$domain = strtolower(preg_replace('/:\d+$/', '', $_SERVER['HTTP_HOST']));
+		
+		// Find the domain information.
+		$domain_info = $this->getSiteInfoByDomain($domain);
+		if (!$domain_info)
 		{
-			$url_info = parse_url($request_url);
-			$hostname = $url_info['host'];
-			$path = $url_info['path'];
-			if(strlen($path) >= 1 && substr_compare($path, '/', -1) === 0) $path = substr($path, 0, -1);
-
-			$domain = sprintf('%s%s%s', $hostname, $url_info['port']&&$url_info['port']!=80?':'.$url_info['port']:'',$path);
+			$domain_info = $this->getDefaultDomainInfo();
+			if (!$domain_info)
+			{
+				$domain_info = $this->migrateDomains();
+			}
+			$domain_info->is_default_replaced = true;
 		}
-
-		if($domain === '')
+		
+		// Fill in module extra vars and return.
+		if ($domain_info->module_srl)
 		{
-			if(!$vid) $vid = $mid;
-			if($vid)
-			{
-				$domain = $vid;
-			}
+			return $this->addModuleExtraVars($domain_info);
 		}
-
-		// If domain is set, look for subsite
-		if($domain !== '')
+		else
 		{
-			$site_info = Rhymix\Framework\Cache::get('site_and_module:site_info:' . md5($domain));
-			if($site_info === null)
-			{
-				$args = new stdClass();
-				$args->domain = $domain;
-				$output = executeQuery('module.getSiteInfoByDomain', $args);
-				$site_info = $output->data;
-				Rhymix\Framework\Cache::set('site_and_module:site_info:' . md5($domain), $site_info, 0, true);
-			}
-
-			if($site_info && $vid)
-			{
-				Context::set('vid', $site_info->domain, true);
-				if(strtolower($mid)==strtolower($site_info->domain)) Context::set('mid', $site_info->mid,true);
-			}
-			if(!$site_info || !$site_info->domain) { $domain = ''; unset($site_info); }
+			return $domain_info;
 		}
-
-		// If no virtual website was found, get default website
-		if($domain === '')
-		{
-			$site_info = Rhymix\Framework\Cache::get('site_and_module:default_site');
-			if($site_info === null)
-			{
-				$args = new stdClass();
-				$args->site_srl = 0;
-				$output = executeQuery('module.getSiteInfo', $args);
-				// Update the related informaion if there is no default site info
-				if(!$output->data)
-				{
-					// Create a table if sites table doesn't exist
-					$oDB = &DB::getInstance();
-					if(!$oDB->isTableExists('sites')) $oDB->createTableByXmlFile(_XE_PATH_.'modules/module/schemas/sites.xml');
-					if(!$oDB->isTableExists('sites')) return;
-
-					// Get mid, language
-					$mid_output = $oDB->executeQuery('module.getDefaultMidInfo', $args);
-					$domain = Context::getDefaultUrl();
-					$url_info = parse_url($domain);
-					$domain = $url_info['host'].( (!empty($url_info['port'])&&$url_info['port']!=80)?':'.$url_info['port']:'').$url_info['path'];
-
-					$site_args = new stdClass;
-					$site_args->site_srl = 0;
-					$site_args->index_module_srl  = $mid_output->data->module_srl;
-					$site_args->domain = $domain;
-					$site_args->default_language = config('locale.default_lang');
-
-					if($output->data && !$output->data->index_module_srl)
-					{
-						$output = executeQuery('module.updateSite', $site_args);
-					}
-					else
-					{
-						$output = executeQuery('module.insertSite', $site_args);
-						if(!$output->toBool()) return $output;
-					}
-					$output = executeQuery('module.getSiteInfo', $args);
-				}
-				$site_info = $output->data;
-				Rhymix\Framework\Cache::set('site_and_module:default_site', $site_info, 0, true);
-			}
-		}
-
-		if(!$site_info->module_srl) return $site_info;
-		if(is_array($site_info) && $site_info->data[0]) $site_info = $site_info[0];
-		return $this->addModuleExtraVars($site_info);
 	}
 
 	/**
@@ -1596,36 +1614,14 @@ class moduleModel extends module
 	 */
 	function isSiteAdmin($member_info, $site_srl = null)
 	{
-		if (!$member_info || !$member_info->member_srl)
-		{
-			return false;
-		}
-		if ($member_info->is_admin == 'Y')
+		if ($member_info && $member_info->is_admin == 'Y')
 		{
 			return true;
 		}
-		if ($site_srl === null)
+		else
 		{
-			$site_module_info = Context::get('site_module_info');
-			if(!$site_module_info) return false;
-			$site_srl = $site_module_info->site_srl;
+			return false;
 		}
-		
-		$site_srl = $site_srl ?: 0;
-		$site_admins = Rhymix\Framework\Cache::get("site_and_module:site_admins:$site_srl");
-		if ($site_admins === null)
-		{
-			$args = new stdClass;
-			$args->site_srl = $site_srl;
-			$output = executeQueryArray('module.isSiteAdmin', $args);
-			$site_admins = array();
-			foreach ($output->data as $site_admin)
-			{
-				$site_admins[$site_admin->member_srl] = true;
-			}
-			Rhymix\Framework\Cache::set("site_and_module:site_admins:$site_srl", $site_admins, 0, true);
-		}
-		return isset($site_admins[$member_info->member_srl]);
 	}
 
 	/**
@@ -1633,10 +1629,7 @@ class moduleModel extends module
 	 */
 	function getSiteAdmin($site_srl)
 	{
-		$args = new stdClass;
-		$args->site_srl = $site_srl;
-		$output = executeQueryArray('module.getSiteAdmin', $args);
-		return $output->data;
+		return array();
 	}
 
 	/**
@@ -1940,19 +1933,13 @@ class moduleModel extends module
 		if(!$module_srl)
 		{
 			$grant->access = true;
-			if($this->isSiteAdmin($member_info, $module_info->site_srl))
-			{
-				$grant->access = $grant->manager = $grant->is_site_admin = true;
-			}
-
-			$grant->is_admin = $grant->manager = ($member_info->is_admin == 'Y') ? true : false;
+			$grant->is_admin = $grant->manager = $grant->is_site_admin = ($member_info->is_admin == 'Y') ? true : false;
 		}
 		else
 		{
 			// If module_srl exists
 			// Get a type of granted permission
-			$grant->access = $grant->manager = $grant->is_site_admin = ($member_info->is_admin=='Y'||$this->isSiteAdmin($member_info, $module_info->site_srl))?true:false;
-			$grant->is_admin = ($member_info->is_admin == 'Y') ? true : false;
+			$grant->access = $grant->is_admin = $grant->manager = $grant->is_site_admin = ($member_info->is_admin == 'Y') ? true : false;
 			
 			// If a just logged-in member is, check if the member is a module administrator
 			if (!$grant->manager && $member_info->member_srl && $this->isModuleAdmin($member_info, $module_srl))

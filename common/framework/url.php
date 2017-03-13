@@ -98,7 +98,7 @@ class URL
 			return true;
 		}
 		
-		if ($domain === self::getDomainFromURL(\Context::getDefaultUrl()))
+		if (getModel('module')->getSiteInfoByDomain($domain))
 		{
 			return true;
 		}

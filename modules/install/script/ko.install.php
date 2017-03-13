@@ -293,11 +293,10 @@ $output = $oModuleController->updateModule($module_info);
 if(!$output->toBool()) return $output;
 
 // insertFirstModule
-$site_args = new stdClass();
-$site_args->site_srl = 0;
-$site_args->index_module_srl = $module_srl;
-$oModuleController->updateSite($site_args);
-
+$domain_args = new stdClass();
+$domain_args->domain_srl = 0;
+$domain_args->index_module_srl = $module_srl;
+executeQuery('module.updateDomain', $domain_args);
 
 // XEIcon page
 $moduleInfo = $oModuleModel->getModuleInfoByMenuItemSrl($sitemap['GNB']['list'][2]['menu_srl']);

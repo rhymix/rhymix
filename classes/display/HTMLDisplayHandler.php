@@ -221,9 +221,10 @@ class HTMLDisplayHandler
 		}
 
 		// set icon
+		$site_module_info = Context::get('site_module_info');
 		$oAdminModel = getAdminModel('admin');
-		$favicon_url = $oAdminModel->getFaviconUrl(false);
-		$mobicon_url = $oAdminModel->getMobileIconUrl(false);
+		$favicon_url = $oAdminModel->getFaviconUrl($site_module_info->domain_srl);
+		$mobicon_url = $oAdminModel->getMobileIconUrl($site_module_info->domain_srl);
 		Context::set('favicon_url', $favicon_url);
 		Context::set('mobicon_url', $mobicon_url);
 
@@ -500,7 +501,7 @@ class HTMLDisplayHandler
 			Context::addOpenGraphData('og:image:width', $first_image['width']);
 			Context::addOpenGraphData('og:image:height', $first_image['height']);
 		}
-		elseif ($default_image = getAdminModel('admin')->getSiteDefaultImageUrl($width, $height))
+		elseif ($default_image = getAdminModel('admin')->getSiteDefaultImageUrl($site_module_info->domain_srl, $width, $height))
 		{
 			Context::addOpenGraphData('og:image', Rhymix\Framework\URL::getCurrentDomainURL($default_image));
 			if ($width && $height)

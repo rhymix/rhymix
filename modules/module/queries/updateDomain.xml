@@ -1,0 +1,23 @@
+<query id="updateDomain" action="update">
+	<tables>
+		<table name="domains" />
+	</tables>
+	<columns>
+		<column name="domain" var="domain" />
+		<column name="is_default_domain" var="is_default_domain" />
+		<column name="index_module_srl" var="index_module_srl" />
+		<column name="index_document_srl" var="index_document_srl" />
+		<column name="default_layout_srl" var="default_layout_srl" />
+		<column name="default_mlayout_srl" var="default_mlayout_srl" />
+		<column name="default_menu_srl" var="default_menu_srl" />
+		<column name="http_port" var="http_port" />
+		<column name="https_port" var="https_port" />
+		<column name="security" var="security" />
+		<column name="description" var="description" />
+		<column name="settings" var="settings" />
+		<column name="regdate" var="regdate" />
+	</columns>
+    <conditions>
+        <condition operation="equal" column="domain_srl" var="domain_srl" filter="number" notnull="notnull" />
+    </conditions>
+</query>

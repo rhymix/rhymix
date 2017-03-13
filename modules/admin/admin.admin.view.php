@@ -407,42 +407,30 @@ class adminAdminView extends admin
 	 */
 	function dispAdminConfigGeneral()
 	{
-		// Default and enabled languages
-		Context::set('supported_lang', Rhymix\Framework\Lang::getSupportedList());
-		Context::set('default_lang', Rhymix\Framework\Config::get('locale.default_lang'));
-		Context::set('enabled_lang', Rhymix\Framework\Config::get('locale.enabled_lang'));
-		Context::set('auto_select_lang', Rhymix\Framework\Config::get('locale.auto_select_lang'));
-		
-		// Site title and HTML footer
+		// Get domain list.
 		$oModuleModel = getModel('module');
-		$config = $oModuleModel->getModuleConfig('module');
-		Context::set('var_site_title', escape($config->siteTitle));
-		Context::set('var_site_subtitle', escape($config->siteSubtitle));
-		Context::set('all_html_footer', escape($config->htmlFooter));
+		$page = intval(Context::get('page')) ?: 1;
+		$domain_list = $oModuleModel->getAllDomains(20, $page);
+		Context::set('domain_list', $domain_list);
+		Context::set('page_navigation', $domain_list->page_navigation);
+		Context::set('page', $page);
 		
-		// Index module
-		$columnList = array('modules.mid', 'modules.browser_title', 'sites.index_module_srl');
-		$start_module = $oModuleModel->getSiteInfo(0, $columnList);
-		Context::set('start_module', $start_module);
+		// Get index module info.
+		$module_list = array();
+		$oModuleModel = getModel('module');
+		foreach ($domain_list->data as $domain)
+		{
+			if ($domain->index_module_srl && !isset($module_list[$domain->index_module_srl]))
+			{
+				$module_list[$domain->index_module_srl] = $oModuleModel->getModuleInfoByModuleSrl($domain->index_module_srl);
+			}
+		}
+		Context::set('module_list', $module_list);
 		
-		// Default time zone
-		Context::set('timezones', Rhymix\Framework\DateTime::getTimezoneList());
-		Context::set('selected_timezone', Rhymix\Framework\Config::get('locale.default_timezone'));
+		// Get language list.
+		Context::set('supported_lang', Rhymix\Framework\Lang::getSupportedList());
 		
-		// Mobile view
-		Context::set('use_mobile_view', (config('mobile.enabled') !== null ? config('mobile.enabled') : config('use_mobile_view')) ? true : false);
-		Context::set('tablets_as_mobile', config('mobile.tablets') ? true : false);
-		
-		// Favicon and mobicon and site default image
-		$oAdminModel = getAdminModel('admin');
-		$favicon_url = $oAdminModel->getFaviconUrl(false) ?: $oAdminModel->getFaviconUrl();
-		$mobicon_url = $oAdminModel->getMobileIconUrl(false) ?: $oAdminModel->getMobileIconUrl();
-		$site_default_image_url = $oAdminModel->getSiteDefaultImageUrl();
-		Context::set('favicon_url', $favicon_url);
-		Context::set('mobicon_url', $mobicon_url);
-		Context::set('site_default_image_url', $site_default_image_url);
-		
-		$this->setTemplateFile('config_general');
+		$this->setTemplateFile('config_domains');
 	}
 	
 	/**
@@ -508,19 +496,6 @@ class adminAdminView extends admin
 	 */
 	function dispAdminConfigAdvanced()
 	{
-		// Default URL
-		$default_url = Rhymix\Framework\Config::get('url.default');
-		if(strpos($default_url, 'xn--') !== FALSE)
-		{
-			$default_url = Context::decodeIdna($default_url);
-		}
-		Context::set('default_url', $default_url);
-		
-		// SSL and ports
-		Context::set('use_ssl', Rhymix\Framework\Config::get('url.ssl') ?: 'none');
-		Context::set('http_port', Rhymix\Framework\Config::get('url.http_port'));
-		Context::set('https_port', Rhymix\Framework\Config::get('url.https_port'));
-		
 		// Object cache
 		$object_cache_types = Rhymix\Framework\Cache::getSupportedDrivers();
 		$object_cache_type = Rhymix\Framework\Config::get('cache.type');
@@ -567,9 +542,21 @@ class adminAdminView extends admin
 		$config = $oDocumentModel->getDocumentConfig();
 		Context::set('thumbnail_type', $config->thumbnail_type ?: 'crop');
 		
+		// Default and enabled languages
+		Context::set('supported_lang', Rhymix\Framework\Lang::getSupportedList());
+		Context::set('default_lang', Rhymix\Framework\Config::get('locale.default_lang'));
+		Context::set('enabled_lang', Rhymix\Framework\Config::get('locale.enabled_lang'));
+		Context::set('auto_select_lang', Rhymix\Framework\Config::get('locale.auto_select_lang'));
+		
+		// Default time zone
+		Context::set('timezones', Rhymix\Framework\DateTime::getTimezoneList());
+		Context::set('selected_timezone', Rhymix\Framework\Config::get('locale.default_timezone'));
+		
 		// Other settings
 		Context::set('use_rewrite', Rhymix\Framework\Config::get('use_rewrite'));
-		Context::set('use_sso', Rhymix\Framework\Config::get('use_sso'));
+		Context::set('use_mobile_view', (config('mobile.enabled') !== null ? config('mobile.enabled') : config('use_mobile_view')) ? true : false);
+		Context::set('tablets_as_mobile', config('mobile.tablets') ? true : false);
+		Context::set('use_ssl', Rhymix\Framework\Config::get('url.ssl'));
 		Context::set('delay_session', Rhymix\Framework\Config::get('session.delay'));
 		Context::set('use_session_keys', Rhymix\Framework\Config::get('session.use_keys'));
 		Context::set('use_session_ssl', Rhymix\Framework\Config::get('session.use_ssl'));
@@ -657,6 +644,73 @@ class adminAdminView extends admin
 		Context::set('remote_addr', RX_CLIENT_IP);
 		
 		$this->setTemplateFile('config_sitelock');
+	}
+	
+	/**
+	 * Display domain edit screen
+	 * @return void
+	 */
+	function dispAdminInsertDomain()
+	{
+		// Get selected domain.
+		$domain_srl = strval(Context::get('domain_srl'));
+		$domain_info = null;
+		if ($domain_srl !== '')
+		{
+			$domain_info = getModel('module')->getSiteInfo($domain_srl);
+			if ($domain_info->domain_srl != $domain_srl)
+			{
+				return new Object(-1, 'msg_domain_not_found');
+			}
+		}
+		Context::set('domain_info', $domain_info);
+		
+		// Get modules.
+		if ($domain_info && $domain_info->index_module_srl)
+		{
+			$index_module_srl = $domain_info->index_module_srl;
+		}
+		else
+		{
+			$index_module_srl = '';
+		}
+		Context::set('index_module_srl', $index_module_srl);
+		
+		// Get language list.
+		Context::set('supported_lang', Rhymix\Framework\Lang::getSupportedList());
+		Context::set('enabled_lang', Rhymix\Framework\Config::get('locale.enabled_lang'));
+		if ($domain_info && $domain_info->settings->language)
+		{
+			$domain_lang = $domain_info->settings->language;
+		}
+		else
+		{
+			$domain_lang = Rhymix\Framework\Config::get('locale.default_lang');
+		}
+		Context::set('domain_lang', $domain_lang);
+		
+		// Get timezone list.
+		Context::set('timezones', Rhymix\Framework\DateTime::getTimezoneList());
+		if ($domain_info && $domain_info->settings->timezone)
+		{
+			$domain_timezone = $domain_info->settings->timezone;
+		}
+		else
+		{
+			$domain_timezone = Rhymix\Framework\Config::get('locale.default_timezone');
+		}
+		Context::set('domain_timezone', $domain_timezone);
+		
+		// Get favicon and images.
+		if ($domain_info)
+		{
+			$oAdminAdminModel = getAdminModel('admin');
+			Context::set('favicon_url', $oAdminAdminModel->getFaviconUrl($domain_info->domain_srl));
+			Context::set('mobicon_url', $oAdminAdminModel->getMobileIconUrl($domain_info->domain_srl));
+			Context::set('default_image_url', $oAdminAdminModel->getSiteDefaultImageUrl($domain_info->domain_srl));
+		}
+		
+		$this->setTemplateFile('config_domains_edit');
 	}
 	
 	/**
