@@ -660,13 +660,12 @@ class adminAdminView extends admin
 			$domain_info = getModel('module')->getSiteInfo($domain_srl);
 			if ($domain_info->domain_srl != $domain_srl)
 			{
-				$domain_info = null;
+				return new Object(-1, 'msg_domain_not_found');
 			}
 		}
 		Context::set('domain_info', $domain_info);
 		
 		// Get modules.
-		$module_list = getModel('module')->getMidList();
 		if ($domain_info && $domain_info->index_module_srl)
 		{
 			$index_module_srl = $domain_info->index_module_srl;
@@ -675,7 +674,6 @@ class adminAdminView extends admin
 		{
 			$index_module_srl = '';
 		}
-		Context::set('module_list', $module_list);
 		Context::set('index_module_srl', $index_module_srl);
 		
 		// Get language list.

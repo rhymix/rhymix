@@ -35,7 +35,12 @@
 				<td class="nowr">
 					<a href="{getUrl('', 'module', 'admin', 'act', 'dispAdminInsertDomain', 'domain_srl', $domain->domain_srl)}">{$lang->cmd_modify}</a>
 					/
-					<a href="{getUrl('', 'module', 'admin', 'act', 'dispAdminDeleteDomain', 'domain_srl', $domain->domain_srl)}">{$lang->cmd_delete}</a>
+					<block cond="$domain->is_default_domain !== 'Y'">
+						<a href="#" data-domain="{$domain->domain}" data-domain-srl="{$domain->domain_srl}" class="delete_domain">{$lang->cmd_delete}</a>
+					</block>
+					<block cond="$domain->is_default_domain === 'Y'">
+						<span style="color:#aaa">{$lang->cmd_delete}</span>
+					</block>
 				</td>
 			</tr>
 			<tr cond="$page_navigation->total_count == 0">
@@ -102,3 +107,18 @@
 		</div>
 	</form>
 </section>
+
+<script>
+	$(function() {
+		$("a.delete_domain").on("click", function(event) {
+			event.preventDefault();
+			var domain = $(this).data("domain");
+			var domain_srl = $(this).data("domain-srl");
+			if (confirm({$lang->cmd_delete_domain|json} + "\n" + domain)) {
+				exec_json('admin.procAdminDeleteDomain', { domain_srl: domain_srl }, function() {
+					window.location.reload();
+				});
+			}
+		});
+	});
+</script>

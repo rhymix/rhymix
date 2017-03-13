@@ -1153,6 +1153,41 @@ class adminAdminController extends admin
 	}
 	
 	/**
+	 * Delete domain
+	 * @return void
+	 */
+	function procAdminDeleteDomain()
+	{
+		// Get selected domain.
+		$domain_srl = strval(Context::get('domain_srl'));
+		if ($domain_srl === '')
+		{
+			return new Object(-1, 'msg_domain_not_found');
+		}
+		$domain_info = getModel('module')->getSiteInfo($domain_srl);
+		if ($domain_info->domain_srl != $domain_srl)
+		{
+			return new Object(-1, 'msg_domain_not_found');
+		}
+		if ($domain_info->is_default_domain === 'Y')
+		{
+			return new Object(-1, 'msg_cannot_delete_default_domain');
+		}
+		
+		// Delete the domain.
+		$args = new stdClass();
+		$args->domain_srl = $domain_srl;
+		$output = executeQuery('module.deleteDomain', $args);
+		if (!$output->toBool())
+		{
+			return $output;
+		}
+		
+		// Clear cache.
+		Rhymix\Framework\Cache::clearGroup('site_and_module');
+	}
+	
+	/**
 	 * Update FTP configuration.
 	 */
 	function procAdminUpdateFTPInfo()

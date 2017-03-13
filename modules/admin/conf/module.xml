@@ -33,6 +33,7 @@
 		<action name="procAdminUpdateSEO" type="controller" />
 		<action name="procAdminUpdateSitelock" type="controller" />
 		<action name="procAdminInsertDomain" type="controller" />
+		<action name="procAdminDeleteDomain" type="controller" />
 		<action name="procAdminUpdateFTPInfo" type="controller" />
 		<action name="procAdminRemoveFTPInfo" type="controller" />
 		<action name="procAdminFaviconUpload" type="controller" />
