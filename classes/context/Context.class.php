@@ -1550,28 +1550,33 @@ class Context
 	{
 		static $site_module_info = null;
 		static $current_info = null;
-
-		// retrieve virtual site information
-		if(is_null($site_module_info))
+		if ($site_module_info === null)
 		{
 			$site_module_info = self::get('site_module_info');
 		}
+		if ($current_info === null)
+		{
+			$current_info = Rhymix\Framework\URL::getCurrentDomainURL(RX_BASEURL);
+		}
 
 		// If $domain is set, handle it (if $domain is vid type, remove $domain and handle with $vid)
-		if ($domain && strpos($domain, '/') !== false)
+		if ($domain)
 		{
-			$domain = Rhymix\Framework\URL::getDomainFromURL($domain);
+			if (strpos($domain, '/') !== false)
+			{
+				$domain = Rhymix\Framework\URL::getDomainFromURL($domain);
+			}
+			if (strpos($domain, 'xn--') !== false)
+			{
+				$domain = Rhymix\Framework\URL::decodeIdna($domain);
+			}
+			if (isSiteID($domain))
+			{
+				$vid = $domain;
+				$domain = '';
+			}
 		}
-		if ($domain && strpos($domain, 'xn--') !== false)
-		{
-			$domain = Rhymix\Framework\URL::decodeIdna($domain);
-		}
-		if ($domain && isSiteID($domain))
-		{
-			$vid = $domain;
-			$domain = '';
-		}
-
+		
 		// If $domain, $vid are not set, use current site information
 		if(!$domain && !$vid)
 		{
@@ -1588,10 +1593,6 @@ class Context
 		// if $domain is set, compare current URL. If they are same, remove the domain, otherwise link to the domain.
 		if($domain)
 		{
-			if(is_null($current_info))
-			{
-				$current_info = parse_url((RX_SSL ? 'https' : 'http') . '://' . Rhymix\Framework\URL::decodeIdna($_SERVER['HTTP_HOST']) . RX_BASEURL);
-			}
 			if($domain === $current_info['host'])
 			{
 				unset($domain);
