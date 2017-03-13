@@ -948,7 +948,7 @@ class adminAdminController extends admin
 			$domain_info = getModel('module')->getSiteInfo($domain_srl);
 			if ($domain_info->domain_srl != $domain_srl)
 			{
-				$domain_info = null;
+				return new Object(-1, 'msg_domain_not_found');
 			}
 		}
 		

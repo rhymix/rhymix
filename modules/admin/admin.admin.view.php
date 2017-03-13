@@ -702,10 +702,13 @@ class adminAdminView extends admin
 		Context::set('domain_timezone', $domain_timezone);
 		
 		// Get favicon and images.
-		$oAdminAdminModel = getAdminModel('admin');
-		Context::set('favicon_url', $oAdminAdminModel->getFaviconUrl($domain_info->domain_srl));
-		Context::set('mobicon_url', $oAdminAdminModel->getMobileIconUrl($domain_info->domain_srl));
-		Context::set('default_image_url', $oAdminAdminModel->getSiteDefaultImageUrl($domain_info->domain_srl));
+		if ($domain_info)
+		{
+			$oAdminAdminModel = getAdminModel('admin');
+			Context::set('favicon_url', $oAdminAdminModel->getFaviconUrl($domain_info->domain_srl));
+			Context::set('mobicon_url', $oAdminAdminModel->getMobileIconUrl($domain_info->domain_srl));
+			Context::set('default_image_url', $oAdminAdminModel->getSiteDefaultImageUrl($domain_info->domain_srl));
+		}
 		
 		$this->setTemplateFile('config_domains_edit');
 	}
