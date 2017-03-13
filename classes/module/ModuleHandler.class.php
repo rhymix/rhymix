@@ -251,8 +251,14 @@ class ModuleHandler extends Handler
 			$module_info = $site_module_info;
 		}
 
+		// Set index document
+		if($site_module_info->index_document_srl && !$this->module && !$this->mid && !$this->document_srl && Context::getRequestMethod() === 'GET' && !count($_GET))
+		{
+			Context::set('document_srl', $this->document_srl = $site_module_info->index_document_srl, true);
+		}
+
 		// redirect, if site start module
-		if(Context::getRequestMethod() === 'GET' && isset($_GET['mid']) && $_GET['mid'] === $site_module_info->mid && count($_GET) === 1)
+		if(!$site_module_info->index_document_srl && Context::getRequestMethod() === 'GET' && isset($_GET['mid']) && $_GET['mid'] === $site_module_info->mid && count($_GET) === 1)
 		{
 			Context::setCacheControl(0);
 			header('location: ' . getNotEncodedSiteUrl($site_module_info->domain), true, 301);
