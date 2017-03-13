@@ -321,7 +321,11 @@ class Security
 		}
 		else
 		{
-			trigger_error('CSRF token missing in POST request: ' . (\Context::get('act') ?: '(no act)'), \E_USER_WARNING);
+			if (Session::getMemberSrl())
+			{
+				trigger_error('CSRF token missing in POST request: ' . (\Context::get('act') ?: '(no act)'), \E_USER_WARNING);
+			}
+			
 			$referer = strval($referer ?: $_SERVER['HTTP_REFERER']);
 			if ($referer !== '')
 			{
