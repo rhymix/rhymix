@@ -129,6 +129,7 @@ $lang->msg_invalid_http_port = 'Invalid HTTP port.';
 $lang->msg_invalid_https_port = 'Invalid HTTPS port.';
 $lang->msg_invalid_index_module_srl = 'The main module does not exist.';
 $lang->msg_invalid_index_document_srl = 'The main document number does not exist.';
+$lang->msg_invalid_index_document_srl_module_srl = 'The main module does not match the main document number.';
 $lang->msg_lang_is_not_enabled = 'The language you selected is not enabled in this site.';
 $lang->msg_invalid_timezone = 'The selected time zone is not usable on this server.';
 $lang->use_db_session = 'Store Session in DB';

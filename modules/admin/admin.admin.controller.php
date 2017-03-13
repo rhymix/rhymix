@@ -1007,6 +1007,10 @@ class adminAdminController extends admin
 			{
 				return new Object(-1, 'msg_invalid_index_document_srl');
 			}
+			if (intval($oDocument->get('module_srl')) !== intval($vars->index_module_srl))
+			{
+				return new Object(-1, 'msg_invalid_index_document_srl_module_srl');
+			}
 		}
 		else
 		{

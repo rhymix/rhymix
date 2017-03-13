@@ -7,32 +7,31 @@
 	<table id="domain_list" class="x_table x_table-striped x_table-hover">
 		<thead>
 			<tr>
+				<th scope="col" class="nowr">{$lang->site_title}</th>
 				<th scope="col" class="nowr">{$lang->domain}</th>
-				<th scope="col" class="nowr">{$lang->cmd_http_port}</th>
-				<th scope="col" class="nowr">{$lang->cmd_https_port}</th>
 				<th scope="col" class="nowr">{$lang->use_ssl}</th>
 				<th scope="col" class="nowr">{$lang->cmd_index_module_srl}</th>
 				<th scope="col" class="nowr">{$lang->cmd_index_document_srl}</th>
-				<th scope="col" class="nowr">{$lang->cmd_default_language}</th>
 				<th scope="col" class="nowr">{$lang->cmd_modify} / {$lang->cmd_delete}</th>
 			</tr>
 		</thead>
 		<tbody>
 			<tr loop="$domain_list->data => $domain">
+				<td class="nowr">
+					{$domain->settings->title}
+					<i cond="$domain->is_default_domain === 'Y'" class="x_icon-home" title="{$lang->cmd_is_default_domain}">{$lang->cmd_is_default_domain}</i>
+				</td>
 				<td class="nowr">{$domain->domain}</td>
-				<td class="nowr">{$domain->http_port ?: ''}</td>
-				<td class="nowr">{$domain->https_port ?: ''}</td>
-				<td class="nowr">{$lang->ssl_options[$domain->security ?: 'none']}</td>
+				<td class="nowr">{preg_replace('/\\(.+$/', '', $lang->ssl_options[$domain->security ?: 'none'])}</td>
 				<td class="nowr">
 					<a href="{getSiteUrl($domain->domain, '', 'mid', $module_list[$domain->index_module_srl]->mid)}" cond="$domain->index_module_srl && $module_list[$domain->index_module_srl]" target="_blank">
 						{($domain->index_module_srl && $module_list[$domain->index_module_srl]) ? $module_list[$domain->index_module_srl]->browser_title : ''}</td>
 					</a>
 				<td class="nowr">
-					<a href="{getSiteUrl($domain->domain, '', 'document_srl', $domain->index_document_srl)}" cond="$domain->index_document_srl" target="_blank">
+					<a href="{getSiteUrl($domain->domain, '', 'mid', $module_list[$domain->index_module_srl]->mid, 'document_srl', $domain->index_document_srl)}" cond="$domain->index_document_srl" target="_blank">
 						{$domain->index_document_srl ?: ''}
 					</a>
 				</td>
-				<td class="nowr">{$domain->settings->language ? $supported_lang[$domain->settings->language]['name'] : $supported_lang[config('locale.default_lang')]['name']}</td>
 				<td class="nowr">
 					<a href="{getUrl('', 'module', 'admin', 'act', 'dispAdminInsertDomain', 'domain_srl', $domain->domain_srl)}">{$lang->cmd_modify}</a>
 					/

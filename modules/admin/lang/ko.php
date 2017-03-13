@@ -128,6 +128,7 @@ $lang->msg_invalid_http_port = '올바르지 않은 HTTP 포트입니다.';
 $lang->msg_invalid_https_port = '올바르지 않은 HTTPS 포트입니다.';
 $lang->msg_invalid_index_module_srl = '선택하신 메인 모듈이 존재하지 않습니다.';
 $lang->msg_invalid_index_document_srl = '선택하신 메인 문서 번호가 존재하지 않습니다.';
+$lang->msg_invalid_index_document_srl_module_srl = '선택하신 메인 모듈과 메인 문서 번호가 일치하지 않습니다.';
 $lang->msg_lang_is_not_enabled = '선택하신 언어가 활성화되어 있지 않습니다.';
 $lang->msg_invalid_timezone = '사용할 수 없는 표준 시간대입니다.';
 $lang->use_db_session = '인증 세션 DB 사용';
