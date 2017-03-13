@@ -1088,7 +1088,10 @@ class adminAdminController extends admin
 			$args = new stdClass();
 			$args->domain_srl = $domain_info->domain_srl;
 			$args->domain = $vars->domain;
-			$args->is_default_domain = $vars->is_default_domain === 'Y' ? 'Y' : 'N';
+			if (isset($vars->is_default_domain))
+			{
+				$args->is_default_domain = $vars->is_default_domain === 'Y' ? 'Y' : 'N';
+			}
 			$args->index_module_srl = $vars->index_module_srl;
 			$args->index_document_srl = $vars->index_document_srl;
 			$args->http_port = $vars->http_port;
