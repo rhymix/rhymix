@@ -273,7 +273,7 @@ class Context
 		}
 		
 		// Redirect to SSL if the current domain always uses SSL.
-		if ($site_module_info->security === 'always' && !RX_SSL && PHP_SAPI !== 'cli')
+		if ($site_module_info->security === 'always' && !RX_SSL && PHP_SAPI !== 'cli' && !$site_module_info->is_default_replaced)
 		{
 			$ssl_url = self::getDefaultUrl($site_module_info) . RX_REQUEST_URL;
 			self::setCacheControl(0);

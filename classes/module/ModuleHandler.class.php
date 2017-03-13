@@ -126,6 +126,31 @@ class ModuleHandler extends Handler
 	{
 		$oModuleModel = getModel('module');
 		$site_module_info = Context::get('site_module_info');
+		
+		// Check unregistered domain action.
+		if (!$site_module_info || !isset($site_module_info->domain_srl) || $site_module_info->is_default_replaced)
+		{
+			$site_module_info = getModel('module')->getDefaultDomainInfo();
+			$domain_action = config('url.unregistered_domain_action') ?: 'redirect_301';
+			switch ($domain_action)
+			{
+				case 'redirect_301':
+					header('Location: ' . Context::getDefaultUrl($site_module_info) . RX_REQUEST_URL, true, 301);
+					return false;
+					
+				case 'redirect_302':
+					header('Location: ' . Context::getDefaultUrl($site_module_info) . RX_REQUEST_URL, true, 302);
+					return false;
+				
+				case 'block':
+					$this->error = 'The site does not exist';
+					$this->httpStatusCode = 404;
+					return true;
+					
+				case 'display':
+					// pass
+			}
+		}
 
 		// if success_return_url and error_return_url is incorrect
 		$urls = array(Context::get('success_return_url'), Context::get('error_return_url'));
@@ -155,6 +180,7 @@ class ModuleHandler extends Handler
 			}
 		}
 		
+		// Convert document alias (entry) to document_srl
 		if(!$this->document_srl && $this->mid && $this->entry)
 		{
 			$oDocumentModel = getModel('document');

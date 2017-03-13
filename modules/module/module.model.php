@@ -190,6 +190,7 @@ class moduleModel extends module
 			{
 				$domain_info = $this->migrateDomains();
 			}
+			$domain_info->is_default_replaced = true;
 		}
 		
 		// Fill in module extra vars and return.
