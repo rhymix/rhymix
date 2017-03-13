@@ -1039,13 +1039,17 @@ class adminAdminController extends admin
 			'html_footer' => $vars->html_footer,
 		);
 		
+		// Get the DB object and begin a transaction.
+		$oDB = DB::getInstance();
+		$oDB->begin();
+		
 		// Insert or update the domain.
 		if (!$domain_info)
 		{
 			$args = new stdClass();
-			$args->domain_srl = getNextSequence();
+			$args->domain_srl = $domain_srl = getNextSequence();
 			$args->domain = $vars->domain;
-			$args->is_default_domain = 'N';
+			$args->is_default_domain = $vars->is_default_domain === 'Y' ? 'Y' : 'N';
 			$args->index_module_srl = $vars->index_module_srl;
 			$args->index_document_srl = $vars->index_document_srl;
 			$args->http_port = $vars->http_port;
@@ -1064,6 +1068,7 @@ class adminAdminController extends admin
 			$args = new stdClass();
 			$args->domain_srl = $domain_info->domain_srl;
 			$args->domain = $vars->domain;
+			$args->is_default_domain = $vars->is_default_domain === 'Y' ? 'Y' : 'N';
 			$args->index_module_srl = $vars->index_module_srl;
 			$args->index_document_srl = $vars->index_document_srl;
 			$args->http_port = $vars->http_port;
@@ -1077,18 +1082,30 @@ class adminAdminController extends admin
 			}
 		}
 		
+		// If changing the default domain, set all other domains as non-default.
+		if ($vars->is_default_domain === 'Y')
+		{
+			$args = new stdClass();
+			$args->not_domain_srl = $domain_srl;
+			$output = executeQuery('module.updateDefaultDomain', $args);
+			if (!$output->toBool())
+			{
+				return $output;
+			}
+		}
+		
 		// Save the favicon, mobicon, and default image.
 		if ($vars->favicon || $vars->delete_favicon)
 		{
-			$this->_saveFavicon($args->domain_srl, $vars->favicon, 'favicon.ico', $vars->delete_favicon);
+			$this->_saveFavicon($domain_srl, $vars->favicon, 'favicon.ico', $vars->delete_favicon);
 		}
 		if ($vars->mobicon || $vars->delete_mobicon)
 		{
-			$this->_saveFavicon($args->domain_srl, $vars->mobicon, 'mobicon.png', $vars->delete_mobicon);
+			$this->_saveFavicon($domain_srl, $vars->mobicon, 'mobicon.png', $vars->delete_mobicon);
 		}
 		if ($vars->default_image || $vars->delete_default_image)
 		{
-			$this->_saveDefaultImage($args->domain_srl, $vars->default_image, $vars->delete_default_image);
+			$this->_saveDefaultImage($domain_srl, $vars->default_image, $vars->delete_default_image);
 		}
 		
 		// Update system configuration to match the default domain.
@@ -1104,6 +1121,9 @@ class adminAdminController extends admin
 			Rhymix\Framework\Config::set('url.ssl', $vars->domain_security);
 			Rhymix\Framework\Config::save();
 		}
+		
+		// Commit.
+		$oDB->commit();
 		
 		// Clear cache.
 		Rhymix\Framework\Cache::clearGroup('site_and_module');

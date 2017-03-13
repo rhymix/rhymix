@@ -27,6 +27,10 @@
 			<label class="x_control-label" for="domain">{$lang->domain}</label>
 			<div class="x_controls">
 				<input type="text" name="domain" id="domain" value="{$domain_info ? escape($domain_info->domain) : ''}"/>
+				&nbsp;
+				<label for="is_default_domain" class="x_inline">
+					<input type="checkbox" name="is_default_domain" id="is_default_domain" value="Y" checked="checked"|cond="$domain_info && $domain_info->is_default_domain === 'Y'" disabled="disabled"|cond="$domain_info && $domain_info->is_default_domain === 'Y'" /> {$lang->cmd_is_default_domain}
+				</label>
 			</div>
 		</div>
 		
