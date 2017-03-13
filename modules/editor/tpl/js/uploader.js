@@ -54,7 +54,8 @@ var uploadAutosaveChecker = false;
 				mid : current_mid,
 				act : 'procFileUpload',
 				editor_sequence : seq,
-				uploadTargetSrl : editorRelKeys[seq].primary.value
+				uploadTargetSrl : editorRelKeys[seq].primary.value,
+				_rx_csrf_token : getCSRFToken()
 			},
 			http_success : [302],
 			file_size_limit   : Math.floor( (parseInt(cfg.allowedFileSize,10)||1024) / 1024 ),

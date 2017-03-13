@@ -378,6 +378,7 @@ class Session
 		$_SESSION['RHYMIX']['timezone'] = DateTime::getTimezoneForCurrentUser();
 		$_SESSION['RHYMIX']['secret'] = Security::getRandom(32, 'alnum');
 		$_SESSION['RHYMIX']['tokens'] = array();
+		$_SESSION['RHYMIX']['token'] = false;
 		$_SESSION['is_webview'] = self::_isBuggyUserAgent();
 		$_SESSION['is_new_session'] = true;
 		$_SESSION['is_logged'] = false;
@@ -845,6 +846,26 @@ class Session
 		{
 			return false;
 		}
+	}
+	
+	/**
+	 * Get a generic token that is not restricted to any particular key.
+	 * 
+	 * @return string|false
+	 */
+	public static function getGenericToken()
+	{
+		if (!self::isStarted())
+		{
+			return false;
+		}
+		
+		if (!$_SESSION['RHYMIX']['token'])
+		{
+			$_SESSION['RHYMIX']['token'] = self::createToken('');
+		}
+		
+		return $_SESSION['RHYMIX']['token'];
 	}
 	
 	/**
