@@ -186,7 +186,8 @@ class memberAdminController extends member
 			'password_hashing_auto_upgrade',
 			'password_change_invalidate_other_sessions',
 			'update_nickname_log',
-			'member_allow_fileupload'
+			'member_allow_fileupload',
+			'member_profile_view'
 		);
 		
 		if(!array_key_exists($args->password_hashing_algorithm, Rhymix\Framework\Password::getSupportedAlgorithms()))

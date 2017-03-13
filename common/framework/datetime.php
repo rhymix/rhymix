@@ -66,6 +66,10 @@ class DateTime
 		{
 			return $_SESSION['RHYMIX']['timezone'];
 		}
+		elseif ($default = \Context::get('_default_timezone'))
+		{
+			return $default;
+		}
 		elseif ($default = Config::get('locale.default_timezone'))
 		{
 			return $default;

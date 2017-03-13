@@ -103,7 +103,12 @@
 			<li loop="$GNB->list=>$key1,$val1" class="<!--@if($val1['selected'])-->active <!--@endif--><!--@if($val1['list'])-->layout_dropdown<!--@endif-->">
 				<a href="{$val1['href']}" target="_blank"|cond="$val1['open_window']=='Y'"><span>{$val1['link']}</span></a>
 				<ul cond="$val1['list']" class="layout_dropdown-content">
-					<li loop="$val1['list']=>$key2,$val2" class="active"|cond="$val2['selected']"><a href="{$val2['href']}" target="_blank"|cond="$val2['open_window']=='Y'">{$val2['link']}</a></li>
+					<li loop="$val1['list']=>$key2,$val2" class="active"|cond="$val2['selected']">
+						<a href="{$val2['href']}" target="_blank"|cond="$val2['open_window']=='Y'">{$val2['link']}</a>
+						<ul cond="$val2['list']">
+							<li loop="$val2['list']=>$key3,$val3" class="active"|cond="$val3['selected']"><a href="{$val3['href']}" target="_blank"|cond="$val3['open_window']=='Y'">{$val3['link']}</a></li>
+						</ul>
+					</li>
 				</ul>
 			</li>
 			<li id="layout_search_link">
@@ -113,16 +118,34 @@
 	</nav>
 	<!--// Menu -->
 </header>
-<div class="layout_frame layout_body">
+<div class="layout_frame layout_body<!--@if(in_array($layout_info->left_space, array('Y', 'YM')))--> layout_left_content<!--@end-->">
 	<!--// VISUAL -->
 	<div class="layout_body layout_canvas">
 		<!--// CONTENT -->
-			<div class="layout_content" id="content">
+		<div class="layout_content layout_left_content" cond="in_array($layout_info->left_space, array('Y', 'YM'))">
+			<section class="layout_left layout_dropdown" loop="$GNB->list=>$key1,$val1" cond="$layout_info->left_space == 'YM' && $val1['selected']">
+				<h1><a href="{$val1['href']}" target="_blank"|cond="$val1['open_window']=='Y'">{$val1['link']}</a></h1>
+				<ul class="layout_dropdown-content" cond="$val1['list']">
+					<li loop="$val1['list']=>$key2,$val2"><a href="{$val2['href']}" class="active"|cond="$val2['selected']" target="_blank"|cond="$val2['open_window']=='Y'">{$val2['link']}</a>
+						<ul cond="$val2['list']">
+							<li loop="$val2['list']=>$key3,$val3" class="active"|cond="$val3['selected']"><a href="{$val3['href']}" target="_blank"|cond="$val3['open_window']=='Y'">{$val3['link']}</a></li>
+						</ul>
+					</li>
+				</ul>
+			</section>
+			<section class="layout_left" cond="trim($layout_info->left_content)">
+				{$layout_info->left_content}
+			</section>
+		</div>
+		<div class="layout_content" id="content">
 			{$layout_info->before_content}
 			{$content}
 			{$layout_info->after_content}
 		</div>
 		<!--// CONTENT -->
+		<div class="layout_outright" cond="trim($layout_info->right_content)">
+			{$layout_info->right_content}
+		</div>
 	</div>
 </div>
 <footer class="layout_frame layout_footer">

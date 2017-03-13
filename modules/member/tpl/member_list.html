@@ -1,3 +1,4 @@
+<load target="css/member.css" />
 <load target="js/member_admin_list.js" type="body" />
 <script>
 	xe.lang.msg_select_user = '{$lang->msg_select_user}';
@@ -28,6 +29,7 @@
 		</caption>
 		<thead>
 			<tr>
+				<th scope="col" class="nowr" cond="$profileImageConfig == 'Y' && $config->member_profile_view == 'Y'">{$lang->profile_image}</th>
 				<th scope="col" class="nowr">{$lang->email}</th>
 				<th scope="col" class="nowr" loop="$usedIdentifiers=>$name,$title">{$title}</th>
 				<th scope="col" class="nowr">{$lang->status}</th>
@@ -43,6 +45,13 @@
 		<tbody>
 			<tr loop="$member_list=>$no,$member_info">
 				{@$member_info = get_object_vars($member_info)}
+				<td class="nowr" cond="$profileImageConfig == 'Y' && $config->member_profile_view == 'Y'">
+					<!--@if($member_info['profile_image'])-->
+					<img src="{$member_info['profile_image']->src}" class="profile_img" />
+					<!--@else-->
+					<i class="no_profile">?</i>
+					<!--@end-->
+				</td>
 				<td class="nowr">
 					<a href="#popup_menu_area" class="member_{$member_info['member_srl']}" title="Info">{getEncodeEmailAddress($member_info['email_address'])}</a>
 				</td>

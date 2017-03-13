@@ -47,17 +47,10 @@ $oContext = Context::getInstance();
 $oContext->init();
 
 /**
- * @brief If default_url is set and it is different from the current url, attempt to redirect for SSO authentication and then process the module
+ * @brief Initialize and execute Module Handler
  **/
-if($oContext->checkSSO())
-{
-	$oModuleHandler = new ModuleHandler();
-
-	if($oModuleHandler->init())
-	{
-		$oModuleHandler->displayContent($oModuleHandler->procModule());
-	}
-}
+$oModuleHandler = new ModuleHandler();
+$oModuleHandler->init() && $oModuleHandler->displayContent($oModuleHandler->procModule());
 
 Context::close();
 

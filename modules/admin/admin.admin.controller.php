@@ -501,61 +501,29 @@ class adminAdminController extends admin
 	}
 	
 	/**
-	 * Update general configuration.
+	 * Update domains configuration.
 	 */
-	function procAdminUpdateConfigGeneral()
+	function procAdminUpdateDomains()
 	{
-		$oModuleController = getController('module');
 		$vars = Context::getRequestVars();
 		
-		// Site title and HTML footer
-		$args = new stdClass;
-		$args->siteTitle = $vars->site_title;
-		$args->siteSubtitle = $vars->site_subtitle;
-		$args->htmlFooter = $vars->html_footer;
-		$oModuleController->updateModuleConfig('module', $args);
-		
-		// Index module
-		$site_args = new stdClass();
-		$site_args->site_srl = 0;
-		$site_args->index_module_srl = $vars->index_module_srl;
-		$site_args->default_language = $vars->default_lang;
-		$oModuleController->updateSite($site_args);
-		
-		// Default and enabled languages
-		$enabled_lang = $vars->enabled_lang;
-		if (!in_array($vars->default_lang, $enabled_lang))
+		// Validate the unregistered domain action.
+		$valid_actions = array('redirect_301', 'redirect_302', 'display', 'block');
+		if (!in_array($vars->unregistered_domain_action, $valid_actions))
 		{
-			$enabled_lang[] = $vars->default_lang;
-		}
-		Rhymix\Framework\Config::set('locale.default_lang', $vars->default_lang);
-		Rhymix\Framework\Config::set('locale.enabled_lang', array_values($enabled_lang));
-		Rhymix\Framework\Config::set('locale.auto_select_lang', $vars->auto_select_lang === 'Y');
-		
-		// Default time zone
-		Rhymix\Framework\Config::set('locale.default_timezone', $vars->default_timezone);
-		
-		// Mobile view
-		Rhymix\Framework\Config::set('mobile.enabled', $vars->use_mobile_view === 'Y');
-		Rhymix\Framework\Config::set('mobile.tablets', $vars->tablets_as_mobile === 'Y');
-		if (Rhymix\Framework\Config::get('use_mobile_view') !== null)
-		{
-			Rhymix\Framework\Config::set('use_mobile_view', $vars->use_mobile_view === 'Y');
+			$vars->unregistered_domain_action = 'redirect_301';
 		}
 		
-		// Favicon and mobicon
-		$this->_saveFavicon('favicon.ico', $vars->is_delete_favicon);
-		$this->_saveFavicon('mobicon.png', $vars->is_delete_mobicon);
-		$this->_saveDefaultImage($vars->is_delete_default_image);
-		
-		// Save
+		// Save system config.
+		Rhymix\Framework\Config::set('url.unregistered_domain_action', $vars->unregistered_domain_action);
+		Rhymix\Framework\Config::set('use_sso', $vars->use_sso === 'Y');
 		if (!Rhymix\Framework\Config::save())
 		{
 			return new Object(-1, 'msg_failed_to_save_config');
 		}
 		
 		$this->setMessage('success_updated');
-		$this->setRedirectUrl(Context::get('success_return_url') ?: getNotEncodedUrl('', 'module', 'admin', 'act', 'dispAdminConfigGeneral'));
+		$this->setRedirectUrl(Context::get('success_return_url') ?: getNotEncodedUrl('', 'module', 'admin', 'act', 'dispAdminConfigGeneral'));		
 	}
 	
 	/**
@@ -752,46 +720,6 @@ class adminAdminController extends admin
 	{
 		$vars = Context::getRequestVars();
 		
-		// Default URL
-		$default_url = rtrim(trim($vars->default_url), '/\\') . '/';
-		if (!filter_var(Rhymix\Framework\URL::encodeIdna($default_url), FILTER_VALIDATE_URL) || !preg_match('@^https?://@', $default_url))
-		{
-			return new Object(-1, 'msg_invalid_default_url');
-		}
-		if (parse_url($default_url, PHP_URL_PATH) !== RX_BASEURL)
-		{
-			return new Object(-1, 'msg_invalid_default_url');
-		}
-		
-		// SSL and ports
-		if ($vars->http_port == 80) $vars->http_port = null;
-		if ($vars->https_port == 443) $vars->https_port = null;
-		$use_ssl = $vars->use_ssl ?: 'none';
-		
-		// Check if all URL configuration is consistent
-		if ($use_ssl === 'always' && !preg_match('@^https://@', $default_url))
-		{
-			return new Object(-1, 'msg_default_url_ssl_inconsistent');
-		}
-		if ($vars->http_port && preg_match('@^http://@', $default_url) && parse_url($default_url, PHP_URL_PORT) != $vars->http_port)
-		{
-			return new Object(-1, 'msg_default_url_http_port_inconsistent');
-		}
-		if ($vars->https_port && preg_match('@^https://@', $default_url) && parse_url($default_url, PHP_URL_PORT) != $vars->https_port)
-		{
-			return new Object(-1, 'msg_default_url_https_port_inconsistent');
-		}
-		
-		// Set all URL configuration
-		Rhymix\Framework\Config::set('url.default', $default_url);
-		Rhymix\Framework\Config::set('url.http_port', $vars->http_port ?: null);
-		Rhymix\Framework\Config::set('url.https_port', $vars->https_port ?: null);
-		Rhymix\Framework\Config::set('url.ssl', $use_ssl);
-		getController('module')->updateSite((object)array(
-			'site_srl' => 0,
-			'domain' => preg_replace('@^https?://@', '', $default_url),
-		));
-		
 		// Object cache
 		if ($vars->object_cache_type)
 		{
@@ -829,9 +757,27 @@ class adminAdminController extends admin
 		$oModuleController = getController('module');
 		$oModuleController->insertModuleConfig('document', $document_config);
 		
+		// Mobile view
+		Rhymix\Framework\Config::set('mobile.enabled', $vars->use_mobile_view === 'Y');
+		Rhymix\Framework\Config::set('mobile.tablets', $vars->tablets_as_mobile === 'Y');
+		if (Rhymix\Framework\Config::get('use_mobile_view') !== null)
+		{
+			Rhymix\Framework\Config::set('use_mobile_view', $vars->use_mobile_view === 'Y');
+		}
+		
+		// Languages and time zone
+		$enabled_lang = $vars->enabled_lang;
+		if (!in_array($vars->default_lang, $enabled_lang))
+		{
+			$enabled_lang[] = $vars->default_lang;
+		}
+		Rhymix\Framework\Config::set('locale.default_lang', $vars->default_lang);
+		Rhymix\Framework\Config::set('locale.enabled_lang', array_values($enabled_lang));
+		Rhymix\Framework\Config::set('locale.auto_select_lang', $vars->auto_select_lang === 'Y');
+		Rhymix\Framework\Config::set('locale.default_timezone', $vars->default_timezone);
+		
 		// Other settings
 		Rhymix\Framework\Config::set('use_rewrite', $vars->use_rewrite === 'Y');
-		Rhymix\Framework\Config::set('use_sso', $vars->use_sso === 'Y');
 		Rhymix\Framework\Config::set('session.delay', $vars->delay_session === 'Y');
 		Rhymix\Framework\Config::set('session.use_db', $vars->use_db_session === 'Y');
 		Rhymix\Framework\Config::set('session.use_keys', $vars->use_session_keys === 'Y');
@@ -989,6 +935,262 @@ class adminAdminController extends admin
 	}
 	
 	/**
+	 * Insert or update domain info
+	 * @return void
+	 */
+	function procAdminInsertDomain()
+	{
+		$vars = Context::getRequestVars();
+		$domain_srl = strval($vars->domain_srl);
+		$domain_info = null;
+		if ($domain_srl !== '')
+		{
+			$domain_info = getModel('module')->getSiteInfo($domain_srl);
+			if ($domain_info->domain_srl != $domain_srl)
+			{
+				return new Object(-1, 'msg_domain_not_found');
+			}
+		}
+		
+		// Validate the title and subtitle.
+		$vars->title = utf8_trim($vars->title);
+		$vars->subtitle = utf8_trim($vars->subtitle);
+		if ($vars->title === '')
+		{
+			return new Object(-1, 'msg_site_title_is_empty');
+		}
+		
+		// Validate the domain.
+		if (!preg_match('@^https?://@', $vars->domain))
+		{
+			$vars->domain = 'http://' . $vars->domain;
+		}
+		try
+		{
+			$vars->domain = Rhymix\Framework\URL::getDomainFromUrl(strtolower($vars->domain));
+		}
+		catch (Exception $e)
+		{
+			$vars->domain = '';
+		}
+		if (!$vars->domain)
+		{
+			return new Object(-1, 'msg_invalid_domain');
+		}
+		$existing_domain = getModel('module')->getSiteInfoByDomain($vars->domain);
+		if ($existing_domain && $existing_domain->domain == $vars->domain && (!$domain_info || $existing_domain->domain_srl != $domain_info->domain_srl))
+		{
+			return new Object(-1, 'msg_domain_already_exists');
+		}
+		
+		// Validate the ports.
+		if ($vars->http_port == 80 || !$vars->http_port)
+		{
+			$vars->http_port = 0;
+		}
+		if ($vars->https_port == 443 || !$vars->https_port)
+		{
+			$vars->https_port = 0;
+		}
+		if ($vars->http_port !== 0 && ($vars->http_port < 1 || $vars->http_port > 65535 || $vars->http_port == 443))
+		{
+			return new Object(-1, 'msg_invalid_http_port');
+		}
+		if ($vars->https_port !== 0 && ($vars->https_port < 1 || $vars->https_port > 65535 || $vars->https_port == 80))
+		{
+			return new Object(-1, 'msg_invalid_https_port');
+		}
+		
+		// Validate the security setting.
+		$valid_security_options = array('none', 'optional', 'always');
+		if (!in_array($vars->domain_security, $valid_security_options))
+		{
+			$vars->domain_security = 'none';
+		}
+		
+		// Validate the index module setting.
+		$module_info = getModel('module')->getModuleInfoByModuleSrl(intval($vars->index_module_srl));
+		if (!$module_info || $module_info->module_srl != $vars->index_module_srl)
+		{
+			return new Object(-1, 'msg_invalid_index_module_srl');
+		}
+		
+		// Validate the index document setting.
+		if ($vars->index_document_srl)
+		{
+			$oDocument = getModel('document')->getDocument($vars->index_document_srl);
+			if (!$oDocument || !$oDocument->isExists())
+			{
+				return new Object(-1, 'msg_invalid_index_document_srl');
+			}
+			if (intval($oDocument->get('module_srl')) !== intval($vars->index_module_srl))
+			{
+				return new Object(-1, 'msg_invalid_index_document_srl_module_srl');
+			}
+		}
+		else
+		{
+			$vars->index_document_srl = 0;
+		}
+		
+		// Validate the default language.
+		$enabled_lang = Rhymix\Framework\Config::get('locale.enabled_lang');
+		if (!in_array($vars->default_lang, $enabled_lang))
+		{
+			return new Object(-1, 'msg_lang_is_not_enabled');
+		}
+		
+		// Validate the default time zone.
+		$timezone_list = Rhymix\Framework\DateTime::getTimezoneList();
+		if (!isset($timezone_list[$vars->default_timezone]))
+		{
+			return new Object(-1, 'msg_invalid_timezone');
+		}
+		
+		// Clean up the footer script.
+		$vars->html_footer = utf8_trim($vars->html_footer);
+		
+		// Merge all settings into an array.
+		$settings = array(
+			'title' => $vars->title,
+			'subtitle' => $vars->subtitle,
+			'language' => $vars->default_lang,
+			'timezone' => $vars->default_timezone,
+			'html_footer' => $vars->html_footer,
+		);
+		
+		// Get the DB object and begin a transaction.
+		$oDB = DB::getInstance();
+		$oDB->begin();
+		
+		// Insert or update the domain.
+		if (!$domain_info)
+		{
+			$args = new stdClass();
+			$args->domain_srl = $domain_srl = getNextSequence();
+			$args->domain = $vars->domain;
+			$args->is_default_domain = $vars->is_default_domain === 'Y' ? 'Y' : 'N';
+			$args->index_module_srl = $vars->index_module_srl;
+			$args->index_document_srl = $vars->index_document_srl;
+			$args->http_port = $vars->http_port;
+			$args->https_port = $vars->https_port;
+			$args->security = $vars->domain_security;
+			$args->description = '';
+			$args->settings = json_encode($settings);
+			$output = executeQuery('module.insertDomain', $args);
+			if (!$output->toBool())
+			{
+				return $output;
+			}
+		}
+		else
+		{
+			$args = new stdClass();
+			$args->domain_srl = $domain_info->domain_srl;
+			$args->domain = $vars->domain;
+			if (isset($vars->is_default_domain))
+			{
+				$args->is_default_domain = $vars->is_default_domain === 'Y' ? 'Y' : 'N';
+			}
+			$args->index_module_srl = $vars->index_module_srl;
+			$args->index_document_srl = $vars->index_document_srl;
+			$args->http_port = $vars->http_port;
+			$args->https_port = $vars->https_port;
+			$args->security = $vars->domain_security;
+			$args->settings = json_encode(array_merge(get_object_vars($domain_info->settings), $settings));
+			$output = executeQuery('module.updateDomain', $args);
+			if (!$output->toBool())
+			{
+				return $output;
+			}
+		}
+		
+		// If changing the default domain, set all other domains as non-default.
+		if ($vars->is_default_domain === 'Y')
+		{
+			$args = new stdClass();
+			$args->not_domain_srl = $domain_srl;
+			$output = executeQuery('module.updateDefaultDomain', $args);
+			if (!$output->toBool())
+			{
+				return $output;
+			}
+		}
+		
+		// Save the favicon, mobicon, and default image.
+		if ($vars->favicon || $vars->delete_favicon)
+		{
+			$this->_saveFavicon($domain_srl, $vars->favicon, 'favicon.ico', $vars->delete_favicon);
+		}
+		if ($vars->mobicon || $vars->delete_mobicon)
+		{
+			$this->_saveFavicon($domain_srl, $vars->mobicon, 'mobicon.png', $vars->delete_mobicon);
+		}
+		if ($vars->default_image || $vars->delete_default_image)
+		{
+			$this->_saveDefaultImage($domain_srl, $vars->default_image, $vars->delete_default_image);
+		}
+		
+		// Update system configuration to match the default domain.
+		if ($domain_info && $domain_info->is_default_domain === 'Y')
+		{
+			$domain_info->domain = $vars->domain;
+			$domain_info->http_port = $vars->http_port;
+			$domain_info->https_port = $vars->https_port;
+			$domain_info->security = $vars->domain_security;
+			Rhymix\Framework\Config::set('url.default', Context::getDefaultUrl($domain_info));
+			Rhymix\Framework\Config::set('url.http_port', $vars->http_port ?: null);
+			Rhymix\Framework\Config::set('url.https_port', $vars->https_port ?: null);
+			Rhymix\Framework\Config::set('url.ssl', $vars->domain_security);
+			Rhymix\Framework\Config::save();
+		}
+		
+		// Commit.
+		$oDB->commit();
+		
+		// Clear cache.
+		Rhymix\Framework\Cache::clearGroup('site_and_module');
+		
+		// Redirect to the domain list.
+		$this->setRedirectUrl(Context::get('success_return_url') ?: getNotEncodedUrl('', 'module', 'admin', 'act', 'dispAdminConfigGeneral'));
+	}
+	
+	/**
+	 * Delete domain
+	 * @return void
+	 */
+	function procAdminDeleteDomain()
+	{
+		// Get selected domain.
+		$domain_srl = strval(Context::get('domain_srl'));
+		if ($domain_srl === '')
+		{
+			return new Object(-1, 'msg_domain_not_found');
+		}
+		$domain_info = getModel('module')->getSiteInfo($domain_srl);
+		if ($domain_info->domain_srl != $domain_srl)
+		{
+			return new Object(-1, 'msg_domain_not_found');
+		}
+		if ($domain_info->is_default_domain === 'Y')
+		{
+			return new Object(-1, 'msg_cannot_delete_default_domain');
+		}
+		
+		// Delete the domain.
+		$args = new stdClass();
+		$args->domain_srl = $domain_srl;
+		$output = executeQuery('module.deleteDomain', $args);
+		if (!$output->toBool())
+		{
+			return $output;
+		}
+		
+		// Clear cache.
+		Rhymix\Framework\Cache::clearGroup('site_and_module');
+	}
+	
+	/**
 	 * Update FTP configuration.
 	 */
 	function procAdminUpdateFTPInfo()
@@ -1083,69 +1285,12 @@ class adminAdminController extends admin
 		$this->setMessage('success_deleted');
 	}
 	
-	/**
-	 * Upload favicon and mobicon.
-	 */
-	public function procAdminFaviconUpload()
-	{
-		if ($favicon = Context::get('favicon'))
-		{
-			$name = 'favicon';
-			$tmpFileName = $this->_saveFaviconTemp($favicon, 'favicon.ico');
-		}
-		elseif ($mobicon = Context::get('mobicon'))
-		{
-			$name = 'mobicon';
-			$tmpFileName = $this->_saveFaviconTemp($mobicon, 'mobicon.png');
-		}
-		elseif ($default_image = Context::get('default_image'))
-		{
-			$name = 'default_image';
-			$tmpFileName = $this->_saveFaviconTemp($default_image, 'default_image.png');
-		}
-		else
-		{
-			$name = $tmpFileName = '';
-			Context::set('msg', lang('msg_invalid_format'));
-		}
-		
-		Context::set('name', $name);
-		Context::set('tmpFileName', $tmpFileName . '?' . time());
-		$this->setTemplatePath($this->module_path . 'tpl');
-		$this->setTemplateFile("favicon_upload.html");
-	}
-	
-	protected function _saveFaviconTemp($icon, $iconname)
-	{
-		$site_info = Context::get('site_module_info');
-		$virtual_site = '';
-		if ($site_info->site_srl) 
-		{
-			$virtual_site = $site_info->site_srl . '/';
-		}
-
-		$original_filename = $icon['tmp_name'];
-		$type = $icon['type'];
-		$relative_filename = 'files/attach/xeicon/'.$virtual_site.'tmp/'.$iconname;
-		$target_filename = \RX_BASEDIR . $relative_filename;
-
-		if (!preg_match('/^(favicon|mobicon|default_image)\.(ico|png|jpe?g)$/', $iconname))
-		{
-			Context::set('msg', lang('msg_invalid_format'));
-			return;
-		}
-		
-		Rhymix\Framework\Storage::copy($original_filename, $target_filename, 0666 & ~umask());
-		return $relative_filename;
-	}
-	
-	protected function _saveFavicon($iconname, $deleteIcon = false)
+	protected function _saveFavicon($domain_srl, $uploaded_fileinfo, $iconname, $deleteIcon = false)
 	{
 		$image_filepath = 'files/attach/xeicon/';
-		$site_info = Context::get('site_module_info');
-		if ($site_info->site_srl)
+		if ($domain_srl)
 		{
-			$image_filepath .= $site_info->site_srl . '/';
+			$image_filepath .= intval($domain_srl) . '/';
 		}
 		
 		if ($deleteIcon)
@@ -1154,21 +1299,20 @@ class adminAdminController extends admin
 			return;
 		}
 		
-		$tmpicon_filepath = $image_filepath . 'tmp/' . $iconname;
+		$original_filename = $uploaded_fileinfo['tmp_name'];
 		$icon_filepath = $image_filepath . $iconname;
-		if (file_exists(\RX_BASEDIR . $tmpicon_filepath))
+		if (is_uploaded_file($original_filename))
 		{
-			Rhymix\Framework\Storage::move(\RX_BASEDIR . $tmpicon_filepath, \RX_BASEDIR . $icon_filepath);
+			Rhymix\Framework\Storage::move($original_filename, \RX_BASEDIR . $icon_filepath);
 		}
 	}
 	
-	protected function _saveDefaultImage($deleteIcon = false)
+	protected function _saveDefaultImage($domain_srl, $uploaded_fileinfo, $deleteIcon = false)
 	{
 		$image_filepath = 'files/attach/xeicon/';
-		$site_info = Context::get('site_module_info');
-		if ($site_info->site_srl)
+		if ($domain_srl)
 		{
-			$image_filepath .= $site_info->site_srl . '/';
+			$image_filepath .= intval($domain_srl) . '/';
 		}
 		
 		if ($deleteIcon)
@@ -1182,17 +1326,17 @@ class adminAdminController extends admin
 			return;
 		}
 		
-		$tmpicon_filepath = \RX_BASEDIR . $image_filepath . 'tmp/default_image.png';
-		if (file_exists($tmpicon_filepath))
+		$original_filename = $uploaded_fileinfo['tmp_name'];
+		if (is_uploaded_file($original_filename))
 		{
-			list($width, $height, $type) = @getimagesize($tmpicon_filepath);
+			list($width, $height, $type) = @getimagesize($original_filename);
 			switch ($type)
 			{
 				case 'image/gif': $target_filename = $image_filepath . 'default_image.gif'; break;
 				case 'image/jpeg': $target_filename = $image_filepath . 'default_image.jpg'; break;
 				case 'image/png': default: $target_filename = $image_filepath . 'default_image.png';
 			}
-			Rhymix\Framework\Storage::move($tmpicon_filepath, \RX_BASEDIR . $target_filename);
+			Rhymix\Framework\Storage::move($original_filename, \RX_BASEDIR . $target_filename);
 			Rhymix\Framework\Storage::writePHPData(\RX_BASEDIR . 'files/attach/xeicon/' . $virtual_site . 'default_image.php', array(
 				'filename' => $target_filename, 'width' => $width, 'height' => $height,
 			));

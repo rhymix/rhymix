@@ -1,0 +1,16 @@
+<table name="domains">
+	<column name="domain_srl" type="number" notnull="notnull" primary_key="primary_key" />
+	<column name="domain" type="varchar" size="80" notnull="notnull" index="idx_domain" />
+	<column name="is_default_domain" type="char" size="1" notnull="notnull" default="N" index="idx_is_default_domain" />
+	<column name="index_module_srl" type="number" notnull="notnull" index="idx_index_module_srl" />
+	<column name="index_document_srl" type="number" notnull="notnull" index="idx_index_document_srl" />
+	<column name="default_layout_srl" type="number" notnull="notnull" default="0" />
+	<column name="default_mlayout_srl" type="number" notnull="notnull" default="0" />
+	<column name="default_menu_srl" type="number" notnull="notnull" default="0" />
+	<column name="http_port" type="number" />
+	<column name="https_port" type="number" />
+	<column name="security" type="varchar" size="20" notnull="notnull" default="none" />
+	<column name="description" type="text" />
+	<column name="settings" type="text" />
+	<column name="regdate" type="date" />
+</table>

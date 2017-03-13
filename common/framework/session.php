@@ -270,87 +270,92 @@ class Session
 	 * This method uses more or less the same logic as XE's SSO mechanism.
 	 * It may need to be changed to a more secure mechanism later.
 	 * 
-	 * @return bool
+	 * @param object $site_module_info
+	 * @return void
 	 */
-	public static function checkSSO()
+	public static function checkSSO($site_module_info)
 	{
 		// Abort if SSO is disabled, the visitor is a robot, or this is not a typical GET request.
 		if ($_SERVER['REQUEST_METHOD'] !== 'GET' || !config('use_sso') || UA::isRobot() || in_array(\Context::get('act'), array('rss', 'atom')))
 		{
-			return false;
-		}
-		
-		// Abort of the default URL is not set.
-		$default_url = \Context::getDefaultUrl();
-		if (!$default_url)
-		{
-			return false;
+			return;
 		}
 		
 		// Get the current site information.
-		$current_url = URL::getCurrentURL();
-		$current_host = parse_url($current_url, \PHP_URL_HOST);
-		$default_host = parse_url($default_url, \PHP_URL_HOST);
+		$is_default_domain = ($site_module_info->domain_srl == 0);
+		if (!$is_default_domain)
+		{
+			$current_domain = $site_module_info->domain;
+			$current_url = URL::getCurrentUrl();
+			$default_domain = getModel('module')->getDefaultDomainInfo();
+			$default_url = \Context::getDefaultUrl($default_domain);
+		}
 		
 		// Step 1: if the current site is not the default site, send SSO validation request to the default site.
-		if($default_host !== $current_host && !\Context::get('sso_response') && $_COOKIE['sso'] !== md5($current_host))
+		if(!$is_default_domain && !\Context::get('sso_response') && $_COOKIE['sso'] !== md5($current_domain))
 		{
 			// Set sso cookie to prevent multiple simultaneous SSO validation requests.
-			setcookie('sso', md5($current_host), 0, '/');
+			setcookie('sso', md5($current_domain), 0, '/');
 			
 			// Redirect to the default site.
 			$sso_request = Security::encrypt($current_url);
 			header('Location:' . URL::modifyURL($default_url, array('sso_request' => $sso_request)));
-			return true;
+			exit;
 		}
 		
 		// Step 2: receive and process SSO validation request at the default site.
-		if($default_host === $current_host && \Context::get('sso_request'))
+		if($is_default_domain && \Context::get('sso_request'))
 		{
 			// Get the URL of the origin site
 			$sso_request = Security::decrypt(\Context::get('sso_request'));
 			if (!$sso_request || !preg_match('!^https?://!', $sso_request))
 			{
 				\Context::displayErrorPage('SSO Error', 'Invalid SSO Request', 400);
-				return true;
+				exit;
+			}
+			if (!URL::isInternalUrl($sso_request) || !Security::checkCSRF())
+			{
+				\Context::displayErrorPage('SSO Error', 'Invalid SSO Request', 400);
+				exit;
 			}
 			
-			// Redirect back to the origin site.
+			// Encrypt the session ID.
+			self::start(true);
 			$sso_response = Security::encrypt(session_id());
+			
+			// Redirect back to the origin site.
 			header('Location: ' . URL::modifyURL($sso_request, array('sso_response' => $sso_response)));
-			return true;
+			self::close();
+			exit;
 		}
 		
 		// Step 3: back at the origin site, set session ID to be the same as the default site.
-		if($default_host !== $current_host && \Context::get('sso_response'))
+		if(!$is_default_domain && \Context::get('sso_response'))
 		{
 			// Check SSO response
 			$sso_response = Security::decrypt(\Context::get('sso_response'));
 			if ($sso_response === false)
 			{
 				\Context::displayErrorPage('SSO Error', 'Invalid SSO Response', 400);
-				return true;
+				exit;
 			}
 			
 			// Check that the response was given by the default site (to prevent session fixation CSRF).
-			if(isset($_SERVER['HTTP_REFERER']) && strpos($_SERVER['HTTP_REFERER'], $default_url) !== 0)
+			if(isset($_SERVER['HTTP_REFERER']) && strpos(URL::decodeIdna($_SERVER['HTTP_REFERER']), $default_url) !== 0)
 			{
 				\Context::displayErrorPage('SSO Error', 'Invalid SSO Response', 400);
-				return true;
+				exit;
 			}
 			
-			// Set session ID.
-			self::close();
+			// Set the session ID.
 			session_id($sso_response);
-			self::start();
+			self::start(true, false);
 			
 			// Finally, redirect to the originally requested URL.
 			header('Location: ' . URL::getCurrentURL(array('sso_response' => null)));
-			return true;
+			self::close();
+			exit;
 		}
-		
-		// If none of the conditions above apply, proceed normally.
-		return false;
 	}
 	
 	/**

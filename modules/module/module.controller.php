@@ -785,53 +785,6 @@ class moduleController extends module
 	}
 
 	/**
-	 * @brief Change the site administrator
-	 */
-	function insertSiteAdmin($site_srl, $arr_admins)
-	{
-		// Remove the site administrator
-		$args = new stdClass;
-		$args->site_srl = $site_srl;
-
-		$output = executeQuery('module.deleteSiteAdmin', $args);
-
-		if(!$output->toBool()) return $output;
-		// Get user id of an administrator
-		if(!is_array($arr_admins) || !count($arr_admins)) return new Object();
-		foreach($arr_admins as $key => $user_id)
-		{
-			if(!trim($user_id)) continue;
-			$admins[] = trim($user_id);
-		}
-		if(!count($admins)) return new Object();
-
-		$oMemberModel = getModel('member');
-		$member_config = $oMemberModel->getMemberConfig();
-		if($member_config->identifier == 'email_address')
-		{
-			$args->email_address = '\''.implode('\',\'',$admins).'\'';
-		}
-		else
-		{
-			$args->user_ids = '\''.implode('\',\'',$admins).'\'';
-		}
-		$output = executeQueryArray('module.getAdminSrls', $args);
-		if(!$output->toBool()||!$output->data) return $output;
-
-		foreach($output->data as $key => $val)
-		{
-			unset($args);
-			$args = new stdClass;
-			$args->site_srl = $site_srl;
-			$args->member_srl = $val->member_srl;
-			$output = executeQueryArray('module.insertSiteAdmin', $args);
-			if(!$output->toBool()) return $output;
-		}
-		Rhymix\Framework\Cache::delete("site_and_module:site_admins:$site_srl");
-		return new Object();
-	}
-
-	/**
 	 * @brief Specify the admin ID to a module
 	 */
 	function insertAdminId($module_srl, $admin_id)
@@ -1087,18 +1040,11 @@ class moduleController extends module
 
 		if(is_null($lang))
 		{
-			$site_module_info = Context::get('site_module_info');
-			if(!$site_module_info)
-			{
-				$oModuleModel = getModel('module');
-				$site_module_info = $oModuleModel->getDefaultMid();
-				Context::set('site_module_info', $site_module_info);
-			}
-			$cache_file = sprintf('%sfiles/cache/lang_defined/%d.%s.php', _XE_PATH_, $site_module_info->site_srl, Context::getLangType());
+			$cache_file = sprintf('%sfiles/cache/lang_defined/%d.%s.php', _XE_PATH_, 0, Context::getLangType());
 			if(!file_exists($cache_file))
 			{
 				$oModuleAdminController = getAdminController('module');
-				$oModuleAdminController->makeCacheDefinedLangCode($site_module_info->site_srl);
+				$oModuleAdminController->makeCacheDefinedLangCode(0);
 			}
 
 			if(file_exists($cache_file))
@@ -1108,7 +1054,7 @@ class moduleController extends module
 				if($cacheFileMtime < $moduleAdminControllerMtime)
 				{
 					$oModuleAdminController = getAdminController('module');
-					$oModuleAdminController->makeCacheDefinedLangCode($site_module_info->site_srl);
+					$oModuleAdminController->makeCacheDefinedLangCode(0);
 				}
 
 				require_once($cache_file);

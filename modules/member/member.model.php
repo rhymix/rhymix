@@ -74,6 +74,7 @@ class memberModel extends member
 		if(!$config->signature_editor_skin || $config->signature_editor_skin == 'default') $config->signature_editor_skin = 'ckeditor';
 		if(!$config->sel_editor_colorset) $config->sel_editor_colorset = 'moono-lisa';
 		if(!$config->member_allow_fileupload) $config->member_allow_fileupload = 'N';
+		if(!$config->member_profile_view) $config->member_profile_view = 'N';
 
 		if($config->redirect_mid)
 		{
