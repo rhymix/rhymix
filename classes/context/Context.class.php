@@ -1556,7 +1556,7 @@ class Context
 		}
 		if ($current_info === null)
 		{
-			$current_info = Rhymix\Framework\URL::getCurrentDomainURL(RX_BASEURL);
+			$current_info = parse_url(Rhymix\Framework\URL::getCurrentDomainURL(RX_BASEURL));
 		}
 
 		// If $domain is set, handle it (if $domain is vid type, remove $domain and handle with $vid)
