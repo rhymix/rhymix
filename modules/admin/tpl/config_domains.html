@@ -60,10 +60,41 @@
 </section>
 
 <section class="section">
+	<h2>{$lang->cmd_multidomain_configuration}</h2>
 	<form action="./" method="post" class="x_form-horizontal">
 		<input type="hidden" name="module" value="admin" />
 		<input type="hidden" name="act" value="procAdminUpdateDomains" />
 		<input type="hidden" name="xe_validator_id" value="modules/admin/tpl/config_domains/1" />
+		<div class="x_control-group">
+			<label class="x_control-label">{$lang->cmd_unregistered_domain_action}</label>
+			<div class="x_controls">
+				<label for="unregistered_domain_redirect_301">
+					<input type="radio" name="unregistered_domain_action" id="unregistered_domain_redirect_301" value="redirect_301" checked="checked"|cond="config('url.unregistered_domain_action') === 'redirect_301' || !config('url.unregistered_domain_action')" />
+					{$lang->cmd_unregistered_domain_redirect_301}
+				</label>
+				<label for="unregistered_domain_redirect_302">
+					<input type="radio" name="unregistered_domain_action" id="unregistered_domain_redirect_302" value="redirect_302" checked="checked"|cond="config('url.unregistered_domain_action') === 'redirect_302'" />
+					{$lang->cmd_unregistered_domain_redirect_302}
+				</label>
+				<label for="unregistered_domain_display">
+					<input type="radio" name="unregistered_domain_action" id="unregistered_domain_display" value="display" checked="checked"|cond="config('url.unregistered_domain_action') === 'display'" />
+					{$lang->cmd_unregistered_domain_display}
+				</label>
+				<label for="unregistered_domain_block">
+					<input type="radio" name="unregistered_domain_action" id="unregistered_domain_block" value="block" checked="checked"|cond="config('url.unregistered_domain_action') === 'block'" />
+					{$lang->cmd_unregistered_domain_block}
+				</label>
+			</div>
+		</div>
+		<div class="x_control-group">
+			<label class="x_control-label">{$lang->use_sso}</label>
+			<div class="x_controls">
+				<label for="use_sso_y" class="x_inline"><input type="radio" name="use_sso" id="use_sso_y" value="Y" checked="checked"|cond="config('use_sso')" /> {$lang->cmd_yes}</label>
+				<label for="use_sso_n" class="x_inline"><input type="radio" name="use_sso" id="use_sso_n" value="N" checked="checked"|cond="!config('use_sso')" /> {$lang->cmd_no}</label>
+				<br />
+				<p class="x_help-block">{$lang->about_use_sso}</p>
+			</div>
+		</div>
 		<div class="x_clearfix btnArea">
 			<div class="x_pull-right">
 				<button type="submit" class="x_btn x_btn-primary">{$lang->cmd_save}</button>

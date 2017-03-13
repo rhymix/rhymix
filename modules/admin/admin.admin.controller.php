@@ -507,6 +507,23 @@ class adminAdminController extends admin
 	{
 		$vars = Context::getRequestVars();
 		
+		// Validate the unregistered domain action.
+		$valid_actions = array('redirect_301', 'redirect_302', 'display', 'block');
+		if (!in_array($vars->unregistered_domain_action, $valid_actions))
+		{
+			$vars->unregistered_domain_action = 'redirect_301';
+		}
+		
+		// Save system config.
+		Rhymix\Framework\Config::set('url.unregistered_domain_action', $vars->unregistered_domain_action);
+		Rhymix\Framework\Config::set('use_sso', $vars->use_sso === 'Y');
+		if (!Rhymix\Framework\Config::save())
+		{
+			return new Object(-1, 'msg_failed_to_save_config');
+		}
+		
+		$this->setMessage('success_updated');
+		$this->setRedirectUrl(Context::get('success_return_url') ?: getNotEncodedUrl('', 'module', 'admin', 'act', 'dispAdminConfigGeneral'));		
 	}
 	
 	/**
@@ -761,7 +778,6 @@ class adminAdminController extends admin
 		
 		// Other settings
 		Rhymix\Framework\Config::set('use_rewrite', $vars->use_rewrite === 'Y');
-		Rhymix\Framework\Config::set('use_sso', $vars->use_sso === 'Y');
 		Rhymix\Framework\Config::set('session.delay', $vars->delay_session === 'Y');
 		Rhymix\Framework\Config::set('session.use_db', $vars->use_db_session === 'Y');
 		Rhymix\Framework\Config::set('session.use_keys', $vars->use_session_keys === 'Y');

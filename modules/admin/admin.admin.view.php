@@ -556,7 +556,6 @@ class adminAdminView extends admin
 		Context::set('use_rewrite', Rhymix\Framework\Config::get('use_rewrite'));
 		Context::set('use_mobile_view', (config('mobile.enabled') !== null ? config('mobile.enabled') : config('use_mobile_view')) ? true : false);
 		Context::set('tablets_as_mobile', config('mobile.tablets') ? true : false);
-		Context::set('use_sso', Rhymix\Framework\Config::get('use_sso'));
 		Context::set('use_ssl', Rhymix\Framework\Config::get('url.ssl'));
 		Context::set('delay_session', Rhymix\Framework\Config::get('session.delay'));
 		Context::set('use_session_keys', Rhymix\Framework\Config::get('session.use_keys'));
