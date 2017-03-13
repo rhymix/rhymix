@@ -126,14 +126,14 @@ class moduleModel extends module
 		if (strpos($domain, '/') !== false)
 		{
 			$domain = Rhymix\Framework\URL::getDomainFromURL($domain);
-			if ($domain === false)
-			{
-				return false;
-			}
 		}
 		if (strpos($domain, 'xn--') !== false)
 		{
 			$domain = Rhymix\Framework\URL::decodeIdna($domain);
+		}
+		if (strval($domain) === '')
+		{
+			return false;
 		}
 		
 		$domain = strtolower($domain);

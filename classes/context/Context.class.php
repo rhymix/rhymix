@@ -1752,7 +1752,7 @@ class Context
 		}
 
 		$site_module_info = self::get('site_module_info');
-		if ($domain !== null && $domain !== $site_module_info->domain)
+		if ($domain !== null && $domain !== false && $domain !== $site_module_info->domain)
 		{
 			if (!isset($domain_infos[$domain]))
 			{
