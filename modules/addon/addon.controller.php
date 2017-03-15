@@ -31,24 +31,16 @@ class addonController extends addon
 			return $addon_file;
 		}
 
-		$site_module_info = Context::get('site_module_info');
-		$site_srl = $site_module_info->site_srl;
-
-		$addon_path = RX_BASEDIR . 'files/cache/addons/';
-		$addon_file = $addon_path . 'addons.' . intval($site_srl) . '.' . $type . '.php';
-
+		$addon_file = RX_BASEDIR . 'files/cache/addons/' . $type . '.php';
 		if($this->addon_file_called)
 		{
 			return $addon_file;
 		}
 
 		$this->addon_file_called = TRUE;
-
-		FileHandler::makeDir($addon_path);
-
 		if(!file_exists($addon_file) || filemtime($addon_file) < filemtime(__FILE__))
 		{
-			$this->makeCacheFile($site_srl, $type);
+			$this->makeCacheFile(0, $type);
 		}
 
 		return $addon_file;
@@ -150,16 +142,8 @@ class addonController extends addon
 		}
 		
 		// Write file in new location
-		$addon_path = RX_BASEDIR . 'files/cache/addons/';
-		$addon_file = $addon_path . 'addons.' . ($gtype == 'site' ? intval($site_srl) : 'G') . '.' . $type . '.php';
+		$addon_file = RX_BASEDIR . 'files/cache/addons/' . $type . '.php';
 		FileHandler::writeFile($addon_file, join(PHP_EOL, $buff));
-		
-		// Remove file from old location
-		$old_addon_file = $addon_path . ($gtype == 'site' ? $site_srl : '') . $type . '.acivated_addons.cache.php';
-		if (file_exists($old_addon_file))
-		{
-			FileHandler::removeFile($old_addon_file);
-		}
 	}
 
 	/**
@@ -197,18 +181,6 @@ class addonController extends addon
 	 */
 	function removeAddonConfig($site_srl)
 	{
-		$addon_path = RX_BASEDIR . 'files/cache/addons/';
-		$addon_file = $addon_path . 'addons.' . intval($site_srl) . '.' . $type . '.php';
-		if(file_exists($addon_file))
-		{
-			FileHandler::removeFile($addon_file);
-		}
-		$old_addon_file = $addon_path . ($gtype == 'site' ? $site_srl : '') . $type . '.acivated_addons.cache.php';
-		if (file_exists($old_addon_file))
-		{
-			FileHandler::removeFile($old_addon_file);
-		}
-
 		$args = new stdClass();
 		$args->site_srl = $site_srl;
 		executeQuery('addon.deleteSiteAddons', $args);
