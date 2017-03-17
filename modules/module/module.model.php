@@ -1931,7 +1931,7 @@ class moduleModel extends module
 		$is_module_admin = $this->isModuleAdmin($member_info, $module_info->module_srl);
 		
 		// Get module grant
-		$module_grant = is_array($xml_info->grant) ? array_keys($xml_info->grant) : array();
+		$module_grant = array_keys((array) $xml_info->grant);
 		
 		// Prepend default grant
 		array_unshift($module_grant, 'access', 'is_admin', 'manager', 'is_site_admin');
