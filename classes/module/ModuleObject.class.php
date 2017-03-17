@@ -171,11 +171,12 @@ class ModuleObject extends Object
 		$this->module_config = $oModuleModel->getModuleConfig($this->module, $module_info->site_srl);
 		
 		$logged_info = Context::get('logged_info');
+		$permission_check = $xml_info->permission_check->{$this->act};
 		
 		// If permission check target is not the current module
-		if($xml_info->permission_check->{$action}->key && $check_module_srl = Context::get($xml_info->permission_check->{$action}->key))
+		if($permission_check->key && $check_module_srl = Context::get($permission_check->key))
 		{
-			if($info->permission_check->{$action}->array === '' && !is_array($check_module_srl))
+			if($permission_check->array === '' && !is_array($check_module_srl))
 			{
 				if(!preg_match('/^([0-9]+)$/', $check_module_srl))
 				{
@@ -197,7 +198,7 @@ class ModuleObject extends Object
 			{
 				if(!is_array($check_module_srl))
 				{
-					$check_module_srl = explode($info->permission_check->{$action}->array, $check_module_srl);
+					$check_module_srl = explode($permission_check->array, $check_module_srl);
 				}
 				
 				foreach($check_module_srl as $module_srl)
