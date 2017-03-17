@@ -164,16 +164,20 @@ class ModuleObject extends Object
 		$this->origin_module_info = $module_info;
 		$this->xml_info = $xml_info;
 		$this->skin_vars = $module_info->skin_vars;
-		// validate certificate info and permission settings necessary in Web-services
-		$is_logged = Context::get('is_logged');
-		$logged_info = Context::get('logged_info');
-		// module model create an object
+		
 		$oModuleModel = getModel('module');
-		// permission settings. access, manager(== is_admin) are fixed and privilege name in XE
+		
+		// variable module config
+		$this->module_config = $oModuleModel->getModuleConfig($this->module, $module_info->site_srl);
+		
 		$module_srl = Context::get('module_srl');
+		$logged_info = Context::get('logged_info');
+		
+		// permission settings. access, manager(== is_admin) are fixed and privilege name in XE
 		if(!$module_info->mid && !is_array($module_srl) && preg_match('/^([0-9]+)$/', $module_srl))
 		{
 			$request_module = $oModuleModel->getModuleInfoByModuleSrl($module_srl);
+			
 			if($request_module->module_srl == $module_srl)
 			{
 				$grant = $oModuleModel->getGrant($request_module, $logged_info);
@@ -182,47 +186,41 @@ class ModuleObject extends Object
 		else
 		{
 			$grant = $oModuleModel->getGrant($module_info, $logged_info, $xml_info);
-			// have at least access grant
-			if(substr_count($this->act, 'Member') || substr_count($this->act, 'Communication'))
-			{
-				$grant->access = 1;
-			}
 		}
-		// display no permission if the current module doesn't have an access privilege
-		//if(!$grant->access) return $this->stop("msg_not_permitted");
+		
 		// checks permission and action if you don't have an admin privilege
 		if(!$grant->manager)
 		{
 			// get permission types(guest, member, manager, root) of the currently requested action
-			$permission_target = $xml_info->permission->{$this->act};
+			$permission = $xml_info->permission->{$this->act};
+			
 			// check manager if a permission in module.xml otherwise action if no permission
-			if(!$permission_target && substr_count($this->act, 'Admin'))
+			if(!$permission && substr_count($this->act, 'Admin'))
 			{
-				$permission_target = 'manager';
+				$permission = 'manager';
 			}
+			
 			// Check permissions
-			switch($permission_target)
+			if($permission)
 			{
-				case 'root' :
-				case 'manager' :
+				if($permission == 'member' && !Context::get('is_logged'))
+				{
+					$this->stop('msg_not_permitted_act');
+					return;
+				}
+				else if(in_array($permission, array('root', 'manager')))
+				{
 					$this->stop('admin.msg_is_not_administrator');
 					return;
-				case 'member' :
-					if(!$is_logged)
-					{
-						$this->stop('msg_not_permitted_act');
-						return;
-					}
-					break;
+				}
 			}
 		}
+		
 		// permission variable settings
 		$this->grant = $grant;
-
 		Context::set('grant', $grant);
-
-		$this->module_config = $oModuleModel->getModuleConfig($this->module, $module_info->site_srl);
-
+		
+		// execute init
 		if(method_exists($this, 'init'))
 		{
 			$this->init();
