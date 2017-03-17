@@ -213,7 +213,7 @@ class ModuleObject extends Object
 					$module_grant = $oModuleModel->getGrant($request_module, $logged_info);
 					
 					// Check permissions
-					if(!$this->checkPermission($module_grant, $xml_info))
+					if(!$this->checkPermission($xml_info, $module_grant))
 					{
 						return;
 					}
@@ -230,7 +230,7 @@ class ModuleObject extends Object
 		}
 		
 		// Check permissions
-		if(!isset($checked) && !$this->checkPermission($grant, $xml_info))
+		if(!isset($checked) && !$this->checkPermission($xml_info, $grant))
 		{
 			return;
 		}
