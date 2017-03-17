@@ -170,50 +170,69 @@ class ModuleObject extends Object
 		// variable module config
 		$this->module_config = $oModuleModel->getModuleConfig($this->module, $module_info->site_srl);
 		
-		$module_srl = Context::get('module_srl');
 		$logged_info = Context::get('logged_info');
 		
-		// permission settings. access, manager(== is_admin) are fixed and privilege name in XE
-		if(!$module_info->mid && !is_array($module_srl) && preg_match('/^([0-9]+)$/', $module_srl))
+		// If permission check target is not the current module
+		if($xml_info->permission_check->{$action}->key && $check_module_srl = Context::get($xml_info->permission_check->{$action}->key))
 		{
-			$request_module = $oModuleModel->getModuleInfoByModuleSrl($module_srl);
-			
-			if($request_module->module_srl == $module_srl)
+			if($info->permission_check->{$action}->array === '' && !is_array($check_module_srl))
 			{
+				if(!preg_match('/^([0-9]+)$/', $check_module_srl))
+				{
+					$this->stop('msg_invalid_request');
+					return;
+				}
+				
+				$request_module = $oModuleModel->getModuleInfoByModuleSrl($check_module_srl);
+				
+				if(!$request_module->module_srl)
+				{
+					$this->stop('msg_invalid_request');
+					return;
+				}
+				
 				$grant = $oModuleModel->getGrant($request_module, $logged_info);
 			}
+			else
+			{
+				if(!is_array($check_module_srl))
+				{
+					$check_module_srl = explode($info->permission_check->{$action}->array, $check_module_srl);
+				}
+				
+				foreach($check_module_srl as $module_srl)
+				{
+					$request_module = $oModuleModel->getModuleInfoByModuleSrl($module_srl);
+					
+					if(!$request_module->module_srl)
+					{
+						$this->stop('msg_invalid_request');
+						return;
+					}
+					
+					$module_grant = $oModuleModel->getGrant($request_module, $logged_info);
+					
+					// Check permissions
+					if(!$this->checkPermission($module_grant, $xml_info))
+					{
+						return;
+					}
+				}
+				
+				$checked = true;
+			}
 		}
-		else
+		
+		// Get grant information of user
+		if(!isset($grant))
 		{
 			$grant = $oModuleModel->getGrant($module_info, $logged_info, $xml_info);
 		}
 		
-		// checks permission and action if you don't have an admin privilege
-		if(!$grant->manager)
+		// Check permissions
+		if(!isset($checked) && !$this->checkPermission($grant, $xml_info))
 		{
-			// get permission types(guest, member, manager, root) of the currently requested action
-			$permission = $xml_info->permission->{$this->act};
-			
-			// check manager if a permission in module.xml otherwise action if no permission
-			if(!$permission && substr_count($this->act, 'Admin'))
-			{
-				$permission = 'manager';
-			}
-			
-			// Check permissions
-			if($permission)
-			{
-				if($permission == 'member' && !Context::get('is_logged'))
-				{
-					$this->stop('msg_not_permitted_act');
-					return;
-				}
-				else if(in_array($permission, array('root', 'manager')))
-				{
-					$this->stop('admin.msg_is_not_administrator');
-					return;
-				}
-			}
+			return;
 		}
 		
 		// permission variable settings
@@ -226,7 +245,53 @@ class ModuleObject extends Object
 			$this->init();
 		}
 	}
-
+	
+	/**
+	 * Check permissions
+	 * @param object $xml_info object containing module description	 
+	 * @param object $grant grant information of user
+	 * */
+	function checkPermission($xml_info, $grant = null)
+	{
+		// Get grant information
+		if(!$grant)
+		{
+			$grant = getModel('module')->getGrant($this->module_info, Context::get('logged_info'), $xml_info);
+		}
+		
+		// If manager, Pass
+		if($grant->manager)
+		{
+			return true;
+		}
+		
+		// get permission types(guest, member, manager, root) of the currently requested action
+		$permission = $xml_info->permission->{$this->act};
+		
+		// check manager if a permission in module.xml otherwise action if no permission
+		if(!$permission && substr_count($this->act, 'Admin'))
+		{
+			$permission = 'manager';
+		}
+		
+		// Check permissions
+		if($permission)
+		{
+			if($permission == 'member' && !Context::get('is_logged'))
+			{
+				$this->stop('msg_not_permitted_act');
+				return false;
+			}
+			else if(in_array($permission, array('root', 'manager')))
+			{
+				$this->stop('admin.msg_is_not_administrator');
+				return false;
+			}
+		}
+		
+		return true;
+	}
+	
 	/**
 	 * set the stop_proc and approprate message for msg_code
 	 * @param string $msg_code an error code
