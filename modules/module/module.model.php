@@ -1928,6 +1928,8 @@ class moduleModel extends module
 			$member_group = array();
 		}
 		
+		$is_module_admin = $this->isModuleAdmin($member_info, $module_info->module_srl);
+		
 		// Get module grant
 		$module_grant = is_array($xml_info->grant) ? array_keys($xml_info->grant) : array();
 		
@@ -1941,7 +1943,7 @@ class moduleModel extends module
 		foreach($module_grant as $val)
 		{
 			// Set true if an administrator or a module manager
-			if($member_info->is_admin == 'Y' || $this->isModuleAdmin($member_info, $module_info->module_srl))
+			if($member_info->is_admin == 'Y' || $is_module_admin)
 			{
 				$grant->{$val} = true;
 			}
