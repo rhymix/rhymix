@@ -1910,144 +1910,145 @@ class moduleModel extends module
 			return $GLOBALS['__MODULE_GRANT__'][intval($module_info->module_srl)][intval($member_info->member_srl)];
 		}
 		
-		$grant = new stdClass();
+		$grant = new stdClass;
+		
+		// Get information of module xml 
 		if(!$xml_info)
 		{
-			$module = $module_info->module;
-			$xml_info = $this->getModuleActionXml($module);
+			$xml_info = $this->getModuleActionXml($module_info->module);
 		}
 		
-		// Set variables to grant group permission
-		$module_srl = $module_info->module_srl;
-		$grant_info = $xml_info->grant;
-		if($member_info->member_srl)
+		// Get group information of member
+		if(is_array($member_info->group_list))
 		{
-			if(is_array($member_info->group_list)) $group_list = array_keys($member_info->group_list);
-			else $group_list = array();
+			$member_group = array_keys($member_info->group_list);
 		}
 		else
 		{
-			$group_list = array();
+			$member_group = array();
 		}
-		// If module_srl doesn't exist(if unable to set permissions)
-		if(!$module_srl)
+		
+		// Get module grant
+		$module_grant = is_array($xml_info->grant) ? array_keys($xml_info->grant) : array();
+		
+		// Prepend default grant
+		array_unshift($module_grant, 'access', 'is_admin', 'manager', 'is_site_admin');
+		
+		// unique
+		$module_grant = array_unique($module_grant, SORT_STRING);
+		
+		// Set grant
+		foreach($module_grant as $val)
 		{
-			$grant->access = true;
-			$grant->is_admin = $grant->manager = $grant->is_site_admin = ($member_info->is_admin == 'Y') ? true : false;
-		}
-		else
-		{
-			// If module_srl exists
-			// Get a type of granted permission
-			$grant->access = $grant->is_admin = $grant->manager = $grant->is_site_admin = ($member_info->is_admin == 'Y') ? true : false;
-			
-			// If a just logged-in member is, check if the member is a module administrator
-			if (!$grant->manager && $member_info->member_srl && $this->isModuleAdmin($member_info, $module_srl))
+			// Set true if an administrator or a module manager
+			if($member_info->is_admin == 'Y' || $this->isModuleAdmin($member_info, $module_info->module_srl))
 			{
-				$grant->manager = true;
+				$grant->{$val} = true;
 			}
-			
-			// If not an administrator, get information from the DB and grant manager privilege.
-			if(!$grant->manager)
+			else if($val == 'access' && !$module_info->module_srl)
 			{
-				$args = new stdClass();
-				// If planet, get permission settings from the planet home
-				if($module_info->module == 'planet')
+				$grant->{$val} = true;
+			}
+			else
+			{
+				$grant->{$val} = false;
+			}
+		}
+		
+		// If not have access permission, check more
+		if(!$grant->access)
+		{
+			$checked = array();
+			
+			// check permission information that get from the DB 
+			foreach($this->getModuleGrants($module_info->module_srl)->data as $val)
+			{
+				if(isset($checked[$val->name]))
 				{
-					$output = executeQueryArray('module.getPlanetGrants', $args);
+					continue;
 				}
-				else
+				
+				$checked[$val->name] = true;
+				
+				// All user
+				if($val->group_srl == 0)
 				{
-					$output = $this->getModuleGrants($module_srl);
+					$grant->{$val->name} = true;
+					
+					continue;
 				}
-
-				$grant_exists = $granted = array();
-
-				if($output->data)
+				
+				// Log-in member only
+				if($member_info->member_srl)
 				{
-					// Arrange names and groups who has privileges
-					foreach($output->data as $val)
+					if($val->group_srl == -1)
 					{
-						$grant_exists[$val->name] = true;
-						if($granted[$val->name]) continue;
-						// Log-in member only
-						if($val->group_srl == -1)
+						$grant->{$val->name} = true;
+					}
+					// Site-joined member only
+					else if($val->group_srl == -2)
+					{
+						// Permission granted if no information of the currently connected site exists
+						if(!Context::get('site_module_info')->site_srl)
 						{
-							$granted[$val->name] = true;
-							if($member_info->member_srl) $grant->{$val->name} = true;
-							// Site-joined member only
-						}
-						elseif($val->group_srl == -2)
-						{
-							$granted[$val->name] = true;
-							// Do not grant any permission for non-logged member
-							if(!$member_info->member_srl) $grant->{$val->name} = false;
-							// Log-in member
-							else
-							{
-								$site_module_info = Context::get('site_module_info');
-								// Permission granted if no information of the currently connected site exists
-								if(!$site_module_info->site_srl) $grant->{$val->name} = true;
-								// Permission is not granted if information of the currently connected site exists
-								elseif(count($group_list)) $grant->{$val->name} = true;
-							}
-							// All of non-logged members
-						}
-						elseif($val->group_srl == 0)
-						{
-							$granted[$val->name] = true;
 							$grant->{$val->name} = true;
-							// If a target is a group
 						}
-						else
+						else if(count($member_group))
 						{
-							if($group_list && count($group_list) && in_array($val->group_srl, $group_list))
-							{
-								$grant->{$val->name} = true;
-								$granted[$val->name] = true;
-							}
+							$grant->{$val->name} = true;
 						}
 					}
-				}
-				// Separate processing for the virtual group access
-				if(!$grant_exists['access']) $grant->access = true;
-				if(count($grant_info))
-				{
-					foreach($grant_info as  $grant_name => $grant_item)
+					// If a target is a group
+					else if(count($member_group) && in_array($val->group_srl, $member_group))
 					{
-						if($grant_exists[$grant_name]) continue;
-						switch($grant_item->default)
-						{
-							case 'guest' :
-								$grant->{$grant_name} = true;
-								break;
-							case 'member' :
-								if($member_info->member_srl) $grant->{$grant_name} = true;
-								else $grant->{$grant_name} = false;
-								break;
-							case 'site' :
-								$site_module_info = Context::get('site_module_info');
-								if($member_info->member_srl && (($site_module_info->site_srl && count($group_list)) || !$site_module_info->site_srl)) $grant->{$grant_name} = true;
-								else $grant->{$grant_name} = false;
-								break;
-							case 'manager' :
-							case 'root' :
-								if($member_info->is_admin == 'Y') $grant->{$grant_name} = true;
-								else $grant->{$grant_name} = false;
-								break;
-						}
+						$grant->{$val->name} = true;
 					}
 				}
 			}
-			// Set true to grant all privileges if an administrator is
-			if($grant->manager)
+			
+			// access default permission
+			if(!isset($checked['access']))
 			{
 				$grant->access = true;
-				if(count($grant_info))
+			}
+			
+			// module default permission
+			if(is_array($xml_info->grant))
+			{
+				foreach($xml_info->grant as $name => $item)
 				{
-					foreach($grant_info as $key => $val)
+					if(isset($checked[$name]))
 					{
-						$grant->{$key} = true;
+						continue;
+					}
+					
+					// All user
+					if($item->default == 'guest')
+					{
+						$grant->{$name} = true;
+						
+						continue;
+					}
+					
+					// Log-in member only
+					if($member_info->member_srl)
+					{
+						if($item->default == 'member')
+						{
+							$grant->{$name} = true;
+						}
+						else if($item->default == 'site')
+						{
+							// Permission granted if no information of the currently connected site exists
+							if(!Context::get('site_module_info')->site_srl)
+							{
+								$grant->{$name} = true;
+							}
+							else if(count($member_group))
+							{
+								$grant->{$name} = true;
+							}
+						}
 					}
 				}
 			}
