@@ -170,46 +170,47 @@ class ModuleObject extends Object
 		// variable module config
 		$this->module_config = $oModuleModel->getModuleConfig($this->module, $module_info->site_srl);
 		
+		// Proceeding <permission check> of module.xml
 		$permission_check = $xml_info->permission_check->{$this->act};
 		
-		// Get permission check key
-		if(strpos($permission_check->key, '.') !== false)
-		{
-			list($check_key_type, $check_key) = explode('.', $permission_check->key);
-		}
-		else
-		{
-			$check_key = $permission_check->key;
-		}
-		
 		// If permission check target is not the current module
-		if($check_key && $check_module_srl = Context::get($check_key))
+		if($permission_check->key && $check_module_srl = Context::get($permission_check->key))
 		{
-			// If value is string
-			if($permission_check->array === '' && !is_array($check_module_srl))
-			{
-				if(($grant = $this->checkPermissionKey($check_module_srl, $check_key_type)) === false)
-				{
-					return;
-				}
-			}
 			// If value is array
-			else
+			if(is_array($check_module_srl) || preg_match('/,|\|@\|/', $check_module_srl, $delimiter))
 			{
+				// Convert string to array. delimiter is ,(comma) or |@|
 				if(!is_array($check_module_srl))
 				{
-					$check_module_srl = explode($permission_check->array, $check_module_srl);
+					if($delimiter[0])
+					{
+						$check_module_srl = explode($delimiter[0], $check_module_srl);
+					}
+					else
+					{
+						$check_module_srl = array($check_module_srl);
+					}
 				}
 				
+				// Check and Stop
 				foreach($check_module_srl as $target_srl)
 				{
-					if($this->checkPermissionKey($target_srl, $check_key_type, $xml_info) === false)
+					if($this->checkPermissionBySrl($target_srl, $permission_check->type, $xml_info) === false)
 					{
 						return;
 					}
 				}
 				
 				$checked = true;
+			}
+			// If value is string
+			else
+			{
+				// only check, and return grant information
+				if(($grant = $this->checkPermissionBySrl($check_module_srl, $permission_check->type)) === false)
+				{
+					return;
+				}
 			}
 		}
 		
@@ -237,13 +238,13 @@ class ModuleObject extends Object
 	}
 	
 	/**
-	 * Check permission key
+	 * Check permission by target_srl
 	 * @param string $target_srl as module_srl. It may be a reference serial number
-	 * @param string $key_type module name. get module_srl from module
+	 * @param string $type module name. get module_srl from module
 	 * @param object $xml_info object containing module description. and if used, check permission
 	 * @return mixed fail : false, success : true or object
 	 * */
-	function checkPermissionKey($target_srl, $key_type = null, $xml_info = null)
+	function checkPermissionBySrl($target_srl, $type = null, $xml_info = null)
 	{
 		if(!preg_match('/^([0-9]+)$/', $target_srl))
 		{
@@ -251,13 +252,13 @@ class ModuleObject extends Object
 			return false;
 		}
 		
-		if($key_type)
+		if($type)
 		{
-			if($key_type == 'document')
+			if($type == 'document')
 			{
 				$target_srl = getModel('document')->getDocument($target_srl, false, false)->get('module_srl');
 			}
-			if($key_type == 'comment')
+			if($type == 'comment')
 			{
 				$target_srl = getModel('comment')->getComment($target_srl)->get('module_srl');
 			}

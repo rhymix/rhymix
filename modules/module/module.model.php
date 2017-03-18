@@ -846,15 +846,18 @@ class moduleModel extends module
 					$action = $permission->attrs->action;
 					$target = $permission->attrs->target;
 					$check = $permission->attrs->check ?: 'module_srl';
-					$check_array = isset($permission->attrs->check_array) ? $permission->attrs->check_array : '';
 
 					$info->permission->{$action} = $target;
 					$info->permission_check->{$action}->key = $check;
-					$info->permission_check->{$action}->array = $check_array;
-
+					
+					if(strpos($check, '.') !== false)
+					{
+						list($info->permission_check->{$action}->type, $info->permission_check->{$action}->key) = explode('.', $check);
+					}
+					
 					$buff[] = sprintf('$info->permission->%s = \'%s\';', $action, $target);
-					$buff[] = sprintf('$info->permission_check->%s->key = \'%s\';', $action, $check);
-					$buff[] = sprintf('$info->permission_check->%s->array = \'%s\';', $action, $check_array);
+					$buff[] = sprintf('$info->permission_check->%s->key = \'%s\';', $action, $info->permission_check->{$action}->key);
+					$buff[] = sprintf('$info->permission_check->%s->type = \'%s\';', $action, $info->permission_check->{$action}->type);
 				}
 			}
 			// for admin menus
