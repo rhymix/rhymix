@@ -1943,7 +1943,8 @@ class moduleModel extends module
 		$module_grant = array_keys((array) $xml_info->grant);
 		
 		// Prepend default grant
-		array_unshift($module_grant, 'access', 'is_admin', 'manager', 'is_site_admin');
+		// is_admin, manager, is_site_admin not distinguish because of compatibility.
+		array_unshift($module_grant, 'access', 'is_admin', 'manager', 'is_site_admin', 'root');
 		
 		// unique
 		$module_grant = array_unique($module_grant, SORT_STRING);
@@ -1951,15 +1952,22 @@ class moduleModel extends module
 		// Set grant
 		foreach($module_grant as $val)
 		{
-			// Set true if an administrator or a module manager
-			if($member_info->is_admin == 'Y' || $is_module_admin)
+			// If an administrator, set all true.
+			if($member_info->is_admin == 'Y')
 			{
 				$grant->{$val} = true;
 			}
-			else if($val == 'access' && !$module_info->module_srl)
+			// If a module manager, except 'root'
+			else if($is_module_admin === true && $val !== 'root')
 			{
 				$grant->{$val} = true;
 			}
+			// If module_srl doesn't exist, access true
+			else if(!$module_info->module_srl && $val === 'access')
+			{
+				$grant->{$val} = true;
+			}
+			// default permission false
 			else
 			{
 				$grant->{$val} = false;

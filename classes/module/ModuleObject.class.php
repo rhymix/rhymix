@@ -302,8 +302,8 @@ class ModuleObject extends Object
 			$grant = getModel('module')->getGrant($this->module_info, Context::get('logged_info'), $xml_info);
 		}
 		
-		// If manager, Pass
-		if($grant->manager)
+		// If an administrator, Pass
+		if($grant->root)
 		{
 			return true;
 		}
@@ -325,7 +325,12 @@ class ModuleObject extends Object
 				$this->stop('msg_not_permitted_act');
 				return false;
 			}
-			else if(in_array($permission, array('root', 'manager')))
+			else if($permission == 'manager' && !$grant->manager)
+			{
+				$this->stop('admin.msg_is_not_administrator');
+				return false;
+			}
+			else if($permission == 'root')
 			{
 				$this->stop('admin.msg_is_not_administrator');
 				return false;
