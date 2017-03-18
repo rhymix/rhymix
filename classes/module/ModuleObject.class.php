@@ -170,30 +170,30 @@ class ModuleObject extends Object
 		// variable module config
 		$this->module_config = $oModuleModel->getModuleConfig($this->module, $module_info->site_srl);
 		
-		$logged_info = Context::get('logged_info');
 		$permission_check = $xml_info->permission_check->{$this->act};
 		
-		// If permission check target is not the current module
-		if($permission_check->key && $check_module_srl = Context::get($permission_check->key))
+		// Get permission check key
+		if(strpos($permission_check->key, '.') !== false)
 		{
+			list($check_key_type, $check_key) = explode('.', $permission_check->key);
+		}
+		else
+		{
+			$check_key = $permission_check->key;
+		}
+		
+		// If permission check target is not the current module
+		if($check_key && $check_module_srl = Context::get($check_key))
+		{
+			// If value is string
 			if($permission_check->array === '' && !is_array($check_module_srl))
 			{
-				if(!preg_match('/^([0-9]+)$/', $check_module_srl))
+				if(($grant = $this->checkPermissionKey($check_module_srl, $check_key_type)) === false)
 				{
-					$this->stop('msg_invalid_request');
 					return;
 				}
-				
-				$request_module = $oModuleModel->getModuleInfoByModuleSrl($check_module_srl);
-				
-				if(!$request_module->module_srl)
-				{
-					$this->stop('msg_invalid_request');
-					return;
-				}
-				
-				$grant = $oModuleModel->getGrant($request_module, $logged_info);
 			}
+			// If value is array
 			else
 			{
 				if(!is_array($check_module_srl))
@@ -201,20 +201,9 @@ class ModuleObject extends Object
 					$check_module_srl = explode($permission_check->array, $check_module_srl);
 				}
 				
-				foreach($check_module_srl as $module_srl)
+				foreach($check_module_srl as $target_srl)
 				{
-					$request_module = $oModuleModel->getModuleInfoByModuleSrl($module_srl);
-					
-					if(!$request_module->module_srl)
-					{
-						$this->stop('msg_invalid_request');
-						return;
-					}
-					
-					$module_grant = $oModuleModel->getGrant($request_module, $logged_info);
-					
-					// Check permissions
-					if(!$this->checkPermission($xml_info, $module_grant))
+					if($this->checkPermissionKey($target_srl, $check_key_type, $xml_info) === false)
 					{
 						return;
 					}
@@ -227,7 +216,7 @@ class ModuleObject extends Object
 		// Get grant information of user
 		if(!isset($grant))
 		{
-			$grant = $oModuleModel->getGrant($module_info, $logged_info, $xml_info);
+			$grant = $oModuleModel->getGrant($module_info, Context::get('logged_info'), $xml_info);
 		}
 		
 		// Check permissions
@@ -248,9 +237,61 @@ class ModuleObject extends Object
 	}
 	
 	/**
+	 * Check permission key
+	 * @param string $target_srl as module_srl. It may be a reference serial number
+	 * @param string $key_type module name. get module_srl from module
+	 * @param object $xml_info object containing module description. and if used, check permission
+	 * @return mixed fail : false, success : true or object
+	 * */
+	function checkPermissionKey($target_srl, $key_type = null, $xml_info = null)
+	{
+		if(!preg_match('/^([0-9]+)$/', $target_srl))
+		{
+			$this->stop('msg_invalid_request');
+			return false;
+		}
+		
+		if($key_type)
+		{
+			if($key_type == 'document')
+			{
+				$target_srl = getModel('document')->getDocument($target_srl, false, false)->get('module_srl');
+			}
+			if($key_type == 'comment')
+			{
+				$target_srl = getModel('comment')->getComment($target_srl)->get('module_srl');
+			}
+		}
+		
+		$module_info = getModel('module')->getModuleInfoByModuleSrl($target_srl);
+		
+		if(!$module_info->module_srl)
+		{
+			$this->stop('msg_invalid_request');
+			return false;
+		}
+		
+		$grant = getModel('module')->getGrant($module_info, Context::get('logged_info'));
+		
+		if($xml_info)
+		{
+			// Check permissions
+			if(!$this->checkPermission($xml_info, $grant))
+			{
+				return false;
+			}
+			
+			return true;
+		}
+		
+		return $grant;
+	}
+	
+	/**
 	 * Check permissions
-	 * @param object $xml_info object containing module description	 
+	 * @param object $xml_info object containing module description
 	 * @param object $grant grant information of user
+	 * @return boolean true : success, false : fail
 	 * */
 	function checkPermission($xml_info, $grant = null)
 	{
