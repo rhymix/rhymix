@@ -246,7 +246,7 @@ class ModuleObject extends Object
 	 * */
 	function checkPermissionBySrl($target_srl, $type = null, $xml_info = null)
 	{
-		if(!preg_match('/^([0-9]+)$/', $target_srl))
+		if(!preg_match('/^([0-9]+)$/', $target_srl) && $type != 'module')
 		{
 			$this->stop('msg_invalid_request');
 			return false;
@@ -258,13 +258,24 @@ class ModuleObject extends Object
 			{
 				$target_srl = getModel('document')->getDocument($target_srl, false, false)->get('module_srl');
 			}
-			if($type == 'comment')
+			else if($type == 'comment')
 			{
 				$target_srl = getModel('comment')->getComment($target_srl)->get('module_srl');
 			}
+			else if($type == 'file')
+			{
+				$target_srl = getModel('file')->getFile($target_srl)->module_srl;
+			}
+			else if($type == 'module')
+			{
+				$module_info = getModel('module')->getModuleInfoByMid($target_srl)->module_srl;
+			}
 		}
 		
-		$module_info = getModel('module')->getModuleInfoByModuleSrl($target_srl);
+		if(!isset($module_info))
+		{
+			$module_info = getModel('module')->getModuleInfoByModuleSrl($target_srl);
+		}
 		
 		if(!$module_info->module_srl)
 		{
