@@ -845,15 +845,10 @@ class moduleModel extends module
 				{
 					$action = $permission->attrs->action;
 					$target = $permission->attrs->target;
-					$check = $permission->attrs->check ?: 'module_srl';
 
 					$info->permission->{$action} = $target;
-					$info->permission_check->{$action}->key = $check;
-					
-					if(strpos($check, '.') !== false)
-					{
-						list($info->permission_check->{$action}->type, $info->permission_check->{$action}->key) = explode('.', $check);
-					}
+					$info->permission_check->{$action}->key = $permission->attrs->check_var ?: 'module_srl';
+					$info->permission_check->{$action}->type = $permission->attrs->check_type ?: '';
 					
 					$buff[] = sprintf('$info->permission->%s = \'%s\';', $action, $target);
 					$buff[] = sprintf('$info->permission_check->%s->key = \'%s\';', $action, $info->permission_check->{$action}->key);
