@@ -268,7 +268,7 @@ class ModuleObject extends Object
 			}
 			else if($type == 'module')
 			{
-				$module_info = getModel('module')->getModuleInfoByMid($target_srl)->module_srl;
+				$module_info = getModel('module')->getModuleInfoByMid($target_srl);
 			}
 		}
 		
