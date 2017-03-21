@@ -174,7 +174,7 @@ class ModuleObject extends Object
 		$permission_check = $xml_info->permission_check->{$this->act};
 		
 		// If permission check target is not the current module
-		if($permission_check->key && $check_module_srl = Context::get($permission_check->key))
+		if($permission_check->key && $check_module_srl = trim(Context::get($permission_check->key)))
 		{
 			// If value is array
 			if(is_array($check_module_srl) || preg_match('/,|\|@\|/', $check_module_srl, $delimiter))
@@ -246,7 +246,7 @@ class ModuleObject extends Object
 	 * */
 	function checkPermissionBySrl($target_srl, $type = null, $xml_info = null)
 	{
-		if(!preg_match('/^([0-9]+)$/', $target_srl) && $type != 'module')
+		if(!($target_srl = trim($target_srl)) || !preg_match('/^([0-9]+)$/', $target_srl) && $type != 'module')
 		{
 			$this->stop('msg_invalid_request');
 			return false;
