@@ -228,8 +228,7 @@ class memberAdminController extends member
 			'saved_documents',
 			'my_documents',
 			'my_comments',
-			'active_logins',
-			'nickname_log'
+			'active_logins'
 		);
 		foreach ($args as $key => $value)
 		{
