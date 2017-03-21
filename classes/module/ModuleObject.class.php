@@ -322,10 +322,10 @@ class ModuleObject extends Object
 		// get permission types(guest, member, manager, root) of the currently requested action
 		$permission = $xml_info->permission->{$this->act};
 		
-		// check manager if a permission in module.xml otherwise action if no permission
-		if(!$permission && substr_count($this->act, 'Admin'))
+		// If admin action, default permission
+		if(!$permission && stripos($this->act, 'admin') !== false)
 		{
-			$permission = 'manager';
+			$permission = 'root';
 		}
 		
 		// Check permissions

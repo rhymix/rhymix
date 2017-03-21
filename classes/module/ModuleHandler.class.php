@@ -697,7 +697,7 @@ class ModuleHandler extends Handler
 				if($kind == 'admin')
 				{
 					$grant = $oModuleModel->getGrant($this->module_info, $logged_info);
-					if(!$grant->manager)
+					if(!$grant->root)
 					{
 						self::_setInputErrorToContext();
 						$this->error = 'admin.msg_is_not_administrator';
@@ -709,7 +709,7 @@ class ModuleHandler extends Handler
 					}
 					else
 					{
-						if(!$grant->is_admin && $this->module != $this->orig_module->module && $xml_info->permission->{$this->act} != 'manager')
+						if(!$grant->is_admin && $this->module != $this->orig_module->module && $xml_info->permission->{$this->act} != 'root')
 						{
 							self::_setInputErrorToContext();
 							$this->error = 'admin.msg_is_not_administrator';
