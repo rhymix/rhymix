@@ -174,6 +174,11 @@ class Context
 	private static $_blacklist = null;
 
 	/**
+	 * Reserved words cache
+	 */
+	private static $_reserved = null;
+
+	/**
 	 * Singleton instance
 	 * @var object
 	 */
@@ -2480,6 +2485,26 @@ class Context
 		}
 		
 		return isset(self::$_blacklist[$plugin_name]);
+	}
+
+	/**
+	 * Check whether a word is reserved in Rhymix
+	 * 
+	 * @param string $word
+	 * @return bool
+	 */
+	public static function isReservedWord($word)
+	{
+		if (self::$_reserved === null)
+		{
+			self::$_reserved = (include RX_BASEDIR . 'common/defaults/reserved.php');
+			if (!is_array(self::$_reserved))
+			{
+				self::$_reserved = array();
+			}
+		}
+		
+		return isset(self::$_reserved[$word]);
 	}
 
 	/**

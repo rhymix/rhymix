@@ -19,20 +19,31 @@ class moduleModel extends module
 	 */
 	function isIDExists($id, $site_srl = 0)
 	{
-		if(!preg_match('/^[a-z]{1}([a-z0-9_]+)$/i',$id)) return true;
-		// directory and rss/atom/api reserved checking, etc.
-		$dirs = FileHandler::readDir(_XE_PATH_);
+		if (!preg_match('/^[a-z]{1}([a-z0-9_]+)$/i', $id))
+		{
+			return true;
+		}
+		if (Context::isReservedWord(strtolower($id)))
+		{
+			return true;
+		}
+		
+		$dirs = array_map('strtolower', FileHandler::readDir(_XE_PATH_));
 		$dirs[] = 'rss';
 		$dirs[] = 'atom';
 		$dirs[] = 'api';
-		$dirs[] = 'admin';
-		if(in_array($id, $dirs)) return true;
+		if (in_array(strtolower($id), $dirs))
+		{
+			return true;
+		}
+		
 		// mid test
 		$args = new stdClass();
 		$args->mid = $id;
 		$args->site_srl = $site_srl;
 		$output = executeQuery('module.isExistsModuleName', $args);
 		if($output->data->count) return true;
+		
 		// vid test (check mid != vid if site_srl=0, which means it is not a virtual site)
 		if(!$site_srl)
 		{
