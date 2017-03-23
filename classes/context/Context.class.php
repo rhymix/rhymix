@@ -266,6 +266,14 @@ class Context
 			self::set('_http_port', self::$_instance->db_info->http_port = $site_module_info->http_port ?: null);
 			self::set('_https_port', self::$_instance->db_info->https_port = $site_module_info->https_port ?: null);
 			self::set('_use_ssl', self::$_instance->db_info->use_ssl = $site_module_info->security ?: 'none');
+			if (PHP_SAPI === 'cli')
+			{
+				self::set('_default_url', $default_url = config('url.default'));
+				if (!defined('RX_BASEURL'))
+				{
+					define('RX_BASEURL', parse_url($default_url, PHP_URL_PATH));
+				}
+			}
 		}
 		else
 		{
