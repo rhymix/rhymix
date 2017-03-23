@@ -737,6 +737,10 @@ class memberAdminController extends member
 		}
 
 		// Check ID duplicated
+		if (Context::isReservedWord($args->column_name))
+		{
+			return new Object(-1, 'msg_column_id_not_available');
+		}
 		$oMemberModel = getModel('member');
 		$config = $oMemberModel->getMemberConfig();
 		foreach($config->signupForm as $item)
@@ -744,7 +748,7 @@ class memberAdminController extends member
 			if($item->name == $args->column_name)
 			{
 				if($args->member_join_form_srl && $args->member_join_form_srl == $item->member_join_form_srl) continue;
-				return new Object(-1,'msg_exists_user_id');
+				return new Object(-1,'msg_column_id_not_available');
 			}
 		}
 		// Fix if member_join_form_srl exists. Add if not exists.

@@ -140,6 +140,7 @@ $lang->msg_group_is_null = 'There is no group.';
 $lang->msg_not_delete_default = 'Default items cannot be deleted';
 $lang->msg_not_exists_member = 'Invalid member';
 $lang->msg_cannot_delete_admin = 'Admin ID cannot be deleted. Please remove the ID from administration and try again.';
+$lang->msg_column_id_not_available = 'The ID already exists or is not usable.';
 $lang->msg_exists_user_id = 'This ID already exists. Please try another one.';
 $lang->msg_exists_email_address = 'This email address already exists. Please try another one.';
 $lang->msg_exists_nick_name = 'This nickname already exists. Please try another one.';

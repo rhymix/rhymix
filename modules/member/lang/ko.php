@@ -149,6 +149,7 @@ $lang->msg_group_is_null = '등록된 그룹이 없습니다.';
 $lang->msg_not_delete_default = '기본 항목을 삭제할 수 없습니다.';
 $lang->msg_not_exists_member = '존재하지 않는 회원입니다.';
 $lang->msg_cannot_delete_admin = '관리자 아이디는 삭제할 수 없습니다. 관리자 해제 후 다시 삭제시도해주세요.';
+$lang->msg_column_id_not_available = '이미 존재하거나 사용할 수 없는 ID입니다.';
 $lang->msg_exists_user_id = '이미 존재하는 아이디입니다. 다른 아이디를 입력해주세요.';
 $lang->msg_exists_email_address = '이미 존재하는 메일 주소입니다. 다른 메일 주소를 입력해주세요.';
 $lang->msg_exists_nick_name = '이미 존재하는 닉네임입니다. 다른 닉네임을 입력해주세요.';
