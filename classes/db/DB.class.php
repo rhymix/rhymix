@@ -567,9 +567,17 @@ class DB
 			return new Object(-1, 'msg_invalid_queryid');
 		}
 
-		if($source_args)
+		if (is_object($source_args))
 		{
 			$args = clone $source_args;
+		}
+		elseif (is_array($source_args))
+		{
+			$args = (object)$source_args;
+		}
+		else
+		{
+			$args = null;
 		}
 
 		$output = include($cache_file);
