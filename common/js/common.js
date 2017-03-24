@@ -465,8 +465,10 @@ function sendMailTo(to) {
  * @brief url이동 (Rhymix 개선된 버전)
  */
 function redirect(url) {
-	if (url === window.location.href || url.indexOf(window.location.href.replace(/#.+$/, "") + "#") === 0 ||
-		url === window.location.pathname || url.indexOf(window.location.pathname.replace(/#.+$/, "") + "#") === 0) {
+	var absolute_url = window.location.href;
+	var relative_url = window.location.pathname + window.location.search;
+	if (url === absolute_url || url.indexOf(absolute_url.replace(/#.+$/, "") + "#") === 0 ||
+		url === relative_url || url.indexOf(relative_url.replace(/#.+$/, "") + "#") === 0) {
 		window.location.href = url;
 		window.location.reload();
 	} else {
