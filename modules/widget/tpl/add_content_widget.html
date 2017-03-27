@@ -16,7 +16,11 @@
 	<div class="x_modal-body">
 		<div class="pageAddContent"></div>
 		<div class="editor">{$editor}</div>
-		<script>xAddEventListener(window, 'load', doSyncPageContent);</script>
+		<script>
+			jQuery(function() {
+					$(window).load(doSyncPageContent);
+			});
+		</script>
 	</div>
 	<div class="x_modal-footer">
 		<input type="submit" value="{$lang->cmd_save}" class="x_btn x_btn-inverse" />
