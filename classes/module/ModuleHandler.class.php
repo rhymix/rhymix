@@ -126,6 +126,34 @@ class ModuleHandler extends Handler
 	{
 		$oModuleModel = getModel('module');
 		$site_module_info = Context::get('site_module_info');
+		
+		// Check unregistered domain action.
+		if (!$site_module_info || !isset($site_module_info->domain_srl) || $site_module_info->is_default_replaced)
+		{
+			$site_module_info = getModel('module')->getDefaultDomainInfo();
+			if ($site_module_info)
+			{
+				$domain_action = config('url.unregistered_domain_action') ?: 'redirect_301';
+				switch ($domain_action)
+				{
+					case 'redirect_301':
+						header('Location: ' . Context::getDefaultUrl($site_module_info) . RX_REQUEST_URL, true, 301);
+						return false;
+						
+					case 'redirect_302':
+						header('Location: ' . Context::getDefaultUrl($site_module_info) . RX_REQUEST_URL, true, 302);
+						return false;
+					
+					case 'block':
+						$this->error = 'The site does not exist';
+						$this->httpStatusCode = 404;
+						return true;
+						
+					case 'display':
+						// pass
+				}
+			}
+		}
 
 		// if success_return_url and error_return_url is incorrect
 		$urls = array(Context::get('success_return_url'), Context::get('error_return_url'));
@@ -155,6 +183,7 @@ class ModuleHandler extends Handler
 			}
 		}
 		
+		// Convert document alias (entry) to document_srl
 		if(!$this->document_srl && $this->mid && $this->entry)
 		{
 			$oDocumentModel = getModel('document');
@@ -231,15 +260,6 @@ class ModuleHandler extends Handler
 			//if($this->module && $module_info->module != $this->module) unset($module_info);
 		}
 
-		// redirect, if module_site_srl and site_srl are different
-		if(!$this->module && !$module_info && $site_module_info->site_srl == 0 && $site_module_info->module_site_srl > 0)
-		{
-			Context::setCacheControl(0);
-			$site_info = $oModuleModel->getSiteInfo($site_module_info->module_site_srl);
-			header('location: ' . getNotEncodedSiteUrl($site_info->domain, 'mid', $site_module_info->mid), true, 301);
-			return false;
-		}
-
 		// If module_info is not set still, and $module does not exist, find the default module
 		if(!$module_info && !$this->module && !$this->mid)
 		{
@@ -251,28 +271,14 @@ class ModuleHandler extends Handler
 			$module_info = $site_module_info;
 		}
 
-		// redirect, if site_srl of module_info is different from one of site's module_info
-		if($module_info && $module_info->site_srl != $site_module_info->site_srl && !Rhymix\Framework\UA::isRobot())
+		// Set index document
+		if($site_module_info->index_document_srl && !$this->module && !$this->mid && !$this->document_srl && Context::getRequestMethod() === 'GET' && !count($_GET))
 		{
-			// If the module is of virtual site
-			if($module_info->site_srl)
-			{
-				$site_info = $oModuleModel->getSiteInfo($module_info->site_srl);
-				$redirect_url = getNotEncodedSiteUrl($site_info->domain, 'mid', Context::get('mid'), 'document_srl', Context::get('document_srl'), 'module_srl', Context::get('module_srl'), 'entry', Context::get('entry'));
-				// If it's called from a virtual site, though it's not a module of the virtual site
-			}
-			else
-			{
-				$redirect_url = getNotEncodedSiteUrl(Context::getDefaultUrl(), 'mid', Context::get('mid'), 'document_srl', Context::get('document_srl'), 'module_srl', Context::get('module_srl'), 'entry', Context::get('entry'));
-			}
-			
-			Context::setCacheControl(0);
-			header("Location: $redirect_url", true, 301);
-			return false;
+			Context::set('document_srl', $this->document_srl = $site_module_info->index_document_srl, true);
 		}
-		
+
 		// redirect, if site start module
-		if(Context::getRequestMethod() === 'GET' && isset($_GET['mid']) && $_GET['mid'] === $site_module_info->mid && count($_GET) === 1)
+		if(!$site_module_info->index_document_srl && Context::getRequestMethod() === 'GET' && isset($_GET['mid']) && $_GET['mid'] === $site_module_info->mid && count($_GET) === 1)
 		{
 			Context::setCacheControl(0);
 			header('location: ' . getNotEncodedSiteUrl($site_module_info->domain), true, 301);
@@ -794,16 +800,16 @@ class ModuleHandler extends Handler
 
 		if($type == "view" && $kind != 'admin')
 		{
-			$module_config = $oModuleModel->getModuleConfig('module');
-			if($module_config->htmlFooter)
+			$domain_info = Context::get('site_module_info');
+			if ($domain_info && $domain_info->settings && $domain_info->settings->html_footer)
 			{
-				Context::addHtmlFooter($module_config->htmlFooter);
+				Context::addHtmlFooter($domain_info->settings->html_footer);				
 			}
-			if($module_config->siteTitle)
+			if ($domain_info && $domain_info->settings && $domain_info->settings->title)
 			{
 				if(!Context::getBrowserTitle())
 				{
-					Context::setBrowserTitle($module_config->siteTitle);
+					Context::setBrowserTitle($domain_info->settings->title);
 				}
 			}
 		}

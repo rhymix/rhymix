@@ -811,22 +811,22 @@ class adminAdminModel extends admin
 		return $output->data->count;
 	}
 
-	function getFaviconUrl($default = true)
+	function getFaviconUrl($domain_srl = 0)
 	{
-		return $this->iconUrlCheck('favicon.ico', 'faviconSample.png', $default);
+		return $this->iconUrlCheck('favicon.ico', 'faviconSample.png', $domain_srl);
 	}
 
-	function getMobileIconUrl($default = true)
+	function getMobileIconUrl($domain_srl = 0)
 	{
-		return $this->iconUrlCheck('mobicon.png', 'mobiconSample.png', $default);
+		return $this->iconUrlCheck('mobicon.png', 'mobiconSample.png', $domain_srl);
 	}
 	
-	function getSiteDefaultImageUrl(&$width = 0, &$height = 0)
+	function getSiteDefaultImageUrl($domain_srl = 0, &$width = 0, &$height = 0)
 	{
-		$site_info = Context::get('site_module_info');
-		if ($site_info->site_srl) 
+		$domain_srl = intval($domain_srl);
+		if ($domain_srl)
 		{
-			$virtual_site = $site_info->site_srl . '/';
+			$virtual_site = $domain_srl . '/';
 		}
 		else
 		{
@@ -846,17 +846,12 @@ class adminAdminModel extends admin
 		}
 	}
 
-	function iconUrlCheck($iconname, $default_icon_name, $default)
+	function iconUrlCheck($iconname, $default_icon_name, $domain_srl)
 	{
-		if ($default)
+		$domain_srl = intval($domain_srl);
+		if ($domain_srl)
 		{
-			return \RX_BASEURL . 'modules/admin/tpl/img/' . $default_icon_name;
-		}
-		
-		$site_info = Context::get('site_module_info');
-		if ($site_info->site_srl) 
-		{
-			$virtual_site = $site_info->site_srl . '/';
+			$virtual_site = $domain_srl . '/';
 		}
 		else
 		{

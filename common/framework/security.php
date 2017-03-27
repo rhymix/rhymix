@@ -307,16 +307,35 @@ class Security
 	 */
 	public static function checkCSRF($referer = null)
 	{
-		if (!$referer)
+		if ($_SERVER['REQUEST_METHOD'] === 'GET')
 		{
-			$referer = strval($_SERVER['HTTP_REFERER']);
-			if ($referer === '')
+			return true;
+		}
+		elseif ($token = $_SERVER['HTTP_X_CSRF_TOKEN'])
+		{
+			return Session::verifyToken($token);
+		}
+		elseif ($token = \Context::get('_rx_csrf_token'))
+		{
+			return Session::verifyToken($token);
+		}
+		else
+		{
+			if (Session::getMemberSrl())
 			{
-				return true;
+				trigger_error('CSRF token missing in POST request: ' . (\Context::get('act') ?: '(no act)'), \E_USER_WARNING);
+			}
+			
+			$referer = strval($referer ?: $_SERVER['HTTP_REFERER']);
+			if ($referer !== '')
+			{
+				return URL::isInternalURL($referer);
+			}
+			else
+			{
+				return false;
 			}
 		}
-		
-		return URL::isInternalURL($referer);
 	}
 	
 	/**

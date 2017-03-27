@@ -1,0 +1,11 @@
+<query id="getSites" action="select">
+    <tables>
+        <table name="sites" />
+    </tables>
+    <columns>
+        <column name="*" />
+    </columns>
+	<navigation>
+		<index var="sort_index" default="site_srl" order="asc" />
+	</navigation>
+</query>

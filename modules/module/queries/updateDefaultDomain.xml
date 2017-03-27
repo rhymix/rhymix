@@ -1,0 +1,12 @@
+<query id="updateDefaultDomain" action="update">
+	<tables>
+		<table name="domains" />
+	</tables>
+	<columns>
+		<column name="is_default_domain" var="is_default_domain" notnull="notnull" default="N" />
+	</columns>
+    <conditions>
+		<condition operation="equal" column="domain_srl" var="domain_srl" filter="number" />
+		<condition operation="notequal" column="domain_srl" var="not_domain_srl" filter="number" pipe="and" />
+    </conditions>
+</query>

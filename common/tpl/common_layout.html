@@ -10,6 +10,7 @@
 <block loop="Context::getMetaTag() => $no, $val">
 <meta http-equiv="{$val['name']}"|cond="$val['is_http_equiv']" name="{$val['name']}"|cond="!$val['is_http_equiv']" content="{$val['content']}" />
 </block>
+<meta name="csrf-token" content="{($is_logged || $act) ? \Rhymix\Framework\Session::getGenericToken() : ''}" />
 
 <!-- TITLE -->
 <title>{Context::getBrowserTitle()}</title>
@@ -56,7 +57,7 @@
 	var https_port = {Context::get("_https_port") ?: 'null'};
 	var enforce_ssl = {Context::get('_use_ssl') === 'always' ? 'true' : 'false'};
 	var ssl_actions = {json_encode(array_keys(Context::getSSLActions()))};
-	var xeVid = {json_encode($vid ?: null)};
+	var xeVid = null;
 </script>
 </head>
 

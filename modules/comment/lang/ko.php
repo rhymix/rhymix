@@ -55,3 +55,5 @@ $lang->msg_deleted_comment = '삭제된 댓글입니다.';
 $lang->msg_admin_deleted_comment = '관리자가 삭제한 댓글입니다.';
 $lang->msg_no_text_comment = '글자가 없는 댓글입니다.';
 $lang->msg_comment_notify_mail = '[%s] 새로운 댓글이 등록되었습니다 : %s';
+$lang->msg_admin_comment_no_move_to_trash = '최고관리자의 댓글을 휴지통으로 이동시킬 권한이 없습니다.';
+$lang->msg_module_srl_not_exists = '모듈 번호가 존재하지 않습니다.';

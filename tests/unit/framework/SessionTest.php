@@ -134,7 +134,7 @@ class SessionTest extends \Codeception\TestCase\Test
 	
 	public function testCheckSSO()
 	{
-		$this->assertFalse(Rhymix\Framework\Session::checkSSO());
+		$this->assertNull(Rhymix\Framework\Session::checkSSO(new stdClass));
 	}
 	
 	public function testRefresh()
@@ -334,9 +334,16 @@ class SessionTest extends \Codeception\TestCase\Test
 		$this->assertFalse(Rhymix\Framework\Session::verifyToken($token2, '/wrong/key'));
 		$this->assertFalse(Rhymix\Framework\Session::verifyToken(strrev($token2)));
 		
+		$token3 = Rhymix\Framework\Session::getGenericToken();
+		$this->assertEquals(16, strlen($token3));
+		$this->assertTrue(Rhymix\Framework\Session::verifyToken($token3));
+		$this->assertTrue(Rhymix\Framework\Session::verifyToken($token3, ''));
+		$this->assertFalse(Rhymix\Framework\Session::verifyToken($token3, '/wrong/key'));
+		
 		Rhymix\Framework\Session::destroy();
 		$this->assertFalse(Rhymix\Framework\Session::verifyToken($token1));
 		$this->assertFalse(Rhymix\Framework\Session::verifyToken($token, '/my/key'));
+		$this->assertFalse(Rhymix\Framework\Session::getGenericToken());
 	}
 	
 	public function testEncryption()

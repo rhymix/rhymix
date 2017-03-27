@@ -28,6 +28,7 @@
 		params.module = module;
 		params.act = act;
 		params._rx_ajax_compat = 'XMLRPC';
+		params._rx_csrf_token = getCSRFToken();
 		
 		// Fill in the XE vid.
 		if (typeof(xeVid) != "undefined") params.vid = xeVid;
@@ -46,9 +47,7 @@
 		}
 		
 		// Check whether this is a cross-domain request. If so, use an alternative method.
-		var _u1 = $("<a>").attr("href", location.href)[0];
-		var _u2 = $("<a>").attr("href", url)[0];
-		if (_u1.protocol != _u2.protocol || _u1.port != _u2.port) return send_by_form(url, params);
+		if (!isSameOrigin(location.href, url)) return send_by_form(url, params);
 		
 		// Delay the waiting message for 1 second to prevent rapid blinking.
 		waiting_obj.css("opacity", 0.0);
@@ -172,6 +171,7 @@
 		params.module = action[0];
 		params.act = action[1];
 		params._rx_ajax_compat = 'JSON';
+		params._rx_csrf_token = getCSRFToken();
 		
 		// Fill in the XE vid.
 		if (typeof(xeVid) != "undefined") params.vid = xeVid;
@@ -278,6 +278,7 @@
 		//if (action.length != 2) return;
 		params.module = action[0];
 		params.act = action[1];
+		params._rx_csrf_token = getCSRFToken();
 		
 		// Fill in the XE vid.
 		if (typeof(xeVid) != "undefined") params.vid = xeVid;
