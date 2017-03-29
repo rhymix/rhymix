@@ -298,7 +298,7 @@ class ModuleObject extends Object
 			else if(strpos($permission, 'manager') !== false && !$grant->manager)
 			{
 				// If permission is '*-managers', search modules to find manager privilege of the member
-				if(Context::get('is_logged') && $find && preg_match('/^(.+)-managers$/', $permission, $type) && $type[1])
+				if(Context::get('is_logged') && $find && preg_match('/^([a-z0-9\_]+)-managers$/', $permission, $type) && $type[1])
 				{
 					// Manager privilege of the member is found by search all modules, Pass
 					if($type[1] == 'all' && getModel('module')->findManagerPrivilege($member_info) !== false)
