@@ -671,15 +671,18 @@ class ModuleHandler extends Handler
 				}
 				
 				// Protect admin action
-				if(($this->module == 'admin' || $kind == 'admin') && !$oModuleModel->getGrant($this->module_info, $logged_info)->root)
+				if(($this->module == 'admin' || $kind == 'admin') && !$oModuleModel->getGrant($forward, $logged_info)->root)
 				{
-					self::_setInputErrorToContext();
-					$this->error = 'admin.msg_is_not_administrator';
-					$oMessageObject = self::getModuleInstance('message', $display_mode);
-					$oMessageObject->setError(-1);
-					$oMessageObject->setMessage($this->error);
-					$oMessageObject->dispMessage();
-					return $oMessageObject;
+					if($this->module == 'admin' || strpos($xml_info->permission->{$this->act}, 'manager') === false)
+					{
+						self::_setInputErrorToContext();
+						$this->error = 'admin.msg_is_not_administrator';
+						$oMessageObject = self::getModuleInstance('message', $display_mode);
+						$oMessageObject->setError(-1);
+						$oMessageObject->setMessage($this->error);
+						$oMessageObject->dispMessage();
+						return $oMessageObject;
+					}
 				}
 				
 				// Admin page layout

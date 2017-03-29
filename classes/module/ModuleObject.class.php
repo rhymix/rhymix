@@ -128,7 +128,7 @@ class ModuleObject extends Object
 	}
 
 	/**
-	 * sett to set the template path for refresh.html
+	 * Set the template path for refresh.html
 	 * refresh.html is executed as a result of method execution
 	 * Tpl as the common run of the refresh.html ..
 	 * @return void
@@ -140,7 +140,7 @@ class ModuleObject extends Object
 	}
 
 	/**
-	 * sett to set the action name
+	 * Set the action name
 	 * @param string $act
 	 * @return void
 	 * */
@@ -148,41 +148,60 @@ class ModuleObject extends Object
 	{
 		$this->act = $act;
 	}
-
+	
 	/**
-	 * sett to set module information
+	 * Set module information
 	 * @param object $module_info object containing module information
 	 * @param object $xml_info object containing module description
 	 * @return void
 	 * */
 	function setModuleInfo($module_info, $xml_info)
 	{
-		// The default variable settings
+		// Set default variables
 		$this->mid = $module_info->mid;
 		$this->module_srl = $module_info->module_srl;
 		$this->module_info = $module_info;
 		$this->origin_module_info = $module_info;
 		$this->xml_info = $xml_info;
 		$this->skin_vars = $module_info->skin_vars;
+		$this->module_config = getModel('module')->getModuleConfig($this->module, $module_info->site_srl);
 		
-		$oModuleModel = getModel('module');
-		
-		// variable module config
-		$this->module_config = $oModuleModel->getModuleConfig($this->module, $module_info->site_srl);
-		
-		// Proceeding <permission check> of module.xml
-		$permission_check = $xml_info->permission_check->{$this->act};
-		
-		// If permission check target is not the current module
-		if($permission_check->key && $check_module_srl = trim(Context::get($permission_check->key)))
+		// Set privileges(granted) information
+		if($this->setPrivileges() !== true)
 		{
-			// If value is array
-			if(is_array($check_module_srl) || preg_match('/,|\|@\|/', $check_module_srl, $delimiter))
+			$this->stop('msg_invalid_request');
+			return;
+		}
+		
+		// Execute init
+		if(method_exists($this, 'init'))
+		{
+			$this->init();
+		}
+	}
+	
+	/**
+	 * Set privileges(granted) information of current user and check permission of current module
+	 * @return boolean success : true, fail : false
+	 * */
+	function setPrivileges()
+	{
+		if(Context::get('logged_info')->is_admin !== 'Y')
+		{
+			// Get privileges(granted) information for target module by <permission check> of module.xml
+			if(($permission_check = $this->xml_info->permission_check->{$this->act}) && $permission_check->key)
 			{
-				// Convert string to array. delimiter is ,(comma) or |@|
+				// Check parameter
+				if(empty($check_module_srl = trim(Context::get($permission_check->key))))
+				{
+					return false;
+				}
+				
+				// If value is not array
 				if(!is_array($check_module_srl))
 				{
-					if($delimiter[0])
+					// Convert string to array. delimiter is ,(comma) or |@|
+					if(preg_match('/,|\|@\|/', $check_module_srl, $delimiter) && $delimiter[0])
 					{
 						$check_module_srl = explode($delimiter[0], $check_module_srl);
 					}
@@ -192,125 +211,63 @@ class ModuleObject extends Object
 					}
 				}
 				
-				// Check and Stop
+				// Check permission by privileges(granted) information for target module
 				foreach($check_module_srl as $target_srl)
 				{
-					if($this->checkPermissionBySrl($target_srl, $permission_check->type, $xml_info) === false)
+					// Get privileges(granted) information of current user for target module
+					if(($grant = getModel('module')->getPrivilegesBySrl($target_srl, $permission_check->type)) === false)
 					{
-						return;
+						return false;
+					}
+					
+					// Check permission
+					if($this->checkPermission($grant, false) !== true)
+					{
+						return false;
 					}
 				}
-				
-				$checked = true;
-			}
-			// If value is string
-			else
-			{
-				// only check, and return grant information
-				if(($grant = $this->checkPermissionBySrl($check_module_srl, $permission_check->type)) === false)
-				{
-					return;
-				}
 			}
 		}
 		
-		// Get grant information of user
+		// If no privileges(granted) information, check permission by privileges(granted) information for current module
 		if(!isset($grant))
 		{
-			$grant = $oModuleModel->getGrant($module_info, Context::get('logged_info'), $xml_info);
-		}
-		
-		// Check permissions
-		if(!isset($checked) && !$this->checkPermission($xml_info, $grant))
-		{
-			return;
-		}
-		
-		// permission variable settings
-		$this->grant = $grant;
-		Context::set('grant', $grant);
-		
-		// execute init
-		if(method_exists($this, 'init'))
-		{
-			$this->init();
-		}
-	}
-	
-	/**
-	 * Check permission by target_srl
-	 * @param string $target_srl as module_srl. It may be a reference serial number
-	 * @param string $type module name. get module_srl from module
-	 * @param object $xml_info object containing module description. and if used, check permission
-	 * @return mixed fail : false, success : true or object
-	 * */
-	function checkPermissionBySrl($target_srl, $type = null, $xml_info = null)
-	{
-		if(!($target_srl = trim($target_srl)) || !preg_match('/^([0-9]+)$/', $target_srl) && $type != 'module')
-		{
-			$this->stop('msg_invalid_request');
-			return false;
-		}
-		
-		if($type)
-		{
-			if($type == 'document')
-			{
-				$target_srl = getModel('document')->getDocument($target_srl, false, false)->get('module_srl');
-			}
-			else if($type == 'comment')
-			{
-				$target_srl = getModel('comment')->getComment($target_srl)->get('module_srl');
-			}
-			else if($type == 'file')
-			{
-				$target_srl = getModel('file')->getFile($target_srl)->module_srl;
-			}
-			else if($type == 'module')
-			{
-				$module_info = getModel('module')->getModuleInfoByMid($target_srl);
-			}
-		}
-		
-		if(!isset($module_info))
-		{
-			$module_info = getModel('module')->getModuleInfoByModuleSrl($target_srl);
-		}
-		
-		if(!$module_info->module_srl)
-		{
-			$this->stop('msg_invalid_request');
-			return false;
-		}
-		
-		$grant = getModel('module')->getGrant($module_info, Context::get('logged_info'));
-		
-		if($xml_info)
-		{
-			// Check permissions
-			if(!$this->checkPermission($xml_info, $grant))
+			// Get privileges(granted) information of current user for current module
+			$grant = getModel('module')->getGrant($this->module_info, Context::get('logged_info'), $this->xml_info);
+			
+			// Check permission
+			if($this->checkPermission($grant) !== true)
 			{
 				return false;
 			}
-			
-			return true;
 		}
 		
-		return $grant;
+		// Set privileges(granted) variables
+		$this->grant = $grant;
+		Context::set('grant', $grant);
+		
+		return true;
 	}
 	
 	/**
-	 * Check permissions
-	 * @param object $xml_info object containing module description
-	 * @param object $grant grant information of user
-	 * @return boolean true : success, false : fail
+	 * Check permission
+	 * @param object $grant privileges(granted) information of user
+	 * @param object $find if user doesn't have privilege(granted), find more privilege of the user
+	 * @param object $member_info member information
+	 * @return boolean success : true, fail : false
 	 * */
-	function checkPermission($xml_info, $grant = null)
+	function checkPermission($grant = null, $find = true, $member_info = null)
 	{
-		// Get grant information
+		// Get logged-in member information
+		if(!$member_info)
+		{
+			$member_info = Context::get('logged_info');
+		}
+		
+		// Get privileges(granted) information of the member for current module
 		if(!$grant)
 		{
-			$grant = getModel('module')->getGrant($this->module_info, Context::get('logged_info'), $xml_info);
+			$grant = getModel('module')->getGrant($this->module_info, $member_info, $this->xml_info);
 		}
 		
 		// If an administrator, Pass
@@ -319,8 +276,8 @@ class ModuleObject extends Object
 			return true;
 		}
 		
-		// get permission types(guest, member, manager, root) of the currently requested action
-		$permission = $xml_info->permission->{$this->act};
+		// Get permission types(guest, member, manager, root) of the currently requested action
+		$permission = $this->xml_info->permission->{$this->act};
 		
 		// If admin action, default permission
 		if(!$permission && stripos($this->act, 'admin') !== false)
@@ -328,19 +285,38 @@ class ModuleObject extends Object
 			$permission = 'root';
 		}
 		
-		// Check permissions
+		// If 'act' have permission, but user does not have privilege(granted), error
 		if($permission)
 		{
+			// If permission is 'member', check logged-in
 			if($permission == 'member' && !Context::get('is_logged'))
 			{
 				$this->stop('msg_not_permitted_act');
 				return false;
 			}
-			else if($permission == 'manager' && !$grant->manager)
+			// If permission is 'manager', check 'is user have manager privilege(granted)'
+			else if(strpos($permission, 'manager') !== false && !$grant->manager)
 			{
+				// If permission is 'all-managers','same-managers', search modules to find manager privilege of the member
+				if(Context::get('is_logged') && $find)
+				{
+					// if permission is 'all-managers', and manager privilege of the member is found by search all modules, Pass
+					if($permission == 'all-managers' && getModel('module')->findManagerPrivilege($member_info) !== false)
+					{
+						return true;
+					}
+					// if permission is 'same-managers', and manager privilege of the member is found by search same modules, Pass
+					else if($permission == 'same-managers' && getModel('module')->findManagerPrivilege($member_info, $this->module) !== false)
+					{
+						return true;
+					}
+				}
+				
 				$this->stop('admin.msg_is_not_administrator');
 				return false;
 			}
+			// If permission is 'root', Error!
+			// Because an administrator who have root privilege(granted) was passed already
 			else if($permission == 'root')
 			{
 				$this->stop('admin.msg_is_not_administrator');
@@ -358,21 +334,26 @@ class ModuleObject extends Object
 	 * */
 	function stop($msg_code)
 	{
-		// flag setting to stop the proc processing
-		$this->stop_proc = TRUE;
-		// Error handling
-		$this->setError(-1);
-		$this->setMessage($msg_code);
-		// Error message display by message module
-		$type = Mobile::isFromMobilePhone() ? 'mobile' : 'view';
-		$oMessageObject = ModuleHandler::getModuleInstance('message', $type);
-		$oMessageObject->setError(-1);
-		$oMessageObject->setMessage($msg_code);
-		$oMessageObject->dispMessage();
-
-		$this->setTemplatePath($oMessageObject->getTemplatePath());
-		$this->setTemplateFile($oMessageObject->getTemplateFile());
-		$this->setHttpStatusCode($oMessageObject->getHttpStatusCode());
+		if($this->stop_proc !== true)
+		{
+			// flag setting to stop the proc processing
+			$this->stop_proc = true;
+			
+			// Error handling
+			$this->setError(-1);
+			$this->setMessage($msg_code);
+			
+			// Error message display by message module
+			$type = Mobile::isFromMobilePhone() ? 'mobile' : 'view';
+			$oMessageObject = ModuleHandler::getModuleInstance('message', $type);
+			$oMessageObject->setError(-1);
+			$oMessageObject->setMessage($msg_code);
+			$oMessageObject->dispMessage();
+			
+			$this->setTemplatePath($oMessageObject->getTemplatePath());
+			$this->setTemplateFile($oMessageObject->getTemplateFile());
+			$this->setHttpStatusCode($oMessageObject->getHttpStatusCode());
+		}
 		
 		return $this;
 	}

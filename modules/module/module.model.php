@@ -847,7 +847,7 @@ class moduleModel extends module
 					$target = $permission->attrs->target;
 
 					$info->permission->{$action} = $target;
-					$info->permission_check->{$action}->key = $permission->attrs->check_var ?: 'module_srl';
+					$info->permission_check->{$action}->key = $permission->attrs->check_var ?: '';
 					$info->permission_check->{$action}->type = $permission->attrs->check_type ?: '';
 					
 					$buff[] = sprintf('$info->permission->%s = \'%s\';', $action, $target);
@@ -1903,20 +1903,22 @@ class moduleModel extends module
 			$module_info->{$val->name} = $val->value;
 		}
 	}
-
+	
 	/**
-	 * @brief Return permission by using module info, xml info and member info
+	 * @brief Return privileges(granted) information by using module info, xml info and member info
 	 */
 	function getGrant($module_info, $member_info, $xml_info = '')
 	{
-		if (!$xml_info && isset($GLOBALS['__MODULE_GRANT__'][intval($module_info->module_srl)][intval($member_info->member_srl)]))
+		$__cache = &$GLOBALS['__MODULE_GRANT__'][$module_info->module][intval($module_info->module_srl)][intval($member_info->member_srl)];
+		
+		if (!$xml_info && is_object($__cache))
 		{
-			return $GLOBALS['__MODULE_GRANT__'][intval($module_info->module_srl)][intval($member_info->member_srl)];
+			return $__cache;
 		}
 		
 		$grant = new stdClass;
 		
-		// Get information of module xml 
+		// Get information of module.xml 
 		if(!$xml_info)
 		{
 			$xml_info = $this->getModuleActionXml($module_info->module);
@@ -1932,49 +1934,49 @@ class moduleModel extends module
 			$member_group = array();
 		}
 		
-		$is_module_admin = $this->isModuleAdmin($member_info, $module_info->module_srl);
+		$is_module_admin = $module_info->module_srl ? $this->isModuleAdmin($member_info, $module_info->module_srl) : false;
 		
-		// Get module grant
-		$module_grant = array_keys((array) $xml_info->grant);
+		// Get 'privilege name' list from module.xml
+		$privilege_list = array_keys((array) $xml_info->grant);
 		
-		// Prepend default grant
+		// Prepend default 'privilege name'
 		// is_admin, manager, is_site_admin not distinguish because of compatibility.
-		array_unshift($module_grant, 'access', 'is_admin', 'manager', 'is_site_admin', 'root');
+		array_unshift($privilege_list, 'access', 'is_admin', 'manager', 'is_site_admin', 'root');
 		
-		// unique
-		$module_grant = array_unique($module_grant, SORT_STRING);
+		// Unique
+		$privilege_list = array_unique($privilege_list, SORT_STRING);
 		
-		// Set grant
-		foreach($module_grant as $val)
+		// Grant first
+		foreach($privilege_list as $val)
 		{
-			// If an administrator, set all true.
+			// If an administrator, grant all
 			if($member_info->is_admin == 'Y')
 			{
 				$grant->{$val} = true;
 			}
-			// If a module manager, except 'root'
+			// If a module manager, grant all (except 'root')
 			else if($is_module_admin === true && $val !== 'root')
 			{
 				$grant->{$val} = true;
 			}
-			// If module_srl doesn't exist, access true
+			// If module_srl doesn't exist, grant access
 			else if(!$module_info->module_srl && $val === 'access')
 			{
 				$grant->{$val} = true;
 			}
-			// default permission false
+			// Default : not grant
 			else
 			{
 				$grant->{$val} = false;
 			}
 		}
 		
-		// If not have access permission, check more
+		// If access were not granted, check more
 		if(!$grant->access)
 		{
 			$checked = array();
 			
-			// check permission information that get from the DB 
+			// Grant privileges by information that get from the DB
 			foreach($this->getModuleGrants($module_info->module_srl)->data as $val)
 			{
 				if(isset($checked[$val->name]))
@@ -2002,7 +2004,7 @@ class moduleModel extends module
 					// Site-joined member only
 					else if($val->group_srl == -2)
 					{
-						// Permission granted if no information of the currently connected site exists
+						// Grant if no information of the currently connected site exists
 						if(!Context::get('site_module_info')->site_srl)
 						{
 							$grant->{$val->name} = true;
@@ -2020,13 +2022,13 @@ class moduleModel extends module
 				}
 			}
 			
-			// access default permission
+			// Grant access by default
 			if(!isset($checked['access']))
 			{
 				$grant->access = true;
 			}
 			
-			// module default permission
+			// Grant privileges by default information of module
 			if(is_array($xml_info->grant))
 			{
 				foreach($xml_info->grant as $name => $item)
@@ -2053,7 +2055,7 @@ class moduleModel extends module
 						}
 						else if($item->default == 'site')
 						{
-							// Permission granted if no information of the currently connected site exists
+							// Grant if no information of the currently connected site exists
 							if(!Context::get('site_module_info')->site_srl)
 							{
 								$grant->{$name} = true;
@@ -2068,11 +2070,90 @@ class moduleModel extends module
 			}
 		}
 		
-		$GLOBALS['__MODULE_GRANT__'][intval($module_info->module_srl)][intval($member_info->member_srl)] = $grant;
-		
-		return $grant;
+		return $__cache = $grant;
 	}
-
+	
+	/**
+	 * Get privileges(granted) information of the member for target module by target_srl
+	 * @param string $target_srl as module_srl. It may be a reference serial number
+	 * @param string $type module name. get module_srl from module
+	 * @param object $member_info member information
+	 * @return mixed success : object, fail : false
+	 * */
+	function getPrivilegesBySrl($target_srl, $type = null, $member_info = null)
+	{
+		if(empty($target_srl = trim($target_srl)) || !preg_match('/^([0-9]+)$/', $target_srl) && $type != 'module')
+		{
+			return false;
+		}
+		
+		if($type)
+		{
+			if($type == 'document')
+			{
+				$target_srl = getModel('document')->getDocument($target_srl, false, false)->get('module_srl');
+			}
+			else if($type == 'comment')
+			{
+				$target_srl = getModel('comment')->getComment($target_srl)->get('module_srl');
+			}
+			else if($type == 'file')
+			{
+				$target_srl = getModel('file')->getFile($target_srl)->module_srl;
+			}
+			else if($type == 'module')
+			{
+				$module_info = $this->getModuleInfoByMid($target_srl);
+			}
+		}
+		
+		if(!isset($module_info))
+		{
+			$module_info = $this->getModuleInfoByModuleSrl($target_srl);
+		}
+		
+		if(!$module_info->module_srl)
+		{
+			return false;
+		}
+		
+		if(!$member_info)
+		{
+			$member_info = Context::get('logged_info');
+		}
+		
+		return $this->getGrant($module_info, $member_info);
+	}
+	
+	/**
+	 * @brief Search all modules to find manager privilege of the member
+	 * @param object $member_info member information
+	 * @param string $module module name. if used, search scope is same module
+	 * @return mixed success : object, fail : false
+	 */
+	function findManagerPrivilege($member_info, $module = null)
+	{
+		if(!$member_info->member_srl || empty($mid_list = $this->getMidList()))
+		{
+			return false;
+		}
+		
+		foreach($mid_list as $module_info)
+		{
+			if($module && $module_info->module != $module)
+			{
+				continue;
+			}
+			
+			if(($grant = $this->getGrant($module_info, $member_info)) && $grant->manager)
+			{
+				return $grant;
+			}
+		}
+		
+		return false;
+	}
+	
 	/**
 	 * @brief Get module grants
 	 */
