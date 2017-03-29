@@ -2,34 +2,29 @@
 <module>
 	<grants />
 	<permissions>
-		<permission action="dispModuleSelectList" target="member" />
-
-
-		<permission action="getLangListByLangcodeForAutoComplete" target="manager" />
+		<permission action="dispModuleSelectList" target="root" />
+		
 		<permission action="getLangByLangcode" target="manager" />
-		<permission action="getModuleAdminMultilingualHtml" target="manager" />
-
+		<permission action="getLangListByLangcodeForAutoComplete" target="manager" />
+		
 		<permission action="getModuleAdminGrant" target="manager" />
-		<permission action="procModuleAdminInsertGrant" target="manager" />
-
 		<permission action="getModuleAdminLangCode" target="manager" />
 		<permission action="getModuleAdminLangListHtml" target="manager" />
 		<permission action="getModuleAdminLangListByName" target="manager" />
 		<permission action="getModuleAdminLangListByValue" target="manager" />
+		<permission action="getModuleAdminMultilingualHtml" target="manager" />
+		
+		<permission action="procModuleAdminInsertGrant" target="manager" />
 		<permission action="procModuleAdminInsertLang" target="manager" />
 		<permission action="procModuleAdminUpdateSkinInfo" target="manager" />
 	</permissions>
 	<actions>
 		<action name="dispModuleSelectList" type="view" />
 		<action name="dispModuleSkinInfo" type="view" />
-
 		<action name="dispModuleFileBox" type="view" />
 		<action name="dispModuleFileBoxAdd" type="view" />
-
-		<action name="procModuleFileBoxAdd" type="controller" />
-		<action name="procModuleFileBoxAdd" type="controller" />
-		<action name="procModuleFileBoxDelete" type="controller" />
-
+		<action name="dispModuleChangeLang" type="mobile" />
+		
 		<action name="getModuleSkinInfoList" type="model" />
 		<action name="getModuleAdminModuleList" type="model" />
 		<action name="getModuleAdminLangCode" type="model" />
@@ -39,9 +34,11 @@
 		<action name="getFileBoxListHtml" type="model" />
 		<action name="getLangByLangcode" type="model" />
 		<action name="getModuleInfoByMenuItemSrl" type="model" />
-		<action name="dispModuleChangeLang" type="mobile" />
-
-		<!-- admin -->
+		
+		<action name="procModuleFileBoxAdd" type="controller" />
+		<action name="procModuleFileBoxAdd" type="controller" />
+		<action name="procModuleFileBoxDelete" type="controller" />
+		
 		<action name="dispModuleAdminContent" type="view"  menu_name="installedModule" menu_index="true" admin_index="true" />
 		<action name="dispModuleAdminList" type="view" />
 		<action name="dispModuleAdminCategory" type="view" menu_name="installedModule" />
@@ -52,13 +49,13 @@
 		<action name="dispModuleAdminCopyModule" type="view" />
 		<action name="dispModuleAdminLangcode" type="view" menu_name="multilingual" menu_index="true" />
 		<action name="dispModuleAdminFileBox" type="view" menu_name="filebox" menu_index="true" />
-
+		
 		<action name="getModuleAdminGrant" type="model" />
 		<action name="getModuleAdminMultilingualHtml" type="model" />
 		<action name="getModuleAdminLangListHtml" type="model" />
 		<action name="getModuleAdminModuleSearcherHtml" type="model" />
 		<action name="getModuleAdminModuleInfo" type="model" />
-
+		
 		<action name="procModuleAdminInsertCategory" type="controller" ruleset="insertCategory" />
 		<action name="procModuleAdminUpdateCategory" type="controller" ruleset="updateCategory" />
 		<action name="procModuleAdminDeleteCategory" type="controller" ruleset="deleteCategory" />

@@ -1,14 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
 <module>
-    <grants />
-    <permissions />
-    <actions>
-        <action name="IS" type="view" />
-        <action name="dispIntegration_searchAdminContent" type="view" admin_index="true" />
-        <action name="dispIntegration_searchAdminGrantInfo" type="view" />
-        <action name="dispIntegration_searchAdminSkinInfo" type="view" />
-
-        <action name="procIntegration_searchAdminInsertConfig" type="controller" ruleset="insertConfig" />
-        <action name="procIntegration_searchAdminInsertSkin" type="controller" />
-    </actions>
+	<grants />
+	<permissions />
+	<actions>
+		<action name="IS" type="view" />
+		
+		<action name="dispIntegration_searchAdminContent" type="view" admin_index="true" />
+		<action name="dispIntegration_searchAdminGrantInfo" type="view" />
+		<action name="dispIntegration_searchAdminSkinInfo" type="view" />
+		
+		<action name="procIntegration_searchAdminInsertConfig" type="controller" ruleset="insertConfig" />
+		<action name="procIntegration_searchAdminInsertSkin" type="controller" />
+	</actions>
 </module>

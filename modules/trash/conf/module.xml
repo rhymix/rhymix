@@ -1,18 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
 <module>
 	<grants />
-	<permissions>
-		<permission action="dispTrashAdminList" target="manager" />
-		<permission action="procTrashAdminRestore" target="manager" />
-	</permissions>
+	<permissions />
 	<actions>
 		<action name="dispTrashAdminList" type="view" admin_index="true" menu_name="trash" menu_index="true" />
-
+		<action name="dispTrashAdminView" type="view" menu_name="trash" />
+		
 		<action name="procTrashAdminEmptyTrash" type="controller" ruleset="emptyTrash" />
 		<action name="procTrashAdminRestore" type="controller" />
 		<action name="procTrashAdminGetList" type="controller" />
-
-		<action name="dispTrashAdminView" type="view" />
 	</actions>
 	<menus>
 		<menu name="trash">

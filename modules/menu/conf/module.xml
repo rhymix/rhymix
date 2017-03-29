@@ -1,24 +1,20 @@
 <?xml version="1.0" encoding="utf-8"?>
 <module>
 	<grants />
-	<permissions>
-		<permission action="getMenuAdminSiteMap" target="manager" />
-		<permission action="procMenuAdminUpdateAuth" target="manager" />
-	</permissions>
+	<permissions />
 	<actions>
 		<action name="dispMenuMenu" type="mobile" />
-
-		<!-- admin -->
+		
 		<action name="dispMenuAdminMidList" type="view" />
 		<action name="dispMenuAdminSiteMap" type="view" admin_index="true" menu_name="siteMap" menu_index="true" />
 		<action name="dispMenuAdminSiteDesign" type="view" menu_name="siteDesign" menu_index="true" />
-
+		
 		<action name="getMenuAdminTplInfo" type="model" />
 		<action name="getMenuAdminItemInfo" type="model" />
 		<action name="getMenuAdminSiteMap" type="model" />
 		<action name="getMenuAdminInstalledMenuType" type="model" />
 		<action name="getMenuAdminDetailSetup" type="model" />
-
+		
 		<action name="procMenuAdminInsert" type="controller" ruleset="insertMenu" />
 		<action name="procMenuAdminUpdate" type="controller" ruleset="updateMenuTitle" />
 		<action name="procMenuAdminDelete" type="controller" />
@@ -31,7 +27,6 @@
 		<action name="procMenuAdminMoveItem" type="controller" />
 		<action name="procMenuAdminCopyItem" type="controller" />
 		<action name="procMenuAdminArrangeItem" type="controller" />
-
 		<action name="procMenuAdminUploadButton" type="controller" />
 		<action name="procMenuAdminDeleteButton" type="controller" />
 		<action name="procMenuAdminAllActList" type="controller" />

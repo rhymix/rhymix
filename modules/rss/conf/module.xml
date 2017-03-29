@@ -2,31 +2,30 @@
 <module>
 	<grants />
 	<permissions>
-		<permission action="procRssAdminInsertModuleConfig" target="manager" />
+		<permission action="procRssAdminInsertModuleConfig" target="manager" check_var="target_module_srl" />
 	</permissions>
 	<actions>
-		<action name="dispRssAdminIndex" type="view" index="true" admin_index="true" menu_name="rss" menu_index="true" />
 		<action name="rss" type="view" />
 		<action name="atom" type="view" />
-
-		<!-- admin -->
+		
+		<action name="dispRssAdminIndex" type="view" index="true" admin_index="true" menu_name="rss" menu_index="true" />
 		<action name="procRssAdminInsertConfig" type="controller" ruleset="insertRssConfig" />
 		<action name="procRssAdminDeleteFeedImage" type="controller" />
 		<action name="procRssAdminInsertModuleConfig" type="controller" />
 	</actions>
 	<menus>
 		<menu name="rss">
-			<title xml:lang="en">RSS</title>
-			<title xml:lang="ko">RSS</title>
-			<title xml:lang="zh-CN">RSS</title>
-			<title xml:lang="jp">RSS</title>
-			<title xml:lang="es">RSS</title>
-			<title xml:lang="ru">RSS</title>
-			<title xml:lang="fr">RSS</title>
-			<title xml:lang="zh-TW">RSS</title>
-			<title xml:lang="vi">RSS</title>
-			<title xml:lang="mn">RSS</title>
-			<title xml:lang="tr">RSS</title>
+		<title xml:lang="en">RSS</title>
+		<title xml:lang="ko">RSS</title>
+		<title xml:lang="zh-CN">RSS</title>
+		<title xml:lang="jp">RSS</title>
+		<title xml:lang="es">RSS</title>
+		<title xml:lang="ru">RSS</title>
+		<title xml:lang="fr">RSS</title>
+		<title xml:lang="zh-TW">RSS</title>
+		<title xml:lang="vi">RSS</title>
+		<title xml:lang="mn">RSS</title>
+		<title xml:lang="tr">RSS</title>
 		</menu>
 	</menus>
 </module>

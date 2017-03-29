@@ -1,19 +1,21 @@
 <?xml version="1.0" encoding="utf-8"?>
 <module>
-    <actions>
-        <action name="dispAutoinstallAdminInstall" type="view" menu_name="easyInstall" />
-        <action name="dispAutoinstallAdminUninstall" type="view" menu_name="easyInstall" />
-        <action name="procAutoinstallAdminUninstallPackage" type="controller" ruleset="ftp" />
-        <action name="dispAutoinstallAdminInstalledPackages" type="view" menu_name="easyInstall" />
-        <action name="dispAutoinstallAdminIndex" type="view" admin_index="true" menu_name="easyInstall" menu_index="true" />
-        <action name="procAutoinstallAdminUpdateinfo" type="controller" />
-        <action name="procAutoinstallAdminPackageinstall" type="controller" ruleset="ftp" />
+	<actions>
+		<action name="dispAutoinstallAdminInstall" type="view" menu_name="easyInstall" />
+		<action name="dispAutoinstallAdminUninstall" type="view" menu_name="easyInstall" />
+		<action name="dispAutoinstallAdminInstalledPackages" type="view" menu_name="easyInstall" />
+		<action name="dispAutoinstallAdminIndex" type="view" admin_index="true" menu_name="easyInstall" menu_index="true" />
+		
 		<action name="getAutoinstallAdminMenuPackageList" type="model" />
 		<action name="getAutoinstallAdminLayoutPackageList" type="model" />
 		<action name="getAutoinstallAdminSkinPackageList" type="model" />
 		<action name="getAutoinstallAdminIsAuthed" type="model" />
 		<action name="getAutoInstallAdminInstallInfo" type="model" />
-    </actions>
+		
+		<action name="procAutoinstallAdminUninstallPackage" type="controller" ruleset="ftp" />
+		<action name="procAutoinstallAdminUpdateinfo" type="controller" />
+		<action name="procAutoinstallAdminPackageinstall" type="controller" ruleset="ftp" />
+	</actions>
 	<menus>
 		<menu name="easyInstall">
 			<title xml:lang="en">Easy Install</title>

@@ -2,15 +2,16 @@
 <module>
 	<grants />
 	<permissions>
-		<permission action="procPointAdminInsertPointModuleConfig" target="manager" />
+		<permission action="getMembersPointInfo" target="member" />
+		<permission action="procPointAdminInsertPointModuleConfig" target="manager" check_var="target_module_srl" />
 	</permissions>
 	<actions>
 		<action name="getMembersPointInfo" type="model" />
-
-		<!-- admin -->
+		
 		<action name="dispPointAdminConfig" type="view" admin_index="true" menu_name="point" menu_index="true" />
 		<action name="dispPointAdminModuleConfig" type="view" menu_name="point" />
 		<action name="dispPointAdminPointList" type="view" menu_name="point" />
+		
 		<action name="procPointAdminInsertConfig" type="controller" ruleset="insertConfig" />
 		<action name="procPointAdminInsertModuleConfig" type="controller" />
 		<action name="procPointAdminUpdatePoint" type="controller" ruleset="updatePoint" />

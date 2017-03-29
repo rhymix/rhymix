@@ -59,12 +59,9 @@
 		<permission action="dispBoardAdminExtraVars" target="manager" />
 		<permission action="dispBoardAdminBoardAdditionSetup" target="manager" />
 		<permission action="dispBoardAdminSkinInfo" target="manager" />
-
-		<permission action="procBoardAdminInsertBoard" target="manager" />
-		<permission action="procBoardAdminUpdateBoardFroBasic" target="manager" />
-		<permission action="procBoardAdminSaveCategorySettings" target="manager" />
-
-		<permission action="getBoardAdminSimpleSetup" target="manager" />
+		
+		<permission action="procBoardAdminInsertBoard" target="manager" check_var="module_srl" />
+		<permission action="procBoardAdminSaveCategorySettings" target="manager" check_var="module_srl" />
 	</permissions>
 	<actions>
 		<action name="dispBoardContent" type="view" index="true" />
@@ -76,7 +73,6 @@
 		<action name="dispBoardContentFileList" type="view" />
 		<action name="dispBoardUpdateLog" type="view" />
 		<action name="dispBoardVoteLog" type="view" />
-
 		<action name="dispBoardTagList" type="view" />
 		<action name="dispBoardWrite" type="view" standalone="false" />
 		<action name="dispBoardDelete" type="view" standalone="false" />
@@ -87,7 +83,10 @@
 		<action name="dispBoardDeleteTrackback" type="view" standalone="false" />
 		<action name="dispBoardMessage" type="view" />
 		<action name="dispBoardUpdateLogView" type="view" />
-
+		
+		<action name="dispBoardCategory" type="mobile" />
+		<action name="getBoardCommentPage" type="mobile" />
+		
 		<action name="procBoardInsertDocument" type="controller" ruleset="insertDocument" standalone="false" />
 		<action name="procBoardRevertDocument" type="controller" />
 		<action name="procBoardDeleteDocument" type="controller" standalone="false" />
@@ -96,8 +95,7 @@
 		<action name="procBoardDeleteComment" type="controller" standalone="false" />
 		<action name="procBoardDeleteTrackback" type="controller" standalone="false" />
 		<action name="procBoardVerificationPassword" type="controller" />
-
-		<!-- admin -->
+		
 		<action name="dispBoardAdminContent" type="view" admin_index="true" menu_name="board" menu_index="true" />
 		<action name="dispBoardAdminBoardInfo" type="view"  menu_name="board" />
 		<action name="dispBoardAdminExtraVars" type="view"  menu_name="board" />
@@ -108,15 +106,13 @@
 		<action name="dispBoardAdminMobileSkinInfo" type="view" menu_name="board"  />
 		<action name="dispBoardAdminGrantInfo" type="view" menu_name="board"  />
 		<action name="dispBoardAdminCategoryInfo" type="view" menu_name="board"  />
+		
+		<action name="getBoardAdminSimpleSetup" type="model" simple_setup_index="true" />
+		
 		<action name="procBoardAdminInsertBoard" type="controller" ruleset="insertBoard" />
 		<action name="procBoardAdminDeleteBoard" type="controller" />
 		<action name="procBoardAdminUpdateBoardFroBasic" type="controller" ruleset="insertBoardForBasic" />
 		<action name="procBoardAdminSaveCategorySettings" type="controller" ruleset="saveCategorySettings" />
-
-		<action name="getBoardAdminSimpleSetup" type="model" simple_setup_index="true" />
-
-		<action name="dispBoardCategory" type="mobile" />
-		<action name="getBoardCommentPage" type="mobile" />
 	</actions>
 	<menus>
 		<menu name="board" type="all">
