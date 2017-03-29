@@ -297,16 +297,21 @@ class ModuleObject extends Object
 			// If permission is 'manager', check 'is user have manager privilege(granted)'
 			else if(strpos($permission, 'manager') !== false && !$grant->manager)
 			{
-				// If permission is 'all-managers','same-managers', search modules to find manager privilege of the member
-				if(Context::get('is_logged') && $find)
+				// If permission is '*-managers', search modules to find manager privilege of the member
+				if(Context::get('is_logged') && $find && preg_match('/^(.+)-managers$/', $permission, $type) && $type[1])
 				{
-					// if permission is 'all-managers', and manager privilege of the member is found by search all modules, Pass
-					if($permission == 'all-managers' && getModel('module')->findManagerPrivilege($member_info) !== false)
+					// Manager privilege of the member is found by search all modules, Pass
+					if($type[1] == 'all' && getModel('module')->findManagerPrivilege($member_info) !== false)
 					{
 						return true;
 					}
-					// if permission is 'same-managers', and manager privilege of the member is found by search same modules, Pass
-					else if($permission == 'same-managers' && getModel('module')->findManagerPrivilege($member_info, $this->module) !== false)
+					// Manager privilege of the member is found by search same module as this module, Pass
+					else if($type[1] == 'same' && getModel('module')->findManagerPrivilege($member_info, $this->module) !== false)
+					{
+						return true;
+					}
+					// Manager privilege of the member is found by search same module as the module, Pass
+					else if(getModel('module')->findManagerPrivilege($member_info, $type[1]) !== false)
 					{
 						return true;
 					}
