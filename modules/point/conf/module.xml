@@ -16,9 +16,9 @@
 		<action name="procPointAdminInsertModuleConfig" type="controller" />
 		<action name="procPointAdminUpdatePoint" type="controller" ruleset="updatePoint" />
 		<action name="procPointAdminInsertPointModuleConfig" type="controller" />
+		<action name="procPointAdminReCal" type="controller" />
 		<action name="procPointAdminApplyPoint" type="controller" />
 		<action name="procPointAdminReset" type="controller" />
-		<action name="procPointAdminReCal" type="controller" />
 	</actions>
 	<menus>
 		<menu name="point">

@@ -8,10 +8,6 @@
 		<action name="procImporterAdminImport" type="controller" />
 		<action name="procImporterAdminPreProcessing" type="controller" />
 		<action name="procImporterAdminSync" type="controller" />
-		<action name="procImporterAdminMemberImport" type="controller" />
-		<action name="procImporterAdminMessageImport" type="controller" />
-		<action name="procImporterAdminModuleImport" type="controller" />
-		<action name="procImporterAdminTTXMLImport" type="controller" />
 		<action name="procImporterAdminCheckXmlFile" type="controller" />
 	</actions>
 	<menus>

@@ -12,9 +12,9 @@
 		
 		<action name="getInstallFTPList" type="model" />
 		
+		<action name="procInstallLicenseAgreement" type="controller" />
 		<action name="procDBConfig" type="controller" />
 		<action name="procInstall" type="controller" ruleset="install" />
-		<action name="procInstallLicenseAgreement" type="controller" />
 		
 		<action name="procInstallAdminInstall" type="controller" />
 		<action name="procInstallAdminUpdate" type="controller" />

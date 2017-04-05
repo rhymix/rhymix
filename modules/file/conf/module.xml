@@ -12,18 +12,18 @@
 		<action name="procFileIframeUpload" type="controller" />
 		<action name="procFileImageResize" type="controller" ruleset="imageResize" />
 		<action name="procFileDelete" type="controller" />
+		<action name="procFileSetCoverImage" type="controller" />
 		<action name="procFileDownload" type="controller" method="GET|POST" />
 		<action name="procFileOutput" type="controller" method="GET|POST" />
 		<action name="procFileGetList" type="controller" />
-		<action name="procFileSetCoverImage" type="controller" />
 		
 		<action name="dispFileAdminList" type="view" admin_index="true" menu_name="file" menu_index="true" />
 		<action name="dispFileAdminConfig" type="view" menu_name="fileUpload" menu_index="true" />
 		
+		<action name="procFileAdminAddCart" type="controller" />
 		<action name="procFileAdminDeleteChecked" type="controller" ruleset="deleteChecked" />
 		<action name="procFileAdminInsertConfig" type="controller" ruleset="insertConfig" />
 		<action name="procFileAdminInsertModuleConfig" type="controller" ruleset="fileModuleConfig" />
-		<action name="procFileAdminAddCart" type="controller" />
 	</actions>
 	<menus>
 		<menu name="file">

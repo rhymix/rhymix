@@ -4,16 +4,16 @@
 	<permissions>
 		<permission action="dispWidgetInfo" target="all-managers" />
 		<permission action="dispWidgetGenerateCode" target="root" />
-		<permission action="dispWidgetGenerateCodeInPage" target="manager" check_var="module_srl" />
-		<permission action="dispWidgetStyleGenerateCodeInPage" target="page-managers" />
+		<permission action="dispWidgetGenerateCodeInPage" target="all-managers" />
+		<permission action="dispWidgetStyleGenerateCodeInPage" target="all-managers" />
 		
 		<permission action="procWidgetGenerateCode" target="root" />
-		<permission action="procWidgetGenerateCodeInPage" target="manager" check_var="module_srl" />
+		<permission action="procWidgetGenerateCodeInPage" target="all-managers" />
 		<permission action="procWidgetInsertDocument" target="manager" check_var="module_srl" />
-		<permission action="procWidgetCopyDocument" target="manager" check_type="document" check_var="document_srl" />
 		<permission action="procWidgetDeleteDocument" target="manager" check_type="document" check_var="document_srl" />
+		<permission action="procWidgetCopyDocument" target="manager" check_type="document" check_var="document_srl" />
 		<permission action="procWidgetGetColorsetList" target="all-managers" />
-		<permission action="procWidgetStyleExtraImageUpload" target="page-managers" />
+		<permission action="procWidgetStyleExtraImageUpload" target="all-managers" />
 		
 		<permission action="dispWidgetAdminAddContent" target="manager" check_var="module_srl" />
 	</permissions>
@@ -26,14 +26,14 @@
 		<action name="procWidgetGenerateCode" type="controller" />
 		<action name="procWidgetGenerateCodeInPage" type="controller" ruleset="generateCodeInPage" />
 		<action name="procWidgetInsertDocument" type="controller" />
-		<action name="procWidgetCopyDocument" type="controller" />
 		<action name="procWidgetDeleteDocument" type="controller" />
+		<action name="procWidgetCopyDocument" type="controller" />
 		<action name="procWidgetGetColorsetList" type="controller" />
 		<action name="procWidgetStyleExtraImageUpload" type="controller" />
 		
 		<action name="dispWidgetAdminDownloadedList" type="view" admin_index="true" menu_name="installedWidget" menu_index="true" />
-		<action name="dispWidgetAdminAddContent" type="view" />
 		<action name="dispWidgetAdminGenerateCode" type="view" menu_name="installedWidget" />
+		<action name="dispWidgetAdminAddContent" type="view" />
 	</actions>
 	<menus>
 		<menu name="installedWidget">

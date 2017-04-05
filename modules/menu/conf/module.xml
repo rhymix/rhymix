@@ -5,13 +5,12 @@
 	<actions>
 		<action name="dispMenuMenu" type="mobile" />
 		
-		<action name="dispMenuAdminMidList" type="view" />
 		<action name="dispMenuAdminSiteMap" type="view" admin_index="true" menu_name="siteMap" menu_index="true" />
 		<action name="dispMenuAdminSiteDesign" type="view" menu_name="siteDesign" menu_index="true" />
 		
-		<action name="getMenuAdminTplInfo" type="model" />
-		<action name="getMenuAdminItemInfo" type="model" />
 		<action name="getMenuAdminSiteMap" type="model" />
+		<action name="getMenuAdminItemInfo" type="model" />
+		<action name="getMenuAdminTplInfo" type="model" />
 		<action name="getMenuAdminInstalledMenuType" type="model" />
 		<action name="getMenuAdminDetailSetup" type="model" />
 		
@@ -20,17 +19,17 @@
 		<action name="procMenuAdminDelete" type="controller" />
 		<action name="procMenuAdminInsertItem" type="controller" ruleset="insertMenuItem" />
 		<action name="procMenuAdminUpdateItem" type="controller" ruleset="updateMenuItem" />
-		<action name="procMenuAdminButtonUpload" type="controller" />
-		<action name="procMenuAdminInsertItemForAdminMenu" type="controller" />
 		<action name="procMenuAdminDeleteItem" type="controller" />
-		<action name="procMenuAdminMakeXmlFile" type="controller" />
 		<action name="procMenuAdminMoveItem" type="controller" />
 		<action name="procMenuAdminCopyItem" type="controller" />
-		<action name="procMenuAdminArrangeItem" type="controller" />
+		<action name="procMenuAdminUpdateAuth" type="controller" />
+		<action name="procMenuAdminButtonUpload" type="controller" />
 		<action name="procMenuAdminUploadButton" type="controller" />
 		<action name="procMenuAdminDeleteButton" type="controller" />
+		<action name="procMenuAdminInsertItemForAdminMenu" type="controller" />
+		<action name="procMenuAdminMakeXmlFile" type="controller" />
+		<action name="procMenuAdminArrangeItem" type="controller" />
 		<action name="procMenuAdminAllActList" type="controller" />
-		<action name="procMenuAdminUpdateAuth" type="controller" />
 	</actions>
 	<menus>
 		<menu name="siteMap">

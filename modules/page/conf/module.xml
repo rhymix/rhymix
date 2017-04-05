@@ -2,33 +2,41 @@
 <module>
 	<grants />
 	<permissions>
+		<permission action="dispPageAdminInfo" target="manager" check_var="module_srl" />
+		<permission action="dispPageAdminPageAdditionSetup" target="manager" check_var="module_srl" />
+		<permission action="dispPageAdminGrantInfo" target="manager" check_var="module_srl" />
+		<permission action="dispPageAdminSkinInfo" target="manager" check_var="module_srl" />
+		<permission action="dispPageAdminMobileSkinInfo" target="manager" check_var="module_srl" />
 		<permission action="dispPageAdminContentModify" target="manager" />
-		<permission action="procPageAdminRemoveWidgetCache" target="manager" check_var="module_srl" />
+		<permission action="dispPageAdminMobileContent" target="manager" />
+		<permission action="dispPageAdminMobileContentModify" target="manager" />
+		
+		<permission action="procPageAdminUpdate" target="manager" check_var="module_srl" />
 		<permission action="procPageAdminInsertContent" target="manager" check_var="module_srl" />
+		<permission action="procPageAdminArticleDocumentInsert" target="manager" />
+		<permission action="procPageAdminRemoveWidgetCache" target="manager" check_var="module_srl" />
 	</permissions>
 	<actions>
 		<action name="dispPageIndex" type="view" index="true" />
 		
 		<action name="dispPageAdminContent" type="view" admin_index="true" menu_name="page" menu_index="true" />
-		<action name="dispPageAdminGrantInfo" type="view" menu_name="page" />
+		<action name="dispPageAdminDelete" type="view" menu_name="page" />
 		<action name="dispPageAdminInfo" type="view" setup_index="true" menu_name="page" />
 		<action name="dispPageAdminPageAdditionSetup" type="view" menu_name="page" />
-		<action name="dispPageAdminDelete" type="view" />
+		<action name="dispPageAdminGrantInfo" type="view" menu_name="page" />
+		<action name="dispPageAdminSkinInfo" type="view" menu_name="page" />
+		<action name="dispPageAdminMobileSkinInfo" type="view" menu_name="page" />
 		<action name="dispPageAdminContentModify" type="view" />
-		<action name="dispPageAdminAddContent" type="view" />
-		<action name="dispPageAdminMobileContentModify" type="view" />
 		<action name="dispPageAdminMobileContent" type="view" />
-		<action name="dispPageAdminSkinInfo" type="view" />
-		<action name="dispPageAdminMobileSkinInfo" type="view" />
+		<action name="dispPageAdminMobileContentModify" type="view" />
 		
-		<action name="procPageAdminRemoveWidgetCache" type="controller" />
 		<action name="procPageAdminInsert" type="controller" ruleset="insertPage" />
 		<action name="procPageAdminUpdate" type="controller" ruleset="updatePage" />
-		<action name="procPageAdminInsertContent" type="controller" />
 		<action name="procPageAdminDelete" type="controller" ruleset="deletePage" />
 		<action name="procPageAdminInsertConfig" type="controller" />
-		<action name="procPageAdminAddContent" type="controller" />
+		<action name="procPageAdminInsertContent" type="controller" />
 		<action name="procPageAdminArticleDocumentInsert" type="controller" />
+		<action name="procPageAdminRemoveWidgetCache" type="controller" />
 	</actions>
 	<menus>
 		<menu name="page" type="all">

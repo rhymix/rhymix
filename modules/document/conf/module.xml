@@ -2,24 +2,29 @@
 <module>
 	<grants />
 	<permissions>
+		<permission action="dispTempSavedList" target="member" />
+		<permission action="dispDocumentDeclare" target="member" />
 		<permission action="dispDocumentManageDocument" target="all-managers" />
 		
-		<permission action="getDocumentCategories" target="member" />
+		<permission action="getDocumentCategories" target="all-managers" />
 		<permission action="getDocumentCategoryTplInfo" target="manager" check_var="module_srl" />
+		<permission action="getDocumentVotedMemberList" target="root" />
 		
 		<permission action="procDocumentTempSave" target="member" />
+		<permission action="procDocumentDeclare" target="member" />
+		<permission action="procDocumentGetList" target="manager" check_type="document" check_var="document_srls" />
+		<permission action="procDocumentAddCart" target="manager" check_type="document" check_var="srls" />
+		<permission action="procDocumentManageCheckedDocument" target="manager" check_type="document" check_var="cart" />
+		<permission action="procDocumentInsertModuleConfig" target="manager" check_var="target_module_srl" />
 		<permission action="procDocumentInsertCategory" target="manager" check_var="module_srl" />
 		<permission action="procDocumentDeleteCategory" target="manager" check_var="module_srl" />
 		<permission action="procDocumentMoveCategory" target="manager" check_var="module_srl" />
 		<permission action="procDocumentMakeXmlFile" target="manager" check_var="module_srl" />
-		<permission action="procDocumentAddCart" target="manager" check_type="document" check_var="srls" />
-		<permission action="procDocumentGetList" target="manager" check_type="document" check_var="document_srls" />
-		<permission action="procDocumentManageCheckedDocument" target="manager" check_type="document" check_var="cart" />
-		<permission action="procDocumentInsertModuleConfig" target="manager" check_var="target_module_srl" />
 		
 		<permission action="procDocumentAdminMoveToTrash" target="manager" check_type="document" check_var="document_srl" />
 		<permission action="procDocumentAdminInsertExtraVar" target="manager" check_var="module_srl" />
 		<permission action="procDocumentAdminDeleteExtraVar" target="manager" check_var="module_srl" />
+		<permission action="procDocumentAdminMoveExtraVar" target="manager" check_var="module_srl" />
 	</permissions>
 	<actions>
 		<action name="dispDocumentPrint" type="view" />
@@ -37,7 +42,9 @@
 		<action name="procDocumentVoteUpCancel" type="controller" />.
 		<action name="procDocumentVoteDown" type="controller" />
 		<action name="procDocumentVoteDownCancel" type="controller" />
+		<action name="procDocumentTempSave" type="controller" />
 		<action name="procDocumentDeclare" type="controller" />
+		<action name="procDocumentGetList" type="controller" />
 		<action name="procDocumentAddCart" type="controller" />
 		<action name="procDocumentManageCheckedDocument" type="controller" />
 		<action name="procDocumentInsertModuleConfig" type="controller" />
@@ -45,27 +52,25 @@
 		<action name="procDocumentDeleteCategory" type="controller" />
 		<action name="procDocumentMoveCategory" type="controller" />
 		<action name="procDocumentMakeXmlFile" type="controller" />
-		<action name="procDocumentTempSave" type="controller" />
-		<action name="procDocumentGetList" type="controller" />
 		
 		<action name="dispDocumentAdminList" type="view" admin_index="true" menu_name="document" menu_index="true" />
-		<action name="dispDocumentAdminConfig" type="view" />
-		<action name="dispDocumentAdminAlias" type="view" menu_name="document" />
+		<action name="dispDocumentAdminConfig" type="view" menu_name="document" />
 		<action name="dispDocumentAdminDeclared" type="view" menu_name="document" />
 		<action name="dispDocumentAdminDeclaredLogByDocumentSrl" type="view" menu_name="document" />
+		<action name="dispDocumentAdminAlias" type="view" menu_name="document" />
 		<action name="dispDocumentAdminTrashList" type="view" menu_name="document" />
 		
-		<action name="procDocumentAdminInsertAlias" type="controller" ruleset="insertAlias" />
-		<action name="procDocumentAdminDeleteAlias" type="controller" ruleset="deleteAlias" />
-		<action name="procDocumentAdminRestoreTrash" type="controller" />
-		<action name="procDocumentAdminMoveExtraVar" type="controller" />
-		<action name="procDocumentAdminInsertExtraVar" type="controller" ruleset="insertExtraVar" />
-		<action name="procDocumentAdminDeleteExtraVar" type="controller" />
 		<action name="procDocumentAdminDeleteChecked" type="controller" />
 		<action name="procDocumentAdminInsertConfig" type="controller" />
 		<action name="procDocumentAdminDeleteAllThumbnail" type="controller" />
 		<action name="procDocumentAdminCancelDeclare" type="controller" />
+		<action name="procDocumentAdminInsertAlias" type="controller" ruleset="insertAlias" />
+		<action name="procDocumentAdminDeleteAlias" type="controller" ruleset="deleteAlias" />
 		<action name="procDocumentAdminMoveToTrash" type="controller" />
+		<action name="procDocumentAdminRestoreTrash" type="controller" />
+		<action name="procDocumentAdminInsertExtraVar" type="controller" ruleset="insertExtraVar" />
+		<action name="procDocumentAdminDeleteExtraVar" type="controller" />
+		<action name="procDocumentAdminMoveExtraVar" type="controller" />
 	</actions>
 	<menus>
 		<menu name="document">

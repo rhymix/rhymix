@@ -54,11 +54,13 @@
 		</grant>
 	</grants>
 	<permissions>
-		<permission action="dispBoardAdminInsertBoard" target="manager" />
 		<permission action="dispBoardAdminBoardInfo" target="manager" />
+		<permission action="dispBoardAdminCategoryInfo" target="manager" />
 		<permission action="dispBoardAdminExtraVars" target="manager" />
+		<permission action="dispBoardAdminGrantInfo" target="manager" />
 		<permission action="dispBoardAdminBoardAdditionSetup" target="manager" />
 		<permission action="dispBoardAdminSkinInfo" target="manager" />
+		<permission action="dispBoardAdminMobileSkinInfo" target="manager" />
 		
 		<permission action="procBoardAdminInsertBoard" target="manager" check_var="module_srl" />
 		<permission action="procBoardAdminSaveCategorySettings" target="manager" check_var="module_srl" />
@@ -72,6 +74,7 @@
 		<action name="dispBoardContentCommentList" type="view" />
 		<action name="dispBoardContentFileList" type="view" />
 		<action name="dispBoardUpdateLog" type="view" />
+		<action name="dispBoardUpdateLogView" type="view" />
 		<action name="dispBoardVoteLog" type="view" />
 		<action name="dispBoardTagList" type="view" />
 		<action name="dispBoardWrite" type="view" standalone="false" />
@@ -82,7 +85,6 @@
 		<action name="dispBoardDeleteComment" type="view" standalone="false" />
 		<action name="dispBoardDeleteTrackback" type="view" standalone="false" />
 		<action name="dispBoardMessage" type="view" />
-		<action name="dispBoardUpdateLogView" type="view" />
 		
 		<action name="dispBoardCategory" type="mobile" />
 		<action name="getBoardCommentPage" type="mobile" />
@@ -97,15 +99,15 @@
 		<action name="procBoardVerificationPassword" type="controller" />
 		
 		<action name="dispBoardAdminContent" type="view" admin_index="true" menu_name="board" menu_index="true" />
-		<action name="dispBoardAdminBoardInfo" type="view"  menu_name="board" />
-		<action name="dispBoardAdminExtraVars" type="view"  menu_name="board" />
-		<action name="dispBoardAdminBoardAdditionSetup" type="view" menu_name="board"  />
 		<action name="dispBoardAdminInsertBoard" type="view" setup_index="true" menu_name="board" />
 		<action name="dispBoardAdminDeleteBoard" type="view" menu_name="board"  />
+		<action name="dispBoardAdminBoardInfo" type="view"  menu_name="board" />
+		<action name="dispBoardAdminCategoryInfo" type="view" menu_name="board"  />
+		<action name="dispBoardAdminExtraVars" type="view"  menu_name="board" />
+		<action name="dispBoardAdminGrantInfo" type="view" menu_name="board"  />
+		<action name="dispBoardAdminBoardAdditionSetup" type="view" menu_name="board"  />
 		<action name="dispBoardAdminSkinInfo" type="view" menu_name="board"  />
 		<action name="dispBoardAdminMobileSkinInfo" type="view" menu_name="board"  />
-		<action name="dispBoardAdminGrantInfo" type="view" menu_name="board"  />
-		<action name="dispBoardAdminCategoryInfo" type="view" menu_name="board"  />
 		
 		<action name="getBoardAdminSimpleSetup" type="model" simple_setup_index="true" />
 		

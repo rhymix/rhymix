@@ -2,28 +2,30 @@
 <module>
 	<grants />
 	<permissions>
+		<permission action="dispEditorSkinColorset" target="root" />
+		<permission action="dispEditorConfigPreview" target="root" />
+		
 		<permission action="procEditorInsertModuleConfig" target="manager" check_var="target_module_srl" />
 	</permissions>
 	<actions>
-		<action name="dispEditorPopup" type="view" />
 		<action name="dispEditorComponentInfo" type="view" />
-		<action name="dispEditorConfigPreview" type="view" />
+		<action name="dispEditorPopup" type="view" />
 		<action name="dispEditorPreview" type="view" />
 		<action name="dispEditorSkinColorset" type="view" />
+		<action name="dispEditorConfigPreview" type="view" />
 		
+		<action name="procEditorCall" type="controller" />
 		<action name="procEditorSaveDoc" type="controller" />
 		<action name="procEditorRemoveSavedDoc" type="controller" />
-		<action name="procEditorCall" type="controller" />
-		<action name="procEditorInsertModuleConfig" type="controller" />
 		<action name="procEditorLoadSavedDocument" type="controller" />
+		<action name="procEditorInsertModuleConfig" type="controller" />
 		
 		<action name="dispEditorAdminIndex" type="view" menu_name="editor" menu_index="true" admin_index="true" />
 		<action name="dispEditorAdminSetupComponent" type="view" menu_name="editor" />
-		<action name="dispEditorAdminSkinColorset" type="view" />
 		
-		<action name="procEditorAdminSetupComponent" type="controller" ruleset="setupComponent" />
 		<action name="procEditorAdminGeneralConfig" type="controller" ruleset="generalConfig" />
 		<action name="procEditorAdminCheckUseListOrder" type="controller" ruleset="componentOrderAndUse" />
+		<action name="procEditorAdminSetupComponent" type="controller" ruleset="setupComponent" />
 	</actions>
 	<menus>
 		<menu name="editor">

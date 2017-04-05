@@ -2,15 +2,20 @@
 <module>
 	<grants />
 	<permissions>
+		<permission action="dispCommentDeclare" target="member" />
+		<permission action="getCommentVotedMemberList" target="root" />
+		
 		<permission action="procCommentVoteUp" target="member" />
+		<permission action="procCommentVoteUpCancel" target="member" />
 		<permission action="procCommentVoteDown" target="member" />
+		<permission action="procCommentVoteDownCancel" target="member" />
 		<permission action="procCommentDeclare" target="member" />
 		<permission action="procCommentGetList" target="manager" check_type="comment" check_var="comment_srls" />
 		<permission action="procCommentInsertModuleConfig" target="manager" check_var="target_module_srl" />
 		
 		<permission action="procCommentAdminAddCart" target="manager" check_type="comment" check_var="comment_srl" />
-		<permission action="procCommentAdminMoveToTrash" target="manager" check_type="comment" check_var="comment_srl" />
 		<permission action="procCommentAdminDeleteChecked" target="manager" check_type="comment" check_var="cart" />
+		<permission action="procCommentAdminMoveToTrash" target="manager" check_type="comment" check_var="comment_srl" />
 	</permissions>
 	<actions>
 		<action name="dispCommentDeclare" type="view" />
@@ -25,7 +30,6 @@
 		<action name="procCommentDeclare" type="controller" />
 		<action name="procCommentGetList" type="controller" />
 		<action name="procCommentInsertModuleConfig" type="controller" ruleset="insertCommentModuleConfig" />
-		<action name="isModuleUsingPublishValidation" type="controller" />
 		
 		<action name="dispCommentAdminList" type="view" admin_index="true" menu_name="comment" menu_index="true" />
 		<action name="dispCommentAdminDeclared" type="view" menu_name="comment" />
