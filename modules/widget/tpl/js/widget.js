@@ -990,7 +990,7 @@ function widgetDragStart(tobj, px, py) {
 
 	xLeft(obj, xPageX(tobj));
 	xTop(obj, xPageY(tobj));
-	$(obj).width($(obj, $(tobj).width());
+	$(obj).width($(obj, $(tobj).width()));
 	$(obj).height($(tobj).height());
 
 	xDisplay(obj, 'block');
