@@ -30,7 +30,7 @@ class GroupMessage extends Coolsms
      */
     public function createGroup($options) 
     {
-        return $this->request('new_group', $options);
+        return $this->request('createGroup', $options, true);
     }
 
     /**
@@ -91,8 +91,9 @@ class GroupMessage extends Coolsms
         if (!isset($options->group_id) || !isset($options->to) || !isset($options->text) || !isset($options->from)) {
             throw new CoolsmsSDKException('group_id, to, text, from is required', 202);
         }
+        $options->json_option = 'messages';
 
-        return $this->request(sprintf('groups/%s/add_messages', $options->group_id), $options, true);
+        return $this->request(sprintf('group/%s/addMessages', $options->group_id), $options, true);
     }
 
     /**
@@ -169,6 +170,6 @@ class GroupMessage extends Coolsms
 
         $options = new \stdClass();
         $options->group_id = $group_id;
-        return $this->request(sprintf('groups/%s/send', $group_id), $options, true);
+        return $this->request(sprintf('group/%s/send', $group_id), $options, true);
     }
 }

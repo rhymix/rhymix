@@ -43,12 +43,14 @@ if (!function_exists('json_decode')) {
  */
 class Coolsms
 {
-    const HOST = "https://api.coolsms.co.kr";
-    const SDK_VERSION = "2.0";
+    const HOST = "https://solapi.com";
+    const SDK_VERSION = "3";
 
-    private $api_name = "sms";
-    private $api_version = "2";
+    private $api_name = "GroupMessage";
+    private $api_version = "3";
     private $api_key;
+    private $date;
+    private $salt;
     private $api_secret;
     private $resource;
     private $is_post;
@@ -56,6 +58,7 @@ class Coolsms
     private $basecamp;
     private $user_agent;
     private $content;
+    private $signature;
 
     /**
      * @brief Construct
@@ -91,18 +94,18 @@ class Coolsms
 
         // set POST data
         if ($this->is_post) {
-            $header = array("Content-Type:multipart/form-data");
-
-            // route가 있으면 header에 붙여준다. substr 해준 이유는 앞에 @^가 붙기 때문에 자르기 위해서.
-            if (isset($this->content['route'])) $header[] = "User-Agent:" . substr($this->content['route'], 1);
-
-            curl_setopt($ch, CURLOPT_HTTPHEADER, array("Content-Type:multipart/form-data"));
-            curl_setopt($ch, CURLOPT_POSTFIELDS, $this->content); 
+	        $header = array(
+		        "Content-Type: application/json",
+		        "Authorization: HMAC-MD5 ApiKey=$this->api_key, Date=$this->date, Salt=$this->salt, Signature=$this->signature"
+	        );
+	        curl_setopt($ch, CURLOPT_HTTPHEADER, $header);
+	        curl_setopt($ch, CURLOPT_POSTFIELDS, $this->content);
         }
         curl_setopt($ch, CURLOPT_TIMEOUT, 10); // TimeOut value
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1); // curl_exec() result output (1 = true, 0 = false)
 
         $this->result = json_decode(curl_exec($ch));
+        debugPRint($this->result);
 
         // unless http status code is 200. throw exception.
         $http_code = curl_getinfo($ch, CURLINFO_HTTP_CODE);
@@ -119,18 +122,61 @@ class Coolsms
      */
     private function setContent($options)
     {
-        // POST method content
-        if ($this->is_post) {
-            $this->content = array();
-            foreach ($options as $key => $val) {
-                if ($key != "text") $val = trim($val);
-                
-                if ($key == "image") {
-                    $this->content[$key] = curl_file_create(realpath($val));
-                } else {
-                    $this->content[$key] = sprintf("%s", $val);
-                }
-            }
+	    $this->content = new \stdClass;
+    	if($options->json_option)
+	    {
+		    $json_option = $options->json_option;
+
+	    }
+	    else
+	    {
+		    $json_option = 'groupOptions';
+
+	    }
+	    $this->content->$json_option = new \stdClass;
+	    // POST method content
+	    if($this->is_post)
+	    {
+
+
+
+
+
+		    foreach($options as $key => $val)
+		    {
+		    	if($json_option == 'groupOptions')
+			    {
+				    if($key == "image")
+				    {
+					    $this->content->$json_option->$key = curl_file_create(realpath($val));
+				    }
+				    else
+				    {
+					    $this->content->$json_option->$key = sprintf("%s", $val);
+				    }
+			    }
+			    else
+			    {
+
+			    	if($key == 'image')
+				    {
+					    $this->content->$json_option->$key = curl_file_create(realpath($val));
+				    }
+				    else
+				    {
+					    $this->content->$json_option->$key = sprintf("%s", $val);
+				    }
+
+			    }
+
+		    }
+		    if($options->json_option !== 'groupOptions')
+		    {
+			    $this->content->$json_option = array($this->content->$json_option);
+
+		    }
+		    debugPrint($this->content);
+            $this->content = json_encode($this->content);
             return;
         }
 
@@ -144,9 +190,9 @@ class Coolsms
     /**
      * @biref Make a signature with hash_hamac then return the signature
      */
-    private function getSignature($timestamp, $salt)
+    private function getSignature($date, $salt)
     {
-        return hash_hmac('md5', $timestamp . $salt, $this->api_secret);
+        return hash_hmac('md5', $date . $salt, $this->api_secret);
     }
 
     /**
@@ -155,19 +201,32 @@ class Coolsms
     protected function addInfos($options = null)
     {
         if (!isset($options)) $options = new \stdClass();
-        if (!isset($options->User_Agent)) $options->User_Agent = sprintf("PHP REST API %s", $this->api_version);
-        if (!isset($options->os_platform)) $options->os_platform = $this->getOS();
-        if (!isset($options->dev_lang)) $options->dev_lang = sprintf("PHP %s", phpversion());
-        if (!isset($options->sdk_version)) $options->sdk_version = sprintf("PHP SDK %s", self::SDK_VERSION);
+        if (!isset($options->appId)) $options->appId = null;
+        if (!isset($options->devLanguage)) $options->devLanguage = sprintf("PHP REST API %s", $this->api_version);
+        if (!isset($options->osPlatform)) $options->osPlatform = $this->getOS();
+        if (!isset($options->sdkVersion)) $options->sdkVersion = sprintf("PHP SDK %s", phpversion());
+        if (!isset($options->appVersion)) $options->appVersion = null;
+        $options->siteUser = '__private__';
+        $options->mode = 'real';
+        $options->forceSms = 'false';
+        $options->onlyAta = 'false';
+        $options->type = 'SMS';
+        $options->country = '82';
+        $options->subject = '';
 
         // set salt & timestamp
-        $options->salt = uniqid();
-        $options->timestamp = (string)time();
 
-        // If basecamp is true '$coolsms_user' use
-        isset($this->basecamp) ? $options->coolsms_user = $this->api_key : $options->api_key = $this->api_key;
+	    $options->salt = uniqid();
+	    $options->date = date('Y-m-d H:i:s');
+	    $this->salt = $options->salt;
+	    $this->date = $options->date;
+	    // If basecamp is true '$coolsms_user' use
+	    isset($this->basecamp) ? $options->coolsms_user = $this->api_key : $options->api_key = $this->api_key;
 
-        $options->signature = $this->getSignature($options->timestamp, $options->salt);
+	    $options->signature = $this->getSignature($options->date, $options->salt);
+	    $this->signature = $options->signature;
+
+
         $this->setContent($options);
     }
 
@@ -194,6 +253,7 @@ class Coolsms
         if (!$resource) throw new CoolsmsSDKException('resource is required', 201);
 
         // set http method and rest api path
+
         $this->setResource($resource, $is_post);
 
         // set contents
