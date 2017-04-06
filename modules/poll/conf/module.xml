@@ -1,28 +1,33 @@
 <?xml version="1.0" encoding="utf-8"?>
 <module>
 	<grants />
-	<permissions />
+	<permissions>
+		<permission action="procPollInsertItem" target="member" />
+		<permission action="procPollDeleteItem" target="member" />
+		<permission action="procPollGetList" target="root" />
+	</permissions>
 	<actions>
+		<action name="getPollstatus" type="model" />
+		<action name="getPollinfo" type="model" />
+		<action name="getPollitemInfo" type="model" />
 		<action name="getPollGetColorsetList" type="model" />
 		
-        <action name="getPollstatus" type="model" />
-        <action name="getPollinfo" type="model" />
-        <action name="getPollitemInfo" type="model" />
-        <action name="procPollInsert" type="controller" />
-        <action name="procPollInsertItem" type="controller" />
-        <action name="procPollDeleteItem" type="controller" />
-        <action name="procPoll" type="controller" ruleset="poll" />
-        <action name="procPollViewResult" type="controller" />
-        <action name="procPollGetList" type="controller" />
-
-		<!-- admin -->
+		<action name="procPollInsert" type="controller" />
+		<action name="procPollInsertItem" type="controller" />
+		<action name="procPollDeleteItem" type="controller" />
+		<action name="procPoll" type="controller" ruleset="poll" />
+		<action name="procPollViewResult" type="controller" />
+		<action name="procPollGetList" type="controller" />
+		
 		<action name="dispPollAdminList" type="view" admin_index="true" menu_name="poll" menu_index="true" />
 		<action name="dispPollAdminResult" type="view" />
 		<action name="dispPollAdminConfig" type="view" />
+		
 		<action name="getPollAdminTarget" type="model" />
+		
+		<action name="procPollAdminAddCart" type="controller" />
 		<action name="procPollAdminDeleteChecked" type="controller" ruleset="deleteChecked" />
 		<action name="procPollAdminInsertConfig" type="controller" ruleset="insertConfig" />
-		<action name="procPollAdminAddCart" type="controller" />
 	</actions>
 	<menus>
 		<menu name="poll">

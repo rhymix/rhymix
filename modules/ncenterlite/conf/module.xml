@@ -1,27 +1,39 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <module>
 	<grants />
-	<permissions />
+	<permissions>
+		<permission action="dispNcenterliteNotifyList" target="member" />
+		<permission action="dispNcenterliteUserConfig" target="member" />
+		
+		<permission action="getColorsetList" target="root" />
+		<permission action="getMyNotifyListTpl" target="member" />
+		
+		<permission action="procNcenterliteUserConfig" target="member" />
+		<permission action="procNcenterliteNotifyReadAll" target="member" />
+		<permission action="procNcenterliteRedirect" target="member" />
+	</permissions>
 	<actions>
-		<action name="dispNcenterliteAdminConfig" type="view" admin_index="true" menu_name="ncenterlite" menu_index="true" />
-		<action name="dispNcenterliteAdminSeletedmid" type="view" />
-		<action name="dispNcenterliteAdminTest" type="view" />
-		<action name="dispNcenterliteAdminSkinsetting" type="view" />
-		<action name="dispNcenterliteAdminAdvancedconfig" type="view" />
 		<action name="dispNcenterliteNotifyList" type="view" />
-		<action name="dispNcenterliteAdminList" type="view" />
 		<action name="dispNcenterliteUserConfig" type="view" />
-		<action name="procNcenterliteUserConfig" type="controller" />
-		<action name="procNcenterliteAdminInsertConfig" type="controller" ruleset="insertConfig" />
-		<action name="procNcenterliteAdminDeleteNofity" type="controller" />
-		<action name="procNcenterliteAdminInsertDummyData" type="controller" />
-		<action name="procNcenterliteAdminInsertPushData" type="controller" />
-		<action name="procNcenterliteAdminEnviromentGatheringAgreement" type="controller" />
-		<action name="procNcenterliteNotifyReadAll" type="controller" />
-		<action name="procNcenterliteRedirect" type="controller" method="GET|POST" />
-
+		
 		<action name="getColorsetList" type="model" />
 		<action name="getMyNotifyListTpl" type="model" />
+		
+		<action name="procNcenterliteUserConfig" type="controller" />
+		<action name="procNcenterliteNotifyReadAll" type="controller" />
+		<action name="procNcenterliteRedirect" type="controller" method="GET|POST" />
+		
+		<action name="dispNcenterliteAdminConfig" type="view" admin_index="true" menu_name="ncenterlite" menu_index="true" />
+		<action name="dispNcenterliteAdminAdvancedconfig" type="view" menu_name="ncenterlite" />
+		<action name="dispNcenterliteAdminSeletedmid" type="view" menu_name="ncenterlite" />
+		<action name="dispNcenterliteAdminSkinsetting" type="view" menu_name="ncenterlite" />
+		<action name="dispNcenterliteAdminTest" type="view"  menu_name="ncenterlite" />
+		<action name="dispNcenterliteAdminList" type="view" menu_name="ncenterlite" />
+		
+		<action name="procNcenterliteAdminInsertConfig" type="controller" ruleset="insertConfig" />
+		<action name="procNcenterliteAdminInsertDummyData" type="controller" />
+		<action name="procNcenterliteAdminInsertPushData" type="controller" />
+		<action name="procNcenterliteAdminDeleteNofity" type="controller" />
 	</actions>
 	<menus>
 		<menu name="ncenterlite" type="all">

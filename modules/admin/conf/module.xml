@@ -1,25 +1,29 @@
 <?xml version="1.0" encoding="utf-8"?>
 <module>
-    <grants />
-    <permissions />
-    <actions>
-        <action name="dispAdminIndex" type="view" index="true" />
-        <action name="dispAdminConfigGeneral" type="view" menu_name="adminConfigurationGeneral" menu_index="true" />
+	<grants />
+	<permissions>
+		<permission action="getSiteAllList" target="root" />
+	</permissions>
+	<actions>
+		<action name="getSiteAllList" type="model" />
+		
+		<action name="dispAdminIndex" type="view" index="true" />
+		<action name="dispAdminConfigGeneral" type="view" menu_name="adminConfigurationGeneral" menu_index="true" />
 		<action name="dispAdminConfigNotification" type="view" menu_name="adminConfigurationGeneral" />
-        <action name="dispAdminConfigSecurity" type="view" menu_name="adminConfigurationGeneral" />
-        <action name="dispAdminConfigAdvanced" type="view" menu_name="adminConfigurationGeneral" />
-        <action name="dispAdminConfigDebug" type="view" menu_name="adminConfigurationGeneral" />
-        <action name="dispAdminConfigSEO" type="view" menu_name="adminConfigurationGeneral" />
-        <action name="dispAdminConfigSitelock" type="view" menu_name="adminConfigurationGeneral" />
+		<action name="dispAdminConfigSecurity" type="view" menu_name="adminConfigurationGeneral" />
+		<action name="dispAdminConfigAdvanced" type="view" menu_name="adminConfigurationGeneral" />
+		<action name="dispAdminConfigDebug" type="view" menu_name="adminConfigurationGeneral" />
+		<action name="dispAdminConfigSEO" type="view" menu_name="adminConfigurationGeneral" />
+		<action name="dispAdminConfigSitelock" type="view" menu_name="adminConfigurationGeneral" />
 		<action name="dispAdminInsertDomain" type="view" menu_name="adminConfigurationGeneral" />
-        <action name="dispAdminConfigFtp" type="view" menu_name="adminConfigurationFtp" menu_index="true" />
-        <action name="dispAdminSetup" type="view" menu_name="adminMenuSetup" menu_index="true" />
-        <action name="dispAdminViewServerEnv" type="view" />
-
-        <action name="procAdminRemoveIcons" type="controller" />
+		<action name="dispAdminConfigFtp" type="view" menu_name="adminConfigurationFtp" menu_index="true" />
+		<action name="dispAdminSetup" type="view" menu_name="adminMenuSetup" menu_index="true" />
+		<action name="dispAdminViewServerEnv" type="view" />
+		
+		<action name="procAdminRemoveIcons" type="controller" />
 		<action name="procAdminRecompileCacheFile" type="controller" />
-        <action name="procAdminLogout" type="controller" method="GET|POST" />
-        <action name="procAdminInsertDefaultDesignInfo" type="controller" />
+		<action name="procAdminLogout" type="controller" method="GET|POST" />
+		<action name="procAdminInsertDefaultDesignInfo" type="controller" />
 		<action name="procAdminToggleFavorite" type="controller" ruleset="toggleFavorite" />
 		<action name="procAdminEnviromentGatheringAgreement" type="controller" />
 		<action name="procAdminUpdateConfig" type="controller" />
@@ -37,9 +41,7 @@
 		<action name="procAdminUpdateFTPInfo" type="controller" />
 		<action name="procAdminRemoveFTPInfo" type="controller" />
 		<action name="procAdminFaviconUpload" type="controller" />
-
-        <action name="getSiteAllList" type="model" />
-    </actions>
+	</actions>
 	<menus>
 		<menu name="adminConfigurationGeneral" type="all">
 			<title xml:lang="en">System Settings</title>

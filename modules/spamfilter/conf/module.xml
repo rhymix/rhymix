@@ -6,11 +6,10 @@
 		<action name="dispSpamfilterAdminDeniedIPList" type="view" admin_index="true" menu_name="spamFilter" menu_index="true" />
 		<action name="dispSpamfilterAdminDeniedWordList" type="view" menu_name="spamFilter" />
 		<action name="dispSpamfilterAdminConfigBlock" type="view" menu_name="spamFilter" />
-
+		
 		<action name="procSpamfilterAdminInsertDeniedIP" type="controller" />
-		<action name="procSpamfilterAdminInsertDeniedWord" type="controller" />
-
 		<action name="procSpamfilterAdminDeleteDeniedIP" type="controller" />
+		<action name="procSpamfilterAdminInsertDeniedWord" type="controller" />
 		<action name="procSpamfilterAdminDeleteDeniedWord" type="controller" />
 		<action name="procSpamfilterAdminInsertConfig" type="controller" ruleset="insertConfig" />
 	</actions>

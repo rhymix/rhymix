@@ -12,6 +12,7 @@
 		<action name="dispAdvanced_mailerAdminSMSTest" type="view" />
 		<action name="dispAdvanced_mailerAdminSMSLog" type="view" />
 		<action name="dispAdvanced_mailerAdminSMSErrors" type="view" />
+		
 		<action name="procAdvanced_mailerAdminInsertConfig" type="controller" />
 		<action name="procAdvanced_mailerAdminInsertExceptions" type="controller" />
 		<action name="procAdvanced_mailerAdminCheckDNSRecord" type="controller" />

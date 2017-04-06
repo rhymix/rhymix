@@ -54,30 +54,19 @@
 		</grant>
 	</grants>
 	<permissions>
-		<permission action="dispBoardAdminInsertBoard" target="manager" />
 		<permission action="dispBoardAdminBoardInfo" target="manager" />
+		<permission action="dispBoardAdminCategoryInfo" target="manager" />
 		<permission action="dispBoardAdminExtraVars" target="manager" />
+		<permission action="dispBoardAdminGrantInfo" target="manager" />
 		<permission action="dispBoardAdminBoardAdditionSetup" target="manager" />
 		<permission action="dispBoardAdminSkinInfo" target="manager" />
-
-		<permission action="procBoardAdminInsertBoard" target="manager" />
-		<permission action="procBoardAdminUpdateBoardFroBasic" target="manager" />
-		<permission action="procBoardAdminSaveCategorySettings" target="manager" />
-
-		<permission action="getBoardAdminSimpleSetup" target="manager" />
+		<permission action="dispBoardAdminMobileSkinInfo" target="manager" />
+		
+		<permission action="procBoardAdminInsertBoard" target="manager" check_var="module_srl" />
+		<permission action="procBoardAdminSaveCategorySettings" target="manager" check_var="module_srl" />
 	</permissions>
 	<actions>
-		<action name="dispBoardContent" type="view" index="true" />
-		<action name="dispBoardNoticeList" type="view" />
-		<action name="dispBoardContentList" type="view" />
-		<action name="dispBoardContentView" type="view" />
-		<action name="dispBoardCategoryList" type="view" />
-		<action name="dispBoardContentCommentList" type="view" />
-		<action name="dispBoardContentFileList" type="view" />
-		<action name="dispBoardUpdateLog" type="view" />
-		<action name="dispBoardVoteLog" type="view" />
-
-		<action name="dispBoardTagList" type="view" />
+		<action name="dispBoardContent" type="view" standalone="false" index="true" />
 		<action name="dispBoardWrite" type="view" standalone="false" />
 		<action name="dispBoardDelete" type="view" standalone="false" />
 		<action name="dispBoardWriteComment" type="view" standalone="false" />
@@ -85,38 +74,46 @@
 		<action name="dispBoardModifyComment" type="view" standalone="false" />
 		<action name="dispBoardDeleteComment" type="view" standalone="false" />
 		<action name="dispBoardDeleteTrackback" type="view" standalone="false" />
-		<action name="dispBoardMessage" type="view" />
-		<action name="dispBoardUpdateLogView" type="view" />
-
+		<action name="dispBoardContentList" type="view" standalone="false" />
+		<action name="dispBoardContentView" type="view" standalone="false" />
+		<action name="dispBoardUpdateLog" type="view" standalone="false" />
+		<action name="dispBoardUpdateLogView" type="view" standalone="false" />
+		<action name="dispBoardVoteLog" type="view" standalone="false" />
+		
+		<action name="dispBoardNoticeList" type="view" standalone="false" />
+		<action name="dispBoardCategoryList" type="view" standalone="false" />
+		<action name="dispBoardContentCommentList" type="view" standalone="false" />
+		<action name="dispBoardContentFileList" type="view" standalone="false" />
+		<action name="dispBoardTagList" type="view" standalone="false" />
+		<action name="dispBoardCategory" type="mobile" standalone="false" />
+		<action name="getBoardCommentPage" type="mobile" standalone="false" />
+		
 		<action name="procBoardInsertDocument" type="controller" ruleset="insertDocument" standalone="false" />
-		<action name="procBoardRevertDocument" type="controller" />
 		<action name="procBoardDeleteDocument" type="controller" standalone="false" />
-		<action name="procBoardVoteDocument" type="controller" standalone="false" />
+		<action name="procBoardRevertDocument" type="controller" standalone="false" />
 		<action name="procBoardInsertComment" type="controller" standalone="false" />
 		<action name="procBoardDeleteComment" type="controller" standalone="false" />
 		<action name="procBoardDeleteTrackback" type="controller" standalone="false" />
-		<action name="procBoardVerificationPassword" type="controller" />
-
-		<!-- admin -->
+		<action name="procBoardVerificationPassword" type="controller" standalone="false" />
+		<action name="procBoardVoteDocument" type="controller" standalone="false" />
+		
 		<action name="dispBoardAdminContent" type="view" admin_index="true" menu_name="board" menu_index="true" />
-		<action name="dispBoardAdminBoardInfo" type="view"  menu_name="board" />
-		<action name="dispBoardAdminExtraVars" type="view"  menu_name="board" />
-		<action name="dispBoardAdminBoardAdditionSetup" type="view" menu_name="board"  />
 		<action name="dispBoardAdminInsertBoard" type="view" setup_index="true" menu_name="board" />
-		<action name="dispBoardAdminDeleteBoard" type="view" menu_name="board"  />
-		<action name="dispBoardAdminSkinInfo" type="view" menu_name="board"  />
-		<action name="dispBoardAdminMobileSkinInfo" type="view" menu_name="board"  />
-		<action name="dispBoardAdminGrantInfo" type="view" menu_name="board"  />
-		<action name="dispBoardAdminCategoryInfo" type="view" menu_name="board"  />
+		<action name="dispBoardAdminDeleteBoard" type="view" menu_name="board" />
+		<action name="dispBoardAdminBoardInfo" type="view" menu_name="board" />
+		<action name="dispBoardAdminCategoryInfo" type="view" menu_name="board" />
+		<action name="dispBoardAdminExtraVars" type="view" menu_name="board" />
+		<action name="dispBoardAdminGrantInfo" type="view" menu_name="board" />
+		<action name="dispBoardAdminBoardAdditionSetup" type="view" menu_name="board" />
+		<action name="dispBoardAdminSkinInfo" type="view" menu_name="board" />
+		<action name="dispBoardAdminMobileSkinInfo" type="view" menu_name="board" />
+		
+		<action name="getBoardAdminSimpleSetup" type="model" simple_setup_index="true" />
+		
 		<action name="procBoardAdminInsertBoard" type="controller" ruleset="insertBoard" />
 		<action name="procBoardAdminDeleteBoard" type="controller" />
 		<action name="procBoardAdminUpdateBoardFroBasic" type="controller" ruleset="insertBoardForBasic" />
 		<action name="procBoardAdminSaveCategorySettings" type="controller" ruleset="saveCategorySettings" />
-
-		<action name="getBoardAdminSimpleSetup" type="model" simple_setup_index="true" />
-
-		<action name="dispBoardCategory" type="mobile" />
-		<action name="getBoardCommentPage" type="mobile" />
 	</actions>
 	<menus>
 		<menu name="board" type="all">

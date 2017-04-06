@@ -1,20 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
 <module>
-    <grants />
-    <permissions />
-    <actions>
-        <action name="dispImporterAdminImportForm" type="view" admin_index="true" menu_name="importer" menu_index="true" />
-
-        <action name="procImporterAdminImport" type="controller" />
-        <action name="procImporterAdminPreProcessing" type="controller" />
-
-        <action name="procImporterAdminSync" type="controller" />
-        <action name="procImporterAdminMemberImport" type="controller" />
-        <action name="procImporterAdminMessageImport" type="controller" />
-        <action name="procImporterAdminModuleImport" type="controller" />
-        <action name="procImporterAdminTTXMLImport" type="controller" />
-        <action name="procImporterAdminCheckXmlFile" type="controller" />
-    </actions>
+	<grants />
+	<permissions />
+	<actions>
+		<action name="dispImporterAdminImportForm" type="view" admin_index="true" menu_name="importer" menu_index="true" />
+		
+		<action name="procImporterAdminImport" type="controller" />
+		<action name="procImporterAdminPreProcessing" type="controller" />
+		<action name="procImporterAdminSync" type="controller" />
+		<action name="procImporterAdminCheckXmlFile" type="controller" />
+	</actions>
 	<menus>
 		<menu name="importer">
 			<title xml:lang="en">Data Migration</title>
