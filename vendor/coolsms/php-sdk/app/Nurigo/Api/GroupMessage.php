@@ -170,6 +170,6 @@ class GroupMessage extends Coolsms
 
         $options = new \stdClass();
         $options->group_id = $group_id;
-        return $this->request(sprintf('group/%s/send', $group_id), $options, true);
+        return $this->request(sprintf('group/%s/sendMessages', $group_id), $options, true);
     }
 }

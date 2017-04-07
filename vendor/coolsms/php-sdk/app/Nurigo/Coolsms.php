@@ -9,12 +9,12 @@
 /**
  * @mainpage PHP SDK
  * @section intro 소개
- *     - 소개 : Coolsms REST API 
+ *     - 소개 : Coolsms REST API
  *     - 버전 : 2.0
  *     - 설명 : Coolsms REST API 를 이용 보다 빠르고 안전하게 문자메시지를 보낼 수 있는 PHP로 만들어진 SDK 입니다.
  * @section CreateInfo 작성 정보
  *     - 작성자 : Nurigo
- *     - 작성일 : 2016/05/13 
+ *     - 작성일 : 2016/05/13
  * @section Caution 주의할 사항
  *     - PHP SDK 2.0 은 PSR4에 근거하여 만들어 졌습니다. autoloading 과 namingspace의 개념을 알고 사용 하시는게 더 좋습니다.
  * @section common 기타 정보
@@ -76,7 +76,7 @@ class Coolsms
      */
     public function curlProcess()
     {
-        $ch = curl_init(); 
+        $ch = curl_init();
         if (!$ch) throw new CoolsmsSystemException(curl_error($ch), 399);
         // Set url. is_post true = POST , false = GET
         if ($this->is_post) {
@@ -84,7 +84,6 @@ class Coolsms
         } else {
             $url = sprintf("%s/%s/%s/%s?%s", self::HOST, $this->api_name, $this->api_version, $this->resource, $this->content);
         }
-
         // Set curl info
         curl_setopt($ch, CURLOPT_URL, $url);
         curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false); // check SSL certificate
@@ -94,25 +93,24 @@ class Coolsms
 
         // set POST data
         if ($this->is_post) {
-	        $header = array(
-		        "Content-Type: application/json",
-		        "Authorization: HMAC-MD5 ApiKey=$this->api_key, Date=$this->date, Salt=$this->salt, Signature=$this->signature"
-	        );
-	        curl_setopt($ch, CURLOPT_HTTPHEADER, $header);
-	        curl_setopt($ch, CURLOPT_POSTFIELDS, $this->content);
+            $header = array(
+                "Content-Type: application/json",
+                "Authorization: HMAC-MD5 ApiKey=$this->api_key, Date=$this->date, Salt=$this->salt, Signature=$this->signature"
+            );
+            curl_setopt($ch, CURLOPT_HTTPHEADER, $header);
+            curl_setopt($ch, CURLOPT_POSTFIELDS, $this->content);
         }
         curl_setopt($ch, CURLOPT_TIMEOUT, 10); // TimeOut value
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1); // curl_exec() result output (1 = true, 0 = false)
 
         $this->result = json_decode(curl_exec($ch));
-        debugPRint($this->result);
 
         // unless http status code is 200. throw exception.
         $http_code = curl_getinfo($ch, CURLINFO_HTTP_CODE);
         if ($http_code != 200) throw new CoolsmsServerException($this->result, $http_code);
 
         // check curl errors
-        if (curl_errno($ch)) throw new CoolsmsSystemException(curl_error($ch), 399); 
+        if (curl_errno($ch)) throw new CoolsmsSystemException(curl_error($ch), 399);
 
         curl_close($ch);
     }
@@ -122,60 +120,29 @@ class Coolsms
      */
     private function setContent($options)
     {
-	    $this->content = new \stdClass;
-    	if($options->json_option)
-	    {
-		    $json_option = $options->json_option;
+        $this->content = new \stdClass;
+        if ($options->json_option) {
+            $json_option = $options->json_option;
 
-	    }
-	    else
-	    {
-		    $json_option = 'groupOptions';
+        } else {
+            $json_option = 'groupOptions';
 
-	    }
-	    $this->content->$json_option = new \stdClass;
-	    // POST method content
-	    if($this->is_post)
-	    {
+        }
+        $this->content->$json_option = new \stdClass;
+        // POST method content
+        if ($this->is_post) {
+            foreach ($options as $key => $val) {
+                if ($json_option == 'groupOptions') {
+                    $this->content->$json_option->$key = $val;
+                } else {
+                    $this->content->$json_option->$key = $val;
+                }
 
+            }
+            if ($options->json_option !== 'groupOptions') {
+                $this->content->$json_option = array($this->content->$json_option);
 
-
-
-
-		    foreach($options as $key => $val)
-		    {
-		    	if($json_option == 'groupOptions')
-			    {
-				    if($key == "image")
-				    {
-					    $this->content->$json_option->$key = curl_file_create(realpath($val));
-				    }
-				    else
-				    {
-					    $this->content->$json_option->$key = sprintf("%s", $val);
-				    }
-			    }
-			    else
-			    {
-
-			    	if($key == 'image')
-				    {
-					    $this->content->$json_option->$key = curl_file_create(realpath($val));
-				    }
-				    else
-				    {
-					    $this->content->$json_option->$key = sprintf("%s", $val);
-				    }
-
-			    }
-
-		    }
-		    if($options->json_option !== 'groupOptions')
-		    {
-			    $this->content->$json_option = array($this->content->$json_option);
-
-		    }
-		    debugPrint($this->content);
+            }
             $this->content = json_encode($this->content);
             return;
         }
@@ -216,15 +183,15 @@ class Coolsms
 
         // set salt & timestamp
 
-	    $options->salt = uniqid();
-	    $options->date = date('Y-m-d H:i:s');
-	    $this->salt = $options->salt;
-	    $this->date = $options->date;
-	    // If basecamp is true '$coolsms_user' use
-	    isset($this->basecamp) ? $options->coolsms_user = $this->api_key : $options->api_key = $this->api_key;
+        $options->salt = uniqid();
+        $options->date = date('Y-m-d H:i:s');
+        $this->salt = $options->salt;
+        $this->date = $options->date;
+        // If basecamp is true '$coolsms_user' use
+        isset($this->basecamp) ? $options->coolsms_user = $this->api_key : $options->api_key = $this->api_key;
 
-	    $options->signature = $this->getSignature($options->date, $options->salt);
-	    $this->signature = $options->signature;
+        $options->signature = $this->getSignature($options->date, $options->salt);
+        $this->signature = $options->signature;
 
 
         $this->setContent($options);
@@ -232,8 +199,8 @@ class Coolsms
 
     /**
      * @brief set api resource and http method type
-     * @param string  $resource  [required] related information. http://www.coolsms.co.kr/REST_API
-     * @param boolean $is_post  [optional] GET = false, POST = true
+     * @param string $resource [required] related information. http://www.coolsms.co.kr/REST_API
+     * @param boolean $is_post [optional] GET = false, POST = true
      */
     protected function setResource($resource, $is_post = false)
     {
@@ -242,10 +209,10 @@ class Coolsms
     }
 
     /**
-     * @brief https request using rest api 
-     * @param string  $resource [required]
-     * @param object  $options  [optional]
-     * @param boolean $is_post  [optional] GET = false, POST = true
+     * @brief https request using rest api
+     * @param string $resource [required]
+     * @param object $options [optional]
+     * @param boolean $is_post [optional] GET = false, POST = true
      * @return mixed
      */
     protected function request($resource, $options = null, $is_post = false)
@@ -276,7 +243,7 @@ class Coolsms
 
     /**
      * @brief set api name and api version
-     * @param string  $api_name    [required] 'sms', 'senderid', 'image'
+     * @param string $api_name [required] 'sms', 'senderid', 'image'
      * @param integer $api_version [required]
      */
     public function setApiConfig($api_name, $api_version)
@@ -294,58 +261,58 @@ class Coolsms
         $user_agent = $this->user_agent;
         $os_platform = "Unknown OS Platform";
         $os_array = array(
-                                '/windows nt 10/i'     =>  'Windows 10',
-                                '/windows nt 6.3/i'     =>  'Windows 8.1',
-                                '/windows nt 6.2/i'     =>  'Windows 8',
-                                '/windows nt 6.1/i'     =>  'Windows 7',
-                                '/windows nt 6.0/i'     =>  'Windows Vista',
-                                '/windows nt 5.2/i'     =>  'Windows Server 2003/XP x64',
-                                '/windows nt 5.1/i'     =>  'Windows XP',
-                                '/windows xp/i'         =>  'Windows XP',
-                                '/windows nt 5.0/i'     =>  'Windows 2000',
-                                '/windows me/i'         =>  'Windows ME',
-                                '/win98/i'              =>  'Windows 98',
-                                '/win95/i'              =>  'Windows 95',
-                                '/win16/i'              =>  'Windows 3.11',
-                                '/macintosh|mac os x/i' =>  'Mac OS X',
-                                '/mac_powerpc/i'        =>  'Mac OS 9',
-                                '/linux/i'              =>  'Linux',
-                                '/ubuntu/i'             =>  'Ubuntu',
-                                '/iphone/i'             =>  'iPhone',
-                                '/ipod/i'               =>  'iPod',
-                                '/ipad/i'               =>  'iPad',
-                                '/android/i'            =>  'Android',
-                                '/blackberry/i'         =>  'BlackBerry',
-                                '/webos/i'              =>  'Mobile'
-                         );
+            '/windows nt 10/i' => 'Windows 10',
+            '/windows nt 6.3/i' => 'Windows 8.1',
+            '/windows nt 6.2/i' => 'Windows 8',
+            '/windows nt 6.1/i' => 'Windows 7',
+            '/windows nt 6.0/i' => 'Windows Vista',
+            '/windows nt 5.2/i' => 'Windows Server 2003/XP x64',
+            '/windows nt 5.1/i' => 'Windows XP',
+            '/windows xp/i' => 'Windows XP',
+            '/windows nt 5.0/i' => 'Windows 2000',
+            '/windows me/i' => 'Windows ME',
+            '/win98/i' => 'Windows 98',
+            '/win95/i' => 'Windows 95',
+            '/win16/i' => 'Windows 3.11',
+            '/macintosh|mac os x/i' => 'Mac OS X',
+            '/mac_powerpc/i' => 'Mac OS 9',
+            '/linux/i' => 'Linux',
+            '/ubuntu/i' => 'Ubuntu',
+            '/iphone/i' => 'iPhone',
+            '/ipod/i' => 'iPod',
+            '/ipad/i' => 'iPad',
+            '/android/i' => 'Android',
+            '/blackberry/i' => 'BlackBerry',
+            '/webos/i' => 'Mobile'
+        );
 
-        foreach ($os_array as $regex => $value) { 
+        foreach ($os_array as $regex => $value) {
             if (preg_match($regex, $user_agent)) {
                 $os_platform = $value;
             }
-        }   
+        }
         return $os_platform;
     }
 
     /**
      * @brief Return user's current browser
      */
-    function getBrowser() 
+    function getBrowser()
     {
         $user_agent = $this->user_agent;
         $browser = "Unknown Browser";
         $browser_array = array(
-                                '/msie/i'       =>  'Internet Explorer',
-                                '/firefox/i'    =>  'Firefox',
-                                '/safari/i'     =>  'Safari',
-                                '/chrome/i'     =>  'Chrome',
-                                '/opera/i'      =>  'Opera',
-                                '/netscape/i'   =>  'Netscape',
-                                '/maxthon/i'    =>  'Maxthon',
-                                '/konqueror/i'  =>  'Konqueror',
-                                '/mobile/i'     =>  'Handheld Browser'
-                         );
-        foreach ($browser_array as $regex => $value) { 
+            '/msie/i' => 'Internet Explorer',
+            '/firefox/i' => 'Firefox',
+            '/safari/i' => 'Safari',
+            '/chrome/i' => 'Chrome',
+            '/opera/i' => 'Opera',
+            '/netscape/i' => 'Netscape',
+            '/maxthon/i' => 'Maxthon',
+            '/konqueror/i' => 'Konqueror',
+            '/mobile/i' => 'Handheld Browser'
+        );
+        foreach ($browser_array as $regex => $value) {
             if (preg_match($regex, $user_agent)) {
                 $browser = $value;
             }
