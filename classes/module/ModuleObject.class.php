@@ -223,6 +223,7 @@ class ModuleObject extends Object
 					// Check permission
 					if($this->checkPermission($grant, false) !== true)
 					{
+						$this->stop('msg_not_permitted_act');
 						return false;
 					}
 				}
@@ -238,6 +239,7 @@ class ModuleObject extends Object
 			// Check permission
 			if($this->checkPermission($grant) !== true)
 			{
+				$this->stop('msg_not_permitted_act');
 				return false;
 			}
 		}
@@ -279,8 +281,14 @@ class ModuleObject extends Object
 		// Get permission types(guest, member, manager, root) of the currently requested action
 		$permission = $this->xml_info->permission->{$this->act};
 		
-		// If admin action, default permission
-		if(!$permission && stripos($this->act, 'admin') !== false)
+		// If permission is 'guest', Pass
+		if($permission == 'guest')
+		{
+			return true;
+		}
+		
+		// If admin action, set default permission
+		if(empty($permission) && stripos($this->act, 'admin') !== false)
 		{
 			$permission = 'root';
 		}
@@ -291,7 +299,6 @@ class ModuleObject extends Object
 			// If permission is 'member', check logged-in
 			if($permission == 'member' && !Context::get('is_logged'))
 			{
-				$this->stop('msg_not_permitted_act');
 				return false;
 			}
 			// If permission is 'manager', check 'is user have manager privilege(granted)'
@@ -317,15 +324,26 @@ class ModuleObject extends Object
 					}
 				}
 				
-				$this->stop('admin.msg_is_not_administrator');
 				return false;
 			}
 			// If permission is 'root', Error!
 			// Because an administrator who have root privilege(granted) was passed already
 			else if($permission == 'root')
 			{
-				$this->stop('admin.msg_is_not_administrator');
 				return false;
+			}
+			// If grant name, check the privilege(granted) of the user
+			else if($grant_names = explode('|', $permission))
+			{
+				$privilege_list = array_keys((array) $this->xml_info->grant);
+				
+				foreach($grant_names as $name)
+				{
+					if(!in_array($name, $privilege_list) || !$grant->$name)
+					{
+						return false;
+					}
+				}
 			}
 		}
 		
