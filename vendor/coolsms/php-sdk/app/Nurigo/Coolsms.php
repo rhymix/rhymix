@@ -126,7 +126,6 @@ class Coolsms
 
         } else {
             $json_option = 'groupOptions';
-
         }
         $this->content->$json_option = new \stdClass;
         // POST method content
