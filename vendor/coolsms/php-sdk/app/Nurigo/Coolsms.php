@@ -123,7 +123,6 @@ class Coolsms
         $this->content = new \stdClass;
         if ($options->json_option) {
             $json_option = $options->json_option;
-
         } else {
             $json_option = 'groupOptions';
         }
