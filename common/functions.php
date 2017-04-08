@@ -498,21 +498,6 @@ function include_and_ignore_output($filename)
 }
 
 /**
- * Polyfill for hex2bin() which does not exist in PHP 5.3.
- * 
- * @param string $hex The hexadecimal string to convert to binary
- * @return string
- */
-if (!function_exists('hex2bin'))
-{
-	function hex2bin($hex)
-	{
-		if (strlen($hex) % 2) $hex = '0' . $hex;
-		return pack('H*', $hex);
-	}
-}
-
-/**
  * Converts any value to either true or false.
  * Based on util.php <https://github.com/brandonwamboldt/utilphp>
  * 
