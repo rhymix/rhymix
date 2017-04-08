@@ -297,34 +297,40 @@ class ModuleObject extends Object
 		if($permission)
 		{
 			// If permission is 'member', check logged-in
-			if($permission == 'member' && !Context::get('is_logged'))
+			if($permission == 'member')
 			{
-				return false;
+				if(!Context::get('is_logged'))
+				{
+					return false;
+				}
 			}
 			// If permission is 'manager', check 'is user have manager privilege(granted)'
-			else if(preg_match('/^(manager|([a-z0-9\_]+)-managers)$/', $permission, $type) && !$grant->manager)
+			else if(preg_match('/^(manager|([a-z0-9\_]+)-managers)$/', $permission, $type))
 			{
-				// If permission is '*-managers', search modules to find manager privilege of the member
-				if(Context::get('is_logged') && $find && isset($type[2]))
+				if(!$grant->manager)
 				{
-					// Manager privilege of the member is found by search all modules, Pass
-					if($type[2] == 'all' && getModel('module')->findManagerPrivilege($member_info) !== false)
+					// If permission is '*-managers', search modules to find manager privilege of the member
+					if(Context::get('is_logged') && $find && isset($type[2]))
 					{
-						return true;
+						// Manager privilege of the member is found by search all modules, Pass
+						if($type[2] == 'all' && getModel('module')->findManagerPrivilege($member_info) !== false)
+						{
+							return true;
+						}
+						// Manager privilege of the member is found by search same module as this module, Pass
+						else if($type[2] == 'same' && getModel('module')->findManagerPrivilege($member_info, $this->module) !== false)
+						{
+							return true;
+						}
+						// Manager privilege of the member is found by search same module as the module, Pass
+						else if(getModel('module')->findManagerPrivilege($member_info, $type[2]) !== false)
+						{
+							return true;
+						}
 					}
-					// Manager privilege of the member is found by search same module as this module, Pass
-					else if($type[2] == 'same' && getModel('module')->findManagerPrivilege($member_info, $this->module) !== false)
-					{
-						return true;
-					}
-					// Manager privilege of the member is found by search same module as the module, Pass
-					else if(getModel('module')->findManagerPrivilege($member_info, $type[2]) !== false)
-					{
-						return true;
-					}
+					
+					return false;
 				}
-				
-				return false;
 			}
 			// If permission is 'root', Error!
 			// Because an administrator who have root privilege(granted) was passed already
