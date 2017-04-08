@@ -508,8 +508,8 @@ function tobool($input)
 {
 	if (is_scalar($input))
 	{
-		if (preg_match('/^(1|[ty].*|on|ok.*oui|si|vrai|aye)$/i', $input)) return true;
-		if (preg_match('/^(0|[fn].*|off)$/i', $input)) return false;
+		if (preg_match('/^(?:1|[ty].*|on|ok.*|oui|si|vrai|aye)$/i', $input)) return true;
+		if (preg_match('/^(?:0|[fn].*|off|out)$/i', $input)) return false;
 	}
 	return (bool)$input;
 }
