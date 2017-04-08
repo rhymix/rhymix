@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <module>
 	<grants />
-	<permissions />
 	<actions>
 		<action name="dispImporterAdminImportForm" type="view" admin_index="true" menu_name="importer" menu_index="true" />
 		

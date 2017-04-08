@@ -1,35 +1,19 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <module>
 	<grants />
-	<permissions>
-		<permission action="dispCommentDeclare" target="member" />
-		<permission action="getCommentVotedMemberList" target="root" />
-		
-		<permission action="procCommentVoteUp" target="member" />
-		<permission action="procCommentVoteUpCancel" target="member" />
-		<permission action="procCommentVoteDown" target="member" />
-		<permission action="procCommentVoteDownCancel" target="member" />
-		<permission action="procCommentDeclare" target="member" />
-		<permission action="procCommentGetList" target="manager" check_type="comment" check_var="comment_srls" />
-		<permission action="procCommentInsertModuleConfig" target="manager" check_var="target_module_srl" />
-		
-		<permission action="procCommentAdminAddCart" target="manager" check_type="comment" check_var="comment_srl" />
-		<permission action="procCommentAdminDeleteChecked" target="manager" check_type="comment" check_var="cart" />
-		<permission action="procCommentAdminMoveToTrash" target="manager" check_type="comment" check_var="comment_srl" />
-	</permissions>
 	<actions>
-		<action name="dispCommentDeclare" type="view" />
+		<action name="dispCommentDeclare" type="view" permission="manager" />
 		
 		<action name="getCommentMenu" type="model" />
-		<action name="getCommentVotedMemberList" type="model" />
+		<action name="getCommentVotedMemberList" type="model" permission="root" />
 		
-		<action name="procCommentVoteUp" type="controller" />
-		<action name="procCommentVoteUpCancel" type="controller" />
-		<action name="procCommentVoteDown" type="controller" />
-		<action name="procCommentVoteDownCancel" type="controller" />
-		<action name="procCommentDeclare" type="controller" />
-		<action name="procCommentGetList" type="controller" />
-		<action name="procCommentInsertModuleConfig" type="controller" ruleset="insertCommentModuleConfig" />
+		<action name="procCommentVoteUp" type="controller" permission="member" />
+		<action name="procCommentVoteUpCancel" type="controller" permission="member" />
+		<action name="procCommentVoteDown" type="controller" permission="member" />
+		<action name="procCommentVoteDownCancel" type="controller" permission="member" />
+		<action name="procCommentDeclare" type="controller" permission="member" />
+		<action name="procCommentGetList" type="controller" permission="manager" check_type="comment" check_var="comment_srls" />
+		<action name="procCommentInsertModuleConfig" type="controller" permission="manager" check_var="target_module_srl" ruleset="insertCommentModuleConfig" />
 		
 		<action name="dispCommentAdminList" type="view" admin_index="true" menu_name="comment" menu_index="true" />
 		<action name="dispCommentAdminDeclared" type="view" menu_name="comment" />
@@ -38,9 +22,9 @@
 		<action name="procCommentAdminChangeStatus" type="controller"/>
 		<action name="procCommentAdminChangePublishedStatusChecked" type="controller" />
 		<action name="procCommentAdminCancelDeclare" type="controller" />
-		<action name="procCommentAdminAddCart" type="controller" />
-		<action name="procCommentAdminDeleteChecked" type="controller" ruleset="deleteChecked" />
-		<action name="procCommentAdminMoveToTrash" type="controller" />
+		<action name="procCommentAdminAddCart" type="controller" permission="manager" check_type="comment" check_var="comment_srl" />
+		<action name="procCommentAdminDeleteChecked" type="controller" permission="manager" check_type="comment" check_var="cart" ruleset="deleteChecked" />
+		<action name="procCommentAdminMoveToTrash" type="controller" permission="manager" check_type="comment" check_var="comment_srl" />
 	</actions>
 	<menus>
 		<menu name="comment">

@@ -1,11 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <module>
 	<grants />
-	<permissions>
-		<permission action="procPollInsertItem" target="member" />
-		<permission action="procPollDeleteItem" target="member" />
-		<permission action="procPollGetList" target="root" />
-	</permissions>
 	<actions>
 		<action name="getPollstatus" type="model" />
 		<action name="getPollinfo" type="model" />
@@ -13,11 +8,11 @@
 		<action name="getPollGetColorsetList" type="model" />
 		
 		<action name="procPollInsert" type="controller" />
-		<action name="procPollInsertItem" type="controller" />
-		<action name="procPollDeleteItem" type="controller" />
+		<action name="procPollInsertItem" type="controller" permission="member" />
+		<action name="procPollDeleteItem" type="controller" permission="member" />
 		<action name="procPoll" type="controller" ruleset="poll" />
 		<action name="procPollViewResult" type="controller" />
-		<action name="procPollGetList" type="controller" />
+		<action name="procPollGetList" type="controller" permission="root" />
 		
 		<action name="dispPollAdminList" type="view" admin_index="true" menu_name="poll" menu_index="true" />
 		<action name="dispPollAdminResult" type="view" />

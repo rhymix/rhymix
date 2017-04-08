@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <module>
 	<grants />
-	<permissions />
 	<actions>
 		<action name="dispAdvanced_mailerAdminConfig" type="view" admin_index="true" menu_name="advanced_mailer" />
 		<action name="dispAdvanced_mailerAdminExceptions" type="view" />

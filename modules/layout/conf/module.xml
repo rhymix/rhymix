@@ -1,15 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <module>
 	<grants />
-	<permissions>
-		<permission action="dispLayoutPreview" target="root" />
-		<permission action="dispLayoutPreviewWithModule" target="root" />
-		<permission action="getLayoutInstanceListForJSONP" target="root" />
-	</permissions>
 	<actions>
-		<action name="dispLayoutPreview" type="view" />
-		<action name="dispLayoutPreviewWithModule" type="view" />
-		<action name="getLayoutInstanceListForJSONP" type="model" />
+		<action name="dispLayoutPreview" type="view" permission="root" />
+		<action name="dispLayoutPreviewWithModule" type="view" permission="root" />
+		<action name="getLayoutInstanceListForJSONP" type="model" permission="root" />
 		
 		<action name="dispLayoutAdminInstalledList" type="view" admin_index="true" menu_name="installedLayout" menu_index="true" />
 		<action name="dispLayoutAdminAllInstanceList" type="view" menu_name="installedLayout" />
