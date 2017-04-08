@@ -333,7 +333,7 @@ class ModuleObject extends Object
 				return false;
 			}
 			// If grant name, check the privilege(granted) of the user
-			else if($grant_names = explode('|', $permission))
+			else if($grant_names = explode(',', $permission))
 			{
 				$privilege_list = array_keys((array) $this->xml_info->grant);
 				

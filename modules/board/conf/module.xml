@@ -63,7 +63,7 @@
 		<action name="dispBoardReplyComment" type="view" permission="write_comment" standalone="false" />
 		<action name="dispBoardModifyComment" type="view" permission="write_comment" standalone="false" />
 		<action name="dispBoardDeleteComment" type="view" permission="write_comment" standalone="false" />
-		<action name="dispBoardDeleteTrackback" type="view" permission="list|view" standalone="false" />
+		<action name="dispBoardDeleteTrackback" type="view" permission="list,view" standalone="false" />
 		<action name="dispBoardContentList" type="view" permission="list" standalone="false" />
 		<action name="dispBoardContentView" type="view" permission="view" standalone="false" />
 		<action name="dispBoardUpdateLog" type="view" permission="update_view" standalone="false" />
@@ -83,7 +83,7 @@
 		<action name="procBoardRevertDocument" type="controller" permission="update_view" standalone="false" />
 		<action name="procBoardInsertComment" type="controller" permission="write_comment" standalone="false" />
 		<action name="procBoardDeleteComment" type="controller" permission="write_comment" standalone="false" />
-		<action name="procBoardDeleteTrackback" type="controller" permission="list|view" standalone="false" />
+		<action name="procBoardDeleteTrackback" type="controller" permission="list,view" standalone="false" />
 		<action name="procBoardVerificationPassword" type="controller" permission="view" standalone="false" />
 		<action name="procBoardVoteDocument" type="controller" permission="view" standalone="false" />
 		
