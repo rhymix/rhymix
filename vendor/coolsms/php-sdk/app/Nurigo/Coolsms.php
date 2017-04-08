@@ -87,6 +87,7 @@ class Coolsms
         // Set curl info
         curl_setopt($ch, CURLOPT_URL, $url);
         curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false); // check SSL certificate
+        // HACK : 특정 일부 환경에서 CURLOPT_SSLVERSION 을 사용하게 되면 실제 요청을 못하는 경우가 있어서 주석처리
         //curl_setopt($ch, CURLOPT_SSLVERSION, 3); // SSL protocol version (need for https connect, 3 -> SSLv3)
         curl_setopt($ch, CURLOPT_HEADER, 0); // include the header in the output (1 = true, 0 = false) 
         curl_setopt($ch, CURLOPT_POST, $this->is_post); // POST GET method
@@ -135,11 +136,9 @@ class Coolsms
                 } else {
                     $this->content->$json_option->$key = $val;
                 }
-
             }
             if ($options->json_option !== 'groupOptions') {
                 $this->content->$json_option = array($this->content->$json_option);
-
             }
             $this->content = json_encode($this->content);
             return;
