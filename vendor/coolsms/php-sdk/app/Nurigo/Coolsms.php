@@ -79,11 +79,7 @@ class Coolsms
         $ch = curl_init();
         if (!$ch) throw new CoolsmsSystemException(curl_error($ch), 399);
         // Set url. is_post true = POST , false = GET
-        if ($this->is_post) {
-            $url = sprintf("%s/%s/%s/%s", self::HOST, $this->api_name, $this->api_version, $this->resource);
-        } else {
-            $url = sprintf("%s/%s/%s/%s?%s", self::HOST, $this->api_name, $this->api_version, $this->resource, $this->content);
-        }
+        $url = sprintf("%s/%s/%s/%s", self::HOST, $this->api_name, $this->api_version, $this->resource);
         // Set curl info
         curl_setopt($ch, CURLOPT_URL, $url);
         curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false); // check SSL certificate
@@ -92,20 +88,18 @@ class Coolsms
         curl_setopt($ch, CURLOPT_HEADER, 0); // include the header in the output (1 = true, 0 = false) 
         curl_setopt($ch, CURLOPT_POST, $this->is_post); // POST GET method
 
-        // set POST data
-        if ($this->is_post) {
-            $header = array(
-                "Content-Type: application/json",
-                "Authorization: HMAC-MD5 ApiKey=$this->api_key, Date=$this->date, Salt=$this->salt, Signature=$this->signature"
-            );
-            curl_setopt($ch, CURLOPT_HTTPHEADER, $header);
-            curl_setopt($ch, CURLOPT_POSTFIELDS, $this->content);
-        }
+
+        $header = array(
+            "Content-Type: application/json",
+            "Authorization: HMAC-MD5 ApiKey=$this->api_key, Date=$this->date, Salt=$this->salt, Signature=$this->signature"
+        );
+
+        curl_setopt($ch, CURLOPT_HTTPHEADER, $header);
+        curl_setopt($ch, CURLOPT_POSTFIELDS, $this->content);
         curl_setopt($ch, CURLOPT_TIMEOUT, 10); // TimeOut value
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1); // curl_exec() result output (1 = true, 0 = false)
 
         $this->result = json_decode(curl_exec($ch));
-
         // unless http status code is 200. throw exception.
         $http_code = curl_getinfo($ch, CURLINFO_HTTP_CODE);
         if ($http_code != 200) throw new CoolsmsServerException($this->result, $http_code);
@@ -121,6 +115,7 @@ class Coolsms
      */
     private function setContent($options)
     {
+
         $this->content = new \stdClass;
         if ($options->json_option) {
             $json_option = $options->json_option;
@@ -128,27 +123,42 @@ class Coolsms
             $json_option = 'groupOptions';
         }
         $this->content->$json_option = new \stdClass;
-        // POST method content
-        if ($this->is_post) {
-            foreach ($options as $key => $val) {
-                if ($json_option == 'groupOptions') {
-                    $this->content->$json_option->$key = $val;
-                } else {
-                    $this->content->$json_option->$key = $val;
-                }
-            }
-            if ($options->json_option !== 'groupOptions') {
-                $this->content->$json_option = array($this->content->$json_option);
-            }
-            $this->content = json_encode($this->content);
-            return;
-        }
 
-        // GET method content
         foreach ($options as $key => $val) {
-            if ($key != "text") $val = trim($val);
-            $this->content .= $key . "=" . urlencode($val) . "&";
+            if ($json_option == 'groupOptions') {
+                $this->content->$json_option->$key = $val;
+            } else {
+                $this->content->$json_option->$key = $val;
+            }
         }
+        if ($options->json_option !== 'groupOptions') {
+            $this->content->$json_option = array($this->content->$json_option);
+        }
+        if ($options->json_option == 'SimpleMessage')
+        {
+            $this->setApiConfig('SimpleMessage', '3');
+            $args = new \stdClass();
+            $args->to = explode(',', $options->to);
+            $args->from = $options->from;
+            $args->text = $options->text;
+            $args->type = $options->type;
+            $args->country = $options->country;
+            $args->subject = $options->subject;
+            $object = new \stdClass();
+            $object->messages = array($args);
+            $object->groupOptions = new \stdClass();
+            $object->groupOptions->appId = $options->appId;
+            $object->groupOptions->appVersion = $options->appVersion;
+            $object->groupOptions->mode = $options->mode;
+            $object->groupOptions->forceSms = $options->forceSms;
+            $object->groupOptions->onlyAta = $options->onlyAta;
+            $object->groupOptions->siteUser = $options->siteUser;
+            $object->groupOptions->osPlatform = $options->osPlatform;
+            $object->groupOptions->devLanguage = $options->devLanguage;
+            $object->groupOptions->sdkVersion = $options->sdkVersion;
+            $this->content = $object;
+        }
+        $this->content = json_encode($this->content);
     }
 
     /**

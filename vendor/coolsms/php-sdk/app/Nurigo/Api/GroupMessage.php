@@ -38,9 +38,9 @@ class GroupMessage extends Coolsms
      * @param None
      * @return array['groupid', 'groupid'...]
      */
-    public function getGroupList() 
+    public function getGroupList()
     {
-        return $this->request('group_list');
+        return $this->request('getGroupList');
     }
 
     /**

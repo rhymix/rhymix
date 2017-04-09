@@ -40,8 +40,8 @@ class Message extends Coolsms
     {
         // check require fields. ( 'to, from, 'text' )
         if (!isset($options->to) || !isset($options->from) || !isset($options->text)) throw new CoolsmsSDKException('"to, from, text" must be entered', 202);
-
-        return $this->request('send', $options, true);
+        $options->json_option = 'SimpleMessage';
+        return $this->request('sendMessages', $options, true);
     }
     
     /**
