@@ -442,7 +442,7 @@ function xml2json(xml, tab, ignoreAttrib) {
 							X.removeWhite(xml);
 							for (var n1=xml.firstChild; n1; n1=n1.nextSibling) {
 								if (n1.nodeType == 3) { // text node
-									o = X.escape(n1.nodeValue);
+									o = X.unescape(X.escape(n1.nodeValue));
 								} else if (n1.nodeType == 4) { // cdata node
 									// o["#cdata"] = X.escape(n.nodeValue);
 									o = X.escape(n1.nodeValue);
@@ -459,16 +459,16 @@ function xml2json(xml, tab, ignoreAttrib) {
 						}
 						else { // mixed content
 							if (!xml.attributes.length) {
-								o = X.escape(X.innerXml(xml));
+								o = X.unescape(X.escape(X.innerXml(xml)));
 							} else {
-								o["#text"] = X.escape(X.innerXml(xml));
+								o["#text"] = X.unescape(X.escape(X.innerXml(xml)));
 							}
 						}
 					} else if (textChild) { // pure text
 						if (!xml.attributes.length) {
-							o = X.escape(X.innerXml(xml));
+							o = X.unescape(X.escape(X.innerXml(xml)));
 						} else {
-							o["#text"] = X.escape(X.innerXml(xml));
+							o["#text"] = X.unescape(X.escape(X.innerXml(xml)));
 						}
 					} else if (cdataChild) { // cdata
 						if (cdataChild > 1) {
@@ -557,6 +557,13 @@ function xml2json(xml, tab, ignoreAttrib) {
 				.replace(/[\"]/g, '\\"')
 				.replace(/[\n]/g, '\\n')
 				.replace(/[\r]/g, '\\r');
+		},
+		unescape: function(txt) {
+			if (!navigator.userAgent.match(/Trident\/7.0/)) {
+				return txt.replace(/&amp;/g, '&').replace(/&quot;/g, '"').replace(/&lt;/g, '<').replace(/&gt;/g, '>');
+			} else {
+				return txt;
+			}
 		},
 		removeWhite: function(e) {
 			e.normalize();
