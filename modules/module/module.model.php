@@ -837,22 +837,29 @@ class moduleModel extends module
 			{
 				if(is_array($permissions)) $permission_list = $permissions;
 				else $permission_list[] = $permissions;
-
+				
 				$buff[] = '$info->permission = new stdClass;';
-				$info->permission = new stdClass();
+				$buff[] = '$info->permission_check = new stdClass;';
+				
+				$info->permission = new stdClass;
+				$info->permission_check = new stdClass;
 				
 				foreach($permission_list as $permission)
 				{
 					$action = $permission->attrs->action;
 					$target = $permission->attrs->target;
 					
-					$info->permission->{$action} = $target;
-					$info->permission_check->{$action}->key = $permission->attrs->check_var ?: '';
-					$info->permission_check->{$action}->type = $permission->attrs->check_type ?: '';
+					$info->permission->$action = $target;
 					
 					$buff[] = sprintf('$info->permission->%s = \'%s\';', $action, $target);
-					$buff[] = sprintf('$info->permission_check->%s->key = \'%s\';', $action, $info->permission_check->{$action}->key);
-					$buff[] = sprintf('$info->permission_check->%s->type = \'%s\';', $action, $info->permission_check->{$action}->type);
+					
+					$info->permission_check->$action = new stdClass;
+					$info->permission_check->$action->key = $permission->attrs->check_var ?: '';
+					$info->permission_check->$action->type = $permission->attrs->check_type ?: '';
+					
+					$buff[] = sprintf('$info->permission_check->%s = new stdClass;', $action);
+					$buff[] = sprintf('$info->permission_check->%s->key = \'%s\';', $action, $info->permission_check->$action->key);
+					$buff[] = sprintf('$info->permission_check->%s->type = \'%s\';', $action, $info->permission_check->$action->type);
 				}
 			}
 			// for admin menus
@@ -890,7 +897,10 @@ class moduleModel extends module
 				if(!isset($info->permission))
 				{
 					$buff[] = '$info->permission = new stdClass;';
-					$info->permission = new stdClass();
+					$buff[] = '$info->permission_check = new stdClass;';
+					
+					$info->permission = new stdClass;
+					$info->permission_check = new stdClass;
 				}
 				
 				$buff[] = '$info->action = new stdClass;';
@@ -904,10 +914,14 @@ class moduleModel extends module
 					if($action->attrs->permission)
 					{
 						$info->permission->$name = $action->attrs->permission;
+						
+						$buff[] = sprintf('$info->permission->%s = \'%s\';', $name, $info->permission->$name);
+						
+						$info->permission_check->$name = new stdClass;
 						$info->permission_check->$name->key = $action->attrs->check_var ?: '';
 						$info->permission_check->$name->type = $action->attrs->check_type ?: '';
 						
-						$buff[] = sprintf('$info->permission->%s = \'%s\';', $name, $info->permission->$name);
+						$buff[] = sprintf('$info->permission_check->%s = new stdClass;', $name);
 						$buff[] = sprintf('$info->permission_check->%s->key = \'%s\';', $name, $info->permission_check->$name->key);
 						$buff[] = sprintf('$info->permission_check->%s->type = \'%s\';', $name, $info->permission_check->$name->type);
 					}
