@@ -1,66 +1,28 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <module>
 	<grants />
-	<permissions>
-		<permission action="dispMemberInfo" target="member" />
-		<permission action="dispMemberModifyInfo" target="member" />
-		<permission action="dispMemberModifyPassword" target="member" />
-		<permission action="dispMemberModifyEmailAddress" target="member" />
-		<permission action="dispMemberLeave" target="member" />
-		<permission action="dispMemberScrappedDocument" target="member" />
-		<permission action="dispMemberSavedDocument" target="member" />
-		<permission action="dispMemberOwnDocument" target="member" />
-		<permission action="dispMemberOwnComment" target="member" />
-		<permission action="dispMemberActiveLogins" target="member" />
-		<permission action="dispMemberModifyNicknameLog" target="member" />
-		<permission action="dispMemberLogout" target="member" />
-		<permission action="dispMemberSpammer" target="manager" check_var="module_srl" />
-		
-		<permission action="getApiGroups" target="root" />
-		
-		<permission action="procMemberModifyInfoBefore" target="member" />
-		<permission action="procMemberModifyInfo" target="member" />
-		<permission action="procMemberModifyPassword" target="member" />
-		<permission action="procMemberModifyEmailAddress" target="member" />
-		<permission action="procMemberLeave" target="member" />
-		<permission action="procMemberInsertProfileImage" target="member" />
-		<permission action="procMemberDeleteProfileImage" target="member" />
-		<permission action="procMemberInsertImageName" target="member" />
-		<permission action="procMemberDeleteImageName" target="member" />
-		<permission action="procMemberInsertImageMark" target="member" />
-		<permission action="procMemberDeleteImageMark" target="member" />
-		<permission action="procMemberScrapDocument" target="member" />
-		<permission action="procMemberDeleteScrap" target="member" />
-		<permission action="procMemberSaveDocument" target="member" />
-		<permission action="procMemberDeleteSavedDocument" target="member" />
-		<permission action="procMemberDeleteAutologin" target="member" />
-		<permission action="procMemberSiteSignUp" target="member" />
-		<permission action="procMemberSiteLeave" target="member" />
-		<permission action="procMemberLogout" target="member" />
-		<permission action="procMemberSpammerManage" target="manager" check_var="module_srl" />
-	</permissions>
 	<actions>
 		<action name="dispMemberSignUpForm" type="view" />
 		<action name="dispMemberLoginForm" type="view" />
 		<action name="dispMemberFindAccount" type="view" />
 		<action name="dispMemberResendAuthMail" type="view" />
 		<action name="dispMemberGetTempPassword" type="view" />
-		<action name="dispMemberInfo" type="view" />
-		<action name="dispMemberModifyInfo" type="view" />
-		<action name="dispMemberModifyPassword" type="view" />
-		<action name="dispMemberModifyEmailAddress" type="view" />
-		<action name="dispMemberLeave" type="view" />
-		<action name="dispMemberScrappedDocument" type="view" />
-		<action name="dispMemberSavedDocument" type="view" />
-		<action name="dispMemberOwnDocument" type="view" />
-		<action name="dispMemberOwnComment" type="view" />
-		<action name="dispMemberActiveLogins" type="view" />
-		<action name="dispMemberModifyNicknameLog" type="view" />
-		<action name="dispMemberLogout" type="view" />
-		<action name="dispMemberSpammer" type="view" />
+		<action name="dispMemberInfo" type="view" permission="member" />
+		<action name="dispMemberModifyInfo" type="view" permission="member" />
+		<action name="dispMemberModifyPassword" type="view" permission="member" />
+		<action name="dispMemberModifyEmailAddress" type="view" permission="member" />
+		<action name="dispMemberLeave" type="view" permission="member" />
+		<action name="dispMemberScrappedDocument" type="view" permission="member" />
+		<action name="dispMemberSavedDocument" type="view" permission="member" />
+		<action name="dispMemberOwnDocument" type="view" permission="member" />
+		<action name="dispMemberOwnComment" type="view" permission="member" />
+		<action name="dispMemberActiveLogins" type="view" permission="member" />
+		<action name="dispMemberModifyNicknameLog" type="view" permission="member" />
+		<action name="dispMemberLogout" type="view" permission="member" />
+		<action name="dispMemberSpammer" type="view" permission="manager" check_var="module_srl" />
 		
 		<action name="getMemberMenu" type="model" />
-		<action name="getApiGroups" type="model" />
+		<action name="getApiGroups" type="model" permission="root" />
 		
 		<action name="procMemberInsert" type="controller" ruleset="@insertMember" />
 		<action name="procMemberCheckValue" type="controller" />
@@ -71,26 +33,26 @@
 		<action name="procMemberAuthEmailAddress" type="controller" method="GET|POST" />
 		<action name="procMemberResendAuthMail" type="controller" ruleset="resendAuthMail" />
 		<action name="procMemberResetAuthMail" type="controller" ruleset="resetAuthMail" />
-		<action name="procMemberModifyInfoBefore" type="controller" ruleset="recheckedPassword" />
-		<action name="procMemberModifyInfo" type="controller" ruleset="@insertMember" />
-		<action name="procMemberModifyPassword" type="controller" ruleset="modifyPassword" />
-		<action name="procMemberModifyEmailAddress" type="controller" ruleset="modifyEmailAddress" />
-		<action name="procMemberLeave" type="controller" ruleset="leaveMember" />
-		<action name="procMemberInsertProfileImage" type="controller" ruleset="insertProfileImage" />
-		<action name="procMemberDeleteProfileImage" type="controller" />
-		<action name="procMemberInsertImageName" type="controller" ruleset="insertImageName" />
-		<action name="procMemberDeleteImageName" type="controller" />
-		<action name="procMemberInsertImageMark" type="controller" ruleset="insertImageMark" />
-		<action name="procMemberDeleteImageMark" type="controller" />
-		<action name="procMemberScrapDocument" type="controller" />
-		<action name="procMemberDeleteScrap" type="controller" />
-		<action name="procMemberSaveDocument" type="controller" />
-		<action name="procMemberDeleteSavedDocument" type="controller" />
-		<action name="procMemberDeleteAutologin" type="controller" />
-		<action name="procMemberSiteSignUp" type="controller" />
-		<action name="procMemberSiteLeave" type="controller" />
-		<action name="procMemberLogout" type="controller" />
-		<action name="procMemberSpammerManage" type="controller" />
+		<action name="procMemberModifyInfoBefore" type="controller" permission="member" ruleset="recheckedPassword" />
+		<action name="procMemberModifyInfo" type="controller" permission="member" ruleset="@insertMember" />
+		<action name="procMemberModifyPassword" type="controller" permission="member" ruleset="modifyPassword" />
+		<action name="procMemberModifyEmailAddress" type="controller" permission="member" ruleset="modifyEmailAddress" />
+		<action name="procMemberLeave" type="controller" permission="member" ruleset="leaveMember" />
+		<action name="procMemberInsertProfileImage" type="controller" permission="member" ruleset="insertProfileImage" />
+		<action name="procMemberDeleteProfileImage" type="controller" permission="member" />
+		<action name="procMemberInsertImageName" type="controller" permission="member" ruleset="insertImageName" />
+		<action name="procMemberDeleteImageName" type="controller" permission="member" />
+		<action name="procMemberInsertImageMark" type="controller" permission="member" ruleset="insertImageMark" />
+		<action name="procMemberDeleteImageMark" type="controller" permission="member" />
+		<action name="procMemberScrapDocument" type="controller" permission="member" />
+		<action name="procMemberDeleteScrap" type="controller" permission="member" />
+		<action name="procMemberSaveDocument" type="controller" permission="member" />
+		<action name="procMemberDeleteSavedDocument" type="controller" permission="member" />
+		<action name="procMemberDeleteAutologin" type="controller" permission="member" />
+		<action name="procMemberSiteSignUp" type="controller" permission="member" />
+		<action name="procMemberSiteLeave" type="controller" permission="member" />
+		<action name="procMemberLogout" type="controller" permission="member" />
+		<action name="procMemberSpammerManage" type="controller" permission="manager" check_var="module_srl" />
 		
 		<action name="dispMemberAdminList" type="view" index="true" admin_index="true" menu_name="userList" menu_index="true"/>
 		<action name="dispMemberAdminInfo" type="view" menu_name="userList" />

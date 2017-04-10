@@ -1,57 +1,32 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <module>
 	<grants />
-	<permissions>
-		<permission action="dispTempSavedList" target="member" />
-		<permission action="dispDocumentDeclare" target="member" />
-		<permission action="dispDocumentManageDocument" target="all-managers" />
-		
-		<permission action="getDocumentCategories" target="all-managers" />
-		<permission action="getDocumentCategoryTplInfo" target="manager" check_var="module_srl" />
-		<permission action="getDocumentVotedMemberList" target="root" />
-		
-		<permission action="procDocumentTempSave" target="member" />
-		<permission action="procDocumentDeclare" target="member" />
-		<permission action="procDocumentGetList" target="manager" check_type="document" check_var="document_srls" />
-		<permission action="procDocumentAddCart" target="manager" check_type="document" check_var="srls" />
-		<permission action="procDocumentManageCheckedDocument" target="manager" check_type="document" check_var="cart" />
-		<permission action="procDocumentInsertModuleConfig" target="manager" check_var="target_module_srl" />
-		<permission action="procDocumentInsertCategory" target="manager" check_var="module_srl" />
-		<permission action="procDocumentDeleteCategory" target="manager" check_var="module_srl" />
-		<permission action="procDocumentMoveCategory" target="manager" check_var="module_srl" />
-		<permission action="procDocumentMakeXmlFile" target="manager" check_var="module_srl" />
-		
-		<permission action="procDocumentAdminMoveToTrash" target="manager" check_type="document" check_var="document_srl" />
-		<permission action="procDocumentAdminInsertExtraVar" target="manager" check_var="module_srl" />
-		<permission action="procDocumentAdminDeleteExtraVar" target="manager" check_var="module_srl" />
-		<permission action="procDocumentAdminMoveExtraVar" target="manager" check_var="module_srl" />
-	</permissions>
 	<actions>
 		<action name="dispDocumentPrint" type="view" />
 		<action name="dispDocumentPreview" type="view" />
-		<action name="dispTempSavedList" type="view" />
-		<action name="dispDocumentDeclare" type="view" />
-		<action name="dispDocumentManageDocument" type="view" />
+		<action name="dispTempSavedList" type="view" permission="member" />
+		<action name="dispDocumentDeclare" type="view" permission="member" />
+		<action name="dispDocumentManageDocument" type="view" permission="all-managers" />
 		
 		<action name="getDocumentMenu" type="model" />
-		<action name="getDocumentCategories" type="model" />
-		<action name="getDocumentCategoryTplInfo" type="model" />
-		<action name="getDocumentVotedMemberList" type="model" />
+		<action name="getDocumentCategories" type="model" permission="all-managers" />
+		<action name="getDocumentCategoryTplInfo" type="model" permission="manager" check_var="module_srl" />
+		<action name="getDocumentVotedMemberList" type="model" permission="root" />
 		
 		<action name="procDocumentVoteUp" type="controller" />
-		<action name="procDocumentVoteUpCancel" type="controller" />.
+		<action name="procDocumentVoteUpCancel" type="controller" />
 		<action name="procDocumentVoteDown" type="controller" />
 		<action name="procDocumentVoteDownCancel" type="controller" />
-		<action name="procDocumentTempSave" type="controller" />
-		<action name="procDocumentDeclare" type="controller" />
-		<action name="procDocumentGetList" type="controller" />
-		<action name="procDocumentAddCart" type="controller" />
-		<action name="procDocumentManageCheckedDocument" type="controller" />
-		<action name="procDocumentInsertModuleConfig" type="controller" />
-		<action name="procDocumentInsertCategory" type="controller" ruleset="insertCategory" />
-		<action name="procDocumentDeleteCategory" type="controller" />
-		<action name="procDocumentMoveCategory" type="controller" />
-		<action name="procDocumentMakeXmlFile" type="controller" />
+		<action name="procDocumentTempSave" type="controller" permission="member" />
+		<action name="procDocumentDeclare" type="controller" permission="member" />
+		<action name="procDocumentGetList" type="controller" permission="manager" check_type="document" check_var="document_srls" />
+		<action name="procDocumentAddCart" type="controller" permission="manager" check_type="document" check_var="srls" />
+		<action name="procDocumentManageCheckedDocument" type="controller" permission="manager" check_type="document" check_var="cart" />
+		<action name="procDocumentInsertModuleConfig" type="controller" permission="manager" check_var="target_module_srl" />
+		<action name="procDocumentInsertCategory" type="controller" permission="manager" check_var="module_srl" ruleset="insertCategory" />
+		<action name="procDocumentDeleteCategory" type="controller" permission="manager" check_var="module_srl" />
+		<action name="procDocumentMoveCategory" type="controller" permission="manager" check_var="module_srl" />
+		<action name="procDocumentMakeXmlFile" type="controller" permission="manager" check_var="module_srl" />
 		
 		<action name="dispDocumentAdminList" type="view" admin_index="true" menu_name="document" menu_index="true" />
 		<action name="dispDocumentAdminConfig" type="view" menu_name="document" />
@@ -66,11 +41,11 @@
 		<action name="procDocumentAdminCancelDeclare" type="controller" />
 		<action name="procDocumentAdminInsertAlias" type="controller" ruleset="insertAlias" />
 		<action name="procDocumentAdminDeleteAlias" type="controller" ruleset="deleteAlias" />
-		<action name="procDocumentAdminMoveToTrash" type="controller" />
+		<action name="procDocumentAdminMoveToTrash" type="controller" permission="manager" check_type="document" check_var="document_srl" />
 		<action name="procDocumentAdminRestoreTrash" type="controller" />
-		<action name="procDocumentAdminInsertExtraVar" type="controller" ruleset="insertExtraVar" />
-		<action name="procDocumentAdminDeleteExtraVar" type="controller" />
-		<action name="procDocumentAdminMoveExtraVar" type="controller" />
+		<action name="procDocumentAdminInsertExtraVar" type="controller" permission="manager" check_var="module_srl" ruleset="insertExtraVar" />
+		<action name="procDocumentAdminDeleteExtraVar" type="controller" permission="manager" check_var="module_srl" />
+		<action name="procDocumentAdminMoveExtraVar" type="controller" permission="manager" check_var="module_srl" />
 	</actions>
 	<menus>
 		<menu name="document">

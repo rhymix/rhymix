@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <module>
 	<grants />
-	<permissions />
 	<actions>
 		<action name="dispAutoinstallAdminIndex" type="view" admin_index="true" menu_name="easyInstall" menu_index="true" />
 		<action name="dispAutoinstallAdminInstall" type="view" menu_name="easyInstall" />

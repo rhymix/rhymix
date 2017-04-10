@@ -1,16 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <module>
 	<grants />
-	<permissions>
-		<permission action="getInstallFTPList" target="root" />
-	</permissions>
 	<actions>
 		<action name="dispInstallIndex" type="view" index="true" />
 		<action name="dispInstallCheckEnv" type="view" />
 		<action name="dispInstallDBConfig" type="view" />
 		<action name="dispInstallOtherConfig" type="view" />
 		
-		<action name="getInstallFTPList" type="model" />
+		<action name="getInstallFTPList" type="model" permission="root" />
 		
 		<action name="procInstallLicenseAgreement" type="controller" />
 		<action name="procDBConfig" type="controller" />

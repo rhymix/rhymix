@@ -848,22 +848,29 @@ class moduleModel extends module
 			{
 				if(is_array($permissions)) $permission_list = $permissions;
 				else $permission_list[] = $permissions;
-
+				
 				$buff[] = '$info->permission = new stdClass;';
-
-				$info->permission = new stdClass();
+				$buff[] = '$info->permission_check = new stdClass;';
+				
+				$info->permission = new stdClass;
+				$info->permission_check = new stdClass;
+				
 				foreach($permission_list as $permission)
 				{
 					$action = $permission->attrs->action;
 					$target = $permission->attrs->target;
-
-					$info->permission->{$action} = $target;
-					$info->permission_check->{$action}->key = $permission->attrs->check_var ?: '';
-					$info->permission_check->{$action}->type = $permission->attrs->check_type ?: '';
+					
+					$info->permission->$action = $target;
 					
 					$buff[] = sprintf('$info->permission->%s = \'%s\';', $action, $target);
-					$buff[] = sprintf('$info->permission_check->%s->key = \'%s\';', $action, $info->permission_check->{$action}->key);
-					$buff[] = sprintf('$info->permission_check->%s->type = \'%s\';', $action, $info->permission_check->{$action}->type);
+					
+					$info->permission_check->$action = new stdClass;
+					$info->permission_check->$action->key = $permission->attrs->check_var ?: '';
+					$info->permission_check->$action->type = $permission->attrs->check_type ?: '';
+					
+					$buff[] = sprintf('$info->permission_check->%s = new stdClass;', $action);
+					$buff[] = sprintf('$info->permission_check->%s->key = \'%s\';', $action, $info->permission_check->$action->key);
+					$buff[] = sprintf('$info->permission_check->%s->type = \'%s\';', $action, $info->permission_check->$action->type);
 				}
 			}
 			// for admin menus
@@ -874,6 +881,7 @@ class moduleModel extends module
 
 				$buff[] = '$info->menu = new stdClass;';
 				$info->menu = new stdClass();
+				
 				foreach($menu_list as $menu)
 				{
 					$menu_name = $menu->attrs->name;
@@ -896,20 +904,46 @@ class moduleModel extends module
 			{
 				if(is_array($actions)) $action_list = $actions;
 				else $action_list[] = $actions;
-
+				
+				if(!isset($info->permission))
+				{
+					$buff[] = '$info->permission = new stdClass;';
+					$buff[] = '$info->permission_check = new stdClass;';
+					
+					$info->permission = new stdClass;
+					$info->permission_check = new stdClass;
+				}
+				
 				$buff[] = '$info->action = new stdClass;';
 				$info->action = new stdClass();
+				
 				foreach($action_list as $action)
 				{
 					$name = $action->attrs->name;
-
+					
+					// <action permission="...">
+					if($action->attrs->permission)
+					{
+						$info->permission->$name = $action->attrs->permission;
+						
+						$buff[] = sprintf('$info->permission->%s = \'%s\';', $name, $info->permission->$name);
+						
+						$info->permission_check->$name = new stdClass;
+						$info->permission_check->$name->key = $action->attrs->check_var ?: '';
+						$info->permission_check->$name->type = $action->attrs->check_type ?: '';
+						
+						$buff[] = sprintf('$info->permission_check->%s = new stdClass;', $name);
+						$buff[] = sprintf('$info->permission_check->%s->key = \'%s\';', $name, $info->permission_check->$name->key);
+						$buff[] = sprintf('$info->permission_check->%s->type = \'%s\';', $name, $info->permission_check->$name->type);
+					}
+					
 					$type = $action->attrs->type;
 					$grant = $action->attrs->grant?$action->attrs->grant:'guest';
 					$standalone = $action->attrs->standalone=='false'?'false':'true';
 					$ruleset = $action->attrs->ruleset?$action->attrs->ruleset:'';
 					$method = $action->attrs->method?$action->attrs->method:'';
 					$check_csrf = $action->attrs->check_csrf=='false'?'false':'true';
-
+					
 					$index = $action->attrs->index;
 					$admin_index = $action->attrs->admin_index;
 					$setup_index = $action->attrs->setup_index;
@@ -1951,7 +1985,7 @@ class moduleModel extends module
 		$privilege_list = array_keys((array) $xml_info->grant);
 		
 		// Prepend default 'privilege name'
-		// is_admin, manager, is_site_admin not distinguish because of compatibility.
+		// manager, is_site_admin not distinguish because of compatibility.
 		array_unshift($privilege_list, 'access', 'is_admin', 'manager', 'is_site_admin', 'root');
 		
 		// Unique
@@ -1965,8 +1999,8 @@ class moduleModel extends module
 			{
 				$grant->{$val} = true;
 			}
-			// If a module manager, grant all (except 'root')
-			else if($is_module_admin === true && $val !== 'root')
+			// If a module manager, grant all (except 'root', 'is_admin')
+			else if($is_module_admin === true && $val !== 'root' && $val !== 'is_admin')
 			{
 				$grant->{$val} = true;
 			}
