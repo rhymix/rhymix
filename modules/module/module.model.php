@@ -1974,7 +1974,7 @@ class moduleModel extends module
 		$privilege_list = array_keys((array) $xml_info->grant);
 		
 		// Prepend default 'privilege name'
-		// is_admin, manager, is_site_admin not distinguish because of compatibility.
+		// manager, is_site_admin not distinguish because of compatibility.
 		array_unshift($privilege_list, 'access', 'is_admin', 'manager', 'is_site_admin', 'root');
 		
 		// Unique
@@ -1988,8 +1988,8 @@ class moduleModel extends module
 			{
 				$grant->{$val} = true;
 			}
-			// If a module manager, grant all (except 'root')
-			else if($is_module_admin === true && $val !== 'root')
+			// If a module manager, grant all (except 'root', 'is_admin')
+			else if($is_module_admin === true && $val !== 'root' && $val !== 'is_admin')
 			{
 				$grant->{$val} = true;
 			}
