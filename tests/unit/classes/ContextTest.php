@@ -85,4 +85,16 @@ class ContextTest extends \Codeception\TestCase\Test
         Context::setResponseMethod('HTML');
         $this->assertEquals(Context::getResponseMethod(), 'HTML');
     }
+
+    public function testBlacklistedPlugin()
+    {
+        $this->assertTrue(Context::isBlacklistedPlugin('autolang'));
+		$this->assertFalse(Context::isBlacklistedPlugin('document'));
+	}
+
+    public function testReservedWord()
+    {
+        $this->assertTrue(Context::isReservedWord('mid'));
+		$this->assertFalse(Context::isReservedWord('foo'));
+	}
 }

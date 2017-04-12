@@ -1,26 +1,25 @@
 <?xml version="1.0" encoding="utf-8"?>
 <module>
 	<grants />
-	<permissions>
-		<permission action="procEditorInsertModuleConfig" target="manager" />
-	</permissions>
 	<actions>
-		<action name="dispEditorPopup" type="view" />
 		<action name="dispEditorComponentInfo" type="view" />
-		<action name="dispEditorAdminIndex" type="view" menu_name="editor" menu_index="true" admin_index="true" />
-		<action name="dispEditorAdminSetupComponent" type="view" menu_name="editor" />
-		<action name="dispEditorAdminSkinColorset" type="view" />
-		<action name="dispEditorConfigPreview" type="view" />
+		<action name="dispEditorPopup" type="view" />
 		<action name="dispEditorPreview" type="view" />
-		<action name="dispEditorSkinColorset" type="view" />
+		<action name="dispEditorSkinColorset" type="view" permission="root" />
+		<action name="dispEditorConfigPreview" type="view" permission="root" />
+		
+		<action name="procEditorCall" type="controller" />
 		<action name="procEditorSaveDoc" type="controller" />
 		<action name="procEditorRemoveSavedDoc" type="controller" />
-		<action name="procEditorCall" type="controller" />
-		<action name="procEditorInsertModuleConfig" type="controller" />
-		<action name="procEditorAdminSetupComponent" type="controller" ruleset="setupComponent" />
+		<action name="procEditorLoadSavedDocument" type="controller" />
+		<action name="procEditorInsertModuleConfig" type="controller" permission="manager" check_var="target_module_srl" />
+		
+		<action name="dispEditorAdminIndex" type="view" menu_name="editor" menu_index="true" admin_index="true" />
+		<action name="dispEditorAdminSetupComponent" type="view" menu_name="editor" />
+		
 		<action name="procEditorAdminGeneralConfig" type="controller" ruleset="generalConfig" />
 		<action name="procEditorAdminCheckUseListOrder" type="controller" ruleset="componentOrderAndUse" />
-		<action name="procEditorLoadSavedDocument" type="controller" />
+		<action name="procEditorAdminSetupComponent" type="controller" ruleset="setupComponent" />
 	</actions>
 	<menus>
 		<menu name="editor">

@@ -1,10 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <module>
+	<grants />
 	<actions>
-		<action name="dispKrzipAdminConfig" type="view" menu_name="krzip" menu_index="true" admin_index="true" />
-		<action name="procKrzipAdminInsertConfig" type="controller" ruleset="krzipConfig" />
 		<action name="dispKrzipSearchForm" type="view" />
 		<action name="getKrzipCodeList" type="model" />
+		
+		<action name="dispKrzipAdminConfig" type="view" menu_name="krzip" menu_index="true" admin_index="true" />
+		<action name="procKrzipAdminInsertConfig" type="controller" ruleset="krzipConfig" />
 	</actions>
 	<menus>
 		<menu name="krzip" type="all">

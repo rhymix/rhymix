@@ -204,10 +204,10 @@
 jQuery(function($) {
 
 	/* CSRF token */
-	$("form[method]").filter(function() { return this.method.toUpperCase() == "POST"; }).addCSRFTokenToForm();
+	$("form[method]").filter(function() { return String($(this).attr("method")).toUpperCase() == "POST"; }).addCSRFTokenToForm();
 	$(document).on("submit", "form[method='post']", $.fn.addCSRFTokenToForm);
 	$(document).on("focus", "input,select,textarea", function() {
-		$(this).parents("form[method]").filter(function() { return this.method.toUpperCase() == "POST"; }).addCSRFTokenToForm();
+		$(this).parents("form[method]").filter(function() { return String($(this).attr("method")).toUpperCase() == "POST"; }).addCSRFTokenToForm();
 	});
 
 	/* select - option의 disabled=disabled 속성을 IE에서도 체크하기 위한 함수 */
@@ -465,8 +465,10 @@ function sendMailTo(to) {
  * @brief url이동 (Rhymix 개선된 버전)
  */
 function redirect(url) {
-	if (url === window.location.href || url.indexOf(window.location.href.replace(/#.+$/, "") + "#") === 0 ||
-		url === window.location.pathname || url.indexOf(window.location.pathname.replace(/#.+$/, "") + "#") === 0) {
+	var absolute_url = window.location.href;
+	var relative_url = window.location.pathname + window.location.search;
+	if (url === absolute_url || url.indexOf(absolute_url.replace(/#.+$/, "") + "#") === 0 ||
+		url === relative_url || url.indexOf(relative_url.replace(/#.+$/, "") + "#") === 0) {
 		window.location.href = url;
 		window.location.reload();
 	} else {

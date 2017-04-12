@@ -1,14 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <module>
-    <grants />
-    <permissions>
-        <permission action="getWeeklyUniqueVisitor" target="manager" />
-        <permission action="getWeeklyPageView" target="manager" />
-    </permissions>
-    <actions>
-        <action name="dispCounterAdminIndex" type="view" admin_index="true" />
-        <action name="procCounterExecute" type="controller" />
-        <action name="getWeeklyUniqueVisitor" type="model" />
-        <action name="getWeeklyPageView" type="model" />
-    </actions>
+	<grants />
+	<actions>
+		<action name="getWeeklyPageView" type="model" permission="root" />
+		<action name="getWeeklyUniqueVisitor" type="model" permission="root" />
+		
+		<action name="dispCounterAdminIndex" type="view" admin_index="true" />
+	</actions>
 </module>

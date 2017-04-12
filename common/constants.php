@@ -23,7 +23,7 @@ define('RX_BASEDIR', str_replace('\\', '/', dirname(__DIR__)) . '/');
 /**
  * RX_BASEURL is the CLIENT-SIDE absolute path of Rhymix (with trailing slash, relative to the document root).
  */
-if (isset($_SERVER['DOCUMENT_ROOT']) && !strncmp(RX_BASEDIR,  str_replace('\\', '/', $_SERVER['DOCUMENT_ROOT']), strlen($_SERVER['DOCUMENT_ROOT'])))
+if ($_SERVER['DOCUMENT_ROOT'] && !strncmp(RX_BASEDIR,  str_replace('\\', '/', $_SERVER['DOCUMENT_ROOT']), strlen($_SERVER['DOCUMENT_ROOT'])))
 {
     define('RX_BASEURL', str_replace('//', '/', '/' . trim(substr(RX_BASEDIR, strlen($_SERVER['DOCUMENT_ROOT'])), '/') . '/'));
 }
@@ -31,7 +31,7 @@ elseif (isset($_SERVER['PHP_SELF']) && ($pos = strpos($_SERVER['PHP_SELF'], '/in
 {
     define('RX_BASEURL', str_replace('//', '/', '/' . trim(str_replace('\\', '/', substr($_SERVER['PHP_SELF'], 0, $pos)), '/') . '/'));
 }
-else
+elseif (PHP_SAPI !== 'cli')
 {
     define('RX_BASEURL', '/');
 }

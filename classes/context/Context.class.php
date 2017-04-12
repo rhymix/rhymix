@@ -174,6 +174,11 @@ class Context
 	private static $_blacklist = null;
 
 	/**
+	 * Reserved words cache
+	 */
+	private static $_reserved = null;
+
+	/**
 	 * Singleton instance
 	 * @var object
 	 */
@@ -266,10 +271,23 @@ class Context
 			self::set('_http_port', self::$_instance->db_info->http_port = $site_module_info->http_port ?: null);
 			self::set('_https_port', self::$_instance->db_info->https_port = $site_module_info->https_port ?: null);
 			self::set('_use_ssl', self::$_instance->db_info->use_ssl = $site_module_info->security ?: 'none');
+			if (PHP_SAPI === 'cli')
+			{
+				self::set('_default_url', $default_url = config('url.default'));
+				if (!defined('RX_BASEURL'))
+				{
+					define('RX_BASEURL', parse_url($default_url, PHP_URL_PATH));
+				}
+			}
 		}
 		else
 		{
 			$site_module_info = new stdClass;
+			$site_module_info->domain = $_SERVER['HTTP_HOST'];
+			$site_module_info->security = RX_SSL ? 'always' : 'none';
+			$site_module_info->settings = new stdClass;
+			$site_module_info->is_default_replaced = true;
+			self::set('site_module_info', $site_module_info);
 		}
 		
 		// Redirect to SSL if the current domain always uses SSL.
@@ -612,7 +630,7 @@ class Context
 		
 		if ($site_module_info === null)
 		{
-			$site_module_info === self::get('site_module_info');
+			$site_module_info = self::get('site_module_info');
 		}
 		
 		$prefix = $site_module_info->security === 'always' ? 'https://' : 'http://';
@@ -2472,6 +2490,26 @@ class Context
 		}
 		
 		return isset(self::$_blacklist[$plugin_name]);
+	}
+
+	/**
+	 * Check whether a word is reserved in Rhymix
+	 * 
+	 * @param string $word
+	 * @return bool
+	 */
+	public static function isReservedWord($word)
+	{
+		if (self::$_reserved === null)
+		{
+			self::$_reserved = (include RX_BASEDIR . 'common/defaults/reserved.php');
+			if (!is_array(self::$_reserved))
+			{
+				self::$_reserved = array();
+			}
+		}
+		
+		return isset(self::$_reserved[$word]);
 	}
 
 	/**

@@ -134,7 +134,7 @@ class memberModel extends member
 		$user_id = $member_info->user_id;
 		$user_name = $member_info->user_name;
 
-		ModuleHandler::triggerCall('member.getMemberMenu', 'before', new stdClass);
+		ModuleHandler::triggerCall('member.getMemberMenu', 'before', $member_info);
 
 		$oMemberController = getController('member');
 		// Display member information (Don't display to non-logged user)
@@ -205,7 +205,7 @@ class memberModel extends member
 		}
 		
 		// Call a trigger (after)
-		ModuleHandler::triggerCall('member.getMemberMenu', 'after', $null);
+		ModuleHandler::triggerCall('member.getMemberMenu', 'after', $member_info);
 		// Display a menu for editting member info to a top administrator
 		if($logged_info->is_admin == 'Y')
 		{

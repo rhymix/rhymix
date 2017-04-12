@@ -15,7 +15,7 @@
 		<h1>
 			<a href="{getUrl('','module','admin')}"><img cond="$gnb_title_info->adminLogo" src="{getUrl('')}{$gnb_title_info->adminLogo}" alt="{$gnb_title_info->adminTitle}" /> {$gnb_title_info->adminTitle}</a>
 		</h1>
-		<p class="site"><a href="{getFullUrl('')}">{$xe_default_url}</a></p>
+		<p class="site"><a href="{$xe_default_url}">{$xe_default_url}</a></p>
 		<div class="account">
 			<ul>
 				<li><a href="{getUrl('', 'module', 'admin', 'act', 'dispMemberAdminInfo', 'is_admin', 'Y', 'member_srl', $logged_info->member_srl)}">{$logged_info->email_address}</a></li>

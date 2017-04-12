@@ -167,7 +167,12 @@ class boardController extends board
 		// INSERT a new document.
 		else
 		{
-			$output = $oDocumentController->insertDocument($obj, $bAnonymous);
+			if ($obj->document_srl)
+			{
+				$obj->update_order = $obj->list_order = (getNextSequence() * -1);
+			}
+			
+			$output = $oDocumentController->insertDocument($obj, $bAnonymous, false, $obj->document_srl ? false : true);
 			$msg_code = 'success_registed';
 			$obj->document_srl = $output->get('document_srl');
 			
