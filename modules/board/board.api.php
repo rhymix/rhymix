@@ -60,7 +60,10 @@ class boardAPI extends board {
 	function dispBoardContentView(&$oModule) {
 		$oDocument = Context::get('oDocument');
 		$extra_vars = $oDocument->getExtraVars();
-		$oDocument->add('extra_vars',$this->arrangeExtraVars($extra_vars));
+		if($oDocument->isGranted())
+		{
+			$oDocument->add('extra_vars',$this->arrangeExtraVars($extra_vars));
+		}
 		$oModule->add('oDocument',$this->arrangeContent($oDocument));
 	}
 
@@ -69,7 +72,15 @@ class boardAPI extends board {
 	 * @brief contents file list
 	 **/
 	function dispBoardContentFileList(&$oModule) {
-		$oModule->add('file_list',$this->arrangeFile(Context::get('file_list')));
+		$oDocument = Context::get('oDocument');
+		if($oDocument->isAccessible())
+		{
+			$oModule->add('file_list', $this->arrangeFile(Context::get('file_list')));
+		}
+		else
+		{
+			$oModule->add('file_list', array());
+		}
 	}
 
 
@@ -100,13 +111,17 @@ class boardAPI extends board {
 		$oBoardView = getView('board');
 		$output = new stdClass;
 		if($content){
-			$output = $content->gets('document_srl','category_srl','member_srl','nick_name','user_id','user_name','title','content','tags','readed_count','voted_count','blamed_count','comment_count','regdate','last_update','extra_vars','status');
+			$output = $content->gets('document_srl','category_srl','member_srl','nick_name','title','content','tags','readed_count','voted_count','blamed_count','comment_count','regdate','last_update','extra_vars','status');
 
 			if(!$oBoardView->grant->view)
 			{
 				unset($output->content);
 				unset($output->tags);
 				unset($output->extra_vars);
+			}
+			if(!$content->isAccessible())
+			{
+				$output->content = Context::getLang('msg_is_secret');
 			}
 
 			$t_width  = Context::get('thumbnail_width');
@@ -125,7 +140,11 @@ class boardAPI extends board {
 		if(count($comment_list) > 0 ) {
 			foreach($comment_list as $key => $val){
 				$item = null;
-				$item = $val->gets('comment_srl','parent_srl','depth','is_secret','content','voted_count','blamed_count','user_id','user_name','nick_name','email_address','homepage','regdate','last_update');
+				$item = $val->gets('comment_srl','parent_srl','depth','nick_name','content','is_secret','voted_count','blamed_count','regdate','last_update');
+				if(!$val->isAccessible())
+				{
+					$item->content = Context::getLang('msg_is_secret');
+				}
 				$output[] = $item;
 			}
 		}
@@ -138,13 +157,10 @@ class boardAPI extends board {
 		if(count($file_list) > 0) {
 			foreach($file_list as $key => $val){
 				$item = new stdClass;
-				$item->sid = $val->sid;
 				$item->download_count = $val->download_count;
 				$item->source_filename = $val->source_filename;
-				$item->uploaded_filename = $val->uploaded_filename;
 				$item->file_size = $val->file_size;
 				$item->regdate = $val->regdate;
-				$item->download_url = $val->download_url;
 				$output[] = $item;
 			}
 		}

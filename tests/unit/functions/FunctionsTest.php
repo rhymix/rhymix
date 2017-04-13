@@ -123,18 +123,26 @@ class FunctionsTest extends \Codeception\TestCase\Test
 		$this->assertTrue(tobool('on'));
 		$this->assertTrue(tobool('ok'));
 		$this->assertTrue(tobool('okay'));
+		$this->assertTrue(tobool('oui'));
+		$this->assertTrue(tobool('si'));
+		$this->assertTrue(tobool('vrai'));
 		$this->assertTrue(tobool('true'));
 		$this->assertTrue(tobool(1));
 		$this->assertTrue(tobool(-1));
 		$this->assertTrue(tobool(true));
 		$this->assertTrue(tobool(array(1, 2, 3)));
+		$this->assertTrue(tobool(new stdClass));
 		
 		$this->assertFalse(tobool('N'));
 		$this->assertFalse(tobool('no'));
+		$this->assertFalse(tobool('none'));
+		$this->assertFalse(tobool('Nobody'));
 		$this->assertFalse(tobool('false'));
 		$this->assertFalse(tobool('off'));
+		$this->assertFalse(tobool('OUT'));
 		$this->assertFalse(tobool('Fuck you!'));
 		$this->assertFalse(tobool(0));
+		$this->assertFalse(tobool(0.00000000));
 		$this->assertFalse(tobool(''));
 		$this->assertFalse(tobool(false));
 		$this->assertFalse(tobool(null));

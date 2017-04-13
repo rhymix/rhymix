@@ -1,57 +1,29 @@
 <?xml version="1.0" encoding="utf-8"?>
 <module>
 	<grants />
-	<permissions>
-		<permission action="dispCommunicationMessages" target="member" />
-		<permission action="dispCommunicationSendMessage" target="member" />
-		<permission action="dispCommunicationNewMessage" target="member" />
-
-		<permission action="dispCommunicationFriend" target="member" />
-		<permission action="dispCommunicationAddFriend" target="member" />
-		<permission action="dispCommunicationAddFriendGroup" target="member" />
-		<permission action="dispCommunicationMessageBoxList" target="member" />
-
-		<permission action="procCommunicationUpdateAllowMessage" target="member" />
-		<permission action="procCommunicationSendMessage" target="member" />
-		<permission action="procCommunicationStoreMessage" target="member" />
-		<permission action="procCommunicationDeleteMessage" target="member" />
-		<permission action="procCommunicationDeleteMessages" target="member" />
-
-		<permission action="procCommunicationAddFriend" target="member" />
-		<permission action="procCommunicationMoveFriend" target="member" />
-		<permission action="procCommunicationDeleteFriend" target="member" />
-
-		<permission action="procCommunicationAddFriendGroup" target="member" />
-		<permission action="procCommunicationRenameFriendGroup" target="member" />
-		<permission action="procCommunicationDeleteFriendGroup" target="member" />
-	</permissions>
 	<actions>
-		<action name="dispCommunicationMessages" type="view" standalone="true" />
-		<action name="dispCommunicationSendMessage" type="view" standalone="true" />
-		<action name="dispCommunicationNewMessage" type="view" standalone="true" />
-
-		<action name="dispCommunicationFriend" type="view" standalone="true" />
-		<action name="dispCommunicationAddFriend" type="view" standalone="true" />
-		<action name="dispCommunicationAddFriendGroup" type="view" standalone="true" />
-		<action name="dispCommunicationMessageBoxList" type="mobile" standalone="true" />
-
-		<action name="procCommunicationUpdateAllowMessage" type="controller" standalone="true" />
-		<action name="procCommunicationSendMessage" type="controller" ruleset="sendMessage" standalone="true" />
-		<action name="procCommunicationStoreMessage" type="controller" standalone="true" />
-		<action name="procCommunicationDeleteMessage" type="controller" standalone="true" />
-		<action name="procCommunicationDeleteMessages" type="controller" standalone="true" />
-
-		<action name="procCommunicationAddFriend" type="controller" ruleset="addFriend" standalone="true" />
-		<action name="procCommunicationMoveFriend" type="controller" ruleset="deleteCheckedFriend" standalone="true" />
-		<action name="procCommunicationDeleteFriend" type="controller" ruleset="deleteCheckedFriend" standalone="true" />
-
-		<action name="procCommunicationAddFriendGroup" type="controller" ruleset="addFriendGroup" standalone="true" />
-		<action name="procCommunicationRenameFriendGroup" type="controller" standalone="true" />
-		<action name="procCommunicationDeleteFriendGroup" type="controller" standalone="true" />
-
-		<!-- admin -->
+		<action name="dispCommunicationMessages" type="view" permission="member" />
+		<action name="dispCommunicationSendMessage" type="view" permission="member" />
+		<action name="dispCommunicationNewMessage" type="view" permission="member" />
+		<action name="dispCommunicationFriend" type="view" permission="member" />
+		<action name="dispCommunicationAddFriend" type="view" permission="member" />
+		<action name="dispCommunicationAddFriendGroup" type="view" permission="member" />
+		<action name="dispCommunicationMessageBoxList" type="mobile" permission="member" />
+		
+		<action name="procCommunicationUpdateAllowMessage" type="controller" permission="member" />
+		<action name="procCommunicationSendMessage" type="controller" permission="member" ruleset="sendMessage" />
+		<action name="procCommunicationStoreMessage" type="controller" permission="member" />
+		<action name="procCommunicationDeleteMessage" type="controller" permission="member" />
+		<action name="procCommunicationDeleteMessages" type="controller" permission="member" />
+		<action name="procCommunicationAddFriend" type="controller" permission="member" ruleset="addFriend" />
+		<action name="procCommunicationAddFriendGroup" type="controller" permission="member" ruleset="addFriendGroup" />
+		<action name="procCommunicationMoveFriend" type="controller" permission="member" ruleset="deleteCheckedFriend" />
+		<action name="procCommunicationDeleteFriend" type="controller" permission="member" ruleset="deleteCheckedFriend" />
+		<action name="procCommunicationDeleteFriendGroup" type="controller" permission="member" />
+		<action name="procCommunicationRenameFriendGroup" type="controller" permission="member" />
+		
+		<action name="dispCommunicationAdminConfig" type="view" admin_index="true" />
 		<action name="getCommunicationAdminColorset" type="model" />
 		<action name="procCommunicationAdminInsertConfig" type="controller" ruleset="insertConfig" />
-		<action name="dispCommunicationAdminConfig" type="view" admin_index="true" />
 	</actions>
 </module>

@@ -556,13 +556,14 @@ class ModuleHandler extends Handler
 			}
 
 			$forward = NULL;
+			
 			// 1. Look for the module with action name
 			if(preg_match('/^([a-z]+)([A-Z])([a-z0-9\_]+)(.*)$/', $this->act, $matches))
 			{
 				$module = strtolower($matches[2] . $matches[3]);
 				$xml_info = $oModuleModel->getModuleActionXml($module);
 
-				if($xml_info->action->{$this->act} && ((stripos($this->act, 'admin') !== FALSE) || $xml_info->action->{$this->act}->standalone != 'false'))
+				if($xml_info->action->{$this->act} && ($this->module == 'admin' || $xml_info->action->{$this->act}->standalone != 'false'))
 				{
 					$forward = new stdClass();
 					$forward->module = $module;
@@ -581,12 +582,12 @@ class ModuleHandler extends Handler
 					return $oMessageObject;
 				}
 			}
-
+			
 			if(!$forward)
 			{
 				$forward = $oModuleModel->getActionForward($this->act);
 			}
-
+			
 			if($forward->module && $forward->type && $forward->act && $forward->act == $this->act)
 			{
 				$kind = stripos($forward->act, 'admin') !== FALSE ? 'admin' : '';
@@ -594,9 +595,24 @@ class ModuleHandler extends Handler
 				$ruleset = $forward->ruleset;
 				$tpl_path = $oModule->getTemplatePath();
 				$orig_module = $oModule;
-
+				
 				$xml_info = $oModuleModel->getModuleActionXml($forward->module);
-
+				
+				// Protect admin action
+				if(($this->module == 'admin' || $kind == 'admin') && !$oModuleModel->getGrant($forward, $logged_info)->root)
+				{
+					if($this->module == 'admin' || empty($xml_info->permission->{$this->act}))
+					{
+						self::_setInputErrorToContext();
+						$this->error = 'admin.msg_is_not_administrator';
+						$oMessageObject = self::getModuleInstance('message', $display_mode);
+						$oMessageObject->setError(-1);
+						$oMessageObject->setMessage($this->error);
+						$oMessageObject->dispMessage();
+						return $oMessageObject;
+					}
+				}
+				
 				// SECISSUE also check foward act method
 				// check REQUEST_METHOD in controller
 				if($type == 'controller')
@@ -655,7 +671,7 @@ class ModuleHandler extends Handler
 				{
 					$oModule = self::getModuleInstance($forward->module, $type, $kind);
 				}
-
+				
 				if(!is_object($oModule))
 				{
 					self::_setInputErrorToContext();
@@ -669,57 +685,14 @@ class ModuleHandler extends Handler
 					}
 					return $oMessageObject;
 				}
-
-				if($this->module == "admin" && $type == "view")
+				
+				// Admin page layout
+				if($this->module == 'admin' && $type == 'view' && $this->act != 'dispLayoutAdminLayoutModify')
 				{
-					if($logged_info->is_admin == 'Y')
-					{
-						if($this->act != 'dispLayoutAdminLayoutModify')
-						{
-							$oAdminView = getAdminView('admin');
-							$oAdminView->makeGnbUrl($forward->module);
-							$oModule->setLayoutPath("./modules/admin/tpl");
-							$oModule->setLayoutFile("layout.html");
-						}
-					}
-					else
-					{
-						self::_setInputErrorToContext();
-
-						$this->error = 'admin.msg_is_not_administrator';
-						$oMessageObject = self::getModuleInstance('message', $display_mode);
-						$oMessageObject->setError(-1);
-						$oMessageObject->setMessage($this->error);
-						$oMessageObject->dispMessage();
-						return $oMessageObject;
-					}
-				}
-				if($kind == 'admin')
-				{
-					$grant = $oModuleModel->getGrant($this->module_info, $logged_info);
-					if(!$grant->manager)
-					{
-						self::_setInputErrorToContext();
-						$this->error = 'admin.msg_is_not_administrator';
-						$oMessageObject = self::getModuleInstance('message', $display_mode);
-						$oMessageObject->setError(-1);
-						$oMessageObject->setMessage($this->error);
-						$oMessageObject->dispMessage();
-						return $oMessageObject;
-					}
-					else
-					{
-						if(!$grant->is_admin && $this->module != $this->orig_module->module && $xml_info->permission->{$this->act} != 'manager')
-						{
-							self::_setInputErrorToContext();
-							$this->error = 'admin.msg_is_not_administrator';
-							$oMessageObject = self::getModuleInstance('message', $display_mode);
-							$oMessageObject->setError(-1);
-							$oMessageObject->setMessage($this->error);
-							$oMessageObject->dispMessage();
-							return $oMessageObject;
-						}
-					}
+					$oAdminView = getAdminView('admin');
+					$oAdminView->makeGnbUrl($forward->module);
+					$oModule->setLayoutPath("./modules/admin/tpl");
+					$oModule->setLayoutFile("layout.html");
 				}
 			}
 			else if($xml_info->default_index_act && method_exists($oModule, $xml_info->default_index_act))
@@ -734,7 +707,7 @@ class ModuleHandler extends Handler
 				return $oModule;
 			}
 		}
-
+		
 		// ruleset check...
 		if(!empty($ruleset))
 		{

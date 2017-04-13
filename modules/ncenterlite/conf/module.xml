@@ -1,27 +1,28 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <module>
 	<grants />
-	<permissions />
 	<actions>
+		<action name="dispNcenterliteNotifyList" type="view" permission="member" />
+		<action name="dispNcenterliteUserConfig" type="view" permission="member" />
+		
+		<action name="getColorsetList" type="model" permission="root" />
+		<action name="getMyNotifyListTpl" type="model" permission="member" />
+		
+		<action name="procNcenterliteUserConfig" type="controller" permission="member" />
+		<action name="procNcenterliteNotifyReadAll" type="controller" permission="member" />
+		<action name="procNcenterliteRedirect" type="controller" permission="member" method="GET|POST" />
+		
 		<action name="dispNcenterliteAdminConfig" type="view" admin_index="true" menu_name="ncenterlite" menu_index="true" />
-		<action name="dispNcenterliteAdminSeletedmid" type="view" />
-		<action name="dispNcenterliteAdminTest" type="view" />
-		<action name="dispNcenterliteAdminSkinsetting" type="view" />
-		<action name="dispNcenterliteAdminAdvancedconfig" type="view" />
-		<action name="dispNcenterliteNotifyList" type="view" />
-		<action name="dispNcenterliteAdminList" type="view" />
-		<action name="dispNcenterliteUserConfig" type="view" />
-		<action name="procNcenterliteUserConfig" type="controller" />
+		<action name="dispNcenterliteAdminAdvancedconfig" type="view" menu_name="ncenterlite" />
+		<action name="dispNcenterliteAdminSeletedmid" type="view" menu_name="ncenterlite" />
+		<action name="dispNcenterliteAdminSkinsetting" type="view" menu_name="ncenterlite" />
+		<action name="dispNcenterliteAdminTest" type="view"  menu_name="ncenterlite" />
+		<action name="dispNcenterliteAdminList" type="view" menu_name="ncenterlite" />
+		
 		<action name="procNcenterliteAdminInsertConfig" type="controller" ruleset="insertConfig" />
-		<action name="procNcenterliteAdminDeleteNofity" type="controller" />
 		<action name="procNcenterliteAdminInsertDummyData" type="controller" />
 		<action name="procNcenterliteAdminInsertPushData" type="controller" />
-		<action name="procNcenterliteAdminEnviromentGatheringAgreement" type="controller" />
-		<action name="procNcenterliteNotifyReadAll" type="controller" />
-		<action name="procNcenterliteRedirect" type="controller" method="GET|POST" />
-
-		<action name="getColorsetList" type="model" />
-		<action name="getMyNotifyListTpl" type="model" />
+		<action name="procNcenterliteAdminDeleteNofity" type="controller" />
 	</actions>
 	<menus>
 		<menu name="ncenterlite" type="all">

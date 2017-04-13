@@ -283,6 +283,11 @@ class Context
 		else
 		{
 			$site_module_info = new stdClass;
+			$site_module_info->domain = $_SERVER['HTTP_HOST'];
+			$site_module_info->security = RX_SSL ? 'always' : 'none';
+			$site_module_info->settings = new stdClass;
+			$site_module_info->is_default_replaced = true;
+			self::set('site_module_info', $site_module_info);
 		}
 		
 		// Redirect to SSL if the current domain always uses SSL.
@@ -625,7 +630,7 @@ class Context
 		
 		if ($site_module_info === null)
 		{
-			$site_module_info === self::get('site_module_info');
+			$site_module_info = self::get('site_module_info');
 		}
 		
 		$prefix = $site_module_info->security === 'always' ? 'https://' : 'http://';

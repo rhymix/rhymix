@@ -168,7 +168,7 @@ class HTMLDisplayHandler
 		$output = preg_replace_callback('!<style(.*?)>(.*?)<\/style>!is', array($this, '_moveStyleToHeader'), $output);
 
 		// move <link ..></link> in body to the header
-		$output = preg_replace_callback('!<link(.*?)/>!is', array($this, '_moveLinkToHeader'), $output);
+		$output = preg_replace_callback('!<link(.*?)/?>!is', array($this, '_moveLinkToHeader'), $output);
 
 		// move <meta ../> in body to the header
 		$output = preg_replace_callback('!<meta(.*?)(?:\/|)>!is', array($this, '_moveMetaToHeader'), $output);
