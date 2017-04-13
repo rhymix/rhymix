@@ -66,8 +66,10 @@ function getWidgetVars() {
 	if(!opener || !opener.selectedWidget || !opener.selectedWidget.getAttribute("widget")) return;
 	selected_node = opener.selectedWidget;
 
-	if(!xGetElementById('fo_widget').widgetstyle.value) {
-		xGetElementById('fo_widget').widgetstyle.value = selected_node.getAttribute('widgetstyle');
+	var fo_widget = get_by_id('fo_widget');
+
+	if(fo_widget.widgetstyle.value) {
+		fo_widget.widgetstyle.value = selected_node.getAttribute('widgetstyle');
 	}
 
 	doFillWidgetVars();
@@ -83,7 +85,7 @@ function doFillWidgetVars() {
 	var widget_sequence = parseInt(selected_node.getAttribute("widget_sequence"),10);
 
 	var fo_widget = jQuery("#fo_widget");
-	var fo_obj = xGetElementById("fo_widget");
+	var fo_obj = get_by_id("fo_widget");
 	jQuery('#widget_skin').val(skin);
 
 	// 위젯 스타일 유지를 위한 hidden input 추가하고 값을 저장
@@ -132,7 +134,7 @@ function doFillWidgetVars() {
 		if (node.name == 'widget_cache_unit') {
 			continue;
 		}
-		
+
 		var length = node.length;
 		var type = node.type;
 
@@ -209,7 +211,7 @@ function doFillWidgetVars() {
 
 
 	//  컬러셋 설정
-	if(skin && xGetElementById("widget_colorset") && xGetElementById("widget_colorset").options.length < 1 && colorset) {
+	if(skin && get_by_id("widget_colorset") && get_by_id("widget_colorset").options.length < 1 && colorset) {
 		doDisplaySkinColorset(colorset);
 	}
 
