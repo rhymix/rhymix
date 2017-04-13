@@ -199,7 +199,7 @@ function doSyncPageContent() {
 		if(obj && jQuery(obj).hasClass("widgetContent")) {
 			if(!fo_obj.document_srl || fo_obj.document_srl.value == '0') {
 				try {
-					var content = Base64.decode(xInnerHtml(obj));
+					var content = Base64.decode($(obj).html());
 					get_by_id("content_fo").content.value = content;
 					xe.Editors["1"].exec("SET_IR", [content]);
 				}
@@ -351,7 +351,7 @@ function doAddWidgetCode(widget_code) {
 		if(typeof(document.createStyleSheet)=='undefined') {
 			var css ='<link rel="stylesheet" href="'+cssfile+'" />';
 			var dummy  = xCreateElement("DIV");
-			xInnerHtml(dummy , css);
+			$(dummy).html(css);
 			document.body.appendChild(dummy);
 		} else {
 			document.createStyleSheet(cssfile,0);
@@ -386,7 +386,7 @@ function doAddWidgetCode(widget_code) {
 
 	// html 추가
 	var dummy = xCreateElement('div');
-	xInnerHtml(dummy, widget_code);
+	$(dummy).html(widget_code);
 	var obj = dummy.childNodes[0];
 
 	if(selectedWidget && selectedWidget.getAttribute("widget")) {
@@ -453,7 +453,7 @@ function doCheckWidget(e) {
 			return;
 		} else {
 			var dummy = xCreateElement("DIV");
-			xInnerHtml(dummy,xInnerHtml(p_obj));
+			$(dummy).html($(p_obj).html());
 
 			dummy.widget_sequence = '';
 			dummy.className = "widgetOutput";
@@ -512,7 +512,7 @@ function doCheckWidget(e) {
 function completeCopyWidgetContent(ret_obj, response_tags, params, p_obj) {
 	var document_srl = ret_obj.document_srl;
 	var dummy = xCreateElement("DIV");
-	xInnerHtml(dummy,xInnerHtml(p_obj));
+	$(dummy).html($(p_obj).html());
 
 
 	dummy.widget_sequence = '';
@@ -1186,9 +1186,8 @@ function widgetDragEnd(tobj, px, py) {
 
 // 스르르 사라지게 함 (일단 사라지게 하는 기능을 제거.. 속도 문제)
 function widgetDisapearObject(obj, tobj) {
-	xInnerHtml(tobj,xInnerHtml(obj));
-	xInnerHtml(obj,'');
-	jQuery(obj).hide();
+	$(tobj).html($(obj).html());
+	$(obj).html('').hide();
 	obj.parentNode.removeChild(obj);
 	widgetTmpObject[tobj.id] = null;
 	return;
