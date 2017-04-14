@@ -2074,9 +2074,9 @@ class moduleModel extends module
 			}
 			
 			// Grant privileges by default information of module
-			if(is_array($xml_info->grant))
+			if(!empty($grant_list = (array) $xml_info->grant))
 			{
-				foreach($xml_info->grant as $name => $item)
+				foreach($grant_list as $name => $item)
 				{
 					if(isset($checked[$name]))
 					{
