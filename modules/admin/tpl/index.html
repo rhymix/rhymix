@@ -24,20 +24,6 @@
 		<p>{$lang->about_sitelock_in_use} <a href="{getUrl('', 'module', 'admin', 'act', 'dispAdminConfigSitelock')}">{$lang->cmd_configure}</a></p>
 	</div>
 
-	<form action="./" method="post" class="message info x_clearfix" cond="!$isLicenseAgreement">
-		<input type="hidden" name="success_return_url" value="{getUrl('', 'module', 'admin')}" />
-		<input type="hidden" name="module" value="install" />
-		<input type="hidden" name="act" value="procInstallLicenseAgreement" />
-		<input type="hidden" name="license_agreement" value="Y" />
-		<input type="hidden" name="XE_VALIDATOR_ID" value="modules/admin/tpl/index/1">
-
-		<h2>{$lang->license_agreement}</h2>
-		<div>{$lang->license}</div>
-		<div class="x_btn-group x_pull-right" style="margin-bottom:10px">
-			<button type="submit" class="x_btn x_btn-small x_btn-primary" value="">{$lang->cmd_license_agree}</button>
-		</div>
-	</form>
-
 	<div class="message update" cond="$addTables || $needUpdate">
 		<h2 cond="$needUpdate && $addTables">{$lang->need_update_and_table}</h2>
 		<h2 cond="$needUpdate && !$addTables">{$lang->need_update}</h2>

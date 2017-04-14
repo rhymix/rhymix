@@ -387,17 +387,7 @@ class adminAdminView extends admin
 		$oSecurity = new Security();
 		$oSecurity->encodeHTML('module_list..', 'module_list..author..', 'newVersionList..');
 
-		// license agreement check
-		$isLicenseAgreement = FALSE;
-		$path = FileHandler::getRealPath('./files/env/license_agreement');
-		$isLicenseAgreement = FALSE;
-		if(file_exists($path))
-		{
-			$isLicenseAgreement = TRUE;
-		}
-		Context::set('isLicenseAgreement', $isLicenseAgreement);
 		Context::set('layout', 'none');
-
 		$this->setTemplateFile('index');
 	}
 
