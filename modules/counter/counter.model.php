@@ -25,27 +25,23 @@ class counterModel extends counter
 	 */
 	function isLogged($site_srl = 0)
 	{
+		$date = date('Ymd');
+		if (isset($_SESSION['counter_logged'][$date]) && $_SESSION['counter_logged'][$date])
+		{
+			return true;
+		}
+		
 		$args = new stdClass();
-		$args->regdate = date('Ymd');
+		$args->regdate = $date;
 		$args->ipaddress = $_SERVER['REMOTE_ADDR'];
 		$args->site_srl = $site_srl;
-
-		$iplogged = false;
-		$cache_key = 'counter:' . $site_srl . '_' . str_replace(array('.', ':'), '-', $args->ipaddress);
-		$group_key = 'counterIpLogged_' . $args->regdate;
-		$iplogged = Rhymix\Framework\Cache::get($group_key . ':' . $cache_key);
-
-		if(!$iplogged)
+		$output = executeQuery('counter.getCounterLog', $args);
+		$iplogged = $output->data->count ? true : false;
+		if ($iplogged)
 		{
-			$output = executeQuery('counter.getCounterLog', $args);
-			if($output->data->count) $iplogged = TRUE;
+			$_SESSION['counter_logged'][$date] = true;
 		}
-
-		if($iplogged)
-		{
-			Rhymix\Framework\Cache::set($group_key . ':' . $cache_key, $iplogged, 0, true);
-		}
-
+		
 		return $iplogged;
 	}
 
