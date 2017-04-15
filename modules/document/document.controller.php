@@ -2165,7 +2165,7 @@ class documentController extends document
 			'$group_srls = array_keys($logged_info->group_list); '.
 			'} else { '.
 			'$is_admin = false; '.
-			'$group_srsl = array(); '.
+			'$group_srls = array(); '.
 			'} '."\n";
 
 		// Create the xml cache file (a separate session is needed for xml cache)
