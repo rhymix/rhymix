@@ -2024,11 +2024,6 @@ class moduleModel extends module
 			// Grant privileges by information that get from the DB
 			foreach($this->getModuleGrants($module_info->module_srl)->data as $val)
 			{
-				if(isset($checked[$val->name]))
-				{
-					continue;
-				}
-				
 				$checked[$val->name] = true;
 				
 				// All user
