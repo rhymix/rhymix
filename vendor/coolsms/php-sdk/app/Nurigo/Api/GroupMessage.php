@@ -54,8 +54,9 @@ class GroupMessage extends Coolsms
 
 
         $args = new \stdClass();
-        $args->groups = new \stdClass();
-        $args->groups->groupId = $group_ids;
+        $args->groups = array();
+        $args->groups[]->groupId = $group_ids;
+
 
         $json_args = json_encode($args);
 
