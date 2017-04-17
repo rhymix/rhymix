@@ -115,7 +115,10 @@ class Coolsms
      */
     private function setContent($options)
     {
-
+        if($options->json_args){
+            $this->content = $options->json_args;
+            return;
+        }
         $this->content = new \stdClass;
         if ($options->json_option) {
             $json_option = $options->json_option;
@@ -125,11 +128,7 @@ class Coolsms
         $this->content->$json_option = new \stdClass;
 
         foreach ($options as $key => $val) {
-            if ($json_option == 'groupOptions') {
-                $this->content->$json_option->$key = $val;
-            } else {
-                $this->content->$json_option->$key = $val;
-            }
+            $this->content->$json_option->$key = $val;
         }
         if ($options->json_option !== 'groupOptions') {
             $this->content->$json_option = array($this->content->$json_option);
@@ -222,7 +221,7 @@ class Coolsms
      * @param boolean $is_post [optional] GET = false, POST = true
      * @return mixed
      */
-    protected function request($resource, $options = null, $is_post = false)
+    protected function request($resource, $options = null, $is_post = true)
     {
         if (!$resource) throw new CoolsmsSDKException('resource is required', 201);
 

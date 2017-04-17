@@ -52,9 +52,16 @@ class GroupMessage extends Coolsms
     {
         if (!$group_ids) throw new CoolsmsSDKException('group_ids is required', 202);
 
+
+        $args = new \stdClass();
+        $args->groups = new \stdClass();
+        $args->groups->groupId = $group_ids;
+
+        $json_args = json_encode($args);
+
         $options = new \stdClass();
-        $options->group_ids = $group_ids;
-        return $this->request('delete_groups', $options, true);
+        $options->json_args = $json_args;
+        return $this->request('deleteGroups', $options, true);
     }
 
     /**
@@ -68,7 +75,7 @@ class GroupMessage extends Coolsms
 
         $options = new \stdClass();
         $options->group_id = $group_id;
-        return $this->request(sprintf('groups/%s', $group_id), $options);
+        return $this->request(sprintf('group/%s/getGroupInfo', $group_id), $options);
     }
     
     /**
