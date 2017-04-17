@@ -416,6 +416,7 @@ class boardView extends board
 		$oDocumentModel = getModel('document');
 		$document_srl = Context::get('document_srl');
 		$oDocument = $oDocumentModel->getDocument($document_srl);
+		Context::set('oDocument', $oDocument);
 		Context::set('file_list',$oDocument->getUploadedFiles());
 
 		$oSecurity = new Security();
