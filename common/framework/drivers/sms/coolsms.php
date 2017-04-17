@@ -104,7 +104,7 @@ class CoolSMS extends Base implements \Rhymix\Framework\Drivers\SMSInterface
 					$options->$key = $value;
 				}
 				$result = $sender->send($options);
-				if (!$result->success_count)
+				if ($result->errorCount > 0)
 				{
 					$error_codes = implode(', ', $result->error_list ?: array('Unknown'));
 					$original->addError('Error (' . $error_codes . ') while sending message ' . ($i + 1) . ' of ' . count($messages) . ' to ' . $options->to);
