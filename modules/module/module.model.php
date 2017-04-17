@@ -2025,12 +2025,15 @@ class moduleModel extends module
 			foreach($this->getModuleGrants($module_info->module_srl)->data as $val)
 			{
 				$checked[$val->name] = true;
-				
+				if($grant->{$val->name})
+				{
+					continue;
+				}
+					
 				// All user
 				if($val->group_srl == 0)
 				{
 					$grant->{$val->name} = true;
-					
 					continue;
 				}
 				
@@ -2073,7 +2076,7 @@ class moduleModel extends module
 			{
 				foreach($grant_list as $name => $item)
 				{
-					if(isset($checked[$name]))
+					if(isset($checked[$name]) || $grant->{$name})
 					{
 						continue;
 					}
