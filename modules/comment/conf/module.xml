@@ -2,7 +2,7 @@
 <module>
 	<grants />
 	<actions>
-		<action name="dispCommentDeclare" type="view" permission="manager" />
+		<action name="dispCommentDeclare" type="view" permission="member" />
 		
 		<action name="getCommentMenu" type="model" />
 		<action name="getCommentVotedMemberList" type="model" permission="root" />

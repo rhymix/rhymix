@@ -2,7 +2,7 @@
 <module>
 	<grants />
 	<actions>
-		<action name="dispModuleSelectList" type="view" permission="root" />
+		<action name="dispModuleSelectList" type="view" permission="all-managers" />
 		<action name="dispModuleSkinInfo" type="view" permission="all-managers" />
 		<action name="dispModuleFileBox" type="view" permission="root" />
 		<action name="dispModuleFileBoxAdd" type="view" permission="root" />
