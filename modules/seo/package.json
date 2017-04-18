@@ -1,0 +1,28 @@
+{
+  "name": "XE-SEO",
+  "version": "1.8.0",
+  "author": "BNU",
+  "contributors": [
+    {
+      "name" : "BNU",
+      "email" : "bnufactory@gmail.com"
+    }
+  ],
+  "keywords": ["SEO","search engine optimization", "XpressEngine", "XE"],
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/xpressengine/xe-module-seo.git"
+  },
+  "bugs": {
+    "url" : "https://github.com/xpressengine/xe-module-seo/issues"
+  },
+  "devDependencies": {
+    "grunt": ">0.4.0",
+    "grunt-phplint": "0.0.5"
+  },
+  "main": "Gruntfile.js",
+  "scripts": {
+    "test": "grunt"
+  }
+}

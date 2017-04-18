@@ -1,0 +1,15 @@
+<div class="x_page-header">
+	<h1>SEO</h1>
+</div>
+
+<div cond="$XE_VALIDATOR_MESSAGE" class="message {$XE_VALIDATOR_MESSAGE_TYPE}">
+	<p>{$XE_VALIDATOR_MESSAGE}</p>
+</div>
+
+<div>
+	<ul class="x_nav x_nav-tabs">
+		<li class="x_active"|cond="$act == 'dispSeoAdminSetting' && $setting_section == 'general'"><a href="{getUrl('act','dispSeoAdminSetting', 'setting_section','general')}">기본 설정</a></li>
+		<li class="x_active"|cond="$act == 'dispSeoAdminSetting' && $setting_section == 'analytics'"><a href="{getUrl('act','dispSeoAdminSetting', 'setting_section','analytics')}">Analytics</a></li>
+		<li class="x_active"|cond="$act == 'dispSeoAdminSetting' && $setting_section == 'miscellaneous'"><a href="{getUrl('act','dispSeoAdminSetting', 'setting_section','miscellaneous')}">기타</a></li>
+	</ul>
+</div>
