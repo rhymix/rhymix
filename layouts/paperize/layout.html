@@ -1,0 +1,201 @@
+<!--// responsible layout -->
+{Context::addMetaTag("viewport", "width=device-width, user-scalable=yes")}
+
+{@ $material_colors = array(
+	'red'	=>	'#f44336',
+	'pink'	=>	'#e91e63',
+	'purple'	=>	'#9c27b0',
+	'deep-purple'	=>	'#673ab7',
+	'indigo'	=>	'#3f51b5',
+	'blue'	=>	'#2196f3',
+	'light-blue'	=>	'#03a9f4',
+	'cyan'	=>	'#00bcd4',
+	'teal'	=>	'#009688',
+	'green'	=>	'#4caf50',
+	'light-green'	=>	'#8bc34a',
+	'lime'	=>	'#cddc39',
+	'yellow'	=>	'#ffeb3b',
+	'amber'	=>	'#ffc107',
+	'orange'	=>	'#ff9800',
+	'deep-orange'	=>	'#ff5722',
+	'brown'	=>	'#795548',
+	'grey'	=>	'#9e9e9e',
+	'blue-grey'	=>	'#607d8b',
+	'black'	=>	'#000000',
+	'white'	=>	'#ffffff'
+)}
+
+
+{@ if(!$layout_info->primary_color) $layout_info->primary_color = 'red'}
+{@ if(!$layout_info->secondary_color) $layout_info->secondary_color = 'indigo'}
+
+{@ if($layout_info->primary_color === $layout_info->secondary_color && $layout_info->primary_color === 'indigo') $layout_info->secondary_color = 'red'}
+{@ if($layout_info->primary_color === $layout_info->secondary_color && $layout_info->primary_color !== 'indigo') $layout_info->secondary_color = 'indigo'}
+
+<!--// theme-color for mobile chrome browser -->
+{Context::addMetaTag("theme-color", $material_colors[$layout_info->primary_color])}
+
+
+<!--// Compiled and minified JavaScript -->
+<load target="materialize.min.js" />
+<load target="default.layout.js" type="body" />
+
+
+<!--// Load styles -->
+<load target="default.layout.css" />
+{Context::set('layout_scss_value', array('p-color' => $layout_info->primary_color, 's-color' => $layout_info->secondary_color))}
+<load target="scss.scss" vars="$layout_scss_value" />
+
+<!--// Icons -->
+<link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons" />
+
+
+<header class="navbar-fixed">
+	<nav class="top-nav">
+		<div class="nav-wrapper">
+			<a href="#" data-activates="paperize_global_nav" class="button-collapse show-on-large"><i class="material-icons">menu</i></a>
+			<h1 class="brand-logo">
+				<a href="<!--@if($layout_info->logo_url)-->{$layout_info->logo_url}<!--@elseif(Context::getDefaultUrl())-->{Context::getDefaultUrl()}<!--@else-->{getUrl('')}<!--@end-->">
+					<block cond="Context::getSiteTitle() && !$layout_info->LOGO_IMG && !$layout_info->LOGO_TEXT">{Context::getSiteTitle()}</block>
+					<img src="{$layout_info->LOGO_IMG}" alt="{htmlspecialchars($layout_info->LOGO_TEXT)}"|cond="trim($layout_info->LOGO_TEXT)" alt="{htmlspecialchars(Context::getSiteTitle())}"|cond="!trim($layout_info->LOGO_TEXT)" cond="$layout_info->LOGO_IMG" />
+					<block cond="!$layout_info->LOGO_IMG && $layout_info->LOGO_TEXT">{$layout_info->LOGO_TEXT}</block>
+				</a>
+			</h1>
+			<ul cond="$GNB->list" class="right hide-on-med-and-down">
+				<li loop="$GNB->list=>$key1,$val1" class="active"|cond="$val1['selected'] && !$val1['list']" class="active no-padding"|cond="$val1['selected'] && $val1['list']" class="no-padding"|cond="!$val1['selected'] && $val1['list']">
+					<a href="{$val1['href']}" target="_blank"|cond="$val1['open_window']=='Y'" class="dropdown-button"|cond="$val1['list']" data-activates="{md5(serialize($val1['list']))}"|cond="$val1['list']"><span>{$val1['link']}</span></a>
+					<ul id="{md5(serialize($val1['list']))}" class="dropdown-content" cond="$val1['list']">
+						<li class="active"|cond="$val1['selected']"><a href="{$val1['href']}" target="_blank"|cond="$val1['open_window']=='Y'" class="grey-text text-darken-4"><span>{$val1['link']}</span></a></li>
+						<li loop="$val1['list']=>$key2,$val2" class="active"|cond="$val2['selected']"><a href="{$val2['href']}" target="_blank"|cond="$val2['open_window']=='Y'" class="grey-text text-darken-4">{$val2['link']}</a></li>
+					</ul>
+				</li>
+			</ul>
+			<form class="right hide-on-med-and-down" method="GET" action="{getUrl()}">
+				<input type="hidden" name="vid" value="{$vid}" cond="$vid" />
+				<input type="hidden" name="mid" value="{$mid}" />
+				<input type="hidden" value="IS" name="act">
+				<div class="input-field col s12 grey-text">
+					<input id="layout_search_keyword" name="is_keyword" type="search" required="required">
+					<label for="layout_search_keyword"><i class="material-icons">search</i></label>
+					<i class="material-icons">close</i>
+				</div>
+			</form>
+			<!-- GNB -->
+			<div class="side-nav show-on-large" id="paperize_global_nav">
+				<div class="card z-depth-1">
+					<ul class="collapsible grey-text text-darken-4">
+						<li>
+							<div class="collapsible-header avatar">
+								<img src="{$logged_info->profile_image->src}" alt="{$logged_info->nick_name}" class="circle" cond="$is_logged && $logged_info->profile_image->src" />
+								<span cond="$is_logged" class="title">{$logged_info->nick_name}</span>
+								<span cond="!$is_logged" class="title">Guest</span>
+								<i class="material-icons right">more_vert</i>
+							</div>
+							<div class="collapsible-body">
+								<ul cond="$is_logged && $logged_info->menu_list && (!$member_srl || $member_srl == $logged_info->member_srl)">
+									<li loop="$logged_info->menu_list=>$key,$val">
+										<a href="{getUrl('', 'act',$key, 'mid', $mid, 'vid', $vid)}">{lang($val)}</a>
+									</li>
+									<li><a href="{getUrl('act','procAdminLogout')}">{$lang->cmd_logout}</a></li>
+								</ul>
+								<ul cond="!$is_logged">
+									<li><a href="{getUrl('act','dispMemberLoginForm')}">{$lang->cmd_login}...</a></li>
+									<li><a href="{getUrl('act','dispMemberSignUpForm')}">{$lang->cmd_signup}...</a></li>
+								</ul>
+							</div>
+						</li>
+					</ul>
+				</div>
+				<div class="divider"></div>
+				<form class="layout_content" id="layout_gnb_search" method="GET" action="{getUrl()}">
+					<input type="hidden" name="vid" value="{$vid}" cond="$vid" />
+					<input type="hidden" name="mid" value="{$mid}" />
+					<input type="hidden" value="IS" name="act">
+					<div class="input-field col s12 grey-text">
+						<input id="layout_search_keyword_mini" class="layout_content" name="is_keyword" type="search" required="required">
+						<label for="layout_search_keyword_mini" class="layout_content"><i class="material-icons grey-text text-darken-4">search</i></label>
+						<i class="material-icons" class="layout_content">close</i>
+					</div>
+				</form>
+				<div class="divider"></div>
+				<ul class="layout_gnb_nav" cond="$GNB->list">
+					<li loop="$GNB->list=>$key1,$val1" class="active"|cond="$val1['selected'] && !$val1['list']" class="active no-padding"|cond="$val1['selected'] && $val1['list']" class="no-padding"|cond="!$val1['selected'] && $val1['list']">
+						<a href="{$val1['href']}" target="_blank"|cond="$val1['open_window']=='Y'" cond="!$val1['list']"><span>{$val1['link']}</span></a>
+						<ul class="collapsible collapsible-accordion" cond="$val1['list']">
+							<li>
+								<a href="{$val1['href']}"|cond="!$val1['list']" href="#"|cond="$val1['list']" target="_blank"|cond="$val1['open_window']=='Y'" class="collapsible-header active"|cond="$val1['selected'] && $val1['list']" class="collapsible-header"|cond="!$val1['selected'] && $val1['list']">{$val1['link']}<i class="material-icons" cond="$val1['list']">arrow_drop_down</i></a>
+								<div cond="$val1['list']" class="collapsible-body">
+									<ul>
+										<li class="active"|cond="$val1['selected']"><a href="{$val1['href']}" target="_blank"|cond="$val1['open_window']=='Y'"><span>{$val1['link']}</span></a></li>
+										<li loop="$val1['list']=>$key2,$val2" class="active"|cond="$val2['selected']"><a href="{$val2['href']}" target="_blank"|cond="$val2['open_window']=='Y'">{$val2['link']}</a></li>
+									</ul>
+								</div>
+							</li>
+						</ul>
+					</li>
+				</ul>
+			</div>
+			<script>$('.button-collapse').sideNav();</script>
+			<!--// GNB -->
+		</div>
+	</nav>
+</header>
+
+<main>
+	<div class="<!--@if($layout_info->main_max_width !== 'unlimited')-->container <!--@end-->layout_content" id="content">{$content}</div>
+</main>
+
+<footer class="page-footer">
+	<div class="container" cond="$layout_info->footer_view !== 'small'">
+		<div class="row">
+			<div class="col s12 m6" cond="$bottom_menu->list">
+				<ul class="collection">
+					<li loop="$bottom_menu->list=>$key1,$val1">
+						<a class="collection-header collection-item grey-text text-darken-2" href="{$val1['href']}" target="_blank"|cond="$val1['open_window']=='Y'"><h2>{$val1['link']}</h2></a>
+						<ul cond="$val1['list']">
+							<li loop="$val1['list']=>$key2,$val2"><a class="collection-item grey-text text-darken-2" href="{$val2['href']}" target="_blank"|cond="$val2['open_window']=='Y'">{$val2['link']}</a></li>
+						</ul>
+					</li>
+				</ul>
+			</div>
+			<div class="col s12 m6"|cond="$bottom_menu->list">
+				<div class="col s12 m6"|cond="!$bottom_menu->list">
+					<ul class="collection with-header">
+						<li>
+							<h2 class="collection-header collection-item">{$lang->member}</h2>
+							<ul>
+								<!--@if($is_logged)-->
+								<li><a class="collection-item grey-text text-darken-2" href="{getUrl('act','dispMemberLogout')}">{$lang->cmd_logout}</a></li>
+								<li><a class="collection-item grey-text text-darken-2" href="{getUrl('act', 'dispMemberInfo')}">{$lang->cmd_view_member_info}</a></li>
+								<!--@elseif($act!='dispMemberLoginForm')-->
+								<li><a class="collection-item grey-text text-darken-2" href="{getUrl('act','dispMemberLoginForm')}">{$lang->cmd_login}...</a></li>
+								<li><a class="collection-item grey-text text-darken-2" href="{getUrl('act','dispMemberSignUpForm')}">{$lang->cmd_signup}...</a></li>
+								<!--@end-->
+							</ul>
+						</li>
+					</ul>
+				</div>
+				<div class="col s12 m6"|cond="!$bottom_menu->list">
+					<ul class="collection">
+						<li><a class="collection-item grey-text text-darken-2" href="{getUrl('act','IS')}">{$lang->cmd_search}...</a></li>
+						<li><a class="collection-item grey-text text-darken-2" href="{getUrl('act','dispModuleChangeLang','oldact',$act)}">Languages...</a></li>
+					</ul>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div class="footer-copyright">
+		<div class="container">
+					<block cond="$layout_info->copyright_footer">
+						{$layout_info->copyright_footer}
+					</block>
+					<block cond="!$layout_info->copyright_footer">
+						Powered by <a href="https://www.rhymix.org/">Rhymix</a>.
+					</block>
+					<span>
+						<a cond="$bottom_list->list" loop="$bottom_list->list=>$key1,$val1" href="{$val1['href']}" target="_blank"|cond="$val1['open_window']=='Y'" class="footer-links">{$val1['link']}</a>
+						<a class="footer-links" href="{getUrl('act', 'dispMemberInfo')}" cond="$is_logged">{$lang->cmd_view_member_info}</a>
+					</span>
+		</div>
+	</div>
+</footer>
