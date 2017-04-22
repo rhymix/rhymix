@@ -30,8 +30,4 @@
 		<li><a href="{getUrl('page',$page_navigation->last_page,'module_srl','')}" class="direction">{lang('common.last_page')} &rsaquo;</a></li>
 	</ul>
 </div>
-<div class="sw-footer sw-anchor-buttons">
-	<a href="{getUrl('','module','module','act','dispModuleSelectList','id','target_module','type','single')}" onclick="popopen(this.href,'ModuleSelect');return false;">{lang('module.cmd_find_module')}</a>
-	<a href="{getUrl('selected_module_srl','')}" cond="$selected_module_srl">{lang('common.cmd_cancel')}</a>
-</div>
 <include target="./common_footer.html" />
