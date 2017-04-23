@@ -43,8 +43,8 @@
 		<tbody>
 			<tr loop="$list => $mid_name,$module_info">
 				<td>{$mid_name}</td>
-				<td>{$module_info->browser_title}</td>
-				<td><a href="#" onclick="insertModule('{$id}', {$module_info->module_srl}, '{$mid_name}', '{escape($module_info->browser_title, false)}', {$type=='single'?'false':'true'}); return false;" class="button green"><span>{$type=='single'?$lang->cmd_select:$lang->cmd_insert}</span></a></td>
+				<td>{$module_info->browser_title|autoescape}</td>
+				<td><a href="#" onclick="insertModule('{$id|escapejs}', {$module_info->module_srl}, '{$mid_name|escapejs}', '{$module_info->browser_title|escapejs}', {$type=='single'?'false':'true'}); return false;" class="button green"><span>{$type=='single'?$lang->cmd_select:$lang->cmd_insert}</span></a></td>
 			</tr>
 		</tbody>
 	</table>
