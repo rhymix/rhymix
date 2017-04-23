@@ -110,14 +110,30 @@ class SecurityTest extends \Codeception\TestCase\Test
 		
 		$_SERVER['REQUEST_METHOD'] = 'GET';
 		$_SERVER['HTTP_REFERER'] = '';
+		$_SERVER['HTTP_X_CSRF_TOKEN'] = '';
+		$this->assertFalse(Rhymix\Framework\Security::checkCSRF());
+		$_SERVER['HTTP_X_CSRF_TOKEN'] = Rhymix\Framework\Session::createToken();
 		$this->assertTrue(Rhymix\Framework\Security::checkCSRF());
 		
 		$_SERVER['REQUEST_METHOD'] = 'POST';
+		$_SERVER['HTTP_REFERER'] = '';
+		$_SERVER['HTTP_X_CSRF_TOKEN'] = '';
 		$this->assertFalse(Rhymix\Framework\Security::checkCSRF());
+		$_SERVER['HTTP_X_CSRF_TOKEN'] = Rhymix\Framework\Session::createToken();
+		$this->assertTrue(Rhymix\Framework\Security::checkCSRF());
 		
 		$_SERVER['HTTP_REFERER'] = 'http://www.foobar.com/';
+		$_SERVER['HTTP_X_CSRF_TOKEN'] = '';
 		$this->assertFalse(Rhymix\Framework\Security::checkCSRF());
 		
+		$_SERVER['HTTP_REFERER'] = 'http://www.rhymix.org/foo/bar';
+		$_SERVER['HTTP_X_CSRF_TOKEN'] = '';
+		$this->assertTrue(Rhymix\Framework\Security::checkCSRF());
+		$_SERVER['HTTP_X_CSRF_TOKEN'] = 'invalid value';
+		$this->assertFalse(Rhymix\Framework\Security::checkCSRF());
+		
+		$_SERVER['HTTP_REFERER'] = '';
+		$_SERVER['HTTP_X_CSRF_TOKEN'] = '';
 		$this->assertTrue(Rhymix\Framework\Security::checkCSRF('http://www.rhymix.org/'));
 		
 		error_reporting($error_reporting);
