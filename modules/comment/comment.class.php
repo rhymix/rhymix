@@ -105,6 +105,11 @@ class comment extends ModuleObject
 			return true;
 		}
 
+		if(!$oDB->isIndexExists("comments", "idx_parent_srl"))
+		{
+			return true;
+		}
+
 		return FALSE;
 	}
 
@@ -183,6 +188,11 @@ class comment extends ModuleObject
 		if(!$oDB->isColumnExists("comment_declared_log","declare_message"))
 		{
 			$oDB->addColumn('comment_declared_log',"declare_message","text");
+		}
+
+		if(!$oDB->isIndexExists("comments", "idx_parent_srl"))
+		{
+			$oDB->addIndex('comments', 'idx_parent_srl', array('parent_srl'));
 		}
 
 		return new Object(0, 'success_updated');
