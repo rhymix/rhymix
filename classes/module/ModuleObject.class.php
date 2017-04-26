@@ -244,6 +244,12 @@ class ModuleObject extends Object
 			}
 		}
 		
+		// If member action, grant access for log-in, sign-up, member pages
+		if(preg_match('/^(disp|proc)(Member|Communication)[A-Z][a-zA-Z]+$/', $this->act))
+		{
+			$grant->access = true;
+		}
+		
 		// Set privileges(granted) variables
 		$this->grant = $grant;
 		Context::set('grant', $grant);
