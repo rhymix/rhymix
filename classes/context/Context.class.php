@@ -251,10 +251,12 @@ class Context
 		$this->_setJSONRequestArgument();
 		$this->_setRequestArgument();
 		$this->_setUploadedArgument();
+		
+		// Fabricate methods for compatibility of XE third-party.
 		if(isset($_POST['_rx_ajax_compat']) && $_POST['_rx_ajax_compat'] === 'XMLRPC')
 		{
 			self::$_instance->request_method = 'XMLRPC';
-			self::$_instance->response_method = 'JSON';
+			self::$_instance->response_method = 'XMLRPC';
 		}
 		
 		// Load system configuration.
