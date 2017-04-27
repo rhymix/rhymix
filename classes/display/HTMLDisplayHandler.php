@@ -485,7 +485,7 @@ class HTMLDisplayHandler
 						}
 					}
 				}
-				Rhymix\Framework\Cache::set("seo:document_images:$document_srl", $document_images, 0, true);
+				Rhymix\Framework\Cache::set("seo:document_images:$document_srl", $document_images);
 			}
 		}
 		else

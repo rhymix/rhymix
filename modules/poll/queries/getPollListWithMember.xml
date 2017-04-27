@@ -22,7 +22,10 @@
         <column name="P.ipaddress" alias="ipaddress" />
         <column name="P.regdate" alias="poll_regdate" />
         <column name="P2.stop_date" alias="poll_stop_date" />
-        <column name="M.*" />
+        <column name="M.member_srl" />
+        <column name="M.user_name" />
+        <column name="M.user_id" />
+        <column name="M.nick_name" />
     </columns>
     <conditions>
 		

@@ -2024,18 +2024,16 @@ class moduleModel extends module
 			// Grant privileges by information that get from the DB
 			foreach($this->getModuleGrants($module_info->module_srl)->data as $val)
 			{
-				if(isset($checked[$val->name]))
+				$checked[$val->name] = true;
+				if($grant->{$val->name})
 				{
 					continue;
 				}
-				
-				$checked[$val->name] = true;
-				
+					
 				// All user
 				if($val->group_srl == 0)
 				{
 					$grant->{$val->name} = true;
-					
 					continue;
 				}
 				
@@ -2074,11 +2072,11 @@ class moduleModel extends module
 			}
 			
 			// Grant privileges by default information of module
-			if(is_array($xml_info->grant))
+			if(!empty($grant_list = (array) $xml_info->grant))
 			{
-				foreach($xml_info->grant as $name => $item)
+				foreach($grant_list as $name => $item)
 				{
-					if(isset($checked[$name]))
+					if(isset($checked[$name]) || $grant->{$name})
 					{
 						continue;
 					}

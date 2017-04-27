@@ -11,6 +11,7 @@ return array(
 	'errorlogger' => true,
 	'fix_mysql_utf8' => true,
 	'homepage' => true,
+	'jquerycdn' => true,
 	'member_communication' => true,
 	'multidomain' => true,
 	'seo' => true,

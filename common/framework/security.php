@@ -307,17 +307,17 @@ class Security
 	 */
 	public static function checkCSRF($referer = null)
 	{
-		if ($_SERVER['REQUEST_METHOD'] === 'GET')
-		{
-			return true;
-		}
-		elseif ($token = $_SERVER['HTTP_X_CSRF_TOKEN'])
+		if ($token = $_SERVER['HTTP_X_CSRF_TOKEN'])
 		{
 			return Session::verifyToken($token);
 		}
 		elseif ($token = \Context::get('_rx_csrf_token'))
 		{
 			return Session::verifyToken($token);
+		}
+		elseif ($_SERVER['REQUEST_METHOD'] === 'GET')
+		{
+			return false;
 		}
 		else
 		{

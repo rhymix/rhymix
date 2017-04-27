@@ -56,7 +56,7 @@ class documentView extends document
 	 */
 	function dispDocumentPreview()
 	{
-		if(Context::getRequestMethod() == 'GET')
+		if(!checkCSRF())
 		{
 			return new Object(-1, 'msg_invalid_request');
 		} 

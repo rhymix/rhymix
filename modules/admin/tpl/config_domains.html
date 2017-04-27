@@ -25,8 +25,9 @@
 				<td class="nowr">{preg_replace('/\\(.+$/', '', $lang->ssl_options[$domain->security ?: 'none'])}</td>
 				<td class="nowr">
 					<a href="{getSiteUrl($domain->domain, '', 'mid', $module_list[$domain->index_module_srl]->mid)}" cond="$domain->index_module_srl && $module_list[$domain->index_module_srl]" target="_blank">
-						{($domain->index_module_srl && $module_list[$domain->index_module_srl]) ? $module_list[$domain->index_module_srl]->browser_title : ''}</td>
+						{($domain->index_module_srl && $module_list[$domain->index_module_srl]) ? $module_list[$domain->index_module_srl]->browser_title : ''}
 					</a>
+				</td>
 				<td class="nowr">
 					<a href="{getSiteUrl($domain->domain, '', 'mid', $module_list[$domain->index_module_srl]->mid, 'document_srl', $domain->index_document_srl)}" cond="$domain->index_document_srl" target="_blank">
 						{$domain->index_document_srl ?: ''}

@@ -89,14 +89,14 @@ class DisplayHandler extends Handler
 		}
 		else
 		{
-			if(Context::getResponseMethod() == 'JSON' || Context::getResponseMethod() == 'JS_CALLBACK')
+			if(Context::getResponseMethod() == 'JSON' || Context::getResponseMethod() == 'JS_CALLBACK' || isset($_POST['_rx_ajax_compat']))
 			{
 				if(strpos($_SERVER['HTTP_ACCEPT'], 'json') !== false)
 				{
 					self::_printJSONHeader();
 				}
 			}
-			else if(Context::getResponseMethod() != 'HTML')
+			elseif(Context::getRequestMethod() == 'XMLRPC')
 			{
 				self::_printXMLHeader();
 			}
