@@ -114,38 +114,35 @@ class rssAdminController extends rss
 	 */
 	function procRssAdminInsertModuleConfig()
 	{
-		$config_vars = Context::getRequestVars();
+		$vars = Context::getRequestVars();
 
-		$openRssList = $config_vars->open_rss;
-		$openTotalFeedList = $config_vars->open_total_feed;
-		$feedDescriptionList = $config_vars->feed_description;
-		$feedCopyrightList = $config_vars->feed_copyright;
-		$targetModuleSrl = $config_vars->target_module_srl;
-
-		if($targetModuleSrl && !is_array($openRssList))
+		if (!in_array($vars->open_rss, array('Y', 'H', 'N')))
 		{
-			$openRssList = array($targetModuleSrl => $openRssList);
-			$openTotalFeedList = array($targetModuleSrl => $openTotalFeedList);
-			$feedDescriptionList = array($targetModuleSrl => $feedDescriptionList);
-			$feedCopyrightList = array($targetModuleSrl => $feedCopyrightList);
+			$vars->open_rss = 'N';
 		}
-
-		if(is_array($openRssList))
+		
+		if (!in_array($vars->open_total_feed, array('N', 'T_N')))
 		{
-			foreach($openRssList AS $module_srl=>$open_rss)
+			$vars->open_total_feed = 'T_N';
+		}
+		
+		$target_module_srls = explode(',', $vars->target_module_srl);
+		if (!count($target_module_srls))
+		{
+			return new Object(-1, 'msg_invalid_request');
+		}
+		
+		foreach ($target_module_srls as $target_module_srl)
+		{
+			$target_module_srl = intval($target_module_srl);
+			if (!$target_module_srl)
 			{
-				if(!$module_srl || !$open_rss)
-				{
-					return new Object(-1, 'msg_invalid_request');
-				}
-
-				if(!in_array($open_rss, array('Y','H','N'))) $open_rss = 'N';
-
-				$this->setRssModuleConfig($module_srl, $open_rss, $openTotalFeedList[$module_srl], $feedDescriptionList[$module_srl], $feedCopyrightList[$module_srl]);
+				return new Object(-1, 'msg_invalid_request');
 			}
+			
+			$this->setRssModuleConfig($target_module_srl, $vars->open_rss, $vars->open_total_feed, $vars->feed_description, $vars->feed_copyright);
 		}
 
-		//$this->setError(0);
 		$this->setMessage('success_updated', 'info');
 
 		$returnUrl = Context::get('success_return_url') ? Context::get('success_return_url') : getNotEncodedUrl('', 'module', 'admin', 'act', 'dispBoardAdminContent');
