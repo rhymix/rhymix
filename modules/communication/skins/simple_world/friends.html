@@ -6,28 +6,34 @@
 	<div cond="$XE_VALIDATOR_MESSAGE && $XE_VALIDATOR_ID == 'modules/communication/skins/default/frineds/1'" class="message {$XE_VALIDATOR_MESSAGE_TYPE}">
 		<p>{$XE_VALIDATOR_MESSAGE}</p>
 	</div>
+	<div class="sw-footer sw-anchor-buttons sw-headers">
+		<form action="./" method="get" class="pos-right">
+			<input type="hidden" name="act" value="dispCommunicationFriend" />
+			<input type="hidden" name="message_type" value="{$message_type}" />
+			<input type="hidden" name="mid" value="{$mid}" />
+			<div class="control-group">
+				<select name="friend_group_srl" id="jumpMenu">
+					<option value="">{$lang->default_friend_group}</option>
+					<option loop="$friend_group_list => $key,$val" value="{$val->friend_group_srl}" selected="selected"|cond="$val->friend_group_srl == $friend_group_srl">{$val->title}</option>
+				</select>
+				<input type="submit" value="{$lang->cmd_move}">
+				<a href="{getUrl('','module','communication','act','dispCommunicationAddFriendGroup')}" onclick="popopen(this.href);return false;">{$lang->cmd_add_friend_group}</a>
+			</div>
+		</form>
+		<div style="clear:both"></div>
+	</div>
 	<form ruleset="deleteCheckedFriend" id="fo_friend_list" action="./" method="post">
 		<input type="hidden" name="module" value="communication" />
 		<input type="hidden" name="act" value="procCommunicationDeleteFriend" />
 		<input type="hidden" name="xe_validator_id" value="modules/communication/skins/default/frineds/1" />
-
 		<div class="btnArea">
-			<span class="etc">
-				<select name="friend_group_srl" id="jumpMenu" style="margin:0">
-					<option value="">{$lang->default_friend_group}</option>
-					<!--@foreach($friend_group_list as $key => $val)-->
-					<option value="{$val->friend_group_srl}" <!--@if($val->friend_group_srl == $friend_group_srl)-->selected="selected"<!--@end--> >{$val->title}</option>
-					<!--@end-->
-				</select>
-				<button type="button" class="btn" onclick="doJumpFriendGroup()">{$lang->cmd_move}</button>
-			</span>
 			<select name="friend_group_list" id="friend_group_list" cond="count($friend_group_list)" style="margin:0">
 				<option loop="$friend_group_list => $key,$val" value="{$val->friend_group_srl}" selected="selected"|cond="$val->friend_group_srl == $friend_group_srl">{$val->title}</option>
 			</select>
 			<span class="btn-group">
 				<button type="button" class="btn" cond="count($friend_group_list)" onclick="doRenameFriendGroup();return false;">{$lang->cmd_rename_friend_group}</button>
 				<button type="button" class="btn" cond="count($friend_group_list)" onclick="doDeleteFriendGroup();return false;">{$lang->cmd_delete_friend_group}</button>
-				<a href="{getUrl('','module','communication','act','dispCommunicationAddFriendGroup')}" class="btn" onclick="popopen(this.href);return false;">{$lang->cmd_add_friend_group}</a>
+				
 			</span>
 		</div>
 		<table class="table table-striped table-hover">

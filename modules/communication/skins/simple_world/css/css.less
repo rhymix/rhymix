@@ -146,16 +146,18 @@ script, style
 {
 	margin-top: 0;
 }
-.rx_simple_member form div.control-group>input, .rx_simple_member form div.control-group>select
+.rx_simple_member form
 {
-	border: 1px solid #bdbdbd;
-	border-radius: 0;
-	font-size:14px;
-	line-height: 18px;
-	margin-top: 0;
-	padding:8px 8px 6px;
-	-webkit-appearance: none;
-	min-height: 32px;
+	div.control-group>input, div.control-group>select, div.control-group>a, div.control-group>button{
+		border: 1px solid #bdbdbd;
+		border-radius: 0;
+		font-size:14px;
+		line-height: 18px;
+		margin-top: 0;
+		padding:8px 8px 6px;
+		-webkit-appearance: none;
+		min-height: 32px;
+	}
 }
 .rx_simple_member .sw-body dl>*
 {
@@ -174,10 +176,10 @@ script, style
 	white-space: normal;
 	box-sizing: border-box;
 }
-.rx_simple_member form div.control-group>input[type="submit"], .rx_simple_member form div.control-group>input.btn.dateRemover, .rx_simple_member .sw-footer>a, .rx_simple_member .sw-anchor-buttons a
+.rx_simple_member form div.control-group>input[type="submit"], .rx_simple_member form div.control-group>input.btn.dateRemover, .rx_simple_member .sw-footer>a, .rx_simple_member .sw-anchor-buttons a, .rx_simple_member .sw-anchor-buttons button
 {
 	display:block;
-	padding: 10px;
+	padding: 8px 8px 6px;
 	vertical-align: bottom;
 	.bg-contrast(#000; lighten(@color,5%); darken(@color,5%); 3.0);
 	font-weight: bold;
@@ -196,7 +198,7 @@ script, style
 
 .rx_simple_member form.pos-right>div.control-group
 {
-	input, select
+	input, select, a
 	{
 		display:inline-block;
 		float: left;
