@@ -20,6 +20,7 @@ $lang->cmd_add_friend = 'Add Friend';
 $lang->cmd_message_box = 'Message Box';
 $lang->cmd_view_message_box = 'Message Box';
 $lang->cmd_store = 'Save';
+$lang->cmd_view_selected_frend_group = 'View only selected group';
 $lang->cmd_add_friend_group = 'Add Friend Group';
 $lang->cmd_rename_friend_group = 'Rename Friend Group';
 $lang->cmd_delete_friend_group = 'Delete Friend Group';

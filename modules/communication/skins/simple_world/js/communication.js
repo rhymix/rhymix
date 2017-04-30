@@ -57,7 +57,7 @@ function completeAddFriendGroup(ret_obj) {
 
 /* 친구 그룹 삭제 */
 function doDeleteFriendGroup() {
-	var friend_group_srl = jQuery('#friend_group_list option:selected').val();
+	var friend_group_srl = jQuery('#target_friend_group_srl option:selected').val();
 	if(!friend_group_srl) return;
 
 	var fo_obj = jQuery('#for_delete_group').get(0);
@@ -73,7 +73,7 @@ function completeDeleteFriendGroup(ret_obj) {
 
 /* 친구 그룹의 이름 변경 */
 function doRenameFriendGroup() {
-	var friend_group_srl = jQuery('#friend_group_list option:selected').val();
+	var friend_group_srl = jQuery('#target_friend_group_srl option:selected').val();
 	if(!friend_group_srl) return;
 
 	popopen("./?module=communication&act=dispCommunicationAddFriendGroup&friend_group_srl="+friend_group_srl);
