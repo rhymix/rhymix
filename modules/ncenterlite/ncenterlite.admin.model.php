@@ -38,7 +38,11 @@ class ncenterliteAdminModel extends ncenterlite
 	 */
 	function getNotifyType()
 	{
-		$output = executeQueryArray('ncenterlite.getNotifyTypeAdminList');
+		$args = new stdClass();
+		$args->page = Context::get('page');
+		$args->list_count = '20';
+		$args->page_count = '10';
+		$output = executeQueryArray('ncenterlite.getNotifyTypeAdminList', $args);
 
 		return $output;
 	}
