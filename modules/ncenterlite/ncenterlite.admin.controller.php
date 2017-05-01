@@ -172,4 +172,32 @@ class ncenterliteAdminController extends ncenterlite
 			return;
 		}
 	}
+
+	/**
+	 * @brief 알림센터에 생성된 커스텀 알림을 삭제하는 기능.
+	 */
+	function procNcenterliteAdminDeleteCustom()
+	{
+		$obj = Context::getRequestVars();
+		$args = new stdClass();
+		$args->notify_type_srl = $obj->notify_type_srl;
+
+		$output = executeQuery('ncenterlite.deleteNotifyType', $args);
+		if(!$output->toBool())
+		{
+			return $output;
+		}
+
+		$this->setMessage("success_deleted");
+
+
+		if(Context::get('success_return_url'))
+		{
+			$this->setRedirectUrl(Context::get('success_return_url'));
+		}
+		else
+		{
+			$this->setRedirectUrl(getNotEncodedUrl('', 'module', 'admin', 'act', 'dispNcenterliteAdminCustomList'));
+		}
+	}
 }

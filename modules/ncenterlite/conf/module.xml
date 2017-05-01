@@ -18,11 +18,13 @@
 		<action name="dispNcenterliteAdminSkinsetting" type="view" menu_name="ncenterlite" />
 		<action name="dispNcenterliteAdminTest" type="view"  menu_name="ncenterlite" />
 		<action name="dispNcenterliteAdminList" type="view" menu_name="ncenterlite" />
+		<action name="dispNcenterliteAdminCustomList" type="view" menu_name="ncenterlite" />
 		
 		<action name="procNcenterliteAdminInsertConfig" type="controller" ruleset="insertConfig" />
 		<action name="procNcenterliteAdminInsertDummyData" type="controller" />
 		<action name="procNcenterliteAdminInsertPushData" type="controller" />
 		<action name="procNcenterliteAdminDeleteNofity" type="controller" />
+		<action name="procNcenterliteAdminDeleteCustom" type="controller" />
 	</actions>
 	<menus>
 		<menu name="ncenterlite" type="all">
