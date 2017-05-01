@@ -165,11 +165,15 @@ class ncenterliteAdminController extends ncenterlite
 			$this->setMessage('ncenterlite_message_delete_notification_all');
 		}
 
-		if(!in_array(Context::getRequestMethod(),array('XMLRPC','JSON')))
+		$this->removeAllFlagFile();
+
+		if(Context::get('success_return_url'))
 		{
-			$returnUrl = Context::get('success_return_url') ?  Context::get('success_return_url') : getNotEncodedUrl('', 'module', 'admin', 'act', 'dispNcenterliteAdminList');
-			header('location: ' .$returnUrl);
-			return;
+			$this->setRedirectUrl(Context::get('success_return_url'));
+		}
+		else
+		{
+			$this->setRedirectUrl(getNotEncodedUrl('', 'module', 'admin', 'act', 'dispNcenterliteAdminList'));
 		}
 	}
 
@@ -198,6 +202,15 @@ class ncenterliteAdminController extends ncenterlite
 		else
 		{
 			$this->setRedirectUrl(getNotEncodedUrl('', 'module', 'admin', 'act', 'dispNcenterliteAdminCustomList'));
+		}
+	}
+
+	function removeAllFlagFile()
+	{
+		$flag_path = \RX_BASEDIR . 'files/cache/ncenterlite/new_notify/';
+		if(FileHandler::isDir($flag_path))
+		{
+			FileHandler::removeFilesInDir($flag_path);
 		}
 	}
 }
