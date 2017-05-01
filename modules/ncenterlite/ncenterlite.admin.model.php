@@ -31,4 +31,15 @@ class ncenterliteAdminModel extends ncenterlite
 		$output->data = $list;
 		return $output;
 	}
+
+	/**
+	 * Get notify type list.
+	 * @return object
+	 */
+	function getNotifyType()
+	{
+		$output = executeQueryArray('ncenterlite.getNotifyTypeAdminList');
+
+		return $output;
+	}
 }

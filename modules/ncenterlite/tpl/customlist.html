@@ -1,0 +1,55 @@
+<load target="css/ncenter_admin.css" />
+<include target="header.html" />
+
+<section class="section">
+	<h1>{$lang->ncenterlite_notify_type}</h1>
+
+	<p class="x_well x_well-small" cond="!$type_list">{$lang->msg_do_not_notify_type}</p>
+
+	<block cond="$type_list">
+		<table class="x_table x_table-striped x_table-hover" style="margin-top:20px;">
+			<thead>
+				<tr>
+					<th scope="col" class="nowr" style="width:100px;">{$lang->no}</th>
+					<th scope="col" >{$lang->ncenterlite_type_id}</th>
+					<th scope="col" >{$lang->ncenterlite_type_objects}</th>
+					<th scope="col" style="width:500px;">{$lang->ncenterlite_type_content}</th>
+					<th scope="col" style="">삭제하기</th>
+				</tr>
+			</thead>
+			<tbody>
+			<!--@foreach($type_list as $no => $val)-->
+			<tr>
+				<td>{$val->notify_type_srl}</td>
+				<td>{$val->notify_type_id}</td>
+				<td>{$val->notify_type_args}</td>
+				<td>{$val->notify_string}</td>
+				<td>
+					<form class="x_inline" action="{Context::getRequestUri()}" method="post">
+						<input type="hidden" name="module" value="ncenterlite" />
+						<input type="hidden" name="act" value="procNcenterliteAdminDeleteCustom" />
+						<input type="hidden" name="notify_type_srl" value="{$val->notify_type_srl}" />
+						<input type="hidden" name="xe_validator_id" value="modules/ncenterlite/tpl/customlist/1" />
+						<button class="x_btn X_Btn-mini" type="submit">삭제하기</button>
+					</form>
+				</td>
+			</tr>
+			<!--@endforeach-->
+			</tbody>
+		</table>
+
+		<div class="x_pagination">
+			<ul>
+				<li><a href="{getUrl('page','')}" class="prevEnd">{$lang->first_page}</a></li>
+				<!--@while($page_no = $page_navigation->getNextPage())-->
+				<!--@if($page == $page_no)-->
+				<li class="x_active"><a href="{getUrl('page',$page_no)}">{$page_no}</a></li>
+				<!--@else-->
+				<li><a href="{getUrl('page',$page_no)}">{$page_no}</a></li>
+				<!--@endif-->
+				<!--@end-->
+				<li><a href="{getUrl('page',$page_navigation->last_page)}" class="nextEnd">{$lang->last_page}</a></li>
+			</ul>
+		</div>
+	</block>
+</section>

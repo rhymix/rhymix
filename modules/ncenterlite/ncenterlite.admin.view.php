@@ -111,4 +111,16 @@ class ncenterliteAdminView extends ncenterlite
 	{
 
 	}
+
+	function dispNcenterliteAdminCustomList()
+	{
+		$oNcenterliteAdminModel = getAdminModel('ncenterlite');
+
+		$output = $oNcenterliteAdminModel->getNotifyType();
+		Context::set('total_count', $output->page_navigation->total_count);
+		Context::set('total_page', $output->page_navigation->total_page);
+		Context::set('page', $output->page);
+		Context::set('type_list', $output->data);
+		Context::set('page_navigation', $output->page_navigation);
+	}
 }
