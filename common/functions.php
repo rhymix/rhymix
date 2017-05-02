@@ -51,6 +51,114 @@ function lang($code, $value = null)
 }
 
 /**
+ * Convert always absolute path
+ *
+ * @param string $path Absolute path or Relative path
+ * @param bool $web if true, return web path
+ * @param bool $auto_fix if true, fixed the path
+ * @return mixed
+ */
+function path($path, $web = false, $auto_fix = false)
+{
+	if(!$path)
+	{
+		return;
+	}
+	
+	$filtered = trim($path, '/');
+	if($auto_fix)
+	{
+		$filtered = preg_replace('@\s*|\.{3,}@', '', $filtered);
+		$filtered = preg_replace('@/(\./)+@', '/', $filtered);
+		$filtered = preg_replace('@/{2,}@', '/', $filtered);
+		$filtered = preg_replace('@([^./]+)/(\.\./)+@', '$1/', $filtered);
+	}
+	
+	if(!$filtered && $path !== '/')
+	{
+		return;
+	}
+	
+	$work_step = 0;
+	if(strpos($filtered . '/', './') !== false)
+	{
+		$work_step = 1;
+	}
+	else if(strpos($path, '/') !== 0)
+	{
+		$work_step = 2;
+	}
+	else if(strpos($filtered, trim(RX_BASEDIR, '/')) === false)
+	{
+		$work_step = 3;
+	}
+	
+	if($work_step === 1 || $work_step === 2)
+	{
+		$backtrace = debug_backtrace(DEBUG_BACKTRACE_IGNORE_ARGS);
+		$called_path = str_replace('\\', '/', dirname($backtrace[0]['file']));
+		if(strpos($called_path, RX_BASEDIR . 'files/cache/template_compiled') !== false)
+		{
+			if($tpl_path = Context::get('tpl_path'))
+			{
+				$called_path = RX_BASEDIR . trim(str_replace(array('./', RX_BASEDIR), '', $tpl_path), '/');
+			}
+		}
+	}
+	
+	$compath = '/' . $filtered;
+	
+	if($work_step === 1)
+	{
+		$sub = 0;
+		$path_array = explode('/', $filtered);
+		
+		foreach($path_array as $key => $val)
+		{
+			if($val === '.' || $val === '..')
+			{
+				unset($path_array[$key]);
+				
+				if($val === '.' && $key === 0 && $path_array[1] !== '..')
+				{
+					break;
+				}
+				else if($val === '..')
+				{
+					++$sub;
+				}
+			}
+		}
+		
+		if($sub > 0)
+		{
+			$abs_path = dirname($called_path, $sub);
+		}
+		else
+		{
+			$abs_path = $called_path;
+		}
+		
+		$compath = $abs_path . (!empty($path_array) ? '/':'') . implode('/', $path_array);
+	}
+	else if($work_step === 2)
+	{
+		$compath = $called_path . '/' . $filtered;
+	}
+	else if($work_step === 3)
+	{
+		$compath = RX_BASEDIR . $filtered;
+	}
+	
+	if($web)
+	{
+		$compath = str_replace(RX_BASEDIR, '/', $compath);
+	}
+	
+	return $compath;
+}
+
+/**
  * Get the first value of an array.
  * 
  * @param array $array The input array
