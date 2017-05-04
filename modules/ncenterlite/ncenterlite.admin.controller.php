@@ -171,7 +171,7 @@ class ncenterliteAdminController extends ncenterlite
 			FileHandler::makeDir(\RX_BASEDIR . 'files/cache/ncenterlite/new_notify/');
 		}
 		$reg_obj = new stdClass();
-		$reg_obj->regdate = date('YmdHis');
+		$reg_obj->regdate = time();
 		$buff = "<?php return unserialize(" . var_export(serialize($reg_obj), true) . ");\n";
 		FileHandler::writeFile($flag_path, $buff);
 

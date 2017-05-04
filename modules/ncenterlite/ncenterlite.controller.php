@@ -1118,7 +1118,7 @@ class ncenterliteController extends ncenterlite
 		FileHandler::writeFile($flag_path, $buff);
 	}
 
-	public static function removeFlagFile($member_srl = null)
+	public function removeFlagFile($member_srl = null)
 	{
 		if($member_srl === null)
 		{
