@@ -165,7 +165,7 @@ class ncenterliteAdminController extends ncenterlite
 			$this->setMessage('ncenterlite_message_delete_notification_all');
 		}
 
-		$flag_path = \RX_BASEDIR . 'files/cache/ncenterlite/new_notify/regdate_new.php';
+		$flag_path = \RX_BASEDIR . 'files/cache/ncenterlite/new_notify/delete_date.php';
 		if(!FileHandler::isDir(\RX_BASEDIR . 'files/cache/ncenterlite/new_notify'))
 		{
 			FileHandler::makeDir(\RX_BASEDIR . 'files/cache/ncenterlite/new_notify/');
