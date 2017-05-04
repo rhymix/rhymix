@@ -165,15 +165,11 @@ class ncenterliteAdminController extends ncenterlite
 			$this->setMessage('ncenterlite_message_delete_notification_all');
 		}
 
-		$flag_path = \RX_BASEDIR . 'files/cache/ncenterlite/new_notify/delete_date.php';
-		if(!FileHandler::isDir(\RX_BASEDIR . 'files/cache/ncenterlite/new_notify'))
-		{
-			FileHandler::makeDir(\RX_BASEDIR . 'files/cache/ncenterlite/new_notify/');
-		}
 		$reg_obj = new stdClass();
 		$reg_obj->regdate = time();
-		$buff = "<?php return unserialize(" . var_export(serialize($reg_obj), true) . ");\n";
-		FileHandler::writeFile($flag_path, $buff);
+
+		$flag_path = \RX_BASEDIR . 'files/cache/ncenterlite/new_notify/delete_date.php';
+		Rhymix\Framework\Storage::writePHPData($flag_path, $reg_obj);
 
 		if(Context::get('success_return_url'))
 		{
