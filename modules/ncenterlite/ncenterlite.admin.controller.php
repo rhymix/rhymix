@@ -165,7 +165,11 @@ class ncenterliteAdminController extends ncenterlite
 			$this->setMessage('ncenterlite_message_delete_notification_all');
 		}
 
-		$this->removeAllFlagFile();
+		$reg_obj = new stdClass();
+		$reg_obj->regdate = time();
+
+		$flag_path = \RX_BASEDIR . 'files/cache/ncenterlite/new_notify/delete_date.php';
+		Rhymix\Framework\Storage::writePHPData($flag_path, $reg_obj);
 
 		if(Context::get('success_return_url'))
 		{
@@ -202,15 +206,6 @@ class ncenterliteAdminController extends ncenterlite
 		else
 		{
 			$this->setRedirectUrl(getNotEncodedUrl('', 'module', 'admin', 'act', 'dispNcenterliteAdminCustomList'));
-		}
-	}
-
-	function removeAllFlagFile()
-	{
-		$flag_path = \RX_BASEDIR . 'files/cache/ncenterlite/new_notify/';
-		if(FileHandler::isDir($flag_path))
-		{
-			FileHandler::removeFilesInDir($flag_path);
 		}
 	}
 }
