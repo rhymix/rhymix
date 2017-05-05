@@ -66,4 +66,12 @@ class LangTest extends \Codeception\TestCase\Test
 		$en->foobartestlang = 'Hello, %s!';
 		$this->assertEquals('Hello, Travis!', $en->get('foobartestlang', 'Travis'));
 	}
+	
+	public function testLangCompat()
+	{
+		Context::loadLang('./modules/member/lang');
+		$this->assertEquals('서명', Context::getLang('signature'));
+		Context::loadLang('./modules/document/lang/lang.xml');
+		$this->assertEquals('문서 목록', Context::getLang('document_list'));
+	}
 }
