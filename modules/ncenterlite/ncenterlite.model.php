@@ -238,8 +238,8 @@ class ncenterliteModel extends ncenterlite
 				}
 				else
 				{
-					$output = require_once $flag_path;
-					if(is_object($output))
+					$output = Rhymix\Framework\Storage::readPHPData($flag_path);
+					if($output !== false)
 					{
 						$output->flag_exists = true;
 						return $output;
