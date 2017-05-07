@@ -60,14 +60,7 @@ class Security
 		// Use defuse/php-encryption if possible.
 		if (!$force_compat && function_exists('openssl_encrypt'))
 		{
-			try
-			{
-				return base64_encode(\Crypto::Encrypt($plaintext, $key));
-			}
-			catch (\Exception $e)
-			{
-				return false;
-			}
+			return base64_encode(\Crypto::Encrypt($plaintext, $key));
 		}
 		
 		// Otherwise, use the CryptoCompat class.
@@ -102,7 +95,7 @@ class Security
 			{
 				return \Crypto::Decrypt($ciphertext, $key);
 			}
-			catch (\Exception $e)
+			catch (\InvalidCiphertextException $e)
 			{
 				return false;
 			}
