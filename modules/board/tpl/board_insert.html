@@ -239,15 +239,39 @@
 			</div>
 		</div>
 		<div class="x_control-group">
+			<label class="x_control-label">{$lang->update_order_on_comment}</label>
+			<div class="x_controls">
+				<label class="x_inline">
+					<input type="radio" id="update_order_on_comment_y" name="update_order_on_comment" value="Y" checked="checked"|cond="$module_info->update_order_on_comment != 'N'" /> {$lang->cmd_yes}
+				</label>
+				<label class="x_inline">
+					<input type="radio" id="update_order_on_comment_n" name="update_order_on_comment" value="N" checked="checked"|cond="$module_info->update_order_on_comment == 'N'" /> {$lang->cmd_no}
+				</label>
+				<p class="x_help-block">{$lang->about_update_order_on_comment}</p>
+			</div>
+		</div>
+		<div class="x_control-group">
 			<label class="x_control-label">{$lang->document_force_to_move}</label>
 			<div class="x_controls">
 				<label class="x_inline">
 					<input type="radio" id="trash_use_y" name="trash_use" value="Y" checked="checked"|cond="$module_info->trash_use == 'Y'" /> {$lang->cmd_yes}
 				</label>
 				<label class="x_inline">
-					<input type="radio" id="trash_use_n" name="trash_use" value="N" checked="checked"|cond="$module_info->trash_use == 'N'" /> {$lang->cmd_no}
+					<input type="radio" id="trash_use_n" name="trash_use" value="N" checked="checked"|cond="$module_info->trash_use != 'Y'" /> {$lang->cmd_no}
 				</label>
 				<p class="x_help-block">{$lang->about_document_force_to_move}</p>
+			</div>
+		</div>
+		<div class="x_control-group">
+			<label class="x_control-label">{$lang->non_login_vote}</label>
+			<div class="x_controls">
+				<label class="x_inline">
+					<input type="radio" id="non_login_vote_y" name="non_login_vote" value="Y" checked="checked"|cond="$module_info->non_login_vote == 'Y'" /> {$lang->cmd_yes}
+				</label>
+				<label class="x_inline">
+					<input type="radio" id="non_login_vote_n" name="non_login_vote" value="N" checked="checked"|cond="$module_info->non_login_vote != 'Y'" /> {$lang->cmd_no}
+				</label>
+				<p class="x_help-block">{$lang->about_non_login_vote}</p>
 			</div>
 		</div>
 		<div class="x_control-group">
@@ -261,8 +285,8 @@
 		<div class="x_control-group">
 			<label class="x_control-label">{$lang->protect_comment}</label>
 			<div class="x_controls">
-				<label class="x_inline" for="protect_delete_comment"><input type="checkbox" name="protect_delete_comment" id="protect_delete_comment" value="Y" checked="checked"|cond="$module_info->protect_delete_comment == 'Y'" />{$lang->cmd_delete} </label>
-				<label class="x_inline" for="protect_update_comment"><input type="checkbox" name="protect_update_comment" id="protect_update_comment" value="Y" checked="checked"|cond="$module_info->protect_update_comment == 'Y'" />{$lang->cmd_modify} </label>
+				<label class="x_inline" for="protect_delete_comment"><input type="checkbox" name="protect_delete_comment" id="protect_delete_comment" value="Y" checked="checked"|cond="$module_info->protect_delete_comment == 'Y'" /> {$lang->cmd_delete}</label>
+				<label class="x_inline" for="protect_update_comment"><input type="checkbox" name="protect_update_comment" id="protect_update_comment" value="Y" checked="checked"|cond="$module_info->protect_update_comment == 'Y'" /> {$lang->cmd_modify}</label>
 				<p>{$lang->about_protect_comment}</p>
 			</div>
 		</div>
@@ -296,18 +320,6 @@
 					</block>
 				</block>
 				<p class="x_help-block">{$lang->about_use_status}</p>
-			</div>
-		</div>
-		<div class="x_control-group">
-			<label class="x_control-label">{$lang->non_login_vote}</label>
-			<div class="x_controls">
-				<label class="x_inline">
-					<input type="radio" id="non_login_vote_y" name="non_login_vote" value="Y" checked="checked"|cond="$module_info->non_login_vote == 'Y'" /> {$lang->use}
-				</label>
-				<label class="x_inline">
-					<input type="radio" id="non_login_vote_n" name="non_login_vote" value="N" checked="checked"|cond="$module_info->non_login_vote != 'Y'" /> {$lang->notuse}
-				</label>
-				<p class="x_help-block">{$lang->about_non_login_vote}</p>
 			</div>
 		</div>
 		<div class="x_control-group">
