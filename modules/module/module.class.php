@@ -22,14 +22,15 @@ class module extends ModuleObject
 		if(!getModel('module')->getDefaultDomainInfo())
 		{
 			$current_url = Rhymix\Framework\Url::getCurrentUrl();
+			$current_port = intval(parse_url($current_url, PHP_URL_PORT)) ?: null;
 			$domain = new stdClass();
 			$domain->domain_srl = 0;
 			$domain->domain = Rhymix\Framework\URL::getDomainFromURL($current_url);
 			$domain->is_default_domain = 'Y';
 			$domain->index_module_srl = 0;
 			$domain->index_document_srl = 0;
-			$domain->http_port = null;
-			$domain->https_port = null;
+			$domain->http_port = RX_SSL ? null : $current_port;
+			$domain->https_port = RX_SSL ? $current_port : null;
 			$domain->security = config('url.ssl') ?: 'none';
 			$domain->description = '';
 			$domain->settings = json_encode(array('language' => null, 'timezone' => null));
