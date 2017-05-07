@@ -137,7 +137,7 @@ class commentController extends comment
 		$output = $this->updateVotedCountCancel($comment_srl, $oComment, $point);
 
 		$output = new Object();
-		$output->setMessage('success_voted_canceled');
+		$output->setMessage('success_blamed_canceled');
 
 		return $output;
 	}
