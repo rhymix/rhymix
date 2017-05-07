@@ -904,18 +904,6 @@ class adminAdminController extends admin
 			return $item !== '';
 		}));
 		
-		if ($vars->sitelock_locked === 'Y')
-		{
-			if (!Rhymix\Framework\Filters\IpFilter::inRanges('127.0.0.1', $allowed_ip))
-			{
-				array_unshift($allowed_ip, '127.0.0.1');
-			}
-			if (!Rhymix\Framework\Filters\IpFilter::inRanges(RX_CLIENT_IP, $allowed_ip))
-			{
-				array_unshift($allowed_ip, RX_CLIENT_IP);
-			}
-		}
-		
 		if (!Rhymix\Framework\Filters\IpFilter::validateRanges($allowed_ip))
 		{
 			return new Object(-1, 'msg_invalid_ip');

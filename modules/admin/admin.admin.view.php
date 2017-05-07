@@ -622,14 +622,6 @@ class adminAdminView extends admin
 		Context::set('sitelock_message', escape(Rhymix\Framework\Config::get('lock.message')));
 		
 		$allowed_ip = Rhymix\Framework\Config::get('lock.allow') ?: array();
-		if (!Rhymix\Framework\Filters\IpFilter::inRanges('127.0.0.1', $allowed_ip))
-		{
-			array_unshift($allowed_ip, '127.0.0.1');
-		}
-		if (!Rhymix\Framework\Filters\IpFilter::inRanges(RX_CLIENT_IP, $allowed_ip))
-		{
-			array_unshift($allowed_ip, RX_CLIENT_IP);
-		}
 		Context::set('sitelock_allowed_ip', implode(PHP_EOL, $allowed_ip));
 		Context::set('remote_addr', RX_CLIENT_IP);
 		
