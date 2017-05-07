@@ -342,8 +342,8 @@ final class Crypto
      */
     private static function SecureRandom($octets)
     {
-        self::EnsureFunctionExists("mcrypt_create_iv");
-        $random = mcrypt_create_iv($octets, MCRYPT_DEV_URANDOM);
+        self::EnsureFunctionExists("openssl_random_pseudo_bytes");
+        $random = openssl_random_pseudo_bytes($octets);
         if ($random === FALSE) {
             throw new CannotPerformOperationException();
         } else {
