@@ -1585,23 +1585,24 @@ class documentController extends document
 	 * @param int $document_srl
 	 * @param int $comment_count
 	 * @param string $last_updater
-	 * @param bool $comment_inserted
+	 * @param bool $update_order
 	 * @return object
 	 */
-	function updateCommentCount($document_srl, $comment_count, $last_updater, $comment_inserted = false)
+	function updateCommentCount($document_srl, $comment_count, $last_updater, $update_order = false)
 	{
 		$args = new stdClass();
 		$args->document_srl = $document_srl;
 		$args->comment_count = $comment_count;
 
-		if($comment_inserted)
+		if($update_order)
 		{
 			$args->update_order = -1*getNextSequence();
+			$args->last_update = date('YmdHis');
 			$args->last_updater = $last_updater;
-
-			// remove document item from cache
-			Rhymix\Framework\Cache::delete('document_item:' . getNumberingPath($document_srl) . $document_srl);
 		}
+
+		// remove document item from cache
+		Rhymix\Framework\Cache::delete('document_item:' . getNumberingPath($document_srl) . $document_srl);
 
 		return executeQuery('document.updateCommentCount', $args);
 	}
