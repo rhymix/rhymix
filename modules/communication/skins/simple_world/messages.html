@@ -41,7 +41,7 @@
 
 		<ul class="rx_sw_list">
 			<li loop="$message_list => $key, $val">
-				<a href="{getUrl('message_srl',$val->message_srl)}" class="cont_a<!--@if($val->readed=='Y')--> readed_cont<!--@endif-->">
+				<a href="{getUrl('message_srl',$val->message_srl)}" class="cont_a">
 					<span class="content_basic">
 						<span class="content_title">
 							{escape($val->title)}
