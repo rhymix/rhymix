@@ -1067,7 +1067,7 @@ class documentItem extends Object
 
 		if($source_file)
 		{
-			$output = FileHandler::createImageFile($source_file, $thumbnail_file, $width, $height, 'jpg', $thumbnail_type);
+			$output_file = FileHandler::createImageFile($source_file, $thumbnail_file, $width, $height, 'jpg', $thumbnail_type);
 		}
 
 		// Remove source file if it was temporary
@@ -1080,7 +1080,7 @@ class documentItem extends Object
 		FileHandler::removeFile($thumbnail_lockfile);
 
 		// Return the thumbnail path if it was successfully generated
-		if($output)
+		if($output_file)
 		{
 			return $thumbnail_url . '?' . date('YmdHis');
 		}
