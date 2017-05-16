@@ -19,7 +19,7 @@
 	<h1 loop="$lang->message_box => $key,$val" cond="$message_type == $key">{$val}</h1>
 
 	<div class="sw-footer sw-anchor-buttons sw-headers" cond="$message_type == 'R'">
-		<form action="./" method="POST" class="pos-right">
+		<form action="./" method="POST" class="pos-left">
 			<input type="hidden" name="module" value="communication" />
 			<input type="hidden" name="act" value="procCommunicationUpdateAllowMessage" />
 			<input type="hidden" name="message_type" value="{$message_type}" />
@@ -59,7 +59,7 @@
 		<div class="sw-footer sw-anchor-buttons">
 			<label for="check_all">{$lang->cmd_select_all}</label>
 			<input name="check_all" id="check_all" type="checkbox" onclick="XE.checkboxToggleAll('message_srl_list[]', {wrap:'fo_message_list'})"/>
-			<input type="submit" class="btn" value="{$lang->cmd_delete}" />
+			<input type="submit" value="{$lang->cmd_delete}" />
 		</div>
 	</form>
 	<div class="sw-footer sw-anchor-buttons">

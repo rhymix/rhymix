@@ -158,8 +158,10 @@ section.rx_simple_communication {
 		background: #fff;
 		font-size: 1em;
 		box-shadow: 0 1px 2px rgba(0,0,0,0.16), 0 1px 2px rgba(0,0,0,0.23);
+		margin-top: 1px;
+		margin-bottom: 2px;
 		color: #000;
-		padding: 8px 8px 6px;
+		padding: 8px;
 		min-width:25px;
 		text-decoration: none;
 		text-align: center;
@@ -219,14 +221,16 @@ section.rx_simple_communication {
 		box-sizing: border-box;
 		div.control-group, .sw-footer, .sw-anchor-buttons {
 			&>input[type="submit"], &>input.btn.dateRemover, &>a, &>button, &>select {
-				display:block;
-				padding: 8px 8px 6px;
+				display: inline-block;
+				padding: 8px;
 				vertical-align: bottom;
 				text-shadow: none;
 				border:0;
 				background-color: #fff;
 				color: #000;
 				box-shadow: 0 1px 2px rgba(0,0,0,0.16), 0 1px 2px rgba(0,0,0,0.23);
+				margin-top: 1px;
+				margin-bottom: 2px;
 			}
 			&>input[type="submit"], &>input.btn.dateRemover {
 				.bg-contrast(#000; lighten(@color,5%); darken(@color,5%); 3.0);
@@ -361,7 +365,7 @@ section.rx_simple_communication {
 	}
 
 	/* button hover */
-	form div.control-group>input[type="submit"], .sw-footer>a, .sw-anchor-buttons a, .sw-anchor-buttons button, .pagination ul li>a{
+	form div.control-group>input[type="submit"], .sw-footer>a, .sw-anchor-buttons input[type="submit"], .sw-anchor-buttons a, .sw-anchor-buttons button, .pagination ul li>a{
 		&:hover, &:focus{
 			.bg-contrast(#000; lighten(@color,5%); darken(@color,5%); 4.0);
 			color: #000;
