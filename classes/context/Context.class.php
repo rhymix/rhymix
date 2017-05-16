@@ -2657,7 +2657,7 @@ class Context
 	 */
 	public static function setCanonicalURL($url)
 	{
-		self::$_instance->canonical_url = escape($url);
+		self::$_instance->canonical_url = escape($url, false);
 	}
 }
 /* End of file Context.class.php */
