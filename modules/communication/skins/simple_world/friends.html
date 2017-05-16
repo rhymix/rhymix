@@ -5,7 +5,7 @@
 <section class="sw-body">
 	<h1>{$member_title = $lang->cmd_view_friend}</h1>
 	<div class="rx_member-notice">{lang('common.total')}: {number_format($total_count)}</div>
-	<div cond="$XE_VALIDATOR_MESSAGE && $XE_VALIDATOR_ID == 'modules/communication/skins/default/frineds/1'" class="message {$XE_VALIDATOR_MESSAGE_TYPE}">
+	<div cond="$XE_VALIDATOR_MESSAGE && $XE_VALIDATOR_ID == 'modules/communication/skins/simple_world/frineds/1'" class="rx_member-notice {$XE_VALIDATOR_MESSAGE_TYPE}">
 		<p>{$XE_VALIDATOR_MESSAGE}</p>
 	</div>
 	<div class="sw-footer sw-anchor-buttons sw-headers">
@@ -25,7 +25,7 @@
 	<form ruleset="deleteCheckedFriend" id="fo_friend_list" action="./" method="post">
 		<input type="hidden" name="module" value="communication" />
 		<input type="hidden" name="act" value="procCommunicationDeleteFriend" />
-		<input type="hidden" name="xe_validator_id" value="modules/communication/skins/default/frineds/1" />
+		<input type="hidden" name="xe_validator_id" value="modules/communication/skins/simple_world/frineds/1" />
 		<ul class="rx_sw_list">
 			<li loop="$friend_list => $no,$val">
 				<a href="#popup_menu_area" class="cont_a member_{$val->target_srl}">
@@ -67,6 +67,6 @@
 </div>
 <form action="./" method="get" id="for_delete_group">
 	<input type="hidden" name="friend_group_srl" value="" />
-	<input type="hidden" name="xe_validator_id" value="modules/communication/skins/default/frineds/1" />
+	<input type="hidden" name="xe_validator_id" value="modules/communication/skins/simple_world/frineds/1" />
 </form>
 <include target="./common_footer.html" />

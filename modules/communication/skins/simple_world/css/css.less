@@ -125,32 +125,35 @@ section.rx_simple_communication {
 		background:#ffffff;
 		margin: 0 0 20px;
 		box-shadow: 0 1px 2px rgba(0,0,0,0.16), 0 1px 2px rgba(0,0,0,0.23);
+		&>*
+		{
+			padding: 20px;
+			margin:0;
+			border: 0;
+		}
+
+		h1
+		{
+			margin:0;
+			border-bottom: 1px solid #e0e0e0;
+			color: #000;
+			font-size: 1.5em;
+		}
 	}
-	.sw-body>*
-	{
-		padding: 20px;
-		margin:0;
-		border: 0;
-	}
-	.sw-body h1
-	{
-		margin:0;
-		border-bottom: 1px solid #e0e0e0;
-		color: #000;
-		font-size: 1.5em;
-	}
-	.pagination ul, .pagination ul li
-	{
-		display:inline-block;
-		list-style: outside none none;
-		padding: 0;
-		margin: 0;
-		border:0;
-	}
-	.pagination ul
-	{
-		display:block;
-		text-align:center;
+
+	.pagination {
+		ul, ul li {
+			display:inline-block;
+			list-style: outside none none;
+			padding: 0;
+			margin: 0;
+			border:0;
+		}
+		ul
+		{
+			display:block;
+			text-align:center;
+		}
 	}
 	.pagination ul li>a, .sw-footer>a
 	{
@@ -165,10 +168,6 @@ section.rx_simple_communication {
 		min-width:25px;
 		text-decoration: none;
 		text-align: center;
-	}
-	.sw-footer>a
-	{
-		display: block;
 	}
 	.pagination ul li.active>a
 	{
@@ -203,15 +202,17 @@ section.rx_simple_communication {
 			min-height: 32px;
 		}
 	}
-	.sw-body dl>*
+	.sw-body
 	{
-		list-style:none;
-		border-bottom: 1px solid #e0e0e0;
-	}
-	.sw-body dl dt, form>div.control-group>label, form>div.control-group>div.control-label
-	{
-		font-weight: bold;
-		border:0;
+		dl>* {
+			list-style:none;
+			border-bottom: 1px solid #e0e0e0;
+		}
+		dl dt, form>div.control-group>label, form>div.control-group>div.control-label
+		{
+			font-weight: bold;
+			border:0;
+		}
 	}
 	form
 	{
@@ -276,25 +277,29 @@ section.rx_simple_communication {
 		height: 40px;
 		line-height: 18px;
 		position: relative;
+		a {
+			display:inline-block;
+			color: #000;
+			font-weight: 400;
+			letter-spacing: -1px;
+			line-height: 40px;
+			text-decoration: none;
+			&:hover, &:focus {
+				.text-contrast(#fff; darken(@color,5%); lighten(@color,5%));
+				font-weight: 700;
+			}
+			span {
+				border-left: 1px solid #e0e0e0;
+				padding: 0 15px;
+			}
+		}
+		&:first-child a span {
+			border-left: 0 none;
+		}
 	}
-	ul.rx_simple_tab>li a {
-		display:inline-block;
-		color: #000;
-		font-weight: 400;
-		letter-spacing: -1px;
-		line-height: 40px;
-		text-decoration: none;
-	}
-	ul.rx_simple_tab>li a:hover, ul.rx_simple_tab>li a:focus, ul.rx_simple_tab>li.active a, .sw-anchor-buttons a.active{
+	ul.rx_simple_tab>li.active a, .sw-anchor-buttons a.active{
 		.text-contrast(#fff; darken(@color,5%); lighten(@color,5%));
 		font-weight: 700;
-	}
-	ul.rx_simple_tab>li a span {
-		border-left: 1px solid #e0e0e0;
-		padding: 0 15px;
-	}
-	ul.rx_simple_tab>li:first-child a span {
-		border-left: 0 none;
 	}
 	.sw-footer.sw-anchor-buttons {
 		text-align:right;
@@ -316,12 +321,13 @@ section.rx_simple_communication {
 		text-overflow: ellipsis;
 		white-space: nowrap;
 		text-decoration: none;
-	}
-	.rx_sw_list .cont_a.no_delete {
-		padding-right: 15px;
-	}
-	.rx_sw_list .cont_a:hover, .rx_sw_list .cont_a:focus {
-		.text-contrast(#fff; darken(@color,5%); lighten(@color,5%));
+		&.no_delete {
+			padding-right: 15px;
+		}
+
+		&:hover, &:focus {
+			.text-contrast(#fff; darken(@color,5%); lighten(@color,5%));
+		}
 	}
 	.content_basic{
 		position:relative;
@@ -344,24 +350,23 @@ section.rx_simple_communication {
 		padding: 0;
 		margin: 0;
 		border-bottom: 1px solid #e0e0e0;
-	}
-
-	.rx_sw_list li {
-		position:relative;
-		border-top: 1px solid #e0e0e0;
-		overflow: hidden;
-		padding:0;
-	}
-	.rx_sw_list .content_delete{
-		position:absolute;
-		top:0;
-		right:0;
-	}
-	.rx_sw_list .content_delete>input{
-		margin: 10px;
-		width:20px;
-		height:20px;
-		vertical-align: bottom;
+		li {
+			position:relative;
+			border-top: 1px solid #e0e0e0;
+			overflow: hidden;
+			padding:0;
+		}
+		.content_delete {
+			position:absolute;
+			top:0;
+			right:0;
+			&>input {
+				margin: 10px;
+				width:20px;
+				height:20px;
+				vertical-align: bottom;
+			}
+		}
 	}
 
 	/* button hover */

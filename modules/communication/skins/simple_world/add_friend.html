@@ -3,7 +3,7 @@
 <include target="./common_header.html" />
 <section class="sw-body">
 	<h1>{$lang->cmd_add_friend}</h1>
-	<div cond="$XE_VALIDATOR_MESSAGE && $XE_VALIDATOR_ID == 'modules/communication/skins/simple_world/add_friend/1'" class="message {$XE_VALIDATOR_MESSAGE_TYPE}">
+	<div cond="$XE_VALIDATOR_MESSAGE && $XE_VALIDATOR_ID == 'modules/communication/skins/simple_world/add_friend/1'" class="rx_member-notice {$XE_VALIDATOR_MESSAGE_TYPE}">
 		<p>{$XE_VALIDATOR_MESSAGE}</p>
 	</div>
 	<form ruleset="addFriend" action="./" method="post">
