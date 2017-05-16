@@ -91,9 +91,9 @@
 					<li><a href="{getUrl('act', 'dispMemberLoginForm')}">{lang('member.cmd_login')}...</a></li>
 					<li><a href="{getUrl('act', 'dispMemberSignUpForm')}" cond="$member_config->enable_join === 'Y'">{lang('member.cmd_signup')}...</a></li>
 				</ul>
-				<a href="{getUrl('act', 'dispMemberInfo')}" cond="$is_logged">{sprintf(lang('simple_hello'), $logged_info->nick_name)}</a>
+				<a href="{getUrl('act', 'dispMemberInfo', 'member_srl', '')}" cond="$is_logged">{sprintf(lang('simple_hello'), $logged_info->nick_name)}</a>
 				<ul class="layout_dropdown-content" cond="$is_logged">
-					<li><a href="{getUrl('act', 'dispMemberInfo')}">{lang('member.cmd_view_member_info')}</a></li>
+					<li><a href="{getUrl('act', 'dispMemberInfo', 'member_srl', '')}">{lang('member.cmd_view_member_info')}</a></li>
 					<li cond="$logged_info->is_admin == 'Y'">
 						<a href="{getUrl('', 'module','admin')}">{lang('common.cmd_management')}</a>
 					</li>
