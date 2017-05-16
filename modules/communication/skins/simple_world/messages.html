@@ -2,7 +2,7 @@
 <load target="filter/delete_checked_message.xml" />
 <load target="filter/update_allow_message.xml" />
 <section class="sw-body" cond="$message">
-	<h1>{$message->title}</h1>
+	<h1>{escape($message->title)}</h1>
 	<div>
 		<a href="popup_menu_area" class="member_{$message->member_srl}">{$message->nick_name}</a> / {zdate($message->regdate, "Y-m-d H:i")}
 	</div>
