@@ -636,17 +636,17 @@ class documentItem extends Object
 		// Remove tags
 		$content = strip_tags($this->getContent(false, false));
 		
-		// Remove html entity of No-break space
-		$content = str_replace('&nbsp;', ' ', $content);
-		
-		// Remove whitespaces and No-break space character
-		$content = trim(preg_replace('/\s+|[\\pZ\\pC]+/u', ' ',  $content));
-		
 		// Convert temporarily html entity for truncate
-		$content = htmlspecialchars_decode($content, ENT_QUOTES);
+		$content = html_entity_decode($content, ENT_QUOTES);
+		
+		// Replace unicode whitespace characters (no-break space)
+		$content = utf8_normalize_spaces($content);
+		
+		// Replace all whitespaces to single space
+		$content = trim(preg_replace('/\s+/', ' ',  $content));
 		
 		// Truncate string
-		$content = trim(cut_str($content, $str_size, $tail));
+		$content = cut_str($content, $str_size, $tail);
 		
 		return escape($content, false);
 	}
