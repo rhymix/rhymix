@@ -648,7 +648,7 @@ class documentItem extends Object
 		// Truncate string
 		$content = cut_str($content, $str_size, $tail);
 		
-		return escape($content, false);
+		return escape($content);
 	}
 	
 	function getRegdate($format = 'Y.m.d H:i:s', $conversion = true)
