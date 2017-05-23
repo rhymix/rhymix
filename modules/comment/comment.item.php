@@ -422,11 +422,8 @@ class commentItem extends Object
 		// Convert temporarily html entity for truncate
 		$content = html_entity_decode($content, ENT_QUOTES);
 		
-		// Replace unicode whitespace characters (no-break space)
-		$content = utf8_normalize_spaces($content);
-		
 		// Replace all whitespaces to single space
-		$content = trim(preg_replace('/\s+/', ' ',  $content));
+		$content = utf8_trim(utf8_normalize_spaces($content));
 		
 		// Truncate string
 		$content = cut_str($content, $str_size, $tail);
