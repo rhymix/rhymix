@@ -8,7 +8,7 @@
 		<ul class="rx_sw_list">
 			<li loop="$active_logins => $no, $autologin_info">
 				{@ $autologin_info->user_agent = @json_decode($autologin_info->user_agent) ?: new stdClass()}
-				<span class="content_basic">
+				<span class="content_basic cont_a">
 					<span class="content_title">
 						{escape($autologin_info->user_agent->browser)} {escape($autologin_info->user_agent->version)} ({escape($autologin_info->user_agent->os)})
 					</span>
