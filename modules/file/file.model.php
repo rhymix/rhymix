@@ -34,12 +34,11 @@ class fileModel extends file
 		if($upload_target_srl)
 		{
 			$tmp_files = $this->getFiles($upload_target_srl);
-			$file_count = count($tmp_files);
+			if($tmp_files instanceof Object && !$tmp_files->toBool()) return $tmp_files;
 			$files = array();
 
-			for($i=0;$i<$file_count;$i++)
+			foreach($tmp_files as $file_info)
 			{
-				$file_info = $tmp_files[$i];
 				if(!$file_info->file_srl) continue;
 
 				$obj = new stdClass;
@@ -244,27 +243,40 @@ class fileModel extends file
 	 */
 	function getFiles($upload_target_srl, $columnList = array(), $sortIndex = 'file_srl', $ckValid = false)
 	{
+		$oDocumentModel = getModel('document');
+		$oCommentModel = getModel('comment');
+		$targetItem = $oDocumentModel->getDocument($upload_target_srl);
+		if(!$targetItem->isExists())
+		{
+			$targetItem = $oCommentModel->getComment($upload_target_srl);
+		}
+		if(!$targetItem->isExists())
+		{
+			return new Object(-1, 'msg_invalid_request');
+		}
+		if($targetItem->isSecret() && !$targetItem->isGranted())
+		{
+			return new Object(-1, 'msg_invalid_request');
+		}
+
 		$args = new stdClass();
 		$args->upload_target_srl = $upload_target_srl;
 		$args->sort_index = $sortIndex;
 		if($ckValid) $args->isvalid = 'Y';
-		$output = executeQuery('file.getFiles', $args, $columnList);
-		if(!$output->data) return;
-
-		$file_list = $output->data;
-
-		if($file_list && !is_array($file_list)) $file_list = array($file_list);
-
-		$file_count = count($file_list);
-		for($i=0;$i<$file_count;$i++)
+		$output = executeQueryArray('file.getFiles', $args, $columnList);
+		if(!$output->data)
 		{
-			$file = $file_list[$i];
+			return array();
+		}
+		
+		$fileList = array();
+		foreach ($output->data as $file)
+		{
 			$file->source_filename = escape($file->source_filename, false);
 			$file->download_url = $this->getDownloadUrl($file->file_srl, $file->sid, $file->module_srl);
-			$file_list[$i] = $file;
+			$fileList[] = $file;
 		}
-
-		return $file_list;
+		return $fileList;
 	}
 
 	/**
