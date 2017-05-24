@@ -1124,29 +1124,19 @@ class fileController extends file
 
 		$oDB = &DB::getInstance();
 		$oDB->begin();
+		
+		$args->cover_image = 'N';
+		$output = executeQuery('file.updateClearCoverImage', $args);
+		if(!$output->toBool())
+		{
+				$oDB->rollback();
+				return $output;
+		}
 
 		if($file_info->cover_image != 'Y') {
 
-			$args->cover_image = 'N';
-			$output = executeQuery('file.updateClearCoverImage', $args);
-			if(!$output->toBool())
-			{
-				$oDB->rollback();
-				return $output;
-			}
-
 			$args->cover_image = 'Y';
 			$output = executeQuery('file.updateCoverImage', $args);
-			if(!$output->toBool())
-			{
-				$oDB->rollback();
-				return $output;
-			}
-
-		}else{
-
-			$args->cover_image = 'N';
-			$output = executeQuery('file.updateClearCoverImage', $args);
 			if(!$output->toBool())
 			{
 				$oDB->rollback();
