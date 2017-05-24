@@ -1133,7 +1133,8 @@ class fileController extends file
 				return $output;
 		}
 
-		if($file_info->cover_image != 'Y') {
+		if($file_info->cover_image != 'Y')
+		{
 
 			$args->cover_image = 'Y';
 			$output = executeQuery('file.updateCoverImage', $args);
