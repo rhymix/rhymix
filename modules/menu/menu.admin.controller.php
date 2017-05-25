@@ -457,7 +457,6 @@ class menuAdminController extends menu
 			$args->parent_srl = $request->parent_srl;
 			$args->open_window = $request->menu_open_window;
 			$args->expand = $request->menu_expand;
-			$args->expand = $request->menu_expand;
 			$args->is_shortcut = $request->is_shortcut;
 			$args->url = $request->shortcut_target;
 
@@ -1696,8 +1695,20 @@ class menuAdminController extends menu
 
 		$oModuleModel = getModel('module');
 		$moduleInfo = $oModuleModel->getModuleInfoByMid($itemInfo->url, $menuInfo->site_srl);
-
 		$xml_info = $oModuleModel->getModuleActionXML($moduleInfo->module);
+
+		if($itemInfo->is_shortcut === 'Y')
+		{
+			$moduleGrnatsArgs = new stdClass;
+			$moduleGrnatsArgs->module_srl = $moduleInfo->module_srl;
+			$output = executeQueryArray('module.getModuleGrants', $moduleGrnatsArgs);
+			if(!$output->data) $output->data = array();
+			$moduleGrnats = new stdClass();
+			foreach($output->data as $grant)
+			{
+				$moduleGrnats->{$grant->name}[] = $grant->group_srl;
+			}
+		}
 
 		$grantList = $xml_info->grant;
 		if(!$grantList) $grantList = new stdClass;
@@ -1707,29 +1718,30 @@ class menuAdminController extends menu
 		$grantList->manager = new stdClass();
 		$grantList->manager->default = 'manager';
 
-		$grant = new stdClass;
+		$grant = new stdClass();
 		foreach($grantList AS $grantName=>$grantInfo)
 		{
-			if(!$htPerm[$grantName])
+			if($htPerm[$grantName])
 			{
-				continue;
-			}
+				$htPerm[$grantName] = explode(',', $htPerm[$grantName]);
 
-			$htPerm[$grantName] = explode(',', $htPerm[$grantName]);
-
-			// users in a particular group
-			if(is_array($htPerm[$grantName]))
-			{
-				$grant->{$grantName} = $htPerm[$grantName];
-				continue;
+				// users in a particular group
+				if(is_array($htPerm[$grantName]))
+				{
+					$grant->{$grantName} = $htPerm[$grantName];
+					continue;
+				}
+				// -1 = Log-in user only, -2 = site members only, 0 = all users
+				else
+				{
+					$grant->{$grantName}[] = $htPerm[$grantName];
+					continue;
+				}
 			}
-			// -1 = Log-in user only, -2 = site members only, 0 = all users
-			else
+			else if($itemInfo->is_shortcut === 'Y')
 			{
-				$grant->{$grantName}[] = $htPerm[$grantName];
-				continue;
+				if(isset($moduleGrnats) && $moduleGrnats->{$grantName}) $grant->{$grantName} = $moduleGrnats->{$grantName};
 			}
-			$grant->{$group_srls} = array();
 		}
 
 		if(count($grant))
