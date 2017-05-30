@@ -243,16 +243,36 @@ class fileModel extends file
 	 */
 	function getFiles($upload_target_srl, $columnList = array(), $sortIndex = 'file_srl', $ckValid = false)
 	{
+		$oModuleModel = getModel('module');
 		$oDocumentModel = getModel('document');
 		$oCommentModel = getModel('comment');
-		$targetItem = $oDocumentModel->getDocument($upload_target_srl);
-		if(!$targetItem->isExists())
+		$logged_info = Context::get('logged_info');
+
+		$oDocument = $oDocumentModel->getDocument($upload_target_srl);
+
+		// comment 권한 확인
+		if(!$oDocument->isExists())
 		{
-			$targetItem = $oCommentModel->getComment($upload_target_srl);
+			$oComment = $oCommentModel->getComment($upload_target_srl);
+			if($oComment->isExists() && $oComment->isSecret() && !$oComment->isGranted())
+			{
+				return $this->stop('msg_not_permitted');
+			}
+
+			$oDocument = $oDocumentModel->getDocument($oComment->get('document_srl'));
 		}
-		if($targetItem->isExists() && $targetItem->isSecret() && !$targetItem->isGranted())
+
+		// document 권한 확인
+		if($oDocument->isExists() && $oDocument->isSecret() && !$oDocument->isGranted())
 		{
-			return new Object(-1, 'msg_invalid_request');
+			return $this->stop('msg_not_permitted');
+		}
+
+		// 모듈 권한 확인
+		$grant = $oModuleModel->getGrant($oModuleModel->getModuleInfoByModuleSrl($oDocument->get('module_srl')), $logged_info);
+		if(!$grant->access)
+		{
+			return $this->stop('msg_not_permitted');
 		}
 
 		$args = new stdClass();
