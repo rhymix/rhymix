@@ -80,6 +80,11 @@ class fileAdminModel extends file
 		$args->page_count = $obj->page_count?$obj->page_count:10;
 		$args->s_module_srl = $obj->module_srl;
 		$args->exclude_module_srl = $obj->exclude_module_srl;
+		if(toBool($obj->exclude_secret))
+		{
+			$args->document_status = 'PUBLIC';
+			$args->comment_is_secret = 'N';
+		}
 		// Execute the file.getFileList query
 		$output = executeQuery('file.getFileList', $args, $columnList);
 		// Return if no result or an error occurs

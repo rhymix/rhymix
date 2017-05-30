@@ -685,6 +685,10 @@ class commentModel extends comment
 		$args->page_count = $obj->page_count ? $obj->page_count : 10;
 		$args->s_module_srl = $obj->module_srl;
 		$args->exclude_module_srl = $obj->exclude_module_srl;
+		if ($obj->is_secret)
+		{
+			$args->s_is_secret = $obj->is_secret;
+		}
 
 		// check if module is using comment validation system
 		$oCommentController = getController("comment");

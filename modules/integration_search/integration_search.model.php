@@ -94,6 +94,7 @@ class integration_searchModel extends module
 		$args->page_count = 10;
 		$args->search_target = 'content';
 		$args->search_keyword = $search_keyword;
+		$args->is_secret = 'N';
 		$args->sort_index = 'list_order';
 		$args->order_type = 'asc';
 		// Get a list of documents
@@ -167,6 +168,7 @@ class integration_searchModel extends module
 		$args->order_type = 'desc';
 		$args->isvalid = 'Y';
 		$args->direct_download = $direct_download=='Y'?'Y':'N';
+		$args->exclude_secret = 'Y';
 		// Get a list of documents
 		$oFileAdminModel = getAdminModel('file');
 		$output = $oFileAdminModel->getFileList($args);
