@@ -198,22 +198,7 @@ class ModuleHandler extends Handler
 		if($this->document_srl)
 		{
 			$module_info = $oModuleModel->getModuleInfoByDocumentSrl($this->document_srl);
-			
-			// If the document does not exist, remove document_srl
-			if(!$module_info)
-			{
-				if(Context::getRequestMethod() == 'GET')
-				{
-					$this->error = 'The document does not exist';
-					$this->httpStatusCode = '404';
-					return true;
-				}
-				else
-				{
-					unset($this->document_srl);
-				}
-			}
-			else
+			if($module_info)
 			{
 				// If it exists, compare mid based on the module information
 				// if mids are not matching, set it as the document's mid
@@ -236,18 +221,18 @@ class ModuleHandler extends Handler
 				{
 					unset($module_info);
 				}
-				
-				// if the secret document permission does not have, specify HTTP 403
-				if(Context::getRequestMethod() == 'GET')
+			}
+			
+			// Block access to secret or temporary documents.
+			if(Context::getRequestMethod() == 'GET')
+			{
+				$oDocumentModel = getModel('document');
+				$oDocument = $oDocumentModel->getDocument($this->document_srl);
+				if($oDocument->isSecret() || $oDocument->get('status') === $oDocumentModel->getConfigStatus('temp'))
 				{
-					$oDocumentModel = getModel('document');
-					$oDocument = $oDocumentModel->getDocument($this->document_srl);
-					if($oDocument->isSecret() || $oDocument->get('status') === $oDocumentModel->getConfigStatus('temp'))
+					if(!$oDocument->isGranted() && !$oDocument->isAccessible())
 					{
-						if(!$oDocument->isGranted() && !$oDocument->isAccessible())
-						{
-							$this->httpStatusCode = '403';
-						}
+						$this->httpStatusCode = '403';
 					}
 				}
 			}
