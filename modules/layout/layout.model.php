@@ -270,6 +270,7 @@ class layoutModel extends layout
 		$args->layout_srl = $layout_srl;
 		$output = executeQuery('layout.getLayout', $args);
 		if(!$output->data) return;
+		$layout = $output->data->layout;
 
 		// Return xml file informaton after listing up the layout and extra_vars
 		$layout_info = $this->getLayoutInfo($layout, $output->data, $output->data->layout_type);
