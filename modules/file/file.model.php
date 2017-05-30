@@ -250,11 +250,7 @@ class fileModel extends file
 		{
 			$targetItem = $oCommentModel->getComment($upload_target_srl);
 		}
-		if(!$targetItem->isExists())
-		{
-			return new Object(-1, 'msg_invalid_request');
-		}
-		if($targetItem->isSecret() && !$targetItem->isGranted())
+		if($targetItem->isExists() && $targetItem->isSecret() && !$targetItem->isGranted())
 		{
 			return new Object(-1, 'msg_invalid_request');
 		}
