@@ -1,0 +1,30 @@
+<include target="./common_header.html" />
+<div class="xm">
+	<h2 class="hx h2">{$member_title = $lang->cmd_view_active_logins}</h2>
+	<ul class="lt">
+		<li loop="$active_logins => $no, $autologin_info" class="has_padding">
+			{@ $autologin_info->user_agent = @json_decode($autologin_info->user_agent) ?: new stdClass()}
+			<strong>{escape($autologin_info->user_agent->browser)} {escape($autologin_info->user_agent->version)}</strong><br />
+			{escape($autologin_info->user_agent->os)} {$autologin_info->user_agent->is_tablet ? 'Tablet' : ($autologin_info->user_agent->is_mobile ? 'Mobile' : 'PC')}<br />
+			{$lang->cmd_initial_login}: {zdate($autologin_info->regdate, 'Y-m-d H:i')} ({$autologin_info->ipaddress})<br />
+			{$lang->cmd_recent_visit}: {zdate($autologin_info->last_visit, 'Y-m-d H:i')} ({$autologin_info->last_ipaddress})<br />
+			<button class="delete_autologin" data-autologin-id="{$autologin_info->id}" data-autologin-key="{$autologin_info->autologin_key}">{$lang->cmd_delete}</button>
+		</li>
+	</ul>
+	<div class="pn">
+		<a cond="$page != 1" href="{getUrl('page',$page-1,'module_srl','','document_srl','')}" class="prev">{$lang->cmd_prev}</a> 
+		<strong>{$page} / {$page_navigation->last_page}</strong>
+		<a cond="$page != $page_navigation->last_page" href="{getUrl('page',$page+1,'module_srl','','document_srl','')}" class="next">{$lang->cmd_next}</a>
+	</div>
+</div>
+<script>
+	$(function() {
+		$("button.delete_autologin").on("click", function(event) {
+			event.preventDefault();
+			exec_json('member.procMemberDeleteAutologin', { autologin_id: $(this).data("autologin-id"), autologin_key: $(this).data("autologin-key") }, function(data) {
+				window.location.reload();
+			});
+		});
+	});
+</script>
+<include target="./common_footer.html" />
