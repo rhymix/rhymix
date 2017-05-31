@@ -2,6 +2,11 @@
     <tables>
         <table name="sites" />
         <table name="modules" />
+        <table name="module_categories" alias="module_categories" type="left join">
+            <conditions>
+                <condition operation="equal" column="module_categories.module_category_srl" default="modules.module_category_srl" />
+            </conditions>
+        </table>
     </tables>
     <columns>
         <column name="sites.domain" />
@@ -12,6 +17,7 @@
         <column name="modules.mid" />
         <column name="modules.browser_title" />
         <column name="modules.module_srl" />
+        <column name="module_categories.title" alias="category" />
     </columns>
     <conditions>
         <condition operation="equal" column="sites.site_srl" var="site_srl" />
