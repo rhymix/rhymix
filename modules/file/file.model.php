@@ -269,10 +269,13 @@ class fileModel extends file
 		}
 
 		// 모듈 권한 확인
-		$grant = $oModuleModel->getGrant($oModuleModel->getModuleInfoByModuleSrl($oDocument->get('module_srl')), $logged_info);
-		if(!$grant->access)
+		if($oDocument->isExists())
 		{
-			return $this->stop('msg_not_permitted');
+			$grant = $oModuleModel->getGrant($oModuleModel->getModuleInfoByModuleSrl($oDocument->get('module_srl')), $logged_info);
+			if(!$grant->access)
+			{
+				return $this->stop('msg_not_permitted');
+			}
 		}
 
 		$args = new stdClass();
