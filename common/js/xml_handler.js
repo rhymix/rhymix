@@ -23,6 +23,9 @@
 	 */
 	window.exec_xml = $.exec_xml = function(module, act, params, callback_success, return_fields, callback_success_arg, fo_obj) {
 		
+		// Define callback functions.
+		var successHandler, errorHandler, xmlHandler;
+		
 		// Convert params to object and fill in the module and act.
 		params = params ? ($.isArray(params) ? arr2obj(params) : params) : {};
 		params.module = module;
@@ -58,7 +61,7 @@
 		}, 1000);
 		
 		// Define the success handler.
-		var successHandler = function(data, textStatus, xhr) {
+		successHandler = function(data, textStatus, xhr) {
 			
 			// Hide the waiting message.
 			clearTimeout(wfsr_timeout);
@@ -115,17 +118,11 @@
 		};
 		
 		// Define the error handler.
-		var errorHandler = function(xhr, textStatus) {
+		errorHandler = function(xhr, textStatus, doNotHandleXml) {
 			
 			// If the server has returned XML anyway, convert to JSON and call the success handler.
-			if (textStatus === 'parsererror' && xhr.responseText && xhr.responseText.match(/<response/)) {
-				var xmldata = $.parseXML(xhr.responseText);
-				if (xmldata) {
-					var jsondata = $.parseJSON(xml2json(xmldata, false, false));
-					if (jsondata && jsondata.response) {
-						return successHandler(jsondata.response, textStatus, xhr);
-					}
-				}
+			if (textStatus === 'parsererror' && doNotHandleXml !== true && xhr.responseText && xhr.responseText.match(/<response/)) {
+				return xmlHandler(xhr, textStatus);
 			}
 			
 			// Hide the waiting message and display an error notice.
@@ -139,6 +136,32 @@
 			} else {
 				error_info = xhr.status + " " + xhr.statusText + " (" + textStatus + ")" + "\n\n" + xhr.responseText;
 				alert("AJAX communication error while requesting " + params.module + "." + params.act + "\n\n" + error_info);
+			}
+		};
+		
+		// Define the legacy XML handler.
+		xmlHandler = function(xhr, textStatus) {
+			var parseXmlAndReturn = function() {
+				var x2js = new X2JS();
+				var data = x2js.xml_str2json($.trim(xhr.responseText));
+				if (data && data.response) {
+					return successHandler(data.response, textStatus, xhr);
+				} else {
+					return errorHandler(xhr, textStatus, true);
+				}
+			};
+			if (window.X2JS) {
+				parseXmlAndReturn();
+			} else {
+				$.ajax({
+					url : request_uri + "common/js/xml2json.js",
+					dataType : "script",
+					cache : true,
+					success : parseXmlAndReturn,
+					error : function() {
+						return errorHandler(xhr, textStatus, true);
+					}
+				});
 			}
 		};
 		
@@ -406,200 +429,4 @@ function arr2obj(arr) {
 		}
 	}
 	return ret;
-}
-
-/**
- * This work is licensed under Creative Commons GNU LGPL License.
- * License: http://creativecommons.org/licenses/LGPL/2.1/
- * Version: 0.9
- * Author:  Stefan Goessner/2006
- * Web:     http://goessner.net/
- **/
-function xml2json(xml, tab, ignoreAttrib) {
-	var X = {
-		toObj: function(xml) {
-			var o = {};
-			if (xml.nodeType==1) { // element node ..
-				if (ignoreAttrib && xml.attributes.length) { // element with attributes  ..
-					for (var i=0; i<xml.attributes.length; i++) {
-						o["@"+xml.attributes[i].nodeName] = (xml.attributes[i].nodeValue||"").toString();
-					}
-				}
-
-				if (xml.firstChild) { // element has child nodes ..
-					var textChild=0, cdataChild=0, hasElementChild=false;
-					for (var n=xml.firstChild; n; n=n.nextSibling) {
-						if (n.nodeType==1) {
-							hasElementChild = true;
-						} else if (n.nodeType==3 && n.nodeValue.match(/[^ \f\n\r\t\v]/)) {
-							textChild++; // non-whitespace text
-						}else if (n.nodeType==4) {
-							cdataChild++; // cdata section node
-						}
-					}
-					if (hasElementChild) {
-						if (textChild < 2 && cdataChild < 2) { // structured element with evtl. a single text or/and cdata node ..
-							X.removeWhite(xml);
-							for (var n1=xml.firstChild; n1; n1=n1.nextSibling) {
-								if (n1.nodeType == 3) { // text node
-									o = X.unescape(X.escape(n1.nodeValue));
-								} else if (n1.nodeType == 4) { // cdata node
-									// o["#cdata"] = X.escape(n.nodeValue);
-									o = X.escape(n1.nodeValue);
-								} else if (o[n1.nodeName]) { // multiple occurence of element ..
-									if (o[n1.nodeName] instanceof Array) {
-										o[n1.nodeName][o[n1.nodeName].length] = X.toObj(n1);
-									} else {
-										o[n1.nodeName] = [o[n1.nodeName], X.toObj(n1)];
-									}
-								} else { // first occurence of element..
-									o[n1.nodeName] = X.toObj(n1);
-								}
-							}
-						}
-						else { // mixed content
-							if (!xml.attributes.length) {
-								o = X.unescape(X.escape(X.innerXml(xml)));
-							} else {
-								o["#text"] = X.unescape(X.escape(X.innerXml(xml)));
-							}
-						}
-					} else if (textChild) { // pure text
-						if (!xml.attributes.length) {
-							o = X.unescape(X.escape(X.innerXml(xml)));
-						} else {
-							o["#text"] = X.unescape(X.escape(X.innerXml(xml)));
-						}
-					} else if (cdataChild) { // cdata
-						if (cdataChild > 1) {
-							o = X.escape(X.innerXml(xml));
-						} else {
-							for (var n2=xml.firstChild; n2; n2=n2.nextSibling) {
-								// o["#cdata"] = X.escape(n2.nodeValue);
-								o = X.escape(n2.nodeValue);
-							}
-						}
-					}
-				}
-
-				if (!xml.attributes.length && !xml.firstChild) {
-					o = null;
-				}
-			} else if (xml.nodeType==9) { // document.node
-				o = X.toObj(xml.documentElement);
-			} else {
-				alert("unhandled node type: " + xml.nodeType);
-			}
-
-			return o;
-		},
-		toJson: function(o, name, ind) {
-			var json = name ? ("\""+name+"\"") : "";
-			if (o instanceof Array) {
-				for (var i=0,n=o.length; i<n; i++) {
-					o[i] = X.toJson(o[i], "", ind+"\t");
-				}
-				json += (name?":[":"[") + (o.length > 1 ? ("\n"+ind+"\t"+o.join(",\n"+ind+"\t")+"\n"+ind) : o.join("")) + "]";
-			} else if (o === null) {
-				json += (name&&":") + "null";
-			} else if (typeof(o) == "object") {
-				var arr = [];
-				for (var m in o) {
-					arr[arr.length] = X.toJson(o[m], m, ind+"\t");
-				}
-				json += (name?":{":"{") + (arr.length > 1 ? ("\n"+ind+"\t"+arr.join(",\n"+ind+"\t")+"\n"+ind) : arr.join("")) + "}";
-			} else if (typeof(o) == "string") {
-				json += (name&&":") + "\"" + o.toString() + "\"";
-			} else {
-				json += (name&&":") + o.toString();
-			}
-			return json;
-		},
-		innerXml: function(node) {
-			var s = "";
-
-			if ("innerHTML" in node) {
-				s = node.innerHTML;
-			} else {
-				var asXml = function(n) {
-					var s = "";
-					if (n.nodeType == 1) {
-						s += "<" + n.nodeName;
-						for (var i=0; i<n.attributes.length;i++) {
-							s += " " + n.attributes[i].nodeName + "=\"" + (n.attributes[i].nodeValue||"").toString() + "\"";
-						}
-						if (n.firstChild) {
-							s += ">";
-							for (var c=n.firstChild; c; c=c.nextSibling) {
-								s += asXml(c);
-							}
-							s += "</"+n.nodeName+">";
-						} else {
-							s += "/>";
-						}
-					} else if (n.nodeType == 3) {
-						s += n.nodeValue;
-					} else if (n.nodeType == 4) {
-						s += "<![CDATA[" + n.nodeValue + "]]>";
-					}
-
-					return s;
-				};
-
-				for (var c=node.firstChild; c; c=c.nextSibling) {
-					s += asXml(c);
-				}
-			}
-			return s;
-		},
-		escape: function(txt) {
-			return txt.replace(/[\\]/g, "\\\\")
-				.replace(/[\"]/g, '\\"')
-				.replace(/[\n]/g, '\\n')
-				.replace(/[\r]/g, '\\r');
-		},
-		unescape: function(txt) {
-			if (!navigator.userAgent.match(/Trident\/7.0/)) {
-				return txt.replace(/&amp;/g, '&').replace(/&quot;/g, '"').replace(/&lt;/g, '<').replace(/&gt;/g, '>');
-			} else {
-				return txt;
-			}
-		},
-		removeWhite: function(e) {
-			e.normalize();
-			for (var n3 = e.firstChild; n3; ) {
-				if (n3.nodeType == 3) { // text node
-					if (!n3.nodeValue.match(/[^ \f\n\r\t\v]/)) { // pure whitespace text node
-						var nxt = n3.nextSibling;
-						e.removeChild(n3);
-						n3 = nxt;
-					} else {
-						n3 = n3.nextSibling;
-					}
-				} else if (n3.nodeType == 1) { // element node
-					X.removeWhite(n3);
-					n3 = n3.nextSibling;
-				} else { // any other node
-					n3 = n3.nextSibling;
-				}
-			}
-			return e;
-		}
-	};
-
-	// document node
-	if (xml.nodeType == 9) xml = xml.documentElement;
-
-	var json_obj = X.toObj(X.removeWhite(xml)), json_str;
-
-	if (typeof(JSON)=='object' && jQuery.isFunction(JSON.stringify) && false) {
-		var obj = {}; obj[xml.nodeName] = json_obj;
-		json_str = JSON.stringify(obj);
-
-		return json_str;
-	} else {
-		json_str = X.toJson(json_obj, xml.nodeName, "");
-
-		return "{" + (tab ? json_str.replace(/\t/g, tab) : json_str.replace(/\t|\n/g, "")) + "}";
-	}
 }
