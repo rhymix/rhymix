@@ -137,7 +137,7 @@ class commentController extends comment
 		$output = $this->updateVotedCountCancel($comment_srl, $oComment, $point);
 
 		$output = new Object();
-		$output->setMessage('success_voted_canceled');
+		$output->setMessage('success_blamed_canceled');
 
 		return $output;
 	}
@@ -290,9 +290,10 @@ class commentController extends comment
 	 * Enter comments
 	 * @param object $obj
 	 * @param bool $manual_inserted
+	 * @param bool $update_document
 	 * @return object
 	 */
-	function insertComment($obj, $manual_inserted = FALSE)
+	function insertComment($obj, $manual_inserted = FALSE, $update_document = TRUE)
 	{
 		if(!$manual_inserted && !checkCSRF())
 		{
@@ -565,16 +566,9 @@ class commentController extends comment
 		$oDocumentController = getController('document');
 
 		// Update the number of comments in the post
-		if(!$using_validation)
+		if(!$using_validation || $is_admin)
 		{
-			$output = $oDocumentController->updateCommentCount($document_srl, $comment_count, $obj->nick_name, TRUE);
-		}
-		else
-		{
-			if($is_admin)
-			{
-				$output = $oDocumentController->updateCommentCount($document_srl, $comment_count, $obj->nick_name, TRUE);
-			}
+			$output = $oDocumentController->updateCommentCount($document_srl, $comment_count, $obj->nick_name, $update_document);
 		}
 
 		// call a trigger(after)

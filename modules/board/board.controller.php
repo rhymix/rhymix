@@ -435,6 +435,9 @@ class boardController extends board
 		// INSERT if comment_srl does not exist.
 		if($comment->comment_srl != $obj->comment_srl)
 		{
+			// Update document last_update info?
+			$update_document = $this->module_info->update_order_on_comment === 'N' ? false : true;
+			
 			// Parent exists.
 			if($obj->parent_srl)
 			{
@@ -443,12 +446,12 @@ class boardController extends board
 				{
 					return new Object(-1, 'msg_invalid_request');
 				}
-				$output = $oCommentController->insertComment($obj, $bAnonymous);
+				$output = $oCommentController->insertComment($obj, $bAnonymous, $update_document);
 			}
 			// Parent does not exist.
 			else
 			{
-				$output = $oCommentController->insertComment($obj, $bAnonymous);
+				$output = $oCommentController->insertComment($obj, $bAnonymous, $update_document);
 			}
 			// Set grant for the new comment.
 			if ($output->toBool())

@@ -447,22 +447,19 @@ class content extends WidgetHandler
 
 	function _getSummary($content, $str_size = 50)
 	{
-		$content = preg_replace('!(<br[\s]*/{0,1}>[\s]*)+!is', ' ', $content);
-		// Replace tags such as </p> , </div> , </li> and others to a whitespace
-		$content = str_replace(array('</p>', '</div>', '</li>'), ' ', $content);
-		// Remove Tag
-		$content = preg_replace('!<([^>]*?)>!is','', $content);
-		// Replace tags to <, >, " and whitespace
-		$content = str_replace(array('&lt;','&gt;','&quot;','&nbsp;'), array('<','>','"',' '), $content);
-		// Delete  a series of whitespaces
-		$content = preg_replace('/ ( +)/is', ' ', $content);
+		// Remove tags
+		$content = strip_tags($content);
+		
+		// Convert temporarily html entity for truncate
+		$content = html_entity_decode($content, ENT_QUOTES);
+		
+		// Replace all whitespaces to single space
+		$content = utf8_trim(utf8_normalize_spaces($content));
+		
 		// Truncate string
-		$content = trim(cut_str($content, $str_size, $tail));
-		// Replace back <, >, " to the original tags
-		$content = str_replace(array('<','>','"'),array('&lt;','&gt;','&quot;'), $content);
-		// Fixed to a newline bug for consecutive sets of English letters
-		$content = preg_replace('/([a-z0-9\+:\/\.\~,\|\!\@\#\$\%\^\&\*\(\)\_]){20}/is',"$0-",$content);
-		return $content; 
+		$content = cut_str($content, $str_size, '...');
+		
+		return escape($content);
 	}
 
 	/**

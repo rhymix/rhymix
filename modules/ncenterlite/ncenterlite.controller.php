@@ -65,7 +65,7 @@ class ncenterliteController extends ncenterlite
 		}
 		else
 		{
-			self::removeFlagFile($args->member_srl);
+			$this->removeFlagFile($args->member_srl);
 		}
 		return new Object();
 	}
@@ -443,7 +443,7 @@ class ncenterliteController extends ncenterlite
 			foreach($member_srls as $member_srl)
 			{
 				//Remove flag files
-				self::removeFlagFile($member_srl);
+				$this->removeFlagFile($member_srl);
 			}
 		}
 
@@ -498,7 +498,7 @@ class ncenterliteController extends ncenterlite
 			foreach($member_srls as $member_srl)
 			{
 				//Remove flag files
-				self::removeFlagFile($member_srl);
+				$this->removeFlagFile($member_srl);
 			}
 		}
 		return new Object();
@@ -548,7 +548,7 @@ class ncenterliteController extends ncenterlite
 				if($output_update->toBool())
 				{
 					//Remove flag files
-					self::removeFlagFile($args->member_srl);
+					$this->removeFlagFile($args->member_srl);
 				}
 			}
 		}
@@ -570,7 +570,7 @@ class ncenterliteController extends ncenterlite
 					if($outputs->toBool())
 					{
 						//Remove flag files
-						self::removeFlagFile($args->member_srl);
+						$this->removeFlagFile($args->member_srl);
 					}
 				}
 			}
@@ -617,7 +617,7 @@ class ncenterliteController extends ncenterlite
 				if($update_output->toBool())
 				{
 					//Remove flag files
-					self::removeFlagFile($args->member_srl);
+					$this->removeFlagFile($args->member_srl);
 				}
 			}
 		}
@@ -678,7 +678,7 @@ class ncenterliteController extends ncenterlite
 				if($output->toBool())
 				{
 					//Remove flag files
-					self::removeFlagFile($args->member_srl);
+					$this->removeFlagFile($args->member_srl);
 				}
 			}
 		}
@@ -692,7 +692,7 @@ class ncenterliteController extends ncenterlite
 			if($output->toBool())
 			{
 				//Remove flag files
-				self::removeFlagFile($args->member_srl);
+				$this->removeFlagFile($args->member_srl);
 			}
 		}
 
@@ -923,7 +923,7 @@ class ncenterliteController extends ncenterlite
 		//$output = executeQuery('ncenterlite.deleteNotify', $args);
 
 		//Remove flag files
-		self::removeFlagFile($args->member_srl);
+		$this->removeFlagFile($args->member_srl);
 		return $output;
 	}
 
@@ -936,7 +936,7 @@ class ncenterliteController extends ncenterlite
 		//$output = executeQuery('ncenterlite.deleteNotifyByTargetSrl', $args);
 
 		//Remove flag files
-		self::removeFlagFile($args->member_srl);
+		$this->removeFlagFile($args->member_srl);
 		return $output;
 	}
 
@@ -948,7 +948,7 @@ class ncenterliteController extends ncenterlite
 		//$output = executeQuery('ncenterlite.deleteNotifyByMemberSrl', $args);
 
 		//Remove flag files
-		self::removeFlagFile($args->member_srl);
+		$this->removeFlagFile($args->member_srl);
 		return $output;
 	}
 
@@ -1096,7 +1096,7 @@ class ncenterliteController extends ncenterlite
 			}
 		}
 
-		self::removeFlagFile($args->member_srl);
+		$this->removeFlagFile($args->member_srl);
 
 		return $output;
 	}
@@ -1118,7 +1118,7 @@ class ncenterliteController extends ncenterlite
 		FileHandler::writeFile($flag_path, $buff);
 	}
 
-	public static function removeFlagFile($member_srl = null)
+	public function removeFlagFile($member_srl = null)
 	{
 		if($member_srl === null)
 		{

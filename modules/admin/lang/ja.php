@@ -212,7 +212,6 @@ $lang->sitelock_whitelist = '接近許可IP';
 $lang->sitelock_title = '案内文タイトル';
 $lang->sitelock_message = '案内文内容';
 $lang->sitelock_message_help = 'HTMLタグを使用できます。';
-$lang->sitelock_warning_whitelist = 'ここに管理者のIPを必ず記入てください。';
 $lang->your_ip = '接続したIP';
 $lang->sitelock_in_use = 'サイトロック状態です。';
 $lang->about_sitelock_in_use = '管理者との接続が許可されたIPのみのサイトの利用が可能です。';

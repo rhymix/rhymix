@@ -74,7 +74,7 @@ class HTMLDisplayHandler
 
 		// SECISSUE https://github.com/xpressengine/xe-core/issues/1583
 		$oSecurity = new Security();
-		$oSecurity->encodeHTML('is_keyword');
+		$oSecurity->encodeHTML('is_keyword', 'search_keyword', 'search_target', 'order_target', 'order_type');
 
 		// add .x div for adminitration pages
 		if(Context::getResponseMethod() == 'HTML')

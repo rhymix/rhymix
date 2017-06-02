@@ -416,30 +416,19 @@ class commentItem extends Object
 	 */
 	function getSummary($str_size = 50, $tail = '...')
 	{
-		$content = $this->getContent(FALSE, FALSE);
-
-		// for newline, insert a blank.
-		$content = preg_replace('!(<br[\s]*/{0,1}>[\s]*)+!is', ' ', $content);
-
-		// replace tags such as </p> , </div> , </li> by blanks.
-		$content = str_replace(array('</p>', '</div>', '</li>', '-->'), ' ', $content);
-
 		// Remove tags
-		$content = preg_replace('!<([^>]*?)>!is', '', $content);
-
-		// replace < , >, " 
-		$content = str_replace(array('&lt;', '&gt;', '&quot;', '&nbsp;'), array('<', '>', '"', ' '), $content);
-
-		// delete a series of blanks
-		$content = preg_replace('/ ( +)/is', ' ', $content);
-
-		// truncate strings
-		$content = trim(cut_str($content, $str_size, $tail));
-
-		// restore >, <, , "\
-		$content = str_replace(array('<', '>', '"'), array('&lt;', '&gt;', '&quot;'), $content);
-
-		return $content;
+		$content = strip_tags($this->getContent(false, false));
+		
+		// Convert temporarily html entity for truncate
+		$content = html_entity_decode($content, ENT_QUOTES);
+		
+		// Replace all whitespaces to single space
+		$content = utf8_trim(utf8_normalize_spaces($content));
+		
+		// Truncate string
+		$content = cut_str($content, $str_size, $tail);
+		
+		return escape($content);
 	}
 
 	function getRegdate($format = 'Y.m.d H:i:s', $conversion = true)

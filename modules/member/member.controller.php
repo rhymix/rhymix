@@ -127,9 +127,16 @@ class memberController extends member
 		$document_srl = (int)Context::get('document_srl');
 		if(!$document_srl) $document_srl = (int)Context::get('target_srl');
 		if(!$document_srl) return new Object(-1,'msg_invalid_request');
+
 		// Get document
 		$oDocumentModel = getModel('document');
 		$oDocument = $oDocumentModel->getDocument($document_srl);
+
+		if($oDocument->isSecret() && !$oDocument->isGranted())
+		{
+			return new Object(-1, 'msg_is_secret');
+		}
+
 		// Variables
 		$args = new stdClass();
 		$args->document_srl = $document_srl;
@@ -139,9 +146,11 @@ class memberController extends member
 		$args->nick_name = $oDocument->get('nick_name');
 		$args->target_member_srl = $oDocument->get('member_srl');
 		$args->title = $oDocument->get('title');
+
 		// Check if already scrapped
 		$output = executeQuery('member.getScrapDocument', $args);
 		if($output->data->count) return new Object(-1, 'msg_alreay_scrapped');
+
 		// Insert
 		$output = executeQuery('member.addScrapDocument', $args);
 		if(!$output->toBool()) return $output;

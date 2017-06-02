@@ -224,13 +224,30 @@ class ncenterliteModel extends ncenterlite
 
 		if(FileHandler::exists($flag_path) && $page <= 1)
 		{
-			$output = require_once $flag_path;
-			if(is_object($output))
+			$deleteFlagPath = \RX_BASEDIR . 'files/cache/ncenterlite/new_notify/delete_date.php';
+
+			$deleteOutput = Rhymix\Framework\Storage::readPHPData($deleteFlagPath);
+			if($deleteOutput !== false)
 			{
-				$output->flag_exists = true;
-				return $output;
+				$create_time = filemtime($flag_path);
+
+				if($create_time <= $deleteOutput->regdate)
+				{
+					$oNcenterliteController = getController('ncenterlite');
+					$oNcenterliteController->removeFlagFile($member_srl);
+				}
+				else
+				{
+					$output = Rhymix\Framework\Storage::readPHPData($flag_path);
+					if($output !== false)
+					{
+						$output->flag_exists = true;
+						return $output;
+					}
+				}
 			}
 		}
+
 		$args = new stdClass();
 		$args->member_srl = $member_srl;
 		$args->page = $page ? $page : 1;

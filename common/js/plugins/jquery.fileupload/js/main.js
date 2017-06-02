@@ -409,9 +409,17 @@
 				if(res.error != 0) return;
 
 				data.settings.filelistImages.find('li').removeClass('xefu-is-cover-image');
-
 				var $parentLi = $el.closest('li');
+
+				if(res.is_cover == 'N') {
+
+				$parentLi.removeClass('xefu-is-cover-image');
+
+				} else if(res.is_cover == 'Y') {
+
 				$parentLi.addClass('xefu-is-cover-image');
+
+				}
 
 			});
 		}

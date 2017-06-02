@@ -35,6 +35,8 @@
 /* List */
 .lt{margin:0;padding:0;list-style:none;background:#f8f8f8;font-size:14px}
 .lt li{border-bottom:1px solid #ccc8be;overflow:hidden}
+.lt li.has_padding { padding: 10px; position: relative; }
+.lt li button.delete_autologin { display: block; position: absolute; right: 10px; top: 10px; }
 .lt a{box-sizing: border-box;width:100%;display:inline-block;float:left;text-decoration:none;color:#000;padding:10px}
 .lt span{
 	display:inline-block;

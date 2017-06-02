@@ -342,7 +342,6 @@ $lang->sitelock_whitelist = '접근 허용 IP';
 $lang->sitelock_title = '안내문 제목';
 $lang->sitelock_message = '안내문 내용';
 $lang->sitelock_message_help = 'HTML 태그를 사용할 수 있습니다.';
-$lang->sitelock_warning_whitelist = '사이트 잠금 사용시 관리자의 IP가 반드시 이 목록에 포함되어야 합니다.';
 $lang->your_ip = '접속하신 IP';
 $lang->sitelock_in_use = '사이트 잠금 상태입니다.';
 $lang->about_sitelock_in_use = '관리자 및 접속이 허용된 IP에서만 사이트 이용이 가능합니다.';

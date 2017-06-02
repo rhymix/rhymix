@@ -165,11 +165,47 @@ class ncenterliteAdminController extends ncenterlite
 			$this->setMessage('ncenterlite_message_delete_notification_all');
 		}
 
-		if(!in_array(Context::getRequestMethod(),array('XMLRPC','JSON')))
+		$reg_obj = new stdClass();
+		$reg_obj->regdate = time();
+
+		$flag_path = \RX_BASEDIR . 'files/cache/ncenterlite/new_notify/delete_date.php';
+		Rhymix\Framework\Storage::writePHPData($flag_path, $reg_obj);
+
+		if(Context::get('success_return_url'))
 		{
-			$returnUrl = Context::get('success_return_url') ?  Context::get('success_return_url') : getNotEncodedUrl('', 'module', 'admin', 'act', 'dispNcenterliteAdminList');
-			header('location: ' .$returnUrl);
-			return;
+			$this->setRedirectUrl(Context::get('success_return_url'));
+		}
+		else
+		{
+			$this->setRedirectUrl(getNotEncodedUrl('', 'module', 'admin', 'act', 'dispNcenterliteAdminList'));
+		}
+	}
+
+	/**
+	 * @brief 알림센터에 생성된 커스텀 알림을 삭제하는 기능.
+	 */
+	function procNcenterliteAdminDeleteCustom()
+	{
+		$obj = Context::getRequestVars();
+		$args = new stdClass();
+		$args->notify_type_srl = $obj->notify_type_srl;
+
+		$output = executeQuery('ncenterlite.deleteNotifyType', $args);
+		if(!$output->toBool())
+		{
+			return $output;
+		}
+
+		$this->setMessage("success_deleted");
+
+
+		if(Context::get('success_return_url'))
+		{
+			$this->setRedirectUrl(Context::get('success_return_url'));
+		}
+		else
+		{
+			$this->setRedirectUrl(getNotEncodedUrl('', 'module', 'admin', 'act', 'dispNcenterliteAdminCustomList'));
 		}
 	}
 }

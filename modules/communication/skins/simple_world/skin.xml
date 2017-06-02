@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<skin version="0.2">
+	<title xml:lang="ko">네모의 꿈</title>
+	<title xml:lang="en">Rectangular World</title>
+	<description xml:lang="ko">
+		면과 선으로 이루어진 단순한 모양의 깔끔한 스킨
+	</description>
+	<description xml:lang="en">
+		Simple rectangular planes and shadows
+	</description>
+	<version>0.1</version>
+	<date>2017-04-30</date>
+
+	<author email_address="misol.kr@gmail.com" link="https://github.com/misol">
+		<name xml:lang="ko">misol</name>
+		<name xml:lang="en">misol</name>
+	</author>
+</skin>

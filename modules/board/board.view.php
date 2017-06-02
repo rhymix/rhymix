@@ -291,7 +291,7 @@ class boardView extends board
 			{
 				// if the document is not existed, then alert a warning message
 				Context::set('document_srl','',true);
-				$this->alertMessage('msg_not_founded');
+				$this->alertMessage('msg_not_founded', 404);
 			}
 
 		/**
@@ -312,7 +312,7 @@ class boardView extends board
 			{
 				$oDocument = $oDocumentModel->getDocument(0);
 				Context::set('document_srl','',true);
-				$this->alertMessage('msg_not_permitted');
+				$this->alertMessage('msg_not_permitted', 403);
 			}
 			else
 			{
@@ -1278,12 +1278,12 @@ class boardView extends board
 	 * @brief the method for displaying the warning messages
 	 * display an error message if it has not  a special design
 	 **/
-	function alertMessage($message)
+	function alertMessage($message, $code = 403)
 	{
 		$script =  sprintf('<script> jQuery(function(){ alert("%s"); } );</script>', lang($message));
 		Context::addHtmlFooter($script);
 		
-		$this->setHttpStatusCode(403);
+		$this->setHttpStatusCode($code);
 	}
 
 }

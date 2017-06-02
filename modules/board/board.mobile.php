@@ -92,6 +92,12 @@ class boardMobile extends boardView
 		{
 			return new Object(-1, "msg_invalid_request");
 		}
+		
+		if($this->grant->view == false || ($this->module_info->consultation == 'Y' && !$this->grant->manager && !$this->grant->consultation_read))
+		{
+			return new Object(-1, "msg_not_permitted");
+		}
+		
 		$oDocument = $oDocumentModel->getDocument($document_srl);
 		if(!$oDocument->isExists())
 		{

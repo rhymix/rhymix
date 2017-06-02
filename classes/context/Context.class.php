@@ -854,8 +854,9 @@ class Context
 	 */
 	public static function loadLang($path)
 	{
-		if (preg_match('@/(modules|addons|plugins)/([a-z0-9_]+)/lang/?$@', str_replace('\\', '/', $path), $matches))
+		if (preg_match('@/(modules|addons|plugins|widgets)/([a-zA-Z0-9_-]+)/lang/?(?:lang\.xml)?$@', str_replace('\\', '/', $path), $matches))
 		{
+			$path = \RX_BASEDIR . $matches[1] . '/' . $matches[2] . '/lang';
 			$plugin_name = $matches[2];
 		}
 		else
@@ -2656,7 +2657,7 @@ class Context
 	 */
 	public static function setCanonicalURL($url)
 	{
-		self::$_instance->canonical_url = escape($url);
+		self::$_instance->canonical_url = escape($url, false);
 	}
 }
 /* End of file Context.class.php */

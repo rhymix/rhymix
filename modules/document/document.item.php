@@ -630,37 +630,24 @@ class documentItem extends Object
 
 		return $content;
 	}
-
+	
 	function getSummary($str_size = 50, $tail = '...')
 	{
-		$content = $this->getContent(FALSE, FALSE);
+		// Remove tags
+		$content = strip_tags($this->getContent(false, false));
 		
-		$content = nl2br($content);
-
-		// For a newlink, inert a whitespace
-		$content = preg_replace('!(<br[\s]*/{0,1}>[\s]*)+!is', ' ', $content);
-
-		// Replace tags such as </p> , </div> , </li> and others to a whitespace
-		$content = str_replace(array('</p>', '</div>', '</li>', '-->'), ' ', $content);
-
-		// Remove Tags
-		$content = preg_replace('!<([^>]*?)>!is', '', $content);
-
-		// Replace < , >, "
-		$content = str_replace(array('&lt;', '&gt;', '&quot;', '&nbsp;'), array('<', '>', '"', ' '), $content);
-
-		// Delete  a series of whitespaces
-		$content = preg_replace('/ ( +)/is', ' ', $content);
-
+		// Convert temporarily html entity for truncate
+		$content = html_entity_decode($content, ENT_QUOTES);
+		
+		// Replace all whitespaces to single space
+		$content = utf8_trim(utf8_normalize_spaces($content));
+		
 		// Truncate string
-		$content = trim(cut_str($content, $str_size, $tail));
-
-		// Replace back < , <, "
-		$content = str_replace(array('<', '>', '"'),array('&lt;', '&gt;', '&quot;'), $content);
-
-		return $content;
+		$content = cut_str($content, $str_size, $tail);
+		
+		return escape($content);
 	}
-
+	
 	function getRegdate($format = 'Y.m.d H:i:s', $conversion = true)
 	{
 		return zdate($this->get('regdate'), $format, $conversion);
@@ -1080,7 +1067,7 @@ class documentItem extends Object
 
 		if($source_file)
 		{
-			$output = FileHandler::createImageFile($source_file, $thumbnail_file, $width, $height, 'jpg', $thumbnail_type);
+			$output_file = FileHandler::createImageFile($source_file, $thumbnail_file, $width, $height, 'jpg', $thumbnail_type);
 		}
 
 		// Remove source file if it was temporary
@@ -1093,7 +1080,7 @@ class documentItem extends Object
 		FileHandler::removeFile($thumbnail_lockfile);
 
 		// Return the thumbnail path if it was successfully generated
-		if($output)
+		if($output_file)
 		{
 			return $thumbnail_url . '?' . date('YmdHis');
 		}
