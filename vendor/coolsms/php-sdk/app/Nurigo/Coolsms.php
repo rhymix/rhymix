@@ -93,10 +93,10 @@ class Coolsms
             "Content-Type: application/json",
             "Authorization: HMAC-MD5 ApiKey=$this->api_key, Date=$this->date, Salt=$this->salt, Signature=$this->signature"
         );
-
+        var_dump($this->content);
         curl_setopt($ch, CURLOPT_HTTPHEADER, $header);
         curl_setopt($ch, CURLOPT_POSTFIELDS, $this->content);
-        curl_setopt($ch, CURLOPT_TIMEOUT, 10); // TimeOut value
+        curl_setopt($ch, CURLOPT_TIMEOUT, 30); // TimeOut value
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1); // curl_exec() result output (1 = true, 0 = false)
 
         $this->result = json_decode(curl_exec($ch));
@@ -137,12 +137,16 @@ class Coolsms
         {
             $this->setApiConfig('SimpleMessage', '3');
             $args = new \stdClass();
-            $args->to = explode(',', $options->to);
+            $args->to = new \stdClass();
+            $args->to->recipient = $options->to;
             $args->from = $options->from;
             $args->text = $options->text;
             $args->type = $options->type;
             $args->country = $options->country;
             $args->subject = $options->subject;
+            $args->imageId = $options->imageId;
+            $args->scheduledDate = $options->scheduledDate;
+            $args->kakaoOptions = $options->kakaoOptions;
             $object = new \stdClass();
             $object->messages = array($args);
             $object->groupOptions = new \stdClass();
@@ -151,7 +155,6 @@ class Coolsms
             $object->groupOptions->mode = $options->mode;
             $object->groupOptions->forceSms = $options->forceSms;
             $object->groupOptions->onlyAta = $options->onlyAta;
-            $object->groupOptions->siteUser = $options->siteUser;
             $object->groupOptions->osPlatform = $options->osPlatform;
             $object->groupOptions->devLanguage = $options->devLanguage;
             $object->groupOptions->sdkVersion = $options->sdkVersion;
