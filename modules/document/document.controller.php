@@ -353,8 +353,9 @@ class documentController extends document
 		}
 
 		// begin transaction
-		$oDB = &DB::getInstance();
+		$oDB = DB::getInstance();
 		$oDB->begin();
+		
 		// List variables
 		if($obj->comment_status) $obj->commentStatus = $obj->comment_status;
 		if(!$obj->commentStatus) $obj->commentStatus = 'DENY';
@@ -372,7 +373,20 @@ class documentController extends document
 		if($obj->notify_message != 'Y') $obj->notify_message = 'N';
 		if(!$obj->email_address) $obj->email_address = '';
 		if(!$isRestore) $obj->ipaddress = $_SERVER['REMOTE_ADDR'];
-
+		
+		// Default Status
+		if($obj->status)
+		{
+			if(!in_array($obj->status, $this->getStatusList()))
+			{
+				$obj->status = $this->getDefaultStatus();
+			}
+		}
+		else
+		{
+			$this->_checkDocumentStatusForOldVersion($obj);
+		}
+		
 		// can modify regdate only manager
 		$grant = Context::get('grant');
 		if(!$grant->manager)
@@ -474,8 +488,8 @@ class documentController extends document
 		$obj->content = utf8_mbencode($obj->content);
 
 		$obj->lang_code = Context::getLangType();
+		
 		// Insert data into the DB
-		if(!$obj->status) $this->_checkDocumentStatusForOldVersion($obj);
 		$output = executeQuery('document.insertDocument', $obj);
 		if(!$output->toBool())
 		{
@@ -559,9 +573,25 @@ class documentController extends document
 		
 		if(!$source_obj->document_srl || !$obj->document_srl) return new Object(-1,'msg_invalied_request');
 		
-		if(!$obj->status && $obj->is_secret == 'Y') $obj->status = 'SECRET';
-		if(!$obj->status) $obj->status = 'PUBLIC';
-
+		// Default Status
+		if($obj->status)
+		{
+			if(!in_array($obj->status, $this->getStatusList()))
+			{
+				$obj->status = $this->getDefaultStatus();
+			}
+			
+			// Do not update to temp document (point problem)
+			if($obj->status == $this->getConfigStatus('temp'))
+			{
+				$obj->status = $source_obj->get('status');
+			}
+		}
+		else
+		{
+			$this->_checkDocumentStatusForOldVersion($obj);
+		}
+		
 		// Call a trigger (before)
 		$output = ModuleHandler::triggerCall('document.updateDocument', 'before', $obj);
 		if(!$output->toBool()) return $output;
@@ -2817,8 +2847,17 @@ class documentController extends document
 	 */
 	function _checkDocumentStatusForOldVersion(&$obj)
 	{
-		if(!$obj->status && $obj->is_secret == 'Y') $obj->status = $this->getConfigStatus('secret');
-		if(!$obj->status && $obj->is_secret != 'Y') $obj->status = $this->getConfigStatus('public');
+		if(!$obj->status)
+		{
+			if($obj->is_secret == 'Y')
+			{
+				$obj->status = $this->getConfigStatus('secret');
+			}
+			else
+			{
+				$obj->status = $this->getConfigStatus('public');
+			}
+		}
 	}
 
 	public function updateUploaedCount($documentSrlList)
