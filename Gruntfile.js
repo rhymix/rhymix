@@ -27,6 +27,7 @@ module.exports = function(grunt) {
 					'common/js/html5.js',
 					'common/js/x.js',
 					'common/js/xe.js',
+					'common/js/xml2json.js',
 					'common/js/modernizr.js',
 					'vendor/**',
 					'tests/**',
