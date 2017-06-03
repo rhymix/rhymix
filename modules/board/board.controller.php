@@ -14,10 +14,6 @@ class boardController extends board
 	 **/
 	function init()
 	{
-		if($this->module_info->module != 'board')
-		{
-			return new Object(-1, 'msg_invalid_request');
-		}
 	}
 	
 	/**
