@@ -9,44 +9,43 @@
 
 class boardController extends board
 {
-
 	/**
 	 * @brief initialization
 	 **/
 	function init()
 	{
+		if($this->module_info->module != 'board')
+		{
+			return new Object(-1, 'msg_invalid_request');
+		}
 	}
-
+	
 	/**
 	 * @brief insert document
 	 **/
 	function procBoardInsertDocument()
 	{
 		// check grant
-		if($this->module_info->module != "board")
-		{
-			return new Object(-1, "msg_invalid_request");
-		}
 		if(!$this->grant->write_document)
 		{
 			return new Object(-1, 'msg_not_permitted');
 		}
-		$logged_info = Context::get('logged_info');
-
+		
 		// setup variables
 		$obj = Context::getRequestVars();
 		$obj->module_srl = $this->module_srl;
-		if($obj->is_notice!='Y'||!$this->grant->manager) $obj->is_notice = 'N';
 		$obj->commentStatus = $obj->comment_status;
-
-		settype($obj->title, "string");
-		if($obj->title == '') $obj->title = cut_str(trim(strip_tags(nl2br($obj->content))),20,'...');
-		//setup dpcument title tp 'Untitled'
-		if($obj->title == '') $obj->title = 'Untitled';
-
-		// unset document style if the user is not the document manager
+		
+		// Return error if content is empty.
+		if (is_empty_html_content($obj->content))
+		{
+			return new Object(-1, 'msg_empty_content');
+		}
+		
+		// unset document style if not manager
 		if(!$this->grant->manager)
 		{
+			unset($obj->is_notice);
 			unset($obj->title_color);
 			unset($obj->title_bold);
 		}
@@ -54,173 +53,186 @@ class boardController extends board
 		{
 			$obj->is_admin = 'Y';
 		}
-
-		// generate document module model object
+		
 		$oDocumentModel = getModel('document');
-
-		// generate document module의 controller object
 		$oDocumentController = getController('document');
-
-		// check if the document is existed
-		$oDocument = $oDocumentModel->getDocument($obj->document_srl, $this->grant->manager);
-
-		// update the document if it is existed
-		$is_update = false;
-		if($oDocument->isExists() && $oDocument->document_srl == $obj->document_srl)
+		
+		$_SECRET = $oDocumentModel->getConfigStatus('secret');
+		$use_status = explode('|@|', $this->module_info->use_status);
+		
+		// Set status
+		if(($obj->is_secret == 'Y' || $obj->status == $_SECRET) && is_array($use_status) && in_array($_SECRET, $use_status))
 		{
-			$is_update = true;
-		}
-
-		$oMemberModel = getModel('member');
-		$member_info = $oMemberModel->getMemberInfoByMemberSrl($oDocument->get('member_srl'));
-		if($member_info->is_admin == 'Y' && $logged_info->is_admin != 'Y')
-		{
-			return new Object(-1, 'msg_admin_document_no_modify');
-		}
-
-		// if use anonymous is true
-		if($this->module_info->use_anonymous == 'Y')
-		{
-			$this->module_info->admin_mail = '';
-			$obj->notify_message = 'N';
-			if($is_update===false)
-			{
-				$obj->member_srl = -1*$logged_info->member_srl;
-			}
-			$obj->email_address = $obj->homepage = $obj->user_id = '';
-			$obj->user_name = $obj->nick_name = $this->createAnonymousName($this->module_info->anonymous_name ?: 'anonymous', $logged_info->member_srl, $obj->document_srl);
-			$bAnonymous = true;
-			if($is_update===false)
-			{
-				$oDocument->add('member_srl', $obj->member_srl);
-			}
+			$obj->status = $_SECRET;
 		}
 		else
 		{
-			$bAnonymous = false;
+			unset($obj->is_secret);
+			$obj->status = $oDocumentModel->getConfigStatus('public');
 		}
-
-		if($obj->is_secret == 'Y' || strtoupper($obj->status == 'SECRET'))
-		{
-			$use_status = explode('|@|', $this->module_info->use_status);
-			if(!is_array($use_status) || !in_array('SECRET', $use_status))
-			{
-				unset($obj->is_secret);
-				$obj->status = 'PUBLIC';
-			}
-		}
-
+		
+		// Set update log
 		if($this->module_info->update_log == 'Y')
 		{
 			$obj->update_log_setting = 'Y';
 		}
-
-		// UPDATE if the document already exists.
-		if($is_update)
+		
+		$manual = false;
+		$logged_info = Context::get('logged_info');
+		
+		// Set anonymous information
+		if($this->module_info->use_anonymous == 'Y')
+		{
+			if(!$obj->document_srl)
+			{
+				$obj->document_srl = getNextSequence();
+			}
+			
+			$manual = true;
+			$anonymous_name = $this->module_info->anonymous_name ?: 'anonymous';
+			$anonymous_name = $this->createAnonymousName($anonymous_name, $logged_info->member_srl, $obj->document_srl);
+			$this->module_info->admin_mail = '';
+			
+			$obj->notify_message = 'N';
+			$obj->email_address = $obj->homepage = $obj->user_id = '';
+			$obj->user_name = $obj->nick_name = $anonymous_name;
+		}
+		
+		// Update if the document already exists.
+		$oDocument = $oDocumentModel->getDocument($obj->document_srl, $this->grant->manager);
+		if($oDocument->isExists())
 		{
 			if(!$oDocument->isGranted())
 			{
-				return new Object(-1,'msg_not_permitted');
-			}
-
-			if($this->module_info->protect_content == 'Y' || $this->module_info->protect_update_content == 'Y')
-			{
-				if($oDocument->get('comment_count') > 0 && $this->grant->manager == false)
-				{
-					return new Object(-1, 'msg_protect_update_content');
-				}
-			}
-
-			if($this->module_info->use_anonymous == 'Y') {
-				$obj->member_srl = abs($oDocument->get('member_srl')) * -1;
-				$oDocument->add('member_srl', $obj->member_srl);
-			}
-
-			if($this->module_info->protect_document_regdate > 0 && $this->grant->manager == false)
-			{
-				if($oDocument->get('regdate') < date('YmdHis', strtotime('-'.$this->module_info->protect_document_regdate.' day')))
-				{
-					$format =  lang('msg_protect_regdate_document');
-					$massage = sprintf($format, $this->module_info->protect_document_regdate);
-					return new Object(-1, $massage);
-				}
-			}
-
-			if(!$this->grant->manager)
-			{
-				// notice & document style same as before if not manager
-				$obj->is_notice = $oDocument->get('is_notice');
-				$obj->title_color = $oDocument->get('title_color');
-				$obj->title_bold = $oDocument->get('title_bold');
+				return new Object(-1, 'msg_not_permitted');
 			}
 			
-			// modify list_order if document status is temp
-			if($oDocument->get('status') == 'TEMP')
+			// Protect admin document
+			$member_info = getModel('member')->getMemberInfoByMemberSrl($oDocument->get('member_srl'));
+			if($member_info->is_admin == 'Y' && $logged_info->is_admin != 'Y')
 			{
+				return new Object(-1, 'msg_admin_document_no_modify');
+			}
+			
+			// if document status is temp
+			if($oDocument->get('status') == $oDocumentModel->getConfigStatus('temp'))
+			{
+				// if use anonymous, set the member_srl to a negative number
+				if($this->module_info->use_anonymous == 'Y')
+				{
+					$obj->member_srl = abs($oDocument->get('member_srl')) * -1;
+					$oDocument->add('member_srl', $obj->member_srl);
+				}
+				
+				// Update list order, date
 				$obj->last_update = $obj->regdate = date('YmdHis');
 				$obj->update_order = $obj->list_order = (getNextSequence() * -1);
 			}
-			$obj->reason_update = escape($obj->reason_update);
-			$output = $oDocumentController->updateDocument($oDocument, $obj, $bAnonymous);
+			else
+			{
+				// Protect document by comment
+				if($this->module_info->protect_content == 'Y' || $this->module_info->protect_update_content == 'Y')
+				{
+					if($oDocument->get('comment_count') > 0 && !$this->grant->manager)
+					{
+						return new Object(-1, 'msg_protect_update_content');
+					}
+				}
+				
+				// Protect document by date
+				if($this->module_info->protect_document_regdate > 0 && !$this->grant->manager)
+				{
+					if($oDocument->get('regdate') < date('YmdHis', strtotime('-' . $this->module_info->protect_document_regdate . ' day')))
+					{
+						return new Object(-1, sprintf(lang('msg_protect_regdate_document'), $this->module_info->protect_document_regdate));
+					}
+				}
+				
+				// notice & document style same as before if not manager
+				if(!$this->grant->manager)
+				{
+					$obj->is_notice = $oDocument->get('is_notice');
+					$obj->title_color = $oDocument->get('title_color');
+					$obj->title_bold = $oDocument->get('title_bold');
+				}
+				
+				$obj->reason_update = escape($obj->reason_update);
+			}
+			
+			// Update
+			$output = $oDocumentController->updateDocument($oDocument, $obj, $manual);
+			
 			$msg_code = 'success_updated';
 		}
-		// INSERT a new document.
+		// Insert a new document.
 		else
 		{
+			// if use anonymous, set the member_srl to a negative number
+			if($this->module_info->use_anonymous == 'Y')
+			{
+				$obj->member_srl = $logged_info->member_srl * -1;
+			}
+			
+			// Update list order if document_srl is already assigned
 			if ($obj->document_srl)
 			{
 				$obj->update_order = $obj->list_order = (getNextSequence() * -1);
 			}
 			
-			$output = $oDocumentController->insertDocument($obj, $bAnonymous, false, $obj->document_srl ? false : true);
-			$msg_code = 'success_registed';
-			$obj->document_srl = $output->get('document_srl');
+			// Insert
+			$output = $oDocumentController->insertDocument($obj, $manual, false, $obj->document_srl ? false : true);
 			
-			// Set grant for the new document.
 			if ($output->toBool())
 			{
+				// Set grant for the new document.
 				$oDocument = $oDocumentModel->getDocument($output->get('document_srl'));
 				$oDocument->setGrantForSession();
-			}
-
-			// send an email to admin user
-			if($output->toBool() && $this->module_info->admin_mail)
-			{
-				$oModuleModel = getModel('module');
-				$member_config = $oModuleModel->getModuleConfig('member');
-
-				if($member_config->webmaster_email)
+				
+				// send an email to admin user
+				if($this->module_info->admin_mail)
 				{
-					$mail_title = sprintf(lang('msg_document_notify_mail'), $this->module_info->browser_title, cut_str($obj->title, 20, '...'));
+					$oModuleModel = getModel('module');
+					$member_config = $oModuleModel->getModuleConfig('member');
 
-					$oMail = new Mail();
-					$oMail->setTitle($mail_title);
-					$oMail->setContent( sprintf("From : <a href=\"%s\">%s</a><br/>\r\n%s", getFullUrl('','document_srl',$obj->document_srl), getFullUrl('','document_srl',$obj->document_srl), $obj->content));
-					$oMail->setSender($member_config->webmaster_name ?: null, $member_config->webmaster_email);
-
-					$target_mail = explode(',',$this->module_info->admin_mail);
-					for($i=0;$i<count($target_mail);$i++)
+					if($member_config->webmaster_email)
 					{
-						$email_address = trim($target_mail[$i]);
-						if(!$email_address) continue;
-						$oMail->setReceiptor($email_address, $email_address);
-						$oMail->send();
+						$mail_title = sprintf(lang('msg_document_notify_mail'), $this->module_info->browser_title, cut_str($obj->title, 20, '...'));
+						$mail_content = sprintf("From : <a href=\"%s\">%s</a><br/>\r\n%s", getFullUrl('', 'document_srl', $output->get('document_srl')), getFullUrl('', 'document_srl', $output->get('document_srl')), $obj->content);
+						
+						$oMail = new Mail();
+						$oMail->setTitle($mail_title);
+						$oMail->setContent($mail_content);
+						$oMail->setSender($member_config->webmaster_name ?: null, $member_config->webmaster_email);
+						
+						$target_mail = explode(',', $this->module_info->admin_mail);
+						for($i = 0; $i < count($target_mail); $i++)
+						{
+							if(!$email_address = trim($target_mail[$i]))
+							{
+								continue;
+							}
+							
+							$oMail->setReceiptor($email_address, $email_address);
+							$oMail->send();
+						}
 					}
 				}
 			}
+			
+			$msg_code = 'success_registed';
 		}
-
+		
 		// if there is an error
 		if(!$output->toBool())
 		{
 			return $output;
 		}
-
+		
 		// return the results
-		$this->setRedirectUrl(getNotEncodedUrl('', 'mid', Context::get('mid'), 'act', '', 'document_srl', $output->get('document_srl')));
 		$this->add('mid', Context::get('mid'));
 		$this->add('document_srl', $output->get('document_srl'));
-
+		$this->setRedirectUrl(getNotEncodedUrl('', 'mid', Context::get('mid'), 'document_srl', $output->get('document_srl')));
+		
 		// alert a message
 		$this->setMessage($msg_code);
 	}
@@ -392,11 +404,11 @@ class boardController extends board
 			$obj->member_srl = -1*$logged_info->member_srl;
 			$obj->email_address = $obj->homepage = $obj->user_id = '';
 			$obj->user_name = $obj->nick_name = $this->createAnonymousName($this->module_info->anonymous_name ?: 'anonymous', $logged_info->member_srl, $obj->document_srl);
-			$bAnonymous = true;
+			$manual = true;
 		}
 		else
 		{
-			$bAnonymous = false;
+			$manual = false;
 		}
 
 		// generate comment  module model object
@@ -446,12 +458,12 @@ class boardController extends board
 				{
 					return new Object(-1, 'msg_invalid_request');
 				}
-				$output = $oCommentController->insertComment($obj, $bAnonymous, $update_document);
+				$output = $oCommentController->insertComment($obj, $manual, $update_document);
 			}
 			// Parent does not exist.
 			else
 			{
-				$output = $oCommentController->insertComment($obj, $bAnonymous, $update_document);
+				$output = $oCommentController->insertComment($obj, $manual, $update_document);
 			}
 			// Set grant for the new comment.
 			if ($output->toBool())
