@@ -2739,13 +2739,14 @@ class documentController extends document
 	 */
 	function procDocumentTempSave()
 	{
-		$obj = Context::getRequestVars();
-		$obj->status = $this->getConfigStatus('temp');
-		
-		if(!$obj->module_srl = $this->module_srl)
+		if(!$this->module_srl)
 		{
 			return new Object(-1, 'msg_invalid_request');
 		}
+		
+		$obj = Context::getRequestVars();
+		$obj->module_srl = $this->module_srl;
+		$obj->status = $this->getConfigStatus('temp');
 		
 		// unset document style if not manager
 		if(!$this->grant->manager)
