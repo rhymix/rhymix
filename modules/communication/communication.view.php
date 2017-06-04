@@ -165,6 +165,33 @@ class communicationView extends communication
 		$this->setTemplateFile('new_message');
 	}
 
+	function dispCommunicationUnreadList()
+	{
+		$oCommunicationModel = getModel('communication');
+
+		if($this->config->enable_message == 'N')
+		{
+			return $this->stop('msg_invalid_request');
+		}
+
+		if(!Context::get('is_logged'))
+		{
+			return $this->stop('msg_not_logged');
+		}
+
+		$columnList = array('message_srl', 'readed', 'title', 'member.member_srl', 'member.nick_name', 'message.regdate', 'readed_date');
+		$output = $oCommunicationModel->getReadedMessages('N', $columnList);
+
+		// set a template file
+		Context::set('total_count', $output->total_count);
+		Context::set('total_page', $output->total_page);
+		Context::set('page', $output->page);
+		Context::set('message_list', $output->data);
+		Context::set('page_navigation', $output->page_navigation);
+
+		$this->setTemplateFile('messages');
+	}
+
 	/**
 	 * Display message sending
 	 * @return void|Object (void : success, Object : fail)
@@ -396,7 +423,6 @@ class communicationView extends communication
 
 		$this->setTemplateFile('add_friend_group');
 	}
-
 }
 /* End of file communication.view.php */
 /* Location: ./modules/comment/communication.view.php */

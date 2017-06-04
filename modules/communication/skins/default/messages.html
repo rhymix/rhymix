@@ -1,9 +1,11 @@
 <include target="./common_header.html" />
 <load target="filter/delete_checked_message.xml" />
 <load target="filter/update_allow_message.xml" />
+
 <div class="btnArea">
 	<div style="margin:0;display:block;float:left" class="btn-group">
-		<button loop="$lang->message_box => $key,$val" class="btn" onclick="location.href=current_url.setQuery('message_srl', '').setQuery('message_type', '{$key}'); return false;" style="font-weight:bold"|cond="$message_type == $key">{$val}</button>
+		<button loop="$lang->message_box => $key,$val" class="btn" onclick="location.href=current_url.setQuery('act', 'dispCommunicationMessages').setQuery('message_srl', '').setQuery('message_type', '{$key}'); return false;" style="font-weight:bold"|cond="$message_type == $key && $act != 'dispCommunicationUnreadList'">{$val}</button>
+		<button class="btn" onclick="location.href=current_url.setQuery('act', 'dispCommunicationUnreadList'); return false;" style="font-weight:bold"|cond="$act == 'dispCommunicationUnreadList'">{$lang->cmd_view_unread_message_box}</button>
 	</div>
 	<form action="./" method="POST" style="margin:0;display:block;float:right">
 		<input type="hidden" name="module" value="communication" />
@@ -67,7 +69,7 @@
 				<td>
 					<a href="#popup_menu_area" class="member_{$val->member_srl}">{$val->nick_name}</a>
 				</td>
-				<td> 
+				<td>
 					{zdate($val->regdate,"Y-m-d")}
 				</td>
 				<td><block cond="$val->readed=='Y'">{zdate($val->readed_date,"Y-m-d H:i")}</block>&nbsp;</td>
