@@ -1,7 +1,7 @@
 <script>//<<![CDATA[
 
 	var uploaded_fileinfo = {};
-	<!--@if($uploaded_fileinfo->error==0)-->
+	<!--@if($uploaded_fileinfo && $uploaded_fileinfo->error == 0)-->
 	uploaded_fileinfo.error = 0;
 	uploaded_fileinfo.file_srl = {$uploaded_fileinfo->get('file_srl')};
 	uploaded_fileinfo.file_size = {$uploaded_fileinfo->get('file_size')};
