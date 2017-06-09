@@ -82,8 +82,13 @@ class fileAdminModel extends file
 		$args->exclude_module_srl = $obj->exclude_module_srl;
 		if(toBool($obj->exclude_secret))
 		{
-			$args->document_status = 'PUBLIC';
-			$args->comment_is_secret = 'N';
+			$args->document_status = array('PUBLIC');
+			$args->comment_is_secret = array('N');
+		}
+		else
+		{
+			$args->document_status = array('PUBLIC', 'PRIVATE', 'SECRET', 'TEMP');
+			$args->comment_is_secret = array('Y', 'N');
 		}
 		// Execute the file.getFileList query
 		$output = executeQuery('file.getFileList', $args, $columnList);
