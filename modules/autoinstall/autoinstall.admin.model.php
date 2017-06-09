@@ -300,6 +300,12 @@ class autoinstallAdminModel extends autoinstall
 				$package->deplist = "";
 				foreach($package->depends as $key => $dep)
 				{
+					if($dep->path === '.')
+					{
+						unset($package->depends[$key]);
+						continue;
+					}
+					
 					if(!$packages[$dep->package_srl])
 					{
 						$package->depends[$key]->installed = FALSE;
@@ -313,12 +319,6 @@ class autoinstallAdminModel extends autoinstall
 						{
 							$package->depends[$key]->need_update = TRUE;
 							$package->package_srl .= "," . $dep->package_srl;
-
-							if($dep->path === '.')
-							{
-								$package->contain_core = TRUE;
-								$package->contain_core_version = $dep->version;
-							}
 						}
 						else
 						{
