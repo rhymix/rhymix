@@ -84,14 +84,12 @@ class fileAdminModel extends file
 		{
 			$args->document_status = array('PUBLIC');
 			$args->comment_is_secret = array('N');
+			$output = executeQuery('file.getFileListByTargetStatus', $args, $columnList);
 		}
 		else
 		{
-			$args->document_status = array('PUBLIC', 'PRIVATE', 'SECRET', 'TEMP');
-			$args->comment_is_secret = array('Y', 'N');
+			$output = executeQuery('file.getFileList', $args, $columnList);
 		}
-		// Execute the file.getFileList query
-		$output = executeQuery('file.getFileList', $args, $columnList);
 		// Return if no result or an error occurs
 		if(!$output->toBool()||!count($output->data)) return $output;
 

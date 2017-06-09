@@ -6,6 +6,16 @@
                 <condition operation="equal" column="files.member_srl" default="member.member_srl" />
             </conditions>
         </table>
+        <table name="documents" type="left join">
+            <conditions>
+                <condition operation="equal" column="files.upload_target_srl" default="documents.document_srl" />
+            </conditions>
+        </table>
+        <table name="comments" type="left join">
+            <conditions>
+                <condition operation="equal" column="files.upload_target_srl" default="comments.comment_srl" />
+            </conditions>
+        </table>
     </tables>
     <columns>
         <column name="files.*" />
@@ -16,6 +26,14 @@
         <condition operation="equal" column="files.isvalid" var="isvalid" pipe="and" />
         <condition operation="equal" column="files.direct_download" var="direct_download" pipe="and" />
 		<condition operation="below" column="files.regdate" var="regdate_before" pipe="and" />
+		<group pipe="and">
+			<condition operation="in" column="documents.status" var="document_status" />
+			<condition operation="null" column="documents.status" pipe="or" />
+		</group>
+		<group pipe="and">
+			<condition operation="in" column="comments.is_secret" var="comment_is_secret" />
+			<condition operation="null" column="comments.is_secret" pipe="or" />
+		</group>
         <group pipe="and">
             <condition operation="like" column="files.source_filename" var="s_filename" pipe="or" />
             <condition operation="more" column="files.file_size" var="s_filesize_more" pipe="or" />
