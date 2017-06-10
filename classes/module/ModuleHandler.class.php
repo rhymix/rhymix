@@ -735,10 +735,6 @@ class ModuleHandler extends Handler
 		}
 
 		$oModule->setAct($this->act);
-		if(!Context::get('act'))
-		{
-			Context::set('act', $this->act);
-		}
 
 		$this->module_info->module_type = $type;
 		$oModule->setModuleInfo($this->module_info, $xml_info);
