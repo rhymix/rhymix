@@ -1725,10 +1725,6 @@ class memberController extends member
 		
 		// Hash the security key, but allow raw keys for a limited time.
 		$valid_security_keys = array(base64_encode(hash_hmac('sha256', $security_key, $autologin_key, true)));
-		if (time() < 1489503600)
-		{
-			$valid_security_keys[] = $security_key;
-		}
 		
 		// Check the security key.
 		if (!in_array($output->data->security_key, $valid_security_keys) || !$output->data->member_srl)
