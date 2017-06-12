@@ -1723,7 +1723,7 @@ class memberController extends member
 			$output->data = array_first($output->data);
 		}
 		
-		// Hash the security key, but allow raw keys for a limited time.
+		// Hash the security key.
 		$valid_security_keys = array(base64_encode(hash_hmac('sha256', $security_key, $autologin_key, true)));
 		
 		// Check the security key.
