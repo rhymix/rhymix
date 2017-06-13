@@ -19,6 +19,7 @@ $lang->cmd_view_friend = '친구 보기';
 $lang->cmd_add_friend = '친구 등록';
 $lang->cmd_message_box = '쪽지함';
 $lang->cmd_view_message_box = '쪽지함 보기';
+$lang->cmd_view_unread_message_box = '읽지않은 쪽지함 보기';
 $lang->cmd_store = '보관함 이동';
 $lang->cmd_view_selected_frend_group = '선택된 그룹만 보기';
 $lang->cmd_add_friend_group = '친구 그룹 생성';

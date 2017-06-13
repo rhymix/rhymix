@@ -1145,7 +1145,7 @@ class documentItem extends Object
 
 	function getStatus()
 	{
-		if(!$this->get('status')) return $this->getDefaultStatus();
+		if(!$this->get('status')) return getClass('document')->getDefaultStatus();
 		return $this->get('status');
 	}
 

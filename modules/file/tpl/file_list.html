@@ -13,11 +13,11 @@ xe.lang.msg_empty_search_keyword = '{$lang->msg_empty_search_keyword}';
 	</div>
 	<table id="fileListTable" class="x_table x_table-striped x_table-hover">
 		<caption>
-			<a href="{getUrl('', 'module', 'admin', 'act', 'dispFileAdminList')}" class="active"|cond="$search_keyword == ''">{$lang->all}<block cond="$search_keyword == ''">({number_format($total_count)})</block></a>
+			<a href="{getUrl('', 'module', 'admin', 'act', 'dispFileAdminList')}" class="active"|cond="!$isvalid">{$lang->all}<block cond="!$isvalid">({number_format($total_count)})</block></a>
 			<i>|</i>
-			<a href="{getUrl('search_target','isvalid','search_keyword','Y')}" class="active"|cond="$search_target == 'isvalid' && $search_keyword == 'Y'">{$lang->is_valid}<block cond="$search_target == 'isvalid' && $search_keyword == 'Y'">({number_format($total_count)})</block></a>
+			<a href="{getUrl('isvalid', 'Y')}" class="active"|cond="$isvalid == 'Y'">{$lang->is_valid}<block cond="$isvalid == 'Y'">({number_format($total_count)})</block></a>
 			<i>|</i>
-			<a href="{getUrl('search_target','isvalid','search_keyword','N')}" class="active"|cond="$search_target == 'isvalid' && $search_keyword == 'N'">{$lang->is_stand_by}<block cond="$search_target == 'isvalid' && $search_keyword == 'N'">({number_format($total_count)})</block></a>
+			<a href="{getUrl('isvalid', 'N')}" class="active"|cond="$isvalid == 'N'">{$lang->is_stand_by}<block cond="$isvalid == 'N'">({number_format($total_count)})</block></a>
 			<a class="x_icon-question-sign" href="./common/manual/admin/index.html#UMAN_faq_file_status" target="_blank">{$lang->help}</a>
 			
 			<span class="x_pull-right"><a href="#listManager" class="x_btn modalAnchor" onclick="getFileList();">{$lang->delete}</a></span>

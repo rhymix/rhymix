@@ -2739,64 +2739,60 @@ class documentController extends document
 	 */
 	function procDocumentTempSave()
 	{
-		// Check login information
-		if(!Context::get('is_logged')) return new Object(-1, 'msg_not_logged');
-		$module_info = Context::get('module_info');
-		$logged_info = Context::get('logged_info');
-
-		// Get form information
-		$obj = Context::getRequestVars();
-		// Change the target module to log-in information
-		$obj->module_srl = $module_info->module_srl;
-		$obj->status = $this->getConfigStatus('temp');
-		unset($obj->is_notice);
-
-		// Extract from beginning part of contents in the guestbook
-		if(!$obj->title)
+		if(!$this->module_srl)
 		{
-			$obj->title = cut_str(strip_tags($obj->content), 20, '...');
+			return new Object(-1, 'msg_invalid_request');
 		}
-
-		$oDocumentModel = getModel('document');
-		$oDocumentController = getController('document');
-		// Check if already exist geulinji
-		$oDocument = $oDocumentModel->getDocument($obj->document_srl, $this->grant->manager);
-
-		// Update if already exists
-		if($oDocument->isExists() && $oDocument->document_srl == $obj->document_srl)
+		
+		$obj = Context::getRequestVars();
+		$obj->module_srl = $this->module_srl;
+		$obj->status = $this->getConfigStatus('temp');
+		
+		// unset document style if not manager
+		if(!$this->grant->manager)
 		{
-			if($oDocument->get('module_srl') != $obj->module_srl)
-			{
-				return new Object(-1, 'msg_invalid_request');
-			}
+			unset($obj->is_notice);
+			unset($obj->title_color);
+			unset($obj->title_bold);
+		}
+		
+		$oDocumentModel = getModel('document');
+		$oDocument = $oDocumentModel->getDocument($obj->document_srl);
+		
+		// Update if already exists
+		if($oDocument->isExists())
+		{
 			if(!$oDocument->isGranted())
 			{
 				return new Object(-1, 'msg_invalid_request');
 			}
-			//if exist document status is already public, use temp status can point problem
-			$obj->status = $oDocument->get('status');
-			$output = $oDocumentController->updateDocument($oDocument, $obj);
-			$msg_code = 'success_updated';
-			// Otherwise, get a new
+			
+			if($oDocument->get('status') != $this->getConfigStatus('temp'))
+			{
+				return new Object(-1, 'msg_invalid_request');
+			}
+			
+			$output = $this->updateDocument($oDocument, $obj);
 		}
+		// Otherwise, get a new
 		else
 		{
-			$output = $oDocumentController->insertDocument($obj);
-			$msg_code = 'success_registed';
-			$obj->document_srl = $output->get('document_srl');
-			$oDocument = $oDocumentModel->getDocument($obj->document_srl, $this->grant->manager);
+			$output = $this->insertDocument($obj);
+			
+			$oDocument = $oDocumentModel->getDocument($output->get('document_srl'));
 		}
+		
 		// Set the attachment to be invalid state
 		if($oDocument->hasUploadedFiles())
 		{
 			$args = new stdClass;
-			$args->upload_target_srl = $oDocument->document_srl;
 			$args->isvalid = 'N';
+			$args->upload_target_srl = $oDocument->document_srl;
 			executeQuery('file.updateFileValid', $args);
 		}
-
+		
 		$this->setMessage('success_saved');
-		$this->add('document_srl', $obj->document_srl);
+		$this->add('document_srl', $output->get('document_srl'));
 	}
 
 	/**

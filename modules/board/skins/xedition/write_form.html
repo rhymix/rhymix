@@ -33,12 +33,10 @@
 				<input type="checkbox" name="title_bold" id="title_bold" class="iCheck" value="Y" checked="checked"|cond="$oDocument->get('title_bold')=='Y'" />
 				<label for="title_bold">{$lang->title_bold}</label>
 			</block>
-			<input cond="$module_info->secret=='Y'" type="checkbox" name="is_secret" class="iCheck" value="Y" checked="checked"|cond="$oDocument->isSecret()" id="is_secret" />
-			<label cond="$module_info->secret=='Y'" for="is_secret">{$lang->secret}</label>
-            <input type="checkbox" name="comment_status" class="iCheck" value="ALLOW" checked="checked"|cond="$oDocument->allowComment()" id="comment_status" />
-            <label for="comment_status">{$lang->allow_comment}</label>
-            <input type="checkbox" name="allow_trackback" class="iCheck" value="Y" checked="checked"|cond="$oDocument->allowTrackback()" id="allow_trackback" />
-            <label for="allow_trackback">{$lang->allow_trackback}</label>
+			<input type="checkbox" name="comment_status" class="iCheck" value="ALLOW" checked="checked" |cond="$oDocument->allowComment()" id="comment_status" />
+			<label for="comment_status">{$lang->allow_comment}</label>
+			<input type="checkbox" name="allow_trackback" class="iCheck" value="Y" checked="checked" |cond="$oDocument->allowTrackback()" id="allow_trackback" />
+			<label for="allow_trackback">{$lang->allow_trackback}</label>
 			<block cond="$is_logged">
 				<input type="checkbox" name="notify_message" class="iCheck" value="Y" checked="checked"|cond="$oDocument->useNotify()" id="notify_message" />
 				<label for="notify_message">{$lang->notify}</label>

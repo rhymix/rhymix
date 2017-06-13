@@ -120,6 +120,8 @@ class memberController extends member
 	 */
 	function procMemberScrapDocument()
 	{
+		$oModuleModel = &getModel('module');
+
 		// Check login information
 		if(!Context::get('is_logged')) return new Object(-1, 'msg_not_logged');
 		$logged_info = Context::get('logged_info');
@@ -135,6 +137,13 @@ class memberController extends member
 		if($oDocument->isSecret() && !$oDocument->isGranted())
 		{
 			return new Object(-1, 'msg_is_secret');
+		}
+
+		// 모듈 권한 확인
+		$grant = $oModuleModel->getGrant($oModuleModel->getModuleInfoByModuleSrl($oDocument->get('module_srl')), $logged_info);
+		if(!$grant->access)
+		{
+			return new Object(-1, 'msg_not_permitted');
 		}
 
 		// Variables
@@ -1714,12 +1723,8 @@ class memberController extends member
 			$output->data = array_first($output->data);
 		}
 		
-		// Hash the security key, but allow raw keys for a limited time.
+		// Hash the security key.
 		$valid_security_keys = array(base64_encode(hash_hmac('sha256', $security_key, $autologin_key, true)));
-		if (time() < 1489503600)
-		{
-			$valid_security_keys[] = $security_key;
-		}
 		
 		// Check the security key.
 		if (!in_array($output->data->security_key, $valid_security_keys) || !$output->data->member_srl)
