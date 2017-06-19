@@ -122,7 +122,6 @@ class communicationView extends communication
 		// Extract a list
 		$columnList = array('message_srl', 'readed', 'title', 'member.member_srl', 'member.nick_name', 'message.regdate', 'readed_date');
 		$output = $oCommunicationModel->getMessages($message_type, $columnList);
-		debugPRint($output);
 		
 		// set a template file
 		Context::set('total_count', $output->total_count);
