@@ -46,19 +46,19 @@ class communicationView extends communication
 
 	/**
 	 * Display message box
-	 * @return void|Object (void : success, Object : fail)
+	 * @return object (Object : fail)
 	 */
 	function dispCommunicationMessages()
 	{
 		if($this->config->enable_message == 'N')
 		{
-			return $this->stop('msg_invalid_request');
+			return new Object(-1, 'msg_invalid_request');
 		}
 		
 		// Error appears if not logged-in
 		if(!Context::get('is_logged'))
 		{
-			return $this->stop('msg_not_logged');
+			return new Object(-1, 'msg_not_logged');
 		}
 
 		$logged_info = Context::get('logged_info');
@@ -67,7 +67,7 @@ class communicationView extends communication
 		$message_srl = Context::get('message_srl');
 		$message_type = Context::get('message_type');
 
-		if(!in_array($message_type, array('R', 'S', 'T')))
+		if(!in_array($message_type, array('R', 'S', 'T', 'N')))
 		{
 			$message_type = 'R';
 			Context::set('message_type', $message_type);
@@ -86,21 +86,28 @@ class communicationView extends communication
 				case 'R':
 					if($message->receiver_srl != $logged_info->member_srl)
 					{
-						return $this->stop('msg_invalid_request');
+						return new Object(-1, 'msg_invalid_request');
 					}
 					break;
 
 				case 'S':
 					if($message->sender_srl != $logged_info->member_srl)
 					{
-						return $this->stop('msg_invalid_request');
+						return new Object(-1, 'msg_invalid_request');
 					}
 					break;
 
 				case 'T':
 					if($message->receiver_srl != $logged_info->member_srl && $message->sender_srl != $logged_info->member_srl)
 					{
-						return $this->stop('msg_invalid_request');
+						return new Object(-1, 'msg_invalid_request');
+					}
+					break;
+
+				case 'N':
+					if($message->receiver_srl != $logged_info->member_srl)
+					{
+						return new Object(-1, 'msg_invalid_request');
 					}
 					break;
 			}
@@ -163,33 +170,6 @@ class communicationView extends communication
 		}
 
 		$this->setTemplateFile('new_message');
-	}
-
-	function dispCommunicationUnreadList()
-	{
-		$oCommunicationModel = getModel('communication');
-
-		if($this->config->enable_message == 'N')
-		{
-			return $this->stop('msg_invalid_request');
-		}
-
-		if(!Context::get('is_logged'))
-		{
-			return $this->stop('msg_not_logged');
-		}
-
-		$columnList = array('message_srl', 'readed', 'title', 'member.member_srl', 'member.nick_name', 'message.regdate', 'readed_date');
-		$output = $oCommunicationModel->getReadedMessages('N', $columnList);
-
-		// set a template file
-		Context::set('total_count', $output->total_count);
-		Context::set('total_page', $output->total_page);
-		Context::set('page', $output->page);
-		Context::set('message_list', $output->data);
-		Context::set('page_navigation', $output->page_navigation);
-
-		$this->setTemplateFile('messages');
 	}
 
 	/**
