@@ -9,7 +9,6 @@
 		<action name="dispCommunicationAddFriend" type="view" permission="member" />
 		<action name="dispCommunicationAddFriendGroup" type="view" permission="member" />
 		<action name="dispCommunicationMessageBoxList" type="mobile" permission="member" />
-		<action name="dispCommunicationUnreadList" type="view" permission="member" />
 		
 		<action name="procCommunicationUpdateAllowMessage" type="controller" permission="member" />
 		<action name="procCommunicationSendMessage" type="controller" permission="member" ruleset="sendMessage" />
