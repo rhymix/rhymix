@@ -199,7 +199,7 @@ function doSyncPageContent() {
 		if(obj && jQuery(obj).hasClass("widgetContent")) {
 			if(!fo_obj.document_srl || fo_obj.document_srl.value == '0') {
 				try {
-					var content = Base64.decode(xInnerHtml(obj));
+					var content = Base64.decode($(obj).html());
 					get_by_id("content_fo").content.value = content;
 					xe.Editors["1"].exec("SET_IR", [content]);
 				}
@@ -351,7 +351,7 @@ function doAddWidgetCode(widget_code) {
 		if(typeof(document.createStyleSheet)=='undefined') {
 			var css ='<link rel="stylesheet" href="'+cssfile+'" />';
 			var dummy  = xCreateElement("DIV");
-			xInnerHtml(dummy , css);
+			$(dummy).html(css);
 			document.body.appendChild(dummy);
 		} else {
 			document.createStyleSheet(cssfile,0);
@@ -386,7 +386,7 @@ function doAddWidgetCode(widget_code) {
 
 	// html 추가
 	var dummy = xCreateElement('div');
-	xInnerHtml(dummy, widget_code);
+	$(dummy).html(widget_code);
 	var obj = dummy.childNodes[0];
 
 	if(selectedWidget && selectedWidget.getAttribute("widget")) {
@@ -453,7 +453,7 @@ function doCheckWidget(e) {
 			return;
 		} else {
 			var dummy = xCreateElement("DIV");
-			xInnerHtml(dummy,xInnerHtml(p_obj));
+			$(dummy).html($(p_obj).html());
 
 			dummy.widget_sequence = '';
 			dummy.className = "widgetOutput";
@@ -512,7 +512,7 @@ function doCheckWidget(e) {
 function completeCopyWidgetContent(ret_obj, response_tags, params, p_obj) {
 	var document_srl = ret_obj.document_srl;
 	var dummy = xCreateElement("DIV");
-	xInnerHtml(dummy,xInnerHtml(p_obj));
+	$(dummy).html($(p_obj).html());
 
 
 	dummy.widget_sequence = '';
@@ -986,12 +986,12 @@ function widgetDragStart(tobj, px, py) {
 	if($tobj.hasClass('widgetResize') || $tobj.hasClass('widgetResizeLeft') || $tobj.hasClass('widgetBoxResize') || $tobj.hasClass('widgetBoxResizeLeft')) return;
 	var obj = widgetGetTmpObject(tobj);
 
-	xInnerHtml(obj, xInnerHtml(tobj));
+	$(obj).html($(tobj).html());
 
 	xLeft(obj, xPageX(tobj));
 	xTop(obj, xPageY(tobj));
-	xWidth(obj, xWidth(tobj));
-	xHeight(obj, xHeight(tobj));
+	$(obj).width($(obj, $(tobj).width()));
+	$(obj).height($(tobj).height());
 
 	xDisplay(obj, 'block');
 }
@@ -1008,11 +1008,11 @@ function widgetDrag(tobj, dx, dy) {
 	var nx = tobj.xDPX;
 	var ny = tobj.xDPY;
 
-	var zoneWidth = xWidth(zonePageObj);
+	var zoneWidth = $(zonePageObj).width();
 	var zoneLeft = xPageX(zonePageObj);
 	var zoneRight = zoneLeft + zoneWidth;
 
-	var pWidth = xWidth(tobj.parentNode);
+	var pWidth = $(tobj.parentNode).width();
 
 	var cssFloat = getFloat(tobj.parentNode);
 	if(!cssFloat) cssFloat = 'left';
@@ -1030,8 +1030,8 @@ function widgetDrag(tobj, dx, dy) {
 		if(new_height < minHeight) new_height = minHeight;
 		if(zoneRight < sx+new_width) new_width = zoneRight - sx;
 
-		xWidth(tobj.parentNode, new_width);
-		xHeight(tobj.parentNode, new_height);
+		$(tobj.parentNode).width(new_width);
+		$(tobj.parentNode).height(new_height);
 
 	// 위젯 리사이즈 (좌측)
 	} else if($tobj.hasClass('widgetResizeLeft') || $tobj.hasClass('widgetBoxResizeLeft')) {
@@ -1045,8 +1045,8 @@ function widgetDrag(tobj, dx, dy) {
 		var new_height = ny - sy;
 		if(new_height < minHeight) new_height = minHeight;
 
-		xWidth(tobj.parentNode, new_width);
-		xHeight(tobj.parentNode, new_height);
+		$(tobj.parentNode).width(new_width);
+		$(tobj.parentNode).height(new_height);
 
 	// 위젯 드래그
 	} else {
@@ -1064,8 +1064,8 @@ function widgetDrag(tobj, dx, dy) {
 				var target_obj = widgetList[i];
 				var l =  xPageX(target_obj);
 				var t =  xPageY(target_obj);
-				var ll =  parseInt(l,10) + parseInt(xWidth(target_obj),10);
-				var tt =  parseInt(t,10) + parseInt(xHeight(target_obj),10);
+				var ll =  parseInt(l,10) + parseInt($(target_obj).width(),10);
+				var tt =  parseInt(t,10) + parseInt($(target_obj).height(),10);
 
 				if( tobj != target_obj && tobj.xDPX >= l && tobj.xDPX <= ll && tobj.xDPY >= t && tobj.xDPY <= tt && tobj.parentNode == target_obj.parentNode) {
 					var next1 = target_obj.nextSibling;
@@ -1091,8 +1091,8 @@ function widgetDrag(tobj, dx, dy) {
 			var p_tobj = jQuery(tobj).parents('div.nullWidget').get(0);
 			var l =  xPageX(p_tobj);
 			var t =  xPageY(p_tobj);
-			var ll =  parseInt(l,10) + parseInt(xWidth(p_tobj),10);
-			var tt =  parseInt(t,10) + parseInt(xHeight(p_tobj),10);
+			var ll =  parseInt(l,10) + parseInt($(p_tobj).width(),10);
+			var tt =  parseInt(t,10) + parseInt($(p_tobj).height(),10);
 			if( (tobj.xDPX < l || tobj.xDPX > ll) || (tobj.xDPY < t || tobj.xDPY > tt) ) {
 				zonePageObj.insertBefore(tobj, jQuery(tobj).parents('div.widgetOutput[widget=widgetBox]').get(0));
 				return;
@@ -1108,13 +1108,13 @@ function widgetDrag(tobj, dx, dy) {
 					var target_obj = boxList[i];
 					var $target_obj = jQuery(target_obj);
 
-					xHeight(target_obj, xHeight(target_obj.parentNode));
-					xWidth(target_obj, xWidth(target_obj.parentNode));
+					$(target_obj).height($(target_obj.parentNode).height());
+					$(target_obj).width($(target_obj.parentNode).width());
 
 					var l =  xPageX(target_obj);
 					var t =  xPageY(target_obj);
-					var ll =  parseInt(l,10) + parseInt(xWidth(target_obj),10);
-					var tt =  parseInt(t,10) + parseInt(xHeight(target_obj),10);
+					var ll =  parseInt(l,10) + parseInt($(target_obj).width(),10);
+					var tt =  parseInt(t,10) + parseInt($(target_obj).height(),10);
 					if( tobj.xDPX >= l && tobj.xDPX <= ll && tobj.xDPY >= t && tobj.xDPY <= tt) {
 
 						//박스 위젯이다
@@ -1150,8 +1150,8 @@ function widgetDrag(tobj, dx, dy) {
 				if(widget == 'widgetBox' || target_obj.parentNode != zonePageObj) continue;
 				var l =  xPageX(target_obj);
 				var t =  xPageY(target_obj);
-				var ll =  parseInt(l,10) + parseInt(xWidth(target_obj),10);
-				var tt =  parseInt(t,10) + parseInt(xHeight(target_obj),10);
+				var ll =  parseInt(l,10) + parseInt($(target_obj).width(),10);
+				var tt =  parseInt(t,10) + parseInt($(target_obj).height(),10);
 
 				if( tobj != target_obj && tobj.xDPX >= l && tobj.xDPX <= ll && tobj.xDPY >= t && tobj.xDPY <= tt && tobj.parentNode == target_obj.parentNode) {
 					var next1 = target_obj.nextSibling;
@@ -1186,9 +1186,8 @@ function widgetDragEnd(tobj, px, py) {
 
 // 스르르 사라지게 함 (일단 사라지게 하는 기능을 제거.. 속도 문제)
 function widgetDisapearObject(obj, tobj) {
-	xInnerHtml(tobj,xInnerHtml(obj));
-	xInnerHtml(obj,'');
-	jQuery(obj).hide();
+	$(tobj).html($(obj).html());
+	$(obj).html('').hide();
 	obj.parentNode.removeChild(obj);
 	widgetTmpObject[tobj.id] = null;
 	return;
