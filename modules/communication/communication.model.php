@@ -258,7 +258,7 @@ class communicationModel extends communication
 			case 'N' :
 				$args->member_srl = $logged_info->member_srl;
 				$args->readed = 'N';
-				$query_id = 'comunication.getReadedMessages';
+				$query_id = 'communication.getReadedMessages';
 				break;
 
 			default :
@@ -274,7 +274,7 @@ class communicationModel extends communication
 		$args->list_count = 20;
 		$args->page_count = 10;
 
-		return executeQuery($query_id, $args, $columnList);
+		return executeQueryArray($query_id, $args, $columnList);
 	}
 
 	/**
