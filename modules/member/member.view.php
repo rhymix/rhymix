@@ -358,23 +358,54 @@ class memberView extends member
 	 */
 	function dispMemberOwnDocument()
 	{
-		$oMemberModel = getModel('member');
 		// A message appears if the user is not logged-in
-		if(!$oMemberModel->isLogged()) return $this->stop('msg_not_logged');
+		if(!Context::get('is_logged'))
+		{
+			return new Object(-1, 'msg_not_logged');
+		}
 
 		$logged_info = Context::get('logged_info');
-		$member_srl = $logged_info->member_srl;
+		$member_srls = -1*$logged_info->member_srl . ',' . $logged_info->member_srl;
 
 		$module_srl = Context::get('module_srl');
-		Context::set('module_srl',Context::get('selected_module_srl'));
-		Context::set('search_target','member_srl');
-		Context::set('search_keyword',$member_srl);
 
-		$oDocumentAdminView = getAdminView('document');
-		$oDocumentAdminView->dispDocumentAdminList();
+		$args = new stdClass();
+		$args->member_srl = $member_srls;
+		$args->page = Context::get('page');
+		$output = executeQueryArray('member.getDocumentListByMemberSrl', $args);
+
+		if($output->data)
+		{
+			if(!isset($virtual_number))
+			{
+				$keys = array_keys($output->data);
+				$virtual_number = $keys[0];
+			}
+
+			foreach($output->data as $attribute)
+			{
+				$document_srl = $attribute->document_srl;
+				if(!$GLOBALS['XE_DOCUMENT_LIST'][$document_srl])
+				{
+					$oDocument = null;
+					$oDocument = new documentItem();
+					$oDocument->setAttribute($attribute, false);
+					$GLOBALS['XE_DOCUMENT_LIST'][$document_srl] = $oDocument;
+				}
+				$output->data[$virtual_number] = $GLOBALS['XE_DOCUMENT_LIST'][$document_srl];
+				$virtual_number--;
+			}
+		}
+
+		// Set values of document_model::getDocumentList() objects for a template
+		Context::set('total_count', $output->total_count);
+		Context::set('total_page', $output->total_page);
+		Context::set('page', $output->page);
+		Context::set('document_list', $output->data);
+		Context::set('page_navigation', $output->page_navigation);
 
 		$oSecurity = new Security();
-		$oSecurity->encodeHTML('document_list...title', 'search_target', 'search_keyword');
+		$oSecurity->encodeHTML('document_list...title');
 
 		Context::set('module_srl', $module_srl);
 		$this->setTemplateFile('document_list');
