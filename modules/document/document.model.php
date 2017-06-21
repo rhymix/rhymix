@@ -1325,7 +1325,7 @@ class documentModel extends document
 		if($searchOpt->mid)
 		{
 			$oModuleModel = getModel('module');
-			$args->module_srl = $oModuleModel->getModuleSrlByMid($obj->mid);
+			$args->module_srl = $oModuleModel->getModuleSrlByMid($searchOpt->mid);
 			unset($searchOpt->mid);
 		}
 

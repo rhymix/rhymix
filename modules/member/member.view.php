@@ -358,9 +358,11 @@ class memberView extends member
 	 */
 	function dispMemberOwnDocument()
 	{
-		$oMemberModel = getModel('member');
 		// A message appears if the user is not logged-in
-		if(!$oMemberModel->isLogged()) return $this->stop('msg_not_logged');
+		if(!Context::get('is_logged'))
+		{
+			return new Object(-1, 'msg_not_logged');
+		}
 
 		$logged_info = Context::get('logged_info');
 		$member_srl = $logged_info->member_srl;
