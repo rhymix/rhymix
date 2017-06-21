@@ -1325,7 +1325,7 @@ class documentModel extends document
 		if($searchOpt->mid)
 		{
 			$oModuleModel = getModel('module');
-			$args->module_srl = $oModuleModel->getModuleSrlByMid($obj->mid);
+			$args->module_srl = $oModuleModel->getModuleSrlByMid($searchOpt->mid);
 			unset($searchOpt->mid);
 		}
 
@@ -1405,6 +1405,11 @@ class documentModel extends document
 					elseif($search_keyword=='temp') $args->statusList = array($this->getConfigStatus('temp'));
 					break;
 				case 'member_srl' :
+					if($logged_info->member_srl == $searchOpt->search_keyword || $logged_info->is_admin == 'Y')
+					{
+						$args->member_srl = -1*$searchOpt->search_keyword . ',' . $searchOpt->search_keyword;
+					}
+					break;
 				case 'readed_count' :
 				case 'voted_count' :
 				case 'comment_count' :
