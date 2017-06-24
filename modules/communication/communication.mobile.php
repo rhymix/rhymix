@@ -34,26 +34,26 @@ class communicationMobile extends communicationView
 
 	/**
 	 * Display message box
-	 * @return void|Object (void : success, Object : fail)
+	 * @return Object (void : success, Object : fail)
 	 */
 	function dispCommunicationMessages()
 	{
 		// Error appears if not logged-in
 		if(!Context::get('is_logged'))
 		{
-			return $this->stop('msg_not_logged');
+			return new Object(-1,'msg_not_logged');
 		}
 
 		$logged_info = Context::get('logged_info');
 		if(!array_key_exists('dispCommunicationMessages', $logged_info->menu_list))
 		{
-			return $this->stop('msg_invalid_request');
+			return new Object(-1,'msg_invalid_request');
 		}
 
 		// Set the variables
 		$message_srl = Context::get('message_srl');
 		$message_type = Context::get('message_type');
-		if(!in_array($message_type, array('R', 'S', 'T')))
+		if(!in_array($message_type, array('R', 'S', 'T', 'N')))
 		{
 			$message_type = 'R';
 			Context::set('message_type', $message_type);
@@ -87,6 +87,13 @@ class communicationMobile extends communicationView
 					if($message->receiver_srl != $logged_info->member_srl && $message->sender_srl != $logged_info->member_srl)
 					{
 						return $this->stop('msg_invalid_request');
+					}
+					break;
+
+				case 'N':
+					if($message->receiver_srl != $logged_info->member_srl)
+					{
+						return new Object(-1, 'msg_invalid_request');
 					}
 					break;
 			}
