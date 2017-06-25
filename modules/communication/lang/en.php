@@ -8,6 +8,7 @@ $lang->allow_message_type['F'] = 'Only Friends';
 $lang->message_box['R'] = 'Inbox';
 $lang->message_box['S'] = 'Sent';
 $lang->message_box['T'] = 'Archive';
+$lang->message_box['N'] = 'Unread';
 $lang->readed_date = 'Read Date';
 $lang->sender = 'From';
 $lang->receiver = 'To';
