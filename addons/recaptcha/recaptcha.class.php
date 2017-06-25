@@ -21,11 +21,18 @@ class reCAPTCHA
 			return new Object(-1, lang('recaptcha.msg_recaptcha_invalid_response'));
 		}
 		
-		$verify_request = \Requests::post(self::$verify, array(), array(
-			'secret' => self::$config->secret_key,
-			'response' => $response,
-			'remoteip' => \RX_CLIENT_IP,
-		));
+		try
+		{
+			$verify_request = \Requests::post(self::$verify, array(), array(
+				'secret' => self::$config->secret_key,
+				'response' => $response,
+				'remoteip' => \RX_CLIENT_IP,
+			));
+		}
+		catch (\Requests_Exception $e)
+		{
+			return new Object(-1, lang('recaptcha.msg_recaptcha_connection_error'));
+		}
 		
 		$verify = @json_decode($verify_request->body, true);
 		if ($verify && isset($verify['error-codes']) && in_array('invalid-input-response', $verify['error-codes']))
