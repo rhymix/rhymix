@@ -255,6 +255,12 @@ class communicationModel extends communication
 				$query_id = 'communication.getStoredMessages';
 				break;
 
+			case 'N' :
+				$args->member_srl = $logged_info->member_srl;
+				$args->readed = 'N';
+				$query_id = 'communication.getReadedMessages';
+				break;
+
 			default :
 				$args->member_srl = $logged_info->member_srl;
 				$args->message_type = 'S';
@@ -268,23 +274,7 @@ class communicationModel extends communication
 		$args->list_count = 20;
 		$args->page_count = 10;
 
-		return executeQuery($query_id, $args, $columnList);
-	}
-
-	function getReadedMessages($readed = 'N', $columnList = array())
-	{
-		$logged_info = Context::get('logged_info');
-
-		$args = new stdClass();
-		$args->member_srl = $logged_info->member_srl;
-		$args->readed = $readed;
-		$args->sort_index = 'message.list_order';
-		$args->page = Context::get('page');
-		$args->list_count = 20;
-		$args->page_count = 10;
-		$output = executeQueryArray('communication.getReadedMessages', $args, $columnList);
-
-		return $output;
+		return executeQueryArray($query_id, $args, $columnList);
 	}
 
 	/**

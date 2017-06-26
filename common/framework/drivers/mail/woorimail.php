@@ -128,6 +128,13 @@ class Woorimail extends Base implements \Rhymix\Framework\Drivers\MailInterface
 			{
 				$data['wms_nick'] = $sender_email[0];
 				$data['wms_domain'] = $sender_email[1];
+				if($replyTo = $message->message->getReplyTo())
+				{
+					if ($replyTo = key($replyTo))
+					{
+						$data['sender_email'] = $replyTo;
+					}
+				}
 			}
 		}
 		
@@ -169,8 +176,16 @@ class Woorimail extends Base implements \Rhymix\Framework\Drivers\MailInterface
 		);
 		
 		// Send the API request.
-		$request = \Requests::post(self::$_url, $headers, $data, $options);
-		$result = @json_decode($request->body);
+		try
+		{
+			$request = \Requests::post(self::$_url, $headers, $data, $options);
+			$result = @json_decode($request->body);
+		}
+		catch (\Requests_Exception $e)
+		{
+			$message->errors[] = 'Woorimail: ' . $e->getMessage();
+			return false;
+		}
 		
 		// Parse the result.
 		if (!$result)

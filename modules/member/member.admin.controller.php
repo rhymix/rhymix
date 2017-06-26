@@ -221,7 +221,7 @@ class memberAdminController extends member
 
 	public function procMemberAdminInsertFeaturesConfig()
 	{
-		$config = getModel('member')->getMemberConfig();
+		$config = new stdClass;
 		$config->features = array();
 		
 		$args = Context::gets(

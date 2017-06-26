@@ -40,9 +40,18 @@ class documentAdminView extends document
 		$args->page = Context::get('page'); // /< Page
 		$args->list_count = 30; // /< the number of posts to display on a single page
 		$args->page_count = 5; // /< the number of pages that appear in the page navigation
-
+		
 		$args->search_target = Context::get('search_target'); // /< search (title, contents ...)
 		$args->search_keyword = Context::get('search_keyword'); // /< keyword to search
+		if ($args->search_target === 'member_srl')
+		{
+			$logged_info = Context::get('logged_info');
+			if ($logged_info->is_admin === 'Y' || intval($logged_info->member_srl) === intval($args->search_keyword))
+			{
+				$args->member_srl = array(intval($args->search_keyword), intval($args->search_keyword) * -1);
+				unset($args->search_target, $args->search_keyword);
+			}
+		}
 
 		$args->sort_index = 'list_order'; // /< sorting value
 
