@@ -111,7 +111,10 @@ var auto_saved_msg = "{$lang->msg_auto_saved}";
 			settings.ckeconfig.enterMode = CKEDITOR.ENTER_BR;
 			settings.ckeconfig.shiftEnterMode = CKEDITOR.ENTER_P;
 		}
-		
+
+		CKEDITOR.dtd.$removeEmpty.i = 0;
+		CKEDITOR.dtd.$removeEmpty.ins = 0;
+
 		<!--@if($enable_component)-->
 			{@ $xe_component = array(); }
 			<!--@foreach($component_list as $component_name => $component)-->
@@ -142,7 +145,6 @@ var auto_saved_msg = "{$lang->msg_auto_saved}";
 		CKEDITOR.addCss(css_content);
 
 		var ckeApp = $('#ckeditor_instance_{$editor_sequence}').XeCkEditor(settings);
-
 	});
 })(jQuery);
 </script>
