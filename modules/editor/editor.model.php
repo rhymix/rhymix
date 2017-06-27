@@ -234,7 +234,10 @@ class editorModel extends editor
 		if(!$option->allow_fileupload) $allow_fileupload = false;
 		else $allow_fileupload = true;
 		// content_style setting
-		if(!$option->content_style) $option->content_style = 'ckeditor_light';
+		if(!$option->content_style || !file_exists($this->module_path . 'styles/' . $option->content_style))
+		{
+			$option->content_style = 'ckeditor_light';
+		}
 		Context::set('content_style', $option->content_style);
 		Context::set('content_style_path', $this->module_path . 'styles/' . $option->content_style);
 		// Default font setting
