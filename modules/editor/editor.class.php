@@ -34,7 +34,7 @@ class editor extends ModuleObject
 		'comment_editor_skin' => 'ckeditor',
 		'comment_editor_height' => 100,
 		'comment_editor_toolbar' => 'simple',
-		'comment_editor_toolbar_hide' => 'Y',
+		'comment_editor_toolbar_hide' => 'N',
 		'mobile_comment_editor_height' => 100,
 		'mobile_comment_editor_toolbar' => 'simple',
 		'mobile_comment_editor_toolbar_hide' => 'Y',
