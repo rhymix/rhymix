@@ -121,16 +121,6 @@
 			</div>
 		</div>
 		<div class="x_control-group">
-			<label class="x_control-label">{$lang->guide_choose_font_preview}</label>
-			<div class="x_controls">
-				<textarea rows="4" cols="42" class="fontPreview" style="
-					font-family: {$editor_config->content_font};
-					font-size: {$editor_config->content_font_size ?: '13px'};
-					line-height: {$editor_config->content_line_height ?: '160%'};
-					width:90%" title="Font Preview">{$lang->font_preview}</textarea>
-			</div>
-		</div>
-		<div class="x_control-group">
 			<label class="x_control-label">{$lang->guide_choose_font_body}</label>
 			<div class="x_controls">
 				<label style="font-family:''" class="fontSelector">
@@ -144,6 +134,16 @@
 					<input type="radio" class="fontSelector" name="font_defined" id="font_defined" value="Y" checked="checked"|cond="$editor_config->font_defined== 'Y'" /> {$lang->by_you} : 
 					<input type="text" name="content_font_defined" value="{$editor_config->content_font}"|cond="$editor_config->font_defined == 'Y'" />
 				</label>
+			</div>
+		</div>
+		<div class="x_control-group">
+			<label class="x_control-label">{$lang->guide_choose_font_preview}</label>
+			<div class="x_controls">
+				<textarea rows="4" cols="42" class="fontPreview" style="
+					font-family: {$editor_config->content_font};
+					font-size: {$editor_config->content_font_size ?: '13px'};
+					line-height: {$editor_config->content_line_height ?: '160%'};
+					width:90%" title="Font Preview">{$lang->font_preview}</textarea>
 			</div>
 		</div>
 		<div class="x_control-group">
