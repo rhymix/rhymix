@@ -15,6 +15,5 @@
 		
 		<action name="procInstallAdminInstall" type="controller" />
 		<action name="procInstallAdminUpdate" type="controller" />
-		<action name="procInstallAdminUpdateIndexModule" type="controller" />
 	</actions>
 </module>
