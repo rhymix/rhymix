@@ -1,1 +1,3 @@
 p.editor_autosaved_message.autosave_message {display:none;background: #f6ffdb;padding:6px 10px;margin:0;line-height:1;}
+span.cke_combo__fontsize .cke_combo_button { width: 64px; }
+span.cke_combo__fontsize .cke_combo_text { width: 30px; }
