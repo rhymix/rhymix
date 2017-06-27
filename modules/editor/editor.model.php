@@ -223,6 +223,8 @@ class editorModel extends editor
 		Context::set('content_style_path', $this->module_path . 'styles/' . $option->content_style);
 		Context::set('colorset', $option->sel_editor_colorset);
 		Context::set('editor_height', $option->editor_height);
+		Context::set('editor_toolbar', $option->editor_toolbar);
+		Context::set('editor_toolbar_hide', toBool($option->editor_toolbar_hide));
 		Context::set('module_type', $option->module_type);
 		
 		// Default font setting
@@ -359,6 +361,8 @@ class editorModel extends editor
 			if ($is_mobile)
 			{
 				$option->editor_height = $option->mobile_editor_height;
+				$option->editor_toolbar = $option->mobile_editor_toolbar;
+				$option->editor_toolbar_hide = $option->mobile_editor_toolbar_hide;
 			}
 		}
 		else
@@ -375,10 +379,14 @@ class editorModel extends editor
 			$option->enable_component_grant = $option->enable_comment_component_grant;
 			$option->enable_html_grant = $option->enable_comment_html_grant;
 			$option->editor_height = $option->comment_editor_height;
+			$option->editor_toolbar = $option->comment_editor_toolbar;
+			$option->editor_toolbar_hide = $option->comment_editor_toolbar_hide;
 			$option->enable_autosave = 'N';
 			if ($is_mobile)
 			{
 				$option->editor_height = $option->mobile_comment_editor_height;
+				$option->editor_toolbar = $option->mobile_comment_editor_toolbar;
+				$option->editor_toolbar_hide = $option->mobile_comment_editor_toolbar_hide;
 			}
 		}
 		

@@ -134,9 +134,7 @@ var auto_saved_msg = "{$lang->msg_auto_saved}";
 			settings.loadXeComponent = false;
 		<!--@endif-->
 
-		<!--@if($module_type === 'comment' || Rhymix\Framework\UA::isMobile())-->
-			settings.ckeconfig.toolbarStartupExpanded = false;
-		<!--@endif-->
+		settings.ckeconfig.toolbarStartupExpanded = {$editor_toolbar_hide ? 'false' : 'true'};
 		
 		<!--@if(!$html_mode)-->
 			settings.ckeconfig.removeButtons = 'Save,Preview,Print,Cut,Copy,Paste,Source';

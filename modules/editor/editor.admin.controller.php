@@ -149,9 +149,17 @@ class editorAdminController extends editor
 		$config->editor_skin = $configVars->editor_skin;
 		$config->editor_height = $configVars->editor_height;
 		$config->mobile_editor_height = $configVars->mobile_editor_height;
+		$config->editor_toolbar = $configVars->editor_toolbar;
+		$config->editor_toolbar_hide = $configVars->editor_toolbar_hide === 'Y' ? 'Y' : 'N';
+		$config->mobile_editor_toolbar = $configVars->mobile_editor_toolbar;
+		$config->mobile_editor_toolbar_hide = $configVars->mobile_editor_toolbar_hide === 'Y' ? 'Y' : 'N';
 		$config->comment_editor_skin = $configVars->comment_editor_skin;
 		$config->comment_editor_height = $configVars->comment_editor_height;
 		$config->mobile_comment_editor_height = $configVars->mobile_comment_editor_height;
+		$config->comment_editor_toolbar = $configVars->comment_editor_toolbar;
+		$config->comment_editor_toolbar_hide = $configVars->comment_editor_toolbar_hide === 'Y' ? 'Y' : 'N';
+		$config->mobile_comment_editor_toolbar = $configVars->mobile_comment_editor_toolbar;
+		$config->mobile_comment_editor_toolbar_hide = $configVars->mobile_comment_editor_toolbar_hide === 'Y' ? 'Y' : 'N';
 		$config->content_style = $configVars->content_style;
 		$config->sel_editor_colorset= $configVars->sel_editor_colorset;
 		$config->sel_comment_editor_colorset= $configVars->sel_comment_editor_colorset;
