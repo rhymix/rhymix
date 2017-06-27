@@ -329,6 +329,7 @@ $lang->captcha = '스팸 방지 기능';
 $lang->reload = '새로고침';
 $lang->play = '음성재생';
 $lang->use_and_display = '사용 + 추천내역 공개';
+$lang->pc = 'PC';
 $lang->mobile = '모바일';
 $lang->mobile_view = '모바일 뷰 사용';
 $lang->about_mobile_view = '스마트폰 등을 이용하여 접속할 때 모바일 화면에 최적화된 레이아웃을 이용하도록 합니다.';

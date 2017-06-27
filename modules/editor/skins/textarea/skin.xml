@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<skin version="0.1">
+    <title xml:lang="ko">Textarea</title>
+    <description xml:lang="ko">Textarea</description>
+    <version>1.0.0</version>
+    <date>2017-06-27</date>
+    <colorset>
+        <color name="light">
+            <title xml:lang="ko">Light</title>
+        </color>
+        <color name="dark">
+            <title xml:lang="ko">Dark</title>
+        </color>
+    </colorset>
+</skin>

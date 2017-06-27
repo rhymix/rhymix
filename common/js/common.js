@@ -391,6 +391,13 @@ jQuery(function($) {
 	};
 
 	/**
+	 * @brief string prototype으로 stripTags 함수 추가
+	 **/
+	String.prototype.stripTags = function() {
+		return String(this).replace(/<\/?[a-z][^>]*>/ig, "");
+	};
+
+	/**
 	 * @brief string prototype으로 trim 함수 추가
 	 **/
 	if (!String.prototype.trim) {

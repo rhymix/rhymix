@@ -229,9 +229,6 @@ select {
 .rp li:last-child {
 	border-bottom: 0;
 }
-.rp p {
-	display: inline;
-}
 .rp em,.rp span {
 	color: #666;
 	font-size: 12px;

@@ -36,7 +36,7 @@ var auto_saved_msg = "{$lang->msg_auto_saved}";
 <input type="hidden" name="_saved_doc_message" value="{$lang->msg_load_saved_doc}" />
 <!--@end-->
 
-<div id="ckeditor_instance_{$editor_sequence}" data-editor-sequence="{$editor_sequence}" data-editor-primary-key-name="{$editor_primary_key_name}" data-editor-content-key-name="{$editor_content_key_name}" style="min-height:{$m ? 160 : $editor_height}px;"></div>
+<div id="ckeditor_instance_{$editor_sequence}" data-editor-sequence="{$editor_sequence}" data-editor-primary-key-name="{$editor_primary_key_name}" data-editor-content-key-name="{$editor_content_key_name}" style="min-height:{$editor_height}px;"></div>
 
 <p cond="$enable_autosave" class="editor_autosaved_message autosave_message" id="editor_autosaved_message_{$editor_sequence}">&nbsp;</p>
 
@@ -91,7 +91,7 @@ var auto_saved_msg = "{$lang->msg_auto_saved}";
 		
 		var settings = {
 			ckeconfig: {
-				height: '{$m ? 160 : $editor_height}',
+				height: '{$editor_height}',
 				skin: '{$colorset}',
 				contentsCss: {json_encode($css_file_list)},
 				xe_editor_sequence: {$editor_sequence},
@@ -100,6 +100,7 @@ var auto_saved_msg = "{$lang->msg_auto_saved}";
 	            fontSize_defaultLabel: default_font_size,
 	            fontSize_sizes: font_sizes,
 				toolbarCanCollapse: true,
+				allowedContent: true,
 				language: "{str_replace('jp','ja',$lang_type)}"
 			},
 			loadXeComponent: true,
@@ -111,7 +112,10 @@ var auto_saved_msg = "{$lang->msg_auto_saved}";
 			settings.ckeconfig.enterMode = CKEDITOR.ENTER_BR;
 			settings.ckeconfig.shiftEnterMode = CKEDITOR.ENTER_P;
 		}
-		
+
+		CKEDITOR.dtd.$removeEmpty.i = 0;
+		CKEDITOR.dtd.$removeEmpty.ins = 0;
+
 		<!--@if($enable_component)-->
 			{@ $xe_component = array(); }
 			<!--@foreach($component_list as $component_name => $component)-->
@@ -131,10 +135,22 @@ var auto_saved_msg = "{$lang->msg_auto_saved}";
 			settings.loadXeComponent = false;
 		<!--@endif-->
 
-		<!--@if($module_type === 'comment' || Rhymix\Framework\UA::isMobile())-->
-			settings.ckeconfig.toolbarStartupExpanded = false;
+		settings.ckeconfig.toolbarStartupExpanded = {$editor_toolbar_hide ? 'false' : 'true'};
+
+		<!--@if($editor_additional_plugins)-->
+			settings.extraPlugins = {json_encode(implode(',', $editor_additional_plugins))};
 		<!--@endif-->
-		
+
+		<!--@if($editor_toolbar === 'simple')-->
+			settings.ckeconfig.toolbar = [
+				{ name: 'styles', items: [ 'Font', 'FontSize', '-', 'Bold', 'Italic', 'Underline', 'TextColor', 'BGColor' ] },
+				{ name: 'paragraph', items: [ 'JustifyLeft', 'JustifyCenter', 'JustifyRight' ] },
+				{ name: 'clipboard', items: [ 'Cut', 'Copy', 'Paste' ] },
+				{ name: 'insert', items: [ 'Link', 'Image', 'Table' ] },
+				{ name: 'tools', items: [ 'Maximize', '-', 'Source' ] }
+			];
+		<!--@endif-->
+
 		<!--@if(!$html_mode)-->
 			settings.ckeconfig.removeButtons = 'Save,Preview,Print,Cut,Copy,Paste,Source';
 		<!--@endif-->
@@ -142,7 +158,6 @@ var auto_saved_msg = "{$lang->msg_auto_saved}";
 		CKEDITOR.addCss(css_content);
 
 		var ckeApp = $('#ckeditor_instance_{$editor_sequence}').XeCkEditor(settings);
-
 	});
 })(jQuery);
 </script>
