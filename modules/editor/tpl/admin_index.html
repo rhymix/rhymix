@@ -63,7 +63,7 @@
 				</label>
 				<label class="x_inline">
 					<select name="sel_comment_editor_colorset" style="display:none"|cond="$editor!=$editor_config->comment_editor_skin">
-						<option value="{$val->name}" selected="selected"|cond="$editor_config->sel_comment_editor_colorset == $val->name" cond="$editor==$editor_config->comment_editor_skin" loop="$editor_colorset_list=>$key,$val">{$val->title}</option>
+						<option value="{$val->name}" selected="selected"|cond="$editor_config->sel_comment_editor_colorset == $val->name" cond="$editor==$editor_config->comment_editor_skin" loop="$comment_editor_colorset_list=>$key,$val">{$val->title}</option>
 					</select>
 				</label>
 				<br />
