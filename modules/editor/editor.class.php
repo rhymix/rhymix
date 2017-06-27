@@ -48,6 +48,7 @@ class editor extends ModuleObject
 		'autoinsert_image' => 'paragraph',
 		'additional_css' => array(),
 		'additional_mobile_css' => array(),
+		'additional_plugins' => array(),
 	);
 	
 	/**

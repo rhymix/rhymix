@@ -235,6 +235,7 @@ class editorModel extends editor
 		Context::set('content_word_break', $option->content_word_break);
 		Context::set('editor_autoinsert_image', $option->autoinsert_image);
 		Context::set('editor_additional_css', $option->additional_css);
+		Context::set('editor_additional_plugins', $option->additional_plugins);
 		
 		// Set the primary key valueof the document or comments
 		Context::set('editor_primary_key_name', $option->primary_key_name);

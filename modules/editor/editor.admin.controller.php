@@ -197,6 +197,17 @@ class editorAdminController extends editor
 			$config->additional_mobile_css = array();
 		}
 		
+		if ($configVars->additional_plugins)
+		{
+			$additional_plugins = array_map('trim', explode(',', $configVars->additional_plugins));
+			$additional_plugins = array_filter($additional_plugins, function($str) { return !empty($str); });
+			$config->additional_plugins = $additional_plugins;
+		}
+		else
+		{
+			$config->additional_plugins = array();
+		}
+		
 		$config->content_font_size = trim($configVars->content_font_size);
 		$config->content_font_size = ctype_digit($config->content_font_size) ? ($config->content_font_size . 'px') : $config->content_font_size;
 		$config->content_line_height = trim($configVars->content_line_height);
