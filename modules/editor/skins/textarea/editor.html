@@ -11,6 +11,7 @@
 			textarea.css("font-family", {json_encode($content_font ?: null)});
 			textarea.css("font-size", {json_encode($content_font_size)});
 			textarea.css("line-height", {json_encode($content_line_height)});
+			textarea.height({intval($editor_height)});
 			if ({json_encode($content_word_break)} === 'none') {
 				textarea.css("white-space", "nowrap");
 			} else {
