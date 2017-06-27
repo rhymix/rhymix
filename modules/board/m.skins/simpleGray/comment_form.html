@@ -14,7 +14,8 @@
 		<ul>
 			<li>
 				<label for="rText" class="db fb">{$lang->comment}</label>
-				<textarea name="content" rows="8" cols="42" id="rText" class="itxx"></textarea>
+				<input type="hidden" name="content" value="{$oComment->getContentText()}" />
+				{$oComment->getEditor()}
 			</li>
 			<!--@if(!$is_logged)-->
 			<li>

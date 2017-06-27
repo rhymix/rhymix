@@ -38,7 +38,8 @@
 			<!--@end-->
 			<li>
 				<label for="nText">{$lang->content}</label>
-				<textarea name="content" rows="8" cols="42" id="nText"></textarea>
+				<input type="hidden" name="content" value="{$oDocument->getContentText()}" />
+				{$oDocument->getEditor()}
 			</li>
 			<!--@if(!$is_logged)-->
 			<li>
