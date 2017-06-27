@@ -76,56 +76,7 @@ class editorAdminView extends editor
 		{
 			if($packages[$xml_info->package_srl])	$xml_info->need_update = $packages[$xml_info->package_srl]->need_update;
 		}
-
-		//editor preview
-		$config = $oEditorModel->getEditorConfig();
-
-		$option = new stdClass();
-		$option->allow_fileupload = false;
-		$option->content_style = $config->content_style;
-		$option->content_font = $config->content_font;
-		$option->content_font_size = $config->content_font_size;
-		$option->content_line_height = $config->content_line_height;
-		$option->content_paragraph_spacing = $config->content_paragraph_spacing;
-		$option->content_word_break = $config->content_word_break;
-		$option->additional_css = $config->additional_css ?: array();
-		$option->enable_autosave = false;
-		$option->enable_default_component = true;
-		$option->enable_component = true;
-		$option->disable_html = false;
-		$option->height = $config->editor_height;
-		$option->skin = $config->editor_skin;
-		$option->content_key_name = 'dummy_content';
-		$option->primary_key_name = 'dummy_key';
-		$option->colorset = $config->sel_editor_colorset;
-		$editor = $oEditorModel->getEditor(0, $option);
-
-		Context::set('preview_editor', $editor);
-
-		$option_com = new stdClass();
-		$option_com->allow_fileupload = false;
-		$option_com->content_style = $config->content_style;
-		$option_com->content_font = $config->content_font;
-		$option_com->content_font_size = $config->content_font_size;
-		$option_com->content_line_height = $config->content_line_height;
-		$option_com->content_paragraph_spacing = $config->content_paragraph_spacing;
-		$option_com->content_word_break = $config->content_word_break;
-		$option_com->additional_css = $config->additional_css ?: array();
-		$option_com->enable_autosave = false;
-		$option_com->enable_default_component = true;
-		$option_com->enable_component = true;
-		$option_com->disable_html = false;
-		$option_com->height = $config->comment_editor_height;
-		$option_com->skin = $config->comment_editor_skin;
-		$option_com->content_key_name = 'dummy_content2';
-		$option_com->primary_key_name = 'dummy_key2';
-		$option_com->content_style = $config->comment_content_style;
-		$option_com->colorset = $config->sel_comment_editor_colorset;
-
-		$editor_comment = $oEditorModel->getEditor(0, $option_com);
-
-		Context::set('preview_editor_comment', $editor_comment);
-
+		
 		Context::set('editor_config', $editor_config);
 		Context::set('editor_skin_list', $editor_skin_list);
 		Context::set('editor_colorset_list', $skin_info->colorset);
@@ -133,11 +84,6 @@ class editorAdminView extends editor
 		Context::set('content_style_list', $content_style_list);
 		Context::set('component_list', $component_list);
 		Context::set('component_count', $component_count);
-		
-		foreach ($config->additional_css as $additional_css_url)
-		{
-			Context::loadFile(array($additional_css_url));
-		}
 
 		$security = new Security();
 		$security->encodeHTML('component_list....');
