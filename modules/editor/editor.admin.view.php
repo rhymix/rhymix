@@ -35,17 +35,7 @@ class editorAdminView extends editor
 		}
 
 		// Use default config for missing values.
-		$editor_config_default = array(
-			'editor_skin' => 'ckeditor',
-			'editor_height' => 300,
-			'mobile_editor_height' => 200,
-			'sel_editor_colorset' => 'moono-lisa',
-			'comment_editor_skin' => 'ckeditor',
-			'comment_editor_height' => 100,
-			'mobile_comment_editor_height' => 100,
-			'sel_comment_editor_colorset' => 'moono-lisa',
-		);
-		foreach ($editor_config_default as $key => $val)
+		foreach ($this->default_editor_config as $key => $val)
 		{
 			if (!$editor_config->$key)
 			{
@@ -143,7 +133,6 @@ class editorAdminView extends editor
 		Context::set('content_style_list', $content_style_list);
 		Context::set('component_list', $component_list);
 		Context::set('component_count', $component_count);
-		Context::set('editor_config_default', $editor_config_default);
 		
 		foreach ($config->additional_css as $additional_css_url)
 		{

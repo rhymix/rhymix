@@ -194,7 +194,7 @@ class editorAdminController extends editor
 		$config->content_line_height = trim($configVars->content_line_height);
 		$config->content_line_height = ctype_digit($config->content_line_height) ? ($config->content_line_height . '%') : $config->content_line_height;
 		$config->content_paragraph_spacing = trim($configVars->content_paragraph_spacing);
-		$config->content_paragraph_spacing = ctype_digit($config->content_paragraph_spacing) ? ($config->content_paragraph_spacing . '%') : $config->content_paragraph_spacing;
+		$config->content_paragraph_spacing = ctype_digit($config->content_paragraph_spacing) ? ($config->content_paragraph_spacing . 'px') : $config->content_paragraph_spacing;
 		$config->content_word_break = $configVars->content_word_break;
 		$config->content_word_break = in_array($config->content_word_break, array('normal', 'keep-all', 'break-all', 'none')) ? $config->content_word_break : 'normal';
 		$config->autoinsert_image = $configVars->autoinsert_image;
