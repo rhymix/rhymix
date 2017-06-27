@@ -9,6 +9,7 @@ $lang->guide_choose_comment_editor = 'Comment editor';
 $lang->guide_set_height_comment_editor = 'Comment editor height';
 $lang->guide_additional_css = 'Additional CSS Files';
 $lang->about_additional_css = 'To load additional CSS files inside the editor, such as web fonts, please enter one URL per line.';
+$lang->guide_additional_mobile_css = 'Additional CSS Files for Mobile';
 $lang->guide_choose_text_formatting = 'Text formatting style';
 $lang->guide_choose_font_preview = 'Preview';
 $lang->guide_choose_font_body = 'Default font';

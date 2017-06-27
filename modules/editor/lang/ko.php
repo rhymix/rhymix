@@ -10,6 +10,7 @@ $lang->guide_choose_comment_editor = '댓글 에디터';
 $lang->guide_set_height_comment_editor = '댓글 에디터 높이';
 $lang->guide_additional_css = 'CSS 파일 추가';
 $lang->about_additional_css = '웹폰트 등의 CSS를 에디터 내부에서 추가로 로딩하려면 한 줄에 하나씩 URL을 입력해 주십시오.';
+$lang->guide_additional_mobile_css = '모바일 CSS 파일 추가';
 $lang->guide_choose_text_formatting = '본문 서식';
 $lang->guide_choose_font_preview = '미리보기';
 $lang->guide_choose_font_body = '본문 글꼴';

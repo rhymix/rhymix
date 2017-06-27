@@ -34,13 +34,24 @@ class editorAdminView extends editor
 			$editor_config = new stdClass();
 		}
 
-		//editor_config init
-		if(!$editor_config->editor_height) $editor_config->editor_height = 300;
-		if(!$editor_config->comment_editor_height) $editor_config->comment_editor_height = 100;
-		if(!$editor_config->editor_skin) $editor_config->editor_skin = 'ckeditor';
-		if(!$editor_config->comment_editor_skin) $editor_config->comment_editor_skin = 'ckeditor';
-		if(!$editor_config->sel_editor_colorset) $editor_config->sel_editor_colorset= 'moono-lisa';
-		if(!$editor_config->sel_comment_editor_colorset) $editor_config->sel_comment_editor_colorset= 'moono-lisa';
+		// Use default config for missing values.
+		$editor_config_default = array(
+			'editor_skin' => 'ckeditor',
+			'editor_height' => 300,
+			'mobile_editor_height' => 200,
+			'sel_editor_colorset' => 'moono-lisa',
+			'comment_editor_skin' => 'ckeditor',
+			'comment_editor_height' => 100,
+			'mobile_comment_editor_height' => 100,
+			'sel_comment_editor_colorset' => 'moono-lisa',
+		);
+		foreach ($editor_config_default as $key => $val)
+		{
+			if (!$editor_config->$key)
+			{
+				$editor_config->$key = $val;
+			}
+		}
 
 		$component_list = $oEditorModel->getComponentList(false, $site_srl, true);
 		$editor_skin_list = FileHandler::readDir(_XE_PATH_.'modules/editor/skins');
@@ -75,7 +86,6 @@ class editorAdminView extends editor
 		{
 			if($packages[$xml_info->package_srl])	$xml_info->need_update = $packages[$xml_info->package_srl]->need_update;
 		}
-		$editor_config_default = array('editor_height' => 300, 'comment_editor_height' => 100);
 
 		//editor preview
 		$config = $oEditorModel->getEditorConfig();

@@ -148,8 +148,10 @@ class editorAdminController extends editor
 		$config = new stdClass;
 		$config->editor_skin = $configVars->editor_skin;
 		$config->editor_height = $configVars->editor_height;
+		$config->mobile_editor_height = $configVars->mobile_editor_height;
 		$config->comment_editor_skin = $configVars->comment_editor_skin;
 		$config->comment_editor_height = $configVars->comment_editor_height;
+		$config->mobile_comment_editor_height = $configVars->mobile_comment_editor_height;
 		$config->content_style = $configVars->content_style;
 		$config->sel_editor_colorset= $configVars->sel_editor_colorset;
 		$config->sel_comment_editor_colorset= $configVars->sel_comment_editor_colorset;
@@ -174,6 +176,17 @@ class editorAdminController extends editor
 		else
 		{
 			$config->additional_css = array();
+		}
+		
+		if ($configVars->additional_mobile_css)
+		{
+			$additional_mobile_css = array_map('trim', explode("\n", $configVars->additional_mobile_css));
+			$additional_mobile_css = array_filter($additional_mobile_css, function($str) { return !empty($str); });
+			$config->additional_mobile_css = $additional_mobile_css;
+		}
+		else
+		{
+			$config->additional_mobile_css = array();
 		}
 		
 		$config->content_font_size = trim($configVars->content_font_size);
