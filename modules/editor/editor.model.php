@@ -197,28 +197,32 @@ class editorModel extends editor
 		Context::set('editor_sequence', $option->editor_sequence);
 		
 		// Check that the skin and content style exist.
-		if (!$option->skin || !file_exists($this->module_path . 'skins/' . $option->skin . '/editor.html'))
+		if (!$option->editor_skin)
 		{
-			$option->skin = $this->default_editor_config['editor_skin'];
+			$option->editor_skin = $option->skin;
+		}
+		if (!$option->editor_skin || !file_exists($this->module_path . 'skins/' . $option->editor_skin . '/editor.html'))
+		{
+			$option->editor_skin = $this->default_editor_config['editor_skin'];
 		}
 		if (!$option->content_style || !file_exists($this->module_path . 'styles/' . $option->content_style))
 		{
 			$option->content_style = $this->default_editor_config['content_style'];
 		}
-		if (!$option->colorset)
+		if (!$option->sel_editor_colorset)
 		{
-			$option->colorset = $this->default_editor_config['sel_editor_colorset'];
+			$option->sel_editor_colorset = $option->colorset ?: $this->default_editor_config['sel_editor_colorset'];
 		}
-		if (!$option->height)
+		if (!$option->editor_height)
 		{
-			$option->height = $this->default_editor_config['editor_height'];
+			$option->editor_height = $option->height ?: $this->default_editor_config['editor_height'];
 		}
-		Context::set('skin', $option->skin);
-		Context::set('editor_path', $this->module_path . 'skins/' . $option->skin . '/');
+		Context::set('skin', $option->editor_skin);
+		Context::set('editor_path', $this->module_path . 'skins/' . $option->editor_skin . '/');
 		Context::set('content_style', $option->content_style);
 		Context::set('content_style_path', $this->module_path . 'styles/' . $option->content_style);
-		Context::set('colorset', $option->colorset);
-		Context::set('editor_height', $option->height);
+		Context::set('colorset', $option->sel_editor_colorset);
+		Context::set('editor_height', $option->editor_height);
 		Context::set('module_type', $option->module_type);
 		
 		// Default font setting
@@ -237,7 +241,7 @@ class editorModel extends editor
 		Context::set('editor_content_key_name', $option->content_key_name);
 		
 		// Set autosave (do not use if the post is edited)
-		$option->enable_autosave = $option->enable_autosave && !Context::get($option->primary_key_name);
+		$option->enable_autosave = toBool($option->enable_autosave) && !Context::get($option->primary_key_name);
 		if ($option->enable_autosave)
 		{
 			Context::set('saved_doc', $this->getSavedDoc($upload_target_srl));
@@ -246,7 +250,7 @@ class editorModel extends editor
 		
 		// Load editor components.
 		$site_srl = Context::get('site_module_info')->site_srl ?: 0;
-		if($option->skin === 'dreditor')
+		if($option->editor_skin === 'dreditor')
 		{
 			$this->loadDrComponents();
 		}
@@ -298,7 +302,7 @@ class editorModel extends editor
 			}
 			
 			// Do not allow chunked uploads in XpressEditor.
-			if (starts_with($option->skin, 'xpresseditor'))
+			if (starts_with($option->editor_skin, 'xpresseditor'))
 			{
 				$file_config->allowed_filesize = min(FileHandler::returnBytes(ini_get('upload_max_filesize')), FileHandler::returnBytes(ini_get('post_max_size')));
 				$file_config->allowed_chunk_size = 0;
@@ -338,6 +342,10 @@ class editorModel extends editor
 		// Get editor settings of the module
 		$editor_config = $this->getEditorConfig($module_srl);
 
+		// Check mobile status
+		$is_mobile = Mobile::isFromMobilePhone() || \Rhymix\Framework\UA::isMobile();
+		
+		// Initialize options
 		$option = new stdClass();
 		$option->module_type = $type;
 
@@ -347,6 +355,10 @@ class editorModel extends editor
 			foreach (get_object_vars($editor_config) as $key => $val)
 			{
 				$option->$key = $val;
+			}
+			if ($is_mobile)
+			{
+				$option->editor_height = $option->mobile_editor_height;
 			}
 		}
 		else
@@ -364,11 +376,11 @@ class editorModel extends editor
 			$option->enable_html_grant = $option->enable_comment_html_grant;
 			$option->editor_height = $option->comment_editor_height;
 			$option->enable_autosave = 'N';
+			if ($is_mobile)
+			{
+				$option->editor_height = $option->mobile_comment_editor_height;
+			}
 		}
-		$option->skin = $option->editor_skin;
-		$option->colorset = $option->sel_editor_colorset;
-		$option->height = $option->editor_height;
-		$option->enable_autosave = toBool($option->enable_autosave);
 		
 		// Check a group_list of the currently logged-in user for permission check
 		if(Context::get('is_logged'))
