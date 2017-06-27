@@ -12,8 +12,8 @@ $lang->guide_choose_text_formatting = '本文の書式';
 $lang->guide_choose_font_body = '本文のフォント';
 $lang->guide_choose_font_size_body = '本文の文字サイズ';
 $lang->font_preview = 'The quick brown fox jumps over the lazy dog.
-いろはにほへと / ちりぬるを / わかよたれそ / つねならむ / うゐのおくやま / けふこえて / あさきゆめみし / ゑひもせす
-키스의 고유 조건은 입술끼리 만나야 하고 특별한 기술은 필요치 않다.';
+키스의 고유 조건은 입술끼리 만나야 하고 특별한 기술은 필요치 않다.
+誰が何としても、独島は大韓民国の領土です。';
 $lang->msg_avail_easy_update = 'この項目の新しいバージョンがあります。';
 $lang->msg_do_you_like_update = 'アップデートしますか？';
 $lang->msg_font_too_big = '文字サイズが大きすぎます。';

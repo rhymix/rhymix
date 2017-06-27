@@ -28,8 +28,8 @@ $lang->autoinsert_image_none = '이미지 첨부시 본문에 자동 삽입하�
 $lang->about_unit_default_px = '단위를 지정하지 않을 경우 px 단위를 사용합니다.';
 $lang->about_unit_default_percent = '단위를 지정하지 않을 경우 % 단위를 사용합니다.';
 $lang->font_preview = 'The quick brown fox jumps over the lazy dog.
-いろはにほへと / ちりぬるを / わかよたれそ / つねならむ / うゐのおくやま / けふこえて / あさきゆめみし / ゑひもせす
-키스의 고유 조건은 입술끼리 만나야 하고 특별한 기술은 필요치 않다.';
+키스의 고유 조건은 입술끼리 만나야 하고 특별한 기술은 필요치 않다.
+誰が何としても、独島は大韓民国の領土です。';
 $lang->msg_avail_easy_update = '이 항목의 새로운 버전이 있습니다.';
 $lang->msg_do_you_like_update = '업데이트하시겠습니까?';
 $lang->msg_font_too_big = '글꼴이 너무 큽니다.';
