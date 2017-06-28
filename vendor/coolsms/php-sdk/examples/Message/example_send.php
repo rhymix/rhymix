@@ -24,10 +24,14 @@ try {
     $options = new stdClass();
     $options->to = '01000000000'; // 수신번호
     $options->from = '01000000000'; // 발신번호
-    $options->type = 'SMS'; // Message type ( SMS, LMS, MMS, ATA )
+    $options->type = 'SMS'; // Message type ( SMS, LMS, MMS, ATA, CTA )
     $options->text = '안녕하세요. 10000건을 20초안에 발송하는 빠르고 저렴한 CoolSMS의 테스팅 문자입니다. '; // 문자내용
-
     // Optional parameters for your own needs
+    // $options->kakaoOptions = new \stdClass();
+    // $options->kakaoOptions->senderKey = '#ENTER_YOUR_SENDERKEY#'; // 발급받은 senderKey
+    // $options->kakaoOptions->templateCode = 'A01'; // 템플릿 코드
+    // $options->kakaoOptions->buttonName = 'B01';   // 버튼의 네임
+    // $options->kakaoOptions->buttonUrl = 'https://coolsms.co.kr/'; // 버튼클릭시 이동할 URL
     // $options->image = '../Image/images/test.jpg'; // image for MMS. type must be set as 'MMS'
     // $options->image_encoding = 'binary';          // image encoding binary(default), base64 
     // $options->mode = 'test';                      // 'test' 모드. 실제로 발송되지 않으며 전송내역에 60 오류코드로 뜹니다. 차감된 캐쉬는 다음날 새벽에 충전 됩니다.

@@ -186,7 +186,6 @@ class Coolsms
         $options->mode = 'real';
         $options->forceSms = 'false';
         $options->onlyAta = 'false';
-        $options->type = 'SMS';
         $options->country = '82';
         $options->subject = '';
 
@@ -201,7 +200,6 @@ class Coolsms
 
         $options->signature = $this->getSignature($options->date, $options->salt);
         $this->signature = $options->signature;
-
 
         $this->setContent($options);
     }
