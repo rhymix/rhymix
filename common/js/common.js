@@ -532,35 +532,15 @@ function _displayMultimedia(src, width, height, options) {
 	var clsid = "";
 	var codebase = "";
 	var html = "";
+	width = parseInt(width, 10);
+	height = parseInt(height, 10);
 
 	if(/\.(gif|jpg|jpeg|bmp|png)$/i.test(src)){
 		html = '<img src="'+src+'" width="'+width+'" height="'+height+'" />';
-	} else if(/\.flv$/i.test(src) || /\.mov$/i.test(src) || /\.moov$/i.test(src) || /\.m4v$/i.test(src)) {
-		html = '<embed src="'+request_uri+'common/img/flvplayer.swf" allowfullscreen="true" allowscriptaccess="never" autostart="'+autostart+'" width="'+width+'" height="'+height+'" flashvars="&file='+src+'&width='+width+'&height='+height+'&autostart='+autostart+'" wmode="'+params.wmode+'" />';
-	} else if(/\.swf/i.test(src)) {
-		clsid = 'clsid:D27CDB6E-AE6D-11cf-96B8-444553540000';
-
-		if(typeof(enforce_ssl)!='undefined' && enforce_ssl){ codebase = "https://download.macromedia.com/pub/shockwave/cabs/flash/swflash.cab#version=9,0,28,0"; }
-		else { codebase = "http://download.macromedia.com/pub/shockwave/cabs/flash/swflash.cab#version=9,0,28,0"; }
-		html = '<object classid="'+clsid+'" codebase="'+codebase+'" width="'+width+'" height="'+height+'" flashvars="'+params.flashvars+'">';
-		html += '<param name="movie" value="'+src+'" />';
-		for(var name in params) {
-			if(params[name] != 'undefined' && params[name] !== '') {
-				html += '<param name="'+name+'" value="'+params[name]+'" />';
-			}
-		}
-		html += '' + '<embed src="'+src+'" allowscriptaccess="never" autostart="'+autostart+'"  width="'+width+'" height="'+height+'" flashvars="'+params.flashvars+'" wmode="'+params.wmode+'"></embed>' + '</object>';
-	}  else {
-		if (navigator.userAgent.match(/(firefox|opera)/i)) {
-			// firefox and opera uses 0 or 1 for autostart parameter.
-			autostart = (params.autostart && params.autostart != 'false') ? '1' : '0';
-		}
-
-		html = '<embed src="'+src+'" allowscriptaccess="never" autostart="'+autostart+'" width="'+width+'" height="'+height+'"';
-		if(params.wmode == 'transparent') {
-			html += ' windowlessvideo="1"';
-		}
-		html += '></embed>';
+	} else {
+		html = '<span style="display:inline-block;position:relative;background:black;width:' + width + 'px;height:' + height + 'px;border:0;margin:0;padding:0">';
+		html += '<img style="width:24px;height:24px;position:absolute;left:50%;top:50%;border:0;margin:-12px 0 0 -12px;padding:0" src="./common/img/play.png" alt="" />';
+		html += '</span>';
 	}
 	return html;
 }
