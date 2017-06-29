@@ -168,6 +168,18 @@ class FunctionsTest extends \Codeception\TestCase\Test
 		$this->assertEquals("Trimmed", utf8_trim("\x20\xe2\x80\x80Trimmed\x0a\x0c\x07\x09"));
 	}
 	
+	public function testIsHTMLContent()
+	{
+		$this->assertTrue(is_html_content("<p>Hello World</p>"));
+		$this->assertTrue(is_html_content("Hello World<br>"));
+		$this->assertTrue(is_html_content("Hello World<br/>"));
+		$this->assertTrue(is_html_content("Hello<br />\nWorld"));
+		$this->assertTrue(is_html_content("<p class='foo'>Hello</p>\n<p class='bar'>World</p>"));
+		$this->assertTrue(is_html_content("<div>Hello<br>\r\n\n\n\n\nWorld</div>"));
+		$this->assertFalse(is_html_content("You have to use a <p> tag."));
+		$this->assertFalse(is_html_content("This is multiline content.\n<p> tag is here.\nOther lines are here, too.<br>\nMost lines don't have any tags."));
+	}
+	
 	public function testIsEmptyHTMLContent()
 	{
 		$this->assertTrue(is_empty_html_content('<p>&nbsp;<br><br></p>'));
