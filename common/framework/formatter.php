@@ -98,22 +98,25 @@ class Formatter
 	 */
 	public static function markdown2html($markdown, $options = 0)
 	{
-		if ($options & self::MD_NEWLINE_AS_BR)
-		{
-			$markdown = preg_replace('/(?<!\n)\n(?![\n\*\#\-])/', "  \n", $markdown);
-		}
-		
 		if ($options & self::MD_ENABLE_EXTRA)
 		{
-			$class_name = '\\Michelf\\MarkdownExtra';
+			$classes = array('footnote-ref', 'footnote-backref');
+			$parser = new \Michelf\MarkdownExtra;
+			$parser->fn_id_prefix = 'user_content_';
 		}
 		else
 		{
-			$class_name = '\\Michelf\\Markdown';
+			$classes = false;
+			$parser = new \Michelf\Markdown;
 		}
 		
-		$html = $class_name::defaultTransform($markdown);
-		return Filters\HTMLFilter::clean($html);
+		if ($options & self::MD_NEWLINE_AS_BR)
+		{
+			$parser->hard_wrap = true;
+		}
+		
+		$html = $parser->transform($markdown);
+		return Filters\HTMLFilter::clean($html, $classes);
 	}
 	
 	/**
