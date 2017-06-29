@@ -606,15 +606,18 @@ function is_html_content($str)
 {
 	$str = preg_replace('![\r\n]+!', "\n", utf8_trim(utf8_clean($str)));
 	$line_count = substr_count($str, "\n") + 1;
-	$tag_count = preg_match_all('!(?:^<(?:p|div)(?:>|\s*[a-z])|<(?:/p|/div|br\s?/?)>$)!im', $str);
-	if ($tag_count > 4 || ($tag_count > 0 && $tag_count >= $line_count - 1))
+	$p_tag_count = preg_match_all('!(?:^<(?:p|div|h[1-6])(?:>|\s*[a-z])|</(?:p|div|h[1-6])>$)!im', $str);
+	if ($p_tag_count > 4 || ($p_tag_count > 0 && $p_tag_count >= $line_count * 2))
 	{
 		return true;
 	}
-	else
+	$br_tag_count = preg_match_all('!<br\s?/?>$!im', $str);
+	if ($br_tag_count > 4 || ($br_tag_count > 0 && $br_tag_count >= $line_count - 1))
 	{
-		return false;
+		return true;
 	}
+	
+	return false;
 }
 
 /**

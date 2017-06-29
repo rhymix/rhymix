@@ -178,6 +178,8 @@ class FunctionsTest extends \Codeception\TestCase\Test
 		$this->assertTrue(is_html_content("<div>Hello<br>\r\n\n\n\n\nWorld</div>"));
 		$this->assertFalse(is_html_content("You have to use a <p> tag."));
 		$this->assertFalse(is_html_content("This is multiline content.\n<p> tag is here.\nOther lines are here, too.<br>\nMost lines don't have any tags."));
+		$this->assertFalse(is_html_content("<p> tag is unbalanced here.\nAnother line!<br />\nAnd a dangling line..."));
+		$this->assertFalse(is_html_content("Looks like a broken editor<br />\nthat produced\nthis kind of\nstring!</div>"));
 	}
 	
 	public function testIsEmptyHTMLContent()
