@@ -344,7 +344,7 @@ class fileModel extends file
 		}
 		else
 		{
-			$allowed_filesize = min(FileHandler::returnBytes(ini_get('upload_max_filesize')), FileHandler::returnBytes(ini_get('post_max_size')));
+			$allowed_filesize = min($file_config->allowed_filesize * 1024 * 1024, FileHandler::returnBytes(ini_get('upload_max_filesize')), FileHandler::returnBytes(ini_get('post_max_size')));
 		}
 		
 		// Display upload status

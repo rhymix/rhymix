@@ -300,14 +300,14 @@ class editorModel extends editor
 			$browser = Rhymix\Framework\UA::getBrowserInfo();
 			if (($browser->browser === 'IE' && version_compare($browser->version, '10', '<')) || $browser->browser === 'Android' || $browser->browser === 'Opera')
 			{
-				$file_config->allowed_filesize = min(FileHandler::returnBytes(ini_get('upload_max_filesize')), FileHandler::returnBytes(ini_get('post_max_size')));
+				$file_config->allowed_filesize = min($file_config->allowed_filesize, FileHandler::returnBytes(ini_get('upload_max_filesize')), FileHandler::returnBytes(ini_get('post_max_size')));
 				$file_config->allowed_chunk_size = 0;
 			}
 			
 			// Do not allow chunked uploads in XpressEditor.
 			if (starts_with($option->editor_skin, 'xpresseditor'))
 			{
-				$file_config->allowed_filesize = min(FileHandler::returnBytes(ini_get('upload_max_filesize')), FileHandler::returnBytes(ini_get('post_max_size')));
+				$file_config->allowed_filesize = min($file_config->allowed_filesize, FileHandler::returnBytes(ini_get('upload_max_filesize')), FileHandler::returnBytes(ini_get('post_max_size')));
 				$file_config->allowed_chunk_size = 0;
 			}
 
