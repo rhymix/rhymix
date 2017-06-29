@@ -436,7 +436,12 @@ class commentController extends comment
 		// if use editor of nohtml, Remove HTML tags from the contents.
 		if(!$manual_inserted)
 		{
-			if ($obj->use_editor === 'Y' || $obj->use_html === 'Y')
+			$editor_config = getModel('editor')->getEditorConfig($obj->module_srl);
+			if (strpos($editor_config->comment_editor_skin, 'textarea') !== false || strpos($editor_config->sel_comment_editor_colorset, 'nohtml') !== false)
+			{
+				$is_html_content = false;
+			}
+			elseif ($obj->use_editor === 'Y' || $obj->use_html === 'Y')
 			{
 				$is_html_content = true;
 			}
@@ -805,7 +810,12 @@ class commentController extends comment
 		// if use editor of nohtml, Remove HTML tags from the contents.
 		if(!$manual_updated)
 		{
-			if ($obj->use_editor === 'Y' || $obj->use_html === 'Y')
+			$editor_config = getModel('editor')->getEditorConfig($obj->module_srl);
+			if (strpos($editor_config->comment_editor_skin, 'textarea') !== false || strpos($editor_config->sel_comment_editor_colorset, 'nohtml') !== false)
+			{
+				$is_html_content = false;
+			}
+			elseif ($obj->use_editor === 'Y' || $obj->use_html === 'Y')
 			{
 				$is_html_content = true;
 			}
