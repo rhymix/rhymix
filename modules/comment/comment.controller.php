@@ -426,6 +426,7 @@ class commentController extends comment
 
 		// remove Rhymix's own tags from the contents
 		$obj->content = preg_replace('!<\!--(Before|After)(Document|Comment)\(([0-9]+),([0-9]+)\)-->!is', '', $obj->content);
+
 		// Return error if content is empty.
 		if (!$manual_inserted && is_empty_html_content($obj->content))
 		{
@@ -435,25 +436,22 @@ class commentController extends comment
 		// if use editor of nohtml, Remove HTML tags from the contents.
 		if(!$manual_inserted)
 		{
-			if(Mobile::isFromMobilePhone() && $obj->use_editor != 'Y')
+			if ($obj->use_editor === 'Y' || $obj->use_html === 'Y')
 			{
-				if($obj->use_html != 'Y')
-				{
-					$obj->content = htmlspecialchars($obj->content, ENT_COMPAT | ENT_HTML401, 'UTF-8', false);
-				}
-				$obj->content = nl2br($obj->content);
+				$is_html_content = true;
+			}
+			elseif ($obj->use_editor === 'N' || $obj->use_html === 'N')
+			{
+				$is_html_content = false;
 			}
 			else
 			{
-				$oEditorModel = getModel('editor');
-				$editor_config = $oEditorModel->getEditorConfig($obj->module_srl);
-				
-				if(strpos($editor_config->sel_comment_editor_colorset, 'nohtml') !== FALSE)
-				{
-					$obj->content = preg_replace('/\<br(\s*)?\/?\>/i', PHP_EOL, $obj->content);
-					$obj->content = htmlspecialchars($obj->content, ENT_COMPAT | ENT_HTML401, 'UTF-8', false);
-					$obj->content = str_replace(array("\r\n", "\r", "\n"), '<br />', $obj->content);
-				}
+				$is_html_content = is_html_content($obj->content);
+			}
+			
+			if (!$is_html_content)
+			{
+				$obj->content = nl2br($obj->use_html === 'Y' ? $obj->content : escape($obj->content, false));
 			}
 		}
 
@@ -807,25 +805,22 @@ class commentController extends comment
 		// if use editor of nohtml, Remove HTML tags from the contents.
 		if(!$manual_updated)
 		{
-			if(Mobile::isFromMobilePhone() && $obj->use_editor != 'Y')
+			if ($obj->use_editor === 'Y' || $obj->use_html === 'Y')
 			{
-				if($obj->use_html != 'Y')
-				{
-					$obj->content = htmlspecialchars($obj->content, ENT_COMPAT | ENT_HTML401, 'UTF-8', false);
-				}
-				$obj->content = nl2br($obj->content);
+				$is_html_content = true;
+			}
+			elseif ($obj->use_editor === 'N' || $obj->use_html === 'N')
+			{
+				$is_html_content = false;
 			}
 			else
 			{
-				$oEditorModel = getModel('editor');
-				$editor_config = $oEditorModel->getEditorConfig($obj->module_srl);
-				
-				if(strpos($editor_config->sel_comment_editor_colorset, 'nohtml') !== FALSE)
-				{
-					$obj->content = preg_replace('/\<br(\s*)?\/?\>/i', PHP_EOL, $obj->content);
-					$obj->content = htmlspecialchars($obj->content, ENT_COMPAT | ENT_HTML401, 'UTF-8', false);
-					$obj->content = str_replace(array("\r\n", "\r", "\n"), '<br />', $obj->content);
-				}
+				$is_html_content = is_html_content($obj->content);
+			}
+			
+			if (!$is_html_content)
+			{
+				$obj->content = nl2br($obj->use_html === 'Y' ? $obj->content : escape($obj->content, false));
 			}
 		}
 
