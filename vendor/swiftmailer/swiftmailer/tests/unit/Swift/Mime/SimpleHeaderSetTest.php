@@ -500,7 +500,7 @@ class Swift_Mime_SimpleHeaderSetTest extends \PHPUnit_Framework_TestCase
     {
         $set = $this->_createSet($this->_createFactory());
         $instance = $set->newInstance();
-        $this->assertInstanceof('Swift_Mime_HeaderSet', $instance);
+        $this->assertInstanceOf('Swift_Mime_HeaderSet', $instance);
     }
 
     public function testToStringJoinsHeadersTogether()
@@ -709,8 +709,6 @@ class Swift_Mime_SimpleHeaderSetTest extends \PHPUnit_Framework_TestCase
         $set->setCharset('utf-8');
     }
 
-    // -- Creation methods
-
     private function _createSet($factory)
     {
         return new Swift_Mime_SimpleHeaderSet($factory);
@@ -718,12 +716,12 @@ class Swift_Mime_SimpleHeaderSetTest extends \PHPUnit_Framework_TestCase
 
     private function _createFactory()
     {
-        return $this->getMock('Swift_Mime_HeaderFactory');
+        return $this->getMockBuilder('Swift_Mime_HeaderFactory')->getMock();
     }
 
     private function _createHeader($name, $body = '')
     {
-        $header = $this->getMock('Swift_Mime_Header');
+        $header = $this->getMockBuilder('Swift_Mime_Header')->getMock();
         $header->expects($this->any())
                ->method('getFieldName')
                ->will($this->returnValue($name));
