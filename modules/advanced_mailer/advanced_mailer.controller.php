@@ -27,7 +27,11 @@ class Advanced_MailerController extends Advanced_Mailer
 		
 		if (!$mail->getFrom())
 		{
-			$mail->setFrom($config->sender_email, $config->sender_name ?: null);
+			$mail->setFrom(config('mail.default_from'), config('mail.default_name'));
+			if ($replyTo = config('mail.default_reply_to'))
+			{
+				$mail->setReplyTo($replyTo);
+			}
 		}
 		elseif (toBool($config->force_sender))
 		{
@@ -39,9 +43,9 @@ class Advanced_MailerController extends Advanced_Mailer
 			{
 				$original_sender_email = array_first_key($mail->message->getFrom());
 				$original_sender_name = array_first($mail->message->getFrom());
-				if ($original_sender_email !== $config->sender_email)
+				if ($original_sender_email !== config('mail.default_from'))
 				{
-					$mail->setFrom($config->sender_email, $original_sender_name ?: $config->sender_name);
+					$mail->setFrom(config('mail.default_from'), $original_sender_name ?: config('mail.default_name'));
 					$mail->setReplyTo($original_sender_email);
 				}
 			}
