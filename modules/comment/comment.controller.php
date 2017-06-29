@@ -618,6 +618,7 @@ class commentController extends comment
 
 		$oDocumentModel = getModel('document');
 		$oDocument = $oDocumentModel->getDocument($obj->document_srl);
+		$author_email_address = $oDocument->get('email_address');
 
 		$oMemberModel = getModel("member");
 		$is_logged = Context::get('is_logged');
@@ -641,20 +642,7 @@ class commentController extends comment
 		// If there is no problem to register comment then send an email to all admin were set in module admin panel
 		if($module_info->admin_mail && $member_info->is_admin != 'Y')
 		{
-			$oMail = new Mail();
-
-			// 메일 발신자 조작으로 취급하여 스팸으로 직행할 수 있기때문에 회원설정에서 입력된 웹마스터 메일주소를 이용하도록 함
-			$member_config = $oMemberModel->getMemberConfig();
-			$admin_email_adress = $member_config->webmaster_email;
-			// 관리자 메일을 입력하지 않으면 메일을 보내지 않음.
-			if(!$admin_email_adress)
-			{
-				return;
-			}
-			// 매일 보내는 이를 관리자 계정으로 설정한다.
-			$oMail->setSender($member_config->webmaster_name, $member_config->webmaster_email);
 			$mail_title = sprintf(lang('msg_comment_notify_mail'), Context::get('mid'), cut_str($oDocument->getTitleText(), 20, '...'));
-			$oMail->setTitle($mail_title);
 			$url_comment = getFullUrl('','document_srl',$obj->document_srl).'#comment_'.$obj->comment_srl;
 			if($using_validation)
 			{
@@ -679,7 +667,6 @@ class commentController extends comment
 					<br />Currently " . $nr_comments_not_approved . " comments on \"" . Context::get('mid') . "\" module are waiting for approval. Please visit the moderation panel:
 					<br /><a href=\"" . getFullUrl('', 'module', 'admin', 'act', 'dispCommentAdminList', 'search_target', 'module', 'search_keyword', $obj->module_srl) . "\">" . getFullUrl('', 'module', 'admin', 'act', 'dispCommentAdminList', 'search_target', 'module', 'search_keyword', $obj->module_srl) . "</a>
 					";
-				$oMail->setContent($mail_content);
 			}
 			else
 			{
@@ -692,42 +679,22 @@ class commentController extends comment
 					<br />Document:
 					<br />\"" . $oDocument->getContentText(). "\"
 					";
-				$oMail->setContent($mail_content);
-
-				// get email of thread's author
-				$document_author_email = $oDocument->variables['email_address'];
-
-				//get admin info
-				$logged_info = Context::get('logged_info');
-
-				//mail to author of thread - START
-				/**
-				 * @todo Removed code send email to document author.
-				*/
-				/*
-				if($document_author_email != $obj->email_address && $logged_info->email_address != $document_author_email)
-				{
-					$oMail->setReceiptor($document_author_email, $document_author_email);
-					$oMail->send();
-				}
-				*/
-				// mail to author of thread - STOP
 			}
 
 			// get all admins emails
-			$admins_emails = $module_info->admin_mail;
-			$target_mail = explode(',', $admins_emails);
-			// send email to all admins - START
-			for($i = 0; $i < count($target_mail); $i++)
+			$oMail = new \Rhymix\Framework\Mail();
+			$oMail->setSubject($mail_title);
+			$oMail->setBody($mail_content);
+			$oMail->setFrom(config('mail.default_from') ?: $member_info->email_address, $member_info->nick_name);
+			$oMail->setReplyTo($member_info->email_address);
+			foreach (array_map('trim', explode(',', $module_info->admin_mail)) as $email_address)
 			{
-				$email_address = trim($target_mail[$i]);
-				if(!$email_address)
+				if ($email_address && $email_address !== $author_email_address)
 				{
-					continue;
+					$oMail->addTo($email_address);
 				}
-				$oMail->setReceiptor($email_address, $email_address);
-				$oMail->send();
 			}
+			$oMail->send();
 			//  send email to all admins - STOP
 		}
 
@@ -735,25 +702,6 @@ class commentController extends comment
 		// call a trigger for calling "send mail to subscribers" (for moment just for forum)
 		ModuleHandler::triggerCall("comment.sendEmailToAdminAfterInsertComment", "after", $comment_srl_list);
 
-		/*
-		  // send email to author - START
-		  $oMail = new Mail();
-		  $mail_title = "[Rhymix - ".Context::get('mid')."] your comment on document: \"".$oDocument->getTitleText()."\" have to be approved";
-		  $oMail->setTitle($mail_title);
-		  //$mail_content = sprintf("From : <a href=\"%s?document_srl=%s&comment_srl=%s#comment_%d\">%s?document_srl=%s&comment_srl=%s#comment_%d</a><br/>\r\n%s  ", getFullUrl(''),$comment->document_srl,$comment->comment_srl,$comment->comment_srl, getFullUrl(''),$comment->document_srl,$comment->comment_srl,$comment->comment_srl,$comment>content);
-		  $mail_content = "
-		  Your comment #".$obj->comment_srl." on document \"".$oDocument->getTitleText()."\" have to be approved by admin of <strong><i>".  strtoupper($module_info->mid)."</i></strong> module before to be publish.
-		  <br />
-		  <br />Comment content:
-		  ".$obj->content."
-		  <br />
-		  ";
-		  $oMail->setContent($mail_content);
-		  $oMail->setSender($obj->email_address, $obj->email_address);
-		  $oMail->setReceiptor($obj->email_address, $obj->email_address);
-		  $oMail->send();
-		  // send email to author - START
-		 */
 		return;
 	}
 

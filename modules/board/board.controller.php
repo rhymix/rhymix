@@ -185,33 +185,22 @@ class boardController extends board
 				$oDocument->setGrantForSession();
 				
 				// send an email to admin user
-				if($this->module_info->admin_mail)
+				if ($this->module_info->admin_mail && config('mail.default_from'))
 				{
-					$oModuleModel = getModel('module');
-					$member_config = $oModuleModel->getModuleConfig('member');
-
-					if($member_config->webmaster_email)
+					$mail_title = sprintf(lang('msg_document_notify_mail'), $this->module_info->browser_title, cut_str($obj->title, 20, '...'));
+					$mail_content = sprintf("From : <a href=\"%s\">%s</a><br/>\r\n%s", getFullUrl('', 'document_srl', $output->get('document_srl')), getFullUrl('', 'document_srl', $output->get('document_srl')), $obj->content);
+					
+					$oMail = new \Rhymix\Framework\Mail();
+					$oMail->setSubject($mail_title);
+					$oMail->setBody($mail_content);
+					foreach (array_map('trim', explode(',', $this->module_info->admin_mail)) as $email_address)
 					{
-						$mail_title = sprintf(lang('msg_document_notify_mail'), $this->module_info->browser_title, cut_str($obj->title, 20, '...'));
-						$mail_content = sprintf("From : <a href=\"%s\">%s</a><br/>\r\n%s", getFullUrl('', 'document_srl', $output->get('document_srl')), getFullUrl('', 'document_srl', $output->get('document_srl')), $obj->content);
-						
-						$oMail = new Mail();
-						$oMail->setTitle($mail_title);
-						$oMail->setContent($mail_content);
-						$oMail->setSender($member_config->webmaster_name ?: null, $member_config->webmaster_email);
-						
-						$target_mail = explode(',', $this->module_info->admin_mail);
-						for($i = 0; $i < count($target_mail); $i++)
+						if ($email_address)
 						{
-							if(!$email_address = trim($target_mail[$i]))
-							{
-								continue;
-							}
-							
-							$oMail->setReceiptor($email_address, $email_address);
-							$oMail->send();
+							$oMail->addTo($email_address);
 						}
 					}
+					$oMail->send();
 				}
 			}
 			

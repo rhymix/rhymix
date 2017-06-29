@@ -108,17 +108,14 @@ class commentAdminController extends comment
 					$output = $oDocumentController->updateCommentCount($document_srl, $comment_count, NULL, FALSE);
 
 					$oDocument = $oDocumentModel->getDocument($document_srl);
-					$author_email = $oDocument->variables['email_address'];
+					$author_email_address = $oDocument->get('email_address');
 
 					$oModuleModel = getModel("module");
 					$module_info = $oModuleModel->getModuleInfoByModuleSrl($comment->module_srl);
-					$already_sent = array();
 
 					// send email to comment's author, all admins and thread(document) subscribers - START
 					// -------------------------------------------------------
-					$oMail = new Mail();
 					$mail_title = "[Rhymix - " . $module_info->mid . "] comment(s) status changed to " . $new_status . " on document: \"" . $oDocument->getTitleText() . "\"";
-					$oMail->setTitle($mail_title);
 					$mail_content = "
 						The comment #" . $comment_srl . " on document \"" . $oDocument->getTitleText() . "\" has been " . $new_status . " by admin of <strong><i>" . strtoupper($module_info->mid) . "</i></strong> module.
 						<br />
@@ -126,42 +123,19 @@ class commentAdminController extends comment
 						" . $comment->content . "
 						<br />
 						";
-					$oMail->setContent($mail_content);
-					$oMail->setSender($logged_info->user_name, $logged_info->email_address);
-
-					$document_author_email = $oDocument->variables['email_address'];
-
-					//mail to author of thread - START
-					/**
-				 	 * @todo Removed code send email to document author.
-					*/
-					/*
-					if($document_author_email != $comment->email_address && $logged_info->email_address != $document_author_email)
+					$oMail = new \Rhymix\Framework\Mail();
+					$oMail->setSubject($mail_title);
+					$oMail->setBody($mail_content);
+					$oMail->setFrom(config('mail.default_from') ?: $logged_info->email_address, $logged_info->nick_name);
+					$oMail->setReplyTo($logged_info->email_address);
+					foreach (array_map('trim', explode(',', $module_info->admin_mail)) as $email_address)
 					{
-						$oMail->setReceiptor($document_author_email, $document_author_email);
-						$oMail->send();
-						$already_sent[] = $document_author_email;
-					}
-					*/
-					//mail to author of thread - STOP
-					//mail to all emails set for administrators - START
-					if($module_info->admin_mail)
-					{
-						$target_mail = explode(',', $module_info->admin_mail);
-						for($i = 0; $i < count($target_mail); $i++)
+						if ($email_address && $email_address !== $author_email_address)
 						{
-							$email_address = trim($target_mail[$i]);
-							if(!$email_address)
-							{
-								continue;
-							}
-							if($author_email != $email_address)
-							{
-								$oMail->setReceiptor($email_address, $email_address);
-								$oMail->send();
-							}
+							$oMail->addTo($email_address);
 						}
 					}
+					$oMail->send();
 					//mail to all emails set for administrators - STOP
 				}
 				// ----------------------------------------------------------
