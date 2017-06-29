@@ -28,10 +28,22 @@ class FormatterTest extends \Codeception\TestCase\Test
 		$html1 = file_get_contents(\RX_BASEDIR . 'tests/_data/formatter/markdown2html.target1.html');
 		$html2 = file_get_contents(\RX_BASEDIR . 'tests/_data/formatter/markdown2html.target2.html');
 		$html3 = file_get_contents(\RX_BASEDIR . 'tests/_data/formatter/markdown2html.target3.html');
+		$html4 = file_get_contents(\RX_BASEDIR . 'tests/_data/formatter/markdown2html.target4.html');
 		
 		$this->assertEquals($html1, Rhymix\Framework\Formatter::markdown2html($markdown));
 		$this->assertEquals($html2, Rhymix\Framework\Formatter::markdown2html($markdown, Rhymix\Framework\Formatter::MD_NEWLINE_AS_BR));
 		$this->assertEquals($html3, Rhymix\Framework\Formatter::markdown2html($markdown, Rhymix\Framework\Formatter::MD_NEWLINE_AS_BR | Rhymix\Framework\Formatter::MD_ENABLE_EXTRA));
+		$this->assertEquals($html4, Rhymix\Framework\Formatter::markdown2html($markdown, Rhymix\Framework\Formatter::MD_ENABLE_EXTRA));
+	}
+	
+	public function testMarkdownExtra()
+	{
+		$markdown = file_get_contents(\RX_BASEDIR . 'tests/_data/formatter/markdownextra.source.md');
+		$html1 = file_get_contents(\RX_BASEDIR . 'tests/_data/formatter/markdownextra.target1.html');
+		$html2 = file_get_contents(\RX_BASEDIR . 'tests/_data/formatter/markdownextra.target2.html');
+		
+		$this->assertEquals($html1, Rhymix\Framework\Formatter::markdown2html($markdown));
+		$this->assertEquals($html2, Rhymix\Framework\Formatter::markdown2html($markdown, Rhymix\Framework\Formatter::MD_ENABLE_EXTRA));
 	}
 	
 	public function testHTML2Markdown()
