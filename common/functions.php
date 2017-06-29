@@ -595,6 +595,36 @@ function utf8_trim($str)
 }
 
 /**
+ * Check if a string contains HTML content.
+ * This function checks whether a string seems to contain HTML.
+ * It checks for tags like <p>, <div>, <br> at the beginning and end of lines.
+ * 
+ * @param string $str The input string
+ * @return bool
+ */
+function is_html_content($str)
+{
+	$str = preg_replace('![\r\n]+!', "\n", utf8_trim(utf8_clean($str)));
+	$line_count = substr_count($str, "\n") + 1;
+	$p_tag_count = preg_match_all('!(?:^<(?:p|div|h[1-6])(?:>|\s*[a-z])|</(?:p|div|h[1-6])>$)!im', $str);
+	if ($p_tag_count > 4 || ($p_tag_count > 0 && $p_tag_count >= $line_count * 2))
+	{
+		return true;
+	}
+	$br_tag_count = preg_match_all('!<br\s?/?>$!im', $str);
+	if ($br_tag_count > 4 || ($br_tag_count > 0 && $br_tag_count >= $line_count - 1))
+	{
+		return true;
+	}
+	$span_tag_count = preg_match_all('!<span\s+style="[^"<>]*?">.+?</span>!i', $str);
+	if ($span_tag_count >= 1)
+	{
+		return true;
+	}
+	return false;
+}
+
+/**
  * Check if HTML content is empty.
  * This function checks whether any printable characters remain
  * after removing all tags except images, videos, iframes, etc.
