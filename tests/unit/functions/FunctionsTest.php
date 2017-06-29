@@ -176,6 +176,8 @@ class FunctionsTest extends \Codeception\TestCase\Test
 		$this->assertTrue(is_html_content("Hello<br />\nWorld"));
 		$this->assertTrue(is_html_content("<p class='foo'>Hello</p>\n<p class='bar'>World</p>"));
 		$this->assertTrue(is_html_content("<div>Hello<br>\r\n\n\n\n\nWorld</div>"));
+		$this->assertTrue(is_html_content('This is <span style="font-style:italic">italic</span> text.'));
+		$this->assertFalse(is_html_content('This is an empty <span></span> tag. Most editors don\'t produce these.'));
 		$this->assertFalse(is_html_content("You have to use a <p> tag."));
 		$this->assertFalse(is_html_content("This is multiline content.\n<p> tag is here.\nOther lines are here, too.<br>\nMost lines don't have any tags."));
 		$this->assertFalse(is_html_content("<p> tag is unbalanced here.\nAnother line!<br />\nAnd a dangling line..."));

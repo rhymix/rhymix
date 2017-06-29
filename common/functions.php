@@ -616,7 +616,11 @@ function is_html_content($str)
 	{
 		return true;
 	}
-	
+	$span_tag_count = preg_match_all('!<span\s+style="[^"<>]*?">.+?</span>!i', $str);
+	if ($span_tag_count >= 1)
+	{
+		return true;
+	}
 	return false;
 }
 
