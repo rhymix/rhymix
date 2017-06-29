@@ -458,7 +458,7 @@ class documentController extends document
 		if(!$manual_inserted)
 		{
 			$editor_config = getModel('editor')->getEditorConfig($obj->module_srl);
-			if (strpos($editor_config->comment_editor_skin, 'textarea') !== false || strpos($editor_config->sel_comment_editor_colorset, 'nohtml') !== false)
+			if (strpos($editor_config->sel_editor_colorset, 'nohtml') !== false)
 			{
 				$is_html_content = false;
 			}
@@ -717,7 +717,7 @@ class documentController extends document
 		if(!$manual_updated)
 		{
 			$editor_config = getModel('editor')->getEditorConfig($obj->module_srl);
-			if (strpos($editor_config->comment_editor_skin, 'textarea') !== false || strpos($editor_config->sel_comment_editor_colorset, 'nohtml') !== false)
+			if (strpos($editor_config->sel_editor_colorset, 'nohtml') !== false)
 			{
 				$is_html_content = false;
 			}
