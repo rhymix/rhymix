@@ -1149,16 +1149,18 @@ class memberController extends member
 
 		$oTemplate = &TemplateHandler::getInstance();
 		$content = $oTemplate->compile($tpl_path, 'find_member_account_mail');
+
 		// Get information of the Webmaster
 		$oModuleModel = getModel('module');
 		$member_config = $oModuleModel->getModuleConfig('member');
+
 		// Send a mail
-		$oMail = new Mail();
-		$oMail->setTitle( lang('msg_find_account_title') );
-		$oMail->setContent($content);
-		$oMail->setSender( $member_config->webmaster_name?$member_config->webmaster_name:'webmaster', $member_config->webmaster_email);
-		$oMail->setReceiptor( $member_info->user_name, $member_info->email_address );
+		$oMail = new \Rhymix\Framework\Mail();
+		$oMail->setSubject(lang('msg_find_account_title'));
+		$oMail->setBody($content);
+		$oMail->addTo($member_info->email_address, $member_info->nick_name);
 		$oMail->send();
+
 		// Return message
 		$msg = sprintf(lang('msg_auth_mail_sent'), $member_info->email_address);
 		if(!in_array(Context::getRequestMethod(),array('XMLRPC','JSON')))
@@ -1376,12 +1378,12 @@ class memberController extends member
 
 		$oTemplate = &TemplateHandler::getInstance();
 		$content = $oTemplate->compile($tpl_path, 'confirm_member_account_mail');
+
 		// Send a mail
-		$oMail = new Mail();
-		$oMail->setTitle( lang('msg_confirm_account_title') );
-		$oMail->setContent($content);
-		$oMail->setSender( $member_config->webmaster_name?$member_config->webmaster_name:'webmaster', $member_config->webmaster_email);
-		$oMail->setReceiptor( $member_info->user_name, $member_info->email_address );
+		$oMail = new \Rhymix\Framework\Mail();
+		$oMail->setSubject(lang('msg_confirm_account_title'));
+		$oMail->setBody($content);
+		$oMail->addTo($member_info->email_address, $member_info->nick_name);
 		$oMail->send();
 
 		$msg = sprintf(lang('msg_confirm_mail_sent'), $args->email_address);
@@ -1503,12 +1505,12 @@ class memberController extends member
 
 		$oTemplate = &TemplateHandler::getInstance();
 		$content = $oTemplate->compile($tpl_path, 'confirm_member_account_mail');
+		
 		// Send a mail
-		$oMail = new Mail();
-		$oMail->setTitle( lang('msg_confirm_account_title') );
-		$oMail->setContent($content);
-		$oMail->setSender( $member_config->webmaster_name?$member_config->webmaster_name:'webmaster', $member_config->webmaster_email);
-		$oMail->setReceiptor( $member_info->user_name, $member_info->email_address );
+		$oMail = new \Rhymix\Framework\Mail();
+		$oMail->setSubject(lang('msg_confirm_account_title'));
+		$oMail->setBody($content);
+		$oMail->addTo($member_info->email_address, $member_info->nick_name);
 		$oMail->send();
 	}
 
@@ -1891,11 +1893,10 @@ class memberController extends member
 					{
 						$view_url = Context::getRequestUri();
 						$content = sprintf("%s<hr /><p>From: <a href=\"%s\" target=\"_blank\">%s</a><br />To: %s(%s)</p>",$content, $view_url, $view_url, $member_info->nick_name, $member_info->email_id);
-						$oMail = new Mail();
-						$oMail->setTitle($title);
-						$oMail->setContent($content);
-						$oMail->setSender($config->webmaster_name?$config->webmaster_name:'webmaster', $config->webmaster_email);
-						$oMail->setReceiptor($member_info->email_id.'('.$member_info->nick_name.')', $member_info->email_address);
+						$oMail = new \Rhymix\Framework\Mail();
+						$oMail->setSubject($title);
+						$oMail->setBody($content);
+						$oMail->addTo($member_info->email_address, $member_info->email_id.' ('.$member_info->nick_name.')');
 						$oMail->send();
 					}
 					$output = executeQuery('member.deleteLoginCountHistoryByMemberSrl', $args);
@@ -2744,12 +2745,11 @@ class memberController extends member
 		$oTemplate = &TemplateHandler::getInstance();
 		$content = $oTemplate->compile($tpl_path, 'confirm_member_new_email');
 
-		$oMail = new Mail();
-		$oMail->setTitle( lang('title_modify_email_address') );
-		$oMail->setContent($content);
-		$oMail->setSender( $member_config->webmaster_name?$member_config->webmaster_name:'webmaster', $member_config->webmaster_email);
-		$oMail->setReceiptor( $member_info->nick_name, $newEmail );
-		$result = $oMail->send();
+		$oMail = new \Rhymix\Framework\Mail();
+		$oMail->setSubject(lang('title_modify_email_address'));
+		$oMail->setBody($content);
+		$oMail->addTo($newEmail, $member_info->nick_name);
+		$oMail->send();
 
 		$msg = sprintf(lang('msg_confirm_mail_sent'), $newEmail);
 		$this->setMessage($msg);

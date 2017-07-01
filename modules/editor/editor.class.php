@@ -19,6 +19,39 @@ class editor extends ModuleObject
 	);
 	
 	/**
+	 * @brief Default editor config
+	 */
+	public $default_editor_config = array(
+		'editor_skin' => 'ckeditor',
+		'editor_height' => 300,
+		'editor_toolbar' => 'default',
+		'editor_toolbar_hide' => 'N',
+		'mobile_editor_height' => 200,
+		'mobile_editor_toolbar' => 'simple',
+		'mobile_editor_toolbar_hide' => 'Y',
+		'sel_editor_colorset' => 'moono-lisa',
+		'content_style' => 'ckeditor_light',
+		'comment_editor_skin' => 'ckeditor',
+		'comment_editor_height' => 100,
+		'comment_editor_toolbar' => 'simple',
+		'comment_editor_toolbar_hide' => 'N',
+		'mobile_comment_editor_height' => 100,
+		'mobile_comment_editor_toolbar' => 'simple',
+		'mobile_comment_editor_toolbar_hide' => 'Y',
+		'sel_comment_editor_colorset' => 'moono-lisa',
+		'comment_content_style' => 'ckeditor_light',
+		'content_font' => '',
+		'content_font_size' => '13px',
+		'content_line_height' => '160%',
+		'content_paragraph_spacing' => '0px',
+		'content_word_break' => 'normal',
+		'autoinsert_image' => 'paragraph',
+		'additional_css' => array(),
+		'additional_mobile_css' => array(),
+		'additional_plugins' => array(),
+	);
+	
+	/**
 	 * @brief Implement if additional tasks are necessary when installing
 	 */
 	function moduleInstall()

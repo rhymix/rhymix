@@ -15,24 +15,26 @@ class ListItemConverter implements ConverterInterface
     {
         // If parent is an ol, use numbers, otherwise, use dashes
         $list_type = $element->getParent()->getTagName();
-        $value = $element->getValue();
 
         // Add spaces to start for nested list items
         $level = $element->getListItemLevel($element);
-        $prefix = str_repeat('  ', $level);
+
+        $prefixForParagraph = str_repeat('  ', $level + 1);
+        $value = trim(implode("\n" . $prefixForParagraph, explode("\n", trim($element->getValue()))));
+
         // If list item is the first in a nested list, add a newline before it
+        $prefix = '';
         if ($level > 0 && $element->getSiblingPosition() === 1) {
-            $prefix = "\n" . $prefix;
+            $prefix = "\n";
         }
 
         if ($list_type === 'ul') {
-            $markdown = $prefix . '- ' . trim($value) . "\n";
-        } else {
-            $number = $element->getSiblingPosition();
-            $markdown = $prefix . $number . '. ' . trim($value) . "\n";
+            return $prefix . '- ' . $value . "\n";
         }
 
-        return $markdown;
+        $number = $element->getSiblingPosition();
+
+        return $prefix . $number . '. ' . $value . "\n";
     }
 
     /**

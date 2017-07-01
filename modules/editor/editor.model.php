@@ -19,23 +19,30 @@ class editorModel extends editor
 	 */
 
 	/**
-	 * @brief Return editor setting for each module
+	 * @brief Return editor config for each module
 	 */
 	function getEditorConfig($module_srl = null)
 	{
-		if(!$GLOBALS['__editor_module_config__'][$module_srl] && $module_srl)
-		{
-			// Get trackback settings of the selected module
-			$oModuleModel = getModel('module');
-			$GLOBALS['__editor_module_config__'][$module_srl] = $oModuleModel->getModulePartConfig('editor', $module_srl);
-		}
-		$editor_config = $GLOBALS['__editor_module_config__'][$module_srl];
-
+		// Load editor config for current module.
 		$oModuleModel = getModel('module');
-		$editor_default_config = $oModuleModel->getModuleConfig('editor');
-
-		if(!is_object($editor_config)) $editor_config = new stdClass();
-
+		if ($module_srl)
+		{
+			if (!$GLOBALS['__editor_module_config__'][$module_srl])
+			{
+				$GLOBALS['__editor_module_config__'][$module_srl] = $oModuleModel->getModulePartConfig('editor', $module_srl);
+			}
+			$editor_config = $GLOBALS['__editor_module_config__'][$module_srl];
+			if (!is_object($editor_config))
+			{
+				$editor_config = new stdClass;
+			}
+		}
+		else
+		{
+			$editor_config = new stdClass;
+		}
+		
+		// Fill in some other values.
 		if($editor_config->enable_autosave != 'N') $editor_config->enable_autosave = 'Y';
 		if(!is_array($editor_config->enable_html_grant)) $editor_config->enable_html_grant = array();
 		if(!is_array($editor_config->enable_comment_html_grant)) $editor_config->enable_comment_html_grant = array();
@@ -45,7 +52,11 @@ class editorModel extends editor
 		if(!is_array($editor_config->enable_comment_default_component_grant)) $editor_config->enable_comment_default_component_grant = array();
 		if(!is_array($editor_config->enable_component_grant)) $editor_config->enable_component_grant = array();
 		if(!is_array($editor_config->enable_comment_component_grant)) $editor_config->enable_comment_component_grant= array();
-
+		
+		// Load the default config for editor module.
+		$editor_default_config = $oModuleModel->getModuleConfig('editor');
+		
+		// Check whether we should use the default config.
 		if($editor_config->default_editor_settings !== 'Y' && $editor_default_config->editor_skin && $editor_config->editor_skin && $editor_default_config->editor_skin !== $editor_config->editor_skin)
 		{
 			$editor_config->default_editor_settings = 'N';
@@ -54,66 +65,14 @@ class editorModel extends editor
 		{
 			$editor_config->default_editor_settings = 'Y';
 		}
-
-		if(!$editor_config->editor_height || $editor_config->default_editor_settings === 'Y')
+		
+		// Apply the default config for missing values.
+		foreach ($this->default_editor_config as $key => $val)
 		{
-			$editor_config->editor_height = ($editor_default_config->editor_height) ? $editor_default_config->editor_height : 500;
-		}
-		if(!$editor_config->comment_editor_height || $editor_config->default_editor_settings === 'Y')
-		{
-			$editor_config->comment_editor_height = ($editor_default_config->comment_editor_height) ? $editor_default_config->comment_editor_height : 120;
-		}
-		if(!$editor_config->editor_skin || $editor_config->default_editor_settings === 'Y')
-		{
-			$editor_config->editor_skin = ($editor_default_config->editor_skin) ? $editor_default_config->editor_skin : 'ckeditor';
-		}
-		if(!$editor_config->comment_editor_skin || $editor_config->default_editor_settings === 'Y')
-		{
-			$editor_config->comment_editor_skin = ($editor_default_config->comment_editor_skin) ? $editor_default_config->comment_editor_skin : 'ckeditor';
-		}
-		if(!$editor_config->content_style || $editor_config->default_editor_settings === 'Y')
-		{
-			$editor_config->content_style = ($editor_default_config->content_style) ? $editor_default_config->content_style : 'ckeditor_light';
-		}
-		if((!$editor_config->content_font && $editor_default_config->content_font) || $editor_config->default_editor_settings === 'Y')
-		{
-			$editor_config->content_font = $editor_default_config->content_font;
-		}
-		if((!$editor_config->content_font_size && $editor_default_config->content_font_size) || $editor_config->default_editor_settings === 'Y')
-		{
-			$editor_config->content_font_size = $editor_default_config->content_font_size;
-		}
-		if((!$editor_config->content_line_height && $editor_default_config->content_line_height) || $editor_config->default_editor_settings === 'Y')
-		{
-			$editor_config->content_line_height = $editor_default_config->content_line_height;
-		}
-		if((!$editor_config->content_paragraph_spacing && $editor_default_config->content_paragraph_spacing) || $editor_config->default_editor_settings === 'Y')
-		{
-			$editor_config->content_paragraph_spacing = $editor_default_config->content_paragraph_spacing;
-		}
-		if((!$editor_config->content_word_break && $editor_default_config->content_word_break) || $editor_config->default_editor_settings === 'Y')
-		{
-			$editor_config->content_word_break = $editor_default_config->content_word_break;
-		}
-		if((!$editor_config->autoinsert_image && $editor_default_config->autoinsert_image) || $editor_config->default_editor_settings === 'Y')
-		{
-			$editor_config->autoinsert_image = $editor_default_config->autoinsert_image;
-		}
-		if((!$editor_config->sel_editor_colorset && $editor_default_config->sel_editor_colorset) || $editor_config->default_editor_settings === 'Y')
-		{
-			$editor_config->sel_editor_colorset = $editor_default_config->sel_editor_colorset;
-		}
-		if((!$editor_config->sel_comment_editor_colorset && $editor_default_config->sel_comment_editor_colorset) || $editor_config->default_editor_settings === 'Y')
-		{
-			$editor_config->sel_comment_editor_colorset = $editor_default_config->sel_comment_editor_colorset;
-		}
-		if(!$editor_config->comment_content_style || $editor_config->default_editor_settings === 'Y')
-		{
-			$editor_config->comment_content_style = ($editor_default_config->comment_content_style) ? $editor_default_config->comment_content_style : 'ckeditor_light';
-		}
-		if((!$editor_config->additional_css && $editor_default_config->additional_css) || $editor_config->default_editor_settings === 'Y')
-		{
-			$editor_config->additional_css = $editor_default_config->additional_css ?: array();
+			if ($editor_config->default_editor_settings === 'Y' || !$editor_config->$key)
+			{
+				$editor_config->$key = $editor_default_config->$key ?: $val;
+			}
 		}
 
 		return $editor_config;
@@ -223,20 +182,51 @@ class editorModel extends editor
 	 */
 	function getEditor($upload_target_srl = 0, $option = null)
 	{
-		/**
-		 * Editor's default options
-		 */
-		// Option setting to allow file upload
-		if($upload_target_srl)
+		// Set editor sequence and upload options.
+		if ($upload_target_srl)
 		{
 			$option->editor_sequence = $upload_target_srl;
 		}
-		if(!$option->allow_fileupload) $allow_fileupload = false;
-		else $allow_fileupload = true;
-		// content_style setting
-		if(!$option->content_style) $option->content_style = 'ckeditor_light';
+		else
+		{
+			if(!$_SESSION['_editor_sequence_']) $_SESSION['_editor_sequence_'] = 1;
+			$option->editor_sequence = $_SESSION['_editor_sequence_']++;
+		}
+		Context::set('allow_fileupload', $option->allow_fileupload = toBool($option->allow_fileupload));
+		Context::set('upload_target_srl', $upload_target_srl);
+		Context::set('editor_sequence', $option->editor_sequence);
+		
+		// Check that the skin and content style exist.
+		if (!$option->editor_skin)
+		{
+			$option->editor_skin = $option->skin;
+		}
+		if (!$option->editor_skin || !file_exists($this->module_path . 'skins/' . $option->editor_skin . '/editor.html'))
+		{
+			$option->editor_skin = $this->default_editor_config['editor_skin'];
+		}
+		if (!$option->content_style || !file_exists($this->module_path . 'styles/' . $option->content_style))
+		{
+			$option->content_style = $this->default_editor_config['content_style'];
+		}
+		if (!$option->sel_editor_colorset)
+		{
+			$option->sel_editor_colorset = $option->colorset ?: $this->default_editor_config['sel_editor_colorset'];
+		}
+		if (!$option->editor_height)
+		{
+			$option->editor_height = $option->height ?: $this->default_editor_config['editor_height'];
+		}
+		Context::set('skin', $option->editor_skin);
+		Context::set('editor_path', $this->module_path . 'skins/' . $option->editor_skin . '/');
 		Context::set('content_style', $option->content_style);
 		Context::set('content_style_path', $this->module_path . 'styles/' . $option->content_style);
+		Context::set('colorset', $option->sel_editor_colorset);
+		Context::set('editor_height', $option->editor_height);
+		Context::set('editor_toolbar', $option->editor_toolbar);
+		Context::set('editor_toolbar_hide', toBool($option->editor_toolbar_hide));
+		Context::set('module_type', $option->module_type);
+		
 		// Default font setting
 		Context::set('content_font', $option->content_font);
 		Context::set('content_font_size', $option->content_font_size);
@@ -245,65 +235,47 @@ class editorModel extends editor
 		Context::set('content_word_break', $option->content_word_break);
 		Context::set('editor_autoinsert_image', $option->autoinsert_image);
 		Context::set('editor_additional_css', $option->additional_css);
-
-		// Option setting to allow auto-save
-		if(!$option->enable_autosave) $enable_autosave = false;
-		elseif(Context::get($option->primary_key_name)) $enable_autosave = false;
-		else $enable_autosave = true;
-		// Option setting to allow the default editor component
-		if(!$option->enable_default_component) $enable_default_component = false;
-		else $enable_default_component = true;
-		// Option setting to allow other extended components
-		if(!$option->enable_component) $enable_component = false;
-		else $enable_component = true;
-		// Setting for html-mode
-		if($option->disable_html) $html_mode = false;
-		else $html_mode = true;
-		// Set Height
-		if(!$option->height) $editor_height = 300;
-		else $editor_height = $option->height;
-		// Skin Setting
-		$skin = $option->skin;
-		if(!$skin) $skin = 'ckeditor';
-
-		$colorset = $option->colorset;
-		if(!$colorset) $colorset = 'moono-lisa';
-		Context::set('colorset', $colorset);
-		Context::set('skin', $skin);
-		Context::set('module_type', $option->module_type);
-
-		if($skin=='dreditor')
+		Context::set('editor_additional_plugins', $option->additional_plugins);
+		
+		// Set the primary key valueof the document or comments
+		Context::set('editor_primary_key_name', $option->primary_key_name);
+		
+		// Set content column name to sync contents
+		Context::set('editor_content_key_name', $option->content_key_name);
+		
+		// Set autosave (do not use if the post is edited)
+		$option->enable_autosave = toBool($option->enable_autosave) && !Context::get($option->primary_key_name);
+		if ($option->enable_autosave)
+		{
+			Context::set('saved_doc', $this->getSavedDoc($upload_target_srl));
+		}
+		Context::set('enable_autosave', $option->enable_autosave);
+		
+		// Load editor components.
+		$site_srl = Context::get('site_module_info')->site_srl ?: 0;
+		if($option->editor_skin === 'dreditor')
 		{
 			$this->loadDrComponents();
 		}
-
-		/**
-		 * Check the automatic backup feature (do not use if the post is edited)
-		 */
-		if($enable_autosave)
+		if($option->enable_component)
 		{
-			// Extract auto-saved data
-			$saved_doc = $this->getSavedDoc($upload_target_srl);
-			// Context setting auto-saved data
-			Context::set('saved_doc', $saved_doc);
+			if(!Context::get('component_list'))
+			{
+				$component_list = $this->getComponentList(true, $site_srl);
+				Context::set('component_list', $component_list);
+			}
 		}
-		Context::set('enable_autosave', $enable_autosave);
+		Context::set('enable_component', $option->enable_component ? true : false);
+		Context::set('enable_default_component', $option->enable_default_component ? true : false);
 
-		/**
-		 * Extract editor's unique number (in order to display multiple editors on a single page)
-		 */
-		if($option->editor_sequence) $editor_sequence = $option->editor_sequence;
-		else
-		{
-			if(!$_SESSION['_editor_sequence_']) $_SESSION['_editor_sequence_'] = 1;
-			$editor_sequence = $_SESSION['_editor_sequence_'] ++;
-		}
+		// Set HTML mode.
+		Context::set('html_mode', $option->disable_html ? false : true);
 
 		/**
 		 * Upload setting by using configuration of the file module internally
 		 */
 		$files_count = 0;
-		if($allow_fileupload)
+		if($option->allow_fileupload)
 		{
 			// Get file upload limits
 			$oFileModel = getModel('file');
@@ -328,14 +300,14 @@ class editorModel extends editor
 			$browser = Rhymix\Framework\UA::getBrowserInfo();
 			if (($browser->browser === 'IE' && version_compare($browser->version, '10', '<')) || $browser->browser === 'Android' || $browser->browser === 'Opera')
 			{
-				$file_config->allowed_filesize = min(FileHandler::returnBytes(ini_get('upload_max_filesize')), FileHandler::returnBytes(ini_get('post_max_size')));
+				$file_config->allowed_filesize = min($file_config->allowed_filesize, FileHandler::returnBytes(ini_get('upload_max_filesize')), FileHandler::returnBytes(ini_get('post_max_size')));
 				$file_config->allowed_chunk_size = 0;
 			}
 			
 			// Do not allow chunked uploads in XpressEditor.
-			if (starts_with($option->skin, 'xpresseditor'))
+			if (starts_with($option->editor_skin, 'xpresseditor'))
 			{
-				$file_config->allowed_filesize = min(FileHandler::returnBytes(ini_get('upload_max_filesize')), FileHandler::returnBytes(ini_get('post_max_size')));
+				$file_config->allowed_filesize = min($file_config->allowed_filesize, FileHandler::returnBytes(ini_get('upload_max_filesize')), FileHandler::returnBytes(ini_get('post_max_size')));
 				$file_config->allowed_chunk_size = 0;
 			}
 
@@ -345,69 +317,20 @@ class editorModel extends editor
 			Context::set('upload_status', $upload_status);
 			// Upload enabled (internally caching)
 			$oFileController = getController('file');
-			$oFileController->setUploadInfo($editor_sequence, $upload_target_srl);
+			$oFileController->setUploadInfo($option->editor_sequence, $upload_target_srl);
 			// Check if the file already exists
 			if($upload_target_srl) $files_count = $oFileModel->getFilesCount($upload_target_srl);
 		}
 		Context::set('files_count', (int)$files_count);
 
-		Context::set('allow_fileupload', $allow_fileupload);
-		// Set editor_sequence value
-		Context::set('editor_sequence', $editor_sequence);
-		// Set the document number to upload_target_srl for file attachments
-		// If a new document, upload_target_srl = 0. The value becomes changed when file attachment is requested
-		Context::set('upload_target_srl', $upload_target_srl);
-		// Set the primary key valueof the document or comments
-		Context::set('editor_primary_key_name', $option->primary_key_name);
-		// Set content column name to sync contents
-		Context::set('editor_content_key_name', $option->content_key_name);
-
-		/**
-		 * Check editor component
-		 */
-		$site_module_info = Context::get('site_module_info');
-		$site_srl = (int)$site_module_info->site_srl;
-		if($enable_component)
-		{
-			if(!Context::get('component_list'))
-			{
-				$component_list = $this->getComponentList(true, $site_srl);
-				Context::set('component_list', $component_list);
-			}
-		}
-		Context::set('enable_component', $enable_component);
-		Context::set('enable_default_component', $enable_default_component);
-
-		/**
-		 * Variable setting if html_mode is available
-		 */
-		Context::set('html_mode', $html_mode);
-
-		/**
-		 * Set a height of editor
-		 */
-		Context::set('editor_height', $editor_height);
-		// Check an option whether to start the editor manually
+		// Check an option whether to start the editor manually.
 		Context::set('editor_manual_start', $option->manual_start);
 
-		/**
-		 * Set a skin path to pre-compile the template
-		 */
-		$tpl_path = sprintf('%sskins/%s/', $this->module_path, $skin);
-		$tpl_file = 'editor.html';
-
-		if(!file_exists($tpl_path.$tpl_file))
-		{
-			$skin = 'ckeditor';
-			$tpl_path = sprintf('%sskins/%s/', $this->module_path, $skin);
-		}
-		Context::set('editor_path', $tpl_path);
-
-		// load editor skin lang
+		// Compile and return the editor skin template.
+		$tpl_path = Context::get('editor_path');
 		Context::loadLang($tpl_path.'lang');
-		// Return the compiled result from tpl file
 		$oTemplate = TemplateHandler::getInstance();
-		return $oTemplate->compile($tpl_path, $tpl_file);
+		return $oTemplate->compile($tpl_path, 'editor.html');
 	}
 
 	/**
@@ -422,48 +345,52 @@ class editorModel extends editor
 		// Get editor settings of the module
 		$editor_config = $this->getEditorConfig($module_srl);
 
-		$config = new stdClass();
-		$config->module_type = $type;
+		// Check mobile status
+		$is_mobile = Mobile::isFromMobilePhone() || \Rhymix\Framework\UA::isMobile();
+		
+		// Initialize options
+		$option = new stdClass();
+		$option->module_type = $type;
 
-		// Configurations listed according to a type
+		// Convert configuration keys according to type (document or comment).
 		if($type == 'document')
 		{
-			$config->editor_skin = $editor_config->editor_skin;
-			$config->content_style = $editor_config->content_style;
-			$config->content_font = $editor_config->content_font;
-			$config->content_font_size = $editor_config->content_font_size;
-			$config->content_line_height = $editor_config->content_line_height;
-			$config->content_paragraph_spacing = $editor_config->content_paragraph_spacing;
-			$config->content_word_break = $editor_config->content_word_break;
-			$config->autoinsert_image = $editor_config->autoinsert_image;
-			$config->sel_editor_colorset = $editor_config->sel_editor_colorset;
-			$config->upload_file_grant = $editor_config->upload_file_grant;
-			$config->enable_default_component_grant = $editor_config->enable_default_component_grant;
-			$config->enable_component_grant = $editor_config->enable_component_grant;
-			$config->enable_html_grant = $editor_config->enable_html_grant;
-			$config->editor_height = $editor_config->editor_height;
-			$config->enable_autosave = $editor_config->enable_autosave;
-			$config->additional_css = $editor_config->additional_css;
+			foreach (get_object_vars($editor_config) as $key => $val)
+			{
+				$option->$key = $val;
+			}
+			if ($is_mobile)
+			{
+				$option->editor_height = $option->mobile_editor_height;
+				$option->editor_toolbar = $option->mobile_editor_toolbar;
+				$option->editor_toolbar_hide = $option->mobile_editor_toolbar_hide;
+			}
 		}
 		else
 		{
-			$config->editor_skin = $editor_config->comment_editor_skin;
-			$config->content_style = $editor_config->comment_content_style;
-			$config->content_font = $editor_config->content_font;
-			$config->content_font_size = $editor_config->content_font_size;
-			$config->content_line_height = $editor_config->content_line_height;
-			$config->content_paragraph_spacing = $editor_config->content_paragraph_spacing;
-			$config->content_word_break = $editor_config->content_word_break;
-			$config->autoinsert_image = $editor_config->autoinsert_image;
-			$config->sel_editor_colorset = $editor_config->sel_comment_editor_colorset;
-			$config->upload_file_grant = $editor_config->comment_upload_file_grant;
-			$config->enable_default_component_grant = $editor_config->enable_comment_default_component_grant;
-			$config->enable_component_grant = $editor_config->enable_comment_component_grant;
-			$config->enable_html_grant = $editor_config->enable_comment_html_grant;
-			$config->editor_height = $editor_config->comment_editor_height;
-			$config->enable_autosave = 'N';
-			$config->additional_css = $editor_config->additional_css;
+			foreach (get_object_vars($editor_config) as $key => $val)
+			{
+				$option->$key = $val;
+			}
+			$option->editor_skin = $option->comment_editor_skin;
+			$option->content_style = $option->comment_content_style;
+			$option->sel_editor_colorset = $option->sel_comment_editor_colorset;
+			$option->upload_file_grant = $option->comment_upload_file_grant;
+			$option->enable_default_component_grant = $option->enable_comment_default_component_grant;
+			$option->enable_component_grant = $option->enable_comment_component_grant;
+			$option->enable_html_grant = $option->enable_comment_html_grant;
+			$option->editor_height = $option->comment_editor_height;
+			$option->editor_toolbar = $option->comment_editor_toolbar;
+			$option->editor_toolbar_hide = $option->comment_editor_toolbar_hide;
+			$option->enable_autosave = 'N';
+			if ($is_mobile)
+			{
+				$option->editor_height = $option->mobile_comment_editor_height;
+				$option->editor_toolbar = $option->mobile_comment_editor_toolbar;
+				$option->editor_toolbar_hide = $option->mobile_comment_editor_toolbar_hide;
+			}
 		}
+		
 		// Check a group_list of the currently logged-in user for permission check
 		if(Context::get('is_logged'))
 		{
@@ -474,90 +401,82 @@ class editorModel extends editor
 		{
 			$group_list = array();
 		}
-		// Pre-set option variables of editor
-		$option = new stdClass();
-		$option->module_type = $config->module_type;
-		$option->skin = $config->editor_skin;
-		$option->content_style = $config->content_style;
-		$option->content_font = $config->content_font;
-		$option->content_font_size = $config->content_font_size;
-		$option->content_line_height = $config->content_line_height;
-		$option->content_paragraph_spacing = $config->content_paragraph_spacing;
-		$option->content_word_break = $config->content_word_break;
-		$option->autoinsert_image = $config->autoinsert_image;
-		$option->additional_css = $config->additional_css;
-		$option->colorset = $config->sel_editor_colorset;
+		
 		// Permission check for file upload
-		$option->allow_fileupload = false;
-		if($logged_info->is_admin=='Y') $option->allow_fileupload = true;
-		elseif(count($config->upload_file_grant))
+		if ($logged_info->is_admin === 'Y' || !count($option->upload_file_grant))
 		{
+			$option->allow_fileupload = true;
+		}
+		else
+		{
+			$option->allow_fileupload = false;
 			foreach($group_list as $group_srl => $group_info)
 			{
-				if(in_array($group_srl, $config->upload_file_grant))
+				if(in_array($group_srl, $option->upload_file_grant))
 				{
 					$option->allow_fileupload = true;
 					break;
 				}
 			}
 		}
-		else $option->allow_fileupload = true;
+		
 		// Permission check for using default components
-		$option->enable_default_component = false;
-		if($logged_info->is_admin=='Y') $option->enable_default_component = true;
-		elseif(count($config->enable_default_component_grant))
+		if ($logged_info->is_admin === 'Y' || !count($option->enable_default_component_grant))
 		{
+			$option->enable_default_component = true;
+		}
+		else
+		{
+			$option->enable_default_component = false;
 			foreach($group_list as $group_srl => $group_info)
 			{
-				if(in_array($group_srl, $config->enable_default_component_grant))
+				if(in_array($group_srl, $option->enable_default_component_grant))
 				{
 					$option->enable_default_component = true;
 					break;
 				}
 			}
 		}
-		else $option->enable_default_component = true;
+		
 		// Permisshion check for using extended components
-		$option->enable_component = false;
-		if($logged_info->is_admin=='Y') $option->enable_component = true;
-		elseif(count($config->enable_component_grant))
+		if($logged_info->is_admin === 'Y' || !count($option->enable_component_grant))
 		{
+			$option->enable_component = true;
+		}
+		else
+		{
+			$option->enable_component = false;
 			foreach($group_list as $group_srl => $group_info)
 			{
-				if(in_array($group_srl, $config->enable_component_grant))
+				if(in_array($group_srl, $option->enable_component_grant))
 				{
 					$option->enable_component = true;
 					break;
 				}
 			}
 		}
-		else $option->enable_component = true;
+		
 		// HTML editing privileges
-		$enable_html = false;
-		if($logged_info->is_admin=='Y') $enable_html = true;
-		elseif(count($config->enable_html_grant))
+		if($logged_info->is_admin === 'Y' || !count($option->enable_html_grant))
 		{
+			$option->disable_html = false;
+		}
+		else
+		{
+			$option->disable_html = true;
 			foreach($group_list as $group_srl => $group_info)
 			{
-				if(in_array($group_srl, $config->enable_html_grant))
+				if(in_array($group_srl, $option->enable_html_grant))
 				{
-					$enable_html = true;
+					$option->disable_html = false;
 					break;
 				}
 			}
 		}
-		else $enable_html = true;
-
-		if($enable_html) $option->disable_html = false;
-		else $option->disable_html = true;
-		// Set Height
-		$option->height = $config->editor_height;
-		// Set an option for Auto-save
-		$option->enable_autosave = $config->enable_autosave=='Y'?true:false;
+		
 		// Other settings
 		$option->primary_key_name = $primary_key_name;
 		$option->content_key_name = $content_key_name;
-
 		return $this->getEditor($upload_target_srl, $option);
 	}
 

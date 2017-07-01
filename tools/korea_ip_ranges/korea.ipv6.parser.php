@@ -11,8 +11,8 @@ if (PHP_SAPI !== 'cli')
 /**
  * Download the latest IPv6 data from KISA.
  */
-$download_url = 'https://ip.kisa.or.kr/ip_cate_stat/stat_05_05_toexcel.act';
-$referer_url = 'https://ip.kisa.or.kr/ip_cate_stat/stat_05_05.act';
+$download_url = 'https://xn--3e0bx5euxnjje69i70af08bea817g.xn--3e0b707e/jsp/infoboard/stats/ipv6AddrListExcel.jsp';
+$referer_url = 'https://xn--3e0bx5euxnjje69i70af08bea817g.xn--3e0b707e/jsp/infoboard/stats/inProCurIpv6Add.jsp';
 $content = file_get_contents($download_url, false, stream_context_create(array(
     'http' => array(
         'user_agent' => 'Mozilla/5.0 (compatible; IP range generator)',
@@ -84,7 +84,7 @@ foreach ($ranges as $range)
 $content = '<' . '?php' . "\n\n" . '/**' . "\n" . ' * Source: ' . $referer_url . "\n";
 $content .= ' * Last Updated: ' . date('Y-m-d') . "\n" . ' */' . "\n";
 $content .= 'return ' . var_export($ranges_final, true) . ';' . "\n";
-file_put_contents('korea.ipv6.php', $content);
+file_put_contents(__DIR__ . '/../../common/defaults/korea.ipv6.php', $content);
 
 /**
  * Report status.

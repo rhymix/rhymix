@@ -123,13 +123,6 @@
 					<li class="ex"><button type="button" class="_edit_copy">{$lang->copy}</button></li>
 					<li class="ex"><button type="button" class="_edit_paste" disabled>{$lang->paste}</button></li>
 					<li class="ex"><button type="button" class="_deleteMenu">{$lang->cmd_delete}</button></li>
-					<li class="homepage">
-						<label style="padding:0 0 0 8px;margin:0">
-							<input type="checkbox" class="_chkUseAsHome" hidden>
-							<span>{$lang->set_as_homepage}|{$lang->has_been_set_as_homepage}</span>
-							<a class="x_icon-question-sign" href="./common/manual/admin/index.html#UMAN_setting_startpage" target="_blank" style="padding:0;margin:0;background-color:transparent">{$lang->help}</a>
-						</label>
-					</li>
 					<li><a href="#imgbtn" data-admin-show="#imgbtn">{$lang->menu_img_btn} <i class="x_icon-circle-arrow-right"></i></a></li>
 					<li class="design"><a href="#design" data-admin-show="#design">{$lang->design} <i class="x_icon-circle-arrow-right"></i></a></li>
 					<li><a href="#auth" data-admin-show="#auth">{$lang->grant} <i class="x_icon-circle-arrow-right"></i></a></li>
@@ -1149,7 +1142,7 @@ function createTreeMarkup(aNode, sParentSrl, sMenuTree, sMenuTreeNode){
 			nNodeType = 3;
 		}
 
-		sResult += $.tmpl( sMenuTreeNode, {MenuTitleWithHome:sTextWithIcons,MenuTitle:sText,MenuId:sNodeSrl,MenuUrl:sURL,NodeType:nNodeType,SubTree:sSubTree,Target:sTargetPanel} ).get()[0].outerHTML.replace("${h}", "<i class='x_icon-home' title='Home Page'>[HOME]</i>").replace("${s}", "<i class='x_icon-share' title='Shortcut'></i>");
+		sResult += $.tmpl( sMenuTreeNode, {MenuTitleWithHome:sTextWithIcons,MenuTitle:sText,MenuId:sNodeSrl,MenuUrl:sURL,NodeType:nNodeType,SubTree:sSubTree,Target:sTargetPanel} ).get()[0].outerHTML.replace("${h}", "<i class='x_icon-home' title='" + aNode[i].is_start_module_of + "'>[HOME]</i>").replace("${s}", "<i class='x_icon-share' title='Shortcut'></i>");
 	}
 
 	return $.tmpl( sMenuTree, {Nodes:sResult} ).get()[0].outerHTML;
@@ -1712,11 +1705,6 @@ jQuery(function($){
 			$(ev.target).addClass('prop-general');
 			$(ev.target).removeClass('prop-shortcut');
 		}
-		if(htInfo.is_start_module){
-			$(ev.target).find('._chkUseAsHome').attr('checked', 'checked').attr('disabled', 'disabled').next('span').text(xe.lang.has_been_set_as_homepage);
-		}else{
-			$(ev.target).find('._chkUseAsHome').removeAttr('disabled').removeAttr('checked').next('span').text(xe.lang.set_as_homepage);
-		}
 
 		if(!htInfo.bShortCut){
 			loadFullSetup();
@@ -1755,21 +1743,6 @@ jQuery(function($){
 
 		$("#siteMapTree").jstree("deselect_all");
 	});
-	$('#properties ._chkUseAsHome').click(function(){
-		if($(this).attr('checked')){
-			var params = {
-				menu_item_srl : $._xeAdminVar.sSelectedMenuSrl,
-				index_module_srl : htNodeInfo[$._xeAdminVar.sSelectedMenuSrl].module_srl
-			};
-
-			$.exec_json("admin.procInstallAdminUpdateIndexModule", params, function(htData){
-				// select currently selected menu
-				$._xeAdminVar.sSelectOnload =  $._xeAdminVar.sSelectedMenuSrl;
-				loadSiteMap();
-			});
-		}
-	});
-
 
 	$('#add').bind("hide", function(){
 	});

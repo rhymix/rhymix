@@ -328,6 +328,7 @@ $lang->captcha = 'Spam Check';
 $lang->reload = 'reload';
 $lang->play = 'play';
 $lang->use_and_display = 'Use and Display Vote List';
+$lang->pc = 'PC';
 $lang->mobile = 'Mobile';
 $lang->mobile_view = 'Mobile View';
 $lang->about_mobile_view = 'Mobile View will display the best layout when you access the website with your smart phone.';

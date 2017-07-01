@@ -1,13 +1,13 @@
 PHP SmartyPants
 ===============
 
-PHP SmartyPants Lib 1.6.0-beta1 - Sun 23 Jan 2013
+PHP SmartyPants Lib 1.8.1 - 12 Dec 2016
 
 by Michel Fortin  
-<http://michelf.ca/>
+<https://michelf.ca/>
 
 Original SmartyPants by John Gruber  
-<http://daringfireball.net/>
+<https://daringfireball.net/>
 
 
 Introduction
@@ -31,10 +31,12 @@ SmartyPants can perform the following transformations:
 *   Dashes (`--` and `---`) into en- and em-dash entities
 *   Three consecutive dots (`...`) into an ellipsis entity
 
-SmartyPants Typographer can perform those additional transformations:
+SmartyPants Typographer can perform additional transformations:
 
-*	French guillements done using (`<<` and `>>`) into true « guillemets »
+*	French guillemets done using (`<<` and `>>`) into true « guillemets »
 	HTML entities.
+*	Comma-style quotes (` ,,like this`` ` or ` ''like this,, `) into their 
+	curly equivalent.
 *	Replace existing spaces with non-break spaces around punctuation marks 
 	where appropriate, can also add or remove them if configured to.
 *	Replace existing spaces with non-break spaces for spaces used as 
@@ -85,8 +87,8 @@ looks like:
     6'2" tall
 
 
-Installation and Requirement
-----------------------------
+Requirements
+------------
 
 This library package requires PHP 5.3 or later.
 
@@ -116,7 +118,7 @@ SmartyPants Typographer is also available the same way:
 
 If you are using PHP SmartyPants with another text filter function that 
 generates HTML such as Markdown, you should filter the text *after* the 
-`transform` function call. This is an example with [PHP Markdown][pmd]:
+the HTML-generating filter. This is an example with [PHP Markdown][pmd]:
 
 	use \Michelf\Markdown, \Michelf\SmartyPants;
 	$my_html = Markdown::defaultTransform($my_text);
@@ -125,102 +127,28 @@ generates HTML such as Markdown, you should filter the text *after* the
 To learn more about configuration options, see the full list of
 [configuration variables].
 
- [configuration variables]: http://michelf.ca/projects/php-smartypants/configuration/
- [pmd]: http://michelf.ca/projects/php-markdown/
+ [configuration variables]: https://michelf.ca/projects/php-smartypants/configuration/
+ [pmd]: https://michelf.ca/projects/php-markdown/
 
 
-Options and Configuration
--------------------------
+### Usage Without an Autoloader ###
 
-To change the default behaviour, you can pass a second argument to the
-`defaultTransform` function with a configuration string. You can also 
-instantiate a parser object directly with the configuration string and then
-call its `transform` method:
+If you cannot use class autoloading, you can still use include or require to 
+access the parser. To load the \Michelf\SmartyPants parser, do it this way:
 
-	$my_html = SmartyPants::defaultTransform($my_html, 'qBD');
+	require_once 'Michelf/SmartyPants.inc.php';
+	
+Or, if you need the \Michelf\SmartyPantsTypographer parser:
 
-	$parser = new SmartyPants('qBD');
-	$my_html = $parser->transform($my_html);
+	require_once 'Michelf/SmartyPantsTypographer.inc.php';
 
-Numeric values are the easiest way to configure SmartyPants's behavior:
-
-"0"
-:   Suppress all transformations. (Do nothing.)
-
-"1"
-:   Performs default SmartyPants transformations: quotes (including
-    backticks-style), em-dashes, and ellipses. `--` (dash dash) is
-    used to signify an em-dash; there is no support for en-dashes.
-
-"2"
-:   Same as smarty_pants="1", except that it uses the old-school
-    typewriter shorthand for dashes: `--` (dash dash) for en-dashes,
-    `---` (dash dash dash) for em-dashes.
-
-"3"
-:   Same as smarty_pants="2", but inverts the shorthand for dashes: `--`
-    (dash dash) for em-dashes, and `---` (dash dash dash) for en-dashes.
-
-"-1"
-:   Stupefy mode. Reverses the SmartyPants transformation process,
-    turning the HTML entities produced by SmartyPants into their ASCII
-    equivalents. E.g. `&#8220;` is turned into a simple double-quote
-    (`"`), `&#8212;` is turned into two dashes, etc. This is useful if you
-    wish to suppress smart punctuation in specific pages, such as
-    RSS feeds.
-
-The following single-character attribute values can be combined to
-toggle individual transformations from within the configuration parameter.
-For example, to educate normal quotes and em-dashes, but not
-ellipses or backticks-style quotes:
-
-    $my_html = SmartyPants::defaultTransform($my_html, "qd");
-
-"q"
-:   Educates normal quote characters: (`"`) and (`'`).
-
-"b"
-:   Educates ` ``backticks'' ` double quotes.
-
-"B"
-:   Educates backticks-style double quotes and ` `single' ` quotes.
-
-"d"
-:   Educates em-dashes.
-
-"D"
-:   Educates em-dashes and en-dashes, using old-school typewriter
-    shorthand: (dash dash) for en-dashes, (dash dash dash) for
-    em-dashes.
-
-"i"
-:   Educates em-dashes and en-dashes, using inverted old-school
-    typewriter shorthand: (dash dash) for em-dashes, (dash dash dash)
-    for en-dashes.
-
-"e"
-:   Educates ellipses.
-
-"w"
-:   Translates any instance of `&quot;` into a normal double-quote
-    character. This should be of no interest to most people, but of
-    particular interest to anyone who writes their posts using
-    Dreamweaver, as Dreamweaver inexplicably uses this entity to
-    represent a literal double-quote character. SmartyPants only
-    educates normal quotes, not entities (because ordinarily, entities
-    are used for the explicit purpose of representing the specific
-    character they represent). The "w" option must be used in
-    conjunction with one (or both) of the other quote options ("q" or
-    "b"). Thus, if you wish to apply all SmartyPants transformations
-    (quotes, en- and em-dashes, and ellipses) and also translate
-    `&quot;` entities into regular quotes so SmartyPants can educate
-    them, you should set the configuration argument when calling the 
-	function:
-
-        $my_html = SmartyPants::defaultTransform($my_html, "qDew");
+While the plain `.php` files depend on autoloading to work correctly, using the 
+`.inc.php` files instead will eagerly load the dependencies that would be loaded 
+on demand if you were using autoloading.
 
 
-### Algorithmic Shortcomings ###
+Algorithmic Shortcomings
+------------------------
 
 One situation in which quotes will get curled the wrong way is when
 apostrophes are used at the start of leading contractions. For example:
@@ -233,23 +161,6 @@ this problem can be solved in the general case -- every word processor
 I've tried gets this wrong as well. In such cases, it's best to use the
 proper HTML entity for closing single-quotes (`&#8217;` or `&rsquo;`) by
 hand.
-
-
-Public API and Versioning Policy
----------------------------------
-
-Version numbers are of the form *major*.*minor*.*patch*.
-
-The public API of PHP Markdown consist of the two parser classes `SmartyPants`
-and `SmartyPantsTypographer`, their constructors, the `transform` and
-`defaultTransform` functions. The public API is stable for a given major 
-version number. It might get additions when the minor version number increments.
-
-Public members are the public API. Protected members are not: while subclassing 
-the parser might be useful in some case, generally its done to change how 
-things works, most often in a way that requires specific knowleadge of the 
-internals. I don't want to discourage such hacks, hence why most members are
-protected, but I can't guarenty that new versions change the internals.
 
 
 Bugs
@@ -267,96 +178,69 @@ example text to illustrate.
 Version History
 ---------------
 
-PHP SmartyPants Lib 1.6.0-beta1 (23 Jan 2013)
+PHP SmartyPants Lib 1.8.1 (12 Dec 2016)
 
-Typographer 1.0.1 (23 Jan 2013)
-
-1.5.1f (23 Jan 2013):
-
-*	Fixed handling of HTML comments to match latest HTML specs instead of
-	doing it the old SGML way.
-
-*	Lowered WordPress filtering priority to avoid clashing with the 
-	[caption] tag filter. Thanks to Mehdi Kabab for the fix.
+*	Fixed an issue introduced in 1.8.0 where backtick quotes were broken.
 
 
-Typographer 1.0 (28 Jun 2006)
+PHP SmartyPants Lib 1.8.0 (13 Nov 2016)
 
-*   First public release of PHP SmartyPants Typographer.
+*	Can now set replacement characters for all transformations using 
+	configuration variables, including ellipses and dashes.
 
+*	Relocated replacement quotes configuration variables from
+	`SmartyPantsTyppographer` to `SmartyPants`. Also relocated
+	`decodeEntitiesInConfiguration()` to follow the configuration variables.
 
-1.5.1oo (19 May 2006, unreleased)
+*	Added conversion of apostrophe and double quote to Hebrew Geresh 
+	and Gershayim when the apostrophe or double quote is surrounded on
+	both sides by a Hebrew character. For instance:
 
-*   Converted SmartyPants to a object-oriented design.
+		input:  צה"ל / צ'ארלס
+		output: צה״ל / צ׳ארלס
 
-
-1.5.1e (9 Dec 2005)
-
-*	Corrected a bug that prevented special characters from being 
-    escaped.
-
-
-1.5.1d (6 Jun 2005)
-
-*	Correct a small bug in `_TokenizeHTML` where a Doctype declaration
-	was not seen as HTML, making curly quotes inside it.
-
-
-1.5.1c (13 Dec 2004)
-
-*	Changed a regular expression in `_TokenizeHTML` that could lead
-	to a segmentation fault with PHP 4.3.8 on Linux.
+	You can still put quotes around Hebrew words and they'll become curled 
+	quotation marks (if that is enabled). This new transform only applies 
+	in the middle of a word, and only to words in Hebrew.
 
 
-1.5.1b (6 Sep 2004)
+PHP SmartyPants Lib 1.7.1 (16 Oct 2016)
 
-*	Corrected a problem with quotes immediately following a dash
-	with no space between: `Text--"quoted text"--text.`
-	
-*	PHP SmartyPants can now be used as a modifier by the Smarty 
-	template engine. Rename the file to "modifier.smartypants.php"
-	and put it in your smarty plugins folder.
-
-*	Replaced a lot of spaces characters by tabs, saving about 4 KB.
+*	Fixing bug where `decodeEntitiesInConfiguration()` would cause the 
+	configuration to set the space for units to an empty string.
 
 
-1.5.1a (30 Jun 2004)
+PHP SmartyPants Lib 1.7.0 (15 Oct 2016)
 
-*	PHP Markdown and PHP Smartypants now share the same `_TokenizeHTML` 
-	function when loaded simultanously.
+*	Made `public` some configuration variables that were documented
+	were documented as `public` but were actually `protected`.
 
-*	Changed the internals of `_TokenizeHTML` to lower the PHP version
-	requirement to PHP 4.0.5.
-
-
-1.5.1 (6 Jun 2004)
-
-*	Initial release of PHP SmartyPants, based on version 1.5.1 of the 
-	original SmartyPants written in Perl.
+*	Added the `decodeEntitiesInConfiguration()` method on 
+	`SmartyPantsTypographer` to quickly convert HTML entities in configuration 
+	variables to their corresponding UTF-8 character.
 
 
-Copyright and License
----------------------
+PHP SmartyPants Lib 1.6.0 (10 Oct 2016)
 
-Copyright (c) 2005-2013 Michel Fortin  
-<http://michelf.ca/>
-All rights reserved.
+This is the first release of PHP SmartyPants Lib. This package requires PHP
+version 5.3 or later and is designed to work with PSR-0 autoloading and,
+optionally with Composer. Here is a list of the changes since
+PHP SmartyPants 1.5.1f:
 
-Copyright (c) 2003-2004 John Gruber
-<http://daringfireball.net/>
-All rights reserved.
+*	Plugin interface for Wordpress and Smarty is no longer present in
+	the Lib package. The classic package is still available if you need it:
+	<https://michelf.ca/projects/php-markdown/classic/>
 
-Redistribution and use in source and binary forms, with or without
-modification, are permitted provided that the following conditions are
-met:
+*	SmartyPants parser is now encapsulated in its own class, with methods and
+	configuration variables `public` and `protected` protection attributes.
+	This has been available in unreleased versions since a few years, but now 
+	it's official.
 
-*   Redistributions of source code must retain the above copyright notice,
-    this list of conditions and the following disclaimer.
+*	SmartyPants now works great with PSR-0 autoloading and Composer. If
+	however you prefer to more directly `require_once` the files, the
+	".inc.php" variants of the file will make sure everything is included.
 
-*   Redistributions in binary form must reproduce the above copyright
-    notice, this list of conditions and the following disclaimer in the
-    documentation and/or other materials provided with the distribution.
-
-*   Neither the name "SmartyPants" nor the names of its contributors may
-    be used to endorse or promote products derived from this software
-    without specific prior written permission.
+*	For those of you who cannot use class autoloading, you can now
+	include `Michelf/SmartyPants.inc.php` or
+	`Michelf/SmartyPantsTypographer.inc.php` (note the `.inc.php` extension)
+	to automatically include other files required by the parser.

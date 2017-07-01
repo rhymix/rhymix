@@ -488,7 +488,9 @@ class menuAdminModel extends menu
 		$oModuleModel = getModel('module');
 		$oMenuAdminController = getAdminController('menu');
 		$columnList = array('modules.mid', 'modules.browser_title', 'sites.index_module_srl');
-		$start_module = $oModuleModel->getSiteInfo(0, $columnList);
+		
+		$start_module_list = executeQuery('module.getDomainInfo', new stdClass);
+		$start_module = $start_module_list->data;
 
 		$menuList = array();
 		if($menuSrl)
@@ -657,6 +659,11 @@ class menuAdminModel extends menu
 	private function _menuInfoSetting(&$menu, &$start_module, &$isMenuFixed, $menuSrl,$siteSrl = 0)
 	{
 		$oModuleModel = getModel('module');
+		if(!is_array($start_module))
+		{
+			$start_module = $start_module ? array($start_module) : array();
+		}
+		
 		// if url is empty and is_shortcut is 'N', change to is_shortcut 'Y'
 		if(!$menu['url'] && $menu['is_shortcut'] == 'N')
 		{
@@ -703,11 +710,23 @@ class menuAdminModel extends menu
 				$menu['setup_index_act'] = $moduleInfo->default_index_act;
 			}
 
-			if($menu['is_shortcut'] == 'N' && $midInfo->mid == $start_module->mid)
+			if($menu['is_shortcut'] == 'N')
 			{
-				$menu['is_start_module'] = true;
-				$this->menuSrlWithinHome = $menuSrl;
+				foreach($start_module as $start_module_info)
+				{
+					if($midInfo->mid == $start_module_info->mid)
+					{
+						$menu['is_start_module'] = true;
+						$menu['is_start_module_of'] = $start_module_info->domain;
+						if($start_module_info->is_default_domain === 'Y')
+						{
+							$this->menuSrlWithinHome = $menuSrl;
+						}
+						break;
+					}
+				}
 			}
+
 			// setting layout srl for layout management
 			$menu['layout_srl'] = $midInfo->layout_srl;
 			$menu['browser_title'] = $midInfo->browser_title;

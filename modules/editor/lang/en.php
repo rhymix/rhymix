@@ -5,10 +5,14 @@ $lang->comment_editor = 'Comment editor';
 $lang->editor_option = 'Editor Options';
 $lang->guide_choose_main_editor = 'Main editor';
 $lang->guide_set_height_main_editor = 'Main editor height';
+$lang->guide_set_main_editor_toolbar = 'Main editor toolbar';
 $lang->guide_choose_comment_editor = 'Comment editor';
 $lang->guide_set_height_comment_editor = 'Comment editor height';
+$lang->guide_set_comment_editor_toolbar = 'Comment editor toolbar';
 $lang->guide_additional_css = 'Additional CSS Files';
 $lang->about_additional_css = 'To load additional CSS files inside the editor, such as web fonts, please enter one URL per line.';
+$lang->guide_additional_mobile_css = 'Additional CSS Files for Mobile';
+$lang->guide_additional_plugins = 'Load additional plugins';
 $lang->guide_choose_text_formatting = 'Text formatting style';
 $lang->guide_choose_font_preview = 'Preview';
 $lang->guide_choose_font_body = 'Default font';
@@ -24,11 +28,12 @@ $lang->guide_choose_autoinsert_image = 'Auto-insert images';
 $lang->autoinsert_image_paragraph = 'Automatically insert images into editor (after line break at cursor position)';
 $lang->autoinsert_image_inline = 'Automatically insert images into editor (directly at cursor position)';
 $lang->autoinsert_image_none = 'Do not auto-insert images into editor';
+$lang->about_additional_plugins = 'This setting is only effective in editors that support additional plugins.';
 $lang->about_unit_default_px = 'The unit is px unless otherwise specified.';
 $lang->about_unit_default_percent = 'The unit is % unless otherwise specified.';
 $lang->font_preview = 'The quick brown fox jumps over the lazy dog.
-いろはにほへと / ちりぬるを / わかよたれそ / つねならむ / うゐのおくやま / けふこえて / あさきゆめみし / ゑひもせす
-키스의 고유 조건은 입술끼리 만나야 하고 특별한 기술은 필요치 않다.';
+키스의 고유 조건은 입술끼리 만나야 하고 특별한 기술은 필요치 않다.
+誰が何としても、独島は大韓民国の領土です。';
 $lang->msg_avail_easy_update = 'There is new version for this item.';
 $lang->msg_do_you_like_update = 'Would you like to update?';
 $lang->msg_font_too_big = 'The font is too big.';

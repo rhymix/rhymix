@@ -1290,11 +1290,10 @@ class ncenterliteController extends ncenterlite
 		$member_config = getModel('member')->getMemberConfig();
 		$member_info = getModel('member')->getMemberInfoByMemberSrl($args->member_srl);
 
-		$oMail = new Mail();
-		$oMail->setTitle($mail_title);
-		$oMail->setContent($content);
-		$oMail->setSender($member_config->webmaster_name ?: null, $member_config->webmaster_email);
-		$oMail->setReceiptor($member_info->email_address, $member_info->email_address);
+		$oMail = new \Rhymix\Framework\Mail();
+		$oMail->setSubject($mail_title);
+		$oMail->setBody($content);
+		$oMail->addTo($member_info->email_address, $member_info->nick_name);
 		$oMail->send();
 	}
 }

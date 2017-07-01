@@ -457,27 +457,30 @@ class documentController extends document
 		// if use editor of nohtml, Remove HTML tags from the contents.
 		if(!$manual_inserted)
 		{
-			if(Mobile::isFromMobilePhone() && $obj->use_editor != 'Y')
+			$editor_config = getModel('editor')->getEditorConfig($obj->module_srl);
+			if (strpos($editor_config->sel_editor_colorset, 'nohtml') !== false)
 			{
-				if($obj->use_html != 'Y')
-				{
-					$obj->content = htmlspecialchars($obj->content, ENT_COMPAT | ENT_HTML401, 'UTF-8', false);
-				}
-				$obj->content = nl2br($obj->content);
+				$is_html_content = false;
+			}
+			elseif ($obj->use_editor === 'Y' || $obj->use_html === 'Y')
+			{
+				$is_html_content = true;
+			}
+			elseif ($obj->use_editor === 'N' || $obj->use_html === 'N')
+			{
+				$is_html_content = false;
 			}
 			else
 			{
-				$oEditorModel = getModel('editor');
-				$editor_config = $oEditorModel->getEditorConfig($obj->module_srl);
-				
-				if(strpos($editor_config->sel_editor_colorset, 'nohtml') !== FALSE)
-				{
-					$obj->content = preg_replace('/\<br(\s*)?\/?\>/i', PHP_EOL, $obj->content);
-					$obj->content = htmlspecialchars($obj->content, ENT_COMPAT | ENT_HTML401, 'UTF-8', false);
-					$obj->content = str_replace(array("\r\n", "\r", "\n"), '<br />', $obj->content);
-				}
+				$is_html_content = is_html_content($obj->content);
+			}
+			
+			if (!$is_html_content)
+			{
+				$obj->content = nl2br($obj->use_html === 'Y' ? $obj->content : escape($obj->content, false));
 			}
 		}
+
 		// Remove iframe and script if not a top adminisrator in the session.
 		if($logged_info->is_admin != 'Y') $obj->content = removeHackTag($obj->content);
 		// An error appears if both log-in info and user name don't exist.
@@ -713,27 +716,30 @@ class documentController extends document
 		// if use editor of nohtml, Remove HTML tags from the contents.
 		if(!$manual_updated)
 		{
-			if(Mobile::isFromMobilePhone() && $obj->use_editor != 'Y')
+			$editor_config = getModel('editor')->getEditorConfig($obj->module_srl);
+			if (strpos($editor_config->sel_editor_colorset, 'nohtml') !== false)
 			{
-				if($obj->use_html != 'Y')
-				{
-					$obj->content = htmlspecialchars($obj->content, ENT_COMPAT | ENT_HTML401, 'UTF-8', false);
-				}
-				$obj->content = nl2br($obj->content);
+				$is_html_content = false;
+			}
+			elseif ($obj->use_editor === 'Y' || $obj->use_html === 'Y')
+			{
+				$is_html_content = true;
+			}
+			elseif ($obj->use_editor === 'N' || $obj->use_html === 'N')
+			{
+				$is_html_content = false;
 			}
 			else
 			{
-				$oEditorModel = getModel('editor');
-				$editor_config = $oEditorModel->getEditorConfig($obj->module_srl);
-				
-				if(strpos($editor_config->sel_editor_colorset, 'nohtml') !== FALSE)
-				{
-					$obj->content = preg_replace('/\<br(\s*)?\/?\>/i', PHP_EOL, $obj->content);
-					$obj->content = htmlspecialchars($obj->content, ENT_COMPAT | ENT_HTML401, 'UTF-8', false);
-					$obj->content = str_replace(array("\r\n", "\r", "\n"), '<br />', $obj->content);
-				}
+				$is_html_content = is_html_content($obj->content);
+			}
+			
+			if (!$is_html_content)
+			{
+				$obj->content = nl2br($obj->use_html === 'Y' ? $obj->content : escape($obj->content, false));
 			}
 		}
+
 		// Change not extra vars but language code of the original document if document's lang_code is different from author's setting.
 		if($source_obj->get('lang_code') != Context::getLangType())
 		{

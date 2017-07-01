@@ -1,0 +1,19 @@
+
+.rx_editor_wrapper {
+	clear: both;
+}
+
+.rx_editor_wrapper .rx_editor_textarea {
+	width: 100%;
+	min-height: 64px;
+	box-sizing: border-box;
+	border: 1px solid #b1b1b1;
+	background: #fff;
+	padding: 8px 10px;
+	resize: vertical;
+}
+
+.rx_editor_wrapper .rx_editor_textarea.dark {
+	border-color: #111;
+	background: #333;
+}

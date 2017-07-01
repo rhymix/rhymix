@@ -148,8 +148,18 @@ class editorAdminController extends editor
 		$config = new stdClass;
 		$config->editor_skin = $configVars->editor_skin;
 		$config->editor_height = $configVars->editor_height;
+		$config->mobile_editor_height = $configVars->mobile_editor_height;
+		$config->editor_toolbar = $configVars->editor_toolbar;
+		$config->editor_toolbar_hide = $configVars->editor_toolbar_hide === 'Y' ? 'Y' : 'N';
+		$config->mobile_editor_toolbar = $configVars->mobile_editor_toolbar;
+		$config->mobile_editor_toolbar_hide = $configVars->mobile_editor_toolbar_hide === 'Y' ? 'Y' : 'N';
 		$config->comment_editor_skin = $configVars->comment_editor_skin;
 		$config->comment_editor_height = $configVars->comment_editor_height;
+		$config->mobile_comment_editor_height = $configVars->mobile_comment_editor_height;
+		$config->comment_editor_toolbar = $configVars->comment_editor_toolbar;
+		$config->comment_editor_toolbar_hide = $configVars->comment_editor_toolbar_hide === 'Y' ? 'Y' : 'N';
+		$config->mobile_comment_editor_toolbar = $configVars->mobile_comment_editor_toolbar;
+		$config->mobile_comment_editor_toolbar_hide = $configVars->mobile_comment_editor_toolbar_hide === 'Y' ? 'Y' : 'N';
 		$config->content_style = $configVars->content_style;
 		$config->sel_editor_colorset= $configVars->sel_editor_colorset;
 		$config->sel_comment_editor_colorset= $configVars->sel_comment_editor_colorset;
@@ -176,12 +186,34 @@ class editorAdminController extends editor
 			$config->additional_css = array();
 		}
 		
+		if ($configVars->additional_mobile_css)
+		{
+			$additional_mobile_css = array_map('trim', explode("\n", $configVars->additional_mobile_css));
+			$additional_mobile_css = array_filter($additional_mobile_css, function($str) { return !empty($str); });
+			$config->additional_mobile_css = $additional_mobile_css;
+		}
+		else
+		{
+			$config->additional_mobile_css = array();
+		}
+		
+		if ($configVars->additional_plugins)
+		{
+			$additional_plugins = array_map('trim', explode(',', $configVars->additional_plugins));
+			$additional_plugins = array_filter($additional_plugins, function($str) { return !empty($str); });
+			$config->additional_plugins = $additional_plugins;
+		}
+		else
+		{
+			$config->additional_plugins = array();
+		}
+		
 		$config->content_font_size = trim($configVars->content_font_size);
 		$config->content_font_size = ctype_digit($config->content_font_size) ? ($config->content_font_size . 'px') : $config->content_font_size;
 		$config->content_line_height = trim($configVars->content_line_height);
 		$config->content_line_height = ctype_digit($config->content_line_height) ? ($config->content_line_height . '%') : $config->content_line_height;
 		$config->content_paragraph_spacing = trim($configVars->content_paragraph_spacing);
-		$config->content_paragraph_spacing = ctype_digit($config->content_paragraph_spacing) ? ($config->content_paragraph_spacing . '%') : $config->content_paragraph_spacing;
+		$config->content_paragraph_spacing = ctype_digit($config->content_paragraph_spacing) ? ($config->content_paragraph_spacing . 'px') : $config->content_paragraph_spacing;
 		$config->content_word_break = $configVars->content_word_break;
 		$config->content_word_break = in_array($config->content_word_break, array('normal', 'keep-all', 'break-all', 'none')) ? $config->content_word_break : 'normal';
 		$config->autoinsert_image = $configVars->autoinsert_image;

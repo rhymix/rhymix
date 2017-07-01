@@ -82,7 +82,8 @@
 	<ul>
 		<li>
 			<label for="rText">{$lang->comment}</label>
-			<textarea name="content" rows="8" cols="42" id="rText"></textarea>
+			<input type="hidden" name="content" value="" />
+			{getModel('comment')->getComment(0)->getEditor()}
 		</li>
 		<!--@if(!$is_logged)-->
 		<li>
