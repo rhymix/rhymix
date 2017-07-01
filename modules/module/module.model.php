@@ -1881,7 +1881,7 @@ class moduleModel extends module
 	{
 		if(!$module_info->module_srl) return;
 
-		if(Mobile::isFromMobilePhone())
+		if(Mobile::isFromMobilePhone() && $module_info->mskin !== '/USE_RESPONSIVE/')
 		{
 			$skin_vars = $this->getModuleMobileSkinVars($module_info->module_srl);
 		}

@@ -531,6 +531,9 @@ class ModuleObject extends Object
 		{
 			return FALSE;
 		}
+		
+		// Check mobile status
+		$is_mobile = Mobile::isFromMobilePhone();
 
 		// trigger call
 		$triggerOutput = ModuleHandler::triggerCall('moduleObject.proc', 'before', $this);
@@ -544,9 +547,13 @@ class ModuleObject extends Object
 		// execute an addon(call called_position as before_module_proc)
 		$called_position = 'before_module_proc';
 		$oAddonController = getController('addon');
-		$addon_file = $oAddonController->getCacheFilePath(Mobile::isFromMobilePhone() ? "mobile" : "pc");
+		$addon_file = $oAddonController->getCacheFilePath($is_mobile ? "mobile" : "pc");
 		if(FileHandler::exists($addon_file)) include($addon_file);
+		
+		// Check mobile status again, in case a trigger changed it
+		$is_mobile = Mobile::isFromMobilePhone();
 
+		// Perform action if it exists
 		if(isset($this->xml_info->action->{$this->act}) && method_exists($this, $this->act))
 		{
 			// Check permissions
@@ -555,17 +562,17 @@ class ModuleObject extends Object
 				$this->stop("msg_not_permitted_act");
 				return FALSE;
 			}
-
+			
 			// integrate skin information of the module(change to sync skin info with the target module only by seperating its table)
 			$oModuleModel = getModel('module');
-			$is_default_skin = ((!Mobile::isFromMobilePhone() && $this->module_info->is_skin_fix == 'N') || (Mobile::isFromMobilePhone() && $this->module_info->is_mskin_fix == 'N'));
-			$usedSkinModule = !($this->module == 'page' && ($this->module_info->page_type == 'OUTSIDE' || $this->module_info->page_type == 'WIDGET'));
-			if($usedSkinModule && $is_default_skin && $this->module != 'admin' && strpos($this->act, 'Admin') === false && $this->module == $this->module_info->module)
+			$default_skin = ((!$is_mobile && $this->module_info->is_skin_fix == 'N') || ($is_mobile && $this->module_info->is_mskin_fix == 'N'));
+			$disable_skin = ($this->module == 'page' && ($this->module_info->page_type == 'OUTSIDE' || $this->module_info->page_type == 'WIDGET'));
+			if(!$disable_skin && $default_skin && $this->module != 'admin' && strpos($this->act, 'Admin') === false && $this->module == $this->module_info->module)
 			{
-				$skinType = (Mobile::isFromMobilePhone() && $this->module_info->mskin !== '/USE_RESPONSIVE/') ? 'M' : 'P';
+				$skinType = ($is_mobile && $this->module_info->mskin !== '/USE_RESPONSIVE/') ? 'M' : 'P';
 				$dir = $skinType === 'M' ? 'm.skins' : 'skins';
 				$valueName = $skinType === 'M' ? 'mskin' : 'skin';
-				$skinName = $oModuleModel->getModuleDefaultSkin($this->module, $skinType);
+				$skinName = $this->module_info->{$valueName} === '/USE_DEFAULT/' ? $oModuleModel->getModuleDefaultSkin($this->module, $skinType) : $this->module_info->{$valueName};
 				if($this->module == 'page')
 				{
 					$this->module_info->{$valueName} = $skinName;
@@ -614,7 +621,7 @@ class ModuleObject extends Object
 		// execute an addon(call called_position as after_module_proc)
 		$called_position = 'after_module_proc';
 		$oAddonController = getController('addon');
-		$addon_file = $oAddonController->getCacheFilePath(Mobile::isFromMobilePhone() ? "mobile" : "pc");
+		$addon_file = $oAddonController->getCacheFilePath($is_mobile ? "mobile" : "pc");
 		if(FileHandler::exists($addon_file)) include($addon_file);
 
 		if($original_output instanceof Object && !$original_output->toBool())
