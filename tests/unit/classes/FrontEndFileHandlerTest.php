@@ -236,6 +236,34 @@ class FrontEndFileHandlerTest extends \Codeception\TestCase\Test
 			$this->assertEquals($expected, $handler->getCssFileList());
 		});
 
+		$this->specify("path conversion", function() {
+			$handler = new FrontEndFileHandler();
+			$handler->loadFile(array('./common/xeicon/xeicon.min.css'));
+			$result = $handler->getCssFileList();
+			$this->assertEquals('/rhymix/common/css/xeicon/xeicon.min.css' . $this->_filemtime('common/css/xeicon/xeicon.min.css'), $result[0]['file']);
+			$this->assertEquals('all', $result[0]['media']);
+			$this->assertEmpty($result[0]['targetie']);
+		});
 
+		$this->specify("blocked scripts", function() {
+			$handler = new FrontEndFileHandler();
+			$handler->loadFile(array('./common/css/mobile.css'));
+			$handler->loadFile(array('./common/css/xe.min.css'));
+			$handler->loadFile(array('./common/js/common.js'));
+			$handler->loadFile(array('./common/js/xe.js'));
+			$handler->loadFile(array('./common/js/xe.min.js'));
+			$handler->loadFile(array('./common/js/xml2json.js'));
+			$handler->loadFile(array('./common/js/jquery.js'));
+			$handler->loadFile(array('./common/js/jquery-1.x.min.js'));
+			$handler->loadFile(array('./common/js/jquery-2.0.0.js'));
+			$handler->loadFile(array('./common/js/jQuery.min.js'));
+			$result = $handler->getCssFileList();
+			$this->assertEquals(1, count($result));
+			$this->assertEquals('/rhymix/common/css/mobile.css' . $this->_filemtime('common/css/mobile.css'), $result[0]['file']);
+			$result = $handler->getJsFileList();
+			$this->assertEquals(2, count($result));
+			$this->assertEquals('/rhymix/common/js/common.js' . $this->_filemtime('common/js/common.js'), $result[0]['file']);
+			$this->assertEquals('/rhymix/common/js/xml2json.js' . $this->_filemtime('common/js/xml2json.js'), $result[1]['file']);
+		});
 	}
 }

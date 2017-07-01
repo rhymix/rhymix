@@ -4,18 +4,32 @@
 class HTMLDisplayHandler
 {
 	/**
+	 * jQuery versions
+	 */
+	const JQUERY_V1 = '1.11.3';
+	const JQUERY_V2 = '2.1.4';
+	
+	/**
 	 * Reserved scripts
 	 */
 	public static $reservedCSS = '@\bcommon/css/(?:xe|rhymix|mobile)\.(?:min\.)?(?:s?css|less)$@';
 	public static $reservedJS = '@\bcommon/js/(?:jquery(?:-[123][0-9.x-]+)?|xe?|common|js_app|xml_handler|xml_js_filter)\.(?:min\.)?js$@';
-	
+
+	/**
+	 * List of scripts to block loading
+	 */
+	public static $blockedScripts = array(
+		'@\bcommon/(?:css|js)/xe(?:\.min)?\.(?:css|js)$@',
+		'@\bj[Qq]uery(?:-[0-9]+(?:\.[0-9x]+)*)?(?:\.min)?\.js$@',
+	);
+
 	/**
 	 * Replacement table for XE compatibility
 	 */
 	public static $replacements = array(
 		'@\bcommon/xeicon/@' => 'common/css/xeicon/',
 	);
-
+	
 	/**
 	 * Produce HTML compliant content given a module object.\n
 	 * @param ModuleObject $oModule the module object
@@ -546,7 +560,7 @@ class HTMLDisplayHandler
 	private function _loadMobileJSCSS()
 	{
 		$this->_loadCommonJSCSS();
-		Context::loadFile(array('./common/css/mobile.css', '', '', -1500000), true);
+		Context::loadFile(array('./common/css/mobile.css', '', '', -1500000000), true);
 	}
 
 	/**
@@ -554,23 +568,23 @@ class HTMLDisplayHandler
 	 */
 	private function _loadCommonJSCSS()
 	{
-		Context::loadFile(array('./common/css/rhymix.scss', '', '', -1600000), true);
+		Context::loadFile(array('./common/css/rhymix.scss', '', '', -1600000000), true);
 		$original_file_list = array('x', 'common', 'js_app', 'xml_handler', 'xml_js_filter');
-		$jquery_version = preg_match('/MSIE [5-8]\./', $_SERVER['HTTP_USER_AGENT']) ? '1.11.3' : '2.1.4';
+		$jquery_version = preg_match('/MSIE [5-8]\./', $_SERVER['HTTP_USER_AGENT']) ? self::JQUERY_V1 : self::JQUERY_V2;
 		
 		if(config('view.minify_scripts') === 'none')
 		{
-			Context::loadFile(array('./common/js/jquery-' . $jquery_version . '.js', 'head', '', -1730000), true);
-			Context::loadFile(array('./common/js/plugins/jquery.migrate/jquery-migrate-1.2.1.js', 'head', '', -1720000), true);
+			Context::loadFile(array('./common/js/jquery-' . $jquery_version . '.js', 'head', '', -1730000000), true);
+			Context::loadFile(array('./common/js/plugins/jquery.migrate/jquery-migrate-1.2.1.js', 'head', '', -1720000000), true);
 			foreach($original_file_list as $filename)
 			{
-				Context::loadFile(array('./common/js/' . $filename . '.js', 'head', '', -1700000), true);
+				Context::loadFile(array('./common/js/' . $filename . '.js', 'head', '', -1710000000), true);
 			}
 		}
 		else
 		{
-			Context::loadFile(array('./common/js/jquery-' . $jquery_version . '.min.js', 'head', '', -1730000), true);
-			Context::loadFile(array('./common/js/plugins/jquery.migrate/jquery-migrate-1.2.1.min.js', 'head', '', -1720000), true);
+			Context::loadFile(array('./common/js/jquery-' . $jquery_version . '.min.js', 'head', '', -1730000000), true);
+			Context::loadFile(array('./common/js/plugins/jquery.migrate/jquery-migrate-1.2.1.min.js', 'head', '', -1720000000), true);
 			$concat_target_filename = 'files/cache/assets/minified/rhymix.min.js';
 			if(file_exists(\RX_BASEDIR . $concat_target_filename))
 			{
@@ -582,14 +596,14 @@ class HTMLDisplayHandler
 				}
 				if($concat_target_mtime > $original_mtime)
 				{
-					Context::loadFile(array('./' . $concat_target_filename, 'head', '', -100000), true);
+					Context::loadFile(array('./' . $concat_target_filename, 'head', '', -1500000000), true);
 					return;
 				}
 			}
 			Rhymix\Framework\Formatter::minifyJS(array_map(function($str) {
 				return \RX_BASEDIR . 'common/js/' . $str . '.js';
 			}, $original_file_list), \RX_BASEDIR . $concat_target_filename);
-			Context::loadFile(array('./' . $concat_target_filename, 'head', '', -100000), true);
+			Context::loadFile(array('./' . $concat_target_filename, 'head', '', -1500000000), true);
 		}
 	}
 }
