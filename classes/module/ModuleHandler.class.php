@@ -313,13 +313,23 @@ class ModuleHandler extends Handler
 			}
 
 			$viewType = (Mobile::isFromMobilePhone()) ? 'M' : 'P';
-			$targetSrl = (Mobile::isFromMobilePhone()) ? 'mlayout_srl' : 'layout_srl';
+			$targetSrl = $viewType === 'M' ? 'mlayout_srl' : 'layout_srl';
 
 			// use the site default layout.
 			if($module_info->{$targetSrl} == -1)
 			{
 				$oLayoutAdminModel = getAdminModel('layout');
 				$layoutSrl = $oLayoutAdminModel->getSiteDefaultLayout($viewType, $module_info->site_srl);
+			}
+			elseif($module_info->{$targetSrl} == -2 && $viewType === 'M')
+			{
+				$layoutSrl = $module_info->layout_srl;
+				if($layoutSrl == -1)
+				{
+					$viewType = 'P';
+					$oLayoutAdminModel = getAdminModel('layout');
+					$layoutSrl = $oLayoutAdminModel->getSiteDefaultLayout($viewType, $module_info->site_srl);
+				}
 			}
 			else
 			{
@@ -960,9 +970,15 @@ class ModuleHandler extends Handler
 			}
 
 			// Check if layout_srl exists for the module
-			if(Mobile::isFromMobilePhone())
+			$viewType = (Mobile::isFromMobilePhone()) ? 'M' : 'P';
+			if($viewType === 'M')
 			{
 				$layout_srl = $oModule->module_info->mlayout_srl;
+				if($layout_srl == -2)
+				{
+					$layout_srl = $oModule->module_info->layout_srl;
+					$viewType = 'P';
+				}
 			}
 			else
 			{
@@ -972,7 +988,6 @@ class ModuleHandler extends Handler
 			// if layout_srl is rollback by module, set default layout
 			if($layout_srl == -1)
 			{
-				$viewType = (Mobile::isFromMobilePhone()) ? 'M' : 'P';
 				$oLayoutAdminModel = getAdminModel('layout');
 				$layout_srl = $oLayoutAdminModel->getSiteDefaultLayout($viewType, $oModule->module_info->site_srl);
 			}
