@@ -403,7 +403,7 @@ class editorModel extends editor
 		}
 		
 		// Permission check for file upload
-		if ($logged_info->is_admin === 'Y' || !count($config->upload_file_grant))
+		if ($logged_info->is_admin === 'Y' || !count($option->upload_file_grant))
 		{
 			$option->allow_fileupload = true;
 		}
@@ -412,7 +412,7 @@ class editorModel extends editor
 			$option->allow_fileupload = false;
 			foreach($group_list as $group_srl => $group_info)
 			{
-				if(in_array($group_srl, $config->upload_file_grant))
+				if(in_array($group_srl, $option->upload_file_grant))
 				{
 					$option->allow_fileupload = true;
 					break;
@@ -421,7 +421,7 @@ class editorModel extends editor
 		}
 		
 		// Permission check for using default components
-		if ($logged_info->is_admin === 'Y' || !count($config->enable_default_component_grant))
+		if ($logged_info->is_admin === 'Y' || !count($option->enable_default_component_grant))
 		{
 			$option->enable_default_component = true;
 		}
@@ -430,7 +430,7 @@ class editorModel extends editor
 			$option->enable_default_component = false;
 			foreach($group_list as $group_srl => $group_info)
 			{
-				if(in_array($group_srl, $config->enable_default_component_grant))
+				if(in_array($group_srl, $option->enable_default_component_grant))
 				{
 					$option->enable_default_component = true;
 					break;
@@ -439,7 +439,7 @@ class editorModel extends editor
 		}
 		
 		// Permisshion check for using extended components
-		if($logged_info->is_admin === 'Y' || !count($config->enable_component_grant))
+		if($logged_info->is_admin === 'Y' || !count($option->enable_component_grant))
 		{
 			$option->enable_component = true;
 		}
@@ -448,7 +448,7 @@ class editorModel extends editor
 			$option->enable_component = false;
 			foreach($group_list as $group_srl => $group_info)
 			{
-				if(in_array($group_srl, $config->enable_component_grant))
+				if(in_array($group_srl, $option->enable_component_grant))
 				{
 					$option->enable_component = true;
 					break;
@@ -457,7 +457,7 @@ class editorModel extends editor
 		}
 		
 		// HTML editing privileges
-		if($logged_info->is_admin === 'Y' || !count($config->enable_html_grant))
+		if($logged_info->is_admin === 'Y' || !count($option->enable_html_grant))
 		{
 			$option->disable_html = false;
 		}
@@ -466,7 +466,7 @@ class editorModel extends editor
 			$option->disable_html = true;
 			foreach($group_list as $group_srl => $group_info)
 			{
-				if(in_array($group_srl, $config->enable_html_grant))
+				if(in_array($group_srl, $option->enable_html_grant))
 				{
 					$option->disable_html = false;
 					break;
