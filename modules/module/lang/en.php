@@ -125,3 +125,5 @@ $lang->msg_confirm_save_and_use_multilingual = 'Do you want to save and use this
 $lang->msg_empty_multilingual = 'Please enter value for multilingual.';
 $lang->cmd_set_multilingual_text = 'Set multilingual text';
 $lang->cmd_remove_multilingual_text = 'Remove multilingual text';
+$lang->use_site_default_skin = 'Use site default skin';
+$lang->use_responsive_pc_skin = 'Use responsive PC skin';

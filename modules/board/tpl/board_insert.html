@@ -95,20 +95,6 @@
 				<p id="footer_text_help" class="x_help-block">{$lang->about_footer_text}</p>
 			</div>
 		</div>
-	<div class="x_control-group">
-		<label class="x_control-label" for="lang_mobile_header_text">{$lang->mobile_header_text}</label>
-		<div class="x_controls">
-			<textarea name="mobile_header_text" id="mobile_header_text" class="lang_code" rows="8" cols="42"><!--@if(strpos($module_info->footer_text, '$user_lang->') === false)-->{$module_info->mobile_header_text}<!--@else-->{htmlspecialchars($module_info->mobile_header_text)}<!--@end--></textarea>
-			<p id="mobile_header_text_help" class="x_help-block">{$lang->about_mobile_header_text}</p>
-		</div>
-	</div>
-	<div class="x_control-group">
-		<label class="x_control-label" for="lang_mobile_footer_text">{$lang->mobile_footer_text}</label>
-		<div class="x_controls">
-			<textarea name="mobile_footer_text" id="mobile_footer_text" class="lang_code" rows="8" cols="42"><!--@if(strpos($module_info->footer_text, '$user_lang->') === false)-->{$module_info->mobile_footer_text}<!--@else-->{htmlspecialchars($module_info->mobile_footer_text)}<!--@end--></textarea>
-			<p id="mobile_footer_text_help" class="x_help-block">{$lang->about_mobile_footer_text}</p>
-		</div>
-	</div>
 	</section>
 	<section class="section">
 		<h1>{$lang->mobile_settings}</h1>
@@ -158,6 +144,20 @@
 			<div class="x_controls">
 				<input type="text" name="mobile_page_count" id="mobile_page_count" value="{$module_info->mobile_page_count?$module_info->mobile_page_count:5}" style="width:30px" />
 				<p class="x_help-inline">{$lang->about_mobile_page_count}</p>
+			</div>
+		</div>
+		<div class="x_control-group">
+			<label class="x_control-label" for="lang_mobile_header_text">{$lang->mobile_header_text}</label>
+			<div class="x_controls">
+				<textarea name="mobile_header_text" id="mobile_header_text" class="lang_code" rows="8" cols="42"><!--@if(strpos($module_info->footer_text, '$user_lang->') === false)-->{$module_info->mobile_header_text}<!--@else-->{htmlspecialchars($module_info->mobile_header_text)}<!--@end--></textarea>
+				<p id="mobile_header_text_help" class="x_help-block">{$lang->about_mobile_header_text}</p>
+			</div>
+		</div>
+		<div class="x_control-group">
+			<label class="x_control-label" for="lang_mobile_footer_text">{$lang->mobile_footer_text}</label>
+			<div class="x_controls">
+				<textarea name="mobile_footer_text" id="mobile_footer_text" class="lang_code" rows="8" cols="42"><!--@if(strpos($module_info->footer_text, '$user_lang->') === false)-->{$module_info->mobile_footer_text}<!--@else-->{htmlspecialchars($module_info->mobile_footer_text)}<!--@end--></textarea>
+				<p id="mobile_footer_text_help" class="x_help-block">{$lang->about_mobile_footer_text}</p>
 			</div>
 		</div>
 	</section>
