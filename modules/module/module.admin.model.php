@@ -332,7 +332,8 @@ class moduleAdminModel extends module
 		{
 			if($module_info->is_mskin_fix == 'N')
 			{
-				$skin = $oModuleModel->getModuleDefaultSkin($module_info->module, 'M', $module_info->site_srl);
+				$skin_type = $module_info->mskin === '/USE_RESPONSIVE/' ? 'P' : 'M';
+				$skin = $oModuleModel->getModuleDefaultSkin($module_info->module, $skin_type, $module_info->site_srl);
 			}
 			else
 			{
