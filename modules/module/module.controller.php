@@ -409,7 +409,7 @@ class moduleController extends module
 			}
 		}
 
-		if($args->mskin == '/USE_DEFAULT/')
+		if($args->mskin == '/USE_DEFAULT/' || $args->mskin == '/USE_RESPONSIVE/')
 		{
 			$args->is_mskin_fix = 'N';
 		}
@@ -540,7 +540,7 @@ class moduleController extends module
 			}
 		}
 
-		if($args->mskin == '/USE_DEFAULT/')
+		if($args->mskin == '/USE_DEFAULT/' || $args->mskin == '/USE_RESPONSIVE/')
 		{
 			$args->is_mskin_fix = 'N';
 		}

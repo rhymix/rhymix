@@ -111,6 +111,7 @@ $lang->msg_empty_origin_layout = '원본 Layout이 없습니다.';
 $lang->msg_empty_target_layout = '복사할 Layout이 지정되어 있지 않습니다.';
 $lang->msg_at_least_one_layout = '해당 레이아웃의 마지막 한개 레이아웃은 삭제할 수 없습니다.';
 $lang->use_site_default_layout = '사이트 기본 레이아웃 사용';
+$lang->use_responsive_pc_layout = 'PC와 동일한 반응형 레이아웃 사용';
 $lang->msg_unabled_preview = '해당 메뉴 타입의 페이지가 하나도 없어 미리보기가 불가능합니다.';
 $lang->article_preview_title = '문서의 제목입니다.';
 $lang->article_preview_content = '무궁화 꽃이 피었습니다.';

@@ -291,7 +291,7 @@ class moduleModel extends module
 		$layoutSrlPc = ($moduleInfo->layout_srl == -1) ? $oLayoutAdminModel->getSiteDefaultLayout('P', $moduleInfo->site_srl) : $moduleInfo->layout_srl;
 		$layoutSrlMobile = ($moduleInfo->mlayout_srl == -1) ? $oLayoutAdminModel->getSiteDefaultLayout('M', $moduleInfo->site_srl) : $moduleInfo->mlayout_srl;
 		$skinNamePc = ($moduleInfo->is_skin_fix == 'N') ? $this->getModuleDefaultSkin($moduleInfo->module, 'P') : $moduleInfo->skin;
-		$skinNameMobile = ($moduleInfo->is_mskin_fix == 'N') ? $this->getModuleDefaultSkin($moduleInfo->module, 'M') : $moduleInfo->mskin;
+		$skinNameMobile = ($moduleInfo->is_mskin_fix == 'N') ? $this->getModuleDefaultSkin($moduleInfo->module, $moduleInfo->mskin === '/USE_RESPONSIVE/' ? 'P' : 'M') : $moduleInfo->mskin;
 
 		$oLayoutModel = getModel('layout');
 		$layoutInfoPc = $layoutSrlPc ? $oLayoutModel->getLayoutRawData($layoutSrlPc, array('title')) : NULL;
@@ -315,7 +315,7 @@ class moduleModel extends module
 		$moduleInfo->designSettings->layout->mobile = $layoutInfoMobile->title;
 		$moduleInfo->designSettings->skin->pcIsDefault = $moduleInfo->is_skin_fix == 'N' ? 1 : 0;
 		$moduleInfo->designSettings->skin->pc = $skinInfoPc->title;
-		$moduleInfo->designSettings->skin->mobileIsDefault = $moduleInfo->is_mskin_fix == 'N' ? 1 : 0;
+		$moduleInfo->designSettings->skin->mobileIsDefault = ($moduleInfo->is_mskin_fix == 'N' && $moduleInfo->mskin !== '/USE_RESPONSIVE/') ? 1 : 0;
 		$moduleInfo->designSettings->skin->mobile = $skinInfoMobile->title;
 
 		$module_srl = Rhymix\Framework\Cache::get('site_and_module:module_srl:' . $mid . '_' . $site_srl);
@@ -402,11 +402,12 @@ class moduleModel extends module
 			$moduleInfo->skin = '/USE_DEFAULT/';
 		}
 
-		if($moduleInfo->is_mskin_fix == 'N')
+		if($moduleInfo->is_mskin_fix == 'N' && $moduleInfo->mskin !== '/USE_RESPONSIVE/')
 		{
 			$moduleInfo->mskin = '/USE_DEFAULT/';
 		}
 	}
+
 	/**
 	 * @brief Get module information corresponding to layout_srl
 	 */
@@ -1125,6 +1126,10 @@ class moduleModel extends module
 				$useDefault->title = lang('use_site_default_skin') . ' (' . $defaultSkinInfo->title . ')';
 
 				$useDefaultList['/USE_DEFAULT/'] = $useDefault;
+				if($type === 'M')
+				{
+					$useDefaultList['/USE_RESPONSIVE/'] = (object)array('title' => lang('use_responsive_pc_skin'));
+				}
 
 				$skin_list = array_merge($useDefaultList, $skin_list);
 			}
@@ -1876,7 +1881,7 @@ class moduleModel extends module
 	{
 		if(!$module_info->module_srl) return;
 
-		if(Mobile::isFromMobilePhone())
+		if(Mobile::isFromMobilePhone() && $module_info->mskin !== '/USE_RESPONSIVE/')
 		{
 			$skin_vars = $this->getModuleMobileSkinVars($module_info->module_srl);
 		}
