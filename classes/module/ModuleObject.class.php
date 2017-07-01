@@ -557,14 +557,14 @@ class ModuleObject extends Object
 			}
 
 			// integrate skin information of the module(change to sync skin info with the target module only by seperating its table)
+			$oModuleModel = getModel('module');
 			$is_default_skin = ((!Mobile::isFromMobilePhone() && $this->module_info->is_skin_fix == 'N') || (Mobile::isFromMobilePhone() && $this->module_info->is_mskin_fix == 'N'));
 			$usedSkinModule = !($this->module == 'page' && ($this->module_info->page_type == 'OUTSIDE' || $this->module_info->page_type == 'WIDGET'));
 			if($usedSkinModule && $is_default_skin && $this->module != 'admin' && strpos($this->act, 'Admin') === false && $this->module == $this->module_info->module)
 			{
-				$dir = (Mobile::isFromMobilePhone()) ? 'm.skins' : 'skins';
-				$valueName = (Mobile::isFromMobilePhone()) ? 'mskin' : 'skin';
-				$oModuleModel = getModel('module');
-				$skinType = (Mobile::isFromMobilePhone()) ? 'M' : 'P';
+				$skinType = (Mobile::isFromMobilePhone() && $this->module_info->mskin !== '/USE_RESPONSIVE/') ? 'M' : 'P';
+				$dir = $skinType === 'M' ? 'm.skins' : 'skins';
+				$valueName = $skinType === 'M' ? 'mskin' : 'skin';
 				$skinName = $oModuleModel->getModuleDefaultSkin($this->module, $skinType);
 				if($this->module == 'page')
 				{
@@ -580,7 +580,6 @@ class ModuleObject extends Object
 				}
 			}
 
-			$oModuleModel = getModel('module');
 			$oModuleModel->syncSkinInfoToModuleInfo($this->module_info);
 			Context::set('module_info', $this->module_info);
 			// Run
