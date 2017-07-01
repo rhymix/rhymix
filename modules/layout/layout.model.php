@@ -134,7 +134,7 @@ class layoutModel extends layout
 		}
 		$args = new stdClass();
 		$args->site_srl = $siteSrl;
-		$args->layout_type = $layoutType;
+		$args->layout_type = $layoutType === 'P' ? 'P' : 'P,M';
 		$args->layout = $layout;
 		$output = executeQueryArray('layout.getLayoutList', $args, $columnList);
 
@@ -144,7 +144,7 @@ class layoutModel extends layout
 		{
 			foreach($output->data as $no => $iInfo)
 			{
-				if($this->isExistsLayoutFile($iInfo->layout, $layoutType))
+				if($this->isExistsLayoutFile($iInfo->layout, $iInfo->layout_type))
 				{
 					$instanceList[] = $iInfo->layout;
 				}
