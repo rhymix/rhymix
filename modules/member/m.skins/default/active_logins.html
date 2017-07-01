@@ -18,7 +18,7 @@
 	</div>
 </div>
 <script>
-	$(function() {
+	jQuery(function($) {
 		$("button.delete_autologin").on("click", function(event) {
 			event.preventDefault();
 			exec_json('member.procMemberDeleteAutologin', { autologin_id: $(this).data("autologin-id"), autologin_key: $(this).data("autologin-key") }, function(data) {
