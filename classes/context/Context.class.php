@@ -176,7 +176,15 @@ class Context
 	/**
 	 * Reserved words cache
 	 */
-	private static $_reserved = null;
+	private static $_reserved_words = null;
+
+	/**
+	 * Reserved keys cache
+	 */
+	private static $_reserved_keys = array(
+		'_rx_ajax_compat' => true,
+		'_rx_csrf_token' => true,
+	);
 
 	/**
 	 * Singleton instance
@@ -1157,7 +1165,7 @@ class Context
 		$requestMethod = self::getRequestMethod();
 		foreach($_REQUEST as $key => $val)
 		{
-			if($val === '' || self::get($key))
+			if($val === '' || isset(self::$_reserved_keys[$key]) || self::get($key))
 			{
 				continue;
 			}
@@ -2510,16 +2518,16 @@ class Context
 	 */
 	public static function isReservedWord($word)
 	{
-		if (self::$_reserved === null)
+		if (self::$_reserved_words === null)
 		{
-			self::$_reserved = (include RX_BASEDIR . 'common/defaults/reserved.php');
-			if (!is_array(self::$_reserved))
+			self::$_reserved_words = (include RX_BASEDIR . 'common/defaults/reserved.php');
+			if (!is_array(self::$_reserved_words))
 			{
-				self::$_reserved = array();
+				self::$_reserved_words = array();
 			}
 		}
 		
-		return isset(self::$_reserved[$word]);
+		return isset(self::$_reserved_words[$word]);
 	}
 
 	/**

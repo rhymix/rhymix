@@ -304,7 +304,7 @@ class Security
 		{
 			return Session::verifyToken($token);
 		}
-		elseif ($token = \Context::get('_rx_csrf_token'))
+		elseif ($token = $_REQUEST['_rx_csrf_token'])
 		{
 			return Session::verifyToken($token);
 		}
