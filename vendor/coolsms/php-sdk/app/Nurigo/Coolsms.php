@@ -115,10 +115,11 @@ class Coolsms
      */
     private function setContent($options)
     {
-        if($options->json_args){
-            $this->content = $options->json_args;
+        if($options->encoding_json_data) {
+            $this->content = $options->encoding_json_data;
             return;
         }
+
         $this->content = new \stdClass;
         if ($options->json_option) {
             $json_option = $options->json_option;
@@ -136,30 +137,8 @@ class Coolsms
         if ($options->json_option == 'SimpleMessage')
         {
             $this->setApiConfig('SimpleMessage', '3');
-            $args = new \stdClass();
-            $args->to = new \stdClass();
-            $args->to->recipient = $options->to;
-            $args->from = $options->from;
-            $args->text = $options->text;
-            $args->type = $options->type;
-            $args->country = $options->country;
-            $args->subject = $options->subject;
-            if($options->imageId) $args->imageId = $options->imageId;
-            if($options->scheduledDate) $args->scheduledDate = $options->scheduledDate;
-            if($options->kakaoOptions) $args->kakaoOptions = $options->kakaoOptions;
-            $object = new \stdClass();
-            $object->messages = array($args);
-            $object->groupOptions = new \stdClass();
-            if($options->appId) $object->groupOptions->appId = $options->appId;
-            if($options->appVersion) $object->groupOptions->appVersion = $options->appVersion;
-            $object->groupOptions->mode = $options->mode;
-            $object->groupOptions->forceSms = $options->forceSms;
-            $object->groupOptions->onlyAta = $options->onlyAta;
-            $object->groupOptions->osPlatform = $options->osPlatform;
-            $object->groupOptions->devLanguage = $options->devLanguage;
-            $object->groupOptions->sdkVersion = $options->sdkVersion;
-            $this->content = $object;
         }
+
         $this->content = json_encode($this->content);
     }
 

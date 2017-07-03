@@ -36,14 +36,38 @@ class Message extends Coolsms
      *   @param string  app_version    [optional] }
      * @return object(recipient_number, group_id, message_id, result_code, result_message)
      */
-    public function send($options) 
+    public function send($options)
     {
         // check require fields. ( 'to, from, 'text' )
         if (!isset($options->to) || !isset($options->from) || !isset($options->text)) throw new CoolsmsSDKException('"to, from, text" must be entered', 202);
         $options->json_option = 'SimpleMessage';
+        $args = new \stdClass();
+        $args->to = new \stdClass();
+        $args->to->recipient = $options->to;
+        $args->from = $options->from;
+        $args->text = $options->text;
+        $args->type = $options->type;
+        $args->country = $options->country;
+        $args->subject = $options->subject;
+        if ($options->imageId) $args->imageId = $options->imageId;
+        if ($options->scheduledDate) $args->scheduledDate = $options->scheduledDate;
+        if ($options->kakaoOptions) $args->kakaoOptions = $options->kakaoOptions;
+        $object = new \stdClass();
+        $object->messages = array($args);
+        $object->groupOptions = new \stdClass();
+        if ($options->appId) $object->groupOptions->appId = $options->appId;
+        if ($options->appVersion) $object->groupOptions->appVersion = $options->appVersion;
+        $object->groupOptions->mode = $options->mode;
+        $object->groupOptions->forceSms = $options->forceSms;
+        $object->groupOptions->onlyAta = $options->onlyAta;
+        $object->groupOptions->osPlatform = $options->osPlatform;
+        $object->groupOptions->devLanguage = $options->devLanguage;
+        $object->groupOptions->sdkVersion = $options->sdkVersion;
+        $options->encoding_json_data = json_encode($object);
+
         return $this->request('sendMessages', $options, true);
     }
-    
+
     /**
      * @brief sent message list ( HTTP Method GET )
      * @param object $options {
@@ -71,7 +95,7 @@ class Message extends Coolsms
      * @param string $gid [optional]
      * @return None
      */
-    public function cancel($mid = null, $gid = null) 
+    public function cancel($mid = null, $gid = null)
     {
         // mid or gid is empty. throw exception
         if (!$mid && !$gid) throw new CoolsmsSDKException('mid or gid either one must be entered', 202);
@@ -87,7 +111,7 @@ class Message extends Coolsms
      * @param None
      * @return object(cash, point)
      */
-    public function getBalance() 
+    public function getBalance()
     {
         return $this->request('balance');
     }
@@ -101,7 +125,7 @@ class Message extends Coolsms
      *   @param integer channel [optional] }
      * @return object(registdate, sms_average, sms_sk_average, sms_kt_average, sms_lg_average, mms_average, mms_sk_average, mms_kt_average, mms_lg_average)
      */
-    public function getStatus($options = null) 
+    public function getStatus($options = null)
     {
         return $this->request('status', $options);
     }

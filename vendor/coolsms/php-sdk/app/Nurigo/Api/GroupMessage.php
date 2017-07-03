@@ -58,10 +58,10 @@ class GroupMessage extends Coolsms
         $args->groups[]->groupId = $group_ids;
 
 
-        $json_args = json_encode($args);
+        $encoding_json_data = json_encode($args);
 
         $options = new \stdClass();
-        $options->json_args = $json_args;
+        $options->encoding_json_data = $encoding_json_data;
         return $this->request('deleteGroups', $options, true);
     }
 
