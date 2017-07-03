@@ -132,6 +132,10 @@ class layoutModel extends layout
 			$siteModuleInfo = Context::get('site_module_info');
 			$siteSrl = (int)$siteModuleInfo->site_srl;
 		}
+		if ($columnList && !isset($columnList['layout_type']))
+		{
+			$columnList[] = 'layout_type';
+		}
 		$args = new stdClass();
 		$args->site_srl = $siteSrl;
 		$args->layout_type = $layoutType === 'P' ? 'P' : 'P,M';
@@ -144,7 +148,7 @@ class layoutModel extends layout
 		{
 			foreach($output->data as $no => $iInfo)
 			{
-				if($this->isExistsLayoutFile($iInfo->layout, $iInfo->layout_type))
+				if($this->isExistsLayoutFile($iInfo->layout, $iInfo->layout_type) && $iInfo->layout_type === $layoutType)
 				{
 					$instanceList[] = $iInfo->layout;
 				}
@@ -167,7 +171,7 @@ class layoutModel extends layout
 				$titleList[$dLayoutInfo->layout] = $dLayoutInfo->title;
 			}
 		}
-
+		
 		if($layout)
 		{
 			if(count($instanceList) < 1 && $downloadedList[$layout])
