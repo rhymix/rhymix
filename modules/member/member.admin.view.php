@@ -378,7 +378,8 @@ class memberAdminView extends member
 		{
 			$oEditorModel = getModel('editor');
 			$option = new stdClass();
-			$option->skin = $oEditorModel->getEditorConfig()->editor_skin;
+			$option->editor_skin = $this->memberConfig->signature_editor_skin;
+			$option->sel_editor_colorset = $this->memberConfig->sel_editor_colorset;
 			$option->primary_key_name = 'member_srl';
 			$option->content_key_name = 'signature';
 			$option->allow_fileupload = false;
