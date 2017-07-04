@@ -148,15 +148,6 @@
 				</div>
 				<!--@end-->
 				
-				<!--@if($conf_name === 'api_token')-->
-				<div class="x_control-group hidden-by-default show-for-{$driver_name}">
-					<label class="x_control-label" for="mail_{$driver_name}_api_token">{$lang->cmd_advanced_mailer_api_token}</label>
-					<div class="x_controls full-width">
-						<input type="text" name="mail_{$driver_name}_api_token" id="mail_{$driver_name}_api_token" value="{$conf_value}" />
-					</div>
-				</div>
-				<!--@end-->
-				
 				<!--@if($conf_name === 'api_user')-->
 				<div class="x_control-group hidden-by-default show-for-{$driver_name}">
 					<label class="x_control-label" for="mail_{$driver_name}_api_user">{$lang->cmd_advanced_mailer_api_user}</label>
@@ -171,6 +162,33 @@
 					<label class="x_control-label" for="mail_{$driver_name}_api_pass">{$lang->cmd_advanced_mailer_api_pass}</label>
 					<div class="x_controls full-width">
 						<input type="password" name="mail_{$driver_name}_api_pass" id="mail_{$driver_name}_api_pass" value="{$conf_value}" />
+					</div>
+				</div>
+				<!--@end-->
+				
+				<!--@if($conf_name === 'api_token')-->
+				<div class="x_control-group hidden-by-default show-for-{$driver_name}">
+					<label class="x_control-label" for="mail_{$driver_name}_api_token">{$lang->cmd_advanced_mailer_api_token}</label>
+					<div class="x_controls full-width">
+						<input type="text" name="mail_{$driver_name}_api_token" id="mail_{$driver_name}_api_token" value="{$conf_value}" />
+					</div>
+				</div>
+				<!--@end-->
+				
+				<!--@if($conf_name === 'api_key')-->
+				<div class="x_control-group hidden-by-default show-for-{$driver_name}">
+					<label class="x_control-label" for="mail_{$driver_name}_api_key">{$lang->cmd_advanced_mailer_api_key}</label>
+					<div class="x_controls">
+						<input type="text" name="mail_{$driver_name}_api_key" id="mail_{$driver_name}_api_key" value="{$conf_value}" />
+					</div>
+				</div>
+				<!--@end-->
+				
+				<!--@if($conf_name === 'api_secret')-->
+				<div class="x_control-group hidden-by-default show-for-{$driver_name}">
+					<label class="x_control-label" for="mail_{$driver_name}_api_secret">{$lang->cmd_advanced_mailer_api_secret}</label>
+					<div class="x_controls">
+						<input type="password" name="mail_{$driver_name}_api_secret" id="mail_{$driver_name}_api_secret" value="{$conf_value}" />
 					</div>
 				</div>
 				<!--@end-->
@@ -220,6 +238,33 @@
 			<!--@foreach($conf_names as $conf_name)-->
 			
 				{@ $conf_value = escape(config("sms.$driver_name.$conf_name"))}
+				
+				<!--@if($conf_name === 'api_user')-->
+				<div class="x_control-group hidden-by-default show-for-{$driver_name}">
+					<label class="x_control-label" for="sms_{$driver_name}_api_user">{$lang->cmd_advanced_mailer_api_user}</label>
+					<div class="x_controls">
+						<input type="text" name="sms_{$driver_name}_api_user" id="sms_{$driver_name}_api_user" value="{$conf_value}" />
+					</div>
+				</div>
+				<!--@end-->
+				
+				<!--@if($conf_name === 'api_pass')-->
+				<div class="x_control-group hidden-by-default show-for-{$driver_name}">
+					<label class="x_control-label" for="sms_{$driver_name}_api_pass">{$lang->cmd_advanced_mailer_api_pass}</label>
+					<div class="x_controls full-width">
+						<input type="password" name="sms_{$driver_name}_api_pass" id="sms_{$driver_name}_api_pass" value="{$conf_value}" />
+					</div>
+				</div>
+				<!--@end-->
+				
+				<!--@if($conf_name === 'api_token')-->
+				<div class="x_control-group hidden-by-default show-for-{$driver_name}">
+					<label class="x_control-label" for="sms_{$driver_name}_api_token">{$lang->cmd_advanced_mailer_api_token}</label>
+					<div class="x_controls full-width">
+						<input type="text" name="sms_{$driver_name}_api_token" id="sms_{$driver_name}_api_token" value="{$conf_value}" />
+					</div>
+				</div>
+				<!--@end-->
 				
 				<!--@if($conf_name === 'api_key')-->
 				<div class="x_control-group hidden-by-default show-for-{$driver_name}">
