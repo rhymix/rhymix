@@ -364,6 +364,7 @@ class editorModel extends editor
 				$option->editor_height = $option->mobile_editor_height;
 				$option->editor_toolbar = $option->mobile_editor_toolbar;
 				$option->editor_toolbar_hide = $option->mobile_editor_toolbar_hide;
+				$option->additional_css = $option->additional_mobile_css;
 			}
 		}
 		else
@@ -388,6 +389,7 @@ class editorModel extends editor
 				$option->editor_height = $option->mobile_comment_editor_height;
 				$option->editor_toolbar = $option->mobile_comment_editor_toolbar;
 				$option->editor_toolbar_hide = $option->mobile_comment_editor_toolbar_hide;
+				$option->additional_css = $option->additional_mobile_css;
 			}
 		}
 		
