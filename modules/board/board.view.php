@@ -97,8 +97,7 @@ class boardView extends board
 		$template_path = sprintf("%sskins/%s/",$this->module_path, $this->module_info->skin);
 		if(!is_dir($template_path)||!$this->module_info->skin)
 		{
-			$this->module_info->skin = 'default';
-			$template_path = sprintf("%sskins/%s/",$this->module_path, $this->module_info->skin);
+			$template_path = sprintf("%sskins/%s/",$this->module_path, 'default');
 		}
 		$this->setTemplatePath($template_path);
 
