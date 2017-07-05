@@ -357,7 +357,7 @@ class moduleModel extends module
 	 */
 	function getModuleInfoByModuleSrl($module_srl, $columnList = array())
 	{
-		if(!$module_srl)
+		if(intval($module_srl) == 0)
 		{
 			return false;
 		}
