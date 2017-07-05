@@ -141,7 +141,11 @@ var auto_saved_msg = "{$lang->msg_auto_saved}";
 		settings.ckeconfig.toolbarStartupExpanded = {$editor_toolbar_hide ? 'false' : 'true'};
 
 		<!--@if($editor_additional_plugins)-->
-			settings.extraPlugins = {json_encode(implode(',', $editor_additional_plugins))};
+			settings.ckeconfig.extraPlugins = {json_encode(implode(',', $editor_additional_plugins))};
+		<!--@endif-->
+
+		<!--@if($editor_remove_plugins)-->
+			settings.ckeconfig.removePlugins = {json_encode(implode(',', $editor_remove_plugins))};
 		<!--@endif-->
 
 		<!--@if($editor_toolbar === 'simple')-->

@@ -208,6 +208,17 @@ class editorAdminController extends editor
 			$config->additional_plugins = array();
 		}
 		
+		if ($configVars->remove_plugins)
+		{
+			$remove_plugins = array_map('trim', explode(',', $configVars->remove_plugins));
+			$remove_plugins = array_filter($remove_plugins, function($str) { return !empty($str); });
+			$config->remove_plugins = $remove_plugins;
+		}
+		else
+		{
+			$config->remove_plugins = array();
+		}
+		
 		$config->content_font_size = trim($configVars->content_font_size);
 		$config->content_font_size = ctype_digit($config->content_font_size) ? ($config->content_font_size . 'px') : $config->content_font_size;
 		$config->content_line_height = trim($configVars->content_line_height);
