@@ -20,8 +20,8 @@ try {
     // initiate rest api sdk object
     $rest = new GroupMessage($api_key, $api_secret);
 
-    // group_ids are mandatory. must be filled
-    $group_ids = 'GID56CC00E21C4DC'; // ex) '1GCOLS23BDG','RGGBB11545'
+    // group_ids are mandatory.
+    $group_ids = 'GID01'; // ex) array('GID01', 'GID02');
 
     $result = $rest->deleteGroups($group_ids);
     print_r($result);

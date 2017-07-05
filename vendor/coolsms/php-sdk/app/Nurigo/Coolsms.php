@@ -78,8 +78,8 @@ class Coolsms
     {
         $ch = curl_init();
         if (!$ch) throw new CoolsmsSystemException(curl_error($ch), 399);
-        // Set url. is_post true = POST , false = GET
         $url = sprintf("%s/%s/%s/%s", self::HOST, $this->api_name, $this->api_version, $this->resource);
+        debugPrint($url);
         // Set curl info
         curl_setopt($ch, CURLOPT_URL, $url);
         curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false); // check SSL certificate
@@ -93,7 +93,6 @@ class Coolsms
             "Content-Type: application/json",
             "Authorization: HMAC-MD5 ApiKey=$this->api_key, Date=$this->date, Salt=$this->salt, Signature=$this->signature"
         );
-        var_dump($this->content);
         curl_setopt($ch, CURLOPT_HTTPHEADER, $header);
         curl_setopt($ch, CURLOPT_POSTFIELDS, $this->content);
         curl_setopt($ch, CURLOPT_TIMEOUT, 30); // TimeOut value
@@ -138,7 +137,9 @@ class Coolsms
         {
             $this->setApiConfig('SimpleMessage', '3');
         }
-
+        debugPrint($options);
+        debugPrint($json_option);
+        debugPrint($this->content);
         $this->content = json_encode($this->content);
     }
 
@@ -169,7 +170,6 @@ class Coolsms
         $options->subject = '';
 
         // set salt & timestamp
-
         $options->salt = uniqid();
         $options->date = date('Y-m-d H:i:s');
         $this->salt = $options->salt;

@@ -45,18 +45,24 @@ class GroupMessage extends Coolsms
 
     /**
      * @brief delete groups ( HTTP Method POST )
-     * @param string $group_ids [required]
+     * @param array $group_ids [required]
      * @return object(count)
      */
-    public function deleteGroups($group_ids) 
+    public function deleteGroups($group_ids)
     {
         if (!$group_ids) throw new CoolsmsSDKException('group_ids is required', 202);
 
-
         $args = new \stdClass();
         $args->groups = array();
-        $args->groups[]->groupId = $group_ids;
-
+        if (is_array($group_ids)) {
+            foreach ($group_ids as $key => $group_id) {
+                $args->groups[$key] = new \stdClass();
+                $args->groups[$key]->groupId = $group_id;
+            }
+        } else {
+            $args->groups[0] = new \stdClass();
+            $args->groups[0]->groupId = $group_ids;
+        }
 
         $encoding_json_data = json_encode($args);
 
