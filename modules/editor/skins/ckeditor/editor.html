@@ -36,7 +36,9 @@ var auto_saved_msg = "{$lang->msg_auto_saved}";
 <input type="hidden" name="_saved_doc_message" value="{$lang->msg_load_saved_doc}" />
 <!--@end-->
 
-<div id="ckeditor_instance_{$editor_sequence}" data-editor-sequence="{$editor_sequence}" data-editor-primary-key-name="{$editor_primary_key_name}" data-editor-content-key-name="{$editor_content_key_name}" style="min-height:{$editor_height}px;"></div>
+{@ $editor_height_fixed = $editor_height + ($editor_toolbar_hide ? 58 : ($editor_toolbar === 'simple' ? 74 : 140))}
+
+<div id="ckeditor_instance_{$editor_sequence}" data-editor-sequence="{$editor_sequence}" data-editor-primary-key-name="{$editor_primary_key_name}" data-editor-content-key-name="{$editor_content_key_name}" style="min-height:{$editor_height_fixed}px;"></div>
 
 <p cond="$enable_autosave" class="editor_autosaved_message autosave_message" id="editor_autosaved_message_{$editor_sequence}">&nbsp;</p>
 
