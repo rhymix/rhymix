@@ -357,6 +357,10 @@ class moduleModel extends module
 	 */
 	function getModuleInfoByModuleSrl($module_srl, $columnList = array())
 	{
+		if(!$module_srl)
+		{
+			return false;
+		}
 		$mid_info = Rhymix\Framework\Cache::get("site_and_module:mid_info:$module_srl");
 		if($mid_info === null)
 		{
