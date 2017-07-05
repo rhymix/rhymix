@@ -63,17 +63,13 @@ class image_link extends EditorHandler
 
 		// Image containing the address to the address conversion request uri (rss output, etc. purposes)
 		$temp_src = explode('/', $src);
-		if(substr($src, 0,2)=='./')
+		if(substr($src, 0, 2) === './')
 		{
-			$src = Context::getRequestUri().substr($src, 2);
+			$src = \RX_BASEURL . substr($src, 2);
 		}
-		else if(substr($src , 0, 1)=='/')
+		elseif(substr($src, 0, 1) !== '/' && strpos($temp_src[0], ':') !== false)
 		{
-			$src = Rhymix\Framework\URL::getCurrentDomainURL($src);
-		}
-		else if(!strpos($temp_src[0],':') && $src)
-		{
-			$src = Context::getRequestUri().$src;
+			$src = \RX_BASEURL . $src;
 		}
 
 		$attr_output = array();
