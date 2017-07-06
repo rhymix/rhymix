@@ -1247,6 +1247,16 @@ class memberController extends member
 			return $this->stop('msg_invalid_request');
 		}
 
+		// Call a trigger (before)
+		$trigger_obj = new stdClass;
+		$trigger_obj->member_srl = $member_srl;
+		$trigger_obj->auth_key = $auth_key;
+		$trigger_output = ModuleHandler::triggerCall('member.procMemberAuthAccount', 'before', $trigger_obj);
+		if(!$trigger_output->toBool())
+		{
+			return $this->stop($trigger_output->getMessage());
+		}
+
 		// Test logs for finding password by user_id and authkey
 		$args = new stdClass;
 		$args->member_srl = $member_srl;
@@ -1294,6 +1304,10 @@ class memberController extends member
 		executeQuery('member.deleteAuthMail',$args);
 
 		$this->_clearMemberCache($args->member_srl);
+
+		// Call a trigger (after)
+		$trigger_obj->is_register = $output->data->is_register;
+		$trigger_output = ModuleHandler::triggerCall('member.procMemberAuthAccount', 'after', $trigger_obj);
 
 		// Notify the result
 		Context::set('is_register', $is_register);
