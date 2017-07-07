@@ -1452,6 +1452,12 @@ class memberController extends member
 		}
 
 		$this->_clearMemberCache($args->member_srl);
+		
+		// Call a trigger (after)
+		$trigger_obj = new stdClass;
+		$trigger_obj->member_srl = $args->member_srl;
+		$trigger_obj->email_address = $args->email_address;
+		$trigger_output = ModuleHandler::triggerCall('member.updateMemberEmailAddress', 'after', $trigger_obj);
 
 		// generate new auth key
 		$auth_args = new stdClass();
@@ -2801,6 +2807,12 @@ class memberController extends member
 
 		$this->_clearMemberCache($args->member_srl);
 
+		// Call a trigger (after)
+		$trigger_obj = new stdClass;
+		$trigger_obj->member_srl = $args->member_srl;
+		$trigger_obj->email_address = $args->email_address;
+		$trigger_output = ModuleHandler::triggerCall('member.updateMemberEmailAddress', 'after', $trigger_obj);
+		
 		// Notify the result
 		$this->setTemplatePath($this->module_path.'tpl');
 		$this->setTemplateFile('msg_success_modify_email_address');
