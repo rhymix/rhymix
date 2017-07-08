@@ -30,7 +30,7 @@
 				<br />
 				<!--@end-->
 			</td>
-			<td class="nowr">{htmlspecialchars($val->subject)}</td>
+			<td class="nowr" style="white-space:normal">{htmlspecialchars($val->subject)}</td>
 			<td class="nowr">
 				{@ if($val->sending_method === 'mail') $val->sending_method = 'mailfunction'}
 				{strval(isset($sending_methods[$val->sending_method]['name']) ? $sending_methods[$val->sending_method]['name'] : $val->sending_method)}
