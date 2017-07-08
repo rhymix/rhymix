@@ -375,7 +375,10 @@ class Context
 		$this->_COOKIE = $_COOKIE;
 
 		// start output buffer
-		ob_start();
+		if (\PHP_SAPI !== 'cli')
+		{
+			ob_start();
+		}
 
 		// set authentication information in Context and session
 		if (self::isInstalled())
