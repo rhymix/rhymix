@@ -72,8 +72,7 @@ class boardMobile extends boardView
 			$template_path = sprintf("%sskins/%s/",$this->module_path, $this->module_info->skin);
 			if(!is_dir($template_path)||!$this->module_info->skin)
 			{
-				$this->module_info->skin = 'default';
-				$template_path = sprintf("%sskins/%s/",$this->module_path, $this->module_info->skin);
+				$template_path = sprintf("%sskins/%s/",$this->module_path, 'default');
 			}
 		}
 		else
@@ -81,8 +80,7 @@ class boardMobile extends boardView
 			$template_path = sprintf("%sm.skins/%s/",$this->module_path, $this->module_info->mskin);
 			if(!is_dir($template_path)||!$this->module_info->mskin)
 			{
-				$this->module_info->mskin = 'default';
-				$template_path = sprintf("%sm.skins/%s/",$this->module_path, $this->module_info->mskin);
+				$template_path = sprintf("%sm.skins/%s/",$this->module_path, 'default');
 			}
 		}
 		$this->setTemplatePath($template_path);

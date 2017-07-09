@@ -134,6 +134,7 @@ class widgetController extends widget
 		$obj->module_srl = $module_srl;
 		$obj->content = $content;
 		$obj->document_srl = $document_srl;
+		$obj->use_editor = 'Y';
 
 		$oDocument = $oDocumentModel->getDocument($obj->document_srl);
 		if($oDocument->isExists() && $oDocument->document_srl == $obj->document_srl)

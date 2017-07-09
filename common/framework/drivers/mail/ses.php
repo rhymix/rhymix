@@ -17,7 +17,7 @@ class SES extends Base implements \Rhymix\Framework\Drivers\MailInterface
 	 */
 	protected function __construct(array $config)
 	{
-		$transport = \Swift_AWSTransport::newInstance($config['api_user'], $config['api_pass']);
+		$transport = \Swift_AWSTransport::newInstance($config['api_key'] ?: $config['api_user'], $config['api_secret'] ?: $config['api_pass']);
 		$transport->setDebug(array($this, 'debugCallback'));
 		$transport->setEndpoint('https://email.' . strtolower($config['api_type']) . '.amazonaws.com/');
 		$this->mailer = \Swift_Mailer::newInstance($transport);
@@ -30,7 +30,7 @@ class SES extends Base implements \Rhymix\Framework\Drivers\MailInterface
 	 */
 	public static function getRequiredConfig()
 	{
-		return array('api_user', 'api_pass', 'api_type');
+		return array('api_key', 'api_secret', 'api_type');
 	}
 	
 	/**

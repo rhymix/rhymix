@@ -7,15 +7,13 @@
 
 .xefu-container {
 	margin: 10px 0;
-	border: 1px solid #d7d8d8;
-	border-radius: 3px;
+	border: 1px solid #c4c4c4;
 }
  /* dropzone */
 .xefu-dropzone {
 	padding: 12px;
-	border: 1px solid #fafafa;
-	background-color: #f7f7f7;
-	border-radius: 3px;
+	border: 0;
+	background-color: #f5f6f6;
 
 	box-sizing: border-box;
 	-moz-box-sizing: border-box;

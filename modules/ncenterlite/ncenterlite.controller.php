@@ -72,6 +72,11 @@ class ncenterliteController extends ncenterlite
 
 	function triggerAfterInsertDocument(&$obj)
 	{
+		if ($obj->disable_triggers[$this->module] === true)
+		{
+			return new Object();
+		}
+
 		$oModuleModel = getModel('module');
 
 		if($this->_isDisable())

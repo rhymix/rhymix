@@ -456,6 +456,10 @@ class adminAdminView extends admin
 		Context::set('sms_drivers', $sms_drivers);
 		Context::set('sms_driver', config('sms.type') ?: 'dummy');
 		
+		// Workaround for compatibility with older version of Amazon SES driver.
+		config('mail.ses.api_key', config('mail.ses.api_user'));
+		config('mail.ses.api_secret', config('mail.ses.api_pass'));
+		
 		$this->setTemplateFile('config_notification');
 	}
 	

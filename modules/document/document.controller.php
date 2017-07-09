@@ -976,6 +976,8 @@ class documentController extends document
 
 		//remove from cache
 		Rhymix\Framework\Cache::delete('document_item:' . getNumberingPath($document_srl) . $document_srl);
+		unset($GLOBALS['XE_DOCUMENT_LIST'][$document_srl]);
+		unset($GLOBALS['XE_EXTRA_VARS'][$document_srl]);
 		return $output;
 	}
 

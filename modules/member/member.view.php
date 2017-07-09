@@ -224,8 +224,8 @@ class memberView extends member
 				$option->resizable = false;
 				$option->disable_html = true;
 				$option->height = 100;
-				$option->skin = $member_config->signature_editor_skin;
-				$option->colorset = $member_config->sel_editor_colorset;
+				$option->editor_skin = $member_config->signature_editor_skin;
+				$option->sel_editor_colorset = $member_config->sel_editor_colorset;
 				$editor = $oEditorModel->getEditor($member_info->member_srl, $option);
 				Context::set('editor', $editor);
 			}
@@ -328,8 +328,8 @@ class memberView extends member
 			$option->resizable = false;
 			$option->disable_html = true;
 			$option->height = 200;
-			//$option->skin = $member_config->signature_editor_skin;
-			//$option->colorset = $member_config->sel_editor_colorset;
+			$option->editor_skin = $member_config->signature_editor_skin;
+			$option->sel_editor_colorset = $member_config->sel_editor_colorset;
 			$editor = $oEditorModel->getEditor($member_info->member_srl, $option);
 			Context::set('editor', $editor);
 		}

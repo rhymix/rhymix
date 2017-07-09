@@ -357,6 +357,10 @@ class moduleModel extends module
 	 */
 	function getModuleInfoByModuleSrl($module_srl, $columnList = array())
 	{
+		if(intval($module_srl) == 0)
+		{
+			return false;
+		}
 		$mid_info = Rhymix\Framework\Cache::get("site_and_module:mid_info:$module_srl");
 		if($mid_info === null)
 		{
@@ -1264,8 +1268,7 @@ class moduleModel extends module
 
 					foreach($extra_vars as $var)
 					{
-						unset($obj);
-						unset($options);
+						$options = array();
 
 						$group = $group->title->body;
 						$name = $var->attrs->name;
@@ -1279,12 +1282,14 @@ class moduleModel extends module
 
 							for($i = 0; $i < $option_count; $i++)
 							{
+								$options[$i] = new stdClass();
 								$options[$i]->title = $var->default[$i]->body;
 								$options[$i]->value = $var->default[$i]->body;
 							}
 						}
 						else
 						{
+							$options[0] = new stdClass();
 							$options[0]->title = $var->default->body;
 							$options[0]->value = $var->default->body;
 						}
@@ -1292,7 +1297,7 @@ class moduleModel extends module
 						$width = $var->attrs->width;
 						$height = $var->attrs->height;
 
-						unset($obj);
+						$obj = new stdClass();
 						$obj->group = $group;
 						$obj->title = $title;
 						$obj->description = $description;

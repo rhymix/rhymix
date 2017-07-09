@@ -143,6 +143,10 @@ function getAutoSavedSrl(ret_obj, response_tags, c) {
 				if(!opts.enableToolbar) instance.config.toolbar = [];
 			});
 
+			instance.on('instanceReady', function(e) {
+				$containerEl.css("min-height", 0);
+			});
+
 			instance.on('paste', function(e) {
 				if (e.data && e.data.dataValue && e.data.dataValue.replace) {
 					e.data.dataValue = e.data.dataValue.replace(/&lt;(iframe|object)\s[^<>]+&lt;\/\1&gt;/g, function(m) {
