@@ -2,9 +2,9 @@
 
 <rdf:RDF xmlns="http://purl.org/rss/1.0/" xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:taxo="http://purl.org/rss/1.0/modules/taxonomy/" xmlns:sy="http://purl.org/rss/1.0/modules/syndication/">
 	<channel rdf:about="{getUrl('','mid',$mid,'module','rss','act','rss','format','rss1.0','page',Context::get('page'),'start_date',Context::get('start_date'),'end_date',Context::get('end_date'))}">
-		<title><![CDATA[{$info->title}]]></title> 
+		<title>{$info->title}</title> 
 		<link>{$info->link}</link>
-		<description><![CDATA[{$info->description}]]></description>
+		<description>{$info->description}</description>
 		<items>
 			<rdf:Seq>
 				<!--@foreach($document_list as $oDocument)-->
@@ -17,9 +17,9 @@
 	</channel>
 	<!--@foreach($document_list as $oDocument)-->
 	<item rdf:about="{$oDocument->getPermanentUrl()}">
-		<title><![CDATA[{$oDocument->getTitleText()}]]></title> 
+		<title>{$oDocument->getTitleText()}</title> 
 		<link>{$oDocument->getPermanentUrl()}</link>
-		<description><![CDATA[{$oDocument->getContentText(200)}]]></description>
+		<description>{$oDocument->getContentText(200)}</description>
 		<dc:date>{$oDocument->getRegdate('Y-m-d\TH:i:sP')}</dc:date> 
 	</item>
 	<!--@end-->
