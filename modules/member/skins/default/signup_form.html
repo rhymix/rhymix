@@ -25,7 +25,7 @@
 		<div class="control-group">
 			<label for="{$identifierForm->name}" class="control-label"><em style="color:red">*</em> {$identifierForm->title}</label>
 			<div class="controls">
-				<input type="text"|cond="$identifierForm->name!='email_address'" type="email"|cond="$identifierForm->name=='email_address'" name="{$identifierForm->name}" id="{$identifierForm->name}" value="{$identifierForm->value}" required />
+				<input type="text"|cond="$identifierForm->name!='email_address'" type="email"|cond="$identifierForm->name=='email_address'" name="{$identifierForm->name}" id="{$identifierForm->name}" value="" required />
 				<p class="help-inline" cond="$identifierForm->name == 'email_address' && $email_confirmation_required == 'Y'">
 					{$lang->msg_email_confirmation_required}
 				</p>
@@ -53,7 +53,7 @@
 				</p>
 			</div>
 			<div class="controls" cond="$formTag->name == 'signature'">
-				 <input type="hidden" name="signature" value="" />
+				<input type="hidden" name="signature" value="" />
 				{$editor}
 				<style scoped>
 				.xpress-editor>#smart_content,

@@ -177,18 +177,18 @@ class memberAdminView extends member
 		Context::set('editor_skin_list', $oEditorModel->getEditorSkinList());
 
 		// get an editor
-		$option = $oEditorModel->getEditorConfig();
+		$option = new stdClass;
 		$option->primary_key_name = 'temp_srl';
 		$option->content_key_name = 'agreement';
 		$option->allow_fileupload = false;
 		$option->enable_autosave = false;
 		$option->enable_default_component = true;
-		$option->enable_component = true;
+		$option->enable_component = false;
 		$option->resizable = true;
 		$option->height = 300;
-		$editor = $oEditorModel->getEditor(0, $option);
-		Context::set('editor', $editor);
-
+		$option->editor_toolbar_hide = 'Y';
+		Context::set('editor', $oEditorModel->getEditor(0, $option));
+		
 		$signupForm = $config->signupForm;
 		foreach($signupForm as $val)
 		{
@@ -363,45 +363,52 @@ class memberAdminView extends member
 	 */
 	function dispMemberAdminInsert()
 	{
-		// retrieve extend form
 		$oMemberModel = getModel('member');
-
-		$memberInfo = Context::get('member_info');
-		if(isset($memberInfo))
-		{
-			$memberInfo->signature = $oMemberModel->getSignature($this->memberInfo->member_srl);
-		}
-		Context::set('member_info', $memberInfo);
-
-		// get an editor for the signature
-		if($memberInfo->member_srl)
-		{
-			$oEditorModel = getModel('editor');
-			$option = new stdClass();
-			$option->editor_skin = $this->memberConfig->signature_editor_skin;
-			$option->sel_editor_colorset = $this->memberConfig->sel_editor_colorset;
-			$option->primary_key_name = 'member_srl';
-			$option->content_key_name = 'signature';
-			$option->allow_fileupload = false;
-			$option->enable_autosave = false;
-			$option->enable_default_component = true;
-			$option->enable_component = false;
-			$option->resizable = false;
-			$option->height = 200;
-			$editor = $oEditorModel->getEditor($this->memberInfo->member_srl, $option);
-			Context::set('editor', $editor);
-		}
-
-		$formTags = $this->_getMemberInputTag($memberInfo, true);
-		Context::set('formTags', $formTags);
 		$member_config = $this->memberConfig;
-
-		global $lang;
-		$identifierForm = new stdClass();
-		$identifierForm->title = $lang->{$member_config->identifier};
+		
+		if($member_info = Context::get('member_info'))
+		{
+			$member_info->signature = $oMemberModel->getSignature($this->memberInfo->member_srl);
+		}
+		else
+		{
+			$member_info = new stdClass;
+		}
+		Context::set('member_info', $member_info);
+		
+		$formTags = $this->_getMemberInputTag($member_info, true);
+		Context::set('formTags', $formTags);
+		
+		// Editor of the module set for signing by calling getEditor
+		foreach($formTags as $formTag)
+		{
+			if($formTag->name == 'signature')
+			{
+				$option = new stdClass;
+				$option->primary_key_name = 'member_srl';
+				$option->content_key_name = 'signature';
+				$option->allow_fileupload = $member_config->member_allow_fileupload === 'Y';
+				$option->enable_autosave = false;
+				$option->enable_default_component = true;
+				$option->enable_component = false;
+				$option->resizable = false;
+				$option->disable_html = true;
+				$option->height = 200;
+				$option->editor_toolbar = 'simple';
+				$option->editor_toolbar_hide = 'Y';
+				$option->editor_skin = $member_config->signature_editor_skin;
+				$option->sel_editor_colorset = $member_config->sel_editor_colorset;
+				
+				Context::set('editor', getModel('editor')->getEditor($member_info->member_srl, $option));
+			}
+		}
+		
+		$identifierForm = new stdClass;
+		$identifierForm->title = lang($member_config->identifier);
 		$identifierForm->name = $member_config->identifier;
-		$identifierForm->value = $memberInfo->{$member_config->identifier};
+		$identifierForm->value = $member_info->{$member_config->identifier};
 		Context::set('identifierForm', $identifierForm);
+		
 		$this->setTemplateFile('insert_member');
 	}
 
@@ -413,16 +420,20 @@ class memberAdminView extends member
 	 *
 	 * @return array
 	 */
-	function _getMemberInputTag($memberInfo, $isAdmin = false)
+	function _getMemberInputTag($memberInfo = null, $isAdmin = false)
 	{
 		$oMemberModel = getModel('member');
 		$extend_form_list = $oMemberModel->getCombineJoinForm($memberInfo);
 		$security = new Security($extend_form_list);
 		$security->encodeHTML('..column_title', '..description', '..default_value.');
-
+		
 		if ($memberInfo)
 		{
 			$memberInfo = get_object_vars($memberInfo);
+		}
+		else
+		{
+			$memberInfo = array();
 		}
 
 		$member_config = $this->memberConfig;
