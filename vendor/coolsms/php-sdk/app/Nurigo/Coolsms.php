@@ -79,7 +79,6 @@ class Coolsms
         $ch = curl_init();
         if (!$ch) throw new CoolsmsSystemException(curl_error($ch), 399);
         $url = sprintf("%s/%s/%s/%s", self::HOST, $this->api_name, $this->api_version, $this->resource);
-        debugPrint($url);
         // Set curl info
         curl_setopt($ch, CURLOPT_URL, $url);
         curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false); // check SSL certificate
@@ -87,8 +86,6 @@ class Coolsms
         //curl_setopt($ch, CURLOPT_SSLVERSION, 3); // SSL protocol version (need for https connect, 3 -> SSLv3)
         curl_setopt($ch, CURLOPT_HEADER, 0); // include the header in the output (1 = true, 0 = false) 
         curl_setopt($ch, CURLOPT_POST, $this->is_post); // POST GET method
-
-
         $header = array(
             "Content-Type: application/json",
             "Authorization: HMAC-MD5 ApiKey=$this->api_key, Date=$this->date, Salt=$this->salt, Signature=$this->signature"
@@ -137,9 +134,7 @@ class Coolsms
         {
             $this->setApiConfig('SimpleMessage', '3');
         }
-        debugPrint($options);
-        debugPrint($json_option);
-        debugPrint($this->content);
+
         $this->content = json_encode($this->content);
     }
 

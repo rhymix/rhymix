@@ -105,9 +105,40 @@ class GroupMessage extends Coolsms
         if (!isset($options->group_id) || !isset($options->to) || !isset($options->text) || !isset($options->from)) {
             throw new CoolsmsSDKException('group_id, to, text, from is required', 202);
         }
-        $options->json_option = 'messages';
+        $args = new \stdClass();
+        $args->messages = array();
+        $args->messages[0] = new \stdClass();
+        $sendNumber = explode(',', $options->to);
+        $args->messages[0]->to = new \stdClass();
+        $args->messages[0]->to->recipients = $sendNumber;
+        $args->messages[0]->from = $options->from;
+        $args->messages[0]->text = $options->text;
+        if ($options->type) {
+            $args->messages[0]->type = $options->type;
+        } else {
+            $args->messages[0]->type = 'SMS';
+        }
+        if ($options->country) {
+            $args->messages[0]->country = $options->country;
+        }
+        if ($options->subject) {
+            $args->messages[0]->subject = $options->subject;
+        }
+        if ($options->imageId) {
+            $args->messages[0]->imageId = $options->imageId;
+        }
+        if ($options->kakaoOptions) {
+            $args->messages[0]->kakaoOptions = new \stdClass();
+            if($options->kakaoOptions->senderKey) $args->messages[0]->kakaoOptions->senderKey = $options->kakaoOptions->senderKey;
+            if($options->kakaoOptions->templateCode) $args->messages[0]->kakaoOptions->templateCode = $options->kakaoOptions->templateCode;
+            if($options->kakaoOptions->buttonName) $args->messages[0]->kakaoOptions->buttonName = $options->kakaoOptions->buttonName;
+            if($options->kakaoOptions->buttonUrl) $args->messages[0]->kakaoOptions->buttonUrl = $options->kakaoOptions->buttonUrl;
+        }
 
-        return $this->request(sprintf('group/%s/addMessages', $options->group_id), $options, true);
+        $encoding_json_data = json_encode($args);
+        $obj = new \stdClass();
+        $obj->encoding_json_data = $encoding_json_data;
+        return $this->request(sprintf('group/%s/addMessages', $options->group_id), $obj, true);
     }
 
     /**
