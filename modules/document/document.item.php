@@ -142,7 +142,7 @@ class documentItem extends Object
 		if($this->get('tags'))
 		{
 			$tag_list = explode(',', $this->get('tags'));
-			$tag_list = array_map('trim', $tag_list);
+			$tag_list = array_map('utf8_trim', $tag_list);
 			$this->add('tag_list', $tag_list);
 		}
 
