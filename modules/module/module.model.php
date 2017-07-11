@@ -1120,7 +1120,7 @@ class moduleModel extends module
 			{
 				$type = 'M';
 			}
-			$defaultSkinName = $this->getModuleDefaultSkin($module, $type, $site_info->site_srl);
+			$defaultSkinName = $this->getModuleDefaultSkin($module, $type);
 
 			if(isset($defaultSkinName))
 			{
@@ -1164,6 +1164,7 @@ class moduleModel extends module
 		if($xml_obj->version && $xml_obj->attrs->version == '0.2')
 		{
 			// skin format v0.2
+			$date_obj = (object)array('y' => 0, 'm' => 0, 'd' => 0);
 			sscanf($xml_obj->date->body, '%d-%d-%d', $date_obj->y, $date_obj->m, $date_obj->d);
 			$skin_info->version = $xml_obj->version->body;
 			$skin_info->date = sprintf('%04d%02d%02d', $date_obj->y, $date_obj->m, $date_obj->d);
@@ -1209,10 +1210,10 @@ class moduleModel extends module
 						$obj->title = $val->title->body;
 						$obj->type = $val->attrs->type;
 						$obj->description = $val->description->body;
-						$obj->value = $extra_vals->{$obj->name};
+						$obj->value = array();
 						$obj->default = $val->attrs->default;
-						if(strpos($obj->value, '|@|') != false) { $obj->value = explode('|@|', $obj->value); }
-						if($obj->type == 'mid_list' && !is_array($obj->value)) { $obj->value = array($obj->value); }
+						//if(strpos($obj->value, '|@|') !== false) { $obj->value = explode('|@|', $obj->value); }
+						//if($obj->type == 'mid_list' && !is_array($obj->value)) { $obj->value = array($obj->value); }
 						// Get an option list from 'select'type
 						if(is_array($val->options))
 						{
@@ -1240,6 +1241,7 @@ class moduleModel extends module
 		else
 		{
 			// skin format v0.1
+			$date_obj = (object)array('y' => 0, 'm' => 0, 'd' => 0);
 			sscanf($xml_obj->maker->attrs->date, '%d-%d-%d', $date_obj->y, $date_obj->m, $date_obj->d);
 
 			$skin_info->version = $xml_obj->version->body;
