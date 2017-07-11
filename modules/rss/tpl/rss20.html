@@ -29,7 +29,7 @@
 			<comments>{$oDocument->getPermanentUrl()}#comment</comments>
 			<!--@end-->
 			<!--@if($open_rss_config[$oDocument->get('module_srl')]=='Y')-->
-			<description>{$oDocument->getTransContent(false,false,true)}</description>
+			<description>{escape($oDocument->getTransContent(false,false,true))}</description>
 			<!--@else-->
 			<description>{$oDocument->getContentText(100)}</description>
 			<!--@end-->

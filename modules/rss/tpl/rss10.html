@@ -19,7 +19,11 @@
 	<item rdf:about="{$oDocument->getPermanentUrl()}">
 		<title>{$oDocument->getTitleText()}</title> 
 		<link>{$oDocument->getPermanentUrl()}</link>
-		<description>{$oDocument->getContentText(200)}</description>
+		<!--@if($open_rss_config[$oDocument->get('module_srl')]=='Y')-->
+		<description>{$oDocument->getContentPlainText()}</description>
+		<!--@else-->
+		<description>{$oDocument->getContentText(100)}</description>
+		<!--@end-->
 		<dc:date>{$oDocument->getRegdate('Y-m-d\TH:i:sP')}</dc:date> 
 	</item>
 	<!--@end-->
