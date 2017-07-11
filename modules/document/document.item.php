@@ -484,8 +484,34 @@ class documentItem extends Object
 		if($this->get('title_bold')=='Y') $attrs[] = "font-weight:bold;";
 		if($this->get('title_color') && $this->get('title_color') != 'N') $attrs[] = "color:#".$this->get('title_color');
 
-		if(count($attrs)) return sprintf("<span style=\"%s\">%s</span>", implode(';',$attrs), htmlspecialchars($title, ENT_COMPAT | ENT_HTML401, 'UTF-8', false));
-		else return htmlspecialchars($title, ENT_COMPAT | ENT_HTML401, 'UTF-8', false);
+		if(count($attrs))
+		{
+			return sprintf("<span style=\"%s\">%s</span>", implode(';', $attrs), escape($title, false));
+		}
+		else
+		{
+			return escape($title, false);
+		}
+	}
+
+	function getContentPlainText($strlen = 0)
+	{
+		if(!$this->document_srl) return;
+		if($this->isSecret() && !$this->isGranted() && !$this->isAccessible()) return lang('msg_is_secret');
+
+		$result = $this->_checkAccessibleFromStatus();
+		if($result && Context::getSessionStatus())
+		{
+			$this->setAccessible();
+		}
+
+		$content = $this->get('content');
+		$content = trim(utf8_normalize_spaces(html_entity_decode(strip_tags($content))));
+		if($strlen)
+		{
+			$content = cut_str($content, $strlen, '...');
+		}
+		return escape($content);
 	}
 
 	function getContentText($strlen = 0)
@@ -504,9 +530,12 @@ class documentItem extends Object
 		$content = preg_replace_callback('/<(object|param|embed)[^>]*/is', array($this, '_checkAllowScriptAccess'), $content);
 		$content = preg_replace_callback('/<object[^>]*>/is', array($this, '_addAllowScriptAccess'), $content);
 
-		if($strlen) return cut_str(strip_tags($content),$strlen,'...');
-
-		return htmlspecialchars($content);
+		if($strlen)
+		{
+			$content = trim(utf8_normalize_spaces(html_entity_decode(strip_tags($content))));
+			$content = cut_str($content, $strlen, '...');
+		}
+		return escape($content);
 	}
 
 	function _addAllowScriptAccess($m)
