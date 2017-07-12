@@ -387,6 +387,7 @@ class memberAdminView extends member
 				$option = new stdClass;
 				$option->primary_key_name = 'member_srl';
 				$option->content_key_name = 'signature';
+				$option->allow_html = $member_config->signature_html !== 'N';
 				$option->allow_fileupload = $member_config->member_allow_fileupload === 'Y';
 				$option->enable_autosave = false;
 				$option->enable_default_component = true;

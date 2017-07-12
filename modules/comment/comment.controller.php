@@ -358,7 +358,9 @@ class commentController extends comment
 		{
 			return new Object(-1, 'msg_invalid_document');
 		}
-
+		
+		// creat the comment model object
+		$oCommentModel = getModel('comment');
 		// get a object of document model
 		$oDocumentModel = getModel('document');
 
@@ -436,28 +438,7 @@ class commentController extends comment
 		// if use editor of nohtml, Remove HTML tags from the contents.
 		if(!$manual_inserted)
 		{
-			$editor_config = getModel('editor')->getEditorConfig($obj->module_srl);
-			if (strpos($editor_config->sel_comment_editor_colorset, 'nohtml') !== false)
-			{
-				$is_html_content = false;
-			}
-			elseif ($obj->use_editor === 'Y' || $obj->use_html === 'Y')
-			{
-				$is_html_content = true;
-			}
-			elseif ($obj->use_editor === 'N' || $obj->use_html === 'N')
-			{
-				$is_html_content = false;
-			}
-			else
-			{
-				$is_html_content = is_html_content($obj->content);
-			}
-			
-			if (!$is_html_content)
-			{
-				$obj->content = nl2br($obj->use_html === 'Y' ? $obj->content : escape($obj->content, false));
-			}
+			$obj->content = $oCommentModel->filterHtml($obj);
 		}
 
 		if(!$obj->regdate)
@@ -558,10 +539,7 @@ class commentController extends comment
 			$oDB->rollback();
 			return $output;
 		}
-
-		// creat the comment model object
-		$oCommentModel = getModel('comment');
-
+		
 		// get the number of all comments in the posting
 		$comment_count = $oCommentModel->getCommentCount($document_srl);
 
@@ -810,28 +788,7 @@ class commentController extends comment
 		// if use editor of nohtml, Remove HTML tags from the contents.
 		if(!$manual_updated)
 		{
-			$editor_config = getModel('editor')->getEditorConfig($obj->module_srl);
-			if (strpos($editor_config->sel_comment_editor_colorset, 'nohtml') !== false)
-			{
-				$is_html_content = false;
-			}
-			elseif ($obj->use_editor === 'Y' || $obj->use_html === 'Y')
-			{
-				$is_html_content = true;
-			}
-			elseif ($obj->use_editor === 'N' || $obj->use_html === 'N')
-			{
-				$is_html_content = false;
-			}
-			else
-			{
-				$is_html_content = is_html_content($obj->content);
-			}
-			
-			if (!$is_html_content)
-			{
-				$obj->content = nl2br($obj->use_html === 'Y' ? $obj->content : escape($obj->content, false));
-			}
+			$obj->content = $oCommentModel->filterHtml($obj);
 		}
 
 		// remove iframe and script if not a top administrator on the session

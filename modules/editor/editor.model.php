@@ -43,7 +43,8 @@ class editorModel extends editor
 		}
 		
 		// Fill in some other values.
-		if($editor_config->enable_autosave != 'N') $editor_config->enable_autosave = 'Y';
+		$editor_config->enable_autosave = $editor_config->enable_autosave ?: 'Y';
+		$editor_config->allow_html = $editor_config->allow_html ?: 'Y';
 		if(!is_array($editor_config->enable_html_grant)) $editor_config->enable_html_grant = array();
 		if(!is_array($editor_config->enable_comment_html_grant)) $editor_config->enable_comment_html_grant = array();
 		if(!is_array($editor_config->upload_file_grant)) $editor_config->upload_file_grant = array();
@@ -251,6 +252,9 @@ class editorModel extends editor
 			Context::set('saved_doc', $this->getSavedDoc($upload_target_srl));
 		}
 		Context::set('enable_autosave', $option->enable_autosave);
+		
+		// Set allow html
+		Context::set('allow_html', ($option->allow_html === false || $option->allow_html === 'N') ? false : true);
 		
 		// Load editor components.
 		$site_srl = Context::get('site_module_info')->site_srl ?: 0;

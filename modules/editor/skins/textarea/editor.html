@@ -27,6 +27,11 @@
 			}
 			
 			// Save edited content
+			<!--@if(!$allow_html)-->
+			textarea.on("change", function() {
+				content_input.val(String($(this).val()).escape());
+			});
+			<!--@else-->
 			textarea.on("change", function() {
 				content_input.val("<p>" + String($(this).val()).escape().replace(/\r?\n/g, "</p>\n<p>") + "</p>");
 			});
@@ -45,7 +50,7 @@
 			} else {
 				parentform.append('<input type="hidden" name="use_html" value="Y" />');
 			}
-			
+			<!--@end-->
 		});
 	</script>
 </div>

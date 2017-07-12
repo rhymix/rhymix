@@ -90,6 +90,13 @@
 				</td>
 			</tr>
 			<tr>
+				<th scope="row" style="text-align:right">{$lang->allow_html}</th>
+				<td colspan="2">
+					<label class="x_inline"><input type="radio" name="allow_html" value="Y" checked="checked"|cond="$editor_config->allow_html != 'N'" /> {$lang->cmd_yes}</label>
+					<label class="x_inline"><input type="radio" name="allow_html" value="N" checked="checked"|cond="$editor_config->allow_html == 'N'" /> {$lang->cmd_no}</label>
+				</td>
+			</tr>
+			<tr>
 				<th scope="row" style="text-align:right">{$lang->enable_html_grant}</th>
 				<td>
 					<label loop="$group_list => $k, $v" for="enable_html_{$k}" class="x_inline"><input type="checkbox" name="enable_html_grant[]" value="{$k}" id="enable_html_{$k}" checked="checked"|cond="in_array($k, $editor_config->enable_html_grant)" /> {$v->title}</label>

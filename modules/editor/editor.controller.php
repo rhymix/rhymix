@@ -147,21 +147,21 @@ class editorController extends editor
 				$editor_config->{$key} = explode('|@|', $grant);
 			}
 		}
-
+		
 		$editor_config->editor_height = (int)Context::get('editor_height');
 		$editor_config->comment_editor_height = (int)Context::get('comment_editor_height');
-		$editor_config->enable_autosave = Context::get('enable_autosave');
-		if($editor_config->enable_autosave != 'Y') $editor_config->enable_autosave = 'N';
-
+		$editor_config->enable_autosave = Context::get('enable_autosave') ?: 'N';
+		$editor_config->allow_html = Context::get('allow_html') ?: 'Y';
+		
 		$oModuleController = getController('module');
 		foreach ($module_srl as $srl)
 		{
-			$oModuleController->insertModulePartConfig('editor',$srl,$editor_config);
+			$oModuleController->insertModulePartConfig('editor', $srl, $editor_config);
 		}
-
+		
 		$this->setError(-1);
 		$this->setMessage('success_updated', 'info');
-
+		
 		$returnUrl = Context::get('success_return_url') ? Context::get('success_return_url') : getNotEncodedUrl('', 'module', 'admin', 'act', 'dispBoardAdminContent');
 		$this->setRedirectUrl($returnUrl);
 	}

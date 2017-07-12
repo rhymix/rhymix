@@ -71,6 +71,7 @@ $lang->enable_default_component_grant = 'Permission to use default components';
 $lang->enable_extra_component_grant = 'Permission to use extra components';
 $lang->enable_html_grant = 'Permission to edit HTML';
 $lang->enable_autosave = 'Enable Auto-Save';
+$lang->allow_html = 'allow HTML';
 $lang->height_resizable = 'Height Resizable';
 $lang->editor_height = 'Height of Editor';
 $lang->about_default_editor_settings = 'Follow editor settings of Rhymix Admin page through whole site.';
