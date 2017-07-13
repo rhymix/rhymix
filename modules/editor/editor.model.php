@@ -878,30 +878,46 @@ class editorModel extends editor
 	 */
 	function convertHTML($obj)
 	{
-		$no_html = false;
+		$type = array();
 		$editor_config = $this->getEditorConfig($obj->module_srl);
 		
-		if ($editor_config->allow_html === 'N')
+		// Check
+		if ($editor_config->allow_html === 'N' || $obj->use_html === 'N')
 		{
-			$no_html = true;
+			$type[] = 'to_Text';
 		}
 		elseif (strpos($obj->title ? $editor_config->sel_editor_colorset : $editor_config->sel_comment_editor_colorset, 'nohtml') !== false)
 		{
-			$no_html = true;
-		}
-		elseif ($obj->use_html === 'N')
-		{
-			$no_html = true;
+			$type[] = 'to_Text';
 		}
 		
-		if ($no_html || $obj->use_editor === 'N' || !is_html_content($obj->content))
+		if (in_array('to_Text', $type) || $obj->use_editor === 'N' || !is_html_content($obj->content))
 		{
-			if ($no_html)
+			$type[] = 'to_HTML';
+		}
+		
+		if ($obj->markdown === 'Y')
+		{
+			$type[] = 'Markdown2HTML';
+		}
+		
+		// Convert
+		if ($type)
+		{
+			if (in_array('to_Text', $type))
 			{
 				$obj->content = escape(strip_tags($obj->content), false);
 			}
 			
-			$obj->content = nl2br($obj->content);
+			if (in_array('to_HTML', $type))
+			{
+				$obj->content = nl2br($obj->content);
+			}
+			
+			if (in_array('Markdown2HTML', $type))
+			{
+				$obj->content = Rhymix\Framework\Formatter::markdown2html($obj->content);
+			}
 		}
 		
 		return $obj->content;
