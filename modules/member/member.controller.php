@@ -1626,7 +1626,10 @@ class memberController extends member
 		
 		if(getModel('member')->getMemberConfig()->signature_html == 'N')
 		{
-			$signature = nl2br(escape(strip_tags($signature), false));
+			$obj = new stdClass;
+			$obj->use_html = 'N';
+			$obj->content = $signature;
+			$signature = getModel('editor')->convertHTML($obj);
 		}
 		
 		$filename = sprintf('files/member_extra_info/signature/%s%d.signature.php', getNumberingPath($member_srl), $member_srl);
