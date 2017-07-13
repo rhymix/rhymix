@@ -43,8 +43,6 @@ class editorModel extends editor
 		}
 		
 		// Fill in some other values.
-		$editor_config->enable_autosave = $editor_config->enable_autosave ?: 'Y';
-		$editor_config->allow_html = $editor_config->allow_html ?: 'Y';
 		if(!is_array($editor_config->enable_html_grant)) $editor_config->enable_html_grant = array();
 		if(!is_array($editor_config->enable_comment_html_grant)) $editor_config->enable_comment_html_grant = array();
 		if(!is_array($editor_config->upload_file_grant)) $editor_config->upload_file_grant = array();

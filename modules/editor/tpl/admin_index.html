@@ -213,6 +213,21 @@
 			</div>
 		</div>
 		<div class="x_control-group">
+			<label class="x_control-label">{$lang->enable_autosave}</label>
+			<div class="x_controls">
+				<label class="x_inline"><input type="radio" name="enable_autosave" value="Y" checked="checked"|cond="$editor_config->enable_autosave != 'N'" /> {$lang->cmd_yes}</label>
+				<label class="x_inline"><input type="radio" name="enable_autosave" value="N" checked="checked"|cond="$editor_config->enable_autosave == 'N'" /> {$lang->cmd_no}</label>
+				<p class="x_help-inline">{$lang->about_enable_autosave}</p>
+			</div>
+		</div>
+		<div class="x_control-group">
+			<label class="x_control-label">{$lang->allow_html}</label>
+			<div class="x_controls">
+				<label class="x_inline"><input type="radio" name="allow_html" value="Y" checked="checked"|cond="$editor_config->allow_html != 'N'" /> {$lang->cmd_yes}</label>
+				<label class="x_inline"><input type="radio" name="allow_html" value="N" checked="checked"|cond="$editor_config->allow_html == 'N'" /> {$lang->cmd_no}</label>
+			</div>
+		</div>
+		<div class="x_control-group">
 			<label class="x_control-label">{$lang->guide_choose_autoinsert_image}</label>
 			<div class="x_controls">
 				<label for="autoinsert_image_paragraph">

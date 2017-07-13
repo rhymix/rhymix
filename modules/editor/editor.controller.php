@@ -150,7 +150,7 @@ class editorController extends editor
 		
 		$editor_config->editor_height = (int)Context::get('editor_height');
 		$editor_config->comment_editor_height = (int)Context::get('comment_editor_height');
-		$editor_config->enable_autosave = Context::get('enable_autosave') ?: 'N';
+		$editor_config->enable_autosave = Context::get('enable_autosave') ?: 'Y';
 		$editor_config->allow_html = Context::get('allow_html') ?: 'Y';
 		
 		$oModuleController = getController('module');
