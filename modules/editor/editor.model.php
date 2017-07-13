@@ -408,19 +408,22 @@ class editorModel extends editor
 		}
 		
 		// Permission check for file upload
-		if ($logged_info->is_admin === 'Y' || !count($option->upload_file_grant))
+		if($module_srl)
 		{
-			$option->allow_fileupload = true;
-		}
-		else
-		{
-			$option->allow_fileupload = false;
-			foreach($group_list as $group_srl => $group_info)
+			if ($logged_info->is_admin === 'Y' || !count($option->upload_file_grant))
 			{
-				if(in_array($group_srl, $option->upload_file_grant))
+				$option->allow_fileupload = true;
+			}
+			else
+			{
+				$option->allow_fileupload = false;
+				foreach($group_list as $group_srl => $group_info)
 				{
-					$option->allow_fileupload = true;
-					break;
+					if(in_array($group_srl, $option->upload_file_grant))
+					{
+						$option->allow_fileupload = true;
+						break;
+					}
 				}
 			}
 		}
