@@ -73,10 +73,25 @@ class editorModel extends editor
 				$editor_config->$key = $editor_default_config->$key ?: $val;
 			}
 		}
-
+		
 		return $editor_config;
 	}
 
+	function getSkinConfig($skin_name)
+	{
+		$skin_config = new stdClass;
+		
+		if($skin_info = getModel('module')->loadSkinInfo($this->module_path, $skin_name))
+		{
+			foreach ($skin_info->extra_vars as $val)
+			{
+				$skin_config->{$val->name} = $val->value;
+			}
+		}
+		
+		return $skin_config;
+	}
+	
 	function loadDrComponents()
 	{
 		$drComponentPath = _XE_PATH_ . 'modules/editor/skins/dreditor/drcomponents/';
@@ -879,24 +894,37 @@ class editorModel extends editor
 	function convertHTML($obj)
 	{
 		$type = array();
-		$editor_config = $this->getEditorConfig($obj->module_srl);
+		$config = $this->getEditorConfig($obj->module_srl);
+		
+		if($obj->module_srl)
+		{
+			$converter = array();
+			$skin = $config->editor_skin;
+		}
+		else
+		{
+			$converter = array($obj->converter);
+			$skin = $obj->editor_skin ?: $config->editor_skin;
+		}
+		
+		$converter = array_merge($converter, explode(',', $this->getSkinConfig($skin)->converter));
 		
 		// Check
-		if ($editor_config->allow_html === 'N' || $obj->use_html === 'N')
+		if (in_array('text', $converter) || $config->allow_html === 'N' || $obj->use_html === 'N')
 		{
 			$type[] = 'to_Text';
 		}
-		elseif (strpos($obj->title ? $editor_config->sel_editor_colorset : $editor_config->sel_comment_editor_colorset, 'nohtml') !== false)
+		elseif (strpos($obj->title ? $config->sel_editor_colorset : $config->sel_comment_editor_colorset, 'nohtml') !== false)
 		{
 			$type[] = 'to_Text';
 		}
 		
-		if (in_array('to_Text', $type) || $obj->use_editor === 'N' || !is_html_content($obj->content))
+		if (!is_html_content($obj->content) || in_array('to_Text', $type) || $obj->use_editor === 'N')
 		{
 			$type[] = 'to_HTML';
 		}
 		
-		if ($obj->markdown === 'Y')
+		if (in_array('markdown', $converter))
 		{
 			$type[] = 'Markdown2HTML';
 		}
