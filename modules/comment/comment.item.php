@@ -320,6 +320,33 @@ class commentItem extends Object
 		return $_SESSION['voted_comment'][$this->comment_srl] = false;
 	}
 
+	function getContentPlainText($strlen = 0)
+	{
+		if($this->isDeletedByAdmin())
+		{
+			$content = lang('msg_admin_deleted_comment');
+		}
+		elseif($this->isDeleted())
+		{
+			$content = lang('msg_deleted_comment');
+		}
+		elseif($this->isSecret() && !$this->isAccessible())
+		{
+			$content = lang('msg_is_secret');
+		}
+		else
+		{
+			$content = $this->get('content');
+		}
+		
+		$content = trim(utf8_normalize_spaces(html_entity_decode(strip_tags($content))));
+		if($strlen)
+		{
+			$content = cut_str($content, $strlen, '...');
+		}
+		return escape($content);
+	}
+
 	/**
 	 * Return content with htmlspecialchars
 	 * @return string
@@ -345,10 +372,10 @@ class commentItem extends Object
 
 		if($strlen)
 		{
-			return cut_str(trim(strip_tags($content)), $strlen, '...');
+			$content = trim(utf8_normalize_spaces(html_entity_decode(strip_tags($content))));
+			$content = cut_str($content, $strlen, '...');
 		}
-
-		return htmlspecialchars($content, ENT_COMPAT | ENT_HTML401, 'UTF-8', false);
+		return escape($content);
 	}
 
 	/**
