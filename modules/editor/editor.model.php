@@ -869,6 +869,42 @@ class editorModel extends editor
 
 		return $component_info;
 	}
+	
+	/**
+	 * Return converted content
+	 * @param object $obj
+	 * @return string
+	 */
+	function convertHTML($obj)
+	{
+		$no_html = false;
+		$editor_config = $this->getEditorConfig($obj->module_srl);
+		
+		if ($editor_config->allow_html === 'N')
+		{
+			$no_html = true;
+		}
+		elseif (strpos($obj->title ? $editor_config->sel_editor_colorset : $editor_config->sel_comment_editor_colorset, 'nohtml') !== false)
+		{
+			$no_html = true;
+		}
+		elseif ($obj->use_html === 'N')
+		{
+			$no_html = true;
+		}
+		
+		if ($no_html || $obj->use_editor === 'N' || !is_html_content($obj->content))
+		{
+			if ($no_html)
+			{
+				$obj->content = escape(strip_tags($obj->content), false);
+			}
+			
+			$obj->content = nl2br($obj->content);
+		}
+		
+		return $obj->content;
+	}
 }
 /* End of file editor.model.php */
 /* Location: ./modules/editor/editor.model.php */

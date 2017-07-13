@@ -953,42 +953,6 @@ class commentModel extends comment
 	}
 	
 	/**
-	 * Return filtered content
-	 * @param object $obj
-	 * @return string
-	 */
-	function filterHtml($obj)
-	{
-		$no_html = false;
-		$editor_config = getModel('editor')->getEditorConfig($obj->module_srl);
-		
-		if ($editor_config->allow_html === 'N')
-		{
-			$no_html = true;
-		}
-		elseif (strpos($editor_config->sel_comment_editor_colorset, 'nohtml') !== false)
-		{
-			$no_html = true;
-		}
-		elseif ($obj->use_html === 'N')
-		{
-			$no_html = true;
-		}
-		
-		if ($no_html || $obj->use_editor === 'N' || !is_html_content($obj->content))
-		{
-			if ($no_html)
-			{
-				$obj->content = escape(strip_tags($obj->content), false);
-			}
-			
-			$obj->content = nl2br($obj->content);
-		}
-		
-		return $obj->content;
-	}
-
-	/**
 	 * Return a list of voting member
 	 * @return void
 	 */

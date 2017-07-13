@@ -457,9 +457,9 @@ class documentController extends document
 		// if use editor of nohtml, Remove HTML tags from the contents.
 		if(!$manual_inserted)
 		{
-			$obj->content = $oDocumentModel->filterHtml($obj);
+			$obj->content = getModel('editor')->convertHTML($obj);
 		}
-
+		
 		// Remove iframe and script if not a top adminisrator in the session.
 		if($logged_info->is_admin != 'Y') $obj->content = removeHackTag($obj->content);
 		// An error appears if both log-in info and user name don't exist.
@@ -695,7 +695,7 @@ class documentController extends document
 		// if use editor of nohtml, Remove HTML tags from the contents.
 		if(!$manual_updated)
 		{
-			$obj->content = $oDocumentModel->filterHtml($obj);
+			$obj->content = getModel('editor')->convertHTML($obj);
 		}
 		
 		// Change not extra vars but language code of the original document if document's lang_code is different from author's setting.

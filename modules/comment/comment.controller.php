@@ -438,9 +438,9 @@ class commentController extends comment
 		// if use editor of nohtml, Remove HTML tags from the contents.
 		if(!$manual_inserted)
 		{
-			$obj->content = $oCommentModel->filterHtml($obj);
+			$obj->content = getModel('editor')->convertHTML($obj);
 		}
-
+		
 		if(!$obj->regdate)
 		{
 			$obj->regdate = date("YmdHis");
@@ -784,13 +784,13 @@ class commentController extends comment
 		{
 			return new Object(-1, 'msg_empty_content');
 		}
-
+		
 		// if use editor of nohtml, Remove HTML tags from the contents.
 		if(!$manual_updated)
 		{
-			$obj->content = $oCommentModel->filterHtml($obj);
+			$obj->content = getModel('editor')->convertHTML($obj);
 		}
-
+		
 		// remove iframe and script if not a top administrator on the session
 		if($logged_info->is_admin != 'Y')
 		{
