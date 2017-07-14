@@ -1629,7 +1629,7 @@ class memberController extends member
 		$config = getModel('member')->getMemberConfig();
 		if($config->signature_html == 'N')
 		{
-			$obj->converter = 'Text';
+			$obj->converter = 'text';
 		}
 		$obj->content = $signature;
 		$obj->editor_skin = $config->signature_editor_skin;

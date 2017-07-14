@@ -932,11 +932,11 @@ class editorModel extends editor
 		// Check
 		if ($config->allow_html === 'N' || $obj->use_html === 'N')
 		{
-			$converter[] = 'Text';
+			$converter[] = 'text';
 		}
 		elseif (strpos($type == 'comment' ? $config->sel_comment_editor_colorset : $config->sel_editor_colorset, 'nohtml') !== false)
 		{
-			$converter[] = 'Text';
+			$converter[] = 'text';
 		}
 		if (!is_html_content($obj->content) || $obj->use_editor === 'N')
 		{
@@ -947,21 +947,21 @@ class editorModel extends editor
 		if ($converter)
 		{
 			// To Text
-			if (in_array('Text', $converter))
+			if (in_array('text', $converter))
 			{
 				$obj->content = escape(strip_tags($obj->content), false);
 			}
 			
 			// To HTML
-			if (in_array('Text2HTML', $converter))
+			if (in_array('text2html', $converter))
 			{
 				$obj->content = Rhymix\Framework\Formatter::text2html($obj->content);
 			}
-			elseif (in_array('Markdown2HTML', $converter))
+			elseif (in_array('markdown2html', $converter))
 			{
 				$obj->content = Rhymix\Framework\Formatter::markdown2html($obj->content);
 			}
-			elseif (in_array('Bbcode2HTML', $converter))
+			elseif (in_array('bbcode', $converter))
 			{
 				$obj->content = Rhymix\Framework\Formatter::bbcode($obj->content);
 			}
