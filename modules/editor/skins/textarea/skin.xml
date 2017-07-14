@@ -13,6 +13,6 @@
 		</color>
 	</colorset>
 	<extra_vars>
-		<var name="converter" value="text"></var>
+		<var name="converter" value="Text"></var>
 	</extra_vars>
 </skin>

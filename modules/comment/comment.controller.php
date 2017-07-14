@@ -438,7 +438,7 @@ class commentController extends comment
 		// if use editor of nohtml, Remove HTML tags from the contents.
 		if(!$manual_inserted)
 		{
-			$obj->content = getModel('editor')->convertHTML($obj);
+			$obj->content = getModel('editor')->converter($obj, 'comment');
 		}
 		
 		if(!$obj->regdate)
@@ -788,7 +788,7 @@ class commentController extends comment
 		// if use editor of nohtml, Remove HTML tags from the contents.
 		if(!$manual_updated)
 		{
-			$obj->content = getModel('editor')->convertHTML($obj);
+			$obj->content = getModel('editor')->converter($obj, 'comment');
 		}
 		
 		// remove iframe and script if not a top administrator on the session

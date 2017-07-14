@@ -457,7 +457,7 @@ class documentController extends document
 		// if use editor of nohtml, Remove HTML tags from the contents.
 		if(!$manual_inserted)
 		{
-			$obj->content = getModel('editor')->convertHTML($obj);
+			$obj->content = getModel('editor')->converter($obj, 'document');
 		}
 		
 		// Remove iframe and script if not a top adminisrator in the session.
@@ -695,7 +695,7 @@ class documentController extends document
 		// if use editor of nohtml, Remove HTML tags from the contents.
 		if(!$manual_updated)
 		{
-			$obj->content = getModel('editor')->convertHTML($obj);
+			$obj->content = getModel('editor')->converter($obj, 'document');
 		}
 		
 		// Change not extra vars but language code of the original document if document's lang_code is different from author's setting.

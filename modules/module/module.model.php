@@ -1218,9 +1218,9 @@ class moduleModel extends module
 						$obj->value = $val->attrs->value;
 						$obj->default = $val->attrs->default;
 						
-						if(strpos($obj->value, '|@|') !== false)
+						if(preg_match('/,|\|@\|/', $obj->value, $delimiter) && $delimiter[0])
 						{
-							$obj->value = explode('|@|', $obj->value);
+							$obj->value = explode($delimiter[0], $obj->value);
 						}
 						if($obj->type == 'mid_list' && !is_array($obj->value))
 						{

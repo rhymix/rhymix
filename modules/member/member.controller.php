@@ -1624,13 +1624,16 @@ class memberController extends member
 			return;
 		}
 		
-		if(getModel('member')->getMemberConfig()->signature_html == 'N')
+		// Editor converter
+		$obj = new stdClass;
+		$config = getModel('member')->getMemberConfig();
+		if($config->signature_html == 'N')
 		{
-			$obj = new stdClass;
-			$obj->use_html = 'N';
-			$obj->content = $signature;
-			$signature = getModel('editor')->convertHTML($obj);
+			$obj->converter = 'Text';
 		}
+		$obj->content = $signature;
+		$obj->editor_skin = $config->signature_editor_skin;
+		$signature = getModel('editor')->converter($obj);
 		
 		$filename = sprintf('files/member_extra_info/signature/%s%d.signature.php', getNumberingPath($member_srl), $member_srl);
 		$buff = sprintf('<?php if(!defined("__XE__")) exit();?>%s', $signature);

@@ -891,60 +891,83 @@ class editorModel extends editor
 	 * @param object $obj
 	 * @return string
 	 */
-	function convertHTML($obj)
+	function converter($obj, $type = null)
 	{
-		$type = array();
+		$converter = array();
+		$add_converters = array();
 		$config = $this->getEditorConfig($obj->module_srl);
 		
-		if($obj->module_srl)
+		// Get editor skin
+		if (in_array($type, array('document', 'comment')))
 		{
-			$converter = array();
-			$skin = $config->editor_skin;
+			$skin = ($type == 'comment') ? $config->comment_editor_skin : $config->editor_skin;
 		}
 		else
 		{
-			$converter = array($obj->converter);
+			$add_converters[] = $obj->converter;
 			$skin = $obj->editor_skin ?: $config->editor_skin;
 		}
 		
-		$converter = array_merge($converter, explode(',', $this->getSkinConfig($skin)->converter));
+		// Get converter from skin
+		$add_converters[] = $this->getSkinConfig($skin)->converter;
+		
+		// Add converter
+		foreach($add_converter as $name)
+		{
+			if(!$name)
+			{
+				continue;
+			}
+			
+			if (is_array($name))
+			{
+				$converter = array_merge($converter, $name);
+			}
+			else
+			{
+				$converter[] = $name;
+			}
+		}
 		
 		// Check
-		if (in_array('text', $converter) || $config->allow_html === 'N' || $obj->use_html === 'N')
+		if ($config->allow_html === 'N' || $obj->use_html === 'N')
 		{
-			$type[] = 'to_Text';
+			$converter[] = 'Text';
 		}
-		elseif (strpos($obj->title ? $config->sel_editor_colorset : $config->sel_comment_editor_colorset, 'nohtml') !== false)
+		elseif (strpos($type == 'comment' ? $config->sel_comment_editor_colorset : $config->sel_editor_colorset, 'nohtml') !== false)
 		{
-			$type[] = 'to_Text';
+			$converter[] = 'Text';
 		}
-		
-		if (!is_html_content($obj->content) || in_array('to_Text', $type) || $obj->use_editor === 'N')
+		if (!is_html_content($obj->content) || $obj->use_editor === 'N')
 		{
-			$type[] = 'to_HTML';
-		}
-		
-		if (in_array('markdown', $converter))
-		{
-			$type[] = 'Markdown2HTML';
+			$converter[] = 'default';
 		}
 		
 		// Convert
-		if ($type)
+		if ($converter)
 		{
-			if (in_array('to_Text', $type))
+			// To Text
+			if (in_array('Text', $converter))
 			{
 				$obj->content = escape(strip_tags($obj->content), false);
 			}
 			
-			if (in_array('to_HTML', $type))
+			// To HTML
+			if (in_array('Text2HTML', $converter))
 			{
-				$obj->content = nl2br($obj->content);
+				$obj->content = Rhymix\Framework\Formatter::text2html($obj->content);
 			}
-			
-			if (in_array('Markdown2HTML', $type))
+			elseif (in_array('Markdown2HTML', $converter))
 			{
 				$obj->content = Rhymix\Framework\Formatter::markdown2html($obj->content);
+			}
+			elseif (in_array('Bbcode2HTML', $converter))
+			{
+				$obj->content = Rhymix\Framework\Formatter::bbcode($obj->content);
+			}
+			else
+			{
+				$obj->content = nl2br($obj->content);
 			}
 		}
 		
