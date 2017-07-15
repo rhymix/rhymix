@@ -1618,7 +1618,7 @@ class memberController extends member
 	 */
 	function putSignature($member_srl, $signature)
 	{
-		if((!$signature = trim(removeHackTag($signature))) || is_empty_html_content($signature))
+		if((!$signature = utf8_trim(removeHackTag($signature))) || is_empty_html_content($signature))
 		{
 			getController('member')->delSignature($member_srl);
 			return;

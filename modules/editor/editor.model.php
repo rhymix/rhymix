@@ -937,7 +937,7 @@ class editorModel extends editor
 			// To Text
 			if ($converter == 'text')
 			{
-				$obj->content = escape(strip_tags($obj->content), false);
+				$obj->content = escape(utf8_trim(strip_tags($obj->content)), false);
 			}
 			
 			// To HTML
