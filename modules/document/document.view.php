@@ -61,10 +61,20 @@ class documentView extends document
 			return new Object(-1, 'msg_invalid_request');
 		} 
 		
+		$content = Context::get('content');
+		
 		if(Context::get('logged_info')->is_admin != 'Y')
 		{
-			Context::set('content', removeHackTag(Context::get('content')));
+			$content = removeHackTag($content);
 		}
+		
+		// Editor converter
+		$obj = new stdClass;
+		$obj->content = $content;
+		$obj->module_srl = getModel('module')->getModuleInfoByMid(Context::get('mid'))->module_srl;
+		$content = getModel('editor')->converter($obj, 'document');
+		
+		Context::set('content', $content);
 		
 		$this->setTemplatePath($this->module_path.'tpl');
 		$this->setTemplateFile('preview_page');
