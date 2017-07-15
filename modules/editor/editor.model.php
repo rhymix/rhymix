@@ -893,8 +893,7 @@ class editorModel extends editor
 	 */
 	function converter($obj, $type = null)
 	{
-		$converter = array();
-		$add_converters = array();
+		$converter = null;
 		$config = $this->getEditorConfig($obj->module_srl);
 		
 		// Get editor skin
@@ -904,64 +903,53 @@ class editorModel extends editor
 		}
 		else
 		{
-			$add_converters[] = $obj->converter;
+			$converter = $obj->converter;
 			$skin = $obj->editor_skin ?: $config->editor_skin;
 		}
 		
-		// Get converter from skin
-		$add_converters[] = $this->getSkinConfig($skin)->converter;
-		
-		// Add converter
-		foreach($add_converter as $name)
+		// if not inserted converter, Get converter from skin
+		if (!$converter)
 		{
-			if(!$name)
+			$converter = $this->getSkinConfig($skin)->converter;
+		}
+		
+		// if not inserted converter, Check
+		if (!$converter)
+		{
+			if ($config->allow_html === 'N' || $obj->use_html === 'N')
 			{
-				continue;
+				$converter = 'text';
+			}
+			elseif (strpos($type == 'comment' ? $config->sel_comment_editor_colorset : $config->sel_editor_colorset, 'nohtml') !== false)
+			{
+				$converter = 'text';
 			}
 			
-			if (is_array($name))
+			if (!is_html_content($obj->content) || $obj->use_editor === 'N')
 			{
-				$converter = array_merge($converter, $name);
+				$converter = 'default';
 			}
-			else
-			{
-				$converter[] = $name;
-			}
-		}
-		
-		// Check
-		if ($config->allow_html === 'N' || $obj->use_html === 'N')
-		{
-			$converter[] = 'text';
-		}
-		elseif (strpos($type == 'comment' ? $config->sel_comment_editor_colorset : $config->sel_editor_colorset, 'nohtml') !== false)
-		{
-			$converter[] = 'text';
-		}
-		if (!is_html_content($obj->content) || $obj->use_editor === 'N')
-		{
-			$converter[] = 'default';
 		}
 		
 		// Convert
 		if ($converter)
 		{
 			// To Text
-			if (in_array('text', $converter))
+			if ($converter == 'text')
 			{
 				$obj->content = escape(strip_tags($obj->content), false);
 			}
 			
 			// To HTML
-			if (in_array('text2html', $converter))
+			if ($converter == 'text2html')
 			{
 				$obj->content = Rhymix\Framework\Formatter::text2html($obj->content);
 			}
-			elseif (in_array('markdown2html', $converter))
+			elseif ($converter == 'markdown2html')
 			{
 				$obj->content = Rhymix\Framework\Formatter::markdown2html($obj->content);
 			}
-			elseif (in_array('bbcode', $converter))
+			elseif ($converter == 'bbcode')
 			{
 				$obj->content = Rhymix\Framework\Formatter::bbcode($obj->content);
 			}
