@@ -1036,6 +1036,7 @@ class memberModel extends member
 				$config = getModel('member')->getMemberConfig();
 				if($config->signature_html_retroact == 'Y' && $config->signature_html == 'N' && preg_match('/<[^br]+>/i', $signature))
 				{
+					$signature = preg_replace('/(\r?\n)+/', "\n", $signature);
 					return getController('member')->putSignature($member_srl, $signature);
 				}
 				
