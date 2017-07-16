@@ -934,14 +934,21 @@ class editorModel extends editor
 		// Convert
 		if ($converter)
 		{
-			// To Text
 			if ($converter == 'text')
 			{
-				$obj->content = escape(utf8_trim(strip_tags($obj->content)), false);
+				// Remove Tag
+				$obj->content = strip_tags($obj->content);
+				
+				// Trim space
+				$obj->content = utf8_trim($obj->content);
+				
+				// Escape
+				$obj->content = escape($obj->content, false);
+				
+				// Insert HTML line
+				$obj->content = nl2br($obj->content);
 			}
-			
-			// To HTML
-			if ($converter == 'text2html')
+			elseif ($converter == 'text2html')
 			{
 				$obj->content = Rhymix\Framework\Formatter::text2html($obj->content);
 			}
