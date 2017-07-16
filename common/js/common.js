@@ -653,6 +653,7 @@ function doDocumentPreview(obj) {
 			'<form id="previewDocument" target="previewDocument" method="post" action="'+request_uri+'">'+
 			'<input type="hidden" name="module" value="document" />'+
 			'<input type="hidden" name="act" value="dispDocumentPreview" />'+
+			'<input type="hidden" name="mid" value="' + current_mid +'" />'+
 			'<input type="hidden" name="content" />'+
 			'</form>'
 		).appendTo(document.body);

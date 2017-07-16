@@ -1030,12 +1030,24 @@ class memberModel extends member
 			$filename = sprintf('files/member_extra_info/signature/%s%d.signature.php', getNumberingPath($member_srl), $member_srl);
 			if(file_exists($filename))
 			{
-				$buff = FileHandler::readFile($filename);
-				$signature = preg_replace('/<\?.*\?>/', '', $buff);
+				$signature = preg_replace('/<\?.*\?>/', '', FileHandler::readFile($filename));
+				
+				// retroact
+				$config = getModel('member')->getMemberConfig();
+				if($config->signature_html_retroact == 'Y' && $config->signature_html == 'N' && preg_match('/<[^br]+>/i', $signature))
+				{
+					$signature = preg_replace('/(\r?\n)+/', "\n", $signature);
+					return getController('member')->putSignature($member_srl, $signature);
+				}
+				
 				$GLOBALS['__member_info__']['signature'][$member_srl] = $signature;
 			}
-			else $GLOBALS['__member_info__']['signature'][$member_srl] = null;
+			else
+			{
+				$GLOBALS['__member_info__']['signature'][$member_srl] = '';
+			}
 		}
+		
 		return $GLOBALS['__member_info__']['signature'][$member_srl];
 	}
 

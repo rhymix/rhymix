@@ -1160,6 +1160,9 @@ class moduleModel extends module
 		// Skin Name
 		$skin_info = new stdClass();
 		$skin_info->title = $xml_obj->title->body;
+		$skin_info->author = array();
+		$skin_info->extra_vars = array();
+		$skin_info->colorset = array();
 		// Author information
 		if($xml_obj->version && $xml_obj->attrs->version == '0.2')
 		{
@@ -1173,7 +1176,7 @@ class moduleModel extends module
 			$skin_info->license_link = $xml_obj->license->attrs->link;
 			$skin_info->description = $xml_obj->description->body;
 
-			if(!is_array($xml_obj->author)) $author_list[] = $xml_obj->author;
+			if(!is_array($xml_obj->author)) $author_list = array($xml_obj->author);
 			else $author_list = $xml_obj->author;
 
 			foreach($author_list as $author)
@@ -1198,22 +1201,32 @@ class moduleModel extends module
 					{
 						continue;
 					}
-					if(!is_array($group->var)) $extra_vars = array($group->var);
-
+					
+					if(!is_array($group->var))
+					{
+						$extra_vars = array($group->var);
+					}
+					
 					foreach($extra_vars as $key => $val)
 					{
-						$obj = new stdClass();
-						if(!$val->attrs->type) { $val->attrs->type = 'text'; }
-
+						$obj = new stdClass;
 						$obj->group = $group->title->body;
 						$obj->name = $val->attrs->name;
 						$obj->title = $val->title->body;
-						$obj->type = $val->attrs->type;
+						$obj->type = $val->attrs->type ?: 'text';
 						$obj->description = $val->description->body;
-						$obj->value = array();
+						$obj->value = $val->attrs->value;
 						$obj->default = $val->attrs->default;
-						//if(strpos($obj->value, '|@|') !== false) { $obj->value = explode('|@|', $obj->value); }
-						//if($obj->type == 'mid_list' && !is_array($obj->value)) { $obj->value = array($obj->value); }
+						
+						if(preg_match('/,|\|@\|/', $obj->value, $delimiter) && $delimiter[0])
+						{
+							$obj->value = explode($delimiter[0], $obj->value);
+						}
+						if($obj->type == 'mid_list' && !is_array($obj->value))
+						{
+							$obj->value = array($obj->value);
+						}
+						
 						// Get an option list from 'select'type
 						if(is_array($val->options))
 						{
@@ -1232,7 +1245,7 @@ class moduleModel extends module
 							$obj->options[0]->title = $val->options->title->body;
 							$obj->options[0]->value = $val->options->attrs->value;
 						}
-
+						
 						$skin_info->extra_vars[] = $obj;
 					}
 				}

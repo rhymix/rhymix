@@ -1618,18 +1618,28 @@ class memberController extends member
 	 */
 	function putSignature($member_srl, $signature)
 	{
-		$signature = trim(removeHackTag($signature));
-		$signature = preg_replace('/<(\/?)(embed|object|param)/is', '&lt;$1$2', $signature);
-
-		$check_signature = trim(str_replace(array('&nbsp;',"\n","\r"),'',strip_tags($signature,'<img><object>')));
-		$path = sprintf('files/member_extra_info/signature/%s/', getNumberingPath($member_srl));
-		$filename = sprintf('%s%d.signature.php', $path, $member_srl);
-
-		if(!$check_signature) return FileHandler::removeFile($filename);
-
+		if((!$signature = utf8_trim(removeHackTag($signature))) || is_empty_html_content($signature))
+		{
+			getController('member')->delSignature($member_srl);
+			return;
+		}
+		
+		// Editor converter
+		$obj = new stdClass;
+		$config = getModel('member')->getMemberConfig();
+		if($config->signature_html == 'N')
+		{
+			$obj->converter = 'text';
+		}
+		$obj->content = $signature;
+		$obj->editor_skin = $config->signature_editor_skin;
+		$signature = getModel('editor')->converter($obj);
+		
+		$filename = sprintf('files/member_extra_info/signature/%s%d.signature.php', getNumberingPath($member_srl), $member_srl);
 		$buff = sprintf('<?php if(!defined("__XE__")) exit();?>%s', $signature);
-		FileHandler::makeDir($path);
-		FileHandler::writeFile($filename, $buff);
+		Rhymix\Framework\Storage::write($filename, $buff);
+		
+		return $signature;
 	}
 
 	/**
