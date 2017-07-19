@@ -924,10 +924,9 @@ class editorModel extends editor
 			{
 				$converter = 'text';
 			}
-			
-			if (!is_html_content($obj->content) || $obj->use_editor === 'N')
+			elseif ($obj->use_editor === 'N')
 			{
-				$converter = 'default';
+				$converter = 'nl2br';
 			}
 		}
 		
