@@ -959,7 +959,7 @@ class editorModel extends editor
 			{
 				$obj->content = Rhymix\Framework\Formatter::bbcode($obj->content);
 			}
-			else
+			elseif ($converter == 'nl2br')
 			{
 				$obj->content = nl2br($obj->content);
 			}
