@@ -204,43 +204,43 @@ class memberView extends member
 		if(!$trigger_output->toBool()) return $trigger_output;
 		// Error appears if the member is not allowed to join
 		if($member_config->enable_join != 'Y') return $this->stop('msg_signup_disabled');
-
-		$oMemberAdminView = getAdminView('member');
-		$formTags = $oMemberAdminView->_getMemberInputTag($member_info);
+		
+		$formTags = getAdminView('member')->_getMemberInputTag();
 		Context::set('formTags', $formTags);
 		Context::set('email_confirmation_required', $member_config->enable_confirm);
-
+		
 		// Editor of the module set for signing by calling getEditor
-		foreach($formTags as $formTag) {
-			if($formTag->name=='signature') {
-				$oEditorModel = getModel('editor');
-				$option = new stdClass();
+		foreach($formTags as $formTag)
+		{
+			if($formTag->name == 'signature')
+			{
+				$option = new stdClass;
 				$option->primary_key_name = 'member_srl';
 				$option->content_key_name = 'signature';
+				$option->allow_html = $member_config->signature_html !== 'N';
 				$option->allow_fileupload = false;
 				$option->enable_autosave = false;
 				$option->enable_default_component = true;
 				$option->enable_component = false;
 				$option->resizable = false;
 				$option->disable_html = true;
-				$option->height = 100;
+				$option->height = 200;
+				$option->editor_toolbar = 'simple';
+				$option->editor_toolbar_hide = 'Y';
 				$option->editor_skin = $member_config->signature_editor_skin;
 				$option->sel_editor_colorset = $member_config->sel_editor_colorset;
-				$editor = $oEditorModel->getEditor($member_info->member_srl, $option);
-				Context::set('editor', $editor);
+				
+				Context::set('editor', getModel('editor')->getEditor(0, $option));
 			}
 		}
-
-
-		global $lang;
-		$identifierForm = new stdClass();
-		$identifierForm->title = $lang->{$member_config->identifier};
+		
+		$identifierForm = new stdClass;
+		$identifierForm->title = lang($member_config->identifier);
 		$identifierForm->name = $member_config->identifier;
-		$identifierForm->value = $member_info->{$member_config->identifier};
 		Context::set('identifierForm', $identifierForm);
-
+		
 		$this->addExtraFormValidatorMessage();
-
+		
 		// Set a template file
 		$this->setTemplateFile('signup_form');
 	}
@@ -302,53 +302,44 @@ class memberView extends member
 		$columnList = array('member_srl', 'user_id', 'user_name', 'nick_name', 'email_address', 'find_account_answer', 'homepage', 'blog', 'birthday', 'allow_mailing');
 		$member_info = $oMemberModel->getMemberInfoByMemberSrl($member_srl, 0, $columnList);
 		$member_info->signature = $oMemberModel->getSignature($member_srl);
-		Context::set('member_info',$member_info);
-
-		// Get a list of extend join form
-		Context::set('extend_form_list', $oMemberModel->getCombineJoinForm($member_info));
-
-		// Editor of the module set for signing by calling getEditor
-		if($member_info->member_srl)
-		{
-			$oEditorModel = getModel('editor');
-			$option = $oEditorModel->getEditorConfig();
-			$option->primary_key_name = 'member_srl';
-			$option->content_key_name = 'signature';
-			if($member_config->member_allow_fileupload === 'Y')
-			{
-				$option->allow_fileupload = true;
-			}
-			else
-			{
-				$option->allow_fileupload = false;
-			}
-			$option->enable_autosave = false;
-			$option->enable_default_component = true;
-			$option->enable_component = false;
-			$option->resizable = false;
-			$option->disable_html = true;
-			$option->height = 200;
-			$option->editor_skin = $member_config->signature_editor_skin;
-			$option->sel_editor_colorset = $member_config->sel_editor_colorset;
-			$editor = $oEditorModel->getEditor($member_info->member_srl, $option);
-			Context::set('editor', $editor);
-		}
-
-		$this->member_info = $member_info;
-
-		$oMemberAdminView = getAdminView('member');
-		$formTags = $oMemberAdminView->_getMemberInputTag($member_info);
+		Context::set('member_info', $member_info);
+		
+		$formTags = getAdminView('member')->_getMemberInputTag($member_info);
 		Context::set('formTags', $formTags);
-
-		global $lang;
-		$identifierForm = new stdClass();
-		$identifierForm->title = $lang->{$member_config->identifier};
+		
+		// Editor of the module set for signing by calling getEditor
+		foreach($formTags as $formTag)
+		{
+			if($formTag->name == 'signature')
+			{
+				$option = new stdClass;
+				$option->primary_key_name = 'member_srl';
+				$option->content_key_name = 'signature';
+				$option->allow_html = $member_config->signature_html !== 'N';
+				$option->allow_fileupload = $member_config->member_allow_fileupload === 'Y';
+				$option->enable_autosave = false;
+				$option->enable_default_component = true;
+				$option->enable_component = false;
+				$option->resizable = false;
+				$option->disable_html = true;
+				$option->height = 200;
+				$option->editor_toolbar = 'simple';
+				$option->editor_toolbar_hide = 'Y';
+				$option->editor_skin = $member_config->signature_editor_skin;
+				$option->sel_editor_colorset = $member_config->sel_editor_colorset;
+				
+				Context::set('editor', getModel('editor')->getEditor($member_info->member_srl, $option));
+			}
+		}
+		
+		$identifierForm = new stdClass;
+		$identifierForm->title = lang($member_config->identifier);
 		$identifierForm->name = $member_config->identifier;
 		$identifierForm->value = $member_info->{$member_config->identifier};
 		Context::set('identifierForm', $identifierForm);
-
+		
 		$this->addExtraFormValidatorMessage();
-
+		
 		// Set a template file
 		$this->setTemplateFile('modify_info');
 	}

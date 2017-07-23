@@ -75,6 +75,7 @@ $lang->enable_default_component_grant = '기본 컴포넌트 사용 권한';
 $lang->enable_extra_component_grant = '확장 컴포넌트 사용 권한';
 $lang->enable_html_grant = 'HTML 편집 권한';
 $lang->enable_autosave = '자동저장 사용';
+$lang->allow_html = 'HTML 허용';
 $lang->height_resizable = '높이 조절 가능';
 $lang->editor_height = '에디터 높이';
 $lang->about_default_editor_settings = '사이트 전체 에디터 설정을 통일하여서 모듈별 에디터 설정을 단순하게 합니다.';

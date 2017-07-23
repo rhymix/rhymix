@@ -74,6 +74,8 @@ $lang->options = 'Options';
 $lang->about_keep_signed = 'You will be still signed in even when the browser is closed.\\n\\nIt is not recommended to use this if you are using a public computer, for your personal information could be violated.';
 $lang->about_keep_warning = 'You will be still signed in even when the browser is closed. It is not recommended to use this if you are using a public computer, for your personal information could be violated';
 $lang->about_webmaster_email = 'This setting can be changed in the <a href="index.php?module=admin&act=dispAdminConfigNotification" target="_blank">Notification Settings</a> screen.';
+$lang->retroactive_application = 'retroact';
+$lang->signature_html_retroact = 'also remove HTML in past inseted HTML signature. Can not be reversed.';
 $lang->search_target_list['email_address'] = 'Email Address';
 $lang->search_target_list['regdate'] = 'Sign up Date';
 $lang->search_target_list['regdate_more'] = 'Sign up Date (more)';

@@ -43,7 +43,6 @@ class editorModel extends editor
 		}
 		
 		// Fill in some other values.
-		if($editor_config->enable_autosave != 'N') $editor_config->enable_autosave = 'Y';
 		if(!is_array($editor_config->enable_html_grant)) $editor_config->enable_html_grant = array();
 		if(!is_array($editor_config->enable_comment_html_grant)) $editor_config->enable_comment_html_grant = array();
 		if(!is_array($editor_config->upload_file_grant)) $editor_config->upload_file_grant = array();
@@ -74,10 +73,25 @@ class editorModel extends editor
 				$editor_config->$key = $editor_default_config->$key ?: $val;
 			}
 		}
-
+		
 		return $editor_config;
 	}
 
+	function getSkinConfig($skin_name)
+	{
+		$skin_config = new stdClass;
+		
+		if($skin_info = getModel('module')->loadSkinInfo($this->module_path, $skin_name))
+		{
+			foreach ($skin_info->extra_vars as $val)
+			{
+				$skin_config->{$val->name} = $val->value;
+			}
+		}
+		
+		return $skin_config;
+	}
+	
 	function loadDrComponents()
 	{
 		$drComponentPath = _XE_PATH_ . 'modules/editor/skins/dreditor/drcomponents/';
@@ -252,6 +266,9 @@ class editorModel extends editor
 		}
 		Context::set('enable_autosave', $option->enable_autosave);
 		
+		// Set allow html
+		Context::set('allow_html', ($option->allow_html === false || $option->allow_html === 'N') ? false : true);
+		
 		// Load editor components.
 		$site_srl = Context::get('site_module_info')->site_srl ?: 0;
 		if($option->editor_skin === 'dreditor')
@@ -406,19 +423,22 @@ class editorModel extends editor
 		}
 		
 		// Permission check for file upload
-		if ($logged_info->is_admin === 'Y' || !count($option->upload_file_grant))
+		if($module_srl)
 		{
-			$option->allow_fileupload = true;
-		}
-		else
-		{
-			$option->allow_fileupload = false;
-			foreach($group_list as $group_srl => $group_info)
+			if ($logged_info->is_admin === 'Y' || !count($option->upload_file_grant))
 			{
-				if(in_array($group_srl, $option->upload_file_grant))
+				$option->allow_fileupload = true;
+			}
+			else
+			{
+				$option->allow_fileupload = false;
+				foreach($group_list as $group_srl => $group_info)
 				{
-					$option->allow_fileupload = true;
-					break;
+					if(in_array($group_srl, $option->upload_file_grant))
+					{
+						$option->allow_fileupload = true;
+						break;
+					}
 				}
 			}
 		}
@@ -864,6 +884,88 @@ class editorModel extends editor
 		FileHandler::writeFile($cache_file, $buff, 'w');
 
 		return $component_info;
+	}
+	
+	/**
+	 * Return converted content
+	 * @param object $obj
+	 * @return string
+	 */
+	function converter($obj, $type = null)
+	{
+		$converter = null;
+		$config = $this->getEditorConfig($obj->module_srl);
+		
+		// Get editor skin
+		if (in_array($type, array('document', 'comment')))
+		{
+			$skin = ($type == 'comment') ? $config->comment_editor_skin : $config->editor_skin;
+		}
+		else
+		{
+			$converter = $obj->converter;
+			$skin = $obj->editor_skin ?: $config->editor_skin;
+		}
+		
+		// if not inserted converter, Get converter from skin
+		if (!$converter)
+		{
+			$converter = $this->getSkinConfig($skin)->converter;
+		}
+		
+		// if not inserted converter, Check
+		if (!$converter)
+		{
+			if ($config->allow_html === 'N' || $obj->use_html === 'N')
+			{
+				$converter = 'text';
+			}
+			elseif (strpos($type == 'comment' ? $config->sel_comment_editor_colorset : $config->sel_editor_colorset, 'nohtml') !== false)
+			{
+				$converter = 'text';
+			}
+			elseif ($obj->use_editor === 'N')
+			{
+				$converter = 'nl2br';
+			}
+		}
+		
+		// Convert
+		if ($converter)
+		{
+			if ($converter == 'text')
+			{
+				// Remove Tag
+				$obj->content = strip_tags($obj->content);
+				
+				// Trim space
+				$obj->content = utf8_trim($obj->content);
+				
+				// Escape
+				$obj->content = escape($obj->content, false);
+				
+				// Insert HTML line
+				$obj->content = nl2br($obj->content);
+			}
+			elseif ($converter == 'text2html')
+			{
+				$obj->content = Rhymix\Framework\Formatter::text2html($obj->content);
+			}
+			elseif ($converter == 'markdown2html')
+			{
+				$obj->content = Rhymix\Framework\Formatter::markdown2html($obj->content);
+			}
+			elseif ($converter == 'bbcode')
+			{
+				$obj->content = Rhymix\Framework\Formatter::bbcode($obj->content);
+			}
+			elseif ($converter == 'nl2br')
+			{
+				$obj->content = nl2br($obj->content);
+			}
+		}
+		
+		return $obj->content;
 	}
 }
 /* End of file editor.model.php */

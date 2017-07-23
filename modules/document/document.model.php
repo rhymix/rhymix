@@ -980,7 +980,7 @@ class documentModel extends document
 
 		// Get a list of member groups
 		$oMemberModel = getModel('member');
-		$group_list = $oMemberModel->getGroups($module_info->site_srl);
+		$group_list = $oMemberModel->getGroups();
 		Context::set('group_list', $group_list);
 
 		$security = new Security();
@@ -1246,7 +1246,7 @@ class documentModel extends document
 			return array_flip($this->getStatusList());
 		else return $lang->status_name_list;
 	}
-
+	
 	/**
 	 * Setting sort index
 	 * @param object $obj

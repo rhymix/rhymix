@@ -26,6 +26,7 @@
 	<input type="hidden" name="act" value="procMemberModifyInfo" />
 	<input type="hidden" name="module" value="member" />
 	<input type="hidden" name="member_srl" value="{$member_info->member_srl}" />
+	<input type="hidden" name="signature" value="{escape($member_info->signature)}" />
 	<input type="hidden" name="page" value="{$page}" />
 	<input type="hidden" name="xe_validator_id" value="modules/member/m.skin/default/modify_info/1" />
 
@@ -40,7 +41,7 @@
 				<label for="{$formTag->name}">{$formTag->title}</label>
 				<div cond="$formTag->name != 'signature'">{$formTag->inputTag}</div>
 				<div cond="$formTag->name =='signature'">
-					<textarea id="{$formTag->name}" name="signature" rows="8" cols="42" class="itxx">{$member_info->signature}</textarea>
+					{$editor}
 				</div>
 			</li>
 			<li><label for="mailing" class="db fb al">{$lang->allow_mailing}</label><input id="mailing" type="checkbox" name="allow_mailing" value="Y" class="checkbox" <!--@if($member_info->allow_mailing!='N')-->checked="checked"<!--@end--> /> <p style="color:#666">{$lang->about_allow_mailing}</p></li>

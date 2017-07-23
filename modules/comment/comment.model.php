@@ -951,7 +951,7 @@ class commentModel extends comment
 
 		return $comment_config;
 	}
-
+	
 	/**
 	 * Return a list of voting member
 	 * @return void

@@ -161,8 +161,8 @@ class editorAdminController extends editor
 		$config->mobile_comment_editor_toolbar = $configVars->mobile_comment_editor_toolbar;
 		$config->mobile_comment_editor_toolbar_hide = $configVars->mobile_comment_editor_toolbar_hide === 'Y' ? 'Y' : 'N';
 		$config->content_style = $configVars->content_style;
-		$config->sel_editor_colorset= $configVars->sel_editor_colorset;
-		$config->sel_comment_editor_colorset= $configVars->sel_comment_editor_colorset;
+		$config->sel_editor_colorset = $configVars->sel_editor_colorset;
+		$config->sel_comment_editor_colorset = $configVars->sel_comment_editor_colorset;
 		
 		if ($configVars->font_defined === 'Y')
 		{
@@ -227,6 +227,8 @@ class editorAdminController extends editor
 		$config->content_paragraph_spacing = ctype_digit($config->content_paragraph_spacing) ? ($config->content_paragraph_spacing . 'px') : $config->content_paragraph_spacing;
 		$config->content_word_break = $configVars->content_word_break;
 		$config->content_word_break = in_array($config->content_word_break, array('normal', 'keep-all', 'break-all', 'none')) ? $config->content_word_break : 'normal';
+		$config->enable_autosave = $configVars->enable_autosave ?: 'Y';
+		$config->allow_html = $configVars->allow_html ?: 'Y';
 		$config->autoinsert_image = $configVars->autoinsert_image;
 		$config->autoinsert_image = in_array($config->autoinsert_image, array('paragraph', 'inline', 'none')) ? $config->autoinsert_image : 'paragraph';
 

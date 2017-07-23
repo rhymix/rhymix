@@ -29,7 +29,7 @@
 		</div>
 		<div class="control-group">
 			<label for="{$identifierForm->name}">{$identifierForm->title}<sup style="color:red">*</sup></label>
-			<input type="text"|cond="$identifierForm->name!='email_address'" type="email"|cond="$identifierForm->name=='email_address'" name="{$identifierForm->name}" id="{$identifierForm->name}" value="{$identifierForm->value}" required />
+			<input type="text"|cond="$identifierForm->name!='email_address'" type="email"|cond="$identifierForm->name=='email_address'" name="{$identifierForm->name}" id="{$identifierForm->name}" value="" required />
 			<p class="rx_member-notice" cond="$identifierForm->name == 'email_address' && $email_confirmation_required == 'Y'">
 				{$lang->msg_email_confirmation_required}
 			</p>

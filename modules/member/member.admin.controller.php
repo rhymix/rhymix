@@ -186,7 +186,6 @@ class memberAdminController extends member
 			'password_hashing_auto_upgrade',
 			'password_change_invalidate_other_sessions',
 			'update_nickname_log',
-			'member_allow_fileupload',
 			'member_profile_view'
 		);
 		
@@ -261,7 +260,7 @@ class memberAdminController extends member
 			'profile_image', 'profile_image_max_width', 'profile_image_max_height',
 			'image_name', 'image_name_max_width', 'image_name_max_height',
 			'image_mark', 'image_mark_max_width', 'image_mark_max_height',
-			'signature_editor_skin', 'sel_editor_colorset'
+			'signature_editor_skin', 'sel_editor_colorset', 'signature_html', 'signature_html_retroact', 'member_allow_fileupload'
 		);
 
 		$list_order = Context::get('list_order');

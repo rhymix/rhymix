@@ -157,7 +157,7 @@ class rssView extends rss
 				$info->date = date('Y-m-d\TH:i:sP');
 				break;
 			default:
-				$info->date = date("D, d M Y H:i:s").' '.$GLOBALS['_time_zone'];
+				$info->date = date("r");
 				break;
 		}
 
