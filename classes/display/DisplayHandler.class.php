@@ -15,7 +15,6 @@ class DisplayHandler extends Handler
 	public static $debug_printed = 0;
 	var $content_size = 0; // /< The size of displaying contents
 	var $gz_enabled = FALSE; // / <a flog variable whether to call contents after compressing by gzip
-	var $handler = NULL;
 
 	/**
 	 * print either html or xml content given oModule object
@@ -59,18 +58,22 @@ class DisplayHandler extends Handler
 
 		$output = $handler->toDoc($oModule);
 
-		// call a trigger before display
-		ModuleHandler::triggerCall('display', 'before', $output);
-		$original_output = $output;
-
-		// execute add-on
-		$called_position = 'before_display_content';
-		$oAddonController = getController('addon');
-		$addon_file = $oAddonController->getCacheFilePath(Mobile::isFromMobilePhone() ? "mobile" : "pc");
-		if(file_exists($addon_file)) include($addon_file);
-		if($output === false || $output === null || $output instanceof Object)
+		// Skip the following if site lock is effective
+		if(!config('lock.locked') || Context::get('logged_info')->is_admin === 'Y')
 		{
-			$output = $original_output;
+			// call a trigger before display
+			ModuleHandler::triggerCall('display', 'before', $output);
+			$original_output = $output;
+
+			// execute add-on
+			$called_position = 'before_display_content';
+			$oAddonController = getController('addon');
+			$addon_file = $oAddonController->getCacheFilePath(Mobile::isFromMobilePhone() ? "mobile" : "pc");
+			if(file_exists($addon_file)) include($addon_file);
+			if($output === false || $output === null || $output instanceof Object)
+			{
+				$output = $original_output;
+			}
 		}
 
 		if(method_exists($handler, "prepareToPrint"))
@@ -140,7 +143,6 @@ class DisplayHandler extends Handler
 	public function getDebugInfo(&$output = null)
 	{
 		// Check if debugging information has already been printed.
-		
 		if (self::$debug_printed)
 		{
 			return;
