@@ -36,7 +36,7 @@ class GroupMessage extends Coolsms
     /**
      * @brief get group list ( HTTP Method GET )
      * @param None
-     * @return array['groupid', 'groupid'...]
+     * @return object(groupList)
      */
     public function getGroupList()
     {
