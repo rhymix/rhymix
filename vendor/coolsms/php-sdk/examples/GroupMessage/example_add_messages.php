@@ -30,13 +30,13 @@ try {
     // Optional parameters for your own needs
     // $options->type = 'SMS';                       // Message type ( SMS, LMS, MMS, ATA )
     // $options->image_id = 'IM289E9CISNWIC'	       // image_id. type must be set as 'MMS'
-    // $options->refname = '';					             // Reference name 
     // $options->country = 82;		                   // Korea(82) Japan(81) America(1) China(86) Default is Korea
-    // $options->datetime = '20140106153000';	       // Format must be(YYYYMMDDHHMISS) 2014 01 06 15 30 00 (2014 Jan 06th 3pm 30 00)
     // $options->subject = 'Hello World';		         // set msg title for LMS and MMS
-    // $options->delay = 10;                  			 // '0~20' delay messages
-    // $options->sender_key = '55540253a3e61072...'; // 알림톡 사용을 위해 필요합니다. 신청방법 : http://www.coolsms.co.kr/AboutAlimTalk
-    // $options->template_code = 'C004';             // 알림톡 template code 입니다. 자세한 설명은 http://www.coolsms.co.kr/AboutAlimTalk을 참조해주세요.
+    // $options->kakaoOptions = new stdClass(); // 알림톡 혹은 친구톡을 전송할때 한번 초기화 필요.
+    // $options->kakaoOptions->senderKey = '55540253a3e61072...'; // 발급받은 snederKey
+    // $options->kakaoOptions->templateCode = 'C001'; // 알림톡 발송시 해당 템플릿검사를 위한 템플릿 코드
+    // $options->kakaoOptions->buttonName = '바로가기'; // 알림톡과 친구톡에서 바로가기 링크버튼의 이름
+    // $options->kakaoOptions->buttonUrl = 'https://www.coolsms.co.kr/'; // 알림톡 바로가기 링크 버튼클릭시 이동할 링크주소
 
     $result = $rest->addMessages($options);
     print_r($result);
