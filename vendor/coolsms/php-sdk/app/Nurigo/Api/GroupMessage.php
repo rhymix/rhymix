@@ -145,10 +145,13 @@ class GroupMessage extends Coolsms
         if (!$group_id) throw new CoolsmsSDKException('group_id is required', 202);
 
         $options = new \stdClass();
-        $options->group_id = $group_id;
         $options->offset = $offset;
         $options->limit = $limit;
-        return $this->request(sprintf('groups/%s/message_list', $options->group_id), $options);
+
+        $encoding_json_data = json_encode($options);
+        $obj = new \stdClass();
+        $obj->encoding_json_data = $encoding_json_data;
+        return $this->request(sprintf('group/%s/getMessageList', $group_id), $obj, true);
     }
 
     /**
@@ -162,9 +165,14 @@ class GroupMessage extends Coolsms
         if (!$group_id || !$message_ids) throw new CoolsmsSDKException('group_id and message_ids are required', 202);
 
         $options = new \stdClass();
-        $options->group_id = $group_id;
-        $options->message_ids = $message_ids;
-        return $this->request(sprintf('groups/%s/delete_messages', $options->group_id), $options, true);
+        $options->messages = array();
+        $options->messages[0] = new \stdClass();
+        $options->messages[0]->messageId = $message_ids;
+
+        $encoding_json_data = json_encode($options);
+        $obj = new \stdClass();
+        $obj->encoding_json_data = $encoding_json_data;
+        return $this->request(sprintf('groups/%s/deleteMessages', $group_id), $obj, true);
     }
 
     /**
@@ -176,8 +184,8 @@ class GroupMessage extends Coolsms
     {
         if (!$group_id) throw new CoolsmsSDKException('group_id is required', 202);
 
-        $options = new \stdClass();
-        $options->group_id = $group_id;
-        return $this->request(sprintf('group/%s/sendMessages', $group_id), $options, true);
+        $obj = new \stdClass();
+        $obj->encoding_json_data = null;
+        return $this->request(sprintf('group/%s/sendMessages', $group_id), $obj, true);
     }
 }
