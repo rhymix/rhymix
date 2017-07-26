@@ -47,8 +47,8 @@ class Message extends Coolsms
         $args->from = $options->from;
         $args->text = $options->text;
         $args->type = $options->type;
-        $args->country = $options->country;
-        $args->subject = $options->subject;
+        if($options->country) $args->country = $options->country;
+        if($options->subject) $args->subject = $options->subject;
         if ($options->imageId) $args->imageId = $options->imageId;
         if ($options->scheduledDate) $args->scheduledDate = $options->scheduledDate;
         if ($options->kakaoOptions) $args->kakaoOptions = $options->kakaoOptions;
@@ -57,12 +57,12 @@ class Message extends Coolsms
         $object->groupOptions = new \stdClass();
         if ($options->appId) $object->groupOptions->appId = $options->appId;
         if ($options->appVersion) $object->groupOptions->appVersion = $options->appVersion;
-        $object->groupOptions->mode = $options->mode;
-        $object->groupOptions->forceSms = $options->forceSms;
-        $object->groupOptions->onlyAta = $options->onlyAta;
-        $object->groupOptions->osPlatform = $options->osPlatform;
-        $object->groupOptions->devLanguage = $options->devLanguage;
-        $object->groupOptions->sdkVersion = $options->sdkVersion;
+        if ($options->mode) $object->groupOptions->mode = $options->mode;
+        if ($options->forceSms) $object->groupOptions->forceSms = $options->forceSms;
+        if ($options->onlyAta) $object->groupOptions->onlyAta = $options->onlyAta;
+        if ($options->osPlatform) $object->groupOptions->osPlatform = $options->osPlatform;
+        if ($options->devLanguage) $object->groupOptions->devLanguage = $options->devLanguage;
+        if ($options->sdkVersion) $object->groupOptions->sdkVersion = $options->sdkVersion;
         $options->encoding_json_data = json_encode($object);
 
         return $this->request('sendMessages', $options, true);

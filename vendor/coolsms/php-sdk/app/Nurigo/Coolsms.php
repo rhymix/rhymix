@@ -112,6 +112,10 @@ class Coolsms
     private function setContent($options)
     {
         if($options->encoding_json_data) {
+            if ($options->json_option == 'SimpleMessage')
+            {
+                $this->setApiConfig('SimpleMessage', '3');
+            }
             $this->content = $options->encoding_json_data;
             return;
         }
@@ -130,10 +134,7 @@ class Coolsms
         if ($options->json_option !== 'groupOptions') {
             $this->content->$json_option = array($this->content->$json_option);
         }
-        if ($options->json_option == 'SimpleMessage')
-        {
-            $this->setApiConfig('SimpleMessage', '3');
-        }
+
 
         $this->content = json_encode($this->content);
     }

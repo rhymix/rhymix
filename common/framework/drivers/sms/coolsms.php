@@ -71,7 +71,8 @@ class CoolSMS extends Base implements \Rhymix\Framework\Drivers\SMSInterface
 				$options = new \stdClass;
 				if ($this->_config['sender_key'])
 				{
-					$options->sender_key = $this->_config['sender_key'];
+					$options->kakaoOptions = new \stdClass();
+					$options->kakaoOptions->senderKey = $this->_config['sender_key'];
 					$options->type = 'CTA';
 				}
 				else
