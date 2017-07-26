@@ -84,21 +84,13 @@ class GroupMessage extends Coolsms
         $options->group_id = $group_id;
         return $this->request(sprintf('group/%s/getGroupInfo', $group_id), $options);
     }
-    
+
+
     /**
      * @brief add messages to group ( HTTP Method POST )
-     * @param object $options {
-     *   @param string  group_id [required]
-     *   @param string  to       [required]
-     *   @param string  from     [required]
-     *   @param string  text     [required]
-     *   @param string  image_id [optional]
-     *   @param string  refname  [optional]
-     *   @param string  country  [optional]
-     *   @param string  datetime [optional]
-     *   @param string  subject  [optional]
-     *   @param integer delay    [optional] }
-     * @return object(success_count, error_count, error_list['index':'code', 'index', 'code'])
+     * @param $options
+     * @return mixed
+     * @throws CoolsmsSDKException
      */
     public function addMessages($options) 
     {
@@ -139,35 +131,6 @@ class GroupMessage extends Coolsms
         $obj = new \stdClass();
         $obj->encoding_json_data = $encoding_json_data;
         return $this->request(sprintf('group/%s/addMessages', $options->group_id), $obj, true);
-    }
-
-    /**
-     * @brief add json type messages to group ( HTTP Method POST )
-     * @param object $options {
-     *   @param string  group_id [required]
-     *   @param string  messages [required] [{
-     *     @param string  to       [required]
-     *     @param string  from     [required]
-     *     @param string  text     [required]
-     *     @param string  image_id [optional]
-     *     @param string  refname  [optional]
-     *     @param string  country  [optional]
-     *     @param string  datetime [optional]
-     *     @param string  subject  [optional]
-     *     @param integer delay    [optional] }] }
-     * @return array[object(success_count, error_count, error_list['index':'code', 'index', 'code']), ...]
-     */
-    public function addMessagesJSON($options) 
-    {
-        if (!isset($options->group_id) || !isset($options->messages)) throw new CoolsmsSDKException('group_id and messages is required', 202);
-        foreach ($options->messages as $val) {
-            if (!isset($val->to) || !isset($val->text) || !isset($val->from)) {
-                throw new CoolsmsSDKException('to, text, from is required', 202);
-            }
-        }
-
-        $options->messages = json_encode($options->messages);
-        return $this->request(sprintf('groups/%s/add_messages.json', $options->group_id), $options, true);
     }
 
     /**
