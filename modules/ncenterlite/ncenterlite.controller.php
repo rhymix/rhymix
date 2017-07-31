@@ -719,7 +719,7 @@ class ncenterliteController extends ncenterlite
 			return new Object();
 		}
 
-		if(config('lock.locked') && Context::get('logged_info')->is_admin !== 'Y')
+		if(config('lock.locked') && Context::get('logged_info')->is_admin !== 'Y' && !Rhymix\Framework\Filters\IpFilter::inRanges(RX_CLIENT_IP, config('lock.allow')))
 		{
 			return new Object();
 		}
