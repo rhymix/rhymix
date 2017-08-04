@@ -191,6 +191,12 @@ class content extends WidgetHandler
 		$obj->module_srl = $args->module_srl;
 		$obj->sort_index = $args->order_target;
 		$obj->list_count = $args->list_count * $args->page_count;
+		
+		if($args->show_secret != 'Y')
+		{
+			$obj->is_secret = 'N';
+		}
+		
 		// Get model object of the comment module and execute getCommentList() method
 		$oCommentModel = getModel('comment');
 		$output = $oCommentModel->getNewestCommentList($obj);
@@ -201,6 +207,12 @@ class content extends WidgetHandler
 
 		foreach($output as $key => $oComment)
 		{
+			$oDocument = getModel('document')->getDocument($oComment->get('document_srl'), false, false);
+			if(!$oDocument->isExists() || $oDocument->isSecret() && $args->show_secret != 'Y')
+			{
+				continue;
+			}
+			
 			$attribute = $oComment->getObjectVars();
 			$title = $oComment->getSummary($args->content_cut_size);
 			$thumbnail = $oComment->getThumbnail($args->thumbnail_width,$args->thumbnail_height,$args->thumbnail_type);
