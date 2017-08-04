@@ -87,8 +87,34 @@ class spamfilterModel extends spamfilter
 			{
 				$args = new stdClass();
 				$args->word = $word;
-				$output = executeQuery('spamfilter.updateDeniedWordHit', $args);
-				return new Object(-1,sprintf(lang('msg_alert_denied_word'), $word));
+				executeQuery('spamfilter.updateDeniedWordHit', $args);
+
+				$config = $this->getConfig();
+				if($config->display_keyword === 'Y')
+				{
+					$custom_message = sprintf(lang('msg_alert_denied_word'), $word);
+				}
+				else
+				{
+					if($config->custom_message)
+					{
+						if(preg_match('/^\\$user_lang->[a-zA-Z0-9]+$/', $config->custom_message))
+						{
+							getController('module')->replaceDefinedLangCode($config->custom_message);
+							$custom_message = htmlspecialchars($config->custom_message);
+						}
+						else
+						{
+							$custom_message = $config->custom_message;
+						}
+					}
+					else
+					{
+						$custom_message = lang('spamfilter.msg_alert_do_not_display_keyword_denied_word');
+					}
+				}
+
+				return new Object(-1, $custom_message);
 			}
 		}
 
