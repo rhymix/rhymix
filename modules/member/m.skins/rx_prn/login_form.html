@@ -1,0 +1,53 @@
+<include target="./common_header.html" />
+<div class="signin">
+	<section class="sw-body">
+		<h1>{lang('member.cmd_login')}</h1>
+		<div cond="$XE_VALIDATOR_MESSAGE && $XE_VALIDATOR_ID == 'modules/member/skins'" class="rx_member-notice {$XE_VALIDATOR_MESSAGE_TYPE}">
+			<p>{$XE_VALIDATOR_MESSAGE}</p>
+		</div>
+		<form ruleset="@login" action="{getUrl('', 'act', 'procMemberLogin')}" method="post" id="fo_member_login">
+			<input type="hidden" name="success_return_url" value="{$referer_url}" />
+			<input type="hidden" name="act" value="procMemberLogin" />
+			<input type="hidden" name="xe_validator_id" value="modules/member/skins" />
+			<div class="control-group">
+				<label for="uid">
+					<block cond="$identifier == 'user_id'">
+						{lang('common.user_id')}
+					</block>
+					<block cond="$identifier != 'user_id'">
+						{lang('common.email_address')}
+					</block>
+				</label>
+				<input type="text" cond="$identifier == 'user_id'" autocapitalize="off" autocorrect="off" autofocus="autofocus" name="user_id" id="uid" required="required" tabindex="1" title="{lang('common.user_id')}" />
+				<input type="email" cond="$identifier != 'user_id'" autocapitalize="off" autocorrect="off" autofocus="autofocus" name="user_id" id="uid" required="required" tabindex="1" title="{lang('common.email_address')}" />
+				<label for="upw">{lang('common.password')}<a class="pos-right" href="{getUrl('act','dispMemberFindAccount')}">{lang('member.cmd_find_member_account')}</a></label>
+				<input type="password" name="password" id="upw" required="required" tabindex="2" title="{lang('common.password')}" />
+				<label for="keepid_opt">
+					<input type="checkbox" name="keep_signed" id="keepid_opt" tabindex="3" value="Y" />
+					{lang('member.keep_signed')}
+				</label>
+				<div id="rx_member-warning" class="rx_member-notice">
+					{lang('member.about_keep_warning')}
+				</div>
+				<input type="submit" tabindex="4" value="{lang('member.cmd_login')}" />
+			</div>
+		</form>
+	</section>
+	<div class="sw-footer">
+		<a cond="$member_config->enable_join !== 'N'" href="{getUrl('act','dispMemberSignUpForm')}">{lang('member.cmd_signup')}</a>
+	</div>
+</div>
+<script>
+jQuery(function($){
+	var keep_msg = $('#rx_member-warning');
+	keep_msg.hide();
+	$('#keepid_opt').change(function(){
+		if($(this).is(':checked')){
+			keep_msg.slideDown(200);
+		} else {
+			keep_msg.slideUp(200);
+		}
+	});
+});
+</script>
+<include target="./common_footer.html" />

@@ -1,0 +1,452 @@
+@charset "UTF-8";
+/*
+	@method .text-contrast()
+	@author misol <misol.kr@gmail.com>
+	@brief Select a text color according to WCAG 2.0 contrast guideline. The calcualtion of contrast follows the formula on the guideline.
+*/
+.text-contrast(@bg_color; @bright_color:#fff; @dark_color:#000; @multi:1; @i:0) when (@i >= 100) and ( ( (luma(@bg_color) + 0.05) / (luma(@dark_color) + 0.05) ) =< ( ( luma(@bright_color) + 0.05) / ( luma(@bg_color) + 0.05) )) {
+	color: @bright_color;
+}
+.text-contrast(@bg_color; @bright_color:#fff; @dark_color:#000; @multi:1; @i:0) when (@i >= 100) and ( ( (luma(@bg_color) + 0.05) / (luma(@dark_color) + 0.05) ) > ( ( luma(@bright_color) + 0.05) / ( luma(@bg_color) + 0.05) )) {
+	color: @dark_color;
+}
+.text-contrast(@bg_color; @bright_color:#fff; @dark_color:#000; @multi:1; @i:0) when (@i < 100) and ( ( (luma(@bg_color) + 0.05) / (luma(@dark_color) + 0.05) ) =< ( ( luma(@bright_color) + 0.05) / ( luma(@bg_color) + 0.05) )) and ( ( ( luma(@bright_color) + 0.05) / ( luma(@bg_color) + 0.05) ) > 4.5 * @multi ) {
+	color: @bright_color;
+}
+.text-contrast(@bg_color; @bright_color:#fff; @dark_color:#000; @multi:1; @i:0) when (@i < 100) and ( ( (luma(@bg_color) + 0.05) / (luma(@dark_color) + 0.05) ) =< ( ( luma(@bright_color) + 0.05) / ( luma(@bg_color) + 0.05) ) ) and ( ( ( luma(@bright_color) + 0.05) / ( luma(@bg_color) + 0.05) ) =< 4.5 * @multi )  {
+	.text-contrast(@bg_color; lighten(@bright_color, 5%); @dark_color; @multi; @i + 1);
+}
+.text-contrast(@bg_color; @bright_color:#fff; @dark_color:#000; @multi:1; @i:0) when (@i < 100) and ( ( (luma(@bg_color) + 0.05) / (luma(@dark_color) + 0.05) ) > ( ( luma(@bright_color) + 0.05) / ( luma(@bg_color) + 0.05) )) and ( ( (luma(@bg_color) + 0.05) / (luma(@dark_color) + 0.05) ) > 4.5 * @multi ) {
+	color: @dark_color;
+}
+.text-contrast(@bg_color; @bright_color:#fff; @dark_color:#000; @multi:1; @i:0) when (@i < 100) and (( (luma(@bg_color) + 0.05) / (luma(@dark_color) + 0.05) ) > ( ( luma(@bright_color) + 0.05) / ( luma(@bg_color) + 0.05) )) and ( ( (luma(@bg_color) + 0.05) / (luma(@dark_color) + 0.05) ) =< 4.5 * @multi ) {
+	.text-contrast(@bg_color; @bright_color; darken(@dark_color, 5%); @multi; @i + 1);
+}
+
+/*
+	@method .bg-contrast()
+	@author misol <misol.kr@gmail.com>
+	@brief Select a background color, which has less contrast background color than WCAG 2.0 contrast guideline. On the WCAG 2.0 guideline, bigger string can have less contrast as 3.0.
+*/
+.bg-contrast(@text_color; @bright_color:#fff; @dark_color:#000; @multi:1; @i:0) when (@i >= 100) and ( ( (luma(@text_color) + 0.05) / (luma(@dark_color) + 0.05) ) =< ( ( luma(@bright_color) + 0.05) / ( luma(@text_color) + 0.05) )) {
+	background: @bright_color;
+}
+.bg-contrast(@text_color; @bright_color:#fff; @dark_color:#000; @multi:1; @i:0) when (@i >= 100) and ( ( (luma(@text_color) + 0.05) / (luma(@dark_color) + 0.05) ) > ( ( luma(@bright_color) + 0.05) / ( luma(@text_color) + 0.05) )) {
+	background: @dark_color;
+}
+
+.bg-contrast(@text_color; @bright_color:#fff; @dark_color:#000; @multi:1; @i:0) when (@i < 100) and ( ( (luma(@text_color) + 0.05) / (luma(@dark_color) + 0.05) ) =< ( ( luma(@bright_color) + 0.05) / ( luma(@text_color) + 0.05) )) and ( ( ( luma(@bright_color) + 0.05) / ( luma(@text_color) + 0.05) ) > 3 * @multi ) {
+	background: @bright_color;
+}
+.bg-contrast(@text_color; @bright_color:#fff; @dark_color:#000; @multi:1; @i:0) when (@i < 100) and ( ( (luma(@text_color) + 0.05) / (luma(@dark_color) + 0.05) ) =< ( ( luma(@bright_color) + 0.05) / ( luma(@text_color) + 0.05) ) ) and ( ( ( luma(@bright_color) + 0.05) / ( luma(@text_color) + 0.05) ) =< 3 * @multi )  {
+	.bg-contrast(@text_color; lighten(@bright_color,3%); @dark_color; @multi; @i + 1);
+}
+.bg-contrast(@text_color; @bright_color:#fff; @dark_color:#000; @multi:1; @i:0) when (@i < 100) and ( ( (luma(@text_color) + 0.05) / (luma(@dark_color) + 0.05) ) > ( ( luma(@bright_color) + 0.05) / ( luma(@text_color) + 0.05) )) and ( ( (luma(@text_color) + 0.05) / (luma(@dark_color) + 0.05) ) > 3 * @multi ) {
+	background: @dark_color;
+}
+.bg-contrast(@text_color; @bright_color:#fff; @dark_color:#000; @multi:1; @i:0) when (@i < 100) and (( (luma(@text_color) + 0.05) / (luma(@dark_color) + 0.05) ) > ( ( luma(@bright_color) + 0.05) / ( luma(@text_color) + 0.05) )) and ( ( (luma(@text_color) + 0.05) / (luma(@dark_color) + 0.05) ) =< 3 * @multi ) {
+	.bg-contrast(@text_color; @bright_color; darken(@dark_color, 3%); @multi; @i + 1);
+}
+
+/* As LESS library in Rhymix substitude variables as an strings, convert colors as the color objects of LESS. */
+@color: rgb(@red, @green, @blue);
+
+
+/* As this file handle some wild-selectors to control display settings, hide inline script and style codes. */
+script, style
+{
+	display:none!important;
+}
+
+/* Member skin container, default settings */
+
+.rx_prn_member
+{
+	/* font-size */
+	.font-xl()
+	{
+		/* font-size: 45; 1 */
+		font-size: 1.25em;
+	}
+	.font-l()
+	{
+		/* font-size: 40; 1_2, 1_3, 2_1, 4, 5_1 */
+		font-size: 1.11em;
+	}
+	.font-m()
+	{
+		/* font-size: 36; 1_4, 2_2, 4_1, 5_2 */
+		font-size: 1em;
+	}
+	.font-s()
+	{
+		/* font-size: 30; 2_3, 3_1, 5_3 */
+		font-size: 0.833em;
+	}
+
+	
+	/* font-weight */
+	.font-bold()
+	{
+		font-weight: 700;
+	}
+
+	/* font-color */
+	.font-point()
+	{
+		/* 4, 4_1 */
+		color: lighten(@color, 5%)
+	}
+
+	.font-dark()
+	{
+		color: #484848
+	}
+	.font-gray()
+	{
+		color: #757575
+	}
+	.font-light()
+	{
+		color: #bdbdbd
+	}
+
+	
+	.background-lightgray()
+	{
+		background-color: #fafafa
+	}
+	.background-gray()
+	{
+		background-color: #bdbdbd
+	}
+	.background-lightpoint()
+	{
+		color: lighten(@color, 10%)
+	}
+	.background-point()
+	{
+		color: @color
+	}
+
+
+	font-family: "맑은 고딕", "Apple SD Gothic Neo","나눔고딕",NanumGothic,'Nanum Gothic',Arial,Helvetica,sans-serif;
+	font-size: 14px;
+	text-align: justify;
+	margin: 8px 0px;
+	padding: 0 5px;
+	.font-dark();
+
+
+	a
+	{
+		.font-dark();
+		text-decoration: none;
+	}
+
+	.pos-right
+	{
+		position:absolute;
+		right:0
+	}
+
+	/* Tab over the main content. */
+	div.rx_prn_tab{
+		background: #ffffff;
+		margin: 5px 0 0;
+		box-sizing: border-box;
+		overflow: hidden;
+		width:100%;
+		ul.rx_prn_tab{
+			margin: 0;
+			padding: 0;
+			list-style: outside none none;
+			display: block;
+			text-decoration: none;
+			overflow-x: auto;
+			-webkit-overflow-scrolling: touch;
+			&>li {
+				display:inline-block;
+				line-height: 1.5;
+				position: relative;
+				padding: 0 10px;
+				a {
+					display:inline-block;
+					letter-spacing: -1px;
+					line-height: 3;
+					border-bottom: solid 3px #fff;
+					padding: 0 5px;
+					.font-l();
+					.font-bold();
+				}
+				a:hover, a:focus, &.active a{
+					border-bottom: solid 3px @color;
+				}
+			}
+		}
+	}
+
+
+	/* member forms */
+	.signin
+	{
+		max-width:400px;
+		margin:30px auto;
+		box-sizing:border-box;
+	}
+	.sw-body
+	{
+		box-sizing:border-box;
+		border-radius: 15px;
+		.background-lightgray();
+		margin: 0 0 20px;
+		&>*
+		{
+			padding: 20px;
+			margin:0;
+			border: 0;
+		}
+		h1
+		{
+			padding: 10px;
+			margin: 10px;
+			border-bottom: 1px solid #d1d1d1;
+			.font-l();
+			.font-bold();
+		}
+		dl {
+			position: relative;
+			padding:0;
+			margin:20px;
+			&>div
+			{
+				clear:both;
+			}
+			dt {
+				width: 33%;
+				max-width: 300px;
+				.font-bold();
+				float:left;
+			}
+			dt, dd {
+				list-style: outside none none;
+				box-sizing: border-box;
+				display: inline-block;
+				margin: 0;
+				padding: 10px 0;
+				border: none;
+				line-height: 2;
+				.font-m();
+			}
+		}
+	}
+	form
+	{
+		overflow: hidden;
+		width:100%;
+		white-space: normal;
+		box-sizing: border-box;
+		div.control-group
+		{
+			&>*
+			{
+				display:block;
+				position:relative;
+				box-sizing: border-box;
+				width:100%;
+				min-height:25px;
+				margin:0px;
+				margin-top: 10px;
+			}
+			&>*:first-child
+			{
+				margin-top: 0;
+			}
+			&>input, &>select, button
+			{
+				border: 1px solid #d1d1d1;
+				border-radius: 25px;
+				margin-top: 0;
+				padding: 8px 15px;
+				-webkit-appearance: none;
+				line-height: 2;
+				.font-gray();
+				.font-m();
+			}
+			&>label, &>div.control-label
+			{
+				font-weight: bold;
+				border:0;
+			}
+		}
+	}
+	form input[type="submit"], form input.btn.dateRemover, form button
+	{
+		padding: 10px;
+		vertical-align: bottom;
+		.bg-contrast(#000; lighten(@color,5%); darken(@color,5%); 3.0);
+		font-weight: bold;
+		text-shadow: none;
+		border:0;
+		color: #000;
+		&:hover, &:focus
+		{
+			.bg-contrast(#000; lighten(@color,5%); darken(@color,5%); 4.0);
+		}
+	}
+	form div.control-group>input[type="submit"], .sw-footer{
+		margin: 20px 0 0;
+	}
+
+
+	.sw-footer.sw-anchor-buttons {
+		text-align:right;
+		&>a {
+			display:inline-block;
+		}
+	}
+
+	/* message; error, info, update */
+	.rx_member-notice, .rx_member-notice.info
+	{
+		.bg-contrast(#000; lighten(@color, 5%); darken(@color, 5%); 5.0);
+		color: #000;
+		border-radius: 15px;
+		padding: 15px;
+		margin: 10px;
+		margin-top:0;
+		text-align: justify;
+		.font-gray();
+		.font-m();
+	}
+	.rx_member-notice.error
+	{
+		background: #fff3e0;
+		.text-contrast(#fff3e0);
+	}
+	.rx_member-notice.update
+	{
+		background: #e8f5e9;
+		.text-contrast(#e8f5e9);
+	}
+	.rx_member-notice>*
+	{
+		padding: 0;
+		margin:0;
+	}
+	
+	/* The list of document style */
+	.rx_sw_list .cont_a {
+		color: #222;
+		display: block;
+		letter-spacing: -1px;
+		line-height: 18px;
+		margin: 0;
+		overflow: hidden;
+		padding: 0.667em 70px 0.733em 15px;
+		text-overflow: ellipsis;
+		white-space: nowrap;
+		text-decoration: none;
+		&.no_delete {
+			padding-right: 15px;
+		}
+		&:hover, &:focus {
+			.text-contrast(#fff; darken(@color,5%); lighten(@color,5%));
+		}
+	}
+	.content_basic{
+		position:relative;
+		display:inline-block;
+		max-width:100%;
+		vertical-align: middle;
+		overflow:hidden;
+		text-overflow: ellipsis;
+		white-space: nowrap;
+	}
+	.content_subinfo
+	{
+		color: #9e9e9e;
+		font-size: 12px;
+		margin: 0 3px 0 7px;
+		overflow:hidden;
+	}
+	ul.rx_sw_list {
+		list-style: outside none none;
+		padding: 0;
+		margin: 0;
+		border-bottom: 1px solid #e0e0e0;
+		li {
+			position:relative;
+			border-top: 1px solid #e0e0e0;
+			overflow: hidden;
+			padding:0;
+		}
+		.content_delete{
+			position:absolute;
+			top:0;
+			right:2px;
+			button{
+				background: lighten(@color, 5%);
+				font-size: 14px;
+				border:0;
+				border-radius: 25px;
+				.text-contrast(lighten(@color, 5%));
+				padding: 10px 15px;
+				vertical-align: bottom;
+				&:hover, &:focus
+				{
+					.bg-contrast(#000; lighten(@color,5%); darken(@color,5%); 4.0);
+				}
+			}
+		}
+	}
+	.pagination ul
+	{
+		display:block;
+		list-style: outside none none;
+		text-align:center;
+		padding: 0;
+		margin: 0;
+		li{
+			display:inline-block;
+			&>a
+			{
+				display: inline-block;
+				border-radius: 25px;
+				background-color: #fff;
+				padding: 10px 15px;
+				text-decoration: none;
+				.font-m();
+				&:hover, &:focus
+				{
+					.bg-contrast(#000; lighten(@color,5%); darken(@color,5%); 4.0);
+				}
+			}
+			&.active>a
+			{
+				background-color: #d1d1d1;
+				font-weight:bold;
+				color:#000;
+			}
+		}
+	}
+	.sw-footer
+	{
+		&>a
+		{
+			display: block;
+			border-radius: 25px;
+			border: 1px solid #d1d1d1;
+			background-color: #fff;
+			padding: 10px 15px;
+			text-decoration: none;
+			text-align: center;
+			.font-m();
+			&:hover, &:focus
+			{
+				.bg-contrast(#000; lighten(@color,5%); darken(@color,5%); 4.0);
+			}
+		}
+	}
+}
+
