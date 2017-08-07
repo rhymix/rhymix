@@ -128,13 +128,13 @@ class Woorimail extends Base implements \Rhymix\Framework\Drivers\MailInterface
 			{
 				$data['wms_nick'] = $sender_email[0];
 				$data['wms_domain'] = $sender_email[1];
-				if($replyTo = $message->message->getReplyTo())
-				{
-					if ($replyTo = key($replyTo))
-					{
-						$data['sender_email'] = $replyTo;
-					}
-				}
+			}
+		}
+		if($replyTo = $message->message->getReplyTo())
+		{
+			if ($replyTo = key($replyTo))
+			{
+				$data['sender_email'] = $replyTo;
 			}
 		}
 		
