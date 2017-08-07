@@ -162,14 +162,14 @@ function insertSelectedModule(id, module_srl, mid, browser_title) {
 }
 
 
-function isTouchable() {
+function isRxPrnTouchable() {
 	var el = document.createElement('div');
 	el.setAttribute('ontouchstart', 'return;'); // or try "ontouchstart"
 	return typeof el.ontouchstart === "function";
 }
 
 $(document).ready(function() {
-	if(isTouchable()) {
-		$("div.rx_prn_tab ul.rx_prn_tab").css('white-space', 'nowrap')
+	if(isRxPrnTouchable()) {
+		$(".rx_prn_member div.rx_prn_tab ul.rx_prn_tab").css('white-space', 'nowrap')
 	}
 });

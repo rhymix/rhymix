@@ -1,6 +1,6 @@
 <include target="./common_header.html" />
 <div class="signin">
-	<section class="sw-body">
+	<section class="prn-body">
 		<h1>{lang('member.cmd_login')}</h1>
 		<div cond="$XE_VALIDATOR_MESSAGE && $XE_VALIDATOR_ID == 'modules/member/skins'" class="rx_member-notice {$XE_VALIDATOR_MESSAGE_TYPE}">
 			<p>{$XE_VALIDATOR_MESSAGE}</p>
@@ -33,7 +33,7 @@
 			</div>
 		</form>
 	</section>
-	<div class="sw-footer">
+	<div class="prn-footer">
 		<a cond="$member_config->enable_join !== 'N'" href="{getUrl('act','dispMemberSignUpForm')}">{lang('member.cmd_signup')}</a>
 	</div>
 </div>

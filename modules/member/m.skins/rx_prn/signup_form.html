@@ -4,13 +4,13 @@
 <!--%load_js_plugin("ui")-->
 <!--%load_js_plugin("ui.datepicker")-->
 <include target="./common_header.html" />
-<section class="sw-body">
+<section class="prn-body">
 	<h1>{lang('member.cmd_signup')}</h1>
 	<div cond="$XE_VALIDATOR_MESSAGE && $XE_VALIDATOR_ID == 'modules/member/skins'" class="rx_member-notice {$XE_VALIDATOR_MESSAGE_TYPE}">
 		<p>{$XE_VALIDATOR_MESSAGE}</p>
 	</div>
 	<div class="rx_member-notice info">
-		<p>{lang('member_simple_world_about_star')}</p>
+		<p>{lang('member_rx_prn_about_star')}</p>
 	</div>
 	<form ruleset="@insertMember" id="rx_insert_member" action="./" method="post" enctype="multipart/form-data" class="form-horizontal">
 		<input type="hidden" name="act" value="procMemberInsert" />
