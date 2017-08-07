@@ -239,6 +239,31 @@ script, style
 				.font-m();
 			}
 		}
+		.prn-anchor-buttons
+		{
+			&>a
+			{
+				display: block;
+				border-top:    none;
+				border-right:  none;
+				border-bottom: 1px solid #d1d1d1;
+				border-left:   none;
+				background-color: #fff;
+				padding: 10px 15px;
+				text-decoration: none;
+				text-align: center;
+				.font-m();
+				.font-point();
+				&:hover, &:focus
+				{
+					.bg-contrast(#000; lighten(@color,5%); darken(@color,5%); 4.0);
+				}
+				&:first-child
+				{
+					border-top: 1px solid #d1d1d1;
+				}
+			}
+		}
 	}
 	form
 	{
@@ -262,7 +287,7 @@ script, style
 			{
 				margin-top: 0;
 			}
-			&>input, &>select, button
+			&>input, &>select, button, #prn_profile_imagetag label.prn_button
 			{
 				border: 1px solid #d1d1d1;
 				border-radius: 25px;
@@ -280,7 +305,7 @@ script, style
 			}
 		}
 	}
-	form input[type="submit"], form input.btn.dateRemover, form button
+	form input[type="submit"], form input.btn.dateRemover, form button, label.prn_button
 	{
 		padding: 10px;
 		vertical-align: bottom;
@@ -297,8 +322,25 @@ script, style
 	form div.control-group>input[type="submit"], .prn-footer{
 		margin: 20px 0 0;
 	}
-
-
+	div.prn-profile_image
+	{
+		text-align: center;
+		img
+		{
+			border-radius: 50%;
+		}
+		#prn_profile_imagetag {
+			position:relative;
+			button, label.prn_button
+			{
+				padding : 12px 15px;
+				line-height:1;
+				position:absolute;
+				bottom: 0;
+				right:0;
+			}
+		}
+	}
 	.prn-footer.prn-anchor-buttons {
 		text-align:right;
 		&>a {

@@ -36,3 +36,44 @@ function dispMemberValueCheck(response, response_tags, field) {
 
 	dummy.html(response['message']).show();
 }
+
+$(document).ready(function(){
+	// label for setup
+	$('.control-label[for]').each(function(){
+		var $this = $(this);
+		if($this.attr('for') == ''){
+			$this.attr('for', $this.next().children(':visible:first').attr('id'));
+		}
+	});
+	// image input
+	var html = '';
+	if(prn_profile_image.exists !== false)
+	{
+		html = '<button type="button" onclick="doDeleteProfileImage(' + prn_member_srl + ');return false;" title="' + xe.lang.cmd_delete + '">x</button>';
+	}
+	else
+	{
+		html = '<label for="profile_image" class="prn_button" title="' + xe.lang.cmd_upload + '">+</label>';
+	}
+	$('#profile_image')
+		.after('<div class="control-group"><label for="profile_image"><span id="prn_profile_imagetag"><img src="' + prn_profile_image.src + '" onerror="this.src=\'./modules/member/m.skins/rx_prn/images/member.png\'" width="'+prn_profile_image.width+'" height="'+prn_profile_image.height+'">'+html+'</span></label></div>')
+		.css('display','none')
+		.change(function() {
+			if (this.files && this.files[0]) {
+				var reader = new FileReader();
+				reader.onload = function (e) {
+					$('#prn_profile_imagetag img').attr('src', e.target.result);
+				}
+				reader.readAsDataURL(this.files[0]);
+			} else {
+				$('#prn_profile_imagetag img').attr('src', './modules/member/m.skin/rx_prn/images/member.svg').attr('width', prn_profile_image.width).attr('height', prn_profile_image.height);
+			}
+		});
+	// label for profile images
+	$('#profile_imagetag').each(function() {
+		$(this).html(function(i, oldhtml) {
+			$(this).attr('id', '');
+			return '';
+		});
+	});
+});

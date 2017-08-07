@@ -96,7 +96,11 @@ function doDeleteProfileImage(member_srl) {
 		'member',
 		'procMemberDeleteProfileImage',
 		{member_srl:member_srl},
-		function(){jQuery('#profile_imagetag').remove()},
+		function(){
+				$('#profile_imagetag').remove();
+				var html = '<img src="./modules/member/m.skins/rx_prn/images/member.svg" onerror="this.src=\'./modules/member/m.skins/rx_prn/images/member.png\'" width="90" height="90"><label for="profile_image" class="prn_button" title="' + xe.lang.cmd_upload + '">+</label>';
+				$('#prn_profile_imagetag').html(html);
+			},
 		['error','message']
 	);
 }
