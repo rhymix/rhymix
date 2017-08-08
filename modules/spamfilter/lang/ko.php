@@ -12,9 +12,7 @@ $lang->check_trackback = '트랙백 검사';
 $lang->word = '키워드';
 $lang->hit = '히트';
 $lang->latest_hit = '최근 히트';
-$lang->display_keyword = '키워드 출력';
 $lang->custom_message = '에러메세지 설정';
-$lang->about_display_keyword = '글, 댓글 제한으로 인해 등록하지 못하였을 경우 에러메세지에 키워드를 출력합니다. 기본값은 출력합니다.';
 $lang->about_custom_message = '키워드를 출력하지 않을시 에러메세지를 설정합니다.';
 $lang->about_interval = '지정된 시간 내에 글을 등록하지 못하게 합니다.';
 $lang->about_denied_ip = '한 줄에 하나씩 IP 주소 또는 대역을 입력하세요. &quot;//&quot; 또는 &quot;#&quot; 뒷부분은 설명으로 저장됩니다. 예: 127.0.0.1 //설명, 127.0.0.1 #설명<br>IP 대역 표기법은 <a href="https://github.com/rhymix/rhymix-docs/blob/master/ko/misc/ipfilter.md" target="_blank">매뉴얼</a>을 참고하십시오.';
@@ -22,7 +20,6 @@ $lang->about_denied_word = '한 줄에 하나씩 스팸 키워드를 입력하�
 $lang->msg_alert_limited_by_config = '%d초 이내에 연속 글 작성은 금지됩니다. 계속 시도하면 IP가 차단될 수 있습니다.';
 $lang->msg_alert_limited_message_by_config = '%d초 이내에 연속 쪽지 발송은 금지됩니다. 계속 시도하면 IP가 차단될 수 있습니다.';
 $lang->msg_alert_denied_word = '"%s"은(는) 사용이 금지된 단어입니다.';
-$lang->msg_alert_do_not_display_keyword_denied_word = '내용 혹은 제목에 사용이 금지된 단어가 있습니다. 관리자에게 문의하세요.';
 $lang->msg_alert_registered_denied_ip = 'IP가 차단되었습니다. 사이트 관리자에게 문의 바랍니다.';
 $lang->msg_alert_trackback_denied = '한 글에는 하나의 트랙백만 허용됩니다.';
 $lang->cmd_interval = '글, 댓글 스팸 차단';
