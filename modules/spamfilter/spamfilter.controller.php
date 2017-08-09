@@ -55,7 +55,10 @@ class spamfilterController extends spamfilter
 		}
 		$text = utf8_trim(utf8_normalize_spaces(htmlspecialchars_decode(strip_tags($text))));
 		$output = $oFilterModel->isDeniedWord($text);
-		if(!$output->toBool()) return $output;
+		if(!$output->toBool())
+		{
+			return $output;
+		}
 		// Check the specified time beside the modificaiton time
 		if($obj->document_srl == 0)
 		{
