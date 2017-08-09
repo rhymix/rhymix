@@ -1,0 +1,29 @@
+{@ $communication_popup = TRUE;}
+<include target="./common_header.html" />
+<load target="js/communication.js" />
+<section class="prn-body">
+	<h1>
+		<!--@if($friend_group->friend_group_srl)-->
+			{$lang->cmd_rename_friend_group}
+		<!--@else-->
+			{$lang->cmd_add_friend_group}
+		<!--@end-->
+	</h1>
+	<div cond="$XE_VALIDATOR_MESSAGE && $XE_VALIDATOR_ID == 'modules/communication/skins/rx_prn/add_friend_group/1'" class="rx_prn-notice {$XE_VALIDATOR_MESSAGE_TYPE}">
+		<p>{$XE_VALIDATOR_MESSAGE}</p>
+	</div>
+	<form ruleset="addFriendGroup" action="./" method="post" class="form-horizontal">
+		<input type="hidden" name="module" value="communication" />
+		<input type="hidden" name="act" value="procCommunicationAddFriendGroup" />
+		<input type="hidden" name="friend_group_srl" value="{$friend_group->friend_group_srl}" />
+		<input type="hidden" name="xe_validator_id" value="modules/communication/skins/rx_prn/add_friend_group/1" />
+		<div class="control-group">
+			<label for="title">{$lang->msg_insert_group_name}</label>
+			<input name="title" id="title" type="text" value="{htmlspecialchars($friend_group->title, ENT_COMPAT | ENT_HTML401, 'UTF-8', false)}"/>
+		</div>
+		<div class="control-group">
+			<input cond="$friend_group->friend_group_srl" type="submit" value="{$lang->cmd_modify}" />
+			<input cond="!$friend_group->friend_group_srl" type="submit" value="{$lang->cmd_insert}" />
+		</div>
+	</form>
+</section>

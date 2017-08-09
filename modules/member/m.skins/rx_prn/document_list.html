@@ -32,10 +32,10 @@
 		{@$rx_prn = FALSE}
 		<!--@while($page_no = $page_navigation->getNextPage())-->
 		<li cond="$rx_prn === FALSE && ($page_no - 1) > 0"><a href="{getUrl('page', ($page_no - 1),'module_srl','')}" class="direction">&lsaquo;</a></li>
-		{@$rx_prn = TRUE}
+		{@$rx_prn = $page_no}
 		<li class="active"|cond="$page == $page_no"><a href="{getUrl('page',$page_no,'module_srl','')}">{$page_no}</a></li>
 		<!--@end-->
-		<li cond="$page_navigation->last_page > $page_no && $page_no > 0"><a href="{getUrl('page', ($page_no + 1),'module_srl','')}" class="direction">&rsaquo;</a></li>
+		<li cond="$page_navigation->last_page > $rx_prn && $rx_prn > 0"><a href="{getUrl('page', ($rx_prn + 1),'module_srl','')}" class="direction">&rsaquo;</a></li>
 	</ul>
 </div>
 <include target="./common_footer.html" />

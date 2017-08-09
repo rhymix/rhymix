@@ -51,7 +51,6 @@
 /* As LESS library in Rhymix substitude variables as an strings, convert colors as the color objects of LESS. */
 @color: rgb(@red, @green, @blue);
 
-
 /* As this file handle some wild-selectors to control display settings, hide inline script and style codes. */
 script, style
 {
@@ -60,7 +59,7 @@ script, style
 
 /* Member skin container, default settings */
 
-.rx_prn_member
+.rx_prn_communication
 {
 	/* font-size */
 	.font-xl()
@@ -203,9 +202,15 @@ script, style
 		padding: 1px 0;
 		&>*
 		{
-			padding: 20px;
+			padding: 5px 20px;
 			margin:0;
 			border: 0;
+			&:first-child {
+				padding-top: 20px;
+			}
+			&:last-child {
+				padding-bottom: 20px;
+			}
 		}
 		h1
 		{
@@ -214,31 +219,6 @@ script, style
 			border-bottom: 1px solid #d1d1d1;
 			.font-l();
 			.font-bold();
-		}
-		dl {
-			position: relative;
-			padding:0;
-			margin:20px;
-			&>div
-			{
-				clear:both;
-			}
-			dt {
-				width: 33%;
-				max-width: 300px;
-				.font-bold();
-				float:left;
-			}
-			dt, dd {
-				list-style: outside none none;
-				box-sizing: border-box;
-				display: inline-block;
-				margin: 0;
-				padding: 7px 0;
-				border: none;
-				line-height: 1.6;
-				.font-m();
-			}
 		}
 		.prn-anchor-buttons
 		{
@@ -300,6 +280,7 @@ script, style
 				padding: 8px 15px;
 				-webkit-appearance: none;
 				line-height: 2;
+				min-height: 2.3em;
 				.font-gray();
 				.font-m();
 			}
@@ -310,7 +291,7 @@ script, style
 			}
 		}
 	}
-	form input[type="submit"], form input.btn.dateRemover, form button, label.prn_button
+	form input[type="submit"], form button
 	{
 		padding: 10px;
 		vertical-align: bottom;
@@ -327,25 +308,6 @@ script, style
 	form div.control-group>input[type="submit"], .prn-footer{
 		margin: 20px 0 0;
 	}
-	div.prn-profile_image
-	{
-		text-align: center;
-		img
-		{
-			border-radius: 50%;
-		}
-		#prn_profile_imagetag {
-			position:relative;
-			button, label.prn_button
-			{
-				padding : 12px 15px;
-				line-height:1;
-				position:absolute;
-				bottom: 0;
-				right:0;
-			}
-		}
-	}
 	.prn-footer.prn-anchor-buttons {
 		text-align:right;
 		&>a {
@@ -354,7 +316,7 @@ script, style
 	}
 
 	/* message; error, info, update */
-	.rx_member-notice, .rx_member-notice.info
+	.rx_prn-notice, .rx_prn-notice.info
 	{
 		.bg-contrast(#000; lighten(@color, 5%); darken(@color, 5%); 5.0);
 		color: #000;
@@ -366,41 +328,23 @@ script, style
 		.font-gray();
 		.font-m();
 	}
-	.rx_member-notice.error
+	.rx_prn-notice.error
 	{
 		background: #fff3e0;
 		.text-contrast(#fff3e0);
 	}
-	.rx_member-notice.update
+	.rx_prn-notice.update
 	{
 		background: #e8f5e9;
 		.text-contrast(#e8f5e9);
 	}
-	.rx_member-notice>*
+	.rx_prn-notice>*
 	{
 		padding: 0;
 		margin:0;
 	}
 	
 	/* The list of document style */
-	.rx_sw_list .cont_a {
-		color: #222;
-		display: block;
-		letter-spacing: -1px;
-		line-height: 18px;
-		margin: 0;
-		overflow: hidden;
-		padding: 0.667em 70px 0.733em 15px;
-		text-overflow: ellipsis;
-		white-space: nowrap;
-		text-decoration: none;
-		&.no_delete {
-			padding-right: 15px;
-		}
-		&:hover, &:focus {
-			.text-contrast(#fff; darken(@color,5%); lighten(@color,5%));
-		}
-	}
 	.content_basic{
 		position:relative;
 		display:inline-block;
@@ -419,8 +363,8 @@ script, style
 	}
 	ul.rx_sw_list {
 		list-style: outside none none;
+		margin: 20px 0px;
 		padding: 0;
-		margin: 0;
 		border-bottom: 1px solid #e0e0e0;
 		li {
 			position:relative;
@@ -428,11 +372,29 @@ script, style
 			overflow: hidden;
 			padding:0;
 		}
+		.cont_a {
+			color: #222;
+			display: block;
+			letter-spacing: -1px;
+			line-height: 18px;
+			margin: 0;
+			overflow: hidden;
+			padding: 0.667em 70px 0.733em 15px;
+			text-overflow: ellipsis;
+			white-space: nowrap;
+			text-decoration: none;
+			&.no_delete {
+				padding-right: 15px;
+			}
+			&:hover, &:focus {
+				.text-contrast(#fff; darken(@color,5%); lighten(@color,5%));
+			}
+		}
 		.content_delete{
 			position:absolute;
 			top:0;
 			right:2px;
-			button, a{
+			button{
 				background: lighten(@color, 5%);
 				font-size: 14px;
 				border:0;

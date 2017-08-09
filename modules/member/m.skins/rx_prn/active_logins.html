@@ -15,7 +15,9 @@
 					<span class="content_subinfo">
 						{zdate($autologin_info->regdate, 'Y-m-d H:i')} ({$autologin_info->ipaddress})
 					</span>
-					<a class="delete_autologin" data-autologin-id="{$autologin_info->id}" data-autologin-key="{$autologin_info->autologin_key}" href="#">{$lang->cmd_delete}</a>
+				</span>
+				<span class="content_delete">
+					<button type="button" class="delete_autologin" data-autologin-id="{$autologin_info->id}" data-autologin-key="{$autologin_info->autologin_key}">{$lang->cmd_delete}</button>
 				</span>
 			</li>
 		</ul>
@@ -38,7 +40,7 @@
 </div>
 <script>
 	$(function() {
-		$("a.delete_autologin").on("click", function(event) {
+		$(".rx_sw_list button.delete_autologin").on("click", function(event) {
 			event.preventDefault();
 			exec_json('member.procMemberDeleteAutologin', { autologin_id: $(this).data("autologin-id"), autologin_key: $(this).data("autologin-key") }, function(data) {
 				window.location.reload();

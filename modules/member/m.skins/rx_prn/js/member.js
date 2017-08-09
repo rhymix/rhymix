@@ -165,7 +165,6 @@ function insertSelectedModule(id, module_srl, mid, browser_title) {
 	location.href = current_url.setQuery('selected_module_srl',module_srl);
 }
 
-
 function isRxPrnTouchable() {
 	var el = document.createElement('div');
 	el.setAttribute('ontouchstart', 'return;'); // or try "ontouchstart"
@@ -174,6 +173,13 @@ function isRxPrnTouchable() {
 
 $(document).ready(function() {
 	if(isRxPrnTouchable()) {
-		$(".rx_prn_member div.rx_prn_tab ul.rx_prn_tab").css('white-space', 'nowrap')
+		$(".rx_prn_member div.rx_prn_tab ul.rx_prn_tab").css('white-space', 'nowrap');
+		try
+		{
+			$(".rx_prn_member div.rx_prn_tab ul.rx_prn_tab").animate({
+				scrollLeft: $(".rx_prn_member div.rx_prn_tab ul.rx_prn_tab li.active").offset().left
+			}, 300);
+		} catch (e) {
+		}
 	}
 });

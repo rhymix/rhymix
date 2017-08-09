@@ -2,10 +2,11 @@
 <skin version="0.2">
 	<title xml:lang="ko">필요할 때 라이믹스</title>
 	<title xml:lang="en">Rhymix PRN</title>
-	<description xml:lang="ko">필요할 때 꺼내보는 라이믹스. 캡슐 모양의 둥근 라이믹스 회원 모듈 스킨입니다.</description>
-	<description xml:lang="en">You need Rhymix. A member skin with round, capsule-like shapes.</description>
+	<description xml:lang="ko">필요할 때 꺼내보는 라이믹스. 캡슐 모양의 둥근 라이믹스 커뮤니케이션 모듈 스킨입니다.</description>
+	<description xml:lang="en">You need Rhymix. A skin of the communication module of Rhymix with round, capsule-like shapes.</description>
 	<version>0.1</version>
-	<date>2017-08-06</date>
+	<date>2017-08-09</date>
+
 	<author email_address="misol.kr@gmail.com" link="https://github.com/misol">
 		<name xml:lang="ko">misol</name>
 		<name xml:lang="en">misol</name>
@@ -14,7 +15,6 @@
 		<name xml:lang="ko">마더캣</name>
 		<name xml:lang="en">Mothercat</name>
 	</author>
-
 	<colorset>
 		<color name="theme">
 			<title xml:lang="ko">사이트 테마 색</title>

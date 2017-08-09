@@ -4,7 +4,7 @@
 <!--// datepicker javascript plugin load -->
 <!--%load_js_plugin("ui")-->
 <!--%load_js_plugin("ui.datepicker")-->
-<div class="signin">
+<div class="prn-narrow">
 	<section class="prn-body">
 		<h1>{$lang->msg_update_member}</h1>
 		<div cond="$XE_VALIDATOR_MESSAGE && $XE_VALIDATOR_ID == 'modules/member/skins/rx_prn/1'" class="rx_member-notice {$XE_VALIDATOR_MESSAGE_TYPE}">
@@ -55,35 +55,35 @@
 	xe.lang.cmd_upload = '{$lang->cmd_upload}';
 	var prn_profile_image = {}, prn_member_srl = '{$member_info->member_srl}';
 	prn_profile_image['exists'] = <!--@if($member_info->profile_image->src)-->true<!--@else-->false<!--@end-->, prn_profile_image['src'] = "<!--@if($member_info->profile_image->src)-->{escape($member_info->profile_image->src)}<!--@else-->./modules/member/m.skins/rx_prn/images/member.svg<!--@end-->", prn_profile_image['width'] = "{$member_config->profile_image_max_width}", prn_profile_image['height'] = "{$member_config->profile_image_max_height}", prn_profile_image['alt'] = "{lang('member.profile_image')}";
-	(function($){
-		$(function(){
-			// check if the browser support type date.
-			if ( $(".inputDate").prop('type') != 'date' ) {
-				var option = {
-					changeMonth: true,
-					changeYear: true,
-					gotoCurrent: false,
-					yearRange:'-200:+10',
-					dateFormat:'yy-mm-dd',
-					defaultDate: new Date("{date('Y-m-d',time())}"),
-					minDate: new Date("{date('Y-m-d',strtotime('-200 years'))}"),
 
-					onSelect:function(){
-						$(this).prev('input[type="hidden"]').val(this.value.replace(/-/g,""))
-					}
-				};
-				$.extend($.datepicker.regional['{$lang_type}'],option);
+	$(function(){
+		// check if the browser support type date.
+		if ( $(".inputDate").prop('type') != 'date' ) {
+			var option = {
+				changeMonth: true,
+				changeYear: true,
+				gotoCurrent: false,
+				yearRange:'-200:+10',
+				dateFormat:'yy-mm-dd',
+				defaultDate: new Date("{date('Y-m-d',time())}"),
+				minDate: new Date("{date('Y-m-d',strtotime('-200 years'))}"),
 
-				//if the browser does not support type date input, start datepicker. If it does, brower's UI will show their datepicker.
-				$(".inputDate").datepicker(option);
-			} else {
-				$(".inputDate").prop('readonly', false);
-			}
-			$(".dateRemover").click(function() {
-				$(this).prevAll('input').val('');
-				return false;});
+				onSelect:function(){
+					$(this).prev('input[type="hidden"]').val(this.value.replace(/-/g,""))
+				}
+			};
+			$.extend($.datepicker.regional['{$lang_type}'],option);
+
+			//if the browser does not support type date input, start datepicker. If it does, brower's UI will show their datepicker.
+			$(".inputDate").datepicker(option);
+		} else {
+			$(".inputDate").prop('readonly', false);
+		}
+		$(".dateRemover").click(function() {
+			$(this).prevUntil("label").val('');
+			return false;
 		});
-	})(jQuery);
+	});
 	//-->
 	</script>
 </div>

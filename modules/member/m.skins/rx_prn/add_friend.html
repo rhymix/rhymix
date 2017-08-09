@@ -1,0 +1,28 @@
+{@ $communication_popup = TRUE;}
+<load target="filter/add_friend.xml" />
+<include target="./common_header.html" />
+<section class="prn-body">
+	<h1>{$lang->cmd_add_friend}</h1>
+	<div cond="$XE_VALIDATOR_MESSAGE && $XE_VALIDATOR_ID == 'modules/communication/skins/rx_prn/add_friend/1'" class="rx_prn-notice {$XE_VALIDATOR_MESSAGE_TYPE}">
+		<p>{$XE_VALIDATOR_MESSAGE}</p>
+	</div>
+	<form ruleset="addFriend" action="./" method="post">
+		<input type="hidden" name="module" value="communication" />
+		<input type="hidden" name="act" value="procCommunicationAddFriend" />
+		<input type="hidden" name="target_srl" value="{$target_info->member_srl}" />
+		<input type="hidden" name="xe_validator_id" value="modules/communication/skins/rx_prn/add_friend/1" />
+		<div class="control-group">
+			<label for="n_name">{$lang->nick_name}</label>
+			<input type="text" disabled="disabled" name="nick_name" id="n_name" value="{$target_info->nick_name}" title="{lang('common.user_id')}" />
+			<label for="friend_group_srl">{$lang->friend_group}<a class="pos-right" href="{getUrl('act','dispCommunicationAddFriendGroup')}" onclick="popopen(this.href);return false;">{$lang->cmd_add_friend_group}</a></label>
+			<select name="friend_group_srl" id="friend_group_srl">
+				<option value="">{$lang->default_friend_group}</option>
+				<option loop="$friend_group_list => $key,$val" value="{$val->friend_group_srl}">{$val->title}</option>
+			</select> 
+		</div>
+		<div class="control-group">
+			<input type="submit" value="{lang('communication.cmd_add_friend')}" />
+		</div>
+	</form>
+</section>
+<include target="./common_footer.html" />
