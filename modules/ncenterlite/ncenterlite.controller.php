@@ -710,33 +710,38 @@ class ncenterliteController extends ncenterlite
 		// 팝업창이면 중지
 		if(Context::get('ncenterlite_is_popup'))
 		{
-			return;
+			return new Object();
 		}
 
 		// 자신의 알림목록을 보고 있을 경우엔 알림센터창을 띄우지 않는다.
 		if($act == 'dispNcenterliteNotifyList')
 		{
-			return;
+			return new Object();
+		}
+
+		if(Context::isLocked())
+		{
+			return new Object();
 		}
 
 		if(count($this->disable_notify_bar_act))
 		{
 			if(in_array(Context::get('act'), $this->disable_notify_bar_act))
 			{
-				return;
+				return new Object();
 			}
 		}
 
 		// HTML 모드가 아니면 중지 + act에 admin이 포함되어 있으면 중지
 		if(Context::getResponseMethod() != 'HTML' || strpos(strtolower(Context::get('act')), 'admin') !== false)
 		{
-			return;
+			return new Object();
 		}
 
 		// 로그인 상태가 아니면 중지
 		if(!Context::get('is_logged'))
 		{
-			return;
+			return new Object();
 		}
 
 		$module_info = Context::get('module_info');
@@ -745,14 +750,14 @@ class ncenterliteController extends ncenterlite
 		{
 			if(in_array($module_info->mid, $this->disable_notify_bar_mid))
 			{
-				return;
+				return new Object();
 			}
 		}
 
 		// admin 모듈이면 중지
 		if($module_info->module == 'admin')
 		{
-			return;
+			return new Object();
 		}
 
 		$oNcenterliteModel = getModel('ncenterlite');
@@ -786,7 +791,7 @@ class ncenterliteController extends ncenterlite
 		// 알림 메시지가 없어도 항상 표시하게 하려면 이 줄을 제거 또는 주석 처리하세요.
 		if(!$_output->data)
 		{
-			return;
+			return new Object();
 		}
 
 		$_latest_notify_id = array_slice($_output->data, 0, 1);
@@ -795,7 +800,7 @@ class ncenterliteController extends ncenterlite
 
 		if($_COOKIE['_ncenterlite_hide_id'] && $_COOKIE['_ncenterlite_hide_id'] == $_latest_notify_id)
 		{
-			return;
+			return new Object();
 		}
 		setcookie('_ncenterlite_hide_id', '', 0, '/');
 

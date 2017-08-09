@@ -17,32 +17,35 @@ class spamfilterAdminController extends spamfilter
 	function procSpamfilterAdminInsertConfig()
 	{
 		// Get the default information
-		$args = Context::gets('limits', 'limits_interval', 'limits_count', 'check_trackback', 'ipv4_block_range', 'ipv6_block_range');
-		
+		$args = Context::gets('limits', 'limits_interval', 'limits_count', 'check_trackback', 'ipv4_block_range', 'ipv6_block_range', 'display_keyword', 'custom_message');
+
 		// Set default values
-		if ($args->limits != 'Y')
+		if($args->limits != 'Y')
 		{
 			$args->limits = 'N';
 		}
-		if ($args->check_trackback != 'Y')
+		if($args->check_trackback != 'Y')
 		{
 			$args->check_trackback = 'N';
 		}
-		if (!preg_match('#^/(\d+)$#', $args->ipv4_block_range, $matches) || $matches[1] > 32 || $matches[1] < 16)
+		if(!preg_match('#^/(\d+)$#', $args->ipv4_block_range, $matches) || $matches[1] > 32 || $matches[1] < 16)
 		{
 			$args->ipv4_block_range = '';
 		}
-		if (!preg_match('#^/(\d+)$#', $args->ipv6_block_range, $matches) || $matches[1] > 128 || $matches[1] < 64)
+		if(!preg_match('#^/(\d+)$#', $args->ipv6_block_range, $matches) || $matches[1] > 128 || $matches[1] < 64)
 		{
 			$args->ipv6_block_range = '';
 		}
 		$args->limits_interval = intval($args->limits_interval);
 		$args->limits_count = intval($args->limits_count);
-		
+
 		// Create and insert the module Controller object
 		$oModuleController = getController('module');
 		$moduleConfigOutput = $oModuleController->insertModuleConfig('spamfilter', $args);
-		if(!$moduleConfigOutput->toBool()) return $moduleConfigOutput;
+		if(!$moduleConfigOutput->toBool())
+		{
+			return $moduleConfigOutput;
+		}
 
 		$this->setMessage('success_updated');
 		$returnUrl = Context::get('success_return_url') ? Context::get('success_return_url') : getNotEncodedUrl('', 'module', 'admin', 'act', 'dispSpamfilterAdminConfigBlock');

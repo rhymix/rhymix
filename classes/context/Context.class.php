@@ -153,6 +153,12 @@ class Context
 	public $is_uploaded = FALSE;
 
 	/**
+	 * Checks if the site is locked
+	 * @var bool TRUE if the site is locked
+	 */
+	public $is_site_locked = FALSE;
+
+	/**
 	 * Pattern for request vars check
 	 * @var array
 	 */
@@ -1482,6 +1488,7 @@ class Context
 		define('_XE_SITELOCK_TITLE_', config('lock.title') ?: self::getLang('admin.sitelock_in_use'));
 		define('_XE_SITELOCK_MESSAGE_', config('lock.message'));
 		unset($_SESSION['XE_VALIDATOR_RETURN_URL']);
+		self::$_instance->is_site_locked = true;
 		
 		// Load the sitelock template.
 		if(FileHandler::exists(RX_BASEDIR . 'common/tpl/sitelock.user.html'))
@@ -2470,6 +2477,16 @@ class Context
 	public static function isInstalled()
 	{
 		return (bool)config('config_version');
+	}
+
+	/**
+	 * Checks whether the site is locked
+	 *
+	 * @return bool True if the site is locked, otherwise false
+	 */
+	public static function isLocked()
+	{
+		return (bool)self::$_instance->is_site_locked;
 	}
 
 	/**

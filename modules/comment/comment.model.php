@@ -387,7 +387,8 @@ class commentModel extends comment
 		{
 			$args->module_srl = $obj->module_srl;
 		}
-
+		
+		$args->is_secret = $obj->is_secret;
 		$args->document_srl = $obj->document_srl;
 		$args->list_count = $obj->list_count;
 
