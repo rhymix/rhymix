@@ -694,6 +694,8 @@ class editorModel extends editor
 		}
 		$component = $output->data;
 
+		if(!$output->data) return false;
+
 		$component_name = $component->component_name;
 
 		unset($xml_info);
