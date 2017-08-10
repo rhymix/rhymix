@@ -44,13 +44,19 @@
 				</li>
 			</ul>
 			<div class="prn-anchor-buttons">
+				<label for="check_all">
+					{$lang->cmd_select_all}
+					<input name="check_all" id="check_all" type="checkbox" onclick="XE.checkboxToggleAll('friend_srl_list[]', {wrap:'fo_friend_list'})"/>
+				</label>
+				<button type="submit" name="act" value="procCommunicationDeleteFriend">{$lang->cmd_delete}</button>
+			</div>
+			<div class="prn-anchor-buttons">
 				<select name="target_friend_group_srl" id="target_friend_group_srl" cond="count($friend_group_list)" style="margin:0">
 					<option loop="$friend_group_list => $key,$val" value="{$val->friend_group_srl}">{$val->title}</option>
 				</select>
 				<button type="submit" name="act" cond="count($friend_group_list)" value="procCommunicationMoveFriend">{$lang->cmd_move}</button>
-				<button type="submit" name="act" value="procCommunicationDeleteFriend">{$lang->cmd_delete}</button>
-				<button type="button" value="{getUrl('','module','communication','act','dispCommunicationAddFriendGroup')}" onclick="popopen(this.value);return false;">{$lang->cmd_add_friend_group}</button>
-				<button type="button" cond="count($friend_group_list)" onclick="doRenameFriendGroup();return false;">{$lang->cmd_rename_friend_group}</button>
+				<button type="button" value="{getUrl('','module','communication','act','dispCommunicationAddFriendGroup')}" onclick="popopen(this.value);return false;">{$lang->cmd_add_friend_group}...</button>
+				<button type="button" cond="count($friend_group_list)" onclick="doRenameFriendGroup();return false;">{$lang->cmd_rename_friend_group}...</button>
 				<button type="button" cond="count($friend_group_list)" onclick="doDeleteFriendGroup();return false;">{$lang->cmd_delete_friend_group}</button>
 			</div>
 		</form>

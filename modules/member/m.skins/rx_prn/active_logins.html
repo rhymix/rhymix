@@ -34,10 +34,6 @@
 		<li cond="$page_navigation->last_page > $page_no && $page_no > 0"><a href="{getUrl('page', ($page_no + 1),'module_srl','')}" class="direction">&rsaquo;</a></li>
 	</ul>
 </div>
-<div class="prn-footer prn-anchor-buttons">
-	<a href="{getUrl('','module','module','act','dispModuleSelectList','id','target_module','type','single')}" onclick="popopen(this.href,'ModuleSelect');return false;">{lang('module.cmd_find_module')}</a>
-	<a href="{getUrl('selected_module_srl','')}" cond="$selected_module_srl">{lang('common.cmd_cancel')}</a>
-</div>
 <script>
 	$(function() {
 		$(".rx_sw_list button.delete_autologin").on("click", function(event) {
