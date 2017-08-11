@@ -1568,6 +1568,26 @@ class moduleModel extends module
 	}
 
 	/**
+	 * @brief 업데이트 적용 여부 확인
+	 * @param array|string $update_id
+	 * @return Boolean
+	 */
+	public function needUpdate($update_id)
+	{
+		if(!is_array($update_id)) $update_id = array($update_id);
+
+		$args = new stdClass();
+		$args->update_id = implode(',', $update_id);
+		$output = executeQueryArray('module.getModuleUpdateLog', $args);
+
+		if(!!$output->error) return false;
+		if(!$output->data) $output->data = array();
+		if(count($update_id) === count($output->data)) return false;
+
+		return true;
+	}
+
+	/**
 	 * @brief Get a type and information of the module
 	 */
 	function getModuleList()

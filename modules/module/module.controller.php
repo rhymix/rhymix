@@ -604,6 +604,22 @@ class moduleController extends module
 	}
 
 	/**
+	 * @brief 업데이트 기록 저장
+	 * @param string $update_id
+	 * @return Boolean
+	 */
+	public function insertUpdatedLog($update_id)
+	{
+		$args = new stdClass();
+		$args->update_id = $update_id;
+		$output = executeQuery('module.insertModuleUpdateLog', $args);
+
+		if(!!$output->error) return false;
+
+		return true;
+	}
+
+	/**
 	 * @brief Change the module's virtual site
 	 */
 	function updateModuleSite($module_srl, $site_srl, $layout_srl = 0)
