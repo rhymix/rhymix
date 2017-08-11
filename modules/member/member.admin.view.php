@@ -342,7 +342,7 @@ class memberAdminView extends member
 		if (!is_array($memberInfo['group_list'])) $memberInfo['group_list'] = array();
 		Context::set('memberInfo', $memberInfo);
 
-		$disableColumns = array('password', 'find_account_question');
+		$disableColumns = array('password', 'find_account_question', 'find_account_answer');
 		Context::set('disableColumns', $disableColumns);
 
 		$security = new Security();
@@ -374,9 +374,12 @@ class memberAdminView extends member
 		{
 			$member_info = new stdClass;
 		}
+
+		unset($memberInfo->find_account_question);
+		unset($memberInfo->find_account_answer);
+		$formTags = $this->_getMemberInputTag($memberInfo, true);
+
 		Context::set('member_info', $member_info);
-		
-		$formTags = $this->_getMemberInputTag($member_info, true);
 		Context::set('formTags', $formTags);
 		
 		// Editor of the module set for signing by calling getEditor
@@ -423,6 +426,7 @@ class memberAdminView extends member
 	 */
 	function _getMemberInputTag($memberInfo = null, $isAdmin = false)
 	{
+		$logged_info = Context::get('logged_info');
 		$oMemberModel = getModel('member');
 		$extend_form_list = $oMemberModel->getCombineJoinForm($memberInfo);
 		$security = new Security($extend_form_list);
@@ -443,13 +447,25 @@ class memberAdminView extends member
 			$member_config = $this->memberConfig = $oMemberModel->getMemberConfig();
 		}
 
+		unset($member_config->signupForm->find_account_question);
+		unset($member_config->signupForm->find_account_answer);
+
 		$formTags = array();
 		global $lang;
 
 		foreach($member_config->signupForm as $no=>$formInfo)
 		{
 			if(!$formInfo->isUse)continue;
+
+			// 회원 본인이 아닌 경우 입력 폼 제거
+			if($formInfo->name == 'find_account_question' && $memberInfo['member_srl'] !== $logged_info->member_srl)
+			{
+				unset($member_config->signupForm[$no]);
+				continue;
+			}
+
 			if($formInfo->name == $member_config->identifier || $formInfo->name == 'password') continue;
+
 			$formTag = new stdClass();
 			$inputTag = '';
 			$formTag->title = ($formInfo->isDefaultForm) ? $lang->{$formInfo->name} : $formInfo->title;
@@ -517,8 +533,10 @@ class memberAdminView extends member
 					}
 					else if($formInfo->name == 'find_account_question')
 					{
+						$disabled = (!!$memberInfo['member_srl']) ? 'disabled="disabled"' : '';
+
 						$formTag->type = 'select';
-						$inputTag = '<select name="find_account_question" id="find_account_question" style="display:block;margin:0 0 8px 0">%s</select>';
+						$inputTag = '<select name="find_account_question" id="find_account_question" style="display:block;margin:0 0 8px 0" %s>%s</select>';
 						$optionTag = array();
 						foreach($lang->find_account_question_items as $key=>$val)
 						{
@@ -529,8 +547,13 @@ class memberAdminView extends member
 								$selected,
 								$val);
 						}
-						$inputTag = sprintf($inputTag, implode('', $optionTag));
-						$inputTag .= '<input type="text" name="find_account_answer" id="find_account_answer" title="'.lang('find_account_answer').'" value="'.$memberInfo['find_account_answer'].'" />';
+						$inputTag = sprintf($inputTag, $disabled, implode('', $optionTag));
+						$inputTag .= '<input type="text" name="find_account_answer" id="find_account_answer" title="' . lang('find_account_answer') . '" value="" ' . $disabled . '" />';
+
+						if($disabled) {
+							$inputTag .= ' <label><input type="checkbox" name="modify_find_account_answer" value="Y" /> ' . lang('cmd_modify') . '</label>';
+							$inputTag .= '<script>(function($) {$(function() {$(\'[name=modify_find_account_answer]\').change(function() {var $this = $(this); if($this.prop(\'checked\')) {$(\'[name=find_account_question],[name=find_account_answer]\').attr(\'disabled\', false); } else {$(\'[name=find_account_question]\').attr(\'disabled\', true); $(\'[name=find_account_answer]\').attr(\'disabled\', true).val(\'\'); } }); }); })(jQuery);</script>';
+						}
 					}
 					else if($formInfo->name == 'email_address')
 					{
