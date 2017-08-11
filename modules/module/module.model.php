@@ -2082,6 +2082,14 @@ class moduleModel extends module
 							$grant->{$val->name} = true;
 						}
 					}
+					// Manager only
+					else if($val->group_srl == -3)
+					{
+						if($grant->manager)
+						{
+							$grant->{$val->name} = true;
+						}
+					}
 					// If a target is a group
 					else if(count($member_group) && in_array($val->group_srl, $member_group))
 					{
