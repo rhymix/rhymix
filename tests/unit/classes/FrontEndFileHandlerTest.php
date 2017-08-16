@@ -30,8 +30,9 @@ class FrontEndFileHandlerTest extends \Codeception\TestCase\Test
 
 		$this->specify("js (body)", function() {
 			$handler = new FrontEndFileHandler();
+			$handler->loadFile(array('./common/js/xml_handler.js', 'body'));
 			$handler->loadFile(array('./common/js/xml_js_filter.js', 'head'));
-			$expected = array();
+			$expected[] = array('file' => '/rhymix/common/js/xml_handler.js' . $this->_filemtime('common/js/xml_handler.js'), 'targetie' => null);
 			$this->assertEquals($expected, $handler->getJsFileList('body'));
 		});
 
@@ -220,9 +221,11 @@ class FrontEndFileHandlerTest extends \Codeception\TestCase\Test
 			$handler = new FrontEndFileHandler();
 			$handler->loadFile(array('http://external.host/css/style1.css'));
 			$handler->loadFile(array('https://external.host/css/style2.css'));
+			$handler->loadFile(array('https://external.host/css/style3.css?foo=bar&t=123'));
 
 			$expected[] = array('file' => 'http://external.host/css/style1.css', 'media'=>'all', 'targetie' => null);
 			$expected[] = array('file' => 'https://external.host/css/style2.css', 'media'=>'all', 'targetie' => null);
+			$expected[] = array('file' => 'https://external.host/css/style3.css?foo=bar&t=123', 'media'=>'all', 'targetie' => null);
 			$this->assertEquals($expected, $handler->getCssFileList());
 		});
 
@@ -230,9 +233,11 @@ class FrontEndFileHandlerTest extends \Codeception\TestCase\Test
 			$handler = new FrontEndFileHandler();
 			$handler->loadFile(array('//external.host/css/style.css'));
 			$handler->loadFile(array('///external.host/css2/style2.css'));
+			$handler->loadFile(array('//external.host/css/style3.css?foo=bar&t=123'));
 
 			$expected[] = array('file' => '//external.host/css/style.css', 'media'=>'all', 'targetie' => null);
 			$expected[] = array('file' => '//external.host/css2/style2.css', 'media'=>'all', 'targetie' => null);
+			$expected[] = array('file' => '//external.host/css/style3.css?foo=bar&t=123', 'media'=>'all', 'targetie' => null);
 			$this->assertEquals($expected, $handler->getCssFileList());
 		});
 
