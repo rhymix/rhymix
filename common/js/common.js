@@ -536,9 +536,9 @@ function _displayMultimedia(src, width, height, options) {
 	height = parseInt(height, 10);
 
 	if(/\.(gif|jpg|jpeg|bmp|png)$/i.test(src)){
-		html = '<img src="'+src+'" width="'+width+'" height="'+height+'" />';
+		html = '<img src="'+src+'" width="'+width+'" height="'+height+'" class="thumb" />';
 	} else {
-		html = '<span style="display:inline-block;position:relative;background:black;width:' + width + 'px;height:' + height + 'px;border:0;margin:0;padding:0">';
+		html = '<span style="position:relative;background:black;width:' + width + 'px;height:' + height + 'px" class="thumb">';
 		html += '<img style="width:24px;height:24px;position:absolute;left:50%;top:50%;border:0;margin:-12px 0 0 -12px;padding:0" src="./common/img/play.png" alt="" />';
 		html += '</span>';
 	}
