@@ -1261,11 +1261,7 @@ class memberController extends member
 		}
 
 		// Update to a temporary password and set change_password_date to 1
-<<<<<<< HEAD
 		$temp_password = Rhymix\Framework\Password::getRandomPassword(8);
-=======
-		$temp_password = $oPassword->createTemporaryPassword(8);
->>>>>>> 3177f45... #2062 비밀번호 찾기 질문/답변을 본인만 확인/수정할 수 있도록 변경
 
 		$args = new stdClass();
 		$args->member_srl = $member_srl;
@@ -2544,26 +2540,25 @@ class memberController extends member
 		{
 			$args->password = $orgMemberInfo->password;
 		}
-<<<<<<< HEAD
-		
-=======
 
-		if($args->find_account_answer) {
+		if($args->find_account_answer)
+		{
 			$args->find_account_answer = $oMemberModel->hashPassword($args->find_account_answer);
 		}
 		else
 		{
-			$oPassword =  new Password();
+			$oPassword = New Password();
 			$hashed = $oPassword->checkAlgorithm($orgMemberInfo->find_account_answer);
-
-			if($hashed) {
+			if($hashed)
+			{
 				$args->find_account_answer = $orgMemberInfo->find_account_answer;
-			} else {
+			}
+			else
+			{
 				$args->find_account_answer = $oPassword->createHash($orgMemberInfo->find_account_answer);
 			}
 		}
 
->>>>>>> 3177f45... #2062 비밀번호 찾기 질문/답변을 본인만 확인/수정할 수 있도록 변경
 		if(!$args->user_name) $args->user_name = $orgMemberInfo->user_name;
 		if(!$args->user_id) $args->user_id = $orgMemberInfo->user_id;
 		if(!$args->nick_name) $args->nick_name = $orgMemberInfo->nick_name;
