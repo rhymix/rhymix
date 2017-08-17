@@ -19,7 +19,7 @@ class ncenterliteController extends ncenterlite
 			return new Object(-1, 'ncenterlite_stop_no_permission_other_user_settings');
 		}
 
-		$output = $oNcenterliteModel->getMemberConfig($member_srl);
+		$user_config = $oNcenterliteModel->getUserConfig($member_srl);
 
 		$obj = Context::getRequestVars();
 
@@ -29,7 +29,7 @@ class ncenterliteController extends ncenterlite
 		$args->mention_notify = $obj->mention_notify;
 		$args->message_notify = $obj->message_notify;
 
-		if(!$output)
+		if(!$user_config->data)
 		{
 			$insert_output = executeQuery('ncenterlite.insertUserConfig', $args);
 			if(!$insert_output->toBool())
@@ -229,7 +229,7 @@ class ncenterliteController extends ncenterlite
 			$oCommentModel = getModel('comment');
 			$oComment = $oCommentModel->getComment($parent_srl);
 			$member_srl = $oComment->member_srl;
-			$comment_member_config = $oNcenterliteModel->getMemberConfig($member_srl);
+			$comment_member_config = $oNcenterliteModel->getUserConfig($member_srl);
 			$parent_member_config = $comment_member_config->data;
 			if(is_array($admin_list) && in_array(abs($member_srl), $admin_list) && isset($config->use['admin_content']) && $admin_comment_notify == true)
 			{
@@ -270,7 +270,7 @@ class ncenterliteController extends ncenterlite
 			{
 				return new Object();
 			}
-			$comment_member_config = $oNcenterliteModel->getMemberConfig($member_srl);
+			$comment_member_config = $oNcenterliteModel->getUserConfig($member_srl);
 			$document_comment_member_config = $comment_member_config->data;
 
 			if(!in_array(abs($member_srl), $notify_member_srls) && (!$logged_info || ($member_srl != 0 && abs($member_srl) != $logged_info->member_srl)) && $document_comment_member_config->comment_notify != 'N')
@@ -313,7 +313,7 @@ class ncenterliteController extends ncenterlite
 			return new Object();
 		}
 
-		$messages_member_config = $oNcenterliteModel->getMemberConfig($trigger_obj->receiver_srl);
+		$messages_member_config = $oNcenterliteModel->getUserConfig($trigger_obj->receiver_srl);
 		$message_member_config = $messages_member_config->data;
 
 		if($message_member_config->message_notify != 'N')
@@ -1279,7 +1279,7 @@ class ncenterliteController extends ncenterlite
 		$notify_member_srls = array();
 		foreach ($mention_targets as $mention_member_srl)
 		{
-			$target_member_config = $oNcenterliteModel->getMemberConfig($mention_member_srl);
+			$target_member_config = $oNcenterliteModel->getUserConfig($mention_member_srl);
 			$notify_member_config = $target_member_config->data;
 
 			if ($notify_member_config->mention_notify == 'N')

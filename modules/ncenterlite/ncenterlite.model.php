@@ -126,7 +126,12 @@ class ncenterliteModel extends ncenterlite
 		return executeQuery('ncenterlite.insertNotifyType',$args);
 	}
 
-	function getMemberConfig($member_srl=null)
+	/**
+	 * @brief Get user notify config.
+	 * @param null $member_srl
+	 * @return object
+	 */
+	function getUserConfig($member_srl = null)
 	{
 		if(!$member_srl)
 		{
@@ -137,7 +142,6 @@ class ncenterliteModel extends ncenterlite
 		$args = new stdClass();
 		$args->member_srl = $member_srl;
 		$output = executeQuery('ncenterlite.getUserConfig', $args);
-		if(!$output->data) return $output->data;
 
 		return $output;
 	}
