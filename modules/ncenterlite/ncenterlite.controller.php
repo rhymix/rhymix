@@ -50,7 +50,7 @@ class ncenterliteController extends ncenterlite
 
 		if(!in_array(Context::getRequestMethod(), array('XMLRPC', 'JSON')))
 		{
-			$returnUrl = Context::get('success_return_url') ? Context::get('success_return_url') : getNotEncodedUrl('', 'act', 'dispNcenterliteUserConfig', 'member_srl', $member_srl);
+			$returnUrl = Context::get('success_return_url') ? Context::get('success_return_url') : getNotEncodedUrl('act', 'dispNcenterliteUserConfig', 'member_srl', $member_srl);
 			header('location: ' . $returnUrl);
 			return;
 		}
