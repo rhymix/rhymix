@@ -45,6 +45,8 @@ class ncenterlite extends ModuleObject
 		array('document.updateVotedCount', 'ncenterlite', 'controller', 'triggerAfterVotedupdate', 'after'),
 		array('moduleHandler.init', 'ncenterlite', 'controller', 'triggerAddMemberMenu', 'after'),
 		array('document.moveDocumentToTrash', 'ncenterlite', 'controller', 'triggerAfterMoveToTrash', 'after'),
+		array('comment.updateVotedCount', 'ncenterlite', 'controller', 'triggerAfterCommentVotedCount', 'after'),
+		array('comment.updateVotedCountCancel', 'ncenterlite', 'controller', 'triggerAfterCommentVotedCancel', 'after'),
 	);
 
 	private $delete_triggers = array(

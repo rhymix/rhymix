@@ -366,6 +366,56 @@ class ncenterliteController extends ncenterlite
 		$output = $this->_insertNotify($args);
 	}
 
+	function triggerAfterCommentVotedCount($obj)
+	{
+		$oCommentModel = new commentModel();
+		$oComment = $oCommentModel->getComment($obj->comment_srl);
+
+		$content = $oComment->get('content');
+		$document_srl = $oComment->get('document_srl');
+
+		$args = new stdClass();
+		$args->config_type = 'vote';
+		$args->member_srl = $obj->member_srl;
+		$args->srl = $document_srl;
+		$args->target_p_srl = $obj->comment_srl;
+		$args->target_srl = $obj->comment_srl;
+		$args->type = $this->_TYPE_COMMENT;
+		$args->target_type = $this->_TYPE_VOTED;
+		$args->target_summary = cut_str(trim(utf8_normalize_spaces(strip_tags($content))), 50);
+		$args->regdate = date('YmdHis');
+		$args->notify = $this->_getNotifyId($args);
+		$args->target_url = getNotEncodedFullUrl('', 'document_srl', $document_srl, '_comment_srl', $obj->comment_srl) . '#comment_' . $obj->comment_srl;
+		$output = $this->_insertNotify($args);
+		if(!$output->toBool())
+		{
+			return $output;
+		}
+	}
+
+	function triggerAfterCommentVotedCancel($obj)
+	{
+		$oCommentModel = new commentModel();
+		$oComment = $oCommentModel->getComment($obj->comment_srl);
+
+		$document_srl = $oComment->get('document_srl');
+
+		$args = new stdClass();
+		$args->type = $this->_TYPE_COMMENT;
+		$args->target_type = $this->_TYPE_VOTED;
+		$args->target_srl = $obj->comment_srl;
+		$args->srl = $document_srl;
+		$output = executeQuery('ncenterlite.deleteNotifyByTargetType', $args);
+		if($output->toBool())
+		{
+			$this->removeFlagFile($obj->member_srl);
+		}
+		else
+		{
+			return $output;
+		}
+	}
+
 	function triggerAfterDeleteComment(&$obj)
 	{
 		$oNcenterliteModel = getModel('ncenterlite');
@@ -394,7 +444,6 @@ class ncenterliteController extends ncenterlite
 		{
 			foreach($member_srls as $member_srl)
 			{
-				//Remove flag files
 				$this->removeFlagFile($member_srl);
 			}
 		}
