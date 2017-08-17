@@ -113,7 +113,7 @@ class ncenterliteAdminController extends ncenterlite
 			$args->target_nick_name = $logged_info->nick_name;
 			$args->regdate = date('YmdHis');
 			$args->notify = $oNcenterliteController->_getNotifyId($args);
-			$output = $oNcenterliteController->_insertNotify($args);
+			$oNcenterliteController->_insertNotify($args);
 		}
 	}
 
@@ -136,7 +136,7 @@ class ncenterliteAdminController extends ncenterlite
 		$args->target_nick_name = $logged_info->nick_name;
 		$args->regdate = date('YmdHis');
 		$args->notify = $oNcenterliteController->_getNotifyId($args);
-		$output = $oNcenterliteController->_insertNotify($args);
+		$oNcenterliteController->_insertNotify($args);
 	}
 
 	function procNcenterliteAdminDeleteNofity()

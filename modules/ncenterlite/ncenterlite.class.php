@@ -295,4 +295,38 @@ class ncenterlite extends ModuleObject
 		}
 		return new Object();
 	}
+
+	public static function getSmsHandler()
+	{
+		static $oSmsHandler = null;
+
+		if($oSmsHandler === null)
+		{
+			$oSmsHandler = new Rhymix\Framework\SMS;
+
+			if($oSmsHandler::getDefaultDriver()->getName() === 'Dummy')
+			{
+				$oSmsHandler = false;
+				return $oSmsHandler;
+			}
+
+			$variable_name = array();
+			$member_config = getModel('member')->getMemberConfig();
+			foreach($member_config->signupForm as $value)
+			{
+				if($value->type == 'tel')
+				{
+					$variable_name[] = $value->name;
+				}
+			}
+
+			if(empty($variable_name))
+			{
+				$oSmsHandler = false;
+				return $oSmsHandler;
+			}
+		}
+
+		return $oSmsHandler;
+	}
 }

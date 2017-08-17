@@ -96,13 +96,11 @@ class ncenterliteModel extends ncenterlite
 
 	function replaceNotifyType($match)
 	{
-		//if replace string is not at arguments, return
 		if(!in_array($match[1],$this->notify_arguments))
 		{
 			return $match[0];
 		}
 
-		//if replace string is not set, return
 		if(!isset($this->notify_args->{$match[1]}))
 		{
 			return $match[0];
@@ -194,13 +192,15 @@ class ncenterliteModel extends ncenterlite
 
 	function getMyNotifyListTpl()
 	{
-		$logged_info = Context::get('logged_info');
-		if(!$logged_info) return new Object(-1, 'msg_not_permitted');
+		if (!Context::get('is_logged'))
+		{
+			return new Object(-1, 'msg_not_permitted');
+		}
 
-		$oMemberModel = getModel('member');
-		$memberConfig = $oMemberModel->getMemberConfig();
+		$memberConfig = getModel('member')->getMemberConfig();
 		$page = Context::get('page');
 
+		$logged_info = Context::get('logged_info');
 		$member_srl = $logged_info->member_srl;
 		$tmp = $this->getMyNotifyList($member_srl, $page);
 		foreach($tmp->data as $key => $obj)
@@ -219,13 +219,15 @@ class ncenterliteModel extends ncenterlite
 	{
 		if(!$member_srl)
 		{
+			if (!Context::get('is_logged'))
+			{
+				return array();
+			}
 			$logged_info = Context::get('logged_info');
-			if(!$logged_info) return array();
-
 			$member_srl = $logged_info->member_srl;
 		}
-		$flag_path = \RX_BASEDIR . 'files/cache/ncenterlite/new_notify/' . getNumberingPath($member_srl) . $member_srl . '.php';
 
+		$flag_path = \RX_BASEDIR . 'files/cache/ncenterlite/new_notify/' . getNumberingPath($member_srl) . $member_srl . '.php';
 		if(FileHandler::exists($flag_path) && $page <= 1)
 		{
 			$deleteFlagPath = \RX_BASEDIR . 'files/cache/ncenterlite/new_notify/delete_date.php';
@@ -255,10 +257,16 @@ class ncenterliteModel extends ncenterlite
 		$args = new stdClass();
 		$args->member_srl = $member_srl;
 		$args->page = $page ? $page : 1;
-		if($readed) $args->readed = $readed;
+		if ($readed)
+		{
+			$args->readed = $readed;
+		}
 		$output = executeQueryArray('ncenterlite.getNotifyList', $args);
 		$output->flag_exists = false;
-		if(!$output->data) $output->data = array();
+		if (!$output->data)
+		{
+			$output->data = array();
+		}
 
 		return $output;
 	}
@@ -308,13 +316,16 @@ class ncenterliteModel extends ncenterlite
 		return $member_srl;
 	}
 
-	function _getNewCount($member_srl=null)
+	function _getNewCount($member_srl = null)
 	{
-		if(!$member_srl)
+		if($member_srl === null)
 		{
-			$logged_info = Context::get('logged_info');
-			if(!$logged_info) return 0;
+			if (!Context::get('is_logged'))
+			{
+				return 0;
+			}
 
+			$logged_info = Context::get('logged_info');
 			$member_srl = $logged_info->member_srl;
 		}
 
@@ -473,19 +484,18 @@ class ncenterliteModel extends ncenterlite
 
 		return $str;
 	}
-	
+
 	/**
 	 * @brief 주어진 시간이 얼마 전 인지 반환
-	 * @param string YmdHis
+	 * @param $datetime string YmdHis
 	 * @return string
-	 **/
+	 */
 	function getAgo($datetime)
 	{
-		global $lang;
 		$lang_type = Context::getLangType();
 
-		$display = $lang->ncenterlite_date;
-		$ago = $lang->ncenterlite_ago;
+		$display = lang('ncenterlite_date');
+		$ago = lang('ncenterlite_ago');
 
 		$date = getdate(strtotime(zdate($datetime, 'Y-m-d H:i:s')));
 
@@ -547,39 +557,5 @@ class ncenterliteModel extends ncenterlite
 		}
 
 		return $output->data;
-	}
-
-	public static function getSmsHandler()
-	{
-		static $oSmsHandler = null;
-
-		if($oSmsHandler === null)
-		{
-			$oSmsHandler = new Rhymix\Framework\SMS;
-
-			if($oSmsHandler::getDefaultDriver()->getName() === 'Dummy')
-			{
-				$oSmsHandler = false;
-				return $oSmsHandler;
-			}
-
-			$variable_name = array();
-			$member_config = getModel('member')->getMemberConfig();
-			foreach($member_config->signupForm as $value)
-			{
-				if($value->type == 'tel')
-				{
-					$variable_name[] = $value->name;
-				}
-			}
-
-			if(empty($variable_name))
-			{
-				$oSmsHandler = false;
-				return $oSmsHandler;
-			}
-		}
-
-		return $oSmsHandler;
 	}
 }

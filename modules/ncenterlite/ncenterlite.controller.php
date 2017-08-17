@@ -1196,7 +1196,7 @@ class ncenterliteController extends ncenterlite
 		$content = $oNcenterliteModel->getNotificationText($args);
 		$content = preg_replace('/<\/?(strong|)[^>]*>/', '', $content);
 
-		$sms = $oNcenterliteModel->getSmsHandler();
+		$sms = $this->getSmsHandler();
 		if($sms === false)
 		{
 			return false;
