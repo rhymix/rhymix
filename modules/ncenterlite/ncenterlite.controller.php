@@ -236,7 +236,6 @@ class ncenterliteController extends ncenterlite
 				return new Object();
 			}
 
-			// !TODO 공용 메소드로 분리
 			if(!in_array(abs($member_srl), $notify_member_srls) && (!$logged_info || ($member_srl != 0 && abs($member_srl) != $logged_info->member_srl)) && $parent_member_config->comment_notify != 'N')
 			{
 				$args = new stdClass();
@@ -617,7 +616,6 @@ class ncenterliteController extends ncenterlite
 				$update_output = executeQuery('ncenterlite.updateNotifyReadedByTargetSrl', $args);
 				if($update_output->toBool())
 				{
-					//Remove flag files
 					$this->removeFlagFile($args->member_srl);
 				}
 			}
