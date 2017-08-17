@@ -62,7 +62,7 @@ class ncenterliteView extends ncenterlite
 		{
 			$member_srl = $logged_info->member_srl;
 		}
-		$output = $oNcenterliteModel->getMemberConfig($member_srl);
+		$output = $oNcenterliteModel->getUserConfig($member_srl);
 
 		Context::set('member_info', $member_info);
 		Context::set('user_config', $output->data);
