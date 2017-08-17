@@ -868,7 +868,7 @@ class ncenterliteController extends ncenterlite
 	{
 		if(file_exists(FileHandler::getRealPath($this->template_path . 'ncenterlite.css')))
 		{
-			Context::loadFile(array($this->template_path . 'ncenterlite.css', '', '', 100), true);
+			Context::loadFile(array($this->template_path . 'ncenterlite.css', '', '', 100));
 		}
 
 		$oNcenterliteModel = getModel('ncenterlite');
@@ -877,19 +877,19 @@ class ncenterliteController extends ncenterlite
 		{
 			if($config->colorset && file_exists(FileHandler::getRealPath($this->template_path . 'ncenterlite.' . $config->colorset . '.css')))
 			{
-				Context::loadFile(array($this->template_path . 'ncenterlite.' . $config->colorset . '.css', '', '', 100), true);
+				Context::loadFile(array($this->template_path . 'ncenterlite.' . $config->colorset . '.css', '', '', 100));
 			}
 		}
 		elseif(Mobile::isFromMobilePhone())
 		{
 			if($config->mcolorset && file_exists(FileHandler::getRealPath($this->template_path . 'ncenterlite.' . $config->mcolorset . '.css')))
 			{
-				Context::loadFile(array($this->template_path . 'ncenterlite.' . $config->mcolorset . '.css', '', '', 100), true);
+				Context::loadFile(array($this->template_path . 'ncenterlite.' . $config->mcolorset . '.css', '', '', 100));
 			}
 
-			Context::loadFile(array('./common/js/jquery.min.js', 'head', '', -100000), true);
-			Context::loadFile(array('./common/js/xe.min.js', 'head', '', -100000), true);
-			Context::loadFile(array($this->template_path . 'ncenterlite.mobile.css', '', '', 100), true);
+			Context::loadFile(array('./common/js/jquery.min.js', 'head', '', -100000));
+			Context::loadFile(array('./common/js/xe.min.js', 'head', '', -100000));
+			Context::loadFile(array($this->template_path . 'ncenterlite.mobile.css', '', '', 100));
 		}
 		if($config->zindex)
 		{
