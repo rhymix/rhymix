@@ -1844,7 +1844,7 @@ class Context
 	 * Return key's value
 	 *
 	 * @param string $key Key
-	 * @return string Key
+	 * @return mixed
 	 */
 	public static function get($key)
 	{
