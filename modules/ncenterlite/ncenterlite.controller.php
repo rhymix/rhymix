@@ -903,7 +903,6 @@ class ncenterliteController extends ncenterlite
 		$config = $oNcenterModel->getConfig();
 
 		$oTemplateHandler = TemplateHandler::getInstance();
-		$result = '';
 
 		if(Mobile::isFromMobilePhone())
 		{
@@ -959,7 +958,7 @@ class ncenterliteController extends ncenterlite
 	function procNcenterliteNotifyReadAll()
 	{
 		$logged_info = Context::get('logged_info');
-		if(!$logged_info)
+		if(!Context::get('is_logged'))
 		{
 			return new Object(-1, 'msg_invalid_request');
 		}
@@ -1087,19 +1086,13 @@ class ncenterliteController extends ncenterlite
 		{
 			return $output;
 		}
+		else
+		{
+			ModuleHandler::triggerCall('ncenterlite._insertNotify', 'after', $args);
+		}
 
 		$this->sendSmsMessage($args);
 		$this->sendMailMessage($args);
-
-		if($output->toBool())
-		{
-			$trigger_notify = ModuleHandler::triggerCall('ncenterlite._insertNotify', 'after', $args);
-			if(!$trigger_notify->toBool())
-			{
-				return $trigger_notify;
-			}
-		}
-
 		$this->removeFlagFile($args->member_srl);
 
 		return $output;
