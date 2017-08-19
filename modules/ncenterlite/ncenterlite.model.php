@@ -127,12 +127,16 @@ class ncenterliteModel extends ncenterlite
 	/**
 	 * @brief Get user notify config.
 	 * @param null $member_srl
-	 * @return object
+	 * @return object|bool
 	 */
 	function getUserConfig($member_srl = null)
 	{
 		if(!$member_srl)
 		{
+			if(!Context::get('is_logged'))
+			{
+				return false;
+			}
 			$logged_info = Context::get('logged_info');
 			$member_srl = $logged_info->member_srl;
 		}
