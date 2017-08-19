@@ -221,7 +221,7 @@ class ncenterliteController extends ncenterlite
 			$member_srl = $oComment->member_srl;
 			$comment_member_config = $oNcenterliteModel->getUserConfig($member_srl);
 			$parent_member_config = $comment_member_config->data;
-			if(is_array($admin_list) && in_array(abs($member_srl), $admin_list) && isset($config->use['admin_content']) && $admin_comment_notify == true)
+			if(is_array($admin_list) && in_array(abs($member_srl), $admin_list) && isset($config->use['admin_content']) && $$obj->admin_comment_notify == true)
 			{
 				return new Object();
 			}
@@ -255,7 +255,7 @@ class ncenterliteController extends ncenterlite
 
 			$member_srl = $oDocument->get('member_srl');
 
-			if(is_array($admin_list) && in_array(abs($member_srl), $admin_list) && isset($config->use['admin_content']) && $admin_comment_notify == true)
+			if(is_array($admin_list) && in_array(abs($member_srl), $admin_list) && isset($config->use['admin_content']) && $obj->admin_comment_notify == true)
 			{
 				return new Object();
 			}
