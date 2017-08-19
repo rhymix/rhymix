@@ -41,6 +41,13 @@ class ncenterliteView extends ncenterlite
 
 	function dispNcenterliteUserConfig()
 	{
+		$oNcenterliteModel = getModel('ncenterlite');
+		$config = $oNcenterliteModel->getConfig();
+		if($config->user_notify_setting != 'Y')
+		{
+			return new Object(-1, 'msg_not_use_user_setting');
+		}
+
 		$oMemberModel = getModel('member');
 		$member_srl = Context::get('member_srl');
 		$logged_info = Context::get('logged_info');
@@ -50,6 +57,7 @@ class ncenterliteView extends ncenterlite
 		{
 			$member_info = $oMemberModel->getMemberInfoByMemberSrl($member_srl);
 		}
+
 		if($logged_info->is_admin != 'Y' && $member_srl)
 		{
 			if($member_srl != $logged_info->member_srl)
@@ -57,7 +65,6 @@ class ncenterliteView extends ncenterlite
 				return new Object(-1, 'ncenterlite_stop_no_permission_other_user');
 			}
 		}
-		$oNcenterliteModel = getModel('ncenterlite');
 		$output = $oNcenterliteModel->getUserConfig($member_srl);
 
 		Context::set('member_info', $member_info);

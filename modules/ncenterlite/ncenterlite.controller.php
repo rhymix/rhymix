@@ -6,6 +6,11 @@ class ncenterliteController extends ncenterlite
 	{
 		$logged_info = Context::get('logged_info');
 		$oNcenterliteModel = getModel('ncenterlite');
+		$config = $oNcenterliteModel->getConfig();
+		if($config->user_notify_setting != 'Y')
+		{
+			return new Object(-1, 'msg_not_use_user_setting');
+		}
 
 		$member_srl = Context::get('member_srl');
 
@@ -219,14 +224,22 @@ class ncenterliteController extends ncenterlite
 			$oCommentModel = getModel('comment');
 			$oComment = $oCommentModel->getComment($parent_srl);
 			$member_srl = $oComment->member_srl;
-			$comment_member_config = $oNcenterliteModel->getUserConfig($member_srl);
-			$parent_member_config = $comment_member_config->data;
-			if(is_array($admin_list) && in_array(abs($member_srl), $admin_list) && isset($config->use['admin_content']) && $$obj->admin_comment_notify == true)
+			if($config->user_notify_setting == 'Y')
+			{
+				$comment_member_config = $oNcenterliteModel->getUserConfig($member_srl);
+				$parent_member_config = $comment_member_config->data;
+				if($parent_member_config->comment_notify != 'Y')
+				{
+					return new Object();
+				}
+			}
+
+			if(is_array($admin_list) && in_array(abs($member_srl), $admin_list) && isset($config->use['admin_content']) && $obj->admin_comment_notify == true)
 			{
 				return new Object();
 			}
 
-			if(!in_array(abs($member_srl), $notify_member_srls) && (!$logged_info || ($member_srl != 0 && abs($member_srl) != $logged_info->member_srl)) && $parent_member_config->comment_notify != 'N')
+			if(!in_array(abs($member_srl), $notify_member_srls) && (!Context::get('is_logged') || ($member_srl != 0 && abs($member_srl) != $logged_info->member_srl)))
 			{
 				$args = new stdClass();
 				$args->config_type = 'comment_comment';
@@ -243,7 +256,7 @@ class ncenterliteController extends ncenterlite
 				$args->regdate = $regdate;
 				$args->target_browser = $module_info->browser_title;
 				$args->notify = $this->_getNotifyId($args);
-				$output = $this->_insertNotify($args, $is_anonymous);
+				$this->_insertNotify($args, $is_anonymous);
 				$notify_member_srls[] = abs($member_srl);
 			}
 		}
@@ -259,10 +272,18 @@ class ncenterliteController extends ncenterlite
 			{
 				return new Object();
 			}
-			$comment_member_config = $oNcenterliteModel->getUserConfig($member_srl);
-			$document_comment_member_config = $comment_member_config->data;
 
-			if(!in_array(abs($member_srl), $notify_member_srls) && (!$logged_info || ($member_srl != 0 && abs($member_srl) != $logged_info->member_srl)) && $document_comment_member_config->comment_notify != 'N')
+			if($config->user_notify_setting == 'Y')
+			{
+				$comment_member_config = $oNcenterliteModel->getUserConfig($member_srl);
+				$document_comment_member_config = $comment_member_config->data;
+				if($document_comment_member_config->comment_notify != 'Y')
+				{
+					return new Object();
+				}
+			}
+
+			if(!in_array(abs($member_srl), $notify_member_srls) && (!$logged_info || ($member_srl != 0 && abs($member_srl) != $logged_info->member_srl)))
 			{
 				$args = new stdClass();
 				$args->config_type = 'comment';
@@ -279,14 +300,14 @@ class ncenterliteController extends ncenterlite
 				$args->regdate = $regdate;
 				$args->target_browser = $module_info->browser_title;
 				$args->notify = $this->_getNotifyId($args);
-				$output = $this->_insertNotify($args, $is_anonymous);
+				$this->_insertNotify($args, $is_anonymous);
 			}
 		}
 
 		return new Object();
 	}
 
-	function triggerAfterSendMessage(&$trigger_obj)
+	function triggerAfterSendMessage($obj)
 	{
 		$oNcenterliteModel = getModel('ncenterlite');
 		$config = $oNcenterliteModel->getConfig();
@@ -302,25 +323,29 @@ class ncenterliteController extends ncenterlite
 			return new Object();
 		}
 
-		$messages_member_config = $oNcenterliteModel->getUserConfig($trigger_obj->receiver_srl);
-		$message_member_config = $messages_member_config->data;
-
-		if($message_member_config->message_notify != 'N')
+		if($config->user_notify_setting == 'Y')
 		{
-			$args = new stdClass();
-			$args->config_type = 'message';
-			$args->member_srl = $trigger_obj->receiver_srl;
-			$args->srl = $trigger_obj->related_srl;
-			$args->target_p_srl = '1';
-			$args->target_srl = $trigger_obj->message_srl;
-			$args->type = $this->_TYPE_MESSAGE;
-			$args->target_type = $this->_TYPE_MESSAGE;
-			$args->target_summary = $trigger_obj->title;
-			$args->regdate = date('YmdHis');
-			$args->notify = $this->_getNotifyId($args);
-			$args->target_url = getNotEncodedFullUrl('', 'act', 'dispCommunicationMessages', 'message_srl', $trigger_obj->related_srl);
-			$output = $this->_insertNotify($args);
+			$messages_member_config = $oNcenterliteModel->getUserConfig($obj->receiver_srl);
+			$message_member_config = $messages_member_config->data;
+			if($message_member_config->message_notify != 'Y')
+			{
+				return new Object();
+			}
 		}
+
+		$args = new stdClass();
+		$args->config_type = 'message';
+		$args->member_srl = $obj->receiver_srl;
+		$args->srl = $obj->related_srl;
+		$args->target_p_srl = '1';
+		$args->target_srl = $obj->message_srl;
+		$args->type = $this->_TYPE_MESSAGE;
+		$args->target_type = $this->_TYPE_MESSAGE;
+		$args->target_summary = $obj->title;
+		$args->regdate = date('YmdHis');
+		$args->notify = $this->_getNotifyId($args);
+		$args->target_url = getNotEncodedFullUrl('', 'act', 'dispCommunicationMessages', 'message_srl', $obj->related_srl);
+		$this->_insertNotify($args);
 	}
 
 	function triggerAfterVotedupdate(&$obj)
@@ -1280,6 +1305,7 @@ class ncenterliteController extends ncenterlite
 	function insertMentionByTargets($mention_targets, $obj, $module_info, $is_anonymous, $type = 'D')
 	{
 		$oNcenterliteModel = getModel('ncenterlite');
+		$config = $oNcenterliteModel->getConfig();
 
 		if(!is_array($mention_targets))
 		{
@@ -1294,12 +1320,14 @@ class ncenterliteController extends ncenterlite
 		$notify_member_srls = array();
 		foreach ($mention_targets as $mention_member_srl)
 		{
-			$target_member_config = $oNcenterliteModel->getUserConfig($mention_member_srl);
-			$notify_member_config = $target_member_config->data;
-
-			if ($notify_member_config->mention_notify == 'N')
+			if($config->user_notify_setting == 'Y')
 			{
-				continue;
+				$target_member_config = $oNcenterliteModel->getUserConfig($mention_member_srl);
+				$notify_member_config = $target_member_config->data;
+				if ($notify_member_config->mention_notify == 'N')
+				{
+					continue;
+				}
 			}
 
 			$args = new stdClass();
