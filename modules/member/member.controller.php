@@ -120,50 +120,45 @@ class memberController extends member
 	 */
 	function procMemberScrapDocument()
 	{
-		$oModuleModel = &getModel('module');
-
-		// Check login information
-		if(!Context::get('is_logged')) return new Object(-1, 'msg_not_logged');
-		$logged_info = Context::get('logged_info');
-
-		$document_srl = (int)Context::get('document_srl');
-		if(!$document_srl) $document_srl = (int)Context::get('target_srl');
-		if(!$document_srl) return new Object(-1,'msg_invalid_request');
-
-		// Get document
+		$document_srl = (int) (Context::get('document_srl') ?: Context::get('target_srl'));
+		if(!$document_srl)
+		{
+			return new Object(-1,'msg_invalid_request');
+		}
+		
 		$oDocumentModel = getModel('document');
 		$oDocument = $oDocumentModel->getDocument($document_srl);
-
+		
+		// Check document
 		if($oDocument->isSecret() && !$oDocument->isGranted())
 		{
 			return new Object(-1, 'msg_is_secret');
 		}
-
-		// 모듈 권한 확인
+		
+		$oModuleModel = getModel('module');
 		$module_info = $oModuleModel->getModuleInfoByModuleSrl($oDocument->get('module_srl'));
+		
+		$logged_info = Context::get('logged_info');
 		$grant = $oModuleModel->getGrant($module_info, $logged_info);
-
+		
+		// Check access to module of the document
 		if(!$grant->access)
 		{
 			return new Object(-1, 'msg_not_permitted');
 		}
-
-		// 게시판 모듈에서 글 목록 보기 권한이 없으면 스크랩 제한
-		if($module_info->module === 'board' && isset($grant->list) && !$grant->list)
+		
+		// Check grant to module of the document
+		if(isset($grant->list) && isset($grant->view) && (!$grant->list || !$grant->view))
 		{
 			return new Object(-1, 'msg_not_permitted');
 		}
-
-		// 게시판 모듈에서 상담 기능 사용 시 권한이 없는 게시물(타인의 게시물) 스크랩 제한
-		if($module_info->module === 'board' &&
-			$module_info->consultation === 'Y' &&
-			isset($grant->consultation_read) &&
-			!$grant->consultation_read && !$oDocument->isGranted()
-		)
+		
+		// Check consultation option
+		if(isset($grant->consultation_read) && $module_info->consultation == 'Y' && !$grant->consultation_read && !$oDocument->isGranted())
 		{
 			return new Object(-1, 'msg_not_permitted');
 		}
-
+		
 		// Variables
 		$args = new stdClass();
 		$args->document_srl = $document_srl;
@@ -173,15 +168,18 @@ class memberController extends member
 		$args->nick_name = $oDocument->get('nick_name');
 		$args->target_member_srl = $oDocument->get('member_srl');
 		$args->title = $oDocument->get('title');
-
+		
 		// Check if already scrapped
 		$output = executeQuery('member.getScrapDocument', $args);
-		if($output->data->count) return new Object(-1, 'msg_alreay_scrapped');
-
+		if($output->data->count)
+		{
+			return new Object(-1, 'msg_alreay_scrapped');
+		}
+		
 		// Insert
 		$output = executeQuery('member.addScrapDocument', $args);
 		if(!$output->toBool()) return $output;
-
+		
 		$this->setError(-1);
 		$this->setMessage('success_registed');
 	}
