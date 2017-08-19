@@ -374,12 +374,10 @@ class memberAdminView extends member
 		{
 			$member_info = new stdClass;
 		}
-
-		unset($memberInfo->find_account_question);
-		unset($memberInfo->find_account_answer);
-		$formTags = $this->_getMemberInputTag($memberInfo, true);
-
+		
 		Context::set('member_info', $member_info);
+		
+		$formTags = $this->_getMemberInputTag($member_info, true);
 		Context::set('formTags', $formTags);
 		
 		// Editor of the module set for signing by calling getEditor
@@ -446,26 +444,17 @@ class memberAdminView extends member
 		{
 			$member_config = $this->memberConfig = $oMemberModel->getMemberConfig();
 		}
-
-		unset($member_config->signupForm->find_account_question);
-		unset($member_config->signupForm->find_account_answer);
-
-		$formTags = array();
+		
 		global $lang;
-
+		$formTags = array();
+		
 		foreach($member_config->signupForm as $no=>$formInfo)
 		{
-			if(!$formInfo->isUse)continue;
-
-			// 회원 본인이 아닌 경우 입력 폼 제거
-			if($formInfo->name == 'find_account_question' && $memberInfo['member_srl'] !== $logged_info->member_srl)
+			if(!$formInfo->isUse || $formInfo->name == $member_config->identifier || $formInfo->name == 'password')
 			{
-				unset($member_config->signupForm[$no]);
 				continue;
 			}
-
-			if($formInfo->name == $member_config->identifier || $formInfo->name == 'password') continue;
-
+			
 			$formTag = new stdClass();
 			$inputTag = '';
 			$formTag->title = ($formInfo->isDefaultForm) ? $lang->{$formInfo->name} : $formInfo->title;
@@ -533,26 +522,44 @@ class memberAdminView extends member
 					}
 					else if($formInfo->name == 'find_account_question')
 					{
-						$disabled = (!!$memberInfo['member_srl']) ? 'disabled="disabled"' : '';
-
-						$formTag->type = 'select';
-						$inputTag = '<select name="find_account_question" id="find_account_question" style="display:block;margin:0 0 8px 0" %s>%s</select>';
-						$optionTag = array();
-						foreach($lang->find_account_question_items as $key=>$val)
+						if($memberInfo['member_srl'] && $memberInfo['member_srl'] !== $logged_info->member_srl)
 						{
-							if($key == $memberInfo['find_account_question']) $selected = 'selected="selected"';
-							else $selected = '';
-							$optionTag[] = sprintf('<option value="%s" %s >%s</option>',
-								$key,
-								$selected,
-								$val);
+							continue;
 						}
-						$inputTag = sprintf($inputTag, $disabled, implode('', $optionTag));
-						$inputTag .= '<input type="text" name="find_account_answer" id="find_account_answer" title="' . lang('find_account_answer') . '" value="" ' . $disabled . '" />';
-
-						if($disabled) {
-							$inputTag .= ' <label><input type="checkbox" name="modify_find_account_answer" value="Y" /> ' . lang('cmd_modify') . '</label>';
-							$inputTag .= '<script>(function($) {$(function() {$(\'[name=modify_find_account_answer]\').change(function() {var $this = $(this); if($this.prop(\'checked\')) {$(\'[name=find_account_question],[name=find_account_answer]\').attr(\'disabled\', false); } else {$(\'[name=find_account_question]\').attr(\'disabled\', true); $(\'[name=find_account_answer]\').attr(\'disabled\', true).val(\'\'); } }); }); })(jQuery);</script>';
+						
+						$optionTag = array();
+						foreach($lang->find_account_question_items as $key => $val)
+						{
+							$selected = ($key == $memberInfo['find_account_question']) ? 'selected="selected"' : '';
+							$optionTag[] = sprintf('<option value="%s" %s >%s</option>', $key, $selected, $val);
+						}
+						$is_answer = $memberInfo['find_account_answer'] ? '**********' : '';
+						$disabled = $memberInfo['member_srl'] ? 'disabled="disabled"' : '';
+						
+						$formTag->type = 'select';
+						$inputTag = sprintf('<select name="find_account_question" id="find_account_question" style="display:block;margin:0 0 8px 0" %s>%s</select>', $disabled, implode('', $optionTag));
+						$inputTag .= sprintf('<input type="text" name="find_account_answer" id="find_account_answer" title="%s" value="%s" %s />', $lang->find_account_answer, $is_answer, $disabled);
+						
+						if($disabled)
+						{
+							$inputTag .= <<< script
+<label><input type="checkbox" name="modify_find_account_answer" value="Y" /> {$lang->cmd_modify}</label>
+<script>
+(function($) {
+	$(function() {
+		$('[name=modify_find_account_answer]').change(function() {
+			if($(this).prop('checked')) {
+				$('[name=find_account_question],[name=find_account_answer]').attr('disabled', false);
+				$('[name=find_account_answer]').val('');
+			} else {
+				$('[name=find_account_question],[name=find_account_answer]').attr('disabled', true);
+				$('[name=find_account_answer]').val('{$is_answer}');
+			}
+		});
+	});
+})(jQuery);
+</script>
+script;
 						}
 					}
 					else if($formInfo->name == 'email_address')

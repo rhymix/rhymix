@@ -642,10 +642,6 @@ class memberController extends member
 			{
 				$args->birthday_ui = Context::get('birthday_ui');
 			}
-			if($val == 'find_account_answer' && !Context::get($val))
-			{
-				unset($args->{$val});
-			}
 		}
 		
 		// Login Information
@@ -1201,79 +1197,79 @@ class memberController extends member
 	function procMemberFindAccountByQuestion()
 	{
 		$oMemberModel = getModel('member');
-		$oPassword =  new Password();
 		$config = $oMemberModel->getMemberConfig();
 		if($config->enable_find_account_question != 'Y')
 		{
 			return new Object(-1, 'msg_question_not_allowed');
 		}
-
+		
 		$email_address = Context::get('email_address');
 		$user_id = Context::get('user_id');
 		$find_account_question = trim(Context::get('find_account_question'));
 		$find_account_answer = trim(Context::get('find_account_answer'));
-
-		if(($config->identifier == 'user_id' && !$user_id) || !$email_address || !$find_account_question || !$find_account_answer) return new Object(-1, 'msg_invalid_request');
-
+		if(($config->identifier == 'user_id' && !$user_id) || !$email_address || !$find_account_question || !$find_account_answer)
+		{
+			return new Object(-1, 'msg_invalid_request');
+		}
+		
 		$oModuleModel = getModel('module');
 		// Check if a member having the same email address exists
 		$member_srl = $oMemberModel->getMemberSrlByEmailAddress($email_address);
 		if(!$member_srl) return new Object(-1, 'msg_email_not_exists');
-
+		
 		// Get information of the member
 		$columnList = array('member_srl', 'find_account_question', 'find_account_answer');
 		$member_info = $oMemberModel->getMemberInfoByMemberSrl($member_srl, 0, $columnList);
-
+		
 		// Display a message if no answer is entered
-		if(!$member_info->find_account_question || !$member_info->find_account_answer) return new Object(-1, 'msg_question_not_exists');
-
-		// 답변 확인
-		$hashed = $oPassword->checkAlgorithm($member_info->find_account_answer);
-		$authed = true;
-		$member_info->find_account_question = trim($member_info->find_account_question);
-		if($member_info->find_account_question != $find_account_question)
+		if(!$member_info->find_account_question || !$member_info->find_account_answer)
 		{
-			$authed = false;
+			return new Object(-1, 'msg_question_not_exists');
 		}
-		else if($hashed && !$oPassword->checkPassword($find_account_answer, $member_info->find_account_answer))
-		{
-			$authed = false;
-		}
-		else if(!$hashed && $find_account_answer != $member_info->find_account_answer)
-		{
-			$authed = false;
-		}
-
-		if(!$authed)
+		
+		// Check question
+		if(trim($member_info->find_account_question) != $find_account_question)
 		{
 			return new Object(-1, 'msg_answer_not_matches');
 		}
-
-		// answer가 동일하고 hash 되지 않았으면 hash 값으로 저장
-		if($authed && !$hashed)
+		
+		// Check answer
+		if(Rhymix\Framework\Password::checkAlgorithm($member_info->find_account_answer))
 		{
+			if(!Rhymix\Framework\Password::checkPassword($find_account_answer, $member_info->find_account_answer))
+			{
+				return new Object(-1, 'msg_answer_not_matches');
+			}
+		}
+		else
+		{
+			if($member_info->find_account_answer != $find_account_answer)
+			{
+				return new Object(-1, 'msg_answer_not_matches');
+			}
+			
+			// update to encrypted answer
 			$this->updateFindAccountAnswer($member_srl, $find_account_answer);
 		}
-
+		
 		if($config->identifier == 'email_address')
 		{
 			$user_id = $email_address;
 		}
-
+		
 		// Update to a temporary password and set change_password_date to 1
 		$temp_password = Rhymix\Framework\Password::getRandomPassword(8);
-
+		
 		$args = new stdClass();
 		$args->member_srl = $member_srl;
 		$args->password = $temp_password;
 		$args->change_password_date = '1';
 		$output = $this->updateMemberPassword($args);
 		if(!$output->toBool()) return $output;
-
+		
 		$_SESSION['xe_temp_password_' . $user_id] = $temp_password;
-
-		$this->add('user_id',$user_id);
-
+		$this->add('user_id', $user_id);
+		
 		$returnUrl = Context::get('success_return_url') ? Context::get('success_return_url') : getNotEncodedUrl('', 'mid', Context::get('mid'), 'act', '');
 		$this->setRedirectUrl($returnUrl.'&user_id='.$user_id);
 	}
@@ -2195,10 +2191,10 @@ class memberController extends member
 				}
 			}
 		}
-
+		
 		// Create a model object
 		$oMemberModel = getModel('member');
-
+		
 		// Check password strength
 		if($args->password && !$password_is_hashed)
 		{
@@ -2209,20 +2205,12 @@ class memberController extends member
 			}
 			$args->password = $oMemberModel->hashPassword($args->password);
 		}
-		elseif(!$args->password)
-		{
-			unset($args->password);
-		}
-
+		
 		if($args->find_account_answer && !$password_is_hashed)
 		{
 			$args->find_account_answer = $oMemberModel->hashPassword($args->find_account_answer);
 		}
-		elseif(!$args->find_account_answer)
-		{
-			unset($args->find_account_answer);
-		}
-
+		
 		// Check if ID is prohibited
 		if($logged_info->is_admin !== 'Y' && $oMemberModel->isDeniedID($args->user_id))
 		{
@@ -2545,17 +2533,15 @@ class memberController extends member
 		{
 			$args->find_account_answer = $oMemberModel->hashPassword($args->find_account_answer);
 		}
-		else
+		else if($orgMemberInfo->find_account_answer && Context::get('modify_find_account_answer') != 'Y')
 		{
-			$oPassword = New Password();
-			$hashed = $oPassword->checkAlgorithm($orgMemberInfo->find_account_answer);
-			if($hashed)
+			if(Rhymix\Framework\Password::checkAlgorithm($orgMemberInfo->find_account_answer))
 			{
 				$args->find_account_answer = $orgMemberInfo->find_account_answer;
 			}
 			else
 			{
-				$args->find_account_answer = $oPassword->createHash($orgMemberInfo->find_account_answer);
+				$args->find_account_answer = $oMemberModel->hashPassword($orgMemberInfo->find_account_answer);
 			}
 		}
 
@@ -2665,11 +2651,9 @@ class memberController extends member
 
 	function updateFindAccountAnswer($member_srl, $answer)
 	{
-		$oPassword =  new Password();
-
 		$args = new stdClass();
 		$args->member_srl = $member_srl;
-		$args->find_account_answer = $oPassword->createHash($answer);
+		$args->find_account_answer = getModel('member')->hashPassword($answer);
 		$output = executeQuery('member.updateFindAccountAnswer', $args);
 	}
 
