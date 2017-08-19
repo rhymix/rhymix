@@ -838,6 +838,8 @@ class ncenterliteController extends ncenterlite
 	function triggerAddMemberMenu()
 	{
 		$oNcenterliteModel = getModel('ncenterlite');
+		$oMemberController = getController('member');
+
 		$config = $oNcenterliteModel->getConfig();
 
 		if($config->user_config_list == 'Y')
@@ -849,9 +851,7 @@ class ncenterliteController extends ncenterlite
 			}
 			$target_srl = Context::get('target_srl');
 
-			$oMemberController = getController('member');
 			$oMemberController->addMemberMenu('dispNcenterliteNotifyList', 'ncenterlite_my_list');
-			$oMemberController->addMemberMenu('dispNcenterliteUserConfig', 'ncenterlite_my_settings');
 
 			if($logged_info->is_admin == 'Y')
 			{
@@ -859,6 +859,11 @@ class ncenterliteController extends ncenterlite
 				$str = Context::getLang('ncenterlite_user_settings');
 				$oMemberController->addMemberPopupMenu($url, $str, '');
 			}
+		}
+
+		if($config->user_notify_setting == 'Y')
+		{
+			$oMemberController->addMemberMenu('dispNcenterliteUserConfig', 'ncenterlite_my_settings');
 		}
 
 		return new Object();
