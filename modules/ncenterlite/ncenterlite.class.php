@@ -1,26 +1,6 @@
 <?php
 class ncenterlite extends ModuleObject
 {
-	// @@@@@@@@@@ 사용자 커스텀 시작
-	// 쪽지를 열 mid 지정
-	// 쪽지를 열 때 해당 mid에서 열리도록 합니다
-	// 비워두면 접속한 페이지에서 열림(기본 동작)
-	var $message_mid = '';
-
-	// 노티바(알림바)를 감출 mid - array('mid1', 'mid2', 'mid3')
-	// 지정한 mid에서는 노티바를 출력하지 않습니다
-	var $disable_notify_bar_mid = array();
-
-	// 노티바(알림바)를 감출 act - array('act1', 'act2', 'act3')
-	// 지정한 act에서는 노티바를 출력하지 않습니다
-	var $disable_notify_bar_act = array();
-
-	// 알림을 보내지 않을 게시판 mid - array('mid1', 'mid2', 'mid3')
-	// 지정한 mid에서는 댓글 알림을 보내지 않습니다
-	var $disable_notify = array();
-	// @@@@@@@@@@ 사용자 커스텀 끝
-
-
 	var $_TYPE_DOCUMENT = 'D'; // 댓글
 	var $_TYPE_COMMENT = 'C'; // 댓글의 댓글
 	var $_TYPE_ADMIN_COMMENT = 'A'; // 어드민 댓글 알림
@@ -52,18 +32,6 @@ class ncenterlite extends ModuleObject
 	private $delete_triggers = array(
 		array('moduleObject.proc', 'ncenterlite', 'controller', 'triggerBeforeModuleObjectProc', 'before')
 	);
-
-	function _isDisable()
-	{
-		$result = FALSE;
-		if(count($this->disable_notify))
-		{
-			$module_info = Context::get('module_info');
-			if(in_array($module_info->mid, $this->disable_notify)) $result = TRUE;
-		}
-
-		return $result;
-	}
 
 	function moduleInstall()
 	{

@@ -87,11 +87,6 @@ class ncenterliteController extends ncenterlite
 
 		$oModuleModel = getModel('module');
 
-		if($this->_isDisable())
-		{
-			return;
-		}
-
 		$oNcenterliteModel = getModel('ncenterlite');
 		$config = $oNcenterliteModel->getConfig();
 
@@ -150,11 +145,6 @@ class ncenterliteController extends ncenterlite
 
 	function triggerAfterInsertComment($obj)
 	{
-		if($this->_isDisable())
-		{
-			return;
-		}
-
 		$oNcenterliteModel = getModel('ncenterlite');
 		$config = $oNcenterliteModel->getConfig();
 
@@ -718,14 +708,6 @@ class ncenterliteController extends ncenterlite
 			return new Object();
 		}
 
-		if(count($this->disable_notify_bar_act))
-		{
-			if(in_array(Context::get('act'), $this->disable_notify_bar_act))
-			{
-				return new Object();
-			}
-		}
-
 		// HTML 모드가 아니면 중지 + act에 admin이 포함되어 있으면 중지
 		if(Context::getResponseMethod() != 'HTML' || strpos(strtolower(Context::get('act')), 'admin') !== false)
 		{
@@ -740,13 +722,6 @@ class ncenterliteController extends ncenterlite
 
 		$module_info = Context::get('module_info');
 
-		if(count($this->disable_notify_bar_mid))
-		{
-			if(in_array($module_info->mid, $this->disable_notify_bar_mid))
-			{
-				return new Object();
-			}
-		}
 
 		// admin 모듈이면 중지
 		if($module_info->module == 'admin')
