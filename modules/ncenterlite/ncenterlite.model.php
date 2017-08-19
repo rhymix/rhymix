@@ -65,6 +65,10 @@ class ncenterliteModel extends ncenterlite
 			if(!$config->skin) $config->skin = 'default';
 			if(!$config->colorset) $config->colorset = 'black';
 			if(!$config->zindex) $config->zindex = '9999';
+			if(!$config->user_notify_setting)
+			{
+				$config->user_notify_setting = 'N';
+			}
 
 			self::$config = $config;
 		}
