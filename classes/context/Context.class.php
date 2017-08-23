@@ -1818,7 +1818,7 @@ class Context
 	 * Set a context value with a key
 	 *
 	 * @param string $key Key
-	 * @param string $val Value
+	 * @param mixed $val Value
 	 * @param mixed $set_to_get_vars If not FALSE, Set to get vars.
 	 * @return void
 	 */
