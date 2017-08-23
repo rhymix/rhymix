@@ -1199,12 +1199,31 @@ class boardView extends board
 		{
 			return new Object(-1, 'msg_not_permitted');
 		}
+
 		$update_log = $oDocumentModel->getUpdateLog($update_id);
+		$oDocument = $oDocumentModel->getDocument($update_log->document_srl);
+
 		$extra_vars = unserialize($update_log->extra_vars);
+
+
+		$document_extra_array = $oDocument->getExtraVars();
+		$extra_html = array();
+		foreach ($extra_vars as $extra_key  => $extra)
+		{
+			foreach ($document_extra_array as $val)
+			{
+				if($val->name == $extra_key)
+				{
+					// Use the change the values, it need an other parameters.
+					$extra = new ExtraItem($this->module_info->module_srl, $val->idx, $val->name, $val->type, null, '', 'N', 'N', $extra);
+					$extra_html[$extra_key] = $extra->getValueHTML();
+				}
+			}
+		}
 
 		Context::addJsFilter($this->module_path.'tpl/filter', 'update.xml');
 
-		Context::set('extra_vars', $extra_vars);
+		Context::set('extra_vars', $extra_html);
 		Context::set('update_log', $update_log);
 
 		$this->setTemplateFile('update_view');
