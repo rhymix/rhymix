@@ -18,4 +18,4 @@ $lang->about_feed_description = '発行するRSSに関する説明を入力し�
 $lang->about_feed_copyright = '発行するRSSのコンテンツに対する著作権情報です。未入力の場合、全体RSS著作権の設定と同様に適用されます。';
 $lang->about_feed_document_count = 'RSSに配信するコンテンツの数 (デフォルト : 15)';
 $lang->msg_rss_is_disabled = 'RSS機能がロックされています。';
-$lang->msg_rss_invalid_image_format = 'サポートしないイメージファイルです。\\nJPEG, GIF, PNGファイルのみサポートします。';
+$lang->msg_rss_invalid_image_format = 'サポートしないイメージファイルです。JPG, JPEG, GIF, PNGファイルのみサポートします。';

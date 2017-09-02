@@ -1,0 +1,35 @@
+{'<?xml version="1.0" encoding="UTF-8" ?>'}
+
+<config autoescape="on" />
+<rdf:RDF xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns="http://purl.org/rss/1.0/">
+	<channel rdf:about="{$info->id}">
+		<title>{$info->title}</title>
+		<link>{$info->link}</link>
+		<description>{$info->description}</description>
+		<dc:language>{$info->language}</dc:language>
+		<dc:date>{$info->date}</dc:date>
+		<!--@if($info->feed_copyright)-->
+		<dc:rights>{$info->feed_copyright}</dc:rights>
+		<!--@end-->
+		<image cond="$info->image" rdf:resource="{$info->image}"/>
+		<items>
+			<rdf:Seq>
+				<!--@foreach($document_list as $oDocument)-->
+				<rdf:li resource="{$oDocument->getPermanentUrl()}"/>
+				<!--@end-->
+			</rdf:Seq>
+		</items>
+	</channel>
+	<image cond="$info->image" rdf:about="{$info->image}">
+		<title>{$info->feed_title}</title>
+		<link>{$info->link}</link>
+		<url>{$info->image}</url>
+	</image>
+	<item loop="$document_list=>$oDocument" rdf:about="{$oDocument->getPermanentUrl()}">
+		<title>{$oDocument->getTitleText()}</title>
+		<link>{$oDocument->getPermanentUrl()}</link>
+		<description>{$oDocument->getSummary(400)}</description>
+		<dc:creator>{$oDocument->getNickName()}</dc:creator>
+		<dc:date>{$oDocument->getRegdateDT()}</dc:date>
+	</item>
+</rdf:RDF>

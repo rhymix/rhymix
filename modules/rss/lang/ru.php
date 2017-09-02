@@ -15,4 +15,4 @@ $lang->about_rss_disable = 'Если выбрано, RSS будет отключ
 $lang->about_rss_type = 'Вы можете присвоить тип RSS.';
 $lang->about_open_rss = 'Вы можете выбрать для того, чтобы RSS доступен публично.\\nНезависимо от разрешений для статьи, RSS будет доступна публично согласно ее настройке.';
 $lang->msg_rss_is_disabled = 'Функция RSS выключена.';
-$lang->msg_rss_invalid_image_format = 'Неправильный тип картинки\\nПоддерживаются только JPEG, GIF, PNG файлы';
+$lang->msg_rss_invalid_image_format = 'Неправильный тип картинки Поддерживаются только JPG, JPEG, GIF, PNG файлы';

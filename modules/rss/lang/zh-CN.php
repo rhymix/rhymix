@@ -18,4 +18,4 @@ $lang->about_feed_description = '可以输入简单说明,留空输出该模块�
 $lang->about_feed_copyright = 'RSS Feed版权信息。留空版权信息参照整站RSS的版权信息。';
 $lang->about_feed_document_count = '每页要显示的主题数(默认: 15)。';
 $lang->msg_rss_is_disabled = 'RSS功能处于锁定状态。';
-$lang->msg_rss_invalid_image_format = '上传的文件格式错误！\\n只允许上传JPEG, GIF, PNG图片文件。';
+$lang->msg_rss_invalid_image_format = '上传的文件格式错误！ 只允许上传JPG, JPEG, GIF, PNG图片文件。';
