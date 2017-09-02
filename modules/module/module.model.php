@@ -1398,26 +1398,32 @@ class moduleModel extends module
 	 */
 	function getModuleConfig($module, $site_srl = 0)
 	{
-		$config = Rhymix\Framework\Cache::get('site_and_module:module_config:' . $module . '_' . $site_srl);
-		if($config === null)
+		if(!isset($GLOBALS['__ModuleConfig__'][$site_srl][$module]))
 		{
-			if(!$GLOBALS['__ModuleConfig__'][$site_srl][$module])
+			$config = Rhymix\Framework\Cache::get('site_and_module:module_config:' . $module . '_' . $site_srl);
+			if($config === null)
 			{
-				$args = new stdClass();
+				$args = new stdClass;
 				$args->module = $module;
 				$args->site_srl = $site_srl;
-				$output = executeQuery('module.getModuleConfig', $args);
-				if($output->data->config) $config = unserialize($output->data->config);
-				else $config = new stdClass;
-
-				//insert in cache
+				
+				// Only object type
+				if($config = executeQuery('module.getModuleConfig', $args)->data->config)
+				{
+					$config = unserialize($config);
+				}
+				else
+				{
+					$config = new stdClass;
+				}
+				
+				// Set cache
 				Rhymix\Framework\Cache::set('site_and_module:module_config:' . $module . '_' . $site_srl, $config, 0, true);
-				$GLOBALS['__ModuleConfig__'][$site_srl][$module] = $config;
 			}
-			return $GLOBALS['__ModuleConfig__'][$site_srl][$module];
+			$GLOBALS['__ModuleConfig__'][$site_srl][$module] = $config;
 		}
-
-		return $config;
+		
+		return $GLOBALS['__ModuleConfig__'][$site_srl][$module];
 	}
 
 	/**
@@ -1426,26 +1432,32 @@ class moduleModel extends module
 	 */
 	function getModulePartConfig($module, $module_srl)
 	{
-		$config = Rhymix\Framework\Cache::get('site_and_module:module_part_config:' . $module . '_' . $module_srl);
-		if($config === null)
+		if(!isset($GLOBALS['__ModulePartConfig__'][$module][$module_srl]))
 		{
-			if(!isset($GLOBALS['__ModulePartConfig__'][$module][$module_srl]))
+			$config = Rhymix\Framework\Cache::get('site_and_module:module_part_config:' . $module . '_' . $module_srl);
+			if($config === null)
 			{
-				$args = new stdClass();
+				$args = new stdClass;
 				$args->module = $module;
 				$args->module_srl = $module_srl;
-				$output = executeQuery('module.getModulePartConfig', $args);
-				if($output->data->config) $config = unserialize($output->data->config);
-				else $config = null;
-
-				//insert in cache
-				Rhymix\Framework\Cache::set('site_and_module:module_part_config:' . $module . '_' . $module_srl, $config === null ? 0 : $config, 0, true);
-				$GLOBALS['__ModulePartConfig__'][$module][$module_srl] = $config;
+				
+				// Object or Array(compatibility) type
+				if($config = executeQuery('module.getModulePartConfig', $args)->data->config)
+				{
+					$config = unserialize($config);
+				}
+				else
+				{
+					$config = new ArrayObject;
+				}
+				
+				// Set cache
+				Rhymix\Framework\Cache::set('site_and_module:module_part_config:' . $module . '_' . $module_srl, $config, 0, true);
 			}
-			return $GLOBALS['__ModulePartConfig__'][$module][$module_srl];
+			$GLOBALS['__ModulePartConfig__'][$module][$module_srl] = $config;
 		}
-
-		return $config === 0 ? null : $config;
+		
+		return $GLOBALS['__ModulePartConfig__'][$module][$module_srl];
 	}
 
 	/**
@@ -1457,12 +1469,18 @@ class moduleModel extends module
 		$args->module = $module;
 		if($site_srl) $args->site_srl = $site_srl;
 		$output = executeQueryArray('module.getModulePartConfigs', $args);
-		if(!$output->toBool() || !$output->data) return array();
-
+		
+		if(!$output->toBool() || !$output->data)
+		{
+			return array();
+		}
+		
+		$result = array();
 		foreach($output->data as $key => $val)
 		{
 			$result[$val->module_srl] = unserialize($val->config);
 		}
+		
 		return $result;
 	}
 
