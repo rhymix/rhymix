@@ -293,7 +293,7 @@ class StorageTest extends \Codeception\TestCase\Test
 		$this->assertEquals(array('bar', 'baz', 'foo', 'subdir'), Rhymix\Framework\Storage::readDirectory($testdir, false, true, false));
 		$this->assertEquals(array('.dotfile', 'bar', 'baz', 'foo'), Rhymix\Framework\Storage::readDirectory($testdir, false, false, true));
 		$this->assertEquals(array('.dotfile', 'bar', 'baz', 'foo', 'subdir'), Rhymix\Framework\Storage::readDirectory($testdir, false, false, false));
-		$this->assertFalse(Rhymix\Framework\Storage::readDirectory('/opt/nonexistent.foobar'));
+		$this->assertFalse(Rhymix\Framework\Storage::readDirectory('/opt/nonexistent/foobar'));
 	}
 	
 	public function testCopyDirectory()
@@ -308,7 +308,8 @@ class StorageTest extends \Codeception\TestCase\Test
 		$this->assertTrue(Rhymix\Framework\Storage::copyDirectory($sourcedir, $targetdir));
 		$this->assertTrue(file_exists($targetdir . '/bar'));
 		$this->assertTrue(file_exists($targetdir . '/subdir/baz'));
-		$this->assertFalse(@Rhymix\Framework\Storage::copyDirectory($sourcedir, '/opt/nonexistent.foobar'));
+		if (is_writable('/opt')) @touch('/opt/nonexistent');
+		$this->assertFalse(@Rhymix\Framework\Storage::copyDirectory($sourcedir, '/opt/nonexistent/foobar'));
 	}
 	
 	public function testMoveDirectory()
