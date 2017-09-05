@@ -689,12 +689,12 @@ class documentItem extends Object
 
 	function getRegdateGM()
 	{
-		return gmdate('r', ztime($this->get('regdate')));
+		return Rhymix\Framework\DateTime::formatTimestampForCurrentUser('r', $this->getRegdateTime());
 	}
 
 	function getRegdateDT()
 	{
-		return zdate($this->get('regdate'), 'c', false);
+		return Rhymix\Framework\DateTime::formatTimestampForCurrentUser('c', $this->getRegdateTime());
 	}
 
 	function getUpdate($format = 'Y.m.d H:i:s', $conversion = true)
@@ -709,12 +709,12 @@ class documentItem extends Object
 
 	function getUpdateGM()
 	{
-		return gmdate('r', ztime($this->get('last_update')));
+		return Rhymix\Framework\DateTime::formatTimestampForCurrentUser('r', $this->getUpdateTime());
 	}
 
 	function getUpdateDT()
 	{
-		return zdate($this->get('last_update'), 'c', false);
+		return Rhymix\Framework\DateTime::formatTimestampForCurrentUser('c', $this->getUpdateTime());
 	}
 
 	function getPermanentUrl()

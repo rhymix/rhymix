@@ -7,7 +7,7 @@
 		<link>{$info->link}</link>
 		<description>{$info->description}</description>
 		<dc:language>{$info->language}</dc:language>
-		<dc:date>{$info->date}</dc:date>
+		<dc:date>{$info->dateDT}</dc:date>
 		<!--@if($info->feed_copyright)-->
 		<dc:rights>{$info->feed_copyright}</dc:rights>
 		<!--@end-->
@@ -28,7 +28,7 @@
 	<item loop="$document_list=>$oDocument" rdf:about="{$oDocument->getPermanentUrl()}">
 		<title>{$oDocument->getTitleText()}</title>
 		<link>{$oDocument->getPermanentUrl()}</link>
-		<description>{$oDocument->getSummary(400)}</description>
+		<description>{$oDocument->getSummary(400)|escape}</description>
 		<dc:creator>{$oDocument->getNickName()}</dc:creator>
 		<dc:date>{$oDocument->getRegdateDT()}</dc:date>
 	</item>

@@ -47,6 +47,7 @@ class rssView extends rss
 			$obj = new stdClass;
 		}
 		
+		$act = Context::get('act');
 		$page = $obj->page ?: Context::get('page');
 		$start = $obj->start_date ?: Context::get('start_date');
 		$end = $obj->end_date ?: Context::get('end_date');
@@ -71,7 +72,6 @@ class rssView extends rss
 				break;
 			// RSS 2.0 (default)
 			default:
-				$format = '';
 				$template = 'rss20';
 				break;
 		}
@@ -81,6 +81,12 @@ class rssView extends rss
 		$module_config = $oRssModel->getRssModuleConfig($target_module_srl);
 		$module_info = getModel('module')->getModuleInfoByModuleSrl($target_module_srl);
 		
+		// Get URL
+		$format = ($act != $format) ? $format : '';
+		$mid = $is_part_feed ? $module_info->mid : '';
+		$channel_url = getFullUrl('', 'mid', $mid, 'act', $act, 'format', $format, 'page', $page, 'start_date', $start, 'end_date', $end);
+		
+		// Check error
 		if($obj->error)
 		{
 			Context::set('target_modules', array());
@@ -167,13 +173,14 @@ class rssView extends rss
 			$info->feed_copyright = $config->feed_copyright;
 		}
 		
-		$info->id = getFullUrl('', 'mid', $module_info->mid, 'act', 'rss', 'format', $format, 'page', $page, 'start_date', $start, 'end_date', $end);
+		$info->id = $channel_url;
 		$info->title = $obj->title ?: $info->title;
 		$info->feed_title = $config->feed_title;
 		$info->description = $obj->description ?: $info->description;
 		$info->language = Context::getLangType();
 		$info->site_url = Context::getRequestUri();
-		$info->date = Rhymix\Framework\DateTime::formatTimestampForCurrentUser('c');
+		$info->dateGM = Rhymix\Framework\DateTime::formatTimestampForCurrentUser('r');
+		$info->dateDT = Rhymix\Framework\DateTime::formatTimestampForCurrentUser('c');
 		$info->image = $config->image ? Context::getRequestUri() . $config->image : '';
 		getController('module')->replaceDefinedLangCode($info->title);
 		

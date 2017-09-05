@@ -1,13 +1,14 @@
 {'<?xml version="1.0" encoding="UTF-8" ?>'}
 
 <config autoescape="on" />
-<rss version="2.0">
+<rss xmlns:atom="http://www.w3.org/2005/Atom" xmlns:dc="http://purl.org/dc/elements/1.1/" version="2.0">
 	<channel>
 		<title>{$info->title}</title>
 		<link>{$info->link}</link>
 		<description>{$info->description}</description>
+		<atom:link href="{$info->id}" rel="self" type="application/rss+xml" />
 		<language>{$info->language}</language>
-		<pubDate>{$info->date}</pubDate>
+		<pubDate>{$info->dateGM}</pubDate>
 		<generator>Rhymix</generator>
 		<copyright cond="$info->feed_copyright">{$info->feed_copyright}</copyright>
 		<image cond="$info->image">
@@ -21,15 +22,15 @@
 			<!--@if($target_modules[$oDocument->get('module_srl')]->open_rss == 'Y')-->
 			<description>{utf8_trim(utf8_normalize_spaces($oDocument->get('content')))|escape}</description>
 			<!--@else-->
-			<description>{$oDocument->getSummary(400)}</description>
+			<description>{$oDocument->getSummary(400)|escape}</description>
 			<!--@end-->
 			<category cond="$oDocument->getModuleName()">{$oDocument->getModuleName()}</category>
 			<category cond="$oDocument->get('category_srl') && $category_name = $category_list[$oDocument->get('module_srl')][$oDocument->get('category_srl')]->title">{$category_name}</category>
 			<category loop="$oDocument->get('tag_list')=>$tag">{$tag}</category>
-			<author>{$oDocument->getNickName()}</author>
+			<dc:creator>{$oDocument->getNickName()}</dc:creator>
 			<guid isPermaLink="true">{$oDocument->getPermanentUrl()}</guid>
 			<comments cond="$oDocument->allowComment()">{$oDocument->getPermanentUrl()}#comment</comments>
-			<pubDate>{$oDocument->getRegdateDT()}</pubDate>
+			<pubDate>{$oDocument->getRegdateGM()}</pubDate>
 		</item>
 	</channel>
 </rss>
