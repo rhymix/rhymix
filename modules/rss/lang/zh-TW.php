@@ -18,4 +18,4 @@ $lang->about_feed_description = '請輸入簡介。 也可輸入相關管理使�
 $lang->about_feed_copyright = '請輸入 Feed 著作權資料。著作權將會適用所有的 Feed 內容。';
 $lang->about_feed_document_count = '每頁要顯示的主題數。(預設: 15)';
 $lang->msg_rss_is_disabled = 'RSS Feed 功能未開啟。';
-$lang->msg_rss_invalid_image_format = '錯誤的檔案格式，無法上傳。\\n只允許上傳 JPEG, GIF, PNG 等檔案格式。';
+$lang->msg_rss_invalid_image_format = '錯誤的檔案格式，無法上傳。 只允許上傳 JPG, JPEG, GIF, PNG 等檔案格式。';

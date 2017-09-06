@@ -178,29 +178,20 @@ class moduleController extends module
 
 	function updateModuleConfig($module, $config, $site_srl = 0)
 	{
-		$args = new stdClass();
-		$args->module = $module;
-		$args->site_srl = $site_srl;
-
-		$oModuleModel = getModel('module');
-		$origin_config = $oModuleModel->getModuleConfig($module, $site_srl);
-
-		if(!$origin_config) $origin_config = new stdClass;
-
+		$origin_config = getModel('module')->getModuleConfig($module, $site_srl);
+		
 		foreach($config as $key => $val)
 		{
 			$origin_config->{$key} = $val;
 		}
-
+		
 		return $this->insertModuleConfig($module, $origin_config, $site_srl);
 	}
 
 	function updateModulePartConfig($module, $module_srl, $config)
 	{
-		$oModuleModel = getModel('module');
-		$origin_config = $oModuleModel->getModulePartConfig($module, $module_srl);
+		$origin_config = getModel('module')->getModulePartConfig($module, $module_srl);
 		
-		if(!$origin_config) $origin_config = new stdClass;
 		foreach($config as $key => $val)
 		{
 			$origin_config->{$key} = $val;

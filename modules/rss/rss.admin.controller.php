@@ -7,180 +7,180 @@
  */
 class rssAdminController extends rss
 {
-	/**
-	 * Initialization
-	 *
-	 * @return void
-	 */
 	function init()
 	{
 	}
-
+	
 	/**
-	 * All RSS feeds configurations
-	 *
-	 * @return void
+	 * configuration
 	 */
 	function procRssAdminInsertConfig()
 	{
-		$oModuleModel = getModel('module');
-		$total_config = $oModuleModel->getModuleConfig('rss');
-
-		$config_vars = Context::getRequestVars();
-		$config_vars->feed_document_count = (int)$config_vars->feed_document_count;
-
-		if(!$config_vars->use_total_feed) $alt_message = 'msg_invalid_request';
-		if(!in_array($config_vars->use_total_feed, array('Y','N'))) $config_vars->open_rss = 'Y';
-
-		if($config_vars->image || $config_vars->del_image)
+		$vars = Context::getRequestVars();
+		$config = getModel('rss')->getConfig();
+		
+		if($img_file = $vars->image)
 		{
-			$image_obj = $config_vars->image;
-			$config_vars->image = $total_config->image;
-			// Get a variable for the delete request
-			if($config_vars->del_image == 'Y' || $image_obj)
+			// Delete image file
+			if($config->image)
 			{
-				FileHandler::removeFile($config_vars->image);
-				$config_vars->image = '';
-				$total_config->image = '';
+				FileHandler::removeFile($config->image);
 			}
-			// Ignore if the file is not the one which has been successfully uploaded
-			if($image_obj['tmp_name'] && is_uploaded_file($image_obj['tmp_name']))
+			
+			$vars->image = '';
+			
+			// Upload image file
+			if($img_file['tmp_name'] && is_uploaded_file($img_file['tmp_name']))
 			{
-				// Ignore if the file is not an image (swf is accepted ~)
-				$image_obj['name'] = Context::convertEncodingStr($image_obj['name']);
-
-				if(!preg_match("/\.(jpg|jpeg|gif|png)$/i", $image_obj['name'])) $alt_message = 'msg_rss_invalid_image_format';
+				$path = 'files/attach/images/rss';
+				$file_ext = strtolower(array_pop(explode('.', $img_file['name'])));
+				$file_name = sprintf('%s/feed_image.%s', $path, $file_ext);
+				
+				// If file exists, delete
+				if(file_exists($file_name))
+				{
+					FileHandler::removeFile($file_name);
+				}
+				
+				// Check image file extension
+				if(!in_array($file_ext, array('jpg', 'jpeg', 'gif', 'png')))
+				{
+					$msg['error'] = 'msg_rss_invalid_image_format';
+				}
+				// Move the file
+				else if(!FileHandler::makeDir($path) || !@move_uploaded_file($img_file['tmp_name'], $file_name))
+				{
+					$msg['error'] = 'file.msg_file_upload_error';
+				}
+				// Success
 				else
 				{
-					// Upload the file to a path
-					$path = './files/attach/images/rss/';
-					// Create a directory
-					if(!FileHandler::makeDir($path)) $alt_message = 'msg_error_occured';
-					else
-					{
-						$filename = $path.$image_obj['name'];
-
-						// Move the file
-						if(!move_uploaded_file($image_obj['tmp_name'], $filename)) $alt_message = 'msg_error_occured';
-						else
-						{
-							$config_vars->image = $filename;
-						}
-					}
+					$vars->image = $file_name;
 				}
 			}
 		}
-		if(!$config_vars->image && $config_vars->del_image != 'Y') $config_vars->image = $total_config->image;
-
-		$output = $this->setFeedConfig($config_vars);
-
-		if(!$alt_message) $alt_message = 'success_updated';
-
-		$alt_message = lang($alt_message);
-		$this->setMessage($alt_message, 'info');
-
-		//$this->setLayoutPath('./common/tpl');
-		//$this->setLayoutFile('default_layout.html');
-		//$this->setTemplatePath($this->module_path.'tpl');
-		//$this->setTemplateFile("top_refresh.html");
-
-		$returnUrl = Context::get('success_return_url') ? Context::get('success_return_url') : getNotEncodedUrl('', 'module', 'admin', 'act', 'dispRssAdminIndex');
-		$this->setRedirectUrl($returnUrl);
-	}
-
-	public function procRssAdminDeleteFeedImage()
-	{
-		$delImage = Context::get('del_image');
-
-		$oModuleModel = getModel('module');
-		$originConfig = $oModuleModel->getModuleConfig('rss');
-
-		// Get a variable for the delete request
-		if($delImage == 'Y')
+		
+		if(!in_array($vars->use_total_feed, array('Y','N')))
 		{
-			FileHandler::removeFile($originConfig->image);
-
-			$originConfig->image = '';
-			$output = $this->setFeedConfig($originConfig);
-			return new Object(0, 'success_updated');
+			$vars->open_rss = 'Y';
 		}
-		return new Object(-1, 'fail_to_delete');
+		$vars->feed_document_count = (int) $vars->feed_document_count;
+		
+		getController('module')->updateModuleConfig('rss', $vars);
+		
+		if(isset($msg['error']))
+		{
+			return new Object(-1, $msg['error']);
+		}
+		else
+		{
+			$this->setMessage(isset($msg) ? $msg : 'success_updated');
+		}
+		
+		$this->setRedirectUrl(Context::get('success_return_url') ?: getNotEncodedUrl('', 'module', 'admin', 'act', 'dispRssAdminIndex'));
 	}
-
+	
 	/**
-	 * RSS Module configurations
-	 *
-	 * @return void
+	 * Part configuration
 	 */
 	function procRssAdminInsertModuleConfig()
 	{
 		$vars = Context::getRequestVars();
-
-		if (!in_array($vars->open_rss, array('Y', 'H', 'N')))
+		
+		if($vars->target_module_srl)
 		{
-			$vars->open_rss = 'N';
+			$target_module_srls = explode(',', $vars->target_module_srl);
+		}
+		else
+		{
+			$target_module_srls = array_keys($vars->open_rss);
 		}
 		
-		if (!in_array($vars->open_total_feed, array('N', 'T_N')))
-		{
-			$vars->open_total_feed = 'T_N';
-		}
-		
-		$target_module_srls = explode(',', $vars->target_module_srl);
-		if (!count($target_module_srls))
+		if(!count($target_module_srls))
 		{
 			return new Object(-1, 'msg_invalid_request');
 		}
 		
-		foreach ($target_module_srls as $target_module_srl)
+		foreach($target_module_srls as $module_srl)
 		{
-			$target_module_srl = intval($target_module_srl);
-			if (!$target_module_srl)
+			if(!$module_srl = intval($module_srl))
 			{
-				return new Object(-1, 'msg_invalid_request');
+				continue;
 			}
 			
-			$this->setRssModuleConfig($target_module_srl, $vars->open_rss, $vars->open_total_feed, $vars->feed_description, $vars->feed_copyright);
+			$config = new stdClass;
+			if(isset($vars->open_rss[$module_srl]))
+			{
+				$config->open_rss = $vars->open_rss[$module_srl];
+				$config->open_total_feed = $vars->open_total_feed[$module_srl];
+				$config->feed_description = $vars->feed_description[$module_srl];
+			}
+			else
+			{
+				$config->open_rss = $vars->open_rss;
+				$config->open_total_feed = $vars->open_total_feed;
+				$config->feed_description = $vars->feed_description;
+				$config->feed_copyright = $vars->feed_copyright;
+			}
+			
+			if(!in_array($config->open_rss, array('Y', 'H', 'N')))
+			{
+				$config->open_rss = 'N';
+			}
+			if(!in_array($config->open_total_feed, array('N', 'T_N')))
+			{
+				$config->open_total_feed = 'T_N';
+			}
+			
+			getController('module')->updateModulePartConfig('rss', $module_srl, $config);
 		}
 
-		$this->setMessage('success_updated', 'info');
-
-		$returnUrl = Context::get('success_return_url') ? Context::get('success_return_url') : getNotEncodedUrl('', 'module', 'admin', 'act', 'dispBoardAdminContent');
-		$this->setRedirectUrl($returnUrl);
+		$this->setMessage('success_updated');
+		$this->setRedirectUrl(Context::get('success_return_url') ?: getNotEncodedUrl('', 'module', 'admin', 'act', 'dispRssAdminIndex'));
 	}
-
+	
+	function procRssAdminDeleteFeedImage()
+	{
+		$config = getModel('rss')->getConfig();
+		if(!$config->image)
+		{
+			return new Object(-1, 'msg_invalid_request');
+		}
+		
+		FileHandler::removeFile($config->image);
+		
+		$config->image = '';
+		getController('module')->insertModuleConfig('rss', $config);
+	}
+	
 	/**
-	 * A funciton to configure all Feeds of the RSS module
-	 *
-	 * @param Object $config RSS all feeds config list
-	 * @return Object
+	 * Compatible function
 	 */
 	function setFeedConfig($config)
 	{
-		$oModuleController = getController('module');
-		$oModuleController->insertModuleConfig('rss',$config);
+		getController('module')->insertModuleConfig('rss', $config);
 		return new Object();
 	}
-
+	
 	/**
-	 * A function t configure the RSS module
-	 *
-	 * @param integer $module_srl Module_srl
-	 * @param string $open_rss Choose open rss type. Y : Open all, H : Open summary, N : Not open
-	 * @param string $open_total_feed N : use open total feed, T_N : not use open total feed
-	 * @param string $feed_description Default value is 'N'
-	 * @param string $feed_copyright Default value is 'N'
-	 * @return Object
+	 * Compatible function
 	 */
 	function setRssModuleConfig($module_srl, $open_rss, $open_total_feed = 'N', $feed_description = 'N', $feed_copyright = 'N')
 	{
-		$oModuleController = getController('module');
 		$config = new stdClass;
 		$config->open_rss = $open_rss;
 		$config->open_total_feed = $open_total_feed;
-		if($feed_description != 'N') { $config->feed_description = $feed_description; }
-		if($feed_copyright != 'N') { $config->feed_copyright = $feed_copyright; }
-		$oModuleController->insertModulePartConfig('rss',$module_srl,$config);
+		
+		if($feed_description != 'N')
+		{
+			$config->feed_description = $feed_description;
+		}
+		if($feed_copyright != 'N')
+		{
+			$config->feed_copyright = $feed_copyright;
+		}
+		
+		getController('module')->insertModulePartConfig('rss', $module_srl, $config);
 		return new Object();
 	}
 }

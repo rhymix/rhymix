@@ -18,4 +18,4 @@ $lang->about_feed_description = 'You can enter the description on the RSS feed t
 $lang->about_feed_copyright = 'You can enter copyright information on the RSS feed. If you don\'t enter this, the copyright of the entire RSS feeds is applied.';
 $lang->about_feed_document_count = 'Number of articles to be displayed on one feed page (default: 15)';
 $lang->msg_rss_is_disabled = 'RSS function is disabled.';
-$lang->msg_rss_invalid_image_format = 'Invalid image format. \\nOnly JPEG, GIF, and PNG files are supported.';
+$lang->msg_rss_invalid_image_format = 'Invalid image format. Only JPG, JPEG, GIF, and PNG files are supported.';
