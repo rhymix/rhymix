@@ -8,7 +8,7 @@
 		<description>{$info->description}</description>
 		<atom:link href="{$info->id}" rel="self" type="application/rss+xml" />
 		<language>{$info->language}</language>
-		<pubDate>{$info->dateGM}</pubDate>
+		<pubDate>{$info->date_r}</pubDate>
 		<generator>Rhymix</generator>
 		<copyright cond="$info->feed_copyright">{$info->feed_copyright}</copyright>
 		<image cond="$info->image">
@@ -30,7 +30,7 @@
 			<dc:creator>{$oDocument->getNickName()}</dc:creator>
 			<guid isPermaLink="true">{$oDocument->getPermanentUrl()}</guid>
 			<comments cond="$oDocument->allowComment()">{$oDocument->getPermanentUrl()}#comment</comments>
-			<pubDate>{$oDocument->getRegdateGM()}</pubDate>
+			<pubDate>{$oDocument->getRegdateGM('r')}</pubDate>
 		</item>
 	</channel>
 </rss>

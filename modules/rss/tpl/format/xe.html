@@ -7,7 +7,7 @@
 		<link>{$info->link}</link>
 		<description>{$info->description}</description>
 		<language>{$info->language}</language>
-		<pubDate>{$info->dateGM}</pubDate>
+		<pubDate>{$info->date_r}</pubDate>
 		<totalCount>{$info->total_count}</totalCount>
 		<totalPage>{$info->total_page}</totalPage>
 		<item loop="$document_list=>$oDocument">
@@ -22,8 +22,8 @@
 			<tags>{$oDocument->get('tags')}</tags>
 			<comment_count>{$oDocument->getCommentCount()}</comment_count>
 			<trackback_count>{$oDocument->getTrackbackCount()}</trackback_count>
-			<pubDate>{$oDocument->getRegdateGM()}</pubDate>
-			<upDate>{$oDocument->getUpdateGM()}</upDate>
+			<pubDate>{$oDocument->getRegdateGM('r')}</pubDate>
+			<upDate>{$oDocument->getUpdateGM('r')}</upDate>
 		</item>
 	</channel>
 </rss>

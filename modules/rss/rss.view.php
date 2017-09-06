@@ -174,13 +174,13 @@ class rssView extends rss
 		}
 		
 		$info->id = $channel_url;
-		$info->title = $obj->title ?: $info->title;
 		$info->feed_title = $config->feed_title;
+		$info->title = $obj->title ?: $info->title;
 		$info->description = $obj->description ?: $info->description;
 		$info->language = Context::getLangType();
 		$info->site_url = Context::getRequestUri();
-		$info->dateGM = Rhymix\Framework\DateTime::formatTimestampForCurrentUser('r');
-		$info->dateDT = Rhymix\Framework\DateTime::formatTimestampForCurrentUser('c');
+		$info->date_r = gmdate('r');
+		$info->date_c = gmdate('c');
 		$info->image = $config->image ? Context::getRequestUri() . $config->image : '';
 		getController('module')->replaceDefinedLangCode($info->title);
 		

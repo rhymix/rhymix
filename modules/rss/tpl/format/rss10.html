@@ -7,7 +7,7 @@
 		<link>{$info->link}</link>
 		<description>{$info->description}</description>
 		<dc:language>{$info->language}</dc:language>
-		<dc:date>{$info->dateDT}</dc:date>
+		<dc:date>{$info->date_c}</dc:date>
 		<!--@if($info->feed_copyright)-->
 		<dc:rights>{$info->feed_copyright}</dc:rights>
 		<!--@end-->
@@ -30,6 +30,6 @@
 		<link>{$oDocument->getPermanentUrl()}</link>
 		<description>{$oDocument->getSummary(400)|escape}</description>
 		<dc:creator>{$oDocument->getNickName()}</dc:creator>
-		<dc:date>{$oDocument->getRegdateDT()}</dc:date>
+		<dc:date>{$oDocument->getRegdateGM('c')}</dc:date>
 	</item>
 </rdf:RDF>

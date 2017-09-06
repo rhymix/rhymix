@@ -468,14 +468,14 @@ class commentItem extends Object
 		return ztime($this->get('regdate'));
 	}
 
-	function getRegdateGM()
+	function getRegdateGM($format = 'r')
 	{
-		return gmdate('r', ztime($this->get('regdate')));
+		return gmdate($format, $this->getRegdateTime());
 	}
 
-	function getRegdateDT()
+	function getRegdateDT($format = 'c')
 	{
-		return zdate($this->get('regdate'), 'c', false);
+		return Rhymix\Framework\DateTime::formatTimestampForCurrentUser($format, $this->getRegdateTime());
 	}
 
 	function getUpdate($format = 'Y.m.d H:i:s', $conversion = true)
@@ -488,14 +488,14 @@ class commentItem extends Object
 		return ztime($this->get('last_update'));
 	}
 
-	function getUpdateGM()
+	function getUpdateGM($format = 'r')
 	{
-		return gmdate('r', ztime($this->get('last_update')));
+		return gmdate($format, $this->getUpdateTime());
 	}
 
-	function getUpdateDT()
+	function getUpdateDT($format = 'c')
 	{
-		return zdate($this->get('last_update'), 'c', false);
+		return Rhymix\Framework\DateTime::formatTimestampForCurrentUser($format, $this->getUpdateTime());
 	}
 
 	function getPermanentUrl()
