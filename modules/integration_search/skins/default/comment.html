@@ -9,10 +9,10 @@
     <!--@foreach($output->data as $no => $comment)-->
         <li>
             <!--@if($comment->thumbnailExists(80))-->
-            <a href="{$comment->getPermanentUrl()}" onclick="window.open(this.href);return false;"><img src="{$comment->getThumbnail(80)}" alt="" width="80" height="80" class="thumb" /></a>
+            <a href="{$comment->getPermanentUrl()}" target="_blank"><img src="{$comment->getThumbnail(80)}" alt="" width="80" height="80" class="thumb" /></a>
             <!--@end-->
             <dl>
-                <dt><a href="{$comment->getPermanentUrl()}" onclick="window.open(this.href);return false;">{$comment->getSummary(400)}</a></dt>
+                <dt><a href="{$comment->getPermanentUrl()}" target="_blank">{$comment->getSummary(400)}</a></dt>
             </dl>
             <address><strong>{$comment->getNickName()}</strong> | <span class="time">{$comment->getRegdate("Y-m-d H:i")}</span></address>
         </li>

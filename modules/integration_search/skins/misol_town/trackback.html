@@ -24,7 +24,7 @@
 		<ul class="misolSearch_list">
 		<!--@foreach($output->data as $no => $trackback)-->
 			<li>
-				<a href="{getUrl('','document_srl',$trackback->document_srl)}" class="cont_a" onclick="window.open(this.href);return false;">
+				<a href="{getUrl('','document_srl',$trackback->document_srl)}" class="cont_a" target="_blank">
 					<div class="content_basic">
 						<section class="item">
 							<h1>{htmlspecialchars($trackback->title, ENT_COMPAT | ENT_HTML401, 'UTF-8', false)}</h1>

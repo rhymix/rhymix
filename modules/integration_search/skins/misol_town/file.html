@@ -18,7 +18,7 @@
 		<ul class="misolSearch_list">
 		<!--@foreach($output->data as $no => $file)-->
 			<li>
-				<a href="{$file->url}" class="cont_a" onclick="window.open(this.href);return false;">
+				<a href="{$file->url}" class="cont_a" target="_blank">
 					<div class="content_basic">
 						<section class="item">
 							<h1>{$file->filename} ({FileHandler::filesize($file->file_size)})</h1>

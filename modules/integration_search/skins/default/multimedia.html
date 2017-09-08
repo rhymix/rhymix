@@ -8,7 +8,7 @@
     <ul class="searchResult">
     <!--@foreach($output->data as $no => $image)-->
         <li>    
-            <a href="{$image->url}" onclick="window.open(this.href);return false;">{$image->src}</a>
+            <a href="{$image->url}" target="_blank">{$image->src}</a>
             <dl>
                 <dt><a href="{$image->url}">{$image->filename}</a></dt>
             </dl>

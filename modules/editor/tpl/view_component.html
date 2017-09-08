@@ -6,13 +6,13 @@
 		<h2>{$lang->component_author}</h2>
 		<ul>
 			<li loop="$component->author => $author">
-				{$author->name} <!--@if($author->homepage || $author->email_address)-->(<!--@if($author->homepage)--><a href="{$author->homepage}" onclick="window.open(this.href);return false;">{$author->homepage}</a><!--@end--><!--@if($author->homepage && $author->email_address)-->, <!--@end--><!--@if($author->email_address)--><a href="mailto:{$author->email_address}">{$author->email_address}</a><!--@end-->)<!--@end-->
+				{$author->name} <!--@if($author->homepage || $author->email_address)-->(<!--@if($author->homepage)--><a href="{$author->homepage}" target="_blank">{$author->homepage}</a><!--@end--><!--@if($author->homepage && $author->email_address)-->, <!--@end--><!--@if($author->email_address)--><a href="mailto:{$author->email_address}">{$author->email_address}</a><!--@end-->)<!--@end-->
 			</li>
 		</ul>
 	</div>
 	<div cond="$component->homepage">
 		<h2>{$lang->homepage}</h2>
-		<p><a href="{$component->homepage}" onclick="window.open(this.href);return false;">{$component->homepage}</a></p>
+		<p><a href="{$component->homepage}" target="_blank">{$component->homepage}</a></p>
 	</div>
 	<div>
 		<h2>{$lang->component_version}</h2>
@@ -26,7 +26,7 @@
 		<h2>{$lang->component_license}</h2>
 		<p>
 			{nl2br(trim($component->license))}
-			<a href="{$component->license_link}" cond="$component->license_link" onclick="window.open(this.href);return false;">{$component->license_link}</a>
+			<a href="{$component->license_link}" cond="$component->license_link" target="_blank">{$component->license_link}</a>
 		</p>
 	</div>
 	<div cond="$component->description">

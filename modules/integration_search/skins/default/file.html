@@ -9,7 +9,7 @@
     <!--@foreach($output->data as $no => $file)-->
         <li>
             <dl>
-                <dt><a href="{$file->url}" onclick="window.open(this.href);return false;">{$file->filename}</a> ({FileHandler::filesize($file->file_size)})</dt>
+                <dt><a href="{$file->url}" target="_blank">{$file->filename}</a> ({FileHandler::filesize($file->file_size)})</dt>
             </dl>
             <address><strong>{$file->nick_name}</strong> | <span class="time">{$file->regdate}</span> | <span class="recomNum">{number_format($file->download_count)}</span> </address>
         </li>
