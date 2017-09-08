@@ -1637,7 +1637,7 @@ class Context
 				array_shift($args_list);
 			}
 		}
-		else
+		elseif($_SERVER['REQUEST_METHOD'] == 'GET')
 		{
 			$get_vars = get_object_vars(self::$_instance->get_vars);
 		}
