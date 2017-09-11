@@ -562,22 +562,29 @@ class HTMLDisplayHandler
 	private function _loadCommonJSCSS()
 	{
 		Context::loadFile(array('./common/css/rhymix.scss', '', '', -1600000000), true);
-		$original_file_list = array('x', 'common', 'js_app', 'xml_handler', 'xml_js_filter');
+		$original_file_list = array(
+			'plugins/jquery.migrate/jquery-migrate-1.2.1.js',
+			'plugins/blankshield/blankshield.min.js',
+			'plugins/uri/URI.min.js',
+			'x.js',
+			'common.js',
+			'js_app.js',
+			'xml_handler.js',
+			'xml_js_filter.js',
+		);
 		$jquery_version = preg_match('/MSIE [5-8]\./', $_SERVER['HTTP_USER_AGENT']) ? self::JQUERY_V1 : self::JQUERY_V2;
 		
 		if(config('view.minify_scripts') === 'none')
 		{
-			Context::loadFile(array('./common/js/jquery-' . $jquery_version . '.js', 'head', '', -1730000000), true);
-			Context::loadFile(array('./common/js/plugins/jquery.migrate/jquery-migrate-1.2.1.js', 'head', '', -1720000000), true);
+			Context::loadFile(array('./common/js/jquery-' . $jquery_version . '.js', 'head', '', -1800000000), true);
 			foreach($original_file_list as $filename)
 			{
-				Context::loadFile(array('./common/js/' . $filename . '.js', 'head', '', -1710000000), true);
+				Context::loadFile(array('./common/js/' . $filename, 'head', '', -1700000000), true);
 			}
 		}
 		else
 		{
-			Context::loadFile(array('./common/js/jquery-' . $jquery_version . '.min.js', 'head', '', -1730000000), true);
-			Context::loadFile(array('./common/js/plugins/jquery.migrate/jquery-migrate-1.2.1.min.js', 'head', '', -1720000000), true);
+			Context::loadFile(array('./common/js/jquery-' . $jquery_version . '.min.js', 'head', '', -1800000000), true);
 			$concat_target_filename = 'files/cache/assets/minified/rhymix.min.js';
 			if(file_exists(\RX_BASEDIR . $concat_target_filename))
 			{
@@ -585,18 +592,18 @@ class HTMLDisplayHandler
 				$original_mtime = 0;
 				foreach($original_file_list as $filename)
 				{
-					$original_mtime = max($original_mtime, filemtime(\RX_BASEDIR . 'common/js/' . $filename . '.js'));
+					$original_mtime = max($original_mtime, filemtime(\RX_BASEDIR . 'common/js/' . $filename));
 				}
 				if($concat_target_mtime > $original_mtime)
 				{
-					Context::loadFile(array('./' . $concat_target_filename, 'head', '', -1500000000), true);
+					Context::loadFile(array('./' . $concat_target_filename, 'head', '', -1700000000), true);
 					return;
 				}
 			}
 			Rhymix\Framework\Formatter::minifyJS(array_map(function($str) {
-				return \RX_BASEDIR . 'common/js/' . $str . '.js';
+				return \RX_BASEDIR . 'common/js/' . $str;
 			}, $original_file_list), \RX_BASEDIR . $concat_target_filename);
-			Context::loadFile(array('./' . $concat_target_filename, 'head', '', -1500000000), true);
+			Context::loadFile(array('./' . $concat_target_filename, 'head', '', -1700000000), true);
 		}
 	}
 }
