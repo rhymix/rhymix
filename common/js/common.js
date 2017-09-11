@@ -229,7 +229,11 @@ jQuery(function($) {
 			return;
 		}
 		if (!window.XE.isSameHost(href)) {
-			$this.attr('rel', $.trim(String($this.attr('rel')) + ' noopener'));
+			var rel = $this.attr('rel');
+			rel = (typeof rel === 'undefined') ? '' : String(rel);
+			if (!rel.match(/\bnoopener\b/)) {
+				$this.attr('rel', $.trim(rel + ' noopener'));
+			}
 		}
 	});
 
@@ -242,7 +246,11 @@ jQuery(function($) {
 			return;
 		}
 		if (!window.XE.isSameHost(href)) {
-			$this.attr('rel', $.trim(String($this.attr('rel')) + ' noopener'));
+			var rel = $this.attr('rel');
+			rel = (typeof rel === 'undefined') ? '' : String(rel);
+			if (!rel.match(/\bnoopener\b/)) {
+				$this.attr('rel', $.trim(rel + ' noopener'));
+			}
 			event.preventDefault();
 			blankshield.open(href);
 		}
