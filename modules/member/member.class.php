@@ -214,7 +214,10 @@ class member extends ModuleObject {
 		if(!$config->signupForm) return true;
 
 		// check agreement field exist
-		if($config->agreement) return true;
+		if($config->agreement && $config->agreement !== memberModel::_getAgreement())
+		{
+			return true;
+		}
 
 		if($config->skin)
 		{
@@ -330,11 +333,10 @@ class member extends ModuleObject {
 		$oModuleController = getController('module');
 
 		// check agreement value exist
-		if($config->agreement)
+		if($config->agreement && $config->agreement !== memberModel::_getAgreement())
 		{
 			$agreement_file = _XE_PATH_.'files/member_extra_info/agreement_' . Context::get('lang_type') . '.txt';
 			$output = FileHandler::writeFile($agreement_file, $config->agreement);
-
 			$config->agreement = NULL;
 			$output = $oModuleController->updateModuleConfig('member', $config);
 		}
@@ -344,10 +346,8 @@ class member extends ModuleObject {
 		if(!$config->signupForm || !is_array($config->signupForm))
 		{
 			$identifier = 'user_id';
-
 			$config->signupForm = $oMemberAdminController->createSignupForm($identifier);
 			$config->identifier = $identifier;
-			unset($config->agreement);
 			$output = $oModuleController->updateModuleConfig('member', $config);
 		}
 
