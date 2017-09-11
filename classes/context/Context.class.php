@@ -1637,9 +1637,15 @@ class Context
 				array_shift($args_list);
 			}
 		}
-		elseif($_SERVER['REQUEST_METHOD'] == 'GET')
+		elseif ($_SERVER['REQUEST_METHOD'] === 'GET')
 		{
 			$get_vars = get_object_vars(self::$_instance->get_vars);
+		}
+		else
+		{
+			$preserve_vars = array('module', 'mid', 'act', 'page', 'document_srl', 'search_target', 'search_keyword');
+			$preserve_keys = array_combine($preserve_vars, array_fill(0, count($preserve_vars), true));
+			$get_vars = array_intersect_key(get_object_vars(self::$_instance->get_vars), $preserve_keys);
 		}
 		
 		// arrange args_list
