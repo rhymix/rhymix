@@ -99,6 +99,16 @@ class fileAdminController extends file
 		$config->allow_outlink = Context::get('allow_outlink');
 		$config->allow_outlink_format = Context::get('allow_outlink_format');
 		$config->allow_outlink_site = Context::get('allow_outlink_site');
+		
+		// Check maximum file size
+		if (PHP_INT_SIZE < 8)
+		{
+			if ($config->allowed_filesize > 2047 || $config->allowed_attach_size > 2047)
+			{
+				return new Object(-1, 'msg_32bit_max_2047mb');
+			}
+		}
+		
 		// Create module Controller object
 		$oModuleController = getController('module');
 		$output = $oModuleController->insertModuleConfig('file',$config);
@@ -130,20 +140,16 @@ class fileAdminController extends file
 		$file_config->allowed_attach_size = Context::get('allowed_attach_size');
 		$file_config->allowed_filetypes = str_replace(' ', '', Context::get('allowed_filetypes'));
 
-		if(!is_array($download_grant)) $file_config->download_grant = explode('|@|',$download_grant);
-		else $file_config->download_grant = $download_grant;
+		if(!is_array($download_grant))
+		{
+			$file_config->download_grant = explode('|@|',$download_grant);
+		}
+		else
+		{
+			$file_config->download_grant = array_values($download_grant);
+		}
 
-		//관리자가 허용한 첨부파일의 사이즈가 php.ini의 값보다 큰지 확인하기 - by ovclas
-		/*
-		$userFileAllowSize = FileHandler::returnbytes($file_config->allowed_filesize.'M');
-		$userAttachAllowSize = FileHandler::returnbytes($file_config->allowed_attach_size.'M');
-		$iniPostMaxSize = FileHandler::returnbytes(ini_get('post_max_size'));
-		$iniUploadMaxSize = FileHandler::returnbytes(ini_get('upload_max_filesize'));
-		$iniMinSzie = min($iniPostMaxSize, $iniUploadMaxSize);
-
-		if($userFileAllowSize > $iniMinSzie || $userAttachAllowSize > $iniMinSzie)
-			return new Object(-1, 'input size over than config in php.ini');
-		*/
+		// Check maximum file size
 		if (PHP_INT_SIZE < 8)
 		{
 			if ($file_config->allowed_filesize > 2047 || $file_config->allowed_attach_size > 2047)
