@@ -627,11 +627,11 @@ class commentItem extends Object
 		{
 			$config = $GLOBALS['__document_config__'] = getModel('document')->getDocumentConfig();
 		}
-		if ($config->thumbnail_type === 'none')
+		if ($config->thumbnail_target === 'none' || $config->thumbnail_type === 'none')
 		{
 			return;
 		}
-		if(!in_array($thumbnail_type, array('crop', 'ratio', 'none')))
+		if(!in_array($thumbnail_type, array('crop', 'ratio')))
 		{
 			$thumbnail_type = $config->thumbnail_type ?: 'crop';
 		}
@@ -713,7 +713,7 @@ class commentItem extends Object
 		}
 
 		// get an image file from the doc content if no file attached. 
-		if(!$source_file)
+		if(!$source_file && $config->thumbnail_target !== 'attachment')
 		{
 			preg_match_all("!<img\s[^>]*?src=(\"|')([^\"' ]*?)(\"|')!is", $this->get('content'), $matches, PREG_SET_ORDER);
 			foreach($matches as $match)
@@ -762,7 +762,10 @@ class commentItem extends Object
 			}
 		}
 
-		$output = FileHandler::createImageFile($source_file, $thumbnail_file, $width, $height, 'jpg', $thumbnail_type);
+		if($source_file)
+		{
+			$output = FileHandler::createImageFile($source_file, $thumbnail_file, $width, $height, 'jpg', $thumbnail_type);
+		}
 
 		// Remove source file if it was temporary
 		if($is_tmp_file)

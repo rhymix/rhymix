@@ -1,8 +1,5 @@
 <?php
 $lang->document_list = '主题列表';
-$lang->thumbnail_type = '缩略图生成方式';
-$lang->thumbnail_crop = '裁减(按指定大小裁剪图片)';
-$lang->thumbnail_ratio = '比例(按原图比例缩略处理)';
 $lang->cmd_delete_all_thumbnail = '删除全部缩略图';
 $lang->title_bold = '粗标题';
 $lang->title_color = '标题颜色';

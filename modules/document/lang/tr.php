@@ -1,8 +1,5 @@
 <?php
 $lang->document_list = 'Belge Listesi';
-$lang->thumbnail_type = 'Küçük Resim Türü';
-$lang->thumbnail_crop = 'Kırpılmış';
-$lang->thumbnail_ratio = 'Oran';
 $lang->cmd_delete_all_thumbnail = 'Tüm küçük resimleri sil';
 $lang->title_bold = 'Kalın';
 $lang->title_color = 'Renk';
