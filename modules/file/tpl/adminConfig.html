@@ -1,6 +1,4 @@
-<div class="x_page-header">
-	<h1>{$lang->file_upload} <a class="x_icon-question-sign" href="./common/manual/admin/index.html#UMAN_config_fileupload" target="_blank">{$lang->help}</a></h1>
-</div>
+<include target="header.html" />
 
 <div cond="$XE_VALIDATOR_MESSAGE && $XE_VALIDATOR_ID == 'modules/file/tpl/adminConfig/1'" class="message {$XE_VALIDATOR_MESSAGE_TYPE}">
 	<p>{$XE_VALIDATOR_MESSAGE}</p>
@@ -11,43 +9,46 @@
 	<input type="hidden" name="act" value="procFileAdminInsertConfig" />
 	<input type="hidden" name="xe_validator_id" value="modules/file/tpl/adminConfig/1" />
 	<div class="x_control-group">
-		<label class="x_control-label">{$lang->allow_outlink} <a class="x_icon-question-sign" href="./common/manual/admin/index.html#UMAN_config_file_outlink" target="_blank">{$lang->help}</a></label>
+		<label class="x_control-label">{$lang->allow_outlink}</label>
 		<div class="x_controls">
 			<label class="x_inline"><input type="radio" name="allow_outlink" id="allow_outlink_y" value="Y" checked="checked"|cond="$config->allow_outlink == 'Y'" /> {$lang->cmd_yes}</label>
 			<label class="x_inline"><input type="radio" name="allow_outlink" value="N" checked="checked"|cond="$config->allow_outlink == 'N'" /> {$lang->cmd_no}</label>
+			<p class="x_help-block">{$lang->about_allow_outlink}</p>
 		</div>
 	</div>
 	<div class="x_control-group">
 		<label class="x_control-label" for="allow_outlink_format">{$lang->allow_outlink_format}</label>
 		<div class="x_controls">
 			<input type="text" name="allow_outlink_format" id="allow_outlink_format" value="{$config->allow_outlink_format}" />
-			<p class="x_help-inline">{$lang->about_allow_outlink_format}</p>
+			<p class="x_help-block">{$lang->about_allow_outlink_format}</p>
 		</div>
 	</div>
 	<div class="x_control-group">
 		<label class="x_control-label" for="allow_outlink_site">{$lang->allow_outlink_site}</label>
 		<div class="x_controls">
-			<textarea name="allow_outlink_site" id="allow_outlink_site" rows="4" cols="42" style="float:left;margin-right:10px">{$config->allow_outlink_site}</textarea>
+			<textarea name="allow_outlink_site" id="allow_outlink_site" rows="4" cols="42">{$config->allow_outlink_site}</textarea>
 			<p class="x_help-block">{$lang->about_allow_outlink_site}</p>
 		</div>
 	</div>
 	<div class="x_control-group">
-		<label for="filesize" class="x_control-label">{$lang->allowed_filesize} <a class="x_icon-question-sign" href="./common/manual/admin/index.html#UMAN_config_file_size" target="_blank">{$lang->help}</a></label>
+		<label for="allowed_filesize" class="x_control-label">{$lang->allowed_filesize}</label>
 		<div class="x_controls">
-			<input type="number" step="any" id="filesize" name="allowed_filesize" value="{$config->allowed_filesize}" /> MB / {$upload_max_filesize}
+			<input type="number" min="0" name="allowed_filesize" id="allowed_filesize" value="{$config->allowed_filesize}" size="7" style="min-width:80px" /> MB
+			<p class="x_help-block">{$lang->about_allowed_filesize}<br />{sprintf($lang->about_allowed_size_limits, ini_get('upload_max_filesize'))}</p>
 		</div>
 	</div>
 	<div class="x_control-group">
-		<label for="attachSize" class="x_control-label">{$lang->allowed_attach_size} <a class="x_icon-question-sign" href="./common/manual/admin/index.html#UMAN_config_file_document_attach_limit" target="_blank">{$lang->help}</a></label>
+		<label for="allowed_attach_size" class="x_control-label">{$lang->allowed_attach_size}</label>
 		<div class="x_controls">
-			<input type="number" step="any" id="attachSize" name="allowed_attach_size" value="{$config->allowed_attach_size}" /> MB
+			<input type="number" min="0" name="allowed_attach_size" id="allowed_attach_size" value="{$config->allowed_attach_size}" size="7" style="min-width:80px" /> MB
+			<p class="x_help-block">{$lang->about_allowed_attach_size}<br />{sprintf($lang->about_allowed_size_limits, ini_get('upload_max_filesize'))}</p>
 		</div>
 	</div>
 	<div class="x_control-group">
 		<label for="allowedFiletypes" class="x_control-label">{$lang->allowed_filetypes}</label>
 		<div class="x_controls">
 			<input id="allowedFiletypes" type="text" name="allowed_filetypes" value="{$config->allowed_filetypes}" />
-			<p class="x_help-inline">{$lang->about_allowed_filetypes}</p>
+			<p class="x_help-block">{$lang->about_allowed_filetypes}</p>
 		</div>
 	</div>
 	<div class="x_clearfix btnArea">
