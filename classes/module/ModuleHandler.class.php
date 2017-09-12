@@ -769,6 +769,10 @@ class ModuleHandler extends Handler
 		if($type == "view" && $kind != 'admin')
 		{
 			$domain_info = Context::get('site_module_info');
+			if ($domain_info && $domain_info->settings && $domain_info->settings->html_header)
+			{
+				Context::addHtmlHeader($domain_info->settings->html_header);				
+			}
 			if ($domain_info && $domain_info->settings && $domain_info->settings->html_footer)
 			{
 				Context::addHtmlFooter($domain_info->settings->html_footer);				

@@ -1044,7 +1044,8 @@ class adminAdminController extends admin
 			return new Object(-1, 'msg_invalid_timezone');
 		}
 		
-		// Clean up the footer script.
+		// Clean up the header and footer scripts.
+		$vars->html_header = utf8_trim($vars->html_header);
 		$vars->html_footer = utf8_trim($vars->html_footer);
 		
 		// Merge all settings into an array.
@@ -1053,6 +1054,7 @@ class adminAdminController extends admin
 			'subtitle' => $vars->subtitle,
 			'language' => $vars->default_lang,
 			'timezone' => $vars->default_timezone,
+			'html_header' => $vars->html_header,
 			'html_footer' => $vars->html_footer,
 		);
 		
