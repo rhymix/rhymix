@@ -359,6 +359,9 @@ function force_range($input, $min, $max)
 /**
  * This function encodes a string with base64, using a URL-safe character set.
  * 
+ * The choice of alternative characters is defined in RFC 4648 Section 5.
+ * Do not use substitute other characters such as the dot (.) or the tilde (~).
+ * 
  * @param string $str The string to encode
  * @return string
  */
