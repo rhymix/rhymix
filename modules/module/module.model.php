@@ -1451,6 +1451,12 @@ class moduleModel extends module
 					$config = new ArrayObject;
 				}
 				
+				// For access to array as properties
+				if($config instanceof ArrayObject)
+				{
+					$config->setFlags(ArrayObject::ARRAY_AS_PROPS);
+				}
+				
 				// Set cache
 				Rhymix\Framework\Cache::set('site_and_module:module_part_config:' . $module . '_' . $module_srl, $config, 0, true);
 			}
