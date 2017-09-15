@@ -500,7 +500,8 @@ class commentItem extends Object
 
 	function getPermanentUrl()
 	{
-		return getFullUrl('', 'document_srl', $this->get('document_srl')) . '#comment_' . $this->get('comment_srl');
+		$mid = getModel('module')->getModuleInfoByModuleSrl($this->get('module_srl'))->mid;
+		return getFullUrl('', 'mid', $mid, 'document_srl', $this->get('document_srl')) . '#comment_' . $this->get('comment_srl');
 	}
 
 	function hasUploadedFiles()
