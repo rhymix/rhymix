@@ -12,6 +12,8 @@ class FrontEndFileHandlerTest extends \Codeception\TestCase\Test
 	public function testFrontEndFileHandler()
 	{
 		$handler = new FrontEndFileHandler();
+		$reservedCSS = HTMLDisplayHandler::$reservedCSS;
+		$reservedJS = HTMLDisplayHandler::$reservedJS;
 		HTMLDisplayHandler::$reservedCSS = '/xxx$/';
 		HTMLDisplayHandler::$reservedJS = '/xxx$/';
 		FrontEndFileHandler::$minify = 'none';
@@ -250,6 +252,9 @@ class FrontEndFileHandlerTest extends \Codeception\TestCase\Test
 			$this->assertEmpty($result[0]['targetie']);
 		});
 
+		HTMLDisplayHandler::$reservedCSS = $reservedCSS;
+		HTMLDisplayHandler::$reservedJS = $reservedJS;
+		
 		$this->specify("blocked scripts", function() {
 			$handler = new FrontEndFileHandler();
 			$handler->loadFile(array('./common/css/mobile.css'));
@@ -263,12 +268,10 @@ class FrontEndFileHandlerTest extends \Codeception\TestCase\Test
 			$handler->loadFile(array('./common/js/jquery-2.0.0.js'));
 			$handler->loadFile(array('./common/js/jQuery.min.js'));
 			$result = $handler->getCssFileList();
-			$this->assertEquals(1, count($result));
-			$this->assertEquals('/rhymix/common/css/mobile.css' . $this->_filemtime('common/css/mobile.css'), $result[0]['file']);
+			$this->assertEquals(0, count($result));
 			$result = $handler->getJsFileList();
-			$this->assertEquals(2, count($result));
-			$this->assertEquals('/rhymix/common/js/common.js' . $this->_filemtime('common/js/common.js'), $result[0]['file']);
-			$this->assertEquals('/rhymix/common/js/xml2json.js' . $this->_filemtime('common/js/xml2json.js'), $result[1]['file']);
+			$this->assertEquals(1, count($result));
+			$this->assertEquals('/rhymix/common/js/xml2json.js' . $this->_filemtime('common/js/xml2json.js'), $result[0]['file']);
 		});
 	}
 }
