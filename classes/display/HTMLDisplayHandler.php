@@ -20,7 +20,7 @@ class HTMLDisplayHandler
 	 */
 	public static $blockedScripts = array(
 		'@\bcommon/(?:css|js)/xe(?:\.min)?\.(?:css|js)$@',
-		'@\bj[Qq]uery(?:-[0-9]+(?:\.[0-9x]+)*)?(?:\.min)?\.js$@',
+		'@(?:^|/)j[Qq]uery(?:-[0-9]+(?:\.[0-9x]+)*)?(?:\.min)?\.js$@',
 	);
 
 	/**
