@@ -1,0 +1,45 @@
+<include target="./common_header.html" />
+<section class="prn-body">
+	<h1>{$member_title = lang('member.cmd_view_own_document')}</h1>
+	<div class="rx_member-notice">
+		{lang('common.total')}: {number_format($total_count)}
+	</div>
+	<div>
+		<ul class="rx_sw_list">
+			<li loop="$document_list => $key, $item">
+				<a href="{getUrl('','document_srl',$item->document_srl)}" class="cont_a no_delete" onclick="window.open(this.href);return false;">
+					<span class="content_basic">
+						<span class="content_title">
+							{escape($item->getTitle())}
+						</span>
+						<span class="content_subinfo">
+							{$item->getRegdate("Y-m-d")}
+							<!--@if($item->getCommentCount())-->
+								[{$item->getCommentCount()}]
+							<!--@end-->
+							<!--@if($item->get('voted_count'))-->
+								[{$item->get('voted_count')}]
+							<!--@end-->
+						</span>
+					</span>
+				</a>
+			</li>
+		</ul>
+	</div>
+</section>
+<div class="pagination pagination-centered">
+	<ul>
+		{@$rx_prn = FALSE}
+		<!--@while($page_no = $page_navigation->getNextPage())-->
+		<li cond="$rx_prn === FALSE && ($page_no - 1) > 0"><a href="{getUrl('page', ($page_no - 1),'module_srl','')}" class="direction">&lsaquo;</a></li>
+		{@$rx_prn = $page_no}
+		<li class="active"|cond="$page == $page_no"><a href="{getUrl('page',$page_no,'module_srl','')}">{$page_no}</a></li>
+		<!--@end-->
+		<li cond="$page_navigation->last_page > $rx_prn && $rx_prn > 0"><a href="{getUrl('page', ($rx_prn + 1),'module_srl','')}" class="direction">&rsaquo;</a></li>
+	</ul>
+</div>
+<div class="prn-footer prn-anchor-buttons">
+	<a href="{getUrl('','module','module','act','dispModuleSelectList','id','target_module','type','single')}" onclick="popopen(this.href,'ModuleSelect');return false;">{lang('module.cmd_find_module')}...</a>
+	<a href="{getUrl('selected_module_srl','')}" cond="$selected_module_srl">{lang('common.cmd_cancel')}</a>
+</div>
+<include target="./common_footer.html" />

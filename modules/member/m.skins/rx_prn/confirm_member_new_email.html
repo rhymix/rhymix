@@ -1,0 +1,19 @@
+<section style="font-size: 14px;margin: 8px 0px;padding: 0 15px;">
+	<section style="box-sizing:border-box;background-color:#ffffff;margin: 0 0 20px;border: 1px solid #e0e0e0;">
+		<h1 style="border-bottom: 1px solid #e0e0e0;margin: 0;padding: 20px;">{lang('member.msg_confirm_account_info')}</h1>
+		<dl style="border: 0 none;margin: 0;padding: 20px;">
+			<dt style="border: 0 none;font-weight: bold;box-sizing: border-box;display: block;margin: 10px 0 0;min-height: 25px;position: relative;width: 100%;">{lang('member.site')}</dt>
+			<dd style="border-bottom: 1px solid #e0e0e0;list-style: outside none none;box-sizing: border-box;display: block;margin: 10px 0 0;min-height: 25px;position: relative;width: 100%;">
+				<a href="{getUrl()}" target="_blank" style="color: #2196f3;text-decoration: none;">{getUrl()}</a>
+			</dd>
+			<block loop="$memberInfo=>$name,$value" cond="!is_object($value)&&!is_array($value)">
+				<dt style="border: 0 none;font-weight: bold;box-sizing: border-box;display: block;margin: 10px 0 0;min-height: 25px;position: relative;width: 100%;">{lang($name)}</dt>
+				<dl style="border-bottom: 1px solid #e0e0e0;list-style: outside none none;box-sizing: border-box;display: block;margin: 10px 0 0;min-height: 25px;position: relative;width: 100%;">{$value}</dl>
+			</block>
+		</dl>
+		<p style="border: 0 none;margin: 0;padding: 20px;">
+			{sprintf($lang->msg_confirm_email_address_change, $newEmail)}<br />
+			<a href="{$auth_url}" target="_blank" style="color: #2196f3;text-decoration: none;">{$auth_url}</a>
+		</p>
+	</section>
+</section>

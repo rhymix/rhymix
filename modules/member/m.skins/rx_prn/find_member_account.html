@@ -1,0 +1,86 @@
+<include target="./common_header.html" />
+<section class="prn-body">
+	<h1>{lang('member.cmd_find_member_account_with_email')}</h1>
+	<div cond="$XE_VALIDATOR_MESSAGE && $XE_VALIDATOR_ID == 'modules/member/skin/rx_prn/find_member_account/1'" class="rx_member-notice {$XE_VALIDATOR_MESSAGE_TYPE}">
+		<p>{$XE_VALIDATOR_MESSAGE}</p>
+	</div>
+	<p class="rx_member-notice">{lang('member.about_find_member_account')}</p>
+	<form action="{getUrl('', 'act', 'procMemberFindAccount')}" method="get" ruleset="findAccount">
+		<input type="hidden" name="mid" value="{$mid}" />
+		<input type="hidden" name="act" value="procMemberFindAccount" />
+		<input type="hidden" name="document_srl" value="{$document_srl}" />
+		<input type="hidden" name="page" value="{$page}" />
+		<input type="hidden" name="xe_validator_id" value="modules/member/skin/rx_prn/find_member_account/1" />
+		<div class="control-group">
+			<label for="uid">
+				{lang('common.email_address')}
+			</label>
+			<input type="email" name="email_address" id="uid" required title="{lang('common.email_address')}" />
+			<block cond="$captcha">{$captcha}<br /></block>
+			<input type="submit" value="{lang('member.cmd_find_member_account')}" />
+		</div>
+	</form>
+</section>
+<section class="prn-body" cond="count(lang('member.find_account_question_items'))>1 && $enable_find_account_question == 'Y'">
+	<h1>{$lang->cmd_find_member_account_with_email_question}</h1>
+	<div cond="$XE_VALIDATOR_MESSAGE && $XE_VALIDATOR_ID == 'modules/member/skin/rx_prn/find_member_account/2'" class="rx_member-notice {$XE_VALIDATOR_MESSAGE_TYPE}">
+		<p>{$XE_VALIDATOR_MESSAGE}</p>
+	</div>
+	<p class="rx_member-notice">{lang('member.about_find_account_question')}</p>
+	<form action="{getUrl('', 'act', 'procMemberFindAccountByQuestion')}" method="get" ruleset="@find_member_account_by_question">
+		<input type="hidden" name="module" value="member" />
+		<input type="hidden" name="mid" value="{$mid}" />
+		<input type="hidden" name="document_srl" value="{$document_srl}" />	
+		<input type="hidden" name="act" value="procMemberFindAccountByQuestion" />
+		<input type="hidden" name="success_return_url" value="{getUrl('', 'act', 'dispMemberGetTempPassword')}" />
+		<input type="hidden" name="page" value="{$page}" />
+		<input type="hidden" name="xe_validator_id" value="modules/member/skin/rx_prn/find_member_account/2" />
+		<div class="control-group">
+			<label for="user_id" cond="$identifier == 'user_id'">
+				{lang('common.user_id')}
+			</label>
+			<input type="text" name="user_id" id="user_id" required title="{lang('common.user_id')}" cond="$identifier == 'user_id'" />
+			<label for="email_address2">
+				{lang('common.email_address')}
+			</label>
+			<input type="email" name="email_address" id="email_address2" required title="{lang('common.email_address')}" />
+			<label for="find_account_question">
+				{lang('member.find_account_question')}
+			</label>
+			<select name="find_account_question" id="find_account_question">
+			<!--@for($i=1,$c=count(lang('member.find_account_question_items'));$i<=$c;$i++)-->
+				<option value="{$i}">{lang('member.find_account_question_items')[$i]}</option>
+			<!--@end-->
+			</select>
+		</div>
+		<div class="control-group">
+			<input type="text" name="find_account_answer" value="" required title="{lang('member.find_account_question')}" />
+		</div>
+		<div class="control-group">
+			<block cond="$captcha">{$captcha}<br /></block>
+			<input type="submit" value="{lang('member.cmd_get_temp_password')}" />
+		</div>
+	</form>
+</section>
+<section class="prn-body">
+	<h1>{lang('member.cmd_resend_auth_mail')}</h1>
+	<div cond="$XE_VALIDATOR_MESSAGE && $XE_VALIDATOR_ID == 'modules/member/skin/rx_prn/find_member_account/3'" class="rx_member-notice {$XE_VALIDATOR_MESSAGE_TYPE}">
+		<p>{$XE_VALIDATOR_MESSAGE}</p>
+	</div>
+	<p class="rx_member-notice">{lang('member.about_resend_auth_mail')}</p>
+	<form ruleset="resendAuthMail" action="{getUrl('', 'act', 'procMemberResendAuthMail')}" method="post">
+		<input type="hidden" name="module" value="member" />
+		<input type="hidden" name="act" value="procMemberResendAuthMail" />
+		<input type="hidden" name="success_return_url" value="{getUrl(act, $act)}" />
+		<input type="hidden" name="xe_validator_id" value="modules/member/skin/rx_prn/find_member_account/3" />
+		<div class="control-group">
+			<label for="email_address3">
+				{lang('common.email_address')}
+			</label>
+			<input type="email" id="email_address3" name="email_address" value="" required title="{lang('common.email_address')}" /><br />
+			<block cond="$captcha">{$captcha}<br /></block>
+			<input type="submit" value="{lang('member.cmd_resend_auth_mail')}" />
+		</div>
+	</form>
+</section>
+<include target="./common_footer.html" />

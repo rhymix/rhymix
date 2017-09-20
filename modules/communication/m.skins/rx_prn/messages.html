@@ -1,0 +1,84 @@
+<include target="./common_header.html" />
+<load target="filter/delete_checked_message.xml" />
+<load target="filter/update_allow_message.xml" />
+<div class="prn-narrow">
+	<section class="prn-body" cond="$message">
+		<h1>{escape($message->title)}</h1>
+		<div>
+			<a href="popup_menu_area" class="member_{$message->member_srl}">{$message->nick_name}</a> / {zdate($message->regdate, "Y-m-d H:i")}
+		</div>
+		<div class="xe_content">
+			{$message->content}
+		</div>
+		<div class="prn-anchor-buttons">
+			<a cond="$message->message_type != 'S' && $message->member_srl != $logged_info->member_srl" href="#" onclick="doSendMessage('{$message->sender_srl}','{$message->message_srl}');">{$lang->cmd_reply_message}</a>
+			<a cond="$message->message_type == 'R'" href="#" onclick="doStoreMessage('{$message->message_srl}');">{$lang->cmd_store}</a>
+			<a href="#" onclick="doDeleteMessage('{$message->message_srl}');">{$lang->cmd_delete}</a>
+		</div>
+	</section>
+	<section class="prn-body">
+		<h1 loop="$lang->message_box => $key,$val" cond="$message_type == $key">{$val}</h1>
+
+		<div class="prn-footer prn-anchor-buttons prn-headers" cond="$message_type == 'R'">
+			<form action="./" method="POST" class="pos-left">
+				<input type="hidden" name="module" value="communication" />
+				<input type="hidden" name="act" value="procCommunicationUpdateAllowMessage" />
+				<input type="hidden" name="message_type" value="{$message_type}" />
+				
+				<div class="control-group">
+					<select name="allow_message">
+						<option loop="$lang->allow_message_type => $key,$val" value="{$key}" selected="selected"|cond="$logged_info->allow_message==$key">{$val}</option>
+					</select>
+					<input type="submit" value="{$lang->cmd_save}">
+				</div>
+			</form>
+			<div style="clear:both"></div>
+		</div>
+
+		<form action="./" method="post" id="fo_message_list">
+			<input type="hidden" name="module" value="communication" />
+			<input type="hidden" name="act" value="procCommunicationDeleteMessages" />
+			<input type="hidden" name="message_type" value="{$message_type}" />
+
+			<ul class="rx_sw_list">
+				<li loop="$message_list => $key, $val">
+					<a href="{getUrl('message_srl',$val->message_srl)}" class="cont_a">
+						<span class="content_basic">
+							<span class="content_title">
+								{escape($val->title)}
+							</span>
+							<span class="content_subinfo">
+								{escape($val->nick_name)} / {zdate($val->regdate,"Y-m-d H:i")}<block cond="$val->readed=='Y'"> / {zdate($val->readed_date,"Y-m-d H:i")}</block>
+							</span>
+						</span>
+					</a>
+					<span class="content_delete">
+						<input name="message_srl_list[]" type="checkbox" value="{$val->message_srl}" />
+					</span>
+				</li>
+			</ul>
+			<div class="prn-anchor-buttons">
+				<label for="check_all">
+					{$lang->cmd_select_all}
+					<input name="check_all" id="check_all" type="checkbox" onclick="XE.checkboxToggleAll('message_srl_list[]', {wrap:'fo_message_list'})"/>
+				</label>
+				<input type="submit" value="{$lang->cmd_delete}" />
+			</div>
+		</form>
+		<div class="prn-anchor-buttons">
+			<a loop="$lang->message_box => $key,$val"  href="{getUrl('message_type', $key, 'message_srl', '')}" class="active"|cond="$message_type == $key">{$val}</a>
+		</div>
+	</section>
+</div>
+<div class="pagination pagination-centered">
+	<ul>
+		{@$rx_prn = FALSE}
+		<!--@while($page_no = $page_navigation->getNextPage())-->
+		<li cond="$rx_prn === FALSE && ($page_no - 1) > 0"><a href="{getUrl('page', ($page_no - 1),'module_srl','')}" class="direction">&lsaquo;</a></li>
+		{@$rx_prn = $page_no}
+		<li class="active"|cond="$page == $page_no"><a href="{getUrl('page',$page_no,'module_srl','')}">{$page_no}</a></li>
+		<!--@end-->
+		<li cond="$page_navigation->last_page > $rx_prn && $rx_prn > 0"><a href="{getUrl('page', ($rx_prn + 1),'module_srl','')}" class="direction">&rsaquo;</a></li>
+	</ul>
+</div>
+<include target="./common_footer.html" />

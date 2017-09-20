@@ -1,0 +1,16 @@
+<include target="./common_header.html" />
+<div class="prn-narrow">
+	<section class="prn-body">
+		<h1>{lang('member.cmd_logout')}</h1>
+		<p class="rx_member-notice">{lang('common.confirm_logout')}</p>
+		<form action="./" method="post">
+			<input type="hidden" name="mid" value="{$mid}" />
+			<input type="hidden" name="module" value="member" />
+			<input type="hidden" name="act" value="procMemberLogout" />
+			<div class="control-group">
+				<input type="submit" value="{lang('member.cmd_logout')}" />
+			</div>
+		</form>
+	</section>
+</div>
+<include target="./common_footer.html" />

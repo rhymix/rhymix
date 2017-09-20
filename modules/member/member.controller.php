@@ -974,6 +974,7 @@ class memberController extends member
 			$profile_image = $oMemberModel->getProfileImage($member_srl);
 			FileHandler::removeFile($profile_image->file);
 			Rhymix\Framework\Storage::deleteEmptyDirectory(dirname(FileHandler::getRealPath($profile_image->file)), true);
+			$this->_clearMemberCache($member_srl);
 		}
 		return new Object(0,'success');
 	}

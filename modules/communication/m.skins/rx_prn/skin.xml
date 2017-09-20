@@ -1,0 +1,108 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<skin version="0.2">
+	<title xml:lang="ko">필요할 때 라이믹스</title>
+	<title xml:lang="en">Rhymix PRN</title>
+	<description xml:lang="ko">필요할 때 꺼내보는 라이믹스. 캡슐 모양의 둥근 라이믹스 커뮤니케이션 모듈 스킨입니다.</description>
+	<description xml:lang="en">You need Rhymix. A skin of the communication module of Rhymix with round, capsule-like shapes.</description>
+	<version>0.1</version>
+	<date>2017-08-09</date>
+
+	<author email_address="misol.kr@gmail.com" link="https://github.com/misol">
+		<name xml:lang="ko">misol</name>
+		<name xml:lang="en">misol</name>
+	</author>
+	<author email_address="mely4506@naver.com" link="https://github.com/mothercat">
+		<name xml:lang="ko">마더캣</name>
+		<name xml:lang="en">Mothercat</name>
+	</author>
+	<colorset>
+		<color name="theme">
+			<title xml:lang="ko">사이트 테마 색</title>
+			<title xml:lang="en">The site theme color</title>
+		</color>
+		<color name="red">
+			<title xml:lang="ko">붉은 색</title>
+			<title xml:lang="en">Red</title>
+		</color>
+		<color name="crimson">
+			<title xml:lang="ko">크림슨</title>
+			<title xml:lang="en">Crimson</title>
+		</color>
+		<color name="pink">
+			<title xml:lang="ko">분홍</title>
+			<title xml:lang="en">Pink</title>
+		</color>
+		<color name="purple">
+			<title xml:lang="ko">보라</title>
+			<title xml:lang="en">Purple</title>
+		</color>
+		<color name="deep-purple">
+			<title xml:lang="ko">진보라</title>
+			<title xml:lang="en">Deep Purple</title>
+		</color>
+		<color name="indigo">
+			<title xml:lang="ko">인디고</title>
+			<title xml:lang="en">Indigo</title>
+		</color>
+		<color name="deep-blue">
+			<title xml:lang="ko">짙은 파랑</title>
+			<title xml:lang="en">Deep Blue</title>
+		</color>
+		<color name="blue">
+			<title xml:lang="ko">파랑</title>
+			<title xml:lang="en">Blue</title>
+		</color>
+		<color name="light-blue">
+			<title xml:lang="ko">밝은 파랑</title>
+			<title xml:lang="en">Light Blue</title>
+		</color>
+		<color name="cyan">
+			<title xml:lang="ko">시안</title>
+			<title xml:lang="en">Cyan</title>
+		</color>
+		<color name="teal">
+			<title xml:lang="ko">틸</title>
+			<title xml:lang="en">Teal</title>
+		</color>
+		<color name="green">
+			<title xml:lang="ko">초록</title>
+			<title xml:lang="en">Green</title>
+		</color>
+		<color name="light-green">
+			<title xml:lang="ko">연한 초록</title>
+			<title xml:lang="en">Light Green</title>
+		</color>
+		<color name="lime">
+			<title xml:lang="ko">라임</title>
+			<title xml:lang="en">Lime</title>
+		</color>
+		<color name="yellow">
+			<title xml:lang="ko">노랑</title>
+			<title xml:lang="en">Yellow</title>
+		</color>
+		<color name="amber">
+			<title xml:lang="ko">앰버</title>
+			<title xml:lang="en">Amber</title>
+		</color>
+		<color name="orange">
+			<title xml:lang="ko">주황</title>
+			<title xml:lang="en">Orange</title>
+		</color>
+		<color name="deep-orange">
+			<title xml:lang="ko">진한 주황</title>
+			<title xml:lang="en">Deep Orange</title>
+		</color>
+		<color name="brown">
+			<title xml:lang="ko">갈색</title>
+			<title xml:lang="en">Brown</title>
+		</color>
+		<color name="grey">
+			<title xml:lang="ko">회색</title>
+			<title xml:lang="en">Grey</title>
+		</color>
+		<color name="blue-grey">
+			<title xml:lang="ko">푸른 회색</title>
+			<title xml:lang="en">Blue Grey</title>
+		</color>
+	</colorset>
+</skin>
