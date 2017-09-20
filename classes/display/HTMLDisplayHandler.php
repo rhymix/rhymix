@@ -19,7 +19,6 @@ class HTMLDisplayHandler
 	 * List of scripts to block loading
 	 */
 	public static $blockedScripts = array(
-		'@\bcommon/(?:css|js)/xe(?:\.min)?\.(?:css|js)$@',
 		'@(?:^|/)j[Qq]uery(?:-[0-9]+(?:\.[0-9x]+)*)?(?:\.min)?\.js$@',
 	);
 
