@@ -141,8 +141,8 @@ class rssView extends rss
 				$args->page = $page > 0 ? $page : 1;
 				$args->module_srl = implode(',', array_keys($target_modules));
 				$args->list_count = $config->feed_document_count;
-				$args->sort_index = 'list_order'; 
-				$args->order_type = 'asc';
+				$args->sort_index = 'regdate';
+				$args->order_type = 'desc';
 				$document_list = getModel('document')->getDocumentList($args)->data;
 			}
 			Context::set('document_list', $document_list);
