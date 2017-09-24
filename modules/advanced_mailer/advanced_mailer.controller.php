@@ -15,13 +15,17 @@ class Advanced_MailerController extends Advanced_Mailer
 	{
 		$config = $this->getConfig();
 		
-		$first_recipient = array_first_key($mail->message->getTo());
-		if ($exception_driver = $this->getSendingMethodForEmailAddress($first_recipient, $config))
+		$recipients = $mail->message->getTo() ?: array();
+		if ($recipients)
 		{
-			$driver_class = '\\Rhymix\\Framework\\Drivers\Mail\\' . $exception_driver;
-			if (class_exists($driver_class))
+			$first_recipient = array_first_key($recipients);
+			if ($exception_driver = $this->getSendingMethodForEmailAddress($first_recipient, $config))
 			{
-				$mail->driver = $driver_class::getInstance(config("mail.$exception_driver"));
+				$driver_class = '\\Rhymix\\Framework\\Drivers\Mail\\' . $exception_driver;
+				if (class_exists($driver_class))
+				{
+					$mail->driver = $driver_class::getInstance(config("mail.$exception_driver"));
+				}
 			}
 		}
 		
@@ -41,8 +45,9 @@ class Advanced_MailerController extends Advanced_Mailer
 			}
 			else
 			{
-				$original_sender_email = array_first_key($mail->message->getFrom());
-				$original_sender_name = array_first($mail->message->getFrom());
+				$sender = $mail->message->getFrom();
+				$original_sender_email = $sender ? array_first_key($sender) : null;
+				$original_sender_name = $sender ? array_first($sender) : null;
 				if ($original_sender_email !== config('mail.default_from'))
 				{
 					$mail->setFrom(config('mail.default_from'), $original_sender_name ?: config('mail.default_name'));
