@@ -1,0 +1,80 @@
+<include target="./common_header.html" />
+<load target="filter/delete_friend_group.xml" />
+<load target="filter/move_friend.xml" />
+<div class="prn-narrow">
+	<section class="prn-body">
+		<h1>{$member_title = $lang->cmd_view_friend}</h1>
+		<div class="rx_prn-notice">{lang('common.total')}: {number_format($total_count)}</div>
+		<div cond="$XE_VALIDATOR_MESSAGE && $XE_VALIDATOR_ID == 'modules/communication/skins/rx_prn/frineds/1'" class="rx_prn-notice {$XE_VALIDATOR_MESSAGE_TYPE}">
+			<p>{$XE_VALIDATOR_MESSAGE}</p>
+		</div>
+		<div>
+			<form action="./" method="get" class="pos-left">
+				<input type="hidden" name="act" value="dispCommunicationFriend" />
+				<input type="hidden" name="message_type" value="{$message_type}" />
+				<input type="hidden" name="mid" value="{$mid}" />
+				<div class="control-group">
+					<select name="friend_group_srl" id="jumpMenu">
+						<option value="">{$lang->default_friend_group}</option>
+						<option loop="$friend_group_list => $key,$val" value="{$val->friend_group_srl}" selected="selected"|cond="$val->friend_group_srl == $friend_group_srl">{$val->title}</option>
+					</select>
+					<input type="submit" value="{$lang->cmd_view_selected_frend_group}">
+				</div>
+			</form>
+		</div>
+		<form ruleset="deleteCheckedFriend" id="fo_friend_list" action="./" method="post">
+			<input type="hidden" name="module" value="communication" />
+			<input type="hidden" name="act" value="procCommunicationDeleteFriend" />
+			<input type="hidden" name="xe_validator_id" value="modules/communication/skins/rx_prn/frineds/1" />
+			<ul class="rx_sw_list">
+				<li loop="$friend_list => $no,$val">
+					<a href="#popup_menu_area" class="cont_a member_{$val->target_srl}">
+						<span class="content_basic member_{$val->target_srl}">
+							<span class="content_title member_{$val->target_srl}">
+								{escape($val->nick_name)}
+							</span>
+							<span class="content_subinfo member_{$val->target_srl}">
+								{escape($val->group_title?$val->group_title:$lang->default_friend_group)} / {zdate($val->regdate,"Y-m-d H:i")}
+							</span>
+						</span>
+					</a>
+					<span class="content_delete">
+						<input name="friend_srl_list[]" type="checkbox" value="{$val->friend_srl}" />
+					</span>
+				</li>
+			</ul>
+			<div class="prn-anchor-buttons">
+				<label for="check_all">
+					{$lang->cmd_select_all}
+					<input name="check_all" id="check_all" type="checkbox" onclick="XE.checkboxToggleAll('friend_srl_list[]', {wrap:'fo_friend_list'})"/>
+				</label>
+				<button type="submit" name="act" value="procCommunicationDeleteFriend">{$lang->cmd_delete}</button>
+			</div>
+			<div class="prn-anchor-buttons">
+				<select name="target_friend_group_srl" id="target_friend_group_srl" cond="count($friend_group_list)" style="margin:0">
+					<option loop="$friend_group_list => $key,$val" value="{$val->friend_group_srl}">{$val->title}</option>
+				</select>
+				<button type="submit" name="act" cond="count($friend_group_list)" value="procCommunicationMoveFriend">{$lang->cmd_move}</button>
+				<button type="button" value="{getUrl('','module','communication','act','dispCommunicationAddFriendGroup')}" onclick="popopen(this.value);return false;">{$lang->cmd_add_friend_group}...</button>
+				<button type="button" cond="count($friend_group_list)" onclick="doRenameFriendGroup();return false;">{$lang->cmd_rename_friend_group}...</button>
+				<button type="button" cond="count($friend_group_list)" onclick="doDeleteFriendGroup();return false;">{$lang->cmd_delete_friend_group}</button>
+			</div>
+		</form>
+	</section>
+</div>
+<div class="pagination pagination-centered">
+	<ul>
+		{@$rx_prn = FALSE}
+		<!--@while($page_no = $page_navigation->getNextPage())-->
+		<li cond="$rx_prn === FALSE && ($page_no - 1) > 0"><a href="{getUrl('page', ($page_no - 1),'module_srl','')}" class="direction">&lsaquo;</a></li>
+		{@$rx_prn = $page_no}
+		<li class="active"|cond="$page == $page_no"><a href="{getUrl('page',$page_no,'module_srl','')}">{$page_no}</a></li>
+		<!--@end-->
+		<li cond="$page_navigation->last_page > $rx_prn && $rx_prn > 0"><a href="{getUrl('page', ($rx_prn + 1),'module_srl','')}" class="direction">&rsaquo;</a></li>
+	</ul>
+</div>
+<form action="./" method="get" id="for_delete_group">
+	<input type="hidden" name="friend_group_srl" value="" />
+	<input type="hidden" name="xe_validator_id" value="modules/communication/skins/rx_prn/frineds/1" />
+</form>
+<include target="./common_footer.html" />

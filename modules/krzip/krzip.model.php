@@ -54,7 +54,7 @@ class krzipModel extends krzip
 		$output = array('', trim(preg_replace('/\s+/', ' ', $values)), '', '', '');
 
 		/* 우편번호 */
-		if(preg_match('/\(?([0-9]{3}-[0-9]{3})\)?/', $output[1], $matches))
+		if(preg_match('/\(?([0-9]{3}-[0-9]{3}|^[0-9]{5})\)?/', $output[1], $matches))
 		{
 			$output[1] = trim(preg_replace('/\s+/', ' ', str_replace($matches[0], '', $output[1])));
 			$output[0] = $matches[1];

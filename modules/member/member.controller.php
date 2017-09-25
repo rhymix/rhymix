@@ -120,32 +120,45 @@ class memberController extends member
 	 */
 	function procMemberScrapDocument()
 	{
-		$oModuleModel = &getModel('module');
-
-		// Check login information
-		if(!Context::get('is_logged')) return new Object(-1, 'msg_not_logged');
-		$logged_info = Context::get('logged_info');
-
-		$document_srl = (int)Context::get('document_srl');
-		if(!$document_srl) $document_srl = (int)Context::get('target_srl');
-		if(!$document_srl) return new Object(-1,'msg_invalid_request');
-
-		// Get document
+		$document_srl = (int) (Context::get('document_srl') ?: Context::get('target_srl'));
+		if(!$document_srl)
+		{
+			return new Object(-1,'msg_invalid_request');
+		}
+		
 		$oDocumentModel = getModel('document');
 		$oDocument = $oDocumentModel->getDocument($document_srl);
-
+		
+		// Check document
 		if($oDocument->isSecret() && !$oDocument->isGranted())
 		{
 			return new Object(-1, 'msg_is_secret');
 		}
-
-		// 모듈 권한 확인
-		$grant = $oModuleModel->getGrant($oModuleModel->getModuleInfoByModuleSrl($oDocument->get('module_srl')), $logged_info);
+		
+		$oModuleModel = getModel('module');
+		$module_info = $oModuleModel->getModuleInfoByModuleSrl($oDocument->get('module_srl'));
+		
+		$logged_info = Context::get('logged_info');
+		$grant = $oModuleModel->getGrant($module_info, $logged_info);
+		
+		// Check access to module of the document
 		if(!$grant->access)
 		{
 			return new Object(-1, 'msg_not_permitted');
 		}
-
+		
+		// Check grant to module of the document
+		if(isset($grant->list) && isset($grant->view) && (!$grant->list || !$grant->view))
+		{
+			return new Object(-1, 'msg_not_permitted');
+		}
+		
+		// Check consultation option
+		if(isset($grant->consultation_read) && $module_info->consultation == 'Y' && !$grant->consultation_read && !$oDocument->isGranted())
+		{
+			return new Object(-1, 'msg_not_permitted');
+		}
+		
 		// Variables
 		$args = new stdClass();
 		$args->document_srl = $document_srl;
@@ -155,15 +168,18 @@ class memberController extends member
 		$args->nick_name = $oDocument->get('nick_name');
 		$args->target_member_srl = $oDocument->get('member_srl');
 		$args->title = $oDocument->get('title');
-
+		
 		// Check if already scrapped
 		$output = executeQuery('member.getScrapDocument', $args);
-		if($output->data->count) return new Object(-1, 'msg_alreay_scrapped');
-
+		if($output->data->count)
+		{
+			return new Object(-1, 'msg_alreay_scrapped');
+		}
+		
 		// Insert
 		$output = executeQuery('member.addScrapDocument', $args);
 		if(!$output->toBool()) return $output;
-
+		
 		$this->setError(-1);
 		$this->setMessage('success_registed');
 	}
@@ -646,8 +662,8 @@ class memberController extends member
 		if(!$args->birthday && $args->birthday_ui)
 		{
 			$args->birthday = intval(strtr($args->birthday_ui, array('-'=>'', '/'=>'', '.'=>'', ' '=>'')));
-		} 
-		
+		}
+
 		// Remove some unnecessary variables from all the vars
 		$all_args = Context::getRequestVars();
 		unset($all_args->module);
@@ -958,6 +974,7 @@ class memberController extends member
 			$profile_image = $oMemberModel->getProfileImage($member_srl);
 			FileHandler::removeFile($profile_image->file);
 			Rhymix\Framework\Storage::deleteEmptyDirectory(dirname(FileHandler::getRealPath($profile_image->file)), true);
+			$this->_clearMemberCache($member_srl);
 		}
 		return new Object(0,'success');
 	}
@@ -1184,46 +1201,74 @@ class memberController extends member
 		{
 			return new Object(-1, 'msg_question_not_allowed');
 		}
-
+		
 		$email_address = Context::get('email_address');
 		$user_id = Context::get('user_id');
 		$find_account_question = trim(Context::get('find_account_question'));
 		$find_account_answer = trim(Context::get('find_account_answer'));
-
-		if(($config->identifier == 'user_id' && !$user_id) || !$email_address || !$find_account_question || !$find_account_answer) return new Object(-1, 'msg_invalid_request');
-
+		if(($config->identifier == 'user_id' && !$user_id) || !$email_address || !$find_account_question || !$find_account_answer)
+		{
+			return new Object(-1, 'msg_invalid_request');
+		}
+		
 		$oModuleModel = getModel('module');
 		// Check if a member having the same email address exists
 		$member_srl = $oMemberModel->getMemberSrlByEmailAddress($email_address);
 		if(!$member_srl) return new Object(-1, 'msg_email_not_exists');
+		
 		// Get information of the member
 		$columnList = array('member_srl', 'find_account_question', 'find_account_answer');
 		$member_info = $oMemberModel->getMemberInfoByMemberSrl($member_srl, 0, $columnList);
-
+		
 		// Display a message if no answer is entered
-		if(!$member_info->find_account_question || !$member_info->find_account_answer) return new Object(-1, 'msg_question_not_exists');
-
-		if(trim($member_info->find_account_question) != $find_account_question || trim($member_info->find_account_answer) != $find_account_answer) return new Object(-1, 'msg_answer_not_matches');
-
+		if(!$member_info->find_account_question || !$member_info->find_account_answer)
+		{
+			return new Object(-1, 'msg_question_not_exists');
+		}
+		
+		// Check question
+		if(trim($member_info->find_account_question) != $find_account_question)
+		{
+			return new Object(-1, 'msg_answer_not_matches');
+		}
+		
+		// Check answer
+		if(Rhymix\Framework\Password::checkAlgorithm($member_info->find_account_answer))
+		{
+			if(!Rhymix\Framework\Password::checkPassword($find_account_answer, $member_info->find_account_answer))
+			{
+				return new Object(-1, 'msg_answer_not_matches');
+			}
+		}
+		else
+		{
+			if($member_info->find_account_answer != $find_account_answer)
+			{
+				return new Object(-1, 'msg_answer_not_matches');
+			}
+			
+			// update to encrypted answer
+			$this->updateFindAccountAnswer($member_srl, $find_account_answer);
+		}
+		
 		if($config->identifier == 'email_address')
 		{
 			$user_id = $email_address;
 		}
-
+		
 		// Update to a temporary password and set change_password_date to 1
 		$temp_password = Rhymix\Framework\Password::getRandomPassword(8);
-
+		
 		$args = new stdClass();
 		$args->member_srl = $member_srl;
 		$args->password = $temp_password;
 		$args->change_password_date = '1';
 		$output = $this->updateMemberPassword($args);
 		if(!$output->toBool()) return $output;
-
+		
 		$_SESSION['xe_temp_password_' . $user_id] = $temp_password;
-
-		$this->add('user_id',$user_id);
-
+		$this->add('user_id', $user_id);
+		
 		$returnUrl = Context::get('success_return_url') ? Context::get('success_return_url') : getNotEncodedUrl('', 'mid', Context::get('mid'), 'act', '');
 		$this->setRedirectUrl($returnUrl.'&user_id='.$user_id);
 	}
@@ -2145,10 +2190,10 @@ class memberController extends member
 				}
 			}
 		}
-
+		
 		// Create a model object
 		$oMemberModel = getModel('member');
-
+		
 		// Check password strength
 		if($args->password && !$password_is_hashed)
 		{
@@ -2159,11 +2204,12 @@ class memberController extends member
 			}
 			$args->password = $oMemberModel->hashPassword($args->password);
 		}
-		elseif(!$args->password)
+		
+		if($args->find_account_answer && !$password_is_hashed)
 		{
-			unset($args->password);
+			$args->find_account_answer = $oMemberModel->hashPassword($args->find_account_answer);
 		}
-
+		
 		// Check if ID is prohibited
 		if($logged_info->is_admin !== 'Y' && $oMemberModel->isDeniedID($args->user_id))
 		{
@@ -2481,7 +2527,23 @@ class memberController extends member
 		{
 			$args->password = $orgMemberInfo->password;
 		}
-		
+
+		if($args->find_account_answer)
+		{
+			$args->find_account_answer = $oMemberModel->hashPassword($args->find_account_answer);
+		}
+		else if($orgMemberInfo->find_account_answer && Context::get('modify_find_account_answer') != 'Y')
+		{
+			if(Rhymix\Framework\Password::checkAlgorithm($orgMemberInfo->find_account_answer))
+			{
+				$args->find_account_answer = $orgMemberInfo->find_account_answer;
+			}
+			else
+			{
+				$args->find_account_answer = $oMemberModel->hashPassword($orgMemberInfo->find_account_answer);
+			}
+		}
+
 		if(!$args->user_name) $args->user_name = $orgMemberInfo->user_name;
 		if(!$args->user_id) $args->user_id = $orgMemberInfo->user_id;
 		if(!$args->nick_name) $args->nick_name = $orgMemberInfo->nick_name;
@@ -2584,6 +2646,14 @@ class memberController extends member
 		$this->_clearMemberCache($args->member_srl);
 
 		return $output;
+	}
+
+	function updateFindAccountAnswer($member_srl, $answer)
+	{
+		$args = new stdClass();
+		$args->member_srl = $member_srl;
+		$args->find_account_answer = getModel('member')->hashPassword($answer);
+		$output = executeQuery('member.updateFindAccountAnswer', $args);
 	}
 
 	/**

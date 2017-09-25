@@ -725,10 +725,18 @@ class adminAdminController extends admin
 		{
 			if ($vars->object_cache_type === 'memcached' || $vars->object_cache_type === 'redis')
 			{
-				$cache_servers = array($vars->object_cache_type . '://' . $vars->object_cache_host . ':' . intval($vars->object_cache_port));
+				if (starts_with('/', $vars->object_cache_host))
+				{
+					$cache_servers = array($vars->object_cache_host);
+				}
+				else
+				{
+					$cache_servers = array($vars->object_cache_type . '://' . $vars->object_cache_host . ':' . intval($vars->object_cache_port));
+				}
+				
 				if ($vars->object_cache_type === 'redis')
 				{
-					$cache_servers[0] .= '/' . intval($vars->object_cache_dbnum);
+					$cache_servers[0] .= '#' . intval($vars->object_cache_dbnum);
 				}
 			}
 			else
@@ -753,6 +761,7 @@ class adminAdminController extends admin
 		// Thumbnail settings
 		$oDocumentModel = getModel('document');
 		$document_config = $oDocumentModel->getDocumentConfig();
+		$document_config->thumbnail_target = $vars->thumbnail_target ?: 'all';
 		$document_config->thumbnail_type = $vars->thumbnail_type ?: 'crop';
 		$oModuleController = getController('module');
 		$oModuleController->insertModuleConfig('document', $document_config);
@@ -1035,7 +1044,8 @@ class adminAdminController extends admin
 			return new Object(-1, 'msg_invalid_timezone');
 		}
 		
-		// Clean up the footer script.
+		// Clean up the header and footer scripts.
+		$vars->html_header = utf8_trim($vars->html_header);
 		$vars->html_footer = utf8_trim($vars->html_footer);
 		
 		// Merge all settings into an array.
@@ -1044,6 +1054,7 @@ class adminAdminController extends admin
 			'subtitle' => $vars->subtitle,
 			'language' => $vars->default_lang,
 			'timezone' => $vars->default_timezone,
+			'html_header' => $vars->html_header,
 			'html_footer' => $vars->html_footer,
 		);
 		

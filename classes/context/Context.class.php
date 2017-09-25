@@ -1637,9 +1637,15 @@ class Context
 				array_shift($args_list);
 			}
 		}
-		else
+		elseif ($_SERVER['REQUEST_METHOD'] === 'GET')
 		{
 			$get_vars = get_object_vars(self::$_instance->get_vars);
+		}
+		else
+		{
+			$preserve_vars = array('module', 'mid', 'act', 'page', 'document_srl', 'search_target', 'search_keyword');
+			$preserve_keys = array_combine($preserve_vars, array_fill(0, count($preserve_vars), true));
+			$get_vars = array_intersect_key(get_object_vars(self::$_instance->get_vars), $preserve_keys);
 		}
 		
 		// arrange args_list
@@ -1818,7 +1824,7 @@ class Context
 	 * Set a context value with a key
 	 *
 	 * @param string $key Key
-	 * @param string $val Value
+	 * @param mixed $val Value
 	 * @param mixed $set_to_get_vars If not FALSE, Set to get vars.
 	 * @return void
 	 */
@@ -1844,7 +1850,7 @@ class Context
 	 * Return key's value
 	 *
 	 * @param string $key Key
-	 * @return string Key
+	 * @return mixed
 	 */
 	public static function get($key)
 	{

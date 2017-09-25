@@ -18,4 +18,4 @@ $lang->about_feed_description = '발행될 피드에 대한 설명을 입력할 
 $lang->about_feed_copyright = '발행될 피드에 대한 저작권 정보를 입력할 수 있습니다. 입력하지 않으면 전체 피드 저작권 설정과 동일하게 적용됩니다.';
 $lang->about_feed_document_count = '피드 한 페이지에 공개되는 글 수. (기본 값 : 15)';
 $lang->msg_rss_is_disabled = '피드(Feed) 기능이 잠겨 있습니다.';
-$lang->msg_rss_invalid_image_format = '이미지의 형식이 잘못되었습니다.\\nJPEG, GIF, PNG 파일만 지원합니다.';
+$lang->msg_rss_invalid_image_format = '이미지의 형식이 잘못되었습니다. JPG, JPEG, GIF, PNG 파일만 지원합니다.';

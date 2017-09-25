@@ -32,20 +32,34 @@ class Redis implements \Rhymix\Framework\Drivers\CacheInterface
 			$this->_conn = null;
 			foreach ($config as $url)
 			{
-				$info = parse_url($url);
-				if (isset($info['host']) && isset($info['port']))
+				if (preg_match('!^(/.+)(#[0-9]+)?$!', $url, $matches))
 				{
 					$this->_conn = new \Redis;
-					$this->_conn->connect($info['host'], $info['port'], 0.15);
-					if(isset($info['user']) || isset($info['pass']))
-					{
-						$this->_conn->auth(isset($info['user']) ? $info['user'] : $info['pass']);
-					}
-					if(isset($info['path']) && $dbnum = intval(substr($info['path'], 1)))
-					{
-						$this->_conn->select($dbnum);
-					}
+					$this->_conn->connect($matches[1]);
+					$this->_conn->select($matches[2] ? substr($matches[2], 1) : 0);
 					break;
+				}
+				else
+				{
+					$info = parse_url($url);
+					if (isset($info['host']) && isset($info['port']))
+					{
+						$this->_conn = new \Redis;
+						$this->_conn->connect($info['host'], $info['port'], 0.15);
+						if(isset($info['user']) || isset($info['pass']))
+						{
+							$this->_conn->auth(isset($info['user']) ? $info['user'] : $info['pass']);
+						}
+						if(isset($info['fragment']) && $dbnum = intval($info['fragment']))
+						{
+							$this->_conn->select($dbnum);
+						}
+						elseif(isset($info['path']) && $dbnum = intval(substr($info['path'], 1)))
+						{
+							$this->_conn->select($dbnum);
+						}
+						break;
+					}
 				}
 			}
 		}
@@ -97,19 +111,33 @@ class Redis implements \Rhymix\Framework\Drivers\CacheInterface
 			$conn = new \Redis;
 			foreach ($config as $url)
 			{
-				$info = parse_url($url);
-				if (isset($info['host']) && isset($info['port']))
+				if (preg_match('!^(/.+)(#[0-9]+)?$!', $url, $matches))
 				{
-					$conn->connect($info['host'], $info['port'], 0.15);
-					if(isset($info['user']) || isset($info['pass']))
-					{
-						$conn->auth(isset($info['user']) ? $info['user'] : $info['pass']);
-					}
-					if(isset($info['path']) && $dbnum = intval(substr($info['path'], 1)))
-					{
-						$conn->select($dbnum);
-					}
+					$conn = new \Redis;
+					$conn->connect($matches[1]);
+					$conn->select($matches[2] ? substr($matches[2], 1) : 0);
 					return true;
+				}
+				else
+				{
+					$info = parse_url($url);
+					if (isset($info['host']) && isset($info['port']))
+					{
+						$conn->connect($info['host'], $info['port'], 0.15);
+						if(isset($info['user']) || isset($info['pass']))
+						{
+							$conn->auth(isset($info['user']) ? $info['user'] : $info['pass']);
+						}
+						if(isset($info['fragment']) && $dbnum = intval($info['fragment']))
+						{
+							$conn->select($dbnum);
+						}
+						elseif(isset($info['path']) && $dbnum = intval(substr($info['path'], 1)))
+						{
+							$conn->select($dbnum);
+						}
+						return true;
+					}
 				}
 			}
 			return false;

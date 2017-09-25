@@ -1,0 +1,19 @@
+{@ $communication_popup = TRUE}
+<include target="./common_header.html" />
+<div class="prn-narrow">
+	<section class="prn-body" cond="$message">
+		<h1>{escape($message->title)}</h1>
+		<div>
+			<a href="popup_menu_area" class="member_{$message->member_srl}">{$message->nick_name}</a> / {zdate($message->regdate, "Y-m-d H:i")}
+		</div>
+		<div class="xe_content">
+			{$message->content}
+		</div>
+		<div class="prn-anchor-buttons">
+			<a cond="$message->message_type != 'S' && $message->member_srl != $logged_info->member_srl" href="#" onclick="doSendMessage('{$message->sender_srl}','{$message->message_srl}');">{$lang->cmd_reply_message}</a>
+			<a cond="$message->message_type == 'R'" href="#" onclick="doStoreMessage('{$message->message_srl}');">{$lang->cmd_store}</a>
+			<a href="#" onclick="doDeleteMessage('{$message->message_srl}');">{$lang->cmd_delete}</a>
+		</div>
+	</section>
+</div>
+<include target="./common_footer.html" />

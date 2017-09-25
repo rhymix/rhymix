@@ -178,6 +178,10 @@ class FrontEndFileHandler extends Handler
 		$file->fileRealPath = FileHandler::getRealPath($pathInfo['dirname']);
 		$file->fileFullPath = $file->fileRealPath . '/' . $pathInfo['basename'];
 		$file->fileExtension = strtolower($pathInfo['extension']);
+		if (($pos = strpos($file->fileExtension, '?')) !== false)
+		{
+			$file->fileExtension = substr($file->fileExtension, 0, $pos);
+		}
 		if (preg_match('/^(.+)\.min$/', $pathInfo['filename'], $matches))
 		{
 			$file->fileNameNoExt = $matches[1];

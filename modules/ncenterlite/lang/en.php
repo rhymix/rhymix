@@ -98,3 +98,6 @@ $lang->ncenterlite_message_event_about = 'Do not notify message (Use XE Core mes
 $lang->ncenterlite_all_delete = 'Delete all';
 $lang->ncenterlite_month_before_delete = 'Delete older than 1 month';
 $lang->dont_check_notify_delete = 'Unread notifications will be deleted, too.';
+$lang->user_notify_setting = 'User notify setting.';
+$lang->about_user_notify_setting = 'Each member can set a notify settings. Warning! If a member setting not use notifications, they will not be notified regardless of their default settings.';
+$lang->msg_not_use_user_setting = 'user setting\'s not use. Please contact your administrator.';

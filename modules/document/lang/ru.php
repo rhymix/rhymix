@@ -1,8 +1,5 @@
 <?php
 $lang->document_list = 'Список документов';
-$lang->thumbnail_type = 'Тип миниатюры';
-$lang->thumbnail_crop = 'Обрезать';
-$lang->thumbnail_ratio = 'Соотношение';
 $lang->cmd_delete_all_thumbnail = 'Удалить все миниарюры';
 $lang->title_bold = 'Жирное название';
 $lang->title_color = 'Цвет названия';

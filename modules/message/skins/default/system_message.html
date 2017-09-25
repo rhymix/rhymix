@@ -36,10 +36,10 @@
 			</fieldset>
 		</form>
 		<p cond="$is_logged" style="text-align:center">
-			<a href="{getUrl('act','dispMemberLogout','module','')}" class="btn">{$lang->cmd_logout}</a>
+			<a href="{getUrl('','act','dispMemberLogout','module','')}" class="btn">{$lang->cmd_logout}</a>
 		</p>
 		<p cond="!$is_logged && $module != 'admin'" style="text-align:center">
-			<a href="{getUrl('act','dispMemberLoginForm','module','', 'mid', '')}" class="btn">{$lang->cmd_login}</a>
+			<a href="{getUrl('','act','dispMemberLoginForm','module','', 'mid', '')}" class="btn">{$lang->cmd_login}</a>
 		</p>
 	</div>
 	<div class="login-footer" cond="!$is_logged">

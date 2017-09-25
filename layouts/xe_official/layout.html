@@ -27,7 +27,7 @@ body{background:url({$layout_info->background_image}) repeat-x left top;}
 				</li>
 			</ul>
 		</div>
-		<form action="{getUrl()}" method="post" class="iSearch">
+		<form action="{getUrl()}" method="get" class="iSearch" no-error-return-url="true">
 			<input type="hidden" name="vid" value="{$vid}" cond="$vid" />
 			<input type="hidden" name="mid" value="{$mid}" />
 			<input type="hidden" name="act" value="IS" />

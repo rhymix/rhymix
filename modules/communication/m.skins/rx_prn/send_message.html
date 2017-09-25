@@ -1,0 +1,30 @@
+{@ $communication_popup = TRUE}
+<include target="./common_header.html" />
+<div class="prn-narrow">
+	<section class="prn-body">
+		<h1>{$lang->cmd_send_message}</h1>
+		<div cond="$XE_VALIDATOR_MESSAGE && $XE_VALIDATOR_ID == 'modules/communication/skins/rx_prn/send_message/1'" class="rx_prn-notice {$XE_VALIDATOR_MESSAGE_TYPE}">
+			<p>{$XE_VALIDATOR_MESSAGE}</p>
+		</div>
+		<form ruleset="sendMessage" action="./" method="post">
+			<input type="hidden" name="module" value="communication" />
+			<input type="hidden" name="act" value="procCommunicationSendMessage" />
+			<input type="hidden" name="content" value="{htmlspecialchars($source_message->content)}" />
+			<input type="hidden" name="receiver_srl" value="{$receiver_info->member_srl}" />
+			<input type="hidden" name="xe_validator_id" value="modules/communication/skins/rx_prn/send_message/1" />
+			<div class="control-group">
+				<label for="message_receiver">{$lang->receiver}</label>
+				<a id="message_receiver" href="#popup_menu_area" class="member_{$receiver_info->member_srl}">{$receiver_info->nick_name}</a>
+				<label for="message_title">{$lang->title}</label>
+				<input type="text" name="title" id="message_title" value="{$source_message->title}" />
+				<label for="message_send_mail"><input type="checkbox" value="Y" name="send_mail" id="message_send_mail" /> {$lang->cmd_send_mail}</label>
+				<div class="rx_prn-notice info">{$lang->msg_send_mail_privacy}</div>
+			</div>
+			{$editor}
+			<div class="control-group">
+				<input type="submit" value="{$lang->cmd_send_message}" />
+			</div>
+		</form>
+	</section>
+</div>
+<include target="./common_footer.html" />

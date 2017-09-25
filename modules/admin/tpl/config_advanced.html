@@ -117,6 +117,23 @@
 			</div>
 		</div>
 		<div class="x_control-group">
+			<label class="x_control-label">{$lang->thumbnail_target}</label>
+			<div class="x_controls">
+				<label for="thumbnail_target_all" class="x_inline">
+					<input type="radio" name="thumbnail_target" id="thumbnail_target_all" value="all" checked="checked"|cond="$thumbnail_target == 'all' || !$thumbnail_target" />
+					{$lang->thumbnail_target_all}
+				</label>
+				<label for="thumbnail_target_attachment" class="x_inline">
+					<input type="radio" name="thumbnail_target" id="thumbnail_target_attachment" value="attachment" checked="checked"|cond="$thumbnail_target == 'attachment'" />
+					{$lang->thumbnail_target_attachment}
+				</label>
+				<label for="thumbnail_target_none" class="x_inline">
+					<input type="radio" name="thumbnail_target" id="thumbnail_target_none" value="none" checked="checked"|cond="$thumbnail_target == 'none'" />
+					{$lang->thumbnail_none}
+				</label>
+			</div>
+		</div>
+		<div class="x_control-group">
 			<label class="x_control-label">{$lang->thumbnail_type}</label>
 			<div class="x_controls">
 				<label for="thumbnail_type_crop" class="x_inline">
@@ -126,10 +143,6 @@
 				<label for="thumbnail_type_ratio" class="x_inline">
 					<input type="radio" name="thumbnail_type" id="thumbnail_type_ratio" value="ratio" checked="checked"|cond="$thumbnail_type == 'ratio'" />
 					{$lang->thumbnail_ratio}
-				</label>
-				<label for="thumbnail_type_none" class="x_inline">
-					<input type="radio" name="thumbnail_type" id="thumbnail_type_none" value="none" checked="checked"|cond="$thumbnail_type == 'none'" />
-					{$lang->thumbnail_none}
 				</label>
 			</div>
 		</div>

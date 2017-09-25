@@ -62,6 +62,12 @@ class editorView extends editor
 
 		$oEditorModel = getModel('editor');
 		$component = $oEditorModel->getComponent($component_name, $site_srl);
+
+		if(!$component->component_name) {
+			$this->stop('msg_invalid_request');
+			return;
+		}
+
 		Context::set('component', $component);
 
 		$this->setTemplatePath($this->module_path.'tpl');

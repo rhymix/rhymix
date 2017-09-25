@@ -17,7 +17,7 @@
 		<tr loop="$document_list => $no,$oDocument">
 			<td>{$no}</td>
 			<td class="title">
-				<a href="{getUrl('','document_srl',$oDocument->document_srl)}" onclick="window.open(this.href);return false;">{$oDocument->getTitleText()}</a>
+				<a href="{getUrl('','document_srl',$oDocument->document_srl)}" target="_blank">{$oDocument->getTitleText()}</a>
 				<!--@if($oDocument->getCommentCount())-->
 					[{$oDocument->getCommentCount()}]
 				<!--@end-->

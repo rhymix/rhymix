@@ -519,10 +519,19 @@ class adminAdminView extends admin
 		
 		if ($cache_servers)
 		{
-			Context::set('object_cache_host', parse_url(array_first($cache_servers), PHP_URL_HOST) ?: null);
-			Context::set('object_cache_port', parse_url(array_first($cache_servers), PHP_URL_PORT) ?: null);
-			$cache_dbnum = preg_replace('/[^\d]/', '', parse_url(array_first($cache_servers), PHP_URL_PATH));
-			Context::set('object_cache_dbnum', $cache_dbnum === '' ? 1 : intval($cache_dbnum));
+			if (preg_match('!^(/.+)(#[0-9]+)?$!', array_first($cache_servers), $matches))
+			{
+				Context::set('object_cache_host', $matches[1]);
+				Context::set('object_cache_port', 0);
+				Context::set('object_cache_dbnum', $matches[2] ? substr($matches[2], 1) : 0);
+			}
+			else
+			{
+				Context::set('object_cache_host', parse_url(array_first($cache_servers), PHP_URL_HOST) ?: null);
+				Context::set('object_cache_port', parse_url(array_first($cache_servers), PHP_URL_PORT) ?: null);
+				$cache_dbnum = preg_replace('/[^\d]/', '', parse_url(array_first($cache_servers), PHP_URL_FRAGMENT) ?: parse_url(array_first($cache_servers), PHP_URL_PATH));
+				Context::set('object_cache_dbnum', $cache_dbnum === '' ? 1 : intval($cache_dbnum));
+			}
 		}
 		else
 		{
@@ -534,7 +543,13 @@ class adminAdminView extends admin
 		// Thumbnail settings
 		$oDocumentModel = getModel('document');
 		$config = $oDocumentModel->getDocumentConfig();
+		Context::set('thumbnail_target', $config->thumbnail_target ?: 'all');
 		Context::set('thumbnail_type', $config->thumbnail_type ?: 'crop');
+		if ($config->thumbnail_type === 'none')
+		{
+			Context::set('thumbnail_target', 'none');
+			Context::set('thumbnail_type', 'crop');
+		}
 		
 		// Default and enabled languages
 		Context::set('supported_lang', Rhymix\Framework\Lang::getSupportedList());

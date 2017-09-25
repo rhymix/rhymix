@@ -7,85 +7,108 @@
  */
 class rss extends ModuleObject
 {
-	public $gzhandler_enable = false;
-
+	// Add forwards
+	protected static $add_forwards = array(
+		array('rss', 'view', 'rss'),
+		array('rss', 'view', 'atom'),
+	);
+	
+	// Add triggers
+	protected static $add_triggers = array(
+		array('moduleHandler.proc', 'rss', 'controller', 'triggerRssUrlInsert', 'after'),
+		array('module.dispAdditionSetup', 'rss', 'view', 'triggerDispRssAdditionSetup', 'before'),
+		array('module.procModuleAdminCopyModule', 'rss', 'controller', 'triggerCopyModule', 'after'),
+	);
+	
+	// Remove triggers
+	protected static $remove_triggers = array(
+		array('display', 'rss', 'controller', 'triggerRssUrlInsert', 'before'),
+	);
+	
 	/**
-	 * Additional tasks required to accomplish during the installation
-	 *
-	 * @return Object
+	 * Install
 	 */
 	function moduleInstall()
 	{
-		// Register in action forward
-		$oModuleController = getController('module');
-
-		$oModuleController->insertActionForward('rss', 'view', 'rss');
-		$oModuleController->insertActionForward('rss', 'view', 'atom');
-		// 2007.10.18 Add a trigger for participating additional configurations of the service module
-		$oModuleController->insertTrigger('module.dispAdditionSetup', 'rss', 'view', 'triggerDispRssAdditionSetup', 'before');
-		// 2007. 10. 19 Call the trigger to set RSS URL before outputing
-		$oModuleController->insertTrigger('moduleHandler.proc', 'rss', 'controller', 'triggerRssUrlInsert', 'after');
-
+		$this->moduleUpdate();
 		return new Object();
 	}
-
+	
 	/**
-	 * A method to check if the installation has been successful
-	 * @return bool
+	 * Check update
 	 */
 	function checkUpdate()
 	{
 		$oModuleModel = getModel('module');
-		// Add the Action forward for atom
-		if(!$oModuleModel->getActionForward('atom')) return true;
-		// 2007. 10. Add a trigger for participating additional configurations of the service module
-		if(!$oModuleModel->getTrigger('module.dispAdditionSetup', 'rss', 'view', 'triggerDispRssAdditionSetup', 'before')) return true;
-		// 2007. 10. 19 Call the trigger to set RSS URL before outputing
-		if(!$oModuleModel->getTrigger('moduleHandler.proc', 'rss', 'controller', 'triggerRssUrlInsert', 'after')) return true;
-
-		if($oModuleModel->getTrigger('display', 'rss', 'controller', 'triggerRssUrlInsert', 'before')) return true;
-
-		// 2012. 08. 29 Add a trigger to copy additional setting when the module is copied 
-		if(!$oModuleModel->getTrigger('module.procModuleAdminCopyModule', 'rss', 'controller', 'triggerCopyModule', 'after')) return true;
-
+		
+		// Check forwards for add
+		foreach(self::$add_forwards as $forward)
+		{
+			if(!$oModuleModel->getActionForward($forward[2]))
+			{
+				return true;
+			}
+		}
+		
+		// Check triggers for add
+		foreach(self::$add_triggers as $trigger)
+		{
+			if(!$oModuleModel->getTrigger($trigger[0], $trigger[1], $trigger[2], $trigger[3], $trigger[4]))
+			{
+				return true;
+			}
+		}
+		
+		// Check triggers for remove
+		foreach(self::$remove_triggers as $trigger)
+		{
+			if($oModuleModel->getTrigger($trigger[0], $trigger[1], $trigger[2], $trigger[3], $trigger[4]))
+			{
+				return true;
+			}
+		}
+		
 		return false;
 	}
-
+	
 	/**
-	 * Execute update
-	 *
-	 * @return Object
+	 * Update
 	 */
 	function moduleUpdate()
 	{
 		$oModuleModel = getModel('module');
 		$oModuleController = getController('module');
-		// Add atom act
-		if(!$oModuleModel->getActionForward('atom'))
-			$oModuleController->insertActionForward('rss', 'view', 'atom');
-		// 2007. 10. An additional set of 18 to participate in a service module, add a trigger
-		if(!$oModuleModel->getTrigger('module.dispAdditionSetup', 'rss', 'view', 'triggerDispRssAdditionSetup', 'before')) 
-			$oModuleController->insertTrigger('module.dispAdditionSetup', 'rss', 'view', 'triggerDispRssAdditionSetup', 'before');
-		// 2007. 10. 19 outputs the trigger before you call to set up rss url
-		if(!$oModuleModel->getTrigger('moduleHandler.proc', 'rss', 'controller', 'triggerRssUrlInsert', 'after')) 
-			$oModuleController->insertTrigger('moduleHandler.proc', 'rss', 'controller', 'triggerRssUrlInsert', 'after');
-		if($oModuleModel->getTrigger('display', 'rss', 'controller', 'triggerRssUrlInsert', 'before'))
-			$oModuleController->deleteTrigger('display', 'rss', 'controller', 'triggerRssUrlInsert', 'before');
-
-		// 2012. 08. 29 Add a trigger to copy additional setting when the module is copied 
-		if(!$oModuleModel->getTrigger('module.procModuleAdminCopyModule', 'rss', 'controller', 'triggerCopyModule', 'after'))
+		
+		// Add forwards
+		foreach(self::$add_forwards as $forward)
 		{
-			$oModuleController->insertTrigger('module.procModuleAdminCopyModule', 'rss', 'controller', 'triggerCopyModule', 'after');
+			if(!$oModuleModel->getActionForward($forward[2]))
+			{
+				$oModuleController->insertActionForward($forward[0], $forward[1], $forward[2]);
+			}
 		}
-
+		
+		// Add triggers
+		foreach(self::$add_triggers as $trigger)
+		{
+			if(!$oModuleModel->getTrigger($trigger[0], $trigger[1], $trigger[2], $trigger[3], $trigger[4]))
+			{
+				$oModuleController->insertTrigger($trigger[0], $trigger[1], $trigger[2], $trigger[3], $trigger[4]);
+			}
+		}
+		
+		// Remove triggers
+		foreach(self::$remove_triggers as $trigger)
+		{
+			if($oModuleModel->getTrigger($trigger[0], $trigger[1], $trigger[2], $trigger[3], $trigger[4]))
+			{
+				$oModuleController->deleteTrigger($trigger[0], $trigger[1], $trigger[2], $trigger[3], $trigger[4]);
+			}
+		}
+		
 		return new Object(0, 'success_updated');
 	}
-
-	/**
-	 * Re-generate the cache file
-	 *
-	 * @return void
-	 */
+	
 	function recompileCache()
 	{
 	}

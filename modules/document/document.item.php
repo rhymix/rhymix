@@ -687,14 +687,14 @@ class documentItem extends Object
 		return ztime($this->get('regdate'));
 	}
 
-	function getRegdateGM()
+	function getRegdateGM($format = 'r')
 	{
-		return gmdate('r', ztime($this->get('regdate')));
+		return gmdate($format, $this->getRegdateTime());
 	}
 
-	function getRegdateDT()
+	function getRegdateDT($format = 'c')
 	{
-		return zdate($this->get('regdate'), 'c', false);
+		return Rhymix\Framework\DateTime::formatTimestampForCurrentUser($format, $this->getRegdateTime());
 	}
 
 	function getUpdate($format = 'Y.m.d H:i:s', $conversion = true)
@@ -707,14 +707,14 @@ class documentItem extends Object
 		return ztime($this->get('last_update'));
 	}
 
-	function getUpdateGM()
+	function getUpdateGM($format = 'r')
 	{
-		return gmdate('r', ztime($this->get('last_update')));
+		return gmdate($format, $this->getUpdateTime());
 	}
 
-	function getUpdateDT()
+	function getUpdateDT($format = 'c')
 	{
-		return zdate($this->get('last_update'), 'c', false);
+		return Rhymix\Framework\DateTime::formatTimestampForCurrentUser($format, $this->getUpdateTime());
 	}
 
 	function getPermanentUrl()
@@ -954,11 +954,11 @@ class documentItem extends Object
 		{
 			$config = $GLOBALS['__document_config__'] = getModel('document')->getDocumentConfig();
 		}
-		if ($config->thumbnail_type === 'none')
+		if ($config->thumbnail_target === 'none' || $config->thumbnail_type === 'none')
 		{
 			return;
 		}
-		if(!in_array($thumbnail_type, array('crop', 'ratio', 'none')))
+		if(!in_array($thumbnail_type, array('crop', 'ratio')))
 		{
 			$thumbnail_type = $config->thumbnail_type ?: 'crop';
 		}
@@ -974,7 +974,7 @@ class documentItem extends Object
 		{
 			$content = $this->get('content');
 		}
-		else
+		elseif($config->thumbnail_target !== 'attachment')
 		{
 			$args = new stdClass();
 			$args->document_srl = $this->document_srl;
@@ -1045,7 +1045,7 @@ class documentItem extends Object
 		}
 
 		// If not exists, file an image file from the content
-		if(!$source_file)
+		if(!$source_file && $config->thumbnail_target !== 'attachment')
 		{
 			preg_match_all("!<img\s[^>]*?src=(\"|')([^\"' ]*?)(\"|')!is", $content, $matches, PREG_SET_ORDER);
 			foreach($matches as $match)

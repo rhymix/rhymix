@@ -1,6 +1,5 @@
 <?php
 $lang->document_list = 'ドキュメントリスト';
-$lang->thumbnail_type = 'サムネールタイプ';
 $lang->cmd_delete_all_thumbnail = 'すべてのサムネール削除';
 $lang->title_bold = 'タイトル太字';
 $lang->title_color = 'タイトルの色';

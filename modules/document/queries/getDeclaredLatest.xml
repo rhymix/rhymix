@@ -1,17 +1,22 @@
 <query id="getDeclaredLatest" action="select">
     <tables>
-        <table name="document_declared_log" alias="document_declared_log" />
+		<table name="documents" />
+		<table name="document_declared" />
+        <table name="document_declared_log" />
     </tables>
     <columns>
-        <column name="document_srl" />
+        <column name="document_declared_log.document_srl" />
 		<column name="count(*)" alias="declared_count" />
-		<column name="max(regdate)" alias="latest_declared" />
+		<column name="max(document_declared_log.regdate)" alias="latest_declared" />
     </columns>
     <conditions>
-        <condition operation="in" column="document_srl" var="document_srls" />
+		<condition operation="equal" column="documents.document_srl" default="document_declared_log.document_srl" />
+		<condition operation="equal" column="document_declared.document_srl" default="document_declared_log.document_srl" pipe="and" />
+		<condition operation="more" column="document_declared.declared_count" default="1" pipe="and" />
+        <condition operation="in" column="document_declared_log.document_srl" var="document_srls" pipe="and" />
     </conditions>
     <groups>
-        <group column="document_srl" />
+        <group column="document_declared_log.document_srl" />
     </groups>
     <navigation>
         <index var="sort_index" default="latest_declared" order="order_type" />

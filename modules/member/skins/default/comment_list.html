@@ -15,7 +15,7 @@
 		<tr loop="$comment_list => $no,$comment">
 			<td>{$no}</td>
 			<td>
-				<a href="{getUrl('','document_srl',$comment->document_srl)}#comment_{$comment->comment_srl}" onclick="window.open(this.href);return false;">{$comment->getSummary() ?: $lang->msg_no_text_comment}</a>
+				<a href="{getUrl('','document_srl',$comment->document_srl)}#comment_{$comment->comment_srl}" target="_blank">{$comment->getSummary() ?: $lang->msg_no_text_comment}</a>
 			</td>
 			<td>{$comment->getRegdate("Y-m-d")}</td>
 		</tr>

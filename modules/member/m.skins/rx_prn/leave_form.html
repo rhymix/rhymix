@@ -1,0 +1,28 @@
+<include target="./common_header.html" />
+<div class="prn-narrow">
+	<section class="prn-body">
+		<h1>{$member_title = $lang->msg_leave_member}</h1>
+		<div cond="$XE_VALIDATOR_MESSAGE && $XE_VALIDATOR_ID == 'modules/member/skin/rx_prn/1'" class="rx_member-notice {$XE_VALIDATOR_MESSAGE_TYPE}">
+			<p>{$XE_VALIDATOR_MESSAGE}</p>
+		</div>
+		<p class="rx_member-notice">{$lang->about_rechecked_password}</p>
+		<form ruleset="leaveMember" id="fo_insert_member" action="./" method="post">
+			<input type="hidden" name="module" value="member" />
+			<input type="hidden" name="act" value="procMemberLeave" />
+			<input type="hidden" name="mid" value="{$mid}" />
+			<input type="hidden" name="xe_validator_id" value="modules/member/skin/rx_prn/1" />
+			<div class="control-group">
+				<label for="uid">
+					{lang($identifier)}
+				</label>
+				<input type="text" id="uid" value="{$formValue}" readonly title="{lang($identifier)}" />
+				<label for="pw">
+					{lang('common.password')}
+				</label>
+				<input type="password" name="password" id="pw" required title="{$lang->password}" />
+				<input type="submit" value="{$lang->cmd_leave}" />
+			</div>
+		</form>
+	</section>
+</div>
+<include target="./common_footer.html" />

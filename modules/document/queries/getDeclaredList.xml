@@ -7,7 +7,8 @@
         <column name="*" />
     </columns>
     <conditions>
-        <condition operation="in" column="documents.document_srl" default="document_declared.document_srl" />
+        <condition operation="equal" column="documents.document_srl" default="document_declared.document_srl" />
+		<condition operation="more" column="document_declared.declared_count" default="1" pipe="and" />
     </conditions>
     <navigation>
         <index var="sort_index" default="document_declared.declared_count" order="order_type" />

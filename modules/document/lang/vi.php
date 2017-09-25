@@ -1,8 +1,5 @@
 <?php
 $lang->document_list = 'Danh sách bài viết';
-$lang->thumbnail_type = 'Định dạng hình nhỏ';
-$lang->thumbnail_crop = 'Hình cắt';
-$lang->thumbnail_ratio = 'Tỉ lệ';
 $lang->cmd_delete_all_thumbnail = 'Xóa tất cả hình nhỏ';
 $lang->title_bold = 'Chữ đậm';
 $lang->title_color = 'Màu';

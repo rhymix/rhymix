@@ -1,0 +1,47 @@
+<include target="./common_header.html" />
+<section class="prn-body">
+	<h1>{$member_title = lang('member.cmd_view_active_logins')}</h1>
+	<div class="rx_member-notice">
+		{lang('common.total')}: {number_format($total_count)}
+	</div>
+	<div>
+		<ul class="rx_sw_list">
+			<li loop="$active_logins => $no, $autologin_info">
+				{@ $autologin_info->user_agent = @json_decode($autologin_info->user_agent) ?: new stdClass()}
+				<span class="content_basic cont_a">
+					<span class="content_title">
+						{escape($autologin_info->user_agent->browser)} {escape($autologin_info->user_agent->version)} ({escape($autologin_info->user_agent->os)})
+					</span>
+					<span class="content_subinfo">
+						{zdate($autologin_info->regdate, 'Y-m-d H:i')} ({$autologin_info->ipaddress})
+					</span>
+				</span>
+				<span class="content_delete">
+					<button type="button" class="delete_autologin" data-autologin-id="{$autologin_info->id}" data-autologin-key="{$autologin_info->autologin_key}">{$lang->cmd_delete}</button>
+				</span>
+			</li>
+		</ul>
+	</div>
+</section>
+<div class="pagination pagination-centered">
+	<ul>
+		{@$rx_prn = FALSE}
+		<!--@while($page_no = $page_navigation->getNextPage())-->
+		<li cond="$rx_prn === FALSE && ($page_no - 1) > 0"><a href="{getUrl('page', ($page_no - 1),'module_srl','')}" class="direction">&lsaquo;</a></li>
+		{@$rx_prn = TRUE}
+		<li class="active"|cond="$page == $page_no"><a href="{getUrl('page',$page_no,'module_srl','')}">{$page_no}</a></li>
+		<!--@end-->
+		<li cond="$page_navigation->last_page > $page_no && $page_no > 0"><a href="{getUrl('page', ($page_no + 1),'module_srl','')}" class="direction">&rsaquo;</a></li>
+	</ul>
+</div>
+<script>
+	$(function() {
+		$(".rx_sw_list button.delete_autologin").on("click", function(event) {
+			event.preventDefault();
+			exec_json('member.procMemberDeleteAutologin', { autologin_id: $(this).data("autologin-id"), autologin_key: $(this).data("autologin-key") }, function(data) {
+				window.location.reload();
+			});
+		});
+	});
+</script>
+<include target="./common_footer.html" />

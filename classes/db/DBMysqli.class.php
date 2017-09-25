@@ -110,7 +110,7 @@ class DBMysqli extends DBMysql
 					$status = call_user_func_array('mysqli_stmt_bind_param', $args);
 					if(!$status)
 					{
-						$this->setError(-1, "Invalid arguments: $query" . mysqli_error($connection) . PHP_EOL . print_r($args, true));
+						$this->setError(-1, "Invalid arguments: " . mysqli_error($connection));
 					}
 				}
 
@@ -119,12 +119,11 @@ class DBMysqli extends DBMysql
 
 				if(!$status)
 				{
-					$this->setError(-1, "Prepared statement failed: $query" . mysqli_error($connection) . PHP_EOL . print_r($args, true));
+					$this->setError(-1, "Prepared statement failed: " . mysqli_error($connection));
 				}
 
 				// Return stmt for other processing - like retrieving resultset (_fetch)
 				return $stmt;
-				// mysqli_stmt_close($stmt);
 			}
 		}
 		// Run the query statement

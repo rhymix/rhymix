@@ -1,0 +1,21 @@
+<include target="./common_header.html" />
+<section class="prn-body">
+	<h1>{$lang->cmd_resend_auth_mail}</h1>
+	<div class="rx_member-notice">{lang('member.about_resend_auth_mail')}</div>
+	<div cond="$XE_VALIDATOR_MESSAGE && $XE_VALIDATOR_ID == 'modules/member/skins/rx_prn/resend_auth_mail/1'" class="rx_member-notice {$XE_VALIDATOR_MESSAGE_TYPE}">
+		<p>{$XE_VALIDATOR_MESSAGE}</p>
+	</div>
+	<form ruleset="resendAuthMail" class="form" action="./" method="post">
+		<input type="hidden" name="module" value="member" />
+		<input type="hidden" name="act" value="procMemberResendAuthMail" />
+		<input type="hidden" name="xe_validator_id" value="modules/member/skins/rx_prn/resend_auth_mail/1" />
+		<div class="control-group">
+			<label for="email_address">
+				{lang('common.email_address')}
+			</label>
+			<input type="email" id="email_address" name="email_address" value="" title="{lang('common.email_address')}" /> 
+			<input type="submit" id="resend_button" name="" value="{lang('member.cmd_resend_auth_mail')}" />
+		</div>
+	</form>
+</section>
+<include target="./common_footer.html" />

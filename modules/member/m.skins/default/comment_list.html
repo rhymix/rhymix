@@ -3,7 +3,7 @@
 	<h2 class="hx h2">{$member_title = $lang->cmd_view_own_comment}</h2>
 	<ul class="lt">
 		<li loop="$comment_list => $no,$comment">
-			<a href="{getUrl('','document_srl',$comment->document_srl)}#comment_{$comment->comment_srl}" onclick="window.open(this.href);return false;">
+			<a href="{getUrl('','document_srl',$comment->document_srl)}#comment_{$comment->comment_srl}" target="_blank">
 				{$comment->getSummary() ?: $lang->msg_no_text_comment}
 				<span class="memberInfo">{$comment->getRegdate("Y-m-d")}</span>
 			</a>
