@@ -742,6 +742,12 @@ class boardController extends board
 			$num = sprintf('%08d', hexdec(substr($num, 0, 8)) % 100000000);
 			return strtr($format, array('$DOCNUM' => $num));
 		}
+		elseif (strpos($format, '$DOCDAILYNUM') !== false)
+		{
+			$num = hash_hmac('sha256', ($member_srl ?: \RX_CLIENT_IP) . ':document_srl:' . $document_srl . ':date:' . date('Y-m-d'), config('crypto.authentication_key'));
+			$num = sprintf('%08d', hexdec(substr($num, 0, 8)) % 100000000);
+			return strtr($format, array('$DOCDAILYNUM' => $num));
+		}
 		else
 		{
 			return $format;
