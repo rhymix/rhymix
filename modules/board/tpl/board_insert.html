@@ -214,15 +214,15 @@
 		<div class="x_control-group">
 			<label class="x_control-label">{$lang->use_anonymous}</label>
 			<div class="x_controls">
-				<label class="x_inline" for="use_anonymous"><input type="checkbox" name="use_anonymous" id="use_anonymous" value="Y" checked="checked"|cond="$module_info->use_anonymous == 'Y'" /> {$lang->about_use_anonymous}</label>
+				<label class="x_inline" for="use_anonymous"><input type="checkbox" name="use_anonymous" id="use_anonymous" value="Y" checked="checked"|cond="$module_info->use_anonymous == 'Y'" /> {$lang->about_use_anonymous_part1}</label>
+				<p class="x_help-block">{$lang->about_use_anonymous_part2}</p>
 			</div>
 		</div>
 		<div class="x_control-group">
 			<label class="x_control-label">{$lang->anonymous_name}</label>
 			<div class="x_controls">
 				<input type="text" name="anonymous_name" id="anonymous_name" value="{$module_info->anonymous_name ?: 'anonymous'}" />
-				<a href="#anonymous_name_help" class="x_icon-question-sign" data-toggle>{$lang->help}</a>
-				<p id="anonymous_name_help" class="x_help-block" hidden>{$lang->about_anonymous_name}</p>
+				<p class="x_help-block">{$lang->about_anonymous_name}</p>
 			</div>
 		</div>
 		<div class="x_control-group">
@@ -235,7 +235,7 @@
 			<label class="x_control-label">{$lang->update_log}</label>
 			<div class="x_controls">
 				<label class="x_inline" for="update_log"><input type="checkbox" name="update_log" id="update_log" value="Y" checked="checked"|cond="$module_info->update_log == 'Y'" /> {$lang->about_update_log}</label>
-				<p>{$lang->msg_warning_update_log}</p>
+				<p class="x_help-block">{$lang->msg_warning_update_log}</p>
 			</div>
 		</div>
 		<div class="x_control-group">
