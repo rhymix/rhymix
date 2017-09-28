@@ -53,4 +53,3 @@ $lang->typename['m.skin'] = 'Mobile Skin';
 $lang->typename['skin'] = 'Skin';
 $lang->typename['widgetstyle'] = 'Widget style';
 $lang->typename['style'] = 'Document style';
-$lang->typename['drcomponent'] = 'DrEditor component';

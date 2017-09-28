@@ -91,103 +91,6 @@ class editorModel extends editor
 		
 		return $skin_config;
 	}
-	
-	function loadDrComponents()
-	{
-		$drComponentPath = _XE_PATH_ . 'modules/editor/skins/dreditor/drcomponents/';
-		$drComponentList = FileHandler::readDir($drComponentPath);
-
-		$oTemplate = &TemplateHandler::getInstance();
-
-		$drComponentInfo = array();
-		if($drComponentList)
-		{
-			foreach($drComponentList as $i => $drComponent)
-			{
-				unset($obj);
-				$obj = $this->getDrComponentXmlInfo($drComponent);
-				Context::loadLang(sprintf('%s%s/lang/',$drComponentPath,$drComponent));
-				$path = sprintf('%s%s/tpl/',$drComponentPath,$drComponent);
-				$obj->html = $oTemplate->compile($path,$drComponent);
-				$drComponentInfo[$drComponent] = $obj;
-			}
-		}
-		Context::set('drComponentList',$drComponentInfo);
-	}
-
-	function getDrComponentXmlInfo($drComponentName)
-	{
-		$lang_type = Context::getLangType();
-		// Get the xml file path of requested component
-		$component_path = sprintf('%s/skins/dreditor/drcomponents/%s/', $this->module_path, $drComponentName);
-
-		$xml_file = sprintf('%sinfo.xml', $component_path);
-		$cache_file = sprintf('./files/cache/editor/dr_%s.%s.php', $drComponentName, $lang_type);
-		// Return information after including it after cached xml file exists
-		if(file_exists($cache_file) && file_exists($xml_file) && filemtime($cache_file) > filemtime($xml_file))
-		{
-			include($cache_file);
-			return $xml_info;
-		}
-		// Return after parsing and caching if the cached file does not exist
-		$oParser = new XmlParser();
-		$xml_doc = $oParser->loadXmlFile($xml_file);
-
-		$component_info->component_name = $drComponentName;
-		$component_info->title = $xml_doc->component->title->body;
-		$component_info->description = str_replace('\n', "\n", $xml_doc->component->description->body);
-		$component_info->version = $xml_doc->component->version->body;
-		$component_info->date = $xml_doc->component->date->body;
-		$component_info->homepage = $xml_doc->component->link->body;
-		$component_info->license = $xml_doc->component->license->body;
-		$component_info->license_link = $xml_doc->component->license->attrs->link;
-
-		$buff = '<?php if(!defined("__XE__")) exit(); ';
-		$buff .= sprintf('$xml_info->component_name = "%s";', $component_info->component_name);
-		$buff .= sprintf('$xml_info->title = "%s";', $component_info->title);
-		$buff .= sprintf('$xml_info->description = "%s";', $component_info->description);
-		$buff .= sprintf('$xml_info->version = "%s";', $component_info->version);
-		$buff .= sprintf('$xml_info->date = "%s";', $component_info->date);
-		$buff .= sprintf('$xml_info->homepage = "%s";', $component_info->homepage);
-		$buff .= sprintf('$xml_info->license = "%s";', $component_info->license);
-		$buff .= sprintf('$xml_info->license_link = "%s";', $component_info->license_link);
-
-		// Author information
-		if(!is_array($xml_doc->component->author)) $author_list[] = $xml_doc->component->author;
-		else $author_list = $xml_doc->component->author;
-
-		for($i=0; $i < count($author_list); $i++)
-		{
-			$buff .= sprintf('$xml_info->author['.$i.']->name = "%s";', $author_list[$i]->name->body);
-			$buff .= sprintf('$xml_info->author['.$i.']->email_address = "%s";', $author_list[$i]->attrs->email_address);
-			$buff .= sprintf('$xml_info->author['.$i.']->homepage = "%s";', $author_list[$i]->attrs->link);
-		}
-
-		// List extra variables (text type only in the editor component)
-		$extra_vars = $xml_doc->component->extra_vars->var;
-		if($extra_vars)
-		{
-			if(!is_array($extra_vars)) $extra_vars = array($extra_vars);
-			foreach($extra_vars as $key => $val)
-			{
-				unset($obj);
-				$key = $val->attrs->name;
-				$title = $val->title->body;
-				$description = $val->description->body;
-				$xml_info->extra_vars->{$key}->title = $title;
-				$xml_info->extra_vars->{$key}->description = $description;
-
-				$buff .= sprintf('$xml_info->extra_vars->%s->%s = "%s";', $key, 'title', $title);
-				$buff .= sprintf('$xml_info->extra_vars->%s->%s = "%s";', $key, 'description', $description);
-			}
-		}
-
-		FileHandler::writeFile($cache_file, $buff, "w");
-
-		unset($xml_info);
-		include($cache_file);
-		return $xml_info;
-	}
 
 	/**
 	 * @brief Return the editor template
@@ -215,7 +118,7 @@ class editorModel extends editor
 		{
 			$option->editor_skin = $option->skin;
 		}
-		if (!$option->editor_skin || !file_exists($this->module_path . 'skins/' . $option->editor_skin . '/editor.html') || starts_with('xpresseditor', $option->editor_skin))
+		if (!$option->editor_skin || !file_exists($this->module_path . 'skins/' . $option->editor_skin . '/editor.html') || starts_with('xpresseditor', $option->editor_skin) || starts_with('dreditor', $option->editor_skin))
 		{
 			$option->editor_skin = $this->default_editor_config['editor_skin'];
 		}
@@ -271,10 +174,6 @@ class editorModel extends editor
 		
 		// Load editor components.
 		$site_srl = Context::get('site_module_info')->site_srl ?: 0;
-		if($option->editor_skin === 'dreditor')
-		{
-			$this->loadDrComponents();
-		}
 		if($option->enable_component)
 		{
 			if(!Context::get('component_list'))
