@@ -6,6 +6,7 @@
     <column name="user_name" type="varchar" size="80" notnull="notnull" />
     <column name="nick_name" type="varchar" size="80" notnull="notnull" />
     <column name="target_member_srl" type="number" size="11" notnull="notnull" />
+	<column name="folder_srl" type="number" size="11" index="idx_folder_srl" />
     <column name="regdate" type="date" index="idx_regdate" />
     <column name="list_order" type="number" size="11" notnull="notnull" index="idx_list_order" />
 </table>

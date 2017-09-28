@@ -207,7 +207,10 @@ class member extends ModuleObject {
 		
 		// Check autologin table
 		if(!$oDB->isColumnExists("member_autologin", "security_key")) return true;
-
+		
+		// Check scrap folder table
+		if(!$oDB->isColumnExists("member_scrap", "folder_srl")) return true;
+		
 		$oModuleModel = getModel('module');
 		$config = $oModuleModel->getModuleConfig('member');
 		// check signup form ordering info
@@ -328,6 +331,13 @@ class member extends ModuleObject {
 			$oDB->createTableByXmlFile($this->module_path . '/schemas/member_autologin.xml');
 		}
 
+		// Check scrap folder table
+		if(!$oDB->isColumnExists("member_scrap", "folder_srl"))
+		{
+			$oDB->addColumn("member_scrap", "folder_srl", "number", 11);
+			$oDB->addIndex("member_scrap","idx_folder_srl", array("folder_srl"));
+		}
+		
 		$oModuleModel = getModel('module');
 		$config = $oModuleModel->getModuleConfig('member');
 		$oModuleController = getController('module');
