@@ -159,10 +159,25 @@ class memberController extends member
 			return new Object(-1, 'msg_not_permitted');
 		}
 		
+		// Find default scrap folder
+		$args = new stdClass();
+		$args->member_srl = $logged_info->member_srl;
+		$args->name = '/DEFAULT/';
+		$output = executeQuery('member.getScrapFolderList', $args);
+		if($output->toBool() && is_object($output->data) && $output->data->folder_srl)
+		{
+			$default_folder_srl = $output->data->folder_srl;
+		}
+		else
+		{
+			$default_folder_srl = null;
+		}
+		
 		// Variables
 		$args = new stdClass();
 		$args->document_srl = $document_srl;
 		$args->member_srl = $logged_info->member_srl;
+		$args->folder_srl = $default_folder_srl;
 		$args->user_id = $oDocument->get('user_id');
 		$args->user_name = $oDocument->get('user_name');
 		$args->nick_name = $oDocument->get('nick_name');
@@ -202,6 +217,206 @@ class memberController extends member
 		$args->member_srl = $logged_info->member_srl;
 		$args->document_srl = $document_srl;
 		return executeQuery('member.deleteScrapDocument', $args);
+	}
+
+	/**
+	 * Move a scrap to another folder
+	 *
+	 * @return void|Object (void : success, Object : fail)
+	 */
+	function procMemberMoveScrapFolder()
+	{
+		// Check login information
+		if(!Context::get('is_logged')) return new Object(-1, 'msg_not_logged');
+		$logged_info = Context::get('logged_info');
+
+		$document_srl = (int)Context::get('document_srl');
+		$folder_srl = (int)Context::get('folder_srl');
+		if(!$document_srl || !$folder_srl)
+		{
+			return new Object(-1,'msg_invalid_request');
+		}
+		
+		// Check that the target folder exists and belongs to member
+		$args = new stdClass;
+		$args->member_srl = $logged_info->member_srl;
+		$args->folder_srl = $folder_srl;
+		$output = executeQueryArray('member.getScrapFolderList', $args);
+		if(!count($output->data))
+		{
+			return new Object(-1, 'msg_invalid_request');
+		}
+		
+		// Move
+		$args = new stdClass;
+		$args->member_srl = $logged_info->member_srl;
+		$args->document_srl = $document_srl;
+		$args->folder_srl = $folder_srl;
+		return executeQuery('member.updateScrapDocumentFolder', $args);
+	}
+
+	/**
+	 * Create a scrap folder
+	 *
+	 * @return void|Object (void : success, Object : fail)
+	 */
+	function procMemberInsertScrapFolder()
+	{
+		// Check login information
+		if(!Context::get('is_logged')) return new Object(-1, 'msg_not_logged');
+		$logged_info = Context::get('logged_info');
+		
+		// Get new folder name
+		$folder_name = Context::get('name');
+		$folder_name = escape(trim(utf8_normalize_spaces($folder_name)));
+		if(!$folder_name)
+		{
+			return new Object(-1, 'msg_invalid_request');
+		}
+		
+		// Check existing folder with same name
+		$args = new stdClass;
+		$args->member_srl = $logged_info->member_srl;
+		$args->name = $folder_name;
+		$output = executeQueryArray('member.getScrapFolderList', $args);
+		if(count($output->data) || $folder_name === lang('default_folder'))
+		{
+			return new Object(-1, 'msg_folder_alreay_exists');
+		}
+		
+		// Create folder
+		$args = new stdClass;
+		$args->folder_srl = getNextSequence();
+		$args->member_srl = $logged_info->member_srl;
+		$args->name = $folder_name;
+		$args->list_order = $args->folder_srl;
+		$this->add('folder_srl', $args->folder_srl);
+		return executeQuery('member.insertScrapFolder', $args);
+	}
+
+	/**
+	 * Rename a scrap folder
+	 *
+	 * @return void|Object (void : success, Object : fail)
+	 */
+	function procMemberRenameScrapFolder()
+	{
+		// Check login information
+		if(!Context::get('is_logged')) return new Object(-1, 'msg_not_logged');
+		$logged_info = Context::get('logged_info');
+		
+		// Get new folder name
+		$folder_srl = intval(Context::get('folder_srl'));
+		$folder_name = Context::get('name');
+		$folder_name = escape(trim(utf8_normalize_spaces($folder_name)));
+		if(!$folder_srl || !$folder_name)
+		{
+			return new Object(-1, 'msg_invalid_request');
+		}
+		
+		// Check that the original folder exists and belongs to member
+		$args = new stdClass;
+		$args->member_srl = $logged_info->member_srl;
+		$args->folder_srl = $folder_srl;
+		$output = executeQueryArray('member.getScrapFolderList', $args);
+		if(!count($output->data))
+		{
+			return new Object(-1, 'msg_invalid_request');
+		}
+		if(array_first($output->data)->name === '/DEFAULT/')
+		{
+			return new Object(-1, 'msg_folder_is_default');
+		}
+		
+		// Check existing folder with same name
+		$args = new stdClass;
+		$args->member_srl = $logged_info->member_srl;
+		$args->not_folder_srl = $folder_srl;
+		$args->name = $folder_name;
+		$output = executeQueryArray('member.getScrapFolderList', $args);
+		if(count($output->data) || $folder_name === lang('default_folder'))
+		{
+			return new Object(-1, 'msg_folder_alreay_exists');
+		}
+		
+		// Rename folder
+		$args = new stdClass;
+		$args->folder_srl = $folder_srl;
+		$args->name = $folder_name;
+		return executeQuery('member.updateScrapFolder', $args);
+	}
+
+	/**
+	 * Delete a scrap folder
+	 *
+	 * @return void|Object (void : success, Object : fail)
+	 */
+	function procMemberDeleteScrapFolder()
+	{
+		// Check login information
+		if(!Context::get('is_logged')) return new Object(-1, 'msg_not_logged');
+		$logged_info = Context::get('logged_info');
+		
+		// Get folder_srl to delete
+		$folder_srl = intval(Context::get('folder_srl'));
+		if(!$folder_srl)
+		{
+			return new Object(-1, 'msg_invalid_request');
+		}
+		
+		// Check that the folder exists and belongs to member
+		$args = new stdClass;
+		$args->member_srl = $logged_info->member_srl;
+		$args->folder_srl = $folder_srl;
+		$output = executeQueryArray('member.getScrapFolderList', $args);
+		if(!count($output->data))
+		{
+			return new Object(-1, 'msg_invalid_request');
+		}
+		if(array_first($output->data)->name === '/DEFAULT/')
+		{
+			return new Object(-1, 'msg_folder_is_default');
+		}
+		
+		// Check that the folder is empty
+		$args = new stdClass;
+		$args->member_srl = $logged_info->member_srl;
+		$args->folder_srl = $folder_srl;
+		$output = executeQueryArray('member.getScrapDocumentList', $args);
+		if(count($output->data))
+		{
+			return new Object(-1, 'msg_folder_not_empty');
+		}
+		
+		// Delete folder
+		$args = new stdClass;
+		$args->folder_srl = $folder_srl;
+		return executeQuery('member.deleteScrapFolder', $args);
+	}
+
+	/**
+	 * Migrate a member's scrapped documents to the new folder system.
+	 *
+	 * @param int $member_srl
+	 * @return void|Object (void : success, Object : fail)
+	 */
+	function migrateMemberScrappedDocuments($member_srl)
+	{
+		$args = new stdClass;
+		$args->folder_srl = getNextSequence();
+		$args->member_srl = $member_srl;
+		$args->name = '/DEFAULT/';
+		$args->list_order = $args->folder_srl;
+		$output = executeQuery('member.insertScrapFolder', $args);
+		if(!$output->toBool())
+		{
+			return $output;
+		}
+		$output = executeQuery('member.updateScrapFolderFromNull', $args);
+		if(!$output->toBool())
+		{
+			return $output;
+		}
 	}
 
 	/**
