@@ -447,6 +447,17 @@ class memberView extends member
 		{
 			$folder_srl = array_first($folders)->folder_srl;
 		}
+		
+		// Get folder info
+		$folder_info = new stdClass;
+		foreach($folders as $folder)
+		{
+			if($folder->folder_srl == $folder_srl)
+			{
+				$folder_info = $folder;
+				break;
+			}
+		}
 
 		// Get scrapped documents in selected folder
 		$args = new stdClass();
@@ -460,6 +471,7 @@ class memberView extends member
 		Context::set('document_list', $output->data);
 		Context::set('page_navigation', $output->page_navigation);
 		Context::set('scrap_folders', $folders);
+		Context::set('folder_info', $folder_info);
 		Context::set('folder_srl', $folder_srl);
 
 		$security = new Security($output->data);

@@ -122,6 +122,7 @@ $lang->cmd_send_email = 'Send Mail';
 $lang->msg_email_not_exists = 'You have entered an invalid email address.';
 $lang->msg_alreay_scrapped = 'This article is already scrapped.';
 $lang->msg_folder_alreay_exists = 'A folder with the same name already exists.';
+$lang->msg_folder_is_default = 'The default folder cannot be renamed or deleted.';
 $lang->msg_folder_not_empty = 'The folder is not empty.';
 $lang->msg_cart_is_null = 'Please select the target.';
 $lang->msg_checked_file_is_deleted = '%d attached file(s) is(are) deleted.';

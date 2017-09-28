@@ -308,6 +308,10 @@ class memberController extends member
 		{
 			return new Object(-1, 'msg_invalid_request');
 		}
+		if(array_first($output->data)->name === '/DEFAULT/')
+		{
+			return new Object(-1, 'msg_folder_is_default');
+		}
 		
 		// Check existing folder with same name
 		$args = new stdClass;
@@ -353,6 +357,10 @@ class memberController extends member
 		if(!count($output->data))
 		{
 			return new Object(-1, 'msg_invalid_request');
+		}
+		if(array_first($output->data)->name === '/DEFAULT/')
+		{
+			return new Object(-1, 'msg_folder_is_default');
 		}
 		
 		// Check that the folder is empty
