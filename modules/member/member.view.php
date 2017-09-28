@@ -412,6 +412,8 @@ class memberView extends member
 		$logged_info = Context::get('logged_info');
 		
 		// Check folders
+		$args = new stdClass;
+		$args->member_srl = $logged_info->member_srl;
 		$output = executeQueryArray('member.getScrapFolderList', $args);
 		$folders = $output->data;
 		if(!count($folders))
@@ -437,7 +439,7 @@ class memberView extends member
 		
 		// Get default folder if no folder is selected
 		$folder_srl = (int)Context::get('folder_srl');
-		if($folder_srl && !count(array_filter($folders, function($folder) use($folder_srl) { return $folder->folder_srl == $folder_srl; })))
+		if($folder_srl && !array_filter($folders, function($folder) use($folder_srl) { return $folder->folder_srl == $folder_srl; }))
 		{
 			return new Object(-1, 'msg_invalid_request');
 		}
@@ -457,6 +459,7 @@ class memberView extends member
 		Context::set('page', $output->page);
 		Context::set('document_list', $output->data);
 		Context::set('page_navigation', $output->page_navigation);
+		Context::set('scrap_folders', $folders);
 
 		$security = new Security($output->data);
 		$security->encodeHTML('..nick_name');

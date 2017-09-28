@@ -1,7 +1,13 @@
 <include target="./common_header.html" />
 <h1>{$member_title = $lang->cmd_view_scrapped_document}</h1>
+
+<select id="scrap_folder_list">
+	<!--@foreach($scrap_folders as $folder)-->
+		<option value="{$folder->folder_srl}" selected="selected"|cond="$folder_srl == $folder->folder_srl">{$folder->name == '/DEFAULT/' ? $lang->default_folder : $folder_name}</option>
+	<!--@endforeach-->
+</select>
+
 <table class="table table-striped table-hover">
-	<caption>Total: {number_format($total_count)}, Page: {number_format($page)}/{number_format($total_page)}</caption>
 	<thead>
 		<tr>
 			<th>{$lang->no}</th>
@@ -9,6 +15,7 @@
 			<th>{$lang->writer}</th>
 			<th>{$lang->date}</th>
 			<th>{$lang->cmd_delete}</th>
+			<th>{$lang->cmd_move}</th>
 		</tr>
 	</thead>
 	<tbody>
@@ -18,9 +25,18 @@
 			<td><a href="#popup_menu_area" class="member_{$val->target_member_srl}">{$val->nick_name}</a></td>
 			<td>{zdate($val->regdate, "Y-m-d")}</td>
 			<td><button type="button" class="text" onclick="doDeleteScrap({$val->document_srl});">{$lang->cmd_delete}</button></td>
+			<td>
+				<select class="scrap_folder_move" data-document-srl="{$val->document_srl}">
+					<option value="">{$lang->cmd_move}</option>
+					<!--@foreach($scrap_folders as $folder)-->
+						<option value="{$folder->folder_srl}">{$folder->name == '/DEFAULT/' ? $lang->default_folder : $folder_name}</option>
+					<!--@endforeach-->
+				</select>
+			</td>
 		</tr>
 	</tbody>
 </table>
+
 <div class="pagination pagination-centered">
 	<ul>
 		<li><a href="{getUrl('page','','module_srl','')}">&laquo; {$lang->first_page}</a></li>

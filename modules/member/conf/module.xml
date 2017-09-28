@@ -46,6 +46,7 @@
 		<action name="procMemberDeleteImageMark" type="controller" permission="member" />
 		<action name="procMemberScrapDocument" type="controller" permission="member" />
 		<action name="procMemberDeleteScrap" type="controller" permission="member" />
+		<action name="procMemberMoveScrapFolder" type="controller" permission="member" />
 		<action name="procMemberSaveDocument" type="controller" permission="member" />
 		<action name="procMemberDeleteSavedDocument" type="controller" permission="member" />
 		<action name="procMemberDeleteAutologin" type="controller" permission="member" />

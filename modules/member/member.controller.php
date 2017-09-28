@@ -205,6 +205,41 @@ class memberController extends member
 	}
 
 	/**
+	 * Move a scrap to another folder
+	 *
+	 * @return void|Object (void : success, Object : fail)
+	 */
+	function procMemberMoveScrapFolder()
+	{
+		// Check login information
+		if(!Context::get('is_logged')) return new Object(-1, 'msg_not_logged');
+		$logged_info = Context::get('logged_info');
+
+		$document_srl = (int)Context::get('document_srl');
+		$folder_srl = (int)Context::get('folder_srl');
+		if(!$document_srl || !$folder_srl)
+		{
+			return new Object(-1,'msg_invalid_request');
+		}
+		
+		// Check folder
+		$args = new stdClass;
+		$args->member_srl = $logged_info->member_srl;
+		$output = executeQueryArray('member.getScrapFolderList', $args);
+		if(!array_filter($output->data, function($folder) use($folder_srl) { return $folder->folder_srl == $folder_srl; }))
+		{
+			return new Object(-1, 'msg_invalid_request');
+		}
+		
+		// Move
+		$args = new stdClass;
+		$args->member_srl = $logged_info->member_srl;
+		$args->document_srl = $document_srl;
+		$args->folder_srl = $folder_srl;
+		return executeQuery('member.updateScrapDocumentFolder', $args);
+	}
+
+	/**
 	 * Save posts
 	 * @deprecated - instead Document Controller - procDocumentTempSave method use
 	 * @return Object
