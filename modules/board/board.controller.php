@@ -443,6 +443,10 @@ class boardController extends board
 				{
 					return new Object(-1, 'msg_invalid_request');
 				}
+				if($parent_comment->isSecret() && $this->module_info->secret === 'Y')
+				{
+					$obj->is_secret = 'Y';
+				}
 				$output = $oCommentController->insertComment($obj, $manual, $update_document);
 			}
 			// Parent does not exist.
