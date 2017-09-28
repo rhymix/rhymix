@@ -47,6 +47,9 @@
 		<action name="procMemberScrapDocument" type="controller" permission="member" />
 		<action name="procMemberDeleteScrap" type="controller" permission="member" />
 		<action name="procMemberMoveScrapFolder" type="controller" permission="member" />
+		<action name="procMemberInsertScrapFolder" type="controller" permission="member" />
+		<action name="procMemberRenameScrapFolder" type="controller" permission="member" />
+		<action name="procMemberDeleteScrapFolder" type="controller" permission="member" />
 		<action name="procMemberSaveDocument" type="controller" permission="member" />
 		<action name="procMemberDeleteSavedDocument" type="controller" permission="member" />
 		<action name="procMemberDeleteAutologin" type="controller" permission="member" />

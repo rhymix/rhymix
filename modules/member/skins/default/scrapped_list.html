@@ -1,11 +1,25 @@
 <include target="./common_header.html" />
 <h1>{$member_title = $lang->cmd_view_scrapped_document}</h1>
 
-<select id="scrap_folder_list">
-	<!--@foreach($scrap_folders as $folder)-->
-		<option value="{$folder->folder_srl}" selected="selected"|cond="$folder_srl == $folder->folder_srl">{$folder->name == '/DEFAULT/' ? $lang->default_folder : $folder_name}</option>
-	<!--@endforeach-->
-</select>
+<div>
+	<div class="btnArea" style="clear:none;float:left">
+		<select id="scrap_folder_list" style="margin:0">
+			<!--@foreach($scrap_folders as $folder)-->
+				<option value="{$folder->folder_srl}" selected="selected"|cond="$folder_srl == $folder->folder_srl">{$folder->name == '/DEFAULT/' ? $lang->default_folder : $folder->name}</option>
+			<!--@endforeach-->
+		</select>
+		<div class="btn-group">
+			<input type="text" class="folder_name" style="margin:0;display:none" />
+			<button id="scrap_folder_rename" class="btn" data-folder-srl="{$folder_srl}">{$lang->scrap_folder_rename}</button>
+			<button id="scrap_folder_delete" class="btn" data-folder-srl="{$folder_srl}">{$lang->scrap_folder_delete}</button>
+		</div>
+	</div>
+	<div class="btnArea" style="clear:none;float:right">
+		<input type="text" class="folder_name" style="margin:0;display:none" />
+		<button id="scrap_folder_create" class="btn">{$lang->scrap_folder_create}</button>
+	</div>
+	<div class="clear:both"></div>
+</div>
 
 <table class="table table-striped table-hover">
 	<thead>
@@ -29,7 +43,7 @@
 				<select class="scrap_folder_move" data-document-srl="{$val->document_srl}">
 					<option value="">{$lang->cmd_move}</option>
 					<!--@foreach($scrap_folders as $folder)-->
-						<option value="{$folder->folder_srl}">{$folder->name == '/DEFAULT/' ? $lang->default_folder : $folder_name}</option>
+						<option value="{$folder->folder_srl}">{$folder->name == '/DEFAULT/' ? $lang->default_folder : $folder->name}</option>
 					<!--@endforeach-->
 				</select>
 			</td>

@@ -460,6 +460,7 @@ class memberView extends member
 		Context::set('document_list', $output->data);
 		Context::set('page_navigation', $output->page_navigation);
 		Context::set('scrap_folders', $folders);
+		Context::set('folder_srl', $folder_srl);
 
 		$security = new Security($output->data);
 		$security->encodeHTML('..nick_name');
