@@ -159,10 +159,25 @@ class memberController extends member
 			return new Object(-1, 'msg_not_permitted');
 		}
 		
+		// Find default scrap folder
+		$args = new stdClass();
+		$args->member_srl = $logged_info->member_srl;
+		$args->name = '/DEFAULT/';
+		$output = executeQuery('member.getScrapFolderList', $args);
+		if($output->toBool() && is_object($output->data) && $output->data->folder_srl)
+		{
+			$default_folder_srl = $output->data->folder_srl;
+		}
+		else
+		{
+			$default_folder_srl = null;
+		}
+		
 		// Variables
 		$args = new stdClass();
 		$args->document_srl = $document_srl;
 		$args->member_srl = $logged_info->member_srl;
+		$args->folder_srl = $default_folder_srl;
 		$args->user_id = $oDocument->get('user_id');
 		$args->user_name = $oDocument->get('user_name');
 		$args->nick_name = $oDocument->get('nick_name');
