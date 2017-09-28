@@ -1,0 +1,12 @@
+<query id="updateScrapFolderFromNull" action="update">
+    <tables>
+        <table name="member_scrap" />
+    </tables>
+    <columns>
+        <column name="folder_srl" var="folder_srl" notnull="notnull" />
+    </columns>
+    <conditions>
+        <condition operation="equal" column="member_srl" var="member_srl" filter="number" notnull="notnull" />
+		<condition operation="null" column="folder_srl" pipe="and" />
+    </conditions>
+</query>

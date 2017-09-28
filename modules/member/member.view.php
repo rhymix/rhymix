@@ -410,11 +410,48 @@ class memberView extends member
 		if(!$oMemberModel->isLogged()) return $this->stop('msg_not_logged');
 
 		$logged_info = Context::get('logged_info');
+		
+		// Check folders
+		$output = executeQueryArray('member.getScrapFolderList', $args);
+		$folders = $output->data;
+		if(!count($folders))
+		{
+			$args = new stdClass;
+			$args->folder_srl = getNextSequence();
+			$args->member_srl = $logged_info->member_srl;
+			$args->name = '/DEFAULT/';
+			$args->list_order = $args->folder_srl;
+			$output = executeQuery('member.insertScrapFolder', $args);
+			if(!$output->toBool())
+			{
+				return $output;
+			}
+			$output = executeQuery('member.updateScrapFolderFromNull', $args);
+			if(!$output->toBool())
+			{
+				return $output;
+			}
+			$output = executeQueryArray('member.getScrapFolderList', $args);
+			$folders = $output->data;
+		}
+		
+		// Get default folder if no folder is selected
+		$folder_srl = (int)Context::get('folder_srl');
+		if($folder_srl && !count(array_filter($folders, function($folder) use($folder_srl) { return $folder->folder_srl == $folder_srl; })))
+		{
+			return new Object(-1, 'msg_invalid_request');
+		}
+		if(!$folder_srl && count($folders))
+		{
+			$folder_srl = array_first($folders)->folder_srl;
+		}
+
+		// Get scrapped documents in selected folder
 		$args = new stdClass();
 		$args->member_srl = $logged_info->member_srl;
+		$args->folder_srl = $folder_srl;
 		$args->page = (int)Context::get('page');
-
-		$output = executeQuery('member.getScrapDocumentList', $args);
+		$output = executeQueryArray('member.getScrapDocumentList', $args);
 		Context::set('total_count', $output->total_count);
 		Context::set('total_page', $output->total_page);
 		Context::set('page', $output->page);
