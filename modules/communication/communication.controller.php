@@ -456,9 +456,13 @@ class communicationController extends communication
 		$logged_info = Context::get('logged_info');
 
 		$target_srl = (int) trim(Context::get('target_srl'));
-		if(!$target_srl || $target_srl == $logged_info->member_srl)
+		if(!$target_srl)
 		{
 			return new Object(-1, 'msg_invalid_request');
+		}
+		if($target_srl == $logged_info->member_srl)
+		{
+			return new Object(-1, 'msg_no_self_friend');
 		}
 		
 		// Check duplicate friend
