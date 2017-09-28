@@ -215,7 +215,7 @@ class editorModel extends editor
 		{
 			$option->editor_skin = $option->skin;
 		}
-		if (!$option->editor_skin || !file_exists($this->module_path . 'skins/' . $option->editor_skin . '/editor.html'))
+		if (!$option->editor_skin || !file_exists($this->module_path . 'skins/' . $option->editor_skin . '/editor.html') || starts_with('xpresseditor', $option->editor_skin))
 		{
 			$option->editor_skin = $this->default_editor_config['editor_skin'];
 		}
