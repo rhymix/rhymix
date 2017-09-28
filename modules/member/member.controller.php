@@ -395,6 +395,31 @@ class memberController extends member
 	}
 
 	/**
+	 * Migrate a member's scrapped documents to the new folder system.
+	 *
+	 * @param int $member_srl
+	 * @return void|Object (void : success, Object : fail)
+	 */
+	function migrateMemberScrappedDocuments($member_srl)
+	{
+		$args = new stdClass;
+		$args->folder_srl = getNextSequence();
+		$args->member_srl = $member_srl;
+		$args->name = '/DEFAULT/';
+		$args->list_order = $args->folder_srl;
+		$output = executeQuery('member.insertScrapFolder', $args);
+		if(!$output->toBool())
+		{
+			return $output;
+		}
+		$output = executeQuery('member.updateScrapFolderFromNull', $args);
+		if(!$output->toBool())
+		{
+			return $output;
+		}
+	}
+
+	/**
 	 * Save posts
 	 * @deprecated - instead Document Controller - procDocumentTempSave method use
 	 * @return Object

@@ -418,21 +418,12 @@ class memberView extends member
 		$folders = $output->data;
 		if(!count($folders))
 		{
-			$args = new stdClass;
-			$args->folder_srl = getNextSequence();
-			$args->member_srl = $logged_info->member_srl;
-			$args->name = '/DEFAULT/';
-			$args->list_order = $args->folder_srl;
-			$output = executeQuery('member.insertScrapFolder', $args);
+			$output = getController('member')->migrateMemberScrappedDocuments($logged_info->member_srl);
 			if(!$output->toBool())
 			{
 				return $output;
 			}
-			$output = executeQuery('member.updateScrapFolderFromNull', $args);
-			if(!$output->toBool())
-			{
-				return $output;
-			}
+			
 			$output = executeQueryArray('member.getScrapFolderList', $args);
 			$folders = $output->data;
 		}
