@@ -225,7 +225,7 @@ jQuery(function($) {
 		var $this = $(this);
 		var href = $this.attr('href');
 		var target = $this.attr('target');
-		if (target === '_top' || target === '_self' || target === '_parent') {
+		if (!href || !target || target === '_top' || target === '_self' || target === '_parent') {
 			return;
 		}
 		if (!window.XE.isSameHost(href)) {
@@ -242,7 +242,7 @@ jQuery(function($) {
 		var $this = $(this);
 		var href = $this.attr('href');
 		var target = $this.attr('target');
-		if (target === '_top' || target === '_self' || target === '_parent') {
+		if (!href || !target || target === '_top' || target === '_self' || target === '_parent') {
 			return;
 		}
 		if (!window.XE.isSameHost(href)) {
