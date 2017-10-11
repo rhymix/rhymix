@@ -25,7 +25,7 @@
 			</span>
 			<span class="item" cond="!$is_logged">
 				<label for="homePage" class="iLabel">{$lang->homepage}</label>
-				<input type="text" name="homepage" id="homePage" class="iText homePage" value="{htmlspecialchars($oComment->get('homepage'))}" />&nbsp;
+				<input type="text" name="homepage" id="homePage" class="iText homePage" value="{htmlspecialchars($oComment->get('homepage'))}" />
 			</span>
 			<input cond="$is_logged" type="checkbox" name="notify_message" value="Y" checked="checked"|cond="$oComment->get('notify_message')=='Y'" id="notify_message" class="iCheck" />
 			<label cond="$is_logged" for="notify_message">{$lang->notify}</label>
