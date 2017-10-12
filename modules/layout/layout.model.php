@@ -1019,7 +1019,7 @@ class layoutModel extends layout
 		);
 
 		$image_path = $this->getUserLayoutImagePath($layout_srl);
-		$image_list = FileHandler::readDir($image_path,'/(.*(?:swf|jpg|jpeg|gif|bmp|png)$)/i');
+		$image_list = FileHandler::readDir($image_path,'/\.(?:jpg|jpeg|gif|bmp|png)$/i');
 
 		foreach($image_list as $image)
 		{
