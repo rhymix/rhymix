@@ -360,6 +360,11 @@
 				$container.find('.allowed_attach_size').text(res.allowed_attach_size);
 				$container.find('.attached_size').text(res.attached_size);
 				$container.find('.file_count').text(res.files.length);
+				if(res.allowed_filetypes === '*.*') {
+					$container.find('.allowed_filetypes_container').hide();
+				} else {
+					$container.find('.allowed_filetypes_container').show();
+				}
 
 				var tmpl_fileitem = data.settings.tmplXeUploaderFileitem;
 				var tmpl_fileitem_image = data.settings.tmplXeUploaderFileitemImage;
