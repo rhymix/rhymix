@@ -6,7 +6,6 @@
 		<action name="dispMemberLoginForm" type="view" />
 		<action name="dispMemberFindAccount" type="view" />
 		<action name="dispMemberResendAuthMail" type="view" />
-		<action name="dispMemberGetTempPassword" type="view" />
 		<action name="dispMemberInfo" type="view" permission="member" />
 		<action name="dispMemberModifyInfo" type="view" permission="member" />
 		<action name="dispMemberModifyPassword" type="view" permission="member" />
