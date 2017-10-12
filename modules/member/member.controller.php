@@ -628,7 +628,6 @@ class memberController extends member
 			$args->birthday = intval(strtr($args->birthday_ui, array('-'=>'', '/'=>'', '.'=>'', ' '=>'')));
 		}
 		
-		$args->find_account_answer = Context::get('find_account_answer');
 		$args->allow_mailing = Context::get('allow_mailing');
 		$args->allow_message = Context::get('allow_message');
 
@@ -834,7 +833,7 @@ class memberController extends member
 		// Extract the necessary information in advance
 		$oMemberModel = &getModel ('member');
 		$config = $oMemberModel->getMemberConfig ();
-		$getVars = array('find_account_answer','allow_mailing','allow_message');
+		$getVars = array('allow_mailing','allow_message');
 		if($config->signupForm)
 		{
 			foreach($config->signupForm as $formInfo)
@@ -2345,11 +2344,6 @@ class memberController extends member
 			$args->password = $oMemberModel->hashPassword($args->password);
 		}
 		
-		if($args->find_account_answer && !$password_is_hashed)
-		{
-			$args->find_account_answer = $oMemberModel->hashPassword($args->find_account_answer);
-		}
-		
 		// Check if ID is prohibited
 		if($logged_info->is_admin !== 'Y' && $oMemberModel->isDeniedID($args->user_id))
 		{
@@ -2668,22 +2662,6 @@ class memberController extends member
 			$args->password = $orgMemberInfo->password;
 		}
 
-		if($args->find_account_answer)
-		{
-			$args->find_account_answer = $oMemberModel->hashPassword($args->find_account_answer);
-		}
-		else if($orgMemberInfo->find_account_answer && Context::get('modify_find_account_answer') != 'Y')
-		{
-			if(Rhymix\Framework\Password::checkAlgorithm($orgMemberInfo->find_account_answer))
-			{
-				$args->find_account_answer = $orgMemberInfo->find_account_answer;
-			}
-			else
-			{
-				$args->find_account_answer = $oMemberModel->hashPassword($orgMemberInfo->find_account_answer);
-			}
-		}
-
 		if(!$args->user_name) $args->user_name = $orgMemberInfo->user_name;
 		if(!$args->user_id) $args->user_id = $orgMemberInfo->user_id;
 		if(!$args->nick_name) $args->nick_name = $orgMemberInfo->nick_name;
@@ -2786,14 +2764,6 @@ class memberController extends member
 		$this->_clearMemberCache($args->member_srl);
 
 		return $output;
-	}
-
-	function updateFindAccountAnswer($member_srl, $answer)
-	{
-		$args = new stdClass();
-		$args->member_srl = $member_srl;
-		$args->find_account_answer = getModel('member')->hashPassword($answer);
-		$output = executeQuery('member.updateFindAccountAnswer', $args);
 	}
 
 	/**
