@@ -201,6 +201,8 @@ class member extends ModuleObject {
 		if(!$oDB->isColumnExists("member", "find_account_question")) return true;
 		if(!$oDB->isColumnExists("member", "find_account_answer")) return true;
 
+		if(!$oDB->isColumnExists("member", "phone_number")) return true;
+		if(!$oDB->isIndexExists("member","idx_phone_number")) return true;
 		if(!$oDB->isColumnExists("member", "list_order")) return true;
 		if(!$oDB->isIndexExists("member","idx_list_order")) return true;
 		
@@ -306,6 +308,15 @@ class member extends ModuleObject {
 		if(!$oDB->isColumnExists("member", "find_account_answer"))
 		{
 			$oDB->addColumn("member", "find_account_answer", "varchar", 250);
+		}
+		
+		if(!$oDB->isColumnExists("member", "phone_number"))
+		{
+			$oDB->addColumn("member", "phone_number", "varchar", 80, null, false, 'email_address');
+		}
+		if(!$oDB->isIndexExists("member","idx_phone_number"))
+		{
+			$oDB->addIndex("member","idx_phone_number", array("phone_number"));
 		}
 
 		if(!$oDB->isColumnExists("member", "list_order"))
