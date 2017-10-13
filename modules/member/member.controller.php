@@ -2996,9 +2996,8 @@ class memberController extends member
 		$trigger_obj->email_address = $args->email_address;
 		$trigger_output = ModuleHandler::triggerCall('member.updateMemberEmailAddress', 'after', $trigger_obj);
 		
-		// Notify the result
-		$this->setTemplatePath($this->module_path.'tpl');
-		$this->setTemplateFile('msg_success_modify_email_address');
+		// Redirect to member info page
+		$this->setRedirectUrl(getNotEncodedUrl('', 'act', 'dispMemberInfo'));
 	}
 
 	/**
