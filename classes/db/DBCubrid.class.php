@@ -468,9 +468,10 @@ class DBCubrid extends DB
 	 * @param int $size column size
 	 * @param string|int $default default value
 	 * @param boolean $notnull not null status, default value is false
+	 * @param string $after_column
 	 * @return void
 	 */
-	function addColumn($table_name, $column_name, $type = 'number', $size = '', $default = null, $notnull = FALSE)
+	function addColumn($table_name, $column_name, $type = 'number', $size = '', $default = null, $notnull = false, $after_column = false)
 	{
 		$type = strtoupper($this->column_type[$type]);
 		if($type == 'INTEGER')
@@ -512,6 +513,10 @@ class DBCubrid extends DB
 		if($notnull)
 		{
 			$query .= "not null ";
+		}
+		if($after_column)
+		{
+			$query .= sprintf(" after `%s` ", $after_column);
 		}
 
 		return $this->_query($query);

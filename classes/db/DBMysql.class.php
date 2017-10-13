@@ -281,9 +281,10 @@ class DBMysql extends DB
 	 * @param int $size column size
 	 * @param string|int $default default value
 	 * @param boolean $notnull not null status, default value is false
+	 * @param string $after_column
 	 * @return void
 	 */
-	function addColumn($table_name, $column_name, $type = 'number', $size = '', $default = null, $notnull = false)
+	function addColumn($table_name, $column_name, $type = 'number', $size = '', $default = null, $notnull = false, $after_column = false)
 	{
 		$type = $this->column_type[$type];
 		if(strtoupper($type) == 'INTEGER')
@@ -307,6 +308,10 @@ class DBMysql extends DB
 		if($notnull)
 		{
 			$query .= " not null ";
+		}
+		if($after_column)
+		{
+			$query .= sprintf(" after `%s` ", $after_column);
 		}
 
 		return $this->_query($query);
