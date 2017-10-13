@@ -1444,39 +1444,32 @@ class memberController extends member
 		// Test logs for finding password by user_id and authkey
 		$args = new stdClass;
 		$args->member_srl = $member_srl;
-		$args->auth_key = $auth_key;
 		$output = executeQuery('member.getAuthMail', $args);
 
-		if(!$output->toBool() || $output->data->auth_key != $auth_key)
-		{
-			if(strlen($output->data->auth_key) !== strlen($auth_key))
-			{
-				executeQuery('member.deleteAuthMail', $args);
-			}
-
-			return $this->stop('msg_invalid_auth_key');
-		}
-
-		if(ztime($output->data->regdate) < time() - 86400)
+		if(!$output->toBool() || $output->data->auth_key !== $auth_key)
 		{
 			executeQuery('member.deleteAuthMail', $args);
 			return $this->stop('msg_invalid_auth_key');
 		}
 
-		$args->password = $output->data->new_password;
+		if(ztime($output->data->regdate) < time() - (86400 * 3))
+		{
+			executeQuery('member.deleteAuthMail', $args);
+			return $this->stop('msg_invalid_auth_key');
+		}
+
+		// Back up the value of $output->data->is_register
+		$is_register = $output->data->is_register;
 
 		// If credentials are correct, change the password to a new one
-		if($output->data->is_register == 'Y')
+		if($is_register === 'Y')
 		{
 			$args->denied = 'N';
 		}
 		else
 		{
-			$args->password = $oMemberModel->hashPassword($args->password);
+			$args->password = $oMemberModel->hashPassword($output->data->new_password);
 		}
-
-		// Back up the value of $Output->data->is_register
-		$is_register = $output->data->is_register;
 
 		$output = executeQuery('member.updateMemberPassword', $args);
 		if(!$output->toBool())
@@ -1490,13 +1483,13 @@ class memberController extends member
 		$this->_clearMemberCache($args->member_srl);
 
 		// Call a trigger (after)
-		$trigger_obj->is_register = $output->data->is_register;
+		$trigger_obj->is_register = $is_register;
 		$trigger_output = ModuleHandler::triggerCall('member.procMemberAuthAccount', 'after', $trigger_obj);
 
 		// Notify the result
-		Context::set('is_register', $is_register);
-		$this->setTemplatePath($this->module_path.'tpl');
-		$this->setTemplateFile('msg_success_authed');
+		$message = $is_register === 'Y' ? lang('msg_success_confirmed') : lang('msg_success_authed');
+		Context::setValidatorMessage('modules/member/skins', $message);
+		$this->setRedirectUrl(getNotEncodedUrl('', 'act', 'dispMemberLoginForm'));
 	}
 
 	/**
