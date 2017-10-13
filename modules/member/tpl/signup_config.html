@@ -108,9 +108,11 @@
 					</tr>
 				</thead>
 				<tbody class="uDrag">
-	{@$fixed_public_list = array('nick_name', 'find_account_question', 'password')}
+					{@ $disabled_list = array('find_account_question')}
+					{@ $fixed_public_list = array('nick_name', 'password')}
 					<!--@foreach($config->signupForm as $item)-->
-					<!--@if($item->isIdentifier)-->
+					<!--@if(in_array($item->name, $disabled_list))-->
+					<!--@elseif($item->isIdentifier)-->
 					<tr class="sticky">
 						<input type="hidden" name="list_order[]" value="{$item->name}" />
 						<input type="hidden" name="usable_list[]" value="{$item->name}"/>
