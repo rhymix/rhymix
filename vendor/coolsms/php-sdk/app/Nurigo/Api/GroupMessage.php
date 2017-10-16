@@ -94,37 +94,90 @@ class GroupMessage extends Coolsms
      */
     public function addMessages($options) 
     {
+
         if (!isset($options->group_id) || !isset($options->to) || !isset($options->text) || !isset($options->from)) {
             throw new CoolsmsSDKException('group_id, to, text, from is required', 202);
         }
         $args = new \stdClass();
         $args->messages = array();
-        $args->messages[0] = new \stdClass();
-        $sendNumber = explode(',', $options->to);
-        $args->messages[0]->to = new \stdClass();
-        $args->messages[0]->to->recipients = $sendNumber;
-        $args->messages[0]->from = $options->from;
-        $args->messages[0]->text = $options->text;
-        if ($options->type) {
-            $args->messages[0]->type = $options->type;
+        if (!empty($options->extension)) {
+            foreach ($options->extension as $key => $value) {
+                if (!$value->to || !$value->text) {
+                    continue;
+                }
+
+                $args->messages[$key] = new \stdClass();
+                $sendNumber = explode(',', $value->to);
+                $args->messages[$key]->to = new \stdClass();
+                $args->messages[$key]->to->recipients = $sendNumber;
+                $args->messages[$key]->from = $options->from;
+                $args->messages[$key]->text = $value->text;
+                if ($options->type) {
+                    $args->messages[$key]->type = $options->type;
+                } else {
+                    $args->messages[$key]->type = 'SMS';
+                }
+
+                if ($options->country) {
+                    $args->messages[$key]->country = $options->country;
+                }
+
+                if ($options->subject) {
+                    $args->messages[$key]->subject = $options->subject;
+                }
+
+                if ($options->imageId) {
+                    $args->messages[$key]->imageId = $options->imageId;
+                }
+
+                if ($options->kakaoOptions) {
+                    $args->messages[$key]->kakaoOptions = new \stdClass();
+                    if ($options->kakaoOptions->senderKey) {
+                        $args->messages[$key]->kakaoOptions->senderKey = $options->kakaoOptions->senderKey;
+                    }
+
+                    if ($options->kakaoOptions->templateCode) {
+                        $args->messages[$key]->kakaoOptions->templateCode = $options->kakaoOptions->templateCode;
+                    }
+
+                    if ($options->kakaoOptions->buttonName) {
+                        $args->messages[$key]->kakaoOptions->buttonName = $options->kakaoOptions->buttonName;
+                    }
+
+                    if ($options->kakaoOptions->buttonUrl) {
+                        $args->messages[$key]->kakaoOptions->buttonUrl = $options->kakaoOptions->buttonUrl;
+                    }
+                }
+
+            }
         } else {
-            $args->messages[0]->type = 'SMS';
-        }
-        if ($options->country) {
-            $args->messages[0]->country = $options->country;
-        }
-        if ($options->subject) {
-            $args->messages[0]->subject = $options->subject;
-        }
-        if ($options->imageId) {
-            $args->messages[0]->imageId = $options->imageId;
-        }
-        if ($options->kakaoOptions) {
-            $args->messages[0]->kakaoOptions = new \stdClass();
-            if($options->kakaoOptions->senderKey) $args->messages[0]->kakaoOptions->senderKey = $options->kakaoOptions->senderKey;
-            if($options->kakaoOptions->templateCode) $args->messages[0]->kakaoOptions->templateCode = $options->kakaoOptions->templateCode;
-            if($options->kakaoOptions->buttonName) $args->messages[0]->kakaoOptions->buttonName = $options->kakaoOptions->buttonName;
-            if($options->kakaoOptions->buttonUrl) $args->messages[0]->kakaoOptions->buttonUrl = $options->kakaoOptions->buttonUrl;
+            $args->messages[0] = new \stdClass();
+            $sendNumber = explode(',', $options->to);
+            $args->messages[0]->to = new \stdClass();
+            $args->messages[0]->to->recipients = $sendNumber;
+            $args->messages[0]->from = $options->from;
+            $args->messages[0]->text = $options->text;
+            if ($options->type) {
+                $args->messages[0]->type = $options->type;
+            } else {
+                $args->messages[0]->type = 'SMS';
+            }
+            if ($options->country) {
+                $args->messages[0]->country = $options->country;
+            }
+            if ($options->subject) {
+                $args->messages[0]->subject = $options->subject;
+            }
+            if ($options->imageId) {
+                $args->messages[0]->imageId = $options->imageId;
+            }
+            if ($options->kakaoOptions) {
+                $args->messages[0]->kakaoOptions = new \stdClass();
+                if($options->kakaoOptions->senderKey) $args->messages[0]->kakaoOptions->senderKey = $options->kakaoOptions->senderKey;
+                if($options->kakaoOptions->templateCode) $args->messages[0]->kakaoOptions->templateCode = $options->kakaoOptions->templateCode;
+                if($options->kakaoOptions->buttonName) $args->messages[0]->kakaoOptions->buttonName = $options->kakaoOptions->buttonName;
+                if($options->kakaoOptions->buttonUrl) $args->messages[0]->kakaoOptions->buttonUrl = $options->kakaoOptions->buttonUrl;
+            }
         }
 
         $encoding_json_data = json_encode($args);
