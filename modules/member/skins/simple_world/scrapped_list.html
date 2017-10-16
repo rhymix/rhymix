@@ -1,7 +1,20 @@
 <include target="./common_header.html" />
 <section class="sw-body">
 	<h1>{$member_title = lang('member.cmd_view_scrapped_document')}</h1>
-	<div class="rx_member-notice">{lang('common.total')}: {number_format($total_count)}</div>
+
+	<div>
+		<select id="scrap_folder_list" style="margin:0">
+			<!--@foreach($scrap_folders as $folder)-->
+				<option value="{$folder->folder_srl}" selected="selected"|cond="$folder_srl == $folder->folder_srl">{$folder->name == '/DEFAULT/' ? $lang->default_folder : $folder->name}</option>
+			<!--@endforeach-->
+		</select>
+		<div class="btn-group" cond="$folder_info->name !== '/DEFAULT/'">
+			<input type="text" class="folder_name" style="margin:0;display:none" />
+			<button id="scrap_folder_rename" class="btn" data-folder-srl="{$folder_srl}">{$lang->scrap_folder_rename}</button>
+			<button id="scrap_folder_delete" class="btn" data-folder-srl="{$folder_srl}">{$lang->scrap_folder_delete}</button>
+		</div>
+	</div>
+
 	<div>
 		<ul class="rx_sw_list">
 			<li loop="$document_list => $key, $item">
@@ -30,5 +43,9 @@
 		<!--@end-->
 		<li><a href="{getUrl('page',$page_navigation->last_page,'module_srl','')}">{$lang->last_page} &rsaquo;</a></li>
 	</ul>
+</div>
+<div class="sw-footer sw-anchor-buttons">
+	<input type="text" class="folder_name" style="margin:0;display:none" />
+	<button id="scrap_folder_create">{$lang->scrap_folder_create}</button>
 </div>
 <include target="./common_footer.html" />

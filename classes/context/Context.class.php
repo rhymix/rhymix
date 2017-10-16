@@ -2476,6 +2476,22 @@ class Context
 	}
 
 	/**
+	 * Set a validator message
+	 * 
+	 * @param string $id
+	 * @param string $message
+	 * @param string $type (optional)
+	 */
+	public static function setValidatorMessage($id, $message, $type = 'info')
+	{
+		$_SESSION['XE_VALIDATOR_ID'] = $id;
+		$_SESSION['XE_VALIDATOR_MESSAGE'] = $message;
+		$_SESSION['XE_VALIDATOR_MESSAGE_TYPE'] = $type;
+		$_SESSION['XE_VALIDATOR_ERROR'] = $type === 'error' ? -1 : 0;
+		$_SESSION['XE_VALIDATOR_RETURN_URL'] = null;
+	}
+
+	/**
 	 * Checks whether XE is installed
 	 *
 	 * @return bool True if the config file exists, otherwise FALSE.

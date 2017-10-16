@@ -522,45 +522,7 @@ class memberAdminView extends member
 					}
 					else if($formInfo->name == 'find_account_question')
 					{
-						if($memberInfo['member_srl'] && $memberInfo['member_srl'] !== $logged_info->member_srl)
-						{
-							continue;
-						}
-						
-						$optionTag = array();
-						foreach($lang->find_account_question_items as $key => $val)
-						{
-							$selected = ($key == $memberInfo['find_account_question']) ? 'selected="selected"' : '';
-							$optionTag[] = sprintf('<option value="%s" %s >%s</option>', $key, $selected, $val);
-						}
-						$is_answer = $memberInfo['find_account_answer'] ? '**********' : '';
-						$disabled = $memberInfo['member_srl'] ? 'disabled="disabled"' : '';
-						
-						$formTag->type = 'select';
-						$inputTag = sprintf('<select name="find_account_question" id="find_account_question" style="display:block;margin:0 0 8px 0" %s>%s</select>', $disabled, implode('', $optionTag));
-						$inputTag .= sprintf('<input type="text" name="find_account_answer" id="find_account_answer" title="%s" value="%s" %s />', $lang->find_account_answer, $is_answer, $disabled);
-						
-						if($disabled)
-						{
-							$inputTag .= <<< script
-<label><input type="checkbox" name="modify_find_account_answer" value="Y" /> {$lang->cmd_modify}</label>
-<script>
-(function($) {
-	$(function() {
-		$('[name=modify_find_account_answer]').change(function() {
-			if($(this).prop('checked')) {
-				$('[name=find_account_question],[name=find_account_answer]').attr('disabled', false);
-				$('[name=find_account_answer]').val('');
-			} else {
-				$('[name=find_account_question],[name=find_account_answer]').attr('disabled', true);
-				$('[name=find_account_answer]').val('{$is_answer}');
-			}
-		});
-	});
-})(jQuery);
-</script>
-script;
-						}
+						continue;
 					}
 					else if($formInfo->name == 'email_address')
 					{

@@ -28,7 +28,7 @@ class member extends ModuleObject {
 		// Set to use SSL upon actions related member join/information/password and so on. 2013.02.15
 		if(!Context::isExistsSSLAction('dispMemberModifyPassword') && Context::getSslStatus() == 'optional')
 		{
-			$ssl_actions = array('dispMemberModifyPassword', 'dispMemberSignUpForm', 'dispMemberModifyInfo', 'dispMemberModifyEmailAddress', 'dispMemberGetTempPassword', 'dispMemberResendAuthMail', 'dispMemberLoginForm', 'dispMemberFindAccount', 'dispMemberLeave', 'procMemberLogin', 'procMemberModifyPassword', 'procMemberInsert', 'procMemberModifyInfo', 'procMemberFindAccount', 'procMemberModifyEmailAddress', 'procMemberResendAuthMail', 'procMemberLeave'/*, 'getMemberMenu'*/, 'procMemberFindAccountByQuestion');
+			$ssl_actions = array('dispMemberModifyPassword', 'dispMemberSignUpForm', 'dispMemberModifyInfo', 'dispMemberModifyEmailAddress', 'dispMemberResendAuthMail', 'dispMemberLoginForm', 'dispMemberFindAccount', 'dispMemberLeave', 'procMemberLogin', 'procMemberModifyPassword', 'procMemberInsert', 'procMemberModifyInfo', 'procMemberFindAccount', 'procMemberModifyEmailAddress', 'procMemberResendAuthMail', 'procMemberLeave'/*, 'getMemberMenu'*/, 'procMemberFindAccountByQuestion');
 			Context::addSSLActions($ssl_actions);
 		}
 	}
@@ -100,7 +100,6 @@ class member extends ModuleObject {
 			FileHandler::makeDir('./files/ruleset');
 			$oMemberAdminController->_createSignupRuleset($config->signupForm);
 			$oMemberAdminController->_createLoginRuleset($config->identifier);
-			$oMemberAdminController->_createFindAccountByQuestion($config->identifier);
 		}
 		$oModuleController->insertModuleConfig('member',$config);
 
@@ -207,7 +206,10 @@ class member extends ModuleObject {
 		
 		// Check autologin table
 		if(!$oDB->isColumnExists("member_autologin", "security_key")) return true;
-
+		
+		// Check scrap folder table
+		if(!$oDB->isColumnExists("member_scrap", "folder_srl")) return true;
+		
 		$oModuleModel = getModel('module');
 		$config = $oModuleModel->getModuleConfig('member');
 		// check signup form ordering info
@@ -234,7 +236,6 @@ class member extends ModuleObject {
 
 		if(!is_readable('./files/ruleset/insertMember.xml')) return true;
 		if(!is_readable('./files/ruleset/login.xml')) return true;
-		if(!is_readable('./files/ruleset/find_member_account_by_question.xml')) return true;
 
 		// 2013. 11. 22 add menu when popup document menu called
 		if(!$oModuleModel->getTrigger('document.getDocumentMenu', 'member', 'controller', 'triggerGetDocumentMenu', 'after')) return true;
@@ -328,6 +329,13 @@ class member extends ModuleObject {
 			$oDB->createTableByXmlFile($this->module_path . '/schemas/member_autologin.xml');
 		}
 
+		// Check scrap folder table
+		if(!$oDB->isColumnExists("member_scrap", "folder_srl"))
+		{
+			$oDB->addColumn("member_scrap", "folder_srl", "number", 11);
+			$oDB->addIndex("member_scrap","idx_folder_srl", array("folder_srl"));
+		}
+		
 		$oModuleModel = getModel('module');
 		$config = $oModuleModel->getModuleConfig('member');
 		$oModuleController = getController('module');
@@ -379,8 +387,6 @@ class member extends ModuleObject {
 			$oMemberAdminController->_createSignupRuleset($config->signupForm);
 		if(!is_readable('./files/ruleset/login.xml'))
 			$oMemberAdminController->_createLoginRuleset($config->identifier);
-		if(!is_readable('./files/ruleset/find_member_account_by_question.xml'))
-			$oMemberAdminController->_createFindAccountByQuestion($config->identifier);
 
 		// 2013. 11. 22 add menu when popup document menu called
 		if(!$oModuleModel->getTrigger('document.getDocumentMenu', 'member', 'controller', 'triggerGetDocumentMenu', 'after'))

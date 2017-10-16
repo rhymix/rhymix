@@ -26,6 +26,7 @@ $lang->cmd_add_friend_group = 'Add Friend Group';
 $lang->cmd_rename_friend_group = 'Rename Friend Group';
 $lang->cmd_delete_friend_group = 'Delete Friend Group';
 $lang->msg_already_friend = 'You are already friends with this person.';
+$lang->msg_no_self_friend = 'You cannot add yourself as a friend.';
 $lang->msg_no_message = 'There is no message.';
 $lang->msg_cannot_send_to_yourself = 'Cannot send a message to yourself.';
 $lang->message_received = 'You have a new message.';

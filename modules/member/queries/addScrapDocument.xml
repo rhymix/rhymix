@@ -5,6 +5,7 @@
     <columns>
         <column name="member_srl" var="member_srl" notnull="notnull" />
         <column name="document_srl" var="document_srl" default="0" />
+		<column name="folder_srl" var="folder_srl" />
         <column name="title" var="title" />
         <column name="user_id" var="user_id" />
         <column name="user_name" var="user_name" />

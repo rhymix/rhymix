@@ -220,22 +220,22 @@ class adminAdminController extends admin
 
 		if($designInfo->layout_srl)
 		{
-			$buff[] = sprintf('$designInfo->layout_srl = %s; ', $designInfo->layout_srl);
+			$buff[] = sprintf('$designInfo->layout_srl = %s; ', var_export(intval($designInfo->layout_srl), true));
 		}
 
 		if($designInfo->mlayout_srl)
 		{
-			$buff[] = sprintf('$designInfo->mlayout_srl = %s;', $designInfo->mlayout_srl);
+			$buff[] = sprintf('$designInfo->mlayout_srl = %s;', var_export(intval($designInfo->mlayout_srl), true));
 		}
 
 		$buff[] = '$designInfo->module = new stdClass;';
 
 		foreach($designInfo->module as $moduleName => $skinInfo)
 		{
-			$buff[] = sprintf('$designInfo->module->%s = new stdClass;', $moduleName);
+			$buff[] = sprintf('$designInfo->module->{%s} = new stdClass;', var_export(strval($moduleName), true));
 			foreach($skinInfo as $target => $skinName)
 			{
-				$buff[] = sprintf('$designInfo->module->%s->%s = \'%s\';', $moduleName, $target, $skinName);
+				$buff[] = sprintf('$designInfo->module->{%s}->{%s} = %s;', var_export(strval($moduleName), true), var_export(strval($target), true), var_export(strval($skinName), true));
 			}
 		}
 

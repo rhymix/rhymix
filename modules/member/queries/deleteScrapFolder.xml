@@ -1,0 +1,8 @@
+<query id="deleteScrapFolder" action="delete">
+    <tables>
+        <table name="member_scrap_folders" />
+    </tables>
+    <conditions>
+        <condition operation="equal" column="folder_srl" var="folder_srl" notnull="notnull" />
+    </conditions>
+</query>

@@ -410,16 +410,60 @@ class memberView extends member
 		if(!$oMemberModel->isLogged()) return $this->stop('msg_not_logged');
 
 		$logged_info = Context::get('logged_info');
+		
+		// Check folders
+		$args = new stdClass;
+		$args->member_srl = $logged_info->member_srl;
+		$output = executeQueryArray('member.getScrapFolderList', $args);
+		$folders = $output->data;
+		if(!count($folders))
+		{
+			$output = getController('member')->migrateMemberScrappedDocuments($logged_info->member_srl);
+			if($output && !$output->toBool())
+			{
+				return $output;
+			}
+			
+			$output = executeQueryArray('member.getScrapFolderList', $args);
+			$folders = $output->data;
+		}
+		
+		// Get default folder if no folder is selected
+		$folder_srl = (int)Context::get('folder_srl');
+		if($folder_srl && !array_filter($folders, function($folder) use($folder_srl) { return $folder->folder_srl == $folder_srl; }))
+		{
+			return new Object(-1, 'msg_invalid_request');
+		}
+		if(!$folder_srl && count($folders))
+		{
+			$folder_srl = array_first($folders)->folder_srl;
+		}
+		
+		// Get folder info
+		$folder_info = new stdClass;
+		foreach($folders as $folder)
+		{
+			if($folder->folder_srl == $folder_srl)
+			{
+				$folder_info = $folder;
+				break;
+			}
+		}
+
+		// Get scrapped documents in selected folder
 		$args = new stdClass();
 		$args->member_srl = $logged_info->member_srl;
+		$args->folder_srl = $folder_srl;
 		$args->page = (int)Context::get('page');
-
-		$output = executeQuery('member.getScrapDocumentList', $args);
+		$output = executeQueryArray('member.getScrapDocumentList', $args);
 		Context::set('total_count', $output->total_count);
 		Context::set('total_page', $output->total_page);
 		Context::set('page', $output->page);
 		Context::set('document_list', $output->data);
 		Context::set('page_navigation', $output->page_navigation);
+		Context::set('scrap_folders', $folders);
+		Context::set('folder_info', $folder_info);
+		Context::set('folder_srl', $folder_srl);
 
 		$security = new Security($output->data);
 		$security->encodeHTML('..nick_name');
@@ -604,27 +648,9 @@ class memberView extends member
 		$config = $this->member_config;
 
 		Context::set('identifier', $config->identifier);
-		Context::set('enable_find_account_question', $config->enable_find_account_question);
+		Context::set('enable_find_account_question', 'N');
 
 		$this->setTemplateFile('find_member_account');
-	}
-
-	/**
-	 * @brief Generate a temporary password
-	 */
-	function dispMemberGetTempPassword()
-	{
-		if(Context::get('is_logged')) return $this->stop('already_logged');
-
-		$user_id = Context::get('user_id');
-		$temp_password = $_SESSION['xe_temp_password_'.$user_id];
-		unset($_SESSION['xe_temp_password_'.$user_id]);
-
-		if(!$user_id||!$temp_password) return new Object(-1,'msg_invaild_request');
-
-		Context::set('temp_password', $temp_password);
-
-		$this->setTemplateFile('find_temp_password');
 	}
 
 	/**

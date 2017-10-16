@@ -443,6 +443,10 @@ class boardController extends board
 				{
 					return new Object(-1, 'msg_invalid_request');
 				}
+				if($parent_comment->isSecret() && $this->module_info->secret === 'Y')
+				{
+					$obj->is_secret = 'Y';
+				}
 				$output = $oCommentController->insertComment($obj, $manual, $update_document);
 			}
 			// Parent does not exist.
@@ -741,6 +745,12 @@ class boardController extends board
 			$num = hash_hmac('sha256', ($member_srl ?: \RX_CLIENT_IP) . ':document_srl:' . $document_srl, config('crypto.authentication_key'));
 			$num = sprintf('%08d', hexdec(substr($num, 0, 8)) % 100000000);
 			return strtr($format, array('$DOCNUM' => $num));
+		}
+		elseif (strpos($format, '$DOCDAILYNUM') !== false)
+		{
+			$num = hash_hmac('sha256', ($member_srl ?: \RX_CLIENT_IP) . ':document_srl:' . $document_srl . ':date:' . date('Y-m-d'), config('crypto.authentication_key'));
+			$num = sprintf('%08d', hexdec(substr($num, 0, 8)) % 100000000);
+			return strtr($format, array('$DOCDAILYNUM' => $num));
 		}
 		else
 		{

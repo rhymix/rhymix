@@ -82,6 +82,11 @@
 	window.XE = {
 		loaded_popup_menus : [],
 		addedDocument : [],
+		URI : window.URI,
+		URITemplate : window.URITemplate,
+		SecondLevelDomains : window.SecondLevelDomains,
+		IPv6 : window.IPv6,
+		
 		/**
 		 * @brief 특정 name을 가진 체크박스들의 checked 속성 변경
 		 * @param [itemName='cart',][options={}]
@@ -194,19 +199,17 @@
 		/* 동일 사이트 내 주소인지 판단 (프로토콜 제외) */
 		isSameHost: function(url) {
 			var site_baseurl = window.XE.URI(window.request_uri).normalizePort().normalizePathname();
-			site_baseurl = site_baseurl.hostname() + site_baseurl.port() + site_baseurl.directory();
+			site_baseurl = site_baseurl.hostname() + site_baseurl.directory();
 			
 			var target_url = window.XE.URI(url).normalizePort().normalizePathname();
 			if (!target_url.hostname()) {
 				target_url = target_url.absoluteTo(window.request_uri);
 			}
-			target_url = target_url.hostname() + target_url.port() + target_url.directory();
+			target_url = target_url.hostname() + target_url.directory();
 
 			return target_url.indexOf(site_baseurl) === 0;
-		},
+		}
 	};
-
-	$.extend(window.XE, URI.noConflict(true));
 	
 }) (jQuery);
 
@@ -225,7 +228,7 @@ jQuery(function($) {
 		var $this = $(this);
 		var href = $this.attr('href');
 		var target = $this.attr('target');
-		if (target === '_top' || target === '_self' || target === '_parent') {
+		if (!href || !target || target === '_top' || target === '_self' || target === '_parent') {
 			return;
 		}
 		if (!window.XE.isSameHost(href)) {
@@ -242,7 +245,7 @@ jQuery(function($) {
 		var $this = $(this);
 		var href = $this.attr('href');
 		var target = $this.attr('target');
-		if (target === '_top' || target === '_self' || target === '_parent') {
+		if (!href || !target || target === '_top' || target === '_self' || target === '_parent') {
 			return;
 		}
 		if (!window.XE.isSameHost(href)) {
@@ -294,18 +297,6 @@ jQuery(function($) {
 		});
 	}
 
-	/* 단락에디터 fold 컴포넌트 펼치기/접기 */
-	var drEditorFold = $('.xe_content .fold_button');
-	if(drEditorFold.size()) {
-		var fold_container = $('div.fold_container', drEditorFold);
-		$('button.more', drEditorFold).click(function() {
-			$(this).hide().next('button').show().parent().next(fold_container).show();
-		});
-		$('button.less', drEditorFold).click(function() {
-			$(this).hide().prev('button').show().parent().next(fold_container).hide();
-		});
-	}
-
 	jQuery('input[type="submit"],button[type="submit"]').click(function(ev){
 		var $el = jQuery(ev.currentTarget);
 
@@ -324,94 +315,33 @@ jQuery(function($) {
 });
 
 (function(){ // String extension methods
-	function isSameUrl(a,b) {
-		return (a.replace(/#.*$/, '') === b.replace(/#.*$/, ''));
-	}
-	var isArray = Array.isArray || function(obj){ return Object.prototype.toString.call(obj)=='[object Array]'; };
 
 	/**
 	 * @brief location.href에서 특정 key의 값을 return
 	 **/
 	String.prototype.getQuery = function(key) {
-		var loc = isSameUrl(this, window.location.href) ? current_url : this;
-		var idx = loc.indexOf('?');
-		if(idx == -1) return null;
-		var query_string = loc.substr(idx+1, this.length), args = {};
-		query_string.replace(/([^=]+)=([^&]*)(&|$)/g, function() { args[arguments[1]] = arguments[2]; });
-
-		var q = args[key];
-		if(typeof(q)=='undefined') q = '';
-
-		return q;
+		var queries = window.XE.URI(this).search(true);
+		var result = queries[key];
+		if(typeof result === 'undefined') {
+			return '';
+		} else {
+			return result;
+		}
 	};
 
 	/**
 	 * @brief location.href에서 특정 key의 값을 return
 	 **/
 	String.prototype.setQuery = function(key, val) {
-		var loc = isSameUrl(this, window.location.href) ? current_url : this;
-		var idx = loc.indexOf('?');
-		var uri = loc.replace(/#$/, '');
-		var act, re, v, toReplace, query_string;
-
-		if (typeof(val)=='undefined') val = '';
-
-		if (idx != -1) {
-			var args = {}, q_list = [];
-			query_string = uri.substr(idx + 1, loc.length);
-			uri = loc.substr(0, idx);
-			query_string.replace(/([^=]+)=([^&]*)(&|$)/g, function(all,key,val) { args[key] = val; });
-
-			args[key] = val;
-
-			for (var prop in args) {
-				if (!args.hasOwnProperty(prop)) continue;
-				if (!(v = String(args[prop]).trim())) continue;
-				q_list.push(prop+'='+decodeURI(v));
-			}
-
-			query_string = q_list.join('&');
-			uri = uri + (query_string ? '?' + encodeURI(query_string) : '');
-		} else {
-			if (String(val).trim()) {
-				query_string = '?' + key + '=' + val;
-				uri = uri + encodeURI(query_string);
+		var uri = window.XE.URI(this);
+		if(typeof key !== 'undefined') {
+			if(typeof val === "undefined" || val === '' || val === null) {
+				uri.removeSearch(key);
+			} else {
+				uri.setSearch(key, String(val));
 			}
 		}
-
-		re = /^https:\/\/([^:\/]+)(:\d+|)/i;
-		if (re.test(uri)) {
-			toReplace = 'http://'+RegExp.$1;
-			if (window.http_port && http_port != 80) toReplace += ':' + http_port;
-			uri = uri.replace(re, toReplace);
-		}
-
-		var bUseSSL = !!window.enforce_ssl || (location.protocol == 'https:');
-		if (!bUseSSL && isArray(window.ssl_actions) && (act=uri.getQuery('act'))) {
-			for (var i=0,c=ssl_actions.length; i < c; i++) {
-				if (ssl_actions[i] === act) {
-					bUseSSL = true;
-					break;
-				}
-			}
-		}
-
-		re = /https?:\/\/([^:\/]+)(:\d+|)/i;
-		if (bUseSSL && re.test(uri)) {
-			toReplace = 'https://'+RegExp.$1;
-			if (window.https_port && https_port != 443) toReplace += ':' + https_port;
-			uri = uri.replace(re, toReplace);
-		}
-		if (!bUseSSL && re.test(uri)) {
-			toReplace = 'http://'+RegExp.$1;
-			if (window.http_port && http_port != 80) toReplace += ':' + http_port;
-			uri = uri.replace(re, toReplace);
-		}
-
-		// insert index.php if it isn't included
-		uri = uri.replace(/\/(index\.php)?\?/, '/index.php?');
-
-		return uri;
+		return normailzeUri(uri).toString();
 	};
 
 	/**
@@ -451,6 +381,30 @@ jQuery(function($) {
 			return String(this).replace(/^[\s\uFEFF\xA0]+|[\s\uFEFF\xA0]+$/g, '');
 		};
 	}
+	
+	/**
+	 * @brief Helper function for setQuery()
+	 * 
+	 * @param uri URI
+	 * @return URI
+	 */
+	function normailzeUri(uri) {
+		var protocol = window.enforce_ssl ? 'https' : 'http';
+		var port = (protocol === 'http') ? window.http_port : window.https_port;
+		var filename = uri.filename() || 'index.php';
+		var queries = uri.search(true);
+
+		if(window.XE.isSameHost(uri.toString()) && $.isEmptyObject(queries)) {
+			filename = '';
+		}
+		
+		if(protocol !== 'https' && queries.act && $.inArray(queries.act, window.ssl_actions) !== -1) {
+			protocol = 'https';
+		}
+
+		return uri.protocol(protocol).port(port || null).normalizePort().filename(filename);
+	}
+	
 })();
 
 /**

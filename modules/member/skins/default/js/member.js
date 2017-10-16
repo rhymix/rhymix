@@ -131,7 +131,7 @@ function doDeleteImageMark(member_srl) {
 function doDeleteScrap(document_srl) {
     var params = new Array();
     params['document_srl'] = document_srl;
-    exec_xml('member', 'procMemberDeleteScrap', params, function() { location.reload(); });
+    exec_json('member.procMemberDeleteScrap', params, function() { location.reload(); });
 }
 
 /* 비밀번호 찾기 후 */
@@ -154,10 +154,57 @@ function doDeleteSavedDocument(document_srl, confirm_message) {
 
     var params = new Array();
     params['document_srl'] = document_srl;
-    exec_xml('member', 'procMemberDeleteSavedDocument', params, function() { location.reload(); });
+    exec_json('member.procMemberDeleteSavedDocument', params, function() { location.reload(); });
 }
 
 function insertSelectedModule(id, module_srl, mid, browser_title) {
     location.href = current_url.setQuery('selected_module_srl',module_srl);
 }
 
+/* 스크랩 폴더 이동 */
+jQuery(function($) {
+	$("#scrap_folder_create").on("click", function() {
+		var input = $(this).siblings("input.folder_name").first();
+		if (!input.is(":visible")) {
+			input.show();
+		} else {
+			if (!input.val()) return;
+			var params = { name: input.val() };
+			exec_json('member.procMemberInsertScrapFolder', params, function(data) {
+				window.location.href = current_url.setQuery("folder_srl", data.folder_srl);
+			});
+		}
+	});
+	$("#scrap_folder_rename").on("click", function() {
+		var folder_srl = $(this).data("folder-srl");
+		var input = $(this).siblings("input.folder_name").first();
+		if (!input.is(":visible")) {
+			input.show();
+		} else {
+			if (!input.val()) return;
+			var params = { folder_srl: folder_srl, name: input.val() };
+			exec_json('member.procMemberRenameScrapFolder', params, function() {
+				window.location.reload();
+			});
+		}
+	});
+	$("#scrap_folder_delete").on("click", function() {
+		var folder_srl = $(this).data("folder-srl");
+		var params = { folder_srl: folder_srl };
+		exec_json('member.procMemberDeleteScrapFolder', params, function() {
+			window.location.href = current_url.setQuery("folder_srl", "");
+		});
+	});
+	$("#scrap_folder_list").on("change", function() {
+		window.location.href = current_url.setQuery("folder_srl", $(this).val());
+	});
+	$(".scrap_folder_move").on("change", function() {
+		var document_srl = $(this).data('document-srl');
+		var folder_srl = $(this).val();
+		if (!folder_srl) return;
+		var params = { document_srl: document_srl, folder_srl: folder_srl };
+		exec_json('member.procMemberMoveScrapFolder', params, function() {
+			window.location.reload();
+		});
+	});
+});

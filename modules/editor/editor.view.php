@@ -99,6 +99,7 @@ class editorView extends editor
 		$oModuleModel = getModel('module');
 		// Get a list of editor skin
 		$editor_skin_list = FileHandler::readDir(_XE_PATH_.'modules/editor/skins');
+		$editor_skin_list = array_filter($editor_skin_list, function($name) { return !starts_with('xpresseditor', $name) && !starts_with('dreditor', $name); });
 		Context::set('editor_skin_list', $editor_skin_list);
 
 		$skin_info = $oModuleModel->loadSkinInfo($this->module_path,$editor_config->editor_skin);

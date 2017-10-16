@@ -55,4 +55,3 @@ $lang->typename['m.skin'] = 'モバイルスキン';
 $lang->typename['skin'] = 'スキン';
 $lang->typename['widgetstyle'] = 'ウィジェットスタイル';
 $lang->typename['style'] = 'ドキュメントスタイル';
-$lang->typename['drcomponent'] = '段落エディタコンポーネント';
