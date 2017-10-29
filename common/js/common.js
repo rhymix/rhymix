@@ -211,7 +211,7 @@
 		}
 	};
 	
-}) (jQuery);
+})(jQuery);
 
 /* jQuery(document).ready() */
 jQuery(function($) {
@@ -314,7 +314,7 @@ jQuery(function($) {
 	});
 });
 
-(function(){ // String extension methods
+(function($) { // String extension methods
 
 	/**
 	 * @brief location.href에서 특정 key의 값을 return
@@ -405,7 +405,7 @@ jQuery(function($) {
 		return uri.protocol(protocol).port(port || null).normalizePort().filename(filename);
 	}
 	
-})();
+})(jQuery);
 
 /**
  * @brief xSleep(micro time)
