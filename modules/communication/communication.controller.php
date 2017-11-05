@@ -129,11 +129,13 @@ class communicationController extends communication
 		{
 			$view_url = Context::getRequestUri();
 			$content = sprintf("%s<br /><br />From : <a href=\"%s\" target=\"_blank\">%s</a>", $content, $view_url, $view_url);
-			$oMail = new Mail();
-			$oMail->setTitle(htmlspecialchars($title, ENT_COMPAT | ENT_HTML401, 'UTF-8', false));
-			$oMail->setContent(utf8_mbencode(removeHackTag($content)));
-			$oMail->setSender($logged_info->nick_name, $logged_info->email_address);
-			$oMail->setReceiptor($receiver_member_info->nick_name, $receiver_member_info->email_address);
+			
+			$oMail = new \Rhymix\Framework\Mail();
+			$oMail->setSubject($title);
+			$oMail->setBody(utf8_mbencode(removeHackTag($content)));
+			$oMail->setFrom(config('mail.default_from') ?: $logged_info->email_address, $logged_info->nick_name);
+			$oMail->setReplyTo($logged_info->email_address);
+			$oMail->addTo($receiver_member_info->email_address, $receiver_member_info->nick_name);
 			$oMail->send();
 		}
 
@@ -454,9 +456,13 @@ class communicationController extends communication
 		$logged_info = Context::get('logged_info');
 
 		$target_srl = (int) trim(Context::get('target_srl'));
-		if(!$target_srl || $target_srl == $logged_info->member_srl)
+		if(!$target_srl)
 		{
 			return new Object(-1, 'msg_invalid_request');
+		}
+		if($target_srl == $logged_info->member_srl)
+		{
+			return new Object(-1, 'msg_no_self_friend');
 		}
 		
 		// Check duplicate friend

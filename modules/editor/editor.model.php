@@ -43,7 +43,6 @@ class editorModel extends editor
 		}
 		
 		// Fill in some other values.
-		if($editor_config->enable_autosave != 'N') $editor_config->enable_autosave = 'Y';
 		if(!is_array($editor_config->enable_html_grant)) $editor_config->enable_html_grant = array();
 		if(!is_array($editor_config->enable_comment_html_grant)) $editor_config->enable_comment_html_grant = array();
 		if(!is_array($editor_config->upload_file_grant)) $editor_config->upload_file_grant = array();
@@ -74,105 +73,23 @@ class editorModel extends editor
 				$editor_config->$key = $editor_default_config->$key ?: $val;
 			}
 		}
-
+		
 		return $editor_config;
 	}
 
-	function loadDrComponents()
+	function getSkinConfig($skin_name)
 	{
-		$drComponentPath = _XE_PATH_ . 'modules/editor/skins/dreditor/drcomponents/';
-		$drComponentList = FileHandler::readDir($drComponentPath);
-
-		$oTemplate = &TemplateHandler::getInstance();
-
-		$drComponentInfo = array();
-		if($drComponentList)
+		$skin_config = new stdClass;
+		
+		if($skin_info = getModel('module')->loadSkinInfo($this->module_path, $skin_name))
 		{
-			foreach($drComponentList as $i => $drComponent)
+			foreach ($skin_info->extra_vars as $val)
 			{
-				unset($obj);
-				$obj = $this->getDrComponentXmlInfo($drComponent);
-				Context::loadLang(sprintf('%s%s/lang/',$drComponentPath,$drComponent));
-				$path = sprintf('%s%s/tpl/',$drComponentPath,$drComponent);
-				$obj->html = $oTemplate->compile($path,$drComponent);
-				$drComponentInfo[$drComponent] = $obj;
+				$skin_config->{$val->name} = $val->value;
 			}
 		}
-		Context::set('drComponentList',$drComponentInfo);
-	}
-
-	function getDrComponentXmlInfo($drComponentName)
-	{
-		$lang_type = Context::getLangType();
-		// Get the xml file path of requested component
-		$component_path = sprintf('%s/skins/dreditor/drcomponents/%s/', $this->module_path, $drComponentName);
-
-		$xml_file = sprintf('%sinfo.xml', $component_path);
-		$cache_file = sprintf('./files/cache/editor/dr_%s.%s.php', $drComponentName, $lang_type);
-		// Return information after including it after cached xml file exists
-		if(file_exists($cache_file) && file_exists($xml_file) && filemtime($cache_file) > filemtime($xml_file))
-		{
-			include($cache_file);
-			return $xml_info;
-		}
-		// Return after parsing and caching if the cached file does not exist
-		$oParser = new XmlParser();
-		$xml_doc = $oParser->loadXmlFile($xml_file);
-
-		$component_info->component_name = $drComponentName;
-		$component_info->title = $xml_doc->component->title->body;
-		$component_info->description = str_replace('\n', "\n", $xml_doc->component->description->body);
-		$component_info->version = $xml_doc->component->version->body;
-		$component_info->date = $xml_doc->component->date->body;
-		$component_info->homepage = $xml_doc->component->link->body;
-		$component_info->license = $xml_doc->component->license->body;
-		$component_info->license_link = $xml_doc->component->license->attrs->link;
-
-		$buff = '<?php if(!defined("__XE__")) exit(); ';
-		$buff .= sprintf('$xml_info->component_name = "%s";', $component_info->component_name);
-		$buff .= sprintf('$xml_info->title = "%s";', $component_info->title);
-		$buff .= sprintf('$xml_info->description = "%s";', $component_info->description);
-		$buff .= sprintf('$xml_info->version = "%s";', $component_info->version);
-		$buff .= sprintf('$xml_info->date = "%s";', $component_info->date);
-		$buff .= sprintf('$xml_info->homepage = "%s";', $component_info->homepage);
-		$buff .= sprintf('$xml_info->license = "%s";', $component_info->license);
-		$buff .= sprintf('$xml_info->license_link = "%s";', $component_info->license_link);
-
-		// Author information
-		if(!is_array($xml_doc->component->author)) $author_list[] = $xml_doc->component->author;
-		else $author_list = $xml_doc->component->author;
-
-		for($i=0; $i < count($author_list); $i++)
-		{
-			$buff .= sprintf('$xml_info->author['.$i.']->name = "%s";', $author_list[$i]->name->body);
-			$buff .= sprintf('$xml_info->author['.$i.']->email_address = "%s";', $author_list[$i]->attrs->email_address);
-			$buff .= sprintf('$xml_info->author['.$i.']->homepage = "%s";', $author_list[$i]->attrs->link);
-		}
-
-		// List extra variables (text type only in the editor component)
-		$extra_vars = $xml_doc->component->extra_vars->var;
-		if($extra_vars)
-		{
-			if(!is_array($extra_vars)) $extra_vars = array($extra_vars);
-			foreach($extra_vars as $key => $val)
-			{
-				unset($obj);
-				$key = $val->attrs->name;
-				$title = $val->title->body;
-				$description = $val->description->body;
-				$xml_info->extra_vars->{$key}->title = $title;
-				$xml_info->extra_vars->{$key}->description = $description;
-
-				$buff .= sprintf('$xml_info->extra_vars->%s->%s = "%s";', $key, 'title', $title);
-				$buff .= sprintf('$xml_info->extra_vars->%s->%s = "%s";', $key, 'description', $description);
-			}
-		}
-
-		FileHandler::writeFile($cache_file, $buff, "w");
-
-		unset($xml_info);
-		include($cache_file);
-		return $xml_info;
+		
+		return $skin_config;
 	}
 
 	/**
@@ -201,7 +118,7 @@ class editorModel extends editor
 		{
 			$option->editor_skin = $option->skin;
 		}
-		if (!$option->editor_skin || !file_exists($this->module_path . 'skins/' . $option->editor_skin . '/editor.html'))
+		if (!$option->editor_skin || !file_exists($this->module_path . 'skins/' . $option->editor_skin . '/editor.html') || starts_with('xpresseditor', $option->editor_skin) || starts_with('dreditor', $option->editor_skin))
 		{
 			$option->editor_skin = $this->default_editor_config['editor_skin'];
 		}
@@ -236,6 +153,7 @@ class editorModel extends editor
 		Context::set('editor_autoinsert_image', $option->autoinsert_image);
 		Context::set('editor_additional_css', $option->additional_css);
 		Context::set('editor_additional_plugins', $option->additional_plugins);
+		Context::set('editor_remove_plugins', $option->remove_plugins);
 		
 		// Set the primary key valueof the document or comments
 		Context::set('editor_primary_key_name', $option->primary_key_name);
@@ -251,12 +169,11 @@ class editorModel extends editor
 		}
 		Context::set('enable_autosave', $option->enable_autosave);
 		
+		// Set allow html
+		Context::set('allow_html', ($option->allow_html === false || $option->allow_html === 'N') ? false : true);
+		
 		// Load editor components.
 		$site_srl = Context::get('site_module_info')->site_srl ?: 0;
-		if($option->editor_skin === 'dreditor')
-		{
-			$this->loadDrComponents();
-		}
 		if($option->enable_component)
 		{
 			if(!Context::get('component_list'))
@@ -300,14 +217,14 @@ class editorModel extends editor
 			$browser = Rhymix\Framework\UA::getBrowserInfo();
 			if (($browser->browser === 'IE' && version_compare($browser->version, '10', '<')) || $browser->browser === 'Android' || $browser->browser === 'Opera')
 			{
-				$file_config->allowed_filesize = min(FileHandler::returnBytes(ini_get('upload_max_filesize')), FileHandler::returnBytes(ini_get('post_max_size')));
+				$file_config->allowed_filesize = min($file_config->allowed_filesize, FileHandler::returnBytes(ini_get('upload_max_filesize')), FileHandler::returnBytes(ini_get('post_max_size')));
 				$file_config->allowed_chunk_size = 0;
 			}
 			
 			// Do not allow chunked uploads in XpressEditor.
 			if (starts_with($option->editor_skin, 'xpresseditor'))
 			{
-				$file_config->allowed_filesize = min(FileHandler::returnBytes(ini_get('upload_max_filesize')), FileHandler::returnBytes(ini_get('post_max_size')));
+				$file_config->allowed_filesize = min($file_config->allowed_filesize, FileHandler::returnBytes(ini_get('upload_max_filesize')), FileHandler::returnBytes(ini_get('post_max_size')));
 				$file_config->allowed_chunk_size = 0;
 			}
 
@@ -364,6 +281,7 @@ class editorModel extends editor
 				$option->editor_height = $option->mobile_editor_height;
 				$option->editor_toolbar = $option->mobile_editor_toolbar;
 				$option->editor_toolbar_hide = $option->mobile_editor_toolbar_hide;
+				$option->additional_css = $option->additional_mobile_css;
 			}
 		}
 		else
@@ -388,6 +306,7 @@ class editorModel extends editor
 				$option->editor_height = $option->mobile_comment_editor_height;
 				$option->editor_toolbar = $option->mobile_comment_editor_toolbar;
 				$option->editor_toolbar_hide = $option->mobile_comment_editor_toolbar_hide;
+				$option->additional_css = $option->additional_mobile_css;
 			}
 		}
 		
@@ -403,25 +322,28 @@ class editorModel extends editor
 		}
 		
 		// Permission check for file upload
-		if ($logged_info->is_admin === 'Y' || !count($config->upload_file_grant))
+		if($module_srl)
 		{
-			$option->allow_fileupload = true;
-		}
-		else
-		{
-			$option->allow_fileupload = false;
-			foreach($group_list as $group_srl => $group_info)
+			if ($logged_info->is_admin === 'Y' || !count($option->upload_file_grant))
 			{
-				if(in_array($group_srl, $config->upload_file_grant))
+				$option->allow_fileupload = true;
+			}
+			else
+			{
+				$option->allow_fileupload = false;
+				foreach($group_list as $group_srl => $group_info)
 				{
-					$option->allow_fileupload = true;
-					break;
+					if(in_array($group_srl, $option->upload_file_grant))
+					{
+						$option->allow_fileupload = true;
+						break;
+					}
 				}
 			}
 		}
 		
 		// Permission check for using default components
-		if ($logged_info->is_admin === 'Y' || !count($config->enable_default_component_grant))
+		if ($logged_info->is_admin === 'Y' || !count($option->enable_default_component_grant))
 		{
 			$option->enable_default_component = true;
 		}
@@ -430,7 +352,7 @@ class editorModel extends editor
 			$option->enable_default_component = false;
 			foreach($group_list as $group_srl => $group_info)
 			{
-				if(in_array($group_srl, $config->enable_default_component_grant))
+				if(in_array($group_srl, $option->enable_default_component_grant))
 				{
 					$option->enable_default_component = true;
 					break;
@@ -439,7 +361,7 @@ class editorModel extends editor
 		}
 		
 		// Permisshion check for using extended components
-		if($logged_info->is_admin === 'Y' || !count($config->enable_component_grant))
+		if($logged_info->is_admin === 'Y' || !count($option->enable_component_grant))
 		{
 			$option->enable_component = true;
 		}
@@ -448,7 +370,7 @@ class editorModel extends editor
 			$option->enable_component = false;
 			foreach($group_list as $group_srl => $group_info)
 			{
-				if(in_array($group_srl, $config->enable_component_grant))
+				if(in_array($group_srl, $option->enable_component_grant))
 				{
 					$option->enable_component = true;
 					break;
@@ -457,7 +379,7 @@ class editorModel extends editor
 		}
 		
 		// HTML editing privileges
-		if($logged_info->is_admin === 'Y' || !count($config->enable_html_grant))
+		if($logged_info->is_admin === 'Y' || !count($option->enable_html_grant))
 		{
 			$option->disable_html = false;
 		}
@@ -466,7 +388,7 @@ class editorModel extends editor
 			$option->disable_html = true;
 			foreach($group_list as $group_srl => $group_info)
 			{
-				if(in_array($group_srl, $config->enable_html_grant))
+				if(in_array($group_srl, $option->enable_html_grant))
 				{
 					$option->disable_html = false;
 					break;
@@ -671,6 +593,8 @@ class editorModel extends editor
 		}
 		$component = $output->data;
 
+		if(!$output->data) return false;
+
 		$component_name = $component->component_name;
 
 		unset($xml_info);
@@ -861,6 +785,88 @@ class editorModel extends editor
 		FileHandler::writeFile($cache_file, $buff, 'w');
 
 		return $component_info;
+	}
+	
+	/**
+	 * Return converted content
+	 * @param object $obj
+	 * @return string
+	 */
+	function converter($obj, $type = null)
+	{
+		$converter = null;
+		$config = $this->getEditorConfig($obj->module_srl);
+		
+		// Get editor skin
+		if (in_array($type, array('document', 'comment')))
+		{
+			$skin = ($type == 'comment') ? $config->comment_editor_skin : $config->editor_skin;
+		}
+		else
+		{
+			$converter = $obj->converter;
+			$skin = $obj->editor_skin ?: $config->editor_skin;
+		}
+		
+		// if not inserted converter, Get converter from skin
+		if (!$converter)
+		{
+			$converter = $this->getSkinConfig($skin)->converter;
+		}
+		
+		// if not inserted converter, Check
+		if (!$converter)
+		{
+			if ($config->allow_html === 'N' || $obj->use_html === 'N')
+			{
+				$converter = 'text';
+			}
+			elseif (strpos($type == 'comment' ? $config->sel_comment_editor_colorset : $config->sel_editor_colorset, 'nohtml') !== false)
+			{
+				$converter = 'text';
+			}
+			elseif ($obj->use_editor === 'N')
+			{
+				$converter = 'nl2br';
+			}
+		}
+		
+		// Convert
+		if ($converter)
+		{
+			if ($converter == 'text')
+			{
+				// Remove Tag
+				$obj->content = strip_tags($obj->content);
+				
+				// Trim space
+				$obj->content = utf8_trim($obj->content);
+				
+				// Escape
+				$obj->content = escape($obj->content, false);
+				
+				// Insert HTML line
+				$obj->content = nl2br($obj->content);
+			}
+			elseif ($converter == 'text2html')
+			{
+				$obj->content = Rhymix\Framework\Formatter::text2html($obj->content);
+			}
+			elseif ($converter == 'markdown2html')
+			{
+				$obj->content = Rhymix\Framework\Formatter::markdown2html($obj->content);
+			}
+			elseif ($converter == 'bbcode')
+			{
+				$obj->content = Rhymix\Framework\Formatter::bbcode($obj->content);
+			}
+			elseif ($converter == 'nl2br')
+			{
+				$obj->content = nl2br($obj->content);
+			}
+		}
+		
+		return $obj->content;
 	}
 }
 /* End of file editor.model.php */

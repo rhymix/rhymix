@@ -39,6 +39,13 @@
 			</div>
 		</div>
 		<div class="x_control-group">
+			<label class="x_control-label" for="custom_message">{$lang->custom_message}</label>
+			<div class="x_controls">
+				<textarea name="custom_message" id="custom_message" class="lang_code">{htmlspecialchars($config->custom_message)}</textarea>
+				<p class="x_help-block">{$lang->about_custom_message}</p>
+			</div>
+		</div>
+		<div class="x_control-group">
 			<label for="limits_interval" class="x_control-label">{$lang->cmd_limits_interval}</label>
 			<div class="x_controls">
 				<input type="number" name="limits_interval" id="limits_interval" value="{intval($config->limits_interval) ?: 10}" /> {$lang->unit_sec}

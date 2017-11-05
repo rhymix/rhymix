@@ -380,7 +380,8 @@ class moduleAdminController extends module
 				}
 				else
 				{
-					$skin = $oModuleModel->getModuleDefaultSkin($module_info->module, 'M');
+					$skin_type = $module_info->mskin === '/USE_RESPONSIVE/' ? 'P' : 'M';
+					$skin = $oModuleModel->getModuleDefaultSkin($module_info->module, $skin_type);
 				}
 			}
 			else
@@ -907,9 +908,9 @@ class moduleAdminController extends module
 			$buff = array("<?php if(!defined('__XE__')) exit();");
 			foreach($langMap[$langCode] as $code => $value)
 			{
-				$buff[] = sprintf('$lang[\'%s\'] = \'%s\';', $code, addcslashes($value, "'"));
+				$buff[] = sprintf('$lang[%s] = %s;', var_export(strval($code), true), var_export(strval($value), true));
 			}
-			if (!Rhymix\Framework\Storage::write(sprintf('%s/%d.%s.php', $cache_path, $args->site_srl, $langCode), join(PHP_EOL, $buff)))
+			if (!Rhymix\Framework\Storage::write(sprintf('%s/%d.%s.php', $cache_path, $args->site_srl, $langCode), implode(PHP_EOL, $buff)))
 			{
 				return;
 			}

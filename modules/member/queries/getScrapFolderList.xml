@@ -1,0 +1,17 @@
+<query id="getScrapFolderList" action="select">
+    <tables>
+        <table name="member_scrap_folders" />
+    </tables>
+    <columns>
+        <column name="*" />
+    </columns>
+    <conditions>
+        <condition operation="equal" column="member_srl" var="member_srl" filter="number" />
+		<condition operation="equal" column="folder_srl" var="folder_srl" pipe="and" />
+		<condition operation="notequal" column="folder_srl" var="not_folder_srl" pipe="and" />
+		<condition operation="equal" column="name" var="name" pipe="and" />
+    </conditions>
+    <navigation>
+        <index var="sort_index" default="list_order" order="asc" />
+    </navigation>
+</query>

@@ -1,0 +1,8 @@
+<query id="insertModuleUpdateLog" action="insert">
+    <tables>
+        <table name="module_update" />
+    </tables>
+    <columns>
+        <column name="update_id" var="update_id" notnull="notnull" />
+    </columns>
+</query>

@@ -7,261 +7,210 @@
  */
 class rssView extends rss
 {
-	/**
-	 * Initialization
-	 *
-	 * @return void
-	 */
+	// Disable gzhandler
+	public $gzhandler_enable = false;
+	
 	function init()
 	{
 	}
-
-	/**
-	 * Feed output.
-	 * When trying to directly print out the RSS, the results variable can be directly specified through $oRssView->rss($document_list)
-	 *
-	 * @param Object $document_list Document list 
-	 * @param string $rss_title Rss title
-	 * @param string $add_description Add description
-	 */
+	
 	function rss($document_list = null, $rss_title = null, $add_description = null)
 	{
-		$oDocumentModel = getModel('document');
-		$oModuleModel = getModel('module');
-		$oModuleController = getController('module');
-		// Get the content and information for the current requested module if the method is not called from another module
-		if(!$document_list)
+		$obj = new stdClass;
+		$obj->title = $rss_title;
+		$obj->description = $add_description;
+		$obj->document_list = $document_list;
+		$this->output(Context::get('format'), $obj);
+	}
+	
+	function atom()
+	{
+		$this->output('atom');
+	}
+	
+	function dispError($module_srl = null)
+	{
+		$obj = new stdClass;
+		$obj->error = true;
+		$obj->module_srl = $module_srl;
+		$obj->description = lang('msg_rss_is_disabled');
+		$this->output(Context::get('format'), $obj);
+	}
+	
+	/**
+	 * Feed output
+	 */
+	function output($format, $obj = null)
+	{
+		if(!$obj)
 		{
-			$site_module_info = Context::get('site_module_info');
-			$site_srl = $site_module_info->site_srl;
-			$mid = isset($_REQUEST['mid']) ? Context::get('mid') : null;
-			$start_date = (int)Context::get('start_date');
-			$end_date = (int)Context::get('end_date');
-
-			$module_srls = array();
-			$rss_config = array();
-			$total_config = '';
-			$total_config = $oModuleModel->getModuleConfig('rss');
-			
-			// If one is specified, extract only for this mid
-			if($mid)
+			$obj = new stdClass;
+		}
+		
+		$act = Context::get('act');
+		$page = $obj->page ?: Context::get('page');
+		$start = $obj->start_date ?: Context::get('start_date');
+		$end = $obj->end_date ?: Context::get('end_date');
+		$site_module_srl = Context::get('site_module_info')->module_srl;
+		$target_module_srl = $obj->module_srl ?: (Context::get('current_module_info')->module_srl ?: $site_module_srl);
+		$is_part_feed = ($obj->module_srl || $target_module_srl !== $site_module_srl) ? true : false;
+		
+		// Set format
+		switch($format)
+		{
+			// Atom 1.0
+			case 'atom':
+				$template = 'atom10';
+				break;
+			// RSS 1.0
+			case 'rss1.0':
+				$template = 'rss10';
+				break;
+			// XE compatibility
+			case 'xe':
+				$template = 'xe';
+				break;
+			// RSS 2.0 (default)
+			default:
+				$template = 'rss20';
+				break;
+		}
+		
+		$oRssModel = getModel('rss');
+		$config = $oRssModel->getConfig();
+		$module_config = $oRssModel->getRssModuleConfig($target_module_srl);
+		$module_info = getModel('module')->getModuleInfoByModuleSrl($target_module_srl);
+		
+		// Get URL
+		$format = ($act != $format) ? $format : '';
+		$mid = $is_part_feed ? $module_info->mid : '';
+		$channel_url = getFullUrl('', 'mid', $mid, 'act', $act, 'format', $format, 'page', $page, 'start_date', $start, 'end_date', $end);
+		
+		// Check error
+		if($obj->error)
+		{
+			Context::set('target_modules', array());
+			Context::set('category_list', array());
+			Context::set('document_list', array());
+		}
+		else
+		{
+			if(!$target_module_srl || !$module_info->module_srl)
 			{
-				$module_srl = $this->module_info->module_srl;
-				$config = $oModuleModel->getModulePartConfig('rss', $module_srl);
-				if($config->open_rss && $config->open_rss != 'N')
+				return $this->dispError();
+			}
+			
+			// Set target module
+			$target_modules = array();
+			if($is_part_feed)
+			{
+				if($module_config->open_rss != 'N')
 				{
-					$module_srls[] = $module_srl; 
-					$open_rss_config[$module_srl] = $config->open_rss;
+					$target_modules[$module_config->module_srl] = $module_config->open_rss;
 				}
 			}
-			// If mid is not selected, then get all
 			else
 			{
-				if($total_config->use_total_feed != 'N')
+				if($config->use_total_feed == 'Y')
 				{
-					$rss_config = $oModuleModel->getModulePartConfigs('rss', $site_srl);
-					if($rss_config)
+					foreach(getModel('module')->getModulePartConfigs('rss') as $module_srl => $part_config)
 					{
-						foreach($rss_config as $module_srl => $config)
+						if($part_config->open_rss != 'N' && $part_config->open_total_feed != 'T_N')
 						{
-							if($config && $config->open_rss != 'N' && $config->open_total_feed != 'T_N')
-							{
-								$module_srls[] = $module_srl;
-								$open_rss_config[$module_srl] = $config->open_rss;
-							}
+							$target_modules[$module_srl] = $part_config->open_rss;
 						}
 					}
 				}
 			}
-
-			if (!count($module_srls) && !$add_description)
+			Context::set('target_modules', $target_modules);
+			
+			// Set document list
+			$document_list = $obj->document_list;
+			if(!is_array($document_list))
 			{
-				return $this->dispError();
-			}
-
-			$info = new stdClass;
-			$args = new stdClass;
-
-			if($module_srls)
-			{
-				$args->module_srl = implode(',',$module_srls);
-				//$module_list = $oModuleModel->getMidList($args);	//perhaps module_list varialbles not use
-
+				if(!$target_modules)
+				{
+					return $this->dispError($module_info->module_srl);
+				}
+				
+				$args = new stdClass;
+				$args->start_date = $start;
+				$args->end_date = $end;
 				$args->search_target = 'is_secret';
 				$args->search_keyword = 'N';
-				$args->page = (int)Context::get('page');
-				$args->list_count = 15;
-				if($total_config->feed_document_count) $args->list_count = $total_config->feed_document_count;
-				if(!$args->page || $args->page < 1) $args->page = 1;
-				if($start_date || $start_date != 0) $args->start_date = $start_date;
-				if($end_date || $end_date != 0) $args->end_date = $end_date;
-				if($start_date == 0) unset($start_date);
-				if($end_date == 0) unset($end_date);
-
-				$args->sort_index = 'list_order'; 
-				$args->order_type = 'asc';
-				$output = $oDocumentModel->getDocumentList($args);
-				$document_list = $output->data;
-				// Extract the feed title and information with Context::getBrowserTitle
-				if($mid)
-				{
-					$info->title = Context::getBrowserTitle();
-					$oModuleController->replaceDefinedLangCode($info->title);
-
-					$info->title = str_replace('\'', '&apos;',$info->title);
-					if($config->feed_description)
-					{
-						$info->description = str_replace('\'', '&apos;', htmlspecialchars($config->feed_description, ENT_COMPAT | ENT_HTML401, 'UTF-8', false));
-					}
-					else
-					{
-						$info->description = str_replace('\'', '&apos;', htmlspecialchars($this->module_info->description, ENT_COMPAT | ENT_HTML401, 'UTF-8', false));
-					}
-					$info->link = getUrl('','mid',$mid);
-					$info->feed_copyright = str_replace('\'', '&apos;', htmlspecialchars($feed_config->feed_copyright, ENT_COMPAT | ENT_HTML401, 'UTF-8', false));
-					if(!$info->feed_copyright)
-					{
-						$info->feed_copyright = str_replace('\'', '&apos;', htmlspecialchars($total_config->feed_copyright, ENT_COMPAT | ENT_HTML401, 'UTF-8', false));
-					}
-				}
+				$args->page = $page > 0 ? $page : 1;
+				$args->module_srl = implode(',', array_keys($target_modules));
+				$args->list_count = $config->feed_document_count;
+				$args->sort_index = 'regdate';
+				$args->order_type = 'desc';
+				$document_list = getModel('document')->getDocumentList($args)->data;
 			}
-		}
-
-		if(!$info->title)
-		{
-			if($rss_title) $info->title = $rss_title;
-			else if($total_config->feed_title) $info->title = $total_config->feed_title;
-			else
+			Context::set('document_list', $document_list);
+			
+			// Set category list
+			$category_list = array();
+			foreach($target_modules as $module_srl => $open_rss)
 			{
-				$site_module_info = Context::get('site_module_info');
-				$info->title = $site_module_info->browser_title;
+				$category_list[$module_srl] = getModel('document')->getCategoryList($module_srl);
 			}
-
-			$oModuleController->replaceDefinedLangCode($info->title);
-			$info->title = str_replace('\'', '&apos;', htmlspecialchars($info->title, ENT_COMPAT | ENT_HTML401, 'UTF-8', false));
-			$info->description = str_replace('\'', '&apos;', htmlspecialchars($total_config->feed_description, ENT_COMPAT | ENT_HTML401, 'UTF-8', false));
+			Context::set('category_list', $category_list);
+		}
+		
+		// Set feed information
+		$info = new stdClass;
+		if($is_part_feed)
+		{
+			$info->title = $module_info->browser_title ?: Context::getBrowserTitle();
+			$info->link = getFullUrl('', 'mid', $module_info->mid);
+			$info->description = $module_config->feed_description ?: $module_info->description;
+			$info->feed_copyright = $module_config->feed_copyright ?: $config->feed_copyright;
+		}
+		else
+		{
+			$info->title = $config->feed_title ?: Context::get('site_module_info')->browser_title;
 			$info->link = Context::getRequestUri();
-			$info->feed_copyright = str_replace('\'', '&apos;', htmlspecialchars($total_config->feed_copyright, ENT_COMPAT | ENT_HTML401, 'UTF-8', false));
+			$info->description = $config->feed_description;
+			$info->feed_copyright = $config->feed_copyright;
 		}
-		if($add_description) $info->description .= "\r\n".$add_description;
-
-		if($total_config->image) $info->image = Context::getRequestUri().str_replace('\'', '&apos;', htmlspecialchars($total_config->image, ENT_COMPAT | ENT_HTML401, 'UTF-8', false));
-		switch(Context::get('format'))
-		{
-			case 'atom':
-				$info->date = date('Y-m-d\TH:i:sP');
-				if($mid) { $info->id = getUrl('','mid',$mid,'act','atom','page',Context::get('page'),'start_date',Context::get('start_date'),'end_date',Context::get('end_date')); }
-				else { $info->id = getUrl('','module','rss','act','atom','page',Context::get('page'),'start_date',Context::get('start_date'),'end_date',Context::get('end_date')); }
-				break;
-			case 'rss1.0':
-				$info->date = date('Y-m-d\TH:i:sP');
-				break;
-			default:
-				$info->date = date("D, d M Y H:i:s").' '.$GLOBALS['_time_zone'];
-				break;
-		}
-
-		$proctcl = RX_SSL ? 'https://' : 'http://';
-
-		$temp_link = explode('/', $info->link);
-		if($temp_link[0]=='' && $info->link)
-		{
-			$info->link = $proctcl.$_SERVER['HTTP_HOST'].$info->link;
-		}
-
-		$temp_id = explode('/', $info->id);
-		if($temp_id[0]=='' && $info->id)
-		{
-			$info->id = $proctcl.$_SERVER['HTTP_HOST'].$info->id;
-		}
-
-		$info->language = str_replace('jp','ja',Context::getLangType());
-		// Set the variables used in the RSS output
+		
+		$info->id = $channel_url;
+		$info->feed_title = $config->feed_title;
+		$info->title = $obj->title ?: $info->title;
+		$info->description = $obj->description ?: $info->description;
+		$info->language = Context::getLangType();
+		$info->site_url = Context::getRequestUri();
+		$info->date_r = gmdate('r');
+		$info->date_c = gmdate('c');
+		$info->image = $config->image ? Context::getRequestUri() . $config->image : '';
+		getController('module')->replaceDefinedLangCode($info->title);
+		
 		Context::set('info', $info);
-		Context::set('feed_config', $config);
-		Context::set('open_rss_config', $open_rss_config);
-		Context::set('document_list', $document_list);
-		// Force the result output to be of XMLRPC
-		Context::setResponseMethod("XMLRPC");
-		// Perform the preprocessing function of the editor component as the results are obtained
-		$path = $this->module_path.'tpl/';
-		//if($args->start_date || $args->end_date) $file = 'xe_rss';
-		//else $file = 'rss20';
-		switch (Context::get('format'))
-		{
-			case 'xe':
-				$file = 'xe_rss';
-				break;
-			case 'atom':
-				$file = 'atom10';
-				break;
-			case 'rss1.0':
-				$file = 'rss10';
-				break;
-			default:
-				$file = 'rss20';
-				break;
-		}
-
-		$oTemplate = new TemplateHandler();
-
-		$content = $oTemplate->compile($path, $file);
-		Context::set('content', $content);
-		// Set the template file
-		$this->setTemplatePath($path);
-		$this->setTemplateFile('display');
+		
+		// Set XML Output
+		Context::setResponseMethod('XMLRPC');
+		$this->setTemplatePath($this->module_path . 'tpl/format');
+		$this->setTemplateFile($template);
 	}
-
-	/**
-	 * ATOM output
-	 *
-	 * @return Object
-	 */
-	function atom()
-	{
-		Context::set('format', 'atom');
-		$this->rss();
-	}
-
-	/**
-	 * Error output
-	 *
-	 * @return Object
-	 */
-	function dispError()
-	{
-		// Prepare the output message
-		$this->rss(null, null, lang('msg_rss_is_disabled') );
-	}
-
+	
 	/**
 	 * Additional configurations for a service module
-	 * Receive the form for the form used by rss
-	 *
-	 * @param string $obj Will be inserted content in template
-	 * @return Object
 	 */
-	function triggerDispRssAdditionSetup(&$obj)
+	function triggerDispRssAdditionSetup(&$output)
 	{
-		$current_module_srl = Context::get('module_srl');
-		$current_module_srls = Context::get('module_srls');
-
-		if(!$current_module_srl && !$current_module_srls)
+		if(!($current_module_srl = Context::get('module_srl')) && !Context::get('module_srls'))
 		{
-			// Get information of the selected module
-			$current_module_info = Context::get('current_module_info');
-			$current_module_srl = $current_module_info->module_srl;
-			if(!$current_module_srl) return new Object();
+			if(!$current_module_srl = Context::get('current_module_info')->module_srl)
+			{
+				return new Object();
+			}
 		}
-		// Get teh RSS configurations for the selected module
-		$oRssModel = getModel('rss');
-		$rss_config = $oRssModel->getRssModuleConfig($current_module_srl);
-		Context::set('rss_config', $rss_config);
-		// Set the template file
-		$oTemplate = &TemplateHandler::getInstance();
-		$tpl = $oTemplate->compile($this->module_path.'tpl', 'rss_module_config');
-		$obj .= $tpl;
-
+		
+		// Get part configuration
+		Context::set('module_config', getModel('rss')->getRssModuleConfig($current_module_srl));
+		
+		// Add output after compile template
+		$output .= TemplateHandler::getInstance()->compile($this->module_path . 'tpl', 'rss_module_config');
+		
 		return new Object();
 	}
 }

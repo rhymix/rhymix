@@ -21,18 +21,24 @@ class tagController extends tag
 	{
 		if(!$obj->tags) return new Object();
 		// tags by variable
+		$arranged_tag_list = array();
 		$tag_list = explode(',', $obj->tags);
-		$tag_count = count($tag_list);
-		$tag_list = array_unique($tag_list);
-		if(!count($tag_list)) return new Object();
-
 		foreach($tag_list as $tag)
 		{
-			if(!trim($tag)) continue;
-			$arranged_tag_list[] = trim($tag); 
+			$tag = utf8_trim(utf8_normalize_spaces($tag));
+			if($tag)
+			{
+				$arranged_tag_list[$tag] = $tag;
+			}
 		}
-		if(!count($arranged_tag_list)) $obj->tags = null;
-		else $obj->tags = implode(',',$arranged_tag_list);
+		if(!count($arranged_tag_list))
+		{
+			$obj->tags = null;
+		}
+		else
+		{
+			$obj->tags = implode(',', $arranged_tag_list);
+		}
 		return new Object();
 	}
 
@@ -54,12 +60,10 @@ class tagController extends tag
 		$args->module_srl = $module_srl;
 		$args->document_srl = $document_srl;
 
-		$tag_list = explode(',',$tags);
-		$tag_count = count($tag_list);
-		for($i=0;$i<$tag_count;$i++)
+		$tag_list = explode(',', $tags);
+		foreach($tag_list as $tag)
 		{
-			unset($args->tag);
-			$args->tag = trim($tag_list[$i]);
+			$args->tag = utf8_trim(utf8_normalize_spaces($tag));
 			if(!$args->tag) continue;
 			$output = executeQuery('tag.insertTag', $args);
 			if(!$output->toBool()) return $output;

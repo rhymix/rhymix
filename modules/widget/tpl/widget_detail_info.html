@@ -12,14 +12,14 @@
 	<th scope="row"><div>{$lang->author}</div></th>
 	<td>
 		<!--@foreach($widget_info->author as $author)-->
-		{$author->name} <!--@if($author->homepage || $author->email_address)-->(<!--@if($author->homepage)--><a href="{$author->homepage}" onclick="window.open(this.href);return false;">{$author->homepage}</a><!--@end--><!--@if($author->homepage && $author->email_address)-->, <!--@end--><!--@if($author->email_address)--><a href="mailto:{$author->email_address}">{$author->email_address}</a><!--@end-->)<!--@end--><br />
+		{$author->name} <!--@if($author->homepage || $author->email_address)-->(<!--@if($author->homepage)--><a href="{$author->homepage}" target="_blank" rel="noopener">{$author->homepage}</a><!--@end--><!--@if($author->homepage && $author->email_address)-->, <!--@end--><!--@if($author->email_address)--><a href="mailto:{$author->email_address}">{$author->email_address}</a><!--@end-->)<!--@end--><br />
 		<!--@endforeach-->
 	</td>
 </tr>
 <!--@if($widget_info->homepage)-->
 <tr>
 	<th scope="row"><div>{$lang->homepage}</div></th>
-	<td><a href="{$widget_info->homepage}" onclick="window.open(this.href);return false;">{$widget_info->homepage}</a></td>
+	<td><a href="{$widget_info->homepage}" target="_blank" rel="noopener">{$widget_info->homepage}</a></td>
 </tr>
 <!--@end-->
 <tr>

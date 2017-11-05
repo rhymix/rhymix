@@ -204,43 +204,43 @@ class memberView extends member
 		if(!$trigger_output->toBool()) return $trigger_output;
 		// Error appears if the member is not allowed to join
 		if($member_config->enable_join != 'Y') return $this->stop('msg_signup_disabled');
-
-		$oMemberAdminView = getAdminView('member');
-		$formTags = $oMemberAdminView->_getMemberInputTag($member_info);
+		
+		$formTags = getAdminView('member')->_getMemberInputTag();
 		Context::set('formTags', $formTags);
 		Context::set('email_confirmation_required', $member_config->enable_confirm);
-
+		
 		// Editor of the module set for signing by calling getEditor
-		foreach($formTags as $formTag) {
-			if($formTag->name=='signature') {
-				$oEditorModel = getModel('editor');
-				$option = new stdClass();
+		foreach($formTags as $formTag)
+		{
+			if($formTag->name == 'signature')
+			{
+				$option = new stdClass;
 				$option->primary_key_name = 'member_srl';
 				$option->content_key_name = 'signature';
+				$option->allow_html = $member_config->signature_html !== 'N';
 				$option->allow_fileupload = false;
 				$option->enable_autosave = false;
 				$option->enable_default_component = true;
 				$option->enable_component = false;
 				$option->resizable = false;
 				$option->disable_html = true;
-				$option->height = 100;
-				$option->skin = $member_config->signature_editor_skin;
-				$option->colorset = $member_config->sel_editor_colorset;
-				$editor = $oEditorModel->getEditor($member_info->member_srl, $option);
-				Context::set('editor', $editor);
+				$option->height = 200;
+				$option->editor_toolbar = 'simple';
+				$option->editor_toolbar_hide = 'Y';
+				$option->editor_skin = $member_config->signature_editor_skin;
+				$option->sel_editor_colorset = $member_config->sel_editor_colorset;
+				
+				Context::set('editor', getModel('editor')->getEditor(0, $option));
 			}
 		}
-
-
-		global $lang;
-		$identifierForm = new stdClass();
-		$identifierForm->title = $lang->{$member_config->identifier};
+		
+		$identifierForm = new stdClass;
+		$identifierForm->title = lang($member_config->identifier);
 		$identifierForm->name = $member_config->identifier;
-		$identifierForm->value = $member_info->{$member_config->identifier};
 		Context::set('identifierForm', $identifierForm);
-
+		
 		$this->addExtraFormValidatorMessage();
-
+		
 		// Set a template file
 		$this->setTemplateFile('signup_form');
 	}
@@ -302,53 +302,44 @@ class memberView extends member
 		$columnList = array('member_srl', 'user_id', 'user_name', 'nick_name', 'email_address', 'find_account_answer', 'homepage', 'blog', 'birthday', 'allow_mailing');
 		$member_info = $oMemberModel->getMemberInfoByMemberSrl($member_srl, 0, $columnList);
 		$member_info->signature = $oMemberModel->getSignature($member_srl);
-		Context::set('member_info',$member_info);
-
-		// Get a list of extend join form
-		Context::set('extend_form_list', $oMemberModel->getCombineJoinForm($member_info));
-
-		// Editor of the module set for signing by calling getEditor
-		if($member_info->member_srl)
-		{
-			$oEditorModel = getModel('editor');
-			$option = $oEditorModel->getEditorConfig();
-			$option->primary_key_name = 'member_srl';
-			$option->content_key_name = 'signature';
-			if($member_config->member_allow_fileupload === 'Y')
-			{
-				$option->allow_fileupload = true;
-			}
-			else
-			{
-				$option->allow_fileupload = false;
-			}
-			$option->enable_autosave = false;
-			$option->enable_default_component = true;
-			$option->enable_component = false;
-			$option->resizable = false;
-			$option->disable_html = true;
-			$option->height = 200;
-			//$option->skin = $member_config->signature_editor_skin;
-			//$option->colorset = $member_config->sel_editor_colorset;
-			$editor = $oEditorModel->getEditor($member_info->member_srl, $option);
-			Context::set('editor', $editor);
-		}
-
-		$this->member_info = $member_info;
-
-		$oMemberAdminView = getAdminView('member');
-		$formTags = $oMemberAdminView->_getMemberInputTag($member_info);
+		Context::set('member_info', $member_info);
+		
+		$formTags = getAdminView('member')->_getMemberInputTag($member_info);
 		Context::set('formTags', $formTags);
-
-		global $lang;
-		$identifierForm = new stdClass();
-		$identifierForm->title = $lang->{$member_config->identifier};
+		
+		// Editor of the module set for signing by calling getEditor
+		foreach($formTags as $formTag)
+		{
+			if($formTag->name == 'signature')
+			{
+				$option = new stdClass;
+				$option->primary_key_name = 'member_srl';
+				$option->content_key_name = 'signature';
+				$option->allow_html = $member_config->signature_html !== 'N';
+				$option->allow_fileupload = $member_config->member_allow_fileupload === 'Y';
+				$option->enable_autosave = false;
+				$option->enable_default_component = true;
+				$option->enable_component = false;
+				$option->resizable = false;
+				$option->disable_html = true;
+				$option->height = 200;
+				$option->editor_toolbar = 'simple';
+				$option->editor_toolbar_hide = 'Y';
+				$option->editor_skin = $member_config->signature_editor_skin;
+				$option->sel_editor_colorset = $member_config->sel_editor_colorset;
+				
+				Context::set('editor', getModel('editor')->getEditor($member_info->member_srl, $option));
+			}
+		}
+		
+		$identifierForm = new stdClass;
+		$identifierForm->title = lang($member_config->identifier);
 		$identifierForm->name = $member_config->identifier;
 		$identifierForm->value = $member_info->{$member_config->identifier};
 		Context::set('identifierForm', $identifierForm);
-
+		
 		$this->addExtraFormValidatorMessage();
-
+		
 		// Set a template file
 		$this->setTemplateFile('modify_info');
 	}
@@ -419,16 +410,60 @@ class memberView extends member
 		if(!$oMemberModel->isLogged()) return $this->stop('msg_not_logged');
 
 		$logged_info = Context::get('logged_info');
+		
+		// Check folders
+		$args = new stdClass;
+		$args->member_srl = $logged_info->member_srl;
+		$output = executeQueryArray('member.getScrapFolderList', $args);
+		$folders = $output->data;
+		if(!count($folders))
+		{
+			$output = getController('member')->migrateMemberScrappedDocuments($logged_info->member_srl);
+			if($output && !$output->toBool())
+			{
+				return $output;
+			}
+			
+			$output = executeQueryArray('member.getScrapFolderList', $args);
+			$folders = $output->data;
+		}
+		
+		// Get default folder if no folder is selected
+		$folder_srl = (int)Context::get('folder_srl');
+		if($folder_srl && !array_filter($folders, function($folder) use($folder_srl) { return $folder->folder_srl == $folder_srl; }))
+		{
+			return new Object(-1, 'msg_invalid_request');
+		}
+		if(!$folder_srl && count($folders))
+		{
+			$folder_srl = array_first($folders)->folder_srl;
+		}
+		
+		// Get folder info
+		$folder_info = new stdClass;
+		foreach($folders as $folder)
+		{
+			if($folder->folder_srl == $folder_srl)
+			{
+				$folder_info = $folder;
+				break;
+			}
+		}
+
+		// Get scrapped documents in selected folder
 		$args = new stdClass();
 		$args->member_srl = $logged_info->member_srl;
+		$args->folder_srl = $folder_srl;
 		$args->page = (int)Context::get('page');
-
-		$output = executeQuery('member.getScrapDocumentList', $args);
+		$output = executeQueryArray('member.getScrapDocumentList', $args);
 		Context::set('total_count', $output->total_count);
 		Context::set('total_page', $output->total_page);
 		Context::set('page', $output->page);
 		Context::set('document_list', $output->data);
 		Context::set('page_navigation', $output->page_navigation);
+		Context::set('scrap_folders', $folders);
+		Context::set('folder_info', $folder_info);
+		Context::set('folder_srl', $folder_srl);
 
 		$security = new Security($output->data);
 		$security->encodeHTML('..nick_name');
@@ -613,27 +648,9 @@ class memberView extends member
 		$config = $this->member_config;
 
 		Context::set('identifier', $config->identifier);
-		Context::set('enable_find_account_question', $config->enable_find_account_question);
+		Context::set('enable_find_account_question', 'N');
 
 		$this->setTemplateFile('find_member_account');
-	}
-
-	/**
-	 * @brief Generate a temporary password
-	 */
-	function dispMemberGetTempPassword()
-	{
-		if(Context::get('is_logged')) return $this->stop('already_logged');
-
-		$user_id = Context::get('user_id');
-		$temp_password = $_SESSION['xe_temp_password_'.$user_id];
-		unset($_SESSION['xe_temp_password_'.$user_id]);
-
-		if(!$user_id||!$temp_password) return new Object(-1,'msg_invaild_request');
-
-		Context::set('temp_password', $temp_password);
-
-		$this->setTemplateFile('find_temp_password');
 	}
 
 	/**

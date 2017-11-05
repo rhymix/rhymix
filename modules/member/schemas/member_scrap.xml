@@ -1,6 +1,7 @@
 <table name="member_scrap">
     <column name="member_srl" type="number" size="11" notnull="notnull" unique="unique_scrap" />
     <column name="document_srl" type="number" size="11" notnull="notnull" unique="unique_scrap" />
+	<column name="folder_srl" type="number" size="11" index="idx_folder_srl" />
     <column name="title" type="varchar" size="250" />
     <column name="user_id" type="varchar" size="80" />
     <column name="user_name" type="varchar" size="80" notnull="notnull" />

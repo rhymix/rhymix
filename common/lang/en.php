@@ -297,6 +297,7 @@ $lang->column_type_list['date'] = 'date(yyyy/mm/dd)';
 $lang->column_name = 'Column Name';
 $lang->column_title = 'Column Title';
 $lang->default_value = 'Default Value';
+$lang->default_folder = 'Default Folder';
 $lang->is_active = 'Active';
 $lang->is_required = 'Required Field';
 $lang->eid = 'Name of user defined';

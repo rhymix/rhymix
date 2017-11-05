@@ -50,20 +50,27 @@ class layoutModel extends layout
 				unset($output->data[$no]);
 			}
 		}
-
+		
 		$oLayoutAdminModel = getAdminModel('layout');
 		$siteDefaultLayoutSrl = $oLayoutAdminModel->getSiteDefaultLayout($layout_type, $site_srl);
 		if($siteDefaultLayoutSrl)
 		{
 			$siteDefaultLayoutInfo = $this->getlayout($siteDefaultLayoutSrl);
-			$newLayout = sprintf('%s, %s', $siteDefaultLayoutInfo->title, $siteDefaultLayoutInfo->layout);
 			$siteDefaultLayoutInfo->layout_srl = -1;
+			$siteDefaultLayoutInfo->layout = $siteDefaultLayoutInfo->title;
 			$siteDefaultLayoutInfo->title = lang('use_site_default_layout');
-			$siteDefaultLayoutInfo->layout = $newLayout;
 
 			array_unshift($output->data, $siteDefaultLayoutInfo);
 		}
-
+		if ($layout_type === 'M')
+		{
+			$responsiveLayoutInfo = new stdClass();
+			$responsiveLayoutInfo->layout_srl = -2;
+			$responsiveLayoutInfo->layout = '';
+			$responsiveLayoutInfo->title = lang('use_responsive_pc_layout');
+			array_unshift($output->data, $responsiveLayoutInfo);
+		}
+		
 		return $output->data;
 	}
 
@@ -125,9 +132,13 @@ class layoutModel extends layout
 			$siteModuleInfo = Context::get('site_module_info');
 			$siteSrl = (int)$siteModuleInfo->site_srl;
 		}
+		if ($columnList && !isset($columnList['layout_type']))
+		{
+			$columnList[] = 'layout_type';
+		}
 		$args = new stdClass();
 		$args->site_srl = $siteSrl;
-		$args->layout_type = $layoutType;
+		$args->layout_type = $layoutType === 'P' ? 'P' : 'P,M';
 		$args->layout = $layout;
 		$output = executeQueryArray('layout.getLayoutList', $args, $columnList);
 
@@ -137,7 +148,7 @@ class layoutModel extends layout
 		{
 			foreach($output->data as $no => $iInfo)
 			{
-				if($this->isExistsLayoutFile($iInfo->layout, $layoutType))
+				if($this->isExistsLayoutFile($iInfo->layout, $iInfo->layout_type) && $iInfo->layout_type === $layoutType)
 				{
 					$instanceList[] = $iInfo->layout;
 				}
@@ -160,7 +171,7 @@ class layoutModel extends layout
 				$titleList[$dLayoutInfo->layout] = $dLayoutInfo->title;
 			}
 		}
-
+		
 		if($layout)
 		{
 			if(count($instanceList) < 1 && $downloadedList[$layout])
@@ -1008,7 +1019,7 @@ class layoutModel extends layout
 		);
 
 		$image_path = $this->getUserLayoutImagePath($layout_srl);
-		$image_list = FileHandler::readDir($image_path,'/(.*(?:swf|jpg|jpeg|gif|bmp|png)$)/i');
+		$image_list = FileHandler::readDir($image_path,'/\.(?:jpg|jpeg|gif|bmp|png)$/i');
 
 		foreach($image_list as $image)
 		{

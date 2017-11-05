@@ -179,14 +179,12 @@ class memberAdminController extends member
 		$args = Context::gets(
 			'enable_join',
 			'enable_confirm',
-			'enable_find_account_question',
 			'password_strength',
 			'password_hashing_algorithm',
 			'password_hashing_work_factor',
 			'password_hashing_auto_upgrade',
 			'password_change_invalidate_other_sessions',
 			'update_nickname_log',
-			'member_allow_fileupload',
 			'member_profile_view'
 		);
 		
@@ -261,7 +259,7 @@ class memberAdminController extends member
 			'profile_image', 'profile_image_max_width', 'profile_image_max_height',
 			'image_name', 'image_name_max_width', 'image_name_max_height',
 			'image_mark', 'image_mark_max_width', 'image_mark_max_height',
-			'signature_editor_skin', 'sel_editor_colorset'
+			'signature_editor_skin', 'sel_editor_colorset', 'signature_html', 'signature_html_retroact', 'member_allow_fileupload'
 		);
 
 		$list_order = Context::get('list_order');
@@ -304,7 +302,7 @@ class memberAdminController extends member
 		// signupForm
 		global $lang;
 		$signupForm = array();
-		$items = array('user_id', 'password', 'user_name', 'nick_name', 'email_address', 'find_account_question', 'homepage', 'blog', 'birthday', 'signature', 'profile_image', 'image_name', 'image_mark', 'profile_image_max_width', 'profile_image_max_height', 'image_name_max_width', 'image_name_max_height', 'image_mark_max_width', 'image_mark_max_height');
+		$items = array('user_id', 'password', 'user_name', 'nick_name', 'email_address', 'homepage', 'blog', 'birthday', 'signature', 'profile_image', 'image_name', 'image_mark', 'profile_image_max_width', 'profile_image_max_height', 'image_name_max_width', 'image_name_max_height', 'image_mark_max_width', 'image_mark_max_height');
 		$mustRequireds = array('email_address', 'nick_name', 'password');
 		$extendItems = $oMemberModel->getJoinFormList();
 		foreach($list_order as $key)
@@ -357,7 +355,6 @@ class memberAdminController extends member
 		// create Ruleset
 		$this->_createSignupRuleset($signupForm, $args->agreement);
 		$this->_createLoginRuleset($args->identifier);
-		$this->_createFindAccountByQuestion($args->identifier);
 
 		// check agreement value exist
 		if($args->agreement)
@@ -458,7 +455,7 @@ class memberAdminController extends member
 		// Get join form list which is additionally set
 		$extendItems = $oMemberModel->getJoinFormList();
 
-		$items = array('user_id', 'password', 'user_name', 'nick_name', 'email_address', 'find_account_question', 'homepage', 'blog', 'birthday', 'signature', 'profile_image', 'image_name', 'image_mark');
+		$items = array('user_id', 'password', 'user_name', 'nick_name', 'email_address', 'homepage', 'blog', 'birthday', 'signature', 'profile_image', 'image_name', 'image_mark');
 		$mustRequireds = array('email_address', 'nick_name', 'password');
 		$orgRequireds = array('email_address', 'password', 'user_id', 'nick_name', 'user_name');
 		$orgUse = array('email_address', 'password', 'user_id', 'nick_name', 'user_name', 'homepage', 'blog', 'birthday');
@@ -476,7 +473,7 @@ class memberAdminController extends member
 			$signupItem->required = in_array($key, $orgRequireds);
 			$signupItem->isUse = ($config->{$key} == 'Y') || in_array($key, $orgUse);
 			$signupItem->isPublic = ($signupItem->isUse) ? 'Y' : 'N';
-			if($key == 'find_account_question' || $key == 'password')
+			if($key == 'password')
 			{
 				$signupItem->isPublic = 'N';
 			}
@@ -553,8 +550,8 @@ class memberAdminController extends member
 				}
 				else if($formInfo->name == 'find_account_question')
 				{
-					$fields[] = '<field name="find_account_question" required="true" />';
-					$fields[] = '<field name="find_account_answer" required="true" length=":250" />';
+					$fields[] = '<field name="find_account_question"><if test="$modify_find_account_answer" attr="required" value="true" /></field>';
+					$fields[] = '<field name="find_account_answer" length=":250"><if test="$modify_find_account_answer" attr="required" value="true" /></field>';
 				}
 				else if($formInfo->name == 'email_address')
 				{
@@ -627,28 +624,7 @@ class memberAdminController extends member
 	 */
 	function _createFindAccountByQuestion($identifier)
 	{
-		$xml_file = './files/ruleset/find_member_account_by_question.xml';
-		$buff = '<?xml version="1.0" encoding="utf-8"?>'.
-			'<ruleset version="1.5.0">'.
-			'<customrules>'.
-			'</customrules>'.
-			'<fields>%s</fields>'.
-			'</ruleset>';
-
-		$fields = array();
-		if($identifier == 'user_id')
-			$fields[] = '<field name="user_id" required="true" rule="userid" />';
-
-		$fields[] = '<field name="email_address" required="true" rule="email" />';
-		$fields[] = '<field name="find_account_question" required="true" />';
-		$fields[] = '<field name="find_account_answer" required="true" length=":250"/>';
-
-		$xml_buff = sprintf($buff, implode('', $fields));
-		Filehandler::writeFile($xml_file, $xml_buff);
-
-		$validator   = new Validator($xml_file);
-		$validator->setCacheDir('files/cache');
-		$validator->getJsPath();
+		
 	}
 
 	/**

@@ -291,7 +291,7 @@ class moduleModel extends module
 		$layoutSrlPc = ($moduleInfo->layout_srl == -1) ? $oLayoutAdminModel->getSiteDefaultLayout('P', $moduleInfo->site_srl) : $moduleInfo->layout_srl;
 		$layoutSrlMobile = ($moduleInfo->mlayout_srl == -1) ? $oLayoutAdminModel->getSiteDefaultLayout('M', $moduleInfo->site_srl) : $moduleInfo->mlayout_srl;
 		$skinNamePc = ($moduleInfo->is_skin_fix == 'N') ? $this->getModuleDefaultSkin($moduleInfo->module, 'P') : $moduleInfo->skin;
-		$skinNameMobile = ($moduleInfo->is_mskin_fix == 'N') ? $this->getModuleDefaultSkin($moduleInfo->module, 'M') : $moduleInfo->mskin;
+		$skinNameMobile = ($moduleInfo->is_mskin_fix == 'N') ? $this->getModuleDefaultSkin($moduleInfo->module, $moduleInfo->mskin === '/USE_RESPONSIVE/' ? 'P' : 'M') : $moduleInfo->mskin;
 
 		$oLayoutModel = getModel('layout');
 		$layoutInfoPc = $layoutSrlPc ? $oLayoutModel->getLayoutRawData($layoutSrlPc, array('title')) : NULL;
@@ -315,7 +315,7 @@ class moduleModel extends module
 		$moduleInfo->designSettings->layout->mobile = $layoutInfoMobile->title;
 		$moduleInfo->designSettings->skin->pcIsDefault = $moduleInfo->is_skin_fix == 'N' ? 1 : 0;
 		$moduleInfo->designSettings->skin->pc = $skinInfoPc->title;
-		$moduleInfo->designSettings->skin->mobileIsDefault = $moduleInfo->is_mskin_fix == 'N' ? 1 : 0;
+		$moduleInfo->designSettings->skin->mobileIsDefault = ($moduleInfo->is_mskin_fix == 'N' && $moduleInfo->mskin !== '/USE_RESPONSIVE/') ? 1 : 0;
 		$moduleInfo->designSettings->skin->mobile = $skinInfoMobile->title;
 
 		$module_srl = Rhymix\Framework\Cache::get('site_and_module:module_srl:' . $mid . '_' . $site_srl);
@@ -357,6 +357,10 @@ class moduleModel extends module
 	 */
 	function getModuleInfoByModuleSrl($module_srl, $columnList = array())
 	{
+		if(intval($module_srl) == 0)
+		{
+			return false;
+		}
 		$mid_info = Rhymix\Framework\Cache::get("site_and_module:mid_info:$module_srl");
 		if($mid_info === null)
 		{
@@ -402,11 +406,12 @@ class moduleModel extends module
 			$moduleInfo->skin = '/USE_DEFAULT/';
 		}
 
-		if($moduleInfo->is_mskin_fix == 'N')
+		if($moduleInfo->is_mskin_fix == 'N' && $moduleInfo->mskin !== '/USE_RESPONSIVE/')
 		{
 			$moduleInfo->mskin = '/USE_DEFAULT/';
 		}
 	}
+
 	/**
 	 * @brief Get module information corresponding to layout_srl
 	 */
@@ -1115,7 +1120,7 @@ class moduleModel extends module
 			{
 				$type = 'M';
 			}
-			$defaultSkinName = $this->getModuleDefaultSkin($module, $type, $site_info->site_srl);
+			$defaultSkinName = $this->getModuleDefaultSkin($module, $type);
 
 			if(isset($defaultSkinName))
 			{
@@ -1125,6 +1130,10 @@ class moduleModel extends module
 				$useDefault->title = lang('use_site_default_skin') . ' (' . $defaultSkinInfo->title . ')';
 
 				$useDefaultList['/USE_DEFAULT/'] = $useDefault;
+				if($type === 'M')
+				{
+					$useDefaultList['/USE_RESPONSIVE/'] = (object)array('title' => lang('use_responsive_pc_skin'));
+				}
 
 				$skin_list = array_merge($useDefaultList, $skin_list);
 			}
@@ -1151,10 +1160,14 @@ class moduleModel extends module
 		// Skin Name
 		$skin_info = new stdClass();
 		$skin_info->title = $xml_obj->title->body;
+		$skin_info->author = array();
+		$skin_info->extra_vars = array();
+		$skin_info->colorset = array();
 		// Author information
 		if($xml_obj->version && $xml_obj->attrs->version == '0.2')
 		{
 			// skin format v0.2
+			$date_obj = (object)array('y' => 0, 'm' => 0, 'd' => 0);
 			sscanf($xml_obj->date->body, '%d-%d-%d', $date_obj->y, $date_obj->m, $date_obj->d);
 			$skin_info->version = $xml_obj->version->body;
 			$skin_info->date = sprintf('%04d%02d%02d', $date_obj->y, $date_obj->m, $date_obj->d);
@@ -1163,7 +1176,7 @@ class moduleModel extends module
 			$skin_info->license_link = $xml_obj->license->attrs->link;
 			$skin_info->description = $xml_obj->description->body;
 
-			if(!is_array($xml_obj->author)) $author_list[] = $xml_obj->author;
+			if(!is_array($xml_obj->author)) $author_list = array($xml_obj->author);
 			else $author_list = $xml_obj->author;
 
 			foreach($author_list as $author)
@@ -1188,22 +1201,32 @@ class moduleModel extends module
 					{
 						continue;
 					}
-					if(!is_array($group->var)) $extra_vars = array($group->var);
-
+					
+					if(!is_array($group->var))
+					{
+						$extra_vars = array($group->var);
+					}
+					
 					foreach($extra_vars as $key => $val)
 					{
-						$obj = new stdClass();
-						if(!$val->attrs->type) { $val->attrs->type = 'text'; }
-
+						$obj = new stdClass;
 						$obj->group = $group->title->body;
 						$obj->name = $val->attrs->name;
 						$obj->title = $val->title->body;
-						$obj->type = $val->attrs->type;
+						$obj->type = $val->attrs->type ?: 'text';
 						$obj->description = $val->description->body;
-						$obj->value = $extra_vals->{$obj->name};
+						$obj->value = $val->attrs->value;
 						$obj->default = $val->attrs->default;
-						if(strpos($obj->value, '|@|') != false) { $obj->value = explode('|@|', $obj->value); }
-						if($obj->type == 'mid_list' && !is_array($obj->value)) { $obj->value = array($obj->value); }
+						
+						if(preg_match('/,|\|@\|/', $obj->value, $delimiter) && $delimiter[0])
+						{
+							$obj->value = explode($delimiter[0], $obj->value);
+						}
+						if($obj->type == 'mid_list' && !is_array($obj->value))
+						{
+							$obj->value = array($obj->value);
+						}
+						
 						// Get an option list from 'select'type
 						if(is_array($val->options))
 						{
@@ -1222,7 +1245,7 @@ class moduleModel extends module
 							$obj->options[0]->title = $val->options->title->body;
 							$obj->options[0]->value = $val->options->attrs->value;
 						}
-
+						
 						$skin_info->extra_vars[] = $obj;
 					}
 				}
@@ -1231,6 +1254,7 @@ class moduleModel extends module
 		else
 		{
 			// skin format v0.1
+			$date_obj = (object)array('y' => 0, 'm' => 0, 'd' => 0);
 			sscanf($xml_obj->maker->attrs->date, '%d-%d-%d', $date_obj->y, $date_obj->m, $date_obj->d);
 
 			$skin_info->version = $xml_obj->version->body;
@@ -1259,8 +1283,7 @@ class moduleModel extends module
 
 					foreach($extra_vars as $var)
 					{
-						unset($obj);
-						unset($options);
+						$options = array();
 
 						$group = $group->title->body;
 						$name = $var->attrs->name;
@@ -1274,12 +1297,14 @@ class moduleModel extends module
 
 							for($i = 0; $i < $option_count; $i++)
 							{
+								$options[$i] = new stdClass();
 								$options[$i]->title = $var->default[$i]->body;
 								$options[$i]->value = $var->default[$i]->body;
 							}
 						}
 						else
 						{
+							$options[0] = new stdClass();
 							$options[0]->title = $var->default->body;
 							$options[0]->value = $var->default->body;
 						}
@@ -1287,7 +1312,7 @@ class moduleModel extends module
 						$width = $var->attrs->width;
 						$height = $var->attrs->height;
 
-						unset($obj);
+						$obj = new stdClass();
 						$obj->group = $group;
 						$obj->title = $title;
 						$obj->description = $description;
@@ -1373,26 +1398,32 @@ class moduleModel extends module
 	 */
 	function getModuleConfig($module, $site_srl = 0)
 	{
-		$config = Rhymix\Framework\Cache::get('site_and_module:module_config:' . $module . '_' . $site_srl);
-		if($config === null)
+		if(!isset($GLOBALS['__ModuleConfig__'][$site_srl][$module]))
 		{
-			if(!$GLOBALS['__ModuleConfig__'][$site_srl][$module])
+			$config = Rhymix\Framework\Cache::get('site_and_module:module_config:' . $module . '_' . $site_srl);
+			if($config === null)
 			{
-				$args = new stdClass();
+				$args = new stdClass;
 				$args->module = $module;
 				$args->site_srl = $site_srl;
-				$output = executeQuery('module.getModuleConfig', $args);
-				if($output->data->config) $config = unserialize($output->data->config);
-				else $config = new stdClass;
-
-				//insert in cache
+				
+				// Only object type
+				if($config = executeQuery('module.getModuleConfig', $args)->data->config)
+				{
+					$config = unserialize($config);
+				}
+				else
+				{
+					$config = new stdClass;
+				}
+				
+				// Set cache
 				Rhymix\Framework\Cache::set('site_and_module:module_config:' . $module . '_' . $site_srl, $config, 0, true);
-				$GLOBALS['__ModuleConfig__'][$site_srl][$module] = $config;
 			}
-			return $GLOBALS['__ModuleConfig__'][$site_srl][$module];
+			$GLOBALS['__ModuleConfig__'][$site_srl][$module] = $config;
 		}
-
-		return $config;
+		
+		return $GLOBALS['__ModuleConfig__'][$site_srl][$module];
 	}
 
 	/**
@@ -1401,26 +1432,38 @@ class moduleModel extends module
 	 */
 	function getModulePartConfig($module, $module_srl)
 	{
-		$config = Rhymix\Framework\Cache::get('site_and_module:module_part_config:' . $module . '_' . $module_srl);
-		if($config === null)
+		if(!isset($GLOBALS['__ModulePartConfig__'][$module][$module_srl]))
 		{
-			if(!isset($GLOBALS['__ModulePartConfig__'][$module][$module_srl]))
+			$config = Rhymix\Framework\Cache::get('site_and_module:module_part_config:' . $module . '_' . $module_srl);
+			if($config === null)
 			{
-				$args = new stdClass();
+				$args = new stdClass;
 				$args->module = $module;
 				$args->module_srl = $module_srl;
-				$output = executeQuery('module.getModulePartConfig', $args);
-				if($output->data->config) $config = unserialize($output->data->config);
-				else $config = null;
-
-				//insert in cache
-				Rhymix\Framework\Cache::set('site_and_module:module_part_config:' . $module . '_' . $module_srl, $config === null ? 0 : $config, 0, true);
-				$GLOBALS['__ModulePartConfig__'][$module][$module_srl] = $config;
+				
+				// Object or Array(compatibility) type
+				if($config = executeQuery('module.getModulePartConfig', $args)->data->config)
+				{
+					$config = unserialize($config);
+				}
+				else
+				{
+					$config = new ArrayObject;
+				}
+				
+				// For access to array as properties
+				if($config instanceof ArrayObject)
+				{
+					$config->setFlags(ArrayObject::ARRAY_AS_PROPS);
+				}
+				
+				// Set cache
+				Rhymix\Framework\Cache::set('site_and_module:module_part_config:' . $module . '_' . $module_srl, $config, 0, true);
 			}
-			return $GLOBALS['__ModulePartConfig__'][$module][$module_srl];
+			$GLOBALS['__ModulePartConfig__'][$module][$module_srl] = $config;
 		}
-
-		return $config === 0 ? null : $config;
+		
+		return $GLOBALS['__ModulePartConfig__'][$module][$module_srl];
 	}
 
 	/**
@@ -1432,12 +1475,18 @@ class moduleModel extends module
 		$args->module = $module;
 		if($site_srl) $args->site_srl = $site_srl;
 		$output = executeQueryArray('module.getModulePartConfigs', $args);
-		if(!$output->toBool() || !$output->data) return array();
-
+		
+		if(!$output->toBool() || !$output->data)
+		{
+			return array();
+		}
+		
+		$result = array();
 		foreach($output->data as $key => $val)
 		{
 			$result[$val->module_srl] = unserialize($val->config);
 		}
+		
 		return $result;
 	}
 
@@ -1540,6 +1589,26 @@ class moduleModel extends module
 			return $oDummy->checkUpdate();
 		}
 		return false;
+	}
+
+	/**
+	 * @brief 업데이트 적용 여부 확인
+	 * @param array|string $update_id
+	 * @return Boolean
+	 */
+	public function needUpdate($update_id)
+	{
+		if(!is_array($update_id)) $update_id = array($update_id);
+
+		$args = new stdClass();
+		$args->update_id = implode(',', $update_id);
+		$output = executeQueryArray('module.getModuleUpdateLog', $args);
+
+		if(!!$output->error) return false;
+		if(!$output->data) $output->data = array();
+		if(count($update_id) === count($output->data)) return false;
+
+		return true;
 	}
 
 	/**
@@ -1876,7 +1945,7 @@ class moduleModel extends module
 	{
 		if(!$module_info->module_srl) return;
 
-		if(Mobile::isFromMobilePhone())
+		if(Mobile::isFromMobilePhone() && $module_info->mskin !== '/USE_RESPONSIVE/')
 		{
 			$skin_vars = $this->getModuleMobileSkinVars($module_info->module_srl);
 		}
@@ -2053,6 +2122,14 @@ class moduleModel extends module
 							$grant->{$val->name} = true;
 						}
 						else if(count($member_group))
+						{
+							$grant->{$val->name} = true;
+						}
+					}
+					// Manager only
+					else if($val->group_srl == -3)
+					{
+						if($grant->manager)
 						{
 							$grant->{$val->name} = true;
 						}

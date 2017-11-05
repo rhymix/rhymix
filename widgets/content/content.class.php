@@ -191,6 +191,12 @@ class content extends WidgetHandler
 		$obj->module_srl = $args->module_srl;
 		$obj->sort_index = $args->order_target;
 		$obj->list_count = $args->list_count * $args->page_count;
+		
+		if($args->show_secret != 'Y')
+		{
+			$obj->is_secret = 'N';
+		}
+		
 		// Get model object of the comment module and execute getCommentList() method
 		$oCommentModel = getModel('comment');
 		$output = $oCommentModel->getNewestCommentList($obj);
@@ -201,11 +207,16 @@ class content extends WidgetHandler
 
 		foreach($output as $key => $oComment)
 		{
+			$oDocument = getModel('document')->getDocument($oComment->get('document_srl'), false, false);
+			if(!$oDocument->isExists() || $oDocument->isSecret() && $args->show_secret != 'Y')
+			{
+				continue;
+			}
+			
 			$attribute = $oComment->getObjectVars();
 			$title = $oComment->getSummary($args->content_cut_size);
 			$thumbnail = $oComment->getThumbnail($args->thumbnail_width,$args->thumbnail_height,$args->thumbnail_type);
 			$thumbnail_x2 = $oComment->getThumbnail($args->thumbnail_width * 2, $args->thumbnail_height * 2, $args->thumbnail_type);
-			$url = sprintf("%s#comment_%s",getUrl('','document_srl',$oComment->get('document_srl')),$oComment->get('comment_srl'));
 
 			$attribute->mid = $args->mid_lists[$attribute->module_srl];
 			$browser_title = $args->module_srls_info[$attribute->module_srl]->browser_title;
@@ -216,7 +227,7 @@ class content extends WidgetHandler
 			$content_item->setTitle($title);
 			$content_item->setThumbnail($thumbnail);
 			$content_item->setThumbnail($thumbnail_x2, 2);
-			$content_item->setLink($url);
+			$content_item->setLink($oComment->getPermanentUrl());
 			$content_item->setDomain($domain);
 			$content_item->add('mid', $args->mid_lists[$attribute->module_srl]);
 			$content_items[] = $content_item;
@@ -287,14 +298,14 @@ class content extends WidgetHandler
 				$thumbnail = $oDocument->getThumbnail($args->thumbnail_width,$args->thumbnail_height,$args->thumbnail_type);
 				$thumbnail_x2 = $oDocument->getThumbnail($args->thumbnail_width * 2,$args->thumbnail_height * 2,$args->thumbnail_type);
 
-				$content_item = new contentItem( $args->module_srls_info[$module_srl]->browser_title );
+				$content_item = new contentItem($args->module_srls_info[$module_srl]->browser_title);
 				$content_item->adds($oDocument->getObjectVars());
 				$content_item->add('original_content', $oDocument->get('content'));
 				$content_item->setTitle($oDocument->getTitleText());
-				$content_item->setCategory( $category_lists[$module_srl][$category_srl]->title );
-				$content_item->setDomain( $args->module_srls_info[$module_srl]->domain );
+				$content_item->setCategory($category_lists[$module_srl][$category_srl]->title);
+				$content_item->setDomain($args->module_srls_info[$module_srl]->domain);
 				$content_item->setContent($oDocument->getSummary($args->content_cut_size));
-				$content_item->setLink( getSiteUrl($domain,'','document_srl',$document_srl) );
+				$content_item->setLink($oDocument->getPermanentUrl());
 				$content_item->setThumbnail($thumbnail);
 				$content_item->setThumbnail($thumbnail_x2, 2);
 				$content_item->setExtraImages($oDocument->printExtraImages($args->duration_new * 60 * 60));
@@ -349,7 +360,7 @@ class content extends WidgetHandler
 			$domain = $args->module_srls_info[$attribute->module_srl]->domain;
 			$category = $category_lists[$attribute->module_srl]->text;
 			$content = $oDocument->getSummary($args->content_cut_size);
-			$url = sprintf("%s#%s",$oDocument->getPermanentUrl() ,$oDocument->getCommentCount());
+			$url = sprintf('%s#%s', $oDocument->getPermanentUrl(), $oDocument->getCommentCount());
 			$thumbnail = $oDocument->getThumbnail($args->thumbnail_width,$args->thumbnail_height,$args->thumbnail_type);
 			$thumbnail_x2 = $oDocument->getThumbnail($args->thumbnail_width * 2, $args->thumbnail_height * 2, $args->thumbnail_type);
 			$extra_images = $oDocument->printExtraImages($args->duration_new);
@@ -514,7 +525,7 @@ class content extends WidgetHandler
 				$content_item->setTitle($item->title);
 				$content_item->setNickName(max($item->author,$item->{'dc:creator'}));
 				//$content_item->setCategory($item->category);
-				$item->description = preg_replace('!<a href=!is','<a onclick="window.open(this.href);return false" href=', $item->description);
+				$item->description = preg_replace('!<a href=!is','<a target="_blank" rel="noopener" href=', $item->description);
 				$content_item->setContent($this->_getSummary($item->description, $args->content_cut_size));
 				$content_item->setThumbnail($this->_getRssThumbnail($item->description));
 				$content_item->setLink($item->link);
@@ -553,7 +564,7 @@ class content extends WidgetHandler
 				$content_item->setTitle($item->title);
 				$content_item->setNickName(max($item->author,$item->{'dc:creator'}));
 				//$content_item->setCategory($item->category);
-				$item->description = preg_replace('!<a href=!is','<a onclick="window.open(this.href);return false" href=', $item->description);
+				$item->description = preg_replace('!<a href=!is','<a target="_blank" rel="noopener" href=', $item->description);
 				$content_item->setContent($this->_getSummary($item->description, $args->content_cut_size));
 				$content_item->setThumbnail($this->_getRssThumbnail($item->description));
 				$content_item->setLink($item->link);
@@ -625,7 +636,7 @@ class content extends WidgetHandler
 
 				//$content_item->setCategory($item->category);
 				$item->description = ($item->content) ? $item->content : $item->description = $item->summary;
-				$item->description = preg_replace('!<a href=!is','<a onclick="window.open(this.href);return false" href=', $item->description);
+				$item->description = preg_replace('!<a href=!is','<a target="_blank" rel="noopener" href=', $item->description);
 
 				if(($item->content && stripos($value->content->attrs->type, "html") === FALSE) || (!$item->content && stripos($value->summary->attrs->type, "html") === FALSE))
 				{
@@ -699,7 +710,7 @@ class content extends WidgetHandler
 		{
 			$domain = $args->module_srls_info[$item->module_srl]->domain;
 			$category = $category_lists[$item->module_srl]->text;
-			$url = getSiteUrl($domain,'','document_srl',$item->document_srl);
+			$url = getUrl('', 'mid', $args->module_srls_info[$item->module_srl]->mid, 'document_srl', $item->document_srl);
 			$browser_title = $args->module_srls_info[$item->module_srl]->browser_title;
 
 			$content_item = new contentItem($browser_title);

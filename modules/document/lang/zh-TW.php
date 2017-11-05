@@ -1,8 +1,5 @@
 <?php
 $lang->document_list = '文章列表';
-$lang->thumbnail_type = '縮圖建立方式';
-$lang->thumbnail_crop = '裁切';
-$lang->thumbnail_ratio = '比例';
 $lang->cmd_delete_all_thumbnail = '刪除全部縮圖';
 $lang->title_bold = '粗體';
 $lang->title_color = '標題顏色';

@@ -76,7 +76,7 @@
 		<div class="x_controls">
 			<select name="mlayout_srl" id="mlayout_srl">
 				<option value="0">{$lang->notuse}</option>
-				<option loop="$mlayout_list => $key, $val" value="{$val->layout_srl}" selected="selected"|cond="$module_info->mlayout_srl==$val->layout_srl">{$val->title}({$val->layout})</option>
+				<option loop="$mlayout_list => $key, $val" value="{$val->layout_srl}" selected="selected"|cond="$module_info->mlayout_srl==$val->layout_srl">{$val->title} <block cond="$val->layout">({$val->layout})</block></option>
 			</select>
 			<a href="#aboutMobileLayout" class="x_icon-question-sign" data-toggle>{$lang->help}</a>
 			<p class="x_help-block" id="aboutMobileLayout" hidden>{$lang->about_layout}</p>

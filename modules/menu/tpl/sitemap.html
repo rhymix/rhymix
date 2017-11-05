@@ -602,7 +602,7 @@
 					<script id="tmpl_downloadableItem" type="text/x-jquery-tmpl">
 
 						<div class="item ${IsInstalled} ${IsUpToDate}">
-							<img src="https://${ScreenShotURL}" alt="">
+							<img src="${ScreenShotURL}" alt="">
 							<h2><a target="_blank" href="${URL}">${MenuType}</a></h2>
 							<p>${MenuTypeDesc}</p>
 							<p><i class="starRating score${Score}"><i></i></i> <b class="x_badge">${Score}/${TotalVotes}</b> {$lang->package_update}: <time title="${LastUpdatedWithTime}">${LastUpdated}</time> <i>|</i> {$lang->package_downloaded_count}: ${TotalDownloads}</p>
@@ -3220,7 +3220,7 @@ jQuery(function($){
 	<li class="${Selected}">
 		<label><input type="radio" name="layout_item" title="${Title}"> ${Title}</label>
 		<button type="button" class="item" title="클릭하면 레이아웃이 적용됩니다.">
-			<img src="https://${ScreenShotURL}">
+			<img src="${ScreenShotURL}">
 		</button>
 		<ul>
 			<li><a href="#layoutSetup">설정 <i class="x_icon-circle-arrow-right"></i></a></li>

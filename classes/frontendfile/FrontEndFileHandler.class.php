@@ -93,12 +93,27 @@ class FrontEndFileHandler extends Handler
 		{
 			$args = array($args);
 		}
+		
+		// Replace obsolete paths with current paths.
 		$args[0] = preg_replace(array_keys(HTMLDisplayHandler::$replacements), array_values(HTMLDisplayHandler::$replacements), $args[0]);
 		$isCommon = preg_match(HTMLDisplayHandler::$reservedCSS, $args[0]) || preg_match(HTMLDisplayHandler::$reservedJS, $args[0]);
-		if($args[3] > -1500000 && $isCommon)
+		
+		// Prevent overwriting common scripts.
+		if(intval($args[3]) > -1500000000)
 		{
-			return;
+			if($isCommon)
+			{
+				return;
+			}
+			foreach(HTMLDisplayHandler::$blockedScripts as $regexp)
+			{
+				if(preg_match($regexp, $args[0]))
+				{
+					return;
+				}
+			}
 		}
+		
 		$file = $this->getFileInfo($args[0], $args[2], $args[1], $args[4], $isCommon);
 		$file->index = (int)$args[3];
 
@@ -163,6 +178,10 @@ class FrontEndFileHandler extends Handler
 		$file->fileRealPath = FileHandler::getRealPath($pathInfo['dirname']);
 		$file->fileFullPath = $file->fileRealPath . '/' . $pathInfo['basename'];
 		$file->fileExtension = strtolower($pathInfo['extension']);
+		if (($pos = strpos($file->fileExtension, '?')) !== false)
+		{
+			$file->fileExtension = substr($file->fileExtension, 0, $pos);
+		}
 		if (preg_match('/^(.+)\.min$/', $pathInfo['filename'], $matches))
 		{
 			$file->fileNameNoExt = $matches[1];

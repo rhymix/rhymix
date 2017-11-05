@@ -45,10 +45,13 @@ class editor extends ModuleObject
 		'content_line_height' => '160%',
 		'content_paragraph_spacing' => '0px',
 		'content_word_break' => 'normal',
+		'enable_autosave' => 'Y',
+		'allow_html' => 'Y',
 		'autoinsert_image' => 'paragraph',
 		'additional_css' => array(),
 		'additional_mobile_css' => array(),
 		'additional_plugins' => array(),
+		'remove_plugins' => array(),
 	);
 	
 	/**

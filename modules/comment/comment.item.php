@@ -320,6 +320,33 @@ class commentItem extends Object
 		return $_SESSION['voted_comment'][$this->comment_srl] = false;
 	}
 
+	function getContentPlainText($strlen = 0)
+	{
+		if($this->isDeletedByAdmin())
+		{
+			$content = lang('msg_admin_deleted_comment');
+		}
+		elseif($this->isDeleted())
+		{
+			$content = lang('msg_deleted_comment');
+		}
+		elseif($this->isSecret() && !$this->isAccessible())
+		{
+			$content = lang('msg_is_secret');
+		}
+		else
+		{
+			$content = $this->get('content');
+		}
+		
+		$content = trim(utf8_normalize_spaces(html_entity_decode(strip_tags($content))));
+		if($strlen)
+		{
+			$content = cut_str($content, $strlen, '...');
+		}
+		return escape($content);
+	}
+
 	/**
 	 * Return content with htmlspecialchars
 	 * @return string
@@ -345,10 +372,10 @@ class commentItem extends Object
 
 		if($strlen)
 		{
-			return cut_str(trim(strip_tags($content)), $strlen, '...');
+			$content = trim(utf8_normalize_spaces(html_entity_decode(strip_tags($content))));
+			$content = cut_str($content, $strlen, '...');
 		}
-
-		return htmlspecialchars($content, ENT_COMPAT | ENT_HTML401, 'UTF-8', false);
+		return escape($content);
 	}
 
 	/**
@@ -441,14 +468,14 @@ class commentItem extends Object
 		return ztime($this->get('regdate'));
 	}
 
-	function getRegdateGM()
+	function getRegdateGM($format = 'r')
 	{
-		return gmdate('r', ztime($this->get('regdate')));
+		return gmdate($format, $this->getRegdateTime());
 	}
 
-	function getRegdateDT()
+	function getRegdateDT($format = 'c')
 	{
-		return zdate($this->get('regdate'), 'c', false);
+		return Rhymix\Framework\DateTime::formatTimestampForCurrentUser($format, $this->getRegdateTime());
 	}
 
 	function getUpdate($format = 'Y.m.d H:i:s', $conversion = true)
@@ -461,19 +488,20 @@ class commentItem extends Object
 		return ztime($this->get('last_update'));
 	}
 
-	function getUpdateGM()
+	function getUpdateGM($format = 'r')
 	{
-		return gmdate('r', ztime($this->get('last_update')));
+		return gmdate($format, $this->getUpdateTime());
 	}
 
-	function getUpdateDT()
+	function getUpdateDT($format = 'c')
 	{
-		return zdate($this->get('last_update'), 'c', false);
+		return Rhymix\Framework\DateTime::formatTimestampForCurrentUser($format, $this->getUpdateTime());
 	}
 
 	function getPermanentUrl()
 	{
-		return getFullUrl('', 'document_srl', $this->get('document_srl')) . '#comment_' . $this->get('comment_srl');
+		$mid = getModel('module')->getModuleInfoByModuleSrl($this->get('module_srl'))->mid;
+		return getFullUrl('', 'mid', $mid, 'document_srl', $this->get('document_srl')) . '#comment_' . $this->get('comment_srl');
 	}
 
 	function hasUploadedFiles()
@@ -600,11 +628,11 @@ class commentItem extends Object
 		{
 			$config = $GLOBALS['__document_config__'] = getModel('document')->getDocumentConfig();
 		}
-		if ($config->thumbnail_type === 'none')
+		if ($config->thumbnail_target === 'none' || $config->thumbnail_type === 'none')
 		{
 			return;
 		}
-		if(!in_array($thumbnail_type, array('crop', 'ratio', 'none')))
+		if(!in_array($thumbnail_type, array('crop', 'ratio')))
 		{
 			$thumbnail_type = $config->thumbnail_type ?: 'crop';
 		}
@@ -686,7 +714,7 @@ class commentItem extends Object
 		}
 
 		// get an image file from the doc content if no file attached. 
-		if(!$source_file)
+		if(!$source_file && $config->thumbnail_target !== 'attachment')
 		{
 			preg_match_all("!<img\s[^>]*?src=(\"|')([^\"' ]*?)(\"|')!is", $this->get('content'), $matches, PREG_SET_ORDER);
 			foreach($matches as $match)
@@ -735,7 +763,10 @@ class commentItem extends Object
 			}
 		}
 
-		$output = FileHandler::createImageFile($source_file, $thumbnail_file, $width, $height, 'jpg', $thumbnail_type);
+		if($source_file)
+		{
+			$output = FileHandler::createImageFile($source_file, $thumbnail_file, $width, $height, 'jpg', $thumbnail_type);
+		}
 
 		// Remove source file if it was temporary
 		if($is_tmp_file)

@@ -1,9 +1,12 @@
+<load target="../../tpl/js/editor_common.js" />
 <load target="css/textarea.css" />
+<load target="js/textarea.js" />
+<load target="js/interface.js" />
 
 <div id="textarea_wrapper_{$editor_sequence}" class="rx_editor_wrapper">
 	<textarea id="textarea_instance_{$editor_sequence}" class="rx_editor_textarea {$colorset}" data-editor-sequence="{$editor_sequence}" data-editor-primary-key-name="{$editor_primary_key_name}" data-editor-content-key-name="{$editor_content_key_name}"></textarea>
 	<script>
-		$(function(){
+		jQuery(function($){
 			"use strict";
 			
 			// Set editor styles
@@ -19,18 +22,8 @@
 				textarea.css("word-wrap", "break-word");
 			}
 			
-			// Load existing content
-			var content_key = textarea.data("editor-content-key-name");
-			var content_input = textarea.parents("form").find("input[name='" + content_key + "']");
-			if (content_input.size()) {
-				textarea.val(String(content_input.val()).stripTags().unescape());
-			}
-			
-			// Save edited content
-			textarea.on("change", function() {
-				content_input.val("<p>" + String($(this).val()).escape().replace(/\r?\n/, "</p>\n<p>") + "</p>");
-			});
-			
+			// Load
+			editorTextarea({$editor_sequence});
 		});
 	</script>
 </div>

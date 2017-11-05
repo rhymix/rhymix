@@ -5,10 +5,10 @@
 <!--@if(!count($output->data))-->
     <span class="noResult">{$lang->msg_no_result}</span>
 <!--@else-->
-    <ul class="searchImageResult">
+    <ul class="searchResult">
     <!--@foreach($output->data as $no => $image)-->
         <li>    
-            <a href="{$image->url}">{$image->src}</a>
+            <a href="{$image->url}" target="_blank">{$image->src}</a>
             <dl>
                 <dt><a href="{$image->url}">{$image->filename}</a></dt>
             </dl>

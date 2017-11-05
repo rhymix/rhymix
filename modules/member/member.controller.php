@@ -120,50 +120,81 @@ class memberController extends member
 	 */
 	function procMemberScrapDocument()
 	{
-		$oModuleModel = &getModel('module');
-
-		// Check login information
-		if(!Context::get('is_logged')) return new Object(-1, 'msg_not_logged');
-		$logged_info = Context::get('logged_info');
-
-		$document_srl = (int)Context::get('document_srl');
-		if(!$document_srl) $document_srl = (int)Context::get('target_srl');
-		if(!$document_srl) return new Object(-1,'msg_invalid_request');
-
-		// Get document
+		$document_srl = (int) (Context::get('document_srl') ?: Context::get('target_srl'));
+		if(!$document_srl)
+		{
+			return new Object(-1,'msg_invalid_request');
+		}
+		
 		$oDocumentModel = getModel('document');
 		$oDocument = $oDocumentModel->getDocument($document_srl);
-
+		
+		// Check document
 		if($oDocument->isSecret() && !$oDocument->isGranted())
 		{
 			return new Object(-1, 'msg_is_secret');
 		}
-
-		// 모듈 권한 확인
-		$grant = $oModuleModel->getGrant($oModuleModel->getModuleInfoByModuleSrl($oDocument->get('module_srl')), $logged_info);
+		
+		$oModuleModel = getModel('module');
+		$module_info = $oModuleModel->getModuleInfoByModuleSrl($oDocument->get('module_srl'));
+		
+		$logged_info = Context::get('logged_info');
+		$grant = $oModuleModel->getGrant($module_info, $logged_info);
+		
+		// Check access to module of the document
 		if(!$grant->access)
 		{
 			return new Object(-1, 'msg_not_permitted');
 		}
-
+		
+		// Check grant to module of the document
+		if(isset($grant->list) && isset($grant->view) && (!$grant->list || !$grant->view))
+		{
+			return new Object(-1, 'msg_not_permitted');
+		}
+		
+		// Check consultation option
+		if(isset($grant->consultation_read) && $module_info->consultation == 'Y' && !$grant->consultation_read && !$oDocument->isGranted())
+		{
+			return new Object(-1, 'msg_not_permitted');
+		}
+		
+		// Find default scrap folder
+		$args = new stdClass();
+		$args->member_srl = $logged_info->member_srl;
+		$args->name = '/DEFAULT/';
+		$output = executeQuery('member.getScrapFolderList', $args);
+		if($output->toBool() && is_object($output->data) && $output->data->folder_srl)
+		{
+			$default_folder_srl = $output->data->folder_srl;
+		}
+		else
+		{
+			$default_folder_srl = null;
+		}
+		
 		// Variables
 		$args = new stdClass();
 		$args->document_srl = $document_srl;
 		$args->member_srl = $logged_info->member_srl;
+		$args->folder_srl = $default_folder_srl;
 		$args->user_id = $oDocument->get('user_id');
 		$args->user_name = $oDocument->get('user_name');
 		$args->nick_name = $oDocument->get('nick_name');
 		$args->target_member_srl = $oDocument->get('member_srl');
 		$args->title = $oDocument->get('title');
-
+		
 		// Check if already scrapped
 		$output = executeQuery('member.getScrapDocument', $args);
-		if($output->data->count) return new Object(-1, 'msg_alreay_scrapped');
-
+		if($output->data->count)
+		{
+			return new Object(-1, 'msg_alreay_scrapped');
+		}
+		
 		// Insert
 		$output = executeQuery('member.addScrapDocument', $args);
 		if(!$output->toBool()) return $output;
-
+		
 		$this->setError(-1);
 		$this->setMessage('success_registed');
 	}
@@ -186,6 +217,206 @@ class memberController extends member
 		$args->member_srl = $logged_info->member_srl;
 		$args->document_srl = $document_srl;
 		return executeQuery('member.deleteScrapDocument', $args);
+	}
+
+	/**
+	 * Move a scrap to another folder
+	 *
+	 * @return void|Object (void : success, Object : fail)
+	 */
+	function procMemberMoveScrapFolder()
+	{
+		// Check login information
+		if(!Context::get('is_logged')) return new Object(-1, 'msg_not_logged');
+		$logged_info = Context::get('logged_info');
+
+		$document_srl = (int)Context::get('document_srl');
+		$folder_srl = (int)Context::get('folder_srl');
+		if(!$document_srl || !$folder_srl)
+		{
+			return new Object(-1,'msg_invalid_request');
+		}
+		
+		// Check that the target folder exists and belongs to member
+		$args = new stdClass;
+		$args->member_srl = $logged_info->member_srl;
+		$args->folder_srl = $folder_srl;
+		$output = executeQueryArray('member.getScrapFolderList', $args);
+		if(!count($output->data))
+		{
+			return new Object(-1, 'msg_invalid_request');
+		}
+		
+		// Move
+		$args = new stdClass;
+		$args->member_srl = $logged_info->member_srl;
+		$args->document_srl = $document_srl;
+		$args->folder_srl = $folder_srl;
+		return executeQuery('member.updateScrapDocumentFolder', $args);
+	}
+
+	/**
+	 * Create a scrap folder
+	 *
+	 * @return void|Object (void : success, Object : fail)
+	 */
+	function procMemberInsertScrapFolder()
+	{
+		// Check login information
+		if(!Context::get('is_logged')) return new Object(-1, 'msg_not_logged');
+		$logged_info = Context::get('logged_info');
+		
+		// Get new folder name
+		$folder_name = Context::get('name');
+		$folder_name = escape(trim(utf8_normalize_spaces($folder_name)));
+		if(!$folder_name)
+		{
+			return new Object(-1, 'msg_invalid_request');
+		}
+		
+		// Check existing folder with same name
+		$args = new stdClass;
+		$args->member_srl = $logged_info->member_srl;
+		$args->name = $folder_name;
+		$output = executeQueryArray('member.getScrapFolderList', $args);
+		if(count($output->data) || $folder_name === lang('default_folder'))
+		{
+			return new Object(-1, 'msg_folder_alreay_exists');
+		}
+		
+		// Create folder
+		$args = new stdClass;
+		$args->folder_srl = getNextSequence();
+		$args->member_srl = $logged_info->member_srl;
+		$args->name = $folder_name;
+		$args->list_order = $args->folder_srl;
+		$this->add('folder_srl', $args->folder_srl);
+		return executeQuery('member.insertScrapFolder', $args);
+	}
+
+	/**
+	 * Rename a scrap folder
+	 *
+	 * @return void|Object (void : success, Object : fail)
+	 */
+	function procMemberRenameScrapFolder()
+	{
+		// Check login information
+		if(!Context::get('is_logged')) return new Object(-1, 'msg_not_logged');
+		$logged_info = Context::get('logged_info');
+		
+		// Get new folder name
+		$folder_srl = intval(Context::get('folder_srl'));
+		$folder_name = Context::get('name');
+		$folder_name = escape(trim(utf8_normalize_spaces($folder_name)));
+		if(!$folder_srl || !$folder_name)
+		{
+			return new Object(-1, 'msg_invalid_request');
+		}
+		
+		// Check that the original folder exists and belongs to member
+		$args = new stdClass;
+		$args->member_srl = $logged_info->member_srl;
+		$args->folder_srl = $folder_srl;
+		$output = executeQueryArray('member.getScrapFolderList', $args);
+		if(!count($output->data))
+		{
+			return new Object(-1, 'msg_invalid_request');
+		}
+		if(array_first($output->data)->name === '/DEFAULT/')
+		{
+			return new Object(-1, 'msg_folder_is_default');
+		}
+		
+		// Check existing folder with same name
+		$args = new stdClass;
+		$args->member_srl = $logged_info->member_srl;
+		$args->not_folder_srl = $folder_srl;
+		$args->name = $folder_name;
+		$output = executeQueryArray('member.getScrapFolderList', $args);
+		if(count($output->data) || $folder_name === lang('default_folder'))
+		{
+			return new Object(-1, 'msg_folder_alreay_exists');
+		}
+		
+		// Rename folder
+		$args = new stdClass;
+		$args->folder_srl = $folder_srl;
+		$args->name = $folder_name;
+		return executeQuery('member.updateScrapFolder', $args);
+	}
+
+	/**
+	 * Delete a scrap folder
+	 *
+	 * @return void|Object (void : success, Object : fail)
+	 */
+	function procMemberDeleteScrapFolder()
+	{
+		// Check login information
+		if(!Context::get('is_logged')) return new Object(-1, 'msg_not_logged');
+		$logged_info = Context::get('logged_info');
+		
+		// Get folder_srl to delete
+		$folder_srl = intval(Context::get('folder_srl'));
+		if(!$folder_srl)
+		{
+			return new Object(-1, 'msg_invalid_request');
+		}
+		
+		// Check that the folder exists and belongs to member
+		$args = new stdClass;
+		$args->member_srl = $logged_info->member_srl;
+		$args->folder_srl = $folder_srl;
+		$output = executeQueryArray('member.getScrapFolderList', $args);
+		if(!count($output->data))
+		{
+			return new Object(-1, 'msg_invalid_request');
+		}
+		if(array_first($output->data)->name === '/DEFAULT/')
+		{
+			return new Object(-1, 'msg_folder_is_default');
+		}
+		
+		// Check that the folder is empty
+		$args = new stdClass;
+		$args->member_srl = $logged_info->member_srl;
+		$args->folder_srl = $folder_srl;
+		$output = executeQueryArray('member.getScrapDocumentList', $args);
+		if(count($output->data))
+		{
+			return new Object(-1, 'msg_folder_not_empty');
+		}
+		
+		// Delete folder
+		$args = new stdClass;
+		$args->folder_srl = $folder_srl;
+		return executeQuery('member.deleteScrapFolder', $args);
+	}
+
+	/**
+	 * Migrate a member's scrapped documents to the new folder system.
+	 *
+	 * @param int $member_srl
+	 * @return void|Object (void : success, Object : fail)
+	 */
+	function migrateMemberScrappedDocuments($member_srl)
+	{
+		$args = new stdClass;
+		$args->folder_srl = getNextSequence();
+		$args->member_srl = $member_srl;
+		$args->name = '/DEFAULT/';
+		$args->list_order = $args->folder_srl;
+		$output = executeQuery('member.insertScrapFolder', $args);
+		if(!$output->toBool())
+		{
+			return $output;
+		}
+		$output = executeQuery('member.updateScrapFolderFromNull', $args);
+		if(!$output->toBool())
+		{
+			return $output;
+		}
 	}
 
 	/**
@@ -397,7 +628,6 @@ class memberController extends member
 			$args->birthday = intval(strtr($args->birthday_ui, array('-'=>'', '/'=>'', '.'=>'', ' '=>'')));
 		}
 		
-		$args->find_account_answer = Context::get('find_account_answer');
 		$args->allow_mailing = Context::get('allow_mailing');
 		$args->allow_message = Context::get('allow_message');
 
@@ -603,7 +833,7 @@ class memberController extends member
 		// Extract the necessary information in advance
 		$oMemberModel = &getModel ('member');
 		$config = $oMemberModel->getMemberConfig ();
-		$getVars = array('find_account_answer','allow_mailing','allow_message');
+		$getVars = array('allow_mailing','allow_message');
 		if($config->signupForm)
 		{
 			foreach($config->signupForm as $formInfo)
@@ -646,8 +876,8 @@ class memberController extends member
 		if(!$args->birthday && $args->birthday_ui)
 		{
 			$args->birthday = intval(strtr($args->birthday_ui, array('-'=>'', '/'=>'', '.'=>'', ' '=>'')));
-		} 
-		
+		}
+
 		// Remove some unnecessary variables from all the vars
 		$all_args = Context::getRequestVars();
 		unset($all_args->module);
@@ -1150,16 +1380,18 @@ class memberController extends member
 
 		$oTemplate = &TemplateHandler::getInstance();
 		$content = $oTemplate->compile($tpl_path, 'find_member_account_mail');
+
 		// Get information of the Webmaster
 		$oModuleModel = getModel('module');
 		$member_config = $oModuleModel->getModuleConfig('member');
+
 		// Send a mail
-		$oMail = new Mail();
-		$oMail->setTitle( lang('msg_find_account_title') );
-		$oMail->setContent($content);
-		$oMail->setSender( $member_config->webmaster_name?$member_config->webmaster_name:'webmaster', $member_config->webmaster_email);
-		$oMail->setReceiptor( $member_info->user_name, $member_info->email_address );
+		$oMail = new \Rhymix\Framework\Mail();
+		$oMail->setSubject(lang('msg_find_account_title'));
+		$oMail->setBody($content);
+		$oMail->addTo($member_info->email_address, $member_info->nick_name);
 		$oMail->send();
+
 		// Return message
 		$msg = sprintf(lang('msg_auth_mail_sent'), $member_info->email_address);
 		if(!in_array(Context::getRequestMethod(),array('XMLRPC','JSON')))
@@ -1177,54 +1409,7 @@ class memberController extends member
 	 */
 	function procMemberFindAccountByQuestion()
 	{
-		$oMemberModel = getModel('member');
-		$config = $oMemberModel->getMemberConfig();
-		if($config->enable_find_account_question != 'Y')
-		{
-			return new Object(-1, 'msg_question_not_allowed');
-		}
-
-		$email_address = Context::get('email_address');
-		$user_id = Context::get('user_id');
-		$find_account_question = trim(Context::get('find_account_question'));
-		$find_account_answer = trim(Context::get('find_account_answer'));
-
-		if(($config->identifier == 'user_id' && !$user_id) || !$email_address || !$find_account_question || !$find_account_answer) return new Object(-1, 'msg_invalid_request');
-
-		$oModuleModel = getModel('module');
-		// Check if a member having the same email address exists
-		$member_srl = $oMemberModel->getMemberSrlByEmailAddress($email_address);
-		if(!$member_srl) return new Object(-1, 'msg_email_not_exists');
-		// Get information of the member
-		$columnList = array('member_srl', 'find_account_question', 'find_account_answer');
-		$member_info = $oMemberModel->getMemberInfoByMemberSrl($member_srl, 0, $columnList);
-
-		// Display a message if no answer is entered
-		if(!$member_info->find_account_question || !$member_info->find_account_answer) return new Object(-1, 'msg_question_not_exists');
-
-		if(trim($member_info->find_account_question) != $find_account_question || trim($member_info->find_account_answer) != $find_account_answer) return new Object(-1, 'msg_answer_not_matches');
-
-		if($config->identifier == 'email_address')
-		{
-			$user_id = $email_address;
-		}
-
-		// Update to a temporary password and set change_password_date to 1
-		$temp_password = Rhymix\Framework\Password::getRandomPassword(8);
-
-		$args = new stdClass();
-		$args->member_srl = $member_srl;
-		$args->password = $temp_password;
-		$args->change_password_date = '1';
-		$output = $this->updateMemberPassword($args);
-		if(!$output->toBool()) return $output;
-
-		$_SESSION['xe_temp_password_' . $user_id] = $temp_password;
-
-		$this->add('user_id',$user_id);
-
-		$returnUrl = Context::get('success_return_url') ? Context::get('success_return_url') : getNotEncodedUrl('', 'mid', Context::get('mid'), 'act', '');
-		$this->setRedirectUrl($returnUrl.'&user_id='.$user_id);
+		return new Object(-1, 'msg_question_not_allowed');
 	}
 
 	/**
@@ -1246,42 +1431,46 @@ class memberController extends member
 			return $this->stop('msg_invalid_request');
 		}
 
+		// Call a trigger (before)
+		$trigger_obj = new stdClass;
+		$trigger_obj->member_srl = $member_srl;
+		$trigger_obj->auth_key = $auth_key;
+		$trigger_output = ModuleHandler::triggerCall('member.procMemberAuthAccount', 'before', $trigger_obj);
+		if(!$trigger_output->toBool())
+		{
+			return $this->stop($trigger_output->getMessage());
+		}
+
 		// Test logs for finding password by user_id and authkey
 		$args = new stdClass;
 		$args->member_srl = $member_srl;
 		$args->auth_key = $auth_key;
 		$output = executeQuery('member.getAuthMail', $args);
 
-		if(!$output->toBool() || $output->data->auth_key != $auth_key)
-		{
-			if(strlen($output->data->auth_key) !== strlen($auth_key))
-			{
-				executeQuery('member.deleteAuthMail', $args);
-			}
-
-			return $this->stop('msg_invalid_auth_key');
-		}
-
-		if(ztime($output->data->regdate) < time() - 86400)
+		if(!$output->toBool() || $output->data->auth_key !== $auth_key)
 		{
 			executeQuery('member.deleteAuthMail', $args);
 			return $this->stop('msg_invalid_auth_key');
 		}
 
-		$args->password = $output->data->new_password;
+		if(ztime($output->data->regdate) < time() - (86400 * 3))
+		{
+			executeQuery('member.deleteAuthMail', $args);
+			return $this->stop('msg_invalid_auth_key');
+		}
+
+		// Back up the value of $output->data->is_register
+		$is_register = $output->data->is_register;
 
 		// If credentials are correct, change the password to a new one
-		if($output->data->is_register == 'Y')
+		if($is_register === 'Y')
 		{
 			$args->denied = 'N';
 		}
 		else
 		{
-			$args->password = $oMemberModel->hashPassword($args->password);
+			$args->password = $oMemberModel->hashPassword($output->data->new_password);
 		}
-
-		// Back up the value of $Output->data->is_register
-		$is_register = $output->data->is_register;
 
 		$output = executeQuery('member.updateMemberPassword', $args);
 		if(!$output->toBool())
@@ -1294,10 +1483,14 @@ class memberController extends member
 
 		$this->_clearMemberCache($args->member_srl);
 
+		// Call a trigger (after)
+		$trigger_obj->is_register = $is_register;
+		$trigger_output = ModuleHandler::triggerCall('member.procMemberAuthAccount', 'after', $trigger_obj);
+
 		// Notify the result
-		Context::set('is_register', $is_register);
-		$this->setTemplatePath($this->module_path.'tpl');
-		$this->setTemplateFile('msg_success_authed');
+		$message = $is_register === 'Y' ? lang('msg_success_confirmed') : lang('msg_success_authed');
+		Context::setValidatorMessage('modules/member/skins', $message);
+		$this->setRedirectUrl(getNotEncodedUrl('', 'act', 'dispMemberLoginForm'));
 	}
 
 	/**
@@ -1377,12 +1570,12 @@ class memberController extends member
 
 		$oTemplate = &TemplateHandler::getInstance();
 		$content = $oTemplate->compile($tpl_path, 'confirm_member_account_mail');
+
 		// Send a mail
-		$oMail = new Mail();
-		$oMail->setTitle( lang('msg_confirm_account_title') );
-		$oMail->setContent($content);
-		$oMail->setSender( $member_config->webmaster_name?$member_config->webmaster_name:'webmaster', $member_config->webmaster_email);
-		$oMail->setReceiptor( $member_info->user_name, $member_info->email_address );
+		$oMail = new \Rhymix\Framework\Mail();
+		$oMail->setSubject(lang('msg_confirm_account_title'));
+		$oMail->setBody($content);
+		$oMail->addTo($member_info->email_address, $member_info->nick_name);
 		$oMail->send();
 
 		$msg = sprintf(lang('msg_confirm_mail_sent'), $args->email_address);
@@ -1437,6 +1630,12 @@ class memberController extends member
 		}
 
 		$this->_clearMemberCache($args->member_srl);
+		
+		// Call a trigger (after)
+		$trigger_obj = new stdClass;
+		$trigger_obj->member_srl = $args->member_srl;
+		$trigger_obj->email_address = $args->email_address;
+		$trigger_output = ModuleHandler::triggerCall('member.updateMemberEmailAddress', 'after', $trigger_obj);
 
 		// generate new auth key
 		$auth_args = new stdClass();
@@ -1504,12 +1703,12 @@ class memberController extends member
 
 		$oTemplate = &TemplateHandler::getInstance();
 		$content = $oTemplate->compile($tpl_path, 'confirm_member_account_mail');
+		
 		// Send a mail
-		$oMail = new Mail();
-		$oMail->setTitle( lang('msg_confirm_account_title') );
-		$oMail->setContent($content);
-		$oMail->setSender( $member_config->webmaster_name?$member_config->webmaster_name:'webmaster', $member_config->webmaster_email);
-		$oMail->setReceiptor( $member_info->user_name, $member_info->email_address );
+		$oMail = new \Rhymix\Framework\Mail();
+		$oMail->setSubject(lang('msg_confirm_account_title'));
+		$oMail->setBody($content);
+		$oMail->addTo($member_info->email_address, $member_info->nick_name);
 		$oMail->send();
 	}
 
@@ -1597,18 +1796,28 @@ class memberController extends member
 	 */
 	function putSignature($member_srl, $signature)
 	{
-		$signature = trim(removeHackTag($signature));
-		$signature = preg_replace('/<(\/?)(embed|object|param)/is', '&lt;$1$2', $signature);
-
-		$check_signature = trim(str_replace(array('&nbsp;',"\n","\r"),'',strip_tags($signature,'<img><object>')));
-		$path = sprintf('files/member_extra_info/signature/%s/', getNumberingPath($member_srl));
-		$filename = sprintf('%s%d.signature.php', $path, $member_srl);
-
-		if(!$check_signature) return FileHandler::removeFile($filename);
-
+		if((!$signature = utf8_trim(removeHackTag($signature))) || is_empty_html_content($signature))
+		{
+			getController('member')->delSignature($member_srl);
+			return;
+		}
+		
+		// Editor converter
+		$obj = new stdClass;
+		$config = getModel('member')->getMemberConfig();
+		if($config->signature_html == 'N')
+		{
+			$obj->converter = 'text';
+		}
+		$obj->content = $signature;
+		$obj->editor_skin = $config->signature_editor_skin;
+		$signature = getModel('editor')->converter($obj);
+		
+		$filename = sprintf('files/member_extra_info/signature/%s%d.signature.php', getNumberingPath($member_srl), $member_srl);
 		$buff = sprintf('<?php if(!defined("__XE__")) exit();?>%s', $signature);
-		FileHandler::makeDir($path);
-		FileHandler::writeFile($filename, $buff);
+		Rhymix\Framework\Storage::write($filename, $buff);
+		
+		return $signature;
 	}
 
 	/**
@@ -1892,11 +2101,10 @@ class memberController extends member
 					{
 						$view_url = Context::getRequestUri();
 						$content = sprintf("%s<hr /><p>From: <a href=\"%s\" target=\"_blank\">%s</a><br />To: %s(%s)</p>",$content, $view_url, $view_url, $member_info->nick_name, $member_info->email_id);
-						$oMail = new Mail();
-						$oMail->setTitle($title);
-						$oMail->setContent($content);
-						$oMail->setSender($config->webmaster_name?$config->webmaster_name:'webmaster', $config->webmaster_email);
-						$oMail->setReceiptor($member_info->email_id.'('.$member_info->nick_name.')', $member_info->email_address);
+						$oMail = new \Rhymix\Framework\Mail();
+						$oMail->setSubject($title);
+						$oMail->setBody($content);
+						$oMail->addTo($member_info->email_address, $member_info->email_id.' ('.$member_info->nick_name.')');
 						$oMail->send();
 					}
 					$output = executeQuery('member.deleteLoginCountHistoryByMemberSrl', $args);
@@ -2074,7 +2282,7 @@ class memberController extends member
 		if($args->blog && !preg_match("/^[a-z]+:\/\//i",$args->blog)) $args->blog = 'http://'.$args->blog;
 
 
-		$extend_form_list = $oMemberModel->getCombineJoinForm($memberInfo);
+		$extend_form_list = $oMemberModel->getJoinFormlist();
 		$security = new Security($extend_form_list);
 		$security->encodeHTML('..column_title', '..description', '..default_value.');
 		if($config->signupForm) {
@@ -2115,10 +2323,10 @@ class memberController extends member
 				}
 			}
 		}
-
+		
 		// Create a model object
 		$oMemberModel = getModel('member');
-
+		
 		// Check password strength
 		if($args->password && !$password_is_hashed)
 		{
@@ -2129,11 +2337,7 @@ class memberController extends member
 			}
 			$args->password = $oMemberModel->hashPassword($args->password);
 		}
-		elseif(!$args->password)
-		{
-			unset($args->password);
-		}
-
+		
 		// Check if ID is prohibited
 		if($logged_info->is_admin !== 'Y' && $oMemberModel->isDeniedID($args->user_id))
 		{
@@ -2324,7 +2528,7 @@ class memberController extends member
 			}
 		}
 
-		$extend_form_list = $oMemberModel->getCombineJoinForm($memberInfo);
+		$extend_form_list = $oMemberModel->getJoinFormlist();
 		$security = new Security($extend_form_list);
 		$security->encodeHTML('..column_title', '..description', '..default_value.');
 		if($config->signupForm){
@@ -2451,7 +2655,7 @@ class memberController extends member
 		{
 			$args->password = $orgMemberInfo->password;
 		}
-		
+
 		if(!$args->user_name) $args->user_name = $orgMemberInfo->user_name;
 		if(!$args->user_id) $args->user_id = $orgMemberInfo->user_id;
 		if(!$args->nick_name) $args->nick_name = $orgMemberInfo->nick_name;
@@ -2745,12 +2949,11 @@ class memberController extends member
 		$oTemplate = &TemplateHandler::getInstance();
 		$content = $oTemplate->compile($tpl_path, 'confirm_member_new_email');
 
-		$oMail = new Mail();
-		$oMail->setTitle( lang('title_modify_email_address') );
-		$oMail->setContent($content);
-		$oMail->setSender( $member_config->webmaster_name?$member_config->webmaster_name:'webmaster', $member_config->webmaster_email);
-		$oMail->setReceiptor( $member_info->nick_name, $newEmail );
-		$result = $oMail->send();
+		$oMail = new \Rhymix\Framework\Mail();
+		$oMail->setSubject(lang('title_modify_email_address'));
+		$oMail->setBody($content);
+		$oMail->addTo($newEmail, $member_info->nick_name);
+		$oMail->send();
 
 		$msg = sprintf(lang('msg_confirm_mail_sent'), $newEmail);
 		$this->setMessage($msg);
@@ -2788,9 +2991,14 @@ class memberController extends member
 
 		$this->_clearMemberCache($args->member_srl);
 
-		// Notify the result
-		$this->setTemplatePath($this->module_path.'tpl');
-		$this->setTemplateFile('msg_success_modify_email_address');
+		// Call a trigger (after)
+		$trigger_obj = new stdClass;
+		$trigger_obj->member_srl = $args->member_srl;
+		$trigger_obj->email_address = $args->email_address;
+		$trigger_output = ModuleHandler::triggerCall('member.updateMemberEmailAddress', 'after', $trigger_obj);
+		
+		// Redirect to member info page
+		$this->setRedirectUrl(getNotEncodedUrl('', 'act', 'dispMemberInfo'));
 	}
 
 	/**

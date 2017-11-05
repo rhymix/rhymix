@@ -1,0 +1,3 @@
+<table name="module_update">
+    <column name="update_id" type="varchar" size="250" notnull="notnull" primary_key="primary_key" />
+</table>

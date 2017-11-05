@@ -45,10 +45,17 @@ class Memcached implements \Rhymix\Framework\Drivers\CacheInterface
 		
 		foreach ($config as $url)
 		{
-			$info = parse_url($url);
-			if (isset($info['host']) && isset($info['port']))
+			if (starts_with('/', $url))
 			{
-				$this->_conn->addServer($info['host'], $info['port']);
+				$this->_conn->addServer($url, 0);
+			}
+			else
+			{
+				$info = parse_url($url);
+				if (isset($info['host']) && isset($info['port']))
+				{
+					$this->_conn->addServer($info['host'], $info['port']);
+				}
 			}
 		}
 	}
@@ -107,10 +114,17 @@ class Memcached implements \Rhymix\Framework\Drivers\CacheInterface
 		
 		foreach ($config as $url)
 		{
-			$info = parse_url($url);
-			if (isset($info['host']) && isset($info['port']))
+			if (starts_with('/', $url))
 			{
-				$conn->addServer($info['host'], $info['port']);
+				$conn->addServer($url, 0);
+			}
+			else
+			{
+				$info = parse_url($url);
+				if (isset($info['host']) && isset($info['port']))
+				{
+					$conn->addServer($info['host'], $info['port']);
+				}
 			}
 		}
 		

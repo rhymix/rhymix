@@ -706,12 +706,12 @@ jQuery(function($){
 	});
 });
 
-function _getSize(value) {
+function _getSize(value, allow_negative) {
 	if(!value) return 0;
 	var type = "px";
 	if(value.lastIndexOf("%")>=0)  type = "%";
 	var num = parseInt(value,10);
-	if(num<1) return 0;
+	if(num<1 && !allow_negative) return 0;
 	if(type == "%" && num > 100) num = 100;
 	return ""+num+type;
 }
@@ -768,10 +768,10 @@ function doApplyWidgetSize(fo_obj) {
 		selectedSizeWidget.style.borderLeft = _getBorderStyle(fo_obj.border_left_color, fo_obj.border_left_thick, fo_obj.border_left_type);
 		selectedSizeWidget.style.borderRight = _getBorderStyle(fo_obj.border_right_color, fo_obj.border_right_thick, fo_obj.border_right_type);
 
-		selectedSizeWidget.style.marginTop = _getSize(fo_obj.margin_top.value);
-		selectedSizeWidget.style.marginRight = _getSize(fo_obj.margin_right.value);
-		selectedSizeWidget.style.marginBottom = _getSize(fo_obj.margin_bottom.value);
-		selectedSizeWidget.style.marginLeft = _getSize(fo_obj.margin_left.value);
+		selectedSizeWidget.style.marginTop = _getSize(fo_obj.margin_top.value, true);
+		selectedSizeWidget.style.marginRight = _getSize(fo_obj.margin_right.value, true);
+		selectedSizeWidget.style.marginBottom = _getSize(fo_obj.margin_bottom.value, true);
+		selectedSizeWidget.style.marginLeft = _getSize(fo_obj.margin_left.value, true);
 
 		if(!fo_obj.background_color.value || fo_obj.background_color.value == '#' || fo_obj.background_color.value == 'transparent') selectedSizeWidget.style.backgroundColor = 'transparent';
 		else selectedSizeWidget.style.backgroundColor = _getBGColorStyle(fo_obj.background_color.value);

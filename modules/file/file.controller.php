@@ -831,7 +831,7 @@ class fileController extends file
 		$file_info['name'] = Rhymix\Framework\Filters\FilenameFilter::clean($file_info['name']);
 
 		// Set upload path by checking if the attachement is an image or other kinds of file
-		if(preg_match("/\.(jpe?g|gif|png|wm[va]|mpe?g|avi|swf|flv|mp[1-4]|as[fx]|wav|midi?|moo?v|qt|r[am]{1,2}|m4v)$/i", $file_info['name']))
+		if(Rhymix\Framework\Filters\FilenameFilter::isDirectDownload($file_info['name']))
 		{
 			$path = RX_BASEDIR . sprintf("files/attach/images/%s/%s", $module_srl,getNumberingPath($upload_target_srl,3));
 

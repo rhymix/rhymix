@@ -161,8 +161,8 @@ class editorAdminController extends editor
 		$config->mobile_comment_editor_toolbar = $configVars->mobile_comment_editor_toolbar;
 		$config->mobile_comment_editor_toolbar_hide = $configVars->mobile_comment_editor_toolbar_hide === 'Y' ? 'Y' : 'N';
 		$config->content_style = $configVars->content_style;
-		$config->sel_editor_colorset= $configVars->sel_editor_colorset;
-		$config->sel_comment_editor_colorset= $configVars->sel_comment_editor_colorset;
+		$config->sel_editor_colorset = $configVars->sel_editor_colorset;
+		$config->sel_comment_editor_colorset = $configVars->sel_comment_editor_colorset;
 		
 		if ($configVars->font_defined === 'Y')
 		{
@@ -208,6 +208,17 @@ class editorAdminController extends editor
 			$config->additional_plugins = array();
 		}
 		
+		if ($configVars->remove_plugins)
+		{
+			$remove_plugins = array_map('trim', explode(',', $configVars->remove_plugins));
+			$remove_plugins = array_filter($remove_plugins, function($str) { return !empty($str); });
+			$config->remove_plugins = $remove_plugins;
+		}
+		else
+		{
+			$config->remove_plugins = array();
+		}
+		
 		$config->content_font_size = trim($configVars->content_font_size);
 		$config->content_font_size = ctype_digit($config->content_font_size) ? ($config->content_font_size . 'px') : $config->content_font_size;
 		$config->content_line_height = trim($configVars->content_line_height);
@@ -216,6 +227,8 @@ class editorAdminController extends editor
 		$config->content_paragraph_spacing = ctype_digit($config->content_paragraph_spacing) ? ($config->content_paragraph_spacing . 'px') : $config->content_paragraph_spacing;
 		$config->content_word_break = $configVars->content_word_break;
 		$config->content_word_break = in_array($config->content_word_break, array('normal', 'keep-all', 'break-all', 'none')) ? $config->content_word_break : 'normal';
+		$config->enable_autosave = $configVars->enable_autosave ?: 'Y';
+		$config->allow_html = $configVars->allow_html ?: 'Y';
 		$config->autoinsert_image = $configVars->autoinsert_image;
 		$config->autoinsert_image = in_array($config->autoinsert_image, array('paragraph', 'inline', 'none')) ? $config->autoinsert_image : 'paragraph';
 

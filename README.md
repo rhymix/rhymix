@@ -33,20 +33,8 @@ Rhymix는 개발자와 사용자가 서로의 권리와 책임을 존중하는 �
 
 ### 설치 환경
 
-Rhymix를 사용하려면 아래의 조건을 충족하는 웹호스팅이나 서버를 마련하셔야 합니다.
-
-
-- PHP 5.5.9 이상 (PHP 7 권장)
-- MySQL 5.0.7 이상 (MariaDB 권장)
-- 필수 PHP 모듈
-  - curl
-  - gd
-  - iconv 또는 mbstring
-  - json
-  - mcrypt 또는 openssl
-  - simplexml
-- php.ini에서 session.auto_start = Off로 설정되어 있어야 합니다.
-- 설치 폴더 또는 files 폴더에 쓰기 권한이 주어져야 합니다.
+Rhymix를 사용하려면 PHP 5.5.9 이상, MySQL 5.0.7 이상 버전이 필요합니다.
+자세한 설치 환경은 [매뉴얼](https://github.com/rhymix/rhymix-docs/blob/master/ko/introduction/requirements.md)을 참고하십시오.
 
 ### 개발 참여
 
@@ -118,19 +106,8 @@ This requires the most convenience for the average user over any other CMS.
 
 ### Installation Environment
 
-To use Rhymix, you must have a web hosting or server that meets the following requirements.
-
-- PHP 5.5.9 or higher (PHP 7 recommended)
-- MySQL 5.0.7 or higher (MariaDB recommended)
-- Required PHP module
-  - curl
-  - gd
-  - iconv or mbstring
-  - json
-  - mcrypt or openssl
-  - simplexml
-- In php.ini, session.auto_start = Off should be set.
-- The installation folder or the files folder must have write permission.
+Rhymix requires PHP 5.5.9 or higher, and MySQL 5.0.7 or higher.
+Please see the online manual for more information on server requirements.
 
 ### Participation in Development
 

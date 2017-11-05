@@ -37,14 +37,6 @@
 		</div>
 	</div>
 	<div class="x_control-group">
-		<div class="x_control-label">{$lang->enable_find_account_question}</div>
-		<div class="x_controls">
-			<label class="x_inline" for="enable_find_account_question_yes"><input type="radio" name="enable_find_account_question" id="enable_find_account_question_yes" value="Y" checked="checked"|cond="$config->enable_find_account_question == 'Y'" /> {$lang->cmd_yes}</label>
-			<label class="x_inline" for="enable_find_account_question_no"><input type="radio" name="enable_find_account_question" id="enable_find_account_question_no" value="N" checked="checked"|cond="$config->enable_find_account_question != 'Y'"/> {$lang->cmd_no}</label>
-			<p class="x_help-block">{$lang->about_enable_find_account_question}</p>
-		</div>
-	</div>
-	<div class="x_control-group">
 		<div class="x_control-label">{$lang->cmd_config_password_strength}</div>
 		<div class="x_controls">
 			<label class="x_inline" for="password_strength1"><input type="radio" name="password_strength" id="password_strength1" value="low" checked="checked"|cond="$config->password_strength == 'low'" /> {$lang->password_strength_low}({$lang->about_password_strength['low']})</label><br>
@@ -88,32 +80,10 @@
 		</div>
 	</div>
 	<div class="x_control-group">
-		<label class="x_control-label" for="webmaster_name">{$lang->webmaster_name}</label>
-		<div class="x_controls">
-			<input type="text" id="webmaster_name" name="webmaster_name" value="{$config->webmaster_name}" />
-			<label>{$lang->about_webmaster_email}</label>
-		</div>
-	</div>
-	<div class="x_control-group">
-		<label class="x_control-label" for="webmaster_email">{$lang->webmaster_email}</label>
-		<div class="x_controls">
-			<input type="email" id="webmaster_email" name="webmaster_email" value="{$config->webmaster_email}" />
-			<label>{$lang->about_webmaster_email}</label>
-		</div>
-	</div>
-	<div class="x_control-group">
 		<label class="x_control-label" for="member_sync">{$lang->cmd_member_sync}</label>
 		<div class="x_controls">
 			<input id="member_sync" type="button" value="{$lang->cmd_member_sync}" class="__sync x_btn x_btn-warning" />
 			<p class="x_help-inline">{$lang->about_member_sync}</p>
-		</div>
-	</div>
-	<div class="x_control-group">
-		<label class="x_control-label">{$lang->cmd_member_file_upload}</label>
-		<div class="x_controls">
-			<label for="member_allow_fileupload_y" class="x_inline"><input type="radio" name="member_allow_fileupload" id="member_allow_fileupload_y" value="Y" checked="checked"|cond="$config->member_allow_fileupload == 'Y'" /> {$lang->cmd_yes}</label>
-			<label for="member_allow_fileupload_n" class="x_inline"><input type="radio" name="member_allow_fileupload" id="member_allow_fileupload_n" value="N" checked="checked"|cond="$config->member_allow_fileupload != 'Y'" /> {$lang->cmd_no}</label>
-			<p class="x_help-block">{$lang->about_member_file_upload}</p>
 		</div>
 	</div>
 	<div class="btnArea x_clearfix">

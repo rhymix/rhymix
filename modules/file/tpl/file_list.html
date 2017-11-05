@@ -1,16 +1,15 @@
+<include target="header.html" />
+
+<div cond="$XE_VALIDATOR_MESSAGE && $XE_VALIDATOR_ID == 'modules/file/tpl/file_list/1'" class="message {$XE_VALIDATOR_MESSAGE_TYPE}">
+	<p>{$XE_VALIDATOR_MESSAGE}</p>
+</div>
 <script>
 xe.lang.msg_empty_search_target = '{$lang->msg_empty_search_target}';
 xe.lang.msg_empty_search_keyword = '{$lang->msg_empty_search_keyword}';
 </script>
-<load target="js/file_admin.js" />
+
 <form id="fo_list" action="./" method="post">
 	<input type="hidden" name="module" value="file" />
-	<div class="x_page-header">
-		<h1>{$lang->file} <a class="x_icon-question-sign" href="./common/manual/admin/index.html#UMAN_content_file" target="_blank">{$lang->help}</a></h1>
-	</div>
-	<div cond="$XE_VALIDATOR_MESSAGE && $XE_VALIDATOR_ID == 'modules/file/tpl/file_list/1'" class="message {$XE_VALIDATOR_MESSAGE_TYPE}">
-		<p>{$XE_VALIDATOR_MESSAGE}</p>
-	</div>
 	<table id="fileListTable" class="x_table x_table-striped x_table-hover">
 		<caption>
 			<a href="{getUrl('', 'module', 'admin', 'act', 'dispFileAdminList')}" class="active"|cond="!$isvalid">{$lang->all}<block cond="!$isvalid">({number_format($total_count)})</block></a>

@@ -1061,7 +1061,7 @@ class importerAdminController extends importer
 				{
 					$random = new Password();
 					// Set upload path by checking if the attachement is an image or other kind of file
-					if(preg_match("/\.(jpe?g|gif|png|wm[va]|mpe?g|avi|swf|flv|mp[1-4]|as[fx]|wav|midi?|moo?v|qt|r[am]{1,2}|m4v)$/i", $file_obj->source_filename))
+					if(Rhymix\Framework\Filters\FilenameFilter::isDirectDownload($file_obj->source_filename))
 					{
 						// Immediately remove the direct file if it has any kind of extensions for hacking
 						$file_obj->source_filename = preg_replace('/\.(php|phtm|phar|html?|cgi|pl|exe|jsp|asp|inc)/i', '$0-x', $file_obj->source_filename);

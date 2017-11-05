@@ -12,6 +12,8 @@ $lang->check_trackback = '트랙백 검사';
 $lang->word = '키워드';
 $lang->hit = '히트';
 $lang->latest_hit = '최근 히트';
+$lang->custom_message = '에러메세지 설정';
+$lang->about_custom_message = '키워드를 출력하지 않을시 에러메세지를 설정합니다.';
 $lang->about_interval = '지정된 시간 내에 글을 등록하지 못하게 합니다.';
 $lang->about_denied_ip = '한 줄에 하나씩 IP 주소 또는 대역을 입력하세요. &quot;//&quot; 또는 &quot;#&quot; 뒷부분은 설명으로 저장됩니다. 예: 127.0.0.1 //설명, 127.0.0.1 #설명<br>IP 대역 표기법은 <a href="https://github.com/rhymix/rhymix-docs/blob/master/ko/misc/ipfilter.md" target="_blank">매뉴얼</a>을 참고하십시오.';
 $lang->about_denied_word = '한 줄에 하나씩 스팸 키워드를 입력하세요. (2~40자)';

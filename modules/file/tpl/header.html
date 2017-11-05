@@ -1,7 +1,13 @@
 <load target="js/file_admin.js" />
-<h2 class="h2">{$lang->file} {$lang->cmd_management}</h2>
-<p>
-	<a href="{getUrl('act','dispFileAdminList')}" class="active"|cond="$act=='dispFileAdminList'">{$lang->file_list}</a>
-	<i>|</i>
-	<a href="{getUrl('act','dispFileAdminConfig')}" class="active"|cond="$act=='dispFileAdminConfig'">{$lang->cmd_module_config}</a>
-</p>
+
+<div class="x_page-header">
+	<h1>{$lang->file_management}</h1>
+</div>
+<ul class="x_nav x_nav-tabs">
+	<li class="x_active"|cond="$act == 'dispFileAdminList'">
+		<a href="{getUrl('', 'module', 'admin', 'act', 'dispFileAdminList')}">{$lang->file_list}</a>
+	</li>
+	<li class="x_active"|cond="$act == 'dispFileAdminConfig'">
+		<a href="{getUrl('', 'module', 'admin', 'act', 'dispFileAdminConfig')}">{$lang->file_upload_config}</a>
+	</li>
+</ul>

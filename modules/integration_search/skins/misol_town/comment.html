@@ -14,7 +14,7 @@
 		<ul class="misolSearch_list">
 		<!--@foreach($output->data as $no => $comment)-->
 			<li>
-				<a href="{$comment->getPermanentUrl()}" class="cont_a" onclick="window.open(this.href);return false;">
+				<a href="{$comment->getPermanentUrl()}" class="cont_a" target="_blank">
 					<div class="content_basic<!--@if($comment->thumbnailExists(240))--> left_img<!--@end-->">
 						<section class="item">
 							<span cond="$comment->thumbnailExists(240)" class="content_image">

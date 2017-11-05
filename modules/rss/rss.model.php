@@ -7,45 +7,44 @@
  */
 class rssModel extends rss
 {
+	function getRssURL($format = 'rss', $mid = '')
+	{
+		return getFullUrl('', 'mid', $mid, 'act', $format);
+	}
+	
+	function getConfig()
+	{
+		$config = getModel('module')->getModuleConfig('rss');
+		$config->use_total_feed = $config->use_total_feed ?: 'Y';
+		$config->feed_document_count = $config->feed_document_count ?: 15;
+		$config->image_url = $config->image . '?' . date('YmdHis', filemtime($config->image));
+		
+		return $config;
+	}
+	
+	function getRssModuleConfig($module_srl)
+	{
+		$config = getModel('module')->getModulePartConfig('rss', $module_srl);
+		$config->module_srl = $module_srl;
+		$config->open_rss = $config->open_rss ?: 'N';
+		$config->open_total_feed = $config->open_total_feed ?: 'N';
+		
+		return $config;
+	}
+	
 	/**
-	 * Create the Feed url.
-	 *
-	 * @param string $vid Vid
-	 * @param string $mid mid
-	 * @param string $format Feed format. rss | atom
-	 * @param bool $absolute_url
-	 * @return string
+	 * Compatible function
 	 */
 	function getModuleFeedUrl($vid, $mid, $format = 'rss', $absolute_url = false)
 	{
 		if($absolute_url)
 		{
-			return getFullUrl('','vid',$vid, 'mid',$mid, 'act',$format);
+			return getFullUrl('', 'vid', $vid, 'mid', $mid, 'act', $format);
 		}
 		else
 		{
-			return getUrl('','vid',$vid, 'mid',$mid, 'act',$format);
+			return getUrl('', 'vid', $vid, 'mid', $mid, 'act', $format);
 		}
-	}
-
-	/**
-	 * Return the RSS configurations of the specific modules
-	 *
-	 * @param integer $module_srl Module_srl
-	 * @return Object
-	 */
-	function getRssModuleConfig($module_srl)
-	{
-		// Get the configurations of the rss module
-		$oModuleModel = getModel('module');
-		$module_rss_config = $oModuleModel->getModulePartConfig('rss', $module_srl);
-		if(!$module_rss_config)
-		{
-			$module_rss_config = new stdClass();
-			$module_rss_config->open_rss = 'N';
-		}
-		$module_rss_config->module_srl = $module_srl;
-		return $module_rss_config;
 	}
 }
 /* End of file rss.model.php */

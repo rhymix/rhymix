@@ -42,7 +42,7 @@
 		</thead>
 		<tbody>
 			<tr loop="$comment_list => $no, $oComment">
-				<td><a href="{getUrl('','document_srl',$oComment->get('document_srl'))}#comment_{$oComment->get('comment_srl')}" onclick="window.open(this.href);return false;">{$oComment->getSummary(100)}</a></td>
+				<td><a href="{getUrl('','document_srl',$oComment->get('document_srl'))}#comment_{$oComment->get('comment_srl')}" target="_blank">{$oComment->getSummary(100)}</a></td>
 				<td><span class="member_{$oComment->getMemberSrl()}">{$oComment->getNickName()}</span></td>
 				<td>{$oComment->getRegdate("Y-m-d")}</td>
 				<td><strong>{$oComment->get('declared_count')} (<a href="{getUrl('', 'act', 'dispCommentAdminDeclaredLogByCommentSrl', 'target_srl',$oComment->get('comment_srl'))}" onclick="popopen(this.href, 'admin_popup');return false">{$lang->improper_comment_declare_reason}</a>)</strong></td>

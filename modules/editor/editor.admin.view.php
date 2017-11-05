@@ -45,6 +45,7 @@ class editorAdminView extends editor
 
 		$component_list = $oEditorModel->getComponentList(false, $site_srl, true);
 		$editor_skin_list = FileHandler::readDir(_XE_PATH_.'modules/editor/skins');
+		$editor_skin_list = array_filter($editor_skin_list, function($name) { return !starts_with('xpresseditor', $name) && !starts_with('dreditor', $name); });
 
 		$skin_info = $oModuleModel->loadSkinInfo($this->module_path,$editor_config->editor_skin);
 		$comment_skin_info = $oModuleModel->loadSkinInfo($this->module_path,$editor_config->comment_editor_skin);
@@ -104,6 +105,12 @@ class editorAdminView extends editor
 		// Get information of the editor component
 		$oEditorModel = getModel('editor');
 		$component = $oEditorModel->getComponent($component_name,$site_srl);
+
+		if(!$component->component_name) {
+			$this->stop('msg_invalid_request');
+			return;
+		}
+
 		Context::set('component', $component);
 		// Get a group list to set a group
 		$oMemberModel = getModel('member');
@@ -138,7 +145,7 @@ class editorAdminView extends editor
 		//Security
 		$security = new Security();
 		$security->encodeHTML('group_list..title');
-		$security->encodeHTML('component...');
+		$security->encodeHTML('component...', 'component_name');
 		$security->encodeHTML('mid_list..title','mid_list..list..browser_title');
 
 		$this->setTemplatePath($this->module_path.'tpl');

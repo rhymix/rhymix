@@ -1,0 +1,12 @@
+<query id="insertScrapFolder" action="insert">
+    <tables>
+        <table name="member_scrap_folders" />
+    </tables>
+    <columns>
+		<column name="folder_srl" var="folder_srl" notnull="notnull" />
+        <column name="member_srl" var="member_srl" notnull="notnull" />
+        <column name="name" var="name" notnull="notnull" />
+        <column name="regdate" var="regdate" default="curdate()" />
+        <column name="list_order" var="list_order" notnull="notnull" />
+    </columns>
+</query>

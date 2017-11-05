@@ -1,8 +1,5 @@
 <?php
 $lang->document_list = 'Liste des Documents';
-$lang->thumbnail_type = 'Type de la Vignette';
-$lang->thumbnail_crop = 'Rogner';
-$lang->thumbnail_ratio = 'Proportion';
 $lang->cmd_delete_all_thumbnail = 'Supprimer toutes les vignettes';
 $lang->title_bold = 'Gras';
 $lang->title_color = 'Couleur';

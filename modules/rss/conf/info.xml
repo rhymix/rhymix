@@ -1,15 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <module version="0.2">
 	<title xml:lang="ko">RSS</title>
-	<title xml:lang="zh-CN">整站RSS</title>
-	<title xml:lang="jp">RSS</title>
-	<title xml:lang="en">RSS</title>
-	<title xml:lang="vi">RSS</title>
-	<title xml:lang="es">RSS</title>
-	<title xml:lang="ru">RSS</title>
-	<title xml:lang="zh-TW">RSS</title>
-	<title xml:lang="tr">RSS</title>
-	<description xml:lang="ko">RSS 출력을 담당</description>
+	<description xml:lang="ko">RSS 출력을 담당하는 모듈입니다.</description>
 	<description xml:lang="zh-CN">负责输出RSS的模块。</description>
 	<description xml:lang="jp">RSS出力を担うモジュールです。</description>
 	<description xml:lang="en">This modules is for printing RSS.</description>
@@ -18,8 +10,8 @@
 	<description xml:lang="ru">Этот модуль служит для печати RSS.</description>
 	<description xml:lang="zh-TW">負責輸出 RSS 的模組。</description>
 	<description xml:lang="tr">Bu modül RSS çıktısı almak içindir.</description>
-	<version>1.7</version>
-	<date>2013-11-27</date>
+	<version>2.0</version>
+	<date>2017-09-01</date>
 	<category>utility</category>
 
 	<author email_address="developers@xpressengine.com" link="http://xpressengine.com/">

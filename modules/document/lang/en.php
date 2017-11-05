@@ -1,6 +1,5 @@
 <?php
 $lang->document_list = 'Documents List';
-$lang->thumbnail_type = 'Thumbnail Type';
 $lang->cmd_delete_all_thumbnail = 'Delete all thumbnails';
 $lang->title_bold = 'Bold';
 $lang->title_color = 'Color';

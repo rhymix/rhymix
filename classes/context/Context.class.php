@@ -153,6 +153,12 @@ class Context
 	public $is_uploaded = FALSE;
 
 	/**
+	 * Checks if the site is locked
+	 * @var bool TRUE if the site is locked
+	 */
+	public $is_site_locked = FALSE;
+
+	/**
 	 * Pattern for request vars check
 	 * @var array
 	 */
@@ -176,7 +182,15 @@ class Context
 	/**
 	 * Reserved words cache
 	 */
-	private static $_reserved = null;
+	private static $_reserved_words = null;
+
+	/**
+	 * Reserved keys cache
+	 */
+	private static $_reserved_keys = array(
+		'_rx_ajax_compat' => true,
+		'_rx_csrf_token' => true,
+	);
 
 	/**
 	 * Singleton instance
@@ -367,7 +381,10 @@ class Context
 		$this->_COOKIE = $_COOKIE;
 
 		// start output buffer
-		ob_start();
+		if (\PHP_SAPI !== 'cli')
+		{
+			ob_start();
+		}
 
 		// set authentication information in Context and session
 		if (self::isInstalled())
@@ -1157,7 +1174,7 @@ class Context
 		$requestMethod = self::getRequestMethod();
 		foreach($_REQUEST as $key => $val)
 		{
-			if($val === '' || self::get($key))
+			if($val === '' || isset(self::$_reserved_keys[$key]) || self::get($key))
 			{
 				continue;
 			}
@@ -1471,6 +1488,7 @@ class Context
 		define('_XE_SITELOCK_TITLE_', config('lock.title') ?: self::getLang('admin.sitelock_in_use'));
 		define('_XE_SITELOCK_MESSAGE_', config('lock.message'));
 		unset($_SESSION['XE_VALIDATOR_RETURN_URL']);
+		self::$_instance->is_site_locked = true;
 		
 		// Load the sitelock template.
 		if(FileHandler::exists(RX_BASEDIR . 'common/tpl/sitelock.user.html'))
@@ -1619,9 +1637,15 @@ class Context
 				array_shift($args_list);
 			}
 		}
-		else
+		elseif ($_SERVER['REQUEST_METHOD'] === 'GET')
 		{
 			$get_vars = get_object_vars(self::$_instance->get_vars);
+		}
+		else
+		{
+			$preserve_vars = array('module', 'mid', 'act', 'page', 'document_srl', 'search_target', 'search_keyword');
+			$preserve_keys = array_combine($preserve_vars, array_fill(0, count($preserve_vars), true));
+			$get_vars = array_intersect_key(get_object_vars(self::$_instance->get_vars), $preserve_keys);
 		}
 		
 		// arrange args_list
@@ -1800,7 +1824,7 @@ class Context
 	 * Set a context value with a key
 	 *
 	 * @param string $key Key
-	 * @param string $val Value
+	 * @param mixed $val Value
 	 * @param mixed $set_to_get_vars If not FALSE, Set to get vars.
 	 * @return void
 	 */
@@ -1826,7 +1850,7 @@ class Context
 	 * Return key's value
 	 *
 	 * @param string $key Key
-	 * @return string Key
+	 * @return mixed
 	 */
 	public static function get($key)
 	{
@@ -2452,6 +2476,22 @@ class Context
 	}
 
 	/**
+	 * Set a validator message
+	 * 
+	 * @param string $id
+	 * @param string $message
+	 * @param string $type (optional)
+	 */
+	public static function setValidatorMessage($id, $message, $type = 'info')
+	{
+		$_SESSION['XE_VALIDATOR_ID'] = $id;
+		$_SESSION['XE_VALIDATOR_MESSAGE'] = $message;
+		$_SESSION['XE_VALIDATOR_MESSAGE_TYPE'] = $type;
+		$_SESSION['XE_VALIDATOR_ERROR'] = $type === 'error' ? -1 : 0;
+		$_SESSION['XE_VALIDATOR_RETURN_URL'] = null;
+	}
+
+	/**
 	 * Checks whether XE is installed
 	 *
 	 * @return bool True if the config file exists, otherwise FALSE.
@@ -2459,6 +2499,16 @@ class Context
 	public static function isInstalled()
 	{
 		return (bool)config('config_version');
+	}
+
+	/**
+	 * Checks whether the site is locked
+	 *
+	 * @return bool True if the site is locked, otherwise false
+	 */
+	public static function isLocked()
+	{
+		return (bool)self::$_instance->is_site_locked;
 	}
 
 	/**
@@ -2510,16 +2560,16 @@ class Context
 	 */
 	public static function isReservedWord($word)
 	{
-		if (self::$_reserved === null)
+		if (self::$_reserved_words === null)
 		{
-			self::$_reserved = (include RX_BASEDIR . 'common/defaults/reserved.php');
-			if (!is_array(self::$_reserved))
+			self::$_reserved_words = (include RX_BASEDIR . 'common/defaults/reserved.php');
+			if (!is_array(self::$_reserved_words))
 			{
-				self::$_reserved = array();
+				self::$_reserved_words = array();
 			}
 		}
 		
-		return isset(self::$_reserved[$word]);
+		return isset(self::$_reserved_words[$word]);
 	}
 
 	/**

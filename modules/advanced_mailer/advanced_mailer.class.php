@@ -135,10 +135,10 @@ class Advanced_Mailer extends ModuleObject
 							$systemconfig["mail.$driver_name.api_type"] = $value;
 							break;
 						case 'access_key':
-							$systemconfig["mail.$driver_name.api_user"] = $value;
+							$systemconfig["mail.$driver_name.api_key"] = $value;
 							break;
 						case 'secret_key':
-							$systemconfig["mail.$driver_name.api_pass"] = $value;
+							$systemconfig["mail.$driver_name.api_secret"] = $value;
 							break;
 						case 'domain':
 							$systemconfig["mail.$driver_name.api_domain"] = $value;

@@ -142,7 +142,7 @@ class documentItem extends Object
 		if($this->get('tags'))
 		{
 			$tag_list = explode(',', $this->get('tags'));
-			$tag_list = array_map('trim', $tag_list);
+			$tag_list = array_map('utf8_trim', $tag_list);
 			$this->add('tag_list', $tag_list);
 		}
 
@@ -484,8 +484,34 @@ class documentItem extends Object
 		if($this->get('title_bold')=='Y') $attrs[] = "font-weight:bold;";
 		if($this->get('title_color') && $this->get('title_color') != 'N') $attrs[] = "color:#".$this->get('title_color');
 
-		if(count($attrs)) return sprintf("<span style=\"%s\">%s</span>", implode(';',$attrs), htmlspecialchars($title, ENT_COMPAT | ENT_HTML401, 'UTF-8', false));
-		else return htmlspecialchars($title, ENT_COMPAT | ENT_HTML401, 'UTF-8', false);
+		if(count($attrs))
+		{
+			return sprintf("<span style=\"%s\">%s</span>", implode(';', $attrs), escape($title, false));
+		}
+		else
+		{
+			return escape($title, false);
+		}
+	}
+
+	function getContentPlainText($strlen = 0)
+	{
+		if(!$this->document_srl) return;
+		if($this->isSecret() && !$this->isGranted() && !$this->isAccessible()) return lang('msg_is_secret');
+
+		$result = $this->_checkAccessibleFromStatus();
+		if($result && Context::getSessionStatus())
+		{
+			$this->setAccessible();
+		}
+
+		$content = $this->get('content');
+		$content = trim(utf8_normalize_spaces(html_entity_decode(strip_tags($content))));
+		if($strlen)
+		{
+			$content = cut_str($content, $strlen, '...');
+		}
+		return escape($content);
 	}
 
 	function getContentText($strlen = 0)
@@ -504,9 +530,12 @@ class documentItem extends Object
 		$content = preg_replace_callback('/<(object|param|embed)[^>]*/is', array($this, '_checkAllowScriptAccess'), $content);
 		$content = preg_replace_callback('/<object[^>]*>/is', array($this, '_addAllowScriptAccess'), $content);
 
-		if($strlen) return cut_str(strip_tags($content),$strlen,'...');
-
-		return htmlspecialchars($content);
+		if($strlen)
+		{
+			$content = trim(utf8_normalize_spaces(html_entity_decode(strip_tags($content))));
+			$content = cut_str($content, $strlen, '...');
+		}
+		return escape($content);
 	}
 
 	function _addAllowScriptAccess($m)
@@ -658,14 +687,14 @@ class documentItem extends Object
 		return ztime($this->get('regdate'));
 	}
 
-	function getRegdateGM()
+	function getRegdateGM($format = 'r')
 	{
-		return gmdate('r', ztime($this->get('regdate')));
+		return gmdate($format, $this->getRegdateTime());
 	}
 
-	function getRegdateDT()
+	function getRegdateDT($format = 'c')
 	{
-		return zdate($this->get('regdate'), 'c', false);
+		return Rhymix\Framework\DateTime::formatTimestampForCurrentUser($format, $this->getRegdateTime());
 	}
 
 	function getUpdate($format = 'Y.m.d H:i:s', $conversion = true)
@@ -678,14 +707,14 @@ class documentItem extends Object
 		return ztime($this->get('last_update'));
 	}
 
-	function getUpdateGM()
+	function getUpdateGM($format = 'r')
 	{
-		return gmdate('r', ztime($this->get('last_update')));
+		return gmdate($format, $this->getUpdateTime());
 	}
 
-	function getUpdateDT()
+	function getUpdateDT($format = 'c')
 	{
-		return zdate($this->get('last_update'), 'c', false);
+		return Rhymix\Framework\DateTime::formatTimestampForCurrentUser($format, $this->getUpdateTime());
 	}
 
 	function getPermanentUrl()
@@ -925,11 +954,11 @@ class documentItem extends Object
 		{
 			$config = $GLOBALS['__document_config__'] = getModel('document')->getDocumentConfig();
 		}
-		if ($config->thumbnail_type === 'none')
+		if ($config->thumbnail_target === 'none' || $config->thumbnail_type === 'none')
 		{
 			return;
 		}
-		if(!in_array($thumbnail_type, array('crop', 'ratio', 'none')))
+		if(!in_array($thumbnail_type, array('crop', 'ratio')))
 		{
 			$thumbnail_type = $config->thumbnail_type ?: 'crop';
 		}
@@ -945,7 +974,7 @@ class documentItem extends Object
 		{
 			$content = $this->get('content');
 		}
-		else
+		elseif($config->thumbnail_target !== 'attachment')
 		{
 			$args = new stdClass();
 			$args->document_srl = $this->document_srl;
@@ -1016,7 +1045,7 @@ class documentItem extends Object
 		}
 
 		// If not exists, file an image file from the content
-		if(!$source_file)
+		if(!$source_file && $config->thumbnail_target !== 'attachment')
 		{
 			preg_match_all("!<img\s[^>]*?src=(\"|')([^\"' ]*?)(\"|')!is", $content, $matches, PREG_SET_ORDER);
 			foreach($matches as $match)

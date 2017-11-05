@@ -38,6 +38,16 @@ class integration_searchView extends integration_search
 		$oModuleModel = getModel('module');
 		$logged_info = Context::get('logged_info');
 
+		// Redirect to GET if search is requested via POST
+		if($_SERVER['REQUEST_METHOD'] !== 'GET')
+		{
+			$redirect_url = getNotEncodedUrl('', 'mid', Context::get('mid'), 'act', 'IS',
+				'search_target', Context::get('search_target'), 'is_keyword', Context::get('is_keyword'),
+				'where', Context::get('where'), 'page', Context::get('page'));
+			$this->setRedirectUrl($redirect_url);
+			return;
+		}
+		
 		// Check permissions
 		if(!$this->grant->access) return new Object(-1,'msg_not_permitted');
 

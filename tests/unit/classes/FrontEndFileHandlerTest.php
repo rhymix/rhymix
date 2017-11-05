@@ -12,6 +12,8 @@ class FrontEndFileHandlerTest extends \Codeception\TestCase\Test
 	public function testFrontEndFileHandler()
 	{
 		$handler = new FrontEndFileHandler();
+		$reservedCSS = HTMLDisplayHandler::$reservedCSS;
+		$reservedJS = HTMLDisplayHandler::$reservedJS;
 		HTMLDisplayHandler::$reservedCSS = '/xxx$/';
 		HTMLDisplayHandler::$reservedJS = '/xxx$/';
 		FrontEndFileHandler::$minify = 'none';
@@ -30,8 +32,9 @@ class FrontEndFileHandlerTest extends \Codeception\TestCase\Test
 
 		$this->specify("js (body)", function() {
 			$handler = new FrontEndFileHandler();
+			$handler->loadFile(array('./common/js/xml_handler.js', 'body'));
 			$handler->loadFile(array('./common/js/xml_js_filter.js', 'head'));
-			$expected = array();
+			$expected[] = array('file' => '/rhymix/common/js/xml_handler.js' . $this->_filemtime('common/js/xml_handler.js'), 'targetie' => null);
 			$this->assertEquals($expected, $handler->getJsFileList('body'));
 		});
 
@@ -220,9 +223,11 @@ class FrontEndFileHandlerTest extends \Codeception\TestCase\Test
 			$handler = new FrontEndFileHandler();
 			$handler->loadFile(array('http://external.host/css/style1.css'));
 			$handler->loadFile(array('https://external.host/css/style2.css'));
+			$handler->loadFile(array('https://external.host/css/style3.css?foo=bar&t=123'));
 
 			$expected[] = array('file' => 'http://external.host/css/style1.css', 'media'=>'all', 'targetie' => null);
 			$expected[] = array('file' => 'https://external.host/css/style2.css', 'media'=>'all', 'targetie' => null);
+			$expected[] = array('file' => 'https://external.host/css/style3.css?foo=bar&t=123', 'media'=>'all', 'targetie' => null);
 			$this->assertEquals($expected, $handler->getCssFileList());
 		});
 
@@ -230,12 +235,43 @@ class FrontEndFileHandlerTest extends \Codeception\TestCase\Test
 			$handler = new FrontEndFileHandler();
 			$handler->loadFile(array('//external.host/css/style.css'));
 			$handler->loadFile(array('///external.host/css2/style2.css'));
+			$handler->loadFile(array('//external.host/css/style3.css?foo=bar&t=123'));
 
 			$expected[] = array('file' => '//external.host/css/style.css', 'media'=>'all', 'targetie' => null);
 			$expected[] = array('file' => '//external.host/css2/style2.css', 'media'=>'all', 'targetie' => null);
+			$expected[] = array('file' => '//external.host/css/style3.css?foo=bar&t=123', 'media'=>'all', 'targetie' => null);
 			$this->assertEquals($expected, $handler->getCssFileList());
 		});
 
+		$this->specify("path conversion", function() {
+			$handler = new FrontEndFileHandler();
+			$handler->loadFile(array('./common/xeicon/xeicon.min.css'));
+			$result = $handler->getCssFileList();
+			$this->assertEquals('/rhymix/common/css/xeicon/xeicon.min.css' . $this->_filemtime('common/css/xeicon/xeicon.min.css'), $result[0]['file']);
+			$this->assertEquals('all', $result[0]['media']);
+			$this->assertEmpty($result[0]['targetie']);
+		});
 
+		HTMLDisplayHandler::$reservedCSS = $reservedCSS;
+		HTMLDisplayHandler::$reservedJS = $reservedJS;
+		
+		$this->specify("blocked scripts", function() {
+			$handler = new FrontEndFileHandler();
+			$handler->loadFile(array('./common/css/mobile.css'));
+			$handler->loadFile(array('./common/css/xe.min.css'));
+			$handler->loadFile(array('./common/js/common.js'));
+			$handler->loadFile(array('./common/js/xe.js'));
+			$handler->loadFile(array('./common/js/xe.min.js'));
+			$handler->loadFile(array('./common/js/xml2json.js'));
+			$handler->loadFile(array('./common/js/jquery.js'));
+			$handler->loadFile(array('./common/js/jquery-1.x.min.js'));
+			$handler->loadFile(array('./common/js/jquery-2.0.0.js'));
+			$handler->loadFile(array('./common/js/jQuery.min.js'));
+			$result = $handler->getCssFileList();
+			$this->assertEquals(0, count($result));
+			$result = $handler->getJsFileList();
+			$this->assertEquals(1, count($result));
+			$this->assertEquals('/rhymix/common/js/xml2json.js' . $this->_filemtime('common/js/xml2json.js'), $result[0]['file']);
+		});
 	}
 }

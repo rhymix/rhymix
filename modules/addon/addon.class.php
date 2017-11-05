@@ -18,18 +18,8 @@ class addon extends ModuleObject
 		// Register to add a few
 		$oAddonController = getAdminController('addon');
 		$oAddonController->doInsert('autolink', 0, 'site', 'Y');
-		$oAddonController->doInsert('blogapi');
 		$oAddonController->doInsert('member_extra_info', 0, 'site', 'Y');
-		$oAddonController->doInsert('mobile', 0, 'site', 'Y');
 		$oAddonController->doInsert('resize_image', 0, 'site', 'Y');
-		$oAddonController->doInsert('openid_delegation_id');
-		$oAddonController->doInsert('point_level_icon');
-		$args = new stdClass();
-		$args->xe_validator_id = 'module/addon/tpl/setup_addon/1';
-		$args->apply_signup = 'apply';
-		$args->xe_run_method = 'run_selected';
-		$oAddonController->doInsert('captcha_member', 0, 'site', 'Y', $args);
-
 		$oAddonController->makeCacheFile(0);
 		return new Object();
 	}

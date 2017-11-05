@@ -2,7 +2,9 @@
  * Functions for sending AJAX requests to the server.
  */
 (function($){
-
+	
+	"use strict";
+	
 	/**
 	 * Set this variable to false to hide the "waiting for server response" layer.
 	 */

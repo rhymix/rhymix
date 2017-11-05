@@ -7,64 +7,35 @@
  */
 class rssAdminView extends rss
 {
-	/**
-	 * Initialization
-	 *
-	 * @return void
-	 */
 	function init()
 	{
-		//Set template path
-		$this->setTemplatePath($this->module_path.'tpl');
+		Context::set('config', getModel('rss')->getConfig());
+		
+		$this->setTemplatePath($this->module_path . 'tpl');
 	}
-
-	/**
-	 * In case an administrator page has been initialized
-	 *
-	 * @return Object
-	 */
+	
 	function dispRssAdminIndex()
 	{
-		$oModuleModel = getModel('module');
-		$rss_config = $oModuleModel->getModulePartConfigs('rss');
-		$total_config = $oModuleModel->getModuleConfig('rss');
-		if(!$total_config)
-		{
-			$total_config = new stdClass();
-		}
 		$oRssModel = getModel('rss');
-
-		if($rss_config)
+		$oModuleModel = getModel('module');
+		
+		$rss_list = array();
+		foreach($oModuleModel->getModulePartConfigs('rss') as $module_srl => $module_config)
 		{
-			$feed_config = array();
-			foreach($rss_config as $module_srl => $config)
-			{
-				if($config)
-				{
-					$module_info = $oModuleModel->getModuleInfoByModuleSrl($module_srl);
-					$columnList = array('sites.domain');
-					$site = $oModuleModel->getSiteInfo($module_info->site_srl, $columnList);
-					if(!strpos($site->domain, '.')) $vid = $site->domain;
-					else $site = null;
-					if($site) $feed_config[$module_srl]['url'] = $oRssModel->getModuleFeedUrl($vid, $module_info->mid, 'rss');
-					$feed_config[$module_srl]['mid'] = $module_info->mid;
-					$feed_config[$module_srl]['open_feed'] = $config->open_rss;
-					$feed_config[$module_srl]['open_total_feed'] = $config->open_total_feed;
-					$feed_config[$module_srl]['feed_description'] = $config->feed_description;
-				}
-			}
+			$module_info = $oModuleModel->getModuleInfoByModuleSrl($module_srl);
+			
+			$args = new stdClass;
+			$args->mid = $module_info->mid;
+			$args->url = $oRssModel->getRssURL('rss', $module_info->mid);
+			$args->open_feed = $module_config->open_rss;
+			$args->open_total_feed = $module_config->open_total_feed;
+			$args->feed_description = $module_config->feed_description;
+			
+			$rss_list[$module_srl] = $args;
 		}
-		if(!$total_config->feed_document_count) $total_config->feed_document_count = 15;
-		$total_config->url = $oRssModel->getModuleFeedUrl(NULL, '', 'rss', true);
-
-		Context::set('feed_config', $feed_config);
-		Context::set('total_config', $total_config);
-
-		$security = new Security();
-		$security->encodeHTML('feed_config..mid','feed_config..url');
-		$security->encodeHTML('total_config..');
-
-		$this->setTemplatePath($this->module_path.'tpl');
+		Context::set('rss_list', $rss_list);
+		Context::set('general_rss_url', $oRssModel->getRssURL('rss'));
+		
 		$this->setTemplateFile('rss_admin_index');
 	}
 }

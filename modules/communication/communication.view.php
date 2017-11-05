@@ -347,6 +347,10 @@ class communicationView extends communication
 		{
 			return $this->stop('msg_invalid_request');
 		}
+		if($target_srl == $logged_info->member_srl)
+		{
+			return $this->stop('msg_no_self_friend');
+		}
 
 		// get information of the member
 		$oMemberModel = getModel('member');

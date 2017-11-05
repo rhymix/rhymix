@@ -83,7 +83,7 @@
 		<li>
 			<label for="rText">{$lang->comment}</label>
 			<input type="hidden" name="content" value="" />
-			{getModel('comment')->getComment(0)->getEditor()}
+			{$oDocument->getCommentEditor()}
 		</li>
 		<!--@if(!$is_logged)-->
 		<li>

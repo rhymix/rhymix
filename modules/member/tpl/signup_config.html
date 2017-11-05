@@ -108,9 +108,11 @@
 					</tr>
 				</thead>
 				<tbody class="uDrag">
-	{@$fixed_public_list = array('nick_name', 'find_account_question', 'password')}
+					{@ $disabled_list = array('find_account_question')}
+					{@ $fixed_public_list = array('nick_name', 'password')}
 					<!--@foreach($config->signupForm as $item)-->
-					<!--@if($item->isIdentifier)-->
+					<!--@if(in_array($item->name, $disabled_list))-->
+					<!--@elseif($item->isIdentifier)-->
 					<tr class="sticky">
 						<input type="hidden" name="list_order[]" value="{$item->name}" />
 						<input type="hidden" name="usable_list[]" value="{$item->name}"/>
@@ -152,15 +154,40 @@
 							</div>
 							<div cond="$item->name == 'signature'" class="_subItem" style="display:none;padding-top:5px"|cond="!$item->isUse">
 								<select id="signature_editor" name="signature_editor_skin" onchange="getEditorSkinColorList(this.value)">
-								<!--@foreach($editor_skin_list as $editor_skin)-->
-								<option value="{$editor_skin}" selected="selected"|cond="$editor_skin==$config->signature_editor_skin">{$editor_skin}</option>
-								<!--@end-->
+									<!--@foreach($editor_skin_list as $editor_skin)-->
+									<option value="{$editor_skin}" selected="selected"|cond="$editor_skin == $config->signature_editor_skin">{$editor_skin}</option>
+									<!--@end-->
 								</select>
-								<select name="sel_editor_colorset" id="sel_editor_colorset" style="display:none">
-								</select>
-								<script>//<![CDATA[
+								<select name="sel_editor_colorset" id="sel_editor_colorset" style="display:none"></select>
+								<p class="x_help-block">{$lang->allow_html}
+									<label class="x_inline"><input type="radio" name="signature_html" id="signature_html_yes" value="Y" checked="checked"|cond="$config->signature_html != 'N'" /> {$lang->cmd_yes}</label>
+									<label class="x_inline"><input type="radio" name="signature_html" id="signature_html_no" value="N" checked="checked"|cond="$config->signature_html == 'N'" /> {$lang->cmd_no}</label>
+									<label class="x_inline" id="signature_html_retroact" title="{$lang->signature_html_retroact}" style="">
+										<input type="checkbox" name="signature_html_retroact" value="Y" checked="checked"|cond="$config->signature_html_retroact == 'Y'" /> {$lang->retroactive_application}
+									</label>
+								</p>
+								<p class="x_help-block">{lang('file.file_upload')}
+									<label class="x_inline"><input type="radio" name="member_allow_fileupload" value="Y" checked="checked"|cond="$config->member_allow_fileupload == 'Y'" /> {$lang->cmd_yes}</label>
+									<label class="x_inline"><input type="radio" name="member_allow_fileupload" value="N" checked="checked"|cond="$config->member_allow_fileupload != 'Y'" /> {$lang->cmd_no}</label>
+								</p>
+								<script>
 									getEditorSkinColorList('{$config->signature_editor_skin}','{$config->sel_editor_colorset}');
-								//]]></script>
+									
+									if(!$('#signature_html_no').is(':checked'))
+									{
+										$('#signature_html_retroact').hide();
+									}
+									$('#signature_html_yes').change(function(){
+										if($(this).is(':checked')){
+											$('#signature_html_retroact').hide();
+										}
+									});
+									$('#signature_html_no').change(function(){
+										if($(this).is(':checked')){
+											$('#signature_html_retroact').show();
+										}
+									});
+								</script>
 							</div>
 						</td>
 						<td class="desc">&nbsp;</td>

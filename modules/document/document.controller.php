@@ -457,27 +457,9 @@ class documentController extends document
 		// if use editor of nohtml, Remove HTML tags from the contents.
 		if(!$manual_inserted)
 		{
-			if(Mobile::isFromMobilePhone() && $obj->use_editor != 'Y')
-			{
-				if($obj->use_html != 'Y')
-				{
-					$obj->content = htmlspecialchars($obj->content, ENT_COMPAT | ENT_HTML401, 'UTF-8', false);
-				}
-				$obj->content = nl2br($obj->content);
-			}
-			else
-			{
-				$oEditorModel = getModel('editor');
-				$editor_config = $oEditorModel->getEditorConfig($obj->module_srl);
-				
-				if(strpos($editor_config->sel_editor_colorset, 'nohtml') !== FALSE)
-				{
-					$obj->content = preg_replace('/\<br(\s*)?\/?\>/i', PHP_EOL, $obj->content);
-					$obj->content = htmlspecialchars($obj->content, ENT_COMPAT | ENT_HTML401, 'UTF-8', false);
-					$obj->content = str_replace(array("\r\n", "\r", "\n"), '<br />', $obj->content);
-				}
-			}
+			$obj->content = getModel('editor')->converter($obj, 'document');
 		}
+		
 		// Remove iframe and script if not a top adminisrator in the session.
 		if($logged_info->is_admin != 'Y') $obj->content = removeHackTag($obj->content);
 		// An error appears if both log-in info and user name don't exist.
@@ -713,27 +695,9 @@ class documentController extends document
 		// if use editor of nohtml, Remove HTML tags from the contents.
 		if(!$manual_updated)
 		{
-			if(Mobile::isFromMobilePhone() && $obj->use_editor != 'Y')
-			{
-				if($obj->use_html != 'Y')
-				{
-					$obj->content = htmlspecialchars($obj->content, ENT_COMPAT | ENT_HTML401, 'UTF-8', false);
-				}
-				$obj->content = nl2br($obj->content);
-			}
-			else
-			{
-				$oEditorModel = getModel('editor');
-				$editor_config = $oEditorModel->getEditorConfig($obj->module_srl);
-				
-				if(strpos($editor_config->sel_editor_colorset, 'nohtml') !== FALSE)
-				{
-					$obj->content = preg_replace('/\<br(\s*)?\/?\>/i', PHP_EOL, $obj->content);
-					$obj->content = htmlspecialchars($obj->content, ENT_COMPAT | ENT_HTML401, 'UTF-8', false);
-					$obj->content = str_replace(array("\r\n", "\r", "\n"), '<br />', $obj->content);
-				}
-			}
+			$obj->content = getModel('editor')->converter($obj, 'document');
 		}
+		
 		// Change not extra vars but language code of the original document if document's lang_code is different from author's setting.
 		if($source_obj->get('lang_code') != Context::getLangType())
 		{
@@ -970,6 +934,8 @@ class documentController extends document
 
 		//remove from cache
 		Rhymix\Framework\Cache::delete('document_item:' . getNumberingPath($document_srl) . $document_srl);
+		unset($GLOBALS['XE_DOCUMENT_LIST'][$document_srl]);
+		unset($GLOBALS['XE_EXTRA_VARS'][$document_srl]);
 		return $output;
 	}
 
@@ -2662,7 +2628,7 @@ class documentController extends document
 			{
 				if(!$oDocument->get('member_srl') || $oDocument->get('member_srl')==$sender_member_srl) continue;
 
-				if($type=='move') $purl = sprintf("<a href=\"%s\" onclick=\"window.open(this.href);return false;\" style=\"padding:10px 0;\">%s</a><hr />", $oDocument->getPermanentUrl(), $oDocument->getPermanentUrl());
+				if($type=='move') $purl = sprintf("<a href=\"%s\" target=\"_blank\" style=\"padding:10px 0;\">%s</a><hr />", $oDocument->getPermanentUrl(), $oDocument->getPermanentUrl());
 				else $purl = "";
 				$content = sprintf("<div style=\"padding:10px 0;\"><p>%s</p></div><hr />%s<div style=\"padding:10px 0;font-weight:bold\">%s</div>%s",$message_content, $purl, $oDocument->getTitleText(), $oDocument->getContent(false, false, false));
 

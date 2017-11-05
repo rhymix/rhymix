@@ -62,18 +62,13 @@ class image_link extends EditorHandler
 		$sslPort = $sslPort != '443' ? ':'.$sslPort : '';
 
 		// Image containing the address to the address conversion request uri (rss output, etc. purposes)
-		$temp_src = explode('/', $src);
-		if(substr($src, 0,2)=='./')
+		if(substr($src, 0, 2) === './')
 		{
-			$src = Context::getRequestUri().substr($src, 2);
+			$src = \RX_BASEURL . substr($src, 2);
 		}
-		else if(substr($src , 0, 1)=='/')
+		elseif(substr($src, 0, 1) !== '/' && !preg_match('!^https?:!i', $src))
 		{
-			$src = Rhymix\Framework\URL::getCurrentDomainURL($src);
-		}
-		else if(!strpos($temp_src[0],':') && $src)
-		{
-			$src = Context::getRequestUri().$src;
+			$src = \RX_BASEURL . $src;
 		}
 
 		$attr_output = array();
@@ -106,7 +101,7 @@ class image_link extends EditorHandler
 
 		if($link_url)
 		{
-			if($open_window =='Y') $code = sprintf('<a href="%s" onclick="window.open(this.href);return false;">%s</a>', $link_url, $code);
+			if($open_window =='Y') $code = sprintf('<a href="%s" target="_blank" rel="noopener">%s</a>', $link_url, $code);
 			else $code = sprintf('<a href="%s" >%s</a>', $link_url, $code);
 		}
 		return $code;

@@ -96,7 +96,7 @@ class DisplayHandler extends Handler
 					self::_printJSONHeader();
 				}
 			}
-			elseif(Context::getRequestMethod() == 'XMLRPC')
+			elseif(Context::getResponseMethod() == 'XMLRPC')
 			{
 				self::_printXMLHeader();
 			}

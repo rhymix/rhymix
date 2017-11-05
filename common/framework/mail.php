@@ -132,7 +132,7 @@ class Mail
 		}
 		catch (\Exception $e)
 		{
-			$this->errors[] = array($e->getMessage());
+			$this->errors[] = 'setFrom: ' . $e->getMessage();
 			return false;
 		}
 	}
@@ -164,7 +164,7 @@ class Mail
 		}
 		catch (\Exception $e)
 		{
-			$this->errors[] = array($e->getMessage());
+			$this->errors[] = 'addTo: ' . $e->getMessage();
 			return false;
 		}
 	}
@@ -185,7 +185,7 @@ class Mail
 		}
 		catch (\Exception $e)
 		{
-			$this->errors[] = array($e->getMessage());
+			$this->errors[] = 'addCc: ' . $e->getMessage();
 			return false;
 		}
 	}
@@ -206,7 +206,7 @@ class Mail
 		}
 		catch (\Exception $e)
 		{
-			$this->errors[] = array($e->getMessage());
+			$this->errors[] = 'addBcc: ' . $e->getMessage();
 			return false;
 		}
 	}
@@ -251,7 +251,7 @@ class Mail
 		}
 		catch (\Exception $e)
 		{
-			$this->errors[] = array($e->getMessage());
+			$this->errors[] = 'setReplyTo: ' . $e->getMessage();
 			return false;
 		}
 	}
@@ -271,7 +271,7 @@ class Mail
 		}
 		catch (\Exception $e)
 		{
-			$this->errors[] = array($e->getMessage());
+			$this->errors[] = 'setReturnPath: ' . $e->getMessage();
 			return false;
 		}
 	}
@@ -292,7 +292,7 @@ class Mail
 		}
 		catch (\Exception $e)
 		{
-			$this->errors[] = array($e->getMessage());
+			$this->errors[] = 'setMessageID: ' . $e->getMessage();
 			return false;
 		}
 	}
@@ -313,7 +313,7 @@ class Mail
 		}
 		catch (\Exception $e)
 		{
-			$this->errors[] = array($e->getMessage());
+			$this->errors[] = 'setInReplyTo: ' . $e->getMessage();
 			return false;
 		}
 	}
@@ -334,7 +334,7 @@ class Mail
 		}
 		catch (\Exception $e)
 		{
-			$this->errors[] = array($e->getMessage());
+			$this->errors[] = 'setReferences: ' . $e->getMessage();
 			return false;
 		}
 	}
@@ -354,7 +354,7 @@ class Mail
 		}
 		catch (\Exception $e)
 		{
-			$this->errors[] = array($e->getMessage());
+			$this->errors[] = 'setSubject: ' . $e->getMessage();
 			return false;
 		}
 	}

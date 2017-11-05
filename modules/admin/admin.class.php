@@ -188,7 +188,6 @@ class admin extends ModuleObject
 				'admin.adminConfigurationGeneral',
 				'admin.adminConfigurationFtp',
 				'admin.adminMenuSetup',
-				'file.fileUpload',
 				'module.filebox',
 			),
 			'advanced' => array(

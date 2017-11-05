@@ -26,6 +26,7 @@ $lang->cmd_add_friend_group = '친구 그룹 생성';
 $lang->cmd_rename_friend_group = '친구 그룹 이름 변경';
 $lang->cmd_delete_friend_group = '친구 그룹 삭제';
 $lang->msg_already_friend = '이미 친구로 등록되어 있습니다.';
+$lang->msg_no_self_friend = '자신을 친구로 등록할 수 없습니다.';
 $lang->msg_no_message = '쪽지가 없습니다.';
 $lang->msg_cannot_send_to_yourself = '자기 자신에게 쪽지를 보낼 수 없습니다.';
 $lang->message_received = '쪽지가 왔습니다.';

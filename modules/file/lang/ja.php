@@ -1,6 +1,8 @@
 <?php
 $lang->file = 'ファイル';
+$lang->file_management = 'ファイル管理';
 $lang->file_upload = 'ファイル添付';
+$lang->file_upload_config = 'ファイル添付の設定';
 $lang->file_name = 'ファイル名';
 $lang->file_size = 'ファイルサイズ';
 $lang->download_count = 'ダウンロード数';
@@ -15,9 +17,9 @@ $lang->allowed_filesize = 'ファイルサイズ制限';
 $lang->allowed_attach_size = '書き込みへの添付制限';
 $lang->allowed_filetypes = '許可ファイル拡張子';
 $lang->enable_download_group = 'ダウンロード可能グループ';
-$lang->about_allow_outlink = 'リファラーによって外部からのファイルリンクを制御できます。(*.wmv, *.mp3などのメディアファイルは除く)';
-$lang->about_allow_outlink_format = '外部からのファイルリンク設定に関係なく、常に外部からのリンクを許可する拡張子です。複数登録時には、「半角コンマ（,）」区切りで記入してください。 eg)txt,doc,zip,pdf';
-$lang->about_allow_outlink_site = '外部からのファイルリンク設定に関係なく、常に外部からのリンクを許可するURLです。複数登録時には、改行で記入してください。 ex)https://www.rhymix.org/';
+$lang->about_allow_outlink = '他のサイトからファイルをダウンロードするリンクに直接アクセスすることを禁止します。<br />ダウンロードリンクを使用せずに本体に直接挿入することができる画像ファイルなどは適用されません。';
+$lang->about_allow_outlink_format = '外部からのファイルリンク設定に関係なく、常に外部からのリンクを許可する拡張子です。<br />複数登録時には、「半角コンマ（,）」区切りで記入してください。 ex) doc, zip, pdf';
+$lang->about_allow_outlink_site = '外部からのファイルリンク設定に関係なく、常に外部からのリンクを許可するURLです。<br />複数登録時には、改行で記入してください。 ex) https://www.rhymix.org/';
 $lang->about_allowed_filesize = '一つのファイルに対して、アップロード可能なファイルの最大サイズを指定します（管理者は除く）。';
 $lang->about_allowed_attach_size = '一つの書き込みに対して、管理者以外のユーザーが添付可能な最大サイズを指定します。';
 $lang->about_allowed_filetypes = '"*.拡張子"で指定し、 ";"で区切って任意の拡張子を追加して指定できます。ex) *.* or *.jpg;*.gif; ';

@@ -7,6 +7,7 @@
     </columns>
     <conditions>
         <condition operation="equal" column="member_srl" var="member_srl" filter="number" />
+		<condition operation="equal" column="folder_srl" var="folder_srl" filter="number" pipe="and" />
     </conditions>
     <navigation>
         <index var="sort_index" default="list_order" order="desc" />

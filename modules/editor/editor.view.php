@@ -62,6 +62,12 @@ class editorView extends editor
 
 		$oEditorModel = getModel('editor');
 		$component = $oEditorModel->getComponent($component_name, $site_srl);
+
+		if(!$component->component_name) {
+			$this->stop('msg_invalid_request');
+			return;
+		}
+
 		Context::set('component', $component);
 
 		$this->setTemplatePath($this->module_path.'tpl');
@@ -93,6 +99,7 @@ class editorView extends editor
 		$oModuleModel = getModel('module');
 		// Get a list of editor skin
 		$editor_skin_list = FileHandler::readDir(_XE_PATH_.'modules/editor/skins');
+		$editor_skin_list = array_filter($editor_skin_list, function($name) { return !starts_with('xpresseditor', $name) && !starts_with('dreditor', $name); });
 		Context::set('editor_skin_list', $editor_skin_list);
 
 		$skin_info = $oModuleModel->loadSkinInfo($this->module_path,$editor_config->editor_skin);
@@ -149,57 +156,8 @@ class editorView extends editor
 
 	function dispEditorConfigPreview()
 	{
-		$oEditorModel = getModel('editor');
-		$config = $oEditorModel->getEditorConfig();
-
-		$mode = Context::get('mode');
-
-		if($mode != 'main')
-		{
-			$option_com = new stdClass();
-			$option_com->allow_fileupload = false;
-			$option_com->content_style = $config->content_style;
-			$option_com->content_font = $config->content_font;
-			$option_com->content_font_size = $config->content_font_size;
-			$option_com->content_line_height = $config->content_line_height;
-			$option_com->content_paragraph_spacing = $config->content_paragraph_spacing;
-			$option_com->content_word_break = $config->content_word_break;
-			$option_com->enable_autosave = false;
-			$option_com->enable_default_component = true;
-			$option_com->enable_component = true;
-			$option_com->disable_html = false;
-			$option_com->height = $config->comment_editor_height;
-			$option_com->skin = $config->comment_editor_skin;
-			$option_com->content_key_name = 'dummy_content';
-			$option_com->primary_key_name = 'dummy_key';
-			$option_com->content_style = $config->comment_content_style;
-			$option_com->colorset = $config->sel_comment_editor_colorset;
-			$editor = $oEditorModel->getEditor(0, $option_com);
-		}
-		else
-		{
-			$option = new stdClass();
-			$option->allow_fileupload = false;
-			$option->content_style = $config->content_style;
-			$option->content_font = $config->content_font;
-			$option->content_font_size = $config->content_font_size;
-			$option->content_line_height = $config->content_line_height;
-			$option->content_paragraph_spacing = $config->content_paragraph_spacing;
-			$option->content_word_break = $config->content_word_break;
-			$option->enable_autosave = false;
-			$option->enable_default_component = true;
-			$option->enable_component = true;
-			$option->disable_html = false;
-			$option->height = $config->editor_height;
-			$option->skin = $config->editor_skin;
-			$option->content_key_name = 'dummy_content';
-			$option->primary_key_name = 'dummy_key';
-			$option->colorset = $config->sel_editor_colorset;
-			$editor = $oEditorModel->getEditor(0, $option);
-		}
-
-		Context::set('editor', $editor);
-
+		Context::set('editor', getModel('editor')->getModuleEditor(Context::get('type'), 0, 0, 'dummy_key', 'dummy_content'));
+		
 		$this->setLayoutFile('popup_layout');
 		$this->setTemplatePath($this->module_path.'tpl');
 		$this->setTemplateFile('config_preview');

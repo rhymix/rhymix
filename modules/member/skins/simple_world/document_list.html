@@ -7,7 +7,7 @@
 	<div>
 		<ul class="rx_sw_list">
 			<li loop="$document_list => $key, $item">
-				<a href="{getUrl('','document_srl',$item->document_srl)}" class="cont_a no_delete" onclick="window.open(this.href);return false;">
+				<a href="{getUrl('','document_srl',$item->document_srl)}" class="cont_a no_delete" target="_blank">
 					<span class="content_basic">
 						<span class="content_title">
 							{escape($item->getTitle())}

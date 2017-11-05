@@ -22,10 +22,10 @@
     <!--@foreach($output->data as $no => $document)-->
         <li>
             <!--@if($document->thumbnailExists(80))-->
-            <a href="{getUrl('','document_srl',$document->document_srl)}" onclick="window.open(this.href);return false;"><img src="{$document->getThumbnail(80)}" alt="" width="80" height="80" class="thumb" /></a>
+            <a href="{getUrl('','document_srl',$document->document_srl)}" target="_blank"><img src="{$document->getThumbnail(80)}" alt="" width="80" height="80" class="thumb" /></a>
             <!--@end-->
             <dl>
-                <dt><a href="{getUrl('','document_srl',$document->document_srl)}" onclick="window.open(this.href);return false;">{$document->getTitle()}</a> <!--@if($document->getCommentCount())--><span class="reply">[<em>{$document->getCommentCount()}</em>]</span> <!--@end--></dt>
+                <dt><a href="{getUrl('','document_srl',$document->document_srl)}" target="_blank">{$document->getTitle()}</a> <!--@if($document->getCommentCount())--><span class="reply">[<em>{$document->getCommentCount()}</em>]</span> <!--@end--></dt>
 
                 <dd>{$document->getSummary(200)}</dd>
             </dl>

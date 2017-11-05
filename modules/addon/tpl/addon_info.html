@@ -8,14 +8,14 @@
 		<th scope="row">{$lang->author}</th>
 		<td>
 			<!--@foreach($addon_info->author as $author)-->
-			{$author->name} <!--@if($author->homepage || $author->email_address)-->(<!--@if($author->homepage)--><a href="{$author->homepage}" onclick="window.open(this.href);return false;">{$author->homepage}</a><!--@end--><!--@if($author->homepage && $author->email_address)-->, <!--@end--><!--@if($author->email_address)--><a href="mailto:{$author->email_address}">{$author->email_address}</a><!--@end-->)<!--@end--><br />
+			{$author->name} <!--@if($author->homepage || $author->email_address)-->(<!--@if($author->homepage)--><a href="{$author->homepage}" target="_blank" rel="noopener">{$author->homepage}</a><!--@end--><!--@if($author->homepage && $author->email_address)-->, <!--@end--><!--@if($author->email_address)--><a href="mailto:{$author->email_address}">{$author->email_address}</a><!--@end-->)<!--@end--><br />
 			<!--@endforeach-->
 		</td>
 	</tr>
 	<!--@if($addon_info->homepage)-->
 	<tr>
 		<th scope="row">{$lang->homepage}</th>
-		<td><a href="{$addon_info->homepage}" onclick="window.open(this.href);return false;">{$addon_info->homepage}</a></td>
+		<td><a href="{$addon_info->homepage}" target="_blank" rel="noopener">{$addon_info->homepage}</a></td>
 	</tr><!--@end-->
 	<tr>
 		<th scope="row">{$lang->regdate}</th>

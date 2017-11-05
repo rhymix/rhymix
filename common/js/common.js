@@ -5,6 +5,7 @@
  **/
 
 (function($) {
+
 	/* OS check */
 	var UA = navigator.userAgent.toLowerCase();
 	$.os = {
@@ -31,16 +32,10 @@
 	/**
 	 * @brief Check if two URLs belong to the same origin
 	 */
-	window.isSameOrigin = function(url1, url2, allow_relative_url2) {
-		var a1 = $("<a>").attr("href", url1)[0];
-		var a2 = $("<a>").attr("href", url2)[0];
-		if (!a2.hostname && allow_relative_url2) {
-			return true;
-		}
-		if (a1.protocol !== a2.protocol) return false;
-		if (a1.hostname !== a2.hostname) return false;
-		if (a1.port !== a2.port) return false;
-		return true;
+	window.isSameOrigin = function(url1, url2) {
+		url1 = window.XE.URI(url1).normalizePort().normalizePathname().origin();
+		url2 = window.XE.URI(url1).normalizePort().normalizePathname().origin();
+		return (url1 === url2) ? true : false;
 	};
 
 	/**
@@ -52,7 +47,7 @@
 
 	/* Intercept jQuery AJAX calls to add CSRF headers */
 	$.ajaxPrefilter(function(options) {
-		if (!isSameOrigin(location.href, options.url, true)) return;
+		if (!isSameOrigin(location.href, options.url)) return;
 		var token = getCSRFToken();
 		if (token) {
 			if (!options.headers) options.headers = {};
@@ -66,7 +61,7 @@
 		if (token) {
 			return $(this).each(function() {
 				if ($(this).data("csrf-token-checked") === "Y") return;
-				if (!isSameOrigin(location.href, $(this).attr("action"), true)) {
+				if (!isSameOrigin(location.href, $(this).attr("action"))) {
 					return $(this).data("csrf-token-checked", "Y");
 				}
 				$("<input />").attr({ type: "hidden", name: "_rx_csrf_token", value: token }).appendTo($(this));
@@ -87,6 +82,11 @@
 	window.XE = {
 		loaded_popup_menus : [],
 		addedDocument : [],
+		URI : window.URI,
+		URITemplate : window.URITemplate,
+		SecondLevelDomains : window.SecondLevelDomains,
+		IPv6 : window.IPv6,
+		
 		/**
 		 * @brief 특정 name을 가진 체크박스들의 checked 속성 변경
 		 * @param [itemName='cart',][options={}]
@@ -194,11 +194,24 @@
 
 				area.css({ top:areaOffset.top, left:areaOffset.left }).show().focus();
 			}
+		},
+		
+		/* 동일 사이트 내 주소인지 판단 (프로토콜 제외) */
+		isSameHost: function(url) {
+			var site_baseurl = window.XE.URI(window.request_uri).normalizePort().normalizePathname();
+			site_baseurl = site_baseurl.hostname() + site_baseurl.directory();
+			
+			var target_url = window.XE.URI(url).normalizePort().normalizePathname();
+			if (!target_url.hostname()) {
+				target_url = target_url.absoluteTo(window.request_uri);
+			}
+			target_url = target_url.hostname() + target_url.directory();
+
+			return target_url.indexOf(site_baseurl) === 0;
 		}
 	};
-}) (jQuery);
-
-
+	
+})(jQuery);
 
 /* jQuery(document).ready() */
 jQuery(function($) {
@@ -209,7 +222,43 @@ jQuery(function($) {
 	$(document).on("focus", "input,select,textarea", function() {
 		$(this).parents("form[method]").filter(function() { return String($(this).attr("method")).toUpperCase() == "POST"; }).addCSRFTokenToForm();
 	});
+	
+	/* Tabnapping protection, step 1 */
+	$('a[target]').each(function() {
+		var $this = $(this);
+		var href = $this.attr('href');
+		var target = $this.attr('target');
+		if (!href || !target || target === '_top' || target === '_self' || target === '_parent') {
+			return;
+		}
+		if (!window.XE.isSameHost(href)) {
+			var rel = $this.attr('rel');
+			rel = (typeof rel === 'undefined') ? '' : String(rel);
+			if (!rel.match(/\bnoopener\b/)) {
+				$this.attr('rel', $.trim(rel + ' noopener'));
+			}
+		}
+	});
 
+	/* Tabnapping protection, step 2 */
+	$('body').on('click', 'a[target]', function(event) {
+		var $this = $(this);
+		var href = $this.attr('href');
+		var target = $this.attr('target');
+		if (!href || !target || target === '_top' || target === '_self' || target === '_parent') {
+			return;
+		}
+		if (!window.XE.isSameHost(href)) {
+			var rel = $this.attr('rel');
+			rel = (typeof rel === 'undefined') ? '' : String(rel);
+			if (!rel.match(/\bnoopener\b/)) {
+				$this.attr('rel', $.trim(rel + ' noopener'));
+			}
+			event.preventDefault();
+			blankshield.open(href);
+		}
+	});
+	
 	/* select - option의 disabled=disabled 속성을 IE에서도 체크하기 위한 함수 */
 	if(navigator.userAgent.match(/MSIE/)) {
 		$('select').each(function(i, sels) {
@@ -248,18 +297,6 @@ jQuery(function($) {
 		});
 	}
 
-	/* 단락에디터 fold 컴포넌트 펼치기/접기 */
-	var drEditorFold = $('.xe_content .fold_button');
-	if(drEditorFold.size()) {
-		var fold_container = $('div.fold_container', drEditorFold);
-		$('button.more', drEditorFold).click(function() {
-			$(this).hide().next('button').show().parent().next(fold_container).show();
-		});
-		$('button.less', drEditorFold).click(function() {
-			$(this).hide().prev('button').show().parent().next(fold_container).hide();
-		});
-	}
-
 	jQuery('input[type="submit"],button[type="submit"]').click(function(ev){
 		var $el = jQuery(ev.currentTarget);
 
@@ -277,95 +314,34 @@ jQuery(function($) {
 	});
 });
 
-(function(){ // String extension methods
-	function isSameUrl(a,b) {
-		return (a.replace(/#.*$/, '') === b.replace(/#.*$/, ''));
-	}
-	var isArray = Array.isArray || function(obj){ return Object.prototype.toString.call(obj)=='[object Array]'; };
+(function($) { // String extension methods
 
 	/**
 	 * @brief location.href에서 특정 key의 값을 return
 	 **/
 	String.prototype.getQuery = function(key) {
-		var loc = isSameUrl(this, window.location.href) ? current_url : this;
-		var idx = loc.indexOf('?');
-		if(idx == -1) return null;
-		var query_string = loc.substr(idx+1, this.length), args = {};
-		query_string.replace(/([^=]+)=([^&]*)(&|$)/g, function() { args[arguments[1]] = arguments[2]; });
-
-		var q = args[key];
-		if(typeof(q)=='undefined') q = '';
-
-		return q;
+		var queries = window.XE.URI(this).search(true);
+		var result = queries[key];
+		if(typeof result === 'undefined') {
+			return '';
+		} else {
+			return result;
+		}
 	};
 
 	/**
 	 * @brief location.href에서 특정 key의 값을 return
 	 **/
 	String.prototype.setQuery = function(key, val) {
-		var loc = isSameUrl(this, window.location.href) ? current_url : this;
-		var idx = loc.indexOf('?');
-		var uri = loc.replace(/#$/, '');
-		var act, re, v, toReplace, query_string;
-
-		if (typeof(val)=='undefined') val = '';
-
-		if (idx != -1) {
-			var args = {}, q_list = [];
-			query_string = uri.substr(idx + 1, loc.length);
-			uri = loc.substr(0, idx);
-			query_string.replace(/([^=]+)=([^&]*)(&|$)/g, function(all,key,val) { args[key] = val; });
-
-			args[key] = val;
-
-			for (var prop in args) {
-				if (!args.hasOwnProperty(prop)) continue;
-				if (!(v = String(args[prop]).trim())) continue;
-				q_list.push(prop+'='+decodeURI(v));
-			}
-
-			query_string = q_list.join('&');
-			uri = uri + (query_string ? '?' + encodeURI(query_string) : '');
-		} else {
-			if (String(val).trim()) {
-				query_string = '?' + key + '=' + val;
-				uri = uri + encodeURI(query_string);
+		var uri = window.XE.URI(this);
+		if(typeof key !== 'undefined') {
+			if(typeof val === "undefined" || val === '' || val === null) {
+				uri.removeSearch(key);
+			} else {
+				uri.setSearch(key, String(val));
 			}
 		}
-
-		re = /^https:\/\/([^:\/]+)(:\d+|)/i;
-		if (re.test(uri)) {
-			toReplace = 'http://'+RegExp.$1;
-			if (window.http_port && http_port != 80) toReplace += ':' + http_port;
-			uri = uri.replace(re, toReplace);
-		}
-
-		var bUseSSL = !!window.enforce_ssl || (location.protocol == 'https:');
-		if (!bUseSSL && isArray(window.ssl_actions) && (act=uri.getQuery('act'))) {
-			for (var i=0,c=ssl_actions.length; i < c; i++) {
-				if (ssl_actions[i] === act) {
-					bUseSSL = true;
-					break;
-				}
-			}
-		}
-
-		re = /https?:\/\/([^:\/]+)(:\d+|)/i;
-		if (bUseSSL && re.test(uri)) {
-			toReplace = 'https://'+RegExp.$1;
-			if (window.https_port && https_port != 443) toReplace += ':' + https_port;
-			uri = uri.replace(re, toReplace);
-		}
-		if (!bUseSSL && re.test(uri)) {
-			toReplace = 'http://'+RegExp.$1;
-			if (window.http_port && http_port != 80) toReplace += ':' + http_port;
-			uri = uri.replace(re, toReplace);
-		}
-
-		// insert index.php if it isn't included
-		uri = uri.replace(/\/(index\.php)?\?/, '/index.php?');
-
-		return uri;
+		return normailzeUri(uri).toString();
 	};
 
 	/**
@@ -405,7 +381,31 @@ jQuery(function($) {
 			return String(this).replace(/^[\s\uFEFF\xA0]+|[\s\uFEFF\xA0]+$/g, '');
 		};
 	}
-})();
+	
+	/**
+	 * @brief Helper function for setQuery()
+	 * 
+	 * @param uri URI
+	 * @return URI
+	 */
+	function normailzeUri(uri) {
+		var protocol = window.enforce_ssl ? 'https' : 'http';
+		var port = (protocol === 'http') ? window.http_port : window.https_port;
+		var filename = uri.filename() || 'index.php';
+		var queries = uri.search(true);
+
+		if(window.XE.isSameHost(uri.toString()) && $.isEmptyObject(queries)) {
+			filename = '';
+		}
+		
+		if(protocol !== 'https' && queries.act && $.inArray(queries.act, window.ssl_actions) !== -1) {
+			protocol = 'https';
+		}
+
+		return uri.protocol(protocol).port(port || null).normalizePort().filename(filename);
+	}
+	
+})(jQuery);
 
 /**
  * @brief xSleep(micro time)
@@ -433,22 +433,29 @@ function isDef() {
  * @brief 윈도우 오픈
  * 열려진 윈도우의 관리를 통해 window.focus()등을 FF에서도 비슷하게 구현함
  **/
-var winopen_list = [];
-function winopen(url, target, attribute) {
-	if(typeof(xeVid)!='undefined' && url.indexOf(request_uri)>-1 && !url.getQuery('vid')) url = url.setQuery('vid',xeVid);
+var winopen_list = {};
+function winopen(url, target, features) {
 	try {
-		if(target != "_blank" && winopen_list[target]) {
+		if (target != '_blank' && winopen_list[target]) {
 			winopen_list[target].close();
 			winopen_list[target] = null;
 		}
 	} catch(e) {
+		// no-op
 	}
 
-	if(typeof(target) == 'undefined') target = '_blank';
-	if(typeof(attribute) == 'undefined') attribute = '';
-	var win = window.open(url, target, attribute);
-	win.focus();
-	if(target != "_blank") winopen_list[target] = win;
+	if (typeof target == 'undefined') target = '_blank';
+	if (typeof features == 'undefined') features = '';
+	
+	if (!window.XE.isSameHost(url)) {
+		window.blankshield.open(url, target, features);
+	} else {
+		var win = window.open(url, target, features);
+		win.focus();
+		if (target != '_blank') {
+			winopen_list[target] = win;
+		}
+	}
 }
 
 /**
@@ -456,8 +463,6 @@ function winopen(url, target, attribute) {
  * common/tpl/popup_layout.html이 요청되는 XE내의 팝업일 경우에 사용
  **/
 function popopen(url, target) {
-	if(typeof(target) == "undefined") target = "_blank";
-	if(typeof(xeVid)!='undefined' && url.indexOf(request_uri)>-1 && !url.getQuery('vid')) url = url.setQuery('vid',xeVid);
 	winopen(url, target, "width=800,height=600,scrollbars=yes,resizable=yes,toolbars=no");
 }
 
@@ -487,22 +492,18 @@ function redirect(url) {
  * @brief url이동 (open_window 값이 N 가 아니면 새창으로 띄움)
  **/
 function move_url(url, open_window) {
-	if(!url) return false;
-	if(typeof(open_window) == 'undefined') open_window = 'N';
-	if(open_window=='N') {
-		open_window = false;
-	} else {
-		open_window = true;
+	if (!url) {
+		return false;
 	}
-
-	if(/^\./.test(url)) url = request_uri+url;
-
-	if(open_window) {
-		winopen(url);
-	} else {
+	if (/^\./.test(url)) {
+		url = window.request_uri + url;
+	}
+	
+	if (typeof open_window == 'undefined' || open_window == 'N') {
 		redirect(url);
+	} else {
+		winopen(url);
 	}
-
 	return false;
 }
 
@@ -532,35 +533,15 @@ function _displayMultimedia(src, width, height, options) {
 	var clsid = "";
 	var codebase = "";
 	var html = "";
+	width = parseInt(width, 10);
+	height = parseInt(height, 10);
 
 	if(/\.(gif|jpg|jpeg|bmp|png)$/i.test(src)){
-		html = '<img src="'+src+'" width="'+width+'" height="'+height+'" />';
-	} else if(/\.flv$/i.test(src) || /\.mov$/i.test(src) || /\.moov$/i.test(src) || /\.m4v$/i.test(src)) {
-		html = '<embed src="'+request_uri+'common/img/flvplayer.swf" allowfullscreen="true" allowscriptaccess="never" autostart="'+autostart+'" width="'+width+'" height="'+height+'" flashvars="&file='+src+'&width='+width+'&height='+height+'&autostart='+autostart+'" wmode="'+params.wmode+'" />';
-	} else if(/\.swf/i.test(src)) {
-		clsid = 'clsid:D27CDB6E-AE6D-11cf-96B8-444553540000';
-
-		if(typeof(enforce_ssl)!='undefined' && enforce_ssl){ codebase = "https://download.macromedia.com/pub/shockwave/cabs/flash/swflash.cab#version=9,0,28,0"; }
-		else { codebase = "http://download.macromedia.com/pub/shockwave/cabs/flash/swflash.cab#version=9,0,28,0"; }
-		html = '<object classid="'+clsid+'" codebase="'+codebase+'" width="'+width+'" height="'+height+'" flashvars="'+params.flashvars+'">';
-		html += '<param name="movie" value="'+src+'" />';
-		for(var name in params) {
-			if(params[name] != 'undefined' && params[name] !== '') {
-				html += '<param name="'+name+'" value="'+params[name]+'" />';
-			}
-		}
-		html += '' + '<embed src="'+src+'" allowscriptaccess="never" autostart="'+autostart+'"  width="'+width+'" height="'+height+'" flashvars="'+params.flashvars+'" wmode="'+params.wmode+'"></embed>' + '</object>';
-	}  else {
-		if (navigator.userAgent.match(/(firefox|opera)/i)) {
-			// firefox and opera uses 0 or 1 for autostart parameter.
-			autostart = (params.autostart && params.autostart != 'false') ? '1' : '0';
-		}
-
-		html = '<embed src="'+src+'" allowscriptaccess="never" autostart="'+autostart+'" width="'+width+'" height="'+height+'"';
-		if(params.wmode == 'transparent') {
-			html += ' windowlessvideo="1"';
-		}
-		html += '></embed>';
+		html = '<img src="'+src+'" width="'+width+'" height="'+height+'" class="thumb" />';
+	} else {
+		html = '<span style="position:relative;background:black;width:' + width + 'px;height:' + height + 'px" class="thumb">';
+		html += '<img style="width:24px;height:24px;position:absolute;left:50%;top:50%;border:0;margin:-12px 0 0 -12px;padding:0" src="./common/img/play.png" alt="" />';
+		html += '</span>';
 	}
 	return html;
 }
@@ -673,6 +654,7 @@ function doDocumentPreview(obj) {
 			'<form id="previewDocument" target="previewDocument" method="post" action="'+request_uri+'">'+
 			'<input type="hidden" name="module" value="document" />'+
 			'<input type="hidden" name="act" value="dispDocumentPreview" />'+
+			'<input type="hidden" name="mid" value="' + current_mid +'" />'+
 			'<input type="hidden" name="content" />'+
 			'</form>'
 		).appendTo(document.body);
@@ -1108,16 +1090,14 @@ jQuery(function($){
 	 * Create popup windows automatically.
 	 * Find anchors that have the '_xe_popup' class, then add popup script to them.
 	 */
-	$('a._xe_popup').click(function(){
-		var $this = $(this), name = $this.attr('name'), href = $this.attr('href'), win;
-
-		if(!name) name = '_xe_popup_'+Math.floor(Math.random()*1000);
-
-		win = window.open(href, name, 'left=10,top=10,width=10,height=10,resizable=no,scrollbars=no,toolbars=no');
-		if(win) win.focus();
-
-		// cancel default action
-		return false;
+	$('body').on('click', 'a._xe_popup', function(event) {
+		var $this = $(this);
+		var name = $this.attr('name');
+		var href = $this.attr('href');
+		if (!name) name = '_xe_popup_' + Math.floor(Math.random() * 1000);
+		
+		event.preventDefault();
+		winopen(href, name, 'left=10,top=10,width=10,height=10,resizable=no,scrollbars=no,toolbars=no');
 	});
 
 	// date picker default settings

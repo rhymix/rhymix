@@ -1,4 +1,5 @@
 <?php
+require_once(_XE_PATH_.'modules/ncenterlite/ncenterlite.view.php');
 
 class ncenterliteMobile extends ncenterliteView
 {
@@ -22,17 +23,5 @@ class ncenterliteMobile extends ncenterliteView
 			$this->module_info->mlayout_srl = $config->mlayout_srl;
 			$this->setLayoutPath($layout_info->path);
 		}
-
 	}
-
-	function dispNcenterliteNotifyList()
-	{
-		parent::dispNcenterliteNotifyList();
-	}
-
-	function dispNcenterliteUserConfig()
-	{
-		parent::dispNcenterliteUserConfig();
-	}
-
 }
