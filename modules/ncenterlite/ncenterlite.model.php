@@ -161,7 +161,7 @@ class ncenterliteModel extends ncenterlite
 
 	function getMyNotifyList($member_srl=null, $page=1, $readed='N')
 	{
-		if (Context::get('is_logged'))
+		if (!Context::get('is_logged'))
 		{
 			return false;
 		}
