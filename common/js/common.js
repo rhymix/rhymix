@@ -198,6 +198,13 @@
 		
 		/* 동일 사이트 내 주소인지 판단 (프로토콜 제외) */
 		isSameHost: function(url) {
+			if (url.match(/^\/[^\/]/)) {
+				return true;
+			}
+			if (url.match(/^\w+:[^\/]*$/)) {
+				return false;
+			}
+			
 			var site_baseurl = window.XE.URI(window.request_uri).normalizePort().normalizePathname();
 			site_baseurl = site_baseurl.hostname() + site_baseurl.directory();
 			
