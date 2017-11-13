@@ -18,6 +18,16 @@
 			<input type="text" name="title" id="message_title" value="{$source_message->title}" />
 			<label for="message_send_mail"><input type="checkbox" value="Y" name="send_mail" id="message_send_mail" /> {$lang->cmd_send_mail}</label>
 			<div class="rx_member-notice info">{$lang->msg_send_mail_privacy}</div>
+			<div class="rx_member-notice info" cond="$logged_info->allow_message !== 'Y'">
+				{$lang->warning}
+				<br>
+				<!--@if($logged_info->allow_message == 'F')-->
+				{$lang->msg_allow_message_friend}
+				<!--@elseif($logged_info->allow_message == 'N')-->
+				{$lang->msg_allow_meesage_Block}
+				<!--@end-->
+				<br>{$lang->msg_allow_message_please}
+			</div>
 		</div>
 		{$editor}
 		<div class="control-group">
