@@ -189,6 +189,24 @@ class communicationMobile extends communicationView
 		}
 
 		Context::set('receiver_info', $receiver_info);
+
+		// set a signiture by calling getEditor of the editor module
+		$oEditorModel = getModel('editor');
+		$option = $oEditorModel->getEditorConfig();
+		$option->primary_key_name = 'receiver_srl';
+		$option->content_key_name = 'content';
+		$option->allow_fileupload = FALSE;
+		$option->enable_autosave = FALSE;
+		$option->enable_default_component = TRUE; // FALSE;
+		$option->enable_component = FALSE;
+		$option->resizable = FALSE;
+		$option->disable_html = TRUE;
+		$option->height = 300;
+		$option->skin = $this->config->editor_skin;
+		$option->colorset = $this->config->editor_colorset;
+		$editor = $oEditorModel->getEditor($logged_info->member_srl, $option);
+		Context::set('editor', $editor);
+
 		$this->setTemplateFile('send_message');
 	}
 
