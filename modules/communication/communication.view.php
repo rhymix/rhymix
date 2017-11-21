@@ -253,6 +253,7 @@ class communicationView extends communication
 		$option->height = 300;
 		$option->skin = $this->config->editor_skin;
 		$option->colorset = $this->config->editor_colorset;
+		$option->editor_focus = Context::get('source_message') ? 'Y' : 'N';
 		$editor = $oEditorModel->getEditor($logged_info->member_srl, $option);
 		Context::set('editor', $editor);
 
