@@ -73,9 +73,9 @@ class communicationView extends communication
 			Context::set('message_type', $message_type);
 		}
 
-		$oCommunicationModel = getModel('communication');
-
 		// extract contents if message_srl exists
+		$oCommunicationModel = getModel('communication');
+		$template_filename = 'messages';
 		if($message_srl)
 		{
 			$columnList = array('message_srl', 'sender_srl', 'receiver_srl', 'message_type', 'title', 'content', 'readed', 'regdate');
@@ -116,6 +116,10 @@ class communicationView extends communication
 			{
 				stripEmbedTagForAdmin($message->content, $message->sender_srl);
 				Context::set('message', $message);
+				if(Context::get('m'))
+				{
+					$template_filename = 'read_message';
+				}
 			}
 		}
 
@@ -133,7 +137,7 @@ class communicationView extends communication
 		$oSecurity = new Security();
 		$oSecurity->encodeHTML('message_list..nick_name');
 
-		$this->setTemplateFile('messages');
+		$this->setTemplateFile($template_filename);
 	}
 
 	/**
@@ -178,8 +182,11 @@ class communicationView extends communication
 	 */
 	function dispCommunicationSendMessage()
 	{
-		$this->setLayoutPath('./common/tpl/');
-		$this->setLayoutFile("popup_layout");
+		if(!Context::get('m'))
+		{
+			$this->setLayoutPath('./common/tpl/');
+			$this->setLayoutFile("popup_layout");
+		}
 
 		if($this->config->enable_message == 'N')
 		{
