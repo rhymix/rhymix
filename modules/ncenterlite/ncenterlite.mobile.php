@@ -1,5 +1,4 @@
 <?php
-require_once(_XE_PATH_.'modules/ncenterlite/ncenterlite.view.php');
 
 class ncenterliteMobile extends ncenterliteView
 {

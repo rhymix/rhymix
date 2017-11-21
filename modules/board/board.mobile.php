@@ -1,8 +1,6 @@
 <?php
 /* Copyright (C) NAVER <http://www.navercorp.com> */
 
-require_once(_XE_PATH_.'modules/board/board.view.php');
-
 class boardMobile extends boardView
 {
 	function init()
@@ -87,36 +85,9 @@ class boardMobile extends boardView
 		Context::addJsFilter($this->module_path.'tpl/filter', 'input_password.xml');
 	}
 
-	function dispBoardCategory()
-	{
-		$this->dispBoardCategoryList();
-		$category_list = Context::get('category_list');
-		$this->setTemplateFile('category.html');
-	}
-
 	function getBoardCommentPage()
 	{
-		$document_srl = Context::get('document_srl');
-		$oDocumentModel =& getModel('document');
-		if(!$document_srl)
-		{
-			return new Object(-1, "msg_invalid_request");
-		}
-		
-		if($this->grant->view == false || ($this->module_info->consultation == 'Y' && !$this->grant->manager && !$this->grant->consultation_read))
-		{
-			return new Object(-1, "msg_not_permitted");
-		}
-		
-		$oDocument = $oDocumentModel->getDocument($document_srl);
-		if(!$oDocument->isExists())
-		{
-			return new Object(-1, "msg_invalid_request");
-		}
-		Context::set('oDocument', $oDocument);
-		$oTemplate = TemplateHandler::getInstance();
-		$html = $oTemplate->compile($this->getTemplatePath(), "comment.html");
-		$this->add("html", $html);
+		$this->dispBoardCommentPage();
 	}
 
 	function dispBoardMessage($msg_code)

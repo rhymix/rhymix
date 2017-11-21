@@ -43,3 +43,7 @@ $lang->cmd_manage_base = '기본 정보';
 $lang->alert_new_message_arrived = '%d개의 새로운 메시지가 도착하였습니다. 확인하시겠습니까?';
 $lang->enable_communication_friend = '친구기능 사용';
 $lang->enable_communication_message = '쪽지기능 사용';
+$lang->warning = '알려드립니다!';
+$lang->msg_allow_message_friend = '현재 회원님은 친구에게만 수신 가능한 상태입니다.';
+$lang->msg_allow_meesage_Block = '현재 회원님은 수신거부 상태입니다.';
+$lang->msg_allow_message_please = '전송하는 쪽지에 대한 답변을 받기 위해서는 모두에게 전송을 허용해야합니다.';

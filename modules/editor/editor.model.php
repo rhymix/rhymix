@@ -169,8 +169,9 @@ class editorModel extends editor
 		}
 		Context::set('enable_autosave', $option->enable_autosave);
 		
-		// Set allow html
+		// Set allow html and focus
 		Context::set('allow_html', ($option->allow_html === false || $option->allow_html === 'N') ? false : true);
+		Context::set('editor_focus', toBool($option->editor_focus));
 		
 		// Load editor components.
 		$site_srl = Context::get('site_module_info')->site_srl ?: 0;

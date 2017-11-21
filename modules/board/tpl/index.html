@@ -47,11 +47,7 @@
 
 <div class="x_clearfix">
 	<form cond="$page_navigation" action="./" class="x_pagination x_pull-left" no-error-return-url="true" style="margin-top:0">
-		{@
-			$urlInfo = parse_url(getRequestUriByServerEnviroment());
-			parse_str($urlInfo['query'], $param);
-		}
-		<input loop="$param => $key, $val" cond="!in_array($key, array('mid', 'vid', 'act'))" type="hidden" name="{$key}" value="{$val}" />
+		<input type="hidden" name="module" value="{$module}" />
 		<ul>
 			<li class="x_disabled"|cond="!$page || $page == 1"><a href="{getUrl('page', '')}">&laquo; {$lang->first_page}</a></li>
 			<block cond="$page_navigation->first_page != 1 && $page_navigation->first_page + $page_navigation->page_count > $page_navigation->last_page - 1 && $page_navigation->page_count != $page_navigation->total_page">
@@ -87,7 +83,7 @@
 	</span>
 </div>
 <form action="" class="search x_input-append center" no-error-return-url="true">
-	<input loop="$param => $key, $val" cond="!in_array($key, array('mid', 'vid', 'act', 'page', 'search_target', 'search_keyword'))" type="hidden" name="{$key}" value="{$val}" />
+	<input type="hidden" name="module" value="{$module}" />
 	<select cond="count($module_category)" name="module_category_srl" title="{$lang->module_category}" style="margin-right:4px">
 		<option value="" selected="selected"|cond="!$module_category_srl">{$lang->all}</option>
 		<option value="0" selected="selected"|cond="$module_category_srl==='0'">{$lang->not_exists}</option>

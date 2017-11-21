@@ -1444,6 +1444,7 @@ class memberController extends member
 		// Test logs for finding password by user_id and authkey
 		$args = new stdClass;
 		$args->member_srl = $member_srl;
+		$args->auth_key = $auth_key;
 		$output = executeQuery('member.getAuthMail', $args);
 
 		if(!$output->toBool() || $output->data->auth_key !== $auth_key)
@@ -2281,7 +2282,7 @@ class memberController extends member
 		if($args->blog && !preg_match("/^[a-z]+:\/\//i",$args->blog)) $args->blog = 'http://'.$args->blog;
 
 
-		$extend_form_list = $oMemberModel->getCombineJoinForm($memberInfo);
+		$extend_form_list = $oMemberModel->getJoinFormlist();
 		$security = new Security($extend_form_list);
 		$security->encodeHTML('..column_title', '..description', '..default_value.');
 		if($config->signupForm) {
@@ -2527,7 +2528,7 @@ class memberController extends member
 			}
 		}
 
-		$extend_form_list = $oMemberModel->getCombineJoinForm($memberInfo);
+		$extend_form_list = $oMemberModel->getJoinFormlist();
 		$security = new Security($extend_form_list);
 		$security->encodeHTML('..column_title', '..description', '..default_value.');
 		if($config->signupForm){

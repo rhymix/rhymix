@@ -47,6 +47,7 @@ class editor extends ModuleObject
 		'content_word_break' => 'normal',
 		'enable_autosave' => 'Y',
 		'allow_html' => 'Y',
+		'editor_focus' => 'N',
 		'autoinsert_image' => 'paragraph',
 		'additional_css' => array(),
 		'additional_mobile_css' => array(),

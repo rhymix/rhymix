@@ -198,6 +198,13 @@
 		
 		/* 동일 사이트 내 주소인지 판단 (프로토콜 제외) */
 		isSameHost: function(url) {
+			if (url.match(/^\/[^\/]/)) {
+				return true;
+			}
+			if (url.match(/^\w+:[^\/]*$/)) {
+				return false;
+			}
+			
 			var site_baseurl = window.XE.URI(window.request_uri).normalizePort().normalizePathname();
 			site_baseurl = site_baseurl.hostname() + site_baseurl.directory();
 			
@@ -211,7 +218,7 @@
 		}
 	};
 	
-}) (jQuery);
+})(jQuery);
 
 /* jQuery(document).ready() */
 jQuery(function($) {
@@ -314,7 +321,7 @@ jQuery(function($) {
 	});
 });
 
-(function(){ // String extension methods
+(function($) { // String extension methods
 
 	/**
 	 * @brief location.href에서 특정 key의 값을 return
@@ -405,7 +412,7 @@ jQuery(function($) {
 		return uri.protocol(protocol).port(port || null).normalizePort().filename(filename);
 	}
 	
-})();
+})(jQuery);
 
 /**
  * @brief xSleep(micro time)
