@@ -1,6 +1,6 @@
 <?php
 /* Copyright (C) NAVER <http://www.navercorp.com> */
-require_once(_XE_PATH_.'modules/member/member.view.php');
+
 class memberMobile extends memberView
 {
 	/**
