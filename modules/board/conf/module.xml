@@ -75,7 +75,8 @@
 		<action name="dispBoardContentCommentList" type="view" permission="view" standalone="false" />
 		<action name="dispBoardContentFileList" type="view" permission="view" standalone="false" />
 		<action name="dispBoardTagList" type="view" permission="list" standalone="false" />
-		<action name="dispBoardCategory" type="mobile" permission="list" standalone="false" />
+		<action name="dispBoardCategory" type="view" permission="list" standalone="false" />
+		<action name="dispBoardCommentPage" type="view" permission="view" standalone="false" />
 		<action name="getBoardCommentPage" type="mobile" permission="view" standalone="false" />
 		
 		<action name="procBoardInsertDocument" type="controller" permission="write_document" standalone="false" ruleset="insertDocument" />

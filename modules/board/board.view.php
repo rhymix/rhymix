@@ -351,8 +351,6 @@ class boardView extends board
 		 * add javascript filters
 		 **/
 		Context::addJsFilter($this->module_path.'tpl/filter', 'insert_comment.xml');
-
-//            return new Object();
 	}
 
 	/**
@@ -640,6 +638,43 @@ class boardView extends board
 		$oSecurity->encodeHTML('tag_list.');
 
 		$this->setTemplateFile('tag_list');
+	}
+
+	/**
+	 * @brief display category list
+	 */
+	function dispBoardCategory()
+	{
+		$this->dispBoardCategoryList();
+		$this->setTemplateFile('category.html');
+	}
+
+	/**
+	 * @brief display comment page
+	 */
+	function dispBoardCommentPage()
+	{
+		$document_srl = Context::get('document_srl');
+		if(!$document_srl)
+		{
+			return new Object(-1, "msg_invalid_request");
+		}
+		
+		if($this->grant->view == false || ($this->module_info->consultation == 'Y' && !$this->grant->manager && !$this->grant->consultation_read))
+		{
+			return new Object(-1, "msg_not_permitted");
+		}
+		
+		$oDocument = getModel('document')->getDocument($document_srl);
+		if(!$oDocument->isExists())
+		{
+			return new Object(-1, "msg_invalid_request");
+		}
+		Context::set('oDocument', $oDocument);
+		
+		$oTemplate = TemplateHandler::getInstance();
+		$html = $oTemplate->compile($this->getTemplatePath(), 'comment.html');
+		$this->add('html', $html);
 	}
 
 	/**
