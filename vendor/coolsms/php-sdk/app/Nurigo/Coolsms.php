@@ -94,8 +94,8 @@ class Coolsms
         curl_setopt($ch, CURLOPT_POSTFIELDS, $this->content);
         curl_setopt($ch, CURLOPT_TIMEOUT, 30); // TimeOut value
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1); // curl_exec() result output (1 = true, 0 = false)
-
-        $this->result = json_decode(curl_exec($ch));
+        $output = curl_exec($ch);
+        $this->result = json_decode($output);
         // unless http status code is 200. throw exception.
         $http_code = curl_getinfo($ch, CURLINFO_HTTP_CODE);
         if ($http_code != 200) throw new CoolsmsServerException($this->result, $http_code);
@@ -108,35 +108,36 @@ class Coolsms
 
     /**
      * @brief set http body content
+     * @return void
      */
     private function setContent($options)
     {
+        $smsArgs = new \stdClass;
         if($options->encoding_json_data) {
-            if ($options->json_option == 'SimpleMessage')
-            {
-                $this->setApiConfig('SimpleMessage', '3');
+            if (isset($options->json_option)) {
+                $this->setApiConfig($options->json_option, '3');
             }
+
             $this->content = $options->encoding_json_data;
             return;
         }
 
-        $this->content = new \stdClass;
         if ($options->json_option) {
             $json_option = $options->json_option;
         } else {
             $json_option = 'groupOptions';
         }
-        $this->content->$json_option = new \stdClass;
+        $smsArgs->{$json_option} = new \stdClass;
 
         foreach ($options as $key => $val) {
-            $this->content->$json_option->$key = $val;
+            $smsArgs->{$json_option}->{$key} = $val;
         }
         if ($options->json_option !== 'groupOptions') {
-            $this->content->$json_option = array($this->content->$json_option);
+            $smsArgs->{$json_option} = array($smsArgs->$json_option);
         }
 
 
-        $this->content = json_encode($this->content);
+        $this->content = json_encode($smsArgs);
     }
 
     /**
