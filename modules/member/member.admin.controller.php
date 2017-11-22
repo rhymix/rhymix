@@ -492,7 +492,7 @@ class memberAdminController extends member
 			$signupItem->required = in_array($key, $orgRequireds);
 			$signupItem->isUse = ($config->{$key} == 'Y') || in_array($key, $orgUse);
 			$signupItem->isPublic = ($signupItem->isUse) ? 'Y' : 'N';
-			if($key == 'password')
+			if(in_array($key, array('find_account_question', 'password', 'email_address')))
 			{
 				$signupItem->isPublic = 'N';
 			}

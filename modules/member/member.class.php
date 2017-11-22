@@ -177,6 +177,7 @@ class member extends ModuleObject {
 	{
 		$oDB = &DB::getInstance();
 		$oModuleModel = getModel('module');
+
 		// check member directory (11/08/2007 added)
 		if(!is_dir("./files/member_extra_info")) return true;
 		// check member directory (22/10/2007 added)
@@ -216,7 +217,14 @@ class member extends ModuleObject {
 		if(!$config->signupForm || !is_array($config->signupForm)) return true;
 		foreach($config->signupForm as $signupItem)
 		{
-			if($signupItem->name === 'find_account_question') return true;
+			if($signupItem->name === 'find_account_question')
+			{
+				return true;
+			}
+			if($signupItem->name === 'email_address' && $signupItem->isPublic !== 'N')
+			{
+				return true;
+			}
 		}
 		if(!$config->agreements)
 		{
@@ -357,7 +365,11 @@ class member extends ModuleObject {
 				$config->identifier = $config->identifier ?: 'user_id';
 				$config->signupForm = $oMemberAdminController->createSignupForm($config->identifier);
 				$output = $oModuleController->updateModuleConfig('member', $config);
-				break;
+			}
+			if($signupItem->name === 'email_address' && $signupItem->isPublic !== 'N')
+			{
+				$signupItem->isPublic = 'N';
+				$output = $oModuleController->updateModuleConfig('member', $config);
 			}
 		}
 		if(!$config->agreements)
