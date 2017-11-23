@@ -672,9 +672,9 @@ class boardView extends board
 		}
 		Context::set('oDocument', $oDocument);
 		
-		$oTemplate = TemplateHandler::getInstance();
-		$html = $oTemplate->compile($this->getTemplatePath(), 'comment.html');
-		$this->add('html', $html);
+		$this->setLayoutPath('./common/tpl');
+		$this->setLayoutFile('default_layout');
+		$this->setTemplateFile('comment.html');
 	}
 
 	/**

@@ -88,6 +88,9 @@ class boardMobile extends boardView
 	function getBoardCommentPage()
 	{
 		$this->dispBoardCommentPage();
+		$oTemplate = TemplateHandler::getInstance();
+		$html = $oTemplate->compile($this->getTemplatePath(), 'comment.html');
+		$this->add('html', $html);
 	}
 
 	function dispBoardMessage($msg_code)
