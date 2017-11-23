@@ -769,6 +769,7 @@ class adminAdminController extends admin
 		// Mobile view
 		Rhymix\Framework\Config::set('mobile.enabled', $vars->use_mobile_view === 'Y');
 		Rhymix\Framework\Config::set('mobile.tablets', $vars->tablets_as_mobile === 'Y');
+		Rhymix\Framework\Config::set('mobile.viewport', utf8_trim($vars->mobile_viewport));
 		if (Rhymix\Framework\Config::get('use_mobile_view') !== null)
 		{
 			Rhymix\Framework\Config::set('use_mobile_view', $vars->use_mobile_view === 'Y');
