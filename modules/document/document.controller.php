@@ -401,6 +401,7 @@ class documentController extends document
 		unset($obj->_saved_doc_title);
 		unset($obj->_saved_doc_content);
 		unset($obj->_saved_doc_message);
+		unset($obj->manual_member_info);
 		// Call a trigger (before)
 		$output = ModuleHandler::triggerCall('document.insertDocument', 'before', $obj);
 		if(!$output->toBool()) return $output;
@@ -430,7 +431,7 @@ class documentController extends document
 		}
 		// Insert member's information only if the member is logged-in and not manually registered.
 		$logged_info = Context::get('logged_info');
-		if(Context::get('is_logged') && !$manual_inserted && !$isRestore)
+		if(Context::get('is_logged') && !$manual_inserted && !$isRestore && !$obj->manual_member_info)
 		{
 			$obj->member_srl = $logged_info->member_srl;
 
@@ -575,6 +576,7 @@ class documentController extends document
 		}
 		
 		// Call a trigger (before)
+		unset($obj->manual_member_info);
 		$output = ModuleHandler::triggerCall('document.updateDocument', 'before', $obj);
 		if(!$output->toBool()) return $output;
 
@@ -658,7 +660,7 @@ class documentController extends document
 
 		// If an author is identical to the modifier or history is used, use the logged-in user's information.
 		$logged_info = Context::get('logged_info');
-		if(Context::get('is_logged') && !$manual_updated)
+		if(Context::get('is_logged') && !$manual_updated && !$obj->manual_member_info)
 		{
 			if($source_obj->get('member_srl')==$logged_info->member_srl)
 			{
@@ -671,7 +673,7 @@ class documentController extends document
 		}
 
 		// For the document written by logged-in user however no nick_name exists
-		if($source_obj->get('member_srl')&& !$obj->nick_name)
+		if($source_obj->get('member_srl')&& !$obj->nick_name && !$obj->manual_member_info)
 		{
 			$obj->member_srl = $source_obj->get('member_srl');
 			$obj->user_name = $source_obj->get('user_name');

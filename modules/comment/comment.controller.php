@@ -346,6 +346,7 @@ class commentController extends comment
 		$obj->__isupdate = FALSE;
 
 		// call a trigger (before)
+		unset($obj->manual_member_info);
 		$output = ModuleHandler::triggerCall('comment.insertComment', 'before', $obj);
 		if(!$output->toBool())
 		{
@@ -394,9 +395,9 @@ class commentController extends comment
 			}
 
 			// input the member's information if logged-in
-			if(Context::get('is_logged'))
+			$logged_info = Context::get('logged_info');
+			if(Context::get('is_logged') && !$obj->manual_member_info)
 			{
-				$logged_info = Context::get('logged_info');
 				$obj->member_srl = $logged_info->member_srl;
 
 				// user_id, user_name and nick_name already encoded
@@ -708,6 +709,7 @@ class commentController extends comment
 		$obj->__isupdate = TRUE;
 
 		// call a trigger (before)
+		unset($obj->manual_member_info);
 		$output = ModuleHandler::triggerCall('comment.updateComment', 'before', $obj);
 		if(!$output->toBool())
 		{
@@ -750,7 +752,7 @@ class commentController extends comment
 
 		// set modifier's information if logged-in and posting author and modifier are matched.
 		$logged_info = Context::get('logged_info');
-		if(Context::get('is_logged'))
+		if(Context::get('is_logged') && !$obj->manual_member_info)
 		{
 			if($source_obj->member_srl == $logged_info->member_srl)
 			{
@@ -763,7 +765,7 @@ class commentController extends comment
 		}
 
 		// if nick_name of the logged-in author doesn't exist
-		if($source_obj->get('member_srl') && !$obj->nick_name)
+		if($source_obj->get('member_srl') && !$obj->nick_name && !$obj->manual_member_info)
 		{
 			$obj->member_srl = $source_obj->get('member_srl');
 			$obj->user_name = $source_obj->get('user_name');
