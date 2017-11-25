@@ -345,8 +345,10 @@ class commentController extends comment
 		}
 		$obj->__isupdate = FALSE;
 
-		// call a trigger (before)
+		// Remove manual member info to prevent forgery. This variable can be set by triggers only.
 		unset($obj->manual_member_info);
+		
+		// call a trigger (before)
 		$output = ModuleHandler::triggerCall('comment.insertComment', 'before', $obj);
 		if(!$output->toBool())
 		{
@@ -708,8 +710,10 @@ class commentController extends comment
 
 		$obj->__isupdate = TRUE;
 
-		// call a trigger (before)
+		// Remove manual member info to prevent forgery. This variable can be set by triggers only.
 		unset($obj->manual_member_info);
+
+		// call a trigger (before)
 		$output = ModuleHandler::triggerCall('comment.updateComment', 'before', $obj);
 		if(!$output->toBool())
 		{

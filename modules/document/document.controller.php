@@ -396,21 +396,35 @@ class documentController extends document
 		
 		// Serialize the $extra_vars, check the extra_vars type, because duplicate serialized avoid
 		if(!is_string($obj->extra_vars)) $obj->extra_vars = serialize($obj->extra_vars);
+
 		// Remove the columns for automatic saving
 		unset($obj->_saved_doc_srl);
 		unset($obj->_saved_doc_title);
 		unset($obj->_saved_doc_content);
 		unset($obj->_saved_doc_message);
+
+		// Remove manual member info to prevent forgery. This variable can be set by triggers only.
 		unset($obj->manual_member_info);
+
 		// Call a trigger (before)
 		$output = ModuleHandler::triggerCall('document.insertDocument', 'before', $obj);
-		if(!$output->toBool()) return $output;
-		// Register it if no given document_srl exists
-		if(!$obj->document_srl) $obj->document_srl = getNextSequence();
-		elseif(!$manual_inserted && !$isRestore && !checkUserSequence($obj->document_srl)) return new Object(-1, 'msg_not_permitted');
+		if(!$output->toBool())
+		{
+			return $output;
+		}
 
-		$oDocumentModel = getModel('document');
+		// Register it if no given document_srl exists
+		if(!$obj->document_srl)
+		{
+			$obj->document_srl = getNextSequence();
+		}
+		elseif(!$manual_inserted && !$isRestore && !checkUserSequence($obj->document_srl))
+		{
+			return new Object(-1, 'msg_not_permitted');
+		}
+
 		// Set to 0 if the category_srl doesn't exist
+		$oDocumentModel = getModel('document');
 		if($obj->category_srl)
 		{
 			$category_list = $oDocumentModel->getCategoryList($obj->module_srl);
@@ -420,15 +434,18 @@ class documentController extends document
 			}
 			if(count($category_list) > 0 && !$category_list[$obj->category_srl]) $obj->category_srl = 0;
 		}
+
 		// Set the read counts and update order.
 		if(!$obj->readed_count) $obj->readed_count = 0;
 		if($isLatest) $obj->update_order = $obj->list_order = $obj->document_srl * -1;
 		else $obj->update_order = $obj->list_order;
+
 		// Check the status of password hash for manually inserting. Apply hashing for otherwise.
 		if($obj->password && !$obj->password_is_hashed)
 		{
 			$obj->password = getModel('member')->hashPassword($obj->password);
 		}
+
 		// Insert member's information only if the member is logged-in and not manually registered.
 		$logged_info = Context::get('logged_info');
 		if(Context::get('is_logged') && !$manual_inserted && !$isRestore && !$obj->manual_member_info)
@@ -442,19 +459,27 @@ class documentController extends document
 			$obj->email_address = $logged_info->email_address;
 			$obj->homepage = $logged_info->homepage;
 		}
+
 		// If the tile is empty, extract string from the contents.
-		$obj->title = htmlspecialchars($obj->title, ENT_COMPAT | ENT_HTML401, 'UTF-8', false);
-		settype($obj->title, "string");
-		if($obj->title == '') $obj->title = cut_str(trim(strip_tags(nl2br($obj->content))),20,'...');
-		// If no tile extracted from the contents, leave it untitled.
-		if($obj->title == '') $obj->title = 'Untitled';
+		$obj->title = escape($obj->title, false);
+		if($obj->title == '')
+		{
+			$obj->title = cut_str(trim(strip_tags(nl2br($obj->content))),20,'...');
+		}
+		if($obj->title == '')
+		{
+			$obj->title = 'Untitled';
+		}
+
 		// Remove XE's own tags from the contents.
 		$obj->content = preg_replace('!<\!--(Before|After)(Document|Comment)\(([0-9]+),([0-9]+)\)-->!is', '', $obj->content);
+
 		// Return error if content is empty.
 		if (!$manual_inserted && is_empty_html_content($obj->content))
 		{
 			return new Object(-1, 'msg_empty_content');
 		}
+
 		// if use editor of nohtml, Remove HTML tags from the contents.
 		if(!$manual_inserted)
 		{
@@ -463,6 +488,7 @@ class documentController extends document
 		
 		// Remove iframe and script if not a top adminisrator in the session.
 		if($logged_info->is_admin != 'Y') $obj->content = removeHackTag($obj->content);
+
 		// An error appears if both log-in info and user name don't exist.
 		if(!$logged_info->member_srl && !$obj->nick_name) return new Object(-1,'msg_invalid_request');
 
@@ -479,6 +505,7 @@ class documentController extends document
 			$oDB->rollback();
 			return $output;
 		}
+
 		// Insert extra variables if the document successfully inserted.
 		$extra_vars = array();
 		$extra_keys = $oDocumentModel->getExtraKeys($obj->module_srl);
@@ -575,10 +602,15 @@ class documentController extends document
 			$this->_checkDocumentStatusForOldVersion($obj);
 		}
 		
-		// Call a trigger (before)
+		// Remove manual member info to prevent forgery. This variable can be set by triggers only.
 		unset($obj->manual_member_info);
+		
+		// Call a trigger (before)
 		$output = ModuleHandler::triggerCall('document.updateDocument', 'before', $obj);
-		if(!$output->toBool()) return $output;
+		if(!$output->toBool())
+		{
+			return $output;
+		}
 
 		// begin transaction
 		$oDB = &DB::getInstance();
@@ -612,6 +644,7 @@ class documentController extends document
 		{
 			$obj->ipaddress = $source_obj->get('ipaddress');
 		}
+
 		// List variables
 		if($obj->comment_status) $obj->commentStatus = $obj->comment_status;
 		if(!$obj->commentStatus) $obj->commentStatus = 'DENY';
@@ -637,21 +670,24 @@ class documentController extends document
 		
 		// Serialize the $extra_vars
 		if(!is_string($obj->extra_vars)) $obj->extra_vars = serialize($obj->extra_vars);
+
 		// Remove the columns for automatic saving
 		unset($obj->_saved_doc_srl);
 		unset($obj->_saved_doc_title);
 		unset($obj->_saved_doc_content);
 		unset($obj->_saved_doc_message);
 
-		$oDocumentModel = getModel('document');
 		// Set the category_srl to 0 if the changed category is not exsiting.
+		$oDocumentModel = getModel('document');
 		if($source_obj->get('category_srl')!=$obj->category_srl)
 		{
 			$category_list = $oDocumentModel->getCategoryList($obj->module_srl);
 			if(!$category_list[$obj->category_srl]) $obj->category_srl = 0;
 		}
+
 		// Change the update order
 		$obj->update_order = getNextSequence() * -1;
+
 		// Hash the password if it exists
 		if($obj->password)
 		{
@@ -681,19 +717,27 @@ class documentController extends document
 			$obj->email_address = $source_obj->get('email_address');
 			$obj->homepage = $source_obj->get('homepage');
 		}
+
 		// If the tile is empty, extract string from the contents.
-		$obj->title = htmlspecialchars($obj->title, ENT_COMPAT | ENT_HTML401, 'UTF-8', false);
-		settype($obj->title, "string");
-		if($obj->title == '') $obj->title = cut_str(strip_tags($obj->content),20,'...');
-		// If no tile extracted from the contents, leave it untitled.
-		if($obj->title == '') $obj->title = 'Untitled';
+		$obj->title = escape($obj->title, false);
+		if($obj->title == '')
+		{
+			$obj->title = cut_str(strip_tags($obj->content),20,'...');
+		}
+		if($obj->title == '')
+		{
+			$obj->title = 'Untitled';
+		}
+
 		// Remove XE's own tags from the contents.
 		$obj->content = preg_replace('!<\!--(Before|After)(Document|Comment)\(([0-9]+),([0-9]+)\)-->!is', '', $obj->content);
+
 		// Return error if content is empty.
 		if (!$manual_inserted && is_empty_html_content($obj->content))
 		{
 			return new Object(-1, 'msg_empty_content');
 		}
+
 		// if use editor of nohtml, Remove HTML tags from the contents.
 		if(!$manual_updated)
 		{
@@ -724,11 +768,13 @@ class documentController extends document
 				$obj->content = $document_output->data->content;
 			}
 		}
+
 		// Remove iframe and script if not a top adminisrator in the session.
 		if($logged_info->is_admin != 'Y')
 		{
 			$obj->content = removeHackTag($obj->content);
 		}
+
 		// if temporary document, regdate is now setting
 		if($source_obj->get('status') == $this->getConfigStatus('temp')) $obj->regdate = date('YmdHis');
 
@@ -770,6 +816,7 @@ class documentController extends document
 					$this->insertDocumentExtraVar($obj->module_srl, $obj->document_srl, $idx, $value, $extra_item->eid);
 				}
 			}
+
 			// Inert extra vars for multi-language support of title and contents.
 			if($extra_content->title) $this->insertDocumentExtraVar($obj->module_srl, $obj->document_srl, -1, $extra_content->title, 'title_'.Context::getLangType());
 			if($extra_content->content) $this->insertDocumentExtraVar($obj->module_srl, $obj->document_srl, -2, $extra_content->content, 'content_'.Context::getLangType());
@@ -801,6 +848,7 @@ class documentController extends document
 
 		// commit
 		$oDB->commit();
+
 		// Remove the thumbnail file
 		FileHandler::removeDir(sprintf('files/thumbnails/%s',getNumberingPath($obj->document_srl, 3)));
 
