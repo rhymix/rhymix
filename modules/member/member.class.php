@@ -218,6 +218,10 @@ class member extends ModuleObject {
 		{
 			if($signupItem->name === 'find_account_question') return true;
 		}
+		if(!$config->agreements)
+		{
+			return true;
+		}
 
 		if($config->skin)
 		{
@@ -355,6 +359,13 @@ class member extends ModuleObject {
 				$output = $oModuleController->updateModuleConfig('member', $config);
 				break;
 			}
+		}
+		if(!$config->agreements)
+		{
+			$config = memberModel::getMemberConfig();
+			$config->identifier = $config->identifier ?: 'user_id';
+			$config->signupForm = $oMemberAdminController->createSignupForm($config->identifier);
+			$output = $oModuleController->updateModuleConfig('member', $config);
 		}
 
 		if($config->skin)
