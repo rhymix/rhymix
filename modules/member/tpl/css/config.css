@@ -1,0 +1,9 @@
+.agreement_iframe {
+	display: inline-block;
+	width: 100%;
+	box-sizing: border-box;
+	margin-bottom: -4px;
+	padding: 0;
+	border: 0;
+	height: 440px;
+}

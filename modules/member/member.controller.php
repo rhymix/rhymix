@@ -583,8 +583,16 @@ class memberController extends member
 		if(!$trigger_output->toBool ()) return $trigger_output;
 		// Check if an administrator allows a membership
 		if($config->enable_join != 'Y') return $this->stop ('msg_signup_disabled');
+
 		// Check if the user accept the license terms (only if terms exist)
-		if($config->agreement && Context::get('accept_agreement')!='Y') return $this->stop('msg_accept_agreement');
+		$accept_agreement = Context::get('accept_agreement');
+		foreach($config->agreements as $i => $agreement)
+		{
+			if($agreement->type === 'required' && $accept_agreement !== 'Y' && $accept_agreement[$i] !== 'Y')
+			{
+				return $this->stop('msg_accept_agreement');
+			}
+		}
 
 		// Extract the necessary information in advance
 		$getVars = array();

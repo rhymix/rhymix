@@ -244,6 +244,41 @@ class memberAdminController extends member
 		$returnUrl = Context::get('success_return_url') ? Context::get('success_return_url') : getNotEncodedUrl('', 'module', 'admin', 'act', 'dispMemberAdminFeaturesConfig');
 		$this->setRedirectUrl($returnUrl);
 	}
+
+	public function procMemberAdminInsertAgreementsConfig()
+	{
+		$config = new stdClass;
+		$config->agreements = array();
+		
+		$args = Context::getRequestVars();
+		for ($i = 1; $i < 20; $i++)
+		{
+			if (isset($args->{'agreement_' . $i . '_type'}))
+			{
+				$agreement = new stdClass;
+				$agreement->title = escape(utf8_trim($args->{'agreement_' . $i . '_title'}));
+				$agreement->content = $args->{'agreement_' . $i . '_content'};
+				$agreement->type = $args->{'agreement_' . $i . '_type'};
+				if (!in_array($agreement->type, array('required', 'optional', 'disabled')))
+				{
+					$agreement->type = 'disabled';
+				}
+				$config->agreements[$i] = $agreement;
+			}
+		}
+		
+		// for compatibility with older versions
+		$config->agreement = $config->agreements[1]->content;
+		
+		$oModuleController = getController('module');
+		$output = $oModuleController->updateModuleConfig('member', $config);
+
+		// default setting end
+		$this->setMessage('success_updated');
+
+		$returnUrl = Context::get('success_return_url') ? Context::get('success_return_url') : getNotEncodedUrl('', 'module', 'admin', 'act', 'dispMemberAdminAgreementsConfig');
+		$this->setRedirectUrl($returnUrl);
+	}
 	
 	public function procMemberAdminInsertSignupConfig()
 	{
@@ -254,7 +289,6 @@ class memberAdminController extends member
 			'limit_day',
 			'limit_day_description',
 			'emailhost_check',
-			'agreement',
 			'redirect_url',
 			'profile_image', 'profile_image_max_width', 'profile_image_max_height',
 			'image_name', 'image_name_max_width', 'image_name_max_height',
@@ -268,12 +302,6 @@ class memberAdminController extends member
 
 		$args->limit_day = (int)$args->limit_day;
 		if($args->emailhost_check != 'allowed' && $args->emailhost_check != 'prohibited') $args->emailhost_check == 'allowed';
-		if(!trim(strip_tags($args->agreement)))
-		{
-			$agreement_file = _XE_PATH_.'files/member_extra_info/agreement_' . Context::get('lang_type') . '.txt';
-			FileHandler::removeFile($agreement_file);
-			$args->agreement = NULL;
-		}
 
 		if($args->redirect_url)
 		{
@@ -353,17 +381,8 @@ class memberAdminController extends member
 		$args->signupForm = $signupForm;
 
 		// create Ruleset
-		$this->_createSignupRuleset($signupForm, $args->agreement);
+		$this->_createSignupRuleset($signupForm);
 		$this->_createLoginRuleset($args->identifier);
-
-		// check agreement value exist
-		if($args->agreement)
-		{
-			$agreement_file = _XE_PATH_.'files/member_extra_info/agreement_' . Context::get('lang_type') . '.txt';
-			$output = FileHandler::writeFile($agreement_file, $args->agreement);
-
-			unset($args->agreement);
-		}
 
 		$output = $oModuleController->updateModuleConfig('member', $args);
 
@@ -517,10 +536,9 @@ class memberAdminController extends member
 	/**
 	 * Create ruleset file of signup
 	 * @param object $signupForm (user define signup form)
-	 * @param string $agreement
 	 * @return void
 	 */
-	function _createSignupRuleset($signupForm, $agreement = null){
+	function _createSignupRuleset($signupForm){
 		$xml_file = './files/ruleset/insertMember.xml';
 		$buff = '<?xml version="1.0" encoding="utf-8"?>' . PHP_EOL.
 			'<ruleset version="1.5.0">' . PHP_EOL.
@@ -531,10 +549,6 @@ class memberAdminController extends member
 
 		$fields = array();
 
-		if ($agreement)
-		{
-			$fields[] = '<field name="accept_agreement"><if test="$act == \'procMemberInsert\'" attr="required" value="true" /></field>';
-		}
 		foreach($signupForm as $formInfo)
 		{
 			if($formInfo->required || $formInfo->mustRequired)

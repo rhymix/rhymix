@@ -16,13 +16,18 @@
 		<input type="hidden" name="act" value="procMemberInsert" />
 		<input type="hidden" name="xe_validator_id" value="modules/member/skins" />
 		<input type="hidden" name="success_return_url" value="{getUrl('act','dispMemberInfo')}" />
-		<div class="agreement" cond="$member_config->agreement">
+		<div class="agreement" loop="$member_config->agreements => $i, $agreement" cond="$agreement->type !== 'disabled'">
+			<div class="title">
+				{$agreement->title}
+				<block cond="$agreement->type === 'required'">({$lang->cmd_required})</block>
+				<block cond="$agreement->type === 'optional'">({$lang->cmd_optional})</block>
+			</div>
 			<div class="text">
-				{$member_config->agreement}
+				{$agreement->content}
 			</div>
 			<div class="confirm">
-				<label for="accept_agree">
-					<input type="checkbox" name="accept_agreement" value="Y" id="accept_agree" />
+				<label for="accept_agreement_{$i}">
+					<input type="checkbox" name="accept_agreement[{$i}]" value="Y" id="accept_agreement_{$i}" />
 					{$lang->about_accept_agreement}
 				</label>
 			</div>

@@ -8,6 +8,11 @@ $(function() {
 	
 	"use strict";
 	
+	// Disable debug panel?
+	if ($('body').hasClass("disable_debug_panel")) {
+		return;
+	}
+	
 	// Find debug panel elements.
 	var panel = $("#rhymix_debug_panel");
 	var button = $("#rhymix_debug_button").show();

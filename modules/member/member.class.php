@@ -213,12 +213,10 @@ class member extends ModuleObject {
 		$oModuleModel = getModel('module');
 		$config = $oModuleModel->getModuleConfig('member');
 		// check signup form ordering info
-		if(!$config->signupForm) return true;
-
-		// check agreement field exist
-		if($config->agreement && $config->agreement !== memberModel::_getAgreement())
+		if(!$config->signupForm || !is_array($config->signupForm)) return true;
+		foreach($config->signupForm as $signupItem)
 		{
-			return true;
+			if($signupItem->name === 'find_account_question') return true;
 		}
 
 		if($config->skin)
@@ -340,23 +338,23 @@ class member extends ModuleObject {
 		$config = $oModuleModel->getModuleConfig('member');
 		$oModuleController = getController('module');
 
-		// check agreement value exist
-		if($config->agreement && $config->agreement !== memberModel::_getAgreement())
-		{
-			$agreement_file = _XE_PATH_.'files/member_extra_info/agreement_' . Context::get('lang_type') . '.txt';
-			$output = FileHandler::writeFile($agreement_file, $config->agreement);
-			$config->agreement = NULL;
-			$output = $oModuleController->updateModuleConfig('member', $config);
-		}
-
 		$oMemberAdminController = getAdminController('member');
 		// check signup form ordering info
 		if(!$config->signupForm || !is_array($config->signupForm))
 		{
-			$identifier = 'user_id';
-			$config->signupForm = $oMemberAdminController->createSignupForm($identifier);
-			$config->identifier = $identifier;
+			$config->identifier = 'user_id';
+			$config->signupForm = $oMemberAdminController->createSignupForm($config->identifier);
 			$output = $oModuleController->updateModuleConfig('member', $config);
+		}
+		foreach($config->signupForm as $signupItem)
+		{
+			if($signupItem->name === 'find_account_question')
+			{
+				$config->identifier = $config->identifier ?: 'user_id';
+				$config->signupForm = $oMemberAdminController->createSignupForm($config->identifier);
+				$output = $oModuleController->updateModuleConfig('member', $config);
+				break;
+			}
 		}
 
 		if($config->skin)

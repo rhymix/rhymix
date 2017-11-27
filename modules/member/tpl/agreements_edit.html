@@ -1,0 +1,28 @@
+<script>
+	$(function() {
+		var editor;
+		var parent = window.opener ? window.opener : window.parent;
+		CKEDITOR.on('instanceReady', function(evt) {
+			editor = evt.editor;
+			editor.on("resize", function(evt){
+				var height = evt.data.outerHeight;
+				$("#agreement_{$agreement_id}_iframe", parent.document).height(height);
+			});
+			editor.on("change", function() {
+				var content = editor.getData();
+				$("#agreement_{$agreement_id}_content", parent.document).val(content);
+			});
+			$("#agreement_{$agreement_id}_iframe", parent.document).height($(".cke_chrome").first().parent().height());
+		});
+	});
+</script>
+
+<style>
+	body { margin: 0; }
+</style>
+
+<form>
+	<input type="hidden" name="agreement_id" id="agreement_id" value="{$agreement_id}" />
+	<input type="hidden" name="agreement_content" id="agreement_content" value="{escape($agreement_content)}" />
+	{$editor}
+</form>
