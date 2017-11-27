@@ -6,7 +6,7 @@
  * @author NAVER (developers@xpressengine.com)
  * base class of ModuleHandler
  * */
-class ModuleObject extends Object
+class ModuleObject extends BaseObject
 {
 
 	var $mid = NULL; ///< string to represent run-time instance of Module (XE Module)
@@ -561,7 +561,7 @@ class ModuleObject extends Object
 		}
 
 		// check return value of action
-		if($output instanceof Object)
+		if($output instanceof BaseObject)
 		{
 			$this->setError($output->getError());
 			$this->setMessage($output->getMessage());
@@ -587,11 +587,11 @@ class ModuleObject extends Object
 		$addon_file = $oAddonController->getCacheFilePath($is_mobile ? "mobile" : "pc");
 		if(FileHandler::exists($addon_file)) include($addon_file);
 
-		if($original_output instanceof Object && !$original_output->toBool())
+		if($original_output instanceof BaseObject && !$original_output->toBool())
 		{
 			return FALSE;
 		}
-		elseif($output instanceof Object && $output->getError())
+		elseif($output instanceof BaseObject && $output->getError())
 		{
 			$this->setError($output->getError());
 			$this->setMessage($output->getMessage());

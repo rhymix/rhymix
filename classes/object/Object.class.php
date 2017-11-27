@@ -2,11 +2,11 @@
 /* Copyright (C) NAVER <http://www.navercorp.com> */
 
 /**
- * Every modules inherits from Object class. It includes error, message, and other variables for communicatin purpose.
+ * Every module inherits from BaseObject class.
  *
  * @author NAVER (developers@xpressengine.com)
  */
-class Object
+class BaseObject
 {
 
 	/**
@@ -180,18 +180,18 @@ class Object
 	/**
 	 * Method to set multiple key/value pairs as an additional variables
 	 *
-	 * @param Object|array $object Either object or array containg key/value pairs to be added
+	 * @param object|array $vars Either object or array containg key/value pairs to be added
 	 * @return $this
 	 */
-	function adds($object)
+	function adds($vars)
 	{
-		if(is_object($object))
+		if(is_object($vars))
 		{
-			$object = get_object_vars($object);
+			$vars = get_object_vars($vars);
 		}
-		if(is_array($object))
+		if(is_array($vars))
 		{
-			foreach($object as $key => $val)
+			foreach($vars as $key => $val)
 			{
 				$this->variables[$key] = $val;
 			}
@@ -213,7 +213,7 @@ class Object
 	/**
 	 * Method to retrieve an object containing a key/value pairs
 	 *
-	 * @return Object Returns an object containing key/value pairs
+	 * @return object Returns an object containing key/value pairs
 	 */
 	function gets()
 	{
@@ -239,7 +239,7 @@ class Object
 	/**
 	 * Method to retrieve an object of key/value pairs
 	 *
-	 * @return Object
+	 * @return object
 	 */
 	function getObjectVars()
 	{
@@ -271,7 +271,15 @@ class Object
 	{
 		return $this->toBool();
 	}
-
 }
+
+/**
+ * Alias to Object for backward compatibility.
+ */
+if (version_compare(PHP_VERSION, '7.2', '<'))
+{
+	class_alias('BaseObject', 'Object');
+}
+
 /* End of file Object.class.php */
 /* Location: ./classes/object/Object.class.php */

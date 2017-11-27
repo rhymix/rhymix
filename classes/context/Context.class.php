@@ -1904,7 +1904,7 @@ class Context
 	/**
 	 * Return values from the GET/POST/XMLRPC
 	 *
-	 * @return Object Request variables.
+	 * @return object Request variables.
 	 */
 	public static function getRequestVars()
 	{

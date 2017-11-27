@@ -6,7 +6,7 @@
  *
  * @author NAVER (developers@xpressengine.com)
  */
-class FileObject extends Object
+class FileObject extends BaseObject
 {
 
 	/**
@@ -50,7 +50,7 @@ class FileObject extends Object
 	 */
 	function append($file_name)
 	{
-		$target = new FileObject($file_name, "r");
+		$target = new self($file_name, "r");
 		while(!$target->feof())
 		{
 			$readstr = $target->read();

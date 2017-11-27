@@ -68,7 +68,7 @@ class DisplayHandler extends Handler
 		$oAddonController = getController('addon');
 		$addon_file = $oAddonController->getCacheFilePath(Mobile::isFromMobilePhone() ? "mobile" : "pc");
 		if(file_exists($addon_file)) include($addon_file);
-		if($output === false || $output === null || $output instanceof Object)
+		if($output === false || $output === null || $output instanceof BaseObject)
 		{
 			$output = $original_output;
 		}
