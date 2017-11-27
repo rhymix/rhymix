@@ -134,25 +134,32 @@ class moduleController extends module
 	 * @brief Add module extend
 	 *
 	 */
-	function insertModuleExtend($parent_module, $extend_module, $type, $kind='')
+	function insertModuleExtend($parent_module, $extend_module, $type, $kind = '')
 	{
-		if($kind != 'admin') $kind = '';
-		if(!in_array($type,array('model','controller','view','api','mobile'))) return false;
-		if(in_array($parent_module, array('module','addon','widget','layout'))) return false;
-
-		$cache_file = './files/cache/common/module_extend.php';
-		FileHandler::removeFile($cache_file);
-
+		if(!in_array($type, array('model', 'controller', 'view', 'api', 'mobile')))
+		{
+			return false;
+		}
+		
+		if(in_array($parent_module, array('module', 'addon', 'widget', 'layout')))
+		{
+			return false;
+		}
+		
 		$args = new stdClass;
 		$args->parent_module = $parent_module;
 		$args->extend_module = $extend_module;
 		$args->type = $type;
-		$args->kind = $kind;
-
-		$output = executeQuery('module.getModuleExtendCount', $args);
-		if($output->data->count>0) return false;
-
+		$args->kind = $kind == 'admin' ? 'admin' : '';
+		
 		$output = executeQuery('module.insertModuleExtend', $args);
+		if($output->toBool())
+		{
+			//remove from cache
+			unset($GLOBALS['__MODULE_EXTEND__']);
+			FileHandler::removeFile('files/cache/common/module_extend.php');
+		}
+		
 		return $output;
 	}
 
