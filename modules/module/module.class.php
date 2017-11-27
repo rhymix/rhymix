@@ -105,6 +105,13 @@ class module extends ModuleObject
 		$oModuleModel = getModel('module');
 		$moduleConfig = $oModuleModel->getModuleConfig('module');
 		if(!$moduleConfig->isUpdateFixedValue) return true;
+
+		// check module_config data type
+		$column_info = $oDB->getColumnInfo('module_config', 'config');
+		if($column_info->xetype !== 'bigtext')
+		{
+			return true;
+		}
 	}
 
 	/**
@@ -378,6 +385,13 @@ class module extends ModuleObject
 			if(!$moduleConfig) $moduleConfig = new stdClass;
 			$moduleConfig->isUpdateFixedValue = TRUE;
 			$output = $oModuleController->updateModuleConfig('module', $moduleConfig);
+		}
+
+		// check module_config data type
+		$column_info = $oDB->getColumnInfo('module_config', 'config');
+		if($column_info->xetype !== 'bigtext')
+		{
+			$oDB->modifyColumn('module_config', 'config', 'bigtext');
 		}
 		
 		return new Object(0, 'success_updated');

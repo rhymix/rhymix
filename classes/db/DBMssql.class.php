@@ -32,8 +32,8 @@ class DBMssql extends DB
 		'number' => 'int',
 		'varchar' => 'nvarchar',
 		'char' => 'nchar',
-		'text' => 'ntext',
 		'bigtext' => 'ntext',
+		'text' => 'ntext',
 		'date' => 'nvarchar(14)',
 		'float' => 'float',
 	);

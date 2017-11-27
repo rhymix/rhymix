@@ -39,8 +39,8 @@ class DBCubrid extends DB
 		'varchar' => 'character varying',
 		'char' => 'character',
 		'tinytext' => 'character varying(256)',
-		'text' => 'character varying(1073741823)',
 		'bigtext' => 'character varying(1073741823)',
+		'text' => 'character varying(1073741823)',
 		'date' => 'character varying(14)',
 		'float' => 'float',
 	);
