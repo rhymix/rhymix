@@ -91,43 +91,6 @@ class ModuleObject extends Object
 	}
 
 	/**
-	 * set message
-	 * @param string $message a message string
-	 * @param string $type type of message (error, info, update)
-	 * @return void
-	 * */
-	function setMessage($message = 'success', $type = NULL)
-	{
-		parent::setMessage($message);
-		$this->setMessageType($type);
-	}
-
-	/**
-	 * set type of message
-	 * @param string $type type of message (error, info, update)
-	 * @return void
-	 * */
-	function setMessageType($type)
-	{
-		$this->add('message_type', $type);
-	}
-
-	/**
-	 * get type of message
-	 * @return string $type
-	 * */
-	function getMessageType()
-	{
-		$type = $this->get('message_type');
-		$typeList = array('error' => 1, 'info' => 1, 'update' => 1);
-		if(!isset($typeList[$type]))
-		{
-			$type = $this->getError() ? 'error' : 'info';
-		}
-		return $type;
-	}
-
-	/**
 	 * Set the template path for refresh.html
 	 * refresh.html is executed as a result of method execution
 	 * Tpl as the common run of the refresh.html ..

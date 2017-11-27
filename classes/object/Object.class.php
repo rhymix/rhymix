@@ -47,14 +47,36 @@ class Object
 	}
 
 	/**
-	 * Setter to set error code
+	 * Setter to set error code or message
 	 *
-	 * @param int $error error code
-	 * @return void
+	 * @param int|strong $error error code or message
+	 * @return $this
 	 */
 	function setError($error = 0)
 	{
-		$this->error = $error;
+		// If the first argument is an integer, treat it as an error code. Otherwise, treat it as an error message.
+		$args = func_get_args();
+		if(strval(intval($error)) === strval($error))
+		{
+			$this->error = intval($error);
+			array_shift($args);
+		}
+		else
+		{
+			$this->error = -1;
+		}
+		
+		// Convert the error message into the correct language and interpolate any other variables into it.
+		if(count($args))
+		{
+			$this->message = lang(array_shift($args));
+			if(count($args))
+			{
+				$this->message = vsprintf($this->message, $args);
+			}
+		}
+		
+		return $this;
 	}
 
 	/**
@@ -71,11 +93,12 @@ class Object
 	 * Setter to set HTTP status code
 	 *
 	 * @param int $code HTTP status code. Default value is `200` that means successful
-	 * @return void
+	 * @return $this
 	 */
 	function setHttpStatusCode($code = 200)
 	{
 		$this->httpStatusCode = (int) $code;
+		return $this;
 	}
 
 	/**
@@ -92,21 +115,17 @@ class Object
 	 * Setter to set set the error message
 	 *
 	 * @param string $message Error message
-	 * @return bool Alaways returns true.
+	 * @param string $type type of message (error, info, update)
+	 * @return $this
 	 */
-	function setMessage($message = 'success', $type = NULL)
+	function setMessage($message = 'success', $type = null)
 	{
-		if($str = lang($message))
+		$this->message = lang($message);
+		if($type !== null)
 		{
-			$this->message = $str;
+			$this->setMessageType($type);
 		}
-		else
-		{
-			$this->message = $message;
-		}
-
-		// TODO This method always returns True. We'd better remove it
-		return TRUE;
+		return $this;
 	}
 
 	/**
@@ -120,22 +139,49 @@ class Object
 	}
 
 	/**
+	 * set type of message
+	 * @param string $type type of message (error, info, update)
+	 * @return $this
+	 * */
+	function setMessageType($type)
+	{
+		$this->add('message_type', $type);
+		return $this;
+	}
+
+	/**
+	 * get type of message
+	 * @return string $type
+	 * */
+	function getMessageType()
+	{
+		$type = $this->get('message_type');
+		$typeList = array('error' => 1, 'info' => 1, 'update' => 1);
+		if(!isset($typeList[$type]))
+		{
+			$type = $this->getError() ? 'error' : 'info';
+		}
+		return $type;
+	}
+
+	/**
 	 * Setter to set a key/value pair as an additional variable
 	 *
 	 * @param string $key A variable name
 	 * @param mixed $val A value for the variable
-	 * @return void
+	 * @return $this
 	 */
 	function add($key, $val)
 	{
 		$this->variables[$key] = $val;
+		return $this;
 	}
 
 	/**
 	 * Method to set multiple key/value pairs as an additional variables
 	 *
 	 * @param Object|array $object Either object or array containg key/value pairs to be added
-	 * @return void
+	 * @return $this
 	 */
 	function adds($object)
 	{
@@ -143,7 +189,6 @@ class Object
 		{
 			$object = get_object_vars($object);
 		}
-
 		if(is_array($object))
 		{
 			foreach($object as $key => $val)
@@ -151,6 +196,7 @@ class Object
 				$this->variables[$key] = $val;
 			}
 		}
+		return $this;
 	}
 
 	/**
