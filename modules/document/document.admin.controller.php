@@ -511,10 +511,11 @@ class documentAdminController extends document
 	 */
 	function procDocumentAdminDeleteAllThumbnail()
 	{
-		// delete all of thumbnail_ *. jpg files from files/attaches/images/ directory (prior versions to 1.0.4)
-		$this->deleteThumbnailFile('./files/attach/images');
-		// delete a directory itself, files/thumbnails (thumbnail policies have changed since version 1.0.5)
-		FileHandler::removeFilesInDir('./files/thumbnails');
+		$temp_cache_dir = './files/thumbnails_' . $_SERVER['REQUEST_TIME'];
+		FileHandler::rename('./files/thumbnails', $temp_cache_dir);
+		FileHandler::makeDir('./files/thumbnails');
+
+		FileHandler::removeDir($temp_cache_dir);
 
 		$this->setMessage('success_deleted');
 	}
