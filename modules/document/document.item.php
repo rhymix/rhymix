@@ -1204,6 +1204,10 @@ class documentItem extends Object
 		{
 			$iconSkin = $documentConfig->icons;
 		}
+		if($iconSkin == null)
+		{
+			$iconSkin = 'default';
+		}
 		$path = sprintf('%s%s',getUrl(), "modules/document/tpl/icons/$iconSkin/");
 
 		$buffs = $this->getExtraImages($time_check);
