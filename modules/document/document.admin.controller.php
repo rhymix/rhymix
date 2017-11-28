@@ -471,10 +471,18 @@ class documentAdminController extends document
 		$oDocumentModel = getModel('document');
 		$config = $oDocumentModel->getDocumentConfig();
 		$config->view_count_option = Context::get('view_count_option');
+		$config->icons = Context::get('icons');
+		$config->micons = Context::get('micons');
 
 		// Insert by creating the module Controller object
 		$oModuleController = getController('module');
 		$output = $oModuleController->insertModuleConfig('document',$config);
+		if(!$output->toBool())
+		{
+			return $output;
+		}
+
+		$this->setMessage('success_updated');
 
 		$returnUrl = Context::get('success_return_url') ? Context::get('success_return_url') : getNotEncodedUrl('', 'module', 'admin', 'act', 'dispDocumentAdminConfig');
 		return $this->setRedirectUrl($returnUrl, $output);

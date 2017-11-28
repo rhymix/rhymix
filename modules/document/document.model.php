@@ -10,6 +10,8 @@
  */
 class documentModel extends document
 {
+	private $documentConfig = NULL;
+
 	/**
 	 * Initialization
 	 * @return void
@@ -935,15 +937,18 @@ class documentModel extends document
 	 */
 	function getDocumentConfig()
 	{
-		if(!$GLOBALS['__document_config__'])
+		if ($this->documentConfig === NULL)
 		{
 			$oModuleModel = getModel('module');
 			$config = $oModuleModel->getModuleConfig('document');
 
-			if(!$config) $config = new stdClass();
-			$GLOBALS['__document_config__'] = $config;
+			if (!$config)
+			{
+				$config = new stdClass();
+			}
+			$this->documentConfig = $config;
 		}
-		return $GLOBALS['__document_config__'];
+		return $this->documentConfig;
 	}
 
 	/**
@@ -1609,6 +1614,22 @@ class documentModel extends document
 		}
 
 		return false;
+	}
+
+	function getDocumentExtraImagePath()
+	{
+		$documentConfig = getModel('document')->getDocumentConfig();
+		if(Mobile::isFromMobilePhone())
+		{
+			$iconSkin = $documentConfig->micons;
+		}
+		else
+		{
+			$iconSkin = $documentConfig->icons;
+		}
+		$path = sprintf('%s%s',getUrl(), "modules/document/tpl/icons/$iconSkin/");
+
+		return $path;
 	}
 }
 /* End of file document.model.php */
