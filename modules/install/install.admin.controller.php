@@ -39,7 +39,7 @@ class installAdminController extends install
 
 		$oModule = getModule($module_name, 'class');
 		if($oModule) $output = $oModule->moduleUpdate();
-		else $output = new Object(-1, 'invalid_request');
+		else $output = new BaseObject(-1, 'invalid_request');
 
 		return $output;
 	}

@@ -80,7 +80,7 @@ class documentController extends document
 			return $output;
 		}
 
-		$output = new Object();
+		$output = new BaseObject();
 		$output->setMessage('success_voted_canceled');
 		return $output;
 	}
@@ -166,7 +166,7 @@ class documentController extends document
 			return $output;
 		}
 
-		$output = new Object();
+		$output = new BaseObject();
 		$output->setMessage('success_blamed_canceled');
 		return $output;
 	}
@@ -1482,7 +1482,7 @@ class documentController extends document
 		Rhymix\Framework\Cache::delete('document_item:' . getNumberingPath($document_srl) . $document_srl);
 
 		// Return result
-		$output = new Object();
+		$output = new BaseObject();
 		if($point > 0)
 		{
 			$output->setMessage('success_voted');

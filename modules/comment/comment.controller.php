@@ -75,7 +75,7 @@ class commentController extends comment
 		$point = 1;
 		$output = $this->updateVotedCountCancel($comment_srl, $oComment, $point);
 
-		$output = new Object();
+		$output = new BaseObject();
 		$output->setMessage('success_voted_canceled');
 
 		return $output;
@@ -136,7 +136,7 @@ class commentController extends comment
 		$point = -1;
 		$output = $this->updateVotedCountCancel($comment_srl, $oComment, $point);
 
-		$output = new Object();
+		$output = new BaseObject();
 		$output->setMessage('success_blamed_canceled');
 
 		return $output;
@@ -1437,7 +1437,7 @@ class commentController extends comment
 		$oDB->commit();
 
 		// Return the result
-		$output = new Object(0, $success_message);
+		$output = new BaseObject(0, $success_message);
 		if($point > 0)
 		{
 			$output->add('voted_count', $obj->after_point);

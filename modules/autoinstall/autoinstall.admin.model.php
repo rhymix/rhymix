@@ -389,7 +389,7 @@ class autoinstallAdminModel extends autoinstall
 
 		if($directModuleInstall==FALSE)
 		{
-			$output = new Object(-1, 'msg_direct_inall_invalid');
+			$output = new BaseObject(-1, 'msg_direct_inall_invalid');
 			$output->add('path', $arrUnwritableDir);
 			return $output;
 		}
@@ -414,7 +414,7 @@ class autoinstallAdminModel extends autoinstall
 
 		if(FileHandler::isWritableDir($check_path)==FALSE)
 		{
-			$output = new Object(-1, 'msg_unwritable_directory');
+			$output = new BaseObject(-1, 'msg_unwritable_directory');
 			$output->add('path', FileHandler::getRealPath($check_path));
 			return $output;
 		}

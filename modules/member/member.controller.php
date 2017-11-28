@@ -62,7 +62,7 @@ class memberController extends member
 			if($member_info->change_password_date < date ('YmdHis', strtotime ('-' . $limit_date . ' day')))
 			{
 				$msg = sprintf(lang('msg_change_password_date'), $limit_date);
-				return $this->setRedirectUrl(getNotEncodedUrl('','vid',Context::get('vid'),'mid',Context::get('mid'),'act','dispMemberModifyPassword'), new Object(-1, $msg));
+				return $this->setRedirectUrl(getNotEncodedUrl('','vid',Context::get('vid'),'mid',Context::get('mid'),'act','dispMemberModifyPassword'), new BaseObject(-1, $msg));
 			}
 		}
 
@@ -101,7 +101,7 @@ class memberController extends member
 		// Call a trigger after log-out (after)
 		ModuleHandler::triggerCall('member.doLogout', 'after', $logged_info);
 
-		$output = new Object();
+		$output = new BaseObject();
 
 		$oModuleModel = getModel('module');
 		$config = $oModuleModel->getModuleConfig('member');
@@ -745,7 +745,7 @@ class memberController extends member
 		{
 			$msg = sprintf(lang('msg_confirm_mail_sent'), $args->email_address);
 			$this->setMessage($msg);
-			return $this->setRedirectUrl(getUrl('', 'act', 'dispMemberLoginForm'), new Object(-12, $msg));
+			return $this->setRedirectUrl(getUrl('', 'act', 'dispMemberLoginForm'), new BaseObject(-12, $msg));
 		}
 		else $this->setMessage('success_registed');
 		
@@ -2050,7 +2050,7 @@ class memberController extends member
 			{
 				$_SESSION['auth_member_srl'] = $member_info->member_srl;
 				$redirectUrl = getUrl('', 'act', 'dispMemberResendAuthMail');
-				return $this->setRedirectUrl($redirectUrl, new Object(-1,'msg_user_not_confirmed'));
+				return $this->setRedirectUrl($redirectUrl, new BaseObject(-1,'msg_user_not_confirmed'));
 			}
 			
 			$refused_reason = $member_info->refused_reason ? ('<br>' . lang('refused_reason') . ': ' . $member_info->refused_reason) : '';

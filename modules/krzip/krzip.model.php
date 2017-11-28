@@ -211,7 +211,7 @@ class krzipModel extends krzip
 			$addr_list[] = $this->getMigratedPostcode('(' . $postcode . ') (' . $jibun_addr . ') ' . $road_addr);
 		}
 
-		$output = new Object();
+		$output = new BaseObject();
 		$output->add('address_list', $addr_list);
 
 		return $output;

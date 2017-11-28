@@ -426,7 +426,7 @@ class documentAdminController extends document
 
 		$oDB->commit();
 
-		$output = new Object();
+		$output = new BaseObject();
 		$output->add('copied_srls', $copied_srls);
 		return $output;
 	}

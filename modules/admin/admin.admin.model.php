@@ -689,7 +689,7 @@ class adminAdminModel extends admin
 			}
 		}
 
-		$returnObject = new Object();
+		$returnObject = new BaseObject();
 		$returnObject->add('favoriteList', $output->data);
 		return $returnObject;
 	}
@@ -711,7 +711,7 @@ class adminAdminModel extends admin
 			return $output;
 		}
 
-		$returnObject = new Object();
+		$returnObject = new BaseObject();
 		if($output->data)
 		{
 			$returnObject->add('result', TRUE);
