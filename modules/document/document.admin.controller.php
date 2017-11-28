@@ -485,7 +485,7 @@ class documentAdminController extends document
 		$this->setMessage('success_updated');
 
 		$returnUrl = Context::get('success_return_url') ? Context::get('success_return_url') : getNotEncodedUrl('', 'module', 'admin', 'act', 'dispDocumentAdminConfig');
-		return $this->setRedirectUrl($returnUrl, $output);
+		$this->setRedirectUrl($returnUrl, $output);
 	}
 
 	/**
