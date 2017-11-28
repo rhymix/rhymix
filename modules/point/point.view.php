@@ -30,7 +30,7 @@ class pointView extends point
 		{
 			$current_module_info = Context::get('current_module_info');
 			$current_module_srl = $current_module_info->module_srl;
-			if(!$current_module_srl) return new Object();
+			if(!$current_module_srl) return new BaseObject();
 		}
 		// Get the configuration information
 		$oModuleModel = getModel('module');
@@ -61,7 +61,7 @@ class pointView extends point
 		$tpl = $oTemplate->compile($this->module_path.'tpl', 'point_module_config');
 		$obj .= $tpl;
 
-		return new Object();
+		return new BaseObject();
 	}
 }
 /* End of file point.view.php */

@@ -354,7 +354,7 @@ class autoinstallAdminModel extends autoinstall
 		$packageSrl = Context::get('package_srl');
 		if(!$packageSrl)
 		{
-			return new Object(-1, 'msg_invalid_request');
+			return new BaseObject(-1, 'msg_invalid_request');
 		}
 
 		$package = $this->getInstallInfo($packageSrl);
@@ -394,7 +394,7 @@ class autoinstallAdminModel extends autoinstall
 			return $output;
 		}
 
-		return new Object();
+		return new BaseObject();
 	}
 
 	public function isWritableDir($path)
@@ -418,7 +418,7 @@ class autoinstallAdminModel extends autoinstall
 			$output->add('path', FileHandler::getRealPath($check_path));
 			return $output;
 		}
-		return new Object();
+		return new BaseObject();
 	}
 
 }

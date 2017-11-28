@@ -170,7 +170,7 @@ class pointAdminController extends point
 	function procPointAdminInsertPointModuleConfig()
 	{
 		$module_srl = Context::get('target_module_srl');
-		if(!$module_srl) return new Object(-1, 'msg_invalid_request');
+		if(!$module_srl) return new BaseObject(-1, 'msg_invalid_request');
 		// In case of batch configuration of several modules
 		if(preg_match('/^([0-9,]+)$/',$module_srl)) $module_srl = explode(',',$module_srl);
 		else $module_srl = array($module_srl);
@@ -341,7 +341,7 @@ class pointAdminController extends point
 		$position = (int)Context::get('position');
 		$total = (int)Context::get('total');
 
-		if(!file_exists('./files/cache/pointRecal.txt')) return new Object(-1, 'msg_invalid_request');
+		if(!file_exists('./files/cache/pointRecal.txt')) return new BaseObject(-1, 'msg_invalid_request');
 
 		$idx = 0;
 		$f = fopen("./files/cache/pointRecal.txt","r");
@@ -384,7 +384,7 @@ class pointAdminController extends point
 	function procPointAdminReset()
 	{
 		$module_srl = Context::get('module_srls');
-		if(!$module_srl) return new Object(-1, 'msg_invalid_request');
+		if(!$module_srl) return new BaseObject(-1, 'msg_invalid_request');
 		// In case of batch configuration of several modules
 		if(preg_match('/^([0-9,]+)$/',$module_srl)) $module_srl = explode(',',$module_srl);
 		else $module_srl = array($module_srl);

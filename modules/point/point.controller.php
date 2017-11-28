@@ -22,20 +22,20 @@ class pointController extends point
 		$member_srl = $obj->member_srl;
 		if (!$member_srl)
 		{
-			return new Object();
+			return new BaseObject();
 		}
 		
 		$config = $this->getConfig();
 		$point = intval($config->signup_point);
 		if (!$point)
 		{
-			return new Object();
+			return new BaseObject();
 		}
 		
 		$cur_point = getModel('point')->getPoint($member_srl, true);
 		$this->setPoint($member_srl, $cur_point + $point, 'signup');
 		
-		return new Object();
+		return new BaseObject();
 	}
 
 	/**
@@ -46,26 +46,26 @@ class pointController extends point
 		$member_srl = $obj->member_srl;
 		if (!$member_srl)
 		{
-			return new Object();
+			return new BaseObject();
 		}
 		
 		// Points are given only once a day.
 		if (substr($obj->last_login, 0, 8) === date('Ymd'))
 		{
-			return new Object();
+			return new BaseObject();
 		}
 		
 		$config = $this->getConfig();
 		$point = intval($config->login_point);
 		if (!$point)
 		{
-			return new Object();
+			return new BaseObject();
 		}
 		
 		$cur_point = getModel('point')->getPoint($member_srl, true);
 		$this->setPoint($member_srl, $cur_point + $point);
 		
-		return new Object();
+		return new BaseObject();
 	}
 
 	/**
@@ -83,7 +83,7 @@ class pointController extends point
 			getController('module')->insertModuleConfig('point', $config);
 		}
 
-		return new Object();
+		return new BaseObject();
 	}
 	
 	/**
@@ -95,17 +95,17 @@ class pointController extends point
 		$member_srl = abs($obj->member_srl);
 		if (!$module_srl || !$member_srl)
 		{
-			return new Object();
+			return new BaseObject();
 		}
 		
 		// The fix to disable giving points for saving the document temporarily
 		if ($module_srl == $member_srl)
 		{
-			return new Object();
+			return new BaseObject();
 		}
 		if ($obj->status === getModel('document')->getConfigStatus('temp'))
 		{
-			return new Object();
+			return new BaseObject();
 		}
 		
 		// Get the points of the member
@@ -124,7 +124,7 @@ class pointController extends point
 		
 		// Increase the point.
 		$this->setPoint($member_srl, $cur_point);
-		return new Object();
+		return new BaseObject();
 	}
 
 	/**
@@ -140,7 +140,7 @@ class pointController extends point
 		$member_srl = abs($oDocument->get('member_srl'));
 		if (!$module_srl || !$member_srl)
 		{
-			return new Object();
+			return new BaseObject();
 		}
 		
 		// Only give points if the document is being updated from TEMP to another status such as PUBLIC.
@@ -153,7 +153,7 @@ class pointController extends point
 				$cur_point += $attached_files_point * ($obj->uploaded_count - $oDocument->get('uploaded_count'));
 				$this->setPoint($member_srl, $cur_point);
 			}
-			return new Object();
+			return new BaseObject();
 		}
 
 		// Get the points of the member
@@ -172,7 +172,7 @@ class pointController extends point
 		
 		// Increase the point.
 		$this->setPoint($member_srl, $cur_point);
-		return new Object();
+		return new BaseObject();
 	}
 
 	/**
@@ -180,7 +180,7 @@ class pointController extends point
 	 */
 	public function triggerBeforeDeleteDocument($obj)
 	{
-		return new Object();
+		return new BaseObject();
 	}
 
 	/**
@@ -192,17 +192,17 @@ class pointController extends point
 		$member_srl = abs($obj->member_srl);
 		if (!$module_srl || !$member_srl)
 		{
-			return new Object();
+			return new BaseObject();
 		}
 		
 		// The fix to disable giving points for saving the document temporarily
 		if ($module_srl == $member_srl)
 		{
-			return new Object();
+			return new BaseObject();
 		}
 		if ($obj->status === getModel('document')->getConfigStatus('temp'))
 		{
-			return new Object();
+			return new BaseObject();
 		}
 		
 		// Get the points of the member
@@ -217,7 +217,7 @@ class pointController extends point
 		
 		// Increase the point.
 		$this->setPoint($member_srl, $cur_point);
-		return new Object();
+		return new BaseObject();
 	}
 
 	/**
@@ -229,21 +229,21 @@ class pointController extends point
 		$member_srl = abs($obj->member_srl);
 		if (!$module_srl || !$member_srl)
 		{
-			return new Object();
+			return new BaseObject();
 		}
 		
 		// Abort if the comment and the document have the same author.
 		$oDocument = getModel('document')->getDocument($obj->document_srl);
 		if (!$oDocument->isExists() || abs($oDocument->get('member_srl')) == $member_srl)
 		{
-			return new Object();
+			return new BaseObject();
 		}
 		
 		// Abort if the document is older than a configured limit.
 		$config = $this->getConfig();
 		if ($config->no_point_date > 0 && ztime($oDocument->get('regdate')) < time() - ($config->no_point_date * 86400))
 		{
-			return new Object();
+			return new BaseObject();
 		}
 		
 		// Get the points of the member
@@ -262,7 +262,7 @@ class pointController extends point
 		
 		// Increase the point.
 		$this->setPoint($member_srl, $cur_point);
-		return new Object();
+		return new BaseObject();
 	}
 
 	/**
@@ -270,7 +270,7 @@ class pointController extends point
 	 */
 	public function triggerUpdateComment($obj)
 	{
-		return new Object();
+		return new BaseObject();
 	}
 	
 	/**
@@ -282,21 +282,21 @@ class pointController extends point
 		$member_srl = abs($obj->member_srl);
 		if (!$module_srl || !$member_srl)
 		{
-			return new Object();
+			return new BaseObject();
 		}
 		
 		// Abort if the comment and the document have the same author.
 		$oDocument = getModel('document')->getDocument($obj->document_srl);
 		if (!$oDocument->isExists() || abs($oDocument->get('member_srl')) == $member_srl)
 		{
-			return new Object();
+			return new BaseObject();
 		}
 		
 		// Abort if the document is older than a configured limit.
 		$config = $this->getConfig();
 		if ($config->no_point_date > 0 && ztime($oDocument->get('regdate')) < ztime($obj->regdate) - ($config->no_point_date * 86400))
 		{
-			return new Object();
+			return new BaseObject();
 		}
 		
 		// Get the points of the member
@@ -308,7 +308,7 @@ class pointController extends point
 		
 		// Increase the point.
 		$this->setPoint($member_srl, $cur_point);
-		return new Object();
+		return new BaseObject();
 	}
 
 	/**
@@ -317,7 +317,7 @@ class pointController extends point
 	 */
 	public function triggerInsertFile($obj)
 	{
-		return new Object();
+		return new BaseObject();
 	}
 
 	/**
@@ -330,7 +330,7 @@ class pointController extends point
 		$member_srl = abs($obj->member_srl);
 		if (!$module_srl || !$member_srl || $obj->isvalid !== 'Y')
 		{
-			return new Object();
+			return new BaseObject();
 		}
 		
 		// Get the points of the member
@@ -342,7 +342,7 @@ class pointController extends point
 		
 		// Update the point.
 		$this->setPoint($member_srl, $cur_point);
-		return new Object();
+		return new BaseObject();
 	}
 
 	/**
@@ -356,13 +356,13 @@ class pointController extends point
 		
 		if ($member_srl && abs($obj->member_srl) == $member_srl)
 		{
-			return new Object();
+			return new BaseObject();
 		}
 		
 		$point = $this->_getModulePointConfig($module_srl, 'download_file');
 		if (!$point)
 		{
-			return new Object();
+			return new BaseObject();
 		}
 		
 		// Get current points.
@@ -372,11 +372,11 @@ class pointController extends point
 		$config = $this->getConfig();
 		if ($config->disable_download == 'Y' && $cur_point + $point < 0)
 		{
-			return new Object(-1, 'msg_cannot_download');
+			return new BaseObject(-1, 'msg_cannot_download');
 		}
 		
 		// Points will be adjusted after downloading (triggerDownloadFile).
-		return new Object();
+		return new BaseObject();
 	}
 
 	/**
@@ -390,19 +390,19 @@ class pointController extends point
 		
 		if (!$member_srl || abs($obj->member_srl) == $member_srl)
 		{
-			return new Object();
+			return new BaseObject();
 		}
 		
 		$point = $this->_getModulePointConfig($module_srl, 'download_file');
 		if (!$point)
 		{
-			return new Object();
+			return new BaseObject();
 		}
 		
 		$cur_point = getModel('point')->getPoint($member_srl, true);
 		$this->setPoint($member_srl, $cur_point + $point);
 		
-		return new Object();
+		return new BaseObject();
 	}
 
 	/**
@@ -417,13 +417,13 @@ class pointController extends point
 		$target_member_srl = abs($obj->get('member_srl'));
 		if ($member_srl && $target_member_srl == $member_srl)
 		{
-			return new Object();
+			return new BaseObject();
 		}
 		
 		$point = $this->_getModulePointConfig($module_srl, 'read_document');
 		if (!$point)
 		{
-			return new Object();
+			return new BaseObject();
 		}
 		
 		// If the current member has already read this document, do not adjust points again.
@@ -435,7 +435,7 @@ class pointController extends point
 			$output = executeQuery('document.getDocumentReadedLogInfo', $args);
 			if ($output->data->count)
 			{
-				return new Object();
+				return new BaseObject();
 			}
 		}
 		
@@ -449,7 +449,7 @@ class pointController extends point
 			$message = sprintf(lang('msg_disallow_by_point'), abs($point), $cur_point);
 			$obj->add('content', $message);
 			$_SESSION['banned_document'][$obj->document_srl] = true;
-			return new Object(-1, $message);
+			return new BaseObject(-1, $message);
 		}
 		else
 		{
@@ -466,7 +466,7 @@ class pointController extends point
 			$this->setPoint($member_srl, $cur_point + $point);
 		}
 		
-		return new Object();
+		return new BaseObject();
 	}
 
 	/**
@@ -480,11 +480,11 @@ class pointController extends point
 		$member_srl = abs($obj->member_srl);
 		if ($logged_member_srl && $logged_member_srl == $member_srl)
 		{
-			return new Object();
+			return new BaseObject();
 		}
 		elseif (!$member_srl)
 		{
-			return new Object();
+			return new BaseObject();
 		}
 		
 		// Get current points.
@@ -503,7 +503,7 @@ class pointController extends point
 		$point = $this->_getModulePointConfig($module_srl, $config_key);
 		if (!$point)
 		{
-			return new Object();
+			return new BaseObject();
 		}
 		
 		if (isset($obj->cancel) && $obj->cancel)
@@ -513,7 +513,7 @@ class pointController extends point
 		
 		$this->setPoint($member_srl, $cur_point + $point);
 		
-		return new Object();
+		return new BaseObject();
 	}
 
 	/**

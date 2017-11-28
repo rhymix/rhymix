@@ -52,13 +52,13 @@ class communicationView extends communication
 	{
 		if($this->config->enable_message == 'N')
 		{
-			return new Object(-1, 'msg_invalid_request');
+			return new BaseObject(-1, 'msg_invalid_request');
 		}
 		
 		// Error appears if not logged-in
 		if(!Context::get('is_logged'))
 		{
-			return new Object(-1, 'msg_not_logged');
+			return new BaseObject(-1, 'msg_not_logged');
 		}
 
 		$logged_info = Context::get('logged_info');
@@ -86,28 +86,28 @@ class communicationView extends communication
 				case 'R':
 					if($message->receiver_srl != $logged_info->member_srl)
 					{
-						return new Object(-1, 'msg_invalid_request');
+						return new BaseObject(-1, 'msg_invalid_request');
 					}
 					break;
 
 				case 'S':
 					if($message->sender_srl != $logged_info->member_srl)
 					{
-						return new Object(-1, 'msg_invalid_request');
+						return new BaseObject(-1, 'msg_invalid_request');
 					}
 					break;
 
 				case 'T':
 					if($message->receiver_srl != $logged_info->member_srl && $message->sender_srl != $logged_info->member_srl)
 					{
-						return new Object(-1, 'msg_invalid_request');
+						return new BaseObject(-1, 'msg_invalid_request');
 					}
 					break;
 
 				case 'N':
 					if($message->receiver_srl != $logged_info->member_srl)
 					{
-						return new Object(-1, 'msg_invalid_request');
+						return new BaseObject(-1, 'msg_invalid_request');
 					}
 					break;
 			}

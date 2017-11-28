@@ -130,7 +130,7 @@ class layoutAdminController extends layout
 					$output = executeQuery('menu.getMenuItemByUrl', $tmpArgs);
 					if(!$output->toBool())
 					{
-						return new Object(-1, 'fail_to_update');
+						return new BaseObject(-1, 'fail_to_update');
 					}
 
 					$menu_srl = $output->data->menu_srl;
@@ -313,7 +313,7 @@ class layoutAdminController extends layout
 
 					if(!$output->toBool())
 					{
-						return new Object(-1, $output->message);
+						return new BaseObject(-1, $output->message);
 					}
 				}
 			}
@@ -334,7 +334,7 @@ class layoutAdminController extends layout
 
 		if(!$output->toBool()) return $output;
 
-		return new Object(0,'success_deleted');
+		return new BaseObject(0,'success_deleted');
 	}
 
 	/**
@@ -356,7 +356,7 @@ class layoutAdminController extends layout
 
 		if(!$layout_srl || !$code || !$is_post)
 		{
-			return new Object(-1, 'msg_invalid_request');
+			return new BaseObject(-1, 'msg_invalid_request');
 		}
 
 		$oLayoutModel = getModel('layout');
@@ -377,7 +377,7 @@ class layoutAdminController extends layout
 	function procLayoutAdminCodeReset()
 	{
 		$layout_srl = Context::get('layout_srl');
-		if(!$layout_srl) return new Object(-1, 'msg_invalid_request');
+		if(!$layout_srl) return new BaseObject(-1, 'msg_invalid_request');
 
 		// delete user layout file
 		$oLayoutModel = getModel('layout');
@@ -480,13 +480,13 @@ class layoutAdminController extends layout
 		$oModuleModel = getModel('module');
 
 		$mid = Context::get('mid');
-		if(!$mid) return new Object(-1, 'msg_invalid_request');
+		if(!$mid) return new BaseObject(-1, 'msg_invalid_request');
 
 		$site_module_info = Context::get('site_module_info');
 		$columnList = array('layout_srl');
 		$module_info = $oModuleModel->getModuleInfoByMid($mid, $site_module_info->site_srl, $columnList);
 		$layout_srl = $module_info->layout_srl;
-		if(!$layout_srl) return new Object(-1, 'msg_invalid_request');
+		if(!$layout_srl) return new BaseObject(-1, 'msg_invalid_request');
 
 		$oLayoutModel = getModel('layout');
 
@@ -589,7 +589,7 @@ class layoutAdminController extends layout
 	function procLayoutAdminUserLayoutExport()
 	{
 		$layout_srl = Context::get('layout_srl');
-		if(!$layout_srl) return new Object('-1','msg_invalid_request');
+		if(!$layout_srl) return new BaseObject('-1','msg_invalid_request');
 
 		$oLayoutModel = getModel('layout');
 

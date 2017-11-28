@@ -18,7 +18,7 @@ class trash extends ModuleObject
 	 */
 	function moduleInstall()
 	{
-		return new Object();
+		return new BaseObject();
 	}
 
 	/**
@@ -42,7 +42,7 @@ class trash extends ModuleObject
 		//$oDB = &DB::getInstance();
 		//$oModuleModel = getModel('module');
 
-		return new Object(0,'success_updated');
+		return new BaseObject(0,'success_updated');
 	}
 }
 /* End of file trash.class.php */

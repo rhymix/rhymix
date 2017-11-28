@@ -16,7 +16,7 @@ class importer extends ModuleObject
 	 */
 	function moduleInstall()
 	{
-		return new Object();
+		return new BaseObject();
 	}
 
 	/**
@@ -34,7 +34,7 @@ class importer extends ModuleObject
 	 */
 	function moduleUpdate()
 	{
-		return new Object();
+		return new BaseObject();
 	}
 
 	/**

@@ -36,9 +36,9 @@ class documentView extends document
 		$oDocumentModel = getModel('document');
 		// Creates an object for displaying the selected document
 		$oDocument = $oDocumentModel->getDocument($document_srl, $this->grant->manager);
-		if(!$oDocument->isExists()) return new Object(-1,'msg_invalid_request');
+		if(!$oDocument->isExists()) return new BaseObject(-1,'msg_invalid_request');
 		// Check permissions
-		if(!$oDocument->isAccessible()) return new Object(-1,'msg_not_permitted');
+		if(!$oDocument->isAccessible()) return new BaseObject(-1,'msg_not_permitted');
 		// Information setting module
 		//Context::set('module_info', $module_info);	//module_info not use in UI
 		// Browser title settings
@@ -58,7 +58,7 @@ class documentView extends document
 	{
 		if(!checkCSRF())
 		{
-			return new Object(-1, 'msg_invalid_request');
+			return new BaseObject(-1, 'msg_invalid_request');
 		} 
 		
 		$content = Context::get('content');
@@ -87,7 +87,7 @@ class documentView extends document
 	 */
 	function dispDocumentManageDocument()
 	{
-		if(!Context::get('is_logged')) return new Object(-1,'msg_not_permitted');
+		if(!Context::get('is_logged')) return new BaseObject(-1,'msg_not_permitted');
 		// Taken from a list of selected sessions
 		$flag_list = $_SESSION['document_management'];
 		if(count($flag_list))
@@ -140,7 +140,7 @@ class documentView extends document
 			// Get information of the current module
 			$current_module_info = Context::get('current_module_info');
 			$current_module_srl = $current_module_info->module_srl;
-			if(!$current_module_srl) return new Object();
+			if(!$current_module_srl) return new BaseObject();
 		}
 
 		$oModuleModel = getModel('module');
@@ -159,7 +159,7 @@ class documentView extends document
 		$tpl = $oTemplate->compile($this->module_path.'tpl', 'document_module_config');
 		$obj .= $tpl;
 
-		return new Object();
+		return new BaseObject();
 	}
 
 	/**
@@ -215,12 +215,12 @@ class documentView extends document
 		$oDocument = $oDocumentModel->getDocument($document_srl, $this->grant->manager, FALSE);
 		if(!$oDocument->isExists())
 		{
-			return new Object(-1,'msg_invalid_request');
+			return new BaseObject(-1,'msg_invalid_request');
 		}
 		// Check permissions
 		if(!$oDocument->isAccessible())
 		{
-			return new Object(-1,'msg_not_permitted');
+			return new BaseObject(-1,'msg_not_permitted');
 		}
 
 		// Browser title settings

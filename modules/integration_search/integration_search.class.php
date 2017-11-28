@@ -18,7 +18,7 @@ class integration_search extends ModuleObject
 		$oModuleController = getController('module');
 		$oModuleController->insertActionForward('integration_search', 'view', 'IS');
 
-		return new Object();
+		return new BaseObject();
 	}
 
 	/**
@@ -68,7 +68,7 @@ class integration_search extends ModuleObject
 			}
 		}
 
-		return new Object(0, 'success_updated');
+		return new BaseObject(0, 'success_updated');
 	}
 
 	/**

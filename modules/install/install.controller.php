@@ -76,7 +76,7 @@ class installController extends install
 		{
 			if ($oDB->isTableExists($table_name))
 			{
-				return new Object(-1, 'msg_table_already_exists');
+				return new BaseObject(-1, 'msg_table_already_exists');
 			}
 		}
 		
@@ -99,7 +99,7 @@ class installController extends install
 		// Check if it is already installed
 		if (Context::isInstalled())
 		{
-			return new Object(-1, 'msg_already_installed');
+			return new BaseObject(-1, 'msg_already_installed');
 		}
 		
 		// Get install parameters.
@@ -227,7 +227,7 @@ class installController extends install
 		catch(Exception $e)
 		{
 			$oDB->rollback();
-			return new Object(-1, $e->getMessage());
+			return new BaseObject(-1, $e->getMessage());
 		}
 		
 		// Execute the install script.
@@ -264,7 +264,7 @@ class installController extends install
 		
 		$returnUrl = Context::get('success_return_url') ? Context::get('success_return_url') : RX_BASEURL;
 		$this->setRedirectUrl($returnUrl);
-		return new Object();
+		return new BaseObject();
 	}
 
 	/**
@@ -411,7 +411,7 @@ class installController extends install
 		else
 		{
 			FileHandler::removeFile($this->flagLicenseAgreement);
-			return new Object(-1, 'msg_must_accept_license_agreement');
+			return new BaseObject(-1, 'msg_must_accept_license_agreement');
 		}
 
 		if(!in_array(Context::getRequestMethod(),array('XMLRPC','JSON')))
@@ -505,7 +505,7 @@ class installController extends install
 			}
 		}
 
-		return new Object();
+		return new BaseObject();
 	}
 
 	/**
@@ -534,7 +534,7 @@ class installController extends install
 		unset($oModule);
 		$oModule = getClass($module);
 		if(method_exists($oModule, 'moduleInstall')) $oModule->moduleInstall();
-		return new Object();
+		return new BaseObject();
 	}
 	
 	/**

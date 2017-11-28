@@ -18,7 +18,7 @@ class reCAPTCHA
 		$response = Context::get('g-recaptcha-response');
 		if (!$response)
 		{
-			return new Object(-1, lang('recaptcha.msg_recaptcha_invalid_response'));
+			return new BaseObject(-1, lang('recaptcha.msg_recaptcha_invalid_response'));
 		}
 		
 		try
@@ -31,17 +31,17 @@ class reCAPTCHA
 		}
 		catch (\Requests_Exception $e)
 		{
-			return new Object(-1, lang('recaptcha.msg_recaptcha_connection_error'));
+			return new BaseObject(-1, lang('recaptcha.msg_recaptcha_connection_error'));
 		}
 		
 		$verify = @json_decode($verify_request->body, true);
 		if ($verify && isset($verify['error-codes']) && in_array('invalid-input-response', $verify['error-codes']))
 		{
-			return new Object(-1, lang('recaptcha.msg_recaptcha_invalid_response'));
+			return new BaseObject(-1, lang('recaptcha.msg_recaptcha_invalid_response'));
 		}
 		elseif (!$verify || !$verify['success'] || (isset($verify['error-codes']) && $verify['error-codes']))
 		{
-			return new Object(-1, lang('recaptcha.msg_recaptcha_server_error'));
+			return new BaseObject(-1, lang('recaptcha.msg_recaptcha_server_error'));
 		}
 		else
 		{

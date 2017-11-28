@@ -16,7 +16,7 @@ class layout extends ModuleObject
 		// Create a directory to be used in the layout
 		FileHandler::makeDir('./files/cache/layout');
 
-		return new Object();
+		return new BaseObject();
 	}
 
 	/**
@@ -104,7 +104,7 @@ class layout extends ModuleObject
 				}
 			}
 		}
-		return new Object(0, 'success_updated');
+		return new BaseObject(0, 'success_updated');
 	}
 
 	/**

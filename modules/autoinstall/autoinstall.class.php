@@ -157,7 +157,7 @@ class autoinstall extends ModuleObject
 			$oDB->addColumn('autoinstall_packages', 'have_instance', 'char', '1', 'N', TRUE);
 		}
 		
-		return new Object(0, 'success_updated');
+		return new BaseObject(0, 'success_updated');
 	}
 
 	/**

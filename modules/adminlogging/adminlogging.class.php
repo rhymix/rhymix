@@ -18,7 +18,7 @@ class adminlogging extends ModuleObject
 	 */
 	function moduleInstall()
 	{
-		return new Object();
+		return new BaseObject();
 	}
 
 	/**
@@ -36,7 +36,7 @@ class adminlogging extends ModuleObject
 	 */
 	function moduleUpdate()
 	{
-		return new Object();
+		return new BaseObject();
 	}
 
 	/**

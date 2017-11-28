@@ -96,7 +96,7 @@ class commentAdminController extends comment
 				$comment = $oCommentModel->getComment($comment_srl);
 				if($comment->comment_srl != $comment_srl)
 				{
-					return new Object(-1, 'msg_invalid_request');
+					return new BaseObject(-1, 'msg_invalid_request');
 				}
 				$document_srl = $comment->document_srl;
 				if(!in_array($document_srl, $updated_documents_arr))

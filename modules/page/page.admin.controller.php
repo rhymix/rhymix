@@ -131,7 +131,7 @@ class pageAdminController extends page
 	{
 		$module_srl = Context::get('module_srl');
 		$content = Context::get('content');
-		if(!$module_srl) return new Object(-1,'msg_invalid_request');
+		if(!$module_srl) return new BaseObject(-1,'msg_invalid_request');
 		$mcontent = Context::get('mcontent');
 		$type = Context::get('type');
 		// Guhaeom won information page
@@ -301,7 +301,7 @@ class pageAdminController extends page
 
 		if(!$grant->manager)
 		{
-			return new Object(-1, 'msg_not_permitted');
+			return new BaseObject(-1, 'msg_not_permitted');
 		}
 
 		$obj = Context::getRequestVars();

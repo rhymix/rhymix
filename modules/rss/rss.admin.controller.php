@@ -70,7 +70,7 @@ class rssAdminController extends rss
 		
 		if(isset($msg['error']))
 		{
-			return new Object(-1, $msg['error']);
+			return new BaseObject(-1, $msg['error']);
 		}
 		else
 		{
@@ -98,7 +98,7 @@ class rssAdminController extends rss
 		
 		if(!count($target_module_srls))
 		{
-			return new Object(-1, 'msg_invalid_request');
+			return new BaseObject(-1, 'msg_invalid_request');
 		}
 		
 		foreach($target_module_srls as $module_srl)
@@ -144,7 +144,7 @@ class rssAdminController extends rss
 		$config = getModel('rss')->getConfig();
 		if(!$config->image)
 		{
-			return new Object(-1, 'msg_invalid_request');
+			return new BaseObject(-1, 'msg_invalid_request');
 		}
 		
 		FileHandler::removeFile($config->image);
@@ -159,7 +159,7 @@ class rssAdminController extends rss
 	function setFeedConfig($config)
 	{
 		getController('module')->insertModuleConfig('rss', $config);
-		return new Object();
+		return new BaseObject();
 	}
 	
 	/**
@@ -181,7 +181,7 @@ class rssAdminController extends rss
 		}
 		
 		getController('module')->insertModulePartConfig('rss', $module_srl, $config);
-		return new Object();
+		return new BaseObject();
 	}
 }
 /* End of file rss.admin.controller.php */

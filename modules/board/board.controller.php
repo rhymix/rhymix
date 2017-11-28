@@ -24,7 +24,7 @@ class boardController extends board
 		// check grant
 		if(!$this->grant->write_document)
 		{
-			return new Object(-1, 'msg_not_permitted');
+			return new BaseObject(-1, 'msg_not_permitted');
 		}
 		
 		// setup variables
@@ -35,7 +35,7 @@ class boardController extends board
 		// Return error if content is empty.
 		if (is_empty_html_content($obj->content))
 		{
-			return new Object(-1, 'msg_empty_content');
+			return new BaseObject(-1, 'msg_empty_content');
 		}
 		
 		// unset document style if not manager
@@ -100,14 +100,14 @@ class boardController extends board
 		{
 			if(!$oDocument->isGranted())
 			{
-				return new Object(-1, 'msg_not_permitted');
+				return new BaseObject(-1, 'msg_not_permitted');
 			}
 			
 			// Protect admin document
 			$member_info = getModel('member')->getMemberInfoByMemberSrl($oDocument->get('member_srl'));
 			if($member_info->is_admin == 'Y' && $logged_info->is_admin != 'Y')
 			{
-				return new Object(-1, 'msg_admin_document_no_modify');
+				return new BaseObject(-1, 'msg_admin_document_no_modify');
 			}
 			
 			// if document status is temp
@@ -131,7 +131,7 @@ class boardController extends board
 				{
 					if($oDocument->get('comment_count') > 0 && !$this->grant->manager)
 					{
-						return new Object(-1, 'msg_protect_update_content');
+						return new BaseObject(-1, 'msg_protect_update_content');
 					}
 				}
 				
@@ -140,7 +140,7 @@ class boardController extends board
 				{
 					if($oDocument->get('regdate') < date('YmdHis', strtotime('-' . $this->module_info->protect_document_regdate . ' day')))
 					{
-						return new Object(-1, sprintf(lang('msg_protect_regdate_document'), $this->module_info->protect_document_regdate));
+						return new BaseObject(-1, sprintf(lang('msg_protect_regdate_document'), $this->module_info->protect_document_regdate));
 					}
 				}
 				
@@ -228,7 +228,7 @@ class boardController extends board
 		$logged_info = Context::get('logged_info');
 		if(!$update_id)
 		{
-			return new Object(-1, 'msg_no_update_id');
+			return new BaseObject(-1, 'msg_no_update_id');
 		}
 
 		$oDocumentModel = getModel('document');
@@ -240,13 +240,13 @@ class boardController extends board
 			$Exists_log = $oDocumentModel->getUpdateLogAdminisExists($update_log->document_srl);
 			if($Exists_log === true)
 			{
-				return new Object(-1, 'msg_admin_update_log');
+				return new BaseObject(-1, 'msg_admin_update_log');
 			}
 		}
 
 		if(!$update_log)
 		{
-			return new Object(-1, 'msg_no_update_log');
+			return new BaseObject(-1, 'msg_no_update_log');
 		}
 
 		$oDocument = $oDocumentModel->getDocument($update_log->document_srl);
@@ -275,7 +275,7 @@ class boardController extends board
 		// if the document is not existed
 		if(!$document_srl)
 		{
-			return new Object(-1, 'msg_invalid_document');
+			return new BaseObject(-1, 'msg_invalid_document');
 		}
 
 		$oDocumentModel = &getModel('document');
@@ -285,7 +285,7 @@ class boardController extends board
 		{
 			if($oDocument->get('comment_count') > 0 && $this->grant->manager == false)
 			{
-				return new Object(-1, 'msg_protect_delete_content');
+				return new BaseObject(-1, 'msg_protect_delete_content');
 			}
 		}
 
@@ -295,7 +295,7 @@ class boardController extends board
 			{
 				$format =  lang('msg_protect_regdate_document');
 				$massage = sprintf($format, $this->module_info->protect_document_regdate);
-				return new Object(-1, $massage);
+				return new BaseObject(-1, $massage);
 			}
 		}
 		// generate document module controller object
@@ -349,7 +349,7 @@ class boardController extends board
 		// check grant
 		if(!$this->grant->write_comment)
 		{
-			return new Object(-1, 'msg_not_permitted');
+			return new BaseObject(-1, 'msg_not_permitted');
 		}
 		$logged_info = Context::get('logged_info');
 
@@ -378,7 +378,7 @@ class boardController extends board
 		$oDocument = $oDocumentModel->getDocument($obj->document_srl);
 		if(!$oDocument->isExists())
 		{
-			return new Object(-1,'msg_not_founded');
+			return new BaseObject(-1,'msg_not_founded');
 		}
 
 		// For anonymous use, remove writer's information and notifying information
@@ -416,7 +416,7 @@ class boardController extends board
 				$childs = $oCommentModel->getChildComments($obj->comment_srl);
 				if(count($childs) > 0)
 				{
-					return new Object(-1, 'msg_board_update_protect_comment');
+					return new BaseObject(-1, 'msg_board_update_protect_comment');
 				}
 			}
 		}
@@ -426,7 +426,7 @@ class boardController extends board
 
 		if($member_info->is_admin == 'Y' && $logged_info->is_admin != 'Y')
 		{
-			return new Object(-1, 'msg_admin_comment_no_modify');
+			return new BaseObject(-1, 'msg_admin_comment_no_modify');
 		}
 
 		// INSERT if comment_srl does not exist.
@@ -441,7 +441,7 @@ class boardController extends board
 				$parent_comment = $oCommentModel->getComment($obj->parent_srl);
 				if(!$parent_comment->comment_srl)
 				{
-					return new Object(-1, 'msg_invalid_request');
+					return new BaseObject(-1, 'msg_invalid_request');
 				}
 				if($parent_comment->isSecret() && $this->module_info->secret === 'Y')
 				{
@@ -470,13 +470,13 @@ class boardController extends board
 				{
 					$format =  lang('msg_protect_regdate_comment');
 					$massage = sprintf($format, $this->module_info->protect_document_regdate);
-					return new Object(-1, $massage);
+					return new BaseObject(-1, $massage);
 				}
 			}
 			// check the grant
 			if(!$comment->isGranted())
 			{
-				return new Object(-1,'msg_not_permitted');
+				return new BaseObject(-1,'msg_not_permitted');
 			}
 			$obj->parent_srl = $comment->parent_srl;
 			$output = $oCommentController->updateComment($obj, $this->grant->manager);
@@ -510,7 +510,7 @@ class boardController extends board
 
 		if(!$comment_srl)
 		{
-			return new Object(-1, 'msg_invalid_request');
+			return new BaseObject(-1, 'msg_invalid_request');
 		}
 
 		$oCommentModel = getModel('comment');
@@ -520,7 +520,7 @@ class boardController extends board
 			$childs = $oCommentModel->getChildComments($comment_srl);
 			if(count($childs) > 0)
 			{
-				return new Object(-1, 'msg_board_delete_protect_comment');
+				return new BaseObject(-1, 'msg_board_delete_protect_comment');
 			}
 		}
 		$comment = $oCommentModel->getComment($comment_srl, $this->grant->manager);
@@ -530,7 +530,7 @@ class boardController extends board
 			{
 				$format =  lang('msg_protect_regdate_comment');
 				$massage = sprintf($format, $this->module_info->protect_document_regdate);
-				return new Object(-1, $massage);
+				return new BaseObject(-1, $massage);
 			}
 		}
 		// generate comment  controller object
@@ -642,13 +642,13 @@ class boardController extends board
 			$oComment = $oCommentModel->getComment($comment_srl);
 			if(!$oComment->isExists())
 			{
-				return new Object(-1, 'msg_invalid_request');
+				return new BaseObject(-1, 'msg_invalid_request');
 			}
 
 			// compare the comment password and the user input password
 			if(!$oMemberModel->isValidPassword($oComment->get('password'),$password))
 			{
-				return new Object(-1, 'msg_invalid_password');
+				return new BaseObject(-1, 'msg_invalid_password');
 			}
 
 			$oComment->setGrantForSession();
@@ -658,13 +658,13 @@ class boardController extends board
 			$oDocument = $oDocumentModel->getDocument($document_srl);
 			if(!$oDocument->isExists())
 			{
-				return new Object(-1, 'msg_invalid_request');
+				return new BaseObject(-1, 'msg_invalid_request');
 			}
 
 			// compare the document password and the user input password
 			if(!$oMemberModel->isValidPassword($oDocument->get('password'),$password))
 			{
-				return new Object(-1, 'msg_invalid_password');
+				return new BaseObject(-1, 'msg_invalid_password');
 			}
 
 			$oDocument->setGrantForSession();
@@ -681,7 +681,7 @@ class boardController extends board
 
 		if(!$member_srl || !$mid)
 		{
-			return new Object();
+			return new BaseObject();
 		}
 
 		$logged_info = Context::get('logged_info');
@@ -693,7 +693,7 @@ class boardController extends board
 
 		if($cur_module_info->module != 'board')
 		{
-			return new Object();
+			return new BaseObject();
 		}
 
 		// get the member information
@@ -707,7 +707,7 @@ class boardController extends board
 
 		if(!$member_info->user_id)
 		{
-			return new Object();
+			return new BaseObject();
 		}
 
 		//search
@@ -715,7 +715,7 @@ class boardController extends board
 		$oMemberController = getController('member');
 		$oMemberController->addMemberPopupMenu($url, 'cmd_view_own_document', '');
 
-		return new Object();
+		return new BaseObject();
 	}
 	
 	/**

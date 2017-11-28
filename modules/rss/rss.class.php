@@ -31,7 +31,7 @@ class rss extends ModuleObject
 	function moduleInstall()
 	{
 		$this->moduleUpdate();
-		return new Object();
+		return new BaseObject();
 	}
 	
 	/**
@@ -106,7 +106,7 @@ class rss extends ModuleObject
 			}
 		}
 		
-		return new Object(0, 'success_updated');
+		return new BaseObject(0, 'success_updated');
 	}
 	
 	function recompileCache()

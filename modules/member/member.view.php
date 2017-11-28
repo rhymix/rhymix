@@ -352,7 +352,7 @@ class memberView extends member
 		// A message appears if the user is not logged-in
 		if(!Context::get('is_logged'))
 		{
-			return new Object(-1, 'msg_not_logged');
+			return new BaseObject(-1, 'msg_not_logged');
 		}
 
 		$logged_info = Context::get('logged_info');
@@ -432,7 +432,7 @@ class memberView extends member
 		$folder_srl = (int)Context::get('folder_srl');
 		if($folder_srl && !array_filter($folders, function($folder) use($folder_srl) { return $folder->folder_srl == $folder_srl; }))
 		{
-			return new Object(-1, 'msg_invalid_request');
+			return new BaseObject(-1, 'msg_invalid_request');
 		}
 		if(!$folder_srl && count($folders))
 		{
@@ -635,7 +635,7 @@ class memberView extends member
 	 */
 	function dispSavedDocumentList()
 	{
-		return new Object(0, 'Deplicated method');
+		return new BaseObject(0, 'Deplicated method');
 	}
 
 	/**
@@ -740,7 +740,7 @@ class memberView extends member
 	**/
 	function dispMemberSpammer()
 	{
-		if(!Context::get('is_logged')) return new Object(-1,'msg_not_permitted');
+		if(!Context::get('is_logged')) return new BaseObject(-1,'msg_not_permitted');
 
 		$member_srl = Context::get('member_srl');
 		$module_srl = Context::get('module_srl');
@@ -751,7 +751,7 @@ class memberView extends member
 		$module_info = $oModuleModel->getModuleInfoByModuleSrl($module_srl, $columnList);
 		$grant = $oModuleModel->getGrant($module_info, Context::get('logged_info'));
 
-		if(!$grant->manager) return new Object(-1,'msg_not_permitted');
+		if(!$grant->manager) return new BaseObject(-1,'msg_not_permitted');
 
 		$oMemberModel = getModel('member');
 
@@ -783,7 +783,7 @@ class memberView extends member
 		{
 			if($logged_info->is_admin != 'Y')
 			{
-				return new Object(-1, 'msg_not_permitted');
+				return new BaseObject(-1, 'msg_not_permitted');
 			}
 		}
 

@@ -31,7 +31,7 @@ class fileView extends file
 			// Get information of the current module
 			$current_module_info = Context::get('current_module_info');
 			$current_module_srl = $current_module_info->module_srl;
-			if(!$current_module_srl) return new Object();
+			if(!$current_module_srl) return new BaseObject();
 		}
 		// Get file configurations of the module
 		$oFileModel = getModel('file');
@@ -47,7 +47,7 @@ class fileView extends file
 		$tpl = $oTemplate->compile($this->module_path.'tpl', 'file_module_config');
 		$obj .= $tpl;
 
-		return new Object();
+		return new BaseObject();
 	}
 }
 /* End of file file.view.php */

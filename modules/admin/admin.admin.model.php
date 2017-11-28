@@ -43,7 +43,7 @@ class adminAdminModel extends admin
 		$connection = ssh2_connect($ftp_info->ftp_host, $ftp_info->ftp_port);
 		if(!ssh2_auth_password($connection, $ftp_info->ftp_user, $ftp_info->ftp_password))
 		{
-			return new Object(-1, 'msg_ftp_invalid_auth_info');
+			return new BaseObject(-1, 'msg_ftp_invalid_auth_info');
 		}
 		$sftp = ssh2_sftp($connection);
 
@@ -112,14 +112,14 @@ class adminAdminModel extends admin
 		$connection = ftp_connect($ftp_info->ftp_host, $ftp_info->ftp_port);
 		if(!$connection)
 		{
-			return new Object(-1, sprintf(lang('msg_ftp_not_connected'), 'host'));
+			return new BaseObject(-1, sprintf(lang('msg_ftp_not_connected'), 'host'));
 		}
 
 		$login_result = @ftp_login($connection, $ftp_info->ftp_user, $ftp_info->ftp_password);
 		if(!$login_result)
 		{
 			ftp_close($connection);
-			return new Object(-1, 'msg_ftp_invalid_auth_info');
+			return new BaseObject(-1, 'msg_ftp_invalid_auth_info');
 		}
 
 		// create temp file
@@ -182,7 +182,7 @@ class adminAdminModel extends admin
 
 		if(!$ftp_info->ftp_user || !$ftp_info->ftp_password)
 		{
-			return new Object(1, 'msg_ftp_invalid_auth_info');
+			return new BaseObject(1, 'msg_ftp_invalid_auth_info');
 		}
 
 		if(!$ftp_info->ftp_host)
@@ -199,7 +199,7 @@ class adminAdminModel extends admin
 		{
 			if(!function_exists('ssh2_sftp'))
 			{
-				return new Object(-1, 'disable_sftp_support');
+				return new BaseObject(-1, 'disable_sftp_support');
 			}
 			return $this->getSFTPPath();
 		}
@@ -216,12 +216,12 @@ class adminAdminModel extends admin
 		$oFTP = new ftp();
 		if(!$oFTP->ftp_connect($ftp_info->ftp_host, $ftp_info->ftp_port))
 		{
-			return new Object(1, sprintf(lang('msg_ftp_not_connected'), 'host'));
+			return new BaseObject(1, sprintf(lang('msg_ftp_not_connected'), 'host'));
 		}
 
 		if(!$oFTP->ftp_login($ftp_info->ftp_user, $ftp_info->ftp_password))
 		{
-			return new Object(1, 'msg_ftp_invalid_auth_info');
+			return new BaseObject(1, 'msg_ftp_invalid_auth_info');
 		}
 
 		// create temp file
@@ -286,7 +286,7 @@ class adminAdminModel extends admin
 		$connection = ssh2_connect($ftp_info->ftp_host, $ftp_info->ftp_port);
 		if(!ssh2_auth_password($connection, $ftp_info->ftp_user, $ftp_info->ftp_password))
 		{
-			return new Object(-1, 'msg_ftp_invalid_auth_info');
+			return new BaseObject(-1, 'msg_ftp_invalid_auth_info');
 		}
 
 		$sftp = ssh2_sftp($connection);
@@ -294,7 +294,7 @@ class adminAdminModel extends admin
 		$dh = @opendir($curpwd);
 		if(!$dh)
 		{
-			return new Object(-1, 'msg_ftp_invalid_path');
+			return new BaseObject(-1, 'msg_ftp_invalid_path');
 		}
 		$list = array();
 		while(($file = readdir($dh)) !== FALSE)
@@ -325,7 +325,7 @@ class adminAdminModel extends admin
 		$ftp_info = Context::getRequestVars();
 		if(!$ftp_info->ftp_user || !$ftp_info->ftp_password)
 		{
-			return new Object(-1, 'msg_ftp_invalid_auth_info');
+			return new BaseObject(-1, 'msg_ftp_invalid_auth_info');
 		}
 
 		$this->pwd = $ftp_info->ftp_root_path;
@@ -344,7 +344,7 @@ class adminAdminModel extends admin
 		{
 			if(!function_exists('ssh2_sftp'))
 			{
-				return new Object(-1, 'disable_sftp_support');
+				return new BaseObject(-1, 'disable_sftp_support');
 			}
 			return $this->getSFTPList();
 		}
@@ -359,7 +359,7 @@ class adminAdminModel extends admin
 			}
 			else
 			{
-				return new Object(-1, 'msg_ftp_invalid_auth_info');
+				return new BaseObject(-1, 'msg_ftp_invalid_auth_info');
 			}
 		}
 		$list = array();
@@ -380,7 +380,7 @@ class adminAdminModel extends admin
 		}
 		else
 		{
-			return new Object(-1, 'msg_ftp_no_directory');
+			return new BaseObject(-1, 'msg_ftp_no_directory');
 		}
 		$this->add('list', $list);
 	}
@@ -675,7 +675,7 @@ class adminAdminModel extends admin
 		}
 		if(!$output->data)
 		{
-			return new Object();
+			return new BaseObject();
 		}
 
 		if($isGetModuleInfo && is_array($output->data))

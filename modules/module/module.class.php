@@ -46,7 +46,7 @@ class module extends ModuleObject
 		FileHandler::makeDir('./files/cache/triggers');
 		FileHandler::makeDir('./files/ruleset');
 
-		return new Object();
+		return new BaseObject();
 	}
 
 	/**
@@ -394,7 +394,7 @@ class module extends ModuleObject
 			$oDB->modifyColumn('module_config', 'config', 'bigtext');
 		}
 		
-		return new Object(0, 'success_updated');
+		return new BaseObject(0, 'success_updated');
 	}
 	
 	/**

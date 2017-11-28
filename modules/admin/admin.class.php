@@ -24,7 +24,7 @@ class admin extends ModuleObject
 	 */
 	function moduleInstall()
 	{
-		return new Object();
+		return new BaseObject();
 	}
 
 	/**
@@ -68,7 +68,7 @@ class admin extends ModuleObject
 				}
 			}
 		}
-		return new Object();
+		return new BaseObject();
 	}
 
 	/**

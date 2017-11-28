@@ -39,7 +39,7 @@ class fileController extends file
 		// Exit a session if there is neither upload permission nor information
 		if(!$_SESSION['upload_info'][$editor_sequence]->enabled)
 		{
-			return new Object(-1, 'msg_not_permitted');
+			return new BaseObject(-1, 'msg_not_permitted');
 		}
 		
 		// Get upload_target_srl
@@ -63,7 +63,7 @@ class fileController extends file
 			$total_size = intval($matches[3]);
 			if ($chunk_start < 0 || $chunk_size < 0 || $total_size < 0 || $chunk_start + $chunk_size > $total_size || $chunk_size != $file_info['size'])
 			{
-				return new Object(-1, 'msg_upload_invalid_chunk');
+				return new BaseObject(-1, 'msg_upload_invalid_chunk');
 			}
 			$this->add('chunk_current_size', $chunk_size);
 			$this->add('chunk_uploaded_size', $chunk_start);
@@ -76,13 +76,13 @@ class fileController extends file
 			{
 				Rhymix\Framework\Storage::delete($temp_filename);
 				$this->add('chunk_status', 11);
-				return new Object(-1, 'msg_upload_invalid_chunk');
+				return new BaseObject(-1, 'msg_upload_invalid_chunk');
 			}
 			if ($chunk_start != 0 && (!Rhymix\Framework\Storage::isFile($temp_filename) || Rhymix\Framework\Storage::getSize($temp_filename) != $chunk_start))
 			{
 				Rhymix\Framework\Storage::delete($temp_filename);
 				$this->add('chunk_status', 12);
-				return new Object(-1, 'msg_upload_invalid_chunk');
+				return new BaseObject(-1, 'msg_upload_invalid_chunk');
 			}
 			
 			// Check size limit
@@ -95,13 +95,13 @@ class fileController extends file
 				if ($total_size > $allowed_filesize)
 				{
 					$this->add('chunk_status', 21);
-					return new Object(-1, 'msg_exceeds_limit_size');
+					return new BaseObject(-1, 'msg_exceeds_limit_size');
 				}
 				$output = executeQuery('file.getAttachedFileSize', (object)array('upload_target_srl' => $upload_target_srl));
 				if (intval($output->data->attached_size) + $total_size > $allowed_attach_size)
 				{
 					$this->add('chunk_status', 22);
-					return new Object(-1, 'msg_exceeds_limit_size');
+					return new BaseObject(-1, 'msg_exceeds_limit_size');
 				}
 			}
 			
@@ -119,14 +119,14 @@ class fileController extends file
 				}
 				else
 				{
-					return new Object();
+					return new BaseObject();
 				}
 			}
 			else
 			{
 				Rhymix\Framework\Storage::delete($temp_filename);
 				$this->add('chunk_status', 40);
-				return new Object(-1, 'msg_upload_invalid_chunk');
+				return new BaseObject(-1, 'msg_upload_invalid_chunk');
 			}
 		}
 		else
@@ -207,14 +207,14 @@ class fileController extends file
 
 		if(!$file_srl || !$width)
 		{
-			return new Object(-1,'msg_invalid_request');
+			return new BaseObject(-1,'msg_invalid_request');
 		}
 
 		$oFileModel = getModel('file');
 		$fileInfo = $oFileModel->getFile($file_srl);
 		if(!$fileInfo || $fileInfo->direct_download != 'Y')
 		{
-			return new Object(-1,'msg_invalid_request');
+			return new BaseObject(-1,'msg_invalid_request');
 		}
 
 		$source_src = $fileInfo->uploaded_filename;
@@ -230,7 +230,7 @@ class fileController extends file
 		}
 		else
 		{
-			return new Object(-1,'msg_invalid_request');
+			return new BaseObject(-1,'msg_invalid_request');
 		}
 
 		$this->add('resized_info',$output);
@@ -271,7 +271,7 @@ class fileController extends file
 	{
 		$oFileModel = getModel('file');
 
-		if(isset($this->grant->access) && $this->grant->access !== true) return new Object(-1, 'msg_not_permitted');
+		if(isset($this->grant->access) && $this->grant->access !== true) return new BaseObject(-1, 'msg_not_permitted');
 
 		$file_srl = Context::get('file_srl');
 		$sid = Context::get('sid');
@@ -554,11 +554,11 @@ class fileController extends file
 	 */
 	function procFileGetList()
 	{
-		if(!Context::get('is_logged')) return new Object(-1,'msg_not_permitted');
+		if(!Context::get('is_logged')) return new BaseObject(-1,'msg_not_permitted');
 		$logged_info = Context::get('logged_info');
 		if($logged_info->is_admin !== 'Y' && !getModel('module')->isSiteAdmin($logged_info))
 		{
-			return new Object(-1,'msg_not_permitted');
+			return new BaseObject(-1,'msg_not_permitted');
 		}
 		
 		$fileSrls = Context::get('file_srls');
@@ -598,12 +598,12 @@ class fileController extends file
 	function triggerCheckAttached(&$obj)
 	{
 		$document_srl = $obj->document_srl;
-		if(!$document_srl) return new Object();
+		if(!$document_srl) return new BaseObject();
 		// Get numbers of attachments
 		$oFileModel = getModel('file');
 		$obj->uploaded_count = $oFileModel->getFilesCount($document_srl);
 
-		return new Object();
+		return new BaseObject();
 	}
 
 	/**
@@ -615,12 +615,12 @@ class fileController extends file
 	function triggerAttachFiles(&$obj)
 	{
 		$document_srl = $obj->document_srl;
-		if(!$document_srl) return new Object();
+		if(!$document_srl) return new BaseObject();
 
 		$output = $this->setFilesValid($document_srl);
 		if(!$output->toBool()) return $output;
 
-		return new Object();
+		return new BaseObject();
 	}
 
 	/**
@@ -632,7 +632,7 @@ class fileController extends file
 	function triggerDeleteAttached(&$obj)
 	{
 		$document_srl = $obj->document_srl;
-		if(!$document_srl) return new Object();
+		if(!$document_srl) return new BaseObject();
 
 		$output = $this->deleteFiles($document_srl);
 		return $output;
@@ -647,12 +647,12 @@ class fileController extends file
 	function triggerCommentCheckAttached(&$obj)
 	{
 		$comment_srl = $obj->comment_srl;
-		if(!$comment_srl) return new Object();
+		if(!$comment_srl) return new BaseObject();
 		// Get numbers of attachments
 		$oFileModel = getModel('file');
 		$obj->uploaded_count = $oFileModel->getFilesCount($comment_srl);
 
-		return new Object();
+		return new BaseObject();
 	}
 
 	/**
@@ -665,12 +665,12 @@ class fileController extends file
 	{
 		$comment_srl = $obj->comment_srl;
 		$uploaded_count = $obj->uploaded_count;
-		if(!$comment_srl || !$uploaded_count) return new Object();
+		if(!$comment_srl || !$uploaded_count) return new BaseObject();
 
 		$output = $this->setFilesValid($comment_srl);
 		if(!$output->toBool()) return $output;
 
-		return new Object();
+		return new BaseObject();
 	}
 
 	/**
@@ -682,9 +682,9 @@ class fileController extends file
 	function triggerCommentDeleteAttached(&$obj)
 	{
 		$comment_srl = $obj->comment_srl;
-		if(!$comment_srl) return new Object();
+		if(!$comment_srl) return new BaseObject();
 
-		if($obj->isMoveToTrash) return new Object();
+		if($obj->isMoveToTrash) return new BaseObject();
 
 		$output = $this->deleteFiles($comment_srl);
 		return $output;
@@ -699,7 +699,7 @@ class fileController extends file
 	function triggerDeleteModuleFiles(&$obj)
 	{
 		$module_srl = $obj->module_srl;
-		if(!$module_srl) return new Object();
+		if(!$module_srl) return new BaseObject();
 
 		$oFileController = getAdminController('file');
 		return $oFileController->deleteModuleFiles($module_srl);
@@ -817,13 +817,13 @@ class fileController extends file
 				$allowed_filesize = $config->allowed_filesize * 1024 * 1024;
 				$allowed_attach_size = $config->allowed_attach_size * 1024 * 1024;
 				// An error appears if file size exceeds a limit
-				if($allowed_filesize < filesize($file_info['tmp_name'])) return new Object(-1, 'msg_exceeds_limit_size');
+				if($allowed_filesize < filesize($file_info['tmp_name'])) return new BaseObject(-1, 'msg_exceeds_limit_size');
 				// Get total file size of all attachements (from DB)
 				$size_args = new stdClass;
 				$size_args->upload_target_srl = $upload_target_srl;
 				$output = executeQuery('file.getAttachedFileSize', $size_args);
 				$attached_size = (int)$output->data->attached_size + filesize($file_info['tmp_name']);
-				if($attached_size > $allowed_attach_size) return new Object(-1, 'msg_exceeds_limit_size');
+				if($attached_size > $allowed_attach_size) return new BaseObject(-1, 'msg_exceeds_limit_size');
 			}
 		}
 
@@ -860,7 +860,7 @@ class fileController extends file
 		// Create a directory
 		if(!Rhymix\Framework\Storage::isDirectory($path) && !Rhymix\Framework\Storage::createDirectory($path))
 		{
-			return new Object(-1,'msg_not_permitted_create');
+			return new BaseObject(-1,'msg_not_permitted_create');
 		}
 		
 		// Move the file
@@ -872,7 +872,7 @@ class fileController extends file
 				@copy($file_info['tmp_name'], $filename);
 				if(!file_exists($filename))
 				{
-					return new Object(-1,'msg_file_upload_error');
+					return new BaseObject(-1,'msg_file_upload_error');
 				}
 			}
 		}
@@ -882,7 +882,7 @@ class fileController extends file
 			{
 				if (!Rhymix\Framework\Storage::move($file_info['tmp_name'], $filename))
 				{
-					return new Object(-1,'msg_file_upload_error');
+					return new BaseObject(-1,'msg_file_upload_error');
 				}
 			}
 		}
@@ -892,7 +892,7 @@ class fileController extends file
 			{
 				if(!@move_uploaded_file($file_info['tmp_name'], $filename))
 				{
-					return new Object(-1,'msg_file_upload_error');
+					return new BaseObject(-1,'msg_file_upload_error');
 				}
 			}
 		}
@@ -1033,7 +1033,7 @@ class fileController extends file
 		$columnList = array('file_srl', 'uploaded_filename', 'module_srl');
 		$file_list = $oFileModel->getFiles($upload_target_srl, $columnList);
 		// Success returned if no attachement exists
-		if(!is_array($file_list)||!count($file_list)) return new Object();
+		if(!is_array($file_list)||!count($file_list)) return new BaseObject();
 
 		// Delete the file
 		foreach ($file_list as $file)
@@ -1107,16 +1107,16 @@ class fileController extends file
 		$vars = Context::getRequestVars();
 		$logged_info = Context::get('logged_info');
 
-		if(!$vars->editor_sequence) return new Object(-1, 'msg_invalid_request');
+		if(!$vars->editor_sequence) return new BaseObject(-1, 'msg_invalid_request');
 
 		$upload_target_srl = $_SESSION['upload_info'][$vars->editor_sequence]->upload_target_srl;
 
 		$oFileModel = getModel('file');
 		$file_info = $oFileModel->getFile($vars->file_srl);
 
-		if(!$file_info) return new Object(-1, 'msg_not_founded');
+		if(!$file_info) return new BaseObject(-1, 'msg_not_founded');
 
-		if(!$this->manager && !$file_info->member_srl === $logged_info->member_srl) return new Object(-1, 'msg_not_permitted');
+		if(!$this->manager && !$file_info->member_srl === $logged_info->member_srl) return new BaseObject(-1, 'msg_not_permitted');
 
 		$args =  new stdClass();
 		$args->file_srl = $vars->file_srl;

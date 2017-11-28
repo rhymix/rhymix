@@ -212,7 +212,7 @@ class ncenterliteModel extends ncenterlite
 	{
 		if (!Context::get('is_logged'))
 		{
-			return new Object(-1, 'msg_not_permitted');
+			return new BaseObject(-1, 'msg_not_permitted');
 		}
 
 		$memberConfig = getModel('member')->getMemberConfig();

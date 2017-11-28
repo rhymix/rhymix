@@ -208,7 +208,7 @@ class Advanced_Mailer extends ModuleObject
 	public function moduleInstall()
 	{
 		$this->registerTriggers();
-		return new Object();
+		return new BaseObject();
 	}
 	
 	/**
@@ -242,7 +242,7 @@ class Advanced_Mailer extends ModuleObject
 	public function moduleUpdate()
 	{
 		$this->registerTriggers();
-		return new Object(0, 'success_updated');
+		return new BaseObject(0, 'success_updated');
 	}
 	
 	public function recompileCache()
