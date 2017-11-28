@@ -56,7 +56,7 @@ class memberModel extends member
 			$config->agreements[1] = new stdClass;
 			$config->agreements[1]->title = lang('agreement');
 			$config->agreements[1]->content = $config->agreement;
-			$config->agreements[1]->type = 'required';
+			$config->agreements[1]->type = $config->agreement ? 'required' : 'disabled';
 		}
 
 		if(!$config->webmaster_name) $config->webmaster_name = 'webmaster';
