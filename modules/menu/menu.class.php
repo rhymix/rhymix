@@ -18,8 +18,6 @@ class menu extends ModuleObject
 	{
 		// Create a directory to use menu
 		FileHandler::makeDir('./files/cache/menu');
-
-		return new BaseObject();
 	}
 
 	/**
@@ -182,8 +180,6 @@ class menu extends ModuleObject
 			
 			$this->recompileCache();
 		}
-
-		return new BaseObject(0, 'success_updated');
 	}
 
 	/**

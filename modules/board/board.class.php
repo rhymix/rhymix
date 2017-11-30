@@ -75,8 +75,6 @@ class board extends ModuleObject
 				$oModuleController->updateSite($site_args);
 			}
 		}
-
-		return new BaseObject();
 	}
 
 	/**
@@ -113,8 +111,6 @@ class board extends ModuleObject
 		{
 			$oModuleController->insertTrigger('menu.getModuleListInSitemap', 'board', 'model', 'triggerModuleListInSitemap', 'after');
 		}
-
-		return new BaseObject(0, 'success_updated');
 	}
 
 	function moduleUninstall()

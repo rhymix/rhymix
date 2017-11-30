@@ -83,8 +83,6 @@ class editor extends ModuleObject
 		$oModuleController->insertTrigger('module.dispAdditionSetup', 'editor', 'view', 'triggerDispEditorAdditionSetup', 'before');
 		// 2009. 04. 14 Add a trigger from compiled codes of the editor component
 		$oModuleController->insertTrigger('display', 'editor', 'controller', 'triggerEditorComponentCompile', 'before');
-
-		return new BaseObject();
 	}
 
 	/**
@@ -151,8 +149,6 @@ class editor extends ModuleObject
 		{
 			$oModuleController->insertTrigger('module.procModuleAdminCopyModule', 'editor', 'controller', 'triggerCopyModule', 'after');
 		}
-
-		return new BaseObject(0, 'success_updated');
 	}
 
 	/**

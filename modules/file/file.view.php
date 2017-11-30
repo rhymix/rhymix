@@ -19,7 +19,7 @@ class fileView extends file
 	 * It only receives file configurations
 	 *
 	 * @param string $obj The html string of page of addition setup of module
-	 * @return Object
+	 * @return void
 	 */
 	function triggerDispFileAdditionSetup(&$obj)
 	{
@@ -31,7 +31,7 @@ class fileView extends file
 			// Get information of the current module
 			$current_module_info = Context::get('current_module_info');
 			$current_module_srl = $current_module_info->module_srl;
-			if(!$current_module_srl) return new BaseObject();
+			if(!$current_module_srl) return;
 		}
 		// Get file configurations of the module
 		$oFileModel = getModel('file');
@@ -46,8 +46,6 @@ class fileView extends file
 		$oTemplate = &TemplateHandler::getInstance();
 		$tpl = $oTemplate->compile($this->module_path.'tpl', 'file_module_config');
 		$obj .= $tpl;
-
-		return new BaseObject();
 	}
 }
 /* End of file file.view.php */

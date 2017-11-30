@@ -9,7 +9,7 @@ class ncenterliteController extends ncenterlite
 		$config = $oNcenterliteModel->getConfig();
 		if($config->user_notify_setting != 'Y')
 		{
-			return new BaseObject(-1, 'msg_not_use_user_setting');
+			return $this->setError('msg_not_use_user_setting');
 		}
 
 		$member_srl = Context::get('member_srl');
@@ -21,7 +21,7 @@ class ncenterliteController extends ncenterlite
 
 		if($logged_info->member_srl != $member_srl && $logged_info->is_admin != 'Y')
 		{
-			return new BaseObject(-1, 'ncenterlite_stop_no_permission_other_user_settings');
+			return $this->setError('ncenterlite_stop_no_permission_other_user_settings');
 		}
 
 		$user_config = $oNcenterliteModel->getUserConfig($member_srl);
@@ -66,7 +66,7 @@ class ncenterliteController extends ncenterlite
 		$member_srl = $obj->member_srl;
 		if(!$member_srl)
 		{
-			return new BaseObject();
+			return;
 		}
 
 		$args = new stdClass();
@@ -80,14 +80,13 @@ class ncenterliteController extends ncenterlite
 		{
 			$this->removeFlagFile($args->member_srl);
 		}
-		return new BaseObject();
 	}
 
 	function triggerAfterInsertDocument(&$obj)
 	{
 		if ($obj->disable_triggers[$this->module] === true)
 		{
-			return new BaseObject();
+			return;
 		}
 
 		$oModuleModel = getModel('module');
@@ -109,7 +108,7 @@ class ncenterliteController extends ncenterlite
 		{
 			if(!$mention_targets && !count($mention_targets) || !isset($config->use['mention']))
 			{
-				return new BaseObject();
+				return;
 			}
 
 			$this->insertMentionByTargets($mention_targets, $obj, $module_info, $is_anonymous);
@@ -144,8 +143,6 @@ class ncenterliteController extends ncenterlite
 				}
 			}
 		}
-
-		return new BaseObject();
 	}
 
 	function triggerAfterInsertComment($obj)
@@ -215,7 +212,7 @@ class ncenterliteController extends ncenterlite
 
 		if(!isset($config->use['comment']))
 		{
-			return new BaseObject();
+			return;
 		}
 
 		// 대댓글
@@ -230,13 +227,13 @@ class ncenterliteController extends ncenterlite
 				$parent_member_config = $comment_member_config->data;
 				if($parent_member_config->comment_notify != 'Y')
 				{
-					return new BaseObject();
+					return;
 				}
 			}
 
 			if(is_array($admin_list) && in_array(abs($member_srl), $admin_list) && isset($config->use['admin_content']) && $obj->admin_comment_notify == true)
 			{
-				return new BaseObject();
+				return;
 			}
 
 			if(!in_array(abs($member_srl), $notify_member_srls) && (!Context::get('is_logged') || ($member_srl != 0 && abs($member_srl) != $logged_info->member_srl)))
@@ -270,7 +267,7 @@ class ncenterliteController extends ncenterlite
 
 			if(is_array($admin_list) && in_array(abs($member_srl), $admin_list) && isset($config->use['admin_content']) && $obj->admin_comment_notify == true)
 			{
-				return new BaseObject();
+				return;
 			}
 
 			if($config->user_notify_setting == 'Y')
@@ -279,7 +276,7 @@ class ncenterliteController extends ncenterlite
 				$document_comment_member_config = $comment_member_config->data;
 				if($document_comment_member_config->comment_notify != 'Y')
 				{
-					return new BaseObject();
+					return;
 				}
 			}
 
@@ -303,8 +300,6 @@ class ncenterliteController extends ncenterlite
 				$this->_insertNotify($args, $is_anonymous);
 			}
 		}
-
-		return new BaseObject();
 	}
 
 	function triggerAfterSendMessage($obj)
@@ -315,12 +310,12 @@ class ncenterliteController extends ncenterlite
 
 		if($communication_config->enable_message != 'Y')
 		{
-			return new BaseObject();
+			return;
 		}
 
 		if(!isset($config->use['message']))
 		{
-			return new BaseObject();
+			return;
 		}
 
 		if($config->user_notify_setting == 'Y')
@@ -329,7 +324,7 @@ class ncenterliteController extends ncenterlite
 			$message_member_config = $messages_member_config->data;
 			if($message_member_config->message_notify != 'Y')
 			{
-				return new BaseObject();
+				return;
 			}
 		}
 
@@ -357,12 +352,12 @@ class ncenterliteController extends ncenterlite
 		$config = $oNcenterliteModel->getConfig();
 		if(!isset($config->use['vote']))
 		{
-			return new BaseObject();
+			return;
 		}
 
 		if($obj->point < 0)
 		{
-			return new BaseObject();
+			return;
 		}
 
 		$args = new stdClass();
@@ -436,7 +431,7 @@ class ncenterliteController extends ncenterlite
 		$config = $oNcenterliteModel->getConfig();
 		if(empty($config->use))
 		{
-			return new BaseObject();
+			return;
 		}
 
 		$notify_list = $oNcenterliteModel->getNotifyMemberSrlByCommentSrl($obj->comment_srl);
@@ -461,8 +456,6 @@ class ncenterliteController extends ncenterlite
 				$this->removeFlagFile($member_srl);
 			}
 		}
-
-		return new BaseObject();
 	}
 
 	function triggerAfterDeleteDocument(&$obj)
@@ -471,7 +464,7 @@ class ncenterliteController extends ncenterlite
 		$config = $oNcenterliteModel->getConfig();
 		if(empty($config->use))
 		{
-			return new BaseObject();
+			return;
 		}
 
 		$args = new stdClass();
@@ -481,7 +474,6 @@ class ncenterliteController extends ncenterlite
 		{
 			return $output;
 		}
-		return new BaseObject();
 	}
 
 	function triggerAfterMoveToTrash(&$obj)
@@ -502,7 +494,7 @@ class ncenterliteController extends ncenterlite
 
 		if(empty($config->use))
 		{
-			return new BaseObject();
+			return;
 		}
 
 		$args = new stdClass();
@@ -516,7 +508,6 @@ class ncenterliteController extends ncenterlite
 				$this->removeFlagFile($member_srl);
 			}
 		}
-		return new BaseObject();
 	}
 
 	function triggerAfterModuleHandlerProc(&$oModule)
@@ -535,7 +526,7 @@ class ncenterliteController extends ncenterlite
 		// if the array is empty, lets return.
 		if(empty($config->use))
 		{
-			return new BaseObject();
+			return;
 		}
 		$this->_hide_ncenterlite = false;
 		if($oModule->module == 'beluxe' && Context::get('is_modal'))
@@ -709,8 +700,6 @@ class ncenterliteController extends ncenterlite
 				$this->removeFlagFile($args->member_srl);
 			}
 		}
-
-		return new BaseObject();
 	}
 
 	function triggerBeforeDisplay(&$output_display)
@@ -719,30 +708,30 @@ class ncenterliteController extends ncenterlite
 		// 팝업창이면 중지
 		if(Context::get('ncenterlite_is_popup'))
 		{
-			return new BaseObject();
+			return;
 		}
 
 		// 자신의 알림목록을 보고 있을 경우엔 알림센터창을 띄우지 않는다.
 		if($act == 'dispNcenterliteNotifyList')
 		{
-			return new BaseObject();
+			return;
 		}
 
 		if(Context::isLocked())
 		{
-			return new BaseObject();
+			return;
 		}
 
 		// HTML 모드가 아니면 중지 + act에 admin이 포함되어 있으면 중지
 		if(Context::getResponseMethod() != 'HTML' || strpos(strtolower(Context::get('act')), 'admin') !== false)
 		{
-			return new BaseObject();
+			return;
 		}
 
 		// 로그인 상태가 아니면 중지
 		if(!Context::get('is_logged'))
 		{
-			return new BaseObject();
+			return;
 		}
 
 		$module_info = Context::get('module_info');
@@ -751,7 +740,7 @@ class ncenterliteController extends ncenterlite
 		// admin 모듈이면 중지
 		if($module_info->module == 'admin')
 		{
-			return new BaseObject();
+			return;
 		}
 
 		$oNcenterliteModel = getModel('ncenterlite');
@@ -760,18 +749,18 @@ class ncenterliteController extends ncenterlite
 		// if the array is empty, dose not output the notification.
 		if(empty($config->use))
 		{
-			return new BaseObject();
+			return;
 		}
 
 		if($config->display_use == 'mobile' && !Mobile::isFromMobilePhone() || $config->display_use == 'pc' && Mobile::isFromMobilePhone() || $config->display_use == 'none')
 		{
-			return new BaseObject();
+			return;
 		}
 
 		// 노티바 제외 페이지이면 중지
 		if(in_array($module_info->module_srl, $config->hide_module_srls))
 		{
-			return new BaseObject();
+			return;
 		}
 
 		Context::set('ncenterlite_config', $config);
@@ -785,7 +774,7 @@ class ncenterliteController extends ncenterlite
 		// 알림 메시지가 없어도 항상 표시하게 하려면 이 줄을 제거 또는 주석 처리하세요.
 		if(!$_output->data)
 		{
-			return new BaseObject();
+			return;
 		}
 
 		$_latest_notify_id = array_slice($_output->data, 0, 1);
@@ -794,7 +783,7 @@ class ncenterliteController extends ncenterlite
 
 		if($_COOKIE['_ncenterlite_hide_id'] && $_COOKIE['_ncenterlite_hide_id'] == $_latest_notify_id)
 		{
-			return new BaseObject();
+			return;
 		}
 		setcookie('_ncenterlite_hide_id', '', 0, '/');
 
@@ -847,7 +836,7 @@ class ncenterliteController extends ncenterlite
 			$logged_info = Context::get('logged_info');
 			if(!Context::get('is_logged'))
 			{
-				return new BaseObject();
+				return;
 			}
 			$target_srl = Context::get('target_srl');
 
@@ -865,8 +854,6 @@ class ncenterliteController extends ncenterlite
 		{
 			$oMemberController->addMemberMenu('dispNcenterliteUserConfig', 'ncenterlite_my_settings');
 		}
-
-		return new BaseObject();
 	}
 
 	function _addFile()
@@ -965,7 +952,7 @@ class ncenterliteController extends ncenterlite
 		$logged_info = Context::get('logged_info');
 		if(!Context::get('is_logged'))
 		{
-			return new BaseObject(-1, 'msg_invalid_request');
+			return $this->setError('msg_invalid_request');
 		}
 
 		$output = $this->updateNotifyReadAll($logged_info->member_srl);
@@ -979,7 +966,7 @@ class ncenterliteController extends ncenterlite
 		$notify = Context::get('notify');
 		if(!$logged_info || !$url || !$notify)
 		{
-			return new BaseObject(-1, 'msg_invalid_request');
+			return $this->setError('msg_invalid_request');
 		}
 
 		$output = $this->updateNotifyRead($notify, $logged_info->member_srl);

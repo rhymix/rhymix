@@ -186,7 +186,7 @@ class pageAdminView extends page
 		}
 		else
 		{
-			return new BaseObject(-1, sprintf('%s method is not exists', $method));
+			return $this->setError(sprintf('%s method is not exists', $method));
 		}
 
 		Context::set('module_info', $this->module_info);

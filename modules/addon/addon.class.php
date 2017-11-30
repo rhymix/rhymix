@@ -11,7 +11,7 @@ class addon extends ModuleObject
 	/**
 	 * Implement if additional tasks are necessary when installing
 	 *
-	 * @return Object
+	 * @return void
 	 */
 	function moduleInstall()
 	{
@@ -21,7 +21,6 @@ class addon extends ModuleObject
 		$oAddonController->doInsert('member_extra_info', 0, 'site', 'Y');
 		$oAddonController->doInsert('resize_image', 0, 'site', 'Y');
 		$oAddonController->makeCacheFile(0);
-		return new BaseObject();
 	}
 
 	/**
@@ -53,7 +52,7 @@ class addon extends ModuleObject
 	/**
 	 * Execute update
 	 *
-	 * @return Object
+	 * @return void
 	 */
 	function moduleUpdate()
 	{
@@ -88,8 +87,6 @@ class addon extends ModuleObject
 				}
 			}
 		}
-
-		return new BaseObject(0, 'success_updated');
 	}
 
 	/**

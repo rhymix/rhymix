@@ -76,7 +76,7 @@ class installController extends install
 		{
 			if ($oDB->isTableExists($table_name))
 			{
-				return new BaseObject(-1, 'msg_table_already_exists');
+				return $this->setError('msg_table_already_exists');
 			}
 		}
 		
@@ -99,7 +99,7 @@ class installController extends install
 		// Check if it is already installed
 		if (Context::isInstalled())
 		{
-			return new BaseObject(-1, 'msg_already_installed');
+			return $this->setError('msg_already_installed');
 		}
 		
 		// Get install parameters.
@@ -227,7 +227,7 @@ class installController extends install
 		catch(Exception $e)
 		{
 			$oDB->rollback();
-			return new BaseObject(-1, $e->getMessage());
+			return $this->setError($e->getMessage());
 		}
 		
 		// Execute the install script.
@@ -411,7 +411,7 @@ class installController extends install
 		else
 		{
 			FileHandler::removeFile($this->flagLicenseAgreement);
-			return new BaseObject(-1, 'msg_must_accept_license_agreement');
+			return $this->setError('msg_must_accept_license_agreement');
 		}
 
 		if(!in_array(Context::getRequestMethod(),array('XMLRPC','JSON')))

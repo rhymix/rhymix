@@ -35,7 +35,7 @@ class ncenterlite extends ModuleObject
 
 	function moduleInstall()
 	{
-		return new BaseObject();
+		
 	}
 
 	function checkUpdate()
@@ -246,8 +246,6 @@ class ncenterlite extends ModuleObject
 				}
 			}
 		}
-
-		return new BaseObject(0, 'success_updated');
 	}
 
 	function recompileCache()

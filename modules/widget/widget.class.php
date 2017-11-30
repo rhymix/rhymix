@@ -18,8 +18,6 @@ class widget extends ModuleObject
 		// Add this widget compile the trigger for the display.after
 		$oModuleController = getController('module');
 		$oModuleController->insertTrigger('display', 'widget', 'controller', 'triggerWidgetCompile', 'before');
-
-		return new BaseObject();
 	}
 
 	/**
@@ -46,8 +44,6 @@ class widget extends ModuleObject
 		{
 			$oModuleController->insertTrigger('display', 'widget', 'controller', 'triggerWidgetCompile', 'before');
 		}
-
-		return new BaseObject(0, 'success_updated');
 	}
 
 	/**

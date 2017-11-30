@@ -354,7 +354,7 @@ class autoinstallAdminModel extends autoinstall
 		$packageSrl = Context::get('package_srl');
 		if(!$packageSrl)
 		{
-			return new BaseObject(-1, 'msg_invalid_request');
+			return $this->setError('msg_invalid_request');
 		}
 
 		$package = $this->getInstallInfo($packageSrl);

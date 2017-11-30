@@ -115,7 +115,6 @@ class point extends ModuleObject
 				$oModuleController->deleteTrigger($trigger[0], $this->module, $trigger[2], $trigger[3], $trigger[1]);
 			}
 		}
-		return new BaseObject(0, 'success_updated');
 	}
 	
 	/**
@@ -158,7 +157,7 @@ class point extends ModuleObject
 		FileHandler::makeDir('./files/member_extra_info/point');
 		
 		// Register triggers.
-		return $this->registerTriggers();
+		$this->registerTriggers();
 	}
 
 	/**

@@ -82,12 +82,12 @@ class commentView extends comment
 		$oComment = $oCommentModel->getComment($comment_srl);
 		if(!$oComment->isExists())
 		{
-			return new BaseObject(-1,'msg_invalid_request');
+			return $this->setError('msg_invalid_request');
 		}
 		// Check permissions
 		if(!$oComment->isAccessible())
 		{
-			return new BaseObject(-1,'msg_not_permitted');
+			return $this->setError('msg_not_permitted');
 		}
 
 		// Browser title settings

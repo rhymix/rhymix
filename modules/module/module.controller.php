@@ -257,7 +257,7 @@ class moduleController extends module
 		if(isSiteID($domain))
 		{
 			$oModuleModel = getModel('module');
-			if($oModuleModel->isIDExists($domain, 0)) return new BaseObject(-1,'msg_already_registed_vid');
+			if($oModuleModel->isIDExists($domain, 0)) return new BaseObject(-1, 'msg_already_registed_vid');
 		}
 		else
 		{
@@ -299,8 +299,8 @@ class moduleController extends module
 		if($site_info->domain != $args->domain)
 		{
 			$info = $oModuleModel->getSiteInfoByDomain($args->domain, $columnList);
-			if($info->site_srl && $info->site_srl != $args->site_srl) return new BaseObject(-1,'msg_already_registed_domain');
-			if(isSiteID($args->domain) && $oModuleModel->isIDExists($args->domain)) return new BaseObject(-1,'msg_already_registed_vid');
+			if($info->site_srl && $info->site_srl != $args->site_srl) return new BaseObject(-1, 'msg_already_registed_domain');
+			if(isSiteID($args->domain) && $oModuleModel->isIDExists($args->domain)) return new BaseObject(-1, 'msg_already_registed_vid');
 
 			if($args->domain && !isSiteID($args->domain))
 			{
@@ -704,7 +704,7 @@ class moduleController extends module
 	 */
 	public function onlyDeleteModule($module_srl)
 	{
-		if(!$module_srl) return new BaseObject(-1,'msg_invalid_request');
+		if(!$module_srl) return new BaseObject(-1, 'msg_invalid_request');
 
 		// check start module
 		$oModuleModel = getModel('module');
@@ -1078,7 +1078,7 @@ class moduleController extends module
 		if ($ajax) Context::setRequestMethod('JSON');
 
 		$logged_info = Context::get('logged_info');
-		if($logged_info->is_admin !='Y' && !$logged_info->is_site_admin) return new BaseObject(-1, 'msg_not_permitted');
+		if($logged_info->is_admin !='Y' && !$logged_info->is_site_admin) return $this->setError('msg_not_permitted');
 
 		$vars = Context::gets('addfile','filter');
 		$attributeNames = Context::get('attribute_name');
@@ -1107,7 +1107,7 @@ class moduleController extends module
 			$filter = array_map('trim', explode(',',$vars->filter));
 			if (!in_array($ext, $filter))
 			{
-				return new BaseObject(-1, 'msg_error_occured');
+				return $this->setError('msg_error_occured');
 			}
 		}
 
@@ -1122,10 +1122,10 @@ class moduleController extends module
 		// insert
 		else
 		{
-			if(!Context::isUploaded()) return new BaseObject(-1, 'msg_error_occured');
+			if(!Context::isUploaded()) return $this->setError('msg_error_occured');
 			$addfile = Context::get('addfile');
-			if(!is_uploaded_file($addfile['tmp_name'])) return new BaseObject(-1, 'msg_error_occured');
-			if($vars->addfile['error'] != 0) return new BaseObject(-1, 'msg_error_occured');
+			if(!is_uploaded_file($addfile['tmp_name'])) return $this->setError('msg_error_occured');
+			if($vars->addfile['error'] != 0) return $this->setError('msg_error_occured');
 			$output = $this->insertModuleFileBox($vars);
 		}
 
@@ -1224,10 +1224,10 @@ class moduleController extends module
 	function procModuleFileBoxDelete()
 	{
 		$logged_info = Context::get('logged_info');
-		if($logged_info->is_admin !='Y' && !$logged_info->is_site_admin) return new BaseObject(-1, 'msg_not_permitted');
+		if($logged_info->is_admin !='Y' && !$logged_info->is_site_admin) return $this->setError('msg_not_permitted');
 
 		$module_filebox_srl = Context::get('module_filebox_srl');
-		if(!$module_filebox_srl) return new BaseObject(-1, 'msg_invalid_request');
+		if(!$module_filebox_srl) return $this->setError('msg_invalid_request');
 		$vars = new stdClass();
 		$vars->module_filebox_srl = $module_filebox_srl;
 		$output = $this->deleteModuleFileBox($vars);

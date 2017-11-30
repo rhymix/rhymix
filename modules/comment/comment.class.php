@@ -33,8 +33,6 @@ class comment extends ModuleObject
 		$oModuleController->insertTrigger('module.deleteModule', 'comment', 'controller', 'triggerDeleteModuleComments', 'after');
 		// 2008. 02. 22 add comment setting when a new module added
 		$oModuleController->insertTrigger('module.dispAdditionSetup', 'comment', 'view', 'triggerDispCommentAdditionSetup', 'before');
-
-		return new BaseObject();
 	}
 
 	/**
@@ -194,8 +192,6 @@ class comment extends ModuleObject
 		{
 			$oDB->addIndex('comments', 'idx_parent_srl', array('parent_srl'));
 		}
-
-		return new BaseObject(0, 'success_updated');
 	}
 
 	/**

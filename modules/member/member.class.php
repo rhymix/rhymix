@@ -164,8 +164,6 @@ class member extends ModuleObject {
 		// 2013. 11. 22 add menu when popup document menu called
 		$oModuleController->insertTrigger('document.getDocumentMenu', 'member', 'controller', 'triggerGetDocumentMenu', 'after');
 		$oModuleController->insertTrigger('comment.getCommentMenu', 'member', 'controller', 'triggerGetCommentMenu', 'after');
-
-		return new BaseObject();
 	}
 
 	/**
@@ -414,8 +412,6 @@ class member extends ModuleObject {
 			$oModuleController->insertTrigger('document.getDocumentMenu', 'member', 'controller', 'triggerGetDocumentMenu', 'after');
 		if(!$oModuleModel->getTrigger('comment.getCommentMenu', 'member', 'controller', 'triggerGetCommentMenu', 'after'))
 			$oModuleController->insertTrigger('comment.getCommentMenu', 'member', 'controller', 'triggerGetCommentMenu', 'after');
-
-		return new BaseObject(0, 'success_updated');
 	}
 
 	/**

@@ -662,7 +662,7 @@ class adminAdminView extends admin
 			$domain_info = getModel('module')->getSiteInfo($domain_srl);
 			if ($domain_info->domain_srl != $domain_srl)
 			{
-				return new BaseObject(-1, 'msg_domain_not_found');
+				return $this->setError('msg_domain_not_found');
 			}
 		}
 		Context::set('domain_info', $domain_info);

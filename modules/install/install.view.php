@@ -58,7 +58,6 @@ class installView extends install
 				else
 				{
 					$this->setRedirectUrl(RX_BASEURL);
-					return new BaseObject();
 				}
 			}
 		}

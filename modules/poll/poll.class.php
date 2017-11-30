@@ -28,8 +28,6 @@ class poll extends ModuleObject
 		$oModuleController->insertTrigger('comment.updateComment', 'poll', 'controller', 'triggerUpdateCommentPoll', 'after');
 		$oModuleController->insertTrigger('document.deleteDocument', 'poll', 'controller', 'triggerDeleteDocumentPoll', 'after');
 		$oModuleController->insertTrigger('comment.deleteComment', 'poll', 'controller', 'triggerDeleteCommentPoll', 'after');
-
-		return new BaseObject();
 	}
 
 	/**
@@ -104,8 +102,6 @@ class poll extends ModuleObject
 		{
 			$oDB->addColumn('poll_item', 'add_user_srl', 'number', 11, 0);
 		}
-
-		return new BaseObject(0, 'success_updated');
 	}
 
 	/**

@@ -25,8 +25,6 @@ class session extends ModuleObject
 	{
 		$oDB = &DB::getInstance();
 		$oDB->addIndex("session","idx_session_update_mid", array("member_srl","last_update","cur_mid"));
-
-		return new BaseObject();
 	}
 
 	/**

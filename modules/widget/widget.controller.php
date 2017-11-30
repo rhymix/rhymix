@@ -47,8 +47,8 @@ class widgetController extends widget
 	function procWidgetGenerateCode()
 	{
 		$widget = Context::get('selected_widget');
-		if(!$widget) return new BaseObject(-1,'msg_invalid_request');
-		if(!Context::get('skin')) return new BaseObject(-1,lang('msg_widget_skin_is_null'));
+		if(!$widget) return $this->setError('msg_invalid_request');
+		if(!Context::get('skin')) return $this->setError('msg_widget_skin_is_null');
 
 		$attribute = $this->arrangeWidgetVars($widget, Context::getRequestVars(), $vars);
 
@@ -63,9 +63,9 @@ class widgetController extends widget
 	function procWidgetGenerateCodeInPage()
 	{
 		$widget = Context::get('selected_widget');
-		if(!$widget) return new BaseObject(-1,'msg_invalid_request');
+		if(!$widget) return $this->setError('msg_invalid_request');
 
-		if(!in_array($widget,array('widgetBox','widgetContent')) && !Context::get('skin')) return new BaseObject(-1,lang('msg_widget_skin_is_null'));
+		if(!in_array($widget,array('widgetBox','widgetContent')) && !Context::get('skin')) return $this->setError('msg_widget_skin_is_null');
 
 		$attribute = $this->arrangeWidgetVars($widget, Context::getRequestVars(), $vars);
 		// Wanted results
@@ -112,18 +112,18 @@ class widgetController extends widget
 		$page_info = $oModuleModel->getModuleInfoByModuleSrl($module_srl, $columnList);
 		if(!$page_info->module_srl || $page_info->module != 'page') $err++;
 
-		if($err > 1) return new BaseObject(-1,'msg_invalid_request');
+		if($err > 1) return $this->setError('msg_invalid_request');
 		
 		// Check permissions
 		$logged_info = Context::get('logged_info');
 		if (!$logged_info->member_srl)
 		{
-			return new BaseObject(-1,'msg_not_permitted');
+			return $this->setError('msg_not_permitted');
 		}
 		$module_grant = $oModuleModel->getGrant($page_info, $logged_info);
 		if (!$module_grant->manager)
 		{
-			return new BaseObject(-1,'msg_not_permitted');
+			return $this->setError('msg_not_permitted');
 		}
 		
 		// Enter post
@@ -167,25 +167,25 @@ class widgetController extends widget
 		$oDocumentAdminController = getAdminController('document');
 
 		$oDocument = $oDocumentModel->getDocument($document_srl);
-		if(!$oDocument->isExists()) return new BaseObject(-1,'msg_invalid_request');
+		if(!$oDocument->isExists()) return $this->setError('msg_invalid_request');
 		$module_srl = $oDocument->get('module_srl');
 		
 		// Destination Information Wanted page module
 		$oModuleModel = getModel('module');
 		$columnList = array('module_srl', 'module');
 		$page_info = $oModuleModel->getModuleInfoByModuleSrl($module_srl, $columnList);
-		if(!$page_info->module_srl || $page_info->module != 'page') return new BaseObject(-1,'msg_invalid_request');
+		if(!$page_info->module_srl || $page_info->module != 'page') return $this->setError('msg_invalid_request');
 		
 		// Check permissions
 		$logged_info = Context::get('logged_info');
 		if (!$logged_info->member_srl)
 		{
-			return new BaseObject(-1,'msg_not_permitted');
+			return $this->setError('msg_not_permitted');
 		}
 		$module_grant = $oModuleModel->getGrant($page_info, $logged_info);
 		if (!$module_grant->manager)
 		{
-			return new BaseObject(-1,'msg_not_permitted');
+			return $this->setError('msg_not_permitted');
 		}
 		
 		$output = $oDocumentAdminController->copyDocumentModule(array($oDocument->get('document_srl')), $oDocument->get('module_srl'),0);
@@ -208,24 +208,24 @@ class widgetController extends widget
 		$oDocumentController = getController('document');
 
 		$oDocument = $oDocumentModel->getDocument($document_srl);
-		if(!$oDocument->isExists()) return new BaseObject();
+		if(!$oDocument->isExists()) return;
 		$module_srl = $oDocument->get('module_srl');
 		
 		// Destination Information Wanted page module
 		$oModuleModel = getModel('module');
 		$page_info = $oModuleModel->getModuleInfoByModuleSrl($module_srl);
-		if(!$page_info->module_srl || $page_info->module != 'page') return new BaseObject(-1,'msg_invalid_request');
+		if(!$page_info->module_srl || $page_info->module != 'page') return $this->setError('msg_invalid_request');
 		
 		// Check permissions
 		$logged_info = Context::get('logged_info');
 		if (!$logged_info->member_srl)
 		{
-			return new BaseObject(-1,'msg_not_permitted');
+			return $this->setError('msg_not_permitted');
 		}
 		$module_grant = $oModuleModel->getGrant($page_info, $logged_info);
 		if (!$module_grant->manager)
 		{
-			return new BaseObject(-1,'msg_not_permitted');
+			return $this->setError('msg_not_permitted');
 		}
 		
 		$output = $oDocumentController->deleteDocument($oDocument->get('document_srl'));
@@ -246,9 +246,8 @@ class widgetController extends widget
 	 */
 	function triggerWidgetCompile(&$content)
 	{
-		if(Context::getResponseMethod()!='HTML') return new BaseObject();
+		if(Context::getResponseMethod()!='HTML') return;
 		$content = $this->transWidgetCode($content, $this->layout_javascript_mode);
-		return new BaseObject();
 	}
 
 	/**

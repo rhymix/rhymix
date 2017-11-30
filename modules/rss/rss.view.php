@@ -201,7 +201,7 @@ class rssView extends rss
 		{
 			if(!$current_module_srl = Context::get('current_module_info')->module_srl)
 			{
-				return new BaseObject();
+				return;
 			}
 		}
 		
@@ -210,8 +210,6 @@ class rssView extends rss
 		
 		// Add output after compile template
 		$output .= TemplateHandler::getInstance()->compile($this->module_path . 'tpl', 'rss_module_config');
-		
-		return new BaseObject();
 	}
 }
 /* End of file rss.view.php */

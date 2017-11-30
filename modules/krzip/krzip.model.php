@@ -94,7 +94,7 @@ class krzipModel extends krzip
 		$module_config = $this->getConfig();
 		if($module_config->api_handler != 1)
 		{
-			return new BaseObject(-1, 'msg_invalid_request');
+			return $this->setError('msg_invalid_request');
 		}
 		if(!isset($query))
 		{
@@ -185,11 +185,11 @@ class krzipModel extends krzip
 				}
 			}
 
-			return new BaseObject(-1, $err_msg);
+			return $this->setError($err_msg);
 		}
 		if(!$result->post)
 		{
-			return new BaseObject(-1, 'msg_krzip_riddling_wrong');
+			return $this->setError('msg_krzip_riddling_wrong');
 		}
 
 		$item_list = $result->post->itemlist->item;
@@ -199,7 +199,7 @@ class krzipModel extends krzip
 		}
 		if(!$item_list)
 		{
-			return new BaseObject(-1, 'msg_krzip_no_result');
+			return $this->setError('msg_krzip_no_result');
 		}
 
 		$addr_list = array();

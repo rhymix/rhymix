@@ -29,13 +29,13 @@ class commentController extends comment
 	{
 		if(!Context::get('is_logged'))
 		{
-			return new BaseObject(-1, 'msg_invalid_request');
+			return $this->setError('msg_invalid_request');
 		}
 
 		$comment_srl = Context::get('target_srl');
 		if(!$comment_srl)
 		{
-			return new BaseObject(-1, 'msg_invalid_request');
+			return $this->setError('msg_invalid_request');
 		}
 
 		$oCommentModel = getModel('comment');
@@ -43,14 +43,14 @@ class commentController extends comment
 		$module_srl = $oComment->get('module_srl');
 		if(!$module_srl)
 		{
-			return new BaseObject(-1, 'msg_invalid_request');
+			return $this->setError('msg_invalid_request');
 		}
 
 		$oModuleModel = getModel('module');
 		$comment_config = $oModuleModel->getModulePartConfig('comment', $module_srl);
 		if($comment_config->use_vote_up == 'N')
 		{
-			return new BaseObject(-1, 'msg_invalid_request');
+			return $this->setError('msg_invalid_request');
 		}
 
 		$point = 1;
@@ -61,16 +61,16 @@ class commentController extends comment
 
 	function procCommentVoteUpCancel()
 	{
-		if(!Context::get('logged_info')) return new BaseObject(-1, 'msg_invalid_request');
+		if(!Context::get('logged_info')) return $this->setError('msg_invalid_request');
 
 		$comment_srl = Context::get('target_srl');
-		if(!$comment_srl) return new BaseObject(-1, 'msg_invalid_request');
+		if(!$comment_srl) return $this->setError('msg_invalid_request');
 
 		$oCommentModel = getModel('comment');
 		$oComment = $oCommentModel->getComment($comment_srl, FALSE, FALSE);
 		if($oComment->get('voted_count') <= 0)
 		{
-			return new BaseObject(-1, 'msg_comment_voted_cancel_not');
+			return $this->setError('msg_comment_voted_cancel_not');
 		}
 		$point = 1;
 		$output = $this->updateVotedCountCancel($comment_srl, $oComment, $point);
@@ -90,13 +90,13 @@ class commentController extends comment
 	{
 		if(!Context::get('is_logged'))
 		{
-			return new BaseObject(-1, 'msg_invalid_request');
+			return $this->setError('msg_invalid_request');
 		}
 
 		$comment_srl = Context::get('target_srl');
 		if(!$comment_srl)
 		{
-			return new BaseObject(-1, 'msg_invalid_request');
+			return $this->setError('msg_invalid_request');
 		}
 
 		$oCommentModel = getModel('comment');
@@ -104,14 +104,14 @@ class commentController extends comment
 		$module_srl = $oComment->get('module_srl');
 		if(!$module_srl)
 		{
-			return new BaseObject(-1, 'msg_invalid_request');
+			return $this->setError('msg_invalid_request');
 		}
 
 		$oModuleModel = getModel('module');
 		$comment_config = $oModuleModel->getModulePartConfig('comment', $module_srl);
 		if($comment_config->use_vote_down == 'N')
 		{
-			return new BaseObject(-1, 'msg_invalid_request');
+			return $this->setError('msg_invalid_request');
 		}
 
 		$point = -1;
@@ -122,16 +122,16 @@ class commentController extends comment
 
 	function procCommentVoteDownCancel()
 	{
-		if(!Context::get('logged_info')) return new BaseObject(-1, 'msg_invalid_request');
+		if(!Context::get('logged_info')) return $this->setError('msg_invalid_request');
 
 		$comment_srl = Context::get('target_srl');
-		if(!$comment_srl) return new BaseObject(-1, 'msg_invalid_request');
+		if(!$comment_srl) return $this->setError('msg_invalid_request');
 
 		$oCommentModel = getModel('comment');
 		$oComment = $oCommentModel->getComment($comment_srl, FALSE, FALSE);
 		if($oComment->get('blamed_count') >= 0)
 		{
-			return new BaseObject(-1, 'msg_comment_blamed_cancel_not');
+			return $this->setError('msg_comment_blamed_cancel_not');
 		}
 		$point = -1;
 		$output = $this->updateVotedCountCancel($comment_srl, $oComment, $point);
@@ -193,13 +193,13 @@ class commentController extends comment
 	{
 		if(!Context::get('is_logged'))
 		{
-			return new BaseObject(-1, 'msg_invalid_request');
+			return $this->setError('msg_invalid_request');
 		}
 
 		$comment_srl = Context::get('target_srl');
 		if(!$comment_srl)
 		{
-			return new BaseObject(-1, 'msg_invalid_request');
+			return $this->setError('msg_invalid_request');
 		}
 
 		// if an user select message from options, message would be the option.
@@ -226,7 +226,7 @@ class commentController extends comment
 		$document_srl = $obj->document_srl;
 		if(!$document_srl)
 		{
-			return new BaseObject();
+			return;
 		}
 
 		return $this->deleteComments($document_srl, $obj);
@@ -241,7 +241,7 @@ class commentController extends comment
 		$module_srl = $obj->module_srl;
 		if(!$module_srl)
 		{
-			return new BaseObject();
+			return;
 		}
 
 		$oCommentController = getAdminController('comment');
@@ -1622,13 +1622,13 @@ class commentController extends comment
 			$module_info = $oModuleModel->getModuleInfoByModuleSrl($srl);
 			if (!$module_info->module_srl)
 			{
-				return new BaseObject(-1, 'msg_invalid_request');
+				return $this->setError('msg_invalid_request');
 			}
 			
 			$module_grant = $oModuleModel->getGrant($module_info, $logged_info);
 			if (!$module_grant->manager)
 			{
-				return new BaseObject(-1, 'msg_not_permitted');
+				return $this->setError('msg_not_permitted');
 			}
 			
 			$module_srl[] = $srl;
@@ -1692,7 +1692,7 @@ class commentController extends comment
 	{
 		if(!Context::get('is_logged'))
 		{
-			return new BaseObject(-1, 'msg_not_permitted');
+			return $this->setError('msg_not_permitted');
 		}
 
 		$commentSrls = Context::get('comment_srls');

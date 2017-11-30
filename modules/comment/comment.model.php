@@ -976,7 +976,7 @@ class commentModel extends comment
 		$comment_srl = Context::get('comment_srl');
 		if(!$comment_srl)
 		{
-			return new BaseObject(-1, 'msg_invalid_request');
+			return $this->setError('msg_invalid_request');
 		}
 
 		$point = Context::get('point');
@@ -990,7 +990,7 @@ class commentModel extends comment
 		$module_srl = $oComment->get('module_srl');
 		if(!$module_srl)
 		{
-			return new BaseObject(-1, 'msg_invalid_request');
+			return $this->setError('msg_invalid_request');
 		}
 
 		$oModuleModel = getModel('module');
@@ -1002,7 +1002,7 @@ class commentModel extends comment
 		{
 			if($comment_config->use_vote_down != 'S')
 			{
-				return new BaseObject(-1, 'msg_invalid_request');
+				return $this->setError('msg_invalid_request');
 			}
 
 			$args->below_point = 0;
@@ -1011,7 +1011,7 @@ class commentModel extends comment
 		{
 			if($comment_config->use_vote_up != 'S')
 			{
-				return new BaseObject(-1, 'msg_invalid_request');
+				return $this->setError('msg_invalid_request');
 			}
 
 			$args->more_point = 0;

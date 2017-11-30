@@ -251,7 +251,7 @@ class editorAdminController extends editor
 		// Check if the component exists
 		if(!$site_srl) $output = executeQuery('editor.isComponentInserted', $args);
 		else $output = executeQuery('editor.isSiteComponentInserted', $args);
-		if($output->data->count) return new BaseObject(-1, 'msg_component_is_not_founded');
+		if($output->data->count) return $this->setError('msg_component_is_not_founded');
 		// Inert a component
 		$args->list_order = getNextSequence();
 		if(!$site_srl) $output = executeQuery('editor.insertComponent', $args);

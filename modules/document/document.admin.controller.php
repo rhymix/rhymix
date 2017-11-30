@@ -557,7 +557,7 @@ class documentAdminController extends document
 		$eid = Context::get('eid');
 		$obj = new stdClass();
 
-		if(!$module_srl || !$name || !$eid) return new BaseObject(-1,'msg_invalid_request');
+		if(!$module_srl || !$name || !$eid) return $this->setError('msg_invalid_request');
 		// set the max value if idx is not specified
 		if(!$var_idx)
 		{
@@ -573,7 +573,7 @@ class documentAdminController extends document
 		$output = executeQuery('document.isExistsExtraKey', $obj);
 		if(!$output->toBool() || $output->data->count)
 		{
-			return new BaseObject(-1, 'msg_extra_name_exists');
+			return $this->setError('msg_extra_name_exists');
 		}
 
 		// insert or update
@@ -595,7 +595,7 @@ class documentAdminController extends document
 	{
 		$module_srl = Context::get('module_srl');
 		$var_idx = Context::get('var_idx');
-		if(!$module_srl || !$var_idx) return new BaseObject(-1,'msg_invalid_request');
+		if(!$module_srl || !$var_idx) return $this->setError('msg_invalid_request');
 
 		$oDocumentController = getController('document');
 		$output = $oDocumentController->deleteDocumentExtraKeys($module_srl, $var_idx);
@@ -614,26 +614,26 @@ class documentAdminController extends document
 		$module_srl = Context::get('module_srl');
 		$var_idx = Context::get('var_idx');
 
-		if(!$type || !$module_srl || !$var_idx) return new BaseObject(-1,'msg_invalid_request');
+		if(!$type || !$module_srl || !$var_idx) return $this->setError('msg_invalid_request');
 
 		$oModuleModel = getModel('module');
 		$module_info = $oModuleModel->getModuleInfoByModuleSrl($module_srl);
-		if(!$module_info->module_srl) return new BaseObject(-1,'msg_invalid_request');
+		if(!$module_info->module_srl) return $this->setError('msg_invalid_request');
 
 		$oDocumentModel = getModel('document');
 		$extra_keys = $oDocumentModel->getExtraKeys($module_srl);
-		if(!$extra_keys[$var_idx]) return new BaseObject(-1,'msg_invalid_request');
+		if(!$extra_keys[$var_idx]) return $this->setError('msg_invalid_request');
 
 		if($type == 'up') $new_idx = $var_idx-1;
 		else $new_idx = $var_idx+1;
-		if($new_idx<1) return new BaseObject(-1,'msg_invalid_request');
+		if($new_idx<1) return $this->setError('msg_invalid_request');
 
 		$args = new stdClass();
 		$args->module_srl = $module_srl;
 		$args->var_idx = $new_idx;
 		$output = executeQuery('document.getDocumentExtraKeys', $args);
 		if (!$output->toBool()) return $output;
-		if (!$output->data) return new BaseObject(-1, 'msg_invalid_request');
+		if (!$output->data) return $this->setError('msg_invalid_request');
 		unset($args);
 
 		// update immediately if there is no idx to change
@@ -737,7 +737,7 @@ class documentAdminController extends document
 		$member_info = $oMemberModel->getMemberInfoByMemberSrl($oDocument->get('member_srl'));
 		if($member_info->is_admin == 'Y' && $logged_info->is_admin != 'Y')
 		{
-			return new BaseObject(-1, 'msg_admin_document_no_move_to_trash');
+			return $this->setError('msg_admin_document_no_move_to_trash');
 		}
 
 		$oModuleModel = getModel('module');
@@ -882,7 +882,7 @@ class documentAdminController extends document
 
 		//DB restore
 		$output = $oDocumentController->insertDocument($originObject, false, true, false);
-		if(!$output->toBool()) return new BaseObject(-1, $output->getMessage());
+		if(!$output->toBool()) return $this->setError($output->getMessage());
 
 		//FILE restore
 		$oDocument = $oDocumentModel->getDocument($originObject->document_srl);

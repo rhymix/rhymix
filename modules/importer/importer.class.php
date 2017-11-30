@@ -12,11 +12,11 @@ class importer extends ModuleObject
 {
 	/**
 	 * Implement if additional tasks are necessary when installing
-	 * @return Object
+	 * @return void
 	 */
 	function moduleInstall()
 	{
-		return new BaseObject();
+		
 	}
 
 	/**
@@ -30,11 +30,11 @@ class importer extends ModuleObject
 
 	/**
 	 * Execute update
-	 * @return Object
+	 * @return void
 	 */
 	function moduleUpdate()
 	{
-		return new BaseObject();
+		
 	}
 
 	/**
@@ -43,6 +43,7 @@ class importer extends ModuleObject
 	 */
 	function recompileCache()
 	{
+		
 	}
 }
 /* End of file importer.class.php */

@@ -30,7 +30,7 @@ class memberController extends member
 		if(!$user_id && !$password && Context::getRequestMethod() == 'GET')
 		{
 			$this->setRedirectUrl(getNotEncodedUrl(''));
-			return new BaseObject(-1, 'null_user_id');
+			return $this->setError('null_user_id');
 		}
 
 		// Variables
@@ -42,8 +42,8 @@ class memberController extends member
 
 		if(!$keep_signed) $keep_signed = Context::get('keep_signed');
 		// Return an error when id and password doesn't exist
-		if(!$user_id) return new BaseObject(-1,'null_user_id');
-		if(!$password) return new BaseObject(-1,'null_password');
+		if(!$user_id) return $this->setError('null_user_id');
+		if(!$password) return $this->setError('null_password');
 
 		$output = $this->doLogin($user_id, $password, $keep_signed=='Y'?true:false);
 		if (!$output->toBool()) return $output;
@@ -123,7 +123,7 @@ class memberController extends member
 		$document_srl = (int) (Context::get('document_srl') ?: Context::get('target_srl'));
 		if(!$document_srl)
 		{
-			return new BaseObject(-1,'msg_invalid_request');
+			return $this->setError('msg_invalid_request');
 		}
 		
 		$oDocumentModel = getModel('document');
@@ -132,7 +132,7 @@ class memberController extends member
 		// Check document
 		if($oDocument->isSecret() && !$oDocument->isGranted())
 		{
-			return new BaseObject(-1, 'msg_is_secret');
+			return $this->setError('msg_is_secret');
 		}
 		
 		$oModuleModel = getModel('module');
@@ -144,19 +144,19 @@ class memberController extends member
 		// Check access to module of the document
 		if(!$grant->access)
 		{
-			return new BaseObject(-1, 'msg_not_permitted');
+			return $this->setError('msg_not_permitted');
 		}
 		
 		// Check grant to module of the document
 		if(isset($grant->list) && isset($grant->view) && (!$grant->list || !$grant->view))
 		{
-			return new BaseObject(-1, 'msg_not_permitted');
+			return $this->setError('msg_not_permitted');
 		}
 		
 		// Check consultation option
 		if(isset($grant->consultation_read) && $module_info->consultation == 'Y' && !$grant->consultation_read && !$oDocument->isGranted())
 		{
-			return new BaseObject(-1, 'msg_not_permitted');
+			return $this->setError('msg_not_permitted');
 		}
 		
 		// Find default scrap folder
@@ -188,7 +188,7 @@ class memberController extends member
 		$output = executeQuery('member.getScrapDocument', $args);
 		if($output->data->count)
 		{
-			return new BaseObject(-1, 'msg_alreay_scrapped');
+			return $this->setError('msg_alreay_scrapped');
 		}
 		
 		// Insert
@@ -207,11 +207,11 @@ class memberController extends member
 	function procMemberDeleteScrap()
 	{
 		// Check login information
-		if(!Context::get('is_logged')) return new BaseObject(-1, 'msg_not_logged');
+		if(!Context::get('is_logged')) return $this->setError('msg_not_logged');
 		$logged_info = Context::get('logged_info');
 
 		$document_srl = (int)Context::get('document_srl');
-		if(!$document_srl) return new BaseObject(-1,'msg_invalid_request');
+		if(!$document_srl) return $this->setError('msg_invalid_request');
 		// Variables
 		$args = new stdClass;
 		$args->member_srl = $logged_info->member_srl;
@@ -227,14 +227,14 @@ class memberController extends member
 	function procMemberMoveScrapFolder()
 	{
 		// Check login information
-		if(!Context::get('is_logged')) return new BaseObject(-1, 'msg_not_logged');
+		if(!Context::get('is_logged')) return $this->setError('msg_not_logged');
 		$logged_info = Context::get('logged_info');
 
 		$document_srl = (int)Context::get('document_srl');
 		$folder_srl = (int)Context::get('folder_srl');
 		if(!$document_srl || !$folder_srl)
 		{
-			return new BaseObject(-1,'msg_invalid_request');
+			return $this->setError('msg_invalid_request');
 		}
 		
 		// Check that the target folder exists and belongs to member
@@ -244,7 +244,7 @@ class memberController extends member
 		$output = executeQueryArray('member.getScrapFolderList', $args);
 		if(!count($output->data))
 		{
-			return new BaseObject(-1, 'msg_invalid_request');
+			return $this->setError('msg_invalid_request');
 		}
 		
 		// Move
@@ -263,7 +263,7 @@ class memberController extends member
 	function procMemberInsertScrapFolder()
 	{
 		// Check login information
-		if(!Context::get('is_logged')) return new BaseObject(-1, 'msg_not_logged');
+		if(!Context::get('is_logged')) return $this->setError('msg_not_logged');
 		$logged_info = Context::get('logged_info');
 		
 		// Get new folder name
@@ -271,7 +271,7 @@ class memberController extends member
 		$folder_name = escape(trim(utf8_normalize_spaces($folder_name)));
 		if(!$folder_name)
 		{
-			return new BaseObject(-1, 'msg_invalid_request');
+			return $this->setError('msg_invalid_request');
 		}
 		
 		// Check existing folder with same name
@@ -281,7 +281,7 @@ class memberController extends member
 		$output = executeQueryArray('member.getScrapFolderList', $args);
 		if(count($output->data) || $folder_name === lang('default_folder'))
 		{
-			return new BaseObject(-1, 'msg_folder_alreay_exists');
+			return $this->setError('msg_folder_alreay_exists');
 		}
 		
 		// Create folder
@@ -302,7 +302,7 @@ class memberController extends member
 	function procMemberRenameScrapFolder()
 	{
 		// Check login information
-		if(!Context::get('is_logged')) return new BaseObject(-1, 'msg_not_logged');
+		if(!Context::get('is_logged')) return $this->setError('msg_not_logged');
 		$logged_info = Context::get('logged_info');
 		
 		// Get new folder name
@@ -311,7 +311,7 @@ class memberController extends member
 		$folder_name = escape(trim(utf8_normalize_spaces($folder_name)));
 		if(!$folder_srl || !$folder_name)
 		{
-			return new BaseObject(-1, 'msg_invalid_request');
+			return $this->setError('msg_invalid_request');
 		}
 		
 		// Check that the original folder exists and belongs to member
@@ -321,11 +321,11 @@ class memberController extends member
 		$output = executeQueryArray('member.getScrapFolderList', $args);
 		if(!count($output->data))
 		{
-			return new BaseObject(-1, 'msg_invalid_request');
+			return $this->setError('msg_invalid_request');
 		}
 		if(array_first($output->data)->name === '/DEFAULT/')
 		{
-			return new BaseObject(-1, 'msg_folder_is_default');
+			return $this->setError('msg_folder_is_default');
 		}
 		
 		// Check existing folder with same name
@@ -336,7 +336,7 @@ class memberController extends member
 		$output = executeQueryArray('member.getScrapFolderList', $args);
 		if(count($output->data) || $folder_name === lang('default_folder'))
 		{
-			return new BaseObject(-1, 'msg_folder_alreay_exists');
+			return $this->setError('msg_folder_alreay_exists');
 		}
 		
 		// Rename folder
@@ -354,14 +354,14 @@ class memberController extends member
 	function procMemberDeleteScrapFolder()
 	{
 		// Check login information
-		if(!Context::get('is_logged')) return new BaseObject(-1, 'msg_not_logged');
+		if(!Context::get('is_logged')) return $this->setError('msg_not_logged');
 		$logged_info = Context::get('logged_info');
 		
 		// Get folder_srl to delete
 		$folder_srl = intval(Context::get('folder_srl'));
 		if(!$folder_srl)
 		{
-			return new BaseObject(-1, 'msg_invalid_request');
+			return $this->setError('msg_invalid_request');
 		}
 		
 		// Check that the folder exists and belongs to member
@@ -371,11 +371,11 @@ class memberController extends member
 		$output = executeQueryArray('member.getScrapFolderList', $args);
 		if(!count($output->data))
 		{
-			return new BaseObject(-1, 'msg_invalid_request');
+			return $this->setError('msg_invalid_request');
 		}
 		if(array_first($output->data)->name === '/DEFAULT/')
 		{
-			return new BaseObject(-1, 'msg_folder_is_default');
+			return $this->setError('msg_folder_is_default');
 		}
 		
 		// Check that the folder is empty
@@ -385,7 +385,7 @@ class memberController extends member
 		$output = executeQueryArray('member.getScrapDocumentList', $args);
 		if(count($output->data))
 		{
-			return new BaseObject(-1, 'msg_folder_not_empty');
+			return $this->setError('msg_folder_not_empty');
 		}
 		
 		// Delete folder
@@ -437,22 +437,22 @@ class memberController extends member
 	function procMemberDeleteSavedDocument()
 	{
 		// Check login information
-		if(!Context::get('is_logged')) return new BaseObject(-1, 'msg_not_logged');
+		if(!Context::get('is_logged')) return $this->setError('msg_not_logged');
 		$logged_info = Context::get('logged_info');
 
 		$document_srl = (int)Context::get('document_srl');
-		if(!$document_srl) return new BaseObject(-1,'msg_invalid_request');
+		if(!$document_srl) return $this->setError('msg_invalid_request');
 		
 		$oDocumentModel = getModel('document');
 		$oDocument = $oDocumentModel->getDocument($document_srl);
 		if ($oDocument->get('member_srl') != $logged_info->member_srl)
 		{
-			return new BaseObject(-1,'msg_invalid_request');
+			return $this->setError('msg_invalid_request');
 		}
 		$configStatusList = $oDocumentModel->getStatusList();
 		if ($oDocument->get('status') != $configStatusList['temp'])
 		{
-			return new BaseObject(-1,'msg_invalid_request');
+			return $this->setError('msg_invalid_request');
 		}
 
 		// Variables
@@ -466,14 +466,14 @@ class memberController extends member
 	function procMemberDeleteAutologin()
 	{
 		// Check login information
-		if(!Context::get('is_logged')) return new BaseObject(-1, 'msg_not_logged');
+		if(!Context::get('is_logged')) return $this->setError('msg_not_logged');
 		$logged_info = Context::get('logged_info');
 		
 		$autologin_id = intval(Context::get('autologin_id'));
 		$autologin_key = Context::get('autologin_key');
 		if (!$autologin_id || !$autologin_key)
 		{
-			return new BaseObject(-1, 'msg_invalid_request');
+			return $this->setError('msg_invalid_request');
 		}
 		
 		$args = new stdClass;
@@ -590,7 +590,7 @@ class memberController extends member
 		{
 			if($agreement->type === 'required' && $accept_agreement !== 'Y' && $accept_agreement[$i] !== 'Y')
 			{
-				return $this->stop('msg_accept_agreement');
+				return $this->setError('msg_accept_agreement');
 			}
 		}
 
@@ -645,7 +645,7 @@ class memberController extends member
 		if(!$oMemberModel->checkPasswordStrength($args->password, $config->password_strength))
 		{
 			$message = lang('about_password_strength');
-			return new BaseObject(-1, $message[$config->password_strength]);
+			return $this->setError($message[$config->password_strength]);
 		}
 
 		// Remove some unnecessary variables from all the vars
@@ -804,7 +804,7 @@ class memberController extends member
 		// Verify the current password
 		if(!$oMemberModel->isValidPassword($member_info->password, $password))
 		{
-			return new BaseObject(-1, 'invalid_password');
+			return $this->setError('invalid_password');
 		}
 
 		$_SESSION['rechecked_password_step'] = 'VALIDATE_PASSWORD';
@@ -982,10 +982,10 @@ class memberController extends member
 
 		$member_info = $oMemberModel->getMemberInfoByMemberSrl($member_srl, 0, $columnList);
 		// Verify the cuttent password
-		if(!$oMemberModel->isValidPassword($member_info->password, $current_password, $member_srl)) return new BaseObject(-1, 'invalid_password');
+		if(!$oMemberModel->isValidPassword($member_info->password, $current_password, $member_srl)) return $this->setError('invalid_password');
 
 		// Check if a new password is as same as the previous password
-		if($current_password == $password) return new BaseObject(-1, 'invalid_new_password');
+		if($current_password == $password) return $this->setError('invalid_new_password');
 
 		// Execute insert or update depending on the value of member_srl
 		$args = new stdClass;
@@ -1028,7 +1028,7 @@ class memberController extends member
 		$columnList = array('member_srl', 'password');
 		$member_info = $oMemberModel->getMemberInfoByMemberSrl($member_srl, 0, $columnList);
 		// Verify the cuttent password
-		if(!$oMemberModel->isValidPassword($member_info->password, $password)) return new BaseObject(-1, 'invalid_password');
+		if(!$oMemberModel->isValidPassword($member_info->password, $password)) return $this->setError('invalid_password');
 
 		$output = $this->deleteMember($member_srl);
 		if(!$output->toBool()) return $output;
@@ -1317,14 +1317,14 @@ class memberController extends member
 	function procMemberFindAccount()
 	{
 		$email_address = Context::get('email_address');
-		if(!$email_address) return new BaseObject(-1, 'msg_invalid_request');
+		if(!$email_address) return $this->setError('msg_invalid_request');
 
 		$oMemberModel = getModel('member');
 		$oModuleModel = getModel('module');
 
 		// Check if a member having the same email address exists
 		$member_srl = $oMemberModel->getMemberSrlByEmailAddress($email_address);
-		if(!$member_srl) return new BaseObject(-1, 'msg_email_not_exists');
+		if(!$member_srl) return $this->setError('msg_email_not_exists');
 
 		// Get information of the member
 		$columnList = array('denied', 'member_srl', 'user_id', 'user_name', 'email_address', 'nick_name');
@@ -1336,7 +1336,7 @@ class memberController extends member
 			$chk_args = new stdClass;
 			$chk_args->member_srl = $member_info->member_srl;
 			$output = executeQuery('member.chkAuthMail', $chk_args);
-			if($output->toBool() && $output->data->count != '0') return new BaseObject(-1, 'msg_user_not_confirmed');
+			if($output->toBool() && $output->data->count != '0') return $this->setError('msg_user_not_confirmed');
 		}
 
 		// Insert data into the authentication DB
@@ -1417,7 +1417,7 @@ class memberController extends member
 	 */
 	function procMemberFindAccountByQuestion()
 	{
-		return new BaseObject(-1, 'msg_question_not_allowed');
+		return $this->setError('msg_question_not_allowed');
 	}
 
 	/**
@@ -1510,14 +1510,14 @@ class memberController extends member
 	{
 		// Get an email_address
 		$email_address = Context::get('email_address');
-		if(!$email_address) return new BaseObject(-1, 'msg_invalid_request');
+		if(!$email_address) return $this->setError('msg_invalid_request');
 		// Log test by using email_address
 		$oMemberModel = getModel('member');
 
 		$args = new stdClass;
 		$args->email_address = $email_address;
 		$memberSrl = $oMemberModel->getMemberSrlByEmailAddress($email_address);
-		if(!$memberSrl) return new BaseObject(-1, 'msg_not_exists_member');
+		if(!$memberSrl) return $this->setError('msg_not_exists_member');
 
 		$columnList = array('member_srl', 'user_id', 'user_name', 'nick_name', 'email_address');
 		$member_info = $oMemberModel->getMemberInfoByMemberSrl($memberSrl, 0, $columnList);
@@ -1531,12 +1531,12 @@ class memberController extends member
 		$chk_args = new stdClass;
 		$chk_args->member_srl = $member_info->member_srl;
 		$output = executeQuery('member.chkAuthMail', $chk_args);
-		if($output->toBool() && $output->data->count == '0') return new BaseObject(-1, 'msg_invalid_request');
+		if($output->toBool() && $output->data->count == '0') return $this->setError('msg_invalid_request');
 
 		$auth_args = new stdClass;
 		$auth_args->member_srl = $member_info->member_srl;
 		$output = executeQueryArray('member.getAuthMailInfo', $auth_args);
-		if(!$output->data || !$output->data[0]->auth_key)  return new BaseObject(-1, 'msg_invalid_request');
+		if(!$output->data || !$output->data[0]->auth_key)  return $this->setError('msg_invalid_request');
 		$auth_info = $output->data[0];
 
 		// Update the regdate of authmail entry
@@ -1614,7 +1614,7 @@ class memberController extends member
 		$member_srl = $oMemberModel->getMemberSrlByEmailAddress($newEmail);
 		if($member_srl)
 		{
-			return new BaseObject(-1,'msg_exists_email_address');
+			return $this->setError('msg_exists_email_address');
 		}
 
 		// remove all key by member_srl
@@ -1729,7 +1729,7 @@ class memberController extends member
 	{
 		$site_module_info = Context::get('site_module_info');
 		$logged_info = Context::get('logged_info');
-		if(!$site_module_info->site_srl || !Context::get('is_logged') || count($logged_info->group_srl_list) ) return new BaseObject(-1,'msg_invalid_request');
+		if(!$site_module_info->site_srl || !Context::get('is_logged') || count($logged_info->group_srl_list) ) return $this->setError('msg_invalid_request');
 
 		$oMemberModel = getModel('member');
 		$columnList = array('site_srl', 'group_srl', 'title');
@@ -1748,7 +1748,7 @@ class memberController extends member
 	{
 		$site_module_info = Context::get('site_module_info');
 		$logged_info = Context::get('logged_info');
-		if(!$site_module_info->site_srl || !Context::get('is_logged') || count($logged_info->group_srl_list) ) return new BaseObject(-1,'msg_invalid_request');
+		if(!$site_module_info->site_srl || !Context::get('is_logged') || count($logged_info->group_srl_list) ) return $this->setError('msg_invalid_request');
 
 		$args = new stdClass;
 		$args->site_srl= $site_module_info->site_srl;
@@ -2026,7 +2026,7 @@ class memberController extends member
 				elseif(3600 <= $term && $term < 86400) $term = intval($term/3600).lang('unit_hour');
 				else $term = intval($term/86400).lang('unit_day');
 
-				return new BaseObject(-1, sprintf(lang('excess_ip_access_count'),$term));
+				return new BaseObject(-1, 'excess_ip_access_count', $term);
 			}
 			else
 			{
@@ -2349,27 +2349,27 @@ class memberController extends member
 		// Check if ID is prohibited
 		if($logged_info->is_admin !== 'Y' && $oMemberModel->isDeniedID($args->user_id))
 		{
-			return new BaseObject(-1,'denied_user_id');
+			return new BaseObject(-1, 'denied_user_id');
 		}
 
 		// Check if ID is duplicate
 		$member_srl = $oMemberModel->getMemberSrlByUserID($args->user_id);
 		if($member_srl)
 		{
-			return new BaseObject(-1,'msg_exists_user_id');
+			return new BaseObject(-1, 'msg_exists_user_id');
 		}
 
 		// Check if nickname is prohibited
 		if($logged_info->is_admin !== 'Y' && $oMemberModel->isDeniedNickName($args->nick_name))
 		{
-			return new BaseObject(-1,'denied_nick_name');
+			return new BaseObject(-1, 'denied_nick_name');
 		}
 
 		// Check if nickname is duplicate
 		$member_srl = $oMemberModel->getMemberSrlByNickName($args->nick_name);
 		if($member_srl)
 		{
-			return new BaseObject(-1,'msg_exists_nick_name');
+			return new BaseObject(-1, 'msg_exists_nick_name');
 		}
 
 		// Check managed Email Host
@@ -2392,7 +2392,7 @@ class memberController extends member
 		$member_srl = $oMemberModel->getMemberSrlByEmailAddress($args->email_address);
 		if($member_srl)
 		{
-			return new BaseObject(-1,'msg_exists_email_address');
+			return new BaseObject(-1, 'msg_exists_email_address');
 		}
 
 		// Insert data into the DB
@@ -2600,7 +2600,7 @@ class memberController extends member
 			$member_srl = $oMemberModel->getMemberSrlByEmailAddress($args->email_address);
 			if($member_srl && $args->member_srl != $member_srl)
 			{
-				return new BaseObject(-1,'msg_exists_email_address');
+				return new BaseObject(-1, 'msg_exists_email_address');
 			}
 			$args->email_address = $orgMemberInfo->email_address;
 		}
@@ -2609,7 +2609,7 @@ class memberController extends member
 			$member_srl = $oMemberModel->getMemberSrlByUserID($args->user_id);
 			if($member_srl && $args->member_srl != $member_srl)
 			{
-				return new BaseObject(-1,'msg_exists_user_id');
+				return new BaseObject(-1, 'msg_exists_user_id');
 			}
 
 			$args->user_id = $orgMemberInfo->user_id;
@@ -2618,7 +2618,7 @@ class memberController extends member
 		// Check if ID is prohibited
 		if($logged_info->is_admin !== 'Y' && $args->user_id && $oMemberModel->isDeniedID($args->user_id))
 		{
-			return new BaseObject(-1,'denied_user_id');
+			return new BaseObject(-1, 'denied_user_id');
 		}
 
 		// Check if ID is duplicate
@@ -2627,7 +2627,7 @@ class memberController extends member
 			$member_srl = $oMemberModel->getMemberSrlByUserID($args->user_id);
 			if($member_srl && $args->member_srl != $member_srl)
 			{
-				return new BaseObject(-1,'msg_exists_user_id');
+				return new BaseObject(-1, 'msg_exists_user_id');
 			}
 		}
 
@@ -2641,7 +2641,7 @@ class memberController extends member
 		$member_srl = $oMemberModel->getMemberSrlByNickName($args->nick_name);
  		if($member_srl && $args->member_srl != $member_srl)
  		{
- 			return new BaseObject(-1,'msg_exists_nick_name');
+ 			return new BaseObject(-1, 'msg_exists_nick_name');
  		}
 
 		list($args->email_id, $args->email_host) = explode('@', $args->email_address);
@@ -2886,12 +2886,12 @@ class memberController extends member
 
 	function procMemberModifyEmailAddress()
 	{
-		if(!Context::get('is_logged')) return $this->stop('msg_not_logged');
+		if(!Context::get('is_logged')) return $this->setError('msg_not_logged');
 
 		$member_info = Context::get('logged_info');
 		$newEmail = Context::get('email_address');
 
-		if(!$newEmail) return $this->stop('msg_invalid_request');
+		if(!$newEmail) return $this->setError('msg_invalid_request');
 
 		$oMemberModel = getModel('member');
 		// Check managed Email Host
@@ -2907,16 +2907,16 @@ class memberController extends member
 				$hosts[] = $host->email_host;
 			}
 			$message = sprintf($managed_email_host[$emailhost_check],implode(', ',$hosts),'id@'.implode(', id@',$hosts));
-			return new BaseObject(-1, $message);
+			return $this->setError($message);
 		}
 
 		// Check if the e-mail address is already registered
 		$member_srl = $oMemberModel->getMemberSrlByEmailAddress($newEmail);
-		if($member_srl) return new BaseObject(-1,'msg_exists_email_address');
+		if($member_srl) return $this->setError('msg_exists_email_address');
 
 		if($_SESSION['rechecked_password_step'] != 'INPUT_DATA')
 		{
-			return $this->stop('msg_invalid_request');
+			return $this->setError('msg_invalid_request');
 		}
 		unset($_SESSION['rechecked_password_step']);
 
@@ -3018,7 +3018,7 @@ class memberController extends member
 	**/
 	function triggerGetDocumentMenu(&$menu_list)
 	{
-		if(!Context::get('is_logged')) return new BaseObject();
+		if(!Context::get('is_logged')) return;
 
 		$logged_info = Context::get('logged_info');
 		$document_srl = Context::get('target_srl');
@@ -3029,14 +3029,12 @@ class memberController extends member
 		$member_srl = $oDocument->get('member_srl');
 		$module_srl = $oDocument->get('module_srl');
 
-		if(!$member_srl) return new BaseObject();
-		if($oDocumentModel->grant->manager != 1 || $member_srl==$logged_info->member_srl) return new BaseObject();
+		if(!$member_srl) return;
+		if($oDocumentModel->grant->manager != 1 || $member_srl==$logged_info->member_srl) return;
 
 		$oDocumentController = getController('document');
 		$url = getUrl('','module','member','act','dispMemberSpammer','member_srl',$member_srl,'module_srl',$module_srl);
 		$oDocumentController->addDocumentPopupMenu($url,'cmd_spammer','','popup');
-
-		return new BaseObject();
 	}
 
 	/**
@@ -3048,7 +3046,7 @@ class memberController extends member
 	**/
 	function triggerGetCommentMenu(&$menu_list)
 	{
-		if(!Context::get('is_logged')) return new BaseObject();
+		if(!Context::get('is_logged')) return;
 
 		$logged_info = Context::get('logged_info');
 		$comment_srl = Context::get('target_srl');
@@ -3059,14 +3057,12 @@ class memberController extends member
 		$module_srl = $oComment->get('module_srl');
 		$member_srl = $oComment->get('member_srl');
 
-		if(!$member_srl) return new BaseObject();
-		if($oCommentModel->grant->manager != 1 || $member_srl==$logged_info->member_srl) return new BaseObject();
+		if(!$member_srl) return;
+		if($oCommentModel->grant->manager != 1 || $member_srl==$logged_info->member_srl) return;
 
 		$oCommentController = getController('comment');
 		$url = getUrl('','module','member','act','dispMemberSpammer','member_srl',$member_srl,'module_srl',$module_srl);
 		$oCommentController->addCommentPopupMenu($url,'cmd_spammer','','popup');
-
-		return new BaseObject();
 	}
 
 	/**
@@ -3076,7 +3072,7 @@ class memberController extends member
 	**/
 	function procMemberSpammerManage()
 	{
-		if(!Context::get('is_logged')) return new BaseObject(-1,'msg_not_permitted');
+		if(!Context::get('is_logged')) return $this->setError('msg_not_permitted');
 
 		$logged_info = Context::get('logged_info');
 		$member_srl = Context::get('member_srl');
@@ -3093,7 +3089,7 @@ class memberController extends member
 		$module_info = $oModuleModel->getModuleInfoByModuleSrl($module_srl, $columnList);
 		$grant = $oModuleModel->getGrant($module_info, $logged_info);
 
-		if(!$grant->manager) return new BaseObject(-1,'msg_not_permitted');
+		if(!$grant->manager) return $this->setError('msg_not_permitted');
 
 		$proc_msg = "";
 

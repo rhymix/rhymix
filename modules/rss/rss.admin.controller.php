@@ -70,7 +70,7 @@ class rssAdminController extends rss
 		
 		if(isset($msg['error']))
 		{
-			return new BaseObject(-1, $msg['error']);
+			return $this->setError($msg['error']);
 		}
 		else
 		{
@@ -98,7 +98,7 @@ class rssAdminController extends rss
 		
 		if(!count($target_module_srls))
 		{
-			return new BaseObject(-1, 'msg_invalid_request');
+			return $this->setError('msg_invalid_request');
 		}
 		
 		foreach($target_module_srls as $module_srl)
@@ -144,7 +144,7 @@ class rssAdminController extends rss
 		$config = getModel('rss')->getConfig();
 		if(!$config->image)
 		{
-			return new BaseObject(-1, 'msg_invalid_request');
+			return $this->setError('msg_invalid_request');
 		}
 		
 		FileHandler::removeFile($config->image);
