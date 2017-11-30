@@ -40,7 +40,7 @@ class installAdminController extends install
 		$oModule = getModule($module_name, 'class');
 		if(!$oModule)
 		{
-			$output = return $this->setError('invalid_request');
+			return $this->setError('invalid_request');
 		}
 		
 		Rhymix\Framework\Session::close();
