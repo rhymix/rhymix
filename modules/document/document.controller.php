@@ -2321,9 +2321,9 @@ class documentController extends document
 				$category_srl,
 				$group_check_code,
 				$category_srl,
-				var_export(getUrl('','mid',$node->mid,'category',$category_srl), true),
-				var_export($expand, true),
-				var_export(escape($color, false), true),
+				str_replace("'", '"', var_export(getUrl('','mid',$node->mid,'category',$category_srl), true)),
+				str_replace("'", '"', var_export($expand, true)),
+				str_replace("'", '"', var_export(escape($color, false), true)),
 				$group_check_code,
 				$category_srl,
 				$node->document_count
