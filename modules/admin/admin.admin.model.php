@@ -624,38 +624,33 @@ class adminAdminModel extends admin
 	 */
 	function getAdminMenuLang()
 	{
-		$currentLang = Context::getLangType();
-		$cacheFile = sprintf('./files/cache/menu/admin_lang/adminMenu.%s.lang.php', $currentLang);
-
-		// Update if no cache file exists or it is older than xml file
-		if(!is_readable($cacheFile))
+		static $lang = null;
+		
+		if ($lang === null)
 		{
-			$lang = new stdClass();
+			$lang = Rhymix\Framework\Cache::get('admin_menu_langs:' . Context::getLangType());
+		}
+		if ($lang === null)
+		{
+			$lang = array();
 			$oModuleModel = getModel('module');
 			$installed_module_list = $oModuleModel->getModulesXmlInfo();
-
-			$this->gnbLangBuffer = '<?php $lang = new stdClass();';
-			foreach($installed_module_list AS $key => $value)
+			foreach($installed_module_list as $key => $value)
 			{
 				$moduleActionInfo = $oModuleModel->getModuleActionXml($value->module);
 				if(is_object($moduleActionInfo->menu))
 				{
-					foreach($moduleActionInfo->menu AS $key2 => $value2)
+					foreach($moduleActionInfo->menu as $key2 => $value2)
 					{
-						$lang->menu_gnb_sub[$key2] = $value2->title;
-						$this->gnbLangBuffer .=sprintf('$lang->menu_gnb_sub[\'%s\'] = \'%s\';', $key2, $value2->title);
+						$lang[$key2] = $value2->title;
 					}
 				}
 			}
-			$this->gnbLangBuffer .= ' ?>';
-			FileHandler::writeFile($cacheFile, $this->gnbLangBuffer);
-		}
-		else
-		{
-			include $cacheFile;
+			
+			Rhymix\Framework\Cache::set('admin_menu_langs:' . Context::getLangType(), $lang, 0, true);
 		}
 
-		return $lang->menu_gnb_sub;
+		return $lang;
 	}
 
 	/**

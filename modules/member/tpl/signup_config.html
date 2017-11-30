@@ -101,7 +101,7 @@
 				</thead>
 				<tbody class="uDrag">
 					{@ $disabled_list = array('find_account_question')}
-					{@ $fixed_public_list = array('nick_name', 'password')}
+					{@ $fixed_public_list = array('nick_name', 'password', 'email_address')}
 					<!--@foreach($config->signupForm as $item)-->
 					<!--@if(in_array($item->name, $disabled_list))-->
 					<!--@elseif($item->isIdentifier)-->
@@ -114,7 +114,7 @@
 						</th>
 						<td style="text-align:center"><input type="radio" name="identifier" value="{$item->name}" checked="checked" /></td>
 						<td style="text-align:center"><input type="checkbox" name="usable_list[]" value="{$item->name}" title="{$lang->use}" checked="checked"  disabled="disabled" /></td>
-						<td style="text-align:center"><input type="checkbox" name="is_{$item->name}_public" value="Y" checked="checked"|cond="$item->isPublic == 'Y'"/></td>
+						<td style="text-align:center"><input type="checkbox" name="is_{$item->name}_public" value="Y" checked="checked"|cond="$item->isPublic == 'Y'" disabled="disabled"|cond="in_array($item->name, $fixed_public_list) || !$item->isUse" /></td>
 						<td class="nowr">
 							<label for="{$item->name}_re" class="x_inline"><input type="radio" id="{$item->name}_re" name="{$item->name}" value="requierd" checked="checked" disabled="disabled" /> {$lang->cmd_required}</label>
 							<label for="{$item->name}_op" class="x_inline"><input type="radio" id="{$item->name}_op" name="{$item->name}" value="option" disabled="disabled" /> {$lang->cmd_optional}</label>

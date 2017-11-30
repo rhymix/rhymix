@@ -45,6 +45,7 @@ class adminAdminController extends admin
 			return $output;
 		}
 
+		Rhymix\Framework\Cache::delete('admin_menu_langs:' . Context::getLangType());
 		Rhymix\Framework\Storage::deleteDirectory(\RX_BASEDIR . 'files/cache/menu/admin_lang/');
 
 		$this->setRedirectUrl(Context::get('error_return_url'));
