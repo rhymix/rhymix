@@ -707,7 +707,7 @@ class widgetController extends widget
 
 		$widgetstyle_extra_var = new stdClass();
 		$widgetstyle_extra_var_key = get_object_vars($widgetstyle_info);
-		if(count($widgetstyle_extra_var_key['extra_var']))
+		if(countobj($widgetstyle_extra_var_key['extra_var']))
 		{
 			foreach($widgetstyle_extra_var_key['extra_var'] as $key => $val)
 			{

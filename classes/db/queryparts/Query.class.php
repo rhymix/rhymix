@@ -560,7 +560,7 @@ class Query extends BaseObject
 	{
 		if(!$this->_orderByString)
 		{
-			if(count($this->orderby) === 0)
+			if(countobj($this->orderby) === 0)
 			{
 				return '';
 			}
@@ -587,7 +587,7 @@ class Query extends BaseObject
 	function getLimitString()
 	{
 		$limit = '';
-		if(count($this->limit) > 0)
+		if(countobj($this->limit) > 0)
 		{
 			$limit = '';
 			$limit .= $this->limit->toString();
@@ -611,7 +611,7 @@ class Query extends BaseObject
 			$this->arguments = array();
 
 			// Join table arguments
-			if(count($this->tables) > 0)
+			if(countobj($this->tables) > 0)
 			{
 				foreach($this->tables as $table)
 				{
@@ -628,7 +628,7 @@ class Query extends BaseObject
 
 			// Column arguments
 			// The if is for delete statements, all others must have columns
-			if(count($this->columns) > 0)
+			if(countobj($this->columns) > 0)
 			{
 				foreach($this->columns as $column)
 				{
@@ -644,12 +644,12 @@ class Query extends BaseObject
 			}
 
 			// Condition arguments
-			if(count($this->conditions) > 0)
+			if(countobj($this->conditions) > 0)
 			{
 				foreach($this->conditions as $conditionGroup)
 				{
 					$args = $conditionGroup->getArguments();
-					if(count($args) > 0)
+					if(countobj($args) > 0)
 					{
 						$this->arguments = array_merge($this->arguments, $args);
 					}
@@ -657,12 +657,12 @@ class Query extends BaseObject
 			}
 
 			// Navigation arguments
-			if(count($this->orderby) > 0)
+			if(countobj($this->orderby) > 0)
 			{
 				foreach($this->orderby as $order)
 				{
 					$args = $order->getArguments();
-					if(count($args) > 0)
+					if(countobj($args) > 0)
 					{
 						$this->arguments = array_merge($this->arguments, $args);
 					}
