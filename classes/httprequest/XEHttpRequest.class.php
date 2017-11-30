@@ -125,7 +125,7 @@ class XEHttpRequest
 		$sock = @fsockopen($scheme . $this->m_host, $this->m_port, $errno, $errstr, $timeout);
 		if(!$sock)
 		{
-			return new Object(-1, 'socket_connect_failed');
+			return new BaseObject(-1, 'socket_connect_failed');
 		}
 
 		$headers = $this->m_headers + array();
@@ -242,7 +242,7 @@ class XEHttpRequest
 		$body = curl_exec($ch);
 		if(curl_errno($ch))
 		{
-			return new Object(-1, 'socket_connect_failed');
+			return new BaseObject(-1, 'socket_connect_failed');
 		}
 
 		$code = curl_getinfo($ch, CURLINFO_HTTP_CODE);

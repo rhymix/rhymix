@@ -18,7 +18,7 @@ class ModuleHandler extends Handler
 	var $mid = NULL; ///< Module ID
 	var $document_srl = NULL; ///< Document Number
 	var $module_srl = NULL; ///< Module Number
-	var $module_info = NULL; ///< Module Info. Object
+	var $module_info = NULL; ///< Module Info
 	var $error = NULL; ///< an error code.
 	var $httpStatusCode = NULL; ///< http status code.
 
@@ -858,7 +858,7 @@ class ModuleHandler extends Handler
 		{
 			Context::set('XE_VALIDATOR_ID', $_SESSION['XE_VALIDATOR_ID']);
 		}
-		if(count($_SESSION['INPUT_ERROR']))
+		if(countobj($_SESSION['INPUT_ERROR']))
 		{
 			Context::set('INPUT_ERROR', $_SESSION['INPUT_ERROR']);
 		}
@@ -1237,14 +1237,14 @@ class ModuleHandler extends Handler
 	 * @param string $trigger_name trigger's name to call
 	 * @param string $called_position called position
 	 * @param object $obj an object as a parameter to trigger
-	 * @return Object
+	 * @return BaseObject
 	 * */
 	public static function triggerCall($trigger_name, $called_position, &$obj)
 	{
 		// skip if not installed
 		if(!Context::isInstalled())
 		{
-			return new Object();
+			return new BaseObject();
 		}
 
 		$oModuleModel = getModel('module');
@@ -1292,7 +1292,7 @@ class ModuleHandler extends Handler
 				));
 			}
 
-			if(is_object($output) && method_exists($output, 'toBool') && !$output->toBool())
+			if($output instanceof BaseObject && !$output->toBool())
 			{
 				return $output;
 			}
@@ -1342,7 +1342,7 @@ class ModuleHandler extends Handler
 			}
 		}
 
-		return new Object();
+		return new BaseObject();
 	}
 
 	/**

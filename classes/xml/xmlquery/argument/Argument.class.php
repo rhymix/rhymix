@@ -36,7 +36,7 @@ class Argument
 
 	/**
 	 * error message
-	 * @var Object
+	 * @var BaseObject
 	 */
 	var $errorMessage;
 
@@ -310,14 +310,14 @@ class Argument
 					if(!preg_match('/^[\w-]+((?:\.|\+|\~)[\w-]+)*@[\w-]+(\.[\w-]+)+$/is', $val))
 					{
 						$this->isValid = FALSE;
-						$this->errorMessage = new Object(-1, sprintf($lang->filter->invalid_email, $lang->{$key} ? $lang->{$key} : $key));
+						$this->errorMessage = new BaseObject(-1, sprintf($lang->filter->invalid_email, $lang->{$key} ? $lang->{$key} : $key));
 					}
 					break;
 				case 'homepage' :
 					if(!preg_match('/^(http|https)+(:\/\/)+[0-9a-z_-]+\.[^ ]+$/is', $val))
 					{
 						$this->isValid = FALSE;
-						$this->errorMessage = new Object(-1, sprintf($lang->filter->invalid_homepage, $lang->{$key} ? $lang->{$key} : $key));
+						$this->errorMessage = new BaseObject(-1, sprintf($lang->filter->invalid_homepage, $lang->{$key} ? $lang->{$key} : $key));
 					}
 					break;
 				case 'userid' :
@@ -325,7 +325,7 @@ class Argument
 					if(!preg_match('/^[a-zA-Z]+([_0-9a-zA-Z]+)*$/is', $val))
 					{
 						$this->isValid = FALSE;
-						$this->errorMessage = new Object(-1, sprintf($lang->filter->invalid_userid, $lang->{$key} ? $lang->{$key} : $key));
+						$this->errorMessage = new BaseObject(-1, sprintf($lang->filter->invalid_userid, $lang->{$key} ? $lang->{$key} : $key));
 					}
 					break;
 				case 'number' :
@@ -337,21 +337,21 @@ class Argument
 					if(!preg_match('/^(-?)[0-9]+(,\-?[0-9]+)*$/is', $val))
 					{
 						$this->isValid = FALSE;
-						$this->errorMessage = new Object(-1, sprintf($lang->filter->invalid_number, $lang->{$key} ? $lang->{$key} : $key));
+						$this->errorMessage = new BaseObject(-1, sprintf($lang->filter->invalid_number, $lang->{$key} ? $lang->{$key} : $key));
 					}
 					break;
 				case 'alpha' :
 					if(!preg_match('/^[a-z]+$/is', $val))
 					{
 						$this->isValid = FALSE;
-						$this->errorMessage = new Object(-1, sprintf($lang->filter->invalid_alpha, $lang->{$key} ? $lang->{$key} : $key));
+						$this->errorMessage = new BaseObject(-1, sprintf($lang->filter->invalid_alpha, $lang->{$key} ? $lang->{$key} : $key));
 					}
 					break;
 				case 'alpha_number' :
 					if(!preg_match('/^[0-9a-z]+$/is', $val))
 					{
 						$this->isValid = FALSE;
-						$this->errorMessage = new Object(-1, sprintf($lang->filter->invalid_alpha_number, $lang->{$key} ? $lang->{$key} : $key));
+						$this->errorMessage = new BaseObject(-1, sprintf($lang->filter->invalid_alpha_number, $lang->{$key} ? $lang->{$key} : $key));
 					}
 					break;
 			}
@@ -365,7 +365,7 @@ class Argument
 			global $lang;
 			$this->isValid = FALSE;
 			$key = $this->name;
-			$this->errorMessage = new Object(-1, sprintf($lang->filter->outofrange, $lang->{$key} ? $lang->{$key} : $key));
+			$this->errorMessage = new BaseObject(-1, sprintf($lang->filter->outofrange, $lang->{$key} ? $lang->{$key} : $key));
 		}
 	}
 
@@ -376,7 +376,7 @@ class Argument
 			global $lang;
 			$this->isValid = FALSE;
 			$key = $this->name;
-			$this->errorMessage = new Object(-1, sprintf($lang->filter->outofrange, $lang->{$key} ? $lang->{$key} : $key));
+			$this->errorMessage = new BaseObject(-1, sprintf($lang->filter->outofrange, $lang->{$key} ? $lang->{$key} : $key));
 		}
 	}
 
@@ -387,7 +387,7 @@ class Argument
 			global $lang;
 			$this->isValid = FALSE;
 			$key = $this->name;
-			$this->errorMessage = new Object(-1, sprintf($lang->filter->isnull, $lang->{$key} ? $lang->{$key} : $key));
+			$this->errorMessage = new BaseObject(-1, sprintf($lang->filter->isnull, $lang->{$key} ? $lang->{$key} : $key));
 		}
 	}
 

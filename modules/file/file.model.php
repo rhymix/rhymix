@@ -45,7 +45,7 @@ class fileModel extends file
 				$oComment = $oCommentModel->getComment($upload_target_srl);
 				if($oComment->isExists() && $oComment->isSecret() && !$oComment->isGranted())
 				{
-					return new Object(-1, 'msg_not_permitted');
+					return $this->setError('msg_not_permitted');
 				}
 
 				$oDocument = $oDocumentModel->getDocument($oComment->get('document_srl'));
@@ -54,7 +54,7 @@ class fileModel extends file
 			// document 권한 확인
 			if($oDocument->isExists() && $oDocument->isSecret() && !$oDocument->isGranted())
 			{
-				return new Object(-1, 'msg_not_permitted');
+				return $this->setError('msg_not_permitted');
 			}
 
 			// 모듈 권한 확인
@@ -63,12 +63,12 @@ class fileModel extends file
 				$grant = $oModuleModel->getGrant($oModuleModel->getModuleInfoByModuleSrl($oDocument->get('module_srl')), $logged_info);
 				if(!$grant->access)
 				{
-					return new Object(-1, 'msg_not_permitted');
+					return $this->setError('msg_not_permitted');
 				}
 			}
 
 			$tmp_files = $this->getFiles($upload_target_srl);
-			if($tmp_files instanceof Object && !$tmp_files->toBool()) return $tmp_files;
+			if($tmp_files instanceof BaseObject && !$tmp_files->toBool()) return $tmp_files;
 			$files = array();
 
 			foreach($tmp_files as $file_info)

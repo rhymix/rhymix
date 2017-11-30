@@ -24,7 +24,7 @@ class communicationController extends communication
 	{
 		if(!Context::get('is_logged'))
 		{
-			return new Object(-1, 'msg_not_logged');
+			return $this->setError('msg_not_logged');
 		}
 
 		$args = new stdClass();
@@ -54,7 +54,7 @@ class communicationController extends communication
 		// Check login information
 		if(!Context::get('is_logged'))
 		{
-			return new Object(-1, 'msg_not_logged');
+			return $this->setError('msg_not_logged');
 		}
 
 		$logged_info = Context::get('logged_info');
@@ -63,19 +63,19 @@ class communicationController extends communication
 		$receiver_srl = Context::get('receiver_srl');
 		if(!$receiver_srl)
 		{
-			return new Object(-1, 'msg_not_exists_member');
+			return $this->setError('msg_not_exists_member');
 		}
 
 		$title = trim(Context::get('title'));
 		if(!$title)
 		{
-			return new Object(-1, 'msg_title_is_null');
+			return $this->setError('msg_title_is_null');
 		}
 
 		$content = trim(Context::get('content'));
 		if(!$content)
 		{
-			return new Object(-1, 'msg_content_is_null');
+			return $this->setError('msg_content_is_null');
 		}
 
 		$send_mail = Context::get('send_mail');
@@ -91,13 +91,13 @@ class communicationController extends communication
 
 		if(!$oCommunicationModel->checkGrant($config->grant_send))
 		{
-			return new Object(-1, 'msg_not_permitted');
+			return $this->setError('msg_not_permitted');
 		}
 
 		$receiver_member_info = $oMemberModel->getMemberInfoByMemberSrl($receiver_srl);
 		if($receiver_member_info->member_srl != $receiver_srl)
 		{
-			return new Object(-1, 'msg_not_exists_member');
+			return $this->setError('msg_not_exists_member');
 		}
 
 		// check whether to allow to receive the message(pass if a top-administrator)
@@ -107,12 +107,12 @@ class communicationController extends communication
 			{
 				if(!$oCommunicationModel->isFriend($receiver_member_info->member_srl))
 				{
-					return new object(-1, 'msg_allow_message_to_friend');
+					return $this->setError('msg_allow_message_to_friend');
 				}
 			}
 			else if($receiver_member_info->allow_message == 'N')
 			{
-				return new object(-1, 'msg_disallow_message');
+				return $this->setError('msg_disallow_message');
 			}
 		}
 
@@ -257,7 +257,7 @@ class communicationController extends communication
 		// create a flag that message is sent (in file format) 
 		$this->updateFlagFile($receiver_srl);
 
-		return new Object(0, 'success_sended');
+		return new BaseObject(0, 'success_sended');
 	}
 
 	/**
@@ -269,7 +269,7 @@ class communicationController extends communication
 		// Check login information
 		if(!Context::get('is_logged'))
 		{
-			return new Object(-1, 'msg_not_logged');
+			return $this->setError('msg_not_logged');
 		}
 		$logged_info = Context::get('logged_info');
 
@@ -277,7 +277,7 @@ class communicationController extends communication
 		$message_srl = Context::get('message_srl');
 		if(!$message_srl)
 		{
-			return new Object(-1, 'msg_invalid_request');
+			return $this->setError('msg_invalid_request');
 		}
 
 		// get the message
@@ -285,7 +285,7 @@ class communicationController extends communication
 		$message = $oCommunicationModel->getSelectedMessage($message_srl);
 		if(!$message || $message->message_type != 'R')
 		{
-			return new Object(-1, 'msg_invalid_request');
+			return $this->setError('msg_invalid_request');
 		}
 
 		$args = new stdClass();
@@ -309,7 +309,7 @@ class communicationController extends communication
 		// Check login information
 		if(!Context::get('is_logged'))
 		{
-			return new Object(-1, 'msg_not_logged');
+			return $this->setError('msg_not_logged');
 		}
 
 		$logged_info = Context::get('logged_info');
@@ -319,7 +319,7 @@ class communicationController extends communication
 		$message_srl = Context::get('message_srl');
 		if(!$message_srl)
 		{
-			return new Object(-1, 'msg_invalid_request');
+			return $this->setError('msg_invalid_request');
 		}
 
 		// Get the message
@@ -327,7 +327,7 @@ class communicationController extends communication
 		$message = $oCommunicationModel->getSelectedMessage($message_srl);
 		if(!$message)
 		{
-			return new Object(-1, 'msg_invalid_request');
+			return $this->setError('msg_invalid_request');
 		}
 
 		// Check the grant
@@ -336,14 +336,14 @@ class communicationController extends communication
 			case 'S':
 				if($message->sender_srl != $member_srl)
 				{
-					return new Object(-1, 'msg_invalid_request');
+					return $this->setError('msg_invalid_request');
 				}
 				break;
 
 			case 'R':
 				if($message->receiver_srl != $member_srl)
 				{
-					return new Object(-1, 'msg_invalid_request');
+					return $this->setError('msg_invalid_request');
 				}
 				break;
 		}
@@ -369,7 +369,7 @@ class communicationController extends communication
 		// Check login information
 		if(!Context::get('is_logged'))
 		{
-			return new Object(-1, 'msg_not_logged');
+			return $this->setError('msg_not_logged');
 		}
 
 		$logged_info = Context::get('logged_info');
@@ -378,7 +378,7 @@ class communicationController extends communication
 		// check variables
 		if(!Context::get('message_srl_list'))
 		{
-			return new Object(-1, 'msg_cart_is_null');
+			return $this->setError('msg_cart_is_null');
 		}
 
 		$message_srl_list = Context::get('message_srl_list');
@@ -389,13 +389,13 @@ class communicationController extends communication
 
 		if(!count($message_srl_list))
 		{
-			return new Object(-1, 'msg_cart_is_null');
+			return $this->setError('msg_cart_is_null');
 		}
 
 		$message_type = Context::get('message_type');
 		if(!$message_type || !in_array($message_type, array('R', 'S', 'T')))
 		{
-			return new Object(-1, 'msg_invalid_request');
+			return $this->setError('msg_invalid_request');
 		}
 
 		$message_count = count($message_srl_list);
@@ -412,7 +412,7 @@ class communicationController extends communication
 		}
 		if(!count($target))
 		{
-			return new Object(-1, 'msg_cart_is_null');
+			return $this->setError('msg_cart_is_null');
 		}
 
 		// Delete
@@ -450,7 +450,7 @@ class communicationController extends communication
 		// Check login information
 		if(!Context::get('is_logged'))
 		{
-			return new Object(-1, 'msg_not_logged');
+			return $this->setError('msg_not_logged');
 		}
 
 		$logged_info = Context::get('logged_info');
@@ -458,11 +458,11 @@ class communicationController extends communication
 		$target_srl = (int) trim(Context::get('target_srl'));
 		if(!$target_srl)
 		{
-			return new Object(-1, 'msg_invalid_request');
+			return $this->setError('msg_invalid_request');
 		}
 		if($target_srl == $logged_info->member_srl)
 		{
-			return new Object(-1, 'msg_no_self_friend');
+			return $this->setError('msg_no_self_friend');
 		}
 		
 		// Check duplicate friend
@@ -472,7 +472,7 @@ class communicationController extends communication
 		$output = executeQuery('communication.isAddedFriend', $args);
 		if($output->data->count)
 		{
-			return new Object(-1, 'msg_already_friend');
+			return $this->setError('msg_already_friend');
 		}
 
 		// Variable
@@ -512,7 +512,7 @@ class communicationController extends communication
 		// Check login information
 		if(!Context::get('is_logged'))
 		{
-			return new Object(-1, 'msg_not_logged');
+			return $this->setError('msg_not_logged');
 		}
 
 		$logged_info = Context::get('logged_info');
@@ -521,7 +521,7 @@ class communicationController extends communication
 		$friend_srl_list = Context::get('friend_srl_list');
 		if(!$friend_srl_list)
 		{
-			return new Object(-1, 'msg_cart_is_null');
+			return $this->setError('msg_cart_is_null');
 		}
 
 		if(!is_array($friend_srl_list))
@@ -531,7 +531,7 @@ class communicationController extends communication
 
 		if(!count($friend_srl_list))
 		{
-			return new Object(-1, 'msg_cart_is_null');
+			return $this->setError('msg_cart_is_null');
 		}
 
 		$friend_count = count($friend_srl_list);
@@ -549,7 +549,7 @@ class communicationController extends communication
 
 		if(!count($target))
 		{
-			return new Object(-1, 'msg_cart_is_null');
+			return $this->setError('msg_cart_is_null');
 		}
 
 		// Variables
@@ -579,7 +579,7 @@ class communicationController extends communication
 		// Check login information
 		if(!Context::get('is_logged'))
 		{
-			return new Object(-1, 'msg_not_logged');
+			return $this->setError('msg_not_logged');
 		}
 
 		$logged_info = Context::get('logged_info');
@@ -595,7 +595,7 @@ class communicationController extends communication
 
 		if(!count($friend_srl_list))
 		{
-			return new Object(-1, 'msg_cart_is_null');
+			return $this->setError('msg_cart_is_null');
 		}
 
 		$friend_count = count($friend_srl_list);
@@ -614,7 +614,7 @@ class communicationController extends communication
 
 		if(!count($target))
 		{
-			return new Object(-1, 'msg_cart_is_null');
+			return $this->setError('msg_cart_is_null');
 		}
 
 		// Delete
@@ -642,7 +642,7 @@ class communicationController extends communication
 		// Check login information
 		if(!Context::get('is_logged'))
 		{
-			return new Object(-1, 'msg_not_logged');
+			return $this->setError('msg_not_logged');
 		}
 
 		$logged_info = Context::get('logged_info');
@@ -656,7 +656,7 @@ class communicationController extends communication
 
 		if(!$args->title)
 		{
-			return new Object(-1, 'msg_invalid_request');
+			return $this->setError('msg_invalid_request');
 		}
 
 		// modify if friend_group_srl exists.
@@ -718,7 +718,7 @@ class communicationController extends communication
 		// Check login information
 		if(!Context::get('is_logged'))
 		{
-			return new Object(-1, 'msg_not_logged');
+			return $this->setError('msg_not_logged');
 		}
 
 		$logged_info = Context::get('logged_info');
@@ -732,7 +732,7 @@ class communicationController extends communication
 
 		if(!$args->title)
 		{
-			return new Object(-1, 'msg_invalid_request');
+			return $this->setError('msg_invalid_request');
 		}
 
 		$output = executeQuery('communication.renameFriendGroup', $args);
@@ -753,7 +753,7 @@ class communicationController extends communication
 		// Check login information
 		if(!Context::get('is_logged'))
 		{
-			return new Object(-1, 'msg_not_logged');
+			return $this->setError('msg_not_logged');
 		}
 
 		$logged_info = Context::get('logged_info');
@@ -831,7 +831,7 @@ class communicationController extends communication
 	{
 		if(!Context::get('is_logged'))
 		{
-			return new Object();
+			return;
 		}
 		
 		$oCommunicationModel = getModel('communication');
@@ -839,11 +839,11 @@ class communicationController extends communication
 		
 		if($config->enable_message == 'N' && $config->enable_friend == 'N')
 		{
-			return new Object();
+			return;
 		}
 		if(!$oCommunicationModel->checkGrant($config->grant_send))
 		{
-			return new Object();
+			return;
 		}
 		
 		$mid = Context::get('cur_mid');
@@ -874,7 +874,7 @@ class communicationController extends communication
 			$target_member_info = $oMemberModel->getMemberInfoByMemberSrl($member_srl);
 			if(!$target_member_info->member_srl)
 			{
-				return new Object();
+				return;
 			}
 
 			// Add a menu for sending message

@@ -164,8 +164,6 @@ class member extends ModuleObject {
 		// 2013. 11. 22 add menu when popup document menu called
 		$oModuleController->insertTrigger('document.getDocumentMenu', 'member', 'controller', 'triggerGetDocumentMenu', 'after');
 		$oModuleController->insertTrigger('comment.getCommentMenu', 'member', 'controller', 'triggerGetCommentMenu', 'after');
-
-		return new Object();
 	}
 
 	/**
@@ -177,6 +175,7 @@ class member extends ModuleObject {
 	{
 		$oDB = &DB::getInstance();
 		$oModuleModel = getModel('module');
+
 		// check member directory (11/08/2007 added)
 		if(!is_dir("./files/member_extra_info")) return true;
 		// check member directory (22/10/2007 added)
@@ -215,10 +214,19 @@ class member extends ModuleObject {
 		$oModuleModel = getModel('module');
 		$config = $oModuleModel->getModuleConfig('member');
 		// check signup form ordering info
-		if(!$config->signupForm) return true;
-
-		// check agreement field exist
-		if($config->agreement && $config->agreement !== memberModel::_getAgreement())
+		if(!$config->signupForm || !is_array($config->signupForm)) return true;
+		foreach($config->signupForm as $signupItem)
+		{
+			if($signupItem->name === 'find_account_question')
+			{
+				return true;
+			}
+			if($signupItem->name === 'email_address' && $signupItem->isPublic !== 'N')
+			{
+				return true;
+			}
+		}
+		if(!$config->agreements)
 		{
 			return true;
 		}
@@ -351,22 +359,33 @@ class member extends ModuleObject {
 		$config = $oModuleModel->getModuleConfig('member');
 		$oModuleController = getController('module');
 
-		// check agreement value exist
-		if($config->agreement && $config->agreement !== memberModel::_getAgreement())
-		{
-			$agreement_file = _XE_PATH_.'files/member_extra_info/agreement_' . Context::get('lang_type') . '.txt';
-			$output = FileHandler::writeFile($agreement_file, $config->agreement);
-			$config->agreement = NULL;
-			$output = $oModuleController->updateModuleConfig('member', $config);
-		}
-
 		$oMemberAdminController = getAdminController('member');
 		// check signup form ordering info
 		if(!$config->signupForm || !is_array($config->signupForm))
 		{
-			$identifier = 'user_id';
-			$config->signupForm = $oMemberAdminController->createSignupForm($identifier);
-			$config->identifier = $identifier;
+			$config->identifier = 'user_id';
+			$config->signupForm = $oMemberAdminController->createSignupForm($config->identifier);
+			$output = $oModuleController->updateModuleConfig('member', $config);
+		}
+		foreach($config->signupForm as $signupItem)
+		{
+			if($signupItem->name === 'find_account_question')
+			{
+				$config->identifier = $config->identifier ?: 'user_id';
+				$config->signupForm = $oMemberAdminController->createSignupForm($config->identifier);
+				$output = $oModuleController->updateModuleConfig('member', $config);
+			}
+			if($signupItem->name === 'email_address' && $signupItem->isPublic !== 'N')
+			{
+				$signupItem->isPublic = 'N';
+				$output = $oModuleController->updateModuleConfig('member', $config);
+			}
+		}
+		if(!$config->agreements)
+		{
+			$config = memberModel::getMemberConfig();
+			$config->identifier = $config->identifier ?: 'user_id';
+			$config->signupForm = $oMemberAdminController->createSignupForm($config->identifier);
 			$output = $oModuleController->updateModuleConfig('member', $config);
 		}
 
@@ -404,8 +423,6 @@ class member extends ModuleObject {
 			$oModuleController->insertTrigger('document.getDocumentMenu', 'member', 'controller', 'triggerGetDocumentMenu', 'after');
 		if(!$oModuleModel->getTrigger('comment.getCommentMenu', 'member', 'controller', 'triggerGetCommentMenu', 'after'))
 			$oModuleController->insertTrigger('comment.getCommentMenu', 'member', 'controller', 'triggerGetCommentMenu', 'after');
-
-		return new Object(0, 'success_updated');
 	}
 
 	/**
@@ -422,7 +439,7 @@ class member extends ModuleObject {
 	 */
 	function recordLoginError($error = 0, $message = 'success')
 	{
-		if($error == 0) return new Object($error, $message);
+		if($error == 0) return new BaseObject($error, $message);
 
 		// Create a member model object
 		$oMemberModel = getModel('member');
@@ -430,7 +447,7 @@ class member extends ModuleObject {
 
 		// Check if there is recoding table.
 		$oDB = &DB::getInstance();
-		if(!$oDB->isTableExists('member_login_count') || $config->enable_login_fail_report == 'N') return new Object($error, $message);
+		if(!$oDB->isTableExists('member_login_count') || $config->enable_login_fail_report == 'N') return new BaseObject($error, $message);
 
 		$args = new stdClass();
 		$args->ipaddress = $_SERVER['REMOTE_ADDR'];
@@ -459,7 +476,7 @@ class member extends ModuleObject {
 			$args->count = 1;
 			$output = executeQuery('member.insertLoginCountByIp', $args);
 		}
-		return new Object($error, $message);
+		return new BaseObject($error, $message);
 	}
 
 	/**
@@ -467,7 +484,7 @@ class member extends ModuleObject {
 	 */
 	function recordMemberLoginError($error = 0, $message = 'success', $args = NULL)
 	{
-		if($error == 0 || !$args->member_srl) return new Object($error, $message);
+		if($error == 0 || !$args->member_srl) return new BaseObject($error, $message);
 
 		// Create a member model object
 		$oMemberModel = getModel('member');
@@ -475,7 +492,7 @@ class member extends ModuleObject {
 
 		// Check if there is recoding table.
 		$oDB = &DB::getInstance();
-		if(!$oDB->isTableExists('member_count_history') || $config->enable_login_fail_report == 'N') return new Object($error, $message);
+		if(!$oDB->isTableExists('member_count_history') || $config->enable_login_fail_report == 'N') return new BaseObject($error, $message);
 
 		$output = executeQuery('member.getLoginCountHistoryByMemberSrl', $args);
 		if($output->data && $output->data->content)

@@ -14,8 +14,6 @@ class page extends ModuleObject
 	{
 		// page generated from the cache directory to use
 		FileHandler::makeDir('./files/cache/page');
-
-		return new Object();
 	}
 
 	/**
@@ -76,7 +74,6 @@ class page extends ModuleObject
 			$skin_args->is_skin_fix = "Y";
 			$ouput = executeQuery('page.updateSkinFix', $skin_args);
 		}
-		return new Object(0,'success_updated');
 	}
 
 	/**

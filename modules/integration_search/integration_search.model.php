@@ -119,7 +119,7 @@ class integration_searchModel extends module
 	function getTrackbacks($target, $module_srls_list, $search_target = "title", $search_keyword, $page=1, $list_count = 20)
 	{
 		$oTrackbackModel = getAdminModel('trackback');
-		if(!$oTrackbackModel) return new Object();
+		if(!$oTrackbackModel) return new BaseObject();
 		$args = new stdClass();
 
 		if(is_array($module_srls_list)) $module_srls = implode(',',$module_srls_list);

@@ -8,7 +8,7 @@
  * @package /modules/document
  * @version 0.1
  */
-class documentItem extends Object
+class documentItem extends BaseObject
 {
 	/**
 	 * Document number
@@ -917,6 +917,9 @@ class documentItem extends Object
 		Context::set($cpageStr, $output->page_navigation->cur_page);
 		Context::set('cpage', $output->page_navigation->cur_page);
 		if($output->total_page>1) $this->comment_page_navigation = $output->page_navigation;
+		
+		// Call trigger (after)
+		$output = ModuleHandler::triggerCall('document.getComments', 'after', $comment_list);
 
 		return $comment_list;
 	}
@@ -1185,9 +1188,27 @@ class documentItem extends Object
 	 */
 	function printExtraImages($time_check = 43200)
 	{
-		if(!$this->document_srl) return;
-		// Get the icon directory
-		$path = sprintf('%s%s',getUrl(), 'modules/document/tpl/icons/');
+		if (!$this->document_srl)
+		{
+			return;
+		}
+
+		$oDocumentModel = getModel('document');
+		$documentConfig = $oDocumentModel->getDocumentConfig();
+
+		if(Mobile::isFromMobilePhone())
+		{
+			$iconSkin = $documentConfig->micons;
+		}
+		else
+		{
+			$iconSkin = $documentConfig->icons;
+		}
+		if($iconSkin == null)
+		{
+			$iconSkin = 'default';
+		}
+		$path = sprintf('%s%s',getUrl(), "modules/document/tpl/icons/$iconSkin/");
 
 		$buffs = $this->getExtraImages($time_check);
 		if(!count($buffs)) return;

@@ -299,7 +299,7 @@ class DBMysqli extends DBMysql
 
 	/**
 	 * Handles insertAct
-	 * @param Object $queryObject
+	 * @param BaseObject $queryObject
 	 * @param boolean $with_values
 	 * @return resource
 	 */
@@ -317,7 +317,7 @@ class DBMysqli extends DBMysql
 
 	/**
 	 * Handles updateAct
-	 * @param Object $queryObject
+	 * @param BaseObject $queryObject
 	 * @param boolean $with_values
 	 * @return resource
 	 */
@@ -335,7 +335,7 @@ class DBMysqli extends DBMysql
 
 	/**
 	 * Handles deleteAct
-	 * @param Object $queryObject
+	 * @param BaseObject $queryObject
 	 * @param boolean $with_values
 	 * @return resource
 	 */
@@ -355,10 +355,10 @@ class DBMysqli extends DBMysql
 	 * Handle selectAct
 	 * In order to get a list of pages easily when selecting \n
 	 * it supports a method as navigation
-	 * @param Object $queryObject
+	 * @param BaseObject $queryObject
 	 * @param resource $connection
 	 * @param boolean $with_values
-	 * @return Object
+	 * @return BaseObject
 	 */
 	function _executeSelectAct($queryObject, $connection = null, $with_values = false)
 	{
@@ -387,7 +387,7 @@ class DBMysqli extends DBMysql
 	/**
 	 * Fetch a result row as an object
 	 * @param resource $result
-	 * @return object
+	 * @return BaseObject
 	 */
 	function db_fetch_object(&$result)
 	{

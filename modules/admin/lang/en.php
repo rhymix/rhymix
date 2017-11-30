@@ -248,6 +248,8 @@ $lang->timezone = 'Time Zone';
 $lang->use_mobile_view = 'Enable Mobile View';
 $lang->about_use_mobile_view = 'Show mobile page when visitors access with mobile devices.';
 $lang->tablets_as_mobile = 'Treat Tablets as Mobile';
+$lang->mobile_viewport = 'Mobile viewport Setting';
+$lang->about_mobile_viewport = 'The settings entered above will be output in a &lt;meta name=&quot;viewport&quot;&gt; tag for mobile visitors.';
 $lang->thumbnail_target = 'Extract Thumbnail From';
 $lang->thumbnail_target_all = 'All images';
 $lang->thumbnail_target_attachment = 'Attached images only';

@@ -31,7 +31,6 @@ class rss extends ModuleObject
 	function moduleInstall()
 	{
 		$this->moduleUpdate();
-		return new Object();
 	}
 	
 	/**
@@ -105,12 +104,11 @@ class rss extends ModuleObject
 				$oModuleController->deleteTrigger($trigger[0], $trigger[1], $trigger[2], $trigger[3], $trigger[4]);
 			}
 		}
-		
-		return new Object(0, 'success_updated');
 	}
 	
 	function recompileCache()
 	{
+		
 	}
 }
 /* End of file rss.class.php */

@@ -161,6 +161,16 @@ class ncenterliteModel extends ncenterlite
 
 	function getMyNotifyList($member_srl=null, $page=1, $readed='N')
 	{
+		if(!$member_srl && !Context::get('is_logged'))
+		{
+			return false;
+		}
+
+		if (!$member_srl)
+		{
+			$member_srl = Context::get('logged_info')->member_srl;
+		}
+
 		$act = Context::get('act');
 		if($act=='dispNcenterliteNotifyList')
 		{
@@ -202,7 +212,7 @@ class ncenterliteModel extends ncenterlite
 	{
 		if (!Context::get('is_logged'))
 		{
-			return new Object(-1, 'msg_not_permitted');
+			return new BaseObject(-1, 'msg_not_permitted');
 		}
 
 		$memberConfig = getModel('member')->getMemberConfig();

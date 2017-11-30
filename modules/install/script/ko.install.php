@@ -148,7 +148,7 @@ function __makeMenu(&$list, $parent_srl)
 		}
 
 		$output = $oMenuAdminController->procMenuAdminInsertItem();
-		if($output instanceof Object && !$output->toBool())
+		if($output instanceof BaseObject && !$output->toBool())
 		{
 			return $output;
 		}

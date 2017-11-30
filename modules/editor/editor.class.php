@@ -47,6 +47,7 @@ class editor extends ModuleObject
 		'content_word_break' => 'normal',
 		'enable_autosave' => 'Y',
 		'allow_html' => 'Y',
+		'editor_focus' => 'N',
 		'autoinsert_image' => 'paragraph',
 		'additional_css' => array(),
 		'additional_mobile_css' => array(),
@@ -82,8 +83,6 @@ class editor extends ModuleObject
 		$oModuleController->insertTrigger('module.dispAdditionSetup', 'editor', 'view', 'triggerDispEditorAdditionSetup', 'before');
 		// 2009. 04. 14 Add a trigger from compiled codes of the editor component
 		$oModuleController->insertTrigger('display', 'editor', 'controller', 'triggerEditorComponentCompile', 'before');
-
-		return new Object();
 	}
 
 	/**
@@ -150,8 +149,6 @@ class editor extends ModuleObject
 		{
 			$oModuleController->insertTrigger('module.procModuleAdminCopyModule', 'editor', 'controller', 'triggerCopyModule', 'after');
 		}
-
-		return new Object(0, 'success_updated');
 	}
 
 	/**

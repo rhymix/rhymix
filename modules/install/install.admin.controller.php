@@ -20,7 +20,7 @@ class installAdminController extends install
 	function procInstallAdminInstall()
 	{
 		$module_name = Context::get('module_name');
-		if(!$module_name) return new object(-1, 'invalid_request');
+		if(!$module_name) return $this->setError('invalid_request');
 
 		$oInstallController = getController('install');
 		$oInstallController->installModule($module_name, './modules/'.$module_name);
@@ -35,18 +35,21 @@ class installAdminController extends install
 	{
 		@set_time_limit(0);
 		$module_name = Context::get('module_name');
-		if(!$module_name) return new object(-1, 'invalid_request');
+		if(!$module_name) return $this->setError('invalid_request');
 
 		$oModule = getModule($module_name, 'class');
 		if(!$oModule)
 		{
-			$output = new Object(-1, 'invalid_request');
+			$output = return $this->setError('invalid_request');
 		}
 		
 		Rhymix\Framework\Session::close();
 		$output = $oModule->moduleUpdate();
 		Rhymix\Framework\Session::start();
-		return $output;
+		if($output instanceof BaseObject && !$output->toBool())
+		{
+			return $output;
+		}
 	}
 
 	function procInstallAdminRemoveFTPInfo()

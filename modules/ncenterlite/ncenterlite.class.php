@@ -35,7 +35,7 @@ class ncenterlite extends ModuleObject
 
 	function moduleInstall()
 	{
-		return new Object();
+		
 	}
 
 	function checkUpdate()
@@ -242,17 +242,15 @@ class ncenterlite extends ModuleObject
 				$output = $oModuleController->insertModuleConfig('ncenterlite', $config);
 				if(!$output->toBool())
 				{
-					return new Object(-1, 'fail_module_install');
+					return new BaseObject(-1, 'fail_module_install');
 				}
 			}
 		}
-
-		return new Object(0, 'success_updated');
 	}
 
 	function recompileCache()
 	{
-		return new Object();
+		return new BaseObject();
 	}
 
 	function moduleUninstall()
@@ -263,7 +261,7 @@ class ncenterlite extends ModuleObject
 		{
 			$oModuleController->deleteTrigger($trigger[0], $trigger[1], $trigger[2], $trigger[3], $trigger[4]);
 		}
-		return new Object();
+		return new BaseObject();
 	}
 
 	public static function getSmsHandler()

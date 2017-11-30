@@ -39,8 +39,8 @@ class DBCubrid extends DB
 		'varchar' => 'character varying',
 		'char' => 'character',
 		'tinytext' => 'character varying(256)',
-		'text' => 'character varying(1073741823)',
 		'bigtext' => 'character varying(1073741823)',
+		'text' => 'character varying(1073741823)',
 		'date' => 'character varying(14)',
 		'float' => 'float',
 	);
@@ -629,7 +629,7 @@ class DBCubrid extends DB
 	 * Get information about a column
 	 * @param string $table_name table name
 	 * @param string $column_name column name
-	 * @return object
+	 * @return BaseObject
 	 */
 	function getColumnInfo($table_name, $column_name)
 	{
@@ -987,7 +987,7 @@ class DBCubrid extends DB
 
 	/**
 	 * Handles insertAct
-	 * @param Object $queryObject
+	 * @param BaseObject $queryObject
 	 * @param boolean $with_values
 	 * @return resource
 	 */
@@ -999,7 +999,7 @@ class DBCubrid extends DB
 			$with_values = FALSE;
 		}
 		$query = $this->getInsertSql($queryObject, $with_values);
-		if(is_a($query, 'Object'))
+		if($query instanceof BaseObject)
 		{
 			unset($this->param);
 			return;
@@ -1016,7 +1016,7 @@ class DBCubrid extends DB
 
 	/**
 	 * Handles updateAct
-	 * @param Object $queryObject
+	 * @param BaseObject $queryObject
 	 * @param boolean $with_values
 	 * @return resource
 	 */
@@ -1028,7 +1028,7 @@ class DBCubrid extends DB
 			$with_values = FALSE;
 		}
 		$query = $this->getUpdateSql($queryObject, $with_values);
-		if(is_a($query, 'Object'))
+		if($query instanceof BaseObject)
 		{
 			unset($this->param);
 			return;
@@ -1046,7 +1046,7 @@ class DBCubrid extends DB
 
 	/**
 	 * Handles deleteAct
-	 * @param Object $queryObject
+	 * @param BaseObject $queryObject
 	 * @param boolean $with_values
 	 * @return resource
 	 */
@@ -1058,7 +1058,7 @@ class DBCubrid extends DB
 			$with_values = FALSE;
 		}
 		$query = $this->getDeleteSql($queryObject, $with_values);
-		if(is_a($query, 'Object'))
+		if($query instanceof BaseObject)
 		{
 			unset($this->param);
 			return;
@@ -1079,10 +1079,10 @@ class DBCubrid extends DB
 	 * Handle selectAct
 	 * To get a specific page list easily in select statement,
 	 * a method, navigation, is used
-	 * @param Object $queryObject
+	 * @param BaseObject $queryObject
 	 * @param resource $connection
 	 * @param boolean $with_values
-	 * @return Object
+	 * @return BaseObject
 	 */
 	function _executeSelectAct($queryObject, $connection = NULL, $with_values = TRUE)
 	{
@@ -1099,7 +1099,7 @@ class DBCubrid extends DB
 		else
 		{
 			$query = $this->getSelectSql($queryObject, $with_values);
-			if(is_a($query, 'Object'))
+			if($query instanceof BaseObject)
 			{
 				unset($this->param);
 				return;
@@ -1114,7 +1114,7 @@ class DBCubrid extends DB
 			}
 
 			$data = $this->_fetch($result);
-			$buff = new Object ();
+			$buff = new BaseObject;
 			$buff->data = $data;
 
 			unset($this->param);
@@ -1124,15 +1124,15 @@ class DBCubrid extends DB
 
 	/**
 	 * If have a error, return error object
-	 * @param Object $queryObject
-	 * @return Object
+	 * @param BaseObject $queryObject
+	 * @return BaseObject
 	 */
 	function queryError($queryObject)
 	{
 		$limit = $queryObject->getLimit();
 		if($limit && $limit->isPageHandler())
 		{
-			$buff = new Object ();
+			$buff = new BaseObject;
 			$buff->total_count = 0;
 			$buff->total_page = 0;
 			$buff->page = 1;
@@ -1145,10 +1145,10 @@ class DBCubrid extends DB
 
 	/**
 	 * If select query execute, return page info
-	 * @param Object $queryObject
+	 * @param BaseObject $queryObject
 	 * @param resource $connection
 	 * @param boolean $with_values
-	 * @return Object Object with page info containing
+	 * @return BaseObject Object with page info containing
 	 */
 	function queryPageLimit($queryObject, $connection, $with_values)
 	{
@@ -1209,7 +1209,7 @@ class DBCubrid extends DB
 		{
 			// If requested page is bigger than total number of pages, return empty list
 
-			$buff = new Object ();
+			$buff = new BaseObject;
 			$buff->total_count = $total_count;
 			$buff->total_page = $total_page;
 			$buff->page = $page;
@@ -1231,7 +1231,7 @@ class DBCubrid extends DB
 		$virtual_no = $total_count - ($page - 1) * $list_count;
 		$data = $this->_fetch($result, $virtual_no);
 
-		$buff = new Object ();
+		$buff = new BaseObject;
 		$buff->total_count = $total_count;
 		$buff->total_page = $total_page;
 		$buff->page = $page;
@@ -1265,14 +1265,14 @@ class DBCubrid extends DB
 		$select = $query->getSelectString($with_values);
 		if($select == '')
 		{
-			return new Object(-1, "Invalid query");
+			return new BaseObject(-1, "Invalid query");
 		}
 		$select = 'SELECT ' . $select;
 
 		$from = $query->getFromString($with_values);
 		if($from == '')
 		{
-			return new Object(-1, "Invalid query");
+			return new BaseObject(-1, "Invalid query");
 		}
 		$from = ' FROM ' . $from;
 

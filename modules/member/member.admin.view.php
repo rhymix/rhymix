@@ -147,6 +147,47 @@ class memberAdminView extends member
 		$this->setTemplateFile('features_config');
 	}
 
+	/**
+	 * Set the agreements config.
+	 *
+	 * @return void
+	 */
+	public function dispMemberAdminAgreementsConfig()
+	{
+		$this->setTemplateFile('agreements_config');
+	}
+
+	/**
+	 * Display the agreements edit form.
+	 *
+	 * @return void
+	 */
+	public function dispMemberAdminAgreementsEdit()
+	{
+		// Check parent input ID
+		$parent_input_id = Context::get('parent_input_id');
+		Context::addBodyClass('disable_debug_panel');
+		
+		// Load editor
+		$oEditorModel = getModel('editor');
+		$option = $oEditorModel->getEditorConfig();
+		$option->primary_key_name = 'primary_key';
+		$option->content_key_name = 'content';
+		$option->allow_fileupload = FALSE;
+		$option->enable_autosave = FALSE;
+		$option->enable_default_component = TRUE;
+		$option->enable_component = FALSE;
+		$option->height = 300;
+		$option->editor_focus = 'Y';
+		$editor = $oEditorModel->getEditor(0, $option);
+		Context::set('editor', $editor);
+		
+		// Set template
+		$this->setLayoutPath('./common/tpl/');
+		$this->setLayoutFile("default_layout");
+		$this->setTemplateFile('agreements_edit');
+	}
+
 	public function dispMemberAdminSignUpConfig()
 	{
 		$config = $this->memberConfig;

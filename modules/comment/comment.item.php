@@ -9,7 +9,7 @@
  * @package /modules/comment
  * @version 0.1
  */
-class commentItem extends Object
+class commentItem extends BaseObject
 {
 
 	/**
@@ -77,7 +77,7 @@ class commentItem extends Object
 		$this->adds($attribute);
 
 		// define vars on the object for backward compatibility of skins
-		if(count($attribute))
+		if(countobj($attribute))
 		{
 			foreach($attribute as $key => $val)
 			{

@@ -19,6 +19,28 @@
 			</div>
 		</div>
 	</div>
+	<div class="x_control-group">
+		<label class="x_control-label" for="icons">{$lang->cmd_pc_icon_setting}</label>
+		<div class="x_controls">
+			<select name="icons" id="icons">
+				<option value="">{$lang->notuse}</option>
+				<option loop="$pcIconSkinList => $key, $val" value="{$val->title}" selected="selected"|cond="$config->icons == $val->title">{$val->title}</option>
+			</select>
+			<a href="#icons_help" class="x_icon-question-sign" data-toggle>{$lang->help}</a>
+			<p id="icons_help" class="x_help-block" hidden>{$lang->about_cmd_pc_icon_setting}</p>
+		</div>
+	</div>
+	<div class="x_control-group">
+		<label class="x_control-label" for="micons">{$lang->cmd_mobile_icon_setting}</label>
+		<div class="x_controls">
+			<select name="micons" id="micons">
+				<option value="">{$lang->notuse}</option>
+				<option loop="$pcIconSkinList => $key, $val" value="{$val->title}" selected="selected"|cond="$config->micons == $val->title">{$val->title}</option>
+			</select>
+			<a href="#micons_help" class="x_icon-question-sign" data-toggle>{$lang->help}</a>
+			<p id="micons_help" class="x_help-block" hidden>{$lang->about_cmd_mobile_icon_setting}</p>
+		</div>
+	</div>
 
 	<div class="btnArea x_clearfix">
 		<span class="x_pull-right" style="margin-left:10px;"><input class="btn" type="button" value="{$lang->cmd_delete_all_thumbnail}" onclick="doDeleteAllThumbnail()"/></span>

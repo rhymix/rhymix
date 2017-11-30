@@ -27,6 +27,7 @@ class HTMLDisplayHandler
 	 */
 	public static $replacements = array(
 		'@\bcommon/xeicon/@' => 'common/css/xeicon/',
+		'@\beditor/skins/xpresseditor/js/xe_textarea\.(?:min\.)?js@' => 'editor/skins/ckeditor/js/xe_textarea.js',
 	);
 	
 	/**

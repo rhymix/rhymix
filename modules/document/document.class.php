@@ -47,8 +47,6 @@ class document extends ModuleObject
 
 		// 2009. 01. 29 Added a trigger for additional setup
 		$oModuleController->insertTrigger('module.dispAdditionSetup', 'document', 'view', 'triggerDispDocumentAdditionSetup', 'before');
-
-		return new Object();
 	}
 
 	/**
@@ -341,8 +339,6 @@ class document extends ModuleObject
 			$oDB->addColumn('document_update_log', 'is_admin', 'varchar', 1);
 			$oDB->addIndex('document_update_log', 'idx_is_admin', array('is_admin'));
 		}
-
-		return new Object(0,'success_updated');
 	}
 
 	/**

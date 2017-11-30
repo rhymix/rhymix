@@ -318,6 +318,7 @@
 .xm .signin #warning{margin-right:-14px}
 .xm .signin #warning>p{margin:10px 0}
 .xm .agreement{border:1px solid #ddd;padding:15px 15px 10px 15px;border-radius:5px;background:#f8f8f8;margin-bottom:15px}
+.xm .agreement>.title{padding: 0 0 10px 0;margin:0 0 10px 0;border-bottom:1px dotted #ccc; font-size:16px;font-weight:bold}
 .xm .agreement>.text{max-height:200px;overflow:auto}
 .xm .agreement>.confirm{padding:10px 0 0 0;margin:10px 0 0 0;border-top:1px dotted #ccc}
 @media all and (max-width:480px){.xm .signin{margin:0;width:100%}}

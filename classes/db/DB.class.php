@@ -143,7 +143,7 @@ class DB
 		}
 		if(!$db_type && Context::isInstalled())
 		{
-			return new Object(-1, 'msg_db_not_setted');
+			return new BaseObject(-1, 'msg_db_not_setted');
 		}
 
 		if(!isset($GLOBALS['__DB__']))
@@ -156,7 +156,7 @@ class DB
 			$class_file = RX_BASEDIR . "classes/db/$class_name.class.php";
 			if(!file_exists($class_file))
 			{
-				return new Object(-1, 'msg_db_not_setted');
+				return new BaseObject(-1, 'msg_db_not_setted');
 			}
 
 			// get a singletone instance of the database driver class
@@ -449,7 +449,7 @@ class DB
 	public function getError()
 	{
 		$this->errstr = Context::convertEncodingStr($this->errstr);
-		return new Object($this->errno, $this->errstr);
+		return new BaseObject($this->errno, $this->errstr);
 	}
 
 	/**
@@ -466,11 +466,11 @@ class DB
 
 		if(!$query_id)
 		{
-			return new Object(-1, 'msg_invalid_queryid');
+			return new BaseObject(-1, 'msg_invalid_queryid');
 		}
 		if(!$this->db_type)
 		{
-			return;
+			return new BaseObject(-1, 'msg_db_not_setted');
 		}
 
 		$this->actDBClassStart();
@@ -493,7 +493,7 @@ class DB
 				if(!isset($typeList[$target]))
 				{
 					$this->actDBClassFinish();
-					return;
+					return new BaseObject(-1, 'msg_invalid_queryid');
 				}
 				$module = $id_args[1];
 				$id = $id_args[2];
@@ -501,14 +501,14 @@ class DB
 			if(!$target || !$module || !$id)
 			{
 				$this->actDBClassFinish();
-				return new Object(-1, 'msg_invalid_queryid');
+				return new BaseObject(-1, 'msg_invalid_queryid');
 			}
 
 			$xml_file = sprintf('%s%s/%s/queries/%s.xml', _XE_PATH_, $target, $module, $id);
 			if(!file_exists($xml_file))
 			{
 				$this->actDBClassFinish();
-				return new Object(-1, 'msg_invalid_queryid');
+				return new BaseObject(-1, 'msg_invalid_queryid');
 			}
 
 			// look for cache file
@@ -564,7 +564,7 @@ class DB
 
 		if(!file_exists($cache_file))
 		{
-			return new Object(-1, 'msg_invalid_queryid');
+			return new BaseObject(-1, 'msg_invalid_queryid');
 		}
 
 		if (is_object($source_args))
@@ -582,13 +582,13 @@ class DB
 
 		$output = include($cache_file);
 
-		if($output instanceof Object && !$output->toBool())
+		if($output instanceof BaseObject && !$output->toBool())
 		{
 			return $output;
 		}
 		if(!is_object($output) || !method_exists($output, 'getAction'))
 		{
-			return new Object(-1, sprintf(lang('msg_failed_to_load_query'), $query_id));
+			return new BaseObject(-1, sprintf(lang('msg_failed_to_load_query'), $query_id));
 		}
 
 		// execute appropriate query
@@ -619,9 +619,9 @@ class DB
 		{
 			$output = $this->getError();
 		}
-		elseif(!($output instanceof Object))
+		elseif(!($output instanceof BaseObject))
 		{
-			$output = new Object();
+			$output = new BaseObject();
 		}
 		$output->add('_query', $this->query);
 		$output->add('_elapsed_time', sprintf("%0.5f", $this->elapsed_time));
@@ -688,14 +688,14 @@ class DB
 		$select = $query->getSelectString($with_values);
 		if($select == '')
 		{
-			return new Object(-1, "Invalid query");
+			return new BaseObject(-1, "Invalid query");
 		}
 		$select = 'SELECT ' . $select;
 
 		$from = $query->getFromString($with_values);
 		if($from == '')
 		{
-			return new Object(-1, "Invalid query");
+			return new BaseObject(-1, "Invalid query");
 		}
 		$from = ' FROM ' . $from;
 
@@ -790,7 +790,7 @@ class DB
 		$from = $query->getFromString($with_values);
 		if($from == '')
 		{
-			return new Object(-1, "Invalid query");
+			return new BaseObject(-1, "Invalid query");
 		}
 		$sql .= ' FROM ' . $from;
 
@@ -815,13 +815,13 @@ class DB
 		$columnsList = $query->getUpdateString($with_values);
 		if($columnsList == '')
 		{
-			return new Object(-1, "Invalid query");
+			return new BaseObject(-1, "Invalid query");
 		}
 
 		$tables = $query->getFromString($with_values);
 		if($tables == '')
 		{
-			return new Object(-1, "Invalid query");
+			return new BaseObject(-1, "Invalid query");
 		}
 
 		$where = $query->getWhereString($with_values);

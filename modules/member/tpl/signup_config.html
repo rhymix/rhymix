@@ -75,14 +75,6 @@
 		</div>
 	</div>
 	<div class="x_control-group">
-		<label class="x_control-label" for="agreement">{$lang->agreement}</label>
-		<div class="x_controls">{$editor}</div>
-<style scoped>
-#smart_content,
-#smart_content>.tool{clear:none !important}
-</style>
-	</div>
-	<div class="x_control-group">
 		<p class="x_control-label">{$lang->cmd_manage_form} <a class="x_icon-question-sign" href="./common/manual/admin/index.html#UMAN_faq_member_joinform" target="_blank">{$lang->help}</a></p>
 		<div class="x_controls">
 			<table class="__join_form sortable x_table x_table-striped x_table-hover">
@@ -109,7 +101,7 @@
 				</thead>
 				<tbody class="uDrag">
 					{@ $disabled_list = array('find_account_question')}
-					{@ $fixed_public_list = array('nick_name', 'password')}
+					{@ $fixed_public_list = array('nick_name', 'password', 'email_address')}
 					<!--@foreach($config->signupForm as $item)-->
 					<!--@if(in_array($item->name, $disabled_list))-->
 					<!--@elseif($item->isIdentifier)-->
@@ -122,7 +114,7 @@
 						</th>
 						<td style="text-align:center"><input type="radio" name="identifier" value="{$item->name}" checked="checked" /></td>
 						<td style="text-align:center"><input type="checkbox" name="usable_list[]" value="{$item->name}" title="{$lang->use}" checked="checked"  disabled="disabled" /></td>
-						<td style="text-align:center"><input type="checkbox" name="is_{$item->name}_public" value="Y" checked="checked"|cond="$item->isPublic == 'Y'"/></td>
+						<td style="text-align:center"><input type="checkbox" name="is_{$item->name}_public" value="Y" checked="checked"|cond="$item->isPublic == 'Y'" disabled="disabled"|cond="in_array($item->name, $fixed_public_list) || !$item->isUse" /></td>
 						<td class="nowr">
 							<label for="{$item->name}_re" class="x_inline"><input type="radio" id="{$item->name}_re" name="{$item->name}" value="requierd" checked="checked" disabled="disabled" /> {$lang->cmd_required}</label>
 							<label for="{$item->name}_op" class="x_inline"><input type="radio" id="{$item->name}_op" name="{$item->name}" value="option" disabled="disabled" /> {$lang->cmd_optional}</label>

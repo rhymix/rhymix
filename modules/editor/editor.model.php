@@ -169,8 +169,9 @@ class editorModel extends editor
 		}
 		Context::set('enable_autosave', $option->enable_autosave);
 		
-		// Set allow html
+		// Set allow html and focus
 		Context::set('allow_html', ($option->allow_html === false || $option->allow_html === 'N') ? false : true);
+		Context::set('editor_focus', toBool($option->editor_focus));
 		
 		// Load editor components.
 		$site_srl = Context::get('site_module_info')->site_srl ?: 0;
@@ -465,11 +466,11 @@ class editorModel extends editor
 			// Create an object of the component and execute
 			$class_path = sprintf('%scomponents/%s/', $this->module_path, $component);
 			$class_file = sprintf('%s%s.class.php', $class_path, $component);
-			if(!file_exists($class_file)) return new Object(-1, sprintf(lang('msg_component_is_not_founded'), $component));
+			if(!file_exists($class_file)) return $this->setError('msg_component_is_not_founded', $component);
 			// Create an object after loading the class file
 			require_once($class_file);
 			$oComponent = new $component($editor_sequence, $class_path);
-			if(!$oComponent) return new Object(-1, sprintf(lang('msg_component_is_not_founded'), $component));
+			if(!$oComponent) return $this->setError('msg_component_is_not_founded', $component);
 			// Add configuration information
 			$component_info = $this->getComponent($component, $site_srl);
 			$oComponent->setInfo($component_info);
@@ -526,7 +527,7 @@ class editorModel extends editor
 			$group_list = array();
 		}
 
-		if(count($component_list))
+		if(countobj($component_list))
 		{
 			foreach($component_list as $key => $val)
 			{

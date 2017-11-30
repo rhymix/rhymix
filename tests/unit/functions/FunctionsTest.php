@@ -149,6 +149,13 @@ class FunctionsTest extends \Codeception\TestCase\Test
 		$this->assertFalse(tobool(array()));
 	}
 	
+	public function testCountObj()
+	{
+		$this->assertEquals(3, countobj(array('foo' => 1, 'bar' => 2, 'baz' => 3)));
+		$this->assertEquals(3, countobj((object)array('foo' => 1, 'bar' => 2, 'baz' => 3)));
+		$this->assertEquals(1, countobj('foobar'));
+	}
+	
 	public function testUTF8Functions()
 	{
 		$this->assertTrue(utf8_check('Hello, world!'));

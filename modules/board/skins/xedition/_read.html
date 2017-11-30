@@ -101,10 +101,9 @@
 		</div>
 		<div class="tns">
 			{@ $tag_list = $oDocument->get('tag_list') }
-			<span class="tags" cond="count($tag_list)">
+			<span class="tags" cond="$tag_list">
 				<i class="xi-tags"></i>
-				<!--@for($i=0;$i<count($tag_list);$i++)-->
-					{@ $tag = $tag_list[$i]; }
+				<!--@foreach($tag_list as $tag)-->
 					<a href="{getUrl('search_target','tag','search_keyword',$tag,'document_srl','')}" class="tag" rel="tag">{htmlspecialchars($tag)}</a><span>,</span>
 				<!--@end-->
 			</span>

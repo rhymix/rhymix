@@ -43,7 +43,7 @@ class adminAdminModel extends admin
 		$connection = ssh2_connect($ftp_info->ftp_host, $ftp_info->ftp_port);
 		if(!ssh2_auth_password($connection, $ftp_info->ftp_user, $ftp_info->ftp_password))
 		{
-			return new Object(-1, 'msg_ftp_invalid_auth_info');
+			return $this->setError('msg_ftp_invalid_auth_info');
 		}
 		$sftp = ssh2_sftp($connection);
 
@@ -112,14 +112,14 @@ class adminAdminModel extends admin
 		$connection = ftp_connect($ftp_info->ftp_host, $ftp_info->ftp_port);
 		if(!$connection)
 		{
-			return new Object(-1, sprintf(lang('msg_ftp_not_connected'), 'host'));
+			return $this->setError('msg_ftp_not_connected', 'host');
 		}
 
 		$login_result = @ftp_login($connection, $ftp_info->ftp_user, $ftp_info->ftp_password);
 		if(!$login_result)
 		{
 			ftp_close($connection);
-			return new Object(-1, 'msg_ftp_invalid_auth_info');
+			return $this->setError('msg_ftp_invalid_auth_info');
 		}
 
 		// create temp file
@@ -182,7 +182,7 @@ class adminAdminModel extends admin
 
 		if(!$ftp_info->ftp_user || !$ftp_info->ftp_password)
 		{
-			return new Object(1, 'msg_ftp_invalid_auth_info');
+			return new BaseObject(1, 'msg_ftp_invalid_auth_info');
 		}
 
 		if(!$ftp_info->ftp_host)
@@ -199,7 +199,7 @@ class adminAdminModel extends admin
 		{
 			if(!function_exists('ssh2_sftp'))
 			{
-				return new Object(-1, 'disable_sftp_support');
+				return $this->setError('disable_sftp_support');
 			}
 			return $this->getSFTPPath();
 		}
@@ -216,12 +216,12 @@ class adminAdminModel extends admin
 		$oFTP = new ftp();
 		if(!$oFTP->ftp_connect($ftp_info->ftp_host, $ftp_info->ftp_port))
 		{
-			return new Object(1, sprintf(lang('msg_ftp_not_connected'), 'host'));
+			return new BaseObject(1, sprintf(lang('msg_ftp_not_connected'), 'host'));
 		}
 
 		if(!$oFTP->ftp_login($ftp_info->ftp_user, $ftp_info->ftp_password))
 		{
-			return new Object(1, 'msg_ftp_invalid_auth_info');
+			return new BaseObject(1, 'msg_ftp_invalid_auth_info');
 		}
 
 		// create temp file
@@ -286,7 +286,7 @@ class adminAdminModel extends admin
 		$connection = ssh2_connect($ftp_info->ftp_host, $ftp_info->ftp_port);
 		if(!ssh2_auth_password($connection, $ftp_info->ftp_user, $ftp_info->ftp_password))
 		{
-			return new Object(-1, 'msg_ftp_invalid_auth_info');
+			return $this->setError('msg_ftp_invalid_auth_info');
 		}
 
 		$sftp = ssh2_sftp($connection);
@@ -294,7 +294,7 @@ class adminAdminModel extends admin
 		$dh = @opendir($curpwd);
 		if(!$dh)
 		{
-			return new Object(-1, 'msg_ftp_invalid_path');
+			return $this->setError('msg_ftp_invalid_path');
 		}
 		$list = array();
 		while(($file = readdir($dh)) !== FALSE)
@@ -325,7 +325,7 @@ class adminAdminModel extends admin
 		$ftp_info = Context::getRequestVars();
 		if(!$ftp_info->ftp_user || !$ftp_info->ftp_password)
 		{
-			return new Object(-1, 'msg_ftp_invalid_auth_info');
+			return $this->setError('msg_ftp_invalid_auth_info');
 		}
 
 		$this->pwd = $ftp_info->ftp_root_path;
@@ -344,7 +344,7 @@ class adminAdminModel extends admin
 		{
 			if(!function_exists('ssh2_sftp'))
 			{
-				return new Object(-1, 'disable_sftp_support');
+				return $this->setError('disable_sftp_support');
 			}
 			return $this->getSFTPList();
 		}
@@ -359,7 +359,7 @@ class adminAdminModel extends admin
 			}
 			else
 			{
-				return new Object(-1, 'msg_ftp_invalid_auth_info');
+				return $this->setError('msg_ftp_invalid_auth_info');
 			}
 		}
 		$list = array();
@@ -380,7 +380,7 @@ class adminAdminModel extends admin
 		}
 		else
 		{
-			return new Object(-1, 'msg_ftp_no_directory');
+			return $this->setError('msg_ftp_no_directory');
 		}
 		$this->add('list', $list);
 	}
@@ -624,38 +624,33 @@ class adminAdminModel extends admin
 	 */
 	function getAdminMenuLang()
 	{
-		$currentLang = Context::getLangType();
-		$cacheFile = sprintf('./files/cache/menu/admin_lang/adminMenu.%s.lang.php', $currentLang);
-
-		// Update if no cache file exists or it is older than xml file
-		if(!is_readable($cacheFile))
+		static $lang = null;
+		
+		if ($lang === null)
 		{
-			$lang = new stdClass();
+			$lang = Rhymix\Framework\Cache::get('admin_menu_langs:' . Context::getLangType());
+		}
+		if ($lang === null)
+		{
+			$lang = array();
 			$oModuleModel = getModel('module');
 			$installed_module_list = $oModuleModel->getModulesXmlInfo();
-
-			$this->gnbLangBuffer = '<?php $lang = new stdClass();';
-			foreach($installed_module_list AS $key => $value)
+			foreach($installed_module_list as $key => $value)
 			{
 				$moduleActionInfo = $oModuleModel->getModuleActionXml($value->module);
 				if(is_object($moduleActionInfo->menu))
 				{
-					foreach($moduleActionInfo->menu AS $key2 => $value2)
+					foreach($moduleActionInfo->menu as $key2 => $value2)
 					{
-						$lang->menu_gnb_sub[$key2] = $value2->title;
-						$this->gnbLangBuffer .=sprintf('$lang->menu_gnb_sub[\'%s\'] = \'%s\';', $key2, $value2->title);
+						$lang[$key2] = $value2->title;
 					}
 				}
 			}
-			$this->gnbLangBuffer .= ' ?>';
-			FileHandler::writeFile($cacheFile, $this->gnbLangBuffer);
-		}
-		else
-		{
-			include $cacheFile;
+			
+			Rhymix\Framework\Cache::set('admin_menu_langs:' . Context::getLangType(), $lang, 0, true);
 		}
 
-		return $lang->menu_gnb_sub;
+		return $lang;
 	}
 
 	/**
@@ -675,7 +670,7 @@ class adminAdminModel extends admin
 		}
 		if(!$output->data)
 		{
-			return new Object();
+			return new BaseObject();
 		}
 
 		if($isGetModuleInfo && is_array($output->data))
@@ -689,7 +684,7 @@ class adminAdminModel extends admin
 			}
 		}
 
-		$returnObject = new Object();
+		$returnObject = new BaseObject();
 		$returnObject->add('favoriteList', $output->data);
 		return $returnObject;
 	}
@@ -711,7 +706,7 @@ class adminAdminModel extends admin
 			return $output;
 		}
 
-		$returnObject = new Object();
+		$returnObject = new BaseObject();
 		if($output->data)
 		{
 			$returnObject->add('result', TRUE);

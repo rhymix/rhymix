@@ -6,7 +6,7 @@
  * @author NAVER (developers@xpressengine.com)
  * base class of ModuleHandler
  * */
-class ModuleObject extends Object
+class ModuleObject extends BaseObject
 {
 
 	var $mid = NULL; ///< string to represent run-time instance of Module (XE Module)
@@ -88,43 +88,6 @@ class ModuleObject extends Object
 	function getRedirectUrl()
 	{
 		return $this->get('redirect_url');
-	}
-
-	/**
-	 * set message
-	 * @param string $message a message string
-	 * @param string $type type of message (error, info, update)
-	 * @return void
-	 * */
-	function setMessage($message = 'success', $type = NULL)
-	{
-		parent::setMessage($message);
-		$this->setMessageType($type);
-	}
-
-	/**
-	 * set type of message
-	 * @param string $type type of message (error, info, update)
-	 * @return void
-	 * */
-	function setMessageType($type)
-	{
-		$this->add('message_type', $type);
-	}
-
-	/**
-	 * get type of message
-	 * @return string $type
-	 * */
-	function getMessageType()
-	{
-		$type = $this->get('message_type');
-		$typeList = array('error' => 1, 'info' => 1, 'update' => 1);
-		if(!isset($typeList[$type]))
-		{
-			$type = $this->getError() ? 'error' : 'info';
-		}
-		return $type;
 	}
 
 	/**
@@ -598,7 +561,7 @@ class ModuleObject extends Object
 		}
 
 		// check return value of action
-		if($output instanceof Object)
+		if($output instanceof BaseObject)
 		{
 			$this->setError($output->getError());
 			$this->setMessage($output->getMessage());
@@ -624,11 +587,11 @@ class ModuleObject extends Object
 		$addon_file = $oAddonController->getCacheFilePath($is_mobile ? "mobile" : "pc");
 		if(FileHandler::exists($addon_file)) include($addon_file);
 
-		if($original_output instanceof Object && !$original_output->toBool())
+		if($original_output instanceof BaseObject && !$original_output->toBool())
 		{
 			return FALSE;
 		}
-		elseif($output instanceof Object && $output->getError())
+		elseif($output instanceof BaseObject && $output->getError())
 		{
 			$this->setError($output->getError());
 			$this->setMessage($output->getMessage());

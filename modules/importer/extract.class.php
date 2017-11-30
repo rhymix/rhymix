@@ -124,7 +124,7 @@ class extract
 		// If local file
 		if(strncasecmp('http://', $this->filename, 7) !== 0)
 		{
-			if(!file_exists($this->filename)) return new Object(-1,'msg_no_xml_file');
+			if(!file_exists($this->filename)) return $this->setError('msg_no_xml_file');
 			$this->fd = fopen($this->filename,"r");
 			// If remote file
 		}
@@ -135,7 +135,7 @@ class extract
 			if(!$url_info['path']) $url_info['path'] = '/';
 
 			$this->fd = @fsockopen($url_info['host'], $url_info['port']);
-			if(!$this->fd) return new Object(-1,'msg_no_xml_file');
+			if(!$this->fd) return $this->setError('msg_no_xml_file');
 			// If the file name contains Korean, do urlencode(iconv required)
 			$path = $url_info['path'];
 			if(preg_match('/[\xEA-\xED][\x80-\xFF]{2}/', $path)&&function_exists('iconv'))
@@ -157,7 +157,7 @@ class extract
 				$buff .= $str = fgets($this->fd, 1024);
 				if(!trim($str)) break;
 			}
-			if(preg_match('/404 Not Found/i',$buff)) return new Object(-1,'msg_no_xml_file');
+			if(preg_match('/404 Not Found/i',$buff)) return $this->setError('msg_no_xml_file');
 		}
 
 		if($this->startTag)
@@ -181,7 +181,7 @@ class extract
 			$this->isFinished = false;
 		}
 
-		return new Object();
+		return new BaseObject();
 	}
 
 	/**

@@ -86,6 +86,7 @@
 		URITemplate : window.URITemplate,
 		SecondLevelDomains : window.SecondLevelDomains,
 		IPv6 : window.IPv6,
+		baseurl : null,
 		
 		/**
 		 * @brief 특정 name을 가진 체크박스들의 checked 속성 변경
@@ -198,20 +199,35 @@
 		
 		/* 동일 사이트 내 주소인지 판단 (프로토콜 제외) */
 		isSameHost: function(url) {
-			var site_baseurl = window.XE.URI(window.request_uri).normalizePort().normalizePathname();
-			site_baseurl = site_baseurl.hostname() + site_baseurl.directory();
+			if (typeof url !== "string") {
+				return false;
+			}
+			if (url.match(/^\/[^\/]/)) {
+				return true;
+			}
+			if (url.match(/^\w+:[^\/]*$/)) {
+				return false;
+			}
+			
+			if (!window.XE.baseurl) {
+				window.XE.baseurl = window.XE.URI(window.request_uri).normalizePort().normalizePathname();
+				window.XE.baseurl = window.XE.baseurl.hostname() + window.XE.baseurl.directory();
+			}
 			
 			var target_url = window.XE.URI(url).normalizePort().normalizePathname();
+			if (target_url.is("urn")) {
+				return false;
+			}
 			if (!target_url.hostname()) {
 				target_url = target_url.absoluteTo(window.request_uri);
 			}
 			target_url = target_url.hostname() + target_url.directory();
 
-			return target_url.indexOf(site_baseurl) === 0;
+			return target_url.indexOf(window.XE.baseurl) === 0;
 		}
 	};
 	
-}) (jQuery);
+})(jQuery);
 
 /* jQuery(document).ready() */
 jQuery(function($) {
@@ -226,8 +242,8 @@ jQuery(function($) {
 	/* Tabnapping protection, step 1 */
 	$('a[target]').each(function() {
 		var $this = $(this);
-		var href = $this.attr('href');
-		var target = $this.attr('target');
+		var href = $this.attr('href').trim();
+		var target = $this.attr('target').trim();
 		if (!href || !target || target === '_top' || target === '_self' || target === '_parent') {
 			return;
 		}
@@ -243,8 +259,8 @@ jQuery(function($) {
 	/* Tabnapping protection, step 2 */
 	$('body').on('click', 'a[target]', function(event) {
 		var $this = $(this);
-		var href = $this.attr('href');
-		var target = $this.attr('target');
+		var href = $this.attr('href').trim();
+		var target = $this.attr('target').trim();
 		if (!href || !target || target === '_top' || target === '_self' || target === '_parent') {
 			return;
 		}
@@ -314,7 +330,7 @@ jQuery(function($) {
 	});
 });
 
-(function(){ // String extension methods
+(function($) { // String extension methods
 
 	/**
 	 * @brief location.href에서 특정 key의 값을 return
@@ -405,7 +421,7 @@ jQuery(function($) {
 		return uri.protocol(protocol).port(port || null).normalizePort().filename(filename);
 	}
 	
-})();
+})(jQuery);
 
 /**
  * @brief xSleep(micro time)

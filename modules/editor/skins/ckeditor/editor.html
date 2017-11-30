@@ -104,6 +104,7 @@ var auto_saved_msg = "{$lang->msg_auto_saved}";
 	            fontSize_sizes: font_sizes,
 				toolbarCanCollapse: true,
 				allowedContent: true,
+				startupFocus: {json_encode($editor_focus)},
 				language: "{str_replace('jp','ja',$lang_type)}"
 			},
 			loadXeComponent: true,

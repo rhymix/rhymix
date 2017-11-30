@@ -467,7 +467,7 @@ class moduleModel extends module
 
 		foreach($target_module_info as $key => $val)
 		{
-			if(!$extra_vars[$val->module_srl] || !count($extra_vars[$val->module_srl])) continue;
+			if(!$extra_vars[$val->module_srl] || !count(get_object_vars($extra_vars[$val->module_srl]))) continue;
 			foreach($extra_vars[$val->module_srl] as $k => $v)
 			{
 				if($target_module_info[$key]->{$k}) continue;
@@ -1828,10 +1828,9 @@ class moduleModel extends module
 			$args = new stdClass();
 			$args->module_srl = implode(',', $get_module_srls);
 			$output = executeQueryArray('module.getModuleExtraVars', $args);
-
 			if(!$output->toBool())
 			{
-				return;
+				return array();
 			}
 
 			if(!$output->data)
@@ -2344,7 +2343,7 @@ class moduleModel extends module
 	function getFileBoxListHtml()
 	{
 		$logged_info = Context::get('logged_info');
-		if($logged_info->is_admin !='Y' && !$logged_info->is_site_admin) return new Object(-1, 'msg_not_permitted');
+		if($logged_info->is_admin !='Y' && !$logged_info->is_site_admin) return $this->setError('msg_not_permitted');
 		$link = parse_url($_SERVER["HTTP_REFERER"]);
 		$link_params = explode('&',$link['query']);
 		foreach ($link_params as $param)

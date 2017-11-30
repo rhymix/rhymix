@@ -148,6 +148,13 @@ class documentAdminView extends document
 		$config = $oDocumentModel->getDocumentConfig();
 		Context::set('config',$config);
 
+		$oModuleModel = getModel('module');
+		$pcIconSkinList = $oModuleModel->getSkins($this->module_path . 'tpl', 'icons');
+		$mobileIconSkinList = $oModuleModel->getSkins($this->module_path . 'tpl', 'micons');
+
+		Context::set('pcIconSkinList', $pcIconSkinList);
+		Context::set('mobileIconSkinList', $mobileIconSkinList);
+
 		// Set the template file
 		$this->setTemplatePath($this->module_path.'tpl');
 		$this->setTemplateFile('document_config');

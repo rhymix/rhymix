@@ -22,7 +22,9 @@ class ConfigParser
 		// Load DB info file.
 		if (file_exists(\RX_BASEDIR . Config::$old_db_config_filename))
 		{
+			ob_start();
 			include \RX_BASEDIR . Config::$old_db_config_filename;
+			ob_end_clean();
 		}
 		else
 		{
@@ -32,7 +34,9 @@ class ConfigParser
 		// Load FTP info file.
 		if (file_exists(\RX_BASEDIR . Config::$old_ftp_config_filename))
 		{
+			ob_start();
 			include \RX_BASEDIR . Config::$old_ftp_config_filename;
+			ob_end_clean();
 		}
 		
 		// Load selected language file.

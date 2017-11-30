@@ -302,7 +302,7 @@ class Advanced_MailerAdminView extends Advanced_Mailer
 		$total_count = $count->data->count;
 		$total_page = max(1, ceil($total_count / 20));
 		
-		$output = new Object();
+		$output = new stdClass;
 		$output->total_count = $total_count;
 		$output->total_page = $total_page;
 		$output->page = $page;
