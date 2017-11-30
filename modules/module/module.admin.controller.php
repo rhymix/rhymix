@@ -864,14 +864,11 @@ class moduleAdminController extends module
 		}
 		$output = executeQueryArray('module.getLang', $args);
 		if(!$output->toBool() || !$output->data) return;
-		// Set the cache directory
-		$cache_path = _XE_PATH_.'files/cache/lang_defined/';
-		FileHandler::makeDir($cache_path);
 
 		$langMap = array();
-		foreach($output->data as $val)
+		foreach($output->data as $lang)
 		{
-			$langMap[$val->lang_code][$val->name] = $val->value;
+			$langMap[$lang->lang_code][$lang->name] = $lang->value;
 		}
 
 		$lang_supported = Context::loadLangSelected();
@@ -904,17 +901,11 @@ class moduleAdminController extends module
 
 				$langMap[$langCode] += $langMap[$targetLangCode];
 			}
-
-			$buff = array("<?php if(!defined('__XE__')) exit();");
-			foreach($langMap[$langCode] as $code => $value)
-			{
-				$buff[] = sprintf('$lang[%s] = %s;', var_export(strval($code), true), var_export(strval($value), true));
-			}
-			if (!Rhymix\Framework\Storage::write(sprintf('%s/%d.%s.php', $cache_path, $args->site_srl, $langCode), implode(PHP_EOL, $buff)))
-			{
-				return;
-			}
+			
+			Rhymix\Framework\Cache::set('site_and_module:user_defined_langs:' . $args->site_srl . ':' . $langCode, $langMap[$langCode], 0, true);
 		}
+		
+		return $langMap[Context::getLangType()];
 	}
 
 	public function procModuleAdminSetDesignInfo()

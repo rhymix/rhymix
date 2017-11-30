@@ -2299,7 +2299,7 @@ class documentController extends document
 			{
 				foreach($langs as $key => $val)
 				{
-					$xml_header_buff .= sprintf('$_titles[%d]["%s"] = "%s"; ', $category_srl, $key, str_replace('"','\\"',htmlspecialchars($val, ENT_COMPAT | ENT_HTML401, 'UTF-8', false)));
+					$xml_header_buff .= sprintf('$_titles[%d][%s] = %s; ', $category_srl, var_export($key, true), var_export(escape($val, false), true));
 				}
 			}
 
@@ -2308,12 +2308,12 @@ class documentController extends document
 			{
 				foreach($langx as $key => $val)
 				{
-					$xml_header_buff .= sprintf('$_descriptions[%d]["%s"] = "%s"; ', $category_srl, $key, str_replace('"','\\"',htmlspecialchars($val, ENT_COMPAT | ENT_HTML401, 'UTF-8', false)));
+					$xml_header_buff .= sprintf('$_descriptions[%d][%s] = %s; ', $category_srl, var_export($key, true), var_export(escape($val, false), true));
 				}
 			}
 
 			$attribute = sprintf(
-				'mid="%s" module_srl="%d" node_srl="%d" parent_srl="%d" category_srl="%d" text="<?php echo (%s?($_titles[%d][$lang_type]):"")?>" url="%s" expand="%s" color="%s" description="<?php echo (%s?($_descriptions[%d][$lang_type]):"")?>" document_count="%d" ',
+				'mid="%s" module_srl="%d" node_srl="%d" parent_srl="%d" category_srl="%d" text="<?php echo (%s?($_titles[%d][$lang_type]):"")?>" url=%s expand=%s color=%s description="<?php echo (%s?($_descriptions[%d][$lang_type]):"")?>" document_count="%d" ',
 				$mid,
 				$module_srl,
 				$category_srl,
@@ -2321,9 +2321,9 @@ class documentController extends document
 				$category_srl,
 				$group_check_code,
 				$category_srl,
-				getUrl('','mid',$node->mid,'category',$category_srl),
-				$expand,
-				htmlspecialchars($color, ENT_COMPAT | ENT_HTML401, 'UTF-8', false),
+				var_export(getUrl('','mid',$node->mid,'category',$category_srl), true),
+				var_export($expand, true),
+				var_export(escape($color, false), true),
 				$group_check_code,
 				$category_srl,
 				$node->document_count
@@ -2388,10 +2388,10 @@ class documentController extends document
 				{
 					$val = htmlspecialchars($val, ENT_COMPAT | ENT_HTML401, 'UTF-8', false);
 					$php_header_buff .= sprintf(
-						'$_titles[%d]["%s"] = "%s"; ',
+						'$_titles[%d][%s] = %s; ',
 						$category_srl,
-						$key,
-						str_replace('"','\\"', $val)
+						var_export($key, true),
+						var_export($val, true)
 					);
 				}
 			}
@@ -2404,17 +2404,17 @@ class documentController extends document
 				{
 					$val = htmlspecialchars($val, ENT_COMPAT | ENT_HTML401, 'UTF-8', false);
 					$php_header_buff .= sprintf(
-						'$_descriptions[%d]["%s"] = "%s"; ',
+						'$_descriptions[%d][%s] = %s; ',
 						$category_srl,
-						$key,
-						str_replace('"','\\"', $val)
+						var_export($key, true),
+						var_export($val, true)
 					);
 				}
 			}
 
 			// Create attributes(Use the category_srl_list to check whether to belong to the menu's node. It seems to be tricky but fast fast and powerful;)
 			$attribute = sprintf(
-				'"mid" => "%s", "module_srl" => "%d","node_srl"=>"%s","category_srl"=>"%s","parent_srl"=>"%s","text"=>$_titles[%d][$lang_type],"selected"=>(in_array(Context::get("category"),array(%s))?1:0),"expand"=>"%s","color"=>"%s","description"=>$_descriptions[%d][$lang_type],"list"=>array(%s),"document_count"=>"%d","grant"=>%s?true:false',
+				'"mid" => "%s", "module_srl" => "%d","node_srl"=>"%d","category_srl"=>"%d","parent_srl"=>"%d","text"=>$_titles[%d][$lang_type],"selected"=>(in_array(Context::get("category"),array(%s))?1:0),"expand"=>%s,"color"=>%s,"description"=>$_descriptions[%d][$lang_type],"list"=>array(%s),"document_count"=>"%d","grant"=>%s?true:false',
 				$node->mid,
 				$node->module_srl,
 				$node->category_srl,
@@ -2422,8 +2422,8 @@ class documentController extends document
 				$node->parent_srl,
 				$node->category_srl,
 				$selected,
-				$expand,
-				$node->color,
+				var_export($expand, true),
+				var_export($node->color, true),
 				$node->category_srl,
 				$child_buff,
 				$node->document_count,

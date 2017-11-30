@@ -1042,43 +1042,32 @@ class moduleController extends module
 	 */
 	function replaceDefinedLangCode(&$output, $isReplaceLangCode = true)
 	{
-		if($isReplaceLangCode)
-		{
-			$output = preg_replace_callback('!\$user_lang->([a-z0-9\_]+)!is', array($this,'_replaceLangCode'), $output);
-		}
-	}
-
-	function _replaceLangCode($matches)
-	{
 		static $lang = null;
 
-		if(is_null($lang))
+		if($isReplaceLangCode)
 		{
-			$cache_file = sprintf('%sfiles/cache/lang_defined/%d.%s.php', _XE_PATH_, 0, Context::getLangType());
-			if(!file_exists($cache_file))
+			if($lang === null)
 			{
-				$oModuleAdminController = getAdminController('module');
-				$oModuleAdminController->makeCacheDefinedLangCode(0);
-			}
-
-			if(file_exists($cache_file))
-			{
-				$moduleAdminControllerMtime = filemtime(_XE_PATH_ . 'modules/module/module.admin.controller.php');
-				$cacheFileMtime = filemtime($cache_file);
-				if($cacheFileMtime < $moduleAdminControllerMtime)
+				$lang = Rhymix\Framework\Cache::get('site_and_module:user_defined_langs:' . $args->site_srl . ':' . Context::getLangType());
+				if($lang === null)
 				{
 					$oModuleAdminController = getAdminController('module');
-					$oModuleAdminController->makeCacheDefinedLangCode(0);
+					$lang = $oModuleAdminController->makeCacheDefinedLangCode($site_module_info->site_srl);
 				}
-
-				require_once($cache_file);
 			}
+			
+			$output = preg_replace_callback('!\$user_lang->([a-z0-9\_]+)!is', function($matches) use($lang) {
+				if(isset($lang[$matches[1]]) && !Context::get($matches[1]))
+				{
+					return $lang[$matches[1]];
+				}
+				else
+				{
+					return str_replace('$user_lang->', '', $matches[0]);
+				}
+			}, $output);
 		}
-		if(!Context::get($matches[1]) && $lang[$matches[1]]) return $lang[$matches[1]];
-
-		return str_replace('$user_lang->','',$matches[0]);
 	}
-
 
 	/**
 	 * @brief Add and update a file into the file box
