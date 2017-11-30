@@ -60,7 +60,7 @@ class editorController extends editor
 		if(method_exists($oComponent, $method)) $output = $oComponent->{$method}();
 		else return $this->setError('%s method is not exists', $method);
 
-		if($output instanceof Object && !$output->toBool()) return $output;
+		if($output instanceof BaseObject && !$output->toBool()) return $output;
 
 		$this->setError($oComponent->getError());
 		$this->setMessage($oComponent->getMessage());

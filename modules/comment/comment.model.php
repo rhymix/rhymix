@@ -514,7 +514,7 @@ class commentModel extends comment
 
 		// call trigger (before)
 		$trigger_output = ModuleHandler::triggerCall('comment.getCommentList', 'before', $args);
-		if($trigger_output instanceof Object && !$trigger_output->toBool())
+		if($trigger_output instanceof BaseObject && !$trigger_output->toBool())
 		{
 			return $output;
 		}
@@ -540,7 +540,7 @@ class commentModel extends comment
 
 		// call trigger (after)
 		$trigger_output = ModuleHandler::triggerCall('comment.getCommentList', 'after', $output);
-		if($trigger_output instanceof Object && !$trigger_output->toBool())
+		if($trigger_output instanceof BaseObject && !$trigger_output->toBool())
 		{
 			return $trigger_output;
 		}

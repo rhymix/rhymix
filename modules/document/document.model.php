@@ -228,13 +228,13 @@ class documentModel extends document
 		// Call trigger (before)
 		// This trigger can be used to set an alternative output using a different search method
 		$output = ModuleHandler::triggerCall('document.getDocumentList', 'before', $obj);
-		if($output instanceof Object && !$output->toBool())
+		if($output instanceof BaseObject && !$output->toBool())
 		{
 			return $output;
 		}
 
 		// If an alternate output is set, use it instead of running the default queries
-		$use_alternate_output = (isset($obj->use_alternate_output) && $obj->use_alternate_output instanceof Object);
+		$use_alternate_output = (isset($obj->use_alternate_output) && $obj->use_alternate_output instanceof BaseObject);
 		if (!$use_alternate_output)
 		{
 			$this->_setSearchOption($obj, $args, $query_id, $use_division);

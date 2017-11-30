@@ -68,7 +68,7 @@ class fileModel extends file
 			}
 
 			$tmp_files = $this->getFiles($upload_target_srl);
-			if($tmp_files instanceof Object && !$tmp_files->toBool()) return $tmp_files;
+			if($tmp_files instanceof BaseObject && !$tmp_files->toBool()) return $tmp_files;
 			$files = array();
 
 			foreach($tmp_files as $file_info)

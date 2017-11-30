@@ -164,7 +164,7 @@ class ModuleInstaller
 		}
 
 		$output = $oModule->moduleUninstall();
-		if($output instanceof Object && !$output->toBool())
+		if($output instanceof BaseObject && !$output->toBool())
 		{
 			return $output;
 		}
