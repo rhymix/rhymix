@@ -18,8 +18,8 @@
 		<div class="x_control-group">
 			<div class="x_control-label">{$lang->cmd_agreement_content}</div>
 			<div class="x_controls">
-				<input type="hidden" name="agreement_{$i}_content" id="agreement_{$i}_content" value="{escape($config->agreements[$i]->content)}" />
-				<iframe id="agreement_{$i}_iframe" class="agreement_iframe" src="{getUrl('act', 'dispMemberAdminAgreementsEdit', 'id', $i)}"></iframe>
+				<input type="hidden" class="editor_content" name="agreement_{$i}_content" id="agreement_{$i}_content" value="{escape($config->agreements[$i]->content)}" />
+				<div class="editor_preview xe_content" tabindex="0">{$config->agreements[$i]->content}</div>
 			</div>
 		</div>
 		<div class="x_control-group">

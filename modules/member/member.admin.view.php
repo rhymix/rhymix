@@ -164,24 +164,25 @@ class memberAdminView extends member
 	 */
 	public function dispMemberAdminAgreementsEdit()
 	{
-		$agreement_id = intval(Context::get('id'));
-		Context::set('agreement_id', $agreement_id);
-		Context::set('agreement_content', getModel('member')->getMemberConfig()->agreements[$agreement_id]->content);
+		// Check parent input ID
+		$parent_input_id = Context::get('parent_input_id');
 		Context::addBodyClass('disable_debug_panel');
 		
+		// Load editor
 		$oEditorModel = getModel('editor');
 		$option = $oEditorModel->getEditorConfig();
-		$option->primary_key_name = 'agreement_id';
-		$option->content_key_name = 'agreement_content';
+		$option->primary_key_name = 'primary_key';
+		$option->content_key_name = 'content';
 		$option->allow_fileupload = FALSE;
 		$option->enable_autosave = FALSE;
 		$option->enable_default_component = TRUE;
 		$option->enable_component = FALSE;
 		$option->height = 300;
-		$option->editor_focus = 'N';
-		$editor = $oEditorModel->getEditor($logged_info->member_srl, $option);
+		$option->editor_focus = 'Y';
+		$editor = $oEditorModel->getEditor(0, $option);
 		Context::set('editor', $editor);
 		
+		// Set template
 		$this->setLayoutPath('./common/tpl/');
 		$this->setLayoutFile("default_layout");
 		$this->setTemplateFile('agreements_edit');
