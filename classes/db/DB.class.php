@@ -470,7 +470,7 @@ class DB
 		}
 		if(!$this->db_type)
 		{
-			return;
+			return new BaseObject(-1, 'msg_db_not_setted');
 		}
 
 		$this->actDBClassStart();
@@ -493,7 +493,7 @@ class DB
 				if(!isset($typeList[$target]))
 				{
 					$this->actDBClassFinish();
-					return;
+					return new BaseObject(-1, 'msg_invalid_queryid');
 				}
 				$module = $id_args[1];
 				$id = $id_args[2];
