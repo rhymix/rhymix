@@ -26,12 +26,7 @@ class krzip extends ModuleObject
 
 	function moduleInstall()
 	{
-		return new Object();
-	}
-
-	function moduleUninstall()
-	{
-		return new Object();
+		
 	}
 
 	function checkUpdate()
@@ -41,7 +36,7 @@ class krzip extends ModuleObject
 
 	function moduleUpdate()
 	{
-		return new Object();
+		
 	}
 }
 

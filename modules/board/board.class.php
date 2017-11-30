@@ -75,8 +75,6 @@ class board extends ModuleObject
 				$oModuleController->updateSite($site_args);
 			}
 		}
-
-		return new Object();
 	}
 
 	/**
@@ -113,14 +111,12 @@ class board extends ModuleObject
 		{
 			$oModuleController->insertTrigger('menu.getModuleListInSitemap', 'board', 'model', 'triggerModuleListInSitemap', 'after');
 		}
-
-		return new Object(0, 'success_updated');
 	}
 
 	function moduleUninstall()
 	{
 		$output = executeQueryArray("board.getAllBoard");
-		if(!$output->data) return new Object();
+		if(!$output->data) return new BaseObject();
 		@set_time_limit(0);
 
 		$oModuleController = getController('module');
@@ -130,6 +126,6 @@ class board extends ModuleObject
 			$oModuleController->deleteModule($board->module_srl);
 		}
 
-		return new Object();
+		return new BaseObject();
 	}
 }

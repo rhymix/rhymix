@@ -22,8 +22,6 @@ class counter extends ModuleObject
 
 		// add a row for today's status
 		//$oCounterController->insertTodayStatus();
-
-		return new Object();
 	}
 
 	/**
@@ -67,8 +65,6 @@ class counter extends ModuleObject
 		{
 			$oDB->addIndex('counter_log', 'idx_site_counter_log', array('site_srl', 'ipaddress'), FALSE);
 		}
-
-		return new Object(0, 'success_updated');
 	}
 
 	/**

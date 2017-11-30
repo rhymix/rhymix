@@ -23,13 +23,13 @@ class pollModel extends poll
 		$args->poll_srl = intval($poll_srl);
 		$logged_info = Context::get('logged_info');
 
-		if(!$args->poll_srl || $args->poll_srl === 0) return new Object(-1,"poll_no_poll_srl");
+		if(!$args->poll_srl || $args->poll_srl === 0) return $this->setError("poll_no_poll_srl");
 
 		// Get the information related to the survey
 		$columnList = array('poll_count', 'stop_date','poll_type','member_srl');
 		$output = executeQuery('poll.getPoll', $args, $columnList);
 		$poll_member_srl = $output->data->member_srl;
-		if(!$output->data) return new Object(-1,"poll_no_poll_or_deleted_poll");
+		if(!$output->data) return $this->setError("poll_no_poll_or_deleted_poll");
 
 		$poll = new stdClass;
 
@@ -96,7 +96,7 @@ class pollModel extends poll
 		$poll_srl = Context::get('poll_srl');
 		$poll_item = Context::get('poll_item');
 
-		if(!$poll_srl || $poll_srl=='') return new Object(-1,"poll_no_poll_srl");
+		if(!$poll_srl || $poll_srl=='') return $this->setError("poll_no_poll_srl");
 
 		$args->poll_srl = $poll_srl;
 		$args->poll_item_srl = $poll_item;
@@ -104,7 +104,7 @@ class pollModel extends poll
 		// Get the information related to the survey
 		$columnList = array('poll_type');
 		$output = executeQuery('poll.getPoll', $args, $columnList);
-		if(!$output->data) return new Object(-1,"poll_no_poll_or_deleted_poll");
+		if(!$output->data) return $this->setError("poll_no_poll_or_deleted_poll");
 		$type = $output->data->poll_type;
 
 		$poll = new stdClass();
@@ -176,7 +176,7 @@ class pollModel extends poll
 	public function getPollstatus()
 	{
 		$poll_srl = Context::get('poll_srl');
-		if(!$poll_srl || $poll_srl=='') return new Object(-1,"poll_no_poll_srl");
+		if(!$poll_srl || $poll_srl=='') return $this->setError("poll_no_poll_srl");
 
 		if($this->isPolled($poll_srl)) $is_polled = 1;
 		else $is_polled = 0;

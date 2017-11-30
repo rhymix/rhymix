@@ -102,7 +102,7 @@ class pollController extends poll
 			}
 		}
 
-		if(!count($args->poll)) return new Object(-1, 'cmd_null_item');
+		if(!count($args->poll)) return $this->setError('cmd_null_item');
 
 		$args->stop_date = $stop_date;
 
@@ -178,12 +178,12 @@ class pollController extends poll
 		$poll_index_srl = (int) Context::get('index_srl');
 		$poll_item_title = Context::get('title');
 
-		if($poll_item_title=='') return new Object(-1,"msg_item_title_cannot_empty");
+		if($poll_item_title=='') return $this->setError("msg_item_title_cannot_empty");
 
 		$logged_info = Context::get('logged_info');
-		if(!$logged_info) return new Object(-1,"msg_cannot_add_item");
+		if(!$logged_info) return $this->setError("msg_cannot_add_item");
 
-		if(!$poll_srl || !$poll_index_srl) return new Object(-1,"msg_invalid_request");
+		if(!$poll_srl || !$poll_index_srl) return $this->setError("msg_invalid_request");
 
 		$args = new stdClass();
 		$args->poll_srl = $poll_srl;
@@ -191,10 +191,10 @@ class pollController extends poll
 		// Get the information related to the survey
 		$columnList = array('poll_type');
 		$output = executeQuery('poll.getPoll', $args, $columnList);
-		if(!$output->data) return new Object(-1,"poll_no_poll_or_deleted_poll");
+		if(!$output->data) return $this->setError("poll_no_poll_or_deleted_poll");
 		$type = $output->data->poll_type;
 
-		if(!$this->isAbletoAddItem($type)) return new Object(-1,"msg_cannot_add_item");
+		if(!$this->isAbletoAddItem($type)) return $this->setError("msg_cannot_add_item");
 
 		if($logged_info->is_admin != 'Y')
 		{
@@ -227,9 +227,9 @@ class pollController extends poll
 		$poll_item_srl = Context::get('item_srl');
 
 		$logged_info = Context::get('logged_info');
-		if(!$logged_info)  return new Object(-1,"msg_cannot_delete_item");
+		if(!$logged_info)  return $this->setError("msg_cannot_delete_item");
 
-		if(!$poll_srl || !$poll_index_srl || !$poll_item_srl) return new Object(-1,"msg_invalid_request");
+		if(!$poll_srl || !$poll_index_srl || !$poll_item_srl) return $this->setError("msg_invalid_request");
 
 		$args = new stdClass();
 		$args->poll_srl = $poll_srl;
@@ -245,11 +245,11 @@ class pollController extends poll
 		// Get the information related to the survey
 		$columnList = array('member_srl');
 		$output = executeQuery('poll.getPoll', $args, $columnList);
-		if(!$output->data) return new Object(-1,"poll_no_poll_or_deleted_poll");
+		if(!$output->data) return $this->setError("poll_no_poll_or_deleted_poll");
 		$poll_member_srl = $output->data->member_srl;
 
-		if($add_user_srl!=$logged_info->member_srl && $poll_member_srl!=$logged_info->member_srl) return new Object(-1,"msg_cannot_delete_item");
-		if($poll_count>0) return new Object(-1,"msg_cannot_delete_item_poll_exist");
+		if($add_user_srl!=$logged_info->member_srl && $poll_member_srl!=$logged_info->member_srl) return $this->setError("msg_cannot_delete_item");
+		if($poll_count>0) return $this->setError("msg_cannot_delete_item_poll_exist");
 
 		$oDB = &DB::getInstance();
 		$oDB->begin();
@@ -280,9 +280,9 @@ class pollController extends poll
 		// Get the information related to the survey
 		$columnList = array('poll_count', 'stop_date','poll_type');
 		$output = executeQuery('poll.getPoll', $args, $columnList);
-		if(!$output->data) return new Object(-1,"poll_no_poll_or_deleted_poll");
+		if(!$output->data) return $this->setError("poll_no_poll_or_deleted_poll");
 
-		if($output->data->stop_date < date("Ymd")) return new Object(-1,"msg_cannot_vote");
+		if($output->data->stop_date < date("Ymd")) return $this->setError("msg_cannot_vote");
 
 		$columnList = array('checkcount');
 		$output = executeQuery('poll.getPollTitle', $args, $columnList);
@@ -290,7 +290,7 @@ class pollController extends poll
 
 		$poll_srl_indexes = Context::get('poll_srl_indexes');
 		$tmp_item_srls = explode(',',$poll_srl_indexes);
-		//if(count($tmp_item_srls)-1>(int)$output->data->checkcount) return new Object(-1,"msg_exceed_max_select");
+		//if(count($tmp_item_srls)-1>(int)$output->data->checkcount) return $this->setError("msg_exceed_max_select");
 		for($i=0;$i<count($tmp_item_srls);$i++)
 		{
 			$srl = (int)trim($tmp_item_srls[$i]);
@@ -299,10 +299,10 @@ class pollController extends poll
 		}
 
 		// If there is no response item, display an error
-		if(!count($item_srls)) return new Object(-1, 'msg_check_poll_item');
+		if(!count($item_srls)) return $this->setError('msg_check_poll_item');
 		// Make sure is the poll has already been taken
 		$oPollModel = getModel('poll');
-		if($oPollModel->isPolled($poll_srl)) return new Object(-1, 'msg_already_poll');
+		if($oPollModel->isPolled($poll_srl)) return $this->setError('msg_already_poll');
 
 		$oDB = &DB::getInstance();
 		$oDB->begin();
@@ -382,7 +382,7 @@ class pollController extends poll
 	 */
 	function procPollGetList()
 	{
-		if(!Context::get('is_logged')) return new Object(-1,'msg_not_permitted');
+		if(!Context::get('is_logged')) return $this->setError('msg_not_permitted');
 		$pollSrls = Context::get('poll_srls');
 		if($pollSrls) $pollSrlList = explode(',', $pollSrls);
 
@@ -419,7 +419,6 @@ class pollController extends poll
 	function triggerInsertDocumentPoll(&$obj)
 	{
 		$this->syncPoll($obj->document_srl, $obj->content);
-		return new Object();
 	}
 
 	/**
@@ -428,7 +427,6 @@ class pollController extends poll
 	function triggerInsertCommentPoll(&$obj)
 	{
 		$this->syncPoll($obj->comment_srl, $obj->content);
-		return new Object();
 	}
 
 	/**
@@ -437,7 +435,6 @@ class pollController extends poll
 	function triggerUpdateDocumentPoll(&$obj)
 	{
 		$this->syncPoll($obj->document_srl, $obj->content);
-		return new Object();
 	}
 
 	/**
@@ -446,7 +443,6 @@ class pollController extends poll
 	function triggerUpdateCommentPoll(&$obj)
 	{
 		$this->syncPoll($obj->comment_srl, $obj->content);
-		return new Object();
 	}
 
 	/**
@@ -455,15 +451,15 @@ class pollController extends poll
 	function triggerDeleteDocumentPoll(&$obj)
 	{
 		$document_srl = $obj->document_srl;
-		if(!$document_srl) return new Object();
+		if(!$document_srl) return;
 		// Get the poll
 		$args = new stdClass();
 		$args->upload_target_srl = $document_srl;
 		$output = executeQuery('poll.getPollByTargetSrl', $args);
-		if(!$output->data) return new Object();
+		if(!$output->data) return;
 
 		$poll_srl = $output->data->poll_srl;
-		if(!$poll_srl) return new Object();
+		if(!$poll_srl) return;
 
 		$args->poll_srl = $poll_srl;
 
@@ -478,8 +474,6 @@ class pollController extends poll
 
 		$output = executeQuery('poll.deletePollLog', $args);
 		if(!$output->toBool()) return $output;
-
-		return new Object();
 	}
 
 	/**
@@ -488,15 +482,15 @@ class pollController extends poll
 	function triggerDeleteCommentPoll(&$obj)
 	{
 		$comment_srl = $obj->comment_srl;
-		if(!$comment_srl) return new Object();
+		if(!$comment_srl) return;
 		// Get the poll
 		$args = new stdClass();
 		$args->upload_target_srl = $comment_srl;
 		$output = executeQuery('poll.getPollByTargetSrl', $args);
-		if(!$output->data) return new Object();
+		if(!$output->data) return;
 
 		$poll_srl = $output->data->poll_srl;
-		if(!$poll_srl) return new Object();
+		if(!$poll_srl) return;
 
 		$args->poll_srl = $poll_srl;
 
@@ -511,8 +505,6 @@ class pollController extends poll
 
 		$output = executeQuery('poll.deletePollLog', $args);
 		if(!$output->toBool()) return $output;
-
-		return new Object();
 	}
 
 	/**

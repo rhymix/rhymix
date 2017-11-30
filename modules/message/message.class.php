@@ -12,7 +12,7 @@ class message extends ModuleObject
 	 */
 	function moduleInstall()
 	{
-		return new Object();
+		
 	}
 
 	/**
@@ -57,7 +57,6 @@ class message extends ModuleObject
 				}
 			}
 		}
-		return new Object();
 	}
 
 	/**

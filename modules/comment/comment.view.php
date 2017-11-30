@@ -38,7 +38,7 @@ class commentView extends comment
 			$current_module_srl = $current_module_info->module_srl;
 			if(!$current_module_srl)
 			{
-				return new Object();
+				return new BaseObject();
 			}
 		}
 
@@ -57,7 +57,7 @@ class commentView extends comment
 		$tpl = $oTemplate->compile($this->module_path . 'tpl', 'comment_module_config');
 		$obj .= $tpl;
 
-		return new Object();
+		return new BaseObject();
 	}
 
 	/**
@@ -82,12 +82,12 @@ class commentView extends comment
 		$oComment = $oCommentModel->getComment($comment_srl);
 		if(!$oComment->isExists())
 		{
-			return new Object(-1,'msg_invalid_request');
+			return $this->setError('msg_invalid_request');
 		}
 		// Check permissions
 		if(!$oComment->isAccessible())
 		{
-			return new Object(-1,'msg_not_permitted');
+			return $this->setError('msg_not_permitted');
 		}
 
 		// Browser title settings

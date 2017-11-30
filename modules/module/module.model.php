@@ -2344,7 +2344,7 @@ class moduleModel extends module
 	function getFileBoxListHtml()
 	{
 		$logged_info = Context::get('logged_info');
-		if($logged_info->is_admin !='Y' && !$logged_info->is_site_admin) return new Object(-1, 'msg_not_permitted');
+		if($logged_info->is_admin !='Y' && !$logged_info->is_site_admin) return $this->setError('msg_not_permitted');
 		$link = parse_url($_SERVER["HTTP_REFERER"]);
 		$link_params = explode('&',$link['query']);
 		foreach ($link_params as $param)

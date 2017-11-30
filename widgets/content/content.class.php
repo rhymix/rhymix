@@ -793,7 +793,7 @@ class content extends WidgetHandler
 	}
 }
 
-class contentItem extends Object
+class contentItem extends BaseObject
 {
 	var $browser_title = null;
 	var $has_first_thumbnail_idx = false;

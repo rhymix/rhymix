@@ -26,7 +26,7 @@ class memberAdminController extends member
 		$logged_info = Context::get('logged_info');
 		if($logged_info->is_admin != 'Y' || !checkCSRF())
 		{
-			return new Object(-1, 'msg_invalid_request');
+			return $this->setError('msg_invalid_request');
 		}
 
 		$args = Context::gets('member_srl','email_address','find_account_answer', 'allow_mailing','allow_message','denied','is_admin','description','group_srl_list','limit_date');
@@ -310,7 +310,7 @@ class memberAdminController extends member
 
 			if(!$redirectModuleInfo)
 			{
-				return new Object('-1', 'msg_exist_selected_module');
+				return new BaseObject('-1', 'msg_exist_selected_module');
 			}
 
 			$args->redirect_mid = $redirectModuleInfo->mid;
@@ -729,7 +729,7 @@ class memberAdminController extends member
 		// Check ID duplicated
 		if (Context::isReservedWord($args->column_name))
 		{
-			return new Object(-1, 'msg_column_id_not_available');
+			return $this->setError('msg_column_id_not_available');
 		}
 		$oMemberModel = getModel('member');
 		$config = $oMemberModel->getMemberConfig();
@@ -738,7 +738,7 @@ class memberAdminController extends member
 			if($item->name == $args->column_name)
 			{
 				if($args->member_join_form_srl && $args->member_join_form_srl == $item->member_join_form_srl) continue;
-				return new Object(-1,'msg_column_id_not_available');
+				return $this->setError('msg_column_id_not_available');
 			}
 		}
 		// Fix if member_join_form_srl exists. Add if not exists.
@@ -949,7 +949,7 @@ class memberAdminController extends member
 	function procMemberAdminDeleteMembers()
 	{
 		$target_member_srls = Context::get('target_member_srls');
-		if(!$target_member_srls) return new Object(-1, 'msg_invalid_request');
+		if(!$target_member_srls) return $this->setError('msg_invalid_request');
 		$member_srls = explode(',', $target_member_srls);
 		$oMemberController = getController('member');
 
@@ -973,7 +973,7 @@ class memberAdminController extends member
 	function procMemberAdminUpdateMembersGroup()
 	{
 		$member_srl = Context::get('member_srl');
-		if(!$member_srl) return new Object(-1,'msg_invalid_request');
+		if(!$member_srl) return $this->setError('msg_invalid_request');
 		$member_srls = explode(',',$member_srl);
 
 		$group_srl = Context::get('group_srls');
@@ -1246,7 +1246,7 @@ class memberAdminController extends member
 	function updateGroup($args)
 	{
 		if(!$args->site_srl) $args->site_srl = 0;
-		if(!$args->group_srl) return new Object(-1, 'lang->msg_not_founded');
+		if(!$args->group_srl) return $this->setError('lang->msg_not_founded');
 		
 		// Call trigger (before)
 		$trigger_output = ModuleHandler::triggerCall('member.updateGroup', 'before', $args);
@@ -1290,8 +1290,8 @@ class memberAdminController extends member
 		$columnList = array('group_srl', 'is_default');
 		$group_info = $oMemberModel->getGroup($group_srl, $columnList);
 
-		if(!$group_info) return new Object(-1, 'lang->msg_not_founded');
-		if($group_info->is_default == 'Y') return new Object(-1, 'msg_not_delete_default');
+		if(!$group_info) return $this->setError('lang->msg_not_founded');
+		if($group_info->is_default == 'Y') return $this->setError('msg_not_delete_default');
 		
 		// Call trigger (before)
 		$trigger_output = ModuleHandler::triggerCall('member.deleteGroup', 'before', $group_info);
@@ -1524,7 +1524,7 @@ class memberAdminController extends member
 		// Get a list of all join forms
 		$join_form_list = $oMemberModel->getJoinFormList();
 		$join_form_srl_list = array_keys($join_form_list);
-		if(count($join_form_srl_list)<2) return new Object();
+		if(count($join_form_srl_list)<2) return new BaseObject();
 
 		$prev_member_join_form = NULL;
 		foreach($join_form_list as $key => $val)
@@ -1533,7 +1533,7 @@ class memberAdminController extends member
 			$prev_member_join_form = $val;
 		}
 		// Return if no previous join form exists
-		if(!$prev_member_join_form) return new Object();
+		if(!$prev_member_join_form) return new BaseObject();
 		// Information of the join form
 		$cur_args = new stdClass;
 		$cur_args->member_join_form_srl = $member_join_form_srl;
@@ -1549,7 +1549,7 @@ class memberAdminController extends member
 		executeQuery('member.updateMemberJoinFormListorder', $prev_args);
 		if(!$output->toBool()) return $output;
 
-		return new Object();
+		return new BaseObject();
 	}
 
 	/**
@@ -1571,7 +1571,7 @@ class memberAdminController extends member
 		// Get information of all join forms
 		$join_form_list = $oMemberModel->getJoinFormList();
 		$join_form_srl_list = array_keys($join_form_list);
-		if(count($join_form_srl_list)<2) return new Object();
+		if(count($join_form_srl_list)<2) return new BaseObject();
 
 		for($i=0;$i<count($join_form_srl_list);$i++)
 		{
@@ -1580,7 +1580,7 @@ class memberAdminController extends member
 
 		$next_member_join_form_srl = $join_form_srl_list[$i+1];
 		// Return if no previous join form exists
-		if(!$next_member_join_form_srl) return new Object();
+		if(!$next_member_join_form_srl) return new BaseObject();
 		$next_member_join_form = $join_form_list[$next_member_join_form_srl];
 		// Information of the join form
 		$cur_args = new stdClass;
@@ -1597,7 +1597,7 @@ class memberAdminController extends member
 		$output = executeQuery('member.updateMemberJoinFormListorder', $next_args);
 		if(!$output->toBool()) return $output;
 
-		return new Object();
+		return new BaseObject();
 	}
 }
 /* End of file member.admin.controller.php */

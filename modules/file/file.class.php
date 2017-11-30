@@ -42,8 +42,6 @@ class file extends ModuleObject
 		$oModuleController->insertTrigger('module.deleteModule', 'file', 'controller', 'triggerDeleteModuleFiles', 'after');
 		// 2007. 10. 19 Call a trigger to set up the file permissions before displaying
 		$oModuleController->insertTrigger('module.dispAdditionSetup', 'file', 'view', 'triggerDispFileAdditionSetup', 'before');
-
-		return new Object();
 	}
 
 	/**
@@ -142,8 +140,6 @@ class file extends ModuleObject
 		}
 
 		if(!$oDB->isColumnExists('files', 'cover_image')) $oDB->addColumn('files', 'cover_image', 'char', '1', 'N');
-
-		return new Object(0, 'success_updated');
 	}
 
 	/**

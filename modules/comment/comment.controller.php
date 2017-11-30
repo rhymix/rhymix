@@ -29,13 +29,13 @@ class commentController extends comment
 	{
 		if(!Context::get('is_logged'))
 		{
-			return new Object(-1, 'msg_invalid_request');
+			return $this->setError('msg_invalid_request');
 		}
 
 		$comment_srl = Context::get('target_srl');
 		if(!$comment_srl)
 		{
-			return new Object(-1, 'msg_invalid_request');
+			return $this->setError('msg_invalid_request');
 		}
 
 		$oCommentModel = getModel('comment');
@@ -43,14 +43,14 @@ class commentController extends comment
 		$module_srl = $oComment->get('module_srl');
 		if(!$module_srl)
 		{
-			return new Object(-1, 'msg_invalid_request');
+			return $this->setError('msg_invalid_request');
 		}
 
 		$oModuleModel = getModel('module');
 		$comment_config = $oModuleModel->getModulePartConfig('comment', $module_srl);
 		if($comment_config->use_vote_up == 'N')
 		{
-			return new Object(-1, 'msg_invalid_request');
+			return $this->setError('msg_invalid_request');
 		}
 
 		$point = 1;
@@ -61,21 +61,21 @@ class commentController extends comment
 
 	function procCommentVoteUpCancel()
 	{
-		if(!Context::get('logged_info')) return new Object(-1, 'msg_invalid_request');
+		if(!Context::get('logged_info')) return $this->setError('msg_invalid_request');
 
 		$comment_srl = Context::get('target_srl');
-		if(!$comment_srl) return new Object(-1, 'msg_invalid_request');
+		if(!$comment_srl) return $this->setError('msg_invalid_request');
 
 		$oCommentModel = getModel('comment');
 		$oComment = $oCommentModel->getComment($comment_srl, FALSE, FALSE);
 		if($oComment->get('voted_count') <= 0)
 		{
-			return new Object(-1, 'msg_comment_voted_cancel_not');
+			return $this->setError('msg_comment_voted_cancel_not');
 		}
 		$point = 1;
 		$output = $this->updateVotedCountCancel($comment_srl, $oComment, $point);
 
-		$output = new Object();
+		$output = new BaseObject();
 		$output->setMessage('success_voted_canceled');
 
 		return $output;
@@ -90,13 +90,13 @@ class commentController extends comment
 	{
 		if(!Context::get('is_logged'))
 		{
-			return new Object(-1, 'msg_invalid_request');
+			return $this->setError('msg_invalid_request');
 		}
 
 		$comment_srl = Context::get('target_srl');
 		if(!$comment_srl)
 		{
-			return new Object(-1, 'msg_invalid_request');
+			return $this->setError('msg_invalid_request');
 		}
 
 		$oCommentModel = getModel('comment');
@@ -104,14 +104,14 @@ class commentController extends comment
 		$module_srl = $oComment->get('module_srl');
 		if(!$module_srl)
 		{
-			return new Object(-1, 'msg_invalid_request');
+			return $this->setError('msg_invalid_request');
 		}
 
 		$oModuleModel = getModel('module');
 		$comment_config = $oModuleModel->getModulePartConfig('comment', $module_srl);
 		if($comment_config->use_vote_down == 'N')
 		{
-			return new Object(-1, 'msg_invalid_request');
+			return $this->setError('msg_invalid_request');
 		}
 
 		$point = -1;
@@ -122,21 +122,21 @@ class commentController extends comment
 
 	function procCommentVoteDownCancel()
 	{
-		if(!Context::get('logged_info')) return new Object(-1, 'msg_invalid_request');
+		if(!Context::get('logged_info')) return $this->setError('msg_invalid_request');
 
 		$comment_srl = Context::get('target_srl');
-		if(!$comment_srl) return new Object(-1, 'msg_invalid_request');
+		if(!$comment_srl) return $this->setError('msg_invalid_request');
 
 		$oCommentModel = getModel('comment');
 		$oComment = $oCommentModel->getComment($comment_srl, FALSE, FALSE);
 		if($oComment->get('blamed_count') >= 0)
 		{
-			return new Object(-1, 'msg_comment_blamed_cancel_not');
+			return $this->setError('msg_comment_blamed_cancel_not');
 		}
 		$point = -1;
 		$output = $this->updateVotedCountCancel($comment_srl, $oComment, $point);
 
-		$output = new Object();
+		$output = new BaseObject();
 		$output->setMessage('success_blamed_canceled');
 
 		return $output;
@@ -193,13 +193,13 @@ class commentController extends comment
 	{
 		if(!Context::get('is_logged'))
 		{
-			return new Object(-1, 'msg_invalid_request');
+			return $this->setError('msg_invalid_request');
 		}
 
 		$comment_srl = Context::get('target_srl');
 		if(!$comment_srl)
 		{
-			return new Object(-1, 'msg_invalid_request');
+			return $this->setError('msg_invalid_request');
 		}
 
 		// if an user select message from options, message would be the option.
@@ -226,7 +226,7 @@ class commentController extends comment
 		$document_srl = $obj->document_srl;
 		if(!$document_srl)
 		{
-			return new Object();
+			return;
 		}
 
 		return $this->deleteComments($document_srl, $obj);
@@ -241,7 +241,7 @@ class commentController extends comment
 		$module_srl = $obj->module_srl;
 		if(!$module_srl)
 		{
-			return new Object();
+			return;
 		}
 
 		$oCommentController = getAdminController('comment');
@@ -297,7 +297,7 @@ class commentController extends comment
 	{
 		if(!$manual_inserted && !checkCSRF())
 		{
-			return new Object(-1, 'msg_invalid_request');
+			return new BaseObject(-1, 'msg_invalid_request');
 		}
 
 		if(!is_object($obj))
@@ -359,7 +359,7 @@ class commentController extends comment
 		$document_srl = $obj->document_srl;
 		if(!$document_srl)
 		{
-			return new Object(-1, 'msg_invalid_document');
+			return new BaseObject(-1, 'msg_invalid_document');
 		}
 		
 		// creat the comment model object
@@ -380,11 +380,11 @@ class commentController extends comment
 
 			if($document_srl != $oDocument->document_srl)
 			{
-				return new Object(-1, 'msg_invalid_document');
+				return new BaseObject(-1, 'msg_invalid_document');
 			}
 			if($oDocument->isLocked())
 			{
-				return new Object(-1, 'msg_invalid_request');
+				return new BaseObject(-1, 'msg_invalid_request');
 			}
 
 			if($obj->homepage)
@@ -414,7 +414,7 @@ class commentController extends comment
 		// error display if neither of log-in info and user name exist.
 		if(!$logged_info->member_srl && !$obj->nick_name)
 		{
-			return new Object(-1, 'msg_invalid_request');
+			return new BaseObject(-1, 'msg_invalid_request');
 		}
 
 		if(!$obj->comment_srl)
@@ -423,7 +423,7 @@ class commentController extends comment
 		}
 		elseif(!$is_admin && !$manual_inserted && !checkUserSequence($obj->comment_srl)) 
 		{
-			return new Object(-1, 'msg_not_permitted');
+			return new BaseObject(-1, 'msg_not_permitted');
 		}
 
 		// determine the order
@@ -435,7 +435,7 @@ class commentController extends comment
 		// Return error if content is empty.
 		if (!$manual_inserted && is_empty_html_content($obj->content))
 		{
-			return new Object(-1, 'msg_empty_content');
+			return new BaseObject(-1, 'msg_empty_content');
 		}
 		
 		// if use editor of nohtml, Remove HTML tags from the contents.
@@ -700,7 +700,7 @@ class commentController extends comment
 	{
 		if(!$manual_updated && !checkCSRF())
 		{
-			return new Object(-1, 'msg_invalid_request');
+			return new BaseObject(-1, 'msg_invalid_request');
 		}
 
 		if(!is_object($obj))
@@ -737,7 +737,7 @@ class commentController extends comment
 		// check if permission is granted
 		if(!$is_admin && !$source_obj->isGranted())
 		{
-			return new Object(-1, 'msg_not_permitted');
+			return new BaseObject(-1, 'msg_not_permitted');
 		}
 
 		if($obj->password)
@@ -788,7 +788,7 @@ class commentController extends comment
 		// Return error if content is empty.
 		if (!$manual_inserted && is_empty_html_content($obj->content))
 		{
-			return new Object(-1, 'msg_empty_content');
+			return new BaseObject(-1, 'msg_empty_content');
 		}
 		
 		// if use editor of nohtml, Remove HTML tags from the contents.
@@ -837,7 +837,7 @@ class commentController extends comment
 	{
 		if (!$obj->comment_srl)
 		{
-			return new Object(-1, 'msg_invalid_request');
+			return new BaseObject(-1, 'msg_invalid_request');
 		}
 		
 		// call a trigger (before)
@@ -904,7 +904,7 @@ class commentController extends comment
 	{
 		if (!$obj->comment_srl)
 		{
-			return new Object(-1, 'msg_invalid_request');
+			return new BaseObject(-1, 'msg_invalid_request');
 		}
 
 		// begin transaction
@@ -963,7 +963,7 @@ class commentController extends comment
 		$comment = $oCommentModel->getComment($comment_srl);
 		if($comment->comment_srl != $comment_srl)
 		{
-			return new Object(-1, 'msg_invalid_request');
+			return new BaseObject(-1, 'msg_invalid_request');
 		}
 
 		$oMemberModel = getModel('member');
@@ -981,7 +981,7 @@ class commentController extends comment
 		// check if permission is granted
 		if(!$is_admin && !$comment->isGranted())
 		{
-			return new Object(-1, 'msg_not_permitted');
+			return new BaseObject(-1, 'msg_not_permitted');
 		}
 
 		// check if child comment exists on the comment
@@ -1021,11 +1021,11 @@ class commentController extends comment
 
 			if(!$deleteAllComment)
 			{
-				return new Object(-1, 'fail_to_delete_have_children');
+				return new BaseObject(-1, 'fail_to_delete_have_children');
 			}
 			elseif(!$deleteAdminComment)
 			{
-				return new Object(-1, 'msg_admin_c_comment_no_delete');
+				return new BaseObject(-1, 'msg_admin_c_comment_no_delete');
 			}
 			else
 			{
@@ -1042,7 +1042,7 @@ class commentController extends comment
 
 		if($member_info->is_admin == 'Y' && $logged_info->is_admin != 'Y')
 		{
-			return new Object(-1, 'msg_admin_comment_no_delete');
+			return new BaseObject(-1, 'msg_admin_comment_no_delete');
 		}
 		// begin transaction
 		$oDB = DB::getInstance();
@@ -1132,7 +1132,7 @@ class commentController extends comment
 		$member_info = $oMemberModel->getMemberInfoByMemberSrl($oComment->get('member_srl'));
 		if($member_info->is_admin == 'Y' && $logged_info->is_admin != 'Y')
 		{
-			return new Object(-1, 'msg_admin_comment_no_move_to_trash');
+			return new BaseObject(-1, 'msg_admin_comment_no_move_to_trash');
 		}
 
 		$trash_args->module_srl = $oComment->variables['module_srl'];
@@ -1140,7 +1140,7 @@ class commentController extends comment
 
 		if($trash_args->module_srl === 0)
 		{
-			return new Object(-1, 'msg_module_srl_not_exists');
+			return new BaseObject(-1, 'msg_module_srl_not_exists');
 		}
 		$trash_args->document_srl = $obj->document_srl;
 		$trash_args->comment_srl = $obj->comment_srl;
@@ -1232,7 +1232,7 @@ class commentController extends comment
 	{
 		$this->_deleteDeclaredComments($args);
 		$this->_deleteVotedComments($args);
-		return new Object(0, 'success');
+		return new BaseObject(0, 'success');
 	}
 
 	/**
@@ -1259,7 +1259,7 @@ class commentController extends comment
 
 		if(!$oDocument->isExists() || !$oDocument->isGranted())
 		{
-			return new Object(-1, 'msg_not_permitted');
+			return new BaseObject(-1, 'msg_not_permitted');
 		}
 
 		// get a list of comments and then execute a trigger(way to reduce the processing cost for delete all)
@@ -1351,7 +1351,7 @@ class commentController extends comment
 		// invalid vote if vote info exists in the session info.
 		if($_SESSION['voted_comment'][$comment_srl])
 		{
-			return new Object(-1, $failed_voted);
+			return new BaseObject(-1, $failed_voted);
 		}
 
 		$oCommentModel = getModel('comment');
@@ -1361,7 +1361,7 @@ class commentController extends comment
 		if($oComment->get('ipaddress') == $_SERVER['REMOTE_ADDR'])
 		{
 			$_SESSION['voted_comment'][$comment_srl] = false;
-			return new Object(-1, $failed_voted);
+			return new BaseObject(-1, $failed_voted);
 		}
 
 		// if the comment author is a member
@@ -1375,7 +1375,7 @@ class commentController extends comment
 			if($member_srl && $member_srl == abs($oComment->get('member_srl')))
 			{
 				$_SESSION['voted_comment'][$comment_srl] = false;
-				return new Object(-1, $failed_voted);
+				return new BaseObject(-1, $failed_voted);
 			}
 		}
 
@@ -1398,7 +1398,7 @@ class commentController extends comment
 		if($output->data->count)
 		{
 			$_SESSION['voted_comment'][$comment_srl] = false;
-			return new Object(-1, $failed_voted);
+			return new BaseObject(-1, $failed_voted);
 		}
 
 		// begin transaction
@@ -1437,7 +1437,7 @@ class commentController extends comment
 		$oDB->commit();
 
 		// Return the result
-		$output = new Object(0, $success_message);
+		$output = new BaseObject(0, $success_message);
 		if($point > 0)
 		{
 			$output->add('voted_count', $obj->after_point);
@@ -1461,7 +1461,7 @@ class commentController extends comment
 		// Fail if session information already has a reported document
 		if($_SESSION['declared_comment'][$comment_srl])
 		{
-			return new Object(-1, 'failed_declared');
+			return new BaseObject(-1, 'failed_declared');
 		}
 
 		// check if already reported
@@ -1496,7 +1496,7 @@ class commentController extends comment
 		if($oComment->get('ipaddress') == $_SERVER['REMOTE_ADDR'])
 		{
 			$_SESSION['declared_comment'][$comment_srl] = TRUE;
-			return new Object(-1, 'failed_declared');
+			return new BaseObject(-1, 'failed_declared');
 		}
 
 		// if the comment author is a member
@@ -1510,7 +1510,7 @@ class commentController extends comment
 			if($member_srl && $member_srl == abs($oComment->get('member_srl')))
 			{
 				$_SESSION['declared_comment'][$comment_srl] = TRUE;
-				return new Object(-1, 'failed_declared');
+				return new BaseObject(-1, 'failed_declared');
 			}
 		}
 
@@ -1532,7 +1532,7 @@ class commentController extends comment
 		if($log_output->data->count)
 		{
 			$_SESSION['declared_comment'][$comment_srl] = TRUE;
-			return new Object(-1, 'failed_declared');
+			return new BaseObject(-1, 'failed_declared');
 		}
 
 		// begin transaction
@@ -1622,13 +1622,13 @@ class commentController extends comment
 			$module_info = $oModuleModel->getModuleInfoByModuleSrl($srl);
 			if (!$module_info->module_srl)
 			{
-				return new Object(-1, 'msg_invalid_request');
+				return $this->setError('msg_invalid_request');
 			}
 			
 			$module_grant = $oModuleModel->getGrant($module_info, $logged_info);
 			if (!$module_grant->manager)
 			{
-				return new Object(-1, 'msg_not_permitted');
+				return $this->setError('msg_not_permitted');
 			}
 			
 			$module_srl[] = $srl;
@@ -1681,7 +1681,7 @@ class commentController extends comment
 	{
 		$oModuleController = getController('module');
 		$oModuleController->insertModulePartConfig('comment', $srl, $comment_config);
-		return new Object();
+		return new BaseObject();
 	}
 
 	/**
@@ -1692,7 +1692,7 @@ class commentController extends comment
 	{
 		if(!Context::get('is_logged'))
 		{
-			return new Object(-1, 'msg_not_permitted');
+			return $this->setError('msg_not_permitted');
 		}
 
 		$commentSrls = Context::get('comment_srls');

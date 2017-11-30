@@ -18,7 +18,7 @@ class rssController extends rss
 	{
 		if(!$current_module_srl = Context::get('current_module_info')->module_srl)
 		{
-			return new Object();
+			return;
 		}
 		
 		$oRssModel = getModel('rss');
@@ -36,8 +36,6 @@ class rssController extends rss
 			Context::set('rss_url', $oRssModel->getRssURL('rss', Context::get('mid')));
 			Context::set('atom_url', $oRssModel->getRssURL('atom', Context::get('mid')));
 		}
-		
-		return new Object();
 	}
 	
 	/**
