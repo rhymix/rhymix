@@ -527,7 +527,7 @@ class editorModel extends editor
 			$group_list = array();
 		}
 
-		if(count($component_list))
+		if(countobj($component_list))
 		{
 			foreach($component_list as $key => $val)
 			{

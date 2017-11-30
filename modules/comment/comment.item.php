@@ -77,7 +77,7 @@ class commentItem extends BaseObject
 		$this->adds($attribute);
 
 		// define vars on the object for backward compatibility of skins
-		if(count($attribute))
+		if(countobj($attribute))
 		{
 			foreach($attribute as $key => $val)
 			{
