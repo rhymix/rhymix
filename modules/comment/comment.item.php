@@ -9,7 +9,7 @@
  * @package /modules/comment
  * @version 0.1
  */
-class commentItem extends Object
+class commentItem extends BaseObject
 {
 
 	/**

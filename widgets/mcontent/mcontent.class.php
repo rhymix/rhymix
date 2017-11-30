@@ -658,7 +658,7 @@ class mcontent extends WidgetHandler
 	}
 }
 
-class mcontentItem extends Object
+class mcontentItem extends BaseObject
 {
 
 	var $browser_title = null;
