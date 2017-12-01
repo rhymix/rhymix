@@ -40,10 +40,10 @@ class FrontEndFileHandlerTest extends \Codeception\TestCase\Test
 
 		$this->specify("css and scss", function() {
 			$handler = new FrontEndFileHandler();
-			$handler->loadFile(array('./common/css/rhymix.scss'));
+			$handler->loadFile(array('./common/css/rhymix.less'));
 			$handler->loadFile(array('./common/css/mobile.css'));
 			$result = $handler->getCssFileList(true);
-			$this->assertRegexp('/\.rhymix\.scss\.css\?\d+$/', $result[0]['file']);
+			$this->assertRegexp('/\.rhymix\.less\.css\?\d+$/', $result[0]['file']);
 			$this->assertEquals('all', $result[0]['media']);
 			$this->assertEmpty($result[0]['targetie']);
 			$this->assertEquals('/rhymix/common/css/mobile.css' . $this->_filemtime('common/css/mobile.css'), $result[1]['file']);
@@ -156,10 +156,10 @@ class FrontEndFileHandlerTest extends \Codeception\TestCase\Test
 
 		$this->specify("minify (css)", function() {
 			$handler = new FrontEndFileHandler();
-			$handler->loadFile(array('./common/css/rhymix.scss'));
+			$handler->loadFile(array('./common/css/rhymix.less'));
 			$handler->loadFile(array('./common/css/mobile.css'));
 			$result = $handler->getCssFileList(true);
-			$this->assertRegexp('/\.rhymix\.scss\.min\.css\b/', $result[0]['file']);
+			$this->assertRegexp('/\.rhymix\.less\.min\.css\b/', $result[0]['file']);
 			$this->assertEquals('all', $result[0]['media']);
 			$this->assertEmpty($result[0]['targetie']);
 			$this->assertRegexp('/minified\/common\.css\.mobile\.min\.css\?\d+$/', $result[1]['file']);
@@ -181,7 +181,7 @@ class FrontEndFileHandlerTest extends \Codeception\TestCase\Test
 		
 		$this->specify("concat (css)", function() {
 			$handler = new FrontEndFileHandler();
-			$handler->loadFile(array('./common/css/rhymix.scss'));
+			$handler->loadFile(array('./common/css/rhymix.less'));
 			$handler->loadFile(array('./common/css/mobile.css'));
 			$handler->loadFile(array('http://external.host/style.css'));
 			$handler->loadFile(array('./common/css/bootstrap.css', null, 'IE'));
