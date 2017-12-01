@@ -19,16 +19,18 @@ a img {
 }
 
 /* Content Default Styles */
+.word_break(@wb) when (@wb = normal), (@wb = keep-all), (@wb = break-all) {
+	word-break: @wb;
+	word-wrap: break-word;
+}
+.word_break(@wb) when (@wb = none) {
+	white-space: nowrap;
+}
 .xe_content {
 	font-family: @default_font_family;
 	font-size: @default_font_size;
 	line-height: @default_line_height;
-	@if @default_word_break == 'none' {
-		white-space: nowrap;
-	} @else {
-		word-break: @default_word_break;
-		word-wrap: break-word;
-	}
+	.word_break(@default_word_break);
 	p {
 		margin: 0 0 @default_paragraph_spacing 0;
 	}
@@ -37,7 +39,7 @@ a img {
 		height: auto;
 	}
 }
-@media \0screen {
+@media screen {
 	img {
 		max-width: none;
 	}
@@ -151,7 +153,7 @@ body > .message {
 	padding: 20px 0 0 0;
 	border-bottom: 1px solid #ccc;
 	text-align: center;
-	font: bold 16px/60px "Helvetica Neue", Helvetica, Arial, 돋움, Dotum, sans-serif;
+	font: bold 16px/60px "Helvetica Neue", Helvetica, Arial, Dotum, sans-serif;
 	color: #fff;
 	opacity: .8;
 	filter: alpha(opacity=80);
@@ -204,7 +206,7 @@ body > .message {
 	background-image: linear-gradient(top, #ffffff, #e6e6e6);
 	background-repeat: repeat-x;
 	filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#ffffff', endColorstr='#e6e6e6', GradientType=0);
-	filter: progid: DXImageTransform.Microsoft.gradient(enabled=false);
+	filter: progid:DXImageTransform.Microsoft.gradient(enabled=false);
 	&:hover, &:active, &[disabled] {
 		color: #333;
 		background-color: #e6e6e6;
