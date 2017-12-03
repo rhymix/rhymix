@@ -423,6 +423,9 @@ class Context
 		self::set('current_url', $current_url);
 		self::set('request_uri', $request_uri);
 		
+		// set mobile status
+		self::set('m', Mobile::isFromMobilePhone() ? 1 : 0);
+		
 		// If the site is locked, display the locked page.
 		if(config('lock.locked'))
 		{

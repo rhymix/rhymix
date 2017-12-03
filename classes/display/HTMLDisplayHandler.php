@@ -237,9 +237,8 @@ class HTMLDisplayHandler
 
 		// convert the final layout
 		Context::set('content', $output);
-		Context::set('m', $is_mobile = Mobile::isFromMobilePhone() ? 1 : 0);
 		$oTemplate = TemplateHandler::getInstance();
-		if($is_mobile)
+		if(Mobile::isFromMobilePhone())
 		{
 			$this->_loadMobileJSCSS();
 		}
