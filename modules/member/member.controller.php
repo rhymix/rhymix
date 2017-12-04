@@ -2727,9 +2727,44 @@ class memberController extends member
 		$oDB->commit();
 
 		// Remove from cache
+		unset($GLOBALS['__member_info__'][$args->member_srl]);
 		$this->_clearMemberCache($args->member_srl, $args->site_srl);
 
 		$output->add('member_srl', $args->member_srl);
+		return $output;
+	}
+
+	/**
+	 * Modify member extra variable
+	 */
+	function updateMemberExtraVars($member_srl, array $values)
+	{
+		$args = new stdClass();
+		$args->member_srl = $member_srl;
+		$output = executeQuery('member.getMemberInfoByMemberSrl', $args, array('extra_vars'));
+		if (!$output->toBool())
+		{
+			return $output;
+		}
+		
+		$extra_vars = $output->data->extra_vars ? unserialize($output->data->extra_vars) : new stdClass;
+		foreach ($values as $key => $val)
+		{
+			$extra_vars->{$key} = $val;
+		}
+		
+		$args = new stdClass();
+		$args->member_srl = $member_srl;
+		$args->extra_vars = serialize($extra_vars);
+		$output = executeQuery('member.updateMemberExtraVars', $args);
+		if (!$output->toBool())
+		{
+			return $output;
+		}
+		
+		unset($GLOBALS['__member_info__'][$member_srl]);
+		$this->_clearMemberCache($member_srl);
+
 		return $output;
 	}
 
@@ -2763,6 +2798,7 @@ class memberController extends member
 			$result = executeQuery('member.updateChangePasswordDate', $args);
 		}
 
+		unset($GLOBALS['__member_info__'][$args->member_srl]);
 		$this->_clearMemberCache($args->member_srl);
 
 		return $output;
