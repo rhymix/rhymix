@@ -2278,13 +2278,13 @@ class documentController extends document
 			// Get data of the child nodes
 			if($category_srl && $tree[$category_srl]) $child_buff = $this->getXmlTree($tree[$category_srl], $tree, $site_srl, $xml_header_buff);
 			// List variables
-			$expand = $node->expand;
-			$group_srls = $node->group_srls;
-			$mid = $node->mid;
-			$module_srl = $node->module_srl;
-			$parent_srl = $node->parent_srl;
-			$color = $node->color;
-			$description = $node->description;
+			$expand = ($node->expand) ? $node->expand : 'N';
+			$group_srls = ($node->group_srls) ? $node->group_srls : '';
+			$mid = ($node->mid) ? $node->mid : '';
+			$module_srl = ($node->module_srl) ? $node->parent_srl : '';
+			$parent_srl = ($node->parent_srl) ? $node->parent_srl : '';
+			$color = ($node->color) ? $node->color : '';
+			$description = ($node->description) ? $node->description : '';
 			// If node->group_srls value exists
 			if($group_srls) $group_check_code = sprintf('($is_admin==true||(is_array($group_srls)&&count(array_intersect($group_srls, array(%s)))))',$group_srls);
 			else $group_check_code = "true";

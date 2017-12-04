@@ -1005,13 +1005,13 @@ function setJSTreeOpenIds(){
 }
 
 function issetJSTreeOpenIds(id) {
-	var jstree_open_srls = getCookie("__xe_admin_jstree_open_srls").split(",");
-	for (var i=0; i< jstree_open_srls.length; i++) {
-		if(jstree_open_srls[i] == id) {
-			return true;
-		}
+	var jstree_open_srls = getCookie('__xe_admin_jstree_open_srls') || '';
+
+	if(!jstree_open_srls) {
+		return false;
 	}
-	return false;
+
+	return (jstree_open_srls.split(',').indexOf(id) === -1) ? false : true;
 }
 
 var htNodeInfo = {};

@@ -1910,21 +1910,23 @@ class menuAdminController extends menu
 			{
 				$href = var_export($url, true);
 			}
-			$is_shortcut = $node->is_shortcut;
-			$open_window = $node->open_window;
-			$expand = $node->expand;
+			$is_shortcut = strval($node->is_shortcut);
+			$open_window = strval($node->open_window);
+			$expand = strval($node->expand);
 
-			$normal_btn = $node->normal_btn;
+			$normal_btn = strval($node->normal_btn);
 			if($normal_btn && strncasecmp('./files/attach/menu_button', $normal_btn, 26) === 0) $normal_btn = escape($normal_btn);
 			else $normal_btn = '';
-			$hover_btn = $node->hover_btn;
+			
+			$hover_btn = strval($node->hover_btn);
 			if($hover_btn && strncasecmp('./files/attach/menu_button', $hover_btn, 26) === 0) $hover_btn = escape($hover_btn);
 			else $hover_btn = '';
-			$active_btn = $node->active_btn;
+			
+			$active_btn = strval($node->active_btn);
 			if($active_btn && strncasecmp('./files/attach/menu_button', $active_btn, 26) === 0) $active_btn = escape($active_btn);
 			else $active_btn = '';
 
-			$group_srls = $node->group_srls;
+			$group_srls = ($node->group_srls) ? $node->group_srls : '';
 
 			if($normal_btn)
 			{
@@ -1936,14 +1938,21 @@ class menuAdminController extends menu
 			{
 				$link = '<?php print $_names[$lang_type]; ?>';
 			}
+
 			// If the value of node->group_srls exists
-			if($group_srls)$group_check_code = sprintf('($is_admin==true||(is_array($group_srls)&&count(array_intersect($group_srls, array(%s))))||($is_logged&&%s))',$group_srls,$group_srls == -1?1:0);
-			else $group_check_code = "true";
+			if($group_srls) {
+				$group_check_code = sprintf('($is_admin==true||(is_array($group_srls)&&count(array_intersect($group_srls, array(%s))))||($is_logged&&%s))',$group_srls,$group_srls == -1?1:0);
+			}
+			else
+			{
+				$group_check_code = "true";
+			}
+
 			$attribute = sprintf(
 				'node_srl="%d" parent_srl="%d" menu_name_key=%s text="<?php if(%s) { %s }?>" url="<?php print(%s?%s:"")?>" href="<?php print(%s?%s:"")?>" is_shortcut=%s desc=%s open_window=%s expand=%s normal_btn=%s hover_btn=%s active_btn=%s link="<?php if(%s) {?>%s<?php }?>"',
 				$menu_item_srl,
-				$node->parent_srl,
-				var_export($node->name, true),
+				($node->parent_srl) ? $node->parent_srl : '',
+				var_export(($node->name) ? $node->name : '', true),
 				$group_check_code,
 				$name_str,
 				$group_check_code,
