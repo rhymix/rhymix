@@ -170,6 +170,7 @@ class boardAdminController extends board {
 		}
 
 		$module_info->hide_category = Context::get('hide_category') == 'Y' ? 'Y' : 'N';
+		$module_info->allow_no_category = Context::get('allow_no_category') == 'Y' ? 'Y' : 'N';
 		$oModuleController = getController('module'); /* @var $oModuleController moduleController */
 		$output = $oModuleController->updateModule($module_info);
 		if(!$output->toBool())
