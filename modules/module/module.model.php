@@ -1110,18 +1110,11 @@ class moduleModel extends module
 		{
 			$moduleName = 'ARTICLE';
 		}
+		
+		$useDefaultList = array();
 		if(array_key_exists($moduleName, $installedMenuTypes))
 		{
-			if($dir == 'skins')
-			{
-				$type = 'P';
-			}
-			else
-			{
-				$type = 'M';
-			}
-			$defaultSkinName = $this->getModuleDefaultSkin($module, $type);
-
+			$defaultSkinName = $this->getModuleDefaultSkin($module, $dir == 'skins' ? 'P' : 'M');
 			if(isset($defaultSkinName))
 			{
 				$defaultSkinInfo = $this->loadSkinInfo($path, $defaultSkinName, $dir);
@@ -1130,14 +1123,14 @@ class moduleModel extends module
 				$useDefault->title = lang('use_site_default_skin') . ' (' . $defaultSkinInfo->title . ')';
 
 				$useDefaultList['/USE_DEFAULT/'] = $useDefault;
-				if($type === 'M')
-				{
-					$useDefaultList['/USE_RESPONSIVE/'] = (object)array('title' => lang('use_responsive_pc_skin'));
-				}
-
-				$skin_list = array_merge($useDefaultList, $skin_list);
 			}
 		}
+		if($dir == 'm.skins')
+		{
+			$useDefaultList['/USE_RESPONSIVE/'] = (object)array('title' => lang('use_responsive_pc_skin'));
+		}
+
+		$skin_list = array_merge($useDefaultList, $skin_list);
 
 		return $skin_list;
 	}

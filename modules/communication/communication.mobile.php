@@ -14,12 +14,25 @@ class communicationMobile extends communicationView
 		$oCommunicationModel = getModel('communication');
 
 		$this->config = $oCommunicationModel->getConfig();
-		$skin = $this->config->mskin;
-
 		Context::set('communication_config', $this->config);
 
-		$tpl_path = sprintf('%sm.skins/%s', $this->module_path, $skin);
-		$this->setTemplatePath($tpl_path);
+		$mskin = $this->config->mskin;
+		if(!$mskin)
+		{
+			$template_path = sprintf('%sm.skins/%s/', $this->module_path, 'default');
+		}
+		elseif($mskin === '/USE_RESPONSIVE/')
+		{
+			$template_path = sprintf("%sskins/%s/", $this->module_path, $this->config->skin);
+			if(!is_dir($template_path) || !$this->config->skin)
+			{
+				$template_path = sprintf("%sskins/%s/", $this->module_path, 'default');
+			}
+		}
+		else
+		{
+			$template_path = sprintf('%sm.skins/%s', $this->module_path, $mskin);
+		}
 
 		$oLayoutModel = getModel('layout');
 		$layout_info = $oLayoutModel->getLayout($this->config->mlayout_srl);
@@ -28,6 +41,8 @@ class communicationMobile extends communicationView
 			$this->module_info->mlayout_srl = $this->config->mlayout_srl;
 			$this->setLayoutPath($layout_info->path);
 		}
+		
+		$this->setTemplatePath($template_path);
 	}
 
 	/**

@@ -31,7 +31,7 @@
 		<div class="x_controls">
 			<select id="mlayout" name="mlayout_srl">
 				<option value="0">{$lang->notuse}</option>
-				<option loop="$mlayout_list => $key,$val" value="{$val->layout_srl}" selected="selected"|cond="$val->layout_srl == $config->mlayout_srl">{$val->title} ({$val->layout})</option>
+				<option loop="$mlayout_list => $key,$val" value="{$val->layout_srl}" selected="selected"|cond="$val->layout_srl == $config->mlayout_srl">{$val->title} <block cond="$val->layout">({$val->layout})</block></option>
 			</select>
 		</div>
 	</div>
@@ -39,7 +39,7 @@
 		<label class="x_control-label" for="mskin">{$lang->mobile_skin}</label>
 		<div class="x_controls">
 			<select id="mskin" name="mskin">
-				<option loop="$mskin_list=>$key,$val" value="{$key}" selected="selected"|cond="$config->mskin==$key">{$val->title} ({$key})</option>
+				<option loop="$mskin_list=>$key,$val" value="{$key}" selected="selected"|cond="$config->mskin==$key">{$val->title} <block cond="!starts_with('/', $key)">({$key})</block></option>
 			</select>
 		</div>
 	</div>
