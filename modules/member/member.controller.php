@@ -3253,6 +3253,7 @@ class memberController extends member
 		$member_srl = intval($member_srl);
 		Rhymix\Framework\Cache::delete("member:member_info:$member_srl");
 		Rhymix\Framework\Cache::delete("member:member_groups:$member_srl:site:$site_srl");
+		Rhymix\Framework\Cache::delete("site_and_module:accessible_modules:$member_srl");
 		if ($site_srl != 0)
 		{
 			Rhymix\Framework\Cache::delete("member:member_groups:$member_srl:site:0");

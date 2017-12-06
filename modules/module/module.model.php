@@ -2186,6 +2186,49 @@ class moduleModel extends module
 	}
 	
 	/**
+	 * Get the list of modules that the member can access.
+	 * 
+	 * @param object $member_info
+	 * @return array
+	 */
+	function getAccessibleModuleList($member_info = null)
+	{
+		if(!$member_info)
+		{
+			$member_info = Context::get('logged_info');
+		}
+		
+		$result = Rhymix\Framework\Cache::get(sprintf('site_and_module:accessible_modules:%d', $member_info->member_srl));
+		if($result === null)
+		{
+			$mid_list = $this->getMidList();
+			$result = array();
+			
+			foreach($mid_list as $module_info)
+			{
+				$grant = $this->getGrant($module_info, $member_info);
+				if(!$grant->access)
+				{
+					continue;
+				}
+				foreach(array('list', 'view') as $require_grant)
+				{
+					if(isset($grant->{$require_grant}) && $grant->{$require_grant} === false)
+					{
+						continue 2;
+					}
+				}
+				$result[$module_info->module_srl] = $module_info;
+			}
+			ksort($result);
+			
+			Rhymix\Framework\Cache::set(sprintf('site_and_module:accessible_modules:%d', $member_info->member_srl), $result);
+		}
+		
+		return $result;
+	}
+	
+	/**
 	 * Get privileges(granted) information of the member for target module by target_srl
 	 * @param string $target_srl as module_srl. It may be a reference serial number
 	 * @param string $type module name. get module_srl from module
