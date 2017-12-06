@@ -456,6 +456,7 @@ class SFTPModuleInstaller extends ModuleInstaller
 			return $output;
 		}
 		$target_dir = $this->ftp_info->ftp_root_path . $this->target_path;
+		$copied = array();
 
 		if(is_array($file_list))
 		{
@@ -475,8 +476,13 @@ class SFTPModuleInstaller extends ModuleInstaller
 				}
 
 				ssh2_scp_send($this->connection, FileHandler::getRealPath($this->download_path . "/" . $org_file), $target_dir . "/" . $file);
+				$copied[] = $path;
 			}
 		}
+
+		FileHandler::clearStatCache($copied, true);
+		FileHandler::invalidateOpcache($copied);
+
 		return new BaseObject();
 	}
 
@@ -630,6 +636,7 @@ class PHPFTPModuleInstaller extends ModuleInstaller
 			$this->download_path = substr($this->download_path, 0, -1);
 		}
 		$target_dir = $this->ftp_info->ftp_root_path . $this->target_path;
+		$copied = array();
 
 		if(is_array($file_list))
 		{
@@ -688,8 +695,13 @@ class PHPFTPModuleInstaller extends ModuleInstaller
 				{
 					return new BaseObject(-1, "msg_ftp_upload_failed");
 				}
+				$copied[] = $path;
 			}
 		}
+
+		FileHandler::clearStatCache($copied, true);
+		FileHandler::invalidateOpcache($copied);
+
 		$this->_close();
 		return new BaseObject();
 	}
@@ -829,6 +841,8 @@ class FTPModuleInstaller extends ModuleInstaller
 		$oFtp = &$this->oFtp;
 		$target_dir = $this->ftp_info->ftp_root_path . $this->target_path;
 
+		$copied = array();
+
 		if(is_array($file_list))
 		{
 			foreach($file_list as $k => $file)
@@ -859,8 +873,12 @@ class FTPModuleInstaller extends ModuleInstaller
 					}
 				}
 				$oFtp->ftp_put($target_dir . '/' . $file, FileHandler::getRealPath($this->download_path . "/" . $org_file));
+				$copied[] = $path;
 			}
 		}
+
+		FileHandler::clearStatCache($copied, true);
+		FileHandler::invalidateOpcache($copied);
 
 		$this->_close();
 
@@ -957,6 +975,7 @@ class DirectModuleInstaller extends ModuleInstaller
 			return $output;
 		}
 		$target_dir = $this->target_path;
+		$copied = array();
 
 		if(is_array($file_list))
 		{
@@ -984,8 +1003,12 @@ class DirectModuleInstaller extends ModuleInstaller
 					}
 				}
 				FileHandler::copyFile( FileHandler::getRealPath($this->download_path . "/" . $org_file), FileHandler::getRealPath("./" . $target_dir . '/' . $file));
+				$copied[] = $path;
 			}
 		}
+
+		FileHandler::clearStatCache($copied, true);
+		FileHandler::invalidateOpcache($copied);
 
 		$this->_close();
 
