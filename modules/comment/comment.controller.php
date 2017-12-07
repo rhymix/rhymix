@@ -439,7 +439,7 @@ class commentController extends comment
 		}
 		
 		// if use editor of nohtml, Remove HTML tags from the contents.
-		if(!$manual_inserted)
+		if(!$manual_inserted || isset($obj->allow_html) || isset($obj->use_html))
 		{
 			$obj->content = getModel('editor')->converter($obj, 'comment');
 		}
@@ -786,13 +786,13 @@ class commentController extends comment
 		// remove Rhymix's wn tags from contents
 		$obj->content = preg_replace('!<\!--(Before|After)(Document|Comment)\(([0-9]+),([0-9]+)\)-->!is', '', $obj->content);
 		// Return error if content is empty.
-		if (!$manual_inserted && is_empty_html_content($obj->content))
+		if (!$manual_updated && is_empty_html_content($obj->content))
 		{
 			return new BaseObject(-1, 'msg_empty_content');
 		}
 		
 		// if use editor of nohtml, Remove HTML tags from the contents.
-		if(!$manual_updated)
+		if(!$manual_updated || isset($obj->allow_html) || isset($obj->use_html))
 		{
 			$obj->content = getModel('editor')->converter($obj, 'comment');
 		}

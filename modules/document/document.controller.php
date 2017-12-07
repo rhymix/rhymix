@@ -479,7 +479,7 @@ class documentController extends document
 		}
 
 		// if use editor of nohtml, Remove HTML tags from the contents.
-		if(!$manual_inserted)
+		if(!$manual_inserted || isset($obj->allow_html) || isset($obj->use_html))
 		{
 			$obj->content = getModel('editor')->converter($obj, 'document');
 		}
@@ -737,7 +737,7 @@ class documentController extends document
 		}
 
 		// if use editor of nohtml, Remove HTML tags from the contents.
-		if(!$manual_updated)
+		if(!$manual_updated || isset($obj->allow_html) || isset($obj->use_html))
 		{
 			$obj->content = getModel('editor')->converter($obj, 'document');
 		}
