@@ -722,7 +722,11 @@ class adminAdminController extends admin
 		{
 			if ($vars->object_cache_type === 'memcached' || $vars->object_cache_type === 'redis')
 			{
-				if (starts_with('/', $vars->object_cache_host))
+				if (starts_with('unix:/', $vars->object_cache_host))
+				{
+					$cache_servers = array(substr($vars->object_cache_host, 5));
+				}
+				elseif (starts_with('/', $vars->object_cache_host))
 				{
 					$cache_servers = array($vars->object_cache_host);
 				}
