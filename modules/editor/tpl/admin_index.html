@@ -77,7 +77,7 @@
 			<div class="x_controls">
 					<!--@foreach($content_style_list as $key => $val)-->
 					<label class="x_inline">
-						<input type="radio" name="content_style" value="{$key}" id="style_{$key}" checked="checked"|cond="$key==$editor_config->content_style||!$editor_config->content_style && $key=='ckeditor_light'"> {$val->title}
+						<input type="radio" name="content_style" value="{$key}" id="content_style_{$key}" checked="checked"|cond="$key==$editor_config->content_style||!$editor_config->content_style && $key=='ckeditor_light'"> {$val->title}
 					</label>
 					<!--@end-->
 			</div>
@@ -129,7 +129,7 @@
 			<div class="x_controls">
 					<!--@foreach($content_style_list as $key => $val)-->
 					<label class="x_inline">
-						<input type="radio" name="comment_content_style" value="{$key}" id="style_{$key}" checked="checked"|cond="$key==$editor_config->comment_content_style||!$editor_config->comment_content_style && $key=='ckeditor_light'"> {$val->title}
+						<input type="radio" name="comment_content_style" value="{$key}" id="comment_content_style_{$key}" checked="checked"|cond="$key==$editor_config->comment_content_style||!$editor_config->comment_content_style && $key=='ckeditor_light'"> {$val->title}
 					</label>
 					<!--@end-->
 			</div>
