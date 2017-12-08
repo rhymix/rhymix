@@ -240,7 +240,7 @@ class Session
 		}
 		
 		// Start the session if it contains data.
-		if ($force || (count($_SESSION) && !headers_sent()))
+		if ($force || (@count($_SESSION) && !headers_sent()))
 		{
 			// Copy session data to a temporary array.
 			$temp = $_SESSION;
