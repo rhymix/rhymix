@@ -31,19 +31,19 @@ class MailTest extends \Codeception\TestCase\Test
 		$mail->setFrom('devops@rhymix.org', 'Rhymix Developers');
 		$this->assertEquals('Rhymix Developers <devops@rhymix.org>', $mail->getFrom());
 		
-		$this->assertEquals(0, count($mail->message->getTo()));
+		$this->assertEquals(null, $mail->message->getTo());
 		$mail->addTo('whoever@rhymix.org', 'Name');
 		$this->assertEquals(array('whoever@rhymix.org' => 'Name'), $mail->message->getTo());
 		
-		$this->assertEquals(0, count($mail->message->getCc()));
+		$this->assertEquals(null, $mail->message->getCc());
 		$mail->addCc('whatever@rhymix.org', 'Nick');
 		$this->assertEquals(array('whatever@rhymix.org' => 'Nick'), $mail->message->getCc());
 		
-		$this->assertEquals(0, count($mail->message->getBcc()));
+		$this->assertEquals(null, $mail->message->getBcc());
 		$mail->addBcc('wherever@rhymix.org', 'User');
 		$this->assertEquals(array('wherever@rhymix.org' => 'User'), $mail->message->getBcc());
 		
-		$this->assertEquals(0, count($mail->message->getReplyTo()));
+		$this->assertEquals(null, $mail->message->getReplyTo());
 		$mail->setReplyTo('replyto@rhymix.org');
 		$this->assertEquals(array('replyto@rhymix.org' => ''), $mail->message->getReplyTo());
 		
@@ -151,7 +151,7 @@ class MailTest extends \Codeception\TestCase\Test
 		$mail->setReceiptor('Another Recipient', 'whatever@rhymix.org');
 		$this->assertEquals('Another Recipient <whatever@rhymix.org>', $mail->getReceiptor());
 		$this->assertEquals(1, count($mail->message->getTo()));
-		$this->assertEquals(0, count($mail->message->getCc()));
+		$this->assertEquals(null, $mail->message->getCc());
 		
 		$mail->setBcc('bcc-1@rhymix.org');
 		$mail->setBcc('bcc-2@rhymix.org');
