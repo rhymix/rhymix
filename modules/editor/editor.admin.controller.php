@@ -161,6 +161,7 @@ class editorAdminController extends editor
 		$config->mobile_comment_editor_toolbar = $configVars->mobile_comment_editor_toolbar;
 		$config->mobile_comment_editor_toolbar_hide = $configVars->mobile_comment_editor_toolbar_hide === 'Y' ? 'Y' : 'N';
 		$config->content_style = $configVars->content_style;
+		$config->comment_content_style = $configVars->comment_content_style;
 		$config->sel_editor_colorset = $configVars->sel_editor_colorset;
 		$config->sel_comment_editor_colorset = $configVars->sel_comment_editor_colorset;
 		
