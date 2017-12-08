@@ -1007,9 +1007,6 @@ class DirectModuleInstaller extends ModuleInstaller
 			}
 		}
 
-		FileHandler::clearStatCache($copied, true);
-		FileHandler::invalidateOpcache($copied);
-
 		$this->_close();
 
 		return new BaseObject();
