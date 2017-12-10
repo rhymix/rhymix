@@ -34,13 +34,14 @@ class integration_searchModel extends module
 		{
 			$module_srls_list = $module_srl_list ? explode(',', $module_srls_list) : array();
 		}
+		$module_srls_list = array_map('intval', $module_srls_list);
 		$accessible_modules = array_keys(getModel('module')->getAccessibleModuleList());
 
 		$args = new stdClass();
 		if($target == 'exclude')
 		{
 			$args->module_srl = $accessible_modules;
-			$args->exclude_module_srl = array_diff($module_srls_list, $accessible_modules);
+			$args->exclude_module_srl = $module_srls_list;
 		}
 		else
 		{
@@ -80,13 +81,14 @@ class integration_searchModel extends module
 		{
 			$module_srls_list = $module_srl_list ? explode(',', $module_srls_list) : array();
 		}
+		$module_srls_list = array_map('intval', $module_srls_list);
 		$accessible_modules = array_keys(getModel('module')->getAccessibleModuleList());
 
 		$args = new stdClass();
 		if($target == 'exclude')
 		{
 			$args->module_srl = $accessible_modules;
-			$args->exclude_module_srl = array_diff($module_srls_list, $accessible_modules);
+			$args->exclude_module_srl = $module_srls_list;
 		}
 		else
 		{
@@ -130,13 +132,14 @@ class integration_searchModel extends module
 		{
 			$module_srls_list = $module_srl_list ? explode(',', $module_srls_list) : array();
 		}
+		$module_srls_list = array_map('intval', $module_srls_list);
 		$accessible_modules = array_keys(getModel('module')->getAccessibleModuleList());
 
 		$args = new stdClass();
 		if($target == 'exclude')
 		{
 			$args->module_srl = $accessible_modules;
-			$args->exclude_module_srl = array_diff($module_srls_list, $accessible_modules);
+			$args->exclude_module_srl = $module_srls_list;
 		}
 		else
 		{
