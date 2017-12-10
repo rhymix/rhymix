@@ -63,10 +63,12 @@ class boardAdminController extends board {
 		// insert/update the board module based on module_srl
 		if(!$args->module_srl) {
 			$args->hide_category = 'N';
+			$args->allow_no_category = 'N';
 			$output = $oModuleController->insertModule($args);
 			$msg_code = 'success_registed';
 		} else {
 			$args->hide_category = $module_info->hide_category;
+			$args->allow_no_category = $module_info->allow_no_category;
 			$output = $oModuleController->updateModule($args);
 			$msg_code = 'success_updated';
 		}
