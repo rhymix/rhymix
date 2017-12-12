@@ -130,7 +130,7 @@ class memberController extends member
 		$oDocument = $oDocumentModel->getDocument($document_srl);
 		
 		// Check document
-		if($oDocument->isSecret() && !$oDocument->isGranted())
+		if(!$oDocument->isAccessible())
 		{
 			return $this->setError('msg_is_secret');
 		}

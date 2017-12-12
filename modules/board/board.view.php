@@ -328,13 +328,12 @@ class boardView extends board
 				));
 
 				// update the document view count (if the document is not secret)
-				if(!$oDocument->isSecret() || $oDocument->isGranted())
+				if($oDocument->isAccessible())
 				{
 					$oDocument->updateReadedCount();
 				}
-
 				// disappear the document if it is secret
-				if($oDocument->isSecret() && !$oDocument->isGranted())
+				else
 				{
 					$oDocument->add('content',lang('thisissecret'));
 				}
