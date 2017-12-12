@@ -157,9 +157,9 @@ class documentItem extends BaseObject
 
 	function isExists()
 	{
-		return $this->document_srl ? true : false;
+		return (bool) $this->document_srl;
 	}
-
+	
 	function isGranted()
 	{
 		if ($_SESSION['granted_document'][$this->document_srl])
@@ -185,17 +185,17 @@ class documentItem extends BaseObject
 		{
 			return $this->grant_cache = true;
 		}
-
+		
 		$oModuleModel = getModel('module');
 		$grant = $oModuleModel->getGrant($oModuleModel->getModuleInfoByModuleSrl($this->get('module_srl')), $logged_info);
 		if ($grant->manager)
 		{
 			return $this->grant_cache = true;
 		}
-
+		
 		return $this->grant_cache = false;
 	}
-
+	
 	function setGrant()
 	{
 		$this->grant_cache = true;
@@ -206,52 +206,29 @@ class documentItem extends BaseObject
 		$_SESSION['granted_document'][$this->document_srl] = true;
 		$this->setGrant();
 	}
-
+	
 	function isAccessible()
 	{
-		if (isset($_SESSION['accessible'][$this->document_srl]) && $_SESSION['accessible'][$this->document_srl] === $this->get('last_update'))
+		if ($_SESSION['accessible'][$this->document_srl] === $this->get('last_update'))
 		{
 			return true;
 		}
 		
-		if ($this->grant_cache === true)
+		if ($this->get('status') === $this->getConfigStatus('public') || $this->get('status') === $this->getConfigStatus('temp'))
 		{
 			$this->setAccessible();
 			return true;
 		}
 		
-		$logged_info = Context::get('logged_info');
-		if ($logged_info->is_admin == 'Y')
+		if ($this->isGranted())
 		{
 			$this->setAccessible();
 			return true;
-		}
-
-		$status = $this->get('status');
-		if (empty($status))
-		{
-			return false;
-		}
-
-		$configStatusList = getModel('document')->getStatusList();
-
-		if ($status == $configStatusList['public'] || $status == $configStatusList['publish'])
-		{
-			$this->setAccessible();
-			return true;
-		}
-		elseif ($status == $configStatusList['private'] || $status == $configStatusList['secret'])
-		{
-			if ($this->get('member_srl') == $logged_info->member_srl)
-			{
-				$this->setAccessible();
-				return true;
-			}
 		}
 		
 		return false;
 	}
-
+	
 	function setAccessible()
 	{
 		if(Context::getSessionStatus())
@@ -259,13 +236,16 @@ class documentItem extends BaseObject
 			$_SESSION['accessible'][$this->document_srl] = $this->get('last_update');
 		}
 	}
-
+	
 	function allowComment()
 	{
 		// init write, document is not exists. so allow comment status is true
-		if(!$this->isExists()) return true;
-
-		return $this->get('comment_status') == 'ALLOW' ? true : false;
+		if(!$this->isExists())
+		{
+			return true;
+		}
+		
+		return $this->get('comment_status') == 'ALLOW';
 	}
 
 	function allowTrackback()
@@ -307,33 +287,34 @@ class documentItem extends BaseObject
 
 	function isLocked()
 	{
-		if(!$this->isExists()) return false;
-
-		return $this->get('comment_status') == 'ALLOW' ? false : true;
+		if(!$this->isExists())
+		{
+			return false;
+		}
+		
+		return $this->get('comment_status') != 'ALLOW';
 	}
 
 	function isEditable()
 	{
-		if($this->isGranted() || !$this->get('member_srl')) return true;
-		return false;
+		return !$this->get('member_srl') || $this->isGranted();
 	}
-
+	
 	function isSecret()
 	{
-		$oDocumentModel = getModel('document');
-		return $this->get('status') == $oDocumentModel->getConfigStatus('secret') ? true : false;
+		return $this->get('status') == $this->getConfigStatus('secret');
 	}
-
+	
 	function isNotice()
 	{
-		return $this->get('is_notice') == 'Y' ? true : false;
+		return $this->get('is_notice') == 'Y';
 	}
-
+	
 	function useNotify()
 	{
-		return $this->get('notify_message')=='Y' ? true : false;
+		return $this->get('notify_message') == 'Y';
 	}
-
+	
 	function doCart()
 	{
 		if(!$this->document_srl) return false;
@@ -394,7 +375,7 @@ class documentItem extends BaseObject
 		{
 			return $this->get('ipaddress');
 		}
-
+		
 		return '*' . strstr($this->get('ipaddress'), '.');
 	}
 
@@ -496,45 +477,48 @@ class documentItem extends BaseObject
 
 	function getContentPlainText($strlen = 0)
 	{
-		if(!$this->document_srl) return;
-		if($this->isSecret() && !$this->isGranted() && !$this->isAccessible()) return lang('msg_is_secret');
-
-		$result = $this->_checkAccessibleFromStatus();
-		if($result && Context::getSessionStatus())
+		if(!$this->document_srl)
 		{
-			$this->setAccessible();
+			return;
 		}
-
+		
+		if(!$this->isAccessible())
+		{
+			return lang('msg_is_secret');
+		}
+		
 		$content = $this->get('content');
 		$content = trim(utf8_normalize_spaces(html_entity_decode(strip_tags($content))));
 		if($strlen)
 		{
 			$content = cut_str($content, $strlen, '...');
 		}
+		
 		return escape($content);
 	}
 
 	function getContentText($strlen = 0)
 	{
-		if(!$this->document_srl) return;
-
-		if($this->isSecret() && !$this->isGranted() && !$this->isAccessible()) return lang('msg_is_secret');
-
-		$result = $this->_checkAccessibleFromStatus();
-		if($result && Context::getSessionStatus())
+		if(!$this->document_srl)
 		{
-			$this->setAccessible();
+			return;
 		}
-
+		
+		if(!$this->isAccessible())
+		{
+			return lang('msg_is_secret');
+		}
+		
 		$content = $this->get('content');
 		$content = preg_replace_callback('/<(object|param|embed)[^>]*/is', array($this, '_checkAllowScriptAccess'), $content);
 		$content = preg_replace_callback('/<object[^>]*>/is', array($this, '_addAllowScriptAccess'), $content);
-
+		
 		if($strlen)
 		{
 			$content = trim(utf8_normalize_spaces(html_entity_decode(strip_tags($content))));
 			$content = cut_str($content, $strlen, '...');
 		}
+		
 		return escape($content);
 	}
 
@@ -583,21 +567,24 @@ class documentItem extends BaseObject
 
 	function getContent($add_popup_menu = true, $add_content_info = true, $resource_realpath = false, $add_xe_content_class = true, $stripEmbedTagException = false)
 	{
-		if(!$this->document_srl) return;
-
-		if($this->isSecret() && !$this->isGranted() && !$this->isAccessible()) return lang('msg_is_secret');
-
-		$result = $this->_checkAccessibleFromStatus();
-		if($result)
+		if(!$this->document_srl)
 		{
-			$this->setAccessible();
+			return;
 		}
-
+		
+		if(!$this->isAccessible())
+		{
+			return lang('msg_is_secret');
+		}
+		
 		$content = $this->get('content');
-		if(!$stripEmbedTagException) stripEmbedTagForAdmin($content, $this->get('member_srl'));
-
+		if(!$stripEmbedTagException)
+		{
+			stripEmbedTagForAdmin($content, $this->get('member_srl'));
+		}
+		
 		// Define a link if using a rewrite module
-		$oContext = &Context::getInstance();
+		$oContext = Context::getInstance();
 		if($oContext->allow_rewrite)
 		{
 			$content = preg_replace('/<a([ \t]+)href=("|\')\.\/\?/i',"<a href=\\2". Context::getRequestUri() ."?", $content);
@@ -627,18 +614,18 @@ class documentItem extends BaseObject
 				$this->document_srl, $memberSrl,
 				$this->document_srl, $memberSrl
 			);
-			// Add xe_content class although accessing content is not required
 		}
-		else
+		// Add xe_content class although accessing content is not required
+		elseif($add_xe_content_class)
 		{
-			if($add_xe_content_class) $content = sprintf('<div class="xe_content">%s</div>', $content);
+			$content = sprintf('<div class="xe_content">%s</div>', $content);
 		}
 		// Change the image path to a valid absolute path if resource_realpath is true
 		if($resource_realpath)
 		{
 			$content = preg_replace_callback('/<img([^>]+)>/i',array($this,'replaceResourceRealPath'), $content);
 		}
-
+		
 		return $content;
 	}
 
@@ -843,12 +830,19 @@ class documentItem extends BaseObject
 
 	function getComments()
 	{
-		if(!$this->getCommentCount()) return;
-		if(!$this->isGranted() && $this->isSecret()) return;
+		if(!$this->getCommentCount())
+		{
+			return;
+		}
+		
+		if(!$this->isAccessible())
+		{
+			return;
+		}
+		
 		// cpage is a number of comment pages
 		$cpageStr = sprintf('%d_cpage', $this->document_srl);
 		$cpage = Context::get($cpageStr);
-
 		if(!$cpage)
 		{
 			$cpage = Context::get('cpage');
@@ -966,11 +960,11 @@ class documentItem extends BaseObject
 			$thumbnail_type = $config->thumbnail_type ?: 'crop';
 		}
 		
-		if($this->isSecret() && !$this->isGranted())
+		if(!$this->isAccessible())
 		{
 			return;
 		}
-
+		
 		// If not specify its height, create a square
 		if(!$height) $height = $width;
 		if($this->get('content'))
@@ -1223,25 +1217,42 @@ class documentItem extends BaseObject
 
 	function hasUploadedFiles()
 	{
-		if(!$this->document_srl) return;
-
-		if($this->isSecret() && !$this->isGranted()) return false;
+		if(!$this->document_srl)
+		{
+			return false;
+		}
+		
+		if(!$this->isAccessible())
+		{
+			return false;
+		}
+		
 		return $this->get('uploaded_count')? true : false;
 	}
 
 	function getUploadedFiles($sortIndex = 'file_srl')
 	{
-		if(!$this->document_srl) return;
-
-		if($this->isSecret() && !$this->isGranted()) return;
-		if(!$this->get('uploaded_count')) return;
-
+		if(!$this->document_srl)
+		{
+			return;
+		}
+		
+		if(!$this->isAccessible())
+		{
+			return;
+		}
+		
+		if(!$this->get('uploaded_count'))
+		{
+			return;
+		} 
+		
 		if(!$this->uploadedFiles[$sortIndex])
 		{
 			$oFileModel = getModel('file');
 			$this->uploadedFiles[$sortIndex] = $oFileModel->getFiles($this->document_srl, array(), $sortIndex, true);
 		}
-
+		
 		return $this->uploadedFiles[$sortIndex];
 	}
 
@@ -1266,9 +1277,16 @@ class documentItem extends BaseObject
 	function isEnableComment()
 	{
 		// Return false if not authorized, if a secret document, if the document is set not to allow any comment
-		if (!$this->allowComment()) return false;
-		if(!$this->isGranted() && $this->isSecret()) return false;
-
+		if (!$this->allowComment())
+		{
+			return false;
+		}
+		
+		if(!$this->isAccessible())
+		{
+			return false;
+		}
+		
 		return true;
 	}
 
@@ -1336,9 +1354,8 @@ class documentItem extends BaseObject
 	}
 
 	/**
-	 * Check accessible by document status
-	 * @param array $matches
-	 * @return mixed
+	 * Compatible function
+	 * For only XE third party
 	 */
 	function _checkAccessibleFromStatus()
 	{
