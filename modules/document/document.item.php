@@ -214,7 +214,8 @@ class documentItem extends BaseObject
 			return true;
 		}
 		
-		if ($this->get('status') === $this->getConfigStatus('public') || $this->get('status') === $this->getConfigStatus('temp'))
+		$status_list = getModel('document')->getStatusList();
+		if ($this->get('status') === $status_list['public'] || $this->get('status') === $status_list['temp'])
 		{
 			$this->setAccessible();
 			return true;
@@ -302,7 +303,7 @@ class documentItem extends BaseObject
 	
 	function isSecret()
 	{
-		return $this->get('status') == $this->getConfigStatus('secret');
+		return $this->get('status') == getModel('document')->getConfigStatus('secret');
 	}
 	
 	function isNotice()
