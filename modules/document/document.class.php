@@ -373,8 +373,7 @@ class document extends ModuleObject
 	 */
 	function getConfigStatus($key)
 	{
-		if(array_key_exists(strtolower($key), $this->statusList)) return $this->statusList[$key];
-		else $this->getDefaultStatus();
+		return $this->statusList[$key];
 	}
 }
 /* End of file document.class.php */
