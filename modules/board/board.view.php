@@ -782,7 +782,7 @@ class boardView extends board
 
 		// if the document is not granted, then back to the password input form
 		$oModuleModel = getModel('module');
-		if($oDocument->isExists()&&!$oDocument->isGranted())
+		if($oDocument->isExists() && !$oDocument->isGranted())
 		{
 			return $this->setTemplateFile('input_password_form');
 		}

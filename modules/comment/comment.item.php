@@ -92,14 +92,19 @@ class commentItem extends BaseObject
 
 	function isExists()
 	{
-		return (bool) $this->comment_srl;
+		return (bool) ($this->comment_srl);
 	}
 	
 	function isGranted()
 	{
-		if ($_SESSION['granted_comment'][$this->comment_srl])
+		if(!$this->isExists())
 		{
-			return $this->grant_cache = true;
+			return false;
+		}
+		
+		if (isset($_SESSION['granted_comment'][$this->comment_srl]))
+		{
+			return true;
 		}
 		
 		if ($this->grant_cache !== null)
@@ -144,7 +149,12 @@ class commentItem extends BaseObject
 	
 	function isAccessible()
 	{
-		if ($_SESSION['accessible'][$this->comment_srl] === $this->get('last_update'))
+		if(!$this->isExists())
+		{
+			return false;
+		}
+		
+		if (isset($_SESSION['accessible'][$this->comment_srl]) && $_SESSION['accessible'][$this->comment_srl] === $this->get('last_update'))
 		{
 			return true;
 		}
@@ -162,7 +172,7 @@ class commentItem extends BaseObject
 		}
 		
 		$oDocument = getModel('document')->getDocument($this->get('document_srl'));
-		if ($oDocument->isExists() && $oDocument->isGranted())
+		if ($oDocument->isGranted())
 		{
 			$this->setAccessible();
 			return true;
@@ -515,25 +525,26 @@ class commentItem extends BaseObject
 
 	function hasUploadedFiles()
 	{
-		if(($this->isSecret() && !$this->isAccessible()) && !$this->isGranted())
+		if(!$this->isAccessible())
 		{
-			return FALSE;
+			return false;
 		}
+		
 		return $this->get('uploaded_count') ? TRUE : FALSE;
 	}
 
 	function getUploadedFiles()
 	{
-		if(($this->isSecret() && !$this->isAccessible()) && !$this->isGranted())
+		if(!$this->isAccessible())
 		{
 			return;
 		}
-
+		
 		if(!$this->get('uploaded_count'))
 		{
 			return;
 		}
-
+		
 		$oFileModel = getModel('file');
 		$file_list = $oFileModel->getFiles($this->comment_srl, array(), 'file_srl', TRUE);
 		return $file_list;
@@ -646,11 +657,11 @@ class commentItem extends BaseObject
 			$thumbnail_type = $config->thumbnail_type ?: 'crop';
 		}
 		
-		if($this->isSecret() && !$this->isGranted())
+		if(!$this->isAccessible())
 		{
 			return;
 		}
-
+		
 		// If signiture height setting is omitted, create a square
 		if(!$height)
 		{

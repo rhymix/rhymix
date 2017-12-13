@@ -1257,7 +1257,7 @@ class commentController extends comment
 			$oDocument = $oDocumentModel->getDocument($document_srl);
 		}
 
-		if(!$oDocument->isExists() || !$oDocument->isGranted())
+		if(!$oDocument->isGranted())
 		{
 			return new BaseObject(-1, 'msg_not_permitted');
 		}
