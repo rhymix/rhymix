@@ -297,7 +297,7 @@ class commentModel extends comment
 	 * @param bool $published
 	 * @return int
 	 */
-	function getCommentAllCount($module_srl, $published = null)
+	function getCommentAllCount($module_srl, $published = false)
 	{
 		$args = new stdClass();
 		$args->module_srl = $module_srl;

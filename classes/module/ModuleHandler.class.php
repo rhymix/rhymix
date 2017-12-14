@@ -228,12 +228,9 @@ class ModuleHandler extends Handler
 			{
 				$oDocumentModel = getModel('document');
 				$oDocument = $oDocumentModel->getDocument($this->document_srl);
-				if($oDocument->isSecret() || $oDocument->get('status') === $oDocumentModel->getConfigStatus('temp'))
+				if(!$oDocument->isAccessible())
 				{
-					if(!$oDocument->isGranted() && !$oDocument->isAccessible())
-					{
-						$this->httpStatusCode = '403';
-					}
+					$this->httpStatusCode = '403';
 				}
 			}
 		}

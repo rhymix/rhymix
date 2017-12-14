@@ -9,7 +9,7 @@
 			<span>{$oDocument->getRegdate()}</span>
 		</div>
 		<div class="co">
-                <!--@if($oDocument->isSecret() && !$oDocument->isGranted())-->
+                <!--@if(!$oDocument->isAccessible())-->
                     <div class="secretContent">
                         <form action="./" method="get" onsubmit="return procFilter(this, input_password)">
                         <input type="hidden" name="mid" value="{$mid}" />

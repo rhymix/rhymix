@@ -328,13 +328,12 @@ class boardView extends board
 				));
 
 				// update the document view count (if the document is not secret)
-				if(!$oDocument->isSecret() || $oDocument->isGranted())
+				if($oDocument->isAccessible())
 				{
 					$oDocument->updateReadedCount();
 				}
-
 				// disappear the document if it is secret
-				if($oDocument->isSecret() && !$oDocument->isGranted())
+				else
 				{
 					$oDocument->add('content',lang('thisissecret'));
 				}
@@ -783,7 +782,7 @@ class boardView extends board
 
 		// if the document is not granted, then back to the password input form
 		$oModuleModel = getModel('module');
-		if($oDocument->isExists()&&!$oDocument->isGranted())
+		if($oDocument->isExists() && !$oDocument->isGranted())
 		{
 			return $this->setTemplateFile('input_password_form');
 		}

@@ -24,7 +24,7 @@
 	</div>
 	<!-- /READ HEADER -->
 	<!-- Extra Output -->
-	<div class="exOut" cond="$oDocument->isExtraVarsExists() && (!$oDocument->isSecret() || $oDocument->isGranted())">
+	<div class="exOut" cond="$oDocument->isExtraVarsExists() && $oDocument->isAccessible()">
 		<table border="1" cellspacing="0" summary="Extra Form Output">
 			<tr loop="$oDocument->getExtraVars() => $key,$val">
 				<th scope="row">{$val->name}</th>
@@ -35,7 +35,7 @@
 	<!-- /Extra Output -->
 	<!-- READ BODY -->
 	<div class="read_body">
-		<!--@if($oDocument->isSecret() && !$oDocument->isGranted())-->
+		<!--@if(!$oDocument->isAccessible())-->
 		<form action="./" method="get" onsubmit="return procFilter(this, input_password)" class="secretForm">
 			<input type="hidden" name="mid" value="{$mid}" />
 			<input type="hidden" name="page" value="{$page}" />

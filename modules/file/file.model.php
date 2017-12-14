@@ -43,7 +43,7 @@ class fileModel extends file
 			if(!$oDocument->isExists())
 			{
 				$oComment = $oCommentModel->getComment($upload_target_srl);
-				if($oComment->isExists() && $oComment->isSecret() && !$oComment->isGranted())
+				if($oComment->isExists() && !$oComment->isAccessible())
 				{
 					return $this->setError('msg_not_permitted');
 				}
@@ -52,7 +52,7 @@ class fileModel extends file
 			}
 
 			// document 권한 확인
-			if($oDocument->isExists() && $oDocument->isSecret() && !$oDocument->isGranted())
+			if($oDocument->isExists() && !$oDocument->isAccessible())
 			{
 				return $this->setError('msg_not_permitted');
 			}
