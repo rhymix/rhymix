@@ -34,7 +34,7 @@
 	 */
 	window.isSameOrigin = function(url1, url2) {
 		url1 = window.XE.URI(url1).normalizePort().normalizePathname().origin();
-		url2 = window.XE.URI(url1).normalizePort().normalizePathname().origin();
+		url2 = window.XE.URI(url2).normalizePort().normalizePathname().origin();
 		return (url1 === url2) ? true : false;
 	};
 
