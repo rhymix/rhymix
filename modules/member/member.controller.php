@@ -58,7 +58,6 @@ class memberController extends member
 		// Check if change_password_date is set
 		if($limit_date > 0)
 		{
-			$oMemberModel = getModel('member');
 			if($member_info->change_password_date < date ('YmdHis', strtotime ('-' . $limit_date . ' day')))
 			{
 				$msg = sprintf(lang('msg_change_password_date'), $limit_date);
