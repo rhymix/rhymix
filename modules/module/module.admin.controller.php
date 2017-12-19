@@ -863,7 +863,7 @@ class moduleAdminController extends module
 			$args->site_srl = $site_srl;
 		}
 		$output = executeQueryArray('module.getLang', $args);
-		if(!$output->toBool() || !$output->data) return;
+		if(!$output->toBool()) return;
 
 		$langMap = array();
 		foreach($output->data as $lang)
@@ -905,7 +905,8 @@ class moduleAdminController extends module
 			Rhymix\Framework\Cache::set('site_and_module:user_defined_langs:' . $args->site_srl . ':' . $langCode, $langMap[$langCode], 0, true);
 		}
 		
-		return $langMap[Context::getLangType()];
+		$currentLang = Context::getLangType();
+		return isset($langMap[$currentLang]) ? $langMap[$currentLang] : array();
 	}
 
 	public function procModuleAdminSetDesignInfo()
