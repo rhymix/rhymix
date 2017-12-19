@@ -1763,11 +1763,20 @@ class menuAdminController extends menu
 	{
 		// Return if there is no information when creating the xml file
 		if(!$menu_srl) return;
+		// Specify the name of the cache file
+		$xml_file = sprintf(_XE_PATH_ . "files/cache/menu/%s.xml.php", $menu_srl);
+		$php_file = sprintf(_XE_PATH_ . "files/cache/menu/%s.php", $menu_srl);
 		// Get menu informaton
 		$args = new stdClass();
 		$args->menu_srl = $menu_srl;
 		$output = executeQuery('menu.getMenu', $args);
-		if(!$output->toBool() || !$output->data) return $output;
+		if(!$output->toBool()) return $output;
+		if(!$output->data)
+		{
+			FileHandler::writeFile($xml_file, '<root />');
+			FileHandler::writeFile($php_file, '<?php if(!defined("__XE__")) exit(); ?>');
+			return $xml_file;
+		}		
 		$site_srl = (int)$output->data->site_srl;
 
 		if($site_srl)
@@ -1781,16 +1790,12 @@ class menuAdminController extends menu
 		$args->menu_srl = $menu_srl;
 		$args->sort_index = 'listorder';
 		$output = executeQuery('menu.getMenuItems', $args);
-		if(!$output->toBool()) return;
-		// Specify the name of the cache file
-		$xml_file = sprintf(_XE_PATH_ . "files/cache/menu/%s.xml.php", $menu_srl);
-		$php_file = sprintf(_XE_PATH_ . "files/cache/menu/%s.php", $menu_srl);
+		if(!$output->toBool()) return $output;
 		// If no data found, generate an XML file without node data
 		$list = $output->data;
 		if(!$list)
 		{
-			$xml_buff = "<root />";
-			FileHandler::writeFile($xml_file, $xml_buff);
+			FileHandler::writeFile($xml_file, '<root />');
 			FileHandler::writeFile($php_file, '<?php if(!defined("__XE__")) exit(); ?>');
 			return $xml_file;
 		}
