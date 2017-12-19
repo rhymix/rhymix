@@ -39,12 +39,23 @@ class pointModel extends point
 			return self::$_member_point_cache[$member_srl];
 		}
 
+		// Get from object cache
+		$cache_key = sprintf('member:point:%d', $member_srl);
+		if (!$from_db)
+		{
+			$point = Rhymix\Framework\Cache::get($cache_key);
+			if ($point !== null)
+			{
+				return $point;
+			}
+		}
+		
 		// Get from file cache
 		$cache_path = sprintf(_XE_PATH_ . 'files/member_extra_info/point/%s', getNumberingPath($member_srl));
 		$cache_filename = sprintf('%s%d.cache.txt', $cache_path, $member_srl);
 		if (!$from_db && file_exists($cache_filename))
 		{
-			return self::$_member_point_cache[$member_srl] = trim(FileHandler::readFile($cache_filename));
+			return self::$_member_point_cache[$member_srl] = intval(trim(Rhymix\Framework\Storage::read($cache_filename)));
 		}
 
 		// Get from the DB
@@ -54,14 +65,24 @@ class pointModel extends point
 		if (isset($output->data->member_srl))
 		{
 			$point = intval($output->data->point);
-			self::$_member_point_cache[$member_srl] = $point;
-			FileHandler::writeFile($cache_filename, $point);
-			return $point;
 		}
 		else
 		{
 			return 0;
 		}
+		
+		// Save to cache
+		self::$_member_point_cache[$member_srl] = $point;
+		if (Rhymix\Framework\Cache::getDriverName() !== 'dummy')
+		{
+			Rhymix\Framework\Cache::set($cache_key, $point);
+		}
+		else
+		{
+			Rhymix\Framework\Storage::write($cache_filename, $point);
+		}
+
+		return $point;
 	}
 
 	/**

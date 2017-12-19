@@ -683,11 +683,18 @@ class pointController extends point
 		$oDB->commit();
 
 		// Cache Settings
+		$cache_key = sprintf('member:point:%d', $member_srl);
 		$cache_path = sprintf('./files/member_extra_info/point/%s/', getNumberingPath($member_srl));
-		FileHandler::makedir($cache_path);
-
 		$cache_filename = sprintf('%s%d.cache.txt', $cache_path, $member_srl);
-		FileHandler::writeFile($cache_filename, $point);
+		if (Rhymix\Framework\Cache::getDriverName() !== 'dummy')
+		{
+			Rhymix\Framework\Cache::set($cache_key, $point);
+			Rhymix\Framework\Storage::delete($cache_filename);
+		}
+		else
+		{
+			Rhymix\Framework\Storage::write($cache_filename, $point);
+		}
 
 		getController('member')->_clearMemberCache($member_srl);
 		unset(self::$_member_point_cache[$member_srl]);
