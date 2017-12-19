@@ -318,7 +318,6 @@ class memberModel extends member
 				$output = executeQuery('member.getMemberInfoByMemberSrl', $args);
 				if(!$output->data)
 				{
-					Rhymix\Framework\Cache::set($cache_key, new stdClass);
 					return new stdClass;
 				}
 				
