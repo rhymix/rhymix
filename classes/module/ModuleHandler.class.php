@@ -906,7 +906,7 @@ class ModuleHandler extends Handler
 		}
 
 		// If connection to DB has a problem even though it's not install module, set error
-		if($this->module != 'install' && isset($GLOBALS['__DB__']) && $GLOBALS['__DB__'][Context::getDBType()]->isConnected() == FALSE)
+		if($this->module != 'install' && !DB::getInstance()->isConnected())
 		{
 			$this->error = 'msg_dbconnect_failed';
 		}
