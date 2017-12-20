@@ -1055,32 +1055,35 @@ class ncenterliteController extends ncenterlite
 		if($anonymous == TRUE)
 		{
 			$args->target_member_srl = 0;
-			$args->target_user_id = $args->target_nick_name;
-			$args->target_email_address = $args->target_nick_name;
+			$args->target_nick_name = strval($args->target_nick_name);
+			$args->target_user_id = strval($args->target_nick_name);
+			$args->target_email_address = strval($args->target_nick_name);
 		}
 		// 로그인을 했을경우 logged_info 정보를 가져와 검사한다.
 		else if(Context::get('is_logged'))
 		{
 			$logged_info = Context::get('logged_info');
-			$args->target_member_srl = $logged_info->member_srl;
-			$args->target_nick_name = $logged_info->nick_name;
-			$args->target_user_id = $logged_info->user_id;
-			$args->target_email_address = $logged_info->email_address;
+			$args->target_member_srl = intval($logged_info->member_srl);
+			$args->target_nick_name = strval($logged_info->nick_name);
+			$args->target_user_id = strval($logged_info->user_id);
+			$args->target_email_address = strval($logged_info->email_address);
 		}
 		else if($args->target_member_srl)
 		{
 			$oMemberModel = getModel('member');
 			$member_info = $oMemberModel->getMemberInfoByMemberSrl($args->target_member_srl);
-			$args->target_member_srl = $member_info->member_srl;
-			$args->target_nick_name = $member_info->nick_name;
-			$args->target_user_id = $member_info->user_id;
-			$args->target_email_address = $member_info->email_address;
+			$args->target_member_srl = intval($member_info->member_srl);
+			$args->target_nick_name = strval($member_info->nick_name);
+			$args->target_user_id = strval($member_info->user_id);
+			$args->target_email_address = strval($member_info->email_address);
 		}
 		else
 		{
 			// 비회원
 			$args->target_member_srl = 0;
+			$args->target_nick_name = strval($args->target_nick_name);
 			$args->target_user_id = '';
+			$args->target_email_address = '';
 		}
 
 		$output = executeQuery('ncenterlite.insertNotify', $args);
