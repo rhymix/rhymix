@@ -345,20 +345,19 @@ class ncenterliteController extends ncenterlite
 
 	function triggerAfterVotedupdate(&$obj)
 	{
-		$oDocumentModel = getModel('document');
-		$oDocument = $oDocumentModel->getDocument($obj->document_srl, false, false);
-
 		$oNcenterliteModel = getModel('ncenterlite');
 		$config = $oNcenterliteModel->getConfig();
 		if(!isset($config->use['vote']))
 		{
 			return;
 		}
-
 		if($obj->point < 0)
 		{
 			return;
 		}
+
+		$oDocumentModel = getModel('document');
+		$oDocument = $oDocumentModel->getDocument($obj->document_srl, false, false);
 
 		$args = new stdClass();
 		$args->config_type = 'vote';
@@ -377,6 +376,17 @@ class ncenterliteController extends ncenterlite
 
 	function triggerAfterCommentVotedCount($obj)
 	{
+		$oNcenterliteModel = getModel('ncenterlite');
+		$config = $oNcenterliteModel->getConfig();
+		if(!isset($config->use['vote']))
+		{
+			return;
+		}
+		if($obj->point < 0)
+		{
+			return;
+		}
+
 		$oCommentModel = new commentModel();
 		$oComment = $oCommentModel->getComment($obj->comment_srl);
 
