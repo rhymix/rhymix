@@ -20,7 +20,9 @@ return array(
 			'engine' => null,
 		),
 	),
-	'cache' => array(),
+	'cache' => array(
+		'truncate_method' => 'delete',
+	),
 	'ftp' => array(
 		'host' => 'localhost',
 		'port' => 21,

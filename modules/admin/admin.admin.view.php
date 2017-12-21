@@ -508,6 +508,7 @@ class adminAdminView extends admin
 			Context::set('object_cache_port', null);
 			Context::set('object_cache_dbnum', 1);
 		}
+		Context::set('cache_truncate_method', Rhymix\Framework\Config::get('cache.truncate_method'));
 		
 		// Thumbnail settings
 		$oDocumentModel = getModel('document');
