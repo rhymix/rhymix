@@ -33,6 +33,7 @@
 	 * @brief Check if two URLs belong to the same origin
 	 */
 	window.isSameOrigin = function(url1, url2) {
+		if(!url1 || !url2) return false;
 		url1 = window.XE.URI(url1).normalizePort().normalizePathname().origin();
 		url2 = window.XE.URI(url2).normalizePort().normalizePathname().origin();
 		return (url1 === url2) ? true : false;
