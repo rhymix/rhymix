@@ -29,13 +29,14 @@ class pointModel extends point
 	/**
 	 * @brief Get the points
 	 */
-	function getPoint($member_srl, $from_db = false)
+	function getPoint($member_srl, $from_db = false, &$exists = null)
 	{
 		$member_srl = abs($member_srl);
 
 		// Get from instance memory
 		if (!$from_db && isset(self::$_member_point_cache[$member_srl]))
 		{
+			$exists = true;
 			return self::$_member_point_cache[$member_srl];
 		}
 
@@ -46,6 +47,7 @@ class pointModel extends point
 			$point = Rhymix\Framework\Cache::get($cache_key);
 			if ($point !== null)
 			{
+				$exists = true;
 				return $point;
 			}
 		}
@@ -55,6 +57,7 @@ class pointModel extends point
 		$cache_filename = sprintf('%s%d.cache.txt', $cache_path, $member_srl);
 		if (!$from_db && file_exists($cache_filename))
 		{
+			$exists = true;
 			return self::$_member_point_cache[$member_srl] = intval(trim(Rhymix\Framework\Storage::read($cache_filename)));
 		}
 
@@ -64,10 +67,12 @@ class pointModel extends point
 		$output = executeQuery('point.getPoint', $args);
 		if (isset($output->data->member_srl))
 		{
+			$exists = true;
 			$point = intval($output->data->point);
 		}
 		else
 		{
+			$exists = false;
 			return 0;
 		}
 		
