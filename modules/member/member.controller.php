@@ -517,9 +517,10 @@ class memberController extends member
 		if(!$value) return;
 
 		$oMemberModel = getModel('member');
+		$config = $oMemberModel->getMemberConfig();
+
 		// Check if logged-in
 		$logged_info = Context::get('logged_info');
-
 
 		switch($name)
 		{
@@ -537,15 +538,16 @@ class memberController extends member
 					return new BaseObject(0,'denied_nick_name');
 				}
 				// Check if duplicated
-				$member_srl = $oMemberModel->getMemberSrlByNickName($value);
-				if($member_srl && $logged_info->member_srl != $member_srl ) return new BaseObject(0,'msg_exists_nick_name');
-
+				if($config->allow_duplicate_nickname !== 'Y')
+				{
+					$member_srl = $oMemberModel->getMemberSrlByNickName($value);
+					if($member_srl && $logged_info->member_srl != $member_srl ) return new BaseObject(0,'msg_exists_nick_name');
+				}
 				break;
 			case 'email_address' :
 				// Check managed Email Host
 				if($oMemberModel->isDeniedEmailHost($value))
 				{
-					$config = $oMemberModel->getMemberConfig();
 					$emailhost_check = $config->emailhost_check;
 
 					$managed_email_host = lang('managed_email_host');
