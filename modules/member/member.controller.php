@@ -2365,16 +2365,18 @@ class memberController extends member
 		}
 
 		// Check if nickname is duplicate
-		$member_srl = $oMemberModel->getMemberSrlByNickName($args->nick_name);
-		if($member_srl)
+		if($config->allow_duplicate_nickname !== 'Y')
 		{
-			return new BaseObject(-1, 'msg_exists_nick_name');
+			$member_srl = $oMemberModel->getMemberSrlByNickName($args->nick_name);
+			if($member_srl)
+			{
+				return new BaseObject(-1, 'msg_exists_nick_name');
+			}
 		}
 
 		// Check managed Email Host
 		if($logged_info->is_admin !== 'Y' && $oMemberModel->isDeniedEmailHost($args->email_address))
 		{
-			$config = $oMemberModel->getMemberConfig();
 			$emailhost_check = $config->emailhost_check;
 
 			$managed_email_host = lang('managed_email_host');
@@ -2580,7 +2582,6 @@ class memberController extends member
 		// Check managed Email Host
 		if($logged_info->is_admin !== 'Y' && $oMemberModel->isDeniedEmailHost($args->email_address))
 		{
-			$config = $oMemberModel->getMemberConfig();
 			$emailhost_check = $config->emailhost_check;
 
 			$managed_email_host = lang('managed_email_host');
@@ -2637,11 +2638,14 @@ class memberController extends member
 		}
 
 		// Check if nickname is duplicate
-		$member_srl = $oMemberModel->getMemberSrlByNickName($args->nick_name);
- 		if($member_srl && $args->member_srl != $member_srl)
- 		{
- 			return new BaseObject(-1, 'msg_exists_nick_name');
- 		}
+		if($config->allow_duplicate_nickname !== 'Y')
+		{
+			$member_srl = $oMemberModel->getMemberSrlByNickName($args->nick_name);
+			if($member_srl && $args->member_srl != $member_srl)
+			{
+				return new BaseObject(-1, 'msg_exists_nick_name');
+			}
+		}
 
 		list($args->email_id, $args->email_host) = explode('@', $args->email_address);
 

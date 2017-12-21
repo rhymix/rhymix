@@ -185,6 +185,7 @@ class memberAdminController extends member
 			'password_hashing_auto_upgrade',
 			'password_change_invalidate_other_sessions',
 			'update_nickname_log',
+			'allow_duplicate_nickname',
 			'member_profile_view'
 		);
 		

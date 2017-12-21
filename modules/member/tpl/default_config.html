@@ -37,6 +37,14 @@
 		</div>
 	</div>
 	<div class="x_control-group">
+		<div class="x_control-label">{$lang->cmd_allow_duplicate_nickname}</div>
+		<div class="x_controls">
+			<label class="x_inline" for="allow_duplicate_nickname_yes"><input type="radio" name="allow_duplicate_nickname" id="allow_duplicate_nickname_yes" value="Y" checked="checked"|cond="$config->allow_duplicate_nickname == 'Y'" /> {$lang->cmd_yes}</label>
+			<label class="x_inline" for="allow_duplicate_nickname_no"><input type="radio" name="allow_duplicate_nickname" id="allow_duplicate_nickname_no" value="N" checked="checked"|cond="$config->allow_duplicate_nickname != 'Y'"/> {$lang->cmd_no}</label>
+			<p class="x_help-block">{$lang->about_allow_duplicate_nickname}</p>
+		</div>
+	</div>
+	<div class="x_control-group">
 		<div class="x_control-label">{$lang->cmd_config_password_strength}</div>
 		<div class="x_controls">
 			<label class="x_inline" for="password_strength1"><input type="radio" name="password_strength" id="password_strength1" value="low" checked="checked"|cond="$config->password_strength == 'low'" /> {$lang->password_strength_low}({$lang->about_password_strength['low']})</label><br>

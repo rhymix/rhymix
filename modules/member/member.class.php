@@ -249,6 +249,15 @@ class member extends ModuleObject {
 		if(!$oModuleModel->getTrigger('document.getDocumentMenu', 'member', 'controller', 'triggerGetDocumentMenu', 'after')) return true;
 		if(!$oModuleModel->getTrigger('comment.getCommentMenu', 'member', 'controller', 'triggerGetCommentMenu', 'after')) return true;
 
+		// Allow duplicate nickname
+		if($config->allow_duplicate_nickname == 'Y')
+		{
+			if($oDB->isIndexExists('member', 'unique_nick_name') || !$oDB->isIndexExists('member', 'idx_nick_name'))
+			{
+				return true;
+			}
+		}
+		
 		return false;
 	}
 
@@ -412,6 +421,19 @@ class member extends ModuleObject {
 			$oModuleController->insertTrigger('document.getDocumentMenu', 'member', 'controller', 'triggerGetDocumentMenu', 'after');
 		if(!$oModuleModel->getTrigger('comment.getCommentMenu', 'member', 'controller', 'triggerGetCommentMenu', 'after'))
 			$oModuleController->insertTrigger('comment.getCommentMenu', 'member', 'controller', 'triggerGetCommentMenu', 'after');
+
+		// Allow duplicate nickname
+		if($config->allow_duplicate_nickname == 'Y')
+		{
+			if($oDB->isIndexExists('member', 'unique_nick_name'))
+			{
+				$oDB->dropIndex('member', 'unique_nick_name', true);
+			}
+			if(!$oDB->isIndexExists('member', 'idx_nick_name'))
+			{
+				$oDB->addIndex('member', 'idx_nick_name', array('nick_name'));
+			}
+		}
 	}
 
 	/**
