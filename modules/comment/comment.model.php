@@ -732,7 +732,7 @@ class commentModel extends comment
 				case 'user_id' :
 					if($search_keyword)
 					{
-						$search_keyword = str_replace(' ', '%', $search_keyword);
+						$search_keyword = trim($search_keyword);
 					}
 
 					$args->s_user_id = $search_keyword;
@@ -743,7 +743,7 @@ class commentModel extends comment
 				case 'user_name' :
 					if($search_keyword)
 					{
-						$search_keyword = str_replace(' ', '%', $search_keyword);
+						$search_keyword = trim($search_keyword);
 					}
 
 					$args->s_user_name = $search_keyword;
@@ -752,7 +752,7 @@ class commentModel extends comment
 				case 'nick_name' :
 					if($search_keyword)
 					{
-						$search_keyword = str_replace(' ', '%', $search_keyword);
+						$search_keyword = trim($search_keyword);
 					}
 
 					$args->s_nick_name = $search_keyword;
@@ -869,7 +869,7 @@ class commentModel extends comment
 				case 'user_id' :
 					if($search_keyword)
 					{
-						$search_keyword = str_replace(' ', '%', $search_keyword);
+						$search_keyword = trim($search_keyword);
 					}
 
 					$args->s_user_id = $search_keyword;
@@ -879,7 +879,7 @@ class commentModel extends comment
 				case 'user_name' :
 					if($search_keyword)
 					{
-						$search_keyword = str_replace(' ', '%', $search_keyword);
+						$search_keyword = trim($search_keyword);
 					}
 					$args->s_user_name = $search_keyword;
 
@@ -888,7 +888,7 @@ class commentModel extends comment
 				case 'nick_name' :
 					if($search_keyword)
 					{
-						$search_keyword = str_replace(' ', '%', $search_keyword);
+						$search_keyword = trim($search_keyword);
 					}
 
 					$args->s_nick_name = $search_keyword;

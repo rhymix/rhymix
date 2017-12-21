@@ -1397,12 +1397,15 @@ class documentModel extends document
 					$use_division = true;
 					break;
 				case 'user_id' :
-					if($search_keyword) $search_keyword = str_replace(' ','%',$search_keyword);
+					if($search_keyword) $search_keyword = trim($search_keyword);
 					$args->s_user_id = $search_keyword;
 					$args->sort_index = 'documents.'.$args->sort_index;
 					break;
 				case 'user_name' :
 				case 'nick_name' :
+					if($search_keyword) $search_keyword = trim($search_keyword);
+					$args->{"s_".$search_target} = $search_keyword;
+					break;
 				case 'email_address' :
 				case 'homepage' :
 					if($search_keyword) $search_keyword = str_replace(' ','%',$search_keyword);
