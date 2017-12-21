@@ -126,6 +126,9 @@ class document extends ModuleObject
 
 		// 2016. 3. 14 Add a column(document_upate_log) for admin
 		if(!$oDB->isColumnExists('document_update_log', 'is_admin')) return true;
+		
+		// 2017.12.21 Add an index for nick_name
+		if(!$oDB->isIndexExists('documents', 'idx_nick_name')) return true;
 
 		return false;
 	}
@@ -338,6 +341,12 @@ class document extends ModuleObject
 		{
 			$oDB->addColumn('document_update_log', 'is_admin', 'varchar', 1);
 			$oDB->addIndex('document_update_log', 'idx_is_admin', array('is_admin'));
+		}
+		
+		// 2017.12.21 Add an index for nick_name
+		if(!$oDB->isIndexExists('documents', 'idx_nick_name'))
+		{
+			$oDB->addIndex('documents', 'idx_nick_name', array('nick_name'));
 		}
 	}
 

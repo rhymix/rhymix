@@ -108,6 +108,12 @@ class comment extends ModuleObject
 			return true;
 		}
 
+		// 2017.12.21 Add an index for nick_name
+		if(!$oDB->isIndexExists('comments', 'idx_nick_name'))
+		{
+			return true;
+		}
+		
 		return FALSE;
 	}
 
@@ -191,6 +197,12 @@ class comment extends ModuleObject
 		if(!$oDB->isIndexExists("comments", "idx_parent_srl"))
 		{
 			$oDB->addIndex('comments', 'idx_parent_srl', array('parent_srl'));
+		}
+		
+		// 2017.12.21 Add an index for nick_name
+		if(!$oDB->isIndexExists('comments', 'idx_nick_name'))
+		{
+			$oDB->addIndex('comments', 'idx_nick_name', array('nick_name'));
 		}
 	}
 
