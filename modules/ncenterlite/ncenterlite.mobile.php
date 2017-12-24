@@ -1,5 +1,4 @@
 <?php
-require_once(_XE_PATH_.'modules/ncenterlite/ncenterlite.view.php');
 
 class ncenterliteMobile extends ncenterliteView
 {
@@ -7,11 +6,23 @@ class ncenterliteMobile extends ncenterliteView
 	{
 		$oNcenterliteModel = getModel('ncenterlite');
 		$config = $oNcenterliteModel->getConfig();
-		$template_path = sprintf("%sm.skins/%s/",$this->module_path, $config->mskin);
-		if(!is_dir($template_path)||!$config->mskin)
+
+		$mskin = $config->mskin;
+		if(!$mskin)
 		{
-			$config->skin = 'default';
-			$template_path = sprintf("%sm.skins/%s/",$this->module_path, $config->mskin);
+			$template_path = sprintf('%sm.skins/%s/', $this->module_path, 'default');
+		}
+		elseif($mskin === '/USE_RESPONSIVE/')
+		{
+			$template_path = sprintf("%sskins/%s/", $this->module_path, $config->skin);
+			if(!is_dir($template_path) || !$config->skin)
+			{
+				$template_path = sprintf("%sskins/%s/", $this->module_path, 'default');
+			}
+		}
+		else
+		{
+			$template_path = sprintf('%sm.skins/%s', $this->module_path, $mskin);
 		}
 		$this->setTemplatePath($template_path);
 

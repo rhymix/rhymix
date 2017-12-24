@@ -233,7 +233,7 @@ if($called_position == 'before_module_proc')
 			{
 				$oDocumentModel = getModel('document');
 				$oDocument = $oDocumentModel->getDocument($document_srl);
-				if(!$oDocument->isExists() || !$oDocument->isGranted())
+				if(!$oDocument->isGranted())
 				{
 					printContent(getXmlRpcFailure(1, 'no permission'));
 				}

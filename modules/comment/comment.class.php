@@ -33,8 +33,6 @@ class comment extends ModuleObject
 		$oModuleController->insertTrigger('module.deleteModule', 'comment', 'controller', 'triggerDeleteModuleComments', 'after');
 		// 2008. 02. 22 add comment setting when a new module added
 		$oModuleController->insertTrigger('module.dispAdditionSetup', 'comment', 'view', 'triggerDispCommentAdditionSetup', 'before');
-
-		return new Object();
 	}
 
 	/**
@@ -110,6 +108,12 @@ class comment extends ModuleObject
 			return true;
 		}
 
+		// 2017.12.21 Add an index for nick_name
+		if(!$oDB->isIndexExists('comments', 'idx_nick_name'))
+		{
+			return true;
+		}
+		
 		return FALSE;
 	}
 
@@ -194,8 +198,12 @@ class comment extends ModuleObject
 		{
 			$oDB->addIndex('comments', 'idx_parent_srl', array('parent_srl'));
 		}
-
-		return new Object(0, 'success_updated');
+		
+		// 2017.12.21 Add an index for nick_name
+		if(!$oDB->isIndexExists('comments', 'idx_nick_name'))
+		{
+			$oDB->addIndex('comments', 'idx_nick_name', array('nick_name'));
+		}
 	}
 
 	/**

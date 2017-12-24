@@ -30,7 +30,9 @@ class Config
 	{
 		if (file_exists(\RX_BASEDIR . self::$config_filename))
 		{
+			ob_start();
 			self::$_config = (include \RX_BASEDIR . self::$config_filename);
+			ob_end_clean();
 		}
 		else
 		{

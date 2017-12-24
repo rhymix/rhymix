@@ -26,7 +26,7 @@ class moduleAdminModel extends module
 		$args = new stdClass;
 		$args->module_srls = Context::get('module_srls');
 		$output = executeQueryArray('module.getModulesInfo', $args);
-		if(!$output->toBool() || !$output->data) return new Object();
+		if(!$output->toBool() || !$output->data) return new BaseObject();
 
 		foreach($output->data as $key => $val)
 		{
@@ -215,12 +215,12 @@ class moduleAdminModel extends module
 		$moduleSrl = Context::get('module_srl');
 		if(!$targetModule || !$moduleSrl)
 		{
-			return new Object(-1, 'msg_invalid_request');
+			return new BaseObject(-1, 'msg_invalid_request');
 		}
 
 		if($targetModule == '_SHORTCUT')
 		{
-			return new Object(0);
+			return new BaseObject();
 		}
 
 		$oModuleModel = getModel('module');
@@ -453,7 +453,7 @@ class moduleAdminModel extends module
 	function getModuleAdminLangCode()
 	{
 		$name = Context::get('name');
-		if(!$name) return new Object(-1,'msg_invalid_request');
+		if(!$name) return $this->setError('msg_invalid_request');
 		$site_module_info = Context::get('site_module_info');
 		$this->add('name', $name);
 		$output = $this->getLangCode($site_module_info->site_srl, '$user_lang->'.$name);

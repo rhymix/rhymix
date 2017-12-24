@@ -52,13 +52,13 @@ class communicationView extends communication
 	{
 		if($this->config->enable_message == 'N')
 		{
-			return new Object(-1, 'msg_invalid_request');
+			return $this->setError('msg_invalid_request');
 		}
 		
 		// Error appears if not logged-in
 		if(!Context::get('is_logged'))
 		{
-			return new Object(-1, 'msg_not_logged');
+			return $this->setError('msg_not_logged');
 		}
 
 		$logged_info = Context::get('logged_info');
@@ -73,9 +73,9 @@ class communicationView extends communication
 			Context::set('message_type', $message_type);
 		}
 
-		$oCommunicationModel = getModel('communication');
-
 		// extract contents if message_srl exists
+		$oCommunicationModel = getModel('communication');
+		$template_filename = 'messages';
 		if($message_srl)
 		{
 			$columnList = array('message_srl', 'sender_srl', 'receiver_srl', 'message_type', 'title', 'content', 'readed', 'regdate');
@@ -86,28 +86,28 @@ class communicationView extends communication
 				case 'R':
 					if($message->receiver_srl != $logged_info->member_srl)
 					{
-						return new Object(-1, 'msg_invalid_request');
+						return $this->setError('msg_invalid_request');
 					}
 					break;
 
 				case 'S':
 					if($message->sender_srl != $logged_info->member_srl)
 					{
-						return new Object(-1, 'msg_invalid_request');
+						return $this->setError('msg_invalid_request');
 					}
 					break;
 
 				case 'T':
 					if($message->receiver_srl != $logged_info->member_srl && $message->sender_srl != $logged_info->member_srl)
 					{
-						return new Object(-1, 'msg_invalid_request');
+						return $this->setError('msg_invalid_request');
 					}
 					break;
 
 				case 'N':
 					if($message->receiver_srl != $logged_info->member_srl)
 					{
-						return new Object(-1, 'msg_invalid_request');
+						return $this->setError('msg_invalid_request');
 					}
 					break;
 			}
@@ -116,6 +116,10 @@ class communicationView extends communication
 			{
 				stripEmbedTagForAdmin($message->content, $message->sender_srl);
 				Context::set('message', $message);
+				if(Mobile::isFromMobilePhone())
+				{
+					$template_filename = 'read_message';
+				}
 			}
 		}
 
@@ -133,7 +137,7 @@ class communicationView extends communication
 		$oSecurity = new Security();
 		$oSecurity->encodeHTML('message_list..nick_name');
 
-		$this->setTemplateFile('messages');
+		$this->setTemplateFile($template_filename);
 	}
 
 	/**
@@ -178,8 +182,11 @@ class communicationView extends communication
 	 */
 	function dispCommunicationSendMessage()
 	{
-		$this->setLayoutPath('./common/tpl/');
-		$this->setLayoutFile("popup_layout");
+		if(!Context::get('m'))
+		{
+			$this->setLayoutPath('./common/tpl/');
+			$this->setLayoutFile("popup_layout");
+		}
 
 		if($this->config->enable_message == 'N')
 		{
@@ -253,6 +260,7 @@ class communicationView extends communication
 		$option->height = 300;
 		$option->skin = $this->config->editor_skin;
 		$option->colorset = $this->config->editor_colorset;
+		$option->editor_focus = Context::get('source_message') ? 'Y' : 'N';
 		$editor = $oEditorModel->getEditor($logged_info->member_srl, $option);
 		Context::set('editor', $editor);
 

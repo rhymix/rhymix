@@ -156,15 +156,15 @@ class ModuleInstaller
 		$oModule = getModule($target_name, "class");
 		if(!$oModule)
 		{
-			return new Object(-1, 'msg_invalid_request');
+			return new BaseObject(-1, 'msg_invalid_request');
 		}
 		if(!method_exists($oModule, "moduleUninstall"))
 		{
-			return new Object(-1, 'msg_invalid_request');
+			return new BaseObject(-1, 'msg_invalid_request');
 		}
 
 		$output = $oModule->moduleUninstall();
-		if($output instanceof Object && !$output->toBool())
+		if($output instanceof BaseObject && !$output->toBool())
 		{
 			return $output;
 		}
@@ -181,7 +181,7 @@ class ModuleInstaller
 				$oDB->dropTable($filename);
 			}
 		}
-		return new Object();
+		return new BaseObject();
 	}
 
 	/**
@@ -241,7 +241,7 @@ class ModuleInstaller
 		$this->installModule();
 
 		FileHandler::removeDir($this->temp_dir);
-		return new Object();
+		return new BaseObject();
 	}
 
 	/**
@@ -359,12 +359,12 @@ class SFTPModuleInstaller extends ModuleInstaller
 	{
 		if(!function_exists('ssh2_connect'))
 		{
-			return new Object(-1, 'msg_sftp_not_supported');
+			return new BaseObject(-1, 'msg_sftp_not_supported');
 		}
 
 		if(!$this->ftp_info->ftp_user || !$this->ftp_info->sftp || $this->ftp_info->sftp != 'Y')
 		{
-			return new Object(-1, 'msg_ftp_invalid_auth_info');
+			return new BaseObject(-1, 'msg_ftp_invalid_auth_info');
 		}
 
 		if($this->ftp_info->ftp_host)
@@ -378,11 +378,11 @@ class SFTPModuleInstaller extends ModuleInstaller
 		$this->connection = ssh2_connect($ftp_host, $this->ftp_info->ftp_port);
 		if(!@ssh2_auth_password($this->connection, $this->ftp_info->ftp_user, $this->ftp_password))
 		{
-			return new Object(-1, 'msg_ftp_invalid_auth_info');
+			return new BaseObject(-1, 'msg_ftp_invalid_auth_info');
 		}
 		$_SESSION['ftp_password'] = $this->ftp_password;
 		$this->sftp = ssh2_sftp($this->connection);
-		return new Object();
+		return new BaseObject();
 	}
 
 	/**
@@ -411,9 +411,9 @@ class SFTPModuleInstaller extends ModuleInstaller
 
 		if(!@ssh2_sftp_unlink($this->sftp, $target_path))
 		{
-			return new Object(-1, sprintf(lang('msg_delete_file_failed'), $path));
+			return new BaseObject(-1, sprintf(lang('msg_delete_file_failed'), $path));
 		}
-		return new Object();
+		return new BaseObject();
 	}
 
 	/**
@@ -432,9 +432,9 @@ class SFTPModuleInstaller extends ModuleInstaller
 
 		if(!@ssh2_sftp_rmdir($this->sftp, $target_path))
 		{
-			return new Object(-1, sprintf(lang('msg_delete_dir_failed'), $path));
+			return new BaseObject(-1, sprintf(lang('msg_delete_dir_failed'), $path));
 		}
-		return new Object();
+		return new BaseObject();
 	}
 
 	/**
@@ -447,7 +447,7 @@ class SFTPModuleInstaller extends ModuleInstaller
 	{
 		if(!$this->ftp_password)
 		{
-			return new Object(-1, 'msg_ftp_password_input');
+			return new BaseObject(-1, 'msg_ftp_password_input');
 		}
 
 		$output = $this->_connect();
@@ -456,6 +456,7 @@ class SFTPModuleInstaller extends ModuleInstaller
 			return $output;
 		}
 		$target_dir = $this->ftp_info->ftp_root_path . $this->target_path;
+		$copied = array();
 
 		if(is_array($file_list))
 		{
@@ -475,9 +476,14 @@ class SFTPModuleInstaller extends ModuleInstaller
 				}
 
 				ssh2_scp_send($this->connection, FileHandler::getRealPath($this->download_path . "/" . $org_file), $target_dir . "/" . $file);
+				$copied[] = $path;
 			}
 		}
-		return new Object();
+
+		FileHandler::clearStatCache($copied, true);
+		FileHandler::invalidateOpcache($copied);
+
+		return new BaseObject();
 	}
 
 }
@@ -532,14 +538,14 @@ class PHPFTPModuleInstaller extends ModuleInstaller
 		$this->connection = ftp_connect($ftp_host, $this->ftp_info->ftp_port);
 		if(!$this->connection)
 		{
-			return new Object(-1, sprintf(lang('msg_ftp_not_connected'), 'host'));
+			return new BaseObject(-1, sprintf(lang('msg_ftp_not_connected'), 'host'));
 		}
 
 		$login_result = @ftp_login($this->connection, $this->ftp_info->ftp_user, $this->ftp_password);
 		if(!$login_result)
 		{
 			$this->_close();
-			return new Object(-1, 'msg_ftp_invalid_auth_info');
+			return new BaseObject(-1, 'msg_ftp_invalid_auth_info');
 		}
 
 		$_SESSION['ftp_password'] = $this->ftp_password;
@@ -547,7 +553,7 @@ class PHPFTPModuleInstaller extends ModuleInstaller
 		{
 			ftp_pasv($this->connection, TRUE);
 		}
-		return new Object();
+		return new BaseObject();
 	}
 
 	/**
@@ -566,9 +572,9 @@ class PHPFTPModuleInstaller extends ModuleInstaller
 
 		if(!@ftp_delete($this->connection, $target_path))
 		{
-			return new Object(-1, "failed to delete file " . $path);
+			return new BaseObject(-1, "failed to delete file " . $path);
 		}
-		return new Object();
+		return new BaseObject();
 	}
 
 	/**
@@ -587,9 +593,9 @@ class PHPFTPModuleInstaller extends ModuleInstaller
 
 		if(!@ftp_rmdir($this->connection, $target_path))
 		{
-			return new Object(-1, "failed to delete directory " . $path);
+			return new BaseObject(-1, "failed to delete directory " . $path);
 		}
-		return new Object();
+		return new BaseObject();
 	}
 
 	/**
@@ -612,7 +618,7 @@ class PHPFTPModuleInstaller extends ModuleInstaller
 	{
 		if(!$this->ftp_password)
 		{
-			return new Object(-1, 'msg_ftp_password_input');
+			return new BaseObject(-1, 'msg_ftp_password_input');
 		}
 
 		$output = $this->_connect();
@@ -630,6 +636,7 @@ class PHPFTPModuleInstaller extends ModuleInstaller
 			$this->download_path = substr($this->download_path, 0, -1);
 		}
 		$target_dir = $this->ftp_info->ftp_root_path . $this->target_path;
+		$copied = array();
 
 		if(is_array($file_list))
 		{
@@ -662,7 +669,7 @@ class PHPFTPModuleInstaller extends ModuleInstaller
 					{
 						if(!@ftp_mkdir($this->connection, $ftp_path))
 						{
-							return new Object(-1, "msg_make_directory_failed");
+							return new BaseObject(-1, "msg_make_directory_failed");
 						}
 
 						if(strtoupper(substr(PHP_OS, 0, 3)) !== 'WIN')
@@ -671,14 +678,14 @@ class PHPFTPModuleInstaller extends ModuleInstaller
 							{
 								if(!ftp_chmod($this->connection, 0755, $ftp_path))
 								{
-									return new Object(-1, "msg_permission_adjust_failed");
+									return new BaseObject(-1, "msg_permission_adjust_failed");
 								}
 							}
 							else
 							{
 								if(!ftp_site($this->connection, "CHMOD 755 " . $ftp_path))
 								{
-									return new Object(-1, "msg_permission_adjust_failed");
+									return new BaseObject(-1, "msg_permission_adjust_failed");
 								}
 							}
 						}
@@ -686,12 +693,17 @@ class PHPFTPModuleInstaller extends ModuleInstaller
 				}
 				if(!ftp_put($this->connection, $target_dir . '/' . $file, FileHandler::getRealPath($this->download_path . "/" . $org_file), FTP_BINARY))
 				{
-					return new Object(-1, "msg_ftp_upload_failed");
+					return new BaseObject(-1, "msg_ftp_upload_failed");
 				}
+				$copied[] = $path;
 			}
 		}
+
+		FileHandler::clearStatCache($copied, true);
+		FileHandler::invalidateOpcache($copied);
+
 		$this->_close();
-		return new Object();
+		return new BaseObject();
 	}
 
 }
@@ -745,15 +757,15 @@ class FTPModuleInstaller extends ModuleInstaller
 		$this->oFtp = new ftp();
 		if(!$this->oFtp->ftp_connect($ftp_host, $this->ftp_info->ftp_port))
 		{
-			return new Object(-1, sprintf(lang('msg_ftp_not_connected'), 'host'));
+			return new BaseObject(-1, sprintf(lang('msg_ftp_not_connected'), 'host'));
 		}
 		if(!$this->oFtp->ftp_login($this->ftp_info->ftp_user, $this->ftp_password))
 		{
 			$this->_close();
-			return new Object(-1, 'msg_ftp_invalid_auth_info');
+			return new BaseObject(-1, 'msg_ftp_invalid_auth_info');
 		}
 		$_SESSION['ftp_password'] = $this->ftp_password;
-		return new Object();
+		return new BaseObject();
 	}
 
 	/**
@@ -772,9 +784,9 @@ class FTPModuleInstaller extends ModuleInstaller
 
 		if(!$this->oFtp->ftp_delete($target_path))
 		{
-			return new Object(-1, sprintf(lang('msg_delete_file_failed'), $path));
+			return new BaseObject(-1, sprintf(lang('msg_delete_file_failed'), $path));
 		}
-		return new Object();
+		return new BaseObject();
 	}
 
 	/**
@@ -792,9 +804,9 @@ class FTPModuleInstaller extends ModuleInstaller
 
 		if(!$this->oFtp->ftp_rmdir($target_path))
 		{
-			return new Object(-1, sprintf(lang('msg_delete_dir_failed'), $path));
+			return new BaseObject(-1, sprintf(lang('msg_delete_dir_failed'), $path));
 		}
-		return new Object();
+		return new BaseObject();
 	}
 
 	/**
@@ -817,7 +829,7 @@ class FTPModuleInstaller extends ModuleInstaller
 	{
 		if(!$this->ftp_password)
 		{
-			return new Object(-1, 'msg_ftp_password_input');
+			return new BaseObject(-1, 'msg_ftp_password_input');
 		}
 
 		$output = $this->_connect();
@@ -828,6 +840,8 @@ class FTPModuleInstaller extends ModuleInstaller
 
 		$oFtp = &$this->oFtp;
 		$target_dir = $this->ftp_info->ftp_root_path . $this->target_path;
+
+		$copied = array();
 
 		if(is_array($file_list))
 		{
@@ -859,12 +873,16 @@ class FTPModuleInstaller extends ModuleInstaller
 					}
 				}
 				$oFtp->ftp_put($target_dir . '/' . $file, FileHandler::getRealPath($this->download_path . "/" . $org_file));
+				$copied[] = $path;
 			}
 		}
 
+		FileHandler::clearStatCache($copied, true);
+		FileHandler::invalidateOpcache($copied);
+
 		$this->_close();
 
-		return new Object();
+		return new BaseObject();
 	}
 
 }
@@ -892,7 +910,7 @@ class DirectModuleInstaller extends ModuleInstaller
 	 */
 	function _connect()
 	{
-		return new Object();
+		return new BaseObject();
 	}
 
 	/**
@@ -911,9 +929,9 @@ class DirectModuleInstaller extends ModuleInstaller
 
 		if(!FileHandler::removeFile($target_path))
 		{
-			return new Object(-1, sprintf(lang('msg_delete_file_failed'), $path));
+			return new BaseObject(-1, sprintf(lang('msg_delete_file_failed'), $path));
 		}
-		return new Object();
+		return new BaseObject();
 	}
 
 	/**
@@ -931,7 +949,7 @@ class DirectModuleInstaller extends ModuleInstaller
 
 		FileHandler::removeDir($target_path);
 
-		return new Object();
+		return new BaseObject();
 	}
 
 	/**
@@ -957,6 +975,7 @@ class DirectModuleInstaller extends ModuleInstaller
 			return $output;
 		}
 		$target_dir = $this->target_path;
+		$copied = array();
 
 		if(is_array($file_list))
 		{
@@ -984,12 +1003,13 @@ class DirectModuleInstaller extends ModuleInstaller
 					}
 				}
 				FileHandler::copyFile( FileHandler::getRealPath($this->download_path . "/" . $org_file), FileHandler::getRealPath("./" . $target_dir . '/' . $file));
+				$copied[] = $path;
 			}
 		}
 
 		$this->_close();
 
-		return new Object();
+		return new BaseObject();
 	}
 
 }

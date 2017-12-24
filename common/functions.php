@@ -518,6 +518,28 @@ function tobool($input)
 }
 
 /**
+ * Counts members of an array or an object.
+ * 
+ * @param mixed $array_or_object
+ * @return int
+ */
+function countobj($array_or_object)
+{
+	if (is_array($array_or_object))
+	{
+		return count($array_or_object);
+	}
+	elseif (is_object($array_or_object))
+	{
+		return count(get_object_vars($array_or_object));
+	}
+	else
+	{
+		return @count($array_or_object);
+	}
+}
+
+/**
  * Checks if the given string contains valid UTF-8.
  * 
  * @param string $str The input string

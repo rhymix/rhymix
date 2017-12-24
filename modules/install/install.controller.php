@@ -76,7 +76,7 @@ class installController extends install
 		{
 			if ($oDB->isTableExists($table_name))
 			{
-				return new Object(-1, 'msg_table_already_exists');
+				return $this->setError('msg_table_already_exists');
 			}
 		}
 		
@@ -99,7 +99,7 @@ class installController extends install
 		// Check if it is already installed
 		if (Context::isInstalled())
 		{
-			return new Object(-1, 'msg_already_installed');
+			return $this->setError('msg_already_installed');
 		}
 		
 		// Get install parameters.
@@ -227,7 +227,7 @@ class installController extends install
 		catch(Exception $e)
 		{
 			$oDB->rollback();
-			return new Object(-1, $e->getMessage());
+			return $this->setError($e->getMessage());
 		}
 		
 		// Execute the install script.
@@ -264,7 +264,7 @@ class installController extends install
 		
 		$returnUrl = Context::get('success_return_url') ? Context::get('success_return_url') : RX_BASEURL;
 		$this->setRedirectUrl($returnUrl);
-		return new Object();
+		return new BaseObject();
 	}
 
 	/**
@@ -411,7 +411,7 @@ class installController extends install
 		else
 		{
 			FileHandler::removeFile($this->flagLicenseAgreement);
-			return new Object(-1, 'msg_must_accept_license_agreement');
+			return $this->setError('msg_must_accept_license_agreement');
 		}
 
 		if(!in_array(Context::getRequestMethod(),array('XMLRPC','JSON')))
@@ -450,6 +450,7 @@ class installController extends install
 		$oModuleModel = getModel('module');
 		// Create a table ny finding schemas/*.xml file in each module
 		$module_list = FileHandler::readDir('./modules/', NULL, false, true);
+		$modules = array();
 		foreach($module_list as $module_path)
 		{
 			// Get module name
@@ -467,7 +468,7 @@ class installController extends install
 		// Install all the remaining modules
 		foreach($install_step as $category)
 		{
-			if(count($modules[$category]))
+			if(is_array($modules[$category]) && count($modules[$category]))
 			{
 				foreach($modules[$category] as $module)
 				{
@@ -488,7 +489,7 @@ class installController extends install
 		{
 			foreach($modules as $category => $module_list)
 			{
-				if(count($module_list))
+				if(is_array($module_list) && count($module_list))
 				{
 					foreach($module_list as $module)
 					{
@@ -505,7 +506,7 @@ class installController extends install
 			}
 		}
 
-		return new Object();
+		return new BaseObject();
 	}
 
 	/**
@@ -534,7 +535,7 @@ class installController extends install
 		unset($oModule);
 		$oModule = getClass($module);
 		if(method_exists($oModule, 'moduleInstall')) $oModule->moduleInstall();
-		return new Object();
+		return new BaseObject();
 	}
 	
 	/**

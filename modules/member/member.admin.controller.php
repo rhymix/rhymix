@@ -26,7 +26,7 @@ class memberAdminController extends member
 		$logged_info = Context::get('logged_info');
 		if($logged_info->is_admin != 'Y' || !checkCSRF())
 		{
-			return new Object(-1, 'msg_invalid_request');
+			return $this->setError('msg_invalid_request');
 		}
 
 		$args = Context::gets('member_srl','email_address','find_account_answer', 'allow_mailing','allow_message','denied','is_admin','description','group_srl_list','limit_date');
@@ -185,6 +185,7 @@ class memberAdminController extends member
 			'password_hashing_auto_upgrade',
 			'password_change_invalidate_other_sessions',
 			'update_nickname_log',
+			'allow_duplicate_nickname',
 			'member_profile_view'
 		);
 		
@@ -244,6 +245,41 @@ class memberAdminController extends member
 		$returnUrl = Context::get('success_return_url') ? Context::get('success_return_url') : getNotEncodedUrl('', 'module', 'admin', 'act', 'dispMemberAdminFeaturesConfig');
 		$this->setRedirectUrl($returnUrl);
 	}
+
+	public function procMemberAdminInsertAgreementsConfig()
+	{
+		$config = new stdClass;
+		$config->agreements = array();
+		
+		$args = Context::getRequestVars();
+		for ($i = 1; $i < 20; $i++)
+		{
+			if (isset($args->{'agreement_' . $i . '_type'}))
+			{
+				$agreement = new stdClass;
+				$agreement->title = escape(utf8_trim($args->{'agreement_' . $i . '_title'}));
+				$agreement->content = $args->{'agreement_' . $i . '_content'};
+				$agreement->type = $args->{'agreement_' . $i . '_type'};
+				if (!in_array($agreement->type, array('required', 'optional', 'disabled')))
+				{
+					$agreement->type = 'disabled';
+				}
+				$config->agreements[$i] = $agreement;
+			}
+		}
+		
+		// for compatibility with older versions
+		$config->agreement = $config->agreements[1]->content;
+		
+		$oModuleController = getController('module');
+		$output = $oModuleController->updateModuleConfig('member', $config);
+
+		// default setting end
+		$this->setMessage('success_updated');
+
+		$returnUrl = Context::get('success_return_url') ? Context::get('success_return_url') : getNotEncodedUrl('', 'module', 'admin', 'act', 'dispMemberAdminAgreementsConfig');
+		$this->setRedirectUrl($returnUrl);
+	}
 	
 	public function procMemberAdminInsertSignupConfig()
 	{
@@ -254,7 +290,6 @@ class memberAdminController extends member
 			'limit_day',
 			'limit_day_description',
 			'emailhost_check',
-			'agreement',
 			'redirect_url',
 			'profile_image', 'profile_image_max_width', 'profile_image_max_height',
 			'image_name', 'image_name_max_width', 'image_name_max_height',
@@ -268,12 +303,6 @@ class memberAdminController extends member
 
 		$args->limit_day = (int)$args->limit_day;
 		if($args->emailhost_check != 'allowed' && $args->emailhost_check != 'prohibited') $args->emailhost_check == 'allowed';
-		if(!trim(strip_tags($args->agreement)))
-		{
-			$agreement_file = _XE_PATH_.'files/member_extra_info/agreement_' . Context::get('lang_type') . '.txt';
-			FileHandler::removeFile($agreement_file);
-			$args->agreement = NULL;
-		}
 
 		if($args->redirect_url)
 		{
@@ -282,7 +311,7 @@ class memberAdminController extends member
 
 			if(!$redirectModuleInfo)
 			{
-				return new Object('-1', 'msg_exist_selected_module');
+				return new BaseObject('-1', 'msg_exist_selected_module');
 			}
 
 			$args->redirect_mid = $redirectModuleInfo->mid;
@@ -353,17 +382,8 @@ class memberAdminController extends member
 		$args->signupForm = $signupForm;
 
 		// create Ruleset
-		$this->_createSignupRuleset($signupForm, $args->agreement);
+		$this->_createSignupRuleset($signupForm);
 		$this->_createLoginRuleset($args->identifier);
-
-		// check agreement value exist
-		if($args->agreement)
-		{
-			$agreement_file = _XE_PATH_.'files/member_extra_info/agreement_' . Context::get('lang_type') . '.txt';
-			$output = FileHandler::writeFile($agreement_file, $args->agreement);
-
-			unset($args->agreement);
-		}
 
 		$output = $oModuleController->updateModuleConfig('member', $args);
 
@@ -473,7 +493,7 @@ class memberAdminController extends member
 			$signupItem->required = in_array($key, $orgRequireds);
 			$signupItem->isUse = ($config->{$key} == 'Y') || in_array($key, $orgUse);
 			$signupItem->isPublic = ($signupItem->isUse) ? 'Y' : 'N';
-			if($key == 'password')
+			if(in_array($key, array('find_account_question', 'password', 'email_address')))
 			{
 				$signupItem->isPublic = 'N';
 			}
@@ -517,10 +537,9 @@ class memberAdminController extends member
 	/**
 	 * Create ruleset file of signup
 	 * @param object $signupForm (user define signup form)
-	 * @param string $agreement
 	 * @return void
 	 */
-	function _createSignupRuleset($signupForm, $agreement = null){
+	function _createSignupRuleset($signupForm){
 		$xml_file = './files/ruleset/insertMember.xml';
 		$buff = '<?xml version="1.0" encoding="utf-8"?>' . PHP_EOL.
 			'<ruleset version="1.5.0">' . PHP_EOL.
@@ -531,10 +550,6 @@ class memberAdminController extends member
 
 		$fields = array();
 
-		if ($agreement)
-		{
-			$fields[] = '<field name="accept_agreement"><if test="$act == \'procMemberInsert\'" attr="required" value="true" /></field>';
-		}
 		foreach($signupForm as $formInfo)
 		{
 			if($formInfo->required || $formInfo->mustRequired)
@@ -715,7 +730,7 @@ class memberAdminController extends member
 		// Check ID duplicated
 		if (Context::isReservedWord($args->column_name))
 		{
-			return new Object(-1, 'msg_column_id_not_available');
+			return $this->setError('msg_column_id_not_available');
 		}
 		$oMemberModel = getModel('member');
 		$config = $oMemberModel->getMemberConfig();
@@ -724,7 +739,7 @@ class memberAdminController extends member
 			if($item->name == $args->column_name)
 			{
 				if($args->member_join_form_srl && $args->member_join_form_srl == $item->member_join_form_srl) continue;
-				return new Object(-1,'msg_column_id_not_available');
+				return $this->setError('msg_column_id_not_available');
 			}
 		}
 		// Fix if member_join_form_srl exists. Add if not exists.
@@ -935,7 +950,7 @@ class memberAdminController extends member
 	function procMemberAdminDeleteMembers()
 	{
 		$target_member_srls = Context::get('target_member_srls');
-		if(!$target_member_srls) return new Object(-1, 'msg_invalid_request');
+		if(!$target_member_srls) return $this->setError('msg_invalid_request');
 		$member_srls = explode(',', $target_member_srls);
 		$oMemberController = getController('member');
 
@@ -959,7 +974,7 @@ class memberAdminController extends member
 	function procMemberAdminUpdateMembersGroup()
 	{
 		$member_srl = Context::get('member_srl');
-		if(!$member_srl) return new Object(-1,'msg_invalid_request');
+		if(!$member_srl) return $this->setError('msg_invalid_request');
 		$member_srls = explode(',',$member_srl);
 
 		$group_srl = Context::get('group_srls');
@@ -1232,7 +1247,7 @@ class memberAdminController extends member
 	function updateGroup($args)
 	{
 		if(!$args->site_srl) $args->site_srl = 0;
-		if(!$args->group_srl) return new Object(-1, 'lang->msg_not_founded');
+		if(!$args->group_srl) return $this->setError('lang->msg_not_founded');
 		
 		// Call trigger (before)
 		$trigger_output = ModuleHandler::triggerCall('member.updateGroup', 'before', $args);
@@ -1276,8 +1291,8 @@ class memberAdminController extends member
 		$columnList = array('group_srl', 'is_default');
 		$group_info = $oMemberModel->getGroup($group_srl, $columnList);
 
-		if(!$group_info) return new Object(-1, 'lang->msg_not_founded');
-		if($group_info->is_default == 'Y') return new Object(-1, 'msg_not_delete_default');
+		if(!$group_info) return $this->setError('lang->msg_not_founded');
+		if($group_info->is_default == 'Y') return $this->setError('msg_not_delete_default');
 		
 		// Call trigger (before)
 		$trigger_output = ModuleHandler::triggerCall('member.deleteGroup', 'before', $group_info);
@@ -1510,7 +1525,7 @@ class memberAdminController extends member
 		// Get a list of all join forms
 		$join_form_list = $oMemberModel->getJoinFormList();
 		$join_form_srl_list = array_keys($join_form_list);
-		if(count($join_form_srl_list)<2) return new Object();
+		if(count($join_form_srl_list)<2) return new BaseObject();
 
 		$prev_member_join_form = NULL;
 		foreach($join_form_list as $key => $val)
@@ -1519,7 +1534,7 @@ class memberAdminController extends member
 			$prev_member_join_form = $val;
 		}
 		// Return if no previous join form exists
-		if(!$prev_member_join_form) return new Object();
+		if(!$prev_member_join_form) return new BaseObject();
 		// Information of the join form
 		$cur_args = new stdClass;
 		$cur_args->member_join_form_srl = $member_join_form_srl;
@@ -1535,7 +1550,7 @@ class memberAdminController extends member
 		executeQuery('member.updateMemberJoinFormListorder', $prev_args);
 		if(!$output->toBool()) return $output;
 
-		return new Object();
+		return new BaseObject();
 	}
 
 	/**
@@ -1557,7 +1572,7 @@ class memberAdminController extends member
 		// Get information of all join forms
 		$join_form_list = $oMemberModel->getJoinFormList();
 		$join_form_srl_list = array_keys($join_form_list);
-		if(count($join_form_srl_list)<2) return new Object();
+		if(count($join_form_srl_list)<2) return new BaseObject();
 
 		for($i=0;$i<count($join_form_srl_list);$i++)
 		{
@@ -1566,7 +1581,7 @@ class memberAdminController extends member
 
 		$next_member_join_form_srl = $join_form_srl_list[$i+1];
 		// Return if no previous join form exists
-		if(!$next_member_join_form_srl) return new Object();
+		if(!$next_member_join_form_srl) return new BaseObject();
 		$next_member_join_form = $join_form_list[$next_member_join_form_srl];
 		// Information of the join form
 		$cur_args = new stdClass;
@@ -1583,7 +1598,7 @@ class memberAdminController extends member
 		$output = executeQuery('member.updateMemberJoinFormListorder', $next_args);
 		if(!$output->toBool()) return $output;
 
-		return new Object();
+		return new BaseObject();
 	}
 }
 /* End of file member.admin.controller.php */

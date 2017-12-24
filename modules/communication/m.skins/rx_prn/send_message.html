@@ -6,6 +6,16 @@
 		<div cond="$XE_VALIDATOR_MESSAGE && $XE_VALIDATOR_ID == 'modules/communication/skins/rx_prn/send_message/1'" class="rx_prn-notice {$XE_VALIDATOR_MESSAGE_TYPE}">
 			<p>{$XE_VALIDATOR_MESSAGE}</p>
 		</div>
+		<div class="warning_label warning_label-important" cond="$logged_info->allow_message !== 'Y'">
+			{$lang->warning}
+			<br>
+			<!--@if($logged_info->allow_message == 'F')-->
+			{$lang->msg_allow_message_friend}
+			<!--@elseif($logged_info->allow_message == 'N')-->
+			{$lang->msg_allow_meesage_Block}
+			<!--@end-->
+			<br>{$lang->msg_allow_message_please}
+		</div>
 		<form ruleset="sendMessage" action="./" method="post">
 			<input type="hidden" name="module" value="communication" />
 			<input type="hidden" name="act" value="procCommunicationSendMessage" />

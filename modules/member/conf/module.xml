@@ -62,6 +62,8 @@
 		<action name="dispMemberAdminInsert" type="view" menu_name="userList" />
 		<action name="dispMemberAdminConfig" type="view" menu_name="userSetting" menu_index="true" />
 		<action name="dispMemberAdminFeaturesConfig" type="view" menu_name="userSetting" />
+		<action name="dispMemberAdminAgreementsConfig" type="view" menu_name="userSetting" />
+		<action name="dispMemberAdminAgreementsEdit" type="view" menu_name="userSetting" />
 		<action name="dispMemberAdminSignUpConfig" type="view" menu_name="userSetting" />
 		<action name="dispMemberAdminLoginConfig" type="view" menu_name="userSetting" />
 		<action name="dispMemberAdminDesignConfig" type="view" menu_name="userSetting" />
@@ -78,6 +80,7 @@
 		<action name="procMemberAdminSelectedMemberManage" type="controller" ruleset="updateSeletecdMemberInfo" />
 		<action name="procMemberAdminInsertDefaultConfig" type="controller" ruleset="insertDefaultConfig" />
 		<action name="procMemberAdminInsertFeaturesConfig" type="controller" />
+		<action name="procMemberAdminInsertAgreementsConfig" type="controller" />
 		<action name="procMemberAdminInsertSignupConfig" type="controller" />
 		<action name="procMemberAdminInsertLoginConfig" type="controller" />
 		<action name="procMemberAdminInsertDesignConfig" type="controller" />

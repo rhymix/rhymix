@@ -18,6 +18,11 @@ class Storage
 	protected static $_umask;
 	
 	/**
+	 * Cache the opcache status here.
+	 */
+	protected static $_opcache;
+	
+	/**
 	 * Check if a path really exists.
 	 * 
 	 * @param string $path
@@ -297,7 +302,11 @@ class Storage
 			$filename = $original_filename;
 		}
 		
-		if (function_exists('opcache_invalidate') && substr($filename, -4) === '.php')
+		if (self::$_opcache === null)
+		{
+			self::$_opcache = function_exists('opcache_invalidate');
+		}
+		if (self::$_opcache && substr($filename, -4) === '.php')
 		{
 			@opcache_invalidate($filename, true);
 		}
@@ -410,7 +419,11 @@ class Storage
 			$destination = $original_destination;
 		}
 		
-		if (function_exists('opcache_invalidate') && substr($destination, -4) === '.php')
+		if (self::$_opcache === null)
+		{
+			self::$_opcache = function_exists('opcache_invalidate');
+		}
+		if (self::$_opcache && substr($destination, -4) === '.php')
 		{
 			@opcache_invalidate($destination, true);
 		}
@@ -461,7 +474,11 @@ class Storage
 			@chmod($destination, 0666 & ~self::getUmask());
 		}
 		
-		if (function_exists('opcache_invalidate'))
+		if (self::$_opcache === null)
+		{
+			self::$_opcache = function_exists('opcache_invalidate');
+		}
+		if (self::$_opcache)
 		{
 			if (substr($source, -4) === '.php')
 			{
@@ -500,7 +517,11 @@ class Storage
 			trigger_error('Cannot delete file: ' . $filename, \E_USER_WARNING);
 		}
 		
-		if (function_exists('opcache_invalidate') && substr($filename, -4) === '.php')
+		if (self::$_opcache === null)
+		{
+			self::$_opcache = function_exists('opcache_invalidate');
+		}
+		if (self::$_opcache && substr($filename, -4) === '.php')
 		{
 			@opcache_invalidate($filename, true);
 		}

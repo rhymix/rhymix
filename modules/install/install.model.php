@@ -15,13 +15,13 @@ class installModel extends install
 		$connection = ssh2_connect($ftp_info->ftp_host, $ftp_info->ftp_port);
 		if(!ssh2_auth_password($connection, $ftp_info->ftp_user, $ftp_info->ftp_password))
 		{
-			return new Object(-1,'msg_ftp_invalid_auth_info');
+			return $this->setError('msg_ftp_invalid_auth_info');
 		}
 
 		$sftp = ssh2_sftp($connection);
 		$curpwd = "ssh2.sftp://$sftp".$this->pwd;
 		$dh = @opendir($curpwd);
-		if(!$dh) return new Object(-1, 'msg_ftp_invalid_path');
+		if(!$dh) return $this->setError('msg_ftp_invalid_path');
 
 		$list = array();
 		while(($file = readdir($dh)) !== false)
@@ -37,7 +37,7 @@ class installModel extends install
 	{
 		if(!($ftp_info = Context::getRequestVars()) || !$ftp_info->ftp_user || !$ftp_info->ftp_password) 
 		{
-			return new Object(-1, 'msg_ftp_invalid_auth_info');
+			return $this->setError('msg_ftp_invalid_auth_info');
 		}
 		$this->pwd = $ftp_info->ftp_root_path;
 		if(!$ftp_info->ftp_host)
@@ -54,11 +54,11 @@ class installModel extends install
 		if(function_exists('ftp_connect'))
 		{
 			$connection = ftp_connect($ftp_info->ftp_host, $ftp_info->ftp_port);
-			if(!$connection) return new Object(-1, sprintf(lang('msg_ftp_not_connected'), 'host'));
+			if(!$connection) return $this->setError(sprintf(lang('msg_ftp_not_connected'), 'host'));
 			if(! @ftp_login($connection, $ftp_info->ftp_user, $ftp_info->ftp_password))
 			{
 				ftp_close($connection);	
-				return new Object(-1,'msg_ftp_invalid_auth_info');
+				return $this->setError('msg_ftp_invalid_auth_info');
 			}
 
 			if($ftp_info->ftp_pasv != "N") 
@@ -82,7 +82,7 @@ class installModel extends install
 				else
 				{
 					$oFtp->ftp_quit();
-					return new Object(-1,'msg_ftp_invalid_auth_info');
+					return $this->setError('msg_ftp_invalid_auth_info');
 				}
 			}
 		}

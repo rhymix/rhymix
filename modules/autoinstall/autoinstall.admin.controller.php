@@ -83,7 +83,7 @@ class autoinstallAdminController extends autoinstall
 		$this->checkInstalled();
 
 		$oAdminController = getAdminController('admin');
-		$output = $oAdminController->cleanFavorite();
+		$oAdminController->cleanFavorite();
 	}
 
 	/**
@@ -404,7 +404,7 @@ class autoinstallAdminController extends autoinstall
 
 		$this->setMessage('success_deleted', 'update');
 
-		return new Object();
+		return new BaseObject();
 	}
 
 }

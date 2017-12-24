@@ -332,37 +332,6 @@ class adminAdminView extends admin
 		// Get need update from easy install
 		$oAutoinstallAdminModel = getAdminModel('autoinstall');
 		$needUpdateList = $oAutoinstallAdminModel->getNeedUpdateList();
-
-		if(is_array($needUpdateList))
-		{
-			foreach($needUpdateList AS $key => $value)
-			{
-				$helpUrl = './common/manual/admin/index.html#';
-				switch($value->type)
-				{
-					case 'addon':
-						$helpUrl .= 'UMAN_terminology_addon';
-						break;
-					case 'layout':
-					case 'm.layout':
-						$helpUrl .= 'UMAN_terminology_layout';
-						break;
-					case 'module':
-						$helpUrl .= 'UMAN_terminology_module';
-						break;
-					case 'widget':
-						$helpUrl .= 'UMAN_terminology_widget';
-						break;
-					case 'widgetstyle':
-						$helpUrl .= 'UMAN_terminology_widgetstyle';
-						break;
-					default:
-						$helpUrl = '';
-				}
-				$needUpdateList[$key]->helpUrl = $helpUrl;
-			}
-		}
-
 		$site_module_info = Context::get('site_module_info');
 		$oAddonAdminModel = getAdminModel('addon');
 		$counterAddonActivated = $oAddonAdminModel->isActivatedAddon('counter', $site_module_info->site_srl );
@@ -539,6 +508,7 @@ class adminAdminView extends admin
 			Context::set('object_cache_port', null);
 			Context::set('object_cache_dbnum', 1);
 		}
+		Context::set('cache_truncate_method', Rhymix\Framework\Config::get('cache.truncate_method'));
 		
 		// Thumbnail settings
 		$oDocumentModel = getModel('document');
@@ -565,6 +535,7 @@ class adminAdminView extends admin
 		Context::set('use_rewrite', Rhymix\Framework\Config::get('use_rewrite'));
 		Context::set('use_mobile_view', (config('mobile.enabled') !== null ? config('mobile.enabled') : config('use_mobile_view')) ? true : false);
 		Context::set('tablets_as_mobile', config('mobile.tablets') ? true : false);
+		Context::set('mobile_viewport', config('mobile.viewport') ?: 'width=device-width, initial-scale=1.0, user-scalable=yes');
 		Context::set('use_ssl', Rhymix\Framework\Config::get('url.ssl'));
 		Context::set('delay_session', Rhymix\Framework\Config::get('session.delay'));
 		Context::set('use_session_keys', Rhymix\Framework\Config::get('session.use_keys'));
@@ -661,7 +632,7 @@ class adminAdminView extends admin
 			$domain_info = getModel('module')->getSiteInfo($domain_srl);
 			if ($domain_info->domain_srl != $domain_srl)
 			{
-				return new Object(-1, 'msg_domain_not_found');
+				return $this->setError('msg_domain_not_found');
 			}
 		}
 		Context::set('domain_info', $domain_info);

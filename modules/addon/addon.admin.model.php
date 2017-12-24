@@ -305,7 +305,7 @@ class addonAdminModel extends addon
 							$val->options = array($val->options);
 						}
 
-						for($i = 0, $c = count($val->options); $i < $c; $i++)
+						for($i = 0, $c = countobj($val->options); $i < $c; $i++)
 						{
 							$obj->options[$i] = new stdClass();
 							$obj->options[$i]->title = $val->options[$i]->title->body;

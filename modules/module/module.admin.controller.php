@@ -108,7 +108,7 @@ class moduleAdminController extends module
 		{
 			$mid = trim($args->{"mid_".$i});
 			if(!$mid) continue;
-			if(!preg_match("/^[a-zA-Z]([a-zA-Z0-9_]*)$/i", $mid)) return new Object(-1, 'msg_limit_mid');
+			if(!preg_match("/^[a-zA-Z]([a-zA-Z0-9_]*)$/i", $mid)) return $this->setError('msg_limit_mid');
 			$browser_title = $args->{"browser_title_".$i};
 			if(!$mid) continue;
 			if($mid && !$browser_title) $browser_title = $mid;
@@ -266,7 +266,7 @@ class moduleAdminController extends module
 			return;
 		else
 		{
-			return new Object(-1, $msg);
+			return new BaseObject(-1, $msg);
 		}
 	}
 
@@ -282,7 +282,7 @@ class moduleAdminController extends module
 		// Get information of the module
 		$columnList = array('module_srl', 'module');
 		$module_info = $oModuleModel->getModuleInfoByModuleSrl($module_srl, $columnList);
-		if(!$module_info) return new Object(-1,'msg_invalid_request');
+		if(!$module_info) return $this->setError('msg_invalid_request');
 		// Register Admin ID
 		$oModuleController->deleteAdminId($module_srl);
 		$admin_member = Context::get('admin_member');
@@ -509,10 +509,10 @@ class moduleAdminController extends module
 	{
 		$vars = Context::getRequestVars();
 
-		if(!$vars->module_srls) return new Object(-1,'msg_invalid_request');
+		if(!$vars->module_srls) return $this->setError('msg_invalid_request');
 
 		$module_srls = explode(',',$vars->module_srls);
-		if(count($module_srls) < 1) return new Object(-1,'msg_invalid_request');
+		if(count($module_srls) < 1) return $this->setError('msg_invalid_request');
 
 		$oModuleModel = getModel('module');
 		$oModuleController= getController('module');
@@ -564,10 +564,10 @@ class moduleAdminController extends module
 	function procModuleAdminModuleGrantSetup()
 	{
 		$module_srls = Context::get('module_srls');
-		if(!$module_srls) return new Object(-1,'msg_invalid_request');
+		if(!$module_srls) return $this->setError('msg_invalid_request');
 
 		$modules = explode(',',$module_srls);
-		if(count($modules) < 1) return new Object(-1,'msg_invalid_request');
+		if(count($modules) < 1) return $this->setError('msg_invalid_request');
 
 		$oModuleController = getController('module');
 		$oModuleModel = getModel('module');
@@ -676,7 +676,7 @@ class moduleAdminController extends module
 		// if args->name is empty, random generate for user define language
 		if(empty($args->name)) $args->name = 'userLang'.date('YmdHis').''.sprintf('%03d', mt_rand(0, 100));
 
-		if(!$args->name) return new Object(-1,'msg_invalid_request');
+		if(!$args->name) return $this->setError('msg_invalid_request');
 		// Check whether a language code exists
 		$output = executeQueryArray('module.getLang', $args);
 		if(!$output->toBool()) return $output;
@@ -723,7 +723,7 @@ class moduleAdminController extends module
 		$args->name = str_replace(' ','_',Context::get('name'));
 		$args->lang_name = str_replace(' ','_',Context::get('lang_name'));
 		if(!empty($args->lang_name)) $args->name = $args->lang_name;
-		if(!$args->name) return new Object(-1,'msg_invalid_request');
+		if(!$args->name) return $this->setError('msg_invalid_request');
 
 		$output = executeQuery('module.deleteLang', $args);
 		if(!$output->toBool()) return $output;
@@ -737,7 +737,7 @@ class moduleAdminController extends module
 
 	function procModuleAdminGetList()
 	{
-		if(!Context::get('is_logged')) return new Object(-1, 'msg_not_permitted');
+		if(!Context::get('is_logged')) return $this->setError('msg_not_permitted');
 
 		$oModuleController = getController('module');
 		$oModuleModel = getModel('module');
@@ -863,15 +863,12 @@ class moduleAdminController extends module
 			$args->site_srl = $site_srl;
 		}
 		$output = executeQueryArray('module.getLang', $args);
-		if(!$output->toBool() || !$output->data) return;
-		// Set the cache directory
-		$cache_path = _XE_PATH_.'files/cache/lang_defined/';
-		FileHandler::makeDir($cache_path);
+		if(!$output->toBool()) return;
 
 		$langMap = array();
-		foreach($output->data as $val)
+		foreach($output->data as $lang)
 		{
-			$langMap[$val->lang_code][$val->name] = $val->value;
+			$langMap[$lang->lang_code][$lang->name] = $lang->value;
 		}
 
 		$lang_supported = Context::loadLangSelected();
@@ -904,17 +901,12 @@ class moduleAdminController extends module
 
 				$langMap[$langCode] += $langMap[$targetLangCode];
 			}
-
-			$buff = array("<?php if(!defined('__XE__')) exit();");
-			foreach($langMap[$langCode] as $code => $value)
-			{
-				$buff[] = sprintf('$lang[%s] = %s;', var_export(strval($code), true), var_export(strval($value), true));
-			}
-			if (!Rhymix\Framework\Storage::write(sprintf('%s/%d.%s.php', $cache_path, $args->site_srl, $langCode), implode(PHP_EOL, $buff)))
-			{
-				return;
-			}
+			
+			Rhymix\Framework\Cache::set('site_and_module:user_defined_langs:' . $args->site_srl . ':' . $langCode, $langMap[$langCode], 0, true);
 		}
+		
+		$currentLang = Context::getLangType();
+		return isset($langMap[$currentLang]) ? $langMap[$currentLang] : array();
 	}
 
 	public function procModuleAdminSetDesignInfo()

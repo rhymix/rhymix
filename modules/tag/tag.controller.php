@@ -19,7 +19,7 @@ class tagController extends tag
 	 */
 	function triggerArrangeTag(&$obj)
 	{
-		if(!$obj->tags) return new Object();
+		if(!$obj->tags) return;
 		// tags by variable
 		$arranged_tag_list = array();
 		$tag_list = explode(',', $obj->tags);
@@ -39,7 +39,6 @@ class tagController extends tag
 		{
 			$obj->tags = implode(',', $arranged_tag_list);
 		}
-		return new Object();
 	}
 
 	/**
@@ -51,7 +50,7 @@ class tagController extends tag
 		$module_srl = $obj->module_srl;
 		$document_srl = $obj->document_srl;
 		$tags = $obj->tags;
-		if(!$document_srl) return new Object();
+		if(!$document_srl) return;
 		// Remove all tags that article
 		$output = $this->triggerDeleteTag($obj);
 		if(!$output->toBool()) return $output;
@@ -68,8 +67,6 @@ class tagController extends tag
 			$output = executeQuery('tag.insertTag', $args);
 			if(!$output->toBool()) return $output;
 		}
-
-		return new Object();
 	}
 
 	/**
@@ -79,7 +76,7 @@ class tagController extends tag
 	function triggerDeleteTag(&$obj)
 	{
 		$document_srl = $obj->document_srl;
-		if(!$document_srl) return new Object();
+		if(!$document_srl) return;
 
 		$args = new stdClass();
 		$args->document_srl = $document_srl;
@@ -92,7 +89,7 @@ class tagController extends tag
 	function triggerDeleteModuleTags(&$obj)
 	{
 		$module_srl = $obj->module_srl;
-		if(!$module_srl) return new Object();
+		if(!$module_srl) return;
 
 		$oTagController = getAdminController('tag');
 		return $oTagController->deleteModuleTags($module_srl);

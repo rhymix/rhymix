@@ -818,6 +818,64 @@ class FileHandler
 		$path = self::getRealPath($path);
 		return Rhymix\Framework\Storage::isDirectory($path) && Rhymix\Framework\Storage::isWritable($path);
 	}
+
+	/**
+	 * @deprecated
+	 * 
+	 * Clears file status cache
+	 *
+	 * @param string|array $target filename or directory
+	 * @param boolean $include include files in the directory
+	 */
+	public static function clearStatCache($target, $include = false)
+	{
+		foreach(is_array($target) ? $target : array($target) as $target_item)
+		{
+			$target_item = self::getRealPath($target_item);
+			if($include && self::isDir($target_item))
+			{
+				self::clearStatCache(self::readDir($target_item, '', false, true), $include);
+			}
+			else
+			{
+				clearstatcache(true, $target_item);
+			}
+		}
+	}
+	
+	/**
+	 * @deprecated
+	 * 
+	 * Invalidates a cached script of OPcache
+	 *
+	 * @param string|array $target filename or directory
+	 * @param boolean $force force
+	 */
+	public static function invalidateOpcache($target, $force = true)
+	{
+		static $opcache = null;
+		
+		if($opcache === null)
+		{
+			$opcache = function_exists('opcache_invalidate');
+		}
+		if($opcache === false)
+		{
+			return;
+		}
+		
+		foreach(is_array($target) ? $target : array($target) as $target_item)
+		{
+			if(substr($target_item, -4) === '.php')
+			{
+				opcache_invalidate(self::getRealPath($target_item), $force);
+			}
+			elseif($path = self::isDir($target_item))
+			{
+				self::invalidateOpcache(self::readDir($path, '', false, true), $force);
+			}
+		}
+	}
 }
 
 /* End of file FileHandler.class.php */

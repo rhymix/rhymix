@@ -43,14 +43,6 @@ require_once __DIR__ . '/functions.php';
 require_once __DIR__ . '/legacy.php';
 
 /**
- * Load user configuration.
- */
-if(file_exists(RX_BASEDIR . 'config/config.user.inc.php'))
-{
-	require_once RX_BASEDIR . 'config/config.user.inc.php';
-}
-
-/**
  * Define the list of legacy class names for the autoloader.
  */
 $GLOBALS['RX_AUTOLOAD_FILE_MAP'] = array_change_key_case(array(
@@ -98,7 +90,6 @@ $GLOBALS['RX_AUTOLOAD_FILE_MAP'] = array_change_key_case(array(
 	'Mobile' => 'classes/mobile/Mobile.class.php',
 	'ModuleHandler' => 'classes/module/ModuleHandler.class.php',
 	'ModuleObject' => 'classes/module/ModuleObject.class.php',
-	'Object' => 'classes/object/Object.class.php',
 	'PageHandler' => 'classes/page/PageHandler.class.php',
 	'EmbedFilter' => 'classes/security/EmbedFilter.class.php',
 	'IpFilter' => 'classes/security/IpFilter.class.php',
@@ -192,7 +183,20 @@ spl_autoload_register(function($class_name)
 /**
  * Also include the Composer autoloader.
  */
-require_once RX_BASEDIR  . 'vendor/autoload.php';
+require_once RX_BASEDIR . 'vendor/autoload.php';
+
+/**
+ * Load essential classes.
+ */
+require_once RX_BASEDIR . 'classes/object/Object.class.php';
+
+/**
+ * Load user configuration.
+ */
+if(file_exists(RX_BASEDIR . 'config/config.user.inc.php'))
+{
+	require_once RX_BASEDIR . 'config/config.user.inc.php';
+}
 
 /**
  * Load system configuration.

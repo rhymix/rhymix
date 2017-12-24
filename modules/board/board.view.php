@@ -328,13 +328,12 @@ class boardView extends board
 				));
 
 				// update the document view count (if the document is not secret)
-				if(!$oDocument->isSecret() || $oDocument->isGranted())
+				if($oDocument->isAccessible())
 				{
 					$oDocument->updateReadedCount();
 				}
-
 				// disappear the document if it is secret
-				if($oDocument->isSecret() && !$oDocument->isGranted())
+				else
 				{
 					$oDocument->add('content',lang('thisissecret'));
 				}
@@ -351,8 +350,6 @@ class boardView extends board
 		 * add javascript filters
 		 **/
 		Context::addJsFilter($this->module_path.'tpl/filter', 'insert_comment.xml');
-
-//            return new Object();
 	}
 
 	/**
@@ -643,6 +640,43 @@ class boardView extends board
 	}
 
 	/**
+	 * @brief display category list
+	 */
+	function dispBoardCategory()
+	{
+		$this->dispBoardCategoryList();
+		$this->setTemplateFile('category.html');
+	}
+
+	/**
+	 * @brief display comment page
+	 */
+	function dispBoardCommentPage()
+	{
+		$document_srl = Context::get('document_srl');
+		if(!$document_srl)
+		{
+			return $this->setError("msg_invalid_request");
+		}
+		
+		if($this->grant->view == false || ($this->module_info->consultation == 'Y' && !$this->grant->manager && !$this->grant->consultation_read))
+		{
+			return $this->setError("msg_not_permitted");
+		}
+		
+		$oDocument = getModel('document')->getDocument($document_srl);
+		if(!$oDocument->isExists())
+		{
+			return $this->setError("msg_invalid_request");
+		}
+		Context::set('oDocument', $oDocument);
+		
+		$this->setLayoutPath('./common/tpl');
+		$this->setLayoutFile('default_layout');
+		$this->setTemplateFile('comment.html');
+	}
+
+	/**
 	 * @brief display document write form
 	 **/
 	function dispBoardWrite()
@@ -730,25 +764,25 @@ class boardView extends board
 				{
 					$format =  lang('msg_protect_regdate_document');
 					$massage = sprintf($format, $this->module_info->protect_document_regdate);
-					return new Object(-1, $massage);
+					return $this->setError($massage);
 				}
 			}
 			if($this->module_info->protect_content == "Y" || $this->module_info->protect_update_content == 'Y')
 			{
 				if($oDocument->get('comment_count') > 0 && $this->grant->manager == false)
 				{
-					return new Object(-1, 'msg_protect_update_content');
+					return $this->setError('msg_protect_update_content');
 				}
 			}
 		}
 		if($member_info->is_admin == 'Y' && $logged_info->is_admin != 'Y')
 		{
-			return new Object(-1, 'msg_admin_document_no_modify');
+			return $this->setError('msg_admin_document_no_modify');
 		}
 
 		// if the document is not granted, then back to the password input form
 		$oModuleModel = getModel('module');
-		if($oDocument->isExists()&&!$oDocument->isGranted())
+		if($oDocument->isExists() && !$oDocument->isGranted())
 		{
 			return $this->setTemplateFile('input_password_form');
 		}
@@ -790,8 +824,14 @@ class boardView extends board
 		/**
 		 * add JS filters
 		 **/
-		if(Context::get('logged_info')->is_admin=='Y') Context::addJsFilter($this->module_path.'tpl/filter', 'insert_admin.xml');
-		else Context::addJsFilter($this->module_path.'tpl/filter', 'insert.xml');
+		if(Context::get('logged_info')->is_admin == 'Y' || $this->module_info->allow_no_category == 'Y')
+		{
+			Context::addJsFilter($this->module_path.'tpl/filter', 'insert_admin.xml');
+		}
+		else
+		{
+			Context::addJsFilter($this->module_path.'tpl/filter', 'insert.xml');
+		}
 
 		$oSecurity = new Security();
 		$oSecurity->encodeHTML('category_list.text', 'category_list.title');
@@ -857,7 +897,7 @@ class boardView extends board
 			{
 				$format =  lang('msg_protect_regdate_document');
 				$massage = sprintf($format, $this->module_info->protect_document_regdate);
-				return new Object(-1, $massage);
+				return $this->setError($massage);
 			}
 		}
 
@@ -865,7 +905,7 @@ class boardView extends board
 		{
 			if($oDocument->get('comment_count')>0 && $this->grant->manager == false)
 			{
-				return new Object(-1,'msg_protect_delete_content');
+				return $this->setError('msg_protect_delete_content');
 			}
 		}
 
@@ -942,7 +982,7 @@ class boardView extends board
 		// if the parent comment is not existed
 		if(!$parent_srl)
 		{
-			return new Object(-1, 'msg_invalid_request');
+			return $this->setError('msg_invalid_request');
 		}
 
 		// get the comment
@@ -1004,7 +1044,7 @@ class boardView extends board
 		// if the comment is not existed
 		if(!$comment_srl)
 		{
-			return new Object(-1, 'msg_invalid_request');
+			return $this->setError('msg_invalid_request');
 		}
 
 		// get comment information
@@ -1019,7 +1059,7 @@ class boardView extends board
 			{
 				$format =  lang('msg_protect_regdate_comment');
 				$massage = sprintf($format, $this->module_info->protect_document_regdate);
-				return new Object(-1, $massage);
+				return $this->setError($massage);
 			}
 		}
 		if($this->module_info->protect_update_comment === 'Y' && $this->grant->manager == false)
@@ -1027,13 +1067,13 @@ class boardView extends board
 			$childs = $oCommentModel->getChildComments($comment_srl);
 			if(count($childs) > 0)
 			{
-				return new Object(-1, 'msg_board_update_protect_comment');
+				return $this->setError('msg_board_update_protect_comment');
 			}
 		}
 
 		if($member_info->is_admin == 'Y' && $logged_info->is_admin != 'Y')
 		{
-			return new Object(-1, 'msg_admin_comment_no_modify');
+			return $this->setError('msg_admin_comment_no_modify');
 		}
 
 		// if the comment is not exited, alert an error message
@@ -1087,7 +1127,7 @@ class boardView extends board
 			{
 				$format =  lang('msg_protect_regdate_comment');
 				$massage = sprintf($format, $this->module_info->protect_document_regdate);
-				return new Object(-1, $massage);
+				return $this->setError($massage);
 			}
 		}
 
@@ -1097,7 +1137,7 @@ class boardView extends board
 			$childs = $oCommentModel->getChildComments($comment_srl);
 			if(count($childs) > 0)
 			{
-				return new Object(-1, 'msg_board_delete_protect_comment');
+				return $this->setError('msg_board_delete_protect_comment');
 			}
 		}
 
@@ -1177,7 +1217,7 @@ class boardView extends board
 
 		if($this->grant->update_view !== true)
 		{
-			return new Object(-1, 'msg_not_permitted');
+			return $this->setError('msg_not_permitted');
 		}
 
 		$updatelog = $oDocumentModel->getDocumentUpdateLog($document_srl);
@@ -1197,7 +1237,7 @@ class boardView extends board
 
 		if($this->grant->update_view !== true)
 		{
-			return new Object(-1, 'msg_not_permitted');
+			return $this->setError('msg_not_permitted');
 		}
 
 		$update_log = $oDocumentModel->getUpdateLog($update_id);
@@ -1233,7 +1273,7 @@ class boardView extends board
 	{
 		iF($this->grant->vote_log_view !== true)
 		{
-			return new Object(-1, 'msg_not_permitted');
+			return $this->setError('msg_not_permitted');
 		}
 
 		$oMemberModel = getModel('member');
@@ -1254,7 +1294,7 @@ class boardView extends board
 		}
 		else
 		{
-			return new Object(-1, 'msg_not_target');
+			return $this->setError('msg_not_target');
 		}
 
 		$output = executeQueryArray($queryId, $args);

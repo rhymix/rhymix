@@ -24,8 +24,6 @@ class tag extends ModuleObject
 		$oModuleController->insertTrigger('document.deleteDocument', 'tag', 'controller', 'triggerDeleteTag', 'after');
 		// 2007. 10. 17 modules are deleted when you delete all registered triggers that add tag
 		$oModuleController->insertTrigger('module.deleteModule', 'tag', 'controller', 'triggerDeleteModuleTags', 'after');
-
-		return new Object();
 	}
 
 	/**
@@ -78,8 +76,6 @@ class tag extends ModuleObject
 		// tag in the index column of the table tag
 		if(!$oDB->isIndexExists("tags","idx_tag")) 
 			$oDB->addIndex("tags","idx_tag", array("document_srl","tag"));
-
-		return new Object(0, 'success_updated');
 	}
 
 	/**

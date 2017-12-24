@@ -47,8 +47,6 @@ class document extends ModuleObject
 
 		// 2009. 01. 29 Added a trigger for additional setup
 		$oModuleController->insertTrigger('module.dispAdditionSetup', 'document', 'view', 'triggerDispDocumentAdditionSetup', 'before');
-
-		return new Object();
 	}
 
 	/**
@@ -128,6 +126,9 @@ class document extends ModuleObject
 
 		// 2016. 3. 14 Add a column(document_upate_log) for admin
 		if(!$oDB->isColumnExists('document_update_log', 'is_admin')) return true;
+		
+		// 2017.12.21 Add an index for nick_name
+		if(!$oDB->isIndexExists('documents', 'idx_nick_name')) return true;
 
 		return false;
 	}
@@ -341,8 +342,12 @@ class document extends ModuleObject
 			$oDB->addColumn('document_update_log', 'is_admin', 'varchar', 1);
 			$oDB->addIndex('document_update_log', 'idx_is_admin', array('is_admin'));
 		}
-
-		return new Object(0,'success_updated');
+		
+		// 2017.12.21 Add an index for nick_name
+		if(!$oDB->isIndexExists('documents', 'idx_nick_name'))
+		{
+			$oDB->addIndex('documents', 'idx_nick_name', array('nick_name'));
+		}
 	}
 
 	/**
@@ -377,8 +382,7 @@ class document extends ModuleObject
 	 */
 	function getConfigStatus($key)
 	{
-		if(array_key_exists(strtolower($key), $this->statusList)) return $this->statusList[$key];
-		else $this->getDefaultStatus();
+		return $this->statusList[$key];
 	}
 }
 /* End of file document.class.php */

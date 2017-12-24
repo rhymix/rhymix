@@ -237,9 +237,8 @@ class HTMLDisplayHandler
 
 		// convert the final layout
 		Context::set('content', $output);
-		Context::set('m', $is_mobile = Mobile::isFromMobilePhone() ? 1 : 0);
 		$oTemplate = TemplateHandler::getInstance();
-		if($is_mobile)
+		if(Mobile::isFromMobilePhone())
 		{
 			$this->_loadMobileJSCSS();
 		}
@@ -561,7 +560,7 @@ class HTMLDisplayHandler
 	 */
 	private function _loadCommonJSCSS()
 	{
-		Context::loadFile(array('./common/css/rhymix.scss', '', '', -1600000000), true);
+		Context::loadFile(array('./common/css/rhymix.less', '', '', -1600000000), true);
 		$original_file_list = array(
 			'plugins/jquery.migrate/jquery-migrate-1.2.1.js',
 			'plugins/blankshield/blankshield.min.js',

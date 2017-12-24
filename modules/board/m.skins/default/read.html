@@ -8,7 +8,7 @@
 	<a href="{getUrl('act','dispBoardWrite','document_srl','')}" class="write">{$lang->cmd_write}</a>
 </div>
 <div class="co">
-		<!--@if($oDocument->isSecret() && !$oDocument->isGranted())-->
+		<!--@if(!$oDocument->isAccessible())-->
 		<form action="./" method="get" class="ff" onsubmit="return procFilter(this, input_password)">
 		<input type="hidden" name="mid" value="{$mid}" />
 		<input type="hidden" name="page" value="{$page}" />

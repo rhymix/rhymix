@@ -50,7 +50,14 @@ class memberModel extends member
 		}
 
 		// Get terms of user
-		$config->agreement = memberModel::_getAgreement();
+		if(!$config->agreements)
+		{
+			$config->agreement = memberModel::_getAgreement();
+			$config->agreements[1] = new stdClass;
+			$config->agreements[1]->title = lang('agreement');
+			$config->agreements[1]->content = $config->agreement;
+			$config->agreements[1]->type = $config->agreement ? 'required' : 'disabled';
+		}
 
 		if(!$config->webmaster_name) $config->webmaster_name = 'webmaster';
 		if(!$config->image_name_max_width) $config->image_name_max_width = 90;
@@ -86,6 +93,9 @@ class memberModel extends member
 		return $config;
 	}
 
+	/**
+	 * @deprecated
+	 */
 	function _getAgreement()
 	{
 		$agreement_file = _XE_PATH_.'files/member_extra_info/agreement_' . Context::get('lang_type') . '.txt';
@@ -308,7 +318,6 @@ class memberModel extends member
 				$output = executeQuery('member.getMemberInfoByMemberSrl', $args);
 				if(!$output->data)
 				{
-					Rhymix\Framework\Cache::set($cache_key, new stdClass);
 					return new stdClass;
 				}
 				

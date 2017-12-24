@@ -466,7 +466,7 @@ class TemplateHandler
 									$expr_m[2] .= '=>' . trim($expr_m[3]);
 								}
 								$nodes[$idx - 1] .= sprintf(
-										'<?php $t%3$s=%1$s;if($t%3$s&&count($t%3$s))foreach($t%3$s as %2$s){ ?>'
+										'<?php $t%3$s=%1$s;if($t%3$s&&@count($t%3$s))foreach($t%3$s as %2$s){ ?>'
 										,$expr_m[1], $expr_m[2], md5( $buff . strval($idx-1) )
 									);
 							}
@@ -867,7 +867,7 @@ class TemplateHandler
 				elseif($mm[1] == 'foreach')
 				{
 					$var = preg_replace('/^\s*\(\s*(.+?) .*$/', '$1', $m[8]);
-					$precheck = "if({$var}&&count({$var}))";
+					$precheck = "if({$var}&&@count({$var}))";
 				}
 				return '<?php ' . self::_replaceVar($precheck . $m[7] . $m[8]) . '{ ?>' . $m[9];
 			}

@@ -8,7 +8,7 @@
  * @class EditorHandler
  * @author NAVER (developers@xpressengine.com)
  */
-class EditorHandler extends Object
+class EditorHandler extends BaseObject
 {
 
 	/**

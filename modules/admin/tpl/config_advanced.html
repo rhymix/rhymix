@@ -81,6 +81,13 @@
 			</div>
 		</div>
 		<div class="x_control-group">
+			<label class="x_control-label" for="mobile_viewport">{$lang->mobile_viewport}</label>
+			<div class="x_controls">
+				<input type="text" name="mobile_viewport" id="mobile_viewport" value="{$mobile_viewport}" style="min-width: 80%" />
+				<p class="x_help-block">{$lang->about_mobile_viewport}</p>
+			</div>
+		</div>
+		<div class="x_control-group">
 			<label class="x_control-label">{$lang->use_db_session}</label>
 			<div class="x_controls">
 				<label for="use_db_session_y" class="x_inline"><input type="radio" name="use_db_session" id="use_db_session_y" value="Y" checked="checked"|cond="$use_db_session" /> {$lang->cmd_yes}</label>
@@ -163,6 +170,15 @@
 			<label class="x_control-label" for="cache_default_ttl">{$lang->cache_default_ttl}</label>
 			<div class="x_controls">
 				<input type="text" name="cache_default_ttl" id="cache_default_ttl" value="{$cache_default_ttl}" /> {$lang->unit_sec}
+			</div>
+		</div>
+		<div class="x_control-group">
+			<label class="x_control-label">{$lang->cache_truncate_method}</label>
+			<div class="x_controls">
+				<label for="cache_truncate_method_delete" class="x_inline"><input type="radio" name="cache_truncate_method" id="cache_truncate_method_delete" value="delete" checked="checked"|cond="$cache_truncate_method !== 'empty'" /> {$lang->cache_truncate_method_delete}</label>
+				<label for="cache_truncate_method_empty" class="x_inline"><input type="radio" name="cache_truncate_method" id="cache_truncate_method_empty" value="empty" checked="checked"|cond="$cache_truncate_method === 'empty'" /> {$lang->cache_truncate_method_empty}</label>
+				<br />
+				<p class="x_help-block">{$lang->about_cache_truncate_method}</p>
 			</div>
 		</div>
 		<div class="x_control-group">

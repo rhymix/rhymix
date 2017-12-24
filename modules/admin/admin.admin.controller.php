@@ -45,6 +45,7 @@ class adminAdminController extends admin
 			return $output;
 		}
 
+		Rhymix\Framework\Cache::delete('admin_menu_langs:' . Context::getLangType());
 		Rhymix\Framework\Storage::deleteDirectory(\RX_BASEDIR . 'files/cache/menu/admin_lang/');
 
 		$this->setRedirectUrl(Context::get('error_return_url'));
@@ -57,8 +58,25 @@ class adminAdminController extends admin
 	function procAdminRecompileCacheFile()
 	{
 		// rename cache dir
-		Rhymix\Framework\Storage::move(\RX_BASEDIR . 'files/cache', \RX_BASEDIR . 'files/cache_' . time());
-		Rhymix\Framework\Storage::createDirectory(\RX_BASEDIR . 'files/cache');
+		$truncate_method = Rhymix\Framework\Config::get('cache.truncate_method');
+		if ($truncate_method === 'empty')
+		{
+			$tmp_basedir = \RX_BASEDIR . 'files/cache/truncate_' . time();
+			Rhymix\Framework\Storage::createDirectory($tmp_basedir);
+			$dirs = Rhymix\Framework\Storage::readDirectory(\RX_BASEDIR . 'files/cache', true, false, false);
+			if ($dirs)
+			{
+				foreach ($dirs as $dir)
+				{
+					Rhymix\Framework\Storage::moveDirectory($dir, $tmp_basedir . '/' . basename($dir));
+				}
+			}
+		}
+		else
+		{
+			Rhymix\Framework\Storage::move(\RX_BASEDIR . 'files/cache', \RX_BASEDIR . 'files/cache_' . time());
+			Rhymix\Framework\Storage::createDirectory(\RX_BASEDIR . 'files/cache');
+		}
 
 		// remove module extend cache
 		Rhymix\Framework\Storage::delete(RX_BASEDIR . 'files/config/module_extend.php');
@@ -89,14 +107,24 @@ class adminAdminController extends admin
 		}
 
 		// remove old cache dir
-		$tmp_cache_list = FileHandler::readDir(\RX_BASEDIR . 'files', '/^(cache_[0-9]+)/');
+		if ($truncate_method === 'empty')
+		{
+			$tmp_cache_list = FileHandler::readDir(\RX_BASEDIR . 'files/cache', '/^(truncate_[0-9]+)/');
+			$tmp_cache_prefix = \RX_BASEDIR . 'files/cache/';
+		}
+		else
+		{
+			$tmp_cache_list = FileHandler::readDir(\RX_BASEDIR . 'files', '/^(cache_[0-9]+)/');
+			$tmp_cache_prefix = \RX_BASEDIR . 'files/';
+		}
+		
 		if($tmp_cache_list)
 		{
 			foreach($tmp_cache_list as $tmp_dir)
 			{
 				if(strval($tmp_dir) !== '')
 				{
-					$tmp_dir = \RX_BASEDIR . 'files/' . strval($tmp_dir);
+					$tmp_dir = $tmp_cache_prefix . $tmp_dir;
 					if (!Rhymix\Framework\Storage::isDirectory($tmp_dir))
 					{
 						continue;
@@ -157,8 +185,8 @@ class adminAdminController extends admin
 		}
 
 		// create a DesignInfo file
-		$output = $this->updateDefaultDesignInfo($vars);
-		return $this->setRedirectUrl(Context::get('error_return_url'), $output);
+		$this->updateDefaultDesignInfo($vars);
+		$this->setRedirectUrl(Context::get('error_return_url'));
 	}
 
 	public function updateDefaultDesignInfo($vars)
@@ -208,8 +236,6 @@ class adminAdminController extends admin
 		}
 
 		$this->makeDefaultDesignFile($designInfo, $vars->site_srl);
-
-		return new Object();
 	}
 
 	function makeDefaultDesignFile($designInfo, $site_srl = 0)
@@ -286,7 +312,7 @@ class adminAdminController extends admin
 
 	/**
 	 * Cleanning favorite
-	 * @return Object
+	 * @return object|void
 	 */
 	function cleanFavorite()
 	{
@@ -300,7 +326,7 @@ class adminAdminController extends admin
 		$favoriteList = $output->get('favoriteList');
 		if(!$favoriteList)
 		{
-			return new Object();
+			return;
 		}
 
 		$deleteTargets = array();
@@ -318,7 +344,7 @@ class adminAdminController extends admin
 
 		if(!count($deleteTargets))
 		{
-			return new Object();
+			return;
 		}
 
 		$args = new stdClass();
@@ -328,8 +354,6 @@ class adminAdminController extends admin
 		{
 			return $output;
 		}
-
-		return new Object();
 	}
 
 	/**
@@ -495,7 +519,7 @@ class adminAdminController extends admin
 		}
 		else
 		{
-			return new Object(-1, 'fail_to_delete');
+			return $this->setError('fail_to_delete');
 		}
 		$this->setMessage('success_deleted');
 	}
@@ -519,7 +543,7 @@ class adminAdminController extends admin
 		Rhymix\Framework\Config::set('use_sso', $vars->use_sso === 'Y');
 		if (!Rhymix\Framework\Config::save())
 		{
-			return new Object(-1, 'msg_failed_to_save_config');
+			return $this->setError('msg_failed_to_save_config');
 		}
 		
 		$this->setMessage('success_updated');
@@ -539,19 +563,19 @@ class adminAdminController extends admin
 		// Validate the mail sender's information.
 		if (!$vars->mail_default_name)
 		{
-			return new Object(-1, 'msg_advanced_mailer_sender_name_is_empty');
+			return $this->setError('msg_advanced_mailer_sender_name_is_empty');
 		}
 		if (!$vars->mail_default_from)
 		{
-			return new Object(-1, 'msg_advanced_mailer_sender_email_is_empty');
+			return $this->setError('msg_advanced_mailer_sender_email_is_empty');
 		}
 		if (!Mail::isVaildMailAddress($vars->mail_default_from))
 		{
-			return new Object(-1, 'msg_advanced_mailer_sender_email_is_invalid');
+			return $this->setError('msg_advanced_mailer_sender_email_is_invalid');
 		}
 		if ($vars->mail_default_reply_to && !Mail::isVaildMailAddress($vars->mail_default_reply_to))
 		{
-			return new Object(-1, 'msg_advanced_mailer_reply_to_is_invalid');
+			return $this->setError('msg_advanced_mailer_reply_to_is_invalid');
 		}
 		
 		// Validate the mail driver.
@@ -559,7 +583,7 @@ class adminAdminController extends admin
 		$mail_driver = $vars->mail_driver;
 		if (!array_key_exists($mail_driver, $mail_drivers))
 		{
-			return new Object(-1, 'msg_advanced_mailer_sending_method_is_invalid');
+			return $this->setError('msg_advanced_mailer_sending_method_is_invalid');
 		}
 		
 		// Validate the mail driver settings.
@@ -569,7 +593,7 @@ class adminAdminController extends admin
 			$conf_value = $vars->{'mail_' . $mail_driver . '_' . $conf_name} ?: null;
 			if (!$conf_value)
 			{
-				return new Object(-1, 'msg_advanced_mailer_smtp_host_is_invalid');
+				return $this->setError('msg_advanced_mailer_smtp_host_is_invalid');
 			}
 			$mail_driver_config[$conf_name] = $conf_value;
 		}
@@ -579,7 +603,7 @@ class adminAdminController extends admin
 		$sms_driver = $vars->sms_driver;
 		if (!array_key_exists($sms_driver, $sms_drivers))
 		{
-			return new Object(-1, 'msg_advanced_mailer_sending_method_is_invalid');
+			return $this->setError('msg_advanced_mailer_sending_method_is_invalid');
 		}
 		
 		// Validate the SMS driver settings.
@@ -589,7 +613,7 @@ class adminAdminController extends admin
 			$conf_value = $vars->{'sms_' . $sms_driver . '_' . $conf_name} ?: null;
 			if (!$conf_value)
 			{
-				return new Object(-1, 'msg_advanced_mailer_smtp_host_is_invalid');
+				return $this->setError('msg_advanced_mailer_smtp_host_is_invalid');
 			}
 			$sms_driver_config[$conf_name] = $conf_value;
 		}
@@ -628,7 +652,7 @@ class adminAdminController extends admin
 		Rhymix\Framework\Config::set("sms.allow_split.lms", toBool($vars->allow_split_lms));
 		if (!Rhymix\Framework\Config::save())
 		{
-			return new Object(-1, 'msg_failed_to_save_config');
+			return $this->setError('msg_failed_to_save_config');
 		}
 		
 		$this->setMessage('success_updated');
@@ -683,7 +707,7 @@ class adminAdminController extends admin
 			return $item !== '';
 		}));
 		if (!Rhymix\Framework\Filters\IpFilter::validateRanges($allowed_ip)) {
-			return new Object(-1, 'msg_invalid_ip');
+			return $this->setError('msg_invalid_ip');
 		}
 		
 		$denied_ip = array_map('trim', preg_split('/[\r\n]/', $vars->admin_denied_ip));
@@ -691,13 +715,13 @@ class adminAdminController extends admin
 			return $item !== '';
 		}));
 		if (!Rhymix\Framework\Filters\IpFilter::validateRanges($denied_ip)) {
-			return new Object(-1, 'msg_invalid_ip');
+			return $this->setError('msg_invalid_ip');
 		}
 		
 		$oMemberAdminModel = getAdminModel('member');
 		if (!$oMemberAdminModel->getMemberAdminIPCheck($allowed_ip, $denied_ip))
 		{
-			return new Object(-1, 'msg_current_ip_will_be_denied');
+			return $this->setError('msg_current_ip_will_be_denied');
 		}
 		
 		Rhymix\Framework\Config::set('admin.allow', array_values($allowed_ip));
@@ -706,7 +730,7 @@ class adminAdminController extends admin
 		// Save
 		if (!Rhymix\Framework\Config::save())
 		{
-			return new Object(-1, 'msg_failed_to_save_config');
+			return $this->setError('msg_failed_to_save_config');
 		}
 		
 		$this->setMessage('success_updated');
@@ -725,7 +749,11 @@ class adminAdminController extends admin
 		{
 			if ($vars->object_cache_type === 'memcached' || $vars->object_cache_type === 'redis')
 			{
-				if (starts_with('/', $vars->object_cache_host))
+				if (starts_with('unix:/', $vars->object_cache_host))
+				{
+					$cache_servers = array(substr($vars->object_cache_host, 5));
+				}
+				elseif (starts_with('/', $vars->object_cache_host))
 				{
 					$cache_servers = array($vars->object_cache_host);
 				}
@@ -745,7 +773,7 @@ class adminAdminController extends admin
 			}
 			if (!Rhymix\Framework\Cache::getDriverInstance($vars->object_cache_type, $cache_servers))
 			{
-				return new Object(-1, 'msg_cache_handler_not_supported');
+				return $this->setError('msg_cache_handler_not_supported');
 			}
 			Rhymix\Framework\Config::set('cache', array(
 				'type' => $vars->object_cache_type,
@@ -756,6 +784,12 @@ class adminAdminController extends admin
 		else
 		{
 			Rhymix\Framework\Config::set('cache', array());
+		}
+		
+		// Cache truncate method
+		if (in_array($vars->cache_truncate_method, array('delete', 'empty')))
+		{
+			Rhymix\Framework\Config::set('cache.truncate_method', $vars->cache_truncate_method);
 		}
 		
 		// Thumbnail settings
@@ -769,6 +803,7 @@ class adminAdminController extends admin
 		// Mobile view
 		Rhymix\Framework\Config::set('mobile.enabled', $vars->use_mobile_view === 'Y');
 		Rhymix\Framework\Config::set('mobile.tablets', $vars->tablets_as_mobile === 'Y');
+		Rhymix\Framework\Config::set('mobile.viewport', utf8_trim($vars->mobile_viewport));
 		if (Rhymix\Framework\Config::get('use_mobile_view') !== null)
 		{
 			Rhymix\Framework\Config::set('use_mobile_view', $vars->use_mobile_view === 'Y');
@@ -799,7 +834,7 @@ class adminAdminController extends admin
 		// Save
 		if (!Rhymix\Framework\Config::save())
 		{
-			return new Object(-1, 'msg_failed_to_save_config');
+			return $this->setError('msg_failed_to_save_config');
 		}
 		
 		$this->setMessage('success_updated');
@@ -837,15 +872,15 @@ class adminAdminController extends admin
 		), $log_filename);
 		if (file_exists(RX_BASEDIR . $log_filename_today) && !is_writable(RX_BASEDIR . $log_filename_today))
 		{
-			return new Object(-1, 'msg_debug_log_filename_not_writable');
+			return $this->setError('msg_debug_log_filename_not_writable');
 		}
 		if (!file_exists(dirname(RX_BASEDIR . $log_filename)) && !FileHandler::makeDir(dirname(RX_BASEDIR . $log_filename)))
 		{
-			return new Object(-1, 'msg_debug_log_filename_not_writable');
+			return $this->setError('msg_debug_log_filename_not_writable');
 		}
 		if (!is_writable(dirname(RX_BASEDIR . $log_filename)))
 		{
-			return new Object(-1, 'msg_debug_log_filename_not_writable');
+			return $this->setError('msg_debug_log_filename_not_writable');
 		}
 		Rhymix\Framework\Config::set('debug.log_filename', $log_filename);
 		
@@ -855,14 +890,14 @@ class adminAdminController extends admin
 			return $item !== '';
 		}));
 		if (!Rhymix\Framework\Filters\IpFilter::validateRanges($allowed_ip)) {
-			return new Object(-1, 'msg_invalid_ip');
+			return $this->setError('msg_invalid_ip');
 		}
 		Rhymix\Framework\Config::set('debug.allow', array_values($allowed_ip));
 		
 		// Save
 		if (!Rhymix\Framework\Config::save())
 		{
-			return new Object(-1, 'msg_failed_to_save_config');
+			return $this->setError('msg_failed_to_save_config');
 		}
 		
 		$this->setMessage('success_updated');
@@ -894,7 +929,7 @@ class adminAdminController extends admin
 		// Save
 		if (!Rhymix\Framework\Config::save())
 		{
-			return new Object(-1, 'msg_failed_to_save_config');
+			return $this->setError('msg_failed_to_save_config');
 		}
 		
 		$this->setMessage('success_updated');
@@ -915,7 +950,7 @@ class adminAdminController extends admin
 		
 		if (!Rhymix\Framework\Filters\IpFilter::validateRanges($allowed_ip))
 		{
-			return new Object(-1, 'msg_invalid_ip');
+			return $this->setError('msg_invalid_ip');
 		}
 		
 		Rhymix\Framework\Config::set('lock.locked', $vars->sitelock_locked === 'Y');
@@ -924,7 +959,7 @@ class adminAdminController extends admin
 		Rhymix\Framework\Config::set('lock.allow', array_values($allowed_ip));
 		if (!Rhymix\Framework\Config::save())
 		{
-			return new Object(-1, 'msg_failed_to_save_config');
+			return $this->setError('msg_failed_to_save_config');
 		}
 		
 		$this->setMessage('success_updated');
@@ -945,7 +980,7 @@ class adminAdminController extends admin
 			$domain_info = getModel('module')->getSiteInfo($domain_srl);
 			if ($domain_info->domain_srl != $domain_srl)
 			{
-				return new Object(-1, 'msg_domain_not_found');
+				return $this->setError('msg_domain_not_found');
 			}
 		}
 		
@@ -954,7 +989,7 @@ class adminAdminController extends admin
 		$vars->subtitle = utf8_trim($vars->subtitle);
 		if ($vars->title === '')
 		{
-			return new Object(-1, 'msg_site_title_is_empty');
+			return $this->setError('msg_site_title_is_empty');
 		}
 		
 		// Validate the domain.
@@ -972,12 +1007,12 @@ class adminAdminController extends admin
 		}
 		if (!$vars->domain)
 		{
-			return new Object(-1, 'msg_invalid_domain');
+			return $this->setError('msg_invalid_domain');
 		}
 		$existing_domain = getModel('module')->getSiteInfoByDomain($vars->domain);
 		if ($existing_domain && $existing_domain->domain == $vars->domain && (!$domain_info || $existing_domain->domain_srl != $domain_info->domain_srl))
 		{
-			return new Object(-1, 'msg_domain_already_exists');
+			return $this->setError('msg_domain_already_exists');
 		}
 		
 		// Validate the ports.
@@ -991,11 +1026,11 @@ class adminAdminController extends admin
 		}
 		if ($vars->http_port !== 0 && ($vars->http_port < 1 || $vars->http_port > 65535 || $vars->http_port == 443))
 		{
-			return new Object(-1, 'msg_invalid_http_port');
+			return $this->setError('msg_invalid_http_port');
 		}
 		if ($vars->https_port !== 0 && ($vars->https_port < 1 || $vars->https_port > 65535 || $vars->https_port == 80))
 		{
-			return new Object(-1, 'msg_invalid_https_port');
+			return $this->setError('msg_invalid_https_port');
 		}
 		
 		// Validate the security setting.
@@ -1009,7 +1044,7 @@ class adminAdminController extends admin
 		$module_info = getModel('module')->getModuleInfoByModuleSrl(intval($vars->index_module_srl));
 		if (!$module_info || $module_info->module_srl != $vars->index_module_srl)
 		{
-			return new Object(-1, 'msg_invalid_index_module_srl');
+			return $this->setError('msg_invalid_index_module_srl');
 		}
 		
 		// Validate the index document setting.
@@ -1018,11 +1053,11 @@ class adminAdminController extends admin
 			$oDocument = getModel('document')->getDocument($vars->index_document_srl);
 			if (!$oDocument || !$oDocument->isExists())
 			{
-				return new Object(-1, 'msg_invalid_index_document_srl');
+				return $this->setError('msg_invalid_index_document_srl');
 			}
 			if (intval($oDocument->get('module_srl')) !== intval($vars->index_module_srl))
 			{
-				return new Object(-1, 'msg_invalid_index_document_srl_module_srl');
+				return $this->setError('msg_invalid_index_document_srl_module_srl');
 			}
 		}
 		else
@@ -1034,14 +1069,14 @@ class adminAdminController extends admin
 		$enabled_lang = Rhymix\Framework\Config::get('locale.enabled_lang');
 		if (!in_array($vars->default_lang, $enabled_lang))
 		{
-			return new Object(-1, 'msg_lang_is_not_enabled');
+			return $this->setError('msg_lang_is_not_enabled');
 		}
 		
 		// Validate the default time zone.
 		$timezone_list = Rhymix\Framework\DateTime::getTimezoneList();
 		if (!isset($timezone_list[$vars->default_timezone]))
 		{
-			return new Object(-1, 'msg_invalid_timezone');
+			return $this->setError('msg_invalid_timezone');
 		}
 		
 		// Clean up the header and footer scripts.
@@ -1164,16 +1199,16 @@ class adminAdminController extends admin
 		$domain_srl = strval(Context::get('domain_srl'));
 		if ($domain_srl === '')
 		{
-			return new Object(-1, 'msg_domain_not_found');
+			return $this->setError('msg_domain_not_found');
 		}
 		$domain_info = getModel('module')->getSiteInfo($domain_srl);
 		if ($domain_info->domain_srl != $domain_srl)
 		{
-			return new Object(-1, 'msg_domain_not_found');
+			return $this->setError('msg_domain_not_found');
 		}
 		if ($domain_info->is_default_domain === 'Y')
 		{
-			return new Object(-1, 'msg_cannot_delete_default_domain');
+			return $this->setError('msg_cannot_delete_default_domain');
 		}
 		
 		// Delete the domain.
@@ -1206,19 +1241,19 @@ class adminAdminController extends admin
 		{
 			if (!($conn = @ftp_connect($vars->ftp_host, $vars->ftp_port, 3)))
 			{
-				return new Object(-1, 'msg_ftp_not_connected');
+				return $this->setError('msg_ftp_not_connected');
 			}
 			if (!@ftp_login($conn, $vars->ftp_user, $vars->ftp_pass))
 			{
-				return new Object(-1, 'msg_ftp_invalid_auth_info');
+				return $this->setError('msg_ftp_invalid_auth_info');
 			}
 			if (!@ftp_pasv($conn, $vars->ftp_pasv === 'Y'))
 			{
-				return new Object(-1, 'msg_ftp_cannot_set_passive_mode');
+				return $this->setError('msg_ftp_cannot_set_passive_mode');
 			}
 			if (!@ftp_chdir($conn, $vars->ftp_path))
 			{
-				return new Object(-1, 'msg_ftp_invalid_path');
+				return $this->setError('msg_ftp_invalid_path');
 			}
 			ftp_close($conn);
 		}
@@ -1226,23 +1261,23 @@ class adminAdminController extends admin
 		{
 			if (!function_exists('ssh2_connect'))
 			{
-				return new Object(-1, 'disable_sftp_support');
+				return $this->setError('disable_sftp_support');
 			}
 			if (!($conn = ssh2_connect($vars->ftp_host, $vars->ftp_port)))
 			{
-				return new Object(-1, 'msg_ftp_not_connected');
+				return $this->setError('msg_ftp_not_connected');
 			}
 			if (!@ssh2_auth_password($conn, $vars->ftp_user, $vars->ftp_pass))
 			{
-				return new Object(-1, 'msg_ftp_invalid_auth_info');
+				return $this->setError('msg_ftp_invalid_auth_info');
 			}
 			if (!@($sftp = ssh2_sftp($conn)))
 			{
-				return new Object(-1, 'msg_ftp_sftp_error');
+				return $this->setError('msg_ftp_sftp_error');
 			}
 			if (!@ssh2_sftp_stat($sftp, $vars->ftp_path . 'common/defaults/config.php'))
 			{
-				return new Object(-1, 'msg_ftp_invalid_path');
+				return $this->setError('msg_ftp_invalid_path');
 			}
 			unset($sftp, $conn);
 		}
@@ -1257,7 +1292,7 @@ class adminAdminController extends admin
 		Rhymix\Framework\Config::set('ftp.sftp', $vars->ftp_sftp === 'Y');
 		if (!Rhymix\Framework\Config::save())
 		{
-			return new Object(-1, 'msg_failed_to_save_config');
+			return $this->setError('msg_failed_to_save_config');
 		}
 		
 		$this->setMessage('success_updated');
@@ -1278,7 +1313,7 @@ class adminAdminController extends admin
 		Rhymix\Framework\Config::set('ftp.sftp', false);
 		if (!Rhymix\Framework\Config::save())
 		{
-			return new Object(-1, 'msg_failed_to_save_config');
+			return $this->setError('msg_failed_to_save_config');
 		}
 		
 		$this->setMessage('success_deleted');

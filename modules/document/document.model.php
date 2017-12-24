@@ -10,6 +10,8 @@
  */
 class documentModel extends document
 {
+	private $documentConfig = NULL;
+
 	/**
 	 * Initialization
 	 * @return void
@@ -37,7 +39,7 @@ class documentModel extends document
 	{
 		if(!is_array($documentSrls) || count($documentSrls) == 0)
 		{
-			return new Object(-1, 'msg_invalid_request');
+			return $this->setError('msg_invalid_request');
 		}
 
 		$args = new stdClass();
@@ -139,10 +141,19 @@ class documentModel extends document
 		if(!$GLOBALS['XE_DOCUMENT_LIST'][$document_srl])
 		{
 			$oDocument = new documentItem($document_srl, $load_extra_vars, $columnList);
+			if(!$oDocument->isExists())
+			{
+				return $oDocument;
+			}
+
 			$GLOBALS['XE_DOCUMENT_LIST'][$document_srl] = $oDocument;
 			if($load_extra_vars) $this->setToAllDocumentExtraVars();
 		}
-		if($is_admin) $GLOBALS['XE_DOCUMENT_LIST'][$document_srl]->setGrant();
+
+		if($is_admin)
+		{
+			$GLOBALS['XE_DOCUMENT_LIST'][$document_srl]->setGrant();
+		}
 
 		return $GLOBALS['XE_DOCUMENT_LIST'][$document_srl];
 	}
@@ -226,13 +237,13 @@ class documentModel extends document
 		// Call trigger (before)
 		// This trigger can be used to set an alternative output using a different search method
 		$output = ModuleHandler::triggerCall('document.getDocumentList', 'before', $obj);
-		if($output instanceof Object && !$output->toBool())
+		if($output instanceof BaseObject && !$output->toBool())
 		{
 			return $output;
 		}
 
 		// If an alternate output is set, use it instead of running the default queries
-		$use_alternate_output = (isset($obj->use_alternate_output) && $obj->use_alternate_output instanceof Object);
+		$use_alternate_output = (isset($obj->use_alternate_output) && $obj->use_alternate_output instanceof BaseObject);
 		if (!$use_alternate_output)
 		{
 			$this->_setSearchOption($obj, $args, $query_id, $use_division);
@@ -506,7 +517,7 @@ class documentModel extends document
 			$oDocument = $oDocumentModel->getDocument($document_srl, false, false, $columnList);
 			$module_srl = $oDocument->get('module_srl');
 			$member_srl = $oDocument->get('member_srl');
-			if(!$module_srl) return new Object(-1, 'msg_invalid_request');
+			if(!$module_srl) return $this->setError('msg_invalid_request');
 
 			$oModuleModel = getModel('module');
 			$document_config = $oModuleModel->getModulePartConfig('document',$module_srl);
@@ -913,7 +924,7 @@ class documentModel extends document
 	 */
 	function getDocumentCategories()
 	{
-		if(!Context::get('is_logged')) return new Object(-1,'msg_not_permitted');
+		if(!Context::get('is_logged')) return $this->setError('msg_not_permitted');
 		$module_srl = Context::get('module_srl');
 		$categories= $this->getCategoryList($module_srl);
 		$lang = Context::get('lang');
@@ -935,15 +946,18 @@ class documentModel extends document
 	 */
 	function getDocumentConfig()
 	{
-		if(!$GLOBALS['__document_config__'])
+		if ($this->documentConfig === NULL)
 		{
 			$oModuleModel = getModel('module');
 			$config = $oModuleModel->getModuleConfig('document');
 
-			if(!$config) $config = new stdClass();
-			$GLOBALS['__document_config__'] = $config;
+			if (!$config)
+			{
+				$config = new stdClass();
+			}
+			$this->documentConfig = $config;
 		}
-		return $GLOBALS['__document_config__'];
+		return $this->documentConfig;
 	}
 
 	/**
@@ -1005,13 +1019,13 @@ class documentModel extends document
 		$module_info = $oModuleModel->getModuleInfoByModuleSrl($module_srl);
 		// Check permissions
 		$grant = $oModuleModel->getGrant($module_info, Context::get('logged_info'));
-		if(!$grant->manager) return new Object(-1,'msg_not_permitted');
+		if(!$grant->manager) return $this->setError('msg_not_permitted');
 
 		$category_srl = Context::get('category_srl');
 		$category_info = $this->getCategory($category_srl);
 		if(!$category_info)
 		{
-			return new Object(-1, 'msg_invalid_request');
+			return $this->setError('msg_invalid_request');
 		}
 
 		$this->add('category_info', $category_info);
@@ -1193,7 +1207,7 @@ class documentModel extends document
 	{
 		$args = new stdClass;
 		$document_srl = Context::get('document_srl');
-		if(!$document_srl) return new Object(-1,'msg_invalid_request');
+		if(!$document_srl) return $this->setError('msg_invalid_request');
 
 		$point = Context::get('point');
 		if($point != -1) $point = 1;
@@ -1202,18 +1216,18 @@ class documentModel extends document
 		$columnList = array('document_srl', 'module_srl');
 		$oDocument = $oDocumentModel->getDocument($document_srl, false, false, $columnList);
 		$module_srl = $oDocument->get('module_srl');
-		if(!$module_srl) return new Object(-1, 'msg_invalid_request');
+		if(!$module_srl) return $this->setError('msg_invalid_request');
 
 		$oModuleModel = getModel('module');
 		$document_config = $oModuleModel->getModulePartConfig('document',$module_srl);
 		if($point == -1)
 		{
-			if($document_config->use_vote_down!='S') return new Object(-1, 'msg_invalid_request');
+			if($document_config->use_vote_down!='S') return $this->setError('msg_invalid_request');
 			$args->below_point = 0;
 		}
 		else
 		{
-			if($document_config->use_vote_up!='S') return new Object(-1, 'msg_invalid_request');
+			if($document_config->use_vote_up!='S') return $this->setError('msg_invalid_request');
 			$args->more_point = 0;
 		}
 
@@ -1383,12 +1397,15 @@ class documentModel extends document
 					$use_division = true;
 					break;
 				case 'user_id' :
-					if($search_keyword) $search_keyword = str_replace(' ','%',$search_keyword);
+					if($search_keyword) $search_keyword = trim($search_keyword);
 					$args->s_user_id = $search_keyword;
 					$args->sort_index = 'documents.'.$args->sort_index;
 					break;
 				case 'user_name' :
 				case 'nick_name' :
+					if($search_keyword) $search_keyword = trim($search_keyword);
+					$args->{"s_".$search_target} = $search_keyword;
+					break;
 				case 'email_address' :
 				case 'homepage' :
 					if($search_keyword) $search_keyword = str_replace(' ','%',$search_keyword);
@@ -1609,6 +1626,22 @@ class documentModel extends document
 		}
 
 		return false;
+	}
+
+	function getDocumentExtraImagePath()
+	{
+		$documentConfig = getModel('document')->getDocumentConfig();
+		if(Mobile::isFromMobilePhone())
+		{
+			$iconSkin = $documentConfig->micons;
+		}
+		else
+		{
+			$iconSkin = $documentConfig->icons;
+		}
+		$path = sprintf('%s%s',getUrl(), "modules/document/tpl/icons/$iconSkin/");
+
+		return $path;
 	}
 }
 /* End of file document.model.php */

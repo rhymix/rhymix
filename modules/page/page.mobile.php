@@ -1,6 +1,5 @@
 <?php
 /* Copyright (C) NAVER <http://www.navercorp.com> */
-require_once(_XE_PATH_.'modules/page/page.view.php');
 
 class pageMobile extends pageView
 {
@@ -35,7 +34,7 @@ class pageMobile extends pageView
 		$page_type_name = strtolower($this->module_info->page_type);
 		$method = '_get' . ucfirst($page_type_name) . 'Content';
 		if (method_exists($this, $method)) $page_content = $this->{$method}();
-		else return new Object(-1, sprintf('%s method is not exists', $method));
+		else return $this->setError('%s method is not exists', $method);
 
 		Context::set('module_info', $this->module_info);
 		Context::set('page_content', $page_content);

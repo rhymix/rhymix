@@ -43,7 +43,7 @@ class spamfilterModel extends spamfilter
 	function isDeniedIP()
 	{
 		$ip_list = $this->getDeniedIPList();
-		if(!count($ip_list)) return new Object();
+		if(!count($ip_list)) return new BaseObject();
 		
 		$ip_ranges = array();
 		foreach ($ip_list as $ip_range)
@@ -53,10 +53,10 @@ class spamfilterModel extends spamfilter
 		
 		if (Rhymix\Framework\Filters\IpFilter::inRanges(\RX_CLIENT_IP, $ip_ranges))
 		{
-			return new Object(-1, 'msg_alert_registered_denied_ip');
+			return new BaseObject(-1, 'msg_alert_registered_denied_ip');
 		}
 		
-		return new Object();
+		return new BaseObject();
 	}
 
 	/**
@@ -78,7 +78,7 @@ class spamfilterModel extends spamfilter
 	function isDeniedWord($text)
 	{
 		$word_list = $this->getDeniedWordList();
-		if(!count($word_list)) return new Object();
+		if(!count($word_list)) return new BaseObject();
 
 		foreach ($word_list as $word_item)
 		{
@@ -108,11 +108,11 @@ class spamfilterModel extends spamfilter
 					$custom_message = sprintf(lang('msg_alert_denied_word'), $word);
 				}
 
-				return new Object(-1, $custom_message);
+				return new BaseObject(-1, $custom_message);
 			}
 		}
 
-		return new Object();
+		return new BaseObject();
 	}
 
 	/**
@@ -122,7 +122,7 @@ class spamfilterModel extends spamfilter
 	{
 		$config = $this->getConfig();
 
-		if($config->limits != 'Y') return new Object(); 
+		if($config->limits != 'Y') return new BaseObject();
 		$limit_count = $config->limits_count ?: 3;
 		$interval = $config->limits_interval ?: 10;
 
@@ -142,7 +142,7 @@ class spamfilterModel extends spamfilter
 			
 			$oSpamFilterController = getController('spamfilter');
 			$oSpamFilterController->insertIP(\RX_CLIENT_IP .  $suffix, 'AUTO-DENIED : Over limit');
-			return new Object(-1, 'msg_alert_registered_denied_ip');
+			return new BaseObject(-1, 'msg_alert_registered_denied_ip');
 		}
 
 		// If the number of limited posts is not reached, keep creating.
@@ -160,9 +160,9 @@ class spamfilterModel extends spamfilter
 			$oSpamFilterController = getController('spamfilter');
 			$oSpamFilterController->insertLog();
 
-			return new Object(-1, $message);
+			return new BaseObject(-1, $message);
 		}
-		return new Object();
+		return new BaseObject();
 	}
 
 	/**
@@ -176,10 +176,10 @@ class spamfilterModel extends spamfilter
 			$count = $oTrackbackModel->getTrackbackCountByIPAddress($document_srl, \RX_CLIENT_IP);
 			if ($count > 0)
 			{
-				return new Object(-1, 'msg_alert_trackback_denied');
+				return new BaseObject(-1, 'msg_alert_trackback_denied');
 			}
 		}
-		return new Object();
+		return new BaseObject();
 	}
 
 	/**

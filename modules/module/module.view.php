@@ -123,15 +123,15 @@ class moduleView extends module
 	function dispModuleFileBox()
 	{
 		$logged_info = Context::get('logged_info');
-		if($logged_info->is_admin !='Y' && !$logged_info->is_site_admin) return new Object(-1, 'msg_not_permitted');
+		if($logged_info->is_admin !='Y' && !$logged_info->is_site_admin) return $this->setError('msg_not_permitted');
 
 		$input_name = Context::get('input');
 		if(!preg_match('/^[a-z0-9_]+$/i', $input_name))
 		{
-			return new Object(-1, 'msg_invalid_request');
+			return $this->setError('msg_invalid_request');
 		}
 
-		if(!$input_name) return new Object(-1, 'msg_not_permitted');
+		if(!$input_name) return $this->setError('msg_not_permitted');
 
 		$addscript = sprintf('<script>//<![CDATA[
 				var selected_filebox_input_name = "%s";
@@ -154,7 +154,7 @@ class moduleView extends module
 	function dispModuleFileBoxAdd()
 	{
 		$logged_info = Context::get('logged_info');
-		if($logged_info->is_admin !='Y' && !$logged_info->is_site_admin) return new Object(-1, 'msg_not_permitted');
+		if($logged_info->is_admin !='Y' && !$logged_info->is_site_admin) return $this->setError('msg_not_permitted');
 
 		$filter = Context::get('filter');
 		if($filter) Context::set('arrfilter',explode(',',$filter));

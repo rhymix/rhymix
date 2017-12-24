@@ -40,7 +40,7 @@
 			<div class="x_controls">
 				<select name="skin" id="skin" onchange="doDisplaySkinColorset(this); return false;">
 					<option loop="$skin_list => $key, $val" value="{$key}" selected="selected"|cond="$config->skin == $key">
-						{$val->title} ({htmlspecialchars($key)})
+						{$val->title} ({escape($key)})
 					</option>
 				</select>
 			</div>
@@ -60,7 +60,7 @@
 			<div class="x_controls">
 				<select name="mskin" id="mskin" onchange="doDisplayMobileSkinColorset(this); return false;">
 					<option loop="$mskin_list => $key, $val" value="{$key}" selected="selected"|cond="$config->mskin == $key">
-						{$val->title} ({htmlspecialchars($key)})
+						{$val->title} <block cond="!starts_with('/', $key)">({escape($key)})</block>
 					</option>
 				</select>
 			</div>

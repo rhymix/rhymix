@@ -63,10 +63,12 @@ class boardAdminController extends board {
 		// insert/update the board module based on module_srl
 		if(!$args->module_srl) {
 			$args->hide_category = 'N';
+			$args->allow_no_category = 'N';
 			$output = $oModuleController->insertModule($args);
 			$msg_code = 'success_registed';
 		} else {
 			$args->hide_category = $module_info->hide_category;
+			$args->allow_no_category = $module_info->allow_no_category;
 			$output = $oModuleController->updateModule($args);
 			$msg_code = 'success_updated';
 		}
@@ -166,10 +168,11 @@ class boardAdminController extends board {
 		$module_info = $oModuleModel->getModuleInfoByModuleSrl($module_srl);
 		if($module_info->mid != $mid)
 		{
-			return new Object(-1, 'msg_invalid_request');
+			return $this->setError('msg_invalid_request');
 		}
 
 		$module_info->hide_category = Context::get('hide_category') == 'Y' ? 'Y' : 'N';
+		$module_info->allow_no_category = Context::get('allow_no_category') == 'Y' ? 'Y' : 'N';
 		$oModuleController = getController('module'); /* @var $oModuleController moduleController */
 		$output = $oModuleController->updateModule($module_info);
 		if(!$output->toBool())
