@@ -159,7 +159,7 @@ class commentItem extends BaseObject
 			return true;
 		}
 		
-		if ($this->get('status') == RX_STATUS_PUBLIC)
+		if ($this->get('status') == RX_STATUS_PUBLIC && $this->get('is_secret') !== 'Y')
 		{
 			$this->setAccessible();
 			return true;
