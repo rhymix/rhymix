@@ -181,7 +181,7 @@
 							</ul>
 							<div class="x_tab-content">
 								<div class="x_tab-pane x_active" id="add_linkUrl">
-									<input type="url" class="_linkUrl" required title="{$lang->url_link}" />
+									<input type="url" class="_linkUrl" required="required" title="{$lang->url_link}" placeholder="http://" />
 								</div>
 								<div class="x_tab-pane" id="add_linkMenu">
 									<input type="text" class="_linkMenuTitle" title="{$lang->menu_link}" disabled placeholder="{$lang->about_menu_link}" />
@@ -1830,7 +1830,6 @@ jQuery(function($){
 		if(this !== ev.target) return;
 
 		clearInputs($('#add_menu'));
-		$('#add_menu .x_active ._linkUrl').val('http://');
 	});
 	$('#add_menu ._save').bind("click", function(){
 		var sMenuName = $('#add_menu ._menuName').val();
