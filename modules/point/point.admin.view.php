@@ -62,13 +62,22 @@ class pointAdminView extends point
 	{
 		// Get a list of mid
 		$oModuleModel = getModel('module');
-		$columnList = array('module_srl', 'mid', 'browser_title');
+		$columnList = array('module_srl', 'mid', 'browser_title', 'module');
 		$mid_list = $oModuleModel->getMidList(null, $columnList);
-		Context::set('mid_list', $mid_list);
 
+		foreach($mid_list as $mid => $item)
+		{
+			if($item->module === 'page')
+			{
+				unset($mid_list[$mid]);
+			}
+		}
+
+		Context::set('mid_list', $mid_list);
 		Context::set('module_config', $oModuleModel->getModulePartConfigs('point'));
+
 		//Security
-		$security = new Security();			
+		$security = new Security();
 		$security->encodeHTML('mid_list..browser_title','mid_list..mid');
 
 		// Set the template
