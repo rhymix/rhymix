@@ -37,7 +37,7 @@ class HintTableTag extends TableTag
 		$dbType = ucfirst(Context::getDBType());
 
 		$result = sprintf('new %sTableWithHint(\'%s\'%s, array('
-				, $dbType == 'Mysqli' ? 'Mysql' : $dbType
+				, starts_with('mysql', $dbType, false) ? 'Mysql' : $dbType
 				, $dbParser->escape($this->name)
 				, $this->alias ? ', \'' . $dbParser->escape($this->alias) . '\'' : ', null'
 				//, ', \'' . $dbParser->escape($this->index->name) .'\', \'' . $this->index->type .'\''
