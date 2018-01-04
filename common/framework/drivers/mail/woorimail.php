@@ -104,7 +104,7 @@ class Woorimail extends Base implements \Rhymix\Framework\Drivers\MailInterface
 			'sender_nickname' => '',
 			'receiver_email' => array(),
 			'receiver_nickname' => array(),
-			'member_regdate' => date('YmdHis'),
+			'member_regdate' => array(),
 			'domain' => $this->_config['api_domain'],
 			'authkey' => $this->_config['api_token'],
 			'wms_domain' => 'woorimail.com',
@@ -163,6 +163,7 @@ class Woorimail extends Base implements \Rhymix\Framework\Drivers\MailInterface
 				$data['receiver_nickname'][] = str_replace(',', '', trim($name) ?: substr($email, 0, strpos($email, '@')));
 			}
 		}
+		$data['member_regdate'] = implode(',', array_fill(0, count($data['receiver_email']), date('YmdHis')));
 		$data['receiver_email'] = implode(',', $data['receiver_email']);
 		$data['receiver_nickname'] = implode(',', $data['receiver_nickname']);
 		
