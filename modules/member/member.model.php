@@ -60,12 +60,17 @@ class memberModel extends member
 		}
 
 		if(!$config->webmaster_name) $config->webmaster_name = 'webmaster';
+
 		if(!$config->image_name_max_width) $config->image_name_max_width = 90;
 		if(!$config->image_name_max_height) $config->image_name_max_height = 20;
+		if(!$config->image_name_max_filesize) $config->image_name_max_filesize = null;
 		if(!$config->image_mark_max_width) $config->image_mark_max_width = 20;
 		if(!$config->image_mark_max_height) $config->image_mark_max_height = 20;
+		if(!$config->image_mark_max_filesize) $config->image_mark_max_filesize = null;
 		if(!$config->profile_image_max_width) $config->profile_image_max_width = 90;
 		if(!$config->profile_image_max_height) $config->profile_image_max_height = 90;
+		if(!$config->profile_image_max_filesize) $config->profile_image_max_filesize = null;
+
 		if(!$config->skin) $config->skin = 'default';
 		if(!$config->colorset) $config->colorset = 'white';
 		if(!$config->editor_skin || $config->editor_skin == 'default') $config->editor_skin = 'ckeditor';

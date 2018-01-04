@@ -131,19 +131,22 @@ class memberAdminController extends member
 		$profile_image = $_FILES['profile_image'];
 		if(is_uploaded_file($profile_image['tmp_name']))
 		{
-			$oMemberController->insertProfileImage($args->member_srl, $profile_image['tmp_name']);
+			$output = $oMemberController->insertProfileImage($args->member_srl, $profile_image['tmp_name']);
+			if(!$output->toBool()) return $output;
 		}
 
 		$image_mark = $_FILES['image_mark'];
 		if(is_uploaded_file($image_mark['tmp_name']))
 		{
-			$oMemberController->insertImageMark($args->member_srl, $image_mark['tmp_name']);
+			$output = $oMemberController->insertImageMark($args->member_srl, $image_mark['tmp_name']);
+			if(!$output->toBool()) return $output;
 		}
 
 		$image_name = $_FILES['image_name'];
 		if (is_uploaded_file($image_name['tmp_name']))
 		{
-			$oMemberController->insertImageName($args->member_srl, $image_name['tmp_name']);
+			$output = $oMemberController->insertImageName($args->member_srl, $image_name['tmp_name']);
+			if(!$output->toBool()) return $output;
 		}
 
 		// Clear cache
@@ -291,9 +294,9 @@ class memberAdminController extends member
 			'limit_day_description',
 			'emailhost_check',
 			'redirect_url',
-			'profile_image', 'profile_image_max_width', 'profile_image_max_height',
-			'image_name', 'image_name_max_width', 'image_name_max_height',
-			'image_mark', 'image_mark_max_width', 'image_mark_max_height',
+			'profile_image', 'profile_image_max_width', 'profile_image_max_height', 'profile_image_max_filesize',
+			'image_name', 'image_name_max_width', 'image_name_max_height', 'image_name_max_filesize',
+			'image_mark', 'image_mark_max_width', 'image_mark_max_height', 'image_mark_max_filesize',
 			'signature_editor_skin', 'sel_editor_colorset', 'signature_html', 'signature_html_retroact', 'member_allow_fileupload'
 		);
 
@@ -331,27 +334,33 @@ class memberAdminController extends member
 		// signupForm
 		global $lang;
 		$signupForm = array();
-		$items = array('user_id', 'password', 'user_name', 'nick_name', 'email_address', 'homepage', 'blog', 'birthday', 'signature', 'profile_image', 'image_name', 'image_mark', 'profile_image_max_width', 'profile_image_max_height', 'image_name_max_width', 'image_name_max_height', 'image_mark_max_width', 'image_mark_max_height');
+		$items = array(
+			'user_id', 'password', 'user_name', 'nick_name', 'email_address', 'homepage', 'blog', 'birthday', 'signature',
+			'profile_image', 'profile_image_max_width', 'profile_image_max_height', 'profile_image_max_filesize',
+			'image_name', 'image_name_max_width', 'image_name_max_height', 'image_name_max_filesize',
+			'image_mark', 'image_mark_max_width', 'image_mark_max_height', 'image_mark_max_filesize',
+		);
 		$mustRequireds = array('email_address', 'nick_name', 'password');
 		$extendItems = $oMemberModel->getJoinFormList();
+
 		foreach($list_order as $key)
 		{
 			$signupItem = new stdClass();
 			$signupItem->isIdentifier = ($key == $all_args->identifier);
 			$signupItem->isDefaultForm = in_array($key, $items);
-
 			$signupItem->name = $key;
-			if(!in_array($key, $items)) $signupItem->title = $key;
-			else $signupItem->title = $lang->{$key};
+			$signupItem->title = (!in_array($key, $items)) ? $key : $lang->{$key};
 			$signupItem->mustRequired = in_array($key, $mustRequireds);
 			$signupItem->imageType = (strpos($key, 'image') !== false);
 			$signupItem->required = ($all_args->{$key} == 'required') || $signupItem->mustRequired || $signupItem->isIdentifier;
 			$signupItem->isUse = in_array($key, $usable_list) || $signupItem->required;
 			$signupItem->isPublic = ($all_args->{'is_'.$key.'_public'} == 'Y' && $signupItem->isUse) ? 'Y' : 'N';
+
 			if($signupItem->imageType)
 			{
 				$signupItem->max_width = $all_args->{$key.'_max_width'};
 				$signupItem->max_height = $all_args->{$key.'_max_height'};
+				$signupItem->max_filesize = $all_args->{$key.'_max_filesize'};
 			}
 
 			// set extends form
