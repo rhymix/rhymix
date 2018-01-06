@@ -112,7 +112,7 @@ Please see the online manual for more information on server requirements.
 ### Participation in Development
 
 Rhymix welcomes developers, designers, translators, and bugs to the public.
-If you would like to participate in, please read [CONTRIBUTING.md](./CONTRIBUTING.md) first to ensure efficient and orderly project management.
+If you would like to participate, please read [CONTRIBUTING.md](./CONTRIBUTING.md) first to ensure efficient and orderly project management.
 
 If you have found a security vulnerability, please let us know at devops@rhymix.org so that we can make a patch before it is exploited.
 
