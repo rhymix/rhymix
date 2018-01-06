@@ -82,10 +82,10 @@ Rhymix의 소스코드를 수정하거나 확장 기능을 직접 개발하여 �
 
 Rhymix is a content management system (CMS) for everyone who wants to create independent homepages to express themselves and build their communities easily and freely.
 
-Rhymix is a fork project of [XpressEngine](https://www.xpressengine.com) version 1.8 and is a free software that anyone can use for free and participate in.
+Rhymix is a fork of [XpressEngine](https://www.xpressengine.com) version 1.8 and is free software that anyone can use for free and participate.
 
 Rhymix is a combination of "rhyme" in the sense of "making a poem, adjusting the sound", and "remix" in the sense of "combining, changing".
-Rhymix cheers everyone who freely creates and/or assembles new things in the Internet space by combining various softwares and contents.
+Rhymix cheers everyone who freely creates and/or assembles new things in the Internet space by combining various software and contents.
 
 ### Development Direction
 
@@ -99,7 +99,7 @@ we focused on technologies that protect users' sovereignty and open Internet env
 
 This requires the most convenience for the average user over any other CMS.
 
-- CMS that is convenient for beginners enough to create the website easily with a few clicks
+- CMS that is convenient enough to create the website easily, even for beginners, with a few clicks
 - CMS that is actively using the latest technology, fast and secure
 - CMS to help users and developers communicate well through community
 - We try to ensure maximum compatibility with existing XpressEngine third-party materials such as add-ons, modules and widgets.
@@ -126,17 +126,17 @@ If you have found a security vulnerability, please let us know at devops@rhymix.
 
 ### Copyright and License
 
-Rhymix is a free software licensed under the [GNU GPL v2](http://korea.gnu.org/documents/copyleft/gpl.ko.html) or later.
-Free software, also known as "open source", is a program that emphasizes the freedom and rights of developers and users, their participation and responsibilities, and is free to use and participate in development.
+Rhymix is a free software licensed under the [GNU GPL v2](https://www.gnu.org/licenses/old-licenses/gpl-2.0.html) or later.
+Free software is a program that emphasizes the rights and responsibilities of developers and users to participate or use in freedom.
 
-Rhymix is based on the source code of [XpressEngine](https://www.xpressengine.com), which [NAVER](https://www.navercorp.com/) is partly copyrighted free software.
+Rhymix is based on the source code of [XpressEngine](https://www.xpressengine.com) ([Github](https://github.com/xpressengine/xe-core/)), which [NAVER](https://www.navercorp.com/) is partly copyrighted free software.
 Rhymix developers have copyrights on the added and modified code.
 
-XpressEngine had licensed under the GPL in its early days and switched to LGPL from the version 1.4.0, but Rhymix has reverted its licenses to the GPL for further protection of the rights and spirit of free software.
+XpressEngine has been licensed under the GPL in its early days and switched to LGPL from version 1.4.0, but Rhymix has reverted its licenses to the GPL for further protection of the rights and spirit of free software.
 (License conversion is allowed in [LGPL v2.1 Section 3](https://www.gnu.org/licenses/old-licenses/lgpl-2.1.html).)
 
-GPL is a license that is commonly adopted by global CMSs such as WordPress, Drupal, and Joomla, so the rights and obligations of users and developers are the same as those CMSes.
+The GPL is commonly adopted by global CMSes such as WordPress, Drupal, and Joomla. The rights and obligations of users and developers of Rhymix are the same as those CMSes.
 
-The use of Rhymix on the homepage does not impose a duty on you, to release the source code, even if you modify the source code or develop the extension yourself.
-However, if you distribute or sell the source code or extension, you must provide the source code, which is subject to the GPL license.
+The use of Rhymix on homepage does not impose a duty on you to release the source code, even if you modify the source code or develop the extension yourself.
+However, distributing and/or selling the source code or extension according to the GPL license, you have to provide the source code.
 
