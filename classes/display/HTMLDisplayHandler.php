@@ -6,8 +6,8 @@ class HTMLDisplayHandler
 	/**
 	 * jQuery versions
 	 */
-	const JQUERY_V1 = '1.11.3';
-	const JQUERY_V2 = '2.1.4';
+	const JQUERY_V1 = '1.12.4';
+	const JQUERY_V2 = '2.2.4';
 	
 	/**
 	 * Reserved scripts
@@ -562,7 +562,7 @@ class HTMLDisplayHandler
 	{
 		Context::loadFile(array('./common/css/rhymix.less', '', '', -1600000000), true);
 		$original_file_list = array(
-			'plugins/jquery.migrate/jquery-migrate-1.2.1.js',
+			'plugins/jquery.migrate/jquery-migrate-1.4.1.min.js',
 			'plugins/blankshield/blankshield.min.js',
 			'plugins/uri/URI.min.js',
 			'x.js',
