@@ -270,7 +270,7 @@ class boardView extends board
 				if($this->consultation && !$oDocument->isNotice())
 				{
 					$logged_info = Context::get('logged_info');
-					if($oDocument->get('member_srl')!=$logged_info->member_srl)
+					if(abs($oDocument->get('member_srl')) != $logged_info->member_srl)
 					{
 						$oDocument = $oDocumentModel->getDocument(0);
 					}
@@ -543,11 +543,20 @@ class boardView extends board
 		if($this->consultation)
 		{
 			$logged_info = Context::get('logged_info');
-			$args->member_srl = $logged_info->member_srl;
+
+			if($this->module_info->use_anonymous === 'Y')
+			{
+				$args->member_srl = array($logged_info->member_srl, $logged_info->member_srl * -1);
+			}
+			else
+			{
+				$args->member_srl = $logged_info->member_srl;
+			}
 		}
 
 		// setup the list config variable on context
 		Context::set('list_config', $this->listConfig);
+
 		// setup document list variables on context
 		$output = $oDocumentModel->getDocumentList($args, $this->except_notice, TRUE, $this->columnList);
 		Context::set('document_list', $output->data);

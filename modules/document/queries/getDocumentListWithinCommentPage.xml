@@ -11,7 +11,7 @@
         <condition operation="notin" column="documents.module_srl" var="exclude_module_srl" filter="number" pipe="and" />
         <condition operation="equal" column="documents.category_srl" var="category_srl" pipe="and" />
         <condition operation="equal" column="documents.document_srl" default="comments.document_srl" notnull="notnull" pipe="and" />
-        <condition operation="equal" column="documents.member_srl" var="member_srl" filter="number" pipe="and" />
+        <condition operation="in" column="documents.member_srl" var="member_srl" filter="number" pipe="and" />
         <condition operation="in" column="documents.status" var="statusList" pipe="and" />
         <group pipe="and">
             <condition operation="more" column="documents.list_order" var="division" pipe="and" />

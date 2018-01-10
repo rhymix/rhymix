@@ -1325,7 +1325,7 @@ class documentModel extends document
 		$args->page_count = $searchOpt->page_count?$searchOpt->page_count:10;
 		$args->start_date = $searchOpt->start_date?$searchOpt->start_date:null;
 		$args->end_date = $searchOpt->end_date?$searchOpt->end_date:null;
-		$args->member_srl = $searchOpt->member_srl;
+		$args->member_srl = $searchOpt->member_srl ?: ($searchOpt->member_srls ?: null);
 
 		$logged_info = Context::get('logged_info');
 

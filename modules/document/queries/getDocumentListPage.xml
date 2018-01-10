@@ -10,7 +10,7 @@
         <condition operation="notin" column="module_srl" var="exclude_module_srl" filter="number" pipe="and" />
         <condition operation="in" column="category_srl" var="category_srl" pipe="and" />
         <condition operation="equal" column="is_notice" var="s_is_notice" pipe="and" />
-        <condition operation="equal" column="member_srl" var="member_srl" filter="number" pipe="and" />
+        <condition operation="in" column="member_srl" var="member_srl" filter="number" pipe="and" />
         <condition operation="in" column="status" var="statusList" pipe="and" />
         <group pipe="and">
             <condition operation="more" column="list_order" var="division" pipe="and" />

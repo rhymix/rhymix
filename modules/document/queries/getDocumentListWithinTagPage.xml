@@ -11,7 +11,7 @@
         <condition operation="notin" column="documents.module_srl" var="exclude_module_srl" filter="number" pipe="and" />
         <condition operation="equal" column="documents.document_srl" default="tags.document_srl" notnull="notnull" pipe="and" />
         <condition operation="in" column="documents.category_srl" var="category_srl" filter="number" pipe="and" />
-        <condition operation="equal" column="documents.member_srl" var="member_srl" filter="number" pipe="and" />
+        <condition operation="in" column="documents.member_srl" var="member_srl" filter="number" pipe="and" />
         <condition operation="like" column="tags.tag" var="s_tags" notnull="notnull" pipe="and" />
 		<group pipe="and">
 			<condition operation="less" column="documents.list_order" var="list_order" filter="number" pipe="and" />
