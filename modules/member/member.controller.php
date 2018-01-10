@@ -1965,6 +1965,10 @@ class memberController extends member
 			Rhymix\Framework\Session::setAutologinKeys($autologin_key, $new_security_key);
 		}
 		
+		// Update the last login time.
+		executeQuery('member.updateLastLogin', (object)['member_srl' => $output->data->member_srl]);
+		$this->_clearMemberCache($args->member_srl);
+		
 		// Return the member_srl.
 		return intval($output->data->member_srl);
 	}
