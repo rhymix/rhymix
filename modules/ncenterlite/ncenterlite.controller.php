@@ -225,7 +225,7 @@ class ncenterliteController extends ncenterlite
 			{
 				$comment_member_config = $oNcenterliteModel->getUserConfig($member_srl);
 				$parent_member_config = $comment_member_config->data;
-				if($parent_member_config->comment_notify != 'Y')
+				if($parent_member_config->comment_notify == 'N')
 				{
 					return;
 				}
@@ -274,7 +274,7 @@ class ncenterliteController extends ncenterlite
 			{
 				$comment_member_config = $oNcenterliteModel->getUserConfig($member_srl);
 				$document_comment_member_config = $comment_member_config->data;
-				if($document_comment_member_config->comment_notify != 'Y')
+				if($document_comment_member_config->comment_notify == 'N')
 				{
 					return;
 				}
@@ -322,7 +322,7 @@ class ncenterliteController extends ncenterlite
 		{
 			$messages_member_config = $oNcenterliteModel->getUserConfig($obj->receiver_srl);
 			$message_member_config = $messages_member_config->data;
-			if($message_member_config->message_notify != 'Y')
+			if($message_member_config->message_notify == 'N')
 			{
 				return;
 			}
