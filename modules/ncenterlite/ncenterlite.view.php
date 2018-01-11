@@ -53,7 +53,7 @@ class ncenterliteView extends ncenterlite
 		$logged_info = Context::get('logged_info');
 		if(!Context::get('is_logged')) return $this->setError('ncenterlite_stop_login_required');
 
-		if($logged_info->is_admin == 'Y')
+		if($logged_info->is_admin == 'Y' && $member_srl)
 		{
 			$member_info = $oMemberModel->getMemberInfoByMemberSrl($member_srl);
 		}
