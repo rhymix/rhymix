@@ -48,6 +48,7 @@ class integration_searchModel extends module
 			$args->module_srl = array_intersect($module_srls_list, $accessible_modules);
 			$args->exclude_module_srl = array(0); // exclude 'trash'
 		}
+		$args->module_srl[] = 0;
 		
 		$args->page = $page;
 		$args->list_count = $list_count;
@@ -95,6 +96,7 @@ class integration_searchModel extends module
 			$args->module_srl = array_intersect($module_srls_list, $accessible_modules);
 			$args->exclude_module_srl = array(0); // exclude 'trash'
 		}
+		$args->module_srl[] = 0;
 
 		$args->page = $page;
 		$args->list_count = $list_count;
@@ -147,6 +149,7 @@ class integration_searchModel extends module
 			$args->module_srl = array_intersect($module_srls_list, $accessible_modules);
 			$args->exclude_module_srl = array(0); // exclude 'trash'
 		}
+		$args->module_srl[] = 0;
 		
 		$args->page = $page;
 		$args->list_count = $list_count;
@@ -192,6 +195,7 @@ class integration_searchModel extends module
 			$args->module_srl = array_intersect($module_srls_list, $accessible_modules);
 			$args->exclude_module_srl = array(0); // exclude 'trash'
 		}
+		$args->module_srl[] = 0;
 		
 		$args->page = $page;
 		$args->list_count = $list_count;
