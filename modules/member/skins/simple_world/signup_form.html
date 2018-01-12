@@ -107,8 +107,9 @@
 			$(".inputDate").prop('readonly', false);
 		}
 		$(".dateRemover").click(function() {
-			$(this).prevAll('input').val('');
-			return false;});
+			$(this).prev('.inputDate').val('').prev('input[type=hidden]').val('');
+			return false;
+		});
 	});
 })(jQuery);
 </script>
