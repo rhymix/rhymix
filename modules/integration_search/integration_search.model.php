@@ -104,6 +104,7 @@ class integration_searchModel extends module
 		$args->is_secret = 'N';
 		$args->sort_index = 'list_order';
 		$args->order_type = 'asc';
+		$args->statusList = array(1);
 		// Get a list of documents
 		$oCommentModel = getModel('comment');
 		$output = $oCommentModel->getTotalCommentList($args);
