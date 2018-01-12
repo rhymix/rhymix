@@ -80,9 +80,9 @@ Rhymix의 소스코드를 수정하거나 확장 기능을 직접 개발하여 �
 # English
 [![Rhymix](https://cloud.githubusercontent.com/assets/8565457/12881857/7c3e69d6-ce90-11e5-94dc-8a592cf9ab7d.png)](https://www.rhymix.org)
 
-Rhymix is a content management system (CMS) for anyone who wants to create independent homepages to express themselves and grow their communities easily and freely.
+Rhymix is a content management system (CMS) for everyone who wants to create independent homepages to express themselves and build their communities easily and freely.
 
-Rhymix is a project to fork [XpressEngine](https://www.xpressengine.com) version 1.8 and is free software that anyone can use for free and participate in.
+Rhymix is a fork of [XpressEngine](https://www.xpressengine.com) version 1.8 and is free software that anyone can use for free and participate.
 
 Rhymix is a combination of "rhyme" in the sense of "making a poem, adjusting the sound", and "remix" in the sense of "combining, changing".
 Rhymix cheers everyone who freely creates and/or assembles new things in the Internet space by combining various software and contents.
@@ -90,7 +90,7 @@ Rhymix cheers everyone who freely creates and/or assembles new things in the Int
 ### Development Direction
 
 Rhymix developers want an Internet ecosystem where developers and users respect each other's rights and responsibilities, 
-a world where everyone can voice their voice without relying on a centralized SNS platform, 
+a world where everyone can speak their voice without relying on a centralized SNS platform, 
 a future where ordinary bloggers, students, the disabled and others as well as developers of startups can build a home in cyberspace and communicate with each other.
 
 Rather than indiscriminately accepting modern IT trends that are centered on developers and service providers, 
@@ -99,7 +99,7 @@ we focused on technologies that protect users' sovereignty and open Internet env
 
 This requires the most convenience for the average user over any other CMS.
 
-- CMS that is convenient enough for beginners to easily create the website with a few clicks
+- CMS that is convenient enough to create the website easily, even for beginners, with a few clicks
 - CMS that is actively using the latest technology, fast and secure
 - CMS to help users and developers communicate well through community
 - We try to ensure maximum compatibility with existing XpressEngine third-party materials such as add-ons, modules and widgets.
@@ -114,7 +114,7 @@ Please see the online manual for more information on server requirements.
 Rhymix welcomes developers, designers, translators, and bugs to the public.
 If you would like to participate, please read [CONTRIBUTING.md](./CONTRIBUTING.md) first to ensure efficient and orderly project management.
 
-If you have found a security vulnerability, please let us know at devops@rhymix.org so that we can create a patch before it is exploited.
+If you have found a security vulnerability, please let us know at devops@rhymix.org so that we can make a patch before it is exploited.
 
 ### Official Website
 
@@ -126,16 +126,17 @@ If you have found a security vulnerability, please let us know at devops@rhymix.
 
 ### Copyright and License
 
-Rhymix is a free software licensed under the [GNU GPL v2](http://korea.gnu.org/documents/copyleft/gpl.ko.html) or later.
-Free software, also known as "open source" or "open", is a program that emphasizes the freedom and rights of developers and users, their participation and responsibilities, and is free to use and participate in development.
+Rhymix is a free software licensed under the [GNU GPL v2](https://www.gnu.org/licenses/old-licenses/gpl-2.0.html) or later.
+Free software is a program that emphasizes the rights and responsibilities of developers and users to participate or use in freedom.
 
-Rhymix is based on the source code of [XpressEngine](https://www.xpressengine.com), which [NAVER](https://www.navercorp.com/) is partly copyrighted free software.
+Rhymix is based on the source code of [XpressEngine](https://www.xpressengine.com) ([Github](https://github.com/xpressengine/xe-core/)), which [NAVER](https://www.navercorp.com/) is partly copyrighted free software.
 Rhymix developers have copyrights on the added and modified code.
 
-XpressEngine had used the GPL in its early days and switched from version 1.4.0 to LGPL, but Rhymix has reverted its licenses to the GPL to further protect its rights and adhere to the spirit of free software.
+XpressEngine has been licensed under the GPL in its early days and switched to LGPL from version 1.4.0, but Rhymix has reverted its licenses to the GPL for further protection of the rights and spirit of free software.
 (License conversion is allowed in [LGPL v2.1 Section 3](https://www.gnu.org/licenses/old-licenses/lgpl-2.1.html).)
 
-GPL is a license that is commonly adopted by global CMSs such as WordPress, Drupal, and Joomla, so the rights and obligations of users and developers are the same as those of CMS.
+The GPL is commonly adopted by global CMSes such as WordPress, Drupal, and Joomla. The rights and obligations of users and developers of Rhymix are the same as those CMSes.
 
-The use of Rhymix on the homepage does not oblige you to release the source code, even if you modify the Rhymix source code or develop the extension yourself.
-However, if you distribute or sell your own extensions to a third party, you must provide the source code, which is subject to the GPL license.
+The use of Rhymix on homepage does not impose a duty on you to release the source code, even if you modify the source code or develop the extension yourself.
+However, distributing and/or selling the source code or extension according to the GPL license, you have to provide the source code.
+
