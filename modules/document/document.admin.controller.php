@@ -93,47 +93,22 @@ class documentAdminController extends document
 			// Move the attached file if the target module is different
 			if($module_srl != $obj->module_srl && $oDocument->hasUploadedFiles())
 			{
-				$oFileController = getController('file');
-
-				$files = $oDocument->getUploadedFiles();
-				$delete_file_srls = array();
-				if(is_array($files))
+				$args = new stdClass;
+				$args->module_srl = $module_srl;
+				$args->upload_target_srl = $oDocument->get('document_srl');
+				$output = executeQuery('file.updateFileModule', $args);
+				if(!$output->toBool())
 				{
-					foreach($files as $val)
-					{
-						$file_info = array();
-						$file_info['tmp_name'] = $val->uploaded_filename;
-						$file_info['name'] = $val->source_filename;
-						$inserted_file = $oFileController->insertFile($file_info, $module_srl, $obj->document_srl, $val->download_count, true);
-						if($inserted_file && $inserted_file->toBool())
-						{
-							// for image/video files
-							if($val->direct_download == 'Y')
-							{
-								$source_filename = substr($val->uploaded_filename,2);
-								$target_filename = substr($inserted_file->get('uploaded_filename'),2);
-								$obj->content = str_replace($source_filename, $target_filename, $obj->content);
-								// For binary files
-							}
-							else
-							{
-								$obj->content = str_replace('file_srl='.$val->file_srl, 'file_srl='.$inserted_file->get('file_srl'), $obj->content);
-								$obj->content = str_replace('sid='.$val->sid, 'sid='.$inserted_file->get('sid'), $obj->content);
-							}
-						}
-						$delete_file_srls[] = $val->file_srl;
-					}
-					// Delete an existing file
-					$oFileController->deleteFile($delete_file_srls);
+					$oDB->rollback();
+					return $output;
 				}
-				// Set the all files to be valid
-				$oFileController->setFilesValid($obj->document_srl);
 			}
 
 			if($module_srl != $obj->module_srl)
 			{
 				$oDocumentController->deleteDocumentAliasByDocument($obj->document_srl);
 			}
+
 			// Move a module of the article
 			$obj->module_srl = $module_srl;
 			$obj->category_srl = $category_srl;
@@ -152,12 +127,14 @@ class documentAdminController extends document
 					return $update_output;
 				}
 			}
-			//Move a module of the extra vars
+
+			// Move a module of the extra vars
 			$output = executeQuery('document.moveDocumentExtraVars', $obj);
 			if(!$output->toBool()) {
 				$oDB->rollback();
 				return $output;
 			}
+
 			// Set 0 if a new category doesn't exist after catergory change
 			if($source_category_srl != $category_srl)
 			{
@@ -169,6 +146,7 @@ class documentAdminController extends document
 		$args = new stdClass();
 		$args->document_srls = implode(',',$document_srl_list);
 		$args->module_srl = $module_srl;
+
 		// move the comment
 		$output = executeQuery('comment.updateCommentModule', $args);
 		if(!$output->toBool())
