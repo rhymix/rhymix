@@ -2141,7 +2141,7 @@ class memberController extends member
 				elseif(3600 <= $term && $term < 86400) $term = intval($term/3600).lang('unit_hour');
 				else $term = intval($term/86400).lang('unit_day');
 
-				return new BaseObject(-1, 'excess_ip_access_count', $term);
+				return new BaseObject(-1, sprintf(lang('excess_ip_access_count'), $term));
 			}
 			else
 			{
