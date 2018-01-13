@@ -2496,11 +2496,10 @@ jQuery(function($){
 						sIsInstalled = "";
 					}
 
-					var sScreenshot = item.item_screenshot_url.replace(/^https:\/\//, "");
 					$node = $.tmpl( "downloadableItem", {
 						MenuType: item.title,
 						MenuTypeDesc: item.package_description,
-						ScreenShotURL: sScreenshot,
+						ScreenShotURL: item.item_screenshot_url,
 						Score: item.package_star,
 						TotalVotes: item.package_voted,
 						LastUpdatedWithTime: formatUpdatedDateWithTime(item.item_regdate),
