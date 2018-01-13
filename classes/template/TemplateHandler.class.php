@@ -34,7 +34,7 @@ class TemplateHandler
 	{
 		$this->config = new stdClass;
 		$this->handler_mtime = filemtime(__FILE__);
-		$this->user = Context::get('logged_info') ?: new Rhymix\Framework\Helpers\SessionHelper;
+		$this->user = Rhymix\Framework\Session::getMemberInfo() ?: new Rhymix\Framework\Helpers\SessionHelper;
 	}
 
 	/**
