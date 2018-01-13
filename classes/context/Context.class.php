@@ -561,7 +561,7 @@ class Context
 		{
 			$db_info->slave_db = array($db_info->master_db);
 		}
-		$db_info->use_object_cache = count($config['cache']) ? array_first($config['cache']) : null;
+		$db_info->use_object_cache = $config['cache']['type'] ?: null;
 		$db_info->ftp_info = new stdClass;
 		$db_info->ftp_info->ftp_host = $config['ftp']['host'];
 		$db_info->ftp_info->ftp_port = $config['ftp']['port'];
