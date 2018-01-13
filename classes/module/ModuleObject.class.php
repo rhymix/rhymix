@@ -37,9 +37,10 @@ class ModuleObject extends BaseObject
 	 */
 	function __construct($error = 0, $message = 'success')
 	{
-		if(strcasecmp(get_class($this), 'memberModel') !== 0)
+		$this->user = Context::get('logged_info') ?: new Rhymix\Framework\Helpers\SessionHelper;
+		if(!($this->user instanceof Rhymix\Framework\Helpers\SessionHelper))
 		{
-			$this->user = Rhymix\Framework\Session::getMemberInfo() ?: new Rhymix\Framework\Helpers\SessionHelper;
+			$this->user = Rhymix\Framework\Session::getMemberInfo();
 		}
 		parent::__construct($error, $message);
 	}
