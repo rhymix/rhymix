@@ -37,6 +37,7 @@ class document extends ModuleObject
 		$oDB->addIndex("documents","idx_module_update_order", array("module_srl","update_order"));
 		$oDB->addIndex("documents","idx_module_readed_count", array("module_srl","readed_count"));
 		$oDB->addIndex("documents","idx_module_voted_count", array("module_srl","voted_count"));
+		$oDB->addIndex("documents","idx_module_regdate", array("module_srl","regdate"));
 		$oDB->addIndex("documents","idx_module_notice", array("module_srl","is_notice"));
 		$oDB->addIndex("documents","idx_module_document_srl", array("module_srl","document_srl"));
 		$oDB->addIndex("documents","idx_module_blamed_count", array("module_srl","blamed_count"));
@@ -65,6 +66,7 @@ class document extends ModuleObject
 		if(!$oDB->isIndexExists("documents","idx_module_update_order")) return true;
 		if(!$oDB->isIndexExists("documents","idx_module_readed_count")) return true;
 		if(!$oDB->isIndexExists("documents","idx_module_voted_count")) return true;
+		if(!$oDB->isIndexExists("documents","idx_module_regdate")) return true;
 		// 2007. 10. 17 Add a trigger to delete all posts together when the module is deleted
 		if(!$oModuleModel->getTrigger('module.deleteModule', 'document', 'controller', 'triggerDeleteModuleDocuments', 'after')) return true;
 		// 2007. 10. 25 add parent_srl, expand to the document category
@@ -169,6 +171,12 @@ class document extends ModuleObject
 		{
 			$oDB->addIndex("documents","idx_module_voted_count", array("module_srl","voted_count"));
 		}
+
+		if(!$oDB->isIndexExists("documents","idx_module_regdate"))
+		{
+			$oDB->addIndex("documents","idx_module_regdate", array("module_srl","regdate"));
+		}
+
 		// 2007. 10. 17 Add a trigger to delete all posts together when the module is deleted
 		if(!$oModuleModel->getTrigger('module.deleteModule', 'document', 'controller', 'triggerDeleteModuleDocuments', 'after'))
 			$oModuleController->insertTrigger('module.deleteModule', 'document', 'controller', 'triggerDeleteModuleDocuments', 'after');
