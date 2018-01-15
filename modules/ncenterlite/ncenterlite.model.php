@@ -239,13 +239,16 @@ class ncenterliteModel extends ncenterlite
 			$member_srl = $logged_info->member_srl;
 		}
 
-		$cache_key = sprintf('ncenterlite:notify_list:%d', $member_srl);
-		$output = Rhymix\Framework\Cache::get($cache_key);
-		if ($output !== null)
+		if($page <= 1)
 		{
-			return $output;
+			$cache_key = sprintf('ncenterlite:notify_list:%d', $member_srl);
+			$output = Rhymix\Framework\Cache::get($cache_key);
+			if ($output !== null)
+			{
+				return $output;
+			}
 		}
-		
+
 		$flag_path = \RX_BASEDIR . 'files/cache/ncenterlite/new_notify/' . getNumberingPath($member_srl) . $member_srl . '.php';
 		if(FileHandler::exists($flag_path) && $page <= 1)
 		{
