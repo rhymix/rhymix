@@ -513,19 +513,17 @@ class SMS
 		{
 			$this->caller = $backtrace[0]['file'] . ($backtrace[0]['line'] ? (' line ' . $backtrace[0]['line']) : '');
 		}
-		
 		$output = \ModuleHandler::triggerCall('sms.send', 'before', $this);
 		if(!$output->toBool())
 		{
 			$this->errors[] = $output->getMessage();
 			return false;
 		}
-		
+
 		if (config('sms.default_force') && config('sms.default_from'))
 		{
 			$this->setFrom(config('sms.default_from'));
 		}
-		
 		try
 		{
 			if ($this->driver)
@@ -540,6 +538,7 @@ class SMS
 					$this->errors[] = 'No recipients selected';
 					$this->sent = false;
 				}
+
 			}
 			else
 			{
@@ -552,7 +551,6 @@ class SMS
 			$this->errors[] = class_basename($e) . ': ' . $e->getMessage();
 			$this->sent = false;
 		}
-		
 		$output = \ModuleHandler::triggerCall('sms.send', 'after', $this);
 		if(!$output->toBool())
 		{

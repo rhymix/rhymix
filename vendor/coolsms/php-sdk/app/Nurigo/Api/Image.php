@@ -17,10 +17,10 @@ class Image extends Coolsms
     /**
      * @brief get image list( HTTP Method GET )
      * @param integer $offset [optional]
-     * @param integer $limit  [optional]
+     * @param integer $limit [optional]
      * @return object(total_count, offset, limit, list['image_id', 'image_id' ...])
      */
-    public function getImageList($offset = null, $limit = null) 
+    public function getImageList($offset = null, $limit = null)
     {
         $options = new \stdClass();
         $options->offset = $offset;
@@ -33,7 +33,7 @@ class Image extends Coolsms
      * @param string $image_id [required]
      * @return object(image_id, file_name, original_name, file_size, width, height)
      */
-    public function getImageInfo($image_id) 
+    public function getImageInfo($image_id)
     {
         if (!$image_id) throw new CoolsmsSDKException('image_id is required', 202);
 
@@ -44,18 +44,20 @@ class Image extends Coolsms
 
     /**
      * @brief upload image ( HTTP Method POST )
-     * @param mixed  $image    [required]
+     * @param mixed $image [required]
      * @param string $encoding [optional]
      * @return object(image_id)
      */
-    public function uploadImage($image, $encoding = null)
+    public function uploadImage($obj)
     {
-        if (!$image) throw new CoolsmsSDKException('image is required', 202);
+        if (!$obj) {
+            throw new CoolsmsSDKException('image is required', 202);
+        }
+        $jsonEncodeData = new \stdClass();
+        $jsonEncodeData->json_option = 'images';
+        $jsonEncodeData->encoding_json_data = json_encode($obj);
 
-        $options = new \stdClass();
-        $options->image = $image;
-        $options->encoding = $encoding;
-        return $this->request('upload_image', $options, true);
+        return $this->request('uploadImage', $jsonEncodeData, true);
     }
 
     /**
@@ -63,7 +65,7 @@ class Image extends Coolsms
      * @param string $image_ids [required]
      * @return object(success_count)
      */
-    public function deleteImages($image_ids) 
+    public function deleteImages($image_ids)
     {
         if (!$image_ids) throw new CoolsmsSDKException('image_ids is required', 202);
 

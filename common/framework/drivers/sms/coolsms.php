@@ -71,7 +71,8 @@ class CoolSMS extends Base implements \Rhymix\Framework\Drivers\SMSInterface
 				$options = new \stdClass;
 				if ($this->_config['sender_key'])
 				{
-					$options->sender_key = $this->_config['sender_key'];
+					$options->kakaoOptions = new \stdClass();
+					$options->kakaoOptions->senderKey = $this->_config['sender_key'];
 					$options->type = 'CTA';
 				}
 				else
@@ -82,7 +83,8 @@ class CoolSMS extends Base implements \Rhymix\Framework\Drivers\SMSInterface
 				$options->to = implode(',', $message->to);
 				$options->text = $message->content ?: $message->type;
 				$options->charset = 'utf8';
-				$options->srk = 'K0009334574';
+				$options->appId = 'K0009334574';
+				$options->appVersion = RX_VERSION;
 				if ($message->delay && $message->delay > time())
 				{
 					$options->datetime = gmdate('YmdHis', $message->delay + (3600 * 9));
@@ -104,7 +106,7 @@ class CoolSMS extends Base implements \Rhymix\Framework\Drivers\SMSInterface
 					$options->$key = $value;
 				}
 				$result = $sender->send($options);
-				if (!$result->success_count)
+				if ($result->errorCount > 0)
 				{
 					$error_codes = implode(', ', $result->error_list ?: array('Unknown'));
 					$original->addError('Error (' . $error_codes . ') while sending message ' . ($i + 1) . ' of ' . count($messages) . ' to ' . $options->to);
