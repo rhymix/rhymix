@@ -575,19 +575,15 @@ class ncenterliteController extends ncenterlite
 			$oDocument = Context::get('oDocument');
 			$logged_info = Context::get('logged_info');
 
-			if($document_srl && Context::get('is_logged') && $config->document_read == 'Y')
+			if($document_srl && $config->document_read == 'Y' && $logged_info->member_srl)
 			{
-				$notify_count = getModel('ncenterlite')->_getNewCount();
-				if($notify_count)
+				$args->srl = $document_srl;
+				$args->member_srl = $logged_info->member_srl;
+				$outputs = executeQuery('ncenterlite.updateNotifyReadedBySrl', $args);
+				if($outputs->toBool() && DB::getInstance()->getAffectedRows())
 				{
-					$args->srl = $document_srl;
-					$args->member_srl = $logged_info->member_srl;
-					$outputs = executeQuery('ncenterlite.updateNotifyReadedBySrl', $args);
-					if($outputs->toBool())
-					{
-						//Remove flag files
-						$this->removeFlagFile($args->member_srl);
-					}
+					//Remove flag files
+					$this->removeFlagFile($args->member_srl);
 				}
 			}
 
