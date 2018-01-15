@@ -1118,6 +1118,26 @@ class DBCubrid extends DB
 	}
 
 	/**
+	 * Get the number of rows affected by the last query
+	 * @return int
+	 */
+	function getAffectedRows()
+	{
+		$connection = $this->_getConnection('master');
+		return cubrid_affected_rows($connection);
+	}
+
+	/**
+	 * Get the ID generated in the last query
+	 * @return int
+	 */
+	function getInsertID()
+	{
+		$connection = $this->_getConnection('master');
+		return cubrid_insert_id($connection);
+	}
+
+	/**
 	 * If have a error, return error object
 	 * @param BaseObject $queryObject
 	 * @return BaseObject

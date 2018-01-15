@@ -40,6 +40,11 @@ class DBMysql extends DB
 	);
 
 	/**
+	 * Last statement executed
+	 */
+	var $last_stmt;
+
+	/**
 	 * Constructor
 	 * @return void
 	 */
@@ -177,6 +182,7 @@ class DBMysql extends DB
 			$this->setError(mysql_errno($connection), mysql_error($connection));
 		}
 		// Return result
+		$this->last_stmt = $result;
 		return $result;
 	}
 
@@ -228,7 +234,7 @@ class DBMysql extends DB
 	{
 		$query = sprintf("insert into `%ssequence` (seq) values ('0')", $this->prefix);
 		$this->_query($query);
-		$sequence = $this->db_insert_id();
+		$sequence = $this->getInsertID();
 		if($sequence % 10000 == 0)
 		{
 			$query = sprintf("delete from  `%ssequence` where seq < %d", $this->prefix, $sequence);
@@ -801,15 +807,32 @@ class DBMysql extends DB
 	}
 
 	/**
+	 * Get the number of rows affected by the last query
+	 * @return int
+	 */
+	function getAffectedRows()
+	{
+		$connection = $this->_getConnection('master');
+		return mysql_affected_rows($connection);
+	}
+
+	/**
 	 * Get the ID generated in the last query
-	 * Return next sequence from sequence table
-	 * This method use only mysql
+	 * @return int
+	 */
+	function getInsertID()
+	{
+		$connection = $this->_getConnection('master');
+		return mysql_insert_id($connection);
+	}
+
+	/**
+	 * @deprecated
 	 * @return int
 	 */
 	function db_insert_id()
 	{
-		$connection = $this->_getConnection('master');
-		return mysql_insert_id($connection);
+		return $this->getInsertID();
 	}
 
 	/**

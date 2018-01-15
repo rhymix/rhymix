@@ -37,6 +37,11 @@ class DBMssql extends DB
 		'date' => 'nvarchar(14)',
 		'float' => 'float',
 	);
+	
+	/**
+	 * Last statement executed
+	 */
+	var $last_stmt;
 
 	/**
 	 * Constructor
@@ -242,6 +247,7 @@ class DBMssql extends DB
 			$this->setError(print_r(sqlsrv_errors(), true));
 		}
 
+		$this->last_stmt = $stmt;
 		$this->param = array();
 
 		return $stmt;
@@ -988,6 +994,27 @@ class DBMssql extends DB
 		}
 	}
 
+	/**
+	 * Get the number of rows affected by the last query
+	 * @return int
+	 */
+	function getAffectedRows()
+	{
+		$stmt = $this->last_stmt;
+		return $stmt ? sqlsrv_rows_affected($stmt) : -1;
+	}
+
+	/**
+	 * Get the ID generated in the last query
+	 * @return int
+	 */
+	function getInsertID()
+	{
+		$result = $this->_query('SELECT @@IDENTITY as id');
+		$output = $this->_fetch($result);
+		return $output->id ?: 0;
+	}
+	
 	/**
 	 * Return the DBParser
 	 * @param boolean $force

@@ -1213,6 +1213,23 @@ class DB
 		return $dbParser;
 	}
 
+	/**
+	 * Get the number of rows affected by the last query
+	 * @return int
+	 */
+	public function getAffectedRows()
+	{
+		return -1;
+	}
+
+	/**
+	 * Get the ID generated in the last query
+	 * @return int
+	 */
+	public function getInsertID()
+	{
+		return 0;
+	}
 }
 /* End of file DB.class.php */
 /* Location: ./classes/db/DB.class.php */

@@ -123,6 +123,7 @@ class DBMysqli extends DBMysql
 				}
 
 				// Return stmt for other processing - like retrieving resultset (_fetch)
+				$this->last_stmt = $stmt;
 				return $stmt;
 			}
 		}
@@ -135,6 +136,7 @@ class DBMysqli extends DBMysql
 			$this->setError(mysqli_errno($connection), $error);
 		}
 		// Return result
+		$this->last_stmt = $result;
 		return $result;
 	}
 
@@ -373,12 +375,20 @@ class DBMysqli extends DBMysql
 	}
 
 	/**
-	 * Get the ID generated in the last query
-	 * Return next sequence from sequence table
-	 * This method use only mysql
+	 * Get the number of rows affected by the last query
 	 * @return int
 	 */
-	function db_insert_id()
+	function getAffectedRows()
+	{
+		$stmt = $this->last_stmt;
+		return $stmt ? $stmt->affected_rows : -1;
+	}
+
+	/**
+	 * Get the ID generated in the last query
+	 * @return int
+	 */
+	function getInsertID()
 	{
 		$connection = $this->_getConnection('master');
 		return mysqli_insert_id($connection);
