@@ -239,11 +239,12 @@ class ncenterliteModel extends ncenterlite
 			$member_srl = $logged_info->member_srl;
 		}
 
-		if($page <= 1)
+		$cache_key = sprintf('ncenterlite:notify_list:%d', $member_srl);
+
+		if ($page <= 1)
 		{
-			$cache_key = sprintf('ncenterlite:notify_list:%d', $member_srl);
 			$output = Rhymix\Framework\Cache::get($cache_key);
-			if ($output !== null)
+			if($output !== null)
 			{
 				return $output;
 			}
