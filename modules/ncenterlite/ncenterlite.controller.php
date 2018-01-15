@@ -1105,24 +1105,33 @@ class ncenterliteController extends ncenterlite
 		{
 			return;
 		}
+
+		$cache_key = sprintf('ncenterlite:notify_list:%d', $member_srl);
+		Rhymix\Framework\Cache::set($cache_key, $output);
+		
 		$flag_path = \RX_BASEDIR . 'files/cache/ncenterlite/new_notify/' . getNumberingPath($member_srl) . $member_srl . '.php';
-		if(file_exists($flag_path))
+		if (Rhymix\Framework\Cache::getDriverName() !== 'dummy')
 		{
+			FileHandler::removeFile($flag_path);
 			return;
 		}
-
-		FileHandler::makeDir(\RX_BASEDIR . 'files/cache/ncenterlite/new_notify/' . getNumberingPath($member_srl));
-		$buff = "<?php return unserialize(" . var_export(serialize($output), true) . ");\n";
-		FileHandler::writeFile($flag_path, $buff);
+		elseif(!file_exists($flag_path))
+		{
+			$buff = "<?php return unserialize(" . var_export(serialize($output), true) . ");\n";
+			FileHandler::writeFile($flag_path, $buff);
+		}
 	}
 
 	public function removeFlagFile($member_srl = null)
 	{
-		if($member_srl === null)
+		if(!$member_srl)
 		{
 			return;
 		}
 
+		$cache_key = sprintf('ncenterlite:notify_list:%d', $member_srl);
+		Rhymix\Framework\Cache::delete($cache_key);
+		
 		$flag_path = \RX_BASEDIR . 'files/cache/ncenterlite/new_notify/' . getNumberingPath($member_srl) . $member_srl . '.php';
 		if(file_exists($flag_path))
 		{

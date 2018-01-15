@@ -199,12 +199,6 @@ class ncenterliteModel extends ncenterlite
 		}
 
 		$output->data = $list;
-
-		if($page <= 1 && $output->flag_exists !== true)
-		{
-			$oNcenterliteController = getController('ncenterlite');
-			$oNcenterliteController->updateFlagFile($member_srl, $output);
-		}
 		return $output;
 	}
 
@@ -245,6 +239,13 @@ class ncenterliteModel extends ncenterlite
 			$member_srl = $logged_info->member_srl;
 		}
 
+		$cache_key = sprintf('ncenterlite:notify_list:%d', $member_srl);
+		$output = Rhymix\Framework\Cache::get($cache_key);
+		if ($output !== null)
+		{
+			return $output;
+		}
+		
 		$flag_path = \RX_BASEDIR . 'files/cache/ncenterlite/new_notify/' . getNumberingPath($member_srl) . $member_srl . '.php';
 		if(FileHandler::exists($flag_path) && $page <= 1)
 		{
@@ -265,7 +266,7 @@ class ncenterliteModel extends ncenterlite
 					$output = Rhymix\Framework\Storage::readPHPData($flag_path);
 					if($output !== false)
 					{
-						$output->flag_exists = true;
+						Rhymix\Framework\Cache::set($cache_key, $output);
 						return $output;
 					}
 				}
@@ -280,10 +281,19 @@ class ncenterliteModel extends ncenterlite
 			$args->readed = $readed;
 		}
 		$output = executeQueryArray('ncenterlite.getNotifyList', $args);
-		$output->flag_exists = false;
 		if (!$output->data)
 		{
 			$output->data = array();
+		}
+
+		if (Rhymix\Framework\Cache::getDriverName() !== 'dummy')
+		{
+			Rhymix\Framework\Cache::set($cache_key, $output);
+		}
+		elseif($page <= 1)
+		{
+			$oNcenterliteController = getController('ncenterlite');
+			$oNcenterliteController->updateFlagFile($member_srl, $output);
 		}
 
 		return $output;

@@ -169,6 +169,7 @@ class ncenterliteAdminController extends ncenterlite
 		$reg_obj = new stdClass();
 		$reg_obj->regdate = time();
 
+		Rhymix\Framework\Cache::clearGroup('ncenterlite');
 		$flag_path = \RX_BASEDIR . 'files/cache/ncenterlite/new_notify/delete_date.php';
 		Rhymix\Framework\Storage::writePHPData($flag_path, $reg_obj);
 
