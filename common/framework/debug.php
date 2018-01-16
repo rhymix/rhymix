@@ -33,6 +33,16 @@ class Debug
 	}
 	
 	/**
+	 * Clear all entries.
+	 * 
+	 * @return void
+	 */
+	public static function clearEntries()
+	{
+		self::$_entries = array();
+	}
+	
+	/**
 	 * Get all errors.
 	 * 
 	 * @return array
@@ -40,6 +50,16 @@ class Debug
 	public static function getErrors()
 	{
 		return self::$_errors;
+	}
+	
+	/**
+	 * Clear all errors.
+	 * 
+	 * @return void
+	 */
+	public static function clearErrors()
+	{
+		self::$_errors = array();
 	}
 	
 	/**
@@ -63,6 +83,17 @@ class Debug
 	}
 	
 	/**
+	 * Clear all queries.
+	 * 
+	 * @return void
+	 */
+	public static function clearQueries()
+	{
+		self::$_queries = array();
+		self::$_slow_queries = array();
+	}
+	
+	/**
 	 * Get all triggers.
 	 * 
 	 * @return array
@@ -80,6 +111,17 @@ class Debug
 	public static function getSlowTriggers()
 	{
 		return self::$_slow_triggers;
+	}
+	
+	/**
+	 * Clear all triggers.
+	 * 
+	 * @return void
+	 */
+	public static function clearTriggers()
+	{
+		self::$_triggers = array();
+		self::$_slow_triggers = array();
 	}
 	
 	/**
@@ -103,6 +145,17 @@ class Debug
 	}
 	
 	/**
+	 * Clear all widgets.
+	 * 
+	 * @return void
+	 */
+	public static function clearWidgets()
+	{
+		self::$_widgets = array();
+		self::$_slow_widgets = array();
+	}
+	
+	/**
 	 * Get all remote requests.
 	 * 
 	 * @return array
@@ -120,6 +173,36 @@ class Debug
 	public static function getSlowRemoteRequests()
 	{
 		return self::$_slow_remote_requests;
+	}
+	
+	/**
+	 * Clear all remote requests.
+	 * 
+	 * @return void
+	 */
+	public static function clearRemoteRequests()
+	{
+		self::$_remote_requests = array();
+		self::$_slow_remote_requests = array();
+	}
+	
+	/**
+	 * Clear all records.
+	 * 
+	 * @return void
+	 */
+	public static function clearAll()
+	{
+		self::$_entries = array();
+		self::$_errors = array();
+		self::$_queries = array();
+		self::$_slow_queries = array();
+		self::$_triggers = array();
+		self::$_slow_triggers = array();
+		self::$_widgets = array();
+		self::$_slow_widgets = array();
+		self::$_remote_requests = array();
+		self::$_slow_remote_requests = array();
 	}
 	
 	/**
