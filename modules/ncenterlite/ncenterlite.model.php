@@ -367,6 +367,12 @@ class ncenterliteModel extends ncenterlite
 		{
 			return $output->total_count;
 		}
+		elseif (Rhymix\Framework\Cache::getDriverName() !== 'dummy')
+		{
+			$output = $this->_getMyNotifyList($member_srl);
+			Rhymix\Framework\Cache::set($cache_key, $output);
+			return $output->total_count;
+		}
 		
 		$args = new stdClass();
 		$args->member_srl = $member_srl;
