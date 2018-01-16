@@ -361,6 +361,13 @@ class ncenterliteModel extends ncenterlite
 			$member_srl = $logged_info->member_srl;
 		}
 
+		$cache_key = sprintf('ncenterlite:notify_list:%d', $member_srl);
+		$output = Rhymix\Framework\Cache::get($cache_key);
+		if($output !== null)
+		{
+			return $output->total_count;
+		}
+		
 		$args = new stdClass();
 		$args->member_srl = $member_srl;
 		$output = executeQuery('ncenterlite.getNotifyNewCount', $args);
