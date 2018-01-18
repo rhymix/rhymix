@@ -89,19 +89,19 @@ class editorController extends editor
 		foreach ($target_module_srl as $srl)
 		{
 			if (!$srl) continue;
-			
+
 			$module_info = $oModuleModel->getModuleInfoByModuleSrl($srl);
 			if (!$module_info->module_srl)
 			{
 				return $this->setError('msg_invalid_request');
 			}
-			
+
 			$module_grant = $oModuleModel->getGrant($module_info, $logged_info);
 			if (!$module_grant->manager)
 			{
 				return $this->setError('msg_not_permitted');
 			}
-			
+
 			$module_srl[] = $srl;
 		}
 
@@ -147,21 +147,21 @@ class editorController extends editor
 				$editor_config->{$key} = explode('|@|', $grant);
 			}
 		}
-		
+
 		$editor_config->editor_height = (int)Context::get('editor_height');
 		$editor_config->comment_editor_height = (int)Context::get('comment_editor_height');
 		$editor_config->enable_autosave = Context::get('enable_autosave') ?: 'Y';
 		$editor_config->allow_html = Context::get('allow_html') ?: 'Y';
-		
+
 		$oModuleController = getController('module');
 		foreach ($module_srl as $srl)
 		{
 			$oModuleController->insertModulePartConfig('editor', $srl, $editor_config);
 		}
-		
+
 		$this->setError(-1);
 		$this->setMessage('success_updated', 'info');
-		
+
 		$returnUrl = Context::get('success_return_url') ? Context::get('success_return_url') : getNotEncodedUrl('', 'module', 'admin', 'act', 'dispBoardAdminContent');
 		$this->setRedirectUrl($returnUrl);
 	}
@@ -183,33 +183,9 @@ class editorController extends editor
 		{
 			$editor_config = getModel('module')->getModuleConfig('editor');
 		}
-		
+
 		if ($editor_config)
 		{
-			$content_style = $editor_config->content_style;
-			if($content_style)
-			{
-				$path = _XE_PATH_ . 'modules/editor/styles/'.$content_style.'/';
-				if(is_dir($path) && file_exists($path . 'style.ini'))
-				{
-					$ini = file($path.'style.ini');
-					for($i = 0, $c = count($ini); $i < $c; $i++)
-					{
-						$file = trim($ini[$i]);
-						if(!$file) continue;
-
-						if(substr_compare($file, '.css', -4) === 0)
-						{
-							Context::addCSSFile('./modules/editor/styles/'.$content_style.'/'.$file, false);
-						}
-						elseif(substr_compare($file, '.js', -3) === 0)
-						{
-							Context::addJsFile('./modules/editor/styles/'.$content_style.'/'.$file, false);
-						}
-					}
-				}
-			}
-			
 			$default_font_config = $this->default_font_config;
 			if ($editor_config->content_font) $default_font_config['default_font_family'] = $editor_config->content_font;
 			if ($editor_config->content_font_size) $default_font_config['default_font_size'] = $editor_config->content_font_size;
@@ -217,7 +193,26 @@ class editorController extends editor
 			if ($editor_config->content_paragraph_spacing) $default_font_config['default_paragraph_spacing'] = $editor_config->content_paragraph_spacing;
 			if ($editor_config->content_word_break) $default_font_config['default_word_break'] = $editor_config->content_word_break;
 			Context::set('default_font_config', $default_font_config);
-			
+
+			$content_style = $editor_config->content_style;
+			if($content_style)
+			{
+				$path = _XE_PATH_ . 'modules/editor/styles/'.$content_style.'/';
+				if(is_dir($path) && file_exists($path . 'style.ini'))
+				{
+					$ini = file($path.'style.ini');
+					$c = count($ini);
+					for($i = 0, $c; $i < $c; $i++)
+					{
+						$file = trim($ini[$i]);
+						if(!$file) continue;
+
+						$args = array('./modules/editor/styles/'.$content_style.'/'.$file);
+						Context::loadFile($args);
+					}
+				}
+			}
+
 			/*
 			$buff = array();
 			$buff[] = '<style> .xe_content {';
