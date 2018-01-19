@@ -201,10 +201,9 @@ class editorController extends editor
 				if(is_dir($path) && file_exists($path . 'style.ini'))
 				{
 					$ini = file($path.'style.ini');
-					$c = count($ini);
-					for($i = 0, $c; $i < $c; $i++)
+					foreach($ini as $file)
 					{
-						$file = trim($ini[$i]);
+						$file = trim($file);
 						if(!$file) continue;
 
 						$args = array('./modules/editor/styles/'.$content_style.'/'.$file);
