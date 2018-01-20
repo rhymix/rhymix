@@ -50,6 +50,11 @@ class documentItem extends BaseObject
 	 * @var array
 	 */
 	var $uploadedFiles = array();
+	/**
+	 * extra eids
+	 * @var array
+	 */
+	protected $extra_eids = array();
 
 	/**
 	 * Constructor
@@ -798,80 +803,56 @@ class documentItem extends BaseObject
 		$oDocumentModel = getModel('document');
 		return $oDocumentModel->getExtraVars($this->get('module_srl'), $this->document_srl);
 	}
-
+	
+	function getExtraEids()
+	{
+		if($this->extra_eids)
+		{
+			return $this->extra_eids;
+		}
+		
+		$extra_vars = $this->getExtraVars();
+		if(!is_array($extra_vars))
+		{
+			return array();
+		}
+		
+		foreach($extra_vars as $idx => $key)
+		{
+			$this->extra_eids[$key->eid] = $key;
+		}
+		
+		return $this->extra_eids;
+	}
+	
 	function getExtraValue($idx)
 	{
 		$extra_vars = $this->getExtraVars();
-		if(is_array($extra_vars) && array_key_exists($idx,$extra_vars))
-		{
-			return $extra_vars[$idx]->getValue();
-		}
-		else
-		{
-			return '';
-		}
+		return isset($extra_vars[$idx]) ? $extra_vars[$idx]->getValue() : '';
 	}
-
+	
 	function getExtraValueHTML($idx)
 	{
 		$extra_vars = $this->getExtraVars();
-		if(is_array($extra_vars) && array_key_exists($idx,$extra_vars))
-		{
-			return $extra_vars[$idx]->getValueHTML();
-		}
-		else
-		{
-			return '';
-		}
+		return isset($extra_vars[$idx]) ? $extra_vars[$idx]->getValueHTML() : '';
 	}
-
+	
 	function getExtraEidValue($eid)
 	{
-		$extra_vars = $this->getExtraVars();
-
-		if($extra_vars)
-		{
-			// Handle extra variable(eid)
-			foreach($extra_vars as $idx => $key)
-			{
-				$extra_eid[$key->eid] = $key;
-			}
-		}
-		
-		if(is_array($extra_eid) && array_key_exists($eid,$extra_eid))
-		{
-			return $extra_eid[$eid]->getValue();
-		}
-		else
-		{
-			return '';
-		}
+		$extra_eids = $this->getExtraEids();
+		return isset($extra_eids[$eid]) ? $extra_eids[$eid]->getValue() : '';
 	}
 
 	function getExtraEidValueHTML($eid)
 	{
-		$extra_vars = $this->getExtraVars();
-		// Handle extra variable(eid)
-		foreach($extra_vars as $idx => $key)
-		{
-			$extra_eid[$key->eid] = $key;
-		}
-		
-		if(is_array($extra_eid) && array_key_exists($eid,$extra_eid))
-		{
-			return $extra_eid[$eid]->getValueHTML();
-		}
-		else
-		{
-			return '';
-		}
+		$extra_eids = $this->getExtraEids();
+		return isset($extra_eids[$eid]) ? $extra_eids[$eid]->getValueHTML() : '';
 	}
-
+	
 	function getExtraVarsValue($key)
 	{
 		$extra_vals = unserialize($this->get('extra_vars'));
-		$val = $extra_vals->$key;
-		return $val;
+		return $extra_vals->$key;
 	}
 
 	function getCommentCount()
