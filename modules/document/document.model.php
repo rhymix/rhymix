@@ -488,7 +488,7 @@ class documentModel extends document
 			$this->setToAllDocumentExtraVars();
 		}
 		if(is_array($GLOBALS['XE_EXTRA_VARS'][$document_srl])) ksort($GLOBALS['XE_EXTRA_VARS'][$document_srl]);
-		return $GLOBALS['XE_EXTRA_VARS'][$document_srl];
+		return $GLOBALS['XE_EXTRA_VARS'][$document_srl] ?: array();
 	}
 
 	/**
