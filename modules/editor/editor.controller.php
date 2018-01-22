@@ -292,6 +292,15 @@ class editorController extends editor
 	function doSaveDoc($args)
 	{
 		if(!$args->document_srl) $args->document_srl = $_SESSION['upload_info'][$editor_sequence]->upload_target_srl;
+
+		// Get the current module if module_srl doesn't exist
+		if(!$args->module_srl) $args->module_srl = Context::get('module_srl');
+		if(!$args->module_srl)
+		{
+			$current_module_info = Context::get('current_module_info');
+			$args->module_srl = $current_module_info->module_srl;
+		}
+
 		if(Context::get('is_logged'))
 		{
 			$logged_info = Context::get('logged_info');
@@ -299,20 +308,11 @@ class editorController extends editor
 		}
 		else
 		{
-			$args->ipaddress = $_SERVER['REMOTE_ADDR'];
+			$args->ipaddress = RX_CLIENT_IP;
+			$args->certify_key = Rhymix\Framework\Security::getRandom(32);
+			setcookie('autosave_certify_key_' . $args->module_srl, $args->certify_key, time() + 86400, null, null, RX_SSL, true);
 		}
 
-		// Get the current module if module_srl doesn't exist
-		if(!$args->module_srl)
-		{
-			$args->module_srl = Context::get('module_srl');
-		}
-		if(!$args->module_srl)
-		{
-			$current_module_info = Context::get('current_module_info');
-			$args->module_srl = $current_module_info->module_srl;
-		}
-		// Save
 		return executeQuery('editor.insertSavedDoc', $args);
 	}
 
@@ -352,26 +352,36 @@ class editorController extends editor
 	function deleteSavedDoc($mode = false)
 	{
 		$args = new stdClass();
-		if(Context::get('is_logged'))
-		{
-			$logged_info = Context::get('logged_info');
-			$args->member_srl = $logged_info->member_srl;
-		}
-		else
-		{
-			$args->ipaddress = $_SERVER['REMOTE_ADDR'];
-		}
 		$args->module_srl = Context::get('module_srl');
+
 		// Get the current module if module_srl doesn't exist
 		if(!$args->module_srl)
 		{
 			$current_module_info = Context::get('current_module_info');
 			$args->module_srl = $current_module_info->module_srl;
 		}
+		if(Context::get('is_logged'))
+		{
+			$logged_info = Context::get('logged_info');
+			$args->member_srl = $logged_info->member_srl;
+		}
+		elseif($_COOKIE['autosave_certify_key_' . $args->module_srl])
+		{
+			$args->certify_key = $_COOKIE['autosave_certify_key_' . $args->module_srl];
+		}
+		else
+		{
+			$args->ipaddress = RX_CLIENT_IP;
+		}
+
 		// Check if the auto-saved document already exists
 		$output = executeQuery('editor.getSavedDocument', $args);
 		$saved_doc = $output->data;
 		if(!$saved_doc) return;
+		if($saved_doc->certify_key && !isset($args->certify_key))
+		{
+			return;
+		}
 
 		$oDocumentModel = getModel('document');
 		$oSaved = $oDocumentModel->getDocument($saved_doc->document_srl);
@@ -383,8 +393,9 @@ class editorController extends editor
 				$output = ModuleHandler::triggerCall('editor.deleteSavedDoc', 'after', $saved_doc);
 			}
 		}
-		// Delete the saved document
-		return executeQuery('editor.deleteSavedDoc', $args);
+
+		$output = executeQuery('editor.deleteSavedDoc', $args);
+		return $output;
 	}
 
 	/**
