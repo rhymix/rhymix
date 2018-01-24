@@ -1,0 +1,13 @@
+<query id="updateFileModuleComment" action="update">
+	<tables>
+		<table name="files" />
+		<table name="comments" />
+	</tables>
+	<columns>
+		<column name="files.module_srl" var="module_srl" filter="number" notnull="notnull" />
+	</columns>
+	<conditions>
+		<condition operation="equal" column="files.upload_target_srl" default="comments.comment_srl" />
+		<condition operation="in" column="comments.document_srl" var="upload_target_srls" filter="number" notnull="notnull" pipe="and" />
+	</conditions>
+</query>

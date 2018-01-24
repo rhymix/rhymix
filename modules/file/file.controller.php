@@ -694,9 +694,8 @@ class fileController extends file
 	{
 		$module_srl = $obj->module_srl;
 		if(!$module_srl) return;
-
-		$oFileController = getAdminController('file');
-		return $oFileController->deleteModuleFiles($module_srl);
+		
+		return $this->deleteModuleFiles($module_srl);
 	}
 
 	/**
@@ -950,70 +949,58 @@ class fileController extends file
 	 * - ipaddress
 	 * </pre>
 	 *
-	 * @param int $file_srl Sequence of file to delete
+	 * @param array|int $file_list or $file_srl
 	 * @return Object
 	 */
-	function deleteFile($file_srl)
+	function deleteFile($file_list)
 	{
-		if(!$file_srl) return;
-
-		$srls = (is_array($file_srl)) ? $file_srl : explode(',', $file_srl);
-		if(!count($srls)) return;
-
-		$oDocumentController = getController('document');
-		$documentSrlList = array();
-
-		foreach($srls as $srl)
+		if(!is_array($file_list))
 		{
-			$srl = (int)$srl;
-			if(!$srl) 
+			$file_list = explode(',', $file_list);
+		}
+		
+		if(empty($file_list))
+		{
+			return new BaseObject();
+		}
+		
+		foreach($file_list as $file)
+		{
+			if(!is_object($file))
+			{
+				if(!$file_srl = (int) $file)
+				{
+					continue;
+				}
+				$file = getModel('file')->getFile($file_srl);
+			}
+			
+			if(empty($file->file_srl))
 			{
 				continue;
 			}
-
-			$args = new stdClass();
-			$args->file_srl = $srl;
-			$output = executeQuery('file.getFile', $args);
-
-			if(!$output->toBool() || !$output->data) 
-			{
-				continue;
-			}
-
-			$file_info = $output->data;
-
-			if($file_info->upload_target_srl)
-			{
-				$documentSrlList[] = $file_info->upload_target_srl;
-			}
-
-			$source_filename = $output->data->source_filename;
-			$uploaded_filename = $output->data->uploaded_filename;
-
+			
 			// Call a trigger (before)
-			$trigger_obj = $output->data;
-			$output = ModuleHandler::triggerCall('file.deleteFile', 'before', $trigger_obj);
+			$output = ModuleHandler::triggerCall('file.deleteFile', 'before', $file);
 			if(!$output->toBool()) return $output;
-
+			
 			// Remove from the DB
-			$output = executeQuery('file.deleteFile', $args);
+			$output = executeQuery('file.deleteFile', $file);
 			if(!$output->toBool()) return $output;
-
+			
 			// If successfully deleted, remove the file
-			Rhymix\Framework\Storage::delete(FileHandler::getRealPath($uploaded_filename));
-
+			Rhymix\Framework\Storage::delete(FileHandler::getRealPath($file->uploaded_filename));
+			
 			// Call a trigger (after)
-			ModuleHandler::triggerCall('file.deleteFile', 'after', $trigger_obj);
+			ModuleHandler::triggerCall('file.deleteFile', 'after', $file);
 			
 			// Remove empty directories
-			Rhymix\Framework\Storage::deleteEmptyDirectory(dirname(FileHandler::getRealPath($uploaded_filename)), true);
+			Rhymix\Framework\Storage::deleteEmptyDirectory(dirname(FileHandler::getRealPath($file->uploaded_filename)), true);
 		}
-
-		$oDocumentController->updateUploaedCount($documentSrlList);
-
-		return $output;
+		
+		return new BaseObject();
 	}
-
+	
 	/**
 	 * Delete all attachments of a particular document
 	 *
@@ -1024,26 +1011,39 @@ class fileController extends file
 	{
 		// Get a list of attachements
 		$oFileModel = getModel('file');
-		$columnList = array('file_srl', 'uploaded_filename', 'module_srl');
-		$file_list = $oFileModel->getFiles($upload_target_srl, $columnList);
+		$file_list = $oFileModel->getFiles($upload_target_srl);
+		
 		// Success returned if no attachement exists
-		if(!is_array($file_list)||!count($file_list)) return new BaseObject();
-
-		// Delete the file
-		foreach ($file_list as $file)
+		if(empty($file_list))
 		{
-			$this->deleteFile($file->file_srl);
+			return new BaseObject();
 		}
-
-		// Remove from the DB
-		$args = new stdClass();
-		$args->upload_target_srl = $upload_target_srl;
-		$output = executeQuery('file.deleteFiles', $args);
-		if(!$output->toBool()) return $output;
-
-		return $output;
+		
+		// Delete the file
+		return $this->deleteFile($file_list);
 	}
-
+	
+	/**
+	 * Delete the attachment of a particular module
+	 *
+	 * @param int $module_srl Sequence of module to delete files
+	 * @return Object
+	 */
+	function deleteModuleFiles($module_srl)
+	{
+		// Get a full list of attachments
+		$args = new stdClass;
+		$args->module_srl = $module_srl;
+		$output = executeQueryArray('file.getModuleFiles', $args);
+		if(!$output->toBool() || empty($file_list = $output->data))
+		{
+			return $output;
+		}
+		
+		// Delete the file
+		return $this->deleteFile($file_list);
+	}
+	
 	/**
 	 * Move an attachement to the other document
 	 *
@@ -1161,7 +1161,14 @@ class fileController extends file
 	{
 		return;
 	}
-
+	
+	function triggeMoveDocumentModule($obj)
+	{
+		$obj->upload_target_srls = $obj->document_srls;
+		executeQuery('file.updateFileModule', $obj);
+		executeQuery('file.updateFileModuleComment', $obj);
+	}
+	
 	function triggerCopyModule(&$obj)
 	{
 		$oModuleModel = getModel('module');

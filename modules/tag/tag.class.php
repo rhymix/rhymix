@@ -43,6 +43,7 @@ class tag extends ModuleObject
 		if(!$oModuleModel->getTrigger('module.deleteModule', 'tag', 'controller', 'triggerDeleteModuleTags', 'after')) return true;
 		// tag in the index column of the table tag
 		if(!$oDB->isIndexExists("tags","idx_tag")) return true;
+		if(!$oModuleModel->getTrigger('document.moveDocumentModule', 'tag', 'controller', 'triggeMoveDocumentModule', 'after')) return true;
 
 		return false;
 	}
@@ -76,6 +77,11 @@ class tag extends ModuleObject
 		// tag in the index column of the table tag
 		if(!$oDB->isIndexExists("tags","idx_tag")) 
 			$oDB->addIndex("tags","idx_tag", array("document_srl","tag"));
+		
+		if(!$oModuleModel->getTrigger('document.moveDocumentModule', 'tag', 'controller', 'triggeMoveDocumentModule', 'after'))
+		{
+			$oModuleController->insertTrigger('document.moveDocumentModule', 'tag', 'controller', 'triggeMoveDocumentModule', 'after');
+		}
 	}
 
 	/**

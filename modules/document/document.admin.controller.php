@@ -47,150 +47,92 @@ class documentAdminController extends document
 	/**
 	 * Change the module to move a specific article
 	 * @param array $document_srl_list
-	 * @param int $module_srl
-	 * @param int $category_srl
+	 * @param int $target_module_srl
+	 * @param int $target_category_srl
 	 * @return Object
 	 */
-	function moveDocumentModule($document_srl_list, $module_srl, $category_srl)
+	function moveDocumentModule($document_srl_list, $target_module_srl, $target_category_srl)
 	{
-		if(!count($document_srl_list)) return;
-
-		$oDocumentModel = getModel('document');
-		$oDocumentController = getController('document');
-
-		$oDB = &DB::getInstance();
+		if(empty($document_srl_list))
+		{
+			return;
+		}
+		
+		$obj = new stdClass;
+		$obj->document_srls = implode(',', $document_srl_list);
+		$obj->list_count = count($document_srl_list);
+		$obj->document_list = executeQueryArray('document.getDocuments', $obj)->data;
+		$obj->module_srl = $target_module_srl;
+		$obj->category_srl = $target_category_srl;
+		
+		$oDB = DB::getInstance();
 		$oDB->begin();
-
-		$triggerObj = new stdClass();
-		$triggerObj->document_srls = implode(',',$document_srl_list);
-		$triggerObj->module_srl = $module_srl;
-		$triggerObj->category_srl = $category_srl;
+		
 		// Call a trigger (before)
-		$output = ModuleHandler::triggerCall('document.moveDocumentModule', 'before', $triggerObj);
-		if(!$output->toBool())
-		{
-			$oDB->rollback();
-			return $output;
-		}
-
-		for($i=count($document_srl_list)-1;$i>=0;$i--)
-		{
-			$document_srl = $document_srl_list[$i];
-			$oDocument = $oDocumentModel->getDocument($document_srl);
-			if(!$oDocument->isExists()) continue;
-
-			$source_category_srl = $oDocument->get('category_srl');
-
-			unset($obj);
-			$obj = $oDocument->getObjectVars();
-
-			// ISSUE https://github.com/xpressengine/xe-core/issues/32
-			$args_doc_origin = new stdClass();
-			$args_doc_origin->document_srl = $document_srl;
-			$output_ori = executeQuery('document.getDocument', $args_doc_origin, array('content'));              
-			$obj->content = $output_ori->data->content;
-
-			// Move the attached file if the target module is different
-			if($module_srl != $obj->module_srl && $oDocument->hasUploadedFiles())
-			{
-				$args = new stdClass;
-				$args->module_srl = $module_srl;
-				$args->upload_target_srl = $oDocument->get('document_srl');
-				$output = executeQuery('file.updateFileModule', $args);
-				if(!$output->toBool())
-				{
-					$oDB->rollback();
-					return $output;
-				}
-			}
-
-			if($module_srl != $obj->module_srl)
-			{
-				$oDocumentController->deleteDocumentAliasByDocument($obj->document_srl);
-			}
-
-			// Move a module of the article
-			$obj->module_srl = $module_srl;
-			$obj->category_srl = $category_srl;
-			$output = executeQuery('document.updateDocumentModule', $obj);
-			if(!$output->toBool())
-			{
-				$oDB->rollback();
-				return $output;
-			}
-			else
-			{
-				$update_output = $oDocumentController->insertDocumentUpdateLog($obj);
-				if(!$update_output->toBool())
-				{
-					$oDB->rollback();
-					return $update_output;
-				}
-			}
-
-			// Move a module of the extra vars
-			$output = executeQuery('document.moveDocumentExtraVars', $obj);
-			if(!$output->toBool()) {
-				$oDB->rollback();
-				return $output;
-			}
-
-			// Set 0 if a new category doesn't exist after catergory change
-			if($source_category_srl != $category_srl)
-			{
-				if($source_category_srl) $oDocumentController->updateCategoryCount($oDocument->get('module_srl'), $source_category_srl);
-				if($category_srl) $oDocumentController->updateCategoryCount($module_srl, $category_srl);
-			}
-		}
-
-		$args = new stdClass();
-		$args->document_srls = implode(',',$document_srl_list);
-		$args->module_srl = $module_srl;
-
-		// move the comment
-		$output = executeQuery('comment.updateCommentModule', $args);
-		if(!$output->toBool())
-		{
-			$oDB->rollback();
-			return $output;
-		}
-
-		$output = executeQuery('comment.updateCommentListModule', $args);
+		$output = ModuleHandler::triggerCall('document.moveDocumentModule', 'before', $obj);
 		if(!$output->toBool())
 		{
 			$oDB->rollback();
 			return $output;
 		}
 		
-		// move the trackback
-		if(getClass('trackback'))
+		$origin_category = array();
+		$oDocumentController = getController('document');
+		
+		foreach($obj->document_list as $document)
 		{
-			$output = executeQuery('trackback.updateTrackbackModule', $args);
-			if(!$output->toBool())
+			// If the target module is different
+			if($document->module_srl != $obj->module_srl)
 			{
-				$oDB->rollback();
-				return $output;
+				$oDocumentController->deleteDocumentAliasByDocument($document->document_srl);
 			}
+			
+			// If the target category is different
+			if($document->category_srl != $obj->category_srl && $document->category_srl)
+			{
+				$origin_category[$document->category_srl] = $document->module_srl;
+			}
+			
+			$oDocumentController->insertDocumentUpdateLog($document);
 		}
-
-		// Tags
-		$output = executeQuery('tag.updateTagModule', $args);
+		
+		// Move a module of the article
+		$output = executeQuery('document.updateDocumentsModule', $obj);
 		if(!$output->toBool())
 		{
 			$oDB->rollback();
 			return $output;
 		}
+		
+		// Move a module of the extra vars
+		$output = executeQuery('document.updateDocumentExtraVarsModule', $obj);
+		if(!$output->toBool())
+		{
+			$oDB->rollback();
+			return $output;
+		}
+		
+		$oDB->commit();
 		
 		// Call a trigger (after)
-		ModuleHandler::triggerCall('document.moveDocumentModule', 'after', $triggerObj);
-
-		$oDB->commit();
+		ModuleHandler::triggerCall('document.moveDocumentModule', 'after', $obj);
+		
+		// update category count
+		foreach($origin_category as $category_srl => $module_srl)
+		{
+			$oDocumentController->updateCategoryCount($module_srl, $category_srl);
+		}
+		if($obj->category_srl)
+		{
+			$oDocumentController->updateCategoryCount($obj->module_srl, $obj->category_srl);
+		}
 		
 		//remove from cache
 		foreach ($document_srl_list as $document_srl)
 		{
 			Rhymix\Framework\Cache::delete('document_item:'. getNumberingPath($document_srl) . $document_srl);
 		}
+		
 		return new BaseObject();
 	}
 

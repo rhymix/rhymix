@@ -114,6 +114,11 @@ class comment extends ModuleObject
 			return true;
 		}
 		
+		if(!$oModuleModel->getTrigger('document.moveDocumentModule', 'comment', 'controller', 'triggeMoveDocumentModule', 'after'))
+		{
+			return true;
+		}
+		
 		return FALSE;
 	}
 
@@ -203,6 +208,11 @@ class comment extends ModuleObject
 		if(!$oDB->isIndexExists('comments', 'idx_nick_name'))
 		{
 			$oDB->addIndex('comments', 'idx_nick_name', array('nick_name'));
+		}
+		
+		if(!$oModuleModel->getTrigger('document.moveDocumentModule', 'comment', 'controller', 'triggeMoveDocumentModule', 'after'))
+		{
+			$oModuleController->insertTrigger('document.moveDocumentModule', 'comment', 'controller', 'triggeMoveDocumentModule', 'after');
 		}
 	}
 

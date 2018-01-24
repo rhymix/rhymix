@@ -77,7 +77,12 @@ class file extends ModuleObject
 		if(!$oModuleModel->getTrigger('module.procModuleAdminCopyModule', 'file', 'controller', 'triggerCopyModule', 'after')) return true;
 
 		if(!$oDB->isColumnExists('files', 'cover_image')) return true;
-
+		
+		if(!$oModuleModel->getTrigger('document.moveDocumentModule', 'file', 'controller', 'triggeMoveDocumentModule', 'after'))
+		{
+			return true;
+		}
+		
 		return false;
 	}
 
@@ -140,6 +145,11 @@ class file extends ModuleObject
 		}
 
 		if(!$oDB->isColumnExists('files', 'cover_image')) $oDB->addColumn('files', 'cover_image', 'char', '1', 'N');
+		
+		if(!$oModuleModel->getTrigger('document.moveDocumentModule', 'file', 'controller', 'triggeMoveDocumentModule', 'after'))
+		{
+			$oModuleController->insertTrigger('document.moveDocumentModule', 'file', 'controller', 'triggeMoveDocumentModule', 'after');
+		}
 	}
 
 	/**

@@ -2869,26 +2869,47 @@ class documentController extends document
 			}
 		}
 	}
-
-	public function updateUploaedCount($documentSrlList)
+	
+	public function updateUploaedCount($document_srl_list)
 	{
-		$oDocumentModel = getModel('document');
-		$oFileModel = getModel('file');
-
-		if(is_array($documentSrlList))
+		if(!is_array($document_srl_list))
 		{
-			$documentSrlList = array_unique($documentSrlList);
-			foreach($documentSrlList AS $key => $documentSrl)
+			$document_srl_list = array($document_srl_list);
+		}
+		
+		if(empty($document_srl_list))
+		{
+			return;
+		}
+		
+		$oFileModel = getModel('file');
+		$document_srl_list = array_unique($document_srl_list);
+		
+		foreach($document_srl_list as $document_srl)
+		{
+			if(!$document_srl = (int) $document_srl)
 			{
-				$fileCount = $oFileModel->getFilesCount($documentSrl);
-				$args = new stdClass();
-				$args->document_srl = $documentSrl;
-				$args->uploaded_count = $fileCount;
-				executeQuery('document.updateUploadedCount', $args);
+				continue;
 			}
+			
+			$args = new stdClass;
+			$args->document_srl = $document_srl;
+			$args->uploaded_count = $oFileModel->getFilesCount($document_srl);
+			executeQuery('document.updateUploadedCount', $args);
 		}
 	}
-
+	
+	function triggerAfterDeleteFile($file)
+	{
+		$oDocument = getModel('document')->getDocument($file->upload_target_srl, false, false);
+		if(!$oDocument->isExists())
+		{
+			return new BaseObject();
+		}
+		
+		$this->updateUploaedCount($file->upload_target_srl);
+	}
+	
 	/**
 	 * Copy extra keys when module copied
 	 * @param object $obj

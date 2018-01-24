@@ -1726,7 +1726,13 @@ class commentController extends comment
 
 		$this->add('comment_list', $commentList);
 	}
-
+	
+	function triggeMoveDocumentModule($obj)
+	{
+		executeQuery('comment.updateCommentModule', $obj);
+		executeQuery('comment.updateCommentListModule', $obj);
+	}
+	
 	function triggerCopyModule(&$obj)
 	{
 		$oModuleModel = getModel('module');
@@ -1741,7 +1747,6 @@ class commentController extends comment
 			}
 		}
 	}
-
 }
 /* End of file comment.controller.php */
 /* Location: ./modules/comment/comment.controller.php */
