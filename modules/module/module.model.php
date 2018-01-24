@@ -816,7 +816,7 @@ class moduleModel extends module
 
 			$xml_obj = XmlParser::loadXmlFile($xml_file); // /< Read xml file and convert it to xml object
 
-			if(!count($xml_obj->module)) return; // /< Error occurs if module tag doesn't included in the xml
+			if(!countobj($xml_obj->module)) return; // /< Error occurs if module tag doesn't included in the xml
 
 			$grants = $xml_obj->module->grants->grant; // /< Permission information
 			$permissions = $xml_obj->module->permissions->permission; // /<  Acting permission

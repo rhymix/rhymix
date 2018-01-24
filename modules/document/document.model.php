@@ -765,7 +765,7 @@ class documentModel extends document
 	 */
 	function _arrangeCategory(&$document_category, $list, $depth)
 	{
-		if(!count($list)) return;
+		if(!countobj($list)) return;
 		$idx = 0;
 		$list_order = array();
 		foreach($list as $key => $val)
