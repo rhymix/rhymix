@@ -92,7 +92,7 @@ class TableTag
 	function isJoinTable()
 	{
 		$joinList = array('left join' => 1, 'left outer join' => 1, 'right join' => 1, 'right outer join' => 1);
-		if(isset($joinList[$this->join_type]) && count($this->conditions))
+		if(isset($joinList[$this->join_type]) && countobj($this->conditions))
 		{
 			return true;
 		}
