@@ -1827,7 +1827,7 @@ jQuery(function($){
 	$.fn.xeLoadMultilingualWindowHtml = function(){
 		function on_complete(data){
 			// append html
-			var $content = $('#content');
+			var $content = ($('#content').length > 0) ? $('#content') : $('body');
 			$(data.html).appendTo($content).xeMultilingualWindow();
 			$('.lang_code').trigger('loaded-multilingualWindow');
 		}
