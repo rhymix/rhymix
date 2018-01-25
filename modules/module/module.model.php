@@ -487,7 +487,9 @@ class moduleModel extends module
 		$list = Rhymix\Framework\Cache::get('site_and_module:module:mid_list_' . $args->site_srl);
 		if($list === null)
 		{
-			if(count($args) === 1 && isset($args->site_srl))
+			$argsCount = countobj($args);
+			
+			if($argsCount === 1 && isset($args->site_srl))
 			{
 				$columnList = array();
 			}
@@ -496,7 +498,7 @@ class moduleModel extends module
 			if(!$output->toBool()) return $output;
 			$list = $output->data;
 
-			if(count($args) === 1 && isset($args->site_srl) && !$columnList)
+			if($argsCount === 1 && isset($args->site_srl) && !$columnList)
 			{
 				Rhymix\Framework\Cache::set('site_and_module:module:mid_list_' . $args->site_srl, $list, 0, true);
 			}

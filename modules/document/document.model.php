@@ -58,7 +58,7 @@ class documentModel extends document
 		$_document_list = &$GLOBALS['XE_DOCUMENT_LIST'];
 
 		// XE XE_DOCUMENT_LIST all documents that the object referred to the global variable settings
-		if(count($_document_list) <= 0) return;
+		if(countobj($_document_list) <= 0) return;
 
 		// Find all called the document object variable has been set extension
 		$document_srls = array();
@@ -75,6 +75,7 @@ class documentModel extends document
 		$output = $this->getDocumentExtraVarsFromDB($document_srls);
 		if($output->toBool() && $output->data)
 		{
+			$extra_vars = array();
 			foreach($output->data as $key => $val)
 			{
 				if(!isset($val->value)) continue;
