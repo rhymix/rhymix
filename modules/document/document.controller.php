@@ -2904,7 +2904,7 @@ class documentController extends document
 		$oDocument = getModel('document')->getDocument($file->upload_target_srl, false, false);
 		if(!$oDocument->isExists())
 		{
-			return new BaseObject();
+			return;
 		}
 		
 		$this->updateUploaedCount($file->upload_target_srl);

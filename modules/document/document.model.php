@@ -29,25 +29,19 @@ class documentModel extends document
 	{
 		return $_SESSION['granted_document'][$document_srl];
 	}
-
+	
 	/**
 	 * Return document extra information from database
-	 * @param array $documentSrls
+	 * @param array $document_srls
 	 * @return object
 	 */
-	function getDocumentExtraVarsFromDB($documentSrls)
+	function getDocumentExtraVarsFromDB($document_srls)
 	{
-		if(!is_array($documentSrls) || count($documentSrls) == 0)
-		{
-			return $this->setError('msg_invalid_request');
-		}
-
-		$args = new stdClass();
-		$args->document_srl = $documentSrls;
-		$output = executeQueryArray('document.getDocumentExtraVars', $args);
-		return $output;
+		$args = new stdClass;
+		$args->document_srl = $document_srls;
+		return executeQueryArray('document.getDocumentExtraVars', $args);
 	}
-
+	
 	/**
 	 * Extra variables for each article will not be processed bulk select and apply the macro city
 	 * @return void

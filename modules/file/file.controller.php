@@ -1095,7 +1095,47 @@ class fileController extends file
 			executeQuery('file.updateFile', $args);
 		}
 	}
-
+	
+	function copyFile($source_file, $module_srl, $upload_target_srl, &$content = null)
+	{
+		$file_info = array();
+		$file_info['name'] = $source_file->source_filename;
+		$file_info['tmp_name'] = $source_file->uploaded_filename;
+		$copied_file = $this->insertFile($file_info, $module_srl, $upload_target_srl, 0, true);
+		
+		if($content)
+		{
+			// if image/video files
+			if($source_file->direct_download == 'Y')
+			{
+				$source_filename = substr($source_file->uploaded_filename, 2);
+				$copied_filename = substr($copied_file->get('uploaded_filename'), 2);
+				$content = str_replace($source_filename, $copied_filename, $content);
+			}
+			// if binary file
+			else
+			{
+				$content = str_replace('file_srl=' . $source_file->file_srl, 'file_srl=' . $copied_file->get('file_srl'), $content);
+				$content = str_replace('sid=' . $source_file->sid, 'sid=' . $copied_file->get('sid'), $content);
+			}
+		}
+		
+		return $copied_file;
+	}
+	
+	function copyFiles($source_file_list, $module_srl, $upload_target_srl, &$content = null)
+	{
+		if(!is_array($source_file_list))
+		{
+			$source_file_list = getModel('file')->getFiles($source_file_list, array(), 'file_srl', true);
+		}
+		
+		foreach($source_file_list as $source_file)
+		{
+			$this->copyFile($source_file, $module_srl, $upload_target_srl, $content);
+		}
+	}
+	
 	public function procFileSetCoverImage()
 	{
 		$vars = Context::getRequestVars();
@@ -1123,8 +1163,8 @@ class fileController extends file
 		$output = executeQuery('file.updateClearCoverImage', $args);
 		if(!$output->toBool())
 		{
-				$oDB->rollback();
-				return $output;
+			$oDB->rollback();
+			return $output;
 		}
 
 		if($file_info->cover_image != 'Y')
@@ -1162,11 +1202,31 @@ class fileController extends file
 		return;
 	}
 	
-	function triggeMoveDocumentModule($obj)
+	function triggerMoveDocument($obj)
 	{
 		$obj->upload_target_srls = $obj->document_srls;
 		executeQuery('file.updateFileModule', $obj);
 		executeQuery('file.updateFileModuleComment', $obj);
+	}
+	
+	function triggerAddCopyDocument(&$obj)
+	{
+		if(!$obj->source->uploaded_count)
+		{
+			return;
+		}
+		
+		$this->copyFiles($obj->source->document_srl, $obj->copied->module_srl, $obj->copied->document_srl, $obj->copied->content);
+	}
+	
+	function triggerAddCopyCommentByDocument(&$obj)
+	{
+		if(!$obj->source->uploaded_count)
+		{
+			return;
+		}
+		
+		$this->copyFiles($obj->source->comment_srl, $obj->copied->module_srl, $obj->copied->comment_srl, $obj->copied->content);
 	}
 	
 	function triggerCopyModule(&$obj)

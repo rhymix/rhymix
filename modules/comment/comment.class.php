@@ -114,7 +114,11 @@ class comment extends ModuleObject
 			return true;
 		}
 		
-		if(!$oModuleModel->getTrigger('document.moveDocumentModule', 'comment', 'controller', 'triggeMoveDocumentModule', 'after'))
+		if(!$oModuleModel->getTrigger('document.moveDocumentModule', 'comment', 'controller', 'triggerMoveDocument', 'after'))
+		{
+			return true;
+		}
+		if(!$oModuleModel->getTrigger('document.copyDocumentModule', 'comment', 'controller', 'triggerAddCopyDocument', 'add'))
 		{
 			return true;
 		}
@@ -210,9 +214,13 @@ class comment extends ModuleObject
 			$oDB->addIndex('comments', 'idx_nick_name', array('nick_name'));
 		}
 		
-		if(!$oModuleModel->getTrigger('document.moveDocumentModule', 'comment', 'controller', 'triggeMoveDocumentModule', 'after'))
+		if(!$oModuleModel->getTrigger('document.moveDocumentModule', 'comment', 'controller', 'triggerMoveDocument', 'after'))
 		{
-			$oModuleController->insertTrigger('document.moveDocumentModule', 'comment', 'controller', 'triggeMoveDocumentModule', 'after');
+			$oModuleController->insertTrigger('document.moveDocumentModule', 'comment', 'controller', 'triggerMoveDocument', 'after');
+		}
+		if(!$oModuleModel->getTrigger('document.copyDocumentModule', 'comment', 'controller', 'triggerAddCopyDocument', 'add'))
+		{
+			$oModuleController->insertTrigger('document.copyDocumentModule', 'comment', 'controller', 'triggerAddCopyDocument', 'add');
 		}
 	}
 

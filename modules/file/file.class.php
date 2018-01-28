@@ -78,7 +78,15 @@ class file extends ModuleObject
 
 		if(!$oDB->isColumnExists('files', 'cover_image')) return true;
 		
-		if(!$oModuleModel->getTrigger('document.moveDocumentModule', 'file', 'controller', 'triggeMoveDocumentModule', 'after'))
+		if(!$oModuleModel->getTrigger('document.moveDocumentModule', 'file', 'controller', 'triggerMoveDocument', 'after'))
+		{
+			return true;
+		}
+		if(!$oModuleModel->getTrigger('document.copyDocumentModule', 'file', 'controller', 'triggerAddCopyDocument', 'add'))
+		{
+			return true;
+		}
+		if(!$oModuleModel->getTrigger('comment.copyCommentByDocument', 'file', 'controller', 'triggerAddCopyCommentByDocument', 'add'))
 		{
 			return true;
 		}
@@ -146,9 +154,17 @@ class file extends ModuleObject
 
 		if(!$oDB->isColumnExists('files', 'cover_image')) $oDB->addColumn('files', 'cover_image', 'char', '1', 'N');
 		
-		if(!$oModuleModel->getTrigger('document.moveDocumentModule', 'file', 'controller', 'triggeMoveDocumentModule', 'after'))
+		if(!$oModuleModel->getTrigger('document.moveDocumentModule', 'file', 'controller', 'triggerMoveDocument', 'after'))
 		{
-			$oModuleController->insertTrigger('document.moveDocumentModule', 'file', 'controller', 'triggeMoveDocumentModule', 'after');
+			$oModuleController->insertTrigger('document.moveDocumentModule', 'file', 'controller', 'triggerMoveDocument', 'after');
+		}
+		if(!$oModuleModel->getTrigger('document.copyDocumentModule', 'file', 'controller', 'triggerAddCopyDocument', 'add'))
+		{
+			$oModuleController->insertTrigger('document.copyDocumentModule', 'file', 'controller', 'triggerAddCopyDocument', 'add');
+		}
+		if(!$oModuleModel->getTrigger('comment.copyCommentByDocument', 'file', 'controller', 'triggerAddCopyCommentByDocument', 'add'))
+		{
+			$oModuleController->insertTrigger('comment.copyCommentByDocument', 'file', 'controller', 'triggerAddCopyCommentByDocument', 'add');
 		}
 	}
 

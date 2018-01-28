@@ -95,7 +95,7 @@ class tagController extends tag
 		return $oTagController->deleteModuleTags($module_srl);
 	}
 	
-	function triggeMoveDocumentModule($obj)
+	function triggerMoveDocument($obj)
 	{
 		executeQuery('tag.updateTagModule', $obj);
 	}
