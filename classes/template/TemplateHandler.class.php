@@ -357,6 +357,14 @@ class TemplateHandler
 		{
 			$contents .= ob_get_clean();
 		}
+		
+		// insert template path comment tag
+		if(config('debug.enabled') && Context::get('logged_info')->is_admin === 'Y')
+		{
+			$sign = PHP_EOL . '<!-- Template %s : ' . $this->web_path . $this->filename . ' -->' . PHP_EOL;
+			$contents = sprintf($sign, 'start') . $contents . sprintf($sign, 'end');
+		}
+		
 		return $contents;
 	}
 

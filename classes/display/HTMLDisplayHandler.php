@@ -201,10 +201,10 @@ class HTMLDisplayHandler
 				$output = preg_replace($pattern, '/?$1=', $output);
 			}
 		}
-
+		
 		// prevent the 2nd request due to url(none) of the background-image
 		$output = preg_replace('/url\((["\']?)none(["\']?)\)/is', 'none', $output);
-
+		
 		if(is_array(Context::get('INPUT_ERROR')))
 		{
 			$INPUT_ERROR = Context::get('INPUT_ERROR');
@@ -247,10 +247,16 @@ class HTMLDisplayHandler
 			$this->_loadDesktopJSCSS();
 		}
 		$output = $oTemplate->compile('./common/tpl', 'common_layout');
-
+		
 		// replace the user-defined-language
 		$oModuleController = getController('module');
 		$oModuleController->replaceDefinedLangCode($output);
+		
+		// remove comment tag
+		if(Context::get('logged_info')->is_admin !== 'Y')
+		{
+			$output = preg_replace('/\n?<!--[^\[].*?-->/s', '', $output);
+		}
 	}
 
 	/**
