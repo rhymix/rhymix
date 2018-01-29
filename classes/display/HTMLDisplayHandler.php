@@ -252,10 +252,10 @@ class HTMLDisplayHandler
 		$oModuleController = getController('module');
 		$oModuleController->replaceDefinedLangCode($output);
 		
-		// remove comment tag
-		if(Context::get('logged_info')->is_admin !== 'Y')
+		// remove template path comment tag
+		if(!Rhymix\Framework\Debug::isEnabledForCurrentUser())
 		{
-			$output = preg_replace('/\n?<!--[^\[].*?-->/s', '', $output);
+			$output = preg_replace('/\n?<!--\s?Template.*?-->\n?/', '', $output);
 		}
 	}
 

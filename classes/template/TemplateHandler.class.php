@@ -359,7 +359,7 @@ class TemplateHandler
 		}
 		
 		// insert template path comment tag
-		if(config('debug.enabled') && Context::get('logged_info')->is_admin === 'Y')
+		if(config('debug.enabled') && Rhymix\Framework\Debug::isEnabledForCurrentUser())
 		{
 			$sign = PHP_EOL . '<!-- Template %s : ' . $this->web_path . $this->filename . ' -->' . PHP_EOL;
 			$contents = sprintf($sign, 'start') . $contents . sprintf($sign, 'end');
