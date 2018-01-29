@@ -72,36 +72,35 @@ class TemplateHandler
 	protected function init($tpl_path, $tpl_filename, $tpl_file = '')
 	{
 		// verify arguments
-		if(!$tpl_path || substr($tpl_path, -1) != '/')
-		{
-			$tpl_path .= '/';
-		}
+		$tpl_path = trim(preg_replace('@^' . preg_quote(\RX_BASEDIR, '@') . '|\./@', '', str_replace('\\', '/', $tpl_path)), '/') . '/';
 		if($tpl_path === '/' || !is_dir($tpl_path))
 		{
 			return;
 		}
-		if(!file_exists($tpl_path . $tpl_filename) && file_exists($tpl_path . $tpl_filename . '.html'))
+		if(!file_exists(\RX_BASEDIR . $tpl_path . $tpl_filename) && file_exists(\RX_BASEDIR . $tpl_path . $tpl_filename . '.html'))
 		{
 			$tpl_filename .= '.html';
 		}
 
 		// create tpl_file variable
-		if(!$tpl_file)
+		if($tpl_file)
+		{
+			$tpl_file = trim(preg_replace('@^' . preg_quote(\RX_BASEDIR, '@') . '|\./@', '', str_replace('\\', '/', $tpl_file)), '/');
+		}
+		else
 		{
 			$tpl_file = $tpl_path . $tpl_filename;
 		}
 
 		// set template file infos.
-		$this->path = $tpl_path;
+		$this->path = \RX_BASEDIR . $tpl_path;
+		$this->web_path = \RX_BASEURL . $tpl_path;
 		$this->filename = $tpl_filename;
-		$this->file = $tpl_file;
-
-		// set absolute URL of template path
-		$this->web_path = \RX_BASEURL . ltrim(preg_replace('@^' . preg_quote(\RX_BASEDIR, '@') . '|\./@', '', $this->path), '/');
+		$this->file = \RX_BASEDIR . $tpl_file;
 
 		// set compiled file name
-		$converted_path = str_replace(array('\\', '..'), array('/', 'dotdot'), ltrim($this->file, './'));
-		$this->compiled_file = \RX_BASEDIR . 'files/cache/template/' . $converted_path . '.php'; 
+		$converted_path = ltrim(str_replace(array('\\', '..'), array('/', 'dotdot'), $tpl_file), '/');
+		$this->compiled_file = \RX_BASEDIR . 'files/cache/template/' . $converted_path . '.php';
 	}
 
 	/**
@@ -122,6 +121,7 @@ class TemplateHandler
 		// if target file does not exist exit
 		if(!$this->file || !file_exists($this->file))
 		{
+			$tpl_path = str_replace('\\', '/', $tpl_path);
 			$error_message = "Template not found: ${tpl_path}${tpl_filename}" . ($tpl_file ? " (${tpl_file})" : '');
 			trigger_error($error_message, \E_USER_WARNING);
 			return escape($error_message);
@@ -184,6 +184,7 @@ class TemplateHandler
 		// if target file does not exist exit
 		if(!$this->file || !file_exists($this->file))
 		{
+			$tpl_path = str_replace('\\', '/', $tpl_path);
 			$error_message = "Template not found: ${tpl_path}${tpl_filename}";
 			trigger_error($error_message, \E_USER_WARNING);
 			return escape($error_message);
