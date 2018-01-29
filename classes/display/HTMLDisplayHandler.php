@@ -255,7 +255,7 @@ class HTMLDisplayHandler
 		// remove template path comment tag
 		if(!Rhymix\Framework\Debug::isEnabledForCurrentUser())
 		{
-			$output = preg_replace('/\n?<!--\s?Template.*?-->\n?/', '', $output);
+			$output = preg_replace('/\n<!-- Template (?:start|end) : .*? -->\r?\n/', "\n", $output);
 		}
 	}
 
