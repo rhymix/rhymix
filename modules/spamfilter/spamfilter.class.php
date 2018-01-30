@@ -49,7 +49,12 @@ class spamfilter extends ModuleObject
 		if(!$oDB->isColumnExists('spamfilter_denied_word', 'latest_hit')) return true;
 
 		if(!$oDB->isColumnExists('spamfilter_denied_ip', 'description')) return true;
-
+		
+		if(!$oModuleModel->getTrigger('document.manage', 'spamfilter', 'controller', 'triggerManageDocument', 'before'))
+		{
+			return true;
+		}
+		
 		return false;
 	}
 
@@ -101,6 +106,11 @@ class spamfilter extends ModuleObject
 		if(!$oDB->isColumnExists('spamfilter_denied_ip', 'description'))
 		{
 			$oDB->addColumn('spamfilter_denied_ip','description','varchar', 250);
+		}
+		
+		if(!$oModuleModel->getTrigger('document.manage', 'spamfilter', 'controller', 'triggerManageDocument', 'before'))
+		{
+			$oModuleController->insertTrigger('document.manage', 'spamfilter', 'controller', 'triggerManageDocument', 'before');
 		}
 	}
 

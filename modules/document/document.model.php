@@ -160,57 +160,42 @@ class documentModel extends document
 	 * @param array $columnList
 	 * @return array value type is documentItem
 	 */
-	function getDocuments($document_srls, $is_admin = false, $load_extra_vars=true, $columnList = array())
+	function getDocuments($document_srls, $is_admin = false, $load_extra_vars = true, $columnList = array())
 	{
-		if(is_array($document_srls))
-		{
-			$list_count = count($document_srls);
-			$document_srls = implode(',',$document_srls);
-		}
-		else
-		{
-			$list_count = 1;
-		}
 		$args = new stdClass();
 		$args->document_srls = $document_srls;
-		$args->list_count = $list_count;
+		$args->list_count = is_array($document_srls) ? count($document_srls) : 1;
 		$args->order_type = 'asc';
-
-		$output = executeQuery('document.getDocuments', $args, $columnList);
-		$document_list = $output->data;
-		if(!$document_list) return;
-		if(!is_array($document_list)) $document_list = array($document_list);
-
-		$document_count = count($document_list);
-		foreach($document_list as $key => $attribute)
+		$output = executeQueryArray('document.getDocuments', $args, $columnList);
+		
+		$documents = array();
+		foreach($output->data as $key => $attribute)
 		{
-			$document_srl = $attribute->document_srl;
-			if(!$document_srl) continue;
-
+			if(!$document_srl = $attribute->document_srl)
+			{
+				continue;
+			}
+			
 			if(!$GLOBALS['XE_DOCUMENT_LIST'][$document_srl])
 			{
-				$oDocument = null;
 				$oDocument = new documentItem();
 				$oDocument->setAttribute($attribute, false);
-				if($is_admin) $oDocument->setGrant();
+				if($is_admin)
+				{
+					$oDocument->setGrant();
+				}
 				$GLOBALS['XE_DOCUMENT_LIST'][$document_srl] = $oDocument;
 			}
-
-			$result[$attribute->document_srl] = $GLOBALS['XE_DOCUMENT_LIST'][$document_srl];
+			
+			$documents[$document_srl] = $GLOBALS['XE_DOCUMENT_LIST'][$document_srl];
 		}
-
-		if($load_extra_vars) $this->setToAllDocumentExtraVars();
-
-		$output = null;
-		if(count($result))
+		
+		if($load_extra_vars)
 		{
-			foreach($result as $document_srl => $val)
-			{
-				$output[$document_srl] = $GLOBALS['XE_DOCUMENT_LIST'][$document_srl];
-			}
+			$this->setToAllDocumentExtraVars();
 		}
-
-		return $output;
+		
+		return $documents;
 	}
 
 	/**
