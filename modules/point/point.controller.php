@@ -339,10 +339,10 @@ class pointController extends point
 	public function triggerBeforeDownloadFile($obj)
 	{
 		$logged_info = Context::get('logged_info');
-		$member_srl = $logged_info->member_srl;
+		$logged_member_srl = $logged_info->member_srl;
+		$author_member_srl = abs($obj->member_srl);
 		$module_srl = $obj->module_srl;
-		
-		if ($member_srl && abs($obj->member_srl) == $member_srl)
+		if ($logged_member_srl && $logged_member_srl == $author_member_srl)
 		{
 			return;
 		}
@@ -354,7 +354,7 @@ class pointController extends point
 		}
 		
 		// Get current points.
-		$cur_point = $member_srl ? getModel('point')->getPoint($member_srl, true) : 0;
+		$cur_point = $logged_member_srl ? getModel('point')->getPoint($logged_member_srl) : 0;
 		
 		// If the user (member or guest) does not have enough points, deny access.
 		$config = $this->getConfig();
@@ -372,22 +372,35 @@ class pointController extends point
 	public function triggerDownloadFile($obj)
 	{
 		$logged_info = Context::get('logged_info');
-		$member_srl = $logged_info->member_srl;
+		$logged_member_srl = $logged_info->member_srl;
+		$author_member_srl = abs($obj->member_srl);
 		$module_srl = $obj->module_srl;
-		
-		if (!$member_srl || abs($obj->member_srl) == $member_srl)
+		if ($logged_member_srl && $logged_member_srl == $author_member_srl)
 		{
 			return;
 		}
 		
-		$point = $this->_getModulePointConfig($module_srl, 'download_file');
-		if (!$point)
+		// Adjust points of the downloader.
+		if ($logged_member_srl)
 		{
-			return;
+			$point = $this->_getModulePointConfig($module_srl, 'download_file');
+			if ($point)
+			{
+				$cur_point = getModel('point')->getPoint($logged_member_srl);
+				$this->setPoint($logged_member_srl, $cur_point + $point);
+			}
 		}
 		
-		$cur_point = getModel('point')->getPoint($member_srl, true);
-		$this->setPoint($member_srl, $cur_point + $point);
+		// Adjust points of the uploader.
+		if ($author_member_srl)
+		{
+			$point = $this->_getModulePointConfig($module_srl, 'download_file_author');
+			if ($point)
+			{
+				$cur_point = getModel('point')->getPoint($author_member_srl);
+				$this->setPoint($author_member_srl, $cur_point + $point);
+			}
+		}
 	}
 
 	/**
@@ -397,25 +410,27 @@ class pointController extends point
 	public function triggerUpdateReadedCount($obj)
 	{
 		$logged_info = Context::get('logged_info');
-		$member_srl = $logged_info->member_srl;
+		$logged_member_srl = $logged_info->member_srl;
+		$author_member_srl = abs($obj->get('member_srl'));
 		$module_srl = $obj->get('module_srl');
-		$target_member_srl = abs($obj->get('member_srl'));
-		if ($member_srl && $target_member_srl == $member_srl)
+		if ($logged_member_srl && $logged_member_srl == $author_member_srl)
 		{
 			return;
 		}
 		
-		$point = $this->_getModulePointConfig($module_srl, 'read_document');
-		if (!$point)
+		// Load configuration for reader and author points.
+		$reader_point = $this->_getModulePointConfig($module_srl, 'read_document');
+		$author_point = $this->_getModulePointConfig($module_srl, 'read_document_author');
+		if (!$reader_point && !$author_point)
 		{
 			return;
 		}
 		
-		// If the current member has already read this document, do not adjust points again.
-		if ($member_srl)
+		// If the reader has already read this document, do not adjust points again.
+		if ($logged_member_srl)
 		{
-			$args = new stdClass();
-			$args->member_srl = $member_srl;
+			$args = new stdClass;
+			$args->member_srl = $logged_member_srl;
 			$args->document_srl = $obj->document_srl;
 			$output = executeQuery('document.getDocumentReadedLogInfo', $args);
 			if ($output->data->count)
@@ -424,31 +439,41 @@ class pointController extends point
 			}
 		}
 		
-		// Get current points.
-		$cur_point = $member_srl ? getModel('point')->getPoint($member_srl, true) : 0;
-		
-		// If the user (member or guest) does not have enough points, deny access.
-		$config = $this->getConfig();
-		if($config->disable_read_document == 'Y' && $cur_point + $point < 0)
+		// Adjust points of the reader.
+		if ($reader_point)
 		{
-			$message = sprintf(lang('msg_disallow_by_point'), abs($point), $cur_point);
-			$obj->add('content', $message);
-			$_SESSION['banned_document'][$obj->document_srl] = true;
-			return new BaseObject(-1, $message);
+			// Get current points.
+			$cur_point = $logged_member_srl ? getModel('point')->getPoint($logged_member_srl) : 0;
+			
+			// If the reader does not have enough points, deny access.
+			if ($cur_point + $reader_point < 0 && $this->getConfig()->disable_read_document == 'Y')
+			{
+				$message = sprintf(lang('msg_disallow_by_point'), abs($reader_point), $cur_point);
+				$obj->add('content', $message);
+				$_SESSION['banned_document'][$obj->document_srl] = true;
+				return new BaseObject(-1, $message);
+			}
+			else
+			{
+				$_SESSION['banned_document'][$obj->document_srl] = false;
+			}
+			
+			// Record the fact that this member has already read this document.
+			if ($logged_member_srl)
+			{
+				$args = new stdClass();
+				$args->member_srl = $logged_member_srl;
+				$args->document_srl = $obj->document_srl;
+				$output = executeQuery('document.insertDocumentReadedLog', $args);
+				$this->setPoint($logged_member_srl, $cur_point + $reader_point);
+			}
 		}
-		else
-		{
-			$_SESSION['banned_document'][$obj->document_srl] = false;
-		}
 		
-		// Adjust points for member.
-		if ($member_srl)
+		// Adjust points of the person who wrote the document.
+		if ($author_point && $author_member_srl)
 		{
-			$args = new stdClass();
-			$args->member_srl = $member_srl;
-			$args->document_srl = $obj->document_srl;
-			$output = executeQuery('document.insertDocumentReadedLog', $args);
-			$this->setPoint($member_srl, $cur_point + $point);
+			$cur_point = getModel('point')->getPoint($author_member_srl);
+			$this->setPoint($author_member_srl, $cur_point + $author_point);
 		}
 	}
 
