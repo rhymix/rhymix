@@ -32,7 +32,7 @@ class pointController extends point
 			return;
 		}
 		
-		$cur_point = getModel('point')->getPoint($member_srl, true);
+		$cur_point = getModel('point')->getPoint($member_srl);
 		$this->setPoint($member_srl, $cur_point + $point, 'signup');
 	}
 
@@ -60,7 +60,7 @@ class pointController extends point
 			return;
 		}
 		
-		$cur_point = getModel('point')->getPoint($member_srl, true);
+		$cur_point = getModel('point')->getPoint($member_srl);
 		$this->setPoint($member_srl, $cur_point + $point);
 	}
 
@@ -103,7 +103,7 @@ class pointController extends point
 		}
 		
 		// Get the points of the member
-		$cur_point = getModel('point')->getPoint($member_srl, true);
+		$cur_point = getModel('point')->getPoint($member_srl);
 
 		// Add points for the document.
 		$document_point = $this->_getModulePointConfig($module_srl, 'insert_document');
@@ -141,7 +141,7 @@ class pointController extends point
 		{
 			if ($obj->uploaded_count > $oDocument->get('uploaded_count'))
 			{
-				$cur_point = getModel('point')->getPoint($member_srl, true);
+				$cur_point = getModel('point')->getPoint($member_srl);
 				$attached_files_point = $this->_getModulePointConfig($module_srl, 'upload_file');
 				$cur_point += $attached_files_point * ($obj->uploaded_count - $oDocument->get('uploaded_count'));
 				$this->setPoint($member_srl, $cur_point);
@@ -150,7 +150,7 @@ class pointController extends point
 		}
 
 		// Get the points of the member
-		$cur_point = getModel('point')->getPoint($member_srl, true);
+		$cur_point = getModel('point')->getPoint($member_srl);
 
 		// Add points for the document.
 		$document_point = $this->_getModulePointConfig($module_srl, 'insert_document');
@@ -198,7 +198,7 @@ class pointController extends point
 		}
 		
 		// Get the points of the member
-		$cur_point = getModel('point')->getPoint($member_srl, true);
+		$cur_point = getModel('point')->getPoint($member_srl);
 
 		// Subtract points for the document.
 		$document_point = $this->_getModulePointConfig($module_srl, 'insert_document');
@@ -238,7 +238,7 @@ class pointController extends point
 		}
 		
 		// Get the points of the member
-		$cur_point = getModel('point')->getPoint($member_srl, true);
+		$cur_point = getModel('point')->getPoint($member_srl);
 
 		// Add points for the comment.
 		$comment_point = $this->_getModulePointConfig($module_srl, 'insert_comment');
@@ -290,7 +290,7 @@ class pointController extends point
 		}
 		
 		// Get the points of the member
-		$cur_point = getModel('point')->getPoint($member_srl, true);
+		$cur_point = getModel('point')->getPoint($member_srl);
 
 		// Add points for the comment.
 		$comment_point = $this->_getModulePointConfig($module_srl, 'insert_comment');
@@ -323,7 +323,7 @@ class pointController extends point
 		}
 		
 		// Get the points of the member
-		$cur_point = getModel('point')->getPoint($member_srl, true);
+		$cur_point = getModel('point')->getPoint($member_srl);
 
 		// Subtract points for the file.
 		$file_point = $this->_getModulePointConfig($module_srl, 'upload_file');
@@ -504,7 +504,7 @@ class pointController extends point
 				{
 					$point = -1 * $point;
 				}
-				$cur_point = getModel('point')->getPoint($logged_member_srl, true);
+				$cur_point = getModel('point')->getPoint($logged_member_srl);
 				$this->setPoint($logged_member_srl, $cur_point + $point);
 			}
 		}
@@ -520,7 +520,7 @@ class pointController extends point
 				{
 					$point = -1 * $point;
 				}
-				$cur_point = getModel('point')->getPoint($target_member_srl, true);
+				$cur_point = getModel('point')->getPoint($target_member_srl);
 				$this->setPoint($target_member_srl, $cur_point + $point);
 			}
 		}
@@ -560,7 +560,7 @@ class pointController extends point
 		$config = $oModuleModel->getModuleConfig('point');
 
 		// Get the default configuration information
-		$current_point = $oPointModel->getPoint($member_srl, true);
+		$current_point = $oPointModel->getPoint($member_srl);
 		$current_level = $oPointModel->getLevel($current_point, $config->level_step);
 
 		// Change points
