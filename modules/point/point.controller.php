@@ -459,42 +459,46 @@ class pointController extends point
 	{
 		$logged_info = Context::get('logged_info');
 		$logged_member_srl = $logged_info->member_srl;
-		$module_srl = $obj->module_srl;
-		$member_srl = abs($obj->member_srl);
-		if ($logged_member_srl && $logged_member_srl == $member_srl)
-		{
-			return;
-		}
-		elseif (!$member_srl)
+		$target_member_srl = abs($obj->member_srl);
+		if ($logged_member_srl && $logged_member_srl == $target_member_srl)
 		{
 			return;
 		}
 		
-		// Get current points.
-		$cur_point = getModel('point')->getPoint($member_srl, true);
+		// Document or comment?
+		$is_comment = isset($obj->comment_srl) && $obj->comment_srl;
 		
-		// Get adjustment amount.
-		if ($obj->point > 0)
+		// Adjust points of the voter.
+		if ($logged_member_srl)
 		{
-			$config_key = (isset($obj->comment_srl) && $obj->comment_srl) ? 'voted_comment' : 'voted';
-		}
-		else
-		{
-			$config_key = (isset($obj->comment_srl) && $obj->comment_srl) ? 'blamed_comment' : 'blamed';
-		}
-		
-		$point = $this->_getModulePointConfig($module_srl, $config_key);
-		if (!$point)
-		{
-			return;
-		}
-		
-		if (isset($obj->cancel) && $obj->cancel)
-		{
-			$point = -1 * $point;
+			$config_key = ($obj->point > 0) ? ($is_comment ? 'voter_comment' : 'voter') : ($is_comment ? 'blamer_comment' : 'blamer');
+			$point = $this->_getModulePointConfig($obj->module_srl, $config_key);
+			if ($point)
+			{
+				if (isset($obj->cancel) && $obj->cancel)
+				{
+					$point = -1 * $point;
+				}
+				$cur_point = getModel('point')->getPoint($logged_member_srl, true);
+				$this->setPoint($logged_member_srl, $cur_point + $point);
+			}
 		}
 		
-		$this->setPoint($member_srl, $cur_point + $point);
+		// Adjust points of the person who wrote the document or comment.
+		if ($target_member_srl)
+		{
+			$config_key = ($obj->point > 0) ? ($is_comment ? 'voted_comment' : 'voted') : ($is_comment ? 'blamed_comment' : 'blamed');
+			$point = $this->_getModulePointConfig($obj->module_srl, $config_key);
+			if ($point)
+			{
+				if (isset($obj->cancel) && $obj->cancel)
+				{
+					$point = -1 * $point;
+				}
+				$cur_point = getModel('point')->getPoint($target_member_srl, true);
+				$this->setPoint($target_member_srl, $cur_point + $point);
+			}
+		}
 	}
 
 	/**
