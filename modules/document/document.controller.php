@@ -1051,7 +1051,7 @@ class documentController extends document
 		// Cannot throw data from the trash to the trash
 		if($trash_args->module_srl == 0)
 		{
-			return new BaseObject(-1, 'Error');
+			return new BaseObject(-1, 'Cannot throw data from the trash to the trash');
 		}
 		// Data setting
 		$trash_args->document_srl = $obj->document_srl;
@@ -2683,7 +2683,7 @@ class documentController extends document
 <div style="padding:10px 0;"><strong>{$title}</strong></div>
 <p>{$obj->manager_message}</p>
 <hr>
-<ul>%1\$s<ul>
+<ul>%1\$s</ul>
 Content;
 			$document_item = '<li><a href="%1$s">%2$s</a></li>';
 			
