@@ -344,7 +344,7 @@ class TemplateHandler
 	 */
 	private function _fetch($filename)
 	{
-		$__Context = Context::getInstance();
+		$__Context = (object) get_object_vars(Context::getInstance());
 		$__Context->tpl_path = $this->path;
 
 		$__ob_level_before_fetch = ob_get_level();
