@@ -1,0 +1,11 @@
+<query id="updateDocumentExtraVarsModule" action="update">
+	<tables>
+		<table name="document_extra_vars" />
+	</tables>
+	<columns>
+		<column name="module_srl" var="module_srl" filter="number" />
+	</columns>
+	<conditions>
+		<condition operation="in" column="document_srl" var="document_srls" notnull="notnull" />
+	</conditions>
+</query>

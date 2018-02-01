@@ -94,6 +94,11 @@ class tagController extends tag
 		$oTagController = getAdminController('tag');
 		return $oTagController->deleteModuleTags($module_srl);
 	}
+	
+	function triggerMoveDocument($obj)
+	{
+		executeQuery('tag.updateTagModule', $obj);
+	}
 }
 /* End of file tag.controller.php */
 /* Location: ./modules/tag/tag.controller.php */

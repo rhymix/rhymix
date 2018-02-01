@@ -43,402 +43,7 @@ class documentAdminController extends document
 
 		$this->setMessage(sprintf(lang('msg_checked_document_is_deleted'), $document_count) );
 	}
-
-	/**
-	 * Change the module to move a specific article
-	 * @param array $document_srl_list
-	 * @param int $module_srl
-	 * @param int $category_srl
-	 * @return Object
-	 */
-	function moveDocumentModule($document_srl_list, $module_srl, $category_srl)
-	{
-		if(!count($document_srl_list)) return;
-
-		$oDocumentModel = getModel('document');
-		$oDocumentController = getController('document');
-
-		$oDB = &DB::getInstance();
-		$oDB->begin();
-
-		$triggerObj = new stdClass();
-		$triggerObj->document_srls = implode(',',$document_srl_list);
-		$triggerObj->module_srl = $module_srl;
-		$triggerObj->category_srl = $category_srl;
-		// Call a trigger (before)
-		$output = ModuleHandler::triggerCall('document.moveDocumentModule', 'before', $triggerObj);
-		if(!$output->toBool())
-		{
-			$oDB->rollback();
-			return $output;
-		}
-
-		for($i=count($document_srl_list)-1;$i>=0;$i--)
-		{
-			$document_srl = $document_srl_list[$i];
-			$oDocument = $oDocumentModel->getDocument($document_srl);
-			if(!$oDocument->isExists()) continue;
-
-			$source_category_srl = $oDocument->get('category_srl');
-
-			unset($obj);
-			$obj = $oDocument->getObjectVars();
-
-			// ISSUE https://github.com/xpressengine/xe-core/issues/32
-			$args_doc_origin = new stdClass();
-			$args_doc_origin->document_srl = $document_srl;
-			$output_ori = executeQuery('document.getDocument', $args_doc_origin, array('content'));              
-			$obj->content = $output_ori->data->content;
-
-			// Move the attached file if the target module is different
-			if($module_srl != $obj->module_srl && $oDocument->hasUploadedFiles())
-			{
-				$args = new stdClass;
-				$args->module_srl = $module_srl;
-				$args->upload_target_srl = $oDocument->get('document_srl');
-				$output = executeQuery('file.updateFileModule', $args);
-				if(!$output->toBool())
-				{
-					$oDB->rollback();
-					return $output;
-				}
-			}
-
-			if($module_srl != $obj->module_srl)
-			{
-				$oDocumentController->deleteDocumentAliasByDocument($obj->document_srl);
-			}
-
-			// Move a module of the article
-			$obj->module_srl = $module_srl;
-			$obj->category_srl = $category_srl;
-			$output = executeQuery('document.updateDocumentModule', $obj);
-			if(!$output->toBool())
-			{
-				$oDB->rollback();
-				return $output;
-			}
-			else
-			{
-				$update_output = $oDocumentController->insertDocumentUpdateLog($obj);
-				if(!$update_output->toBool())
-				{
-					$oDB->rollback();
-					return $update_output;
-				}
-			}
-
-			// Move a module of the extra vars
-			$output = executeQuery('document.moveDocumentExtraVars', $obj);
-			if(!$output->toBool()) {
-				$oDB->rollback();
-				return $output;
-			}
-
-			// Set 0 if a new category doesn't exist after catergory change
-			if($source_category_srl != $category_srl)
-			{
-				if($source_category_srl) $oDocumentController->updateCategoryCount($oDocument->get('module_srl'), $source_category_srl);
-				if($category_srl) $oDocumentController->updateCategoryCount($module_srl, $category_srl);
-			}
-		}
-
-		$args = new stdClass();
-		$args->document_srls = implode(',',$document_srl_list);
-		$args->module_srl = $module_srl;
-
-		// move the comment
-		$output = executeQuery('comment.updateCommentModule', $args);
-		if(!$output->toBool())
-		{
-			$oDB->rollback();
-			return $output;
-		}
-
-		$output = executeQuery('comment.updateCommentListModule', $args);
-		if(!$output->toBool())
-		{
-			$oDB->rollback();
-			return $output;
-		}
-		
-		// move the trackback
-		if(getClass('trackback'))
-		{
-			$output = executeQuery('trackback.updateTrackbackModule', $args);
-			if(!$output->toBool())
-			{
-				$oDB->rollback();
-				return $output;
-			}
-		}
-
-		// Tags
-		$output = executeQuery('tag.updateTagModule', $args);
-		if(!$output->toBool())
-		{
-			$oDB->rollback();
-			return $output;
-		}
-		
-		// Call a trigger (after)
-		ModuleHandler::triggerCall('document.moveDocumentModule', 'after', $triggerObj);
-
-		$oDB->commit();
-		
-		//remove from cache
-		foreach ($document_srl_list as $document_srl)
-		{
-			Rhymix\Framework\Cache::delete('document_item:'. getNumberingPath($document_srl) . $document_srl);
-		}
-		return new BaseObject();
-	}
-
-	/**
-	 * Copy the post
-	 * @param array $document_srl_list
-	 * @param int $module_srl
-	 * @param int $category_srl
-	 * @return object
-	 */
-	function copyDocumentModule($document_srl_list, $module_srl, $category_srl)
-	{
-		if(count($document_srl_list) < 1) return;
-
-		$oDocumentModel = getModel('document');
-		$oDocumentController = getController('document');
-
-		$oFileModel = getModel('file');
-
-		$oDB = &DB::getInstance();
-		$oDB->begin();
-
-		$triggerObj = new stdClass();
-		$triggerObj->document_srls = implode(',',$document_srl_list);
-		$triggerObj->module_srl = $module_srl;
-		$triggerObj->category_srl = $category_srl;
-		// Call a trigger (before)
-		$output = ModuleHandler::triggerCall('document.copyDocumentModule', 'before', $triggerObj);
-		if(!$output->toBool())
-		{
-			$oDB->rollback();
-			return $output;
-		}
-
-		$extraVarsList = $oDocumentModel->getDocumentExtraVarsFromDB($document_srl_list);
-		$extraVarsListByDocumentSrl = array();
-		if(is_array($extraVarsList->data))
-		{
-			foreach($extraVarsList->data as $value)
-			{
-				if(!isset($extraVarsListByDocumentSrl[$value->document_srl]))
-				{
-					$extraVarsListByDocumentSrl[$value->document_srl] = array();
-				}
-
-				$extraVarsListByDocumentSrl[$value->document_srl][] = $value;
-			}
-		}
-
-		for($i=count($document_srl_list)-1;$i>=0;$i--)
-		{
-			$document_srl = $document_srl_list[$i];
-			$oDocument = $oDocumentModel->getDocument($document_srl);
-			if(!$oDocument->isExists()) continue;
-
-			$obj = $oDocument->getObjectVars();
-
-			$extraVars = $extraVarsListByDocumentSrl[$document_srl];
-			if($module_srl == $obj->module_srl)
-			{
-				if(is_array($extraVars))
-				{
-					foreach($extraVars as $extraItem)
-					{
-						if($extraItem->var_idx >= 0) $obj->{'extra_vars'.$extraItem->var_idx} = $extraItem->value;
-					}
-				}
-			}
-			$obj->module_srl = $module_srl;
-			$obj->document_srl = getNextSequence();
-			$obj->category_srl = $category_srl;
-			$obj->password_is_hashed = true;
-			$obj->comment_count = 0;
-			$obj->trackback_count = 0;
-
-			// Pre-register the attachment
-			if($oDocument->hasUploadedFiles())
-			{
-				$files = $oDocument->getUploadedFiles();
-				foreach($files as $val)
-				{
-					$file_info = array();
-					$file_info['tmp_name'] = $val->uploaded_filename;
-					$file_info['name'] = $val->source_filename;
-					$oFileController = getController('file');
-					$inserted_file = $oFileController->insertFile($file_info, $module_srl, $obj->document_srl, 0, true);
-					// if image/video files
-					if($val->direct_download == 'Y')
-					{
-						$source_filename = substr($val->uploaded_filename,2);
-						$target_filename = substr($inserted_file->get('uploaded_filename'),2);
-						$obj->content = str_replace($source_filename, $target_filename, $obj->content);
-						// If binary file
-					}
-					else
-					{
-						$obj->content = str_replace('file_srl='.$val->file_srl, 'file_srl='.$inserted_file->get('file_srl'), $obj->content);
-						$obj->content = str_replace('sid='.$val->sid, 'sid='.$inserted_file->get('sid'), $obj->content);
-					}
-				}
-			}
-
-			// Write a post
-			$output = $oDocumentController->insertDocument($obj, true, true);
-			if(!$output->toBool())
-			{
-				$oDB->rollback();
-				return $output;
-			}
-
-			// copy multi language contents
-			if(is_array($extraVars))
-			{
-				foreach($extraVars as $value)
-				{
-					if($value->idx >= 0 && $value->lang_code == Context::getLangType())
-					{
-						continue;
-					}
-
-					if( $value->var_idx < 0 || ($module_srl == $value->module_srl && $value->var_idx >= 0) )
-					{
-						$oDocumentController->insertDocumentExtraVar($value->module_srl, $obj->document_srl, $value->var_idx, $value->value, $value->eid, $value->lang_code);
-					}
-				}
-			}
-
-			// Move the comments
-			if($oDocument->getCommentCount())
-			{
-				$oCommentModel = getModel('comment');
-				$comment_output = $oCommentModel->getCommentList($document_srl, 0, true, 99999999);
-				$comments = $comment_output->data;
-				if(count($comments) > 0)
-				{
-					$oCommentController = getController('comment');
-					$success_count = 0;
-					$p_comment_srl = array();
-					foreach($comments as $comment_obj)
-					{
-						$comment_srl = getNextSequence();
-						$p_comment_srl[$comment_obj->comment_srl] = $comment_srl;
-
-						// Pre-register the attachment
-						if($comment_obj->uploaded_count)
-						{
-							$files = $oFileModel->getFiles($comment_obj->comment_srl, true);
-							foreach($files as $val)
-							{
-								$file_info = array();
-								$file_info['tmp_name'] = $val->uploaded_filename;
-								$file_info['name'] = $val->source_filename;
-								$oFileController = getController('file');
-								$inserted_file = $oFileController->insertFile($file_info, $module_srl, $comment_srl, 0, true);
-								// if image/video files
-								if($val->direct_download == 'Y')
-								{
-									$source_filename = substr($val->uploaded_filename,2);
-									$target_filename = substr($inserted_file->get('uploaded_filename'),2);
-									$comment_obj->content = str_replace($source_filename, $target_filename, $comment_obj->content);
-									// If binary file
-								}
-								else
-								{
-									$comment_obj->content = str_replace('file_srl='.$val->file_srl, 'file_srl='.$inserted_file->get('file_srl'), $comment_obj->content);
-									$comment_obj->content = str_replace('sid='.$val->sid, 'sid='.$inserted_file->get('sid'), $comment_obj->content);
-								}
-							}
-						}
-
-						$comment_obj->module_srl = $obj->module_srl;
-						$comment_obj->document_srl = $obj->document_srl;
-						$comment_obj->comment_srl = $comment_srl;
-
-						if($comment_obj->parent_srl) $comment_obj->parent_srl = $p_comment_srl[$comment_obj->parent_srl];
-
-						$output = $oCommentController->insertComment($comment_obj, true);
-						if($output->toBool()) $success_count ++;
-					}
-					$oDocumentController->updateCommentCount($obj->document_srl, $success_count, $comment_obj->nick_name, true);
-				}
-			}
-
-			// Move the trackbacks
-			$oTrackbackModel = getModel('trackback');
-			if($oTrackbackModel && $oDocument->getTrackbackCount())
-			{
-				$trackbacks = $oTrackbackModel->getTrackbackList($oDocument->document_srl);
-				if(count($trackbacks))
-				{
-					$success_count = 0;
-					foreach($trackbacks as $trackback_obj)
-					{
-						$trackback_obj->trackback_srl = getNextSequence();
-						$trackback_obj->module_srl = $obj->module_srl;
-						$trackback_obj->document_srl = $obj->document_srl;
-						$output = executeQuery('trackback.insertTrackback', $trackback_obj);
-						if($output->toBool()) $success_count++;
-					}
-					// Update the number of trackbacks
-					$oDocumentController->updateTrackbackCount($obj->document_srl, $success_count);
-				}
-			}
-
-			$copied_srls[$document_srl] = $obj->document_srl;
-		}
-
-		// Call a trigger (before)
-		$triggerObj->copied_srls = $copied_srls;
-		ModuleHandler::triggerCall('document.copyDocumentModule', 'after', $triggerObj);
-
-		$oDB->commit();
-
-		$output = new BaseObject();
-		$output->add('copied_srls', $copied_srls);
-		return $output;
-	}
-
-	/**
-	 * Delete all documents of the module
-	 * @param int $module_srl
-	 * @return object
-	 */
-	function deleteModuleDocument($module_srl)
-	{
-		$args = new stdClass();
-		$args->module_srl = $module_srl;
-		$oDocumentModel = getModel('document');
-		$args->module_srl = $module_srl;
-		$document_list = $oDocumentModel->getDocumentList($args);
-		$documents = $document_list->data;
-		$output = executeQuery('document.deleteModuleDocument', $args);
-		if(is_array($documents))
-		{
-			foreach ($documents as $oDocument)
-			{
-				$document_srl_list[] = $oDocument->document_srl;
-			}
-		}
-		
-		//remove from cache
-		foreach ($document_srl_list as $document_srl)
-		{
-			Rhymix\Framework\Cache::delete('document_item:'. getNumberingPath($document_srl) . $document_srl);
-		}
-		return $output;
-	}
-
+	
 	/**
 	 * Save the default settings of the document module
 	 * @return object
@@ -788,60 +393,222 @@ class documentAdminController extends document
 		$trash_srl = Context::get('trash_srl');
 		$this->restoreTrash($trash_srl);
 	}
-
-	/*function restoreTrash($trash_srl){
-	  $oDB = &DB::getInstance();
-	  $oDocumentModel = getModel('document');
-
-	  $trash_args->trash_srl = $trash_srl;
-
-	  $output = executeQuery('document.getTrash', $trash_args);
-	  if (!$output->toBool()) {
-	  return $output;
-	  }
-
-	  $document_args->document_srl = $output->data->document_srl;
-	  $document_args->module_srl = $output->data->module_srl;
-	  $document_args->member_srl = $output->data->member_srl;
-	  $document_args->ipaddress = $output->data->ipaddress;
-	  $document_args->update_order = $output->data->update_order;
-
-	  $oDocument = $oDocumentModel->getDocument($document_args->document_srl);
-
-	// begin transaction
-	$oDB->begin();
-
-	$output = executeQuery('document.updateDocument', $document_args);
-	if (!$output->toBool()) {
-	$oDB->rollback();
-	return $output;
+	
+	/**
+	 * Move module of the documents
+	 * @param array $document_srl_list
+	 * @param int $target_module_srl
+	 * @param int $target_category_srl
+	 * @return Object
+	 */
+	function moveDocumentModule($document_srl_list, $target_module_srl, $target_category_srl)
+	{
+		if(empty($document_srl_list))
+		{
+			return;
+		}
+		
+		$obj = new stdClass;
+		$obj->document_srls = implode(',', $document_srl_list);
+		$obj->list_count = count($document_srl_list);
+		$obj->document_list = executeQueryArray('document.getDocuments', $obj)->data;
+		$obj->module_srl = $target_module_srl;
+		$obj->category_srl = $target_category_srl;
+		
+		$oDB = DB::getInstance();
+		$oDB->begin();
+		
+		// call a trigger (before)
+		$output = ModuleHandler::triggerCall('document.moveDocumentModule', 'before', $obj);
+		if(!$output->toBool())
+		{
+			$oDB->rollback();
+			return $output;
+		}
+		
+		$origin_category = array();
+		$oDocumentController = getController('document');
+		
+		foreach($obj->document_list as $document)
+		{
+			// if the target module is different
+			if($document->module_srl != $obj->module_srl)
+			{
+				$oDocumentController->deleteDocumentAliasByDocument($document->document_srl);
+			}
+			
+			// if the target category is different
+			if($document->category_srl != $obj->category_srl && $document->category_srl)
+			{
+				$origin_category[$document->category_srl] = $document->module_srl;
+			}
+			
+			$oDocumentController->insertDocumentUpdateLog($document);
+		}
+		
+		// update documents
+		$output = executeQuery('document.updateDocumentsModule', $obj);
+		if(!$output->toBool())
+		{
+			$oDB->rollback();
+			return $output;
+		}
+		
+		// update extra vars
+		$output = executeQuery('document.updateDocumentExtraVarsModule', $obj);
+		if(!$output->toBool())
+		{
+			$oDB->rollback();
+			return $output;
+		}
+		
+		// call a trigger (after)
+		ModuleHandler::triggerCall('document.moveDocumentModule', 'after', $obj);
+		
+		// update category count
+		foreach($origin_category as $category_srl => $module_srl)
+		{
+			$oDocumentController->updateCategoryCount($module_srl, $category_srl);
+		}
+		if($obj->category_srl)
+		{
+			$oDocumentController->updateCategoryCount($obj->module_srl, $obj->category_srl);
+		}
+		
+		$oDB->commit();
+		
+		// remove from cache
+		foreach ($document_srl_list as $document_srl)
+		{
+			Rhymix\Framework\Cache::delete('document_item:'. getNumberingPath($document_srl) . $document_srl);
+		}
+		
+		return new BaseObject();
 	}
 
-	$output = executeQuery('document.deleteTrash', $trash_args);
-	if (!$output->toBool()) {
-	$oDB->rollback();
-	return $output;
+	/**
+	 * Copy the documents
+	 * @param array $document_srl_list
+	 * @param int $target_module_srl
+	 * @param int $target_category_srl
+	 * @return object
+	 */
+	function copyDocumentModule($document_srl_list, $target_module_srl, $target_category_srl)
+	{
+		if(empty($document_srl_list))
+		{
+			return;
+		}
+		
+		$obj = new stdClass;
+		$obj->document_srls = implode(',', $document_srl_list);
+		$obj->list_count = count($document_srl_list);
+		$obj->document_list = executeQueryArray('document.getDocuments', $obj)->data;
+		$obj->module_srl = $target_module_srl;
+		$obj->category_srl = $target_category_srl;
+		
+		$oDB = DB::getInstance();
+		$oDB->begin();
+		
+		// call a trigger (before)
+		$output = ModuleHandler::triggerCall('document.copyDocumentModule', 'before', $obj);
+		if(!$output->toBool())
+		{
+			$oDB->rollback();
+			return $output;
+		}
+		
+		$oDocumentController = getController('document');
+		$extra_vars_list = getModel('document')->getDocumentExtraVarsFromDB($document_srl_list)->data;
+		
+		$extra_vars = array();
+		foreach($extra_vars_list as $extra)
+		{
+			if(!isset($extra_vars[$extra->document_srl]))
+			{
+				$extra_vars[$extra->document_srl] = array();
+			}
+			
+			$extra_vars[$extra->document_srl][] = $extra;
+		}
+		
+		$copied_srls = array();
+		foreach($obj->document_list as $document)
+		{
+			$copy = clone $document;
+			$copy->document_srl = getNextSequence();
+			$copy->module_srl = $obj->module_srl;
+			$copy->category_srl = $obj->category_srl;
+			$copy->comment_count = 0;
+			$copy->trackback_count = 0;
+			$copy->password_is_hashed = true;
+			
+			// call a trigger (add)
+			$args = new stdClass;
+			$args->source = $document;
+			$args->copied = $copy;
+			ModuleHandler::triggerCall('document.copyDocumentModule', 'add', $args);
+			
+			// insert a copied document
+			$output = $oDocumentController->insertDocument($copy, true, true);
+			if(!$output->toBool())
+			{
+				$oDB->rollback();
+				return $output;
+			}
+			
+			// insert copied extra vars of the document
+			if(isset($extra_vars[$document->document_srl]))
+			{
+				foreach($extra_vars[$document->document_srl] as $extra)
+				{
+					$oDocumentController->insertDocumentExtraVar($copy->module_srl, $copy->document_srl, $extra->var_idx, $extra->value, $extra->eid, $extra->lang_code);
+				}
+			}
+			
+			$copied_srls[$document->document_srl] = $copy->document_srl;
+		}
+		
+		// call a trigger (after)
+		$obj->copied_srls = $copied_srls;
+		ModuleHandler::triggerCall('document.copyDocumentModule', 'after', $obj);
+		
+		$oDB->commit();
+		
+		// return copied document_srls
+		$output = new BaseObject();
+		$output->add('copied_srls', $copied_srls);
+		return $output;
 	}
-	// If the post was not temorarily saved, set the attachment's status to be valid
-	if($oDocument->hasUploadedFiles() && $document_args->member_srl != $document_args->module_srl) {
-	$args->upload_target_srl = $oDocument->document_srl;
-	$args->isvalid = 'Y';
-	executeQuery('file.updateFileValid', $args);
+	
+	/**
+	 * Delete all documents of the module
+	 * @param int $module_srl
+	 * @return object
+	 */
+	function deleteModuleDocument($module_srl)
+	{
+		$args = new stdClass;
+		$args->page = 0;
+		$args->module_srl = $module_srl;
+		$document_list = executeQueryArray('document.getDocumentList', $args, array('document_srl'))->data;
+		
+		// delete documents
+		$output = executeQuery('document.deleteModuleDocument', $args);
+		if(!$output->toBool())
+		{
+			return $output;
+		}
+		
+		// remove from cache
+		foreach ($document_list as $document)
+		{
+			Rhymix\Framework\Cache::delete('document_item:'. getNumberingPath($document->document_srl) . $document->document_srl);
+		}
+		
+		return new BaseObject();
 	}
-	// call a trigger (after)
-	if($output->toBool()) {
-	$trigger_output = ModuleHandler::triggerCall('document.restoreTrash', 'after', $document_args);
-	if(!$trigger_output->toBool()) {
-	$oDB->rollback();
-	return $trigger_output;
-	}
-	}
-
-	// commit
-	$oDB->commit();
-	return $output;
-	}*/
-
+	
 	/**
 	 * Restore document from trash module, called by trash module
 	 * This method is passived

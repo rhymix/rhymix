@@ -131,7 +131,9 @@ class document extends ModuleObject
 		
 		// 2017.12.21 Add an index for nick_name
 		if(!$oDB->isIndexExists('documents', 'idx_nick_name')) return true;
-
+		
+		if(!$oModuleModel->getTrigger('file.deleteFile', 'document', 'controller', 'triggerAfterDeleteFile', 'after')) return true;
+		
 		return false;
 	}
 
@@ -355,6 +357,11 @@ class document extends ModuleObject
 		if(!$oDB->isIndexExists('documents', 'idx_nick_name'))
 		{
 			$oDB->addIndex('documents', 'idx_nick_name', array('nick_name'));
+		}
+		
+		if(!$oModuleModel->getTrigger('file.deleteFile', 'document', 'controller', 'triggerAfterDeleteFile', 'after'))
+		{
+			$oModuleController->insertTrigger('file.deleteFile', 'document', 'controller', 'triggerAfterDeleteFile', 'after');
 		}
 	}
 

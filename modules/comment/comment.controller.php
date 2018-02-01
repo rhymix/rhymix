@@ -1726,7 +1726,45 @@ class commentController extends comment
 
 		$this->add('comment_list', $commentList);
 	}
-
+	
+	function triggerMoveDocument($obj)
+	{
+		executeQuery('comment.updateCommentModule', $obj);
+		executeQuery('comment.updateCommentListModule', $obj);
+	}
+	
+	function triggerAddCopyDocument(&$obj)
+	{
+		$args = new stdClass;
+		$args->document_srls = $obj->source->document_srl;
+		$comment_list = executeQueryArray('comment.getCommentsByDocumentSrls', $args)->data;
+		
+		$copied_comments = array();
+		foreach($comment_list as $comment)
+		{
+			$copy = clone $comment;
+			$copy->comment_srl = getNextSequence();
+			$copy->module_srl = $obj->copied->module_srl;
+			$copy->document_srl = $obj->copied->document_srl;
+			$copy->parent_srl = $comment->parent_srl ? $copied_comments[$comment->parent_srl] : 0;
+			
+			// call a trigger (add)
+			$args = new stdClass;
+			$args->source = $comment;
+			$args->copied = $copy;
+			ModuleHandler::triggerCall('comment.copyCommentByDocument', 'add', $args);
+			
+			// insert a copied comment
+			$this->insertComment($copy, true);
+			
+			$copied_comments[$comment->comment_srl] = $copy->comment_srl;
+		}
+		
+		// update
+		$obj->copied->last_updater = $copy->nick_name;
+		$obj->copied->comment_count = count($copied_comments);
+	}
+	
 	function triggerCopyModule(&$obj)
 	{
 		$oModuleModel = getModel('module');
@@ -1741,7 +1779,6 @@ class commentController extends comment
 			}
 		}
 	}
-
 }
 /* End of file comment.controller.php */
 /* Location: ./modules/comment/comment.controller.php */
