@@ -66,11 +66,10 @@ class pointAdminController extends point
 			// Set the level icon
 			$config->level_icon = $args->level_icon;
 			// Check if downloads are not allowed
-			if($args->disable_download == 'Y') $config->disable_download = 'Y';
-			else $config->disable_download = 'N';
+			$config->disable_download = ($args->disable_download === 'Y') ? 'Y' : 'N';
 			// Check if reading a document is not allowed
-			if($args->disable_read_document == 'Y') $config->disable_read_document = 'Y';
-			else $config->disable_read_document = 'N';
+			$config->disable_read_document = ($args->disable_read_document === 'Y') ? 'Y' : 'N';
+			$config->disable_read_document_except_robots = ($args->disable_read_document_except_robots === 'Y') ? 'Y' : 'N';
 
 			//check is reading a document is not regdate setting
 			$config->no_point_date = (int)$args->no_point_date;

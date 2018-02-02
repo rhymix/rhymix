@@ -17,6 +17,7 @@ $lang->disable_download = 'Prohibit Downloads';
 $lang->about_disable_download = 'This will prohibit downloads when there are not enough points. (Exclude image files)';
 $lang->disable_read_document = 'Prohibit Readings';
 $lang->about_disable_read_document = 'Users will be unable to read articles when they do not have enough points';
+$lang->disable_read_document_except_robots = 'Except search robots';
 $lang->level_point_calc = 'Point Calculation per Point';
 $lang->expression = 'Please input Javascript formula by using level variable <b>i</b>. ex) Math.pow(i, 2) * 90';
 $lang->cmd_exp_calc = 'Calculate';

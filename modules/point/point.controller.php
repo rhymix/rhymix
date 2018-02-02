@@ -446,12 +446,20 @@ class pointController extends point
 			$cur_point = $logged_member_srl ? getModel('point')->getPoint($logged_member_srl) : 0;
 			
 			// If the reader does not have enough points, deny access.
-			if ($cur_point + $reader_point < 0 && $this->getConfig()->disable_read_document == 'Y')
+			$config = $this->getConfig();
+			if ($cur_point + $reader_point < 0 && $config->disable_read_document == 'Y')
 			{
-				$message = sprintf(lang('msg_disallow_by_point'), abs($reader_point), $cur_point);
-				$obj->add('content', $message);
-				$_SESSION['banned_document'][$obj->document_srl] = true;
-				return new BaseObject(-1, $message);
+				if (!$logged_member_srl && $config->disable_read_document_except_robots == 'Y' && isCrawler())
+				{
+					$_SESSION['banned_document'][$obj->document_srl] = false;
+				}
+				else
+				{
+					$message = sprintf(lang('msg_disallow_by_point'), abs($reader_point), $cur_point);
+					$obj->add('content', $message);
+					$_SESSION['banned_document'][$obj->document_srl] = true;
+					return new BaseObject(-1, $message);
+				}
 			}
 			else
 			{
