@@ -1176,10 +1176,6 @@ class documentController extends document
 		// Option 'some': only count once per session.
 		if ($config->view_count_option != 'all' && $_SESSION['readed_document'][$document_srl])
 		{
-			if (Context::getSessionStatus())
-			{
-				$_SESSION['readed_document'][$document_srl] = true;
-			}
 			return false;
 		}
 
