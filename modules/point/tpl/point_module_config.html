@@ -39,6 +39,42 @@
 			</div>
 		</div>
 		<div class="x_control-group">
+			<label for="voter" class="x_control-label">{$lang->point_voter}</label>
+			<div class="x_controls">
+				<input type="number" name="voter" id="voter" value="{$module_config['voter']}" /> {$module_config['point_name']}
+			</div>
+		</div>
+		<div class="x_control-group">
+			<label for="blamer" class="x_control-label">{$lang->point_blamer}</label>
+			<div class="x_controls">
+				<input type="number" name="blamer" id="blamer" value="{$module_config['blamer']}" /> {$module_config['point_name']}
+			</div>
+		</div>
+		<div class="x_control-group">
+			<label for="voter_comment" class="x_control-label">{$lang->point_voter_comment}</label>
+			<div class="x_controls">
+				<input type="number" name="voter_comment" id="voter_comment" value="{$module_config['voter_comment']}" /> {$module_config['point_name']}
+			</div>
+		</div>
+		<div class="x_control-group">
+			<label for="blamer_comment" class="x_control-label">{$lang->point_blamer_comment}</label>
+			<div class="x_controls">
+				<input type="number" name="blamer_comment" id="blamer_comment" value="{$module_config['blamer_comment']}" /> {$module_config['point_name']}
+			</div>
+		</div>
+		<div class="x_control-group">
+			<label for="download_file_author" class="x_control-label">{$lang->point_download_file_author}</label>
+			<div class="x_controls">
+				<input type="number" name="download_file_author" id="download_file_author" value="{$module_config['download_file_author']}" /> {$module_config['point_name']}
+			</div>
+		</div>
+		<div class="x_control-group">
+			<label for="read_document_author" class="x_control-label">{$lang->point_read_document_author}</label>
+			<div class="x_controls">
+				<input type="number" name="read_document_author" id="read_document_author" value="{$module_config['read_document_author']}" /> {$module_config['point_name']}
+			</div>
+		</div>
+		<div class="x_control-group">
 			<label for="voted" class="x_control-label">{$lang->point_voted}</label>
 			<div class="x_controls">
 				<input type="number" name="voted" id="voted" value="{$module_config['voted']}" /> {$module_config['point_name']}
@@ -51,13 +87,13 @@
 			</div>
 		</div>
 		<div class="x_control-group">
-			<label for="voted_comment" class="x_control-label">{$lang->comment} {$lang->point_voted}</label>
+			<label for="voted_comment" class="x_control-label">{$lang->point_voted_comment}</label>
 			<div class="x_controls">
 				<input type="number" name="voted_comment" id="voted_comment" value="{$module_config['voted_comment']}" /> {$module_config['point_name']}
 			</div>
 		</div>
 		<div class="x_control-group">
-			<label for="blamed_comment" class="x_control-label">{$lang->comment} {$lang->point_blamed}</label>
+			<label for="blamed_comment" class="x_control-label">{$lang->point_blamed_comment}</label>
 			<div class="x_controls">
 				<input type="number" name="blamed_comment" id="blamed_comment" value="{$module_config['blamed_comment']}" /> {$module_config['point_name']}
 			</div>

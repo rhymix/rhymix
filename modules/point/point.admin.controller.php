@@ -45,12 +45,18 @@ class pointAdminController extends point
 			$config->signup_point = (int)$args->signup_point;
 			$config->login_point = (int)$args->login_point;
 			$config->insert_document = (int)$args->insert_document;
-			$config->read_document = (int)$args->read_document;
 			$config->insert_comment = (int)$args->insert_comment;
 			$config->upload_file = (int)$args->upload_file;
 			$config->download_file = (int)$args->download_file;
+			$config->read_document = (int)$args->read_document;
+			$config->voter = (int)$args->voter;
+			$config->blamer = (int)$args->blamer;
 			$config->voted = (int)$args->voted;
 			$config->blamed = (int)$args->blamed;
+			$config->download_file_author = (int)$args->download_file_author;
+			$config->read_document_author = (int)$args->read_document_author;
+			$config->voter_comment = (int)$args->voter_comment;
+			$config->blamer_comment = (int)$args->blamer_comment;
 			$config->voted_comment = (int)$args->voted_comment;
 			$config->blamed_comment = (int)$args->blamed_comment;
 			// The highest level
@@ -60,11 +66,10 @@ class pointAdminController extends point
 			// Set the level icon
 			$config->level_icon = $args->level_icon;
 			// Check if downloads are not allowed
-			if($args->disable_download == 'Y') $config->disable_download = 'Y';
-			else $config->disable_download = 'N';
+			$config->disable_download = ($args->disable_download === 'Y') ? 'Y' : 'N';
 			// Check if reading a document is not allowed
-			if($args->disable_read_document == 'Y') $config->disable_read_document = 'Y';
-			else $config->disable_read_document = 'N';
+			$config->disable_read_document = ($args->disable_read_document === 'Y') ? 'Y' : 'N';
+			$config->disable_read_document_except_robots = ($args->disable_read_document_except_robots === 'Y') ? 'Y' : 'N';
 
 			//check is reading a document is not regdate setting
 			$config->no_point_date = (int)$args->no_point_date;
@@ -134,7 +139,12 @@ class pointAdminController extends point
 	{
 		$args = Context::getRequestVars();
 
-		$configTypeList = array('insert_document', 'insert_comment', 'upload_file', 'download_file', 'read_document', 'voted', 'blamed', 'voted_comment', 'blamed_comment');
+		$configTypeList = array(
+			'insert_document', 'insert_comment', 'upload_file', 'download_file', 'read_document',
+			'voter', 'blamer', 'voter_comment', 'blamer_comment',
+			'download_file_author', 'read_document_author', 'voted', 'blamed', 'voted_comment', 'blamed_comment',
+		);
+		
 		foreach($configTypeList AS $config)
 		{
 			if(is_array($args->{$config}))
@@ -186,6 +196,12 @@ class pointAdminController extends point
 			$config['upload_file'] = (int)Context::get('upload_file');
 			$config['download_file'] = (int)Context::get('download_file');
 			$config['read_document'] = (int)Context::get('read_document');
+			$config['voter'] = (int)Context::get('voter');
+			$config['blamer'] = (int)Context::get('blamer');
+			$config['voter_comment'] = (int)Context::get('voter_comment');
+			$config['blamer_comment'] = (int)Context::get('blamer_comment');
+			$config['download_file_author'] = (int)Context::get('download_file_author');
+			$config['read_document_author'] = (int)Context::get('read_document_author');
 			$config['voted'] = (int)Context::get('voted');
 			$config['blamed'] = (int)Context::get('blamed');
 			$config['voted_comment'] = (int)Context::get('voted_comment');
