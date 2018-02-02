@@ -512,6 +512,7 @@ class commentController extends comment
 			{
 				// get the top listed comment among those in lower depth and same head with parent's.
 				$p_args = new stdClass();
+				$p_args->document_srl = $document_srl;
 				$p_args->head = $parent->head;
 				$p_args->arrange = $parent->arrange;
 				$p_args->depth = $parent->depth;
