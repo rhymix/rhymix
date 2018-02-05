@@ -228,7 +228,7 @@ class ModuleHandler extends Handler
 			{
 				$oDocumentModel = getModel('document');
 				$oDocument = $oDocumentModel->getDocument($this->document_srl);
-				if(!$oDocument->isAccessible())
+				if($oDocument->isExists() && !$oDocument->isAccessible())
 				{
 					$this->httpStatusCode = '403';
 				}
