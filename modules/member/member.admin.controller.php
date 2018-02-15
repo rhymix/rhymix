@@ -262,6 +262,7 @@ class memberAdminController extends member
 				$agreement = new stdClass;
 				$agreement->title = escape(utf8_trim($args->{'agreement_' . $i . '_title'}));
 				$agreement->content = $args->{'agreement_' . $i . '_content'};
+				$agreement->content = getModel('editor')->converter($agreement, 'document');
 				$agreement->type = $args->{'agreement_' . $i . '_type'};
 				if (!in_array($agreement->type, array('required', 'optional', 'disabled')))
 				{
