@@ -171,6 +171,9 @@ class memberAdminView extends member
 		// Load editor
 		$oEditorModel = getModel('editor');
 		$option = $oEditorModel->getEditorConfig();
+		$option->editor_skin = 'ckeditor';
+		$option->content_style = 'ckeditor_light';
+		$option->sel_editor_colorset = 'moono-lisa';
 		$option->primary_key_name = 'primary_key';
 		$option->content_key_name = 'content';
 		$option->allow_fileupload = FALSE;
