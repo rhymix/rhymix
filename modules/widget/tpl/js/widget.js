@@ -1147,7 +1147,7 @@ function widgetDrag(tobj, dx, dy) {
 			for(var i=0;i<widgetList.length;i++) {
 				var target_obj = widgetList[i];
 				var widget = target_obj.getAttribute("widget");
-				if(widget == 'widgetBox' || target_obj.parentNode != zonePageObj) continue;
+				if(target_obj.parentNode != zonePageObj) continue;
 				var l =  xPageX(target_obj);
 				var t =  xPageY(target_obj);
 				var ll =  parseInt(l,10) + parseInt(xWidth(target_obj),10);
