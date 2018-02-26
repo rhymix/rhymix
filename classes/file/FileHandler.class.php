@@ -76,7 +76,7 @@ class FileHandler
 	 * @param string $filename Path of target file
 	 * @param string $buff Content to be written
 	 * @param string $mode a(append) / w(write)
-	 * @return void
+	 * @return false|string
 	 */
 	public static function writeFile($filename, $buff, $mode = "w")
 	{
