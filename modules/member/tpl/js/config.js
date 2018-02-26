@@ -4,7 +4,7 @@
 	// Editor replacement callback function
 	var editor_replace = function(input) {
 		var iframe = $('<iframe class="editor_iframe"></iframe>');
-		iframe.attr("src", current_url.setQuery("act", "dispMemberAdminAgreementsEdit").setQuery("parent_input_id", input.attr("id")));
+		iframe.attr("src", current_url.setQuery("module", "editor").setQuery("act", "dispEditorFrame").setQuery("parent_input_id", input.attr("id")));
 		iframe.insertAfter(input);
 		input.siblings(".editor_preview").hide();
 		if (input.attr("type") !== "hidden") {

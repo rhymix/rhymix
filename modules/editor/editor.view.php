@@ -16,6 +16,39 @@ class editorView extends editor
 	}
 
 	/**
+	 * @brief Display editor in an iframe
+	 */
+	function dispEditorFrame()
+	{
+		// Check parent input ID
+		$parent_input_id = Context::get('parent_input_id');
+		Context::addBodyClass('disable_debug_panel');
+		
+		// Load editor
+		$oEditorModel = getModel('editor');
+		$option = $oEditorModel->getEditorConfig();
+		$option->editor_skin = 'ckeditor';
+		$option->content_style = 'ckeditor_light';
+		$option->sel_editor_colorset = 'moono-lisa';
+		$option->primary_key_name = 'primary_key';
+		$option->content_key_name = 'content';
+		$option->allow_fileupload = FALSE;
+		$option->enable_autosave = FALSE;
+		$option->enable_default_component = TRUE;
+		$option->enable_component = FALSE;
+		$option->height = 300;
+		$option->editor_focus = 'Y';
+		$editor = $oEditorModel->getEditor(0, $option);
+		Context::set('editor', $editor);
+		
+		// Set template
+		$this->setLayoutPath('./common/tpl/');
+		$this->setLayoutFile("default_layout");
+		$this->setTemplatePath($this->module_path . 'tpl');
+		$this->setTemplateFile('editor_frame');
+	}
+
+	/**
 	 * @brief Action to get a request to display compoenet pop-up
 	 */
 	function dispEditorPopup()
