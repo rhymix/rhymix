@@ -983,6 +983,10 @@ class TemplateHandler
 			{
 				return '$' . $matches[1];
 			}
+			elseif ($matches[1] === 'lang')
+			{
+				return '$GLOBALS[\'lang\']';
+			}
 			else
 			{
 				return '$__Context->' . $matches[1];

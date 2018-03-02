@@ -43,8 +43,7 @@ require dirname(__FILE__) . '/common/autoload.php';
  * @brief Initialize by creating Context object
  * Set all Request Argument/Environment variables
  **/
-$oContext = Context::getInstance();
-$oContext->init();
+Context::init();
 
 /**
  * @brief Initialize and execute Module Handler

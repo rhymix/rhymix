@@ -45,19 +45,7 @@ class Context
 	public $ftp_info = NULL;
 
 	/**
-	 * ssl action cache file
-	 * @var array
-	 */
-	public $sslActionCacheFile = './files/cache/sslCacheFile.php';
-
-	/**
-	 * List of actions to be sent via ssl (it is used by javascript xml handler for ajax)
-	 * @var array
-	 */
-	public $ssl_actions = array();
-
-	/**
-	 * obejct oFrontEndFileHandler()
+	 * object oFrontEndFileHandler()
 	 * @var object
 	 */
 	public $oFrontEndFileHandler;
@@ -135,20 +123,32 @@ class Context
 	public $is_site_locked = FALSE;
 
 	/**
-	 * Pattern for request vars check
-	 * @var array
-	 */
-	public $patterns = array(
-		'/<\?/iUsm',
-		'/<\%/iUsm',
-		'/<script\s*?language\s*?=\s*?("|\')?\s*?php\s*("|\')?/iUsm'
-	);
-
-	/**
 	 * Check init
 	 * @var bool FALSE if init fail
 	 */
 	public $isSuccessInit = TRUE;
+
+	/**
+	 * Singleton instance
+	 * @var object
+	 */
+	private static $_instance = null;
+	
+	/**
+	 * Flag to prevent calling init() twice
+	 */
+	private static $_init_called = false;
+
+	/**
+	 * SSL action cache file
+	 * @var array
+	 */
+	private static $_ssl_actions_cache_file = './files/cache/sslCacheFile.php';
+
+	/**
+	 * SSL action cache
+	 */
+	private static $_ssl_actions = array();
 
 	/**
 	 * Plugin blacklist cache
@@ -169,10 +169,14 @@ class Context
 	);
 
 	/**
-	 * Singleton instance
-	 * @var object
+	 * Pattern for request vars check
+	 * @var array
 	 */
-	private static $_instance = null;
+	private static $_check_patterns = array(
+		'/<\?/iUsm',
+		'/<\%/iUsm',
+		'/<script\s*?language\s*?=\s*?("|\')?\s*?php\s*("|\')?/iUsm'
+	);
 
 	/**
 	 * variables from current request
@@ -201,7 +205,7 @@ class Context
 	}
 
 	/**
-	 * Cunstructor
+	 * Constructor
 	 *
 	 * @return void
 	 */
@@ -212,13 +216,13 @@ class Context
 		self::$_tpl_vars = self::$_tpl_vars ?: new stdClass;
 
 		// include ssl action cache file
-		$this->sslActionCacheFile = FileHandler::getRealPath($this->sslActionCacheFile);
-		if(is_readable($this->sslActionCacheFile))
+		self::$_ssl_actions_cache_file = FileHandler::getRealPath(self::$_ssl_actions_cache_file);
+		if(is_readable(self::$_ssl_actions_cache_file))
 		{
-			require($this->sslActionCacheFile);
+			include self::$_ssl_actions_cache_file;
 			if(isset($sslActions))
 			{
-				$this->ssl_actions = $sslActions;
+				self::$_ssl_actions = $sslActions;
 			}
 		}
 	}
@@ -226,11 +230,23 @@ class Context
 	/**
 	 * Initialization, it sets DB information, request arguments and so on.
 	 *
-	 * @see This function should be called only once
 	 * @return void
 	 */
-	public function init()
+	public static function init()
 	{
+		// Prevent calling init() twice.
+		if(self::$_init_called)
+		{
+			return;
+		}
+		self::$_init_called = true;
+		
+		// Obtain a singleton instance if not already given.
+		if(self::$_instance === null)
+		{
+			self::$_instance = self::getInstance();
+		}
+		
 		// Fix missing HTTP_RAW_POST_DATA in PHP 5.6 and above.
 		if(!isset($GLOBALS['HTTP_RAW_POST_DATA']) && !count($_FILES) && version_compare(PHP_VERSION, '5.6.0', '>=') === TRUE)
 		{
@@ -243,16 +259,13 @@ class Context
 			}
 		}
 		
-		// Set global variables for backward compatibility.
-		$GLOBALS['__Context__'] = &self::$_tpl_vars;
-		
 		// Set information about the current request.
-		$this->setRequestMethod();
-		$this->_checkGlobalVars();
-		$this->_setXmlRpcArgument();
-		$this->_setJSONRequestArgument();
-		$this->_setRequestArgument();
-		$this->_setUploadedArgument();
+		self::$_instance->setRequestMethod();
+		self::$_instance->_checkGlobalVars();
+		self::$_instance->_setXmlRpcArgument();
+		self::$_instance->_setJSONRequestArgument();
+		self::$_instance->_setRequestArgument();
+		self::$_instance->_setUploadedArgument();
 		
 		// Fabricate methods for compatibility of XE third-party.
 		if(isset($_POST['_rx_ajax_compat']) && $_POST['_rx_ajax_compat'] === 'XMLRPC')
@@ -262,7 +275,7 @@ class Context
 		}
 		
 		// Load system configuration.
-		$this->loadDBInfo();
+		self::$_instance->loadDBInfo();
 		
 		// If Rhymix is installed, get virtual site information.
 		if(self::isInstalled())
@@ -307,16 +320,16 @@ class Context
 		$enabled_langs = self::loadLangSelected();
 		self::set('lang_supported', $enabled_langs);
 		
-		if($this->lang_type = self::get('l'))
+		if($lang_type = self::get('l'))
 		{
-			if($_COOKIE['lang_type'] !== $this->lang_type)
+			if($_COOKIE['lang_type'] !== $lang_type)
 			{
-				setcookie('lang_type', $this->lang_type, $_SERVER['REQUEST_TIME'] + 3600 * 24 * 1000, '/');
+				setcookie('lang_type', $lang_type, $_SERVER['REQUEST_TIME'] + 3600 * 24 * 1000, '/');
 			}
 		}
 		elseif($_COOKIE['lang_type'])
 		{
-			$this->lang_type = $_COOKIE['lang_type'];
+			$lang_type = $_COOKIE['lang_type'];
 		}
 		elseif(config('locale.auto_select_lang') && count($enabled_langs) > 1)
 		{
@@ -326,30 +339,36 @@ class Context
 				{
 					if(!strncasecmp($lang_code, $_SERVER['HTTP_ACCEPT_LANGUAGE'], strlen($lang_code)))
 					{
-						$this->lang_type = $lang_code;
-						setcookie('lang_type', $this->lang_type, $_SERVER['REQUEST_TIME'] + 3600 * 24 * 1000, '/');
+						$lang_type = $lang_code;
+						setcookie('lang_type', $lang_type, $_SERVER['REQUEST_TIME'] + 3600 * 24 * 1000, '/');
 					}
 				}
 			}
 		}
 		
-		if(!$this->lang_type || !isset($enabled_langs[$this->lang_type]))
+		if(!$lang_type || !isset($enabled_langs[$lang_type]))
 		{
 			if($site_module_info->settings->language)
 			{
-				$this->lang_type = $this->db_info->lang_type = $site_module_info->settings->language;
+				$lang_type = self::$_instance->db_info->lang_type = $site_module_info->settings->language;
 			}
 			else
 			{
-				$this->lang_type = $this->db_info->lang_type ?: 'ko';
+				$lang_type = self::$_instance->db_info->lang_type ?: 'ko';
 			}
 		}
 
-		self::setLangType($this->lang_type);
-		$this->lang = Rhymix\Framework\Lang::getInstance($this->lang_type);
-		$this->lang->loadDirectory(RX_BASEDIR . 'common/lang', 'common');
-		$this->lang->loadDirectory(RX_BASEDIR . 'modules/module/lang', 'module');
-		self::set('lang', $GLOBALS['lang'] = $this->lang);
+		$lang = Rhymix\Framework\Lang::getInstance($lang_type);
+		$lang->loadDirectory(RX_BASEDIR . 'common/lang', 'common');
+		$lang->loadDirectory(RX_BASEDIR . 'modules/module/lang', 'module');
+		self::setLangType(self::$_instance->lang_type = $lang_type);
+		self::set('lang', self::$_instance->lang = $lang);
+		
+		// Set global variables for backward compatibility.
+		$GLOBALS['oContext'] = self::$_instance;
+		$GLOBALS['__Context__'] = &self::$_tpl_vars;
+		$GLOBALS['_time_zone'] = self::$_instance->db_info->time_zone;
+		$GLOBALS['lang'] = &$lang;
 		
 		// set session handler
 		if(self::isInstalled() && config('session.use_db'))
@@ -504,7 +523,6 @@ class Context
 		// Copy to old format for backward compatibility.
 		self::$_instance->db_info = self::convertDBInfo($config);
 		self::$_instance->allow_rewrite = self::$_instance->db_info->use_rewrite === 'Y';
-		$GLOBALS['_time_zone'] = self::$_instance->db_info->time_zone;
 	}
 
 	/**
@@ -1197,7 +1215,7 @@ class Context
 	{
 		if(is_string($val))
 		{
-			foreach($this->patterns as $pattern)
+			foreach(self::$_check_patterns as $pattern)
 			{
 				if(preg_match($pattern, $val))
 				{
@@ -1909,17 +1927,17 @@ class Context
 	 */
 	public static function addSSLAction($action)
 	{
-		if(!is_readable(self::$_instance->sslActionCacheFile))
+		if(!is_readable(self::$_ssl_actions_cache_file))
 		{
 			$buff = '<?php if(!defined("__XE__"))exit;';
-			FileHandler::writeFile(self::$_instance->sslActionCacheFile, $buff);
+			FileHandler::writeFile(self::$_ssl_actions_cache_file, $buff);
 		}
 
-		if(!isset(self::$_instance->ssl_actions[$action]))
+		if(!isset(self::$_ssl_actions[$action]))
 		{
-			self::$_instance->ssl_actions[$action] = 1;
+			self::$_ssl_actions[$action] = 1;
 			$sslActionCacheString = sprintf('$sslActions[\'%s\'] = 1;', $action);
-			FileHandler::writeFile(self::$_instance->sslActionCacheFile, $sslActionCacheString, 'a');
+			FileHandler::writeFile(self::$_ssl_actions_cache_file, $sslActionCacheString, 'a');
 		}
 	}
 
@@ -1931,20 +1949,20 @@ class Context
 	 */
 	public static function addSSLActions($action_array)
 	{
-		if(!is_readable(self::$_instance->sslActionCacheFile))
+		if(!is_readable(self::$_ssl_actions_cache_file))
 		{
-			unset(self::$_instance->ssl_actions);
+			self::$_ssl_actions = array();
 			$buff = '<?php if(!defined("__XE__"))exit;';
-			FileHandler::writeFile(self::$_instance->sslActionCacheFile, $buff);
+			FileHandler::writeFile(self::$_ssl_actions_cache_file, $buff);
 		}
 
 		foreach($action_array as $action)
 		{
-			if(!isset(self::$_instance->ssl_actions[$action]))
+			if(!isset(self::$_ssl_actions[$action]))
 			{
-				self::$_instance->ssl_actions[$action] = 1;
+				self::$_ssl_actions[$action] = 1;
 				$sslActionCacheString = sprintf('$sslActions[\'%s\'] = 1;', $action);
-				FileHandler::writeFile(self::$_instance->sslActionCacheFile, $sslActionCacheString, 'a');
+				FileHandler::writeFile(self::$_ssl_actions_cache_file, $sslActionCacheString, 'a');
 			}
 		}
 	}
@@ -1960,9 +1978,9 @@ class Context
 		if(self::isExistsSSLAction($action))
 		{
 			$sslActionCacheString = sprintf('$sslActions[\'%s\'] = 1;', $action);
-			$buff = FileHandler::readFile(self::$_instance->sslActionCacheFile);
+			$buff = FileHandler::readFile(self::$_ssl_actions_cache_file);
 			$buff = str_replace($sslActionCacheString, '', $buff);
-			FileHandler::writeFile(self::$_instance->sslActionCacheFile, $buff);
+			FileHandler::writeFile(self::$_ssl_actions_cache_file, $buff);
 		}
 	}
 
@@ -1975,7 +1993,7 @@ class Context
 	{
 		if(self::getSslStatus() == 'optional')
 		{
-			return self::$_instance->ssl_actions;
+			return self::$_ssl_actions;
 		}
 		else
 		{
@@ -1991,7 +2009,7 @@ class Context
 	 */
 	public static function isExistsSSLAction($action)
 	{
-		return isset(self::$_instance->ssl_actions[$action]);
+		return isset(self::$_ssl_actions[$action]);
 	}
 
 	/**
