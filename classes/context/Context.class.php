@@ -143,7 +143,7 @@ class Context
 	 * SSL action cache file
 	 * @var array
 	 */
-	private static $_ssl_actions_cache_file = './files/cache/sslCacheFile.php';
+	private static $_ssl_actions_cache_file = './files/cache/common/ssl_actions.php';
 
 	/**
 	 * SSL action cache
@@ -219,11 +219,7 @@ class Context
 		self::$_ssl_actions_cache_file = FileHandler::getRealPath(self::$_ssl_actions_cache_file);
 		if(is_readable(self::$_ssl_actions_cache_file))
 		{
-			include self::$_ssl_actions_cache_file;
-			if(isset($sslActions))
-			{
-				self::$_ssl_actions = $sslActions;
-			}
+			self::$_ssl_actions = (include self::$_ssl_actions_cache_file) ?: array();
 		}
 	}
 
@@ -1927,18 +1923,14 @@ class Context
 	 */
 	public static function addSSLAction($action)
 	{
-		if(!is_readable(self::$_ssl_actions_cache_file))
+		if(isset(self::$_ssl_actions[$action]))
 		{
-			$buff = '<?php if(!defined("__XE__"))exit;';
-			FileHandler::writeFile(self::$_ssl_actions_cache_file, $buff);
+			return;
 		}
-
-		if(!isset(self::$_ssl_actions[$action]))
-		{
-			self::$_ssl_actions[$action] = 1;
-			$sslActionCacheString = sprintf('$sslActions[\'%s\'] = 1;', $action);
-			FileHandler::writeFile(self::$_ssl_actions_cache_file, $sslActionCacheString, 'a');
-		}
+		
+		self::$_ssl_actions[$action] = 1;
+		$buff = '<?php return ' . var_export(self::$_ssl_actions, true) . ';';
+		Rhymix\Framework\Storage::write(self::$_ssl_actions_cache_file, $buff);
 	}
 
 	/**
@@ -1949,22 +1941,22 @@ class Context
 	 */
 	public static function addSSLActions($action_array)
 	{
-		if(!is_readable(self::$_ssl_actions_cache_file))
-		{
-			self::$_ssl_actions = array();
-			$buff = '<?php if(!defined("__XE__"))exit;';
-			FileHandler::writeFile(self::$_ssl_actions_cache_file, $buff);
-		}
-
+		$changed = false;
 		foreach($action_array as $action)
 		{
 			if(!isset(self::$_ssl_actions[$action]))
 			{
 				self::$_ssl_actions[$action] = 1;
-				$sslActionCacheString = sprintf('$sslActions[\'%s\'] = 1;', $action);
-				FileHandler::writeFile(self::$_ssl_actions_cache_file, $sslActionCacheString, 'a');
+				$changed = true;
 			}
 		}
+		if(!$changed)
+		{
+			return;
+		}
+		
+		$buff = '<?php return ' . var_export(self::$_ssl_actions, true) . ';';
+		Rhymix\Framework\Storage::write(self::$_ssl_actions_cache_file, $buff);
 	}
 
 	/**
@@ -1975,13 +1967,14 @@ class Context
 	 */
 	public static function subtractSSLAction($action)
 	{
-		if(self::isExistsSSLAction($action))
+		if(!isset(self::$_ssl_actions[$action]))
 		{
-			$sslActionCacheString = sprintf('$sslActions[\'%s\'] = 1;', $action);
-			$buff = FileHandler::readFile(self::$_ssl_actions_cache_file);
-			$buff = str_replace($sslActionCacheString, '', $buff);
-			FileHandler::writeFile(self::$_ssl_actions_cache_file, $buff);
+			return;
 		}
+		
+		unset(self::$_ssl_actions[$action]);
+		$buff = '<?php return ' . var_export(self::$_ssl_actions, true) . ';';
+		Rhymix\Framework\Storage::write(self::$_ssl_actions_cache_file, $buff);
 	}
 
 	/**
