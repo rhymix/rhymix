@@ -63,6 +63,12 @@ class Context
 	public $oFrontEndFileHandler;
 
 	/**
+	 * site's browser title
+	 * @var string
+	 */
+	public $browser_title = '';
+
+	/**
 	 * script codes in <head>..</head>
 	 * @var string
 	 */
@@ -105,12 +111,6 @@ class Context
 	public $canonical_url = '';
 
 	/**
-	 * path of Xpress Engine
-	 * @var string
-	 */
-	public $path = '';
-
-	/**
 	 * language type - changed by HTTP_USER_AGENT or user's cookie
 	 * @var string
 	 */
@@ -121,30 +121,6 @@ class Context
 	 * @var object
 	 */
 	public $lang = NULL;
-
-	/**
-	 * list of loaded languages (to avoid re-loading them)
-	 * @var array
-	 */
-	public $loaded_lang_files = array();
-
-	/**
-	 * site's browser title
-	 * @var string
-	 */
-	public $site_title = '';
-
-	/**
-	 * variables from GET or form submit
-	 * @var mixed
-	 */
-	public $get_vars = NULL;
-
-	/**
-	 * variables from user (Context::get, Context::set)
-	 * @var mixed
-	 */
-	private static $_user_vars = NULL;
 
 	/**
 	 * Checks uploaded
@@ -199,6 +175,18 @@ class Context
 	private static $_instance = null;
 
 	/**
+	 * variables from current request
+	 * @var object
+	 */
+	private static $_get_vars = NULL;
+
+	/**
+	 * variables from user (Context::get, Context::set)
+	 * @var object
+	 */
+	private static $_tpl_vars = NULL;
+
+	/**
 	 * returns static context object (Singleton). It's to use Context without declaration of an object
 	 *
 	 * @return object Instance
@@ -220,8 +208,8 @@ class Context
 	private function __construct()
 	{
 		$this->oFrontEndFileHandler = new FrontEndFileHandler();
-		$this->get_vars = new stdClass;
-		self::$_user_vars = new stdClass;
+		self::$_get_vars = self::$_get_vars ?: new stdClass;
+		self::$_tpl_vars = self::$_tpl_vars ?: new stdClass;
 
 		// include ssl action cache file
 		$this->sslActionCacheFile = FileHandler::getRealPath($this->sslActionCacheFile);
@@ -358,11 +346,10 @@ class Context
 		}
 
 		self::setLangType($this->lang_type);
-		
 		$this->lang = Rhymix\Framework\Lang::getInstance($this->lang_type);
 		$this->lang->loadDirectory(RX_BASEDIR . 'common/lang', 'common');
 		$this->lang->loadDirectory(RX_BASEDIR . 'modules/module/lang', 'module');
-		$GLOBALS['lang'] = $this->lang;
+		self::set('lang', $GLOBALS['lang'] = $this->lang);
 		
 		// set session handler
 		if(self::isInstalled() && config('session.use_db'))
@@ -375,10 +362,9 @@ class Context
 		}
 		
 		// start session
-		$relax_key_checks = ($this->act === 'procFileUpload' && preg_match('/shockwave\s?flash/i', $_SERVER['HTTP_USER_AGENT']));
+		$relax_key_checks = (self::$_get_vars->act === 'procFileUpload' && preg_match('/shockwave\s?flash/i', $_SERVER['HTTP_USER_AGENT']));
 		Rhymix\Framework\Session::checkSSO($site_module_info);
 		Rhymix\Framework\Session::start(false, $relax_key_checks);
-		$this->_COOKIE = $_COOKIE;
 
 		// start output buffer
 		if (\PHP_SAPI !== 'cli')
@@ -405,9 +391,9 @@ class Context
 		
 		// set locations for javascript use
 		$current_url = $request_uri = self::getRequestUri();
-		if ($_SERVER['REQUEST_METHOD'] == 'GET' && $this->get_vars)
+		if ($_SERVER['REQUEST_METHOD'] == 'GET' && self::$_get_vars)
 		{
-			if ($query_string = http_build_query($this->get_vars))
+			if ($query_string = http_build_query(self::$_get_vars))
 			{
 				$current_url .= '?' . $query_string;
 			}
@@ -739,7 +725,7 @@ class Context
 	/**
 	 * Append string to browser title
 	 *
-	 * @param string $site_title Browser title to be appended
+	 * @param string $title Browser title to be appended
 	 * @return void
 	 */
 	public static function addBrowserTitle($title)
@@ -748,20 +734,20 @@ class Context
 		{
 			return;
 		}
-		if(self::$_instance->site_title)
+		if(self::$_instance->browser_title)
 		{
-			self::$_instance->site_title .= ' - ' . $title;
+			self::$_instance->browser_title .= ' - ' . $title;
 		}
 		else
 		{
-			self::$_instance->site_title = $title;
+			self::$_instance->browser_title = $title;
 		}
 	}
 
 	/**
 	 * Prepend string to browser title
 	 *
-	 * @param string $site_title Browser title to be prepended
+	 * @param string $title Browser title to be prepended
 	 * @return void
 	 */
 	public static function prependBrowserTitle($title)
@@ -770,20 +756,20 @@ class Context
 		{
 			return;
 		}
-		if(self::$_instance->site_title)
+		if(self::$_instance->browser_title)
 		{
-			self::$_instance->site_title = $title . ' - ' . self::$_instance->site_title;
+			self::$_instance->browser_title = $title . ' - ' . self::$_instance->browser_title;
 		}
 		else
 		{
-			self::$_instance->site_title = $title;
+			self::$_instance->browser_title = $title;
 		}
 	}
 
 	/**
 	 * Set string to browser title
 	 *
-	 * @param string $site_title Browser title  to be set
+	 * @param string $title Browser title  to be set
 	 * @param array $vars
 	 * @return void
 	 */
@@ -799,7 +785,7 @@ class Context
 				return isset($vars[strtolower($matches[1])]) ? $vars[strtolower($matches[1])] : $matches[0];
 			}, $title), ' -'));
 		}
-		self::$_instance->site_title = $title;
+		self::$_instance->browser_title = $title;
 	}
 
 	/**
@@ -809,12 +795,12 @@ class Context
 	 */
 	public static function getBrowserTitle()
 	{
-		if (!self::$_instance->site_title)
+		if (!self::$_instance->browser_title)
 		{
 			return '';
 		}
-		getController('module')->replaceDefinedLangCode(self::$_instance->site_title);
-		return htmlspecialchars(self::$_instance->site_title, ENT_COMPAT | ENT_HTML401, 'UTF-8', FALSE);
+		getController('module')->replaceDefinedLangCode(self::$_instance->browser_title);
+		return htmlspecialchars(self::$_instance->browser_title, ENT_COMPAT | ENT_HTML401, 'UTF-8', FALSE);
 	}
 
 	/**
@@ -1428,6 +1414,7 @@ class Context
 				}
 				$val['name'] = htmlspecialchars($val['name'], ENT_COMPAT | ENT_HTML401, 'UTF-8', FALSE);
 				self::set($key, $val, TRUE);
+				self::set('is_uploaded', TRUE);
 				$this->is_uploaded = TRUE;
 			}
 			else
@@ -1629,7 +1616,7 @@ class Context
 		}
 
 		// Get URL parameters. If the first argument is '', reset existing parameters.
-		if (!self::$_instance->get_vars || strval($args_list[0]) === '')
+		if (!self::$_get_vars || strval($args_list[0]) === '')
 		{
 			$get_vars = array();
 			if(is_array($args_list) && strval($args_list[0]) === '')
@@ -1639,13 +1626,13 @@ class Context
 		}
 		elseif ($_SERVER['REQUEST_METHOD'] === 'GET')
 		{
-			$get_vars = get_object_vars(self::$_instance->get_vars);
+			$get_vars = get_object_vars(self::$_get_vars);
 		}
 		else
 		{
 			$preserve_vars = array('module', 'mid', 'act', 'page', 'document_srl', 'search_target', 'search_keyword');
 			$preserve_keys = array_combine($preserve_vars, array_fill(0, count($preserve_vars), true));
-			$get_vars = array_intersect_key(get_object_vars(self::$_instance->get_vars), $preserve_keys);
+			$get_vars = array_intersect_key(get_object_vars(self::$_get_vars), $preserve_keys);
 		}
 		
 		// arrange args_list
@@ -1830,18 +1817,17 @@ class Context
 	 */
 	public static function set($key, $val, $set_to_get_vars = 0)
 	{
-		self::$_user_vars->{$key} = $val;
-		self::$_instance->{$key} = $val;
+		self::$_tpl_vars->{$key} = $val;
 
-		if($set_to_get_vars || isset(self::$_instance->get_vars->{$key}))
+		if($set_to_get_vars || isset(self::$_get_vars->{$key}))
 		{
 			if($val === NULL || $val === '')
 			{
-				unset(self::$_instance->get_vars->{$key});
+				unset(self::$_get_vars->{$key});
 			}
 			else
 			{
-				self::$_instance->get_vars->{$key} = $val;
+				self::$_get_vars->{$key} = $val;
 			}
 		}
 	}
@@ -1854,9 +1840,9 @@ class Context
 	 */
 	public static function get($key)
 	{
-		if(isset(self::$_user_vars->{$key}))
+		if(isset(self::$_tpl_vars->{$key}))
 		{
-			return self::$_user_vars->{$key};
+			return self::$_tpl_vars->{$key};
 		}
 		elseif(isset(self::$_instance->{$key}))
 		{
@@ -1883,10 +1869,10 @@ class Context
 
 		$args_list = func_get_args();
 		$output = new stdClass;
-		self::$_user_vars = self::$_user_vars !== null ? self::$_user_vars : new stdClass;
+		self::$_tpl_vars = self::$_tpl_vars !== null ? self::$_tpl_vars : new stdClass;
 		foreach($args_list as $key)
 		{
-			$output->{$key} = isset(self::$_user_vars->{$key}) ? self::$_user_vars->{$key} : (isset(self::$_instance->{$key}) ? self::$_instance->{$key} : null);
+			$output->{$key} = isset(self::$_tpl_vars->{$key}) ? self::$_tpl_vars->{$key} : (isset(self::$_instance->{$key}) ? self::$_instance->{$key} : null);
 		}
 		return $output;
 	}
@@ -1898,7 +1884,7 @@ class Context
 	 */
 	public static function getAll()
 	{
-		return self::$_user_vars !== null ? self::$_user_vars : new stdClass;
+		return self::$_tpl_vars !== null ? self::$_tpl_vars : new stdClass;
 	}
 
 	/**
@@ -1908,9 +1894,9 @@ class Context
 	 */
 	public static function getRequestVars()
 	{
-		if(self::$_instance->get_vars)
+		if(self::$_get_vars)
 		{
-			return clone(self::$_instance->get_vars);
+			return clone(self::$_get_vars);
 		}
 		return new stdClass;
 	}
