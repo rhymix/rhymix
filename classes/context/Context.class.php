@@ -244,7 +244,7 @@ class Context
 		}
 		
 		// Set global variables for backward compatibility.
-		$GLOBALS['__Context__'] = $this;
+		$GLOBALS['__Context__'] = &self::$_tpl_vars;
 		
 		// Set information about the current request.
 		$this->setRequestMethod();
