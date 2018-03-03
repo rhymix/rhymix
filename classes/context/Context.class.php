@@ -258,7 +258,7 @@ class Context
 		}
 		
 		// Set information about the current request.
-		self::$_instance->setRequestMethod();
+		self::setRequestMethod();
 		self::$_instance->_checkGlobalVars();
 		self::$_instance->_setXmlRpcArgument();
 		self::$_instance->_setJSONRequestArgument();
@@ -273,7 +273,7 @@ class Context
 		}
 		
 		// Load system configuration.
-		self::$_instance->loadDBInfo();
+		self::loadDBInfo();
 		
 		// If Rhymix is installed, get virtual site information.
 		if(self::isInstalled())
@@ -1121,7 +1121,7 @@ class Context
 	 */
 	public static function setRequestMethod($type = '')
 	{
-		self::$_instance->js_callback_func = self::$_instance->getJSCallbackFunc();
+		self::$_instance->js_callback_func = self::getJSCallbackFunc();
 		
 		if ($type)
 		{
