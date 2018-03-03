@@ -21,16 +21,16 @@ class Context
 	public $request_method = 'GET';
 
 	/**
-	 * js callback function name.
-	 * @var string
-	 */
-	public $js_callback_func = '';
-
-	/**
 	 * Response method.If it's not set, it follows request method.
 	 * @var string HTML|XMLRPC|JSON|JS_CALLBACK
 	 */
 	public $response_method = '';
+
+	/**
+	 * js callback function name.
+	 * @var string
+	 */
+	public $js_callback_func = '';
 
 	/**
 	 * DB info
@@ -45,12 +45,6 @@ class Context
 	public $ftp_info = NULL;
 
 	/**
-	 * object oFrontEndFileHandler()
-	 * @var object
-	 */
-	public $oFrontEndFileHandler;
-
-	/**
 	 * site's browser title
 	 * @var string
 	 */
@@ -60,7 +54,7 @@ class Context
 	 * script codes in <head>..</head>
 	 * @var string
 	 */
-	public $html_header = NULL;
+	public $html_header = '';
 
 	/**
 	 * class names of <body>
@@ -72,13 +66,13 @@ class Context
 	 * codes after <body>
 	 * @var string
 	 */
-	public $body_header = NULL;
+	public $body_header = '';
 
 	/**
 	 * class names before </body>
 	 * @var string
 	 */
-	public $html_footer = NULL;
+	public $html_footer = '';
 
 	/**
 	 * Meta tags
@@ -140,10 +134,16 @@ class Context
 	private static $_init_called = false;
 
 	/**
+	 * object oFrontEndFileHandler()
+	 * @var object
+	 */
+	private static $_oFrontEndFileHandler = null;
+
+	/**
 	 * SSL action cache file
 	 * @var array
 	 */
-	private static $_ssl_actions_cache_file = './files/cache/common/ssl_actions.php';
+	private static $_ssl_actions_cache_file = 'files/cache/common/ssl_actions.php';
 
 	/**
 	 * SSL action cache
@@ -191,7 +191,7 @@ class Context
 	private static $_tpl_vars = NULL;
 
 	/**
-	 * returns static context object (Singleton). It's to use Context without declaration of an object
+	 * Obtain a singleton instance of Context.
 	 *
 	 * @return object Instance
 	 */
@@ -199,7 +199,18 @@ class Context
 	{
 		if(self::$_instance === null)
 		{
+			// Create a singleton instance and initialize static properties.
 			self::$_instance = new Context();
+			self::$_oFrontEndFileHandler = self::$_instance->oFrontEndFileHandler = new FrontEndFileHandler();
+			self::$_get_vars = self::$_get_vars ?: new stdClass;
+			self::$_tpl_vars = self::$_tpl_vars ?: new stdClass;
+
+			// Include SSL action cache file.
+			self::$_ssl_actions_cache_file = RX_BASEDIR . self::$_ssl_actions_cache_file;
+			if(Rhymix\Framework\Storage::exists(self::$_ssl_actions_cache_file))
+			{
+				self::$_ssl_actions = (include self::$_ssl_actions_cache_file) ?: array();
+			}
 		}
 		return self::$_instance;
 	}
@@ -211,16 +222,7 @@ class Context
 	 */
 	private function __construct()
 	{
-		$this->oFrontEndFileHandler = new FrontEndFileHandler();
-		self::$_get_vars = self::$_get_vars ?: new stdClass;
-		self::$_tpl_vars = self::$_tpl_vars ?: new stdClass;
-
-		// include ssl action cache file
-		self::$_ssl_actions_cache_file = FileHandler::getRealPath(self::$_ssl_actions_cache_file);
-		if(is_readable(self::$_ssl_actions_cache_file))
-		{
-			self::$_ssl_actions = (include self::$_ssl_actions_cache_file) ?: array();
-		}
+		
 	}
 
 	/**
@@ -2067,7 +2069,7 @@ class Context
 	 */
 	public static function loadFile($args)
 	{
-		self::$_instance->oFrontEndFileHandler->loadFile($args);
+		self::$_oFrontEndFileHandler->loadFile($args);
 	}
 
 	/**
@@ -2080,7 +2082,7 @@ class Context
 	 */
 	public static function unloadFile($file, $targetIe = '', $media = 'all')
 	{
-		self::$_instance->oFrontEndFileHandler->unloadFile($file, $targetIe, $media);
+		self::$_oFrontEndFileHandler->unloadFile($file, $targetIe, $media);
 	}
 
 	/**
@@ -2091,7 +2093,7 @@ class Context
 	 */
 	public static function unloadAllFiles($type = 'all')
 	{
-		self::$_instance->oFrontEndFileHandler->unloadAllFiles($type);
+		self::$_oFrontEndFileHandler->unloadAllFiles($type);
 	}
 
 	/**
@@ -2124,7 +2126,7 @@ class Context
 			$file = $validator->getJsPath();
 		}
 
-		self::$_instance->oFrontEndFileHandler->loadFile(array($file, $type, $targetie, $index));
+		self::$_oFrontEndFileHandler->loadFile(array($file, $type, $targetie, $index));
 	}
 
 	/**
@@ -2138,7 +2140,7 @@ class Context
 	 */
 	public static function unloadJsFile($file, $optimized = FALSE, $targetie = '')
 	{
-		self::$_instance->oFrontEndFileHandler->unloadFile($file, $targetie);
+		self::$_oFrontEndFileHandler->unloadFile($file, $targetie);
 	}
 
 	/**
@@ -2148,7 +2150,7 @@ class Context
 	 */
 	public static function unloadAllJsFiles()
 	{
-		self::$_instance->oFrontEndFileHandler->unloadAllFiles('js');
+		self::$_oFrontEndFileHandler->unloadAllFiles('js');
 	}
 
 	/**
@@ -2197,7 +2199,7 @@ class Context
 	 */
 	public static function getJsFile($type = 'head', $finalize = false)
 	{
-		return self::$_instance->oFrontEndFileHandler->getJsFileList($type, $finalize);
+		return self::$_oFrontEndFileHandler->getJsFileList($type, $finalize);
 	}
 
 	/**
@@ -2214,7 +2216,7 @@ class Context
 	 */
 	public static function addCSSFile($file, $optimized = FALSE, $media = 'all', $targetie = '', $index = 0)
 	{
-		self::$_instance->oFrontEndFileHandler->loadFile(array($file, $media, $targetie, $index));
+		self::$_oFrontEndFileHandler->loadFile(array($file, $media, $targetie, $index));
 	}
 
 	/**
@@ -2229,7 +2231,7 @@ class Context
 	 */
 	public static function unloadCSSFile($file, $optimized = FALSE, $media = 'all', $targetie = '')
 	{
-		self::$_instance->oFrontEndFileHandler->unloadFile($file, $targetie, $media);
+		self::$_oFrontEndFileHandler->unloadFile($file, $targetie, $media);
 	}
 
 	/**
@@ -2239,7 +2241,7 @@ class Context
 	 */
 	public static function unloadAllCSSFiles()
 	{
-		self::$_instance->oFrontEndFileHandler->unloadAllFiles('css');
+		self::$_oFrontEndFileHandler->unloadAllFiles('css');
 	}
 
 	/**
@@ -2250,7 +2252,7 @@ class Context
 	 */
 	public static function getCSSFile($finalize = false)
 	{
-		return self::$_instance->oFrontEndFileHandler->getCssFileList($finalize);
+		return self::$_oFrontEndFileHandler->getCssFileList($finalize);
 	}
 
 	/**
