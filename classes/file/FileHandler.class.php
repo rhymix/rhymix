@@ -364,12 +364,9 @@ class FileHandler
 			}
 			Rhymix\Framework\Debug::addRemoteRequest($log);
 			
-			if(count($response->cookies))
+			foreach($response->cookies as $cookie)
 			{
-				foreach($response->cookies as $cookie)
-				{
-					$cookies[$host][$cookie->name] = $cookie->value;
-				}
+				$cookies[$host][$cookie->name] = $cookie->value;
 			}
 			
 			if($response->success)

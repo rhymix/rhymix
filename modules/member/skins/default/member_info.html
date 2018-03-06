@@ -12,10 +12,10 @@
 	<dt>{$lang->member_group}</dt>
 	<dd>{implode(', ', $memberInfo['group_list'])}</dd>
 	<dt>{$lang->signup_date}</dt>
-	<dd>{zdate($memberInfo[regdate],"Y-m-d")}</dd>
-	<block cond="$memberInfo[member_srl] == $logged_info->member_srl || $logged_info->is_admin == 'Y'">
+	<dd>{zdate($memberInfo['regdate'],"Y-m-d")}</dd>
+	<block cond="$memberInfo['member_srl'] == $logged_info->member_srl || $logged_info->is_admin == 'Y'">
 		<dt>{$lang->last_login}</dt>
-		<dd>{zdate($memberInfo[last_login],"Y-m-d")}</dd>
+		<dd>{zdate($memberInfo['last_login'],"Y-m-d")}</dd>
 	</block>
 </dl>
 <div class="btnArea btn-group" cond="$memberInfo['member_srl'] == $logged_info->member_srl">

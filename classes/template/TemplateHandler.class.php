@@ -344,22 +344,27 @@ class TemplateHandler
 	 */
 	private function _fetch($filename)
 	{
-		$__Context = Context::getInstance();
+		// Import Context and lang as local variables.
+		$__Context = Context::getAll();
 		$__Context->tpl_path = $this->path;
-
+		global $lang;
+		
+		// Start the output buffer.
 		$__ob_level_before_fetch = ob_get_level();
 		ob_start();
 		
+		// Include the compiled template.
 		include $filename;
 		
+		// Fetch contents of the output buffer until the buffer level is the same as before.
 		$contents = '';
 		while (ob_get_level() > $__ob_level_before_fetch)
 		{
 			$contents .= ob_get_clean();
 		}
 		
-		// insert template path comment tag
-		if(config('debug.enabled') && Rhymix\Framework\Debug::isEnabledForCurrentUser())
+		// Insert template path comment tag.
+		if(config('debug.enabled') && Rhymix\Framework\Debug::isEnabledForCurrentUser() && !starts_with('<!DOCTYPE', $contents))
 		{
 			$sign = PHP_EOL . '<!-- Template %s : ' . $this->web_path . $this->filename . ' -->' . PHP_EOL;
 			$contents = sprintf($sign, 'start') . $contents . sprintf($sign, 'end');
@@ -979,7 +984,7 @@ class TemplateHandler
 		}
 		
 		return preg_replace_callback('@(?<!::|\\\\|(?<!eval\()\')\$([a-z_][a-z0-9_]*)@i', function($matches) {
-			if (preg_match('/^(?:GLOBALS|_SERVER|_COOKIE|_GET|_POST|_REQUEST|__Context|this)$/', $matches[1]))
+			if (preg_match('/^(?:GLOBALS|_SERVER|_COOKIE|_GET|_POST|_REQUEST|__Context|this|lang)$/', $matches[1]))
 			{
 				return '$' . $matches[1];
 			}

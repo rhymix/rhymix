@@ -21,16 +21,16 @@ class Context
 	public $request_method = 'GET';
 
 	/**
-	 * js callback function name.
-	 * @var string
-	 */
-	public $js_callback_func = '';
-
-	/**
 	 * Response method.If it's not set, it follows request method.
 	 * @var string HTML|XMLRPC|JSON|JS_CALLBACK
 	 */
 	public $response_method = '';
+
+	/**
+	 * js callback function name.
+	 * @var string
+	 */
+	public $js_callback_func = '';
 
 	/**
 	 * DB info
@@ -45,28 +45,16 @@ class Context
 	public $ftp_info = NULL;
 
 	/**
-	 * ssl action cache file
-	 * @var array
+	 * site's browser title
+	 * @var string
 	 */
-	public $sslActionCacheFile = './files/cache/sslCacheFile.php';
-
-	/**
-	 * List of actions to be sent via ssl (it is used by javascript xml handler for ajax)
-	 * @var array
-	 */
-	public $ssl_actions = array();
-
-	/**
-	 * obejct oFrontEndFileHandler()
-	 * @var object
-	 */
-	public $oFrontEndFileHandler;
+	public $browser_title = '';
 
 	/**
 	 * script codes in <head>..</head>
 	 * @var string
 	 */
-	public $html_header = NULL;
+	public $html_header = '';
 
 	/**
 	 * class names of <body>
@@ -78,13 +66,13 @@ class Context
 	 * codes after <body>
 	 * @var string
 	 */
-	public $body_header = NULL;
+	public $body_header = '';
 
 	/**
 	 * class names before </body>
 	 * @var string
 	 */
-	public $html_footer = NULL;
+	public $html_footer = '';
 
 	/**
 	 * Meta tags
@@ -105,12 +93,6 @@ class Context
 	public $canonical_url = '';
 
 	/**
-	 * path of Xpress Engine
-	 * @var string
-	 */
-	public $path = '';
-
-	/**
 	 * language type - changed by HTTP_USER_AGENT or user's cookie
 	 * @var string
 	 */
@@ -121,30 +103,6 @@ class Context
 	 * @var object
 	 */
 	public $lang = NULL;
-
-	/**
-	 * list of loaded languages (to avoid re-loading them)
-	 * @var array
-	 */
-	public $loaded_lang_files = array();
-
-	/**
-	 * site's browser title
-	 * @var string
-	 */
-	public $site_title = '';
-
-	/**
-	 * variables from GET or form submit
-	 * @var mixed
-	 */
-	public $get_vars = NULL;
-
-	/**
-	 * variables from user (Context::get, Context::set)
-	 * @var mixed
-	 */
-	private static $_user_vars = NULL;
 
 	/**
 	 * Checks uploaded
@@ -159,20 +117,38 @@ class Context
 	public $is_site_locked = FALSE;
 
 	/**
-	 * Pattern for request vars check
-	 * @var array
-	 */
-	public $patterns = array(
-		'/<\?/iUsm',
-		'/<\%/iUsm',
-		'/<script\s*?language\s*?=\s*?("|\')?\s*?php\s*("|\')?/iUsm'
-	);
-
-	/**
 	 * Check init
 	 * @var bool FALSE if init fail
 	 */
 	public $isSuccessInit = TRUE;
+
+	/**
+	 * Singleton instance
+	 * @var object
+	 */
+	private static $_instance = null;
+	
+	/**
+	 * Flag to prevent calling init() twice
+	 */
+	private static $_init_called = false;
+
+	/**
+	 * object oFrontEndFileHandler()
+	 * @var object
+	 */
+	private static $_oFrontEndFileHandler = null;
+
+	/**
+	 * SSL action cache file
+	 * @var array
+	 */
+	private static $_ssl_actions_cache_file = 'files/cache/common/ssl_actions.php';
+
+	/**
+	 * SSL action cache
+	 */
+	private static $_ssl_actions = array();
 
 	/**
 	 * Plugin blacklist cache
@@ -193,13 +169,29 @@ class Context
 	);
 
 	/**
-	 * Singleton instance
-	 * @var object
+	 * Pattern for request vars check
+	 * @var array
 	 */
-	private static $_instance = null;
+	private static $_check_patterns = array(
+		'/<\?/iUsm',
+		'/<\%/iUsm',
+		'/<script\s*?language\s*?=\s*?("|\')?\s*?php\s*("|\')?/iUsm'
+	);
 
 	/**
-	 * returns static context object (Singleton). It's to use Context without declaration of an object
+	 * variables from current request
+	 * @var object
+	 */
+	private static $_get_vars = NULL;
+
+	/**
+	 * variables from user (Context::get, Context::set)
+	 * @var object
+	 */
+	private static $_tpl_vars = NULL;
+
+	/**
+	 * Obtain a singleton instance of Context.
 	 *
 	 * @return object Instance
 	 */
@@ -207,74 +199,60 @@ class Context
 	{
 		if(self::$_instance === null)
 		{
+			// Create a singleton instance and initialize static properties.
 			self::$_instance = new Context();
+			self::$_oFrontEndFileHandler = self::$_instance->oFrontEndFileHandler = new FrontEndFileHandler();
+			self::$_get_vars = self::$_get_vars ?: new stdClass;
+			self::$_tpl_vars = self::$_tpl_vars ?: new stdClass;
+
+			// Include SSL action cache file.
+			self::$_ssl_actions_cache_file = RX_BASEDIR . self::$_ssl_actions_cache_file;
+			if(Rhymix\Framework\Storage::exists(self::$_ssl_actions_cache_file))
+			{
+				self::$_ssl_actions = (include self::$_ssl_actions_cache_file) ?: array();
+			}
 		}
 		return self::$_instance;
 	}
 
 	/**
-	 * Cunstructor
+	 * Constructor
 	 *
 	 * @return void
 	 */
 	private function __construct()
 	{
-		$this->oFrontEndFileHandler = new FrontEndFileHandler();
-		$this->get_vars = new stdClass;
-		self::$_user_vars = new stdClass;
-
-		// include ssl action cache file
-		$this->sslActionCacheFile = FileHandler::getRealPath($this->sslActionCacheFile);
-		if(is_readable($this->sslActionCacheFile))
-		{
-			require($this->sslActionCacheFile);
-			if(isset($sslActions))
-			{
-				$this->ssl_actions = $sslActions;
-			}
-		}
+		
 	}
 
 	/**
 	 * Initialization, it sets DB information, request arguments and so on.
 	 *
-	 * @see This function should be called only once
 	 * @return void
 	 */
-	public function init()
+	public static function init()
 	{
-		// Fix missing HTTP_RAW_POST_DATA in PHP 5.6 and above.
-		if(!isset($GLOBALS['HTTP_RAW_POST_DATA']) && !count($_FILES) && version_compare(PHP_VERSION, '5.6.0', '>=') === TRUE)
+		// Prevent calling init() twice.
+		if(self::$_init_called)
 		{
-			$GLOBALS['HTTP_RAW_POST_DATA'] = file_get_contents("php://input");
-			
-			// If content is not XML or JSON, unset
-			if(!preg_match('/^[\<\{\[]/', $GLOBALS['HTTP_RAW_POST_DATA']) && strpos($_SERVER['CONTENT_TYPE'], 'json') === false && strpos($_SERVER['HTTP_CONTENT_TYPE'], 'json') === false)
-			{
-				unset($GLOBALS['HTTP_RAW_POST_DATA']);
-			}
+			return;
 		}
+		self::$_init_called = true;
 		
-		// Set global variables for backward compatibility.
-		$GLOBALS['__Context__'] = $this;
+		// Obtain a singleton instance if not already given.
+		if(self::$_instance === null)
+		{
+			self::$_instance = self::getInstance();
+		}
 		
 		// Set information about the current request.
-		$this->setRequestMethod();
-		$this->_checkGlobalVars();
-		$this->_setXmlRpcArgument();
-		$this->_setJSONRequestArgument();
-		$this->_setRequestArgument();
-		$this->_setUploadedArgument();
-		
-		// Fabricate methods for compatibility of XE third-party.
-		if(isset($_POST['_rx_ajax_compat']) && $_POST['_rx_ajax_compat'] === 'XMLRPC')
-		{
-			self::$_instance->request_method = 'XMLRPC';
-			self::$_instance->response_method = 'XMLRPC';
-		}
+		self::_checkGlobalVars();
+		self::setRequestMethod();
+		self::setRequestArguments();
+		self::setUploadInfo();
 		
 		// Load system configuration.
-		$this->loadDBInfo();
+		self::loadDBInfo();
 		
 		// If Rhymix is installed, get virtual site information.
 		if(self::isInstalled())
@@ -319,16 +297,16 @@ class Context
 		$enabled_langs = self::loadLangSelected();
 		self::set('lang_supported', $enabled_langs);
 		
-		if($this->lang_type = self::get('l'))
+		if($lang_type = self::get('l'))
 		{
-			if($_COOKIE['lang_type'] !== $this->lang_type)
+			if($_COOKIE['lang_type'] !== $lang_type)
 			{
-				setcookie('lang_type', $this->lang_type, $_SERVER['REQUEST_TIME'] + 3600 * 24 * 1000, '/');
+				setcookie('lang_type', $lang_type, $_SERVER['REQUEST_TIME'] + 3600 * 24 * 1000, '/');
 			}
 		}
 		elseif($_COOKIE['lang_type'])
 		{
-			$this->lang_type = $_COOKIE['lang_type'];
+			$lang_type = $_COOKIE['lang_type'];
 		}
 		elseif(config('locale.auto_select_lang') && count($enabled_langs) > 1)
 		{
@@ -338,31 +316,36 @@ class Context
 				{
 					if(!strncasecmp($lang_code, $_SERVER['HTTP_ACCEPT_LANGUAGE'], strlen($lang_code)))
 					{
-						$this->lang_type = $lang_code;
-						setcookie('lang_type', $this->lang_type, $_SERVER['REQUEST_TIME'] + 3600 * 24 * 1000, '/');
+						$lang_type = $lang_code;
+						setcookie('lang_type', $lang_type, $_SERVER['REQUEST_TIME'] + 3600 * 24 * 1000, '/');
 					}
 				}
 			}
 		}
 		
-		if(!$this->lang_type || !isset($enabled_langs[$this->lang_type]))
+		if(!$lang_type || !isset($enabled_langs[$lang_type]))
 		{
 			if($site_module_info->settings->language)
 			{
-				$this->lang_type = $this->db_info->lang_type = $site_module_info->settings->language;
+				$lang_type = self::$_instance->db_info->lang_type = $site_module_info->settings->language;
 			}
 			else
 			{
-				$this->lang_type = $this->db_info->lang_type ?: 'ko';
+				$lang_type = self::$_instance->db_info->lang_type ?: 'ko';
 			}
 		}
 
-		self::setLangType($this->lang_type);
+		$lang = Rhymix\Framework\Lang::getInstance($lang_type);
+		$lang->loadDirectory(RX_BASEDIR . 'common/lang', 'common');
+		$lang->loadDirectory(RX_BASEDIR . 'modules/module/lang', 'module');
+		self::setLangType(self::$_instance->lang_type = $lang_type);
+		self::set('lang', self::$_instance->lang = $lang);
 		
-		$this->lang = Rhymix\Framework\Lang::getInstance($this->lang_type);
-		$this->lang->loadDirectory(RX_BASEDIR . 'common/lang', 'common');
-		$this->lang->loadDirectory(RX_BASEDIR . 'modules/module/lang', 'module');
-		$GLOBALS['lang'] = $this->lang;
+		// Set global variables for backward compatibility.
+		$GLOBALS['oContext'] = self::$_instance;
+		$GLOBALS['__Context__'] = &self::$_tpl_vars;
+		$GLOBALS['_time_zone'] = self::$_instance->db_info->time_zone;
+		$GLOBALS['lang'] = &$lang;
 		
 		// set session handler
 		if(self::isInstalled() && config('session.use_db'))
@@ -375,10 +358,9 @@ class Context
 		}
 		
 		// start session
-		$relax_key_checks = ($this->act === 'procFileUpload' && preg_match('/shockwave\s?flash/i', $_SERVER['HTTP_USER_AGENT']));
+		$relax_key_checks = (self::$_get_vars->act === 'procFileUpload' && preg_match('/shockwave\s?flash/i', $_SERVER['HTTP_USER_AGENT']));
 		Rhymix\Framework\Session::checkSSO($site_module_info);
 		Rhymix\Framework\Session::start(false, $relax_key_checks);
-		$this->_COOKIE = $_COOKIE;
 
 		// start output buffer
 		if (\PHP_SAPI !== 'cli')
@@ -405,9 +387,9 @@ class Context
 		
 		// set locations for javascript use
 		$current_url = $request_uri = self::getRequestUri();
-		if ($_SERVER['REQUEST_METHOD'] == 'GET' && $this->get_vars)
+		if ($_SERVER['REQUEST_METHOD'] == 'GET' && self::$_get_vars)
 		{
-			if ($query_string = http_build_query($this->get_vars))
+			if ($query_string = http_build_query(self::$_get_vars))
 			{
 				$current_url .= '?' . $query_string;
 			}
@@ -518,7 +500,6 @@ class Context
 		// Copy to old format for backward compatibility.
 		self::$_instance->db_info = self::convertDBInfo($config);
 		self::$_instance->allow_rewrite = self::$_instance->db_info->use_rewrite === 'Y';
-		$GLOBALS['_time_zone'] = self::$_instance->db_info->time_zone;
 	}
 
 	/**
@@ -705,7 +686,7 @@ class Context
 	 *
 	 * @return bool True : Module handling is necessary in the control path of current request , False : Otherwise
 	 */
-	public function checkSSO()
+	public static function checkSSO()
 	{
 		return true;
 	}
@@ -739,7 +720,7 @@ class Context
 	/**
 	 * Append string to browser title
 	 *
-	 * @param string $site_title Browser title to be appended
+	 * @param string $title Browser title to be appended
 	 * @return void
 	 */
 	public static function addBrowserTitle($title)
@@ -748,20 +729,20 @@ class Context
 		{
 			return;
 		}
-		if(self::$_instance->site_title)
+		if(self::$_instance->browser_title)
 		{
-			self::$_instance->site_title .= ' - ' . $title;
+			self::$_instance->browser_title .= ' - ' . $title;
 		}
 		else
 		{
-			self::$_instance->site_title = $title;
+			self::$_instance->browser_title = $title;
 		}
 	}
 
 	/**
 	 * Prepend string to browser title
 	 *
-	 * @param string $site_title Browser title to be prepended
+	 * @param string $title Browser title to be prepended
 	 * @return void
 	 */
 	public static function prependBrowserTitle($title)
@@ -770,20 +751,20 @@ class Context
 		{
 			return;
 		}
-		if(self::$_instance->site_title)
+		if(self::$_instance->browser_title)
 		{
-			self::$_instance->site_title = $title . ' - ' . self::$_instance->site_title;
+			self::$_instance->browser_title = $title . ' - ' . self::$_instance->browser_title;
 		}
 		else
 		{
-			self::$_instance->site_title = $title;
+			self::$_instance->browser_title = $title;
 		}
 	}
 
 	/**
 	 * Set string to browser title
 	 *
-	 * @param string $site_title Browser title  to be set
+	 * @param string $title Browser title  to be set
 	 * @param array $vars
 	 * @return void
 	 */
@@ -799,7 +780,7 @@ class Context
 				return isset($vars[strtolower($matches[1])]) ? $vars[strtolower($matches[1])] : $matches[0];
 			}, $title), ' -'));
 		}
-		self::$_instance->site_title = $title;
+		self::$_instance->browser_title = $title;
 	}
 
 	/**
@@ -809,12 +790,12 @@ class Context
 	 */
 	public static function getBrowserTitle()
 	{
-		if (!self::$_instance->site_title)
+		if (!self::$_instance->browser_title)
 		{
 			return '';
 		}
-		getController('module')->replaceDefinedLangCode(self::$_instance->site_title);
-		return htmlspecialchars(self::$_instance->site_title, ENT_COMPAT | ENT_HTML401, 'UTF-8', FALSE);
+		getController('module')->replaceDefinedLangCode(self::$_instance->browser_title);
+		return htmlspecialchars(self::$_instance->browser_title, ENT_COMPAT | ENT_HTML401, 'UTF-8', FALSE);
 	}
 
 	/**
@@ -861,7 +842,7 @@ class Context
 	 * Get browser title
 	 * @deprecated
 	 */
-	public function _getBrowserTitle()
+	public static function _getBrowserTitle()
 	{
 		return self::getBrowserTitle();
 	}
@@ -1082,6 +1063,19 @@ class Context
 	}
 
 	/**
+	 * Check the hostname for invalid characters.
+	 *
+	 * @return void
+	 */
+	private static function _checkGlobalVars()
+	{
+		if (!self::_recursiveCheckVar($_SERVER['HTTP_HOST']) || preg_match("/[\,\"\'\{\}\[\]\(\);$]/", $_SERVER['HTTP_HOST']))
+		{
+			self::$_instance->isSuccessInit = FALSE;
+		}
+	}
+
+	/**
 	 * Force to set response method
 	 *
 	 * @param string $method Response method. [HTML|XMLRPC|JSON]
@@ -1112,6 +1106,15 @@ class Context
 	}
 
 	/**
+	 * Return request method
+	 * @return string Request method type. (Optional - GET|POST|XMLRPC|JSON)
+	 */
+	public static function getRequestMethod()
+	{
+		return self::$_instance->request_method;
+	}
+
+	/**
 	 * Determine request method
 	 *
 	 * @param string $type Request method. (Optional - GET|POST|XMLRPC|JSON)
@@ -1119,7 +1122,7 @@ class Context
 	 */
 	public static function setRequestMethod($type = '')
 	{
-		self::$_instance->js_callback_func = self::$_instance->getJSCallbackFunc();
+		self::$_instance->js_callback_func = self::getJSCallbackFunc();
 		
 		if ($type)
 		{
@@ -1144,79 +1147,181 @@ class Context
 	}
 
 	/**
-	 * handle global arguments
-	 *
-	 * @return void
-	 */
-	private function _checkGlobalVars()
-	{
-		$this->_recursiveCheckVar($_SERVER['HTTP_HOST']);
-
-		$pattern = "/[\,\"\'\{\}\[\]\(\);$]/";
-		if(preg_match($pattern, $_SERVER['HTTP_HOST']))
-		{
-			$this->isSuccessInit = FALSE;
-		}
-	}
-
-	/**
 	 * handle request arguments for GET/POST
 	 *
 	 * @return void
 	 */
-	private function _setRequestArgument()
+	private static function setRequestArguments()
 	{
-		if(!count($_REQUEST))
+		// Get the request method.
+		$request_method = self::getRequestMethod();
+		
+		// Fix missing HTTP_RAW_POST_DATA in PHP 5.6 and above.
+		if($request_method !== 'GET' && !isset($GLOBALS['HTTP_RAW_POST_DATA']) && !count($_FILES) && version_compare(PHP_VERSION, '5.6.0', '>='))
+		{
+			$GLOBALS['HTTP_RAW_POST_DATA'] = file_get_contents("php://input");
+			
+			// If content is not XML or JSON, unset
+			if(!preg_match('/^[\<\{\[]/', $GLOBALS['HTTP_RAW_POST_DATA']) && strpos($_SERVER['CONTENT_TYPE'], 'json') === false && strpos($_SERVER['HTTP_CONTENT_TYPE'], 'json') === false)
+			{
+				unset($GLOBALS['HTTP_RAW_POST_DATA']);
+			}
+		}
+		
+		// Handle XMLRPC request parameters (Deprecated).
+		if ($request_method === 'XMLRPC')
+		{
+			$xml = $GLOBALS['HTTP_RAW_POST_DATA'];
+			if(!Rhymix\Framework\Security::checkXEE($xml))
+			{
+				header("HTTP/1.0 400 Bad Request");
+				exit;
+			}
+			if(function_exists('libxml_disable_entity_loader'))
+			{
+				libxml_disable_entity_loader(true);
+			}
+
+			$oXml = new XmlParser();
+			$xml_obj = $oXml->parse($xml);
+			$params = $xml_obj->methodcall->params;
+			unset($params->node_name, $params->attrs, $params->body);
+			if(count(get_object_vars($params)))
+			{
+				foreach($params as $key => $val)
+				{
+					self::set($key, $this->_filterXmlVars($key, $val), true);
+				}
+			}
+		}
+		
+		// Handle JSON request parameters (Deprecated).
+		if ($request_method === 'JSON' && !count($_POST))
+		{
+			$params = array();
+			parse_str($GLOBALS['HTTP_RAW_POST_DATA'], $params);
+			foreach($params as $key => $val)
+			{
+				self::set($key, self::_filterRequestVar($key, $val), true);
+			}
+		}
+		
+		// Handle regular HTTP request parameters.
+		if (count($_REQUEST))
+		{
+			foreach($_REQUEST as $key => $val)
+			{
+				if($val === '' || isset(self::$_reserved_keys[$key]) || self::get($key))
+				{
+					continue;
+				}
+				$key = escape($key);
+				$val = self::_filterRequestVar($key, $val);
+
+				if($request_method == 'GET' && isset($_GET[$key]))
+				{
+					$set_to_vars = true;
+				}
+				elseif(($request_method == 'POST' || $request_method == 'JSON') && isset($_POST[$key]))
+				{
+					$set_to_vars = true;
+				}
+				elseif($request_method == 'JS_CALLBACK' && (isset($_GET[$key]) || isset($_POST[$key])))
+				{
+					$set_to_vars = true;
+				}
+				else
+				{
+					$set_to_vars = false;
+				}
+
+				if($set_to_vars)
+				{
+					self::_recursiveCheckVar($val);
+				}
+
+				self::set($key, $val, $set_to_vars);
+			}
+		}
+		
+		// Pretend that this request is XMLRPC for compatibility with XE third-party.
+		if(isset($_POST['_rx_ajax_compat']) && $_POST['_rx_ajax_compat'] === 'XMLRPC')
+		{
+			self::$_instance->request_method = 'XMLRPC';
+			self::$_instance->response_method = 'XMLRPC';
+		}
+	}
+	
+	/**
+	 * Handle uploaded file info.
+	 * 
+	 * @return void
+	 */
+	private static function setUploadInfo()
+	{
+		if ($_SERVER['REQUEST_METHOD'] !== 'POST' || !$_FILES)
+		{
+			return;
+		}
+		if (stripos($_SERVER['CONTENT_TYPE'], 'multipart/form-data') === false && stripos($_SERVER['HTTP_CONTENT_TYPE'], 'multipart/form-data') === false)
 		{
 			return;
 		}
 
-		$requestMethod = self::getRequestMethod();
-		foreach($_REQUEST as $key => $val)
+		foreach ($_FILES as $key => $val)
 		{
-			if($val === '' || isset(self::$_reserved_keys[$key]) || self::get($key))
+			$tmp_name = $val['tmp_name'];
+			if(!is_array($tmp_name))
 			{
-				continue;
-			}
-			$key = escape($key);
-			$val = $this->_filterRequestVar($key, $val);
-
-			if($requestMethod == 'GET' && isset($_GET[$key]))
-			{
-				$set_to_vars = TRUE;
-			}
-			elseif(($requestMethod == 'POST' || $requestMethod == 'JSON') && isset($_POST[$key]))
-			{
-				$set_to_vars = TRUE;
-			}
-			elseif($requestMethod == 'JS_CALLBACK' && (isset($_GET[$key]) || isset($_POST[$key])))
-			{
-				$set_to_vars = TRUE;
+				if(!$tmp_name || !is_uploaded_file($tmp_name) || $val['size'] <= 0)
+				{
+					continue;
+				}
+				$val['name'] = escape($val['name'], false);
+				self::set($key, $val, true);
+				self::set('is_uploaded', true);
+				self::$_instance->is_uploaded = true;
 			}
 			else
 			{
-				$set_to_vars = FALSE;
+				$files = array();
+				foreach ($tmp_name as $i => $j)
+				{
+					if($val['size'][$i] > 0)
+					{
+						$file = array();
+						$file['name'] = $val['name'][$i];
+						$file['type'] = $val['type'][$i];
+						$file['tmp_name'] = $val['tmp_name'][$i];
+						$file['error'] = $val['error'][$i];
+						$file['size'] = $val['size'][$i];
+						$files[] = $file;
+					}
+				}
+				if(count($files))
+				{
+					self::set($key, $files, true);
+				}
 			}
-
-			if($set_to_vars)
-			{
-				$this->_recursiveCheckVar($val);
-			}
-
-			self::set($key, $val, $set_to_vars);
 		}
 	}
 
-	private function _recursiveCheckVar($val)
+	/**
+	 * Check if a value (or array of values) matches a pattern defined in this class.
+	 * 
+	 * @param mixed $val Values to check
+	 * @return bool
+	 */
+	private static function _recursiveCheckVar($val)
 	{
 		if(is_string($val))
 		{
-			foreach($this->patterns as $pattern)
+			foreach(self::$_check_patterns as $pattern)
 			{
 				if(preg_match($pattern, $val))
 				{
-					$this->isSuccessInit = FALSE;
-					return;
+					self::$_instance->isSuccessInit = false;
+					return false;
 				}
 			}
 		}
@@ -1224,68 +1329,15 @@ class Context
 		{
 			foreach($val as $val2)
 			{
-				$this->_recursiveCheckVar($val2);
+				$result = self::_recursiveCheckVar($val2);
+				if(!$result)
+				{
+					return false;
+				}
 			}
 		}
-	}
-
-	/**
-	 * Handle request arguments for JSON
-	 *
-	 * @return void
-	 */
-	private function _setJSONRequestArgument()
-	{
-		if(count($_POST) || self::getRequestMethod() != 'JSON')
-		{
-			return;
-		}
-		$params = array();
-		parse_str($GLOBALS['HTTP_RAW_POST_DATA'], $params);
-		foreach($params as $key => $val)
-		{
-			self::set($key, $this->_filterRequestVar($key, $val, 1), TRUE);
-		}
-	}
-
-	/**
-	 * Handle request arguments for XML RPC
-	 *
-	 * @return void
-	 */
-	private function _setXmlRpcArgument()
-	{
-		if(self::getRequestMethod() != 'XMLRPC')
-		{
-			return;
-		}
-
-		$xml = $GLOBALS['HTTP_RAW_POST_DATA'];
-		if(!Rhymix\Framework\Security::checkXEE($xml))
-		{
-			header("HTTP/1.0 400 Bad Request");
-			exit;
-		}
-		if(function_exists('libxml_disable_entity_loader'))
-		{
-			libxml_disable_entity_loader(true);
-		}
-
-		$oXml = new XmlParser();
-		$xml_obj = $oXml->parse($xml);
-
-		$params = $xml_obj->methodcall->params;
-		unset($params->node_name, $params->attrs, $params->body);
-
-		if(!count(get_object_vars($params)))
-		{
-			return;
-		}
-
-		foreach($params as $key => $val)
-		{
-			self::set($key, $this->_filterXmlVars($key, $val), TRUE);
-		}
+		
+		return true;
 	}
 
 	/**
@@ -1295,14 +1347,14 @@ class Context
 	 * @param object $val Variable value
 	 * @return mixed filtered value
 	 */
-	private function _filterXmlVars($key, $val)
+	private static function _filterXmlVars($key, $val)
 	{
 		if(is_array($val))
 		{
 			$stack = array();
 			foreach($val as $k => $v)
 			{
-				$stack[$k] = $this->_filterXmlVars($k, $v);
+				$stack[$k] = self::_filterXmlVars($k, $v);
 			}
 
 			return $stack;
@@ -1312,13 +1364,13 @@ class Context
 		unset($val->node_name, $val->attrs, $val->body);
 		if(!count(get_object_vars($val)))
 		{
-			return $this->_filterRequestVar($key, $body, 0);
+			return self::_filterRequestVar($key, $body, 0);
 		}
 
 		$stack = new stdClass;
 		foreach($val as $k => $v)
 		{
-			$output = $this->_filterXmlVars($k, $v);
+			$output = self::_filterXmlVars($k, $v);
 			if(is_object($v) && $v->attrs->type == 'array')
 			{
 				$output = array($output);
@@ -1347,7 +1399,7 @@ class Context
 	 * @param string $val Variable value
 	 * @return mixed filtered value. Type are string or array
 	 */
-	public function _filterRequestVar($key, $val)
+	private static function _filterRequestVar($key, $val)
 	{
 		if(!($isArray = is_array($val)))
 		{
@@ -1410,50 +1462,9 @@ class Context
 	 *
 	 * @return void
 	 */
-	public function _setUploadedArgument()
+	public static function _setUploadedArgument()
 	{
-		if($_SERVER['REQUEST_METHOD'] != 'POST' || !$_FILES || (stripos($_SERVER['CONTENT_TYPE'], 'multipart/form-data') === FALSE && stripos($_SERVER['HTTP_CONTENT_TYPE'], 'multipart/form-data') === FALSE))
-		{
-			return;
-		}
-
-		foreach($_FILES as $key => $val)
-		{
-			$tmp_name = $val['tmp_name'];
-			if(!is_array($tmp_name))
-			{
-				if(!$tmp_name || !is_uploaded_file($tmp_name))
-				{
-					continue;
-				}
-				$val['name'] = htmlspecialchars($val['name'], ENT_COMPAT | ENT_HTML401, 'UTF-8', FALSE);
-				self::set($key, $val, TRUE);
-				$this->is_uploaded = TRUE;
-			}
-			else
-			{
-				$files = array();
-				$count_files = count($tmp_name);
-
-				for($i = 0; $i < $count_files; $i++)
-				{
-					if($val['size'][$i] > 0)
-					{
-						$file = array();
-						$file['name'] = $val['name'][$i];
-						$file['type'] = $val['type'][$i];
-						$file['tmp_name'] = $val['tmp_name'][$i];
-						$file['error'] = $val['error'][$i];
-						$file['size'] = $val['size'][$i];
-						$files[] = $file;
-					}
-				}
-				if(count($files))
-				{
-					self::set($key, $files, true);
-				}
-			}
-		}
+		self::setUploadInfo();
 	}
 
 	/**
@@ -1540,15 +1551,6 @@ class Context
 		$oModuleHandler = new ModuleHandler;
 		$oModuleHandler->displayContent($oMessageObject);
 	}
-	
-	/**
-	 * Return request method
-	 * @return string Request method type. (Optional - GET|POST|XMLRPC|JSON)
-	 */
-	public static function getRequestMethod()
-	{
-		return self::$_instance->request_method;
-	}
 
 	/**
 	 * Return request URL
@@ -1629,7 +1631,7 @@ class Context
 		}
 
 		// Get URL parameters. If the first argument is '', reset existing parameters.
-		if (!self::$_instance->get_vars || strval($args_list[0]) === '')
+		if (!self::$_get_vars || strval($args_list[0]) === '')
 		{
 			$get_vars = array();
 			if(is_array($args_list) && strval($args_list[0]) === '')
@@ -1639,13 +1641,13 @@ class Context
 		}
 		elseif ($_SERVER['REQUEST_METHOD'] === 'GET')
 		{
-			$get_vars = get_object_vars(self::$_instance->get_vars);
+			$get_vars = get_object_vars(self::$_get_vars);
 		}
 		else
 		{
 			$preserve_vars = array('module', 'mid', 'act', 'page', 'document_srl', 'search_target', 'search_keyword');
 			$preserve_keys = array_combine($preserve_vars, array_fill(0, count($preserve_vars), true));
-			$get_vars = array_intersect_key(get_object_vars(self::$_instance->get_vars), $preserve_keys);
+			$get_vars = array_intersect_key(get_object_vars(self::$_get_vars), $preserve_keys);
 		}
 		
 		// arrange args_list
@@ -1830,18 +1832,17 @@ class Context
 	 */
 	public static function set($key, $val, $set_to_get_vars = 0)
 	{
-		self::$_user_vars->{$key} = $val;
-		self::$_instance->{$key} = $val;
+		self::$_tpl_vars->{$key} = $val;
 
-		if($set_to_get_vars || isset(self::$_instance->get_vars->{$key}))
+		if($set_to_get_vars || isset(self::$_get_vars->{$key}))
 		{
 			if($val === NULL || $val === '')
 			{
-				unset(self::$_instance->get_vars->{$key});
+				unset(self::$_get_vars->{$key});
 			}
 			else
 			{
-				self::$_instance->get_vars->{$key} = $val;
+				self::$_get_vars->{$key} = $val;
 			}
 		}
 	}
@@ -1854,9 +1855,9 @@ class Context
 	 */
 	public static function get($key)
 	{
-		if(isset(self::$_user_vars->{$key}))
+		if(isset(self::$_tpl_vars->{$key}))
 		{
-			return self::$_user_vars->{$key};
+			return self::$_tpl_vars->{$key};
 		}
 		elseif(isset(self::$_instance->{$key}))
 		{
@@ -1883,10 +1884,10 @@ class Context
 
 		$args_list = func_get_args();
 		$output = new stdClass;
-		self::$_user_vars = self::$_user_vars !== null ? self::$_user_vars : new stdClass;
+		self::$_tpl_vars = self::$_tpl_vars !== null ? self::$_tpl_vars : new stdClass;
 		foreach($args_list as $key)
 		{
-			$output->{$key} = isset(self::$_user_vars->{$key}) ? self::$_user_vars->{$key} : (isset(self::$_instance->{$key}) ? self::$_instance->{$key} : null);
+			$output->{$key} = isset(self::$_tpl_vars->{$key}) ? self::$_tpl_vars->{$key} : (isset(self::$_instance->{$key}) ? self::$_instance->{$key} : null);
 		}
 		return $output;
 	}
@@ -1898,7 +1899,7 @@ class Context
 	 */
 	public static function getAll()
 	{
-		return self::$_user_vars !== null ? self::$_user_vars : new stdClass;
+		return self::$_tpl_vars !== null ? self::$_tpl_vars : new stdClass;
 	}
 
 	/**
@@ -1908,9 +1909,9 @@ class Context
 	 */
 	public static function getRequestVars()
 	{
-		if(self::$_instance->get_vars)
+		if(self::$_get_vars)
 		{
-			return clone(self::$_instance->get_vars);
+			return clone(self::$_get_vars);
 		}
 		return new stdClass;
 	}
@@ -1923,18 +1924,14 @@ class Context
 	 */
 	public static function addSSLAction($action)
 	{
-		if(!is_readable(self::$_instance->sslActionCacheFile))
+		if(isset(self::$_ssl_actions[$action]))
 		{
-			$buff = '<?php if(!defined("__XE__"))exit;';
-			FileHandler::writeFile(self::$_instance->sslActionCacheFile, $buff);
+			return;
 		}
-
-		if(!isset(self::$_instance->ssl_actions[$action]))
-		{
-			self::$_instance->ssl_actions[$action] = 1;
-			$sslActionCacheString = sprintf('$sslActions[\'%s\'] = 1;', $action);
-			FileHandler::writeFile(self::$_instance->sslActionCacheFile, $sslActionCacheString, 'a');
-		}
+		
+		self::$_ssl_actions[$action] = 1;
+		$buff = '<?php return ' . var_export(self::$_ssl_actions, true) . ';';
+		Rhymix\Framework\Storage::write(self::$_ssl_actions_cache_file, $buff);
 	}
 
 	/**
@@ -1945,22 +1942,22 @@ class Context
 	 */
 	public static function addSSLActions($action_array)
 	{
-		if(!is_readable(self::$_instance->sslActionCacheFile))
-		{
-			unset(self::$_instance->ssl_actions);
-			$buff = '<?php if(!defined("__XE__"))exit;';
-			FileHandler::writeFile(self::$_instance->sslActionCacheFile, $buff);
-		}
-
+		$changed = false;
 		foreach($action_array as $action)
 		{
-			if(!isset(self::$_instance->ssl_actions[$action]))
+			if(!isset(self::$_ssl_actions[$action]))
 			{
-				self::$_instance->ssl_actions[$action] = 1;
-				$sslActionCacheString = sprintf('$sslActions[\'%s\'] = 1;', $action);
-				FileHandler::writeFile(self::$_instance->sslActionCacheFile, $sslActionCacheString, 'a');
+				self::$_ssl_actions[$action] = 1;
+				$changed = true;
 			}
 		}
+		if(!$changed)
+		{
+			return;
+		}
+		
+		$buff = '<?php return ' . var_export(self::$_ssl_actions, true) . ';';
+		Rhymix\Framework\Storage::write(self::$_ssl_actions_cache_file, $buff);
 	}
 
 	/**
@@ -1971,13 +1968,14 @@ class Context
 	 */
 	public static function subtractSSLAction($action)
 	{
-		if(self::isExistsSSLAction($action))
+		if(!isset(self::$_ssl_actions[$action]))
 		{
-			$sslActionCacheString = sprintf('$sslActions[\'%s\'] = 1;', $action);
-			$buff = FileHandler::readFile(self::$_instance->sslActionCacheFile);
-			$buff = str_replace($sslActionCacheString, '', $buff);
-			FileHandler::writeFile(self::$_instance->sslActionCacheFile, $buff);
+			return;
 		}
+		
+		unset(self::$_ssl_actions[$action]);
+		$buff = '<?php return ' . var_export(self::$_ssl_actions, true) . ';';
+		Rhymix\Framework\Storage::write(self::$_ssl_actions_cache_file, $buff);
 	}
 
 	/**
@@ -1989,7 +1987,7 @@ class Context
 	{
 		if(self::getSslStatus() == 'optional')
 		{
-			return self::$_instance->ssl_actions;
+			return self::$_ssl_actions;
 		}
 		else
 		{
@@ -2005,7 +2003,7 @@ class Context
 	 */
 	public static function isExistsSSLAction($action)
 	{
-		return isset(self::$_instance->ssl_actions[$action]);
+		return isset(self::$_ssl_actions[$action]);
 	}
 
 	/**
@@ -2070,7 +2068,7 @@ class Context
 	 */
 	public static function loadFile($args)
 	{
-		self::$_instance->oFrontEndFileHandler->loadFile($args);
+		self::$_oFrontEndFileHandler->loadFile($args);
 	}
 
 	/**
@@ -2083,7 +2081,7 @@ class Context
 	 */
 	public static function unloadFile($file, $targetIe = '', $media = 'all')
 	{
-		self::$_instance->oFrontEndFileHandler->unloadFile($file, $targetIe, $media);
+		self::$_oFrontEndFileHandler->unloadFile($file, $targetIe, $media);
 	}
 
 	/**
@@ -2094,7 +2092,7 @@ class Context
 	 */
 	public static function unloadAllFiles($type = 'all')
 	{
-		self::$_instance->oFrontEndFileHandler->unloadAllFiles($type);
+		self::$_oFrontEndFileHandler->unloadAllFiles($type);
 	}
 
 	/**
@@ -2127,7 +2125,7 @@ class Context
 			$file = $validator->getJsPath();
 		}
 
-		self::$_instance->oFrontEndFileHandler->loadFile(array($file, $type, $targetie, $index));
+		self::$_oFrontEndFileHandler->loadFile(array($file, $type, $targetie, $index));
 	}
 
 	/**
@@ -2141,7 +2139,7 @@ class Context
 	 */
 	public static function unloadJsFile($file, $optimized = FALSE, $targetie = '')
 	{
-		self::$_instance->oFrontEndFileHandler->unloadFile($file, $targetie);
+		self::$_oFrontEndFileHandler->unloadFile($file, $targetie);
 	}
 
 	/**
@@ -2151,7 +2149,7 @@ class Context
 	 */
 	public static function unloadAllJsFiles()
 	{
-		self::$_instance->oFrontEndFileHandler->unloadAllFiles('js');
+		self::$_oFrontEndFileHandler->unloadAllFiles('js');
 	}
 
 	/**
@@ -2200,7 +2198,7 @@ class Context
 	 */
 	public static function getJsFile($type = 'head', $finalize = false)
 	{
-		return self::$_instance->oFrontEndFileHandler->getJsFileList($type, $finalize);
+		return self::$_oFrontEndFileHandler->getJsFileList($type, $finalize);
 	}
 
 	/**
@@ -2217,7 +2215,7 @@ class Context
 	 */
 	public static function addCSSFile($file, $optimized = FALSE, $media = 'all', $targetie = '', $index = 0)
 	{
-		self::$_instance->oFrontEndFileHandler->loadFile(array($file, $media, $targetie, $index));
+		self::$_oFrontEndFileHandler->loadFile(array($file, $media, $targetie, $index));
 	}
 
 	/**
@@ -2232,7 +2230,7 @@ class Context
 	 */
 	public static function unloadCSSFile($file, $optimized = FALSE, $media = 'all', $targetie = '')
 	{
-		self::$_instance->oFrontEndFileHandler->unloadFile($file, $targetie, $media);
+		self::$_oFrontEndFileHandler->unloadFile($file, $targetie, $media);
 	}
 
 	/**
@@ -2242,7 +2240,7 @@ class Context
 	 */
 	public static function unloadAllCSSFiles()
 	{
-		self::$_instance->oFrontEndFileHandler->unloadAllFiles('css');
+		self::$_oFrontEndFileHandler->unloadAllFiles('css');
 	}
 
 	/**
@@ -2253,7 +2251,7 @@ class Context
 	 */
 	public static function getCSSFile($finalize = false)
 	{
-		return self::$_instance->oFrontEndFileHandler->getCssFileList($finalize);
+		return self::$_oFrontEndFileHandler->getCssFileList($finalize);
 	}
 
 	/**
