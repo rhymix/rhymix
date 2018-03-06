@@ -39,6 +39,10 @@
 		if (url1.match(/^\.?\/[^\/]*/) || url2.match(/^\.?\/[^\/]*/)) {
 			return true;
 		}
+		if (url1.match(/^(https?:)?\/\/[^\/]*[^a-z0-9\/.:_-]/i) || url2.match(/^(https?:)?\/\/[^\/]*[^a-z0-9\/.:_-]/i)) {
+			return false;
+		}
+			
 		url1 = window.XE.URI(url1).normalizePort().normalizePathname().origin();
 		url2 = window.XE.URI(url2).normalizePort().normalizePathname().origin();
 		return (url1 === url2) ? true : false;
@@ -208,10 +212,10 @@
 			if (typeof url !== "string") {
 				return false;
 			}
-			if (url.match(/^\.?\/[^\/]*/)) {
+			if (url.match(/^\.?\/[^\/]/)) {
 				return true;
 			}
-			if (url.match(/^\w+:[^\/]*$/)) {
+			if (url.match(/^\w+:[^\/]*$/) || url.match(/^(https?:)?\/\/[^\/]*[^a-z0-9\/.:_-]/i)) {
 				return false;
 			}
 			
