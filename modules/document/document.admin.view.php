@@ -59,7 +59,7 @@ class documentAdminView extends document
 
 		// get a list
 		$oDocumentModel = getModel('document');
-		$columnList = array('document_srl', 'module_srl', 'title', 'member_srl', 'nick_name', 'readed_count', 'voted_count', 'blamed_count', 'regdate', 'ipaddress', 'status', 'category_srl');
+		$columnList = array('document_srl', 'module_srl', 'category_srl', 'member_srl', 'title', 'nick_name', 'comment_count', 'trackback_count', 'readed_count', 'voted_count', 'blamed_count', 'regdate', 'ipaddress', 'status');
 		$output = $oDocumentModel->getDocumentList($args, false, true, $columnList);
 
 		// get Status name list
