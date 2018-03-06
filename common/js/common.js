@@ -286,7 +286,7 @@ jQuery(function($) {
 	$(".editable_preview").on("click", function() {
 		var input = $(this).siblings(".editable_preview_content");
 		if (input.size()) {
-			$(this).off("click").off("focus").remove();
+			$(this).off("click").off("focus").hide();
 			input = input.first();
 			if (input.attr("type") !== "hidden") {
 				input.hide();
