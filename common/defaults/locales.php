@@ -18,4 +18,5 @@ return array(
 	'ru' => array('name' => 'Русский', 'locale' => 'ru_RU'),
 	'tr' => array('name' => 'Türkçe', 'locale' => 'tr_TR'),
 	'vi' => array('name' => 'Tiếng Việt', 'locale' => 'vi_VN'),
+	'id' => array('name' => 'Bahasa Indonesia', 'locale' => 'id_ID'),
 );
