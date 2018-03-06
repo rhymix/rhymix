@@ -389,6 +389,7 @@ class editorController extends editor
 		{
 			if($mode)
 			{
+				setcookie('autosave_certify_key_' . $args->module_srl, 'deleted', time() - 86400);
 				$output = executeQuery('editor.getSavedDocument', $args);
 				$output = ModuleHandler::triggerCall('editor.deleteSavedDoc', 'after', $saved_doc);
 			}
