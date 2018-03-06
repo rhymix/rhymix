@@ -112,12 +112,6 @@ var auto_saved_msg = "{$lang->msg_auto_saved}";
 			content_field: jQuery('[name={$editor_content_key_name}]')
 		};
 		
-		// Temporary workaround for line break bug in recent versions of iOS.
-		if (navigator.userAgent.match(/i(OS|Phone|Pad)/)) {
-			settings.ckeconfig.enterMode = CKEDITOR.ENTER_BR;
-			settings.ckeconfig.shiftEnterMode = CKEDITOR.ENTER_P;
-		}
-
 		// Prevent removal of icon fonts and Google code.
 		CKEDITOR.dtd.$removeEmpty.i = 0;
 		CKEDITOR.dtd.$removeEmpty.ins = 0;
@@ -150,6 +144,10 @@ var auto_saved_msg = "{$lang->msg_auto_saved}";
 		<!--@if($editor_remove_plugins)-->
 			settings.ckeconfig.removePlugins = {json_encode(implode(',', $editor_remove_plugins))};
 		<!--@endif-->
+		
+		if (CKEDITOR.env.iOS) {
+			settings.ckeconfig.removePlugins = settings.ckeconfig.removePlugins ? (settings.ckeconfig.removePlugins + ',enterkey') : '';
+		}
 
 		<!--@if($editor_toolbar === 'simple')-->
 			settings.ckeconfig.toolbar = [
