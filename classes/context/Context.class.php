@@ -245,32 +245,11 @@ class Context
 			self::$_instance = self::getInstance();
 		}
 		
-		// Fix missing HTTP_RAW_POST_DATA in PHP 5.6 and above.
-		if(!isset($GLOBALS['HTTP_RAW_POST_DATA']) && !count($_FILES) && version_compare(PHP_VERSION, '5.6.0', '>=') === TRUE)
-		{
-			$GLOBALS['HTTP_RAW_POST_DATA'] = file_get_contents("php://input");
-			
-			// If content is not XML or JSON, unset
-			if(!preg_match('/^[\<\{\[]/', $GLOBALS['HTTP_RAW_POST_DATA']) && strpos($_SERVER['CONTENT_TYPE'], 'json') === false && strpos($_SERVER['HTTP_CONTENT_TYPE'], 'json') === false)
-			{
-				unset($GLOBALS['HTTP_RAW_POST_DATA']);
-			}
-		}
-		
 		// Set information about the current request.
+		self::_checkGlobalVars();
 		self::setRequestMethod();
-		self::$_instance->_checkGlobalVars();
-		self::$_instance->_setXmlRpcArgument();
-		self::$_instance->_setJSONRequestArgument();
-		self::$_instance->_setRequestArgument();
-		self::$_instance->_setUploadedArgument();
-		
-		// Fabricate methods for compatibility of XE third-party.
-		if(isset($_POST['_rx_ajax_compat']) && $_POST['_rx_ajax_compat'] === 'XMLRPC')
-		{
-			self::$_instance->request_method = 'XMLRPC';
-			self::$_instance->response_method = 'XMLRPC';
-		}
+		self::setRequestArguments();
+		self::setUploadInfo();
 		
 		// Load system configuration.
 		self::loadDBInfo();
@@ -707,7 +686,7 @@ class Context
 	 *
 	 * @return bool True : Module handling is necessary in the control path of current request , False : Otherwise
 	 */
-	public function checkSSO()
+	public static function checkSSO()
 	{
 		return true;
 	}
@@ -863,7 +842,7 @@ class Context
 	 * Get browser title
 	 * @deprecated
 	 */
-	public function _getBrowserTitle()
+	public static function _getBrowserTitle()
 	{
 		return self::getBrowserTitle();
 	}
@@ -1084,6 +1063,19 @@ class Context
 	}
 
 	/**
+	 * Check the hostname for invalid characters.
+	 *
+	 * @return void
+	 */
+	private static function _checkGlobalVars()
+	{
+		if (!self::_recursiveCheckVar($_SERVER['HTTP_HOST']) || preg_match("/[\,\"\'\{\}\[\]\(\);$]/", $_SERVER['HTTP_HOST']))
+		{
+			self::$_instance->isSuccessInit = FALSE;
+		}
+	}
+
+	/**
 	 * Force to set response method
 	 *
 	 * @param string $method Response method. [HTML|XMLRPC|JSON]
@@ -1111,6 +1103,15 @@ class Context
 		$methods = array('HTML' => 1, 'XMLRPC' => 1, 'JSON' => 1, 'JS_CALLBACK' => 1);
 
 		return isset($methods[$method]) ? $method : 'HTML';
+	}
+
+	/**
+	 * Return request method
+	 * @return string Request method type. (Optional - GET|POST|XMLRPC|JSON)
+	 */
+	public static function getRequestMethod()
+	{
+		return self::$_instance->request_method;
 	}
 
 	/**
@@ -1146,70 +1147,172 @@ class Context
 	}
 
 	/**
-	 * handle global arguments
-	 *
-	 * @return void
-	 */
-	private function _checkGlobalVars()
-	{
-		$this->_recursiveCheckVar($_SERVER['HTTP_HOST']);
-
-		$pattern = "/[\,\"\'\{\}\[\]\(\);$]/";
-		if(preg_match($pattern, $_SERVER['HTTP_HOST']))
-		{
-			$this->isSuccessInit = FALSE;
-		}
-	}
-
-	/**
 	 * handle request arguments for GET/POST
 	 *
 	 * @return void
 	 */
-	private function _setRequestArgument()
+	private static function setRequestArguments()
 	{
-		if(!count($_REQUEST))
+		// Get the request method.
+		$request_method = self::getRequestMethod();
+		
+		// Fix missing HTTP_RAW_POST_DATA in PHP 5.6 and above.
+		if($request_method !== 'GET' && !isset($GLOBALS['HTTP_RAW_POST_DATA']) && !count($_FILES) && version_compare(PHP_VERSION, '5.6.0', '>='))
+		{
+			$GLOBALS['HTTP_RAW_POST_DATA'] = file_get_contents("php://input");
+			
+			// If content is not XML or JSON, unset
+			if(!preg_match('/^[\<\{\[]/', $GLOBALS['HTTP_RAW_POST_DATA']) && strpos($_SERVER['CONTENT_TYPE'], 'json') === false && strpos($_SERVER['HTTP_CONTENT_TYPE'], 'json') === false)
+			{
+				unset($GLOBALS['HTTP_RAW_POST_DATA']);
+			}
+		}
+		
+		// Handle XMLRPC request parameters (Deprecated).
+		if ($request_method === 'XMLRPC')
+		{
+			$xml = $GLOBALS['HTTP_RAW_POST_DATA'];
+			if(!Rhymix\Framework\Security::checkXEE($xml))
+			{
+				header("HTTP/1.0 400 Bad Request");
+				exit;
+			}
+			if(function_exists('libxml_disable_entity_loader'))
+			{
+				libxml_disable_entity_loader(true);
+			}
+
+			$oXml = new XmlParser();
+			$xml_obj = $oXml->parse($xml);
+			$params = $xml_obj->methodcall->params;
+			unset($params->node_name, $params->attrs, $params->body);
+			if(count(get_object_vars($params)))
+			{
+				foreach($params as $key => $val)
+				{
+					self::set($key, $this->_filterXmlVars($key, $val), true);
+				}
+			}
+		}
+		
+		// Handle JSON request parameters (Deprecated).
+		if ($request_method === 'JSON' && !count($_POST))
+		{
+			$params = array();
+			parse_str($GLOBALS['HTTP_RAW_POST_DATA'], $params);
+			foreach($params as $key => $val)
+			{
+				self::set($key, self::_filterRequestVar($key, $val), true);
+			}
+		}
+		
+		// Handle regular HTTP request parameters.
+		if (count($_REQUEST))
+		{
+			foreach($_REQUEST as $key => $val)
+			{
+				if($val === '' || isset(self::$_reserved_keys[$key]) || self::get($key))
+				{
+					continue;
+				}
+				$key = escape($key);
+				$val = self::_filterRequestVar($key, $val);
+
+				if($request_method == 'GET' && isset($_GET[$key]))
+				{
+					$set_to_vars = true;
+				}
+				elseif(($request_method == 'POST' || $request_method == 'JSON') && isset($_POST[$key]))
+				{
+					$set_to_vars = true;
+				}
+				elseif($request_method == 'JS_CALLBACK' && (isset($_GET[$key]) || isset($_POST[$key])))
+				{
+					$set_to_vars = true;
+				}
+				else
+				{
+					$set_to_vars = false;
+				}
+
+				if($set_to_vars)
+				{
+					self::_recursiveCheckVar($val);
+				}
+
+				self::set($key, $val, $set_to_vars);
+			}
+		}
+		
+		// Pretend that this request is XMLRPC for compatibility with XE third-party.
+		if(isset($_POST['_rx_ajax_compat']) && $_POST['_rx_ajax_compat'] === 'XMLRPC')
+		{
+			self::$_instance->request_method = 'XMLRPC';
+			self::$_instance->response_method = 'XMLRPC';
+		}
+	}
+	
+	/**
+	 * Handle uploaded file info.
+	 * 
+	 * @return void
+	 */
+	private static function setUploadInfo()
+	{
+		if ($_SERVER['REQUEST_METHOD'] !== 'POST' || !$_FILES)
+		{
+			return;
+		}
+		if (stripos($_SERVER['CONTENT_TYPE'], 'multipart/form-data') === false && stripos($_SERVER['HTTP_CONTENT_TYPE'], 'multipart/form-data') === false)
 		{
 			return;
 		}
 
-		$requestMethod = self::getRequestMethod();
-		foreach($_REQUEST as $key => $val)
+		foreach ($_FILES as $key => $val)
 		{
-			if($val === '' || isset(self::$_reserved_keys[$key]) || self::get($key))
+			$tmp_name = $val['tmp_name'];
+			if(!is_array($tmp_name))
 			{
-				continue;
-			}
-			$key = escape($key);
-			$val = $this->_filterRequestVar($key, $val);
-
-			if($requestMethod == 'GET' && isset($_GET[$key]))
-			{
-				$set_to_vars = TRUE;
-			}
-			elseif(($requestMethod == 'POST' || $requestMethod == 'JSON') && isset($_POST[$key]))
-			{
-				$set_to_vars = TRUE;
-			}
-			elseif($requestMethod == 'JS_CALLBACK' && (isset($_GET[$key]) || isset($_POST[$key])))
-			{
-				$set_to_vars = TRUE;
+				if(!$tmp_name || !is_uploaded_file($tmp_name) || $val['size'] <= 0)
+				{
+					continue;
+				}
+				$val['name'] = escape($val['name'], false);
+				self::set($key, $val, true);
+				self::set('is_uploaded', true);
+				self::$_instance->is_uploaded = true;
 			}
 			else
 			{
-				$set_to_vars = FALSE;
+				$files = array();
+				foreach ($tmp_name as $i => $j)
+				{
+					if($val['size'][$i] > 0)
+					{
+						$file = array();
+						$file['name'] = $val['name'][$i];
+						$file['type'] = $val['type'][$i];
+						$file['tmp_name'] = $val['tmp_name'][$i];
+						$file['error'] = $val['error'][$i];
+						$file['size'] = $val['size'][$i];
+						$files[] = $file;
+					}
+				}
+				if(count($files))
+				{
+					self::set($key, $files, true);
+				}
 			}
-
-			if($set_to_vars)
-			{
-				$this->_recursiveCheckVar($val);
-			}
-
-			self::set($key, $val, $set_to_vars);
 		}
 	}
 
-	private function _recursiveCheckVar($val)
+	/**
+	 * Check if a value (or array of values) matches a pattern defined in this class.
+	 * 
+	 * @param mixed $val Values to check
+	 * @return bool
+	 */
+	private static function _recursiveCheckVar($val)
 	{
 		if(is_string($val))
 		{
@@ -1217,8 +1320,8 @@ class Context
 			{
 				if(preg_match($pattern, $val))
 				{
-					$this->isSuccessInit = FALSE;
-					return;
+					self::$_instance->isSuccessInit = false;
+					return false;
 				}
 			}
 		}
@@ -1226,68 +1329,15 @@ class Context
 		{
 			foreach($val as $val2)
 			{
-				$this->_recursiveCheckVar($val2);
+				$result = self::_recursiveCheckVar($val2);
+				if(!$result)
+				{
+					return false;
+				}
 			}
 		}
-	}
-
-	/**
-	 * Handle request arguments for JSON
-	 *
-	 * @return void
-	 */
-	private function _setJSONRequestArgument()
-	{
-		if(count($_POST) || self::getRequestMethod() != 'JSON')
-		{
-			return;
-		}
-		$params = array();
-		parse_str($GLOBALS['HTTP_RAW_POST_DATA'], $params);
-		foreach($params as $key => $val)
-		{
-			self::set($key, $this->_filterRequestVar($key, $val, 1), TRUE);
-		}
-	}
-
-	/**
-	 * Handle request arguments for XML RPC
-	 *
-	 * @return void
-	 */
-	private function _setXmlRpcArgument()
-	{
-		if(self::getRequestMethod() != 'XMLRPC')
-		{
-			return;
-		}
-
-		$xml = $GLOBALS['HTTP_RAW_POST_DATA'];
-		if(!Rhymix\Framework\Security::checkXEE($xml))
-		{
-			header("HTTP/1.0 400 Bad Request");
-			exit;
-		}
-		if(function_exists('libxml_disable_entity_loader'))
-		{
-			libxml_disable_entity_loader(true);
-		}
-
-		$oXml = new XmlParser();
-		$xml_obj = $oXml->parse($xml);
-
-		$params = $xml_obj->methodcall->params;
-		unset($params->node_name, $params->attrs, $params->body);
-
-		if(!count(get_object_vars($params)))
-		{
-			return;
-		}
-
-		foreach($params as $key => $val)
-		{
-			self::set($key, $this->_filterXmlVars($key, $val), TRUE);
-		}
+		
+		return true;
 	}
 
 	/**
@@ -1297,14 +1347,14 @@ class Context
 	 * @param object $val Variable value
 	 * @return mixed filtered value
 	 */
-	private function _filterXmlVars($key, $val)
+	private static function _filterXmlVars($key, $val)
 	{
 		if(is_array($val))
 		{
 			$stack = array();
 			foreach($val as $k => $v)
 			{
-				$stack[$k] = $this->_filterXmlVars($k, $v);
+				$stack[$k] = self::_filterXmlVars($k, $v);
 			}
 
 			return $stack;
@@ -1314,13 +1364,13 @@ class Context
 		unset($val->node_name, $val->attrs, $val->body);
 		if(!count(get_object_vars($val)))
 		{
-			return $this->_filterRequestVar($key, $body, 0);
+			return self::_filterRequestVar($key, $body, 0);
 		}
 
 		$stack = new stdClass;
 		foreach($val as $k => $v)
 		{
-			$output = $this->_filterXmlVars($k, $v);
+			$output = self::_filterXmlVars($k, $v);
 			if(is_object($v) && $v->attrs->type == 'array')
 			{
 				$output = array($output);
@@ -1349,7 +1399,7 @@ class Context
 	 * @param string $val Variable value
 	 * @return mixed filtered value. Type are string or array
 	 */
-	public function _filterRequestVar($key, $val)
+	private static function _filterRequestVar($key, $val)
 	{
 		if(!($isArray = is_array($val)))
 		{
@@ -1412,51 +1462,9 @@ class Context
 	 *
 	 * @return void
 	 */
-	public function _setUploadedArgument()
+	public static function _setUploadedArgument()
 	{
-		if($_SERVER['REQUEST_METHOD'] != 'POST' || !$_FILES || (stripos($_SERVER['CONTENT_TYPE'], 'multipart/form-data') === FALSE && stripos($_SERVER['HTTP_CONTENT_TYPE'], 'multipart/form-data') === FALSE))
-		{
-			return;
-		}
-
-		foreach($_FILES as $key => $val)
-		{
-			$tmp_name = $val['tmp_name'];
-			if(!is_array($tmp_name))
-			{
-				if(!$tmp_name || !is_uploaded_file($tmp_name))
-				{
-					continue;
-				}
-				$val['name'] = htmlspecialchars($val['name'], ENT_COMPAT | ENT_HTML401, 'UTF-8', FALSE);
-				self::set($key, $val, TRUE);
-				self::set('is_uploaded', TRUE);
-				$this->is_uploaded = TRUE;
-			}
-			else
-			{
-				$files = array();
-				$count_files = count($tmp_name);
-
-				for($i = 0; $i < $count_files; $i++)
-				{
-					if($val['size'][$i] > 0)
-					{
-						$file = array();
-						$file['name'] = $val['name'][$i];
-						$file['type'] = $val['type'][$i];
-						$file['tmp_name'] = $val['tmp_name'][$i];
-						$file['error'] = $val['error'][$i];
-						$file['size'] = $val['size'][$i];
-						$files[] = $file;
-					}
-				}
-				if(count($files))
-				{
-					self::set($key, $files, true);
-				}
-			}
-		}
+		self::setUploadInfo();
 	}
 
 	/**
@@ -1542,15 +1550,6 @@ class Context
 		// Display the message.
 		$oModuleHandler = new ModuleHandler;
 		$oModuleHandler->displayContent($oMessageObject);
-	}
-	
-	/**
-	 * Return request method
-	 * @return string Request method type. (Optional - GET|POST|XMLRPC|JSON)
-	 */
-	public static function getRequestMethod()
-	{
-		return self::$_instance->request_method;
 	}
 
 	/**
