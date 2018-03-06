@@ -22,6 +22,7 @@ class editorView extends editor
 	{
 		// Check parent input ID
 		$parent_input_id = Context::get('parent_input_id');
+		Context::set('parent_input_id', preg_replace('/[^a-z0-9_]/i', '', $parent_input_id));
 		Context::addBodyClass('disable_debug_panel');
 		
 		// Load editor

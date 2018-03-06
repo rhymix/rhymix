@@ -145,6 +145,19 @@ function getAutoSavedSrl(ret_obj, response_tags, c) {
 
 			instance.on('instanceReady', function(e) {
 				$containerEl.css("min-height", 0);
+				if(window.editor_resize_iframe && window.editor_copy_input)
+				{
+					e.editor.setData(editor_copy_input.val());
+					e.editor.on("resize", function(e){
+						var height = e.data.outerHeight;
+						editor_resize_iframe.height(height);
+					});
+					e.editor.on("change", function() {
+						var content = e.editor.getData();
+						editor_copy_input.val(content);
+					});
+					editor_resize_iframe.height($(".cke_chrome").parent().height());
+				}
 			});
 
 			instance.on('paste', function(e) {

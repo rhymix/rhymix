@@ -1,22 +1,8 @@
 <script>
 	$(function() {
-		var editor;
 		var parent = window.opener ? window.opener : window.parent;
-		var parent_input = $("#{$parent_input_id}", parent.document);
-		var parent_iframe = parent_input.siblings("iframe.editor_iframe");
-		CKEDITOR.on('instanceReady', function(evt) {
-			editor = evt.editor;
-			editor.setData(parent_input.val());
-			editor.on("resize", function(evt){
-				var height = evt.data.outerHeight;
-				parent_iframe.height(height);
-			});
-			editor.on("change", function() {
-				var content = editor.getData();
-				parent_input.val(content);
-			});
-			parent_iframe.height($(".cke_chrome").parent().height());
-		});
+		window.editor_copy_input = $("#{$parent_input_id}", parent.document);
+		window.editor_resize_iframe = window.editor_copy_input.siblings("iframe.editor_iframe");
 	});
 </script>
 
