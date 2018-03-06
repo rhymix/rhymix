@@ -24,6 +24,15 @@
 			
 			// Load
 			editorTextarea({$editor_sequence});
+
+			if(typeof rx_agt_parent_input !== 'undefined') {
+				textarea.val($('<div></div>').html(rx_agt_parent_input.val()).text());
+				textarea.on("change", function() {
+					rx_agt_parent_input.val(textarea.val());
+				});
+
+				rx_agt_parent_iframe.height(textarea.parent().height());
+			}
 		});
 	</script>
 </div>

@@ -184,5 +184,21 @@ var auto_saved_msg = "{$lang->msg_auto_saved}";
 		} else {
 			parentform.append('<input type="hidden" name="use_html" value="Y" />');
 		}
+
+		if(typeof rx_agt_parent_input !== 'undefined') {
+			CKEDITOR.on('instanceReady', function(evt) {
+				var editor = evt.editor;
+				editor.setData(rx_agt_parent_input.val());
+	
+				editor.on("resize", function(evt){
+					rx_agt_parent_iframe.height(evt.data.outerHeight);
+				});
+				editor.on("change", function() {
+					rx_agt_parent_input.val(editor.getData());
+				});
+
+				rx_agt_parent_iframe.height($(".cke_chrome").parent().height());
+			});
+		}
 	});
 </script>
