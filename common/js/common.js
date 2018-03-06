@@ -281,6 +281,25 @@ jQuery(function($) {
 		}
 	});
 	
+	/* Editor preview replacement */
+	$(".editable_preview").addClass("xe_content").attr("tabindex", 0);
+	$(".editable_preview").on("click", function() {
+		var input = $(this).siblings(".editable_preview_content");
+		if (input.size()) {
+			$(this).off("click").off("focus").hide();
+			input = input.first();
+			if (input.attr("type") !== "hidden") {
+				input.hide();
+			}
+			var iframe = $('<iframe class="editable_preview_iframe"></iframe>');
+			iframe.attr("src", current_url.setQuery("module", "editor").setQuery("act", "dispEditorFrame").setQuery("parent_input_id", input.attr("id")).replace(/^https?:/, ''));
+			iframe.insertAfter(input);
+		}
+	});
+	$(".editable_preview").on("focus", function() {
+		$(this).triggerHandler("click");
+	});
+	
 	/* select - option의 disabled=disabled 속성을 IE에서도 체크하기 위한 함수 */
 	if(navigator.userAgent.match(/MSIE/)) {
 		$('select').each(function(i, sels) {
