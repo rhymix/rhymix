@@ -19,10 +19,11 @@ before_script:
   - mysql -u root -e "UPDATE mysql.user SET Password = PASSWORD('travis') WHERE User = 'travis'; FLUSH PRIVILEGES"
   - phpenv config-rm xdebug.ini
   - php -S localhost:8000 &
-  - wget http://codeception.com/releases/2.1.11/codecept.phar
+  - if [[ $TRAVIS_PHP_VERSION != "7.2" ]]; then wget https://codeception.com/releases/2.1.11/codecept.phar; fi
+  - if [[ $TRAVIS_PHP_VERSION == "7.2" ]]; then wget https://codeception.com/releases/2.3.9/codecept.phar; fi
 script:
   - php codecept.phar build
-  - php codecept.phar run -d --fail-fast --env travis
+  - php codecept.phar run --debug --fail-fast --env travis
   - grunt lint
 notifications:
   email: false
