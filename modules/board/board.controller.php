@@ -38,6 +38,13 @@ class boardController extends board
 			return $this->setError('msg_empty_content');
 		}
 		
+		// Return error if content is too large.
+		$document_length_limit = ($this->module_info->document_length_limit ?: 1024) * 1024;
+		if (strlen($obj->content) > $document_length_limit && !$this->grant->manager)
+		{
+			return $this->setError('msg_content_too_long');
+		}
+		
 		// unset document style if not manager
 		if(!$this->grant->manager)
 		{
@@ -356,7 +363,20 @@ class boardController extends board
 		// get the relevant data for inserting comment
 		$obj = Context::getRequestVars();
 		$obj->module_srl = $this->module_srl;
+		
+		// Return error if content is empty.
+		if (is_empty_html_content($obj->content))
+		{
+			return $this->setError('msg_empty_content');
+		}
 
+		// Return error if content is too large.
+		$comment_length_limit = ($this->module_info->comment_length_limit ?: 128) * 1024;
+		if (strlen($obj->content) > $comment_length_limit && !$this->grant->manager)
+		{
+			return $this->setError('msg_content_too_long');
+		}
+		
 		if(!$this->module_info->use_status) $this->module_info->use_status = 'PUBLIC';
 		if(!is_array($this->module_info->use_status))
 		{
