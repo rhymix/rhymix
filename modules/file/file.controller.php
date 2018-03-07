@@ -501,6 +501,10 @@ class fileController extends file
 		{
 			$download_type = 'inline';
 		}
+		if (Context::get('force_download') === 'Y')
+		{
+			$download_type = 'attachment';
+		}
 		
 		// Clear buffer
 		while(ob_get_level()) ob_end_clean();
