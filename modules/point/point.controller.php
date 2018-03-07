@@ -232,7 +232,8 @@ class pointController extends point
 		
 		// Abort if the document is older than a configured limit.
 		$config = $this->getConfig();
-		if ($config->no_point_date > 0 && ztime($oDocument->get('regdate')) < time() - ($config->no_point_date * 86400))
+		$time_limit = $config->insert_comment_limit ?: $config->no_point_date;
+		if ($time_limit > 0 && ztime($oDocument->get('regdate')) < RX_TIME - ($time_limit * 86400))
 		{
 			return;
 		}
@@ -284,7 +285,8 @@ class pointController extends point
 		
 		// Abort if the document is older than a configured limit.
 		$config = $this->getConfig();
-		if ($config->no_point_date > 0 && ztime($oDocument->get('regdate')) < ztime($obj->regdate) - ($config->no_point_date * 86400))
+		$time_limit = $config->insert_comment_limit ?: $config->no_point_date;
+		if ($time_limit > 0 && ztime($oDocument->get('regdate')) < RX_TIME - ($time_limit * 86400))
 		{
 			return;
 		}
@@ -439,6 +441,18 @@ class pointController extends point
 			}
 		}
 		
+		// Give no points if the document is older than a configured limit.
+		$regdate = ztime(getModel('document')->getDocument($obj->document_srl)->get('regdate'));
+		$config = $this->getConfig();
+		if ($config->read_document_limit > 0 && $regdate < RX_TIME - ($config->read_document_limit * 86400))
+		{
+			$reader_point = 0;
+		}
+		if ($config->read_document_author_limit > 0 && $regdate < RX_TIME - ($config->read_document_author_limit * 86400))
+		{
+			$author_point = 0;
+		}
+		
 		// Adjust points of the reader.
 		if ($reader_point)
 		{
@@ -446,7 +460,6 @@ class pointController extends point
 			$cur_point = $logged_member_srl ? getModel('point')->getPoint($logged_member_srl) : 0;
 			
 			// If the reader does not have enough points, deny access.
-			$config = $this->getConfig();
 			if ($cur_point + $reader_point < 0 && $config->disable_read_document == 'Y')
 			{
 				if (!$logged_member_srl && $config->disable_read_document_except_robots == 'Y' && isCrawler())
@@ -501,8 +514,25 @@ class pointController extends point
 		// Document or comment?
 		$is_comment = isset($obj->comment_srl) && $obj->comment_srl;
 		
+		// Give no points if the document or comment is older than a configured limit.
+		$config = $this->getConfig();
+		if ($is_comment)
+		{
+			$regdate = ztime(getModel('comment')->getComment($obj->comment_srl)->get('regdate'));
+			$logged_config_key = ($obj->point > 0) ? 'voter_comment_limit' : 'blamer_comment_limit';
+			$target_config_key = ($obj->point > 0) ? 'voted_comment_limit' : 'blamed_comment_limit';
+		}
+		else
+		{
+			$regdate = ztime(getModel('document')->getDocument($obj->document_srl)->get('regdate'));
+			$logged_config_key = ($obj->point > 0) ? 'voter_limit' : 'blamer_limit';
+			$target_config_key = ($obj->point > 0) ? 'voted_limit' : 'blamed_limit';
+		}
+		$logged_enabled = !($config->$logged_config_key > 0 && $regdate < RX_TIME - ($config->$logged_config_key * 86400));
+		$target_enabled = !($config->$target_config_key > 0 && $regdate < RX_TIME - ($config->$target_config_key * 86400));
+		
 		// Adjust points of the voter.
-		if ($logged_member_srl)
+		if ($logged_member_srl && $logged_enabled)
 		{
 			$config_key = ($obj->point > 0) ? ($is_comment ? 'voter_comment' : 'voter') : ($is_comment ? 'blamer_comment' : 'blamer');
 			$point = $this->_getModulePointConfig($obj->module_srl, $config_key);
@@ -518,7 +548,7 @@ class pointController extends point
 		}
 		
 		// Adjust points of the person who wrote the document or comment.
-		if ($target_member_srl)
+		if ($target_member_srl && $target_enabled)
 		{
 			$config_key = ($obj->point > 0) ? ($is_comment ? 'voted_comment' : 'voted') : ($is_comment ? 'blamed_comment' : 'blamed');
 			$point = $this->_getModulePointConfig($obj->module_srl, $config_key);

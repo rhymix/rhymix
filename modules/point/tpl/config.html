@@ -30,61 +30,6 @@
 			</div>
 		</div>
 		<div class="x_control-group">
-			<label class="x_control-label">{$lang->give_point}</label>
-			<div class="x_controls">
-				<input type="number" value="{$config->signup_point}" name="signup_point" id="signup_point" style="text-align:right" /> : 
-				<label for="signup_point" class="x_inline">{$lang->point_signup}</label>
-				<br />
-				<input type="number" value="{$config->login_point}" name="login_point" id="login_point" style="text-align:right" /> :
-				<label for="login_point" class="x_inline">{$lang->cmd_login}</label>
-				<br />
-				<input type="number" name="insert_document" value="{$config->insert_document}" id="insert_document" style="text-align:right" /> :
-				<label for="insert_document" class="x_inline">{$lang->point_insert_document}</label>
-				<br />
-				<input type="number" name="insert_comment" value="{$config->insert_comment}" id="insert_comment" style="text-align:right" /> :
-				<label for="insert_comment" class="x_inline">{$lang->point_insert_comment}</label>
-				<br />
-				<input type="number" name="upload_file" value="{$config->upload_file}" id="upload_file" style="text-align:right" /> :
-				<label for="upload_file" class="x_inline">{$lang->point_upload_file}</label>
-				<br />
-				<input type="number" name="download_file" value="{$config->download_file}" id="download_file" style="text-align:right" /> :
-				<label for="download_file" class="x_inline">{$lang->point_download_file}</label>
-				<br />
-				<input type="number" name="read_document" value="{$config->read_document}" id="read_document" style="text-align:right" /> :
-				<label for="read_document" class="x_inline">{$lang->point_read_document}</label>
-				<br />
-				<input type="number" name="voter" value="{$config->voter}" style="text-align:right" id="voter" /> :
-				<label for="voter" class="x_inline">{$lang->point_voter}</label>
-				<br />
-				<input type="number" name="blamer" value="{$config->blamer}" id="blamer" style="text-align:right" /> :
-				<label for="blamer" class="x_inline">{$lang->point_blamer}</label>
-				<br />
-				<input type="number" name="voter_comment" value="{$config->voter_comment}" style="text-align:right" id="voter_comment" /> :
-				<label for="voter_comment" class="x_inline">{$lang->point_voter_comment}</label>
-				<br />
-				<input type="number" name="blamer_comment" value="{$config->blamer_comment}" id="blamer_comment" style="text-align:right" /> :
-				<label for="blamer_comment" class="x_inline">{$lang->point_blamer_comment}</label>
-				<br />
-				<input type="number" name="download_file_author" value="{$config->download_file_author}" id="download_file_author" style="text-align:right" /> :
-				<label for="download_file_author" class="x_inline">{$lang->point_download_file_author}</label>
-				<br />
-				<input type="number" name="read_document_author" value="{$config->read_document_author}" id="read_document_author" style="text-align:right" /> :
-				<label for="read_document_author" class="x_inline">{$lang->point_read_document_author}</label>
-				<br />
-				<input type="number" name="voted" value="{$config->voted}" style="text-align:right" id="voted" /> :
-				<label for="voted" class="x_inline">{$lang->point_voted}</label>
-				<br />
-				<input type="number" name="blamed" value="{$config->blamed}" id="blamed" style="text-align:right" /> :
-				<label for="blamed" class="x_inline">{$lang->point_blamed}</label>
-				<br />
-				<input type="number" name="voted_comment" value="{$config->voted_comment}" style="text-align:right" id="voted_comment" /> :
-				<label for="voted_comment" class="x_inline">{$lang->point_voted_comment}</label>
-				<br />
-				<input type="number" name="blamed_comment" value="{$config->blamed_comment}" id="blamed_comment" style="text-align:right" /> :
-				<label for="blamed_comment" class="x_inline">{$lang->point_blamed_comment}</label>
-			</div>
-		</div>
-		<div class="x_control-group">
 			<label for="level_icon" class="x_control-label">{$lang->level_icon}</label>
 			<div class="x_controls">
 				<select name="level_icon" id="level_icon">
@@ -111,14 +56,68 @@
 				{$lang->disable_read_document_except_robots}
 			</div>
 		</div>
-		<div class="x_control-group">
-			<label for="no_point_date" class="x_control-label">{$lang->no_point_date}</label>
-			<div class="x_controls" style="padding-top:3px">
-				<input type="number" name="no_point_date" id="no_point_date" value="{$config->no_point_date}" style="width:50px;" />{$lang->day_ago}
-				<p class="x_help-block">{$lang->about_no_point_date}</p>
-			</div>
-		</div>
-		<div class="x_clearfix btnArea">
+		
+		{@ $config_array = get_object_vars($config)}
+		{@ $config_array['insert_comment_limit'] = $config_array['insert_comment_limit'] ?: $config_array['no_point_date']}
+		{@ $action_types = array(
+			'insert_document' => 0,
+			'insert_comment' => 1,
+			'upload_file' => 0,
+			'download_file' => 0,
+			'read_document' => 1,
+			'voter' => 1,
+			'blamer' => 1,
+			'voter_comment' => 1,
+			'blamer_comment' => 1,
+			'download_file_author' => 0,
+			'read_document_author' => 1,
+			'voted' => 1,
+			'blamed' => 1,
+			'voted_comment' => 1,
+			'blamed_comment' => 1,
+		)}
+		
+		<table class="x_table x_table-striped x_table-hover">
+			<tbody>
+				<tr>
+					<td class="nowr">{$lang->cmd_signup}</td>
+					<td class="nowr">
+						&nbsp;{$lang->point_given_prefix}
+						<input type="number" value="{$config->signup_point ?: ''}" name="signup_point" id="signup_point" />
+						&nbsp;{$lang->point_given_suffix}
+					</td>
+					<td class="nowr"></td>
+				</tr>
+				<tr>
+					<td class="nowr">{$lang->cmd_login}</td>
+					<td class="nowr">
+						&nbsp;{$lang->point_given_prefix}
+						<input type="number" value="{$config->login_point ?: ''}" name="login_point" id="login_point" />
+						&nbsp;{$lang->point_given_suffix}
+					</td>
+					<td class="nowr"></td>
+				</tr>
+				<!--@foreach($action_types as $action_type => $time_limit)-->
+					<tr>
+						<td class="nowr">{lang('point_' . $action_type)}</td>
+						<td class="nowr">
+							&nbsp;{$lang->point_given_prefix}
+							<input type="number" value="{$config_array[$action_type] ?: ''}" name="{$action_type}" id="{$action_type}" />
+							&nbsp;{$lang->point_given_suffix}
+						</td>
+						<td class="nowr">
+							<block cond="$time_limit">
+								{$lang->point_time_limit_prefix}&nbsp;
+								<input type="number" value="{$config_array[$action_type . '_limit'] ?: ''}" name="{$action_type}_limit" id="{$action_type}_limit" />
+								&nbsp;{$lang->point_time_limit_suffix}
+							</block>
+						</td>
+					</tr>
+				<!--@endforeach-->
+			</tbody>
+		</table>
+			
+		<div class="x_clearfix">
 			<span class="x_pull-right"><input class="x_btn x_btn-primary" type="submit" value="{$lang->cmd_save}" /></span>
 		</div>
 	</section>

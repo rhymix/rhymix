@@ -40,7 +40,11 @@ class pointAdminController extends point
 
 			// Check the point name
 			$config->point_name = $args->point_name;
-			if(!$config->point_name) $config->point_name = 'point';
+			if(!$config->point_name)
+			{
+				$config->point_name = 'point';
+			}
+			
 			// Specify the default points
 			$config->signup_point = (int)$args->signup_point;
 			$config->login_point = (int)$args->login_point;
@@ -59,20 +63,34 @@ class pointAdminController extends point
 			$config->blamer_comment = (int)$args->blamer_comment;
 			$config->voted_comment = (int)$args->voted_comment;
 			$config->blamed_comment = (int)$args->blamed_comment;
+
+			// Specify time limits
+			$config->insert_comment_limit = $config->no_point_date = (int)$args->insert_comment_limit;
+			$config->read_document_limit = (int)$args->read_document_limit;
+			$config->voter_limit = (int)$args->voter_limit;
+			$config->blamer_limit = (int)$args->blamer_limit;
+			$config->voted_limit = (int)$args->voted_limit;
+			$config->blamed_limit = (int)$args->blamed_limit;
+			$config->read_document_author_limit = (int)$args->read_document_author_limit;
+			$config->voter_comment_limit = (int)$args->voter_comment_limit;
+			$config->blamer_comment_limit = (int)$args->blamer_comment_limit;
+			$config->voted_comment_limit = (int)$args->voted_comment_limit;
+			$config->blamed_comment_limit = (int)$args->blamed_comment_limit;
+			
 			// The highest level
 			$config->max_level = $args->max_level;
 			if($config->max_level>1000) $config->max_level = 1000;
 			if($config->max_level<1) $config->max_level = 1;
+			
 			// Set the level icon
 			$config->level_icon = $args->level_icon;
+			
 			// Check if downloads are not allowed
 			$config->disable_download = ($args->disable_download === 'Y') ? 'Y' : 'N';
+			
 			// Check if reading a document is not allowed
 			$config->disable_read_document = ($args->disable_read_document === 'Y') ? 'Y' : 'N';
 			$config->disable_read_document_except_robots = ($args->disable_read_document_except_robots === 'Y') ? 'Y' : 'N';
-
-			//check is reading a document is not regdate setting
-			$config->no_point_date = (int)$args->no_point_date;
 
 			$oMemberModel = getModel('member');
 			$group_list = $oMemberModel->getGroups();
