@@ -405,6 +405,7 @@ class fileController extends file
 
 		$columnList = array('source_filename', 'uploaded_filename', 'file_size');
 		$file_obj = $oFileModel->getFile($file_srl, $columnList);
+		$file_config = $oFileModel->getFileConfig($file_obj->module_srl ?: null);
 		$filesize = $file_obj->file_size;
 		$filename = $file_obj->source_filename;
 		$etag = md5($file_srl . $file_key . $_SERVER['HTTP_USER_AGENT']);
@@ -477,16 +478,43 @@ class fileController extends file
 			$range_length = $filesize - $range_start;
 		}
 
+		// Determine download type
+		$download_type = 'attachment';
+		$mime_type = Rhymix\Framework\MIME::getTypeByFilename($filename);
+		if (starts_with('image/', $mime_type) && in_array('image', $file_config->inline_download_format))
+		{
+			$download_type = 'inline';
+		}
+		if (starts_with('audio/', $mime_type) && in_array('audio', $file_config->inline_download_format))
+		{
+			$download_type = 'inline';
+		}
+		if (starts_with('video/', $mime_type) && in_array('video', $file_config->inline_download_format))
+		{
+			$download_type = 'inline';
+		}
+		if (starts_with('text/', $mime_type) && ($mime_type !== 'text/html') && in_array('text', $file_config->inline_download_format))
+		{
+			$download_type = 'inline';
+		}
+		if ($mime_type === 'application/pdf' && in_array('pdf', $file_config->inline_download_format))
+		{
+			$download_type = 'inline';
+		}
+		
 		// Clear buffer
 		while(ob_get_level()) ob_end_clean();
-
-		// Set headers
-		header("Cache-Control: private; max-age=3600");
-		header("Pragma: ");
-		header("Content-Type: application/octet-stream");
-		header("Last-Modified: " . gmdate("D, d M Y H:i:s") . " GMT");
-
-		header('Content-Disposition: attachment; ' . $filename_param);
+		
+		// Set filename headers
+		header('Content-Type: ' . ($download_type === 'inline' ? $mime_type : 'application/octet-stream'));
+		header('Content-Disposition: ' . $download_type . '; ' . $filename_param);
+		
+		// Set cache headers
+		header('Cache-Control: private; max-age=3600');
+		header('Last-Modified: ' . gmdate('D, d M Y H:i:s') . ' GMT');
+		header('Pragma: ');
+		
+		// Set other headers
 		header('Content-Transfer-Encoding: binary');
 		header('Content-Length: ' . $range_length);
 		header('Accept-Ranges: bytes');
