@@ -32,6 +32,7 @@ class TemplateHandler
 	 */
 	public function __construct()
 	{
+		ini_set('pcre.jit', false);
 		$this->config = new stdClass;
 		$this->handler_mtime = filemtime(__FILE__);
 		$this->user = Rhymix\Framework\Session::getMemberInfo() ?: new Rhymix\Framework\Helpers\SessionHelper;
@@ -418,8 +419,7 @@ class TemplateHandler
 	 */
 	private function _parseInline($buff)
 	{
-		preg_match_all('/<([a-zA-Z]+\d?)(?>(?!<[a-z]+\d?[\s>]).)*?(?:[ \|]cond| loop)="/s', $buff, $match);
-		if(empty($match))
+		if(!preg_match_all('/<([a-zA-Z]+\d?)(?:\s)/', $buff, $match))
 		{
 			return $buff;
 		}
