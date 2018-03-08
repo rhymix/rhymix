@@ -145,8 +145,12 @@ var auto_saved_msg = "{$lang->msg_auto_saved}";
 			settings.ckeconfig.removePlugins = {json_encode(implode(',', $editor_remove_plugins))};
 		<!--@endif-->
 		
+		// https://github.com/rhymix/rhymix/issues/932
 		if (CKEDITOR.env.iOS) {
-			settings.ckeconfig.removePlugins = settings.ckeconfig.removePlugins ? (settings.ckeconfig.removePlugins + ',enterkey') : '';
+			settings.ckeconfig.extraPlugins = (settings.ckeconfig.extraPlugins ? (settings.ckeconfig.extraPlugins + ',') : '') + 'divarea,ios_enterkey';
+			settings.loadXeComponent = false;
+			var additional_styles = '.cke_wysiwyg_div { padding: 8px !important; }';
+			$('head').append('<st' + 'yle>' + additional_styles + css_content.replace(/\.xe_content\.editable/g, '.cke_wysiwyg_div') + '</st' + 'yle>');
 		}
 
 		<!--@if($editor_toolbar === 'simple')-->
