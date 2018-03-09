@@ -10,7 +10,7 @@ class Woorimail extends Base implements \Rhymix\Framework\Drivers\MailInterface
 	/**
 	 * The API URL.
 	 */
-	protected static $_url = 'https://woorimail.com:20080/index.php';
+	protected static $_url = 'https://woorimail.com/index.php';
 	
 	/**
 	 * Error codes and messages.
