@@ -1122,27 +1122,48 @@ class Context
 	 */
 	public static function setRequestMethod($type = '')
 	{
-		self::$_instance->js_callback_func = self::getJSCallbackFunc();
-		
 		if ($type)
 		{
 			self::$_instance->request_method = $type;
+			return;
 		}
-		elseif (strpos($_SERVER['HTTP_ACCEPT'], 'json') !== false || strpos($_SERVER['CONTENT_TYPE'], 'json') !== false || strpos($_SERVER['HTTP_CONTENT_TYPE'], 'json') !== false)
-		{
-			self::$_instance->request_method = 'JSON';
-		}
-		elseif ($GLOBALS['HTTP_RAW_POST_DATA'])
-		{
-			self::$_instance->request_method = 'XMLRPC';
-		}
-		elseif (self::$_instance->js_callback_func)
+		elseif (self::$_instance->js_callback_func = self::getJSCallbackFunc())
 		{
 			self::$_instance->request_method = 'JS_CALLBACK';
 		}
 		else
 		{
 			self::$_instance->request_method = $_SERVER['REQUEST_METHOD'];
+		}
+		
+		// Check POST data
+		if(self::$_instance->request_method == 'POST')
+		{
+			if(!isset($GLOBALS['HTTP_RAW_POST_DATA']))
+			{
+				$GLOBALS['HTTP_RAW_POST_DATA'] = file_get_contents("php://input");
+			}
+			
+			// JSON or XMLRPC
+			if ($GLOBALS['HTTP_RAW_POST_DATA'] && !$_POST)
+			{
+				foreach(array($_SERVER['HTTP_ACCEPT'], $_SERVER['HTTP_CONTENT_TYPE'], $_SERVER['CONTENT_TYPE']) as $header)
+				{
+					if(strpos($header, 'json') !== false)
+					{
+						$json_request = true;
+						break;
+					}
+				}
+				
+				self::$_instance->request_method = isset($json_request) ? 'JSON' : 'XMLRPC';
+			}
+		}
+		
+		// Pretend that this request is XMLRPC for compatibility with XE third-party.
+		if(isset($_POST['_rx_ajax_compat']) && $_POST['_rx_ajax_compat'] === 'XMLRPC')
+		{
+			self::$_instance->request_method = 'XMLRPC';
 		}
 	}
 
@@ -1155,18 +1176,6 @@ class Context
 	{
 		// Get the request method.
 		$request_method = self::getRequestMethod();
-		
-		// Fix missing HTTP_RAW_POST_DATA in PHP 5.6 and above.
-		if($request_method !== 'GET' && !isset($GLOBALS['HTTP_RAW_POST_DATA']) && !count($_FILES) && version_compare(PHP_VERSION, '5.6.0', '>='))
-		{
-			$GLOBALS['HTTP_RAW_POST_DATA'] = file_get_contents("php://input");
-			
-			// If content is not XML or JSON, unset
-			if(!preg_match('/^[\<\{\[]/', $GLOBALS['HTTP_RAW_POST_DATA']) && strpos($_SERVER['CONTENT_TYPE'], 'json') === false && strpos($_SERVER['HTTP_CONTENT_TYPE'], 'json') === false)
-			{
-				unset($GLOBALS['HTTP_RAW_POST_DATA']);
-			}
-		}
 		
 		// Handle XMLRPC request parameters (Deprecated).
 		if ($request_method === 'XMLRPC')
@@ -1190,7 +1199,7 @@ class Context
 			{
 				foreach($params as $key => $val)
 				{
-					self::set($key, $this->_filterXmlVars($key, $val), true);
+					self::set($key, self::_filterXmlVars($key, $val), true);
 				}
 			}
 		}
@@ -1242,13 +1251,6 @@ class Context
 
 				self::set($key, $val, $set_to_vars);
 			}
-		}
-		
-		// Pretend that this request is XMLRPC for compatibility with XE third-party.
-		if(isset($_POST['_rx_ajax_compat']) && $_POST['_rx_ajax_compat'] === 'XMLRPC')
-		{
-			self::$_instance->request_method = 'XMLRPC';
-			self::$_instance->response_method = 'XMLRPC';
 		}
 	}
 	
