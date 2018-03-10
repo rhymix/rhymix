@@ -1159,12 +1159,6 @@ class Context
 				self::$_instance->request_method = isset($json_request) ? 'JSON' : 'XMLRPC';
 			}
 		}
-		
-		// Pretend that this request is XMLRPC for compatibility with XE third-party.
-		if(isset($_POST['_rx_ajax_compat']) && $_POST['_rx_ajax_compat'] === 'XMLRPC')
-		{
-			self::$_instance->request_method = 'XMLRPC';
-		}
 	}
 
 	/**
@@ -1251,6 +1245,12 @@ class Context
 
 				self::set($key, $val, $set_to_vars);
 			}
+		}
+		
+		// Pretend that this request is XMLRPC for compatibility with XE third-party.
+		if(isset($_POST['_rx_ajax_compat']) && $_POST['_rx_ajax_compat'] === 'XMLRPC')
+		{
+			self::$_instance->request_method = 'XMLRPC';
 		}
 	}
 	
