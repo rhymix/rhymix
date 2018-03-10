@@ -1137,26 +1137,31 @@ class Context
 		}
 		
 		// Check POST data
-		if(self::$_instance->request_method == 'POST')
+		if(self::$_instance->request_method === 'POST')
 		{
 			if(!isset($GLOBALS['HTTP_RAW_POST_DATA']))
 			{
 				$GLOBALS['HTTP_RAW_POST_DATA'] = file_get_contents("php://input");
 			}
 			
-			// JSON or XMLRPC
-			if ($GLOBALS['HTTP_RAW_POST_DATA'] && !$_POST)
+			// Check JSON
+			foreach(array($_SERVER['HTTP_ACCEPT'], $_SERVER['HTTP_CONTENT_TYPE'], $_SERVER['CONTENT_TYPE']) as $header)
 			{
-				foreach(array($_SERVER['HTTP_ACCEPT'], $_SERVER['HTTP_CONTENT_TYPE'], $_SERVER['CONTENT_TYPE']) as $header)
+				if(strpos($header, 'json') !== false)
 				{
-					if(strpos($header, 'json') !== false)
-					{
-						$json_request = true;
-						break;
-					}
+					$is_json = true;
+					break;
 				}
-				
-				self::$_instance->request_method = isset($json_request) ? 'JSON' : 'XMLRPC';
+			}
+			
+			// JSON or XMLRPC
+			if (isset($is_json))
+			{
+				self::$_instance->request_method = 'JSON';
+			}
+			elseif ($GLOBALS['HTTP_RAW_POST_DATA'] && !$_POST)
+			{
+				self::$_instance->request_method = 'XMLRPC';
 			}
 		}
 	}
