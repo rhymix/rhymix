@@ -36,7 +36,7 @@
 <link rel="alternate" type="application/atom+xml" title="Site Atom" href="{$general_atom_url}" cond="$general_rss_url" />
 
 <!-- ICONS AND OTHER LINKS -->
-<link cond="$canonical_url" rel="canonical" href="{$canonical_url}" />
+<link cond="Context::getCanonicalURL()" rel="canonical" href="{Context::getCanonicalURL()}" />
 <link cond="$favicon_url" rel="shortcut icon" href="{$favicon_url}" />
 <link cond="$mobicon_url" rel="apple-touch-icon" href="{$mobicon_url}" />
 

@@ -2721,6 +2721,16 @@ class Context
 	{
 		self::$_instance->canonical_url = escape($url, false);
 	}
+	
+	/**
+	 * Get canonical URL
+	 * 
+	 * @return string
+	 */
+	public static function getCanonicalURL()
+	{
+		return self::$_instance->canonical_url;
+	}
 }
 /* End of file Context.class.php */
 /* Location: ./classes/context/Context.class.php */
