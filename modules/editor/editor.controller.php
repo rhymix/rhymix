@@ -428,8 +428,11 @@ class editorController extends editor
 		else $output = executeQuery('editor.getComponentList', $args);
 		$db_list = $output->data;
 
-		// Get a list of files
-		$downloaded_list = FileHandler::readDir(_XE_PATH_.'modules/editor/components');
+		// Get a list of editor component folders
+		$downloaded_list = FileHandler::readDir(RX_BASEDIR . 'modules/editor/components');
+		$downloaded_list = array_filter($downloaded_list, function($component_name) {
+			return is_dir(RX_BASEDIR . 'modules/editor/components/' . $component_name);
+		});
 
 		// Get information about log-in status and its group
 		$is_logged = Context::get('is_logged');
@@ -505,8 +508,8 @@ class editorController extends editor
 
 			$component_list->{$component_name} = $xml_info;
 			// Get buttons, icons, images
-			$icon_file = _XE_PATH_.'modules/editor/components/'.$component_name.'/icon.gif';
-			$component_icon_file = _XE_PATH_.'modules/editor/components/'.$component_name.'/component_icon.gif';
+			$icon_file = RX_BASEDIR . 'modules/editor/components/'.$component_name.'/icon.gif';
+			$component_icon_file = RX_BASEDIR . 'modules/editor/components/'.$component_name.'/component_icon.gif';
 			if(file_exists($icon_file)) $component_list->{$component_name}->icon = true;
 			if(file_exists($component_icon_file)) $component_list->{$component_name}->component_icon = true;
 		}
