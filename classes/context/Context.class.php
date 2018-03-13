@@ -1163,6 +1163,10 @@ class Context
 			{
 				self::$_instance->request_method = 'XMLRPC';
 			}
+			elseif(isset($_POST['_rx_ajax_compat']) && $_POST['_rx_ajax_compat'] === 'XMLRPC')
+			{
+				self::$_instance->request_method = 'XMLRPC';
+			}
 		}
 	}
 
@@ -1171,7 +1175,7 @@ class Context
 	 *
 	 * @return void
 	 */
-	private static function setRequestArguments()
+	public static function setRequestArguments()
 	{
 		// Get the request method.
 		$request_method = self::getRequestMethod();
@@ -1180,25 +1184,28 @@ class Context
 		if ($request_method === 'XMLRPC')
 		{
 			$xml = $GLOBALS['HTTP_RAW_POST_DATA'];
-			if(!Rhymix\Framework\Security::checkXEE($xml))
+			if($xml)
 			{
-				header("HTTP/1.0 400 Bad Request");
-				exit;
-			}
-			if(function_exists('libxml_disable_entity_loader'))
-			{
-				libxml_disable_entity_loader(true);
-			}
-
-			$oXml = new XmlParser();
-			$xml_obj = $oXml->parse($xml);
-			$params = $xml_obj->methodcall->params;
-			unset($params->node_name, $params->attrs, $params->body);
-			if(count(get_object_vars($params)))
-			{
-				foreach($params as $key => $val)
+				if(!Rhymix\Framework\Security::checkXEE($xml))
 				{
-					self::set($key, self::_filterXmlVars($key, $val), true);
+					header("HTTP/1.0 400 Bad Request");
+					exit;
+				}
+				if(function_exists('libxml_disable_entity_loader'))
+				{
+					libxml_disable_entity_loader(true);
+				}
+
+				$oXml = new XmlParser();
+				$xml_obj = $oXml->parse($xml);
+				$params = $xml_obj->methodcall->params;
+				unset($params->node_name, $params->attrs, $params->body);
+				if($params && count(get_object_vars($params)))
+				{
+					foreach($params as $key => $val)
+					{
+						self::set($key, self::_filterXmlVars($key, $val), true);
+					}
 				}
 			}
 		}
@@ -1230,7 +1237,7 @@ class Context
 				{
 					$set_to_vars = true;
 				}
-				elseif(($request_method == 'POST' || $request_method == 'JSON') && isset($_POST[$key]))
+				elseif(($request_method == 'POST' || $request_method == 'XMLRPC' || $request_method == 'JSON') && isset($_POST[$key]))
 				{
 					$set_to_vars = true;
 				}
@@ -1250,12 +1257,6 @@ class Context
 
 				self::set($key, $val, $set_to_vars);
 			}
-		}
-		
-		// Pretend that this request is XMLRPC for compatibility with XE third-party.
-		if(isset($_POST['_rx_ajax_compat']) && $_POST['_rx_ajax_compat'] === 'XMLRPC')
-		{
-			self::$_instance->request_method = 'XMLRPC';
 		}
 	}
 	
@@ -1921,6 +1922,26 @@ class Context
 			return clone(self::$_get_vars);
 		}
 		return new stdClass;
+	}
+
+	/**
+	 * Clear all values from GET/POST/XMLRPC
+	 * 
+	 * @return void
+	 */
+	public static function clearRequestVars()
+	{
+		self::$_get_vars = new stdClass;
+	}
+
+	/**
+	 * Clear all user-set values
+	 * 
+	 * @return void
+	 */
+	public static function clearUserVars()
+	{
+		self::$_tpl_vars = new stdClass;
 	}
 
 	/**
