@@ -1149,17 +1149,13 @@ class Context
 			{
 				if(strpos($header, 'json') !== false)
 				{
-					$is_json = true;
-					break;
+					self::$_instance->request_method = 'JSON';
+					return;
 				}
 			}
 			
-			// JSON or XMLRPC
-			if (isset($is_json))
-			{
-				self::$_instance->request_method = 'JSON';
-			}
-			elseif ($GLOBALS['HTTP_RAW_POST_DATA'] && !$_POST)
+			// Check XMLRPC
+			if ($GLOBALS['HTTP_RAW_POST_DATA'] && !$_POST)
 			{
 				self::$_instance->request_method = 'XMLRPC';
 			}
