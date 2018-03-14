@@ -1139,6 +1139,7 @@ class Context
 		// Check POST data
 		if(self::$_instance->request_method === 'POST')
 		{
+			// Set HTTP_RAW_POST_DATA for compatibility with XE third-party programs.
 			if(!isset($GLOBALS['HTTP_RAW_POST_DATA']))
 			{
 				$GLOBALS['HTTP_RAW_POST_DATA'] = file_get_contents("php://input");
@@ -1150,12 +1151,11 @@ class Context
 				if(strpos($header, 'json') !== false)
 				{
 					self::$_instance->request_method = 'JSON';
-					return;
 				}
 			}
 			
 			// Check XMLRPC
-			if ($GLOBALS['HTTP_RAW_POST_DATA'] && !$_POST)
+			if ($GLOBALS['HTTP_RAW_POST_DATA'] && !$_POST && self::$_instance->request_method !== 'JSON')
 			{
 				self::$_instance->request_method = 'XMLRPC';
 			}
@@ -1177,7 +1177,7 @@ class Context
 		$request_method = self::getRequestMethod();
 		
 		// Handle XMLRPC request parameters (Deprecated).
-		if ($request_method === 'XMLRPC')
+		if ($request_method === 'XMLRPC' && !count($_POST))
 		{
 			$xml = $GLOBALS['HTTP_RAW_POST_DATA'];
 			if($xml)
