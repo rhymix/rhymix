@@ -526,19 +526,19 @@ class HTMLDisplayHandler
 		// Add tags and hashtags for articles.
 		if ($page_type === 'article')
 		{
-			$tags = array_unique(array_map('utf8_trim', explode(',', $oDocument->get('tags'))));
+			$tags = $oDocument->getTags();
 			foreach ($tags as $tag)
 			{
 				if ($tag !== '')
 				{
-					Context::addOpenGraphData('og:article:tag', escape($tag, false));
+					Context::addOpenGraphData('og:article:tag', $tag, false);
 				}
 			}
 			
 			if (config('seo.og_extract_hashtags'))
 			{
-				preg_match_all('/#([\pL\pN_]+)/u', strip_tags($oDocument->get('content')), $hashtags);
-				foreach ($hashtags[1] as $hashtag)
+				$hashtags = $oDocument->getHashtags();
+				foreach ($hashtags as $hashtag)
 				{
 					if (!in_array($hashtag, $tags))
 					{
