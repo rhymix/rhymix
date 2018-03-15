@@ -235,6 +235,7 @@ $lang->og_extract_description = '본문에서 설명 추출';
 $lang->og_extract_description_fallback = '모듈 또는 사이트 전체 설명만 사용';
 $lang->og_extract_images = '본문에서 이미지 추출';
 $lang->og_extract_images_fallback = '사이트 대표 이미지 사용';
+$lang->og_extract_hashtags = '본문에서 해시태그 추출';
 $lang->og_use_timestamps = '글 작성/수정 시각 표시';
 $lang->autoinstall = '쉬운 설치';
 $lang->last_week = '지난주';

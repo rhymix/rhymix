@@ -148,9 +148,7 @@ class documentItem extends BaseObject
 		// Tags
 		if($this->get('tags'))
 		{
-			$tag_list = explode(',', $this->get('tags'));
-			$tag_list = array_map('utf8_trim', $tag_list);
-			$this->add('tag_list', $tag_list);
+			$this->add('tag_list', $this->getTags());
 		}
 		
 		if($load_extra_vars)
@@ -774,6 +772,20 @@ class documentItem extends BaseObject
 		}
 	}
 
+	public function getTags()
+	{
+		$tag_list = array_map(function($str) { return escape(utf8_trim($str), false); }, explode(',', $this->get('tags')));
+		$tag_list = array_filter($tag_list, function($str) { return $str !== ''; });
+		return array_unique($tag_list);
+	}
+	
+	public function getHashtags()
+	{
+		preg_match_all('/(?<!&)#([\pL\pN_]+)/u', strip_tags($this->get('content')), $hashtags);
+		$hashtags[1] = array_map(function($str) { return escape($str, false); }, $hashtags[1]);
+		return array_unique($hashtags[1]);
+	}
+	
 	/**
 	 * Update readed count
 	 * @return void

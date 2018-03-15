@@ -64,6 +64,13 @@
 			</div>
 		</div>
 		<div class="x_control-group">
+			<label class="x_control-label">{$lang->og_extract_hashtags}</label>
+			<div class="x_controls">
+				<label for="og_extract_hashtags_y" class="x_inline"><input type="radio" name="og_extract_hashtags" id="og_extract_hashtags_y" value="Y" checked="checked"|cond="$og_extract_hashtags" /> {$lang->cmd_yes}</label>
+				<label for="og_extract_hashtags_n" class="x_inline"><input type="radio" name="og_extract_hashtags" id="og_extract_hashtags_n" value="N" checked="checked"|cond="!$og_extract_hashtags" /> {$lang->cmd_no}</label>
+			</div>
+		</div>
+		<div class="x_control-group">
 			<label class="x_control-label">{$lang->og_use_timestamps}</label>
 			<div class="x_controls">
 				<label for="og_use_timestamps_y" class="x_inline"><input type="radio" name="og_use_timestamps" id="og_use_timestamps_y" value="Y" checked="checked"|cond="$og_use_timestamps" /> {$lang->cmd_yes}</label>
