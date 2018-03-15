@@ -523,11 +523,36 @@ class HTMLDisplayHandler
 			}
 		}
 		
+		// Add tags and hashtags for articles.
+		if ($page_type === 'article')
+		{
+			$tags = array_unique(array_map('utf8_trim', explode(',', $oDocument->get('tags'))));
+			foreach ($tags as $tag)
+			{
+				if ($tag !== '')
+				{
+					Context::addOpenGraphData('og:article:tag', escape($tag, false));
+				}
+			}
+			
+			if (config('seo.og_extract_hashtags'))
+			{
+				preg_match_all('/#([\pL\pN_]+)/u', strip_tags($oDocument->get('content')), $hashtags);
+				foreach ($hashtags[1] as $hashtag)
+				{
+					if (!in_array($hashtag, $tags))
+					{
+						Context::addOpenGraphData('og:article:tag', escape($hashtag, false));
+					}
+				}
+			}
+		}
+		
 		// Add datetime for articles.
 		if ($page_type === 'article' && config('seo.og_use_timestamps'))
 		{
-			Context::addOpenGraphData('article:published_time', $oDocument->getRegdate('c'));
-			Context::addOpenGraphData('article:modified_time', $oDocument->getUpdate('c'));
+			Context::addOpenGraphData('og:article:published_time', $oDocument->getRegdate('c'));
+			Context::addOpenGraphData('og:article:modified_time', $oDocument->getUpdate('c'));
 		}
 	}
 
