@@ -419,26 +419,13 @@ class TemplateHandler
 	 */
 	private function _parseInline($buff)
 	{
-		if(!preg_match_all('/<([a-zA-Z]+\d?)(?:\s)/', $buff, $match))
-		{
-			return $buff;
-		}
-
-		$tags = array_diff(array_unique($match[1]), $this->skipTags);
-
-		if(!count($tags))
-		{
-			return $buff;
-		}
-
-		$tags = '(?:' . implode('|', $tags) . ')';
-		$split_regex = "@(<(?>/?{$tags})(?>[^<>\{\}\"']+|<!--.*?-->|{[^}]+}|\".*?\"|'.*?'|.)*?>)@s";
-
-		$nodes = preg_split($split_regex, $buff, -1, PREG_SPLIT_DELIM_CAPTURE);
-
 		// list of self closing tags
 		$self_closing = array('area' => 1, 'base' => 1, 'basefont' => 1, 'br' => 1, 'hr' => 1, 'input' => 1, 'img' => 1, 'link' => 1, 'meta' => 1, 'param' => 1, 'frame' => 1, 'col' => 1);
-
+		
+		$skip = $this->skipTags ? sprintf('(?!%s)', implode('|', $this->skipTags)) : '';
+		$split_regex = "@(</?{$skip}[a-zA-Z](?>[^<>{}\"]+|<!--.*?-->.*?<!--.*?end-->|{[^}]*}|\"(?>'.*?'|.)*?\"|.)*?>)@s";
+		$nodes = preg_split($split_regex, $buff, -1, PREG_SPLIT_DELIM_CAPTURE);
+		
 		for($idx = 1, $node_len = count($nodes); $idx < $node_len; $idx+=2)
 		{
 			if(!($node = $nodes[$idx]))
