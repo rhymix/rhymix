@@ -173,9 +173,8 @@ class Context
 	 * @var array
 	 */
 	private static $_check_patterns = array(
-		'/<\?/iUsm',
-		'/<\%/iUsm',
-		'/<script\s*?language\s*?=\s*?("|\')?\s*?php\s*("|\')?/iUsm'
+		'@<\?@',
+		'@</?script@i',
 	);
 
 	/**
@@ -1151,15 +1150,17 @@ class Context
 				if(strpos($header, 'json') !== false)
 				{
 					self::$_instance->request_method = 'JSON';
+					break;
 				}
 			}
 			
 			// Check XMLRPC
-			if ($GLOBALS['HTTP_RAW_POST_DATA'] && !$_POST && self::$_instance->request_method !== 'JSON')
+			if (!$_POST && !empty($GLOBALS['HTTP_RAW_POST_DATA']))
 			{
 				self::$_instance->request_method = 'XMLRPC';
 			}
-			elseif(isset($_POST['_rx_ajax_compat']) && $_POST['_rx_ajax_compat'] === 'XMLRPC')
+			// Pretend that this request is XMLRPC for compatibility with XE third-party.
+			elseif (isset($_POST['_rx_ajax_compat']) && $_POST['_rx_ajax_compat'] === 'XMLRPC')
 			{
 				self::$_instance->request_method = 'XMLRPC';
 			}
@@ -1173,85 +1174,44 @@ class Context
 	 */
 	public static function setRequestArguments()
 	{
-		// Get the request method.
-		$request_method = self::getRequestMethod();
-		
-		// Handle XMLRPC request parameters (Deprecated).
-		if ($request_method === 'XMLRPC' && !count($_POST))
+		foreach($_REQUEST as $key => $val)
 		{
-			$xml = $GLOBALS['HTTP_RAW_POST_DATA'];
-			if($xml)
+			if($val === '' || isset(self::$_reserved_keys[$key]) || self::get($key))
 			{
-				if(!Rhymix\Framework\Security::checkXEE($xml))
-				{
-					header("HTTP/1.0 400 Bad Request");
-					exit;
-				}
-				if(function_exists('libxml_disable_entity_loader'))
-				{
-					libxml_disable_entity_loader(true);
-				}
-
-				$oXml = new XmlParser();
-				$xml_obj = $oXml->parse($xml);
-				$params = $xml_obj->methodcall->params;
-				unset($params->node_name, $params->attrs, $params->body);
-				if($params && count(get_object_vars($params)))
-				{
-					foreach($params as $key => $val)
-					{
-						self::set($key, self::_filterXmlVars($key, $val), true);
-					}
-				}
+				continue;
 			}
+			
+			$key = escape($key);
+			$val = self::_filterRequestVar($key, $val);
+			self::set($key, $val, (isset($_GET[$key]) || isset($_POST[$key])));
 		}
 		
-		// Handle JSON request parameters (Deprecated).
-		if ($request_method === 'JSON' && !count($_POST))
+		// Set XMLRPC request parameters (Deprecated).
+		if (self::getRequestMethod() === 'XMLRPC')
 		{
-			$params = array();
-			parse_str($GLOBALS['HTTP_RAW_POST_DATA'], $params);
-			foreach($params as $key => $val)
+			if($_POST || empty($GLOBALS['HTTP_RAW_POST_DATA']))
 			{
-				self::set($key, self::_filterRequestVar($key, $val), true);
+				return;
 			}
-		}
-		
-		// Handle regular HTTP request parameters.
-		if (count($_REQUEST))
-		{
-			foreach($_REQUEST as $key => $val)
+			if(!Rhymix\Framework\Security::checkXEE($GLOBALS['HTTP_RAW_POST_DATA']))
 			{
-				if($val === '' || isset(self::$_reserved_keys[$key]) || self::get($key))
-				{
-					continue;
-				}
+				header("HTTP/1.0 400 Bad Request");
+				exit;
+			}
+			if(function_exists('libxml_disable_entity_loader'))
+			{
+				libxml_disable_entity_loader(true);
+			}
+			
+			$oXml = new XmlParser();
+			$params = $oXml->parse($GLOBALS['HTTP_RAW_POST_DATA'])->methodcall->params;
+			unset($params->node_name, $params->attrs, $params->body);
+			
+			foreach((array)$params as $key => $val)
+			{
 				$key = escape($key);
-				$val = self::_filterRequestVar($key, $val);
-
-				if($request_method == 'GET' && isset($_GET[$key]))
-				{
-					$set_to_vars = true;
-				}
-				elseif(($request_method == 'POST' || $request_method == 'XMLRPC' || $request_method == 'JSON') && isset($_POST[$key]))
-				{
-					$set_to_vars = true;
-				}
-				elseif($request_method == 'JS_CALLBACK' && (isset($_GET[$key]) || isset($_POST[$key])))
-				{
-					$set_to_vars = true;
-				}
-				else
-				{
-					$set_to_vars = false;
-				}
-
-				if($set_to_vars)
-				{
-					self::_recursiveCheckVar($val);
-				}
-
-				self::set($key, $val, $set_to_vars);
+				$val = self::_filterXmlVars($key, $val);
+				self::set($key, $val, true);
 			}
 		}
 	}
@@ -1353,46 +1313,42 @@ class Context
 	 */
 	private static function _filterXmlVars($key, $val)
 	{
-		if(is_array($val))
+		$result = array();
+		if(!$is_array = is_array($val))
 		{
-			$stack = array();
-			foreach($val as $k => $v)
+			$val = array($val);
+		}
+		foreach($val as $_key => $_val)
+		{
+			unset($_val->node_name, $_val->attrs);
+			
+			$args = new stdClass;
+			foreach((array)$_val as $name => $node)
 			{
-				$stack[$k] = self::_filterXmlVars($k, $v);
+				if(isset($node->attrs->type) && $node->attrs->type == 'array')
+				{
+					$node = array($node);
+				}
+				
+				if($name == 'body' && count((array)$_val) === 1)
+				{
+					$_val = self::_filterRequestVar($key, $node);
+					break;
+				}
+				elseif($name == 'value' && is_array($node))
+				{
+					$_val = self::_filterXmlVars($name, $node);
+					break;
+				}
+				else
+				{
+					$args->$name = self::_filterXmlVars($name, $node);
+				}
 			}
-
-			return $stack;
+			$result[escape($_key)] = !empty((array)$args) ? $args : $_val;
 		}
-
-		$body = $val->body;
-		unset($val->node_name, $val->attrs, $val->body);
-		if(!count(get_object_vars($val)))
-		{
-			return self::_filterRequestVar($key, $body, 0);
-		}
-
-		$stack = new stdClass;
-		foreach($val as $k => $v)
-		{
-			$output = self::_filterXmlVars($k, $v);
-			if(is_object($v) && $v->attrs->type == 'array')
-			{
-				$output = array($output);
-			}
-			if($k == 'value' && (is_array($v) || $v->attrs->type == 'array'))
-			{
-				return $output;
-			}
-
-			$stack->{$k} = $output;
-		}
-
-		if(!count(get_object_vars($stack)))
-		{
-			return NULL;
-		}
-
-		return $stack;
+		
+		return $is_array ? $result : $result[0];
 	}
 
 	/**
@@ -1405,50 +1361,45 @@ class Context
 	 */
 	private static function _filterRequestVar($key, $val)
 	{
-		if(!($isArray = is_array($val)))
+		if(starts_with('XE_VALIDATOR_', $key, false))
+		{
+			return;
+		}
+		
+		$result = array();
+		if(!$is_array = is_array($val))
 		{
 			$val = array($val);
 		}
-
-		$result = array();
-		foreach($val as $k => $v)
+		foreach($val as $_key => $_val)
 		{
-			$k = escape($k);
-			if($key === 'page' || $key === 'cpage' || substr_compare($key, 'srl', -3) === 0)
+			if(is_array($_val))
 			{
-				$result[$k] = !preg_match('/^[0-9,]+$/', $v) ? (int) $v : $v;
+				$_val = self::_filterRequestVar($key, $_val);
 			}
-			elseif($key === 'mid' || $key === 'search_keyword')
+			elseif($_val = trim($_val))
 			{
-				$result[$k] = htmlspecialchars($v, ENT_COMPAT | ENT_HTML401, 'UTF-8', FALSE);
-			}
-			elseif($key === 'vid')
-			{
-				$result[$k] = urlencode($v);
-			}
-			elseif($key === 'xe_validator_id')
-			{
-				$result[$k] = htmlspecialchars($v, ENT_COMPAT | ENT_HTML401, 'UTF-8', FALSE);
-			}
-			elseif(starts_with('XE_VALIDATOR_', $key, false))
-			{
-				unset($result[$k]);
-			}
-			else
-			{
-				$result[$k] = $v;
-				if(is_array($result[$k]))
+				if(in_array($key, array('page', 'cpage')) || ends_with('srl', $key, false))
 				{
-					array_walk_recursive($result[$k], function(&$val) { $val = trim($val); });
+					if(preg_match('/[^0-9,]/', $_val))
+					{
+						$_val = (int)$_val;
+					}
 				}
-				else
+				elseif(in_array($key, array('mid', 'search_keyword', 'xe_validator_id')))
 				{
-					$result[$k] = trim($result[$k]);
+					$_val = escape($_val, false);
+				}
+				elseif($key === 'vid')
+				{
+					$_val = urlencode($_val);
 				}
 			}
+			$result[escape($_key)] = $_val;
+			self::_recursiveCheckVar($_val);
 		}
-
-		return $isArray ? $result : $result[0];
+		
+		return $is_array ? $result : $result[0];
 	}
 
 	/**
@@ -1834,7 +1785,7 @@ class Context
 	 * @param mixed $set_to_get_vars If not FALSE, Set to get vars.
 	 * @return void
 	 */
-	public static function set($key, $val, $set_to_get_vars = 0)
+	public static function set($key, $val, $set_to_get_vars = false)
 	{
 		self::$_tpl_vars->{$key} = $val;
 

@@ -142,8 +142,8 @@ class ContextTest extends \Codeception\TestCase\Test
         Context::setRequestMethod('POST');
 		$_GET = array();
 		$_POST = $_REQUEST = array('foo' => 'legacy', '_rx_ajax_compat' => 'XMLRPC');
-		unset($GLOBALS['HTTP_RAW_POST_DATA']);
-        unset($_SERVER['HTTP_ACCEPT']);
+		$GLOBALS['HTTP_RAW_POST_DATA'] = http_build_query($_POST);
+		$_SERVER['HTTP_ACCEPT'] = 'application/json';
 		Context::clearRequestVars();
 		Context::clearUserVars();
         Context::setRequestMethod();
