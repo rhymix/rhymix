@@ -173,7 +173,7 @@ class Context
 	 * @var array
 	 */
 	private static $_check_patterns = array(
-		'@<\?@',
+		'@<(?:\?|%)@',
 		'@</?script@i',
 	);
 
@@ -1183,7 +1183,18 @@ class Context
 			
 			$key = escape($key);
 			$val = self::_filterRequestVar($key, $val);
-			self::set($key, $val, (isset($_GET[$key]) || isset($_POST[$key])));
+			$set_to_vars = false;
+			
+			if($_SERVER['REQUEST_METHOD'] === 'GET' && isset($_GET[$key]))
+			{
+				$set_to_vars = true;
+			}
+			elseif($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST[$key]))
+			{
+				$set_to_vars = true;
+			}
+			
+			self::set($key, $val, $set_to_vars);
 		}
 		
 		// Set XMLRPC request parameters (Deprecated).
