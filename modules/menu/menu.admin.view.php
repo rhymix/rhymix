@@ -46,49 +46,10 @@ class menuAdminView extends menu
 			$oMenuController = getAdminController('menu');
 			$oMenuController->linkAllModuleInstancesToSitemap();
 		}
-
-		$oAdmin = getClass('admin');
-
-		$oMenuAdminModel = getAdminModel('menu');
-		$menuListFromDB = $oMenuAdminModel->getMenus();
-		if(is_array($menuListFromDB)) $output = array_reverse($menuListFromDB);
-
-		$menuList = array();
-		if(is_array($output))
-		{
-			$menuItems = array();
-			foreach($output as $key=>$value)
-			{
-				if($value->title == $oAdmin->getAdminMenuName()) unset($output[$key]);
-				else
-				{
-					unset($menu, $menuItems);
-					//$value->xml_file = sprintf('./files/cache/menu/%s.xml.php',$value->menu_srl);
-					$value->php_file = sprintf(_XE_PATH_ . 'files/cache/menu/%s.php',$value->menu_srl);
-					if(file_exists($value->php_file)) include($value->php_file);
-
-					if(count($menu->list)>0)
-					{
-						foreach($menu->list as $key2=>$value2)
-						{
-							$this->_menuInfoSetting($menu->list[$key2]);
-						}
-					}
-
-					//array_push($menuList, $value->xml_file);
-					$menuItems = new stdClass();
-					$menuItems->menuSrl = $value->menu_srl;
-					$menuItems->title = $value->title;
-					$menuItems->desc = $value->desc;
-					$menuItems->menuItems = $menu;
-					$menuList[] = $menuItems;
-				}
-			}
-		}
-		Context::set('menu_list', $menuList);
-
+		
 		// get installed module list
 		$oPageController = getController('page'); //for lang
+		$oMenuAdminModel = getAdminModel('menu');
 		$resultModuleList = $oMenuAdminModel->getModuleListInSitemap($site_srl);
 		Context::set('module_list', $resultModuleList);
 
