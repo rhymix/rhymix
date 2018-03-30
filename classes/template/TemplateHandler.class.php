@@ -466,7 +466,7 @@ class TemplateHandler
 								{
 									$expr_m[2] .= '=>' . trim($expr_m[3]);
 								}
-								$nodes[$idx - 1] .= sprintf('<?php if(is_array(%1$s))foreach(%1$s as %2$s){ ?>', $expr_m[1], $expr_m[2]);
+								$nodes[$idx - 1] .= sprintf('<?php if(!empty(%1$s))foreach((array)%1$s as %2$s){ ?>', $expr_m[1], $expr_m[2]);
 							}
 							elseif($expr_m[4])
 							{
