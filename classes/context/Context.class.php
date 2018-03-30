@@ -1372,7 +1372,7 @@ class Context
 	 */
 	private static function _filterRequestVar($key, $val)
 	{
-		if(starts_with('XE_VALIDATOR_', $key, false))
+		if(starts_with('XE_VALIDATOR_', $key, false) && $key !== 'xe_validator_id')
 		{
 			return;
 		}
