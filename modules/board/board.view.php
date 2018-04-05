@@ -175,7 +175,9 @@ class boardView extends board
 			if(in_array($signupFormElement->title, $search_option))
 			{
 				if($signupFormElement->isPublic == 'N')
+				{
 					unset($search_option[$signupFormElement->name]);
+				}
 			}
 		}
 		Context::set('search_option', $search_option);
@@ -491,17 +493,22 @@ class boardView extends board
 		// get the search target and keyword
 		$args->search_target = Context::get('search_target');
 		$args->search_keyword = Context::get('search_keyword');
-
-		$search_option = Context::get('search_option');
-		if($search_option==FALSE)
+		
+		if(!$search_option = Context::get('search_option'))
 		{
 			$search_option = $this->search_option;
 		}
-		if(isset($search_option[$args->search_target])==FALSE)
+		if(!isset($search_option[$args->search_target]))
 		{
 			$args->search_target = '';
 		}
-
+		
+		// set member_srl for view particular member's document
+		if($this->module_info->use_anonymous !== 'Y')
+		{
+			$args->member_srl = Context::get('member_srl');
+		}
+		
 		// if the category is enabled, then get the category
 		if($this->module_info->use_category=='Y')
 		{
