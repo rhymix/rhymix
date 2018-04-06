@@ -1144,25 +1144,28 @@ class Context
 				$GLOBALS['HTTP_RAW_POST_DATA'] = file_get_contents("php://input");
 			}
 			
+			// Pretend that this request is XMLRPC for compatibility with XE third-party.
+			if(isset($_POST['_rx_ajax_compat']) && $_POST['_rx_ajax_compat'] === 'XMLRPC')
+			{
+				self::$_instance->request_method = 'XMLRPC';
+				return;
+			}
+			
 			// Check JSON
 			foreach(array($_SERVER['HTTP_ACCEPT'], $_SERVER['HTTP_CONTENT_TYPE'], $_SERVER['CONTENT_TYPE']) as $header)
 			{
 				if(strpos($header, 'json') !== false)
 				{
 					self::$_instance->request_method = 'JSON';
-					break;
+					return;
 				}
 			}
 			
 			// Check XMLRPC
-			if (!$_POST && !empty($GLOBALS['HTTP_RAW_POST_DATA']))
+			if(!$_POST && !empty($GLOBALS['HTTP_RAW_POST_DATA']))
 			{
 				self::$_instance->request_method = 'XMLRPC';
-			}
-			// Pretend that this request is XMLRPC for compatibility with XE third-party.
-			elseif (isset($_POST['_rx_ajax_compat']) && $_POST['_rx_ajax_compat'] === 'XMLRPC')
-			{
-				self::$_instance->request_method = 'XMLRPC';
+				return;
 			}
 		}
 	}
@@ -1197,32 +1200,42 @@ class Context
 			self::set($key, $val, $set_to_vars);
 		}
 		
-		// Set XMLRPC request parameters (Deprecated).
-		if (self::getRequestMethod() === 'XMLRPC')
+		// Set deprecated request parameters.
+		if(!$_POST && !empty($GLOBALS['HTTP_RAW_POST_DATA']))
 		{
-			if($_POST || empty($GLOBALS['HTTP_RAW_POST_DATA']))
+			if(self::getRequestMethod() === 'XMLRPC')
 			{
-				return;
+				if(!Rhymix\Framework\Security::checkXEE($GLOBALS['HTTP_RAW_POST_DATA']))
+				{
+					header("HTTP/1.0 400 Bad Request");
+					exit;
+				}
+				if(function_exists('libxml_disable_entity_loader'))
+				{
+					libxml_disable_entity_loader(true);
+				}
+				
+				$oXml = new XmlParser();
+				$params = $oXml->parse($GLOBALS['HTTP_RAW_POST_DATA'])->methodcall->params;
+				unset($params->node_name, $params->attrs, $params->body);
+				
+				foreach((array)$params as $key => $val)
+				{
+					$key = escape($key);
+					$val = self::_filterXmlVars($key, $val);
+					self::set($key, $val, true);
+				}
 			}
-			if(!Rhymix\Framework\Security::checkXEE($GLOBALS['HTTP_RAW_POST_DATA']))
+			elseif(self::getRequestMethod() === 'JSON')
 			{
-				header("HTTP/1.0 400 Bad Request");
-				exit;
-			}
-			if(function_exists('libxml_disable_entity_loader'))
-			{
-				libxml_disable_entity_loader(true);
-			}
-			
-			$oXml = new XmlParser();
-			$params = $oXml->parse($GLOBALS['HTTP_RAW_POST_DATA'])->methodcall->params;
-			unset($params->node_name, $params->attrs, $params->body);
-			
-			foreach((array)$params as $key => $val)
-			{
-				$key = escape($key);
-				$val = self::_filterXmlVars($key, $val);
-				self::set($key, $val, true);
+				$params = array();
+				parse_str($GLOBALS['HTTP_RAW_POST_DATA'], $params);	
+				foreach($params as $key => $val)
+				{
+					$key = escape($key);
+					$val = self::_filterRequestVar($key, $val);
+					self::set($key, $val, true);
+				}
 			}
 		}
 	}
