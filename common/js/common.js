@@ -252,8 +252,8 @@ jQuery(function($) {
 	/* Tabnapping protection, step 1 */
 	$('a[target]').each(function() {
 		var $this = $(this);
-		var href = $this.attr('href').trim();
-		var target = $this.attr('target').trim();
+		var href = String($this.attr('href')).trim();
+		var target = String($this.attr('target')).trim();
 		if (!href || !target || target === '_top' || target === '_self' || target === '_parent') {
 			return;
 		}
@@ -269,8 +269,8 @@ jQuery(function($) {
 	/* Tabnapping protection, step 2 */
 	$('body').on('click', 'a[target]', function(event) {
 		var $this = $(this);
-		var href = $this.attr('href').trim();
-		var target = $this.attr('target').trim();
+		var href = String($this.attr('href')).trim();
+		var target = String($this.attr('target')).trim();
 		if (!href || !target || target === '_top' || target === '_self' || target === '_parent') {
 			return;
 		}
