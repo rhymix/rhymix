@@ -194,7 +194,7 @@ class memberView extends member
 		$ssl_only = (\RX_SSL && config('session.use_ssl')) ? true : false;
 
 		//setcookie for redirect url in case of going to member sign up
-		setcookie("XE_REDIRECT_URL", $_SERVER['HTTP_REFERER'], 0, null, null, $ssl_only);
+		setcookie("XE_REDIRECT_URL", $_SERVER['HTTP_REFERER'], 0, null, null, $ssl_only, true);
 
 		$member_config = $this->member_config;
 

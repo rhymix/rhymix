@@ -297,7 +297,7 @@ class Session
 			$ssl_only = (\RX_SSL && config('session.use_ssl')) ? true : false;
 			
 			// Set sso cookie to prevent multiple simultaneous SSO validation requests.
-			setcookie('sso', md5($current_domain), 0, '/', null, null, $ssl_only);
+			setcookie('sso', md5($current_domain), 0, '/', null, null, $ssl_only, true);
 			
 			// Redirect to the default site.
 			$sso_request = Security::encrypt($current_url);
