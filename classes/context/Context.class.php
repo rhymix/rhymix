@@ -1407,7 +1407,7 @@ class Context
 				{
 					if(preg_match('/[^0-9,]/', $_val))
 					{
-						$_val = abs((int)$_val);
+						$_val = (int)$_val;
 					}
 				}
 				elseif(in_array($key, array('mid', 'search_keyword', 'xe_validator_id')))
