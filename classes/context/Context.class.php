@@ -300,7 +300,7 @@ class Context
 		{
 			if($_COOKIE['lang_type'] !== $lang_type)
 			{
-				setcookie('lang_type', $lang_type, $_SERVER['REQUEST_TIME'] + 3600 * 24 * 1000, '/');
+				setcookie('lang_type', $lang_type, time() + 86400, '/', null, RX_SSL, true);
 			}
 		}
 		elseif($_COOKIE['lang_type'])
@@ -316,7 +316,7 @@ class Context
 					if(!strncasecmp($lang_code, $_SERVER['HTTP_ACCEPT_LANGUAGE'], strlen($lang_code)))
 					{
 						$lang_type = $lang_code;
-						setcookie('lang_type', $lang_type, $_SERVER['REQUEST_TIME'] + 3600 * 24 * 1000, '/');
+						setcookie('lang_type', $lang_type, time() + 86400, '/', null, RX_SSL, true);
 					}
 				}
 			}

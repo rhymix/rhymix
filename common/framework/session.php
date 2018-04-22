@@ -294,8 +294,10 @@ class Session
 		// Step 1: if the current site is not the default site, send SSO validation request to the default site.
 		if(!$is_default_domain && !\Context::get('sso_response') && $_COOKIE['sso'] !== md5($current_domain))
 		{
+			$ssl_only = (\RX_SSL && config('session.use_ssl')) ? true : false;
+			
 			// Set sso cookie to prevent multiple simultaneous SSO validation requests.
-			setcookie('sso', md5($current_domain), 0, '/');
+			setcookie('sso', md5($current_domain), 0, '/', null, null, $ssl_only, true);
 			
 			// Redirect to the default site.
 			$sso_request = Security::encrypt($current_url);
