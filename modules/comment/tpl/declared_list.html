@@ -33,10 +33,11 @@
 		<thead>
 			<tr>
 				<th scope="col">{$lang->comment}</th>
-				<th scope="col">{$lang->user_name}</th>
-				<th scope="col">{$lang->date}</th>
-				<th scope="col">{$lang->cmd_declare}</th>
+				<th scope="col">{$lang->writer}</th>
 				<th scope="col">{$lang->ipaddress}</th>
+				<th scope="col"><a href="{getUrl('sort_index', 'declared_count')}">{lang('document.declared_count')} <block cond="$sort_index == 'declared_count'">▼</block></a></th></th>
+				<th scope="col"><a href="{getUrl('sort_index', 'regdate')}">{$lang->original_date} <block cond="$sort_index == 'regdate'">▼</block></a></th>
+				<th scope="col"><a href="{getUrl('sort_index', 'declared_latest')}">{$lang->latest_declared_date} <block cond="$sort_index == 'declared_latest'">▼</block></a></th>
 				<th scope="col" style="width:15px"><input type="checkbox" /></th>
 			</tr>
 		</thead>
@@ -44,9 +45,10 @@
 			<tr loop="$comment_list => $no, $oComment">
 				<td><a href="{getUrl('','document_srl',$oComment->get('document_srl'))}#comment_{$oComment->get('comment_srl')}" target="_blank">{$oComment->getSummary(100)}</a></td>
 				<td><span class="member_{$oComment->getMemberSrl()}">{$oComment->getNickName()}</span></td>
-				<td>{$oComment->getRegdate("Y-m-d")}</td>
-				<td><strong>{$oComment->get('declared_count')} (<a href="{getUrl('', 'act', 'dispCommentAdminDeclaredLogByCommentSrl', 'target_srl',$oComment->get('comment_srl'))}" onclick="popopen(this.href, 'admin_popup');return false">{$lang->improper_comment_declare_reason}</a>)</strong></td>
 				<td>{$oComment->get('ipaddress')}</td>
+				<td>{$oComment->get('declared_count')} (<a href="{getUrl('', 'act', 'dispCommentAdminDeclaredLogByCommentSrl', 'target_srl',$oComment->get('comment_srl'))}" onclick="popopen(this.href, 'admin_popup');return false">{$lang->improper_comment_declare_reason}</a>)</td>
+				<td>{$oComment->getRegdate('Y-m-d H:i')}</td>
+				<td>{zdate($oComment->get('latest_declared'), 'Y-m-d H:i')}</td>
 				<td><input type="checkbox" name="cart[]" value="{$oComment->get('comment_srl')}" /></td>
 			</tr>
 			<tr cond="!$comment_list">

@@ -365,7 +365,7 @@ class TemplateHandler
 		}
 		
 		// Insert template path comment tag.
-		if(config('debug.enabled') && Rhymix\Framework\Debug::isEnabledForCurrentUser() && !starts_with('<!DOCTYPE', $contents))
+		if(Rhymix\Framework\Debug::isEnabledForCurrentUser() && Context::getResponseMethod() === 'HTML' && !starts_with('<!DOCTYPE', $contents) && !starts_with('<?xml', $contents))
 		{
 			$sign = PHP_EOL . '<!-- Template %s : ' . $this->web_path . $this->filename . ' -->' . PHP_EOL;
 			$contents = sprintf($sign, 'start') . $contents . sprintf($sign, 'end');

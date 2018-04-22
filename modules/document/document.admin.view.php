@@ -177,8 +177,16 @@ class documentAdminView extends document
 		$args->page_count = 10; // /< the number of pages that appear in the page navigation
 		$args->order_type = strtolower(Context::get('order_type')) === 'asc' ? 'asc' : 'desc';
 		
+		// select sort method
+		$sort_index = Context::get('sort_index');
+		if (!in_array($sort_index, array('declared_latest', 'declared_count', 'regdate')))
+		{
+			$sort_index = 'declared_latest';
+		}
+		Context::set('sort_index', $sort_index);
+		
 		// get latest declared list
-		if (Context::get('sort_index') === 'declared_latest')
+		if ($sort_index === 'declared_latest')
 		{
 			$declared_output = executeQueryArray('document.getDeclaredLatest', $args);
 			if ($declared_output->data && count($declared_output->data))
@@ -205,6 +213,14 @@ class documentAdminView extends document
 		}
 		else
 		{
+			if ($sort_index === 'declared_count')
+			{
+				$args->sort_index = 'document_declared.declared_count';
+			}
+			else
+			{
+				$args->sort_index = 'documents.regdate';
+			}
 			$declared_output = executeQueryArray('document.getDeclaredList', $args);
 			if ($declared_output->data && count($declared_output->data))
 			{
