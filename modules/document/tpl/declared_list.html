@@ -35,10 +35,10 @@ xe.lang.msg_empty_search_keyword = '{$lang->msg_empty_search_keyword}';
 			<tr>
 				<th scope="col" class="title">{$lang->title}</th>
 				<th scope="col" class="nowr">{$lang->writer}</th>
-				<th scope="col" class="nowr"><a href="{getUrl('sort_index', 'declared_count')}">{$lang->declared_count} <block cond="$sort_index != 'declared_latest'">▼</block></a></th>
 				<th scope="col" class="nowr">{$lang->readed_count}</th>
 				<th scope="col" class="nowr">{$lang->cmd_vote}(+/-)</th>
-				<th scope="col" class="nowr">{$lang->original_date}</th>
+				<th scope="col" class="nowr"><a href="{getUrl('sort_index', 'declared_count')}">{$lang->declared_count} <block cond="$sort_index == 'declared_count'">▼</block></a></th>
+				<th scope="col" class="nowr"><a href="{getUrl('sort_index', 'regdate')}">{$lang->original_date} <block cond="$sort_index == 'regdate'">▼</block></a></th>
 				<th scope="col" class="nowr"><a href="{getUrl('sort_index', 'declared_latest')}">{$lang->latest_declared_date} <block cond="$sort_index == 'declared_latest'">▼</block></a></th>
 				<th scope="col"><input type="checkbox" name="cart" title="Check All" /></th>
 			</tr>
@@ -47,9 +47,9 @@ xe.lang.msg_empty_search_keyword = '{$lang->msg_empty_search_keyword}';
 			<tr loop="$document_list => $no,$oDocument">
 				<td class="title"><a href="{getUrl('','document_srl',$oDocument->document_srl)}" target="_blank">{$oDocument->getTitle()}</a></td>
 				<td class="nowr"><a href="#popup_menu_area" class="member_{$oDocument->get('member_srl')}">{$oDocument->getNickName()}</a></td>
-				<td class="nowr">{$oDocument->get('declared_count')} (<a href="{getUrl('', 'act', 'dispDocumentAdminDeclaredLogByDocumentSrl', 'target_srl',$oDocument->document_srl)}" onclick="popopen(this.href, 'admin_popup');return false">{$lang->improper_document_declare_reason}</a>)</td>
 				<td class="nowr">{$oDocument->get('readed_count')}</td>
-				<td class="nowr">{$oDocument->get('voted_count')}/{$oDocument->get('blamed_count')}</td>
+				<td class="nowr">{$oDocument->get('voted_count')} / {$oDocument->get('blamed_count')}</td>
+				<td class="nowr">{$oDocument->get('declared_count')} (<a href="{getUrl('', 'act', 'dispDocumentAdminDeclaredLogByDocumentSrl', 'target_srl',$oDocument->document_srl)}" onclick="popopen(this.href, 'admin_popup');return false">{$lang->improper_document_declare_reason}</a>)</td>
 				<td class="nowr">{$oDocument->getRegdate("Y-m-d H:i")}</td>
 				<td class="nowr">{zdate($oDocument->get('latest_declared'), 'Y-m-d H:i')}</td>
 				<td><input type="checkbox" name="cart" value="{$oDocument->document_srl}" /></td>
