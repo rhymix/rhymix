@@ -1055,8 +1055,7 @@ function getOuterHTML(obj) {
 function setCookie(name, value, expire, path) {
 	var s_cookie = name + "=" + escape(value) +
 		((!expire) ? "" : ("; expires=" + expire.toGMTString())) +
-		"; path=" + ((!path) ? "/" : path) +
-		((enforce_ssl) ? ";secure" : "");
+		"; path=" + ((!path) ? "/" : path);
 
 	document.cookie = s_cookie;
 }
