@@ -628,7 +628,7 @@ class Context
 		static $ssl_only = null;
 		if(is_null($ssl_only))
 		{
-			$ssl_only = (self::get('_use_ssl') === 'always' ? true : false)
+			$ssl_only = (self::get('_use_ssl') === 'always' ? true : false);
 		}
 		return $ssl_only;
 	}
