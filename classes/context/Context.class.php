@@ -300,7 +300,7 @@ class Context
 		{
 			if($_COOKIE['lang_type'] !== $lang_type)
 			{
-				setcookie('lang_type', $lang_type, $_SERVER['REQUEST_TIME'] + 3600 * 24 * 1000, '/');
+				setcookie('lang_type', $lang_type, time() + 86400 * 365, '/', null, self::checkSslEnforce());
 			}
 		}
 		elseif($_COOKIE['lang_type'])
@@ -316,7 +316,7 @@ class Context
 					if(!strncasecmp($lang_code, $_SERVER['HTTP_ACCEPT_LANGUAGE'], strlen($lang_code)))
 					{
 						$lang_type = $lang_code;
-						setcookie('lang_type', $lang_type, $_SERVER['REQUEST_TIME'] + 3600 * 24 * 1000, '/');
+						setcookie('lang_type', $lang_type, time() + 86400 * 365, '/', null, self::checkSslEnforce());
 					}
 				}
 			}
@@ -615,6 +615,22 @@ class Context
 	public static function getSslStatus()
 	{
 		return self::get('_use_ssl');
+	}
+
+	
+	/**
+	 * Return ssl status
+	 *
+	 * @return boolean (true|false)
+	 */
+	public static function checkSslEnforce()
+	{
+		static $ssl_only = null;
+		if(is_null($ssl_only))
+		{
+			$ssl_only = (self::get('_use_ssl') === 'always' ? true : false)
+		}
+		return $ssl_only;
 	}
 
 	/**
@@ -1769,7 +1785,7 @@ class Context
 			return;
 		}
 
-		if(self::get('_use_ssl') == 'always')
+		if(self::checkSslEnforce())
 		{
 			$ssl_mode = ENFORCE_SSL;
 		}
