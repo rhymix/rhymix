@@ -300,7 +300,7 @@ class Context
 		{
 			if($_COOKIE['lang_type'] !== $lang_type)
 			{
-				setcookie('lang_type', $lang_type, time() + 86400 * 365, '/', null, self::checkSslEnforce());
+				setcookie('lang_type', $lang_type, time() + 86400 * 365, '/', null, self::isAlwaysSSL());
 			}
 		}
 		elseif($_COOKIE['lang_type'])
@@ -316,7 +316,7 @@ class Context
 					if(!strncasecmp($lang_code, $_SERVER['HTTP_ACCEPT_LANGUAGE'], strlen($lang_code)))
 					{
 						$lang_type = $lang_code;
-						setcookie('lang_type', $lang_type, time() + 86400 * 365, '/', null, self::checkSslEnforce());
+						setcookie('lang_type', $lang_type, time() + 86400 * 365, '/', null, self::isAlwaysSSL());
 					}
 				}
 			}
@@ -621,14 +621,15 @@ class Context
 	/**
 	 * Return ssl status
 	 *
+	 * @param boolen $purge_cache Set true to get uncached SSL_enforce value.
 	 * @return boolean (true|false)
 	 */
-	public static function checkSslEnforce()
+	public static function isAlwaysSSL($purge_cache = false)
 	{
 		static $ssl_only = null;
-		if(is_null($ssl_only))
+		if(is_null($ssl_only) || $purge_cache === true)
 		{
-			$ssl_only = (self::get('_use_ssl') === 'always' ? true : false);
+			$ssl_only = (self::get('site_module_info')->security === 'always' ? true : false);
 		}
 		return $ssl_only;
 	}
@@ -1785,7 +1786,7 @@ class Context
 			return;
 		}
 
-		if(self::checkSslEnforce())
+		if(self::isAlwaysSSL())
 		{
 			$ssl_mode = ENFORCE_SSL;
 		}
