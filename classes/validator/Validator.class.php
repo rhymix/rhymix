@@ -769,7 +769,7 @@ class Validator
 			{
 				$field[] = "rule:'" . strtolower($filter['rule']) . "'";
 			}
-			if($filter['default'])
+			if(isset($filter['default']))
 			{
 				$field[] = "default:'{$filter['default']}'";
 			}
