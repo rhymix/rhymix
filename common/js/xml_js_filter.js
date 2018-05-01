@@ -175,7 +175,7 @@
 
 				if(!val) {
 					if(f['default']) val = f['default'];
-					if(f.required) return this.cast('ALERT', [form, name, 'isnull']) && false;
+					else if(f.required) return this.cast('ALERT', [form, name, 'isnull']) && false;
 					else continue;
 				}
 
