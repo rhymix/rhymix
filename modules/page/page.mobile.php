@@ -110,16 +110,24 @@ class pageMobile extends pageView
 		}
 		Context::set('oDocument', $oDocument);
 
-		if($this->module_info->mskin)
+		if($this->module_info->mskin === '/USE_RESPsONSIVE/')
 		{
-			$templatePath = (sprintf($this->module_path.'m.skins/%s', $this->module_info->mskin));
+			$template_path = sprintf("%sskins/%s/",$this->module_path, $this->module_info->skin);
+			if(!is_dir($template_path)||!$this->module_info->skin)
+			{
+				$template_path = sprintf("%sskins/%s/",$this->module_path, 'default');
+			}
 		}
 		else
 		{
-			$templatePath = ($this->module_path.'m.skins/default');
+			$template_path = sprintf("%sm.skins/%s/",$this->module_path, $this->module_info->mskin);
+			if(!is_dir($template_path)||!$this->module_info->mskin)
+			{
+				$template_path = sprintf("%sm.skins/%s/",$this->module_path, 'default');
+			}
 		}
 
-		$page_content = $oTemplate->compile($templatePath, 'mobile');
+		$page_content = $oTemplate->compile($template_path, 'mobile');
 
 		return $page_content;
 	}
