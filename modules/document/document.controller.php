@@ -1608,6 +1608,38 @@ class documentController extends document
 		}
 
 		$this->add('declared_count', $declared_count + 1);
+		
+		// Send message to admin
+		$message_targets = array();
+		$module_srl = $oDocument->get('module_srl');
+		$oModuleModel = getModel('module');
+		$document_config = $oModuleModel->getModulePartConfig('document', $module_srl);
+		if ($document_config->declared_message && in_array('admin', $document_config->declared_message))
+		{
+			$output = executeQueryArray('member.getAdmins', new stdClass);
+			foreach ($output->data as $admin)
+			{
+				$message_targets[$admin->member_srl] = true;
+			}
+		}
+		if ($document_config->declared_message && in_array('manager', $document_config->declared_message))
+		{
+			$output = executeQueryArray('module.getModuleAdmin', (object)['module_srl' => $module_srl]);
+			foreach ($output->data as $manager)
+			{
+				$message_targets[$manager->member_srl] = true;
+			}
+		}
+		if ($message_targets)
+		{
+			$oCommunicationController = getController('communication');
+			$message_title = lang('document.declared_message_title');
+			$message_content = sprintf('<p><a href="%s">%s</a></p><p>%s</p>', $oDocument->getPermanentUrl(), $oDocument->getTitleText(), $declare_message);
+			foreach ($message_targets as $target_member_srl => $val)
+			{
+				$oCommunicationController->sendMessage($this->user->member_srl, $target_member_srl, $message_title, $message_content, false);
+			}
+		}
 
 		// Call a trigger (after)
 		$trigger_obj->declared_count = $declared_count + 1;
@@ -2754,7 +2786,9 @@ Content;
 		$document_config->use_vote_down = Context::get('use_vote_down');
 		if(!$document_config->use_vote_down) $document_config->use_vote_down = 'Y';
 
-		$document_config->use_status = Context::get('use_status');
+		$document_config->declared_message = Context::get('declared_message');
+		if(!is_array($document_config->declared_message)) $document_config->declared_message = array();
+		$document_config->declared_message = array_values($document_config->declared_message);
 
 		$oModuleController = getController('module');
 		foreach ($module_srl as $srl)

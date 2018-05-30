@@ -1,0 +1,11 @@
+<query id="getAdmins" action="select">
+    <tables>
+        <table name="member" />
+    </tables>
+    <columns>
+        <column name="member_srl" />
+    </columns>
+    <conditions>
+        <condition operation="equal" column="is_admin" default="Y" notnull="notnull" />
+    </conditions>
+</query>

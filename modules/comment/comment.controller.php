@@ -1566,6 +1566,38 @@ class commentController extends comment
 
 		$this->add('declared_count', $declared_count + 1);
 
+		// Send message to admin
+		$message_targets = array();
+		$module_srl = $oComment->get('module_srl');
+		$oModuleModel = getModel('module');
+		$comment_config = $oModuleModel->getModulePartConfig('comment', $module_srl);
+		if ($comment_config->declared_message && in_array('admin', $comment_config->declared_message))
+		{
+			$output = executeQueryArray('member.getAdmins', new stdClass);
+			foreach ($output->data as $admin)
+			{
+				$message_targets[$admin->member_srl] = true;
+			}
+		}
+		if ($comment_config->declared_message && in_array('manager', $comment_config->declared_message))
+		{
+			$output = executeQueryArray('module.getModuleAdmin', (object)['module_srl' => $module_srl]);
+			foreach ($output->data as $manager)
+			{
+				$message_targets[$manager->member_srl] = true;
+			}
+		}
+		if ($message_targets)
+		{
+			$oCommunicationController = getController('communication');
+			$message_title = lang('document.declared_message_title');
+			$message_content = sprintf('<p><a href="%s">%s</a></p><p>%s</p>', $oComment->getPermanentUrl(), $oComment->getContentText(50), $declare_message);
+			foreach ($message_targets as $target_member_srl => $val)
+			{
+				$oCommunicationController->sendMessage($this->user->member_srl, $target_member_srl, $message_title, $message_content, false);
+			}
+		}
+
 		// Call a trigger (after)
 		$trigger_obj->declared_count = $declared_count + 1;
 		ModuleHandler::triggerCall('comment.declaredComment', 'after', $trigger_obj);
@@ -1653,6 +1685,10 @@ class commentController extends comment
 		{
 			$comment_config->use_vote_down = 'Y';
 		}
+
+		$comment_config->declared_message = Context::get('declared_message');
+		if(!is_array($comment_config->declared_message)) $comment_config->declared_message = array();
+		$comment_config->declared_message = array_values($comment_config->declared_message);
 
 		$comment_config->use_comment_validation = Context::get('use_comment_validation');
 		if(!$comment_config->use_comment_validation)
