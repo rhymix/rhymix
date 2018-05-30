@@ -18,6 +18,7 @@
             <condition operation="below" column="documents.list_order" var="last_division" pipe="and" />
         </group>
         <condition operation="like" column="comments.content" var="s_comment" notnull="notnull" pipe="and" />
+		<condition operation="equal" column="comments.is_secret" var="comment_is_secret" pipe="and" />
 		<group pipe="and">
 			<condition operation="less" column="documents.list_order" var="list_order" filter="number" pipe="and" />
 			<condition operation="more" column="documents.list_order" var="rev_list_order" filter="number" pipe="and" />

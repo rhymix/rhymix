@@ -1442,6 +1442,14 @@ class documentModel extends document
 					}
 					break;
 			}
+			
+			// Exclude secret documents if searching content or comment
+			// https://github.com/rhymix/rhymix/issues/1021
+			if($search_target === 'content' || $search_target === 'title_content' || $search_target === 'comment')
+			{
+				$args->statusList = array($this->getConfigStatus('public'));
+				$args->comment_is_secret = 'N';
+			}
 		}
 
 		if ($searchOpt->isExtraVars)
