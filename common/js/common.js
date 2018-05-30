@@ -43,8 +43,8 @@
 			return false;
 		}
 			
-		url1 = window.XE.URI(url1).normalizePort().normalizePathname().origin();
-		url2 = window.XE.URI(url2).normalizePort().normalizePathname().origin();
+		url1 = window.XE.URI(url1).normalizePort().normalizeHostname().normalizePathname().origin();
+		url2 = window.XE.URI(url2).normalizePort().normalizeHostname().normalizePathname().origin();
 		return (url1 === url2) ? true : false;
 	};
 
@@ -220,11 +220,11 @@
 			}
 			
 			if (!window.XE.baseurl) {
-				window.XE.baseurl = window.XE.URI(window.request_uri).normalizePort().normalizePathname();
+				window.XE.baseurl = window.XE.URI(window.request_uri).normalizePort().normalizeHostname().normalizePathname();
 				window.XE.baseurl = window.XE.baseurl.hostname() + window.XE.baseurl.directory();
 			}
 			
-			var target_url = window.XE.URI(url).normalizePort().normalizePathname();
+			var target_url = window.XE.URI(url).normalizePort().normalizeHostname().normalizePathname();
 			if (target_url.is("urn")) {
 				return false;
 			}
