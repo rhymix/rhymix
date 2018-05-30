@@ -23,6 +23,11 @@ class Storage
 	protected static $_opcache;
 	
 	/**
+	 * Cache locks here.
+	 */
+	protected static $_locks = array();
+	
+	/**
 	 * Check if a path really exists.
 	 * 
 	 * @param string $path
@@ -856,6 +861,60 @@ class Storage
 			{
 				return false;
 			}
+		}
+	}
+	
+	/**
+	 * Obtain an exclusive lock.
+	 * 
+	 * @return bool
+	 */
+	public static function getLock($name)
+	{
+		$name = str_replace('.', '%2E', rawurlencode($name));
+		if (isset(self::$_locks[$name]))
+		{
+			return false;
+		}
+		
+		$lockdir = \RX_BASEDIR . 'files/locks';
+		if (!self::isDirectory($lockdir) && !self::createDirectory($lockdir))
+		{
+			return false;
+		}
+		
+		self::$_locks[$name] = @fopen($lockdir . '/' . $name . '.lock', 'w');
+		if (!self::$_locks[$name])
+		{
+			unset(self::$_locks[$name]);
+			return false;
+		}
+		
+		$result = @flock(self::$_locks[$name], \LOCK_EX | \LOCK_NB);
+		if (!$result)
+		{
+			@fclose(self::$_locks[$name]);
+			unset(self::$_locks[$name]);
+			return false;
+		}
+		
+		register_shutdown_function('\\Rhymix\\Framework\\Storage::clearLocks');
+		return true;
+	}
+	
+	/**
+	 * Clear all locks.
+	 * 
+	 * @return void
+	 */
+	public static function clearLocks()
+	{
+		foreach (self::$_locks as $name => $lock)
+		{
+			@flock($lock, \LOCK_UN);
+			@fclose($lock);
+			@unlink(\RX_BASEDIR . 'files/locks/' . $name . '.lock');
+			unset(self::$_locks[$name]);
 		}
 	}
 }
