@@ -227,6 +227,9 @@ class memberModel extends member
 			$url = getUrl('','module','admin','act','dispMemberAdminInsert','member_srl',$member_srl);
 			$oMemberController->addMemberPopupMenu($url,'cmd_manage_member_info',$icon_path,'MemberModifyInfo');
 
+			$url = getUrl('','module','member','act','dispMemberSpammer','member_srl',$member_srl,'module_srl',0);
+			$oMemberController->addMemberPopupMenu($url,'cmd_spammer',$icon_path,'popup');
+			
 			$url = getUrl('','module','admin','act','dispDocumentAdminList','search_target','member_srl','search_keyword',$member_srl);
 			$oMemberController->addMemberPopupMenu($url,'cmd_trace_document',$icon_path,'TraceMemberDocument');
 
