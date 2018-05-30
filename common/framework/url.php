@@ -38,7 +38,7 @@ class URL
 	public static function getCurrentDomainURL($path = '/')
 	{
 		$proto = \RX_SSL ? 'https://' : 'http://';
-		$host = isset($_SERVER['HTTP_HOST']) ? $_SERVER['HTTP_HOST'] : 'localhost';
+		$host = isset($_SERVER['HTTP_HOST']) ? self::decodeIdna($_SERVER['HTTP_HOST']) : 'localhost';
 		return $proto . $host . '/' . ltrim($path, '/');
 	}
 	
