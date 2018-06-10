@@ -35,7 +35,7 @@ $lang->cmd_ignore = '忽略';
 $lang->cmd_recommended = '推荐';
 $lang->db_desc['mysqli'] = '利用php的 mysqli*()函数使用mysql DB。';
 $lang->db_desc['mysql'] = '利用php的 mysql_*()函数使用mysql DB。';
-$lang->db_desc['cubrid'] = '使用CUBRID DB。 <a href="http://www.cubrid.org/wiki_tutorials/entry/cubrid-installation-instructions" target="_blank">Manual</a>';
+$lang->db_desc['cubrid'] = '使用CUBRID DB。 <a href="https://www.cubrid.org/documentation/manuals" target="_blank">Manual</a>';
 $lang->db_desc['mssql'] = '使用 Microsoft SQL Server。';
 $lang->can_use_when_installed = '不是这个服务器上安装';
 $lang->form_title = '数据库及管理员基本信息';
