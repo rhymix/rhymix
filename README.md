@@ -106,7 +106,7 @@ This requires the most convenience for the average user over any other CMS.
 
 ### Installation Environment
 
-Rhymix requires PHP 5.5.9 or higher, and MySQL 5.0.7 or higher.
+Rhymix requires PHP 7.0 or higher, and MySQL 5.0.7 or higher.
 Please see the online manual for more information on server requirements.
 
 ### Participation in Development
