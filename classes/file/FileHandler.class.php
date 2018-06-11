@@ -569,7 +569,16 @@ class FileHandler
 			return FALSE;
 		}
 
-		imagefilledrectangle($thumb, 0, 0, $resize_width - 1, $resize_height - 1, imagecolorallocate($thumb, 255, 255, 255));
+		if($target_type == 'png' && function_exists('imagecolorallocatealpha') && function_exists('imagesavealpha') && function_exists('imagealphablending'))
+		{
+			imagefill($thumb, 0, 0, imagecolorallocatealpha($thumb, 0, 0, 0, 127));
+			imagesavealpha($thumb, TRUE);
+			imagealphablending($thumb, TRUE);
+		}
+		else
+		{
+			imagefilledrectangle($thumb, 0, 0, $resize_width - 1, $resize_height - 1, imagecolorallocate($thumb, 255, 255, 255));
+		}
 
 		// create temporary image having original type
 		$source = NULL;
