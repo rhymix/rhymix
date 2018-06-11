@@ -26,7 +26,7 @@ $lang->cmd_install_next = 'Continuer à  installer';
 $lang->cmd_recommended = 'Recommandé';
 $lang->db_desc['mysqli'] = 'Utilisera fonction mysqli_*() pour utiliser la base de données de MySQL.';
 $lang->db_desc['mysql'] = 'Utilisera fonction mysql_*() pour utiliser la base de données de MySQL';
-$lang->db_desc['cubrid'] = 'Utiliser la Base de Données de CUBRID.  <a href="http://www.cubrid.org/wiki_tutorials/entry/cubrid-installation-instructions" target="_blank">Manual</a>';
+$lang->db_desc['cubrid'] = 'Utiliser la Base de Données de CUBRID.  <a href="https://www.cubrid.org/documentation/manuals" target="_blank">Manual</a>';
 $lang->db_desc['mssql'] = 'Utiliser la Base de Données de Microsoft SQL Server.';
 $lang->can_use_when_installed = 'Pas installé sur ce serveur';
 $lang->form_title = 'Entrer des informations de Base de données et Administrateur';

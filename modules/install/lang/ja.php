@@ -47,7 +47,7 @@ $lang->cmd_ignore = 'FTP設定を省略する';
 $lang->cmd_recommended = '推奨';
 $lang->db_desc['mysqli'] = 'mysqliモジュールを使用してMySQL DBに接続します。';
 $lang->db_desc['mysql'] = 'mysql_*()関数を使用してMySQL DBに接続します。';
-$lang->db_desc['cubrid'] = 'CUBRID DBを利用します。 <a href="http://www.cubrid.org/wiki_tutorials/entry/cubrid-installation-instructions" target="_blank">Manual</a>';
+$lang->db_desc['cubrid'] = 'CUBRID DBを利用します。 <a href="https://www.cubrid.org/documentation/manuals" target="_blank">Manual</a>';
 $lang->db_desc['mssql'] = 'Microsoft SQL Serverを利用します。';
 $lang->can_use_when_installed = 'このサーバーにインストールされていません';
 $lang->form_title = 'データベース &amp; 管理者情報入力';
