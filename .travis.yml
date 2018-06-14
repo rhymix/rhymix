@@ -7,9 +7,10 @@ php:
   - 7.0
   - 7.1
   - 7.2
+  - nightly
 matrix:
   allow_failures:
-    - php: 7.2
+    - php: nightly
 services:
   - mysql
 before_script:
@@ -17,10 +18,9 @@ before_script:
   - mysql -u root -e "CREATE DATABASE rhymix CHARSET utf8mb4 COLLATE utf8mb4_unicode_ci"
   - mysql -u root -e "GRANT ALL PRIVILEGES ON rhymix.* TO travis@localhost"
   - mysql -u root -e "UPDATE mysql.user SET Password = PASSWORD('travis') WHERE User = 'travis'; FLUSH PRIVILEGES"
-  - phpenv config-rm xdebug.ini
+  - if [[ $TRAVIS_PHP_VERSION != "nightly" ]]; then phpenv config-rm xdebug.ini; fi
+  - if [[ $TRAVIS_PHP_VERSION =~ ^5 ]]; then wget https://codeception.com/releases/2.1.11/codecept.phar; else wget https://codeception.com/releases/2.3.9/codecept.phar; fi
   - php -S localhost:8000 &
-  - if [[ $TRAVIS_PHP_VERSION != "7.2" ]]; then wget https://codeception.com/releases/2.1.11/codecept.phar; fi
-  - if [[ $TRAVIS_PHP_VERSION == "7.2" ]]; then wget https://codeception.com/releases/2.3.9/codecept.phar; fi
 script:
   - php codecept.phar build
   - php codecept.phar run --debug --fail-fast --env travis
