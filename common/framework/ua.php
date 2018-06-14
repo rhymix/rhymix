@@ -146,7 +146,7 @@ class UA
 		}
 		
 		// Look for common search engine names and the 'bot' keyword.
-		if (preg_match('/bot|spider|crawler|archiver|wget|curl|slurp|facebook|teoma|yeti|daum|https?:|@/i', $ua))
+		if (preg_match('/bot|spider|crawler|archiver|wget|curl|php|slurp|facebook|teoma|yeti|daum|https?:|@/i', $ua))
 		{
 			return self::$_robot_cache[$ua] = true;
 		}

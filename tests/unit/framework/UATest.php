@@ -225,7 +225,7 @@ class UATest extends \Codeception\TestCase\Test
 		$this->assertTrue($browser->is_robot);
 		
 		// Yeti
-		$browser = Rhymix\Framework\UA::getBrowserInfo('Yeti/1.0 (+http://help.naver.com/robots/)');
+		$browser = Rhymix\Framework\UA::getBrowserInfo('Yeti/1.1; +http://naver.me/spd');
 		$this->assertEquals('Yeti', $browser->browser);
 		$this->assertEquals('1.0', $browser->version);
 		$this->assertTrue($browser->is_robot);
@@ -240,19 +240,19 @@ class UATest extends \Codeception\TestCase\Test
 		$browser = Rhymix\Framework\UA::getBrowserInfo('wget/1.17.1');
 		$this->assertEquals('Wget', $browser->browser);
 		$this->assertEquals('1.17', $browser->version);
-		$this->assertFalse($browser->is_robot);
+		$this->assertTrue($browser->is_robot);
 		
 		// curl
 		$browser = Rhymix\Framework\UA::getBrowserInfo('curl/7.47.0');
 		$this->assertEquals('Curl', $browser->browser);
 		$this->assertEquals('7.47', $browser->version);
-		$this->assertFalse($browser->is_robot);
+		$this->assertTrue($browser->is_robot);
 		
 		// PHP with version
 		$browser = Rhymix\Framework\UA::getBrowserInfo('PHP/5.2.9');
 		$this->assertEquals('PHP', $browser->browser);
 		$this->assertEquals('5.2', $browser->version);
-		$this->assertFalse($browser->is_robot);
+		$this->assertTrue($browser->is_robot);
 		
 		// PHP without version
 		$browser = Rhymix\Framework\UA::getBrowserInfo('PHP');
