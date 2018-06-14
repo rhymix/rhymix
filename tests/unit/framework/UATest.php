@@ -227,7 +227,7 @@ class UATest extends \Codeception\TestCase\Test
 		// Yeti
 		$browser = Rhymix\Framework\UA::getBrowserInfo('Yeti/1.1; +http://naver.me/spd');
 		$this->assertEquals('Yeti', $browser->browser);
-		$this->assertEquals('1.0', $browser->version);
+		$this->assertEquals('1.1', $browser->version);
 		$this->assertTrue($browser->is_robot);
 		
 		// Baiduspider
