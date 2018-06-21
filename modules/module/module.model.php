@@ -567,10 +567,12 @@ class moduleModel extends module
 		if($action_forward === null)
 		{
 			$args = new stdClass();
-			$output = executeQueryArray('module.getActionForward',$args);
-			if(!$output->toBool()) return new stdClass;
-			if(!$output->data) $output->data = array();
-
+			$output = executeQueryArray('module.getActionForward', $args);
+			if(!$output->toBool())
+			{
+				return;
+			}
+			
 			$action_forward = array();
 			foreach($output->data as $item)
 			{
@@ -579,15 +581,13 @@ class moduleModel extends module
 			
 			Rhymix\Framework\Cache::set('action_forward', $action_forward, 0, true);
 		}
-
-		if($action_forward[$act])
+		
+		if(!isset($action_forward[$act]))
 		{
-			return $action_forward[$act];
+			return;
 		}
-		else
-		{
-			return new stdClass();
-		}
+		
+		return $action_forward[$act];
 	}
 
 	/**

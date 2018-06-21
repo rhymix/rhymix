@@ -546,8 +546,6 @@ class ModuleHandler extends Handler
 				}
 				return $oMessageObject;
 			}
-
-			$forward = NULL;
 			
 			// 1. Look for the module with action name
 			if(preg_match('/^([a-z]+)([A-Z])([a-z0-9\_]+)(.*)$/', $this->act, $matches))
@@ -575,12 +573,12 @@ class ModuleHandler extends Handler
 				}
 			}
 			
-			if(!$forward)
+			if(empty($forward->module))
 			{
 				$forward = $oModuleModel->getActionForward($this->act);
 			}
 			
-			if($forward->module && $forward->type && $forward->act && $forward->act == $this->act)
+			if(!empty($forward->module))
 			{
 				$kind = stripos($forward->act, 'admin') !== FALSE ? 'admin' : '';
 				$type = $forward->type;
@@ -703,7 +701,7 @@ class ModuleHandler extends Handler
 		// ruleset check...
 		if(!empty($ruleset))
 		{
-			$rulesetModule = $forward->module ? $forward->module : $this->module;
+			$rulesetModule = !empty($forward->module) ? $forward->module : $this->module;
 			$rulesetFile = $oModuleModel->getValidatorFilePath($rulesetModule, $ruleset, $this->mid);
 			if(!empty($rulesetFile))
 			{
