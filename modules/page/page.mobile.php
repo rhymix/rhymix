@@ -110,7 +110,7 @@ class pageMobile extends pageView
 		}
 		Context::set('oDocument', $oDocument);
 
-		if($this->module_info->mskin === '/USE_RESPsONSIVE/')
+		if($this->module_info->mskin === '/USE_RESPONSIVE/')
 		{
 			$template_path = sprintf("%sskins/%s/",$this->module_path, $this->module_info->skin);
 			if(!is_dir($template_path)||!$this->module_info->skin)

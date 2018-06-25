@@ -22,8 +22,23 @@ class messageMobile extends messageView
 		if(!$config->mskin) $config->mskin = 'default';
 		
 		// Set the template path
-		$template_path = sprintf('%sm.skins/%s', $this->module_path, $config->mskin);
-		
+		if($config->mskin === '/USE_RESPONSIVE/')
+		{
+			$template_path = sprintf('%sskins/%s/', $this->module_path, $config->skin);
+			if(!is_dir($template_path) || !$config->skin)
+			{
+				$template_path = sprintf('%sskins/%s/', $this->module_path, 'default');
+			}
+		}
+		else
+		{
+			$template_path = sprintf('%sm.skins/%s/', $this->module_path, $config->mskin);
+			if(!is_dir($template_path) || !$config->mskin)
+			{
+				$template_path = sprintf('%sm.skins/%s/', $this->module_path, 'default');
+			}
+		}
+
 		// Get the member configuration
 		$oModuleModel = getModel('module');
 		$member_config = $oModuleModel->getModuleConfig('member');
