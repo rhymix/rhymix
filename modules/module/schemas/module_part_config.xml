@@ -1,5 +1,5 @@
 <table name="module_part_config">
-    <column name="module" type="varchar" size="180" notnull="notnull" unique="unique_module_part_config" utf8mb4="false" />
+    <column name="module" type="varchar" size="80" notnull="notnull" unique="unique_module_part_config" utf8mb4="false" />
     <column name="module_srl" type="number" size="11" notnull="notnull" unique="unique_module_part_config" />
     <column name="config" type="bigtext" />
     <column name="regdate" type="date" />

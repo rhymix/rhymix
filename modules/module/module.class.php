@@ -114,10 +114,20 @@ class module extends ModuleObject
 		{
 			return true;
 		}
+		$column_info = $oDB->getColumnInfo('module_part_config', 'module');
+		if($column_info->size > 80)
+		{
+			return true;
+		}
 
 		// check module_config data type
 		$column_info = $oDB->getColumnInfo('module_config', 'config');
 		if($column_info->xetype !== 'bigtext')
+		{
+			return true;
+		}
+		$column_info = $oDB->getColumnInfo('module_config', 'module');
+		if($column_info->size > 80)
 		{
 			return true;
 		}
@@ -401,14 +411,16 @@ class module extends ModuleObject
 			$output = $oModuleController->updateModuleConfig('module', $moduleConfig);
 		}
 
-		// check unique index on module_part_config
-		if($oDB->isIndexExists('module_part_config', 'idx_module_part_config'))
+		// check module_config data type
+		$column_info = $oDB->getColumnInfo('module_config', 'config');
+		if($column_info->xetype !== 'bigtext')
 		{
-			$oDB->dropIndex('module_part_config', 'idx_module_part_config');
+			$oDB->modifyColumn('module_config', 'config', 'bigtext');
 		}
-		if(!$oDB->isIndexExists('module_part_config', 'unique_module_part_config'))
+		$column_info = $oDB->getColumnInfo('module_config', 'module');
+		if($column_info->size > 80)
 		{
-			$oDB->addIndex('module_part_config', 'unique_module_part_config', array('module', 'module_srl'), true);
+			$oDB->modifyColumn('module_config', 'module', 'varchar', 80, '', true);
 		}
 
 		// check module_part_config data type
@@ -417,12 +429,20 @@ class module extends ModuleObject
 		{
 			$oDB->modifyColumn('module_part_config', 'config', 'bigtext');
 		}
-
-		// check module_config data type
-		$column_info = $oDB->getColumnInfo('module_config', 'config');
-		if($column_info->xetype !== 'bigtext')
+		$column_info = $oDB->getColumnInfo('module_part_config', 'module');
+		if($column_info->size > 80)
 		{
-			$oDB->modifyColumn('module_config', 'config', 'bigtext');
+			$oDB->modifyColumn('module_part_config', 'module', 'varchar', 80, '', true);
+		}
+
+		// check unique index on module_part_config
+		if($oDB->isIndexExists('module_part_config', 'idx_module_part_config'))
+		{
+			$oDB->dropIndex('module_part_config', 'idx_module_part_config');
+		}
+		if(!$oDB->isIndexExists('module_part_config', 'unique_module_part_config'))
+		{
+			$oDB->addIndex('module_part_config', 'unique_module_part_config', array('module', 'module_srl'), true);
 		}
 	}
 	
