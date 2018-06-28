@@ -54,9 +54,9 @@ class documentAdminView extends document
 		}
 
 		$args->sort_index = 'list_order'; // /< sorting value
-
 		$args->module_srl = Context::get('module_srl');
-
+		$args->statusList = array($this->getConfigStatus('public'), $this->getConfigStatus('secret'), $this->getConfigStatus('temp'));
+		
 		// get a list
 		$oDocumentModel = getModel('document');
 		$columnList = array('document_srl', 'module_srl', 'category_srl', 'member_srl', 'title', 'nick_name', 'comment_count', 'trackback_count', 'readed_count', 'voted_count', 'blamed_count', 'regdate', 'ipaddress', 'status');

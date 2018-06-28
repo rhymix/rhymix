@@ -470,6 +470,7 @@ class pointController extends point
 				{
 					$message = sprintf(lang('msg_disallow_by_point'), abs($reader_point), $cur_point);
 					$obj->add('content', $message);
+					$GLOBALS['XE_EXTRA_VARS'][$obj->document_srl] = array();
 					$_SESSION['banned_document'][$obj->document_srl] = true;
 					return new BaseObject(-1, $message);
 				}

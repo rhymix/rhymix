@@ -1,28 +1,32 @@
 <query id="getDocumentListWithinTag" action="select">
-    <tables>
-        <table name="documents" alias="documents" />
-        <table name="tags" alias="tags" />
-    </tables>
-    <columns>
-        <column name="documents.document_srl" />
-        <column name="documents.list_order" />
-    </columns>
-    <conditions>
-        <condition operation="in" column="documents.module_srl" var="module_srl" filter="number" />
-        <condition operation="notin" column="documents.module_srl" var="exclude_module_srl" filter="number" pipe="and" />
-        <condition operation="equal" column="documents.document_srl" default="tags.document_srl" notnull="notnull" pipe="and" />
-        <condition operation="in" column="documents.category_srl" var="category_srl" filter="number" pipe="and" />
-        <condition operation="in" column="documents.member_srl" var="member_srl" filter="number" pipe="and" />
-        <condition operation="like" column="tags.tag" var="s_tags" notnull="notnull" pipe="and" />
-        <condition operation="in" column="documents.status" var="statusList" pipe="and" />
-    </conditions>
-    <navigation>
-        <index var="sort_index" default="documents.list_order" order="order_type" />
-        <list_count var="list_count" default="20" />
-        <page_count var="page_count" default="10" />
-        <page var="page" default="1" />
-    </navigation>
-    <groups>
-        <group column="documents.document_srl" />
-    </groups>
+	<tables>
+		<table name="documents" />
+		<table name="tags" />
+	</tables>
+	<columns>
+		<column name="documents.*" />
+	</columns>
+	<conditions>
+		<condition operation="like" column="tags.tag" var="s_tag" notnull="notnull" />
+		<condition operation="equal" column="documents.document_srl" default="tags.document_srl" pipe="and" />
+		<condition operation="in" column="documents.module_srl" var="module_srl" filter="number" pipe="and" />
+		<condition operation="notin" column="documents.module_srl" var="exclude_module_srl" filter="number" pipe="and" />
+		<condition operation="in" column="documents.category_srl" var="category_srl" filter="number" pipe="and" />
+		<condition operation="in" column="documents.member_srl" var="member_srl" filter="number" pipe="and" />
+		<condition operation="equal" column="documents.is_notice" var="s_is_notice" pipe="and" />
+		<condition operation="in" column="documents.status" var="statusList" pipe="and" />
+		<condition operation="more" column="documents.list_order" var="division" pipe="and" />
+		<condition operation="below" column="documents.list_order" var="last_division" pipe="and" />
+		<condition operation="more" column="documents.last_update" var="start_date" pipe="and" />
+		<condition operation="less" column="documents.last_update" var="end_date" pipe="and" />
+	</conditions>
+	<groups>
+		<group column="documents.document_srl" />
+	</groups>
+	<navigation>
+		<index var="sort_index" default="documents.list_order" order="order_type" />
+		<list_count var="list_count" default="20" />
+		<page_count var="page_count" default="10" />
+		<page var="page" default="1" />
+	</navigation>
 </query>

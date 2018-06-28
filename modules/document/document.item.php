@@ -145,18 +145,30 @@ class documentItem extends BaseObject
 		$this->lang_code = $attribute->lang_code;
 		$this->adds($attribute);
 		
-		// Tags
+		// set XE_DOCUMENT_LIST
+		$GLOBALS['XE_DOCUMENT_LIST'][$this->document_srl] = $this;
+		
+		// set tags
 		if($this->get('tags'))
 		{
 			$this->add('tag_list', $this->getTags());
 		}
 		
+		// set extra vars
 		if($load_extra_vars)
 		{
 			getModel('document')->setToAllDocumentExtraVars();
 		}
 		
-		$GLOBALS['XE_DOCUMENT_LIST'][$this->document_srl] = $this;
+		// set content in user language
+		if(isset($GLOBALS['RX_DOCUMENT_LANG'][$this->document_srl]['title']))
+		{
+			$this->add('title', $GLOBALS['RX_DOCUMENT_LANG'][$this->document_srl]['title']);
+		}
+		if(isset($GLOBALS['RX_DOCUMENT_LANG'][$this->document_srl]['content']))
+		{
+			$this->add('content', $GLOBALS['RX_DOCUMENT_LANG'][$this->document_srl]['content']);
+		}
 	}
 
 	function isExists()
@@ -824,11 +836,6 @@ class documentItem extends BaseObject
 		}
 		
 		$extra_vars = $this->getExtraVars();
-		if(!is_array($extra_vars))
-		{
-			return array();
-		}
-		
 		foreach($extra_vars as $idx => $key)
 		{
 			$this->extra_eids[$key->eid] = $key;

@@ -1,28 +1,57 @@
 <query id="getDocumentListWithExtraVars" action="select">
-    <tables>
-        <table name="documents" />
-        <table name="document_extra_vars" alias="extra_vars" />
-    </tables>
-    <columns>
-        <column name="documents.*" />
-    </columns>
-    <conditions>
-        <condition operation="in" column="documents.module_srl" var="module_srl" filter="number" />
-        <condition operation="in" column="documents.category_srl" var="category_srl" filter="number" pipe="and" />
-        <condition operation="in" column="documents.member_srl" var="member_srl" filter="number" pipe="and" />
-        <condition operation="equal" column="extra_vars.module_srl" default="documents.module_srl" pipe="and" />
-        <condition operation="equal" column="extra_vars.document_srl" default="documents.document_srl" pipe="and" />
-        <condition operation="equal" column="extra_vars.var_idx" var="var_idx" notnull="notnull" pipe="and" />
-        <condition operation="in" column="documents.status" var="statusList" pipe="and" />
-        <condition operation="like" column="extra_vars.value" var="var_value" notnull="notnull" pipe="and" />
-    </conditions>
+	<tables>
+		<table name="documents" />
+		<table name="document_extra_vars" alias="extra_vars" />
+		<table name="document_extra_vars" alias="extra_sort" />
+	</tables>
+	<columns>
+		<column name="documents.*" />
+	</columns>
+	<conditions>
+		<condition operation="like" column="extra_vars.value" var="var_value" />
+		<condition operation="equal" column="extra_vars.var_idx" var="var_idx" pipe="and" />
+		<condition operation="equal" column="documents.document_srl" default="extra_vars.document_srl" pipe="and" />
+		<condition operation="equal" column="extra_sort.eid" var="sort_eid" pipe="and" />
+		<condition operation="equal" column="extra_sort.lang_code" var="sort_lang" pipe="and" />
+		<condition operation="equal" column="documents.document_srl" default="extra_sort.document_srl" pipe="and" />
+		<condition operation="in" column="documents.module_srl" var="module_srl" filter="number" pipe="and" />
+		<condition operation="notin" column="documents.module_srl" var="exclude_module_srl" filter="number" pipe="and" />
+		<condition operation="in" column="documents.category_srl" var="category_srl" filter="number" pipe="and" />
+		<condition operation="in" column="documents.member_srl" var="member_srl" filter="number" pipe="and" />
+		<condition operation="equal" column="documents.is_notice" var="s_is_notice" pipe="and" />
+		<condition operation="in" column="documents.status" var="statusList" pipe="and" />
+		<condition operation="more" column="documents.list_order" var="division" pipe="and" />
+		<condition operation="below" column="documents.list_order" var="last_division" pipe="and" />
+		<condition operation="more" column="documents.last_update" var="start_date" pipe="and" />
+		<condition operation="less" column="documents.last_update" var="end_date" pipe="and" />
+		<group pipe="and">
+			<condition operation="like" column="documents.title" var="s_title" />
+			<condition operation="like" column="documents.content" var="s_content" pipe="or" />
+			<condition operation="equal" column="documents.user_name" var="s_user_name" pipe="or" />
+			<condition operation="equal" column="documents.user_id" var="s_user_id" pipe="or" />
+			<condition operation="equal" column="documents.nick_name" var="s_nick_name" pipe="or" />
+			<condition operation="like" column="documents.email_address" var="s_email_address" pipe="or" />
+			<condition operation="like" column="documents.homepage" var="s_homepage" pipe="or" />
+			<condition operation="like" column="documents.tags" var="s_tags" pipe="or" />
+			<condition operation="equal" column="documents.member_srl" var="s_member_srl" pipe="or" />
+			<condition operation="more" column="documents.readed_count" var="s_readed_count" pipe="or" />
+			<condition operation="more" column="documents.voted_count" var="s_voted_count" pipe="or" />
+			<condition operation="less" column="documents.blamed_count" var="s_blamed_count" pipe="or" />
+			<condition operation="more" column="documents.comment_count" var="s_comment_count" pipe="or" />
+			<condition operation="more" column="documents.trackback_count" var="s_trackback_count" pipe="or" />
+			<condition operation="more" column="documents.uploaded_count" var="s_uploaded_count" pipe="or" />
+			<condition operation="like_prefix" column="documents.regdate" var="s_regdate" pipe="or" />
+			<condition operation="like_prefix" column="documents.last_update" var="s_last_update" pipe="or" />
+			<condition operation="like_prefix" column="documents.ipaddress" var="s_ipaddress" pipe="or" />
+		</group>
+	</conditions>
 	<groups>
-		<group column="extra_vars.document_srl" />
+		<group column="documents.document_srl" />
 	</groups>
-    <navigation>
-        <index var="sort_index" default="documents.list_order" order="order_type" />
-        <list_count var="list_count" default="20" />
-        <page_count var="page_count" default="10" />
-        <page var="page" default="1" />
-    </navigation>
+	<navigation>
+		<index var="sort_index" default="documents.list_order" order="order_type" />
+		<list_count var="list_count" default="20" />
+		<page_count var="page_count" default="10" />
+		<page var="page" default="1" />
+	</navigation>
 </query>

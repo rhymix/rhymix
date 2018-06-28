@@ -2015,11 +2015,16 @@ class moduleModel extends module
 	/**
 	 * @brief Return privileges(granted) information by using module info, xml info and member info
 	 */
-	function getGrant($module_info, $member_info, $xml_info = '')
+	function getGrant($module_info, $member_info, $xml_info = null)
 	{
-		$__cache = &$GLOBALS['__MODULE_GRANT__'][$module_info->module][intval($module_info->module_srl)][intval($member_info->member_srl)];
+		if(empty($module_info->module))
+		{
+			$module_info = new stdClass;
+			$module_info->module = $module_info->module_srl = 0;
+		}
 		
-		if (!$xml_info && is_object($__cache))
+		$__cache = &$GLOBALS['__MODULE_GRANT__'][$module_info->module][intval($module_info->module_srl)][intval($member_info->member_srl)];
+		if (is_object($__cache) && !$xml_info)
 		{
 			return $__cache;
 		}
@@ -2031,21 +2036,14 @@ class moduleModel extends module
 		{
 			$xml_info = $this->getModuleActionXml($module_info->module);
 		}
+		$xml_grant_list = isset($xml_info->grant) ? (array)$xml_info->grant : array();
 		
 		// Get group information of member
-		if(is_array($member_info->group_list))
-		{
-			$member_group = array_keys($member_info->group_list);
-		}
-		else
-		{
-			$member_group = array();
-		}
-		
-		$is_module_admin = $module_info->module_srl ? $this->isModuleAdmin($member_info, $module_info->module_srl) : false;
+		$member_group = !empty($member_info->group_list) ? array_keys($member_info->group_list) : array();
+		$is_module_admin = !empty($module_info->module_srl) ? $this->isModuleAdmin($member_info, $module_info->module_srl) : false;
 		
 		// Get 'privilege name' list from module.xml
-		$privilege_list = array_keys((array) $xml_info->grant);
+		$privilege_list = array_keys($xml_grant_list);
 		
 		// Prepend default 'privilege name'
 		// manager, is_site_admin not distinguish because of compatibility.
@@ -2068,7 +2066,7 @@ class moduleModel extends module
 				$grant->{$val} = true;
 			}
 			// If module_srl doesn't exist, grant access
-			else if(!$module_info->module_srl && $val === 'access')
+			else if(empty($module_info->module_srl) && $val === 'access')
 			{
 				$grant->{$val} = true;
 			}
@@ -2143,41 +2141,38 @@ class moduleModel extends module
 			}
 			
 			// Grant privileges by default information of module
-			if(!empty($grant_list = (array) $xml_info->grant))
+			foreach($xml_grant_list as $name => $item)
 			{
-				foreach($grant_list as $name => $item)
+				if(isset($checked[$name]) || $grant->{$name})
 				{
-					if(isset($checked[$name]) || $grant->{$name})
-					{
-						continue;
-					}
+					continue;
+				}
+				
+				// All user
+				if($item->default == 'guest')
+				{
+					$grant->{$name} = true;
 					
-					// All user
-					if($item->default == 'guest')
+					continue;
+				}
+				
+				// Log-in member only
+				if($member_info->member_srl)
+				{
+					if($item->default == 'member')
 					{
 						$grant->{$name} = true;
-						
-						continue;
 					}
-					
-					// Log-in member only
-					if($member_info->member_srl)
+					else if($item->default == 'site')
 					{
-						if($item->default == 'member')
+						// Grant if no information of the currently connected site exists
+						if(!Context::get('site_module_info')->site_srl)
 						{
 							$grant->{$name} = true;
 						}
-						else if($item->default == 'site')
+						else if(count($member_group))
 						{
-							// Grant if no information of the currently connected site exists
-							if(!Context::get('site_module_info')->site_srl)
-							{
-								$grant->{$name} = true;
-							}
-							else if(count($member_group))
-							{
-								$grant->{$name} = true;
-							}
+							$grant->{$name} = true;
 						}
 					}
 				}
