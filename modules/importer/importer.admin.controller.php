@@ -372,13 +372,14 @@ class importerAdminController extends importer
 			FileHandler::removeFile($target_file);
 			if(!$xmlObj) continue;
 			// List Objects
-			$obj = null;
+			$obj = new stdClass();
+			$obj->member_srl = getNextSequence();
 			$obj->user_id = base64_decode($xmlObj->member->user_id->body);
 			$obj->password = base64_decode($xmlObj->member->password->body);
 			$obj->user_name = base64_decode($xmlObj->member->user_name->body);
 			$obj->nick_name = base64_decode($xmlObj->member->nick_name->body);
 			if(!$obj->user_name) $obj->user_name = $obj->nick_name;
-			$obj->email = base64_decode($xmlObj->member->email->body);
+			$obj->email_address = base64_decode($xmlObj->member->email->body);
 			$obj->homepage = base64_decode($xmlObj->member->homepage->body);
 			$obj->blog = base64_decode($xmlObj->member->blog->body);
 			$obj->birthday = substr(base64_decode($xmlObj->member->birthday->body),0,8);
@@ -401,8 +402,20 @@ class importerAdminController extends importer
 			}
 			// Create url for homepage and blog
 			if($obj->homepage && strncasecmp('http://', $obj->homepage, 7) !== 0 && strncasecmp('https://', $obj->homepage, 8) !== 0) $obj->homepage = 'http://'.$obj->homepage;
-			// email address column
-			$obj->email_address = $obj->email;
+			// Check user ID
+			if(!preg_match('/^[a-z]+[\w-]*[a-z0-9_]+$/i', $obj->user_id))
+			{
+				$obj->user_id = preg_replace('/[^a-z0-9_-]+/i', '', $obj->user_id);
+			}
+			if(!preg_match('/^[a-z]+[\w-]*[a-z0-9_]+$/i', $obj->user_id))
+			{
+				$obj->user_id = 't' . $obj->member_srl;
+			}
+			// Check email address
+			if(!preg_match('/^[\w-]+((?:\.|\+|\~)[\w-]+)*@[\w-]+(\.[\w-]+)+$/', $obj->email_address))
+			{
+				$obj->email_address = $obj->user_id . '@example.com';
+			}
 			list($obj->email_id, $obj->email_host) = explode('@', $obj->email);
 			// Set the mailing option
 			if($obj->allow_mailing!='Y') $obj->allow_mailing = 'N';
@@ -411,18 +424,37 @@ class importerAdminController extends importer
 			if(!in_array($obj->allow_message, array('Y','N','F'))) $obj->allow_message= 'Y';
 			// Get member-join date if the last login time is not found
 			if(!$obj->last_login) $obj->last_login = $obj->regdate;
-			// Get a member_srl
-			$obj->member_srl = getNextSequence();
+			// Set the list order
 			$obj->list_order = -1 * $obj->member_srl;
 			// List extra vars
 			$extra_vars = $obj->extra_vars;
 			unset($obj->extra_vars);
 			$obj->extra_vars = serialize($extra_vars);
-			// Check if the same nickname is existing
-			$nick_args = new stdClass;
-			$nick_args->nick_name = $obj->nick_name;
-			$nick_output = executeQuery('member.getMemberSrl', $nick_args);
-			if(!$nick_output->toBool()) $obj->nick_name .= '_'.$obj->member_srl;
+			// Check if the same user ID exists
+			$args = new stdClass;
+			$args->user_id = $obj->user_id;
+			$output = executeQuery('member.getMemberSrl', $args);
+			if(!$output->toBool() || $output->data)
+			{
+				$obj->user_id .= '_'.$obj->member_srl;
+			}
+			// Check if the same nickname exists
+			$args = new stdClass;
+			$args->nick_name = $obj->nick_name;
+			$output = executeQuery('member.getMemberSrl', $args);
+			if(!$output->toBool() || $output->data)
+			{
+				$obj->user_id .= '_'.$obj->member_srl;
+			}
+			// Check if the same email address exists
+			$args = new stdClass;
+			$args->email_address = $obj->email_address;
+			$output = executeQuery('member.getMemberSrl', $args);
+			if(!$output->toBool() || $output->data)
+			{
+				$obj->email_address = $obj->user_id . '@example.com';
+			}
+
 			// Add a member
 			$output = executeQuery('member.insertMember', $obj);
 
@@ -433,7 +465,7 @@ class importerAdminController extends importer
 				$oMail->setTitle("Password update for your " . getFullSiteUrl() . " account");
 				$webmaster_name = $member_config->webmaster_name?$member_config->webmaster_name:'Webmaster';
 				$oMail->setContent("Dear $obj->user_name, <br /><br />
-						We recently migrated our phpBB forum to Rhymix. Since you password was encrypted we could not migrate it too, so please reset it by following this link:
+						We recently migrated our site to Rhymix. Since you password was encrypted we could not migrate it too, so please reset it by following this link:
 						<a href='" . getFullSiteUrl() . "/?act=dispMemberFindAccount' >" . getFullSiteUrl() . "?act=dispMemberFindAccount</a>. You need to enter you email address and hit the 'Find account' button. You will then receive an email with a new, generated password that you can change after login. <br /><br />
 
 						Thank you for your understanding,<br />
@@ -751,6 +783,20 @@ class importerAdminController extends importer
 			$obj->commentStatus = base64_decode($xmlDoc->post->allow_comment->body)!='N'?'ALLOW':'DENY';
 			$obj->allow_trackback = base64_decode($xmlDoc->post->allow_trackback->body)!='N'?'Y':'N';
 			$obj->notify_message = base64_decode($xmlDoc->post->is_notice->body);
+			// Check user ID
+			if(!preg_match('/^[a-z]+[\w-]*[a-z0-9_]+$/i', $obj->user_id))
+			{
+				$obj->user_id = preg_replace('/[^a-z0-9_-]+/i', '', $obj->user_id);
+			}
+			if(!preg_match('/^[a-z]+[\w-]*[a-z0-9_]+$/i', $obj->user_id))
+			{
+				$obj->user_id = 't' . $obj->member_srl;
+			}
+			// Check email address
+			if(!preg_match('/^[\w-]+((?:\.|\+|\~)[\w-]+)*@[\w-]+(\.[\w-]+)+$/', $obj->email_address))
+			{
+				$obj->email_address = $obj->user_id . '@example.com';
+			}
 			// Change content information (attachment)
 			if(count($files))
 			{
@@ -942,6 +988,20 @@ class importerAdminController extends importer
 				$obj->ipaddress = base64_decode($xmlDoc->comment->ipaddress->body);
 				$obj->status = base64_decode($xmlDoc->comment->status->body)==''?'1':base64_decode($xmlDoc->comment->status->body);
 				$obj->list_order = $obj->comment_srl*-1;
+				// Check user ID
+				if(!preg_match('/^[a-z]+[\w-]*[a-z0-9_]+$/i', $obj->user_id))
+				{
+					$obj->user_id = preg_replace('/[^a-z0-9_-]+/i', '', $obj->user_id);
+				}
+				if(!preg_match('/^[a-z]+[\w-]*[a-z0-9_]+$/i', $obj->user_id))
+				{
+					$obj->user_id = 't' . $obj->member_srl;
+				}
+				// Check email address
+				if(!preg_match('/^[\w-]+((?:\.|\+|\~)[\w-]+)*@[\w-]+(\.[\w-]+)+$/', $obj->email_address))
+				{
+					$obj->email_address = $obj->user_id . '@example.com';
+				}
 				// Change content information (attachment)
 				if(count($files))
 				{
