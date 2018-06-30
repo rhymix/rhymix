@@ -410,12 +410,12 @@ class DBMySQL extends DB
 	 */
 	function getNextSequence()
 	{
-		$query = sprintf("insert into `%ssequence` (seq) values ('0')", $this->prefix);
+		$query = sprintf("INSERT INTO `%ssequence` (seq) VALUES ('0')", $this->prefix);
 		$this->_query($query);
 		$sequence = $this->getInsertID();
 		if($sequence % 10000 == 0)
 		{
-			$query = sprintf("delete from  `%ssequence` where seq < %d", $this->prefix, $sequence);
+			$query = sprintf("DELETE FROM `%ssequence` WHERE seq < %d", $this->prefix, $sequence);
 			$this->_query($query);
 		}
 
@@ -430,7 +430,7 @@ class DBMySQL extends DB
 	 */
 	function isValidOldPassword($password, $saved_password)
 	{
-		$query = sprintf("select password('%s') as password, old_password('%s') as old_password", $this->addQuotes($password), $this->addQuotes($password));
+		$query = sprintf("SELECT PASSWORD('%s') AS password, OLD_PASSWORD('%s') AS old_password", $this->addQuotes($password), $this->addQuotes($password));
 		$result = $this->_query($query);
 		$tmp = $this->_fetch($result);
 		if($tmp->password === $saved_password || $tmp->old_password === $saved_password)
@@ -447,7 +447,7 @@ class DBMySQL extends DB
 	 */
 	function isTableExists($target_name)
 	{
-		$query = sprintf("show tables like '%s%s'", $this->prefix, $this->addQuotes($target_name));
+		$query = sprintf("SHOW TABLES LIKE '%s%s'", $this->prefix, $this->addQuotes($target_name));
 		$result = $this->_query($query);
 		$tmp = $this->_fetch($result);
 		if(!$tmp)
@@ -475,7 +475,7 @@ class DBMySQL extends DB
 			$size = '';
 		}
 
-		$query = sprintf("alter table `%s%s` add `%s` ", $this->prefix, $table_name, $column_name);
+		$query = sprintf("ALTER TABLE `%s%s` ADD `%s` ", $this->prefix, $table_name, $column_name);
 		if($size)
 		{
 			$query .= sprintf(" %s(%s) ", $type, $size);
@@ -486,11 +486,11 @@ class DBMySQL extends DB
 		}
 		if(isset($default))
 		{
-			$query .= sprintf(" default '%s' ", $default);
+			$query .= sprintf(" DEFAULT '%s' ", $default);
 		}
 		if($notnull)
 		{
-			$query .= " not null ";
+			$query .= " NOT NULL ";
 		}
 
 		return $this->_query($query);
@@ -504,7 +504,7 @@ class DBMySQL extends DB
 	 */
 	function dropColumn($table_name, $column_name)
 	{
-		$query = sprintf("alter table `%s%s` drop `%s` ", $this->prefix, $table_name, $column_name);
+		$query = sprintf("ALTER TABLE `%s%s` DROP `%s` ", $this->prefix, $table_name, $column_name);
 		$this->_query($query);
 	}
 
@@ -526,7 +526,7 @@ class DBMySQL extends DB
 			$size = '';
 		}
 		
-		$query = sprintf("alter table `%s%s` modify `%s` ", $this->prefix, $table_name, $column_name);
+		$query = sprintf("ALTER TABLE `%s%s` MODIFY `%s` ", $this->prefix, $table_name, $column_name);
 		if($size)
 		{
 			$query .= sprintf(" %s(%s) ", $type, $size);
@@ -537,11 +537,11 @@ class DBMySQL extends DB
 		}
 		if($default)
 		{
-			$query .= sprintf(" default '%s' ", $default);
+			$query .= sprintf(" DEFAULT '%s' ", $default);
 		}
 		if($notnull)
 		{
-			$query .= " not null ";
+			$query .= " NOT NULL ";
 		}
 		
 		return $this->_query($query) ? true : false;
@@ -555,7 +555,7 @@ class DBMySQL extends DB
 	 */
 	function isColumnExists($table_name, $column_name)
 	{
-		$query = sprintf("show fields from `%s%s`", $this->prefix, $table_name);
+		$query = sprintf("SHOW FIELDS FROM `%s%s`", $this->prefix, $table_name);
 		$result = $this->_query($query);
 		if($this->isError())
 		{
@@ -585,7 +585,7 @@ class DBMySQL extends DB
 	 */
 	function getColumnInfo($table_name, $column_name)
 	{
-		$query = sprintf("show fields from `%s%s` where `Field` = '%s'", $this->prefix, $table_name, $column_name);
+		$query = sprintf("SHOW FIELDS FROM `%s%s` WHERE `Field` = '%s'", $this->prefix, $table_name, $column_name);
 		$result = $this->_query($query);
 		if($this->isError())
 		{
@@ -649,7 +649,7 @@ class DBMySQL extends DB
 			$target_columns = array($target_columns);
 		}
 
-		$query = sprintf("alter table `%s%s` add %s index `%s` (%s);", $this->prefix, $table_name, $is_unique ? 'unique' : '', $index_name, implode(',', $target_columns));
+		$query = sprintf("ALTER TABLE `%s%s` ADD %s INDEX `%s` (%s);", $this->prefix, $table_name, $is_unique ? 'UNIQUE' : '', $index_name, implode(',', $target_columns));
 		$this->_query($query);
 	}
 
@@ -662,7 +662,7 @@ class DBMySQL extends DB
 	 */
 	function dropIndex($table_name, $index_name, $is_unique = false)
 	{
-		$query = sprintf("alter table `%s%s` drop index `%s`", $this->prefix, $table_name, $index_name);
+		$query = sprintf("ALTER TABLE `%s%s` DROP INDEX `%s`", $this->prefix, $table_name, $index_name);
 		$this->_query($query);
 	}
 
@@ -674,8 +674,7 @@ class DBMySQL extends DB
 	 */
 	function isIndexExists($table_name, $index_name)
 	{
-		//$query = sprintf("show indexes from %s%s where key_name = '%s' ", $this->prefix, $table_name, $index_name);
-		$query = sprintf("show indexes from `%s%s`", $this->prefix, $table_name);
+		$query = sprintf("SHOW INDEXES FROM `%s%s`", $this->prefix, $table_name);
 		$result = $this->_query($query);
 		if($this->isError())
 		{
