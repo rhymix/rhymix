@@ -41,12 +41,12 @@ class Condition
 	 * @param string $pipe
 	 * @return void
 	 */
-	function __construct($column_name, $argument, $operation, $pipe)
+	function __construct($column_name, $argument, $operation, $pipe = 'and')
 	{
 		$this->column_name = $column_name;
 		$this->argument = $argument;
 		$this->operation = $operation;
-		$this->pipe = strtoupper($pipe);
+		$this->pipe = $pipe;
 	}
 
 	function getArgument()
@@ -85,7 +85,7 @@ class Condition
 	 */
 	function toStringWithoutValue()
 	{
-		return $this->pipe . ' ' . $this->getConditionPart($this->_value);
+		return strtoupper($this->pipe) . ' ' . $this->getConditionPart($this->_value);
 	}
 
 	/**
@@ -94,7 +94,7 @@ class Condition
 	 */
 	function toStringWithValue()
 	{
-		return $this->pipe . ' ' . $this->getConditionPart($this->_value);
+		return strtoupper($this->pipe) . ' ' . $this->getConditionPart($this->_value);
 	}
 
 	function setPipe($pipe)

@@ -44,9 +44,16 @@ class JoinTable extends Table
 		$part = strtoupper($this->join_type) . ' ' . $this->name;
 		$part .= $this->alias ? (' AS ' . $this->alias) : '';
 		$part .= ' ON ';
+		
+		$condition_count = 0;
 		foreach($this->conditions as $conditionGroup)
 		{
+			if($condition_count === 0)
+			{
+				$conditionGroup->setPipe("");
+			}
 			$part .= $conditionGroup->toString($with_value);
+			$condition_count++;
 		}
 		return $part;
 	}
