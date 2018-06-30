@@ -36,7 +36,7 @@ class Table
 	function toString()
 	{
 		//return $this->name;
-		return sprintf("%s%s", $this->name, $this->alias ? ' as ' . $this->alias : '');
+		return sprintf("%s%s", $this->name, $this->alias ? (' AS ' . $this->alias) : '');
 	}
 
 	function getName()

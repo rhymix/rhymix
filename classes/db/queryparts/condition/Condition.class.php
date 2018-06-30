@@ -46,7 +46,7 @@ class Condition
 		$this->column_name = $column_name;
 		$this->argument = $argument;
 		$this->operation = $operation;
-		$this->pipe = $pipe;
+		$this->pipe = strtoupper($pipe);
 	}
 
 	function getArgument()
@@ -208,32 +208,27 @@ class Condition
 			case 'like_tail' :
 			case 'like_prefix' :
 			case 'like' :
-				if(defined('__CUBRID_VERSION__')
-						&& __CUBRID_VERSION__ >= '8.4.1')
-					return $name . ' rlike ' . $value;
-				else
-					return $name . ' like ' . $value;
-				break;
+				return $name . ' LIKE ' . $value;
 			case 'notlike_tail' :
 			case 'notlike_prefix' :
 			case 'notlike' :
-				return $name . ' not like ' . $value;
+				return $name . ' NOT LIKE ' . $value;
 				break;
 			case 'in' :
-				return $name . ' in ' . $value;
+				return $name . ' IN ' . $value;
 				break;
 			case 'notin' :
 			case 'not_in' :
-				return $name . ' not in ' . $value;
+				return $name . ' NOT IN ' . $value;
 				break;
 			case 'notequal' :
 				return $name . ' <> ' . $value;
 				break;
 			case 'notnull' :
-				return $name . ' is not null';
+				return $name . ' IS NOT NULL ';
 				break;
 			case 'null' :
-				return $name . ' is null';
+				return $name . ' IS NULL ';
 				break;
 			case 'and' :
 				return $name . ' & ' . $value;
@@ -248,7 +243,7 @@ class Condition
 				return $name . ' ~ ' . $value;
 				break;
 			case 'between' :
-				return $name . ' between ' . $value[0] . ' and ' . $value[1];
+				return $name . ' BETWEEN ' . $value[0] . ' AND ' . $value[1];
 				break;
 		}
 	}
