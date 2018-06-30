@@ -2,24 +2,17 @@
 /* Copyright (C) NAVER <http://www.navercorp.com> */
 
 /**
- * Class to use MySQL DBMS
- * mysql handling class
- *
- * Does not use prepared statements, since mysql driver does not support them
- *
- * @author NAVER (developers@xpressengine.com)
- * @package /classes/db
- * @version 0.1
+ * Merged class for MySQL and MySQLi, with or without InnoDB
  */
-class DBMysql extends DB
+class DBMySQL extends DB
 {
 	/**
 	 * prefix of a tablename (One or more Rhymix can be installed in a single DB)
 	 * @var string
 	 */
-	var $prefix = 'rx_'; // / <
+	var $prefix = 'rx_';
 	var $comment_syntax = '/* %s */';
-	var $charset = 'utf8';
+	var $charset = 'utf8mb4';
 
 	/**
 	 * Column type used in MySQL
@@ -43,6 +36,11 @@ class DBMysql extends DB
 	 * Last statement executed
 	 */
 	var $last_stmt;
+	
+	/**
+	 * Query parameters for prepared statement
+	 */
+	var $params = array();
 
 	/**
 	 * Constructor
@@ -58,62 +56,54 @@ class DBMysql extends DB
 	 * DB Connect
 	 * this method is private
 	 * @param array $connection connection's value is db_hostname, db_port, db_database, db_userid, db_password
-	 * @return resource
+	 * @return mysqli
 	 */
-	function __connect($connection)
+	protected function __connect($connection)
 	{
-		// Ignore if no DB information exists
-		if(strpos($connection['host'], ':') === false && $connection['port'])
-		{
-			$connection['host'] .= ':' . $connection['port'];
-		}
-
 		// Attempt to connect
-		$result = @mysql_connect($connection['host'], $connection['user'], $connection['pass']);
-		if(!$result)
+		if($connection['port'])
 		{
-			$this->setError(-1, 'Unable to connect to DB.');
+			$mysqli = new mysqli($connection['host'], $connection['user'], $connection['pass'], $connection['database'], $connection['port']);
+		}
+		else
+		{
+			$mysqli = new mysqli($connection['host'], $connection['user'], $connection['pass'], $connection['database']);
+		}
+		
+		// Check connection error
+		if($mysqli->connect_errno)
+		{
+			$this->setError($mysqli->connect_errno, $mysqli->connect_error());
 			return;
 		}
-
-		if(mysql_error())
-		{
-			$this->setError(mysql_errno(), mysql_error());
-			return;
-		}
-
-		// Error appears if the version is lower than 5.0.7
-		$this->db_version = mysql_get_server_info($result);
-		if(version_compare($this->db_version, '5.0.7', '<'))
+		
+		// Check DB version
+		$this->db_version = $mysqli->server_info;
+		if (version_compare($this->db_version, '5.0.7', '<'))
 		{
 			$this->setError(-1, 'Rhymix requires MySQL 5.0.7 or later. Current MySQL version is ' . $this->db_version);
 			return;
 		}
-
-		// Set charset
+		
+		// Set DB charset
 		$this->charset = isset($connection['charset']) ? $connection['charset'] : 'utf8';
-		mysql_set_charset($this->charset, $result);
-
-		// select db
-		@mysql_select_db($connection['database'], $result);
-		if(mysql_error())
-		{
-			$this->setError(mysql_errno(), mysql_error());
-			return;
-		}
-
-		return $result;
+		$mysqli->set_charset($this->charset);
+		
+		return $mysqli;
 	}
 
 	/**
 	 * DB disconnection
 	 * this method is private
-	 * @param resource $connection
+	 * @param mysqli $connection
 	 * @return void
 	 */
-	function _close($connection)
+	protected function _close($connection)
 	{
-		@mysql_close($connection);
+		if ($connection instanceof mysqli)
+		{
+			$connection->close();
+		}
 	}
 
 	/**
@@ -125,7 +115,8 @@ class DBMysql extends DB
 	{
 		if(!is_numeric($string))
 		{
-			$string = @mysql_real_escape_string($string);
+			$connection = $this->_getConnection('master');
+			$string = $connection->real_escape_string($string);
 		}
 		return $string;
 	}
@@ -135,8 +126,19 @@ class DBMysql extends DB
 	 * this method is private
 	 * @return boolean
 	 */
-	function _begin($transactionLevel = 0)
+	protected function _begin($transactionLevel = 0)
 	{
+		$connection = $this->_getConnection('master');
+
+		if(!$transactionLevel)
+		{
+			$connection->begin_transaction();
+			$this->setQueryLog(array('query' => 'START TRANSACTION'));
+		}
+		else
+		{
+			$this->_query("SAVEPOINT SP" . $transactionLevel, $connection);
+		}
 		return true;
 	}
 
@@ -145,8 +147,20 @@ class DBMysql extends DB
 	 * this method is private
 	 * @return boolean
 	 */
-	function _rollback($transactionLevel = 0)
+	protected function _rollback($transactionLevel = 0)
 	{
+		$connection = $this->_getConnection('master');
+		$point = $transactionLevel - 1;
+
+		if($point)
+		{
+			$this->_query("ROLLBACK TO SP" . $point, $connection);
+		}
+		else
+		{
+			$connection->rollback();
+			$this->setQueryLog(array('query' => 'ROLLBACK'));
+		}
 		return true;
 	}
 
@@ -155,8 +169,11 @@ class DBMysql extends DB
 	 * this method is private
 	 * @return boolean
 	 */
-	function _commit()
+	protected function _commit()
 	{
+		$connection = $this->_getConnection('master');
+		$connection->commit();
+		$this->setQueryLog(array('query' => 'COMMIT'));
 		return true;
 	}
 
@@ -169,21 +186,105 @@ class DBMysql extends DB
 	 */
 	function __query($query, $connection)
 	{
-		if(!$connection)
+		if (!($connection instanceof mysqli) || $connection->connection_errno)
 		{
 			$this->setError(-1, 'Unable to connect to DB.');
 			return false;
 		}
-		// Run the query statement
-		$result = @mysql_query($query, $connection);
-		// Error Check
-		if(mysql_error($connection))
+		
+		if($this->use_prepared_statements == 'Y')
 		{
-			$this->setError(mysql_errno($connection), mysql_error($connection));
+			// 1. Prepare query
+			$stmt = $connection->prepare($query);
+			if(!$stmt)
+			{
+				$this->setError($connection->errno, $connection->error);
+				return $this->last_stmt = $result;
+			}
+			
+			// 2. Bind parameters
+			if ($this->params)
+			{
+				$types = '';
+				$params = array();
+				foreach($this->params as $k => $o)
+				{
+					$value = $o->getUnescapedValue();
+					$type = $o->getType();
+
+					// Skip column names -> this should be concatenated to query string
+					if($o->isColumnName())
+					{
+						continue;
+					}
+
+					switch($type)
+					{
+						case 'number' :
+							$type = 'i';
+							break;
+						case 'varchar' :
+							$type = 's';
+							break;
+						default:
+							$type = 's';
+					}
+
+					if(is_array($value))
+					{
+						foreach($value as $v)
+						{
+							$params[] = $v;
+							$types .= $type;
+						}
+					}
+					else
+					{
+						$params[] = $value;
+						$types .= $type;
+					}
+				}
+				
+				// 2. Bind parameters
+				$args = array();
+				$args[0] = $stmt;
+				$args[1] = $types;
+				$i = 2;
+				foreach($params as $key => $param)
+				{
+					$copy[$key] = $param;
+					$args[$i++] = &$copy[$key];
+				}
+
+				$status = call_user_func_array('mysqli_stmt_bind_param', $args);
+				if(!$status)
+				{
+					$this->setError(-1, "Invalid arguments: " . $connection->error);
+					return $this->last_stmt = $stmt;
+				}
+			}
+
+			// 3. Execute query
+			$status = $stmt->execute();
+			if(!$status)
+			{
+				$this->setError(-1, "Prepared statement failed: " . $connection->error);
+				return $this->last_stmt = $stmt;
+			}
+
+			// Return stmt for other processing
+			return $this->last_stmt = $stmt;
 		}
-		// Return result
-		$this->last_stmt = $result;
-		return $result;
+		else
+		{
+			$result = $connection->query($query);
+			if($connection->errno)
+			{
+				$this->setError($connection->errno, $connection->error);
+			}
+			
+			return $this->last_stmt = $result;
+		}
 	}
 
 	/**
@@ -199,17 +300,92 @@ class DBMysql extends DB
 		{
 			return $output;
 		}
-		while($tmp = $this->db_fetch_object($result))
+
+		// No prepared statements
+		if($this->use_prepared_statements != 'Y')
 		{
-			if($arrayIndexEndValue)
+			while($tmp = $this->db_fetch_object($result))
 			{
-				$output[$arrayIndexEndValue--] = $tmp;
+				if($arrayIndexEndValue)
+				{
+					$output[$arrayIndexEndValue--] = $tmp;
+				}
+				else
+				{
+					$output[] = $tmp;
+				}
 			}
-			else
-			{
-				$output[] = $tmp;
-			}
+			$result->free_result();
 		}
+		
+		// Prepared stements: bind result variable and fetch data
+		else
+		{
+			$stmt = $result;
+			$fields = $stmt->result_metadata()->fetch_fields();
+			$row = array();
+			$resultArray = array();
+
+			/**
+			 * Mysqli has a bug that causes LONGTEXT columns not to get loaded
+			 * Unless store_result is called before
+			 * MYSQLI_TYPE for longtext is 252
+			 */
+			$longtext_exists = false;
+			foreach($fields as $field)
+			{
+				// When joined tables are used and the same column name appears twice, we should add it separately, otherwise bind_result fails
+				if(isset($resultArray[$field->name]))
+				{
+					$field->name = 'repeat_' . $field->name;
+				}
+
+				// Array passed needs to contain references, not values
+				$row[$field->name] = '';
+				$resultArray[$field->name] = &$row[$field->name];
+
+				if($field->type == 252)
+				{
+					$longtext_exists = true;
+				}
+			}
+			$resultArray = array_merge(array($stmt), $resultArray);
+
+			if($longtext_exists)
+			{
+				$stmt->store_result();
+			}
+
+			call_user_func_array('mysqli_stmt_bind_result', $resultArray);
+			array_shift($resultArray);
+
+			while($stmt->fetch())
+			{
+				$resultObject = new stdClass;
+				foreach($resultArray as $key => $value)
+				{
+					if(strpos($key, 'repeat_'))
+					{
+						$key = substr($key, 6);
+					}
+					$resultObject->$key = $value;
+				}
+				
+				if($arrayIndexEndValue)
+				{
+					$output[$arrayIndexEndValue--] = $resultObject;
+				}
+				else
+				{
+					$output[] = $resultObject;
+				}
+			}
+
+			$stmt->free_result();
+			$stmt->close();
+		}
+		
+		// Return object if there is only 1 result.
 		if(count($output) == 1)
 		{
 			if(isset($arrayIndexEndValue))
@@ -221,8 +397,10 @@ class DBMysql extends DB
 				return $output[0];
 			}
 		}
-		$this->db_free_result($result);
-		return $output;
+		else
+		{
+			return $output;
+		}
 	}
 
 	/**
@@ -668,7 +846,7 @@ class DBMysql extends DB
 		}
 		
 		// Generate table schema
-		$engine = stripos(get_class($this), 'innodb') === false ? 'MYISAM' : 'INNODB';
+		$engine = config('db.master.engine') === 'innodb' ? 'InnoDB' : 'MyISAM';
 		$charset = $this->charset ?: 'utf8';
 		$collation = $charset . '_unicode_ci';
 		$schema = sprintf("CREATE TABLE `%s` (%s) %s",
@@ -716,49 +894,84 @@ class DBMysql extends DB
 	 * Handles insertAct
 	 * @param BaseObject $queryObject
 	 * @param boolean $with_values
-	 * @return resource
+	 * @return mixed
 	 */
 	function _executeInsertAct($queryObject, $with_values = true)
 	{
-		$query = $this->getInsertSql($queryObject, $with_values, true);
-		if($query instanceof BaseObject)
+		if ($this->use_prepared_statements == 'Y')
 		{
-			return;
+			$this->params = $queryObject->getArguments();
+			$with_values = false;
 		}
-		return $this->_query($query);
+		
+		$query = $this->getInsertSql($queryObject, $with_values, true);
+		if ($query instanceof BaseObject)
+		{
+			$this->params = array();
+			return $query;
+		}
+		else
+		{
+			$output = $this->_query($query);
+			$this->params = array();
+			return $output;
+		}
 	}
 
 	/**
 	 * Handles updateAct
 	 * @param BaseObject $queryObject
 	 * @param boolean $with_values
-	 * @return resource
+	 * @return mixed
 	 */
 	function _executeUpdateAct($queryObject, $with_values = true)
 	{
-		$query = $this->getUpdateSql($queryObject, $with_values, true);
-		if($query instanceof BaseObject)
+		if ($this->use_prepared_statements == 'Y')
 		{
-			if(!$query->toBool()) return $query;
-			else return;
+			$this->params = $queryObject->getArguments();
+			$with_values = false;
 		}
-		return $this->_query($query);
+		
+		$query = $this->getUpdateSql($queryObject, $with_values, true);
+		if ($query instanceof BaseObject)
+		{
+			$this->params = array();
+			return $query;
+		}
+		else
+		{
+			$output = $this->_query($query);
+			$this->params = array();
+			return $output;
+		}
 	}
 
 	/**
 	 * Handles deleteAct
 	 * @param BaseObject $queryObject
 	 * @param boolean $with_values
-	 * @return resource
+	 * @return mixed
 	 */
 	function _executeDeleteAct($queryObject, $with_values = true)
 	{
-		$query = $this->getDeleteSql($queryObject, $with_values, true);
-		if($query instanceof BaseObject)
+		if ($this->use_prepared_statements == 'Y')
 		{
-			return;
+			$this->params = $queryObject->getArguments();
+			$with_values = false;
 		}
-		return $this->_query($query);
+		
+		$query = $this->getDeleteSql($queryObject, $with_values, true);
+		if ($query instanceof BaseObject)
+		{
+			$this->params = array();
+			return $query;
+		}
+		else
+		{
+			$output = $this->_query($query);
+			$this->params = array();
+			return $output;
+		}
 	}
 
 	/**
@@ -772,23 +985,33 @@ class DBMysql extends DB
 	 */
 	function _executeSelectAct($queryObject, $connection = null, $with_values = true)
 	{
+		if ($this->use_prepared_statements == 'Y')
+		{
+			$this->params = $queryObject->getArguments();
+			$with_values = false;
+		}
+		
+		$result = null;
 		$limit = $queryObject->getLimit();
-		$result = NULL;
 		if($limit && $limit->isPageHandler())
 		{
-			return $this->queryPageLimit($queryObject, $result, $connection, $with_values);
+			$output = $this->queryPageLimit($queryObject, $result, $connection, $with_values);
+			$this->params = array();
+			return $output;
 		}
 		else
 		{
 			$query = $this->getSelectSql($queryObject, $with_values);
 			if($query instanceof BaseObject)
 			{
-				return;
+				$this->params = array();
+				return $query;
 			}
 
 			$result = $this->_query($query, $connection);
 			if($this->isError())
 			{
+				$this->params = array();
 				return $this->queryError($queryObject);
 			}
 
@@ -802,6 +1025,7 @@ class DBMysql extends DB
 				$this->_executeUpdateAct($update_query, $with_values);
 			}
 
+			$this->params = array();
 			return $buff;
 		}
 	}
@@ -812,8 +1036,8 @@ class DBMysql extends DB
 	 */
 	function getAffectedRows()
 	{
-		$connection = $this->_getConnection('master');
-		return mysql_affected_rows($connection);
+		$stmt = $this->last_stmt;
+		return $stmt ? $stmt->affected_rows : -1;
 	}
 
 	/**
@@ -823,7 +1047,7 @@ class DBMysql extends DB
 	function getInsertID()
 	{
 		$connection = $this->_getConnection('master');
-		return mysql_insert_id($connection);
+		return $connection->insert_id;
 	}
 
 	/**
@@ -840,9 +1064,9 @@ class DBMysql extends DB
 	 * @param resource $result
 	 * @return BaseObject
 	 */
-	function db_fetch_object(&$result)
+	function db_fetch_object($result)
 	{
-		return mysql_fetch_object($result);
+		return $result->fetch_object();
 	}
 
 	/**
@@ -850,9 +1074,9 @@ class DBMysql extends DB
 	 * @param resource $result
 	 * @return boolean Returns TRUE on success or FALSE on failure.
 	 */
-	function db_free_result(&$result)
+	function db_free_result($result)
 	{
-		return mysql_free_result($result);
+		return $result->free_result();
 	}
 
 	/**
@@ -873,7 +1097,7 @@ class DBMysql extends DB
 	 */
 	function queryError($queryObject)
 	{
-		$limit = $queryObject->getLimit();
+		$limit = method_exists($queryObject, 'getLimit') ? $queryObject->getLimit() : false;
 		if($limit && $limit->isPageHandler())
 		{
 			$buff = new BaseObject;
@@ -1063,7 +1287,4 @@ class DBMysql extends DB
 	}
 }
 
-DBMysql::$isSupported = function_exists('mysql_connect');
-
-/* End of file DBMysql.class.php */
-/* Location: ./classes/db/DBMysql.class.php */
+DBMysql::$isSupported = class_exists('mysqli');
