@@ -27,21 +27,6 @@ class DB
 	);
 
 	/**
-	 * operations for condition
-	 * @var array
-	 */
-	protected static $cond_operation = array(
-		'equal' => '=',
-		'more' => '>=',
-		'excess' => '>',
-		'less' => '<=',
-		'below' => '<',
-		'notequal' => '<>',
-		'notnull' => 'is not null',
-		'null' => 'is null',
-	);
-
-	/**
 	 * master database connection string
 	 * @var array
 	 */
@@ -705,6 +690,7 @@ class DB
 
 		$tableObjects = $query->getTables();
 		$index_hint_list = '';
+		/*
 		foreach($tableObjects as $tableObject)
 		{
 			if(is_a($tableObject, 'CubridTableWithHint'))
@@ -717,6 +703,7 @@ class DB
 		{
 			$index_hint_list = 'USING INDEX ' . $index_hint_list;
 		}
+		*/
 
 		$groupBy = $query->getGroupByString();
 		if($groupBy != '')
