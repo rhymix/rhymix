@@ -106,10 +106,23 @@ class ConditionGroup
 		$args = array();
 		foreach($this->conditions as $condition)
 		{
-			$arg = $condition->getArgument();
-			if($arg)
+			if($condition instanceof ConditionGroup)
 			{
-				$args[] = $arg;
+				foreach($condition->getArguments() as $arg)
+				{
+					if($arg)
+					{
+						$args[] = $arg;
+					}
+				}
+			}
+			else
+			{
+				$arg = $condition->getArgument();
+				if($arg)
+				{
+					$args[] = $arg;
+				}
 			}
 		}
 		return $args;

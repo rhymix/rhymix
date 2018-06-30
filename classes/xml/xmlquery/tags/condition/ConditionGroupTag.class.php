@@ -29,7 +29,7 @@ class ConditionGroupTag
 	 * @param string $pipe
 	 * @return void
 	 */
-	function __construct($conditions, $pipe = "")
+	function __construct($conditions, $pipe = 'and')
 	{
 		$this->pipe = $pipe;
 
@@ -38,10 +38,21 @@ class ConditionGroupTag
 			$conditions = array($conditions);
 		}
 
+		//var_dump($conditions);
 		foreach($conditions as $condition)
 		{
-			//if($condition->node_name === 'query') $this->conditions[] = new QueryTag($condition, true);
-			$this->conditions[] = new ConditionTag($condition);
+			if($condition->node_name === 'group')
+			{
+				$subconditions = $condition->condition;
+				$subgroups = $condition->group;
+				$subconditions = $subconditions ? (is_array($subconditions) ? $subconditions : [$subconditions]) : [];
+				$subgroups = $subgroups ? (is_array($subgroups) ? $subgroups : [$subgroups]) : [];
+				$this->conditions[] = new ConditionGroupTag(array_merge($subconditions, $subgroups), $condition->attrs->pipe);
+			}
+			else
+			{
+				$this->conditions[] = new ConditionTag($condition);
+			}
 		}
 	}
 
@@ -59,7 +70,14 @@ class ConditionGroupTag
 		$conditions_string = 'array(' . PHP_EOL;
 		foreach($this->conditions as $condition)
 		{
-			$conditions_string .= $condition->getConditionString() . PHP_EOL . ',';
+			if($condition instanceof ConditionGroupTag)
+			{
+				$conditions_string .= $condition->getConditionGroupString() . PHP_EOL . ',';
+			}
+			else
+			{
+				$conditions_string .= $condition->getConditionString() . PHP_EOL . ',';
+			}
 		}
 		$conditions_string = substr($conditions_string, 0, -2); //remove ','
 		$conditions_string .= ')';
