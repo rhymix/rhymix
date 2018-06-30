@@ -123,12 +123,17 @@ class Condition
 					case 'excess' :
 					case 'less' :
 					case 'below' :
+					case 'gte' :
+					case 'gt' :
+					case 'lte' :
+					case 'lt' :
 					case 'like_tail' :
 					case 'like_prefix' :
 					case 'like' :
 					case 'notlike_tail' :
 					case 'notlike_prefix' :
 					case 'notlike' :
+					case 'not_like' :
 					case 'in' :
 					case 'notin' :
 					case 'not_in' :
@@ -137,6 +142,7 @@ class Condition
 					case 'xor':
 					case 'not':
 					case 'notequal' :
+					case 'not_equal' :
 						// if variable is not set or is not string or number, return
 						if(!isset($this->_value))
 						{
@@ -168,6 +174,7 @@ class Condition
 						}
 					case 'null':
 					case 'notnull':
+					case 'not_null':
 						break;
 					default:
 						// If operation is not one of the above, means the condition is invalid
@@ -194,15 +201,19 @@ class Condition
 				return $name . ' = ' . $value;
 				break;
 			case 'more' :
+			case 'gte' :
 				return $name . ' >= ' . $value;
 				break;
 			case 'excess' :
+			case 'gt' :
 				return $name . ' > ' . $value;
 				break;
 			case 'less' :
+			case 'lte' :
 				return $name . ' <= ' . $value;
 				break;
 			case 'below' :
+			case 'lt' :
 				return $name . ' < ' . $value;
 				break;
 			case 'like_tail' :
@@ -212,6 +223,7 @@ class Condition
 			case 'notlike_tail' :
 			case 'notlike_prefix' :
 			case 'notlike' :
+			case 'not_like' :
 				return $name . ' NOT LIKE ' . $value;
 				break;
 			case 'in' :
@@ -222,9 +234,11 @@ class Condition
 				return $name . ' NOT IN ' . $value;
 				break;
 			case 'notequal' :
+			case 'not_equal' :
 				return $name . ' <> ' . $value;
 				break;
 			case 'notnull' :
+			case 'not_null' :
 				return $name . ' IS NOT NULL ';
 				break;
 			case 'null' :
