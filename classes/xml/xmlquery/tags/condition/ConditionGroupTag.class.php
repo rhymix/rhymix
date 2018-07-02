@@ -38,7 +38,6 @@ class ConditionGroupTag
 			$conditions = array($conditions);
 		}
 
-		//var_dump($conditions);
 		foreach($conditions as $condition)
 		{
 			if($condition->node_name === 'group')
