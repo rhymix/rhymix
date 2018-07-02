@@ -23,24 +23,7 @@ class DB
 	 * @var array
 	 */
 	protected static $priority_dbms = array(
-		'mysqli' => 6,
-		'cubrid' => 2,
-		'mssql' => 1
-	);
-
-	/**
-	 * operations for condition
-	 * @var array
-	 */
-	protected static $cond_operation = array(
-		'equal' => '=',
-		'more' => '>=',
-		'excess' => '>',
-		'less' => '<=',
-		'below' => '<',
-		'notequal' => '<>',
-		'notnull' => 'is not null',
-		'null' => 'is null',
+		'mysql' => 1,
 	);
 
 	/**
@@ -108,7 +91,7 @@ class DB
 	protected $cache_file = 'files/cache/queries/';
 
 	/**
-	 * stores database type: 'mysql','cubrid','mssql' etc. or 'db' when database is not yet set
+	 * stores database type, e.g. mysql
 	 * @var string
 	 */
 	public $db_type;
@@ -136,14 +119,14 @@ class DB
 		if(!$db_type)
 		{
 			$db_type = config('db.master.type');
-			if (config('db.master.engine') === 'innodb')
-			{
-				$db_type .= '_innodb';
-			}
 		}
 		if(!$db_type && Context::isInstalled())
 		{
 			return new BaseObject(-1, 'msg_db_not_setted');
+		}
+		if(!strncmp($db_type, 'mysql', 5))
+		{
+			$db_type = 'mysql';
 		}
 
 		if(!isset($GLOBALS['__DB__']))
@@ -271,7 +254,7 @@ class DB
 		// after creating instance of class, check is supported
 		foreach ($supported_list as $db_type)
 		{
-			if (strncasecmp($db_type, 'mysql', 5) === 0 && strtolower($db_type) !== 'mysqli')
+			if (strtolower($db_type) !== 'mysql')
 			{
 				continue;
 			}
@@ -707,6 +690,7 @@ class DB
 
 		$tableObjects = $query->getTables();
 		$index_hint_list = '';
+		/*
 		foreach($tableObjects as $tableObject)
 		{
 			if(is_a($tableObject, 'CubridTableWithHint'))
@@ -719,6 +703,7 @@ class DB
 		{
 			$index_hint_list = 'USING INDEX ' . $index_hint_list;
 		}
+		*/
 
 		$groupBy = $query->getGroupByString();
 		if($groupBy != '')

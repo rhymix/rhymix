@@ -68,7 +68,7 @@ class ConditionWithArgument extends Condition
 				$q = '?';
 			}
 		}
-		return $this->pipe . ' ' . $this->getConditionPart($q);
+		return strtoupper($this->pipe) . ' ' . $this->getConditionPart($q);
 	}
 
 	/**
