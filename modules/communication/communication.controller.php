@@ -833,6 +833,12 @@ class communicationController extends communication
 		{
 			$oMemberController->addMemberMenu('dispCommunicationFriend', 'cmd_view_friend');
 		}
+		else
+		{
+			$allow_message_type = lang('communication.allow_message_type');
+			unset($allow_message_type['F']);
+			$GLOBALS['lang']->set('communication.allow_message_type', $allow_message_type);
+		}
 	}
 
 	function triggerMemberMenu()
