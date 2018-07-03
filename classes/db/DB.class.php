@@ -711,6 +711,12 @@ class DB
 			$groupBy = ' GROUP BY ' . $groupBy;
 		}
 
+		$having = $query->getHavingString($with_values);
+		if($having != '')
+		{
+			$having = ' HAVING ' . $having;
+		}
+
 		$orderBy = $query->getOrderByString();
 		if($orderBy != '')
 		{
@@ -723,7 +729,7 @@ class DB
 			$limit = ' LIMIT ' . $limit;
 		}
 
-		return $select . ' ' . $from . ' ' . $where . ' ' . $index_hint_list . ' ' . $groupBy . ' ' . $orderBy . ' ' . $limit;
+		return "$select $from $where $index_hint_list $groupBy $having $orderBy $limit";
 	}
 
 	/**

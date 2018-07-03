@@ -52,6 +52,12 @@ class Query extends BaseObject
 	var $groups;
 
 	/**
+	 * having list
+	 * @var string|array
+	 */
+	var $having;
+
+	/**
 	 * order list
 	 * @var array
 	 */
@@ -230,6 +236,27 @@ class Query extends BaseObject
 		}
 
 		$this->groups = $groups;
+	}
+
+	function setHaving($conditions)
+	{
+		$this->having = array();
+		if(!isset($conditions) || count($conditions) === 0)
+		{
+			return;
+		}
+		if(!is_array($conditions))
+		{
+			$conditions = array($conditions);
+		}
+
+		foreach($conditions as $conditionGroup)
+		{
+			if($conditionGroup->show())
+			{
+				$this->having[] = $conditionGroup;
+			}
+		}
 	}
 
 	function setOrder($order)
@@ -553,6 +580,30 @@ class Query extends BaseObject
 	}
 
 	/**
+	 * Return having sql
+	 * @param boolean $with_values
+	 * @return string
+	 */
+	function getHavingString($with_values = TRUE)
+	{
+		$having = '';
+		$condition_count = 0;
+
+		foreach($this->having as $conditionGroup)
+		{
+			if($condition_count === 0)
+			{
+				$conditionGroup->setPipe("");
+			}
+			$condition_string = $conditionGroup->toString($with_values);
+			$having .= $condition_string;
+			$condition_count++;
+		}
+
+		return trim($having);
+	}
+
+	/**
 	 * Return orderby sql
 	 * @return string
 	 */
@@ -656,6 +707,19 @@ class Query extends BaseObject
 				}
 			}
 
+			// Having arguments
+			if(countobj($this->having) > 0)
+			{
+				foreach($this->having as $conditionGroup)
+				{
+					$args = $conditionGroup->getArguments();
+					if(countobj($args) > 0)
+					{
+						$this->arguments = array_merge($this->arguments, $args);
+					}
+				}
+			}
+
 			// Navigation arguments
 			if(countobj($this->orderby) > 0)
 			{
@@ -669,6 +733,7 @@ class Query extends BaseObject
 				}
 			}
 		}
+		
 		return $this->arguments;
 	}
 
