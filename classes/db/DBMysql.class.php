@@ -467,10 +467,11 @@ class DBMySQL extends DB
 	 * @param boolean $notnull not null status, default value is false
 	 * @return void
 	 */
-	function addColumn($table_name, $column_name, $type = 'number', $size = '', $default = null, $notnull = false)
+	function addColumn($table_name, $column_name, $type = 'number', $size = '', $default = null, $notnull = false, $after = null)
 	{
-		$type = $this->column_type[$type];
-		if(strtoupper($type) == 'INTEGER')
+		$type = strtolower($type);
+		$type = isset($this->column_type[$type]) ? $this->column_type[$type] : $type;
+		if(in_array($type, ['integer', 'int', 'bigint', 'smallint']))
 		{
 			$size = '';
 		}
@@ -491,6 +492,10 @@ class DBMySQL extends DB
 		if($notnull)
 		{
 			$query .= " NOT NULL ";
+		}
+		if($after_column)
+		{
+			$query .= sprintf(" AFTER `%s` ", $after_column);
 		}
 
 		return $this->_query($query);
@@ -520,12 +525,13 @@ class DBMySQL extends DB
 	 */
 	function modifyColumn($table_name, $column_name, $type = 'number', $size = '', $default = '', $notnull = false)
 	{
-		$type = $this->column_type[$type];
-		if(strtoupper($type) == 'INTEGER')
+		$type = strtolower($type);
+		$type = isset($this->column_type[$type]) ? $this->column_type[$type] : $type;
+		if(in_array($type, ['integer', 'int', 'bigint', 'smallint']))
 		{
 			$size = '';
 		}
-		
+
 		$query = sprintf("ALTER TABLE `%s%s` MODIFY `%s` ", $this->prefix, $table_name, $column_name);
 		if($size)
 		{
