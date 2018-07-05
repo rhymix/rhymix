@@ -235,18 +235,25 @@ class HTMLDisplayHandler
 		Context::set('favicon_url', $favicon_url);
 		Context::set('mobicon_url', $mobicon_url);
 
-		// convert the final layout
+		// set content variable that will be inserted in common layout
 		Context::set('content', $output);
-		$oTemplate = TemplateHandler::getInstance();
-		if(Mobile::isFromMobilePhone())
+		
+		// load basic files
+		if(!in_array('all', Context::getUnloadedBasicFiles()))
 		{
-			$this->_loadMobileJSCSS();
+			if(Mobile::isFromMobilePhone())
+			{
+				$this->_loadMobileJSCSS();
+			}
+			else
+			{
+				$this->_loadDesktopJSCSS();
+			}
+			$this->_loadCommonJSCSS();
 		}
-		else
-		{
-			$this->_loadDesktopJSCSS();
-		}
-		$output = $oTemplate->compile('./common/tpl', 'common_layout');
+		
+		// set common layout
+		$output = TemplateHandler::getInstance()->compile('common/tpl', 'common_layout');
 		
 		// replace the user-defined-language
 		$oModuleController = getController('module');
@@ -560,20 +567,20 @@ class HTMLDisplayHandler
 	 * import basic .js files.
 	 * @return void
 	 */
-	function _loadDesktopJSCSS()
+	private function _loadDesktopJSCSS()
 	{
-		$lang_type = Context::getLangType();
-		$this->_loadCommonJSCSS();
-		
-		// for admin page, add admin css
-		if(Context::get('module') == 'admin' || strpos(Context::get('act'), 'Admin') > 0)
+		// add admin css
+		if(!in_array('admin', Context::getUnloadedBasicFiles()))
 		{
-			Context::loadFile(array('./modules/admin/tpl/css/admin.css', '', '', 10), true);
-			Context::loadFile(array("./modules/admin/tpl/css/admin.iefix.css", '', 'ie', 10), true);
-			Context::loadFile('./modules/admin/tpl/js/admin.js', true);
-			Context::loadFile(array('./modules/admin/tpl/css/admin.bootstrap.css', '', '', 1), true);
-			Context::loadFile(array('./modules/admin/tpl/js/jquery.tmpl.js', '', '', 1), true);
-			Context::loadFile(array('./modules/admin/tpl/js/jquery.jstree.js', '', '', 1), true);
+			if(Context::get('module') == 'admin' || strpos(Context::get('act'), 'Admin') > 0)
+			{
+				$this->_loadBasicFile('modules/admin/tpl/css/admin.css', 10);
+				$this->_loadBasicFile('modules/admin/tpl/css/admin.iefix.css', 10, '', true);
+				$this->_loadBasicFile('modules/admin/tpl/css/admin.bootstrap.css', 1);
+				$this->_loadBasicFile('modules/admin/tpl/js/admin.js');
+				$this->_loadBasicFile('modules/admin/tpl/js/jquery.tmpl.js', 1);
+				$this->_loadBasicFile('modules/admin/tpl/js/jquery.jstree.js', 1);
+			}
 		}
 	}
 
@@ -582,8 +589,12 @@ class HTMLDisplayHandler
 	 */
 	private function _loadMobileJSCSS()
 	{
-		$this->_loadCommonJSCSS();
-		Context::loadFile(array('./common/css/mobile.css', '', '', -1500000000), true);
+		if(in_array('mobile', Context::getUnloadedBasicFiles()))
+		{
+			return;
+		}
+		
+		$this->_loadBasicFile('common/css/mobile.css', -1500000000);
 	}
 
 	/**
@@ -591,7 +602,12 @@ class HTMLDisplayHandler
 	 */
 	private function _loadCommonJSCSS()
 	{
-		Context::loadFile(array('./common/css/rhymix.less', '', '', -1600000000), true);
+		if(in_array('common', Context::getUnloadedBasicFiles()))
+		{
+			return;
+		}
+		
+		$jquery_version = preg_match('/MSIE [5-8]\./', $_SERVER['HTTP_USER_AGENT']) ? self::JQUERY_V1 : self::JQUERY_V2;
 		$original_file_list = array(
 			'plugins/jquery.migrate/jquery-migrate-1.4.1.min.js',
 			'plugins/blankshield/blankshield.min.js',
@@ -602,39 +618,56 @@ class HTMLDisplayHandler
 			'xml_handler.js',
 			'xml_js_filter.js',
 		);
-		$jquery_version = preg_match('/MSIE [5-8]\./', $_SERVER['HTTP_USER_AGENT']) ? self::JQUERY_V1 : self::JQUERY_V2;
+		
+		$this->_loadBasicFile('common/css/rhymix.less', -1600000000);
+		$this->_loadBasicFile('common/js/jquery-' . $jquery_version . (config('view.minify_scripts') !== 'none' ? '.min' : '') . '.js', -1800000000, 'head');
 		
 		if(config('view.minify_scripts') === 'none')
 		{
-			Context::loadFile(array('./common/js/jquery-' . $jquery_version . '.js', 'head', '', -1800000000), true);
 			foreach($original_file_list as $filename)
 			{
-				Context::loadFile(array('./common/js/' . $filename, 'head', '', -1700000000), true);
+				$this->_loadBasicFile('common/js/' . $filename, -1700000000, 'head');
 			}
 		}
 		else
 		{
-			Context::loadFile(array('./common/js/jquery-' . $jquery_version . '.min.js', 'head', '', -1800000000), true);
 			$concat_target_filename = 'files/cache/assets/minified/rhymix.min.js';
 			if(file_exists(\RX_BASEDIR . $concat_target_filename))
 			{
-				$concat_target_mtime = filemtime(\RX_BASEDIR . $concat_target_filename);
 				$original_mtime = 0;
+				$concat_target_mtime = filemtime(\RX_BASEDIR . $concat_target_filename);
 				foreach($original_file_list as $filename)
 				{
 					$original_mtime = max($original_mtime, filemtime(\RX_BASEDIR . 'common/js/' . $filename));
 				}
 				if($concat_target_mtime > $original_mtime)
 				{
-					Context::loadFile(array('./' . $concat_target_filename, 'head', '', -1700000000), true);
-					return;
+					$no_renew = true;
 				}
 			}
-			Rhymix\Framework\Formatter::minifyJS(array_map(function($str) {
-				return \RX_BASEDIR . 'common/js/' . $str;
-			}, $original_file_list), \RX_BASEDIR . $concat_target_filename);
-			Context::loadFile(array('./' . $concat_target_filename, 'head', '', -1700000000), true);
+			if(!isset($no_renew))
+			{
+				$target_file_list = array();
+				foreach($original_file_list as $filename)
+				{
+					$target_file_list[] = \RX_BASEDIR . 'common/js/' . $filename;
+				}
+				Rhymix\Framework\Formatter::minifyJS($target_file_list, \RX_BASEDIR . $concat_target_filename);
+			}
+			$this->_loadBasicFile($concat_target_filename, -1700000000, 'head');
 		}
+	}
+	
+	/**
+	 * load basic file
+	 */
+	private function _loadBasicFile($filename, $index = 0, $type = '', $ie = false)
+	{
+		if(in_array(pathinfo($filename, PATHINFO_BASENAME), Context::getUnloadedBasicFiles()))
+		{
+			return;
+		}
+		Context::loadFile(array($filename, $type, $ie ? 'ie' : '', $index));
 	}
 }
 /* End of file HTMLDisplayHandler.class.php */
