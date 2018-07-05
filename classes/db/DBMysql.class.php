@@ -804,9 +804,17 @@ class DBMySQL extends DB
 				}
 			}
 			
+			// Normalize data type
+			$type = strtolower($type);
+			$type = isset($this->column_type[$type]) ? $this->column_type[$type] : $type;
+			if(in_array($type, ['integer', 'int', 'bigint', 'smallint']))
+			{
+				$size = '';
+			}
+			
 			$column_schema[$name] = sprintf('`%s` %s%s %s %s %s %s',
 				$name,
-				$this->column_type[$type],
+				$type,
 				$size ? "($size)" : '',
 				$column_charset,
 				isset($default) ? "DEFAULT '$default'" : '',
@@ -827,8 +835,6 @@ class DBMySQL extends DB
 				$index_list[$index][] = "`$name`" . $index_size_limit;
 			}
 		}
-		
-		// Process
 		
 		// Process indexes
 		if(count($primary_list))
