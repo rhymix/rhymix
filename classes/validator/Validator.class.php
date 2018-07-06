@@ -323,7 +323,7 @@ class Validator
 
 			if(is_array($value))
 			{
-				if(!isset($value[tmp_name]))
+				if(!isset($value['tmp_name']))
 				{
 					$value = implode('', $value);
 				}

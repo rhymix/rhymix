@@ -36,13 +36,13 @@
 	<div cond="$member_srl" class="x_control-group">
 		<label class="x_control-label" for="password"><em style="color:red">*</em> {$lang->password}</label>
 		<div class="x_controls">
-			<input id="password" type="password" name="reset_password" value="" />
+			<input id="password" type="password" name="reset_password" value="" autocomplete="off" />
 		</div>
 	</div>
 	<div cond="!$member_srl" class="x_control-group">
 		<label class="x_control-label" for="password"><em style="color:red">*</em> {$lang->password}</label>
 		<div class="x_controls">
-			<input id="password" type="text" name="password" value="" />
+			<input id="password" type="text" name="password" value="" autocomplete="off" />
 		</div>
 	</div>
 	<div loop="$formTags=>$formTag" class="x_control-group">

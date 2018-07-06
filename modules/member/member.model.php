@@ -60,12 +60,17 @@ class memberModel extends member
 		}
 
 		if(!$config->webmaster_name) $config->webmaster_name = 'webmaster';
+
 		if(!$config->image_name_max_width) $config->image_name_max_width = 90;
 		if(!$config->image_name_max_height) $config->image_name_max_height = 20;
+		if(!$config->image_name_max_filesize) $config->image_name_max_filesize = null;
 		if(!$config->image_mark_max_width) $config->image_mark_max_width = 20;
 		if(!$config->image_mark_max_height) $config->image_mark_max_height = 20;
+		if(!$config->image_mark_max_filesize) $config->image_mark_max_filesize = null;
 		if(!$config->profile_image_max_width) $config->profile_image_max_width = 90;
 		if(!$config->profile_image_max_height) $config->profile_image_max_height = 90;
+		if(!$config->profile_image_max_filesize) $config->profile_image_max_filesize = null;
+
 		if(!$config->skin) $config->skin = 'default';
 		if(!$config->colorset) $config->colorset = 'white';
 		if(!$config->editor_skin || $config->editor_skin == 'default') $config->editor_skin = 'ckeditor';
@@ -222,6 +227,9 @@ class memberModel extends member
 			$url = getUrl('','module','admin','act','dispMemberAdminInsert','member_srl',$member_srl);
 			$oMemberController->addMemberPopupMenu($url,'cmd_manage_member_info',$icon_path,'MemberModifyInfo');
 
+			$url = getUrl('','module','member','act','dispMemberSpammer','member_srl',$member_srl,'module_srl',0);
+			$oMemberController->addMemberPopupMenu($url,'cmd_spammer',$icon_path,'popup');
+			
 			$url = getUrl('','module','admin','act','dispDocumentAdminList','search_target','member_srl','search_keyword',$member_srl);
 			$oMemberController->addMemberPopupMenu($url,'cmd_trace_document',$icon_path,'TraceMemberDocument');
 
@@ -318,7 +326,6 @@ class memberModel extends member
 				$output = executeQuery('member.getMemberInfoByMemberSrl', $args);
 				if(!$output->data)
 				{
-					Rhymix\Framework\Cache::set($cache_key, new stdClass);
 					return new stdClass;
 				}
 				

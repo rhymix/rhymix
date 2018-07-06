@@ -75,10 +75,10 @@
 				url: request_uri,
 				formData: defaultFormData,
 				dropZone: $container,
-				add: function(e, d) {
+				add: function(e, item) {
 					var dfd = jQuery.Deferred();
 
-					$.each(d.files, function(index, file) {
+					$.each(item.files, function(index, file) {
 						if(data.settings.maxFileSize > 0 && data.settings.maxFileSize < file.size) {
 							dfd.reject();
 							alert(window.xe.msg_exceeds_limit_size);
@@ -88,15 +88,15 @@
 					});
 
 					dfd.done(function(){
-						d.submit();
+						item.submit();
 					});
 				},
-				submit: function(e, data) {
-					data.formData = defaultFormData;
-					data.formData.nonce = "T" + new Date().getTime() + "." + Math.random();
+				submit: function(e, item) {
+					item.formData = defaultFormData;
+					item.formData.nonce = "T" + new Date().getTime() + "." + Math.random();
 					chunkStatus = true;
 				},
-				chunksend: function(e, data) {
+				chunksend: function(e, res) {
 					if (!chunkStatus) {
 						return false;
 					}
@@ -116,9 +116,9 @@
 						return chunkStatus = false;
 					}
 				},
-				chunkfail: function(e, data) {
+				chunkfail: function(e, res) {
 					if (chunkStatus) {
-						alert(window.xe.msg_file_upload_error + " (Type 3)" + "<br>\n" + data.errorThrown + "<br>\n" + data.textStatus);
+						alert(window.xe.msg_file_upload_error + " (Type 3)" + "<br>\n" + res.errorThrown + "<br>\n" + res.textStatus);
 						return chunkStatus = false;
 					}
 				},
@@ -158,11 +158,11 @@
 						return false;
 					}
 				},
-				fail: function(e, data) {
+				fail: function(e, res) {
 					data.settings.progressbar.delay(1000).slideUp();
 					data.settings.progressStatus.delay(1000).slideUp();
 					if (chunkStatus) {
-						alert(window.xe.msg_file_upload_error + " (Type 7)" + "<br>\n" + data.errorThrown + "<br>\n" + data.textStatus);
+						alert(window.xe.msg_file_upload_error + " (Type 7)" + "<br>\n" + res.errorThrown + "<br>\n" + res.textStatus);
 						return false;
 					}
 				},
@@ -174,8 +174,8 @@
 					data.settings.progressStatus.show();
 					data.settings.progressbar.show();
 				},
-				progressall: function (e, d) {
-					var progress = Math.round(d.loaded / d.total * 999) / 10;
+				progressall: function (e, res) {
+					var progress = Math.round(res.loaded / res.total * 999) / 10;
 					data.settings.progressbarGraph.width(progress+'%');
 					data.settings.progressPercent.text(progress+'%');
 				}

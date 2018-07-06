@@ -479,7 +479,7 @@ class documentController extends document
 		}
 
 		// if use editor of nohtml, Remove HTML tags from the contents.
-		if(!$manual_inserted)
+		if(!$manual_inserted || isset($obj->allow_html) || isset($obj->use_html))
 		{
 			$obj->content = getModel('editor')->converter($obj, 'document');
 		}
@@ -632,10 +632,10 @@ class documentController extends document
 			$args->document_srl = $obj->document_srl;
 			$args->module_srl = $obj->module_srl;
 			if($document_config->use_history == 'Y') $args->content = $source_obj->get('content');
-			$args->nick_name = $source_obj->get('nick_name');
-			$args->member_srl = $source_obj->get('member_srl');
+			$args->nick_name = $logged_info->nick_name;
+			$args->member_srl = $logged_info->member_srl;
 			$args->regdate = $source_obj->get('last_update');
-			$args->ipaddress = $source_obj->get('ipaddress');
+			$args->ipaddress = $_SERVER['REMOTE_ADDR'];
 			$output = executeQuery("document.insertHistory", $args);
 		}
 		else
@@ -737,7 +737,7 @@ class documentController extends document
 		}
 
 		// if use editor of nohtml, Remove HTML tags from the contents.
-		if(!$manual_updated)
+		if(!$manual_updated || isset($obj->allow_html) || isset($obj->use_html))
 		{
 			$obj->content = getModel('editor')->converter($obj, 'document');
 		}
@@ -1049,7 +1049,10 @@ class documentController extends document
 		$trash_args->module_srl = $oDocument->get('module_srl');
 		$obj->module_srl = $oDocument->get('module_srl');
 		// Cannot throw data from the trash to the trash
-		if($trash_args->module_srl == 0) return false;
+		if($trash_args->module_srl == 0)
+		{
+			return new BaseObject(-1, 'Cannot throw data from the trash to the trash');
+		}
 		// Data setting
 		$trash_args->document_srl = $obj->document_srl;
 		$trash_args->description = $obj->description;
@@ -1176,10 +1179,6 @@ class documentController extends document
 		// Option 'some': only count once per session.
 		if ($config->view_count_option != 'all' && $_SESSION['readed_document'][$document_srl])
 		{
-			if (Context::getSessionStatus())
-			{
-				$_SESSION['readed_document'][$document_srl] = true;
-			}
 			return false;
 		}
 
@@ -1609,6 +1608,38 @@ class documentController extends document
 		}
 
 		$this->add('declared_count', $declared_count + 1);
+		
+		// Send message to admin
+		$message_targets = array();
+		$module_srl = $oDocument->get('module_srl');
+		$oModuleModel = getModel('module');
+		$document_config = $oModuleModel->getModulePartConfig('document', $module_srl);
+		if ($document_config->declared_message && in_array('admin', $document_config->declared_message))
+		{
+			$output = executeQueryArray('member.getAdmins', new stdClass);
+			foreach ($output->data as $admin)
+			{
+				$message_targets[$admin->member_srl] = true;
+			}
+		}
+		if ($document_config->declared_message && in_array('manager', $document_config->declared_message))
+		{
+			$output = executeQueryArray('module.getModuleAdmin', (object)['module_srl' => $module_srl]);
+			foreach ($output->data as $manager)
+			{
+				$message_targets[$manager->member_srl] = true;
+			}
+		}
+		if ($message_targets)
+		{
+			$oCommunicationController = getController('communication');
+			$message_title = lang('document.declared_message_title');
+			$message_content = sprintf('<p><a href="%s">%s</a></p><p>%s</p>', $oDocument->getPermanentUrl(), $oDocument->getTitleText(), $declare_message);
+			foreach ($message_targets as $target_member_srl => $val)
+			{
+				$oCommunicationController->sendMessage($this->user->member_srl, $target_member_srl, $message_title, $message_content, false);
+			}
+		}
 
 		// Call a trigger (after)
 		$trigger_obj->declared_count = $declared_count + 1;
@@ -2278,13 +2309,13 @@ class documentController extends document
 			// Get data of the child nodes
 			if($category_srl && $tree[$category_srl]) $child_buff = $this->getXmlTree($tree[$category_srl], $tree, $site_srl, $xml_header_buff);
 			// List variables
-			$expand = $node->expand;
-			$group_srls = $node->group_srls;
-			$mid = $node->mid;
-			$module_srl = $node->module_srl;
-			$parent_srl = $node->parent_srl;
-			$color = $node->color;
-			$description = $node->description;
+			$expand = ($node->expand) ? $node->expand : 'N';
+			$group_srls = ($node->group_srls) ? $node->group_srls : '';
+			$mid = ($node->mid) ? $node->mid : '';
+			$module_srl = ($node->module_srl) ? $node->parent_srl : '';
+			$parent_srl = ($node->parent_srl) ? $node->parent_srl : '';
+			$color = ($node->color) ? $node->color : '';
+			$description = ($node->description) ? $node->description : '';
 			// If node->group_srls value exists
 			if($group_srls) $group_check_code = sprintf('($is_admin==true||(is_array($group_srls)&&count(array_intersect($group_srls, array(%s)))))',$group_srls);
 			else $group_check_code = "true";
@@ -2538,158 +2569,181 @@ class documentController extends document
 	function procDocumentManageCheckedDocument()
 	{
 		@set_time_limit(0);
-		if(!Context::get('is_logged')) return $this->setError('msg_not_permitted');
 		$logged_info = Context::get('logged_info');
-
-		// Get request parameters.
-		$cart = Context::get('cart');
-		if(!is_array($cart)) $cart = explode('|@|', $cart);
-		$cart = array_unique(array_map('intval', $cart));
-		$type = Context::get('type');
-		$target_module_srl = intval(Context::get('module_srl') ?: Context::get('target_module'));
-		$target_category_srl = Context::get('target_category');
 		
-		// send default message - misol 2015-07-23
-		$send_default_message = Context::get('send_default_message');
-		if($send_default_message === 'Y')
-		{
-			$message_content = '';
-			$default_message_verbs = lang('default_message_verbs');
-			if(isset($default_message_verbs[$type]) && is_string($default_message_verbs[$type]))
-			{
-				$message_content = sprintf(lang('default_message_format'), $logged_info->nick_name, $default_message_verbs[$type]);
-			}
-		}
-		else
-		{
-			$message_content = Context::get('message_content');
-			if($message_content) $message_content = nl2br($message_content);
-		}
-
-		// Check permissions on all documents.
-		$document_items = array();
-		$document_srl_list = array();
-		$module_srl_list = array();
-		$oDocumentModel = getModel('document');
-		foreach ($cart as $document_srl)
-		{
-			$oDocument = $oDocumentModel->getDocument($document_srl);
-			$document_items[] = $oDocument;
-			$document_srl_list[] = $document_srl;
-			$module_srl_list[] = $oDocument->get('module_srl');
-			if (!$oDocument->isGranted())
-			{
-				return $this->stop('msg_not_permitted');
-			}
-		}
+		$obj = new stdClass;
+		$obj->type = Context::get('type');
+		$obj->document_list = array();
+		$obj->document_srl_list = array();
+		$obj->target_module_srl = intval(Context::get('module_srl') ?: Context::get('target_module'));
+		$obj->target_category_srl = Context::get('target_category');
+		$obj->manager_message = Context::get('message_content') ? nl2br(escape(strip_tags(Context::get('message_content')))) : '';
+		$obj->send_message = $obj->manager_message || Context::get('send_default_message') == 'Y';
+		$obj->return_message = '';
 		
-		// Check permissions on all modules.
-		$oModuleModel = getModel('module');
-		if ($target_module_srl && !in_array($target_module_srl, $module_srl_list))
+		// Check permission of target module
+		if($obj->target_module_srl)
 		{
-			$module_srl_list[] = $target_module_srl;
-		}
-		foreach ($module_srl_list as $module_srl)
-		{
-			$module_info = $oModuleModel->getModuleInfoByModuleSrl($module_srl);
+			$module_info = getModel('module')->getModuleInfoByModuleSrl($obj->target_module_srl);
 			if (!$module_info->module_srl)
 			{
 				return $this->setError('msg_invalid_request');
 			}
-			
-			$module_grant = $oModuleModel->getGrant($module_info, $logged_info);
+			$module_grant = getModel('module')->getGrant($module_info, $logged_info);
 			if (!$module_grant->manager)
 			{
 				return $this->setError('msg_not_permitted');
 			}
 		}
 		
-		// Set a spam-filer not to be filtered to spams
-		$oSpamController = getController('spamfilter');
-		$oSpamController->setAvoidLog();
-
-		if($type == 'move')
+		// Set Cart
+		$cart = Context::get('cart');
+		if(!is_array($cart))
 		{
-			if(!$target_module_srl) return $this->setError('fail_to_move');
-
-			$oDocumentAdminController = getAdminController('document');
-			$output = $oDocumentAdminController->moveDocumentModule($document_srl_list, $target_module_srl, $target_category_srl);
-			if(!$output->toBool()) return $this->setError('fail_to_move');
-
-			$msg_code = 'success_moved';
-
+			$cart = explode('|@|', $cart);
 		}
-		else if($type == 'copy')
+		$obj->document_srl_list = array_unique(array_map('intval', $cart));
+		
+		// Set document list
+		$obj->document_list = getModel('document')->getDocuments($obj->document_srl_list, false, false);
+		if(empty($obj->document_list))
 		{
-			if(!$target_module_srl) return $this->setError('fail_to_move');
-
-			$oDocumentAdminController = getAdminController('document');
-			$output = $oDocumentAdminController->copyDocumentModule($document_srl_list, $target_module_srl, $target_category_srl);
-			if(!$output->toBool()) return $this->setError('fail_to_move');
-
-			$msg_code = 'success_copied';
+			return $this->setError('msg_invalid_request');
 		}
-		else if($type =='delete')
+		
+		// Call a trigger (before)
+		$output = ModuleHandler::triggerCall('document.manage', 'before', $obj);
+		if(!$output->toBool())
 		{
-			$oDB = &DB::getInstance();
-			$oDB->begin();
-			foreach ($document_srl_list as $document_srl)
+			return $output;
+		}
+		
+		$oController = getAdminController('document');
+		if($obj->type == 'move')
+		{
+			if(!$obj->target_module_srl)
+			{
+				return $this->setError('fail_to_move');
+			}
+			
+			$output = $oController->moveDocumentModule($obj->document_srl_list, $obj->target_module_srl, $obj->target_category_srl);
+			if(!$output->toBool())
+			{
+				return $output;
+			}
+			
+			$obj->return_message = 'success_moved';
+		}
+		else if($obj->type == 'copy')
+		{
+			if(!$obj->target_module_srl)
+			{
+				return $this->setError('fail_to_move');
+			}
+			
+			$output = $oController->copyDocumentModule($obj->document_srl_list, $obj->target_module_srl, $obj->target_category_srl);
+			if(!$output->toBool())
+			{
+				return $output;
+			}
+			
+			$obj->return_message = 'success_copied';
+		}
+		else if($obj->type == 'delete')
+		{
+			foreach ($obj->document_list as $document_srl => $oDocument)
 			{
 				$output = $this->deleteDocument($document_srl, true);
-				if(!$output->toBool()) return $this->setError('fail_to_delete');
+				if(!$output->toBool())
+				{
+					unset($obj->document_list[$document_srl]);
+					$obj->return_message = $output->getMessage();
+				}
 			}
-			$oDB->commit();
-			$msg_code = 'success_deleted';
+			
+			$obj->return_message = $obj->return_message ?: 'success_deleted';
 		}
-		else if($type == 'trash')
+		else if($obj->type == 'trash')
 		{
-			$args = new stdClass();
-			$args->description = $message_content;
-
-			$oDB = &DB::getInstance();
-			$oDB->begin();
-			foreach ($document_srl_list as $document_srl)
+			$args = new stdClass;
+			$args->description = $obj->manager_message;
+			
+			foreach ($obj->document_list as $document_srl => $oDocument)
 			{
 				$args->document_srl = $document_srl;
 				$output = $this->moveDocumentToTrash($args);
-				if(!$output || !$output->toBool()) return $this->setError('fail_to_trash');
+				if(!$output->toBool())
+				{
+					unset($obj->document_list[$document_srl]);
+					$obj->return_message = $output->getMessage();
+				}
 			}
-			$oDB->commit();
-			$msg_code = 'success_trashed';
+			
+			$obj->return_message = $obj->return_message ?: 'success_trashed';
 		}
-		else if($type == 'cancelDeclare')
+		else if($obj->type == 'cancelDeclare')
 		{
-			$args = new stdClass();
-			$args->document_srl = $document_srl_list;
+			$args = new stdClass;
+			$args->document_srl = $obj->document_srl_list;
 			$output = executeQuery('document.deleteDeclaredDocuments', $args);
-			$msg_code = 'success_declare_canceled';
-		}
-
-		// Send a message
-		if($message_content)
-		{
-			$oCommunicationController = getController('communication');
-			$title = cut_str($message_content,10,'...');
-			$sender_member_srl = $logged_info->member_srl;
-
-			foreach($document_items as $oDocument)
+			if(!$output->toBool())
 			{
-				if(!$oDocument->get('member_srl') || $oDocument->get('member_srl')==$sender_member_srl) continue;
-
-				if($type=='move') $purl = sprintf("<a href=\"%s\" target=\"_blank\" style=\"padding:10px 0;\">%s</a><hr />", $oDocument->getPermanentUrl(), $oDocument->getPermanentUrl());
-				else $purl = "";
-				$content = sprintf("<div style=\"padding:10px 0;\"><p>%s</p></div><hr />%s<div style=\"padding:10px 0;font-weight:bold\">%s</div>%s",$message_content, $purl, $oDocument->getTitleText(), $oDocument->getContent(false, false, false));
-
-				$oCommunicationController->sendMessage($sender_member_srl, $oDocument->get('member_srl'), $title, $content, false);
+				return $output;
+			}
+			
+			$obj->return_message = 'success_declare_canceled';
+		}
+		else
+		{
+			return $this->setError('msg_invalid_request');
+		}
+		
+		// Call a trigger (after)
+		ModuleHandler::triggerCall('document.manage', 'after', $obj);
+		
+		// Send a message
+		$actions = lang('default_message_verbs');
+		if(isset($actions[$obj->type]) && $obj->send_message)
+		{
+			// Set message
+			$title = sprintf(lang('default_message_format'), $actions[$obj->type]);
+			$content = <<< Content
+<div style="padding:10px 0;"><strong>{$title}</strong></div>
+<p>{$obj->manager_message}</p>
+<hr>
+<ul>%1\$s</ul>
+Content;
+			$document_item = '<li><a href="%1$s">%2$s</a></li>';
+			
+			// Set recipient
+			$recipients = array();
+			foreach ($obj->document_list as $document_srl => $oDocument)
+			{
+				if(!($member_srl = abs($oDocument->get('member_srl'))) || $logged_info->member_srl == $member_srl)
+				{
+					continue;
+				}
+				
+				if(!isset($recipients[$member_srl]))
+				{
+					$recipients[$member_srl] = array();
+				}
+				
+				$recipients[$member_srl][] = sprintf($document_item, $oDocument->getPermanentUrl(), $oDocument->getTitleText());
+			}
+			
+			// Send
+			$oCommunicationController = getController('communication');
+			foreach ($recipients as $member_srl => $items)
+			{
+				$oCommunicationController->sendMessage($member_srl, $member_srl, $title, sprintf($content, implode('', $items)), false);
 			}
 		}
-
+		
 		$_SESSION['document_management'] = array();
-
-		$this->setMessage($msg_code);
-
-		$returnUrl = Context::get('success_return_url') ? Context::get('success_return_url') : getNotEncodedUrl('', 'module', 'admin', 'act', 'dispDocumentAdminList');
-		$this->setRedirectUrl($returnUrl);
+		
+		$this->setMessage($obj->return_message);
+		$this->setRedirectUrl(Context::get('success_return_url') ?: getNotEncodedUrl('', 'module', 'admin', 'act', 'dispDocumentAdminList'));
 	}
 
 	/**
@@ -2732,7 +2786,9 @@ class documentController extends document
 		$document_config->use_vote_down = Context::get('use_vote_down');
 		if(!$document_config->use_vote_down) $document_config->use_vote_down = 'Y';
 
-		$document_config->use_status = Context::get('use_status');
+		$document_config->declared_message = Context::get('declared_message');
+		if(!is_array($document_config->declared_message)) $document_config->declared_message = array();
+		$document_config->declared_message = array_values($document_config->declared_message);
 
 		$oModuleController = getController('module');
 		foreach ($module_srl as $srl)
@@ -2869,26 +2925,47 @@ class documentController extends document
 			}
 		}
 	}
-
-	public function updateUploaedCount($documentSrlList)
+	
+	public function updateUploaedCount($document_srl_list)
 	{
-		$oDocumentModel = getModel('document');
-		$oFileModel = getModel('file');
-
-		if(is_array($documentSrlList))
+		if(!is_array($document_srl_list))
 		{
-			$documentSrlList = array_unique($documentSrlList);
-			foreach($documentSrlList AS $key => $documentSrl)
+			$document_srl_list = array($document_srl_list);
+		}
+		
+		if(empty($document_srl_list))
+		{
+			return;
+		}
+		
+		$oFileModel = getModel('file');
+		$document_srl_list = array_unique($document_srl_list);
+		
+		foreach($document_srl_list as $document_srl)
+		{
+			if(!$document_srl = (int) $document_srl)
 			{
-				$fileCount = $oFileModel->getFilesCount($documentSrl);
-				$args = new stdClass();
-				$args->document_srl = $documentSrl;
-				$args->uploaded_count = $fileCount;
-				executeQuery('document.updateUploadedCount', $args);
+				continue;
 			}
+			
+			$args = new stdClass;
+			$args->document_srl = $document_srl;
+			$args->uploaded_count = $oFileModel->getFilesCount($document_srl);
+			executeQuery('document.updateUploadedCount', $args);
 		}
 	}
-
+	
+	function triggerAfterDeleteFile($file)
+	{
+		$oDocument = getModel('document')->getDocument($file->upload_target_srl, false, false);
+		if(!$oDocument->isExists())
+		{
+			return;
+		}
+		
+		$this->updateUploaedCount($file->upload_target_srl);
+	}
+	
 	/**
 	 * Copy extra keys when module copied
 	 * @param object $obj

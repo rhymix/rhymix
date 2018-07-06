@@ -439,7 +439,7 @@ class commentController extends comment
 		}
 		
 		// if use editor of nohtml, Remove HTML tags from the contents.
-		if(!$manual_inserted)
+		if(!$manual_inserted || isset($obj->allow_html) || isset($obj->use_html))
 		{
 			$obj->content = getModel('editor')->converter($obj, 'comment');
 		}
@@ -512,6 +512,7 @@ class commentController extends comment
 			{
 				// get the top listed comment among those in lower depth and same head with parent's.
 				$p_args = new stdClass();
+				$p_args->document_srl = $document_srl;
 				$p_args->head = $parent->head;
 				$p_args->arrange = $parent->arrange;
 				$p_args->depth = $parent->depth;
@@ -786,13 +787,13 @@ class commentController extends comment
 		// remove Rhymix's wn tags from contents
 		$obj->content = preg_replace('!<\!--(Before|After)(Document|Comment)\(([0-9]+),([0-9]+)\)-->!is', '', $obj->content);
 		// Return error if content is empty.
-		if (!$manual_inserted && is_empty_html_content($obj->content))
+		if (!$manual_updated && is_empty_html_content($obj->content))
 		{
 			return new BaseObject(-1, 'msg_empty_content');
 		}
 		
 		// if use editor of nohtml, Remove HTML tags from the contents.
-		if(!$manual_updated)
+		if(!$manual_updated || isset($obj->allow_html) || isset($obj->use_html))
 		{
 			$obj->content = getModel('editor')->converter($obj, 'comment');
 		}
@@ -1257,7 +1258,7 @@ class commentController extends comment
 			$oDocument = $oDocumentModel->getDocument($document_srl);
 		}
 
-		if(!$oDocument->isExists() || !$oDocument->isGranted())
+		if(!$oDocument->isGranted())
 		{
 			return new BaseObject(-1, 'msg_not_permitted');
 		}
@@ -1565,6 +1566,38 @@ class commentController extends comment
 
 		$this->add('declared_count', $declared_count + 1);
 
+		// Send message to admin
+		$message_targets = array();
+		$module_srl = $oComment->get('module_srl');
+		$oModuleModel = getModel('module');
+		$comment_config = $oModuleModel->getModulePartConfig('comment', $module_srl);
+		if ($comment_config->declared_message && in_array('admin', $comment_config->declared_message))
+		{
+			$output = executeQueryArray('member.getAdmins', new stdClass);
+			foreach ($output->data as $admin)
+			{
+				$message_targets[$admin->member_srl] = true;
+			}
+		}
+		if ($comment_config->declared_message && in_array('manager', $comment_config->declared_message))
+		{
+			$output = executeQueryArray('module.getModuleAdmin', (object)['module_srl' => $module_srl]);
+			foreach ($output->data as $manager)
+			{
+				$message_targets[$manager->member_srl] = true;
+			}
+		}
+		if ($message_targets)
+		{
+			$oCommunicationController = getController('communication');
+			$message_title = lang('document.declared_message_title');
+			$message_content = sprintf('<p><a href="%s">%s</a></p><p>%s</p>', $oComment->getPermanentUrl(), $oComment->getContentText(50), $declare_message);
+			foreach ($message_targets as $target_member_srl => $val)
+			{
+				$oCommunicationController->sendMessage($this->user->member_srl, $target_member_srl, $message_title, $message_content, false);
+			}
+		}
+
 		// Call a trigger (after)
 		$trigger_obj->declared_count = $declared_count + 1;
 		ModuleHandler::triggerCall('comment.declaredComment', 'after', $trigger_obj);
@@ -1653,6 +1686,10 @@ class commentController extends comment
 			$comment_config->use_vote_down = 'Y';
 		}
 
+		$comment_config->declared_message = Context::get('declared_message');
+		if(!is_array($comment_config->declared_message)) $comment_config->declared_message = array();
+		$comment_config->declared_message = array_values($comment_config->declared_message);
+
 		$comment_config->use_comment_validation = Context::get('use_comment_validation');
 		if(!$comment_config->use_comment_validation)
 		{
@@ -1726,7 +1763,45 @@ class commentController extends comment
 
 		$this->add('comment_list', $commentList);
 	}
-
+	
+	function triggerMoveDocument($obj)
+	{
+		executeQuery('comment.updateCommentModule', $obj);
+		executeQuery('comment.updateCommentListModule', $obj);
+	}
+	
+	function triggerAddCopyDocument(&$obj)
+	{
+		$args = new stdClass;
+		$args->document_srls = $obj->source->document_srl;
+		$comment_list = executeQueryArray('comment.getCommentsByDocumentSrls', $args)->data;
+		
+		$copied_comments = array();
+		foreach($comment_list as $comment)
+		{
+			$copy = clone $comment;
+			$copy->comment_srl = getNextSequence();
+			$copy->module_srl = $obj->copied->module_srl;
+			$copy->document_srl = $obj->copied->document_srl;
+			$copy->parent_srl = $comment->parent_srl ? $copied_comments[$comment->parent_srl] : 0;
+			
+			// call a trigger (add)
+			$args = new stdClass;
+			$args->source = $comment;
+			$args->copied = $copy;
+			ModuleHandler::triggerCall('comment.copyCommentByDocument', 'add', $args);
+			
+			// insert a copied comment
+			$this->insertComment($copy, true);
+			
+			$copied_comments[$comment->comment_srl] = $copy->comment_srl;
+		}
+		
+		// update
+		$obj->copied->last_updater = $copy->nick_name;
+		$obj->copied->comment_count = count($copied_comments);
+	}
+	
 	function triggerCopyModule(&$obj)
 	{
 		$oModuleModel = getModel('module');
@@ -1741,7 +1816,6 @@ class commentController extends comment
 			}
 		}
 	}
-
 }
 /* End of file comment.controller.php */
 /* Location: ./modules/comment/comment.controller.php */

@@ -43,12 +43,11 @@ function pointLevelIconTrans($matches, $addon_info)
 		$oPointModel = &$GLOBALS['_pointModel'];
 
 		// Get points
-		if(!$oPointModel->isExistsPoint($member_srl))
+		$point = $oPointModel->getPoint($member_srl, false, $exists);
+		if(!$exists)
 		{
 			return $matches[0];
 		}
-
-		$point = $oPointModel->getPoint($member_srl);
 
 		// Get level
 		$level = $oPointModel->getLevel($point, $config->level_step);

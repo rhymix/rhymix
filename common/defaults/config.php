@@ -20,7 +20,9 @@ return array(
 			'engine' => null,
 		),
 	),
-	'cache' => array(),
+	'cache' => array(
+		'truncate_method' => 'delete',
+	),
 	'ftp' => array(
 		'host' => 'localhost',
 		'port' => 21,
@@ -101,6 +103,7 @@ return array(
 		'og_enabled' => false,
 		'og_extract_description' => false,
 		'og_extract_images' => false,
+		'og_extract_hashtags' => false,
 		'og_use_timestamps' => false,
 	),
 	'mediafilter' => array(

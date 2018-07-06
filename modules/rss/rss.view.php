@@ -52,8 +52,9 @@ class rssView extends rss
 		$start = $obj->start_date ?: Context::get('start_date');
 		$end = $obj->end_date ?: Context::get('end_date');
 		$site_module_srl = Context::get('site_module_info')->module_srl;
-		$target_module_srl = $obj->module_srl ?: (Context::get('current_module_info')->module_srl ?: $site_module_srl);
-		$is_part_feed = ($obj->module_srl || $target_module_srl !== $site_module_srl) ? true : false;
+		$current_module_srl = Context::get('current_module_info')->module_srl;
+		$target_module_srl = isset($obj->module_srl) ? $obj->module_srl : ($current_module_srl ?: $site_module_srl);
+		$is_part_feed = (isset($obj->module_srl) || $target_module_srl !== $site_module_srl) ? true : false;
 		
 		// Set format
 		switch($format)
@@ -109,17 +110,16 @@ class rssView extends rss
 					$target_modules[$module_config->module_srl] = $module_config->open_rss;
 				}
 			}
-			else
+			// total feed
+			elseif($config->use_total_feed == 'Y')
 			{
-				if($config->use_total_feed == 'Y')
+				foreach(getModel('module')->getModulePartConfigs('rss') as $module_srl => $part_config)
 				{
-					foreach(getModel('module')->getModulePartConfigs('rss') as $module_srl => $part_config)
+					if($part_config->open_rss == 'N' || $part_config->open_total_feed == 'T_N')
 					{
-						if($part_config->open_rss != 'N' && $part_config->open_total_feed != 'T_N')
-						{
-							$target_modules[$module_srl] = $part_config->open_rss;
-						}
+						continue;
 					}
+					$target_modules[$module_srl] = $part_config->open_rss;
 				}
 			}
 			Context::set('target_modules', $target_modules);
@@ -139,7 +139,7 @@ class rssView extends rss
 				$args->search_target = 'is_secret';
 				$args->search_keyword = 'N';
 				$args->page = $page > 0 ? $page : 1;
-				$args->module_srl = implode(',', array_keys($target_modules));
+				$args->module_srl = array_keys($target_modules);
 				$args->list_count = $config->feed_document_count;
 				$args->sort_index = 'regdate';
 				$args->order_type = 'desc';

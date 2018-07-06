@@ -24,7 +24,7 @@ class MediaFilter
 	 */
 	public static function addIframePrefix($prefix, $permanently = false)
 	{
-		if (!count(self::$_iframe_whitelist))
+		if (!self::$_iframe_whitelist)
 		{
 			self::_loadWhitelists();
 		}
@@ -52,7 +52,7 @@ class MediaFilter
 	 */
 	public static function addObjectPrefix($prefix, $permanently = false)
 	{
-		if (!count(self::$_object_whitelist))
+		if (!self::$_object_whitelist)
 		{
 			self::_loadWhitelists();
 		}
@@ -94,7 +94,7 @@ class MediaFilter
 	 */
 	public static function getIframeWhitelist()
 	{
-		if (!count(self::$_iframe_whitelist))
+		if (!self::$_iframe_whitelist)
 		{
 			self::_loadWhitelists();
 		}
@@ -108,7 +108,7 @@ class MediaFilter
 	 */
 	public static function getIframeWhitelistRegex()
 	{
-		if (!count(self::$_iframe_whitelist))
+		if (!self::$_iframe_whitelist)
 		{
 			self::_loadWhitelists();
 		}
@@ -127,7 +127,7 @@ class MediaFilter
 	 */
 	public static function getObjectWhitelist()
 	{
-		if (!count(self::$_object_whitelist))
+		if (!self::$_object_whitelist)
 		{
 			self::_loadWhitelists();
 		}
@@ -141,7 +141,7 @@ class MediaFilter
 	 */
 	public static function getObjectWhitelistRegex()
 	{
-		if (!count(self::$_object_whitelist))
+		if (!self::$_object_whitelist)
 		{
 			self::_loadWhitelists();
 		}

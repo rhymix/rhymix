@@ -17,7 +17,7 @@
 	</form>
 	<div style="clear:both"></div>
 </div>
-<table class="table table-striped table-hover" cond="$message">
+<table class="table table-striped table-hover" style="table-layout: fixed" cond="$message">
 	<tr>
 		<th>{$message->title}</th>
 	</tr>
@@ -55,7 +55,7 @@
 					<!--@end-->
 				</th>
 				<th scope="col">{$lang->regdate}</th>
-				<th scope="col">{$lang->readed_date}</th>
+				<th scope="col" cond="$message_type !== 'N'">{$lang->readed_date}</th>
 				<th scope="col"><input name="check_all" type="checkbox" onclick="XE.checkboxToggleAll('message_srl_list[]', {wrap:'fo_message_list'})"/></th>
 			</tr>
 		</thead>
@@ -71,7 +71,7 @@
 				<td>
 					{zdate($val->regdate,"Y-m-d")}
 				</td>
-				<td><block cond="$val->readed=='Y'">{zdate($val->readed_date,"Y-m-d H:i")}</block>&nbsp;</td>
+				<td cond="$message_type !== 'N'"><block cond="$val->readed=='Y'">{zdate($val->readed_date,"Y-m-d H:i")}</block>&nbsp;</td>
 				<td><input name="message_srl_list[]" type="checkbox" value="{$val->message_srl}" /></td>
 			</tr>
 		</tbody>

@@ -14,13 +14,13 @@
 <form action="" method="post">
 	<table id="memberList" class="x_table x_table-striped x_table-hover">
 		<caption>
-			<a href="{getUrl('filter_type', '', 'page', '')}" class="active"|cond="$filter_type==''">{$lang->cmd_show_all_member}<block cond="$filter_type==''">({$total_count})</block></a>
+			<a href="{getUrl('filter_type', '', 'page', '')}" class="active"|cond="!$filter_type">{$lang->cmd_show_all_member}<block cond="!$filter_type">({$total_count})</block></a>
 			<i>|</i>
-			<a href="{getUrl('filter_type', 'super_admin', 'page', '')}" class="active"|cond="$filter_type==super_admin">{$lang->cmd_show_super_admin_member}<block cond="$filter_type==super_admin">({$total_count})</block></a>
+			<a href="{getUrl('filter_type', 'super_admin', 'page', '')}" class="active"|cond="$filter_type=='super_admin'">{$lang->cmd_show_super_admin_member}<block cond="$filter_type=='super_admin'">({$total_count})</block></a>
 			<i>|</i>
-			<a href="{getUrl('filter_type', 'enable', 'page', '')}" class="active"|cond="$filter_type==enable">{$lang->approval}<block cond="$filter_type==enable">({$total_count})</block></a>
+			<a href="{getUrl('filter_type', 'enable', 'page', '')}" class="active"|cond="$filter_type=='enable'">{$lang->approval}<block cond="$filter_type=='enable'">({$total_count})</block></a>
 			<i>|</i>
-			<a href="{getUrl('filter_type', 'disable', 'page', '')}" class="active"|cond="$filter_type==disable">{$lang->denied}<block cond="$filter_type==disable">({$total_count})</block></a>
+			<a href="{getUrl('filter_type', 'disable', 'page', '')}" class="active"|cond="$filter_type=='disable'">{$lang->denied}<block cond="$filter_type=='disable'">({$total_count})</block></a>
 			<div class="x_pull-right x_btn-group">
 				<a class="x_btn x_btn-inverse" href="{getUrl('', 'module', 'admin', 'act', 'dispMemberAdminInsert')}">{$lang->msg_new_member}</a>
 				<a href="#listManager" data-value="modify" class="modalAnchor _member x_btn">{$lang->modify}</a>
@@ -33,8 +33,8 @@
 				<th scope="col" class="nowr">{$lang->email}</th>
 				<th scope="col" class="nowr" loop="$usedIdentifiers=>$name,$title">{$title}</th>
 				<th scope="col" class="nowr">{$lang->status}</th>
-				<th scope="col" class="nowr"><a href="{getUrl('', 'module', 'admin', 'act', 'dispMemberAdminList', 'sort_index', 'regdate', 'sort_order', ($sort_order == 'asc') ? 'desc' : 'asc')}">{$lang->signup_date}<block cond="$sort_index == 'regdate'"> <em cond="$sort_order=='asc'">▲</em><em cond="$sort_order != 'asc'">▼</em></block></a></th>
-				<th scope="col" class="nowr"><a href="{getUrl('', 'module', 'admin', 'act', 'dispMemberAdminList', 'sort_index', 'last_login', 'sort_order',  ($sort_order == 'asc') ? 'desc' : 'asc')}">{$lang->last_login}<block cond="$sort_index == 'last_login'"> <em cond="$sort_order=='asc'">▲</em><em cond="$sort_order != 'asc'">▼</em></block></a></th>
+				<th scope="col" class="nowr"><a href="{getUrl('', 'module', 'admin', 'act', 'dispMemberAdminList', 'sort_index', 'regdate', 'sort_order', ($sort_order == 'asc') ? 'desc' : 'asc', 'selected_group_srl', $selected_group_srl)}">{$lang->signup_date}<block cond="$sort_index == 'regdate'"> <em cond="$sort_order=='asc'">▲</em><em cond="$sort_order != 'asc'">▼</em></block></a></th>
+				<th scope="col" class="nowr"><a href="{getUrl('', 'module', 'admin', 'act', 'dispMemberAdminList', 'sort_index', 'last_login', 'sort_order',  ($sort_order == 'asc') ? 'desc' : 'asc', 'selected_group_srl', $selected_group_srl)}">{$lang->last_login}<block cond="$sort_index == 'last_login'"> <em cond="$sort_order=='asc'">▲</em><em cond="$sort_order != 'asc'">▼</em></block></a></th>
 				<th scope="col" class="nowr">{$lang->member_group}</th>
 				<th scope="col" class="nowr">{$lang->inquiry}/{$lang->cmd_modify}</th>
 				<th scope="col">

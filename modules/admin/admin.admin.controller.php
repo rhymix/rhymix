@@ -58,8 +58,25 @@ class adminAdminController extends admin
 	function procAdminRecompileCacheFile()
 	{
 		// rename cache dir
-		Rhymix\Framework\Storage::move(\RX_BASEDIR . 'files/cache', \RX_BASEDIR . 'files/cache_' . time());
-		Rhymix\Framework\Storage::createDirectory(\RX_BASEDIR . 'files/cache');
+		$truncate_method = Rhymix\Framework\Config::get('cache.truncate_method');
+		if ($truncate_method === 'empty')
+		{
+			$tmp_basedir = \RX_BASEDIR . 'files/cache/truncate_' . time();
+			Rhymix\Framework\Storage::createDirectory($tmp_basedir);
+			$dirs = Rhymix\Framework\Storage::readDirectory(\RX_BASEDIR . 'files/cache', true, false, false);
+			if ($dirs)
+			{
+				foreach ($dirs as $dir)
+				{
+					Rhymix\Framework\Storage::moveDirectory($dir, $tmp_basedir . '/' . basename($dir));
+				}
+			}
+		}
+		else
+		{
+			Rhymix\Framework\Storage::move(\RX_BASEDIR . 'files/cache', \RX_BASEDIR . 'files/cache_' . time());
+			Rhymix\Framework\Storage::createDirectory(\RX_BASEDIR . 'files/cache');
+		}
 
 		// remove module extend cache
 		Rhymix\Framework\Storage::delete(RX_BASEDIR . 'files/config/module_extend.php');
@@ -90,14 +107,24 @@ class adminAdminController extends admin
 		}
 
 		// remove old cache dir
-		$tmp_cache_list = FileHandler::readDir(\RX_BASEDIR . 'files', '/^(cache_[0-9]+)/');
+		if ($truncate_method === 'empty')
+		{
+			$tmp_cache_list = FileHandler::readDir(\RX_BASEDIR . 'files/cache', '/^(truncate_[0-9]+)/');
+			$tmp_cache_prefix = \RX_BASEDIR . 'files/cache/';
+		}
+		else
+		{
+			$tmp_cache_list = FileHandler::readDir(\RX_BASEDIR . 'files', '/^(cache_[0-9]+)/');
+			$tmp_cache_prefix = \RX_BASEDIR . 'files/';
+		}
+		
 		if($tmp_cache_list)
 		{
 			foreach($tmp_cache_list as $tmp_dir)
 			{
 				if(strval($tmp_dir) !== '')
 				{
-					$tmp_dir = \RX_BASEDIR . 'files/' . strval($tmp_dir);
+					$tmp_dir = $tmp_cache_prefix . $tmp_dir;
 					if (!Rhymix\Framework\Storage::isDirectory($tmp_dir))
 					{
 						continue;
@@ -722,7 +749,11 @@ class adminAdminController extends admin
 		{
 			if ($vars->object_cache_type === 'memcached' || $vars->object_cache_type === 'redis')
 			{
-				if (starts_with('/', $vars->object_cache_host))
+				if (starts_with('unix:/', $vars->object_cache_host))
+				{
+					$cache_servers = array(substr($vars->object_cache_host, 5));
+				}
+				elseif (starts_with('/', $vars->object_cache_host))
 				{
 					$cache_servers = array($vars->object_cache_host);
 				}
@@ -753,6 +784,12 @@ class adminAdminController extends admin
 		else
 		{
 			Rhymix\Framework\Config::set('cache', array());
+		}
+		
+		// Cache truncate method
+		if (in_array($vars->cache_truncate_method, array('delete', 'empty')))
+		{
+			Rhymix\Framework\Config::set('cache.truncate_method', $vars->cache_truncate_method);
 		}
 		
 		// Thumbnail settings
@@ -887,6 +924,7 @@ class adminAdminController extends admin
 		Rhymix\Framework\Config::set('seo.og_enabled', $vars->og_enabled === 'Y');
 		Rhymix\Framework\Config::set('seo.og_extract_description', $vars->og_extract_description === 'Y');
 		Rhymix\Framework\Config::set('seo.og_extract_images', $vars->og_extract_images === 'Y');
+		Rhymix\Framework\Config::set('seo.og_extract_hashtags', $vars->og_extract_hashtags === 'Y');
 		Rhymix\Framework\Config::set('seo.og_use_timestamps', $vars->og_use_timestamps === 'Y');
 		
 		// Save

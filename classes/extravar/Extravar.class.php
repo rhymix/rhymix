@@ -19,7 +19,7 @@ class ExtraVar
 	 * Current module's Set of ExtraItem
 	 * @var ExtraItem[]
 	 */
-	var $keys = null;
+	var $keys = array();
 
 	/**
 	 * Get instance of ExtraVar (singleton)

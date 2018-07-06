@@ -62,7 +62,11 @@ class ConditionsTag
 			}
 			foreach($xml_groups as $group)
 			{
-				$this->condition_groups[] = new ConditionGroupTag($group->condition, $group->attrs->pipe);
+				$subconditions = $group->condition;
+				$subgroups = $group->group;
+				$subconditions = $subconditions ? (is_array($subconditions) ? $subconditions : [$subconditions]) : [];
+				$subgroups = $subgroups ? (is_array($subgroups) ? $subgroups : [$subgroups]) : [];
+				$this->condition_groups[] = new ConditionGroupTag(array_merge($subconditions, $subgroups), $group->attrs->pipe);
 			}
 		}
 	}

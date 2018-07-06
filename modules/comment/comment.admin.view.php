@@ -135,25 +135,76 @@ class commentAdminView extends comment
 		$args->page = Context::get('page'); // /< Page
 		$args->list_count = 30; // /< the number of comment postings to appear on a single page
 		$args->page_count = 10; // /< the number of pages to appear on the page navigation
-
-		$args->sort_index = 'comment_declared.declared_count'; // /< sorting values
 		$args->order_type = 'desc'; // /< sorted value
-		// get a list
-		$declared_output = executeQuery('comment.getDeclaredList', $args);
-		$oCommentModel = getModel('comment');
-
-		if($declared_output->data && count($declared_output->data))
+		
+		// select sort method
+		$sort_index = Context::get('sort_index');
+		if (!in_array($sort_index, array('declared_latest', 'declared_count', 'regdate')))
 		{
-			$comment_list = array();
-
-			foreach($declared_output->data as $key => $comment)
+			$sort_index = 'declared_latest';
+		}
+		Context::set('sort_index', $sort_index);
+		
+		// get latest declared list
+		if ($sort_index === 'declared_latest')
+		{
+			$declared_output = executeQueryArray('comment.getDeclaredLatest', $args);
+			if ($declared_output->data && count($declared_output->data))
 			{
-				$comment_list[$key] = new commentItem();
-				$comment_list[$key]->setAttribute($comment);
+				$args->comment_srls = array_map(function($item) { return $item->comment_srl; }, $declared_output->data);
+				$comments = executeQueryArray('comment.getComments', $args);
+				$comment_list = array();
+				foreach ($declared_output->data as $key => $declared_info)
+				{
+					foreach ($comments->data as $comment)
+					{
+						if ($comment->comment_srl == $declared_info->comment_srl)
+						{
+							$comment->declared_count = $declared_info->declared_count;
+							$comment->latest_declared = $declared_info->latest_declared;
+							$comment_list[$key] = new commentItem();
+							$comment_list[$key]->setAttribute($comment);
+							break;
+						}
+					}
+				}
+				$declared_output->data = $comment_list;
 			}
-			$declared_output->data = $comment_list;
+		}
+		else
+		{
+			if ($sort_index === 'declared_count')
+			{
+				$args->sort_index = 'comment_declared.declared_count';
+			}
+			else
+			{
+				$args->sort_index = 'comments.regdate';
+			}
+			$declared_output = executeQueryArray('comment.getDeclaredList', $args);
+			if ($declared_output->data && count($declared_output->data))
+			{
+				$args->comment_srls = array_map(function($item) { return $item->comment_srl; }, $declared_output->data);
+				$declared_latest = executeQueryArray('comment.getDeclaredLatest', $args);
+				$comment_list = array();
+				foreach ($declared_output->data as $key => $comment)
+				{
+					foreach ($declared_latest->data as $key => $declared_info)
+					{
+						if ($comment->comment_srl == $declared_info->comment_srl)
+						{
+							$comment->declared_count = $declared_info->declared_count;
+							$comment->latest_declared = $declared_info->latest_declared;
+							$comment_list[$key] = new commentItem();
+							$comment_list[$key]->setAttribute($comment);
+						}
+					}
+				}
+				$declared_output->data = $comment_list;
+			}
 		}
 
+		$oCommentModel = getModel('comment');
 		$secretNameList = $oCommentModel->getSecretNameList();
 
 		// set values in the return object of comment_model:: getCommentList() in order to use a template.

@@ -29,7 +29,7 @@ class ConditionGroup
 	 * @param string $pipe
 	 * @return void
 	 */
-	function __construct($conditions, $pipe = "")
+	function __construct($conditions, $pipe = 'and')
 	{
 		$this->conditions = array();
 		foreach($conditions as $condition)
@@ -89,7 +89,7 @@ class ConditionGroup
 
 			if($this->pipe !== "" && trim($group) !== '')
 			{
-				$group = $this->pipe . ' (' . $group . ')';
+				$group = strtoupper($this->pipe) . ' (' . $group . ')';
 			}
 
 			$this->_group = $group;
@@ -106,10 +106,23 @@ class ConditionGroup
 		$args = array();
 		foreach($this->conditions as $condition)
 		{
-			$arg = $condition->getArgument();
-			if($arg)
+			if($condition instanceof ConditionGroup)
 			{
-				$args[] = $arg;
+				foreach($condition->getArguments() as $arg)
+				{
+					if($arg)
+					{
+						$args[] = $arg;
+					}
+				}
+			}
+			else
+			{
+				$arg = $condition->getArgument();
+				if($arg)
+				{
+					$args[] = $arg;
+				}
 			}
 		}
 		return $args;

@@ -226,6 +226,20 @@
 			</div>
 		</div>
 		<div class="x_control-group">
+			<label class="x_control-label">{$lang->document_length_limit}</label>
+			<div class="x_controls">
+				<input type="number" name="document_length_limit" id="document_length_limit" value="{$module_info->document_length_limit ?: 1024}" /> KB
+				<p class="x_help-block">{$lang->about_document_length_limit}</p>
+			</div>
+		</div>
+		<div class="x_control-group">
+			<label class="x_control-label">{$lang->comment_length_limit}</label>
+			<div class="x_controls">
+				<input type="number" name="comment_length_limit" id="comment_length_limit" value="{$module_info->comment_length_limit ?: 128}" /> KB
+				<p class="x_help-block">{$lang->about_comment_length_limit}</p>
+			</div>
+		</div>
+		<div class="x_control-group">
 			<label class="x_control-label">{$lang->consultation}</label>
 			<div class="x_controls">
 				<label class="x_inline" for="consultation"><input type="checkbox" name="consultation" id="consultation" value="Y" checked="checked"|cond="$module_info->consultation == 'Y'" /> {$lang->about_consultation}</label>

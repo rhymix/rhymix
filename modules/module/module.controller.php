@@ -1048,11 +1048,11 @@ class moduleController extends module
 		{
 			if($lang === null)
 			{
-				$lang = Rhymix\Framework\Cache::get('site_and_module:user_defined_langs:' . $args->site_srl . ':' . Context::getLangType());
+				$lang = Rhymix\Framework\Cache::get('site_and_module:user_defined_langs:0:' . Context::getLangType());
 				if($lang === null)
 				{
 					$oModuleAdminController = getAdminController('module');
-					$lang = $oModuleAdminController->makeCacheDefinedLangCode($site_module_info->site_srl);
+					$lang = $oModuleAdminController->makeCacheDefinedLangCode(0);
 				}
 			}
 			

@@ -332,37 +332,6 @@ class adminAdminView extends admin
 		// Get need update from easy install
 		$oAutoinstallAdminModel = getAdminModel('autoinstall');
 		$needUpdateList = $oAutoinstallAdminModel->getNeedUpdateList();
-
-		if(is_array($needUpdateList))
-		{
-			foreach($needUpdateList AS $key => $value)
-			{
-				$helpUrl = './common/manual/admin/index.html#';
-				switch($value->type)
-				{
-					case 'addon':
-						$helpUrl .= 'UMAN_terminology_addon';
-						break;
-					case 'layout':
-					case 'm.layout':
-						$helpUrl .= 'UMAN_terminology_layout';
-						break;
-					case 'module':
-						$helpUrl .= 'UMAN_terminology_module';
-						break;
-					case 'widget':
-						$helpUrl .= 'UMAN_terminology_widget';
-						break;
-					case 'widgetstyle':
-						$helpUrl .= 'UMAN_terminology_widgetstyle';
-						break;
-					default:
-						$helpUrl = '';
-				}
-				$needUpdateList[$key]->helpUrl = $helpUrl;
-			}
-		}
-
 		$site_module_info = Context::get('site_module_info');
 		$oAddonAdminModel = getAdminModel('addon');
 		$counterAddonActivated = $oAddonAdminModel->isActivatedAddon('counter', $site_module_info->site_srl );
@@ -539,6 +508,7 @@ class adminAdminView extends admin
 			Context::set('object_cache_port', null);
 			Context::set('object_cache_dbnum', 1);
 		}
+		Context::set('cache_truncate_method', Rhymix\Framework\Config::get('cache.truncate_method'));
 		
 		// Thumbnail settings
 		$oDocumentModel = getModel('document');
@@ -626,6 +596,7 @@ class adminAdminView extends admin
 		Context::set('og_enabled', Rhymix\Framework\Config::get('seo.og_enabled'));
 		Context::set('og_extract_description', Rhymix\Framework\Config::get('seo.og_extract_description'));
 		Context::set('og_extract_images', Rhymix\Framework\Config::get('seo.og_extract_images'));
+		Context::set('og_extract_hashtags', Rhymix\Framework\Config::get('seo.og_extract_hashtags'));
 		Context::set('og_use_timestamps', Rhymix\Framework\Config::get('seo.og_use_timestamps'));
 		
 		$this->setTemplateFile('config_seo');
@@ -769,6 +740,7 @@ class adminAdminView extends admin
 		$info['php'] = sprintf('%s (%d-bit)', phpversion(), PHP_INT_SIZE * 8);
 		$info['server'] = $_SERVER['SERVER_SOFTWARE'];
 		$info['os'] = sprintf('%s %s', php_uname('s'), php_uname('r'));
+		$info['sapi'] = php_sapi_name();
 		$info['baseurl'] = Context::getRequestUri();
 		$info['basedir'] = RX_BASEDIR;
 		$info['owner'] = sprintf('%s (%d:%d)', get_current_user(), getmyuid(), getmygid());

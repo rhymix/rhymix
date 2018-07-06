@@ -36,7 +36,7 @@
 <link rel="alternate" type="application/atom+xml" title="Site Atom" href="{$general_atom_url}" cond="$general_rss_url" />
 
 <!-- ICONS AND OTHER LINKS -->
-<link cond="$canonical_url" rel="canonical" href="{$canonical_url}" />
+<link cond="Context::getCanonicalURL()" rel="canonical" href="{Context::getCanonicalURL()}" />
 <link cond="$favicon_url" rel="shortcut icon" href="{$favicon_url}" />
 <link cond="$mobicon_url" rel="apple-touch-icon" href="{$mobicon_url}" />
 
@@ -48,9 +48,9 @@
 
 <!-- COMMON JS VARIABLES -->
 <script>
-	var default_url = "{Context::getDefaultUrl()}";
-	var current_url = "{$current_url}";
-	var request_uri = "{$request_uri}";
+	var default_url = "{\Rhymix\Framework\URL::encodeIdna(Context::getDefaultUrl())}";
+	var current_url = "{\Rhymix\Framework\URL::encodeIdna($current_url)}";
+	var request_uri = "{\Rhymix\Framework\URL::encodeIdna($request_uri)}";
 	var current_lang = xe.current_lang = "{$lang_type}";
 	var current_mid = {json_encode($mid ?: null)};
 	var http_port = {Context::get("_http_port") ?: 'null'};

@@ -17,7 +17,11 @@ class commentItem extends BaseObject
 	 * @var int
 	 */
 	var $comment_srl = 0;
-
+	/**
+	 * grant
+	 * @var bool
+	 */
+	var $grant_cache = null;
 	/**
 	 * Get the column list int the table
 	 * @var array
@@ -88,52 +92,95 @@ class commentItem extends BaseObject
 
 	function isExists()
 	{
-		return $this->comment_srl ? TRUE : FALSE;
+		return (bool) ($this->comment_srl);
 	}
-
+	
 	function isGranted()
 	{
-		if($_SESSION['granted_comment'][$this->comment_srl])
+		if(!$this->isExists())
 		{
-			return TRUE;
+			return false;
 		}
-
-		if(!Context::get('is_logged'))
+		
+		if (isset($_SESSION['granted_comment'][$this->comment_srl]))
 		{
-			return FALSE;
+			return true;
 		}
-
+		
+		if ($this->grant_cache !== null)
+		{
+			return $this->grant_cache;
+		}
+		
 		$logged_info = Context::get('logged_info');
-		if($logged_info->is_admin == 'Y')
+		if (!$logged_info->member_srl)
 		{
-			return TRUE;
+			return $this->grant_cache = false;
 		}
-
-		$grant = Context::get('grant');
-		if($grant->manager)
+		if ($logged_info->is_admin == 'Y')
 		{
-			return TRUE;
+			return $this->grant_cache = true;
 		}
-
-		if($this->get('member_srl') && ($this->get('member_srl') == $logged_info->member_srl || $this->get('member_srl') * -1 == $logged_info->member_srl))
+		if ($this->get('member_srl') && abs($this->get('member_srl')) == $logged_info->member_srl)
 		{
-			return TRUE;
+			return $this->grant_cache = true;
 		}
-
-		return FALSE;
+		
+		$oModuleModel = getModel('module');
+		$grant = $oModuleModel->getGrant($oModuleModel->getModuleInfoByModuleSrl($this->get('module_srl')), $logged_info);
+		if ($grant->manager)
+		{
+			return $this->grant_cache = true;
+		}
+		
+		return $this->grant_cache = false;
 	}
-
+	
 	function setGrant()
 	{
-		$this->is_granted = TRUE;
+		$this->grant_cache = true;
 	}
-
+	
 	function setGrantForSession()
 	{
 		$_SESSION['granted_comment'][$this->comment_srl] = true;
 		$this->setGrant();
 	}
-
+	
+	function isAccessible()
+	{
+		if(!$this->isExists())
+		{
+			return false;
+		}
+		
+		if (isset($_SESSION['accessible'][$this->comment_srl]) && $_SESSION['accessible'][$this->comment_srl] === $this->get('last_update'))
+		{
+			return true;
+		}
+		
+		if ($this->get('status') == RX_STATUS_PUBLIC && $this->get('is_secret') !== 'Y')
+		{
+			$this->setAccessible();
+			return true;
+		}
+		
+		if ($this->isGranted())
+		{
+			$this->setAccessible();
+			return true;
+		}
+		
+		$oDocument = getModel('document')->getDocument($this->get('document_srl'));
+		if ($oDocument->isGranted())
+		{
+			$this->setAccessible();
+			return true;
+		}
+		
+		return false;
+	}
+	
 	function setAccessible()
 	{
 		if(Context::getSessionStatus())
@@ -141,58 +188,30 @@ class commentItem extends BaseObject
 			$_SESSION['accessible'][$this->comment_srl] = $this->get('last_update');
 		}
 	}
-
+	
 	function isEditable()
 	{
-		if($this->isGranted() || !$this->get('member_srl'))
-		{
-			return TRUE;
-		}
-		return FALSE;
+		return !$this->get('member_srl') || $this->isGranted();
 	}
-
+	
 	function isSecret()
 	{
-		return $this->get('is_secret') == 'Y' ? TRUE : FALSE;
+		return $this->get('is_secret') == 'Y';
 	}
-
+	
 	function isDeleted()
 	{
 		return $this->get('status') == RX_STATUS_DELETED || $this->get('status') == RX_STATUS_DELETED_BY_ADMIN;
 	}
-
+	
 	function isDeletedByAdmin()
 	{
 		return $this->get('status') == RX_STATUS_DELETED_BY_ADMIN;
 	}
-
-	function isAccessible()
-	{
-		if (isset($_SESSION['accessible'][$this->comment_srl]) && $_SESSION['accessible'][$this->comment_srl] === $this->get('last_update'))
-		{
-			return TRUE;
-		}
-
-		if (!$this->isSecret() || $this->isGranted())
-		{
-			$this->setAccessible();
-			return TRUE;
-		}
-
-		$oDocumentModel = getModel('document');
-		$oDocument = $oDocumentModel->getDocument($this->get('document_srl'));
-		if ($oDocument->isExists() && $oDocument->isGranted())
-		{
-			$this->setAccessible();
-			return TRUE;
-		}
-
-		return FALSE;
-	}
-
+	
 	function useNotify()
 	{
-		return $this->get('notify_message') == 'Y' ? TRUE : FALSE;
+		return $this->get('notify_message') == 'Y';
 	}
 
 	/**
@@ -506,25 +525,26 @@ class commentItem extends BaseObject
 
 	function hasUploadedFiles()
 	{
-		if(($this->isSecret() && !$this->isAccessible()) && !$this->isGranted())
+		if(!$this->isAccessible())
 		{
-			return FALSE;
+			return false;
 		}
+		
 		return $this->get('uploaded_count') ? TRUE : FALSE;
 	}
 
 	function getUploadedFiles()
 	{
-		if(($this->isSecret() && !$this->isAccessible()) && !$this->isGranted())
+		if(!$this->isAccessible())
 		{
 			return;
 		}
-
+		
 		if(!$this->get('uploaded_count'))
 		{
 			return;
 		}
-
+		
 		$oFileModel = getModel('file');
 		$file_list = $oFileModel->getFiles($this->comment_srl, array(), 'file_srl', TRUE);
 		return $file_list;
@@ -637,11 +657,11 @@ class commentItem extends BaseObject
 			$thumbnail_type = $config->thumbnail_type ?: 'crop';
 		}
 		
-		if($this->isSecret() && !$this->isGranted())
+		if(!$this->isAccessible())
 		{
 			return;
 		}
-
+		
 		// If signiture height setting is omitted, create a square
 		if(!$height)
 		{

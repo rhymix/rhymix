@@ -29,100 +29,121 @@ class documentModel extends document
 	{
 		return $_SESSION['granted_document'][$document_srl];
 	}
-
+	
 	/**
 	 * Return document extra information from database
-	 * @param array $documentSrls
+	 * @param array $document_srls
 	 * @return object
 	 */
-	function getDocumentExtraVarsFromDB($documentSrls)
+	function getDocumentExtraVarsFromDB($document_srls)
 	{
-		if(!is_array($documentSrls) || count($documentSrls) == 0)
-		{
-			return $this->setError('msg_invalid_request');
-		}
-
-		$args = new stdClass();
-		$args->document_srl = $documentSrls;
-		$output = executeQueryArray('document.getDocumentExtraVars', $args);
-		return $output;
+		$args = new stdClass;
+		$args->document_srl = $document_srls;
+		return executeQueryArray('document.getDocumentExtraVars', $args);
 	}
-
+	
 	/**
 	 * Extra variables for each article will not be processed bulk select and apply the macro city
 	 * @return void
 	 */
 	function setToAllDocumentExtraVars()
 	{
-		static $checked_documents = array();
+		// get document list
 		$_document_list = &$GLOBALS['XE_DOCUMENT_LIST'];
-
-		// XE XE_DOCUMENT_LIST all documents that the object referred to the global variable settings
-		if(count($_document_list) <= 0) return;
-
-		// Find all called the document object variable has been set extension
+		if(empty($_document_list))
+		{
+			return;
+		}
+		
+		static $checked = array();
+		static $module_extra_keys = array();
+		
+		// check documents
 		$document_srls = array();
-		foreach($_document_list as $key => $val)
+		foreach($_document_list as $document_srl => $oDocument)
 		{
-			if(!$val->document_srl || $checked_documents[$val->document_srl]) continue;
-			$checked_documents[$val->document_srl] = true;
-			$document_srls[] = $val->document_srl;
-		}
-		// If the document number, return detected
-		if(!count($document_srls)) return;
-		// Expand variables mijijeongdoen article about a current visitor to the extension of the language code, the search variable
-		//$obj->document_srl = implode(',',$document_srls);
-		$output = $this->getDocumentExtraVarsFromDB($document_srls);
-		if($output->toBool() && $output->data)
-		{
-			foreach($output->data as $key => $val)
+			if(isset($checked[$document_srl]) || !($oDocument instanceof documentItem) || !$oDocument->isExists())
 			{
-				if(!isset($val->value)) continue;
-				if(!$extra_vars[$val->module_srl][$val->document_srl][$val->var_idx][0]) $extra_vars[$val->module_srl][$val->document_srl][$val->var_idx][0] = trim($val->value);
-				$extra_vars[$val->document_srl][$val->var_idx][$val->lang_code] = trim($val->value);
+				continue;
 			}
+			
+			$checked[$document_srl] = true;
+			$document_srls[] = $document_srl;
 		}
-
-		$user_lang_code = Context::getLangType();
-		for($i=0,$c=count($document_srls);$i<$c;$i++)
+		
+		if(!$document_srls)
 		{
-			$document_srl = $document_srls[$i];
-			unset($vars);
-
-			if(!$_document_list[$document_srl] || !is_object($_document_list[$document_srl]) || !$_document_list[$document_srl]->isExists()) continue;
-			$module_srl = $_document_list[$document_srl]->get('module_srl');
-			$extra_keys = $this->getExtraKeys($module_srl);
-			$vars = $extra_vars[$document_srl];
-			$document_lang_code = $_document_list[$document_srl]->get('lang_code');
-			// Expand the variable processing
-			if(count($extra_keys))
+			return;
+		}
+		
+		// get extra values of documents
+		$extra_values = array();
+		$output = $this->getDocumentExtraVarsFromDB($document_srls);
+		foreach($output->data as $key => $val)
+		{
+			if(!$val->value)
 			{
-				foreach($extra_keys as $idx => $key)
+				continue;
+			}
+			
+			$extra_values[$val->document_srl][$val->var_idx][$val->lang_code] = trim($val->value);
+		}
+		
+		// set extra variables and document language
+		$user_lang_code = Context::getLangType();
+		foreach($document_srls as $document_srl)
+		{
+			$oDocument = $_document_list[$document_srl];
+			$module_srl = $oDocument->get('module_srl');
+			$document_lang_code = $oDocument->get('lang_code');
+			$document_extra_values = $extra_values[$document_srl];
+			
+			// set XE_EXTRA_VARS
+			if(!isset($GLOBALS['XE_EXTRA_VARS'][$document_srl]))
+			{
+				// get extra keys of the module
+				if(!isset($module_extra_keys[$module_srl]))
 				{
-					$extra_keys[$idx] = clone($key);
-					$val = $vars[$idx];
-					if(isset($val[$user_lang_code])) $v = $val[$user_lang_code];
-					else if(isset($val[$document_lang_code])) $v = $val[$document_lang_code];
-					else if(isset($val[0])) $v = $val[0];
-					else $v = null;
-					$extra_keys[$idx]->value = $v;
+					$module_extra_keys[$module_srl] = $this->getExtraKeys($module_srl);
+				}
+				
+				// set extra variables of the document
+				if($module_extra_keys[$module_srl])
+				{
+					$document_extra_vars = array();
+					foreach($module_extra_keys[$module_srl] as $idx => $key)
+					{
+						$document_extra_vars[$idx] = clone($key);
+						
+						// set variable value in user language
+						if(isset($document_extra_values[$idx][$user_lang_code]))
+						{
+							$document_extra_vars[$idx]->setValue($document_extra_values[$idx][$user_lang_code]);
+						}
+						elseif(isset($document_extra_values[$idx][$document_lang_code]))
+						{
+							$document_extra_vars[$idx]->setValue($document_extra_values[$idx][$document_lang_code]);
+						}
+					}
+					
+					$GLOBALS['XE_EXTRA_VARS'][$document_srl] = $document_extra_vars;
 				}
 			}
-
-			unset($evars);
-			$evars = new ExtraVar($module_srl);
-			$evars->setExtraVarKeys($extra_keys);
-			// Title Processing
-			if($vars[-1][$user_lang_code]) $_document_list[$document_srl]->add('title',$vars[-1][$user_lang_code]);
-			// Information processing
-			if($vars[-2][$user_lang_code]) $_document_list[$document_srl]->add('content',$vars[-2][$user_lang_code]);
-
-			if($vars[-1][$user_lang_code] || $vars[-2][$user_lang_code])
+			
+			// set RX_DOCUMENT_LANG
+			if(!isset($GLOBALS['RX_DOCUMENT_LANG'][$document_srl]) && $document_lang_code !== $user_lang_code)
 			{
-				unset($checked_documents[$document_srl]);
+				if(isset($document_extra_values[-1][$user_lang_code]))
+				{
+					$oDocument->add('title', $document_extra_values[-1][$user_lang_code]);
+					$GLOBALS['RX_DOCUMENT_LANG'][$document_srl]['title'] = $document_extra_values[-1][$user_lang_code];
+				}
+				if(isset($document_extra_values[-2][$user_lang_code]))
+				{
+					$oDocument->add('content', $document_extra_values[-2][$user_lang_code]);
+					$GLOBALS['RX_DOCUMENT_LANG'][$document_srl]['content'] = $document_extra_values[-2][$user_lang_code];
+				}
 			}
-
-			$GLOBALS['XE_EXTRA_VARS'][$document_srl] = $evars->getExtraVars();
 		}
 	}
 
@@ -134,18 +155,25 @@ class documentModel extends document
 	 * @param array $columnList
 	 * @return documentItem
 	 */
-	function getDocument($document_srl=0, $is_admin = false, $load_extra_vars=true, $columnList = array())
+	function getDocument($document_srl = 0, $is_admin = false, $load_extra_vars = true, $columnList = array())
 	{
-		if(!$document_srl) return new documentItem();
-
-		if(!$GLOBALS['XE_DOCUMENT_LIST'][$document_srl])
+		if(!$document_srl)
+		{
+			return new documentItem();
+		}
+		if(!isset($GLOBALS['XE_DOCUMENT_LIST'][$document_srl]))
 		{
 			$oDocument = new documentItem($document_srl, $load_extra_vars, $columnList);
-			$GLOBALS['XE_DOCUMENT_LIST'][$document_srl] = $oDocument;
-			if($load_extra_vars) $this->setToAllDocumentExtraVars();
+			if(!$oDocument->isExists())
+			{
+				return $oDocument;
+			}
 		}
-		if($is_admin) $GLOBALS['XE_DOCUMENT_LIST'][$document_srl]->setGrant();
-
+		if($is_admin)
+		{
+			$GLOBALS['XE_DOCUMENT_LIST'][$document_srl]->setGrant();
+		}
+		
 		return $GLOBALS['XE_DOCUMENT_LIST'][$document_srl];
 	}
 
@@ -157,57 +185,36 @@ class documentModel extends document
 	 * @param array $columnList
 	 * @return array value type is documentItem
 	 */
-	function getDocuments($document_srls, $is_admin = false, $load_extra_vars=true, $columnList = array())
+	function getDocuments($document_srls, $is_admin = false, $load_extra_vars = true, $columnList = array())
 	{
-		if(is_array($document_srls))
-		{
-			$list_count = count($document_srls);
-			$document_srls = implode(',',$document_srls);
-		}
-		else
-		{
-			$list_count = 1;
-		}
 		$args = new stdClass();
 		$args->document_srls = $document_srls;
-		$args->list_count = $list_count;
+		$args->list_count = is_array($document_srls) ? count($document_srls) : 1;
 		$args->order_type = 'asc';
-
-		$output = executeQuery('document.getDocuments', $args, $columnList);
-		$document_list = $output->data;
-		if(!$document_list) return;
-		if(!is_array($document_list)) $document_list = array($document_list);
-
-		$document_count = count($document_list);
-		foreach($document_list as $key => $attribute)
+		$output = executeQueryArray('document.getDocuments', $args, $columnList);
+		
+		$documents = array();
+		foreach($output->data as $attribute)
 		{
-			$document_srl = $attribute->document_srl;
-			if(!$document_srl) continue;
-
-			if(!$GLOBALS['XE_DOCUMENT_LIST'][$document_srl])
+			if(!isset($GLOBALS['XE_DOCUMENT_LIST'][$attribute->document_srl]))
 			{
-				$oDocument = null;
 				$oDocument = new documentItem();
 				$oDocument->setAttribute($attribute, false);
-				if($is_admin) $oDocument->setGrant();
-				$GLOBALS['XE_DOCUMENT_LIST'][$document_srl] = $oDocument;
 			}
-
-			$result[$attribute->document_srl] = $GLOBALS['XE_DOCUMENT_LIST'][$document_srl];
-		}
-
-		if($load_extra_vars) $this->setToAllDocumentExtraVars();
-
-		$output = null;
-		if(count($result))
-		{
-			foreach($result as $document_srl => $val)
+			if($is_admin)
 			{
-				$output[$document_srl] = $GLOBALS['XE_DOCUMENT_LIST'][$document_srl];
+				$GLOBALS['XE_DOCUMENT_LIST'][$attribute->document_srl]->setGrant();
 			}
+			
+			$documents[$attribute->document_srl] = $GLOBALS['XE_DOCUMENT_LIST'][$attribute->document_srl];
 		}
-
-		return $output;
+		
+		if($load_extra_vars)
+		{
+			$this->setToAllDocumentExtraVars();
+		}
+		
+		return $documents;
 	}
 
 	/**
@@ -218,128 +225,62 @@ class documentModel extends document
 	 * @param array $columnList
 	 * @return Object
 	 */
-	function getDocumentList($obj, $except_notice = false, $load_extra_vars=true, $columnList = array())
+	function getDocumentList($obj, $except_notice = false, $load_extra_vars = true, $columnList = array())
 	{
 		$sort_check = $this->_setSortIndex($obj, $load_extra_vars);
 		$obj->sort_index = $sort_check->sort_index;
 		$obj->isExtraVars = $sort_check->isExtraVars;
-		unset($obj->use_alternate_output);
+		$obj->except_notice = $except_notice;
 		$obj->columnList = $columnList;
+		
 		// Call trigger (before)
 		// This trigger can be used to set an alternative output using a different search method
+		unset($obj->use_alternate_output);
 		$output = ModuleHandler::triggerCall('document.getDocumentList', 'before', $obj);
 		if($output instanceof BaseObject && !$output->toBool())
 		{
 			return $output;
 		}
-
+		
 		// If an alternate output is set, use it instead of running the default queries
-		$use_alternate_output = (isset($obj->use_alternate_output) && $obj->use_alternate_output instanceof BaseObject);
-		if (!$use_alternate_output)
-		{
-			$this->_setSearchOption($obj, $args, $query_id, $use_division);
-		}
-
-		if ($use_alternate_output)
+		if (isset($obj->use_alternate_output) && $obj->use_alternate_output instanceof BaseObject)
 		{
 			$output = $obj->use_alternate_output;
-			unset($obj->use_alternate_output);
 		}
-		elseif ($sort_check->isExtraVars && substr_count($obj->search_target,'extra_vars'))
-		{
-			$query_id = 'document.getDocumentListWithinExtraVarsExtraSort';
-			$args->sort_index = str_replace('documents.','',$args->sort_index);
-			$output = executeQueryArray($query_id, $args);
-		}
-		elseif ($sort_check->isExtraVars)
-		{
-			$output = executeQueryArray($query_id, $args);
-		}
+		// execute query
 		else
 		{
-			// document.getDocumentList query execution
-			// Query_id if you have a group by clause getDocumentListWithinTag getDocumentListWithinComment or used again to perform the query because
-			$groupByQuery = array('document.getDocumentListWithinComment' => 1, 'document.getDocumentListWithinTag' => 1, 'document.getDocumentListWithinExtraVars' => 1);
-			if(isset($groupByQuery[$query_id]))
-			{
-				$group_args = clone($args);
-				$group_args->sort_index = 'documents.'.$args->sort_index;
-				$output = executeQueryArray($query_id, $group_args);
-				if(!$output->toBool()||!count($output->data)) return $output;
-
-				foreach($output->data as $key => $val)
-				{
-					if($val->document_srl) $target_srls[] = $val->document_srl;
-				}
-
-				$page_navigation = $output->page_navigation;
-				$keys = array_keys($output->data);
-				$virtual_number = $keys[0];
-
-				$target_args = new stdClass();
-				$target_args->document_srls = implode(',',$target_srls);
-				$target_args->list_order = $args->sort_index;
-				$target_args->order_type = $args->order_type;
-				$target_args->list_count = $args->list_count;
-				$target_args->page = 1;
-				$output = executeQueryArray('document.getDocuments', $target_args);
-				$output->page_navigation = $page_navigation;
-				$output->total_count = $page_navigation->total_count;
-				$output->total_page = $page_navigation->total_page;
-				$output->page = $page_navigation->cur_page;
-			}
-			else
-			{
-				$output = executeQueryArray($query_id, $args, $columnList);
-			}
+			$this->_setSearchOption($obj, $args, $query_id, $use_division);
+			$output = executeQueryArray($query_id, $args, $args->columnList);
 		}
+		
 		// Return if no result or an error occurs
-		if(!$output->toBool()||!count($output->data)) return $output;
-		$idx = 0;
-		$data = $output->data;
-		unset($output->data);
-
-		if(!isset($virtual_number))
+		if(!$output->toBool() || !$result = $output->data)
 		{
-			$keys = array_keys($data);
-			$virtual_number = $keys[0];
+			return $output;
 		}
-
-		if($except_notice)
+		
+		$output->data = array();
+		foreach($result as $key => $attribute)
 		{
-			foreach($data as $key => $attribute)
+			if(!isset($GLOBALS['XE_DOCUMENT_LIST'][$attribute->document_srl]))
 			{
-				if($attribute->is_notice == 'Y') $virtual_number --;
-			}
-		}
-
-		foreach($data as $key => $attribute)
-		{
-			if($except_notice && $attribute->is_notice == 'Y') continue;
-			$document_srl = $attribute->document_srl;
-			if(!$GLOBALS['XE_DOCUMENT_LIST'][$document_srl])
-			{
-				$oDocument = null;
 				$oDocument = new documentItem();
 				$oDocument->setAttribute($attribute, false);
-				if($is_admin) $oDocument->setGrant();
-				$GLOBALS['XE_DOCUMENT_LIST'][$document_srl] = $oDocument;
 			}
-
-			$output->data[$virtual_number] = $GLOBALS['XE_DOCUMENT_LIST'][$document_srl];
-			$virtual_number--;
-		}
-
-		if($load_extra_vars) $this->setToAllDocumentExtraVars();
-
-		if(count($output->data))
-		{
-			foreach($output->data as $number => $document)
+			if($is_admin)
 			{
-				$output->data[$number] = $GLOBALS['XE_DOCUMENT_LIST'][$document->document_srl];
+				$GLOBALS['XE_DOCUMENT_LIST'][$attribute->document_srl]->setGrant();
 			}
+			
+			$output->data[$key] = $GLOBALS['XE_DOCUMENT_LIST'][$attribute->document_srl];
 		}
-
+		
+		if($load_extra_vars)
+		{
+			$this->setToAllDocumentExtraVars();
+		}
+		
 		// Call trigger (after)
 		// This trigger can be used to modify search results
 		ModuleHandler::triggerCall('document.getDocumentList', 'after', $output);
@@ -356,32 +297,27 @@ class documentModel extends document
 	{
 		$args = new stdClass();
 		$args->module_srl = $obj->module_srl;
-		$args->category_srl= $obj->category_srl;
+		$args->category_srl = $obj->category_srl;
 		$output = executeQueryArray('document.getNoticeList', $args, $columnList);
-		if(!$output->toBool()||!$output->data) return;
-
-		foreach($output->data as $key => $val)
+		if(!$output->toBool() || !$result = $output->data)
 		{
-			$document_srl = $val->document_srl;
-			if(!$document_srl) continue;
-
-			if(!$GLOBALS['XE_DOCUMENT_LIST'][$document_srl])
+			return;
+		}
+		
+		$output->data = array();
+		foreach($result as $attribute)
+		{
+			if(!isset($GLOBALS['XE_DOCUMENT_LIST'][$attribute->document_srl]))
 			{
-				$oDocument = null;
 				$oDocument = new documentItem();
-				$oDocument->setAttribute($val, false);
-				$GLOBALS['XE_DOCUMENT_LIST'][$document_srl] = $oDocument;
+				$oDocument->setAttribute($attribute, false);
 			}
-			$result->data[$document_srl] = $GLOBALS['XE_DOCUMENT_LIST'][$document_srl];
+			
+			$output->data[$attribute->document_srl] = $GLOBALS['XE_DOCUMENT_LIST'][$attribute->document_srl];
 		}
 		$this->setToAllDocumentExtraVars();
-
-		foreach($result->data as $document_srl => $val)
-		{
-			$result->data[$document_srl] = $GLOBALS['XE_DOCUMENT_LIST'][$document_srl];
-		}
-
-		return $result;
+		
+		return $output;
 	}
 
 	/**
@@ -473,12 +409,16 @@ class documentModel extends document
 	{
 		if(!isset($GLOBALS['XE_EXTRA_VARS'][$document_srl]))
 		{
-			// Extended to extract the values of variables set
-			$oDocument = $this->getDocument($document_srl, false);
-			$GLOBALS['XE_DOCUMENT_LIST'][$document_srl] = $oDocument;
+			$this->getDocument($document_srl);
 			$this->setToAllDocumentExtraVars();
 		}
-		if(is_array($GLOBALS['XE_EXTRA_VARS'][$document_srl])) ksort($GLOBALS['XE_EXTRA_VARS'][$document_srl]);
+		if(empty($GLOBALS['XE_EXTRA_VARS'][$document_srl]) || !is_array($GLOBALS['XE_EXTRA_VARS'][$document_srl]))
+		{
+			return array();
+		}
+		
+		ksort($GLOBALS['XE_EXTRA_VARS'][$document_srl]);
+		
 		return $GLOBALS['XE_EXTRA_VARS'][$document_srl];
 	}
 
@@ -629,7 +569,7 @@ class documentModel extends document
 	 */
 	function getDocumentPage($oDocument, $opt)
 	{
-		$sort_check = $this->_setSortIndex($opt, TRUE);
+		$sort_check = $this->_setSortIndex($opt);
 		$opt->sort_index = $sort_check->sort_index;
 		$opt->isExtraVars = $sort_check->isExtraVars;
 
@@ -756,7 +696,7 @@ class documentModel extends document
 	 */
 	function _arrangeCategory(&$document_category, $list, $depth)
 	{
-		if(!count($list)) return;
+		if(!countobj($list)) return;
 		$idx = 0;
 		$list_order = array();
 		foreach($list as $key => $val)
@@ -1258,41 +1198,41 @@ class documentModel extends document
 	 * @param bool $load_extra_vars
 	 * @return object
 	 */
-	function _setSortIndex($obj, $load_extra_vars)
+	function _setSortIndex($obj, $load_extra_vars = true)
 	{
-		$sortIndex = $obj->sort_index;
-		$isExtraVars = false;
-		if(!in_array($sortIndex, array('list_order','regdate','last_update','update_order','readed_count','voted_count','blamed_count','comment_count','trackback_count','uploaded_count','title','category_srl')))
+		$args = new stdClass;
+		$args->sort_index = $obj->sort_index;
+		$args->isExtraVars = false;
+		
+		// check it's default sort
+		$default_sort = array('list_order', 'regdate', 'last_update', 'update_order', 'readed_count', 'voted_count', 'blamed_count', 'comment_count', 'trackback_count', 'uploaded_count', 'title', 'category_srl');
+		if(in_array($args->sort_index, $default_sort))
 		{
-			// get module_srl extra_vars list
-			if ($load_extra_vars)
-			{
-				$extra_args = new stdClass();
-				$extra_args->module_srl = $obj->module_srl;
-				$extra_output = executeQueryArray('document.getGroupsExtraVars', $extra_args);
-				if (!$extra_output->data || !$extra_output->toBool())
-				{
-					$sortIndex = 'list_order';
-				}
-				else
-				{
-					$check_array = array();
-					foreach($extra_output->data as $val)
-					{
-						$check_array[] = $val->eid;
-					}
-					if(!in_array($sortIndex, $check_array)) $sortIndex = 'list_order';
-					else $isExtraVars = true;
-				}
-			}
-			else
-				$sortIndex = 'list_order';
+			return $args;
 		}
-		$returnObj = new stdClass();
-		$returnObj->sort_index = $sortIndex;
-		$returnObj->isExtraVars = $isExtraVars;
-
-		return $returnObj;
+		
+		// check it can use extra variable
+		if(!$load_extra_vars || !$extra_keys = $this->getExtraKeys($obj->module_srl))
+		{
+			$args->sort_index = 'list_order';
+			return $args;
+		}
+		
+		$eids = array();
+		foreach($extra_keys as $idx => $key)
+		{
+			$eids[] = $key->eid;
+		}
+		
+		// check it exists in extra keys of the module
+		if(!in_array($args->sort_index, $eids))
+		{
+			$args->sort_index = 'list_order';
+			return $args;
+		}
+		
+		$args->isExtraVars = true;
+		return $args;
 	}
 
 	/**
@@ -1307,107 +1247,85 @@ class documentModel extends document
 	 */
 	function _setSearchOption($searchOpt, &$args, &$query_id, &$use_division)
 	{
-		// Variable check
-		$args = new stdClass();
-		$args->category_srl = $searchOpt->category_srl?$searchOpt->category_srl:null;
-		$args->order_type = $searchOpt->order_type;
-		$args->page = $searchOpt->page?$searchOpt->page:1;
-		$args->list_count = $searchOpt->list_count?$searchOpt->list_count:20;
-		$args->page_count = $searchOpt->page_count?$searchOpt->page_count:10;
-		$args->start_date = $searchOpt->start_date?$searchOpt->start_date:null;
-		$args->end_date = $searchOpt->end_date?$searchOpt->end_date:null;
-		$args->member_srl = $searchOpt->member_srl;
-
-		$logged_info = Context::get('logged_info');
-
+		$args = new stdClass;
+		$args->module_srl = $searchOpt->module_srl;
+		$args->exclude_module_srl = $searchOpt->exclude_module_srl;
+		$args->category_srl = $searchOpt->category_srl ?: null;
+		$args->member_srl = $searchOpt->member_srl ?: ($searchOpt->member_srls ?: null);
+		$args->order_type = $searchOpt->order_type === 'desc' ? 'desc' : 'asc';
 		$args->sort_index = $searchOpt->sort_index;
+		$args->page = $searchOpt->page ?: 1;
+		$args->list_count = $searchOpt->list_count ?: 20;
+		$args->page_count = $searchOpt->page_count ?: 10;
+		$args->start_date = $searchOpt->start_date ?: null;
+		$args->end_date = $searchOpt->end_date ?: null;
+		$args->s_is_notice = $searchOpt->except_notice ? 'N' : null;
+		$args->statusList = $searchOpt->statusList ?: array($this->getConfigStatus('public'), $this->getConfigStatus('secret'));
+		$args->columnList = $searchOpt->columnList ?: array();
 		
-		// Check the target and sequence alignment
-		$orderType = array('desc' => 1, 'asc' => 1);
-		if(!isset($orderType[$args->order_type])) $args->order_type = 'asc';
-
-		// If that came across mid module_srl instead of a direct module_srl guhaejum
+		// get directly module_srl by mid
 		if($searchOpt->mid)
 		{
-			$oModuleModel = getModel('module');
-			$args->module_srl = $oModuleModel->getModuleSrlByMid($searchOpt->mid);
-			unset($searchOpt->mid);
+			$args->module_srl = getModel('module')->getModuleSrlByMid($searchOpt->mid);
 		}
-
-		// Module_srl passed the array may be a check whether the array
-		if(is_array($searchOpt->module_srl)) $args->module_srl = implode(',', $searchOpt->module_srl);
-		else $args->module_srl = $searchOpt->module_srl;
-
-		// Except for the test module_srl
-		if(is_array($searchOpt->exclude_module_srl)) $args->exclude_module_srl = implode(',', $searchOpt->exclude_module_srl);
-		else $args->exclude_module_srl = $searchOpt->exclude_module_srl;
-
-		// only admin document list, temp document showing
-		if($searchOpt->statusList) $args->statusList = $searchOpt->statusList;
-		else
-		{
-			if($logged_info->is_admin == 'Y' && !$searchOpt->module_srl)
-				$args->statusList = array($this->getConfigStatus('secret'), $this->getConfigStatus('public'), $this->getConfigStatus('temp'));
-			else
-				$args->statusList = array($this->getConfigStatus('secret'), $this->getConfigStatus('public'));
-		}
-
-		// Category is selected, further sub-categories until all conditions
+		
+		// add subcategories
 		if($args->category_srl)
 		{
 			$category_list = $this->getCategoryList($args->module_srl);
-			$category_info = $category_list[$args->category_srl];
-			$category_info->childs[] = $args->category_srl;
-			$args->category_srl = implode(',',$category_info->childs);
+			if(isset($category_list[$args->category_srl]))
+			{
+				$categories = $category_list[$args->category_srl]->childs;
+				$categories[] = $args->category_srl;
+				$args->category_srl = $categories;
+			}
 		}
-
-		// Used to specify the default query id (based on several search options to query id modified)
-		$query_id = 'document.getDocumentList';
-
-		// If the search by specifying the document division naeyonggeomsaekil processed for
+		
+		// default
+		$query_id = null;
 		$use_division = false;
-
-		// Search options
 		$search_target = $searchOpt->search_target;
-		$search_keyword = $searchOpt->search_keyword;
-
+		$search_keyword = trim($searchOpt->search_keyword);
+		
+		// search
 		if($search_target && $search_keyword)
 		{
 			switch($search_target)
 			{
 				case 'title' :
 				case 'content' :
-					if($search_keyword) $search_keyword = str_replace(' ','%',$search_keyword);
-					$args->{"s_".$search_target} = $search_keyword;
-					$use_division = true;
-					break;
+				case 'comment' :
+				case 'tag' :
 				case 'title_content' :
-					if($search_keyword) $search_keyword = str_replace(' ','%',$search_keyword);
-					$args->s_title = $search_keyword;
-					$args->s_content = $search_keyword;
 					$use_division = true;
+					$search_keyword = str_replace(' ', '%', $search_keyword);
+					if($search_target == 'title_content')
+					{
+						$args->s_title = $search_keyword;
+						$args->s_content = $search_keyword;
+					}
+					else
+					{
+						if($search_target == 'comment')
+						{
+							$query_id = 'document.getDocumentListWithinComment';
+						}
+						elseif($search_target == 'tag')
+						{
+							$query_id = 'document.getDocumentListWithinTag';
+						}
+						$args->{'s_' . $search_target} = $search_keyword;
+					}
 					break;
 				case 'user_id' :
-					if($search_keyword) $search_keyword = str_replace(' ','%',$search_keyword);
-					$args->s_user_id = $search_keyword;
-					$args->sort_index = 'documents.'.$args->sort_index;
-					break;
 				case 'user_name' :
 				case 'nick_name' :
 				case 'email_address' :
 				case 'homepage' :
-					if($search_keyword) $search_keyword = str_replace(' ','%',$search_keyword);
-					$args->{"s_".$search_target} = $search_keyword;
-					break;
-				case 'is_notice' :
-					if($search_keyword=='N') $args->{"s_".$search_target} = 'N';
-					elseif($search_keyword=='Y') $args->{"s_".$search_target} = 'Y';
-					else $args->{"s_".$search_target} = '';
-					break;
-				case 'is_secret' :
-					if($search_keyword=='N') $args->statusList = array($this->getConfigStatus('public'));
-					elseif($search_keyword=='Y') $args->statusList = array($this->getConfigStatus('secret'));
-					elseif($search_keyword=='temp') $args->statusList = array($this->getConfigStatus('temp'));
+				case 'regdate' :
+				case 'last_update' :
+				case 'ipaddress' :
+					$args->{'s_' . $search_target} = str_replace(' ', '%', $search_keyword);
 					break;
 				case 'member_srl' :
 				case 'readed_count' :
@@ -1415,130 +1333,117 @@ class documentModel extends document
 				case 'comment_count' :
 				case 'trackback_count' :
 				case 'uploaded_count' :
-					$args->{"s_".$search_target} = (int)$search_keyword;
+					$args->{'s_' . $search_target} = (int)$search_keyword;
 					break;
 				case 'blamed_count' :
-					$args->{"s_".$search_target} = (int)$search_keyword * -1;
+					$args->{'s_' . $search_target} = (int)$search_keyword * -1;
 					break;
-				case 'regdate' :
-				case 'last_update' :
-				case 'ipaddress' :
-					$args->{"s_".$search_target} = $search_keyword;
+				case 'is_notice' :
+					$args->{'s_' . $search_target} = $search_keyword == 'Y' ? 'Y' : 'N';
 					break;
-				case 'comment' :
-					$args->s_comment = $search_keyword;
-					$query_id = 'document.getDocumentListWithinComment';
-					$use_division = true;
-					break;
-				case 'tag' :
-					$args->s_tags = str_replace(' ','%',$search_keyword);
-					$query_id = 'document.getDocumentListWithinTag';
-					break;
-				case 'extra_vars':
-					$args->var_value = str_replace(' ', '%', $search_keyword);
-					$query_id = 'document.getDocumentListWithinExtraVars';
+				case 'is_secret' :
+					if($search_keyword == 'N')
+					{
+						$args->statusList = array($this->getConfigStatus('public'));
+					}
+					elseif($search_keyword == 'Y')
+					{
+						$args->statusList = array($this->getConfigStatus('secret'));
+					}
+					elseif($search_keyword == 'temp')
+					{
+						$args->statusList = array($this->getConfigStatus('temp'));
+					}
 					break;
 				default :
-					if(strpos($search_target,'extra_vars')!==false) {
-						$args->var_idx = substr($search_target, strlen('extra_vars'));
-						$args->var_value = str_replace(' ','%',$search_keyword);
-						$args->sort_index = 'documents.'.$args->sort_index;
-						$query_id = 'document.getDocumentListWithExtraVars';
+					// search extra variable
+					if(preg_match('/^extra_vars([0-9]+)?$/', $search_target, $matches))
+					{
+						$args->var_idx = !empty($matches[1]) ? $matches[1] : null;
+						$args->var_value = str_replace(' ', '%', $search_keyword);
 					}
 					break;
 			}
-		}
-
-		if ($searchOpt->isExtraVars)
-		{
-			$query_id = 'document.getDocumentListExtraSort';
-		}
-		else
-		{
-			/**
-			 * list_order asc sort of division that can be used only when
-			 */
-			if($args->sort_index != 'list_order' || $args->order_type != 'asc') $use_division = false;
-
-			/**
-			 * If it is true, use_division changed to use the document division
-			 */
-			if($use_division)
+			
+			// exclude secret documents in searching if current user does not have privilege
+			if(!$args->member_srl || !Context::get('is_logged') || $args->member_srl !== Context::get('logged_info')->member_srl)
 			{
-				// Division begins
-				$division = (int)Context::get('division');
-
-				// order by list_order and (module_srl===0 or module_srl may count), therefore case table full scan
-				if($args->sort_index == 'list_order' && ($args->exclude_module_srl === '0' || count(explode(',', $args->module_srl)) > 5))
+				$module_info = getModel('module')->getModuleInfoByModuleSrl($args->module_srl);
+				if(!getModel('module')->getGrant($module_info, Context::get('logged_info'))->manager)
 				{
-					$listSqlID = 'document.getDocumentListUseIndex';
-					$divisionSqlID = 'document.getDocumentDivisionUseIndex';
+					$args->comment_is_secret = 'N';
+					$args->statusList = array($this->getConfigStatus('public'));
 				}
-				else
-				{
-					$listSqlID = 'document.getDocumentList';
-					$divisionSqlID = 'document.getDocumentDivision';
-				}
-
-				// If you do not value the best division top
-				if(!$division)
-				{
-					$division_args = new stdClass();
-					$division_args->module_srl = $args->module_srl;
-					$division_args->exclude_module_srl = $args->exclude_module_srl;
-					$division_args->list_count = 1;
-					$division_args->sort_index = $args->sort_index;
-					$division_args->order_type = $args->order_type;
-					$division_args->statusList = $args->statusList;
-
-					$output = executeQuery($divisionSqlID, $division_args, array('list_order'));
-					if($output->data)
-					{
-						$item = array_pop($output->data);
-						$division = $item->list_order;
-					}
-					$division_args = null;
-				}
-
-				// The last division
-				$last_division = (int)Context::get('last_division');
-
-				// Division after division from the 5000 value of the specified Wanted
-				if(!$last_division)
-				{
-					$last_division_args = new stdClass();
-					$last_division_args->module_srl = $args->module_srl;
-					$last_division_args->exclude_module_srl = $args->exclude_module_srl;
-					$last_division_args->list_count = 1;
-					$last_division_args->sort_index = $args->sort_index;
-					$last_division_args->order_type = $args->order_type;
-					$last_division_args->list_order = $division;
-					$last_division_args->page = 5001;
-
-					$output = executeQuery($divisionSqlID, $last_division_args, array('list_order'));
-					if($output->data)
-					{
-						$item = array_pop($output->data);
-						$last_division = $item->list_order;
-					}
-				}
-
-				// Make sure that after last_division article
-				if($last_division)
-				{
-					$last_division_args = new stdClass();
-					$last_division_args->module_srl = $args->module_srl;
-					$last_division_args->exclude_module_srl = $args->exclude_module_srl;
-					$last_division_args->list_order = $last_division;
-					$output = executeQuery('document.getDocumentDivisionCount', $last_division_args);
-					if($output->data->count<1) $last_division = null;
-				}
-
-				$args->division = $division;
-				$args->last_division = $last_division;
-				Context::set('division', $division);
-				Context::set('last_division', $last_division);
 			}
+		}
+		
+		// set query
+		if(!$query_id)
+		{
+			// by extra variable
+			if($searchOpt->isExtraVars || !empty($args->var_value))
+			{
+				if($searchOpt->isExtraVars)
+				{
+					$args->sort_eid = $args->sort_index;
+					$args->sort_lang = Context::getLangType();
+					$args->sort_index = 'extra_sort.value';
+				}
+				$query_id = 'document.getDocumentListWithExtraVars';
+			}
+			else
+			{
+				$query_id = 'document.getDocumentList';
+			}
+		}
+		// other queries not support to sort extra variable 
+		elseif($searchOpt->isExtraVars)
+		{
+			$args->sort_index = 'list_order';
+		}
+		
+		// division search by 5,000
+		if($use_division)
+		{
+			$args->order_type = 'asc';
+			$args->sort_index = 'list_order';
+			$args->division = (int)Context::get('division');
+			$args->last_division = (int)Context::get('last_division');
+			
+			$division_args = new stdClass;
+			$division_args->module_srl = $args->module_srl;
+			$division_args->exclude_module_srl = $args->exclude_module_srl;
+			
+			// get start point of first division
+			if(Context::get('division') === null)
+			{
+				$args->division = (int)executeQuery('document.getDocumentDivision', $division_args)->data->list_order;
+			}
+			
+			// get end point of the division
+			if(Context::get('last_division') === null && $args->division)
+			{
+				$division_args->offset = 5000;
+				$division_args->list_order = $args->division;
+				$args->last_division = (int)executeQuery('document.getDocumentDivision', $division_args)->data->list_order;
+			}
+			
+			Context::set('division', $args->division);
+			Context::set('last_division', $args->last_division);
+		}
+		
+		// add default prefix
+		if($args->sort_index && strpos($args->sort_index, '.') === false)
+		{
+			$args->sort_index = 'documents.' . $args->sort_index;
+		}
+		foreach($args->columnList as $key => $column)
+		{
+			if(strpos($column, '.') !== false)
+			{
+				continue;
+			}
+			$args->columnList[$key] = 'documents.' . $column;
 		}
 	}
 

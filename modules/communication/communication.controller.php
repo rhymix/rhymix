@@ -393,7 +393,7 @@ class communicationController extends communication
 		}
 
 		$message_type = Context::get('message_type');
-		if(!$message_type || !in_array($message_type, array('R', 'S', 'T')))
+		if(!$message_type || !in_array($message_type, array('R', 'S', 'T', 'N')))
 		{
 			return $this->setError('msg_invalid_request');
 		}
@@ -418,8 +418,16 @@ class communicationController extends communication
 		// Delete
 		$args = new stdClass();
 		$args->message_srls = implode(',', $target);
-		$args->message_type = $message_type;
-
+		
+		if ($message_type === 'N')
+		{
+			$args->message_type = 'R';
+		}
+		else
+		{
+			$args->message_type = $message_type;
+		}
+		
 		if($message_type == 'S')
 		{
 			$args->sender_srl = $member_srl;
@@ -824,6 +832,12 @@ class communicationController extends communication
 		if($config->enable_friend == 'Y')
 		{
 			$oMemberController->addMemberMenu('dispCommunicationFriend', 'cmd_view_friend');
+		}
+		else
+		{
+			$allow_message_type = lang('communication.allow_message_type');
+			unset($allow_message_type['F']);
+			$GLOBALS['lang']->set('communication.allow_message_type', $allow_message_type);
 		}
 	}
 

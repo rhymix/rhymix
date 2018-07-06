@@ -13,6 +13,15 @@ class ContextTest extends \Codeception\TestCase\Test
 
     protected function _after()
     {
+		// Reinitialization after test
+		$_SERVER['REQUEST_METHOD'] = 'GET';
+		$_GET = $_POST = $_REQUEST = array();
+		unset($GLOBALS['HTTP_RAW_POST_DATA']);
+        unset($_SERVER['HTTP_ACCEPT']);
+		Context::clearRequestVars();
+		Context::clearUserVars();
+        Context::setRequestMethod();
+		Context::setRequestArguments();
     }
 
     public function testGetInstance()
@@ -55,33 +64,107 @@ class ContextTest extends \Codeception\TestCase\Test
         $this->assertEquals(Context::getBodyClass(), ' class="red green blue"');
     }
 
-    public function testRequsetResponseMethod()
-    {
-        $this->assertEquals(Context::getRequestMethod(), 'GET');
-
-        $_SERVER['REQUEST_METHOD'] = 'POST';
+	public function testSetRequestMethod()
+	{
+		$_SERVER['REQUEST_METHOD'] = 'GET';
+		$_GET = $_REQUEST = array('foo' => 'bar');
+		$_POST = array();
+		Context::clearRequestVars();
+		Context::clearUserVars();
         Context::setRequestMethod();
-        $this->assertEquals(Context::getRequestMethod(), 'POST');
-
-        $GLOBALS['HTTP_RAW_POST_DATA'] = 'abcde';
+		Context::setRequestArguments();
+		$this->assertEquals('GET', Context::getRequestMethod());
+		$this->assertEquals('bar', Context::getRequestVars()->foo);
+		
+		$_SERVER['REQUEST_METHOD'] = 'GET';
+		$_GET = array('foo' => 'barrr', 'xe_js_callback' => 'callback12345');
+		$_POST = array();
+		$_REQUEST = array('foo' => 'barrr');
+		Context::clearRequestVars();
+		Context::clearUserVars();
         Context::setRequestMethod();
-        $this->assertEquals(Context::getRequestMethod(), 'XMLRPC');
-
-        $_SERVER['CONTENT_TYPE'] = 'application/json';
+		Context::setRequestArguments();
+		$this->assertEquals('JS_CALLBACK', Context::getRequestMethod());
+		$this->assertEquals('barrr', Context::getRequestVars()->foo);
+		
+		$_SERVER['REQUEST_METHOD'] = 'POST';
+		$_GET = $_REQUEST = array('foo' => 'bazz');  // Request method is POST but actual values are given as GET
+		$_POST = array();
+		Context::clearRequestVars();
+		Context::clearUserVars();
         Context::setRequestMethod();
-        $this->assertEquals(Context::getRequestMethod(), 'JSON');
-
+		Context::setRequestArguments();
+		$this->assertEquals('POST', Context::getRequestMethod());
+		$this->assertNull(Context::getRequestVars()->foo);
+		$this->assertEquals('bazz', Context::get('foo'));  // XE Compatibility behavior
+		
+		$_SERVER['REQUEST_METHOD'] = 'POST';
+		$_GET = array();
+		$_POST = $_REQUEST = array('foo' => 'rhymixtest');
+		Context::clearRequestVars();
+		Context::clearUserVars();
+        Context::setRequestMethod();
+		Context::setRequestArguments();
+		$this->assertEquals('POST', Context::getRequestMethod());
+		$this->assertEquals('rhymixtest', Context::getRequestVars()->foo);
+		
+		$_SERVER['REQUEST_METHOD'] = 'POST';
+		$_GET = $_POST = $_REQUEST = array();
+		$GLOBALS['HTTP_RAW_POST_DATA'] = '<?xml version="1.0" encoding="utf-8" ?><methodCall><params><foo>TestRhymix</foo></params></methodCall>';
+		Context::clearRequestVars();
+		Context::clearUserVars();
+        Context::setRequestMethod();
+		Context::setRequestArguments();
+		$this->assertEquals('XMLRPC', Context::getRequestMethod());
+		$this->assertEquals('TestRhymix', Context::getRequestVars()->foo);
+		
+		$_SERVER['REQUEST_METHOD'] = 'POST';
+		$_GET = $_POST = $_REQUEST = array();
+		$GLOBALS['HTTP_RAW_POST_DATA'] = 'foo=JSON_TEST';  // Not actual JSON
+        $_SERVER['HTTP_ACCEPT'] = 'application/json';
+		Context::clearRequestVars();
+		Context::clearUserVars();
+        Context::setRequestMethod();
+		Context::setRequestArguments();
+		$this->assertEquals('JSON', Context::getRequestMethod());
+		$this->assertEquals('JSON_TEST', Context::getRequestVars()->foo);
+		
         Context::setRequestMethod('POST');
-        $this->assertEquals(Context::getRequestMethod(), 'POST');
-
+		$_GET = $_POST = $_REQUEST = array();
+		unset($GLOBALS['HTTP_RAW_POST_DATA']);
+        unset($_SERVER['HTTP_ACCEPT']);
+		Context::clearRequestVars();
+		Context::clearUserVars();
+        Context::setRequestMethod();
+		Context::setRequestArguments();
+        $this->assertEquals('POST', Context::getRequestMethod());
+		
+        Context::setRequestMethod('POST');
+		$_GET = array();
+		$_POST = $_REQUEST = array('foo' => 'legacy', '_rx_ajax_compat' => 'XMLRPC');
+		$GLOBALS['HTTP_RAW_POST_DATA'] = http_build_query($_POST);
+		$_SERVER['HTTP_ACCEPT'] = 'application/json';
+		Context::clearRequestVars();
+		Context::clearUserVars();
+        Context::setRequestMethod();
+		Context::setRequestArguments();
+        $this->assertEquals('XMLRPC', Context::getRequestMethod());
+		$this->assertEquals('legacy', Context::getRequestVars()->foo);
+	}
+	
+    public function testSetResponseMethod()
+    {
         $this->assertEquals(Context::getResponseMethod(), 'HTML');
+		
         Context::setRequestMethod('JSON');
         $this->assertEquals(Context::getResponseMethod(), 'JSON');
 
         Context::setResponseMethod('WRONG_TYPE');
         $this->assertEquals(Context::getResponseMethod(), 'HTML');
+		
         Context::setResponseMethod('XMLRPC');
         $this->assertEquals(Context::getResponseMethod(), 'XMLRPC');
+		
         Context::setResponseMethod('HTML');
         $this->assertEquals(Context::getResponseMethod(), 'HTML');
     }

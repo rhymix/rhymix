@@ -37,7 +37,7 @@ class OrderByColumn
 	{
 		$result = $this->getColumnName();
 		$result .= ' ';
-		$result .= is_a($this->sort_order, 'Argument') ? $this->sort_order->getValue() : $this->sort_order;
+		$result .= is_a($this->sort_order, 'Argument') ? $this->sort_order->getValue() : strtoupper($this->sort_order);
 		return $result;
 	}
 

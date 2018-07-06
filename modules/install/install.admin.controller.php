@@ -50,6 +50,8 @@ class installAdminController extends install
 		{
 			return $output;
 		}
+		
+		$this->setMessage('success_updated');
 	}
 
 	function procInstallAdminRemoveFTPInfo()

@@ -58,7 +58,6 @@ class memberController extends member
 		// Check if change_password_date is set
 		if($limit_date > 0)
 		{
-			$oMemberModel = getModel('member');
 			if($member_info->change_password_date < date ('YmdHis', strtotime ('-' . $limit_date . ' day')))
 			{
 				$msg = sprintf(lang('msg_change_password_date'), $limit_date);
@@ -130,7 +129,7 @@ class memberController extends member
 		$oDocument = $oDocumentModel->getDocument($document_srl);
 		
 		// Check document
-		if($oDocument->isSecret() && !$oDocument->isGranted())
+		if(!$oDocument->isAccessible())
 		{
 			return $this->setError('msg_is_secret');
 		}
@@ -518,9 +517,10 @@ class memberController extends member
 		if(!$value) return;
 
 		$oMemberModel = getModel('member');
+		$config = $oMemberModel->getMemberConfig();
+
 		// Check if logged-in
 		$logged_info = Context::get('logged_info');
-
 
 		switch($name)
 		{
@@ -538,15 +538,16 @@ class memberController extends member
 					return new BaseObject(0,'denied_nick_name');
 				}
 				// Check if duplicated
-				$member_srl = $oMemberModel->getMemberSrlByNickName($value);
-				if($member_srl && $logged_info->member_srl != $member_srl ) return new BaseObject(0,'msg_exists_nick_name');
-
+				if($config->allow_duplicate_nickname !== 'Y')
+				{
+					$member_srl = $oMemberModel->getMemberSrlByNickName($value);
+					if($member_srl && $logged_info->member_srl != $member_srl ) return new BaseObject(0,'msg_exists_nick_name');
+				}
 				break;
 			case 'email_address' :
 				// Check managed Email Host
 				if($oMemberModel->isDeniedEmailHost($value))
 				{
-					$config = $oMemberModel->getMemberConfig();
 					$emailhost_check = $config->emailhost_check;
 
 					$managed_email_host = lang('managed_email_host');
@@ -1059,13 +1060,12 @@ class memberController extends member
 		$logged_info = Context::get('logged_info');
 		if($logged_info->is_admin != 'Y' && $logged_info->member_srl != $member_srl) return $this->stop('msg_not_uploaded_profile_image');
 		// Return if member module is set not to use an image name or the user is not an administrator ;
-		$oModuleModel = getModel('module');
-		$config = $oModuleModel->getModuleConfig('member');
+		$oMemberModel = getModel('member');
+		$config = $oMemberModel->getMemberConfig();
 		if($logged_info->is_admin != 'Y' && $config->profile_image != 'Y') return $this->stop('msg_not_uploaded_profile_image');
 
-		$this->insertProfileImage($member_srl, $file['tmp_name']);
-		// Page refresh
-		//$this->setRefreshPage();
+		$output = $this->insertProfileImage($member_srl, $file['tmp_name']);
+		if(!$output->toBool()) return $output;
 
 		$returnUrl = Context::get('success_return_url') ? Context::get('success_return_url') : getNotEncodedUrl('', 'mid', Context::get('mid'), 'act', 'dispMemberModifyInfo');
 		$this->setRedirectUrl($returnUrl);
@@ -1083,38 +1083,69 @@ class memberController extends member
 	{
 		$oMemberModel = getModel('member');
 		$config = $oMemberModel->getMemberConfig();
-
+		
 		// Get an image size
 		$max_width = $config->profile_image_max_width;
-		if(!$max_width) $max_width = "90";
 		$max_height = $config->profile_image_max_height;
-		if(!$max_height) $max_height = "90";
-		// Get a target path to save
-		$target_path = sprintf('files/member_extra_info/profile_image/%s', getNumberingPath($member_srl));
-		FileHandler::makeDir($target_path);
+		$max_filesize = $config->profile_image_max_filesize;
+
+		Context::loadLang(_XE_PATH_ . 'modules/file/lang');
 
 		// Get file information
-		list($width, $height, $type, $attrs) = @getimagesize($target_file);
+		FileHandler::clearStatCache($target_file);
+		list($width, $height, $type) = @getimagesize($target_file);
 		if(IMAGETYPE_PNG == $type) $ext = 'png';
 		elseif(IMAGETYPE_JPEG == $type) $ext = 'jpg';
 		elseif(IMAGETYPE_GIF == $type) $ext = 'gif';
 		else
 		{
-			return;
+			return $this->stop('msg_not_uploaded_profile_image');
 		}
 
-		FileHandler::removeFilesInDir($target_path);
+		$target_path = sprintf('files/member_extra_info/profile_image/%s', getNumberingPath($member_srl));
+		FileHandler::makeDir($target_path);
 
 		$target_filename = sprintf('%s%d.%s', $target_path, $member_srl, $ext);
 		// Convert if the image size is larger than a given size
 		if($width > $max_width || $height > $max_height)
 		{
-			FileHandler::createImageFile($target_file, $target_filename, $max_width, $max_height, $ext);
+			$temp_filename = sprintf('files/cache/tmp/profile_image_%d.%s', $member_srl, $ext);
+			FileHandler::createImageFile($target_file, $temp_filename, $max_width, $max_height, $ext);
+
+			// 파일 용량 제한
+			FileHandler::clearStatCache($temp_filename);
+			$filesize = filesize($temp_filename);
+			if($max_filesize && $filesize > ($max_filesize * 1024))
+			{
+				FileHandler::removeFile($temp_filename);
+				return $this->stop(implode(' ' , array(
+					Context::getLang('msg_not_uploaded_profile_image'),
+					Context::getLang('msg_exceeds_limit_size')
+				)));
+			}
+
+			FileHandler::removeFilesInDir($target_path);
+			FileHandler::moveFile($temp_filename, $target_filename);
+			FileHandler::clearStatCache($target_filename);
 		}
 		else
 		{
+			// 파일 용량 제한
+			$filesize = filesize($target_file);
+			if($max_filesize && $filesize > ($max_filesize * 1024))
+			{
+				return $this->stop(implode(' ' , array(
+					Context::getLang('msg_not_uploaded_profile_image'),
+					Context::getLang('msg_exceeds_limit_size')
+				)));
+			}
+
+			FileHandler::removeFilesInDir($target_path);
 			@copy($target_file, $target_filename);
+			FileHandler::clearStatCache($target_filename);
 		}
+
+		return new BaseObject(0, 'success');
 	}
 
 	/**
@@ -1134,11 +1165,13 @@ class memberController extends member
 		$logged_info = Context::get('logged_info');
 		if($logged_info->is_admin != 'Y' && $logged_info->member_srl != $member_srl) return $this->stop('msg_not_uploaded_image_name');
 		// Return if member module is set not to use an image name or the user is not an administrator ;
-		$oModuleModel = getModel('module');
-		$config = $oModuleModel->getModuleConfig('member');
+		$oMemberModel = getModel('member');
+		$config = $oMemberModel->getMemberConfig();
 		if($logged_info->is_admin != 'Y' && $config->image_name != 'Y') return $this->stop('msg_not_uploaded_image_name');
 
-		$this->insertImageName($member_srl, $file['tmp_name']);
+		$output = $this->insertImageName($member_srl, $file['tmp_name']);
+		if(!$output->toBool()) return $output;
+
 		// Page refresh
 		//$this->setRefreshPage();
 
@@ -1156,23 +1189,63 @@ class memberController extends member
 	 */
 	function insertImageName($member_srl, $target_file)
 	{
-		$oModuleModel = getModel('module');
-		$config = $oModuleModel->getModuleConfig('member');
+		$oMemberModel = getModel('member');
+		$config = $oMemberModel->getMemberConfig();
+		
 		// Get an image size
 		$max_width = $config->image_name_max_width;
-		if(!$max_width) $max_width = "90";
 		$max_height = $config->image_name_max_height;
-		if(!$max_height) $max_height = "20";
+		$max_filesize = $config->image_name_max_filesize;
+
+		Context::loadLang(_XE_PATH_ . 'modules/file/lang');
+
 		// Get a target path to save
 		$target_path = sprintf('files/member_extra_info/image_name/%s/', getNumberingPath($member_srl));
 		FileHandler::makeDir($target_path);
 
 		$target_filename = sprintf('%s%d.gif', $target_path, $member_srl);
 		// Get file information
-		list($width, $height, $type, $attrs) = @getimagesize($target_file);
+		list($width, $height, $type) = @getimagesize($target_file);
 		// Convert if the image size is larger than a given size or if the format is not a gif
-		if($width > $max_width || $height > $max_height || $type!=1) FileHandler::createImageFile($target_file, $target_filename, $max_width, $max_height, 'gif');
-		else @copy($target_file, $target_filename);
+		if($width > $max_width || $height > $max_height || $type!=1)
+		{
+			$temp_filename = sprintf('files/cache/tmp/image_name_%d.gif', $member_srl, $ext);
+			FileHandler::createImageFile($target_file, $temp_filename, $max_width, $max_height, 'gif');
+
+			// 파일 용량 제한
+			FileHandler::clearStatCache($temp_filename);
+			$filesize = filesize($temp_filename);
+			if($max_filesize && $filesize > ($max_filesize * 1024))
+			{
+				FileHandler::removeFile($temp_filename);
+				return $this->stop(implode(' ' , array(
+					Context::getLang('msg_not_uploaded_image_name'),
+					Context::getLang('msg_exceeds_limit_size')
+				)));
+			}
+
+			FileHandler::removeFilesInDir($target_path);
+			FileHandler::moveFile($temp_filename, $target_filename);
+			FileHandler::clearStatCache($target_filename);
+		}
+		else
+		{
+			// 파일 용량 제한
+			$filesize = filesize($target_file);
+			if($max_filesize && $filesize > ($max_filesize * 1024))
+			{
+				return $this->stop(implode(' ' , array(
+					Context::getLang('msg_not_uploaded_image_name'),
+					Context::getLang('msg_exceeds_limit_size')
+				)));
+			}
+
+			FileHandler::removeFilesInDir($target_path);
+			@copy($target_file, $target_filename);
+			FileHandler::clearStatCache($target_filename);
+		}
+
+		return new BaseObject(0, 'success');
 	}
 
 	/**
@@ -1243,13 +1316,12 @@ class memberController extends member
 		$logged_info = Context::get('logged_info');
 		if($logged_info->is_admin != 'Y' && $logged_info->member_srl != $member_srl) return $this->stop('msg_not_uploaded_image_mark');
 		// Membership in the images mark the module using the ban was set by an administrator or return;
-		$oModuleModel = getModel('module');
-		$config = $oModuleModel->getModuleConfig('member');
+		$oMemberModel = getModel('member');
+		$config = $oMemberModel->getMemberConfig();
 		if($logged_info->is_admin != 'Y' && $config->image_mark != 'Y') return $this->stop('msg_not_uploaded_image_mark');
 
 		$this->insertImageMark($member_srl, $file['tmp_name']);
-		// Page refresh
-		//$this->setRefreshPage();
+		if(!$output->toBool()) return $output;
 
 		$returnUrl = Context::get('success_return_url') ? Context::get('success_return_url') : getNotEncodedUrl('', 'mid', Context::get('mid'), 'act', 'dispMemberModifyInfo');
 		$this->setRedirectUrl($returnUrl);
@@ -1265,13 +1337,15 @@ class memberController extends member
 	 */
 	function insertImageMark($member_srl, $target_file)
 	{
-		$oModuleModel = getModel('module');
-		$config = $oModuleModel->getModuleConfig('member');
+		$oMemberModel = getModel('member');
+		$config = $oMemberModel->getMemberConfig();
+		
 		// Get an image size
 		$max_width = $config->image_mark_max_width;
-		if(!$max_width) $max_width = "20";
 		$max_height = $config->image_mark_max_height;
-		if(!$max_height) $max_height = "20";
+		$max_filesize = $config->image_mark_max_filesize;
+
+		Context::loadLang(_XE_PATH_ . 'modules/file/lang');
 
 		$target_path = sprintf('files/member_extra_info/image_mark/%s/', getNumberingPath($member_srl));
 		FileHandler::makeDir($target_path);
@@ -1280,8 +1354,45 @@ class memberController extends member
 		// Get file information
 		list($width, $height, $type, $attrs) = @getimagesize($target_file);
 
-		if($width > $max_width || $height > $max_height || $type!=1) FileHandler::createImageFile($target_file, $target_filename, $max_width, $max_height, 'gif');
-		else @copy($target_file, $target_filename);
+		if($width > $max_width || $height > $max_height || $type!=1)
+		{
+			$temp_filename = sprintf('files/cache/tmp/image_mark_%d.gif', $member_srl);
+			FileHandler::createImageFile($target_file, $temp_filename, $max_width, $max_height, 'gif');
+
+			// 파일 용량 제한
+			FileHandler::clearStatCache($temp_filename);
+			$filesize = filesize($temp_filename);
+			if($max_filesize && $filesize > ($max_filesize * 1024))
+			{
+				FileHandler::removeFile($temp_filename);
+				return $this->stop(implode(' ' , array(
+					Context::getLang('msg_not_uploaded_group_image_mark'),
+					Context::getLang('msg_exceeds_limit_size')
+				)));
+			}
+
+			FileHandler::removeFilesInDir($target_path);
+			FileHandler::moveFile($temp_filename, $target_filename);
+			FileHandler::clearStatCache($target_filename);
+		}
+		else
+		{
+			$filesize = filesize($target_file);
+			if($max_filesize && $filesize > ($max_filesize * 1024))
+			{
+				FileHandler::removeFile($target_file);
+				return $this->stop(implode(' ' , array(
+					Context::getLang('msg_not_uploaded_group_image_mark'),
+					Context::getLang('msg_exceeds_limit_size')
+				)));
+			}
+
+			FileHandler::removeFilesInDir($target_path);
+			@copy($target_file, $target_filename);
+			FileHandler::clearStatCache($target_filename);
+		}
+
+		return new BaseObject(0, 'success');
 	}
 
 	/**
@@ -1964,6 +2075,10 @@ class memberController extends member
 			Rhymix\Framework\Session::setAutologinKeys($autologin_key, $new_security_key);
 		}
 		
+		// Update the last login time.
+		executeQuery('member.updateLastLogin', (object)['member_srl' => $output->data->member_srl]);
+		$this->_clearMemberCache($output->data->member_srl);
+		
 		// Return the member_srl.
 		return intval($output->data->member_srl);
 	}
@@ -2026,7 +2141,7 @@ class memberController extends member
 				elseif(3600 <= $term && $term < 86400) $term = intval($term/3600).lang('unit_hour');
 				else $term = intval($term/86400).lang('unit_day');
 
-				return new BaseObject(-1, 'excess_ip_access_count', $term);
+				return new BaseObject(-1, sprintf(lang('excess_ip_access_count'), $term));
 			}
 			else
 			{
@@ -2366,16 +2481,18 @@ class memberController extends member
 		}
 
 		// Check if nickname is duplicate
-		$member_srl = $oMemberModel->getMemberSrlByNickName($args->nick_name);
-		if($member_srl)
+		if($config->allow_duplicate_nickname !== 'Y')
 		{
-			return new BaseObject(-1, 'msg_exists_nick_name');
+			$member_srl = $oMemberModel->getMemberSrlByNickName($args->nick_name);
+			if($member_srl)
+			{
+				return new BaseObject(-1, 'msg_exists_nick_name');
+			}
 		}
 
 		// Check managed Email Host
 		if($logged_info->is_admin !== 'Y' && $oMemberModel->isDeniedEmailHost($args->email_address))
 		{
-			$config = $oMemberModel->getMemberConfig();
 			$emailhost_check = $config->emailhost_check;
 
 			$managed_email_host = lang('managed_email_host');
@@ -2581,7 +2698,6 @@ class memberController extends member
 		// Check managed Email Host
 		if($logged_info->is_admin !== 'Y' && $oMemberModel->isDeniedEmailHost($args->email_address))
 		{
-			$config = $oMemberModel->getMemberConfig();
 			$emailhost_check = $config->emailhost_check;
 
 			$managed_email_host = lang('managed_email_host');
@@ -2638,11 +2754,14 @@ class memberController extends member
 		}
 
 		// Check if nickname is duplicate
-		$member_srl = $oMemberModel->getMemberSrlByNickName($args->nick_name);
- 		if($member_srl && $args->member_srl != $member_srl)
- 		{
- 			return new BaseObject(-1, 'msg_exists_nick_name');
- 		}
+		if($config->allow_duplicate_nickname !== 'Y')
+		{
+			$member_srl = $oMemberModel->getMemberSrlByNickName($args->nick_name);
+			if($member_srl && $args->member_srl != $member_srl)
+			{
+				return new BaseObject(-1, 'msg_exists_nick_name');
+			}
+		}
 
 		list($args->email_id, $args->email_host) = explode('@', $args->email_address);
 
@@ -2727,9 +2846,44 @@ class memberController extends member
 		$oDB->commit();
 
 		// Remove from cache
+		unset($GLOBALS['__member_info__'][$args->member_srl]);
 		$this->_clearMemberCache($args->member_srl, $args->site_srl);
 
 		$output->add('member_srl', $args->member_srl);
+		return $output;
+	}
+
+	/**
+	 * Modify member extra variable
+	 */
+	function updateMemberExtraVars($member_srl, array $values)
+	{
+		$args = new stdClass();
+		$args->member_srl = $member_srl;
+		$output = executeQuery('member.getMemberInfoByMemberSrl', $args, array('extra_vars'));
+		if (!$output->toBool())
+		{
+			return $output;
+		}
+		
+		$extra_vars = $output->data->extra_vars ? unserialize($output->data->extra_vars) : new stdClass;
+		foreach ($values as $key => $val)
+		{
+			$extra_vars->{$key} = $val;
+		}
+		
+		$args = new stdClass();
+		$args->member_srl = $member_srl;
+		$args->extra_vars = serialize($extra_vars);
+		$output = executeQuery('member.updateMemberExtraVars', $args);
+		if (!$output->toBool())
+		{
+			return $output;
+		}
+		
+		unset($GLOBALS['__member_info__'][$member_srl]);
+		$this->_clearMemberCache($member_srl);
+
 		return $output;
 	}
 
@@ -2763,6 +2917,7 @@ class memberController extends member
 			$result = executeQuery('member.updateChangePasswordDate', $args);
 		}
 
+		unset($GLOBALS['__member_info__'][$args->member_srl]);
 		$this->_clearMemberCache($args->member_srl);
 
 		return $output;
@@ -3217,6 +3372,7 @@ class memberController extends member
 		$member_srl = intval($member_srl);
 		Rhymix\Framework\Cache::delete("member:member_info:$member_srl");
 		Rhymix\Framework\Cache::delete("member:member_groups:$member_srl:site:$site_srl");
+		Rhymix\Framework\Cache::delete("site_and_module:accessible_modules:$member_srl");
 		if ($site_srl != 0)
 		{
 			Rhymix\Framework\Cache::delete("member:member_groups:$member_srl:site:0");

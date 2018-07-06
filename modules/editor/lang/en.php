@@ -1,8 +1,8 @@
 <?php
 $lang->editor_component = 'Editor Component';
-$lang->main_editor = 'Main editor';
-$lang->comment_editor = 'Comment editor';
-$lang->editor_option = 'Editor Options';
+$lang->main_editor = 'Main Editor';
+$lang->comment_editor = 'Comment Editor';
+$lang->editor_common_settings = 'Common Settings';
 $lang->guide_choose_main_editor = 'Main editor';
 $lang->guide_set_height_main_editor = 'Main editor height';
 $lang->guide_set_main_editor_toolbar = 'Main editor toolbar';
@@ -15,6 +15,7 @@ $lang->guide_additional_mobile_css = 'Additional CSS Files for Mobile';
 $lang->guide_additional_plugins = 'Load additional plugins';
 $lang->guide_remove_plugins = 'Remove plugins';
 $lang->guide_choose_text_formatting = 'Text formatting style';
+$lang->guide_choose_comment_text_formatting = 'Text formatting style';
 $lang->guide_choose_font_preview = 'Preview';
 $lang->guide_choose_font_body = 'Default font';
 $lang->guide_choose_font_size_body = 'Default font size';

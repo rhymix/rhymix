@@ -173,6 +173,15 @@
 			</div>
 		</div>
 		<div class="x_control-group">
+			<label class="x_control-label">{$lang->cache_truncate_method}</label>
+			<div class="x_controls">
+				<label for="cache_truncate_method_delete" class="x_inline"><input type="radio" name="cache_truncate_method" id="cache_truncate_method_delete" value="delete" checked="checked"|cond="$cache_truncate_method !== 'empty'" /> {$lang->cache_truncate_method_delete}</label>
+				<label for="cache_truncate_method_empty" class="x_inline"><input type="radio" name="cache_truncate_method" id="cache_truncate_method_empty" value="empty" checked="checked"|cond="$cache_truncate_method === 'empty'" /> {$lang->cache_truncate_method_empty}</label>
+				<br />
+				<p class="x_help-block">{$lang->about_cache_truncate_method}</p>
+			</div>
+		</div>
+		<div class="x_control-group">
 			<label class="x_control-label">{$lang->minify_scripts}</label>
 			<div class="x_controls">
 				<label for="minify_scripts_none" class="x_inline"><input type="radio" name="minify_scripts" id="minify_scripts_none" value="none" checked="checked"|cond="$minify_scripts=='none'" /> {$lang->cmd_minify_none}</label>

@@ -7,5 +7,6 @@
         <condition operation="equal" column="module_srl" var="module_srl" />
         <condition operation="equal" column="member_srl" var="member_srl" pipe="and" />
         <condition operation="equal" column="ipaddress" var="ipaddress" pipe="and" />
+        <condition operation="equal" column="certify_key" var="certify_key" pipe="and" />
     </conditions>
 </query>

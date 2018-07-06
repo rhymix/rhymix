@@ -38,6 +38,13 @@ class boardController extends board
 			return $this->setError('msg_empty_content');
 		}
 		
+		// Return error if content is too large.
+		$document_length_limit = ($this->module_info->document_length_limit ?: 1024) * 1024;
+		if (strlen($obj->content) > $document_length_limit && !$this->grant->manager)
+		{
+			return $this->setError('msg_content_too_long');
+		}
+		
 		// unset document style if not manager
 		if(!$this->grant->manager)
 		{
@@ -356,7 +363,20 @@ class boardController extends board
 		// get the relevant data for inserting comment
 		$obj = Context::getRequestVars();
 		$obj->module_srl = $this->module_srl;
+		
+		// Return error if content is empty.
+		if (is_empty_html_content($obj->content))
+		{
+			return $this->setError('msg_empty_content');
+		}
 
+		// Return error if content is too large.
+		$comment_length_limit = ($this->module_info->comment_length_limit ?: 128) * 1024;
+		if (strlen($obj->content) > $comment_length_limit && !$this->grant->manager)
+		{
+			return $this->setError('msg_content_too_long');
+		}
+		
 		if(!$this->module_info->use_status) $this->module_info->use_status = 'PUBLIC';
 		if(!is_array($this->module_info->use_status))
 		{
@@ -676,44 +696,20 @@ class boardController extends board
 	 **/
 	function triggerMemberMenu(&$obj)
 	{
-		$member_srl = Context::get('target_srl');
-		$mid = Context::get('cur_mid');
-
-		if(!$member_srl || !$mid)
+		if(!$mid = Context::get('cur_mid'))
 		{
 			return;
 		}
-
-		$logged_info = Context::get('logged_info');
-
+		
 		// get the module information
-		$oModuleModel = getModel('module');
-		$columnList = array('module');
-		$cur_module_info = $oModuleModel->getModuleInfoByMid($mid, 0, $columnList);
-
-		if($cur_module_info->module != 'board')
+		$module_info = getModel('module')->getModuleInfoByMid($mid);
+		if(empty($module_info->module) || $module_info->module !== 'board' || $module_info->use_anonymous === 'Y')
 		{
 			return;
 		}
-
-		// get the member information
-		if($member_srl == $logged_info->member_srl)
-		{
-			$member_info = $logged_info;
-		} else {
-			$oMemberModel = getModel('member');
-			$member_info = $oMemberModel->getMemberInfoByMemberSrl($member_srl);
-		}
-
-		if(!$member_info->user_id)
-		{
-			return;
-		}
-
-		//search
-		$url = getUrl('','mid',$mid,'search_target','nick_name','search_keyword',$member_info->nick_name);
-		$oMemberController = getController('member');
-		$oMemberController->addMemberPopupMenu($url, 'cmd_view_own_document', '');
+		
+		$url = getUrl('', 'mid', $mid, 'member_srl', $obj->member_srl);
+		getController('member')->addMemberPopupMenu($url, 'cmd_view_own_document', '');
 	}
 	
 	/**

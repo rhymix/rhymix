@@ -47,7 +47,7 @@ $lang->cmd_ignore = 'Ignore';
 $lang->cmd_recommended = 'Recommended';
 $lang->db_desc['mysqli'] = 'Use MySQL as a database via the mysqli extension.';
 $lang->db_desc['mysql'] = 'Use MySQL as a database via mysql_* functions.';
-$lang->db_desc['cubrid'] = 'Use CUBRID as a database. See <a href="http://www.cubrid.org/wiki_tutorials/entry/cubrid-installation-instructions" target="_blank">Manual</a> for more info';
+$lang->db_desc['cubrid'] = 'Use CUBRID as a database. See <a href="https://www.cubrid.org/documentation/manuals" target="_blank">Manual</a> for more info';
 $lang->db_desc['mssql'] = 'Use Microsoft SQL Server as a database.';
 $lang->can_use_when_installed = 'Not installed on this server';
 $lang->form_title = 'Database &amp; Administrator Information';

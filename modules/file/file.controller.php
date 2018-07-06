@@ -391,7 +391,7 @@ class fileController extends file
 		}
 		$file_key_data = $file_obj->file_srl . $file_obj->file_size . $file_obj->uploaded_filename . $_SERVER['REMOTE_ADDR'];
 		$file_key = substr(hash_hmac('sha256', $file_key_data, $_SESSION['__XE_FILE_KEY__']), 0, 32);
-		header('Location: '.getNotEncodedUrl('', 'act', 'procFileOutput','file_srl',$file_srl,'file_key',$file_key));
+		header('Location: '.getNotEncodedUrl('', 'act', 'procFileOutput', 'file_srl', $file_srl, 'file_key', $file_key, 'force_download', Context::get('force_download') === 'Y' ? 'Y' : null));
 		Context::close();
 		exit();
 	}
@@ -405,6 +405,7 @@ class fileController extends file
 
 		$columnList = array('source_filename', 'uploaded_filename', 'file_size');
 		$file_obj = $oFileModel->getFile($file_srl, $columnList);
+		$file_config = $oFileModel->getFileConfig($file_obj->module_srl ?: null);
 		$filesize = $file_obj->file_size;
 		$filename = $file_obj->source_filename;
 		$etag = md5($file_srl . $file_key . $_SERVER['HTTP_USER_AGENT']);
@@ -477,16 +478,47 @@ class fileController extends file
 			$range_length = $filesize - $range_start;
 		}
 
+		// Determine download type
+		$download_type = 'attachment';
+		$mime_type = Rhymix\Framework\MIME::getTypeByFilename($filename);
+		if (starts_with('image/', $mime_type) && in_array('image', $file_config->inline_download_format))
+		{
+			$download_type = 'inline';
+		}
+		if (starts_with('audio/', $mime_type) && in_array('audio', $file_config->inline_download_format))
+		{
+			$download_type = 'inline';
+		}
+		if (starts_with('video/', $mime_type) && in_array('video', $file_config->inline_download_format))
+		{
+			$download_type = 'inline';
+		}
+		if (starts_with('text/', $mime_type) && ($mime_type !== 'text/html') && in_array('text', $file_config->inline_download_format))
+		{
+			$download_type = 'inline';
+		}
+		if ($mime_type === 'application/pdf' && in_array('pdf', $file_config->inline_download_format))
+		{
+			$download_type = 'inline';
+		}
+		if (Context::get('force_download') === 'Y')
+		{
+			$download_type = 'attachment';
+		}
+		
 		// Clear buffer
 		while(ob_get_level()) ob_end_clean();
-
-		// Set headers
-		header("Cache-Control: private; max-age=3600");
-		header("Pragma: ");
-		header("Content-Type: application/octet-stream");
-		header("Last-Modified: " . gmdate("D, d M Y H:i:s") . " GMT");
-
-		header('Content-Disposition: attachment; ' . $filename_param);
+		
+		// Set filename headers
+		header('Content-Type: ' . ($download_type === 'inline' ? $mime_type : 'application/octet-stream'));
+		header('Content-Disposition: ' . $download_type . '; ' . $filename_param);
+		
+		// Set cache headers
+		header('Cache-Control: private; max-age=3600');
+		header('Last-Modified: ' . gmdate('D, d M Y H:i:s') . ' GMT');
+		header('Pragma: ');
+		
+		// Set other headers
 		header('Content-Transfer-Encoding: binary');
 		header('Content-Length: ' . $range_length);
 		header('Accept-Ranges: bytes');
@@ -694,9 +726,8 @@ class fileController extends file
 	{
 		$module_srl = $obj->module_srl;
 		if(!$module_srl) return;
-
-		$oFileController = getAdminController('file');
-		return $oFileController->deleteModuleFiles($module_srl);
+		
+		return $this->deleteModuleFiles($module_srl);
 	}
 
 	/**
@@ -950,70 +981,58 @@ class fileController extends file
 	 * - ipaddress
 	 * </pre>
 	 *
-	 * @param int $file_srl Sequence of file to delete
+	 * @param array|int $file_list or $file_srl
 	 * @return Object
 	 */
-	function deleteFile($file_srl)
+	function deleteFile($file_list)
 	{
-		if(!$file_srl) return;
-
-		$srls = (is_array($file_srl)) ? $file_srl : explode(',', $file_srl);
-		if(!count($srls)) return;
-
-		$oDocumentController = getController('document');
-		$documentSrlList = array();
-
-		foreach($srls as $srl)
+		if(!is_array($file_list))
 		{
-			$srl = (int)$srl;
-			if(!$srl) 
+			$file_list = explode(',', $file_list);
+		}
+		
+		if(empty($file_list))
+		{
+			return new BaseObject();
+		}
+		
+		foreach($file_list as $file)
+		{
+			if(!is_object($file))
+			{
+				if(!$file_srl = (int) $file)
+				{
+					continue;
+				}
+				$file = getModel('file')->getFile($file_srl);
+			}
+			
+			if(empty($file->file_srl))
 			{
 				continue;
 			}
-
-			$args = new stdClass();
-			$args->file_srl = $srl;
-			$output = executeQuery('file.getFile', $args);
-
-			if(!$output->toBool() || !$output->data) 
-			{
-				continue;
-			}
-
-			$file_info = $output->data;
-
-			if($file_info->upload_target_srl)
-			{
-				$documentSrlList[] = $file_info->upload_target_srl;
-			}
-
-			$source_filename = $output->data->source_filename;
-			$uploaded_filename = $output->data->uploaded_filename;
-
+			
 			// Call a trigger (before)
-			$trigger_obj = $output->data;
-			$output = ModuleHandler::triggerCall('file.deleteFile', 'before', $trigger_obj);
+			$output = ModuleHandler::triggerCall('file.deleteFile', 'before', $file);
 			if(!$output->toBool()) return $output;
-
+			
 			// Remove from the DB
-			$output = executeQuery('file.deleteFile', $args);
+			$output = executeQuery('file.deleteFile', $file);
 			if(!$output->toBool()) return $output;
-
+			
 			// If successfully deleted, remove the file
-			Rhymix\Framework\Storage::delete(FileHandler::getRealPath($uploaded_filename));
-
+			Rhymix\Framework\Storage::delete(FileHandler::getRealPath($file->uploaded_filename));
+			
 			// Call a trigger (after)
-			ModuleHandler::triggerCall('file.deleteFile', 'after', $trigger_obj);
+			ModuleHandler::triggerCall('file.deleteFile', 'after', $file);
 			
 			// Remove empty directories
-			Rhymix\Framework\Storage::deleteEmptyDirectory(dirname(FileHandler::getRealPath($uploaded_filename)), true);
+			Rhymix\Framework\Storage::deleteEmptyDirectory(dirname(FileHandler::getRealPath($file->uploaded_filename)), true);
 		}
-
-		$oDocumentController->updateUploaedCount($documentSrlList);
-
-		return $output;
+		
+		return new BaseObject();
 	}
-
+	
 	/**
 	 * Delete all attachments of a particular document
 	 *
@@ -1024,26 +1043,39 @@ class fileController extends file
 	{
 		// Get a list of attachements
 		$oFileModel = getModel('file');
-		$columnList = array('file_srl', 'uploaded_filename', 'module_srl');
-		$file_list = $oFileModel->getFiles($upload_target_srl, $columnList);
+		$file_list = $oFileModel->getFiles($upload_target_srl);
+		
 		// Success returned if no attachement exists
-		if(!is_array($file_list)||!count($file_list)) return new BaseObject();
-
-		// Delete the file
-		foreach ($file_list as $file)
+		if(empty($file_list))
 		{
-			$this->deleteFile($file->file_srl);
+			return new BaseObject();
 		}
-
-		// Remove from the DB
-		$args = new stdClass();
-		$args->upload_target_srl = $upload_target_srl;
-		$output = executeQuery('file.deleteFiles', $args);
-		if(!$output->toBool()) return $output;
-
-		return $output;
+		
+		// Delete the file
+		return $this->deleteFile($file_list);
 	}
-
+	
+	/**
+	 * Delete the attachment of a particular module
+	 *
+	 * @param int $module_srl Sequence of module to delete files
+	 * @return Object
+	 */
+	function deleteModuleFiles($module_srl)
+	{
+		// Get a full list of attachments
+		$args = new stdClass;
+		$args->module_srl = $module_srl;
+		$output = executeQueryArray('file.getModuleFiles', $args);
+		if(!$output->toBool() || empty($file_list = $output->data))
+		{
+			return $output;
+		}
+		
+		// Delete the file
+		return $this->deleteFile($file_list);
+	}
+	
 	/**
 	 * Move an attachement to the other document
 	 *
@@ -1095,7 +1127,47 @@ class fileController extends file
 			executeQuery('file.updateFile', $args);
 		}
 	}
-
+	
+	function copyFile($source_file, $module_srl, $upload_target_srl, &$content = null)
+	{
+		$file_info = array();
+		$file_info['name'] = $source_file->source_filename;
+		$file_info['tmp_name'] = $source_file->uploaded_filename;
+		$copied_file = $this->insertFile($file_info, $module_srl, $upload_target_srl, 0, true);
+		
+		if($content)
+		{
+			// if image/video files
+			if($source_file->direct_download == 'Y')
+			{
+				$source_filename = substr($source_file->uploaded_filename, 2);
+				$copied_filename = substr($copied_file->get('uploaded_filename'), 2);
+				$content = str_replace($source_filename, $copied_filename, $content);
+			}
+			// if binary file
+			else
+			{
+				$content = str_replace('file_srl=' . $source_file->file_srl, 'file_srl=' . $copied_file->get('file_srl'), $content);
+				$content = str_replace('sid=' . $source_file->sid, 'sid=' . $copied_file->get('sid'), $content);
+			}
+		}
+		
+		return $copied_file;
+	}
+	
+	function copyFiles($source_file_list, $module_srl, $upload_target_srl, &$content = null)
+	{
+		if(!is_array($source_file_list))
+		{
+			$source_file_list = getModel('file')->getFiles($source_file_list, array(), 'file_srl', true);
+		}
+		
+		foreach($source_file_list as $source_file)
+		{
+			$this->copyFile($source_file, $module_srl, $upload_target_srl, $content);
+		}
+	}
+	
 	public function procFileSetCoverImage()
 	{
 		$vars = Context::getRequestVars();
@@ -1123,8 +1195,8 @@ class fileController extends file
 		$output = executeQuery('file.updateClearCoverImage', $args);
 		if(!$output->toBool())
 		{
-				$oDB->rollback();
-				return $output;
+			$oDB->rollback();
+			return $output;
 		}
 
 		if($file_info->cover_image != 'Y')
@@ -1161,7 +1233,34 @@ class fileController extends file
 	{
 		return;
 	}
-
+	
+	function triggerMoveDocument($obj)
+	{
+		$obj->upload_target_srls = $obj->document_srls;
+		executeQuery('file.updateFileModule', $obj);
+		executeQuery('file.updateFileModuleComment', $obj);
+	}
+	
+	function triggerAddCopyDocument(&$obj)
+	{
+		if(!$obj->source->uploaded_count)
+		{
+			return;
+		}
+		
+		$this->copyFiles($obj->source->document_srl, $obj->copied->module_srl, $obj->copied->document_srl, $obj->copied->content);
+	}
+	
+	function triggerAddCopyCommentByDocument(&$obj)
+	{
+		if(!$obj->source->uploaded_count)
+		{
+			return;
+		}
+		
+		$this->copyFiles($obj->source->comment_srl, $obj->copied->module_srl, $obj->copied->comment_srl, $obj->copied->content);
+	}
+	
 	function triggerCopyModule(&$obj)
 	{
 		$oModuleModel = getModel('module');

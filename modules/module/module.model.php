@@ -487,7 +487,9 @@ class moduleModel extends module
 		$list = Rhymix\Framework\Cache::get('site_and_module:module:mid_list_' . $args->site_srl);
 		if($list === null)
 		{
-			if(count($args) === 1 && isset($args->site_srl))
+			$argsCount = countobj($args);
+			
+			if($argsCount === 1 && isset($args->site_srl))
 			{
 				$columnList = array();
 			}
@@ -496,7 +498,7 @@ class moduleModel extends module
 			if(!$output->toBool()) return $output;
 			$list = $output->data;
 
-			if(count($args) === 1 && isset($args->site_srl) && !$columnList)
+			if($argsCount === 1 && isset($args->site_srl) && !$columnList)
 			{
 				Rhymix\Framework\Cache::set('site_and_module:module:mid_list_' . $args->site_srl, $list, 0, true);
 			}
@@ -565,10 +567,12 @@ class moduleModel extends module
 		if($action_forward === null)
 		{
 			$args = new stdClass();
-			$output = executeQueryArray('module.getActionForward',$args);
-			if(!$output->toBool()) return new stdClass;
-			if(!$output->data) $output->data = array();
-
+			$output = executeQueryArray('module.getActionForward', $args);
+			if(!$output->toBool())
+			{
+				return;
+			}
+			
 			$action_forward = array();
 			foreach($output->data as $item)
 			{
@@ -577,15 +581,13 @@ class moduleModel extends module
 			
 			Rhymix\Framework\Cache::set('action_forward', $action_forward, 0, true);
 		}
-
-		if($action_forward[$act])
+		
+		if(!isset($action_forward[$act]))
 		{
-			return $action_forward[$act];
+			return;
 		}
-		else
-		{
-			return new stdClass();
-		}
+		
+		return $action_forward[$act];
 	}
 
 	/**
@@ -816,7 +818,7 @@ class moduleModel extends module
 
 			$xml_obj = XmlParser::loadXmlFile($xml_file); // /< Read xml file and convert it to xml object
 
-			if(!count($xml_obj->module)) return; // /< Error occurs if module tag doesn't included in the xml
+			if(!countobj($xml_obj->module)) return; // /< Error occurs if module tag doesn't included in the xml
 
 			$grants = $xml_obj->module->grants->grant; // /< Permission information
 			$permissions = $xml_obj->module->permissions->permission; // /<  Acting permission
@@ -1110,18 +1112,11 @@ class moduleModel extends module
 		{
 			$moduleName = 'ARTICLE';
 		}
+		
+		$useDefaultList = array();
 		if(array_key_exists($moduleName, $installedMenuTypes))
 		{
-			if($dir == 'skins')
-			{
-				$type = 'P';
-			}
-			else
-			{
-				$type = 'M';
-			}
-			$defaultSkinName = $this->getModuleDefaultSkin($module, $type);
-
+			$defaultSkinName = $this->getModuleDefaultSkin($module, $dir == 'skins' ? 'P' : 'M');
 			if(isset($defaultSkinName))
 			{
 				$defaultSkinInfo = $this->loadSkinInfo($path, $defaultSkinName, $dir);
@@ -1130,14 +1125,14 @@ class moduleModel extends module
 				$useDefault->title = lang('use_site_default_skin') . ' (' . $defaultSkinInfo->title . ')';
 
 				$useDefaultList['/USE_DEFAULT/'] = $useDefault;
-				if($type === 'M')
-				{
-					$useDefaultList['/USE_RESPONSIVE/'] = (object)array('title' => lang('use_responsive_pc_skin'));
-				}
-
-				$skin_list = array_merge($useDefaultList, $skin_list);
 			}
 		}
+		if($dir == 'm.skins')
+		{
+			$useDefaultList['/USE_RESPONSIVE/'] = (object)array('title' => lang('use_responsive_pc_skin'));
+		}
+
+		$skin_list = array_merge($useDefaultList, $skin_list);
 
 		return $skin_list;
 	}
@@ -2020,11 +2015,16 @@ class moduleModel extends module
 	/**
 	 * @brief Return privileges(granted) information by using module info, xml info and member info
 	 */
-	function getGrant($module_info, $member_info, $xml_info = '')
+	function getGrant($module_info, $member_info, $xml_info = null)
 	{
-		$__cache = &$GLOBALS['__MODULE_GRANT__'][$module_info->module][intval($module_info->module_srl)][intval($member_info->member_srl)];
+		if(empty($module_info->module))
+		{
+			$module_info = new stdClass;
+			$module_info->module = $module_info->module_srl = 0;
+		}
 		
-		if (!$xml_info && is_object($__cache))
+		$__cache = &$GLOBALS['__MODULE_GRANT__'][$module_info->module][intval($module_info->module_srl)][intval($member_info->member_srl)];
+		if (is_object($__cache) && !$xml_info)
 		{
 			return $__cache;
 		}
@@ -2036,21 +2036,14 @@ class moduleModel extends module
 		{
 			$xml_info = $this->getModuleActionXml($module_info->module);
 		}
+		$xml_grant_list = isset($xml_info->grant) ? (array)$xml_info->grant : array();
 		
 		// Get group information of member
-		if(is_array($member_info->group_list))
-		{
-			$member_group = array_keys($member_info->group_list);
-		}
-		else
-		{
-			$member_group = array();
-		}
-		
-		$is_module_admin = $module_info->module_srl ? $this->isModuleAdmin($member_info, $module_info->module_srl) : false;
+		$member_group = !empty($member_info->group_list) ? array_keys($member_info->group_list) : array();
+		$is_module_admin = !empty($module_info->module_srl) ? $this->isModuleAdmin($member_info, $module_info->module_srl) : false;
 		
 		// Get 'privilege name' list from module.xml
-		$privilege_list = array_keys((array) $xml_info->grant);
+		$privilege_list = array_keys($xml_grant_list);
 		
 		// Prepend default 'privilege name'
 		// manager, is_site_admin not distinguish because of compatibility.
@@ -2073,7 +2066,7 @@ class moduleModel extends module
 				$grant->{$val} = true;
 			}
 			// If module_srl doesn't exist, grant access
-			else if(!$module_info->module_srl && $val === 'access')
+			else if(empty($module_info->module_srl) && $val === 'access')
 			{
 				$grant->{$val} = true;
 			}
@@ -2148,41 +2141,38 @@ class moduleModel extends module
 			}
 			
 			// Grant privileges by default information of module
-			if(!empty($grant_list = (array) $xml_info->grant))
+			foreach($xml_grant_list as $name => $item)
 			{
-				foreach($grant_list as $name => $item)
+				if(isset($checked[$name]) || $grant->{$name})
 				{
-					if(isset($checked[$name]) || $grant->{$name})
-					{
-						continue;
-					}
+					continue;
+				}
+				
+				// All user
+				if($item->default == 'guest')
+				{
+					$grant->{$name} = true;
 					
-					// All user
-					if($item->default == 'guest')
+					continue;
+				}
+				
+				// Log-in member only
+				if($member_info->member_srl)
+				{
+					if($item->default == 'member')
 					{
 						$grant->{$name} = true;
-						
-						continue;
 					}
-					
-					// Log-in member only
-					if($member_info->member_srl)
+					else if($item->default == 'site')
 					{
-						if($item->default == 'member')
+						// Grant if no information of the currently connected site exists
+						if(!Context::get('site_module_info')->site_srl)
 						{
 							$grant->{$name} = true;
 						}
-						else if($item->default == 'site')
+						else if(count($member_group))
 						{
-							// Grant if no information of the currently connected site exists
-							if(!Context::get('site_module_info')->site_srl)
-							{
-								$grant->{$name} = true;
-							}
-							else if(count($member_group))
-							{
-								$grant->{$name} = true;
-							}
+							$grant->{$name} = true;
 						}
 					}
 				}
@@ -2190,6 +2180,49 @@ class moduleModel extends module
 		}
 		
 		return $__cache = $grant;
+	}
+	
+	/**
+	 * Get the list of modules that the member can access.
+	 * 
+	 * @param object $member_info
+	 * @return array
+	 */
+	function getAccessibleModuleList($member_info = null)
+	{
+		if(!$member_info)
+		{
+			$member_info = Context::get('logged_info');
+		}
+		
+		$result = Rhymix\Framework\Cache::get(sprintf('site_and_module:accessible_modules:%d', $member_info->member_srl));
+		if($result === null)
+		{
+			$mid_list = $this->getMidList();
+			$result = array();
+			
+			foreach($mid_list as $module_info)
+			{
+				$grant = $this->getGrant($module_info, $member_info);
+				if(!$grant->access)
+				{
+					continue;
+				}
+				foreach(array('list', 'view') as $require_grant)
+				{
+					if(isset($grant->{$require_grant}) && $grant->{$require_grant} === false)
+					{
+						continue 2;
+					}
+				}
+				$result[$module_info->module_srl] = $module_info;
+			}
+			ksort($result);
+			
+			Rhymix\Framework\Cache::set(sprintf('site_and_module:accessible_modules:%d', $member_info->member_srl), $result);
+		}
+		
+		return $result;
 	}
 	
 	/**

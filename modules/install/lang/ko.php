@@ -47,7 +47,7 @@ $lang->cmd_ignore = '무시';
 $lang->cmd_recommended = '권장';
 $lang->db_desc['mysqli'] = 'mysqli 모듈을 사용하여 MySQL DB에 접속합니다.';
 $lang->db_desc['mysql'] = 'mysql_*() 함수를 사용하여 MySQL DB에 접속합니다.';
-$lang->db_desc['cubrid'] = 'CUBRID DB를 이용합니다. <a href="http://www.cubrid.com/zbxe/?mid=bbs_developer_tutorial&category=47452" target="_blank">Manual</a>';
+$lang->db_desc['cubrid'] = 'CUBRID DB를 이용합니다. <a href="https://www.cubrid.org/documentation/manuals" target="_blank">Manual</a>';
 $lang->db_desc['mssql'] = 'Microsoft SQL Server를 이용합니다.';
 $lang->can_use_when_installed = '설치되어 있지 않음';
 $lang->form_title = 'DB &amp; 관리자 정보 입력';

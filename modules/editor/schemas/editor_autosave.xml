@@ -5,5 +5,6 @@
     <column name="document_srl" type="number" size="11" default="0" notnull="notnull" />
     <column name="title" type="varchar" size="250" />
     <column name="content" type="bigtext" notnull="notnull" />
+    <column name="certify_key" type="varchar" size="32" index="idx_certify_key" />
     <column name="regdate" type="date" index="idx_regdate" />
 </table>

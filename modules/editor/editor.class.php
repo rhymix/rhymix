@@ -97,6 +97,10 @@ class editor extends ModuleObject
 		if(!$oDB->isColumnExists("editor_autosave","module_srl")) return true;
 		if(!$oDB->isIndexExists("editor_autosave","idx_module_srl")) return true;
 
+		// XEVE-17-030
+		if(!$oDB->isColumnExists('editor_autosave', 'certify_key')) return true;
+		if(!$oDB->isIndexExists('editor_autosave', 'idx_certify_key')) return true;
+
 		// 2007. 10. 17 Add a trigger to delete automatically saved document whenever the document(insert or update) is modified
 		if(!$oModuleModel->getTrigger('document.insertDocument', 'editor', 'controller', 'triggerDeleteSavedDoc', 'after')) return true;
 		if(!$oModuleModel->getTrigger('document.updateDocument', 'editor', 'controller', 'triggerDeleteSavedDoc', 'after')) return true;
@@ -120,15 +124,28 @@ class editor extends ModuleObject
 	{
 		$oModuleModel = getModel('module');
 		$oModuleController = getController('module');
-
 		$oDB = &DB::getInstance();
+		
 		// Save module_srl when auto-saving 15/06/2009
-		if(!$oDB->isColumnExists("editor_autosave","module_srl")) 
-			$oDB->addColumn("editor_autosave","module_srl","number",11);
+		if(!$oDB->isColumnExists('editor_autosave', 'module_srl'))
+		{
+			$oDB->addColumn('editor_autosave', 'module_srl', 'number');
+		}
+		if(!$oDB->isIndexExists('editor_autosave', 'idx_module_srl'))
+		{
+			$oDB->addIndex('editor_autosave', 'idx_module_srl', 'module_srl');
+		}
 
-		// create an index on module_srl
-		if(!$oDB->isIndexExists("editor_autosave","idx_module_srl")) $oDB->addIndex("editor_autosave","idx_module_srl", "module_srl");
-
+		// XEVE-17-030
+		if(!$oDB->isColumnExists('editor_autosave', 'certify_key'))
+		{
+			$oDB->addColumn('editor_autosave', 'certify_key', 'varchar', 32);
+		}
+		if(!$oDB->isIndexExists('editor_autosave', 'idx_certify_key'))
+		{
+			$oDB->addIndex('editor_autosave', 'idx_certify_key', 'certify_key');
+		}
+		
 		// 2007. 10. 17 Add a trigger to delete automatically saved document whenever the document(insert or update) is modified
 		if(!$oModuleModel->getTrigger('document.insertDocument', 'editor', 'controller', 'triggerDeleteSavedDoc', 'after')) 
 			$oModuleController->insertTrigger('document.insertDocument', 'editor', 'controller', 'triggerDeleteSavedDoc', 'after');

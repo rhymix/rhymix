@@ -1,0 +1,14 @@
+<query id="getCommentsByDocumentSrls" action="select">
+	<tables>
+		<table name="comments" />
+	</tables>
+	<columns>
+		<column name="*" />
+	</columns>
+	<conditions>
+		<condition operation="in" column="document_srl" var="document_srls" filter="number" notnull="notnull" />
+	</conditions>
+	<navigation>
+		<index var="sort_index" default="comment_srl" order="asc" />
+	</navigation>
+</query>

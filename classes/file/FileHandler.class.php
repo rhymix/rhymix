@@ -76,7 +76,7 @@ class FileHandler
 	 * @param string $filename Path of target file
 	 * @param string $buff Content to be written
 	 * @param string $mode a(append) / w(write)
-	 * @return void
+	 * @return false|string
 	 */
 	public static function writeFile($filename, $buff, $mode = "w")
 	{
@@ -364,12 +364,9 @@ class FileHandler
 			}
 			Rhymix\Framework\Debug::addRemoteRequest($log);
 			
-			if(count($response->cookies))
+			foreach($response->cookies as $cookie)
 			{
-				foreach($response->cookies as $cookie)
-				{
-					$cookies[$host][$cookie->name] = $cookie->value;
-				}
+				$cookies[$host][$cookie->name] = $cookie->value;
 			}
 			
 			if($response->success)
@@ -572,7 +569,16 @@ class FileHandler
 			return FALSE;
 		}
 
-		imagefilledrectangle($thumb, 0, 0, $resize_width - 1, $resize_height - 1, imagecolorallocate($thumb, 255, 255, 255));
+		if($target_type == 'png' && function_exists('imagecolorallocatealpha') && function_exists('imagesavealpha') && function_exists('imagealphablending'))
+		{
+			imagefill($thumb, 0, 0, imagecolorallocatealpha($thumb, 0, 0, 0, 127));
+			imagesavealpha($thumb, TRUE);
+			imagealphablending($thumb, TRUE);
+		}
+		else
+		{
+			imagefilledrectangle($thumb, 0, 0, $resize_width - 1, $resize_height - 1, imagecolorallocate($thumb, 255, 255, 255));
+		}
 
 		// create temporary image having original type
 		$source = NULL;
@@ -817,6 +823,64 @@ class FileHandler
 	{
 		$path = self::getRealPath($path);
 		return Rhymix\Framework\Storage::isDirectory($path) && Rhymix\Framework\Storage::isWritable($path);
+	}
+
+	/**
+	 * @deprecated
+	 * 
+	 * Clears file status cache
+	 *
+	 * @param string|array $target filename or directory
+	 * @param boolean $include include files in the directory
+	 */
+	public static function clearStatCache($target, $include = false)
+	{
+		foreach(is_array($target) ? $target : array($target) as $target_item)
+		{
+			$target_item = self::getRealPath($target_item);
+			if($include && self::isDir($target_item))
+			{
+				self::clearStatCache(self::readDir($target_item, '', false, true), $include);
+			}
+			else
+			{
+				clearstatcache(true, $target_item);
+			}
+		}
+	}
+	
+	/**
+	 * @deprecated
+	 * 
+	 * Invalidates a cached script of OPcache
+	 *
+	 * @param string|array $target filename or directory
+	 * @param boolean $force force
+	 */
+	public static function invalidateOpcache($target, $force = true)
+	{
+		static $opcache = null;
+		
+		if($opcache === null)
+		{
+			$opcache = function_exists('opcache_invalidate');
+		}
+		if($opcache === false)
+		{
+			return;
+		}
+		
+		foreach(is_array($target) ? $target : array($target) as $target_item)
+		{
+			if(substr($target_item, -4) === '.php')
+			{
+				opcache_invalidate(self::getRealPath($target_item), $force);
+			}
+			elseif($path = self::isDir($target_item))
+			{
+				self::invalidateOpcache(self::readDir($path, '', false, true), $force);
+			}
+		}
 	}
 }
 

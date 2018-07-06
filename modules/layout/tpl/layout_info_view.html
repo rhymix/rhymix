@@ -49,7 +49,7 @@
 			<span class="x_help-block">{$lang->about_header_script}</span>
 		</div>
 	</div>
-	<section class="section" cond="count($selected_layout->extra_var)">
+	<section class="section" cond="!empty((array)$selected_layout->extra_var)">
 		<h1>{$lang->extra_vars}</h1>
 		{@$cnt = 1}
 		<block loop="$selected_layout->extra_var => $name, $var">

@@ -28,6 +28,8 @@ class DebugTest extends \Codeception\TestCase\Test
 		$this->assertEquals('foobar entry', $entries[0]->message);
 		$this->assertEquals($file, $entries[0]->file);
 		$this->assertEquals($line, $entries[0]->line);
+		Rhymix\Framework\Debug::clearEntries();
+		$this->assertEquals(0, count(Rhymix\Framework\Debug::getEntries()));
 	}
 	
 	public function testDebugError()
@@ -41,6 +43,8 @@ class DebugTest extends \Codeception\TestCase\Test
 		$this->assertContains('Rhymix', $error->message);
 		$this->assertEquals($file, $error->file);
 		$this->assertEquals($line, $error->line);
+		Rhymix\Framework\Debug::clearErrors();
+		$this->assertEquals(0, count(Rhymix\Framework\Debug::getErrors()));
 	}
 	
 	public function testDebugQuery()
@@ -64,6 +68,8 @@ class DebugTest extends \Codeception\TestCase\Test
 		$this->assertEquals('SELECT foo FROM bar', $query->query_string);
 		$this->assertEquals('This is a unit test', $query->message);
 		$this->assertEquals(1234, $query->error_code);
+		Rhymix\Framework\Debug::clearQueries();
+		$this->assertEquals(0, count(Rhymix\Framework\Debug::getQueries()));
 	}
 	
 	public function testDebugTranslateFilename()

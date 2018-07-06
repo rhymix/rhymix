@@ -166,35 +166,47 @@ class Security
 		
 		// Cap entropy to 256 bits from any one source, because anything more is meaningless.
 		$entropy_capped_bytes = min(32, $entropy_required_bytes);
+		$entropy = false;
 		
 		// Find and use the most secure way to generate a random string.
-		$entropy = false;
-		$is_windows = (defined('\PHP_OS') && strtoupper(substr(\PHP_OS, 0, 3)) === 'WIN');
-		if(function_exists('random_bytes'))  // PHP 7
+		if(function_exists('random_bytes'))
 		{
-			$entropy = random_bytes($entropy_capped_bytes);
-		}
-		elseif(function_exists('openssl_random_pseudo_bytes'))
-		{
-			$entropy = openssl_random_pseudo_bytes($entropy_capped_bytes);
-		}
-		elseif(function_exists('mcrypt_create_iv') && !$is_windows)
-		{
-			$entropy = mcrypt_create_iv($entropy_capped_bytes, \MCRYPT_DEV_URANDOM);
-		}
-		elseif(function_exists('mcrypt_create_iv') && $is_windows)
-		{
-			$entropy = mcrypt_create_iv($entropy_capped_bytes, \MCRYPT_RAND);
-		}
-		elseif(!$is_windows && @is_readable('/dev/urandom'))
-		{
-			$fp = fopen('/dev/urandom', 'rb');
-			if (function_exists('stream_set_read_buffer'))  // This function does not exist in HHVM.
+			try
 			{
-				stream_set_read_buffer($fp, 0);  // Prevent reading several KB of unnecessary data from urandom.
+				$entropy = random_bytes($entropy_capped_bytes);
 			}
-			$entropy = fread($fp, $entropy_capped_bytes);
-			fclose($fp);
+			catch (\Exception $e)
+			{
+				$entropy = false;
+			}
+		}
+		
+		// Use other good sources of entropy if random_bytes() is not available.
+		if ($entropy === false)
+		{
+			$is_windows = (defined('\PHP_OS') && strtoupper(substr(\PHP_OS, 0, 3)) === 'WIN');
+			if(function_exists('openssl_random_pseudo_bytes'))
+			{
+				$entropy = openssl_random_pseudo_bytes($entropy_capped_bytes);
+			}
+			elseif(function_exists('mcrypt_create_iv') && !$is_windows)
+			{
+				$entropy = mcrypt_create_iv($entropy_capped_bytes, \MCRYPT_DEV_URANDOM);
+			}
+			elseif(function_exists('mcrypt_create_iv') && $is_windows)
+			{
+				$entropy = mcrypt_create_iv($entropy_capped_bytes, \MCRYPT_RAND);
+			}
+			elseif(!$is_windows && @is_readable('/dev/urandom'))
+			{
+				$fp = fopen('/dev/urandom', 'rb');
+				if (function_exists('stream_set_read_buffer'))  // This function does not exist in HHVM.
+				{
+					stream_set_read_buffer($fp, 0);  // Prevent reading several KB of unnecessary data from urandom.
+				}
+				$entropy = fread($fp, $entropy_capped_bytes);
+				fclose($fp);
+			}
 		}
 		
 		// Use built-in source of entropy if an error occurs while using other functions.

@@ -224,7 +224,15 @@ class spamfilterController extends spamfilter
 		// Save a log
 		$this->insertLog();
 	}
-
+	
+	/**
+	 * @brief while document manager is running, stop filter
+	 */
+	function triggerManageDocument(&$obj)
+	{
+		$this->setAvoidLog();
+	}
+	
 	/**
 	 * @brief Log registration
 	 * Register the newly accessed IP address in the log. In case the log interval is withing a certain time,

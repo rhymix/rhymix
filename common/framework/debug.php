@@ -10,6 +10,7 @@ class Debug
 	/**
 	 * Store log entries here.
 	 */
+	protected static $_enabled = true;
 	protected static $_aliases = array();
 	protected static $_entries = array();
 	protected static $_errors = array();
@@ -23,6 +24,26 @@ class Debug
 	protected static $_slow_remote_requests = array();
 	
 	/**
+	 * Enable log collection.
+	 * 
+	 * @return void
+	 */
+	public static function enable()
+	{
+		self::$_enabled = true;
+	}
+	
+	/**
+	 * Disable log collection.
+	 * 
+	 * @return void
+	 */
+	public static function disable()
+	{
+		self::$_enabled = false;
+	}
+	
+	/**
 	 * Get all entries.
 	 * 
 	 * @return array
@@ -33,6 +54,16 @@ class Debug
 	}
 	
 	/**
+	 * Clear all entries.
+	 * 
+	 * @return void
+	 */
+	public static function clearEntries()
+	{
+		self::$_entries = array();
+	}
+	
+	/**
 	 * Get all errors.
 	 * 
 	 * @return array
@@ -40,6 +71,16 @@ class Debug
 	public static function getErrors()
 	{
 		return self::$_errors;
+	}
+	
+	/**
+	 * Clear all errors.
+	 * 
+	 * @return void
+	 */
+	public static function clearErrors()
+	{
+		self::$_errors = array();
 	}
 	
 	/**
@@ -63,6 +104,17 @@ class Debug
 	}
 	
 	/**
+	 * Clear all queries.
+	 * 
+	 * @return void
+	 */
+	public static function clearQueries()
+	{
+		self::$_queries = array();
+		self::$_slow_queries = array();
+	}
+	
+	/**
 	 * Get all triggers.
 	 * 
 	 * @return array
@@ -80,6 +132,17 @@ class Debug
 	public static function getSlowTriggers()
 	{
 		return self::$_slow_triggers;
+	}
+	
+	/**
+	 * Clear all triggers.
+	 * 
+	 * @return void
+	 */
+	public static function clearTriggers()
+	{
+		self::$_triggers = array();
+		self::$_slow_triggers = array();
 	}
 	
 	/**
@@ -103,6 +166,17 @@ class Debug
 	}
 	
 	/**
+	 * Clear all widgets.
+	 * 
+	 * @return void
+	 */
+	public static function clearWidgets()
+	{
+		self::$_widgets = array();
+		self::$_slow_widgets = array();
+	}
+	
+	/**
 	 * Get all remote requests.
 	 * 
 	 * @return array
@@ -120,6 +194,36 @@ class Debug
 	public static function getSlowRemoteRequests()
 	{
 		return self::$_slow_remote_requests;
+	}
+	
+	/**
+	 * Clear all remote requests.
+	 * 
+	 * @return void
+	 */
+	public static function clearRemoteRequests()
+	{
+		self::$_remote_requests = array();
+		self::$_slow_remote_requests = array();
+	}
+	
+	/**
+	 * Clear all records.
+	 * 
+	 * @return void
+	 */
+	public static function clearAll()
+	{
+		self::$_entries = array();
+		self::$_errors = array();
+		self::$_queries = array();
+		self::$_slow_queries = array();
+		self::$_triggers = array();
+		self::$_slow_triggers = array();
+		self::$_widgets = array();
+		self::$_slow_widgets = array();
+		self::$_remote_requests = array();
+		self::$_slow_remote_requests = array();
 	}
 	
 	/**
@@ -142,6 +246,12 @@ class Debug
 	 */
 	public static function addEntry($message)
 	{
+		// Do not store log if disabled.
+		if (!self::$_enabled)
+		{
+			return;
+		}
+		
 		// Get the backtrace.
 		$backtrace = debug_backtrace(\DEBUG_BACKTRACE_IGNORE_ARGS);
 		if (count($backtrace) > 1 && $backtrace[1]['function'] === 'debugPrint' && !$backtrace[1]['class'])
@@ -181,6 +291,12 @@ class Debug
 	 */
 	public static function addError($errno, $errstr, $errfile, $errline, $errcontext)
 	{
+		// Do not store log if disabled.
+		if (!self::$_enabled)
+		{
+			return;
+		}
+		
 		// Do not handle error types that we were told to ignore.
 		if (!($errno & error_reporting()))
 		{
@@ -224,6 +340,13 @@ class Debug
 	 */
 	public static function addQuery($query)
 	{
+		// Do not store log if disabled.
+		if (!self::$_enabled)
+		{
+			return;
+		}
+		
+		// Prepare the log entry.
 		$query_object = (object)array(
 			'type' => 'Query',
 			'time' => microtime(true),
@@ -276,6 +399,13 @@ class Debug
 	 */
 	public static function addTrigger($trigger)
 	{
+		// Do not store log if disabled.
+		if (!self::$_enabled)
+		{
+			return;
+		}
+		
+		// Prepare the log entry.
 		$trigger_object = (object)array(
 			'type' => 'Trigger',
 			'time' => microtime(true),
@@ -303,6 +433,13 @@ class Debug
 	 */
 	public static function addWidget($widget)
 	{
+		// Do not store log if disabled.
+		if (!self::$_enabled)
+		{
+			return;
+		}
+		
+		// Prepare the log entry.
 		$widget_object = (object)array(
 			'type' => 'Widget',
 			'time' => microtime(true),
@@ -328,6 +465,13 @@ class Debug
 	 */
 	public static function addRemoteRequest($request)
 	{
+		// Do not store log if disabled.
+		if (!self::$_enabled)
+		{
+			return;
+		}
+		
+		// Prepare the log entry.
 		$request_object = (object)array(
 			'type' => 'Remote Request',
 			'time' => microtime(true),

@@ -15,42 +15,12 @@ class fileAdminController extends file
 	}
 
 	/**
-	 * Delete the attachment of a particular module
-	 *
-	 * @param int $module_srl Sequence of module to delete files
+	 * @deprecated move to fileController
 	 * @return Object
 	 */
 	function deleteModuleFiles($module_srl)
 	{
-		// Get a full list of attachments
-		$args = new stdClass();
-		$args->module_srl = $module_srl;
-		$columnList = array('file_srl', 'uploaded_filename');
-		$output = executeQueryArray('file.getModuleFiles',$args, $columnList);
-		if(!$output) return $output;
-		$files = $output->data;
-		// Remove from the DB
-		$args->module_srl = $module_srl;
-		$output = executeQuery('file.deleteModuleFiles', $args);
-		if(!$output->toBool()) return $output;
-		// Remove the file
-		FileHandler::removeDir( sprintf("./files/attach/images/%s/", $module_srl) ) ;
-		FileHandler::removeDir( sprintf("./files/attach/binaries/%s/", $module_srl) );
-		// Remove the file list obtained from the DB
-		$path = array();
-		$cnt = count($files);
-		for($i=0;$i<$cnt;$i++)
-		{
-			$uploaded_filename = $files[$i]->uploaded_filename;
-			FileHandler::removeFile($uploaded_filename);
-
-			$path_info = pathinfo($uploaded_filename);
-			if(!in_array($path_info['dirname'], $path)) $path[] = $path_info['dirname'];
-		}
-		// Remove a file directory of the document
-		for($i=0;$i<count($path);$i++) FileHandler::removeBlankDir($path[$i]);
-
-		return $output;
+		return getController('file')->deleteModuleFiles($module_srl);
 	}
 
 	/**
@@ -99,6 +69,7 @@ class fileAdminController extends file
 		$config->allow_outlink = Context::get('allow_outlink');
 		$config->allow_outlink_format = Context::get('allow_outlink_format');
 		$config->allow_outlink_site = Context::get('allow_outlink_site');
+		$config->inline_download_format = array_map('utf8_trim', Context::get('inline_download_format'));
 		
 		// Check maximum file size
 		if (PHP_INT_SIZE < 8)

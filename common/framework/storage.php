@@ -18,6 +18,16 @@ class Storage
 	protected static $_umask;
 	
 	/**
+	 * Cache the opcache status here.
+	 */
+	protected static $_opcache;
+	
+	/**
+	 * Cache locks here.
+	 */
+	protected static $_locks = array();
+	
+	/**
 	 * Check if a path really exists.
 	 * 
 	 * @param string $path
@@ -297,7 +307,11 @@ class Storage
 			$filename = $original_filename;
 		}
 		
-		if (function_exists('opcache_invalidate') && substr($filename, -4) === '.php')
+		if (self::$_opcache === null)
+		{
+			self::$_opcache = function_exists('opcache_invalidate');
+		}
+		if (self::$_opcache && substr($filename, -4) === '.php')
 		{
 			@opcache_invalidate($filename, true);
 		}
@@ -410,7 +424,11 @@ class Storage
 			$destination = $original_destination;
 		}
 		
-		if (function_exists('opcache_invalidate') && substr($destination, -4) === '.php')
+		if (self::$_opcache === null)
+		{
+			self::$_opcache = function_exists('opcache_invalidate');
+		}
+		if (self::$_opcache && substr($destination, -4) === '.php')
 		{
 			@opcache_invalidate($destination, true);
 		}
@@ -461,7 +479,11 @@ class Storage
 			@chmod($destination, 0666 & ~self::getUmask());
 		}
 		
-		if (function_exists('opcache_invalidate'))
+		if (self::$_opcache === null)
+		{
+			self::$_opcache = function_exists('opcache_invalidate');
+		}
+		if (self::$_opcache)
 		{
 			if (substr($source, -4) === '.php')
 			{
@@ -500,7 +522,11 @@ class Storage
 			trigger_error('Cannot delete file: ' . $filename, \E_USER_WARNING);
 		}
 		
-		if (function_exists('opcache_invalidate') && substr($filename, -4) === '.php')
+		if (self::$_opcache === null)
+		{
+			self::$_opcache = function_exists('opcache_invalidate');
+		}
+		if (self::$_opcache && substr($filename, -4) === '.php')
 		{
 			@opcache_invalidate($filename, true);
 		}
@@ -835,6 +861,60 @@ class Storage
 			{
 				return false;
 			}
+		}
+	}
+	
+	/**
+	 * Obtain an exclusive lock.
+	 * 
+	 * @return bool
+	 */
+	public static function getLock($name)
+	{
+		$name = str_replace('.', '%2E', rawurlencode($name));
+		if (isset(self::$_locks[$name]))
+		{
+			return false;
+		}
+		
+		$lockdir = \RX_BASEDIR . 'files/locks';
+		if (!self::isDirectory($lockdir) && !self::createDirectory($lockdir))
+		{
+			return false;
+		}
+		
+		self::$_locks[$name] = @fopen($lockdir . '/' . $name . '.lock', 'w');
+		if (!self::$_locks[$name])
+		{
+			unset(self::$_locks[$name]);
+			return false;
+		}
+		
+		$result = @flock(self::$_locks[$name], \LOCK_EX | \LOCK_NB);
+		if (!$result)
+		{
+			@fclose(self::$_locks[$name]);
+			unset(self::$_locks[$name]);
+			return false;
+		}
+		
+		register_shutdown_function('\\Rhymix\\Framework\\Storage::clearLocks');
+		return true;
+	}
+	
+	/**
+	 * Clear all locks.
+	 * 
+	 * @return void
+	 */
+	public static function clearLocks()
+	{
+		foreach (self::$_locks as $name => $lock)
+		{
+			@flock($lock, \LOCK_UN);
+			@fclose($lock);
+			@unlink(\RX_BASEDIR . 'files/locks/' . $name . '.lock');
+			unset(self::$_locks[$name]);
 		}
 	}
 }

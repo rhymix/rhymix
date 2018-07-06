@@ -2,11 +2,12 @@
 	<tables>
 		<table name="ncenterlite_notify" />
 	</tables>
-
+	<index_hint for="ALL">
+		<index table="ncenterlite_notify" name="idx_member_srl_and_readed" type="USE" />
+	</index_hint>
 	<columns>
 		<column name="count(*)" alias="cnt" />
 	</columns>
-
 	<conditions>
 		<condition operation="equal" column="member_srl" var="member_srl" filter="number" notnull="notnull" />
 		<condition operation="equal" column="readed" default="N" pipe="and" />

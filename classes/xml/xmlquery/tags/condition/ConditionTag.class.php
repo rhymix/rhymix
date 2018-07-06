@@ -62,7 +62,7 @@ class ConditionTag
 	function __construct($condition)
 	{
 		$this->operation = $condition->attrs->operation;
-		$this->pipe = $condition->attrs->pipe;
+		$this->pipe = $condition->attrs->pipe ?: 'and';
 		$dbParser = DB::getParser();
 		$this->column_name = $dbParser->parseExpression($condition->attrs->column);
 

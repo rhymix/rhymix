@@ -116,7 +116,7 @@ class communicationView extends communication
 			{
 				stripEmbedTagForAdmin($message->content, $message->sender_srl);
 				Context::set('message', $message);
-				if(Context::get('m'))
+				if(Mobile::isFromMobilePhone())
 				{
 					$template_filename = 'read_message';
 				}

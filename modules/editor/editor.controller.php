@@ -89,19 +89,19 @@ class editorController extends editor
 		foreach ($target_module_srl as $srl)
 		{
 			if (!$srl) continue;
-			
+
 			$module_info = $oModuleModel->getModuleInfoByModuleSrl($srl);
 			if (!$module_info->module_srl)
 			{
 				return $this->setError('msg_invalid_request');
 			}
-			
+
 			$module_grant = $oModuleModel->getGrant($module_info, $logged_info);
 			if (!$module_grant->manager)
 			{
 				return $this->setError('msg_not_permitted');
 			}
-			
+
 			$module_srl[] = $srl;
 		}
 
@@ -147,21 +147,21 @@ class editorController extends editor
 				$editor_config->{$key} = explode('|@|', $grant);
 			}
 		}
-		
+
 		$editor_config->editor_height = (int)Context::get('editor_height');
 		$editor_config->comment_editor_height = (int)Context::get('comment_editor_height');
 		$editor_config->enable_autosave = Context::get('enable_autosave') ?: 'Y';
 		$editor_config->allow_html = Context::get('allow_html') ?: 'Y';
-		
+
 		$oModuleController = getController('module');
 		foreach ($module_srl as $srl)
 		{
 			$oModuleController->insertModulePartConfig('editor', $srl, $editor_config);
 		}
-		
+
 		$this->setError(-1);
 		$this->setMessage('success_updated', 'info');
-		
+
 		$returnUrl = Context::get('success_return_url') ? Context::get('success_return_url') : getNotEncodedUrl('', 'module', 'admin', 'act', 'dispBoardAdminContent');
 		$this->setRedirectUrl($returnUrl);
 	}
@@ -183,33 +183,9 @@ class editorController extends editor
 		{
 			$editor_config = getModel('module')->getModuleConfig('editor');
 		}
-		
+
 		if ($editor_config)
 		{
-			$content_style = $editor_config->content_style;
-			if($content_style)
-			{
-				$path = _XE_PATH_ . 'modules/editor/styles/'.$content_style.'/';
-				if(is_dir($path) && file_exists($path . 'style.ini'))
-				{
-					$ini = file($path.'style.ini');
-					for($i = 0, $c = count($ini); $i < $c; $i++)
-					{
-						$file = trim($ini[$i]);
-						if(!$file) continue;
-
-						if(substr_compare($file, '.css', -4) === 0)
-						{
-							Context::addCSSFile('./modules/editor/styles/'.$content_style.'/'.$file, false);
-						}
-						elseif(substr_compare($file, '.js', -3) === 0)
-						{
-							Context::addJsFile('./modules/editor/styles/'.$content_style.'/'.$file, false);
-						}
-					}
-				}
-			}
-			
 			$default_font_config = $this->default_font_config;
 			if ($editor_config->content_font) $default_font_config['default_font_family'] = $editor_config->content_font;
 			if ($editor_config->content_font_size) $default_font_config['default_font_size'] = $editor_config->content_font_size;
@@ -217,7 +193,25 @@ class editorController extends editor
 			if ($editor_config->content_paragraph_spacing) $default_font_config['default_paragraph_spacing'] = $editor_config->content_paragraph_spacing;
 			if ($editor_config->content_word_break) $default_font_config['default_word_break'] = $editor_config->content_word_break;
 			Context::set('default_font_config', $default_font_config);
-			
+
+			$content_style = $editor_config->content_style;
+			if($content_style)
+			{
+				$path = _XE_PATH_ . 'modules/editor/styles/'.$content_style.'/';
+				if(is_dir($path) && file_exists($path . 'style.ini'))
+				{
+					$ini = file($path.'style.ini');
+					foreach($ini as $file)
+					{
+						$file = trim($file);
+						if(!$file) continue;
+
+						$args = array('./modules/editor/styles/'.$content_style.'/'.$file);
+						Context::loadFile($args);
+					}
+				}
+			}
+
 			/*
 			$buff = array();
 			$buff[] = '<style> .xe_content {';
@@ -298,6 +292,15 @@ class editorController extends editor
 	function doSaveDoc($args)
 	{
 		if(!$args->document_srl) $args->document_srl = $_SESSION['upload_info'][$editor_sequence]->upload_target_srl;
+
+		// Get the current module if module_srl doesn't exist
+		if(!$args->module_srl) $args->module_srl = Context::get('module_srl');
+		if(!$args->module_srl)
+		{
+			$current_module_info = Context::get('current_module_info');
+			$args->module_srl = $current_module_info->module_srl;
+		}
+
 		if(Context::get('is_logged'))
 		{
 			$logged_info = Context::get('logged_info');
@@ -305,20 +308,11 @@ class editorController extends editor
 		}
 		else
 		{
-			$args->ipaddress = $_SERVER['REMOTE_ADDR'];
+			$args->ipaddress = RX_CLIENT_IP;
+			$args->certify_key = Rhymix\Framework\Security::getRandom(32);
+			setcookie('autosave_certify_key_' . $args->module_srl, $args->certify_key, time() + 86400, null, null, RX_SSL, true);
 		}
 
-		// Get the current module if module_srl doesn't exist
-		if(!$args->module_srl)
-		{
-			$args->module_srl = Context::get('module_srl');
-		}
-		if(!$args->module_srl)
-		{
-			$current_module_info = Context::get('current_module_info');
-			$args->module_srl = $current_module_info->module_srl;
-		}
-		// Save
 		return executeQuery('editor.insertSavedDoc', $args);
 	}
 
@@ -358,26 +352,36 @@ class editorController extends editor
 	function deleteSavedDoc($mode = false)
 	{
 		$args = new stdClass();
-		if(Context::get('is_logged'))
-		{
-			$logged_info = Context::get('logged_info');
-			$args->member_srl = $logged_info->member_srl;
-		}
-		else
-		{
-			$args->ipaddress = $_SERVER['REMOTE_ADDR'];
-		}
 		$args->module_srl = Context::get('module_srl');
+
 		// Get the current module if module_srl doesn't exist
 		if(!$args->module_srl)
 		{
 			$current_module_info = Context::get('current_module_info');
 			$args->module_srl = $current_module_info->module_srl;
 		}
+		if(Context::get('is_logged'))
+		{
+			$logged_info = Context::get('logged_info');
+			$args->member_srl = $logged_info->member_srl;
+		}
+		elseif($_COOKIE['autosave_certify_key_' . $args->module_srl])
+		{
+			$args->certify_key = $_COOKIE['autosave_certify_key_' . $args->module_srl];
+		}
+		else
+		{
+			$args->ipaddress = RX_CLIENT_IP;
+		}
+
 		// Check if the auto-saved document already exists
 		$output = executeQuery('editor.getSavedDocument', $args);
 		$saved_doc = $output->data;
 		if(!$saved_doc) return;
+		if($saved_doc->certify_key && !isset($args->certify_key))
+		{
+			return;
+		}
 
 		$oDocumentModel = getModel('document');
 		$oSaved = $oDocumentModel->getDocument($saved_doc->document_srl);
@@ -385,12 +389,14 @@ class editorController extends editor
 		{
 			if($mode)
 			{
+				setcookie('autosave_certify_key_' . $args->module_srl, 'deleted', time() - 86400);
 				$output = executeQuery('editor.getSavedDocument', $args);
 				$output = ModuleHandler::triggerCall('editor.deleteSavedDoc', 'after', $saved_doc);
 			}
 		}
-		// Delete the saved document
-		return executeQuery('editor.deleteSavedDoc', $args);
+
+		$output = executeQuery('editor.deleteSavedDoc', $args);
+		return $output;
 	}
 
 	/**
@@ -422,8 +428,11 @@ class editorController extends editor
 		else $output = executeQuery('editor.getComponentList', $args);
 		$db_list = $output->data;
 
-		// Get a list of files
-		$downloaded_list = FileHandler::readDir(_XE_PATH_.'modules/editor/components');
+		// Get a list of editor component folders
+		$downloaded_list = FileHandler::readDir(RX_BASEDIR . 'modules/editor/components');
+		$downloaded_list = array_filter($downloaded_list, function($component_name) {
+			return is_dir(RX_BASEDIR . 'modules/editor/components/' . $component_name);
+		});
 
 		// Get information about log-in status and its group
 		$is_logged = Context::get('is_logged');
@@ -499,8 +508,8 @@ class editorController extends editor
 
 			$component_list->{$component_name} = $xml_info;
 			// Get buttons, icons, images
-			$icon_file = _XE_PATH_.'modules/editor/components/'.$component_name.'/icon.gif';
-			$component_icon_file = _XE_PATH_.'modules/editor/components/'.$component_name.'/component_icon.gif';
+			$icon_file = RX_BASEDIR . 'modules/editor/components/'.$component_name.'/icon.gif';
+			$component_icon_file = RX_BASEDIR . 'modules/editor/components/'.$component_name.'/component_icon.gif';
 			if(file_exists($icon_file)) $component_list->{$component_name}->icon = true;
 			if(file_exists($component_icon_file)) $component_list->{$component_name}->component_icon = true;
 		}

@@ -216,7 +216,7 @@ class XmlJsFilter extends XmlParser
 		}
 
 		// generates a field, which is a script of the checked item
-		$node_count = count($field_node);
+		$node_count = countobj($field_node);
 		if($node_count)
 		{
 			foreach($field_node as $key => $node)
@@ -309,7 +309,7 @@ class XmlJsFilter extends XmlParser
 
 		// generates parameter script to create dbata
 		$rename_params = array();
-		$parameter_count = count($parameter_param);
+		$parameter_count = countobj($parameter_param);
 		if($parameter_count)
 		{
 			// contains parameter of the default filter contents

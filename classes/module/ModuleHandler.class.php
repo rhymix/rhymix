@@ -228,12 +228,9 @@ class ModuleHandler extends Handler
 			{
 				$oDocumentModel = getModel('document');
 				$oDocument = $oDocumentModel->getDocument($this->document_srl);
-				if($oDocument->isSecret() || $oDocument->get('status') === $oDocumentModel->getConfigStatus('temp'))
+				if($oDocument->isExists() && !$oDocument->isAccessible())
 				{
-					if(!$oDocument->isGranted() && !$oDocument->isAccessible())
-					{
-						$this->httpStatusCode = '403';
-					}
+					$this->httpStatusCode = '403';
 				}
 			}
 		}
@@ -549,8 +546,6 @@ class ModuleHandler extends Handler
 				}
 				return $oMessageObject;
 			}
-
-			$forward = NULL;
 			
 			// 1. Look for the module with action name
 			if(preg_match('/^([a-z]+)([A-Z])([a-z0-9\_]+)(.*)$/', $this->act, $matches))
@@ -578,12 +573,12 @@ class ModuleHandler extends Handler
 				}
 			}
 			
-			if(!$forward)
+			if(empty($forward->module))
 			{
 				$forward = $oModuleModel->getActionForward($this->act);
 			}
 			
-			if($forward->module && $forward->type && $forward->act && $forward->act == $this->act)
+			if(!empty($forward->module))
 			{
 				$kind = stripos($forward->act, 'admin') !== FALSE ? 'admin' : '';
 				$type = $forward->type;
@@ -706,7 +701,7 @@ class ModuleHandler extends Handler
 		// ruleset check...
 		if(!empty($ruleset))
 		{
-			$rulesetModule = $forward->module ? $forward->module : $this->module;
+			$rulesetModule = !empty($forward->module) ? $forward->module : $this->module;
 			$rulesetFile = $oModuleModel->getValidatorFilePath($rulesetModule, $ruleset, $this->mid);
 			if(!empty($rulesetFile))
 			{
@@ -909,7 +904,7 @@ class ModuleHandler extends Handler
 		}
 
 		// If connection to DB has a problem even though it's not install module, set error
-		if($this->module != 'install' && isset($GLOBALS['__DB__']) && $GLOBALS['__DB__'][Context::getDBType()]->isConnected() == FALSE)
+		if($this->module != 'install' && !DB::getInstance()->isConnected())
 		{
 			$this->error = 'msg_dbconnect_failed';
 		}
@@ -1030,21 +1025,17 @@ class ModuleHandler extends Handler
 								$oMenuAdminController = getAdminController('menu');
 								$homeMenuCacheFile = $oMenuAdminController->getHomeMenuCacheFile();
 
+								$homeMenuSrl = 0;
 								if(FileHandler::exists($homeMenuCacheFile))
 								{
 									include($homeMenuCacheFile);
 								}
-
+								
+								$menu->xml_file = './files/cache/menu/' . $homeMenuSrl . '.xml.php';
+								$menu->php_file = './files/cache/menu/' . $homeMenuSrl . '.php';
 								if(!$menu->menu_srl)
 								{
-									$menu->xml_file = str_replace('.xml.php', $homeMenuSrl . '.xml.php', $menu->xml_file);
-									$menu->php_file = str_replace('.php', $homeMenuSrl . '.php', $menu->php_file);
 									$layout_info->menu->{$menu_id}->menu_srl = $homeMenuSrl;
-								}
-								else
-								{
-									$menu->xml_file = str_replace($menu->menu_srl, $homeMenuSrl, $menu->xml_file);
-									$menu->php_file = str_replace($menu->menu_srl, $homeMenuSrl, $menu->php_file);
 								}
 							}
 

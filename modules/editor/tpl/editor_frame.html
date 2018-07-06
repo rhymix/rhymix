@@ -1,0 +1,18 @@
+<script>
+	$(function() {
+		var parent = window.opener ? window.opener : window.parent;
+		window.editor_copy_input = $("#{$parent_input_id}", parent.document);
+		window.editor_resize_iframe = window.editor_copy_input.siblings("iframe.editor_iframe");
+	});
+</script>
+
+<style>
+	body { margin: 0; }
+	.wfsr { display: none; }
+</style>
+
+<form>
+	<input type="hidden" name="primary_key" id="primary_key" value="" />
+	<input type="hidden" name="content" id="content" value="" />
+	{$editor}
+</form>

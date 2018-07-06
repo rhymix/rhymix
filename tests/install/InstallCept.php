@@ -47,13 +47,13 @@ $I->seeInCurrentUrl('act=dispInstallDBConfig');
 $I->seeElement('select[name="db_type"]');
 $I->submitForm('#body', [
 	'act' => 'procDBConfig',
-	'db_type' => 'mysqli_innodb',
+	'db_type' => 'mysqli',
     'db_host' => $dbinfo['host'],
     'db_port' => $dbinfo['port'],
     'db_user' => $dbinfo['user'],
     'db_pass' => $dbinfo['password'],
     'db_database' => $dbinfo['dbname'],
-    'db_prefix' => 'rx'
+    'db_prefix' => 'rx',
 ]);
 
 // Step 4 : Create Admin Account

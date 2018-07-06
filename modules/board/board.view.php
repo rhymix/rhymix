@@ -175,7 +175,9 @@ class boardView extends board
 			if(in_array($signupFormElement->title, $search_option))
 			{
 				if($signupFormElement->isPublic == 'N')
+				{
 					unset($search_option[$signupFormElement->name]);
+				}
 			}
 		}
 		Context::set('search_option', $search_option);
@@ -270,7 +272,7 @@ class boardView extends board
 				if($this->consultation && !$oDocument->isNotice())
 				{
 					$logged_info = Context::get('logged_info');
-					if($oDocument->get('member_srl')!=$logged_info->member_srl)
+					if(abs($oDocument->get('member_srl')) != $logged_info->member_srl)
 					{
 						$oDocument = $oDocumentModel->getDocument(0);
 					}
@@ -328,13 +330,12 @@ class boardView extends board
 				));
 
 				// update the document view count (if the document is not secret)
-				if(!$oDocument->isSecret() || $oDocument->isGranted())
+				if($oDocument->isAccessible())
 				{
 					$oDocument->updateReadedCount();
 				}
-
 				// disappear the document if it is secret
-				if($oDocument->isSecret() && !$oDocument->isGranted())
+				else
 				{
 					$oDocument->add('content',lang('thisissecret'));
 				}
@@ -492,17 +493,22 @@ class boardView extends board
 		// get the search target and keyword
 		$args->search_target = Context::get('search_target');
 		$args->search_keyword = Context::get('search_keyword');
-
-		$search_option = Context::get('search_option');
-		if($search_option==FALSE)
+		
+		if(!$search_option = Context::get('search_option'))
 		{
 			$search_option = $this->search_option;
 		}
-		if(isset($search_option[$args->search_target])==FALSE)
+		if(!isset($search_option[$args->search_target]))
 		{
 			$args->search_target = '';
 		}
-
+		
+		// set member_srl for view particular member's document
+		if($this->module_info->use_anonymous !== 'Y')
+		{
+			$args->member_srl = abs(Context::get('member_srl'));
+		}
+		
 		// if the category is enabled, then get the category
 		if($this->module_info->use_category=='Y')
 		{
@@ -544,11 +550,20 @@ class boardView extends board
 		if($this->consultation)
 		{
 			$logged_info = Context::get('logged_info');
-			$args->member_srl = $logged_info->member_srl;
+
+			if($this->module_info->use_anonymous === 'Y')
+			{
+				$args->member_srl = array($logged_info->member_srl, $logged_info->member_srl * -1);
+			}
+			else
+			{
+				$args->member_srl = $logged_info->member_srl;
+			}
 		}
 
 		// setup the list config variable on context
 		Context::set('list_config', $this->listConfig);
+
 		// setup document list variables on context
 		$output = $oDocumentModel->getDocumentList($args, $this->except_notice, TRUE, $this->columnList);
 		Context::set('document_list', $output->data);
@@ -783,7 +798,7 @@ class boardView extends board
 
 		// if the document is not granted, then back to the password input form
 		$oModuleModel = getModel('module');
-		if($oDocument->isExists()&&!$oDocument->isGranted())
+		if($oDocument->isExists() && !$oDocument->isGranted())
 		{
 			return $this->setTemplateFile('input_password_form');
 		}
@@ -825,8 +840,14 @@ class boardView extends board
 		/**
 		 * add JS filters
 		 **/
-		if(Context::get('logged_info')->is_admin=='Y') Context::addJsFilter($this->module_path.'tpl/filter', 'insert_admin.xml');
-		else Context::addJsFilter($this->module_path.'tpl/filter', 'insert.xml');
+		if(Context::get('logged_info')->is_admin == 'Y' || $this->module_info->allow_no_category == 'Y')
+		{
+			Context::addJsFilter($this->module_path.'tpl/filter', 'insert_admin.xml');
+		}
+		else
+		{
+			Context::addJsFilter($this->module_path.'tpl/filter', 'insert.xml');
+		}
 
 		$oSecurity = new Security();
 		$oSecurity->encodeHTML('category_list.text', 'category_list.title');

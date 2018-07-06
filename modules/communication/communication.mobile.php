@@ -13,21 +13,36 @@ class communicationMobile extends communicationView
 	{
 		$oCommunicationModel = getModel('communication');
 
-		$this->communication_config = $oCommunicationModel->getConfig();
-		$skin = $this->communication_config->mskin;
+		$this->config = $oCommunicationModel->getConfig();
+		Context::set('communication_config', $this->config);
 
-		Context::set('communication_config', $this->communication_config);
-
-		$tpl_path = sprintf('%sm.skins/%s', $this->module_path, $skin);
-		$this->setTemplatePath($tpl_path);
+		$mskin = $this->config->mskin;
+		if(!$mskin)
+		{
+			$template_path = sprintf('%sm.skins/%s/', $this->module_path, 'default');
+		}
+		elseif($mskin === '/USE_RESPONSIVE/')
+		{
+			$template_path = sprintf("%sskins/%s/", $this->module_path, $this->config->skin);
+			if(!is_dir($template_path) || !$this->config->skin)
+			{
+				$template_path = sprintf("%sskins/%s/", $this->module_path, 'default');
+			}
+		}
+		else
+		{
+			$template_path = sprintf('%sm.skins/%s', $this->module_path, $mskin);
+		}
 
 		$oLayoutModel = getModel('layout');
-		$layout_info = $oLayoutModel->getLayout($this->communication_config->mlayout_srl);
+		$layout_info = $oLayoutModel->getLayout($this->config->mlayout_srl);
 		if($layout_info)
 		{
-			$this->module_info->mlayout_srl = $this->communication_config->mlayout_srl;
+			$this->module_info->mlayout_srl = $this->config->mlayout_srl;
 			$this->setLayoutPath($layout_info->path);
 		}
+		
+		$this->setTemplatePath($template_path);
 	}
 
 	/**

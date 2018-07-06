@@ -7,7 +7,8 @@
         <column name="*" />
     </columns>
     <conditions>
-        <condition operation="in" column="comments.comment_srl" default="comment_declared.comment_srl" />
+        <condition operation="equal" column="comments.comment_srl" default="comment_declared.comment_srl" />
+		<condition operation="more" column="comment_declared.declared_count" default="1" pipe="and" />
     </conditions>
     <navigation>
         <index var="sort_index" default="comment_declared.declared_count" order="order_type" />

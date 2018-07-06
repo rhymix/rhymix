@@ -43,7 +43,7 @@ class fileModel extends file
 			if(!$oDocument->isExists())
 			{
 				$oComment = $oCommentModel->getComment($upload_target_srl);
-				if($oComment->isExists() && $oComment->isSecret() && !$oComment->isGranted())
+				if($oComment->isExists() && !$oComment->isAccessible())
 				{
 					return $this->setError('msg_not_permitted');
 				}
@@ -52,7 +52,7 @@ class fileModel extends file
 			}
 
 			// document 권한 확인
-			if($oDocument->isExists() && $oDocument->isSecret() && !$oDocument->isGranted())
+			if($oDocument->isExists() && !$oDocument->isAccessible())
 			{
 				return $this->setError('msg_not_permitted');
 			}
@@ -188,6 +188,7 @@ class fileModel extends file
 			$config->allowed_filesize = $file_config->allowed_filesize;
 			$config->allowed_attach_size = $file_config->allowed_attach_size;
 			$config->allowed_filetypes = $file_config->allowed_filetypes;
+			$config->inline_download_format = $file_config->inline_download_format;
 			$config->download_grant = $file_config->download_grant;
 			$config->allow_outlink = $file_config->allow_outlink;
 			$config->allow_outlink_site = $file_config->allow_outlink_site;
@@ -207,6 +208,7 @@ class fileModel extends file
 		if(!$config->allowed_filetypes) $config->allowed_filetypes = '*.*';
 		if(!$config->allow_outlink) $config->allow_outlink = 'Y';
 		if(!$config->download_grant) $config->download_grant = array();
+		if(!$config->inline_download_format) $config->inline_download_format = array();
 
 		/*
 		$size = ini_get('upload_max_filesize');

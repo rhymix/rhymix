@@ -72,6 +72,12 @@ class QueryTag
 	var $groups;
 
 	/**
+	 * Having in xml tags
+	 * @var object
+	 */
+	var $having;
+
+	/**
 	 * Navigation in xml tags
 	 * @var object
 	 */
@@ -304,6 +310,7 @@ class QueryTag
 		}
 		$buff .= '$query->setConditions(' . $this->conditions->toString() . ');' . PHP_EOL;
 		$buff .= '$query->setGroups(' . $this->groups->toString() . ');' . PHP_EOL;
+		$buff .= '$query->setHaving(' . $this->having->toString() . ');' . PHP_EOL;
 		$buff .= '$query->setOrder(' . $this->navigation->getOrderByString() . ');' . PHP_EOL;
 		$buff .= '$query->setLimit(' . $this->navigation->getLimitString() . ');' . PHP_EOL;
 
@@ -340,12 +347,16 @@ class QueryTag
 	{
 		if($this->query->groups)
 		{
-			return $this->groups = new GroupsTag($this->query->groups->group);
+			$this->groups = new GroupsTag($this->query->groups->group);
+			$this->having = new ConditionsTag($this->query->groups->having);
 		}
 		else
 		{
-			return $this->groups = new GroupsTag(NULL);
+			$this->groups = new GroupsTag(NULL);
+			$this->having = new ConditionsTag(array());
 		}
+		
+		return $this->groups;
 	}
 
 	function getNavigation()
@@ -386,6 +397,7 @@ class QueryTag
 		}
 		$arguments = array_merge($arguments, $this->tables->getArguments());
 		$arguments = array_merge($arguments, $this->conditions->getArguments());
+		$arguments = array_merge($arguments, $this->having->getArguments());
 		$arguments = array_merge($arguments, $this->navigation->getArguments());
 		return $arguments;
 	}

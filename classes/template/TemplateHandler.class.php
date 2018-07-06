@@ -32,9 +32,10 @@ class TemplateHandler
 	 */
 	public function __construct()
 	{
+		ini_set('pcre.jit', false);
 		$this->config = new stdClass;
 		$this->handler_mtime = filemtime(__FILE__);
-		$this->user = Context::get('logged_info') ?: new Rhymix\Framework\Helpers\SessionHelper;
+		$this->user = Rhymix\Framework\Session::getMemberInfo() ?: new Rhymix\Framework\Helpers\SessionHelper;
 	}
 
 	/**
@@ -72,36 +73,35 @@ class TemplateHandler
 	protected function init($tpl_path, $tpl_filename, $tpl_file = '')
 	{
 		// verify arguments
-		if(!$tpl_path || substr($tpl_path, -1) != '/')
-		{
-			$tpl_path .= '/';
-		}
+		$tpl_path = trim(preg_replace('@^' . preg_quote(\RX_BASEDIR, '@') . '|\./@', '', str_replace('\\', '/', $tpl_path)), '/') . '/';
 		if($tpl_path === '/' || !is_dir($tpl_path))
 		{
 			return;
 		}
-		if(!file_exists($tpl_path . $tpl_filename) && file_exists($tpl_path . $tpl_filename . '.html'))
+		if(!file_exists(\RX_BASEDIR . $tpl_path . $tpl_filename) && file_exists(\RX_BASEDIR . $tpl_path . $tpl_filename . '.html'))
 		{
 			$tpl_filename .= '.html';
 		}
 
 		// create tpl_file variable
-		if(!$tpl_file)
+		if($tpl_file)
+		{
+			$tpl_file = trim(preg_replace('@^' . preg_quote(\RX_BASEDIR, '@') . '|\./@', '', str_replace('\\', '/', $tpl_file)), '/');
+		}
+		else
 		{
 			$tpl_file = $tpl_path . $tpl_filename;
 		}
 
 		// set template file infos.
-		$this->path = $tpl_path;
+		$this->path = \RX_BASEDIR . $tpl_path;
+		$this->web_path = \RX_BASEURL . $tpl_path;
 		$this->filename = $tpl_filename;
-		$this->file = $tpl_file;
-
-		// set absolute URL of template path
-		$this->web_path = \RX_BASEURL . ltrim(preg_replace('@^' . preg_quote(\RX_BASEDIR, '@') . '|\./@', '', $this->path), '/');
+		$this->file = \RX_BASEDIR . $tpl_file;
 
 		// set compiled file name
-		$converted_path = str_replace(array('\\', '..'), array('/', 'dotdot'), ltrim($this->file, './'));
-		$this->compiled_file = \RX_BASEDIR . 'files/cache/template/' . $converted_path . '.php'; 
+		$converted_path = ltrim(str_replace(array('\\', '..'), array('/', 'dotdot'), $tpl_file), '/');
+		$this->compiled_file = \RX_BASEDIR . 'files/cache/template/' . $converted_path . '.php';
 	}
 
 	/**
@@ -122,6 +122,7 @@ class TemplateHandler
 		// if target file does not exist exit
 		if(!$this->file || !file_exists($this->file))
 		{
+			$tpl_path = str_replace('\\', '/', $tpl_path);
 			$error_message = "Template not found: ${tpl_path}${tpl_filename}" . ($tpl_file ? " (${tpl_file})" : '');
 			trigger_error($error_message, \E_USER_WARNING);
 			return escape($error_message);
@@ -184,6 +185,7 @@ class TemplateHandler
 		// if target file does not exist exit
 		if(!$this->file || !file_exists($this->file))
 		{
+			$tpl_path = str_replace('\\', '/', $tpl_path);
 			$error_message = "Template not found: ${tpl_path}${tpl_filename}";
 			trigger_error($error_message, \E_USER_WARNING);
 			return escape($error_message);
@@ -343,19 +345,32 @@ class TemplateHandler
 	 */
 	private function _fetch($filename)
 	{
-		$__Context = Context::getInstance();
+		// Import Context and lang as local variables.
+		$__Context = Context::getAll();
 		$__Context->tpl_path = $this->path;
-
+		global $lang;
+		
+		// Start the output buffer.
 		$__ob_level_before_fetch = ob_get_level();
 		ob_start();
 		
+		// Include the compiled template.
 		include $filename;
 		
+		// Fetch contents of the output buffer until the buffer level is the same as before.
 		$contents = '';
 		while (ob_get_level() > $__ob_level_before_fetch)
 		{
 			$contents .= ob_get_clean();
 		}
+		
+		// Insert template path comment tag.
+		if(Rhymix\Framework\Debug::isEnabledForCurrentUser() && Context::getResponseMethod() === 'HTML' && !starts_with('<!DOCTYPE', $contents) && !starts_with('<?xml', $contents))
+		{
+			$sign = PHP_EOL . '<!-- Template %s : ' . $this->web_path . $this->filename . ' -->' . PHP_EOL;
+			$contents = sprintf($sign, 'start') . $contents . sprintf($sign, 'end');
+		}
+		
 		return $contents;
 	}
 
@@ -404,27 +419,13 @@ class TemplateHandler
 	 */
 	private function _parseInline($buff)
 	{
-		preg_match_all('/<([a-zA-Z]+\d?)(?>(?!<[a-z]+\d?[\s>]).)*?(?:[ \|]cond| loop)="/s', $buff, $match);
-		if(empty($match))
-		{
-			return $buff;
-		}
-
-		$tags = array_diff(array_unique($match[1]), $this->skipTags);
-
-		if(!count($tags))
-		{
-			return $buff;
-		}
-
-		$tags = '(?:' . implode('|', $tags) . ')';
-		$split_regex = "@(<(?>/?{$tags})(?>[^<>\{\}\"']+|<!--.*?-->|{[^}]+}|\".*?\"|'.*?'|.)*?>)@s";
-
-		$nodes = preg_split($split_regex, $buff, -1, PREG_SPLIT_DELIM_CAPTURE);
-
 		// list of self closing tags
 		$self_closing = array('area' => 1, 'base' => 1, 'basefont' => 1, 'br' => 1, 'hr' => 1, 'input' => 1, 'img' => 1, 'link' => 1, 'meta' => 1, 'param' => 1, 'frame' => 1, 'col' => 1);
-
+		
+		$skip = $this->skipTags ? sprintf('(?!%s)', implode('|', $this->skipTags)) : '';
+		$split_regex = "@(</?{$skip}[a-zA-Z](?>[^<>{}\"]+|<!--.*?-->.*?<!--.*?end-->|{[^}]*}|\"(?>'.*?'|.)*?\"|.)*?>)@s";
+		$nodes = preg_split($split_regex, $buff, -1, PREG_SPLIT_DELIM_CAPTURE);
+		
 		for($idx = 1, $node_len = count($nodes); $idx < $node_len; $idx+=2)
 		{
 			if(!($node = $nodes[$idx]))
@@ -465,10 +466,7 @@ class TemplateHandler
 								{
 									$expr_m[2] .= '=>' . trim($expr_m[3]);
 								}
-								$nodes[$idx - 1] .= sprintf(
-										'<?php $t%3$s=%1$s;if($t%3$s&&count($t%3$s))foreach($t%3$s as %2$s){ ?>'
-										,$expr_m[1], $expr_m[2], md5( $buff . strval($idx-1) )
-									);
+								$nodes[$idx - 1] .= sprintf('<?php if(%1$s)foreach(%1$s as %2$s){ ?>', $expr_m[1], $expr_m[2]);
 							}
 							elseif($expr_m[4])
 							{
@@ -867,7 +865,7 @@ class TemplateHandler
 				elseif($mm[1] == 'foreach')
 				{
 					$var = preg_replace('/^\s*\(\s*(.+?) .*$/', '$1', $m[8]);
-					$precheck = "if({$var}&&count({$var}))";
+					$precheck = "if({$var})";
 				}
 				return '<?php ' . self::_replaceVar($precheck . $m[7] . $m[8]) . '{ ?>' . $m[9];
 			}
@@ -970,7 +968,7 @@ class TemplateHandler
 		}
 		
 		return preg_replace_callback('@(?<!::|\\\\|(?<!eval\()\')\$([a-z_][a-z0-9_]*)@i', function($matches) {
-			if (preg_match('/^(?:GLOBALS|_SERVER|_COOKIE|_GET|_POST|_REQUEST|__Context|this)$/', $matches[1]))
+			if (preg_match('/^(?:GLOBALS|_SERVER|_COOKIE|_GET|_POST|_REQUEST|__Context|this|lang)$/', $matches[1]))
 			{
 				return '$' . $matches[1];
 			}

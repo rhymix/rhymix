@@ -22,6 +22,9 @@ $output = executeQuery('ncenterlite.deleteNotifyAll', $args);
 if ($output->toBool())
 {
 	echo "Successfully deleted all notifications older than $days days.\n";
+	$delete_obj = (object)array('regdate' => time());
+	Rhymix\Framework\Cache::clearGroup('ncenterlite');
+	Rhymix\Framework\Storage::writePHPData(\RX_BASEDIR . 'files/cache/ncenterlite/new_notify/delete_date.php', $delete_obj);
 }
 else
 {

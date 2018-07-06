@@ -108,6 +108,21 @@ class comment extends ModuleObject
 			return true;
 		}
 
+		// 2017.12.21 Add an index for nick_name
+		if(!$oDB->isIndexExists('comments', 'idx_nick_name'))
+		{
+			return true;
+		}
+		
+		if(!$oModuleModel->getTrigger('document.moveDocumentModule', 'comment', 'controller', 'triggerMoveDocument', 'after'))
+		{
+			return true;
+		}
+		if(!$oModuleModel->getTrigger('document.copyDocumentModule', 'comment', 'controller', 'triggerAddCopyDocument', 'add'))
+		{
+			return true;
+		}
+		
 		return FALSE;
 	}
 
@@ -191,6 +206,21 @@ class comment extends ModuleObject
 		if(!$oDB->isIndexExists("comments", "idx_parent_srl"))
 		{
 			$oDB->addIndex('comments', 'idx_parent_srl', array('parent_srl'));
+		}
+		
+		// 2017.12.21 Add an index for nick_name
+		if(!$oDB->isIndexExists('comments', 'idx_nick_name'))
+		{
+			$oDB->addIndex('comments', 'idx_nick_name', array('nick_name'));
+		}
+		
+		if(!$oModuleModel->getTrigger('document.moveDocumentModule', 'comment', 'controller', 'triggerMoveDocument', 'after'))
+		{
+			$oModuleController->insertTrigger('document.moveDocumentModule', 'comment', 'controller', 'triggerMoveDocument', 'after');
+		}
+		if(!$oModuleModel->getTrigger('document.copyDocumentModule', 'comment', 'controller', 'triggerAddCopyDocument', 'add'))
+		{
+			$oModuleController->insertTrigger('document.copyDocumentModule', 'comment', 'controller', 'triggerAddCopyDocument', 'add');
 		}
 	}
 

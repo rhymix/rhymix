@@ -30,21 +30,26 @@ class integration_searchModel extends module
 	 */
 	function getDocuments($target, $module_srls_list, $search_target, $search_keyword, $page=1, $list_count = 20)
 	{
-		if(is_array($module_srls_list)) $module_srls_list = implode(',',$module_srls_list);
+		if(!is_array($module_srls_list))
+		{
+			$module_srls_list = $module_srl_list ? explode(',', $module_srls_list) : array();
+		}
+		$module_srls_list = array_map('intval', $module_srls_list);
+		$accessible_modules = array_keys(getModel('module')->getAccessibleModuleList());
 
 		$args = new stdClass();
 		if($target == 'exclude')
 		{
-			$module_srls_list .= ',0'; // exclude 'trash'
-			if ($module_srls_list{0} == ',') $module_srls_list = substr($module_srls_list, 1);
+			$args->module_srl = $accessible_modules;
 			$args->exclude_module_srl = $module_srls_list;
 		}
 		else
 		{
-			$args->module_srl = $module_srls_list;
-			$args->exclude_module_srl = '0'; // exclude 'trash'
+			$args->module_srl = array_intersect($module_srls_list, $accessible_modules);
+			$args->exclude_module_srl = array(0); // exclude 'trash'
 		}
-
+		$args->module_srl[] = 0;
+		
 		$args->page = $page;
 		$args->list_count = $list_count;
 		$args->page_count = 10;
@@ -73,21 +78,25 @@ class integration_searchModel extends module
 	 */
 	function getComments($target, $module_srls_list, $search_keyword, $page=1, $list_count = 20)
 	{
-		$args = new stdClass();
-
-		if(is_array($module_srls_list))
+		if(!is_array($module_srls_list))
 		{
-			if (count($module_srls_list) > 0) $module_srls = implode(',',$module_srls_list);
+			$module_srls_list = $module_srl_list ? explode(',', $module_srls_list) : array();
+		}
+		$module_srls_list = array_map('intval', $module_srls_list);
+		$accessible_modules = array_keys(getModel('module')->getAccessibleModuleList());
+
+		$args = new stdClass();
+		if($target == 'exclude')
+		{
+			$args->module_srl = $accessible_modules;
+			$args->exclude_module_srl = $module_srls_list;
 		}
 		else
 		{
-			if($module_srls_list)
-			{
-				$module_srls = $module_srls_list;
-			}
+			$args->module_srl = array_intersect($module_srls_list, $accessible_modules);
+			$args->exclude_module_srl = array(0); // exclude 'trash'
 		}
-		if($target == 'exclude') $args->exclude_module_srl = $module_srls;
-		else $args->module_srl = $module_srls;
+		$args->module_srl[] = 0;
 
 		$args->page = $page;
 		$args->list_count = $list_count;
@@ -97,6 +106,7 @@ class integration_searchModel extends module
 		$args->is_secret = 'N';
 		$args->sort_index = 'list_order';
 		$args->order_type = 'asc';
+		$args->statusList = array(1);
 		// Get a list of documents
 		$oCommentModel = getModel('comment');
 		$output = $oCommentModel->getTotalCommentList($args);
@@ -120,12 +130,27 @@ class integration_searchModel extends module
 	{
 		$oTrackbackModel = getAdminModel('trackback');
 		if(!$oTrackbackModel) return new BaseObject();
-		$args = new stdClass();
 
-		if(is_array($module_srls_list)) $module_srls = implode(',',$module_srls_list);
-		else $module_srls = $module_srls_list;
-		if($target == 'exclude') $args->exclude_module_srl = $module_srls;
-		else $args->module_srl = $module_srls;
+		if(!is_array($module_srls_list))
+		{
+			$module_srls_list = $module_srl_list ? explode(',', $module_srls_list) : array();
+		}
+		$module_srls_list = array_map('intval', $module_srls_list);
+		$accessible_modules = array_keys(getModel('module')->getAccessibleModuleList());
+
+		$args = new stdClass();
+		if($target == 'exclude')
+		{
+			$args->module_srl = $accessible_modules;
+			$args->exclude_module_srl = $module_srls_list;
+		}
+		else
+		{
+			$args->module_srl = array_intersect($module_srls_list, $accessible_modules);
+			$args->exclude_module_srl = array(0); // exclude 'trash'
+		}
+		$args->module_srl[] = 0;
+		
 		$args->page = $page;
 		$args->list_count = $list_count;
 		$args->page_count = 10;
@@ -153,12 +178,25 @@ class integration_searchModel extends module
 	 */
 	function _getFiles($target, $module_srls_list, $search_keyword, $page, $list_count, $direct_download = 'Y')
 	{
-		$args = new stdClass();
+		if(!is_array($module_srls_list))
+		{
+			$module_srls_list = $module_srl_list ? explode(',', $module_srls_list) : array();
+		}
+		$accessible_modules = array_keys(getModel('module')->getAccessibleModuleList());
 
-		if(is_array($module_srls_list)) $module_srls = implode(',',$module_srls_list);
-		else $module_srls = $module_srls_list;
-		if($target == 'exclude') $args->exclude_module_srl = $module_srls;
-		else $args->module_srl = $module_srls;
+		$args = new stdClass();
+		if($target == 'exclude')
+		{
+			$args->module_srl = $accessible_modules;
+			$args->exclude_module_srl = array_diff($module_srls_list, $accessible_modules);
+		}
+		else
+		{
+			$args->module_srl = array_intersect($module_srls_list, $accessible_modules);
+			$args->exclude_module_srl = array(0); // exclude 'trash'
+		}
+		$args->module_srl[] = 0;
+		
 		$args->page = $page;
 		$args->list_count = $list_count;
 		$args->page_count = 10;

@@ -33,8 +33,18 @@
 	 * @brief Check if two URLs belong to the same origin
 	 */
 	window.isSameOrigin = function(url1, url2) {
-		url1 = window.XE.URI(url1).normalizePort().normalizePathname().origin();
-		url2 = window.XE.URI(url1).normalizePort().normalizePathname().origin();
+		if(!url1 || !url2) {
+			return false;
+		}
+		if (url1.match(/^\.?\/[^\/]*/) || url2.match(/^\.?\/[^\/]*/)) {
+			return true;
+		}
+		if (url1.match(/^(https?:)?\/\/[^\/]*[^a-z0-9\/.:_-]/i) || url2.match(/^(https?:)?\/\/[^\/]*[^a-z0-9\/.:_-]/i)) {
+			return false;
+		}
+			
+		url1 = window.XE.URI(url1).normalizePort().normalizeHostname().normalizePathname().origin();
+		url2 = window.XE.URI(url2).normalizePort().normalizeHostname().normalizePathname().origin();
 		return (url1 === url2) ? true : false;
 	};
 
@@ -202,19 +212,19 @@
 			if (typeof url !== "string") {
 				return false;
 			}
-			if (url.match(/^\/[^\/]/)) {
+			if (url.match(/^\.?\/[^\/]/)) {
 				return true;
 			}
-			if (url.match(/^\w+:[^\/]*$/)) {
+			if (url.match(/^\w+:[^\/]*$/) || url.match(/^(https?:)?\/\/[^\/]*[^a-z0-9\/.:_-]/i)) {
 				return false;
 			}
 			
 			if (!window.XE.baseurl) {
-				window.XE.baseurl = window.XE.URI(window.request_uri).normalizePort().normalizePathname();
+				window.XE.baseurl = window.XE.URI(window.request_uri).normalizePort().normalizeHostname().normalizePathname();
 				window.XE.baseurl = window.XE.baseurl.hostname() + window.XE.baseurl.directory();
 			}
 			
-			var target_url = window.XE.URI(url).normalizePort().normalizePathname();
+			var target_url = window.XE.URI(url).normalizePort().normalizeHostname().normalizePathname();
 			if (target_url.is("urn")) {
 				return false;
 			}
@@ -242,8 +252,8 @@ jQuery(function($) {
 	/* Tabnapping protection, step 1 */
 	$('a[target]').each(function() {
 		var $this = $(this);
-		var href = $this.attr('href').trim();
-		var target = $this.attr('target').trim();
+		var href = String($this.attr('href')).trim();
+		var target = String($this.attr('target')).trim();
 		if (!href || !target || target === '_top' || target === '_self' || target === '_parent') {
 			return;
 		}
@@ -259,8 +269,8 @@ jQuery(function($) {
 	/* Tabnapping protection, step 2 */
 	$('body').on('click', 'a[target]', function(event) {
 		var $this = $(this);
-		var href = $this.attr('href').trim();
-		var target = $this.attr('target').trim();
+		var href = String($this.attr('href')).trim();
+		var target = String($this.attr('target')).trim();
 		if (!href || !target || target === '_top' || target === '_self' || target === '_parent') {
 			return;
 		}
@@ -273,6 +283,25 @@ jQuery(function($) {
 			event.preventDefault();
 			blankshield.open(href);
 		}
+	});
+	
+	/* Editor preview replacement */
+	$(".editable_preview").addClass("xe_content").attr("tabindex", 0);
+	$(".editable_preview").on("click", function() {
+		var input = $(this).siblings(".editable_preview_content");
+		if (input.size()) {
+			$(this).off("click").off("focus").hide();
+			input = input.first();
+			if (input.attr("type") !== "hidden") {
+				input.hide();
+			}
+			var iframe = $('<iframe class="editable_preview_iframe"></iframe>');
+			iframe.attr("src", current_url.setQuery("module", "editor").setQuery("act", "dispEditorFrame").setQuery("parent_input_id", input.attr("id")).replace(/^https?:/, ''));
+			iframe.insertAfter(input);
+		}
+	});
+	$(".editable_preview").on("focus", function() {
+		$(this).triggerHandler("click");
 	});
 	
 	/* select - option의 disabled=disabled 속성을 IE에서도 체크하기 위한 함수 */

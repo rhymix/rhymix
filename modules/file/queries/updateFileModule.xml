@@ -1,0 +1,11 @@
+<query id="updateFileModule" action="update">
+	<tables>
+		<table name="files" />
+	</tables>
+	<columns>
+		<column name="module_srl" var="module_srl" filter="number" notnull="notnull" />
+	</columns>
+	<conditions>
+		<condition operation="in" column="upload_target_srl" var="upload_target_srls" filter="number" notnull="notnull" />
+	</conditions>
+</query>

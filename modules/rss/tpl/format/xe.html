@@ -14,7 +14,7 @@
 			<title>{$oDocument->getTitleText()}</title>
 			<author>{$oDocument->getNickName()}</author>
 			<link>{$oDocument->getPermanentUrl()}</link>
-			<!--@if($target_modules[$oDocument->get('module_srl')]->open_rss == 'Y')-->
+			<!--@if($target_modules[$oDocument->get('module_srl')] == 'Y')-->
 			<description>{utf8_trim(utf8_normalize_spaces($oDocument->get('content')))|escape}</description>
 			<!--@else-->
 			<description>{$oDocument->getSummary(400)|escape}</description>

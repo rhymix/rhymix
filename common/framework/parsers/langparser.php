@@ -111,7 +111,7 @@ class LangParser
 		foreach ($items as $item)
 		{
 			$name = strval($item['name']);
-			if (count($item->item))
+			if (@count($item->item))
 			{
 				$lang[$name] = array();
 				self::_toArray($item->item, $lang[$name], $language);

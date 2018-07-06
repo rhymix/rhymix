@@ -297,7 +297,7 @@ class commentModel extends comment
 	 * @param bool $published
 	 * @return int
 	 */
-	function getCommentAllCount($module_srl, $published = null)
+	function getCommentAllCount($module_srl, $published = false)
 	{
 		$args = new stdClass();
 		$args->module_srl = $module_srl;
@@ -700,6 +700,7 @@ class commentModel extends comment
 		$args->page_count = $obj->page_count ? $obj->page_count : 10;
 		$args->s_module_srl = $obj->module_srl;
 		$args->exclude_module_srl = $obj->exclude_module_srl;
+		$args->statusList = $obj->statusList;
 		if ($obj->is_secret)
 		{
 			$args->s_is_secret = $obj->is_secret;
@@ -732,7 +733,7 @@ class commentModel extends comment
 				case 'user_id' :
 					if($search_keyword)
 					{
-						$search_keyword = str_replace(' ', '%', $search_keyword);
+						$search_keyword = trim($search_keyword);
 					}
 
 					$args->s_user_id = $search_keyword;
@@ -743,7 +744,7 @@ class commentModel extends comment
 				case 'user_name' :
 					if($search_keyword)
 					{
-						$search_keyword = str_replace(' ', '%', $search_keyword);
+						$search_keyword = trim($search_keyword);
 					}
 
 					$args->s_user_name = $search_keyword;
@@ -752,7 +753,7 @@ class commentModel extends comment
 				case 'nick_name' :
 					if($search_keyword)
 					{
-						$search_keyword = str_replace(' ', '%', $search_keyword);
+						$search_keyword = trim($search_keyword);
 					}
 
 					$args->s_nick_name = $search_keyword;
@@ -869,7 +870,7 @@ class commentModel extends comment
 				case 'user_id' :
 					if($search_keyword)
 					{
-						$search_keyword = str_replace(' ', '%', $search_keyword);
+						$search_keyword = trim($search_keyword);
 					}
 
 					$args->s_user_id = $search_keyword;
@@ -879,7 +880,7 @@ class commentModel extends comment
 				case 'user_name' :
 					if($search_keyword)
 					{
-						$search_keyword = str_replace(' ', '%', $search_keyword);
+						$search_keyword = trim($search_keyword);
 					}
 					$args->s_user_name = $search_keyword;
 
@@ -888,7 +889,7 @@ class commentModel extends comment
 				case 'nick_name' :
 					if($search_keyword)
 					{
-						$search_keyword = str_replace(' ', '%', $search_keyword);
+						$search_keyword = trim($search_keyword);
 					}
 
 					$args->s_nick_name = $search_keyword;

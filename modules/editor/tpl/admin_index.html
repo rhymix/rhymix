@@ -27,12 +27,13 @@
 
 <!-- Editor Option -->
 <section class="section">
-	<h1>{$lang->editor_option}</h1>
 	<form action="./" method="post" ruleset="generalConfig" class="x_form-horizontal">
 		<input type="hidden" name="module" value="editor" />
 		<input type="hidden" name="act" value="procEditorAdminGeneralConfig" />
 		<input type="hidden" name="xe_validator_id" value="modules/editor/tpl/admin_index/1" />
 
+		<h1>{$lang->main_editor}</h1>
+		
 		<div class="x_control-group">
 			<label for="change_lang_type" class="x_control-label">{$lang->guide_choose_main_editor}</label>
 			<div class="x_controls">
@@ -71,6 +72,19 @@
 				</p>
 			</div>
 		</div>
+		<div class="x_control-group">
+			<label class="x_control-label">{$lang->guide_choose_text_formatting}</label>
+			<div class="x_controls">
+					<!--@foreach($content_style_list as $key => $val)-->
+					<label class="x_inline">
+						<input type="radio" name="content_style" value="{$key}" id="content_style_{$key}" checked="checked"|cond="$key==$editor_config->content_style||!$editor_config->content_style && $key=='ckeditor_light'"> {$val->title}
+					</label>
+					<!--@end-->
+			</div>
+		</div>
+		
+		<h1>{$lang->comment_editor}</h1>
+	
 		<div class="x_control-group">
 			<label for="sel_comment_editor_colorset" class="x_control-label">{$lang->guide_choose_comment_editor}</label>
 			<div class="x_controls">
@@ -111,15 +125,18 @@
 			</div>
 		</div>
 		<div class="x_control-group">
-			<label class="x_control-label">{$lang->guide_choose_text_formatting}</label>
+			<label class="x_control-label">{$lang->guide_choose_comment_text_formatting}</label>
 			<div class="x_controls">
 					<!--@foreach($content_style_list as $key => $val)-->
 					<label class="x_inline">
-						<input type="radio" name="content_style" value="{$key}" id="style_{$key}" checked="checked"|cond="$key==$editor_config->content_style||!$editor_config->content_style && $key=='ckeditor_light'"> {$val->title}
+						<input type="radio" name="comment_content_style" value="{$key}" id="comment_content_style_{$key}" checked="checked"|cond="$key==$editor_config->comment_content_style||!$editor_config->comment_content_style && $key=='ckeditor_light'"> {$val->title}
 					</label>
 					<!--@end-->
 			</div>
 		</div>
+		
+		<h1>{$lang->editor_common_settings}</h1>
+		
 		<div class="x_control-group">
 			<label class="x_control-label">{$lang->guide_choose_font_body}</label>
 			<div class="x_controls">

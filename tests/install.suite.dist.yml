@@ -6,12 +6,12 @@ modules:
             url: 'http://localhost:8000/'
         DbDropTablesHelper:
             dsn: 'mysql:host=localhost;dbname=rhymix'
-            user: 'root'
-            password: 'root'
+            user: 'travis'
+            password: 'travis'
         Db:
             dsn: 'mysql:host=localhost;dbname=rhymix'
-            user: 'root'
-            password: 'root'
+            user: 'travis'
+            password: 'travis'
             cleanup: true
 env:
     travis:

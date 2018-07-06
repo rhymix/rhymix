@@ -27,7 +27,7 @@ $lang->cmd_ignore = 'Önemseme';
 $lang->cmd_recommended = 'Tavsiye edilen';
 $lang->db_desc['mysqli'] = 'PHP\'de mysqli_*() özellikleri için MySQL\'ü veritabanı olarak kullanınız.';
 $lang->db_desc['mysql'] = 'PHP\'de mysql_*() özellikleri için MySQL\'ü veritabanı olarak kullanınız.';
-$lang->db_desc['cubrid'] = 'CUBRID\'ü veritabanı olarak kullanın. Daha fazla bilgi için <a href="http://www.cubrid.org/wiki_tutorials/entry/cubrid-installation-instructions" target="_blank">Manuel</a>i inceleyiniz';
+$lang->db_desc['cubrid'] = 'CUBRID\'ü veritabanı olarak kullanın. Daha fazla bilgi için <a href="https://www.cubrid.org/documentation/manuals" target="_blank">Manuel</a>i inceleyiniz';
 $lang->db_desc['mssql'] = 'Microsoft SQL Server\'ü veritabanı olarak kullanın';
 $lang->form_title = 'Veritabanı &amp; Yönetici Bilgisi';
 $lang->db_title = 'Lütfen Veritabanı bilgisini giriniz';

@@ -450,6 +450,7 @@ class installController extends install
 		$oModuleModel = getModel('module');
 		// Create a table ny finding schemas/*.xml file in each module
 		$module_list = FileHandler::readDir('./modules/', NULL, false, true);
+		$modules = array();
 		foreach($module_list as $module_path)
 		{
 			// Get module name
@@ -467,7 +468,7 @@ class installController extends install
 		// Install all the remaining modules
 		foreach($install_step as $category)
 		{
-			if(count($modules[$category]))
+			if(is_array($modules[$category]) && count($modules[$category]))
 			{
 				foreach($modules[$category] as $module)
 				{
@@ -488,7 +489,7 @@ class installController extends install
 		{
 			foreach($modules as $category => $module_list)
 			{
-				if(count($module_list))
+				if(is_array($module_list) && count($module_list))
 				{
 					foreach($module_list as $module)
 					{

@@ -92,7 +92,7 @@ class moduleAdminModel extends module
 		$grantList->access = new stdClass();
 		$grantList->access->title = lang('grant_access');
 		$grantList->access->default = 'guest';
-		if(count($grantList))
+		if(countobj($grantList))
 		{
 			foreach($grantList as $key => $val)
 			{

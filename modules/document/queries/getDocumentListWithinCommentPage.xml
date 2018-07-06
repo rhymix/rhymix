@@ -11,13 +11,15 @@
         <condition operation="notin" column="documents.module_srl" var="exclude_module_srl" filter="number" pipe="and" />
         <condition operation="equal" column="documents.category_srl" var="category_srl" pipe="and" />
         <condition operation="equal" column="documents.document_srl" default="comments.document_srl" notnull="notnull" pipe="and" />
-        <condition operation="equal" column="documents.member_srl" var="member_srl" filter="number" pipe="and" />
+		<condition operation="equal" column="documents.is_notice" var="s_is_notice" pipe="and" />
+        <condition operation="in" column="documents.member_srl" var="member_srl" filter="number" pipe="and" />
         <condition operation="in" column="documents.status" var="statusList" pipe="and" />
         <group pipe="and">
             <condition operation="more" column="documents.list_order" var="division" pipe="and" />
             <condition operation="below" column="documents.list_order" var="last_division" pipe="and" />
         </group>
         <condition operation="like" column="comments.content" var="s_comment" notnull="notnull" pipe="and" />
+		<condition operation="equal" column="comments.is_secret" var="comment_is_secret" pipe="and" />
 		<group pipe="and">
 			<condition operation="less" column="documents.list_order" var="list_order" filter="number" pipe="and" />
 			<condition operation="more" column="documents.list_order" var="rev_list_order" filter="number" pipe="and" />

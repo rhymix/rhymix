@@ -42,7 +42,7 @@ class SelectExpression extends Expression
 	 */
 	function getExpression()
 	{
-		return sprintf("%s%s", $this->column_name, $this->column_alias ? " as " . $this->column_alias : "");
+		return sprintf("%s%s", $this->column_name, $this->column_alias ? (' AS ' . $this->column_alias) : "");
 	}
 
 	function show()

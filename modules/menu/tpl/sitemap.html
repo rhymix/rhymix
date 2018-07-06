@@ -181,7 +181,7 @@
 							</ul>
 							<div class="x_tab-content">
 								<div class="x_tab-pane x_active" id="add_linkUrl">
-									<input type="url" class="_linkUrl" required title="{$lang->url_link}" />
+									<input type="url" class="_linkUrl" required="required" title="{$lang->url_link}" placeholder="http://" />
 								</div>
 								<div class="x_tab-pane" id="add_linkMenu">
 									<input type="text" class="_linkMenuTitle" title="{$lang->menu_link}" disabled placeholder="{$lang->about_menu_link}" />
@@ -426,7 +426,7 @@
 						<li data-admin-show="#downloadLayout">
 							<label><i class="x_icon-plus-sign"></i> {$lang->install_other_layouts}</label>
 							<button type="button" class="item _btnScreenshot">
-								<img src="./modules/layout/tpl/img/download.png" class="_thumbnail" alt="{$lang->install_other_layouts}">
+								<img src="../../../modules/layout/tpl/img/download.png" class="_thumbnail" alt="{$lang->install_other_layouts}">
 							</button>
 						</li>
 						</script>
@@ -549,7 +549,7 @@
 						<li data-admin-show="#downloadSkin">
 							<label><i class="x_icon-plus-sign"></i> {$lang->install_other_skins}</label>
 							<button type="button" class="item _btnScreenshot">
-								<img src="./modules/layout/tpl/img/download.png" class="_thumbnail" alt="{$lang->install_other_skins}">
+								<img src="../../../modules/layout/tpl/img/download.png" class="_thumbnail" alt="{$lang->install_other_skins}">
 							</button>
 						</li>
 						</script>
@@ -1005,13 +1005,13 @@ function setJSTreeOpenIds(){
 }
 
 function issetJSTreeOpenIds(id) {
-	var jstree_open_srls = getCookie("__xe_admin_jstree_open_srls").split(",");
-	for (var i=0; i< jstree_open_srls.length; i++) {
-		if(jstree_open_srls[i] == id) {
-			return true;
-		}
+	var jstree_open_srls = getCookie('__xe_admin_jstree_open_srls') || '';
+
+	if(!jstree_open_srls) {
+		return false;
 	}
-	return false;
+
+	return (jstree_open_srls.split(',').indexOf(id) === -1) ? false : true;
 }
 
 var htNodeInfo = {};
@@ -1830,7 +1830,6 @@ jQuery(function($){
 		if(this !== ev.target) return;
 
 		clearInputs($('#add_menu'));
-		$('#add_menu .x_active ._linkUrl').val('http://');
 	});
 	$('#add_menu ._save').bind("click", function(){
 		var sMenuName = $('#add_menu ._menuName').val();
@@ -2497,11 +2496,10 @@ jQuery(function($){
 						sIsInstalled = "";
 					}
 
-					var sScreenshot = item.item_screenshot_url.replace(/^https:\/\//, "");
 					$node = $.tmpl( "downloadableItem", {
 						MenuType: item.title,
 						MenuTypeDesc: item.package_description,
-						ScreenShotURL: sScreenshot,
+						ScreenShotURL: item.item_screenshot_url,
 						Score: item.package_star,
 						TotalVotes: item.package_voted,
 						LastUpdatedWithTime: formatUpdatedDateWithTime(item.item_regdate),

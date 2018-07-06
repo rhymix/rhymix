@@ -225,7 +225,7 @@ class ncenterliteController extends ncenterlite
 			{
 				$comment_member_config = $oNcenterliteModel->getUserConfig($member_srl);
 				$parent_member_config = $comment_member_config->data;
-				if($parent_member_config->comment_notify != 'Y')
+				if($parent_member_config->comment_notify == 'N')
 				{
 					return;
 				}
@@ -274,7 +274,7 @@ class ncenterliteController extends ncenterlite
 			{
 				$comment_member_config = $oNcenterliteModel->getUserConfig($member_srl);
 				$document_comment_member_config = $comment_member_config->data;
-				if($document_comment_member_config->comment_notify != 'Y')
+				if($document_comment_member_config->comment_notify == 'N')
 				{
 					return;
 				}
@@ -322,7 +322,7 @@ class ncenterliteController extends ncenterlite
 		{
 			$messages_member_config = $oNcenterliteModel->getUserConfig($obj->receiver_srl);
 			$message_member_config = $messages_member_config->data;
-			if($message_member_config->message_notify != 'Y')
+			if($message_member_config->message_notify == 'N')
 			{
 				return;
 			}
@@ -334,6 +334,7 @@ class ncenterliteController extends ncenterlite
 		$args->srl = $obj->related_srl;
 		$args->target_p_srl = '1';
 		$args->target_srl = $obj->message_srl;
+		$args->target_member_srl = $obj->sender_srl;
 		$args->type = $this->_TYPE_MESSAGE;
 		$args->target_type = $this->_TYPE_MESSAGE;
 		$args->target_summary = $obj->title;
@@ -345,20 +346,19 @@ class ncenterliteController extends ncenterlite
 
 	function triggerAfterVotedupdate(&$obj)
 	{
-		$oDocumentModel = getModel('document');
-		$oDocument = $oDocumentModel->getDocument($obj->document_srl, false, false);
-
 		$oNcenterliteModel = getModel('ncenterlite');
 		$config = $oNcenterliteModel->getConfig();
 		if(!isset($config->use['vote']))
 		{
 			return;
 		}
-
 		if($obj->point < 0)
 		{
 			return;
 		}
+
+		$oDocumentModel = getModel('document');
+		$oDocument = $oDocumentModel->getDocument($obj->document_srl, false, false);
 
 		$args = new stdClass();
 		$args->config_type = 'vote';
@@ -377,6 +377,17 @@ class ncenterliteController extends ncenterlite
 
 	function triggerAfterCommentVotedCount($obj)
 	{
+		$oNcenterliteModel = getModel('ncenterlite');
+		$config = $oNcenterliteModel->getConfig();
+		if(!isset($config->use['vote']))
+		{
+			return;
+		}
+		if($obj->point < 0)
+		{
+			return;
+		}
+
 		$oCommentModel = new commentModel();
 		$oComment = $oCommentModel->getComment($obj->comment_srl);
 
@@ -565,19 +576,15 @@ class ncenterliteController extends ncenterlite
 			$oDocument = Context::get('oDocument');
 			$logged_info = Context::get('logged_info');
 
-			if($document_srl && Context::get('is_logged') && $config->document_read == 'Y')
+			if($document_srl && $config->document_read == 'Y' && $logged_info->member_srl)
 			{
-				$notify_count = getModel('ncenterlite')->_getNewCount();
-				if($notify_count)
+				$args->srl = $document_srl;
+				$args->member_srl = $logged_info->member_srl;
+				$outputs = executeQuery('ncenterlite.updateNotifyReadedBySrl', $args);
+				if($outputs->toBool() && DB::getInstance()->getAffectedRows())
 				{
-					$args->srl = $document_srl;
-					$args->member_srl = $logged_info->member_srl;
-					$outputs = executeQuery('ncenterlite.updateNotifyReadedBySrl', $args);
-					if($outputs->toBool())
-					{
-						//Remove flag files
-						$this->removeFlagFile($args->member_srl);
-					}
+					//Remove flag files
+					$this->removeFlagFile($args->member_srl);
 				}
 			}
 
@@ -1042,35 +1049,39 @@ class ncenterliteController extends ncenterlite
 			$args->regdate = date('YmdHis');
 		}
 
+		// 익명인 경우 발신자 정보를 제거
 		if($anonymous == TRUE)
 		{
 			$args->target_member_srl = 0;
-			$args->target_user_id = $args->target_nick_name;
-			$args->target_email_address = $args->target_nick_name;
+			$args->target_nick_name = strval($args->target_nick_name);
+			$args->target_user_id = strval($args->target_nick_name);
+			$args->target_email_address = strval($args->target_nick_name);
 		}
-		// 로그인을 했을경우 logged_info 정보를 가져와 검사한다.
-		else if(Context::get('is_logged'))
+		// 발신자 회원번호(target_member_srl)가 지정된 경우 그대로 사용
+		elseif($args->target_member_srl)
+		{
+			$member_info = getModel('member')->getMemberInfoByMemberSrl($args->target_member_srl);
+			$args->target_member_srl = intval($member_info->member_srl);
+			$args->target_nick_name = strval($member_info->nick_name);
+			$args->target_user_id = strval($member_info->user_id);
+			$args->target_email_address = strval($member_info->email_address);
+		}
+		// 발신자 회원번호가 없는 경우 현재 로그인한 사용자 정보를 사용
+		elseif(Context::get('is_logged'))
 		{
 			$logged_info = Context::get('logged_info');
-			$args->target_member_srl = $logged_info->member_srl;
-			$args->target_nick_name = $logged_info->nick_name;
-			$args->target_user_id = $logged_info->user_id;
-			$args->target_email_address = $logged_info->email_address;
+			$args->target_member_srl = intval($logged_info->member_srl);
+			$args->target_nick_name = strval($logged_info->nick_name);
+			$args->target_user_id = strval($logged_info->user_id);
+			$args->target_email_address = strval($logged_info->email_address);
 		}
-		else if($args->target_member_srl)
-		{
-			$oMemberModel = getModel('member');
-			$member_info = $oMemberModel->getMemberInfoByMemberSrl($args->target_member_srl);
-			$args->target_member_srl = $member_info->member_srl;
-			$args->target_nick_name = $member_info->nick_name;
-			$args->target_user_id = $member_info->user_id;
-			$args->target_email_address = $member_info->email_address;
-		}
+		// 비회원인 경우
 		else
 		{
-			// 비회원
 			$args->target_member_srl = 0;
+			$args->target_nick_name = strval($args->target_nick_name);
 			$args->target_user_id = '';
+			$args->target_email_address = '';
 		}
 
 		$output = executeQuery('ncenterlite.insertNotify', $args);
@@ -1096,24 +1107,33 @@ class ncenterliteController extends ncenterlite
 		{
 			return;
 		}
+
+		$cache_key = sprintf('ncenterlite:notify_list:%d', $member_srl);
+		Rhymix\Framework\Cache::set($cache_key, $output);
+		
 		$flag_path = \RX_BASEDIR . 'files/cache/ncenterlite/new_notify/' . getNumberingPath($member_srl) . $member_srl . '.php';
-		if(file_exists($flag_path))
+		if (Rhymix\Framework\Cache::getDriverName() !== 'dummy')
 		{
+			FileHandler::removeFile($flag_path);
 			return;
 		}
-
-		FileHandler::makeDir(\RX_BASEDIR . 'files/cache/ncenterlite/new_notify/' . getNumberingPath($member_srl));
-		$buff = "<?php return unserialize(" . var_export(serialize($output), true) . ");\n";
-		FileHandler::writeFile($flag_path, $buff);
+		elseif(!file_exists($flag_path))
+		{
+			$buff = "<?php return unserialize(" . var_export(serialize($output), true) . ");\n";
+			FileHandler::writeFile($flag_path, $buff);
+		}
 	}
 
 	public function removeFlagFile($member_srl = null)
 	{
-		if($member_srl === null)
+		if(!$member_srl)
 		{
 			return;
 		}
 
+		$cache_key = sprintf('ncenterlite:notify_list:%d', $member_srl);
+		Rhymix\Framework\Cache::delete($cache_key);
+		
 		$flag_path = \RX_BASEDIR . 'files/cache/ncenterlite/new_notify/' . getNumberingPath($member_srl) . $member_srl . '.php';
 		if(file_exists($flag_path))
 		{

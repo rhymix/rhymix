@@ -18,13 +18,19 @@ class memberMobile extends memberView
 		$oSecurity = new Security();
 		$oSecurity->encodeHTML('member_config.signupForm..');
 
-
-		$mskin = $this->member_config->mskin;
 		// Set the template path
+		$mskin = $this->member_config->mskin;
 		if(!$mskin)
 		{
-			$mskin = 'default';
-			$template_path = sprintf('%sm.skins/%s', $this->module_path, $mskin);
+			$template_path = sprintf('%sm.skins/%s/', $this->module_path, 'default');
+		}
+		elseif($mskin === '/USE_RESPONSIVE/')
+		{
+			$template_path = sprintf("%sskins/%s/", $this->module_path, $this->member_config->skin);
+			if(!is_dir($template_path) || !$this->member_config->skin)
+			{
+				$template_path = sprintf("%sskins/%s/", $this->module_path, 'default');
+			}
 		}
 		else
 		{

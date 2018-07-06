@@ -54,7 +54,7 @@ class module extends ModuleObject
 	{
 		$oDB = &DB::getInstance();
 		// 2008. 10. 27 Add multi-index in the table, the module_part_config
-		if(!$oDB->isIndexExists("module_part_config","idx_module_part_config")) return true;
+		if(!$oDB->isIndexExists('module_part_config', 'idx_module_part_config') && !$oDB->isIndexExists('module_part_config', 'unique_module_part_config')) return true;
 		// 2008. 11. 13 Delete unique constraint on mid in modules. Add site_srl and then create unique index on site_srl and mid
 		if(!$oDB->isIndexExists('modules',"idx_site_mid")) return true;
 		// Move permissions/skin information of all modules to the table, grants.
@@ -103,10 +103,31 @@ class module extends ModuleObject
 		$oModuleModel = getModel('module');
 		$moduleConfig = $oModuleModel->getModuleConfig('module');
 		if(!$moduleConfig->isUpdateFixedValue) return true;
+		
+		// check unique index on module_part_config
+		if($oDB->isIndexExists('module_part_config', 'idx_module_part_config')) return true;
+		if(!$oDB->isIndexExists('module_part_config', 'unique_module_part_config')) return true;
+
+		// check module_part_config data type
+		$column_info = $oDB->getColumnInfo('module_part_config', 'config');
+		if($column_info->xetype !== 'bigtext')
+		{
+			return true;
+		}
+		$column_info = $oDB->getColumnInfo('module_part_config', 'module');
+		if($column_info->size > 80)
+		{
+			return true;
+		}
 
 		// check module_config data type
 		$column_info = $oDB->getColumnInfo('module_config', 'config');
 		if($column_info->xetype !== 'bigtext')
+		{
+			return true;
+		}
+		$column_info = $oDB->getColumnInfo('module_config', 'module');
+		if($column_info->size > 80)
 		{
 			return true;
 		}
@@ -119,7 +140,7 @@ class module extends ModuleObject
 	{
 		$oDB = &DB::getInstance();
 		// 2008. 10. 27 module_part_config Add a multi-index to the table and check all information of module_configg
-		if(!$oDB->isIndexExists("module_part_config","idx_module_part_config"))
+		if(!$oDB->isIndexExists('module_part_config', 'idx_module_part_config') && !$oDB->isIndexExists('module_part_config', 'unique_module_part_config'))
 		{
 			$oModuleModel = getModel('module');
 			$oModuleController = getController('module');
@@ -176,8 +197,8 @@ class module extends ModuleObject
 					}
 				}
 			}
-			$oDB->addIndex("module_part_config","idx_module_part_config", array("module","module_srl"));
 		}
+		
 		// 2008. 11. 13 drop index(unique_mid). Add a column and index on site_srl and mid columns
 		if(!$oDB->isIndexExists('modules',"idx_site_mid"))
 		{
@@ -185,17 +206,20 @@ class module extends ModuleObject
 			$oDB->addColumn('modules','site_srl','number',11,0,true);
 			$oDB->addIndex("modules","idx_site_mid", array("site_srl","mid"),true);
 		}
+		
 		// document extra vars
 		if(!$oDB->isTableExists('document_extra_vars')) $oDB->createTableByXmlFile('./modules/document/schemas/document_extra_vars.xml');
-
 		if(!$oDB->isTableExists('document_extra_keys')) $oDB->createTableByXmlFile('./modules/document/schemas/document_extra_keys.xml');
+		
 		// Move permission, skin info, extection info, admin ID of all modules to the table, grants
 		if($oDB->isColumnExists('modules', 'grants'))
 		{
 			$oModuleController = getController('module');
 			$oDocumentController = getController('document');
+			
 			// Get a value of the current system language code
 			$lang_code = Context::getLangType();
+			
 			// Get module_info of all modules
 			$output = executeQueryArray('module.getModuleInfos');
 			if(count($output->data))
@@ -290,6 +314,7 @@ class module extends ModuleObject
 							} // for total_pages
 						} // if count
 					}
+					
 					// Additional variables of the module, remove
 					$module_info->grant = null;
 					$module_info->extra_vars = null;
@@ -300,6 +325,7 @@ class module extends ModuleObject
 					Rhymix\Framework\Cache::clearGroup('site_and_module');
 				}
 			}
+			
 			// Various column drop
 			$oDB->dropColumn('modules','grants');
 			$oDB->dropColumn('modules','admin_id');
@@ -390,6 +416,33 @@ class module extends ModuleObject
 		if($column_info->xetype !== 'bigtext')
 		{
 			$oDB->modifyColumn('module_config', 'config', 'bigtext');
+		}
+		$column_info = $oDB->getColumnInfo('module_config', 'module');
+		if($column_info->size > 80)
+		{
+			$oDB->modifyColumn('module_config', 'module', 'varchar', 80, '', true);
+		}
+
+		// check module_part_config data type
+		$column_info = $oDB->getColumnInfo('module_part_config', 'config');
+		if($column_info->xetype !== 'bigtext')
+		{
+			$oDB->modifyColumn('module_part_config', 'config', 'bigtext');
+		}
+		$column_info = $oDB->getColumnInfo('module_part_config', 'module');
+		if($column_info->size > 80)
+		{
+			$oDB->modifyColumn('module_part_config', 'module', 'varchar', 80, '', true);
+		}
+
+		// check unique index on module_part_config
+		if($oDB->isIndexExists('module_part_config', 'idx_module_part_config'))
+		{
+			$oDB->dropIndex('module_part_config', 'idx_module_part_config');
+		}
+		if(!$oDB->isIndexExists('module_part_config', 'unique_module_part_config'))
+		{
+			$oDB->addIndex('module_part_config', 'unique_module_part_config', array('module', 'module_srl'), true);
 		}
 	}
 	

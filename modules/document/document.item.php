@@ -50,6 +50,11 @@ class documentItem extends BaseObject
 	 * @var array
 	 */
 	var $uploadedFiles = array();
+	/**
+	 * extra eids
+	 * @var array
+	 */
+	protected $extra_eids = array();
 
 	/**
 	 * Constructor
@@ -62,7 +67,6 @@ class documentItem extends BaseObject
 	{
 		$this->document_srl = $document_srl;
 		$this->columnList = $columnList;
-
 		$this->_loadFromDB($load_extra_vars);
 	}
 
@@ -79,10 +83,12 @@ class documentItem extends BaseObject
 	 */
 	function _loadFromDB($load_extra_vars = true)
 	{
-		if(!$this->document_srl) return;
-
+		if(!$this->document_srl)
+		{
+			return;
+		}
+		
 		$document_item = false;
-		$cache_put = false;
 		$columnList = array();
 		$reload_counts = true;
 		
@@ -127,44 +133,59 @@ class documentItem extends BaseObject
 		$this->setAttribute($document_item, $load_extra_vars);
 	}
 
-	function setAttribute($attribute, $load_extra_vars=true)
+	function setAttribute($attribute, $load_extra_vars = true)
 	{
 		if(!$attribute->document_srl)
 		{
 			$this->document_srl = null;
 			return;
 		}
+		
 		$this->document_srl = $attribute->document_srl;
 		$this->lang_code = $attribute->lang_code;
 		$this->adds($attribute);
-
-		// Tags
+		
+		// set XE_DOCUMENT_LIST
+		$GLOBALS['XE_DOCUMENT_LIST'][$this->document_srl] = $this;
+		
+		// set tags
 		if($this->get('tags'))
 		{
-			$tag_list = explode(',', $this->get('tags'));
-			$tag_list = array_map('utf8_trim', $tag_list);
-			$this->add('tag_list', $tag_list);
+			$this->add('tag_list', $this->getTags());
 		}
-
-		$oDocumentModel = getModel('document');
+		
+		// set extra vars
 		if($load_extra_vars)
 		{
-			$GLOBALS['XE_DOCUMENT_LIST'][$attribute->document_srl] = $this;
-			$oDocumentModel->setToAllDocumentExtraVars();
+			getModel('document')->setToAllDocumentExtraVars();
 		}
-		$GLOBALS['XE_DOCUMENT_LIST'][$this->document_srl] = $this;
+		
+		// set content in user language
+		if(isset($GLOBALS['RX_DOCUMENT_LANG'][$this->document_srl]['title']))
+		{
+			$this->add('title', $GLOBALS['RX_DOCUMENT_LANG'][$this->document_srl]['title']);
+		}
+		if(isset($GLOBALS['RX_DOCUMENT_LANG'][$this->document_srl]['content']))
+		{
+			$this->add('content', $GLOBALS['RX_DOCUMENT_LANG'][$this->document_srl]['content']);
+		}
 	}
 
 	function isExists()
 	{
-		return $this->document_srl ? true : false;
+		return (bool) ($this->document_srl);
 	}
-
+	
 	function isGranted()
 	{
-		if ($_SESSION['granted_document'][$this->document_srl])
+		if(!$this->isExists())
 		{
-			return $this->grant_cache = true;
+			return false;
+		}
+		
+		if (isset($_SESSION['granted_document'][$this->document_srl]))
+		{
+			return true;
 		}
 		
 		if ($this->grant_cache !== null)
@@ -185,17 +206,17 @@ class documentItem extends BaseObject
 		{
 			return $this->grant_cache = true;
 		}
-
+		
 		$oModuleModel = getModel('module');
 		$grant = $oModuleModel->getGrant($oModuleModel->getModuleInfoByModuleSrl($this->get('module_srl')), $logged_info);
 		if ($grant->manager)
 		{
 			return $this->grant_cache = true;
 		}
-
+		
 		return $this->grant_cache = false;
 	}
-
+	
 	function setGrant()
 	{
 		$this->grant_cache = true;
@@ -206,52 +227,35 @@ class documentItem extends BaseObject
 		$_SESSION['granted_document'][$this->document_srl] = true;
 		$this->setGrant();
 	}
-
+	
 	function isAccessible()
 	{
+		if(!$this->isExists())
+		{
+			return false;
+		}
+		
 		if (isset($_SESSION['accessible'][$this->document_srl]) && $_SESSION['accessible'][$this->document_srl] === $this->get('last_update'))
 		{
 			return true;
 		}
 		
-		if ($this->grant_cache === true)
+		$status_list = getModel('document')->getStatusList();
+		if ($this->get('status') === $status_list['public'])
 		{
 			$this->setAccessible();
 			return true;
 		}
 		
-		$logged_info = Context::get('logged_info');
-		if ($logged_info->is_admin == 'Y')
+		if ($this->isGranted())
 		{
 			$this->setAccessible();
 			return true;
-		}
-
-		$status = $this->get('status');
-		if (empty($status))
-		{
-			return false;
-		}
-
-		$configStatusList = getModel('document')->getStatusList();
-
-		if ($status == $configStatusList['public'] || $status == $configStatusList['publish'])
-		{
-			$this->setAccessible();
-			return true;
-		}
-		elseif ($status == $configStatusList['private'] || $status == $configStatusList['secret'])
-		{
-			if ($this->get('member_srl') == $logged_info->member_srl)
-			{
-				$this->setAccessible();
-				return true;
-			}
 		}
 		
 		return false;
 	}
-
+	
 	function setAccessible()
 	{
 		if(Context::getSessionStatus())
@@ -259,13 +263,16 @@ class documentItem extends BaseObject
 			$_SESSION['accessible'][$this->document_srl] = $this->get('last_update');
 		}
 	}
-
+	
 	function allowComment()
 	{
 		// init write, document is not exists. so allow comment status is true
-		if(!$this->isExists()) return true;
-
-		return $this->get('comment_status') == 'ALLOW' ? true : false;
+		if(!$this->isExists())
+		{
+			return true;
+		}
+		
+		return (bool) ($this->get('comment_status') == 'ALLOW');
 	}
 
 	function allowTrackback()
@@ -307,38 +314,42 @@ class documentItem extends BaseObject
 
 	function isLocked()
 	{
-		if(!$this->isExists()) return false;
-
-		return $this->get('comment_status') == 'ALLOW' ? false : true;
+		if(!$this->isExists())
+		{
+			return false;
+		}
+		
+		return (bool) ($this->get('comment_status') != 'ALLOW');
 	}
 
 	function isEditable()
 	{
-		if($this->isGranted() || !$this->get('member_srl')) return true;
-		return false;
+		return (bool) (!$this->get('member_srl') || $this->isGranted());
 	}
-
+	
 	function isSecret()
 	{
-		$oDocumentModel = getModel('document');
-		return $this->get('status') == $oDocumentModel->getConfigStatus('secret') ? true : false;
+		return (bool) ($this->get('status') == getModel('document')->getConfigStatus('secret'));
 	}
-
+	
 	function isNotice()
 	{
-		return $this->get('is_notice') == 'Y' ? true : false;
+		return (bool) ($this->get('is_notice') == 'Y');
 	}
-
+	
 	function useNotify()
 	{
-		return $this->get('notify_message')=='Y' ? true : false;
+		return (bool) ($this->get('notify_message') == 'Y');
 	}
-
+	
 	function doCart()
 	{
-		if(!$this->document_srl) return false;
-		if($this->isCarted()) $this->removeCart();
-		else $this->addCart();
+		if(!$this->isExists())
+		{
+			return false;
+		}
+		
+		$this->isCarted() ? $this->removeCart() : $this->addCart();
 	}
 
 	function addCart()
@@ -353,7 +364,7 @@ class documentItem extends BaseObject
 
 	function isCarted()
 	{
-		return $_SESSION['document_management'][$this->document_srl];
+		return isset($_SESSION['document_management'][$this->document_srl]);
 	}
 
 	/**
@@ -364,23 +375,35 @@ class documentItem extends BaseObject
 	 */
 	function notify($type, $content)
 	{
-		if(!$this->document_srl) return;
+		if(!$this->isExists())
+		{
+			return;
+		}
 		// return if it is not useNotify
-		if(!$this->useNotify()) return;
+		if(!$this->useNotify())
+		{
+			return;
+		}
 		// Pass if an author is not a logged-in user
-		if(!$this->get('member_srl')) return;
+		if(!$this->get('member_srl'))
+		{
+			return;
+		}
+		
 		// Return if the currently logged-in user is an author
 		$logged_info = Context::get('logged_info');
-		if($logged_info->member_srl == $this->get('member_srl')) return;
+		if($logged_info->member_srl == $this->get('member_srl'))
+		{
+			return;
+		}
+		
 		// List variables
-		if($type) $title = "[".$type."] ";
-		$title .= cut_str(strip_tags($content), 10, '...');
-		$content = sprintf('%s<br /><br />from : <a href="%s" target="_blank">%s</a>',$content, getFullUrl('','document_srl',$this->document_srl), getFullUrl('','document_srl',$this->document_srl));
-		$receiver_srl = $this->get('member_srl');
-		$sender_member_srl = $logged_info->member_srl;
+		$title = ($type ? sprintf('[%s] ', $type) : '') . cut_str(strip_tags($content), 10, '...');
+		$content = sprintf('%s<br><br>from : <a href="%s" target="_blank">%s</a>',$content, getFullUrl('', 'document_srl', $this->document_srl), getFullUrl('', 'document_srl', $this->document_srl));
+		
 		// Send a message
-		$oCommunicationController = getController('communication');
-		$oCommunicationController->sendMessage($sender_member_srl, $receiver_srl, $title, $content, false);
+		$sender_member_srl = $logged_info->member_srl ?: $this->get('member_srl');
+		getController('communication')->sendMessage($sender_member_srl, $this->get('member_srl'), $title, $content, false);
 	}
 
 	function getLangCode()
@@ -394,23 +417,27 @@ class documentItem extends BaseObject
 		{
 			return $this->get('ipaddress');
 		}
-
+		
 		return '*' . strstr($this->get('ipaddress'), '.');
 	}
 
 	function isExistsHomepage()
 	{
-		if(trim($this->get('homepage'))) return true;
-		return false;
+		return (bool) trim($this->get('homepage'));
 	}
 
 	function getHomepageUrl()
 	{
-		$url = trim($this->get('homepage'));
-		if(!$url) return;
-
-		if(strncasecmp('http://', $url, 7) !== 0 && strncasecmp('https://', $url, 8) !== 0)  $url = 'http://' . $url;
-
+		if(!$url = trim($this->get('homepage')))
+		{
+			return;
+		}
+		
+		if(!preg_match('@^[a-z]+://@i', $url))
+		{
+			$url = 'http://' . $url;
+		}
+		
 		return $url;
 	}
 
@@ -421,120 +448,135 @@ class documentItem extends BaseObject
 
 	function getUserID()
 	{
-		return htmlspecialchars($this->get('user_id'), ENT_COMPAT | ENT_HTML401, 'UTF-8', false);
+		return escape($this->get('user_id'), false);
 	}
 
 	function getUserName()
 	{
-		return htmlspecialchars($this->get('user_name'), ENT_COMPAT | ENT_HTML401, 'UTF-8', false);
+		return escape($this->get('user_name'), false);
 	}
 
 	function getNickName()
 	{
-		return htmlspecialchars($this->get('nick_name'), ENT_COMPAT | ENT_HTML401, 'UTF-8', false);
+		return escape($this->get('nick_name'), false);
 	}
 
 	function getLastUpdater()
 	{
-		return htmlspecialchars($this->get('last_updater'), ENT_COMPAT | ENT_HTML401, 'UTF-8', false);
+		return escape($this->get('last_updater'), false);
 	}
 
-	function getTitleText($cut_size = 0, $tail='...')
+	function getTitleText($cut_size = 0, $tail = '...')
 	{
-		if(!$this->document_srl) return;
-
-		if($cut_size) $title = cut_str($this->get('title'), $cut_size, $tail);
-		else $title = $this->get('title');
-
-		return $title;
+		if(!$this->isExists())
+		{
+			return;
+		}
+		
+		return $cut_size ? cut_str($this->get('title'), $cut_size, $tail) : $this->get('title');
 	}
 
 	function getVoted()
 	{
-		if(!$this->document_srl) return false;
+		if(!$this->isExists())
+		{
+			return false;
+		}
+		
+		$logged_info = Context::get('logged_info');
+		if(!$logged_info->member_srl)
+		{
+			return false;
+		}
+		
 		if(isset($_SESSION['voted_document'][$this->document_srl]))
 		{
 			return $_SESSION['voted_document'][$this->document_srl];
 		}
-
-		$logged_info = Context::get('logged_info');
-		if(!$logged_info->member_srl) return false;
-
-		$args = new stdClass();
+		
+		$args = new stdClass;
 		$args->member_srl = $logged_info->member_srl;
 		$args->document_srl = $this->document_srl;
 		$output = executeQuery('document.getDocumentVotedLog', $args);
-
 		if($output->data->point)
 		{
 			return $_SESSION['voted_document'][$this->document_srl] = $output->data->point;
 		}
-
+		
 		return $_SESSION['voted_document'][$this->document_srl] = false;
 	}
 
-	function getTitle($cut_size = 0, $tail='...')
+	function getTitle($cut_size = 0, $tail = '...')
 	{
-		if(!$this->document_srl) return;
-
-		$title = $this->getTitleText($cut_size, $tail);
-
-		$attrs = array();
+		if(!$this->isExists())
+		{
+			return false;
+		}
+		
+		$title = escape($this->getTitleText($cut_size, $tail), false);
 		$this->add('title_color', trim($this->get('title_color')));
-		if($this->get('title_bold')=='Y') $attrs[] = "font-weight:bold;";
-		if($this->get('title_color') && $this->get('title_color') != 'N') $attrs[] = "color:#".$this->get('title_color');
-
+		
+		$attrs = array();
+		if($this->get('title_bold') == 'Y')
+		{
+			$attrs[] = 'font-weight:bold';
+		}
+		if($this->get('title_color') && $this->get('title_color') != 'N')
+		{
+			$attrs[] = 'color:#' . ltrim($this->get('title_color'), '#');
+		}
 		if(count($attrs))
 		{
-			return sprintf("<span style=\"%s\">%s</span>", implode(';', $attrs), escape($title, false));
+			return sprintf('<span style="%s">%s</span>', implode(';', $attrs), $title);
 		}
-		else
-		{
-			return escape($title, false);
-		}
+		
+		return $title;
 	}
 
 	function getContentPlainText($strlen = 0)
 	{
-		if(!$this->document_srl) return;
-		if($this->isSecret() && !$this->isGranted() && !$this->isAccessible()) return lang('msg_is_secret');
-
-		$result = $this->_checkAccessibleFromStatus();
-		if($result && Context::getSessionStatus())
+		if(!$this->isExists())
 		{
-			$this->setAccessible();
+			return;
 		}
-
+		
+		if(!$this->isAccessible())
+		{
+			return lang('msg_is_secret');
+		}
+		
 		$content = $this->get('content');
 		$content = trim(utf8_normalize_spaces(html_entity_decode(strip_tags($content))));
 		if($strlen)
 		{
 			$content = cut_str($content, $strlen, '...');
 		}
+		
 		return escape($content);
 	}
 
 	function getContentText($strlen = 0)
 	{
-		if(!$this->document_srl) return;
-
-		if($this->isSecret() && !$this->isGranted() && !$this->isAccessible()) return lang('msg_is_secret');
-
-		$result = $this->_checkAccessibleFromStatus();
-		if($result && Context::getSessionStatus())
+		if(!$this->isExists())
 		{
-			$this->setAccessible();
+			return;
 		}
-
+		
+		if(!$this->isAccessible())
+		{
+			return lang('msg_is_secret');
+		}
+		
 		$content = $this->get('content');
 		$content = preg_replace_callback('/<(object|param|embed)[^>]*/is', array($this, '_checkAllowScriptAccess'), $content);
 		$content = preg_replace_callback('/<object[^>]*>/is', array($this, '_addAllowScriptAccess'), $content);
-
+		
 		if($strlen)
 		{
 			$content = trim(utf8_normalize_spaces(html_entity_decode(strip_tags($content))));
 			$content = cut_str($content, $strlen, '...');
 		}
+		
 		return escape($content);
 	}
 
@@ -583,21 +625,24 @@ class documentItem extends BaseObject
 
 	function getContent($add_popup_menu = true, $add_content_info = true, $resource_realpath = false, $add_xe_content_class = true, $stripEmbedTagException = false)
 	{
-		if(!$this->document_srl) return;
-
-		if($this->isSecret() && !$this->isGranted() && !$this->isAccessible()) return lang('msg_is_secret');
-
-		$result = $this->_checkAccessibleFromStatus();
-		if($result)
+		if(!$this->isExists())
 		{
-			$this->setAccessible();
+			return;
 		}
-
+		
+		if(!$this->isAccessible())
+		{
+			return lang('msg_is_secret');
+		}
+		
 		$content = $this->get('content');
-		if(!$stripEmbedTagException) stripEmbedTagForAdmin($content, $this->get('member_srl'));
-
+		if(!$stripEmbedTagException)
+		{
+			stripEmbedTagForAdmin($content, $this->get('member_srl'));
+		}
+		
 		// Define a link if using a rewrite module
-		$oContext = &Context::getInstance();
+		$oContext = Context::getInstance();
 		if($oContext->allow_rewrite)
 		{
 			$content = preg_replace('/<a([ \t]+)href=("|\')\.\/\?/i',"<a href=\\2". Context::getRequestUri() ."?", $content);
@@ -627,18 +672,18 @@ class documentItem extends BaseObject
 				$this->document_srl, $memberSrl,
 				$this->document_srl, $memberSrl
 			);
-			// Add xe_content class although accessing content is not required
 		}
-		else
+		// Add xe_content class although accessing content is not required
+		elseif($add_xe_content_class)
 		{
-			if($add_xe_content_class) $content = sprintf('<div class="xe_content">%s</div>', $content);
+			$content = sprintf('<div class="xe_content">%s</div>', $content);
 		}
 		// Change the image path to a valid absolute path if resource_realpath is true
 		if($resource_realpath)
 		{
 			$content = preg_replace_callback('/<img([^>]+)>/i',array($this,'replaceResourceRealPath'), $content);
 		}
-
+		
 		return $content;
 	}
 
@@ -652,11 +697,14 @@ class documentItem extends BaseObject
 	 */
 	function getTransContent($add_popup_menu = true, $add_content_info = true, $resource_realpath = false, $add_xe_content_class = true)
 	{
-		$oEditorController = getController('editor');
-
+		if(!$this->isExists())
+		{
+			return;
+		}
+		
 		$content = $this->getContent($add_popup_menu, $add_content_info, $resource_realpath, $add_xe_content_class);
-		$content = $oEditorController->transComponent($content);
-
+		$content = getController('editor')->transComponent($content);
+		
 		return $content;
 	}
 	
@@ -724,13 +772,32 @@ class documentItem extends BaseObject
 
 	function getTrackbackUrl()
 	{
-		if(!$this->document_srl) return;
-
+		if(!$this->isExists())
+		{
+			return;
+		}
+		
 		// Generate a key to prevent spams
-		$oTrackbackModel = getModel('trackback');
-		if($oTrackbackModel) return $oTrackbackModel->getTrackbackUrl($this->document_srl, $this->getDocumentMid());
+		if($oTrackbackModel = getModel('trackback'))
+		{
+			return $oTrackbackModel->getTrackbackUrl($this->document_srl, $this->getDocumentMid());
+		}
 	}
 
+	public function getTags()
+	{
+		$tag_list = array_map(function($str) { return escape(utf8_trim($str), false); }, explode(',', $this->get('tags')));
+		$tag_list = array_filter($tag_list, function($str) { return $str !== ''; });
+		return array_unique($tag_list);
+	}
+	
+	public function getHashtags()
+	{
+		preg_match_all('/(?<!&)#([\pL\pN_]+)/u', strip_tags($this->get('content')), $hashtags);
+		$hashtags[1] = array_map(function($str) { return escape($str, false); }, $hashtags[1]);
+		return array_unique($hashtags[1]);
+	}
+	
 	/**
 	 * Update readed count
 	 * @return void
@@ -760,80 +827,51 @@ class documentItem extends BaseObject
 		$oDocumentModel = getModel('document');
 		return $oDocumentModel->getExtraVars($this->get('module_srl'), $this->document_srl);
 	}
-
+	
+	function getExtraEids()
+	{
+		if($this->extra_eids)
+		{
+			return $this->extra_eids;
+		}
+		
+		$extra_vars = $this->getExtraVars();
+		foreach($extra_vars as $idx => $key)
+		{
+			$this->extra_eids[$key->eid] = $key;
+		}
+		
+		return $this->extra_eids;
+	}
+	
 	function getExtraValue($idx)
 	{
 		$extra_vars = $this->getExtraVars();
-		if(is_array($extra_vars) && array_key_exists($idx,$extra_vars))
-		{
-			return $extra_vars[$idx]->getValue();
-		}
-		else
-		{
-			return '';
-		}
+		return isset($extra_vars[$idx]) ? $extra_vars[$idx]->getValue() : '';
 	}
-
+	
 	function getExtraValueHTML($idx)
 	{
 		$extra_vars = $this->getExtraVars();
-		if(is_array($extra_vars) && array_key_exists($idx,$extra_vars))
-		{
-			return $extra_vars[$idx]->getValueHTML();
-		}
-		else
-		{
-			return '';
-		}
+		return isset($extra_vars[$idx]) ? $extra_vars[$idx]->getValueHTML() : '';
 	}
-
+	
 	function getExtraEidValue($eid)
 	{
-		$extra_vars = $this->getExtraVars();
-
-		if($extra_vars)
-		{
-			// Handle extra variable(eid)
-			foreach($extra_vars as $idx => $key)
-			{
-				$extra_eid[$key->eid] = $key;
-			}
-		}
-		
-		if(is_array($extra_eid) && array_key_exists($eid,$extra_eid))
-		{
-			return $extra_eid[$eid]->getValue();
-		}
-		else
-		{
-			return '';
-		}
+		$extra_eids = $this->getExtraEids();
+		return isset($extra_eids[$eid]) ? $extra_eids[$eid]->getValue() : '';
 	}
 
 	function getExtraEidValueHTML($eid)
 	{
-		$extra_vars = $this->getExtraVars();
-		// Handle extra variable(eid)
-		foreach($extra_vars as $idx => $key)
-		{
-			$extra_eid[$key->eid] = $key;
-		}
-		
-		if(is_array($extra_eid) && array_key_exists($eid,$extra_eid))
-		{
-			return $extra_eid[$eid]->getValueHTML();
-		}
-		else
-		{
-			return '';
-		}
+		$extra_eids = $this->getExtraEids();
+		return isset($extra_eids[$eid]) ? $extra_eids[$eid]->getValueHTML() : '';
 	}
-
+	
 	function getExtraVarsValue($key)
 	{
 		$extra_vals = unserialize($this->get('extra_vars'));
-		$val = $extra_vals->$key;
-		return $val;
+		return $extra_vals->$key;
 	}
 
 	function getCommentCount()
@@ -843,12 +881,19 @@ class documentItem extends BaseObject
 
 	function getComments()
 	{
-		if(!$this->getCommentCount()) return;
-		if(!$this->isGranted() && $this->isSecret()) return;
+		if(!$this->getCommentCount())
+		{
+			return;
+		}
+		
+		if(!$this->isAccessible())
+		{
+			return;
+		}
+		
 		// cpage is a number of comment pages
 		$cpageStr = sprintf('%d_cpage', $this->document_srl);
 		$cpage = Context::get($cpageStr);
-
 		if(!$cpage)
 		{
 			$cpage = Context::get('cpage');
@@ -966,11 +1011,11 @@ class documentItem extends BaseObject
 			$thumbnail_type = $config->thumbnail_type ?: 'crop';
 		}
 		
-		if($this->isSecret() && !$this->isGranted())
+		if(!$this->isAccessible())
 		{
 			return;
 		}
-
+		
 		// If not specify its height, create a square
 		if(!$height) $height = $width;
 		if($this->get('content'))
@@ -1223,25 +1268,42 @@ class documentItem extends BaseObject
 
 	function hasUploadedFiles()
 	{
-		if(!$this->document_srl) return;
-
-		if($this->isSecret() && !$this->isGranted()) return false;
+		if(!$this->document_srl)
+		{
+			return false;
+		}
+		
+		if(!$this->isAccessible())
+		{
+			return false;
+		}
+		
 		return $this->get('uploaded_count')? true : false;
 	}
 
 	function getUploadedFiles($sortIndex = 'file_srl')
 	{
-		if(!$this->document_srl) return;
-
-		if($this->isSecret() && !$this->isGranted()) return;
-		if(!$this->get('uploaded_count')) return;
-
+		if(!$this->document_srl)
+		{
+			return;
+		}
+		
+		if(!$this->isAccessible())
+		{
+			return;
+		}
+		
+		if(!$this->get('uploaded_count'))
+		{
+			return;
+		} 
+		
 		if(!$this->uploadedFiles[$sortIndex])
 		{
 			$oFileModel = getModel('file');
 			$this->uploadedFiles[$sortIndex] = $oFileModel->getFiles($this->document_srl, array(), $sortIndex, true);
 		}
-
+		
 		return $this->uploadedFiles[$sortIndex];
 	}
 
@@ -1266,9 +1328,16 @@ class documentItem extends BaseObject
 	function isEnableComment()
 	{
 		// Return false if not authorized, if a secret document, if the document is set not to allow any comment
-		if (!$this->allowComment()) return false;
-		if(!$this->isGranted() && $this->isSecret()) return false;
-
+		if (!$this->allowComment())
+		{
+			return false;
+		}
+		
+		if(!$this->isAccessible())
+		{
+			return false;
+		}
+		
 		return true;
 	}
 
@@ -1336,9 +1405,8 @@ class documentItem extends BaseObject
 	}
 
 	/**
-	 * Check accessible by document status
-	 * @param array $matches
-	 * @return mixed
+	 * Compatible function
+	 * For only XE third party
 	 */
 	function _checkAccessibleFromStatus()
 	{

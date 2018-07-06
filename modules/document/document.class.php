@@ -37,6 +37,7 @@ class document extends ModuleObject
 		$oDB->addIndex("documents","idx_module_update_order", array("module_srl","update_order"));
 		$oDB->addIndex("documents","idx_module_readed_count", array("module_srl","readed_count"));
 		$oDB->addIndex("documents","idx_module_voted_count", array("module_srl","voted_count"));
+		$oDB->addIndex("documents","idx_module_regdate", array("module_srl","regdate"));
 		$oDB->addIndex("documents","idx_module_notice", array("module_srl","is_notice"));
 		$oDB->addIndex("documents","idx_module_document_srl", array("module_srl","document_srl"));
 		$oDB->addIndex("documents","idx_module_blamed_count", array("module_srl","blamed_count"));
@@ -65,6 +66,7 @@ class document extends ModuleObject
 		if(!$oDB->isIndexExists("documents","idx_module_update_order")) return true;
 		if(!$oDB->isIndexExists("documents","idx_module_readed_count")) return true;
 		if(!$oDB->isIndexExists("documents","idx_module_voted_count")) return true;
+		if(!$oDB->isIndexExists("documents","idx_module_regdate")) return true;
 		// 2007. 10. 17 Add a trigger to delete all posts together when the module is deleted
 		if(!$oModuleModel->getTrigger('module.deleteModule', 'document', 'controller', 'triggerDeleteModuleDocuments', 'after')) return true;
 		// 2007. 10. 25 add parent_srl, expand to the document category
@@ -126,7 +128,12 @@ class document extends ModuleObject
 
 		// 2016. 3. 14 Add a column(document_upate_log) for admin
 		if(!$oDB->isColumnExists('document_update_log', 'is_admin')) return true;
-
+		
+		// 2017.12.21 Add an index for nick_name
+		if(!$oDB->isIndexExists('documents', 'idx_nick_name')) return true;
+		
+		if(!$oModuleModel->getTrigger('file.deleteFile', 'document', 'controller', 'triggerAfterDeleteFile', 'after')) return true;
+		
 		return false;
 	}
 
@@ -166,6 +173,12 @@ class document extends ModuleObject
 		{
 			$oDB->addIndex("documents","idx_module_voted_count", array("module_srl","voted_count"));
 		}
+
+		if(!$oDB->isIndexExists("documents","idx_module_regdate"))
+		{
+			$oDB->addIndex("documents","idx_module_regdate", array("module_srl","regdate"));
+		}
+
 		// 2007. 10. 17 Add a trigger to delete all posts together when the module is deleted
 		if(!$oModuleModel->getTrigger('module.deleteModule', 'document', 'controller', 'triggerDeleteModuleDocuments', 'after'))
 			$oModuleController->insertTrigger('module.deleteModule', 'document', 'controller', 'triggerDeleteModuleDocuments', 'after');
@@ -339,6 +352,17 @@ class document extends ModuleObject
 			$oDB->addColumn('document_update_log', 'is_admin', 'varchar', 1);
 			$oDB->addIndex('document_update_log', 'idx_is_admin', array('is_admin'));
 		}
+		
+		// 2017.12.21 Add an index for nick_name
+		if(!$oDB->isIndexExists('documents', 'idx_nick_name'))
+		{
+			$oDB->addIndex('documents', 'idx_nick_name', array('nick_name'));
+		}
+		
+		if(!$oModuleModel->getTrigger('file.deleteFile', 'document', 'controller', 'triggerAfterDeleteFile', 'after'))
+		{
+			$oModuleController->insertTrigger('file.deleteFile', 'document', 'controller', 'triggerAfterDeleteFile', 'after');
+		}
 	}
 
 	/**
@@ -373,8 +397,7 @@ class document extends ModuleObject
 	 */
 	function getConfigStatus($key)
 	{
-		if(array_key_exists(strtolower($key), $this->statusList)) return $this->statusList[$key];
-		else $this->getDefaultStatus();
+		return $this->statusList[$key];
 	}
 }
 /* End of file document.class.php */
