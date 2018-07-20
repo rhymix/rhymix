@@ -366,7 +366,7 @@ class UA
 				
 			case 'rfc5987':
 				$filename = rawurlencode($filename);
-				return "filename*=UTF-8''" . $filename . '; filename="' . $filename . '"';
+				return "filename*=UTF-8''" . $filename;
 				
 			case 'old_ie':
 			default:
