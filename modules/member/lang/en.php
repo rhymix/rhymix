@@ -138,6 +138,7 @@ $lang->msg_confirm_account_comment = 'Click on the following link to complete yo
 $lang->msg_auth_mail_sent = 'The activation mail has been sent to %s. Please check your mail.';
 $lang->msg_confirm_mail_sent = 'We have just sent the activation email to %s. Please check your mail.';
 $lang->msg_invalid_auth_key = 'This is an invalid request of verification.<br />Please retry finding account info or contact the administrator.';
+$lang->msg_expired_auth_key = 'Your verification link has expired. Please request a new verification email.';
 $lang->msg_success_authed = 'Please use the password you received in the email to log in, and change it to a password of your choice as soon as possible.';
 $lang->msg_success_confirmed = 'Your account has been activated. You may log in now.';
 $lang->msg_new_member = 'Add Member';
