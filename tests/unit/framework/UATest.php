@@ -277,10 +277,10 @@ class UATest extends \Codeception\TestCase\Test
 	
 	public function testEncodeFilenameForDownload()
 	{
-		$this->assertEquals('filename*=UTF-8\'\'%ED%95%9C%EA%B8%80%20filename.jpg; filename="%ED%95%9C%EA%B8%80%20filename.jpg"', Rhymix\Framework\UA::encodeFilenameForDownload('한글 filename.jpg', 'Chrome/50.0'));
-		$this->assertEquals('filename*=UTF-8\'\'%ED%95%9C%EA%B8%80%20filename.jpg; filename="%ED%95%9C%EA%B8%80%20filename.jpg"', Rhymix\Framework\UA::encodeFilenameForDownload('한글 filename.jpg', 'Firefox/46.0'));
-		$this->assertEquals('filename*=UTF-8\'\'%ED%95%9C%EA%B8%80%20filename.jpg; filename="%ED%95%9C%EA%B8%80%20filename.jpg"', Rhymix\Framework\UA::encodeFilenameForDownload('한글 filename.jpg', 'Edge/12.10240'));
-		$this->assertEquals('filename*=UTF-8\'\'%ED%95%9C%EA%B8%80%20filename.jpg; filename="%ED%95%9C%EA%B8%80%20filename.jpg"', Rhymix\Framework\UA::encodeFilenameForDownload('한글 filename.jpg', 'MSIE/7.0 Trident/7.0'));
+		$this->assertEquals('filename*=UTF-8\'\'%ED%95%9C%EA%B8%80%20filename.jpg', Rhymix\Framework\UA::encodeFilenameForDownload('한글 filename.jpg', 'Chrome/50.0'));
+		$this->assertEquals('filename*=UTF-8\'\'%ED%95%9C%EA%B8%80%20filename.jpg', Rhymix\Framework\UA::encodeFilenameForDownload('한글 filename.jpg', 'Firefox/46.0'));
+		$this->assertEquals('filename*=UTF-8\'\'%ED%95%9C%EA%B8%80%20filename.jpg', Rhymix\Framework\UA::encodeFilenameForDownload('한글 filename.jpg', 'Edge/12.10240'));
+		$this->assertEquals('filename*=UTF-8\'\'%ED%95%9C%EA%B8%80%20filename.jpg', Rhymix\Framework\UA::encodeFilenameForDownload('한글 filename.jpg', 'MSIE/7.0 Trident/7.0'));
 		$this->assertEquals('filename="%ED%95%9C%EA%B8%80%20filename.jpg"', Rhymix\Framework\UA::encodeFilenameForDownload('한글 filename.jpg', 'MSIE 8.0'));
 		$this->assertEquals('filename="%ED%95%9C%EA%B8%80%20filename.jpg"', Rhymix\Framework\UA::encodeFilenameForDownload('한글 filename.jpg', 'Unknown Browser'));
 		$this->assertEquals('filename="한글 filename.jpg"', Rhymix\Framework\UA::encodeFilenameForDownload('한글 filename.jpg', 'Safari/5.0 Version/5.0'));
