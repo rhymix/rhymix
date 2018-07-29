@@ -48,14 +48,14 @@
 
 <!-- COMMON JS VARIABLES -->
 <script>
-	var default_url = "{Context::encodeIdna(Context::getDefaultUrl())}";
-	var current_url = "{Context::encodeIdna($current_url)}";
-	var request_uri = "{Context::encodeIdna($request_uri)}";
+	var default_url = "{\Rhymix\Framework\URL::encodeIdna(Context::getDefaultUrl())}";
+	var current_url = "{\Rhymix\Framework\URL::encodeIdna($current_url)}";
+	var request_uri = "{\Rhymix\Framework\URL::encodeIdna($request_uri)}";
 	var current_lang = xe.current_lang = "{$lang_type}";
 	var current_mid = {json_encode($mid ?: null)};
 	var http_port = {Context::get("_http_port") ?: 'null'};
 	var https_port = {Context::get("_https_port") ?: 'null'};
-	var enforce_ssl = {Context::isAlwaysSSL() ? 'true' : 'false'};
+	var enforce_ssl = {Context::get('_use_ssl') === 'always' ? 'true' : 'false'};
 	var ssl_actions = {json_encode(array_keys(Context::getSSLActions()))};
 	var xeVid = null;
 </script>
