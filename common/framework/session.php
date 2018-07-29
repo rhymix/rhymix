@@ -295,7 +295,7 @@ class Session
 		if(!$is_default_domain && !\Context::get('sso_response') && $_COOKIE['sso'] !== md5($current_domain))
 		{
 			// Set sso cookie to prevent multiple simultaneous SSO validation requests.
-			setcookie('sso', md5($current_domain), 0, '/');
+			setcookie('sso', md5($current_domain), 0, '/', null, \Context::isAlwaysSSL());
 			
 			// Redirect to the default site.
 			$sso_request = Security::encrypt($current_url);
