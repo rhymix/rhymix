@@ -192,7 +192,7 @@ class memberView extends member
 	function dispMemberSignUpForm()
 	{
 		//setcookie for redirect url in case of going to member sign up
-		setcookie("XE_REDIRECT_URL", $_SERVER['HTTP_REFERER']);
+		setcookie("XE_REDIRECT_URL", $_SERVER['HTTP_REFERER'], 0, '/', null, Context::isAlwaysSSL());
 
 		$member_config = $this->member_config;
 
