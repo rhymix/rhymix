@@ -18,7 +18,8 @@ class URL
 	 */
 	public static function getCurrentURL(array $changes = array())
 	{
-		$url = self::getCurrentDomainURL(isset($_SERVER['REQUEST_URI']) ? $_SERVER['REQUEST_URI'] : '/');
+		$request_uri = preg_replace('/[<>"]/', '', isset($_SERVER['REQUEST_URI']) ? $_SERVER['REQUEST_URI'] : '/');
+		$url = self::getCurrentDomainURL($request_uri);
 		if (count($changes))
 		{
 			return self::modifyURL($url, $changes);
