@@ -124,15 +124,6 @@
 			</div>
 		</div>
 		<div class="x_control-group">
-			<label class="x_control-label">{$lang->use_cookie_ssl}</label>
-			<div class="x_controls">
-				<label for="use_cookie_ssl_y" class="x_inline"><input type="radio" name="use_cookie_ssl" id="use_cookie_ssl_y" value="Y" checked="checked"|cond="$use_cookie_ssl && $use_ssl === 'always'" disabled="disabled"|cond="$use_ssl !== 'always'" /> {$lang->cmd_yes}</label>
-				<label for="use_cookie_ssl_n" class="x_inline"><input type="radio" name="use_cookie_ssl" id="use_cookie_ssl_n" value="N" checked="checked"|cond="!$use_cookie_ssl || $use_ssl !== 'always'" disabled="disabled"|cond="$use_ssl !== 'always'" /> {$lang->cmd_no}</label>
-				<br />
-				<p class="x_help-block">{$lang->about_use_cookie_ssl}</p>
-			</div>
-		</div>
-		<div class="x_control-group">
 			<label class="x_control-label">{$lang->thumbnail_target}</label>
 			<div class="x_controls">
 				<label for="thumbnail_target_all" class="x_inline">

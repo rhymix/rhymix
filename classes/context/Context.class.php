@@ -306,7 +306,7 @@ class Context
 		{
 			if($_COOKIE['lang_type'] !== $lang_type)
 			{
-				setcookie('lang_type', $lang_type, time() + 86400 * 365, '/', null, self::isCookieSSL());
+				setcookie('lang_type', $lang_type, time() + 86400 * 365, '/', null, self::isAlwaysSSL());
 			}
 		}
 		elseif($_COOKIE['lang_type'])
@@ -639,21 +639,6 @@ class Context
 		return $ssl_only;
 	}
 
-	/**
-	 * Return Cookie SSL status
-	 *
-	 * @param boolen $purge_cache Set true to get uncached SSL_enforce value.
-	 * @return boolean (true|false)
-	 */
-	public static function isCookieSSL($purge_cache = false)
-	{
-		static $ssl_only = null;
-		if(is_null($ssl_only) || $purge_cache === true)
-		{
-			$ssl_only = (self::isAlwaysSSL() && config('session.use_ssl_cookie'));
-		}
-		return $ssl_only;
-	}
 
 	/**
 	 * Return default URL
