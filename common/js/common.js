@@ -1056,7 +1056,7 @@ function setCookie(name, value, expire, path) {
 	var s_cookie = name + "=" + escape(value) +
 		((!expire) ? "" : ("; expires=" + expire.toGMTString())) +
 		"; path=" + ((!path) ? "/" : path) + 
-		((enforce_ssl) ? ";secure" : "");
+		((cookie_ssl) ? ";secure" : "");
 
 	document.cookie = s_cookie;
 }

@@ -826,6 +826,7 @@ class adminAdminController extends admin
 		Rhymix\Framework\Config::set('session.use_db', $vars->use_db_session === 'Y');
 		Rhymix\Framework\Config::set('session.use_keys', $vars->use_session_keys === 'Y');
 		Rhymix\Framework\Config::set('session.use_ssl', $vars->use_session_ssl === 'Y');
+		Rhymix\Framework\Config::set('session.use_ssl_cookie', $vars->use_cookie_ssl === 'Y');
 		Rhymix\Framework\Config::set('view.minify_scripts', $vars->minify_scripts ?: 'common');
 		Rhymix\Framework\Config::set('view.concat_scripts', $vars->concat_scripts ?: 'none');
 		Rhymix\Framework\Config::set('view.server_push', $vars->use_server_push === 'Y');
