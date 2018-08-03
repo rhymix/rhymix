@@ -2101,7 +2101,7 @@ class Context
 	}
 	
 	/**
-	 * unload basic files that load in HTMLDisplayHandler (filename|all|common|admin|mobile)
+	 * unload basic files that load in HTMLDisplayHandler (all|css/rhymix|css/mobile|js/jquery|js/rhymix)
 	 *
 	 * @return void
 	 */
