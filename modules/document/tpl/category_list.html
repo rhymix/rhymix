@@ -10,7 +10,7 @@
     var category_title = "{$lang->category}";
 </script>
 
-<div cond="$XE_VALIDATOR_MESSAGE && $XE_VALIDATOR_ID == 'modules/document/tpl/category_list/1'" class="message {$XE_VALIDATOR_MESSAGE_TYPE}">
+<div cond="$XE_VALIDATOR_MESSAGE && $XE_VALIDATOR_ID == 'modules/document/tpl/category_list/1'" class="rhymix_message {$XE_VALIDATOR_MESSAGE_TYPE}">
 	<p>{$XE_VALIDATOR_MESSAGE}</p>
 </div>
 <div id="menu">
@@ -18,7 +18,7 @@
 		<li class="root" id='tree_0'><span>{$lang->category}</span></li>
 	</ul>
 </div>
-<div class="btnArea">
+<div class="rhymix_button_wrapper">
 	<button type="button" onclick="doReloadTreeCategory('{$module_info->module_srl}')" class="x_btn">{$lang->cmd_remake_cache}</button>
 </div>
 <script>

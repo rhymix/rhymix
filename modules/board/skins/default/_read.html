@@ -11,7 +11,7 @@
 		<p class="meta">
 			<a cond="$module_info->display_author!='N' && $oDocument->getMemberSrl() <= 0 && $oDocument->isExistsHomepage()" href="{$oDocument->getHomepageUrl()}" target="_blank" rel="noopener" class="author">{$oDocument->getNickName()}</a>
 			<block cond="$module_info->display_author!='N' && $oDocument->getMemberSrl() <= 0 && !$oDocument->isExistsHomepage()">{$oDocument->getNickName()}</block>
-			<a cond="$module_info->display_author!='N' && $oDocument->getMemberSrl() > 0" href="#popup_menu_area" class="member_{$oDocument->get('member_srl')} author" onclick="return false">{$oDocument->getNickName()}</a>
+			<a cond="$module_info->display_author!='N' && $oDocument->getMemberSrl() > 0" href="#rhymix_popup_menu" class="member_{$oDocument->get('member_srl')} author" onclick="return false">{$oDocument->getNickName()}</a>
 			<span class="sum">
 				<span class="read">{$lang->readed_count}:{$oDocument->get('readed_count')}</span>
 				<span class="vote" cond="$oDocument->get('voted_count')!=0">{$lang->cmd_vote}:{$oDocument->get('voted_count')}</span>
@@ -37,7 +37,7 @@
 			<input type="hidden" name="page" value="{$page}" />
 			<input type="hidden" name="document_srl" value="{$oDocument->document_srl}" />
 			<p><label for="cpw">{$lang->msg_is_secret} {$lang->msg_input_password}</label></p>
-			<p><input type="password" name="password" id="cpw" class="iText" /><input type="submit" value="{$lang->cmd_input}" class="btn" />
+			<p><input type="password" name="password" id="cpw" class="iText" /><input type="submit" value="{$lang->cmd_input}" class="rhymix_button" />
 			</p>
 		</form>
 		<!--@else-->
@@ -61,7 +61,7 @@
 					<a href="{getUrl('search_target','tag','search_keyword',$tag,'document_srl','')}" class="tag" rel="tag">{htmlspecialchars($tag)}</a><span>,</span>
 				<!--@end-->
 			</span>
-			<a class="document_{$oDocument->document_srl} action" href="#popup_menu_area" onclick="return false">{$lang->cmd_document_do}</a>
+			<a class="document_{$oDocument->document_srl} action" href="#rhymix_popup_menu" onclick="return false">{$lang->cmd_document_do}</a>
 			<ul class="sns">
 				<li class="twitter link"><a href="https://twitter.com/">Twitter</a></li>
 				<li class="facebook link"><a href="https://www.facebook.com/">Facebook</a></li>
@@ -89,11 +89,11 @@
 			<img cond="$oDocument->getProfileImage()" src="{$oDocument->getProfileImage()}" alt="Profile" class="pf" />
 			<div cond="$oDocument->getSignature()" class="tx">{$oDocument->getSignature()}</div>
 		</div>
-		<div class="btnArea"> 
-			<a cond="$oDocument->isEditable()" class="btn" href="{getUrl('act','dispBoardWrite','document_srl',$oDocument->document_srl,'comment_srl','')}">{$lang->cmd_modify}</a>
-			<a cond="$oDocument->isEditable()" class="btn" href="{getUrl('act','dispBoardDelete','document_srl',$oDocument->document_srl,'comment_srl','')}">{$lang->cmd_delete}</a>
+		<div class="rhymix_button_wrapper"> 
+			<a cond="$oDocument->isEditable()" class="rhymix_button" href="{getUrl('act','dispBoardWrite','document_srl',$oDocument->document_srl,'comment_srl','')}">{$lang->cmd_modify}</a>
+			<a cond="$oDocument->isEditable()" class="rhymix_button" href="{getUrl('act','dispBoardDelete','document_srl',$oDocument->document_srl,'comment_srl','')}">{$lang->cmd_delete}</a>
 			<span class="etc">
-				<a href="{getUrl('document_srl','')}" class="btn">{$lang->cmd_list}</a>
+				<a href="{getUrl('document_srl','')}" class="rhymix_button">{$lang->cmd_list}</a>
 			</span>
 		</div>
 	</div>

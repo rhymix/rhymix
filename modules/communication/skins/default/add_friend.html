@@ -3,7 +3,7 @@
 <load target="js/communication.js" />
 <div class="xc">
 	<h1>{$lang->cmd_add_friend}</h1>
-	<div cond="$XE_VALIDATOR_MESSAGE && $XE_VALIDATOR_ID == 'modules/communication/skins/default/add_friend/1'" class="message {$XE_VALIDATOR_MESSAGE_TYPE}">
+	<div cond="$XE_VALIDATOR_MESSAGE && $XE_VALIDATOR_ID == 'modules/communication/skins/default/add_friend/1'" class="rhymix_message {$XE_VALIDATOR_MESSAGE_TYPE}">
 		<p>{$XE_VALIDATOR_MESSAGE}</p>
 	</div>
 	<form ruleset="addFriend" action="./" method="post">
@@ -23,12 +23,12 @@
 						<option value="">{$lang->default_friend_group}</option>
 						<option loop="$friend_group_list => $key,$val" value="{$val->friend_group_srl}">{$val->title}</option>
 					</select> 
-					<a href="{getUrl('act','dispCommunicationAddFriendGroup')}" class="btn" onclick="popopen(this.href);return false;">{$lang->cmd_add_friend_group}</a>
+					<a href="{getUrl('act','dispCommunicationAddFriendGroup')}" class="rhymix_button" onclick="popopen(this.href);return false;">{$lang->cmd_add_friend_group}</a>
 				</td>
 			</tr>
 		</table>
-		<div class="btnArea" style="border-top:0;padding:0">
-			<input type="submit" value="{$lang->cmd_add_friend}" class="btn btn-inverse" />
+		<div class="rhymix_button_wrapper" style="border-top:0;padding:0">
+			<input type="submit" value="{$lang->cmd_add_friend}" class="rhymix_button inverse" />
 		</div>
 	</form>
 </div>

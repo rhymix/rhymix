@@ -565,6 +565,10 @@ class HTMLDisplayHandler
 		{
 			$this->_loadBasicFile('common/css/rhymix.less', -1600000000);
 		}
+		if(!in_array('css/xe', Context::getUnloadedBasicFiles()))
+		{
+			$this->_loadBasicFile('common/css/xe.less', -1600000000);
+		}
 		if(!in_array('css/mobile', Context::getUnloadedBasicFiles()) && Mobile::isFromMobilePhone())
 		{
 			$this->_loadBasicFile('common/css/mobile.css', -1500000000);

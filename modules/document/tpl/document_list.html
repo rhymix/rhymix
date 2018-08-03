@@ -4,7 +4,7 @@ xe.lang.msg_empty_search_keyword = '{$lang->msg_empty_search_keyword}';
 </script>
 <load target="js/document_admin.js" />
 <include target="header.html" />
-<div cond="$XE_VALIDATOR_MESSAGE && $XE_VALIDATOR_ID == 'modules/document/tpl/document_list/1'" class="message {$XE_VALIDATOR_MESSAGE_TYPE}">
+<div cond="$XE_VALIDATOR_MESSAGE && $XE_VALIDATOR_ID == 'modules/document/tpl/document_list/1'" class="rhymix_message {$XE_VALIDATOR_MESSAGE_TYPE}">
 	<p>{$XE_VALIDATOR_MESSAGE}</p>
 </div>
 <form id="fo_list" action="./" method="get">
@@ -54,8 +54,8 @@ xe.lang.msg_empty_search_keyword = '{$lang->msg_empty_search_keyword}';
 				<a href="{getUrl('','document_srl',$oDocument->document_srl)}" target="_blank"><!--@if(trim($oDocument->getTitleText()))-->{htmlspecialchars($oDocument->getTitleText())}<!--@else--><em>{$lang->no_title_document}</em><!--@end--></a></td>
 				<td class="nowr">
 					<span cond="$oDocument->get('member_srl') <= 0">{$oDocument->getNickName()}</span>
-					<a href="#popup_menu_area" class="member_{abs($oDocument->get('member_srl'))}" cond="$oDocument->get('member_srl') < 0">({$member_nick_name[abs($oDocument->get('member_srl'))]})</a>
-					<a href="#popup_menu_area" class="member_{$oDocument->get('member_srl')}" cond="$oDocument->get('member_srl') > 0">{$oDocument->getNickName()}</a>
+					<a href="#rhymix_popup_menu" class="member_{abs($oDocument->get('member_srl'))}" cond="$oDocument->get('member_srl') < 0">({$member_nick_name[abs($oDocument->get('member_srl'))]})</a>
+					<a href="#rhymix_popup_menu" class="member_{$oDocument->get('member_srl')}" cond="$oDocument->get('member_srl') > 0">{$oDocument->getNickName()}</a>
 				</td>
 				<td class="nowr">{$oDocument->get('readed_count')}</td>
 				<td class="nowr">{$oDocument->get('voted_count')}/{$oDocument->get('blamed_count')}</td>

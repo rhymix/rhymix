@@ -1,6 +1,6 @@
 <include target="header.html" />
 <load target="../../module/tpl/js/multi_order.js" />
-<div cond="$XE_VALIDATOR_MESSAGE && $XE_VALIDATOR_ID == 'modules/board/tpl/board_insert/1'" class="message {$XE_VALIDATOR_MESSAGE_TYPE}">
+<div cond="$XE_VALIDATOR_MESSAGE && $XE_VALIDATOR_ID == 'modules/board/tpl/board_insert/1'" class="rhymix_message {$XE_VALIDATOR_MESSAGE_TYPE}">
 	<p>{$XE_VALIDATOR_MESSAGE}</p>
 </div>
 <form ruleset="insertBoard" class="x_form-horizontal" action="./" method="post" enctype="multipart/form-data">
@@ -364,7 +364,7 @@
 			</div>
 		</div>
 	</section>
-	<div class="x_clearfix btnArea">
+	<div class="x_clearfix rhymix_button_wrapper">
 		<div class="x_pull-left">
 			<a href="{getUrl('act', 'dispBoardAdminContent')}" type="button" class="x_btn">{$lang->cmd_cancel}</a>
 		</div>

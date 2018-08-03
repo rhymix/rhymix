@@ -62,9 +62,9 @@ var no_text_comment = '{$lang->no_text_comment}';
 						<a href="{getUrl('act','dispTrashAdminView','trash_srl',$oTrashVO->getTrashSrl())}">{$oTrashVO->getTitle()}</a>
 					</block>
 				</td>
-				<td class="nowr"><a href="#popup_menu_area" class="member_{$oTrashVO->unserializedObject['member_srl']}">{$oTrashVO->unserializedObject['nick_name']}</a></td>
+				<td class="nowr"><a href="#rhymix_popup_menu" class="member_{$oTrashVO->unserializedObject['member_srl']}">{$oTrashVO->unserializedObject['nick_name']}</a></td>
 				<td class="nowr">{$oTrashVO->unserializedObject['ipaddress']}</td>
-				<td class="nowr"><a href="#popup_menu_area" class="member_{$oTrashVO->getRemoverSrl()}">{$oTrashVO->getNickName()}</a></td>
+				<td class="nowr"><a href="#rhymix_popup_menu" class="member_{$oTrashVO->getRemoverSrl()}">{$oTrashVO->getNickName()}</a></td>
 				<td class="nowr">{zdate($oTrashVO->getRegdate(), "Y-m-d H:i:s")}</td>
 				<td class="title">{$oTrashVO->getDescription()}</td>
 				<td><input type="checkbox" name="cart" value="{$oTrashVO->getTrashSrl()}" /></td>

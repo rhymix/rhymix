@@ -98,7 +98,7 @@ script, style {
 	box-sizing: border-box;
 }
 .rx_simple_member form div.control-group>input[type="submit"],
-.rx_simple_member form div.control-group>input.btn.dateRemover,
+.rx_simple_member form div.control-group>input.rhymix_button.dateRemover,
 .rx_simple_member .sw-footer>a,
 .rx_simple_member .sw-anchor-buttons a {
 	display: block;
@@ -260,13 +260,13 @@ script, style {
 	color: #000;
 }
 .rx_simple_member form div.control-group>input[type="submit"]:hover,
-.rx_simple_member form div.control-group>input.btn.dateRemover:hover,
+.rx_simple_member form div.control-group>input.rhymix_button.dateRemover:hover,
 .rx_simple_member .sw-footer>a:hover,
 .rx_simple_member .sw-anchor-buttons a:hover,
 .rx_simple_member .pagination ul li>a:hover,
 .rx_simple_member .rx_sw_list .content_delete button:hover,
 .rx_simple_member form div.control-group>input[type="submit"]:focus,
-.rx_simple_member form div.control-group>input.btn.dateRemover:focus,
+.rx_simple_member form div.control-group>input.rhymix_button.dateRemover:focus,
 .rx_simple_member .sw-footer>a:focus,
 .rx_simple_member .sw-anchor-buttons a:focus,
 .rx_simple_member .pagination ul li>a:focus,

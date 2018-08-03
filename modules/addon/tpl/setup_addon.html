@@ -31,10 +31,10 @@
 		</tr>
 	</tbody>
 </table>
-<div cond="Context::isBlacklistedPlugin($addon_info->addon_name)" class="message error">
+<div cond="Context::isBlacklistedPlugin($addon_info->addon_name)" class="rhymix_message error">
 	<p><em class="x_label x_label-important">{$lang->msg_warning}</em> {$lang->msg_blacklisted_module}<br />{$lang->get('admin.msg_blacklisted_reason.'.$addon_info->addon_name)}</p>
 </div>
-<div cond="$XE_VALIDATOR_MESSAGE && $XE_VALIDATOR_ID == 'modules/addon/tpl/setup_addon/1'" class="message {$XE_VALIDATOR_MESSAGE_TYPE}">
+<div cond="$XE_VALIDATOR_MESSAGE && $XE_VALIDATOR_ID == 'modules/addon/tpl/setup_addon/1'" class="rhymix_message {$XE_VALIDATOR_MESSAGE_TYPE}">
 	<p>{$XE_VALIDATOR_MESSAGE}</p>
 </div>
 <form action="./" method="post" class="x_form-horizontal">
@@ -65,7 +65,7 @@
 			</div>
 		</block>
 	</block>
-	<div cond="!count($addon_info->extra_vars)" class="message info">
+	<div cond="!count($addon_info->extra_vars)" class="rhymix_message info">
 		<p>{$lang->msg_not_exist_option}</p>
 	</div>
 </section>
@@ -106,7 +106,7 @@
 	</block>
 </block>
 </section>
-	<div class="x_clearfix btnArea">
+	<div class="x_clearfix rhymix_button_wrapper">
 		<div class="x_pull-right">
 			<button type="submit" class="x_btn x_btn-primary">{$lang->cmd_save}</button>
 		</div>

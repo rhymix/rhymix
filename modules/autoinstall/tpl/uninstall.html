@@ -21,7 +21,7 @@
 	</div>
 
 	<div cond="!$show_ftp_note">
-		<div cond="$XE_VALIDATOR_MESSAGE && $XE_VALIDATOR_ID == 'modules/autoinstall/tpl/uninstall/1'" class="message error">
+		<div cond="$XE_VALIDATOR_MESSAGE && $XE_VALIDATOR_ID == 'modules/autoinstall/tpl/uninstall/1'" class="rhymix_message error">
 			<p>{$XE_VALIDATOR_MESSAGE}</p>
 		</div>
 		<form action="./" class="x_form-horizontal" method="post" ruleset="ftp">
@@ -41,7 +41,7 @@
 					</div>
 				</div>
 			</block>
-			<div class="x_clearfix btnArea">
+			<div class="x_clearfix rhymix_button_wrapper">
 				<div class="x_pull-right">
 					<input class="x_btn x_btn-primary" type="submit" value="{$lang->cmd_delete}" />
 				</div>

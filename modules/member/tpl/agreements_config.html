@@ -18,8 +18,8 @@
 		<div class="x_control-group">
 			<div class="x_control-label">{$lang->cmd_agreement_content}</div>
 			<div class="x_controls">
-				<input type="hidden" class="editable_preview_content" name="agreement_{$i}_content" id="agreement_{$i}_content" value="{escape($config->agreements[$i]->content)}" />
-				<div class="editable_preview">{$config->agreements[$i]->content}</div>
+				<input type="hidden" class="rhymix_editable_preview_content" name="agreement_{$i}_content" id="agreement_{$i}_content" value="{escape($config->agreements[$i]->content)}" />
+				<div class="rhymix_editable_preview">{$config->agreements[$i]->content}</div>
 			</div>
 		</div>
 		<div class="x_control-group">
@@ -33,7 +33,7 @@
 	</section>
 	<!--@end-->
 	
-	<div class="btnArea x_clearfix">
+	<div class="rhymix_button_wrapper x_clearfix">
 		<span class="x_pull-right"><input class="x_btn x_btn-primary" type="submit" value="{$lang->cmd_save}" /></span>
 	</div>
 </form>

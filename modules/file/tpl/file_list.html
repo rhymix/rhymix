@@ -1,6 +1,6 @@
 <include target="header.html" />
 
-<div cond="$XE_VALIDATOR_MESSAGE && $XE_VALIDATOR_ID == 'modules/file/tpl/file_list/1'" class="message {$XE_VALIDATOR_MESSAGE_TYPE}">
+<div cond="$XE_VALIDATOR_MESSAGE && $XE_VALIDATOR_ID == 'modules/file/tpl/file_list/1'" class="rhymix_message {$XE_VALIDATOR_MESSAGE_TYPE}">
 	<p>{$XE_VALIDATOR_MESSAGE}</p>
 </div>
 <script>
@@ -77,11 +77,11 @@ xe.lang.msg_empty_search_keyword = '{$lang->msg_empty_search_keyword}';
 				<td class="nowr">{$val->download_count}</td>
 				<td class="nowr">
 					<!--@if($val->upload_target_type == 'doc' && $document_list[$document_srl])-->
-					<a href="#popup_menu_area" class="member_{$document_list[$document_srl]->get('member_srl')}">{$document_list[$document_srl]->getNickName()}</a>
+					<a href="#rhymix_popup_menu" class="member_{$document_list[$document_srl]->get('member_srl')}">{$document_list[$document_srl]->getNickName()}</a>
 					<!--@elseif($val->upload_target_type == 'com' && $comment_list[$val->upload_target_srl])-->
-					<a href="#popup_menu_area" class="member_{$comment_list[$val->upload_target_srl]->get('member_srl')}">{$comment_list[$val->upload_target_srl]->getNickName()}</a>
+					<a href="#rhymix_popup_menu" class="member_{$comment_list[$val->upload_target_srl]->get('member_srl')}">{$comment_list[$val->upload_target_srl]->getNickName()}</a>
 					<!--@else-->
-					<a href="#popup_menu_area" class="member_{$val->member_srl}">{$val->nick_name}</a>
+					<a href="#rhymix_popup_menu" class="member_{$val->member_srl}">{$val->nick_name}</a>
 					<!--@end-->
 				</td>
 				<td class="nowr">{zdate($val->regdate,"Y-m-d H:i")}</td>

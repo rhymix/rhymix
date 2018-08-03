@@ -34,7 +34,7 @@
 				<label loop="$group_list => $k, $v" for="grant_{$key}_{$v->group_srl}"><input type="checkbox" name="download_grant[]" value="{$v->group_srl}" id="grant_{$key}_{$v->group_srl}" checked="checked"|cond="in_array($v->group_srl, $file_config->download_grant)" /> {$v->title}</label>
 			</div>
 		</div>
-		<div class="btnArea">
+		<div class="rhymix_button_wrapper">
 			<button class="x_btn x_btn-primary" type="submit">{$lang->cmd_save}</button>
 		</div>
 	</form>

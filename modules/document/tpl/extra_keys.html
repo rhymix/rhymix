@@ -5,7 +5,7 @@
 <block cond="$selected_var_idx && $extra_keys[$selected_var_idx]">
     {@ $selected_var = $extra_keys[$selected_var_idx] }
 </block>
-<div cond="$XE_VALIDATOR_MESSAGE && $XE_VALIDATOR_ID == 'modules/document/tpl/extra_keys/1'" class="message {$XE_VALIDATOR_MESSAGE_TYPE}">
+<div cond="$XE_VALIDATOR_MESSAGE && $XE_VALIDATOR_ID == 'modules/document/tpl/extra_keys/1'" class="rhymix_message {$XE_VALIDATOR_MESSAGE_TYPE}">
 	<p>{$XE_VALIDATOR_MESSAGE}</p>
 </div>
 
@@ -69,7 +69,7 @@
 				</div>
 			</div>
 
-			<div class="x_clearfix btnArea">
+			<div class="x_clearfix rhymix_button_wrapper">
 				<div class="x_pull-left">
 					<a class="x_btn" href="{getUrl('type','','selected_var_idx','')}">{$lang->cmd_back}</a>
 				</div>

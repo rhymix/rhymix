@@ -7,7 +7,7 @@
 	<input type="hidden" name="act" value="procWidgetGenerateCode" />
 	<input type="hidden" name="selected_widget" value="{$widget_info->widget}" />
 	<include target="widget_generate_code.include.html" />
-	<div class="x_clearfix btnArea">
+	<div class="x_clearfix rhymix_button_wrapper">
 		<a href="{getUrl('', 'module', 'admin', 'act', 'dispWidgetAdminDownloadedList')}" class="x_btn x_pull-left">{$lang->cmd_list}</a>
 		<input type="submit" class="x_btn x_btn-primary" value="{$lang->cmd_generate_code}" />
 	</div>

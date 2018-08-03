@@ -169,9 +169,6 @@ body>.x,
 	height: 24px;
 	padding: 0 6px;
 }
-.x .btn {
-	color: #333;
-}
 .x .x_btn {
 	border-radius: 2px;
 	overflow: visible;
@@ -556,7 +553,7 @@ margin-bottom: 10px;
 .x .nowr {
 	white-space: nowrap;
 }
-.x .btnArea {
+.x .rhymix_button_wrapper {
 	padding: 10px 0;
 	margin: 10px 0;
 	border-top: 1px solid #ccc;
@@ -564,7 +561,7 @@ margin-bottom: 10px;
 	zoom: 1;
 	clear: both;
 }
-.x .btnArea:after {
+.x .rhymix_button_wrapper:after {
 	content: "";
 	display: block;
 	clear: both;

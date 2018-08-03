@@ -8,7 +8,7 @@
 	<input type="hidden" name="document_srl" value="{$document_srl}" />
 </form>
 
-<div cond="$XE_VALIDATOR_MESSAGE && $XE_VALIDATOR_ID == 'modules/document/tpl/document_alias/1'" class="message {$XE_VALIDATOR_MESSAGE_TYPE}">
+<div cond="$XE_VALIDATOR_MESSAGE && $XE_VALIDATOR_ID == 'modules/document/tpl/document_alias/1'" class="rhymix_message {$XE_VALIDATOR_MESSAGE_TYPE}">
 	<p>{$XE_VALIDATOR_MESSAGE}</p>
 </div>
 <form ruleset="insertAlias" action="{Context::getRequestUri()}" method="post">
@@ -47,7 +47,7 @@
 				<td>
 				<input type="text" name="alias_title" />
 				</td>
-				<td><input class="btn" type="submit" value="{$lang->cmd_registration}" /></td>
+				<td><input class="rhymix_button" type="submit" value="{$lang->cmd_registration}" /></td>
 			</tr>
 		</tbody>
 	</table>

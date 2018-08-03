@@ -11,20 +11,20 @@
 		<h1>{$lang->control_panel} <a class="x_icon-question-sign" href="./common/manual/admin/index.html#UMAN_dashboard" target="_blank">{$lang->help}</a></h1>
 	</div>
 
-	<div id="checkBrowserMessage" class="message error" style="display:none;">
+	<div id="checkBrowserMessage" class="rhymix_message error" style="display:none;">
 		<h2>{$lang->checkBrowserIE8}</h2>
 	</div>
 
-	<div cond="$XE_VALIDATOR_MESSAGE && $XE_VALIDATOR_ID == 'modules/admin/tpl/index/1'" class="message {$XE_VALIDATOR_MESSAGE_TYPE}">
+	<div cond="$XE_VALIDATOR_MESSAGE && $XE_VALIDATOR_ID == 'modules/admin/tpl/index/1'" class="rhymix_message {$XE_VALIDATOR_MESSAGE_TYPE}">
 		<p>{$XE_VALIDATOR_MESSAGE}</p>
 	</div>
 
-	<div class="message error" cond="$db_info->use_sitelock == 'Y'">
+	<div class="rhymix_message error" cond="$db_info->use_sitelock == 'Y'">
 		<h2>{$lang->sitelock_in_use}</h2>
 		<p>{$lang->about_sitelock_in_use} <a href="{getUrl('', 'module', 'admin', 'act', 'dispAdminConfigSitelock')}">{$lang->cmd_configure}</a></p>
 	</div>
 
-	<div class="message update" cond="$addTables || $needUpdate">
+	<div class="rhymix_message update" cond="$addTables || $needUpdate">
 		<h2>{$lang->need_complete_configuration}</h2>
 		<p>{$lang->need_complete_configuration_details}</p>
 		<ul>
@@ -41,7 +41,7 @@
 		</ul>
 	</div>
 
-	<div class="message update" cond="count($newVersionList)">
+	<div class="rhymix_message update" cond="count($newVersionList)">
 		<h2>{$lang->available_new_version}</h2>
 		<p>{$lang->available_new_version_details}</p>
 		<ul>
@@ -61,7 +61,7 @@
 		</block>
 	</div>
 
-	<div class="message error" cond="version_compare(PHP_VERSION, __XE_MIN_PHP_VERSION__, '<')">
+	<div class="rhymix_message error" cond="version_compare(PHP_VERSION, __XE_MIN_PHP_VERSION__, '<')">
 		<h2>{$lang->msg_php_warning_title}</h2>
 		<p>{$lang->msg_php_warning_notice}</p>
 		<p>{$lang->msg_php_warning_now_version} : <strong>{phpversion()}</strong></p>

@@ -1,9 +1,9 @@
 <include target="_header.html" />
 <div class="context_message">
     <h1>{$message}</h1>
-    <div class="btnArea">
-        <a cond="!$is_logged" class="btn" href="{getUrl('act','dispMemberLoginForm')}">{$lang->cmd_login}</a>
-        <button type="button" class="btn" onclick="history.back()">{$lang->cmd_back}</button>
+    <div class="rhymix_button_wrapper">
+        <a cond="!$is_logged" class="rhymix_button" href="{getUrl('act','dispMemberLoginForm')}">{$lang->cmd_login}</a>
+        <button type="button" class="rhymix_button" onclick="history.back()">{$lang->cmd_back}</button>
     </div>
 </div>
 <include target="_footer.html" />

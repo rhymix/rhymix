@@ -1,5 +1,5 @@
 <include target="config_header.html" />
-<div cond="$XE_VALIDATOR_MESSAGE && $XE_VALIDATOR_ID == 'modules/admin/tpl/config_advanced/1'" class="message {$XE_VALIDATOR_MESSAGE_TYPE}">
+<div cond="$XE_VALIDATOR_MESSAGE && $XE_VALIDATOR_ID == 'modules/admin/tpl/config_advanced/1'" class="rhymix_message {$XE_VALIDATOR_MESSAGE_TYPE}">
 	<p>{$XE_VALIDATOR_MESSAGE}</p>
 </div>
 <section class="section">
@@ -216,7 +216,7 @@
 				<label for="use_gzip_n" class="x_inline"><input type="radio" name="use_gzip" id="use_gzip_n" value="N" checked="checked"|cond="!$use_gzip" /> {$lang->cmd_no}</label>
 			</div>
 		</div>
-		<div class="x_clearfix btnArea">
+		<div class="x_clearfix rhymix_button_wrapper">
 			<div class="x_pull-right">
 				<button type="submit" class="x_btn x_btn-primary">{$lang->cmd_save}</button>
 			</div>

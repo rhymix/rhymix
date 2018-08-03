@@ -8,7 +8,7 @@ xe.lang.confirm_poll_delete = '{$lang->confirm_poll_delete}';
 <div class="x_page-header">
 	<h1>{$lang->poll} <a class="x_icon-question-sign" href="./common/manual/admin/index.html#UMAN_content_poll" target="_blank">{$lang->help}</a></h1>
 </div>
-<div cond="$XE_VALIDATOR_MESSAGE && $XE_VALIDATOR_ID == 'modules/poll/tpl/poll_list/1'" class="message {$XE_VALIDATOR_MESSAGE_TYPE}">
+<div cond="$XE_VALIDATOR_MESSAGE && $XE_VALIDATOR_ID == 'modules/poll/tpl/poll_list/1'" class="rhymix_message {$XE_VALIDATOR_MESSAGE_TYPE}">
 	<p>{$XE_VALIDATOR_MESSAGE}</p>
 </div>
 <form ruleset="deleteChecked" action="./" method="post" id="pollList">
@@ -39,7 +39,7 @@ xe.lang.confirm_poll_delete = '{$lang->confirm_poll_delete}';
 				<td class="title"><a href="<!--@if($val->document_srl)-->{getUrl('')}?document_srl={$val->document_srl}<!--@end--><!--@if($val->comment_srl)-->#comment_{$val->comment_srl}<!--@end-->" target="_blank">{$val->title}</a></td>
 				<td class="nowr"><!--@if($val->checkcount == 1)-->{$lang->single_check}<!--@else-->{$lang->multi_check}<!--@end--></td>
 				<td class="nowr">{$val->poll_count}</td>
-				<td class="nowr"><a href="#popup_menu_area" class="member_{$val->member_srl}">{$val->nick_name}</a></td>
+				<td class="nowr"><a href="#rhymix_popup_menu" class="member_{$val->member_srl}">{$val->nick_name}</a></td>
 				<td class="nowr">{zdate($val->poll_regdate,"Y-m-d H:i")}</td>
 				<td class="nowr">{zdate($val->poll_stop_date,"Y-m-d")}</td>
 				<td>

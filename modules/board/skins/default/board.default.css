@@ -249,7 +249,7 @@
 	display: block;
 	clear: both;
 }
-.list_footer .btnArea {
+.list_footer .rhymix_button_wrapper {
 	float: right;
 	margin: 0;
 }
@@ -332,7 +332,7 @@
 	display: block;
 	clear: both;
 }
-.write_footer .btnArea {
+.write_footer .rhymix_button_wrapper {
 	float: right;
 	margin: 0;
 }
@@ -672,7 +672,7 @@
 .read_footer .sign .tx * {
 	margin: 0;
 }
-.read_footer .btnArea {
+.read_footer .rhymix_button_wrapper {
 	clear: both;
 	text-align: right;
 	padding: 10px 0;
@@ -1078,7 +1078,7 @@
 	font-size: 16px;
 	margin: 20px 0;
 }
-.context_message .btnArea {
+.context_message .rhymix_button_wrapper {
 	margin: 20px 0;
 }
 /* Tag List */

@@ -24,7 +24,7 @@
 			var thisPlugin = this;
 
 			// extract target text nodes
-			this.extractTargets($('.xe_content'));
+			this.extractTargets($('.rhymix_content, .xe_content'));
 
 			$(this.targets).each(function(){
 				thisPlugin.cast('AUTOLINK', [this]);
@@ -63,7 +63,7 @@
 		},
 		extractTargets : function(obj) {
 			var thisPlugin = this;
-			var wrap = $('.xe_content', obj);
+			var wrap = $('.rhymix_content, .xe_content', obj);
 			if(wrap.length) {
 				this.extractTargets(wrap);
 				return;
@@ -93,7 +93,7 @@
 
 	xe.registerPlugin(new AutoLink());
 	
-	$(document).on('click', '.xe_content a', function() {
+	$(document).on('click', '.rhymix_content a, .xe_content a', function() {
 		if (!$(this).attr("target")) {
 			$(this).attr("target", "_blank");
 		}

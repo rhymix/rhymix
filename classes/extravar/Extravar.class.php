@@ -447,7 +447,7 @@ class ExtraItem
 
 				$buff[] = '<input type="hidden" name="' . $column_name . '" value="' . $value . '" />'; 
 				$buff[] =	'<input type="text" id="date_' . $column_name . '" value="' . zdate($value, 'Y-m-d') . '" class="date" />';
-				$buff[] =	'<input type="button" value="' . lang('cmd_delete') . '" class="btn" id="dateRemover_' . $column_name . '" />';
+				$buff[] =	'<input type="button" value="' . lang('cmd_delete') . '" class="rhymix_button" id="dateRemover_' . $column_name . '" />';
 				$buff[] =	'<script type="text/javascript">';
 				$buff[] = '//<![CDATA[';
 				$buff[] =	'(function($){';

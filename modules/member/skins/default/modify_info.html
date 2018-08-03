@@ -4,7 +4,7 @@
 <!--%load_js_plugin("ui")-->
 <!--%load_js_plugin("ui.datepicker")-->
 <h1 style="border-bottom:1px solid #ccc">{$lang->msg_update_member}</h1>
-<div cond="$XE_VALIDATOR_MESSAGE && $XE_VALIDATOR_ID == 'modules/member/skins/default/1'" class="message {$XE_VALIDATOR_MESSAGE_TYPE}">
+<div cond="$XE_VALIDATOR_MESSAGE && $XE_VALIDATOR_ID == 'modules/member/skins/default/1'" class="rhymix_message {$XE_VALIDATOR_MESSAGE_TYPE}">
 	<p>{$XE_VALIDATOR_MESSAGE}</p>
 </div>
 <script>
@@ -50,9 +50,9 @@
 			<label for="allow_{$key}" loop="$lang->allow_message_type=>$key,$val"><input type="radio" name="allow_message" value="{$key}" checked="checked"|cond="$member_info->allow_message == $key" id="allow_{$key}" /> {$val}</label>
 		</div>
 	</div>
-	<div class="btnArea" style="border-top:1px solid #ccc;padding-top:10px">
-		<input type="submit" value="{$lang->cmd_registration}" class="btn btn-inverse pull-right" />
-		<a href="{getUrl('act','dispMemberInfo','member_srl','')}" class="btn pull-left">{$lang->cmd_cancel}</a>
+	<div class="rhymix_button_wrapper" style="border-top:1px solid #ccc;padding-top:10px">
+		<input type="submit" value="{$lang->cmd_registration}" class="rhymix_button inverse pull-right" />
+		<a href="{getUrl('act','dispMemberInfo','member_srl','')}" class="rhymix_button pull-left">{$lang->cmd_cancel}</a>
 	</div>
 </form>
 <script>

@@ -76,8 +76,8 @@
 		</div>
 		<div style="float:right">
 			<block cond="!$oDocument->isExists() || $oDocument->get('status') == 'TEMP'">
-			<button cond="$is_logged" class="btn" type="button" onclick="doDocumentSave(this);">{$lang->cmd_temp_save}</button>
-			<button cond="$is_logged" class="btn" type="button" onclick="doDocumentLoad(this);">{$lang->cmd_load}</button>
+			<button cond="$is_logged" class="rhymix_button" type="button" onclick="doDocumentSave(this);">{$lang->cmd_temp_save}</button>
+			<button cond="$is_logged" class="rhymix_button" type="button" onclick="doDocumentLoad(this);">{$lang->cmd_load}</button>
 			</block>
 			<button type="submit" class="btn_insert"><i class="xi-pen"></i> {$lang->cmd_registration}</button>
 		</div>

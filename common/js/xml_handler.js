@@ -16,9 +16,9 @@
 	window.show_leaving_warning = true;
 	
 	/**
-	 * This variable stores the .wfsr jQuery object.
+	 * This variable stores the #rhymix_waiting jQuery object.
 	 */
-	var waiting_obj = $(".wfsr");
+	var waiting_obj = $('#rhymix_waiting');
 	
 	/**
 	 * Function for compatibility with XE's exec_xml()
@@ -56,7 +56,7 @@
 		
 		// Delay the waiting message for 1 second to prevent rapid blinking.
 		waiting_obj.css("opacity", 0.0);
-		var wfsr_timeout = setTimeout(function() {
+		var waiting_timeout = setTimeout(function() {
 			if (show_waiting_message) {
 				waiting_obj.css("opacity", "").show();
 			}
@@ -66,7 +66,7 @@
 		successHandler = function(data, textStatus, xhr) {
 			
 			// Hide the waiting message.
-			clearTimeout(wfsr_timeout);
+			clearTimeout(waiting_timeout);
 			waiting_obj.hide().trigger("cancel_confirm");
 			
 			// Copy data to the result object.
@@ -128,7 +128,7 @@
 			}
 			
 			// Hide the waiting message and display an error notice.
-			clearTimeout(wfsr_timeout);
+			clearTimeout(waiting_timeout);
 			waiting_obj.hide().trigger("cancel_confirm");
 			var error_info;
 			
@@ -203,7 +203,7 @@
 		
 		// Delay the waiting message for 1 second to prevent rapid blinking.
 		waiting_obj.css("opacity", 0.0);
-		var wfsr_timeout = setTimeout(function() {
+		var waiting_timeout = setTimeout(function() {
 			if (show_waiting_message) {
 				waiting_obj.css("opacity", "").show();
 			}
@@ -213,7 +213,7 @@
 		var successHandler = function(data, textStatus, xhr) {
 			
 			// Hide the waiting message.
-			clearTimeout(wfsr_timeout);
+			clearTimeout(waiting_timeout);
 			waiting_obj.hide().trigger("cancel_confirm");
 			
 			// Add debug information.
@@ -263,7 +263,7 @@
 		
 		// Define the error handler.
 		var errorHandler = function(xhr, textStatus) {
-			clearTimeout(wfsr_timeout);
+			clearTimeout(waiting_timeout);
 			waiting_obj.hide().trigger("cancel_confirm");
 			var error_info;
 			
@@ -314,7 +314,7 @@
 		
 		// Delay the waiting message for 1 second to prevent rapid blinking.
 		waiting_obj.css("opacity", 0.0);
-		var wfsr_timeout = setTimeout(function() {
+		var waiting_timeout = setTimeout(function() {
 			if (show_waiting_message) {
 				waiting_obj.css("opacity", "").show();
 			}
@@ -322,7 +322,7 @@
 		
 		// Define the success handler.
 		var successHandler = function(data, textStatus, xhr) {
-			clearTimeout(wfsr_timeout);
+			clearTimeout(waiting_timeout);
 			waiting_obj.hide().trigger("cancel_confirm");
 			if (self && self[type]) {
 				self[type](html);
@@ -334,7 +334,7 @@
 		
 		// Define the error handler.
 		var errorHandler = function(xhr, textStatus) {
-			clearTimeout(wfsr_timeout);
+			clearTimeout(waiting_timeout);
 			waiting_obj.hide().trigger("cancel_confirm");
 			var error_info = xhr.status + " " + xhr.statusText + " (" + textStatus + ")";
 			alert("AJAX communication error while requesting " + params.module + "." + params.act + "\n\n" + error_info);
@@ -367,7 +367,7 @@
 	 * Register the beforeUnload handler.
 	 */
 	$(function() {
-		waiting_obj = $(".wfsr");
+		waiting_obj = $('#rhymix_waiting');
 		if (show_leaving_warning) {
 			$(document).ajaxStart(function() {
 				$(window).bind("beforeunload", beforeUnloadHandler);

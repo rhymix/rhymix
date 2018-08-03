@@ -1,6 +1,6 @@
 <include target="./header.html" />
 <load target="js/importer_admin.js" />
-<div cond="$XE_VALIDATOR_MESSAGE && $XE_VALIDATOR_ID == 'modules/importer/tpl/index/1'" class="message {$XE_VALIDATOR_MESSAGE_TYPE}">
+<div cond="$XE_VALIDATOR_MESSAGE && $XE_VALIDATOR_ID == 'modules/importer/tpl/index/1'" class="rhymix_message {$XE_VALIDATOR_MESSAGE_TYPE}">
 	<p>{$XE_VALIDATOR_MESSAGE}</p>
 </div>
 <form class="section" action="./" method="get" onsubmit="return doPreProcessing(this, 'documentForm')" id="documentForm">
@@ -33,7 +33,7 @@
 		<label><input type="checkbox" name="isSync" value="Y" /> {$lang->type_syncmember}</label>
 		<p class="x_help-block">{$lang->import_step_desc[3]}</p>
 	</div>
-	<div class="btnArea">
+	<div class="rhymix_button_wrapper">
 		<button type="submit" class="x_btn x_btn-primary">{$lang->importer}</button>
 	</div>
 </form>
@@ -54,7 +54,7 @@
 		<label><input type="checkbox" name="isSync" value="Y" /> {$lang->type_syncmember}</label>
 		<p class="x_help-block">{$lang->import_step_desc[3]}</p>
 	</div>
-	<div class="btnArea">
+	<div class="rhymix_button_wrapper">
 		<button type="submit" class="x_btn x_btn-primary">{$lang->importer}</button>
 	</div>
 </form>
@@ -71,7 +71,7 @@
 		</span>
 		<p class="x_help-inline" style="line-height:26px"></p>
 	</div>
-	<div class="btnArea">
+	<div class="rhymix_button_wrapper">
 		<button type="submit" class="x_btn x_btn-primary">{$lang->importer}</button>
 	</div>
 </form>

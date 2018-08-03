@@ -195,7 +195,7 @@ class layoutView extends layout
 		}
 		catch(Exception $e)
 		{
-			$content = '<div class="message error"><p id="preview_error">' . $e->getMessage() . '</p></div>';
+			$content = '<div class="rhymix_message error"><p id="preview_error">' . $e->getMessage() . '</p></div>';
 			Context::set('content', $content);
 			$layoutSrl = 0;
 		}

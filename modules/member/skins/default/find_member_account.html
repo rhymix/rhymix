@@ -3,7 +3,7 @@
 <section>
 	<h1>{$lang->cmd_find_member_account_with_email}</h1>
 	<p>{$lang->about_find_member_account}</p>
-	<div cond="$XE_VALIDATOR_MESSAGE && $XE_VALIDATOR_ID == 'modules/member/skin/default/find_member_account/1'" class="message {$XE_VALIDATOR_MESSAGE_TYPE}">
+	<div cond="$XE_VALIDATOR_MESSAGE && $XE_VALIDATOR_ID == 'modules/member/skin/default/find_member_account/1'" class="rhymix_message {$XE_VALIDATOR_MESSAGE_TYPE}">
 		<p>{$XE_VALIDATOR_MESSAGE}</p>
 	</div>
 	<form action="{getUrl('', 'act', 'procMemberFindAccount')}" method="post" ruleset="findAccount">
@@ -15,7 +15,7 @@
 		<div>
 			<input type="email" name="email_address" required placeholder="{$lang->email_address}" title="{$lang->email_address}" /><br />
 			<block cond="$captcha">{$captcha}<br /></block>
-			<input type="submit" class="btn btn-inverse" value="{$lang->cmd_find_member_account}" />
+			<input type="submit" class="rhymix_button inverse" value="{$lang->cmd_find_member_account}" />
 		</div>
 	</form>
 </section>
@@ -23,7 +23,7 @@
 <section>
 	<h1>{$lang->cmd_resend_auth_mail}</h1>
 	<p>{$lang->about_resend_auth_mail}</p>
-	<div cond="$XE_VALIDATOR_MESSAGE && $XE_VALIDATOR_ID == 'modules/member/skin/default/find_member_account/3'" class="message {$XE_VALIDATOR_MESSAGE_TYPE}">
+	<div cond="$XE_VALIDATOR_MESSAGE && $XE_VALIDATOR_ID == 'modules/member/skin/default/find_member_account/3'" class="rhymix_message {$XE_VALIDATOR_MESSAGE_TYPE}">
 		<p>{$XE_VALIDATOR_MESSAGE}</p>
 	</div>
 	<form ruleset="resendAuthMail" action="{getUrl('', 'act', 'procMemberResendAuthMail')}" method="post">
@@ -34,7 +34,7 @@
 		<div>
 			<input type="email" id="email_address" name="email_address" value="" required placeholder="{$lang->email_address}" title="{$lang->email_address}" /><br />
 			<block cond="$captcha">{$captcha}<br /></block>
-			<input type="submit" value="{$lang->cmd_resend_auth_mail}" class="btn btn-inverse" />
+			<input type="submit" value="{$lang->cmd_resend_auth_mail}" class="rhymix_button inverse" />
 		</div>
 	</form>
 </section>

@@ -195,7 +195,7 @@
 
 			/* 레이어 출력 */
 			if(html) {
-				var area = $('#popup_menu_area').html('<ul>'+html+'</ul>');
+				var area = $('#rhymix_popup_menu').html('<ul>'+html+'</ul>');
 				var areaOffset = {top:params.page_y, left:params.page_x};
 
 				if(area.outerHeight()+areaOffset.top > $(window).height()+$(window).scrollTop())
@@ -286,21 +286,21 @@ jQuery(function($) {
 	});
 	
 	/* Editor preview replacement */
-	$(".editable_preview").addClass("xe_content").attr("tabindex", 0);
-	$(".editable_preview").on("click", function() {
-		var input = $(this).siblings(".editable_preview_content");
+	$(".rhymix_editable_preview").addClass("rhymix_content").attr("tabindex", 0);
+	$(".rhymix_editable_preview").on("click", function() {
+		var input = $(this).siblings(".rhymix_editable_preview_content");
 		if (input.size()) {
 			$(this).off("click").off("focus").hide();
 			input = input.first();
 			if (input.attr("type") !== "hidden") {
 				input.hide();
 			}
-			var iframe = $('<iframe class="editable_preview_iframe"></iframe>');
+			var iframe = $('<iframe class="rhymix_editable_preview_iframe"></iframe>');
 			iframe.attr("src", current_url.setQuery("module", "editor").setQuery("act", "dispEditorFrame").setQuery("parent_input_id", input.attr("id")).replace(/^https?:/, ''));
 			iframe.insertAfter(input);
 		}
 	});
-	$(".editable_preview").on("focus", function() {
+	$(".rhymix_editable_preview").on("focus", function() {
 		$(this).triggerHandler("click");
 	});
 	
@@ -1080,8 +1080,8 @@ function get_by_id(id) {
 jQuery(function($){
 	// display popup menu that contains member actions and document actions
 	$(document).on('click', function(evt) {
-		var $area = $('#popup_menu_area');
-		if(!$area.length) $area = $('<div id="popup_menu_area" tabindex="0" style="display:none;" />').appendTo(document.body);
+		var $area = $('#rhymix_popup_menu');
+		if(!$area.length) $area = $('<div id="rhymix_popup_menu" tabindex="0" style="display:none;" />').appendTo(document.body);
 
 		// 이전에 호출되었을지 모르는 팝업메뉴 숨김
 		$area.hide();

@@ -2,21 +2,21 @@
 <h1>{$member_title = $lang->cmd_view_scrapped_document}</h1>
 
 <div>
-	<div class="btnArea" style="clear:none;float:left">
+	<div class="rhymix_button_wrapper" style="clear:none;float:left">
 		<select id="scrap_folder_list" style="margin:0">
 			<!--@foreach($scrap_folders as $folder)-->
 				<option value="{$folder->folder_srl}" selected="selected"|cond="$folder_srl == $folder->folder_srl">{$folder->name == '/DEFAULT/' ? $lang->default_folder : $folder->name}</option>
 			<!--@endforeach-->
 		</select>
-		<div class="btn-group" cond="$folder_info->name !== '/DEFAULT/'">
+		<div class="rhymix_button_group" cond="$folder_info->name !== '/DEFAULT/'">
 			<input type="text" class="folder_name" style="margin:0;display:none" />
-			<button id="scrap_folder_rename" class="btn" data-folder-srl="{$folder_srl}">{$lang->scrap_folder_rename}</button>
-			<button id="scrap_folder_delete" class="btn" data-folder-srl="{$folder_srl}">{$lang->scrap_folder_delete}</button>
+			<button id="scrap_folder_rename" class="rhymix_button" data-folder-srl="{$folder_srl}">{$lang->scrap_folder_rename}</button>
+			<button id="scrap_folder_delete" class="rhymix_button" data-folder-srl="{$folder_srl}">{$lang->scrap_folder_delete}</button>
 		</div>
 	</div>
-	<div class="btnArea" style="clear:none;float:right">
+	<div class="rhymix_button_wrapper" style="clear:none;float:right">
 		<input type="text" class="folder_name" style="margin:0;display:none" />
-		<button id="scrap_folder_create" class="btn">{$lang->scrap_folder_create}</button>
+		<button id="scrap_folder_create" class="rhymix_button">{$lang->scrap_folder_create}</button>
 	</div>
 	<div class="clear:both"></div>
 </div>
@@ -36,7 +36,7 @@
 		<tr loop="$document_list=>$no,$val">
 			<td>{$no}</td>
 			<td class="title"><a href="{getUrl('','document_srl',$val->document_srl)}" target="_blank">{htmlspecialchars($val->title, ENT_COMPAT | ENT_HTML401, 'UTF-8', false)}</a></td>
-			<td><a href="#popup_menu_area" class="member_{$val->target_member_srl}">{$val->nick_name}</a></td>
+			<td><a href="#rhymix_popup_menu" class="member_{$val->target_member_srl}">{$val->nick_name}</a></td>
 			<td>{zdate($val->regdate, "Y-m-d")}</td>
 			<td><button type="button" class="text" onclick="doDeleteScrap({$val->document_srl});">{$lang->cmd_delete}</button></td>
 			<td>

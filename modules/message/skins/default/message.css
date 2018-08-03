@@ -23,7 +23,7 @@ body, #access table, #access input, #access textarea, #access select, #access bu
 #access input[type="email"],
 #access input[type="password"]{width:100%}
 #access input[type="checkbox"]{margin:0}
-#access .btn{border-radius:2px;overflow:visible;font-size:14px;line-height:18px;height:auto;padding:3px 9px;text-decoration:none}
+#access .rhymix_button{border-radius:2px;overflow:visible;font-size:14px;line-height:18px;height:auto;padding:3px 9px;text-decoration:none}
 #access .submit{position:absolute;top:0;right:0}
 #access p{margin:10px 0}
 #access #warning{margin-right:-14px}

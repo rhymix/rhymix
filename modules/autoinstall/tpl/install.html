@@ -3,7 +3,7 @@
 
 <h2>{$package->title} ver. {$package->version}</h2>
 
-<div class="message error" cond="version_compare(PHP_VERSION, __XE_MIN_PHP_VERSION__, '<')">
+<div class="rhymix_message error" cond="version_compare(PHP_VERSION, __XE_MIN_PHP_VERSION__, '<')">
 	<h2>안전하지 않은 PHP 버전 경고</h2>
 	<p>이 서버는 안전하지 않은 PHP 버전을 사용하고 있으며, PHP를 최신 안정 버전으로의 업그레이드를 권장합니다.</p>
 	<p>이 서버의 PHP 버전 : <strong>{phpversion()}</strong></p>
@@ -54,7 +54,7 @@
 		</block>
 	</div>
 	<div cond="!$show_ftp_note">
-		<div cond="$XE_VALIDATOR_MESSAGE && $XE_VALIDATOR_ID == 'modules/autoinstall/tpl/install/1'" class="message error">
+		<div cond="$XE_VALIDATOR_MESSAGE && $XE_VALIDATOR_ID == 'modules/autoinstall/tpl/install/1'" class="rhymix_message error">
 			<p>{$XE_VALIDATOR_MESSAGE}</p>
 		</div>
 		<form action="./" class="x_form-horizontal" method="post" ruleset="ftp">
@@ -74,7 +74,7 @@
 					</div>
 				</div>
 			</block>
-			<div class="x_clearfix btnArea">
+			<div class="x_clearfix rhymix_button_wrapper">
 				<div class="x_pull-right">
 					<input class="x_btn x_btn-primary" type="submit" value="{$package->installed?$lang->update:$lang->install}" />
 				</div>

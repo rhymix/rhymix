@@ -14,13 +14,13 @@
         <input type="text" name="tags" value="{htmlspecialchars($oDocument->get('tags'), ENT_COMPAT | ENT_HTML401, 'UTF-8', false)}" class="iText" title="Tag" />
 		<p>{$lang->about_tag}</p>
     </div>
-	<div class="btnArea">
+	<div class="rhymix_button_wrapper">
         <!--@if($is_logged)-->
 		<!--@if(!$oDocument->isExists() || $oDocument->get('status') == 'TEMP')-->
-        <button class="btn" type="button" onclick="doDocumentSave(this);">{$lang->cmd_temp_save}</button>
-        <button class="btn" type="button" onclick="doDocumentLoad(this);">{$lang->cmd_load}</button>
+        <button class="rhymix_button" type="button" onclick="doDocumentSave(this);">{$lang->cmd_temp_save}</button>
+        <button class="rhymix_button" type="button" onclick="doDocumentLoad(this);">{$lang->cmd_load}</button>
 		<!--@end-->
         <!--@end-->
-		<input class="btn" type="submit" value="{$lang->cmd_registration}" />
+		<input class="rhymix_button" type="submit" value="{$lang->cmd_registration}" />
 	</div>
 </form>

@@ -57,7 +57,7 @@
 						[{$document->getTrackbackCount()}]
 					</a>
 				</td>
-				<td class="author" cond="$val->type=='nick_name' && $val->idx==-1"><a href="#popup_menu_area" class="member_{$document->get('member_srl')}" onclick="return false">{$document->getNickName()}</a></td>
+				<td class="author" cond="$val->type=='nick_name' && $val->idx==-1"><a href="#rhymix_popup_menu" class="member_{$document->get('member_srl')}" onclick="return false">{$document->getNickName()}</a></td>
 				<td class="author" cond="$val->type=='user_id' && $val->idx==-1">{$document->getUserID()}</td>
 				<td class="author" cond="$val->type=='user_name' && $val->idx==-1">{$document->getUserName()}</td>
 				<td class="time" cond="$val->type=='regdate' && $val->idx==-1">{$document->getRegdate('Y.m.d')}</td>
@@ -95,7 +95,7 @@
 					<a cond="$document->getTrackbackCount()" href="{getUrl('document_srl', $document->document_srl)}#trackback" class="trackbackNum" title="Trackbacks">[{$document->getTrackbackCount()}]</a>
 					{$document->printExtraImages(60*60*$module_info->duration_new)}
 				</td>
-				<td class="author" cond="$val->type=='nick_name' && $val->idx==-1"><a href="#popup_menu_area" class="member_{$document->get('member_srl')}" onclick="return false">{$document->getNickName()}</a></td>
+				<td class="author" cond="$val->type=='nick_name' && $val->idx==-1"><a href="#rhymix_popup_menu" class="member_{$document->get('member_srl')}" onclick="return false">{$document->getNickName()}</a></td>
 				<td class="author" cond="$val->type=='user_id' && $val->idx==-1">{$document->getUserID()}</td>
 				<td class="author" cond="$val->type=='user_name' && $val->idx==-1">{$document->getUserName()}</td>
 				<td class="time" cond="$val->type=='regdate' && $val->idx==-1">{$document->getRegdate('Y.m.d')}</td>
@@ -125,11 +125,11 @@
 </div>
 <div class="list_footer">
 
-	<div class="btnArea">
-		<a href="{getUrl('act','dispBoardWrite','document_srl','')}" class="btn"><i class="xi-pen"></i> {$lang->cmd_write}</a>
-		<a href="{getUrl('act','dispBoardTagList')}" class="btn" title="{$lang->tag}"><i class="xi-tag"></i> {$lang->tag}</a>
-		<a cond="$grant->manager" class="btn" href="{getUrl('act','dispBoardAdminBoardInfo')}" title="{$lang->cmd_setup}"><i class="xi-cog"></i> {$lang->cmd_setup}</a>			
-		<a cond="$grant->manager" href="{getUrl('','module','document','act','dispDocumentManageDocument')}" class="btn" onclick="popopen(this.href,'manageDocument'); return false;">{$lang->cmd_manage_document}</a>
+	<div class="rhymix_button_wrapper">
+		<a href="{getUrl('act','dispBoardWrite','document_srl','')}" class="rhymix_button"><i class="xi-pen"></i> {$lang->cmd_write}</a>
+		<a href="{getUrl('act','dispBoardTagList')}" class="rhymix_button" title="{$lang->tag}"><i class="xi-tag"></i> {$lang->tag}</a>
+		<a cond="$grant->manager" class="rhymix_button" href="{getUrl('act','dispBoardAdminBoardInfo')}" title="{$lang->cmd_setup}"><i class="xi-cog"></i> {$lang->cmd_setup}</a>			
+		<a cond="$grant->manager" href="{getUrl('','module','document','act','dispDocumentManageDocument')}" class="rhymix_button" onclick="popopen(this.href,'manageDocument'); return false;">{$lang->cmd_manage_document}</a>
 	</div>
 
 	<form cond="$grant->view" action="{getUrl()}" method="get" onsubmit="return procFilter(this, search)" id="board_search" class="board_search" no-error-return-url="true">
@@ -143,8 +143,8 @@
 			<i class="xi-magnifier"></i>
 			<input type="text" name="search_keyword" value="{htmlspecialchars($search_keyword)}" title="{$lang->cmd_search}" class="iText" />
 		</div>
-		<button type="submit" class="btn" onclick="xGetElementById('board_search').submit();return false;">{$lang->cmd_search}</button>
-        <a cond="$last_division" href="{getUrl('page',1,'document_srl','','division',$last_division,'last_division','')}" class="btn">{$lang->cmd_search_next}</a>
+		<button type="submit" class="rhymix_button" onclick="xGetElementById('board_search').submit();return false;">{$lang->cmd_search}</button>
+        <a cond="$last_division" href="{getUrl('page',1,'document_srl','','division',$last_division,'last_division','')}" class="rhymix_button">{$lang->cmd_search_next}</a>
 	</form>
 
 	<div class="pagination" cond="$document_list || $notice_list">

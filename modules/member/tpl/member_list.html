@@ -8,7 +8,7 @@
 <div class="x_page-header">
 	<h1>{$lang->user_list} <a class="x_icon-question-sign" href="./common/manual/admin/index.html#UMAN_member_list" target="_blank">{$lang->help}</a></h1>
 </div>
-<div cond="$XE_VALIDATOR_MESSAGE && $XE_VALIDATOR_ID == 'modules/member/tpl/1'" class="message {$XE_VALIDATOR_MESSAGE_TYPE}">
+<div cond="$XE_VALIDATOR_MESSAGE && $XE_VALIDATOR_ID == 'modules/member/tpl/1'" class="rhymix_message {$XE_VALIDATOR_MESSAGE_TYPE}">
 	<p>{$XE_VALIDATOR_MESSAGE}</p>
 </div>
 <form action="" method="post">
@@ -53,7 +53,7 @@
 					<!--@end-->
 				</td>
 				<td class="nowr">
-					<a href="#popup_menu_area" class="member_{$member_info['member_srl']}" title="Info">{getEncodeEmailAddress($member_info['email_address'])}</a>
+					<a href="#rhymix_popup_menu" class="member_{$member_info['member_srl']}" title="Info">{getEncodeEmailAddress($member_info['email_address'])}</a>
 				</td>
 				{@ $member_info['group_list'] = implode(', ', $member_info['group_list'])}
 				<td class="nowr" loop="$usedIdentifiers=>$name,$title">{$member_info[$name]}</td>
