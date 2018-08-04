@@ -312,7 +312,7 @@ a img {
 }
 .btnArea_mixin(@enabled) when (@enabled = false) { }
 .btnArea {
-	.btnArea_mixin(@enable_xe_btn);
+	.btnArea_mixin(@enable_xe_btn_styles);
 }
 .btn_mixin(@enabled) when (@enabled = true) {
 	display: inline-block;
@@ -376,7 +376,7 @@ a img {
 }
 .btn_mixin(@enabled) when (@enabled = false) { }
 .btn {
-	.btn_mixin(@enable_xe_btn);
+	.btn_mixin(@enable_xe_btn_styles);
 }
 .btn-group_mixin(@enabled) when (@enabled = true) {
 	position: relative;
@@ -425,7 +425,7 @@ a img {
 }
 .btn-group_mixin(@enabled) when (@enabled = false) { }
 .btn-group {
-	.btn-group_mixin(@enable_xe_btn);
+	.btn-group_mixin(@enable_xe_btn_styles);
 }
 
 /* Message (for XE compatibility) */
@@ -463,5 +463,5 @@ a img {
 }
 .message_mixin(@enabled) when (@enabled = false) { }
 .message {
-	.message_mixin(@enable_xe_msg);
+	.message_mixin(@enable_xe_msg_styles);
 }
