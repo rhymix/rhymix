@@ -26,7 +26,7 @@ a img {
 .word_break(@wb) when (@wb = none) {
 	white-space: nowrap;
 }
-.xe_content {
+.xe_content, .rhymix_content {
 	font-family: @default_font_family;
 	font-size: @default_font_size;
 	line-height: @default_line_height;
@@ -65,7 +65,7 @@ a img {
 }
 
 /* Popup Menu Area */
-#popup_menu_area {
+#rhymix_popup_menu, #popup_menu_area {
 	position: absolute;
 	z-index: 9999;
 	margin: 10px 0;
@@ -98,7 +98,7 @@ a img {
 	}
 }
 @media screen and (max-width: 400px) {
-	#popup_menu_area {
+	#rhymix_popup_menu, #popup_menu_area {
 		min-width:120px;
 		max-width:95%;
 		font-size: 13px;
@@ -314,6 +314,9 @@ a img {
 .btnArea {
 	.btnArea_mixin(@enable_xe_btn_styles);
 }
+.rhymix_button_wrapper {
+	.btnArea_mixin(true);
+}
 .btn_mixin(@enabled) when (@enabled = true) {
 	display: inline-block;
 	*display: inline;
@@ -377,6 +380,9 @@ a img {
 .btn_mixin(@enabled) when (@enabled = false) { }
 .btn {
 	.btn_mixin(@enable_xe_btn_styles);
+}
+.rhymix_button {
+	.btn_mixin(true);
 }
 .btn-group_mixin(@enabled) when (@enabled = true) {
 	position: relative;
@@ -464,4 +470,7 @@ a img {
 .message_mixin(@enabled) when (@enabled = false) { }
 .message {
 	.message_mixin(@enable_xe_msg_styles);
+}
+.rhymix_message {
+	.message_mixin(true);
 }
