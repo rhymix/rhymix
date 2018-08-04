@@ -651,7 +651,7 @@ class documentItem extends BaseObject
 		if($add_popup_menu)
 		{
 			$content = sprintf(
-				'%s<div class="document_popup_menu"><a href="#rhymix_popup_menu" class="document_%d" onclick="return false">%s</a></div>',
+				'%s<div class="document_popup_menu"><a href="#popup_menu_area" class="document_%d" onclick="return false">%s</a></div>',
 				$content,
 				$this->document_srl, lang('cmd_document_do')
 			);

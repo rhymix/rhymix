@@ -1,10 +1,10 @@
 (function($){
 	var WaitingStub = xe.createPlugin('waiting_stub', {
 		API_BEFORE_VALIDATE : function(sender, params) {
-			$('#rhymix_waiting').html(waiting_message).show();
+			$('.wfsr').html(waiting_message).show();
 		},
 		API_BEFORE_SHOW_ALERT : function(sender, params) {
-			$('#rhymix_waiting').hide();
+			$('.wfsr').hide();
 		}
 	});
 

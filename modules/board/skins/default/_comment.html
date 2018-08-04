@@ -11,14 +11,14 @@
 				<h3 class="author">
 					<a cond="$comment->member_srl <= 0 && $comment->homepage" href="{$comment->getHomepageUrl()}">{$comment->getNickName()}</a>
 					<strong cond="$comment->member_srl <= 0 && !$comment->homepage">{$comment->getNickName()}</strong>
-					<a cond="$comment->member_srl > 0" href="#rhymix_popup_menu" class="member_{$comment->member_srl}" onclick="return false">{$comment->getNickName()}</a>
+					<a cond="$comment->member_srl > 0" href="#popup_menu_area" class="member_{$comment->member_srl}" onclick="return false">{$comment->getNickName()}</a>
 				</h3>
 				<p class="time">{$comment->getRegdate('Y.m.d H:i')}</p>
 			</div>
 			<!--@if(!$comment->isAccessible())-->
 			<form action="./" method="get" class="xe_content" onsubmit="return procFilter(this, input_password)">
 				<p><label for="cpw_{$comment->comment_srl}">{$lang->msg_is_secret} {$lang->msg_input_password}</label></p>
-				<p><input type="password" name="password" id="cpw_{$comment->comment_srl}" class="iText" /><input type="submit" class="rhymix_button" value="{$lang->cmd_input}" /></p>
+				<p><input type="password" name="password" id="cpw_{$comment->comment_srl}" class="iText" /><input type="submit" class="btn" value="{$lang->cmd_input}" /></p>
 				<input type="hidden" name="mid" value="{$mid}" />
 				<input type="hidden" name="page" value="{$page}" />
 				<input type="hidden" name="document_srl" value="{$comment->get('document_srl')}" />
@@ -45,7 +45,7 @@
 				<a cond="$oDocument->allowComment()" href="{getUrl('act','dispBoardReplyComment','comment_srl',$comment->comment_srl)}" class="reply">{$lang->cmd_reply}</a>
 				<a cond="$comment->isGranted()||!$comment->get('member_srl')" href="{getUrl('act','dispBoardModifyComment','comment_srl',$comment->comment_srl)}" class="modify">{$lang->cmd_modify}</a>
 				<a cond="$comment->isGranted()||!$comment->get('member_srl')" href="{getUrl('act','dispBoardDeleteComment','comment_srl',$comment->comment_srl)}" class="delete">{$lang->cmd_delete}</a>
-				<a cond="$is_logged" class="comment_{$comment->comment_srl} this" href="#rhymix_popup_menu" onclick="return false">{$lang->cmd_comment_do}</a>
+				<a cond="$is_logged" class="comment_{$comment->comment_srl} this" href="#popup_menu_area" onclick="return false">{$lang->cmd_comment_do}</a>
 			</p>
 		</li>
 	</ul>
@@ -81,12 +81,12 @@
 			<input cond="$module_info->secret=='Y'" type="checkbox" name="is_secret" value="Y" id="is_secret" class="iCheck" />
 			<label cond="$module_info->secret=='Y'" for="is_secret">{$lang->secret}</label>
 		</div>
-		<div class="rhymix_button_wrapper">
-			<button type="submit" class="rhymix_button">{$lang->cmd_comment_registration}</button>
+		<div class="btnArea">
+			<button type="submit" class="btn">{$lang->cmd_comment_registration}</button>
 		</div>
 	</form>
 </div>
 <div class="fbFooter"> 
-	<a href="{getUrl('document_srl','')}" class="rhymix_button">{$lang->cmd_list}</a>
+	<a href="{getUrl('document_srl','')}" class="btn">{$lang->cmd_list}</a>
 </div>
 <!-- /COMMENT -->

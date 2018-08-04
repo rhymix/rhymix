@@ -1,6 +1,6 @@
 <load target="./js/document_admin.js" />
 <h1 class="h1">{$oDocument->getTitleText()}</h1>
-<a href="#rhymix_popup_menu" class="member_{$oDocument->get('member_srl')}">{$oDocument->get('nick_name')}</a>
+<a href="#popup_menu_area" class="member_{$oDocument->get('member_srl')}">{$oDocument->get('nick_name')}</a>
 {$oDocument->getRegdate()}
 <!--@if($oDocument->isExtraVarsExists() && $oDocument->isAccessible())-->
 <!--@foreach($oDocument->getExtraVars() as $key => $val)-->    

@@ -517,20 +517,20 @@ class widgetController extends widget
 					$oEditorController = getController('editor');
 					$body = $oEditorController->transComponent($body);
 
-					$widget_content_header = sprintf('<div class="xe_content xe-widget-wrapper rhymix_widget ' . $args->css_class . '" %sstyle="%s"><div style="%s">', $args->id, $style,  $inner_style);
+					$widget_content_header = sprintf('<div class="xe_content xe-widget-wrapper ' . $args->css_class . '" %sstyle="%s"><div style="%s">', $args->id, $style,  $inner_style);
 					$widget_content_body = $body;
 					$widget_content_footer = '</div></div>';
 
 					break;
 					// If the widget box; it could
 				case 'widgetBox' :
-					$widget_content_header = sprintf('<div class="xe-widget-wrapper rhymix_widget ' . $args->css_class . '" %sstyle="%s;"><div style="%s"><div>', $args->id, $style,  $inner_style);
+					$widget_content_header = sprintf('<div class="xe-widget-wrapper ' . $args->css_class . '" %sstyle="%s;"><div style="%s"><div>', $args->id, $style,  $inner_style);
 					$widget_content_body = $widgetbox_content;
 
 					break;
 					// If the General wijetil
 				default :
-					$widget_content_header = sprintf('<div class="xe-widget-wrapper rhymix_widget ' . $args->css_class . '" %sstyle="%s">',$args->id,$style);
+					$widget_content_header = sprintf('<div class="xe-widget-wrapper ' . $args->css_class . '" %sstyle="%s">',$args->id,$style);
 					$widget_content_body = sprintf('<div style="*zoom:1;%s">%s</div>', $inner_style,$widget_content);
 					$widget_content_footer = '</div>';
 					break;

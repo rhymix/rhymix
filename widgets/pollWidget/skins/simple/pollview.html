@@ -38,19 +38,19 @@
 							{{item.title}}
 						</label>
 						{{#if item.my_item}}
-						<input type="button" value="x" title="{$lang->delete_poll_item}" onclick="deleteRxSmplItem({{question.poll_srl}},{{question.poll_index_srl}},{{item.poll_item_srl}}); return false;" class="rhymix_button poll_item_delete" />
+						<input type="button" value="x" title="{$lang->delete_poll_item}" onclick="deleteRxSmplItem({{question.poll_srl}},{{question.poll_index_srl}},{{item.poll_item_srl}}); return false;" class="btn poll_item_delete" />
 						{{/if}}
 					</div>
 					{{/each}}
 					{{#if question.additem}}
 					<div class="poll_item_add">
-						<input type="text" name="new_item" id="new_item_{{question.poll_index_srl}}" class="poll_item_add" placeholder="{$lang->msg_can_add_item}" /> <input type="button" value="+" title="{$lang->add_poll_item}" onclick="addRxSmplItem({{question.poll_srl}},{{question.poll_index_srl}}); return false;" style="float: right;" class="rhymix_button poll_item_add" />
+						<input type="text" name="new_item" id="new_item_{{question.poll_index_srl}}" class="poll_item_add" placeholder="{$lang->msg_can_add_item}" /> <input type="button" value="+" title="{$lang->add_poll_item}" onclick="addRxSmplItem({{question.poll_srl}},{{question.poll_index_srl}}); return false;" style="float: right;" class="btn poll_item_add" />
 					</div>
 					{{/if}}
 				</div>
 			{{/each}}
 		</script>
-		<div cond="$XE_VALIDATOR_MESSAGE && $XE_VALIDATOR_ID == 'widgets/pollWidget/skins/simple/form/' . $poll_srl" class="rhymix_message {$XE_VALIDATOR_MESSAGE_TYPE}">
+		<div cond="$XE_VALIDATOR_MESSAGE && $XE_VALIDATOR_ID == 'widgets/pollWidget/skins/simple/form/' . $poll_srl" class="message {$XE_VALIDATOR_MESSAGE_TYPE}">
 			<p>{$XE_VALIDATOR_MESSAGE}</p>
 		</div>
 		<form ruleset="poll" action="./" method="post" onsubmit="return doRxSmplPoll(this)">
@@ -70,8 +70,8 @@
 				<div id="poll_content_{$poll_srl}" class="rx_poll_content">
 				</div>
 				<div class="poll_button">
-					<input type="button" value="{$lang->cmd_view_result}" class="rhymix_button" onclick="loadRxSmplPollResult({$poll_srl}); return false;" />
-					<input type="submit" value="{$lang->cmd_apply_poll}" class="rhymix_button" />
+					<input type="button" value="{$lang->cmd_view_result}" class="btn" onclick="loadRxSmplPollResult({$poll_srl}); return false;" />
+					<input type="submit" value="{$lang->cmd_apply_poll}" class="btn" />
 				</div>
 			</section>
 
@@ -106,16 +106,16 @@
 		<script id="smpl-template-members-{$poll_srl}" type="text/x-handlebars-template">
 			{{#each members as |member memberid|}}
 			{{#if member.isImage}}
-			<li><img src="{{member.profile_image}}" width="16" height="16" /> <a href="#rhymix_popup_menu" class="member_{{member.member_srl}}" onclick="return false">{{member.nick_name}}</a></li>
+			<li><img src="{{member.profile_image}}" width="16" height="16" /> <a href="#popup_menu_area" class="member_{{member.member_srl}}" onclick="return false">{{member.nick_name}}</a></li>
 			{{else}}
-			<li><img class="dummy" src="{{dummy_profile}}" width="16" height="16" /> <a href="#rhymix_popup_menu" class="member_{{member.member_srl}}" onclick="return false">{{member.nick_name}}</a></li>
+			<li><img class="dummy" src="{{dummy_profile}}" width="16" height="16" /> <a href="#popup_menu_area" class="member_{{member.member_srl}}" onclick="return false">{{member.nick_name}}</a></li>
 			{{/if}}
 			{{/each}}
 			{{#if isPage}}
-			<input type="button" id="btn_load_more_{{poll_item_srl}}" value="{$lang->more}" onclick="showRxSmplPollMemberNext({{poll_srl}},{{poll_item_srl}});return false;" style="width:100%;" class="rhymix_button" />
+			<input type="button" id="btn_load_more_{{poll_item_srl}}" value="{$lang->more}" onclick="showRxSmplPollMemberNext({{poll_srl}},{{poll_item_srl}});return false;" style="width:100%;" class="btn" />
 			{{/if}}
 		</script>
-		<div cond="$XE_VALIDATOR_MESSAGE && $XE_VALIDATOR_ID == 'modules/poll/skins/simple/form/1' . $poll_srl" class="rhymix_message {$XE_VALIDATOR_MESSAGE_TYPE}">
+		<div cond="$XE_VALIDATOR_MESSAGE && $XE_VALIDATOR_ID == 'modules/poll/skins/simple/form/1' . $poll_srl" class="message {$XE_VALIDATOR_MESSAGE_TYPE}">
 			<p>{$XE_VALIDATOR_MESSAGE}</p>
 		</div>
 		<section class="rx_poll_smpl">
@@ -131,12 +131,12 @@
 			</div>
 			<div id="poll_{$poll_srl}_result_button" class="rx_poll_footer" style="width:100%;display: none;">
 				<div class="poll_button">
-					<input type="button" value="{$lang->btn_poll_gotovote}" class="rhymix_button" onclick="loadRxSmplPoll({$poll_srl}); return false;" />
+					<input type="button" value="{$lang->btn_poll_gotovote}" class="btn" onclick="loadRxSmplPoll({$poll_srl}); return false;" />
 				</div>
 			</div>
 			<div id="poll_{$poll_srl}_gotoresult_button" class="rx_poll_footer" style="width:100%;display: none;">
 				<div class="poll_button">
-					<input type="button" value="{$lang->cmd_view_result}" class="rhymix_button" onclick="loadRxSmplPollResult({$poll_srl}); return false;" />
+					<input type="button" value="{$lang->cmd_view_result}" class="btn" onclick="loadRxSmplPollResult({$poll_srl}); return false;" />
 				</div>
 			</div>
 		</section>

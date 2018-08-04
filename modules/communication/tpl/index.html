@@ -11,7 +11,7 @@
 
 <p class="x_alert x_alert-info" id="aboutCommunication" hidden>{nl2br($lang->about_communication)}</p>
 
-<div cond="$XE_VALIDATOR_MESSAGE && $XE_VALIDATOR_ID == 'modules/communication/tpl/index/1'" class="rhymix_message {$XE_VALIDATOR_MESSAGE_TYPE}">
+<div cond="$XE_VALIDATOR_MESSAGE && $XE_VALIDATOR_ID == 'modules/communication/tpl/index/1'" class="message {$XE_VALIDATOR_MESSAGE_TYPE}">
 	<p>{$XE_VALIDATOR_MESSAGE}</p>
 </div>
 
@@ -126,7 +126,7 @@
 			</div>
 		</div>
 	</div>
-	<div class="rhymix_button_wrapper">
+	<div class="btnArea">
 		<button class="x_btn x_btn-primary" type="submit">{$lang->cmd_registration}</button>
 	</div>
 </form>

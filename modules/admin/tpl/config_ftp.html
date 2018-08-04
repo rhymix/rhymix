@@ -3,7 +3,7 @@
 <div class="x_page-header">
 	<h1>{$lang->menu_gnb_sub['adminConfigurationFtp']} <a class="x_icon-question-sign" href="./common/manual/admin/index.html#UMAN_config_ftp" target="_blank">{$lang->help}</a></h1>
 </div>
-<div cond="$XE_VALIDATOR_MESSAGE && $XE_VALIDATOR_ID == 'modules/admin/tpl/config_ftp/1'" class="rhymix_message {$XE_VALIDATOR_MESSAGE_TYPE}">
+<div cond="$XE_VALIDATOR_MESSAGE && $XE_VALIDATOR_ID == 'modules/admin/tpl/config_ftp/1'" class="message {$XE_VALIDATOR_MESSAGE_TYPE}">
 	<p>{$XE_VALIDATOR_MESSAGE}</p>
 </div>
 <form action="./" id="ftp_form" method="post" class="x_form-horizontal" ruleset="installFtpInfo">
@@ -66,7 +66,7 @@
 			</div>
 		</div>
 	</section>
-	<div class="rhymix_button_wrapper" style="margin-top:0">
+	<div class="btnArea" style="margin-top:0">
 		<input type="submit" value="{$lang->cmd_save}" class="x_btn x_btn-primary x_pull-right" />
 	</div>
 </form>

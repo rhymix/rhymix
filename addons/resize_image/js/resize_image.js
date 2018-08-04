@@ -189,7 +189,7 @@ function getScreen() {
 
 // 이미지 슬라이드를 보는 함수
 function slideshow(event) {
-	var container  = $(this).closest('.rhymix_content, .xe_content');
+	var container  = $(this).closest('.xe_content');
 	var imglist    = container.find("img[rel=xe_gallery]");
 	var currentIdx = $.inArray($(this).get(0), imglist.get());
 	var xScreen    = getScreen();
@@ -242,7 +242,7 @@ $(window).load(function(){
 			});
 	}
 
-	$('.rhymix_content, .xe_content').each(function() {
+	$('.xe_content').each(function() {
 		var contentWidth = dummy.appendTo(this).width();
 		dummy.remove();
 		if(!contentWidth) return;

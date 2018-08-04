@@ -141,33 +141,33 @@
 .xm .input-prepend .add-on{display:inline-block;width:auto;height:20px;min-width:16px;padding:4px 5px;font-weight:normal;line-height:20px;text-align:center;text-shadow:0 1px 0 #ffffff;background-color:#eeeeee;border:1px solid #ccc}
 .xm .input-append .add-on,
 .xm .input-prepend .add-on,
-.xm .input-append .rhymix_button,
-.xm .input-prepend .rhymix_button{vertical-align:top;-webkit-border-radius:0;-moz-border-radius:0;border-radius:0}
+.xm .input-append .btn,
+.xm .input-prepend .btn{vertical-align:top;-webkit-border-radius:0;-moz-border-radius:0;border-radius:0}
 .xm .input-append .active,
 .xm .input-prepend .active{background-color:#a9dba9;border-color:#46a546}
 .xm .input-prepend .add-on,
-.xm .input-prepend .rhymix_button{margin-right:-1px}
+.xm .input-prepend .btn{margin-right:-1px}
 .xm .input-prepend .add-on:first-child,
-.xm .input-prepend .rhymix_button:first-child{-webkit-border-radius:4px 0 0 4px;-moz-border-radius:4px 0 0 4px;border-radius:4px 0 0 4px}
+.xm .input-prepend .btn:first-child{-webkit-border-radius:4px 0 0 4px;-moz-border-radius:4px 0 0 4px;border-radius:4px 0 0 4px}
 .xm .input-append input,
 .xm .input-append select{-webkit-border-radius:4px 0 0 4px;-moz-border-radius:4px 0 0 4px;border-radius:4px 0 0 4px}
-.xm .input-append input+.rhymix_button_group .rhymix_button:last-child,
-.xm .input-append select+.rhymix_button_group .rhymix_button:last-child{-webkit-border-radius:0 4px 4px 0;-moz-border-radius:0 4px 4px 0;border-radius:0 4px 4px 0}
+.xm .input-append input+.btn-group .btn:last-child,
+.xm .input-append select+.btn-group .btn:last-child{-webkit-border-radius:0 4px 4px 0;-moz-border-radius:0 4px 4px 0;border-radius:0 4px 4px 0}
 .xm .input-append .add-on,
-.xm .input-append .rhymix_button,
-.xm .input-append .rhymix_button_group{margin-left:-1px}
+.xm .input-append .btn,
+.xm .input-append .btn-group{margin-left:-1px}
 .xm .input-append .add-on:last-child,
-.xm .input-append .rhymix_button:last-child,
-.xm .input-append .rhymix_button_group:last-child>.dropdown-toggle{-webkit-border-radius:0 4px 4px 0;-moz-border-radius:0 4px 4px 0;border-radius:0 4px 4px 0}
+.xm .input-append .btn:last-child,
+.xm .input-append .btn-group:last-child>.dropdown-toggle{-webkit-border-radius:0 4px 4px 0;-moz-border-radius:0 4px 4px 0;border-radius:0 4px 4px 0}
 .xm .input-prepend.input-append input,
 .xm .input-prepend.input-append select{-webkit-border-radius:0;-moz-border-radius:0;border-radius:0}
-.xm .input-prepend.input-append input+.rhymix_button_group .rhymix_button,
-.xm .input-prepend.input-append select+.rhymix_button_group .rhymix_button{-webkit-border-radius:0 4px 4px 0;-moz-border-radius:0 4px 4px 0;border-radius:0 4px 4px 0}
+.xm .input-prepend.input-append input+.btn-group .btn,
+.xm .input-prepend.input-append select+.btn-group .btn{-webkit-border-radius:0 4px 4px 0;-moz-border-radius:0 4px 4px 0;border-radius:0 4px 4px 0}
 .xm .input-prepend.input-append .add-on:first-child,
-.xm .input-prepend.input-append .rhymix_button:first-child{margin-right:-1px;-webkit-border-radius:4px 0 0 4px;-moz-border-radius:4px 0 0 4px;border-radius:4px 0 0 4px}
+.xm .input-prepend.input-append .btn:first-child{margin-right:-1px;-webkit-border-radius:4px 0 0 4px;-moz-border-radius:4px 0 0 4px;border-radius:4px 0 0 4px}
 .xm .input-prepend.input-append .add-on:last-child,
-.xm .input-prepend.input-append .rhymix_button:last-child{margin-left:-1px;-webkit-border-radius:0 4px 4px 0;-moz-border-radius:0 4px 4px 0;border-radius:0 4px 4px 0}
-.xm .input-prepend.input-append .rhymix_button_group:first-child{margin-left:0}
+.xm .input-prepend.input-append .btn:last-child{margin-left:-1px;-webkit-border-radius:0 4px 4px 0;-moz-border-radius:0 4px 4px 0;border-radius:0 4px 4px 0}
+.xm .input-prepend.input-append .btn-group:first-child{margin-left:0}
 .xm .form-horizontal input,
 .xm .form-horizontal textarea,
 .xm .form-horizontal select,
@@ -233,6 +233,49 @@
 .xm .pagination ul>li:last-child>a,
 .xm .pagination ul>li:last-child>span{-webkit-border-top-right-radius:4px;border-top-right-radius:4px;-webkit-border-bottom-right-radius:4px;border-bottom-right-radius:4px;-moz-border-radius-topright:4px;-moz-border-radius-bottomright:4px}
 .xm .pagination-centered{text-align:center}
+/* Button */
+.xm .btn{font-size:12px;font-family:inherit;display:inline-block;*display:inline;padding:4px 12px;margin-bottom:0;*margin-left:.3em;line-height:20px;height:auto;color:#333333;text-align:center;text-shadow:0 1px 1px rgba(255, 255, 255, 0.75);vertical-align:middle;cursor:pointer;background-color:#f5f5f5;*background-color:#e6e6e6;background-image:-moz-linear-gradient(top, #ffffff, #e6e6e6);background-image:-webkit-gradient(linear, 0 0, 0 100%, from(#ffffff), to(#e6e6e6));background-image:-webkit-linear-gradient(top, #ffffff, #e6e6e6);background-image:-o-linear-gradient(top, #ffffff, #e6e6e6);background-image:linear-gradient(to bottom, #ffffff, #e6e6e6);background-repeat:repeat-x;border:1px solid #cccccc;*border:0;border-color:#e6e6e6 #e6e6e6 #bfbfbf;border-color:rgba(0, 0, 0, 0.1) rgba(0, 0, 0, 0.1) rgba(0, 0, 0, 0.25);border-bottom-color:#b3b3b3;-webkit-border-radius:4px;-moz-border-radius:4px;border-radius:4px;filter:progid:DXImageTransform.Microsoft.gradient(startColorstr='#ffffff', endColorstr='#e6e6e6', GradientType=0);filter:progid:DXImageTransform.Microsoft.gradient(enabled=false);*zoom:1;-webkit-box-shadow:inset 0 1px 0 rgba(255, 255, 255, 0.2), 0 1px 2px rgba(0, 0, 0, 0.05);-moz-box-shadow:inset 0 1px 0 rgba(255, 255, 255, 0.2), 0 1px 2px rgba(0, 0, 0, 0.05);box-shadow:inset 0 1px 0 rgba(255, 255, 255, 0.2), 0 1px 2px rgba(0, 0, 0, 0.05)}
+.xm .btn:hover,
+.xm .btn:focus,
+.xm .btn:active,
+.xm .btn.active,
+.xm .btn.disabled,
+.xm .btn[disabled]{color:#333333;background-color:#e6e6e6;*background-color:#d9d9d9}
+.xm .btn:active,
+.xm .btn.active{background-color:#cccccc \9}
+.xm .btn:first-child{*margin-left:0}
+.xm .btn:hover,
+.xm .btn:focus{color:#333333;text-decoration:none;background-position:0 -15px;-webkit-transition:background-position 0.1s linear;-moz-transition:background-position 0.1s linear;-o-transition:background-position 0.1s linear;transition:background-position 0.1s linear}
+.xm .btn:focus{outline:thin dotted #333;outline:5px auto -webkit-focus-ring-color;outline-offset:-2px}
+.xm .btn.active,
+.xm .btn:active{background-image:none;outline:0;-webkit-box-shadow:inset 0 2px 4px rgba(0, 0, 0, 0.15), 0 1px 2px rgba(0, 0, 0, 0.05);-moz-box-shadow:inset 0 2px 4px rgba(0, 0, 0, 0.15), 0 1px 2px rgba(0, 0, 0, 0.05);box-shadow:inset 0 2px 4px rgba(0, 0, 0, 0.15), 0 1px 2px rgba(0, 0, 0, 0.05)}
+.xm .btn.disabled,
+.xm .btn[disabled]{cursor:default;background-image:none;opacity:0.65;filter:alpha(opacity=65);-webkit-box-shadow:none;-moz-box-shadow:none;box-shadow:none}
+.xm .btn-inverse.active{color:rgba(255, 255, 255, 0.75)}
+.xm .btn-inverse{color:#ffffff!important;text-shadow:0 -1px 0 rgba(0, 0, 0, 0.25);background-color:#363636;*background-color:#222222;background-image:-moz-linear-gradient(top, #444444, #222222);background-image:-webkit-gradient(linear, 0 0, 0 100%, from(#444444), to(#222222));background-image:-webkit-linear-gradient(top, #444444, #222222);background-image:-o-linear-gradient(top, #444444, #222222);background-image:linear-gradient(to bottom, #444444, #222222);background-repeat:repeat-x;border-color:#222222 #222222 #000000;border-color:rgba(0, 0, 0, 0.1) rgba(0, 0, 0, 0.1) rgba(0, 0, 0, 0.25);filter:progid:DXImageTransform.Microsoft.gradient(startColorstr='#ff444444', endColorstr='#ff222222', GradientType=0);filter:progid:DXImageTransform.Microsoft.gradient(enabled=false)}
+.xm .btn-inverse:hover,
+.xm .btn-inverse:focus,
+.xm .btn-inverse:active,
+.xm .btn-inverse.active,
+.xm .btn-inverse.disabled,
+.xm .btn-inverse[disabled]{color:#ffffff;background-color:#222222;*background-color:#151515}
+.xm .btn-inverse:active,
+.xm .btn-inverse.active{background-color:#080808 \9}
+.xm button.btn,
+.xm input[type="submit"].btn{*padding-top:3px;*padding-bottom:3px}
+.xm button.btn::-moz-focus-inner,
+.xm input[type="submit"].btn::-moz-focus-inner{padding:0;border:0}
+.xm .btn-group{position:relative;display:inline-block;*display:inline;*margin-left:.3em;font-size:0;white-space:nowrap;vertical-align:middle;*zoom:1}
+.xm .btn-group:first-child{*margin-left:0}
+.xm .btn-group+.btn-group{margin-left:5px}
+.xm .btn-group>.btn{position:relative;-webkit-border-radius:0;-moz-border-radius:0;border-radius:0}
+.xm .btn-group>.btn+.btn{margin-left:-1px}
+.xm .btn-group>.btn:first-child{margin-left:0;-webkit-border-bottom-left-radius:4px;border-bottom-left-radius:4px;-webkit-border-top-left-radius:4px;border-top-left-radius:4px;-moz-border-radius-bottomleft:4px;-moz-border-radius-topleft:4px}
+.xm .btn-group>.btn:last-child{-webkit-border-top-right-radius:4px;border-top-right-radius:4px;-webkit-border-bottom-right-radius:4px;border-bottom-right-radius:4px;-moz-border-radius-topright:4px;-moz-border-radius-bottomright:4px}
+.xm .btn-group>.btn:hover,
+.xm .btn-group>.btn:focus,
+.xm .btn-group>.btn:active,
+.xm .btn-group>.btn.active{z-index:2}
 /* Member module customize */
 .xm,
 .xm input,
@@ -243,7 +286,7 @@
 .xm em{font-style:normal;color:#f00}
 .xm h1{font-size:22px}
 .xm .nav a,
-.xm .rhymix_button{text-decoration:none}
+.xm .btn{text-decoration:none}
 .xm .dl-horizontal>dd{margin-bottom:10px}
 .xm .table{border-top:1px solid #ddd;border-bottom:1px solid #ddd}
 .xm .table>caption{text-align:left;font-weight:bold}
@@ -270,7 +313,7 @@
 .xm .signin input[type="email"],
 .xm .signin input[type="password"]{width:100%}
 .xm .signin input[type="checkbox"]{margin:0}
-.xm .signin .rhymix_button{border-radius:2px;overflow:visible;font-size:14px;line-height:18px;padding:3px 9px}
+.xm .signin .btn{border-radius:2px;overflow:visible;font-size:14px;line-height:18px;padding:3px 9px}
 .xm .signin .submit{position:absolute;top:0;right:0}
 .xm .signin #warning{margin-right:-14px}
 .xm .signin #warning>p{margin:10px 0}

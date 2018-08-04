@@ -525,7 +525,7 @@ class memberAdminView extends member
 					else if($formInfo->name == 'birthday')
 					{
 						$formTag->type = 'date';
-						$inputTag = sprintf('<input type="hidden" name="birthday" id="date_birthday" value="%s" /><input type="date" placeholder="YYYY-MM-DD" name="birthday_ui" class="inputDate" id="birthday" value="%s" min="' . date('Y-m-d',strtotime('-200 years')) . '"  max="' . date('Y-m-d',strtotime('+10 years')) . '" onchange="jQuery(\'#date_birthday\').val(this.value.replace(/-/g,\'\'));" readonly="readonly" /> <input type="button" value="%s" class="rhymix_button dateRemover" />',
+						$inputTag = sprintf('<input type="hidden" name="birthday" id="date_birthday" value="%s" /><input type="date" placeholder="YYYY-MM-DD" name="birthday_ui" class="inputDate" id="birthday" value="%s" min="' . date('Y-m-d',strtotime('-200 years')) . '"  max="' . date('Y-m-d',strtotime('+10 years')) . '" onchange="jQuery(\'#date_birthday\').val(this.value.replace(/-/g,\'\'));" readonly="readonly" /> <input type="button" value="%s" class="btn dateRemover" />',
 							$memberInfo['birthday'],
 							zdate($memberInfo['birthday'], 'Y-m-d', false),
 							$lang->cmd_delete);
@@ -657,7 +657,7 @@ class memberAdminView extends member
 					else if($extendForm->column_type == 'date')
 					{
 						$extentionReplace = array('date' => zdate($extendForm->value, 'Y-m-d'), 'cmd_delete' => $lang->cmd_delete);
-						$template = '<input type="hidden" name="%column_name%" id="date_%column_name%" value="%value%" /><input type="date" placeholder="YYYY-MM-DD" class="inputDate" value="%date%" onchange="jQuery(\'#date_%column_name%\').val(this.value.replace(/-/g,\'\'));" readonly="readonly" /> <input type="button" value="%cmd_delete%" class="rhymix_button dateRemover" />';
+						$template = '<input type="hidden" name="%column_name%" id="date_%column_name%" value="%value%" /><input type="date" placeholder="YYYY-MM-DD" class="inputDate" value="%date%" onchange="jQuery(\'#date_%column_name%\').val(this.value.replace(/-/g,\'\'));" readonly="readonly" /> <input type="button" value="%cmd_delete%" class="btn dateRemover" />';
 					}
 
 					$replace = array_merge($extentionReplace, $replace);

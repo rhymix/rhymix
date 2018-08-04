@@ -1,5 +1,5 @@
 <include target="./header.html" />
-<div cond="$XE_VALIDATOR_MESSAGE && $XE_VALIDATOR_ID == 'modules/board/tpl/category_list/1'" class="rhymix_message {$XE_VALIDATOR_MESSAGE_TYPE}">
+<div cond="$XE_VALIDATOR_MESSAGE && $XE_VALIDATOR_ID == 'modules/board/tpl/category_list/1'" class="message {$XE_VALIDATOR_MESSAGE_TYPE}">
 	<p>{$XE_VALIDATOR_MESSAGE}</p>
 </div>
 {$category_content}
@@ -26,7 +26,7 @@
 			</div>
 		</div>
 	</section>
-	<div class="x_clearfix rhymix_button_wrapper">
+	<div class="x_clearfix btnArea">
 		<div class="x_pull-right">
 			<button class="x_btn x_btn-primary" type="submit">{$lang->cmd_registration}</button>
 		</div>

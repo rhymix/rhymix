@@ -29,7 +29,7 @@
 		</li>
 	</ul>
 
-	<div cond="$XE_VALIDATOR_MESSAGE && $XE_VALIDATOR_ID == 'modules/layout/tpl/layout_edit/1'" class="rhymix_message {$XE_VALIDATOR_MESSAGE_TYPE}">
+	<div cond="$XE_VALIDATOR_MESSAGE && $XE_VALIDATOR_ID == 'modules/layout/tpl/layout_edit/1'" class="message {$XE_VALIDATOR_MESSAGE_TYPE}">
 		<p>{$XE_VALIDATOR_MESSAGE}</p>
 	</div>
 
@@ -42,7 +42,7 @@
 			<input type="file" name="user_layout_image" value="" title="{$lang->uploaded_file}" />
 			<span class="x_help-inline">{$lang->msg_layout_image_target}</span>
 		</p>
-		<div class="x_clearfix rhymix_button_wrapper">
+		<div class="x_clearfix btnArea">
 			<div class="x_pull-right">
 				<button type="submit" class="x_btn x_btn-primary">{$lang->cmd_save}</button>
 			</div>
@@ -83,7 +83,7 @@
 		</div>
 	</section>
 
-	<div class="x_clearfix rhymix_button_wrapper">
+	<div class="x_clearfix btnArea">
 		<span class="x_pull-left">
 			<button type="submit" class="x_btn" name="mode" value="reset">{$lang->cmd_reset}</button>
 		</span>

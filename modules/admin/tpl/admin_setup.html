@@ -2,7 +2,7 @@
 <div class="x_page-header">
 	<h1>{$lang->admin_setup} <a class="x_icon-question-sign" href="./common/manual/admin/index.html#UMAN_config_admin" target="_blank">{$lang->help}</a></h1>
 </div>
-<div cond="$XE_VALIDATOR_MESSAGE && $XE_VALIDATOR_ID == 'modules/admin/tpl/admin_setup/1'" class="rhymix_message {$XE_VALIDATOR_MESSAGE_TYPE}">
+<div cond="$XE_VALIDATOR_MESSAGE && $XE_VALIDATOR_ID == 'modules/admin/tpl/admin_setup/1'" class="message {$XE_VALIDATOR_MESSAGE_TYPE}">
 	<p>{$XE_VALIDATOR_MESSAGE}</p>
 </div>
 <section class="section">
@@ -29,7 +29,7 @@
 				<input type="text" name="adminTitle" id="adminTitle" value="{$config_object->adminTitle}" placeholder="Rhymix Admin" />
 			</div>
 		</div>
-		<div class="x_clearfix rhymix_button_wrapper">
+		<div class="x_clearfix btnArea">
 			<div class="x_pull-right">
 				<button type="submit" class="x_btn x_btn-primary">{$lang->cmd_save}</button>
 			</div>
@@ -60,7 +60,7 @@
 				</ul>
 			</li>
 		</ul>
-		<div class="x_clearfix rhymix_button_wrapper">
+		<div class="x_clearfix btnArea">
 			<div class="x_pull-left">
 				<button value="procAdminMenuReset" name="act" type="submit" class="x_btn">{$lang->cmd_reset}</button>
 			</div>

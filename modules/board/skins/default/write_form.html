@@ -68,11 +68,11 @@
 				<input type="text" name="tags" id="tags" value="{htmlspecialchars($oDocument->get('tags'))}" class="iText" style="width:300px" title="Tag" />
 			</span>		
 		</div>
-		<div class="rhymix_button_wrapper">
-			<input type="submit" value="{$lang->cmd_registration}" class="rhymix_button" />
+		<div class="btnArea">
+			<input type="submit" value="{$lang->cmd_registration}" class="btn" />
 			<block cond="!$oDocument->isExists() || $oDocument->get('status') == 'TEMP'">
-			<button cond="$is_logged" class="rhymix_button" type="button" onclick="doDocumentSave(this);">{$lang->cmd_temp_save}</button>
-			<button cond="$is_logged" class="rhymix_button" type="button" onclick="doDocumentLoad(this);">{$lang->cmd_load}</button>
+			<button cond="$is_logged" class="btn" type="button" onclick="doDocumentSave(this);">{$lang->cmd_temp_save}</button>
+			<button cond="$is_logged" class="btn" type="button" onclick="doDocumentLoad(this);">{$lang->cmd_load}</button>
 			</block>
 		</div>
 	</div>

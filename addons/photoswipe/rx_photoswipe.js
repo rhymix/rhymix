@@ -256,4 +256,4 @@ var initPhotoSwipeFromDOM = function(gallerySelector) {
 
 
 // execute above function
-initPhotoSwipeFromDOM('.rhymix_content, .xe_content');
+initPhotoSwipeFromDOM('.xe_content');

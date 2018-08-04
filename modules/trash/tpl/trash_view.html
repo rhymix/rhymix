@@ -7,7 +7,7 @@
 	<tr>
 		<th scope="col" class="nowr">{$lang->trasher}</th>
 		<td>
-		{htmlspecialchars($remover_info->nick_name)} <a href="#rhymix_popup_menu" class="member_{$oTrashVO->getRemoverSrl()}" onclick="return false">[{$remover_info->user_id}]</a>
+		{htmlspecialchars($remover_info->nick_name)} <a href="#popup_menu_area" class="member_{$oTrashVO->getRemoverSrl()}" onclick="return false">[{$remover_info->user_id}]</a>
 		</td>
 	</tr>
 	<tr>
@@ -35,7 +35,7 @@
 	</tr>
 	<tr>
 		<th scope="row">{$lang->writer}</th>
-		<td class="text">{htmlspecialchars($oOrigin->nick_name)} <a href="#rhymix_popup_menu" class="member_{$oOrigin->member_srl}" onclick="return false">[{$oOrigin->user_id}]</a></td>
+		<td class="text">{htmlspecialchars($oOrigin->nick_name)} <a href="#popup_menu_area" class="member_{$oOrigin->member_srl}" onclick="return false">[{$oOrigin->user_id}]</a></td>
 	</tr>
 	<tr>
 		<th scope="row">{$lang->regdate}</th>

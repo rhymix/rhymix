@@ -3,7 +3,7 @@
 	window.xeNotifyMessage = function(text, count){
 		$bar = $('div.message.info');
 		if(!$bar.length) {
-			$bar = jQuery('<div class="rhymix_message info"></div>').hide().css({
+			$bar = jQuery('<div class="message info"></div>').hide().css({
 				'position' : 'absolute',
 				'opacity' : 0.7,
 				'z-index' : 10000,

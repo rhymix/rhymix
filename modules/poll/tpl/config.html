@@ -1,7 +1,7 @@
 <load target="js/poll_admin.js" />
 <!--#include("./header.html")-->
 
-<div cond="$XE_VALIDATOR_MESSAGE && $XE_VALIDATOR_ID == 'modules/poll/tpl/config/1'" class="rhymix_message {$XE_VALIDATOR_MESSAGE_TYPE}">
+<div cond="$XE_VALIDATOR_MESSAGE && $XE_VALIDATOR_ID == 'modules/poll/tpl/config/1'" class="message {$XE_VALIDATOR_MESSAGE_TYPE}">
 	<p>{$XE_VALIDATOR_MESSAGE}</p>
 </div>
 <form ruleset="insertConfig" action="./" method="post" id="fo_poll">
@@ -31,7 +31,7 @@
 		</tr>
 	</tbody>
 </table>
-<div class="rhymix_button_wrapper">
-	<input class="rhymix_button" type="submit" value="{$lang->cmd_registration}" />
+<div class="btnArea">
+	<input class="btn" type="submit" value="{$lang->cmd_registration}" />
 </div>
 </form>

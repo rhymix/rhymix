@@ -1,8 +1,21 @@
 @charset "UTF-8";
 
+/* Element Reset */
 body, table, input, textarea, select, button {
 	font-family: sans-serif;
 	font-size: 12px;
+}
+article, aside, details, figcaption, figure, footer, header, hgroup, nav, section {
+	display: block;
+}
+body {
+	position: relative;
+}
+a img {
+	border: 0;
+}
+[hidden] {
+	display: none;
 }
 
 /* Content Default Styles */
@@ -13,7 +26,7 @@ body, table, input, textarea, select, button {
 .word_break(@wb) when (@wb = none) {
 	white-space: nowrap;
 }
-.rhymix_content, .xe_content {
+.xe_content {
 	font-family: @default_font_family;
 	font-size: @default_font_size;
 	line-height: @default_line_height;
@@ -26,9 +39,14 @@ body, table, input, textarea, select, button {
 		height: auto;
 	}
 }
+@media screen {
+	img {
+		max-width: none;
+	}
+}
 
 /* Clearfix */
-.rhymix_clearfix {
+.xe-clearfix {
 	&:before, &:after {
 		content: " ";
 		display: table;
@@ -38,12 +56,12 @@ body, table, input, textarea, select, button {
 	}
 	zoom: 1;
 }
-.rhymix_widget {
+.xe-widget-wrapper {
 	overflow: hidden;
 }
 
-/* Popup Menu */
-#rhymix_popup_menu {
+/* Popup Menu Area */
+#popup_menu_area {
 	position: absolute;
 	z-index: 9999;
 	margin: 10px 0;
@@ -76,7 +94,7 @@ body, table, input, textarea, select, button {
 	}
 }
 @media screen and (max-width: 400px) {
-	#rhymix_popup_menu {
+	#popup_menu_area {
 		min-width:120px;
 		max-width:95%;
 		font-size: 13px;
@@ -90,7 +108,7 @@ body, table, input, textarea, select, button {
 }
 
 /* Editable Preview */
-.rhymix_editable_preview {
+.editable_preview {
 	width: 100%;
 	min-height: 240px;
 	max-height: 440px;
@@ -106,7 +124,7 @@ body, table, input, textarea, select, button {
 		margin-bottom: @default_paragraph_spacing !important;
 	}
 }
-.rhymix_editable_preview_iframe {
+.editable_preview_iframe {
 	width: 100%;
 	height: 440px;
 	box-sizing: border-box;
@@ -116,7 +134,7 @@ body, table, input, textarea, select, button {
 }
 
 /* Message */
-.rhymix_message {
+.message {
 	position: relative;
 	margin: 1em 0;
 	padding: 0 1em;
@@ -144,13 +162,13 @@ body, table, input, textarea, select, button {
 		color: #468847;
 		background-color: #DFF0D8;
 	}
-	body > & {
-		margin: 1em;
-	}
+}
+body > .message {
+	margin: 1em;
 }
 
 /* Waiting for server response */
-#rhymix_waiting {
+.wfsr {
 	z-index: 100;
 	display: none;
 	position: fixed;
@@ -170,7 +188,19 @@ body, table, input, textarea, select, button {
 }
 
 /* Button */
-.rhymix_button {
+.btnArea {
+	clear: both;
+	margin: 10px 0;
+	padding: 0;
+	text-align: right;
+	zoom: 1;
+	&:after {
+		clear: both;
+		display: block;
+		content: "";
+	}
+}
+.btn {
 	display: inline-block;
 	*display: inline;
 	margin: 0;
@@ -189,7 +219,7 @@ body, table, input, textarea, select, button {
 	line-height: 24px !important;
 	font-family: inherit;
 	font-size: 12px;
-	color: #333;
+	color: #333333;
 	*zoom: 1;
 	cursor: pointer;
 	box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.2), 0 1px 2px rgba(0, 0, 0, 0.05);
@@ -203,43 +233,10 @@ body, table, input, textarea, select, button {
 	background-repeat: repeat-x;
 	filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#ffffff', endColorstr='#e6e6e6', GradientType=0);
 	filter: progid:DXImageTransform.Microsoft.gradient(enabled=false);
-	&:hover, &:focus, &:active, &.active, &.disabled &[disabled] {
+	&:hover, &:active, &[disabled] {
 		color: #333;
 		background-color: #e6e6e6;
 		*background-color: #d9d9d9;
-	}
-	&:hover, &:focus {
-		background-position:0 -15px;
-		-webkit-transition:background-position 0.1s linear;
-		-moz-transition:background-position 0.1s linear;
-		-o-transition:background-position 0.1s linear;
-		transition:background-position 0.1s linear;
-	}
-	&:focus {
-		outline:thin dotted #333;
-		outline:5px auto -webkit-focus-ring-color;
-		outline-offset:-2px;
-	}
-	&:active, &.active {
-		background-color:#ccc;
-		background-image:none;
-		outline:0;
-		box-shadow:inset 0 2px 4px rgba(0, 0, 0, 0.15), 0 1px 2px rgba(0, 0, 0, 0.05);
-	}
-	&.disabled &[disabled] {
-		cursor:default;
-		background-image:none;
-		opacity:0.65;filter:alpha(opacity=65);
-		box-shadow:none;
-	}
-	button&, input& {
-		*padding-top:3px;
-		*padding-bottom:3px;
-		height: 26px !important;
-	}
-	button&::-moz-focus-inner, input&::-moz-focus-inner {
-		padding:0;
-		border:0;
 	}
 	>a, >button, >input, >span {
 		display: inline-block;
@@ -259,46 +256,11 @@ body, table, input, textarea, select, button {
 		cursor: pointer;
 		background: none;
 	}
-	&.inverse {
-		color:#fff;
-		border-color:#222222 #222222 #000000;
-		text-shadow:0 -1px 0 rgba(0, 0, 0, 0.25);
-		background-color:#363636;
-		*background-color:#222222;
-		background-image:-moz-linear-gradient(top, #444444, #222222);
-		background-image:-webkit-gradient(linear, 0 0, 0 100%, from(#444444), to(#222222));
-		background-image:-webkit-linear-gradient(top, #444444, #222222);
-		background-image:-o-linear-gradient(top, #444444, #222222);
-		background-image:linear-gradient(to bottom, #444444, #222222);
-		background-repeat:repeat-x;
-		border-color:rgba(0, 0, 0, 0.1) rgba(0, 0, 0, 0.1) rgba(0, 0, 0, 0.25);
-		filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#ff444444', endColorstr='#ff222222', GradientType=0);
-		filter: progid:DXImageTransform.Microsoft.gradient(enabled=false);
-		&:hover, &:focus, &:active, &.active, &.disabled &[disabled] {
-			background-color:#222222;
-			*background-color:#151515;
-		}
-		&:active, &.active {
-			background-color:#080808
-		}
-		&.active {
-			color:rgba(255, 255, 255, 0.75);
-		}
-	}
 }
-.rhymix_button_wrapper {
-	clear: both;
-	margin: 10px 0;
-	padding: 0;
-	text-align: right;
-	zoom: 1;
-	&:after {
-		clear: both;
-		display: block;
-		content: "";
-	}
+input.btn, button.btn {
+	height: 26px !important;
 }
-.rhymix_button_group {
+.btn-group {
 	position: relative;
 	display: inline-block;
 	*display: inline;
@@ -310,15 +272,15 @@ body, table, input, textarea, select, button {
 	&:first-child {
 		*margin-left: 0;
 	}
-	&+.rhymix_button_group {
+	&+.btn-group {
 		margin-left: 5px;
 	}
-	>.rhymix_button {
+	>.btn {
 		position: relative;
 		-webkit-border-radius: 0;
 		-moz-border-radius: 0;
 		border-radius: 0;
-		&+.rhymix_button {
+		&+.btn {
 			margin-left: -1px;
 		}
 		&:first-child {

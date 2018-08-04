@@ -223,7 +223,7 @@ button.grey:hover, a.button.grey:hover {
 }
 
 /* Waiting for server response */
-#rhymix_waiting {
+.wfsr {
 	display: none;
 	position: absolute;
 	position: fixed;

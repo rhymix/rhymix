@@ -9,7 +9,7 @@
 	<h1 cond="$member_srl">{$lang->msg_update_member}</h1>
 	<h1 cond="!$member_srl">{$lang->msg_new_member}</h1>
 </div>
-<div cond="$XE_VALIDATOR_MESSAGE && $XE_VALIDATOR_ID == 'modules/member/tpl/1'" class="rhymix_message {$XE_VALIDATOR_MESSAGE_TYPE}">
+<div cond="$XE_VALIDATOR_MESSAGE && $XE_VALIDATOR_ID == 'modules/member/tpl/1'" class="message {$XE_VALIDATOR_MESSAGE_TYPE}">
 	<p>{$XE_VALIDATOR_MESSAGE}</p>
 </div>
 <form action="./" class="x_form-horizontal" ruleset="insertAdminMember" method="post" enctype="multipart/form-data">
@@ -134,7 +134,7 @@
 			</label>
 		</div>
 	</div>
-	<div class="x_clearfix rhymix_button_wrapper">
+	<div class="x_clearfix btnArea">
 		<span class="x_pull-left" cond="$member_srl"><button class="x_btn" type="button" onclick="history.go(-1)">{$lang->cmd_cancel}</button></span>
 		<span class="x_pull-right"><input class="x_btn x_btn-primary" type="submit" value="{$lang->cmd_save}" /></span>
 	</div>

@@ -1,6 +1,6 @@
 <include target="header.html" />
 <load target="js/point_admin.js" />
-<div cond="$XE_VALIDATOR_MESSAGE && $XE_VALIDATOR_ID == 'modules/point/tpl/member_list/1'" class="rhymix_message {$XE_VALIDATOR_MESSAGE_TYPE}">
+<div cond="$XE_VALIDATOR_MESSAGE && $XE_VALIDATOR_ID == 'modules/point/tpl/member_list/1'" class="message {$XE_VALIDATOR_MESSAGE_TYPE}">
 	<p>{$XE_VALIDATOR_MESSAGE}</p>
 </div>
 <p>{$lang->about_point_module} {$lang->point_update_desc}</p>
@@ -47,7 +47,7 @@
 			<td>{$no}</td>
 			<td cond="$identifier == 'user_id'">{$val->user_id}</td>
 			<td cond="$identifier != 'user_id'">{$val->email_address}</td>
-			<td><a href="#rhymix_popup_menu" class="member_{$val->member_srl}">{$val->nick_name}</a></td>
+			<td><a href="#popup_menu_area" class="member_{$val->member_srl}">{$val->nick_name}</a></td>
 			<td>
 				<form action="./" method="get" style="margin:0">
 					<input type="hidden" name="module" value="point" />

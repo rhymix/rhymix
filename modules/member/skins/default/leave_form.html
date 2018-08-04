@@ -1,6 +1,6 @@
 <include target="./common_header.html" />
 <h1>{$member_title = $lang->msg_leave_member}</h1>
-<div cond="$XE_VALIDATOR_MESSAGE && $XE_VALIDATOR_ID == 'modules/member/skin/default/1'" class="rhymix_message {$XE_VALIDATOR_MESSAGE_TYPE}">
+<div cond="$XE_VALIDATOR_MESSAGE && $XE_VALIDATOR_ID == 'modules/member/skin/default/1'" class="message {$XE_VALIDATOR_MESSAGE_TYPE}">
 	<p>{$XE_VALIDATOR_MESSAGE}</p>
 </div>
 <form ruleset="leaveMember" id="fo_insert_member" action="./" method="post">
@@ -16,7 +16,7 @@
 	<div>
 		<span class="input-append">
 			<input type="password" name="password" id="cpw" required placeholder="{$lang->password}" title="{$lang->password}" />
-			<input type="submit" value="{$lang->cmd_leave}" class="rhymix_button inverse" />
+			<input type="submit" value="{$lang->cmd_leave}" class="btn btn-inverse" />
 		</span>
 	</div>
 </form>

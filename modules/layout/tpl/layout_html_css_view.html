@@ -33,7 +33,7 @@
 		<input type="hidden" name="layout_srl" value="{$layout_srl}" />
 		<input type="file" name="user_layout_image" value="" title="{$lang->uploaded_file}" />
 		<p>{$lang->msg_layout_image_target}</p>
-		<div class="x_clearfix rhymix_button_wrapper">
+		<div class="x_clearfix btnArea">
 			<div class="x_pull-right">
 				<button type="submit" class="x_btn x_btn-primary">{$lang->cmd_upload}</button>
 			</div>
@@ -66,7 +66,7 @@
 			<block loop="$widget_list => $widget"> <i class="vr">|</i> <a href="{getUrl('','module','admin','act','dispWidgetAdminGenerateCode','selected_widget',$widget->widget)}" target="_blank">{$widget->title}</a></block>
 		</div>
 	</section>
-	<div class="x_clearfix rhymix_button_wrapper">
+	<div class="x_clearfix btnArea">
 		<span class="x_pull-left">
 			<button type="submit" class="x_btn" name="mode" value="reset">{$lang->cmd_reset}</button>
 		</span>
@@ -88,7 +88,7 @@
 		</div>
 	</section>
 
-	<div class="x_clearfix rhymix_button_wrapper">
+	<div class="x_clearfix btnArea">
 		<span class="x_pull-left">
 			<button type="submit" class="x_btn" name="mode" value="reset">{$lang->cmd_reset}</button>
 		</span>

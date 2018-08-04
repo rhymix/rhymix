@@ -1,5 +1,5 @@
 <h1>{$lang->improper_document_declare}</h1>
-<div cond="$XE_VALIDATOR_MESSAGE && $XE_VALIDATOR_ID == 'modules/document/tpl/declared_list/1'" class="rhymix_message {$XE_VALIDATOR_MESSAGE_TYPE}">
+<div cond="$XE_VALIDATOR_MESSAGE && $XE_VALIDATOR_ID == 'modules/document/tpl/declared_list/1'" class="message {$XE_VALIDATOR_MESSAGE_TYPE}">
 	<p>{$XE_VALIDATOR_MESSAGE}</p>
 </div>
 <form id="fo_list" action="./" method="get">
@@ -9,7 +9,7 @@
 		<section>
 			<h1>{$declared_document->getTitleText()}</h1>
 			<p>{$declared_document->getSummary(200)}</p>
-			<address cond="$declared_document->get('member_srl')"><a href="#rhymix_popup_menu" class="member_{$declared_document->get('member_srl')}">{$declared_document->getNickName()}</a></address>
+			<address cond="$declared_document->get('member_srl')"><a href="#popup_menu_area" class="member_{$declared_document->get('member_srl')}">{$declared_document->getNickName()}</a></address>
 		</section>
 	</blockquote>
 	<h2>{$lang->improper_document_declare_reason}</h2>
@@ -23,7 +23,7 @@
 		</thead>
 		<tbody>
 			<tr loop="$declare_log => $no,$log">
-				<td class="nowr"><a cond="$log->member_srl" href="#rhymix_popup_menu" class="member_{$log->member_srl}">{$reporter_list[$log->member_srl]->nick_name}</a> ({$log->ipaddress})</td>
+				<td class="nowr"><a cond="$log->member_srl" href="#popup_menu_area" class="member_{$log->member_srl}">{$reporter_list[$log->member_srl]->nick_name}</a> ({$log->ipaddress})</td>
 				<td class="nowr">{$log->declare_message}</td>
 				<td class="nowr">{date('Y-m-d H:i:s', strtotime($log->regdate))}</td>
 			</tr>

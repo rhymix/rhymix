@@ -429,7 +429,7 @@ class commentItem extends BaseObject
 		if($add_popup_menu && Context::get('is_logged'))
 		{
 			$content = sprintf(
-					'%s<div class="comment_popup_menu"><a href="#rhymix_popup_menu" class="comment_%d" onclick="return false">%s</a></div>', $content, $this->comment_srl, lang('cmd_comment_do')
+					'%s<div class="comment_popup_menu"><a href="#popup_menu_area" class="comment_%d" onclick="return false">%s</a></div>', $content, $this->comment_srl, lang('cmd_comment_do')
 			);
 		}
 

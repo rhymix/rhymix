@@ -6,7 +6,7 @@
 		<!--@if($message->member_srl != $logged_info->member_srl)-->
 		<tr>
 			<th scope="row">{$lang->sender}</th>
-			<td><a href="#rhymix_popup_menu" class="member_{$message->member_srl}">{$message->nick_name}</a></td>
+			<td><a href="#popup_menu_area" class="member_{$message->member_srl}">{$message->nick_name}</a></td>
 		</tr>
 		<!--@end-->
 		<tr>
@@ -17,11 +17,11 @@
 			<td colspan="2" class="xe_content">{$message->content}</td>
 		</tr>
 	</table>
-	<div class="rhymix_button_wrapper">
-		<span class="rhymix_button_group">
-			<button cond="$message->member_srl != $logged_info->member_srl" class="rhymix_button" type="button" onclick="doSendMessage('{$message->sender_srl}','{$message->message_srl}');return false;">{$lang->cmd_reply_message}</button>
-			<button type="button" class="rhymix_button" onclick="doStoreMessage('{$message->message_srl}');return false;">{$lang->cmd_store}</button>
-			<button type="button" class="rhymix_button" onclick="doDeleteMessage('{$message->message_srl}');return false;">{$lang->cmd_delete}</button>
+	<div class="btnArea">
+		<span class="btn-group">
+			<button cond="$message->member_srl != $logged_info->member_srl" class="btn" type="button" onclick="doSendMessage('{$message->sender_srl}','{$message->message_srl}');return false;">{$lang->cmd_reply_message}</button>
+			<button type="button" class="btn" onclick="doStoreMessage('{$message->message_srl}');return false;">{$lang->cmd_store}</button>
+			<button type="button" class="btn" onclick="doDeleteMessage('{$message->message_srl}');return false;">{$lang->cmd_delete}</button>
 		</span>
 	</div>
 </div>

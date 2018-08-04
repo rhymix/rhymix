@@ -8,10 +8,10 @@
 				<option value="{$folder->folder_srl}" selected="selected"|cond="$folder_srl == $folder->folder_srl">{$folder->name == '/DEFAULT/' ? $lang->default_folder : $folder->name}</option>
 			<!--@endforeach-->
 		</select>
-		<div class="rhymix_button_group" cond="$folder_info->name !== '/DEFAULT/'">
+		<div class="btn-group" cond="$folder_info->name !== '/DEFAULT/'">
 			<input type="text" class="folder_name" style="margin:0;display:none" />
-			<button id="scrap_folder_rename" class="rhymix_button" data-folder-srl="{$folder_srl}">{$lang->scrap_folder_rename}</button>
-			<button id="scrap_folder_delete" class="rhymix_button" data-folder-srl="{$folder_srl}">{$lang->scrap_folder_delete}</button>
+			<button id="scrap_folder_rename" class="btn" data-folder-srl="{$folder_srl}">{$lang->scrap_folder_rename}</button>
+			<button id="scrap_folder_delete" class="btn" data-folder-srl="{$folder_srl}">{$lang->scrap_folder_delete}</button>
 		</div>
 	</div>
 

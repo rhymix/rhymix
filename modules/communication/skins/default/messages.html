@@ -2,9 +2,9 @@
 <load target="filter/delete_checked_message.xml" />
 <load target="filter/update_allow_message.xml" />
 
-<div class="rhymix_button_wrapper">
-	<div style="margin:0;display:block;float:left" class="rhymix_button_group">
-		<button loop="$lang->message_box => $key,$val" class="rhymix_button" onclick="location.href=current_url.setQuery('act', 'dispCommunicationMessages').setQuery('message_srl', '').setQuery('message_type', '{$key}'); return false;" style="font-weight:bold"|cond="$message_type == $key">{$val}</button>
+<div class="btnArea">
+	<div style="margin:0;display:block;float:left" class="btn-group">
+		<button loop="$lang->message_box => $key,$val" class="btn" onclick="location.href=current_url.setQuery('act', 'dispCommunicationMessages').setQuery('message_srl', '').setQuery('message_type', '{$key}'); return false;" style="font-weight:bold"|cond="$message_type == $key">{$val}</button>
 	</div>
 	<form action="./" method="POST" style="margin:0;display:block;float:right">
 		<input type="hidden" name="module" value="communication" />
@@ -13,7 +13,7 @@
 		<select name="allow_message" style="margin:0">
 			<option loop="$lang->allow_message_type => $key,$val" value="{$key}" selected="selected"|cond="$logged_info->allow_message==$key">{$val}</option>
 		</select>
-		<input type="submit" value="{$lang->cmd_save}" class="rhymix_button">
+		<input type="submit" value="{$lang->cmd_save}" class="btn">
 	</form>
 	<div style="clear:both"></div>
 </div>
@@ -23,7 +23,7 @@
 	</tr>
 	<tr>
 		<td>
-			<a href="rhymix_popup_menu" class="member_{$message->member_srl}">{$message->nick_name}</a>
+			<a href="popup_menu_area" class="member_{$message->member_srl}">{$message->nick_name}</a>
 			{zdate($message->regdate, "Y.m.d H:i")}
 		</td>
 	</tr>
@@ -33,10 +33,10 @@
 		</td>
 	</tr>
 </table>
-<div class="rhymix_button_wrapper rhymix_button_group" cond="$message" style="margin-bottom:20px">
-	<button class="rhymix_button" cond="$message->message_type != 'S' && $message->member_srl != $logged_info->member_srl" type="button" onclick="doSendMessage('{$message->sender_srl}','{$message->message_srl}');">{$lang->cmd_reply_message}</button>
-	<button class="rhymix_button" cond="$message->message_type == 'R'" type="button" onclick="doStoreMessage('{$message->message_srl}');">{$lang->cmd_store}</button>
-	<button class="rhymix_button" type="button" onclick="doDeleteMessage('{$message->message_srl}');">{$lang->cmd_delete}</button>
+<div class="btnArea btn-group" cond="$message" style="margin-bottom:20px">
+	<button class="btn" cond="$message->message_type != 'S' && $message->member_srl != $logged_info->member_srl" type="button" onclick="doSendMessage('{$message->sender_srl}','{$message->message_srl}');">{$lang->cmd_reply_message}</button>
+	<button class="btn" cond="$message->message_type == 'R'" type="button" onclick="doStoreMessage('{$message->message_srl}');">{$lang->cmd_store}</button>
+	<button class="btn" type="button" onclick="doDeleteMessage('{$message->message_srl}');">{$lang->cmd_delete}</button>
 </div>
 
 <form action="./" method="post" id="fo_message_list">
@@ -66,7 +66,7 @@
 					<a cond="$val->readed!='Y'" href="{getUrl('message_srl',$val->message_srl)}"><strong>{$val->title}</strong></a>
 				</td>
 				<td>
-					<a href="#rhymix_popup_menu" class="member_{$val->member_srl}">{$val->nick_name}</a>
+					<a href="#popup_menu_area" class="member_{$val->member_srl}">{$val->nick_name}</a>
 				</td>
 				<td>
 					{zdate($val->regdate,"Y-m-d")}
@@ -76,8 +76,8 @@
 			</tr>
 		</tbody>
 	</table>
-	<div class="rhymix_button_wrapper">
-		<input type="submit" class="rhymix_button" value="{$lang->cmd_delete}" />
+	<div class="btnArea">
+		<input type="submit" class="btn" value="{$lang->cmd_delete}" />
 	</div>
 </form>
 <div class="pagination pagination-centered">
