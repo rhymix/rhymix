@@ -204,17 +204,32 @@ class pageView extends page
 			FileHandler::writeFile($cache_file, $script);
 		}
 
+		// Import Context and lang as local variables.
 		$__Context = &$GLOBALS['__Context__'];
 		$__Context->tpl_path = $filepath;
+		global $lang;
 
+		// Start the output buffer.
+		$__ob_level_before_fetch = ob_get_level();
 		ob_start();
-		include($cache_file);
+		
+		// Include the compiled template.
+		include $cache_file;
 
+		// Fetch contents of the output buffer until the buffer level is the same as before.
 		$contents = '';
-		while (ob_get_level() - $level > 0) {
-			$contents .= ob_get_contents();
-			ob_end_clean();
+		while (ob_get_level() > $__ob_level_before_fetch)
+		{
+			$contents .= ob_get_clean();
 		}
+		
+		// Insert template path comment tag.
+		if(Rhymix\Framework\Debug::isEnabledForCurrentUser() && Context::getResponseMethod() === 'HTML' && !starts_with('<!DOCTYPE', $contents) && !starts_with('<?xml', $contents))
+		{
+			$sign = PHP_EOL . '<!-- Template %s : ' . $target_file . ' -->' . PHP_EOL;
+			$contents = sprintf($sign, 'start') . $contents . sprintf($sign, 'end');
+		}
+		
 		return $contents;
 	}
 
