@@ -583,7 +583,6 @@ class HTMLDisplayHandler
 	private function _loadMobileJSCSS()
 	{
 		$this->_loadCommonJSCSS();
-		Context::loadFile(array('./common/css/mobile.css', '', '', -1500000000), true);
 	}
 
 	/**
