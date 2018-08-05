@@ -8,7 +8,7 @@
 				dt.setTime(dt.getTime() + (d * 24 * 60 * 60000));
 				e = "; expires=" + dt.toGMTString();
 			}
-			document.cookie = n + "=" + v + e + "; path=/" + ((enforce_ssl) ? ";secure" : "");
+			document.cookie = n + "=" + v + e + "; path=/" + ((cookies_ssl) ? ";secure" : "");
 		}
 
 		var n = $('#nc_container');

@@ -73,7 +73,7 @@ class Mobile
 		$uatype = $uahash . ':' . (self::$_ismobile ? '1' : '0');
 		if ($cookie !== $uatype)
 		{
-			setcookie('rx_uatype', $uatype, 0, null, null, Context::isAlwaysSSL());
+			setcookie('rx_uatype', $uatype, 0, null, null, !!config('session.use_ssl_cookies'));
 			$_COOKIE['rx_uatype'] = $uatype;
 		}
 		

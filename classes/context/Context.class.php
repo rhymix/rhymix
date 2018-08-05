@@ -300,7 +300,7 @@ class Context
 		{
 			if($_COOKIE['lang_type'] !== $lang_type)
 			{
-				setcookie('lang_type', $lang_type, time() + 86400 * 365, '/', null, self::isAlwaysSSL());
+				setcookie('lang_type', $lang_type, time() + 86400 * 365, '/', null, !!config('session.use_ssl_cookies'));
 			}
 		}
 		elseif($_COOKIE['lang_type'])
@@ -316,7 +316,7 @@ class Context
 					if(!strncasecmp($lang_code, $_SERVER['HTTP_ACCEPT_LANGUAGE'], strlen($lang_code)))
 					{
 						$lang_type = $lang_code;
-						setcookie('lang_type', $lang_type, time() + 86400 * 365, '/', null, self::isAlwaysSSL());
+						setcookie('lang_type', $lang_type, time() + 86400 * 365, '/', null, !!config('session.use_ssl_cookies'));
 					}
 				}
 			}
@@ -616,23 +616,6 @@ class Context
 	{
 		return self::get('_use_ssl');
 	}
-
-	/**
-	 * Return ssl status
-	 *
-	 * @param boolen $purge_cache Set true to get uncached SSL_enforce value.
-	 * @return boolean (true|false)
-	 */
-	public static function isAlwaysSSL($purge_cache = false)
-	{
-		static $ssl_only = null;
-		if(is_null($ssl_only) || $purge_cache === true)
-		{
-			$ssl_only = (self::get('site_module_info')->security === 'always' ? true : false);
-		}
-		return $ssl_only;
-	}
-
 
 	/**
 	 * Return default URL
@@ -1714,13 +1697,12 @@ class Context
 		}
 		
 		// If using SSL always
-		$_use_ssl = self::get('_use_ssl');
-		if($_use_ssl == 'always')
+		if($site_module_info->security == 'always')
 		{
 			$query = self::getRequestUri(ENFORCE_SSL, $domain) . $query;
 		}
 		// optional SSL use
-		elseif($_use_ssl == 'optional')
+		elseif($site_module_info->security == 'optional')
 		{
 			$ssl_mode = ((self::get('module') === 'admin') || ($get_vars['module'] === 'admin') || (isset($get_vars['act']) && self::isExistsSSLAction($get_vars['act']))) ? ENFORCE_SSL : RELEASE_SSL;
 			$query = self::getRequestUri($ssl_mode, $domain) . $query;
@@ -1786,7 +1768,8 @@ class Context
 			return;
 		}
 
-		if(self::isAlwaysSSL())
+		$site_module_info = self::get('site_module_info');
+		if ($site_module_info->security === 'always')
 		{
 			$ssl_mode = ENFORCE_SSL;
 		}
@@ -1801,7 +1784,6 @@ class Context
 				break;
 		}
 
-		$site_module_info = self::get('site_module_info');
 		if ($domain !== null && $domain !== false && $domain !== $site_module_info->domain)
 		{
 			if (!isset($domain_infos[$domain]))
