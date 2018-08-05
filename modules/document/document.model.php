@@ -81,7 +81,7 @@ class documentModel extends document
 		$output = $this->getDocumentExtraVarsFromDB($document_srls);
 		foreach($output->data as $key => $val)
 		{
-			if(!$val->value)
+			if(strval($val->value) === '')
 			{
 				continue;
 			}

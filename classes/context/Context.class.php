@@ -91,13 +91,7 @@ class Context
 	 * @var string
 	 */
 	public $canonical_url = '';
-	
-	/**
-	 * unloaded basic files
-	 * @var array
-	 */
-	public $unloaded_basic_files = array();
-	
+
 	/**
 	 * language type - changed by HTTP_USER_AGENT or user's cookie
 	 * @var string
@@ -2116,44 +2110,7 @@ class Context
 	{
 		self::$_oFrontEndFileHandler->unloadAllFiles($type);
 	}
-	
-	/**
-	 * unload basic files that load in HTMLDisplayHandler (filename|all|common|admin|mobile)
-	 *
-	 * @return void
-	 */
-	public static function unloadBasicFiles()
-	{
-		if(func_num_args() < 1)
-		{
-			return;
-		}
-		foreach(func_get_args() as $file)
-		{
-			self::$_instance->unloaded_basic_files[] = $file;
-		}
-	}
-	
-	/**
-	 * get unloaded basic files
-	 *
-	 * @return array unloaded basic files
-	 */
-	public static function getUnloadedBasicFiles()
-	{
-		return self::$_instance->unloaded_basic_files;
-	}
-	
-	/**
-	 * clear unloaded basic files
-	 *
-	 * @return void
-	 */
-	public static function clearUnloadedBasicFiles()
-	{
-		self::$_instance->unloaded_basic_files = array();
-	}
-	
+
 	/**
 	 * Add the js file
 	 *

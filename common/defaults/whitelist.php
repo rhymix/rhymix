@@ -78,5 +78,7 @@ return array(
 		'player.vimeo.com/',
 		// Afreeca
 		'afree.ca/',
+		// Soundcloud
+		'w.soundcloud.com/',
 	),
 );

@@ -396,7 +396,7 @@ class ExtraItem
 				foreach($default as $v)
 				{
 					$checked = '';
-					if($value && in_array(trim($v), $value))
+					if(strval($value) !== '' && in_array(trim($v), $value))
 					{
 						$checked = ' checked="checked"';
 					}
@@ -414,7 +414,7 @@ class ExtraItem
 				foreach($default as $v)
 				{
 					$selected = '';
-					if($value && in_array(trim($v), $value))
+					if(strval($value) !== '' && in_array(trim($v), $value))
 					{
 						$selected = ' selected="selected"';
 					}
@@ -428,7 +428,7 @@ class ExtraItem
 				foreach($default as $v)
 				{
 					$checked = '';
-					if($value && in_array(trim($v), $value))
+					if(strval($value) !== '' && in_array(trim($v), $value))
 					{
 						$checked = ' checked="checked"';
 					}

@@ -56,6 +56,7 @@ return array(
 		'use_db' => false,
 		'use_keys' => false,
 		'use_ssl' => false,
+		'use_ssl_cookies' => false,
 		'domain' => null,
 		'path' => null,
 		'lifetime' => 0,

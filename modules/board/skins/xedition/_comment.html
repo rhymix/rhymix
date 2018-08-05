@@ -15,7 +15,11 @@
 				</h3>
 				<p class="time">{$comment->getRegdate('Y.m.d H:i')}</p>
 			</div>
-			<!--@if(!$comment->isAccessible())-->
+			<!--@if($comment->status == RX_STATUS_DELETED)-->
+				<div class="xe_content deleted">{$lang->msg_deleted_comment}</div>
+			<!--@elseif($comment->status == RX_STATUS_DELETED_BY_ADMIN)-->
+				<div class="xe_content deleted deleted_by_admin">{$lang->msg_admin_deleted_comment}</div>
+			<!--@elseif(!$comment->isAccessible())-->
 			<form action="./" method="get" class="xe_content secretForm" onsubmit="return procFilter(this, input_password)">
 				<p><label for="cpw_{$comment->comment_srl}">{$lang->msg_is_secret} {$lang->msg_input_password}</label></p>
 				<p><input type="password" name="password" id="cpw_{$comment->comment_srl}" class="iText" /><input type="submit" class="btn" value="{$lang->cmd_input}" /></p>
@@ -25,7 +29,7 @@
 				<input type="hidden" name="comment_srl" value="{$comment->get('comment_srl')}" />
 			</form>
 			<!--@else-->
-			{$comment->getContent(false)}
+				{$comment->getContent(false)}
 			<!--@end-->
 			<div cond="$comment->hasUploadedFiles()" class="fileList">
 				<button type="button" class="toggleFile" onclick="jQuery(this).next('ul.files').toggle();"><i class="xi-diskette"></i> {$lang->uploaded_file} [<strong>{$comment->get('uploaded_count')}</strong>]</button>
