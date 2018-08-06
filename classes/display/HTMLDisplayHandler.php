@@ -562,19 +562,7 @@ class HTMLDisplayHandler
 	 */
 	function _loadDesktopJSCSS()
 	{
-		$lang_type = Context::getLangType();
 		$this->_loadCommonJSCSS();
-		
-		// for admin page, add admin css
-		if(Context::get('module') == 'admin' || strpos(Context::get('act'), 'Admin') > 0)
-		{
-			Context::loadFile(array('./modules/admin/tpl/css/admin.css', '', '', 10), true);
-			Context::loadFile(array("./modules/admin/tpl/css/admin.iefix.css", '', 'ie', 10), true);
-			Context::loadFile('./modules/admin/tpl/js/admin.js', true);
-			Context::loadFile(array('./modules/admin/tpl/css/admin.bootstrap.css', '', '', 1), true);
-			Context::loadFile(array('./modules/admin/tpl/js/jquery.tmpl.js', '', '', 1), true);
-			Context::loadFile(array('./modules/admin/tpl/js/jquery.jstree.js', '', '', 1), true);
-		}
 	}
 
 	/**
@@ -583,7 +571,6 @@ class HTMLDisplayHandler
 	private function _loadMobileJSCSS()
 	{
 		$this->_loadCommonJSCSS();
-		Context::loadFile(array('./common/css/mobile.css', '', '', -1500000000), true);
 	}
 
 	/**

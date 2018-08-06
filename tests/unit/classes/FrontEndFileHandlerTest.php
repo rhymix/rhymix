@@ -38,17 +38,13 @@ class FrontEndFileHandlerTest extends \Codeception\TestCase\Test
 			$this->assertEquals($expected, $handler->getJsFileList('body'));
 		});
 
-		$this->specify("css and scss", function() {
+		$this->specify("css and less", function() {
 			$handler = new FrontEndFileHandler();
 			$handler->loadFile(array('./common/css/rhymix.less'));
-			$handler->loadFile(array('./common/css/mobile.css'));
 			$result = $handler->getCssFileList(true);
 			$this->assertRegexp('/\.rhymix\.less\.css\?\d+$/', $result[0]['file']);
 			$this->assertEquals('all', $result[0]['media']);
 			$this->assertEmpty($result[0]['targetie']);
-			$this->assertEquals('/rhymix/common/css/mobile.css' . $this->_filemtime('common/css/mobile.css'), $result[1]['file']);
-			$this->assertEquals('all', $result[1]['media']);
-			$this->assertEmpty($result[1]['targetie']);
 		});
 
 		$this->specify("order (duplicate)", function() {
@@ -157,14 +153,10 @@ class FrontEndFileHandlerTest extends \Codeception\TestCase\Test
 		$this->specify("minify (css)", function() {
 			$handler = new FrontEndFileHandler();
 			$handler->loadFile(array('./common/css/rhymix.less'));
-			$handler->loadFile(array('./common/css/mobile.css'));
 			$result = $handler->getCssFileList(true);
 			$this->assertRegexp('/\.rhymix\.less\.min\.css\b/', $result[0]['file']);
 			$this->assertEquals('all', $result[0]['media']);
 			$this->assertEmpty($result[0]['targetie']);
-			$this->assertRegexp('/minified\/common\.css\.mobile\.min\.css\?\d+$/', $result[1]['file']);
-			$this->assertEquals('all', $result[1]['media']);
-			$this->assertEmpty($result[1]['targetie']);
 		});
 		
 		$this->specify("minify (js)", function() {
@@ -182,7 +174,7 @@ class FrontEndFileHandlerTest extends \Codeception\TestCase\Test
 		$this->specify("concat (css)", function() {
 			$handler = new FrontEndFileHandler();
 			$handler->loadFile(array('./common/css/rhymix.less'));
-			$handler->loadFile(array('./common/css/mobile.css'));
+			$handler->loadFile(array('./common/css/bootstrap-responsive.css'));
 			$handler->loadFile(array('http://external.host/style.css'));
 			$handler->loadFile(array('./common/css/bootstrap.css', null, 'IE'));
 			$handler->loadFile(array('./tests/_data/formatter/concat.source1.css'));
@@ -257,7 +249,6 @@ class FrontEndFileHandlerTest extends \Codeception\TestCase\Test
 		
 		$this->specify("blocked scripts", function() {
 			$handler = new FrontEndFileHandler();
-			$handler->loadFile(array('./common/css/mobile.css'));
 			$handler->loadFile(array('./common/css/xe.min.css'));
 			$handler->loadFile(array('./common/js/common.js'));
 			$handler->loadFile(array('./common/js/xe.js'));

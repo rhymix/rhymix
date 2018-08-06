@@ -15,7 +15,6 @@ input[type=radio]{width:13px;height:13px;margin:0;padding:0}
 /* Background */
 .rp li li,
 .rp .answer,
-.rp .btn,
 /* Body */
 .bd{background:#f8f8f8;padding:1px 0}
 .co{margin:10px;line-height:1.4;font-size:14px;color:#333}
@@ -85,7 +84,6 @@ input[type=radio]{width:13px;height:13px;margin:0;padding:0}
 .rp li li li li{padding-left:55px;background-position:40px -145px}
 .rp li li li li li{padding-left:70px;background-position:55px -145px}
 .rp li li li li li li{padding-left:85px;background-position:70px -145px}
-.rp .btn{display:inline-block;width:15px;height:15px;overflow:hidden;vertical-align:middle;text-indent:15px}
 .rp .btn.ed{background-position:0 -32px}
 .rp .btn.de{background-position:-15px -32px}
 .rp .btn.re{background-position:-30px -32px}
