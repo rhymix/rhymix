@@ -914,7 +914,7 @@ class memberController extends member
 		{
 			if(isset($args->{$val}))
 			{
-				$args->{$val} = preg_replace('/[\pZ\pC]+/u', '', $args->{$val});
+				$args->{$val} = preg_replace('/[\pZ\pC]+/u', '', html_entity_decode($args->{$val}));
 			}
 		}
 
@@ -1575,7 +1575,7 @@ class memberController extends member
 		if(ztime($output->data->regdate) < time() - (86400 * 3))
 		{
 			executeQuery('member.deleteAuthMail', $args);
-			return $this->stop('msg_invalid_auth_key');
+			return $this->stop('msg_expired_auth_key');
 		}
 
 		// Back up the value of $output->data->is_register

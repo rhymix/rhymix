@@ -450,6 +450,11 @@ class adminAdminView extends admin
 		Context::set('admin_denied_ip', implode(PHP_EOL, $denied_ip));
 		Context::set('remote_addr', RX_CLIENT_IP);
 		
+		// Session and cookie security settings
+		Context::set('use_session_keys', Rhymix\Framework\Config::get('session.use_keys'));
+		Context::set('use_session_ssl', Rhymix\Framework\Config::get('session.use_ssl'));
+		Context::set('use_cookies_ssl', Rhymix\Framework\Config::get('session.use_ssl_cookies'));
+		
 		$this->setTemplateFile('config_security');
 	}
 	
@@ -538,8 +543,6 @@ class adminAdminView extends admin
 		Context::set('mobile_viewport', config('mobile.viewport') ?: 'width=device-width, initial-scale=1.0, user-scalable=yes');
 		Context::set('use_ssl', Rhymix\Framework\Config::get('url.ssl'));
 		Context::set('delay_session', Rhymix\Framework\Config::get('session.delay'));
-		Context::set('use_session_keys', Rhymix\Framework\Config::get('session.use_keys'));
-		Context::set('use_session_ssl', Rhymix\Framework\Config::get('session.use_ssl'));
 		Context::set('use_db_session', Rhymix\Framework\Config::get('session.use_db'));
 		Context::set('minify_scripts', Rhymix\Framework\Config::get('view.minify_scripts'));
 		Context::set('concat_scripts', Rhymix\Framework\Config::get('view.concat_scripts'));
@@ -779,6 +782,7 @@ class adminAdminView extends admin
 		$info['session.use_db'] = config('session.use_db') ? 'true' : 'false';
 		$info['session.use_keys'] = config('session.use_keys') ? 'true' : 'false';
 		$info['session.use_ssl'] = config('session.use_ssl') ? 'true' : 'false';
+		$info['session.use_ssl_cookies'] = config('session.use_ssl_cookies') ? 'true' : 'false';
 		$info['view.concat_scripts'] = config('view.concat_scripts');
 		$info['view.minify_scripts'] = config('view.minify_scripts');
 		$info['use_rewrite'] = config('use_rewrite') ? 'true' : 'false';

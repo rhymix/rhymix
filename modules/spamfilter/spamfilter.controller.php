@@ -53,7 +53,6 @@ class spamfilterController extends spamfilter
 		{
 			$text = $obj->title . ' ' . $obj->content . ' ' . $obj->nick_name . ' ' . $obj->homepage . ' ' . $obj->tags;	
 		}
-		$text = utf8_trim(utf8_normalize_spaces(htmlspecialchars_decode(strip_tags($text))));
 		$output = $oFilterModel->isDeniedWord($text);
 		if(!$output->toBool())
 		{
@@ -99,7 +98,6 @@ class spamfilterController extends spamfilter
 		{
 			$text = $obj->content . ' ' . $obj->nick_name . ' ' . $obj->homepage;	
 		}
-		$text = utf8_trim(utf8_normalize_spaces(htmlspecialchars_decode(strip_tags($text))));
 		$output = $oFilterModel->isDeniedWord($text);
 		if(!$output->toBool()) return $output;
 		// If the specified time check is not modified

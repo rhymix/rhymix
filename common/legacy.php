@@ -917,7 +917,7 @@ function getScriptPath()
  */
 function getRequestUriByServerEnviroment()
 {
-	return escape($_SERVER['REQUEST_URI']);
+	return preg_replace('/[<>"]/', '', $_SERVER['REQUEST_URI']);
 }
 
 /**

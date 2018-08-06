@@ -386,7 +386,8 @@
 
 					data.files[file.file_srl] = file;
 					$container.data(data);
-
+					
+					file.source_filename = file.source_filename.replace("&amp;", "&");
 					if(/\.(jpe?g|png|gif)$/i.test(file.source_filename)) {
 						result_image.push(template_fileimte_image(file));
 					}

@@ -9,7 +9,7 @@ class URLTest extends \Codeception\TestCase\Test
 		
 		// Getting the current URL
 		$this->assertEquals('https://www.rhymix.org/rhymix/index.php?foo=bar&xe=sucks', Rhymix\Framework\URL::getCurrentURL());
-		
+
 		// Adding items to the query string
 		$this->assertEquals('https://www.rhymix.org/rhymix/index.php?foo=bar&xe=sucks&var=1&arr%5B0%5D=2&arr%5B1%5D=3', Rhymix\Framework\URL::getCurrentURL(array('var' => '1', 'arr' => array(2, 3))));
 		
@@ -21,6 +21,13 @@ class URLTest extends \Codeception\TestCase\Test
 		
 		// Adding and removing parameters at the same time
 		$this->assertEquals('https://www.rhymix.org/rhymix/index.php?xe=sucks&l=ko', Rhymix\Framework\URL::getCurrentURL(array('l' => 'ko', 'foo' => null)));
+		
+		// Removing invalid characters in the current URL
+		$_SERVER['REQUEST_URI'] = '/rhymix/?foo="bar"';
+		$this->assertEquals('https://www.rhymix.org/rhymix/?foo=bar', Rhymix\Framework\URL::getCurrentURL());
+		$_SERVER['REQUEST_URI'] = '/rhymix/?foo=<bar&baz=rhymix>';
+		$this->assertEquals('https://www.rhymix.org/rhymix/?foo=bar&baz=rhymix', Rhymix\Framework\URL::getCurrentURL());
+		$this->assertEquals('https://www.rhymix.org/rhymix/?baz=rhymix&l=ko', Rhymix\Framework\URL::getCurrentURL(array('l' => 'ko', 'foo' => null)));
 		
 		$_SERVER['REQUEST_URI'] = $old_request_uri;
 	}

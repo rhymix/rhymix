@@ -80,7 +80,7 @@ class Session
 		ini_set('session.use_cookies', 1);
 		ini_set('session.use_only_cookies', 1);
 		ini_set('session.use_strict_mode', 1);
-		session_set_cookie_params($lifetime, $path, null, $ssl_only, false);
+		session_set_cookie_params($lifetime, $path, null, $ssl_only, $ssl_only);
 		session_name($session_name = Config::get('session.name') ?: session_name());
 		
 		// Get session ID from POST parameter if using relaxed key checks.
@@ -295,7 +295,7 @@ class Session
 		if(!$is_default_domain && !\Context::get('sso_response') && $_COOKIE['sso'] !== md5($current_domain))
 		{
 			// Set sso cookie to prevent multiple simultaneous SSO validation requests.
-			setcookie('sso', md5($current_domain), 0, '/');
+			setcookie('sso', md5($current_domain), 0, '/', null, !!config('session.use_ssl'), true);
 			
 			// Redirect to the default site.
 			$sso_request = Security::encrypt($current_url);

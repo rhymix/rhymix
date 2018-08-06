@@ -80,6 +80,7 @@ class spamfilterModel extends spamfilter
 		$word_list = $this->getDeniedWordList();
 		if(!count($word_list)) return new BaseObject();
 
+		$text = utf8_trim(utf8_normalize_spaces(htmlspecialchars_decode(strip_tags($text, '<a><img>'))));
 		foreach ($word_list as $word_item)
 		{
 			$word = $word_item->word;

@@ -91,13 +91,7 @@ class Context
 	 * @var string
 	 */
 	public $canonical_url = '';
-	
-	/**
-	 * unloaded basic files
-	 * @var array
-	 */
-	public $unloaded_basic_files = array();
-	
+
 	/**
 	 * language type - changed by HTTP_USER_AGENT or user's cookie
 	 * @var string
@@ -306,7 +300,7 @@ class Context
 		{
 			if($_COOKIE['lang_type'] !== $lang_type)
 			{
-				setcookie('lang_type', $lang_type, $_SERVER['REQUEST_TIME'] + 3600 * 24 * 1000, '/');
+				setcookie('lang_type', $lang_type, time() + 86400 * 365, '/', null, !!config('session.use_ssl_cookies'));
 			}
 		}
 		elseif($_COOKIE['lang_type'])
@@ -322,7 +316,7 @@ class Context
 					if(!strncasecmp($lang_code, $_SERVER['HTTP_ACCEPT_LANGUAGE'], strlen($lang_code)))
 					{
 						$lang_type = $lang_code;
-						setcookie('lang_type', $lang_type, $_SERVER['REQUEST_TIME'] + 3600 * 24 * 1000, '/');
+						setcookie('lang_type', $lang_type, time() + 86400 * 365, '/', null, !!config('session.use_ssl_cookies'));
 					}
 				}
 			}
@@ -1703,13 +1697,12 @@ class Context
 		}
 		
 		// If using SSL always
-		$_use_ssl = self::get('_use_ssl');
-		if($_use_ssl == 'always')
+		if($site_module_info->security == 'always')
 		{
 			$query = self::getRequestUri(ENFORCE_SSL, $domain) . $query;
 		}
 		// optional SSL use
-		elseif($_use_ssl == 'optional')
+		elseif($site_module_info->security == 'optional')
 		{
 			$ssl_mode = ((self::get('module') === 'admin') || ($get_vars['module'] === 'admin') || (isset($get_vars['act']) && self::isExistsSSLAction($get_vars['act']))) ? ENFORCE_SSL : RELEASE_SSL;
 			$query = self::getRequestUri($ssl_mode, $domain) . $query;
@@ -1775,7 +1768,8 @@ class Context
 			return;
 		}
 
-		if(self::get('_use_ssl') == 'always')
+		$site_module_info = self::get('site_module_info');
+		if ($site_module_info->security === 'always')
 		{
 			$ssl_mode = ENFORCE_SSL;
 		}
@@ -1790,7 +1784,6 @@ class Context
 				break;
 		}
 
-		$site_module_info = self::get('site_module_info');
 		if ($domain !== null && $domain !== false && $domain !== $site_module_info->domain)
 		{
 			if (!isset($domain_infos[$domain]))
@@ -2099,44 +2092,7 @@ class Context
 	{
 		self::$_oFrontEndFileHandler->unloadAllFiles($type);
 	}
-	
-	/**
-	 * unload basic files that load in HTMLDisplayHandler (filename|all|common|admin|mobile)
-	 *
-	 * @return void
-	 */
-	public static function unloadBasicFiles()
-	{
-		if(func_num_args() < 1)
-		{
-			return;
-		}
-		foreach(func_get_args() as $file)
-		{
-			self::$_instance->unloaded_basic_files[] = $file;
-		}
-	}
-	
-	/**
-	 * get unloaded basic files
-	 *
-	 * @return array unloaded basic files
-	 */
-	public static function getUnloadedBasicFiles()
-	{
-		return self::$_instance->unloaded_basic_files;
-	}
-	
-	/**
-	 * clear unloaded basic files
-	 *
-	 * @return void
-	 */
-	public static function clearUnloadedBasicFiles()
-	{
-		self::$_instance->unloaded_basic_files = array();
-	}
-	
+
 	/**
 	 * Add the js file
 	 *

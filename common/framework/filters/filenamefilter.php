@@ -30,6 +30,9 @@ class FilenameFilter
 		$filename = trim($filename, ' .-_');
 		$filename = preg_replace('/__+/', '_', $filename);
 		
+		// Clean up unnecessary encodings.
+		$filename = strtr($filename, array('&amp;' => '&'));
+		
 		// Change .php files to .phps to make them non-executable.
 		if (strtolower(substr($filename, strlen($filename) - 4)) === '.php')
 		{
