@@ -51,8 +51,8 @@
 		<div class="x_control-group">
 			<label class="x_control-label">{$lang->use_session_ssl}</label>
 			<div class="x_controls">
-				<label for="use_session_ssl_y" class="x_inline"><input type="radio" name="use_session_ssl" id="use_session_ssl_y" value="Y" checked="checked"|cond="$use_session_ssl && $use_ssl === 'always'" disabled="disabled"|cond="$use_ssl !== 'always'" /> {$lang->cmd_yes}</label>
-				<label for="use_session_ssl_n" class="x_inline"><input type="radio" name="use_session_ssl" id="use_session_ssl_n" value="N" checked="checked"|cond="!$use_session_ssl || $use_ssl !== 'always'" disabled="disabled"|cond="$use_ssl !== 'always'" /> {$lang->cmd_no}</label>
+				<label for="use_session_ssl_y" class="x_inline"><input type="radio" name="use_session_ssl" id="use_session_ssl_y" value="Y" checked="checked"|cond="$use_session_ssl && $site_module_info->security === 'always'" disabled="disabled"|cond="$site_module_info->security !== 'always'" /> {$lang->cmd_yes}</label>
+				<label for="use_session_ssl_n" class="x_inline"><input type="radio" name="use_session_ssl" id="use_session_ssl_n" value="N" checked="checked"|cond="!$use_session_ssl || $site_module_info->security !== 'always'" disabled="disabled"|cond="$site_module_info->security !== 'always'" /> {$lang->cmd_no}</label>
 				<br />
 				<p class="x_help-block">{$lang->about_use_session_ssl}</p>
 			</div>
@@ -60,8 +60,8 @@
 		<div class="x_control-group">
 			<label class="x_control-label">{$lang->use_cookies_ssl}</label>
 			<div class="x_controls">
-				<label for="use_cookies_ssl_y" class="x_inline"><input type="radio" name="use_cookies_ssl" id="use_cookies_ssl_y" value="Y" checked="checked"|cond="$use_cookies_ssl && $use_ssl === 'always'" disabled="disabled"|cond="$use_ssl !== 'always'" /> {$lang->cmd_yes}</label>
-				<label for="use_cookies_ssl_n" class="x_inline"><input type="radio" name="use_cookies_ssl" id="use_cookies_ssl_n" value="N" checked="checked"|cond="!$use_cookies_ssl || $use_ssl !== 'always'" disabled="disabled"|cond="$use_ssl !== 'always'" /> {$lang->cmd_no}</label>
+				<label for="use_cookies_ssl_y" class="x_inline"><input type="radio" name="use_cookies_ssl" id="use_cookies_ssl_y" value="Y" checked="checked"|cond="$use_cookies_ssl && $site_module_info->security === 'always'" disabled="disabled"|cond="$site_module_info->security !== 'always'" /> {$lang->cmd_yes}</label>
+				<label for="use_cookies_ssl_n" class="x_inline"><input type="radio" name="use_cookies_ssl" id="use_cookies_ssl_n" value="N" checked="checked"|cond="!$use_cookies_ssl || $site_module_info->security !== 'always'" disabled="disabled"|cond="$site_module_info->security !== 'always'" /> {$lang->cmd_no}</label>
 				<br />
 				<p class="x_help-block">{$lang->about_use_cookies_ssl}</p>
 			</div>
