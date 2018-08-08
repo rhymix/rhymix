@@ -17,10 +17,17 @@
 <div class="x">
 <p class="skipNav"><a href="#content">{$lang->skip_to_content}</a></p>
 	<header class="header">
+		<!--@if($module === 'admin')-->
 		<h1>
 			<a href="{getUrl('','module','admin')}"><img cond="$gnb_title_info->adminLogo" src="{getUrl('')}{$gnb_title_info->adminLogo}" alt="{$gnb_title_info->adminTitle}" /> {$gnb_title_info->adminTitle}</a>
 		</h1>
 		<p class="site"><a href="{$xe_default_url}">{$xe_default_url}</a></p>
+		<!--@else-->
+		<h1>
+			module manager
+		</h1>
+		<a href="{getUrl('', 'module', 'admin', 'act', $act, 'module_srl', $module_info->module_srl)}" cond="$logged_info->is_admin === 'Y'">Admin Panel</a>
+		<!--@end-->
 		<div class="account">
 			<ul>
 				<li><a href="{getUrl('', 'module', 'admin', 'act', 'dispMemberAdminInfo', 'is_admin', 'Y', 'member_srl', $logged_info->member_srl)}">{$logged_info->email_address}</a></li>
@@ -34,9 +41,9 @@
 		</div>
 	</header>
 	<!-- BODY -->
-	<div class="body <!--@if($_COOKIE['__xe_admin_gnb_status'] == 'close')-->wide<!--@end-->">
+	<div class="body <!--@if($_COOKIE['__xe_admin_gnb_status'] == 'close')-->wide<!--@end-->" style="padding-left:0"|cond="$module !== 'admin'">
 		<!-- GNB -->
-		<nav class="gnb <!--@if($_COOKIE['__xe_admin_gnb_status'] == 'open')-->open<!--@end-->" id="gnb">
+		<nav class="gnb <!--@if($_COOKIE['__xe_admin_gnb_status'] == 'open')-->open<!--@end-->" id="gnb" cond="$module === 'admin'">
 			<a href="#gnbNav"><i class="x_icon-align-justify x_icon-white"></i><b></b> Menu Open/Close</a>
 			<ul id="gnbNav" class="ex">
 			<script>

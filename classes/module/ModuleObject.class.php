@@ -140,6 +140,13 @@ class ModuleObject extends BaseObject
 			return;
 		}
 		
+		// Set admin layout
+		if(preg_match('/^disp[A-Z][a-z0-9\_]+Admin/', $this->act))
+		{
+			$this->setLayoutPath('modules/admin/tpl');
+			$this->setLayoutFile('layout');
+		}
+		
 		// Execute init
 		if(method_exists($this, 'init'))
 		{
