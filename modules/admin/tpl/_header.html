@@ -14,12 +14,13 @@
 	xe.lang.confirm_run = "{$lang->confirm_run}";
 	xe.lang.confirm_reset_admin_menu = "{$lang->confirm_reset_admin_menu}";
 </script>
+{@ $module_manager = $current_module_info->module !== 'admin'}
 <div class="x">
 <p class="skipNav"><a href="#content">{$lang->skip_to_content}</a></p>
 	<header class="header">
-		<!--@if($mid)-->
+		<!--@if($module_manager)-->
 		<h1>module manager</h1>
-		<a href="{getUrl('', 'module', 'admin', 'act', $act, 'module_srl', $module_info->module_srl)}" cond="$logged_info->is_admin === 'Y'">Admin Panel</a>
+		<a href="{getUrl('module', 'admin', 'act', $act, 'module_srl', $module_info->module_srl, 'mid', '')}" cond="$this->user->isAdmin()">Admin Panel</a>
 		<!--@else-->
 		<h1>
 			<a href="{getUrl('','module','admin')}"><img cond="$gnb_title_info->adminLogo" src="{getUrl('')}{$gnb_title_info->adminLogo}" alt="{$gnb_title_info->adminTitle}" /> {$gnb_title_info->adminTitle}</a>
@@ -28,7 +29,7 @@
 		<!--@end-->
 		<div class="account">
 			<ul>
-				<!--@if($mid)-->
+				<!--@if($module_manager)-->
 				<li><a href="{getUrl('', 'mid', $mid, 'act', 'dispMemberInfo')}">{$logged_info->email_address}</a></li>
 				<li><a href="{getUrl('', 'mid', $mid, 'act', 'dispMemberLogout')}">{$lang->cmd_logout}</a></li>
 				<!--@else-->
@@ -44,9 +45,9 @@
 		</div>
 	</header>
 	<!-- BODY -->
-	<div class="body <!--@if($_COOKIE['__xe_admin_gnb_status'] == 'close')-->wide<!--@end-->" style="padding-left:0"|cond="$mid">
+	<div class="body <!--@if($_COOKIE['__xe_admin_gnb_status'] == 'close')-->wide<!--@end-->" style="padding-left:0"|cond="$module_manager">
 		<!-- GNB -->
-		<nav class="gnb <!--@if($_COOKIE['__xe_admin_gnb_status'] == 'open')-->open<!--@end-->" id="gnb" cond="!$mid">
+		<nav class="gnb <!--@if($_COOKIE['__xe_admin_gnb_status'] == 'open')-->open<!--@end-->" id="gnb" cond="!$module_manager">
 			<a href="#gnbNav"><i class="x_icon-align-justify x_icon-white"></i><b></b> Menu Open/Close</a>
 			<ul id="gnbNav" class="ex">
 			<script>

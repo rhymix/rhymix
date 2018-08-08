@@ -1,6 +1,6 @@
 	</div>
 	<!-- /BODY -->
-	<footer class="footer" cond="$logged_info->is_admin === 'Y'">
+	<footer class="footer" cond="$this->user->isAdmin()">
 		<p class="power">
 			Powered by <strong>Rhymix {__XE_VERSION__}</strong>
 			<!--@if(isset($released_version))-->
