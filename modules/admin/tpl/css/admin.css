@@ -1256,17 +1256,6 @@ margin-bottom: 10px;
 	font-weight: bold;
 	color: #757575;
 }
-.x>.body>.gnb>ul>li>ul>li.active_>a:after {
-	content: "";
-	position: absolute;
-	top: 8px;
-	right: -12px;
-	border: 6px solid transparent;
-	border-left-color: #fff;
-	width: 0;
-	height: 0;
-	overflow: hidden;
-}
 	/* li>ul>li>.action */
 .x>.body>.gnb>ul>li>ul>li>.remove {
 	position: absolute;
