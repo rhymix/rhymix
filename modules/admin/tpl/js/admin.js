@@ -1425,12 +1425,12 @@ jQuery(function($){
 	});
 	$('.x .dsTg .rx_detail_marks').hide();
 	var details = $('.x .dsTg td.tg>*:not(:first-child),.x .dsTg .rx_detail_marks');
-	var simpleBtnFn = function(){
+	function simpleBtnFn(){
 		details.hide();
 		detailBtn.removeClass('x_active');
 		simpleBtn.addClass('x_active');
 	};
-	var detailBtnFn = function(){
+	function detailBtnFn(){
 		details.show();
 		detailBtn.addClass('x_active');
 		simpleBtn.removeClass('x_active');
