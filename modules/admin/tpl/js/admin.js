@@ -91,7 +91,6 @@ jQuery(function($){
 		var $xBody = $('.x>.body');
 		var $xGnb = $xBody.find('>.gnb');
 		var $xContent = $xBody.children('#content.content');
-		$xContent.width('99.99%');
 		setTimeout(function(){
 			$xContent.removeAttr('style');
 			if($xGnb.height() > $xContent.height()){
@@ -103,7 +102,7 @@ jQuery(function($){
 	$.fn.gnb = function(){
 		var $xBody = $('.x>.body');
 		var $xGnb = $xBody.find('>.gnb');
-		var $xGnb_li = $xGnb.find('>ul>li');
+		var $xGnb_li = $xGnb.find('>ul>li:not(.active_clone)');
 
 		var d365 = new Date();
 		d365.setTime(d365.getTime() + 60*60*24*356);
@@ -115,8 +114,6 @@ jQuery(function($){
 		$xGnb_li.each(function(index){
 			$(this).attr('data-index', index+1);
 		});
-		var parentIndex = $xGnb_li.find('>ul>li.active_').closest('li.active').attr('data-index');
-		$xGnb_li.find('>ul>li.active_').clone().addClass('active').attr('data-index', parentIndex).prependTo('#gnbNav').find('>a').prepend('<i />');
 		// GNB Click toggle
 		$xGnb_li.find('>a').click(function(){
 			var $this = $(this);
@@ -1426,17 +1423,23 @@ jQuery(function($){
 			$t.addClass('tg').find('>*:not(:first-child)').hide();
 		}
 	});
-	var details = $('.x .dsTg td.tg>*:not(:first-child)');
-	simpleBtn.click(function(){
+	$('.x .dsTg .rx_detail_marks').hide();
+	var details = $('.x .dsTg td.tg>*:not(:first-child),.x .dsTg .rx_detail_marks');
+	var simpleBtnFn = function(){
 		details.hide();
 		detailBtn.removeClass('x_active');
 		simpleBtn.addClass('x_active');
-	});
-	detailBtn.click(function(){
+	};
+	var detailBtnFn = function(){
 		details.show();
 		detailBtn.addClass('x_active');
 		simpleBtn.removeClass('x_active');
-	});
+	}
+	simpleBtn.click(simpleBtnFn);
+	detailBtn.click(detailBtnFn);
+	if($(window).width() > 980) {
+		detailBtnFn();
+	}
 });
 
 // Multilingual Window

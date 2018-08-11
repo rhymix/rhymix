@@ -2,18 +2,22 @@
 <div cond="$XE_VALIDATOR_MESSAGE && $XE_VALIDATOR_ID == 'modules/autoinstall/tpl/uninstall/1'" class="message {$XE_VALIDATOR_MESSAGE_TYPE}">
 	<p>{$XE_VALIDATOR_MESSAGE}</p>
 </div>
-<table class="x_table x_table-striped x_table-hover">
+<table class="x_table x_table-striped x_table-hover dsTg">
 	<caption>
 		<strong>All({count($module_list)})</strong>
+		<div class="x_pull-right x_btn-group">
+			<button class="x_btn x_active __simple">{$lang->simple_view}</button>
+			<button class="x_btn __detail">{$lang->detail_view}</button>
+		</div>
 	</caption>
 	<thead>
 		<tr>
 			<th class="nowr">{$lang->favorite}</th>
 			<th class="title">{$lang->module_name}</th>
 			<th class="nowr">{$lang->version}</th>
-			<th class="nowr">{$lang->author}</th>
-			<th class="nowr">{$lang->path}</th>
-			<th class="nowr">{$lang->cmd_delete}</th>
+			<th class="nowr rx_detail_marks">{$lang->author}</th>
+			<th class="nowr rx_detail_marks">{$lang->path}</th>
+			<th class="nowr rx_detail_marks">{$lang->cmd_delete}</th>
 		</tr>
 	</thead>
 	<tbody>
@@ -37,7 +41,7 @@
 				<p cond="$val->need_autoinstall_update == 'Y'" class="x_alert x_alert-info">{$lang->msg_avail_easy_update} <a href="{$val->update_url}&amp;return_url={urlencode(getRequestUriByServerEnviroment())}">{$lang->msg_do_you_like_update}</a></p>
 			</td>
 			<td>{$val->version}</td>
-			<td class="nowr">
+			<td class="nowr rx_detail_marks">
 				<!--@foreach($val->author as $author)-->
 					<!--@if($author->homepage)-->
 						<a href="{$author->homepage}" target="_blank">{$author->name}</a>
@@ -46,8 +50,8 @@
 					<!--@endif-->
 				<!--@endforeach-->
 			</td>
-			<td>{$val->path}</td>
-			<td>
+			<td class="rx_detail_marks">{$val->path}</td>
+			<td class="rx_detail_marks">
 				<a href="{$val->delete_url}&amp;return_url={urlencode(getRequestUriByServerEnviroment())}" cond="$val->delete_url">{$lang->cmd_delete}</a>
 			</td>
 		</tr>

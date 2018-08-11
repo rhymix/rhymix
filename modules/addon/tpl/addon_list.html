@@ -23,8 +23,8 @@
 			<tr>
 				<th class="title">{$lang->addon_name}</th>
 				<th class="nowr">{$lang->version}</th>
-				<th class="nowr">{$lang->author}</th>
-				<th class="nowr">{$lang->installed_path}</th>
+				<th class="nowr rx_detail_marks">{$lang->author}</th>
+				<th class="nowr rx_detail_marks">{$lang->installed_path}</th>
 				<th class="nowr">{$lang->cmd_setup}</th>
 				<th class="nowr">PC</th>
 				<th class="nowr">Mobile</th>
@@ -41,13 +41,13 @@
 					</p>
 				</td>
 				<td><span style="color:#aaa"|cond="$addon->isBlacklisted">{$addon->version}</span></td>
-				<td class="nowr">
+				<td class="nowr rx_detail_marks">
 					<block loop="$addon->author => $author">
 						<a cond="$author->homepage" href="{$author->homepage}" target="_blank">{$author->name}</a>
 						<block cond="!$author->homepage">{$author->name}</block>
 					</block>
 				</td>
-				<td><span style="color:#aaa"|cond="$addon->isBlacklisted">{$addon->path}</span></td>
+				<td class="rx_detail_marks"><span style="color:#aaa"|cond="$addon->isBlacklisted">{$addon->path}</span></td>
 				<td>
 					<a href="{getUrl('act', 'dispAddonAdminSetup', 'selected_addon', $addon->addon_name)}">{$lang->cmd_setup}</a>
 				</td>
