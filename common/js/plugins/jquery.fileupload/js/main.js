@@ -203,6 +203,7 @@
 			// 본문 삽입
 			data.settings.actSelectedInsertContent.on('click', function() {
 				self.insertToContent($container);
+				data.settings.fileList.finderSelect('unHighlightAll');
 			});
 
 			// 파일 삭제
