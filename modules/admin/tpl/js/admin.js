@@ -1429,12 +1429,12 @@ jQuery(function($){
 		details.hide();
 		detailBtn.removeClass('x_active');
 		simpleBtn.addClass('x_active');
-	}
+	};
 	var detailBtnFn = function(){
 		details.show();
 		detailBtn.addClass('x_active');
 		simpleBtn.removeClass('x_active');
-	}
+	};
 	simpleBtn.click(simpleBtnFn);
 	detailBtn.click(detailBtnFn);
 	if($(window).width() > 980) {
