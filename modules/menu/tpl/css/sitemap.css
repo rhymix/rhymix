@@ -173,7 +173,7 @@ padding:0;list-style:none}
 .download .item>img{position:absolute;top:15px;left:0;width:80px;height:80px;padding:4px;border:1px solid #ddd;border-radius:3px}
 .download h2{margin:10px 0;line-height:normal}
 .download h2>a{font-size:14px;color:#000}
-.download .x_icon-download-alt{width:24px;height:24px;color:#aa5e22;position:absolute;top:15px;right:0;}
+.download .x_icon-download-alt{width:24px;height:24px;color:#007aff;position:absolute;top:15px;right:0;}
 .download .x_icon-download-alt:hover,
 .download .x_icon-download-alt:focus{color:#333}
 .download p>i{font-style:normal;color:#ccc}
