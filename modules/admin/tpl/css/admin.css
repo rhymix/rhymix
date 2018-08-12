@@ -1204,6 +1204,7 @@ margin-bottom: 10px;
 }
 	/* li>a>span */
 .x>.body.wide>.gnb>ul>li>a>.tx {
+	display: inline-block;
 	width: 1px;
 	height: 1px;
 	overflow: hidden;
