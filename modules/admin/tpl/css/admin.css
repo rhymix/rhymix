@@ -3,6 +3,8 @@
 /* Reset */
 html,
 body {
+	margin:0;
+	padding:0;
 	min-height: 100%;
 }
 body {
@@ -745,8 +747,8 @@ margin-bottom: 10px;
 	z-index: 2;
 	padding: 10px 15px;
 	zoom: 1;
-	border-bottom: 1px solid #e0e0e0;
-	background-color: #fff;
+	box-shadow: 0 2px 3px rgba(0,0,0,0.19), 0 1px 1px rgba(0,0,0,0.23);
+	background-color: #F5F5F5;
 }
 .x>.header:after {
 	content: "";
@@ -779,7 +781,7 @@ margin-bottom: 10px;
 .x>.body>.content {
 	box-sizing:border-box;
 	width: 100%;
-	padding: 1px 0 0 0;
+	padding: 1px 5px 0 5px;
 	float: right;
 	margin: 0 0 0 -100%;
 	outline: none;
@@ -790,7 +792,7 @@ margin-bottom: 10px;
 .x>.body>.gnb {
 	width: 180px;
 	position: relative;
-	margin: 15px 0 0 -215px;
+	margin: 0 0 0 -215px;
 	float: left;
 	display: inline;
 }
@@ -817,7 +819,6 @@ margin-bottom: 10px;
 }
 .x>.body>.content {
 	width: auto;
-	padding: 1px 10px 0 10px;
 	float: none;
 	margin: 0 0 30px 0;
 }
@@ -911,18 +912,11 @@ margin-bottom: 10px;
 }
 .x>.header>.account .lang+#lang .x_active>a {
 	color: #fff;
-	background-color: #0091EA;
+	background-color: #007aff;
 }
 @media all and (max-width: 480px) {
 
 .x>.header>.site {
-	margin-top: 0;
-}
-
-}
-@media all and (max-width: 800px) {
-
-.x>.header>.account {
 	margin-top: 0;
 }
 
