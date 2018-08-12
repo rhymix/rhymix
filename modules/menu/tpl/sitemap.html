@@ -1,4 +1,3 @@
-<load target="./css/themes/classic/style.css" index="11" />
 <load target="./css/sitemap.css" index="11" />
 <load target="./js/_lib/jquery.cookie.js" />
 <load target="./js/jquery.scrollTo-1.4.2.js" />
@@ -151,7 +150,7 @@
 		<fieldset>
 			<h1 class="_title"></h1>
 			<div class="cnt">
-				<p class="desc"><dfn class="_description"></dfn> <a class='_link x_icon-share'>{$lang->details}</a></p>
+				<p class="desc"><dfn class="_description"></dfn> <a class='_link'><i class="xi-link"></i>{$lang->details}</a></p>
 				<ul>
 					<li>
 						<div class="multilingual x_input-append">
@@ -1142,7 +1141,7 @@ function createTreeMarkup(aNode, sParentSrl, sMenuTree, sMenuTreeNode){
 			nNodeType = 3;
 		}
 
-		sResult += $.tmpl( sMenuTreeNode, {MenuTitleWithHome:sTextWithIcons,MenuTitle:sText,MenuId:sNodeSrl,MenuUrl:sURL,NodeType:nNodeType,SubTree:sSubTree,Target:sTargetPanel} ).get()[0].outerHTML.replace("${h}", "<i class='x_icon-home' title='" + aNode[i].is_start_module_of + "'>[HOME]</i>").replace("${s}", "<i class='x_icon-share' title='Shortcut'></i>");
+		sResult += $.tmpl( sMenuTreeNode, {MenuTitleWithHome:sTextWithIcons,MenuTitle:sText,MenuId:sNodeSrl,MenuUrl:sURL,NodeType:nNodeType,SubTree:sSubTree,Target:sTargetPanel} ).get()[0].outerHTML.replace("${h}", "<i class='x_icon-home' title='" + aNode[i].is_start_module_of + "'>[HOME]</i>").replace("${s}", "<i class='xi-link' title='Shortcut'></i>");
 	}
 
 	return $.tmpl( sMenuTree, {Nodes:sResult} ).get()[0].outerHTML;
@@ -3974,18 +3973,18 @@ jQuery(function($){
 	<!--@else-->
 		$(window).resize(function(){
 			var wHeigh = $(window).height();
-			$('#site').height(wHeigh - 147).find('>.col').height(wHeigh - 185).find('.cnt').height(wHeigh - 252);
-			$('#properties, #propertiesRoot, #imgbtn, #layoutSetup, #layoutMarkupSetup, #skinSetup').find('.cnt').height(wHeigh - 222);
+			$('#site').height(wHeigh - 147).find('>.col').height(wHeigh - 185).find('.cnt').height(wHeigh - 292);
+			$('#properties, #propertiesRoot, #imgbtn, #layoutSetup, #layoutMarkupSetup, #skinSetup').find('.cnt').height(wHeigh - 262);
 
 			<!--@if($act == 'dispMenuAdminSiteMap')-->
 			// minus height 40px for find-form display
 			$('#site').find('.cnt:first').height(wHeigh - 252 - 40);
-			$('#design').find('.cnt').height(wHeigh - 222);
+			$('#design').find('.cnt').height(wHeigh - 262);
 			<!--@end-->
 
 			<!--@if($act == 'dispMenuAdminSiteDesign')-->
 
-			$('#layout, #skin').find('.cnt').height(wHeigh - 222);
+			$('#layout, #skin').find('.cnt').height(wHeigh - 262);
 			<!--@end-->
 		}).resize();
 	<!--@end-->

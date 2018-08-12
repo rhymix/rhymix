@@ -1,10 +1,11 @@
 <load target="css/admin.bootstrap.css" />
 <load target="css/admin.iefix.css" />
+<load target="/common/css/xeicon/xeicon.css" />
 <load target="css/admin.css" />
 <load target="js/admin.js" />
 <load target="js/jquery.tmpl.js" />
 <load target="js/jquery.jstree.js" />
-<meta name="apple-mobile-web-app-capable" content="yes" />
+{Context::addMetaTag("viewport", "width=device-width, user-scalable=yes")}
 <script>
 	var admin_menu_srl = "{$admin_menu_srl}";
 	xe.cmd_find = "{$lang->cmd_find}";
@@ -48,8 +49,21 @@
 	<div class="body <!--@if($_COOKIE['__xe_admin_gnb_status'] == 'close')-->wide<!--@end-->" style="padding-left:0"|cond="$module_manager">
 		<!-- GNB -->
 		<nav class="gnb <!--@if($_COOKIE['__xe_admin_gnb_status'] == 'open')-->open<!--@end-->" id="gnb" cond="!$module_manager">
+			
 			<a href="#gnbNav"><i class="x_icon-align-justify x_icon-white"></i><b></b> Menu Open/Close</a>
 			<ul id="gnbNav" class="ex">
+			<!--@foreach($gnbUrlList as $key=>$value)-->
+				<block loop="$value['list']=>$key2,$value2" cond="$subMenuTitle != '' && $value2['text'] == $subMenuTitle">
+					<li class="active active_clone">
+						<a href="{getFullUrl('')}{$value2['href']}"|cond="$subMenuTitle"><span class="tx">{$subMenuTitle}</span></a>
+					</li>
+				</block>
+				<block cond="!$subMenuTitle && $value['href']=='index.php?module=admin'">
+					<li class="active active_clone">
+						<a href="{getFullUrl('')}{$value['href']}" cond="!$subMenuTitle"><span class="tx">{$value['text']}</span></a>
+					</li>
+				</block>
+			<!--@end-->
 			<script>
 				var __xe_admin_gnb_txs = new Array();
 			</script>
@@ -77,7 +91,7 @@
 					</ul>
 				</li>
 				<!--@end-->
-				<li class="<!--@if($parentSrl==$key || $value['href']=='index.php?module=admin' && !$mid && !$act)-->active open<!--@elseif($_COOKIE['__xe_admin_gnb_tx_' . md5($value['href'])] == 'open')-->open<!--@end-->">
+				<li class="<!--@if(($parentSrl==$key || $value['href']=='index.php?module=admin') && !$mid && !$act)-->active open<!--@elseif($_COOKIE['__xe_admin_gnb_tx_' . md5($value['href'])] == 'open')-->open<!--@end-->">
 					<script>
 						__xe_admin_gnb_txs.push('{'__xe_admin_gnb_tx_' . md5($value['href'])}');
 					</script>

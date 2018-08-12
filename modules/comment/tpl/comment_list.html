@@ -7,7 +7,7 @@ xe.lang.msg_empty_search_keyword = '{$lang->msg_empty_search_keyword}';
 	<p>{$XE_VALIDATOR_MESSAGE}</p>
 </div>
 <form id="fo_list" action="./" method="post">
-	<table id="commentListTable" class="x_table x_table-striped x_table-hover">
+	<table id="commentListTable" class="x_table x_table-striped x_table-hover dsTg">
 		<caption>
 			<a href="{getUrl('','module','admin','act','dispCommentAdminList','Y')}" class="active"|cond="$search_keyword == ''">{$lang->all}<block cond="$search_keyword == ''">({number_format($total_count)})</block></a>
 			<i>|</i>
@@ -22,7 +22,11 @@ xe.lang.msg_empty_search_keyword = '{$lang->msg_empty_search_keyword}';
 			<a href="{getUrl('', 'module', 'admin', 'act','dispCommentAdminDeclared')}">{$lang->cmd_declared_list}</a>
 			<i cond="$search_target == 'ipaddress'">|</i>
 			<a href="{getUrl('search_target', 'ipaddress')}" class="active" cond="$search_target == 'ipaddress'">{$lang->ipaddress}:{$search_keyword}({number_format($total_count)})</a>
-			
+
+			<div class="x_pull-right x_btn-group">
+				<button type="button" class="x_btn x_active __simple">{$lang->simple_view}</button>
+				<button type="button" class="x_btn __detail">{$lang->detail_view}</button>
+			</div>
 			<div class="x_btn-group x_pull-right">
 				<a href="#listManager" class="x_btn modalAnchor" data-value="true" data-name="is_trash">{$lang->trash}</a>
 				<a href="#listManager" class="x_btn modalAnchor" data-value="false" data-name="is_trash">{$lang->delete}</a>
@@ -36,11 +40,11 @@ xe.lang.msg_empty_search_keyword = '{$lang->msg_empty_search_keyword}';
 			<tr>
 				<th scope="col">{$lang->comment}</th>
 				<th scope="col" class="nowr">{$lang->writer}</th>
-				<th scope="col" class="nowr">{$lang->cmd_vote}(+/-)</th>
+				<th scope="col" class="nowr rx_detail_marks">{$lang->cmd_vote}(+/-)</th>
 				<th scope="col" class="nowr">{$lang->date}</th>
-				<th scope="col" class="nowr">{$lang->ipaddress}</th>
-				<th scope="col" class="nowr">{$lang->status}</th>
-				<th scope="col" class="nowr">{$lang->published}</th>
+				<th scope="col" class="nowr rx_detail_marks">{$lang->ipaddress}</th>
+				<th scope="col" class="nowr rx_detail_marks">{$lang->status}</th>
+				<th scope="col" class="nowr rx_detail_marks">{$lang->published}</th>
 				<th scope="col"><input type="checkbox" data-name="cart" title="Check All" /></th>
 			</tr>
 		</thead>
@@ -58,11 +62,11 @@ xe.lang.msg_empty_search_keyword = '{$lang->msg_empty_search_keyword}';
 					<a href="#popup_menu_area" class="member_{abs($val->get('member_srl'))}" cond="$val->get('member_srl') < 0">({$member_nick_name[abs($val->get('member_srl'))]})</a>
 					<a href="#popup_menu_area" class="member_{$val->get('member_srl')}" cond="$val->get('member_srl') > 0">{$val->getNickName()}</a>
 				</td>
-				<td class="nowr">{number_format($val->get('voted_count'))}/{number_format($val->get('blamed_count'))}</td>
-				<td class="nowr">{(zdate($val->regdate,"Y-m-d\nH:i:s"))}</td>
-				<td class="nowr"><a href="{getUrl('search_target','ipaddress','search_keyword',$val->ipaddress)}">{$val->ipaddress}</a></td>
-				<td class="nowr"><!--@if($val->isSecret())-->{$secret_name_list['Y']}<!--@else-->{$secret_name_list['N']}<!--@end--></td>
-				<td class="nowr"><!--@if($val->status)-->{$lang->published_name_list['Y']}<!--@else-->{$lang->published_name_list['N']}<!--@end--></td>
+				<td class="nowr rx_detail_marks">{number_format($val->get('voted_count'))}/{number_format($val->get('blamed_count'))}</td>
+				<td class="nowr"><span class="rx_detail_marks">{(zdate($val->regdate,"Y-"))}</span><span>{(zdate($val->regdate,"m-d"))}</span><span class="rx_detail_marks">{(zdate($val->regdate,"\nH:i:s"))}</span></td>
+				<td class="nowr rx_detail_marks"><a href="{getUrl('search_target','ipaddress','search_keyword',$val->ipaddress)}">{$val->ipaddress}</a></td>
+				<td class="nowr rx_detail_marks"><!--@if($val->isSecret())-->{$secret_name_list['Y']}<!--@else-->{$secret_name_list['N']}<!--@end--></td>
+				<td class="nowr rx_detail_marks"><!--@if($val->status)-->{$lang->published_name_list['Y']}<!--@else-->{$lang->published_name_list['N']}<!--@end--></td>
 				<td><input type="checkbox" name="cart" value="{$val->comment_srl}" /></td>
 			</tr>
 			<tr cond="!$comment_list">

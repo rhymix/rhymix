@@ -2,18 +2,22 @@
 <div cond="$XE_VALIDATOR_MESSAGE && $XE_VALIDATOR_ID == 'modules/autoinstall/tpl/uninstall/1'" class="message {$XE_VALIDATOR_MESSAGE_TYPE}">
 	<p>{$XE_VALIDATOR_MESSAGE}</p>
 </div>
-<table class="x_table x_table-striped x_table-hover">
+<table class="x_table x_table-striped x_table-hover dsTg">
 	<caption>
 		<strong>All({count($module_list)})</strong>
+		<div class="x_pull-right x_btn-group">
+			<button class="x_btn x_active __simple">{$lang->simple_view}</button>
+			<button class="x_btn __detail">{$lang->detail_view}</button>
+		</div>
 	</caption>
 	<thead>
 		<tr>
 			<th class="nowr">{$lang->favorite}</th>
 			<th class="title">{$lang->module_name}</th>
 			<th class="nowr">{$lang->version}</th>
-			<th class="nowr">{$lang->author}</th>
-			<th class="nowr">{$lang->path}</th>
-			<th class="nowr">{$lang->cmd_delete}</th>
+			<th class="nowr rx_detail_marks">{$lang->author}</th>
+			<th class="nowr rx_detail_marks">{$lang->path}</th>
+			<th class="nowr rx_detail_marks">{$lang->cmd_delete}</th>
 		</tr>
 	</thead>
 	<tbody>
@@ -37,7 +41,7 @@
 				<p cond="$val->need_autoinstall_update == 'Y'" class="x_alert x_alert-info">{$lang->msg_avail_easy_update} <a href="{$val->update_url}&amp;return_url={urlencode(getRequestUriByServerEnviroment())}">{$lang->msg_do_you_like_update}</a></p>
 			</td>
 			<td>{$val->version}</td>
-			<td class="nowr">
+			<td class="nowr rx_detail_marks">
 				<!--@foreach($val->author as $author)-->
 					<!--@if($author->homepage)-->
 						<a href="{$author->homepage}" target="_blank">{$author->name}</a>
@@ -46,17 +50,17 @@
 					<!--@endif-->
 				<!--@endforeach-->
 			</td>
-			<td>{$val->path}</td>
-			<td>
+			<td class="rx_detail_marks">{$val->path}</td>
+			<td class="rx_detail_marks">
 				<a href="{$val->delete_url}&amp;return_url={urlencode(getRequestUriByServerEnviroment())}" cond="$val->delete_url">{$lang->cmd_delete}</a>
 			</td>
 		</tr>
 	</tbody>
 </table>
 <style scoped>
-.fvOff,
-.fvOn{display:inline-block;width:16px;height:16px;overflow:hidden;text-indent:16px;background:transparent url(./modules/admin/tpl/img/iconFavorite.gif) no-repeat;border:0}
-.fvOn{background-position:0 -16px}
+.fvOff,.fvOn{display:inline-block;width:30px;height:30px;background-color:transparent;background-size:30px 30px;overflow:hidden;text-indent:-1000px;border:0}
+.fvOff{background-image: url('data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0iVVRGLTgiIHN0YW5kYWxvbmU9Im5vIj8+CjxzdmcgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIiB2ZXJzaW9uPSIxLjEiIHdpZHRoPSIxMDgxLjI5MzMiIGhlaWdodD0iMTAzOC42NjgiPgo8cGF0aCBkPSJtIDUxLjcwOTYzNSw0MDYuODY0IGMgNC42NzIsLTE1Ljg5MyAxOC4xMzMsLTI3LjY0OCAzNC40OTYsLTMwLjE0NCBMIDM4My41Mjg2MywzMzEuMzAxIDUwMS45MDc2Myw3NC43ODkgYyA2Ljk3NiwtMTUuMTA0IDIyLjEwMSwtMjQuNzg5IDM4Ljc0MSwtMjQuNzg5IDE2LjY0LDAgMzEuNzY1LDkuNjg1IDM4Ljc0MSwyNC43ODkgbCAxMTguMzc5LDI1Ni40OTEgMjk3LjMyMyw0NS40MTkgYyAxNi4zODM5NywyLjQ5NiAyOS44MjM5NywxNC4yNTEgMzQuNDk2MDcsMzAuMTQ0IDQuNjcyLDE1Ljg5MyAtMC4yOTksMzMuMDQ1IC0xMi43MTUxLDQ0LjAxMSBsIC0yMTYuMjM0OTcsMTkwLjg0OCA1OS4xNTcsMjk1Ljg5MyBjIDMuMzI4LDE2LjY0IC0zLjUyLDMzLjY4NSAtMTcuNDUxLDQzLjM5MiAtMTMuOTMxLDkuNzA3IC0zMi4zMiwxMC4yMTkgLTQ2LjcyLDEuMzIzIGwgLTI1NC45NzYsLTE1Ni44ODUgLTI1NC45NzYsMTU2LjkwNyBjIC02Ljg0OCw0LjI0NSAtMTQuNjEzLDYuMzM2IC0yMi4zNTcsNi4zMzYgLTguNTMzLDAgLTE3LjA2NywtMi41NiAtMjQuMzg0LC03LjY1OSAtMTMuOTMxLC05LjcwNyAtMjAuOCwtMjYuNzMxIC0xNy40NTEsLTQzLjM5MiBMIDI4MC42MzY2Myw2NDEuNzI0IDY0LjQwMTYzNSw0NTAuODc2IGMgLTEyLjM5NSwtMTAuOTY1IC0xNy4zNjUsLTI4LjExNyAtMTIuNjkzLC00NC4wMTEgeiIgc3R5bGU9ImZpbGw6I2ZmZmZmZjtmaWxsLW9wYWNpdHk6MTtzdHJva2U6IzAwMDAwMDtzdHJva2Utd2lkdGg6NzA7c3Ryb2tlLW1pdGVybGltaXQ6NDtzdHJva2UtZGFzaGFycmF5Om5vbmU7c3Ryb2tlLW9wYWNpdHk6MSIgLz4KPC9zdmc+');}
+.fvOn{background-image: url('data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0iVVRGLTgiIHN0YW5kYWxvbmU9Im5vIj8+CjxzdmcgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIiB2ZXJzaW9uPSIxLjEiIHdpZHRoPSIxMDgxLjI5MzMiIGhlaWdodD0iMTAzOC42NjgiPgo8cGF0aCBkPSJtIDUxLjcwOTYzNSw0MDYuODY0IGMgNC42NzIsLTE1Ljg5MyAxOC4xMzMsLTI3LjY0OCAzNC40OTYsLTMwLjE0NCBMIDM4My41Mjg2MywzMzEuMzAxIDUwMS45MDc2Myw3NC43ODkgYyA2Ljk3NiwtMTUuMTA0IDIyLjEwMSwtMjQuNzg5IDM4Ljc0MSwtMjQuNzg5IDE2LjY0LDAgMzEuNzY1LDkuNjg1IDM4Ljc0MSwyNC43ODkgbCAxMTguMzc5LDI1Ni40OTEgMjk3LjMyMyw0NS40MTkgYyAxNi4zODM5NywyLjQ5NiAyOS44MjM5NywxNC4yNTEgMzQuNDk2MDcsMzAuMTQ0IDQuNjcyLDE1Ljg5MyAtMC4yOTksMzMuMDQ1IC0xMi43MTUxLDQ0LjAxMSBsIC0yMTYuMjM0OTcsMTkwLjg0OCA1OS4xNTcsMjk1Ljg5MyBjIDMuMzI4LDE2LjY0IC0zLjUyLDMzLjY4NSAtMTcuNDUxLDQzLjM5MiAtMTMuOTMxLDkuNzA3IC0zMi4zMiwxMC4yMTkgLTQ2LjcyLDEuMzIzIGwgLTI1NC45NzYsLTE1Ni44ODUgLTI1NC45NzYsMTU2LjkwNyBjIC02Ljg0OCw0LjI0NSAtMTQuNjEzLDYuMzM2IC0yMi4zNTcsNi4zMzYgLTguNTMzLDAgLTE3LjA2NywtMi41NiAtMjQuMzg0LC03LjY1OSAtMTMuOTMxLC05LjcwNyAtMjAuOCwtMjYuNzMxIC0xNy40NTEsLTQzLjM5MiBMIDI4MC42MzY2Myw2NDEuNzI0IDY0LjQwMTYzNSw0NTAuODc2IGMgLTEyLjM5NSwtMTAuOTY1IC0xNy4zNjUsLTI4LjExNyAtMTIuNjkzLC00NC4wMTEgeiIgc3R5bGU9ImZpbGw6I2ZmZWIzYjtmaWxsLW9wYWNpdHk6MTtzdHJva2U6IzAwMDAwMDtzdHJva2Utd2lkdGg6NzA7c3Ryb2tlLW1pdGVybGltaXQ6NDtzdHJva2UtZGFzaGFycmF5Om5vbmU7c3Ryb2tlLW9wYWNpdHk6MSIgLz4KPC9zdmc+');}
 </style>
 <script>
 jQuery(function($){

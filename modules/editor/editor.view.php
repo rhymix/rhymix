@@ -192,7 +192,7 @@ class editorView extends editor
 	{
 		Context::set('editor', getModel('editor')->getModuleEditor(Context::get('type'), 0, 0, 'dummy_key', 'dummy_content'));
 		
-		$this->setLayoutFile('popup_layout');
+		$this->setLayoutFile('default_layout');
 		$this->setTemplatePath($this->module_path.'tpl');
 		$this->setTemplateFile('config_preview');
 	}
