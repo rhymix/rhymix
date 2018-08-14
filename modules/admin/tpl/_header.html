@@ -22,7 +22,7 @@
 		</p>
 		<!--@else-->
 		<h1>
-			<a class="custom_header" href="{getUrl('','module','admin')}" cond="$gnb_title_info->adminLogo"><img src="{getUrl('')}{$gnb_title_info->adminLogo}" alt="{$gnb_title_info->adminTitle}" /> {$gnb_title_info->adminTitle}</a>
+			<a class="custom_header" href="{getUrl('','module','admin')}" cond="$gnb_title_info->adminLogo || $gnb_title_info->adminTitle"><img src="{getUrl('')}{$gnb_title_info->adminLogo}" alt="{$gnb_title_info->adminTitle}" cond="$gnb_title_info->adminLogo" /> {$gnb_title_info->adminTitle}</a>
 			<a class="default_header" href="{getUrl('','module','admin')}" cond="!$gnb_title_info->adminLogo"><i class="xi xi-cog"></i></a>
 			<a class="mobile_menu_open" href="#gnbNav"><i class="xi xi-bars"></i></a>
 		</h1>
