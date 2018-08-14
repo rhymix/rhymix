@@ -18,7 +18,9 @@
 		<a href="{getUrl('module', 'admin', 'act', $act, 'module_srl', $module_info->module_srl, 'mid', '')}" cond="$this->user->isAdmin()">Admin Panel</a>
 		<!--@else-->
 		<h1>
-			<a href="{getUrl('','module','admin')}"><img cond="$gnb_title_info->adminLogo" src="{getUrl('')}{$gnb_title_info->adminLogo}" alt="{$gnb_title_info->adminTitle}" /> {$gnb_title_info->adminTitle}</a>
+			<a class="custom_header" href="{getUrl('','module','admin')}" cond="$gnb_title_info->adminLogo"><img src="{getUrl('')}{$gnb_title_info->adminLogo}" alt="{$gnb_title_info->adminTitle}" /> {$gnb_title_info->adminTitle}</a>
+			<a class="default_header" href="{getUrl('','module','admin')}" cond="!$gnb_title_info->adminLogo"><i class="xi xi-cog"></i></a>
+			<a class="mobile_menu_open" href="#gnbNav"><i class="xi xi-bars"></i></a>
 		</h1>
 		<p class="site"><a href="{$xe_default_url}">{$xe_default_url}</a></p>
 		<!--@end-->
@@ -43,21 +45,8 @@
 	<div class="body <!--@if($_COOKIE['__xe_admin_gnb_status'] == 'close')-->wide<!--@end-->" style="padding-left:0"|cond="$module_manager">
 		<!-- GNB -->
 		<nav class="gnb <!--@if($_COOKIE['__xe_admin_gnb_status'] == 'open')-->open<!--@end-->" id="gnb" cond="!$module_manager">
-			
 			<a href="#gnbNav"><i class="x_icon-align-justify x_icon-white"></i><b></b> Menu Open/Close</a>
 			<ul id="gnbNav" class="ex">
-			<!--@foreach($gnbUrlList as $key=>$value)-->
-				<block loop="$value['list']=>$key2,$value2" cond="$subMenuTitle != '' && $value2['text'] == $subMenuTitle">
-					<li class="active active_clone">
-						<a href="{getFullUrl('')}{$value2['href']}"|cond="$subMenuTitle"><span class="tx">{$subMenuTitle}</span></a>
-					</li>
-				</block>
-				<block cond="!$subMenuTitle && $value['href']=='index.php?module=admin'">
-					<li class="active active_clone">
-						<a href="{getFullUrl('')}{$value['href']}" cond="!$subMenuTitle"><span class="tx">{$value['text']}</span></a>
-					</li>
-				</block>
-			<!--@end-->
 			<script>
 				var __xe_admin_gnb_txs = new Array();
 			</script>

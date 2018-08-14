@@ -142,8 +142,17 @@ jQuery(function($){
 			}
 		});
 		// GNB Mobile Toggle
+		$("a.mobile_menu_open").click(function(){
+			$xGnb.toggleClass('open');
+			if($(this).parent('.gnb').hasClass('open')){
+				setCookie('__xe_admin_gnb_status', 'open', d365);
+			}else{
+				setCookie('__xe_admin_gnb_status', 'close', d365);
+			}
+			return false;
+		});
 		$xGnb.find('>a[href="#gnbNav"]').click(function(){
-			$(this).parent('.gnb').toggleClass('open');
+			$xGnb.toggleClass('open');
 			$xBody.toggleClass('wide');
 			if($(window).width() <= 980 && !$xGnb.hasClass('open')){
 				$('#gnbNav').removeClass('ex');
