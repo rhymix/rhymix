@@ -125,7 +125,7 @@ padding:0;list-style:none}
 .col .nav li>a,
 .col .nav li>button{text-align:left;color:#000;line-height:20px;background-color:transparent;border:0;display:block;padding:8px 20px 8px 8px;color:#333;text-decoration:none;background:#fff;overflow:hidden;text-overflow:ellipsis;}
 .col .nav .themeName{font-size:11px;color:#666;font-weight:normal}
-.col .nav li>button{width:100%;max-width:268px}
+.col .nav li>button{width:100%;}
 .col .nav li>a:hover,
 .col .nav li>a:focus,
 .col .nav li.active>a,
@@ -234,10 +234,10 @@ padding:0;list-style:none}
 .theme .x_btn-group{margin:0 5px;padding:0;position:absolute;left:4px;right:4px;}
 /* Add Sitemap */
 #add_sitemap [for="sitemapName"]{font-weight:bold}
-#add_sitemap .btnBoth{position:absolute;margin:5px 0;left:4px;right:4px}
+#add_sitemap .btnBoth{position:relative;margin:5px 0;box-sizing:border-box;width:100%;}
 /* Sitemap General */
 #sitemap_general [for="sitemapName2"]{font-weight:bold}
-#sitemap_general .btnBoth{position:absolute;margin:5px 0;left:4px;right:4px}
+#sitemap_general .btnBoth{position:relative;margin:5px 0;box-sizing:border-box;width:100%;}
 /* Properties */
 #properties ul{margin:0;padding:0 0 8px 0}
 #properties li{position:relative;white-space:nowrap;border-top:1px solid #ddd}
@@ -271,17 +271,17 @@ padding:0;list-style:none}
 #add_menu label{font-weight:bold}
 #add_menu .x_tabbable{padding-top:8px}
 #add_menu .desc{width:220px;border-bottom:1px solid #ddd;color:#666;margin:0;padding:5px 0 10px;}
-#add_menu .x_btn-group{position:absolute;margin:0 5px;left:4px;right:4px;}
+#add_menu .x_btn-group{position:relative;margin:0 5px;box-sizing:border-box;width:100%;}
 /* Default */
 #default .menuType{border:1px solid #ddd;border-left:0;border-right:0}
 #default [for="lang_menuName"],
 #default [for="lang_pageTitle"],
 #default [for="mid2"]{font-weight:bold}
-#default .btnBoth{position:absolute;left:4px;right:4px;margin:5px 0}
+#default .btnBoth{position:relative;margin:5px 0;box-sizing:border-box;width:100%;}
 /* Auth */
 #auth li>label:first-child{font-weight:bold;line-height:30px;margin:0}
 #auth select{height:26px;margin:0 0 5px 0;padding:0;width:100%}
-#auth .x_btn-group{position:absolute;left:4px;right:4px;margin:0 5px}
+#auth .x_btn-group{position:relative;left:4px;right:4px;padding:0 5px;width:100%;box-sizing:border-box}
 /* Image Button */
 #imgbtn form{padding:8px 0 0 0;margin:0}
 #imgbtn figure{margin:0;text-align:center}
@@ -318,7 +318,7 @@ padding:0;list-style:none}
 #design .mask.on_message{background:#666;color:white}
 #design .mask.loading{background:white}
 #design .mask>span{display:block;padding:10px;text-align:center}
-#design .btnBoth{position:absolute;left:4px;right:4px;margin:5px 0}
+#design .btnBoth{position:relative;margin:5px 0;box-sizing:border-box;width:100%;}
 #design._mobile_view_disabled #mobile .shadow,
 #design._mobile_view_disabled._mobileMode .nav,
 #design._mobileMode .langDesktop,
@@ -353,6 +353,7 @@ padding:0;list-style:none}
 /* Help Alert */
 ._quick_help.x_alert{display:none;position:fixed;top:85px;left:226px;z-index:100;width:600px;box-shadow: 0 0 2px rgba(0, 0, 0, 0.25);color:#333}
 ._quick_help.x_alert>label{display:inline-block;cursor:pointer}
+.x_alert-info.x_alert{display:none;box-sizing:border-box;width:169px;min-width:100%;}
 
 @media (max-width: 980px) {
 	._quick_help.x_alert{position:fixed;left:0;z-index:100;box-sizing:border-box;width:100%;box-shadow: 0 0 2px rgba(0, 0, 0, 0.25);color:#333}
