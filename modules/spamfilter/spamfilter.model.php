@@ -66,10 +66,8 @@ class spamfilterModel extends spamfilter
 	{
 		$args = new stdClass();
 		$args->sort_index = "hit";
-		$output = executeQuery('spamfilter.getDeniedWordList', $args);
-		if(!$output->data) return;
-		if(!is_array($output->data)) return array($output->data);
-		return $output->data;
+		$output = executeQueryArray('spamfilter.getDeniedWordList', $args);
+		return $output->data ?: array();
 	}
 
 	/**
@@ -84,7 +82,16 @@ class spamfilterModel extends spamfilter
 		foreach ($word_list as $word_item)
 		{
 			$word = $word_item->word;
-			if (strpos($text, strtolower($word)) !== false)
+			$hit = false;
+			if (preg_match('#^/.+/$#', $word))
+			{
+				$hit = preg_match($word . 'iu', $text, $matches) ? $matches[0] : false;
+			}
+			if ($hit === false)
+			{
+				$hit = (strpos($text, strtolower($word)) !== false) ? $word : false;
+			}
+			if ($hit !== false)
 			{
 				$args = new stdClass();
 				$args->word = $word;
@@ -106,9 +113,14 @@ class spamfilterModel extends spamfilter
 				}
 				else
 				{
-					$custom_message = sprintf(lang('msg_alert_denied_word'), $word);
+					$custom_message = lang('msg_alert_denied_word');
 				}
 
+				if (strpos($custom_message, '%s') !== false)
+				{
+					$custom_message = sprintf($custom_message, escape($hit, false));
+				}
+				
 				return new BaseObject(-1, $custom_message);
 			}
 		}

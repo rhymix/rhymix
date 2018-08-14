@@ -149,7 +149,7 @@ class spamfilterAdminController extends spamfilter
 				continue;
 			}
 			
-			if (mb_strlen($word, 'UTF-8') < 2 || mb_strlen($word, 'UTF-8') > 40)
+			if (mb_strlen($word, 'UTF-8') < 2 || mb_strlen($word, 'UTF-8') > 180)
 			{
 				return $this->setError('msg_invalid_word');
 			}
