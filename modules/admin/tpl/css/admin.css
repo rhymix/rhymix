@@ -605,7 +605,7 @@ margin-bottom: 10px;
 }
 .x .x_page-header .path {
 	font-size: 14px;
-	display: inline-block;
+	/* display: inline-block; */
 }
 .x .x_page-header .path:first-letter {
 	color: #ccc;
