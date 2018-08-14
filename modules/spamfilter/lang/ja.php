@@ -29,5 +29,5 @@ $lang->yes = 'はい';
 $lang->no = 'いいえ';
 $lang->msg_duplicate = '既に存在します。';
 $lang->msg_invalid_ip = 'IPアドレスの形式が正しくありません。';
-$lang->msg_invalid_word = 'スパムキーワードは2〜40文字の範囲で指定します。';
+$lang->msg_invalid_word = 'スパムキーワードは2〜180文字の範囲で指定します。';
 $lang->msg_faillist = '<br />失敗（既に存在します。） <br /> %s ';
