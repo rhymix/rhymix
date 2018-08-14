@@ -14,8 +14,12 @@
 <p class="skipNav"><a href="#content">{$lang->skip_to_content}</a></p>
 	<header class="header">
 		<!--@if($module_manager)-->
-		<h1>module manager</h1>
-		<a href="{getUrl('module', 'admin', 'act', $act, 'module_srl', $module_info->module_srl, 'mid', '')}" cond="$this->user->isAdmin()">Admin Panel</a>
+		<h1>
+			<a class="default_header" href="javascript:void()"><i class="xi xi-cog"></i></a>
+		</h1>
+		<p class="site" cond="$this->user->isAdmin()">
+			<a href="{getUrl('module', 'admin', 'act', $act, 'module_srl', $module_info->module_srl, 'mid', '')}">{lang('admin.view_in_manager_layout')}</a>
+		</p>
 		<!--@else-->
 		<h1>
 			<a class="custom_header" href="{getUrl('','module','admin')}" cond="$gnb_title_info->adminLogo"><img src="{getUrl('')}{$gnb_title_info->adminLogo}" alt="{$gnb_title_info->adminTitle}" /> {$gnb_title_info->adminTitle}</a>

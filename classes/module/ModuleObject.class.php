@@ -143,12 +143,16 @@ class ModuleObject extends BaseObject
 		// Set admin layout
 		if(preg_match('/^disp[A-Z][a-z0-9\_]+Admin/', $this->act))
 		{
-			/*
-			$this->setLayoutPath('modules/admin/tpl');
-			$this->setLayoutFile('layout');
-			*/
-			$oTemplate = TemplateHandler::getInstance();
-			$oTemplate->compile('modules/admin/tpl', '_admin_common.html');
+			if(config('view.manager_layout') === 'admin')
+			{
+				$this->setLayoutPath('modules/admin/tpl');
+				$this->setLayoutFile('layout');
+			}
+			else
+			{
+				$oTemplate = TemplateHandler::getInstance();
+				$oTemplate->compile('modules/admin/tpl', '_admin_common.html');
+			}
 		}
 		
 		// Execute init

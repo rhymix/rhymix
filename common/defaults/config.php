@@ -69,6 +69,7 @@ return array(
 		'type' => 'mailfunction',
 	),
 	'view' => array(
+		'manager_layout' => 'module',
 		'minify_scripts' => 'common',
 		'concat_scripts' => 'none',
 		'server_push' => false,
