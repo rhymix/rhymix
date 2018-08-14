@@ -456,9 +456,7 @@ class ModuleObject extends BaseObject
 	 * */
 	function setLayoutFile($filename)
 	{
-		if(!$filename) return;
-
-		if(substr_compare($filename, '.html', -5) !== 0)
+		if($filename && substr_compare($filename, '.html', -5) !== 0)
 		{
 			$filename .= '.html';
 		}
