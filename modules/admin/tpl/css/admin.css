@@ -765,7 +765,7 @@ margin-bottom: 10px;
 .x>.body {
 	position: relative;
 	zoom: 1;
-	padding: 0 0 50px 215px;
+	padding: 0 0 50px 210px;
 	z-index: 1;
 }
 .x>.body.wide {
@@ -779,7 +779,7 @@ margin-bottom: 10px;
 .x>.body>.content {
 	box-sizing:border-box;
 	width: 100%;
-	padding: 5px 5px 0 5px;
+	padding: 10px 15px 0 5px;
 	float: right;
 	margin: 0 0 0 -100%;
 	outline: none;
@@ -790,7 +790,7 @@ margin-bottom: 10px;
 .x>.body>.gnb {
 	width: 180px;
 	position: relative;
-	margin: 0 0 0 -215px;
+	margin: 0 0 0 -210px;
 	float: left;
 	display: inline;
 }
