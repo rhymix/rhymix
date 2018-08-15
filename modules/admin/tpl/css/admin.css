@@ -765,11 +765,11 @@ margin-bottom: 10px;
 .x>.body {
 	position: relative;
 	zoom: 1;
-	padding: 0 0 50px 210px;
+	padding: 0 0 50px 200px;
 	z-index: 1;
 }
 .x>.body.wide {
-	padding-left: 70px;
+	padding-left: 60px;
 }
 .x>.body:after {
 	content: "";
@@ -779,7 +779,7 @@ margin-bottom: 10px;
 .x>.body>.content {
 	box-sizing:border-box;
 	width: 100%;
-	padding: 10px 15px 0 5px;
+	padding: 10px 5px 0 5px;
 	float: right;
 	margin: 0 0 0 -100%;
 	outline: none;
@@ -790,13 +790,13 @@ margin-bottom: 10px;
 .x>.body>.gnb {
 	width: 180px;
 	position: relative;
-	margin: 0 0 0 -210px;
+	margin: 0 0 0 -200px;
 	float: left;
 	display: inline;
 }
 .x>.body.wide>.gnb {
-	width: 38px;
-	margin-left: -70px;
+	width: 40px;
+	margin-left: -60px;
 }
 @media all and (min-width: 800px) {
 	.active_clone {

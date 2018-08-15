@@ -3921,16 +3921,14 @@ jQuery(function($){
 	<!--@if(Mobile::isMobileCheckByAgent())-->
 		$._xeAdminVar.prevColumn = new Array();
 		$._xeAdminVar.prevColumn.push($('#site_map'));
-		$('#site').css({ 'display': 'inline-block', 'min-width': '100%'});
+		$('#site').css({ 'display': 'inline-block', 'min-width': '100%', 'box-sizing': 'border-box'});
 		$('#site_map').css('display', 'inline-block');
 		$('#site > .col').css({
 			'box-sizing': 'border-box',
-			'-moz-box-sizing': 'border-box',
-			'-webkit-box-sizing': 'border-box',
 			'width': '100%',
 			'margin': 0
 		});
-		$('#add').find('.cnt').css('margin-bottom', '25px');
+		$('#site_map, #add').find('.cnt').css('margin-bottom', '25px');
 
 		var wHeigh = $(window).height();
 
