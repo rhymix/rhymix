@@ -779,7 +779,7 @@ margin-bottom: 10px;
 .x>.body>.content {
 	box-sizing:border-box;
 	width: 100%;
-	padding: 10px 5px 0 5px;
+	padding: 10px 15px 0 15px;
 	float: right;
 	margin: 0 0 0 -100%;
 	outline: none;
