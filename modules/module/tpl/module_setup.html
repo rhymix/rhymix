@@ -19,8 +19,7 @@
 					<option value="0">{$lang->notuse}</option>
 					<option loop="$module_category => $key, $val" value="{$key}" selected="selected"|cond="$module_info->module_category_srl==$key">{$val->title}</option>
 				</select>
-				<a href="#aboutCategory" class="x_icon-question-sign" data-toggle>{$lang->help}</a>
-				<p class="x_help-block" id="aboutCategory" hidden>{$lang->about_module_category}</p>
+				<p class="x_help-block" id="aboutCategory">{$lang->about_module_category}</p>
 			</div>
 		</div>
 		<div class="x_control-group">
@@ -31,8 +30,7 @@
 					<option value="0">{$lang->notuse}</option>
 					<option loop="$layout_list => $key, $val" value="{$val->layout_srl}" selected="selected"|cond="$module_info->layout_srl==$val->layout_srl">{$val->title}({$val->layout})</option>
 				</select>
-				<a href="#aboutLayout" class="x_icon-question-sign" data-toggle>{$lang->help}</a>
-				<p class="x_help-block" id="aboutLayout" hidden>{$lang->about_layout}</p>
+				<p class="x_help-block" id="aboutLayout">{$lang->about_layout}</p>
 			</div>
 		</div>
 		<div class="x_control-group" cond="count($skin_list)">
@@ -42,32 +40,28 @@
 					<option value="" selected="selected">{$lang->keep_existing_value}</option>
 					<option loop="$skin_list => $key,$val" value="{$key}" selected="selected"|cond="$module_info->skin==$key">{$val->title}</option>
 				</select>
-				<a href="#aboutSkin" class="x_icon-question-sign" data-toggle>{$lang->help}</a>
-				<p class="x_help-block" id="aboutSkin" hidden>{$lang->about_skin}</p>
+				<p class="x_help-block" id="aboutSkin">{$lang->about_skin}</p>
 			</div>
 		</div>
 		<div class="x_control-group">
 			<label class="x_control-label" for="header_text">{$lang->header_text}</label>
 			<div class="x_controls">
 				<textarea name="header_text" id="header_text" rows="4" cols="42">{htmlspecialchars($module_info->header_text, ENT_COMPAT | ENT_HTML401, 'UTF-8', false)}</textarea>
-				<a href="#aboutHeaderText" class="x_icon-question-sign" data-toggle>{$lang->help}</a>
-				<p class="x_help-block" id="aboutHeaderText" hidden>{$lang->about_header_text}</p>
+				<p class="x_help-block" id="aboutHeaderText">{$lang->about_header_text}</p>
 			</div>
 		</div>
 		<div class="x_control-group">
 			<label class="x_control-label" for="footer_text">{$lang->footer_text}</label>
 			<div class="x_controls">
 				<textarea name="footer_text" rows="4" cols="42">{htmlspecialchars($module_info->footer_text, ENT_COMPAT | ENT_HTML401, 'UTF-8', false)}</textarea>
-				<a href="#aboutFooterText" class="x_icon-question-sign" data-toggle>{$lang->help}</a>
-				<p class="x_help-block" id="aboutFooterText" hidden>{$lang->about_footer_text}</p>
+				<p class="x_help-block" id="aboutFooterText">{$lang->about_footer_text}</p>
 			</div>
 		</div>
 		<div class="x_control-group">
 			<label class="x_control-label" for="description">{$lang->description}</label>
 			<div class="x_controls">
 				<textarea name="description" id="description" rows="4" cols="42">{htmlspecialchars($module_info->description, ENT_COMPAT | ENT_HTML401, 'UTF-8', false)}</textarea>
-				<a href="#aboutDescription" class="x_icon-question-sign" data-toggle>{$lang->help}</a>
-				<p class="x_help-block" id="aboutDescription" hidden>{$lang->about_description}</p>
+				<p class="x_help-block" id="aboutDescription">{$lang->about_description}</p>
 			</div>
 		</div>
 	</div>
