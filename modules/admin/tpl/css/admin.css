@@ -1819,6 +1819,8 @@ html[lang="mn"] .x .g11n.active>[disabled],
 	opacity: .5;
 	filter: alpha(opacity=50);
 }
+.tree a.jstree-hovered:hover{background:#616161;color:#fff;}
+.tree .jstree-clicked{background:#000;color:#fff}
 .tree .jstree-hovered>i,
 .tree .jstree-clicked>i {
 	opacity: 1;
