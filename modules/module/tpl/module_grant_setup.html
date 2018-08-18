@@ -24,8 +24,7 @@
 					<option value="-3">{$lang->grant_to_admin}</option>
 					<option value="">{$lang->grant_to_group}</option>
 				</select>
-				<a href="#aboutGrantDetail" class="x_icon-question-sign" cond="$grant_name=='access'" data-toggle>{$lang->help}</a>
-				<p class="x_help-block" id="aboutGrantDetail" cond="$grant_name=='access'" hidden>{$lang->about_grant_deatil}</p>
+				<p class="x_help-block" id="aboutGrantDetail" cond="$grant_name=='access'">{$lang->about_grant_deatil}</p>
 				<div id="zone_{$grant_name}" hidden style="margin:8px 0 0 0">
 					<label loop="$group_list => $group_srl, $group_item" for="grant_{$grant_name}_{$group_srl}">
 						<input type="checkbox" class="checkbox" name="{$grant_name}" value="{$group_item->group_srl}" id="grant_{$grant_name}_{$group_srl}" />

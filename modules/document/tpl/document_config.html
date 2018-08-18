@@ -24,8 +24,7 @@
 				<option value="">{$lang->notuse}</option>
 				<option loop="$pcIconSkinList => $key, $val" value="{$val->title}" selected="selected"|cond="$config->icons == $val->title">{$val->title}</option>
 			</select>
-			<a href="#icons_help" class="x_icon-question-sign" data-toggle>{$lang->help}</a>
-			<p id="icons_help" class="x_help-block" hidden>{$lang->about_cmd_pc_icon_setting}</p>
+			<p id="icons_help" class="x_help-block">{$lang->about_cmd_pc_icon_setting}</p>
 		</div>
 	</div>
 	<div class="x_control-group">
@@ -35,8 +34,7 @@
 				<option value="">{$lang->notuse}</option>
 				<option loop="$pcIconSkinList => $key, $val" value="{$val->title}" selected="selected"|cond="$config->micons == $val->title">{$val->title}</option>
 			</select>
-			<a href="#micons_help" class="x_icon-question-sign" data-toggle>{$lang->help}</a>
-			<p id="micons_help" class="x_help-block" hidden>{$lang->about_cmd_mobile_icon_setting}</p>
+			<p id="micons_help" class="x_help-block">{$lang->about_cmd_mobile_icon_setting}</p>
 		</div>
 	</div>
 

@@ -18,8 +18,7 @@
 		<label class="x_control-label" for="page_name">{$lang->mid}</label>
 		<div class="x_controls">
 			<input type="text" name="page_name" id="page_name" value="{$module_info->mid}" />
-			<a href="#aboutMid" class="x_icon-question-sign" data-toggle>{$lang->help}</a>
-			<p class="x_help-block" id="aboutMid" hidden>{$lang->about_mid}</p>
+			<p class="x_help-block" id="aboutMid">{$lang->about_mid}</p>
 		</div>
 	</div>
 	<div class="x_control-group">
@@ -29,8 +28,7 @@
 				<option value="0">{$lang->notuse}</option>
 				<option loop="$module_category => $key, $val" value="{$key}" selected="selected"|cond="$module_info->module_category_srl==$key">{$val->title}</option>
 			</select>
-			<a href="#aboutCategory" class="x_icon-question-sign" data-toggle>{$lang->help}</a>
-			<p class="x_help-block" id="aboutCategory" hidden>{$lang->about_module_category}</p>
+			<p class="x_help-block" id="aboutCategory">{$lang->about_module_category}</p>
 		</div>
 	</div>
 	<div class="x_control-group">
@@ -58,8 +56,7 @@
 				<option value="0">{$lang->notuse}</option>
 				<option loop="$layout_list => $key, $val" value="{$val->layout_srl}" selected="selected"|cond="$module_info->layout_srl==$val->layout_srl">{$val->title}({$val->layout})</option>
 			</select>
-			<a href="#aboutLayout" class="x_icon-question-sign" data-toggle>{$lang->help}</a>
-			<p class="x_help-block" id="aboutLayout" hidden>{$lang->about_layout}</p>
+			<p class="x_help-block" id="aboutLayout">{$lang->about_layout}</p>
 		</div>
 	</div>
 	<div class="x_control-group">
@@ -78,32 +75,28 @@
 				<option value="0">{$lang->notuse}</option>
 				<option loop="$mlayout_list => $key, $val" value="{$val->layout_srl}" selected="selected"|cond="$module_info->mlayout_srl==$val->layout_srl">{$val->title} <block cond="$val->layout">({$val->layout})</block></option>
 			</select>
-			<a href="#aboutMobileLayout" class="x_icon-question-sign" data-toggle>{$lang->help}</a>
-			<p class="x_help-block" id="aboutMobileLayout" hidden>{$lang->about_layout}</p>
+			<p class="x_help-block" id="aboutMobileLayout">{$lang->about_layout}</p>
 		</div>
 	</div>
 	<div class="x_control-group" cond="$module_info->page_type != 'ARTICLE'">
 		<label class="x_control-label" for="page_caching_interval">{$lang->page_caching_interval}</label>
 		<div class="x_controls">
 			<input type="text" name="page_caching_interval" id="page_caching_interval" value="{(int)$module_info->page_caching_interval}"  /> {$lang->unit_min}
-			<a href="#aboutCaching" class="x_icon-question-sign" data-toggle>{$lang->help}</a>
-			<p class="x_help-block" id="aboutCaching" hidden>{$lang->about_page_caching_interval}</p>
+			<p class="x_help-block" id="aboutCaching">{$lang->about_page_caching_interval}</p>
 		</div>
 	</div>
 	<div class="x_control-group" cond="$module_info->page_type == 'OUTSIDE'">
 		<label class="x_control-label" for="path">{$lang->opage_path}</label>
 		<div class="x_controls">
 			<input type="text" name="path" id="path" value="{$module_info->path}" />
-			<a href="#aboutOpagePath" class="x_icon-question-sign" data-toggle>{$lang->help}</a>
-			<p class="x_help-block" id="aboutOpagePath" hidden>{$lang->about_opage_path}<b>{realpath("./")}</b></p>
+			<p class="x_help-block" id="aboutOpagePath">{$lang->about_opage_path}<b>{realpath("./")}</b></p>
 		</div>
 	</div>
 	<div class="x_control-group" cond="$module_info->page_type == 'OUTSIDE'">
 		<label class="x_control-label" for="mpath">{$lang->opage_mobile_path}</label>
 		<div class="x_controls">
 			<input type="text" name="mpath" id="mpath" value="{$module_info->mpath}"  />
-			<a href="#aboutOpageMobilePath" class="x_icon-question-sign" data-toggle>{$lang->help}</a>
-			<p class="x_help-block" id="aboutOpageMobilePath" hidden>{$lang->about_opage_mobile_path}<b>{realpath("./")}</b></p>
+			<p class="x_help-block" id="aboutOpageMobilePath">{$lang->about_opage_mobile_path}<b>{realpath("./")}</b></p>
 		</div>
 	</div>
 	<div class="x_control-group" cond="$module_info->page_type == 'ARTICLE'">
@@ -112,8 +105,7 @@
 			<select name="skin" id="skin">
 				<option loop="$skin_list => $key,$val" value="{$key}" selected="selected"|cond="$module_info->skin==$key ||(!$module_info->skin && $key=='default')">{$val->title}</option>
 			</select>
-			<a href="#aboutSkin" class="x_icon-question-sign" data-toggle>{$lang->help}</a>
-			<p class="x_help-block" id="aboutSkin" hidden>{$lang->about_skin}</p>
+			<p class="x_help-block" id="aboutSkin">{$lang->about_skin}</p>
 		</div>
 	</div>
 	<div class="x_control-group optionnalData articleType" cond="$module_info->page_type == 'ARTICLE'">
@@ -122,8 +114,7 @@
 			<select name="mskin">
 				<option loop="$mskin_list => $key,$val" value="{$key}" selected="selected"|cond="$module_info->mskin==$key ||(!$module_info->mskin && $key=='default')">{$val->title}</option>
 			</select>
-			<a href="#aboutMobileSkin" class="x_icon-question-sign" data-toggle>{$lang->help}</a>
-			<p class="x_help-block" id="aboutMobileSkin" hidden>{$lang->about_skin}</p>
+			<p class="x_help-block" id="aboutMobileSkin">{$lang->about_skin}</p>
 		</div>
 	</div>
 	<div class="x_clearfix btnArea">

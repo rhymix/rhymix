@@ -120,8 +120,7 @@
 						<input type="text" class="rx-spectrum" name="{$val->name}" id="{$val->name}" value="{$val->value}" />
 						<p id="categoy_color_help" hidden style="margin:8px 0 0 0">{$lang->about_category_color}</p>
 					</div>
-					<a href="#about_{$val->name}" data-toggle class="x_icon-question-sign" cond="$val->description" style="vertical-align:top;margin-top:5px"|cond="$val->type == 'textarea'">{$lang->help}</a>
-					<p class="x_help-block" id="about_{$val->name}" hidden cond="$val->description">{nl2br(trim($val->description))}</p>
+					<p class="x_help-block" cond="$val->description">{nl2br(trim($val->description))}</p>
 				</div>
 			</div>
 		</block>

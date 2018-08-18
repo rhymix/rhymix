@@ -16,8 +16,7 @@
 					<option value="0">{$lang->notuse}</option>
 					<option loop="$layout_list => $key, $val" value="{$val->layout_srl}" selected="selected"|cond="$config->layout_srl==$val->layout_srl">{$val->title} ({$val->layout})</option>
 				</select>
-				<a href="#aboutLayout" data-toggle class="x_icon-question-sign">{$lang->help}</a>
-				<p class="x_help-block" id="aboutLayout" hidden>{$lang->about_layout}</p>
+				<p class="x_help-block" id="aboutLayout">{$lang->about_layout}</p>
 			</div>
 		</div>
 		<div class="x_control-group">
@@ -27,8 +26,6 @@
 					<option value="0">{$lang->notuse}</option>
 					<option loop="$mlayout_list => $key, $val" value="{$val->layout_srl}" selected="selected"|cond="$config->mlayout_srl==$val->layout_srl">{$val->title} ({$val->layout})</option>
 				</select>
-				<a href="#aboutMLayout" data-toggle class="x_icon-question-sign">{$lang->help}</a>
-				<p class="x_help-block" id="aboutMLayout" hidden>{$lang->about_layout}</p>
 			</div>
 		</div>
 	</section>
