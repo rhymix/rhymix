@@ -2054,7 +2054,7 @@ jQuery(function($){
 	$.xeMenuSelectorVar = {bMultiSelect: false};
 
 	$.template('menuSelector_menuTree', '<ul>{{html Nodes}}</ul>');
-	$.template('menuSelector_menuTreeNode', '<li> <a href="#" class="_nodeType_${NodeType} _menu_node _menu_url_${MenuUrl}" data-param=\'{ "sMenuId":"${MenuId}", "sMenuUrl":"${MenuUrl}", "sMenuTitle":"${MenuTitle}", "sType":"${MenuType}", "sModuleSrl":"${ModuleSrl}" }\'>${MenuTitle}</a> {{html SubTree}} </li>'); //data-param=\'{ "sMenuId":"${MenuId}", "sMenuUrl":"${MenuUrl}", "sMenuTitle":"${MenuTitle}" }\'
+	$.template('menuSelector_menuTreeNode', '<li> <a href="#" class="_nodeType_${NodeType} _menu_node _menu_url_${MenuUrl}" data-param=\'{ "sMenuId":"${MenuId}", "sMenuUrl":"${MenuUrl}", "sMenuTitle":"${eMenuTitle}", "sType":"${MenuType}", "sModuleSrl":"${ModuleSrl}" }\'>${MenuTitle}</a> {{html SubTree}} </li>'); //data-param=\'{ "sMenuId":"${MenuId}", "sMenuUrl":"${MenuUrl}", "sMenuTitle":"${MenuTitle}" }\'
 	function onSiteMapReceived(htData){
 		var $ = jQuery;
 
@@ -2283,7 +2283,7 @@ jQuery(function($){
 				nNodeType = 3;
 			}
 
-			var $node = $.tmpl( sMenuTreeNode, {MenuTitleWithHome:sTextWithIcons,MenuTitle:sText,MenuId:sNodeSrl,MenuUrl:sURL,NodeType:nNodeType,MenuType:sModuleType,SubTree:sSubTree,Target:sTargetPanel,ModuleSrl:sModuleSrl} )
+			var $node = $.tmpl( sMenuTreeNode, {MenuTitleWithHome:sTextWithIcons,MenuTitle:sText,eMenuTitle:sText.replace(/\"/g, "\\\""),MenuId:sNodeSrl,MenuUrl:sURL,NodeType:nNodeType,MenuType:sModuleType,SubTree:sSubTree,Target:sTargetPanel,ModuleSrl:sModuleSrl} )
 						.data('sMenuId', sNodeSrl).data('sMenuUrl', sURL).data('sMenuTitle', sText).data('sMenuType', sModuleType);
 			//data-param=\'{ "sMenuId":"${MenuId}", "sMenuUrl":"${MenuUrl}", "sMenuTitle":"${MenuTitle}" }\'
 			//console.log($node);
