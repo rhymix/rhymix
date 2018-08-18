@@ -47,7 +47,7 @@
 				</script>
 				<script id="tmpl_menuSelector_menuTreeNode" type="text/x-jquery-tmpl">
 					<li>
-						<a href="#" class="_nodeType_${NodeType} _menu_url_${MenuUrl}" data-param='{ "sMenuId":"${MenuId}", "sMenuUrl":"${MenuUrl}", "sMenuTitle":"${MenuTitle}" }'>${MenuTitle}</a>
+						<a href="#" class="_nodeType_${NodeType} _menu_url_${MenuUrl}" data-param='{ "sMenuId":"${MenuId}", "sMenuUrl":"${MenuUrl}", "eMenuTitle":"${eMenuTitle}" }'>${MenuTitle}</a>
 						{{html SubTree}}
 					</li>
 				</script>
@@ -1129,7 +1129,7 @@ function createTreeMarkup(aNode, sParentSrl, sMenuTree, sMenuTreeNode){
 			nNodeType = 3;
 		}
 
-		sResult += $.tmpl( sMenuTreeNode, {MenuTitleWithHome:sTextWithIcons,MenuTitle:sText,MenuId:sNodeSrl,MenuUrl:sURL,NodeType:nNodeType,SubTree:sSubTree,Target:sTargetPanel} ).get()[0].outerHTML.replace("${h}", "<i class='x_icon-home' title='" + aNode[i].is_start_module_of + "'>[HOME]</i>").replace("${s}", "<i class='xi-link' title='Shortcut'></i>");
+		sResult += $.tmpl( sMenuTreeNode, {MenuTitleWithHome:sTextWithIcons,MenuTitle:sText,eMenuTitle:sText.replace(/\"/g, "\\\""),MenuId:sNodeSrl,MenuUrl:sURL,NodeType:nNodeType,SubTree:sSubTree,Target:sTargetPanel} ).get()[0].outerHTML.replace("${h}", "<i class='x_icon-home' title='" + aNode[i].is_start_module_of + "'>[HOME]</i>").replace("${s}", "<i class='xi-link' title='Shortcut'></i>");
 	}
 
 	return $.tmpl( sMenuTree, {Nodes:sResult} ).get()[0].outerHTML;
@@ -1455,7 +1455,7 @@ jQuery(function($){
 			return;
 		}
 
-		$(this).closest('._menuSelector_menuTreeContainer').prevAll('input._linkMenuTitle').val($._htMarkupActionParam.sMenuTitle);
+		$(this).closest('._menuSelector_menuTreeContainer').prevAll('input._linkMenuTitle').val($._htMarkupActionParam.eMenuTitle);
 		//$(this).closest('.clone').prev('input[type="text"]').val($._htMarkupActionParam.sMenuTitle + " ["+$._htMarkupActionParam.sMenuUrl+"]");
 		$(this).closest('._menuSelector_menuTreeContainer').prev('input._linkMenuSrl').val($._htMarkupActionParam.sMenuId);
 
