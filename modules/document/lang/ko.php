@@ -1,6 +1,6 @@
 <?php
 $lang->document_list = '문서 목록';
-$lang->view_count_option = '조회수 설정';
+$lang->view_count_option = '조회 수 설정';
 $lang->view_count_option_all = '모두 계산';
 $lang->view_count_option_some = '일부 계산';
 $lang->view_count_option_once = '중복 금지';
