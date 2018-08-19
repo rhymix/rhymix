@@ -18,7 +18,7 @@ function completeGetEmoticons(ret_obj) {
 	var emoticons = ret_obj.emoticons.item;
 	var html = [];
 	for(var i=0;i<emoticons.length;i++) {
-		html[html.length] = '<input type="image" src="./modules/editor/components/emoticon/tpl/images/'+emoticons[i].filename+'" width="' + parseInt(emoticons[i].width, 10) + '" height="' + parseInt(emoticons[i].height, 10) + '" onclick="insertEmoticon(this);return false" onload="setFixedPopupSize()" class="emoticon" />';
+		html[html.length] = '<input type="image" src="./modules/editor/components/emoticon/tpl/images/'+emoticons[i].filename+'" alt="'+emoticons[i].filename+'" width="' + parseInt(emoticons[i].width, 10) + '" height="' + parseInt(emoticons[i].height, 10) + '" onclick="insertEmoticon(this);return false" onload="setFixedPopupSize()" class="emoticon" />';
 	}
 	$('#emoticons').html(html.join(''));
 }
@@ -45,7 +45,7 @@ function insertEmoticon(obj) {
 $(function(){
 	is_popup = window._isPoped;
 	// load default emoticon set
-	getEmoticons('msn');
+	getEmoticons('Noto_emoji');
 	$('ul.rx_tab>li a').click(function(){
 		$list = $( this ).parent('li');
 		$list.siblings('.rx_active').removeClass('rx_active');

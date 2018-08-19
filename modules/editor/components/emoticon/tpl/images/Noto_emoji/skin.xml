@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<skin version="0.2">
+	<title xml:lang="ko">Noto Emoji</title>
+	<title xml:lang="en">Noto Emoji</title>
+	<description xml:lang="ko">Google 이 Apache license version 2.0 하에 배포한 Noto Emoji 의 이미지 파일을 활용하였습니다.
+Emoji fonts (under the fonts subdirectory) are under the SIL Open Font License, version 1.1.
+Tools and most image resources are under the Apache license, version 2.0. Flag images under third_party/region-flags are in the public domain or otherwise exempt from copyright.</description>
+	<description xml:lang="en">These image files are from Noto Emoji, distributed under the Apache license version 2.0 by Google.
+Emoji fonts (under the fonts subdirectory) are under the SIL Open Font License, version 1.1.
+Tools and most image resources are under the Apache license, version 2.0. Flag images under third_party/region-flags are in the public domain or otherwise exempt from copyright.</description>
+	<version>1.0</version>
+	<date>2018-08-10</date>
+	<author link="https://github.com/googlei18n/noto-emoji/">
+		<name xml:lang="ko">Google</name>
+		<name xml:lang="en">Google</name>
+	</author>
+	<author link="https://misol.kr">
+		<name xml:lang="ko">misol</name>
+		<name xml:lang="en">misol</name>
+	</author>
+	<license link="http://www.apache.org/licenses/LICENSE-2.0">Apache license, version 2.0</license>
+</skin>

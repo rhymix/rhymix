@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<skin version="0.2">
+	<title xml:lang="ko">트위터 이모티콘</title>
+	<title xml:lang="en">Twitter Emoji</title>
+	<description xml:lang="ko">Twitter 가 자유로운 CC-BY 4.0 하에 사용 배포한 Noto Emoji 의 이미지 파일을 활용하였습니다.
+A simple library that provides standard Unicode emoji support across all platforms.
+Twemoji v11.0 adheres to the Unicode 11.0 spec and supports the Emoji 11.0 draft spec
+The Twemoji library offers support for 2,841 emojis, including skin tone and gender modifiers.</description>
+	<description xml:lang="en">These image files are from Twitter Emoji (Twemoji), graphics licensed under CC-BY 4.0.
+A simple library that provides standard Unicode emoji support across all platforms.
+Twemoji v11.0 adheres to the Unicode 11.0 spec and supports the Emoji 11.0 draft spec
+The Twemoji library offers support for 2,841 emojis, including skin tone and gender modifiers.</description>
+	<version>1.0</version>
+	<date>2018-08-20</date>
+	<author link="https://github.com/twitter/twemoji">
+		<name xml:lang="ko">Twitter</name>
+		<name xml:lang="en">Twitter</name>
+	</author>
+	<author link="https://misol.kr">
+		<name xml:lang="ko">misol</name>
+		<name xml:lang="en">misol</name>
+	</author>
+	<license link="https://creativecommons.org/licenses/by/4.0/">CC-BY 4.0</license>
+</skin>
