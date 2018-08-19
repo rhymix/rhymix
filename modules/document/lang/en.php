@@ -9,6 +9,7 @@ $lang->category_title = 'Category';
 $lang->category_color = 'Category Font Color';
 $lang->expand = 'Expand';
 $lang->category_group_srls = 'Accessable Group';
+$lang->cmd_document_module_config = 'Basic Settings';
 $lang->cmd_make_child = 'Add Child Category';
 $lang->cmd_pc_icon_setting = 'PC icon setting';
 $lang->cmd_mobile_icon_setting = 'Mobile icon setting';

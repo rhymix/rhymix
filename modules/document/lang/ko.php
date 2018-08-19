@@ -5,6 +5,7 @@ $lang->view_count_option_all = '모두 계산';
 $lang->view_count_option_some = '일부 계산';
 $lang->view_count_option_once = '중복 금지';
 $lang->view_count_option_none = '계산 안 함';
+$lang->cmd_document_module_config = '기본 설정';
 $lang->cmd_delete_all_thumbnail = '섬네일 모두 삭제';
 $lang->cmd_pc_icon_setting = 'PC 아이콘 설정';
 $lang->cmd_mobile_icon_setting = '모바일 아이콘 설정';
