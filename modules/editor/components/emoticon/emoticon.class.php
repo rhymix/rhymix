@@ -32,7 +32,7 @@ class emoticon extends EditorHandler
 
 		$list = $this->getEmoticons($emoticon);
 
-		$this->add('emoticons', implode("\n",$list));
+		$this->add('emoticons', $list);
 	}
 
 	/**
@@ -47,7 +47,11 @@ class emoticon extends EditorHandler
 		while($file = $oDir->read())
 		{
 			if(substr($file,0,1)=='.') continue;
-			if(preg_match('/\.(jpg|jpeg|gif|png)$/i',$file)) $output[] = sprintf("%s/%s", $path, str_replace($this->emoticon_path,'',$file));
+			if(preg_match('/\.(jpg|jpeg|gif|png)$/i',$file)) {
+				$filename = sprintf("%s/%s", $path, str_replace($this->emoticon_path,'',$file));
+				list($width, $height, $type, $attr) = getimagesize($emoticon_path . '/'. $file);
+				$output[] = array('filename' => $filename, 'width' => $width, 'height' => $height);
+			}
 		}
 		$oDir->close();
 		if(count($output)) asort($output);
@@ -88,6 +92,8 @@ class emoticon extends EditorHandler
 	{
 		$src = $xml_obj->attrs->src;
 		$alt = $xml_obj->attrs->alt;
+		$width = intval($xml_obj->attrs->width);
+		$height = intval($xml_obj->attrs->height);
 
 		if(!$alt)
 		{
@@ -103,7 +109,12 @@ class emoticon extends EditorHandler
 
 		if($alt)
 		{
-			$attr_output[] = "alt=\"".$alt."\"";
+			$attr_output[] = "alt=\"".htmlspecialchars($alt)."\"";
+		}
+
+		if($width && $height)
+		{
+			$attr_output[] = "width=\"".$width."\" height=\"".$height."\"";
 		}
 
 		$code = sprintf("<img %s style=\"border:0px\" />", implode(" ",$attr_output));
