@@ -172,8 +172,8 @@ class documentAdminView extends document
 
 		// option for a list
 		$args = new stdClass();
-		$args->page = Context::get('page'); // /< Page
-		$args->list_count = 30; // /< the number of posts to display on a single page
+		$args->page = intval(Context::get('page')) ?: 1; // /< Page
+		$args->list_count = 20; // /< the number of posts to display on a single page
 		$args->page_count = 10; // /< the number of pages that appear in the page navigation
 		$args->order_type = strtolower(Context::get('order_type')) === 'asc' ? 'asc' : 'desc';
 		
@@ -192,6 +192,7 @@ class documentAdminView extends document
 			if ($declared_output->data && count($declared_output->data))
 			{
 				$args->document_srls = array_map(function($item) { return $item->document_srl; }, $declared_output->data);
+				unset($args->page);
 				$documents = executeQueryArray('document.getDocuments', $args);
 				$document_list = array();
 				foreach ($declared_output->data as $key => $declared_info)
@@ -225,6 +226,7 @@ class documentAdminView extends document
 			if ($declared_output->data && count($declared_output->data))
 			{
 				$args->document_srls = array_map(function($item) { return $item->document_srl; }, $declared_output->data);
+				unset($args->page);
 				$declared_latest = executeQueryArray('document.getDeclaredLatest', $args);
 				$document_list = array();
 				foreach ($declared_output->data as $key => $document)
