@@ -621,22 +621,21 @@ function setFixedPopupSize() {
 	offset = $pc.css({overflow:'scroll'}).offset();
 
 	w = $pc.width(10).height(10000).get(0).scrollWidth + offset.left*2;
-	h = $pc.height(10).width(10000).get(0).scrollHeight + offset.top*2;
 
 	if(w < 800) w = 800 + offset.left*2;
+	// Window 의 너비나 높이는 스크린의 너비나 높이보다 클 수 없다. 스크린의 너비나 높이와 내용의 너비나 높이를 비교해서 최소값을 이용한다.
+	w = Math.min(w, window.screen.availWidth);
+
+	h = $pc.width(w - offset.left*2).height(10).get(0).scrollHeight + offset.top*2;
 
 	dw = $win.width();
 	dh = $win.height();
 
-	// Window 의 너비나 높이는 스크린의 너비나 높이보다 클 수 없다. 스크린의 너비나 높이와 내용의 너비나 높이를 비교해서 최소값을 이용한다.
-	w = Math.min(w, window.screen.availWidth);
 	h = Math.min(h, window.screen.availHeight - 100);
 	window.resizeBy(w - dw, h - dh);
 
-	$pc.width(w - offset.left*2).css({overflow:'',height:''});
-	if(h === window.screen.availHeight - 100) {
-		$pc.width(w - offset.left*2-scbw).css({overflow:'',height:''});
-	}
+	$pc.width('100%').css({overflow:'',height:'','box-sizing':'border-box'});
+
 }
 
 /**

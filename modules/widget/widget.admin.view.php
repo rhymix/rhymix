@@ -79,7 +79,7 @@ class widgetAdminView extends widget
 		$security->encodeHTML('member_config..');
 
 		$this->setLayoutPath('./common/tpl');
-		$this->setLayoutFile("default_layout");
+		$this->setLayoutFile("popup_layout");
 		$this->setTemplateFile('add_content_widget');
 	}
 }
