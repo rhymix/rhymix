@@ -837,7 +837,7 @@ margin-bottom: 10px;
 /* Header */
 .x>.header>h1 {
 	display: inline-block;
-	margin: 0 15px 0 0;
+	margin: 0 10px 0 0;
 	white-space: nowrap;
 }
 .x>.header>h1>a {
@@ -873,13 +873,12 @@ margin-bottom: 10px;
 .x>.header>.site {
 	display: inline-block;
 	margin: 1px 0 0 0;
-	font-size: 11px;
+	font-size: 12px;
 	line-height: 22px;
 }
 .x>.header>.site>a {
 	text-decoration: none;
 	color: #F5F5F5;
-	font-family: Tahoma, Geneva, sans-serif;
 }
 .x>.header>.site>a:hover,
 .x>.header>.site>a:focus {
@@ -895,7 +894,7 @@ margin-bottom: 10px;
 	position: relative;
 	margin: 1px 0 0 0;
 	font-size: 12px;
-	line-height: 22px;
+	line-height: 22px !important;
 }
 .x>.header>.account>ul {
 	list-style: none;
