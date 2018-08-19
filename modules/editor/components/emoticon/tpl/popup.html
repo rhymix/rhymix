@@ -1,16 +1,16 @@
 <load target="popup.js" />
 <load target="popup.css" />
 {@Context::addMetaTag('viewport', 'width=device-width', FALSE);}
-<section class="section">
+<div class="x_modal-header">
 	<h1>{$component_info->title}</h1>
-	<div class="x_clearfix">
-		<div class="x_pull-right">
-			<select name="list" id="selectEmoticonList">
-				<!--@foreach($emoticon_list as $key => $val)-->
-				<option <!--@if($val=='msn')-->selected="select"<!--@end--> value="{$val}">{$val}</option>
-				<!--@end-->
-			</select>
-		</div>
+</div>
+<div class="x_modal-body">
+	<div class="x_pull-right">
+		<select name="list" id="selectEmoticonList">
+			<!--@foreach($emoticon_list as $key => $val)-->
+			<option <!--@if($val=='msn')-->selected="select"<!--@end--> value="{$val}">{$val}</option>
+			<!--@end-->
+		</select>
 	</div>
-	<div id="emoticons" style="min-height:1px"></div>
-</section>
+</div>
+<div id="emoticons" style="min-height:1px"></div>
