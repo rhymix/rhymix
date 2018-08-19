@@ -1,4 +1,4 @@
-var is_popup = window._isPoped;
+var is_popup = null;
 
 /**
  * @brief Get emoticon list by name
@@ -18,7 +18,7 @@ function completeGetEmoticons(ret_obj) {
 	var emoticons = ret_obj.emoticons.item;
 	var html = [];
 	for(var i=0;i<emoticons.length;i++) {
-		html[html.length] = '<img src="./modules/editor/components/emoticon/tpl/images/'+emoticons[i].filename+'" width="' + parseInt(emoticons[i].width, 10) + '" height="' + parseInt(emoticons[i].height, 10) + '" onclick="insertEmoticon()" onload="setFixedPopupSize()" class="emoticon" />';
+		html[html.length] = '<img src="./modules/editor/components/emoticon/tpl/images/'+emoticons[i].filename+'" width="' + parseInt(emoticons[i].width, 10) + '" height="' + parseInt(emoticons[i].height, 10) + '" onclick="insertEmoticon(this);return false" onload="setFixedPopupSize()" class="emoticon" />';
 	}
 	$('#emoticons').html(html.join(''));
 }
@@ -27,12 +27,12 @@ function completeGetEmoticons(ret_obj) {
  * @brief  Insert a selected emoticon into the document
  * @params Event jQuery event
  */
-function insertEmoticon() {
+function insertEmoticon(obj) {
 	var url, html, iframe, win = is_popup?opener:window;
 
 	if(!win) return;
 
-	html = '<img src="'+this.src+'" width="'+this.width+'" height="'+this.height+'" class="emoticon" />';
+	html = '<img src="'+obj.src+'" width="'+obj.width+'" height="'+obj.height+'" class="emoticon" />';
 
 	win.editorFocus(win.editorPrevSrl);
 	win.editorRelKeys[win.editorPrevSrl].pasteHTML(html);
@@ -43,6 +43,7 @@ function insertEmoticon() {
 }
 
 $(function(){
+	is_popup = window._isPoped;
 	// load default emoticon set
 	getEmoticons('msn');
 	$('#selectEmoticonList').change(function(){ getEmoticons(this.value) });
