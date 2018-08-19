@@ -197,14 +197,6 @@ class adminAdminView extends admin
 			}
 		}
 
-		// Admin logo, title setup
-		$objConfig = $oModuleModel->getModuleConfig('admin');
-		$gnbTitleInfo = new stdClass();
-		$gnbTitleInfo->adminTitle = $objConfig->adminTitle ? $objConfig->adminTitle : 'Admin';
-		$gnbTitleInfo->adminLogo = $objConfig->adminLogo ? $objConfig->adminLogo : '';
-
-		$browserTitle = $gnbTitleInfo->adminTitle . ' - ' . ($subMenuTitle ? $subMenuTitle : 'Dashboard');
-
 		// Get list of favorite
 		$oAdminAdminModel = getAdminModel('admin');
 		$output = $oAdminAdminModel->getFavoriteList(0, true);
@@ -255,7 +247,7 @@ class adminAdminView extends admin
 		Context::set('gnbUrlList', $menu->list);
 		Context::set('parentSrl', $parentSrl);
 		Context::set('gnb_title_info', $gnbTitleInfo);
-		Context::addBrowserTitle($browserTitle);
+		Context::addBrowserTitle($subMenuTitle ? $subMenuTitle : 'Dashboard');
 	}
 
 	/**
@@ -709,7 +701,6 @@ class adminAdminView extends admin
 	function dispAdminSetup()
 	{
 		$oModuleModel = getModel('module');
-		$configObject = $oModuleModel->getModuleConfig('admin');
 
 		$oAdmin = getClass('admin');
 		$oMenuAdminModel = getAdminModel('menu');
@@ -717,7 +708,6 @@ class adminAdminView extends admin
 
 		Context::set('menu_srl', $output->menu_srl);
 		Context::set('menu_title', $output->title);
-		Context::set('config_object', $configObject);
 		$this->setTemplateFile('admin_setup');
 	}
 
