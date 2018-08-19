@@ -17,7 +17,7 @@
 				<!--@if($config_object->adminLogo)-->
 				<img src="{getUrl('').$config_object->adminLogo}" />
 				<button type="submit" value="procAdminDeleteLogo" name="act" class="x_btn">{$lang->cmd_delete}</button>
-				<!--@else-->
+				<!--@elseif($gnb_title_info->adminLogo)-->
 				<img src="{getUrl('')}{$gnb_title_info->adminLogo}" />
 				<!--@end-->
 				<input type="file" name="adminLogo" id="adminLogo" />
