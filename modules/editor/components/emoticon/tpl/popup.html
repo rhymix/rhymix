@@ -1,16 +1,14 @@
 <load target="popup.js" />
-<load target="popup.css" />
+<load target="popup.less" />
 {@Context::addMetaTag('viewport', 'width=device-width', FALSE);}
 <div class="x_modal-header">
 	<h1>{$component_info->title}</h1>
 </div>
 <div class="x_modal-body">
-	<div>
-		<select name="list" id="selectEmoticonList">
-			<!--@foreach($emoticon_list as $key => $val)-->
-			<option selected="select"|cond="$key=='msn'" value="{$key}">{$val}</option>
-			<!--@end-->
-		</select>
+	<div class="rx_tab">
+		<ul class="rx_tab">
+			<li loop="$emoticon_list => $key, $val" class="rx_active"|cond="$key=='msn'"><a href="#" onclick="getEmoticons('{$key}')"><span>{$val}</span></a></li>
+		</ul>
 	</div>
 	<div id="emoticons" style="min-height:1px"></div>
 	<div class="x_clearfix btnArea">
