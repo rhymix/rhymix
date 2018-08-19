@@ -1,12 +1,17 @@
 .fvOff,.fvOn{
 	display:inline-block;
-	width:25px;
-	height:25px;
+	position:relative;
+	top:8px;
+	width:18px;
+	height:18px;
 	background-color:transparent;
-	background-size:25px 25px;
+	background-size:18px 18px;
 	overflow:hidden;
 	text-indent:-1000px;
-	border:0
+	border:0;
+	.nodescription>& {
+		top: -1px;
+	}
 }
 .fvOff{
 	background-image: data-uri('images/star-empty.svg');

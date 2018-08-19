@@ -598,7 +598,7 @@ margin-bottom: 10px;
 .x td>form,
 .x td>p:only-of-type,
 .x td>p:last-of-type {
-	margin: 0;
+	margin-bottom: 0;
 }
 .x [data-display="none"] {
 	display: none;
