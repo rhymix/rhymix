@@ -8,7 +8,7 @@
 	<div>
 		<select name="list" id="selectEmoticonList">
 			<!--@foreach($emoticon_list as $key => $val)-->
-			<option <!--@if($val=='msn')-->selected="select"<!--@end--> value="{$val}">{$val}</option>
+			<option selected="select"|cond="$key=='msn'" value="{$key}">{$val}</option>
 			<!--@end-->
 		</select>
 	</div>

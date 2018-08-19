@@ -70,7 +70,11 @@ class emoticon extends EditorHandler
 		{
 			foreach($emoticon_dirs as $emoticon)
 			{
-				if(preg_match("/^([a-z0-9\_]+)$/i", $emoticon)) $emoticon_list[] = $emoticon;
+				if(preg_match("/^([a-z0-9\_]+)$/i", $emoticon)) {
+					$oModuleModel = getModel('module');
+					$skin_info = $oModuleModel->loadSkinInfo($this->component_path, $emoticon, 'tpl/images');
+					$emoticon_list[$emoticon] = (is_object($skin_info) && $skin_info->title) ? $skin_info->title : $emoticon;
+				}
 			}
 		}
 		Context::set('emoticon_list', $emoticon_list);

@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<skin version="0.2">
+	<title xml:lang="ko">MSN 메신저 이모티콘</title>
+	<title xml:lang="en">MSN messenger</title>
+	<version>0.1</version>
+	<date>2007-09-06</date>
+	<author link="https://github.com/rhymix/rhymix/commit/a4373787748cdcc39b231a0a9952978c2110a872">
+		<name xml:lang="ko">zero</name>
+	</author>
+</skin>
