@@ -19,14 +19,14 @@
 			<label for="max_level" class="x_control-label">{$lang->max_level}</label>
 			<div class="x_controls">
 				<input type="number" min="0" max="1000" value="{$config->max_level}" name="max_level" id="max_level" />
-				{$lang->about_max_level}
+				<p class="x_help-block">{$lang->about_max_level}</p>
 			</div>
 		</div>
 		<div class="x_control-group">
 			<label for="point_name" class="x_control-label">{$lang->point_name}</label>
 			<div class="x_controls">
 				<input type="text" value="{$config->point_name}" name="point_name" id="point_name" style="width:50px" />
-				{$lang->about_point_name}
+				<p class="x_help-block">{$lang->about_point_name}</p>
 			</div>
 		</div>
 		<div class="x_control-group">
@@ -37,7 +37,7 @@
 					<option value="{$val}" selected="selected"|cond="$config->level_icon == $val">{$val}</option>
 					<!--@end-->
 				</select>
-				<span class="x_help-inline">{$lang->about_level_icon}</span>
+				<span class="x_help-block">{$lang->about_level_icon}</span>
 			</div>
 		</div>
 		<div class="x_control-group">
@@ -56,7 +56,14 @@
 				{$lang->disable_read_document_except_robots}
 			</div>
 		</div>
-		
+
+		<div class="x_clearfix">
+			<span class="x_pull-right"><input class="x_btn x_btn-primary" type="submit" value="{$lang->cmd_save}" /></span>
+		</div>
+	</section>
+
+	<section class="section">
+		<h1>{$lang->point_given_suffix}</h1>
 		{@ $config_array = get_object_vars($config)}
 		{@ $config_array['insert_comment_limit'] = $config_array['insert_comment_limit'] ?: $config_array['no_point_date']}
 		{@ $action_types = array(
@@ -80,7 +87,7 @@
 		<table class="x_table x_table-striped x_table-hover">
 			<tbody>
 				<tr>
-					<td class="nowr">{$lang->cmd_signup}</td>
+					<th class="nowr">{$lang->cmd_signup}</td>
 					<td class="nowr">
 						&nbsp;{$lang->point_given_prefix}
 						<input type="number" value="{$config->signup_point ?: '0'}" name="signup_point" id="signup_point" />
@@ -89,7 +96,7 @@
 					<td class="nowr"></td>
 				</tr>
 				<tr>
-					<td class="nowr">{$lang->cmd_login}</td>
+					<th class="nowr">{$lang->cmd_login}</td>
 					<td class="nowr">
 						&nbsp;{$lang->point_given_prefix}
 						<input type="number" value="{$config->login_point ?: '0'}" name="login_point" id="login_point" />
@@ -99,7 +106,7 @@
 				</tr>
 				<!--@foreach($action_types as $action_type => $time_limit)-->
 					<tr>
-						<td class="nowr">{lang('point_' . $action_type)}</td>
+						<th class="nowr">{lang('point_' . $action_type)}</td>
 						<td class="nowr">
 							&nbsp;{$lang->point_given_prefix}
 							<input type="number" value="{$config_array[$action_type] ?: '0'}" name="{$action_type}" id="{$action_type}" />
