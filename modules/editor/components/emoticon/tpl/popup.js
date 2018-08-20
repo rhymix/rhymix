@@ -18,9 +18,32 @@ function completeGetEmoticons(ret_obj) {
 	var emoticons = ret_obj.emoticons.item;
 	var html = [];
 	for(var i=0;i<emoticons.length;i++) {
-		html[html.length] = '<img src="./modules/editor/components/emoticon/tpl/images/'+emoticons[i].filename+'" width="' + parseInt(emoticons[i].width, 10) + '" height="' + parseInt(emoticons[i].height, 10) + '" onclick="insertEmoticon(this);return false" onload="setFixedPopupSize()" class="emoticon" />';
+		var $img, $div;
+		$img = $('<input type="image" class="emoticon" onclick="insertEmoticon(this);return false" />')
+			.width( parseInt(emoticons[i].width,  10))
+			.height(parseInt(emoticons[i].height, 10))
+			.attr({
+				'src': './modules/editor/components/emoticon/tpl/images/'+emoticons[i].filename,
+				'data-src': './modules/editor/components/emoticon/tpl/images/'+emoticons[i].filename,
+				'alt': emoticons[i].alt
+			});
+		if( emoticons[i].svg ) {
+			$img.attr({
+				'data-svg': './modules/editor/components/emoticon/tpl/images/'+emoticons[i].svg
+			});
+			if( typeof SVGRect !== "undefined" ) {
+				$img.attr({
+					'src': './modules/editor/components/emoticon/tpl/images/'+emoticons[i].svg
+				});
+			}
+		}
+		$div = $('<div>');
+		html[html.length] = $div.append($img).html();
+		$img = null;
+		$div = null;
 	}
 	$('#emoticons').html(html.join(''));
+	setFixedPopupSize();
 }
 
 /**
@@ -28,11 +51,17 @@ function completeGetEmoticons(ret_obj) {
  * @params Event jQuery event
  */
 function insertEmoticon(obj) {
-	var url, html, iframe, win = is_popup?opener:window;
+	var $img, $div, html, iframe, win = is_popup?opener:window;
 
 	if(!win) return;
 
-	html = '<img src="'+obj.src+'" width="'+obj.width+'" height="'+obj.height+'" class="emoticon" />';
+	$img = $('<img>').addClass("emoticon").width($(obj).width()).height($(obj).height()).attr({'src': $(obj).attr('data-src'), 'alt': $(obj).attr('alt')});
+	//https://developer.mozilla.org/en-US/docs/Learn/HTML/Multimedia_and_embedding/Adding_vector_graphics_to_the_Web#Troubleshooting_and_cross-browser_support
+	if($(obj).attr('data-svg')) {
+		$img.attr('srcset', $(obj).attr('data-svg'));
+	}
+	$div = $('<div>');
+	html = $div.append($img).html();
 
 	win.editorFocus(win.editorPrevSrl);
 	win.editorRelKeys[win.editorPrevSrl].pasteHTML(html);
@@ -45,7 +74,11 @@ function insertEmoticon(obj) {
 $(function(){
 	is_popup = window._isPoped;
 	// load default emoticon set
-	getEmoticons('msn');
-	$('#selectEmoticonList').change(function(){ getEmoticons(this.value) });
+	getEmoticons('Twemoji');
+	$('ul.rx_tab>li a').click(function(){
+		$list = $( this ).parent('li');
+		$list.siblings('.rx_active').removeClass('rx_active');
+		$list.addClass('rx_active'); 
+	});
 
 });

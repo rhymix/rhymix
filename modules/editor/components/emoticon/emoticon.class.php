@@ -48,9 +48,15 @@ class emoticon extends EditorHandler
 		{
 			if(substr($file,0,1)=='.') continue;
 			if(preg_match('/\.(jpg|jpeg|gif|png)$/i',$file)) {
+				$svg = null;
 				$filename = sprintf("%s/%s", $path, str_replace($this->emoticon_path,'',$file));
 				list($width, $height, $type, $attr) = getimagesize($emoticon_path . '/'. $file);
-				$output[] = array('filename' => $filename, 'width' => $width, 'height' => $height);
+				
+				if(file_exists (($emoticon_path . '/svg/'. substr($file, 0, -4) . '.svg'))) {
+					$svg = sprintf("%s/svg/%s", $path, str_replace($this->emoticon_path,'',substr($file, 0, -4) . '.svg'));
+				}
+				
+				$output[] = array('filename' => $filename, 'width' => $width, 'height' => $height, 'svg' => $svg, 'alt' => substr($file, 0, -4));
 			}
 		}
 		$oDir->close();
@@ -70,7 +76,11 @@ class emoticon extends EditorHandler
 		{
 			foreach($emoticon_dirs as $emoticon)
 			{
-				if(preg_match("/^([a-z0-9\_]+)$/i", $emoticon)) $emoticon_list[] = $emoticon;
+				if(preg_match("/^([a-z0-9\_]+)$/i", $emoticon)) {
+					$oModuleModel = getModel('module');
+					$skin_info = $oModuleModel->loadSkinInfo($this->component_path, $emoticon, 'tpl/images');
+					$emoticon_list[$emoticon] = (is_object($skin_info) && $skin_info->title) ? $skin_info->title : $emoticon;
+				}
 			}
 		}
 		Context::set('emoticon_list', $emoticon_list);
