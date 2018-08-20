@@ -52,7 +52,6 @@ class emoticon extends EditorHandler
 				$filename = sprintf("%s/%s", $path, str_replace($this->emoticon_path,'',$file));
 				list($width, $height, $type, $attr) = getimagesize($emoticon_path . '/'. $file);
 				
-				
 				if(file_exists (($emoticon_path . '/svg/'. substr($file, 0, -4) . '.svg'))) {
 					$svg = sprintf("%s/svg/%s", $path, str_replace($this->emoticon_path,'',substr($file, 0, -4) . '.svg'));
 				}
