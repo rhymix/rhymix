@@ -25,16 +25,16 @@ xe.lang.msg_empty_search_keyword = '{$lang->msg_empty_search_keyword}';
 			<i cond="$search_target == 'ipaddress'">|</i>
 			<a href="{getUrl('search_target', 'ipaddress')}" class="active" cond="$search_target == 'ipaddress'">{$lang->ipaddress}:{$search_keyword}({number_format($total_count)})</a>
 
-			<div class="x_pull-right x_btn-group">
-				<button type="button" class="x_btn x_active __simple">{$lang->simple_view}</button>
-				<button type="button" class="x_btn __detail">{$lang->detail_view}</button>
-			</div>
 			<div class="x_btn-group x_pull-right">
 				<a href="#manageForm" class="x_btn modalAnchor" data-value="trash">{$lang->trash}</a>
 				<a href="#manageForm" class="x_btn modalAnchor" data-value="delete">{$lang->delete}</a>
 				<a href="#manageForm" class="x_btn modalAnchor" data-value="move">{$lang->move}</a>
 				<a href="#manageForm" class="x_btn modalAnchor" data-value="copy">{$lang->copy}</a>
 			</div>
+			<div class="x_pull-right x_btn-group margin_after">
+				<button type="button" class="x_btn x_active __simple">{$lang->simple_view}</button>
+				<button type="button" class="x_btn __detail">{$lang->detail_view}</button>
+			</div>			
 		</caption>
 		<thead>
 			<tr>
@@ -64,7 +64,10 @@ xe.lang.msg_empty_search_keyword = '{$lang->msg_empty_search_keyword}';
 				</td>
 				<td class="nowr rx_detail_marks">{$oDocument->get('readed_count')}</td>
 				<td class="nowr rx_detail_marks">{$oDocument->get('voted_count')}/{$oDocument->get('blamed_count')}</td>
-				<td class="nowr"><span class="rx_detail_marks">{$oDocument->getRegdate("Y-")}</span><span>{$oDocument->getRegdate("m-d")}</span><span class="rx_detail_marks">{$oDocument->getRegdate(" H:i")}</span></td>
+				<td class="nowr">
+					<span class="rx_detail_marks">{$oDocument->getRegdate('Y-m-d H:i:s')}</span>
+					<span class="rx_simple_marks">{$oDocument->getRegdate($oDocument->getRegdateTime() > time() - 86400 ? 'H:i' : 'm-d')}</span>
+				</td>
 				<td class="nowr rx_detail_marks"><a href="{getUrl('search_target','ipaddress','search_keyword',$oDocument->get('ipaddress'))}">{$oDocument->get('ipaddress')}</a></td>
 				<td class="nowr rx_detail_marks">{$status_name_list[$oDocument->get('status')]}</td>
 				<td><input type="checkbox" name="cart" value="{$oDocument->document_srl}" /></td>

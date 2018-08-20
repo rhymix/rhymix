@@ -209,6 +209,9 @@ body>.x,
 .x .x_btn-group {
 	zoom: 1;
 }
+.x .x_btn-group.margin_after {
+	margin-right: 10px;
+}
 .x .x_btn-group:after {
 	content: "";
 	display: block;
