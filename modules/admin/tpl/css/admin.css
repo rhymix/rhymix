@@ -737,12 +737,14 @@ margin-bottom: 10px;
 	overflow: hidden;
 	color: #333;
 	text-decoration: none;
+	position: absolute;
 }
 .x>.skipNav>a:focus {
 	height: auto;
 	margin: 5px 0;
 	padding: 8px 0;
 	background: #fff;
+	position: static;
 }
 .x>.header {
 	position: relative;
