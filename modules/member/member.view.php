@@ -349,6 +349,11 @@ class memberView extends member
 	 */
 	function dispMemberOwnDocument()
 	{
+		if ($this->member_config->features['my_documents'] === false)
+		{
+			return $this->stop('msg_invalid_request');
+		}
+
 		// A message appears if the user is not logged-in
 		if(!Context::get('is_logged'))
 		{
@@ -378,6 +383,11 @@ class memberView extends member
 	 */
 	function dispMemberOwnComment()
 	{
+		if ($this->member_config->features['my_comments'] === false)
+		{
+			return $this->stop('msg_invalid_request');
+		}
+
 		$oMemberModel = getModel('member');
 		// A message appears if the user is not logged-in
 		if(!$oMemberModel->isLogged()) return $this->stop('msg_not_logged');
@@ -405,6 +415,11 @@ class memberView extends member
 	 */
 	function dispMemberScrappedDocument()
 	{
+		if ($this->member_config->features['scrapped_documents'] === false)
+		{
+			return $this->stop('msg_invalid_request');
+		}
+
 		$oMemberModel = getModel('member');
 		// A message appears if the user is not logged-in
 		if(!$oMemberModel->isLogged()) return $this->stop('msg_not_logged');
@@ -476,6 +491,11 @@ class memberView extends member
 	 */
 	function dispMemberSavedDocument()
 	{
+		if ($this->member_config->features['saved_documents'] === false)
+		{
+			return $this->stop('msg_invalid_request');
+		}
+
 		$oMemberModel = getModel('member');
 		// A message appears if the user is not logged-in
 		if(!$oMemberModel->isLogged()) return $this->stop('msg_not_logged');
@@ -502,6 +522,11 @@ class memberView extends member
 	 */
 	function dispMemberActiveLogins()
 	{
+		if ($this->member_config->features['active_logins'] === false)
+		{
+			return $this->stop('msg_invalid_request');
+		}
+
 		$logged_info = Context::get('logged_info');
 		if (!$logged_info->member_srl)
 		{
@@ -773,6 +798,11 @@ class memberView extends member
 	 */
 	function dispMemberModifyNicknameLog()
 	{
+		if ($this->member_config->features['nickname_log'] === false || $this->member_config->update_nickname_log != 'Y')
+		{
+			return $this->stop('msg_invalid_request');
+		}
+
 		$member_srl = Context::get('member_srl');
 		$logged_info = Context::get('logged_info');
 		if(!$member_srl)

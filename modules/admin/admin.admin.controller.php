@@ -382,57 +382,15 @@ class adminAdminController extends admin
 	 */
 	function procAdminUpdateConfig()
 	{
-		$adminTitle = Context::get('adminTitle');
-		$file = $_FILES['adminLogo'];
-
 		$oModuleModel = getModel('module');
 		$oAdminConfig = $oModuleModel->getModuleConfig('admin');
-
 		if(!is_object($oAdminConfig))
 		{
 			$oAdminConfig = new stdClass();
 		}
 
-		if($file['tmp_name'])
-		{
-			$target_path = 'files/attach/images/admin/';
-			FileHandler::makeDir($target_path);
-
-			// Get file information
-			list($width, $height, $type, $attrs) = @getimagesize($file['tmp_name']);
-			if($type == 3)
-			{
-				$ext = 'png';
-			}
-			elseif($type == 2)
-			{
-				$ext = 'jpg';
-			}
-			else
-			{
-				$ext = 'gif';
-			}
-
-			$target_filename = sprintf('%s%s.%s.%s', $target_path, 'adminLogo', date('YmdHis'), $ext);
-			@move_uploaded_file($file['tmp_name'], $target_filename);
-
-			$oAdminConfig->adminLogo = $target_filename;
-		}
-		if($adminTitle)
-		{
-			$oAdminConfig->adminTitle = strip_tags($adminTitle);
-		}
-		else
-		{
-			unset($oAdminConfig->adminTitle);
-		}
-
-		if($oAdminConfig)
-		{
-			$oModuleController = getController('module');
-			$oModuleController->insertModuleConfig('admin', $oAdminConfig);
-		}
-
+		$oModuleController = getController('module');
+		$oModuleController->insertModuleConfig('admin', $oAdminConfig);
 		$this->setMessage('success_updated', 'info');
 
 		$returnUrl = Context::get('success_return_url') ? Context::get('success_return_url') : getNotEncodedUrl('', 'module', 'admin', 'act', 'dispAdminSetup');

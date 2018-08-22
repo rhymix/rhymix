@@ -32,7 +32,7 @@ class emoticon extends EditorHandler
 
 		$list = $this->getEmoticons($emoticon);
 
-		$this->add('emoticons', implode("\n",$list));
+		$this->add('emoticons', $list);
 	}
 
 	/**
@@ -47,7 +47,17 @@ class emoticon extends EditorHandler
 		while($file = $oDir->read())
 		{
 			if(substr($file,0,1)=='.') continue;
-			if(preg_match('/\.(jpg|jpeg|gif|png)$/i',$file)) $output[] = sprintf("%s/%s", $path, str_replace($this->emoticon_path,'',$file));
+			if(preg_match('/\.(jpg|jpeg|gif|png)$/i',$file)) {
+				$svg = null;
+				$filename = sprintf("%s/%s", $path, str_replace($this->emoticon_path,'',$file));
+				list($width, $height, $type, $attr) = getimagesize($emoticon_path . '/'. $file);
+				
+				if(file_exists (($emoticon_path . '/svg/'. substr($file, 0, -4) . '.svg'))) {
+					$svg = sprintf("%s/svg/%s", $path, str_replace($this->emoticon_path,'',substr($file, 0, -4) . '.svg'));
+				}
+				
+				$output[] = array('filename' => $filename, 'width' => $width, 'height' => $height, 'svg' => $svg, 'alt' => substr($file, 0, -4));
+			}
 		}
 		$oDir->close();
 		if(count($output)) asort($output);
@@ -66,7 +76,11 @@ class emoticon extends EditorHandler
 		{
 			foreach($emoticon_dirs as $emoticon)
 			{
-				if(preg_match("/^([a-z0-9\_]+)$/i", $emoticon)) $emoticon_list[] = $emoticon;
+				if(preg_match("/^([a-z0-9\_]+)$/i", $emoticon)) {
+					$oModuleModel = getModel('module');
+					$skin_info = $oModuleModel->loadSkinInfo($this->component_path, $emoticon, 'tpl/images');
+					$emoticon_list[$emoticon] = (is_object($skin_info) && $skin_info->title) ? $skin_info->title : $emoticon;
+				}
 			}
 		}
 		Context::set('emoticon_list', $emoticon_list);
@@ -88,6 +102,8 @@ class emoticon extends EditorHandler
 	{
 		$src = $xml_obj->attrs->src;
 		$alt = $xml_obj->attrs->alt;
+		$width = intval($xml_obj->attrs->width);
+		$height = intval($xml_obj->attrs->height);
 
 		if(!$alt)
 		{
@@ -103,7 +119,12 @@ class emoticon extends EditorHandler
 
 		if($alt)
 		{
-			$attr_output[] = "alt=\"".$alt."\"";
+			$attr_output[] = "alt=\"".htmlspecialchars($alt)."\"";
+		}
+
+		if($width && $height)
+		{
+			$attr_output[] = "width=\"".$width."\" height=\"".$height."\"";
 		}
 
 		$code = sprintf("<img %s style=\"border:0px\" />", implode(" ",$attr_output));

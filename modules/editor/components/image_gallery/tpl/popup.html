@@ -2,8 +2,10 @@
 <!--%import("popup.css")-->
 <!--%import("../lang")-->
 {@Context::addMetaTag('viewport', 'width=device-width', FALSE);}
-<section class="section">
+<div class="x_modal-header">
 	<h1>{$component_info->title}</h1>
+</div>
+<div class="x_modal-body">
 	<form action="./" method="get" onSubmit="return false" id="fo" class="x_form-horizontal">
 	<input type="hidden" name="editor_sequence" value="{$editor_sequence}" />
 		<div class="x_control-group">
@@ -64,6 +66,6 @@
 			</div>
 		</div>
 	</form>
-</section>
+</div>
 <!--%load_js_plugin("spectrum")-->
 

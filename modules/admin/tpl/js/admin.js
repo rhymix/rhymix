@@ -1432,15 +1432,17 @@ jQuery(function($){
 			$t.addClass('tg').find('>*:not(:first-child)').hide();
 		}
 	});
-	$('.x .dsTg .rx_detail_marks').hide();
-	var details = $('.x .dsTg td.tg>*:not(:first-child),.x .dsTg .rx_detail_marks');
+	var details = $('.x .dsTg td.tg>*:not(:first-child), .x .dsTg .rx_detail_marks').hide();
+	var simples = $('.x .dsTg .rx_simple_marks').show();
 	var simpleBtnFn = function(){
 		details.hide();
+		simples.show();
 		detailBtn.removeClass('x_active');
 		simpleBtn.addClass('x_active');
 	};
 	var detailBtnFn = function(){
 		details.show();
+		simples.hide();
 		detailBtn.addClass('x_active');
 		simpleBtn.removeClass('x_active');
 	};
@@ -1448,6 +1450,8 @@ jQuery(function($){
 	detailBtn.click(detailBtnFn);
 	if($(window).width() > 980) {
 		detailBtnFn();
+	} else {
+		simpleBtnFn();
 	}
 });
 

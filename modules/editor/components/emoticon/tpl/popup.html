@@ -1,16 +1,19 @@
 <load target="popup.js" />
-<load target="popup.css" />
+<load target="popup.less" />
 {@Context::addMetaTag('viewport', 'width=device-width', FALSE);}
-<section class="section">
+<div class="x_modal-header">
 	<h1>{$component_info->title}</h1>
-	<div class="x_clearfix">
-		<div class="x_pull-right">
-			<select name="list" id="selectEmoticonList">
-				<!--@foreach($emoticon_list as $key => $val)-->
-				<option <!--@if($val=='msn')-->selected="select"<!--@end--> value="{$val}">{$val}</option>
-				<!--@end-->
-			</select>
-		</div>
+</div>
+<div class="x_modal-body">
+	<div class="rx_tab">
+		<ul class="rx_tab">
+			<li loop="$emoticon_list => $key, $val" class="rx_active"|cond="$key=='Twemoji'"><a href="#" onclick="getEmoticons('{$key}')"><span>{$val}</span></a></li>
+		</ul>
 	</div>
 	<div id="emoticons" style="min-height:1px"></div>
-</section>
+	<div class="x_clearfix btnArea">
+		<div class="x_pull-right">
+			<a class="x_btn" href="{getUrl('','module','editor','act','dispEditorComponentInfo','component_name',$component_info->component_name)}" target="_blank" onclick="window.open(this.href,'ComponentInfo','width=10,height=10');return false;">{lang('editor.about_component')}</a>
+		</div>
+	</div>
+</div>
