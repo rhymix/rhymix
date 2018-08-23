@@ -544,14 +544,12 @@ class commentController extends comment
 			return $output;
 		}
 		
-		// get the number of all comments in the posting
-		$comment_count = $oCommentModel->getCommentCount($document_srl);
-
 		// create the controller object of the document
 		$oDocumentController = getController('document');
 
 		// Update the number of comments in the post
-		if(!$using_validation || $is_admin)
+		$comment_count = $oCommentModel->getCommentCount($document_srl);
+		if($comment_count && (!$using_validation || $is_admin))
 		{
 			$output = $oDocumentController->updateCommentCount($document_srl, $comment_count, $obj->nick_name, $update_document);
 		}
