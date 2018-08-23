@@ -552,7 +552,7 @@ class documentItem extends BaseObject
 			$content = cut_str($content, $strlen, '...');
 		}
 		
-		return escape($content);
+		return escape($content, false);
 	}
 
 	function getContentText($strlen = 0)
@@ -577,7 +577,7 @@ class documentItem extends BaseObject
 			$content = cut_str($content, $strlen, '...');
 		}
 		
-		return escape($content);
+		return escape($content, false);
 	}
 
 	function _addAllowScriptAccess($m)
