@@ -363,7 +363,7 @@ class commentItem extends BaseObject
 		{
 			$content = cut_str($content, $strlen, '...');
 		}
-		return escape($content);
+		return escape($content, false);
 	}
 
 	/**
@@ -388,13 +388,13 @@ class commentItem extends BaseObject
 		{
 			$content = $this->get('content');
 		}
-		
-		$content = trim(utf8_normalize_spaces(html_entity_decode(strip_tags($content))));
+
 		if($strlen)
 		{
+			$content = trim(utf8_normalize_spaces(html_entity_decode(strip_tags($content))));
 			$content = cut_str($content, $strlen, '...');
 		}
-		return escape($content);
+		return escape($content, false);
 	}
 
 	/**
