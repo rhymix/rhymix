@@ -35,7 +35,7 @@ class adminAdminController extends admin
 		$menuSrl = Context::get('menu_srl');
 		if(!$menuSrl)
 		{
-			return $this->stop('msg_invalid_request');
+			throw new Rhymix\Framework\Exceptions\InvalidRequest;
 		}
 
 		$oMenuAdminController = getAdminController('menu');

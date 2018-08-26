@@ -24,7 +24,7 @@ class boardController extends board
 		// check grant
 		if(!$this->grant->write_document)
 		{
-			throw new Rhymix\Framework\Exception('msg_not_permitted');
+			throw new Rhymix\Framework\Exceptions\NotPermitted;
 		}
 		
 		// setup variables
@@ -107,7 +107,7 @@ class boardController extends board
 		{
 			if(!$oDocument->isGranted())
 			{
-				throw new Rhymix\Framework\Exception('msg_not_permitted');
+				throw new Rhymix\Framework\Exceptions\NotPermitted;
 			}
 			
 			// Protect admin document
@@ -356,7 +356,7 @@ class boardController extends board
 		// check grant
 		if(!$this->grant->write_comment)
 		{
-			throw new Rhymix\Framework\Exception('msg_not_permitted');
+			throw new Rhymix\Framework\Exceptions\NotPermitted;
 		}
 		$logged_info = Context::get('logged_info');
 
@@ -398,7 +398,7 @@ class boardController extends board
 		$oDocument = $oDocumentModel->getDocument($obj->document_srl);
 		if(!$oDocument->isExists())
 		{
-			throw new Rhymix\Framework\Exception('msg_not_founded');
+			throw new Rhymix\Framework\Exceptions\TargetNotFound;
 		}
 
 		// For anonymous use, remove writer's information and notifying information
@@ -461,7 +461,7 @@ class boardController extends board
 				$parent_comment = $oCommentModel->getComment($obj->parent_srl);
 				if(!$parent_comment->comment_srl)
 				{
-					throw new Rhymix\Framework\Exception('msg_invalid_request');
+					throw new Rhymix\Framework\Exceptions\InvalidRequest;
 				}
 				if($parent_comment->isSecret() && $this->module_info->secret === 'Y')
 				{
@@ -496,7 +496,7 @@ class boardController extends board
 			// check the grant
 			if(!$comment->isGranted())
 			{
-				throw new Rhymix\Framework\Exception('msg_not_permitted');
+				throw new Rhymix\Framework\Exceptions\NotPermitted;
 			}
 			$obj->parent_srl = $comment->parent_srl;
 			$output = $oCommentController->updateComment($obj, $this->grant->manager);
@@ -530,7 +530,7 @@ class boardController extends board
 
 		if(!$comment_srl)
 		{
-			throw new Rhymix\Framework\Exception('msg_invalid_request');
+			throw new Rhymix\Framework\Exceptions\InvalidRequest;
 		}
 
 		$oCommentModel = getModel('comment');
@@ -662,7 +662,7 @@ class boardController extends board
 			$oComment = $oCommentModel->getComment($comment_srl);
 			if(!$oComment->isExists())
 			{
-				throw new Rhymix\Framework\Exception('msg_invalid_request');
+				throw new Rhymix\Framework\Exceptions\InvalidRequest;
 			}
 
 			// compare the comment password and the user input password
@@ -678,7 +678,7 @@ class boardController extends board
 			$oDocument = $oDocumentModel->getDocument($document_srl);
 			if(!$oDocument->isExists())
 			{
-				throw new Rhymix\Framework\Exception('msg_invalid_request');
+				throw new Rhymix\Framework\Exceptions\InvalidRequest;
 			}
 
 			// compare the document password and the user input password

@@ -998,7 +998,7 @@ class boardView extends board
 		// if the parent comment is not existed
 		if(!$parent_srl)
 		{
-			throw new Rhymix\Framework\Exception('msg_invalid_request');
+			throw new Rhymix\Framework\Exceptions\InvalidRequest;
 		}
 
 		// get the comment
@@ -1060,7 +1060,7 @@ class boardView extends board
 		// if the comment is not existed
 		if(!$comment_srl)
 		{
-			throw new Rhymix\Framework\Exception('msg_invalid_request');
+			throw new Rhymix\Framework\Exceptions\InvalidRequest;
 		}
 
 		// get comment information
@@ -1233,7 +1233,7 @@ class boardView extends board
 
 		if($this->grant->update_view !== true)
 		{
-			throw new Rhymix\Framework\Exception('msg_not_permitted');
+			throw new Rhymix\Framework\Exceptions\NotPermitted;
 		}
 
 		$updatelog = $oDocumentModel->getDocumentUpdateLog($document_srl);
@@ -1253,7 +1253,7 @@ class boardView extends board
 
 		if($this->grant->update_view !== true)
 		{
-			throw new Rhymix\Framework\Exception('msg_not_permitted');
+			throw new Rhymix\Framework\Exceptions\NotPermitted;
 		}
 
 		$update_log = $oDocumentModel->getUpdateLog($update_id);
@@ -1289,7 +1289,7 @@ class boardView extends board
 	{
 		iF($this->grant->vote_log_view !== true)
 		{
-			throw new Rhymix\Framework\Exception('msg_not_permitted');
+			throw new Rhymix\Framework\Exceptions\NotPermitted;
 		}
 
 		$oMemberModel = getModel('member');
