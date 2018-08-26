@@ -1267,9 +1267,16 @@ class ModuleHandler extends Handler
 				continue;
 			}
 			
-			$before_each_trigger_time = microtime(true);
-			$output = $oModule->{$called_method}($obj);
-			$after_each_trigger_time = microtime(true);
+			try
+			{
+				$before_each_trigger_time = microtime(true);
+				$output = $oModule->{$called_method}($obj);
+				$after_each_trigger_time = microtime(true);
+			}
+			catch (Rhymix\Framework\Exception $e)
+			{
+				$output = new BaseObject(-2, $e->getMessage());
+			}
 
 			if ($trigger_name !== 'common.flushDebugInfo')
 			{

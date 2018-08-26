@@ -569,8 +569,16 @@ class ModuleObject extends BaseObject
 
 			$oModuleModel->syncSkinInfoToModuleInfo($this->module_info);
 			Context::set('module_info', $this->module_info);
+
 			// Run
-			$output = $this->{$this->act}();
+			try
+			{
+				$output = $this->{$this->act}();
+			}
+			catch (Rhymix\Framework\Exception $e)
+			{
+				$output = new BaseObject(-2, $e->getMessage());
+			}
 		}
 		else
 		{
