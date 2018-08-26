@@ -52,13 +52,13 @@ class communicationView extends communication
 	{
 		if($this->config->enable_message == 'N')
 		{
-			return $this->setError('msg_invalid_request');
+			throw new Rhymix\Framework\Exceptions\InvalidRequest;
 		}
 		
 		// Error appears if not logged-in
 		if(!Context::get('is_logged'))
 		{
-			return $this->setError('msg_not_logged');
+			throw new Rhymix\Framework\Exceptions\MustLogin;
 		}
 
 		$logged_info = Context::get('logged_info');
@@ -86,28 +86,28 @@ class communicationView extends communication
 				case 'R':
 					if($message->receiver_srl != $logged_info->member_srl)
 					{
-						return $this->setError('msg_invalid_request');
+						throw new Rhymix\Framework\Exceptions\InvalidRequest;
 					}
 					break;
 
 				case 'S':
 					if($message->sender_srl != $logged_info->member_srl)
 					{
-						return $this->setError('msg_invalid_request');
+						throw new Rhymix\Framework\Exceptions\InvalidRequest;
 					}
 					break;
 
 				case 'T':
 					if($message->receiver_srl != $logged_info->member_srl && $message->sender_srl != $logged_info->member_srl)
 					{
-						return $this->setError('msg_invalid_request');
+						throw new Rhymix\Framework\Exceptions\InvalidRequest;
 					}
 					break;
 
 				case 'N':
 					if($message->receiver_srl != $logged_info->member_srl)
 					{
-						return $this->setError('msg_invalid_request');
+						throw new Rhymix\Framework\Exceptions\InvalidRequest;
 					}
 					break;
 			}
@@ -151,13 +151,13 @@ class communicationView extends communication
 
 		if($this->config->enable_message == 'N')
 		{
-			return $this->stop('msg_invalid_request');
+			throw new Rhymix\Framework\Exceptions\InvalidRequest;
 		}
 		
 		// Error appears if not logged-in
 		if(!Context::get('is_logged'))
 		{
-			return $this->stop('msg_not_logged');
+			throw new Rhymix\Framework\Exceptions\MustLogin;
 		}
 
 		$logged_info = Context::get('logged_info');
@@ -190,17 +190,17 @@ class communicationView extends communication
 
 		if($this->config->enable_message == 'N')
 		{
-			return $this->stop('msg_invalid_request');
+			throw new Rhymix\Framework\Exceptions\InvalidRequest;
 		}
 		if(!getModel('communication')->checkGrant($this->config->grant_send))
 		{
-			return $this->stop('msg_not_permitted');
+			throw new Rhymix\Framework\Exceptions\NotPermitted;
 		}
 		
 		// Error appears if not logged-in
 		if(!Context::get('is_logged'))
 		{
-			return $this->stop('msg_not_logged');
+			throw new Rhymix\Framework\Exceptions\MustLogin;
 		}
 
 		$logged_info = Context::get('logged_info');
@@ -210,13 +210,13 @@ class communicationView extends communication
 		$receiver_srl = Context::get('receiver_srl');
 		if(!$receiver_srl)
 		{
-			return $this->stop('msg_invalid_request');
+			throw new Rhymix\Framework\Exceptions\InvalidRequest;
 		}
 
 		// check receiver and sender are same
 		if($logged_info->member_srl == $receiver_srl)
 		{
-			return $this->stop('msg_cannot_send_to_yourself');
+			throw new Rhymix\Framework\Exception('msg_cannot_send_to_yourself');
 		}
 
 		$oCommunicationModel = getModel('communication');
@@ -241,7 +241,7 @@ class communicationView extends communication
 		$receiver_info = $oMemberModel->getMemberInfoByMemberSrl($receiver_srl);
 		if(!$receiver_info)
 		{
-			return $this->stop('msg_invalid_request');
+			throw new Rhymix\Framework\Exceptions\InvalidRequest;
 		}
 
 		Context::set('receiver_info', $receiver_info);
@@ -275,13 +275,13 @@ class communicationView extends communication
 	{
 		if($this->config->enable_friend == 'N')
 		{
-			return $this->stop('msg_invalid_request');
+			throw new Rhymix\Framework\Exceptions\InvalidRequest;
 		}
 		
 		// Error appears if not logged-in
 		if(!Context::get('is_logged'))
 		{
-			return $this->stop('msg_not_logged');
+			throw new Rhymix\Framework\Exceptions\MustLogin;
 		}
 		
 		$oCommunicationModel = getModel('communication');
@@ -339,13 +339,13 @@ class communicationView extends communication
 		
 		if($this->config->enable_friend == 'N')
 		{
-			return $this->stop('msg_invalid_request');
+			throw new Rhymix\Framework\Exceptions\InvalidRequest;
 		}
 		
 		// error appears if not logged-in
 		if(!Context::get('is_logged'))
 		{
-			return $this->stop('msg_not_logged');
+			throw new Rhymix\Framework\Exceptions\MustLogin;
 		}
 
 		$logged_info = Context::get('logged_info');
@@ -353,11 +353,11 @@ class communicationView extends communication
 
 		if(!$target_srl)
 		{
-			return $this->stop('msg_invalid_request');
+			throw new Rhymix\Framework\Exceptions\InvalidRequest;
 		}
 		if($target_srl == $logged_info->member_srl)
 		{
-			return $this->stop('msg_no_self_friend');
+			throw new Rhymix\Framework\Exception('msg_no_self_friend');
 		}
 
 		// get information of the member
@@ -367,7 +367,7 @@ class communicationView extends communication
 
 		if($communication_info->member_srl != $target_srl)
 		{
-			return $this->stop('msg_invalid_request');
+			throw new Rhymix\Framework\Exceptions\InvalidRequest;
 		}
 
 		Context::set('target_info', $communication_info);
@@ -390,13 +390,13 @@ class communicationView extends communication
 		
 		if($this->config->enable_friend == 'N')
 		{
-			return $this->stop('msg_invalid_request');
+			throw new Rhymix\Framework\Exceptions\InvalidRequest;
 		}
 		
 		// error apprears if not logged-in
 		if(!Context::get('is_logged'))
 		{
-			return $this->stop('msg_not_logged');
+			throw new Rhymix\Framework\Exceptions\MustLogin;
 		}
 
 		$logged_info = Context::get('logged_info');

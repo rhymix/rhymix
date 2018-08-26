@@ -24,7 +24,7 @@ class communicationController extends communication
 	{
 		if(!Context::get('is_logged'))
 		{
-			return $this->setError('msg_not_logged');
+			throw new Rhymix\Framework\Exceptions\MustLogin;
 		}
 
 		$args = new stdClass();
@@ -54,7 +54,7 @@ class communicationController extends communication
 		// Check login information
 		if(!Context::get('is_logged'))
 		{
-			return $this->setError('msg_not_logged');
+			throw new Rhymix\Framework\Exceptions\MustLogin;
 		}
 
 		$logged_info = Context::get('logged_info');
@@ -63,19 +63,19 @@ class communicationController extends communication
 		$receiver_srl = Context::get('receiver_srl');
 		if(!$receiver_srl)
 		{
-			return $this->setError('msg_not_exists_member');
+			throw new Rhymix\Framework\Exception('msg_not_exists_member');
 		}
 
 		$title = trim(Context::get('title'));
 		if(!$title)
 		{
-			return $this->setError('msg_title_is_null');
+			throw new Rhymix\Framework\Exception('msg_title_is_null');
 		}
 
 		$content = trim(Context::get('content'));
 		if(!$content)
 		{
-			return $this->setError('msg_content_is_null');
+			throw new Rhymix\Framework\Exception('msg_content_is_null');
 		}
 
 		$send_mail = Context::get('send_mail');
@@ -91,13 +91,13 @@ class communicationController extends communication
 
 		if(!$oCommunicationModel->checkGrant($config->grant_send))
 		{
-			return $this->setError('msg_not_permitted');
+			throw new Rhymix\Framework\Exceptions\NotPermitted;
 		}
 
 		$receiver_member_info = $oMemberModel->getMemberInfoByMemberSrl($receiver_srl);
 		if($receiver_member_info->member_srl != $receiver_srl)
 		{
-			return $this->setError('msg_not_exists_member');
+			throw new Rhymix\Framework\Exception('msg_not_exists_member');
 		}
 
 		// check whether to allow to receive the message(pass if a top-administrator)
@@ -107,12 +107,12 @@ class communicationController extends communication
 			{
 				if(!$oCommunicationModel->isFriend($receiver_member_info->member_srl))
 				{
-					return $this->setError('msg_allow_message_to_friend');
+					throw new Rhymix\Framework\Exception('msg_allow_message_to_friend');
 				}
 			}
 			else if($receiver_member_info->allow_message == 'N')
 			{
-				return $this->setError('msg_disallow_message');
+				throw new Rhymix\Framework\Exception('msg_disallow_message');
 			}
 		}
 
@@ -269,7 +269,7 @@ class communicationController extends communication
 		// Check login information
 		if(!Context::get('is_logged'))
 		{
-			return $this->setError('msg_not_logged');
+			throw new Rhymix\Framework\Exceptions\MustLogin;
 		}
 		$logged_info = Context::get('logged_info');
 
@@ -277,7 +277,7 @@ class communicationController extends communication
 		$message_srl = Context::get('message_srl');
 		if(!$message_srl)
 		{
-			return $this->setError('msg_invalid_request');
+			throw new Rhymix\Framework\Exceptions\InvalidRequest;
 		}
 
 		// get the message
@@ -285,7 +285,7 @@ class communicationController extends communication
 		$message = $oCommunicationModel->getSelectedMessage($message_srl);
 		if(!$message || $message->message_type != 'R')
 		{
-			return $this->setError('msg_invalid_request');
+			throw new Rhymix\Framework\Exceptions\InvalidRequest;
 		}
 
 		$args = new stdClass();
@@ -309,7 +309,7 @@ class communicationController extends communication
 		// Check login information
 		if(!Context::get('is_logged'))
 		{
-			return $this->setError('msg_not_logged');
+			throw new Rhymix\Framework\Exceptions\MustLogin;
 		}
 
 		$logged_info = Context::get('logged_info');
@@ -319,7 +319,7 @@ class communicationController extends communication
 		$message_srl = Context::get('message_srl');
 		if(!$message_srl)
 		{
-			return $this->setError('msg_invalid_request');
+			throw new Rhymix\Framework\Exceptions\InvalidRequest;
 		}
 
 		// Get the message
@@ -327,7 +327,7 @@ class communicationController extends communication
 		$message = $oCommunicationModel->getSelectedMessage($message_srl);
 		if(!$message)
 		{
-			return $this->setError('msg_invalid_request');
+			throw new Rhymix\Framework\Exceptions\InvalidRequest;
 		}
 
 		// Check the grant
@@ -336,14 +336,14 @@ class communicationController extends communication
 			case 'S':
 				if($message->sender_srl != $member_srl)
 				{
-					return $this->setError('msg_invalid_request');
+					throw new Rhymix\Framework\Exceptions\InvalidRequest;
 				}
 				break;
 
 			case 'R':
 				if($message->receiver_srl != $member_srl)
 				{
-					return $this->setError('msg_invalid_request');
+					throw new Rhymix\Framework\Exceptions\InvalidRequest;
 				}
 				break;
 		}
@@ -369,7 +369,7 @@ class communicationController extends communication
 		// Check login information
 		if(!Context::get('is_logged'))
 		{
-			return $this->setError('msg_not_logged');
+			throw new Rhymix\Framework\Exceptions\MustLogin;
 		}
 
 		$logged_info = Context::get('logged_info');
@@ -378,7 +378,7 @@ class communicationController extends communication
 		// check variables
 		if(!Context::get('message_srl_list'))
 		{
-			return $this->setError('msg_cart_is_null');
+			throw new Rhymix\Framework\Exception('msg_cart_is_null');
 		}
 
 		$message_srl_list = Context::get('message_srl_list');
@@ -389,13 +389,13 @@ class communicationController extends communication
 
 		if(!count($message_srl_list))
 		{
-			return $this->setError('msg_cart_is_null');
+			throw new Rhymix\Framework\Exception('msg_cart_is_null');
 		}
 
 		$message_type = Context::get('message_type');
 		if(!$message_type || !in_array($message_type, array('R', 'S', 'T', 'N')))
 		{
-			return $this->setError('msg_invalid_request');
+			throw new Rhymix\Framework\Exceptions\InvalidRequest;
 		}
 
 		$message_count = count($message_srl_list);
@@ -412,7 +412,7 @@ class communicationController extends communication
 		}
 		if(!count($target))
 		{
-			return $this->setError('msg_cart_is_null');
+			throw new Rhymix\Framework\Exception('msg_cart_is_null');
 		}
 
 		// Delete
@@ -458,7 +458,7 @@ class communicationController extends communication
 		// Check login information
 		if(!Context::get('is_logged'))
 		{
-			return $this->setError('msg_not_logged');
+			throw new Rhymix\Framework\Exceptions\MustLogin;
 		}
 
 		$logged_info = Context::get('logged_info');
@@ -466,11 +466,11 @@ class communicationController extends communication
 		$target_srl = (int) trim(Context::get('target_srl'));
 		if(!$target_srl)
 		{
-			return $this->setError('msg_invalid_request');
+			throw new Rhymix\Framework\Exceptions\InvalidRequest;
 		}
 		if($target_srl == $logged_info->member_srl)
 		{
-			return $this->setError('msg_no_self_friend');
+			throw new Rhymix\Framework\Exception('msg_no_self_friend');
 		}
 		
 		// Check duplicate friend
@@ -480,7 +480,7 @@ class communicationController extends communication
 		$output = executeQuery('communication.isAddedFriend', $args);
 		if($output->data->count)
 		{
-			return $this->setError('msg_already_friend');
+			throw new Rhymix\Framework\Exception('msg_already_friend');
 		}
 
 		// Variable
@@ -520,7 +520,7 @@ class communicationController extends communication
 		// Check login information
 		if(!Context::get('is_logged'))
 		{
-			return $this->setError('msg_not_logged');
+			throw new Rhymix\Framework\Exceptions\MustLogin;
 		}
 
 		$logged_info = Context::get('logged_info');
@@ -529,7 +529,7 @@ class communicationController extends communication
 		$friend_srl_list = Context::get('friend_srl_list');
 		if(!$friend_srl_list)
 		{
-			return $this->setError('msg_cart_is_null');
+			throw new Rhymix\Framework\Exception('msg_cart_is_null');
 		}
 
 		if(!is_array($friend_srl_list))
@@ -539,7 +539,7 @@ class communicationController extends communication
 
 		if(!count($friend_srl_list))
 		{
-			return $this->setError('msg_cart_is_null');
+			throw new Rhymix\Framework\Exception('msg_cart_is_null');
 		}
 
 		$friend_count = count($friend_srl_list);
@@ -557,7 +557,7 @@ class communicationController extends communication
 
 		if(!count($target))
 		{
-			return $this->setError('msg_cart_is_null');
+			throw new Rhymix\Framework\Exception('msg_cart_is_null');
 		}
 
 		// Variables
@@ -587,7 +587,7 @@ class communicationController extends communication
 		// Check login information
 		if(!Context::get('is_logged'))
 		{
-			return $this->setError('msg_not_logged');
+			throw new Rhymix\Framework\Exceptions\MustLogin;
 		}
 
 		$logged_info = Context::get('logged_info');
@@ -603,7 +603,7 @@ class communicationController extends communication
 
 		if(!count($friend_srl_list))
 		{
-			return $this->setError('msg_cart_is_null');
+			throw new Rhymix\Framework\Exception('msg_cart_is_null');
 		}
 
 		$friend_count = count($friend_srl_list);
@@ -622,7 +622,7 @@ class communicationController extends communication
 
 		if(!count($target))
 		{
-			return $this->setError('msg_cart_is_null');
+			throw new Rhymix\Framework\Exception('msg_cart_is_null');
 		}
 
 		// Delete
@@ -650,7 +650,7 @@ class communicationController extends communication
 		// Check login information
 		if(!Context::get('is_logged'))
 		{
-			return $this->setError('msg_not_logged');
+			throw new Rhymix\Framework\Exceptions\MustLogin;
 		}
 
 		$logged_info = Context::get('logged_info');
@@ -664,7 +664,7 @@ class communicationController extends communication
 
 		if(!$args->title)
 		{
-			return $this->setError('msg_invalid_request');
+			throw new Rhymix\Framework\Exceptions\InvalidRequest;
 		}
 
 		// modify if friend_group_srl exists.
@@ -726,7 +726,7 @@ class communicationController extends communication
 		// Check login information
 		if(!Context::get('is_logged'))
 		{
-			return $this->setError('msg_not_logged');
+			throw new Rhymix\Framework\Exceptions\MustLogin;
 		}
 
 		$logged_info = Context::get('logged_info');
@@ -740,7 +740,7 @@ class communicationController extends communication
 
 		if(!$args->title)
 		{
-			return $this->setError('msg_invalid_request');
+			throw new Rhymix\Framework\Exceptions\InvalidRequest;
 		}
 
 		$output = executeQuery('communication.renameFriendGroup', $args);
@@ -761,7 +761,7 @@ class communicationController extends communication
 		// Check login information
 		if(!Context::get('is_logged'))
 		{
-			return $this->setError('msg_not_logged');
+			throw new Rhymix\Framework\Exceptions\MustLogin;
 		}
 
 		$logged_info = Context::get('logged_info');
