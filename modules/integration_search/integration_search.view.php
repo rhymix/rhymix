@@ -49,7 +49,7 @@ class integration_searchView extends integration_search
 		}
 		
 		// Check permissions
-		if(!$this->grant->access) return $this->setError('msg_not_permitted');
+		if(!$this->grant->access) throw new Rhymix\Framework\Exception('msg_not_permitted');
 
 		$config = $oModuleModel->getModuleConfig('integration_search');
 		if(!$config) $config = new stdClass;

@@ -24,7 +24,7 @@ class boardController extends board
 		// check grant
 		if(!$this->grant->write_document)
 		{
-			return $this->setError('msg_not_permitted');
+			throw new Rhymix\Framework\Exception('msg_not_permitted');
 		}
 		
 		// setup variables
@@ -35,14 +35,14 @@ class boardController extends board
 		// Return error if content is empty.
 		if (is_empty_html_content($obj->content))
 		{
-			return $this->setError('msg_empty_content');
+			throw new Rhymix\Framework\Exception('msg_empty_content');
 		}
 		
 		// Return error if content is too large.
 		$document_length_limit = ($this->module_info->document_length_limit ?: 1024) * 1024;
 		if (strlen($obj->content) > $document_length_limit && !$this->grant->manager)
 		{
-			return $this->setError('msg_content_too_long');
+			throw new Rhymix\Framework\Exception('msg_content_too_long');
 		}
 		
 		// unset document style if not manager
@@ -107,14 +107,14 @@ class boardController extends board
 		{
 			if(!$oDocument->isGranted())
 			{
-				return $this->setError('msg_not_permitted');
+				throw new Rhymix\Framework\Exception('msg_not_permitted');
 			}
 			
 			// Protect admin document
 			$member_info = getModel('member')->getMemberInfoByMemberSrl($oDocument->get('member_srl'));
 			if($member_info->is_admin == 'Y' && $logged_info->is_admin != 'Y')
 			{
-				return $this->setError('msg_admin_document_no_modify');
+				throw new Rhymix\Framework\Exception('msg_admin_document_no_modify');
 			}
 			
 			// if document status is temp
@@ -138,7 +138,7 @@ class boardController extends board
 				{
 					if($oDocument->get('comment_count') > 0 && !$this->grant->manager)
 					{
-						return $this->setError('msg_protect_update_content');
+						throw new Rhymix\Framework\Exception('msg_protect_update_content');
 					}
 				}
 				
@@ -147,7 +147,7 @@ class boardController extends board
 				{
 					if($oDocument->get('regdate') < date('YmdHis', strtotime('-' . $this->module_info->protect_document_regdate . ' day')))
 					{
-						return $this->setError(sprintf(lang('msg_protect_regdate_document'), $this->module_info->protect_document_regdate));
+						throw new Rhymix\Framework\Exception(sprintf(lang('msg_protect_regdate_document'), $this->module_info->protect_document_regdate));
 					}
 				}
 				
@@ -235,7 +235,7 @@ class boardController extends board
 		$logged_info = Context::get('logged_info');
 		if(!$update_id)
 		{
-			return $this->setError('msg_no_update_id');
+			throw new Rhymix\Framework\Exception('msg_no_update_id');
 		}
 
 		$oDocumentModel = getModel('document');
@@ -247,13 +247,13 @@ class boardController extends board
 			$Exists_log = $oDocumentModel->getUpdateLogAdminisExists($update_log->document_srl);
 			if($Exists_log === true)
 			{
-				return $this->setError('msg_admin_update_log');
+				throw new Rhymix\Framework\Exception('msg_admin_update_log');
 			}
 		}
 
 		if(!$update_log)
 		{
-			return $this->setError('msg_no_update_log');
+			throw new Rhymix\Framework\Exception('msg_no_update_log');
 		}
 
 		$oDocument = $oDocumentModel->getDocument($update_log->document_srl);
@@ -282,7 +282,7 @@ class boardController extends board
 		// if the document is not existed
 		if(!$document_srl)
 		{
-			return $this->setError('msg_invalid_document');
+			throw new Rhymix\Framework\Exception('msg_invalid_document');
 		}
 
 		$oDocumentModel = &getModel('document');
@@ -292,7 +292,7 @@ class boardController extends board
 		{
 			if($oDocument->get('comment_count') > 0 && $this->grant->manager == false)
 			{
-				return $this->setError('msg_protect_delete_content');
+				throw new Rhymix\Framework\Exception('msg_protect_delete_content');
 			}
 		}
 
@@ -302,7 +302,7 @@ class boardController extends board
 			{
 				$format =  lang('msg_protect_regdate_document');
 				$massage = sprintf($format, $this->module_info->protect_document_regdate);
-				return $this->setError($massage);
+				throw new Rhymix\Framework\Exception($massage);
 			}
 		}
 		// generate document module controller object
@@ -356,7 +356,7 @@ class boardController extends board
 		// check grant
 		if(!$this->grant->write_comment)
 		{
-			return $this->setError('msg_not_permitted');
+			throw new Rhymix\Framework\Exception('msg_not_permitted');
 		}
 		$logged_info = Context::get('logged_info');
 
@@ -367,14 +367,14 @@ class boardController extends board
 		// Return error if content is empty.
 		if (is_empty_html_content($obj->content))
 		{
-			return $this->setError('msg_empty_content');
+			throw new Rhymix\Framework\Exception('msg_empty_content');
 		}
 
 		// Return error if content is too large.
 		$comment_length_limit = ($this->module_info->comment_length_limit ?: 128) * 1024;
 		if (strlen($obj->content) > $comment_length_limit && !$this->grant->manager)
 		{
-			return $this->setError('msg_content_too_long');
+			throw new Rhymix\Framework\Exception('msg_content_too_long');
 		}
 		
 		if(!$this->module_info->use_status) $this->module_info->use_status = 'PUBLIC';
@@ -398,7 +398,7 @@ class boardController extends board
 		$oDocument = $oDocumentModel->getDocument($obj->document_srl);
 		if(!$oDocument->isExists())
 		{
-			return $this->setError('msg_not_founded');
+			throw new Rhymix\Framework\Exception('msg_not_founded');
 		}
 
 		// For anonymous use, remove writer's information and notifying information
@@ -436,7 +436,7 @@ class boardController extends board
 				$childs = $oCommentModel->getChildComments($obj->comment_srl);
 				if(count($childs) > 0)
 				{
-					return $this->setError('msg_board_update_protect_comment');
+					throw new Rhymix\Framework\Exception('msg_board_update_protect_comment');
 				}
 			}
 		}
@@ -446,7 +446,7 @@ class boardController extends board
 
 		if($member_info->is_admin == 'Y' && $logged_info->is_admin != 'Y')
 		{
-			return $this->setError('msg_admin_comment_no_modify');
+			throw new Rhymix\Framework\Exception('msg_admin_comment_no_modify');
 		}
 
 		// INSERT if comment_srl does not exist.
@@ -461,7 +461,7 @@ class boardController extends board
 				$parent_comment = $oCommentModel->getComment($obj->parent_srl);
 				if(!$parent_comment->comment_srl)
 				{
-					return $this->setError('msg_invalid_request');
+					throw new Rhymix\Framework\Exception('msg_invalid_request');
 				}
 				if($parent_comment->isSecret() && $this->module_info->secret === 'Y')
 				{
@@ -490,13 +490,13 @@ class boardController extends board
 				{
 					$format =  lang('msg_protect_regdate_comment');
 					$massage = sprintf($format, $this->module_info->protect_document_regdate);
-					return $this->setError($massage);
+					throw new Rhymix\Framework\Exception($massage);
 				}
 			}
 			// check the grant
 			if(!$comment->isGranted())
 			{
-				return $this->setError('msg_not_permitted');
+				throw new Rhymix\Framework\Exception('msg_not_permitted');
 			}
 			$obj->parent_srl = $comment->parent_srl;
 			$output = $oCommentController->updateComment($obj, $this->grant->manager);
@@ -530,7 +530,7 @@ class boardController extends board
 
 		if(!$comment_srl)
 		{
-			return $this->setError('msg_invalid_request');
+			throw new Rhymix\Framework\Exception('msg_invalid_request');
 		}
 
 		$oCommentModel = getModel('comment');
@@ -540,7 +540,7 @@ class boardController extends board
 			$childs = $oCommentModel->getChildComments($comment_srl);
 			if(count($childs) > 0)
 			{
-				return $this->setError('msg_board_delete_protect_comment');
+				throw new Rhymix\Framework\Exception('msg_board_delete_protect_comment');
 			}
 		}
 		$comment = $oCommentModel->getComment($comment_srl, $this->grant->manager);
@@ -550,7 +550,7 @@ class boardController extends board
 			{
 				$format =  lang('msg_protect_regdate_comment');
 				$massage = sprintf($format, $this->module_info->protect_document_regdate);
-				return $this->setError($massage);
+				throw new Rhymix\Framework\Exception($massage);
 			}
 		}
 		// generate comment  controller object
@@ -662,13 +662,13 @@ class boardController extends board
 			$oComment = $oCommentModel->getComment($comment_srl);
 			if(!$oComment->isExists())
 			{
-				return $this->setError('msg_invalid_request');
+				throw new Rhymix\Framework\Exception('msg_invalid_request');
 			}
 
 			// compare the comment password and the user input password
 			if(!$oMemberModel->isValidPassword($oComment->get('password'),$password))
 			{
-				return $this->setError('msg_invalid_password');
+				throw new Rhymix\Framework\Exception('msg_invalid_password');
 			}
 
 			$oComment->setGrantForSession();
@@ -678,13 +678,13 @@ class boardController extends board
 			$oDocument = $oDocumentModel->getDocument($document_srl);
 			if(!$oDocument->isExists())
 			{
-				return $this->setError('msg_invalid_request');
+				throw new Rhymix\Framework\Exception('msg_invalid_request');
 			}
 
 			// compare the document password and the user input password
 			if(!$oMemberModel->isValidPassword($oDocument->get('password'),$password))
 			{
-				return $this->setError('msg_invalid_password');
+				throw new Rhymix\Framework\Exception('msg_invalid_password');
 			}
 
 			$oDocument->setGrantForSession();

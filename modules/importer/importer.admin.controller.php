@@ -292,12 +292,12 @@ class importerAdminController extends importer
 		$this->unit_count = Context::get('unit_count');
 		// Check if an index file exists
 		$index_file = './files/cache/importer/'.$key.'/index';
-		if(!file_exists($index_file)) return $this->setError('msg_invalid_xml_file');
+		if(!file_exists($index_file)) throw new Rhymix\Framework\Exception('msg_invalid_xml_file');
 
 		switch($type)
 		{
 			case 'ttxml' :
-				if(!$target_module) return $this->setError('msg_invalid_request');
+				if(!$target_module) throw new Rhymix\Framework\Exception('msg_invalid_request');
 
 				$oModuleModel = getModel('module');
 				$columnList = array('module_srl', 'module');
@@ -317,7 +317,7 @@ class importerAdminController extends importer
 				break;
 			case 'module' :
 				// Check if the target module exists
-				if(!$target_module) return $this->setError('msg_invalid_request');
+				if(!$target_module) throw new Rhymix\Framework\Exception('msg_invalid_request');
 				$cur = $this->importModule($key, $cur, $index_file, $target_module);
 				break;
 		}
