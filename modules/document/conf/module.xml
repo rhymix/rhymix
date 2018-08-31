@@ -2,11 +2,11 @@
 <module>
 	<grants />
 	<actions>
-		<action name="dispDocumentPrint" type="view" />
-		<action name="dispDocumentPreview" type="view" />
-		<action name="dispTempSavedList" type="view" permission="member" />
-		<action name="dispDocumentDeclare" type="view" permission="member" />
-		<action name="dispDocumentManageDocument" type="view" permission="all-managers" />
+		<action name="dispDocumentPrint" type="view" meta-noindex="true"/>
+		<action name="dispDocumentPreview" type="view" meta-noindex="true"/>
+		<action name="dispTempSavedList" type="view" permission="member" meta-noindex="true"/>
+		<action name="dispDocumentDeclare" type="view" permission="member" meta-noindex="true" />
+		<action name="dispDocumentManageDocument" type="view" permission="all-managers" meta-noindex="true" />
 		
 		<action name="getDocumentMenu" type="model" />
 		<action name="getDocumentCategories" type="model" permission="all-managers" />
