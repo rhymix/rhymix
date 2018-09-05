@@ -158,7 +158,14 @@ class ModuleObject extends BaseObject
 		// Execute init
 		if(method_exists($this, 'init'))
 		{
-			$this->init();
+			try
+			{
+				$this->init();
+			}
+			catch (Rhymix\Framework\Exception $e)
+			{
+				$this->stop($e->getMessage());
+			}
 		}
 	}
 	
