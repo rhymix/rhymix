@@ -76,7 +76,7 @@ class fileAdminController extends file
 		{
 			if ($config->allowed_filesize > 2047 || $config->allowed_attach_size > 2047)
 			{
-				return $this->setError('msg_32bit_max_2047mb');
+				throw new Rhymix\Framework\Exception('msg_32bit_max_2047mb');
 			}
 		}
 		
@@ -125,7 +125,7 @@ class fileAdminController extends file
 		{
 			if ($file_config->allowed_filesize > 2047 || $file_config->allowed_attach_size > 2047)
 			{
-				return $this->setError('msg_32bit_max_2047mb');
+				throw new Rhymix\Framework\Exception('msg_32bit_max_2047mb');
 			}
 		}
 		

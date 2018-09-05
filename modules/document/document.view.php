@@ -36,9 +36,9 @@ class documentView extends document
 		$oDocumentModel = getModel('document');
 		// Creates an object for displaying the selected document
 		$oDocument = $oDocumentModel->getDocument($document_srl, $this->grant->manager);
-		if(!$oDocument->isExists()) return $this->setError('msg_invalid_request');
+		if(!$oDocument->isExists()) throw new Rhymix\Framework\Exceptions\InvalidRequest;
 		// Check permissions
-		if(!$oDocument->isAccessible()) return $this->setError('msg_not_permitted');
+		if(!$oDocument->isAccessible()) throw new Rhymix\Framework\Exceptions\NotPermitted;
 		// Information setting module
 		//Context::set('module_info', $module_info);	//module_info not use in UI
 		// Browser title settings
@@ -58,7 +58,7 @@ class documentView extends document
 	{
 		if(!checkCSRF())
 		{
-			return $this->setError('msg_invalid_request');
+			throw new Rhymix\Framework\Exceptions\InvalidRequest;
 		} 
 		
 		$content = Context::get('content');
@@ -87,7 +87,7 @@ class documentView extends document
 	 */
 	function dispDocumentManageDocument()
 	{
-		if(!Context::get('is_logged')) return $this->setError('msg_not_permitted');
+		if(!Context::get('is_logged')) throw new Rhymix\Framework\Exceptions\NotPermitted;
 		// Taken from a list of selected sessions
 		$flag_list = $_SESSION['document_management'];
 		if(count($flag_list))
@@ -206,7 +206,7 @@ class documentView extends document
 		// A message appears if the user is not logged-in
 		if(!$oMemberModel->isLogged())
 		{
-			return $this->stop('msg_not_logged');
+			throw new Rhymix\Framework\Exceptions\MustLogin;
 		}
 
 		// Create the document object. If the document module of basic data structures, write it all works .. -_-;
@@ -215,12 +215,12 @@ class documentView extends document
 		$oDocument = $oDocumentModel->getDocument($document_srl, $this->grant->manager, FALSE);
 		if(!$oDocument->isExists())
 		{
-			return $this->setError('msg_invalid_request');
+			throw new Rhymix\Framework\Exceptions\InvalidRequest;
 		}
 		// Check permissions
 		if(!$oDocument->isAccessible())
 		{
-			return $this->setError('msg_not_permitted');
+			throw new Rhymix\Framework\Exceptions\NotPermitted;
 		}
 
 		// Browser title settings

@@ -28,21 +28,21 @@ class documentController extends document
 		{
 			if(!Context::get('is_logged'))
 			{
-				return $this->setError('msg_invalid_request');
+				throw new Rhymix\Framework\Exceptions\NotPermitted;
 			}
 		}
 
 		$document_srl = Context::get('target_srl');
-		if(!$document_srl) return $this->setError('msg_invalid_request');
+		if(!$document_srl) throw new Rhymix\Framework\Exceptions\InvalidRequest;
 
 		$oDocumentModel = getModel('document');
 		$oDocument = $oDocumentModel->getDocument($document_srl, false, false);
 		$module_srl = $oDocument->get('module_srl');
-		if(!$module_srl) return $this->setError('msg_invalid_request');
+		if(!$module_srl) throw new Rhymix\Framework\Exceptions\InvalidRequest;
 
 		$oModuleModel = getModel('module');
 		$document_config = $oModuleModel->getModulePartConfig('document',$module_srl);
-		if($document_config->use_vote_up=='N') return $this->setError('msg_invalid_request');
+		if($document_config->use_vote_up=='N') throw new Rhymix\Framework\Exceptions\InvalidRequest;
 
 		$point = 1;
 		$output = $this->updateVotedCount($document_srl, $point);
@@ -60,18 +60,18 @@ class documentController extends document
 		{
 			if(!Context::get('is_logged'))
 			{
-				return $this->setError('msg_invalid_request');
+				throw new Rhymix\Framework\Exceptions\NotPermitted;
 			}
 		}
 
 		$document_srl = Context::get('target_srl');
-		if(!$document_srl) return $this->setError('msg_invalid_request');
+		if(!$document_srl) throw new Rhymix\Framework\Exceptions\InvalidRequest;
 
 		$oDocumentModel = getModel('document');
 		$oDocument = $oDocumentModel->getDocument($document_srl, false, false);
 		if($oDocument->get('voted_count') <= 0)
 		{
-			return $this->setError('msg_document_voted_cancel_not');
+			throw new Rhymix\Framework\Exception('msg_document_voted_cancel_not');
 		}
 		$point = 1;
 		$output = $this->updateVotedCountCancel($document_srl, $oDocument, $point);
@@ -114,21 +114,21 @@ class documentController extends document
 		{
 			if(!Context::get('is_logged'))
 			{
-				return $this->setError('msg_invalid_request');
+				throw new Rhymix\Framework\Exceptions\NotPermitted;
 			}
 		}
 
 		$document_srl = Context::get('target_srl');
-		if(!$document_srl) return $this->setError('msg_invalid_request');
+		if(!$document_srl) throw new Rhymix\Framework\Exceptions\InvalidRequest;
 
 		$oDocumentModel = getModel('document');
 		$oDocument = $oDocumentModel->getDocument($document_srl, false, false);
 		$module_srl = $oDocument->get('module_srl');
-		if(!$module_srl) return $this->setError('msg_invalid_request');
+		if(!$module_srl) throw new Rhymix\Framework\Exceptions\InvalidRequest;
 
 		$oModuleModel = getModel('module');
 		$document_config = $oModuleModel->getModulePartConfig('document',$module_srl);
-		if($document_config->use_vote_down=='N') return $this->setError('msg_invalid_request');
+		if($document_config->use_vote_down=='N') throw new Rhymix\Framework\Exceptions\InvalidRequest;
 
 		$point = -1;
 		$output = $this->updateVotedCount($document_srl, $point);
@@ -146,18 +146,18 @@ class documentController extends document
 		{
 			if(!Context::get('is_logged'))
 			{
-				return $this->setError('msg_invalid_request');
+				throw new Rhymix\Framework\Exceptions\NotPermitted;
 			}
 		}
 
 		$document_srl = Context::get('target_srl');
-		if(!$document_srl) return $this->setError('msg_invalid_request');
+		if(!$document_srl) throw new Rhymix\Framework\Exceptions\InvalidRequest;
 
 		$oDocumentModel = getModel('document');
 		$oDocument = $oDocumentModel->getDocument($document_srl, false, false);
 		if($oDocument->get('blamed_count') >= 0)
 		{
-			return $this->setError('msg_document_voted_cancel_not');
+			throw new Rhymix\Framework\Exception('msg_document_voted_cancel_not');
 		}
 		$point = -1;
 		$output = $this->updateVotedCountCancel($document_srl, $oDocument, $point);
@@ -229,13 +229,13 @@ class documentController extends document
 	{
 		if(!Context::get('is_logged'))
 		{
-			return $this->setError('msg_not_logged');
+			throw new Rhymix\Framework\Exceptions\MustLogin;
 		}
 
 		$document_srl = intval(Context::get('target_srl'));
 		if(!$document_srl)
 		{
-			return $this->setError('msg_invalid_request');
+			throw new Rhymix\Framework\Exceptions\InvalidRequest;
 		}
 
 		// if an user select message from options, message would be the option.
@@ -2495,7 +2495,10 @@ class documentController extends document
 	 */
 	function procDocumentAddCart()
 	{
-		if(!Context::get('is_logged')) return $this->setError('msg_not_permitted');
+		if(!Context::get('is_logged'))
+		{
+			throw new Rhymix\Framework\Exceptions\NotPermitted;
+		}
 
 		// Get document_srl
 		$srls = explode(',',Context::get('srls'));
@@ -2587,12 +2590,12 @@ class documentController extends document
 			$module_info = getModel('module')->getModuleInfoByModuleSrl($obj->target_module_srl);
 			if (!$module_info->module_srl)
 			{
-				return $this->setError('msg_invalid_request');
+				throw new Rhymix\Framework\Exceptions\InvalidRequest;
 			}
 			$module_grant = getModel('module')->getGrant($module_info, $logged_info);
 			if (!$module_grant->manager)
 			{
-				return $this->setError('msg_not_permitted');
+				throw new Rhymix\Framework\Exceptions\NotPermitted;
 			}
 		}
 		
@@ -2608,7 +2611,7 @@ class documentController extends document
 		$obj->document_list = getModel('document')->getDocuments($obj->document_srl_list, false, false);
 		if(empty($obj->document_list))
 		{
-			return $this->setError('msg_invalid_request');
+			throw new Rhymix\Framework\Exceptions\InvalidRequest;
 		}
 		
 		// Call a trigger (before)
@@ -2623,7 +2626,7 @@ class documentController extends document
 		{
 			if(!$obj->target_module_srl)
 			{
-				return $this->setError('fail_to_move');
+				throw new Rhymix\Framework\Exception('fail_to_move');
 			}
 			
 			$output = $oController->moveDocumentModule($obj->document_srl_list, $obj->target_module_srl, $obj->target_category_srl);
@@ -2638,7 +2641,7 @@ class documentController extends document
 		{
 			if(!$obj->target_module_srl)
 			{
-				return $this->setError('fail_to_move');
+				throw new Rhymix\Framework\Exception('fail_to_move');
 			}
 			
 			$output = $oController->copyDocumentModule($obj->document_srl_list, $obj->target_module_srl, $obj->target_category_srl);
@@ -2695,7 +2698,7 @@ class documentController extends document
 		}
 		else
 		{
-			return $this->setError('msg_invalid_request');
+			throw new Rhymix\Framework\Exceptions\InvalidRequest;
 		}
 		
 		// Call a trigger (after)
@@ -2764,13 +2767,13 @@ Content;
 			$module_info = $oModuleModel->getModuleInfoByModuleSrl($srl);
 			if (!$module_info->module_srl)
 			{
-				return $this->setError('msg_invalid_request');
+				throw new Rhymix\Framework\Exceptions\InvalidRequest;
 			}
 			
 			$module_grant = $oModuleModel->getGrant($module_info, $logged_info);
 			if (!$module_grant->manager)
 			{
-				return $this->setError('msg_not_permitted');
+				throw new Rhymix\Framework\Exceptions\NotPermitted;
 			}
 			
 			$module_srl[] = $srl;
@@ -2811,7 +2814,7 @@ Content;
 	{
 		if(!$this->module_srl)
 		{
-			return $this->setError('msg_invalid_request');
+			throw new Rhymix\Framework\Exceptions\InvalidRequest;
 		}
 		
 		$obj = Context::getRequestVars();
@@ -2834,12 +2837,12 @@ Content;
 		{
 			if(!$oDocument->isGranted())
 			{
-				return $this->setError('msg_invalid_request');
+				throw new Rhymix\Framework\Exceptions\NotPermitted;
 			}
 			
 			if($oDocument->get('status') != $this->getConfigStatus('temp'))
 			{
-				return $this->setError('msg_invalid_request');
+				throw new Rhymix\Framework\Exceptions\InvalidRequest;
 			}
 			
 			$output = $this->updateDocument($oDocument, $obj);
@@ -2871,7 +2874,11 @@ Content;
 	 */
 	function procDocumentGetList()
 	{
-		if(!Context::get('is_logged')) return $this->setError('msg_not_permitted');
+		if(!Context::get('is_logged'))
+		{
+			throw new Rhymix\Framework\Exceptions\NotPermitted;
+		}
+		
 		$documentSrls = Context::get('document_srls');
 		if($documentSrls) $documentSrlList = explode(',', $documentSrls);
 

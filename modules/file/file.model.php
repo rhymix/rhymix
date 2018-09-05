@@ -45,7 +45,7 @@ class fileModel extends file
 				$oComment = $oCommentModel->getComment($upload_target_srl);
 				if($oComment->isExists() && !$oComment->isAccessible())
 				{
-					return $this->setError('msg_not_permitted');
+					throw new Rhymix\Framework\Exceptions\NotPermitted;
 				}
 
 				$oDocument = $oDocumentModel->getDocument($oComment->get('document_srl'));
@@ -54,7 +54,7 @@ class fileModel extends file
 			// document 권한 확인
 			if($oDocument->isExists() && !$oDocument->isAccessible())
 			{
-				return $this->setError('msg_not_permitted');
+				throw new Rhymix\Framework\Exceptions\NotPermitted;
 			}
 
 			// 모듈 권한 확인
@@ -63,7 +63,7 @@ class fileModel extends file
 				$grant = $oModuleModel->getGrant($oModuleModel->getModuleInfoByModuleSrl($oDocument->get('module_srl')), $logged_info);
 				if(!$grant->access)
 				{
-					return $this->setError('msg_not_permitted');
+					throw new Rhymix\Framework\Exceptions\NotPermitted;
 				}
 			}
 

@@ -39,7 +39,7 @@ class fileController extends file
 		// Exit a session if there is neither upload permission nor information
 		if(!$_SESSION['upload_info'][$editor_sequence]->enabled)
 		{
-			return $this->setError('msg_not_permitted');
+			throw new Rhymix\Framework\Exceptions\NotPermitted;
 		}
 		
 		// Get upload_target_srl
@@ -63,7 +63,7 @@ class fileController extends file
 			$total_size = intval($matches[3]);
 			if ($chunk_start < 0 || $chunk_size < 0 || $total_size < 0 || $chunk_start + $chunk_size > $total_size || $chunk_size != $file_info['size'])
 			{
-				return $this->setError('msg_upload_invalid_chunk');
+				throw new Rhymix\Framework\Exception('msg_upload_invalid_chunk');
 			}
 			$this->add('chunk_current_size', $chunk_size);
 			$this->add('chunk_uploaded_size', $chunk_start);
@@ -76,13 +76,13 @@ class fileController extends file
 			{
 				Rhymix\Framework\Storage::delete($temp_filename);
 				$this->add('chunk_status', 11);
-				return $this->setError('msg_upload_invalid_chunk');
+				throw new Rhymix\Framework\Exception('msg_upload_invalid_chunk');
 			}
 			if ($chunk_start != 0 && (!Rhymix\Framework\Storage::isFile($temp_filename) || Rhymix\Framework\Storage::getSize($temp_filename) != $chunk_start))
 			{
 				Rhymix\Framework\Storage::delete($temp_filename);
 				$this->add('chunk_status', 12);
-				return $this->setError('msg_upload_invalid_chunk');
+				throw new Rhymix\Framework\Exception('msg_upload_invalid_chunk');
 			}
 			
 			// Check size limit
@@ -95,13 +95,13 @@ class fileController extends file
 				if ($total_size > $allowed_filesize)
 				{
 					$this->add('chunk_status', 21);
-					return $this->setError('msg_exceeds_limit_size');
+					throw new Rhymix\Framework\Exception('msg_exceeds_limit_size');
 				}
 				$output = executeQuery('file.getAttachedFileSize', (object)array('upload_target_srl' => $upload_target_srl));
 				if (intval($output->data->attached_size) + $total_size > $allowed_attach_size)
 				{
 					$this->add('chunk_status', 22);
-					return $this->setError('msg_exceeds_limit_size');
+					throw new Rhymix\Framework\Exception('msg_exceeds_limit_size');
 				}
 			}
 			
@@ -126,7 +126,7 @@ class fileController extends file
 			{
 				Rhymix\Framework\Storage::delete($temp_filename);
 				$this->add('chunk_status', 40);
-				return $this->setError('msg_upload_invalid_chunk');
+				throw new Rhymix\Framework\Exception('msg_upload_invalid_chunk');
 			}
 		}
 		else
@@ -207,14 +207,14 @@ class fileController extends file
 
 		if(!$file_srl || !$width)
 		{
-			return $this->setError('msg_invalid_request');
+			throw new Rhymix\Framework\Exceptions\InvalidRequest;
 		}
 
 		$oFileModel = getModel('file');
 		$fileInfo = $oFileModel->getFile($file_srl);
 		if(!$fileInfo || $fileInfo->direct_download != 'Y')
 		{
-			return $this->setError('msg_invalid_request');
+			throw new Rhymix\Framework\Exceptions\InvalidRequest;
 		}
 
 		$source_src = $fileInfo->uploaded_filename;
@@ -230,7 +230,7 @@ class fileController extends file
 		}
 		else
 		{
-			return $this->setError('msg_invalid_request');
+			throw new Rhymix\Framework\Exceptions\InvalidRequest;
 		}
 
 		$this->add('resized_info',$output);
@@ -271,7 +271,10 @@ class fileController extends file
 	{
 		$oFileModel = getModel('file');
 
-		if(isset($this->grant->access) && $this->grant->access !== true) return $this->setError('msg_not_permitted');
+		if(isset($this->grant->access) && $this->grant->access !== true)
+		{
+			throw new Rhymix\Framework\Exceptions\NotPermitted;
+		}
 
 		$file_srl = Context::get('file_srl');
 		$sid = Context::get('sid');
@@ -586,11 +589,15 @@ class fileController extends file
 	 */
 	function procFileGetList()
 	{
-		if(!Context::get('is_logged')) return $this->setError('msg_not_permitted');
+		if(!Context::get('is_logged'))
+		{
+			throw new Rhymix\Framework\Exceptions\NotPermitted;
+		}
+		
 		$logged_info = Context::get('logged_info');
 		if($logged_info->is_admin !== 'Y' && !getModel('module')->isSiteAdmin($logged_info))
 		{
-			return $this->setError('msg_not_permitted');
+			throw new Rhymix\Framework\Exceptions\NotPermitted;
 		}
 		
 		$fileSrls = Context::get('file_srls');
@@ -842,13 +849,13 @@ class fileController extends file
 				$allowed_filesize = $config->allowed_filesize * 1024 * 1024;
 				$allowed_attach_size = $config->allowed_attach_size * 1024 * 1024;
 				// An error appears if file size exceeds a limit
-				if($allowed_filesize < filesize($file_info['tmp_name'])) return $this->setError('msg_exceeds_limit_size');
+				if($allowed_filesize < filesize($file_info['tmp_name'])) throw new Rhymix\Framework\Exception('msg_exceeds_limit_size');
 				// Get total file size of all attachements (from DB)
 				$size_args = new stdClass;
 				$size_args->upload_target_srl = $upload_target_srl;
 				$output = executeQuery('file.getAttachedFileSize', $size_args);
 				$attached_size = (int)$output->data->attached_size + filesize($file_info['tmp_name']);
-				if($attached_size > $allowed_attach_size) return $this->setError('msg_exceeds_limit_size');
+				if($attached_size > $allowed_attach_size) throw new Rhymix\Framework\Exception('msg_exceeds_limit_size');
 			}
 		}
 
@@ -885,7 +892,7 @@ class fileController extends file
 		// Create a directory
 		if(!Rhymix\Framework\Storage::isDirectory($path) && !Rhymix\Framework\Storage::createDirectory($path))
 		{
-			return $this->setError('msg_not_permitted_create');
+			throw new Rhymix\Framework\Exception('msg_not_permitted_create');
 		}
 		
 		// Move the file
@@ -897,7 +904,7 @@ class fileController extends file
 				@copy($file_info['tmp_name'], $filename);
 				if(!file_exists($filename))
 				{
-					return $this->setError('msg_file_upload_error');
+					throw new Rhymix\Framework\Exception('msg_file_upload_error');
 				}
 			}
 		}
@@ -907,7 +914,7 @@ class fileController extends file
 			{
 				if (!Rhymix\Framework\Storage::move($file_info['tmp_name'], $filename))
 				{
-					return $this->setError('msg_file_upload_error');
+					throw new Rhymix\Framework\Exception('msg_file_upload_error');
 				}
 			}
 		}
@@ -917,7 +924,7 @@ class fileController extends file
 			{
 				if(!@move_uploaded_file($file_info['tmp_name'], $filename))
 				{
-					return $this->setError('msg_file_upload_error');
+					throw new Rhymix\Framework\Exception('msg_file_upload_error');
 				}
 			}
 		}
@@ -1173,16 +1180,16 @@ class fileController extends file
 		$vars = Context::getRequestVars();
 		$logged_info = Context::get('logged_info');
 
-		if(!$vars->editor_sequence) return $this->setError('msg_invalid_request');
+		if(!$vars->editor_sequence) throw new Rhymix\Framework\Exceptions\InvalidRequest;
 
 		$upload_target_srl = $_SESSION['upload_info'][$vars->editor_sequence]->upload_target_srl;
 
 		$oFileModel = getModel('file');
 		$file_info = $oFileModel->getFile($vars->file_srl);
 
-		if(!$file_info) return $this->setError('msg_not_founded');
+		if(!$file_info) throw new Rhymix\Framework\Exceptions\TargetNotFound;
 
-		if(!$this->manager && !$file_info->member_srl === $logged_info->member_srl) return $this->setError('msg_not_permitted');
+		if(!$this->manager && !$file_info->member_srl === $logged_info->member_srl) throw new Rhymix\Framework\Exceptions\NotPermitted;
 
 		$args =  new stdClass();
 		$args->file_srl = $vars->file_srl;

@@ -977,7 +977,7 @@ class commentModel extends comment
 		$comment_srl = Context::get('comment_srl');
 		if(!$comment_srl)
 		{
-			return $this->setError('msg_invalid_request');
+			throw new Rhymix\Framework\Exceptions\InvalidRequest;
 		}
 
 		$point = Context::get('point');
@@ -991,7 +991,7 @@ class commentModel extends comment
 		$module_srl = $oComment->get('module_srl');
 		if(!$module_srl)
 		{
-			return $this->setError('msg_invalid_request');
+			throw new Rhymix\Framework\Exceptions\InvalidRequest;
 		}
 
 		$oModuleModel = getModel('module');
@@ -1003,7 +1003,7 @@ class commentModel extends comment
 		{
 			if($comment_config->use_vote_down != 'S')
 			{
-				return $this->setError('msg_invalid_request');
+				throw new Rhymix\Framework\Exceptions\InvalidRequest;
 			}
 
 			$args->below_point = 0;
@@ -1012,7 +1012,7 @@ class commentModel extends comment
 		{
 			if($comment_config->use_vote_up != 'S')
 			{
-				return $this->setError('msg_invalid_request');
+				throw new Rhymix\Framework\Exceptions\InvalidRequest;
 			}
 
 			$args->more_point = 0;

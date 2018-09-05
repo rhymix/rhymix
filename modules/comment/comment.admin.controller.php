@@ -96,7 +96,7 @@ class commentAdminController extends comment
 				$comment = $oCommentModel->getComment($comment_srl);
 				if($comment->comment_srl != $comment_srl)
 				{
-					return $this->setError('msg_invalid_request');
+					throw new Rhymix\Framework\Exceptions\InvalidRequest;
 				}
 				$document_srl = $comment->document_srl;
 				if(!in_array($document_srl, $updated_documents_arr))
