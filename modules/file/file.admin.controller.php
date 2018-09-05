@@ -32,11 +32,11 @@ class fileAdminController extends file
 	{
 		// An error appears if no document is selected
 		$cart = Context::get('cart');
-		if(!$cart) return $this->stop('msg_file_cart_is_null');
+		if(!$cart) throw new Rhymix\Framework\Exception('msg_file_cart_is_null');
 		if(!is_array($cart)) $file_srl_list= explode('|@|', $cart);
 		else $file_srl_list = $cart;
 		$file_count = count($file_srl_list);
-		if(!$file_count) return $this->stop('msg_file_cart_is_null');
+		if(!$file_count) throw new Rhymix\Framework\Exception('msg_file_cart_is_null');
 
 		$oFileController = getController('file');
 		// Delete the post

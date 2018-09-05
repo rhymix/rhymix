@@ -25,10 +25,10 @@ class moduleView extends module
 		$skin = Context::get('skin');
 		// Get modules/skin information
 		$module_path = sprintf("./modules/%s/", $selected_module);
-		if(!is_dir($module_path)) $this->stop("msg_invalid_request");
+		if(!is_dir($module_path)) throw new Rhymix\Framework\Exceptions\InvalidRequest;
 
 		$skin_info_xml = sprintf("%sskins/%s/skin.xml", $module_path, $skin);
-		if(!file_exists($skin_info_xml)) $this->stop("msg_invalid_request");
+		if(!file_exists($skin_info_xml)) throw new Rhymix\Framework\Exceptions\InvalidRequest;
 
 		$oModuleModel = getModel('module');
 		$skin_info = $oModuleModel->loadSkinInfo($module_path, $skin);

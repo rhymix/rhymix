@@ -867,7 +867,7 @@ class menuAdminController extends menu
 		$oAdmin = getClass('admin');
 		if($menu_title == $oAdmin->getAdminMenuName() && $itemInfo->parent_srl == 0)
 		{
-			return $this->stop('msg_cannot_delete_for_admin_topmenu');
+			return new BaseObject(-1002, 'msg_cannot_delete_for_admin_topmenu');
 		}
 
 		if($itemInfo->parent_srl) $parent_srl = $itemInfo->parent_srl;
@@ -892,7 +892,7 @@ class menuAdminController extends menu
 		$this->_checkHomeMenuInOriginMenu($originMenu, $siteInfo->mid, $isStartmenuInclude);
 		if($isStartmenuInclude)
 		{
-			throw new Rhymix\Framework\Exception('msg_cannot_delete_homemenu');
+			return new BaseObject(-1003, 'msg_cannot_delete_homemenu');
 		}
 
 		$oDB = DB::getInstance();

@@ -17,7 +17,7 @@ class installController extends install
 		// Stop if already installed.
 		if (Context::isInstalled())
 		{
-			$this->stop('msg_already_installed');
+			throw new Rhymix\Framework\Exception('msg_already_installed');
 		}
 		
 		// Increase time limit.

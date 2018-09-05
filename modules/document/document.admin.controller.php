@@ -27,10 +27,10 @@ class documentAdminController extends document
 	{
 		// error appears if no doc is selected
 		$cart = Context::get('cart');
-		if(!$cart) return $this->stop('msg_cart_is_null');
+		if(!$cart) throw new Rhymix\Framework\Exception('msg_cart_is_null');
 		$document_srl_list= explode('|@|', $cart);
 		$document_count = count($document_srl_list);
-		if(!$document_count) return $this->stop('msg_cart_is_null');
+		if(!$document_count) throw new Rhymix\Framework\Exception('msg_cart_is_null');
 		// Delete a doc
 		$oDocumentController = getController('document');
 		for($i=0;$i<$document_count;$i++)
@@ -314,7 +314,10 @@ class documentAdminController extends document
 		$oDocumentModel = getModel('document');
 		$oDocumentController = getController('document');
 		$oDocument = $oDocumentModel->getDocument($document_srl, false, false);
-		if(!$oDocument->isGranted()) return $this->stop('msg_not_permitted');
+		if(!$oDocument->isGranted())
+		{
+			throw new Rhymix\Framework\Exceptions\NotPermitted;
+		}
 
 		$oMemberModel = getModel('member');
 		$member_info = $oMemberModel->getMemberInfoByMemberSrl($oDocument->get('member_srl'));

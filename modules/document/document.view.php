@@ -172,7 +172,10 @@ class documentView extends document
 
 		$oMemberModel = getModel('member');
 		// A message appears if the user is not logged-in
-		if(!$oMemberModel->isLogged()) return $this->stop('msg_not_logged');
+		if(!$oMemberModel->isLogged())
+		{
+			throw new Rhymix\Framework\Exceptions\MustLogin;
+		}
 		// Get the saved document (module_srl is set to member_srl instead)
 		$logged_info = Context::get('logged_info');
 		$args = new stdClass();

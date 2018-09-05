@@ -145,7 +145,10 @@ class fileController extends file
 		$this->add('upload_target_srl', $output->get('upload_target_srl'));
 		$this->add('download_url', $oFileModel->getDirectFileUrl($output->get('uploaded_filename')));
 		
-		if($output->error != '0') $this->stop($output->message);
+		if($output->error != '0')
+		{
+			throw new Rhymix\Framework\Exception($output->message);
+		}
 	}
 
 	/**
@@ -283,9 +286,15 @@ class fileController extends file
 		$columnList = array('file_srl', 'sid', 'isvalid', 'source_filename', 'module_srl', 'uploaded_filename', 'file_size', 'member_srl', 'upload_target_srl', 'upload_target_type');
 		$file_obj = $oFileModel->getFile($file_srl, $columnList);
 		// If the requested file information is incorrect, an error that file cannot be found appears
-		if($file_obj->file_srl!=$file_srl || $file_obj->sid!=$sid) return $this->stop('msg_file_not_found');
+		if($file_obj->file_srl != $file_srl || $file_obj->sid !== $sid)
+		{
+			throw new Rhymix\Framework\Exceptions\TargetNotFound('msg_file_not_found');
+		}
 		// Notify that file download is not allowed when standing-by(Only a top-administrator is permitted)
-		if($logged_info->is_admin != 'Y' && $file_obj->isvalid!='Y') return $this->stop('msg_not_permitted_download');
+		if($logged_info->is_admin != 'Y' && $file_obj->isvalid != 'Y')
+		{
+			throw new Rhymix\Framework\Exceptions\NotPermitted('msg_not_permitted_download');
+		}
 		// File name
 		$filename = $file_obj->source_filename;
 		$file_module_config = $oFileModel->getFileModuleConfig($file_obj->module_srl);
@@ -334,7 +343,10 @@ class fileController extends file
 				}
 				else $file_module_config->allow_outlink = 'Y';
 			}
-			if($file_module_config->allow_outlink != 'Y') return $this->stop('msg_not_allowed_outlink');
+			if($file_module_config->allow_outlink != 'Y')
+			{
+				throw new Rhymix\Framework\Exceptions\NotPermitted('msg_not_allowed_outlink');
+			}
 		}
 
 		// Check if a permission for file download is granted
@@ -347,7 +359,11 @@ class fileController extends file
 
 		if(is_array($file_module_config->download_grant) && $downloadGrantCount>0)
 		{
-			if(!Context::get('is_logged')) return $this->stop('msg_not_permitted_download');
+			if(!Context::get('is_logged'))
+			{
+				throw new Rhymix\Framework\Exceptions\NotPermitted('msg_not_permitted_download');
+			}
+			
 			$logged_info = Context::get('logged_info');
 			if($logged_info->is_admin != 'Y')
 			{
@@ -370,14 +386,27 @@ class fileController extends file
 							break;
 						}
 					}
-					if(!$is_permitted) return $this->stop('msg_not_permitted_download');
+					if(!$is_permitted)
+					{
+						throw new Rhymix\Framework\Exceptions\NotPermitted('msg_not_permitted_download');
+					}
 				}
 			}
 		}
 
 		// Call a trigger (before)
 		$output = ModuleHandler::triggerCall('file.downloadFile', 'before', $file_obj);
-		if(!$output->toBool()) return $this->stop(($output->message)?$output->message:'msg_not_permitted_download');
+		if(!$output->toBool())
+		{
+			if ($output->message)
+			{
+				throw new Rhymix\Framework\Exception($output->message);
+			}
+			else
+			{
+				throw new Rhymix\Framework\Exceptions\NotPermitted('msg_not_permitted_download');
+			}
+		}
 
 		// Increase download_count
 		$args = new stdClass();
@@ -416,20 +445,20 @@ class fileController extends file
 		// Check file key
 		if(strlen($file_key) != 32 || !isset($_SESSION['__XE_FILE_KEY__']) || !is_string($_SESSION['__XE_FILE_KEY__']))
 		{
-			return $this->stop('msg_invalid_request');
+			throw new Rhymix\Framework\Exceptions\InvalidRequest;
 		}
 		$file_key_data = $file_srl . $file_obj->file_size . $file_obj->uploaded_filename . $_SERVER['REMOTE_ADDR'];
 		$file_key_compare = substr(hash_hmac('sha256', $file_key_data, $_SESSION['__XE_FILE_KEY__']), 0, 32);
 		if($file_key !== $file_key_compare)
 		{
-			return $this->stop('msg_invalid_request');
+			throw new Rhymix\Framework\Exceptions\InvalidRequest;
 		}
 		
 		// Check if file exists
 		$uploaded_filename = $file_obj->uploaded_filename;
 		if(!file_exists($uploaded_filename))
 		{
-			return $this->stop('msg_file_not_found');
+			throw new Rhymix\Framework\Exceptions\TargetNotFound('msg_file_not_found');
 		}
 
 		// If client sent an If-None-Match header with the correct ETag, do not download again
@@ -456,7 +485,7 @@ class fileController extends file
 		$fp = fopen($uploaded_filename, 'rb');
 		if(!$fp)
 		{
-			return $this->stop('msg_file_not_found');
+			throw new Rhymix\Framework\Exceptions\TargetNotFound('msg_file_not_found');
 		}
 
 		// Take care of pause and resume
@@ -842,7 +871,7 @@ class fileController extends file
 
 					if(!in_array($uploaded_ext, $ext))
 					{
-						return $this->stop('msg_not_allowed_filetype');
+						throw new Rhymix\Framework\Exception('msg_not_allowed_filetype');
 					}
 				}
 

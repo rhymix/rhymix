@@ -140,11 +140,11 @@ class layoutAdminView extends layout
 		$layout = Context::get('layout');
 
 		if(!in_array($type, array('P', 'M'))) $type = 'P';
-		if(!$layout) return $this->stop('msg_invalid_request');
+		if(!$layout) throw new Rhymix\Framework\Exceptions\InvalidRequest;
 
 		$oLayoutModel = getModel('layout');
 		$layout_info = $oLayoutModel->getLayoutInfo($layout, null, $type);
-		if(!$layout_info) return $this->stop('msg_invalid_request');
+		if(!$layout_info) throw new Rhymix\Framework\Exceptions\InvalidRequest;
 
 		Context::set('layout_info', $layout_info);
 
@@ -175,10 +175,10 @@ class layoutAdminView extends layout
 
 		// Get layout info
 		$layout = Context::get('layout');
-		if($layout == 'faceoff') return $this->stop('not supported');
+		if($layout == 'faceoff') throw new Rhymix\Framework\Exception('not supported');
 
 		$layout_info = $oModel->getLayoutInfo($layout, null, $type);
-		if(!$layout_info) return $this->stop('msg_invalid_request');
+		if(!$layout_info) throw new Rhymix\Framework\Exceptions\InvalidRequest;
 
 		// get Menu list
 		$oMenuAdminModel = getAdminModel('menu');

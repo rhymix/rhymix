@@ -18,11 +18,9 @@ class adminAdminController extends admin
 	function init()
 	{
 		// forbit access if the user is not an administrator
-		$oMemberModel = getModel('member');
-		$logged_info = $oMemberModel->getLoggedInfo();
-		if($logged_info->is_admin != 'Y')
+		if (!$this->user->isAdmin())
 		{
-			return $this->stop("admin.msg_is_not_administrator");
+			throw new Rhymix\Framework\Exceptions\NotPermitted('admin.msg_is_not_administrator');
 		}
 	}
 

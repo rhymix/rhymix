@@ -262,7 +262,7 @@ class boardView extends board
 				// if the module srl is not consistent
 				if($oDocument->get('module_srl')!=$this->module_info->module_srl )
 				{
-					return $this->stop('msg_invalid_request');
+					throw new Rhymix\Framework\Exceptions\InvalidRequest;
 				}
 
 				// check the manage grant
@@ -383,7 +383,11 @@ class boardView extends board
 
 		if(is_array($file_module_config->download_grant) && $downloadGrantCount>0)
 		{
-			if(!Context::get('is_logged')) return $this->stop('msg_not_permitted_download');
+			if(!Context::get('is_logged'))
+			{
+				throw new Rhymix\Framework\Exceptions\NotPermitted('msg_not_permitted_download');
+			}
+			
 			$logged_info = Context::get('logged_info');
 			if($logged_info->is_admin != 'Y')
 			{
@@ -406,7 +410,10 @@ class boardView extends board
 							break;
 						}
 					}
-					if(!$is_permitted) return $this->stop('msg_not_permitted_download');
+					if(!$is_permitted)
+					{
+						throw new Rhymix\Framework\Exceptions\NotPermitted('msg_not_permitted_download');
+					}
 				}
 			}
 		}

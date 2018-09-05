@@ -163,7 +163,7 @@ class pageAdminView extends page
 	{
 		if($this->module_info->page_type == 'OUTSIDE')
 		{
-			return $this->stop(-1, 'msg_invalid_request');
+			throw new Rhymix\Framework\Exceptions\InvalidRequest;
 		}
 
 		if($this->module_srl)

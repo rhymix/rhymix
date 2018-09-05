@@ -56,7 +56,7 @@ class commentAdminController extends comment
 		$cart = Context::get('cart');
 		if(!$cart)
 		{
-			return $this->stop('msg_cart_is_null');
+			throw new Rhymix\Framework\Exception('msg_cart_is_null');
 		}
 		if(!is_array($cart))
 		{
@@ -171,7 +171,7 @@ class commentAdminController extends comment
 		$cart = Context::get('cart');
 		if(!$cart)
 		{
-			return $this->stop('msg_cart_is_null');
+			throw new Rhymix\Framework\Exception('msg_cart_is_null');
 		}
 		if(!is_array($cart))
 		{
@@ -184,7 +184,7 @@ class commentAdminController extends comment
 		$comment_count = count($comment_srl_list);
 		if(!$comment_count)
 		{
-			return $this->stop('msg_cart_is_null');
+			throw new Rhymix\Framework\Exception('msg_cart_is_null');
 		}
 
 		$oCommentController = getController('comment');
@@ -329,7 +329,7 @@ class commentAdminController extends comment
 		$oCommentController = getController('comment');
 		$oComment = $oCommentModel->getComment($comment_srl, false);
 
-		if(!$oComment->isGranted()) return $this->stop('msg_not_permitted');
+		if(!$oComment->isGranted()) throw new Rhymix\Framework\Exceptions\NotPermitted;
 
 		$message_content = "";
 		$this->_moveCommentToTrash(array($comment_srl), $oCommentController, $oDB, $message_content);
