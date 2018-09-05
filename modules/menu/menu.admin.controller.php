@@ -170,7 +170,7 @@ class menuAdminController extends menu
 	{
 		if(!$moduleInfos || !is_array($moduleInfos) || count($moduleInfos) == 0 || $menuSrl == 0)
 		{
-			return $this->setError('msg_invalid_request');
+			throw new Rhymix\Framework\Exceptions\InvalidRequest;
 		}
 
 		foreach($moduleInfos as $moduleInfo)
@@ -252,7 +252,7 @@ class menuAdminController extends menu
 
 		$oAdmin = getClass('admin');
 		if($menuInfo->title == $oAdmin->getAdminMenuName())
-			return $this->setError('msg_adminmenu_cannot_delete');
+			throw new Rhymix\Framework\Exception('msg_adminmenu_cannot_delete');
 
 		// get menu properies with child menu
 		$phpFile = sprintf("./files/cache/menu/%s.php", $menu_srl);
@@ -283,13 +283,13 @@ class menuAdminController extends menu
 
 		if($isStartmenuInclude)
 		{
-			return $this->setError('msg_cannot_delete_homemenu');
+			throw new Rhymix\Framework\Exception('msg_cannot_delete_homemenu');
 		}
 
 		$output = $this->deleteMenu($menu_srl);
 		if(!$output->toBool())
 		{
-			return $this->setError($output->message);
+			throw new Rhymix\Framework\Exception($output->message);
 		}
 
 		$this->setMessage('success_deleted', 'info');
@@ -389,13 +389,13 @@ class menuAdminController extends menu
 
 		if(!$request->parent_srl || !$request->menu_name)
 		{
-			return $this->setError('msg_invalid_request');
+			throw new Rhymix\Framework\Exceptions\InvalidRequest;
 		}
 
 		$this->_setMenuSrl($request->parent_srl, $request->menu_srl);
 		if(!$request->menu_srl)
 		{
-			return $this->setError('msg_invalid_request');
+			throw new Rhymix\Framework\Exceptions\InvalidRequest;
 		}
 
 		if($request->is_shortcut == 'Y')
@@ -475,7 +475,7 @@ class menuAdminController extends menu
 			$itemInfo = $oMenuAdminModel->getMenuItemInfo($request->shortcut_target);
 			if(!$itemInfo->menu_item_srl)
 			{
-				return $this->setError('msg_invalid_request');
+				throw new Rhymix\Framework\Exceptions\InvalidRequest;
 			}
 			unset($itemInfo->normal_btn, $itemInfo->hover_btn, $itemInfo->active_btn);
 
@@ -540,7 +540,7 @@ class menuAdminController extends menu
 
 		if($request->module_id && strncasecmp('http', $request->module_id, 4) === 0)
 		{
-			return $this->setError('msg_invalid_request');
+			throw new Rhymix\Framework\Exceptions\InvalidRequest;
 		}
 
 		// when menu copy, module already copied
@@ -549,7 +549,7 @@ class menuAdminController extends menu
 			$result = $this->_insertModule($request, $args);
 			if(!$result->toBool())
 			{
-				return $this->setError($result->message);
+				throw new Rhymix\Framework\Exception($result->message);
 			}
 		}
 
@@ -560,7 +560,7 @@ class menuAdminController extends menu
 
 		if(!$request->module_id)
 		{
-			return $this->setError('msg_invalid_request');
+			throw new Rhymix\Framework\Exceptions\InvalidRequest;
 		}
 
 		$args->url = $request->module_id;
@@ -625,7 +625,7 @@ class menuAdminController extends menu
 		$output = $oModuleModel->getModuleInfoByMid($request->module_id);
 		if($output->module_srl)
 		{
-			return $this->setError('msg_module_name_exists');
+			throw new Rhymix\Framework\Exception('msg_module_name_exists');
 		}
 
 		$oModuleController = getController('module');
@@ -644,7 +644,7 @@ class menuAdminController extends menu
 
 		if(!$request->menu_item_srl || !$request->menu_name)
 		{
-			return $this->setError('msg_invalid_request');
+			throw new Rhymix\Framework\Exceptions\InvalidRequest;
 		}
 
 		// variables set
@@ -671,7 +671,7 @@ class menuAdminController extends menu
 				$newItemInfo = $oMenuAdminModel->getMenuItemInfo($request->shortcut_target);
 				if(!$newItemInfo->menu_item_srl)
 				{
-					return $this->setError('msg_invalid_request');
+					throw new Rhymix\Framework\Exceptions\InvalidRequest;
 				}
 
 				$args->url = $newItemInfo->url;
@@ -691,7 +691,7 @@ class menuAdminController extends menu
 				$output = $oModuleModel->getModuleInfoByMid($request->module_id);
 				if($output->module_srl)
 				{
-					return $this->setError('msg_module_name_exists');
+					throw new Rhymix\Framework\Exception('msg_module_name_exists');
 				}
 			}
 
@@ -699,7 +699,7 @@ class menuAdminController extends menu
 			$moduleInfo = $oModuleModel->getModuleInfoByMid($itemInfo->url);
 			if(!$moduleInfo)
 			{
-				return $this->setError('msg_invalid_request');
+				throw new Rhymix\Framework\Exceptions\InvalidRequest;
 			}
 
 			$moduleInfo->mid = $request->module_id;
@@ -892,7 +892,7 @@ class menuAdminController extends menu
 		$this->_checkHomeMenuInOriginMenu($originMenu, $siteInfo->mid, $isStartmenuInclude);
 		if($isStartmenuInclude)
 		{
-			return $this->setError('msg_cannot_delete_homemenu');
+			throw new Rhymix\Framework\Exception('msg_cannot_delete_homemenu');
 		}
 
 		$oDB = DB::getInstance();
@@ -990,7 +990,7 @@ class menuAdminController extends menu
 		$output = $this->_deleteMenuItem($oDB, $menuInfo, $node);
 		if(!$output->toBool())
 		{
-			return $this->setError($output->message);
+			throw new Rhymix\Framework\Exception($output->message);
 		}
 
 		if(is_array($node['list']))
@@ -1013,7 +1013,7 @@ class menuAdminController extends menu
 		$source_srl = Context::get('source_srl');	// Same hierarchy's menu item serial number
 		$target_srl = Context::get('target_srl');	// Self menu item serial number
 
-		if(!$mode || !$parent_srl || !$target_srl) return $this->setError('msg_invalid_request');
+		if(!$mode || !$parent_srl || !$target_srl) throw new Rhymix\Framework\Exceptions\InvalidRequest;
 
 		$oMenuAdminModel = getAdminModel('menu');
 
@@ -1023,7 +1023,7 @@ class menuAdminController extends menu
 		$targetMenuItemInfo = $oMenuAdminModel->getMenuItemInfo($target_srl);
 		if(!$originalItemInfo->menu_item_srl || (!$targetMenuInfo->menu_srl && !$targetMenuItemInfo->menu_item_srl))
 		{
-			return $this->setError('msg_empty_menu_item');
+			throw new Rhymix\Framework\Exception('msg_empty_menu_item');
 		}
 
 		// get menu properies with child menu
@@ -1407,7 +1407,7 @@ class menuAdminController extends menu
 		$oMenuAdminModel = getAdminModel('menu');
 
 		$target_item = $oMenuAdminModel->getMenuItemInfo($target_srl);
-		if($target_item->menu_item_srl != $target_srl) return $this->setError('msg_invalid_request');
+		if($target_item->menu_item_srl != $target_srl) throw new Rhymix\Framework\Exceptions\InvalidRequest;
 		// Move the menu location(change the order menu appears)
 		if($mode == 'move')
 		{
@@ -1418,7 +1418,7 @@ class menuAdminController extends menu
 			if($source_srl)
 			{
 				$source_item = $oMenuAdminModel->getMenuItemInfo($source_srl);
-				if($source_item->menu_item_srl != $source_srl) return $this->setError('msg_invalid_request');
+				if($source_item->menu_item_srl != $source_srl) throw new Rhymix\Framework\Exceptions\InvalidRequest;
 				$args->listorder = $source_item->listorder-1;
 			}
 			else

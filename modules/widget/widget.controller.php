@@ -47,8 +47,8 @@ class widgetController extends widget
 	function procWidgetGenerateCode()
 	{
 		$widget = Context::get('selected_widget');
-		if(!$widget) return $this->setError('msg_invalid_request');
-		if(!Context::get('skin')) return $this->setError('msg_widget_skin_is_null');
+		if(!$widget) throw new Rhymix\Framework\Exceptions\InvalidRequest;
+		if(!Context::get('skin')) throw new Rhymix\Framework\Exception('msg_widget_skin_is_null');
 
 		$attribute = $this->arrangeWidgetVars($widget, Context::getRequestVars(), $vars);
 
@@ -63,9 +63,9 @@ class widgetController extends widget
 	function procWidgetGenerateCodeInPage()
 	{
 		$widget = Context::get('selected_widget');
-		if(!$widget) return $this->setError('msg_invalid_request');
+		if(!$widget) throw new Rhymix\Framework\Exceptions\InvalidRequest;
 
-		if(!in_array($widget,array('widgetBox','widgetContent')) && !Context::get('skin')) return $this->setError('msg_widget_skin_is_null');
+		if(!in_array($widget,array('widgetBox','widgetContent')) && !Context::get('skin')) throw new Rhymix\Framework\Exception('msg_widget_skin_is_null');
 
 		$attribute = $this->arrangeWidgetVars($widget, Context::getRequestVars(), $vars);
 		// Wanted results
@@ -112,18 +112,18 @@ class widgetController extends widget
 		$page_info = $oModuleModel->getModuleInfoByModuleSrl($module_srl, $columnList);
 		if(!$page_info->module_srl || $page_info->module != 'page') $err++;
 
-		if($err > 1) return $this->setError('msg_invalid_request');
+		if($err > 1) throw new Rhymix\Framework\Exceptions\InvalidRequest;
 		
 		// Check permissions
 		$logged_info = Context::get('logged_info');
 		if (!$logged_info->member_srl)
 		{
-			return $this->setError('msg_not_permitted');
+			throw new Rhymix\Framework\Exceptions\NotPermitted;
 		}
 		$module_grant = $oModuleModel->getGrant($page_info, $logged_info);
 		if (!$module_grant->manager)
 		{
-			return $this->setError('msg_not_permitted');
+			throw new Rhymix\Framework\Exceptions\NotPermitted;
 		}
 		
 		// Enter post
@@ -167,25 +167,25 @@ class widgetController extends widget
 		$oDocumentAdminController = getAdminController('document');
 
 		$oDocument = $oDocumentModel->getDocument($document_srl);
-		if(!$oDocument->isExists()) return $this->setError('msg_invalid_request');
+		if(!$oDocument->isExists()) throw new Rhymix\Framework\Exceptions\InvalidRequest;
 		$module_srl = $oDocument->get('module_srl');
 		
 		// Destination Information Wanted page module
 		$oModuleModel = getModel('module');
 		$columnList = array('module_srl', 'module');
 		$page_info = $oModuleModel->getModuleInfoByModuleSrl($module_srl, $columnList);
-		if(!$page_info->module_srl || $page_info->module != 'page') return $this->setError('msg_invalid_request');
+		if(!$page_info->module_srl || $page_info->module != 'page') throw new Rhymix\Framework\Exceptions\InvalidRequest;
 		
 		// Check permissions
 		$logged_info = Context::get('logged_info');
 		if (!$logged_info->member_srl)
 		{
-			return $this->setError('msg_not_permitted');
+			throw new Rhymix\Framework\Exceptions\NotPermitted;
 		}
 		$module_grant = $oModuleModel->getGrant($page_info, $logged_info);
 		if (!$module_grant->manager)
 		{
-			return $this->setError('msg_not_permitted');
+			throw new Rhymix\Framework\Exceptions\NotPermitted;
 		}
 		
 		$output = $oDocumentAdminController->copyDocumentModule(array($oDocument->get('document_srl')), $oDocument->get('module_srl'),0);
@@ -214,18 +214,18 @@ class widgetController extends widget
 		// Destination Information Wanted page module
 		$oModuleModel = getModel('module');
 		$page_info = $oModuleModel->getModuleInfoByModuleSrl($module_srl);
-		if(!$page_info->module_srl || $page_info->module != 'page') return $this->setError('msg_invalid_request');
+		if(!$page_info->module_srl || $page_info->module != 'page') throw new Rhymix\Framework\Exceptions\InvalidRequest;
 		
 		// Check permissions
 		$logged_info = Context::get('logged_info');
 		if (!$logged_info->member_srl)
 		{
-			return $this->setError('msg_not_permitted');
+			throw new Rhymix\Framework\Exceptions\NotPermitted;
 		}
 		$module_grant = $oModuleModel->getGrant($page_info, $logged_info);
 		if (!$module_grant->manager)
 		{
-			return $this->setError('msg_not_permitted');
+			throw new Rhymix\Framework\Exceptions\NotPermitted;
 		}
 		
 		$output = $oDocumentController->deleteDocument($oDocument->get('document_srl'));

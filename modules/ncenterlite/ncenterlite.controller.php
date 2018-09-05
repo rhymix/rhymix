@@ -9,7 +9,7 @@ class ncenterliteController extends ncenterlite
 		$config = $oNcenterliteModel->getConfig();
 		if($config->user_notify_setting != 'Y')
 		{
-			return $this->setError('msg_not_use_user_setting');
+			throw new Rhymix\Framework\Exception('msg_not_use_user_setting');
 		}
 
 		$member_srl = Context::get('member_srl');
@@ -21,7 +21,7 @@ class ncenterliteController extends ncenterlite
 
 		if($logged_info->member_srl != $member_srl && $logged_info->is_admin != 'Y')
 		{
-			return $this->setError('ncenterlite_stop_no_permission_other_user_settings');
+			throw new Rhymix\Framework\Exception('ncenterlite_stop_no_permission_other_user_settings');
 		}
 
 		$user_config = $oNcenterliteModel->getUserConfig($member_srl);
@@ -959,7 +959,7 @@ class ncenterliteController extends ncenterlite
 		$logged_info = Context::get('logged_info');
 		if(!Context::get('is_logged'))
 		{
-			return $this->setError('msg_invalid_request');
+			throw new Rhymix\Framework\Exceptions\InvalidRequest;
 		}
 
 		$output = $this->updateNotifyReadAll($logged_info->member_srl);
@@ -973,7 +973,7 @@ class ncenterliteController extends ncenterlite
 		$notify = Context::get('notify');
 		if(!$logged_info || !$url || !$notify)
 		{
-			return $this->setError('msg_invalid_request');
+			throw new Rhymix\Framework\Exceptions\InvalidRequest;
 		}
 
 		$output = $this->updateNotifyRead($notify, $logged_info->member_srl);

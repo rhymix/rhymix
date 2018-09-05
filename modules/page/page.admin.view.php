@@ -186,7 +186,7 @@ class pageAdminView extends page
 		}
 		else
 		{
-			return $this->setError(sprintf('%s method is not exists', $method));
+			throw new Rhymix\Framework\Exception(sprintf('%s method is not exists', $method));
 		}
 		
 		Context::set('module_info', $this->module_info);

@@ -614,7 +614,7 @@ class menuAdminModel extends menu
 		$menuItemSrl = Context::get('menu_item_srl');
 		if(!$menuItemSrl)
 		{
-			return $this->setError('msg_invalid_request');
+			throw new Rhymix\Framework\Exceptions\InvalidRequest;
 		}
 
 		$menuItemInfo = $this->getMenuItemInfo($menuItemSrl);
@@ -622,7 +622,7 @@ class menuAdminModel extends menu
 		// if menu is shortcut
 		if($menuItemInfo->is_shortcut == 'Y')
 		{
-			return $this->setError('msg_invalid_request');
+			throw new Rhymix\Framework\Exceptions\InvalidRequest;
 		}
 
 		// get module info
