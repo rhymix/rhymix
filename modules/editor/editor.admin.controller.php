@@ -253,7 +253,7 @@ class editorAdminController extends editor
 		if(!$site_srl)
 		{
 			$output = executeQuery('editor.isComponentInserted', $args);
-		{
+		}
 		else
 		{
 			$output = executeQuery('editor.isSiteComponentInserted', $args);
