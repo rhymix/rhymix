@@ -123,15 +123,16 @@ class moduleView extends module
 	function dispModuleFileBox()
 	{
 		$logged_info = Context::get('logged_info');
-		if($logged_info->is_admin !='Y' && !$logged_info->is_site_admin) return $this->setError('msg_not_permitted');
-
-		$input_name = Context::get('input');
-		if(!preg_match('/^[a-z0-9_]+$/i', $input_name))
+		if($logged_info->is_admin !='Y' && !$logged_info->is_site_admin)
 		{
-			return $this->setError('msg_invalid_request');
+			throw new Rhymix\Framework\Exceptions\NotPermitted;
 		}
 
-		if(!$input_name) return $this->setError('msg_not_permitted');
+		$input_name = Context::get('input');
+		if(!$input_name || !preg_match('/^[a-z0-9_]+$/i', $input_name))
+		{
+			throw new Rhymix\Framework\Exceptions\InvalidRequest;
+		}
 
 		$addscript = sprintf('<script>//<![CDATA[
 				var selected_filebox_input_name = "%s";
@@ -154,7 +155,10 @@ class moduleView extends module
 	function dispModuleFileBoxAdd()
 	{
 		$logged_info = Context::get('logged_info');
-		if($logged_info->is_admin !='Y' && !$logged_info->is_site_admin) return $this->setError('msg_not_permitted');
+		if($logged_info->is_admin !='Y' && !$logged_info->is_site_admin)
+		{
+			throw new Rhymix\Framework\Exceptions\NotPermitted;
+		}
 
 		$filter = Context::get('filter');
 		if($filter) Context::set('arrfilter',explode(',',$filter));
