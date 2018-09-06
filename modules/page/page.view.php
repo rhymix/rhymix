@@ -56,7 +56,7 @@ class pageView extends page
 		}
 		else
 		{
-			throw new Rhymix\Framework\Exception('%s method is not exists', $method);
+			throw new Rhymix\Framework\Exception(sprintf('%s method is not exists', $method));
 		}
 
 		Context::set('module_info', $this->module_info);
