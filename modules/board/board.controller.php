@@ -461,7 +461,7 @@ class boardController extends board
 				$parent_comment = $oCommentModel->getComment($obj->parent_srl);
 				if(!$parent_comment->comment_srl)
 				{
-					throw new Rhymix\Framework\Exceptions\InvalidRequest;
+					throw new Rhymix\Framework\Exceptions\TargetNotFound;
 				}
 				if($parent_comment->isSecret() && $this->module_info->secret === 'Y')
 				{
@@ -662,7 +662,7 @@ class boardController extends board
 			$oComment = $oCommentModel->getComment($comment_srl);
 			if(!$oComment->isExists())
 			{
-				throw new Rhymix\Framework\Exceptions\InvalidRequest;
+				throw new Rhymix\Framework\Exceptions\TargetNotFound;
 			}
 
 			// compare the comment password and the user input password
@@ -678,7 +678,7 @@ class boardController extends board
 			$oDocument = $oDocumentModel->getDocument($document_srl);
 			if(!$oDocument->isExists())
 			{
-				throw new Rhymix\Framework\Exceptions\InvalidRequest;
+				throw new Rhymix\Framework\Exceptions\TargetNotFound;
 			}
 
 			// compare the document password and the user input password

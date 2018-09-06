@@ -53,7 +53,7 @@ class commentController extends comment
 		$comment_config = $oModuleModel->getModulePartConfig('comment', $module_srl);
 		if($comment_config->use_vote_up == 'N')
 		{
-			throw new Rhymix\Framework\Exceptions\InvalidRequest;
+			throw new Rhymix\Framework\Exceptions\FeatureDisabled;
 		}
 
 		$point = 1;
@@ -123,7 +123,7 @@ class commentController extends comment
 		$comment_config = $oModuleModel->getModulePartConfig('comment', $module_srl);
 		if($comment_config->use_vote_down == 'N')
 		{
-			throw new Rhymix\Framework\Exceptions\InvalidRequest;
+			throw new Rhymix\Framework\Exceptions\FeatureDisabled;
 		}
 
 		$point = -1;

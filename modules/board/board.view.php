@@ -262,7 +262,7 @@ class boardView extends board
 				// if the module srl is not consistent
 				if($oDocument->get('module_srl')!=$this->module_info->module_srl )
 				{
-					throw new Rhymix\Framework\Exceptions\InvalidRequest;
+					throw new Rhymix\Framework\Exceptions\TargetNotFound;
 				}
 
 				// check the manage grant
@@ -690,7 +690,7 @@ class boardView extends board
 		$oDocument = getModel('document')->getDocument($document_srl);
 		if(!$oDocument->isExists())
 		{
-			throw new Rhymix\Framework\Exceptions\InvalidRequest;
+			throw new Rhymix\Framework\Exceptions\TargetNotFound;
 		}
 		Context::set('oDocument', $oDocument);
 		

@@ -82,7 +82,7 @@ class commentView extends comment
 		$oComment = $oCommentModel->getComment($comment_srl);
 		if(!$oComment->isExists())
 		{
-			throw new Rhymix\Framework\Exceptions\InvalidRequest;
+			throw new Rhymix\Framework\Exceptions\TargetNotFound;
 		}
 		// Check permissions
 		if(!$oComment->isAccessible())

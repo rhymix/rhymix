@@ -42,7 +42,7 @@ class documentController extends document
 
 		$oModuleModel = getModel('module');
 		$document_config = $oModuleModel->getModulePartConfig('document',$module_srl);
-		if($document_config->use_vote_up=='N') throw new Rhymix\Framework\Exceptions\InvalidRequest;
+		if($document_config->use_vote_up=='N') throw new Rhymix\Framework\Exceptions\FeatureDisabled;
 
 		$point = 1;
 		$output = $this->updateVotedCount($document_srl, $point);
@@ -128,7 +128,7 @@ class documentController extends document
 
 		$oModuleModel = getModel('module');
 		$document_config = $oModuleModel->getModulePartConfig('document',$module_srl);
-		if($document_config->use_vote_down=='N') throw new Rhymix\Framework\Exceptions\InvalidRequest;
+		if($document_config->use_vote_down=='N') throw new Rhymix\Framework\Exceptions\FeatureDisabled;
 
 		$point = -1;
 		$output = $this->updateVotedCount($document_srl, $point);

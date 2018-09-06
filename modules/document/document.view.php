@@ -36,7 +36,7 @@ class documentView extends document
 		$oDocumentModel = getModel('document');
 		// Creates an object for displaying the selected document
 		$oDocument = $oDocumentModel->getDocument($document_srl, $this->grant->manager);
-		if(!$oDocument->isExists()) throw new Rhymix\Framework\Exceptions\InvalidRequest;
+		if(!$oDocument->isExists()) throw new Rhymix\Framework\Exceptions\TargetNotFound;
 		// Check permissions
 		if(!$oDocument->isAccessible()) throw new Rhymix\Framework\Exceptions\NotPermitted;
 		// Information setting module
@@ -58,7 +58,7 @@ class documentView extends document
 	{
 		if(!checkCSRF())
 		{
-			throw new Rhymix\Framework\Exceptions\InvalidRequest;
+			throw new Rhymix\Framework\Exceptions\SecurityViolation;
 		} 
 		
 		$content = Context::get('content');
@@ -218,7 +218,7 @@ class documentView extends document
 		$oDocument = $oDocumentModel->getDocument($document_srl, $this->grant->manager, FALSE);
 		if(!$oDocument->isExists())
 		{
-			throw new Rhymix\Framework\Exceptions\InvalidRequest;
+			throw new Rhymix\Framework\Exceptions\TargetNotFound;
 		}
 		// Check permissions
 		if(!$oDocument->isAccessible())
