@@ -23,6 +23,11 @@ return array(
 	'cache' => array(
 		'truncate_method' => 'delete',
 	),
+	'cluster' => array(
+		'enabled' => false,
+		'sources' => array(),
+		'targets' => array(),
+	),
 	'ftp' => array(
 		'host' => 'localhost',
 		'port' => 21,
