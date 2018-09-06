@@ -45,9 +45,9 @@
 		<div class="x_control-group">
 			<label class="x_control-label" for="debug_log_slow_widgets">{$lang->debug_display_type}</label>
 			<div class="x_controls">
-				<label for="debug_display_type_comment" class="x_inline"><input type="radio" name="debug_display_type" id="debug_display_type_comment" value="comment" checked="checked"|cond="$debug_display_type=='comment'" /> {$lang->debug_display_type_comment}</label>
-				<label for="debug_display_type_panel" class="x_inline"><input type="radio" name="debug_display_type" id="debug_display_type_panel" value="panel" checked="checked"|cond="$debug_display_type=='panel'" /> {$lang->debug_display_type_panel}</label>
-				<label for="debug_display_type_file" class="x_inline"><input type="radio" name="debug_display_type" id="debug_display_type_file" value="file" checked="checked"|cond="$debug_display_type=='file'" /> {$lang->debug_display_type_file}</label>
+				<label for="debug_display_type_comment" class="x_inline"><input type="checkbox" name="debug_display_type[]" id="debug_display_type_comment" value="comment" checked="checked"|cond="in_array('comment', $debug_display_type)" /> {$lang->debug_display_type_comment}</label>
+				<label for="debug_display_type_panel" class="x_inline"><input type="checkbox" name="debug_display_type[]" id="debug_display_type_panel" value="panel" checked="checked"|cond="in_array('panel', $debug_display_type)" /> {$lang->debug_display_type_panel}</label>
+				<label for="debug_display_type_file" class="x_inline"><input type="checkbox" name="debug_display_type[]" id="debug_display_type_file" value="file" checked="checked"|cond="in_array('file', $debug_display_type)" /> {$lang->debug_display_type_file}</label>
 			</div>
 		</div>
 		<div class="x_control-group">

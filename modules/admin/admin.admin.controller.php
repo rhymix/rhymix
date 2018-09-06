@@ -806,13 +806,18 @@ class adminAdminController extends admin
 	{
 		$vars = Context::getRequestVars();
 		
+		// Save display type settings
+		$display_type = array_values(array_filter($vars->debug_display_type, function($str) {
+			return in_array($str, ['panel', 'comment', 'file']);
+		}));
+		
 		// Debug settings
 		Rhymix\Framework\Config::set('debug.enabled', $vars->debug_enabled === 'Y');
 		Rhymix\Framework\Config::set('debug.log_slow_queries', max(0, floatval($vars->debug_log_slow_queries)));
 		Rhymix\Framework\Config::set('debug.log_slow_triggers', max(0, floatval($vars->debug_log_slow_triggers)));
 		Rhymix\Framework\Config::set('debug.log_slow_widgets', max(0, floatval($vars->debug_log_slow_widgets)));
 		Rhymix\Framework\Config::set('debug.log_slow_remote_requests', max(0, floatval($vars->debug_log_slow_remote_requests)));
-		Rhymix\Framework\Config::set('debug.display_type', strval($vars->debug_display_type) ?: 'comment');
+		Rhymix\Framework\Config::set('debug.display_type', $display_type);
 		Rhymix\Framework\Config::set('debug.display_to', strval($vars->debug_display_to) ?: 'admin');
 		Rhymix\Framework\Config::set('debug.write_error_log', strval($vars->debug_write_error_log) ?: 'fatal');
 		

@@ -92,7 +92,7 @@ return array(
 		'log_slow_widgets' => 0,
 		'log_slow_remote_requests' => 0,
 		'log_filename' => null,
-		'display_type' => 'comment',
+		'display_type' => array('comment'),
 		'display_content' => array(),
 		'display_to' => 'admin',
 		'write_error_log' => 'fatal',

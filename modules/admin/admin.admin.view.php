@@ -556,7 +556,7 @@ class adminAdminView extends admin
 		Context::set('debug_log_slow_widgets', Rhymix\Framework\Config::get('debug.log_slow_widgets'));
 		Context::set('debug_log_slow_remote_requests', Rhymix\Framework\Config::get('debug.log_slow_remote_requests'));
 		Context::set('debug_log_filename', Rhymix\Framework\Config::get('debug.log_filename') ?: 'files/debug/YYYYMMDD.php');
-		Context::set('debug_display_type', Rhymix\Framework\Config::get('debug.display_type'));
+		Context::set('debug_display_type', (array)Rhymix\Framework\Config::get('debug.display_type'));
 		Context::set('debug_display_content', Rhymix\Framework\Config::get('debug.display_content'));
 		Context::set('debug_display_to', Rhymix\Framework\Config::get('debug.display_to'));
 		Context::set('debug_write_error_log', Rhymix\Framework\Config::get('debug.write_error_log'));
