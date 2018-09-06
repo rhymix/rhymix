@@ -134,6 +134,10 @@ class editorModel extends editor
 		{
 			$option->editor_height = $option->height ?: $this->default_editor_config['editor_height'];
 		}
+		if ($option->editor_skin === 'ckeditor' && preg_match('/^(?:white|black)(_text_(?:use|no)html)?$/', $option->sel_editor_colorset))
+		{
+			$option->sel_editor_colorset = 'moono-lisa';
+		}
 		Context::set('skin', $option->editor_skin);
 		Context::set('editor_path', $this->module_path . 'skins/' . $option->editor_skin . '/');
 		Context::set('content_style', $option->content_style);
