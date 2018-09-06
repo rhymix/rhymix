@@ -1300,9 +1300,16 @@ class ModuleHandler extends Handler
 		$trigger_functions = $oModuleModel->getTriggerFunctions($trigger_name, $called_position);
 		foreach($trigger_functions as $item)
 		{
-			$before_each_trigger_time = microtime(true);
-			$output = $item($obj);
-			$after_each_trigger_time = microtime(true);
+			try
+			{
+				$before_each_trigger_time = microtime(true);
+				$output = $item($obj);
+				$after_each_trigger_time = microtime(true);
+			}
+			catch (Rhymix\Framework\Exception $e)
+			{
+				$output = new BaseObject(-2, $e->getMessage());
+			}
 
 			if ($trigger_name !== 'common.writeSlowlog')
 			{
