@@ -1003,7 +1003,7 @@ class commentModel extends comment
 		{
 			if($comment_config->use_vote_down != 'S')
 			{
-				throw new Rhymix\Framework\Exceptions\InvalidRequest;
+				throw new Rhymix\Framework\Exceptions\FeatureDisabled;
 			}
 
 			$args->below_point = 0;
@@ -1012,7 +1012,7 @@ class commentModel extends comment
 		{
 			if($comment_config->use_vote_up != 'S')
 			{
-				throw new Rhymix\Framework\Exceptions\InvalidRequest;
+				throw new Rhymix\Framework\Exceptions\FeatureDisabled;
 			}
 
 			$args->more_point = 0;

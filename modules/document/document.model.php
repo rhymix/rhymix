@@ -1153,12 +1153,12 @@ class documentModel extends document
 		$document_config = $oModuleModel->getModulePartConfig('document',$module_srl);
 		if($point == -1)
 		{
-			if($document_config->use_vote_down!='S') throw new Rhymix\Framework\Exceptions\InvalidRequest;
+			if($document_config->use_vote_down!='S') throw new Rhymix\Framework\Exceptions\FeatureDisabled;
 			$args->below_point = 0;
 		}
 		else
 		{
-			if($document_config->use_vote_up!='S') throw new Rhymix\Framework\Exceptions\InvalidRequest;
+			if($document_config->use_vote_up!='S') throw new Rhymix\Framework\Exceptions\FeatureDisabled;
 			$args->more_point = 0;
 		}
 

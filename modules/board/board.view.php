@@ -679,18 +679,18 @@ class boardView extends board
 		$document_srl = Context::get('document_srl');
 		if(!$document_srl)
 		{
-			throw new Rhymix\Framework\Exception("msg_invalid_request");
+			throw new Rhymix\Framework\Exceptions\InvalidRequest;
 		}
 		
 		if($this->grant->view == false || ($this->module_info->consultation == 'Y' && !$this->grant->manager && !$this->grant->consultation_read))
 		{
-			throw new Rhymix\Framework\Exception("msg_not_permitted");
+			throw new Rhymix\Framework\Exceptions\NotPermitted;
 		}
 		
 		$oDocument = getModel('document')->getDocument($document_srl);
 		if(!$oDocument->isExists())
 		{
-			throw new Rhymix\Framework\Exception("msg_invalid_request");
+			throw new Rhymix\Framework\Exceptions\InvalidRequest;
 		}
 		Context::set('oDocument', $oDocument);
 		
@@ -960,7 +960,7 @@ class boardView extends board
 		$oDocument = $oDocumentModel->getDocument($document_srl);
 		if(!$oDocument->isExists())
 		{
-			return $this->dispBoardMessage('msg_invalid_request');
+			return $this->dispBoardMessage('msg_not_founded');
 		}
 
 		// Check allow comment
@@ -1015,11 +1015,11 @@ class boardView extends board
 		// if the comment is not existed, opoup an error message
 		if(!$oSourceComment->isExists())
 		{
-			return $this->dispBoardMessage('msg_invalid_request');
+			return $this->dispBoardMessage('msg_not_founded');
 		}
 		if(Context::get('document_srl') && $oSourceComment->get('document_srl') != Context::get('document_srl'))
 		{
-			return $this->dispBoardMessage('msg_invalid_request');
+			return $this->dispBoardMessage('msg_not_founded');
 		}
 
 		// Check allow comment
@@ -1102,7 +1102,7 @@ class boardView extends board
 		// if the comment is not exited, alert an error message
 		if(!$oComment->isExists())
 		{
-			return $this->dispBoardMessage('msg_invalid_request');
+			return $this->dispBoardMessage('msg_not_founded');
 		}
 
 		// if the comment is not granted, then back to the password input form

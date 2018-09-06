@@ -86,7 +86,7 @@ class ModuleHandler extends Handler
 		if($isInvalid)
 		{
 			htmlHeader();
-			echo lang("msg_invalid_request");
+			echo lang('msg_security_violation');
 			htmlFooter();
 			Context::close();
 			exit;
@@ -464,7 +464,7 @@ class ModuleHandler extends Handler
 
 			if(!in_array(strtoupper($_SERVER['REQUEST_METHOD']), $allowedMethodList))
 			{
-				$this->error = "msg_invalid_request";
+				$this->error = 'msg_invalid_request';
 				$oMessageObject = self::getModuleInstance('message', $display_mode);
 				$oMessageObject->setError(-1);
 				$oMessageObject->setMessage($this->error);
@@ -620,7 +620,7 @@ class ModuleHandler extends Handler
 
 					if(!in_array(strtoupper($_SERVER['REQUEST_METHOD']), $allowedMethodList))
 					{
-						$this->error = "msg_invalid_request";
+						$this->error = 'msg_security_violation';
 						$oMessageObject = self::getModuleInstance('message', $display_mode);
 						$oMessageObject->setError(-1);
 						$oMessageObject->setMessage($this->error);
@@ -635,7 +635,7 @@ class ModuleHandler extends Handler
 					if($xml_info->action->{$this->act} && $xml_info->action->{$this->act}->check_csrf !== 'false' && !checkCSRF())
 					{
 						$this->_setInputErrorToContext();
-						$this->error = 'msg_invalid_request';
+						$this->error = 'msg_security_violation';
 						$oMessageObject = ModuleHandler::getModuleInstance('message', $display_mode);
 						$oMessageObject->setError(-1);
 						$oMessageObject->setMessage($this->error);

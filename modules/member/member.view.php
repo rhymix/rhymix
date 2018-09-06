@@ -203,7 +203,7 @@ class memberView extends member
 		$trigger_output = ModuleHandler::triggerCall('member.dispMemberSignUpForm', 'before', $member_config);
 		if(!$trigger_output->toBool()) return $trigger_output;
 		// Error appears if the member is not allowed to join
-		if($member_config->enable_join != 'Y') throw new Rhymix\Framework\Exception('msg_signup_disabled');
+		if($member_config->enable_join != 'Y') throw new Rhymix\Framework\Exceptions\FeatureDisabled('msg_signup_disabled');
 		
 		$formTags = getAdminView('member')->_getMemberInputTag();
 		Context::set('formTags', $formTags);
@@ -351,7 +351,7 @@ class memberView extends member
 	{
 		if ($this->member_config->features['my_documents'] === false)
 		{
-			throw new Rhymix\Framework\Exceptions\InvalidRequest;
+			throw new Rhymix\Framework\Exceptions\FeatureDisabled;
 		}
 
 		// A message appears if the user is not logged-in
@@ -385,7 +385,7 @@ class memberView extends member
 	{
 		if ($this->member_config->features['my_comments'] === false)
 		{
-			throw new Rhymix\Framework\Exceptions\InvalidRequest;
+			throw new Rhymix\Framework\Exceptions\FeatureDisabled;
 		}
 
 		$oMemberModel = getModel('member');
@@ -417,7 +417,7 @@ class memberView extends member
 	{
 		if ($this->member_config->features['scrapped_documents'] === false)
 		{
-			throw new Rhymix\Framework\Exceptions\InvalidRequest;
+			throw new Rhymix\Framework\Exceptions\FeatureDisabled;
 		}
 
 		$oMemberModel = getModel('member');
@@ -493,7 +493,7 @@ class memberView extends member
 	{
 		if ($this->member_config->features['saved_documents'] === false)
 		{
-			throw new Rhymix\Framework\Exceptions\InvalidRequest;
+			throw new Rhymix\Framework\Exceptions\FeatureDisabled;
 		}
 
 		$oMemberModel = getModel('member');
@@ -524,7 +524,7 @@ class memberView extends member
 	{
 		if ($this->member_config->features['active_logins'] === false)
 		{
-			throw new Rhymix\Framework\Exceptions\InvalidRequest;
+			throw new Rhymix\Framework\Exceptions\FeatureDisabled;
 		}
 
 		$logged_info = Context::get('logged_info');
@@ -803,7 +803,7 @@ class memberView extends member
 	{
 		if ($this->member_config->features['nickname_log'] === false || $this->member_config->update_nickname_log != 'Y')
 		{
-			throw new Rhymix\Framework\Exceptions\InvalidRequest;
+			throw new Rhymix\Framework\Exceptions\FeatureDisabled;
 		}
 
 		$member_srl = Context::get('member_srl');

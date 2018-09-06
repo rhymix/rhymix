@@ -578,7 +578,7 @@ class memberController extends member
 	{
 		if (Context::getRequestMethod() == 'GET')
 		{
-			throw new Rhymix\Framework\Exceptions\InvalidRequest;
+			throw new Rhymix\Framework\Exceptions\SecurityViolation;
 		}
 		
 		$oMemberModel = &getModel ('member');
@@ -588,7 +588,7 @@ class memberController extends member
 		$trigger_output = ModuleHandler::triggerCall ('member.procMemberInsert', 'before', $config);
 		if(!$trigger_output->toBool ()) return $trigger_output;
 		// Check if an administrator allows a membership
-		if($config->enable_join != 'Y') throw new Rhymix\Framework\Exception('msg_signup_disabled');
+		if($config->enable_join != 'Y') throw new Rhymix\Framework\Exceptions\FeatureDisabled('msg_signup_disabled');
 
 		// Check if the user accept the license terms (only if terms exist)
 		$accept_agreement = Context::get('accept_agreement');

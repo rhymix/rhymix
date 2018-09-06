@@ -315,7 +315,7 @@ class commentController extends comment
 	{
 		if(!$manual_inserted && !checkCSRF())
 		{
-			return new BaseObject(-1, 'msg_invalid_request');
+			return new BaseObject(-1, 'msg_security_violation');
 		}
 
 		if(!is_object($obj))
@@ -717,7 +717,7 @@ class commentController extends comment
 	{
 		if(!$manual_updated && !checkCSRF())
 		{
-			return new BaseObject(-1, 'msg_invalid_request');
+			return new BaseObject(-1, 'msg_security_violation');
 		}
 
 		if(!is_object($obj))

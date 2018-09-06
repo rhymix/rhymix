@@ -347,7 +347,7 @@ class documentController extends document
 	{
 		if(!$manual_inserted && !checkCSRF())
 		{
-			return new BaseObject(-1, 'msg_invalid_request');
+			return new BaseObject(-1, 'msg_security_violation');
 		}
 
 		// begin transaction
@@ -576,7 +576,7 @@ class documentController extends document
 	{
 		if(!$manual_updated && !checkCSRF())
 		{
-			return new BaseObject(-1, 'msg_invalid_request');
+			return new BaseObject(-1, 'msg_security_violation');
 		}
 		
 		if(!$source_obj->document_srl || !$obj->document_srl) return new BaseObject(-1, 'msg_invalied_request');

@@ -136,7 +136,7 @@ class ModuleObject extends BaseObject
 		// Set privileges(granted) information
 		if($this->setPrivileges() !== true)
 		{
-			$this->stop('msg_invalid_request');
+			$this->stop('msg_not_permitted');
 			return;
 		}
 		
