@@ -267,7 +267,7 @@ class moduleModel extends module
 
 		if(!$menuItemSrl)
 		{
-			throw new Rhymix\Framework\Exceptions\InvalidRequest;
+			return new BaseObject(-1, 'msg_invalid_request');
 		}
 
 		$args = new stdClass();

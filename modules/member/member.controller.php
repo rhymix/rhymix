@@ -2629,7 +2629,7 @@ class memberController extends member
 				unset($args->denied);
 			if($logged_info->member_srl != $args->member_srl && $is_admin == false)
 			{
-				throw new Rhymix\Framework\Exceptions\InvalidRequest;
+				return new BaseObject(-1, 'msg_invalid_request');
 			}
 		}
 
