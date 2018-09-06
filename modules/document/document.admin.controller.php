@@ -410,9 +410,13 @@ class documentAdminController extends document
 		{
 			return;
 		}
+		if(!is_array($document_srl_list))
+		{
+			$document_srl_list = array_map('intval', array_map('trim', explode(',', $document_srl_list)));
+		}
 		
 		$obj = new stdClass;
-		$obj->document_srls = implode(',', $document_srl_list);
+		$obj->document_srls = $document_srl_list;
 		$obj->list_count = count($document_srl_list);
 		$obj->document_list = executeQueryArray('document.getDocuments', $obj)->data;
 		$obj->module_srl = $target_module_srl;
@@ -481,9 +485,9 @@ class documentAdminController extends document
 		$oDB->commit();
 		
 		// remove from cache
-		foreach ($document_srl_list as $document_srl)
+		foreach($obj->document_list as $document)
 		{
-			Rhymix\Framework\Cache::delete('document_item:'. getNumberingPath($document_srl) . $document_srl);
+			Rhymix\Framework\Cache::delete('document_item:'. getNumberingPath($document->document_srl) . $document->document_srl);
 		}
 		
 		return new BaseObject();
@@ -502,9 +506,13 @@ class documentAdminController extends document
 		{
 			return;
 		}
+		if(!is_array($document_srl_list))
+		{
+			$document_srl_list = array_map('intval', array_map('trim', explode(',', $document_srl_list)));
+		}
 		
 		$obj = new stdClass;
-		$obj->document_srls = implode(',', $document_srl_list);
+		$obj->document_srls = $document_srl_list;
 		$obj->list_count = count($document_srl_list);
 		$obj->document_list = executeQueryArray('document.getDocuments', $obj)->data;
 		$obj->module_srl = $target_module_srl;

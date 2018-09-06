@@ -73,7 +73,7 @@ class DBMySQL extends DB
 		// Check connection error
 		if($mysqli->connect_errno)
 		{
-			$this->setError($mysqli->connect_errno, $mysqli->connect_error());
+			$this->setError($mysqli->connect_errno, $mysqli->connect_error);
 			return;
 		}
 		
