@@ -1516,13 +1516,12 @@ class commentController extends comment
 			return new BaseObject(-1, 'failed_declared');
 		}
 
+		// Get currently logged in user.
+		$member_srl = intval($this->user->member_srl);
+		
 		// if the comment author is a member
 		if($oComment->get('member_srl'))
 		{
-			// create the member model object
-			$oMemberModel = getModel('member');
-			$member_srl = $oMemberModel->getLoggedMemberSrl();
-
 			// session registered if the author information matches to the current logged-in user's.
 			if($member_srl && $member_srl == abs($oComment->get('member_srl')))
 			{
@@ -1531,29 +1530,31 @@ class commentController extends comment
 			}
 		}
 
-		// If logged-in, use the member_srl. otherwise use the ipaddress.
+		// Pass after registering a sesson if reported/declared documents are in the logs.
+		$args = new stdClass;
+		$args->comment_srl = $comment_srl;
 		if($member_srl)
 		{
 			$args->member_srl = $member_srl;
 		}
 		else
 		{
-			$args->ipaddress = $_SERVER['REMOTE_ADDR'];
+			$args->ipaddress = \RX_CLIENT_IP;
 		}
-
-		$args->comment_srl = $comment_srl;
-		$args->declare_message = $declare_message;
 		$log_output = executeQuery('comment.getCommentDeclaredLogInfo', $args);
-
-		// session registered if log info contains report log.
 		if($log_output->data->count)
 		{
 			$_SESSION['declared_comment'][$comment_srl] = TRUE;
 			return new BaseObject(-1, 'failed_declared');
 		}
-
+		
+		// Fill in remaining information for logging.
+		$args->member_srl = $member_srl;
+		$args->ipaddress = \RX_CLIENT_IP;
+		$args->declare_message = $declare_message;
+		
 		// begin transaction
-		$oDB = &DB::getInstance();
+		$oDB = DB::getInstance();
 		$oDB->begin();
 
 		// execute insert

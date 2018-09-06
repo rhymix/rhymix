@@ -1543,12 +1543,12 @@ class documentController extends document
 			return new BaseObject(-1, 'failed_declared');
 		}
 
+		// Get currently logged in user.
+		$member_srl = intval($this->user->member_srl);
+		
 		// Check if document's author is a member.
 		if($oDocument->get('member_srl'))
 		{
-			// Create a member model object
-			$oMemberModel = getModel('member');
-			$member_srl = $oMemberModel->getLoggedMemberSrl();
 			// Pass after registering a session if author's information is same as the currently logged-in user's.
 			if($member_srl && $member_srl == abs($oDocument->get('member_srl')))
 			{
@@ -1557,30 +1557,31 @@ class documentController extends document
 			}
 		}
 
-		// Use member_srl for logged-in members and IP address for non-members.
+		// Pass after registering a sesson if reported/declared documents are in the logs.
 		$args = new stdClass;
+		$args->document_srl = $document_srl;
 		if($member_srl)
 		{
 			$args->member_srl = $member_srl;
 		}
 		else
 		{
-			$args->ipaddress = $_SERVER['REMOTE_ADDR'];
+			$args->ipaddress = \RX_CLIENT_IP;
 		}
-
-		$args->document_srl = $document_srl;
-		$args->declare_message = $declare_message;
 		$output = executeQuery('document.getDocumentDeclaredLogInfo', $args);
-
-		// Pass after registering a sesson if reported/declared documents are in the logs.
 		if($output->data->count)
 		{
 			$_SESSION['declared_document'][$document_srl] = true;
 			return new BaseObject(-1, 'failed_declared');
 		}
-
+		
+		// Fill in remaining information for logging.
+		$args->member_srl = $member_srl;
+		$args->ipaddress = \RX_CLIENT_IP;
+		$args->declare_message = $declare_message;
+		
 		// begin transaction
-		$oDB = &DB::getInstance();
+		$oDB = DB::getInstance();
 		$oDB->begin();
 
 		// Add the declared document
