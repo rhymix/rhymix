@@ -23,6 +23,11 @@ class Storage
 	protected static $_opcache;
 	
 	/**
+	 * Cache the cluster status here.
+	 */
+	protected static $_cluster;
+	
+	/**
 	 * Cache locks here.
 	 */
 	protected static $_locks = array();
@@ -311,9 +316,20 @@ class Storage
 		{
 			self::$_opcache = function_exists('opcache_invalidate');
 		}
+		if (self::$_cluster === null)
+		{
+			self::$_cluster = config('cluster.enabled');
+		}
 		if (self::$_opcache && substr($filename, -4) === '.php')
 		{
-			@opcache_invalidate($filename, true);
+			if (self::$_cluster)
+			{
+				Cluster::sendOpcacheInvalidate([$filename]);
+			}
+			else
+			{
+				@opcache_invalidate($filename, true);
+			}
 		}
 		
 		clearstatcache(true, $filename);
@@ -428,9 +444,20 @@ class Storage
 		{
 			self::$_opcache = function_exists('opcache_invalidate');
 		}
+		if (self::$_cluster === null)
+		{
+			self::$_cluster = config('cluster.enabled');
+		}
 		if (self::$_opcache && substr($destination, -4) === '.php')
 		{
-			@opcache_invalidate($destination, true);
+			if (self::$_cluster)
+			{
+				Cluster::sendOpcacheInvalidate([$filename]);
+			}
+			else
+			{
+				@opcache_invalidate($destination, true);
+			}
 		}
 		
 		clearstatcache(true, $destination);
@@ -483,15 +510,33 @@ class Storage
 		{
 			self::$_opcache = function_exists('opcache_invalidate');
 		}
+		if (self::$_cluster === null)
+		{
+			self::$_cluster = config('cluster.enabled');
+		}
 		if (self::$_opcache)
 		{
 			if (substr($source, -4) === '.php')
 			{
-				@opcache_invalidate($source, true);
+				if (self::$_cluster)
+				{
+					Cluster::sendOpcacheInvalidate([$source]);
+				}
+				else
+				{
+					@opcache_invalidate($source, true);
+				}
 			}
 			if (substr($destination, -4) === '.php')
 			{
-				@opcache_invalidate($destination, true);
+				if (self::$_cluster)
+				{
+					Cluster::sendOpcacheInvalidate([$destination]);
+				}
+				else
+				{
+					@opcache_invalidate($destination, true);
+				}
 			}
 		}
 		
@@ -526,9 +571,20 @@ class Storage
 		{
 			self::$_opcache = function_exists('opcache_invalidate');
 		}
+		if (self::$_cluster === null)
+		{
+			self::$_cluster = config('cluster.enabled');
+		}
 		if (self::$_opcache && substr($filename, -4) === '.php')
 		{
-			@opcache_invalidate($filename, true);
+			if (self::$_cluster)
+			{
+				Cluster::sendOpcacheInvalidate([$filename]);
+			}
+			else
+			{
+				@opcache_invalidate($filename, true);
+			}
 		}
 		return $result;
 	}

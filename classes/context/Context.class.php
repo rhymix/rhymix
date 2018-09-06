@@ -283,6 +283,14 @@ class Context
 			self::set('site_module_info', $site_module_info);
 		}
 		
+		// Handle intra-cluster communications.
+		$cluster_action = self::get('action');
+		if (!strncmp($cluster_action, 'rhymix:cluster:', 15) && config('cluster.enabled') && $_SERVER['REQUEST_METHOD'] === 'POST')
+		{
+			Rhymix\Framework\Cluster::receive();
+			exit;
+		}
+		
 		// Redirect to SSL if the current domain always uses SSL.
 		if ($site_module_info->security === 'always' && !RX_SSL && PHP_SAPI !== 'cli' && !$site_module_info->is_default_replaced)
 		{
