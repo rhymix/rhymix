@@ -44,7 +44,7 @@ class pollAdminController extends poll
 		else $poll_srl_list= explode('|@|', $cart);
 
 		$poll_count = count($poll_srl_list);
-		if(!$poll_count) return $this->stop('msg_cart_is_null');
+		if(!$poll_count) throw new Rhymix\Framework\Exception('msg_cart_is_null');
 		// Delete the post
 		for($i=0;$i<$poll_count;$i++)
 		{

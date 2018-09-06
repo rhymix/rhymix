@@ -414,7 +414,7 @@ class autoinstallAdminView extends autoinstall
 
 		if(!$updateDate)
 		{
-			return $this->stop('msg_connection_fail');
+			throw new Rhymix\Framework\Exception('msg_connection_fail');
 		}
 
 		$oModel = getModel('autoinstall');
@@ -535,13 +535,13 @@ class autoinstallAdminView extends autoinstall
 
 		if(!$type || $type == "core")
 		{
-			return $this->stop("msg_invalid_request");
+			throw new Rhymix\Framework\Exceptions\InvalidRequest;
 		}
 
 		$config_file = $oModel->getConfigFilePath($type);
 		if(!$config_file)
 		{
-			return $this->stop("msg_invalid_request");
+			throw new Rhymix\Framework\Exceptions\InvalidRequest;
 		}
 
 		$output = $oAdminModel->checkUseDirectModuleInstall($installedPackage);
@@ -579,7 +579,7 @@ class autoinstallAdminView extends autoinstall
 		}
 		else
 		{
-			return $this->stop('msg_connection_fail');
+			throw new Rhymix\Framework\Exception('msg_connection_fail');
 		}
 	}
 

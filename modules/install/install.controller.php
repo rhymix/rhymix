@@ -17,7 +17,7 @@ class installController extends install
 		// Stop if already installed.
 		if (Context::isInstalled())
 		{
-			$this->stop('msg_already_installed');
+			throw new Rhymix\Framework\Exception('msg_already_installed');
 		}
 		
 		// Increase time limit.
@@ -76,7 +76,7 @@ class installController extends install
 		{
 			if ($oDB->isTableExists($table_name))
 			{
-				return $this->setError('msg_table_already_exists');
+				throw new Rhymix\Framework\Exception('msg_table_already_exists');
 			}
 		}
 		
@@ -99,7 +99,7 @@ class installController extends install
 		// Check if it is already installed
 		if (Context::isInstalled())
 		{
-			return $this->setError('msg_already_installed');
+			throw new Rhymix\Framework\Exception('msg_already_installed');
 		}
 		
 		// Get install parameters.
@@ -227,7 +227,7 @@ class installController extends install
 		catch(Exception $e)
 		{
 			$oDB->rollback();
-			return $this->setError($e->getMessage());
+			throw new Rhymix\Framework\Exception($e->getMessage());
 		}
 		
 		// Execute the install script.
@@ -411,7 +411,7 @@ class installController extends install
 		else
 		{
 			FileHandler::removeFile($this->flagLicenseAgreement);
-			return $this->setError('msg_must_accept_license_agreement');
+			throw new Rhymix\Framework\Exception('msg_must_accept_license_agreement');
 		}
 
 		if(!in_array(Context::getRequestMethod(),array('XMLRPC','JSON')))

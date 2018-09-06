@@ -136,7 +136,7 @@ class ModuleObject extends BaseObject
 		// Set privileges(granted) information
 		if($this->setPrivileges() !== true)
 		{
-			$this->stop('msg_invalid_request');
+			$this->stop('msg_not_permitted');
 			return;
 		}
 		
@@ -158,7 +158,14 @@ class ModuleObject extends BaseObject
 		// Execute init
 		if(method_exists($this, 'init'))
 		{
-			$this->init();
+			try
+			{
+				$this->init();
+			}
+			catch (Rhymix\Framework\Exception $e)
+			{
+				$this->stop($e->getMessage());
+			}
 		}
 	}
 	
@@ -569,8 +576,16 @@ class ModuleObject extends BaseObject
 
 			$oModuleModel->syncSkinInfoToModuleInfo($this->module_info);
 			Context::set('module_info', $this->module_info);
+
 			// Run
-			$output = $this->{$this->act}();
+			try
+			{
+				$output = $this->{$this->act}();
+			}
+			catch (Rhymix\Framework\Exception $e)
+			{
+				$output = new BaseObject(-2, $e->getMessage());
+			}
 		}
 		else
 		{

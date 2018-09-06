@@ -59,7 +59,7 @@ class widgetAdminView extends widget
 	function dispWidgetAdminAddContent()
 	{
 		$module_srl = Context::get('module_srl');
-		if(!$module_srl) return $this->stop("msg_invalid_request");
+		if(!$module_srl) throw new Rhymix\Framework\Exceptions\InvalidRequest;
 
 		$document_srl = Context::get('document_srl');
 		$oDocumentModel = getModel('document');

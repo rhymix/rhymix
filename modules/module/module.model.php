@@ -267,8 +267,7 @@ class moduleModel extends module
 
 		if(!$menuItemSrl)
 		{
-			$this->stop(-1, 'msg_invalid_request');
-			return;
+			return new BaseObject(-1, 'msg_invalid_request');
 		}
 
 		$args = new stdClass();

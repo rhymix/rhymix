@@ -23,7 +23,7 @@ class layoutAdminController extends layout
 	 */
 	function procLayoutAdminInsert()
 	{
-		if(Context::get('layout') == 'faceoff') return $this->stop('not supported');
+		if(Context::get('layout') == 'faceoff') throw new Rhymix\Framework\Exception('not supported');
 
 		// Get information to create a layout
 		$site_module_info = Context::get('site_module_info');
@@ -130,7 +130,7 @@ class layoutAdminController extends layout
 					$output = executeQuery('menu.getMenuItemByUrl', $tmpArgs);
 					if(!$output->toBool())
 					{
-						return $this->setError('fail_to_update');
+						throw new Rhymix\Framework\Exception('fail_to_update');
 					}
 
 					$menu_srl = $output->data->menu_srl;
@@ -313,7 +313,7 @@ class layoutAdminController extends layout
 
 					if(!$output->toBool())
 					{
-						return $this->setError($output->message);
+						throw new Rhymix\Framework\Exception($output->message);
 					}
 				}
 			}
@@ -356,7 +356,7 @@ class layoutAdminController extends layout
 
 		if(!$layout_srl || !$code || !$is_post)
 		{
-			return $this->setError('msg_invalid_request');
+			throw new Rhymix\Framework\Exceptions\InvalidRequest;
 		}
 
 		$oLayoutModel = getModel('layout');
@@ -377,7 +377,7 @@ class layoutAdminController extends layout
 	function procLayoutAdminCodeReset()
 	{
 		$layout_srl = Context::get('layout_srl');
-		if(!$layout_srl) return $this->setError('msg_invalid_request');
+		if(!$layout_srl) throw new Rhymix\Framework\Exceptions\InvalidRequest;
 
 		// delete user layout file
 		$oLayoutModel = getModel('layout');
@@ -480,13 +480,13 @@ class layoutAdminController extends layout
 		$oModuleModel = getModel('module');
 
 		$mid = Context::get('mid');
-		if(!$mid) return $this->setError('msg_invalid_request');
+		if(!$mid) throw new Rhymix\Framework\Exceptions\InvalidRequest;
 
 		$site_module_info = Context::get('site_module_info');
 		$columnList = array('layout_srl');
 		$module_info = $oModuleModel->getModuleInfoByMid($mid, $site_module_info->site_srl, $columnList);
 		$layout_srl = $module_info->layout_srl;
-		if(!$layout_srl) return $this->setError('msg_invalid_request');
+		if(!$layout_srl) throw new Rhymix\Framework\Exceptions\InvalidRequest;
 
 		$oLayoutModel = getModel('layout');
 
@@ -683,7 +683,7 @@ class layoutAdminController extends layout
 	 */
 	function procLayoutAdminUserLayoutImport()
 	{
-		return $this->stop('not supported');
+		throw new Rhymix\Framework\Exception('not supported');
 
 		// check upload
 		if(!Context::isUploaded()) exit();
@@ -713,12 +713,12 @@ class layoutAdminController extends layout
 		$sourceArgs = Context::getRequestVars();
 		if($sourceArgs->layout == 'faceoff')
 		{
-			return $this->stop('not supported');
+			throw new Rhymix\Framework\Exception('not supported');
 		}
 
 		if(!$sourceArgs->layout_srl)
 		{
-			return $this->stop('msg_empty_origin_layout');
+			throw new Rhymix\Framework\Exception('msg_empty_origin_layout');
 		}
 
 		$oLayoutModel = getModel('layout');
@@ -731,7 +731,7 @@ class layoutAdminController extends layout
 
 		if(!is_array($sourceArgs->title) || count($sourceArgs->title) == 0)
 		{
-			return $this->stop('msg_empty_target_layout');
+			throw new Rhymix\Framework\Exception('msg_empty_target_layout');
 		}
 
 		$output = $oLayoutModel->getLayoutRawData($sourceArgs->layout_srl, array('extra_vars'));

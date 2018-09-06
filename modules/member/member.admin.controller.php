@@ -26,7 +26,7 @@ class memberAdminController extends member
 		$logged_info = Context::get('logged_info');
 		if($logged_info->is_admin != 'Y' || !checkCSRF())
 		{
-			return $this->setError('msg_invalid_request');
+			throw new Rhymix\Framework\Exceptions\InvalidRequest;
 		}
 
 		$args = Context::gets('member_srl','email_address','find_account_answer', 'allow_mailing','allow_message','denied','is_admin','description','group_srl_list','limit_date');
@@ -741,7 +741,7 @@ class memberAdminController extends member
 		// Check ID duplicated
 		if (Context::isReservedWord($args->column_name))
 		{
-			return $this->setError('msg_column_id_not_available');
+			throw new Rhymix\Framework\Exception('msg_column_id_not_available');
 		}
 		$oMemberModel = getModel('member');
 		$config = $oMemberModel->getMemberConfig();
@@ -750,7 +750,7 @@ class memberAdminController extends member
 			if($item->name == $args->column_name)
 			{
 				if($args->member_join_form_srl && $args->member_join_form_srl == $item->member_join_form_srl) continue;
-				return $this->setError('msg_column_id_not_available');
+				throw new Rhymix\Framework\Exception('msg_column_id_not_available');
 			}
 		}
 		// Fix if member_join_form_srl exists. Add if not exists.
@@ -961,7 +961,7 @@ class memberAdminController extends member
 	function procMemberAdminDeleteMembers()
 	{
 		$target_member_srls = Context::get('target_member_srls');
-		if(!$target_member_srls) return $this->setError('msg_invalid_request');
+		if(!$target_member_srls) throw new Rhymix\Framework\Exceptions\InvalidRequest;
 		$member_srls = explode(',', $target_member_srls);
 		$oMemberController = getController('member');
 
@@ -985,7 +985,7 @@ class memberAdminController extends member
 	function procMemberAdminUpdateMembersGroup()
 	{
 		$member_srl = Context::get('member_srl');
-		if(!$member_srl) return $this->setError('msg_invalid_request');
+		if(!$member_srl) throw new Rhymix\Framework\Exceptions\InvalidRequest;
 		$member_srls = explode(',',$member_srl);
 
 		$group_srl = Context::get('group_srls');
@@ -1258,7 +1258,7 @@ class memberAdminController extends member
 	function updateGroup($args)
 	{
 		if(!$args->site_srl) $args->site_srl = 0;
-		if(!$args->group_srl) return $this->setError('lang->msg_not_founded');
+		if(!$args->group_srl) throw new Rhymix\Framework\Exceptions\TargetNotFound;
 		
 		// Call trigger (before)
 		$trigger_output = ModuleHandler::triggerCall('member.updateGroup', 'before', $args);
@@ -1302,8 +1302,8 @@ class memberAdminController extends member
 		$columnList = array('group_srl', 'is_default');
 		$group_info = $oMemberModel->getGroup($group_srl, $columnList);
 
-		if(!$group_info) return $this->setError('lang->msg_not_founded');
-		if($group_info->is_default == 'Y') return $this->setError('msg_not_delete_default');
+		if(!$group_info) throw new Rhymix\Framework\Exceptions\TargetNotFound;
+		if($group_info->is_default == 'Y') throw new Rhymix\Framework\Exception('msg_not_delete_default');
 		
 		// Call trigger (before)
 		$trigger_output = ModuleHandler::triggerCall('member.deleteGroup', 'before', $group_info);

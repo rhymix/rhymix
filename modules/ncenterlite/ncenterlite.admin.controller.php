@@ -78,7 +78,7 @@ class ncenterliteAdminController extends ncenterlite
 		$output = $oModuleController->insertModuleConfig('ncenterlite', $config);
 		if(!$output->toBool())
 		{
-			return $this->setError('ncenterlite_msg_setting_error');
+			throw new Rhymix\Framework\Exception('ncenterlite_msg_setting_error');
 		}
 
 		$this->setMessage('success_updated');

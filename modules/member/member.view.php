@@ -63,7 +63,7 @@ class memberView extends member
 		$oMemberModel = getModel('member');
 		$logged_info = Context::get('logged_info');
 		// Don't display member info to non-logged user
-		if(!$logged_info->member_srl) return $this->stop('msg_not_permitted');
+		if(!$logged_info->member_srl) throw new Rhymix\Framework\Exceptions\MustLogin;
 
 		$member_srl = Context::get('member_srl');
 		if(!$member_srl && Context::get('is_logged'))
@@ -198,12 +198,12 @@ class memberView extends member
 
 		$oMemberModel = getModel('member');
 		// Get the member information if logged-in
-		if($oMemberModel->isLogged()) return $this->stop('msg_already_logged');
+		if($oMemberModel->isLogged()) throw new Rhymix\Framework\Exception('msg_already_logged');
 		// call a trigger (before) 
 		$trigger_output = ModuleHandler::triggerCall('member.dispMemberSignUpForm', 'before', $member_config);
 		if(!$trigger_output->toBool()) return $trigger_output;
 		// Error appears if the member is not allowed to join
-		if($member_config->enable_join != 'Y') return $this->stop('msg_signup_disabled');
+		if($member_config->enable_join != 'Y') throw new Rhymix\Framework\Exceptions\FeatureDisabled('msg_signup_disabled');
 		
 		$formTags = getAdminView('member')->_getMemberInputTag();
 		Context::set('formTags', $formTags);
@@ -251,7 +251,7 @@ class memberView extends member
 		$oMemberModel = getModel('member');
 		if(!$oMemberModel->isLogged() || empty($logged_info))
 		{
-			return $this->stop('msg_not_logged');
+			throw new Rhymix\Framework\Exceptions\MustLogin;
 		}
 
 		$_SESSION['rechecked_password_step'] = 'INPUT_PASSWORD';
@@ -294,7 +294,7 @@ class memberView extends member
 
 		$oMemberModel = getModel('member');
 		// A message appears if the user is not logged-in
-		if(!$oMemberModel->isLogged()) return $this->stop('msg_not_logged');
+		if(!$oMemberModel->isLogged()) throw new Rhymix\Framework\Exceptions\MustLogin;
 
 		$logged_info = Context::get('logged_info');
 		$member_srl = $logged_info->member_srl;
@@ -351,13 +351,13 @@ class memberView extends member
 	{
 		if ($this->member_config->features['my_documents'] === false)
 		{
-			return $this->stop('msg_invalid_request');
+			throw new Rhymix\Framework\Exceptions\FeatureDisabled;
 		}
 
 		// A message appears if the user is not logged-in
 		if(!Context::get('is_logged'))
 		{
-			return $this->setError('msg_not_logged');
+			throw new Rhymix\Framework\Exceptions\MustLogin;
 		}
 
 		$logged_info = Context::get('logged_info');
@@ -385,12 +385,12 @@ class memberView extends member
 	{
 		if ($this->member_config->features['my_comments'] === false)
 		{
-			return $this->stop('msg_invalid_request');
+			throw new Rhymix\Framework\Exceptions\FeatureDisabled;
 		}
 
 		$oMemberModel = getModel('member');
 		// A message appears if the user is not logged-in
-		if(!$oMemberModel->isLogged()) return $this->stop('msg_not_logged');
+		if(!$oMemberModel->isLogged()) throw new Rhymix\Framework\Exceptions\MustLogin;
 
 		$logged_info = Context::get('logged_info');
 		$member_srl = $logged_info->member_srl;
@@ -417,12 +417,12 @@ class memberView extends member
 	{
 		if ($this->member_config->features['scrapped_documents'] === false)
 		{
-			return $this->stop('msg_invalid_request');
+			throw new Rhymix\Framework\Exceptions\FeatureDisabled;
 		}
 
 		$oMemberModel = getModel('member');
 		// A message appears if the user is not logged-in
-		if(!$oMemberModel->isLogged()) return $this->stop('msg_not_logged');
+		if(!$oMemberModel->isLogged()) throw new Rhymix\Framework\Exceptions\MustLogin;
 
 		$logged_info = Context::get('logged_info');
 		
@@ -447,7 +447,7 @@ class memberView extends member
 		$folder_srl = (int)Context::get('folder_srl');
 		if($folder_srl && !array_filter($folders, function($folder) use($folder_srl) { return $folder->folder_srl == $folder_srl; }))
 		{
-			return $this->setError('msg_invalid_request');
+			throw new Rhymix\Framework\Exceptions\InvalidRequest;
 		}
 		if(!$folder_srl && count($folders))
 		{
@@ -493,12 +493,12 @@ class memberView extends member
 	{
 		if ($this->member_config->features['saved_documents'] === false)
 		{
-			return $this->stop('msg_invalid_request');
+			throw new Rhymix\Framework\Exceptions\FeatureDisabled;
 		}
 
 		$oMemberModel = getModel('member');
 		// A message appears if the user is not logged-in
-		if(!$oMemberModel->isLogged()) return $this->stop('msg_not_logged');
+		if(!$oMemberModel->isLogged()) throw new Rhymix\Framework\Exceptions\MustLogin;
 		// Get the saved document(module_srl is set to member_srl instead)
 		$logged_info = Context::get('logged_info');
 		$args = new stdClass();
@@ -524,13 +524,13 @@ class memberView extends member
 	{
 		if ($this->member_config->features['active_logins'] === false)
 		{
-			return $this->stop('msg_invalid_request');
+			throw new Rhymix\Framework\Exceptions\FeatureDisabled;
 		}
 
 		$logged_info = Context::get('logged_info');
 		if (!$logged_info->member_srl)
 		{
-			return $this->stop('msg_not_logged');
+			throw new Rhymix\Framework\Exceptions\MustLogin;
 		}
 		
 		$args = new stdClass();
@@ -583,7 +583,7 @@ class memberView extends member
 	{
 		$oMemberModel = getModel('member');
 		// A message appears if the user is not logged-in
-		if(!$oMemberModel->isLogged()) return $this->stop('msg_not_logged');
+		if(!$oMemberModel->isLogged()) throw new Rhymix\Framework\Exceptions\MustLogin;
 
 		$memberConfig = $this->member_config;
 
@@ -615,7 +615,7 @@ class memberView extends member
 	{
 		$oMemberModel = getModel('member');
 		// A message appears if the user is not logged-in
-		if(!$oMemberModel->isLogged()) return $this->stop('msg_not_logged');
+		if(!$oMemberModel->isLogged()) throw new Rhymix\Framework\Exceptions\MustLogin;
 
 		$memberConfig = $this->member_config;
 
@@ -668,7 +668,10 @@ class memberView extends member
 	 */
 	function dispMemberFindAccount()
 	{
-		if(Context::get('is_logged')) return $this->stop('already_logged');
+		if(Context::get('is_logged'))
+		{
+			throw new Rhymix\Framework\Exception('already_logged');
+		}
 
 		$config = $this->member_config;
 
@@ -688,7 +691,7 @@ class memberView extends member
 
 		if(Context::get('is_logged')) 
 		{
-			return $this->stop('already_logged');
+			throw new Rhymix\Framework\Exception('already_logged');
 		}
 
 		if($authMemberSrl)
@@ -765,7 +768,7 @@ class memberView extends member
 	**/
 	function dispMemberSpammer()
 	{
-		if(!Context::get('is_logged')) return $this->setError('msg_not_permitted');
+		if(!Context::get('is_logged')) throw new Rhymix\Framework\Exceptions\NotPermitted;
 
 		$member_srl = Context::get('member_srl');
 		$module_srl = Context::get('module_srl');
@@ -776,7 +779,7 @@ class memberView extends member
 		$module_info = $oModuleModel->getModuleInfoByModuleSrl($module_srl, $columnList);
 		$grant = $oModuleModel->getGrant($module_info, Context::get('logged_info'));
 
-		if(!$grant->manager) return $this->setError('msg_not_permitted');
+		if(!$grant->manager) throw new Rhymix\Framework\Exceptions\NotPermitted;
 
 		$oMemberModel = getModel('member');
 
@@ -800,7 +803,7 @@ class memberView extends member
 	{
 		if ($this->member_config->features['nickname_log'] === false || $this->member_config->update_nickname_log != 'Y')
 		{
-			return $this->stop('msg_invalid_request');
+			throw new Rhymix\Framework\Exceptions\FeatureDisabled;
 		}
 
 		$member_srl = Context::get('member_srl');
@@ -813,7 +816,7 @@ class memberView extends member
 		{
 			if($logged_info->is_admin != 'Y')
 			{
-				return $this->setError('msg_not_permitted');
+				throw new Rhymix\Framework\Exceptions\NotPermitted;
 			}
 		}
 

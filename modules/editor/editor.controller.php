@@ -47,18 +47,23 @@ class editorController extends editor
 	{
 		$component = Context::get('component');
 		$method = Context::get('method');
-		if(!$component) return $this->setError('msg_component_is_not_founded', $component);
+		if(!$component)
+		{
+			throw new Rhymix\Framework\Exception('msg_component_is_not_founded', $component);
+		}
 
 		$oEditorModel = getModel('editor');
 		$oComponent = &$oEditorModel->getComponentObject($component);
 		if(!$oComponent->toBool()) return $oComponent;
 
-		if(!method_exists($oComponent, $method)) return $this->setError('msg_component_is_not_founded', $component);
+		if(!method_exists($oComponent, $method))
+		{
+			throw new Rhymix\Framework\Exception('msg_component_is_not_founded', $component);
+		}
 
 		//$output = call_user_method($method, $oComponent);
 		//$output = call_user_func(array($oComponent, $method));
-		if(method_exists($oComponent, $method)) $output = $oComponent->{$method}();
-		else return $this->setError('%s method is not exists', $method);
+		$output = $oComponent->{$method}();
 
 		if($output instanceof BaseObject && !$output->toBool()) return $output;
 
@@ -93,13 +98,13 @@ class editorController extends editor
 			$module_info = $oModuleModel->getModuleInfoByModuleSrl($srl);
 			if (!$module_info->module_srl)
 			{
-				return $this->setError('msg_invalid_request');
+				throw new Rhymix\Framework\Exceptions\InvalidRequest;
 			}
 
 			$module_grant = $oModuleModel->getGrant($module_info, $logged_info);
 			if (!$module_grant->manager)
 			{
-				return $this->setError('msg_not_permitted');
+				throw new Rhymix\Framework\Exceptions\NotPermitted;
 			}
 
 			$module_srl[] = $srl;

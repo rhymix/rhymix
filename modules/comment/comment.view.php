@@ -73,7 +73,7 @@ class commentView extends comment
 		// A message appears if the user is not logged-in
 		if(!$oMemberModel->isLogged())
 		{
-			return $this->stop('msg_not_logged');
+			throw new Rhymix\Framework\Exceptions\MustLogin;
 		}
 
 		// Create the comment object.
@@ -82,12 +82,12 @@ class commentView extends comment
 		$oComment = $oCommentModel->getComment($comment_srl);
 		if(!$oComment->isExists())
 		{
-			return $this->setError('msg_invalid_request');
+			throw new Rhymix\Framework\Exceptions\TargetNotFound;
 		}
 		// Check permissions
 		if(!$oComment->isAccessible())
 		{
-			return $this->setError('msg_not_permitted');
+			throw new Rhymix\Framework\Exceptions\NotPermitted;
 		}
 
 		// Browser title settings

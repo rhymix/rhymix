@@ -19,7 +19,7 @@ class installView extends install
 		// Stop if already installed.
 		if (Context::isInstalled())
 		{
-			return $this->stop('msg_already_installed');
+			throw new Rhymix\Framework\Exception('msg_already_installed');
 		}
 		
 		// Set the browser title.

@@ -59,9 +59,9 @@ class trashAdminController extends trash
 
 		//module relation data delete...
 		$output = $this->_relationDataDelete($isAll, $is_type, $trashSrls);
-		if(!$output->toBool()) return $this->setError($output->message);
+		if(!$output->toBool()) throw new Rhymix\Framework\Exception($output->message);
 
-		if(!$this->_emptyTrash($trashSrls)) return $this->setError($lang->fail_empty);
+		if(!$this->_emptyTrash($trashSrls)) throw new Rhymix\Framework\Exception($lang->fail_empty);
 
 		$this->setMessage('success_deleted', 'info');
 
@@ -114,14 +114,14 @@ class trashAdminController extends trash
 			{
 				//class file check
 				$classPath = ModuleHandler::getModulePath($oTrashVO->getOriginModule());
-				if(!is_dir(FileHandler::getRealPath($classPath))) return $this->setError('not exist restore module directory');
+				if(!is_dir(FileHandler::getRealPath($classPath))) throw new Rhymix\Framework\Exception('not exist restore module directory');
 
 				$classFile = sprintf('%s%s.admin.controller.php', $classPath, $oTrashVO->getOriginModule());
 				$classFile = FileHandler::getRealPath($classFile);
-				if(!file_exists($classFile)) return $this->setError('not exist restore module class file');
+				if(!file_exists($classFile)) throw new Rhymix\Framework\Exception('not exist restore module class file');
 
 				$oAdminController = getAdminController($oTrashVO->getOriginModule());
-				if(!method_exists($oAdminController, 'emptyTrash')) return $this->setError('not exist restore method in module class file');
+				if(!method_exists($oAdminController, 'emptyTrash')) throw new Rhymix\Framework\Exception('not exist restore method in module class file');
 
 				$output2 = $oAdminController->emptyTrash($oTrashVO->getSerializedObject());
 				if(!$output2->toBool()) return $output;
@@ -154,14 +154,14 @@ class trashAdminController extends trash
 
 				//class file check
 				$classPath = ModuleHandler::getModulePath($output->data->getOriginModule());
-				if(!is_dir(FileHandler::getRealPath($classPath))) return $this->setError('not exist restore module directory');
+				if(!is_dir(FileHandler::getRealPath($classPath))) throw new Rhymix\Framework\Exception('not exist restore module directory');
 
 				$classFile = sprintf('%s%s.admin.controller.php', $classPath, $output->data->getOriginModule());
 				$classFile = FileHandler::getRealPath($classFile);
-				if(!file_exists($classFile)) return $this->setError('not exist restore module class file');
+				if(!file_exists($classFile)) throw new Rhymix\Framework\Exception('not exist restore module class file');
 
 				$oAdminController = getAdminController($output->data->getOriginModule());
-				if(!method_exists($oAdminController, 'restoreTrash')) return $this->setError('not exist restore method in module class file');
+				if(!method_exists($oAdminController, 'restoreTrash')) throw new Rhymix\Framework\Exception('not exist restore method in module class file');
 
 				$originObject = unserialize($output->data->getSerializedObject());
 				$output = $oAdminController->restoreTrash($originObject);
@@ -176,7 +176,7 @@ class trashAdminController extends trash
 			// restore object delete in trash box
 			if(!$this->_emptyTrash($trashSrlList)) {
 				$oDB->rollback();
-				return $this->setError($lang->fail_empty);
+				throw new Rhymix\Framework\Exception($lang->fail_empty);
 			}
 			$oDB->commit();
 		}
@@ -193,7 +193,7 @@ class trashAdminController extends trash
 	 */
 	function procTrashAdminGetList()
 	{
-		if(!Context::get('is_logged')) return $this->setError('msg_not_permitted');
+		if(!Context::get('is_logged')) throw new Rhymix\Framework\Exceptions\NotPermitted;
 		$trashSrls = Context::get('trash_srls');
 		if($trashSrls) $trashSrlList = explode(',', $trashSrls);
 

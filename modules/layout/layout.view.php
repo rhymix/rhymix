@@ -55,7 +55,7 @@ class layoutView extends layout
 			$logged_info = Context::get('logged_info');
 			if($logged_info->is_admin != 'Y')
 			{
-				throw new Exception(lang('msg_invalid_request'));
+				throw new Rhymix\Framework\Exceptions\InvalidRequest;
 			}
 
 			// if module is 'ARTiCLE' and from site design setting, make content directly
@@ -253,13 +253,13 @@ class layoutView extends layout
 			$output = executeQuery('layout.getOneModuleInstanceByModuleName', $args);
 			if(!$output->toBool())
 			{
-				throw new Exception($output->getMessage());
+				throw new Rhymix\Framework\Exception($output->getMessage());
 			}
 
 			// if there is no module instance, error...
 			if(!$output->data)
 			{
-				throw new Exception(lang('msg_unabled_preview'));
+				throw new Rhymix\Framework\Exception(lang('msg_unabled_preview'));
 			}
 		
 			$mid = current($output->data)->mid;
@@ -301,7 +301,7 @@ class layoutView extends layout
 		$oModule = $oModuleHandler->procModule();
 		if(!$oModule->toBool())
 		{
-			throw new Exception(lang('not_support_layout_preview'));
+			throw new Rhymix\Framework\Exception(lang('not_support_layout_preview'));
 		}
 
 		// get module html
@@ -318,23 +318,23 @@ class layoutView extends layout
 	{
 		if(!checkCSRF())
 		{
-			return $this->setError('msg_invalid_request');
+			throw new Rhymix\Framework\Exceptions\InvalidRequest;
 		}
 
 		// admin check
 		// this act is admin view but in normal view because do not load admin css/js files
 		$logged_info = Context::get('logged_info');
-		if($logged_info->is_admin != 'Y') return $this->stop('msg_invalid_request');
+		if($logged_info->is_admin != 'Y') throw new Rhymix\Framework\Exceptions\InvalidRequest;
 
 		$layout_srl = Context::get('layout_srl');
 		$code = Context::get('code');
 
 		$code_css = Context::get('code_css');
-		if(!$layout_srl || !$code) return $this->setError('msg_invalid_request');
+		if(!$layout_srl || !$code) throw new Rhymix\Framework\Exceptions\InvalidRequest;
 		// Get the layout information
 		$oLayoutModel = getModel('layout');
 		$layout_info = $oLayoutModel->getLayout($layout_srl);
-		if(!$layout_info) return $this->setError('msg_invalid_request');
+		if(!$layout_info) throw new Rhymix\Framework\Exceptions\InvalidRequest;
 		// Separately handle the layout if its type is faceoff
 		if($layout_info && $layout_info->type == 'faceoff') $oLayoutModel->doActivateFaceOff($layout_info);
 		// Apply CSS directly

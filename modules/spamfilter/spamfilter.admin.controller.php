@@ -151,7 +151,7 @@ class spamfilterAdminController extends spamfilter
 			
 			if (mb_strlen($word, 'UTF-8') < 2 || mb_strlen($word, 'UTF-8') > 180)
 			{
-				return $this->setError('msg_invalid_word');
+				throw new Rhymix\Framework\Exception('msg_invalid_word');
 			}
 			
 			$args = new stdClass;

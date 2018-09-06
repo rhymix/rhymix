@@ -27,15 +27,18 @@ class commentController extends comment
 	 */
 	function procCommentVoteUp()
 	{
-		if(!Context::get('is_logged'))
+		if($this->module_info->non_login_vote !== 'Y')
 		{
-			return $this->setError('msg_invalid_request');
+			if(!Context::get('is_logged'))
+			{
+				throw new Rhymix\Framework\Exceptions\NotPermitted;
+			}
 		}
 
 		$comment_srl = Context::get('target_srl');
 		if(!$comment_srl)
 		{
-			return $this->setError('msg_invalid_request');
+			throw new Rhymix\Framework\Exceptions\InvalidRequest;
 		}
 
 		$oCommentModel = getModel('comment');
@@ -43,14 +46,14 @@ class commentController extends comment
 		$module_srl = $oComment->get('module_srl');
 		if(!$module_srl)
 		{
-			return $this->setError('msg_invalid_request');
+			throw new Rhymix\Framework\Exceptions\InvalidRequest;
 		}
 
 		$oModuleModel = getModel('module');
 		$comment_config = $oModuleModel->getModulePartConfig('comment', $module_srl);
 		if($comment_config->use_vote_up == 'N')
 		{
-			return $this->setError('msg_invalid_request');
+			throw new Rhymix\Framework\Exceptions\FeatureDisabled;
 		}
 
 		$point = 1;
@@ -61,16 +64,22 @@ class commentController extends comment
 
 	function procCommentVoteUpCancel()
 	{
-		if(!Context::get('logged_info')) return $this->setError('msg_invalid_request');
+		if($this->module_info->non_login_vote !== 'Y')
+		{
+			if(!Context::get('is_logged'))
+			{
+				throw new Rhymix\Framework\Exceptions\NotPermitted;
+			}
+		}
 
 		$comment_srl = Context::get('target_srl');
-		if(!$comment_srl) return $this->setError('msg_invalid_request');
+		if(!$comment_srl) throw new Rhymix\Framework\Exceptions\InvalidRequest;
 
 		$oCommentModel = getModel('comment');
 		$oComment = $oCommentModel->getComment($comment_srl, FALSE, FALSE);
 		if($oComment->get('voted_count') <= 0)
 		{
-			return $this->setError('msg_comment_voted_cancel_not');
+			throw new Rhymix\Framework\Exception('msg_comment_voted_cancel_not');
 		}
 		$point = 1;
 		$output = $this->updateVotedCountCancel($comment_srl, $oComment, $point);
@@ -88,15 +97,18 @@ class commentController extends comment
 	 */
 	function procCommentVoteDown()
 	{
-		if(!Context::get('is_logged'))
+		if($this->module_info->non_login_vote !== 'Y')
 		{
-			return $this->setError('msg_invalid_request');
+			if(!Context::get('is_logged'))
+			{
+				throw new Rhymix\Framework\Exceptions\NotPermitted;
+			}
 		}
 
 		$comment_srl = Context::get('target_srl');
 		if(!$comment_srl)
 		{
-			return $this->setError('msg_invalid_request');
+			throw new Rhymix\Framework\Exceptions\InvalidRequest;
 		}
 
 		$oCommentModel = getModel('comment');
@@ -104,14 +116,14 @@ class commentController extends comment
 		$module_srl = $oComment->get('module_srl');
 		if(!$module_srl)
 		{
-			return $this->setError('msg_invalid_request');
+			throw new Rhymix\Framework\Exceptions\InvalidRequest;
 		}
 
 		$oModuleModel = getModel('module');
 		$comment_config = $oModuleModel->getModulePartConfig('comment', $module_srl);
 		if($comment_config->use_vote_down == 'N')
 		{
-			return $this->setError('msg_invalid_request');
+			throw new Rhymix\Framework\Exceptions\FeatureDisabled;
 		}
 
 		$point = -1;
@@ -122,16 +134,22 @@ class commentController extends comment
 
 	function procCommentVoteDownCancel()
 	{
-		if(!Context::get('logged_info')) return $this->setError('msg_invalid_request');
+		if($this->module_info->non_login_vote !== 'Y')
+		{
+			if(!Context::get('is_logged'))
+			{
+				throw new Rhymix\Framework\Exceptions\NotPermitted;
+			}
+		}
 
 		$comment_srl = Context::get('target_srl');
-		if(!$comment_srl) return $this->setError('msg_invalid_request');
+		if(!$comment_srl) throw new Rhymix\Framework\Exceptions\InvalidRequest;
 
 		$oCommentModel = getModel('comment');
 		$oComment = $oCommentModel->getComment($comment_srl, FALSE, FALSE);
 		if($oComment->get('blamed_count') >= 0)
 		{
-			return $this->setError('msg_comment_blamed_cancel_not');
+			throw new Rhymix\Framework\Exception('msg_comment_blamed_cancel_not');
 		}
 		$point = -1;
 		$output = $this->updateVotedCountCancel($comment_srl, $oComment, $point);
@@ -193,13 +211,13 @@ class commentController extends comment
 	{
 		if(!Context::get('is_logged'))
 		{
-			return $this->setError('msg_invalid_request');
+			throw new Rhymix\Framework\Exceptions\NotPermitted;
 		}
 
 		$comment_srl = Context::get('target_srl');
 		if(!$comment_srl)
 		{
-			return $this->setError('msg_invalid_request');
+			throw new Rhymix\Framework\Exceptions\InvalidRequest;
 		}
 
 		// if an user select message from options, message would be the option.
@@ -297,7 +315,7 @@ class commentController extends comment
 	{
 		if(!$manual_inserted && !checkCSRF())
 		{
-			return new BaseObject(-1, 'msg_invalid_request');
+			return new BaseObject(-1, 'msg_security_violation');
 		}
 
 		if(!is_object($obj))
@@ -699,7 +717,7 @@ class commentController extends comment
 	{
 		if(!$manual_updated && !checkCSRF())
 		{
-			return new BaseObject(-1, 'msg_invalid_request');
+			return new BaseObject(-1, 'msg_security_violation');
 		}
 
 		if(!is_object($obj))
@@ -1653,13 +1671,13 @@ class commentController extends comment
 			$module_info = $oModuleModel->getModuleInfoByModuleSrl($srl);
 			if (!$module_info->module_srl)
 			{
-				return $this->setError('msg_invalid_request');
+				throw new Rhymix\Framework\Exceptions\InvalidRequest;
 			}
 			
 			$module_grant = $oModuleModel->getGrant($module_info, $logged_info);
 			if (!$module_grant->manager)
 			{
-				return $this->setError('msg_not_permitted');
+				throw new Rhymix\Framework\Exceptions\NotPermitted;
 			}
 			
 			$module_srl[] = $srl;
@@ -1727,7 +1745,7 @@ class commentController extends comment
 	{
 		if(!Context::get('is_logged'))
 		{
-			return $this->setError('msg_not_permitted');
+			throw new Rhymix\Framework\Exceptions\NotPermitted;
 		}
 
 		$commentSrls = Context::get('comment_srls');

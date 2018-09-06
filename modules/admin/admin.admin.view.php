@@ -36,11 +36,9 @@ class adminAdminView extends admin
 	function init()
 	{
 		// forbit access if the user is not an administrator
-		$oMemberModel = getModel('member');
-		$logged_info = $oMemberModel->getLoggedInfo();
-		if($logged_info->is_admin != 'Y')
+		if (!$this->user->isAdmin())
 		{
-			return $this->stop("admin.msg_is_not_administrator");
+			throw new Rhymix\Framework\Exceptions\NotPermitted('admin.msg_is_not_administrator');
 		}
 
 		// change into administration layout
@@ -629,7 +627,7 @@ class adminAdminView extends admin
 			$domain_info = getModel('module')->getSiteInfo($domain_srl);
 			if ($domain_info->domain_srl != $domain_srl)
 			{
-				return $this->setError('msg_domain_not_found');
+				throw new Rhymix\Framework\Exception('msg_domain_not_found');
 			}
 		}
 		Context::set('domain_info', $domain_info);

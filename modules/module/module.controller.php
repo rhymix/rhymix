@@ -1078,7 +1078,10 @@ class moduleController extends module
 		if ($ajax) Context::setRequestMethod('JSON');
 
 		$logged_info = Context::get('logged_info');
-		if($logged_info->is_admin !='Y' && !$logged_info->is_site_admin) return $this->setError('msg_not_permitted');
+		if($logged_info->is_admin !='Y' && !$logged_info->is_site_admin)
+		{
+			throw new Rhymix\Framework\Exceptions\NotPermitted;
+		}
 
 		$vars = Context::gets('addfile','filter');
 		$attributeNames = Context::get('attribute_name');
@@ -1107,7 +1110,7 @@ class moduleController extends module
 			$filter = array_map('trim', explode(',',$vars->filter));
 			if (!in_array($ext, $filter))
 			{
-				return $this->setError('msg_error_occured');
+				throw new Rhymix\Framework\Exception('msg_error_occured');
 			}
 		}
 
@@ -1122,10 +1125,10 @@ class moduleController extends module
 		// insert
 		else
 		{
-			if(!Context::isUploaded()) return $this->setError('msg_error_occured');
+			if(!Context::isUploaded()) throw new Rhymix\Framework\Exception('msg_error_occured');
 			$addfile = Context::get('addfile');
-			if(!is_uploaded_file($addfile['tmp_name'])) return $this->setError('msg_error_occured');
-			if($vars->addfile['error'] != 0) return $this->setError('msg_error_occured');
+			if(!is_uploaded_file($addfile['tmp_name'])) throw new Rhymix\Framework\Exception('msg_error_occured');
+			if($vars->addfile['error'] != 0) throw new Rhymix\Framework\Exception('msg_error_occured');
 			$output = $this->insertModuleFileBox($vars);
 		}
 
@@ -1224,10 +1227,17 @@ class moduleController extends module
 	function procModuleFileBoxDelete()
 	{
 		$logged_info = Context::get('logged_info');
-		if($logged_info->is_admin !='Y' && !$logged_info->is_site_admin) return $this->setError('msg_not_permitted');
+		if($logged_info->is_admin !='Y' && !$logged_info->is_site_admin)
+		{
+			throw new Rhymix\Framework\Exceptions\NotPermitted;
+		}
 
 		$module_filebox_srl = Context::get('module_filebox_srl');
-		if(!$module_filebox_srl) return $this->setError('msg_invalid_request');
+		if(!$module_filebox_srl)
+		{
+			throw new Rhymix\Framework\Exceptions\InvalidRequest;
+		}
+		
 		$vars = new stdClass();
 		$vars->module_filebox_srl = $module_filebox_srl;
 		$output = $this->deleteModuleFileBox($vars);

@@ -30,7 +30,7 @@ class memberController extends member
 		if(!$user_id && !$password && Context::getRequestMethod() == 'GET')
 		{
 			$this->setRedirectUrl(getNotEncodedUrl(''));
-			return $this->setError('null_user_id');
+			throw new Rhymix\Framework\Exception('null_user_id');
 		}
 
 		// Variables
@@ -42,8 +42,8 @@ class memberController extends member
 
 		if(!$keep_signed) $keep_signed = Context::get('keep_signed');
 		// Return an error when id and password doesn't exist
-		if(!$user_id) return $this->setError('null_user_id');
-		if(!$password) return $this->setError('null_password');
+		if(!$user_id) throw new Rhymix\Framework\Exception('null_user_id');
+		if(!$password) throw new Rhymix\Framework\Exception('null_password');
 
 		$output = $this->doLogin($user_id, $password, $keep_signed=='Y'?true:false);
 		if (!$output->toBool()) return $output;
@@ -122,7 +122,7 @@ class memberController extends member
 		$document_srl = (int) (Context::get('document_srl') ?: Context::get('target_srl'));
 		if(!$document_srl)
 		{
-			return $this->setError('msg_invalid_request');
+			throw new Rhymix\Framework\Exceptions\InvalidRequest;
 		}
 		
 		$oDocumentModel = getModel('document');
@@ -131,7 +131,7 @@ class memberController extends member
 		// Check document
 		if(!$oDocument->isAccessible())
 		{
-			return $this->setError('msg_is_secret');
+			throw new Rhymix\Framework\Exception('msg_is_secret');
 		}
 		
 		$oModuleModel = getModel('module');
@@ -143,19 +143,19 @@ class memberController extends member
 		// Check access to module of the document
 		if(!$grant->access)
 		{
-			return $this->setError('msg_not_permitted');
+			throw new Rhymix\Framework\Exceptions\NotPermitted;
 		}
 		
 		// Check grant to module of the document
 		if(isset($grant->list) && isset($grant->view) && (!$grant->list || !$grant->view))
 		{
-			return $this->setError('msg_not_permitted');
+			throw new Rhymix\Framework\Exceptions\NotPermitted;
 		}
 		
 		// Check consultation option
 		if(isset($grant->consultation_read) && $module_info->consultation == 'Y' && !$grant->consultation_read && !$oDocument->isGranted())
 		{
-			return $this->setError('msg_not_permitted');
+			throw new Rhymix\Framework\Exceptions\NotPermitted;
 		}
 		
 		// Find default scrap folder
@@ -187,7 +187,7 @@ class memberController extends member
 		$output = executeQuery('member.getScrapDocument', $args);
 		if($output->data->count)
 		{
-			return $this->setError('msg_alreay_scrapped');
+			throw new Rhymix\Framework\Exception('msg_alreay_scrapped');
 		}
 		
 		// Insert
@@ -206,11 +206,12 @@ class memberController extends member
 	function procMemberDeleteScrap()
 	{
 		// Check login information
-		if(!Context::get('is_logged')) return $this->setError('msg_not_logged');
+		if(!Context::get('is_logged')) throw new Rhymix\Framework\Exceptions\MustLogin;
 		$logged_info = Context::get('logged_info');
 
 		$document_srl = (int)Context::get('document_srl');
-		if(!$document_srl) return $this->setError('msg_invalid_request');
+		if(!$document_srl) throw new Rhymix\Framework\Exceptions\InvalidRequest;
+
 		// Variables
 		$args = new stdClass;
 		$args->member_srl = $logged_info->member_srl;
@@ -226,14 +227,14 @@ class memberController extends member
 	function procMemberMoveScrapFolder()
 	{
 		// Check login information
-		if(!Context::get('is_logged')) return $this->setError('msg_not_logged');
+		if(!Context::get('is_logged')) throw new Rhymix\Framework\Exceptions\MustLogin;
 		$logged_info = Context::get('logged_info');
 
 		$document_srl = (int)Context::get('document_srl');
 		$folder_srl = (int)Context::get('folder_srl');
 		if(!$document_srl || !$folder_srl)
 		{
-			return $this->setError('msg_invalid_request');
+			throw new Rhymix\Framework\Exceptions\InvalidRequest;
 		}
 		
 		// Check that the target folder exists and belongs to member
@@ -243,7 +244,7 @@ class memberController extends member
 		$output = executeQueryArray('member.getScrapFolderList', $args);
 		if(!count($output->data))
 		{
-			return $this->setError('msg_invalid_request');
+			throw new Rhymix\Framework\Exceptions\InvalidRequest;
 		}
 		
 		// Move
@@ -262,7 +263,7 @@ class memberController extends member
 	function procMemberInsertScrapFolder()
 	{
 		// Check login information
-		if(!Context::get('is_logged')) return $this->setError('msg_not_logged');
+		if(!Context::get('is_logged')) throw new Rhymix\Framework\Exceptions\MustLogin;
 		$logged_info = Context::get('logged_info');
 		
 		// Get new folder name
@@ -270,7 +271,7 @@ class memberController extends member
 		$folder_name = escape(trim(utf8_normalize_spaces($folder_name)));
 		if(!$folder_name)
 		{
-			return $this->setError('msg_invalid_request');
+			throw new Rhymix\Framework\Exceptions\InvalidRequest;
 		}
 		
 		// Check existing folder with same name
@@ -280,7 +281,7 @@ class memberController extends member
 		$output = executeQueryArray('member.getScrapFolderList', $args);
 		if(count($output->data) || $folder_name === lang('default_folder'))
 		{
-			return $this->setError('msg_folder_alreay_exists');
+			throw new Rhymix\Framework\Exception('msg_folder_alreay_exists');
 		}
 		
 		// Create folder
@@ -301,7 +302,7 @@ class memberController extends member
 	function procMemberRenameScrapFolder()
 	{
 		// Check login information
-		if(!Context::get('is_logged')) return $this->setError('msg_not_logged');
+		if(!Context::get('is_logged')) throw new Rhymix\Framework\Exceptions\MustLogin;
 		$logged_info = Context::get('logged_info');
 		
 		// Get new folder name
@@ -310,7 +311,7 @@ class memberController extends member
 		$folder_name = escape(trim(utf8_normalize_spaces($folder_name)));
 		if(!$folder_srl || !$folder_name)
 		{
-			return $this->setError('msg_invalid_request');
+			throw new Rhymix\Framework\Exceptions\InvalidRequest;
 		}
 		
 		// Check that the original folder exists and belongs to member
@@ -320,11 +321,11 @@ class memberController extends member
 		$output = executeQueryArray('member.getScrapFolderList', $args);
 		if(!count($output->data))
 		{
-			return $this->setError('msg_invalid_request');
+			throw new Rhymix\Framework\Exceptions\InvalidRequest;
 		}
 		if(array_first($output->data)->name === '/DEFAULT/')
 		{
-			return $this->setError('msg_folder_is_default');
+			throw new Rhymix\Framework\Exception('msg_folder_is_default');
 		}
 		
 		// Check existing folder with same name
@@ -335,7 +336,7 @@ class memberController extends member
 		$output = executeQueryArray('member.getScrapFolderList', $args);
 		if(count($output->data) || $folder_name === lang('default_folder'))
 		{
-			return $this->setError('msg_folder_alreay_exists');
+			throw new Rhymix\Framework\Exception('msg_folder_alreay_exists');
 		}
 		
 		// Rename folder
@@ -353,14 +354,14 @@ class memberController extends member
 	function procMemberDeleteScrapFolder()
 	{
 		// Check login information
-		if(!Context::get('is_logged')) return $this->setError('msg_not_logged');
+		if(!Context::get('is_logged')) throw new Rhymix\Framework\Exceptions\MustLogin;
 		$logged_info = Context::get('logged_info');
 		
 		// Get folder_srl to delete
 		$folder_srl = intval(Context::get('folder_srl'));
 		if(!$folder_srl)
 		{
-			return $this->setError('msg_invalid_request');
+			throw new Rhymix\Framework\Exceptions\InvalidRequest;
 		}
 		
 		// Check that the folder exists and belongs to member
@@ -370,11 +371,11 @@ class memberController extends member
 		$output = executeQueryArray('member.getScrapFolderList', $args);
 		if(!count($output->data))
 		{
-			return $this->setError('msg_invalid_request');
+			throw new Rhymix\Framework\Exceptions\InvalidRequest;
 		}
 		if(array_first($output->data)->name === '/DEFAULT/')
 		{
-			return $this->setError('msg_folder_is_default');
+			throw new Rhymix\Framework\Exception('msg_folder_is_default');
 		}
 		
 		// Check that the folder is empty
@@ -384,7 +385,7 @@ class memberController extends member
 		$output = executeQueryArray('member.getScrapDocumentList', $args);
 		if(count($output->data))
 		{
-			return $this->setError('msg_folder_not_empty');
+			throw new Rhymix\Framework\Exception('msg_folder_not_empty');
 		}
 		
 		// Delete folder
@@ -436,22 +437,22 @@ class memberController extends member
 	function procMemberDeleteSavedDocument()
 	{
 		// Check login information
-		if(!Context::get('is_logged')) return $this->setError('msg_not_logged');
+		if(!Context::get('is_logged')) throw new Rhymix\Framework\Exceptions\MustLogin;
 		$logged_info = Context::get('logged_info');
 
 		$document_srl = (int)Context::get('document_srl');
-		if(!$document_srl) return $this->setError('msg_invalid_request');
+		if(!$document_srl) throw new Rhymix\Framework\Exceptions\InvalidRequest;
 		
 		$oDocumentModel = getModel('document');
 		$oDocument = $oDocumentModel->getDocument($document_srl);
 		if ($oDocument->get('member_srl') != $logged_info->member_srl)
 		{
-			return $this->setError('msg_invalid_request');
+			throw new Rhymix\Framework\Exceptions\InvalidRequest;
 		}
 		$configStatusList = $oDocumentModel->getStatusList();
 		if ($oDocument->get('status') != $configStatusList['temp'])
 		{
-			return $this->setError('msg_invalid_request');
+			throw new Rhymix\Framework\Exceptions\InvalidRequest;
 		}
 
 		// Variables
@@ -465,14 +466,14 @@ class memberController extends member
 	function procMemberDeleteAutologin()
 	{
 		// Check login information
-		if(!Context::get('is_logged')) return $this->setError('msg_not_logged');
+		if(!Context::get('is_logged')) throw new Rhymix\Framework\Exceptions\MustLogin;
 		$logged_info = Context::get('logged_info');
 		
 		$autologin_id = intval(Context::get('autologin_id'));
 		$autologin_key = Context::get('autologin_key');
 		if (!$autologin_id || !$autologin_key)
 		{
-			return $this->setError('msg_invalid_request');
+			throw new Rhymix\Framework\Exceptions\InvalidRequest;
 		}
 		
 		$args = new stdClass;
@@ -575,7 +576,11 @@ class memberController extends member
 	 */
 	function procMemberInsert()
 	{
-		if (Context::getRequestMethod () == "GET") return new BaseObject (-1, "msg_invalid_request");
+		if (Context::getRequestMethod() == 'GET')
+		{
+			throw new Rhymix\Framework\Exceptions\SecurityViolation;
+		}
+		
 		$oMemberModel = &getModel ('member');
 		$config = $oMemberModel->getMemberConfig();
 
@@ -583,7 +588,7 @@ class memberController extends member
 		$trigger_output = ModuleHandler::triggerCall ('member.procMemberInsert', 'before', $config);
 		if(!$trigger_output->toBool ()) return $trigger_output;
 		// Check if an administrator allows a membership
-		if($config->enable_join != 'Y') return $this->stop ('msg_signup_disabled');
+		if($config->enable_join != 'Y') throw new Rhymix\Framework\Exceptions\FeatureDisabled('msg_signup_disabled');
 
 		// Check if the user accept the license terms (only if terms exist)
 		$accept_agreement = Context::get('accept_agreement');
@@ -591,7 +596,7 @@ class memberController extends member
 		{
 			if($agreement->type === 'required' && $accept_agreement !== 'Y' && $accept_agreement[$i] !== 'Y')
 			{
-				return $this->setError('msg_accept_agreement');
+				throw new Rhymix\Framework\Exception('msg_accept_agreement');
 			}
 		}
 
@@ -646,7 +651,7 @@ class memberController extends member
 		if(!$oMemberModel->checkPasswordStrength($args->password, $config->password_strength))
 		{
 			$message = lang('about_password_strength');
-			return $this->setError($message[$config->password_strength]);
+			throw new Rhymix\Framework\Exception($message[$config->password_strength]);
 		}
 
 		// Remove some unnecessary variables from all the vars
@@ -779,19 +784,19 @@ class memberController extends member
 	{
 		if($_SESSION['rechecked_password_step'] != 'INPUT_PASSWORD')
 		{
-			return $this->stop('msg_invalid_request');
+			throw new Rhymix\Framework\Exceptions\InvalidRequest;
 		}
 
 		if(!Context::get('is_logged'))
 		{
-			return $this->stop('msg_not_logged');
+			throw new Rhymix\Framework\Exceptions\MustLogin;
 		}
 
 		$password = Context::get('password');
 
 		if(!$password)
 		{
-			return $this->stop('msg_invalid_request');
+			throw new Rhymix\Framework\Exceptions\InvalidRequest;
 		}
 
 		$oMemberModel = getModel('member');
@@ -805,7 +810,7 @@ class memberController extends member
 		// Verify the current password
 		if(!$oMemberModel->isValidPassword($member_info->password, $password))
 		{
-			return $this->setError('invalid_password');
+			throw new Rhymix\Framework\Exception('invalid_password');
 		}
 
 		$_SESSION['rechecked_password_step'] = 'VALIDATE_PASSWORD';
@@ -830,12 +835,12 @@ class memberController extends member
 	{
 		if(!Context::get('is_logged'))
 		{
-			return $this->stop('msg_not_logged');
+			throw new Rhymix\Framework\Exceptions\MustLogin;
 		}
 
 		if($_SESSION['rechecked_password_step'] != 'INPUT_DATA')
 		{
-			return $this->stop('msg_invalid_request');
+			throw new Rhymix\Framework\Exceptions\InvalidRequest;
 		}
 		unset($_SESSION['rechecked_password_step']);
 
@@ -969,7 +974,7 @@ class memberController extends member
 	 */
 	function procMemberModifyPassword()
 	{
-		if(!Context::get('is_logged')) return $this->stop('msg_not_logged');
+		if(!Context::get('is_logged')) throw new Rhymix\Framework\Exceptions\MustLogin;
 		// Extract the necessary information in advance
 		$current_password = trim(Context::get('current_password'));
 		$password = trim(Context::get('password1'));
@@ -983,10 +988,10 @@ class memberController extends member
 
 		$member_info = $oMemberModel->getMemberInfoByMemberSrl($member_srl, 0, $columnList);
 		// Verify the cuttent password
-		if(!$oMemberModel->isValidPassword($member_info->password, $current_password, $member_srl)) return $this->setError('invalid_password');
+		if(!$oMemberModel->isValidPassword($member_info->password, $current_password, $member_srl)) throw new Rhymix\Framework\Exception('invalid_password');
 
 		// Check if a new password is as same as the previous password
-		if($current_password == $password) return $this->setError('invalid_new_password');
+		if($current_password == $password) throw new Rhymix\Framework\Exception('invalid_new_password');
 
 		// Execute insert or update depending on the value of member_srl
 		$args = new stdClass;
@@ -1017,7 +1022,7 @@ class memberController extends member
 	 */
 	function procMemberLeave()
 	{
-		if(!Context::get('is_logged')) return $this->stop('msg_not_logged');
+		if(!Context::get('is_logged')) throw new Rhymix\Framework\Exceptions\MustLogin;
 		// Extract the necessary information in advance
 		$password = trim(Context::get('password'));
 		// Get information of logged-in user
@@ -1029,7 +1034,7 @@ class memberController extends member
 		$columnList = array('member_srl', 'password');
 		$member_info = $oMemberModel->getMemberInfoByMemberSrl($member_srl, 0, $columnList);
 		// Verify the cuttent password
-		if(!$oMemberModel->isValidPassword($member_info->password, $password)) return $this->setError('invalid_password');
+		if(!$oMemberModel->isValidPassword($member_info->password, $password)) throw new Rhymix\Framework\Exception('invalid_password');
 
 		$output = $this->deleteMember($member_srl);
 		if(!$output->toBool()) return $output;
@@ -1052,17 +1057,17 @@ class memberController extends member
 	{
 		// Check if the file is successfully uploaded
 		$file = $_FILES['profile_image'];
-		if(!is_uploaded_file($file['tmp_name'])) return $this->stop('msg_not_uploaded_profile_image');
+		if(!is_uploaded_file($file['tmp_name'])) throw new Rhymix\Framework\Exception('msg_not_uploaded_profile_image');
 		// Ignore if member_srl is invalid or doesn't exist.
 		$member_srl = Context::get('member_srl');
-		if(!$member_srl) return $this->stop('msg_not_uploaded_profile_image');
+		if(!$member_srl) throw new Rhymix\Framework\Exception('msg_not_uploaded_profile_image');
 
 		$logged_info = Context::get('logged_info');
-		if($logged_info->is_admin != 'Y' && $logged_info->member_srl != $member_srl) return $this->stop('msg_not_uploaded_profile_image');
+		if($logged_info->is_admin != 'Y' && $logged_info->member_srl != $member_srl) throw new Rhymix\Framework\Exception('msg_not_uploaded_profile_image');
 		// Return if member module is set not to use an image name or the user is not an administrator ;
 		$oMemberModel = getModel('member');
 		$config = $oMemberModel->getMemberConfig();
-		if($logged_info->is_admin != 'Y' && $config->profile_image != 'Y') return $this->stop('msg_not_uploaded_profile_image');
+		if($logged_info->is_admin != 'Y' && $config->profile_image != 'Y') throw new Rhymix\Framework\Exception('msg_not_uploaded_profile_image');
 
 		$output = $this->insertProfileImage($member_srl, $file['tmp_name']);
 		if(!$output->toBool()) return $output;
@@ -1099,7 +1104,7 @@ class memberController extends member
 		elseif(IMAGETYPE_GIF == $type) $ext = 'gif';
 		else
 		{
-			return $this->stop('msg_not_uploaded_profile_image');
+			throw new Rhymix\Framework\Exception('msg_not_uploaded_profile_image');
 		}
 
 		$target_path = sprintf('files/member_extra_info/profile_image/%s', getNumberingPath($member_srl));
@@ -1118,7 +1123,7 @@ class memberController extends member
 			if($max_filesize && $filesize > ($max_filesize * 1024))
 			{
 				FileHandler::removeFile($temp_filename);
-				return $this->stop(implode(' ' , array(
+				throw new Rhymix\Framework\Exception(implode(' ' , array(
 					Context::getLang('msg_not_uploaded_profile_image'),
 					Context::getLang('msg_exceeds_limit_size')
 				)));
@@ -1134,7 +1139,7 @@ class memberController extends member
 			$filesize = filesize($target_file);
 			if($max_filesize && $filesize > ($max_filesize * 1024))
 			{
-				return $this->stop(implode(' ' , array(
+				throw new Rhymix\Framework\Exception(implode(' ' , array(
 					Context::getLang('msg_not_uploaded_profile_image'),
 					Context::getLang('msg_exceeds_limit_size')
 				)));
@@ -1157,17 +1162,17 @@ class memberController extends member
 	{
 		// Check if the file is successfully uploaded
 		$file = $_FILES['image_name'];
-		if(!is_uploaded_file($file['tmp_name'])) return $this->stop('msg_not_uploaded_image_name');
+		if(!is_uploaded_file($file['tmp_name'])) throw new Rhymix\Framework\Exception('msg_not_uploaded_image_name');
 		// Ignore if member_srl is invalid or doesn't exist.
 		$member_srl = Context::get('member_srl');
-		if(!$member_srl) return $this->stop('msg_not_uploaded_image_name');
+		if(!$member_srl) throw new Rhymix\Framework\Exception('msg_not_uploaded_image_name');
 
 		$logged_info = Context::get('logged_info');
-		if($logged_info->is_admin != 'Y' && $logged_info->member_srl != $member_srl) return $this->stop('msg_not_uploaded_image_name');
+		if($logged_info->is_admin != 'Y' && $logged_info->member_srl != $member_srl) throw new Rhymix\Framework\Exception('msg_not_uploaded_image_name');
 		// Return if member module is set not to use an image name or the user is not an administrator ;
 		$oMemberModel = getModel('member');
 		$config = $oMemberModel->getMemberConfig();
-		if($logged_info->is_admin != 'Y' && $config->image_name != 'Y') return $this->stop('msg_not_uploaded_image_name');
+		if($logged_info->is_admin != 'Y' && $config->image_name != 'Y') throw new Rhymix\Framework\Exception('msg_not_uploaded_image_name');
 
 		$output = $this->insertImageName($member_srl, $file['tmp_name']);
 		if(!$output->toBool()) return $output;
@@ -1218,7 +1223,7 @@ class memberController extends member
 			if($max_filesize && $filesize > ($max_filesize * 1024))
 			{
 				FileHandler::removeFile($temp_filename);
-				return $this->stop(implode(' ' , array(
+				throw new Rhymix\Framework\Exception(implode(' ' , array(
 					Context::getLang('msg_not_uploaded_image_name'),
 					Context::getLang('msg_exceeds_limit_size')
 				)));
@@ -1234,7 +1239,7 @@ class memberController extends member
 			$filesize = filesize($target_file);
 			if($max_filesize && $filesize > ($max_filesize * 1024))
 			{
-				return $this->stop(implode(' ' , array(
+				throw new Rhymix\Framework\Exception(implode(' ' , array(
 					Context::getLang('msg_not_uploaded_image_name'),
 					Context::getLang('msg_exceeds_limit_size')
 				)));
@@ -1308,17 +1313,17 @@ class memberController extends member
 	{
 		// Check if the file is successfully uploaded
 		$file = $_FILES['image_mark'];
-		if(!is_uploaded_file($file['tmp_name'])) return $this->stop('msg_not_uploaded_image_mark');
+		if(!is_uploaded_file($file['tmp_name'])) throw new Rhymix\Framework\Exception('msg_not_uploaded_image_mark');
 		// Ignore if member_srl is invalid or doesn't exist.
 		$member_srl = Context::get('member_srl');
-		if(!$member_srl) return $this->stop('msg_not_uploaded_image_mark');
+		if(!$member_srl) throw new Rhymix\Framework\Exception('msg_not_uploaded_image_mark');
 
 		$logged_info = Context::get('logged_info');
-		if($logged_info->is_admin != 'Y' && $logged_info->member_srl != $member_srl) return $this->stop('msg_not_uploaded_image_mark');
+		if($logged_info->is_admin != 'Y' && $logged_info->member_srl != $member_srl) throw new Rhymix\Framework\Exception('msg_not_uploaded_image_mark');
 		// Membership in the images mark the module using the ban was set by an administrator or return;
 		$oMemberModel = getModel('member');
 		$config = $oMemberModel->getMemberConfig();
-		if($logged_info->is_admin != 'Y' && $config->image_mark != 'Y') return $this->stop('msg_not_uploaded_image_mark');
+		if($logged_info->is_admin != 'Y' && $config->image_mark != 'Y') throw new Rhymix\Framework\Exception('msg_not_uploaded_image_mark');
 
 		$this->insertImageMark($member_srl, $file['tmp_name']);
 		if(!$output->toBool()) return $output;
@@ -1365,7 +1370,7 @@ class memberController extends member
 			if($max_filesize && $filesize > ($max_filesize * 1024))
 			{
 				FileHandler::removeFile($temp_filename);
-				return $this->stop(implode(' ' , array(
+				throw new Rhymix\Framework\Exception(implode(' ' , array(
 					Context::getLang('msg_not_uploaded_group_image_mark'),
 					Context::getLang('msg_exceeds_limit_size')
 				)));
@@ -1381,7 +1386,7 @@ class memberController extends member
 			if($max_filesize && $filesize > ($max_filesize * 1024))
 			{
 				FileHandler::removeFile($target_file);
-				return $this->stop(implode(' ' , array(
+				throw new Rhymix\Framework\Exception(implode(' ' , array(
 					Context::getLang('msg_not_uploaded_group_image_mark'),
 					Context::getLang('msg_exceeds_limit_size')
 				)));
@@ -1428,14 +1433,14 @@ class memberController extends member
 	function procMemberFindAccount()
 	{
 		$email_address = Context::get('email_address');
-		if(!$email_address) return $this->setError('msg_invalid_request');
+		if(!$email_address) throw new Rhymix\Framework\Exceptions\InvalidRequest;
 
 		$oMemberModel = getModel('member');
 		$oModuleModel = getModel('module');
 
 		// Check if a member having the same email address exists
 		$member_srl = $oMemberModel->getMemberSrlByEmailAddress($email_address);
-		if(!$member_srl) return $this->setError('msg_email_not_exists');
+		if(!$member_srl) throw new Rhymix\Framework\Exception('msg_email_not_exists');
 
 		// Get information of the member
 		$columnList = array('denied', 'member_srl', 'user_id', 'user_name', 'email_address', 'nick_name');
@@ -1447,7 +1452,7 @@ class memberController extends member
 			$chk_args = new stdClass;
 			$chk_args->member_srl = $member_info->member_srl;
 			$output = executeQuery('member.chkAuthMail', $chk_args);
-			if($output->toBool() && $output->data->count != '0') return $this->setError('msg_user_not_confirmed');
+			if($output->toBool() && $output->data->count != '0') throw new Rhymix\Framework\Exception('msg_user_not_confirmed');
 		}
 
 		// Insert data into the authentication DB
@@ -1528,7 +1533,7 @@ class memberController extends member
 	 */
 	function procMemberFindAccountByQuestion()
 	{
-		return $this->setError('msg_question_not_allowed');
+		throw new Rhymix\Framework\Exception('msg_question_not_allowed');
 	}
 
 	/**
@@ -1547,7 +1552,7 @@ class memberController extends member
 
 		if(!$member_srl || !$auth_key)
 		{
-			return $this->stop('msg_invalid_request');
+			throw new Rhymix\Framework\Exceptions\InvalidRequest;
 		}
 
 		// Call a trigger (before)
@@ -1557,7 +1562,7 @@ class memberController extends member
 		$trigger_output = ModuleHandler::triggerCall('member.procMemberAuthAccount', 'before', $trigger_obj);
 		if(!$trigger_output->toBool())
 		{
-			return $this->stop($trigger_output->getMessage());
+			return $trigger_output;
 		}
 
 		// Test logs for finding password by user_id and authkey
@@ -1569,13 +1574,13 @@ class memberController extends member
 		if(!$output->toBool() || $output->data->auth_key !== $auth_key)
 		{
 			executeQuery('member.deleteAuthMail', $args);
-			return $this->stop('msg_invalid_auth_key');
+			throw new Rhymix\Framework\Exception('msg_invalid_auth_key');
 		}
 
 		if(ztime($output->data->regdate) < time() - (86400 * 3))
 		{
 			executeQuery('member.deleteAuthMail', $args);
-			return $this->stop('msg_expired_auth_key');
+			throw new Rhymix\Framework\Exception('msg_expired_auth_key');
 		}
 
 		// Back up the value of $output->data->is_register
@@ -1594,7 +1599,7 @@ class memberController extends member
 		$output = executeQuery('member.updateMemberPassword', $args);
 		if(!$output->toBool())
 		{
-			return $this->stop($output->getMessage());
+			return $output;
 		}
 
 		// Remove all values having the member_srl from authentication table
@@ -1621,14 +1626,14 @@ class memberController extends member
 	{
 		// Get an email_address
 		$email_address = Context::get('email_address');
-		if(!$email_address) return $this->setError('msg_invalid_request');
+		if(!$email_address) throw new Rhymix\Framework\Exceptions\InvalidRequest;
 		// Log test by using email_address
 		$oMemberModel = getModel('member');
 
 		$args = new stdClass;
 		$args->email_address = $email_address;
 		$memberSrl = $oMemberModel->getMemberSrlByEmailAddress($email_address);
-		if(!$memberSrl) return $this->setError('msg_not_exists_member');
+		if(!$memberSrl) throw new Rhymix\Framework\Exception('msg_not_exists_member');
 
 		$columnList = array('member_srl', 'user_id', 'user_name', 'nick_name', 'email_address');
 		$member_info = $oMemberModel->getMemberInfoByMemberSrl($memberSrl, 0, $columnList);
@@ -1642,12 +1647,12 @@ class memberController extends member
 		$chk_args = new stdClass;
 		$chk_args->member_srl = $member_info->member_srl;
 		$output = executeQuery('member.chkAuthMail', $chk_args);
-		if($output->toBool() && $output->data->count == '0') return $this->setError('msg_invalid_request');
+		if($output->toBool() && $output->data->count == '0') throw new Rhymix\Framework\Exceptions\InvalidRequest;
 
 		$auth_args = new stdClass;
 		$auth_args->member_srl = $member_info->member_srl;
 		$output = executeQueryArray('member.getAuthMailInfo', $auth_args);
-		if(!$output->data || !$output->data[0]->auth_key)  return $this->setError('msg_invalid_request');
+		if(!$output->data || !$output->data[0]->auth_key) throw new Rhymix\Framework\Exceptions\InvalidRequest;
 		$auth_info = $output->data[0];
 
 		// Update the regdate of authmail entry
@@ -1711,21 +1716,21 @@ class memberController extends member
 
 		if(!$memberInfo)
 		{
-			return $this->stop('msg_invalid_request');
+			throw new Rhymix\Framework\Exceptions\InvalidRequest;
 		}
 
 		$newEmail = Context::get('email_address');
 
 		if(!$newEmail)
 		{
-			return $this->stop('msg_invalid_request');
+			throw new Rhymix\Framework\Exceptions\InvalidRequest;
 		}
 
 		$oMemberModel = getModel('member');
 		$member_srl = $oMemberModel->getMemberSrlByEmailAddress($newEmail);
 		if($member_srl)
 		{
-			return $this->setError('msg_exists_email_address');
+			throw new Rhymix\Framework\Exception('msg_exists_email_address');
 		}
 
 		// remove all key by member_srl
@@ -1745,7 +1750,7 @@ class memberController extends member
 		$output = executeQuery('member.updateMemberEmailAddress', $args);
 		if(!$output->toBool())
 		{
-			return $this->stop($output->getMessage());
+			return $output;
 		}
 
 		$this->_clearMemberCache($args->member_srl);
@@ -1840,7 +1845,7 @@ class memberController extends member
 	{
 		$site_module_info = Context::get('site_module_info');
 		$logged_info = Context::get('logged_info');
-		if(!$site_module_info->site_srl || !Context::get('is_logged') || count($logged_info->group_srl_list) ) return $this->setError('msg_invalid_request');
+		if(!$site_module_info->site_srl || !Context::get('is_logged') || count($logged_info->group_srl_list) ) throw new Rhymix\Framework\Exceptions\InvalidRequest;
 
 		$oMemberModel = getModel('member');
 		$columnList = array('site_srl', 'group_srl', 'title');
@@ -1859,7 +1864,7 @@ class memberController extends member
 	{
 		$site_module_info = Context::get('site_module_info');
 		$logged_info = Context::get('logged_info');
-		if(!$site_module_info->site_srl || !Context::get('is_logged') || count($logged_info->group_srl_list) ) return $this->setError('msg_invalid_request');
+		if(!$site_module_info->site_srl || !Context::get('is_logged') || count($logged_info->group_srl_list) ) throw new Rhymix\Framework\Exceptions\InvalidRequest;
 
 		$args = new stdClass;
 		$args->site_srl= $site_module_info->site_srl;
@@ -2624,7 +2629,7 @@ class memberController extends member
 				unset($args->denied);
 			if($logged_info->member_srl != $args->member_srl && $is_admin == false)
 			{
-				return $this->stop('msg_invalid_request');
+				return new BaseObject(-1, 'msg_invalid_request');
 			}
 		}
 
@@ -3041,12 +3046,12 @@ class memberController extends member
 
 	function procMemberModifyEmailAddress()
 	{
-		if(!Context::get('is_logged')) return $this->setError('msg_not_logged');
+		if(!Context::get('is_logged')) throw new Rhymix\Framework\Exceptions\MustLogin;
 
 		$member_info = Context::get('logged_info');
 		$newEmail = Context::get('email_address');
 
-		if(!$newEmail) return $this->setError('msg_invalid_request');
+		if(!$newEmail) throw new Rhymix\Framework\Exceptions\InvalidRequest;
 
 		$oMemberModel = getModel('member');
 		// Check managed Email Host
@@ -3062,16 +3067,16 @@ class memberController extends member
 				$hosts[] = $host->email_host;
 			}
 			$message = sprintf($managed_email_host[$emailhost_check],implode(', ',$hosts),'id@'.implode(', id@',$hosts));
-			return $this->setError($message);
+			throw new Rhymix\Framework\Exception($message);
 		}
 
 		// Check if the e-mail address is already registered
 		$member_srl = $oMemberModel->getMemberSrlByEmailAddress($newEmail);
-		if($member_srl) return $this->setError('msg_exists_email_address');
+		if($member_srl) throw new Rhymix\Framework\Exception('msg_exists_email_address');
 
 		if($_SESSION['rechecked_password_step'] != 'INPUT_DATA')
 		{
-			return $this->setError('msg_invalid_request');
+			throw new Rhymix\Framework\Exceptions\InvalidRequest;
 		}
 		unset($_SESSION['rechecked_password_step']);
 
@@ -3129,7 +3134,7 @@ class memberController extends member
 	{
 		$member_srl = Context::get('member_srl');
 		$auth_key = Context::get('auth_key');
-		if(!$member_srl || !$auth_key) return $this->stop('msg_invalid_request');
+		if(!$member_srl || !$auth_key) throw new Rhymix\Framework\Exceptions\InvalidRequest;
 
 		// Test logs for finding password by user_id and authkey
 		$args = new stdClass;
@@ -3139,7 +3144,7 @@ class memberController extends member
 		if(!$output->toBool() || $output->data->auth_key != $auth_key)
 		{
 			if(strlen($output->data->auth_key) !== strlen($auth_key)) executeQuery('member.deleteAuthChangeEmailAddress', $args);
-			return $this->stop('msg_invalid_modify_email_auth_key');
+			throw new Rhymix\Framework\Exception('msg_invalid_modify_email_auth_key');
 		}
 
 		$newEmail = $output->data->user_id;
@@ -3147,7 +3152,7 @@ class memberController extends member
 		list($args->email_id, $args->email_host) = explode('@', $newEmail);
 
 		$output = executeQuery('member.updateMemberEmailAddress', $args);
-		if(!$output->toBool()) return $this->stop($output->getMessage());
+		if(!$output->toBool()) return $output;
 
 		// Remove all values having the member_srl and new_password equal to 'XE_change_emaill_address' from authentication table
 		executeQuery('member.deleteAuthChangeEmailAddress',$args);
@@ -3227,7 +3232,7 @@ class memberController extends member
 	**/
 	function procMemberSpammerManage()
 	{
-		if(!Context::get('is_logged')) return $this->setError('msg_not_permitted');
+		if(!Context::get('is_logged')) throw new Rhymix\Framework\Exceptions\NotPermitted;
 
 		$logged_info = Context::get('logged_info');
 		$member_srl = Context::get('member_srl');
@@ -3244,7 +3249,7 @@ class memberController extends member
 		$module_info = $oModuleModel->getModuleInfoByModuleSrl($module_srl, $columnList);
 		$grant = $oModuleModel->getGrant($module_info, $logged_info);
 
-		if(!$grant->manager) return $this->setError('msg_not_permitted');
+		if(!$grant->manager) throw new Rhymix\Framework\Exceptions\NotPermitted;
 
 		$proc_msg = "";
 

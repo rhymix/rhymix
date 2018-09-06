@@ -102,7 +102,7 @@ class pollController extends poll
 			}
 		}
 
-		if(!count($args->poll)) return $this->setError('cmd_null_item');
+		if(!count($args->poll)) throw new Rhymix\Framework\Exception('cmd_null_item');
 
 		$args->stop_date = $stop_date;
 
@@ -178,12 +178,12 @@ class pollController extends poll
 		$poll_index_srl = (int) Context::get('index_srl');
 		$poll_item_title = Context::get('title');
 
-		if($poll_item_title=='') return $this->setError("msg_item_title_cannot_empty");
+		if($poll_item_title=='') throw new Rhymix\Framework\Exception('msg_item_title_cannot_empty');
 
 		$logged_info = Context::get('logged_info');
-		if(!$logged_info) return $this->setError("msg_cannot_add_item");
+		if(!$logged_info) throw new Rhymix\Framework\Exception('msg_cannot_add_item');
 
-		if(!$poll_srl || !$poll_index_srl) return $this->setError("msg_invalid_request");
+		if(!$poll_srl || !$poll_index_srl) throw new Rhymix\Framework\Exceptions\InvalidRequest;
 
 		$args = new stdClass();
 		$args->poll_srl = $poll_srl;
@@ -191,10 +191,10 @@ class pollController extends poll
 		// Get the information related to the survey
 		$columnList = array('poll_type');
 		$output = executeQuery('poll.getPoll', $args, $columnList);
-		if(!$output->data) return $this->setError("poll_no_poll_or_deleted_poll");
+		if(!$output->data) throw new Rhymix\Framework\Exception('poll_no_poll_or_deleted_poll');
 		$type = $output->data->poll_type;
 
-		if(!$this->isAbletoAddItem($type)) return $this->setError("msg_cannot_add_item");
+		if(!$this->isAbletoAddItem($type)) throw new Rhymix\Framework\Exception('msg_cannot_add_item');
 
 		if($logged_info->is_admin != 'Y')
 		{
@@ -227,9 +227,9 @@ class pollController extends poll
 		$poll_item_srl = Context::get('item_srl');
 
 		$logged_info = Context::get('logged_info');
-		if(!$logged_info)  return $this->setError("msg_cannot_delete_item");
+		if(!$logged_info)  throw new Rhymix\Framework\Exception('msg_cannot_delete_item');
 
-		if(!$poll_srl || !$poll_index_srl || !$poll_item_srl) return $this->setError("msg_invalid_request");
+		if(!$poll_srl || !$poll_index_srl || !$poll_item_srl) throw new Rhymix\Framework\Exceptions\InvalidRequest;
 
 		$args = new stdClass();
 		$args->poll_srl = $poll_srl;
@@ -245,11 +245,11 @@ class pollController extends poll
 		// Get the information related to the survey
 		$columnList = array('member_srl');
 		$output = executeQuery('poll.getPoll', $args, $columnList);
-		if(!$output->data) return $this->setError("poll_no_poll_or_deleted_poll");
+		if(!$output->data) throw new Rhymix\Framework\Exception('poll_no_poll_or_deleted_poll');
 		$poll_member_srl = $output->data->member_srl;
 
-		if($add_user_srl!=$logged_info->member_srl && $poll_member_srl!=$logged_info->member_srl) return $this->setError("msg_cannot_delete_item");
-		if($poll_count>0) return $this->setError("msg_cannot_delete_item_poll_exist");
+		if($add_user_srl!=$logged_info->member_srl && $poll_member_srl!=$logged_info->member_srl) throw new Rhymix\Framework\Exception('msg_cannot_delete_item');
+		if($poll_count>0) throw new Rhymix\Framework\Exception('msg_cannot_delete_item_poll_exist');
 
 		$oDB = &DB::getInstance();
 		$oDB->begin();
@@ -280,9 +280,9 @@ class pollController extends poll
 		// Get the information related to the survey
 		$columnList = array('poll_count', 'stop_date','poll_type');
 		$output = executeQuery('poll.getPoll', $args, $columnList);
-		if(!$output->data) return $this->setError("poll_no_poll_or_deleted_poll");
+		if(!$output->data) throw new Rhymix\Framework\Exception('poll_no_poll_or_deleted_poll');
 
-		if($output->data->stop_date < date("Ymd")) return $this->setError("msg_cannot_vote");
+		if($output->data->stop_date < date("Ymd")) throw new Rhymix\Framework\Exception('msg_cannot_vote');
 
 		$columnList = array('checkcount');
 		$output = executeQuery('poll.getPollTitle', $args, $columnList);
@@ -290,7 +290,7 @@ class pollController extends poll
 
 		$poll_srl_indexes = Context::get('poll_srl_indexes');
 		$tmp_item_srls = explode(',',$poll_srl_indexes);
-		//if(count($tmp_item_srls)-1>(int)$output->data->checkcount) return $this->setError("msg_exceed_max_select");
+		//if(count($tmp_item_srls)-1>(int)$output->data->checkcount) throw new Rhymix\Framework\Exception('msg_exceed_max_select');
 		for($i=0;$i<count($tmp_item_srls);$i++)
 		{
 			$srl = (int)trim($tmp_item_srls[$i]);
@@ -299,10 +299,10 @@ class pollController extends poll
 		}
 
 		// If there is no response item, display an error
-		if(!count($item_srls)) return $this->setError('msg_check_poll_item');
+		if(!count($item_srls)) throw new Rhymix\Framework\Exception('msg_check_poll_item');
 		// Make sure is the poll has already been taken
 		$oPollModel = getModel('poll');
-		if($oPollModel->isPolled($poll_srl)) return $this->setError('msg_already_poll');
+		if($oPollModel->isPolled($poll_srl)) throw new Rhymix\Framework\Exception('msg_already_poll');
 
 		$oDB = &DB::getInstance();
 		$oDB->begin();
@@ -382,7 +382,7 @@ class pollController extends poll
 	 */
 	function procPollGetList()
 	{
-		if(!Context::get('is_logged')) return $this->setError('msg_not_permitted');
+		if(!Context::get('is_logged')) throw new Rhymix\Framework\Exceptions\NotPermitted;
 		$pollSrls = Context::get('poll_srls');
 		if($pollSrls) $pollSrlList = explode(',', $pollSrls);
 
