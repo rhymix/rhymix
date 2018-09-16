@@ -692,19 +692,19 @@ class memberController extends member
 		if(!$output->toBool()) return $output;
 
 		// insert ProfileImage, ImageName, ImageMark
-		$profile_image = $_FILES['profile_image'];
+		$profile_image = Context::get('profile_image');
 		if(is_uploaded_file($profile_image['tmp_name']))
 		{
 			$this->insertProfileImage($args->member_srl, $profile_image['tmp_name']);
 		}
 
-		$image_mark = $_FILES['image_mark'];
+		$image_mark = Context::get('image_mark');
 		if(is_uploaded_file($image_mark['tmp_name']))
 		{
 			$this->insertImageMark($args->member_srl, $image_mark['tmp_name']);
 		}
 
-		$image_name = $_FILES['image_name'];
+		$image_name = Context::get('image_name');
 		if(is_uploaded_file($image_name['tmp_name']))
 		{
 			$this->insertImageName($args->member_srl, $image_name['tmp_name']);
@@ -927,19 +927,19 @@ class memberController extends member
 		$output = $this->updateMember($args);
 		if(!$output->toBool()) return $output;
 
-		$profile_image = $_FILES['profile_image'];
+		$profile_image = Context::get('profile_image');
 		if(is_uploaded_file($profile_image['tmp_name']))
 		{
 			$this->insertProfileImage($args->member_srl, $profile_image['tmp_name']);
 		}
 
-		$image_mark = $_FILES['image_mark'];
+		$image_mark = Context::get('image_mark');
 		if(is_uploaded_file($image_mark['tmp_name']))
 		{
 			$this->insertImageMark($args->member_srl, $image_mark['tmp_name']);
 		}
 
-		$image_name = $_FILES['image_name'];
+		$image_name = Context::get('image_name');
 		if(is_uploaded_file($image_name['tmp_name']))
 		{
 			$this->insertImageName($args->member_srl, $image_name['tmp_name']);
@@ -1056,7 +1056,7 @@ class memberController extends member
 	function procMemberInsertProfileImage()
 	{
 		// Check if the file is successfully uploaded
-		$file = $_FILES['profile_image'];
+		$file = Context::get('profile_image');
 		if(!is_uploaded_file($file['tmp_name'])) throw new Rhymix\Framework\Exception('msg_not_uploaded_profile_image');
 		// Ignore if member_srl is invalid or doesn't exist.
 		$member_srl = Context::get('member_srl');
@@ -1161,7 +1161,7 @@ class memberController extends member
 	function procMemberInsertImageName()
 	{
 		// Check if the file is successfully uploaded
-		$file = $_FILES['image_name'];
+		$file = Context::get('image_name');
 		if(!is_uploaded_file($file['tmp_name'])) throw new Rhymix\Framework\Exception('msg_not_uploaded_image_name');
 		// Ignore if member_srl is invalid or doesn't exist.
 		$member_srl = Context::get('member_srl');
@@ -1312,7 +1312,7 @@ class memberController extends member
 	function procMemberInsertImageMark()
 	{
 		// Check if the file is successfully uploaded
-		$file = $_FILES['image_mark'];
+		$file = Context::get('image_mark');
 		if(!is_uploaded_file($file['tmp_name'])) throw new Rhymix\Framework\Exception('msg_not_uploaded_image_mark');
 		// Ignore if member_srl is invalid or doesn't exist.
 		$member_srl = Context::get('member_srl');
