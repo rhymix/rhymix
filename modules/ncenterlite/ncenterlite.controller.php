@@ -548,19 +548,6 @@ class ncenterliteController extends ncenterlite
 		{
 			return;
 		}
-		$this->_hide_ncenterlite = false;
-		if($oModule->module == 'beluxe' && Context::get('is_modal'))
-		{
-			$this->_hide_ncenterlite = true;
-		}
-		if($oModule->module == 'bodex' && Context::get('is_iframe'))
-		{
-			$this->_hide_ncenterlite = true;
-		}
-		if($oModule->getLayoutFile() == 'popup_layout.html')
-		{
-			$this->_hide_ncenterlite = true;
-		}
 
 		if($oModule->act == 'dispBoardReplyComment')
 		{
@@ -644,7 +631,7 @@ class ncenterliteController extends ncenterlite
 		}
 
 		// 지식인 모듈의 의견
-		// TODO: 코드 분리
+		// TODO: 지식인 모듈을 사용하는지 안하는지 현재로써는 모르기 때문에 일단은 이 코드를 유지 하였다가 나중에 라이믹스용 지식인이 나온다면 변경하기 
 		if($oModule->act == 'procKinInsertComment')
 		{
 			// 글, 댓글 구분
@@ -720,7 +707,6 @@ class ncenterliteController extends ncenterlite
 
 	function triggerBeforeDisplay(&$output_display)
 	{
-		$act = Context::get('act');
 		// 팝업창이면 중지
 		if(Context::get('ncenterlite_is_popup'))
 		{
@@ -728,7 +714,7 @@ class ncenterliteController extends ncenterlite
 		}
 
 		// 자신의 알림목록을 보고 있을 경우엔 알림센터창을 띄우지 않는다.
-		if($act == 'dispNcenterliteNotifyList')
+		if(Context::get('act') == 'dispNcenterliteNotifyList')
 		{
 			return;
 		}
@@ -752,7 +738,6 @@ class ncenterliteController extends ncenterlite
 
 		$module_info = Context::get('module_info');
 
-
 		// admin 모듈이면 중지
 		if($module_info->module == 'admin')
 		{
@@ -774,20 +759,19 @@ class ncenterliteController extends ncenterlite
 		}
 
 		// 노티바 제외 페이지이면 중지
-		if(in_array($module_info->module_srl, $config->hide_module_srls))
+		if(is_array($config->hide_module_srls) && in_array($module_info->module_srl, $config->hide_module_srls))
 		{
 			return;
 		}
 
 		Context::set('ncenterlite_config', $config);
+		
+		Context::loadFile(array('./modules/ncenterlite/tpl/js/ncenterlite.js', 'body', '', 100000));
 
-		$js_args = array('./modules/ncenterlite/tpl/js/ncenterlite.js', 'body', '', 100000);
-		Context::loadFile($js_args);
-
-		// 알림 목록 가져오기
 		$logged_info = Context::get('logged_info');
 		$_output = $oNcenterliteModel->getMyNotifyList($logged_info->member_srl);
-		// 알림 메시지가 없어도 항상 표시하게 하려면 이 줄을 제거 또는 주석 처리하세요.
+		
+		// TODO : 메세지 없더라도 표시하도록 하는 옵션 추가
 		if(!$_output->data)
 		{
 			return;
@@ -857,6 +841,11 @@ class ncenterliteController extends ncenterlite
 			$target_srl = Context::get('target_srl');
 
 			$oMemberController->addMemberMenu('dispNcenterliteNotifyList', 'ncenterlite_my_list');
+		}
+
+		if($config->user_notify_setting == 'Y')
+		{
+			$oMemberController->addMemberMenu('dispNcenterliteUserConfig', 'ncenterlite_my_settings');
 
 			if($logged_info->is_admin == 'Y')
 			{
@@ -864,11 +853,6 @@ class ncenterliteController extends ncenterlite
 				$str = Context::getLang('ncenterlite_user_settings');
 				$oMemberController->addMemberPopupMenu($url, $str, '');
 			}
-		}
-
-		if($config->user_notify_setting == 'Y')
-		{
-			$oMemberController->addMemberMenu('dispNcenterliteUserConfig', 'ncenterlite_my_settings');
 		}
 	}
 
@@ -931,7 +915,6 @@ class ncenterliteController extends ncenterlite
 		$args->member_srl = $member_srl;
 		$args->notify = $notify;
 		$output = executeQuery('ncenterlite.updateNotifyReaded', $args);
-		//$output = executeQuery('ncenterlite.deleteNotify', $args);
 
 		//Remove flag files
 		$this->removeFlagFile($args->member_srl);
@@ -944,7 +927,6 @@ class ncenterliteController extends ncenterlite
 		$args->member_srl = $member_srl;
 		$args->target_srl = $target_srl;
 		$output = executeQuery('ncenterlite.updateNotifyReadedByTargetSrl', $args);
-		//$output = executeQuery('ncenterlite.deleteNotifyByTargetSrl', $args);
 
 		//Remove flag files
 		$this->removeFlagFile($args->member_srl);
@@ -956,7 +938,6 @@ class ncenterliteController extends ncenterlite
 		$args = new stdClass();
 		$args->member_srl = $member_srl;
 		$output = executeQuery('ncenterlite.updateNotifyReadedAll', $args);
-		//$output = executeQuery('ncenterlite.deleteNotifyByMemberSrl', $args);
 
 		//Remove flag files
 		$this->removeFlagFile($args->member_srl);
