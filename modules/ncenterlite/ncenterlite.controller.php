@@ -82,6 +82,13 @@ class ncenterliteController extends ncenterlite
 		{
 			$this->removeFlagFile($args->member_srl);
 		}
+		
+		// Delete to user setting.
+		$userSetOutput = executeQuery('ncenterlite.deleteNcenterliteUserSettingData', $args);
+		if(!$userSetOutput->toBool())
+		{
+			return $userSetOutput;
+		}
 	}
 
 	function triggerAfterInsertDocument(&$obj)
