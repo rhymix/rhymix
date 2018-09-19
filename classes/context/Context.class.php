@@ -1407,20 +1407,17 @@ class Context
 			}
 			elseif($_val = trim($_val))
 			{
-				if(in_array($key, array('page', 'cpage')) || ends_with('srl', $key, false))
+				if(in_array($key, array('page', 'cpage')) || ends_with('srl', $key, false) && preg_match('/[^0-9,]/', $_val))
 				{
-					if(preg_match('/[^0-9,]/', $_val))
-					{
-						$_val = (int)$_val;
-					}
+					$_val = (int)$_val;
 				}
-				elseif(in_array($key, array('mid', 'search_keyword', 'xe_validator_id')))
+				elseif(in_array($key, array('mid', 'vid', 'search_target', 'search_keyword', 'xe_validator_id')) || count($_GET))
 				{
 					$_val = escape($_val, false);
-				}
-				elseif($key === 'vid')
-				{
-					$_val = urlencode($_val);
+					if(ends_with('url', $key, false))
+					{
+						$_val = strtr($_val, array('&amp;' => '&'));
+					}
 				}
 			}
 			$result[escape($_key)] = $_val;
