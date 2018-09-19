@@ -76,7 +76,7 @@ class ncenterliteModel extends ncenterlite
 		return self::$config;
 	}
 
-	function getNotifyTypebySrl($notify_srl='')
+	function getNotifyTypebySrl($notify_srl)
 	{
 		$args = new stdClass();
 		$args->notify_type_srl = $notify_srl;
@@ -86,7 +86,7 @@ class ncenterliteModel extends ncenterlite
 		return $output;
 	}
 
-	function getNotifyTypeString($notify_srl='',$notify_args)
+	function getNotifyTypeString($notify_srl, $notify_args)
 	{
 		$this->notify_args = $notify_args;
 
@@ -113,7 +113,7 @@ class ncenterliteModel extends ncenterlite
 		return $this->notify_args->{$match[1]};
 	}
 
-	function isNotifyTypeExistsbySrl($notify_srl='')
+	function isNotifyTypeExistsbySrl($notify_srl)
 	{
 		$args = new stdClass();
 		$args->notify_type_srl = $notify_srl;
