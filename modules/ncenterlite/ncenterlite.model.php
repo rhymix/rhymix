@@ -297,7 +297,7 @@ class ncenterliteModel extends ncenterlite
 		elseif($page <= 1)
 		{
 			$oNcenterliteController = getController('ncenterlite');
-			$oNcenterliteController->updateFlagFile($member_srl, $output);
+			$oNcenterliteController->updateFlagFile($output, $member_srl);
 		}
 
 		return $output;
