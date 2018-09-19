@@ -203,6 +203,10 @@ class ncenterliteController extends ncenterlite
 				{
 					$obj->admin_comment_notify = true;
 				}
+				else
+				{
+					return $output;
+				}
 			}
 		}
 
@@ -262,7 +266,11 @@ class ncenterliteController extends ncenterlite
 				$args->regdate = $regdate;
 				$args->target_browser = $module_info->browser_title;
 				$args->notify = $this->_getNotifyId($args);
-				$this->_insertNotify($args, $is_anonymous);
+				$output = $this->_insertNotify($args, $is_anonymous);
+				if(!$output->toBool())
+				{
+					return $output;
+				}
 				$notify_member_srls[] = abs($member_srl);
 			}
 		}
@@ -306,7 +314,11 @@ class ncenterliteController extends ncenterlite
 				$args->regdate = $regdate;
 				$args->target_browser = $module_info->browser_title;
 				$args->notify = $this->_getNotifyId($args);
-				$this->_insertNotify($args, $is_anonymous);
+				$output = $this->_insertNotify($args, $is_anonymous);
+				if(!$output->toBool())
+				{
+					return $output;
+				}
 			}
 		}
 	}
@@ -350,7 +362,11 @@ class ncenterliteController extends ncenterlite
 		$args->regdate = date('YmdHis');
 		$args->notify = $this->_getNotifyId($args);
 		$args->target_url = getNotEncodedFullUrl('', 'act', 'dispCommunicationMessages', 'message_srl', $obj->related_srl);
-		$this->_insertNotify($args);
+		$output = $this->_insertNotify($args);
+		if(!$output->toBool())
+		{
+			return $output;
+		}
 	}
 
 	function triggerAfterVotedupdate(&$obj)
@@ -382,6 +398,10 @@ class ncenterliteController extends ncenterlite
 		$args->notify = $this->_getNotifyId($args);
 		$args->target_url = getNotEncodedFullUrl('', 'document_srl', $obj->document_srl);
 		$output = $this->_insertNotify($args);
+		if(!$output->toBool())
+		{
+			return $output;
+		}
 	}
 
 	function triggerAfterCommentVotedCount($obj)
@@ -667,6 +687,10 @@ class ncenterliteController extends ncenterlite
 				$args->regdate = date('YmdHis');
 				$args->notify = $this->_getNotifyId($args);
 				$output = $this->_insertNotify($args);
+				if(!$output->toBool())
+				{
+					return $output;
+				}
 			}
 		}
 		else if($oModule->act == 'dispKinView' || $oModule->act == 'dispKinIndex')
@@ -1075,18 +1099,13 @@ class ncenterliteController extends ncenterlite
 		}
 
 		$output = executeQuery('ncenterlite.insertNotify', $args);
-		if(!$output->toBool())
-		{
-			return $output;
-		}
-		else
+		if($output->toBool())
 		{
 			ModuleHandler::triggerCall('ncenterlite._insertNotify', 'after', $args);
+			$this->sendSmsMessage($args);
+			$this->sendMailMessage($args);
+			$this->removeFlagFile($args->member_srl);
 		}
-
-		$this->sendSmsMessage($args);
-		$this->sendMailMessage($args);
-		$this->removeFlagFile($args->member_srl);
 
 		return $output;
 	}
