@@ -407,29 +407,27 @@ class ncenterliteModel extends ncenterlite
 	 */
 	public function getNotificationText($notification)
 	{
-		global $lang;
-
 		// Get the type of notification.
 		switch ($notification->type)
 		{
 			// Document.
 			case 'D':
-				$type = $lang->ncenterlite_document;
+				$type = lang('ncenterlite_document');
 				break;
 
 			// Comment.
 			case 'C':
-				$type = $lang->ncenterlite_comment;
+				$type = lang('ncenterlite_comment');
 				break;
 
 			// Message.
 			case 'E':
-				$type = $lang->ncenterlite_type_message;
+				$type = lang('ncenterlite_type_message');
 				break;
 
 			// Test.
 			case 'T':
-				$type = $lang->ncenterlite_type_test;
+				$type = lang('ncenterlite_type_test');
 				break;
 
 			// Custom string.
@@ -438,16 +436,16 @@ class ncenterliteModel extends ncenterlite
 
 			// Insert member
 			case 'I':
-				$type = $lang->cmd_signup;
+				$type = lang('cmd_signup');
 				break;
 
 			// Custom language.
 			case 'Y':
-				return $lang->{$notification->target_body};
+				return lang($notification->target_body);
 
 			// Custom language with string interpolation.
 			case 'Z':
-				return vsprintf($lang->{$notification->target_body}, array(
+				return vsprintf(lang($notification->target_body), array(
 					$notification->target_member_srl,     // %1$d
 					$notification->target_nick_name,      // %2$s
 					$notification->target_user_id,        // %3$s
@@ -468,63 +466,63 @@ class ncenterliteModel extends ncenterlite
 		{
 			// Comment on your document.
 			case 'C':
-				$str = sprintf($lang->ncenterlite_commented, $notification->target_nick_name, $type, $notification->target_summary);
+				$str = sprintf(lang('ncenterlite_commented'), $notification->target_nick_name, $type, $notification->target_summary);
 				break;
 
 			// Comment on a board.
 			case 'A':
-				$str = sprintf($lang->ncenterlite_commented_board, $notification->target_nick_name, $notification->target_browser, $notification->target_summary);
+				$str = sprintf(lang('ncenterlite_commented_board'), $notification->target_nick_name, $notification->target_browser, $notification->target_summary);
 				break;
 
 			// Mentioned.
 			case 'M':
-				$str = sprintf($lang->ncenterlite_mentioned, $notification->target_nick_name, $notification->target_browser, $notification->target_summary, $type);
+				$str = sprintf(lang('ncenterlite_mentioned'), $notification->target_nick_name, $notification->target_browser, $notification->target_summary, $type);
 				break;
 
 			// Message arrived.
 			case 'E':
-				$str = sprintf($lang->ncenterlite_message_mention, $notification->target_nick_name, $notification->target_summary);
+				$str = sprintf(lang('ncenterlite_message_mention'), $notification->target_nick_name, $notification->target_summary);
 				break;
 
 			// Test notification.
 			case 'T':
-				$str = sprintf($lang->ncenterlite_test_noti, $notification->target_nick_name);
+				$str = sprintf(lang('ncenterlite_test_noti'), $notification->target_nick_name);
 				break;
 
 			// New document on a board.
 			case 'P':
-				$str = sprintf($lang->ncenterlite_board, $notification->target_nick_name, $notification->target_browser, $notification->target_summary);
+				$str = sprintf(lang('ncenterlite_board'), $notification->target_nick_name, $notification->target_browser, $notification->target_summary);
 				break;
 
 			// New document.
 			case 'S':
 				if($notification->target_browser)
 				{
-					$str = sprintf($lang->ncenterlite_board, $notification->target_nick_name, $notification->target_browser, $notification->target_summary);
+					$str = sprintf(lang('ncenterlite_board'), $notification->target_nick_name, $notification->target_browser, $notification->target_summary);
 				}
 				else
 				{
-					$str = sprintf($lang->ncenterlite_article, $notification->target_nick_name, $notification->target_summary);
+					$str = sprintf(lang('ncenterlite_article'), $notification->target_nick_name, $notification->target_summary);
 				}
 				break;
 
 			// Voted.
 			case 'V':
-				$str = sprintf($lang->ncenterlite_vote, $notification->target_nick_name, $notification->target_summary, $type);
+				$str = sprintf(lang('ncenterlite_vote'), $notification->target_nick_name, $notification->target_summary, $type);
 				break;
 
 			// Admin notification.
 			case 'B':
-				$str = sprintf($lang->ncenterlite_admin_content_message, $notification->target_nick_name, $notification->target_browser, $notification->target_summary);
+				$str = sprintf(lang('ncenterlite_admin_content_message'), $notification->target_nick_name, $notification->target_browser, $notification->target_summary);
 				break;
 
 			case 'I':
-				$str = sprintf($lang->ncenterlite_insert_member_message, $notification->target_nick_name);
+				$str = sprintf(lang('ncenterlite_insert_member_message'), $notification->target_nick_name);
 				break;
 
 			// Other.
 			default:
-				$str = $lang->ncenterlite;
+				$str = lang('ncenterlite');
 		}
 
 		return $str;
