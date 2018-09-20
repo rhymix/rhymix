@@ -28,7 +28,7 @@ $lang->install_checklist_title['session'] = 'session.auto_start 설정';
 $lang->install_checklist_title['db_support'] = 'DB 지원';
 $lang->install_checklist_desc['php_version'] = '[필수] Rhymix를 설치하려면 PHP 버전이 %s 이상이어야 합니다.';
 $lang->install_checklist_desc['php_version_warning'] = '[권장] Rhymix는 PHP %s 이상을 권장합니다.';
-$lang->install_checklist_desc['permission'] = '[필수] Rhymix의 설치 경로 또는 ./files 디렉토리의 퍼미션이 777이어야 합니다.';
+$lang->install_checklist_desc['permission'] = '[필수] Rhymix 설치 경로에 files 디렉토리를 생성하고 퍼미션을 777로 바꾸어 주십시오.';
 $lang->install_checklist_desc['xml'] = '[필수] XML통신을 위하여 XML 라이브러리가 필요합니다.';
 $lang->install_checklist_desc['session'] = '[필수] Rhymix에서 세션 사용을 위해 php.ini 설정의 session.auto_start=0 이어야 합니다.';
 $lang->install_checklist_desc['iconv'] = 'UTF-8과 다른 언어셋의 변환을 위한 iconv설치가 필요합니다.';
