@@ -795,10 +795,12 @@ class ncenterliteController extends ncenterlite
 		$logged_info = Context::get('logged_info');
 		$_output = $oNcenterliteModel->getMyNotifyList($logged_info->member_srl);
 		
-		// TODO : 메세지 없더라도 표시하도록 하는 옵션 추가
-		if(!$_output->data)
+		if($config->always_display !== 'Y')
 		{
-			return;
+			if(!$_output->data)
+			{
+				return;
+			}
 		}
 
 		$_latest_notify_id = array_slice($_output->data, 0, 1);

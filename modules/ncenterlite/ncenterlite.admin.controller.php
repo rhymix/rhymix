@@ -10,6 +10,7 @@ class ncenterliteAdminController extends ncenterlite
 		$config_vars = array(
 			'use',
 			'display_use',
+			'always_display',
 			'user_config_list',
 			'mention_names',
 			'mention_suffixes',
