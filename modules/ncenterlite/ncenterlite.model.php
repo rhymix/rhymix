@@ -229,6 +229,8 @@ class ncenterliteModel extends ncenterlite
 
 	function _getMyNotifyList($member_srl=null, $page=1, $readed='N')
 	{
+		$oNcenterliteController = getController('ncenterlite');
+
 		if(!$member_srl)
 		{
 			if (!Context::get('is_logged'))
@@ -262,7 +264,6 @@ class ncenterliteModel extends ncenterlite
 
 				if($create_time <= $deleteOutput->regdate)
 				{
-					$oNcenterliteController = getController('ncenterlite');
 					$oNcenterliteController->removeFlagFile($member_srl);
 				}
 				else
@@ -292,12 +293,17 @@ class ncenterliteModel extends ncenterlite
 
 		if (Rhymix\Framework\Cache::getDriverName() !== 'dummy')
 		{
-			Rhymix\Framework\Cache::set($cache_key, $output);
+			if($page <= 1)
+			{
+				Rhymix\Framework\Cache::set($cache_key, $output);
+			}
 		}
-		elseif($page <= 1)
+		else
 		{
-			$oNcenterliteController = getController('ncenterlite');
-			$oNcenterliteController->updateFlagFile($member_srl, $output);
+			if($page <= 1)
+			{
+				$oNcenterliteController->updateFlagFile($member_srl, $output);
+			}
 		}
 
 		return $output;
