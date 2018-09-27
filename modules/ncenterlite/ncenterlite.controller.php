@@ -1110,7 +1110,7 @@ class ncenterliteController extends ncenterlite
 		return $output;
 	}
 
-	public static function updateFlagFile($output, $member_srl = null)
+	public static function updateFlagFile($member_srl = null, $output = null)
 	{
 		if(!$member_srl)
 		{
