@@ -24,10 +24,10 @@ $lang->install_permission_denied = 'Права доступа пути не ус
 $lang->cmd_install_refresh_page = 'обновление';
 $lang->cmd_install_next = 'Продолжить установку';
 $lang->cmd_recommended = 'рекомендуемые';
-$lang->db_desc['mysqli'] = 'Используем mysqli_*() функцию, чтобы использовать базу данных mysql.';
-$lang->db_desc['mysql'] = 'Используем mysql_*() функцию, чтобы использовать базу данных mysql.';
-$lang->db_desc['cubrid'] = 'Используем CUBRID DB. <a href="https://www.cubrid.org/documentation/manuals" target="_blank">Manual</a>';
-$lang->db_desc['mssql'] = 'Используем Microsoft SQL Server DB.';
+$lang->db_desc['mysqli'] = 'Используйте MySQL или MariaDB. Rhymix будет автоматически использовать InnoDB, если он поддерживается.';
+$lang->db_desc['mysql'] = 'Используйте MySQL или MariaDB. Rhymix будет автоматически использовать InnoDB, если он поддерживается.';
+$lang->db_desc['cubrid'] = 'CUBRID не совместим с Rhymix.';
+$lang->db_desc['mssql'] = 'Microsoft SQL Server не совместим с Rhymix.';
 $lang->form_title = 'Пожалуйста, введите дазу данных &amp; Административная Информация';
 $lang->db_title = 'Пожалуйста, введите информацию базы данных';
 $lang->db_type = 'Тип базы данных';

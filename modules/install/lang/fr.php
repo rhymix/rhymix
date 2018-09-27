@@ -24,10 +24,10 @@ $lang->install_permission_denied = 'La permission du chemin d\'installation n\'e
 $lang->cmd_install_refresh_page = 'Rafraîchir';
 $lang->cmd_install_next = 'Continuer à  installer';
 $lang->cmd_recommended = 'Recommandé';
-$lang->db_desc['mysqli'] = 'Utilisera fonction mysqli_*() pour utiliser la base de données de MySQL.';
-$lang->db_desc['mysql'] = 'Utilisera fonction mysql_*() pour utiliser la base de données de MySQL';
-$lang->db_desc['cubrid'] = 'Utiliser la Base de Données de CUBRID.  <a href="https://www.cubrid.org/documentation/manuals" target="_blank">Manual</a>';
-$lang->db_desc['mssql'] = 'Utiliser la Base de Données de Microsoft SQL Server.';
+$lang->db_desc['mysqli'] = 'Utilisera MySQL ou MariaDB. Rhymix utilisera automatiquement InnoDB s\'il est pris en charge.';
+$lang->db_desc['mysql'] = 'Utilisera MySQL ou MariaDB. Rhymix utilisera automatiquement InnoDB s\'il est pris en charge.';
+$lang->db_desc['cubrid'] = 'CUBRID n\'est pas compatible avec Rhymix.';
+$lang->db_desc['mssql'] = 'Microsoft SQL Server n\'est pas compatible avec Rhymix.';
 $lang->can_use_when_installed = 'Pas installé sur ce serveur';
 $lang->form_title = 'Entrer des informations de Base de données et Administrateur';
 $lang->db_title = 'Entrez l\'information de Base de Données, S.V.P.';
