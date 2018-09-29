@@ -1,0 +1,9 @@
+<query id="deleteNcenterliteUserSettingData" action="delete">
+	<tables>
+		<table name="ncenterlite_user_set" />
+	</tables>
+
+	<conditions>
+		<condition operation="equal" column="member_srl" var="member_srl" notnull="notnull" filter="number" />
+	</conditions>
+</query>
