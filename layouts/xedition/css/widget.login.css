@@ -7,7 +7,7 @@
     z-index: 999999;
     width: 100%;
     height: 100%;
-    font-family: '나눔바른고딕', NanumBarunGothic, ng, '맑은 고딕', 'Malgun Gothic', '돋움', Dotum, '애플 SD 산돌고딕 Neo', 'Apple SD Gothic Neo', AppleGothic, Helvetica, sans-serif;
+    font-family: Open Sans, NanumBarunGothic, Malgun Gothic, Dotum, Apple SD Gothic Neo, AppleGothic, Helvetica, sans-serif;
     font-weight: 400
 }
 .login_widget .btn_ly_popup {
@@ -51,7 +51,7 @@
     padding: 30px
 }
 .login_widget .signin > .login-header > h1 {
-    font-family: Raleway, '나눔바른고딕', NanumBarunGothic, ng, AppleGothic, Helvetica, sans-serif;
+    font-family: Raleway, NanumBarunGothic, Malgun Gothic, Dotum, Apple SD Gothic Neo, AppleGothic, Helvetica, sans-serif;
     font-size: 40px;
     line-height: 50px;
     font-weight: 400;
