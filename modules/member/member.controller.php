@@ -1733,6 +1733,22 @@ class memberController extends member
 			throw new Rhymix\Framework\Exception('msg_exists_email_address');
 		}
 
+		// Check managed Email Host
+		if($oMemberModel->isDeniedEmailHost($newEmail))
+		{
+			$config = $oMemberModel->getMemberConfig();
+			$emailhost_check = $config->emailhost_check;
+
+			$managed_email_host = lang('managed_email_host');
+			$email_hosts = $oMemberModel->getManagedEmailHosts();
+			foreach ($email_hosts as $host)
+			{
+				$hosts[] = $host->email_host;
+			}
+			$message = sprintf($managed_email_host[$emailhost_check], implode(', ',$hosts), 'id@' . implode(', id@', $hosts));
+			throw new Rhymix\Framework\Exception($message);
+		}
+
 		// remove all key by member_srl
 		$args = new stdClass;
 		$args->member_srl = $memberInfo->member_srl;
