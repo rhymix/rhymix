@@ -113,6 +113,9 @@ return array(
 		'object' => array(),
 		'classes' => array(),
 	),
+	'security' => array(
+		'nofollow' => false,
+	),
 	'mobile' => array(
 		'enabled' => true,
 		'tablets' => false,

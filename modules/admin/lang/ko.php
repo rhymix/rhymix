@@ -171,6 +171,8 @@ $lang->use_session_ssl = 'SSL 전용 세션 사용';
 $lang->about_use_session_ssl = '세션을 SSL 전용으로 지정하여 SSL이 아닌 페이지에서는 사용할 수 없도록 합니다.<br>SSL을 항상 사용하도록 설정되어 있는 경우에만 활성화됩니다.';
 $lang->use_cookies_ssl = 'SSL 전용 쿠키 사용';
 $lang->about_use_cookies_ssl = '세션뿐 아니라 모든 쿠키를 SSL 전용으로 지정합니다.<br>SSL을 항상 사용하도록 설정되어 있는 경우에만 활성화됩니다.';
+$lang->use_nofollow = 'Nofollow 속성 사용';
+$lang->about_use_nofollow = '사용자들이 작성한 글에 포함된 모든 링크에 rel=&quot;nofollow&quot; 속성을 추가하여 스팸으로 인한 사이트 신뢰도 저하를 방지합니다.<br>관리자가 작성한 글에는 적용되지 않습니다.';
 $lang->use_object_cache = '캐시 사용';
 $lang->cache_default_ttl = '캐시 기본 TTL';
 $lang->cache_host = '호스트';

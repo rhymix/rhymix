@@ -170,6 +170,8 @@ $lang->use_session_ssl = 'Use SSL-only session';
 $lang->about_use_session_ssl = 'Force the session to be SSL-only.<br>This helps improve security if your site always uses SSL.';
 $lang->use_cookies_ssl = 'Use SSL-only cookies';
 $lang->about_use_cookies_ssl = 'Force all cookies to be SSL-only.';
+$lang->use_nofollow = 'Use nofollow attribute';
+$lang->about_use_nofollow = 'Add rel=&quot;nofollow&quot; to all links submitted by users in order to reduce the effectiveness of spamming.<br>This does not apply to content submitted by the administrator.';
 $lang->use_object_cache = 'Use Cache';
 $lang->cache_default_ttl = 'Cache default TTL';
 $lang->cache_host = 'Host';

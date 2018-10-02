@@ -685,6 +685,7 @@ class adminAdminController extends admin
 		Rhymix\Framework\Config::set('session.use_keys', $vars->use_session_keys === 'Y');
 		Rhymix\Framework\Config::set('session.use_ssl', $vars->use_session_ssl === 'Y');
 		Rhymix\Framework\Config::set('session.use_ssl_cookies', $vars->use_cookies_ssl === 'Y');
+		Rhymix\Framework\Config::set('security.nofollow', $vars->use_nofollow === 'Y');
 		
 		// Save
 		if (!Rhymix\Framework\Config::save())
