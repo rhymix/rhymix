@@ -52,6 +52,9 @@
 			<condition operation="equal" column="es.document_srl" default="d.document_srl" pipe="and" />
 		</group>
   </conditions>
+    <groups>
+        <group column="d.document_srl" />
+    </groups>
   <navigation>
     <index var="ev.value" default="ev.value" order="order_type" />
     <list_count var="list_count" default="20" />
