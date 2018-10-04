@@ -2,7 +2,7 @@
 <module>
 	<grants />
 	<actions>
-		<action name="dispKrzipSearchForm" type="view" />
+		<action name="dispKrzipSearchForm" type="view" meta-noindex="true" />
 		<action name="getKrzipCodeList" type="model" />
 		
 		<action name="dispKrzipAdminConfig" type="view" menu_name="krzip" menu_index="true" admin_index="true" />

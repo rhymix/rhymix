@@ -2,10 +2,10 @@
 <module>
 	<grants />
 	<actions>
-		<action name="dispWidgetInfo" type="view" permission="all-managers" />
-		<action name="dispWidgetGenerateCode" type="view" permission="root" />
-		<action name="dispWidgetGenerateCodeInPage" type="view" permission="all-managers" />
-		<action name="dispWidgetStyleGenerateCodeInPage" type="view" permission="all-managers" />
+		<action name="dispWidgetInfo" type="view" permission="all-managers" meta-noindex="true" />
+		<action name="dispWidgetGenerateCode" type="view" permission="root" meta-noindex="true" />
+		<action name="dispWidgetGenerateCodeInPage" type="view" permission="all-managers" meta-noindex="true" />
+		<action name="dispWidgetStyleGenerateCodeInPage" type="view" permission="all-managers" meta-noindex="true" />
 		
 		<action name="procWidgetGenerateCode" type="controller" permission="root" />
 		<action name="procWidgetGenerateCodeInPage" type="controller" permission="all-managers" ruleset="generateCodeInPage" />

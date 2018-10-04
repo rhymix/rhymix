@@ -2,10 +2,10 @@
 <module>
 	<grants />
 	<actions>
-		<action name="dispInstallIndex" type="view" index="true" />
-		<action name="dispInstallCheckEnv" type="view" />
-		<action name="dispInstallDBConfig" type="view" />
-		<action name="dispInstallOtherConfig" type="view" />
+		<action name="dispInstallIndex" type="view" index="true" meta-noindex="true" />
+		<action name="dispInstallCheckEnv" type="view" meta-noindex="true" />
+		<action name="dispInstallDBConfig" type="view" meta-noindex="true" />
+		<action name="dispInstallOtherConfig" type="view" meta-noindex="true" />
 		
 		<action name="getInstallFTPList" type="model" permission="root" />
 		
