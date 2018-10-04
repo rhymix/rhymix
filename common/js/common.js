@@ -92,6 +92,7 @@
 	window.XE = {
 		loaded_popup_menus : [],
 		addedDocument : [],
+		cookie : window.Cookies,
 		URI : window.URI,
 		URITemplate : window.URITemplate,
 		SecondLevelDomains : window.SecondLevelDomains,
@@ -673,9 +674,7 @@ function doChangeLangType(obj) {
 	location.href = location.href.setQuery('l', '');
 }
 function setLangType(lang_type) {
-	var expire = new Date();
-	expire.setTime(expire.getTime()+ (7000 * 24 * 3600000));
-	setCookie('lang_type', lang_type, expire, '/');
+	XE.cookie.set("lang_type", lang_type, { path: "/", expires: 3650 });
 }
 
 /* 미리보기 */
@@ -1051,18 +1050,16 @@ function getOuterHTML(obj) {
 	return jQuery(obj).html().trim();
 }
 
-function setCookie(name, value, expire, path) {
-	var s_cookie = name + "=" + escape(value) +
-		((!expire) ? "" : ("; expires=" + expire.toGMTString())) +
-		"; path=" + ((!path) ? "/" : path) + 
-		((cookies_ssl) ? ";secure" : "");
-
-	document.cookie = s_cookie;
+function setCookie(name, value, expires, path) {
+	XE.cookie.set(name, value, {
+		expires: expires ? expires : 0,
+		path: path ? path : "/",
+		secure: cookies_ssl ? true : false
+	});
 }
 
 function getCookie(name) {
-	var match = document.cookie.match(new RegExp(name+'=(.*?)(?:;|$)'));
-	if(match) return unescape(match[1]);
+	return XE.cookie.get(name);
 }
 
 function is_def(v) {

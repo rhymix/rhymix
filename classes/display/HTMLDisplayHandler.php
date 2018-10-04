@@ -581,6 +581,7 @@ class HTMLDisplayHandler
 		Context::loadFile(array('./common/css/rhymix.less', '', '', -1600000000), true);
 		$original_file_list = array(
 			'plugins/jquery.migrate/jquery-migrate-1.4.1.min.js',
+			'plugins/cookie/js.cookie.min.js',
 			'plugins/blankshield/blankshield.min.js',
 			'plugins/uri/URI.min.js',
 			'x.js',
