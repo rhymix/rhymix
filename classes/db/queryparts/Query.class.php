@@ -586,6 +586,11 @@ class Query extends BaseObject
 	 */
 	function getHavingString($with_values = TRUE)
 	{
+		if(!is_array($this->having))
+		{
+			return '';
+		}
+		
 		$having = '';
 		$condition_count = 0;
 
