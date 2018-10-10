@@ -1071,9 +1071,10 @@ class moduleModel extends module
 			$path = substr($path, 0, -1);
 		}
 
+		$skin_list = array();
 		$skin_path = sprintf("%s/%s/", $path, $dir);
 		$list = FileHandler::readDir($skin_path);
-		if(!count($list)) return;
+		//if(!count($list)) return;
 
 		natcasesort($list);
 
