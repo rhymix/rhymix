@@ -326,13 +326,14 @@ class Security
 		}
 		else
 		{
-			if (Session::getMemberSrl())
+			$is_logged = Session::getMemberSrl();
+			if ($is_logged)
 			{
 				trigger_error('CSRF token missing in POST request: ' . (\Context::get('act') ?: '(no act)'), \E_USER_WARNING);
 			}
 			
 			$referer = strval($referer ?: $_SERVER['HTTP_REFERER']);
-			if ($referer !== '')
+			if ($referer !== '' && (!config('security.check_csrf_token') || !$is_logged))
 			{
 				return URL::isInternalURL($referer);
 			}
