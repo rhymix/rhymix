@@ -1261,6 +1261,10 @@ class Context
 			$tmp_name = $val['tmp_name'];
 			if(!is_array($tmp_name))
 			{
+				if($val['name'] === '' && $val['size'] == 0)
+				{
+					continue;
+				}
 				if(!UploadFileFilter::check($tmp_name, $val['name']))
 				{
 					self::$_instance->isSuccessInit = false;
@@ -1277,8 +1281,13 @@ class Context
 				$files = array();
 				foreach ($tmp_name as $i => $j)
 				{
+					if($val['name'][$i] === '' && $val['size'][$i] == 0)
+					{
+						continue;
+					}
 					if(!UploadFileFilter::check($val['tmp_name'][$i], $val['name'][$i]))
 					{
+						self::$_instance->isSuccessInit = false;
 						$files = array();
 						unset($_FILES[$key]);
 						break;
