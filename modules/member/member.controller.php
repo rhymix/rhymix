@@ -2417,11 +2417,11 @@ class memberController extends member
 		list($args->email_id, $args->email_host) = explode('@', $args->email_address);
 
 		// Sanitize user ID, username, nickname, homepage, blog
-		$args->user_id = htmlspecialchars($args->user_id, ENT_COMPAT | ENT_HTML401, 'UTF-8', false);
-		$args->user_name = htmlspecialchars($args->user_name, ENT_COMPAT | ENT_HTML401, 'UTF-8', false);
-		$args->nick_name = htmlspecialchars($args->nick_name, ENT_COMPAT | ENT_HTML401, 'UTF-8', false);
-		$args->homepage = htmlspecialchars($args->homepage, ENT_COMPAT | ENT_HTML401, 'UTF-8', false);
-		$args->blog = htmlspecialchars($args->blog, ENT_COMPAT | ENT_HTML401, 'UTF-8', false);
+		$args->user_id = escape($args->user_id, false);
+		$args->user_name = escape($args->user_name, false);
+		$args->nick_name = escape($args->nick_name, false);
+		$args->homepage = escape($args->homepage, false);
+		$args->blog = escape($args->blog, false);
 		if($args->homepage && !preg_match("/^[a-z]+:\/\//i",$args->homepage)) $args->homepage = 'http://'.$args->homepage;
 		if($args->blog && !preg_match("/^[a-z]+:\/\//i",$args->blog)) $args->blog = 'http://'.$args->blog;
 
@@ -2650,11 +2650,11 @@ class memberController extends member
 		}
 
 		// Sanitize user ID, username, nickname, homepage, blog
-		if($args->user_id) $args->user_id = htmlspecialchars($args->user_id, ENT_COMPAT | ENT_HTML401, 'UTF-8', false);
-		$args->user_name = htmlspecialchars($args->user_name, ENT_COMPAT | ENT_HTML401, 'UTF-8', false);
-		$args->nick_name = htmlspecialchars($args->nick_name, ENT_COMPAT | ENT_HTML401, 'UTF-8', false);
-		$args->homepage = htmlspecialchars($args->homepage, ENT_COMPAT | ENT_HTML401, 'UTF-8', false);
-		$args->blog = htmlspecialchars($args->blog, ENT_COMPAT | ENT_HTML401, 'UTF-8', false);
+		if($args->user_id) $args->user_id = escape($args->user_id, false);
+		$args->user_name = escape($args->user_name, false);
+		$args->nick_name = escape($args->nick_name, false);
+		$args->homepage = escape($args->homepage, false);
+		$args->blog = escape($args->blog, false);
 		if($args->homepage && !preg_match("/^[a-z]+:\/\//is",$args->homepage)) $args->homepage = 'http://'.$args->homepage;
 		if($args->blog && !preg_match("/^[a-z]+:\/\//is",$args->blog)) $args->blog = 'http://'.$args->blog;
 

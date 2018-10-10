@@ -115,7 +115,7 @@ class Security
 		{
 			if(strncmp('$user_lang->', $var, 12) !== 0)
 			{
-				$var = htmlspecialchars($var, ENT_COMPAT | ENT_HTML401, 'UTF-8', false);
+				$var = escape($var, false);
 			}
 
 			return $var;

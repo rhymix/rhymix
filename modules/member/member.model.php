@@ -178,7 +178,7 @@ class memberModel extends member
 				$oCommunicationModel = getModel('communication');
 				if($logged_info->is_admin == 'Y' || $oCommunicationModel->isFriend($member_info->member_srl))
 				{
-					$url = 'mailto:'.htmlspecialchars($member_info->email_address, ENT_COMPAT | ENT_HTML401, 'UTF-8', false);
+					$url = 'mailto:'.escape($member_info->email_address);
 					$oMemberController->addMemberPopupMenu($url,'cmd_send_email',$icon_path);
 				}
 			}
@@ -210,13 +210,13 @@ class memberModel extends member
 		// View homepage info
 		if($member_info->homepage && $homepage_is_public)
 		{
-			$oMemberController->addMemberPopupMenu(htmlspecialchars($member_info->homepage, ENT_COMPAT | ENT_HTML401, 'UTF-8', false), 'homepage', '', 'blank');
+			$oMemberController->addMemberPopupMenu(escape($member_info->homepage, false), 'homepage', '', 'blank');
 		}
 		
 		// View blog info
 		if($member_info->blog && $blog_is_public)
 		{
-			$oMemberController->addMemberPopupMenu(htmlspecialchars($member_info->blog, ENT_COMPAT | ENT_HTML401, 'UTF-8', false), 'blog', '', 'blank');
+			$oMemberController->addMemberPopupMenu(escape($member_info->blog, false), 'blog', '', 'blank');
 		}
 		
 		// Call a trigger (after)

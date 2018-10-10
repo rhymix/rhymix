@@ -794,7 +794,7 @@ class Context
 			return '';
 		}
 		getController('module')->replaceDefinedLangCode(self::$_instance->browser_title);
-		return htmlspecialchars(self::$_instance->browser_title, ENT_COMPAT | ENT_HTML401, 'UTF-8', FALSE);
+		return htmlspecialchars(self::$_instance->browser_title, ENT_QUOTES, 'UTF-8', FALSE);
 	}
 
 	/**
@@ -1733,7 +1733,7 @@ class Context
 
 		if(!$autoEncode)
 		{
-			return htmlspecialchars($query, ENT_COMPAT | ENT_HTML401, 'UTF-8', FALSE);
+			return htmlspecialchars($query, ENT_QUOTES, 'UTF-8', FALSE);
 		}
 
 		$output = array();
@@ -1749,7 +1749,7 @@ class Context
 			$encode_queries[] = $key . '=' . $value;
 		}
 
-		return htmlspecialchars($parsedUrl['path'] . '?' . join('&', $encode_queries), ENT_COMPAT | ENT_HTML401, 'UTF-8', FALSE);
+		return htmlspecialchars($parsedUrl['path'] . '?' . join('&', $encode_queries), ENT_QUOTES, 'UTF-8', FALSE);
 	}
 
 	/**
