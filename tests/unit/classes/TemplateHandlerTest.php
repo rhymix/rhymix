@@ -304,35 +304,35 @@ class TemplateHandlerTest extends \Codeception\TestCase\Test
 			// Rhymix autoescape
             array(
                 '<config autoescape="on" />{$foo}',
-                PHP_EOL . '$this->config->autoescape = \'on\';' . "\n" . 'echo ($this->config->autoescape === \'on\' ? htmlspecialchars($__Context->foo, ENT_COMPAT, \'UTF-8\', false) : $__Context->foo) ?>'
+                PHP_EOL . '$this->config->autoescape = \'on\';' . "\n" . 'echo ($this->config->autoescape === \'on\' ? htmlspecialchars($__Context->foo, ENT_QUOTES, \'UTF-8\', false) : ($__Context->foo)) ?>'
             ),
             array(
                 '<config autoescape="off" />{$foo}',
-                PHP_EOL . '$this->config->autoescape = \'off\';' . "\n" . 'echo ($this->config->autoescape === \'on\' ? htmlspecialchars($__Context->foo, ENT_COMPAT, \'UTF-8\', false) : $__Context->foo) ?>'
+                PHP_EOL . '$this->config->autoescape = \'off\';' . "\n" . 'echo ($this->config->autoescape === \'on\' ? htmlspecialchars($__Context->foo, ENT_QUOTES, \'UTF-8\', false) : ($__Context->foo)) ?>'
             ),
             array(
                 '<config autoescape="on" />{$foo|auto}',
-                PHP_EOL . '$this->config->autoescape = \'on\';' . "\n" . 'echo ($this->config->autoescape === \'on\' ? htmlspecialchars($__Context->foo, ENT_COMPAT, \'UTF-8\', false) : $__Context->foo) ?>'
+                PHP_EOL . '$this->config->autoescape = \'on\';' . "\n" . 'echo ($this->config->autoescape === \'on\' ? htmlspecialchars($__Context->foo, ENT_QUOTES, \'UTF-8\', false) : ($__Context->foo)) ?>'
             ),
             array(
                 '<config autoescape="off" />{$foo|auto}',
-                PHP_EOL . '$this->config->autoescape = \'off\';' . "\n" . 'echo ($this->config->autoescape === \'on\' ? htmlspecialchars($__Context->foo, ENT_COMPAT, \'UTF-8\', false) : $__Context->foo) ?>'
+                PHP_EOL . '$this->config->autoescape = \'off\';' . "\n" . 'echo ($this->config->autoescape === \'on\' ? htmlspecialchars($__Context->foo, ENT_QUOTES, \'UTF-8\', false) : ($__Context->foo)) ?>'
             ),
             array(
                 '<config autoescape="on" />{$foo|autoescape}',
-                PHP_EOL . '$this->config->autoescape = \'on\';' . "\n" . 'echo htmlspecialchars($__Context->foo, ENT_COMPAT, \'UTF-8\', false) ?>'
+                PHP_EOL . '$this->config->autoescape = \'on\';' . "\n" . 'echo htmlspecialchars($__Context->foo, ENT_QUOTES, \'UTF-8\', false) ?>'
             ),
             array(
                 '<config autoescape="off" />{$foo|autoescape}',
-                PHP_EOL . '$this->config->autoescape = \'off\';' . "\n" . 'echo htmlspecialchars($__Context->foo, ENT_COMPAT, \'UTF-8\', false) ?>'
+                PHP_EOL . '$this->config->autoescape = \'off\';' . "\n" . 'echo htmlspecialchars($__Context->foo, ENT_QUOTES, \'UTF-8\', false) ?>'
             ),
             array(
                 '<config autoescape="on" />{$foo|escape}',
-                PHP_EOL . '$this->config->autoescape = \'on\';' . "\n" . 'echo htmlspecialchars($__Context->foo, ENT_COMPAT, \'UTF-8\', true) ?>'
+                PHP_EOL . '$this->config->autoescape = \'on\';' . "\n" . 'echo htmlspecialchars($__Context->foo, ENT_QUOTES, \'UTF-8\', true) ?>'
             ),
             array(
                 '<config autoescape="off" />{$foo|escape}',
-                PHP_EOL . '$this->config->autoescape = \'off\';' . "\n" . 'echo htmlspecialchars($__Context->foo, ENT_COMPAT, \'UTF-8\', true) ?>'
+                PHP_EOL . '$this->config->autoescape = \'off\';' . "\n" . 'echo htmlspecialchars($__Context->foo, ENT_QUOTES, \'UTF-8\', true) ?>'
             ),
             array(
                 '<config autoescape="on" />{$foo|noescape}',
@@ -345,7 +345,7 @@ class TemplateHandlerTest extends \Codeception\TestCase\Test
 			// Rhymix filters
             array(
                 '<p>{$foo|escape}</p>',
-                '?><p><?php echo htmlspecialchars($__Context->foo, ENT_COMPAT, \'UTF-8\', true) ?></p>'
+                '?><p><?php echo htmlspecialchars($__Context->foo, ENT_QUOTES, \'UTF-8\', true) ?></p>'
             ),
             array(
                 '<p>{$foo|json}</p>',
@@ -417,7 +417,7 @@ class TemplateHandlerTest extends \Codeception\TestCase\Test
             ),
             array(
                 '<config autoescape="on" /><p>{$foo|link:$url}</p>',
-                PHP_EOL . '$this->config->autoescape = \'on\'; ?><p><?php echo \'<a href="\' . ($this->config->autoescape === \'on\' ? htmlspecialchars($__Context->url, ENT_COMPAT, \'UTF-8\', false) : $__Context->url) . \'">\' . ($this->config->autoescape === \'on\' ? htmlspecialchars($__Context->foo, ENT_COMPAT, \'UTF-8\', false) : $__Context->foo) . \'</a>\' ?></p>'
+                PHP_EOL . '$this->config->autoescape = \'on\'; ?><p><?php echo \'<a href="\' . ($this->config->autoescape === \'on\' ? htmlspecialchars($__Context->url, ENT_QUOTES, \'UTF-8\', false) : ($__Context->url)) . \'">\' . ($this->config->autoescape === \'on\' ? htmlspecialchars($__Context->foo, ENT_QUOTES, \'UTF-8\', false) : ($__Context->foo)) . \'</a>\' ?></p>'
             ),
 			// Rhymix filters (reject malformed filters)
             array(
