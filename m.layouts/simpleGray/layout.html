@@ -5,7 +5,7 @@
 	<div class="fr"><a href="{getUrl('act','dispMenuMenu','menu_srl',$layout_info->menu->main_menu->menu_srl)}" class="bn">{$lang->menu}</a></div>
 	<!--@end-->
 </div>
-{$content}
+{$content|noescape}
 <ul class="eg ft">
 	<!--@if($is_logged)-->
 	<li class="fl"><a href="{getUrl('act','dispMemberLogout')}">{$lang->cmd_logout}</a></li>

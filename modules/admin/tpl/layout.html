@@ -6,7 +6,7 @@
 			{$lang->get('admin.msg_blacklisted_reason.'.$blacklisted_plugin_name)}
 		</p>
 	</div>
-	{$content}
+	{$content|noescape}
 </div>
 <include target="./_footer.html" />
 

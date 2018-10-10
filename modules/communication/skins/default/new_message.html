@@ -14,7 +14,7 @@
 			<td>{htmlspecialchars($message->title, ENT_COMPAT | ENT_HTML401, 'UTF-8', false)}</td>
 		</tr>
 		<tr>
-			<td colspan="2" class="xe_content">{$message->content}</td>
+			<td colspan="2" class="xe_content">{$message->content|noescape}</td>
 		</tr>
 	</table>
 	<div class="btnArea">

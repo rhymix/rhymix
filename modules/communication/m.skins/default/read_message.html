@@ -4,7 +4,7 @@
 	<h2>{$message->title}</h2><span class="ex">{$message->nick_name} | {zdate($message->regdate, "Y.m.d H:i")}</span>
 </div>
 <div class="co">
-	<div class="xe_content">{$message->content}</div>
+	<div class="xe_content">{$message->content|noescape}</div>
 </div>
 <div class="bna">
 	<span class="fl"><a href="{getUrl('message_srl', '')}" class="bn white">{$lang->cmd_list}</a></span>
