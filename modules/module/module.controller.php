@@ -1056,7 +1056,7 @@ class moduleController extends module
 				}
 			}
 			
-			$output = preg_replace_callback('/(?<!value=")\$user_lang-(?:>|&gt;)([a-z0-9\_]+)/is', function($matches) use($lang) {
+			$output = preg_replace_callback('/\$user_lang->([a-z0-9\_]+)/is', function($matches) use($lang) {
 				if(isset($lang[$matches[1]]) && !Context::get($matches[1]))
 				{
 					return $lang[$matches[1]];
