@@ -330,7 +330,10 @@ class memberModel extends member
 				}
 				
 				$member_info = $this->arrangeMemberInfo($output->data, $site_srl);
-				Rhymix\Framework\Cache::set($cache_key, $member_info);
+				if($output->toBool())
+				{
+					Rhymix\Framework\Cache::set($cache_key, $member_info);
+				}
 			}
 		}
 
@@ -492,7 +495,10 @@ class memberModel extends member
 					$group_list[$default_group->group_srl] = $default_group->title;
 				}
 				//insert in cache
-				Rhymix\Framework\Cache::set($cache_key, $group_list, 0, true);
+				if ($output->toBool())
+				{
+					Rhymix\Framework\Cache::set($cache_key, $group_list, 0, true);
+				}
 			}
 			if(!$group_list) return array();
 
@@ -539,7 +545,10 @@ class memberModel extends member
 			$args->site_srl = $site_srl;
 			$output = executeQuery('member.getDefaultGroup', $args);
 			$default_group = $output->data;
-			Rhymix\Framework\Cache::set($cache_key, $default_group, 0, true);
+			if($output->toBool())
+			{
+				Rhymix\Framework\Cache::set($cache_key, $default_group, 0, true);
+			}
 		}
 
 		return $default_group;
@@ -590,7 +599,10 @@ class memberModel extends member
 				$args->order_type = 'asc';
 				$output = executeQueryArray('member.getGroups', $args);
 				$group_list = $output->data;
-				Rhymix\Framework\Cache::set("member:member_groups:site:$site_srl", $group_list, 0, true);
+				if($output->toBool())
+				{
+					Rhymix\Framework\Cache::set("member:member_groups:site:$site_srl", $group_list, 0, true);
+				}
 			}
 
 			if(!$group_list)
