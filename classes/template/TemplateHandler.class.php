@@ -557,6 +557,10 @@ class TemplateHandler
 				{
 					$escape_option = 'noescape';
 				}
+				elseif(preg_match('/^\$(?:user_)?lang->[a-zA-Z0-9\_]+$/', $m[1]))
+				{
+					$escape_option = 'noescape';
+				}
 				else
 				{
 					$escape_option = $this->config->autoescape !== null ? 'auto' : 'noescape';
@@ -894,14 +898,14 @@ class TemplateHandler
 		switch($escape_option)
 		{
 			case 'escape':
-				return "htmlspecialchars({$str}, ENT_COMPAT, 'UTF-8', true)";
+				return "htmlspecialchars({$str}, ENT_QUOTES, 'UTF-8', true)";
 			case 'noescape':
 				return "{$str}";
 			case 'autoescape':
-				return "htmlspecialchars({$str}, ENT_COMPAT, 'UTF-8', false)";
+				return "htmlspecialchars({$str}, ENT_QUOTES, 'UTF-8', false)";
 			case 'auto':
 			default:
-				return "(\$this->config->autoescape === 'on' ? htmlspecialchars({$str}, ENT_COMPAT, 'UTF-8', false) : {$str})";
+				return "(\$this->config->autoescape === 'on' ? htmlspecialchars({$str}, ENT_QUOTES, 'UTF-8', false) : ({$str}))";
 		}
 	}
 
