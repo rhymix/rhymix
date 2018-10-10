@@ -35,7 +35,7 @@
 				<label for="{$formTag->name}">{$formTag->title}</label>
 				<div cond="$formTag->name != 'signature'">{$formTag->inputTag}</div>
 				<div cond="$formTag->name =='signature'">
-					{$editor}
+					{$editor|noescape}
 				</div>
 			</li>
 			<li><label for="mailing" class="db fb al">{$lang->allow_mailing}</label><input id="mailing" type="checkbox" name="allow_mailing" value="Y" class="checkbox" <!--@if($member_info->allow_mailing!='N')-->checked="checked"<!--@end--> /> <p style="color:#666">{$lang->about_allow_mailing}</p></li>

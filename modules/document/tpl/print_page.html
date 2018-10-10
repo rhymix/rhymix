@@ -7,7 +7,7 @@
 {$val->name}: {$val->getValueHtml()}
 <!--@end-->
 <!--@end-->    
-{$oDocument->getContent(false, false)} 
+{$oDocument->getContent(false, false)|noescape} 
 <script>
 jQuery(window).load(function() { window.print(); } );
 </script>
