@@ -1263,6 +1263,7 @@ class Context
 			{
 				if(!UploadFileFilter::check($tmp_name, $val['name']))
 				{
+					self::$_instance->isSuccessInit = false;
 					unset($_FILES[$key]);
 					continue;
 				}

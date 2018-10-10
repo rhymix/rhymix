@@ -43,14 +43,10 @@ class ModuleHandler extends Handler
 		}
 
 		$oContext = Context::getInstance();
-		if($oContext->isSuccessInit == FALSE)
+		if($oContext->isSuccessInit === false)
 		{
-			$logged_info = Context::get('logged_info');
-			if($logged_info->is_admin != "Y")
-			{
-				$this->error = 'msg_invalid_request';
-				return;
-			}
+			$this->error = 'msg_security_violation';
+			return;
 		}
 
 		// Set variables from request arguments
@@ -70,26 +66,23 @@ class ModuleHandler extends Handler
         }
 
 		// Validate variables to prevent XSS
-		$isInvalid = NULL;
-		if($this->module && !preg_match("/^([a-z0-9\_\-]+)$/i", $this->module))
+		$isInvalid = false;
+		if($this->module && !preg_match('/^[a-zA-Z0-9_-]+$/', $this->module))
 		{
-			$isInvalid = TRUE;
+			$isInvalid = true;
 		}
-		if($this->mid && !preg_match("/^([a-z0-9\_\-]+)$/i", $this->mid))
+		if($this->mid && !preg_match('/^[a-zA-Z0-9_-]+$/', $this->mid))
 		{
-			$isInvalid = TRUE;
+			$isInvalid = true;
 		}
-		if($this->act && !preg_match("/^([a-z0-9\_\-]+)$/i", $this->act))
+		if($this->act && !preg_match('/^[a-zA-Z0-9_-]+$/', $this->act))
 		{
-			$isInvalid = TRUE;
+			$isInvalid = true;
 		}
 		if($isInvalid)
 		{
-			htmlHeader();
-			echo lang('msg_security_violation');
-			htmlFooter();
-			Context::close();
-			exit;
+			$this->error = 'msg_security_violation';
+			return;
 		}
 
 		if(isset($this->act) && (strlen($this->act) >= 4 && substr_compare($this->act, 'disp', 0, 4) === 0))
