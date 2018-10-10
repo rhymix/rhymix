@@ -405,7 +405,7 @@ class menuAdminModel extends menu
 		{
 			foreach($output->data as $value)
 			{
-				if($value->instanceCount > 1)
+				if($value->instanceCount >= 1)
 				{
 					$moduleList[] = $value->module;
 				}
