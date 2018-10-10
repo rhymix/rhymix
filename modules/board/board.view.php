@@ -91,17 +91,6 @@ class boardView extends board
 		}
 
 		/**
-		 * setup the template path based on the skin
-		 * the default skin is default
-		 **/
-		$template_path = sprintf("%sskins/%s/",$this->module_path, $this->module_info->skin);
-		if(!is_dir($template_path)||!$this->module_info->skin)
-		{
-			$template_path = sprintf("%sskins/%s/",$this->module_path, 'default');
-		}
-		$this->setTemplatePath($template_path);
-
-		/**
 		 * use context::set to setup extra variables
 		 **/
 		$oDocumentModel = getModel('document');

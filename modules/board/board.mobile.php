@@ -61,27 +61,9 @@ class boardMobile extends boardView
 			$this->consultation = false;
 		}
 
-		$oDocumentModel = getModel('document');
 		$extra_keys = $oDocumentModel->getExtraKeys($this->module_info->module_srl);
 		Context::set('extra_keys', $extra_keys);
 
-		if($this->module_info->mskin === '/USE_RESPONSIVE/')
-		{
-			$template_path = sprintf("%sskins/%s/",$this->module_path, $this->module_info->skin);
-			if(!is_dir($template_path)||!$this->module_info->skin)
-			{
-				$template_path = sprintf("%sskins/%s/",$this->module_path, 'default');
-			}
-		}
-		else
-		{
-			$template_path = sprintf("%sm.skins/%s/",$this->module_path, $this->module_info->mskin);
-			if(!is_dir($template_path)||!$this->module_info->mskin)
-			{
-				$template_path = sprintf("%sm.skins/%s/",$this->module_path, 'default');
-			}
-		}
-		$this->setTemplatePath($template_path);
 		Context::addJsFilter($this->module_path.'tpl/filter', 'input_password.xml');
 	}
 
