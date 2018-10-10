@@ -1,4 +1,7 @@
+<config autoescape="on" />
+
 <include target="config_header.html" />
+
 <div cond="$XE_VALIDATOR_MESSAGE && $XE_VALIDATOR_ID == 'modules/admin/tpl/config_domains_edit/1'" class="message {$XE_VALIDATOR_MESSAGE_TYPE}">
 	<p>{$XE_VALIDATOR_MESSAGE}</p>
 </div>
@@ -8,7 +11,6 @@
 		<input type="hidden" name="act" value="procAdminInsertDomain" />
 		<input type="hidden" name="xe_validator_id" value="modules/admin/tpl/config_domains_edit/1" />
 		<input type="hidden" name="domain_srl" value="{$domain_info ? $domain_info->domain_srl : ''}" />
-		
 		<div class="x_control-group">
 			<label class="x_control-label">{$lang->site_title}</label>
 			<div class="x_controls">
