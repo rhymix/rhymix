@@ -444,6 +444,7 @@ class adminAdminView extends admin
 		Context::set('use_session_keys', Rhymix\Framework\Config::get('session.use_keys'));
 		Context::set('use_session_ssl', Rhymix\Framework\Config::get('session.use_ssl'));
 		Context::set('use_cookies_ssl', Rhymix\Framework\Config::get('session.use_ssl_cookies'));
+		Context::set('check_csrf_token', Rhymix\Framework\Config::get('security.check_csrf_token'));
 		Context::set('use_nofollow', Rhymix\Framework\Config::get('security.nofollow'));
 		
 		$this->setTemplateFile('config_security');

@@ -114,6 +114,7 @@ return array(
 		'classes' => array(),
 	),
 	'security' => array(
+		'check_csrf_token' => false,
 		'nofollow' => false,
 	),
 	'mobile' => array(
