@@ -985,9 +985,19 @@ class ncenterliteController extends ncenterlite
 	function procNcenterliteRedirect()
 	{
 		$logged_info = Context::get('logged_info');
-		$url = Context::get('url');
+		if(!$logged_info || !$logged_info->member_srl)
+		{
+			throw new Rhymix\Framework\Exceptions\MustLogin;
+		}
+
 		$notify = Context::get('notify');
-		if(!$logged_info || !$url || !$notify)
+		if(!strlen($notify))
+		{
+			throw new Rhymix\Framework\Exceptions\InvalidRequest;
+		}
+
+		$notify_info = getModel('ncenterlite')->getNotification($notify, $logged_info->member_srl);
+		if (!$notify_info)
 		{
 			throw new Rhymix\Framework\Exceptions\InvalidRequest;
 		}
@@ -998,8 +1008,7 @@ class ncenterliteController extends ncenterlite
 			return $output;
 		}
 
-		$url = str_replace('&amp;', '&', $url);
-		header('Location: ' . $url, TRUE, 302);
+		header('Location: ' . $notify_info->target_url, true, 302);
 		Context::close();
 		exit;
 	}
