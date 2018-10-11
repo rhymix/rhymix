@@ -27,7 +27,7 @@
 		<tbody>
 			<tr loop="$domain_list->data => $domain">
 				<td class="nowr">
-					{$domain->settings->title|noescape}
+					{$domain->settings->title|autolang}
 					<i cond="$domain->is_default_domain === 'Y'" class="x_icon-home" title="{$lang->cmd_is_default_domain}">{$lang->cmd_is_default_domain}</i>
 				</td>
 				<td class="nowr">{$domain->domain}</td>
