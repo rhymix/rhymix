@@ -140,7 +140,7 @@ class ncenterliteController extends ncenterlite
 				$args->target_srl = $obj->document_srl;
 				$args->type = $this->_TYPE_DOCUMENT;
 				$args->target_type = $this->_TYPE_ADMIN_DOCUMENT;
-				$args->target_url = getNotEncodedFullUrl('', 'document_srl', $obj->document_srl);
+				$args->target_url = getNotEncodedUrl('', 'document_srl', $obj->document_srl);
 				$args->target_summary = cut_str(strip_tags($obj->title), 50);
 				$args->regdate = date('YmdHis');
 				$args->target_browser = $module_info->browser_title;
@@ -191,7 +191,7 @@ class ncenterliteController extends ncenterlite
 				$args->target_srl = $obj->comment_srl;
 				$args->type = $this->_TYPE_COMMENT;
 				$args->target_type = $this->_TYPE_ADMIN_COMMENT;
-				$args->target_url = getNotEncodedFullUrl('', 'document_srl', $document_srl, '_comment_srl', $comment_srl) . '#comment_' . $comment_srl;
+				$args->target_url = getNotEncodedUrl('', 'document_srl', $document_srl, '_comment_srl', $comment_srl) . '#comment_' . $comment_srl;
 				$args->target_summary = cut_str(trim(utf8_normalize_spaces(strip_tags($content))), 50) ?: (strpos($content, '<img') !== false ? lang('ncenterlite_content_image') : lang('ncenterlite_content_empty'));
 				$args->target_nick_name = $obj->nick_name;
 				$args->target_email_address = $obj->email_address;
@@ -259,7 +259,7 @@ class ncenterliteController extends ncenterlite
 				$args->target_srl = $obj->comment_srl;
 				$args->type = $this->_TYPE_COMMENT;
 				$args->target_type = $this->_TYPE_COMMENT;
-				$args->target_url = getNotEncodedFullUrl('', 'document_srl', $document_srl, '_comment_srl', $comment_srl) . '#comment_' . $comment_srl;
+				$args->target_url = getNotEncodedUrl('', 'document_srl', $document_srl, '_comment_srl', $comment_srl) . '#comment_' . $comment_srl;
 				$args->target_summary = cut_str(trim(utf8_normalize_spaces(strip_tags($content))), 50) ?: (strpos($content, '<img') !== false ? lang('ncenterlite_content_image') : lang('ncenterlite_content_empty'));
 				$args->target_nick_name = $obj->nick_name;
 				$args->target_email_address = $obj->email_address;
@@ -307,7 +307,7 @@ class ncenterliteController extends ncenterlite
 				$args->target_srl = $comment_srl;
 				$args->type = $this->_TYPE_DOCUMENT;
 				$args->target_type = $this->_TYPE_COMMENT;
-				$args->target_url = getNotEncodedFullUrl('', 'document_srl', $document_srl, '_comment_srl', $comment_srl) . '#comment_' . $comment_srl;
+				$args->target_url = getNotEncodedUrl('', 'document_srl', $document_srl, '_comment_srl', $comment_srl) . '#comment_' . $comment_srl;
 				$args->target_summary = cut_str(trim(utf8_normalize_spaces(strip_tags($content))), 50) ?: (strpos($content, '<img') !== false ? lang('ncenterlite_content_image') : lang('ncenterlite_content_empty'));
 				$args->target_nick_name = $obj->nick_name;
 				$args->target_email_address = $obj->email_address;
@@ -361,7 +361,7 @@ class ncenterliteController extends ncenterlite
 		$args->target_summary = $obj->title;
 		$args->regdate = date('YmdHis');
 		$args->notify = $this->_getNotifyId($args);
-		$args->target_url = getNotEncodedFullUrl('', 'act', 'dispCommunicationMessages', 'message_srl', $obj->related_srl);
+		$args->target_url = getNotEncodedUrl('', 'act', 'dispCommunicationMessages', 'message_srl', $obj->related_srl);
 		$output = $this->_insertNotify($args);
 		if(!$output->toBool())
 		{
@@ -396,7 +396,7 @@ class ncenterliteController extends ncenterlite
 		$args->target_summary = $oDocument->get('title');
 		$args->regdate = date('YmdHis');
 		$args->notify = $this->_getNotifyId($args);
-		$args->target_url = getNotEncodedFullUrl('', 'document_srl', $obj->document_srl);
+		$args->target_url = getNotEncodedUrl('', 'document_srl', $obj->document_srl);
 		$output = $this->_insertNotify($args);
 		if(!$output->toBool())
 		{
@@ -434,7 +434,7 @@ class ncenterliteController extends ncenterlite
 		$args->target_summary = cut_str(trim(utf8_normalize_spaces(strip_tags($content))), 50);
 		$args->regdate = date('YmdHis');
 		$args->notify = $this->_getNotifyId($args);
-		$args->target_url = getNotEncodedFullUrl('', 'document_srl', $document_srl, '_comment_srl', $obj->comment_srl) . '#comment_' . $obj->comment_srl;
+		$args->target_url = getNotEncodedUrl('', 'document_srl', $document_srl, '_comment_srl', $obj->comment_srl) . '#comment_' . $obj->comment_srl;
 		$output = $this->_insertNotify($args);
 		if(!$output->toBool())
 		{
@@ -680,7 +680,7 @@ class ncenterliteController extends ncenterlite
 				$args->target_type = $this->_TYPE_COMMENT;
 				$args->target_srl = $vars->parent_srl;
 				$args->target_p_srl = '1';
-				$args->target_url = getNotEncodedFullUrl('', 'document_srl', $vars->document_srl, '_comment_srl', $vars->parent_srl) . '#comment_' . $vars->parent_srl;
+				$args->target_url = getNotEncodedUrl('', 'document_srl', $vars->document_srl, '_comment_srl', $vars->parent_srl) . '#comment_' . $vars->parent_srl;
 				$args->target_summary = cut_str(strip_tags($vars->content), 50);
 				$args->target_nick_name = $logged_info->nick_name;
 				$args->target_email_address = $logged_info->email_address;
@@ -1360,7 +1360,7 @@ class ncenterliteController extends ncenterlite
 				$args->target_p_srl = $obj->document_srl;
 				$args->target_srl = $obj->document_srl;
 				$args->target_summary = cut_str(strip_tags($obj->title), 50);
-				$args->target_url = getNotEncodedFullUrl('', 'document_srl', $obj->document_srl);
+				$args->target_url = getNotEncodedUrl('', 'document_srl', $obj->document_srl);
 			}
 			elseif ($type == $this->_TYPE_COMMENT)
 			{
@@ -1375,7 +1375,7 @@ class ncenterliteController extends ncenterlite
 				$args->srl = $obj->document_srl;
 				$args->target_p_srl = $obj->comment_srl;
 				$args->target_srl = $obj->comment_srl;
-				$args->target_url = $args->target_url = getNotEncodedFullUrl('', 'document_srl', $obj->document_srl, '_comment_srl', $obj->comment_srl) . '#comment_' . $obj->comment_srl;
+				$args->target_url = $args->target_url = getNotEncodedUrl('', 'document_srl', $obj->document_srl, '_comment_srl', $obj->comment_srl) . '#comment_' . $obj->comment_srl;
 				$args->target_summary = cut_str(trim(utf8_normalize_spaces(strip_tags($obj->content))), 50) ?: (strpos($obj->content, '<img') !== false ? lang('ncenterlite_content_image') : lang('ncenterlite_content_empty'));
 			}
 			$args->config_type = 'mention';
