@@ -1710,23 +1710,41 @@ class Context
 		// If using SSL always
 		if($site_module_info->security == 'always')
 		{
-			$query = self::getRequestUri(ENFORCE_SSL, $domain) . $query;
+			if(!$domain && RX_SSL)
+			{
+				$query = RX_BASEURL . $query;
+			}
+			else
+			{
+				$query = self::getRequestUri(ENFORCE_SSL, $domain) . $query;
+			}
 		}
 		// optional SSL use
 		elseif($site_module_info->security == 'optional')
 		{
 			$ssl_mode = ((self::get('module') === 'admin') || ($get_vars['module'] === 'admin') || (isset($get_vars['act']) && self::isExistsSSLAction($get_vars['act']))) ? ENFORCE_SSL : RELEASE_SSL;
-			$query = self::getRequestUri($ssl_mode, $domain) . $query;
+			if(!$domain && (RX_SSL && ENFORCE_SSL) || (!RX_SSL && RELEASE_SSL))
+			{
+				$query = RX_BASEURL . $query;
+			}
+			else
+			{
+				$query = self::getRequestUri($ssl_mode, $domain) . $query;
+			}
 		}
 		// no SSL
 		else
 		{
 			// currently on SSL but target is not based on SSL
-			if(RX_SSL)
+			if(!$domain && RX_SSL)
+			{
+				$query = RX_BASEURL . $query;
+			}
+			elseif(RX_SSL)
 			{
 				$query = self::getRequestUri(ENFORCE_SSL, $domain) . $query;
 			}
-			else if($domain) // if $domain is set
+			elseif($domain)
 			{
 				$query = self::getRequestUri(FOLLOW_REQUEST_SSL, $domain) . $query;
 			}
