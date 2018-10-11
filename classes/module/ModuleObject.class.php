@@ -555,7 +555,7 @@ class ModuleObject extends BaseObject
 			$default_skin = ((!$is_mobile && $this->module_info->is_skin_fix == 'N') || ($is_mobile && $this->module_info->is_mskin_fix == 'N'));
 			$disable_skin = ($this->module == 'page' && ($this->module_info->page_type == 'OUTSIDE' || $this->module_info->page_type == 'WIDGET'));
 			$disable_skin = ($disable_skin && ($this->module === 'admin' || strpos($this->act, 'Admin') !== false || $this->module !== $this->module_info->module));
-			if(!$disable_skin)
+			if(!$disable_skin && !$this->getTemplatePath())
 			{
 				$valueName = $is_mobile ? 'mskin' : 'skin';
 				$skinName = $this->module_info->{$valueName};
