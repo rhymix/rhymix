@@ -1,18 +1,18 @@
 /*
- * jQuery File Upload Audio Preview Plugin
+ * jQuery File Upload Audio Preview Plugin 1.0.4
  * https://github.com/blueimp/jQuery-File-Upload
  *
  * Copyright 2013, Sebastian Tschan
  * https://blueimp.net
  *
  * Licensed under the MIT license:
- * https://opensource.org/licenses/MIT
+ * http://www.opensource.org/licenses/MIT
  */
 
 /* jshint nomen:false */
 /* global define, require, window, document */
 
-;(function (factory) {
+(function (factory) {
     'use strict';
     if (typeof define === 'function' && define.amd) {
         // Register as an anonymous AMD module:
@@ -25,8 +25,7 @@
         // Node/CommonJS:
         factory(
             require('jquery'),
-            require('blueimp-load-image/js/load-image'),
-            require('./jquery.fileupload-process')
+            require('load-image')
         );
     } else {
         // Browser globals:

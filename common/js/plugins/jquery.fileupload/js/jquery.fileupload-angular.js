@@ -1,18 +1,18 @@
 /*
- * jQuery File Upload AngularJS Plugin
+ * jQuery File Upload AngularJS Plugin 2.2.0
  * https://github.com/blueimp/jQuery-File-Upload
  *
  * Copyright 2013, Sebastian Tschan
  * https://blueimp.net
  *
  * Licensed under the MIT license:
- * https://opensource.org/licenses/MIT
+ * http://www.opensource.org/licenses/MIT
  */
 
 /* jshint nomen:false */
-/* global define, angular, require */
+/* global define, angular */
 
-;(function (factory) {
+(function (factory) {
     'use strict';
     if (typeof define === 'function' && define.amd) {
         // Register as an anonymous AMD module:
@@ -24,16 +24,6 @@
             './jquery.fileupload-video',
             './jquery.fileupload-validate'
         ], factory);
-    } else if (typeof exports === 'object') {
-        // Node/CommonJS:
-        factory(
-            require('jquery'),
-            require('angular'),
-            require('./jquery.fileupload-image'),
-            require('./jquery.fileupload-audio'),
-            require('./jquery.fileupload-video'),
-            require('./jquery.fileupload-validate')
-        );
     } else {
         factory();
     }
@@ -101,7 +91,7 @@
                     angular.forEach(data.files, function (file) {
                         filesCopy.push(file);
                     });
-                    scope.$parent.$applyAsync(function () {
+                    scope.$apply(function () {
                         addFileMethods(scope, data);
                         var method = scope.option('prependFiles') ?
                                 'unshift' : 'push';
@@ -110,7 +100,7 @@
                     data.process(function () {
                         return scope.process(data);
                     }).always(function () {
-                        scope.$parent.$applyAsync(function () {
+                        scope.$apply(function () {
                             addFileMethods(scope, data);
                             scope.replace(filesCopy, data.files);
                         });
@@ -121,6 +111,12 @@
                             data.submit();
                         }
                     });
+                },
+                progress: function (e, data) {
+                    if (e.isDefaultPrevented()) {
+                        return false;
+                    }
+                    data.scope.$apply();
                 },
                 done: function (e, data) {
                     if (e.isDefaultPrevented()) {
@@ -201,8 +197,8 @@
         // The FileUploadController initializes the fileupload widget and
         // provides scope methods to control the File Upload functionality:
         .controller('FileUploadController', [
-            '$scope', '$element', '$attrs', '$window', 'fileUpload','$q',
-            function ($scope, $element, $attrs, $window, fileUpload, $q) {
+            '$scope', '$element', '$attrs', '$window', 'fileUpload',
+            function ($scope, $element, $attrs, $window, fileUpload) {
                 var uploadMethods = {
                     progress: function () {
                         return $element.fileupload('progress');
@@ -264,21 +260,19 @@
                 $scope.applyOnQueue = function (method) {
                     var list = this.queue.slice(0),
                         i,
-                        file,
-                        promises = [];
+                        file;
                     for (i = 0; i < list.length; i += 1) {
                         file = list[i];
                         if (file[method]) {
-                            promises.push(file[method]());
+                            file[method]();
                         }
                     }
-                    return $q.all(promises);
                 };
                 $scope.submit = function () {
-                    return this.applyOnQueue('$submit');
+                    this.applyOnQueue('$submit');
                 };
                 $scope.cancel = function () {
-                    return this.applyOnQueue('$cancel');
+                    this.applyOnQueue('$cancel');
                 };
                 // Add upload methods to the scope:
                 angular.extend($scope, uploadMethods);
@@ -326,11 +320,9 @@
                     'fileuploadprocessalways',
                     'fileuploadprocessstop'
                 ].join(' '), function (e, data) {
-                    $scope.$parent.$applyAsync(function () {
-                        if ($scope.$emit(e.type, data).defaultPrevented) {
-                            e.preventDefault();
-                        }
-                    });
+                    if ($scope.$emit(e.type, data).defaultPrevented) {
+                        e.preventDefault();
+                    }
                 }).on('remove', function () {
                     // Remove upload methods from the scope,
                     // when the widget is removed:
