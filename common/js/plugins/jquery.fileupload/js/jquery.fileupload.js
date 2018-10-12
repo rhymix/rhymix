@@ -1144,10 +1144,10 @@
                 $.map(entries, function (entry) {
                     return that._handleFileTreeEntry(entry, path);
                 })
-            ).then(function (entries) {
+            ).then(function () {
                 return Array.prototype.concat.apply(
                     [],
-                    entries
+                    arguments
                 );
             });
         },
