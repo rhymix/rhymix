@@ -174,7 +174,7 @@ class Context
 	 */
 	private static $_check_patterns = array(
 		'@<(?:\?|%)@',
-		'@</?script@i',
+		'@<script\s*?language\s*?=@i',
 	);
 
 	/**
