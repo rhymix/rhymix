@@ -3,7 +3,7 @@
 /**
  * RX_VERSION is the version number of the Rhymix CMS.
  */
-define('RX_VERSION', '1.9.8.3');
+define('RX_VERSION', '1.9.8.4');
 
 /**
  * RX_MICROTIME is the startup time of the current script, in microseconds since the Unix epoch.
