@@ -117,10 +117,10 @@ class Context
 	public $is_site_locked = FALSE;
 
 	/**
-	 * Check init
-	 * @var bool FALSE if init fail
+	 * Result of initial security check
+	 * @var string|bool
 	 */
-	public $isSuccessInit = TRUE;
+	public $security_check = 'OK';
 
 	/**
 	 * Singleton instance
@@ -173,8 +173,9 @@ class Context
 	 * @var array
 	 */
 	private static $_check_patterns = array(
-		'@<(?:\?|%)@',
-		'@<script\s*?language\s*?=@i',
+		'@<(?:\?|%)@' => 'DENY ALL',
+		'@<script\s*?language\s*?=@i' => 'DENY ALL',
+		'@</?script@i' => 'ALLOW ADMIN ONLY',
 	);
 
 	/**
@@ -1070,7 +1071,7 @@ class Context
 	{
 		if (!self::_recursiveCheckVar($_SERVER['HTTP_HOST']) || preg_match("/[\,\"\'\{\}\[\]\(\);$]/", $_SERVER['HTTP_HOST']))
 		{
-			self::$_instance->isSuccessInit = FALSE;
+			self::$_instance->security_check = 'DENY ALL';
 		}
 	}
 
@@ -1267,7 +1268,7 @@ class Context
 				}
 				if(!UploadFileFilter::check($tmp_name, $val['name']))
 				{
-					self::$_instance->isSuccessInit = false;
+					self::$_instance->security_check = 'DENY ALL';
 					unset($_FILES[$key]);
 					continue;
 				}
@@ -1287,7 +1288,7 @@ class Context
 					}
 					if(!UploadFileFilter::check($val['tmp_name'][$i], $val['name'][$i]))
 					{
-						self::$_instance->isSuccessInit = false;
+						self::$_instance->security_check = 'DENY ALL';
 						$files = array();
 						unset($_FILES[$key]);
 						break;
@@ -1318,12 +1319,15 @@ class Context
 	{
 		if(is_string($val))
 		{
-			foreach(self::$_check_patterns as $pattern)
+			foreach(self::$_check_patterns as $pattern => $status)
 			{
 				if(preg_match($pattern, $val))
 				{
-					self::$_instance->isSuccessInit = false;
-					return false;
+					self::$_instance->security_check = $status;
+					if($status === 'DENY ALL')
+					{
+						return false;
+					}
 				}
 			}
 		}

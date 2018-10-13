@@ -42,11 +42,23 @@ class ModuleHandler extends Handler
 			return;
 		}
 
+		// Check security check status
 		$oContext = Context::getInstance();
-		if($oContext->isSuccessInit === false)
+		switch($oContext->security_check)
 		{
-			$this->error = 'msg_security_violation';
-			return;
+			case 'OK':
+				break;
+			case 'ALLOW ADMIN ONLY':
+				if(!Context::get('logged_info')->isAdmin())
+				{
+					$this->error = 'msg_security_violation';
+					return;
+				}
+				break;
+			case 'DENY ALL':
+			default:
+				$this->error = 'msg_security_violation';
+				return;
 		}
 
 		// Set variables from request arguments
