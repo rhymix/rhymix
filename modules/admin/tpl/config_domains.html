@@ -124,7 +124,7 @@
 			event.preventDefault();
 			var domain = $(this).data("domain");
 			var domain_srl = $(this).data("domain-srl");
-			if (confirm({$lang->cmd_delete_domain|json} + "\n" + domain)) {
+			if (confirm({$lang->cmd_delete_domain|json|noescape} + "\n" + domain)) {
 				exec_json('admin.procAdminDeleteDomain', { domain_srl: domain_srl }, function() {
 					window.location.reload();
 				});
