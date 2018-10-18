@@ -292,6 +292,11 @@ class Security
 	 */
 	public static function compareStrings($a, $b)
 	{
+		if(function_exists('hash_equals'))
+		{
+			return hash_equals($a, $b);
+		}
+		
 		$diff = strlen($a) ^ strlen($b);
 		$maxlen = min(strlen($a), strlen($b));
 		for($i = 0; $i < $maxlen; $i++)
