@@ -12,7 +12,7 @@ class SMTP extends Base implements \Rhymix\Framework\Drivers\MailInterface
 	 */
 	protected function __construct(array $config)
 	{
-		$transport = \Swift_SmtpTransport::newInstance($config['smtp_host'], $config['smtp_port'], $config['smtp_security']);
+		$transport = new \Swift_SmtpTransport($config['smtp_host'], $config['smtp_port'], $config['smtp_security']);
 		$transport->setUsername($config['smtp_user']);
 		$transport->setPassword($config['smtp_pass']);
 		$local_domain = $transport->getLocalDomain();
@@ -20,7 +20,7 @@ class SMTP extends Base implements \Rhymix\Framework\Drivers\MailInterface
 		{
 			$transport->setLocalDomain($matches[1]);
 		}
-		$this->mailer = \Swift_Mailer::newInstance($transport);
+		$this->mailer = new \Swift_Mailer($transport);
 	}
 	
 	/**
