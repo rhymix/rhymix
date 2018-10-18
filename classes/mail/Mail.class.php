@@ -217,7 +217,9 @@ class Mail extends Rhymix\Framework\Mail
 	 */
 	public static function isVaildMailAddress($email_address)
 	{
-		if(preg_match("/([a-z0-9\_\-\.]+)@([a-z0-9\_\-\.]+)/i", $email_address))
+		$validator = new \Egulias\EmailValidator\EmailValidator;
+		$rfc = new \Egulias\EmailValidator\Validation\RFCValidation;
+		if($validator->isValid($email_address, $rfc))
 		{
 			return $email_address;
 		}

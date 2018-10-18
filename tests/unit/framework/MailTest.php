@@ -173,4 +173,12 @@ class MailTest extends \Codeception\TestCase\Test
 		$this->assertEquals('embed', $attachments[1]->type);
 		$this->assertEquals('cid:thisismyrandomcid@rhymix.org', $attachments[1]->cid);
 	}
+	
+	public function testEmailAddressValidator()
+	{
+		$this->assertEquals('devops@rhymix.org', Mail::isVaildMailAddress('devops@rhymix.org'));
+		$this->assertEquals('some+thing@gmail.com', Mail::isVaildMailAddress('some+thing@gmail.com'));
+		$this->assertEquals('weird@localhost', Mail::isVaildMailAddress('weird@localhost'));
+		$this->assertEquals('', Mail::isVaildMailAddress('invalid@'));
+	}
 }
