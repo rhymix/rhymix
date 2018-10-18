@@ -185,7 +185,7 @@ class Security
 	 */
 	public static function detectingXEE($xml)
 	{
-		return !Rhymix\Framework\Security::checkXEE($xml);
+		return !Rhymix\Framework\Security::checkXXE($xml);
 	}
 }
 /* End of file : Security.class.php */

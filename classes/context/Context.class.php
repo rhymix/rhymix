@@ -1206,7 +1206,7 @@ class Context
 		{
 			if(self::getRequestMethod() === 'XMLRPC')
 			{
-				if(!Rhymix\Framework\Security::checkXEE($GLOBALS['HTTP_RAW_POST_DATA']))
+				if(!Rhymix\Framework\Security::checkXXE($GLOBALS['HTTP_RAW_POST_DATA']))
 				{
 					header("HTTP/1.0 400 Bad Request");
 					exit;

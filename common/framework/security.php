@@ -350,16 +350,17 @@ class Security
 	}
 	
 	/**
-	 * Check if the current request seems to be an XEE attack.
+	 * Check if the current request seems to be an XXE (XML external entity) attack.
 	 * 
 	 * This method returns true if the request seems to be innocent,
-	 * and false if it seems to be an XEE attack.
-	 * This is the opposite of XE's Security::detectXEE() method.
+	 * and false if it seems to be an XXE attack.
+	 * This is the opposite of XE's Security::detectingXEE() method.
+	 * The name has also been changed to the more accurate acronym XXE.
 	 * 
 	 * @param string $xml (optional)
 	 * @return bool
 	 */
-	public static function checkXEE($xml = null)
+	public static function checkXXE($xml = null)
 	{
 		// Stop if there is no XML content.
 		if (!$xml)
