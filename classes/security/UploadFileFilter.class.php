@@ -18,7 +18,7 @@ class UploadFileFilter
 		}
 		
 		// Call Rhymix framework filter.
-		return Rhymix\Framework\Filters\FileContentFilter($file, $filename);
+		return Rhymix\Framework\Filters\FileContentFilter::check($file, $filename);
 	}
 }
 
