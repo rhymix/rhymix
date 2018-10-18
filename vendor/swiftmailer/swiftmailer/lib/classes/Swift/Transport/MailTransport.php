@@ -28,24 +28,12 @@ class Swift_Transport_MailTransport implements Swift_Transport
     /** Additional parameters to pass to mail() */
     private $_extraParams = '-f%s';
 
-    /** The event dispatcher from the plugin API */
-    private $_eventDispatcher;
-
-    /** An invoker that calls the mail() function */
-    private $_invoker;
-
     /**
      * Create a new MailTransport with the $log.
-     *
-     * @param Swift_Transport_MailInvoker  $invoker
-     * @param Swift_Events_EventDispatcher $eventDispatcher
      */
-    public function __construct(Swift_Transport_MailInvoker $invoker, Swift_Events_EventDispatcher $eventDispatcher)
+    public function __construct()
     {
-        @trigger_error(sprintf('The %s class is deprecated since version 5.4.5 and will be removed in 6.0. Use the Sendmail or SMTP transport instead.', __CLASS__), E_USER_DEPRECATED);
-
-        $this->_invoker = $invoker;
-        $this->_eventDispatcher = $eventDispatcher;
+        
     }
 
     /**
@@ -67,6 +55,13 @@ class Swift_Transport_MailTransport implements Swift_Transport
      * Not used.
      */
     public function stop()
+    {
+    }
+
+    /**
+     * Not used.
+     */
+    public function ping()
     {
     }
 
@@ -109,16 +104,9 @@ class Swift_Transport_MailTransport implements Swift_Transport
      *
      * @return int
      */
-    public function send(Swift_Mime_Message $message, &$failedRecipients = null)
+    public function send(Swift_Mime_SimpleMessage $message, &$failedRecipients = null)
     {
         $failedRecipients = (array) $failedRecipients;
-
-        if ($evt = $this->_eventDispatcher->createSendEvent($this, $message)) {
-            $this->_eventDispatcher->dispatchEvent($evt, 'beforeSendPerformed');
-            if ($evt->bubbleCancelled()) {
-                return 0;
-            }
-        }
 
         $count = (
             count((array) $message->getTo())
@@ -173,11 +161,10 @@ class Swift_Transport_MailTransport implements Swift_Transport
             $to = str_replace("\r\n.", "\r\n..", $to);
         }
 
-        if ($this->_invoker->mail($to, $subject, $body, $headers, $this->_formatExtraParams($this->_extraParams, $reversePath))) {
+        if ($this->mail($to, $subject, $body, $headers, $this->_formatExtraParams($this->_extraParams, $reversePath))) {
             if ($evt) {
                 $evt->setResult(Swift_Events_SendEvent::RESULT_SUCCESS);
                 $evt->setFailedRecipients($failedRecipients);
-                $this->_eventDispatcher->dispatchEvent($evt, 'sendPerformed');
             }
         } else {
             $failedRecipients = array_merge(
@@ -190,7 +177,6 @@ class Swift_Transport_MailTransport implements Swift_Transport
             if ($evt) {
                 $evt->setResult(Swift_Events_SendEvent::RESULT_FAILED);
                 $evt->setFailedRecipients($failedRecipients);
-                $this->_eventDispatcher->dispatchEvent($evt, 'sendPerformed');
             }
 
             $message->generateId();
@@ -208,24 +194,35 @@ class Swift_Transport_MailTransport implements Swift_Transport
      */
     public function registerPlugin(Swift_Events_EventListener $plugin)
     {
-        $this->_eventDispatcher->bindEventListener($plugin);
+        
     }
 
     /** Throw a TransportException, first sending it to any listeners */
     protected function _throwException(Swift_TransportException $e)
     {
-        if ($evt = $this->_eventDispatcher->createTransportExceptionEvent($this, $e)) {
-            $this->_eventDispatcher->dispatchEvent($evt, 'exceptionThrown');
-            if (!$evt->bubbleCancelled()) {
-                throw $e;
-            }
-        } else {
-            throw $e;
-        }
+		throw $e;
     }
 
+    /**
+     * Send mail via the mail() function.
+     *
+     * This method takes the same arguments as PHP mail().
+     *
+     * @param string $to
+     * @param string $subject
+     * @param string $body
+     * @param string $headers
+     * @param string $extraParams
+     *
+     * @return bool
+     */
+    public function mail($to, $subject, $body, $headers = null, $extraParams = null)
+    {
+        return @mail($to, $subject, $body, $headers, $extraParams);
+    }
+	
     /** Determine the best-use reverse path for this message */
-    private function _getReversePath(Swift_Mime_Message $message)
+    private function _getReversePath(Swift_Mime_SimpleMessage $message)
     {
         $return = $message->getReturnPath();
         $sender = $message->getSender();
