@@ -13,8 +13,6 @@ class PreformattedConverter implements ConverterInterface
      */
     public function convert(ElementInterface $element)
     {
-        $markdown = '';
-
         $pre_content = html_entity_decode($element->getChildrenAsString());
         $pre_content = str_replace(array('<pre>', '</pre>'), '', $pre_content);
 
@@ -28,25 +26,26 @@ class PreformattedConverter implements ConverterInterface
         $firstBacktick = strpos(trim($pre_content), '`');
         $lastBacktick = strrpos(trim($pre_content), '`');
         if ($firstBacktick === 0 && $lastBacktick === strlen(trim($pre_content)) - 1) {
-            return $pre_content;
+            return $pre_content . "\n\n";
         }
 
         // If the execution reaches this point it means it's just a pre tag, with no code tag nested
 
-        // Normalizing new lines
-        $pre_content = preg_replace('/\r\n|\r|\n/', PHP_EOL, $pre_content);
-
-        // Checking if the string has multiple lines
-        $lines = preg_split('/\r\n|\r|\n/', $pre_content);
-        if (count($lines) > 1) {
-            // Multiple lines detected, adding three backticks and newlines
-            $markdown .= '```' . "\n" . $pre_content . "\n" . '```';
-        } else {
-            // One line of code, wrapping it on one backtick.
-            $markdown .= '`' . $pre_content . '`';
+        // Empty lines are a special case
+        if ($pre_content === '') {
+            return "```\n```\n\n";
         }
 
-        return $markdown;
+        // Normalizing new lines
+        $pre_content = preg_replace('/\r\n|\r|\n/', "\n", $pre_content);
+
+        // Ensure there's a newline at the end
+        if (strrpos($pre_content, "\n") !== strlen($pre_content) - strlen("\n")) {
+            $pre_content .= "\n";
+        }
+
+        // Use three backticks
+        return "```\n" . $pre_content . "```\n\n";
     }
 
     /**
