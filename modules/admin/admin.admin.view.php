@@ -79,6 +79,11 @@ class adminAdminView extends admin
 			config('crypto.session_key', Rhymix\Framework\Security::getRandom(64, 'alnum'));
 			$changed = true;
 		}
+		if (config('file.folder_structure') === null)
+		{
+			config('file.folder_structure', 1);
+			$changed = true;
+		}
 		
 		// Save new configuration.
 		if ($changed)

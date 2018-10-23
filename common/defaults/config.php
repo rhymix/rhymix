@@ -63,6 +63,7 @@ return array(
 		'refresh' => 300,
 	),
 	'file' => array(
+		'folder_structure' => 2,
 		'umask' => '0022',
 	),
 	'mail' => array(
