@@ -1,10 +1,12 @@
+<config autoescape="on" />
+
 	</div>
 	<!-- /BODY -->
 	<footer class="footer" cond="$this->user->isAdmin()">
 		<p class="power">
-			Powered by <strong>Rhymix {__XE_VERSION__}</strong>
+			Powered by <strong>Rhymix {\RX_VERSION}</strong>
 			<!--@if(isset($released_version))-->
-				<span class="vr">|</span> Latest version: <a href="{htmlspecialchars(html_entity_decode($download_link), ENT_COMPAT | ENT_HTML401, 'UTF-8', false)}" target="_blank">{$released_version}</a>
+				<span class="vr">|</span> Latest version: <a href="{$download_link}" target="_blank">{$released_version}</a>
 			<!--@end-->
 		</p>
 		<p class="cache">
@@ -18,4 +20,3 @@
 	</footer>
 </div>
 <load target="./js/config.js" />
-

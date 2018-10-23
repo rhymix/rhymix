@@ -117,10 +117,10 @@ class Context
 	public $is_site_locked = FALSE;
 
 	/**
-	 * Check init
-	 * @var bool FALSE if init fail
+	 * Result of initial security check
+	 * @var string|bool
 	 */
-	public $isSuccessInit = TRUE;
+	public $security_check = 'OK';
 
 	/**
 	 * Singleton instance
@@ -173,8 +173,9 @@ class Context
 	 * @var array
 	 */
 	private static $_check_patterns = array(
-		'@<(?:\?|%)@',
-		'@</?script@i',
+		'@<(?:\?|%)@' => 'DENY ALL',
+		'@<script\s*?language\s*?=@i' => 'DENY ALL',
+		'@</?script@i' => 'ALLOW ADMIN ONLY',
 	);
 
 	/**
@@ -802,7 +803,7 @@ class Context
 			return '';
 		}
 		getController('module')->replaceDefinedLangCode(self::$_instance->browser_title);
-		return htmlspecialchars(self::$_instance->browser_title, ENT_COMPAT | ENT_HTML401, 'UTF-8', FALSE);
+		return htmlspecialchars(self::$_instance->browser_title, ENT_QUOTES, 'UTF-8', FALSE);
 	}
 
 	/**
@@ -1078,7 +1079,7 @@ class Context
 	{
 		if (!self::_recursiveCheckVar($_SERVER['HTTP_HOST']) || preg_match("/[\,\"\'\{\}\[\]\(\);$]/", $_SERVER['HTTP_HOST']))
 		{
-			self::$_instance->isSuccessInit = FALSE;
+			self::$_instance->security_check = 'DENY ALL';
 		}
 	}
 
@@ -1213,7 +1214,7 @@ class Context
 		{
 			if(self::getRequestMethod() === 'XMLRPC')
 			{
-				if(!Rhymix\Framework\Security::checkXEE($GLOBALS['HTTP_RAW_POST_DATA']))
+				if(!Rhymix\Framework\Security::checkXXE($GLOBALS['HTTP_RAW_POST_DATA']))
 				{
 					header("HTTP/1.0 400 Bad Request");
 					exit;
@@ -1269,8 +1270,14 @@ class Context
 			$tmp_name = $val['tmp_name'];
 			if(!is_array($tmp_name))
 			{
-				if(!$tmp_name || !is_uploaded_file($tmp_name) || $val['size'] <= 0)
+				if($val['name'] === '' && $val['size'] == 0)
 				{
+					continue;
+				}
+				if(!UploadFileFilter::check($tmp_name, $val['name']))
+				{
+					self::$_instance->security_check = 'DENY ALL';
+					unset($_FILES[$key]);
 					continue;
 				}
 				$val['name'] = escape($val['name'], false);
@@ -1283,16 +1290,24 @@ class Context
 				$files = array();
 				foreach ($tmp_name as $i => $j)
 				{
-					if($val['size'][$i] > 0)
+					if($val['name'][$i] === '' && $val['size'][$i] == 0)
 					{
-						$file = array();
-						$file['name'] = $val['name'][$i];
-						$file['type'] = $val['type'][$i];
-						$file['tmp_name'] = $val['tmp_name'][$i];
-						$file['error'] = $val['error'][$i];
-						$file['size'] = $val['size'][$i];
-						$files[] = $file;
+						continue;
 					}
+					if(!UploadFileFilter::check($val['tmp_name'][$i], $val['name'][$i]))
+					{
+						self::$_instance->security_check = 'DENY ALL';
+						$files = array();
+						unset($_FILES[$key]);
+						break;
+					}
+					$file = array();
+					$file['name'] = $val['name'][$i];
+					$file['type'] = $val['type'][$i];
+					$file['tmp_name'] = $val['tmp_name'][$i];
+					$file['error'] = $val['error'][$i];
+					$file['size'] = $val['size'][$i];
+					$files[] = $file;
 				}
 				if(count($files))
 				{
@@ -1312,12 +1327,15 @@ class Context
 	{
 		if(is_string($val))
 		{
-			foreach(self::$_check_patterns as $pattern)
+			foreach(self::$_check_patterns as $pattern => $status)
 			{
 				if(preg_match($pattern, $val))
 				{
-					self::$_instance->isSuccessInit = false;
-					return false;
+					self::$_instance->security_check = $status;
+					if($status === 'DENY ALL')
+					{
+						return false;
+					}
 				}
 			}
 		}
@@ -1411,20 +1429,17 @@ class Context
 			}
 			elseif($_val = trim($_val))
 			{
-				if(in_array($key, array('page', 'cpage')) || ends_with('srl', $key, false))
+				if(in_array($key, array('page', 'cpage')) || ends_with('srl', $key, false) && preg_match('/[^0-9,]/', $_val))
 				{
-					if(preg_match('/[^0-9,]/', $_val))
-					{
-						$_val = (int)$_val;
-					}
+					$_val = (int)$_val;
 				}
-				elseif(in_array($key, array('mid', 'search_keyword', 'xe_validator_id')))
+				elseif(in_array($key, array('mid', 'vid', 'search_target', 'search_keyword', 'xe_validator_id')) || count($_GET))
 				{
 					$_val = escape($_val, false);
-				}
-				elseif($key === 'vid')
-				{
-					$_val = urlencode($_val);
+					if(ends_with('url', $key, false))
+					{
+						$_val = strtr($_val, array('&amp;' => '&'));
+					}
 				}
 			}
 			$result[escape($_key)] = $_val;
@@ -1707,23 +1722,41 @@ class Context
 		// If using SSL always
 		if($site_module_info->security == 'always')
 		{
-			$query = self::getRequestUri(ENFORCE_SSL, $domain) . $query;
+			if(!$domain && RX_SSL)
+			{
+				$query = RX_BASEURL . $query;
+			}
+			else
+			{
+				$query = self::getRequestUri(ENFORCE_SSL, $domain) . $query;
+			}
 		}
 		// optional SSL use
 		elseif($site_module_info->security == 'optional')
 		{
 			$ssl_mode = ((self::get('module') === 'admin') || ($get_vars['module'] === 'admin') || (isset($get_vars['act']) && self::isExistsSSLAction($get_vars['act']))) ? ENFORCE_SSL : RELEASE_SSL;
-			$query = self::getRequestUri($ssl_mode, $domain) . $query;
+			if(!$domain && (RX_SSL && ENFORCE_SSL) || (!RX_SSL && RELEASE_SSL))
+			{
+				$query = RX_BASEURL . $query;
+			}
+			else
+			{
+				$query = self::getRequestUri($ssl_mode, $domain) . $query;
+			}
 		}
 		// no SSL
 		else
 		{
 			// currently on SSL but target is not based on SSL
-			if(RX_SSL)
+			if(!$domain && RX_SSL)
+			{
+				$query = RX_BASEURL . $query;
+			}
+			elseif(RX_SSL)
 			{
 				$query = self::getRequestUri(ENFORCE_SSL, $domain) . $query;
 			}
-			else if($domain) // if $domain is set
+			elseif($domain)
 			{
 				$query = self::getRequestUri(FOLLOW_REQUEST_SSL, $domain) . $query;
 			}
@@ -1740,7 +1773,7 @@ class Context
 
 		if(!$autoEncode)
 		{
-			return htmlspecialchars($query, ENT_COMPAT | ENT_HTML401, 'UTF-8', FALSE);
+			return htmlspecialchars($query, ENT_QUOTES, 'UTF-8', FALSE);
 		}
 
 		$output = array();
@@ -1756,7 +1789,7 @@ class Context
 			$encode_queries[] = $key . '=' . $value;
 		}
 
-		return htmlspecialchars($parsedUrl['path'] . '?' . join('&', $encode_queries), ENT_COMPAT | ENT_HTML401, 'UTF-8', FALSE);
+		return htmlspecialchars($parsedUrl['path'] . '?' . join('&', $encode_queries), ENT_QUOTES, 'UTF-8', FALSE);
 	}
 
 	/**

@@ -2,7 +2,7 @@
 /**
  * SCSSPHP
  *
- * @copyright 2012-2017 Leaf Corcoran
+ * @copyright 2012-2018 Leaf Corcoran
  *
  * @license http://opensource.org/licenses/MIT MIT
  *
@@ -18,6 +18,7 @@ use Leafo\ScssPhp\Compiler\Environment;
 use Leafo\ScssPhp\Exception\CompilerException;
 use Leafo\ScssPhp\Formatter\OutputBlock;
 use Leafo\ScssPhp\Node;
+use Leafo\ScssPhp\SourceMap\SourceMapGenerator;
 use Leafo\ScssPhp\Type;
 use Leafo\ScssPhp\Parser;
 use Leafo\ScssPhp\Util;
@@ -63,6 +64,10 @@ class Compiler
     const WITH_MEDIA    = 2;
     const WITH_SUPPORTS = 4;
     const WITH_ALL      = 7;
+
+    const SOURCE_MAP_NONE   = 0;
+    const SOURCE_MAP_INLINE = 1;
+    const SOURCE_MAP_FILE   = 2;
 
     /**
      * @var array
@@ -120,11 +125,20 @@ class Compiler
     protected $encoding = null;
     protected $lineNumberStyle = null;
 
+    protected $sourceMap = self::SOURCE_MAP_NONE;
+    protected $sourceMapOptions = [];
+
+    /**
+     * @var string|\Leafo\ScssPhp\Formatter
+     */
     protected $formatter = 'Leafo\ScssPhp\Formatter\Nested';
 
     protected $rootEnv;
     protected $rootBlock;
 
+    /**
+     * @var \Leafo\ScssPhp\Compiler\Environment
+     */
     protected $env;
     protected $scope;
     protected $storeEnv;
@@ -165,9 +179,6 @@ class Compiler
      */
     public function compile($code, $path = null)
     {
-        $locale = setlocale(LC_NUMERIC, 0);
-        setlocale(LC_NUMERIC, 'C');
-
         $this->indentLevel    = -1;
         $this->commentsSeen   = [];
         $this->extends        = [];
@@ -194,9 +205,35 @@ class Compiler
         $this->compileRoot($tree);
         $this->popEnv();
 
-        $out = $this->formatter->format($this->scope);
+        $sourceMapGenerator = null;
 
-        setlocale(LC_NUMERIC, $locale);
+        if ($this->sourceMap) {
+            if (is_object($this->sourceMap) && $this->sourceMap instanceof SourceMapGenerator) {
+                $sourceMapGenerator = $this->sourceMap;
+                $this->sourceMap = self::SOURCE_MAP_FILE;
+            } elseif ($this->sourceMap !== self::SOURCE_MAP_NONE) {
+                $sourceMapGenerator = new SourceMapGenerator($this->sourceMapOptions);
+            }
+        }
+
+        $out = $this->formatter->format($this->scope, $sourceMapGenerator);
+
+        if (! empty($out) && $this->sourceMap && $this->sourceMap !== self::SOURCE_MAP_NONE) {
+            $sourceMap    = $sourceMapGenerator->generateJson();
+            $sourceMapUrl = null;
+
+            switch ($this->sourceMap) {
+                case self::SOURCE_MAP_INLINE:
+                    $sourceMapUrl = sprintf('data:application/json,%s', Util::encodeURIComponent($sourceMap));
+                    break;
+
+                case self::SOURCE_MAP_FILE:
+                    $sourceMapUrl = $sourceMapGenerator->saveMap($sourceMap);
+                    break;
+            }
+
+            $out .= sprintf('/*# sourceMappingURL=%s */', $sourceMapUrl);
+        }
 
         return $out;
     }
@@ -273,12 +310,22 @@ class Compiler
     protected function makeOutputBlock($type, $selectors = null)
     {
         $out = new OutputBlock;
-        $out->type      = $type;
-        $out->lines     = [];
-        $out->children  = [];
-        $out->parent    = $this->scope;
-        $out->selectors = $selectors;
-        $out->depth     = $this->env->depth;
+        $out->type         = $type;
+        $out->lines        = [];
+        $out->children     = [];
+        $out->parent       = $this->scope;
+        $out->selectors    = $selectors;
+        $out->depth        = $this->env->depth;
+
+        if ($this->env->block instanceof Block) {
+            $out->sourceName   = $this->env->block->sourceName;
+            $out->sourceLine   = $this->env->block->sourceLine;
+            $out->sourceColumn = $this->env->block->sourceColumn;
+        } else {
+            $out->sourceName   = null;
+            $out->sourceLine   = null;
+            $out->sourceColumn = null;
+        }
 
         return $out;
     }
@@ -661,6 +708,7 @@ class Compiler
 
             if ($needsWrap) {
                 $wrapped = new Block;
+                $wrapped->sourceName   = $media->sourceName;
                 $wrapped->sourceIndex  = $media->sourceIndex;
                 $wrapped->sourceLine   = $media->sourceLine;
                 $wrapped->sourceColumn = $media->sourceColumn;
@@ -734,6 +782,7 @@ class Compiler
         // wrap inline selector
         if ($block->selector) {
             $wrapped = new Block;
+            $wrapped->sourceName   = $block->sourceName;
             $wrapped->sourceIndex  = $block->sourceIndex;
             $wrapped->sourceLine   = $block->sourceLine;
             $wrapped->sourceColumn = $block->sourceColumn;
@@ -790,6 +839,7 @@ class Compiler
             }
 
             $b = new Block;
+            $b->sourceName   = $e->block->sourceName;
             $b->sourceIndex  = $e->block->sourceIndex;
             $b->sourceLine   = $e->block->sourceLine;
             $b->sourceColumn = $e->block->sourceColumn;
@@ -1181,7 +1231,7 @@ class Compiler
     /**
      * Compile selector to string; self(&) should have been replaced by now
      *
-     * @param array $selector
+     * @param string|array $selector
      *
      * @return string
      */
@@ -1203,7 +1253,7 @@ class Compiler
     /**
      * Compile selector part
      *
-     * @param arary $piece
+     * @param array $piece
      *
      * @return string
      */
@@ -1729,9 +1779,18 @@ class Compiler
                 list(, $for) = $child;
 
                 $start = $this->reduce($for->start, true);
+                $end   = $this->reduce($for->end, true);
+
+                if (! ($start[2] == $end[2] || $end->unitless())) {
+                    $this->throwError('Incompatible units: "%s" and "%s".', $start->unitStr(), $end->unitStr());
+
+                    break;
+                }
+
+                $unit  = $start[2];
                 $start = $start[1];
-                $end = $this->reduce($for->end, true);
-                $end = $end[1];
+                $end   = $end[1];
+
                 $d = $start < $end ? 1 : -1;
 
                 for (;;) {
@@ -1741,7 +1800,7 @@ class Compiler
                         break;
                     }
 
-                    $this->set($for->var, new Node\Number($start, ''));
+                    $this->set($for->var, new Node\Number($start, $unit));
                     $start += $d;
 
                     $ret = $this->compileChildren($for->children, $out);
@@ -1926,7 +1985,7 @@ class Compiler
      *
      * @param string $value
      *
-     * @return bool
+     * @return boolean
      */
     protected function isImmediateRelationshipCombinator($value)
     {
@@ -1963,7 +2022,7 @@ class Compiler
      * @param array   $value
      * @param boolean $inExp
      *
-     * @return array
+     * @return array|\Leafo\ScssPhp\Node\Number
      */
     protected function reduce($value, $inExp = false)
     {
@@ -2238,7 +2297,7 @@ class Compiler
      * @param array $left
      * @param array $right
      *
-     * @return array
+     * @return \Leafo\ScssPhp\Node\Number
      */
     protected function opAddNumberNumber($left, $right)
     {
@@ -2251,7 +2310,7 @@ class Compiler
      * @param array $left
      * @param array $right
      *
-     * @return array
+     * @return \Leafo\ScssPhp\Node\Number
      */
     protected function opMulNumberNumber($left, $right)
     {
@@ -2264,7 +2323,7 @@ class Compiler
      * @param array $left
      * @param array $right
      *
-     * @return array
+     * @return \Leafo\ScssPhp\Node\Number
      */
     protected function opSubNumberNumber($left, $right)
     {
@@ -2277,7 +2336,7 @@ class Compiler
      * @param array $left
      * @param array $right
      *
-     * @return array
+     * @return array|\Leafo\ScssPhp\Node\Number
      */
     protected function opDivNumberNumber($left, $right)
     {
@@ -2294,7 +2353,7 @@ class Compiler
      * @param array $left
      * @param array $right
      *
-     * @return array
+     * @return \Leafo\ScssPhp\Node\Number
      */
     protected function opModNumberNumber($left, $right)
     {
@@ -2580,7 +2639,7 @@ class Compiler
      * @param array $left
      * @param array $right
      *
-     * @return array
+     * @return \Leafo\ScssPhp\Node\Number
      */
     protected function opCmpNumberNumber($left, $right)
     {
@@ -2642,7 +2701,9 @@ class Compiler
                 $b = round($b);
 
                 if (count($value) === 5 && $value[4] !== 1) { // rgba
-                    return 'rgba(' . $r . ', ' . $g . ', ' . $b . ', ' . $value[4] . ')';
+                    $a = new Node\Number($value[4], '');
+
+                    return 'rgba(' . $r . ', ' . $g . ', ' . $b . ', ' . $a . ')';
                 }
 
                 $h = sprintf('#%02x%02x%02x', $r, $g, $b);
@@ -3305,6 +3366,30 @@ class Compiler
     }
 
     /**
+     * Enable/disable source maps
+     *
+     * @api
+     *
+     * @param integer $sourceMap
+     */
+    public function setSourceMap($sourceMap)
+    {
+        $this->sourceMap = $sourceMap;
+    }
+
+    /**
+     * Set source map options
+     *
+     * @api
+     *
+     * @param array $sourceMapOptions
+     */
+    public function setSourceMapOptions($sourceMapOptions)
+    {
+        $this->sourceMapOptions = $sourceMapOptions;
+    }
+
+    /**
      * Register function
      *
      * @api
@@ -3505,7 +3590,7 @@ class Compiler
      * Call SCSS @function
      *
      * @param string $name
-     * @param array  $args
+     * @param array  $argValues
      * @param array  $returnValue
      *
      * @return boolean Returns true if returnValue is set; otherwise, false
@@ -3570,7 +3655,7 @@ class Compiler
             return false;
         }
 
-        list($sorted, $kwargs) = $this->sortArgs($prototype, $args);
+        @list($sorted, $kwargs) = $this->sortArgs($prototype, $args);
 
         if ($name !== 'if' && $name !== 'call') {
             foreach ($sorted as &$val) {
@@ -3629,7 +3714,7 @@ class Compiler
             $key = $key[1];
 
             if (empty($key)) {
-                $posArgs[] = $value;
+                $posArgs[] = empty($arg[2]) ? $value : $arg;
             } else {
                 $keyArgs[$key] = $value;
             }
@@ -3777,7 +3862,7 @@ class Compiler
      *
      * @param mixed $value
      *
-     * @return array
+     * @return array|\Leafo\ScssPhp\Node\Number
      */
     private function coerceValue($value)
     {
@@ -3850,7 +3935,8 @@ class Compiler
     /**
      * Coerce something to list
      *
-     * @param array $item
+     * @param array  $item
+     * @param string $delim
      *
      * @return array
      */
@@ -4180,20 +4266,38 @@ class Compiler
     {
         $name = $this->compileStringContent($this->coerceString($this->reduce(array_shift($args), true)));
 
-        $args = array_map(
-            function ($a) {
-                return [null, $a, false];
-            },
-            $args
-        );
+        $posArgs = [];
+
+        foreach ($args as $arg) {
+            if (empty($arg[0])) {
+                if ($arg[2] === true) {
+                    $tmp = $this->reduce($arg[1]);
+
+                    if ($tmp[0] === Type::T_LIST) {
+                        foreach ($tmp[2] as $item) {
+                            $posArgs[] = [null, $item, false];
+                        }
+                    } else {
+                        $posArgs[] = [null, $tmp, true];
+                    }
+
+                    continue;
+                }
+
+                $posArgs[] = [null, $this->reduce($arg), false];
+                continue;
+            }
+
+            $posArgs[] = [null, $arg, false];
+        }
 
         if (count($kwargs)) {
             foreach ($kwargs as $key => $value) {
-                $args[] = [[Type::T_VARIABLE, $key], $value, false];
+                $posArgs[] = [[Type::T_VARIABLE, $key], $value, false];
             }
         }
 
-        return $this->reduce([Type::T_FUNCTION_CALL, $name, $args]);
+        return $this->reduce([Type::T_FUNCTION_CALL, $name, $posArgs]);
     }
 
     protected static $libIf = ['condition', 'if-true', 'if-false'];
@@ -4254,7 +4358,7 @@ class Compiler
     protected function libRgba($args)
     {
         if ($color = $this->coerceColor($args[0])) {
-            $num = ! isset($args[1]) ? $args[3] : $args[1];
+            $num = isset($args[3]) ? $args[3] : $args[1];
             $alpha = $this->assertNumber($num);
             $color[4] = $alpha;
 
@@ -4449,7 +4553,7 @@ class Compiler
         ];
 
         if ($firstAlpha != 1.0 || $secondAlpha != 1.0) {
-            $new[] = $firstAlpha * $weight + $secondAlpha * ($weight - 1);
+            $new[] = $firstAlpha * $weight + $secondAlpha * (1 - $weight);
         }
 
         return $this->fixColor($new);
@@ -4672,36 +4776,32 @@ class Compiler
     protected function libRound($args)
     {
         $num = $args[0];
-        $num[1] = round($num[1]);
 
-        return $num;
+        return new Node\Number(round($num[1]), $num[2]);
     }
 
     protected static $libFloor = ['value'];
     protected function libFloor($args)
     {
         $num = $args[0];
-        $num[1] = floor($num[1]);
 
-        return $num;
+        return new Node\Number(floor($num[1]), $num[2]);
     }
 
     protected static $libCeil = ['value'];
     protected function libCeil($args)
     {
         $num = $args[0];
-        $num[1] = ceil($num[1]);
 
-        return $num;
+        return new Node\Number(ceil($num[1]), $num[2]);
     }
 
     protected static $libAbs = ['value'];
     protected function libAbs($args)
     {
         $num = $args[0];
-        $num[1] = abs($num[1]);
 
-        return $num;
+        return new Node\Number(abs($num[1]), $num[2]);
     }
 
     protected function libMin($args)
@@ -4756,7 +4856,7 @@ class Compiler
             if (null === $unit) {
                 $unit = $number[2];
                 $originalUnit = $item->unitStr();
-            } elseif ($unit !== $number[2]) {
+            } elseif ($number[1] && $unit !== $number[2]) {
                 $this->throwError('Incompatible units: "%s" and "%s".', $originalUnit, $item->unitStr());
                 break;
             }
@@ -4903,7 +5003,21 @@ class Compiler
         $map1 = $this->assertMap($args[0]);
         $map2 = $this->assertMap($args[1]);
 
-        return [Type::T_MAP, array_merge($map1[1], $map2[1]), array_merge($map1[2], $map2[2])];
+        foreach ($map2[1] as $i2 => $key2) {
+            $key = $this->compileStringContent($this->coerceString($key2));
+
+            foreach ($map1[1] as $i1 => $key1) {
+                if ($key === $this->compileStringContent($this->coerceString($key1))) {
+                    $map1[2][$i1] = $map2[2][$i2];
+                    continue 2;
+                }
+            }
+
+            $map1[1][] = $map2[1][$i2];
+            $map1[2][] = $map2[2][$i2];
+        }
+
+        return $map1;
     }
 
     protected static $libKeywords = ['args'];
@@ -5129,7 +5243,7 @@ class Compiler
         $string = $this->coerceString($args[0]);
         $stringContent = $this->compileStringContent($string);
 
-        $string[2] = [mb_strtolower($stringContent)];
+        $string[2] = [function_exists('mb_strtolower') ? mb_strtolower($stringContent) : strtolower($stringContent)];
 
         return $string;
     }
@@ -5140,7 +5254,7 @@ class Compiler
         $string = $this->coerceString($args[0]);
         $stringContent = $this->compileStringContent($string);
 
-        $string[2] = [mb_strtoupper($stringContent)];
+        $string[2] = [function_exists('mb_strtoupper') ? mb_strtoupper($stringContent) : strtoupper($stringContent)];
 
         return $string;
     }
@@ -5210,6 +5324,8 @@ class Compiler
      * Workaround IE7's content counter bug.
      *
      * @param array $args
+     *
+     * @return array
      */
     protected function libCounter($args)
     {

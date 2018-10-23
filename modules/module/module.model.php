@@ -89,12 +89,12 @@ class moduleModel extends module
 				$domain_info->site_srl = 0;
 				$domain_info->settings = $domain_info->settings ? json_decode($domain_info->settings) : new stdClass;
 				$domain_info->default_language = $domain_info->settings->language ?: config('locale.default_lang');
+				Rhymix\Framework\Cache::set('site_and_module:domain_info:default', $domain_info, 0, true);
 			}
 			else
 			{
 				$domain_info = false;
 			}
-			Rhymix\Framework\Cache::set('site_and_module:domain_info:default', $domain_info, 0, true);
 		}
 		
 		return $domain_info;
@@ -118,12 +118,12 @@ class moduleModel extends module
 				$domain_info->site_srl = 0;
 				$domain_info->settings = $domain_info->settings ? json_decode($domain_info->settings) : new stdClass;
 				$domain_info->default_language = $domain_info->settings->language ?: config('locale.default_lang');
+				Rhymix\Framework\Cache::set('site_and_module:domain_info:srl:' . $domain_srl, $domain_info, 0, true);
 			}
 			else
 			{
 				$domain_info = false;
 			}
-			Rhymix\Framework\Cache::set('site_and_module:domain_info:srl:' . $domain_srl, $domain_info, 0, true);
 		}
 		
 		return $domain_info;
@@ -160,12 +160,12 @@ class moduleModel extends module
 				$domain_info->site_srl = 0;
 				$domain_info->settings = $domain_info->settings ? json_decode($domain_info->settings) : new stdClass;
 				$domain_info->default_language = $domain_info->settings->language ?: config('locale.default_lang');
+				Rhymix\Framework\Cache::set('site_and_module:domain_info:domain:' . $domain, $domain_info, 0, true);
 			}
 			else
 			{
 				$domain_info = false;
 			}
-			Rhymix\Framework\Cache::set('site_and_module:domain_info:domain:' . $domain, $domain_info, 0, true);
 		}
 		
 		return $domain_info;
@@ -243,9 +243,11 @@ class moduleModel extends module
 		{
 			$output = executeQuery('module.getMidInfo', $args);
 			$module_info = $output->data;
-			
-			Rhymix\Framework\Cache::set('site_and_module:module_srl:' . $mid . '_' . $site_srl, $module_info->module_srl, 0, true);
-			Rhymix\Framework\Cache::set('site_and_module:mid_info:' . $module_info->module_srl, $module_info, 0, true);
+			if($module_info)
+			{
+				Rhymix\Framework\Cache::set('site_and_module:module_srl:' . $mid . '_' . $site_srl, $module_info->module_srl, 0, true);
+				Rhymix\Framework\Cache::set('site_and_module:mid_info:' . $module_info->module_srl, $module_info, 0, true);
+			}
 		}
 
 		$this->applyDefaultSkin($module_info);
@@ -369,8 +371,11 @@ class moduleModel extends module
 			$output = executeQuery('module.getMidInfo', $args);
 			if(!$output->toBool()) return;
 			$mid_info = $output->data;
-			$this->applyDefaultSkin($mid_info);
-			Rhymix\Framework\Cache::set("site_and_module:mid_info:$module_srl", $mid_info, 0, true);
+			if($mid_info)
+			{
+				$this->applyDefaultSkin($mid_info);
+				Rhymix\Framework\Cache::set("site_and_module:mid_info:$module_srl", $mid_info, 0, true);
+			}
 		}
 
 		if($mid_info && count($columnList))
@@ -384,10 +389,15 @@ class moduleModel extends module
 				}
 			}
 		}
-		else $module_info = $mid_info;
+		else
+		{
+			$module_info = $mid_info;
+		}
 
+		/*
 		$oModuleController = getController('module');
 		if(isset($module_info->browser_title)) $oModuleController->replaceDefinedLangCode($module_info->browser_title);
+		*/
 
 		$this->applyDefaultSkin($module_info);
 		return $this->addModuleExtraVars($module_info);
@@ -949,6 +959,7 @@ class moduleModel extends module
 					$ruleset = $action->attrs->ruleset?$action->attrs->ruleset:'';
 					$method = $action->attrs->method?$action->attrs->method:'';
 					$check_csrf = $action->attrs->check_csrf=='false'?'false':'true';
+					$meta_noindex = $action->attrs->{'meta-noindex'} === 'true' ? 'true' : 'false';
 					
 					$index = $action->attrs->index;
 					$admin_index = $action->attrs->admin_index;
@@ -963,6 +974,7 @@ class moduleModel extends module
 					$info->action->{$name}->ruleset = $ruleset;
 					$info->action->{$name}->method = $method;
 					$info->action->{$name}->check_csrf = $check_csrf;
+					$info->action->{$name}->meta_noindex = $meta_noindex;
 					if($action->attrs->menu_name)
 					{
 						$info->menu->{$action->attrs->menu_name} = new stdClass();
@@ -987,6 +999,7 @@ class moduleModel extends module
 					$buff[] = sprintf('$info->action->%s->ruleset=\'%s\';', $name, $ruleset);
 					$buff[] = sprintf('$info->action->%s->method=\'%s\';', $name, $method);
 					$buff[] = sprintf('$info->action->%s->check_csrf=\'%s\';', $name, $check_csrf);
+					$buff[] = sprintf('$info->action->%s->meta_noindex=\'%s\';', $name, $meta_noindex);
 
 					if($index=='true')
 					{
@@ -1060,9 +1073,10 @@ class moduleModel extends module
 			$path = substr($path, 0, -1);
 		}
 
+		$skin_list = array();
 		$skin_path = sprintf("%s/%s/", $path, $dir);
 		$list = FileHandler::readDir($skin_path);
-		if(!count($list)) return;
+		//if(!count($list)) return;
 
 		natcasesort($list);
 
@@ -1400,11 +1414,12 @@ class moduleModel extends module
 				$args = new stdClass;
 				$args->module = $module;
 				$args->site_srl = $site_srl;
+				$output = executeQuery('module.getModuleConfig', $args);
 				
 				// Only object type
-				if($config = executeQuery('module.getModuleConfig', $args)->data->config)
+				if($output->data->config)
 				{
-					$config = unserialize($config);
+					$config = unserialize($output->data->config);
 				}
 				else
 				{
@@ -1412,7 +1427,10 @@ class moduleModel extends module
 				}
 				
 				// Set cache
-				Rhymix\Framework\Cache::set('site_and_module:module_config:' . $module . '_' . $site_srl, $config, 0, true);
+				if($output->toBool())
+				{
+					Rhymix\Framework\Cache::set('site_and_module:module_config:' . $module . '_' . $site_srl, $config, 0, true);
+				}
 			}
 			$GLOBALS['__ModuleConfig__'][$site_srl][$module] = $config;
 		}
@@ -1434,11 +1452,12 @@ class moduleModel extends module
 				$args = new stdClass;
 				$args->module = $module;
 				$args->module_srl = $module_srl;
+				$output = executeQuery('module.getModulePartConfig', $args);
 				
 				// Object or Array(compatibility) type
-				if($config = executeQuery('module.getModulePartConfig', $args)->data->config)
+				if($output->data->config)
 				{
-					$config = unserialize($config);
+					$config = unserialize($output->data->config);
 				}
 				else
 				{
@@ -1452,7 +1471,10 @@ class moduleModel extends module
 				}
 				
 				// Set cache
-				Rhymix\Framework\Cache::set('site_and_module:module_part_config:' . $module . '_' . $module_srl, $config, 0, true);
+				if($output->toBool())
+				{
+					Rhymix\Framework\Cache::set('site_and_module:module_part_config:' . $module . '_' . $module_srl, $config, 0, true);
+				}
 			}
 			$GLOBALS['__ModulePartConfig__'][$module][$module_srl] = $config;
 		}
@@ -1776,7 +1798,10 @@ class moduleModel extends module
 			{
 				$module_admins[$module_admin->member_srl] = true;
 			}
-			Rhymix\Framework\Cache::set("site_and_module:module_admins:$module_srl", $module_admins, 0, true);
+			if ($output->toBool())
+			{
+				Rhymix\Framework\Cache::set("site_and_module:module_admins:$module_srl", $module_admins, 0, true);
+			}
 		}
 		return isset($module_admins[$member_info->member_srl]);
 	}
@@ -2316,7 +2341,10 @@ class moduleModel extends module
 			$args = new stdClass;
 			$args->module_srl = $module_srl;
 			$output = executeQueryArray('module.getModuleGrants', $args);
-			Rhymix\Framework\Cache::set("site_and_module:module_grants:$module_srl", $output, 0, true);
+			if($output->toBool())
+			{
+				Rhymix\Framework\Cache::set("site_and_module:module_grants:$module_srl", $output, 0, true);
+			}
 		}
 		return $output;
 	}

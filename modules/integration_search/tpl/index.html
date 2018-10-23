@@ -23,7 +23,14 @@
 			<select name="skin" id="skin">
 				<option loop="$skin_list => $key, $val"  value="{$key}" selected="selected"|cond="$config->skin == $key">{$val->title}</option>
 			</select>
-			<p class="x_help-inline">{$lang->about_skin}</p>
+		</div>
+	</div>
+	<div class="x_control-group">
+		<label for="mskin" class="x_control-label">{$lang->mobile_skin}</label>
+		<div class="x_controls">
+			<select name="mskin" id="mskin">
+				<option loop="$mskin_list => $key, $val"  value="{$key}" selected="selected"|cond="$config->mskin == $key">{$val->title}</option>
+			</select>
 		</div>
 	</div>
 	<div class="x_control-group">

@@ -443,6 +443,10 @@ class module extends ModuleObject
 		if(!$oDB->isIndexExists('module_part_config', 'unique_module_part_config'))
 		{
 			$oDB->addIndex('module_part_config', 'unique_module_part_config', array('module', 'module_srl'), true);
+			if(!$oDB->isIndexExists('module_part_config', 'unique_module_part_config'))
+			{
+				$oDB->addIndex('module_part_config', 'unique_module_part_config', array('module', 'module_srl'), false);
+			}
 		}
 	}
 	

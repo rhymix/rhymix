@@ -42,15 +42,23 @@ class ModuleHandler extends Handler
 			return;
 		}
 
+		// Check security check status
 		$oContext = Context::getInstance();
-		if($oContext->isSuccessInit == FALSE)
+		switch($oContext->security_check)
 		{
-			$logged_info = Context::get('logged_info');
-			if($logged_info->is_admin != "Y")
-			{
-				$this->error = 'msg_invalid_request';
+			case 'OK':
+				break;
+			case 'ALLOW ADMIN ONLY':
+				if(!Context::get('logged_info')->isAdmin())
+				{
+					$this->error = 'msg_security_violation';
+					return;
+				}
+				break;
+			case 'DENY ALL':
+			default:
+				$this->error = 'msg_security_violation';
 				return;
-			}
 		}
 
 		// Set variables from request arguments
@@ -70,26 +78,23 @@ class ModuleHandler extends Handler
         }
 
 		// Validate variables to prevent XSS
-		$isInvalid = NULL;
-		if($this->module && !preg_match("/^([a-z0-9\_\-]+)$/i", $this->module))
+		$isInvalid = false;
+		if($this->module && !preg_match('/^[a-zA-Z0-9_-]+$/', $this->module))
 		{
-			$isInvalid = TRUE;
+			$isInvalid = true;
 		}
-		if($this->mid && !preg_match("/^([a-z0-9\_\-]+)$/i", $this->mid))
+		if($this->mid && !preg_match('/^[a-zA-Z0-9_-]+$/', $this->mid))
 		{
-			$isInvalid = TRUE;
+			$isInvalid = true;
 		}
-		if($this->act && !preg_match("/^([a-z0-9\_\-]+)$/i", $this->act))
+		if($this->act && !preg_match('/^[a-zA-Z0-9_-]+$/', $this->act))
 		{
-			$isInvalid = TRUE;
+			$isInvalid = true;
 		}
 		if($isInvalid)
 		{
-			htmlHeader();
-			echo lang('msg_security_violation');
-			htmlFooter();
-			Context::close();
-			exit;
+			$this->error = 'msg_security_violation';
+			return;
 		}
 
 		if(isset($this->act) && (strlen($this->act) >= 4 && substr_compare($this->act, 'disp', 0, 4) === 0))
@@ -442,7 +447,13 @@ class ModuleHandler extends Handler
 		// get type, kind
 		$type = $xml_info->action->{$this->act}->type;
 		$ruleset = $xml_info->action->{$this->act}->ruleset;
+		$meta_noindex = $xml_info->action->{$this->act}->meta_noindex;
 		$kind = stripos($this->act, 'admin') !== FALSE ? 'admin' : '';
+		if ($meta_noindex === 'true')
+		{
+			Context::addMetaTag('robots', 'noindex');
+		}
+
 		if(!$kind && $this->module == 'admin')
 		{
 			$kind = 'admin';
@@ -559,6 +570,7 @@ class ModuleHandler extends Handler
 					$forward->module = $module;
 					$forward->type = $xml_info->action->{$this->act}->type;
 					$forward->ruleset = $xml_info->action->{$this->act}->ruleset;
+					$forward->meta_noindex = $xml_info->action->{$this->act}->meta_noindex;
 					$forward->act = $this->act;
 				}
 				else
@@ -585,6 +597,10 @@ class ModuleHandler extends Handler
 				$ruleset = $forward->ruleset;
 				$tpl_path = $oModule->getTemplatePath();
 				$orig_module = $oModule;
+				if($forward->meta_noindex === 'true')
+				{
+					Context::addMetaTag('robots', 'noindex');
+				}
 				
 				$xml_info = $oModuleModel->getModuleActionXml($forward->module);
 				
@@ -779,6 +795,10 @@ class ModuleHandler extends Handler
 					Context::setBrowserTitle($domain_info->settings->title);
 				}
 			}
+		}
+
+		if ($kind === 'admin') {
+			Context::addMetaTag('robots', 'noindex');
 		}
 
 		// if failed message exists in session, set context

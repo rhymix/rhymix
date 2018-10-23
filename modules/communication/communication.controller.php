@@ -66,7 +66,7 @@ class communicationController extends communication
 			throw new Rhymix\Framework\Exception('msg_not_exists_member');
 		}
 
-		$title = trim(Context::get('title'));
+		$title = trim(escape(Context::get('title')));
 		if(!$title)
 		{
 			throw new Rhymix\Framework\Exception('msg_title_is_null');
@@ -174,7 +174,7 @@ class communicationController extends communication
 	function sendMessage($sender_srl, $receiver_srl, $title, $content, $sender_log = TRUE)
 	{
 		// Encode the title and content.
-		$title = htmlspecialchars($title, ENT_COMPAT | ENT_HTML401, 'UTF-8', false);
+		$title = escape($title, false);
 		$content = removeHackTag($content);
 		$title = utf8_mbencode($title);
 		$content = utf8_mbencode($content);
@@ -659,8 +659,7 @@ class communicationController extends communication
 		$args = new stdClass();
 		$args->friend_group_srl = trim(Context::get('friend_group_srl'));
 		$args->member_srl = $logged_info->member_srl;
-		$args->title = Context::get('title');
-		$args->title = htmlspecialchars($args->title, ENT_COMPAT | ENT_HTML401, 'UTF-8', false);
+		$args->title = escape(Context::get('title'));
 
 		if(!$args->title)
 		{
@@ -735,8 +734,7 @@ class communicationController extends communication
 		$args = new stdClass();
 		$args->friend_group_srl = Context::get('friend_group_srl');
 		$args->member_srl = $logged_info->member_srl;
-		$args->title = Context::get('title');
-		$args->title = htmlspecialchars($args->title, ENT_COMPAT | ENT_HTML401, 'UTF-8', false);
+		$args->title = escape(Context::get('title'));
 
 		if(!$args->title)
 		{

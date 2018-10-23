@@ -59,7 +59,7 @@
 					</block>
 					<block cond="$formTag->name == 'signature'">
 						 <input type="hidden" name="signature" value="" />
-						{$editor}
+						{$editor|noescape}
 					</block>
 				</block>
 				<div class="control-label">{$lang->allow_mailing}</div>

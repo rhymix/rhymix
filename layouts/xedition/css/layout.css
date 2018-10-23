@@ -12,7 +12,7 @@ body, html {
     min-width: 1240px;
 }
 body, input, textarea, select, button, table {
-    font-family: 'Open Sans', '나눔바른고딕', NanumBarunGothic, ng, '맑은 고딕', 'Malgun Gothic', '돋움', Dotum, '애플 SD 산돌고딕 Neo', 'Apple SD Gothic Neo', AppleGothic, Helvetica, sans-serif;
+    font-family: Open Sans, NanumBarunGothic, Malgun Gothic, Dotum, Apple SD Gothic Neo, AppleGothic, Helvetica, sans-serif;
     font-size: 12px;
     -webkit-font-smoothing: antialiased
 }
@@ -184,7 +184,7 @@ a:hover, a:active, a:focus {
     border-top: 1px solid #e4e4e4;
     border-bottom: 3px solid #cda25a;
     background-color: #f1f1f1;
-    font-family: 'Open Sans', '나눔바른고딕', NanumBarunGothic, ng, '맑은 고딕', 'Malgun Gothic', '돋움', Dotum, '애플 SD 산돌고딕 Neo', 'Apple SD Gothic Neo', AppleGothic, Helvetica, sans-serif
+    font-family: Open Sans, NanumBarunGothic, Malgun Gothic, Dotum, Apple SD Gothic Neo, AppleGothic, Helvetica, sans-serif
 }
 .footer a:hover, .footer a:focus {
     text-decoration: none
@@ -719,7 +719,7 @@ a:hover, a:active, a:focus {
 .visual.sub .sub_title h1 {
     position: relative;
     font-weight: 700;
-    font-family: Raleway, '나눔바른고딕', NanumBarunGothic, ng, '맑은 고딕', 'Malgun Gothic', '돋움', Dotum, '애플 SD 산돌고딕 Neo', 'Apple SD Gothic Neo', AppleGothic, Helvetica, sans-serif;
+    font-family: Raleway, NanumBarunGothic, Malgun Gothic, Dotum, Apple SD Gothic Neo, AppleGothic, Helvetica, sans-serif;
     font-size: 17px;
     color: #444
 }
@@ -867,7 +867,7 @@ a:hover, a:active, a:focus {
 }
 .swiper-container {
     height: 600px;
-    font-family: Raleway, '나눔바른고딕', NanumBarunGothic, ng, '돋움', Dotum, AppleGothic, Helvetica, serif;
+    font-family: Raleway, NanumBarunGothic, Dotum, AppleGothic, Helvetica, sans-serif;
 }
 .swiper-container > div > div {
     display: table;
@@ -1397,7 +1397,7 @@ a:hover, a:active, a:focus {
     .visual.sub .sub_title h1 {
         position: relative;
         font-weight: 700;
-        font-family: Raleway, '나눔바른고딕', NanumBarunGothic, ng, '맑은 고딕', 'Malgun Gothic', '돋움', Dotum, '애플 SD 산돌고딕 Neo', 'Apple SD Gothic Neo', AppleGothic, Helvetica, sans-serif;
+        font-family: Raleway, NanumBarunGothic, Malgun Gothic, Dotum, Apple SD Gothic Neo, AppleGothic, Helvetica, sans-serif;
         font-size: 17px;
         color: #444
     }
@@ -1459,7 +1459,7 @@ a:hover, a:active, a:focus {
     }
     .swiper-container {
         height: 270px;
-        font-family: Raleway, '나눔바른고딕', NanumBarunGothic, ng, '돋움', Dotum, AppleGothic, Helvetica, serif;
+        font-family: Raleway, NanumBarunGothic, Dotum, AppleGothic, Helvetica, sans-serif;
     }
     .swiper-container > div > div {
         display: table;

@@ -2,12 +2,12 @@
 <module>
 	<grants />
 	<actions>
-		<action name="dispEditorComponentInfo" type="view" />
-		<action name="dispEditorFrame" type="view" />
-		<action name="dispEditorPopup" type="view" />
-		<action name="dispEditorPreview" type="view" />
-		<action name="dispEditorSkinColorset" type="view" permission="all-managers" />
-		<action name="dispEditorConfigPreview" type="view" permission="root" />
+		<action name="dispEditorComponentInfo" type="view" meta-noindex="true" />
+		<action name="dispEditorFrame" type="view" meta-noindex="true" />
+		<action name="dispEditorPopup" type="view" meta-noindex="true" />
+		<action name="dispEditorPreview" type="view" meta-noindex="true" />
+		<action name="dispEditorSkinColorset" type="view" permission="all-managers" meta-noindex="true" />
+		<action name="dispEditorConfigPreview" type="view" permission="root" meta-noindex="true" />
 		
 		<action name="procEditorCall" type="controller" />
 		<action name="procEditorSaveDoc" type="controller" />

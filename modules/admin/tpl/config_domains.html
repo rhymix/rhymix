@@ -1,4 +1,7 @@
+<config autoescape="on" />
+
 <include target="config_header.html" />
+
 <div cond="$XE_VALIDATOR_MESSAGE && $XE_VALIDATOR_ID == 'modules/admin/tpl/config_domains/1'" class="message {$XE_VALIDATOR_MESSAGE_TYPE}">
 	<p>{$XE_VALIDATOR_MESSAGE}</p>
 </div>
@@ -24,7 +27,7 @@
 		<tbody>
 			<tr loop="$domain_list->data => $domain">
 				<td class="nowr">
-					{$domain->settings->title}
+					{$domain->settings->title|autolang}
 					<i cond="$domain->is_default_domain === 'Y'" class="x_icon-home" title="{$lang->cmd_is_default_domain}">{$lang->cmd_is_default_domain}</i>
 				</td>
 				<td class="nowr">{$domain->domain}</td>
@@ -121,7 +124,7 @@
 			event.preventDefault();
 			var domain = $(this).data("domain");
 			var domain_srl = $(this).data("domain-srl");
-			if (confirm({$lang->cmd_delete_domain|json} + "\n" + domain)) {
+			if (confirm({$lang->cmd_delete_domain|json|noescape} + "\n" + domain)) {
 				exec_json('admin.procAdminDeleteDomain', { domain_srl: domain_srl }, function() {
 					window.location.reload();
 				});

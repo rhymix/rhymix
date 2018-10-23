@@ -2,7 +2,7 @@
 /**
  * SCSSPHP
  *
- * @copyright 2012-2017 Leaf Corcoran
+ * @copyright 2012-2018 Leaf Corcoran
  *
  * @license http://opensource.org/licenses/MIT MIT
  *
@@ -708,6 +708,7 @@ class Parser
         list($line, $column) = $this->getSourcePosition($pos);
 
         $b = new Block;
+        $b->sourceName   = $this->sourceName;
         $b->sourceLine   = $line;
         $b->sourceColumn = $column;
         $b->sourceIndex  = $this->sourceIndex;
@@ -1300,6 +1301,21 @@ class Parser
     protected function value(&$out)
     {
         $s = $this->seek();
+
+        if ($this->literal('url(') && $this->match('data:([a-z]+)\/([a-z0-9.+-]+);base64,', $m, false)) {
+            $len = strspn($this->buffer, 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwyxz0123456789+/=', $this->count);
+
+            $this->count += $len;
+
+            if ($this->literal(')')) {
+                $content = substr($this->buffer, $s, $this->count - $s);
+                $out = [Type::T_KEYWORD, $content];
+
+                return true;
+            }
+        }
+
+        $this->seek($s);
 
         if ($this->literal('not', false) && $this->whitespace() && $this->value($inner)) {
             $out = [Type::T_UNARY, 'not', $inner, $this->inParens];
@@ -2468,7 +2484,13 @@ class Parser
      */
     private function saveEncoding()
     {
-        if (ini_get('mbstring.func_overload') & 2) {
+        if (version_compare(PHP_VERSION, '7.2.0') >= 0) {
+            return;
+        }
+
+        $iniDirective = 'mbstring' . '.func_overload'; // deprecated in PHP 7.2
+
+        if (ini_get($iniDirective) & 2) {
             $this->encoding = mb_internal_encoding();
 
             mb_internal_encoding('iso-8859-1');

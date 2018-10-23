@@ -354,6 +354,11 @@ class menuAdminModel extends menu
 			$defaultMobileSkin = $oModuleModel->getModuleDefaultSkin($module_name, 'M');
 			$skinInfo = $oModuleModel->loadSkinInfo(ModuleHandler::getModulePath($module_name), $defaultSkin);
 			$mobileSkinInfo = $oModuleModel->loadSkinInfo(ModuleHandler::getModulePath($module_name), $defaultMobileSkin, 'm.skins');
+			if($defaultMobileSkin === '/USE_RESPONSIVE/' && !$mobileSkinInfo || !$mobileSkinInfo->title)
+			{
+				$mobileSkinInfo = $mobileSkinInfo ?: new stdClass;
+				$mobileSkinInfo->title = lang('use_responsive_pc_skin');
+			}
 			$module->defaultSkin = new stdClass();
 			$module->defaultSkin->skin = $defaultSkin;
 			$module->defaultSkin->title = $skinInfo->title ? $skinInfo->title : $defaultSkin;
@@ -405,7 +410,7 @@ class menuAdminModel extends menu
 		{
 			foreach($output->data as $value)
 			{
-				if($value->instanceCount > 1)
+				if($value->instanceCount >= 1)
 				{
 					$moduleList[] = $value->module;
 				}

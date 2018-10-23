@@ -371,7 +371,7 @@
 		<!-- /LNB -->
 		<!-- CONTENT -->
 			<div class="content" id="content">
-				{$content}
+				{$content|noescape}
 			</div>
 			<!--@if($layout_info->use_demo === 'Y')-->
 				<include target="./demo/welcome_main.html" />

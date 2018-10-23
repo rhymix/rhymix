@@ -258,6 +258,7 @@ class FrontEndFileHandlerTest extends \Codeception\TestCase\Test
 			$handler->loadFile(array('./common/js/jquery-1.x.min.js'));
 			$handler->loadFile(array('./common/js/jquery-2.0.0.js'));
 			$handler->loadFile(array('./common/js/jQuery.min.js'));
+			$handler->loadFile(array('http://code.jquery.com/jquery-latest.js'));
 			$result = $handler->getCssFileList();
 			$this->assertEquals(0, count($result));
 			$result = $handler->getJsFileList();

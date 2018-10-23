@@ -12,7 +12,7 @@ class MailFunction extends Base implements \Rhymix\Framework\Drivers\MailInterfa
 	 */
 	protected function __construct()
 	{
-		$this->mailer = \Swift_Mailer::newInstance(\Swift_MailTransport::newInstance());
+		$this->mailer = new \Swift_Mailer(new \Swift_MailTransport);
 	}
 	
 	/**

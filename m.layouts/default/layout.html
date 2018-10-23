@@ -19,7 +19,7 @@
 		<!--@end-->
 	<!--@end-->
 </div>
-{$content}
+{$content|noescape}
 <ul class="ft">
 	<!--@if($is_logged)-->
 	<li class="fl"><a href="{getUrl('act','dispMemberLogout')}">{$lang->cmd_logout}</a></li>

@@ -29,6 +29,7 @@ class integration_searchAdminController extends integration_search
 		$config = (object)get_object_vars($config);
 
 		$config->skin = Context::get('skin');
+		$config->mskin = Context::get('mskin');
 		$config->target = Context::get('target');
 		$config->target_module_srl = Context::get('target_module_srl');
 		if(!$config->target_module_srl) $config->target_module_srl = '';

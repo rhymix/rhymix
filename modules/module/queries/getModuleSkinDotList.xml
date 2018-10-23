@@ -10,6 +10,7 @@
 		<condition operation="like" column="skin" var="skin" default="." />
     </conditions>
     <groups>
+		<group column="module" />
         <group column="skin" />
     </groups>
 </query>

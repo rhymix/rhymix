@@ -145,27 +145,27 @@ class SecurityTest extends \Codeception\TestCase\Test
 		error_reporting($error_reporting);
 	}
 	
-	public function testCheckXEE()
+	public function testCheckXXE()
 	{
 		$xml = '<methodCall></methodCall>';
-		$this->assertTrue(Rhymix\Framework\Security::checkXEE($xml));
+		$this->assertTrue(Rhymix\Framework\Security::checkXXE($xml));
 		
 		$xml = '<?xml version="1.0" encoding="UTF-8"?><methodCall></methodCall>';
-		$this->assertTrue(Rhymix\Framework\Security::checkXEE($xml));
+		$this->assertTrue(Rhymix\Framework\Security::checkXXE($xml));
 		
 		$xml = '<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE foo><methodCall attr="value"></methodCall>';
-		$this->assertTrue(Rhymix\Framework\Security::checkXEE($xml));
+		$this->assertTrue(Rhymix\Framework\Security::checkXXE($xml));
 		
 		$xml = '<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE foo><whatever></whatever>';
-		$this->assertFalse(Rhymix\Framework\Security::checkXEE($xml));
+		$this->assertFalse(Rhymix\Framework\Security::checkXXE($xml));
 		
 		$xml = '<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE foo>';
-		$this->assertFalse(Rhymix\Framework\Security::checkXEE($xml));
+		$this->assertFalse(Rhymix\Framework\Security::checkXXE($xml));
 		
 		$xml = '<?xml version="1.0" encoding="UTF-8"?><!ENTITY xxe SYSTEM "http://www.attacker.com/text.txt"><methodCall></methodCall>';
-		$this->assertFalse(Rhymix\Framework\Security::checkXEE($xml));
+		$this->assertFalse(Rhymix\Framework\Security::checkXXE($xml));
 		
 		$xml = '<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE foo [<!ELEMENT foo ANY><!ENTITY xxe SYSTEM "file:///etc/passwd" >]><fault></fault>';
-		$this->assertFalse(Rhymix\Framework\Security::checkXEE($xml));
+		$this->assertFalse(Rhymix\Framework\Security::checkXXE($xml));
 	}
 }

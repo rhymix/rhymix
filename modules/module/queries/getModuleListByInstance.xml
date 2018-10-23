@@ -3,8 +3,8 @@
         <table name="modules" />
     </tables>
     <columns>
-        <column name="*" />
-        <column name="count(module_srl)" alias="instanceCount" />
+        <column name="module" />
+        <column name="count(*)" alias="instanceCount" />
     </columns>
 	<conditions>
 		<condition operation="equal" column="site_srl" var="site_srl" filter="number" />

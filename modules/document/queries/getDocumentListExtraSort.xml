@@ -6,7 +6,7 @@
     <columns>
         <column name="d.*" />
     </columns>
-	<index_hint name="idx_document_list_order" type="use" />
+    <index_hint name="idx_document_list_order" type="use" />
     <conditions>
         <condition operation="equal" column="ev.eid" var="sort_index" />
         <condition operation="equal" column="ev.document_srl" default="d.document_srl" pipe="and" />
@@ -46,6 +46,9 @@
             <condition operation="less" column="d.last_update" var="end_date" pipe="and" />
         </group>
     </conditions>
+    <groups>
+        <group column="d.document_srl" />
+    </groups>
     <navigation>
         <index var="ev.value" default="ev.value" order="order_type" />
         <list_count var="list_count" default="20" />

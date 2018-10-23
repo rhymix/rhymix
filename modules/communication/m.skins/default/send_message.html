@@ -35,7 +35,7 @@
 			<input type="text" name="title" id="message_title" value="{$source_message->title}"/>
 		</li>
 		<li class="xe_content">
-			{$source_message->content}
+			{$source_message->content|noescape}
 		</li>
 		<li>
 			<label for="message_content">{$lang->content}</label>

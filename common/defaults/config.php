@@ -68,6 +68,7 @@ return array(
 		'refresh' => 300,
 	),
 	'file' => array(
+		'folder_structure' => 2,
 		'umask' => '0022',
 	),
 	'mail' => array(
@@ -117,6 +118,10 @@ return array(
 		'iframe' => array(),
 		'object' => array(),
 		'classes' => array(),
+	),
+	'security' => array(
+		'check_csrf_token' => false,
+		'nofollow' => false,
 	),
 	'mobile' => array(
 		'enabled' => true,

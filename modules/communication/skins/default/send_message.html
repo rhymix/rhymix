@@ -35,7 +35,7 @@
 				<td><input type="checkbox" value="Y" name="send_mail" /> {$lang->cmd_send_mail} <span class="explanation">{$lang->msg_send_mail_privacy}</span></td>
 			</tr>
 		</table>
-		{$editor}
+		{$editor|noescape}
 		<div class="btnArea">
 			<input type="submit" value="{$lang->cmd_send_message}" class="btn btn-inverse" />
 		</div>

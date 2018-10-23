@@ -79,6 +79,11 @@ class adminAdminView extends admin
 			config('crypto.session_key', Rhymix\Framework\Security::getRandom(64, 'alnum'));
 			$changed = true;
 		}
+		if (config('file.folder_structure') === null)
+		{
+			config('file.folder_structure', 1);
+			$changed = true;
+		}
 		
 		// Save new configuration.
 		if ($changed)
@@ -444,6 +449,8 @@ class adminAdminView extends admin
 		Context::set('use_session_keys', Rhymix\Framework\Config::get('session.use_keys'));
 		Context::set('use_session_ssl', Rhymix\Framework\Config::get('session.use_ssl'));
 		Context::set('use_cookies_ssl', Rhymix\Framework\Config::get('session.use_ssl_cookies'));
+		Context::set('check_csrf_token', Rhymix\Framework\Config::get('security.check_csrf_token'));
+		Context::set('use_nofollow', Rhymix\Framework\Config::get('security.nofollow'));
 		
 		$this->setTemplateFile('config_security');
 	}

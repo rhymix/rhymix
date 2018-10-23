@@ -30,7 +30,7 @@
 				<label for="message_send_mail"><input type="checkbox" value="Y" name="send_mail" id="message_send_mail" /> {$lang->cmd_send_mail}</label>
 				<div class="rx_prn-notice info">{$lang->msg_send_mail_privacy}</div>
 			</div>
-			{$editor}
+			{$editor|noescape}
 			<div class="control-group">
 				<input type="submit" value="{$lang->cmd_send_message}" />
 			</div>

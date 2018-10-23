@@ -2,8 +2,8 @@
 <module>
 	<grants />
 	<actions>
-		<action name="dispLayoutPreview" type="view" permission="root" />
-		<action name="dispLayoutPreviewWithModule" type="view" permission="root" />
+		<action name="dispLayoutPreview" type="view" permission="root" meta-noindex="true" />
+		<action name="dispLayoutPreviewWithModule" type="view" permission="root" meta-noindex="true" />
 		<action name="getLayoutInstanceListForJSONP" type="model" permission="root" />
 		
 		<action name="dispLayoutAdminInstalledList" type="view" admin_index="true" menu_name="installedLayout" menu_index="true" />

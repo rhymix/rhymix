@@ -4,6 +4,53 @@ Updates should follow the [Keep a CHANGELOG](http://keepachangelog.com/) princip
 
 ## [Unreleased][unreleased]
 
+## [4.8.0] - 2018-09-18
+### Added
+ - Added support for email auto-linking
+ - Added a new interface (`HtmlConverterInterface`) for the main `HtmlConverter` class
+ - Added additional test cases (#14)
+
+### Changed
+ - The `italic_style` option now defaults to `'*'` so that in-word emphasis is handled properly (#75)
+
+### Fixed
+ - Fixed several issues of `<code>` and `<pre>` tags not converting to blocks or inlines properly (#26, #70, #102, #140, #161, #162)
+ - Fixed in-word emphasis using underscores as delimiter (#75)
+ - Fixed character escaping inside of `<div>` elements
+ - Fixed header edge cases
+
+### Deprecated
+ - The `bold_style` and `italic_style` options have been deprecated (#75)
+
+## [4.7.0] - 2018-05-19
+### Added
+ - Added `setOptions()` function for chainable calling (#149)
+ - Added new `list_item_style_alternate` option for converting every-other list with a different character (#155)
+
+### Fixed
+ - Fixed insufficient newlines after code blocks (#144, #148)
+ - Fixed trailing spaces not being preserved in link anchors (#157)
+ - Fixed list-like lines not being escaped inside of lists items (#159)
+
+## [4.6.2]
+### Fixed
+ - Fixed issue with emphasized spaces (#146)
+
+## [4.6.1]
+### Fixed
+ - Fixed conversion of `<pre>` tags (#145)
+
+## [4.6.0]
+### Added
+ - Added support for ordered lists starting at numbers other than 1
+
+### Fixed
+ - Fixed overly-eager escaping of list-like text (#141)
+
+## [4.5.0]
+### Added
+ - Added configuration option for list item style (#135, #136)
+
 ## [4.4.1]
 
 ### Fixed
@@ -188,7 +235,13 @@ not ideally set, so this releases fixes that. Moving forwards this should reduce
 ### Added
  - Initial release
 
-[unreleased]: https://github.com/thephpleague/html-to-markdown/compare/4.4.1...master
+[unreleased]: https://github.com/thephpleague/html-to-markdown/compare/4.8.0...master
+[4.8.0]: https://github.com/thephpleague/html-to-markdown/compare/4.7.0...4.8.0
+[4.7.0]: https://github.com/thephpleague/html-to-markdown/compare/4.6.2...4.7.0
+[4.6.2]: https://github.com/thephpleague/html-to-markdown/compare/4.6.1...4.6.2
+[4.6.1]: https://github.com/thephpleague/html-to-markdown/compare/4.6.0...4.6.1
+[4.6.0]: https://github.com/thephpleague/html-to-markdown/compare/4.5.0...4.6.0
+[4.5.0]: https://github.com/thephpleague/html-to-markdown/compare/4.4.1...4.5.0
 [4.4.1]: https://github.com/thephpleague/html-to-markdown/compare/4.4.0...4.4.1
 [4.4.0]: https://github.com/thephpleague/html-to-markdown/compare/4.3.1...4.4.0
 [4.3.1]: https://github.com/thephpleague/html-to-markdown/compare/4.3.0...4.3.1

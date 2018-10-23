@@ -51,7 +51,7 @@
     font-weight: 600;
     color: #cda25a;
     text-align: center;
-    font-family: Raleway, '나눔바른고딕', NanumBarunGothic, ng, '맑은 고딕', 'Malgun Gothic', '돋움', Dotum, '애플 SD 산돌고딕 Neo', 'Apple SD Gothic Neo', AppleGothic, Helvetica, sans-serif;
+    font-family: Raleway, NanumBarunGothic, Malgun Gothic, Dotum, Apple SD Gothic Neo, AppleGothic, Helvetica, sans-serif;
     text-transform: uppercase;
     letter-spacing: 1px;
 }

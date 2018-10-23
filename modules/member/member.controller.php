@@ -692,19 +692,19 @@ class memberController extends member
 		if(!$output->toBool()) return $output;
 
 		// insert ProfileImage, ImageName, ImageMark
-		$profile_image = $_FILES['profile_image'];
+		$profile_image = Context::get('profile_image');
 		if(is_uploaded_file($profile_image['tmp_name']))
 		{
 			$this->insertProfileImage($args->member_srl, $profile_image['tmp_name']);
 		}
 
-		$image_mark = $_FILES['image_mark'];
+		$image_mark = Context::get('image_mark');
 		if(is_uploaded_file($image_mark['tmp_name']))
 		{
 			$this->insertImageMark($args->member_srl, $image_mark['tmp_name']);
 		}
 
-		$image_name = $_FILES['image_name'];
+		$image_name = Context::get('image_name');
 		if(is_uploaded_file($image_name['tmp_name']))
 		{
 			$this->insertImageName($args->member_srl, $image_name['tmp_name']);
@@ -927,19 +927,19 @@ class memberController extends member
 		$output = $this->updateMember($args);
 		if(!$output->toBool()) return $output;
 
-		$profile_image = $_FILES['profile_image'];
+		$profile_image = Context::get('profile_image');
 		if(is_uploaded_file($profile_image['tmp_name']))
 		{
 			$this->insertProfileImage($args->member_srl, $profile_image['tmp_name']);
 		}
 
-		$image_mark = $_FILES['image_mark'];
+		$image_mark = Context::get('image_mark');
 		if(is_uploaded_file($image_mark['tmp_name']))
 		{
 			$this->insertImageMark($args->member_srl, $image_mark['tmp_name']);
 		}
 
-		$image_name = $_FILES['image_name'];
+		$image_name = Context::get('image_name');
 		if(is_uploaded_file($image_name['tmp_name']))
 		{
 			$this->insertImageName($args->member_srl, $image_name['tmp_name']);
@@ -1056,7 +1056,7 @@ class memberController extends member
 	function procMemberInsertProfileImage()
 	{
 		// Check if the file is successfully uploaded
-		$file = $_FILES['profile_image'];
+		$file = Context::get('profile_image');
 		if(!is_uploaded_file($file['tmp_name'])) throw new Rhymix\Framework\Exception('msg_not_uploaded_profile_image');
 		// Ignore if member_srl is invalid or doesn't exist.
 		$member_srl = Context::get('member_srl');
@@ -1161,7 +1161,7 @@ class memberController extends member
 	function procMemberInsertImageName()
 	{
 		// Check if the file is successfully uploaded
-		$file = $_FILES['image_name'];
+		$file = Context::get('image_name');
 		if(!is_uploaded_file($file['tmp_name'])) throw new Rhymix\Framework\Exception('msg_not_uploaded_image_name');
 		// Ignore if member_srl is invalid or doesn't exist.
 		$member_srl = Context::get('member_srl');
@@ -1312,7 +1312,7 @@ class memberController extends member
 	function procMemberInsertImageMark()
 	{
 		// Check if the file is successfully uploaded
-		$file = $_FILES['image_mark'];
+		$file = Context::get('image_mark');
 		if(!is_uploaded_file($file['tmp_name'])) throw new Rhymix\Framework\Exception('msg_not_uploaded_image_mark');
 		// Ignore if member_srl is invalid or doesn't exist.
 		$member_srl = Context::get('member_srl');
@@ -1731,6 +1731,22 @@ class memberController extends member
 		if($member_srl)
 		{
 			throw new Rhymix\Framework\Exception('msg_exists_email_address');
+		}
+
+		// Check managed Email Host
+		if($oMemberModel->isDeniedEmailHost($newEmail))
+		{
+			$config = $oMemberModel->getMemberConfig();
+			$emailhost_check = $config->emailhost_check;
+
+			$managed_email_host = lang('managed_email_host');
+			$email_hosts = $oMemberModel->getManagedEmailHosts();
+			foreach ($email_hosts as $host)
+			{
+				$hosts[] = $host->email_host;
+			}
+			$message = sprintf($managed_email_host[$emailhost_check], implode(', ',$hosts), 'id@' . implode(', id@', $hosts));
+			throw new Rhymix\Framework\Exception($message);
 		}
 
 		// remove all key by member_srl
@@ -2401,11 +2417,11 @@ class memberController extends member
 		list($args->email_id, $args->email_host) = explode('@', $args->email_address);
 
 		// Sanitize user ID, username, nickname, homepage, blog
-		$args->user_id = htmlspecialchars($args->user_id, ENT_COMPAT | ENT_HTML401, 'UTF-8', false);
-		$args->user_name = htmlspecialchars($args->user_name, ENT_COMPAT | ENT_HTML401, 'UTF-8', false);
-		$args->nick_name = htmlspecialchars($args->nick_name, ENT_COMPAT | ENT_HTML401, 'UTF-8', false);
-		$args->homepage = htmlspecialchars($args->homepage, ENT_COMPAT | ENT_HTML401, 'UTF-8', false);
-		$args->blog = htmlspecialchars($args->blog, ENT_COMPAT | ENT_HTML401, 'UTF-8', false);
+		$args->user_id = escape($args->user_id, false);
+		$args->user_name = escape($args->user_name, false);
+		$args->nick_name = escape($args->nick_name, false);
+		$args->homepage = escape($args->homepage, false);
+		$args->blog = escape($args->blog, false);
 		if($args->homepage && !preg_match("/^[a-z]+:\/\//i",$args->homepage)) $args->homepage = 'http://'.$args->homepage;
 		if($args->blog && !preg_match("/^[a-z]+:\/\//i",$args->blog)) $args->blog = 'http://'.$args->blog;
 
@@ -2634,11 +2650,11 @@ class memberController extends member
 		}
 
 		// Sanitize user ID, username, nickname, homepage, blog
-		if($args->user_id) $args->user_id = htmlspecialchars($args->user_id, ENT_COMPAT | ENT_HTML401, 'UTF-8', false);
-		$args->user_name = htmlspecialchars($args->user_name, ENT_COMPAT | ENT_HTML401, 'UTF-8', false);
-		$args->nick_name = htmlspecialchars($args->nick_name, ENT_COMPAT | ENT_HTML401, 'UTF-8', false);
-		$args->homepage = htmlspecialchars($args->homepage, ENT_COMPAT | ENT_HTML401, 'UTF-8', false);
-		$args->blog = htmlspecialchars($args->blog, ENT_COMPAT | ENT_HTML401, 'UTF-8', false);
+		if($args->user_id) $args->user_id = escape($args->user_id, false);
+		$args->user_name = escape($args->user_name, false);
+		$args->nick_name = escape($args->nick_name, false);
+		$args->homepage = escape($args->homepage, false);
+		$args->blog = escape($args->blog, false);
 		if($args->homepage && !preg_match("/^[a-z]+:\/\//is",$args->homepage)) $args->homepage = 'http://'.$args->homepage;
 		if($args->blog && !preg_match("/^[a-z]+:\/\//is",$args->blog)) $args->blog = 'http://'.$args->blog;
 

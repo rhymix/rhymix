@@ -2,7 +2,7 @@
 <module>
 	<grants />
 	<actions>
-		<action name="IS" type="view" />
+		<action name="IS" type="view" meta-noindex="true" />
 		
 		<action name="dispIntegration_searchAdminContent" type="view" admin_index="true" />
 		<action name="dispIntegration_searchAdminSkinInfo" type="view" />

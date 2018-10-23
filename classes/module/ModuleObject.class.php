@@ -550,27 +550,52 @@ class ModuleObject extends BaseObject
 				return FALSE;
 			}
 			
-			// integrate skin information of the module(change to sync skin info with the target module only by seperating its table)
+			// Set skin information
 			$oModuleModel = getModel('module');
 			$default_skin = ((!$is_mobile && $this->module_info->is_skin_fix == 'N') || ($is_mobile && $this->module_info->is_mskin_fix == 'N'));
 			$disable_skin = ($this->module == 'page' && ($this->module_info->page_type == 'OUTSIDE' || $this->module_info->page_type == 'WIDGET'));
-			if(!$disable_skin && $default_skin && $this->module != 'admin' && strpos($this->act, 'Admin') === false && $this->module == $this->module_info->module)
+			$disable_skin = ($disable_skin && ($this->module === 'admin' || strpos($this->act, 'Admin') !== false || $this->module !== $this->module_info->module));
+			if(!$disable_skin && !$this->getTemplatePath())
 			{
-				$skinType = ($is_mobile && $this->module_info->mskin !== '/USE_RESPONSIVE/') ? 'M' : 'P';
-				$dir = $skinType === 'M' ? 'm.skins' : 'skins';
-				$valueName = $skinType === 'M' ? 'mskin' : 'skin';
-				$skinName = $this->module_info->{$valueName} === '/USE_DEFAULT/' ? $oModuleModel->getModuleDefaultSkin($this->module, $skinType) : $this->module_info->{$valueName};
-				if($this->module == 'page')
+				$valueName = $is_mobile ? 'mskin' : 'skin';
+				$skinName = $this->module_info->{$valueName};
+				$dirName = $is_mobile ? 'm.skins' : 'skins';
+				if($is_mobile)
 				{
-					$this->module_info->{$valueName} = $skinName;
+					if($skinName === '/USE_DEFAULT/' || !$skinName)
+					{
+						$skinName = $oModuleModel->getModuleDefaultSkin($this->module, 'M');
+						$this->module_info->mskin = $skinName;
+					}
+					if($skinName === '/USE_RESPONSIVE/')
+					{
+						$skinName = $this->module_info->skin;
+						$dirName = 'skins';
+						if($skinName === '/USE_DEFAULT/')
+						{
+							$skinName = $oModuleModel->getModuleDefaultSkin($this->module, 'P');
+						}
+					}
 				}
 				else
 				{
-					$isTemplatPath = (strpos($this->getTemplatePath(), '/tpl/') !== FALSE);
-					if(!$isTemplatPath)
+					if($skinName === '/USE_DEFAULT/' || !$skinName)
 					{
-						$this->setTemplatePath(sprintf('%s%s/%s/', $this->module_path, $dir, $skinName));
+						$skinName = $oModuleModel->getModuleDefaultSkin($this->module, 'P');
+						$this->module_info->skin = $skinName;
 					}
+				}
+				if($this->module === 'page')
+				{
+					$this->module_info->{$valueName} = $skinName;
+				}
+				elseif(strpos($this->getTemplatePath(), '/tpl/') === false)
+				{
+					if(!is_dir(sprintf('%s%s/%s', $this->module_path, $dirName, $skinName)))
+					{
+						$skinName = 'default';
+					}
+					$this->setTemplatePath(sprintf('%s%s/%s/', $this->module_path, $dirName, $skinName));
 				}
 			}
 

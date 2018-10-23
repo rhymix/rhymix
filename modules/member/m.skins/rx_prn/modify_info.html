@@ -31,7 +31,7 @@
 				<block loop="$formTags=>$formTag" cond="$formTag->name !== 'profile_image'">
 					<label for="{$formTag->name}" class="control-label">{trim(str_replace('*','',strip_tags($formTag->title)))}<!--@if(strpos($formTag->title,'<em style="color:red">*</em>') !== false)--><sup style="color:red">*</sup><!--@endif--></label>
 					<block cond="$formTag->name != 'signature'">{$formTag->inputTag}</block>
-					<block cond="$formTag->name =='signature'">{$editor}</block>
+					<block cond="$formTag->name =='signature'">{$editor|noescape}</block>
 				</block>
 				<label class="control-label">{$lang->allow_mailing}</label>
 				<div class="controls">
