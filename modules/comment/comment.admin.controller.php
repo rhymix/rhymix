@@ -425,33 +425,18 @@ class commentAdminController extends comment
 		{
 			$originObject = (object) $originObject;
 		}
-
-		$obj = new stdClass();
-		$obj->document_srl = $originObject->document_srl;
-		$obj->comment_srl = $originObject->comment_srl;
-		$obj->parent_srl = $originObject->parent_srl;
-		$obj->content = $originObject->content;
-		$obj->password = $originObject->password;
-		$obj->nick_name = $originObject->nick_name;
-		$obj->member_srl = $originObject->member_srl;
-		$obj->email_address = $originObject->email_address;
-		$obj->homepage = $originObject->homepage;
-		$obj->is_secret = $originObject->is_secret;
-		$obj->notify_message = $originObject->notify_message;
-		$obj->module_srl = $originObject->module_srl;
-
+		
 		$oCommentController = getController('comment');
 		$oCommentModel = getModel('comment');
 
 		$oComment = $oCommentModel->getComment($originObject->comment_srl);
-
 		if($oComment->isExists())
 		{
-			$output = $oCommentController->updateCommentByRestore($obj);
+			$output = $oCommentController->updateCommentByRestore($originObject);
 		}
 		else
 		{
-			$output = $oCommentController->insertComment($obj, true);
+			$output = $oCommentController->insertComment($originObject, true);
 		}
 
 		return $output;
