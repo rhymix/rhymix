@@ -512,7 +512,7 @@ class commentController extends comment
 			// return if no parent comment exists
 			if(!$parent_output->toBool() || !$parent_output->data)
 			{
-				return $parent_output;
+				return new BaseObject(-1, 'parent comment does not exist');
 			}
 
 			$parent = $parent_output->data;
