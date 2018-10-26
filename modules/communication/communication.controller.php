@@ -133,10 +133,15 @@ class communicationController extends communication
 			$oMail = new \Rhymix\Framework\Mail();
 			$oMail->setSubject($title);
 			$oMail->setBody(utf8_mbencode(removeHackTag($content)));
-			$oMail->setFrom(config('mail.default_from') ?: $logged_info->email_address, $logged_info->nick_name);
+			$oMail->setFrom($logged_info->email_address ?: config('mail.default_from'), $logged_info->nick_name);
 			$oMail->setReplyTo($logged_info->email_address);
 			$oMail->addTo($receiver_member_info->email_address, $receiver_member_info->nick_name);
-			$oMail->send();
+			$sendOutput = $oMail->send();
+			if($sendOutput === false)
+			{
+				$oMail->setFrom(config('mail.default_from') ?: $logged_info->email_address, $logged_info->nick_name);
+				$oMail->send();
+			}
 		}
 
 		if(!in_array(Context::getRequestMethod(), array('XMLRPC', 'JSON')))
