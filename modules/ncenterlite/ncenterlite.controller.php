@@ -1313,8 +1313,32 @@ class ncenterliteController extends ncenterlite
 			return false;
 		}
 		$content = $oNcenterliteModel->getNotificationText($args);
-		$content_cut = preg_replace('/<\/?(strong|)[^>]*>/', '', $content);
-		$mail_title = cut_str($content_cut, 20);
+
+		switch ($args->config_type)
+		{
+			case 'admin_content':
+				$mail_title = Context::getSiteTitle() . ' ' . lang('ncenterlite_admin_content');
+				break;
+			case 'comment_comment':
+				$mail_title = Context::getSiteTitle() . ' ' . lang('ncenterlite_comment_comment_noti');
+				break;
+			case 'comment':
+				$mail_title = Context::getSiteTitle() . ' ' . lang('ncenterlite_comment_noti');
+				break;
+			case 'message':
+				$mail_title = Context::getSiteTitle() . ' ' . lang('ncenterlite_message_noti');
+				break;
+			case 'vote':
+				$mail_title = Context::getSiteTitle() . ' ' . lang('ncenterlite_vote_noti');
+				break;
+			case 'mention':
+				$mail_title = Context::getSiteTitle() . ' ' . lang('ncenterlite_mention_noti');
+				break;
+			default:
+				return false;
+		}
+
+		$content = $content . '<br>' . Context::getSiteTitle() . '<br>' . Rhymix\Framework\URL::getCurrentDomainUrl($args->target_url);
 
 		$member_info = getModel('member')->getMemberInfoByMemberSrl($args->member_srl);
 

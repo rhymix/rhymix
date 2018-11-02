@@ -78,12 +78,6 @@ class communicationController extends communication
 			throw new Rhymix\Framework\Exception('msg_content_is_null');
 		}
 
-		$send_mail = Context::get('send_mail');
-		if($send_mail != 'Y')
-		{
-			$send_mail = 'N';
-		}
-
 		// Check if there is a member to receive a message
 		$oMemberModel = getModel('member');
 		$oCommunicationModel = getModel('communication');
@@ -122,21 +116,6 @@ class communicationController extends communication
 		if(!$output->toBool())
 		{
 			return $output;
-		}
-
-		// send an e-mail
-		if($send_mail == 'Y')
-		{
-			$view_url = Context::getRequestUri();
-			$content = sprintf("%s<br /><br />From : <a href=\"%s\" target=\"_blank\">%s</a>", $content, $view_url, $view_url);
-			
-			$oMail = new \Rhymix\Framework\Mail();
-			$oMail->setSubject($title);
-			$oMail->setBody(utf8_mbencode(removeHackTag($content)));
-			$oMail->setFrom(config('mail.default_from') ?: $logged_info->email_address, $logged_info->nick_name);
-			$oMail->setReplyTo($logged_info->email_address);
-			$oMail->addTo($receiver_member_info->email_address, $receiver_member_info->nick_name);
-			$oMail->send();
 		}
 
 		if(!in_array(Context::getRequestMethod(), array('XMLRPC', 'JSON')))
