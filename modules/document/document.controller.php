@@ -182,6 +182,26 @@ class documentController extends document
 	{
 		$logged_info = Context::get('logged_info');
 
+		// Call a trigger (before)
+		$trigger_obj = new stdClass;
+		$trigger_obj->member_srl = $oDocument->get('member_srl');
+		$trigger_obj->module_srl = $oDocument->get('module_srl');
+		$trigger_obj->document_srl = $oDocument->get('document_srl');
+		$trigger_obj->update_target = ($point < 0) ? 'blamed_count' : 'voted_count';
+		$trigger_obj->point = $point;
+		$trigger_obj->before_point = ($point < 0) ? $oDocument->get('blamed_count') : $oDocument->get('voted_count');
+		$trigger_obj->after_point = $trigger_obj->before_point - $point;
+		$trigger_obj->cancel = true;
+		$trigger_output = ModuleHandler::triggerCall('document.updateVotedCountCancel', 'before', $trigger_obj);
+		if(!$trigger_output->toBool())
+		{
+			return $trigger_output;
+		}
+
+		// begin transaction
+		$oDB = DB::getInstance();
+		$oDB->begin();
+
 		$args = new stdClass();
 		$d_args = new stdClass();
 		$args->document_srl = $d_args->document_srl = $document_srl;
@@ -199,24 +219,12 @@ class documentController extends document
 		$d_output = executeQuery('document.deleteDocumentVotedLog', $d_args);
 		if(!$d_output->toBool()) return $d_output;
 
-		//session reset
+		// session reset
 		$_SESSION['voted_document'][$document_srl] = false;
 
-		// begin transaction
-		$oDB = DB::getInstance();
-		$oDB->begin();
+		// Call a trigger (after)
+		ModuleHandler::triggerCall('document.updateVotedCountCancel', 'after', $trigger_obj);
 
-		$obj = new stdClass();
-		$obj->member_srl = $oDocument->get('member_srl');
-		$obj->module_srl = $oDocument->get('module_srl');
-		$obj->document_srl = $oDocument->get('document_srl');
-		$obj->update_target = ($point < 0) ? 'blamed_count' : 'voted_count';
-		$obj->point = $point;
-		$obj->before_point = ($point < 0) ? $oDocument->get('blamed_count') : $oDocument->get('voted_count');
-		$obj->after_point = ($point < 0) ? $args->blamed_count : $args->voted_count;
-		$obj->cancel = 1;
-
-		ModuleHandler::triggerCall('document.updateVotedCountCancel', 'after', $obj);
 		$oDB->commit();
 		return $output;
 	}
@@ -1391,20 +1399,24 @@ class documentController extends document
 		{
 			$failed_voted = 'failed_blamed';
 		}
+
 		// Return fail if session already has information about votes
 		if($_SESSION['voted_document'][$document_srl])
 		{
 			return new BaseObject(-1, $failed_voted);
 		}
+
 		// Get the original document
 		$oDocumentModel = getModel('document');
 		$oDocument = $oDocumentModel->getDocument($document_srl, false, false);
+
 		// Pass if the author's IP address is as same as visitor's.
 		if($oDocument->get('ipaddress') == $_SERVER['REMOTE_ADDR'])
 		{
 			$_SESSION['voted_document'][$document_srl] = false;
 			return new BaseObject(-1, $failed_voted);
 		}
+
 		// Create a member model object
 		$oMemberModel = getModel('member');
 		$member_srl = $oMemberModel->getLoggedMemberSrl();
@@ -1419,6 +1431,7 @@ class documentController extends document
 				return new BaseObject(-1, $failed_voted);
 			}
 		}
+
 		// Use member_srl for logged-in members and IP address for non-members.
 		$args = new stdClass();
 		if($member_srl)
@@ -1431,12 +1444,30 @@ class documentController extends document
 		}
 		$args->document_srl = $document_srl;
 		$output = executeQuery('document.getDocumentVotedLogInfo', $args);
+
 		// Pass after registering a session if log information has vote-up logs
 		if($output->data->count)
 		{
 			$_SESSION['voted_document'][$document_srl] = false;
 			return new BaseObject(-1, $failed_voted);
 		}
+
+		// Call a trigger (before)
+		$trigger_obj = new stdClass;
+		$trigger_obj->member_srl = $oDocument->get('member_srl');
+		$trigger_obj->module_srl = $oDocument->get('module_srl');
+		$trigger_obj->document_srl = $oDocument->get('document_srl');
+		$trigger_obj->update_target = ($point < 0) ? 'blamed_count' : 'voted_count';
+		$trigger_obj->point = $point;
+		$trigger_obj->before_point = ($point < 0) ? $oDocument->get('blamed_count') : $oDocument->get('voted_count');
+		$trigger_obj->after_point = $trigger_obj->before_point + $point;
+		$trigger_obj->cancel = false;
+		$trigger_output = ModuleHandler::triggerCall('document.updateVotedCount', 'before', $trigger_obj);
+		if(!$trigger_output->toBool())
+		{
+			return $trigger_output;
+		}
+		
 		// begin transaction
 		$oDB = DB::getInstance();
 		$oDB->begin();
@@ -1457,21 +1488,14 @@ class documentController extends document
 			$output = executeQuery('document.updateVotedCount', $args);
 		}
 		if(!$output->toBool()) return $output;
+		
 		// Leave logs
 		$args->point = $point;
 		$output = executeQuery('document.insertDocumentVotedLog', $args);
 		if(!$output->toBool()) return $output;
-
-		$obj = new stdClass;
-		$obj->member_srl = $oDocument->get('member_srl');
-		$obj->module_srl = $oDocument->get('module_srl');
-		$obj->document_srl = $oDocument->get('document_srl');
-		$obj->update_target = ($point < 0) ? 'blamed_count' : 'voted_count';
-		$obj->point = $point;
-		$obj->before_point = ($point < 0) ? $oDocument->get('blamed_count') : $oDocument->get('voted_count');
-		$obj->after_point = ($point < 0) ? $args->blamed_count : $args->voted_count;
 		
-		ModuleHandler::triggerCall('document.updateVotedCount', 'after', $obj);
+		// Call a trigger (after)
+		ModuleHandler::triggerCall('document.updateVotedCount', 'after', $trigger_obj);
 
 		$oDB->commit();
 
@@ -1483,12 +1507,12 @@ class documentController extends document
 		if($point > 0)
 		{
 			$output->setMessage('success_voted');
-			$output->add('voted_count', $obj->after_point);
+			$output->add('voted_count', $trigger_obj->after_point);
 		}
 		else
 		{
 			$output->setMessage('success_blamed');
-			$output->add('blamed_count', $obj->after_point);
+			$output->add('blamed_count', $trigger_obj->after_point);
 		}
 		
 		return $output;

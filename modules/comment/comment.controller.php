@@ -164,6 +164,27 @@ class commentController extends comment
 	{
 		$logged_info = Context::get('logged_info');
 
+		// Call a trigger (before)
+		$trigger_obj = new stdClass;
+		$trigger_obj->member_srl = $oComment->get('member_srl');
+		$trigger_obj->module_srl = $oComment->get('module_srl');
+		$trigger_obj->document_srl = $oComment->get('document_srl');
+		$trigger_obj->comment_srl = $oComment->get('comment_srl');
+		$trigger_obj->update_target = ($point < 0) ? 'blamed_count' : 'voted_count';
+		$trigger_obj->point = $point;
+		$trigger_obj->before_point = ($point < 0) ? $oComment->get('blamed_count') : $oComment->get('voted_count');
+		$trigger_obj->after_point = $trigger_obj->before_point - $point;
+		$trigger_obj->cancel = true;
+		$trigger_output = ModuleHandler::triggerCall('comment.updateVotedCountCancel', 'before', $trigger_obj);
+		if(!$trigger_output->toBool())
+		{
+			return $trigger_output;
+		}
+
+		// begin transaction
+		$oDB = DB::getInstance();
+		$oDB->begin();
+
 		$args = new stdClass();
 		$d_args = new stdClass();
 		$args->comment_srl = $d_args->comment_srl = $comment_srl;
@@ -183,22 +204,10 @@ class commentController extends comment
 
 		//session reset
 		$_SESSION['voted_comment'][$comment_srl] = false;
-
-		// begin transaction
-		$oDB = DB::getInstance();
-		$oDB->begin();
-
-		$obj = new stdClass();
-		$obj->member_srl = $oComment->get('member_srl');
-		$obj->module_srl = $oComment->get('module_srl');
-		$obj->comment_srl = $oComment->get('comment_srl');
-		$obj->update_target = ($point < 0) ? 'blamed_count' : 'voted_count';
-		$obj->point = $point;
-		$obj->before_point = ($point < 0) ? $oComment->get('blamed_count') : $oComment->get('voted_count');
-		$obj->after_point = ($point < 0) ? $args->blamed_count : $args->voted_count;
-		$obj->cancel = 1;
 		
-		ModuleHandler::triggerCall('comment.updateVotedCountCancel', 'after', $obj);
+		// Call a trigger (after)
+		ModuleHandler::triggerCall('comment.updateVotedCountCancel', 'after', $trigger_obj);
+		
 		$oDB->commit();
 		return $output;
 	}
@@ -1357,12 +1366,10 @@ class commentController extends comment
 		if($point > 0)
 		{
 			$failed_voted = 'failed_voted';
-			$success_message = 'success_voted';
 		}
 		else
 		{
 			$failed_voted = 'failed_blamed';
-			$success_message = 'success_blamed';
 		}
 
 		// invalid vote if vote info exists in the session info.
@@ -1371,23 +1378,24 @@ class commentController extends comment
 			return new BaseObject(-1, $failed_voted);
 		}
 
+		// Get the original comment
 		$oCommentModel = getModel('comment');
 		$oComment = $oCommentModel->getComment($comment_srl, FALSE, FALSE);
 
-		// invalid vote if both ip addresses between author's and the current user are same.
+		// Pass if the author's IP address is as same as visitor's.
 		if($oComment->get('ipaddress') == $_SERVER['REMOTE_ADDR'])
 		{
 			$_SESSION['voted_comment'][$comment_srl] = false;
 			return new BaseObject(-1, $failed_voted);
 		}
 
+		// Create a member model object
+		$oMemberModel = getModel('member');
+		$member_srl = $oMemberModel->getLoggedMemberSrl();
+
 		// if the comment author is a member
 		if($oComment->get('member_srl'))
 		{
-			// create the member model object
-			$oMemberModel = getModel('member');
-			$member_srl = $oMemberModel->getLoggedMemberSrl();
-
 			// session registered if the author information matches to the current logged-in user's.
 			if($member_srl && $member_srl == abs($oComment->get('member_srl')))
 			{
@@ -1396,9 +1404,8 @@ class commentController extends comment
 			}
 		}
 
-		$args = new stdClass();
-
 		// If logged-in, use the member_srl. otherwise use the ipaddress.
+		$args = new stdClass();
 		if($member_srl)
 		{
 			$args->member_srl = $member_srl;
@@ -1407,22 +1414,38 @@ class commentController extends comment
 		{
 			$args->ipaddress = $_SERVER['REMOTE_ADDR'];
 		}
-
 		$args->comment_srl = $comment_srl;
 		$output = executeQuery('comment.getCommentVotedLogInfo', $args);
 
-		// session registered if log info contains recommendation vote log.
+		// Pass after registering a session if log information has vote-up logs
 		if($output->data->count)
 		{
 			$_SESSION['voted_comment'][$comment_srl] = false;
 			return new BaseObject(-1, $failed_voted);
 		}
 
+		// Call a trigger (before)
+		$trigger_obj = new stdClass;
+		$trigger_obj->member_srl = $oComment->get('member_srl');
+		$trigger_obj->module_srl = $oComment->get('module_srl');
+		$trigger_obj->document_srl = $oComment->get('document_srl');
+		$trigger_obj->comment_srl = $oComment->get('comment_srl');
+		$trigger_obj->update_target = ($point < 0) ? 'blamed_count' : 'voted_count';
+		$trigger_obj->point = $point;
+		$trigger_obj->before_point = ($point < 0) ? $oComment->get('blamed_count') : $oComment->get('voted_count');
+		$trigger_obj->after_point = $trigger_obj->before_point + $point;
+		$trigger_obj->cancel = false;
+		$trigger_output = ModuleHandler::triggerCall('comment.updateVotedCount', 'before', $trigger_obj);
+		if(!$trigger_output->toBool())
+		{
+			return $trigger_output;
+		}
+
 		// begin transaction
 		$oDB = DB::getInstance();
 		$oDB->begin();
 
-		// update the number of votes
+		// Update the voted count
 		if($point < 0)
 		{
 			// leave into session information
@@ -1441,27 +1464,21 @@ class commentController extends comment
 		$args->point = $point;
 		$output = executeQuery('comment.insertCommentVotedLog', $args);
 
-		$obj = new stdClass();
-		$obj->member_srl = $oComment->get('member_srl');
-		$obj->module_srl = $oComment->get('module_srl');
-		$obj->comment_srl = $oComment->get('comment_srl');
-		$obj->update_target = ($point < 0) ? 'blamed_count' : 'voted_count';
-		$obj->point = $point;
-		$obj->before_point = ($point < 0) ? $oComment->get('blamed_count') : $oComment->get('voted_count');
-		$obj->after_point = ($point < 0) ? $args->blamed_count : $args->voted_count;
-		
-		ModuleHandler::triggerCall('comment.updateVotedCount', 'after', $obj);
+		// Call a trigger (after)
+		ModuleHandler::triggerCall('comment.updateVotedCount', 'after', $trigger_obj);
 		$oDB->commit();
 
 		// Return the result
-		$output = new BaseObject(0, $success_message);
+		$output = new BaseObject();
 		if($point > 0)
 		{
-			$output->add('voted_count', $obj->after_point);
+			$output->setMessage('success_voted');
+			$output->add('voted_count', $trigger_obj->after_point);
 		}
 		else
 		{
-			$output->add('blamed_count', $obj->after_point);
+			$output->setMessage('success_blamed');
+			$output->add('blamed_count', $trigger_obj->after_point);
 		}
 
 		return $output;
