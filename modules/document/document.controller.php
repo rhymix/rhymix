@@ -206,14 +206,14 @@ class documentController extends document
 		$d_args = new stdClass();
 		$args->document_srl = $d_args->document_srl = $document_srl;
 		$d_args->member_srl = $logged_info->member_srl;
-		if($point > 0)
+		if ($trigger_obj->update_target === 'voted_count')
 		{
-			$args->voted_count = $oDocument->get('voted_count') - $point;
+			$args->voted_count = $trigger_obj->after_point;
 			$output = executeQuery('document.updateVotedCount', $args);
 		}
 		else
 		{
-			$args->blamed_count = $oDocument->get('blamed_count') - $point;
+			$args->blamed_count = $trigger_obj->after_point;
 			$output = executeQuery('document.updateBlamedCount', $args);
 		}
 		$d_output = executeQuery('document.deleteDocumentVotedLog', $d_args);
@@ -1473,24 +1473,23 @@ class documentController extends document
 		$oDB->begin();
 
 		// Update the voted count
-		if($point < 0)
+		if($trigger_obj->update_target === 'blamed_count')
 		{
-			$args->blamed_count = $oDocument->get('blamed_count') + $point;
-			// Leave in the session information
-			$_SESSION['voted_document'][$document_srl] = $point;
+			$args->blamed_count = $trigger_obj->after_point;
 			$output = executeQuery('document.updateBlamedCount', $args);
 		}
 		else
 		{
-			$args->voted_count = $oDocument->get('voted_count') + $point;
-			// Leave in the session information
-			$_SESSION['voted_document'][$document_srl] = $point;
+			$args->voted_count = $trigger_obj->after_point;
 			$output = executeQuery('document.updateVotedCount', $args);
 		}
 		if(!$output->toBool()) return $output;
+
+		// Leave in the session information
+		$_SESSION['voted_document'][$document_srl] = $trigger_obj->point;
 		
 		// Leave logs
-		$args->point = $point;
+		$args->point = $trigger_obj->point;
 		$output = executeQuery('document.insertDocumentVotedLog', $args);
 		if(!$output->toBool()) return $output;
 		
@@ -1504,7 +1503,7 @@ class documentController extends document
 
 		// Return result
 		$output = new BaseObject();
-		if($point > 0)
+		if($trigger_obj->update_target === 'voted_count')
 		{
 			$output->setMessage('success_voted');
 			$output->add('voted_count', $trigger_obj->after_point);

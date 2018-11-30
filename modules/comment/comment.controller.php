@@ -189,14 +189,14 @@ class commentController extends comment
 		$d_args = new stdClass();
 		$args->comment_srl = $d_args->comment_srl = $comment_srl;
 		$d_args->member_srl = $logged_info->member_srl;
-		if($point > 0)
+		if ($trigger_obj->update_target === 'voted_count')
 		{
-			$args->voted_count = $oComment->get('voted_count') - $point;
+			$args->voted_count = $trigger_obj->after_point;
 			$output = executeQuery('comment.updateVotedCount', $args);
 		}
 		else
 		{
-			$args->blamed_count = $oComment->get('blamed_count') - $point;
+			$args->blamed_count = $trigger_obj->after_point;
 			$output = executeQuery('comment.updateBlamedCount', $args);
 		}
 		$d_output = executeQuery('comment.deleteCommentVotedLog', $d_args);
@@ -1446,23 +1446,24 @@ class commentController extends comment
 		$oDB->begin();
 
 		// Update the voted count
-		if($point < 0)
+		if($trigger_obj->update_target === 'blamed_count')
 		{
 			// leave into session information
-			$_SESSION['voted_comment'][$comment_srl] = $point;
-			$args->blamed_count = $oComment->get('blamed_count') + $point;
+			$args->blamed_count = $trigger_obj->after_point;
 			$output = executeQuery('comment.updateBlamedCount', $args);
 		}
 		else
 		{
-			$_SESSION['voted_comment'][$comment_srl] = $point;
-			$args->voted_count = $oComment->get('voted_count') + $point;
+			$args->voted_count = $trigger_obj->after_point;
 			$output = executeQuery('comment.updateVotedCount', $args);
 		}
 
 		// leave logs
-		$args->point = $point;
+		$args->point = $trigger_obj->point;
 		$output = executeQuery('comment.insertCommentVotedLog', $args);
+
+		// Leave in the session information
+		$_SESSION['voted_comment'][$comment_srl] = $trigger_obj->point;
 
 		// Call a trigger (after)
 		ModuleHandler::triggerCall('comment.updateVotedCount', 'after', $trigger_obj);
@@ -1470,7 +1471,7 @@ class commentController extends comment
 
 		// Return the result
 		$output = new BaseObject();
-		if($point > 0)
+		if($trigger_obj->update_target === 'voted_count')
 		{
 			$output->setMessage('success_voted');
 			$output->add('voted_count', $trigger_obj->after_point);
