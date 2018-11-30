@@ -7,6 +7,7 @@
     </columns>
     <conditions>
         <condition operation="equal" column="comment_srl" var="comment_srl" filter="number" notnull="notnull" />
+        <condition operation="equal" column="point" var="point" filter="number" />
         <group pipe="and">
             <condition operation="equal" column="member_srl" var="member_srl" filter="number" pipe="and" />
             <condition operation="equal" column="ipaddress" var="ipaddress" pipe="and" />

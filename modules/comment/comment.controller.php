@@ -79,7 +79,7 @@ class commentController extends comment
 		$oComment = $oCommentModel->getComment($comment_srl, FALSE, FALSE);
 		if($oComment->get('voted_count') <= 0)
 		{
-			throw new Rhymix\Framework\Exception('msg_comment_voted_cancel_not');
+			throw new Rhymix\Framework\Exception('failed_voted_canceled');
 		}
 		$point = 1;
 		$output = $this->updateVotedCountCancel($comment_srl, $oComment, $point);
@@ -149,7 +149,7 @@ class commentController extends comment
 		$oComment = $oCommentModel->getComment($comment_srl, FALSE, FALSE);
 		if($oComment->get('blamed_count') >= 0)
 		{
-			throw new Rhymix\Framework\Exception('msg_comment_blamed_cancel_not');
+			throw new Rhymix\Framework\Exception('failed_blamed_canceled');
 		}
 		$point = -1;
 		$output = $this->updateVotedCountCancel($comment_srl, $oComment, $point);
@@ -163,6 +163,24 @@ class commentController extends comment
 	function updateVotedCountCancel($comment_srl, $oComment, $point)
 	{
 		$logged_info = Context::get('logged_info');
+		
+		// Check if the current user has voted previously.
+		$args = new stdClass;
+		$args->comment_srl = $comment_srl;
+		$args->point = $point;
+		if($logged_info->member_srl)
+		{
+			$args->member_srl = $logged_info->member_srl;
+		}
+		else
+		{
+			$args->ipaddress = $_SERVER['REMOTE_ADDR'];
+		}
+		$output = executeQuery('comment.getCommentVotedLogInfo', $args);
+		if(!$output->data->count)
+		{
+			return new BaseObject(-1, $point > 0 ? 'failed_voted_canceled' : 'failed_blamed_canceled');
+		}
 
 		// Call a trigger (before)
 		$trigger_obj = new stdClass;

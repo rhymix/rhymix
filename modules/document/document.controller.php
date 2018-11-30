@@ -71,7 +71,7 @@ class documentController extends document
 		$oDocument = $oDocumentModel->getDocument($document_srl, false, false);
 		if($oDocument->get('voted_count') <= 0)
 		{
-			throw new Rhymix\Framework\Exception('msg_document_voted_cancel_not');
+			throw new Rhymix\Framework\Exception('failed_voted_canceled');
 		}
 		$point = 1;
 		$output = $this->updateVotedCountCancel($document_srl, $oDocument, $point);
@@ -157,7 +157,7 @@ class documentController extends document
 		$oDocument = $oDocumentModel->getDocument($document_srl, false, false);
 		if($oDocument->get('blamed_count') >= 0)
 		{
-			throw new Rhymix\Framework\Exception('msg_document_voted_cancel_not');
+			throw new Rhymix\Framework\Exception('failed_blamed_canceled');
 		}
 		$point = -1;
 		$output = $this->updateVotedCountCancel($document_srl, $oDocument, $point);
@@ -181,6 +181,24 @@ class documentController extends document
 	function updateVotedCountCancel($document_srl, $oDocument, $point)
 	{
 		$logged_info = Context::get('logged_info');
+		
+		// Check if the current user has voted previously.
+		$args = new stdClass;
+		$args->document_srl = $document_srl;
+		$args->point = $point;
+		if($logged_info->member_srl)
+		{
+			$args->member_srl = $logged_info->member_srl;
+		}
+		else
+		{
+			$args->ipaddress = $_SERVER['REMOTE_ADDR'];
+		}
+		$output = executeQuery('document.getDocumentVotedLogInfo', $args);
+		if(!$output->data->count)
+		{
+			return new BaseObject(-1, $point > 0 ? 'failed_voted_canceled' : 'failed_blamed_canceled');
+		}
 
 		// Call a trigger (before)
 		$trigger_obj = new stdClass;

@@ -28,7 +28,6 @@ $lang->msg_category_not_moved = 'Could not be moved';
 $lang->msg_is_secret = 'This is a secret article.';
 $lang->msg_checked_document_is_deleted = '%d article(s) was(were) deleted.';
 $lang->msg_document_is_admin_not_permitted = 'You don\'t have permission to delete the posts of Top Admin.';
-$lang->msg_document_voted_cancel_not = '';
 $lang->move_target_module = 'Target module ';
 $lang->search_target_list['title'] = 'Subject';
 $lang->search_target_list['content'] = 'Content';
