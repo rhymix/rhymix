@@ -246,6 +246,7 @@ $lang->msg_empty_search_keyword = '검색어가 없습니다.';
 $lang->msg_empty_content = '내용이 없습니다.';
 $lang->msg_server_error = '서버 오류';
 $lang->msg_server_error_see_log = '오류 메시지를 표시하지 않도록 설정되어 있습니다. 서버의 에러 로그에서 자세한 내용을 확인해 주십시오.';
+$lang->msg_crypto_not_available = 'openssl 확장모듈이 설치되어 있지 않습니다.';
 $lang->comment_to_be_approved = '관리자의 확인이 필요한 댓글입니다.';
 $lang->success_registed = '등록했습니다.';
 $lang->success_declared = '신고했습니다.';

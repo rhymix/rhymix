@@ -64,7 +64,14 @@ class Security
 		}
 		
 		// Otherwise, use the CryptoCompat class.
-		return base64_encode(\CryptoCompat::encrypt($plaintext, $key));
+		if (function_exists('mcrypt_encrypt'))
+		{
+			return base64_encode(\CryptoCompat::encrypt($plaintext, $key));
+		}
+		else
+		{
+			throw new Exception('msg_crypto_not_available');
+		}
 	}
 	
 	/**
@@ -102,7 +109,14 @@ class Security
 		}
 		
 		// Otherwise, use the CryptoCompat class.
-		return \CryptoCompat::decrypt($ciphertext, $key);
+		if (function_exists('mcrypt_decrypt'))
+		{
+			return \CryptoCompat::decrypt($ciphertext, $key);
+		}
+		else
+		{
+			throw new Exception('msg_crypto_not_available');
+		}
 	}
 	
 	/**
