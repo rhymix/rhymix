@@ -642,8 +642,14 @@ class pointController extends point
 
 		// If there are points, update, if no, insert
 		$oPointModel = getModel('point');
-		if($oPointModel->isExistsPoint($member_srl)) executeQuery("point.updatePoint", $args);
-		else executeQuery("point.insertPoint", $args);
+		if ($oPointModel->isExistsPoint($member_srl))
+		{
+			$output = executeQuery("point.updatePoint", $args);
+		}
+		else
+		{
+			$output = executeQuery("point.insertPoint", $args);
+		}
 
 		// Get a new level
 		$level = $oPointModel->getLevel($point, $config->level_step);
