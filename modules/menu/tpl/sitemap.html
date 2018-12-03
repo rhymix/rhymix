@@ -620,7 +620,6 @@
 						<select id="auth${PermId}">
 							<option class="_group_all" value="0">{$lang->grant_to_all}</option>
 							<option class="_group_loggedin" value="-1">{$lang->grant_to_login_user}</option>
-							<option class="_group_signedup" value="-2">{$lang->grant_to_site_user}</option>
 							<option class="_group_manager" value="-3">{$lang->grant_to_admin}</option>
 							<option class="_group_selected" value="-10">{$lang->grant_to_group}</option>
 						</select>
@@ -2210,21 +2209,6 @@ jQuery(function($){
 		var htInfo, sDefault, $node, $groupNode, aGroup, sGrant;
 		for(var i=0, nLen=aPerms.length; i<nLen; i++){
 			htInfo = aPerms[i];
-			//console.log(3, i, nLen, htInfo);
-			/*
-			<li>
-				<label for="auth${PermId}">${PermTitle}</label>
-				<select id="auth${PermId}">
-					<option class="_group_all" value="0">모든 사용자</option>
-					<option class="_group_loggedin" value="-1">로그인 사용자</option>
-					<option class="_group_signedup" value="-2">가입한 사용자</option>
-					<option class="_group_manager" value="-3">관리자만</option>
-					<option class="_group_selected" value="-10">선택그룹 사용자</option>
-				</select>
-				<div class="selected x_hide">
-				</div>
-			</li>
-			*/
 
 			sDefault = htInfo.sDefault;
 			//aGroup = htInfo.aGroup;
