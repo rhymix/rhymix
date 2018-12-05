@@ -2125,22 +2125,9 @@ class moduleModel extends module
 				// Log-in member only
 				if($member_info->member_srl)
 				{
-					if($val->group_srl == -1)
+					if($val->group_srl == -1 || $val->group_srl == -2)
 					{
 						$grant->{$val->name} = true;
-					}
-					// Site-joined member only
-					else if($val->group_srl == -2)
-					{
-						// Grant if no information of the currently connected site exists
-						if(!Context::get('site_module_info')->site_srl)
-						{
-							$grant->{$val->name} = true;
-						}
-						else if(count($member_group))
-						{
-							$grant->{$val->name} = true;
-						}
 					}
 					// Manager only
 					else if($val->group_srl == -3)
