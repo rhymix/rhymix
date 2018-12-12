@@ -352,6 +352,7 @@ class Context
 		{
 			$oSessionModel = getModel('session');
 			$oSessionController = getController('session');
+			ini_set('session.serialize_handler', 'php');
 			session_set_save_handler(
 					array(&$oSessionController, 'open'), array(&$oSessionController, 'close'), array(&$oSessionModel, 'read'), array(&$oSessionController, 'write'), array(&$oSessionController, 'destroy'), array(&$oSessionController, 'gc')
 			);
