@@ -599,7 +599,7 @@ class pointController extends point
 		$config = $oModuleModel->getModuleConfig('point');
 
 		// Get the default configuration information
-		$current_point = $oPointModel->getPoint($member_srl);
+		$current_point = $oPointModel->getPoint($member_srl, false, $exists);
 		$current_level = $oPointModel->getLevel($current_point, $config->level_step);
 
 		// Change points
@@ -641,14 +641,24 @@ class pointController extends point
 		$oDB->begin();
 
 		// If there are points, update, if no, insert
-		$oPointModel = getModel('point');
-		if ($oPointModel->isExistsPoint($member_srl))
+		if ($exists)
 		{
 			$output = executeQuery("point.updatePoint", $args);
 		}
 		else
 		{
 			$output = executeQuery("point.insertPoint", $args);
+			// 많은 동접시 포인트를 넣는 과정에서 미리 들어간 포인트가 있을 수 있는 문제가 있어 이를 확실하게 처리하도록 수정요청을 한 번 더 실행.
+			if(!$output->toBool())
+			{
+				$output = executeQuery("point.updatePoint", $args);
+			}
+		}
+
+		if(!$output->toBool())
+		{
+			$oDB->rollback();
+			return $output;
 		}
 
 		// Get a new level
@@ -735,7 +745,7 @@ class pointController extends point
 					$del_group_args = new stdClass;
 					$del_group_args->member_srl = $member_srl;
 					$del_group_args->group_srl = implode(',', $del_group_list);
-					$del_group_output = executeQuery('point.deleteMemberGroup', $del_group_args);
+					executeQuery('point.deleteMemberGroup', $del_group_args);
 				}
 				// Grant a new group
 				foreach($new_group_list as $group_srl)
