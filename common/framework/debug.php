@@ -274,7 +274,7 @@ class Debug
 		if (config('debug.write_error_log') === 'all' && self::isEnabledForCurrentUser())
 		{
 			$log_entry = str_replace("\0", '', sprintf('Rhymix Debug: %s in %s on line %d',
-				var_export($message, true), $entry->file, $entry->line));
+				var_export_clean($message), $entry->file, $entry->line));
 			error_log($log_entry);
 		}
 	}

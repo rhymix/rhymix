@@ -43,7 +43,7 @@ Debug Entries
 	{
 		if (is_scalar($entry->message))
 		{
-			$entry->message = var_export($entry->message, true);
+			$entry->message = var_export_clean($entry->message);
 		}
 		else
 		{
