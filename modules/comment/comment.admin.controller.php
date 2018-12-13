@@ -220,7 +220,7 @@ class commentAdminController extends comment
 				continue;
 			}
 
-			$output = $oCommentController->deleteComment($comment_srl, TRUE, $isTrash);
+			$output = $oCommentController->deleteComment($comment_srl, TRUE, toBool($isTrash));
 			if(!$output->toBool())
 			{
 				$oDB->rollback();
@@ -310,6 +310,16 @@ class commentAdminController extends comment
 					$oDB->rollback();
 					return $output;
 				}
+				
+				$obj = new stdClass;
+				$obj->comment_srl = $oComment->get('comment_srl');
+				$obj->module_srl = $oComment->get('module_srl');
+				$obj->document_srl = $oComment->get('document_srl');
+				$obj->parent_srl = $oComment->get('parent_srl');
+				$obj->member_srl = $oComment->get('member_srl');
+				$obj->regdate = $oComment->get('regdate');
+				$obj->last_update = $oComment->get('last_update');
+				ModuleHandler::triggerCall('comment.moveCommentToTrash', 'after', $obj);
 			}
 		}
 	}
