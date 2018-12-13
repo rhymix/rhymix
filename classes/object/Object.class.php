@@ -45,6 +45,22 @@ class BaseObject
 		$this->setError($error);
 		$this->setMessage($message);
 	}
+	
+	/**
+	 * Set state for var_export()
+	 * 
+	 * @param array $vars
+	 * @return object
+	 */
+	public static function __set_state(array $vars)
+	{
+		$instance = new static;
+		foreach ($vars as $key => $val)
+		{
+			$instance->{$key} = $val;
+		}
+		return $instance;
+	}
 
 	/**
 	 * Setter to set error code or message
