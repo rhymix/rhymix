@@ -1037,39 +1037,47 @@ class ModuleHandler extends Handler
 					// Set menus into context
 					if($layout_info->menu_count)
 					{
+						$oMenuAdminController = getAdminController('menu');
+						$homeMenuCacheFile = null;
+						
 						foreach($layout_info->menu as $menu_id => $menu)
-						{
-							// set default menu set(included home menu)
-							if(!$menu->menu_srl || $menu->menu_srl == -1)
+						{							// No menu selected
+							if($menu->menu_srl == 0)
 							{
-								$oMenuAdminController = getAdminController('menu');
-								$homeMenuCacheFile = $oMenuAdminController->getHomeMenuCacheFile();
-
-								$homeMenuSrl = 0;
-								if(FileHandler::exists($homeMenuCacheFile))
+								$menu->list = array();
+							}
+							else
+							{
+								if($menu->menu_srl == -1)
 								{
-									include($homeMenuCacheFile);
+									if ($homeMenuCacheFile === null)
+									{
+										$homeMenuCacheFile = $oMenuAdminController->getHomeMenuCacheFile();
+									}
+
+									$homeMenuSrl = 0;
+									if(FileHandler::exists($homeMenuCacheFile))
+									{
+										include($homeMenuCacheFile);
+									}
+									
+									$menu->xml_file = './files/cache/menu/' . $homeMenuSrl . '.xml.php';
+									$menu->php_file = './files/cache/menu/' . $homeMenuSrl . '.php';
+									$menu->menu_srl = $homeMenuSrl;
 								}
 								
-								$menu->xml_file = './files/cache/menu/' . $homeMenuSrl . '.xml.php';
-								$menu->php_file = './files/cache/menu/' . $homeMenuSrl . '.php';
-								if(!$menu->menu_srl)
+								$php_file = FileHandler::exists($menu->php_file);
+								if(!$php_file)
 								{
-									$layout_info->menu->{$menu_id}->menu_srl = $homeMenuSrl;
+									$oMenuAdminController->makeXmlFile($menu->menu_srl);
+									$php_file = FileHandler::exists($menu->php_file);
+								}
+								if($php_file)
+								{
+									include($php_file);
 								}
 							}
-
-							$php_file = FileHandler::exists($menu->php_file);
-							if(!$php_file)
-							{
-								$oMenuAdminController = $oMenuAdminController ?: getAdminController('menu');
-								$oMenuAdminController->makeXmlFile((isset($homeMenuSrl) && $homeMenuSrl) ? $homeMenuSrl : $menu->menu_srl);
-								$php_file = FileHandler::exists($menu->php_file);
-							}
-							if($php_file)
-							{
-								include($php_file);
-							}
+							
 							Context::set($menu_id, $menu);
 						}
 					}
