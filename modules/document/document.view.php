@@ -89,6 +89,7 @@ class documentView extends document
 	{
 		if(!Context::get('is_logged')) throw new Rhymix\Framework\Exceptions\NotPermitted;
 		// Taken from a list of selected sessions
+		$document_srl_list = array();
 		$flag_list = $_SESSION['document_management'];
 		if(count($flag_list))
 		{
@@ -105,14 +106,14 @@ class documentView extends document
 			$document_list = $oDocumentModel->getDocuments($document_srl_list, $this->grant->is_admin);
 			Context::set('document_list', $document_list);
 		}
+		else
+		{
+			Context::set('document_list', array());
+		}
 
-		$oModuleModel = getModel('module');
-		// The combination of module categories list and the list of modules
-		if(count($module_list)>1) Context::set('module_list', $module_categories);
-
-		$module_srl=Context::get('module_srl');
+		$module_srl = intval(Context::get('module_srl'));
 		Context::set('module_srl',$module_srl);
-		$module_info = $oModuleModel->getModuleInfoByModuleSrl($module_srl);
+		$module_info = getModel('module')->getModuleInfoByModuleSrl($module_srl);
 		Context::set('mid',$module_info->mid);
 		Context::set('browser_title',$module_info->browser_title);
 
