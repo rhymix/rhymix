@@ -14,6 +14,7 @@ $lang->sender = '보낸이';
 $lang->receiver = '받는이';
 $lang->friend_group = '친구 그룹';
 $lang->default_friend_group = '그룹 미지정';
+$lang->cmd_message_from_non_member = '탈퇴한 회원';
 $lang->cmd_send_message = '쪽지 보내기';
 $lang->cmd_reply_message = '답장 보내기';
 $lang->cmd_view_friend = '친구 보기';
