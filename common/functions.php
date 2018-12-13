@@ -410,22 +410,6 @@ function url2path($url)
 }
 
 /**
- * This function fixes some of the issues with var_export() so that the result executes cleanly.
- * 
- * @param mixed $var
- * @return string
- */
-function var_export_clean($var)
-{
-	$result = var_export($var, true);
-	if (version_compare(PHP_VERSION, '7.3', '<'))
-	{
-		$result = preg_replace('/stdClass::__set_state\((?=array\(\n)/', '(object)(', $result);
-	}
-	return $result;
-}
-
-/**
  * Convert hexadecimal color codes to an array of R, G, B values.
  * This function can handle both 6-digit and 3-digit notations, optionally prefixed with '#'.
  * If the color code is illegal, this function will return all nulls.

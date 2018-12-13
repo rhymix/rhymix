@@ -18,5 +18,9 @@ class ConfigTest extends \Codeception\TestCase\Test
 		Rhymix\Framework\Config::set('foo.bar', $rand = mt_rand());
 		$this->assertEquals(array('bar' => $rand), Rhymix\Framework\Config::get('foo'));
 		$this->assertEquals($rand, Rhymix\Framework\Config::get('foo.bar'));
+		
+		$var = array('foo' => 'bar');
+		$serialized = "array(\n\t'foo' => 'bar',\n)";
+		$this->assertEquals($serialized, Rhymix\Framework\Config::serialize($var));
 	}
 }

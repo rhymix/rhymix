@@ -337,7 +337,7 @@ class Storage
 		{
 			$comment = "/* $comment */\n";
 		}
-		return self::write($filename, '<' . '?php ' . $comment . 'return ' . var_export_clean($data) . ';');
+		return self::write($filename, '<' . '?php ' . $comment . 'return unserialize(' . var_export(serialize($data), true) . ');');
 	}
 	
 	/**

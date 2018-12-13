@@ -103,21 +103,6 @@ class FunctionsTest extends \Codeception\TestCase\Test
 		$this->assertEquals('Rhymix ^~', base64_decode_urlsafe('Umh5bWl4IF5-'));
 	}
 	
-	public function testVarExportClean()
-	{
-		$obj = new stdClass;
-		$obj->foo = 42;
-		$obj->bar = 7;
-		if (version_compare(PHP_VERSION, '7.3', '<'))
-		{
-			$this->assertEquals("(object)(array(\n   'foo' => 42,\n   'bar' => 7,\n))", var_export_clean($obj));
-		}
-		else
-		{
-			$this->assertEquals("(object) array(\n   'foo' => 42,\n   'bar' => 7,\n)", var_export_clean($obj));
-		}
-	}
-	
 	public function testHex2Rgb2Hex()
 	{
 		$this->assertEquals(array(128, 128, 128), hex2rgb('808080'));

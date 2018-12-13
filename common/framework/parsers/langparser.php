@@ -82,18 +82,18 @@ class LangParser
 					{
 						foreach ($subvalue as $subsubkey => $subsubvalue)
 						{
-							$buff .= '$lang->' . $key . "['$subkey']['$subsubkey']" . ' = ' . var_export_clean($subsubvalue) . ";\n";
+							$buff .= '$lang->' . $key . "['$subkey']['$subsubkey']" . ' = ' . var_export($subsubvalue, true) . ";\n";
 						}
 					}
 					else
 					{
-						$buff .= '$lang->' . $key . "['$subkey']" . ' = ' . var_export_clean($subvalue) . ";\n";
+						$buff .= '$lang->' . $key . "['$subkey']" . ' = ' . var_export($subvalue, true) . ";\n";
 					}
 				}
 			}
 			else
 			{
-				$buff .= '$lang->' . $key . ' = ' . var_export_clean($value) . ";\n";
+				$buff .= '$lang->' . $key . ' = ' . var_export($value, true) . ";\n";
 			}
 		}
 		Storage::write($output_filename, $buff);
