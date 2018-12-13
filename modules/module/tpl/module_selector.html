@@ -2,26 +2,13 @@
 <div class="x_modal-header">
 	<h1>{$lang->module_selector}</h1>
 </div>
-<form action="./" method="post" class="x_modal-body x_form-horizontal" style="max-height:none">
+<form action="./" method="get" class="x_modal-body x_form-horizontal" no-error-return-url="true" style="max-height:none">
 	<input type="hidden" name="module" value="module" />
 	<input type="hidden" name="act" value="dispModuleSelectList" />
 	<input type="hidden" name="id" value="{$id}" />
 	<input type="hidden" name="type" value="{$type}" />
-	<input type="hidden" name="vid" value="{$vid}" />
-	
-	<div class="x_control-group" cond="$logged_info->is_admin === 'Y' && $site_count">
-		<label class="x_control-label" for="site_keyword">{$lang->virtual_site}</label>
-		<div class="x_controls">
-			<span class="x_input-append">
-				<input type="text" name="site_keyword" id="site_keyword" value="{$site_keyword}" />
-				<input type="submit" value="{$lang->cmd_search}" class="x_btn" />
-			</span>
-			<p class="x_help-block">{$lang->about_search_virtual_site}</p>
-		</div>
-	</div>
 	
 	<div class="x_control-group">
-		<label class="x_control-label" for="selected_module">{$lang->module}</label>
 		<div class="x_controls">
 			<select name="selected_module" id="selected_module">
 				<option loop="$mid_list => $key,$val" value="{$key}" selected="selected"|cond="$key == $selected_module">{$val->title}</option>
@@ -43,7 +30,7 @@
 		<tbody>
 			<tr loop="$list => $mid_name,$module_info">
 				<td>{$mid_name}</td>
-				<td>{$module_info->browser_title|autoescape}</td>
+				<td>{$module_info->browser_title}</td>
 				<td><a href="#" onclick="insertModule('{$id|escapejs}', {$module_info->module_srl}, '{$mid_name|escapejs}', '{$module_info->browser_title|escapejs}', {$type=='single'?'false':'true'}); return false;" class="button green"><span>{$type=='single'?$lang->cmd_select:$lang->cmd_insert}</span></a></td>
 			</tr>
 		</tbody>

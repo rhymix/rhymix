@@ -43,30 +43,9 @@ class moduleView extends module
 	 */
 	function dispModuleSelectList()
 	{
-		$args = new stdClass;
-		
-		if(Context::get('logged_info')->is_admin === 'Y')
-		{
-			// If site keyword exists, extract information from the sites
-			if($site_keyword = Context::get('site_keyword'))
-			{
-				$args->site_keyword = $site_keyword;
-			}
-			// If there is no site keyword, use as information of the current virtual site
-			else
-			{
-				$args->site_srl = 0;
-				$query_id = 'module.getDefaultModules';
-			}
-			
-			Context::set('site_count', executeQuery('module.getSiteCount')->data->count);
-		}
-		else
-		{
-			$args->site_srl = (int) Context::get('site_module_info')->site_srl;
-		}
-		
 		// Get a list of modules at the site
+		$args = new stdClass;
+		$args->site_srl = intval(Context::get('site_module_info')->site_srl);
 		$output = executeQueryArray(isset($query_id) ? $query_id : 'module.getSiteModules', $args);
 		
 		$mid_list = array();
@@ -103,8 +82,8 @@ class moduleView extends module
 			}
 			else
 			{
-				Context::set('selected_mids', array_first($mid_list)->list);
-				Context::set('selected_module', array_first_key($mid_list));
+				Context::set('selected_mids', $mid_list['board']->list);
+				Context::set('selected_module', 'board');
 			}
 		}
 		else
