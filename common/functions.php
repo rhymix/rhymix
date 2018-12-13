@@ -418,7 +418,10 @@ function url2path($url)
 function var_export_clean($var)
 {
 	$result = var_export($var, true);
-	$result = preg_replace('/(?:ArrayObject|stdClass)::__set_state\((?=array\(\n)/', '(object)(', $result);
+	if (version_compare(PHP_VERSION, '7.3', '<'))
+	{
+		$result = preg_replace('/stdClass::__set_state\((?=array\(\n)/', '(object)(', $result);
+	}
 	return $result;
 }
 
