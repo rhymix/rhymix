@@ -747,7 +747,11 @@ function doApplyWidgetSize(fo_obj) {
 		var $selectedSizeWidget = jQuery(selectedSizeWidget);
 
 		var css_class = $form.find('#css_class').val();
-		if(css_class) $selectedSizeWidget.attr('css_class', css_class);
+		if(css_class) {
+			$selectedSizeWidget.attr('css_class', css_class);
+		} else {
+			$selectedSizeWidget.attr('css_class', '');
+		}
 
 		var width = _getSize(fo_obj.width.value);
 		if(width) selectedSizeWidget.style.width = width;
