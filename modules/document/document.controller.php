@@ -397,6 +397,7 @@ class documentController extends document
 		if($obj->notify_message != 'Y') $obj->notify_message = 'N';
 		if(!$obj->email_address) $obj->email_address = '';
 		if(!$isRestore) $obj->ipaddress = $_SERVER['REMOTE_ADDR'];
+		$obj->isRestore = $isRestore ? true : false;
 		
 		// Default Status
 		if($obj->status)
@@ -936,6 +937,7 @@ class documentController extends document
 		// Call a trigger (before)
 		$trigger_obj = new stdClass();
 		$trigger_obj->document_srl = $document_srl;
+		$trigger_obj->isEmptyTrash = $isEmptyTrash ? true : false;
 		$output = ModuleHandler::triggerCall('document.deleteDocument', 'before', $trigger_obj);
 		if(!$output->toBool()) return $output;
 
@@ -992,6 +994,7 @@ class documentController extends document
 
 		// Call a trigger (after)
 		$trigger_obj = $oDocument->getObjectVars();
+		$trigger_obj->isEmptyTrash = $isEmptyTrash ? true : false;
 		ModuleHandler::triggerCall('document.deleteDocument', 'after', $trigger_obj);
 		
 		// declared document, log delete
@@ -1153,6 +1156,10 @@ class documentController extends document
 		}
 		
 		// Call a trigger (after)
+		$obj->module_srl = $oDocument->get('module_srl');
+		$obj->member_srl = $oDocument->get('member_srl');
+		$obj->regdate = $oDocument->get('regdate');
+		$obj->last_update = $oDocument->get('last_update');
 		ModuleHandler::triggerCall('document.moveDocumentToTrash', 'after', $obj);
 
 		// commit

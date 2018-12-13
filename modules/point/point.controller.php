@@ -176,13 +176,17 @@ class pointController extends point
 	}
 
 	/**
-	 * @brief A trigger to give points for deleting the post
+	 * @brief A trigger to deduct points for deleting the post
 	 */
 	public function triggerDeleteDocument($obj)
 	{
 		$module_srl = $obj->module_srl;
 		$member_srl = abs($obj->member_srl);
 		if (!$module_srl || !$member_srl)
+		{
+			return;
+		}
+		if ($obj->isEmptyTrash)
 		{
 			return;
 		}
@@ -209,6 +213,14 @@ class pointController extends point
 		
 		// Increase the point.
 		$this->setPoint($member_srl, $cur_point);
+	}
+
+	/**
+	 * @brief A trigger to deduct points when a document is moved to Trash
+	 */
+	public function triggerTrashDocument($obj)
+	{
+		return $this->triggerDeleteDocument($obj);
 	}
 
 	/**
@@ -275,6 +287,10 @@ class pointController extends point
 		{
 			return;
 		}
+		if ($obj->isMoveToTrash)
+		{
+			return;
+		}
 		
 		// Abort if the comment and the document have the same author.
 		$oDocument = getModel('document')->getDocument($obj->document_srl);
@@ -291,6 +307,9 @@ class pointController extends point
 			return;
 		}
 		
+		// Get the module_srl of the document to which this comment belongs
+		$module_srl = $oDocument->get('module_srl');
+		
 		// Get the points of the member
 		$cur_point = getModel('point')->getPoint($member_srl);
 
@@ -300,6 +319,14 @@ class pointController extends point
 		
 		// Increase the point.
 		$this->setPoint($member_srl, $cur_point);
+	}
+
+	/**
+	 * @brief A trigger to deduct points when a comment is moved to Trash
+	 */
+	public function triggerTrashComment($obj)
+	{
+		return $this->triggerDeleteComment($obj);
 	}
 
 	/**

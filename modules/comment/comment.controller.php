@@ -1016,6 +1016,7 @@ class commentController extends comment
 		$document_srl = $comment->document_srl;
 
 		// call a trigger (before)
+		$comment->isMoveToTrash = $isMoveToTrash ? true : false;
 		$output = ModuleHandler::triggerCall('comment.deleteComment', 'before', $comment);
 		if(!$output->toBool())
 		{
@@ -1123,7 +1124,6 @@ class commentController extends comment
 		}
 
 		// call a trigger (after)
-		$comment->isMoveToTrash = $isMoveToTrash;
 		ModuleHandler::triggerCall('comment.deleteComment', 'after', $comment);
 		unset($comment->isMoveToTrash);
 
@@ -1179,9 +1179,8 @@ class commentController extends comment
 			return new BaseObject(-1, 'msg_admin_comment_no_move_to_trash');
 		}
 
-		$trash_args->module_srl = $oComment->variables['module_srl'];
-		$obj->module_srl = $oComment->variables['module_srl'];
-
+		$obj->module_srl = $oComment->get('module_srl');
+		$trash_args->module_srl = $obj->module_srl;
 		if($trash_args->module_srl === 0)
 		{
 			return new BaseObject(-1, 'msg_module_srl_not_exists');
@@ -1257,6 +1256,11 @@ class commentController extends comment
 			executeQuery('file.updateFileValid', $args);
 		}
 
+		$obj->document_srl = $oComment->get('document_srl');
+		$obj->parent_srl = $oComment->get('parent_srl');
+		$obj->member_srl = $oComment->get('member_srl');
+		$obj->regdate = $oComment->get('regdate');
+		$obj->last_update = $oComment->get('last_update');
 		ModuleHandler::triggerCall('comment.moveCommentToTrash', 'after', $obj);
 
 		$oDB->commit();
