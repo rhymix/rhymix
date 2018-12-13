@@ -79,6 +79,7 @@ text-overflow:ellipsis
 .col .cnt{
 	overflow-x:hidden;
 	overflow-y:auto;
+	position:relative;
 	padding:10px;
 	border-radius:5px;
 	background:#fff;
