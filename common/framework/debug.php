@@ -658,7 +658,14 @@ class Debug
 		}
 		
 		// Display a generic error page.
-		\Context::displayErrorPage($title, $message, 500);
+		try
+		{
+			\Context::displayErrorPage($title, $message, 500);
+		}
+		catch (\Error $e)
+		{
+			print $message;
+		}
 	}
 	
 	/**
