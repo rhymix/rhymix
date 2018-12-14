@@ -469,7 +469,7 @@ class pointController extends point
 		}
 		
 		// Give no points if the document is older than a configured limit.
-		$regdate = ztime(getModel('document')->getDocument($obj->document_srl)->get('regdate'));
+		$regdate = ztime($obj->get('regdate'));
 		$config = $this->getConfig();
 		if ($config->read_document_limit > 0 && $regdate < RX_TIME - ($config->read_document_limit * 86400))
 		{
@@ -478,6 +478,19 @@ class pointController extends point
 		if ($config->read_document_author_limit > 0 && $regdate < RX_TIME - ($config->read_document_author_limit * 86400))
 		{
 			$author_point = 0;
+		}
+		
+		// Give no points if the document is a notice and an exception has been configured.
+		if ($obj->get('is_notice') === 'Y')
+		{
+			if ($config->read_document_except_notice)
+			{
+				$reader_point = 0;
+			}
+			if ($config->read_document_author_except_notice)
+			{
+				$author_point = 0;
+			}
 		}
 		
 		// Adjust points of the reader.

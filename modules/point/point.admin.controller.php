@@ -63,6 +63,10 @@ class pointAdminController extends point
 			$config->blamer_comment = (int)$args->blamer_comment;
 			$config->voted_comment = (int)$args->voted_comment;
 			$config->blamed_comment = (int)$args->blamed_comment;
+			
+			// Specify notice exceptions
+			$config->read_document_except_notice = ($args->read_document_except_notice === 'Y');
+			$config->read_document_author_except_notice = ($args->read_document_author_except_notice === 'Y');
 
 			// Specify time limits
 			$config->insert_comment_limit = $config->no_point_date = (int)$args->insert_comment_limit;

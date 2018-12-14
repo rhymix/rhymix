@@ -63,25 +63,25 @@
 	</section>
 
 	<section class="section">
-		<h1>{$lang->point_given_suffix}</h1>
+		<h1>{$lang->give_point}</h1>
 		{@ $config_array = get_object_vars($config)}
 		{@ $config_array['insert_comment_limit'] = $config_array['insert_comment_limit'] ?: $config_array['no_point_date']}
 		{@ $action_types = array(
-			'insert_document' => 0,
-			'insert_comment' => 1,
-			'upload_file' => 0,
-			'download_file' => 0,
-			'read_document' => 1,
-			'voter' => 1,
-			'blamer' => 1,
-			'voter_comment' => 1,
-			'blamer_comment' => 1,
-			'download_file_author' => 0,
-			'read_document_author' => 1,
-			'voted' => 1,
-			'blamed' => 1,
-			'voted_comment' => 1,
-			'blamed_comment' => 1,
+			'insert_document' => ['time_limit' => 0, 'except_notice' => 0],
+			'insert_comment' => ['time_limit' => 1, 'except_notice' => 0],
+			'upload_file' => ['time_limit' => 0, 'except_notice' => 0],
+			'download_file' => ['time_limit' => 0, 'except_notice' => 0],
+			'read_document' => ['time_limit' => 1, 'except_notice' => 1],
+			'voter' => ['time_limit' => 1, 'except_notice' => 0],
+			'blamer' => ['time_limit' => 1, 'except_notice' => 0],
+			'voter_comment' => ['time_limit' => 1, 'except_notice' => 0],
+			'blamer_comment' => ['time_limit' => 1, 'except_notice' => 0],
+			'download_file_author' => ['time_limit' => 0, 'except_notice' => 0],
+			'read_document_author' => ['time_limit' => 1, 'except_notice' => 1],
+			'voted' => ['time_limit' => 1, 'except_notice' => 0],
+			'blamed' => ['time_limit' => 1, 'except_notice' => 0],
+			'voted_comment' => ['time_limit' => 1, 'except_notice' => 0],
+			'blamed_comment' => ['time_limit' => 1, 'except_notice' => 0],
 		)}
 		
 		<table class="x_table x_table-striped x_table-hover">
@@ -104,16 +104,22 @@
 					</td>
 					<td class="nowr"></td>
 				</tr>
-				<!--@foreach($action_types as $action_type => $time_limit)-->
+				<!--@foreach($action_types as $action_type => $action_config)-->
 					<tr>
 						<th class="nowr">{lang('point_' . $action_type)}</td>
 						<td class="nowr">
 							&nbsp;{$lang->point_given_prefix}
 							<input type="number" value="{$config_array[$action_type] ?: '0'}" name="{$action_type}" id="{$action_type}" />
 							&nbsp;{$lang->point_given_suffix}
+							<block cond="$action_config['except_notice']">
+								<label class="x_inline" for="{$action_type}_except_notice" style="margin-left:10px">
+									<input type="checkbox" value="Y" name="{$action_type}_except_notice" id="{$action_type}_except_notice" checked="checked"|cond="$config_array[$action_type . '_except_notice']" />
+									{$lang->cmd_point_except_notice}
+								</label>
+							</block>
 						</td>
 						<td class="nowr">
-							<block cond="$time_limit">
+							<block cond="$action_config['time_limit']">
 								{$lang->point_time_limit_prefix}&nbsp;
 								<input type="number" value="{$config_array[$action_type . '_limit'] ?: ''}" name="{$action_type}_limit" id="{$action_type}_limit" />
 								&nbsp;{$lang->point_time_limit_suffix}
