@@ -898,7 +898,7 @@ class fileController extends file
 		// Set upload path by checking if the attachement is an image or other kinds of file
 		if(Rhymix\Framework\Filters\FilenameFilter::isDirectDownload($file_info['name']))
 		{
-			$path = $this->_getStoragePath('images', $file_srl, $module_srl, $upload_target_srl, $file_regdate);
+			$path = $this->getStoragePath('images', $file_srl, $module_srl, $upload_target_srl, $file_regdate);
 
 			// change to random file name. because window php bug. window php is not recognize unicode character file name - by cherryfilter
 			$ext = substr(strrchr($file_info['name'],'.'),1);
@@ -911,7 +911,7 @@ class fileController extends file
 		}
 		else
 		{
-			$path = $this->_getStoragePath('binaries', $file_srl, $module_srl, $upload_target_srl, $file_regdate);
+			$path = $this->getStoragePath('binaries', $file_srl, $module_srl, $upload_target_srl, $file_regdate);
 			$filename = $path . Rhymix\Framework\Security::getRandom(32, 'hex');
 			while(file_exists($filename))
 			{
@@ -1141,14 +1141,14 @@ class fileController extends file
 			// Determine the file path by checking if the file is an image or other kinds
 			if (Rhymix\Framework\Filters\FilenameFilter::isDirectDownload($file_info->source_filename))
 			{
-				$path = $this->_getStoragePath('images', $file_info->file_srl, $target_module_srl, $target_srl, $file_info->regdate);
+				$path = $this->getStoragePath('images', $file_info->file_srl, $target_module_srl, $target_srl, $file_info->regdate);
 				$ext = substr(strrchr($file_info->source_filename,'.'), 1);
 				$random_filename = basename($file_info->uploaded_filename) ?: Rhymix\Framework\Security::getRandom(32, 'hex') . '.' . $ext;
 				$new_file = $path . $random_filename;
 			}
 			else
 			{
-				$path = $this->_getStoragePath('binaries', $file_info->file_srl, $target_module_srl, $target_srl, $file_info->regdate);
+				$path = $this->getStoragePath('binaries', $file_info->file_srl, $target_module_srl, $target_srl, $file_info->regdate);
 				$random_filename = basename($file_info->uploaded_filename) ?: Rhymix\Framework\Security::getRandom(32, 'hex');
 				$new_file = $path . $random_filename;
 			}
@@ -1271,23 +1271,33 @@ class fileController extends file
 	 * @param int $module_srl
 	 * @param int $upload_target_srl
 	 * @param string $regdate
+	 * @param bool $absolute_path
 	 * @return string
 	 */
-	protected function _getStoragePath($file_type, $file_srl, $module_srl, $upload_target_srl, $regdate)
+	public function getStoragePath($file_type, $file_srl, $module_srl = 0, $upload_target_srl = 0, $regdate = '', $absolute_path = true)
 	{
+		// 변수 확인 및 넘어오지 않은 변수 기본값 지정
+		$file_srl = intval($file_srl);
+		$module_srl = intval($module_srl);
+		$upload_target_srl = $upload_target_srl ?: $file_srl;
+		$regdate = $regdate ?: date('YmdHis');
+		
 		// 시스템 설정 참고 (기존 사용자는 1, 신규 설치시 2가 기본값임)
 		$folder_structure = config('file.folder_structure');
+		
+		// 기본 경로 지정
+		$prefix = $absolute_path ? \RX_BASEDIR : './';
 		
 		// 2: 년월일 단위로 정리
 		if ($folder_structure == 2)
 		{
-			return \RX_BASEDIR . sprintf('files/attach/%s/%s/%s/%s/', $file_type, substr($regdate, 0, 4), substr($regdate, 4, 2), substr($regdate, 6, 2));
+			return  sprintf('%sfiles/attach/%s/%04d/%02d/%02d/', $prefix, $file_type, substr($regdate, 0, 4), substr($regdate, 4, 2), substr($regdate, 6, 2));
 		}
 		
 		// 1 or 0: module_srl 및 업로드 대상 번호에 따라 3자리씩 끊어서 정리
 		else
 		{
-			return \RX_BASEDIR . sprintf('files/attach/%s/%s/%s', $file_type, $module_srl, getNumberingPath($upload_target_srl, 3));
+			return sprintf('%sfiles/attach/%s/%d/%s', $prefix, $file_type, $module_srl, getNumberingPath($upload_target_srl, 3));
 		}
 	}
 

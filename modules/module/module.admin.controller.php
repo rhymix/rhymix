@@ -454,11 +454,11 @@ class moduleAdminController extends module
 						continue;
 					}
 					// Upload the file to a path
-					$path = sprintf("./files/attach/images/%s/", $module_srl);
+					$oFileController = getController('file');
+					$path = $oFileController->getStoragePath('images', getNextSequence(), $module_srl, 0, '', false);
 					// Create a directory
 					if(!FileHandler::makeDir($path)) return false;
-
-					$filename = $path.$image_obj['name'];
+					$filename = $path . Rhymix\Framework\Filters\FilenameFilter::clean($image_obj['name']);
 					// Move the file
 					if(!move_uploaded_file($image_obj['tmp_name'], $filename))
 					{
