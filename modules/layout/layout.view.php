@@ -113,7 +113,7 @@ class layoutView extends layout
 				if($layoutSrl == -1)
 				{
 					$site_srl = ($oModule) ? $oModule->module_info->site_srl : 0;
-					$designInfoFile = sprintf(_XE_PATH_ . 'files/site_design/design_%s.php', $site_srl);
+					$designInfoFile = sprintf(_XE_PATH_ . 'files/site_design/design_%d.php', $site_srl);
 					include($designInfoFile);
 
 					if($skinType == 'M')

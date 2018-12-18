@@ -186,7 +186,7 @@ class layoutAdminController extends layout
 			}
 		}
 
-		$tmpDir = sprintf('./files/attach/images/%s/tmp', $args->layout_srl);
+		$tmpDir = sprintf('./files/attach/images/%d/tmp', $args->layout_srl);
 		// Separately handle if a type of extra_vars is an image
 		if($layout_info->extra_var)
 		{
@@ -777,7 +777,7 @@ class layoutAdminController extends layout
 
 				if(is_array($image_list)) {
 					foreach($image_list as $key=>$val) {
-						$new_file = sprintf("./files/attach/images/%s/%s", $args->layout_srl,$val->filename);
+						$new_file = sprintf("./files/attach/images/%d/%s", $args->layout_srl,$val->filename);
 						FileHandler::copyFile($val->old_file, $new_file);
 						$extra_vars->{$key} = $new_file;
 					}

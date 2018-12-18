@@ -255,7 +255,7 @@ class menuAdminController extends menu
 			throw new Rhymix\Framework\Exception('msg_adminmenu_cannot_delete');
 
 		// get menu properies with child menu
-		$phpFile = sprintf("./files/cache/menu/%s.php", $menu_srl);
+		$phpFile = sprintf("./files/cache/menu/%d.php", $menu_srl);
 		$originMenu = NULL;
 
 		if(is_readable(FileHandler::getRealPath($phpFile)))
@@ -366,7 +366,7 @@ class menuAdminController extends menu
 			}
 		}
 		// Delete images of menu buttons
-		$image_path = sprintf('./files/attach/menu_button/%s', $menu_srl);
+		$image_path = sprintf('./files/attach/menu_button/%d', $menu_srl);
 		FileHandler::removeDir($image_path);
 
 		$oDB->commit();
@@ -873,7 +873,7 @@ class menuAdminController extends menu
 		if($itemInfo->parent_srl) $parent_srl = $itemInfo->parent_srl;
 
 		// get menu properies with child menu
-		$phpFile = sprintf("./files/cache/menu/%s.php", $args->menu_srl);
+		$phpFile = sprintf("./files/cache/menu/%d.php", $args->menu_srl);
 		$originMenu = NULL;
 
 		if(is_readable(FileHandler::getRealPath($phpFile)))
@@ -1027,7 +1027,7 @@ class menuAdminController extends menu
 		}
 
 		// get menu properies with child menu
-		$phpFile = sprintf(_XE_PATH_ . "files/cache/menu/%s.php", $originalItemInfo->menu_srl);
+		$phpFile = sprintf(_XE_PATH_ . "files/cache/menu/%d.php", $originalItemInfo->menu_srl);
 		$originMenu = NULL;
 
 		if(is_readable(FileHandler::getRealPath($phpFile)))
@@ -1764,8 +1764,8 @@ class menuAdminController extends menu
 		// Return if there is no information when creating the xml file
 		if(!$menu_srl) return;
 		// Specify the name of the cache file
-		$xml_file = sprintf(_XE_PATH_ . "files/cache/menu/%s.xml.php", $menu_srl);
-		$php_file = sprintf(_XE_PATH_ . "files/cache/menu/%s.php", $menu_srl);
+		$xml_file = sprintf(_XE_PATH_ . "files/cache/menu/%d.xml.php", $menu_srl);
+		$php_file = sprintf(_XE_PATH_ . "files/cache/menu/%d.php", $menu_srl);
 		// Get menu informaton
 		$args = new stdClass();
 		$args->menu_srl = $menu_srl;
@@ -1837,10 +1837,8 @@ class menuAdminController extends menu
 		// Create the xml cache file (a separate session is needed for xml cache)
 		$xml_buff = sprintf(
 			'<?php '.
-			'define(\'__XE__\', true); '.
-			'require_once(\''.FileHandler::getRealPath('./config/config.inc.php').'\'); '.
-			'$oContext = Context::getInstance(); '.
-			'$oContext->init(); '.
+			'require_once(\''.FileHandler::getRealPath('./common/autoload.php').'\'); '.
+			'Context::init(); '.
 			'header("Content-Type: text/xml; charset=UTF-8"); '.
 			'header("Expires: Mon, 26 Jul 1997 05:00:00 GMT"); '.
 			'header("Last-Modified: " . gmdate("D, d M Y H:i:s") . " GMT"); '.
@@ -2112,7 +2110,7 @@ class menuAdminController extends menu
 			);
 
 			// Generate buff data
-			$output['buff'] .=  sprintf('%s=>array(%s),', $node->menu_item_srl, $attribute);
+			$output['buff'] .=  sprintf('%d=>array(%s),', $node->menu_item_srl, $attribute);
 			$output['name'] .= $name_str;
 		}
 		return $output;

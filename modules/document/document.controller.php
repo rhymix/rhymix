@@ -2312,10 +2312,8 @@ class documentController extends document
 		$xml_body_buff = $this->getXmlTree($tree[0], $tree, $module_info->site_srl, $xml_header_buff);
 		$xml_buff = sprintf(
 			'<?php '.
-			'define(\'__XE__\', true); '.
-			'require_once(\''.FileHandler::getRealPath('./config/config.inc.php').'\'); '.
-			'$oContext = &Context::getInstance(); '.
-			'$oContext->init(); '.
+			'require_once(\''.FileHandler::getRealPath('./common/autoload.php').'\'); '.
+			'Context::init(); '.
 			'header("Content-Type: text/xml; charset=UTF-8"); '.
 			'header("Expires: Mon, 26 Jul 1997 05:00:00 GMT"); '.
 			'header("Last-Modified: " . gmdate("D, d M Y H:i:s") . " GMT"); '.
