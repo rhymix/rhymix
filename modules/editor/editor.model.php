@@ -526,7 +526,7 @@ class editorModel extends editor
 		$lang = Context::getLangType();
 		$cache_path = _XE_PATH_.'files/cache/editor/cache/';
 		FileHandler::makeDir($cache_path);
-		$cache_file = $cache_path.'component_list.' . $lang .'.';
+		$cache_file = $cache_path . 'component_list.' . $lang .'.';
 		if($filter_enabled) $cache_file .= 'filter.';
 		if($site_srl) $cache_file .= $site_srl.'.';
 		$cache_file .= 'php';

@@ -412,8 +412,9 @@ class documentAdminController extends document
 		}
 		if(!is_array($document_srl_list))
 		{
-			$document_srl_list = array_map('intval', array_map('trim', explode(',', $document_srl_list)));
+			$document_srl_list = array_map('trim', explode(',', $document_srl_list));
 		}
+		$document_srl_list = array_map('intval', $document_srl_list);
 		
 		$obj = new stdClass;
 		$obj->document_srls = $document_srl_list;
@@ -508,8 +509,9 @@ class documentAdminController extends document
 		}
 		if(!is_array($document_srl_list))
 		{
-			$document_srl_list = array_map('intval', array_map('trim', explode(',', $document_srl_list)));
+			$document_srl_list = array_map('trim', explode(',', $document_srl_list));
 		}
+		$document_srl_list = array_map('intval', $document_srl_list);
 		
 		$obj = new stdClass;
 		$obj->document_srls = $document_srl_list;
@@ -601,7 +603,7 @@ class documentAdminController extends document
 	{
 		$args = new stdClass;
 		$args->page = 0;
-		$args->module_srl = $module_srl;
+		$args->module_srl = intval($module_srl);
 		$document_list = executeQueryArray('document.getDocumentList', $args, array('document_srl'))->data;
 		
 		// delete documents

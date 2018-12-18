@@ -671,7 +671,8 @@ class documentModel extends document
 	function getCategoryList($module_srl, $columnList = array())
 	{
 		// Category of the target module file swollen
-		$filename = sprintf("%sfiles/cache/document_category/%s.php", _XE_PATH_, $module_srl);
+		$module_srl = intval($module_srl);
+		$filename = sprintf("%sfiles/cache/document_category/%d.php", _XE_PATH_, $module_srl);
 		// If the target file to the cache file regeneration category
 		if(!file_exists($filename))
 		{
@@ -771,7 +772,8 @@ class documentModel extends document
 	 */
 	function getCategoryXmlFile($module_srl)
 	{
-		$xml_file = sprintf('files/cache/document_category/%s.xml.php',$module_srl);
+		$module_srl = intval($module_srl);
+		$xml_file = sprintf('files/cache/document_category/%d.xml.php',$module_srl);
 		if(!file_exists($xml_file))
 		{
 			$oDocumentController = getController('document');
@@ -787,7 +789,8 @@ class documentModel extends document
 	 */
 	function getCategoryPhpFile($module_srl)
 	{
-		$php_file = sprintf('files/cache/document_category/%s.php',$module_srl);
+		$module_srl = intval($module_srl);
+		$php_file = sprintf('files/cache/document_category/%d.php',$module_srl);
 		if(!file_exists($php_file))
 		{
 			$oDocumentController = getController('document');
@@ -856,7 +859,7 @@ class documentModel extends document
 	function getDocumentCategories()
 	{
 		if(!Context::get('is_logged')) throw new Rhymix\Framework\Exceptions\NotPermitted;
-		$module_srl = Context::get('module_srl');
+		$module_srl = intval(Context::get('module_srl'));
 		$categories= $this->getCategoryList($module_srl);
 		$lang = Context::get('lang');
 		// No additional category

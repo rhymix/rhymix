@@ -399,6 +399,11 @@ class documentController extends document
 		if(!$isRestore) $obj->ipaddress = $_SERVER['REMOTE_ADDR'];
 		$obj->isRestore = $isRestore ? true : false;
 		
+		// Sanitize variables
+		$obj->document_srl = intval($obj->document_srl);
+		$obj->category_srl = intval($obj->category_srl);
+		$obj->module_srl = intval($obj->module_srl);
+		
 		// Default Status
 		if($obj->status)
 		{
@@ -606,7 +611,15 @@ class documentController extends document
 			return new BaseObject(-1, 'msg_security_violation');
 		}
 		
-		if(!$source_obj->document_srl || !$obj->document_srl) return new BaseObject(-1, 'msg_invalied_request');
+		if(!$source_obj->document_srl || !$obj->document_srl)
+		{
+			return new BaseObject(-1, 'msg_invalied_request');
+		}
+		
+		// Sanitize variables
+		$obj->document_srl = intval($obj->document_srl);
+		$obj->category_srl = intval($obj->category_srl);
+		$obj->module_srl = intval($obj->module_srl);
 		
 		// Default Status
 		if($obj->status)
@@ -2234,6 +2247,7 @@ class documentController extends document
 	function makeCategoryFile($module_srl)
 	{
 		// Return if there is no information you need for creating a cache file
+		$module_srl = intval($module_srl);
 		if(!$module_srl) return false;
 		// Get module information (to obtain mid)
 		$oModuleModel = getModel('module');
@@ -2243,8 +2257,8 @@ class documentController extends document
 
 		if(!is_dir('./files/cache/document_category')) FileHandler::makeDir('./files/cache/document_category');
 		// Cache file's name
-		$xml_file = sprintf("./files/cache/document_category/%s.xml.php", $module_srl);
-		$php_file = sprintf("./files/cache/document_category/%s.php", $module_srl);
+		$xml_file = sprintf("./files/cache/document_category/%d.xml.php", $module_srl);
+		$php_file = sprintf("./files/cache/document_category/%d.php", $module_srl);
 		// Get a category list
 		$args = new stdClass();
 		$args->module_srl = $module_srl;
@@ -2628,7 +2642,7 @@ class documentController extends document
 		$obj->document_list = array();
 		$obj->document_srl_list = array();
 		$obj->target_module_srl = intval(Context::get('module_srl') ?: Context::get('target_module'));
-		$obj->target_category_srl = Context::get('target_category');
+		$obj->target_category_srl = intval(Context::get('target_category'));
 		$obj->manager_message = Context::get('message_content') ? nl2br(escape(strip_tags(Context::get('message_content')))) : '';
 		$obj->send_message = $obj->manager_message || Context::get('send_default_message') == 'Y';
 		$obj->return_message = '';

@@ -295,13 +295,14 @@ class Context
 
 		// Load language support.
 		$enabled_langs = self::loadLangSelected();
+		$set_lang_cookie = false;
 		self::set('lang_supported', $enabled_langs);
 		
 		if($lang_type = self::get('l'))
 		{
 			if($_COOKIE['lang_type'] !== $lang_type)
 			{
-				setcookie('lang_type', $lang_type, time() + 86400 * 365, '/', null, !!config('session.use_ssl_cookies'));
+				$set_lang_cookie = true;
 			}
 		}
 		elseif($_COOKIE['lang_type'])
@@ -317,10 +318,16 @@ class Context
 					if(!strncasecmp($lang_code, $_SERVER['HTTP_ACCEPT_LANGUAGE'], strlen($lang_code)))
 					{
 						$lang_type = $lang_code;
-						setcookie('lang_type', $lang_type, time() + 86400 * 365, '/', null, !!config('session.use_ssl_cookies'));
+						$set_lang_cookie = true;
 					}
 				}
 			}
+		}
+		
+		$lang_type = preg_replace('/[^a-zA-Z0-9_-]/', '', $lang_type);
+		if ($set_lang_cookie)
+		{
+			setcookie('lang_type', $lang_type, time() + 86400 * 365, '/', null, !!config('session.use_ssl_cookies'));
 		}
 		
 		if(!$lang_type || !isset($enabled_langs[$lang_type]))
@@ -887,6 +894,7 @@ class Context
 		{
 			self::$_instance->db_info = new stdClass;
 		}
+		
 		self::$_instance->db_info->lang_type = $lang_type;
 		self::$_instance->lang_type = $lang_type;
 		self::set('lang_type', $lang_type);

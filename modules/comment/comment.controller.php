@@ -393,6 +393,12 @@ class commentController extends comment
 		// Remove manual member info to prevent forgery. This variable can be set by triggers only.
 		unset($obj->manual_member_info);
 		
+		// Sanitize variables
+		$obj->comment_srl = intval($obj->comment_srl);
+		$obj->module_srl = intval($obj->module_srl);
+		$obj->document_srl = intval($obj->document_srl);
+		$obj->parent_srl = intval($obj->parent_srl);
+		
 		// call a trigger (before)
 		$output = ModuleHandler::triggerCall('comment.insertComment', 'before', $obj);
 		if(!$output->toBool())
@@ -756,7 +762,13 @@ class commentController extends comment
 
 		// Remove manual member info to prevent forgery. This variable can be set by triggers only.
 		unset($obj->manual_member_info);
-
+		
+		// Sanitize variables
+		$obj->comment_srl = intval($obj->comment_srl);
+		$obj->module_srl = intval($obj->module_srl);
+		$obj->document_srl = intval($obj->document_srl);
+		$obj->parent_srl = intval($obj->parent_srl);
+		
 		// call a trigger (before)
 		$output = ModuleHandler::triggerCall('comment.updateComment', 'before', $obj);
 		if(!$output->toBool())
