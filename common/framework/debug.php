@@ -664,7 +664,15 @@ class Debug
 		}
 		catch (\Error $e)
 		{
-			print $message;
+			header('HTTP/1.1 500 Internal Server Error');
+			if ($_SERVER['REQUEST_METHOD'] === 'GET')
+			{
+				echo sprintf('<html><head><meta charset="UTF-8" /><title>%s</title></head><body>%s</body></html>', escape($title, false), escape($message, false));
+			}
+			else
+			{
+				echo json_encode(array('error' => -1, 'message' => escape($message, false)));
+			}
 		}
 	}
 	
