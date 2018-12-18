@@ -1,5 +1,7 @@
 @charset "utf-8";
 /* NAVER (developers@xpressengine.com) */
+html { height: 100%; }
+body { min-height: 100%; }
 .xe_content blockquote.q1,
 .xe_content blockquote.q2,
 .xe_content blockquote.q3,
