@@ -846,9 +846,6 @@ function onSiteMapReceived(htData){
 		.bind("select_node.jstree", function(event, data){
 			// move scroll
 			var ul = $($("#siteMapTree").jstree("get_container")[0]);
-			ul.parent("div.cnt").stop().animate({
-				scrollTop: data.rslt.obj.offset().top - ul.offset().top
-			}, 800);
 
 			$("#siteMapTree input").blur();
 			//console.log($("#siteMapTree input"));
