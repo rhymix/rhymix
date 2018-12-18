@@ -25,7 +25,7 @@
 			<label class="x_control-label" for="_target_module">{$lang->move_target_module}</label>
 			<div class="x_controls">
 				<span class="x_input-append">
-					<input type="hidden" name="target_module" id="target_module" value="{$module_srl}" />
+					<input type="hidden" name="target_module_srl" id="target_module" value="{$module_srl}" />
 					<input type="text" name="_target_module" id="_target_module" value="{$mid}({$browser_title})" readonly="readonly" />
 					<a href="{getUrl('','module','module','act','dispModuleSelectList','id','target_module','type','single')}" onclick="popopen(this.href,'ModuleSelect');return false;" class="x_btn">{$lang->cmd_select}</a>
 				</span>
@@ -34,7 +34,7 @@
 		<div class="x_control-group">
 			<label class="x_control-label" for="target_category">{$lang->category}</label>
 			<div class="x_controls">
-				<select id="target_category" name="target_category"></select>
+				<select id="target_category" name="target_category_srl"></select>
 			</div>
 		</div>
 		<div class="x_control-group">

@@ -2639,8 +2639,8 @@ class documentController extends document
 		$obj->type = Context::get('type');
 		$obj->document_list = array();
 		$obj->document_srl_list = array();
-		$obj->target_module_srl = intval(Context::get('module_srl') ?: Context::get('target_module'));
-		$obj->target_category_srl = intval(Context::get('target_category'));
+		$obj->target_module_srl = intval(Context::get('module_srl') ?: Context::get('target_module_srl'));
+		$obj->target_category_srl = intval(Context::get('target_category_srl'));
 		$obj->manager_message = Context::get('message_content') ? nl2br(escape(strip_tags(Context::get('message_content')))) : '';
 		$obj->send_message = $obj->manager_message || Context::get('send_default_message') == 'Y';
 		$obj->return_message = '';
