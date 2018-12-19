@@ -1852,6 +1852,12 @@ class Context
 	 */
 	public static function set($key, $val, $set_to_get_vars = false)
 	{
+		if(empty($key))
+		{
+			trigger_error('Called Context::set() with an empty key', \E_USER_WARNING);
+			return;
+		}
+		
 		self::$_tpl_vars->{$key} = $val;
 
 		if($set_to_get_vars || isset(self::$_get_vars->{$key}))
