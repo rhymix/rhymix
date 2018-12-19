@@ -1881,6 +1881,12 @@ class Context
 	 */
 	public static function get($key)
 	{
+		if(empty($key))
+		{
+			trigger_error('Called Context::get() with an empty key', \E_USER_WARNING);
+			return;
+		}
+		
 		if(isset(self::$_tpl_vars->{$key}))
 		{
 			return self::$_tpl_vars->{$key};
