@@ -667,11 +667,13 @@ class Debug
 			header('HTTP/1.1 500 Internal Server Error');
 			if ($_SERVER['REQUEST_METHOD'] === 'GET' || !isset($_SERVER['HTTP_X_REQUESTED_WITH']))
 			{
+				header('Content-Type: text/html; charset=UTF-8');
 				echo sprintf('<html><head><meta charset="UTF-8" /><title>%s</title></head><body>%s</body></html>', escape($title, false), escape($message, false));
 			}
 			else
 			{
-				echo json_encode(array('error' => -1, 'message' => escape($message, false)));
+				header('Content-Type: application/json; charset=UTF-8');
+				echo json_encode(array('error' => -1, 'message' => escape($message, false)), \JSON_UNESCAPED_UNICODE);
 			}
 		}
 	}
