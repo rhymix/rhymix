@@ -665,7 +665,7 @@ class Debug
 		catch (\Error $e)
 		{
 			header('HTTP/1.1 500 Internal Server Error');
-			if ($_SERVER['REQUEST_METHOD'] === 'GET')
+			if ($_SERVER['REQUEST_METHOD'] === 'GET' || !isset($_SERVER['HTTP_X_REQUESTED_WITH']))
 			{
 				echo sprintf('<html><head><meta charset="UTF-8" /><title>%s</title></head><body>%s</body></html>', escape($title, false), escape($message, false));
 			}
