@@ -166,7 +166,7 @@ xe.lang.msg_empty_search_keyword = '{$lang->msg_empty_search_keyword}';
 			<h1>{$lang->msg_select_menu}</h1>
 			<p>{$lang->selected_document_move}</p>
 			<div class="tree _menuSelector">
-				<select class="site_selector" style="width:100%;display:none"></select><div class="tree" style="height:250px;overflow-y:scroll;border:1px solid #aaa"></div>
+				<div class="tree" style="height:250px;overflow-y:scroll;border:1px solid #aaa"></div>
 			</div>
 		</section>
 	</div>
@@ -217,9 +217,6 @@ jQuery(function($){
 					});
 
 					$('#manageForm input[name=module_srl]').val(aSelected[0].module_srl);
-				});
-				$('._menuSelector').bind('site_changed', function(){
-					$('#manageForm input[name=module_srl]').val('');
 				});
 			}
 		}

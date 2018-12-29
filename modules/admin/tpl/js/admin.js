@@ -2389,7 +2389,7 @@ jQuery(function($){
 			for(var i=0; i<nLen; i++){
 				$SiteSelector.append($("<option>").val(aSiteList[i].site_srl).html(aSiteList[i].domain));
 			}
-			$SiteSelector.show();
+			$SiteSelector.hide();
 		}
 		$.xeShowMenuSelector($container, "0");
 	}

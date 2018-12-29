@@ -17,7 +17,7 @@ class moduleModel extends module
 	/**
 	 * @brief Check if mid, vid are available
 	 */
-	function isIDExists($id, $site_srl = 0)
+	function isIDExists($id)
 	{
 		if (!preg_match('/^[a-z]{1}([a-z0-9_]+)$/i', $id))
 		{
@@ -40,18 +40,8 @@ class moduleModel extends module
 		// mid test
 		$args = new stdClass();
 		$args->mid = $id;
-		$args->site_srl = $site_srl;
 		$output = executeQuery('module.isExistsModuleName', $args);
 		if($output->data->count) return true;
-		
-		// vid test (check mid != vid if site_srl=0, which means it is not a virtual site)
-		if(!$site_srl)
-		{
-			$site_args = new stdClass();
-			$site_args->domain = $id;
-			$output = executeQuery('module.isExistsSiteDomain', $site_args);
-			if($output->data->count) return true;
-		}
 
 		return false;
 	}
@@ -227,9 +217,8 @@ class moduleModel extends module
 
 		$args = new stdClass();
 		$args->mid = $mid;
-		$args->site_srl = (int)$site_srl;
 
-		$module_srl = Rhymix\Framework\Cache::get('site_and_module:module_srl:' . $mid . '_' . $site_srl);
+		$module_srl = Rhymix\Framework\Cache::get('site_and_module:module_srl:' . $mid);
 		if($module_srl)
 		{
 			$module_info = Rhymix\Framework\Cache::get('site_and_module:mid_info:' . $module_srl);
@@ -245,7 +234,7 @@ class moduleModel extends module
 			$module_info = $output->data;
 			if($module_info)
 			{
-				Rhymix\Framework\Cache::set('site_and_module:module_srl:' . $mid . '_' . $site_srl, $module_info->module_srl, 0, true);
+				Rhymix\Framework\Cache::set('site_and_module:module_srl:' . $mid, $module_info->module_srl, 0, true);
 				Rhymix\Framework\Cache::set('site_and_module:mid_info:' . $module_info->module_srl, $module_info, 0, true);
 			}
 		}
@@ -282,15 +271,14 @@ class moduleModel extends module
 
 		$moduleInfo = $output->data;
 		$mid = $moduleInfo->mid;
-		$site_srl = $moduleInfo->site_srl;
 
 		$moduleInfo->designSettings = new stdClass();
 		$moduleInfo->designSettings->layout = new stdClass();
 		$moduleInfo->designSettings->skin = new stdClass();
 
 		$oLayoutAdminModel = getAdminModel('layout');
-		$layoutSrlPc = ($moduleInfo->layout_srl == -1) ? $oLayoutAdminModel->getSiteDefaultLayout('P', $moduleInfo->site_srl) : $moduleInfo->layout_srl;
-		$layoutSrlMobile = ($moduleInfo->mlayout_srl == -1) ? $oLayoutAdminModel->getSiteDefaultLayout('M', $moduleInfo->site_srl) : $moduleInfo->mlayout_srl;
+		$layoutSrlPc = ($moduleInfo->layout_srl == -1) ? $oLayoutAdminModel->getSiteDefaultLayout('P') : $moduleInfo->layout_srl;
+		$layoutSrlMobile = ($moduleInfo->mlayout_srl == -1) ? $oLayoutAdminModel->getSiteDefaultLayout('M') : $moduleInfo->mlayout_srl;
 		$skinNamePc = ($moduleInfo->is_skin_fix == 'N') ? $this->getModuleDefaultSkin($moduleInfo->module, 'P') : $moduleInfo->skin;
 		$skinNameMobile = ($moduleInfo->is_mskin_fix == 'N') ? $this->getModuleDefaultSkin($moduleInfo->module, $moduleInfo->mskin === '/USE_RESPONSIVE/' ? 'P' : 'M') : $moduleInfo->mskin;
 
@@ -319,7 +307,7 @@ class moduleModel extends module
 		$moduleInfo->designSettings->skin->mobileIsDefault = ($moduleInfo->is_mskin_fix == 'N' && $moduleInfo->mskin !== '/USE_RESPONSIVE/') ? 1 : 0;
 		$moduleInfo->designSettings->skin->mobile = $skinInfoMobile->title;
 
-		$module_srl = Rhymix\Framework\Cache::get('site_and_module:module_srl:' . $mid . '_' . $site_srl);
+		$module_srl = Rhymix\Framework\Cache::get('site_and_module:module_srl:' . $mid);
 		if($module_srl)
 		{
 			$mid_info = Rhymix\Framework\Cache::get('site_and_module:mid_info:' . $module_srl);
@@ -331,7 +319,7 @@ class moduleModel extends module
 		
 		if($mid_info === null)
 		{
-			Rhymix\Framework\Cache::set('site_and_module:module_srl:' . $mid . '_' . $site_srl, $output->data->module_srl, 0, true);
+			Rhymix\Framework\Cache::set('site_and_module:module_srl:' . $mid, $output->data->module_srl, 0, true);
 			Rhymix\Framework\Cache::set('site_and_module:mid_info:' . $output->data->module_srl, $moduleInfo, 0, true);
 		}
 		else
@@ -493,12 +481,12 @@ class moduleModel extends module
 	 */
 	function getMidList($args = null, $columnList = array())
 	{
-		$list = Rhymix\Framework\Cache::get('site_and_module:module:mid_list_' . $args->site_srl);
+		$list = Rhymix\Framework\Cache::get('site_and_module:module:mid_list');
 		if($list === null)
 		{
 			$argsCount = countobj($args);
 			
-			if($argsCount === 1 && isset($args->site_srl))
+			if(!$argsCount || ($argsCount === 1 && isset($args->site_srl)))
 			{
 				$columnList = array();
 			}
@@ -507,9 +495,9 @@ class moduleModel extends module
 			if(!$output->toBool()) return $output;
 			$list = $output->data;
 
-			if($argsCount === 1 && isset($args->site_srl) && !$columnList)
+			if((!$argsCount || ($argsCount === 1 && isset($args->site_srl))) && !$columnList)
 			{
-				Rhymix\Framework\Cache::set('site_and_module:module:mid_list_' . $args->site_srl, $list, 0, true);
+				Rhymix\Framework\Cache::set('site_and_module:module:mid_list', $list, 0, true);
 			}
 		}
 		
@@ -547,11 +535,8 @@ class moduleModel extends module
 		if($mid && !is_array($mid)) $mid = explode(',',$mid);
 		if(is_array($mid)) $mid = "'".implode("','",$mid)."'";
 
-		$site_module_info = Context::get('site_module_info');
-
 		$args = new stdClass;
 		$args->mid = $mid;
-		if($site_module_info) $args->site_srl = $site_module_info->site_srl;
 		$output = executeQuery('module.getModuleSrlByMid', $args);
 		if(!$output->toBool()) return $output;
 
@@ -1119,7 +1104,7 @@ class moduleModel extends module
 
 		$siteInfo = Context::get('site_module_info');
 		$oMenuAdminModel = getAdminModel('menu');
-		$installedMenuTypes = $oMenuAdminModel->getModuleListInSitemap($siteInfo->site_srl);
+		$installedMenuTypes = $oMenuAdminModel->getModuleListInSitemap();
 		$moduleName = $module;
 		if($moduleName === 'page')
 		{
@@ -1391,10 +1376,9 @@ class moduleModel extends module
 	/**
 	 * @brief Return the number of modules which are registered on a virtual site
 	 */
-	function getModuleCount($site_srl, $module = null)
+	function getModuleCount($site_srl = 0, $module = null)
 	{
 		$args = new stdClass;
-		$args->site_srl = $site_srl;
 		if(!is_null($module)) $args->module = $module;
 		$output = executeQuery('module.getModuleCount', $args);
 		return $output->data->count;
@@ -1406,14 +1390,14 @@ class moduleModel extends module
 	 */
 	function getModuleConfig($module, $site_srl = 0)
 	{
+		$site_srl = 0;
 		if(!isset($GLOBALS['__ModuleConfig__'][$site_srl][$module]))
 		{
-			$config = Rhymix\Framework\Cache::get('site_and_module:module_config:' . $module . '_' . $site_srl);
+			$config = Rhymix\Framework\Cache::get('site_and_module:module_config:' . $module);
 			if($config === null)
 			{
 				$args = new stdClass;
 				$args->module = $module;
-				$args->site_srl = $site_srl;
 				$output = executeQuery('module.getModuleConfig', $args);
 				
 				// Only object type
@@ -1429,7 +1413,7 @@ class moduleModel extends module
 				// Set cache
 				if($output->toBool())
 				{
-					Rhymix\Framework\Cache::set('site_and_module:module_config:' . $module . '_' . $site_srl, $config, 0, true);
+					Rhymix\Framework\Cache::set('site_and_module:module_config:' . $module, $config, 0, true);
 				}
 			}
 			$GLOBALS['__ModuleConfig__'][$site_srl][$module] = $config;
@@ -1489,7 +1473,6 @@ class moduleModel extends module
 	{
 		$args = new stdClass();
 		$args->module = $module;
-		if($site_srl) $args->site_srl = $site_srl;
 		$output = executeQueryArray('module.getModulePartConfigs', $args);
 		
 		if(!$output->toBool() || !$output->data)
@@ -1908,7 +1891,7 @@ class moduleModel extends module
 	function getModuleDefaultSkin($module_name, $skin_type = 'P', $site_srl = 0, $updateCache = true)
 	{
 		$target = ($skin_type == 'M') ? 'mskin' : 'skin';
-		if(!$site_srl) $site_srl = 0;
+		$site_srl = 0;
 
 		$designInfoFile = sprintf(_XE_PATH_.'files/site_design/design_%s.php', $site_srl);
 		if(is_readable($designInfoFile))
@@ -2170,21 +2153,9 @@ class moduleModel extends module
 				// Log-in member only
 				if($member_info->member_srl)
 				{
-					if($item->default == 'member')
+					if($item->default == 'member' || $item->default == 'site')
 					{
 						$grant->{$name} = true;
-					}
-					else if($item->default == 'site')
-					{
-						// Grant if no information of the currently connected site exists
-						if(!Context::get('site_module_info')->site_srl)
-						{
-							$grant->{$name} = true;
-						}
-						else if(count($member_group))
-						{
-							$grant->{$name} = true;
-						}
 					}
 				}
 			}
@@ -2497,7 +2468,6 @@ class moduleModel extends module
 	function getModuleListByInstance($site_srl = 0, $columnList = array())
 	{
 		$args = new stdClass();
-		$args->site_srl = $site_srl;
 		$output = executeQueryArray('module.getModuleListByInstance', $args, $columnList);
 		return $output;
 	}
