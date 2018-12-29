@@ -45,7 +45,6 @@ class moduleView extends module
 	{
 		// Get a list of modules at the site
 		$args = new stdClass;
-		$args->site_srl = intval(Context::get('site_module_info')->site_srl);
 		$output = executeQueryArray(isset($query_id) ? $query_id : 'module.getSiteModules', $args);
 		
 		$mid_list = array();
