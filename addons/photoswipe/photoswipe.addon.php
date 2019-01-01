@@ -21,7 +21,16 @@ if($called_position == 'after_module_proc' && Context::getResponseMethod() == "H
 	Context::loadFile(array('./addons/photoswipe/rx_photoswipe.js', 'body', '', null), true);
 
 	$footer = FileHandler::readFile('./addons/photoswipe/PhotoSwipe/pswp.html');
-	Context::addHtmlFooter($footer);
+	if(isset($addon_info->display_name))
+	{
+		$style_display = "<style>.pswp__caption__center {  display:{$addon_info->display_name} }</style>";
+	}
+	else
+	{
+		$style_display = '<style>.pswp__caption__center {  display:block }</style>';
+	}
+
+	Context::addHtmlFooter($style_display . $footer);
 }
 
 /* End of file photoswipe.addon.php */
