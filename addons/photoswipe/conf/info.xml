@@ -20,4 +20,16 @@
 		<name xml:lang="ko">Rhymix contributors</name>
 		<name xml:lang="en">Rhymix contributors</name>
 	</author>
+	<extra_vars>
+		<var name="display_name" type="select">
+			<title xml:lang="ko">파일이름 출력 설정</title>
+			<description xml:lang="ko">넘겨보기 실행시 하단에 파일이름을 출력할 것인지 여부를 선택합니다. 기본값은 사용하도록 되어있습니다.</description>
+			<options value="block">
+				<title xml:lang="ko">사용</title>
+			</options>
+			<options value="none">
+				<title xml:lang="ko">사용 안함</title>
+			</options>
+		</var>
+	</extra_vars>
 </addon>
