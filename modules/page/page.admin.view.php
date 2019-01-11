@@ -258,7 +258,11 @@ class pageAdminView extends page
 		//Security
 		$security = new Security();
 		$security->encodeHTML('widget_list..title','module_info.mid');
-
+		
+		// Load admin resources
+		$oTemplate = TemplateHandler::getInstance();
+		$oTemplate->compile('modules/admin/tpl', '_admin_common.html');
+		
 		// Set a template file
 		$this->setLayoutFile('');
 		$this->setTemplateFile($templateFile);
