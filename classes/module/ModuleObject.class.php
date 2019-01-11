@@ -550,58 +550,45 @@ class ModuleObject extends BaseObject
 				return FALSE;
 			}
 			
-			// Set skin information
-			$oModuleModel = getModel('module');
-			$default_skin = ((!$is_mobile && $this->module_info->is_skin_fix == 'N') || ($is_mobile && $this->module_info->is_mskin_fix == 'N'));
-			$disable_skin = ($this->module == 'page' && ($this->module_info->page_type == 'OUTSIDE' || $this->module_info->page_type == 'WIDGET'));
-			$disable_skin = ($disable_skin && ($this->module === 'admin' || strpos($this->act, 'Admin') !== false || $this->module !== $this->module_info->module));
-			if(!$disable_skin && !$this->getTemplatePath())
+			// Set module skin
+			if(isset($this->module_info->skin) && $this->module_info->module === $this->module && strpos($this->act, 'Admin') === false)
 			{
-				$valueName = $is_mobile ? 'mskin' : 'skin';
-				$skinName = $this->module_info->{$valueName};
-				$dirName = $is_mobile ? 'm.skins' : 'skins';
-				if($is_mobile)
+				$oModuleModel = getModel('module');
+				$skin_type = $is_mobile ? 'M' : 'P';
+				$skin_key = $is_mobile ? 'mskin' : 'skin';
+				$skin_dir = $is_mobile ? 'm.skins' : 'skins';
+				$module_skin = $this->module_info->{$skin_key} ?: '/USE_DEFAULT/';
+				$use_default_skin = $this->module_info->{'is_' . $skin_key . '_fix'} === 'N';
+				
+				// Set default skin
+				if(!$this->getTemplatePath() || $use_default_skin)
 				{
-					if($skinName === '/USE_DEFAULT/' || !$skinName)
+					if($module_skin === '/USE_DEFAULT/')
 					{
-						$skinName = $oModuleModel->getModuleDefaultSkin($this->module, 'M');
-						$this->module_info->mskin = $skinName;
+						$module_skin = $oModuleModel->getModuleDefaultSkin($this->module, $skin_type);
+						$this->module_info->{$skin_key} = $module_skin;
 					}
-					if($skinName === '/USE_RESPONSIVE/')
+					if($module_skin === '/USE_RESPONSIVE/')
 					{
-						$skinName = $this->module_info->skin;
-						$dirName = 'skins';
-						if($skinName === '/USE_DEFAULT/')
+						$skin_dir = 'skins';
+						$module_skin = $this->module_info->skin ?: '/USE_DEFAULT/';
+						if($module_skin === '/USE_DEFAULT/')
 						{
-							$skinName = $oModuleModel->getModuleDefaultSkin($this->module, 'P');
+							$module_skin = $oModuleModel->getModuleDefaultSkin($this->module, 'P');
 						}
 					}
-				}
-				else
-				{
-					if($skinName === '/USE_DEFAULT/' || !$skinName)
+					if(!is_dir(sprintf('%s%s/%s', $this->module_path, $skin_dir, $module_skin)))
 					{
-						$skinName = $oModuleModel->getModuleDefaultSkin($this->module, 'P');
-						$this->module_info->skin = $skinName;
+						$module_skin = 'default';
 					}
+					$this->setTemplatePath(sprintf('%s%s/%s', $this->module_path, $skin_dir, $module_skin));
 				}
-				if($this->module === 'page')
-				{
-					$this->module_info->{$valueName} = $skinName;
-				}
-				elseif(strpos($this->getTemplatePath(), '/tpl/') === false)
-				{
-					if(!is_dir(sprintf('%s%s/%s', $this->module_path, $dirName, $skinName)))
-					{
-						$skinName = 'default';
-					}
-					$this->setTemplatePath(sprintf('%s%s/%s/', $this->module_path, $dirName, $skinName));
-				}
+				
+				// Set skin variable
+				$oModuleModel->syncSkinInfoToModuleInfo($this->module_info);
+				Context::set('module_info', $this->module_info);
 			}
-
-			$oModuleModel->syncSkinInfoToModuleInfo($this->module_info);
-			Context::set('module_info', $this->module_info);
-
+			
 			// Run
 			try
 			{

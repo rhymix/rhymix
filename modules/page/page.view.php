@@ -19,9 +19,6 @@ class pageView extends page
 	 */
 	function init()
 	{
-		// Get a template path (page in the administrative template tpl putting together)
-		$this->setTemplatePath($this->module_path.'tpl');
-
 		switch($this->module_info->page_type)
 		{
 			case 'WIDGET' :
@@ -61,7 +58,8 @@ class pageView extends page
 
 		Context::set('module_info', $this->module_info);
 		Context::set('page_content', $page_content);
-
+		
+		$this->setTemplatePath($this->module_path . 'tpl');
 		$this->setTemplateFile('content');
 	}
 
