@@ -122,7 +122,8 @@ class DB
 		}
 		if(!$db_type && Context::isInstalled())
 		{
-			return new BaseObject(-1, 'msg_db_not_setted');
+			Rhymix\Framework\Debug::displayError(lang('msg_db_not_setted'));
+			exit;
 		}
 		if(!strncmp($db_type, 'mysql', 5))
 		{
@@ -139,7 +140,8 @@ class DB
 			$class_file = RX_BASEDIR . "classes/db/$class_name.class.php";
 			if(!file_exists($class_file))
 			{
-				return new BaseObject(-1, 'msg_db_not_setted');
+				Rhymix\Framework\Debug::displayError(sprintf('DB type "%s" is not supported.', $db_type));
+				exit;
 			}
 
 			// get a singletone instance of the database driver class

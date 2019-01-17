@@ -73,16 +73,16 @@ class DBMySQL extends DB
 		// Check connection error
 		if($mysqli->connect_errno)
 		{
-			$this->setError($mysqli->connect_errno, $mysqli->connect_error);
-			return;
+			Rhymix\Framework\Debug::displayError(sprintf('DB ERROR %d : %s', $mysqli->connect_errno, $mysqli->connect_error));
+			exit;
 		}
 		
 		// Check DB version
 		$this->db_version = $mysqli->server_info;
 		if (version_compare($this->db_version, '5.0.7', '<'))
 		{
-			$this->setError(-1, 'Rhymix requires MySQL 5.0.7 or later. Current MySQL version is ' . $this->db_version);
-			return;
+			Rhymix\Framework\Debug::displayError('Rhymix requires MySQL 5.0.7 or later. Current MySQL version is ' . $this->db_version);
+			exit;
 		}
 		
 		// Set DB charset
