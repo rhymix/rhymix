@@ -352,9 +352,9 @@ class ncenterliteController extends ncenterlite
 		$args = new stdClass();
 		$args->config_type = 'message';
 		$args->member_srl = $obj->receiver_srl;
-		$args->srl = $obj->related_srl;
+		$args->srl = $obj->message_srl;
 		$args->target_p_srl = '1';
-		$args->target_srl = $obj->message_srl;
+		$args->target_srl = $obj->related_srl;
 		$args->target_member_srl = $obj->sender_srl;
 		$args->type = $this->_TYPE_MESSAGE;
 		$args->target_type = $this->_TYPE_MESSAGE;
