@@ -45,14 +45,14 @@
 		<label for="allowed_filesize" class="x_control-label">{$lang->allowed_filesize}</label>
 		<div class="x_controls">
 			<input type="number" min="0" name="allowed_filesize" id="allowed_filesize" value="{$config->allowed_filesize}" size="7" style="min-width:80px" /> MB
-			<p class="x_help-block">{$lang->about_allowed_filesize}<br />{sprintf($lang->about_allowed_size_limits, ini_get('upload_max_filesize'))}</p>
+			<p class="x_help-block">{$lang->about_allowed_filesize_global}<br />{sprintf($lang->about_allowed_size_limits, ini_get('upload_max_filesize'))}</p>
 		</div>
 	</div>
 	<div class="x_control-group">
 		<label for="allowed_attach_size" class="x_control-label">{$lang->allowed_attach_size}</label>
 		<div class="x_controls">
 			<input type="number" min="0" name="allowed_attach_size" id="allowed_attach_size" value="{$config->allowed_attach_size}" size="7" style="min-width:80px" /> MB
-			<p class="x_help-block">{$lang->about_allowed_attach_size}<br />{sprintf($lang->about_allowed_size_limits, ini_get('upload_max_filesize'))}</p>
+			<p class="x_help-block">{$lang->about_allowed_attach_size_global}<br />{sprintf($lang->about_allowed_size_limits, ini_get('upload_max_filesize'))}</p>
 		</div>
 	</div>
 	<div class="x_control-group">

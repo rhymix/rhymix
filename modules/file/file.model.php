@@ -210,23 +210,6 @@ class fileModel extends file
 		if(!$config->download_grant) $config->download_grant = array();
 		if(!$config->inline_download_format) $config->inline_download_format = array();
 
-		/*
-		$size = ini_get('upload_max_filesize');
-		$unit = strtolower($size[strlen($size) - 1]);
-		$size = (float)$size;
-		if($unit == 'g') $size *= 1024;
-		if($unit == 'k') $size /= 1024;
-
-		if($config->allowed_filesize > $size) 
-		{	
-			$config->allowed_filesize = $size;
-		}
-		if($config->allowed_attach_size > $size) 
-		{
-			$config->allowed_attach_size = $size;
-		}
-		*/
-		
 		return $config;
 	}
 
@@ -319,13 +302,10 @@ class fileModel extends file
 
 		if($logged_info->is_admin == 'Y')
 		{
-			/*
-			$iniPostMaxSize = FileHandler::returnbytes(ini_get('post_max_size'));
-			$iniUploadMaxSize = FileHandler::returnbytes(ini_get('upload_max_filesize'));
-			$size = min($iniPostMaxSize, $iniUploadMaxSize) / 1048576;
-			$file_config->allowed_attach_size = $size;
-			$file_config->allowed_filesize = $size;
-			*/
+			$oModuleModel = getModel('module');
+			$module_config = $oModuleModel->getModuleConfig('file');
+			$file_config->allowed_filesize = max($file_config->allowed_filesize, $module_config->allowed_filesize);
+			$file_config->allowed_attach_size = max($file_config->allowed_attach_size, $module_config->allowed_attach_size);
 			$file_config->allowed_filetypes = '*.*';
 		}
 		return $file_config;
