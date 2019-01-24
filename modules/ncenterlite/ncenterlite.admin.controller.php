@@ -30,6 +30,7 @@ class ncenterliteAdminController extends ncenterlite
 			'use_sms',
 			'variable_name',
 			'user_notify_setting',
+			'anonymous_voter',
 		);
 
 		foreach($config_vars as $val)

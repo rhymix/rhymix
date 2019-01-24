@@ -58,6 +58,18 @@
 				<p class="x_help-block">{$lang->about_mention_limit}</p>
 			</div>
 		</div>
+		<div class="x_control-group">
+			<label class="x_control-label">{$lang->anonymous_voter}</label>
+			<div class="x_controls">
+				<label class="x_inline">
+					<input type="radio" id="anonymous_voter_y" name="anonymous_voter" value="Y" checked="checked"|cond="$config->anonymous_voter === 'Y'" /> {$lang->use}
+				</label>
+				<label class="x_inline">
+					<input type="radio" id="anonymous_voter_n" name="anonymous_voter" value="N" checked="checked"|cond="$config->anonymous_voter !== 'Y'" /> {$lang->notuse}
+				</label>
+				<p class="x_help-block">{$lang->about_anonymous_voter}</p>
+			</div>
+		</div>
 	</section>
 	<div class="x_clearfix btnArea">
 		<div class="x_pull-right">

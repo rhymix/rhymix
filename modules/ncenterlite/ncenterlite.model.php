@@ -69,6 +69,10 @@ class ncenterliteModel extends ncenterlite
 			{
 				$config->user_notify_setting = 'N';
 			}
+			if(!$config->anonymous_voter)
+			{
+				$config->anonymous_voter = 'N';
+			}
 
 			self::$config = $config;
 		}
@@ -489,7 +493,9 @@ class ncenterliteModel extends ncenterlite
 			default:
 				return $this->getNotifyTypeString($notification->notify_type, unserialize($notification->target_body)) ?: $lang->ncenterlite;
 		}
-
+		
+		$config = $this->getConfig();
+		
 		// Get the notification text.
 		switch ($notification->target_type)
 		{
@@ -537,7 +543,14 @@ class ncenterliteModel extends ncenterlite
 
 			// Voted.
 			case 'V':
-				$str = sprintf(lang('ncenterlite_vote'), $notification->target_nick_name, $notification->target_summary, $type);
+				if($config->anonymous_voter === 'Y')
+				{
+					$str = sprintf(lang('ncenterlite_vote_anonymous'), $notification->target_summary, $type);
+				}
+				else
+				{
+					$str = sprintf(lang('ncenterlite_vote'), $notification->target_nick_name, $notification->target_summary, $type);
+				}
 				break;
 
 			// Admin notification.
