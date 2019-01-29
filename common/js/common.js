@@ -71,7 +71,7 @@
 		if (token) {
 			return $(this).each(function() {
 				if ($(this).data("csrf-token-checked") === "Y") return;
-				if (!isSameOrigin(location.href, $(this).attr("action"))) {
+				if ($(this).attr("action") && !isSameOrigin(location.href, $(this).attr("action"))) {
 					return $(this).data("csrf-token-checked", "Y");
 				}
 				$("<input />").attr({ type: "hidden", name: "_rx_csrf_token", value: token }).appendTo($(this));
