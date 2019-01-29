@@ -157,6 +157,21 @@ class HTMLDisplayHandler
 				}
 			}
 		}
+		
+		// Add OpenGraph metadata
+		if (config('seo.og_enabled') && Context::get('module') !== 'admin')
+		{
+			$this->_addOpenGraphMetadata();
+		}
+
+		// set icon
+		$site_module_info = Context::get('site_module_info');
+		$oAdminModel = getAdminModel('admin');
+		$favicon_url = $oAdminModel->getFaviconUrl($site_module_info->domain_srl);
+		$mobicon_url = $oAdminModel->getMobileIconUrl($site_module_info->domain_srl);
+		Context::set('favicon_url', $favicon_url);
+		Context::set('mobicon_url', $mobicon_url);
+		
 		return $output;
 	}
 
@@ -220,20 +235,6 @@ class HTMLDisplayHandler
 
 		// Remove unnecessary information
 		$output = preg_replace('/member\_\-([0-9]+)/s', 'member_0', $output);
-		
-		// Add OpenGraph metadata
-		if (config('seo.og_enabled') && Context::get('module') !== 'admin')
-		{
-			$this->_addOpenGraphMetadata();
-		}
-
-		// set icon
-		$site_module_info = Context::get('site_module_info');
-		$oAdminModel = getAdminModel('admin');
-		$favicon_url = $oAdminModel->getFaviconUrl($site_module_info->domain_srl);
-		$mobicon_url = $oAdminModel->getMobileIconUrl($site_module_info->domain_srl);
-		Context::set('favicon_url', $favicon_url);
-		Context::set('mobicon_url', $mobicon_url);
 
 		// convert the final layout
 		Context::set('content', $output);
