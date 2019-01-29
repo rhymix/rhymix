@@ -225,7 +225,12 @@
 				window.XE.baseurl = window.XE.baseurl.hostname() + window.XE.baseurl.directory();
 			}
 			
-			var target_url = window.XE.URI(url).normalizePort().normalizeHostname().normalizePathname();
+			try {
+				var target_url = window.XE.URI(url).normalizePort().normalizeHostname().normalizePathname();
+			}
+			catch(err) {
+				return false;
+			}
 			if (target_url.is("urn")) {
 				return false;
 			}
