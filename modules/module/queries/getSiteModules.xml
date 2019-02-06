@@ -1,6 +1,6 @@
 <query id="getSiteModules" action="select">
     <tables>
-        <table name="sites" />
+        <table name="domains" />
         <table name="modules" />
         <table name="module_categories" alias="module_categories" type="left join">
             <conditions>
@@ -9,7 +9,7 @@
         </table>
     </tables>
     <columns>
-        <column name="sites.domain" />
+        <column name="domains.domain" />
         <column name="modules.site_srl" />
         <column name="modules.module" />
         <column name="modules.module_category_srl" />
@@ -20,9 +20,9 @@
         <column name="module_categories.title" alias="category" />
     </columns>
     <conditions>
-        <condition operation="equal" column="sites.site_srl" var="site_srl" />
-        <condition operation="equal" column="sites.domain" var="site_keyword" pipe="and" />
-        <condition operation="equal" column="sites.site_srl" default="modules.site_srl" pipe="and" />
+        <condition operation="equal" column="domains.domain_srl" var="site_srl" />
+        <condition operation="equal" column="domains.domain" var="site_keyword" pipe="and" />
+        <condition operation="equal" column="domains.domain_srl" default="modules.site_srl" pipe="and" />
     </conditions>
     <navigation>
         <index  var="sort_index1" default="modules.module" order="asc" />
