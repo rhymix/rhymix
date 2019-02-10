@@ -748,8 +748,8 @@ class ncenterliteController extends ncenterlite
 			return;
 		}
 
-		// HTML 모드가 아니면 중지 + act에 admin이 포함되어 있으면 중지
-		if(Context::getResponseMethod() != 'HTML' || strpos(strtolower(Context::get('act')), 'admin') !== false)
+		// HTML 모드가 아니면 중지 + admin 모듈이면 중지
+		if(Context::getResponseMethod() != 'HTML' || Context::get('module') == 'admin')
 		{
 			return;
 		}
@@ -761,12 +761,6 @@ class ncenterliteController extends ncenterlite
 		}
 
 		$module_info = Context::get('module_info');
-
-		// admin 모듈이면 중지
-		if($module_info->module == 'admin')
-		{
-			return;
-		}
 
 		$oNcenterliteModel = getModel('ncenterlite');
 		$config = $oNcenterliteModel->getConfig();
