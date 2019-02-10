@@ -484,19 +484,21 @@ class documentItem extends BaseObject
 		}
 		
 		$logged_info = Context::get('logged_info');
-		if(!$logged_info->member_srl)
-		{
-			return false;
-		}
-		
 		if(isset($_SESSION['voted_document'][$this->document_srl]))
 		{
 			return $_SESSION['voted_document'][$this->document_srl];
 		}
-		
+
 		$args = new stdClass;
-		$args->member_srl = $logged_info->member_srl;
 		$args->document_srl = $this->document_srl;
+		if($logged_info->member_srl)
+		{
+			$args->member_srl = $logged_info->member_srl;
+		}
+		else
+		{
+			$args->ipaddress = RX_CLIENT_IP;
+		}
 		$output = executeQuery('document.getDocumentVotedLog', $args);
 		if($output->data->point)
 		{
