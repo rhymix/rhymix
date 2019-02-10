@@ -33,7 +33,7 @@ class spamfilterModel extends spamfilter
 		$args->sort_index = "regdate";
 		$args->page = Context::get('page')?Context::get('page'):1;
 		$output = executeQueryArray('spamfilter.getDeniedIPList', $args);
-		if(!$output->data) return;
+		if(!$output->data) return array();
 		return $output->data;
 	}
 
