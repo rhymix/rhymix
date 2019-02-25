@@ -151,3 +151,4 @@ $lang->ncenterlite_notify_type = '알림 타입 리스트';
 $lang->msg_do_not_notify_type = '생성한 알림타입이 존재하지 않습니다.';
 $lang->ncenterlite_custom_list = '커스텀 리스트';
 $lang->msg_not_use_user_setting = '유저 세팅을 제공하지 않습니다. 관리자에게 문의하세요.';
+$lang->msg_denger_rhymix_user = '<strong>경고!</strong> 라이믹스에서는 코어에 포함된 순정 알림센터를 사용해야 합니다.<br />XE용 알림센터를 삭제하고, 라이믹스 알림센터를 다시 설치해 주시기 바랍니다.';

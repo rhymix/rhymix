@@ -127,3 +127,4 @@ $lang->cmd_advanced_mailer_test_content = '라이믹스 SMS 발송 테스트입�
 $lang->msg_advanced_mailer_recipient_number_is_empty = '받는이 전화번호를 입력해 주십시오.';
 $lang->msg_advanced_mailer_content_is_empty = 'SMS 내용을 입력해 주십시오.';
 $lang->msg_advanced_mailer_test_success_sms = '테스트에 성공하였습니다. SMS를 확인해 보시기 바랍니다.';
+$lang->cmd_advanced_mailer_not_rhymix = '이 모듈은 XE용으로, 라이믹스와는 호환되지 않습니다. 라이믹스에 기본 포함된 버전을 사용하시기 바랍니다.';

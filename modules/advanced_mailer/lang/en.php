@@ -127,3 +127,4 @@ $lang->cmd_advanced_mailer_test_content = 'This is an SMS test from Rhymix.';
 $lang->msg_advanced_mailer_recipient_number_is_empty = 'Please enter a phone number for the recipient.';
 $lang->msg_advanced_mailer_content_is_empty = 'Please enter the content for your test SMS.';
 $lang->msg_advanced_mailer_test_success_sms = 'The test was successful. Please check your SMS.';
+$lang->cmd_advanced_mailer_not_rhymix = 'This module is for XE. It is incompatible with Rhymix. Please use the version included with Rhymix.';
