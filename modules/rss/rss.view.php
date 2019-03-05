@@ -179,8 +179,8 @@ class rssView extends rss
 		$info->description = $obj->description ?: $info->description;
 		$info->language = Context::getLangType();
 		$info->site_url = Context::getRequestUri();
-		$info->date_r = gmdate('r');
-		$info->date_c = gmdate('c');
+		$info->date_r = date('r');
+		$info->date_c = date('c');
 		$info->image = $config->image ? Context::getRequestUri() . $config->image : '';
 		getController('module')->replaceDefinedLangCode($info->title);
 		
