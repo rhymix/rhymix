@@ -1312,7 +1312,7 @@ class adminAdminController extends admin
 		$image_filepath = 'files/attach/xeicon/';
 		if ($domain_srl)
 		{
-			$image_filepath .= intval($domain_srl) . '/';
+			$image_filepath .= ($virtual_site = intval($domain_srl) . '/');
 		}
 		
 		if ($deleteIcon)
