@@ -64,7 +64,7 @@
 		</label>
 		<div class="x_controls">
 			<div class="x_input-append" style="margin-bottom:8px">
-				<select name="_admin_member" multiple="multiple" size="{count($admin_member)?count($admin_member):1}">
+				<select name="_admin_member" multiple="multiple" size="{countobj($admin_member) ?: 1}">
 					<option loop="$admin_member => $key, $val" value="{$val->email_address}"|cond="$member_config->identifier=='email_address'" value="{$val->user_id}"|cond="$member_config->identifier!='email_address'">
 						{$val->nick_name} (<block cond="$member_config->identifier=='email_address'">{$val->email_address}</block><block cond="$member_config->identifier!='email_address'">{$val->user_id}</block>)
 					</option>

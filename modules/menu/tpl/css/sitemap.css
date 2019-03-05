@@ -337,6 +337,7 @@ padding:0;list-style:none}
 #skin .disabled>.mask{display:block;cursor:not-allowed}
 /* Full Setup */
 #fullSetup .x_btn-group{position:absolute;right:4px;margin: 0 5px;}
+#fullSetup .x_btn-group button { position:relative;top:-30px;}
 /* Message Box */
 #msgBox{width:600px;margin-left:-300px}
 #msgBox._small{width:400px;margin-left:-200px}
