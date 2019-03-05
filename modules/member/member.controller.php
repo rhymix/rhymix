@@ -2717,7 +2717,7 @@ class memberController extends member
 		}
 
 		// Check managed Email Host
-		if($logged_info->is_admin !== 'Y' && $oMemberModel->isDeniedEmailHost($args->email_address))
+		if($logged_info->is_admin !== 'Y' && $logged_info->email_address !== $args->email_address && $oMemberModel->isDeniedEmailHost($args->email_address))
 		{
 			$emailhost_check = $config->emailhost_check;
 
