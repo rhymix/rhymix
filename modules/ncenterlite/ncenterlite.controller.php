@@ -1103,6 +1103,12 @@ class ncenterliteController extends ncenterlite
 			$args->target_email_address = '';
 		}
 
+		$trigger_output = ModuleHandler::triggerCall('ncenterlite._insertNotify', 'before', $args);
+		if(!$trigger_output->toBool() || $trigger_output->getMessage() === 'cancel')
+		{
+			return $trigger_output;
+		}
+		
 		$output = executeQuery('ncenterlite.insertNotify', $args);
 		if($output->toBool())
 		{
