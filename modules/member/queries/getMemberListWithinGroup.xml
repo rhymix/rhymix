@@ -1,16 +1,22 @@
 <query id="getMemberListWithinGroup" action="select">
 	<tables>
-		<table name="member" alias="member" />
-		<table name="member_group_member" alias="member_group" />
+		<table name="member" />
 	</tables>
 	<columns>
 		<column name="member.*" />
-		<column name="site_srl" />
-		<column name="group_srl" />
 	</columns>
 	<conditions>
-		<condition operation="in" column="member_group.group_srl" var="selected_group_srl" notnull="notnull" />
-		<condition operation="equal" column="member.member_srl" var="member_group.member_srl" pipe="and" notnull="notnull" />
+		<query operation="in" column="member.member_srl" alias="mgm">
+			<tables>
+				<table name="member_group_member" />
+			</tables>
+			<columns>
+				<column name="member_group_member.member_srl" />
+			</columns>
+			<conditions>
+				<condition operation="in" column="member_group_member.group_srl" var="selected_group_srl" notnull="notnull" />
+			</conditions>
+		</query>
 		<group pipe="and">
 			<condition operation="equal" column="member.is_admin" var="is_admin" />
 			<condition operation="equal" column="member.denied" var="is_denied" pipe="and" />
@@ -32,9 +38,6 @@
 			<condition operation="less" column="member.last_login" var="s_last_login_less" pipe="or" />
 		</group>
 	</conditions>
-	<groups>
-		<group column="member.member_srl" />
-	</groups>
 	<navigation>
 		<index var="sort_index" default="member.list_order" order="sort_order" />
 		<list_count var="list_count" default="20" />
