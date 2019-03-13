@@ -30,6 +30,13 @@
 				<label for="comment_comment_sms" class="x_inline" disabled="disabled"|cond="!$sms_available"><input type="checkbox" name="use[comment_comment][sms]" id="comment_comment_sms" value="1" disabled="disabled"|cond="!$sms_available" checked="checked"|cond="isset($config->use['comment_comment']['sms'])" /> {$lang->cmd_sms_notify}</label>
 				<label for="comment_comment_push" class="x_inline" disabled="disabled"|cond="!$push_available"><input type="checkbox" name="use[comment_comment][push]" id="comment_comment_push" value="1" disabled="disabled"|cond="!$push_available" checked="checked"|cond="isset($config->use['comment_comment']['push'])" /> {$lang->cmd_push_notify}</label>
 			</div>
+			<label class="x_control-label">{$lang->ncenterlite_comment_all}</label>
+			<div class="x_controls">
+				<label for="comment_all_web" class="x_inline"><input type="checkbox" name="use[comment_all][web]" id="comment_all_web" value="1" checked="checked"|cond="isset($config->use['comment_all']['web'])" /> {$lang->cmd_web_notify}</label>
+				<label for="comment_all_mail" class="x_inline"><input type="checkbox" name="use[comment_all][mail]" id="comment_all_mail" value="1" checked="checked"|cond="isset($config->use['comment_all']['mail'])" /> {$lang->cmd_mail_notify}</label>
+				<label for="comment_all_sms" class="x_inline" disabled="disabled"|cond="!$sms_available"><input type="checkbox" name="use[comment_all][sms]" id="comment_all_sms" value="1" disabled="disabled"|cond="!$sms_available" checked="checked"|cond="isset($config->use['comment_all']['sms'])" /> {$lang->cmd_sms_notify}</label>
+				<label for="comment_all_push" class="x_inline" disabled="disabled"|cond="!$push_available"><input type="checkbox" name="use[comment_all][push]" id="comment_all_push" value="1" disabled="disabled"|cond="!$push_available" checked="checked"|cond="isset($config->use['comment_all']['push'])" /> {$lang->cmd_push_notify}</label>
+			</div>
 			<label class="x_control-label">{$lang->ncenterlite_cmd_vote}</label>
 			<div class="x_controls">
 				<label for="vote_web" class="x_inline"><input type="checkbox" name="use[vote][web]" id="vote_web" value="1" checked="checked"|cond="isset($config->use['vote']['web'])" /> {$lang->cmd_web_notify}</label>

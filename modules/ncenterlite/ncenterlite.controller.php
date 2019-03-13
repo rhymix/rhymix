@@ -172,6 +172,53 @@ class ncenterliteController extends ncenterlite
 		// 익명 노티 체크
 		$is_anonymous = $this->_isAnonymous($this->_TYPE_COMMENT, $obj);
 
+		$oDocumentModel = getModel('document');
+		$oDocument = $oDocumentModel->getDocument($document_srl);
+		
+		if(isset($config->use['comment_all']) && $obj->member_srl == $oDocument->get('member_srl'))
+		{
+			$document_member_srl = $oDocument->get('member_srl');
+			$comment_list = $oDocument->getComments();
+			$comment_member_srls = array();
+			foreach ($comment_list as $key => $value)
+			{
+				if($value->member_srl == $document_member_srl)
+				{
+					continue;
+				}
+
+				if($comment_member_srls[$value->member_srl] === true)
+				{
+					continue;
+				}
+				$comment_member_srls[$value->member_srl] = true;
+			}
+			
+			foreach ($comment_member_srls as $comment_member_srl => $value)
+			{
+				$args = new stdClass();
+				$args->config_type = 'comment_all';
+				$args->member_srl = $comment_member_srl;
+				$args->target_p_srl = $obj->comment_srl;
+				$args->srl = $obj->document_srl;
+				$args->target_srl = $obj->comment_srl;
+				$args->type = $this->_TYPE_COMMENT;
+				$args->target_type = $this->_TYPE_COMMENT_ALL;
+				$args->target_url = getNotEncodedUrl('', 'document_srl', $document_srl, '_comment_srl', $comment_srl) . '#comment_' . $comment_srl;
+				$args->target_summary = cut_str(trim(utf8_normalize_spaces(strip_tags($oDocument->get('title')))), 50) ?: (strpos($content, '<img') !== false ? lang('ncenterlite_content_image') : lang('ncenterlite_content_empty'));
+				$args->target_nick_name = $obj->nick_name;
+				$args->target_email_address = $obj->email_address;
+				$args->regdate = date('YmdHis');
+				$args->target_browser = $module_info->browser_title;
+				$args->notify = $this->_getNotifyId($args);
+				$output = $this->_insertNotify($args, $is_anonymous);
+				if(!$output->toBool())
+				{
+					return $output;
+				}
+			}
+		}
+		
 		$obj->admin_comment_notify = false;
 		$admin_list = $oNcenterliteModel->getMemberAdmins();
 
@@ -277,9 +324,6 @@ class ncenterliteController extends ncenterlite
 		// 대댓글이 아니고, 게시글의 댓글을 남길 경우
 		if(!$parent_srl || ($parent_srl && isset($config->use['comment_comment'])))
 		{
-			$oDocumentModel = getModel('document');
-			$oDocument = $oDocumentModel->getDocument($document_srl);
-
 			$member_srl = $oDocument->get('member_srl');
 
 			if(is_array($admin_list) && in_array(abs($member_srl), $admin_list) && isset($config->use['admin_content']) && $obj->admin_comment_notify == true)
