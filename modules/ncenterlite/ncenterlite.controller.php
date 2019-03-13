@@ -175,7 +175,7 @@ class ncenterliteController extends ncenterlite
 		$oDocumentModel = getModel('document');
 		$oDocument = $oDocumentModel->getDocument($document_srl);
 		
-		if(isset($config->use['comment_all']) && $obj->member_srl == $oDocument->get('member_srl'))
+		if(isset($config->use['comment_all']) && $obj->member_srl == $oDocument->get('member_srl') && !$obj->parent_srl)
 		{
 			$document_member_srl = $oDocument->get('member_srl');
 			$comment_list = $oDocument->getComments();
