@@ -569,7 +569,7 @@ class ncenterliteModel extends ncenterlite
 				break;
 				
 			case 'G':
-				$str = sprintf(lang('ncenterlite_insert_comment_all_message'), $notification->target_nick_name, $notification->target_summary);
+				$str = sprintf(lang('ncenterlite_commented'), $notification->target_nick_name, $type, $notification->target_summary);
 				break;
 
 			// Other.

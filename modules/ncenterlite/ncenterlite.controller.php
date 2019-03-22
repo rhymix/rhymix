@@ -175,7 +175,7 @@ class ncenterliteController extends ncenterlite
 		$oDocumentModel = getModel('document');
 		$oDocument = $oDocumentModel->getDocument($document_srl);
 		
-		if(isset($config->use['comment_all']) && $obj->member_srl == $oDocument->get('member_srl') && !$obj->parent_srl)
+		if($config->comment_all == 'Y' && $obj->member_srl == $oDocument->get('member_srl') && !$obj->parent_srl && (is_array($config->comment_all_notify_module_srls) && in_array($module_info->module_srl, $config->comment_all_notify_module_srls)))
 		{
 			$comment_args = new stdClass();
 			$comment_args->member_srl = $obj->member_srl;
