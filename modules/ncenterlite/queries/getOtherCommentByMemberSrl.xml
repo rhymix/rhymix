@@ -1,4 +1,4 @@
-<query id="getNotifyTypeByID" action="select">
+<query id="getOtherCommentByMemberSrl" action="select">
 	<tables>
 		<table name="comments" />
 	</tables>
