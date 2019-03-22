@@ -177,28 +177,15 @@ class ncenterliteController extends ncenterlite
 		
 		if(isset($config->use['comment_all']) && $obj->member_srl == $oDocument->get('member_srl') && !$obj->parent_srl)
 		{
-			$document_member_srl = $oDocument->get('member_srl');
-			$comment_list = $oDocument->getComments();
-			$comment_member_srls = array();
-			foreach ($comment_list as $key => $value)
-			{
-				if($value->member_srl == $document_member_srl)
-				{
-					continue;
-				}
-
-				if($comment_member_srls[$value->member_srl] === true)
-				{
-					continue;
-				}
-				$comment_member_srls[$value->member_srl] = true;
-			}
-			
-			foreach ($comment_member_srls as $comment_member_srl => $value)
+			$comment_args = new stdClass();
+			$comment_args->member_srl = $obj->member_srl;
+			$comment_args->document_srl = $obj->document_srl;
+			$other_comment = executeQuery('ncenterlite.getOtherCommentByMemberSrl', $comment_args);
+			foreach ($other_comment->data as $value)
 			{
 				$args = new stdClass();
 				$args->config_type = 'comment_all';
-				$args->member_srl = $comment_member_srl;
+				$args->member_srl = $value->member_srl;
 				$args->target_p_srl = $obj->comment_srl;
 				$args->srl = $obj->document_srl;
 				$args->target_srl = $obj->comment_srl;
