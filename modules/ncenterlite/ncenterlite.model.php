@@ -567,6 +567,10 @@ class ncenterliteModel extends ncenterlite
 			case 'I':
 				$str = sprintf(lang('ncenterlite_insert_member_message'), $notification->target_nick_name);
 				break;
+				
+			case 'G':
+				$str = sprintf(lang('ncenterlite_commented'), $notification->target_nick_name, $type, $notification->target_summary);
+				break;
 
 			// Other.
 			default:

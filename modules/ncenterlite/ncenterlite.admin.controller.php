@@ -31,6 +31,8 @@ class ncenterliteAdminController extends ncenterlite
 			'variable_name',
 			'user_notify_setting',
 			'anonymous_voter',
+			'comment_all',
+			'comment_all_notify_module_srls',
 		);
 
 		foreach($config_vars as $val)
@@ -77,6 +79,19 @@ class ncenterliteAdminController extends ncenterlite
 				$config->admin_notify_module_srls = array();
 			}
 		}
+		
+		if($obj->disp_act == 'dispNcenterliteAdminOtherComment')
+		{
+			if(!$obj->comment_all)
+			{
+				$config->comment_all = 'N';
+			}
+			if(!$obj->comment_all_notify_module_srls)
+			{
+				$config->comment_all_notify_module_srls = array();
+			}
+		}
+		
 		$output = $oModuleController->insertModuleConfig('ncenterlite', $config);
 		if(!$output->toBool())
 		{
