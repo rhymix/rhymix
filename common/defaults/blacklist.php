@@ -18,4 +18,7 @@ return array(
 	'session_shield' => true,
 	'smartphone' => true,
 	'zipperupper' => true,
+	'elkha_www' => true,
+	'autowww' => true,
+	'fix_domain' => true,
 );
