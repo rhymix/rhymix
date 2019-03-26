@@ -257,14 +257,6 @@ class Context
 		// If Rhymix is installed, get virtual site information.
 		if(self::isInstalled())
 		{
-			$oModuleModel = getModel('module');
-			$site_module_info = $oModuleModel->getDefaultMid() ?: new stdClass;
-			self::set('site_module_info', $site_module_info);
-			self::set('_default_timezone', ($site_module_info->settings && $site_module_info->settings->timezone) ? $site_module_info->settings->timezone : null);
-			self::set('_default_url', self::$_instance->db_info->default_url = self::getDefaultUrl($site_module_info));
-			self::set('_http_port', self::$_instance->db_info->http_port = $site_module_info->http_port ?: null);
-			self::set('_https_port', self::$_instance->db_info->https_port = $site_module_info->https_port ?: null);
-			self::set('_use_ssl', self::$_instance->db_info->use_ssl = $site_module_info->security ?: 'none');
 			if (PHP_SAPI === 'cli')
 			{
 				self::set('_default_url', $default_url = config('url.default'));
@@ -273,6 +265,14 @@ class Context
 					define('RX_BASEURL', parse_url($default_url, PHP_URL_PATH));
 				}
 			}
+			$oModuleModel = getModel('module');
+			$site_module_info = $oModuleModel->getDefaultMid() ?: new stdClass;
+			self::set('site_module_info', $site_module_info);
+			self::set('_default_timezone', ($site_module_info->settings && $site_module_info->settings->timezone) ? $site_module_info->settings->timezone : null);
+			self::set('_default_url', self::$_instance->db_info->default_url = self::getDefaultUrl($site_module_info));
+			self::set('_http_port', self::$_instance->db_info->http_port = $site_module_info->http_port ?: null);
+			self::set('_https_port', self::$_instance->db_info->https_port = $site_module_info->https_port ?: null);
+			self::set('_use_ssl', self::$_instance->db_info->use_ssl = $site_module_info->security ?: 'none');
 		}
 		else
 		{
