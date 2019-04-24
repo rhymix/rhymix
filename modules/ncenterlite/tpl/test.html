@@ -8,14 +8,28 @@
 		<div class="x_control-group">
 			<label class="x_control-label">{$lang->ncenterlite_test_mention}</label>
 			<div class="x_controls">
-				<label><input type="button" name="dummy" onClick="doDummyDataInsert();" class="x_btn" value="{$lang->ncenterlite_test_make_dummy}"> {$lang->ncenterlite_test_mention_about}</label>
+				<form action="./" method="post">
+					<fieldset>
+						<input type="hidden" name="module" value="ncenterlite" />
+						<input type="hidden" name="act" value="procNcenterliteAdminInsertDummyData" />
+						<button type="submit" class="x_btn">{$lang->ncenterlite_test_make_dummy}</button>
+					</fieldset>
+				</form>
+				<p>{$lang->ncenterlite_test_mention_about}</p>
 			</div>
 		</div>
 
 		<div class="x_control-group">
 			<label class="x_control-label">{$lang->ncenterlite_test_push}</label>
 			<div class="x_controls">
-				<label><input type="button" name="dummy" onClick="doDummyPushDataInsert();" class="x_btn" value="{$lang->ncenterlite_test_make_dummy}"> {$lang->ncenterlite_test_push_about}</label>
+				<form action="./" method="post">
+					<fieldset>
+						<input type="hidden" name="module" value="ncenterlite" />
+						<input type="hidden" name="act" value="procNcenterliteAdminInsertPushData" />
+						<button type="submit" class="x_btn">{$lang->ncenterlite_test_make_dummy}</button>
+					</fieldset>
+				</form>
+				<p>{$lang->ncenterlite_test_push_about}</p>
 			</div>
 		</div>
 	</section>
