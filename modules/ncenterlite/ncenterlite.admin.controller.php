@@ -138,6 +138,8 @@ class ncenterliteAdminController extends ncenterlite
 			}
 		}
 
+		$this->setMessage('msg_test_notifycation_success');
+
 		if (Context::get('success_return_url'))
 		{
 			$this->setRedirectUrl(Context::get('success_return_url'));
@@ -173,6 +175,8 @@ class ncenterliteAdminController extends ncenterlite
 			return $output;
 		}
 
+		$this->setMessage('msg_test_notifycation_success');
+		
 		if (Context::get('success_return_url'))
 		{
 			$this->setRedirectUrl(Context::get('success_return_url'));
