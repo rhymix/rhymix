@@ -47,11 +47,11 @@ devops@rhymix.org로 알려 주시면 감사하겠습니다.
 
 ### 공식 홈페이지
 
-- Rhymix : https://www.rhymix.org
+- Rhymix : https://rhymix.org
 
 ### 커뮤니티
 
-- XETOWN : https://www.xetown.com
+- XETOWN : https://xetown.com
 
 ### 저작권 및 라이선스
 
@@ -118,11 +118,11 @@ If you have found a security vulnerability, please let us know at devops@rhymix.
 
 ### Official Website
 
-- Rhymix : https://www.rhymix.org
+- Rhymix : https://rhymix.org
 
 ### Community
 
-- XETOWN (Korean) : https://www.xetown.com
+- XETOWN (Korean) : https://xetown.com
 
 ### Copyright and License
 
