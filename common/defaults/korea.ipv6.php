@@ -2,7 +2,7 @@
 
 /**
  * Source: https://xn--3e0bx5euxnjje69i70af08bea817g.xn--3e0b707e/jsp/infoboard/stats/inProCurIpv6Add.jsp
- * Last Updated: 2018-10-18
+ * Last Updated: 2019-05-04
  */
 return array (
   0 => 
