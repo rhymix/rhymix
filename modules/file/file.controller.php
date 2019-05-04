@@ -136,18 +136,25 @@ class fileController extends file
 		
 		// Save the file
 		$output = $this->insertFile($file_info, $module_srl, $upload_target_srl);
+		if($output->error != '0')
+		{
+			throw new Rhymix\Framework\Exception($output->message);
+		}
 		
+		// Create the response
 		Context::setResponseMethod('JSON');
 		$this->add('file_srl', $output->get('file_srl'));
 		$this->add('file_size', $output->get('file_size'));
 		$this->add('direct_download', $output->get('direct_download'));
 		$this->add('source_filename', $output->get('source_filename'));
 		$this->add('upload_target_srl', $output->get('upload_target_srl'));
-		$this->add('download_url', $oFileModel->getDirectFileUrl($output->get('uploaded_filename')));
-		
-		if($output->error != '0')
+		if ($output->get('direct_download') === 'Y')
 		{
-			throw new Rhymix\Framework\Exception($output->message);
+			$this->add('download_url', $oFileModel->getDirectFileUrl($output->get('uploaded_filename')));
+		}
+		else
+		{
+			$this->add('download_url', $oFileModel->getDownloadUrl($output->get('file_srl'), $output->get('sid'), $module_srl));
 		}
 	}
 
@@ -1291,13 +1298,14 @@ class fileController extends file
 		// 2: 년월일 단위로 정리
 		if ($folder_structure == 2)
 		{
-			return  sprintf('%sfiles/attach/%s/%04d/%02d/%02d/', $prefix, $file_type, substr($regdate, 0, 4), substr($regdate, 4, 2), substr($regdate, 6, 2));
+			return sprintf('%sfiles/attach/%s/%04d/%02d/%02d/', $prefix, $file_type, substr($regdate, 0, 4), substr($regdate, 4, 2), substr($regdate, 6, 2));
 		}
 		
 		// 1 or 0: module_srl 및 업로드 대상 번호에 따라 3자리씩 끊어서 정리
 		else
 		{
-			return sprintf('%sfiles/attach/%s/%d/%s', $prefix, $file_type, $module_srl, getNumberingPath($upload_target_srl, 3));
+			$components = $upload_target_srl ? getNumberingPath($upload_target_srl, 3) : '';
+			return sprintf('%sfiles/attach/%s/%d/%s', $prefix, $file_type, $module_srl, $components);
 		}
 	}
 

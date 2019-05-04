@@ -2393,7 +2393,7 @@ class moduleModel extends module
 
 	function getModuleFileBoxPath($module_filebox_srl)
 	{
-		return sprintf("./files/attach/filebox/%s",getNumberingPath($module_filebox_srl,3));
+		return getController('file')->getStoragePath('filebox', 0, $module_filebox_srl);
 	}
 
 	/**

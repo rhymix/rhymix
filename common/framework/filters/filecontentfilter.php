@@ -8,6 +8,11 @@ namespace Rhymix\Framework\Filters;
 class FileContentFilter
 {
 	/**
+	 * Fileinfo instance cache
+	 */
+	protected static $_finfo = null;
+	
+	/**
 	 * Generic checker
 	 * 
 	 * @param string $file Actual path to the file to be checked
@@ -28,8 +33,9 @@ class FileContentFilter
 			return false;
 		}
 		
-		// Get the extension.
+		// Get the extension and MIME type.
 		$ext = $filename ? strtolower(substr(strrchr($filename, '.'), 1)) : '';
+		$mime_type = self::_getMimetype($file, true);
 		
 		// Check the first 4KB of the file for possible XML content.
 		$fp = fopen($file, 'rb');
@@ -38,6 +44,20 @@ class FileContentFilter
 		
 		// Check SVG files.
 		if (($ext === 'svg' || $is_xml) && !self::_checkSVG($fp, 0, $filesize))
+		{
+			fclose($fp);
+			return false;
+		}
+		
+		// Check other image files.
+		if (in_array($ext, array('jpg', 'jpeg', 'png', 'gif')) && $mime_type !== false && $mime_type !== 'image')
+		{
+			fclose($fp);
+			return false;
+		}
+		
+		// Check audio and video files.
+		if (preg_match('/(wm[va]|mpe?g|avi|flv|mp[1-4]|as[fx]|wav|midi?|moo?v|qt|r[am]{1,2}|m4v)$/', $file) && $mime_type !== false && $mime_type !== 'audio' && $mime_type !== 'video')
 		{
 			fclose($fp);
 			return false;
@@ -148,5 +168,30 @@ class FileContentFilter
 			fseek($fp, min($to, $position += $block_size));
 		}
 		return false;
+	}
+	
+	/**
+	 * Attempt to detect the MIME type of a file.
+	 * 
+	 * @param string $file Path of file to check
+	 * @param bool $trim_subtype Whether to remove the subtype from the return value
+	 * @return string|false
+	 */
+	protected static function _getMimetype($file, $trim_subtype = false)
+	{
+		if (!class_exists('finfo'))
+		{
+			return false;
+		}
+		if (!self::$_finfo)
+		{
+			self::$_finfo = new \finfo(FILEINFO_MIME_TYPE);
+		}
+		$mime_type = self::$_finfo->file($file);
+		if ($trim_subtype)
+		{
+			$mime_type = strstr($mime_type, '/', true);
+		}
+		return $mime_type;
 	}
 }

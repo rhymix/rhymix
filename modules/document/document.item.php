@@ -438,7 +438,7 @@ class documentItem extends BaseObject
 			$url = 'http://' . $url;
 		}
 		
-		return $url;
+		return escape($url, false);
 	}
 
 	function getMemberSrl()

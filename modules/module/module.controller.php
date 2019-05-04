@@ -1163,7 +1163,9 @@ class moduleController extends module
 			$path = $oModuleModel->getModuleFileBoxPath($vars->module_filebox_srl);
 			FileHandler::makeDir($path);
 
-			$save_filename = sprintf('%s%s.%s',$path, $vars->module_filebox_srl, $ext);
+			$random = Rhymix\Framework\Security::getRandom(32, 'hex');
+			$ext = substr(strrchr($vars->addfile['name'], '.'), 1);
+			$save_filename = sprintf('%s%s.%s', $path, $random, $ext);
 			$tmp = $vars->addfile['tmp_name'];
 
 			if(!@move_uploaded_file($tmp, $save_filename))
@@ -1171,7 +1173,7 @@ class moduleController extends module
 				return false;
 			}
 
-			$args->fileextension = strtolower(substr(strrchr($vars->addfile['name'],'.'),1));
+			$args->fileextension = $ext;
 			$args->filename = $save_filename;
 			$args->filesize = $vars->addfile['size'];
 		}
@@ -1197,7 +1199,10 @@ class moduleController extends module
 		$oModuleModel = getModel('module');
 		$path = $oModuleModel->getModuleFileBoxPath($vars->module_filebox_srl);
 		FileHandler::makeDir($path);
-		$save_filename = sprintf('%s%s.%s',$path, $vars->module_filebox_srl, $vars->ext);
+		
+		$random = Rhymix\Framework\Security::getRandom(32, 'hex');
+		$ext = substr(strrchr($vars->addfile['name'], '.'), 1);
+		$save_filename = sprintf('%s%s.%s', $path, $random, $ext);
 		$tmp = $vars->addfile['tmp_name'];
 
 		// upload
@@ -1212,7 +1217,7 @@ class moduleController extends module
 		$args->member_srl = $vars->member_srl;
 		$args->comment = $vars->comment;
 		$args->filename = $save_filename;
-		$args->fileextension = strtolower(substr(strrchr($vars->addfile['name'],'.'),1));
+		$args->fileextension = $ext;
 		$args->filesize = $vars->addfile['size'];
 
 		$output = executeQuery('module.insertModuleFileBox', $args);
