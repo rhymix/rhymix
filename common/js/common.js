@@ -285,6 +285,10 @@ jQuery(function($) {
 			if (!rel.match(/\bnoopener\b/)) {
 				$this.attr('rel', $.trim(rel + ' noopener'));
 			}
+			var isChrome = navigator.userAgent.match(/Chrome\/([0-9]+)/);
+			if (isChrome && parseInt(isChrome[1], 10) >= 72) {
+				return;
+			}
 			event.preventDefault();
 			blankshield.open(href);
 		}
