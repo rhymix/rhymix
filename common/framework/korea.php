@@ -47,7 +47,14 @@ class Korea
 			default:
 				if (substr($num, 0, 4) === '0303' || substr($num, 0, 3) === '050')
 				{
-					return substr($num, 0, 4) . '-' . substr($num, 4, 3) . '-' . substr($num, 7);
+					if (strlen($num) === 12)
+					{
+						return substr($num, 0, 4) . '-' . substr($num, 4, 4) . '-' . substr($num, 8);
+					}
+					else
+					{
+						return substr($num, 0, 4) . '-' . substr($num, 4, 3) . '-' . substr($num, 7);
+					}
 				}
 				else
 				{
@@ -74,6 +81,10 @@ class Korea
 			return true;
 		}
 		if (preg_match('/^0[13-8][0-9][2-9][0-9]{6,7}$/', $num))
+		{
+			return true;
+		}
+		if (preg_match('/^0(?:303|505)[2-9][0-9]{6,7}$/', $num))
 		{
 			return true;
 		}
