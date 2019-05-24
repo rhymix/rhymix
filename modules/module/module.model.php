@@ -2393,7 +2393,7 @@ class moduleModel extends module
 
 	function getModuleFileBoxPath($module_filebox_srl)
 	{
-		return getController('file')->getStoragePath('filebox', 0, $module_filebox_srl);
+		return getController('file')->getStoragePath('filebox', 0, $module_filebox_srl, 0, '', false);
 	}
 
 	/**
