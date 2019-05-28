@@ -69,8 +69,7 @@ class fileController extends file
 			$this->add('chunk_uploaded_size', $chunk_start);
 			
 			// Check existing chunks
-			$nonce = Context::get('nonce');
-			$temp_key = hash_hmac('sha1', sprintf('%d:%d:%d:%s:%s', $editor_sequence, $upload_target_srl, $module_srl, $file_info['name'], $nonce), config('crypto.authentication_key'));
+			$temp_key = hash_hmac('sha1', sprintf('%d:%d:%d:%s:%s', $editor_sequence, $upload_target_srl, $module_srl, $file_info['name'], session_id()), config('crypto.authentication_key'));
 			$temp_filename = RX_BASEDIR . 'files/attach/chunks/' . $temp_key;
 			if ($chunk_start == 0 && Rhymix\Framework\Storage::isFile($temp_filename))
 			{

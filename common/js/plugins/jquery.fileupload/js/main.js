@@ -52,6 +52,7 @@
 			var self = this;
 			var $container = containerEl;
 			var data = $container.data();
+			var lastUploadTime = 0;
 
 			$.extend(data, {
 				files: {},
@@ -93,15 +94,16 @@
 				},
 				submit: function(e, item) {
 					item.formData = defaultFormData;
-					item.formData.nonce = "T" + new Date().getTime() + "." + Math.random();
 					chunkStatus = true;
 				},
 				chunksend: function(e, res) {
+					lastUploadTime = Date.now();
 					if (!chunkStatus) {
 						return false;
 					}
 				},
 				chunkdone: function(e, res) {
+					lastUploadTime = Date.now();
 					if (res.result) {
 						if (res.result.error != 0) {
 							if (res.result.message) {
@@ -117,16 +119,22 @@
 					}
 				},
 				chunkfail: function(e, res) {
+					lastUploadTime = Date.now();
 					if (chunkStatus) {
 						alert(window.xe.msg_file_upload_error + " (Type 3)" + "<br>\n" + res.errorThrown + "<br>\n" + res.textStatus);
 						return chunkStatus = false;
 					}
 				},
 				done: function(e, res) {
+					lastUploadTime = Date.now();
 					data.settings.progressbarGraph.width('100%');
 					data.settings.progressPercent.text('100%');
-					data.settings.progressbar.delay(1000).slideUp();
-					data.settings.progressStatus.delay(1000).slideUp();
+					setTimeout(function() {
+						if (lastUploadTime < Date.now() - 800) {
+							data.settings.progressbar.slideUp();
+							data.settings.progressStatus.slideUp();
+						}
+					}, 1000);
 					var result = res.response().result;
 					var temp_code = '';
 					if (!result) {
@@ -159,22 +167,30 @@
 					}
 				},
 				fail: function(e, res) {
-					data.settings.progressbar.delay(1000).slideUp();
-					data.settings.progressStatus.delay(1000).slideUp();
+					lastUploadTime = Date.now();
+					setTimeout(function() {
+						if (lastUploadTime < Date.now() - 800) {
+							data.settings.progressbar.slideUp();
+							data.settings.progressStatus.slideUp();
+						}
+					}, 1000);
 					if (chunkStatus) {
 						alert(window.xe.msg_file_upload_error + " (Type 7)" + "<br>\n" + res.errorThrown + "<br>\n" + res.textStatus);
 						return false;
 					}
 				},
 				stop: function() {
+					lastUploadTime = Date.now();
 					self.loadFilelist($container);
 				},
 				start: function() {
+					lastUploadTime = Date.now();
 					data.settings.progressbarGraph.width(0);
 					data.settings.progressStatus.show();
 					data.settings.progressbar.show();
 				},
 				progressall: function (e, res) {
+					lastUploadTime = Date.now();
 					var progress = Math.round(res.loaded / res.total * 999) / 10;
 					data.settings.progressbarGraph.width(progress+'%');
 					data.settings.progressPercent.text(progress+'%');
