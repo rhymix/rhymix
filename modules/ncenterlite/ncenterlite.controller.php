@@ -180,7 +180,7 @@ class ncenterliteController extends ncenterlite
 			$comment_args = new stdClass();
 			$comment_args->member_srl = $obj->member_srl;
 			$comment_args->document_srl = $obj->document_srl;
-			$other_comment = executeQuery('ncenterlite.getOtherCommentByMemberSrl', $comment_args);
+			$other_comment = executeQueryArray('ncenterlite.getOtherCommentByMemberSrl', $comment_args);
 			foreach ($other_comment->data as $value)
 			{
 				$args = new stdClass();
