@@ -109,4 +109,6 @@ $lang->about_user_notify_setting = 'Each member can set a notify settings. Warni
 $lang->msg_not_use_user_setting = 'user setting\'s not use. Please contact your administrator.';
 $lang->anonymous_voter = 'anonymous voter';
 $lang->about_anonymous_voter = 'anonymize voter in vote notification';
+$lang->highlight_effect = 'highlight effect';
+$lang->about_highlight_effect = 'it gives highlight effect to the comment when access the comment URL.';
 $lang->msg_denger_rhymix_user = '<strong>Warning!</strong> Rhymix includes notification center by default.<br />Please remove this XE-only module and reinstall the Rhymix native version.';

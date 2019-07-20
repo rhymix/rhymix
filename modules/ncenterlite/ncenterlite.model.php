@@ -73,6 +73,10 @@ class ncenterliteModel extends ncenterlite
 			{
 				$config->anonymous_voter = 'N';
 			}
+			if(!$config->highlight_effect)
+			{
+				$config->highlight_effect = 'Y';
+			}
 
 			self::$config = $config;
 		}

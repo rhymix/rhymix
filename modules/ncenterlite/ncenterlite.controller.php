@@ -812,11 +812,14 @@ class ncenterliteController extends ncenterlite
 		{
 			return;
 		}
-
+		
 		Context::set('ncenterlite_config', $config);
 		
-		Context::loadFile(array('./modules/ncenterlite/tpl/js/ncenterlite.js', 'body', '', 100000));
-
+		if($config->highlight_effect === 'Y')
+		{
+			Context::loadFile(array('./modules/ncenterlite/tpl/js/ncenterlite.js', 'body', '', 100000));
+		}
+		
 		$logged_info = Context::get('logged_info');
 		$_output = $oNcenterliteModel->getMyNotifyList($logged_info->member_srl);
 		
