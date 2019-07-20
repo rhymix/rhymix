@@ -304,15 +304,25 @@ class installController extends install
 		{
 			$checklist['permission'] = false;
 		}
-
-		// Check session.auto_start
-		if(ini_get('session.auto_start') != 1)
+		
+		// Check session availability
+		if(isset($_SESSION['license_agreement']))
 		{
 			$checklist['session'] = true;
 		}
 		else
 		{
 			$checklist['session'] = false;
+		}
+		
+		// Check session.auto_start
+		if(ini_get('session.auto_start') != 1)
+		{
+			$checklist['session_auto'] = true;
+		}
+		else
+		{
+			$checklist['session_auto'] = false;
 		}
 
 		// Check curl
@@ -400,25 +410,14 @@ class installController extends install
 	function procInstallLicenseAgreement()
 	{
 		$vars = Context::getRequestVars();
-
-		$license_agreement = ($vars->license_agreement == 'Y') ? true : false;
-
-		if($license_agreement)
+		if($vars->license_agreement !== 'Y')
 		{
-			$currentTime = $_SERVER['REQUEST_TIME'];
-			FileHandler::writeFile($this->flagLicenseAgreement, $currentTime);
-		}
-		else
-		{
-			FileHandler::removeFile($this->flagLicenseAgreement);
 			throw new Rhymix\Framework\Exception('msg_must_accept_license_agreement');
 		}
-
-		if(!in_array(Context::getRequestMethod(),array('XMLRPC','JSON')))
-		{
-			$returnUrl = Context::get('success_return_url') ? Context::get('success_return_url') : getNotEncodedUrl('', 'act', 'dispInstallCheckEnv');
-			$this->setRedirectUrl($returnUrl);
-		}
+		
+		$_SESSION['license_agreement'] = true;
+		FileHandler::writeFile($this->flagLicenseAgreement, $_SERVER['REQUEST_TIME']);
+		$this->setRedirectUrl(getNotEncodedUrl('', 'act', 'dispInstallCheckEnv'));
 	}
 
 	/**

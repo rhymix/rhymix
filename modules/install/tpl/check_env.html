@@ -9,7 +9,7 @@
 				<tr>
 					<td class="check_env_item">
 						{$lang->install_checklist_title[$key]}
-						<block cond="$key == 'php_version'">({$phpversion})</block>
+						<!--@if($key === 'php_version')-->({$phpversion})<!--@end-->
 					</td>
 					<td class="check_env_status">
 						<span cond="$val" class="ok">OK</span>
