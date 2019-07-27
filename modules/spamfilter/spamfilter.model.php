@@ -42,7 +42,12 @@ class spamfilterModel extends spamfilter
 	 */
 	function isDeniedIP()
 	{
-		$ip_list = $this->getDeniedIPList();
+		$ip_list = Rhymix\Framework\Cache::get('spamfilter:denied_ip_list');
+		if ($ip_list === null)
+		{
+			$ip_list = $this->getDeniedIPList();
+			Rhymix\Framework\Cache::set('spamfilter:denied_ip_list', $ip_list);
+		}
 		if(!count($ip_list)) return new BaseObject();
 		
 		$ip_ranges = array();
@@ -77,7 +82,12 @@ class spamfilterModel extends spamfilter
 	 */
 	function isDeniedWord($text)
 	{
-		$word_list = $this->getDeniedWordList();
+		$word_list = Rhymix\Framework\Cache::get('spamfilter:denied_word_list');
+		if ($word_list === null)
+		{
+			$word_list = $this->getDeniedWordList();
+			Rhymix\Framework\Cache::set('spamfilter:denied_word_list', $ip_list);
+		}
 		if(!count($word_list)) return new BaseObject();
 
 		$text = strtolower(utf8_trim(utf8_normalize_spaces(htmlspecialchars_decode(strip_tags($text, '<a><img>')))));
