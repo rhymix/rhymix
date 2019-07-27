@@ -299,6 +299,24 @@ class memberModel extends member
 	}
 
 	/**
+	 * @brief Return member information with phone number
+	 */
+	function getMemberInfoByPhoneNumber($phone_number, $phone_country = null)
+	{
+		if(!$phone_number) return;
+
+		$args = new stdClass();
+		$args->phone_number = $phone_number;
+		$args->phone_country = $phone_country;
+		$output = executeQuery('member.getMemberInfoByPhoneNumber', $args);
+		if(!$output->toBool()) return $output;
+		if(!$output->data) return;
+
+		$member_info = $this->arrangeMemberInfo($output->data);
+		return $member_info;
+	}
+
+	/**
 	 * @brief Return member information with member_srl
 	 */
 	function getMemberInfoByMemberSrl($member_srl, $site_srl = 0)
