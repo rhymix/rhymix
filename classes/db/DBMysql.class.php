@@ -467,7 +467,7 @@ class DBMySQL extends DB
 	 * @param boolean $notnull not null status, default value is false
 	 * @return void
 	 */
-	function addColumn($table_name, $column_name, $type = 'number', $size = '', $default = null, $notnull = false, $after = null)
+	function addColumn($table_name, $column_name, $type = 'number', $size = '', $default = null, $notnull = false, $after_column = null)
 	{
 		$type = strtolower($type);
 		$type = isset($this->column_type[$type]) ? $this->column_type[$type] : $type;

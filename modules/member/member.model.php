@@ -289,18 +289,8 @@ class memberModel extends member
 		if(!$email_address) return;
 
 		$args = new stdClass();
-		
-		if(config('db.master.type') == 'cubrid')
-		{
-			$args->email_address = strtolower($email_address);
-			$output = executeQuery('member.getMemberInfoByEmailAddressForCubrid', $args);
-		}
-		else
-		{
-			$args->email_address = $email_address;
-			$output = executeQuery('member.getMemberInfoByEmailAddress', $args);
-		}
-		
+		$args->email_address = $email_address;
+		$output = executeQuery('member.getMemberInfoByEmailAddress', $args);
 		if(!$output->toBool()) return $output;
 		if(!$output->data) return;
 
