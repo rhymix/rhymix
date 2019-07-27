@@ -27,10 +27,10 @@ class spamfilterModel extends spamfilter
 	/**
 	 * @brief Return the list of registered IP addresses which were banned
 	 */
-	function getDeniedIPList()
+	function getDeniedIPList($sort_index = 'regdate')
 	{
 		$args = new stdClass();
-		$args->sort_index = "regdate";
+		$args->sort_index = $sort_index;
 		$args->page = Context::get('page')?Context::get('page'):1;
 		$output = executeQueryArray('spamfilter.getDeniedIPList', $args);
 		if(!$output->data) return array();
@@ -48,12 +48,14 @@ class spamfilterModel extends spamfilter
 		$ip_ranges = array();
 		foreach ($ip_list as $ip_range)
 		{
-			$ip_ranges[] = $ip_range->ipaddress;
-		}
-		
-		if (Rhymix\Framework\Filters\IpFilter::inRanges(\RX_CLIENT_IP, $ip_ranges))
-		{
-			return new BaseObject(-1, 'msg_alert_registered_denied_ip');
+			if (Rhymix\Framework\Filters\IpFilter::inRange(\RX_CLIENT_IP, $ip_range->ipaddress))
+			{
+				$args = new stdClass();
+				$args->ipaddress = $ip_range->ipaddress;
+				executeQuery('spamfilter.updateDeniedIPHit', $args);
+				
+				return new BaseObject(-1, 'msg_alert_registered_denied_ip');
+			}
 		}
 		
 		return new BaseObject();

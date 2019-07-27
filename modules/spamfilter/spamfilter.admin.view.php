@@ -21,9 +21,16 @@ class spamfilterAdminView extends spamfilter
 	 */
 	function dispSpamfilterAdminDeniedIPList()
 	{
+		// Get sort index
+		$sort_index = Context::get('sort_index');
+		if (!in_array($sort_index, array('regdate', 'latest_hit', 'hit')))
+		{
+			$sort_index = 'regdate';
+		}
+		
 		// Get the list of denied IP addresses and words
 		$oSpamFilterModel = getModel('spamfilter');
-		$ip_list = $oSpamFilterModel->getDeniedIPList();
+		$ip_list = $oSpamFilterModel->getDeniedIPList($sort_index);
 		Context::set('ip_list', $ip_list);
 
 		$security = new Security();

@@ -47,7 +47,8 @@ class spamfilter extends ModuleObject
 		 */
 		if(!$oDB->isColumnExists('spamfilter_denied_word', 'hit')) return true;
 		if(!$oDB->isColumnExists('spamfilter_denied_word', 'latest_hit')) return true;
-
+		if(!$oDB->isColumnExists('spamfilter_denied_ip', 'hit')) return true;
+		if(!$oDB->isColumnExists('spamfilter_denied_ip', 'latest_hit')) return true;
 		if(!$oDB->isColumnExists('spamfilter_denied_ip', 'description')) return true;
 		
 		if(!$oModuleModel->getTrigger('document.manage', 'spamfilter', 'controller', 'triggerManageDocument', 'before'))
@@ -102,7 +103,16 @@ class spamfilter extends ModuleObject
 			$oDB->addColumn('spamfilter_denied_word','latest_hit','date');
 			$oDB->addIndex('spamfilter_denied_word','idx_latest_hit', 'latest_hit');
 		}
-
+		if(!$oDB->isColumnExists('spamfilter_denied_ip', 'hit'))
+		{
+			$oDB->addColumn('spamfilter_denied_ip','hit','number',12,0,true);
+			$oDB->addIndex('spamfilter_denied_ip','idx_hit', 'hit');
+		}
+		if(!$oDB->isColumnExists('spamfilter_denied_ip', 'latest_hit'))
+		{
+			$oDB->addColumn('spamfilter_denied_ip','latest_hit','date');
+			$oDB->addIndex('spamfilter_denied_ip','idx_latest_hit', 'latest_hit');
+		}
 		if(!$oDB->isColumnExists('spamfilter_denied_ip', 'description'))
 		{
 			$oDB->addColumn('spamfilter_denied_ip','description','varchar', 250);
