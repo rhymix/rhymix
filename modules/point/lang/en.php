@@ -24,6 +24,7 @@ $lang->cmd_exp_calc = 'Calculate';
 $lang->cmd_exp_reset = 'Reset';
 $lang->cmd_point_recal = 'Reset Point';
 $lang->cmd_point_except_notice = 'Except Notice';
+$lang->cmd_point_revert_on_delete = 'Revert on Delete';
 $lang->about_cmd_point_recal = 'All point will be initialized only with articles/comments/attachments/join points. Only members who do website activities will get signup points after reset. Please use this function when complete initialization is required in case of data transferring or other situations.';
 $lang->default_group = 'Default Group';
 $lang->point_link_group = 'Group Change by Level';

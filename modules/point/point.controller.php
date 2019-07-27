@@ -191,6 +191,13 @@ class pointController extends point
 			return;
 		}
 		
+		// Return if disabled
+		$config = $this->getConfig();
+		if ($config->insert_document_revert_on_delete === false)
+		{
+			return;
+		}
+		
 		// The fix to disable giving points for saving the document temporarily
 		if ($module_srl == $member_srl)
 		{
@@ -292,6 +299,13 @@ class pointController extends point
 			return;
 		}
 		
+		// Return if disabled
+		$config = $this->getConfig();
+		if ($config->insert_comment_revert_on_delete === false)
+		{
+			return;
+		}
+		
 		// Abort if the comment and the document have the same author.
 		$oDocument = getModel('document')->getDocument($obj->document_srl);
 		if (!$oDocument->isExists() || abs($oDocument->get('member_srl')) == $member_srl)
@@ -300,7 +314,6 @@ class pointController extends point
 		}
 		
 		// Abort if the document is older than a configured limit.
-		$config = $this->getConfig();
 		$time_limit = $config->insert_comment_limit ?: $config->no_point_date;
 		if ($time_limit > 0 && ztime($oDocument->get('regdate')) < RX_TIME - ($time_limit * 86400))
 		{
@@ -347,6 +360,13 @@ class pointController extends point
 		$module_srl = $obj->module_srl;
 		$member_srl = abs($obj->member_srl);
 		if (!$module_srl || !$member_srl || $obj->isvalid !== 'Y')
+		{
+			return;
+		}
+		
+		// Return if disabled
+		$config = $this->getConfig();
+		if ($config->upload_file_revert_on_delete === false)
 		{
 			return;
 		}

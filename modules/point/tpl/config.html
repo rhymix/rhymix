@@ -67,21 +67,21 @@
 		{@ $config_array = get_object_vars($config)}
 		{@ $config_array['insert_comment_limit'] = $config_array['insert_comment_limit'] ?: $config_array['no_point_date']}
 		{@ $action_types = array(
-			'insert_document' => ['time_limit' => 0, 'except_notice' => 0],
-			'insert_comment' => ['time_limit' => 1, 'except_notice' => 0],
-			'upload_file' => ['time_limit' => 0, 'except_notice' => 0],
-			'download_file' => ['time_limit' => 0, 'except_notice' => 0],
-			'read_document' => ['time_limit' => 1, 'except_notice' => 1],
-			'voter' => ['time_limit' => 1, 'except_notice' => 0],
-			'blamer' => ['time_limit' => 1, 'except_notice' => 0],
-			'voter_comment' => ['time_limit' => 1, 'except_notice' => 0],
-			'blamer_comment' => ['time_limit' => 1, 'except_notice' => 0],
-			'download_file_author' => ['time_limit' => 0, 'except_notice' => 0],
-			'read_document_author' => ['time_limit' => 1, 'except_notice' => 1],
-			'voted' => ['time_limit' => 1, 'except_notice' => 0],
-			'blamed' => ['time_limit' => 1, 'except_notice' => 0],
-			'voted_comment' => ['time_limit' => 1, 'except_notice' => 0],
-			'blamed_comment' => ['time_limit' => 1, 'except_notice' => 0],
+			'insert_document' => ['time_limit' => 0, 'except_notice' => 0, 'revert_on_delete' => 1],
+			'insert_comment' => ['time_limit' => 1, 'except_notice' => 0, 'revert_on_delete' => 1],
+			'upload_file' => ['time_limit' => 0, 'except_notice' => 0, 'revert_on_delete' => 1],
+			'download_file' => ['time_limit' => 0, 'except_notice' => 0, 'revert_on_delete' => 0],
+			'read_document' => ['time_limit' => 1, 'except_notice' => 1, 'revert_on_delete' => 0],
+			'voter' => ['time_limit' => 1, 'except_notice' => 0, 'revert_on_delete' => 0],
+			'blamer' => ['time_limit' => 1, 'except_notice' => 0, 'revert_on_delete' => 0],
+			'voter_comment' => ['time_limit' => 1, 'except_notice' => 0, 'revert_on_delete' => 0],
+			'blamer_comment' => ['time_limit' => 1, 'except_notice' => 0, 'revert_on_delete' => 0],
+			'download_file_author' => ['time_limit' => 0, 'except_notice' => 0, 'revert_on_delete' => 0],
+			'read_document_author' => ['time_limit' => 1, 'except_notice' => 1, 'revert_on_delete' => 0],
+			'voted' => ['time_limit' => 1, 'except_notice' => 0, 'revert_on_delete' => 0],
+			'blamed' => ['time_limit' => 1, 'except_notice' => 0, 'revert_on_delete' => 0],
+			'voted_comment' => ['time_limit' => 1, 'except_notice' => 0, 'revert_on_delete' => 0],
+			'blamed_comment' => ['time_limit' => 1, 'except_notice' => 0, 'revert_on_delete' => 0],
 		)}
 		
 		<table class="x_table x_table-striped x_table-hover">
@@ -115,6 +115,12 @@
 								<label class="x_inline" for="{$action_type}_except_notice" style="margin-left:10px">
 									<input type="checkbox" value="Y" name="{$action_type}_except_notice" id="{$action_type}_except_notice" checked="checked"|cond="$config_array[$action_type . '_except_notice']" />
 									{$lang->cmd_point_except_notice}
+								</label>
+							</block>
+							<block cond="$action_config['revert_on_delete']">
+								<label class="x_inline" for="{$action_type}_revert_on_delete" style="margin-left:10px">
+									<input type="checkbox" value="Y" name="{$action_type}_revert_on_delete" id="{$action_type}_revert_on_delete" checked="checked"|cond="$config_array[$action_type . '_revert_on_delete'] !== false" />
+									{$lang->cmd_point_revert_on_delete}
 								</label>
 							</block>
 						</td>

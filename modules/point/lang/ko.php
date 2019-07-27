@@ -24,6 +24,7 @@ $lang->cmd_exp_calc = '계산';
 $lang->cmd_exp_reset = '초기화';
 $lang->cmd_point_recal = '포인트 초기화';
 $lang->cmd_point_except_notice = '공지 제외';
+$lang->cmd_point_revert_on_delete = '삭제시 회수';
 $lang->about_cmd_point_recal = '게시글/댓글/첨부파일/회원가입 점수만 이용하여 모든 포인트 점수를 초기화합니다. 회원 가입 점수는 초기화 후 해당 회원이 활동을 하면 부여되고 그 전에는 부여되지 않습니다. 데이터 이전 등을 하여 포인트를 완전히 초기화해야 할 경우에만 사용하세요.';
 $lang->default_group = '기본 그룹';
 $lang->point_link_group = '그룹 연동';

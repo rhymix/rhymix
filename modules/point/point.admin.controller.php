@@ -67,6 +67,11 @@ class pointAdminController extends point
 			// Specify notice exceptions
 			$config->read_document_except_notice = ($args->read_document_except_notice === 'Y');
 			$config->read_document_author_except_notice = ($args->read_document_author_except_notice === 'Y');
+			
+			// Specify revert on delete
+			$config->insert_document_revert_on_delete = ($args->insert_document_revert_on_delete === 'Y');
+			$config->insert_comment_revert_on_delete = ($args->insert_comment_revert_on_delete === 'Y');
+			$config->upload_file_revert_on_delete = ($args->upload_file_revert_on_delete === 'Y');
 
 			// Specify time limits
 			$config->insert_comment_limit = $config->no_point_date = (int)$args->insert_comment_limit;
