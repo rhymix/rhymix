@@ -64,7 +64,14 @@ class Security
 		}
 		
 		// Otherwise, use the CryptoCompat class.
-		return base64_encode(\CryptoCompat::encrypt($plaintext, $key));
+		if (function_exists('mcrypt_encrypt'))
+		{
+			return base64_encode(\CryptoCompat::encrypt($plaintext, $key));
+		}
+		else
+		{
+			throw new Exception('msg_crypto_not_available');
+		}
 	}
 	
 	/**
@@ -102,7 +109,14 @@ class Security
 		}
 		
 		// Otherwise, use the CryptoCompat class.
-		return \CryptoCompat::decrypt($ciphertext, $key);
+		if (function_exists('mcrypt_decrypt'))
+		{
+			return \CryptoCompat::decrypt($ciphertext, $key);
+		}
+		else
+		{
+			throw new Exception('msg_crypto_not_available');
+		}
 	}
 	
 	/**
@@ -292,6 +306,11 @@ class Security
 	 */
 	public static function compareStrings($a, $b)
 	{
+		if(function_exists('hash_equals'))
+		{
+			return hash_equals($a, $b);
+		}
+		
 		$diff = strlen($a) ^ strlen($b);
 		$maxlen = min(strlen($a), strlen($b));
 		for($i = 0; $i < $maxlen; $i++)
@@ -326,13 +345,14 @@ class Security
 		}
 		else
 		{
-			if (Session::getMemberSrl())
+			$is_logged = Session::getMemberSrl();
+			if ($is_logged)
 			{
 				trigger_error('CSRF token missing in POST request: ' . (\Context::get('act') ?: '(no act)'), \E_USER_WARNING);
 			}
 			
 			$referer = strval($referer ?: $_SERVER['HTTP_REFERER']);
-			if ($referer !== '')
+			if ($referer !== '' && (!config('security.check_csrf_token') || !$is_logged))
 			{
 				return URL::isInternalURL($referer);
 			}
@@ -344,16 +364,17 @@ class Security
 	}
 	
 	/**
-	 * Check if the current request seems to be an XEE attack.
+	 * Check if the current request seems to be an XXE (XML external entity) attack.
 	 * 
 	 * This method returns true if the request seems to be innocent,
-	 * and false if it seems to be an XEE attack.
-	 * This is the opposite of XE's Security::detectXEE() method.
+	 * and false if it seems to be an XXE attack.
+	 * This is the opposite of XE's Security::detectingXEE() method.
+	 * The name has also been changed to the more accurate acronym XXE.
 	 * 
 	 * @param string $xml (optional)
 	 * @return bool
 	 */
-	public static function checkXEE($xml = null)
+	public static function checkXXE($xml = null)
 	{
 		// Stop if there is no XML content.
 		if (!$xml)

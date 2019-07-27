@@ -106,9 +106,9 @@ class editorAdminView extends editor
 		$oEditorModel = getModel('editor');
 		$component = $oEditorModel->getComponent($component_name,$site_srl);
 
-		if(!$component->component_name) {
-			$this->stop('msg_invalid_request');
-			return;
+		if(!$component->component_name)
+		{
+			throw new Rhymix\Framework\Exceptions\InvalidRequest;
 		}
 
 		Context::set('component', $component);

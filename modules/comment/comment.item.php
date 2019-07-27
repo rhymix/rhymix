@@ -287,12 +287,12 @@ class commentItem extends BaseObject
 			return;
 		}
 
-		if(strncasecmp('http://', $url, 7) !== 0)
+		if(!preg_match('@^[a-z]+://@i', $url))
 		{
-			$url = "http://" . $url;
+			$url = 'http://' . $url;
 		}
 
-		return htmlspecialchars($url, ENT_COMPAT | ENT_HTML401, 'UTF-8', false);
+		return escape($url, false);
 	}
 
 	function getMemberSrl()
@@ -302,17 +302,17 @@ class commentItem extends BaseObject
 
 	function getUserID()
 	{
-		return htmlspecialchars($this->get('user_id'), ENT_COMPAT | ENT_HTML401, 'UTF-8', false);
+		return escape($this->get('user_id'), false);
 	}
 
 	function getUserName()
 	{
-		return htmlspecialchars($this->get('user_name'), ENT_COMPAT | ENT_HTML401, 'UTF-8', false);
+		return escape($this->get('user_name'), false);
 	}
 
 	function getNickName()
 	{
-		return htmlspecialchars($this->get('nick_name'), ENT_COMPAT | ENT_HTML401, 'UTF-8', false);
+		return escape($this->get('nick_name'), false);
 	}
 
 	function getVote()
@@ -388,7 +388,7 @@ class commentItem extends BaseObject
 		{
 			$content = $this->get('content');
 		}
-
+		
 		if($strlen)
 		{
 			$content = trim(utf8_normalize_spaces(html_entity_decode(strip_tags($content))));

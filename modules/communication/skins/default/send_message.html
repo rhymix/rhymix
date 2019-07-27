@@ -30,12 +30,8 @@
 				<th scope="row">{$lang->title}</th>
 				<td><input type="text" name="title" id="message_title" value="{$source_message->title}" style="width:90%" /></td>
 			</tr>
-			<tr>
-				<th scope="row">{$lang->cmd_option}</th>
-				<td><input type="checkbox" value="Y" name="send_mail" /> {$lang->cmd_send_mail} <span class="explanation">{$lang->msg_send_mail_privacy}</span></td>
-			</tr>
 		</table>
-		{$editor}
+		{$editor|noescape}
 		<div class="btnArea">
 			<input type="submit" value="{$lang->cmd_send_message}" class="btn btn-inverse" />
 		</div>

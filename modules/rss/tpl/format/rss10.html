@@ -30,6 +30,6 @@
 		<link>{$oDocument->getPermanentUrl()}</link>
 		<description>{$oDocument->getSummary(400)|escape}</description>
 		<dc:creator>{$oDocument->getNickName()}</dc:creator>
-		<dc:date>{$oDocument->getRegdateGM('c')}</dc:date>
+		<dc:date>{date('c', ztime($oDocument->get('regdate')))}</dc:date>
 	</item>
 </rdf:RDF>

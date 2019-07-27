@@ -327,7 +327,7 @@ class TemplateHandler
 		{
 			preg_match('/<input[^>]*name="error_return_url"[^>]*>/is', $matches[2], $m3);
 			if(!$m3[0])
-				$matches[2] = '<input type="hidden" name="error_return_url" value="<?php echo htmlspecialchars(getRequestUriByServerEnviroment(), ENT_COMPAT | ENT_HTML401, \'UTF-8\', false) ?>" />' . $matches[2];
+				$matches[2] = '<input type="hidden" name="error_return_url" value="<?php echo escape(getRequestUriByServerEnviroment(), false); ?>" />' . $matches[2];
 		}
 		else
 		{
@@ -557,6 +557,14 @@ class TemplateHandler
 				{
 					$escape_option = 'noescape';
 				}
+				elseif(preg_match('/^\$(?:user_)?lang->[a-zA-Z0-9\_]+$/', $m[1]))
+				{
+					$escape_option = 'noescape';
+				}
+				elseif(preg_match('/^lang\(.+\)$/', $m[1]))
+				{
+					$escape_option = 'noescape';
+				}
 				else
 				{
 					$escape_option = $this->config->autoescape !== null ? 'auto' : 'noescape';
@@ -603,6 +611,7 @@ class TemplateHandler
 					{
 						case 'auto':
 						case 'autoescape':
+						case 'autolang':
 						case 'escape':
 						case 'noescape':
 							$escape_option = $filter;
@@ -654,6 +663,11 @@ class TemplateHandler
 						case 'format':
 						case 'number_format':
 							$var = $filter_option ? "number_format({$var}, {$filter_option})" : "number_format({$var})";
+							break;
+						
+						case 'shorten':						
+						case 'number_shorten':
+							$var = $filter_option ? "number_shorten({$var}, {$filter_option})" : "number_shorten({$var})";
 							break;
 							
 						case 'link':
@@ -894,14 +908,16 @@ class TemplateHandler
 		switch($escape_option)
 		{
 			case 'escape':
-				return "htmlspecialchars({$str}, ENT_COMPAT, 'UTF-8', true)";
+				return "htmlspecialchars({$str}, ENT_QUOTES, 'UTF-8', true)";
 			case 'noescape':
 				return "{$str}";
 			case 'autoescape':
-				return "htmlspecialchars({$str}, ENT_COMPAT, 'UTF-8', false)";
+				return "htmlspecialchars({$str}, ENT_QUOTES, 'UTF-8', false)";
+			case 'autolang':
+				return "(preg_match('/^\\$(?:user_)?lang->[a-zA-Z0-9\_]+$/', {$str}) ? ({$str}) : htmlspecialchars({$str}, ENT_QUOTES, 'UTF-8', false))";
 			case 'auto':
 			default:
-				return "(\$this->config->autoescape === 'on' ? htmlspecialchars({$str}, ENT_COMPAT, 'UTF-8', false) : {$str})";
+				return "(\$this->config->autoescape === 'on' ? htmlspecialchars({$str}, ENT_QUOTES, 'UTF-8', false) : ({$str}))";
 		}
 	}
 

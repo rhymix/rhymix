@@ -56,7 +56,7 @@ class commentAdminController extends comment
 		$cart = Context::get('cart');
 		if(!$cart)
 		{
-			return $this->stop('msg_cart_is_null');
+			throw new Rhymix\Framework\Exception('msg_cart_is_null');
 		}
 		if(!is_array($cart))
 		{
@@ -96,7 +96,7 @@ class commentAdminController extends comment
 				$comment = $oCommentModel->getComment($comment_srl);
 				if($comment->comment_srl != $comment_srl)
 				{
-					return $this->setError('msg_invalid_request');
+					throw new Rhymix\Framework\Exceptions\InvalidRequest;
 				}
 				$document_srl = $comment->document_srl;
 				if(!in_array($document_srl, $updated_documents_arr))
@@ -171,7 +171,7 @@ class commentAdminController extends comment
 		$cart = Context::get('cart');
 		if(!$cart)
 		{
-			return $this->stop('msg_cart_is_null');
+			throw new Rhymix\Framework\Exception('msg_cart_is_null');
 		}
 		if(!is_array($cart))
 		{
@@ -184,7 +184,7 @@ class commentAdminController extends comment
 		$comment_count = count($comment_srl_list);
 		if(!$comment_count)
 		{
-			return $this->stop('msg_cart_is_null');
+			throw new Rhymix\Framework\Exception('msg_cart_is_null');
 		}
 
 		$oCommentController = getController('comment');
@@ -220,7 +220,7 @@ class commentAdminController extends comment
 				continue;
 			}
 
-			$output = $oCommentController->deleteComment($comment_srl, TRUE, $isTrash);
+			$output = $oCommentController->deleteComment($comment_srl, TRUE, toBool($isTrash));
 			if(!$output->toBool())
 			{
 				$oDB->rollback();
@@ -310,6 +310,16 @@ class commentAdminController extends comment
 					$oDB->rollback();
 					return $output;
 				}
+				
+				$obj = new stdClass;
+				$obj->comment_srl = $oComment->get('comment_srl');
+				$obj->module_srl = $oComment->get('module_srl');
+				$obj->document_srl = $oComment->get('document_srl');
+				$obj->parent_srl = $oComment->get('parent_srl');
+				$obj->member_srl = $oComment->get('member_srl');
+				$obj->regdate = $oComment->get('regdate');
+				$obj->last_update = $oComment->get('last_update');
+				ModuleHandler::triggerCall('comment.moveCommentToTrash', 'after', $obj);
 			}
 		}
 	}
@@ -329,7 +339,7 @@ class commentAdminController extends comment
 		$oCommentController = getController('comment');
 		$oComment = $oCommentModel->getComment($comment_srl, false);
 
-		if(!$oComment->isGranted()) return $this->stop('msg_not_permitted');
+		if(!$oComment->isGranted()) throw new Rhymix\Framework\Exceptions\NotPermitted;
 
 		$message_content = "";
 		$this->_moveCommentToTrash(array($comment_srl), $oCommentController, $oDB, $message_content);
@@ -425,33 +435,18 @@ class commentAdminController extends comment
 		{
 			$originObject = (object) $originObject;
 		}
-
-		$obj = new stdClass();
-		$obj->document_srl = $originObject->document_srl;
-		$obj->comment_srl = $originObject->comment_srl;
-		$obj->parent_srl = $originObject->parent_srl;
-		$obj->content = $originObject->content;
-		$obj->password = $originObject->password;
-		$obj->nick_name = $originObject->nick_name;
-		$obj->member_srl = $originObject->member_srl;
-		$obj->email_address = $originObject->email_address;
-		$obj->homepage = $originObject->homepage;
-		$obj->is_secret = $originObject->is_secret;
-		$obj->notify_message = $originObject->notify_message;
-		$obj->module_srl = $originObject->module_srl;
-
+		
 		$oCommentController = getController('comment');
 		$oCommentModel = getModel('comment');
 
 		$oComment = $oCommentModel->getComment($originObject->comment_srl);
-
 		if($oComment->isExists())
 		{
-			$output = $oCommentController->updateCommentByRestore($obj);
+			$output = $oCommentController->updateCommentByRestore($originObject);
 		}
 		else
 		{
-			$output = $oCommentController->insertComment($obj, true);
+			$output = $oCommentController->insertComment($originObject, true);
 		}
 
 		return $output;

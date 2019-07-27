@@ -134,6 +134,10 @@ class editorModel extends editor
 		{
 			$option->editor_height = $option->height ?: $this->default_editor_config['editor_height'];
 		}
+		if ($option->editor_skin === 'ckeditor' && preg_match('/^(?:white|black)(_text_(?:use|no)html)?$/', $option->sel_editor_colorset))
+		{
+			$option->sel_editor_colorset = 'moono-lisa';
+		}
 		Context::set('skin', $option->editor_skin);
 		Context::set('editor_path', $this->module_path . 'skins/' . $option->editor_skin . '/');
 		Context::set('content_style', $option->content_style);
@@ -174,12 +178,11 @@ class editorModel extends editor
 		Context::set('editor_focus', toBool($option->editor_focus));
 		
 		// Load editor components.
-		$site_srl = Context::get('site_module_info')->site_srl ?: 0;
 		if($option->enable_component)
 		{
 			if(!Context::get('component_list'))
 			{
-				$component_list = $this->getComponentList(true, $site_srl);
+				$component_list = $this->getComponentList(true);
 				Context::set('component_list', $component_list);
 			}
 		}
@@ -492,11 +495,11 @@ class editorModel extends editor
 			// Create an object of the component and execute
 			$class_path = sprintf('%scomponents/%s/', $this->module_path, $component);
 			$class_file = sprintf('%s%s.class.php', $class_path, $component);
-			if(!file_exists($class_file)) return $this->setError('msg_component_is_not_founded', $component);
+			if(!file_exists($class_file)) return new BaseObject(-1, 'msg_component_is_not_founded', $component);
 			// Create an object after loading the class file
 			require_once($class_file);
 			$oComponent = new $component($editor_sequence, $class_path);
-			if(!$oComponent) return $this->setError('msg_component_is_not_founded', $component);
+			if(!$oComponent) return new BaseObject(-1, 'msg_component_is_not_founded', $component);
 			// Add configuration information
 			$component_info = $this->getComponent($component, $site_srl);
 			$oComponent->setInfo($component_info);
@@ -515,34 +518,18 @@ class editorModel extends editor
 	}
 
 	/**
-	 * @brief Return the cache file name of editor component list
-	 */
-	function getCacheFile($filter_enabled= true, $site_srl = 0)
-	{
-		$lang = Context::getLangType();
-		$cache_path = _XE_PATH_.'files/cache/editor/cache/';
-		FileHandler::makeDir($cache_path);
-		$cache_file = $cache_path.'component_list.' . $lang .'.';
-		if($filter_enabled) $cache_file .= 'filter.';
-		if($site_srl) $cache_file .= $site_srl.'.';
-		$cache_file .= 'php';
-		return $cache_file;
-	}
-
-	/**
 	 * @brief Return a component list (DB Information included)
 	 */
-	function getComponentList($filter_enabled = true, $site_srl=0, $from_db=false)
+	function getComponentList($filter_enabled = true, $site_srl = 0, $from_db = false)
 	{
-		$cache_file = $this->getCacheFile(false, $site_srl);
-		if($from_db || !file_exists($cache_file))
+		$cache_key = 'editor:components:' . ($filter_enabled ? 'enabled' : 'all');
+		$component_list = $from_db ? null : Rhymix\Framework\Cache::get($cache_key);
+		if (!$component_list)
 		{
 			$oEditorController = getController('editor');
-			$oEditorController->makeCache(false, $site_srl);
+			$component_list = $oEditorController->makeCache(false);
 		}
 
-		if(!file_exists($cache_file)) return;
-		include($cache_file);
 		$logged_info = Context::get('logged_info');
 		if($logged_info && is_array($logged_info->group_list))
 		{
@@ -558,10 +545,9 @@ class editorModel extends editor
 			foreach($component_list as $key => $val)
 			{
 				if(!trim($key)) continue;
-				if(!is_dir(_XE_PATH_.'modules/editor/components/'.$key))
+				if(!is_dir(\RX_BASEDIR.'modules/editor/components/'.$key))
 				{
-					FileHandler::removeFile($cache_file);
-					return $this->getComponentList($filter_enabled, $site_srl);
+					return $this->getComponentList($filter_enabled, 0, true);
 				}
 				if(!$filter_enabled) continue;
 				if($val->enabled == "N")
@@ -569,7 +555,7 @@ class editorModel extends editor
 					unset($component_list->{$key});
 					continue;
 				}
-				if($logged_info->is_admin == "Y" || $logged_info->is_site_admin == "Y") continue;
+				if($logged_info->is_admin == "Y") continue;
 				if($val->target_group)
 				{
 					if(!Context::get('is_logged'))
@@ -604,20 +590,11 @@ class editorModel extends editor
 	/**
 	 * @brief Get xml and db information of the component
 	 */
-	function getComponent($component_name, $site_srl = 0)
+	function getComponent($component_name)
 	{
 		$args = new stdClass();
 		$args->component_name = $component_name;
-
-		if($site_srl)
-		{
-			$args->site_srl = $site_srl;
-			$output = executeQuery('editor.getSiteComponent', $args);
-		}
-		else
-		{
-			$output = executeQuery('editor.getComponent', $args);
-		}
+		$output = executeQuery('editor.getComponent', $args);
 		$component = $output->data;
 
 		if(!$output->data) return false;

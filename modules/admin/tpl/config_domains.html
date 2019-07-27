@@ -1,34 +1,43 @@
+<config autoescape="on" />
+
 <include target="config_header.html" />
+
 <div cond="$XE_VALIDATOR_MESSAGE && $XE_VALIDATOR_ID == 'modules/admin/tpl/config_domains/1'" class="message {$XE_VALIDATOR_MESSAGE_TYPE}">
 	<p>{$XE_VALIDATOR_MESSAGE}</p>
 </div>
 <section class="section">
 		
-	<table id="domain_list" class="x_table x_table-striped x_table-hover">
+	<table id="domain_list" class="x_table x_table-striped x_table-hover dsTg">
+		<caption>
+			<div class="x_pull-right x_btn-group">
+				<button class="x_btn x_active __simple">{$lang->simple_view}</button>
+				<button class="x_btn __detail">{$lang->detail_view}</button>
+			</div>
+		</caption>
 		<thead>
 			<tr>
 				<th scope="col" class="nowr">{$lang->site_title}</th>
 				<th scope="col" class="nowr">{$lang->domain}</th>
-				<th scope="col" class="nowr">{$lang->use_ssl}</th>
-				<th scope="col" class="nowr">{$lang->cmd_index_module_srl}</th>
-				<th scope="col" class="nowr">{$lang->cmd_index_document_srl}</th>
+				<th scope="col" class="nowr rx_detail_marks">{$lang->use_ssl}</th>
+				<th scope="col" class="nowr rx_detail_marks">{$lang->cmd_index_module_srl}</th>
+				<th scope="col" class="nowr rx_detail_marks">{$lang->cmd_index_document_srl}</th>
 				<th scope="col" class="nowr">{$lang->cmd_modify} / {$lang->cmd_delete}</th>
 			</tr>
 		</thead>
 		<tbody>
 			<tr loop="$domain_list->data => $domain">
 				<td class="nowr">
-					{$domain->settings->title}
+					{$domain->settings->title|autolang}
 					<i cond="$domain->is_default_domain === 'Y'" class="x_icon-home" title="{$lang->cmd_is_default_domain}">{$lang->cmd_is_default_domain}</i>
 				</td>
 				<td class="nowr">{$domain->domain}</td>
-				<td class="nowr">{preg_replace('/\\(.+$/', '', $lang->ssl_options[$domain->security ?: 'none'])}</td>
-				<td class="nowr">
+				<td class="nowr rx_detail_marks">{preg_replace('/\\(.+$/', '', $lang->ssl_options[$domain->security ?: 'none'])}</td>
+				<td class="nowr rx_detail_marks">
 					<a href="{getSiteUrl($domain->domain, '', 'mid', $module_list[$domain->index_module_srl]->mid)}" cond="$domain->index_module_srl && $module_list[$domain->index_module_srl]" target="_blank">
 						{($domain->index_module_srl && $module_list[$domain->index_module_srl]) ? $module_list[$domain->index_module_srl]->browser_title : ''}
 					</a>
 				</td>
-				<td class="nowr">
+				<td class="nowr rx_detail_marks">
 					<a href="{getSiteUrl($domain->domain, '', 'mid', $module_list[$domain->index_module_srl]->mid, 'document_srl', $domain->index_document_srl)}" cond="$domain->index_document_srl" target="_blank">
 						{$domain->index_document_srl ?: ''}
 					</a>
@@ -115,7 +124,7 @@
 			event.preventDefault();
 			var domain = $(this).data("domain");
 			var domain_srl = $(this).data("domain-srl");
-			if (confirm({$lang->cmd_delete_domain|json} + "\n" + domain)) {
+			if (confirm({$lang->cmd_delete_domain|json|noescape} + "\n" + domain)) {
 				exec_json('admin.procAdminDeleteDomain', { domain_srl: domain_srl }, function() {
 					window.location.reload();
 				});

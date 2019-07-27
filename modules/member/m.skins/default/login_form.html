@@ -6,7 +6,7 @@
 	<div cond="$XE_VALIDATOR_MESSAGE && $XE_VALIDATOR_ID == 'modules/member/m.skin/default/login_form/1'" class="message {$XE_VALIDATOR_MESSAGE_TYPE}">
 		<p>{$XE_VALIDATOR_MESSAGE}</p>
 	</div>
-	<form action="./" method="POST" class="ff">
+	<form ruleset="@login" action="./" method="post" class="ff">
 		<input type="hidden" name="module" value="member" />
 		<input type="hidden" name="act" value="procMemberLogin" />
 		<input type="hidden" name="redirect_url" value="{getUrl('act','')}" />

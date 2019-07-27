@@ -27,15 +27,18 @@ class commentController extends comment
 	 */
 	function procCommentVoteUp()
 	{
-		if(!Context::get('is_logged'))
+		if($this->module_info->non_login_vote !== 'Y')
 		{
-			return $this->setError('msg_invalid_request');
+			if(!Context::get('is_logged'))
+			{
+				throw new Rhymix\Framework\Exceptions\NotPermitted;
+			}
 		}
 
 		$comment_srl = Context::get('target_srl');
 		if(!$comment_srl)
 		{
-			return $this->setError('msg_invalid_request');
+			throw new Rhymix\Framework\Exceptions\InvalidRequest;
 		}
 
 		$oCommentModel = getModel('comment');
@@ -43,14 +46,14 @@ class commentController extends comment
 		$module_srl = $oComment->get('module_srl');
 		if(!$module_srl)
 		{
-			return $this->setError('msg_invalid_request');
+			throw new Rhymix\Framework\Exceptions\InvalidRequest;
 		}
 
 		$oModuleModel = getModel('module');
 		$comment_config = $oModuleModel->getModulePartConfig('comment', $module_srl);
 		if($comment_config->use_vote_up == 'N')
 		{
-			return $this->setError('msg_invalid_request');
+			throw new Rhymix\Framework\Exceptions\FeatureDisabled;
 		}
 
 		$point = 1;
@@ -61,16 +64,22 @@ class commentController extends comment
 
 	function procCommentVoteUpCancel()
 	{
-		if(!Context::get('logged_info')) return $this->setError('msg_invalid_request');
+		if($this->module_info->non_login_vote !== 'Y')
+		{
+			if(!Context::get('is_logged'))
+			{
+				throw new Rhymix\Framework\Exceptions\NotPermitted;
+			}
+		}
 
 		$comment_srl = Context::get('target_srl');
-		if(!$comment_srl) return $this->setError('msg_invalid_request');
+		if(!$comment_srl) throw new Rhymix\Framework\Exceptions\InvalidRequest;
 
 		$oCommentModel = getModel('comment');
 		$oComment = $oCommentModel->getComment($comment_srl, FALSE, FALSE);
 		if($oComment->get('voted_count') <= 0)
 		{
-			return $this->setError('msg_comment_voted_cancel_not');
+			throw new Rhymix\Framework\Exception('failed_voted_canceled');
 		}
 		$point = 1;
 		$output = $this->updateVotedCountCancel($comment_srl, $oComment, $point);
@@ -88,15 +97,18 @@ class commentController extends comment
 	 */
 	function procCommentVoteDown()
 	{
-		if(!Context::get('is_logged'))
+		if($this->module_info->non_login_vote !== 'Y')
 		{
-			return $this->setError('msg_invalid_request');
+			if(!Context::get('is_logged'))
+			{
+				throw new Rhymix\Framework\Exceptions\NotPermitted;
+			}
 		}
 
 		$comment_srl = Context::get('target_srl');
 		if(!$comment_srl)
 		{
-			return $this->setError('msg_invalid_request');
+			throw new Rhymix\Framework\Exceptions\InvalidRequest;
 		}
 
 		$oCommentModel = getModel('comment');
@@ -104,14 +116,14 @@ class commentController extends comment
 		$module_srl = $oComment->get('module_srl');
 		if(!$module_srl)
 		{
-			return $this->setError('msg_invalid_request');
+			throw new Rhymix\Framework\Exceptions\InvalidRequest;
 		}
 
 		$oModuleModel = getModel('module');
 		$comment_config = $oModuleModel->getModulePartConfig('comment', $module_srl);
 		if($comment_config->use_vote_down == 'N')
 		{
-			return $this->setError('msg_invalid_request');
+			throw new Rhymix\Framework\Exceptions\FeatureDisabled;
 		}
 
 		$point = -1;
@@ -122,16 +134,22 @@ class commentController extends comment
 
 	function procCommentVoteDownCancel()
 	{
-		if(!Context::get('logged_info')) return $this->setError('msg_invalid_request');
+		if($this->module_info->non_login_vote !== 'Y')
+		{
+			if(!Context::get('is_logged'))
+			{
+				throw new Rhymix\Framework\Exceptions\NotPermitted;
+			}
+		}
 
 		$comment_srl = Context::get('target_srl');
-		if(!$comment_srl) return $this->setError('msg_invalid_request');
+		if(!$comment_srl) throw new Rhymix\Framework\Exceptions\InvalidRequest;
 
 		$oCommentModel = getModel('comment');
 		$oComment = $oCommentModel->getComment($comment_srl, FALSE, FALSE);
 		if($oComment->get('blamed_count') >= 0)
 		{
-			return $this->setError('msg_comment_blamed_cancel_not');
+			throw new Rhymix\Framework\Exception('failed_blamed_canceled');
 		}
 		$point = -1;
 		$output = $this->updateVotedCountCancel($comment_srl, $oComment, $point);
@@ -145,19 +163,58 @@ class commentController extends comment
 	function updateVotedCountCancel($comment_srl, $oComment, $point)
 	{
 		$logged_info = Context::get('logged_info');
+		
+		// Check if the current user has voted previously.
+		$args = new stdClass;
+		$args->comment_srl = $comment_srl;
+		$args->point = $point;
+		if($logged_info->member_srl)
+		{
+			$args->member_srl = $logged_info->member_srl;
+		}
+		else
+		{
+			$args->ipaddress = $_SERVER['REMOTE_ADDR'];
+		}
+		$output = executeQuery('comment.getCommentVotedLogInfo', $args);
+		if(!$output->data->count)
+		{
+			return new BaseObject(-1, $point > 0 ? 'failed_voted_canceled' : 'failed_blamed_canceled');
+		}
+
+		// Call a trigger (before)
+		$trigger_obj = new stdClass;
+		$trigger_obj->member_srl = $oComment->get('member_srl');
+		$trigger_obj->module_srl = $oComment->get('module_srl');
+		$trigger_obj->document_srl = $oComment->get('document_srl');
+		$trigger_obj->comment_srl = $oComment->get('comment_srl');
+		$trigger_obj->update_target = ($point < 0) ? 'blamed_count' : 'voted_count';
+		$trigger_obj->point = $point;
+		$trigger_obj->before_point = ($point < 0) ? $oComment->get('blamed_count') : $oComment->get('voted_count');
+		$trigger_obj->after_point = $trigger_obj->before_point - $point;
+		$trigger_obj->cancel = true;
+		$trigger_output = ModuleHandler::triggerCall('comment.updateVotedCountCancel', 'before', $trigger_obj);
+		if(!$trigger_output->toBool())
+		{
+			return $trigger_output;
+		}
+
+		// begin transaction
+		$oDB = DB::getInstance();
+		$oDB->begin();
 
 		$args = new stdClass();
 		$d_args = new stdClass();
 		$args->comment_srl = $d_args->comment_srl = $comment_srl;
 		$d_args->member_srl = $logged_info->member_srl;
-		if($point > 0)
+		if ($trigger_obj->update_target === 'voted_count')
 		{
-			$args->voted_count = $oComment->get('voted_count') - $point;
+			$args->voted_count = $trigger_obj->after_point;
 			$output = executeQuery('comment.updateVotedCount', $args);
 		}
 		else
 		{
-			$args->blamed_count = $oComment->get('blamed_count') - $point;
+			$args->blamed_count = $trigger_obj->after_point;
 			$output = executeQuery('comment.updateBlamedCount', $args);
 		}
 		$d_output = executeQuery('comment.deleteCommentVotedLog', $d_args);
@@ -165,22 +222,10 @@ class commentController extends comment
 
 		//session reset
 		$_SESSION['voted_comment'][$comment_srl] = false;
-
-		// begin transaction
-		$oDB = DB::getInstance();
-		$oDB->begin();
-
-		$obj = new stdClass();
-		$obj->member_srl = $oComment->get('member_srl');
-		$obj->module_srl = $oComment->get('module_srl');
-		$obj->comment_srl = $oComment->get('comment_srl');
-		$obj->update_target = ($point < 0) ? 'blamed_count' : 'voted_count';
-		$obj->point = $point;
-		$obj->before_point = ($point < 0) ? $oComment->get('blamed_count') : $oComment->get('voted_count');
-		$obj->after_point = ($point < 0) ? $args->blamed_count : $args->voted_count;
-		$obj->cancel = 1;
 		
-		ModuleHandler::triggerCall('comment.updateVotedCountCancel', 'after', $obj);
+		// Call a trigger (after)
+		ModuleHandler::triggerCall('comment.updateVotedCountCancel', 'after', $trigger_obj);
+		
 		$oDB->commit();
 		return $output;
 	}
@@ -193,13 +238,13 @@ class commentController extends comment
 	{
 		if(!Context::get('is_logged'))
 		{
-			return $this->setError('msg_invalid_request');
+			throw new Rhymix\Framework\Exceptions\NotPermitted;
 		}
 
 		$comment_srl = Context::get('target_srl');
 		if(!$comment_srl)
 		{
-			return $this->setError('msg_invalid_request');
+			throw new Rhymix\Framework\Exceptions\InvalidRequest;
 		}
 
 		// if an user select message from options, message would be the option.
@@ -297,7 +342,7 @@ class commentController extends comment
 	{
 		if(!$manual_inserted && !checkCSRF())
 		{
-			return new BaseObject(-1, 'msg_invalid_request');
+			return new BaseObject(-1, 'msg_security_violation');
 		}
 
 		if(!is_object($obj))
@@ -348,6 +393,12 @@ class commentController extends comment
 		// Remove manual member info to prevent forgery. This variable can be set by triggers only.
 		unset($obj->manual_member_info);
 		
+		// Sanitize variables
+		$obj->comment_srl = intval($obj->comment_srl);
+		$obj->module_srl = intval($obj->module_srl);
+		$obj->document_srl = intval($obj->document_srl);
+		$obj->parent_srl = intval($obj->parent_srl);
+		
 		// call a trigger (before)
 		$output = ModuleHandler::triggerCall('comment.insertComment', 'before', $obj);
 		if(!$output->toBool())
@@ -389,7 +440,7 @@ class commentController extends comment
 
 			if($obj->homepage)
 			{
-				$obj->homepage = removeHackTag($obj->homepage);
+				$obj->homepage = escape($obj->homepage);
 				if(!preg_match('/^[a-z]+:\/\//i',$obj->homepage))
 				{
 					$obj->homepage = 'http://'.$obj->homepage;
@@ -494,7 +545,7 @@ class commentController extends comment
 			// return if no parent comment exists
 			if(!$parent_output->toBool() || !$parent_output->data)
 			{
-				return $parent_output;
+				return new BaseObject(-1, 'parent comment does not exist');
 			}
 
 			$parent = $parent_output->data;
@@ -544,14 +595,12 @@ class commentController extends comment
 			return $output;
 		}
 		
-		// get the number of all comments in the posting
-		$comment_count = $oCommentModel->getCommentCount($document_srl);
-
 		// create the controller object of the document
 		$oDocumentController = getController('document');
 
 		// Update the number of comments in the post
-		if(!$using_validation || $is_admin)
+		$comment_count = $oCommentModel->getCommentCount($document_srl);
+		if($comment_count && (!$using_validation || $is_admin))
 		{
 			$output = $oDocumentController->updateCommentCount($document_srl, $comment_count, $obj->nick_name, $update_document);
 		}
@@ -701,7 +750,7 @@ class commentController extends comment
 	{
 		if(!$manual_updated && !checkCSRF())
 		{
-			return new BaseObject(-1, 'msg_invalid_request');
+			return new BaseObject(-1, 'msg_security_violation');
 		}
 
 		if(!is_object($obj))
@@ -713,7 +762,13 @@ class commentController extends comment
 
 		// Remove manual member info to prevent forgery. This variable can be set by triggers only.
 		unset($obj->manual_member_info);
-
+		
+		// Sanitize variables
+		$obj->comment_srl = intval($obj->comment_srl);
+		$obj->module_srl = intval($obj->module_srl);
+		$obj->document_srl = intval($obj->document_srl);
+		$obj->parent_srl = intval($obj->parent_srl);
+		
 		// call a trigger (before)
 		$output = ModuleHandler::triggerCall('comment.updateComment', 'before', $obj);
 		if(!$output->toBool())
@@ -748,7 +803,7 @@ class commentController extends comment
 
 		if($obj->homepage) 
 		{
-			$obj->homepage = removeHackTag($obj->homepage);
+			$obj->homepage = escape($obj->homepage);
 			if(!preg_match('/^[a-z]+:\/\//i',$obj->homepage))
 			{
 				$obj->homepage = 'http://'.$obj->homepage;
@@ -973,6 +1028,7 @@ class commentController extends comment
 		$document_srl = $comment->document_srl;
 
 		// call a trigger (before)
+		$comment->isMoveToTrash = $isMoveToTrash ? true : false;
 		$output = ModuleHandler::triggerCall('comment.deleteComment', 'before', $comment);
 		if(!$output->toBool())
 		{
@@ -1080,7 +1136,6 @@ class commentController extends comment
 		}
 
 		// call a trigger (after)
-		$comment->isMoveToTrash = $isMoveToTrash;
 		ModuleHandler::triggerCall('comment.deleteComment', 'after', $comment);
 		unset($comment->isMoveToTrash);
 
@@ -1136,9 +1191,8 @@ class commentController extends comment
 			return new BaseObject(-1, 'msg_admin_comment_no_move_to_trash');
 		}
 
-		$trash_args->module_srl = $oComment->variables['module_srl'];
-		$obj->module_srl = $oComment->variables['module_srl'];
-
+		$obj->module_srl = $oComment->get('module_srl');
+		$trash_args->module_srl = $obj->module_srl;
 		if($trash_args->module_srl === 0)
 		{
 			return new BaseObject(-1, 'msg_module_srl_not_exists');
@@ -1214,6 +1268,11 @@ class commentController extends comment
 			executeQuery('file.updateFileValid', $args);
 		}
 
+		$obj->document_srl = $oComment->get('document_srl');
+		$obj->parent_srl = $oComment->get('parent_srl');
+		$obj->member_srl = $oComment->get('member_srl');
+		$obj->regdate = $oComment->get('regdate');
+		$obj->last_update = $oComment->get('last_update');
 		ModuleHandler::triggerCall('comment.moveCommentToTrash', 'after', $obj);
 
 		$oDB->commit();
@@ -1341,12 +1400,10 @@ class commentController extends comment
 		if($point > 0)
 		{
 			$failed_voted = 'failed_voted';
-			$success_message = 'success_voted';
 		}
 		else
 		{
 			$failed_voted = 'failed_blamed';
-			$success_message = 'success_blamed';
 		}
 
 		// invalid vote if vote info exists in the session info.
@@ -1355,23 +1412,24 @@ class commentController extends comment
 			return new BaseObject(-1, $failed_voted);
 		}
 
+		// Get the original comment
 		$oCommentModel = getModel('comment');
 		$oComment = $oCommentModel->getComment($comment_srl, FALSE, FALSE);
 
-		// invalid vote if both ip addresses between author's and the current user are same.
+		// Pass if the author's IP address is as same as visitor's.
 		if($oComment->get('ipaddress') == $_SERVER['REMOTE_ADDR'])
 		{
 			$_SESSION['voted_comment'][$comment_srl] = false;
 			return new BaseObject(-1, $failed_voted);
 		}
 
+		// Create a member model object
+		$oMemberModel = getModel('member');
+		$member_srl = $oMemberModel->getLoggedMemberSrl();
+
 		// if the comment author is a member
 		if($oComment->get('member_srl'))
 		{
-			// create the member model object
-			$oMemberModel = getModel('member');
-			$member_srl = $oMemberModel->getLoggedMemberSrl();
-
 			// session registered if the author information matches to the current logged-in user's.
 			if($member_srl && $member_srl == abs($oComment->get('member_srl')))
 			{
@@ -1380,9 +1438,8 @@ class commentController extends comment
 			}
 		}
 
-		$args = new stdClass();
-
 		// If logged-in, use the member_srl. otherwise use the ipaddress.
+		$args = new stdClass();
 		if($member_srl)
 		{
 			$args->member_srl = $member_srl;
@@ -1391,61 +1448,72 @@ class commentController extends comment
 		{
 			$args->ipaddress = $_SERVER['REMOTE_ADDR'];
 		}
-
 		$args->comment_srl = $comment_srl;
 		$output = executeQuery('comment.getCommentVotedLogInfo', $args);
 
-		// session registered if log info contains recommendation vote log.
+		// Pass after registering a session if log information has vote-up logs
 		if($output->data->count)
 		{
 			$_SESSION['voted_comment'][$comment_srl] = false;
 			return new BaseObject(-1, $failed_voted);
 		}
 
+		// Call a trigger (before)
+		$trigger_obj = new stdClass;
+		$trigger_obj->member_srl = $oComment->get('member_srl');
+		$trigger_obj->module_srl = $oComment->get('module_srl');
+		$trigger_obj->document_srl = $oComment->get('document_srl');
+		$trigger_obj->comment_srl = $oComment->get('comment_srl');
+		$trigger_obj->update_target = ($point < 0) ? 'blamed_count' : 'voted_count';
+		$trigger_obj->point = $point;
+		$trigger_obj->before_point = ($point < 0) ? $oComment->get('blamed_count') : $oComment->get('voted_count');
+		$trigger_obj->after_point = $trigger_obj->before_point + $point;
+		$trigger_obj->cancel = false;
+		$trigger_output = ModuleHandler::triggerCall('comment.updateVotedCount', 'before', $trigger_obj);
+		if(!$trigger_output->toBool())
+		{
+			return $trigger_output;
+		}
+
 		// begin transaction
 		$oDB = DB::getInstance();
 		$oDB->begin();
 
-		// update the number of votes
-		if($point < 0)
+		// Update the voted count
+		if($trigger_obj->update_target === 'blamed_count')
 		{
 			// leave into session information
-			$_SESSION['voted_comment'][$comment_srl] = $point;
-			$args->blamed_count = $oComment->get('blamed_count') + $point;
+			$args->blamed_count = $trigger_obj->after_point;
 			$output = executeQuery('comment.updateBlamedCount', $args);
 		}
 		else
 		{
-			$_SESSION['voted_comment'][$comment_srl] = $point;
-			$args->voted_count = $oComment->get('voted_count') + $point;
+			$args->voted_count = $trigger_obj->after_point;
 			$output = executeQuery('comment.updateVotedCount', $args);
 		}
 
 		// leave logs
-		$args->point = $point;
+		$args->point = $trigger_obj->point;
 		$output = executeQuery('comment.insertCommentVotedLog', $args);
 
-		$obj = new stdClass();
-		$obj->member_srl = $oComment->get('member_srl');
-		$obj->module_srl = $oComment->get('module_srl');
-		$obj->comment_srl = $oComment->get('comment_srl');
-		$obj->update_target = ($point < 0) ? 'blamed_count' : 'voted_count';
-		$obj->point = $point;
-		$obj->before_point = ($point < 0) ? $oComment->get('blamed_count') : $oComment->get('voted_count');
-		$obj->after_point = ($point < 0) ? $args->blamed_count : $args->voted_count;
-		
-		ModuleHandler::triggerCall('comment.updateVotedCount', 'after', $obj);
+		// Leave in the session information
+		$_SESSION['voted_comment'][$comment_srl] = $trigger_obj->point;
+
+		// Call a trigger (after)
+		ModuleHandler::triggerCall('comment.updateVotedCount', 'after', $trigger_obj);
 		$oDB->commit();
 
 		// Return the result
-		$output = new BaseObject(0, $success_message);
-		if($point > 0)
+		$output = new BaseObject();
+		if($trigger_obj->update_target === 'voted_count')
 		{
-			$output->add('voted_count', $obj->after_point);
+			$output->setMessage('success_voted');
+			$output->add('voted_count', $trigger_obj->after_point);
 		}
 		else
 		{
-			$output->add('blamed_count', $obj->after_point);
+			$output->setMessage('success_blamed');
+			$output->add('blamed_count', $trigger_obj->after_point);
 		}
 
 		return $output;
@@ -1500,13 +1568,12 @@ class commentController extends comment
 			return new BaseObject(-1, 'failed_declared');
 		}
 
+		// Get currently logged in user.
+		$member_srl = intval($this->user->member_srl);
+		
 		// if the comment author is a member
 		if($oComment->get('member_srl'))
 		{
-			// create the member model object
-			$oMemberModel = getModel('member');
-			$member_srl = $oMemberModel->getLoggedMemberSrl();
-
 			// session registered if the author information matches to the current logged-in user's.
 			if($member_srl && $member_srl == abs($oComment->get('member_srl')))
 			{
@@ -1515,29 +1582,31 @@ class commentController extends comment
 			}
 		}
 
-		// If logged-in, use the member_srl. otherwise use the ipaddress.
+		// Pass after registering a sesson if reported/declared documents are in the logs.
+		$args = new stdClass;
+		$args->comment_srl = $comment_srl;
 		if($member_srl)
 		{
 			$args->member_srl = $member_srl;
 		}
 		else
 		{
-			$args->ipaddress = $_SERVER['REMOTE_ADDR'];
+			$args->ipaddress = \RX_CLIENT_IP;
 		}
-
-		$args->comment_srl = $comment_srl;
-		$args->declare_message = $declare_message;
 		$log_output = executeQuery('comment.getCommentDeclaredLogInfo', $args);
-
-		// session registered if log info contains report log.
 		if($log_output->data->count)
 		{
 			$_SESSION['declared_comment'][$comment_srl] = TRUE;
 			return new BaseObject(-1, 'failed_declared');
 		}
-
+		
+		// Fill in remaining information for logging.
+		$args->member_srl = $member_srl;
+		$args->ipaddress = \RX_CLIENT_IP;
+		$args->declare_message = $declare_message;
+		
 		// begin transaction
-		$oDB = &DB::getInstance();
+		$oDB = DB::getInstance();
 		$oDB->begin();
 
 		// execute insert
@@ -1655,13 +1724,13 @@ class commentController extends comment
 			$module_info = $oModuleModel->getModuleInfoByModuleSrl($srl);
 			if (!$module_info->module_srl)
 			{
-				return $this->setError('msg_invalid_request');
+				throw new Rhymix\Framework\Exceptions\InvalidRequest;
 			}
 			
 			$module_grant = $oModuleModel->getGrant($module_info, $logged_info);
 			if (!$module_grant->manager)
 			{
-				return $this->setError('msg_not_permitted');
+				throw new Rhymix\Framework\Exceptions\NotPermitted;
 			}
 			
 			$module_srl[] = $srl;
@@ -1729,7 +1798,7 @@ class commentController extends comment
 	{
 		if(!Context::get('is_logged'))
 		{
-			return $this->setError('msg_not_permitted');
+			throw new Rhymix\Framework\Exceptions\NotPermitted;
 		}
 
 		$commentSrls = Context::get('comment_srls');

@@ -131,7 +131,7 @@ class pageAdminController extends page
 	{
 		$module_srl = Context::get('module_srl');
 		$content = Context::get('content');
-		if(!$module_srl) return $this->setError('msg_invalid_request');
+		if(!$module_srl) throw new Rhymix\Framework\Exceptions\InvalidRequest;
 		$mcontent = Context::get('mcontent');
 		$type = Context::get('type');
 		// Guhaeom won information page
@@ -301,7 +301,7 @@ class pageAdminController extends page
 
 		if(!$grant->manager)
 		{
-			return $this->setError('msg_not_permitted');
+			throw new Rhymix\Framework\Exceptions\NotPermitted;
 		}
 
 		$obj = Context::getRequestVars();

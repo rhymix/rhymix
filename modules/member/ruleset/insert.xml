@@ -3,7 +3,7 @@
     <customrules>
     </customrules>
     <fields>
-		<field name="user_id" required="true" length="3:20" />
+		<field name="user_id" required="true" length="2:20" />
 		<field name="user_name" required="true" length="2:40" />
 		<field name="nick_name" required="true" length="2:40" />
 		<field name="email_address" required="true" length="1:200" rule="email" />

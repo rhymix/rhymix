@@ -71,7 +71,7 @@
 		if (token) {
 			return $(this).each(function() {
 				if ($(this).data("csrf-token-checked") === "Y") return;
-				if (!isSameOrigin(location.href, $(this).attr("action"))) {
+				if ($(this).attr("action") && !isSameOrigin(location.href, $(this).attr("action"))) {
 					return $(this).data("csrf-token-checked", "Y");
 				}
 				$("<input />").attr({ type: "hidden", name: "_rx_csrf_token", value: token }).appendTo($(this));
@@ -92,6 +92,7 @@
 	window.XE = {
 		loaded_popup_menus : [],
 		addedDocument : [],
+		cookie : window.Cookies,
 		URI : window.URI,
 		URITemplate : window.URITemplate,
 		SecondLevelDomains : window.SecondLevelDomains,
@@ -224,16 +225,20 @@
 				window.XE.baseurl = window.XE.baseurl.hostname() + window.XE.baseurl.directory();
 			}
 			
-			var target_url = window.XE.URI(url).normalizePort().normalizeHostname().normalizePathname();
-			if (target_url.is("urn")) {
+			try {
+				var target_url = window.XE.URI(url).normalizePort().normalizeHostname().normalizePathname();
+				if (target_url.is("urn")) {
+					return false;
+				}
+				if (!target_url.hostname()) {
+					target_url = target_url.absoluteTo(window.request_uri);
+				}
+				target_url = target_url.hostname() + target_url.directory();
+				return target_url.indexOf(window.XE.baseurl) === 0;
+			}
+			catch(err) {
 				return false;
 			}
-			if (!target_url.hostname()) {
-				target_url = target_url.absoluteTo(window.request_uri);
-			}
-			target_url = target_url.hostname() + target_url.directory();
-
-			return target_url.indexOf(window.XE.baseurl) === 0;
 		}
 	};
 	
@@ -279,6 +284,10 @@ jQuery(function($) {
 			rel = (typeof rel === 'undefined') ? '' : String(rel);
 			if (!rel.match(/\bnoopener\b/)) {
 				$this.attr('rel', $.trim(rel + ' noopener'));
+			}
+			var isChrome = navigator.userAgent.match(/Chrome\/([0-9]+)/);
+			if (isChrome && parseInt(isChrome[1], 10) >= 72) {
+				return;
 			}
 			event.preventDefault();
 			blankshield.open(href);
@@ -621,22 +630,21 @@ function setFixedPopupSize() {
 	offset = $pc.css({overflow:'scroll'}).offset();
 
 	w = $pc.width(10).height(10000).get(0).scrollWidth + offset.left*2;
-	h = $pc.height(10).width(10000).get(0).scrollHeight + offset.top*2;
 
 	if(w < 800) w = 800 + offset.left*2;
+	// Window 의 너비나 높이는 스크린의 너비나 높이보다 클 수 없다. 스크린의 너비나 높이와 내용의 너비나 높이를 비교해서 최소값을 이용한다.
+	w = Math.min(w, window.screen.availWidth);
+
+	h = $pc.width(w - offset.left*2).height(10).get(0).scrollHeight + offset.top*2;
 
 	dw = $win.width();
 	dh = $win.height();
 
-	// Window 의 너비나 높이는 스크린의 너비나 높이보다 클 수 없다. 스크린의 너비나 높이와 내용의 너비나 높이를 비교해서 최소값을 이용한다.
-	w = Math.min(w, window.screen.availWidth);
 	h = Math.min(h, window.screen.availHeight - 100);
 	window.resizeBy(w - dw, h - dh);
 
-	$pc.width(w - offset.left*2).css({overflow:'',height:''});
-	if(h === window.screen.availHeight - 100) {
-		$pc.width(w - offset.left*2-scbw).css({overflow:'',height:''});
-	}
+	$pc.width('100%').css({overflow:'',height:'','box-sizing':'border-box'});
+
 }
 
 /**
@@ -674,9 +682,7 @@ function doChangeLangType(obj) {
 	location.href = location.href.setQuery('l', '');
 }
 function setLangType(lang_type) {
-	var expire = new Date();
-	expire.setTime(expire.getTime()+ (7000 * 24 * 3600000));
-	setCookie('lang_type', lang_type, expire, '/');
+	XE.cookie.set("lang_type", lang_type, { path: "/", expires: 3650 });
 }
 
 /* 미리보기 */
@@ -1052,18 +1058,16 @@ function getOuterHTML(obj) {
 	return jQuery(obj).html().trim();
 }
 
-function setCookie(name, value, expire, path) {
-	var s_cookie = name + "=" + escape(value) +
-		((!expire) ? "" : ("; expires=" + expire.toGMTString())) +
-		"; path=" + ((!path) ? "/" : path) + 
-		((cookies_ssl) ? ";secure" : "");
-
-	document.cookie = s_cookie;
+function setCookie(name, value, expires, path) {
+	XE.cookie.set(name, value, {
+		expires: expires ? expires : 0,
+		path: path ? path : "/",
+		secure: cookies_ssl ? true : false
+	});
 }
 
 function getCookie(name) {
-	var match = document.cookie.match(new RegExp(name+'=(.*?)(?:;|$)'));
-	if(match) return unescape(match[1]);
+	return XE.cookie.get(name);
 }
 
 function is_def(v) {

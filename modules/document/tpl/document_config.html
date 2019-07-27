@@ -6,17 +6,15 @@
 	<input type="hidden" name="xe_validator_id" value="modules/document/tpl/document_config/1" />
 
 	<div class="x_control-group">
-		<div class="x_control-group">
-			<label class="x_control-label">{$lang->view_count_option}</label>
-			<div class="x_controls">
-				<select name="view_count_option">
-					<option value="all" selected="selected"|cond="$config->view_count_option=='all'">{$lang->view_count_option_all}</option>
-					<option value="some" selected="selected"|cond="$config->view_count_option=='some'">{$lang->view_count_option_some}</option>
-					<option value="once" selected="selected"|cond="$config->view_count_option=='once' || !$config->view_count_option">{$lang->view_count_option_once}</option>
-					<option value="none" selected="selected"|cond="$config->view_count_option=='none'">{$lang->view_count_option_none}</option>
-				</select>
-				<p>{$lang->about_view_count_option}</p>
-			</div>
+		<label class="x_control-label">{$lang->view_count_option}</label>
+		<div class="x_controls">
+			<select name="view_count_option">
+				<option value="all" selected="selected"|cond="$config->view_count_option=='all'">{$lang->view_count_option_all}</option>
+				<option value="some" selected="selected"|cond="$config->view_count_option=='some'">{$lang->view_count_option_some}</option>
+				<option value="once" selected="selected"|cond="$config->view_count_option=='once' || !$config->view_count_option">{$lang->view_count_option_once}</option>
+				<option value="none" selected="selected"|cond="$config->view_count_option=='none'">{$lang->view_count_option_none}</option>
+			</select>
+			<p class="x_help-block">{$lang->about_view_count_option}</p>
 		</div>
 	</div>
 	<div class="x_control-group">
@@ -26,8 +24,7 @@
 				<option value="">{$lang->notuse}</option>
 				<option loop="$pcIconSkinList => $key, $val" value="{$val->title}" selected="selected"|cond="$config->icons == $val->title">{$val->title}</option>
 			</select>
-			<a href="#icons_help" class="x_icon-question-sign" data-toggle>{$lang->help}</a>
-			<p id="icons_help" class="x_help-block" hidden>{$lang->about_cmd_pc_icon_setting}</p>
+			<p id="icons_help" class="x_help-block">{$lang->about_cmd_pc_icon_setting}</p>
 		</div>
 	</div>
 	<div class="x_control-group">
@@ -37,8 +34,7 @@
 				<option value="">{$lang->notuse}</option>
 				<option loop="$pcIconSkinList => $key, $val" value="{$val->title}" selected="selected"|cond="$config->micons == $val->title">{$val->title}</option>
 			</select>
-			<a href="#micons_help" class="x_icon-question-sign" data-toggle>{$lang->help}</a>
-			<p id="micons_help" class="x_help-block" hidden>{$lang->about_cmd_mobile_icon_setting}</p>
+			<p id="micons_help" class="x_help-block">{$lang->about_cmd_mobile_icon_setting}</p>
 		</div>
 	</div>
 

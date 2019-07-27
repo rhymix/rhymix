@@ -1,12 +1,9 @@
-<load target="css/admin.bootstrap.css" />
-<load target="css/admin.iefix.css" />
-<load target="css/admin.css" />
-<load target="js/admin.js" />
-<load target="js/jquery.tmpl.js" />
-<load target="js/jquery.jstree.js" />
+<config autoescape="on" />
+
+<include target="./_admin_common.html" />
 <div class="x">
 	<div class="content" id="content">
-		{$content}
+		{$content|noescape}
 	</div>
 </div>
 <script>opener.top.fullSetupWinLoaded();</script>

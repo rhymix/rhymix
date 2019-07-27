@@ -20,7 +20,7 @@ class installAdminController extends install
 	function procInstallAdminInstall()
 	{
 		$module_name = Context::get('module_name');
-		if(!$module_name) return $this->setError('invalid_request');
+		if(!$module_name) throw new Rhymix\Framework\Exceptions\InvalidRequest;
 
 		$oInstallController = getController('install');
 		$oInstallController->installModule($module_name, './modules/'.$module_name);
@@ -35,13 +35,10 @@ class installAdminController extends install
 	{
 		@set_time_limit(0);
 		$module_name = Context::get('module_name');
-		if(!$module_name) return $this->setError('invalid_request');
+		if(!$module_name) throw new Rhymix\Framework\Exceptions\InvalidRequest;
 
 		$oModule = getModule($module_name, 'class');
-		if(!$oModule)
-		{
-			return $this->setError('invalid_request');
-		}
+		if(!$oModule) throw new Rhymix\Framework\Exceptions\InvalidRequest;
 		
 		Rhymix\Framework\Session::close();
 		$output = $oModule->moduleUpdate();

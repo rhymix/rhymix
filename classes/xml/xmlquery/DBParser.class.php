@@ -264,7 +264,7 @@ class DBParser
 				}
 				if($brackets == $total_brackets)
 				{
-					if(!is_numeric($match) && !in_array(strtoupper($match), array('UNSIGNED', 'INTEGER', 'AS')))
+					if(!is_numeric($match) && !in_array(strtoupper($match), array('UNSIGNED', 'INTEGER', 'AS')) && !preg_match('/^[A-Z]+$/', $match))
 					{
 						$match = $this->escapeColumnExpression($match);
 					}

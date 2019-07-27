@@ -195,6 +195,7 @@ class spamfilterController extends spamfilter
 			$output->add('fail_list', $fail_list);
 		}
 		
+		Rhymix\Framework\Cache::delete('spamfilter:denied_ip_list');
 		return $output;
 	}
 

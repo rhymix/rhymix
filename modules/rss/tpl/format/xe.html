@@ -22,8 +22,8 @@
 			<tags>{$oDocument->get('tags')}</tags>
 			<comment_count>{$oDocument->getCommentCount()}</comment_count>
 			<trackback_count>{$oDocument->getTrackbackCount()}</trackback_count>
-			<pubDate>{$oDocument->getRegdateGM('r')}</pubDate>
-			<upDate>{$oDocument->getUpdateGM('r')}</upDate>
+			<pubDate>{date('r', ztime($oDocument->get('regdate')))}</pubDate>
+			<upDate>{date('r', ztime($oDocument->get('last_update')))}</upDate>
 		</item>
 	</channel>
 </rss>

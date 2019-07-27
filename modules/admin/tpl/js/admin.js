@@ -91,7 +91,6 @@ jQuery(function($){
 		var $xBody = $('.x>.body');
 		var $xGnb = $xBody.find('>.gnb');
 		var $xContent = $xBody.children('#content.content');
-		$xContent.width('99.99%');
 		setTimeout(function(){
 			$xContent.removeAttr('style');
 			if($xGnb.height() > $xContent.height()){
@@ -103,7 +102,7 @@ jQuery(function($){
 	$.fn.gnb = function(){
 		var $xBody = $('.x>.body');
 		var $xGnb = $xBody.find('>.gnb');
-		var $xGnb_li = $xGnb.find('>ul>li');
+		var $xGnb_li = $xGnb.find('>ul>li:not(.active_clone)');
 
 		var d365 = new Date();
 		d365.setTime(d365.getTime() + 60*60*24*356);
@@ -115,8 +114,6 @@ jQuery(function($){
 		$xGnb_li.each(function(index){
 			$(this).attr('data-index', index+1);
 		});
-		var parentIndex = $xGnb_li.find('>ul>li.active_').closest('li.active').attr('data-index');
-		$xGnb_li.find('>ul>li.active_').clone().addClass('active').attr('data-index', parentIndex).prependTo('#gnbNav').find('>a').prepend('<i />');
 		// GNB Click toggle
 		$xGnb_li.find('>a').click(function(){
 			var $this = $(this);
@@ -145,8 +142,17 @@ jQuery(function($){
 			}
 		});
 		// GNB Mobile Toggle
+		$("a.mobile_menu_open").click(function(){
+			$xGnb.toggleClass('open');
+			if($(this).parent('.gnb').hasClass('open')){
+				setCookie('__xe_admin_gnb_status', 'open', d365);
+			}else{
+				setCookie('__xe_admin_gnb_status', 'close', d365);
+			}
+			return false;
+		});
 		$xGnb.find('>a[href="#gnbNav"]').click(function(){
-			$(this).parent('.gnb').toggleClass('open');
+			$xGnb.toggleClass('open');
 			$xBody.toggleClass('wide');
 			if($(window).width() <= 980 && !$xGnb.hasClass('open')){
 				$('#gnbNav').removeClass('ex');
@@ -1426,17 +1432,27 @@ jQuery(function($){
 			$t.addClass('tg').find('>*:not(:first-child)').hide();
 		}
 	});
-	var details = $('.x .dsTg td.tg>*:not(:first-child)');
-	simpleBtn.click(function(){
+	var details = $('.x .dsTg td.tg>*:not(:first-child), .x .dsTg .rx_detail_marks').hide();
+	var simples = $('.x .dsTg .rx_simple_marks').show();
+	var simpleBtnFn = function(){
 		details.hide();
+		simples.show();
 		detailBtn.removeClass('x_active');
 		simpleBtn.addClass('x_active');
-	});
-	detailBtn.click(function(){
+	};
+	var detailBtnFn = function(){
 		details.show();
+		simples.hide();
 		detailBtn.addClass('x_active');
 		simpleBtn.removeClass('x_active');
-	});
+	};
+	simpleBtn.click(simpleBtnFn);
+	detailBtn.click(detailBtnFn);
+	if($(window).width() > 980) {
+		detailBtnFn();
+	} else {
+		simpleBtnFn();
+	}
 });
 
 // Multilingual Window
@@ -2042,7 +2058,7 @@ jQuery(function($){
 	$.xeMenuSelectorVar = {bMultiSelect: false};
 
 	$.template('menuSelector_menuTree', '<ul>{{html Nodes}}</ul>');
-	$.template('menuSelector_menuTreeNode', '<li> <a href="#" class="_nodeType_${NodeType} _menu_node _menu_url_${MenuUrl}" data-param=\'{ "sMenuId":"${MenuId}", "sMenuUrl":"${MenuUrl}", "sMenuTitle":"${MenuTitle}", "sType":"${MenuType}", "sModuleSrl":"${ModuleSrl}" }\'>${MenuTitle}</a> {{html SubTree}} </li>'); //data-param=\'{ "sMenuId":"${MenuId}", "sMenuUrl":"${MenuUrl}", "sMenuTitle":"${MenuTitle}" }\'
+	$.template('menuSelector_menuTreeNode', '<li> <a href="#" class="_nodeType_${NodeType} _menu_node _menu_url_${MenuUrl}" data-param=\'{ "sMenuId":"${MenuId}", "sMenuUrl":"${MenuUrl}", "sMenuTitle":"${eMenuTitle}", "sType":"${MenuType}", "sModuleSrl":"${ModuleSrl}" }\'>${MenuTitle}</a> {{html SubTree}} </li>'); //data-param=\'{ "sMenuId":"${MenuId}", "sMenuUrl":"${MenuUrl}", "sMenuTitle":"${MenuTitle}" }\'
 	function onSiteMapReceived(htData){
 		var $ = jQuery;
 
@@ -2271,7 +2287,7 @@ jQuery(function($){
 				nNodeType = 3;
 			}
 
-			var $node = $.tmpl( sMenuTreeNode, {MenuTitleWithHome:sTextWithIcons,MenuTitle:sText,MenuId:sNodeSrl,MenuUrl:sURL,NodeType:nNodeType,MenuType:sModuleType,SubTree:sSubTree,Target:sTargetPanel,ModuleSrl:sModuleSrl} )
+			var $node = $.tmpl( sMenuTreeNode, {MenuTitleWithHome:sTextWithIcons,MenuTitle:sText,eMenuTitle:sText.replace(/\"/g, "\\\""),MenuId:sNodeSrl,MenuUrl:sURL,NodeType:nNodeType,MenuType:sModuleType,SubTree:sSubTree,Target:sTargetPanel,ModuleSrl:sModuleSrl} )
 						.data('sMenuId', sNodeSrl).data('sMenuUrl', sURL).data('sMenuTitle', sText).data('sMenuType', sModuleType);
 			//data-param=\'{ "sMenuId":"${MenuId}", "sMenuUrl":"${MenuUrl}", "sMenuTitle":"${MenuTitle}" }\'
 			//console.log($node);
@@ -2373,7 +2389,7 @@ jQuery(function($){
 			for(var i=0; i<nLen; i++){
 				$SiteSelector.append($("<option>").val(aSiteList[i].site_srl).html(aSiteList[i].domain));
 			}
-			$SiteSelector.show();
+			$SiteSelector.hide();
 		}
 		$.xeShowMenuSelector($container, "0");
 	}

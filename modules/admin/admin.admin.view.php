@@ -36,11 +36,9 @@ class adminAdminView extends admin
 	function init()
 	{
 		// forbit access if the user is not an administrator
-		$oMemberModel = getModel('member');
-		$logged_info = $oMemberModel->getLoggedInfo();
-		if($logged_info->is_admin != 'Y')
+		if (!$this->user->isAdmin())
 		{
-			return $this->stop("admin.msg_is_not_administrator");
+			throw new Rhymix\Framework\Exceptions\NotPermitted('admin.msg_is_not_administrator');
 		}
 
 		// change into administration layout
@@ -79,6 +77,11 @@ class adminAdminView extends admin
 		if (config('crypto.session_key') === null)
 		{
 			config('crypto.session_key', Rhymix\Framework\Security::getRandom(64, 'alnum'));
+			$changed = true;
+		}
+		if (config('file.folder_structure') === null)
+		{
+			config('file.folder_structure', 1);
 			$changed = true;
 		}
 		
@@ -197,14 +200,6 @@ class adminAdminView extends admin
 			}
 		}
 
-		// Admin logo, title setup
-		$objConfig = $oModuleModel->getModuleConfig('admin');
-		$gnbTitleInfo = new stdClass();
-		$gnbTitleInfo->adminTitle = $objConfig->adminTitle ? $objConfig->adminTitle : 'Admin';
-		$gnbTitleInfo->adminLogo = $objConfig->adminLogo ? $objConfig->adminLogo : '';
-
-		$browserTitle = $gnbTitleInfo->adminTitle . ' - ' . ($subMenuTitle ? $subMenuTitle : 'Dashboard');
-
 		// Get list of favorite
 		$oAdminAdminModel = getAdminModel('admin');
 		$output = $oAdminAdminModel->getFavoriteList(0, true);
@@ -255,7 +250,7 @@ class adminAdminView extends admin
 		Context::set('gnbUrlList', $menu->list);
 		Context::set('parentSrl', $parentSrl);
 		Context::set('gnb_title_info', $gnbTitleInfo);
-		Context::addBrowserTitle($browserTitle);
+		Context::addBrowserTitle($subMenuTitle ? $subMenuTitle : 'Dashboard');
 	}
 
 	/**
@@ -454,6 +449,8 @@ class adminAdminView extends admin
 		Context::set('use_session_keys', Rhymix\Framework\Config::get('session.use_keys'));
 		Context::set('use_session_ssl', Rhymix\Framework\Config::get('session.use_ssl'));
 		Context::set('use_cookies_ssl', Rhymix\Framework\Config::get('session.use_ssl_cookies'));
+		Context::set('check_csrf_token', Rhymix\Framework\Config::get('security.check_csrf_token'));
+		Context::set('use_nofollow', Rhymix\Framework\Config::get('security.nofollow'));
 		
 		$this->setTemplateFile('config_security');
 	}
@@ -544,6 +541,7 @@ class adminAdminView extends admin
 		Context::set('use_ssl', Rhymix\Framework\Config::get('url.ssl'));
 		Context::set('delay_session', Rhymix\Framework\Config::get('session.delay'));
 		Context::set('use_db_session', Rhymix\Framework\Config::get('session.use_db'));
+		Context::set('manager_layout', Rhymix\Framework\Config::get('view.manager_layout'));
 		Context::set('minify_scripts', Rhymix\Framework\Config::get('view.minify_scripts'));
 		Context::set('concat_scripts', Rhymix\Framework\Config::get('view.concat_scripts'));
 		Context::set('use_server_push', Rhymix\Framework\Config::get('view.server_push'));
@@ -565,7 +563,7 @@ class adminAdminView extends admin
 		Context::set('debug_log_slow_widgets', Rhymix\Framework\Config::get('debug.log_slow_widgets'));
 		Context::set('debug_log_slow_remote_requests', Rhymix\Framework\Config::get('debug.log_slow_remote_requests'));
 		Context::set('debug_log_filename', Rhymix\Framework\Config::get('debug.log_filename') ?: 'files/debug/YYYYMMDD.php');
-		Context::set('debug_display_type', Rhymix\Framework\Config::get('debug.display_type'));
+		Context::set('debug_display_type', (array)Rhymix\Framework\Config::get('debug.display_type'));
 		Context::set('debug_display_content', Rhymix\Framework\Config::get('debug.display_content'));
 		Context::set('debug_display_to', Rhymix\Framework\Config::get('debug.display_to'));
 		Context::set('debug_write_error_log', Rhymix\Framework\Config::get('debug.write_error_log'));
@@ -636,7 +634,7 @@ class adminAdminView extends admin
 			$domain_info = getModel('module')->getSiteInfo($domain_srl);
 			if ($domain_info->domain_srl != $domain_srl)
 			{
-				return $this->setError('msg_domain_not_found');
+				throw new Rhymix\Framework\Exception('msg_domain_not_found');
 			}
 		}
 		Context::set('domain_info', $domain_info);
@@ -708,7 +706,6 @@ class adminAdminView extends admin
 	function dispAdminSetup()
 	{
 		$oModuleModel = getModel('module');
-		$configObject = $oModuleModel->getModuleConfig('admin');
 
 		$oAdmin = getClass('admin');
 		$oMenuAdminModel = getAdminModel('menu');
@@ -716,7 +713,6 @@ class adminAdminView extends admin
 
 		Context::set('menu_srl', $output->menu_srl);
 		Context::set('menu_title', $output->title);
-		Context::set('config_object', $configObject);
 		$this->setTemplateFile('admin_setup');
 	}
 

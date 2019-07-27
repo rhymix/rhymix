@@ -20,12 +20,9 @@
 				<select name="{$grant_name}_default" class="grant_default">
 					<option value="0" cond="$grant_item->default == 'guest'">{$lang->grant_to_all}</option>
 					<option value="-1" cond="$grant_item->default != 'manager'">{$lang->grant_to_login_user}</option>
-					<option value="-2" cond="$grant_item->default != 'manager'" selected="selected"|cond="$default_grant[$grant_name]=='site'">{$lang->grant_to_site_user}</option>
 					<option value="-3">{$lang->grant_to_admin}</option>
 					<option value="">{$lang->grant_to_group}</option>
 				</select>
-				<a href="#aboutGrantDetail" class="x_icon-question-sign" cond="$grant_name=='access'" data-toggle>{$lang->help}</a>
-				<p class="x_help-block" id="aboutGrantDetail" cond="$grant_name=='access'" hidden>{$lang->about_grant_deatil}</p>
 				<div id="zone_{$grant_name}" hidden style="margin:8px 0 0 0">
 					<label loop="$group_list => $group_srl, $group_item" for="grant_{$grant_name}_{$group_srl}">
 						<input type="checkbox" class="checkbox" name="{$grant_name}" value="{$group_item->group_srl}" id="grant_{$grant_name}_{$group_srl}" />

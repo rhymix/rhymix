@@ -27,13 +27,13 @@ class spamfilterModel extends spamfilter
 	/**
 	 * @brief Return the list of registered IP addresses which were banned
 	 */
-	function getDeniedIPList()
+	function getDeniedIPList($sort_index = 'regdate')
 	{
 		$args = new stdClass();
-		$args->sort_index = "regdate";
+		$args->sort_index = $sort_index;
 		$args->page = Context::get('page')?Context::get('page'):1;
 		$output = executeQueryArray('spamfilter.getDeniedIPList', $args);
-		if(!$output->data) return;
+		if(!$output->data) return array();
 		return $output->data;
 	}
 
@@ -42,18 +42,25 @@ class spamfilterModel extends spamfilter
 	 */
 	function isDeniedIP()
 	{
-		$ip_list = $this->getDeniedIPList();
+		$ip_list = Rhymix\Framework\Cache::get('spamfilter:denied_ip_list');
+		if ($ip_list === null)
+		{
+			$ip_list = $this->getDeniedIPList();
+			Rhymix\Framework\Cache::set('spamfilter:denied_ip_list', $ip_list);
+		}
 		if(!count($ip_list)) return new BaseObject();
 		
 		$ip_ranges = array();
 		foreach ($ip_list as $ip_range)
 		{
-			$ip_ranges[] = $ip_range->ipaddress;
-		}
-		
-		if (Rhymix\Framework\Filters\IpFilter::inRanges(\RX_CLIENT_IP, $ip_ranges))
-		{
-			return new BaseObject(-1, 'msg_alert_registered_denied_ip');
+			if (Rhymix\Framework\Filters\IpFilter::inRange(\RX_CLIENT_IP, $ip_range->ipaddress))
+			{
+				$args = new stdClass();
+				$args->ipaddress = $ip_range->ipaddress;
+				executeQuery('spamfilter.updateDeniedIPHit', $args);
+				
+				return new BaseObject(-1, 'msg_alert_registered_denied_ip');
+			}
 		}
 		
 		return new BaseObject();
@@ -62,14 +69,12 @@ class spamfilterModel extends spamfilter
 	/**
 	 * @brief Return the list of registered Words which were banned
 	 */
-	function getDeniedWordList()
+	function getDeniedWordList($sort_index = 'hit')
 	{
 		$args = new stdClass();
-		$args->sort_index = "hit";
-		$output = executeQuery('spamfilter.getDeniedWordList', $args);
-		if(!$output->data) return;
-		if(!is_array($output->data)) return array($output->data);
-		return $output->data;
+		$args->sort_index = $sort_index;
+		$output = executeQueryArray('spamfilter.getDeniedWordList', $args);
+		return $output->data ?: array();
 	}
 
 	/**
@@ -77,14 +82,28 @@ class spamfilterModel extends spamfilter
 	 */
 	function isDeniedWord($text)
 	{
-		$word_list = $this->getDeniedWordList();
+		$word_list = Rhymix\Framework\Cache::get('spamfilter:denied_word_list');
+		if ($word_list === null)
+		{
+			$word_list = $this->getDeniedWordList();
+			Rhymix\Framework\Cache::set('spamfilter:denied_word_list', $ip_list);
+		}
 		if(!count($word_list)) return new BaseObject();
 
-		$text = utf8_trim(utf8_normalize_spaces(htmlspecialchars_decode(strip_tags($text, '<a><img>'))));
+		$text = strtolower(utf8_trim(utf8_normalize_spaces(htmlspecialchars_decode(strip_tags($text, '<a><img>')))));
 		foreach ($word_list as $word_item)
 		{
 			$word = $word_item->word;
-			if (strpos($text, $word) !== false)
+			$hit = false;
+			if (preg_match('#^/.+/$#', $word))
+			{
+				$hit = preg_match($word . 'iu', $text, $matches) ? $matches[0] : false;
+			}
+			if ($hit === false)
+			{
+				$hit = (strpos($text, strtolower($word)) !== false) ? $word : false;
+			}
+			if ($hit !== false)
 			{
 				$args = new stdClass();
 				$args->word = $word;
@@ -106,9 +125,14 @@ class spamfilterModel extends spamfilter
 				}
 				else
 				{
-					$custom_message = sprintf(lang('msg_alert_denied_word'), $word);
+					$custom_message = lang('msg_alert_denied_word');
 				}
 
+				if (strpos($custom_message, '%s') !== false)
+				{
+					$custom_message = sprintf($custom_message, escape($hit, false));
+				}
+				
 				return new BaseObject(-1, $custom_message);
 			}
 		}

@@ -140,11 +140,11 @@ class layoutAdminView extends layout
 		$layout = Context::get('layout');
 
 		if(!in_array($type, array('P', 'M'))) $type = 'P';
-		if(!$layout) return $this->stop('msg_invalid_request');
+		if(!$layout) throw new Rhymix\Framework\Exceptions\InvalidRequest;
 
 		$oLayoutModel = getModel('layout');
 		$layout_info = $oLayoutModel->getLayoutInfo($layout, null, $type);
-		if(!$layout_info) return $this->stop('msg_invalid_request');
+		if(!$layout_info) throw new Rhymix\Framework\Exceptions\InvalidRequest;
 
 		Context::set('layout_info', $layout_info);
 
@@ -175,10 +175,10 @@ class layoutAdminView extends layout
 
 		// Get layout info
 		$layout = Context::get('layout');
-		if($layout == 'faceoff') return $this->stop('not supported');
+		if($layout == 'faceoff') throw new Rhymix\Framework\Exception('not supported');
 
 		$layout_info = $oModel->getLayoutInfo($layout, null, $type);
-		if(!$layout_info) return $this->stop('msg_invalid_request');
+		if(!$layout_info) throw new Rhymix\Framework\Exceptions\InvalidRequest;
 
 		// get Menu list
 		$oMenuAdminModel = getAdminModel('menu');
@@ -295,11 +295,11 @@ class layoutAdminView extends layout
 		$layout_srl = Context::get('layout_srl');
 		$code = Context::get('code');
 		$code_css = Context::get('code_css');
-		if(!$layout_srl || !$code) return $this->setError('msg_invalid_request');
+		if(!$layout_srl || !$code) throw new Rhymix\Framework\Exceptions\InvalidRequest;
 		// Get the layout information
 		$oLayoutModel = getModel('layout');
 		$layout_info = $oLayoutModel->getLayout($layout_srl);
-		if(!$layout_info) return $this->setError('msg_invalid_request');
+		if(!$layout_info) throw new Rhymix\Framework\Exceptions\InvalidRequest;
 		// Separately handle the layout if its type is faceoff
 		if($layout_info && $layout_info->type == 'faceoff') $oLayoutModel->doActivateFaceOff($layout_info);
 		// Apply CSS directly

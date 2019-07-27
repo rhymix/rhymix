@@ -15,8 +15,8 @@
 		<link rel="alternate" type="text/html" href="{$oDocument->getPermanentUrl()}"/>
 		<link cond="$oDocument->allowComment()" rel="replies" type="text/html" href="{$oDocument->getPermanentUrl()}#comment"/>
 		<id>{$oDocument->getPermanentUrl()}</id>
-		<published>{$oDocument->getRegdateGM('c')}</published>
-		<updated>{$oDocument->getUpdateGM('c')}</updated>
+		<published>{date('c', ztime($oDocument->get('regdate')))}</published>
+		<updated>{date('c', ztime($oDocument->get('last_update')))}</updated>
 		<author>
 			<name>{$oDocument->getNickName()}</name>
 		</author>

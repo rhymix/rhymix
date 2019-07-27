@@ -101,7 +101,7 @@ jQuery(function($){
 			'getMemberAdminInsertJoinForm',
 			{member_join_form_srl:memberFormSrl},
 			function(ret){
-				var tpl = ret.tpl.replace(/<enter>/g, '\n');
+				var tpl = ret.tpl.replace(/\|@\|/g, '\n');
 				$('#extendForm').html(tpl);
 
 				if (checked)$('#extendForm #radio_'+checked).attr('checked', 'checked');

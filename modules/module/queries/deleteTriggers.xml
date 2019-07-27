@@ -1,0 +1,8 @@
+<query id="deleteTriggers" action="delete">
+	<tables>
+		<table name="module_trigger" />
+	</tables>
+	<conditions>
+		<condition operation="notin" column="module" var="module" notnull="notnull" />
+	</conditions>
+</query>

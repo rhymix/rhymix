@@ -6,13 +6,13 @@
 </script>
 
 <div class="x_page-header">
-	<h1>{$lang->user_list} <a class="x_icon-question-sign" href="./common/manual/admin/index.html#UMAN_member_list" target="_blank">{$lang->help}</a></h1>
+	<h1>{$lang->user_list}</h1>
 </div>
 <div cond="$XE_VALIDATOR_MESSAGE && $XE_VALIDATOR_ID == 'modules/member/tpl/1'" class="message {$XE_VALIDATOR_MESSAGE_TYPE}">
 	<p>{$XE_VALIDATOR_MESSAGE}</p>
 </div>
 <form action="" method="post">
-	<table id="memberList" class="x_table x_table-striped x_table-hover">
+	<table id="memberList" class="x_table x_table-striped x_table-hover dsTg">
 		<caption>
 			<a href="{getUrl('filter_type', '', 'page', '')}" class="active"|cond="!$filter_type">{$lang->cmd_show_all_member}<block cond="!$filter_type">({$total_count})</block></a>
 			<i>|</i>
@@ -26,16 +26,20 @@
 				<a href="#listManager" data-value="modify" class="modalAnchor _member x_btn">{$lang->modify}</a>
 				<a href="#listManager" data-value="delete" class="modalAnchor _member x_btn">{$lang->delete}</a>
 			</div>
+			<div class="x_pull-right x_btn-group margin_after">
+				<button type="button" class="x_btn x_active __simple">{$lang->simple_view}</button>
+				<button type="button" class="x_btn __detail">{$lang->detail_view}</button>
+			</div>
 		</caption>
 		<thead>
 			<tr>
-				<th scope="col" class="nowr" cond="$profileImageConfig == 'Y' && $config->member_profile_view == 'Y'">{$lang->profile_image}</th>
+				<th scope="col" class="nowr rx_detail_marks" cond="$profileImageConfig == 'Y' && $config->member_profile_view == 'Y'">{$lang->profile_image}</th>
 				<th scope="col" class="nowr">{$lang->email}</th>
 				<th scope="col" class="nowr" loop="$usedIdentifiers=>$name,$title">{$title}</th>
 				<th scope="col" class="nowr">{$lang->status}</th>
-				<th scope="col" class="nowr"><a href="{getUrl('', 'module', 'admin', 'act', 'dispMemberAdminList', 'sort_index', 'regdate', 'sort_order', ($sort_order == 'asc') ? 'desc' : 'asc', 'selected_group_srl', $selected_group_srl)}">{$lang->signup_date}<block cond="$sort_index == 'regdate'"> <em cond="$sort_order=='asc'">▲</em><em cond="$sort_order != 'asc'">▼</em></block></a></th>
-				<th scope="col" class="nowr"><a href="{getUrl('', 'module', 'admin', 'act', 'dispMemberAdminList', 'sort_index', 'last_login', 'sort_order',  ($sort_order == 'asc') ? 'desc' : 'asc', 'selected_group_srl', $selected_group_srl)}">{$lang->last_login}<block cond="$sort_index == 'last_login'"> <em cond="$sort_order=='asc'">▲</em><em cond="$sort_order != 'asc'">▼</em></block></a></th>
-				<th scope="col" class="nowr">{$lang->member_group}</th>
+				<th scope="col" class="nowr rx_detail_marks"><a href="{getUrl('', 'module', 'admin', 'act', 'dispMemberAdminList', 'sort_index', 'regdate', 'sort_order', ($sort_order == 'asc') ? 'desc' : 'asc', 'selected_group_srl', $selected_group_srl)}">{$lang->signup_date}<block cond="$sort_index == 'regdate'"> <em cond="$sort_order=='asc'">▲</em><em cond="$sort_order != 'asc'">▼</em></block></a></th>
+				<th scope="col" class="nowr rx_detail_marks"><a href="{getUrl('', 'module', 'admin', 'act', 'dispMemberAdminList', 'sort_index', 'last_login', 'sort_order',  ($sort_order == 'asc') ? 'desc' : 'asc', 'selected_group_srl', $selected_group_srl)}">{$lang->last_login}<block cond="$sort_index == 'last_login'"> <em cond="$sort_order=='asc'">▲</em><em cond="$sort_order != 'asc'">▼</em></block></a></th>
+				<th scope="col" class="nowr rx_detail_marks">{$lang->member_group}</th>
 				<th scope="col" class="nowr">{$lang->inquiry}/{$lang->cmd_modify}</th>
 				<th scope="col">
 					<input type="checkbox" title="Check All" data-name="user" />
@@ -45,7 +49,7 @@
 		<tbody>
 			<tr loop="$member_list=>$no,$member_info">
 				{@$member_info = get_object_vars($member_info)}
-				<td class="nowr" cond="$profileImageConfig == 'Y' && $config->member_profile_view == 'Y'">
+				<td class="nowr rx_detail_marks" cond="$profileImageConfig == 'Y' && $config->member_profile_view == 'Y'">
 					<!--@if($member_info['profile_image'])-->
 					<img src="{$member_info['profile_image']->src}" class="profile_img" />
 					<!--@else-->
@@ -66,9 +70,9 @@
 						{$lang->approval}
 					<!--@end-->
 				</td>
-				<td class="nowr" title="{zdate($member_info['regdate'], 'Y-m-d H:i:s')}">{zdate($member_info['regdate'], 'Y-m-d')}</td>
-				<td class="nowr" title="{zdate($member_info['last_login'], 'Y-m-d H:i:s')}">{zdate($member_info['last_login'], 'Y-m-d')}</td>
-				<td>{$member_info['group_list']}&nbsp;</td>
+				<td class="nowr rx_detail_marks" title="{zdate($member_info['regdate'], 'Y-m-d H:i:s')}">{zdate($member_info['regdate'], 'Y-m-d')}</td>
+				<td class="nowr rx_detail_marks" title="{zdate($member_info['last_login'], 'Y-m-d H:i:s')}">{zdate($member_info['last_login'], 'Y-m-d')}</td>
+				<td class="rx_detail_marks">{$member_info['group_list']}&nbsp;</td>
 				<td class="nowr"><a href="{getUrl('', 'module', 'admin', 'act', 'dispMemberAdminInsert', 'member_srl', $member_info['member_srl'])}">{$lang->inquiry}/{$lang->cmd_modify}</a></td>
 				{@$used_values = ''}
 				<!--@foreach($usedIdentifiers as $name=>$title)-->

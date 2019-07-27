@@ -1,4 +1,7 @@
+<config autoescape="on" />
+
 <include target="config_header.html" />
+
 <div cond="$XE_VALIDATOR_MESSAGE && $XE_VALIDATOR_ID == 'modules/admin/tpl/config_advanced/1'" class="message {$XE_VALIDATOR_MESSAGE_TYPE}">
 	<p>{$XE_VALIDATOR_MESSAGE}</p>
 </div>
@@ -161,6 +164,15 @@
 				<label for="cache_truncate_method_empty" class="x_inline"><input type="radio" name="cache_truncate_method" id="cache_truncate_method_empty" value="empty" checked="checked"|cond="$cache_truncate_method === 'empty'" /> {$lang->cache_truncate_method_empty}</label>
 				<br />
 				<p class="x_help-block">{$lang->about_cache_truncate_method}</p>
+			</div>
+		</div>
+		<div class="x_control-group">
+			<label class="x_control-label">{$lang->manager_layout}</label>
+			<div class="x_controls">
+				<label for="manager_layout_module" class="x_inline"><input type="radio" name="manager_layout" id="manager_layout_module" value="module" checked="checked"|cond="$manager_layout != 'admin'" /> {$lang->cmd_manager_layout_module}</label>
+				<label for="manager_layout_admin" class="x_inline"><input type="radio" name="manager_layout" id="manager_layout_admin" value="admin" checked="checked"|cond="$manager_layout == 'admin'" /> {$lang->cmd_manager_layout_admin}</label>
+				<br />
+				<p class="x_help-block">{$lang->about_manager_layout}</p>
 			</div>
 		</div>
 		<div class="x_control-group">

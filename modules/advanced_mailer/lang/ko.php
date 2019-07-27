@@ -78,8 +78,9 @@ $lang->cmd_advanced_mailer_exception_group = '예외 그룹';
 $lang->cmd_advanced_mailer_use_exceptions = '예외 도메인 설정';
 $lang->cmd_advanced_mailer_use_exceptions_yes = '예외 설정을 적용하여 테스트';
 $lang->cmd_advanced_mailer_use_exceptions_no = '무시하고 기본 발송 방법만 테스트';
-$lang->msg_advanced_mailer_about_dummy = '더미는 실제로 메일을 발송하지 않고 기록만 하는 옵션입니다. 테스트에 사용하십시오.';
-$lang->msg_advanced_mailer_about_dummy_exceptions = '더미를 선택하더라도 예외 도메인을 지정한 경우 메일이 발송될 수 있으니 주의하십시오.';
+$lang->msg_advanced_mailer_about_dummy = '메일을 발송하지 않고 로그 기록만 하도록 강제합니다. 테스트 중 원치 않는 메일이 발송되는 것을 막기 위해 사용할 수 있습니다.';
+$lang->msg_advanced_mailer_about_dummy_exceptions = '이 옵션을 선택하더라도 예외 도메인을 지정한 경우 메일이 발송될 수 있으니 주의하십시오.';
+$lang->msg_advanced_mailer_about_mailfunction = 'PHP에 내장된 mail() 함수를 사용합니다. 발송 성공률이 매우 낮습니다.<br/><span style="color:red">이 옵션은 추후 지원되지 않을 수 있으니, 가능하면 다른 방식을 선택하시기 바랍니다.</span>';
 $lang->msg_advanced_mailer_sending_method_is_invalid = '올바른 발송 방법을 선택해 주십시오.';
 $lang->msg_advanced_mailer_sending_method_is_not_configured = '선택한 발송 방법(%s)이 완전히 설정되지 않았습니다. 기본 설정 페이지로 돌아가서 설정을 마쳐 주십시오.';
 $lang->msg_advanced_mailer_smtp_host_is_invalid = '올바른 SMTP 서버 이름을 입력해 주십시오.';
@@ -126,3 +127,4 @@ $lang->cmd_advanced_mailer_test_content = '라이믹스 SMS 발송 테스트입�
 $lang->msg_advanced_mailer_recipient_number_is_empty = '받는이 전화번호를 입력해 주십시오.';
 $lang->msg_advanced_mailer_content_is_empty = 'SMS 내용을 입력해 주십시오.';
 $lang->msg_advanced_mailer_test_success_sms = '테스트에 성공하였습니다. SMS를 확인해 보시기 바랍니다.';
+$lang->cmd_advanced_mailer_not_rhymix = '이 모듈은 XE용으로, 라이믹스와는 호환되지 않습니다. 라이믹스에 기본 포함된 버전을 사용하시기 바랍니다.';

@@ -108,7 +108,7 @@ class moduleAdminController extends module
 		{
 			$mid = trim($args->{"mid_".$i});
 			if(!$mid) continue;
-			if(!preg_match("/^[a-zA-Z]([a-zA-Z0-9_]*)$/i", $mid)) return $this->setError('msg_limit_mid');
+			if(!preg_match("/^[a-zA-Z]([a-zA-Z0-9_]*)$/i", $mid)) throw new Rhymix\Framework\Exception('msg_limit_mid');
 			$browser_title = $args->{"browser_title_".$i};
 			if(!$mid) continue;
 			if($mid && !$browser_title) $browser_title = $mid;
@@ -282,7 +282,7 @@ class moduleAdminController extends module
 		// Get information of the module
 		$columnList = array('module_srl', 'module');
 		$module_info = $oModuleModel->getModuleInfoByModuleSrl($module_srl, $columnList);
-		if(!$module_info) return $this->setError('msg_invalid_request');
+		if(!$module_info) throw new Rhymix\Framework\Exceptions\InvalidRequest;
 		// Register Admin ID
 		$oModuleController->deleteAdminId($module_srl);
 		$admin_member = Context::get('admin_member');
@@ -454,11 +454,11 @@ class moduleAdminController extends module
 						continue;
 					}
 					// Upload the file to a path
-					$path = sprintf("./files/attach/images/%s/", $module_srl);
+					$oFileController = getController('file');
+					$path = $oFileController->getStoragePath('images', getNextSequence(), $module_srl, 0, '', false);
 					// Create a directory
 					if(!FileHandler::makeDir($path)) return false;
-
-					$filename = $path.$image_obj['name'];
+					$filename = $path . Rhymix\Framework\Filters\FilenameFilter::clean($image_obj['name']);
 					// Move the file
 					if(!move_uploaded_file($image_obj['tmp_name'], $filename))
 					{
@@ -509,10 +509,10 @@ class moduleAdminController extends module
 	{
 		$vars = Context::getRequestVars();
 
-		if(!$vars->module_srls) return $this->setError('msg_invalid_request');
+		if(!$vars->module_srls) throw new Rhymix\Framework\Exceptions\InvalidRequest;
 
 		$module_srls = explode(',',$vars->module_srls);
-		if(count($module_srls) < 1) return $this->setError('msg_invalid_request');
+		if(count($module_srls) < 1) throw new Rhymix\Framework\Exceptions\InvalidRequest;
 
 		$oModuleModel = getModel('module');
 		$oModuleController= getController('module');
@@ -564,10 +564,10 @@ class moduleAdminController extends module
 	function procModuleAdminModuleGrantSetup()
 	{
 		$module_srls = Context::get('module_srls');
-		if(!$module_srls) return $this->setError('msg_invalid_request');
+		if(!$module_srls) throw new Rhymix\Framework\Exceptions\InvalidRequest;
 
 		$modules = explode(',',$module_srls);
-		if(count($modules) < 1) return $this->setError('msg_invalid_request');
+		if(count($modules) < 1) throw new Rhymix\Framework\Exceptions\InvalidRequest;
 
 		$oModuleController = getController('module');
 		$oModuleModel = getModel('module');
@@ -676,7 +676,7 @@ class moduleAdminController extends module
 		// if args->name is empty, random generate for user define language
 		if(empty($args->name)) $args->name = 'userLang'.date('YmdHis').''.sprintf('%03d', mt_rand(0, 100));
 
-		if(!$args->name) return $this->setError('msg_invalid_request');
+		if(!$args->name) throw new Rhymix\Framework\Exceptions\InvalidRequest;
 		// Check whether a language code exists
 		$output = executeQueryArray('module.getLang', $args);
 		if(!$output->toBool()) return $output;
@@ -723,7 +723,7 @@ class moduleAdminController extends module
 		$args->name = str_replace(' ','_',Context::get('name'));
 		$args->lang_name = str_replace(' ','_',Context::get('lang_name'));
 		if(!empty($args->lang_name)) $args->name = $args->lang_name;
-		if(!$args->name) return $this->setError('msg_invalid_request');
+		if(!$args->name) throw new Rhymix\Framework\Exceptions\InvalidRequest;
 
 		$output = executeQuery('module.deleteLang', $args);
 		if(!$output->toBool()) return $output;
@@ -737,7 +737,7 @@ class moduleAdminController extends module
 
 	function procModuleAdminGetList()
 	{
-		if(!Context::get('is_logged')) return $this->setError('msg_not_permitted');
+		if(!Context::get('is_logged')) throw new Rhymix\Framework\Exceptions\NotPermitted;
 
 		$oModuleController = getController('module');
 		$oModuleModel = getModel('module');
@@ -939,7 +939,7 @@ class moduleAdminController extends module
 	{
 		if(!$moduleSrl && !$mid)
 		{
-			return $this->stop(-1, 'msg_invalid_request');
+			throw new Rhymix\Framework\Exceptions\InvalidRequest;
 		}
 
 		$oModuleModel = getModel('module');
@@ -955,7 +955,7 @@ class moduleAdminController extends module
 
 		if(!$moduleInfo)
 		{
-			return $this->stop(-1, 'msg_module_not_exists');
+			throw new Rhymix\Framework\Exceptions\InvalidRequest;
 		}
 
 		$skinTargetValue = ($skinType == 'M') ? 'mskin' : 'skin';
@@ -1004,7 +1004,7 @@ class moduleAdminController extends module
 
 		if(!$menuItemSrl)
 		{
-			return $this->stop(-1, 'msg_invalid_request');
+			throw new Rhymix\Framework\Exceptions\InvalidRequest;
 		}
 
 		$oModuleModel = getModel('module');

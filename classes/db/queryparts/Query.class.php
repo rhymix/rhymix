@@ -157,7 +157,7 @@ class Query extends BaseObject
 
 			foreach($this->columnList as $columnName)
 			{
-				$columnName = $dbParser->escapeColumn($columnName);
+				$columnName = $dbParser->escapeColumnExpression($columnName);
 				$selectColumns[] = new SelectExpression($columnName);
 			}
 			unset($this->columns);
@@ -586,6 +586,11 @@ class Query extends BaseObject
 	 */
 	function getHavingString($with_values = TRUE)
 	{
+		if(!is_array($this->having))
+		{
+			return '';
+		}
+		
 		$having = '';
 		$condition_count = 0;
 

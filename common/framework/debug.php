@@ -650,7 +650,7 @@ class Debug
 		}
 		
 		// Localize the error message.
-		$display_error_message = ini_get('display_errors') || Session::isAdmin();
+		$display_error_message = ini_get('display_errors') || !\Context::isInstalled() || Session::isAdmin();
 		$message = $display_error_message ? $message : lang('msg_server_error_see_log');
 		if ($message === 'msg_server_error_see_log')
 		{
@@ -658,7 +658,35 @@ class Debug
 		}
 		
 		// Display a generic error page.
-		\Context::displayErrorPage($title, $message, 500);
+		try
+		{
+			\Context::displayErrorPage($title, $message, 500);
+		}
+		catch (\Error $e)
+		{
+			self::displayError($message);
+		}
+	}
+	
+	/**
+	 * Display a default error.
+	 * 
+	 * @param string $message
+	 * @return void
+	 */
+	public static function displayError($message)
+	{
+		header('HTTP/1.1 500 Internal Server Error');
+		if ($_SERVER['REQUEST_METHOD'] === 'GET' || !isset($_SERVER['HTTP_X_REQUESTED_WITH']))
+		{
+			header('Content-Type: text/html; charset=UTF-8');
+			echo sprintf('<html><head><meta charset="UTF-8" /><title>Server Error</title></head><body>%s</body></html>', escape($message, false));
+		}
+		else
+		{
+			header('Content-Type: application/json; charset=UTF-8');
+			echo json_encode(array('error' => -1, 'message' => escape($message, false)), \JSON_UNESCAPED_UNICODE);
+		}
 	}
 	
 	/**

@@ -12,6 +12,8 @@
 			<a class="notify" href="#">
 				<!--@if($_ncenterlite_num > 1)-->
 					{sprintf($lang->ncenterlite_messages, $ncenterlite_page_navigation->total_count)}
+				<!--@else if($_ncenterlite_num < 1)-->
+					{$lang->ncenterlite_not_have_message}
 				<!--@else-->
 					{sprintf($lang->ncenterlite_message, $ncenterlite_page_navigation->total_count)}
 				<!--@endif-->
@@ -42,12 +44,6 @@
 //<![CDATA[
 (function($){
 	$(function(){
-		function setCookie(n, v, d){
-			var e = "";
-			if(d){ var dt=new Date(); dt.setTime(dt.getTime() + (d*24*60*60000)); e="; expires=" + dt.toGMTString(); }
-			document.cookie = n + "=" + v + e + "; path=/";
-		}
-
 		var n = $('#nc_container');
 		$('.close',n).click(function(){
 			setCookie('_ncenterlite_hide_id', '{$ncenterlite_latest_notify_id}', 1); n.hide().next('div').hide(); return false;

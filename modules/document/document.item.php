@@ -438,7 +438,7 @@ class documentItem extends BaseObject
 			$url = 'http://' . $url;
 		}
 		
-		return $url;
+		return escape($url, false);
 	}
 
 	function getMemberSrl()
@@ -570,7 +570,6 @@ class documentItem extends BaseObject
 		$content = $this->get('content');
 		$content = preg_replace_callback('/<(object|param|embed)[^>]*/is', array($this, '_checkAllowScriptAccess'), $content);
 		$content = preg_replace_callback('/<object[^>]*>/is', array($this, '_addAllowScriptAccess'), $content);
-		
 		if($strlen)
 		{
 			$content = trim(utf8_normalize_spaces(html_entity_decode(strip_tags($content))));

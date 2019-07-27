@@ -14,7 +14,7 @@ class rssModel extends rss
 	
 	function getConfig()
 	{
-		$config = getModel('module')->getModuleConfig('rss');
+		$config = getModel('module')->getModuleConfig('rss') ?: new stdClass;
 		$config->use_total_feed = $config->use_total_feed ?: 'Y';
 		$config->feed_document_count = $config->feed_document_count ?: 15;
 		$config->image_url = $config->image . '?' . date('YmdHis', filemtime($config->image));
@@ -24,7 +24,7 @@ class rssModel extends rss
 	
 	function getRssModuleConfig($module_srl)
 	{
-		$config = getModel('module')->getModulePartConfig('rss', $module_srl);
+		$config = getModel('module')->getModulePartConfig('rss', $module_srl) ?: new stdClass;
 		$config->module_srl = $module_srl;
 		$config->open_rss = $config->open_rss ?: 'N';
 		$config->open_total_feed = $config->open_total_feed ?: 'N';

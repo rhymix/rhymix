@@ -66,7 +66,6 @@ class spamfilterAdminController extends spamfilter
 			$this->setMessage(lang('success_registed').$message_fail);
 		}
 
-
 		$returnUrl = Context::get('success_return_url') ? Context::get('success_return_url') : getNotEncodedUrl('', 'module', 'admin', 'act', 'dispSpamfilterAdminDeniedIPList');
 		$this->setRedirectUrl($returnUrl);
 	}
@@ -126,7 +125,10 @@ class spamfilterAdminController extends spamfilter
 
 		$args = new stdClass;
 		$args->ipaddress = $ipaddress;
-		return executeQuery('spamfilter.deleteDeniedIP', $args);
+		$output = executeQuery('spamfilter.deleteDeniedIP', $args);
+		
+		Rhymix\Framework\Cache::delete('spamfilter:denied_ip_list');
+		return $output;
 	}
 
 	/**
@@ -149,9 +151,9 @@ class spamfilterAdminController extends spamfilter
 				continue;
 			}
 			
-			if (mb_strlen($word, 'UTF-8') < 2 || mb_strlen($word, 'UTF-8') > 40)
+			if (mb_strlen($word, 'UTF-8') < 2 || mb_strlen($word, 'UTF-8') > 180)
 			{
-				return $this->setError('msg_invalid_word');
+				throw new Rhymix\Framework\Exception('msg_invalid_word');
 			}
 			
 			$args = new stdClass;
@@ -167,6 +169,8 @@ class spamfilterAdminController extends spamfilter
 		{
 			$output->add('fail_list', $fail_list);
 		}
+		
+		Rhymix\Framework\Cache::delete('spamfilter:denied_word_list');
 		return $output;
 	}
 
@@ -179,7 +183,10 @@ class spamfilterAdminController extends spamfilter
 		if(!$word) return;
 		$args = new stdClass;
 		$args->word = $word;
-		return executeQuery('spamfilter.deleteDeniedWord', $args);
+		$output = executeQuery('spamfilter.deleteDeniedWord', $args);
+		
+		Rhymix\Framework\Cache::delete('spamfilter:denied_word_list');
+		return $output;
 	}
 }
 /* End of file spamfilter.admin.controller.php */

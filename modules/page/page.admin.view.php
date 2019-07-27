@@ -163,7 +163,7 @@ class pageAdminView extends page
 	{
 		if($this->module_info->page_type == 'OUTSIDE')
 		{
-			return $this->stop(-1, 'msg_invalid_request');
+			throw new Rhymix\Framework\Exceptions\InvalidRequest;
 		}
 
 		if($this->module_srl)
@@ -186,12 +186,13 @@ class pageAdminView extends page
 		}
 		else
 		{
-			return $this->setError(sprintf('%s method is not exists', $method));
+			throw new Rhymix\Framework\Exception(sprintf('%s method is not exists', $method));
 		}
-
+		
 		Context::set('module_info', $this->module_info);
 		Context::set('page_content', $page_content);
-
+		
+		$this->setLayoutFile('');
 		$this->setTemplateFile('mcontent');
 	}
 
@@ -257,8 +258,13 @@ class pageAdminView extends page
 		//Security
 		$security = new Security();
 		$security->encodeHTML('widget_list..title','module_info.mid');
-
+		
+		// Load admin resources
+		$oTemplate = TemplateHandler::getInstance();
+		$oTemplate->compile('modules/admin/tpl', '_admin_common.html');
+		
 		// Set a template file
+		$this->setLayoutFile('');
 		$this->setTemplateFile($templateFile);
 	}
 
@@ -294,10 +300,12 @@ class pageAdminView extends page
 		{
 			$oDocument->add('module_srl', $this->module_info->module_srl);
 		}
-
+		
 		Context::addJsFilter($this->module_path.'tpl/filter', 'insert_article.xml');
 		Context::set('oDocument', $oDocument);
 		Context::set('mid', $this->module_info->mid);
+		
+		$this->setLayoutFile('');
 		$this->setTemplateFile('article_content_modify');
 	}
 

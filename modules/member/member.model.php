@@ -178,7 +178,7 @@ class memberModel extends member
 				$oCommunicationModel = getModel('communication');
 				if($logged_info->is_admin == 'Y' || $oCommunicationModel->isFriend($member_info->member_srl))
 				{
-					$url = 'mailto:'.htmlspecialchars($member_info->email_address, ENT_COMPAT | ENT_HTML401, 'UTF-8', false);
+					$url = 'mailto:'.escape($member_info->email_address);
 					$oMemberController->addMemberPopupMenu($url,'cmd_send_email',$icon_path);
 				}
 			}
@@ -210,13 +210,13 @@ class memberModel extends member
 		// View homepage info
 		if($member_info->homepage && $homepage_is_public)
 		{
-			$oMemberController->addMemberPopupMenu(htmlspecialchars($member_info->homepage, ENT_COMPAT | ENT_HTML401, 'UTF-8', false), 'homepage', '', 'blank');
+			$oMemberController->addMemberPopupMenu(escape($member_info->homepage, false), 'homepage', '', 'blank');
 		}
 		
 		// View blog info
 		if($member_info->blog && $blog_is_public)
 		{
-			$oMemberController->addMemberPopupMenu(htmlspecialchars($member_info->blog, ENT_COMPAT | ENT_HTML401, 'UTF-8', false), 'blog', '', 'blank');
+			$oMemberController->addMemberPopupMenu(escape($member_info->blog, false), 'blog', '', 'blank');
 		}
 		
 		// Call a trigger (after)
@@ -330,7 +330,10 @@ class memberModel extends member
 				}
 				
 				$member_info = $this->arrangeMemberInfo($output->data, $site_srl);
-				Rhymix\Framework\Cache::set($cache_key, $member_info);
+				if($output->toBool())
+				{
+					Rhymix\Framework\Cache::set($cache_key, $member_info);
+				}
 			}
 		}
 
@@ -364,8 +367,14 @@ class memberModel extends member
 			{
 				foreach($extra_vars as $key => $val)
 				{
-					if(!is_array($val) && strpos($val, '|@|') !== FALSE) $val = explode('|@|', $val);
-					if(!$info->{$key}) $info->{$key} = $val;
+					if(!is_array($val) && !is_object($val) && strpos($val, '|@|') !== FALSE)
+					{
+						$val = explode('|@|', $val);
+					}
+					if(!isset($info->{$key}))
+					{
+						$info->{$key} = $val;
+					}
 				}
 			}
 
@@ -492,7 +501,10 @@ class memberModel extends member
 					$group_list[$default_group->group_srl] = $default_group->title;
 				}
 				//insert in cache
-				Rhymix\Framework\Cache::set($cache_key, $group_list, 0, true);
+				if ($output->toBool())
+				{
+					Rhymix\Framework\Cache::set($cache_key, $group_list, 0, true);
+				}
 			}
 			if(!$group_list) return array();
 
@@ -539,7 +551,10 @@ class memberModel extends member
 			$args->site_srl = $site_srl;
 			$output = executeQuery('member.getDefaultGroup', $args);
 			$default_group = $output->data;
-			Rhymix\Framework\Cache::set($cache_key, $default_group, 0, true);
+			if($output->toBool())
+			{
+				Rhymix\Framework\Cache::set($cache_key, $default_group, 0, true);
+			}
 		}
 
 		return $default_group;
@@ -590,7 +605,10 @@ class memberModel extends member
 				$args->order_type = 'asc';
 				$output = executeQueryArray('member.getGroups', $args);
 				$group_list = $output->data;
-				Rhymix\Framework\Cache::set("member:member_groups:site:$site_srl", $group_list, 0, true);
+				if($output->toBool())
+				{
+					Rhymix\Framework\Cache::set("member:member_groups:site:$site_srl", $group_list, 0, true);
+				}
 			}
 
 			if(!$group_list)

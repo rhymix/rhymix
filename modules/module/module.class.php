@@ -443,6 +443,10 @@ class module extends ModuleObject
 		if(!$oDB->isIndexExists('module_part_config', 'unique_module_part_config'))
 		{
 			$oDB->addIndex('module_part_config', 'unique_module_part_config', array('module', 'module_srl'), true);
+			if(!$oDB->isIndexExists('module_part_config', 'unique_module_part_config'))
+			{
+				$oDB->addIndex('module_part_config', 'unique_module_part_config', array('module', 'module_srl'), false);
+			}
 		}
 	}
 	
@@ -593,8 +597,18 @@ class module extends ModuleObject
 	function recompileCache()
 	{
 		$oModuleModel = getModel('module');
-		$oModuleModel->getModuleList();
+		$module_list = $oModuleModel->getModuleList();
+		$module_names = array_map(function($module_info) {
+			return $module_info->module;
+		}, $module_list);
+		
 		$oModuleModel->loadModuleExtends();
+		
+		// Delete triggers belonging to modules that don't exist
+		$args = new stdClass;
+		$args->module = $module_names ?: [];
+		executeQuery('module.deleteTriggers', $args);
+		Rhymix\Framework\Cache::delete('triggers');
 	}
 }
 /* End of file module.class.php */

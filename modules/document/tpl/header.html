@@ -1,14 +1,14 @@
 <load target="js/document_admin.js" />
 
 <div class="x_page-header">
-	<h1>{$lang->document} <a class="x_icon-question-sign" href="./common/manual/admin/index.html#UMAN_content_document" target="_blank">{$lang->help}</a></h1>
+	<h1>{$lang->document}</h1>
 </div>
 <ul class="x_nav x_nav-tabs">
 	<li class="x_active"|cond="$act == 'dispDocumentAdminList'">
 		<a href="{getUrl('', 'module', 'admin', 'act', 'dispDocumentAdminList')}">{$lang->document_list}</a>
 	</li>
 	<li class="x_active"|cond="$act == 'dispDocumentAdminConfig'">
-		<a href="{getUrl('', 'module', 'admin', 'act', 'dispDocumentAdminConfig')}">{$lang->cmd_module_config}</a>
+		<a href="{getUrl('', 'module', 'admin', 'act', 'dispDocumentAdminConfig')}">{$lang->cmd_document_module_config}</a>
 	</li>
 	<li class="x_active"|cond="$act == 'dispDocumentAdminDeclared'">
 		<a href="{getUrl('', 'module', 'admin', 'act', 'dispDocumentAdminDeclared')}">{$lang->cmd_declared_list}</a>

@@ -176,13 +176,24 @@ class pointController extends point
 	}
 
 	/**
-	 * @brief A trigger to give points for deleting the post
+	 * @brief A trigger to deduct points for deleting the post
 	 */
 	public function triggerDeleteDocument($obj)
 	{
 		$module_srl = $obj->module_srl;
 		$member_srl = abs($obj->member_srl);
 		if (!$module_srl || !$member_srl)
+		{
+			return;
+		}
+		if ($obj->isEmptyTrash)
+		{
+			return;
+		}
+		
+		// Return if disabled
+		$config = $this->getConfig();
+		if ($config->insert_document_revert_on_delete === false)
 		{
 			return;
 		}
@@ -209,6 +220,14 @@ class pointController extends point
 		
 		// Increase the point.
 		$this->setPoint($member_srl, $cur_point);
+	}
+
+	/**
+	 * @brief A trigger to deduct points when a document is moved to Trash
+	 */
+	public function triggerTrashDocument($obj)
+	{
+		return $this->triggerDeleteDocument($obj);
 	}
 
 	/**
@@ -275,6 +294,17 @@ class pointController extends point
 		{
 			return;
 		}
+		if ($obj->isMoveToTrash)
+		{
+			return;
+		}
+		
+		// Return if disabled
+		$config = $this->getConfig();
+		if ($config->insert_comment_revert_on_delete === false)
+		{
+			return;
+		}
 		
 		// Abort if the comment and the document have the same author.
 		$oDocument = getModel('document')->getDocument($obj->document_srl);
@@ -284,12 +314,14 @@ class pointController extends point
 		}
 		
 		// Abort if the document is older than a configured limit.
-		$config = $this->getConfig();
 		$time_limit = $config->insert_comment_limit ?: $config->no_point_date;
 		if ($time_limit > 0 && ztime($oDocument->get('regdate')) < RX_TIME - ($time_limit * 86400))
 		{
 			return;
 		}
+		
+		// Get the module_srl of the document to which this comment belongs
+		$module_srl = $oDocument->get('module_srl');
 		
 		// Get the points of the member
 		$cur_point = getModel('point')->getPoint($member_srl);
@@ -300,6 +332,14 @@ class pointController extends point
 		
 		// Increase the point.
 		$this->setPoint($member_srl, $cur_point);
+	}
+
+	/**
+	 * @brief A trigger to deduct points when a comment is moved to Trash
+	 */
+	public function triggerTrashComment($obj)
+	{
+		return $this->triggerDeleteComment($obj);
 	}
 
 	/**
@@ -320,6 +360,13 @@ class pointController extends point
 		$module_srl = $obj->module_srl;
 		$member_srl = abs($obj->member_srl);
 		if (!$module_srl || !$member_srl || $obj->isvalid !== 'Y')
+		{
+			return;
+		}
+		
+		// Return if disabled
+		$config = $this->getConfig();
+		if ($config->upload_file_revert_on_delete === false)
 		{
 			return;
 		}
@@ -442,7 +489,7 @@ class pointController extends point
 		}
 		
 		// Give no points if the document is older than a configured limit.
-		$regdate = ztime(getModel('document')->getDocument($obj->document_srl)->get('regdate'));
+		$regdate = ztime($obj->get('regdate'));
 		$config = $this->getConfig();
 		if ($config->read_document_limit > 0 && $regdate < RX_TIME - ($config->read_document_limit * 86400))
 		{
@@ -451,6 +498,19 @@ class pointController extends point
 		if ($config->read_document_author_limit > 0 && $regdate < RX_TIME - ($config->read_document_author_limit * 86400))
 		{
 			$author_point = 0;
+		}
+		
+		// Give no points if the document is a notice and an exception has been configured.
+		if ($obj->get('is_notice') === 'Y')
+		{
+			if ($config->read_document_except_notice)
+			{
+				$reader_point = 0;
+			}
+			if ($config->read_document_author_except_notice)
+			{
+				$author_point = 0;
+			}
 		}
 		
 		// Adjust points of the reader.
@@ -599,7 +659,7 @@ class pointController extends point
 		$config = $oModuleModel->getModuleConfig('point');
 
 		// Get the default configuration information
-		$current_point = $oPointModel->getPoint($member_srl);
+		$current_point = $oPointModel->getPoint($member_srl, false, $exists);
 		$current_level = $oPointModel->getLevel($current_point, $config->level_step);
 
 		// Change points
@@ -641,9 +701,25 @@ class pointController extends point
 		$oDB->begin();
 
 		// If there are points, update, if no, insert
-		$oPointModel = getModel('point');
-		if($oPointModel->isExistsPoint($member_srl)) executeQuery("point.updatePoint", $args);
-		else executeQuery("point.insertPoint", $args);
+		if ($exists)
+		{
+			$output = executeQuery("point.updatePoint", $args);
+		}
+		else
+		{
+			$output = executeQuery("point.insertPoint", $args);
+			// 많은 동접시 포인트를 넣는 과정에서 미리 들어간 포인트가 있을 수 있는 문제가 있어 이를 확실하게 처리하도록 수정요청을 한 번 더 실행.
+			if(!$output->toBool())
+			{
+				$output = executeQuery("point.updatePoint", $args);
+			}
+		}
+
+		if(!$output->toBool())
+		{
+			$oDB->rollback();
+			return $output;
+		}
 
 		// Get a new level
 		$level = $oPointModel->getLevel($point, $config->level_step);
@@ -729,7 +805,7 @@ class pointController extends point
 					$del_group_args = new stdClass;
 					$del_group_args->member_srl = $member_srl;
 					$del_group_args->group_srl = implode(',', $del_group_list);
-					$del_group_output = executeQuery('point.deleteMemberGroup', $del_group_args);
+					executeQuery('point.deleteMemberGroup', $del_group_args);
 				}
 				// Grant a new group
 				foreach($new_group_list as $group_srl)

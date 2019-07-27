@@ -49,7 +49,7 @@ class APC implements \Rhymix\Framework\Drivers\CacheInterface
 	 */
 	public static function isSupported()
 	{
-		return function_exists('apc_exists');
+		return function_exists('apcu_exists');
 	}
 	
 	/**
@@ -75,7 +75,7 @@ class APC implements \Rhymix\Framework\Drivers\CacheInterface
 	 */
 	public function get($key)
 	{
-		$value = apc_fetch($key);
+		$value = apcu_fetch($key);
 		return $value === false ? null : $value;
 	}
 	
@@ -93,7 +93,7 @@ class APC implements \Rhymix\Framework\Drivers\CacheInterface
 	 */
 	public function set($key, $value, $ttl = 0, $force = false)
 	{
-		return apc_store($key, $value, $ttl);
+		return apcu_store($key, $value, $ttl);
 	}
 	
 	/**
@@ -107,7 +107,7 @@ class APC implements \Rhymix\Framework\Drivers\CacheInterface
 	 */
 	public function delete($key)
 	{
-		return apc_delete($key);
+		return apcu_delete($key);
 	}
 	
 	/**
@@ -120,7 +120,7 @@ class APC implements \Rhymix\Framework\Drivers\CacheInterface
 	 */
 	public function exists($key)
 	{
-		return apc_exists($key);
+		return apcu_exists($key);
 	}
 	
 	/**
@@ -135,10 +135,10 @@ class APC implements \Rhymix\Framework\Drivers\CacheInterface
 	 */
 	public function incr($key, $amount)
 	{
-		$result = apc_inc($key, $amount);
+		$result = apcu_inc($key, $amount);
 		if ($result === false)
 		{
-			apc_store($key, $amount);
+			apcu_store($key, $amount);
 			$result = $amount;
 		}
 		return $result;
@@ -156,10 +156,10 @@ class APC implements \Rhymix\Framework\Drivers\CacheInterface
 	 */
 	public function decr($key, $amount)
 	{
-		$result = apc_dec($key, $amount);
+		$result = apcu_dec($key, $amount);
 		if ($result === false)
 		{
-			apc_store($key, 0 - $amount);
+			apcu_store($key, 0 - $amount);
 			$result = 0 - $amount;
 		}
 		return $result;
@@ -174,6 +174,6 @@ class APC implements \Rhymix\Framework\Drivers\CacheInterface
 	 */
 	public function clear()
 	{
-		return apc_clear_cache('user');
+		return apcu_clear_cache();
 	}
 }

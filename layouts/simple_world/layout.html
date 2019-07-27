@@ -138,9 +138,9 @@
 			</section>
 		</div>
 		<div class="layout_content" id="content">
-			{$layout_info->before_content}
-			{$content}
-			{$layout_info->after_content}
+			{$layout_info->before_content|noescape}
+			{$content|noescape}
+			{$layout_info->after_content|noescape}
 		</div>
 		<!--// CONTENT -->
 		<div class="layout_outright" cond="trim($layout_info->right_content)">

@@ -69,6 +69,18 @@
 			</div>
 		</div>
 		<div class="x_control-group">
+			<label class="x_control-label">{$lang->ncenterlite_always_display}</label>
+			<div class="x_controls">
+				<label class="x_inline">
+					<input type="radio" id="always_display_y" name="always_display" value="Y" checked="checked"|cond="$config->always_display == 'Y'" /> {$lang->use}
+				</label>
+				<label class="x_inline">
+					<input type="radio" id="always_display_n" name="always_display" value="N" checked="checked"|cond="$config->always_display != 'Y'" /> {$lang->notuse}
+				</label>
+				<p class="x_help-block">{$lang->ncenterlite_always_display_about}</p>
+			</div>
+		</div>
+		<div class="x_control-group">
 			<label class="x_control-label">{$lang->member_menu_view}</label>
 			<div class="x_controls">
 				<label class="x_inline">

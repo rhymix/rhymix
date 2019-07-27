@@ -41,6 +41,18 @@ class ncenterliteAdminView extends ncenterlite
 		Context::set('mid_list', $mid_list);
 		Context::set('config', $config);
 	}
+	
+	function dispNcenterliteAdminOtherComment()
+	{
+		$oModuleModel = getModel('module');
+		$oNcenterliteModel = getModel('ncenterlite');
+		$config = $oNcenterliteModel->getConfig();
+
+		$mid_list = $oModuleModel->getMidList(null, array('module_srl', 'mid', 'browser_title', 'module'));
+
+		Context::set('mid_list', $mid_list);
+		Context::set('config', $config);
+	}
 
 	function dispNcenterliteAdminSkinsetting()
 	{

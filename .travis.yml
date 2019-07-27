@@ -5,18 +5,15 @@ php:
   - 7.0
   - 7.1
   - 7.2
-  - nightly
-matrix:
-  allow_failures:
-    - php: nightly
+  - 7.3
 services:
   - mysql
 before_script:
   - npm install grunt grunt-cli grunt-contrib-jshint grunt-contrib-csslint grunt-phplint --save-dev
   - mysql -u root -e "CREATE DATABASE rhymix CHARSET utf8mb4 COLLATE utf8mb4_unicode_ci"
   - mysql -u root -e "GRANT ALL PRIVILEGES ON rhymix.* TO travis@localhost"
-  - mysql -u root -e "UPDATE mysql.user SET Password = PASSWORD('travis') WHERE User = 'travis'; FLUSH PRIVILEGES"
-  - if [[ $TRAVIS_PHP_VERSION != "nightly" ]]; then phpenv config-rm xdebug.ini; fi
+  - mysql -u root -e "SET PASSWORD FOR travis@localhost = PASSWORD('travis'); FLUSH PRIVILEGES"
+  - if [[ $TRAVIS_PHP_VERSION != "7.3" ]]; then phpenv config-rm xdebug.ini; fi
   - wget https://codeception.com/releases/2.3.9/codecept.phar
   - php -S localhost:8000 &
 script:

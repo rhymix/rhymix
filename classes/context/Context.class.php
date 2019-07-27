@@ -117,10 +117,10 @@ class Context
 	public $is_site_locked = FALSE;
 
 	/**
-	 * Check init
-	 * @var bool FALSE if init fail
+	 * Result of initial security check
+	 * @var string|bool
 	 */
-	public $isSuccessInit = TRUE;
+	public $security_check = 'OK';
 
 	/**
 	 * Singleton instance
@@ -173,8 +173,9 @@ class Context
 	 * @var array
 	 */
 	private static $_check_patterns = array(
-		'@<(?:\?|%)@',
-		'@</?script@i',
+		'@<(?:\?|%)@' => 'DENY ALL',
+		'@<script\s*?language\s*?=@i' => 'DENY ALL',
+		'@</?script@i' => 'ALLOW ADMIN ONLY',
 	);
 
 	/**
@@ -256,14 +257,6 @@ class Context
 		// If Rhymix is installed, get virtual site information.
 		if(self::isInstalled())
 		{
-			$oModuleModel = getModel('module');
-			$site_module_info = $oModuleModel->getDefaultMid() ?: new stdClass;
-			self::set('site_module_info', $site_module_info);
-			self::set('_default_timezone', ($site_module_info->settings && $site_module_info->settings->timezone) ? $site_module_info->settings->timezone : null);
-			self::set('_default_url', self::$_instance->db_info->default_url = self::getDefaultUrl($site_module_info));
-			self::set('_http_port', self::$_instance->db_info->http_port = $site_module_info->http_port ?: null);
-			self::set('_https_port', self::$_instance->db_info->https_port = $site_module_info->https_port ?: null);
-			self::set('_use_ssl', self::$_instance->db_info->use_ssl = $site_module_info->security ?: 'none');
 			if (PHP_SAPI === 'cli')
 			{
 				self::set('_default_url', $default_url = config('url.default'));
@@ -272,6 +265,14 @@ class Context
 					define('RX_BASEURL', parse_url($default_url, PHP_URL_PATH));
 				}
 			}
+			$oModuleModel = getModel('module');
+			$site_module_info = $oModuleModel->getDefaultMid() ?: new stdClass;
+			self::set('site_module_info', $site_module_info);
+			self::set('_default_timezone', ($site_module_info->settings && $site_module_info->settings->timezone) ? $site_module_info->settings->timezone : null);
+			self::set('_default_url', self::$_instance->db_info->default_url = self::getDefaultUrl($site_module_info));
+			self::set('_http_port', self::$_instance->db_info->http_port = $site_module_info->http_port ?: null);
+			self::set('_https_port', self::$_instance->db_info->https_port = $site_module_info->https_port ?: null);
+			self::set('_use_ssl', self::$_instance->db_info->use_ssl = $site_module_info->security ?: 'none');
 		}
 		else
 		{
@@ -294,13 +295,14 @@ class Context
 
 		// Load language support.
 		$enabled_langs = self::loadLangSelected();
+		$set_lang_cookie = false;
 		self::set('lang_supported', $enabled_langs);
 		
 		if($lang_type = self::get('l'))
 		{
 			if($_COOKIE['lang_type'] !== $lang_type)
 			{
-				setcookie('lang_type', $lang_type, time() + 86400 * 365, '/', null, !!config('session.use_ssl_cookies'));
+				$set_lang_cookie = true;
 			}
 		}
 		elseif($_COOKIE['lang_type'])
@@ -316,10 +318,16 @@ class Context
 					if(!strncasecmp($lang_code, $_SERVER['HTTP_ACCEPT_LANGUAGE'], strlen($lang_code)))
 					{
 						$lang_type = $lang_code;
-						setcookie('lang_type', $lang_type, time() + 86400 * 365, '/', null, !!config('session.use_ssl_cookies'));
+						$set_lang_cookie = true;
 					}
 				}
 			}
+		}
+		
+		$lang_type = preg_replace('/[^a-zA-Z0-9_-]/', '', $lang_type);
+		if ($set_lang_cookie)
+		{
+			setcookie('lang_type', $lang_type, time() + 86400 * 365, '/', null, !!config('session.use_ssl_cookies'));
 		}
 		
 		if(!$lang_type || !isset($enabled_langs[$lang_type]))
@@ -351,6 +359,7 @@ class Context
 		{
 			$oSessionModel = getModel('session');
 			$oSessionController = getController('session');
+			ini_set('session.serialize_handler', 'php');
 			session_set_save_handler(
 					array(&$oSessionController, 'open'), array(&$oSessionController, 'close'), array(&$oSessionModel, 'read'), array(&$oSessionController, 'write'), array(&$oSessionController, 'destroy'), array(&$oSessionController, 'gc')
 			);
@@ -794,7 +803,7 @@ class Context
 			return '';
 		}
 		getController('module')->replaceDefinedLangCode(self::$_instance->browser_title);
-		return htmlspecialchars(self::$_instance->browser_title, ENT_COMPAT | ENT_HTML401, 'UTF-8', FALSE);
+		return htmlspecialchars(self::$_instance->browser_title, ENT_QUOTES, 'UTF-8', FALSE);
 	}
 
 	/**
@@ -885,6 +894,7 @@ class Context
 		{
 			self::$_instance->db_info = new stdClass;
 		}
+		
 		self::$_instance->db_info->lang_type = $lang_type;
 		self::$_instance->lang_type = $lang_type;
 		self::set('lang_type', $lang_type);
@@ -1070,7 +1080,7 @@ class Context
 	{
 		if (!self::_recursiveCheckVar($_SERVER['HTTP_HOST']) || preg_match("/[\,\"\'\{\}\[\]\(\);$]/", $_SERVER['HTTP_HOST']))
 		{
-			self::$_instance->isSuccessInit = FALSE;
+			self::$_instance->security_check = 'DENY ALL';
 		}
 	}
 
@@ -1205,7 +1215,7 @@ class Context
 		{
 			if(self::getRequestMethod() === 'XMLRPC')
 			{
-				if(!Rhymix\Framework\Security::checkXEE($GLOBALS['HTTP_RAW_POST_DATA']))
+				if(!Rhymix\Framework\Security::checkXXE($GLOBALS['HTTP_RAW_POST_DATA']))
 				{
 					header("HTTP/1.0 400 Bad Request");
 					exit;
@@ -1261,8 +1271,14 @@ class Context
 			$tmp_name = $val['tmp_name'];
 			if(!is_array($tmp_name))
 			{
-				if(!$tmp_name || !is_uploaded_file($tmp_name) || $val['size'] <= 0)
+				if($val['name'] === '' && $val['size'] == 0)
 				{
+					continue;
+				}
+				if(!UploadFileFilter::check($tmp_name, $val['name']))
+				{
+					self::$_instance->security_check = 'DENY ALL';
+					unset($_FILES[$key]);
 					continue;
 				}
 				$val['name'] = escape($val['name'], false);
@@ -1275,16 +1291,24 @@ class Context
 				$files = array();
 				foreach ($tmp_name as $i => $j)
 				{
-					if($val['size'][$i] > 0)
+					if($val['name'][$i] === '' && $val['size'][$i] == 0)
 					{
-						$file = array();
-						$file['name'] = $val['name'][$i];
-						$file['type'] = $val['type'][$i];
-						$file['tmp_name'] = $val['tmp_name'][$i];
-						$file['error'] = $val['error'][$i];
-						$file['size'] = $val['size'][$i];
-						$files[] = $file;
+						continue;
 					}
+					if(!UploadFileFilter::check($val['tmp_name'][$i], $val['name'][$i]))
+					{
+						self::$_instance->security_check = 'DENY ALL';
+						$files = array();
+						unset($_FILES[$key]);
+						break;
+					}
+					$file = array();
+					$file['name'] = $val['name'][$i];
+					$file['type'] = $val['type'][$i];
+					$file['tmp_name'] = $val['tmp_name'][$i];
+					$file['error'] = $val['error'][$i];
+					$file['size'] = $val['size'][$i];
+					$files[] = $file;
 				}
 				if(count($files))
 				{
@@ -1304,12 +1328,15 @@ class Context
 	{
 		if(is_string($val))
 		{
-			foreach(self::$_check_patterns as $pattern)
+			foreach(self::$_check_patterns as $pattern => $status)
 			{
 				if(preg_match($pattern, $val))
 				{
-					self::$_instance->isSuccessInit = false;
-					return false;
+					self::$_instance->security_check = $status;
+					if($status === 'DENY ALL')
+					{
+						return false;
+					}
 				}
 			}
 		}
@@ -1403,20 +1430,17 @@ class Context
 			}
 			elseif($_val = trim($_val))
 			{
-				if(in_array($key, array('page', 'cpage')) || ends_with('srl', $key, false))
+				if(in_array($key, array('page', 'cpage')) || ends_with('srl', $key, false) && preg_match('/[^0-9,]/', $_val))
 				{
-					if(preg_match('/[^0-9,]/', $_val))
-					{
-						$_val = (int)$_val;
-					}
+					$_val = (int)$_val;
 				}
-				elseif(in_array($key, array('mid', 'search_keyword', 'xe_validator_id')))
+				elseif(in_array($key, array('mid', 'vid', 'search_target', 'search_keyword', 'xe_validator_id')) || $_SERVER['REQUEST_METHOD'] === 'GET')
 				{
 					$_val = escape($_val, false);
-				}
-				elseif($key === 'vid')
-				{
-					$_val = urlencode($_val);
+					if(ends_with('url', $key, false))
+					{
+						$_val = strtr($_val, array('&amp;' => '&'));
+					}
 				}
 			}
 			$result[escape($_key)] = $_val;
@@ -1699,23 +1723,41 @@ class Context
 		// If using SSL always
 		if($site_module_info->security == 'always')
 		{
-			$query = self::getRequestUri(ENFORCE_SSL, $domain) . $query;
+			if(!$domain && RX_SSL)
+			{
+				$query = RX_BASEURL . $query;
+			}
+			else
+			{
+				$query = self::getRequestUri(ENFORCE_SSL, $domain) . $query;
+			}
 		}
 		// optional SSL use
 		elseif($site_module_info->security == 'optional')
 		{
 			$ssl_mode = ((self::get('module') === 'admin') || ($get_vars['module'] === 'admin') || (isset($get_vars['act']) && self::isExistsSSLAction($get_vars['act']))) ? ENFORCE_SSL : RELEASE_SSL;
-			$query = self::getRequestUri($ssl_mode, $domain) . $query;
+			if(!$domain && (RX_SSL && ENFORCE_SSL) || (!RX_SSL && RELEASE_SSL))
+			{
+				$query = RX_BASEURL . $query;
+			}
+			else
+			{
+				$query = self::getRequestUri($ssl_mode, $domain) . $query;
+			}
 		}
 		// no SSL
 		else
 		{
 			// currently on SSL but target is not based on SSL
-			if(RX_SSL)
+			if(!$domain && RX_SSL)
+			{
+				$query = RX_BASEURL . $query;
+			}
+			elseif(RX_SSL)
 			{
 				$query = self::getRequestUri(ENFORCE_SSL, $domain) . $query;
 			}
-			else if($domain) // if $domain is set
+			elseif($domain)
 			{
 				$query = self::getRequestUri(FOLLOW_REQUEST_SSL, $domain) . $query;
 			}
@@ -1732,7 +1774,7 @@ class Context
 
 		if(!$autoEncode)
 		{
-			return htmlspecialchars($query, ENT_COMPAT | ENT_HTML401, 'UTF-8', FALSE);
+			return htmlspecialchars($query, ENT_QUOTES, 'UTF-8', FALSE);
 		}
 
 		$output = array();
@@ -1748,7 +1790,7 @@ class Context
 			$encode_queries[] = $key . '=' . $value;
 		}
 
-		return htmlspecialchars($parsedUrl['path'] . '?' . join('&', $encode_queries), ENT_COMPAT | ENT_HTML401, 'UTF-8', FALSE);
+		return htmlspecialchars($parsedUrl['path'] . '?' . join('&', $encode_queries), ENT_QUOTES, 'UTF-8', FALSE);
 	}
 
 	/**
@@ -1810,6 +1852,12 @@ class Context
 	 */
 	public static function set($key, $val, $set_to_get_vars = false)
 	{
+		if(empty($key))
+		{
+			trigger_error('Called Context::set() with an empty key', \E_USER_WARNING);
+			return;
+		}
+		
 		self::$_tpl_vars->{$key} = $val;
 
 		if($set_to_get_vars || isset(self::$_get_vars->{$key}))
@@ -1833,6 +1881,12 @@ class Context
 	 */
 	public static function get($key)
 	{
+		if(empty($key))
+		{
+			trigger_error('Called Context::get() with an empty key', \E_USER_WARNING);
+			return;
+		}
+		
 		if(isset(self::$_tpl_vars->{$key}))
 		{
 			return self::$_tpl_vars->{$key};

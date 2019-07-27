@@ -157,16 +157,22 @@ class DisplayHandler extends Handler
 		}
 		
 		// Do not display debugging information if there is no output.
-		$display_type = config('debug.display_type');
-		if ($output === null && $display_type !== 'file')
+		$display_types = config('debug.display_type');
+		if (!is_array($display_types))
+		{
+			$display_types = array($display_types);
+		}
+		if ($output === null && !in_array('file', $display_types))
 		{
 			return;
 		}
 		
 		// Print debug information.
-		switch ($display_type)
+		$debug_output = '';
+		foreach ($display_types as $display_type)
 		{
-			case 'panel':
+			if ($display_type === 'panel')
+			{
 				$data = Rhymix\Framework\Debug::getDebugData();
 				$display_content = array_fill_keys(config('debug.display_content'), true);
 				if (count($display_content) && !isset($display_content['entries']))
@@ -220,7 +226,7 @@ class DisplayHandler extends Handler
 						$panel_script .= "\n<script>\nvar rhymix_debug_content = " . json_encode($data, $json_options) . ";\n</script>";
 						$body_end_position = strrpos($output, '</body>') ?: strlen($output);
 						$output = substr($output, 0, $body_end_position) . "\n$panel_script\n" . substr($output, $body_end_position);
-						return;
+						break;
 					case 'JSON':
 						if (RX_POST && preg_match('/^proc/', Context::get('act')))
 						{
@@ -236,17 +242,16 @@ class DisplayHandler extends Handler
 						{
 							$output = $matches[1] . ',"_rx_debug":' . json_encode($data) . '}';
 						}
-						return;
+						break;
 					default:
-						return;
+						break;
 				}
-			
-			case 'comment':
-			case 'file':
-			default:
+			}
+			else
+			{
 				if ($display_type === 'comment' && Context::getResponseMethod() !== 'HTML')
 				{
-					return;
+					break;
 				}
 				ob_start();
 				$data = Rhymix\Framework\Debug::getDebugData();
@@ -272,13 +277,16 @@ class DisplayHandler extends Handler
 						$phpheader = '';
 					}
 					FileHandler::writeFile($log_filename, $phpheader . $content . PHP_EOL, 'a');
-					return '';
+					$debug_output .= '';
 				}
 				else
 				{
-					return '<!--' . PHP_EOL . $content . PHP_EOL . '-->';
+					$debug_output .= '<!--' . PHP_EOL . $content . PHP_EOL . '-->' . PHP_EOL;
 				}
+			}
 		}
+		
+		return $debug_output;
 	}
 
 	/**

@@ -28,21 +28,21 @@ class documentController extends document
 		{
 			if(!Context::get('is_logged'))
 			{
-				return $this->setError('msg_invalid_request');
+				throw new Rhymix\Framework\Exceptions\NotPermitted;
 			}
 		}
 
 		$document_srl = Context::get('target_srl');
-		if(!$document_srl) return $this->setError('msg_invalid_request');
+		if(!$document_srl) throw new Rhymix\Framework\Exceptions\InvalidRequest;
 
 		$oDocumentModel = getModel('document');
 		$oDocument = $oDocumentModel->getDocument($document_srl, false, false);
 		$module_srl = $oDocument->get('module_srl');
-		if(!$module_srl) return $this->setError('msg_invalid_request');
+		if(!$module_srl) throw new Rhymix\Framework\Exceptions\InvalidRequest;
 
 		$oModuleModel = getModel('module');
 		$document_config = $oModuleModel->getModulePartConfig('document',$module_srl);
-		if($document_config->use_vote_up=='N') return $this->setError('msg_invalid_request');
+		if($document_config->use_vote_up=='N') throw new Rhymix\Framework\Exceptions\FeatureDisabled;
 
 		$point = 1;
 		$output = $this->updateVotedCount($document_srl, $point);
@@ -60,18 +60,18 @@ class documentController extends document
 		{
 			if(!Context::get('is_logged'))
 			{
-				return $this->setError('msg_invalid_request');
+				throw new Rhymix\Framework\Exceptions\NotPermitted;
 			}
 		}
 
 		$document_srl = Context::get('target_srl');
-		if(!$document_srl) return $this->setError('msg_invalid_request');
+		if(!$document_srl) throw new Rhymix\Framework\Exceptions\InvalidRequest;
 
 		$oDocumentModel = getModel('document');
 		$oDocument = $oDocumentModel->getDocument($document_srl, false, false);
 		if($oDocument->get('voted_count') <= 0)
 		{
-			return $this->setError('msg_document_voted_cancel_not');
+			throw new Rhymix\Framework\Exception('failed_voted_canceled');
 		}
 		$point = 1;
 		$output = $this->updateVotedCountCancel($document_srl, $oDocument, $point);
@@ -114,21 +114,21 @@ class documentController extends document
 		{
 			if(!Context::get('is_logged'))
 			{
-				return $this->setError('msg_invalid_request');
+				throw new Rhymix\Framework\Exceptions\NotPermitted;
 			}
 		}
 
 		$document_srl = Context::get('target_srl');
-		if(!$document_srl) return $this->setError('msg_invalid_request');
+		if(!$document_srl) throw new Rhymix\Framework\Exceptions\InvalidRequest;
 
 		$oDocumentModel = getModel('document');
 		$oDocument = $oDocumentModel->getDocument($document_srl, false, false);
 		$module_srl = $oDocument->get('module_srl');
-		if(!$module_srl) return $this->setError('msg_invalid_request');
+		if(!$module_srl) throw new Rhymix\Framework\Exceptions\InvalidRequest;
 
 		$oModuleModel = getModel('module');
 		$document_config = $oModuleModel->getModulePartConfig('document',$module_srl);
-		if($document_config->use_vote_down=='N') return $this->setError('msg_invalid_request');
+		if($document_config->use_vote_down=='N') throw new Rhymix\Framework\Exceptions\FeatureDisabled;
 
 		$point = -1;
 		$output = $this->updateVotedCount($document_srl, $point);
@@ -146,18 +146,18 @@ class documentController extends document
 		{
 			if(!Context::get('is_logged'))
 			{
-				return $this->setError('msg_invalid_request');
+				throw new Rhymix\Framework\Exceptions\NotPermitted;
 			}
 		}
 
 		$document_srl = Context::get('target_srl');
-		if(!$document_srl) return $this->setError('msg_invalid_request');
+		if(!$document_srl) throw new Rhymix\Framework\Exceptions\InvalidRequest;
 
 		$oDocumentModel = getModel('document');
 		$oDocument = $oDocumentModel->getDocument($document_srl, false, false);
 		if($oDocument->get('blamed_count') >= 0)
 		{
-			return $this->setError('msg_document_voted_cancel_not');
+			throw new Rhymix\Framework\Exception('failed_blamed_canceled');
 		}
 		$point = -1;
 		$output = $this->updateVotedCountCancel($document_srl, $oDocument, $point);
@@ -181,42 +181,68 @@ class documentController extends document
 	function updateVotedCountCancel($document_srl, $oDocument, $point)
 	{
 		$logged_info = Context::get('logged_info');
-
-		$args = new stdClass();
-		$d_args = new stdClass();
-		$args->document_srl = $d_args->document_srl = $document_srl;
-		$d_args->member_srl = $logged_info->member_srl;
-		if($point > 0)
+		
+		// Check if the current user has voted previously.
+		$args = new stdClass;
+		$args->document_srl = $document_srl;
+		$args->point = $point;
+		if($logged_info->member_srl)
 		{
-			$args->voted_count = $oDocument->get('voted_count') - $point;
-			$output = executeQuery('document.updateVotedCount', $args);
+			$args->member_srl = $logged_info->member_srl;
 		}
 		else
 		{
-			$args->blamed_count = $oDocument->get('blamed_count') - $point;
-			$output = executeQuery('document.updateBlamedCount', $args);
+			$args->ipaddress = $_SERVER['REMOTE_ADDR'];
 		}
-		$d_output = executeQuery('document.deleteDocumentVotedLog', $d_args);
-		if(!$d_output->toBool()) return $d_output;
+		$output = executeQuery('document.getDocumentVotedLogInfo', $args);
+		if(!$output->data->count)
+		{
+			return new BaseObject(-1, $point > 0 ? 'failed_voted_canceled' : 'failed_blamed_canceled');
+		}
 
-		//session reset
-		$_SESSION['voted_document'][$document_srl] = false;
+		// Call a trigger (before)
+		$trigger_obj = new stdClass;
+		$trigger_obj->member_srl = $oDocument->get('member_srl');
+		$trigger_obj->module_srl = $oDocument->get('module_srl');
+		$trigger_obj->document_srl = $oDocument->get('document_srl');
+		$trigger_obj->update_target = ($point < 0) ? 'blamed_count' : 'voted_count';
+		$trigger_obj->point = $point;
+		$trigger_obj->before_point = ($point < 0) ? $oDocument->get('blamed_count') : $oDocument->get('voted_count');
+		$trigger_obj->after_point = $trigger_obj->before_point - $point;
+		$trigger_obj->cancel = true;
+		$trigger_output = ModuleHandler::triggerCall('document.updateVotedCountCancel', 'before', $trigger_obj);
+		if(!$trigger_output->toBool())
+		{
+			return $trigger_output;
+		}
 
 		// begin transaction
 		$oDB = DB::getInstance();
 		$oDB->begin();
 
-		$obj = new stdClass();
-		$obj->member_srl = $oDocument->get('member_srl');
-		$obj->module_srl = $oDocument->get('module_srl');
-		$obj->document_srl = $oDocument->get('document_srl');
-		$obj->update_target = ($point < 0) ? 'blamed_count' : 'voted_count';
-		$obj->point = $point;
-		$obj->before_point = ($point < 0) ? $oDocument->get('blamed_count') : $oDocument->get('voted_count');
-		$obj->after_point = ($point < 0) ? $args->blamed_count : $args->voted_count;
-		$obj->cancel = 1;
+		$args = new stdClass();
+		$d_args = new stdClass();
+		$args->document_srl = $d_args->document_srl = $document_srl;
+		$d_args->member_srl = $logged_info->member_srl;
+		if ($trigger_obj->update_target === 'voted_count')
+		{
+			$args->voted_count = $trigger_obj->after_point;
+			$output = executeQuery('document.updateVotedCount', $args);
+		}
+		else
+		{
+			$args->blamed_count = $trigger_obj->after_point;
+			$output = executeQuery('document.updateBlamedCount', $args);
+		}
+		$d_output = executeQuery('document.deleteDocumentVotedLog', $d_args);
+		if(!$d_output->toBool()) return $d_output;
 
-		ModuleHandler::triggerCall('document.updateVotedCountCancel', 'after', $obj);
+		// session reset
+		$_SESSION['voted_document'][$document_srl] = false;
+
+		// Call a trigger (after)
+		ModuleHandler::triggerCall('document.updateVotedCountCancel', 'after', $trigger_obj);
+
 		$oDB->commit();
 		return $output;
 	}
@@ -229,13 +255,13 @@ class documentController extends document
 	{
 		if(!Context::get('is_logged'))
 		{
-			return $this->setError('msg_not_logged');
+			throw new Rhymix\Framework\Exceptions\MustLogin;
 		}
 
 		$document_srl = intval(Context::get('target_srl'));
 		if(!$document_srl)
 		{
-			return $this->setError('msg_invalid_request');
+			throw new Rhymix\Framework\Exceptions\InvalidRequest;
 		}
 
 		// if an user select message from options, message would be the option.
@@ -347,7 +373,7 @@ class documentController extends document
 	{
 		if(!$manual_inserted && !checkCSRF())
 		{
-			return new BaseObject(-1, 'msg_invalid_request');
+			return new BaseObject(-1, 'msg_security_violation');
 		}
 
 		// begin transaction
@@ -361,7 +387,7 @@ class documentController extends document
 		if($obj->allow_trackback!='Y') $obj->allow_trackback = 'N';
 		if($obj->homepage) 
 		{
-			$obj->homepage = removeHackTag($obj->homepage);
+			$obj->homepage = escape($obj->homepage);
 			if(!preg_match('/^[a-z]+:\/\//i',$obj->homepage))
 			{
 				$obj->homepage = 'http://'.$obj->homepage;
@@ -371,6 +397,12 @@ class documentController extends document
 		if($obj->notify_message != 'Y') $obj->notify_message = 'N';
 		if(!$obj->email_address) $obj->email_address = '';
 		if(!$isRestore) $obj->ipaddress = $_SERVER['REMOTE_ADDR'];
+		$obj->isRestore = $isRestore ? true : false;
+		
+		// Sanitize variables
+		$obj->document_srl = intval($obj->document_srl);
+		$obj->category_srl = intval($obj->category_srl);
+		$obj->module_srl = intval($obj->module_srl);
 		
 		// Default Status
 		if($obj->status)
@@ -485,7 +517,10 @@ class documentController extends document
 		}
 		
 		// Remove iframe and script if not a top adminisrator in the session.
-		if($logged_info->is_admin != 'Y') $obj->content = removeHackTag($obj->content);
+		if($logged_info->is_admin != 'Y')
+		{
+			$obj->content = removeHackTag($obj->content);
+		}
 
 		// An error appears if both log-in info and user name don't exist.
 		if(!$logged_info->member_srl && !$obj->nick_name) return new BaseObject(-1, 'msg_invalid_request');
@@ -576,10 +611,18 @@ class documentController extends document
 	{
 		if(!$manual_updated && !checkCSRF())
 		{
-			return new BaseObject(-1, 'msg_invalid_request');
+			return new BaseObject(-1, 'msg_security_violation');
 		}
 		
-		if(!$source_obj->document_srl || !$obj->document_srl) return new BaseObject(-1, 'msg_invalied_request');
+		if(!$source_obj->document_srl || !$obj->document_srl)
+		{
+			return new BaseObject(-1, 'msg_invalied_request');
+		}
+		
+		// Sanitize variables
+		$obj->document_srl = intval($obj->document_srl);
+		$obj->category_srl = intval($obj->category_srl);
+		$obj->module_srl = intval($obj->module_srl);
 		
 		// Default Status
 		if($obj->status)
@@ -625,6 +668,8 @@ class documentController extends document
 		if(!isset($document_config->use_history)) $document_config->use_history = 'N';
 		$bUseHistory = $document_config->use_history == 'Y' || $document_config->use_history == 'Trace';
 
+		$logged_info = Context::get('logged_info');
+		
 		if($bUseHistory)
 		{
 			$args = new stdClass;
@@ -632,10 +677,10 @@ class documentController extends document
 			$args->document_srl = $obj->document_srl;
 			$args->module_srl = $obj->module_srl;
 			if($document_config->use_history == 'Y') $args->content = $source_obj->get('content');
-			$args->nick_name = $logged_info->nick_name;
-			$args->member_srl = $logged_info->member_srl;
+			$args->nick_name = $source_obj->get('nick_name');
+			$args->member_srl = $source_obj->get('member_srl');
 			$args->regdate = $source_obj->get('last_update');
-			$args->ipaddress = $_SERVER['REMOTE_ADDR'];
+			$args->ipaddress = $source_obj->get('ipaddress');
 			$output = executeQuery("document.insertHistory", $args);
 		}
 		else
@@ -650,7 +695,7 @@ class documentController extends document
 		if($obj->allow_trackback!='Y') $obj->allow_trackback = 'N';
 		if($obj->homepage)
 		{
-			$obj->homepage = removeHackTag($obj->homepage);
+			$obj->homepage = escape($obj->homepage);
 			if(!preg_match('/^[a-z]+:\/\//i',$obj->homepage))
 			{
 				$obj->homepage = 'http://'.$obj->homepage;
@@ -693,7 +738,6 @@ class documentController extends document
 		}
 
 		// If an author is identical to the modifier or history is used, use the logged-in user's information.
-		$logged_info = Context::get('logged_info');
 		if(Context::get('is_logged') && !$manual_updated && !$obj->manual_member_info)
 		{
 			if($source_obj->get('member_srl')==$logged_info->member_srl)
@@ -910,6 +954,7 @@ class documentController extends document
 		// Call a trigger (before)
 		$trigger_obj = new stdClass();
 		$trigger_obj->document_srl = $document_srl;
+		$trigger_obj->isEmptyTrash = $isEmptyTrash ? true : false;
 		$output = ModuleHandler::triggerCall('document.deleteDocument', 'before', $trigger_obj);
 		if(!$output->toBool()) return $output;
 
@@ -966,6 +1011,7 @@ class documentController extends document
 
 		// Call a trigger (after)
 		$trigger_obj = $oDocument->getObjectVars();
+		$trigger_obj->isEmptyTrash = $isEmptyTrash ? true : false;
 		ModuleHandler::triggerCall('document.deleteDocument', 'after', $trigger_obj);
 		
 		// declared document, log delete
@@ -1127,6 +1173,10 @@ class documentController extends document
 		}
 		
 		// Call a trigger (after)
+		$obj->module_srl = $oDocument->get('module_srl');
+		$obj->member_srl = $oDocument->get('member_srl');
+		$obj->regdate = $oDocument->get('regdate');
+		$obj->last_update = $oDocument->get('last_update');
 		ModuleHandler::triggerCall('document.moveDocumentToTrash', 'after', $obj);
 
 		// commit
@@ -1391,20 +1441,24 @@ class documentController extends document
 		{
 			$failed_voted = 'failed_blamed';
 		}
+
 		// Return fail if session already has information about votes
 		if($_SESSION['voted_document'][$document_srl])
 		{
 			return new BaseObject(-1, $failed_voted);
 		}
+
 		// Get the original document
 		$oDocumentModel = getModel('document');
 		$oDocument = $oDocumentModel->getDocument($document_srl, false, false);
+
 		// Pass if the author's IP address is as same as visitor's.
 		if($oDocument->get('ipaddress') == $_SERVER['REMOTE_ADDR'])
 		{
 			$_SESSION['voted_document'][$document_srl] = false;
 			return new BaseObject(-1, $failed_voted);
 		}
+
 		// Create a member model object
 		$oMemberModel = getModel('member');
 		$member_srl = $oMemberModel->getLoggedMemberSrl();
@@ -1419,6 +1473,7 @@ class documentController extends document
 				return new BaseObject(-1, $failed_voted);
 			}
 		}
+
 		// Use member_srl for logged-in members and IP address for non-members.
 		$args = new stdClass();
 		if($member_srl)
@@ -1431,47 +1486,57 @@ class documentController extends document
 		}
 		$args->document_srl = $document_srl;
 		$output = executeQuery('document.getDocumentVotedLogInfo', $args);
+
 		// Pass after registering a session if log information has vote-up logs
 		if($output->data->count)
 		{
 			$_SESSION['voted_document'][$document_srl] = false;
 			return new BaseObject(-1, $failed_voted);
 		}
+
+		// Call a trigger (before)
+		$trigger_obj = new stdClass;
+		$trigger_obj->member_srl = $oDocument->get('member_srl');
+		$trigger_obj->module_srl = $oDocument->get('module_srl');
+		$trigger_obj->document_srl = $oDocument->get('document_srl');
+		$trigger_obj->update_target = ($point < 0) ? 'blamed_count' : 'voted_count';
+		$trigger_obj->point = $point;
+		$trigger_obj->before_point = ($point < 0) ? $oDocument->get('blamed_count') : $oDocument->get('voted_count');
+		$trigger_obj->after_point = $trigger_obj->before_point + $point;
+		$trigger_obj->cancel = false;
+		$trigger_output = ModuleHandler::triggerCall('document.updateVotedCount', 'before', $trigger_obj);
+		if(!$trigger_output->toBool())
+		{
+			return $trigger_output;
+		}
+		
 		// begin transaction
 		$oDB = DB::getInstance();
 		$oDB->begin();
 
 		// Update the voted count
-		if($point < 0)
+		if($trigger_obj->update_target === 'blamed_count')
 		{
-			$args->blamed_count = $oDocument->get('blamed_count') + $point;
-			// Leave in the session information
-			$_SESSION['voted_document'][$document_srl] = $point;
+			$args->blamed_count = $trigger_obj->after_point;
 			$output = executeQuery('document.updateBlamedCount', $args);
 		}
 		else
 		{
-			$args->voted_count = $oDocument->get('voted_count') + $point;
-			// Leave in the session information
-			$_SESSION['voted_document'][$document_srl] = $point;
+			$args->voted_count = $trigger_obj->after_point;
 			$output = executeQuery('document.updateVotedCount', $args);
 		}
 		if(!$output->toBool()) return $output;
+
+		// Leave in the session information
+		$_SESSION['voted_document'][$document_srl] = $trigger_obj->point;
+		
 		// Leave logs
-		$args->point = $point;
+		$args->point = $trigger_obj->point;
 		$output = executeQuery('document.insertDocumentVotedLog', $args);
 		if(!$output->toBool()) return $output;
-
-		$obj = new stdClass;
-		$obj->member_srl = $oDocument->get('member_srl');
-		$obj->module_srl = $oDocument->get('module_srl');
-		$obj->document_srl = $oDocument->get('document_srl');
-		$obj->update_target = ($point < 0) ? 'blamed_count' : 'voted_count';
-		$obj->point = $point;
-		$obj->before_point = ($point < 0) ? $oDocument->get('blamed_count') : $oDocument->get('voted_count');
-		$obj->after_point = ($point < 0) ? $args->blamed_count : $args->voted_count;
 		
-		ModuleHandler::triggerCall('document.updateVotedCount', 'after', $obj);
+		// Call a trigger (after)
+		ModuleHandler::triggerCall('document.updateVotedCount', 'after', $trigger_obj);
 
 		$oDB->commit();
 
@@ -1480,15 +1545,15 @@ class documentController extends document
 
 		// Return result
 		$output = new BaseObject();
-		if($point > 0)
+		if($trigger_obj->update_target === 'voted_count')
 		{
 			$output->setMessage('success_voted');
-			$output->add('voted_count', $obj->after_point);
+			$output->add('voted_count', $trigger_obj->after_point);
 		}
 		else
 		{
 			$output->setMessage('success_blamed');
-			$output->add('blamed_count', $obj->after_point);
+			$output->add('blamed_count', $trigger_obj->after_point);
 		}
 		
 		return $output;
@@ -1543,12 +1608,12 @@ class documentController extends document
 			return new BaseObject(-1, 'failed_declared');
 		}
 
+		// Get currently logged in user.
+		$member_srl = intval($this->user->member_srl);
+		
 		// Check if document's author is a member.
 		if($oDocument->get('member_srl'))
 		{
-			// Create a member model object
-			$oMemberModel = getModel('member');
-			$member_srl = $oMemberModel->getLoggedMemberSrl();
 			// Pass after registering a session if author's information is same as the currently logged-in user's.
 			if($member_srl && $member_srl == abs($oDocument->get('member_srl')))
 			{
@@ -1557,30 +1622,31 @@ class documentController extends document
 			}
 		}
 
-		// Use member_srl for logged-in members and IP address for non-members.
+		// Pass after registering a sesson if reported/declared documents are in the logs.
 		$args = new stdClass;
+		$args->document_srl = $document_srl;
 		if($member_srl)
 		{
 			$args->member_srl = $member_srl;
 		}
 		else
 		{
-			$args->ipaddress = $_SERVER['REMOTE_ADDR'];
+			$args->ipaddress = \RX_CLIENT_IP;
 		}
-
-		$args->document_srl = $document_srl;
-		$args->declare_message = $declare_message;
 		$output = executeQuery('document.getDocumentDeclaredLogInfo', $args);
-
-		// Pass after registering a sesson if reported/declared documents are in the logs.
 		if($output->data->count)
 		{
 			$_SESSION['declared_document'][$document_srl] = true;
 			return new BaseObject(-1, 'failed_declared');
 		}
-
+		
+		// Fill in remaining information for logging.
+		$args->member_srl = $member_srl;
+		$args->ipaddress = \RX_CLIENT_IP;
+		$args->declare_message = $declare_message;
+		
 		// begin transaction
-		$oDB = &DB::getInstance();
+		$oDB = DB::getInstance();
 		$oDB->begin();
 
 		// Add the declared document
@@ -2185,6 +2251,7 @@ class documentController extends document
 	function makeCategoryFile($module_srl)
 	{
 		// Return if there is no information you need for creating a cache file
+		$module_srl = intval($module_srl);
 		if(!$module_srl) return false;
 		// Get module information (to obtain mid)
 		$oModuleModel = getModel('module');
@@ -2194,8 +2261,8 @@ class documentController extends document
 
 		if(!is_dir('./files/cache/document_category')) FileHandler::makeDir('./files/cache/document_category');
 		// Cache file's name
-		$xml_file = sprintf("./files/cache/document_category/%s.xml.php", $module_srl);
-		$php_file = sprintf("./files/cache/document_category/%s.php", $module_srl);
+		$xml_file = sprintf("./files/cache/document_category/%d.xml.php", $module_srl);
+		$php_file = sprintf("./files/cache/document_category/%d.php", $module_srl);
 		// Get a category list
 		$args = new stdClass();
 		$args->module_srl = $module_srl;
@@ -2249,10 +2316,8 @@ class documentController extends document
 		$xml_body_buff = $this->getXmlTree($tree[0], $tree, $module_info->site_srl, $xml_header_buff);
 		$xml_buff = sprintf(
 			'<?php '.
-			'define(\'__XE__\', true); '.
-			'require_once(\''.FileHandler::getRealPath('./config/config.inc.php').'\'); '.
-			'$oContext = &Context::getInstance(); '.
-			'$oContext->init(); '.
+			'require_once(\''.FileHandler::getRealPath('./common/autoload.php').'\'); '.
+			'Context::init(); '.
 			'header("Content-Type: text/xml; charset=UTF-8"); '.
 			'header("Expires: Mon, 26 Jul 1997 05:00:00 GMT"); '.
 			'header("Last-Modified: " . gmdate("D, d M Y H:i:s") . " GMT"); '.
@@ -2495,7 +2560,10 @@ class documentController extends document
 	 */
 	function procDocumentAddCart()
 	{
-		if(!Context::get('is_logged')) return $this->setError('msg_not_permitted');
+		if(!Context::get('is_logged'))
+		{
+			throw new Rhymix\Framework\Exceptions\NotPermitted;
+		}
 
 		// Get document_srl
 		$srls = explode(',',Context::get('srls'));
@@ -2575,8 +2643,8 @@ class documentController extends document
 		$obj->type = Context::get('type');
 		$obj->document_list = array();
 		$obj->document_srl_list = array();
-		$obj->target_module_srl = intval(Context::get('module_srl') ?: Context::get('target_module'));
-		$obj->target_category_srl = Context::get('target_category');
+		$obj->target_module_srl = intval(Context::get('module_srl') ?: Context::get('target_module_srl'));
+		$obj->target_category_srl = intval(Context::get('target_category_srl'));
 		$obj->manager_message = Context::get('message_content') ? nl2br(escape(strip_tags(Context::get('message_content')))) : '';
 		$obj->send_message = $obj->manager_message || Context::get('send_default_message') == 'Y';
 		$obj->return_message = '';
@@ -2587,12 +2655,12 @@ class documentController extends document
 			$module_info = getModel('module')->getModuleInfoByModuleSrl($obj->target_module_srl);
 			if (!$module_info->module_srl)
 			{
-				return $this->setError('msg_invalid_request');
+				throw new Rhymix\Framework\Exceptions\InvalidRequest;
 			}
 			$module_grant = getModel('module')->getGrant($module_info, $logged_info);
 			if (!$module_grant->manager)
 			{
-				return $this->setError('msg_not_permitted');
+				throw new Rhymix\Framework\Exceptions\NotPermitted;
 			}
 		}
 		
@@ -2608,7 +2676,7 @@ class documentController extends document
 		$obj->document_list = getModel('document')->getDocuments($obj->document_srl_list, false, false);
 		if(empty($obj->document_list))
 		{
-			return $this->setError('msg_invalid_request');
+			throw new Rhymix\Framework\Exceptions\InvalidRequest;
 		}
 		
 		// Call a trigger (before)
@@ -2623,7 +2691,7 @@ class documentController extends document
 		{
 			if(!$obj->target_module_srl)
 			{
-				return $this->setError('fail_to_move');
+				throw new Rhymix\Framework\Exception('fail_to_move');
 			}
 			
 			$output = $oController->moveDocumentModule($obj->document_srl_list, $obj->target_module_srl, $obj->target_category_srl);
@@ -2638,7 +2706,7 @@ class documentController extends document
 		{
 			if(!$obj->target_module_srl)
 			{
-				return $this->setError('fail_to_move');
+				throw new Rhymix\Framework\Exception('fail_to_move');
 			}
 			
 			$output = $oController->copyDocumentModule($obj->document_srl_list, $obj->target_module_srl, $obj->target_category_srl);
@@ -2695,7 +2763,7 @@ class documentController extends document
 		}
 		else
 		{
-			return $this->setError('msg_invalid_request');
+			throw new Rhymix\Framework\Exceptions\InvalidRequest;
 		}
 		
 		// Call a trigger (after)
@@ -2764,13 +2832,13 @@ Content;
 			$module_info = $oModuleModel->getModuleInfoByModuleSrl($srl);
 			if (!$module_info->module_srl)
 			{
-				return $this->setError('msg_invalid_request');
+				throw new Rhymix\Framework\Exceptions\InvalidRequest;
 			}
 			
 			$module_grant = $oModuleModel->getGrant($module_info, $logged_info);
 			if (!$module_grant->manager)
 			{
-				return $this->setError('msg_not_permitted');
+				throw new Rhymix\Framework\Exceptions\NotPermitted;
 			}
 			
 			$module_srl[] = $srl;
@@ -2811,7 +2879,7 @@ Content;
 	{
 		if(!$this->module_srl)
 		{
-			return $this->setError('msg_invalid_request');
+			throw new Rhymix\Framework\Exceptions\InvalidRequest;
 		}
 		
 		$obj = Context::getRequestVars();
@@ -2834,12 +2902,12 @@ Content;
 		{
 			if(!$oDocument->isGranted())
 			{
-				return $this->setError('msg_invalid_request');
+				throw new Rhymix\Framework\Exceptions\NotPermitted;
 			}
 			
 			if($oDocument->get('status') != $this->getConfigStatus('temp'))
 			{
-				return $this->setError('msg_invalid_request');
+				throw new Rhymix\Framework\Exceptions\InvalidRequest;
 			}
 			
 			$output = $this->updateDocument($oDocument, $obj);
@@ -2871,7 +2939,11 @@ Content;
 	 */
 	function procDocumentGetList()
 	{
-		if(!Context::get('is_logged')) return $this->setError('msg_not_permitted');
+		if(!Context::get('is_logged'))
+		{
+			throw new Rhymix\Framework\Exceptions\NotPermitted;
+		}
+		
 		$documentSrls = Context::get('document_srls');
 		if($documentSrls) $documentSrlList = explode(',', $documentSrls);
 

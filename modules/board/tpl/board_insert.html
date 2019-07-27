@@ -1,3 +1,4 @@
+<config autoescape="on" />
 <include target="header.html" />
 <load target="../../module/tpl/js/multi_order.js" />
 <div cond="$XE_VALIDATOR_MESSAGE && $XE_VALIDATOR_ID == 'modules/board/tpl/board_insert/1'" class="message {$XE_VALIDATOR_MESSAGE_TYPE}">
@@ -24,7 +25,7 @@
 		<div class="x_control-group">
 			<label class="x_control-label" for="lang_browser_title">{$lang->browser_title}</label>
 			<div class="x_controls">
-				<input type="text" name="browser_title" id="browser_title" value="<!--@if(strpos($module_info->browser_title, '$user_lang->') === false)-->{$module_info->browser_title}<!--@else-->{htmlspecialchars($module_info->browser_title)}<!--@end-->" class="lang_code" />
+				<input type="text" name="browser_title" id="browser_title" value="{$module_info->browser_title}" class="lang_code" />
 				<a href="#browser_title_help" class="x_icon-question-sign" data-toggle>{$lang->help}</a>
 				<p id="browser_title_help" class="x_help-block" hidden>{$lang->about_browser_title}</p>
 			</div>
@@ -32,13 +33,13 @@
 		<div class="x_control-group">
 			<label class="x_control-label" for="lang_meta_keywords">{$lang->meta_keywords}</label>
 			<div class="x_controls">
-				<input type="text" name="meta_keywords" id="meta_keywords" value="<!--@if(strpos($module_info->meta_keywords, '$user_lang->') === false)-->{$module_info->meta_keywords}<!--@else-->{htmlspecialchars($module_info->meta_keywords)}<!--@end-->" class="lang_code" />
+				<input type="text" name="meta_keywords" id="meta_keywords" value="{$module_info->meta_keywords}" class="lang_code" />
 			</div>
 		</div>
 		<div class="x_control-group">
 			<label class="x_control-label" for="lang_meta_description">{$lang->meta_description}</label>
 			<div class="x_controls">
-				<input type="text" name="meta_description" id="meta_description" value="<!--@if(strpos($module_info->meta_description, '$user_lang->') === false)-->{$module_info->meta_description}<!--@else-->{htmlspecialchars($module_info->meta_description)}<!--@end-->" class="lang_code" />
+				<input type="text" name="meta_description" id="meta_description" value="{$module_info->meta_description}" class="lang_code" />
 			</div>
 		</div>
 		<div class="x_control-group">
@@ -84,14 +85,14 @@
 		<div class="x_control-group">
 			<label class="x_control-label" for="lang_header_text">{$lang->header_text}</label>
 			<div class="x_controls">
-				<textarea name="header_text" id="header_text" class="lang_code" rows="8" cols="42"><!--@if(strpos($module_info->header_text, '$user_lang->') === false)-->{$module_info->header_text}<!--@else-->{htmlspecialchars($module_info->header_text)}<!--@end--></textarea>
+				<textarea name="header_text" id="header_text" class="lang_code" rows="8" cols="42">{$module_info->header_text}</textarea>
 				<p id="header_text_help" class="x_help-block">{$lang->about_header_text}</p>
 			</div>
 		</div>
 		<div class="x_control-group">
 			<label class="x_control-label" for="lang_footer_text">{$lang->footer_text}</label>
 			<div class="x_controls">
-				<textarea name="footer_text" id="footer_text" class="lang_code" rows="8" cols="42"><!--@if(strpos($module_info->footer_text, '$user_lang->') === false)-->{$module_info->footer_text}<!--@else-->{htmlspecialchars($module_info->footer_text)}<!--@end--></textarea>
+				<textarea name="footer_text" id="footer_text" class="lang_code" rows="8" cols="42">{$module_info->footer_text}</textarea>
 				<p id="footer_text_help" class="x_help-block">{$lang->about_footer_text}</p>
 			</div>
 		</div>
@@ -149,14 +150,14 @@
 		<div class="x_control-group">
 			<label class="x_control-label" for="lang_mobile_header_text">{$lang->mobile_header_text}</label>
 			<div class="x_controls">
-				<textarea name="mobile_header_text" id="mobile_header_text" class="lang_code" rows="8" cols="42"><!--@if(strpos($module_info->footer_text, '$user_lang->') === false)-->{$module_info->mobile_header_text}<!--@else-->{htmlspecialchars($module_info->mobile_header_text)}<!--@end--></textarea>
+				<textarea name="mobile_header_text" id="mobile_header_text" class="lang_code" rows="8" cols="42">{$module_info->mobile_header_text}</textarea>
 				<p id="mobile_header_text_help" class="x_help-block">{$lang->about_mobile_header_text}</p>
 			</div>
 		</div>
 		<div class="x_control-group">
 			<label class="x_control-label" for="lang_mobile_footer_text">{$lang->mobile_footer_text}</label>
 			<div class="x_controls">
-				<textarea name="mobile_footer_text" id="mobile_footer_text" class="lang_code" rows="8" cols="42"><!--@if(strpos($module_info->footer_text, '$user_lang->') === false)-->{$module_info->mobile_footer_text}<!--@else-->{htmlspecialchars($module_info->mobile_footer_text)}<!--@end--></textarea>
+				<textarea name="mobile_footer_text" id="mobile_footer_text" class="lang_code" rows="8" cols="42">{$module_info->mobile_footer_text}</textarea>
 				<p id="mobile_footer_text_help" class="x_help-block">{$lang->about_mobile_footer_text}</p>
 			</div>
 		</div>
@@ -358,7 +359,7 @@
 		<div class="x_control-group">
 			<label class="x_control-label" for="description">{$lang->description}</label>
 			<div class="x_controls">
-				<textarea name="description" id="description" rows="4" cols="42" placeholder="{$lang->about_description}" style="vertical-align:top">{htmlspecialchars($module_info->description)}</textarea>
+				<textarea name="description" id="description" rows="4" cols="42" placeholder="{$lang->about_description}" style="vertical-align:top">{$module_info->description}</textarea>
 				<a href="#description_help" class="x_icon-question-sign" data-toggle>{$lang->help}</a>
 				<p id="description_help" class="x_help-block" hidden>{$lang->about_description}</p>
 			</div>

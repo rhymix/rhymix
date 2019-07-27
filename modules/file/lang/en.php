@@ -26,9 +26,11 @@ $lang->about_inline_download_format = 'Selected types of files will be opened in
 $lang->enable_download_group = 'Downloadable Groups';
 $lang->about_allow_outlink = 'You can block other websites from accessing your download URLs directly.<br />This does not apply to images and other files that can be embedded directly in a document.';
 $lang->about_allow_outlink_format = 'These file formats will always be allowed.<br />Please use a comma (,) to separate items: e.g. doc, zip, pdf';
-$lang->about_allow_outlink_site = 'These referers will alyways be allowed.<br />Please enter one full address per line: e.g. https://www.rhymix.org/';
-$lang->about_allowed_filesize = 'You can limit the size of each attached file. Administrators are exempt.';
-$lang->about_allowed_attach_size = 'You can limit the total size of all attached files in one document. Administrators are exempt.';
+$lang->about_allow_outlink_site = 'These referers will always be allowed.<br />Please enter one full address per line: e.g. https://www.rhymix.org/';
+$lang->about_allowed_filesize = 'You can limit the size of each attached file.<br />Administrators are limited to this setting or the limit set in the <a href="%s" target="_blank">file module</a>, whichever is greater.';
+$lang->about_allowed_attach_size = 'You can limit the total size of all attached files in one document.<br />Administrators are limited to this setting or the limit set in the <a href="%s" target="_blank">file module</a>, whichever is greater.';
+$lang->about_allowed_filesize_global = 'This is the global limit on the size of each attachment.';
+$lang->about_allowed_attach_size_global = 'This is the global limit on the combined size of all attachments in one document.';
 $lang->about_allowed_size_limits = 'The file size will be limited to the value set in php.ini (%sB) in IE9 and below and older Android browsers.';
 $lang->about_allowed_filetypes = 'To allow an extension, use "*.[extention]". To allow multiple extensions, use ";" between each extension. ex) *.* or *.jpg;*.gif; ';
 $lang->cmd_delete_checked_file = 'Delete Selected Item(s)';

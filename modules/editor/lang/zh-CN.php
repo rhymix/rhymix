@@ -182,4 +182,5 @@ $lang->edit['close_help'] = '关闭帮助';
 $lang->edit['confirm_submit_without_saving'] = '尚有未保存的段落。\\n确定要提交吗？';
 $lang->edit['image_align'] = '图片对齐';
 $lang->edit['attached_files'] = '附件';
+$lang->edit['delete_selected'] = '删除附件';
 $lang->about_dblclick_in_editor = '双击背景, 文本, 图片, 引用即可对其相关组件进行详细设置。';

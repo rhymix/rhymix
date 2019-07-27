@@ -19,14 +19,14 @@
 			<label for="max_level" class="x_control-label">{$lang->max_level}</label>
 			<div class="x_controls">
 				<input type="number" min="0" max="1000" value="{$config->max_level}" name="max_level" id="max_level" />
-				{$lang->about_max_level}
+				<p class="x_help-block">{$lang->about_max_level}</p>
 			</div>
 		</div>
 		<div class="x_control-group">
 			<label for="point_name" class="x_control-label">{$lang->point_name}</label>
 			<div class="x_controls">
 				<input type="text" value="{$config->point_name}" name="point_name" id="point_name" style="width:50px" />
-				{$lang->about_point_name}
+				<p class="x_help-block">{$lang->about_point_name}</p>
 			</div>
 		</div>
 		<div class="x_control-group">
@@ -37,7 +37,7 @@
 					<option value="{$val}" selected="selected"|cond="$config->level_icon == $val">{$val}</option>
 					<!--@end-->
 				</select>
-				<span class="x_help-inline">{$lang->about_level_icon}</span>
+				<span class="x_help-block">{$lang->about_level_icon}</span>
 			</div>
 		</div>
 		<div class="x_control-group">
@@ -56,31 +56,38 @@
 				{$lang->disable_read_document_except_robots}
 			</div>
 		</div>
-		
+
+		<div class="x_clearfix">
+			<span class="x_pull-right"><input class="x_btn x_btn-primary" type="submit" value="{$lang->cmd_save}" /></span>
+		</div>
+	</section>
+
+	<section class="section">
+		<h1>{$lang->give_point}</h1>
 		{@ $config_array = get_object_vars($config)}
 		{@ $config_array['insert_comment_limit'] = $config_array['insert_comment_limit'] ?: $config_array['no_point_date']}
 		{@ $action_types = array(
-			'insert_document' => 0,
-			'insert_comment' => 1,
-			'upload_file' => 0,
-			'download_file' => 0,
-			'read_document' => 1,
-			'voter' => 1,
-			'blamer' => 1,
-			'voter_comment' => 1,
-			'blamer_comment' => 1,
-			'download_file_author' => 0,
-			'read_document_author' => 1,
-			'voted' => 1,
-			'blamed' => 1,
-			'voted_comment' => 1,
-			'blamed_comment' => 1,
+			'insert_document' => ['time_limit' => 0, 'except_notice' => 0, 'revert_on_delete' => 1],
+			'insert_comment' => ['time_limit' => 1, 'except_notice' => 0, 'revert_on_delete' => 1],
+			'upload_file' => ['time_limit' => 0, 'except_notice' => 0, 'revert_on_delete' => 1],
+			'download_file' => ['time_limit' => 0, 'except_notice' => 0, 'revert_on_delete' => 0],
+			'read_document' => ['time_limit' => 1, 'except_notice' => 1, 'revert_on_delete' => 0],
+			'voter' => ['time_limit' => 1, 'except_notice' => 0, 'revert_on_delete' => 0],
+			'blamer' => ['time_limit' => 1, 'except_notice' => 0, 'revert_on_delete' => 0],
+			'voter_comment' => ['time_limit' => 1, 'except_notice' => 0, 'revert_on_delete' => 0],
+			'blamer_comment' => ['time_limit' => 1, 'except_notice' => 0, 'revert_on_delete' => 0],
+			'download_file_author' => ['time_limit' => 0, 'except_notice' => 0, 'revert_on_delete' => 0],
+			'read_document_author' => ['time_limit' => 1, 'except_notice' => 1, 'revert_on_delete' => 0],
+			'voted' => ['time_limit' => 1, 'except_notice' => 0, 'revert_on_delete' => 0],
+			'blamed' => ['time_limit' => 1, 'except_notice' => 0, 'revert_on_delete' => 0],
+			'voted_comment' => ['time_limit' => 1, 'except_notice' => 0, 'revert_on_delete' => 0],
+			'blamed_comment' => ['time_limit' => 1, 'except_notice' => 0, 'revert_on_delete' => 0],
 		)}
 		
 		<table class="x_table x_table-striped x_table-hover">
 			<tbody>
 				<tr>
-					<td class="nowr">{$lang->cmd_signup}</td>
+					<th class="nowr">{$lang->cmd_signup}</td>
 					<td class="nowr">
 						&nbsp;{$lang->point_given_prefix}
 						<input type="number" value="{$config->signup_point ?: '0'}" name="signup_point" id="signup_point" />
@@ -89,7 +96,7 @@
 					<td class="nowr"></td>
 				</tr>
 				<tr>
-					<td class="nowr">{$lang->cmd_login}</td>
+					<th class="nowr">{$lang->cmd_login}</td>
 					<td class="nowr">
 						&nbsp;{$lang->point_given_prefix}
 						<input type="number" value="{$config->login_point ?: '0'}" name="login_point" id="login_point" />
@@ -97,16 +104,28 @@
 					</td>
 					<td class="nowr"></td>
 				</tr>
-				<!--@foreach($action_types as $action_type => $time_limit)-->
+				<!--@foreach($action_types as $action_type => $action_config)-->
 					<tr>
-						<td class="nowr">{lang('point_' . $action_type)}</td>
+						<th class="nowr">{lang('point_' . $action_type)}</td>
 						<td class="nowr">
 							&nbsp;{$lang->point_given_prefix}
 							<input type="number" value="{$config_array[$action_type] ?: '0'}" name="{$action_type}" id="{$action_type}" />
 							&nbsp;{$lang->point_given_suffix}
+							<block cond="$action_config['except_notice']">
+								<label class="x_inline" for="{$action_type}_except_notice" style="margin-left:10px">
+									<input type="checkbox" value="Y" name="{$action_type}_except_notice" id="{$action_type}_except_notice" checked="checked"|cond="$config_array[$action_type . '_except_notice']" />
+									{$lang->cmd_point_except_notice}
+								</label>
+							</block>
+							<block cond="$action_config['revert_on_delete']">
+								<label class="x_inline" for="{$action_type}_revert_on_delete" style="margin-left:10px">
+									<input type="checkbox" value="Y" name="{$action_type}_revert_on_delete" id="{$action_type}_revert_on_delete" checked="checked"|cond="$config_array[$action_type . '_revert_on_delete'] !== false" />
+									{$lang->cmd_point_revert_on_delete}
+								</label>
+							</block>
 						</td>
 						<td class="nowr">
-							<block cond="$time_limit">
+							<block cond="$action_config['time_limit']">
 								{$lang->point_time_limit_prefix}&nbsp;
 								<input type="number" value="{$config_array[$action_type . '_limit'] ?: ''}" name="{$action_type}_limit" id="{$action_type}_limit" />
 								&nbsp;{$lang->point_time_limit_suffix}
@@ -218,20 +237,3 @@
 		<p id="pointReCal"></p>
 	</section>
 </form>
-
-<script>
-jQuery(function($){
-	var point_module_cfg = $('#point_module_config_form .default .x_control-group:not(.module_io), #point_module_config_form .section:not(.default),.x_nav-tabs>li:not(.x_active)');
-	if(!$('#able_module').is(':checked'))
-	{
-		point_module_cfg.hide();
-	}
-	$('#able_module').change(function(){
-		if($(this).is(':checked')){
-			point_module_cfg.slideDown(200);
-		} else {
-			point_module_cfg.slideUp(200);
-		}
-	});
-});
-</script>

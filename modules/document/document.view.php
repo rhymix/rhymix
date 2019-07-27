@@ -36,9 +36,9 @@ class documentView extends document
 		$oDocumentModel = getModel('document');
 		// Creates an object for displaying the selected document
 		$oDocument = $oDocumentModel->getDocument($document_srl, $this->grant->manager);
-		if(!$oDocument->isExists()) return $this->setError('msg_invalid_request');
+		if(!$oDocument->isExists()) throw new Rhymix\Framework\Exceptions\TargetNotFound;
 		// Check permissions
-		if(!$oDocument->isAccessible()) return $this->setError('msg_not_permitted');
+		if(!$oDocument->isAccessible()) throw new Rhymix\Framework\Exceptions\NotPermitted;
 		// Information setting module
 		//Context::set('module_info', $module_info);	//module_info not use in UI
 		// Browser title settings
@@ -58,7 +58,7 @@ class documentView extends document
 	{
 		if(!checkCSRF())
 		{
-			return $this->setError('msg_invalid_request');
+			throw new Rhymix\Framework\Exceptions\SecurityViolation;
 		} 
 		
 		$content = Context::get('content');
@@ -87,8 +87,9 @@ class documentView extends document
 	 */
 	function dispDocumentManageDocument()
 	{
-		if(!Context::get('is_logged')) return $this->setError('msg_not_permitted');
+		if(!Context::get('is_logged')) throw new Rhymix\Framework\Exceptions\NotPermitted;
 		// Taken from a list of selected sessions
+		$document_srl_list = array();
 		$flag_list = $_SESSION['document_management'];
 		if(count($flag_list))
 		{
@@ -105,14 +106,14 @@ class documentView extends document
 			$document_list = $oDocumentModel->getDocuments($document_srl_list, $this->grant->is_admin);
 			Context::set('document_list', $document_list);
 		}
+		else
+		{
+			Context::set('document_list', array());
+		}
 
-		$oModuleModel = getModel('module');
-		// The combination of module categories list and the list of modules
-		if(count($module_list)>1) Context::set('module_list', $module_categories);
-
-		$module_srl=Context::get('module_srl');
+		$module_srl = intval(Context::get('module_srl'));
 		Context::set('module_srl',$module_srl);
-		$module_info = $oModuleModel->getModuleInfoByModuleSrl($module_srl);
+		$module_info = getModel('module')->getModuleInfoByModuleSrl($module_srl);
 		Context::set('mid',$module_info->mid);
 		Context::set('browser_title',$module_info->browser_title);
 
@@ -172,7 +173,10 @@ class documentView extends document
 
 		$oMemberModel = getModel('member');
 		// A message appears if the user is not logged-in
-		if(!$oMemberModel->isLogged()) return $this->stop('msg_not_logged');
+		if(!$oMemberModel->isLogged())
+		{
+			throw new Rhymix\Framework\Exceptions\MustLogin;
+		}
 		// Get the saved document (module_srl is set to member_srl instead)
 		$logged_info = Context::get('logged_info');
 		$args = new stdClass();
@@ -206,7 +210,7 @@ class documentView extends document
 		// A message appears if the user is not logged-in
 		if(!$oMemberModel->isLogged())
 		{
-			return $this->stop('msg_not_logged');
+			throw new Rhymix\Framework\Exceptions\MustLogin;
 		}
 
 		// Create the document object. If the document module of basic data structures, write it all works .. -_-;
@@ -215,12 +219,12 @@ class documentView extends document
 		$oDocument = $oDocumentModel->getDocument($document_srl, $this->grant->manager, FALSE);
 		if(!$oDocument->isExists())
 		{
-			return $this->setError('msg_invalid_request');
+			throw new Rhymix\Framework\Exceptions\TargetNotFound;
 		}
 		// Check permissions
 		if(!$oDocument->isAccessible())
 		{
-			return $this->setError('msg_not_permitted');
+			throw new Rhymix\Framework\Exceptions\NotPermitted;
 		}
 
 		// Browser title settings

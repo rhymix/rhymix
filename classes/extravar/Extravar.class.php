@@ -209,7 +209,7 @@ class ExtraItem
 				{
 					$value = 'http://' . $value;
 				}
-				return htmlspecialchars($value, ENT_COMPAT | ENT_HTML401, 'UTF-8', false);
+				return escape($value, false);
 
 			case 'tel' :
 				if(is_array($value))
@@ -232,7 +232,7 @@ class ExtraItem
 				$values = array_values($values);
 				for($i = 0, $c = count($values); $i < $c; $i++)
 				{
-					$values[$i] = trim(htmlspecialchars($values[$i], ENT_COMPAT | ENT_HTML401, 'UTF-8', false));
+					$values[$i] = trim(escape($values[$i], false));
 				}
 				return $values;
 
@@ -259,7 +259,7 @@ class ExtraItem
 				$values = array_values($values);
 				for($i = 0, $c = count($values); $i < $c; $i++)
 				{
-					$values[$i] = trim(htmlspecialchars($values[$i], ENT_COMPAT | ENT_HTML401, 'UTF-8', false));
+					$values[$i] = trim(escape($values[$i], false));
 				}
 				return $values;
 
@@ -280,7 +280,7 @@ class ExtraItem
 				$values = array_values($values);
 				for($i = 0, $c = count($values); $i < $c; $i++)
 				{
-					$values[$i] = trim(htmlspecialchars($values[$i], ENT_COMPAT | ENT_HTML401, 'UTF-8', false));
+					$values[$i] = trim(escape($values[$i], false));
 				}
 				return $values;
 
@@ -290,7 +290,7 @@ class ExtraItem
 			//case 'textarea' :
 			//case 'password' :
 			default :
-				return htmlspecialchars($value, ENT_COMPAT | ENT_HTML401, 'UTF-8', false);
+				return escape($value, false);
 		}
 	}
 
@@ -404,7 +404,7 @@ class ExtraItem
 					// Temporary ID for labeling
 					$tmp_id = $column_name . '-' . $id_num++;
 
-					$buff[] ='  <li><input type="checkbox" name="' . $column_name . '[]" id="' . $tmp_id . '" value="' . htmlspecialchars($v, ENT_COMPAT | ENT_HTML401, 'UTF-8', false) . '" ' . $checked . ' /><label for="' . $tmp_id . '">' . $v . '</label></li>';
+					$buff[] ='  <li><input type="checkbox" name="' . $column_name . '[]" id="' . $tmp_id . '" value="' . escape($v, false) . '" ' . $checked . ' /><label for="' . $tmp_id . '">' . $v . '</label></li>';
 				}
 				$buff[] = '</ul>';
 				break;
@@ -485,7 +485,7 @@ class ExtraItem
 		{
 			$oModuleController = getController('module');
 			$oModuleController->replaceDefinedLangCode($this->desc);
-			$buff[] = '<p>' . htmlspecialchars($this->desc, ENT_COMPAT | ENT_HTML401, 'UTF-8', false) . '</p>';
+			$buff[] = '<p>' . escape($this->desc, false) . '</p>';
 		}
 		
 		return join(PHP_EOL, $buff);

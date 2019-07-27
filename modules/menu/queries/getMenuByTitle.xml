@@ -7,6 +7,6 @@
     </columns>
     <conditions>
         <condition operation="in" column="title" var="title" notnull="notnull" />
-        <condition operation="equal" column="site_srl" var="site_srl" default="0" pipe="and" />
+        <condition operation="equal" column="site_srl" var="site_srl" filter="number" pipe="and" />
     </conditions>
 </query>

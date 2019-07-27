@@ -104,7 +104,7 @@ class krzipModel extends krzip
 		$query = trim(strval($query));
 		if($query === '')
 		{
-			return $this->stop('msg_krzip_no_query');
+			return $this->setError('msg_krzip_no_query');
 		}
 
 		$output = $this->getEpostapiSearch($query);

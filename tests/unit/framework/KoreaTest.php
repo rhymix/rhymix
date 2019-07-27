@@ -13,6 +13,8 @@ class KoreaTest extends \Codeception\TestCase\Test
 		$this->assertEquals('010-6666-7777', Rhymix\Framework\Korea::formatPhoneNumber('82+1066667777'));
 		$this->assertEquals('0303-456-7890', Rhymix\Framework\Korea::formatPhoneNumber('03034567890'));
 		$this->assertEquals('0505-987-6543', Rhymix\Framework\Korea::formatPhoneNumber('050-5987-6543'));
+		$this->assertEquals('0303-4567-8900', Rhymix\Framework\Korea::formatPhoneNumber('030345678900'));
+		$this->assertEquals('0505-9876-5432', Rhymix\Framework\Korea::formatPhoneNumber('050-5987-65432'));
 		$this->assertEquals('070-7432-1000', Rhymix\Framework\Korea::formatPhoneNumber('0707-432-1000'));
 	}
 	
@@ -26,12 +28,16 @@ class KoreaTest extends \Codeception\TestCase\Test
 		$this->assertTrue(Rhymix\Framework\Korea::isValidPhoneNumber('053-4444-5555'));
 		$this->assertTrue(Rhymix\Framework\Korea::isValidPhoneNumber('011-444-5555'));
 		$this->assertTrue(Rhymix\Framework\Korea::isValidPhoneNumber('010-4444-5555'));
+		$this->assertTrue(Rhymix\Framework\Korea::isValidPhoneNumber('0303-4444-5555'));
+		$this->assertTrue(Rhymix\Framework\Korea::isValidPhoneNumber('0505-4444-5555'));
 		$this->assertFalse(Rhymix\Framework\Korea::isValidPhoneNumber('010-4444-55555'));
 		$this->assertFalse(Rhymix\Framework\Korea::isValidPhoneNumber('010-1234-5678'));
 		$this->assertFalse(Rhymix\Framework\Korea::isValidPhoneNumber('02-123-4567'));
 		$this->assertFalse(Rhymix\Framework\Korea::isValidPhoneNumber('02-123456'));
 		$this->assertFalse(Rhymix\Framework\Korea::isValidPhoneNumber('03-456-7890'));
 		$this->assertFalse(Rhymix\Framework\Korea::isValidPhoneNumber('090-9876-5432'));
+		$this->assertFalse(Rhymix\Framework\Korea::isValidPhoneNumber('0303-1111-5432'));
+		$this->assertFalse(Rhymix\Framework\Korea::isValidPhoneNumber('0505-9876-543210'));
 	}
 	
 	public function testIsValidMobilePhoneNumber()

@@ -27,13 +27,7 @@ class menuAdminModel extends menu
 	 */
 	function getMenuList($obj)
 	{
-		if(!$obj->site_srl)
-		{
-			$site_module_info = Context::get('site_module_info');
-			$obj->site_srl = (int)$site_module_info->site_srl;
-		}
 		$args = new stdClass;
-		$args->site_srl = $obj->site_srl;
 		$args->sort_index = $obj->sort_index;
 		$args->page = $obj->page?$obj->page:1;
 		$args->list_count = $obj->list_count?$obj->list_count:20;
@@ -48,19 +42,12 @@ class menuAdminModel extends menu
 
 	/**
 	 * Return all menus
-	 * @param int $site_srl
 	 * @return array
 	 */
-	function getMenus($site_srl = null)
+	function getMenus()
 	{
-		if(!isset($site_srl))
-		{
-			$site_module_info = Context::get('site_module_info');
-			$site_srl = (int)$site_module_info->site_srl;
-		}
 		// Get information from the DB
 		$args = new stdClass();
-		$args->site_srl = $site_srl ;
 		$args->menu_srl = $menu_srl;
 		$output = executeQueryArray('menu.getMenus', $args);
 		if(!$output->data) return;
@@ -83,8 +70,8 @@ class menuAdminModel extends menu
 		if(!$output->data) return;
 
 		$menu_info = $output->data;
-		$menu_info->xml_file = sprintf('./files/cache/menu/%s.xml.php',$menu_srl);
-		$menu_info->php_file = sprintf('./files/cache/menu/%s.php',$menu_srl);
+		$menu_info->xml_file = sprintf('./files/cache/menu/%d.xml.php',$menu_srl);
+		$menu_info->php_file = sprintf('./files/cache/menu/%d.php',$menu_srl);
 		return $menu_info;
 	}
 
@@ -94,7 +81,7 @@ class menuAdminModel extends menu
 	 * @param string $title
 	 * @return object
 	 */
-	function getMenuByTitle($title, $site_srl = 0)
+	function getMenuByTitle($title)
 	{
 		// Get information from the DB
 		if(!is_array($title))
@@ -103,7 +90,6 @@ class menuAdminModel extends menu
 		}
 		$args = new stdClass();
 		$args->title = $title;
-		$args->site_srl = $site_srl;
 		$output = executeQuery('menu.getMenuByTitle', $args);
 		if(!$output->data) return;
 
@@ -112,8 +98,8 @@ class menuAdminModel extends menu
 
 		if($menu_info->menu_srl)
 		{
-			$menu_info->xml_file = sprintf('./files/cache/menu/%s.xml.php',$menu_info->menu_srl);
-			$menu_info->php_file = sprintf('./files/cache/menu/%s.php',$menu_info->menu_srl);
+			$menu_info->xml_file = sprintf('./files/cache/menu/%d.xml.php',$menu_info->menu_srl);
+			$menu_info->php_file = sprintf('./files/cache/menu/%d.php',$menu_info->menu_srl);
 		}
 		return $menu_info;
 	}
@@ -264,19 +250,13 @@ class menuAdminModel extends menu
 	/**
 	 * Return menu name in each language to support multi-language
 	 * @param string $source_name
-	 * @param int $site_srl
 	 * @return array
 	 */
-	function getMenuItemNames($source_name, $site_srl = null)
+	function getMenuItemNames($source_name)
 	{
-		if(!$site_srl)
-		{
-			$site_module_info = Context::get('site_module_info');
-			$site_srl = (int)$site_module_info->site_srl;
-		}
 		// Get language code
 		$oModuleAdminModel = getAdminModel('module');
-		return $oModuleAdminModel->getLangCode($site_srl, $source_name, TRUE);
+		return $oModuleAdminModel->getLangCode(0, $source_name, TRUE);
 	}
 
 	/**
@@ -354,6 +334,11 @@ class menuAdminModel extends menu
 			$defaultMobileSkin = $oModuleModel->getModuleDefaultSkin($module_name, 'M');
 			$skinInfo = $oModuleModel->loadSkinInfo(ModuleHandler::getModulePath($module_name), $defaultSkin);
 			$mobileSkinInfo = $oModuleModel->loadSkinInfo(ModuleHandler::getModulePath($module_name), $defaultMobileSkin, 'm.skins');
+			if($defaultMobileSkin === '/USE_RESPONSIVE/' && !$mobileSkinInfo || !$mobileSkinInfo->title)
+			{
+				$mobileSkinInfo = $mobileSkinInfo ?: new stdClass;
+				$mobileSkinInfo->title = lang('use_responsive_pc_skin');
+			}
 			$module->defaultSkin = new stdClass();
 			$module->defaultSkin->skin = $defaultSkin;
 			$module->defaultSkin->title = $skinInfo->title ? $skinInfo->title : $defaultSkin;
@@ -392,20 +377,19 @@ class menuAdminModel extends menu
 	/**
 	 * @brief when menu add in sitemap, select module list
 	 * this menu showing with trigger
-	 * @param int $site_srl
 	 * @return array
 	 */
-	function getModuleListInSitemap($site_srl = 0)
+	function getModuleListInSitemap()
 	{
 		$oModuleModel = getModel('module');
 		$moduleList = array('page');
 
-		$output = $oModuleModel->getModuleListByInstance($site_srl);
+		$output = $oModuleModel->getModuleListByInstance();
 		if(is_array($output->data))
 		{
 			foreach($output->data as $value)
 			{
-				if($value->instanceCount > 1)
+				if($value->instanceCount >= 1)
 				{
 					$moduleList[] = $value->module;
 				}
@@ -476,14 +460,7 @@ class menuAdminModel extends menu
 
 	public function getMenuAdminSiteMap()
 	{
-		$siteSrl = Context::get('site_srl');
-		$menuSrl = Context::get('menu_srl');
-
-		if(!isset($siteSrl))
-		{
-			$site_module_info = Context::get('site_module_info');
-			$siteSrl = (int)$site_module_info->site_srl;
-		}
+		$menuSrl = intval(Context::get('menu_srl'));
 
 		$oModuleModel = getModel('module');
 		$oMenuAdminController = getAdminController('menu');
@@ -497,7 +474,7 @@ class menuAdminModel extends menu
 		{
 			$isMenuFixed = false;
 			$output = $this->getMenu($menuSrl);
-			$php_file = sprintf(_XE_PATH_ . 'files/cache/menu/%s.php',$output->menu_srl);
+			$php_file = sprintf(_XE_PATH_ . 'files/cache/menu/%d.php',$output->menu_srl);
 			if(file_exists($php_file))
 			{
 				include($php_file);
@@ -516,7 +493,7 @@ class menuAdminModel extends menu
 			{
 				foreach($menu->list AS $key=>$value)
 				{
-					$this->_menuInfoSetting($menu->list[$key], $start_module, $isMenuFixed, $menuSrl,$siteSrl);
+					$this->_menuInfoSetting($menu->list[$key], $start_module, $isMenuFixed, $menuSrl);
 				}
 				$menu->list = array_values($menu->list);
 			}
@@ -538,7 +515,7 @@ class menuAdminModel extends menu
 		}
 		else
 		{
-			$menuListFromDB = $this->getMenus($siteSrl);
+			$menuListFromDB = $this->getMenus();
 			if(is_array($menuListFromDB))
 			{
 				$oAdmin = getClass('admin');
@@ -549,7 +526,7 @@ class menuAdminModel extends menu
 					{
 						unset($menu);
 						unset($menuItems);
-						$value->php_file = sprintf(_XE_PATH_ . 'files/cache/menu/%s.php',$value->menu_srl);
+						$value->php_file = sprintf(_XE_PATH_ . 'files/cache/menu/%d.php',$value->menu_srl);
 						if(!file_exists($value->php_file))
 						{
 							$oMenuAdminController->makeXmlFile($value->menu_srl);
@@ -567,7 +544,7 @@ class menuAdminModel extends menu
 						{
 							foreach($menu->list AS $key2=>$value2)
 							{
-								$this->_menuInfoSetting($menu->list[$key2], $start_module, $isMenuFixed, $value->menu_srl,$siteSrl);
+								$this->_menuInfoSetting($menu->list[$key2], $start_module, $isMenuFixed, $value->menu_srl);
 							}
 							$menu->list = array_values($menu->list);
 						}
@@ -614,7 +591,7 @@ class menuAdminModel extends menu
 		$menuItemSrl = Context::get('menu_item_srl');
 		if(!$menuItemSrl)
 		{
-			return $this->setError('msg_invalid_request');
+			throw new Rhymix\Framework\Exceptions\InvalidRequest;
 		}
 
 		$menuItemInfo = $this->getMenuItemInfo($menuItemSrl);
@@ -622,7 +599,7 @@ class menuAdminModel extends menu
 		// if menu is shortcut
 		if($menuItemInfo->is_shortcut == 'Y')
 		{
-			return $this->setError('msg_invalid_request');
+			throw new Rhymix\Framework\Exceptions\InvalidRequest;
 		}
 
 		// get module info
@@ -656,7 +633,7 @@ class menuAdminModel extends menu
 	 * @param array $menu
 	 * @return void
 	 */
-	private function _menuInfoSetting(&$menu, &$start_module, &$isMenuFixed, $menuSrl,$siteSrl = 0)
+	private function _menuInfoSetting(&$menu, &$start_module, &$isMenuFixed, $menuSrl)
 	{
 		$oModuleModel = getModel('module');
 		if(!is_array($start_module))
@@ -684,7 +661,7 @@ class menuAdminModel extends menu
 		if($menu['is_shortcut'] != 'Y')
 		{
 			unset($midInfo, $moduleInfo);
-			$midInfo = $oModuleModel->getModuleInfoByMid($menu['url'], $siteSrl);
+			$midInfo = $oModuleModel->getModuleInfoByMid($menu['url']);
 			$moduleInfo = $oModuleModel->getModuleInfoXml($midInfo->module);
 
 			if($midInfo)
@@ -735,7 +712,7 @@ class menuAdminModel extends menu
 		{
 			foreach($menu['list'] as $key=>$value)
 			{
-				$this->_menuInfoSetting($menu['list'][$key], $start_module, $isMenuFixed, $menuSrl, $siteSrl);
+				$this->_menuInfoSetting($menu['list'][$key], $start_module, $isMenuFixed, $menuSrl);
 			}
 			$menu['list'] = array_values($menu['list']);
 		}

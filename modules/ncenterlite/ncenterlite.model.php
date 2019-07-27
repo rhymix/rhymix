@@ -69,6 +69,14 @@ class ncenterliteModel extends ncenterlite
 			{
 				$config->user_notify_setting = 'N';
 			}
+			if(!$config->anonymous_voter)
+			{
+				$config->anonymous_voter = 'N';
+			}
+			if(!$config->highlight_effect)
+			{
+				$config->highlight_effect = 'Y';
+			}
 
 			self::$config = $config;
 		}
@@ -76,7 +84,7 @@ class ncenterliteModel extends ncenterlite
 		return self::$config;
 	}
 
-	function getNotifyTypebySrl($notify_srl='')
+	function getNotifyTypebySrl($notify_srl)
 	{
 		$args = new stdClass();
 		$args->notify_type_srl = $notify_srl;
@@ -86,7 +94,7 @@ class ncenterliteModel extends ncenterlite
 		return $output;
 	}
 
-	function getNotifyTypeString($notify_srl='',$notify_args)
+	function getNotifyTypeString($notify_srl, $notify_args)
 	{
 		$this->notify_args = $notify_args;
 
@@ -113,7 +121,7 @@ class ncenterliteModel extends ncenterlite
 		return $this->notify_args->{$match[1]};
 	}
 
-	function isNotifyTypeExistsbySrl($notify_srl='')
+	function isNotifyTypeExistsbySrl($notify_srl)
 	{
 		$args = new stdClass();
 		$args->notify_type_srl = $notify_srl;
@@ -180,21 +188,27 @@ class ncenterliteModel extends ncenterlite
 		{
 			$output = $this->_getMyNotifyList($member_srl, $page, $readed);
 		}
-
+		
+		$config = $this->getConfig();
 		$oMemberModel = getModel('member');
 		$list = $output->data;
-
+		
 		foreach($list as $k => $v)
 		{
 			$v->text = $this->getNotificationText($v);
 			$v->ago = $this->getAgo($v->regdate);
-			$v->url = getUrl('','act','procNcenterliteRedirect', 'notify', $v->notify, 'url', $v->target_url);
+			$v->url = getUrl('','act','procNcenterliteRedirect', 'notify', $v->notify);
+			if($v->target_type === $this->_TYPE_VOTED && $config->anonymous_voter === 'Y')
+			{
+				$v->target_member_srl = $member_srl;
+				$v->target_nick_name = lang('anonymous');
+				$v->target_user_id = $v->target_email_address = 'anonymous';
+			}
 			if($v->target_member_srl)
 			{
 				$profileImage = $oMemberModel->getProfileImage($v->target_member_srl);
 				$v->profileImage = $profileImage->src;
 			}
-
 			$list[$k] = $v;
 		}
 
@@ -229,6 +243,8 @@ class ncenterliteModel extends ncenterlite
 
 	function _getMyNotifyList($member_srl=null, $page=1, $readed='N')
 	{
+		$oNcenterliteController = getController('ncenterlite');
+
 		if(!$member_srl)
 		{
 			if (!Context::get('is_logged'))
@@ -262,7 +278,6 @@ class ncenterliteModel extends ncenterlite
 
 				if($create_time <= $deleteOutput->regdate)
 				{
-					$oNcenterliteController = getController('ncenterlite');
 					$oNcenterliteController->removeFlagFile($member_srl);
 				}
 				else
@@ -292,12 +307,17 @@ class ncenterliteModel extends ncenterlite
 
 		if (Rhymix\Framework\Cache::getDriverName() !== 'dummy')
 		{
-			Rhymix\Framework\Cache::set($cache_key, $output);
+			if($page <= 1)
+			{
+				Rhymix\Framework\Cache::set($cache_key, $output);
+			}
 		}
-		elseif($page <= 1)
+		else
 		{
-			$oNcenterliteController = getController('ncenterlite');
-			$oNcenterliteController->updateFlagFile($member_srl, $output);
+			if($page <= 1)
+			{
+				$oNcenterliteController->updateFlagFile($member_srl, $output);
+			}
 		}
 
 		return $output;
@@ -400,6 +420,29 @@ class ncenterliteModel extends ncenterlite
 	}
 	
 	/**
+	 * Get information about a single notification.
+	 * 
+	 * @param string $notify
+	 * @param int $member_srl
+	 * @return object|false
+	 */
+	public function getNotification($notify, $member_srl)
+	{
+		$args = new stdClass;
+		$args->notify = $notify;
+		$args->member_srl = $member_srl;
+		$output = executeQuery('ncenterlite.getNotify', $args);
+		if ($output->toBool() && $output->data)
+		{
+			return $output->data;
+		}
+		else
+		{
+			return false;
+		}
+	}
+	
+	/**
 	 * Return the notification text.
 	 * 
 	 * @param object $notification
@@ -407,29 +450,27 @@ class ncenterliteModel extends ncenterlite
 	 */
 	public function getNotificationText($notification)
 	{
-		global $lang;
-
 		// Get the type of notification.
 		switch ($notification->type)
 		{
 			// Document.
 			case 'D':
-				$type = $lang->ncenterlite_document;
+				$type = lang('ncenterlite_document');
 				break;
 
 			// Comment.
 			case 'C':
-				$type = $lang->ncenterlite_comment;
+				$type = lang('ncenterlite_comment');
 				break;
 
 			// Message.
 			case 'E':
-				$type = $lang->ncenterlite_type_message;
+				$type = lang('ncenterlite_type_message');
 				break;
 
 			// Test.
 			case 'T':
-				$type = $lang->ncenterlite_type_test;
+				$type = lang('ncenterlite_type_test');
 				break;
 
 			// Custom string.
@@ -438,16 +479,16 @@ class ncenterliteModel extends ncenterlite
 
 			// Insert member
 			case 'I':
-				$type = $lang->cmd_signup;
+				$type = lang('cmd_signup');
 				break;
 
 			// Custom language.
 			case 'Y':
-				return $lang->{$notification->target_body};
+				return lang($notification->target_body);
 
 			// Custom language with string interpolation.
 			case 'Z':
-				return vsprintf($lang->{$notification->target_body}, array(
+				return vsprintf(lang($notification->target_body), array(
 					$notification->target_member_srl,     // %1$d
 					$notification->target_nick_name,      // %2$s
 					$notification->target_user_id,        // %3$s
@@ -462,69 +503,82 @@ class ncenterliteModel extends ncenterlite
 			default:
 				return $this->getNotifyTypeString($notification->notify_type, unserialize($notification->target_body)) ?: $lang->ncenterlite;
 		}
-
+		
+		$config = $this->getConfig();
+		
 		// Get the notification text.
 		switch ($notification->target_type)
 		{
 			// Comment on your document.
 			case 'C':
-				$str = sprintf($lang->ncenterlite_commented, $notification->target_nick_name, $type, $notification->target_summary);
+				$str = sprintf(lang('ncenterlite_commented'), $notification->target_nick_name, $type, $notification->target_summary);
 				break;
 
 			// Comment on a board.
 			case 'A':
-				$str = sprintf($lang->ncenterlite_commented_board, $notification->target_nick_name, $notification->target_browser, $notification->target_summary);
+				$str = sprintf(lang('ncenterlite_commented_board'), $notification->target_nick_name, $notification->target_browser, $notification->target_summary);
 				break;
 
 			// Mentioned.
 			case 'M':
-				$str = sprintf($lang->ncenterlite_mentioned, $notification->target_nick_name, $notification->target_browser, $notification->target_summary, $type);
+				$str = sprintf(lang('ncenterlite_mentioned'), $notification->target_nick_name, $notification->target_browser, $notification->target_summary, $type);
 				break;
 
 			// Message arrived.
 			case 'E':
-				$str = sprintf($lang->ncenterlite_message_mention, $notification->target_nick_name, $notification->target_summary);
+				$str = sprintf(lang('ncenterlite_message_mention'), $notification->target_nick_name, $notification->target_summary);
 				break;
 
 			// Test notification.
 			case 'T':
-				$str = sprintf($lang->ncenterlite_test_noti, $notification->target_nick_name);
+				$str = sprintf(lang('ncenterlite_test_noti'), $notification->target_nick_name);
 				break;
 
 			// New document on a board.
 			case 'P':
-				$str = sprintf($lang->ncenterlite_board, $notification->target_nick_name, $notification->target_browser, $notification->target_summary);
+				$str = sprintf(lang('ncenterlite_board'), $notification->target_nick_name, $notification->target_browser, $notification->target_summary);
 				break;
 
 			// New document.
 			case 'S':
 				if($notification->target_browser)
 				{
-					$str = sprintf($lang->ncenterlite_board, $notification->target_nick_name, $notification->target_browser, $notification->target_summary);
+					$str = sprintf(lang('ncenterlite_board'), $notification->target_nick_name, $notification->target_browser, $notification->target_summary);
 				}
 				else
 				{
-					$str = sprintf($lang->ncenterlite_article, $notification->target_nick_name, $notification->target_summary);
+					$str = sprintf(lang('ncenterlite_article'), $notification->target_nick_name, $notification->target_summary);
 				}
 				break;
 
 			// Voted.
 			case 'V':
-				$str = sprintf($lang->ncenterlite_vote, $notification->target_nick_name, $notification->target_summary, $type);
+				if($config->anonymous_voter === 'Y')
+				{
+					$str = sprintf(lang('ncenterlite_vote_anonymous'), $notification->target_summary, $type);
+				}
+				else
+				{
+					$str = sprintf(lang('ncenterlite_vote'), $notification->target_nick_name, $notification->target_summary, $type);
+				}
 				break;
 
 			// Admin notification.
 			case 'B':
-				$str = sprintf($lang->ncenterlite_admin_content_message, $notification->target_nick_name, $notification->target_browser, $notification->target_summary);
+				$str = sprintf(lang('ncenterlite_admin_content_message'), $notification->target_nick_name, $notification->target_browser, $notification->target_summary);
 				break;
 
 			case 'I':
-				$str = sprintf($lang->ncenterlite_insert_member_message, $notification->target_nick_name);
+				$str = sprintf(lang('ncenterlite_insert_member_message'), $notification->target_nick_name);
+				break;
+				
+			case 'G':
+				$str = sprintf(lang('ncenterlite_commented'), $notification->target_nick_name, $type, $notification->target_summary);
 				break;
 
 			// Other.
 			default:
-				$str = $lang->ncenterlite;
+				$str = lang('ncenterlite');
 		}
 
 		return $str;

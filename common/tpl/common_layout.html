@@ -44,7 +44,7 @@
 <block loop="Context::getOpenGraphData() => $og_metadata">
 <meta property="{$og_metadata['property']}" content="{$og_metadata['content']}" />
 </block>
-{Context::getHtmlHeader()}
+{Context::getHtmlHeader()|noescape}
 
 <!-- COMMON JS VARIABLES -->
 <script>
@@ -63,12 +63,12 @@
 </head>
 
 <!-- BODY START -->
-<body{Context::getBodyClass()}>
+<body{Context::getBodyClass()|noescape}>
 
 <!-- PAGE CONTENT -->
-{Context::getBodyHeader()}
-{$content}
-{Context::getHtmlFooter()}
+{Context::getBodyHeader()|noescape}
+{$content|noescape}
+{Context::getHtmlFooter()|noescape}
 
 <!-- ETC -->
 <div id="rhymix_waiting" class="wfsr" cond="!$m">{$lang->msg_call_server}</div>

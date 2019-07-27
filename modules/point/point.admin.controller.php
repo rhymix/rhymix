@@ -63,6 +63,15 @@ class pointAdminController extends point
 			$config->blamer_comment = (int)$args->blamer_comment;
 			$config->voted_comment = (int)$args->voted_comment;
 			$config->blamed_comment = (int)$args->blamed_comment;
+			
+			// Specify notice exceptions
+			$config->read_document_except_notice = ($args->read_document_except_notice === 'Y');
+			$config->read_document_author_except_notice = ($args->read_document_author_except_notice === 'Y');
+			
+			// Specify revert on delete
+			$config->insert_document_revert_on_delete = ($args->insert_document_revert_on_delete === 'Y');
+			$config->insert_comment_revert_on_delete = ($args->insert_comment_revert_on_delete === 'Y');
+			$config->upload_file_revert_on_delete = ($args->upload_file_revert_on_delete === 'Y');
 
 			// Specify time limits
 			$config->insert_comment_limit = $config->no_point_date = (int)$args->insert_comment_limit;
@@ -198,7 +207,7 @@ class pointAdminController extends point
 	function procPointAdminInsertPointModuleConfig()
 	{
 		$module_srl = Context::get('target_module_srl');
-		if(!$module_srl) return $this->setError('msg_invalid_request');
+		if(!$module_srl) throw new Rhymix\Framework\Exceptions\InvalidRequest;
 		// In case of batch configuration of several modules
 		if(preg_match('/^([0-9,]+)$/',$module_srl)) $module_srl = explode(',',$module_srl);
 		else $module_srl = array($module_srl);
@@ -375,7 +384,7 @@ class pointAdminController extends point
 		$position = (int)Context::get('position');
 		$total = (int)Context::get('total');
 
-		if(!file_exists('./files/cache/pointRecal.txt')) return $this->setError('msg_invalid_request');
+		if(!file_exists('./files/cache/pointRecal.txt')) throw new Rhymix\Framework\Exceptions\InvalidRequest;
 
 		$idx = 0;
 		$f = fopen("./files/cache/pointRecal.txt","r");
@@ -418,7 +427,7 @@ class pointAdminController extends point
 	function procPointAdminReset()
 	{
 		$module_srl = Context::get('module_srls');
-		if(!$module_srl) return $this->setError('msg_invalid_request');
+		if(!$module_srl) throw new Rhymix\Framework\Exceptions\InvalidRequest;
 		// In case of batch configuration of several modules
 		if(preg_match('/^([0-9,]+)$/',$module_srl)) $module_srl = explode(',',$module_srl);
 		else $module_srl = array($module_srl);

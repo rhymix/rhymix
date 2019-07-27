@@ -97,9 +97,9 @@ class editorView extends editor
 		$oEditorModel = getModel('editor');
 		$component = $oEditorModel->getComponent($component_name, $site_srl);
 
-		if(!$component->component_name) {
-			$this->stop('msg_invalid_request');
-			return;
+		if(!$component->component_name)
+		{
+			throw new Rhymix\Framework\Exceptions\InvalidRequest;
 		}
 
 		Context::set('component', $component);
@@ -192,7 +192,7 @@ class editorView extends editor
 	{
 		Context::set('editor', getModel('editor')->getModuleEditor(Context::get('type'), 0, 0, 'dummy_key', 'dummy_content'));
 		
-		$this->setLayoutFile('popup_layout');
+		$this->setLayoutFile('default_layout');
 		$this->setTemplatePath($this->module_path.'tpl');
 		$this->setTemplateFile('config_preview');
 	}

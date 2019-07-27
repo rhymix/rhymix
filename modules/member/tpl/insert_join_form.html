@@ -29,7 +29,7 @@
 		<div class="x_control-group multiExample">
 			<label for="multiSelect" class="x_control-label"><em style="color:red">*</em> {$lang->options}</label>
 			<div class="x_controls">
-				<textarea rows="4" cols="42" id="multiSelect" name="default_value" style="vertical-align:top"><block cond="$default_value">{implode('<enter>', $default_value)}</block></textarea>
+				<textarea rows="4" cols="42" id="multiSelect" name="default_value" style="vertical-align:top"><block cond="$default_value">{implode('|@|', $default_value)}</block></textarea>
 				<p class="x_help-inline">{$lang->about_multi_type}</p>
 			</div>
 		</div>

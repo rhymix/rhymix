@@ -6,7 +6,7 @@
     <columns>
         <column name="d.*" />
     </columns>
-	<index_hint name="idx_document_list_order" type="use" />
+    <index_hint name="idx_document_list_order" type="use" />
     <conditions>
         <condition operation="equal" column="ev.eid" var="sort_index" />
         <condition operation="equal" column="ev.document_srl" default="d.document_srl" pipe="and" />
@@ -23,9 +23,9 @@
         <group pipe="and">
             <condition operation="like" column="d.title" var="s_title" />
             <condition operation="like" column="d.content" var="s_content" pipe="or" />
-            <condition operation="equal" column="d.user_name" var="s_user_name" pipe="or" />
-            <condition operation="equal" column="d.user_id" var="s_user_id" pipe="or" />
-            <condition operation="equal" column="d.nick_name" var="s_nick_name" pipe="or" />
+            <condition operation="like_prefix" column="d.user_name" var="s_user_name" pipe="or" />
+            <condition operation="like_prefix" column="d.user_id" var="s_user_id" pipe="or" />
+            <condition operation="like_prefix" column="d.nick_name" var="s_nick_name" pipe="or" />
             <condition operation="like" column="d.email_address" var="s_email_address" pipe="or" />
             <condition operation="like" column="d.homepage" var="s_homepage" pipe="or" />
             <condition operation="like" column="d.tags" var="s_tags" pipe="or" />
@@ -46,6 +46,9 @@
             <condition operation="less" column="d.last_update" var="end_date" pipe="and" />
         </group>
     </conditions>
+    <groups>
+        <group column="d.document_srl" />
+    </groups>
     <navigation>
         <index var="ev.value" default="ev.value" order="order_type" />
         <list_count var="list_count" default="20" />

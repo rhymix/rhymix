@@ -170,7 +170,7 @@ class menuAdminController extends menu
 	{
 		if(!$moduleInfos || !is_array($moduleInfos) || count($moduleInfos) == 0 || $menuSrl == 0)
 		{
-			return $this->setError('msg_invalid_request');
+			throw new Rhymix\Framework\Exceptions\InvalidRequest;
 		}
 
 		foreach($moduleInfos as $moduleInfo)
@@ -252,10 +252,10 @@ class menuAdminController extends menu
 
 		$oAdmin = getClass('admin');
 		if($menuInfo->title == $oAdmin->getAdminMenuName())
-			return $this->setError('msg_adminmenu_cannot_delete');
+			throw new Rhymix\Framework\Exception('msg_adminmenu_cannot_delete');
 
 		// get menu properies with child menu
-		$phpFile = sprintf("./files/cache/menu/%s.php", $menu_srl);
+		$phpFile = sprintf("./files/cache/menu/%d.php", $menu_srl);
 		$originMenu = NULL;
 
 		if(is_readable(FileHandler::getRealPath($phpFile)))
@@ -283,13 +283,13 @@ class menuAdminController extends menu
 
 		if($isStartmenuInclude)
 		{
-			return $this->setError('msg_cannot_delete_homemenu');
+			throw new Rhymix\Framework\Exception('msg_cannot_delete_homemenu');
 		}
 
 		$output = $this->deleteMenu($menu_srl);
 		if(!$output->toBool())
 		{
-			return $this->setError($output->message);
+			throw new Rhymix\Framework\Exception($output->message);
 		}
 
 		$this->setMessage('success_deleted', 'info');
@@ -366,7 +366,7 @@ class menuAdminController extends menu
 			}
 		}
 		// Delete images of menu buttons
-		$image_path = sprintf('./files/attach/menu_button/%s', $menu_srl);
+		$image_path = sprintf('./files/attach/menu_button/%d', $menu_srl);
 		FileHandler::removeDir($image_path);
 
 		$oDB->commit();
@@ -389,13 +389,13 @@ class menuAdminController extends menu
 
 		if(!$request->parent_srl || !$request->menu_name)
 		{
-			return $this->setError('msg_invalid_request');
+			throw new Rhymix\Framework\Exceptions\InvalidRequest;
 		}
 
 		$this->_setMenuSrl($request->parent_srl, $request->menu_srl);
 		if(!$request->menu_srl)
 		{
-			return $this->setError('msg_invalid_request');
+			throw new Rhymix\Framework\Exceptions\InvalidRequest;
 		}
 
 		if($request->is_shortcut == 'Y')
@@ -475,7 +475,7 @@ class menuAdminController extends menu
 			$itemInfo = $oMenuAdminModel->getMenuItemInfo($request->shortcut_target);
 			if(!$itemInfo->menu_item_srl)
 			{
-				return $this->setError('msg_invalid_request');
+				throw new Rhymix\Framework\Exceptions\InvalidRequest;
 			}
 			unset($itemInfo->normal_btn, $itemInfo->hover_btn, $itemInfo->active_btn);
 
@@ -540,7 +540,7 @@ class menuAdminController extends menu
 
 		if($request->module_id && strncasecmp('http', $request->module_id, 4) === 0)
 		{
-			return $this->setError('msg_invalid_request');
+			throw new Rhymix\Framework\Exceptions\InvalidRequest;
 		}
 
 		// when menu copy, module already copied
@@ -549,7 +549,7 @@ class menuAdminController extends menu
 			$result = $this->_insertModule($request, $args);
 			if(!$result->toBool())
 			{
-				return $this->setError($result->message);
+				throw new Rhymix\Framework\Exception($result->message);
 			}
 		}
 
@@ -560,7 +560,7 @@ class menuAdminController extends menu
 
 		if(!$request->module_id)
 		{
-			return $this->setError('msg_invalid_request');
+			throw new Rhymix\Framework\Exceptions\InvalidRequest;
 		}
 
 		$args->url = $request->module_id;
@@ -625,7 +625,7 @@ class menuAdminController extends menu
 		$output = $oModuleModel->getModuleInfoByMid($request->module_id);
 		if($output->module_srl)
 		{
-			return $this->setError('msg_module_name_exists');
+			throw new Rhymix\Framework\Exception('msg_module_name_exists');
 		}
 
 		$oModuleController = getController('module');
@@ -644,7 +644,7 @@ class menuAdminController extends menu
 
 		if(!$request->menu_item_srl || !$request->menu_name)
 		{
-			return $this->setError('msg_invalid_request');
+			throw new Rhymix\Framework\Exceptions\InvalidRequest;
 		}
 
 		// variables set
@@ -671,7 +671,7 @@ class menuAdminController extends menu
 				$newItemInfo = $oMenuAdminModel->getMenuItemInfo($request->shortcut_target);
 				if(!$newItemInfo->menu_item_srl)
 				{
-					return $this->setError('msg_invalid_request');
+					throw new Rhymix\Framework\Exceptions\InvalidRequest;
 				}
 
 				$args->url = $newItemInfo->url;
@@ -691,7 +691,7 @@ class menuAdminController extends menu
 				$output = $oModuleModel->getModuleInfoByMid($request->module_id);
 				if($output->module_srl)
 				{
-					return $this->setError('msg_module_name_exists');
+					throw new Rhymix\Framework\Exception('msg_module_name_exists');
 				}
 			}
 
@@ -699,7 +699,7 @@ class menuAdminController extends menu
 			$moduleInfo = $oModuleModel->getModuleInfoByMid($itemInfo->url);
 			if(!$moduleInfo)
 			{
-				return $this->setError('msg_invalid_request');
+				throw new Rhymix\Framework\Exceptions\InvalidRequest;
 			}
 
 			$moduleInfo->mid = $request->module_id;
@@ -867,13 +867,13 @@ class menuAdminController extends menu
 		$oAdmin = getClass('admin');
 		if($menu_title == $oAdmin->getAdminMenuName() && $itemInfo->parent_srl == 0)
 		{
-			return $this->stop('msg_cannot_delete_for_admin_topmenu');
+			return new BaseObject(-1002, 'msg_cannot_delete_for_admin_topmenu');
 		}
 
 		if($itemInfo->parent_srl) $parent_srl = $itemInfo->parent_srl;
 
 		// get menu properies with child menu
-		$phpFile = sprintf("./files/cache/menu/%s.php", $args->menu_srl);
+		$phpFile = sprintf("./files/cache/menu/%d.php", $args->menu_srl);
 		$originMenu = NULL;
 
 		if(is_readable(FileHandler::getRealPath($phpFile)))
@@ -892,7 +892,7 @@ class menuAdminController extends menu
 		$this->_checkHomeMenuInOriginMenu($originMenu, $siteInfo->mid, $isStartmenuInclude);
 		if($isStartmenuInclude)
 		{
-			return $this->setError('msg_cannot_delete_homemenu');
+			return new BaseObject(-1003, 'msg_cannot_delete_homemenu');
 		}
 
 		$oDB = DB::getInstance();
@@ -990,7 +990,7 @@ class menuAdminController extends menu
 		$output = $this->_deleteMenuItem($oDB, $menuInfo, $node);
 		if(!$output->toBool())
 		{
-			return $this->setError($output->message);
+			throw new Rhymix\Framework\Exception($output->message);
 		}
 
 		if(is_array($node['list']))
@@ -1013,7 +1013,7 @@ class menuAdminController extends menu
 		$source_srl = Context::get('source_srl');	// Same hierarchy's menu item serial number
 		$target_srl = Context::get('target_srl');	// Self menu item serial number
 
-		if(!$mode || !$parent_srl || !$target_srl) return $this->setError('msg_invalid_request');
+		if(!$mode || !$parent_srl || !$target_srl) throw new Rhymix\Framework\Exceptions\InvalidRequest;
 
 		$oMenuAdminModel = getAdminModel('menu');
 
@@ -1023,11 +1023,11 @@ class menuAdminController extends menu
 		$targetMenuItemInfo = $oMenuAdminModel->getMenuItemInfo($target_srl);
 		if(!$originalItemInfo->menu_item_srl || (!$targetMenuInfo->menu_srl && !$targetMenuItemInfo->menu_item_srl))
 		{
-			return $this->setError('msg_empty_menu_item');
+			throw new Rhymix\Framework\Exception('msg_empty_menu_item');
 		}
 
 		// get menu properies with child menu
-		$phpFile = sprintf(_XE_PATH_ . "files/cache/menu/%s.php", $originalItemInfo->menu_srl);
+		$phpFile = sprintf(_XE_PATH_ . "files/cache/menu/%d.php", $originalItemInfo->menu_srl);
 		$originMenu = NULL;
 
 		if(is_readable(FileHandler::getRealPath($phpFile)))
@@ -1407,7 +1407,7 @@ class menuAdminController extends menu
 		$oMenuAdminModel = getAdminModel('menu');
 
 		$target_item = $oMenuAdminModel->getMenuItemInfo($target_srl);
-		if($target_item->menu_item_srl != $target_srl) return $this->setError('msg_invalid_request');
+		if($target_item->menu_item_srl != $target_srl) throw new Rhymix\Framework\Exceptions\InvalidRequest;
 		// Move the menu location(change the order menu appears)
 		if($mode == 'move')
 		{
@@ -1418,7 +1418,7 @@ class menuAdminController extends menu
 			if($source_srl)
 			{
 				$source_item = $oMenuAdminModel->getMenuItemInfo($source_srl);
-				if($source_item->menu_item_srl != $source_srl) return $this->setError('msg_invalid_request');
+				if($source_item->menu_item_srl != $source_srl) throw new Rhymix\Framework\Exceptions\InvalidRequest;
 				$args->listorder = $source_item->listorder-1;
 			}
 			else
@@ -1764,8 +1764,8 @@ class menuAdminController extends menu
 		// Return if there is no information when creating the xml file
 		if(!$menu_srl) return;
 		// Specify the name of the cache file
-		$xml_file = sprintf(_XE_PATH_ . "files/cache/menu/%s.xml.php", $menu_srl);
-		$php_file = sprintf(_XE_PATH_ . "files/cache/menu/%s.php", $menu_srl);
+		$xml_file = sprintf(_XE_PATH_ . "files/cache/menu/%d.xml.php", $menu_srl);
+		$php_file = sprintf(_XE_PATH_ . "files/cache/menu/%d.php", $menu_srl);
 		// Get menu informaton
 		$args = new stdClass();
 		$args->menu_srl = $menu_srl;
@@ -1837,10 +1837,8 @@ class menuAdminController extends menu
 		// Create the xml cache file (a separate session is needed for xml cache)
 		$xml_buff = sprintf(
 			'<?php '.
-			'define(\'__XE__\', true); '.
-			'require_once(\''.FileHandler::getRealPath('./config/config.inc.php').'\'); '.
-			'$oContext = Context::getInstance(); '.
-			'$oContext->init(); '.
+			'require_once(\''.FileHandler::getRealPath('./common/autoload.php').'\'); '.
+			'Context::init(); '.
 			'header("Content-Type: text/xml; charset=UTF-8"); '.
 			'header("Expires: Mon, 26 Jul 1997 05:00:00 GMT"); '.
 			'header("Last-Modified: " . gmdate("D, d M Y H:i:s") . " GMT"); '.
@@ -2112,7 +2110,7 @@ class menuAdminController extends menu
 			);
 
 			// Generate buff data
-			$output['buff'] .=  sprintf('%s=>array(%s),', $node->menu_item_srl, $attribute);
+			$output['buff'] .=  sprintf('%d=>array(%s),', $node->menu_item_srl, $attribute);
 			$output['name'] .= $name_str;
 		}
 		return $output;

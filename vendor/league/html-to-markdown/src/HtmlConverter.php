@@ -14,7 +14,7 @@ namespace League\HTMLToMarkdown;
  *
  * @license http://www.opensource.org/licenses/mit-license.php MIT
  */
-class HtmlConverter
+class HtmlConverter implements HtmlConverterInterface
 {
     /**
      * @var Environment
@@ -35,10 +35,11 @@ class HtmlConverter
                 'header_style' => 'setext', // Set to 'atx' to output H1 and H2 headers as # Header1 and ## Header2
                 'suppress_errors' => true, // Set to false to show warnings when loading malformed HTML
                 'strip_tags' => false, // Set to true to strip tags that don't have markdown equivalents. N.B. Strips tags, not their content. Useful to clean MS Word HTML output.
-                'bold_style' => '**', // Set to '__' if you prefer the underlined style
-                'italic_style' => '_', // Set to '*' if you prefer the asterisk style
+                'bold_style' => '**', // DEPRECATED: Set to '__' if you prefer the underlined style
+                'italic_style' => '*', // DEPRECATED: Set to '_' if you prefer the underlined style
                 'remove_nodes' => '', // space-separated list of dom nodes that should be removed. example: 'meta style script'
-                'hard_break' => false,// Set to true to turn <br> into `\n` instead of `  \n`
+                'hard_break' => false, // Set to true to turn <br> into `\n` instead of `  \n`
+                'list_item_style' => '-', // Set the default character for each <li> in a <ul>. Can be '-', '*', or '+'
             );
 
             $this->environment = Environment::createDefaultEnvironment($defaults);
@@ -227,5 +228,24 @@ class HtmlConverter
         }
 
         return trim($markdown, "\n\r\0\x0B");
+    }
+    
+    /**
+     * Pass a series of key-value pairs in an array; these will be passed
+     * through the config and set.
+     * The advantage of this is that it can allow for static use (IE in Laravel).
+     * An example being:
+     * 
+     * HtmlConverter::setOptions(['strip_tags' => true])->convert('<h1>test</h1>');
+     */
+    public function setOptions(array $options)
+    {
+        $config = $this->getConfig();
+
+        foreach ($options as $key => $option) {
+            $config->setOption($key, $option);
+        }
+
+        return $this;
     }
 }

@@ -1,42 +1,12 @@
+<config autoescape="on" />
+
 <load target="./js/menu_setup.js" usecdn="true" />
 <div class="x_page-header">
-	<h1>{$lang->admin_setup} <a class="x_icon-question-sign" href="./common/manual/admin/index.html#UMAN_config_admin" target="_blank">{$lang->help}</a></h1>
+	<h1>{$lang->admin_setup}</h1>
 </div>
 <div cond="$XE_VALIDATOR_MESSAGE && $XE_VALIDATOR_ID == 'modules/admin/tpl/admin_setup/1'" class="message {$XE_VALIDATOR_MESSAGE_TYPE}">
 	<p>{$XE_VALIDATOR_MESSAGE}</p>
 </div>
-<section class="section">
-	<h1>{$lang->admin_title}</h1>
-	<form action="./" method="post" enctype="multipart/form-data" class="x_form-horizontal">
-		<input type="hidden" name="module" value="admin" />
-		<input type="hidden" name="act" value="procAdminUpdateConfig" />
-		<input type="hidden" name="xe_validator_id" value="modules/admin/tpl/admin_setup/1" />
-		<div class="x_control-group">
-			<label class="x_control-label">{$lang->admin_logo}</label>
-			<div class="x_controls">
-				<!--@if($config_object->adminLogo)-->
-				<img src="{getUrl('').$config_object->adminLogo}" />
-				<button type="submit" value="procAdminDeleteLogo" name="act" class="x_btn">{$lang->cmd_delete}</button>
-				<!--@else-->
-				<img src="{getUrl('')}{$gnb_title_info->adminLogo}" />
-				<!--@end-->
-				<input type="file" name="adminLogo" id="adminLogo" />
-			</div>
-		</div>
-		<div class="x_control-group">
-			<label class="x_control-label" for="adminTitle">{$lang->admin_title}</label>
-			<div class="x_controls">
-				<input type="text" name="adminTitle" id="adminTitle" value="{$config_object->adminTitle}" placeholder="Rhymix Admin" />
-			</div>
-		</div>
-		<div class="x_clearfix btnArea">
-			<div class="x_pull-right">
-				<button type="submit" class="x_btn x_btn-primary">{$lang->cmd_save}</button>
-			</div>
-		</div>
-	</fieldset>
-	</form>
-</section>
 <section class="section">
 	<h1>{$lang->admin_menu_setup}</h1>
 	<form id="listForm" action="./" method="post" class="adminMap">

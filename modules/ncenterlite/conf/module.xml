@@ -19,6 +19,7 @@
 		<action name="dispNcenterliteAdminTest" type="view"  menu_name="ncenterlite" />
 		<action name="dispNcenterliteAdminList" type="view" menu_name="ncenterlite" />
 		<action name="dispNcenterliteAdminCustomList" type="view" menu_name="ncenterlite" />
+		<action name="dispNcenterliteAdminOtherComment" type="view" menu_name="ncenterlite" />
 		
 		<action name="procNcenterliteAdminInsertConfig" type="controller" ruleset="insertConfig" />
 		<action name="procNcenterliteAdminInsertDummyData" type="controller" />

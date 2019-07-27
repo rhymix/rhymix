@@ -1,5 +1,8 @@
+<config autoescape="on" />
+
 <include target="config_header.html" />
 <load target="js/notification_config.js" />
+
 <div cond="$XE_VALIDATOR_MESSAGE && $XE_VALIDATOR_ID == 'modules/admin/tpl/config_notification/1'" class="message {$XE_VALIDATOR_MESSAGE_TYPE}">
 	<p>{$XE_VALIDATOR_MESSAGE}</p>
 </div>
@@ -23,7 +26,7 @@
 			<div class="x_controls">
 				<input type="text" name="mail_default_name" id="mail_default_name" value="{escape($member_config->webmaster_name) ?: $module_config->siteTitle}" />
 				<br />
-				<p class="x_help-block">{$lang->cmd_admin_default_from_name_help}</p>
+				<p class="x_help-block" style="margin-top:10px">{$lang->cmd_admin_default_from_name_help}</p>
 			</div>
 		</div>
 		
@@ -37,7 +40,7 @@
 					{$lang->cmd_admin_force_default_sender}
 				</label>
 				<br />
-				<p class="x_help-block">{$lang->cmd_admin_default_from_email_help}</p>
+				<p class="x_help-block" style="margin-top:10px">{$lang->cmd_admin_default_from_email_help}</p>
 			</div>
 		</div>
 	
@@ -46,7 +49,7 @@
 			<div class="x_controls">
 				<input type="text" name="mail_default_reply_to" id="mail_default_reply_to" value="{escape($advanced_mailer_config->reply_to ?: config('mail.default_reply_to'))}" />
 				<br />
-				<p class="x_help-block">{$lang->cmd_admin_default_reply_to_help}</p>
+				<p class="x_help-block" style="margin-top:10px">{$lang->cmd_admin_default_reply_to_help}</p>
 			</div>
 		</div>
 		
@@ -58,8 +61,11 @@
 						<option value="{$driver_name}" selected="selected"|cond="$mail_driver === $driver_name">{$driver_definition['name']}</option>
 					<!--@end-->
 				</select>
-				<p class="x_help-block hidden-by-default show-for-dummy">
+				<p class="x_help-block hidden-by-default show-for-dummy" style="margin-top:10px">
 					{$lang->msg_advanced_mailer_about_dummy}<br />{$lang->msg_advanced_mailer_about_dummy_exceptions}
+				</p>
+				<p class="x_help-block hidden-by-default show-for-mailfunction" style="margin-top:10px">
+					{$lang->msg_advanced_mailer_about_mailfunction}
 				</p>
 			</div>
 		</div>
@@ -213,7 +219,7 @@
 					{$lang->cmd_admin_force_default_sender}
 				</label>
 				<br />
-				<p class="x_help-block">{$lang->cmd_admin_default_from_phone_help}</p>
+				<p class="x_help-block" style="margin-top:10px">{$lang->cmd_admin_default_from_phone_help}</p>
 			</div>
 		</div>
 		
@@ -225,7 +231,7 @@
 						<option value="{$driver_name}" selected="selected"|cond="$sms_driver === $driver_name">{$driver_definition['name']}</option>
 					<!--@end-->
 				</select>
-				<p class="x_help-block hidden-by-default show-for-dummy">
+				<p class="x_help-block hidden-by-default show-for-dummy" style="margin-top:10px">
 					{$lang->cmd_admin_sms_dummy_driver_help}
 				</p>
 			</div>
@@ -289,7 +295,6 @@
 					<label class="x_control-label" for="sms_{$driver_name}_sender_key">{$lang->cmd_advanced_mailer_sender_key}</label>
 					<div class="x_controls">
 						<input type="password" name="sms_{$driver_name}_sender_key" id="sms_{$driver_name}_sender_key" value="{$conf_value}" />
-						<br />
 						<p class="x_help-block">{$lang->cmd_admin_sms_sender_key_help}</p>
 					</div>
 				</div>

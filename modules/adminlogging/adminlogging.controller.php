@@ -23,7 +23,7 @@ class adminloggingController extends adminlogging
 		$logged_info = $oMemberModel->getLoggedInfo();
 		if($logged_info->is_admin != 'Y')
 		{
-			return $this->stop("admin.msg_is_not_administrator");
+			throw new Rhymix\Framework\Exceptions\NotPermitted('admin.msg_is_not_administrator');
 		}
 	}
 

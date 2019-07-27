@@ -139,5 +139,7 @@ $lang->need_ftp_password_title = 'FTP 비밀번호';
 $lang->need_core_update = '설치하려면 Rhymix 업데이트가 필요합니다';
 $lang->need_core_update_continue = 'Rhymix 업데이트가 함께 진행됩니다. 계속하시겠습니까?';
 $lang->not_found_module = '모듈이 존재하지 않음';
+$lang->skin_settings = '스킨 설정';
 $lang->no_skin = '스킨 없음';
+$lang->no_use_skin = '스킨 사용 안 함';
 $lang->menu_desc = '메뉴 설명';

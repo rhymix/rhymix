@@ -163,7 +163,7 @@ class communicationModel extends communication
 			$member_info = $oMemberModel->getMemberInfoByMemberSrl($message->sender_srl);
 		}
 
-		if($member_info)
+		if($member_info->member_srl)
 		{
 			foreach($member_info as $key => $val)
 			{
@@ -175,6 +175,13 @@ class communicationModel extends communication
 
 				$message->{$key} = $val;
 			}
+		}
+		else
+		{
+			$message->member_srl = ($message->sender_srl == $logged_info->member_srl) ? $message->receiver_srl : $message->sender_srl;
+			$message->user_id = '';
+			$message->nick_name = lang('communication.cmd_message_from_non_member');
+			$message->user_name = $message->nick_name;
 		}
 
 		// change the status if is a received and not yet read message
@@ -210,6 +217,14 @@ class communicationModel extends communication
 
 		$oCommunicationController = getController('communication');
 		$oCommunicationController->setMessageReaded($message->message_srl);
+		
+		if (!$message->member_srl)
+		{
+			$message->member_srl = $message->sender_srl;
+			$message->user_id = '';
+			$message->nick_name = lang('communication.cmd_message_from_non_member');
+			$message->user_name = $message->nick_name;
+		}
 
 		return $message;
 	}
@@ -274,7 +289,22 @@ class communicationModel extends communication
 		$args->list_count = 20;
 		$args->page_count = 10;
 
-		return executeQueryArray($query_id, $args, $columnList);
+		// Get messages from DB
+		$output = executeQueryArray($query_id, $args, $columnList);
+
+		// Add placeholder for non-members
+		foreach ($output->data as $message)
+		{
+			if (!$message->member_srl)
+			{
+				$message->member_srl = ($message->sender_srl == $logged_info->member_srl) ? $message->receiver_srl : $message->sender_srl;
+				$message->user_id = '';
+				$message->nick_name = lang('communication.cmd_message_from_non_member');
+				$message->user_name = $message->nick_name;
+			}
+		}
+		
+		return $output;
 	}
 
 	/**

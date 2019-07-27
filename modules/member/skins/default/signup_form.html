@@ -59,7 +59,7 @@
 			</div>
 			<div class="controls" cond="$formTag->name == 'signature'">
 				<input type="hidden" name="signature" value="" />
-				{$editor}
+				{$editor|noescape}
 				<style scoped>
 				.xpress-editor>#smart_content,
 				.xpress-editor>#smart_content>.tool{clear:none}

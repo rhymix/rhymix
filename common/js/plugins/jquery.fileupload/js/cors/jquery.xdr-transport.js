@@ -1,12 +1,12 @@
 /*
- * jQuery XDomainRequest Transport Plugin 1.1.4
+ * jQuery XDomainRequest Transport Plugin
  * https://github.com/blueimp/jQuery-File-Upload
  *
  * Copyright 2011, Sebastian Tschan
  * https://blueimp.net
  *
  * Licensed under the MIT license:
- * http://www.opensource.org/licenses/MIT
+ * https://opensource.org/licenses/MIT
  *
  * Based on Julian Aubourg's ajaxHooks xdr.js:
  * https://github.com/jaubourg/ajaxHooks/
@@ -14,7 +14,7 @@
 
 /* global define, require, window, XDomainRequest */
 
-(function (factory) {
+;(function (factory) {
     'use strict';
     if (typeof define === 'function' && define.amd) {
         // Register as an anonymous AMD module:

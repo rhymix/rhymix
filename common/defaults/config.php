@@ -63,12 +63,14 @@ return array(
 		'refresh' => 300,
 	),
 	'file' => array(
+		'folder_structure' => 2,
 		'umask' => '0022',
 	),
 	'mail' => array(
 		'type' => 'mailfunction',
 	),
 	'view' => array(
+		'manager_layout' => 'module',
 		'minify_scripts' => 'common',
 		'concat_scripts' => 'none',
 		'server_push' => false,
@@ -91,7 +93,7 @@ return array(
 		'log_slow_widgets' => 0,
 		'log_slow_remote_requests' => 0,
 		'log_filename' => null,
-		'display_type' => 'comment',
+		'display_type' => array('comment'),
 		'display_content' => array(),
 		'display_to' => 'admin',
 		'write_error_log' => 'fatal',
@@ -111,6 +113,10 @@ return array(
 		'iframe' => array(),
 		'object' => array(),
 		'classes' => array(),
+	),
+	'security' => array(
+		'check_csrf_token' => false,
+		'nofollow' => false,
 	),
 	'mobile' => array(
 		'enabled' => true,

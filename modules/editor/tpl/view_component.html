@@ -1,7 +1,9 @@
 {@Context::addMetaTag('viewport', 'width=device-width', FALSE);}
 <load target="css/view_component.css" />
-<section class="section">
+<div class="x_modal-header">
 	<h1>{$component->title}</h1>
+</div>
+<div class="x_modal-body">
 	<div>
 		<h2>{$lang->component_author}</h2>
 		<ul>
@@ -33,4 +35,4 @@
 		<h2>{$lang->component_description}</h2>
 		<p>{nl2br(trim($component->description))}</p>
 	</div>
-</section>
+</div>

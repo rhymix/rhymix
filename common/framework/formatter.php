@@ -129,7 +129,6 @@ class Formatter
 	{
 		$converter = new \League\HTMLToMarkdown\HtmlConverter();
 		$converter->getConfig()->setOption('bold_style', '**');
-		$converter->getConfig()->setOption('italic_style', '_');
 		$converter->getConfig()->setOption('strip_tags', true);
 		return trim($converter->convert($html)) . "\n";
 	}

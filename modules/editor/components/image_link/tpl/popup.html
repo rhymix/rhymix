@@ -2,8 +2,10 @@
 <!--%import("popup.css")-->
 <!--%import("../lang")-->
 {@Context::addMetaTag('viewport', 'width=device-width', FALSE);}
-<section class="section">
+<div class="x_modal-header">
 	<h1>{$component_info->title}</h1>
+</div>
+<div class="x_modal-body">
 	<form action="./" method="get" onSubmit="return false" id="fo" class="x_form-horizontal">
 		<div class="x_control-group">
 			<label for="image_url" class="x_control-label">{$lang->image_url}</label>
@@ -81,4 +83,4 @@
 			</div>
 		</div>
 	</form>
-</section>
+</div>

@@ -47,18 +47,23 @@ class editorController extends editor
 	{
 		$component = Context::get('component');
 		$method = Context::get('method');
-		if(!$component) return $this->setError('msg_component_is_not_founded', $component);
+		if(!$component)
+		{
+			throw new Rhymix\Framework\Exception('msg_component_is_not_founded', $component);
+		}
 
 		$oEditorModel = getModel('editor');
 		$oComponent = &$oEditorModel->getComponentObject($component);
 		if(!$oComponent->toBool()) return $oComponent;
 
-		if(!method_exists($oComponent, $method)) return $this->setError('msg_component_is_not_founded', $component);
+		if(!method_exists($oComponent, $method))
+		{
+			throw new Rhymix\Framework\Exception('msg_component_is_not_founded', $component);
+		}
 
 		//$output = call_user_method($method, $oComponent);
 		//$output = call_user_func(array($oComponent, $method));
-		if(method_exists($oComponent, $method)) $output = $oComponent->{$method}();
-		else return $this->setError('%s method is not exists', $method);
+		$output = $oComponent->{$method}();
 
 		if($output instanceof BaseObject && !$output->toBool()) return $output;
 
@@ -93,13 +98,13 @@ class editorController extends editor
 			$module_info = $oModuleModel->getModuleInfoByModuleSrl($srl);
 			if (!$module_info->module_srl)
 			{
-				return $this->setError('msg_invalid_request');
+				throw new Rhymix\Framework\Exceptions\InvalidRequest;
 			}
 
 			$module_grant = $oModuleModel->getGrant($module_info, $logged_info);
 			if (!$module_grant->manager)
 			{
-				return $this->setError('msg_not_permitted');
+				throw new Rhymix\Framework\Exceptions\NotPermitted;
 			}
 
 			$module_srl[] = $srl;
@@ -413,19 +418,12 @@ class editorController extends editor
 	 * @brief Caching a list of editor component (editorModel::getComponentList)
 	 * For the editor component list, use a caching file because of DB query and Xml parsing
 	 */
-	function makeCache($filter_enabled = true, $site_srl)
+	function makeCache($filter_enabled = true)
 	{
 		$oEditorModel = getModel('editor');
 		$args = new stdClass;
-
 		if($filter_enabled) $args->enabled = "Y";
-
-		if($site_srl)
-		{
-			$args->site_srl = $site_srl;
-			$output = executeQuery('editor.getSiteComponentList', $args);
-		}
-		else $output = executeQuery('editor.getComponentList', $args);
+		$output = executeQuery('editor.getComponentList', $args);
 		$db_list = $output->data;
 
 		// Get a list of editor component folders
@@ -433,18 +431,6 @@ class editorController extends editor
 		$downloaded_list = array_filter($downloaded_list, function($component_name) {
 			return is_dir(RX_BASEDIR . 'modules/editor/components/' . $component_name);
 		});
-
-		// Get information about log-in status and its group
-		$is_logged = Context::get('is_logged');
-		if($is_logged)
-		{
-			$logged_info = Context::get('logged_info');
-			if($logged_info->group_list && is_array($logged_info->group_list))
-			{
-				$group_list = array_keys($logged_info->group_list);
-			}
-			else $group_list = array();
-		}
 
 		// Get xml information for looping DB list
 		if(!is_array($db_list)) $db_list = array($db_list);
@@ -474,28 +460,7 @@ class editorController extends editor
 				{
 					$xml_info->mid_list = $extra_vars->mid_list;
 				}
-				/*
-				// Permisshin check if you are granted
-				if($extra_vars->target_group) {
-				// Stop using if not logged-in
-				if(!$is_logged) continue;
-				// Compare a target group with the current logged-in user group
-				$target_group = $extra_vars->target_group;
-				unset($extra_vars->target_group);
-
-				$is_granted = false;
-				foreach($group_list as $group_srl) {
-				if(in_array($group_srl, $target_group)) {
-				$is_granted = true;
-				break;
-				}
-				}
-				if(!$is_granted) continue;
-				}
-				// Check if the target module exists
-				if($extra_vars->mid_list && count($extra_vars->mid_list) && Context::get('mid')) {
-				if(!in_array(Context::get('mid'), $extra_vars->mid_list)) continue;
-				}*/
+				
 				// Check the configuration of the editor component
 				if($xml_info->extra_vars)
 				{
@@ -507,6 +472,7 @@ class editorController extends editor
 			}
 
 			$component_list->{$component_name} = $xml_info;
+			
 			// Get buttons, icons, images
 			$icon_file = RX_BASEDIR . 'modules/editor/components/'.$component_name.'/icon.gif';
 			$component_icon_file = RX_BASEDIR . 'modules/editor/components/'.$component_name.'/component_icon.gif';
@@ -514,47 +480,41 @@ class editorController extends editor
 			if(file_exists($component_icon_file)) $component_list->{$component_name}->component_icon = true;
 		}
 
-		// Return if it checks enabled only
-		if($filter_enabled)
-		{
-			$cache_file = $oEditorModel->getCacheFile($filter_enabled, $site_srl);
-			$buff = sprintf('<?php if(!defined("__XE__")) exit(); $component_list = unserialize("%s"); ?>', str_replace('"','\\"',serialize($component_list)));
-			FileHandler::writeFile($cache_file, $buff);
-			return $component_list;
-		}
-
 		// Get xml_info of downloaded list
-		foreach($downloaded_list as $component_name)
+		if(!$filter_enabled)
 		{
-			if(in_array($component_name, array('colorpicker_text','colorpicker_bg'))) continue;
-			// Pass if configured
-			if($component_list->{$component_name}) continue;
-			// Insert data into the DB
-			$oEditorController = getAdminController('editor');
-			$oEditorController->insertComponent($component_name, false, $site_srl);
-			// Add to component_list
-			unset($xml_info);
-			$xml_info = $oEditorModel->getComponentXmlInfo($component_name);
-			$xml_info->enabled = 'N';
-
-			$component_list->{$component_name} = $xml_info;
+			foreach($downloaded_list as $component_name)
+			{
+				if(in_array($component_name, array('colorpicker_text','colorpicker_bg'))) continue;
+				if(!is_dir(\RX_BASEDIR.'modules/editor/components/'.$component_name)) continue;
+				// Pass if configured
+				if($component_list->{$component_name}) continue;
+				// Insert data into the DB
+				$oEditorController = getAdminController('editor');
+				$oEditorController->insertComponent($component_name, false, 0);
+				// Add to component_list
+				$xml_info = $oEditorModel->getComponentXmlInfo($component_name);
+				$xml_info->enabled = 'N';
+				$component_list->{$component_name} = $xml_info;
+			}
+			Rhymix\Framework\Cache::set('editor:components:enabled', $component_list, 0, true);
 		}
-
-		$cache_file = $oEditorModel->getCacheFile($filter_enabled, $site_srl);
-		$buff = sprintf('<?php if(!defined("__XE__")) exit(); $component_list = unserialize("%s"); ?>', str_replace('"','\\"',serialize($component_list)));
-		FileHandler::writeFile($cache_file, $buff);
-
+		else
+		{
+			Rhymix\Framework\Cache::set('editor:components:all', $component_list, 0, true);
+		}
+		
 		return $component_list;
 	}
 
 	/**
 	 * @brief Delete cache files
 	 */
-	function removeCache($site_srl = 0)
+	function removeCache()
 	{
-		$oEditorModel = getModel('editor');
-		FileHandler::removeFile($oEditorModel->getCacheFile(true, $site_srl));
-		FileHandler::removeFile($oEditorModel->getCacheFile(false, $site_srl));
+		Rhymix\Framework\Storage::deleteDirectory(\RX_BASEDIR . 'files/cache/editor/cache');
+		Rhymix\Framework\Cache::delete('editor:components:enabled');
+		Rhymix\Framework\Cache::delete('editor:components:all');
 	}
 
 	function triggerCopyModule(&$obj)

@@ -16,8 +16,6 @@
 			<a id="message_receiver" href="#popup_menu_area" class="member_{$receiver_info->member_srl}">{$receiver_info->nick_name}</a>
 			<label for="message_title">{$lang->title}</label>
 			<input type="text" name="title" id="message_title" value="{$source_message->title}" />
-			<label for="message_send_mail"><input type="checkbox" value="Y" name="send_mail" id="message_send_mail" /> {$lang->cmd_send_mail}</label>
-			<div class="rx_member-notice info">{$lang->msg_send_mail_privacy}</div>
 			<div class="rx_member-notice info" cond="$logged_info->allow_message !== 'Y'">
 				{$lang->warning}
 				<br>
@@ -29,7 +27,7 @@
 				<br>{$lang->msg_allow_message_please}
 			</div>
 		</div>
-		{$editor}
+		{$editor|noescape}
 		<div class="control-group">
 			<input type="submit" value="{$lang->cmd_send_message}" />
 		</div>

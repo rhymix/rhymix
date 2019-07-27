@@ -112,7 +112,7 @@ class Mail
 	 */
 	public function __construct()
 	{
-		$this->message = \Swift_Message::newInstance();
+		$this->message = new \Swift_Message;
 		$this->driver = self::getDefaultDriver();
 	}
 	

@@ -3,7 +3,7 @@
 /**
  * RX_VERSION is the version number of the Rhymix CMS.
  */
-define('RX_VERSION', '1.9.8');
+define('RX_VERSION', '1.9.9.2');
 
 /**
  * RX_MICROTIME is the startup time of the current script, in microseconds since the Unix epoch.
@@ -129,8 +129,8 @@ define('__XE_VERSION_ALPHA__', false);
 define('__XE_VERSION_BETA__', false);
 define('__XE_VERSION_RC__', false);
 define('__XE_VERSION_STABLE__', true);
-define('__XE_MIN_PHP_VERSION__', '5.5.9');
-define('__XE_RECOMMEND_PHP_VERSION__', '5.5.9');
+define('__XE_MIN_PHP_VERSION__', '7.0.0');
+define('__XE_RECOMMEND_PHP_VERSION__', '7.2.0');
 define('__ZBXE__', true);
 define('__ZBXE_VERSION__', RX_VERSION);
 define('_XE_PATH_', RX_BASEDIR);
@@ -165,6 +165,8 @@ define('LOWER', 'abcdefghijklmnopqrstuvwxyz');
 define('CR', "\r");
 define('CRLF', "\r\n");
 define('LF', "\n");
+define('Y', 'Y');
+define('N', 'N');
 define('FOLLOW_REQUEST_SSL', 0);
 define('ENFORCE_SSL', 1);
 define('RELEASE_SSL', 2);

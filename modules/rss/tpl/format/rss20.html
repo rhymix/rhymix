@@ -30,7 +30,7 @@
 			<dc:creator>{$oDocument->getNickName()}</dc:creator>
 			<guid isPermaLink="true">{$oDocument->getPermanentUrl()}</guid>
 			<comments cond="$oDocument->allowComment()">{$oDocument->getPermanentUrl()}#comment</comments>
-			<pubDate>{$oDocument->getRegdateGM('r')}</pubDate>
+			<pubDate>{date('r', ztime($oDocument->get('regdate')))}</pubDate>
 		</item>
 	</channel>
 </rss>

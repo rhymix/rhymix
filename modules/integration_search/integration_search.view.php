@@ -49,33 +49,54 @@ class integration_searchView extends integration_search
 		}
 		
 		// Check permissions
-		if(!$this->grant->access) return $this->setError('msg_not_permitted');
-
-		$config = $oModuleModel->getModuleConfig('integration_search');
-		if(!$config) $config = new stdClass;
-		if(!$config->skin)
+		if(!$this->grant->access)
 		{
-			$config->skin = 'default';
-			$template_path = sprintf('%sskins/%s', $this->module_path, $config->skin);
+			throw new Rhymix\Framework\Exceptions\NotPermitted;
 		}
-		else
+		
+		// Set skin path
+		$config = $oModuleModel->getModuleConfig('integration_search') ?: new stdClass;
+		if(ends_with('Mobile', get_class($this), false))
 		{
-			//check theme
-			$config_parse = explode('|@|', $config->skin);
-			if (count($config_parse) > 1)
+			if(!$config->mskin || $config->mskin === '/USE_RESPONSIVE/')
 			{
-				$template_path = sprintf('./themes/%s/modules/integration_search/', $config_parse[0]);
+				$template_path = sprintf('%sskins/%s/', $this->module_path, $config->skin);
+				if(!is_dir($template_path) || !$config->skin)
+				{
+					$template_path = sprintf('%sskins/%s/', $this->module_path, 'default');
+					$config->mskin = 'default';
+				}
 			}
 			else
 			{
-				$template_path = sprintf('%sskins/%s', $this->module_path, $config->skin);
+				$template_path = sprintf('%sm.skins/%s/', $this->module_path, $config->mskin);
+				if(!is_dir($template_path) || !$config->mskin)
+				{
+					$template_path = sprintf('%sm.skins/%s/', $this->module_path, 'default');
+					$config->mskin = 'default';
+				}
+				if(!is_dir($template_path))
+				{
+					$template_path = sprintf('%sskins/%s/', $this->module_path, 'default');
+					$config->mskin = 'default';
+				}
 			}
 		}
-		// Template path
+		else
+		{
+			$template_path = sprintf('%sskins/%s/', $this->module_path, $config->skin);
+			if(!is_dir($template_path) || !$config->skin)
+			{
+				$template_path = sprintf('%sskins/%s/', $this->module_path, 'default');
+				$config->skin = 'default';
+			}
+		}
+		
 		$this->setTemplatePath($template_path);
 		$skin_vars = ($config->skin_vars) ? unserialize($config->skin_vars) : new stdClass;
 		Context::set('module_info', $skin_vars);
 
+		// Include or exclude target modules.
 		$target = $config->target;
 		if(!$target) $target = 'include';
 
@@ -88,13 +109,7 @@ class integration_searchView extends integration_search
 		// 검색 대상을 지정하지 않았을 때 검색 제한
 		if($target === 'include' && !count($module_srl_list))
 		{
-			$oMessageObject = ModuleHandler::getModuleInstance('message');
-			$oMessageObject->setError(-1);
-			$oMessageObject->setMessage('msg_not_enabled');
-			$oMessageObject->dispMessage();
-			$this->setTemplatePath($oMessageObject->getTemplatePath());
-			$this->setTemplateFile($oMessageObject->getTemplateFile());
-			return;
+			throw new Rhymix\Framework\Exception('msg_not_enabled');
 		}
 
 		// Set a variable for search keyword

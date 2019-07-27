@@ -1,7 +1,7 @@
 <load target="css/editor_module_config.css" />
 <load target="js/editor_module_config.js" />
 <div class="x_page-header">
-	<h1>{$lang->editor} <a class="x_icon-question-sign" href="./common/manual/admin/index.html#UMAN_advanced_editor" target="_blank">{$lang->help}</a></h1>
+	<h1>{$lang->editor}</h1>
 </div>
 <div cond="$XE_VALIDATOR_MESSAGE && $XE_VALIDATOR_ID == 'modules/editor/tpl/admin_index/1'" class="message {$XE_VALIDATOR_MESSAGE_TYPE}">
 	<p>{$XE_VALIDATOR_MESSAGE}</p>
@@ -272,17 +272,23 @@
 		<input type="hidden" name="module" value="editor" />
 		<input type="hidden" name="act" value="procEditorAdminCheckUseListOrder" />
 		<input type="hidden" name="xe_validator_id" value="modules/editor/tpl/admin_index/1" />
-		<table class="x_table x_table-striped x_table-hover sortable">
-			<caption><strong>{$lang->total_count}({$component_count})</strong></caption>
+		<table class="x_table x_table-striped x_table-hover sortable dsTg">
+			<caption>
+				<strong>{$lang->total_count}({$component_count})</strong>
+				<div class="x_pull-right x_btn-group">
+					<a class="x_btn x_active __simple">{$lang->simple_view}</a>
+					<a class="x_btn __detail">{$lang->detail_view}</a>
+				</div>
+			</caption>
 			<thead>
 				<tr>
 					<th class="nowr">{$lang->cmd_move}</th>
 					<th>{$lang->component_name}</th>
 					<th class="nowr">{$lang->version}</th>
-					<th class="nowr">{$lang->author}</th>
-					<th class="nowr">{$lang->path}</th>
+					<th class="nowr rx_detail_marks">{$lang->author}</th>
+					<th class="nowr rx_detail_marks">{$lang->path}</th>
 					<th class="nowr">{$lang->use}</th>
-					<th class="nowr">{$lang->cmd_delete}</th>
+					<th class="nowr rx_detail_marks">{$lang->cmd_delete}</th>
 				</tr>
 			</thead>
 			<tbody class="uDrag">
@@ -290,20 +296,20 @@
 				<tr>
 					<td><div class="wrap" style="height:70px"><button type="button" class="dragBtn">Move to</button></div></td>
 					<td class="title">
-						<input type="hidden" name="component_names[]" value="{$xml_info->component_name}" />
 						<p><b><a href="{getUrl('', 'module', 'admin', 'act', 'dispEditorAdminSetupComponent', 'component_name', $xml_info->component_name)}">{$xml_info->title}</a></b></p>
+						<input type="hidden" name="component_names[]" value="{$xml_info->component_name}" />
 						<p>{nl2br($xml_info->description)}</p>
 						<!--@if($xml_info->version && $xml_info->need_update == 'Y')-->
 						<p class="update">{$lang->msg_avail_easy_update}<a href="{getUrl('act','dispAutoinstallAdminInstall','package_srl',$xml_info->package_srl)}">{$lang->msg_do_you_like_update}</a></p>
 						<!--@end-->
 					</td>
 					<td>{$xml_info->version}</td>
-					<td class="nowr">
+					<td class="nowr rx_detail_marks">
 						<a href="{$author->homepage}" target="_blank" loop="$xml_info->author => $author">{$author->name}</a>
 					</td>
-					<td>{$xml_info->path}</td>
+					<td class="rx_detail_marks">{$xml_info->path}</td>
 					<td><input type="checkbox" name="enables[]" id="enable" value="{$xml_info->component_name}" title="Use this component " <!--@if($xml_info->enabled=='Y')--> checked="checked"<!--@end--> /></td>
-					<td>
+					<td class="rx_detail_marks">
 						<!--@if($xml_info->version && $xml_info->delete_url)-->
 						<a href="{$xml_info->delete_url}">{$lang->cmd_delete}</a>
 						<!--@end-->

@@ -18,7 +18,9 @@
 				<tr>
 					<th scope="col">IP</th>
 					<th scope="col">{$lang->description}</th>
-					<th scope="col">{$lang->regdate}</th>
+					<th scope="col"><a href="{getUrl('sort_index', 'latest_hit')}">{$lang->latest_hit} <!--@if($sort_index === 'latest_hit')-->▼<!--@endif--></a></th>
+					<th scope="col"><a href="{getUrl('sort_index', 'hit')}">{$lang->hit} <!--@if($sort_index === 'hit')-->▼<!--@endif--></a></th>
+					<th scope="col"><a href="{getUrl('sort_index', 'regdate')}">{$lang->regdate} <!--@if($sort_index === 'regdate' || !$sort_index)-->▼<!--@endif--></a></th>
 					<th scope="col"><input type="checkbox" name="ipaddress" title="Check All" /></th>
 				</tr>
 			</thead>
@@ -26,11 +28,13 @@
 				<tr loop="$ip_list => $ip_info">
 					<td>{$ip_info->ipaddress}</td>
 					<td>{$ip_info->description}</td>
+					<td><!--@if($ip_info->latest_hit)-->{zdate($ip_info->latest_hit,'Y-m-d H:i')}<!--@else-->-<!--@end--></td>
+					<td>{$ip_info->hit}</td>
 					<td>{zdate($ip_info->regdate,'Y-m-d')}</td>
 					<td><input type="checkbox" name="ipaddress[]" value="{$ip_info->ipaddress}" /></td>
 				</tr>
 				<tr cond="!$ip_list">
-					<td colspan="4" style="text-align:center">{$lang->no_data}</td>
+					<td colspan="6" style="text-align:center">{$lang->no_data}</td>
 				</tr>
 			</tbody>
 		</table>

@@ -14,6 +14,7 @@ $lang->sender = 'From';
 $lang->receiver = 'To';
 $lang->friend_group = 'Friend Group';
 $lang->default_friend_group = 'Unassigned Group';
+$lang->cmd_message_from_non_member = 'Not a Member';
 $lang->cmd_send_message = 'Send Message';
 $lang->cmd_reply_message = 'Reply Message';
 $lang->cmd_view_friend = 'Friends';

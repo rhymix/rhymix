@@ -42,15 +42,23 @@ class ModuleHandler extends Handler
 			return;
 		}
 
+		// Check security check status
 		$oContext = Context::getInstance();
-		if($oContext->isSuccessInit == FALSE)
+		switch($oContext->security_check)
 		{
-			$logged_info = Context::get('logged_info');
-			if($logged_info->is_admin != "Y")
-			{
-				$this->error = 'msg_invalid_request';
+			case 'OK':
+				break;
+			case 'ALLOW ADMIN ONLY':
+				if(!Context::get('logged_info')->isAdmin())
+				{
+					$this->error = 'msg_security_violation';
+					return;
+				}
+				break;
+			case 'DENY ALL':
+			default:
+				$this->error = 'msg_security_violation';
 				return;
-			}
 		}
 
 		// Set variables from request arguments
@@ -70,26 +78,23 @@ class ModuleHandler extends Handler
         }
 
 		// Validate variables to prevent XSS
-		$isInvalid = NULL;
-		if($this->module && !preg_match("/^([a-z0-9\_\-]+)$/i", $this->module))
+		$isInvalid = false;
+		if($this->module && !preg_match('/^[a-zA-Z0-9_-]+$/', $this->module))
 		{
-			$isInvalid = TRUE;
+			$isInvalid = true;
 		}
-		if($this->mid && !preg_match("/^([a-z0-9\_\-]+)$/i", $this->mid))
+		if($this->mid && !preg_match('/^[a-zA-Z0-9_-]+$/', $this->mid))
 		{
-			$isInvalid = TRUE;
+			$isInvalid = true;
 		}
-		if($this->act && !preg_match("/^([a-z0-9\_\-]+)$/i", $this->act))
+		if($this->act && !preg_match('/^[a-zA-Z0-9_-]+$/', $this->act))
 		{
-			$isInvalid = TRUE;
+			$isInvalid = true;
 		}
 		if($isInvalid)
 		{
-			htmlHeader();
-			echo lang("msg_invalid_request");
-			htmlFooter();
-			Context::close();
-			exit;
+			$this->error = 'msg_security_violation';
+			return;
 		}
 
 		if(isset($this->act) && (strlen($this->act) >= 4 && substr_compare($this->act, 'disp', 0, 4) === 0))
@@ -442,7 +447,13 @@ class ModuleHandler extends Handler
 		// get type, kind
 		$type = $xml_info->action->{$this->act}->type;
 		$ruleset = $xml_info->action->{$this->act}->ruleset;
+		$meta_noindex = $xml_info->action->{$this->act}->meta_noindex;
 		$kind = stripos($this->act, 'admin') !== FALSE ? 'admin' : '';
+		if ($meta_noindex === 'true')
+		{
+			Context::addMetaTag('robots', 'noindex');
+		}
+
 		if(!$kind && $this->module == 'admin')
 		{
 			$kind = 'admin';
@@ -464,7 +475,7 @@ class ModuleHandler extends Handler
 
 			if(!in_array(strtoupper($_SERVER['REQUEST_METHOD']), $allowedMethodList))
 			{
-				$this->error = "msg_invalid_request";
+				$this->error = 'msg_invalid_request';
 				$oMessageObject = self::getModuleInstance('message', $display_mode);
 				$oMessageObject->setError(-1);
 				$oMessageObject->setMessage($this->error);
@@ -559,6 +570,7 @@ class ModuleHandler extends Handler
 					$forward->module = $module;
 					$forward->type = $xml_info->action->{$this->act}->type;
 					$forward->ruleset = $xml_info->action->{$this->act}->ruleset;
+					$forward->meta_noindex = $xml_info->action->{$this->act}->meta_noindex;
 					$forward->act = $this->act;
 				}
 				else
@@ -585,6 +597,10 @@ class ModuleHandler extends Handler
 				$ruleset = $forward->ruleset;
 				$tpl_path = $oModule->getTemplatePath();
 				$orig_module = $oModule;
+				if($forward->meta_noindex === 'true')
+				{
+					Context::addMetaTag('robots', 'noindex');
+				}
 				
 				$xml_info = $oModuleModel->getModuleActionXml($forward->module);
 				
@@ -620,7 +636,7 @@ class ModuleHandler extends Handler
 
 					if(!in_array(strtoupper($_SERVER['REQUEST_METHOD']), $allowedMethodList))
 					{
-						$this->error = "msg_invalid_request";
+						$this->error = 'msg_security_violation';
 						$oMessageObject = self::getModuleInstance('message', $display_mode);
 						$oMessageObject->setError(-1);
 						$oMessageObject->setMessage($this->error);
@@ -635,7 +651,7 @@ class ModuleHandler extends Handler
 					if($xml_info->action->{$this->act} && $xml_info->action->{$this->act}->check_csrf !== 'false' && !checkCSRF())
 					{
 						$this->_setInputErrorToContext();
-						$this->error = 'msg_invalid_request';
+						$this->error = 'msg_security_violation';
 						$oMessageObject = ModuleHandler::getModuleInstance('message', $display_mode);
 						$oMessageObject->setError(-1);
 						$oMessageObject->setMessage($this->error);
@@ -779,6 +795,10 @@ class ModuleHandler extends Handler
 					Context::setBrowserTitle($domain_info->settings->title);
 				}
 			}
+		}
+
+		if ($kind === 'admin') {
+			Context::addMetaTag('robots', 'noindex');
 		}
 
 		// if failed message exists in session, set context
@@ -1017,39 +1037,47 @@ class ModuleHandler extends Handler
 					// Set menus into context
 					if($layout_info->menu_count)
 					{
+						$oMenuAdminController = getAdminController('menu');
+						$homeMenuCacheFile = null;
+						
 						foreach($layout_info->menu as $menu_id => $menu)
-						{
-							// set default menu set(included home menu)
-							if(!$menu->menu_srl || $menu->menu_srl == -1)
+						{							// No menu selected
+							if($menu->menu_srl == 0)
 							{
-								$oMenuAdminController = getAdminController('menu');
-								$homeMenuCacheFile = $oMenuAdminController->getHomeMenuCacheFile();
-
-								$homeMenuSrl = 0;
-								if(FileHandler::exists($homeMenuCacheFile))
+								$menu->list = array();
+							}
+							else
+							{
+								if($menu->menu_srl == -1)
 								{
-									include($homeMenuCacheFile);
+									if ($homeMenuCacheFile === null)
+									{
+										$homeMenuCacheFile = $oMenuAdminController->getHomeMenuCacheFile();
+									}
+
+									$homeMenuSrl = 0;
+									if(FileHandler::exists($homeMenuCacheFile))
+									{
+										include($homeMenuCacheFile);
+									}
+									
+									$menu->xml_file = './files/cache/menu/' . $homeMenuSrl . '.xml.php';
+									$menu->php_file = './files/cache/menu/' . $homeMenuSrl . '.php';
+									$menu->menu_srl = $homeMenuSrl;
 								}
 								
-								$menu->xml_file = './files/cache/menu/' . $homeMenuSrl . '.xml.php';
-								$menu->php_file = './files/cache/menu/' . $homeMenuSrl . '.php';
-								if(!$menu->menu_srl)
+								$php_file = FileHandler::exists($menu->php_file);
+								if(!$php_file)
 								{
-									$layout_info->menu->{$menu_id}->menu_srl = $homeMenuSrl;
+									$oMenuAdminController->makeXmlFile($menu->menu_srl);
+									$php_file = FileHandler::exists($menu->php_file);
+								}
+								if($php_file)
+								{
+									include($php_file);
 								}
 							}
-
-							$php_file = FileHandler::exists($menu->php_file);
-							if(!$php_file)
-							{
-								$oMenuAdminController = $oMenuAdminController ?: getAdminController('menu');
-								$oMenuAdminController->makeXmlFile((isset($homeMenuSrl) && $homeMenuSrl) ? $homeMenuSrl : $menu->menu_srl);
-								$php_file = FileHandler::exists($menu->php_file);
-							}
-							if($php_file)
-							{
-								include($php_file);
-							}
+							
 							Context::set($menu_id, $menu);
 						}
 					}
@@ -1267,9 +1295,16 @@ class ModuleHandler extends Handler
 				continue;
 			}
 			
-			$before_each_trigger_time = microtime(true);
-			$output = $oModule->{$called_method}($obj);
-			$after_each_trigger_time = microtime(true);
+			try
+			{
+				$before_each_trigger_time = microtime(true);
+				$output = $oModule->{$called_method}($obj);
+				$after_each_trigger_time = microtime(true);
+			}
+			catch (Rhymix\Framework\Exception $e)
+			{
+				$output = new BaseObject(-2, $e->getMessage());
+			}
 
 			if ($trigger_name !== 'common.flushDebugInfo')
 			{
@@ -1293,9 +1328,16 @@ class ModuleHandler extends Handler
 		$trigger_functions = $oModuleModel->getTriggerFunctions($trigger_name, $called_position);
 		foreach($trigger_functions as $item)
 		{
-			$before_each_trigger_time = microtime(true);
-			$output = $item($obj);
-			$after_each_trigger_time = microtime(true);
+			try
+			{
+				$before_each_trigger_time = microtime(true);
+				$output = $item($obj);
+				$after_each_trigger_time = microtime(true);
+			}
+			catch (Rhymix\Framework\Exception $e)
+			{
+				$output = new BaseObject(-2, $e->getMessage());
+			}
 
 			if ($trigger_name !== 'common.writeSlowlog')
 			{

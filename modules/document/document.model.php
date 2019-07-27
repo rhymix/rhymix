@@ -448,7 +448,7 @@ class documentModel extends document
 			$oDocument = $oDocumentModel->getDocument($document_srl, false, false, $columnList);
 			$module_srl = $oDocument->get('module_srl');
 			$member_srl = $oDocument->get('member_srl');
-			if(!$module_srl) return $this->setError('msg_invalid_request');
+			if(!$module_srl) throw new Rhymix\Framework\Exceptions\InvalidRequest;
 
 			$oModuleModel = getModel('module');
 			$document_config = $oModuleModel->getModulePartConfig('document',$module_srl);
@@ -671,7 +671,8 @@ class documentModel extends document
 	function getCategoryList($module_srl, $columnList = array())
 	{
 		// Category of the target module file swollen
-		$filename = sprintf("%sfiles/cache/document_category/%s.php", _XE_PATH_, $module_srl);
+		$module_srl = intval($module_srl);
+		$filename = sprintf("%sfiles/cache/document_category/%d.php", _XE_PATH_, $module_srl);
 		// If the target file to the cache file regeneration category
 		if(!file_exists($filename))
 		{
@@ -771,7 +772,8 @@ class documentModel extends document
 	 */
 	function getCategoryXmlFile($module_srl)
 	{
-		$xml_file = sprintf('files/cache/document_category/%s.xml.php',$module_srl);
+		$module_srl = intval($module_srl);
+		$xml_file = sprintf('files/cache/document_category/%d.xml.php',$module_srl);
 		if(!file_exists($xml_file))
 		{
 			$oDocumentController = getController('document');
@@ -787,7 +789,8 @@ class documentModel extends document
 	 */
 	function getCategoryPhpFile($module_srl)
 	{
-		$php_file = sprintf('files/cache/document_category/%s.php',$module_srl);
+		$module_srl = intval($module_srl);
+		$php_file = sprintf('files/cache/document_category/%d.php',$module_srl);
 		if(!file_exists($php_file))
 		{
 			$oDocumentController = getController('document');
@@ -855,8 +858,8 @@ class documentModel extends document
 	 */
 	function getDocumentCategories()
 	{
-		if(!Context::get('is_logged')) return $this->setError('msg_not_permitted');
-		$module_srl = Context::get('module_srl');
+		if(!Context::get('is_logged')) throw new Rhymix\Framework\Exceptions\NotPermitted;
+		$module_srl = intval(Context::get('module_srl'));
 		$categories= $this->getCategoryList($module_srl);
 		$lang = Context::get('lang');
 		// No additional category
@@ -903,7 +906,7 @@ class documentModel extends document
 		$extra_keys = $this->getExtraKeys($module_srl);
 		Context::set('extra_keys', $extra_keys);
 		$security = new Security();
-		$security->encodeHTML('extra_keys..');
+		$security->encodeHTML('extra_keys..', 'selected_var_idx');
 
 		// Get information of module_grants
 		$oTemplate = &TemplateHandler::getInstance();
@@ -950,13 +953,13 @@ class documentModel extends document
 		$module_info = $oModuleModel->getModuleInfoByModuleSrl($module_srl);
 		// Check permissions
 		$grant = $oModuleModel->getGrant($module_info, Context::get('logged_info'));
-		if(!$grant->manager) return $this->setError('msg_not_permitted');
+		if(!$grant->manager) throw new Rhymix\Framework\Exceptions\NotPermitted;
 
 		$category_srl = Context::get('category_srl');
 		$category_info = $this->getCategory($category_srl);
 		if(!$category_info)
 		{
-			return $this->setError('msg_invalid_request');
+			throw new Rhymix\Framework\Exceptions\InvalidRequest;
 		}
 
 		$this->add('category_info', $category_info);
@@ -1138,7 +1141,7 @@ class documentModel extends document
 	{
 		$args = new stdClass;
 		$document_srl = Context::get('document_srl');
-		if(!$document_srl) return $this->setError('msg_invalid_request');
+		if(!$document_srl) throw new Rhymix\Framework\Exceptions\InvalidRequest;
 
 		$point = Context::get('point');
 		if($point != -1) $point = 1;
@@ -1147,18 +1150,18 @@ class documentModel extends document
 		$columnList = array('document_srl', 'module_srl');
 		$oDocument = $oDocumentModel->getDocument($document_srl, false, false, $columnList);
 		$module_srl = $oDocument->get('module_srl');
-		if(!$module_srl) return $this->setError('msg_invalid_request');
+		if(!$module_srl) throw new Rhymix\Framework\Exceptions\InvalidRequest;
 
 		$oModuleModel = getModel('module');
 		$document_config = $oModuleModel->getModulePartConfig('document',$module_srl);
 		if($point == -1)
 		{
-			if($document_config->use_vote_down!='S') return $this->setError('msg_invalid_request');
+			if($document_config->use_vote_down!='S') throw new Rhymix\Framework\Exceptions\FeatureDisabled;
 			$args->below_point = 0;
 		}
 		else
 		{
-			if($document_config->use_vote_up!='S') return $this->setError('msg_invalid_request');
+			if($document_config->use_vote_up!='S') throw new Rhymix\Framework\Exceptions\FeatureDisabled;
 			$args->more_point = 0;
 		}
 

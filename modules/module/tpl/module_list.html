@@ -2,33 +2,37 @@
 <div cond="$XE_VALIDATOR_MESSAGE && $XE_VALIDATOR_ID == 'modules/autoinstall/tpl/uninstall/1'" class="message {$XE_VALIDATOR_MESSAGE_TYPE}">
 	<p>{$XE_VALIDATOR_MESSAGE}</p>
 </div>
-<table class="x_table x_table-striped x_table-hover">
+<table class="x_table x_table-striped x_table-hover dsTg">
 	<caption>
-		<strong>All({count($module_list)})</strong>
+		<strong>{lang('all')} ({count($module_list)})</strong>
+		<div class="x_pull-right x_btn-group">
+			<button class="x_btn x_active __simple">{$lang->simple_view}</button>
+			<button class="x_btn __detail">{$lang->detail_view}</button>
+		</div>
 	</caption>
 	<thead>
 		<tr>
-			<th class="nowr">{$lang->favorite}</th>
+			<th class="nowr">{lang('favorite')}</th>
 			<th class="title">{$lang->module_name}</th>
 			<th class="nowr">{$lang->version}</th>
-			<th class="nowr">{$lang->author}</th>
-			<th class="nowr">{$lang->path}</th>
-			<th class="nowr">{$lang->cmd_delete}</th>
+			<th class="nowr rx_detail_marks">{$lang->author}</th>
+			<th class="nowr rx_detail_marks">{$lang->path}</th>
+			<th class="nowr rx_detail_marks">{$lang->cmd_delete}</th>
 		</tr>
 	</thead>
 	<tbody>
 		<tr loop="$module_list => $key,$val" data-type1="#"|cond="in_array($val->module,$favoriteModuleList)" data-type2="#"|cond="$val->need_install || $val->need_update || $val->need_autoinstall_update">
-			<td>
-				<button type="button" class="fvOn" onclick="doToggleFavoriteModule(this, '{$val->module}')" cond="in_array($val->module,$favoriteModuleList)">{$lang->favorite}({$lang->on})</button>
-				<button type="button" class="fvOff" onclick="doToggleFavoriteModule(this, '{$val->module}')" cond="!in_array($val->module,$favoriteModuleList)">{$lang->favorite}({$lang->off})</button>
+			<td class="nodescription"|cond="!$val->description">
+				<button type="button" class="fvOn" onclick="doToggleFavoriteModule(this, '{$val->module}')" cond="in_array($val->module,$favoriteModuleList)">{lang("favorite")} ({lang("on")})</button>
+				<button type="button" class="fvOff" onclick="doToggleFavoriteModule(this, '{$val->module}')" cond="!in_array($val->module,$favoriteModuleList)">{lang("favorite")} ({lang("off")})</button>
 			</td>
 			<td class="title">
 				<p>
 					<a href="{getUrl('','module','admin','act',$val->admin_index_act)}" cond="$val->admin_index_act">{$val->title}</a>
 					<strong cond="!$val->admin_index_act">{$val->title}</strong>
 				</p>
-				<p>{$val->description}</p>
-				<p cond="Context::isBlacklistedPlugin($val->module)" class="message error" style="margin-top:6px;padding:6px 10px">
+				<p cond="$val->description">{$val->description}</p>
+				<p cond="Context::isBlacklistedPlugin($val->module)" class="x_alert x_alert-error">
 					{$lang->msg_blacklisted_module}<br />
 					{$lang->get('admin.msg_blacklisted_reason.'.$val->module)}
 				</p>
@@ -37,7 +41,7 @@
 				<p cond="$val->need_autoinstall_update == 'Y'" class="x_alert x_alert-info">{$lang->msg_avail_easy_update} <a href="{$val->update_url}&amp;return_url={urlencode(getRequestUriByServerEnviroment())}">{$lang->msg_do_you_like_update}</a></p>
 			</td>
 			<td>{$val->version}</td>
-			<td class="nowr">
+			<td class="nowr rx_detail_marks">
 				<!--@foreach($val->author as $author)-->
 					<!--@if($author->homepage)-->
 						<a href="{$author->homepage}" target="_blank">{$author->name}</a>
@@ -46,21 +50,10 @@
 					<!--@endif-->
 				<!--@endforeach-->
 			</td>
-			<td>{$val->path}</td>
-			<td>
+			<td class="rx_detail_marks">{$val->path}</td>
+			<td class="rx_detail_marks">
 				<a href="{$val->delete_url}&amp;return_url={urlencode(getRequestUriByServerEnviroment())}" cond="$val->delete_url">{$lang->cmd_delete}</a>
 			</td>
 		</tr>
 	</tbody>
 </table>
-<style scoped>
-.fvOff,
-.fvOn{display:inline-block;width:16px;height:16px;overflow:hidden;text-indent:16px;background:transparent url(./modules/admin/tpl/img/iconFavorite.gif) no-repeat;border:0}
-.fvOn{background-position:0 -16px}
-</style>
-<script>
-jQuery(function($){
-	$('.dsTg>tbody>tr[data-type1]').prependTo('tbody');
-	$('.dsTg>tbody>tr[data-type2]').prependTo('tbody');
-});
-</script>

@@ -36,12 +36,16 @@ class integration_searchAdminView extends integration_search
 	 */
 	function dispIntegration_searchAdminContent()
 	{
-		// Get a list of skins(themes)
+		// Get a list of skins
 		$oModuleModel = getModel('module');
 		$skin_list = $oModuleModel->getSkins($this->module_path);
 		Context::set('skin_list',$skin_list);
+		$mskin_list = $oModuleModel->getSkins($this->module_path, 'm.skins');
+		Context::set('mskin_list', $mskin_list);
+
 		// Get a list of module categories
 		$module_categories = $oModuleModel->getModuleCategories();
+
 		// Generated mid Wanted list
 		$obj = new stdClass();
 		$obj->site_srl = 0;
@@ -60,7 +64,7 @@ class integration_searchAdminView extends integration_search
 		Context::set('mid_list',$module_categories);*/
 
 		$security = new Security();
-		$security->encodeHTML('skin_list..title');
+		$security->encodeHTML('skin_list..title', 'mskin_list..title');
 
 		// Sample Code
 		Context::set('sample_code', htmlspecialchars('<form action="{getUrl()}" method="get"><input type="hidden" name="vid" value="{$vid}" /><input type="hidden" name="mid" value="{$mid}" /><input type="hidden" name="act" value="IS" /><input type="text" name="is_keyword"  value="{$is_keyword}" /><input class="btn" type="submit" value="{$lang->cmd_search}" /></form>', ENT_COMPAT | ENT_HTML401, 'UTF-8', false) );

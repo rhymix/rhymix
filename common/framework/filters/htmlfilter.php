@@ -149,6 +149,7 @@ class HTMLFilter
 			$config->set('Core.Encoding', 'UTF-8');
 			$config->set('HTML.Doctype', 'XHTML 1.0 Transitional');
 			$config->set('HTML.FlashAllowFullScreen', true);
+			$config->set('HTML.Nofollow', config('security.nofollow') ? true : false);
 			$config->set('HTML.MaxImgLength', null);
 			$config->set('CSS.MaxImgLength', null);
 			$config->set('CSS.Proprietary', true);

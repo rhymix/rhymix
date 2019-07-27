@@ -1,11 +1,24 @@
 <?php
-/* Copyright (C) NAVER <http://www.navercorp.com> */
 
 class UploadFileFilter
 {
-	public function check($file)
+	/**
+	 * Generic checker
+	 * 
+	 * @param string $file
+	 * @param string $filename
+	 * @return bool
+	 */
+	public static function check($file, $filename = null)
 	{
-		return true;
+		// Return error if the file is not uploaded.
+		if (!$file || !file_exists($file) || !is_uploaded_file($file))
+		{
+			return false;
+		}
+		
+		// Call Rhymix framework filter.
+		return Rhymix\Framework\Filters\FileContentFilter::check($file, $filename);
 	}
 }
 

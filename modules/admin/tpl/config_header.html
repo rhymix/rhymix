@@ -1,7 +1,9 @@
+<config autoescape="on" />
+
 <load target="./js/config.js" />
 <load target="../../session/tpl/js/session.js" />
 <div class="x_page-header">
-	<h1>{$lang->menu_gnb_sub['adminConfigurationGeneral']} <a class="x_icon-question-sign" href="./common/manual/admin/index.html#UMAN_config_general" target="_blank">{$lang->help}</a></h1>
+	<h1>{$lang->menu_gnb_sub['adminConfigurationGeneral']}</h1>
 </div>
 <ul class="x_nav x_nav-tabs">
 	<li class="x_active"|cond="$act == 'dispAdminConfigGeneral' || preg_match('/^dispAdmin.+Domain/', $act)"><a href="{getUrl('', 'module', 'admin', 'act', 'dispAdminConfigGeneral')}">{$lang->subtitle_site_info}</a></li>

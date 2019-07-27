@@ -61,7 +61,7 @@ class Advanced_MailerAdminController extends Advanced_Mailer
 			{
 				if ($method !== 'default' && !isset($sending_methods[$method]))
 				{
-					return $this->setError('msg_advanced_mailer_sending_method_is_invalid');
+					throw new Rhymix\Framework\Exception('msg_advanced_mailer_sending_method_is_invalid');
 				}
 				if ($method !== 'default')
 				{
@@ -69,7 +69,7 @@ class Advanced_MailerAdminController extends Advanced_Mailer
 					{
 						if (!Rhymix\Framework\Config::get("mail.$method.$conf_name"))
 						{
-							return $this->setError('msg_advanced_mailer_sending_method_is_not_configured', lang('cmd_advanced_mailer_sending_method_' . $method));
+							throw new Rhymix\Framework\Exception(sprintf('msg_advanced_mailer_sending_method_is_not_configured', lang('cmd_advanced_mailer_sending_method_' . $method)));
 						}
 					}
 				}
@@ -155,11 +155,11 @@ class Advanced_MailerAdminController extends Advanced_Mailer
 		$clear_before_days = intval(Context::get('clear_before_days'));
 		if (!in_array($status, array('success', 'error')))
 		{
-			return $this->setError('msg_invalid_request');
+			throw new Rhymix\Framework\Exceptions\InvalidRequest;
 		}
 		if ($clear_before_days < 0)
 		{
-			return $this->setError('msg_invalid_request');
+			throw new Rhymix\Framework\Exceptions\InvalidRequest;
 		}
 		
 		$obj = new stdClass();
@@ -186,11 +186,11 @@ class Advanced_MailerAdminController extends Advanced_Mailer
 		$clear_before_days = intval(Context::get('clear_before_days'));
 		if (!in_array($status, array('success', 'error')))
 		{
-			return $this->setError('msg_invalid_request');
+			throw new Rhymix\Framework\Exceptions\InvalidRequest;
 		}
 		if ($clear_before_days < 0)
 		{
-			return $this->setError('msg_invalid_request');
+			throw new Rhymix\Framework\Exceptions\InvalidRequest;
 		}
 		
 		$obj = new stdClass();

@@ -17,7 +17,7 @@ class installController extends install
 		// Stop if already installed.
 		if (Context::isInstalled())
 		{
-			$this->stop('msg_already_installed');
+			throw new Rhymix\Framework\Exception('msg_already_installed');
 		}
 		
 		// Increase time limit.
@@ -76,7 +76,7 @@ class installController extends install
 		{
 			if ($oDB->isTableExists($table_name))
 			{
-				return $this->setError('msg_table_already_exists');
+				throw new Rhymix\Framework\Exception('msg_table_already_exists');
 			}
 		}
 		
@@ -99,7 +99,7 @@ class installController extends install
 		// Check if it is already installed
 		if (Context::isInstalled())
 		{
-			return $this->setError('msg_already_installed');
+			throw new Rhymix\Framework\Exception('msg_already_installed');
 		}
 		
 		// Get install parameters.
@@ -227,7 +227,7 @@ class installController extends install
 		catch(Exception $e)
 		{
 			$oDB->rollback();
-			return $this->setError($e->getMessage());
+			throw new Rhymix\Framework\Exception($e->getMessage());
 		}
 		
 		// Execute the install script.
@@ -296,7 +296,7 @@ class installController extends install
 		}
 
 		// Check permission
-		if(is_writable('./')||is_writable('./files'))
+		if(is_writable(RX_BASEDIR) || is_writable(RX_BASEDIR . 'files'))
 		{
 			$checklist['permission'] = true;
 		}
@@ -304,11 +304,19 @@ class installController extends install
 		{
 			$checklist['permission'] = false;
 		}
-
-		// Check session.auto_start
-		if(ini_get('session.auto_start') != 1)
+		
+		// Check session availability
+		$license_agreement_time = intval(trim(FileHandler::readFile($this->flagLicenseAgreement)));
+		if(isset($_SESSION['license_agreement']) && (!$license_agreement_time || ($license_agreement_time == $_SESSION['license_agreement'])))
 		{
-			$checklist['session'] = true;
+			if(ini_get('session.auto_start') == 0)
+			{
+				$checklist['session'] = true;
+			}
+			else
+			{
+				$checklist['session'] = false;
+			}
 		}
 		else
 		{
@@ -400,25 +408,15 @@ class installController extends install
 	function procInstallLicenseAgreement()
 	{
 		$vars = Context::getRequestVars();
-
-		$license_agreement = ($vars->license_agreement == 'Y') ? true : false;
-
-		if($license_agreement)
+		if($vars->license_agreement !== 'Y')
 		{
-			$currentTime = $_SERVER['REQUEST_TIME'];
-			FileHandler::writeFile($this->flagLicenseAgreement, $currentTime);
+			throw new Rhymix\Framework\Exception('msg_must_accept_license_agreement');
 		}
-		else
-		{
-			FileHandler::removeFile($this->flagLicenseAgreement);
-			return $this->setError('msg_must_accept_license_agreement');
-		}
-
-		if(!in_array(Context::getRequestMethod(),array('XMLRPC','JSON')))
-		{
-			$returnUrl = Context::get('success_return_url') ? Context::get('success_return_url') : getNotEncodedUrl('', 'act', 'dispInstallCheckEnv');
-			$this->setRedirectUrl($returnUrl);
-		}
+		
+		$license_agreement_time = time();
+		$_SESSION['license_agreement'] = $license_agreement_time;
+		FileHandler::writeFile($this->flagLicenseAgreement, $license_agreement_time . PHP_EOL);
+		$this->setRedirectUrl(getNotEncodedUrl('', 'act', 'dispInstallCheckEnv'));
 	}
 
 	/**

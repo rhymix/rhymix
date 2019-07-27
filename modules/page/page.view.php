@@ -19,9 +19,6 @@ class pageView extends page
 	 */
 	function init()
 	{
-		// Get a template path (page in the administrative template tpl putting together)
-		$this->setTemplatePath($this->module_path.'tpl');
-
 		switch($this->module_info->page_type)
 		{
 			case 'WIDGET' :
@@ -50,12 +47,19 @@ class pageView extends page
 
 		$page_type_name = strtolower($this->module_info->page_type);
 		$method = '_get' . ucfirst($page_type_name) . 'Content';
-		if(method_exists($this, $method)) $page_content = $this->{$method}();
-		else return $this->setError('%s method is not exists', $method);
+		if(method_exists($this, $method))
+		{
+			$page_content = $this->{$method}();
+		}
+		else
+		{
+			throw new Rhymix\Framework\Exception(sprintf('%s method is not exists', $method));
+		}
 
 		Context::set('module_info', $this->module_info);
 		Context::set('page_content', $page_content);
-
+		
+		$this->setTemplatePath($this->module_path . 'tpl');
 		$this->setTemplateFile('content');
 	}
 
@@ -101,15 +105,7 @@ class pageView extends page
 		}
 		Context::set('oDocument', $oDocument);
 
-		if ($this->module_info->skin)
-		{
-			$templatePath = (sprintf($this->module_path.'skins/%s', $this->module_info->skin));
-		}
-		else
-		{
-			$templatePath = ($this->module_path.'skins/default');
-		}
-
+		$templatePath = sprintf('%sskins/%s', $this->module_path, $this->module_info->skin ?: 'default');
 		$page_content = $oTemplate->compile($templatePath, 'content');
 
 		return $page_content;

@@ -168,7 +168,7 @@ class boardAdminController extends board {
 		$module_info = $oModuleModel->getModuleInfoByModuleSrl($module_srl);
 		if($module_info->mid != $mid)
 		{
-			return $this->setError('msg_invalid_request');
+			throw new Rhymix\Framework\Exceptions\InvalidRequest;
 		}
 
 		$module_info->hide_category = Context::get('hide_category') == 'Y' ? 'Y' : 'N';

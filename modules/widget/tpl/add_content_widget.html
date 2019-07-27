@@ -15,7 +15,7 @@
 	</div>
 	<div class="x_modal-body">
 		<div class="pageAddContent"></div>
-		<div class="editor">{$editor}</div>
+		<div class="editor">{$editor|noescape}</div>
 		<script>xAddEventListener(window, 'load', doSyncPageContent);</script>
 	</div>
 	<div class="x_modal-footer">

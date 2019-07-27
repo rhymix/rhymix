@@ -247,6 +247,7 @@ class ConfigParser
 		}
 		
 		// Convert miscellaneous configuration.
+		$config['file']['folder_structure'] = 1;
 		$config['file']['umask'] = Storage::recommendUmask();
 		$config['mobile']['enabled'] = $db_info->use_mobile_view === 'N' ? false : true;
 		$config['use_prepared_statements'] = $db_info->use_prepared_statements === 'Y' ? true : false;

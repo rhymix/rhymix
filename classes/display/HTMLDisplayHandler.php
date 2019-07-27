@@ -19,7 +19,7 @@ class HTMLDisplayHandler
 	 * List of scripts to block loading
 	 */
 	public static $blockedScripts = array(
-		'@(?:^|/)j[Qq]uery(?:-[0-9]+(?:\.[0-9x]+)*)?(?:\.min)?\.js$@',
+		'@(?:^|/)j[Qq]uery(?:-[0-9]+(?:\.[0-9x]+)*|-latest)?(?:\.min)?\.js$@',
 	);
 
 	/**
@@ -157,6 +157,21 @@ class HTMLDisplayHandler
 				}
 			}
 		}
+		
+		// Add OpenGraph metadata
+		if (config('seo.og_enabled') && Context::get('module') !== 'admin')
+		{
+			$this->_addOpenGraphMetadata();
+		}
+
+		// set icon
+		$site_module_info = Context::get('site_module_info');
+		$oAdminModel = getAdminModel('admin');
+		$favicon_url = $oAdminModel->getFaviconUrl($site_module_info->domain_srl);
+		$mobicon_url = $oAdminModel->getMobileIconUrl($site_module_info->domain_srl);
+		Context::set('favicon_url', $favicon_url);
+		Context::set('mobicon_url', $mobicon_url);
+		
 		return $output;
 	}
 
@@ -220,20 +235,6 @@ class HTMLDisplayHandler
 
 		// Remove unnecessary information
 		$output = preg_replace('/member\_\-([0-9]+)/s', 'member_0', $output);
-		
-		// Add OpenGraph metadata
-		if (config('seo.og_enabled') && Context::get('module') !== 'admin')
-		{
-			$this->_addOpenGraphMetadata();
-		}
-
-		// set icon
-		$site_module_info = Context::get('site_module_info');
-		$oAdminModel = getAdminModel('admin');
-		$favicon_url = $oAdminModel->getFaviconUrl($site_module_info->domain_srl);
-		$mobicon_url = $oAdminModel->getMobileIconUrl($site_module_info->domain_srl);
-		Context::set('favicon_url', $favicon_url);
-		Context::set('mobicon_url', $mobicon_url);
 
 		// convert the final layout
 		Context::set('content', $output);
@@ -581,6 +582,7 @@ class HTMLDisplayHandler
 		Context::loadFile(array('./common/css/rhymix.less', '', '', -1600000000), true);
 		$original_file_list = array(
 			'plugins/jquery.migrate/jquery-migrate-1.4.1.min.js',
+			'plugins/cookie/js.cookie.min.js',
 			'plugins/blankshield/blankshield.min.js',
 			'plugins/uri/URI.min.js',
 			'x.js',

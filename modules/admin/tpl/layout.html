@@ -1,3 +1,5 @@
+<config autoescape="on" />
+
 <include target="./_header.html" />
 <div class="content" id="content">
 	<div cond="Context::isBlacklistedPlugin($blacklisted_plugin_name = strtolower(preg_replace('/^disp([A-Z][a-z0-9_]+)[A-Z].+$/', '$1', $act)))" class="message error" style="margin-top:15px">
@@ -6,7 +8,7 @@
 			{$lang->get('admin.msg_blacklisted_reason.'.$blacklisted_plugin_name)}
 		</p>
 	</div>
-	{$content}
+	{$content|noescape}
 </div>
 <include target="./_footer.html" />
 

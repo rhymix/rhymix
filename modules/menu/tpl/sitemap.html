@@ -1,4 +1,3 @@
-<load target="./css/themes/classic/style.css" index="11" />
 <load target="./css/sitemap.css" index="11" />
 <load target="./js/_lib/jquery.cookie.js" />
 <load target="./js/jquery.scrollTo-1.4.2.js" />
@@ -21,7 +20,7 @@
 
 <!--@if($act == 'dispMenuAdminSiteMap')-->
 	<div class="col map" id="site_map">
-		<h1>{$lang->menu_gnb_sub['siteMap']} <a class="x_icon-question-sign" href="./common/manual/admin/index.html#UMAN_site_menu" target="_blank">{$lang->help}</a></h1>
+		<h1>{$lang->menu_gnb_sub['siteMap']}</h1>
 		<form id="menu_find">
 			<input name="keyword" type="text"></input>
 			<button class="x_btn x_btn-inverse btn-find">{$lang->cmd_find}</button>
@@ -48,7 +47,7 @@
 				</script>
 				<script id="tmpl_menuSelector_menuTreeNode" type="text/x-jquery-tmpl">
 					<li>
-						<a href="#" class="_nodeType_${NodeType} _menu_url_${MenuUrl}" data-param='{ "sMenuId":"${MenuId}", "sMenuUrl":"${MenuUrl}", "sMenuTitle":"${MenuTitle}" }'>${MenuTitle}</a>
+						<a href="#" class="_nodeType_${NodeType} _menu_url_${MenuUrl}" data-param='{ "sMenuId":"${MenuId}", "sMenuUrl":"${MenuUrl}", "eMenuTitle":"${eMenuTitle}" }'>${MenuTitle}</a>
 						{{html SubTree}}
 					</li>
 				</script>
@@ -60,7 +59,6 @@
 		<section>
 			<h1>
 				{$lang->add_new_sitemap}
-				<a class="x_icon-question-sign" href="./common/manual/admin/index.html#UMAN_terminology_sitemap" target="_blank">{$lang->help}</a>
 			</h1>
 			<div class="cnt">
 				<ul class="_itemList">
@@ -151,7 +149,7 @@
 		<fieldset>
 			<h1 class="_title"></h1>
 			<div class="cnt">
-				<p class="desc"><dfn class="_description"></dfn> <a class='_link x_icon-share'>{$lang->details}</a></p>
+				<p class="desc"><dfn class="_description"></dfn> <a class='_link'><i class="xi-link"></i>{$lang->details}</a></p>
 				<ul>
 					<li>
 						<div class="multilingual x_input-append">
@@ -167,7 +165,7 @@
 					</li>
 					<li class="typePage">
 						<label for="mid1">{$lang->menu_id} <a href="#help_menuId" class="x_icon-question-sign" data-admin-toggle="#mid1_help">{$lang->help}</a></label>
-						<div id="mid1_help" class="x_alert x_alert-info" style="display:none;width:169px">
+						<div id="mid1_help" class="x_alert x_alert-info">
 							<button type="button" class="x_close" data-admin-hide="#mid1_help">×</button>
 							<p>{$lang->about_menu_id} {$lang->about_new_menu_id}</p>
 						</div>
@@ -236,14 +234,14 @@
 					</li>
 					<li class="typePage" style="border-top:1px solid #DDD">
 						<label for="lang_pageTitle">{$lang->browser_title} <a href="#help_menuName" class="x_icon-question-sign" data-admin-toggle="#help_menuName">{$lang->help}</a></label>
-						<div id="help_menuName" class="x_alert x_alert-info" style="display:none;width:169px">
+						<div id="help_menuName" class="x_alert x_alert-info">
 							<button type="button" class="x_close" data-admin-hide="#help_menuName">×</button>
 							<p>{$lang->about_browser_title}</p>
 						</div>
 						<input id="pageTitle" class="_browserTitle lang_code" type="text">
 
 						<label for="mid2">{$lang->menu_id} <a href="#help_menuId" class="x_icon-question-sign" data-admin-toggle="#mid2_help">{$lang->help}</a></label>
-						<div id="mid2_help" class="x_alert x_alert-info" style="display:none;width:169px">
+						<div id="mid2_help" class="x_alert x_alert-info">
 							<button type="button" class="x_close" data-admin-hide="#mid2_help">×</button>
 							<p>{$lang->about_menu_id}</p>
 						</div>
@@ -271,7 +269,7 @@
 						</div>
 					</li>
 					<li>
-						<p id="menuTypeHelpInDefault" style="width:220px">{$lang->about_menu_type_in_default}</p>
+						<p id="menuTypeHelpInDefault" style="width:220px;min-width:100%">{$lang->about_menu_type_in_default}</p>
 					</li>
 				</ul>
 				<div class="btnBoth">
@@ -286,7 +284,7 @@
 		<fieldset>
 			<h1>{$lang->menu_img_btn}</h1>
 			<div class="cnt">
-				<p style="border-bottom:1px solid #ddd;width:220px;padding-bottom:10px">{$lang->about_imgbtn}</p>
+				<p style="border-bottom:1px solid #ddd;width:220px;min-width:100%;padding-bottom:10px">{$lang->about_imgbtn}</p>
 				<form action="?module=menu&act=procMenuAdminButtonUpload" class="_btn_normal" target="submitTarget" method="post" enctype="multipart/form-data">
 					<input name="menu_item_srl" type="hidden" value=""/>
 					<input name="xe_js_callback" type="hidden" value="top.onBtnImgUploaded"/>
@@ -356,7 +354,7 @@
 	<!--@end-->
 		<fieldset>
 			<h1 class="_item">{$lang->design}</h1>
-			<h1 class="_site">{$lang->menu_gnb_sub['siteDesign']} <a class="x_icon-question-sign" href="./common/manual/admin/index.html#UMAN_site_design" target="_blank">{$lang->help}</a></h1>
+			<h1 class="_site">{$lang->menu_gnb_sub['siteDesign']}</h1>
 			<div class="cnt">
 				<form action="./" target="xe_preview" class="_preview_form" method="post">
 					<input type="hidden" name="skin_vars" value="{}"/>
@@ -405,10 +403,7 @@
 	</div>
 	<div class="col theme" id="layout" style="display:none">
 		<form action="">
-			<h1>
-				{$lang->layout}
-				<a class="x_icon-question-sign" href="./common/manual/admin/index.html#UMAN_terminology_layout" target="_blank">{$lang->help}</a>
-			</h1>
+			<h1>{$lang->layout}</h1>
 			<div class="cnt">
 				<label style="white-space:nowrap;cursor:pointer;width:100%">
 					{$lang->use_site_design}<input type="checkbox" class="_chkUseDefaultLayout switch" title="{$lang->use_site_default_layout}"><i style="float:right"></i>
@@ -447,12 +442,9 @@
 					</ul>
 					<i class="mask"></i>
 				</div>
-				<!--
-				<a href="#downloadLayout" data-admin-show="#downloadLayout" class="x_btn x_btn-link" style="position:absolute;right:5px;bottom:7px;color:#000"><i class="x_icon-plus-sign"></i> {$lang->install_other_layouts}</a>
-				-->
-			</div>
-			<div class="x_btn-group siteMapUI">
-				<button type="button" class="x_btn x_btn-primary x_pull-right _save">{$lang->cmd_save}</button>
+				<div class="x_btn-group siteMapUI">
+					<button type="button" class="x_btn x_btn-primary x_pull-right _save">{$lang->cmd_save}</button>
+				</div>
 			</div>
 		</form>
 		<button type="button" class="x_close" data-admin-hide="#layout">&times;</button>
@@ -494,8 +486,8 @@
 
 				<div class="search x_input-append x_pull-right">
 					<input type="search" value="" title="Search" name="search_keyword">
-					<button class="x_btn x_btn-inverse _search">검색</button>
-					<a class="x_btn _cancel" href="#">취소</a>
+					<button class="x_btn x_btn-inverse _search">{$lang->cmd_search}</button>
+					<a class="x_btn _cancel" href="#">{$lang->cmd_cancel}</a>
 				</div>
 				</script>
 				<script id="tmpl_pagination_list" type="text/x-jquery-tmpl">
@@ -520,15 +512,6 @@
 			<h1>{$lang->skin}</h1>
 			<div class="cnt">
 				<label style="cursor:pointer">
-					<!--
-					<input type="checkbox" class="_chkUseDefault" title="{$lang->use_site_default_skin}"> {$lang->use_site_default_skin}
-					<a href="?module=admin&act=dispMenuAdminSiteDesign" class="x_icon-cog _siteDesignSetupLink">{$lang->site_default_skin_settings}</a>
-
-					<label class="" style="white-space: nowrap; cursor: pointer; width: 100%; font-weight: normal;" for="i6">
-					사이트 기본 레이아웃 사용
-					<input id="i6" class="_chkUseDefaultLayout switch" type="checkbox" title="사이트 기본 레이아웃 사용">
-					<i style="float:right"></i>
-					-->
 					{$lang->use_site_design}
 					<input type="checkbox" class="_chkUseDefault switch" title="{$lang->use_site_default_skin}">
 					<i style="float:right"></i>
@@ -540,7 +523,7 @@
 						<script id="tmpl_skin_list_item_no_skin" type="text/x-jquery-tmpl">
 						<li class="_item ${Selected}">
 							<label>
-								<input type="radio" name="skin_item" title="스킨 사용 안 함"> 스킨 사용 안 함
+								<input type="radio" name="skin_item" title="스킨 사용 안 함"> {lang('menu.no_use_layout')}
 							</label>
 						</li>
 						</script>
@@ -573,16 +556,16 @@
 					<a href="#downloadSkin" data-admin-show="#downloadSkin" class="x_btn x_btn-link" style="position:absolute;right:5px;bottom:7px;color:#000"><i class="x_icon-plus-sign"></i> {$lang->install_other_skins}</a>
 					-->
 				</div>
-			</div>
-			<div class="x_btn-group siteMapUI">
-				<button type="button" class="x_btn x_btn-primary x_pull-right _save">{$lang->cmd_save}</button>
+				<div class="x_btn-group siteMapUI">
+					<button type="button" class="x_btn x_btn-primary x_pull-right _save">{$lang->cmd_save}</button>
+				</div>
 			</div>
 		</form>
 		<button type="button" class="x_close" data-admin-hide="#skin">&times;</button>
 	</div>
 	<div class="col skinSetup" id="skinSetup" style="display:none">
 		<section>
-			<h1>스킨 설정</h1>
+			<h1>{lang('menu.skin_settings')}</h1>
 			<div class="cnt">
 				<div class="_contents"></div>
 			</div>
@@ -637,7 +620,6 @@
 						<select id="auth${PermId}">
 							<option class="_group_all" value="0">{$lang->grant_to_all}</option>
 							<option class="_group_loggedin" value="-1">{$lang->grant_to_login_user}</option>
-							<option class="_group_signedup" value="-2">{$lang->grant_to_site_user}</option>
 							<option class="_group_manager" value="-3">{$lang->grant_to_admin}</option>
 							<option class="_group_selected" value="-10">{$lang->grant_to_group}</option>
 						</select>
@@ -864,9 +846,6 @@ function onSiteMapReceived(htData){
 		.bind("select_node.jstree", function(event, data){
 			// move scroll
 			var ul = $($("#siteMapTree").jstree("get_container")[0]);
-			ul.parent("div.cnt").stop().animate({
-				scrollTop: data.rslt.obj.offset().top - ul.offset().top
-			}, 800);
 
 			$("#siteMapTree input").blur();
 			//console.log($("#siteMapTree input"));
@@ -1142,7 +1121,7 @@ function createTreeMarkup(aNode, sParentSrl, sMenuTree, sMenuTreeNode){
 			nNodeType = 3;
 		}
 
-		sResult += $.tmpl( sMenuTreeNode, {MenuTitleWithHome:sTextWithIcons,MenuTitle:sText,MenuId:sNodeSrl,MenuUrl:sURL,NodeType:nNodeType,SubTree:sSubTree,Target:sTargetPanel} ).get()[0].outerHTML.replace("${h}", "<i class='x_icon-home' title='" + aNode[i].is_start_module_of + "'>[HOME]</i>").replace("${s}", "<i class='x_icon-share' title='Shortcut'></i>");
+		sResult += $.tmpl( sMenuTreeNode, {MenuTitleWithHome:sTextWithIcons,MenuTitle:sText,eMenuTitle:sText.replace(/\"/g, "\\\""),MenuId:sNodeSrl,MenuUrl:sURL,NodeType:nNodeType,SubTree:sSubTree,Target:sTargetPanel} ).get()[0].outerHTML.replace("${h}", "<i class='x_icon-home' title='" + aNode[i].is_start_module_of + "'>[HOME]</i>").replace("${s}", "<i class='xi-link' title='Shortcut'></i>");
 	}
 
 	return $.tmpl( sMenuTree, {Nodes:sResult} ).get()[0].outerHTML;
@@ -1468,7 +1447,7 @@ jQuery(function($){
 			return;
 		}
 
-		$(this).closest('._menuSelector_menuTreeContainer').prevAll('input._linkMenuTitle').val($._htMarkupActionParam.sMenuTitle);
+		$(this).closest('._menuSelector_menuTreeContainer').prevAll('input._linkMenuTitle').val($._htMarkupActionParam.eMenuTitle);
 		//$(this).closest('.clone').prev('input[type="text"]').val($._htMarkupActionParam.sMenuTitle + " ["+$._htMarkupActionParam.sMenuUrl+"]");
 		$(this).closest('._menuSelector_menuTreeContainer').prev('input._linkMenuSrl').val($._htMarkupActionParam.sMenuId);
 
@@ -1805,17 +1784,6 @@ jQuery(function($){
 		}else{
 			$(this).addClass("page");
 			$(this).removeClass("url");
-		}
-
-		// Insert help link
-		if($._xeAdminVar.sSelectedModuleName === "ARTICLE"){
-			$title.append(' <a class="x_icon-question-sign" href="./common/manual/admin/index.html#UMAN_faq_article" target="_blank">{$lang->help}</a>');
-		} else if($._xeAdminVar.sSelectedModuleName === "WIDGET"){
-			$title.append(' <a class="x_icon-question-sign" href="./common/manual/admin/index.html#UMAN_faq_widget" target="_blank">{$lang->help}</a>');
-		} else if($._xeAdminVar.sSelectedModuleName === "OUTSIDE"){
-			$title.append(' <a class="x_icon-question-sign" href="./common/manual/admin/index.html#UMAN_faq_opage" target="_blank">{$lang->help}</a>');
-		} else if($._xeAdminVar.sSelectedModuleName === "_SHORTCUT"){
-			$title.append(' <a class="x_icon-question-sign" href="./common/manual/admin/index.html#UMAN_faq_shortcut" target="_blank">{$lang->help}</a>');
 		}
 
 		$(this).find('.lang_code').trigger('reload-multilingual');
@@ -2238,21 +2206,6 @@ jQuery(function($){
 		var htInfo, sDefault, $node, $groupNode, aGroup, sGrant;
 		for(var i=0, nLen=aPerms.length; i<nLen; i++){
 			htInfo = aPerms[i];
-			//console.log(3, i, nLen, htInfo);
-			/*
-			<li>
-				<label for="auth${PermId}">${PermTitle}</label>
-				<select id="auth${PermId}">
-					<option class="_group_all" value="0">모든 사용자</option>
-					<option class="_group_loggedin" value="-1">로그인 사용자</option>
-					<option class="_group_signedup" value="-2">가입한 사용자</option>
-					<option class="_group_manager" value="-3">관리자만</option>
-					<option class="_group_selected" value="-10">선택그룹 사용자</option>
-				</select>
-				<div class="selected x_hide">
-				</div>
-			</li>
-			*/
 
 			sDefault = htInfo.sDefault;
 			//aGroup = htInfo.aGroup;
@@ -2337,7 +2290,6 @@ jQuery(function($){
 			$List.append($node);
 			$('#auth select').trigger('change');
 		}
-		$('label[for="authtarget"]').append(' <a class="x_icon-question-sign" href="./common/manual/admin/index.html#UMAN_faq_exposure_target" target="_blank">{$lang->help}</a>');
 	}
 
 // Auth
@@ -3934,26 +3886,16 @@ jQuery(function($){
 	<!--@if(Mobile::isMobileCheckByAgent())-->
 		$._xeAdminVar.prevColumn = new Array();
 		$._xeAdminVar.prevColumn.push($('#site_map'));
-		$('#site').css({ 'display': 'inline-block', 'min-width': '100%'});
+		$('#site').css({ 'display': 'inline-block', 'min-width': '100%', 'box-sizing': 'border-box'});
 		$('#site_map').css('display', 'inline-block');
 		$('#site > .col').css({
 			'box-sizing': 'border-box',
-			'-moz-box-sizing': 'border-box',
-			'-webkit-box-sizing': 'border-box',
 			'width': '100%',
 			'margin': 0
 		});
-		$('#site > .col .cnt').css('margin-bottom', '25px');
-		$('#properties, #propertiesRoot, #imgbtn, #layoutSetup, #layoutMarkupSetup, #skinSetup').find('.cnt').css('margin-bottom', '25px');
+		$('#site_map, #add').find('.cnt').css('margin-bottom', '25px');
 
 		var wHeigh = $(window).height();
-		<!--@if($act == 'dispMenuAdminSiteMap')-->
-		//$('#design').find('.cnt').height(wHeigh - 75);
-		<!--@end-->
-
-		<!--@if($act == 'dispMenuAdminSiteDesign')-->
-		//$('#layout, #skin').find('.cnt').height(wHeigh - 75);
-		<!--@end-->
 
 		$('#site > .col').bind('show', function(ev){
 			if(ev.target != this) return;
@@ -3974,18 +3916,11 @@ jQuery(function($){
 	<!--@else-->
 		$(window).resize(function(){
 			var wHeigh = $(window).height();
-			$('#site').height(wHeigh - 147).find('>.col').height(wHeigh - 185).find('.cnt').height(wHeigh - 252);
-			$('#properties, #propertiesRoot, #imgbtn, #layoutSetup, #layoutMarkupSetup, #skinSetup').find('.cnt').height(wHeigh - 222);
+			$('#site').height(wHeigh - 147).find('>.col').height(wHeigh - 167).find('.cnt').height(wHeigh - 245);
+			$('#skinSetup, #add').find('.cnt').height(wHeigh - 272);
 
 			<!--@if($act == 'dispMenuAdminSiteMap')-->
-			// minus height 40px for find-form display
-			$('#site').find('.cnt:first').height(wHeigh - 252 - 40);
-			$('#design').find('.cnt').height(wHeigh - 222);
-			<!--@end-->
-
-			<!--@if($act == 'dispMenuAdminSiteDesign')-->
-
-			$('#layout, #skin').find('.cnt').height(wHeigh - 222);
+			$('#site').find('.cnt:first').height(wHeigh - 316);
 			<!--@end-->
 		}).resize();
 	<!--@end-->

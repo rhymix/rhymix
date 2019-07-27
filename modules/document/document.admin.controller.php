@@ -27,10 +27,10 @@ class documentAdminController extends document
 	{
 		// error appears if no doc is selected
 		$cart = Context::get('cart');
-		if(!$cart) return $this->stop('msg_cart_is_null');
+		if(!$cart) throw new Rhymix\Framework\Exception('msg_cart_is_null');
 		$document_srl_list= explode('|@|', $cart);
 		$document_count = count($document_srl_list);
-		if(!$document_count) return $this->stop('msg_cart_is_null');
+		if(!$document_count) throw new Rhymix\Framework\Exception('msg_cart_is_null');
 		// Delete a doc
 		$oDocumentController = getController('document');
 		for($i=0;$i<$document_count;$i++)
@@ -140,7 +140,7 @@ class documentAdminController extends document
 		$eid = Context::get('eid');
 		$obj = new stdClass();
 
-		if(!$module_srl || !$name || !$eid) return $this->setError('msg_invalid_request');
+		if(!$module_srl || !$name || !$eid) throw new Rhymix\Framework\Exceptions\InvalidRequest;
 		// set the max value if idx is not specified
 		if(!$var_idx)
 		{
@@ -156,7 +156,7 @@ class documentAdminController extends document
 		$output = executeQuery('document.isExistsExtraKey', $obj);
 		if(!$output->toBool() || $output->data->count)
 		{
-			return $this->setError('msg_extra_name_exists');
+			throw new Rhymix\Framework\Exception('msg_extra_name_exists');
 		}
 
 		// insert or update
@@ -178,7 +178,7 @@ class documentAdminController extends document
 	{
 		$module_srl = Context::get('module_srl');
 		$var_idx = Context::get('var_idx');
-		if(!$module_srl || !$var_idx) return $this->setError('msg_invalid_request');
+		if(!$module_srl || !$var_idx) throw new Rhymix\Framework\Exceptions\InvalidRequest;
 
 		$oDocumentController = getController('document');
 		$output = $oDocumentController->deleteDocumentExtraKeys($module_srl, $var_idx);
@@ -197,26 +197,26 @@ class documentAdminController extends document
 		$module_srl = Context::get('module_srl');
 		$var_idx = Context::get('var_idx');
 
-		if(!$type || !$module_srl || !$var_idx) return $this->setError('msg_invalid_request');
+		if(!$type || !$module_srl || !$var_idx) throw new Rhymix\Framework\Exceptions\InvalidRequest;
 
 		$oModuleModel = getModel('module');
 		$module_info = $oModuleModel->getModuleInfoByModuleSrl($module_srl);
-		if(!$module_info->module_srl) return $this->setError('msg_invalid_request');
+		if(!$module_info->module_srl) throw new Rhymix\Framework\Exceptions\InvalidRequest;
 
 		$oDocumentModel = getModel('document');
 		$extra_keys = $oDocumentModel->getExtraKeys($module_srl);
-		if(!$extra_keys[$var_idx]) return $this->setError('msg_invalid_request');
+		if(!$extra_keys[$var_idx]) throw new Rhymix\Framework\Exceptions\InvalidRequest;
 
 		if($type == 'up') $new_idx = $var_idx-1;
 		else $new_idx = $var_idx+1;
-		if($new_idx<1) return $this->setError('msg_invalid_request');
+		if($new_idx<1) throw new Rhymix\Framework\Exceptions\InvalidRequest;
 
 		$args = new stdClass();
 		$args->module_srl = $module_srl;
 		$args->var_idx = $new_idx;
 		$output = executeQuery('document.getDocumentExtraKeys', $args);
 		if (!$output->toBool()) return $output;
-		if (!$output->data) return $this->setError('msg_invalid_request');
+		if (!$output->data) throw new Rhymix\Framework\Exceptions\InvalidRequest;
 		unset($args);
 
 		// update immediately if there is no idx to change
@@ -314,13 +314,16 @@ class documentAdminController extends document
 		$oDocumentModel = getModel('document');
 		$oDocumentController = getController('document');
 		$oDocument = $oDocumentModel->getDocument($document_srl, false, false);
-		if(!$oDocument->isGranted()) return $this->stop('msg_not_permitted');
+		if(!$oDocument->isGranted())
+		{
+			throw new Rhymix\Framework\Exceptions\NotPermitted;
+		}
 
 		$oMemberModel = getModel('member');
 		$member_info = $oMemberModel->getMemberInfoByMemberSrl($oDocument->get('member_srl'));
 		if($member_info->is_admin == 'Y' && $logged_info->is_admin != 'Y')
 		{
-			return $this->setError('msg_admin_document_no_move_to_trash');
+			throw new Rhymix\Framework\Exception('msg_admin_document_no_move_to_trash');
 		}
 
 		$oModuleModel = getModel('module');
@@ -407,9 +410,14 @@ class documentAdminController extends document
 		{
 			return;
 		}
+		if(!is_array($document_srl_list))
+		{
+			$document_srl_list = array_map('trim', explode(',', $document_srl_list));
+		}
+		$document_srl_list = array_map('intval', $document_srl_list);
 		
 		$obj = new stdClass;
-		$obj->document_srls = implode(',', $document_srl_list);
+		$obj->document_srls = $document_srl_list;
 		$obj->list_count = count($document_srl_list);
 		$obj->document_list = executeQueryArray('document.getDocuments', $obj)->data;
 		$obj->module_srl = $target_module_srl;
@@ -478,9 +486,9 @@ class documentAdminController extends document
 		$oDB->commit();
 		
 		// remove from cache
-		foreach ($document_srl_list as $document_srl)
+		foreach($obj->document_list as $document)
 		{
-			Rhymix\Framework\Cache::delete('document_item:'. getNumberingPath($document_srl) . $document_srl);
+			Rhymix\Framework\Cache::delete('document_item:'. getNumberingPath($document->document_srl) . $document->document_srl);
 		}
 		
 		return new BaseObject();
@@ -499,9 +507,14 @@ class documentAdminController extends document
 		{
 			return;
 		}
+		if(!is_array($document_srl_list))
+		{
+			$document_srl_list = array_map('trim', explode(',', $document_srl_list));
+		}
+		$document_srl_list = array_map('intval', $document_srl_list);
 		
 		$obj = new stdClass;
-		$obj->document_srls = implode(',', $document_srl_list);
+		$obj->document_srls = $document_srl_list;
 		$obj->list_count = count($document_srl_list);
 		$obj->document_list = executeQueryArray('document.getDocuments', $obj)->data;
 		$obj->module_srl = $target_module_srl;
@@ -590,7 +603,7 @@ class documentAdminController extends document
 	{
 		$args = new stdClass;
 		$args->page = 0;
-		$args->module_srl = $module_srl;
+		$args->module_srl = intval($module_srl);
 		$document_list = executeQueryArray('document.getDocumentList', $args, array('document_srl'))->data;
 		
 		// delete documents
@@ -627,7 +640,7 @@ class documentAdminController extends document
 
 		//DB restore
 		$output = $oDocumentController->insertDocument($originObject, false, true, false);
-		if(!$output->toBool()) return $this->setError($output->getMessage());
+		if(!$output->toBool()) return $output;
 
 		//FILE restore
 		$oDocument = $oDocumentModel->getDocument($originObject->document_srl);

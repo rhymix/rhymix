@@ -868,7 +868,7 @@ function removeSrcHack($match)
  * @param string $file Taget file path
  * @return bool
  */
-function checkUploadedFile($file)
+function checkUploadedFile($file, $filename = null)
 {
 	return true;
 }

@@ -1,8 +1,0 @@
-@charset "UTF-8";
-img.emoticon{ margin:10px 10px 0 0; cursor:pointer}
-#emoticons{padding:0 10px 20px 10px}
-
-/* for mobile view */
-div.xe_mobile {
-	display:none!important;
-}

@@ -136,14 +136,36 @@ class ModuleObject extends BaseObject
 		// Set privileges(granted) information
 		if($this->setPrivileges() !== true)
 		{
-			$this->stop('msg_invalid_request');
+			$this->stop('msg_not_permitted');
 			return;
+		}
+		
+		// Set admin layout
+		if(preg_match('/^disp[A-Z][a-z0-9\_]+Admin/', $this->act))
+		{
+			if(config('view.manager_layout') === 'admin')
+			{
+				$this->setLayoutPath('modules/admin/tpl');
+				$this->setLayoutFile('layout');
+			}
+			else
+			{
+				$oTemplate = TemplateHandler::getInstance();
+				$oTemplate->compile('modules/admin/tpl', '_admin_common.html');
+			}
 		}
 		
 		// Execute init
 		if(method_exists($this, 'init'))
 		{
-			$this->init();
+			try
+			{
+				$this->init();
+			}
+			catch (Rhymix\Framework\Exception $e)
+			{
+				$this->stop($e->getMessage());
+			}
 		}
 	}
 	
@@ -441,9 +463,7 @@ class ModuleObject extends BaseObject
 	 * */
 	function setLayoutFile($filename)
 	{
-		if(!$filename) return;
-
-		if(substr_compare($filename, '.html', -5) !== 0)
+		if($filename && substr_compare($filename, '.html', -5) !== 0)
 		{
 			$filename .= '.html';
 		}
@@ -530,34 +550,54 @@ class ModuleObject extends BaseObject
 				return FALSE;
 			}
 			
-			// integrate skin information of the module(change to sync skin info with the target module only by seperating its table)
-			$oModuleModel = getModel('module');
-			$default_skin = ((!$is_mobile && $this->module_info->is_skin_fix == 'N') || ($is_mobile && $this->module_info->is_mskin_fix == 'N'));
-			$disable_skin = ($this->module == 'page' && ($this->module_info->page_type == 'OUTSIDE' || $this->module_info->page_type == 'WIDGET'));
-			if(!$disable_skin && $default_skin && $this->module != 'admin' && strpos($this->act, 'Admin') === false && $this->module == $this->module_info->module)
+			// Set module skin
+			if(isset($this->module_info->skin) && $this->module_info->module === $this->module && strpos($this->act, 'Admin') === false)
 			{
-				$skinType = ($is_mobile && $this->module_info->mskin !== '/USE_RESPONSIVE/') ? 'M' : 'P';
-				$dir = $skinType === 'M' ? 'm.skins' : 'skins';
-				$valueName = $skinType === 'M' ? 'mskin' : 'skin';
-				$skinName = $this->module_info->{$valueName} === '/USE_DEFAULT/' ? $oModuleModel->getModuleDefaultSkin($this->module, $skinType) : $this->module_info->{$valueName};
-				if($this->module == 'page')
+				$oModuleModel = getModel('module');
+				$skin_type = $is_mobile ? 'M' : 'P';
+				$skin_key = $is_mobile ? 'mskin' : 'skin';
+				$skin_dir = $is_mobile ? 'm.skins' : 'skins';
+				$module_skin = $this->module_info->{$skin_key} ?: '/USE_DEFAULT/';
+				$use_default_skin = $this->module_info->{'is_' . $skin_key . '_fix'} === 'N';
+				
+				// Set default skin
+				if(!$this->getTemplatePath() || $use_default_skin)
 				{
-					$this->module_info->{$valueName} = $skinName;
-				}
-				else
-				{
-					$isTemplatPath = (strpos($this->getTemplatePath(), '/tpl/') !== FALSE);
-					if(!$isTemplatPath)
+					if($module_skin === '/USE_DEFAULT/')
 					{
-						$this->setTemplatePath(sprintf('%s%s/%s/', $this->module_path, $dir, $skinName));
+						$module_skin = $oModuleModel->getModuleDefaultSkin($this->module, $skin_type);
+						$this->module_info->{$skin_key} = $module_skin;
 					}
+					if($module_skin === '/USE_RESPONSIVE/')
+					{
+						$skin_dir = 'skins';
+						$module_skin = $this->module_info->skin ?: '/USE_DEFAULT/';
+						if($module_skin === '/USE_DEFAULT/')
+						{
+							$module_skin = $oModuleModel->getModuleDefaultSkin($this->module, 'P');
+						}
+					}
+					if(!is_dir(sprintf('%s%s/%s', $this->module_path, $skin_dir, $module_skin)))
+					{
+						$module_skin = 'default';
+					}
+					$this->setTemplatePath(sprintf('%s%s/%s', $this->module_path, $skin_dir, $module_skin));
 				}
+				
+				// Set skin variable
+				$oModuleModel->syncSkinInfoToModuleInfo($this->module_info);
+				Context::set('module_info', $this->module_info);
 			}
-
-			$oModuleModel->syncSkinInfoToModuleInfo($this->module_info);
-			Context::set('module_info', $this->module_info);
+			
 			// Run
-			$output = $this->{$this->act}();
+			try
+			{
+				$output = $this->{$this->act}();
+			}
+			catch (Rhymix\Framework\Exception $e)
+			{
+				$output = new BaseObject(-2, $e->getMessage());
+			}
 		}
 		else
 		{
