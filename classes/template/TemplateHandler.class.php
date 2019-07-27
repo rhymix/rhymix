@@ -664,6 +664,11 @@ class TemplateHandler
 						case 'number_format':
 							$var = $filter_option ? "number_format({$var}, {$filter_option})" : "number_format({$var})";
 							break;
+						
+						case 'shorten':						
+						case 'number_shorten':
+							$var = $filter_option ? "number_shorten({$var}, {$filter_option})" : "number_shorten({$var})";
+							break;
 							
 						case 'link':
 							$var = $this->_applyEscapeOption($var, $escape_option);

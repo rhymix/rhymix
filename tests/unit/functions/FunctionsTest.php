@@ -103,6 +103,37 @@ class FunctionsTest extends \Codeception\TestCase\Test
 		$this->assertEquals('Rhymix ^~', base64_decode_urlsafe('Umh5bWl4IF5-'));
 	}
 	
+	public function testNumberShorten()
+	{
+		$this->assertEquals('1', number_shorten(1));
+		$this->assertEquals('12', number_shorten(12));
+		$this->assertEquals('123', number_shorten(123));
+		$this->assertEquals('1.2K', number_shorten(1234));
+		$this->assertEquals('12K', number_shorten(12345));
+		$this->assertEquals('123K', number_shorten(123456));
+		$this->assertEquals('1.2M', number_shorten(1234567));
+		$this->assertEquals('12M', number_shorten(12345678));
+		$this->assertEquals('123M', number_shorten(123456789));
+		$this->assertEquals('1.2G', number_shorten(1234567890));
+		$this->assertEquals('12G', number_shorten(12345678900));
+		$this->assertEquals('123G', number_shorten(123456789000));
+		$this->assertEquals('1.2T', number_shorten(1234567890000));
+		$this->assertEquals('12T', number_shorten(12345678900000));
+		$this->assertEquals('123T', number_shorten(123456789000000));
+		$this->assertEquals('1234T', number_shorten(1234567890000000));
+		$this->assertEquals('123', number_shorten(123, 1));
+		$this->assertEquals('1K', number_shorten(1234, 1));
+		$this->assertEquals('12K', number_shorten(12345, 1));
+		$this->assertEquals('5.68K', number_shorten(5678, 3));
+		$this->assertEquals('56.8K', number_shorten(56789, 3));
+		$this->assertEquals('9.877M', number_shorten(9876543, 4));
+		$this->assertEquals('98.77M', number_shorten(98765432, 4));
+		$this->assertEquals('3.3333G', number_shorten(3333333333, 5));
+		$this->assertEquals('33.333G', number_shorten(33333333333, 5));
+		$this->assertEquals('1.00000T', number_shorten(1000000000000, 6));
+		$this->assertEquals('10.0000T', number_shorten(10000000000000, 6));
+	}
+	
 	public function testHex2Rgb2Hex()
 	{
 		$this->assertEquals(array(128, 128, 128), hex2rgb('808080'));

@@ -400,6 +400,14 @@ class TemplateHandlerTest extends \Codeception\TestCase\Test
                 '?><p><?php echo number_format($__Context->foo, \'2\') ?></p>'
             ),
             array(
+                '<p>{$foo|shorten}</p>',
+                '?><p><?php echo number_shorten($__Context->foo) ?></p>'
+            ),
+            array(
+                '<p>{$foo|shorten:2}</p>',
+                '?><p><?php echo number_shorten($__Context->foo, \'2\') ?></p>'
+            ),
+            array(
                 '<p>{$foo|date:His}</p>',
                 '?><p><?php echo getDisplayDateTime(ztime($__Context->foo), \'His\') ?></p>'
             ),

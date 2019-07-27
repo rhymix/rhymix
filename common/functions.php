@@ -382,6 +382,35 @@ function base64_decode_urlsafe($str)
 }
 
 /**
+ * This function shortens a number using common suffixes.
+ *
+ * @param int $number The number to shorten
+ * @param int $significant_digits The number of significant digits to retain
+ * @return string
+ */
+function number_shorten($number, $significant_digits = 2)
+{
+	$length = strlen(abs(intval($number)));
+	switch ($length)
+	{
+		case 0: case 1: case 2: case 3: return strval(intval($number));
+		case 4: return number_format($number / 1000, max(0, $significant_digits - 1)) . 'K';
+		case 5: return number_format($number / 1000, max(0, $significant_digits - 2)) . 'K';
+		case 6: return number_format($number / 1000, max(0, $significant_digits - 3)) . 'K';
+		case 7: return number_format($number / 1000000, max(0, $significant_digits - 1)) . 'M';
+		case 8: return number_format($number / 1000000, max(0, $significant_digits - 2)) . 'M';
+		case 9: return number_format($number / 1000000, max(0, $significant_digits - 3)) . 'M';
+		case 10: return number_format($number / 1000000000, max(0, $significant_digits - 1)) . 'G';
+		case 11: return number_format($number / 1000000000, max(0, $significant_digits - 2)) . 'G';
+		case 12: return number_format($number / 1000000000, max(0, $significant_digits - 3)) . 'G';
+		case 13: return number_format($number / 1000000000000, max(0, $significant_digits - 1)) . 'T';
+		case 14: return number_format($number / 1000000000000, max(0, $significant_digits - 2)) . 'T';
+		case 15: return number_format($number / 1000000000000, max(0, $significant_digits - 3)) . 'T';
+		default: return floor($number / 1000000000000) . 'T';
+	}
+}
+
+/**
  * Convert a server-side path to a URL.
  * 
  * This function is an alias to Rhymix\Framework\URL::fromServerPath().
