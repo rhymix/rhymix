@@ -296,7 +296,7 @@ class installController extends install
 		}
 
 		// Check permission
-		if(is_writable('./')||is_writable('./files'))
+		if(is_writable(RX_BASEDIR) || is_writable(RX_BASEDIR . 'files'))
 		{
 			$checklist['permission'] = true;
 		}
@@ -306,23 +306,21 @@ class installController extends install
 		}
 		
 		// Check session availability
-		if(isset($_SESSION['license_agreement']))
+		$license_agreement_time = intval(trim(FileHandler::readFile($this->flagLicenseAgreement)));
+		if(isset($_SESSION['license_agreement']) && (!$license_agreement_time || ($license_agreement_time == $_SESSION['license_agreement'])))
 		{
-			$checklist['session'] = true;
+			if(ini_get('session.auto_start') == 0)
+			{
+				$checklist['session'] = true;
+			}
+			else
+			{
+				$checklist['session'] = false;
+			}
 		}
 		else
 		{
 			$checklist['session'] = false;
-		}
-		
-		// Check session.auto_start
-		if(ini_get('session.auto_start') != 1)
-		{
-			$checklist['session_auto'] = true;
-		}
-		else
-		{
-			$checklist['session_auto'] = false;
 		}
 
 		// Check curl
@@ -415,8 +413,9 @@ class installController extends install
 			throw new Rhymix\Framework\Exception('msg_must_accept_license_agreement');
 		}
 		
-		$_SESSION['license_agreement'] = true;
-		FileHandler::writeFile($this->flagLicenseAgreement, $_SERVER['REQUEST_TIME']);
+		$license_agreement_time = time();
+		$_SESSION['license_agreement'] = $license_agreement_time;
+		FileHandler::writeFile($this->flagLicenseAgreement, $license_agreement_time . PHP_EOL);
 		$this->setRedirectUrl(getNotEncodedUrl('', 'act', 'dispInstallCheckEnv'));
 	}
 
