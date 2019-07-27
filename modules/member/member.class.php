@@ -200,8 +200,15 @@ class member extends ModuleObject {
 		if(!$oDB->isColumnExists("member", "find_account_question")) return true;
 		if(!$oDB->isColumnExists("member", "find_account_answer")) return true;
 
+		// Add columns for phone number
 		if(!$oDB->isColumnExists("member", "phone_number")) return true;
 		if(!$oDB->isIndexExists("member","idx_phone_number")) return true;
+		if(!$oDB->isColumnExists("member", "phone_country")) return true;
+		if(!$oDB->isIndexExists("member","idx_phone_country")) return true;
+		if(!$oDB->isColumnExists("member", "phone_type")) return true;
+		if(!$oDB->isIndexExists("member","idx_phone_type")) return true;
+		
+		// Add column for list order
 		if(!$oDB->isColumnExists("member", "list_order")) return true;
 		if(!$oDB->isIndexExists("member","idx_list_order")) return true;
 		
@@ -327,15 +334,33 @@ class member extends ModuleObject {
 			$oDB->addColumn("member", "find_account_answer", "varchar", 250);
 		}
 		
+		// Add columns for phone number
 		if(!$oDB->isColumnExists("member", "phone_number"))
 		{
-			$oDB->addColumn("member", "phone_number", "varchar", 80, null, false, 'email_address');
+			$oDB->addColumn("member", "phone_number", "varchar", 80, null, false, 'email_host');
+		}
+		if(!$oDB->isColumnExists("member", "phone_country"))
+		{
+			$oDB->addColumn("member", "phone_country", "varchar", 10, null, false, 'phone_number');
+		}
+		if(!$oDB->isColumnExists("member", "phone_type"))
+		{
+			$oDB->addColumn("member", "phone_type", "varchar", 10, null, false, 'phone_country');
 		}
 		if(!$oDB->isIndexExists("member","idx_phone_number"))
 		{
 			$oDB->addIndex("member","idx_phone_number", array("phone_number"));
 		}
+		if(!$oDB->isIndexExists("member","idx_phone_country"))
+		{
+			$oDB->addIndex("member","idx_phone_country", array("phone_country"));
+		}
+		if(!$oDB->isIndexExists("member","idx_phone_type"))
+		{
+			$oDB->addIndex("member","idx_phone_type", array("phone_type"));
+		}
 
+		// Add column for list order
 		if(!$oDB->isColumnExists("member", "list_order"))
 		{
 			$oDB->addColumn("member", "list_order", "number", 11);
