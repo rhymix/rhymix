@@ -39,9 +39,16 @@ class spamfilterAdminView extends spamfilter
 	 */
 	function dispSpamfilterAdminDeniedWordList()
 	{
+		// Get sort index
+		$sort_index = Context::get('sort_index');
+		if (!in_array($sort_index, array('regdate', 'latest_hit', 'hit')))
+		{
+			$sort_index = 'hit';
+		}
+		
 		// Get the list of denied IP addresses and words
 		$oSpamFilterModel = getModel('spamfilter');
-		$word_list = $oSpamFilterModel->getDeniedWordList();
+		$word_list = $oSpamFilterModel->getDeniedWordList($sort_index);
 		Context::set('word_list', $word_list);
 
 		$security = new Security();

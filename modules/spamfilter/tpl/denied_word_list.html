@@ -17,9 +17,9 @@
 			<thead>
 				<tr>
 					<th scope="col">{$lang->word}</th>
-					<th scope="col">{$lang->latest_hit}</th>
-					<th scope="col">{$lang->hit}</th>
-					<th scope="col">{$lang->regdate}</th>
+					<th scope="col"><a href="{getUrl('sort_index', 'latest_hit')}">{$lang->latest_hit} <!--@if($sort_index === 'latest_hit')-->▼<!--@endif--></a></th>
+					<th scope="col"><a href="{getUrl('sort_index', 'hit')}">{$lang->hit} <!--@if($sort_index === 'hit' || !$sort_index)-->▼<!--@endif--></a></th>
+					<th scope="col"><a href="{getUrl('sort_index', 'regdate')}">{$lang->regdate} <!--@if($sort_index === 'regdate')-->▼<!--@endif--></a></th>
 					<th scope="col"><input type="checkbox" name="word" title="Check All" /></th>
 				</tr>
 			</thead>

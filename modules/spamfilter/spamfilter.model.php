@@ -62,10 +62,10 @@ class spamfilterModel extends spamfilter
 	/**
 	 * @brief Return the list of registered Words which were banned
 	 */
-	function getDeniedWordList()
+	function getDeniedWordList($sort_index = 'hit')
 	{
 		$args = new stdClass();
-		$args->sort_index = "hit";
+		$args->sort_index = $sort_index;
 		$output = executeQueryArray('spamfilter.getDeniedWordList', $args);
 		return $output->data ?: array();
 	}
