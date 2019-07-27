@@ -1351,34 +1351,39 @@ class ncenterliteController extends ncenterlite
 		switch ($args->config_type)
 		{
 			case 'admin_content':
-				$mail_title = Context::getSiteTitle() . ' ' . lang('ncenterlite_admin_content');
+				$mail_title = Context::getSiteTitle() . ' - ' . lang('ncenterlite_admin_content');
 				break;
 			case 'comment_comment':
-				$mail_title = Context::getSiteTitle() . ' ' . lang('ncenterlite_comment_comment_noti');
+				$mail_title = Context::getSiteTitle() . ' - ' . lang('ncenterlite_comment_comment_noti');
 				break;
 			case 'comment':
-				$mail_title = Context::getSiteTitle() . ' ' . lang('ncenterlite_comment_noti');
+				$mail_title = Context::getSiteTitle() . ' - ' . lang('ncenterlite_comment_noti');
 				break;
 			case 'message':
-				$mail_title = Context::getSiteTitle() . ' ' . lang('ncenterlite_message_noti');
+				$mail_title = Context::getSiteTitle() . ' - ' . lang('ncenterlite_message_noti');
 				break;
 			case 'vote':
-				$mail_title = Context::getSiteTitle() . ' ' . lang('ncenterlite_vote_noti');
+				$mail_title = Context::getSiteTitle() . ' - ' . lang('ncenterlite_vote_noti');
 				break;
 			case 'mention':
-				$mail_title = Context::getSiteTitle() . ' ' . lang('ncenterlite_mention_noti');
+				$mail_title = Context::getSiteTitle() . ' - ' . lang('ncenterlite_mention_noti');
 				break;
 			default:
 				return false;
 		}
 
-		$content = $content . '<br>' . Context::getSiteTitle() . '<br>' . Rhymix\Framework\URL::getCurrentDomainUrl($args->target_url);
-
+		$target_url = $args->target_url;
+		if (!preg_match('!^https?://!', $target_url))
+		{
+			$target_url = Rhymix\Framework\URL::getCurrentDomainUrl($target_url);
+		}
+		
+		$mail_content = sprintf("<p>%s</p>\n<p>%s</p>\n", $content, $target_url);
 		$member_info = getModel('member')->getMemberInfoByMemberSrl($args->member_srl);
 
 		$oMail = new \Rhymix\Framework\Mail();
 		$oMail->setSubject($mail_title);
-		$oMail->setBody($content);
+		$oMail->setBody($mail_content);
 		$oMail->addTo($member_info->email_address, $member_info->nick_name);
 		$oMail->send();
 	}
