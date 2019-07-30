@@ -37,7 +37,7 @@ class editorAdminView extends editor
 		// Use default config for missing values.
 		foreach ($this->default_editor_config as $key => $val)
 		{
-			if (!$editor_config->$key)
+			if (!isset($editor_config->$key))
 			{
 				$editor_config->$key = $val;
 			}

@@ -52,7 +52,7 @@ class editor extends ModuleObject
 		'additional_css' => array(),
 		'additional_mobile_css' => array(),
 		'additional_plugins' => array(),
-		'remove_plugins' => array(),
+		'remove_plugins' => array('liststyle', 'tabletools', 'contextmenu'),
 	);
 	
 	/**
