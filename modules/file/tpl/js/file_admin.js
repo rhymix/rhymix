@@ -10,10 +10,9 @@ function getFileList() {
 	});
 
     var params = new Array();
-    var response_tags = ['error','message', 'file_list'];
 	params["file_srls"] = cartList.join(",");
 
-    exec_xml('file','procFileGetList',params, completeGetFileList, response_tags);
+    exec_json('file.procFileGetList', params, completeGetFileList);
 }
 
 function completeGetFileList(ret_obj, response_tags)
@@ -27,7 +26,7 @@ function completeGetFileList(ret_obj, response_tags)
 	}
 	else
 	{
-		var file_list = ret_obj['file_list']['item'];
+		var file_list = ret_obj['file_list']['item'] ? ret_obj['file_list']['item'] : ret_obj['file_list'];
 		if(!jQuery.isArray(file_list)) file_list = [file_list];
 		for(var x in file_list)
 		{
@@ -39,7 +38,7 @@ function completeGetFileList(ret_obj, response_tags)
 						'</tr>' +
 						'<input type="hidden" name="cart[]" value="'+objFile.file_srl+'" />';
 		}
-		jQuery('#selectedFileCount').html(file_list.length);
+		jQuery('#selectedFileCount').html(file_list.length + ' (' + ret_obj['file_size_total_human'] + ')');
 	}
 	jQuery('#fileManageListTable>tbody').html(htmlListBuffer);
 }

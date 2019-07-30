@@ -643,6 +643,7 @@ class fileController extends file
 		{
 			$oFileModel = getModel('file');
 			$fileList = $oFileModel->getFile($fileSrlList);
+			$fileSizeTotal = 0;
 			if(!is_array($fileList)) $fileList = array($fileList);
 
 			if(is_array($fileList))
@@ -652,16 +653,20 @@ class fileController extends file
 					$value->human_file_size = FileHandler::filesize($value->file_size);
 					if($value->isvalid=='Y') $value->validName = $lang->is_valid;
 					else $value->validName = $lang->is_stand_by;
+					$fileSizeTotal += $value->file_size;
 				}
 			}
 		}
 		else
 		{
 			$fileList = array();
+			$fileSizeTotal = 0;
 			$this->setMessage($lang->no_files);
 		}
 
 		$this->add('file_list', $fileList);
+		$this->add('file_size_total', $fileSizeTotal);
+		$this->add('file_size_total_human', FileHandler::filesize($fileSizeTotal));
 	}
 	/**
 	 * A trigger to return numbers of attachments in the upload_target_srl (document_srl)
