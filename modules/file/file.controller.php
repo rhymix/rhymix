@@ -423,12 +423,10 @@ class fileController extends file
 		ModuleHandler::triggerCall('file.downloadFile', 'after', $file_obj);
 
 		// Redirect to procFileOutput using file key
-		if(!isset($_SESSION['__XE_FILE_KEY__']) || !is_string($_SESSION['__XE_FILE_KEY__']) || strlen($_SESSION['__XE_FILE_KEY__']) != 32)
-		{
-			$_SESSION['__XE_FILE_KEY__'] = Rhymix\Framework\Security::getRandom(32, 'hex');
-		}
-		$file_key_data = $file_obj->file_srl . $file_obj->file_size . $file_obj->uploaded_filename . $_SERVER['REMOTE_ADDR'];
-		$file_key = substr(hash_hmac('sha256', $file_key_data, $_SESSION['__XE_FILE_KEY__']), 0, 32);
+		$file_key_timestamp = \RX_TIME;
+		$file_key_data = sprintf('%d:%d:%s:%s', $file_obj->file_srl, $file_key_timestamp, $file_obj->uploaded_filename, \RX_CLIENT_IP);
+		$file_key_sig = \Rhymix\Framework\Security::createSignature($file_key_data);
+		$file_key = dechex($file_key_timestamp) . $file_key_sig;
 		header('Location: '.getNotEncodedUrl('', 'act', 'procFileOutput', 'file_srl', $file_srl, 'file_key', $file_key, 'force_download', Context::get('force_download') === 'Y' ? 'Y' : null));
 		Context::close();
 		exit();
@@ -446,16 +444,20 @@ class fileController extends file
 		$file_config = $oFileModel->getFileConfig($file_obj->module_srl ?: null);
 		$filesize = $file_obj->file_size;
 		$filename = $file_obj->source_filename;
-		$etag = md5($file_srl . $file_key . $_SERVER['HTTP_USER_AGENT']);
+		$etag = md5($file_srl . $file_key . \RX_CLIENT_IP);
 
 		// Check file key
-		if(strlen($file_key) != 32 || !isset($_SESSION['__XE_FILE_KEY__']) || !is_string($_SESSION['__XE_FILE_KEY__']))
+		if(strlen($file_key) != 48 || !ctype_xdigit(substr($file_key, 0, 8)))
 		{
 			throw new Rhymix\Framework\Exceptions\InvalidRequest;
 		}
-		$file_key_data = $file_srl . $file_obj->file_size . $file_obj->uploaded_filename . $_SERVER['REMOTE_ADDR'];
-		$file_key_compare = substr(hash_hmac('sha256', $file_key_data, $_SESSION['__XE_FILE_KEY__']), 0, 32);
-		if($file_key !== $file_key_compare)
+		$file_key_timestamp = hexdec(substr($file_key, 0, 8));
+		if ($file_key_timestamp < \RX_TIME - 3600)
+		{
+			throw new Rhymix\Framework\Exceptions\InvalidRequest('msg_file_key_expired');
+		}
+		$file_key_data = sprintf('%d:%d:%s:%s', $file_srl, $file_key_timestamp, $file_obj->uploaded_filename, \RX_CLIENT_IP);
+		if (!\Rhymix\Framework\Security::verifySignature($file_key_data, substr($file_key, 8)))
 		{
 			throw new Rhymix\Framework\Exceptions\InvalidRequest;
 		}

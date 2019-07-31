@@ -41,6 +41,7 @@ $lang->msg_file_cart_is_null = 'Please select a file(s) to delete.';
 $lang->msg_checked_file_is_deleted = '%d attachment(s) was(were) deleted.';
 $lang->msg_exceeds_limit_size = 'This file exceeds the attachment limit.';
 $lang->msg_file_not_found = 'Could not find requested file.';
+$lang->msg_file_key_expired = 'This download link is expired. Please initiate the download again.';
 $lang->file_search_target_list['filename'] = 'File Name';
 $lang->file_search_target_list['filesize_more'] = 'File Size(byte, more)';
 $lang->file_search_target_list['filesize_mega_more'] = 'File Size(mbyte, more)';

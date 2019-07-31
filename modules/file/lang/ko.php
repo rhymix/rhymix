@@ -42,6 +42,7 @@ $lang->msg_checked_file_is_deleted = '%d개의 첨부 파일이 삭제되었습�
 $lang->msg_exceeds_limit_size = '허용된 용량을 초과하여 첨부가 되지 않았습니다.';
 $lang->msg_not_allowed_filetype = '업로드할 수 없는 파일 형식입니다.';
 $lang->msg_file_not_found = '요청한 파일을 찾을 수 없습니다.';
+$lang->msg_file_key_expired = '다운로드 링크의 유효기간이 지났습니다. 다시 다운로드하여 주시기 바랍니다.';
 $lang->file_search_target_list['filename'] = '파일 이름';
 $lang->file_search_target_list['filesize_more'] = '파일 크기(byte, 이상)';
 $lang->file_search_target_list['filesize_mega_more'] = '파일 크기(MB, 이상)';
