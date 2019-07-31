@@ -62,11 +62,13 @@ class fileAdminController extends file
 	function procFileAdminInsertUploadConfig()
 	{
 		// Update configuration
-		$oFileModel = getModel('file');
-		$config = $oFileModel->getFileConfig();
+		$config = getModel('module')->getModuleConfig('file');
 		$config->allowed_filesize = Context::get('allowed_filesize');
 		$config->allowed_attach_size = Context::get('allowed_attach_size');
 		$config->allowed_filetypes = str_replace(' ', '', Context::get('allowed_filetypes'));
+		$config->max_image_width = intval(Context::get('max_image_width')) ?: '';
+		$config->max_image_height = intval(Context::get('max_image_height')) ?: '';
+		$config->max_image_size_action = Context::get('max_image_size_action') ?: '';
 		
 		// Check maximum file size
 		if (PHP_INT_SIZE < 8)
@@ -93,8 +95,7 @@ class fileAdminController extends file
 	function procFileAdminInsertDownloadConfig()
 	{
 		// Update configuration
-		$oFileModel = getModel('file');
-		$config = $oFileModel->getFileConfig();
+		$config = getModel('module')->getModuleConfig('file');
 		$config->allow_outlink = Context::get('allow_outlink');
 		$config->allow_outlink_format = Context::get('allow_outlink_format');
 		$config->allow_outlink_site = Context::get('allow_outlink_site');

@@ -23,6 +23,19 @@
 		</div>
 	</div>
 	<div class="x_control-group">
+		<label for="max_image_width" class="x_control-label">{$lang->max_image_size}</label>
+		<div class="x_controls">
+			<input type="number" min="0" name="max_image_width" id="max_image_width" value="{$config->max_image_width}" size="7" style="min-width:80px" /> &times;
+			<input type="number" min="0" name="max_image_height" id="max_image_height" value="{$config->max_image_height}" size="7" style="min-width:80px" /> px &nbsp;
+			<select name="max_image_size_action" id="max_image_size_action">
+				<option value="" selected="selected"|cond="$config->max_image_size_action == ''">{$lang->max_image_size_action_nothing}</option>
+				<option value="block" selected="selected"|cond="$config->max_image_size_action == 'block'">{$lang->max_image_size_action_block}</option>
+				<option value="resize" selected="selected"|cond="$config->max_image_size_action == 'resize'">{$lang->max_image_size_action_resize}</option>
+			</select>
+			<p class="x_help-block">{$lang->about_max_image_size}</p>
+		</div>
+	</div>
+	<div class="x_control-group">
 		<label for="allowedFiletypes" class="x_control-label">{$lang->allowed_filetypes}</label>
 		<div class="x_controls">
 			<input id="allowedFiletypes" type="text" name="allowed_filetypes" value="{$config->allowed_filetypes}" />

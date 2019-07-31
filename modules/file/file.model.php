@@ -189,11 +189,15 @@ class fileModel extends file
 			$config->allowed_attach_size = $file_config->allowed_attach_size;
 			$config->allowed_filetypes = $file_config->allowed_filetypes;
 			$config->inline_download_format = $file_config->inline_download_format;
+			$config->max_image_width = $file_config->max_image_width;
+			$config->max_image_height = $file_config->max_image_height;
+			$config->max_image_size_action = $file_config->max_image_size_action;
 			$config->download_grant = $file_config->download_grant;
 			$config->allow_outlink = $file_config->allow_outlink;
 			$config->allow_outlink_site = $file_config->allow_outlink_site;
 			$config->allow_outlink_format = $file_config->allow_outlink_format;
 		}
+		
 		// Property for all files comes first than each property
 		if(!$config->allowed_filesize) $config->allowed_filesize = $file_module_config->allowed_filesize;
 		if(!$config->allowed_attach_size) $config->allowed_attach_size = $file_module_config->allowed_attach_size;
@@ -202,6 +206,10 @@ class fileModel extends file
 		if(!$config->allow_outlink_site) $config->allow_outlink_site = $file_module_config->allow_outlink_site;
 		if(!$config->allow_outlink_format) $config->allow_outlink_format = $file_module_config->allow_outlink_format;
 		if(!$config->download_grant) $config->download_grant = $file_module_config->download_grant;
+		if(!$config->max_image_width) $config->max_image_width = $file_module_config->max_image_width;
+		if(!$config->max_image_height) $config->max_image_height = $file_module_config->max_image_height;
+		if(!$config->max_image_size_action) $config->max_image_size_action = $file_module_config->max_image_size_action;
+		
 		// Default setting if not exists
 		if(!$config->allowed_filesize) $config->allowed_filesize = '2';
 		if(!$config->allowed_attach_size) $config->allowed_attach_size = '3';

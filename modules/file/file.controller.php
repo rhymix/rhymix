@@ -861,48 +861,100 @@ class fileController extends file
 			$file_info['name'] = base64_decode(strtr($match[1], ':', '/'));
 		}
 
-		if(!$manual_insert)
-		{
-			// Get the file configurations
-			$logged_info = Context::get('logged_info');
-			if($logged_info->is_admin != 'Y')
-			{
-				$oFileModel = getModel('file');
-				$config = $oFileModel->getFileConfig($module_srl);
-
-				// check file type
-				if(isset($config->allowed_filetypes) && $config->allowed_filetypes !== '*.*')
-				{
-					$filetypes = explode(';', $config->allowed_filetypes);
-					$ext = array();
-					foreach($filetypes as $item) {
-						$item = explode('.', $item);
-						$ext[] = strtolower($item[1]);
-					}
-					$uploaded_ext = explode('.', $file_info['name']);
-					$uploaded_ext = strtolower(array_pop($uploaded_ext));
-
-					if(!in_array($uploaded_ext, $ext))
-					{
-						throw new Rhymix\Framework\Exception('msg_not_allowed_filetype');
-					}
-				}
-
-				$allowed_filesize = $config->allowed_filesize * 1024 * 1024;
-				$allowed_attach_size = $config->allowed_attach_size * 1024 * 1024;
-				// An error appears if file size exceeds a limit
-				if($allowed_filesize < filesize($file_info['tmp_name'])) throw new Rhymix\Framework\Exception('msg_exceeds_limit_size');
-				// Get total file size of all attachements (from DB)
-				$size_args = new stdClass;
-				$size_args->upload_target_srl = $upload_target_srl;
-				$output = executeQuery('file.getAttachedFileSize', $size_args);
-				$attached_size = (int)$output->data->attached_size + filesize($file_info['tmp_name']);
-				if($attached_size > $allowed_attach_size) throw new Rhymix\Framework\Exception('msg_exceeds_limit_size');
-			}
-		}
-
 		// Sanitize filename
 		$file_info['name'] = Rhymix\Framework\Filters\FilenameFilter::clean($file_info['name']);
+
+		// Get extension
+		$extension = explode('.', $file_info['name']) ?: array('');
+		$extension = strtolower(array_pop($extension));
+		
+		// Check file type, size, and other attributes
+		if(!$manual_insert && !$this->user->isAdmin())
+		{
+			// Get file module configuration
+			$oFileModel = getModel('file');
+			$config = $oFileModel->getFileConfig($module_srl);
+
+			// Check file type
+			if(isset($config->allowed_filetypes) && $config->allowed_filetypes !== '*.*')
+			{
+				$filetypes = explode(';', $config->allowed_filetypes);
+				$ext = array();
+				foreach($filetypes as $item) {
+					$item = explode('.', $item);
+					$ext[] = strtolower($item[1]);
+				}
+
+				if(!in_array($extension, $ext))
+				{
+					throw new Rhymix\Framework\Exception('msg_not_allowed_filetype');
+				}
+			}
+
+			// Check file size
+			$allowed_filesize = $config->allowed_filesize * 1024 * 1024;
+			$allowed_attach_size = $config->allowed_attach_size * 1024 * 1024;
+			if($allowed_filesize < filesize($file_info['tmp_name']))
+			{
+				throw new Rhymix\Framework\Exception('msg_exceeds_limit_size');
+			}
+			
+			// Get total size of all attachements
+			$size_args = new stdClass;
+			$size_args->upload_target_srl = $upload_target_srl;
+			$output = executeQuery('file.getAttachedFileSize', $size_args);
+			$attached_size = (int)$output->data->attached_size + filesize($file_info['tmp_name']);
+			if($attached_size > $allowed_attach_size)
+			{
+				throw new Rhymix\Framework\Exception('msg_exceeds_limit_size');
+			}
+			
+			// Check image dimensions
+			if($config->max_image_size_action && ($config->max_image_width || $config->max_image_height))
+			{
+				if(in_array($extension, array('gif', 'jpg', 'png', 'webp', 'bmp')))
+				{
+					if ($image_info = @getimagesize($file_info['tmp_name']))
+					{
+						$image_width = $image_info[0];
+						$image_height = $image_info[1];
+						$exceeded = false;
+						if ($config->max_image_width > 0 && $image_width > $config->max_image_width)
+						{
+							$exceeded = true;
+						}
+						elseif ($config->max_image_height > 0 && $image_height > $config->max_image_height)
+						{
+							$exceeded = true;
+						}
+						
+						if ($exceeded)
+						{
+							if ($config->max_image_size_action === 'block')
+							{
+								if ($config->max_image_width && $config->max_image_height)
+								{
+									$message = sprintf(lang('msg_exceeds_max_image_size'), $config->max_image_width, $config->max_image_height);
+								}
+								elseif ($config->max_image_width)
+								{
+									$message = sprintf(lang('msg_exceeds_max_image_width'), $config->max_image_width);
+								}
+								else
+								{
+									$message = sprintf(lang('msg_exceeds_max_image_height'), $config->max_image_height);
+								}
+								throw new Rhymix\Framework\Exception($message);
+							}
+							else
+							{
+								// TODO
+							}
+						}
+					}
+				}
+			}
+		}
 		
 		// Get file_srl
 		$file_srl = getNextSequence();
