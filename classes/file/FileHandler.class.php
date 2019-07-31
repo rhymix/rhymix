@@ -479,9 +479,10 @@ class FileHandler
 	 * @param int $resize_height Height to resize
 	 * @param string $target_type If $target_type is set (gif, jpg, png, bmp), result image will be saved as target type
 	 * @param string $thumbnail_type Thumbnail type(crop, ratio)
+	 * @param int $quality Compression ratio (0~9)
 	 * @return bool TRUE: success, FALSE: failed
 	 */
-	public static function createImageFile($source_file, $target_file, $resize_width = 0, $resize_height = 0, $target_type = '', $thumbnail_type = 'crop')
+	public static function createImageFile($source_file, $target_file, $resize_width = 0, $resize_height = 0, $target_type = '', $thumbnail_type = 'crop', $quality = 100)
 	{
 		// check params
 		if (($source_file = self::exists($source_file)) === FALSE)
@@ -673,7 +674,7 @@ class FileHandler
 			case 'jpg' :
 				if(function_exists('imagejpeg'))
 				{
-					$output = imagejpeg($thumb, $target_file, 100);
+					$output = imagejpeg($thumb, $target_file, $quality);
 				}
 				break;
 			case 'png' :
@@ -685,19 +686,19 @@ class FileHandler
 			case 'bmp' :
 				if(function_exists('imagebmp'))
 				{
-					$output = imagebmp($thumb, $target_file, 100);
+					$output = imagebmp($thumb, $target_file);
 				}
 				break;
 			case 'wbmp' :
 				if(function_exists('imagewbmp'))
 				{
-					$output = imagewbmp($thumb, $target_file, 100);
+					$output = imagewbmp($thumb, $target_file);
 				}
 				break;
 			case 'webp' :
 				if(function_exists('imagewebp'))
 				{
-					$output = imagewebp($thumb, $target_file, 100);
+					$output = imagewebp($thumb, $target_file);
 				}
 				break;
 		}

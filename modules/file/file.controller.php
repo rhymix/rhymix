@@ -1110,7 +1110,8 @@ class fileController extends file
 		// Convert image if necessary
 		if ($convert)
 		{
-			$result = FileHandler::createImageFile($file_info['tmp_name'], $file_info['tmp_name'] . '.conv', $convert[0], $convert[1], $convert[2]);
+			$quality = 75;
+			$result = FileHandler::createImageFile($file_info['tmp_name'], $file_info['tmp_name'] . '.conv', $convert[0], $convert[1], $convert[2], 'crop', $quality);
 			if ($result)
 			{
 				$file_info['name'] = preg_replace('/\.' . preg_quote($file_info['extension'], '/') . '$/i', '.' . $convert[2], $file_info['name']);
