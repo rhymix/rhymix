@@ -346,11 +346,15 @@ class UA
 		{
 			$output_format = 'rfc5987';
 		}
-		elseif ($browser->browser === 'IE' || $browser->browser === 'Whale' || $browser->is_webview)
+		elseif ($browser->browser === 'IE')
 		{
 			$output_format = 'old_ie';
 		}
-		elseif ($browser->browser === 'Android' || $browser->browser === 'Chrome' || $browser->browser === 'Safari')
+		elseif ($browser->browser === 'Android' || $browser->browser === 'Whale' || $browser->is_webview)
+		{
+			$output_format = 'raw';
+		}
+		elseif ($browser->browser === 'Chrome' || $browser->browser === 'Safari')
 		{
 			$output_format = 'raw';
 		}
