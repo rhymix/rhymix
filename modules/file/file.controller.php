@@ -893,68 +893,9 @@ class fileController extends file
 			}
 			
 			// Check image dimensions
-			if($config->max_image_size_action && ($config->max_image_width || $config->max_image_height))
+			if(in_array($extension, array('gif', 'jpg', 'jpeg', 'png', 'webp', 'bmp')))
 			{
-				if(in_array($extension, array('gif', 'jpg', 'jpeg', 'png', 'webp', 'bmp')))
-				{
-					if ($image_info = @getimagesize($file_info['tmp_name']))
-					{
-						$image_width = $image_info[0];
-						$image_height = $image_info[1];
-						$exceeded = false;
-						if ($config->max_image_width > 0 && $image_width > $config->max_image_width)
-						{
-							$exceeded = true;
-						}
-						elseif ($config->max_image_height > 0 && $image_height > $config->max_image_height)
-						{
-							$exceeded = true;
-						}
-						
-						if ($exceeded)
-						{
-							if ($config->max_image_size_action === 'block')
-							{
-								if ($config->max_image_width && $config->max_image_height)
-								{
-									$message = sprintf(lang('msg_exceeds_max_image_size'), $config->max_image_width, $config->max_image_height);
-								}
-								elseif ($config->max_image_width)
-								{
-									$message = sprintf(lang('msg_exceeds_max_image_width'), $config->max_image_width);
-								}
-								else
-								{
-									$message = sprintf(lang('msg_exceeds_max_image_height'), $config->max_image_height);
-								}
-								throw new Rhymix\Framework\Exception($message);
-							}
-							else
-							{
-								$resize_width = $image_width;
-								$resize_height = $image_height;
-								if ($config->max_image_width > 0 && $image_width > $config->max_image_width)
-								{
-									$resize_width = $config->max_image_width;
-									$resize_height = $image_height * ($config->max_image_width / $image_width);
-								}
-								if ($config->max_image_height > 0 && $resize_height > $config->max_image_height)
-								{
-									$resize_width = $resize_width * ($config->max_image_height / $resize_height);
-									$resize_height = $config->max_image_height;
-								}
-								$target_type = ($extension === 'webp' || $extension === 'bmp') ? 'jpg' : $extension;
-								$resize_result = FileHandler::createImageFile($file_info['tmp_name'], $file_info['tmp_name'] . '.resized', intval($resize_width), intval($resize_height), $target_type);
-								if ($resize_result)
-								{
-									$file_info['tmp_name'] = $file_info['tmp_name'] . '.resized';
-									$file_info['size'] = filesize($file_info['tmp_name']);
-									$file_info['resized'] = true;
-								}
-							}
-						}
-					}
-				}
+				$file_info = $this->checkUploadedImage($file_info, $config);
 			}
 
 			// Check file size
@@ -1079,6 +1020,84 @@ class fileController extends file
 		$output->add('upload_target_srl', $upload_target_srl);
 		$output->add('uploaded_filename', $args->uploaded_filename);
 		return $output;
+	}
+
+	/**
+	 * Check uploaded image
+	 */
+	public function checkUploadedImage($file_info, $config)
+	{
+		// Get image information
+		$image_info = @getimagesize($file_info['tmp_name']);
+		if (!$image_info)
+		{
+			return $file_info;
+		}
+		
+		// Check image size
+		if($config->max_image_size_action && ($config->max_image_width || $config->max_image_height))
+		{
+			$image_width = $image_info[0];
+			$image_height = $image_info[1];
+			$exceeded = false;
+			if ($config->max_image_width > 0 && $image_width > $config->max_image_width)
+			{
+				$exceeded = true;
+			}
+			elseif ($config->max_image_height > 0 && $image_height > $config->max_image_height)
+			{
+				$exceeded = true;
+			}
+			
+			if ($exceeded)
+			{
+				// Block upload
+				if ($config->max_image_size_action === 'block')
+				{
+					if ($config->max_image_width && $config->max_image_height)
+					{
+						$message = sprintf(lang('msg_exceeds_max_image_size'), $config->max_image_width, $config->max_image_height);
+					}
+					elseif ($config->max_image_width)
+					{
+						$message = sprintf(lang('msg_exceeds_max_image_width'), $config->max_image_width);
+					}
+					else
+					{
+						$message = sprintf(lang('msg_exceeds_max_image_height'), $config->max_image_height);
+					}
+					
+					throw new Rhymix\Framework\Exception($message);
+				}
+				
+				// Resize automatically
+				else
+				{
+					$resize_width = $image_width;
+					$resize_height = $image_height;
+					if ($config->max_image_width > 0 && $image_width > $config->max_image_width)
+					{
+						$resize_width = $config->max_image_width;
+						$resize_height = $image_height * ($config->max_image_width / $image_width);
+					}
+					if ($config->max_image_height > 0 && $resize_height > $config->max_image_height)
+					{
+						$resize_width = $resize_width * ($config->max_image_height / $resize_height);
+						$resize_height = $config->max_image_height;
+					}
+					$target_type = ($extension === 'webp' || $extension === 'bmp') ? 'jpg' : $extension;
+					$resize_result = FileHandler::createImageFile($file_info['tmp_name'], $file_info['tmp_name'] . '.resized', intval($resize_width), intval($resize_height), $target_type);
+					if ($resize_result)
+					{
+						$file_info['tmp_name'] = $file_info['tmp_name'] . '.resized';
+						$file_info['size'] = filesize($file_info['tmp_name']);
+						$file_info['resized'] = true;
+					}
+				}
+			}
+		}
+		
+		return $file_info;
 	}
 
 	/**
