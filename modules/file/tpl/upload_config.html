@@ -23,7 +23,7 @@
 		</div>
 	</div>
 	<div class="x_control-group">
-		<label for="max_image_width" class="x_control-label">{$lang->max_image_size}</label>
+		<label class="x_control-label">{$lang->max_image_size}</label>
 		<div class="x_controls">
 			<input type="number" min="0" name="max_image_width" id="max_image_width" value="{$config->max_image_width}" size="7" style="min-width:80px" /> &times;
 			<input type="number" min="0" name="max_image_height" id="max_image_height" value="{$config->max_image_height}" size="7" style="min-width:80px" /> px &nbsp;
@@ -33,6 +33,20 @@
 				<option value="resize" selected="selected"|cond="$config->max_image_size_action == 'resize'">{$lang->max_image_size_action_resize}</option>
 			</select>
 			<p class="x_help-block">{$lang->about_max_image_size}</p>
+		</div>
+	</div>
+	<div class="x_control-group">
+		<label class="x_control-label">{$lang->image_autoconv}</label>
+		<div class="x_controls">
+			<label for="image_autoconv_bmp2jpg" class="x_inline">
+				<input type="checkbox" name="image_autoconv_bmp2jpg" id="image_autoconv_bmp2jpg" value="Y" checked="checked"|cond="$config->image_autoconv['bmp2jpg']" disabled="disabled"|cond="!function_exists('imagebmp')" />
+				{$lang->image_autoconv_bmp2jpg}
+			</label>
+			<label for="image_autoconv_webp2jpg" class="x_inline">
+				<input type="checkbox" name="image_autoconv_webp2jpg" id="image_autoconv_webp2jpg" value="Y" checked="checked"|cond="$config->image_autoconv['webp2jpg']" disabled="disabled"|cond="!function_exists('imagewebp')" />
+				{$lang->image_autoconv_webp2jpg}
+			</label>
+			<p class="x_help-block">{$lang->about_image_autoconv}</p>
 		</div>
 	</div>
 	<div class="x_control-group">

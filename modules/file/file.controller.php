@@ -863,11 +863,14 @@ class fileController extends file
 
 		// Sanitize filename
 		$file_info['name'] = Rhymix\Framework\Filters\FilenameFilter::clean($file_info['name']);
-		$file_info['resized'] = false;
 
 		// Get extension
 		$extension = explode('.', $file_info['name']) ?: array('');
 		$extension = strtolower(array_pop($extension));
+		
+		// Add extra fields to file info array
+		$file_info['extension'] = $extension;
+		$file_info['resized'] = false;
 		
 		// Check file type, size, and other attributes
 		if(!$manual_insert && !$this->user->isAdmin())
@@ -892,7 +895,7 @@ class fileController extends file
 				}
 			}
 			
-			// Check image dimensions
+			// Check image type and size
 			if(in_array($extension, array('gif', 'jpg', 'jpeg', 'png', 'webp', 'bmp')))
 			{
 				$file_info = $this->checkUploadedImage($file_info, $config);
@@ -953,7 +956,7 @@ class fileController extends file
 		}
 		
 		// Move the file
-		if($manual_insert && !$file_info['resized'])
+		if($manual_insert && !$file_info['converted'])
 		{
 			@copy($file_info['tmp_name'], $filename);
 			if(!file_exists($filename))
@@ -965,7 +968,7 @@ class fileController extends file
 				}
 			}
 		}
-		elseif(starts_with(RX_BASEDIR . 'files/attach/chunks/', $file_info['tmp_name']) || $file_info['resized'])
+		elseif(starts_with(RX_BASEDIR . 'files/attach/chunks/', $file_info['tmp_name']) || $file_info['converted'])
 		{
 			if (!Rhymix\Framework\Storage::move($file_info['tmp_name'], $filename))
 			{
@@ -1034,11 +1037,24 @@ class fileController extends file
 			return $file_info;
 		}
 		
+		$image_width = $image_info[0];
+		$image_height = $image_info[1];
+		$image_type = $image_info[2];
+		$convert = false;
+		
+		// Check image type
+		if($config->image_autoconv['bmp2jpg'] && function_exists('imagebmp') && $image_type === 6)
+		{
+			$convert = array($image_width, $image_height, 'jpg');
+		}
+		if($config->image_autoconv['webp2jpg'] && function_exists('imagewebp') && $image_type === 18)
+		{
+			$convert = array($image_width, $image_height, 'jpg');
+		}
+		
 		// Check image size
 		if($config->max_image_size_action && ($config->max_image_width || $config->max_image_height))
 		{
-			$image_width = $image_info[0];
-			$image_height = $image_info[1];
 			$exceeded = false;
 			if ($config->max_image_width > 0 && $image_width > $config->max_image_width)
 			{
@@ -1085,15 +1101,22 @@ class fileController extends file
 						$resize_width = $resize_width * ($config->max_image_height / $resize_height);
 						$resize_height = $config->max_image_height;
 					}
-					$target_type = ($extension === 'webp' || $extension === 'bmp') ? 'jpg' : $extension;
-					$resize_result = FileHandler::createImageFile($file_info['tmp_name'], $file_info['tmp_name'] . '.resized', intval($resize_width), intval($resize_height), $target_type);
-					if ($resize_result)
-					{
-						$file_info['tmp_name'] = $file_info['tmp_name'] . '.resized';
-						$file_info['size'] = filesize($file_info['tmp_name']);
-						$file_info['resized'] = true;
-					}
+					$target_type = in_array($image_type, array(6, 8, 18)) ? 'jpg' : $file_info['extension'];
+					$convert = array(intval($resize_width), intval($resize_height), $target_type);
 				}
+			}
+		}
+		
+		// Convert image if necessary
+		if ($convert)
+		{
+			$result = FileHandler::createImageFile($file_info['tmp_name'], $file_info['tmp_name'] . '.conv', $convert[0], $convert[1], $convert[2]);
+			if ($result)
+			{
+				$file_info['name'] = preg_replace('/\.' . preg_quote($file_info['extension'], '/') . '$/i', '.' . $convert[2], $file_info['name']);
+				$file_info['tmp_name'] = $file_info['tmp_name'] . '.conv';
+				$file_info['size'] = filesize($file_info['tmp_name']);
+				$file_info['converted'] = true;
 			}
 		}
 		

@@ -192,6 +192,7 @@ class fileModel extends file
 			$config->max_image_width = $file_config->max_image_width;
 			$config->max_image_height = $file_config->max_image_height;
 			$config->max_image_size_action = $file_config->max_image_size_action;
+			$config->image_autoconv = $file_config->image_autoconv;
 			$config->download_grant = $file_config->download_grant;
 			$config->allow_outlink = $file_config->allow_outlink;
 			$config->allow_outlink_site = $file_config->allow_outlink_site;
@@ -209,6 +210,7 @@ class fileModel extends file
 		if(!$config->max_image_width) $config->max_image_width = $file_module_config->max_image_width;
 		if(!$config->max_image_height) $config->max_image_height = $file_module_config->max_image_height;
 		if(!$config->max_image_size_action) $config->max_image_size_action = $file_module_config->max_image_size_action;
+		if(!$config->image_autoconv) $config->image_autoconv = $file_module_config->image_autoconv;
 		
 		// Default setting if not exists
 		if(!$config->allowed_filesize) $config->allowed_filesize = '2';
@@ -217,6 +219,7 @@ class fileModel extends file
 		if(!$config->allow_outlink) $config->allow_outlink = 'Y';
 		if(!$config->download_grant) $config->download_grant = array();
 		if(!$config->inline_download_format) $config->inline_download_format = array();
+		if(!$config->image_autoconv) $config->image_autoconv = array();
 
 		return $config;
 	}

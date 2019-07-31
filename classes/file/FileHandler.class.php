@@ -527,6 +527,12 @@ class FileHandler
 			case '6' :
 				$type = 'bmp';
 				break;
+			case '8' :
+				$type = 'wbmp';
+				break;
+			case '18' :
+				$type = 'webp';
+				break;
 			default :
 				return;
 		}
@@ -603,11 +609,22 @@ class FileHandler
 					$source = @imagecreatefrompng($source_file);
 				}
 				break;
-			case 'wbmp' :
 			case 'bmp' :
+				if(function_exists('imagecreatefrombmp'))
+				{
+					$source = @imagecreatefrombmp($source_file);
+				}
+				break;
+			case 'wbmp' :
 				if(function_exists('imagecreatefromwbmp'))
 				{
 					$source = @imagecreatefromwbmp($source_file);
+				}
+				break;
+			case 'webp' :
+				if(function_exists('imagecreatefromwebp'))
+				{
+					$source = @imagecreatefromwebp($source_file);
 				}
 				break;
 		}
@@ -665,11 +682,22 @@ class FileHandler
 					$output = imagepng($thumb, $target_file, 9);
 				}
 				break;
-			case 'wbmp' :
 			case 'bmp' :
+				if(function_exists('imagebmp'))
+				{
+					$output = imagebmp($thumb, $target_file, 100);
+				}
+				break;
+			case 'wbmp' :
 				if(function_exists('imagewbmp'))
 				{
 					$output = imagewbmp($thumb, $target_file, 100);
+				}
+				break;
+			case 'webp' :
+				if(function_exists('imagewebp'))
+				{
+					$output = imagewebp($thumb, $target_file, 100);
 				}
 				break;
 		}

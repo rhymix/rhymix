@@ -69,6 +69,8 @@ class fileAdminController extends file
 		$config->max_image_width = intval(Context::get('max_image_width')) ?: '';
 		$config->max_image_height = intval(Context::get('max_image_height')) ?: '';
 		$config->max_image_size_action = Context::get('max_image_size_action') ?: '';
+		$config->image_autoconv['bmp2jpg'] = Context::get('image_autoconv_bmp2jpg') === 'Y' ? true : false;
+		$config->image_autoconv['webp2jpg'] = Context::get('image_autoconv_webp2jpg') === 'Y' ? true : false;
 		
 		// Check maximum file size
 		if (PHP_INT_SIZE < 8)
