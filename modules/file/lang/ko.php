@@ -3,6 +3,7 @@ $lang->file = '파일';
 $lang->file_management = '파일 관리';
 $lang->file_upload = '파일 업로드';
 $lang->file_upload_config = '파일 업로드 설정';
+$lang->file_download_config = '파일 다운로드 설정';
 $lang->file_name = '파일 이름';
 $lang->file_size = '파일 크기';
 $lang->download_count = '다운로드 받은 수';

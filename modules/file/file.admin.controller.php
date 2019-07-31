@@ -55,21 +55,18 @@ class fileAdminController extends file
 	}
 
 	/**
-	 * Add file information
+	 * Save upload configuration
 	 *
 	 * @return Object
 	 */
 	function procFileAdminInsertConfig()
 	{
-		// Get configurations (using module model object)
-		$config = new stdClass();
+		// Update configuration
+		$oFileModel = getModel('file');
+		$config = $oFileModel->getFileConfig();
 		$config->allowed_filesize = Context::get('allowed_filesize');
 		$config->allowed_attach_size = Context::get('allowed_attach_size');
 		$config->allowed_filetypes = str_replace(' ', '', Context::get('allowed_filetypes'));
-		$config->allow_outlink = Context::get('allow_outlink');
-		$config->allow_outlink_format = Context::get('allow_outlink_format');
-		$config->allow_outlink_site = Context::get('allow_outlink_site');
-		$config->inline_download_format = array_map('utf8_trim', Context::get('inline_download_format'));
 		
 		// Check maximum file size
 		if (PHP_INT_SIZE < 8)
@@ -80,11 +77,38 @@ class fileAdminController extends file
 			}
 		}
 		
-		// Create module Controller object
+		// Save and redirect
 		$oModuleController = getController('module');
 		$output = $oModuleController->insertModuleConfig('file',$config);
 
 		$returnUrl = Context::get('success_return_url') ? Context::get('success_return_url') : getNotEncodedUrl('', 'module', 'admin', 'act', 'dispFileAdminConfig');
+		return $this->setRedirectUrl($returnUrl, $output);
+	}
+
+	/**
+	 * Save download configuration
+	 *
+	 * @return Object
+	 */
+	function procFileAdminInsertDownloadConfig()
+	{
+		// Update configuration
+		$oFileModel = getModel('file');
+		$config = $oFileModel->getFileConfig();
+		$config->allow_outlink = Context::get('allow_outlink');
+		$config->allow_outlink_format = Context::get('allow_outlink_format');
+		$config->allow_outlink_site = Context::get('allow_outlink_site');
+		$config->inline_download_format = array_map('utf8_trim', Context::get('inline_download_format'));
+		
+		// Save and redirect
+		$oModuleController = getController('module');
+		$output = $oModuleController->insertModuleConfig('file',$config);
+		if(!$output->toBool())
+		{
+			return $output;
+		}
+
+		$returnUrl = Context::get('success_return_url') ? Context::get('success_return_url') : getNotEncodedUrl('', 'module', 'admin', 'act', 'dispFileAdminDownloadConfig');
 		return $this->setRedirectUrl($returnUrl, $output);
 	}
 

@@ -9,39 +9,6 @@
 	<input type="hidden" name="act" value="procFileAdminInsertConfig" />
 	<input type="hidden" name="xe_validator_id" value="modules/file/tpl/adminConfig/1" />
 	<div class="x_control-group">
-		<label class="x_control-label">{$lang->allow_outlink}</label>
-		<div class="x_controls">
-			<label class="x_inline"><input type="radio" name="allow_outlink" id="allow_outlink_y" value="Y" checked="checked"|cond="$config->allow_outlink == 'Y'" /> {$lang->cmd_yes}</label>
-			<label class="x_inline"><input type="radio" name="allow_outlink" value="N" checked="checked"|cond="$config->allow_outlink == 'N'" /> {$lang->cmd_no}</label>
-			<p class="x_help-block">{$lang->about_allow_outlink}</p>
-		</div>
-	</div>
-	<div class="x_control-group">
-		<label class="x_control-label" for="allow_outlink_format">{$lang->allow_outlink_format}</label>
-		<div class="x_controls">
-			<input type="text" name="allow_outlink_format" id="allow_outlink_format" value="{$config->allow_outlink_format}" />
-			<p class="x_help-block">{$lang->about_allow_outlink_format}</p>
-		</div>
-	</div>
-	<div class="x_control-group">
-		<label class="x_control-label" for="allow_outlink_site">{$lang->allow_outlink_site}</label>
-		<div class="x_controls">
-			<textarea name="allow_outlink_site" id="allow_outlink_site" rows="4" cols="42">{$config->allow_outlink_site}</textarea>
-			<p class="x_help-block">{$lang->about_allow_outlink_site}</p>
-		</div>
-	</div>
-	<div class="x_control-group">
-		<label class="x_control-label">{$lang->inline_download_format}</label>
-		<div class="x_controls">
-			<label class="x_inline"><input type="checkbox" name="inline_download_format[]" id="inline_download_format_image" value="image" checked="checked"|cond="in_array('image', $config->inline_download_format)" /> {$lang->inline_download_image}</label>
-			<label class="x_inline"><input type="checkbox" name="inline_download_format[]" id="inline_download_format_audio" value="audio" checked="checked"|cond="in_array('audio', $config->inline_download_format)" /> {$lang->inline_download_audio}</label>
-			<label class="x_inline"><input type="checkbox" name="inline_download_format[]" id="inline_download_format_video" value="video" checked="checked"|cond="in_array('video', $config->inline_download_format)" /> {$lang->inline_download_video}</label>
-			<label class="x_inline"><input type="checkbox" name="inline_download_format[]" id="inline_download_format_text" value="text" checked="checked"|cond="in_array('text', $config->inline_download_format)" /> {$lang->inline_download_text}</label>
-			<label class="x_inline"><input type="checkbox" name="inline_download_format[]" id="inline_download_format_pdf" value="pdf" checked="checked"|cond="in_array('pdf', $config->inline_download_format)" /> {$lang->inline_download_pdf}</label>
-			<p class="x_help-block">{$lang->about_inline_download_format}</p>
-		</div>
-	</div>
-	<div class="x_control-group">
 		<label for="allowed_filesize" class="x_control-label">{$lang->allowed_filesize}</label>
 		<div class="x_controls">
 			<input type="number" min="0" name="allowed_filesize" id="allowed_filesize" value="{$config->allowed_filesize}" size="7" style="min-width:80px" /> MB
