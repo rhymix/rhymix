@@ -59,7 +59,7 @@ class fileAdminController extends file
 	 *
 	 * @return Object
 	 */
-	function procFileAdminInsertConfig()
+	function procFileAdminInsertUploadConfig()
 	{
 		// Update configuration
 		$oFileModel = getModel('file');
@@ -81,7 +81,7 @@ class fileAdminController extends file
 		$oModuleController = getController('module');
 		$output = $oModuleController->insertModuleConfig('file',$config);
 
-		$returnUrl = Context::get('success_return_url') ? Context::get('success_return_url') : getNotEncodedUrl('', 'module', 'admin', 'act', 'dispFileAdminConfig');
+		$returnUrl = Context::get('success_return_url') ? Context::get('success_return_url') : getNotEncodedUrl('', 'module', 'admin', 'act', 'dispFileAdminUploadConfig');
 		return $this->setRedirectUrl($returnUrl, $output);
 	}
 

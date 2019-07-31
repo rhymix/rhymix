@@ -214,7 +214,7 @@ class fileAdminView extends file
 	 *
 	 * @return Object
 	 */
-	function dispFileAdminConfig()
+	function dispFileAdminUploadConfig()
 	{
 		$oFileModel = getModel('file');
 		$config = $oFileModel->getFileConfig();
@@ -222,7 +222,7 @@ class fileAdminView extends file
 		
 		// Set a template file
 		$this->setTemplatePath($this->module_path.'tpl');
-		$this->setTemplateFile('adminConfig');
+		$this->setTemplateFile('upload_config');
 	}
 
 	/**

@@ -1,13 +1,13 @@
 <include target="header.html" />
 
-<div cond="$XE_VALIDATOR_MESSAGE && $XE_VALIDATOR_ID == 'modules/file/tpl/adminConfig/1'" class="message {$XE_VALIDATOR_MESSAGE_TYPE}">
+<div cond="$XE_VALIDATOR_MESSAGE && $XE_VALIDATOR_ID == 'modules/file/tpl/upload_config/1'" class="message {$XE_VALIDATOR_MESSAGE_TYPE}">
 	<p>{$XE_VALIDATOR_MESSAGE}</p>
 </div>
 
 <form ruleset="insertConfig" action="./" method="post" class="x_form-horizontal section">
 	<input type="hidden" name="module" value="file" />
-	<input type="hidden" name="act" value="procFileAdminInsertConfig" />
-	<input type="hidden" name="xe_validator_id" value="modules/file/tpl/adminConfig/1" />
+	<input type="hidden" name="act" value="procFileAdminInsertUploadConfig" />
+	<input type="hidden" name="xe_validator_id" value="modules/file/tpl/upload_config/1" />
 	<div class="x_control-group">
 		<label for="allowed_filesize" class="x_control-label">{$lang->allowed_filesize}</label>
 		<div class="x_controls">
