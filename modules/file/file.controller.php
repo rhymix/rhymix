@@ -863,6 +863,7 @@ class fileController extends file
 
 		// Sanitize filename
 		$file_info['name'] = Rhymix\Framework\Filters\FilenameFilter::clean($file_info['name']);
+		$file_info['resized'] = false;
 
 		// Get extension
 		$extension = explode('.', $file_info['name']) ?: array('');
@@ -890,29 +891,11 @@ class fileController extends file
 					throw new Rhymix\Framework\Exception('msg_not_allowed_filetype');
 				}
 			}
-
-			// Check file size
-			$allowed_filesize = $config->allowed_filesize * 1024 * 1024;
-			$allowed_attach_size = $config->allowed_attach_size * 1024 * 1024;
-			if($allowed_filesize < filesize($file_info['tmp_name']))
-			{
-				throw new Rhymix\Framework\Exception('msg_exceeds_limit_size');
-			}
-			
-			// Get total size of all attachements
-			$size_args = new stdClass;
-			$size_args->upload_target_srl = $upload_target_srl;
-			$output = executeQuery('file.getAttachedFileSize', $size_args);
-			$attached_size = (int)$output->data->attached_size + filesize($file_info['tmp_name']);
-			if($attached_size > $allowed_attach_size)
-			{
-				throw new Rhymix\Framework\Exception('msg_exceeds_limit_size');
-			}
 			
 			// Check image dimensions
 			if($config->max_image_size_action && ($config->max_image_width || $config->max_image_height))
 			{
-				if(in_array($extension, array('gif', 'jpg', 'png', 'webp', 'bmp')))
+				if(in_array($extension, array('gif', 'jpg', 'jpeg', 'png', 'webp', 'bmp')))
 				{
 					if ($image_info = @getimagesize($file_info['tmp_name']))
 					{
@@ -948,11 +931,48 @@ class fileController extends file
 							}
 							else
 							{
-								// TODO
+								$resize_width = $image_width;
+								$resize_height = $image_height;
+								if ($config->max_image_width > 0 && $image_width > $config->max_image_width)
+								{
+									$resize_width = $config->max_image_width;
+									$resize_height = $image_height * ($config->max_image_width / $image_width);
+								}
+								if ($config->max_image_height > 0 && $resize_height > $config->max_image_height)
+								{
+									$resize_width = $resize_width * ($config->max_image_height / $resize_height);
+									$resize_height = $config->max_image_height;
+								}
+								$target_type = ($extension === 'webp' || $extension === 'bmp') ? 'jpg' : $extension;
+								$resize_result = FileHandler::createImageFile($file_info['tmp_name'], $file_info['tmp_name'] . '.resized', intval($resize_width), intval($resize_height), $target_type);
+								if ($resize_result)
+								{
+									$file_info['tmp_name'] = $file_info['tmp_name'] . '.resized';
+									$file_info['size'] = filesize($file_info['tmp_name']);
+									$file_info['resized'] = true;
+								}
 							}
 						}
 					}
 				}
+			}
+
+			// Check file size
+			$file_size = filesize($file_info['tmp_name']);
+			$allowed_filesize = $config->allowed_filesize * 1024 * 1024;
+			$allowed_attach_size = $config->allowed_attach_size * 1024 * 1024;
+			if($allowed_filesize < $file_size)
+			{
+				throw new Rhymix\Framework\Exception('msg_exceeds_limit_size');
+			}
+			
+			// Get total size of all attachements
+			$size_args = new stdClass;
+			$size_args->upload_target_srl = $upload_target_srl;
+			$output = executeQuery('file.getAttachedFileSize', $size_args);
+			if($allowed_attach_size < intval($output->data->attached_size) + $file_size)
+			{
+				throw new Rhymix\Framework\Exception('msg_exceeds_limit_size');
 			}
 		}
 		
@@ -992,7 +1012,7 @@ class fileController extends file
 		}
 		
 		// Move the file
-		if($manual_insert)
+		if($manual_insert && !$file_info['resized'])
 		{
 			@copy($file_info['tmp_name'], $filename);
 			if(!file_exists($filename))
@@ -1004,7 +1024,7 @@ class fileController extends file
 				}
 			}
 		}
-		elseif(starts_with(RX_BASEDIR . 'files/attach/chunks/', $file_info['tmp_name']))
+		elseif(starts_with(RX_BASEDIR . 'files/attach/chunks/', $file_info['tmp_name']) || $file_info['resized'])
 		{
 			if (!Rhymix\Framework\Storage::move($file_info['tmp_name'], $filename))
 			{
