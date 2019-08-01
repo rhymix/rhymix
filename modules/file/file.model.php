@@ -187,6 +187,7 @@ class fileModel extends file
 
 		if($file_config)
 		{
+			$config->use_default_file_config = $file_config->use_default_file_config;
 			$config->allowed_filesize = $file_config->allowed_filesize;
 			$config->allowed_attach_size = $file_config->allowed_attach_size;
 			$config->allowed_filetypes = $file_config->allowed_filetypes;

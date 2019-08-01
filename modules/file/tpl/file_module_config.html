@@ -1,3 +1,6 @@
+<load target="css/config.css" />
+<load target="js/config.js" />
+
 <section class="section">
 	<h1>{$lang->file}</h1>
 
@@ -7,6 +10,17 @@
 		<input type="hidden" name="success_return_url" value="{getRequestUriByServerEnviroment()}" />
 		<input type="hidden" name="target_module_srl" value="{$module_info->module_srl?$module_info->module_srl:$module_srls}" />
 
+		<div class="x_control-group use_default_file_config">
+			<label for="allowed_filesize" class="x_control-label">{$lang->use_default_file_config}</label>
+			<div class="x_controls">
+				<label for="use_default_file_config" class="x_inline">
+					<input type="checkbox" name="use_default_file_config" id="use_default_file_config" value="Y" checked="checked"|cond="$file_config->use_default_file_config" />
+					{$lang->about_use_default_file_config}
+				</label>
+			</div>
+		</div>
+		<div class="use_custom_file_config" style="display:none"|cond="$file_config->use_default_file_config">
+		
 		<div class="x_control-group">
 			<label for="allowed_filesize" class="x_control-label">{$lang->allowed_filesize}</label>
 			<div class="x_controls">
@@ -86,6 +100,8 @@
 				<input type="text" name="allowed_filetypes" id="allowed_filetypes" value="{implode(', ', $file_config->allowed_extensions ?: [])}" />
 				<p class="x_help-block">{$lang->about_allowed_filetypes}</p>
 			</div>
+		</div>
+		
 		</div>
 		<div class="x_control-group">
 			<label class="x_control-label">{$lang->enable_download_group}</label>

@@ -147,8 +147,6 @@ class fileAdminController extends file
 		if(preg_match('/^([0-9,]+)$/',$module_srl)) $module_srl = explode(',',$module_srl);
 		else $module_srl = array($module_srl);
 
-		$download_grant = Context::get('download_grant');
-
 		$file_config = new stdClass;
 		$file_config->allowed_filesize = Context::get('allowed_filesize');
 		$file_config->allowed_attach_size = Context::get('allowed_attach_size');
@@ -162,15 +160,6 @@ class fileAdminController extends file
 		$file_config->image_autoconv_quality = max(50, min(100, intval(Context::get('image_autoconv_quality'))));
 		$file_config->image_autorotate = Context::get('image_autorotate') === 'Y' ? true : false;
 		$file_config->image_autorotate_quality = max(50, min(100, intval(Context::get('image_autorotate_quality'))));
-
-		if(!is_array($download_grant))
-		{
-			$file_config->download_grant = explode('|@|',$download_grant);
-		}
-		else
-		{
-			$file_config->download_grant = array_values($download_grant);
-		}
 
 		// Check maximum file size
 		if (PHP_INT_SIZE < 8)
@@ -196,6 +185,23 @@ class fileAdminController extends file
 			$file_config->allowed_filetypes = '*.*';
 		}
 		
+		// Use default config
+		if(Context::get('use_default_file_config') === 'Y')
+		{
+			$file_config = new stdClass;
+			$file_config->use_default_file_config = true;
+		}
+		
+		// Check download grant
+		$download_grant = Context::get('download_grant');
+		if(!is_array($download_grant))
+		{
+			$file_config->download_grant = explode('|@|',$download_grant);
+		}
+		else
+		{
+			$file_config->download_grant = array_values($download_grant);
+		}
 		$oModuleController = getController('module');
 		for($i=0;$i<count($module_srl);$i++)
 		{
