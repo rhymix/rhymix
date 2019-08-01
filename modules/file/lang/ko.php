@@ -34,7 +34,7 @@ $lang->inline_download_text = '텍스트 (HTML 제외)';
 $lang->inline_download_pdf = 'PDF';
 $lang->about_inline_download_format = '선택한 종류의 파일은 다운로드 링크를 클릭하더라도 다운로드 창을 열지 않고 현재 창에 표시합니다.';
 $lang->enable_download_group = '다운로드 가능 그룹';
-$lang->about_allow_outlink = '다른 사이트에서 파일 다운로드 링크에 직접 접근하는 것을 차단합니다.<br />다운로드 링크를 사용하지 않고 본문에 바로 삽입할 수 있는 이미지 파일 등에는 적용되지 않습니다.';
+$lang->about_allow_outlink = '다른 사이트에서 파일 다운로드 링크에 직접 접근하는 것을 허용합니다.<br />본문에 바로 삽입할 수 있는 이미지 파일은 라이믹스에서 접근을 통제할 수 없으며, 이를 차단하려면 웹서버 설정이 필요합니다.';
 $lang->about_allow_outlink_format = '파일 외부 링크 설정에 상관없이 허용하는 파일 확장자입니다.<br />여러 개 입력시 쉼표(,)을 이용해서 구분해 주세요. 예) doc, zip, pdf';
 $lang->about_allow_outlink_site = '파일 외부 링크 설정에 상관없이 허용하는 사이트 주소입니다.<br />여러 개 입력시 줄을 바꿔서 구분해 주세요. 예) https://www.rhymix.org/';
 $lang->about_allowed_filesize = '각 파일의 용량을 제한할 수 있습니다.<br />관리자에게는 이 게시판의 제한과 <a href="%s" target="_blank">파일 모듈</a>의 제한 중 높은 쪽이 적용됩니다.';

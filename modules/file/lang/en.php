@@ -34,7 +34,7 @@ $lang->inline_download_text = 'Text (except HTML)';
 $lang->inline_download_pdf = 'PDF';
 $lang->about_inline_download_format = 'Selected types of files will be opened in the current window instead of a download dialog when a user clicks the download link.';
 $lang->enable_download_group = 'Downloadable Groups';
-$lang->about_allow_outlink = 'You can block other websites from accessing your download URLs directly.<br />This does not apply to images and other files that can be embedded directly in a document.';
+$lang->about_allow_outlink = 'Allow other websites to link directly to your download URLs.<br />Rhymix does not control links to image files that can be embedded directly in a document.<br />in order to block external links to such images, you may need to modify your web server configuration.';
 $lang->about_allow_outlink_format = 'These file formats will always be allowed.<br />Please use a comma (,) to separate items: e.g. doc, zip, pdf';
 $lang->about_allow_outlink_site = 'These referers will always be allowed.<br />Please enter one full address per line: e.g. https://www.rhymix.org/';
 $lang->about_allowed_filesize = 'You can limit the size of each attached file.<br />Administrators are limited to this setting or the limit set in the <a href="%s" target="_blank">file module</a>, whichever is greater.';
