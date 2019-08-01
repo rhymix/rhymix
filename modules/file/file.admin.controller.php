@@ -150,12 +150,18 @@ class fileAdminController extends file
 		$download_grant = Context::get('download_grant');
 
 		$file_config = new stdClass;
-		$file_config->allow_outlink = Context::get('allow_outlink');
-		$file_config->allow_outlink_format = Context::get('allow_outlink_format');
-		$file_config->allow_outlink_site = Context::get('allow_outlink_site');
 		$file_config->allowed_filesize = Context::get('allowed_filesize');
 		$file_config->allowed_attach_size = Context::get('allowed_attach_size');
 		$file_config->allowed_filetypes = Context::get('allowed_filetypes');
+		$file_config->max_image_width = intval(Context::get('max_image_width')) ?: '';
+		$file_config->max_image_height = intval(Context::get('max_image_height')) ?: '';
+		$file_config->max_image_size_action = Context::get('max_image_size_action') ?: '';
+		$file_config->max_image_size_quality = max(50, min(100, intval(Context::get('max_image_size_quality'))));
+		$file_config->image_autoconv['bmp2jpg'] = Context::get('image_autoconv_bmp2jpg') === 'Y' ? true : false;
+		$file_config->image_autoconv['webp2jpg'] = Context::get('image_autoconv_webp2jpg') === 'Y' ? true : false;
+		$file_config->image_autoconv_quality = max(50, min(100, intval(Context::get('image_autoconv_quality'))));
+		$file_config->image_autorotate = Context::get('image_autorotate') === 'Y' ? true : false;
+		$file_config->image_autorotate_quality = max(50, min(100, intval(Context::get('image_autorotate_quality'))));
 
 		if(!is_array($download_grant))
 		{
