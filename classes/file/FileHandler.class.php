@@ -479,9 +479,11 @@ class FileHandler
 	 * @param int $resize_height Height to resize
 	 * @param string $target_type If $target_type is set (gif, jpg, png, bmp), result image will be saved as target type
 	 * @param string $thumbnail_type Thumbnail type(crop, ratio)
+	 * @param int $quality Compression ratio (0~100)
+	 * @param int $rotate Rotation degrees (0~360)
 	 * @return bool TRUE: success, FALSE: failed
 	 */
-	public static function createImageFile($source_file, $target_file, $resize_width = 0, $resize_height = 0, $target_type = '', $thumbnail_type = 'crop')
+	public static function createImageFile($source_file, $target_file, $resize_width = 0, $resize_height = 0, $target_type = '', $thumbnail_type = 'crop', $quality = 100, $rotate = 0)
 	{
 		// check params
 		if (($source_file = self::exists($source_file)) === FALSE)
@@ -527,6 +529,12 @@ class FileHandler
 			case '6' :
 				$type = 'bmp';
 				break;
+			case '8' :
+				$type = 'wbmp';
+				break;
+			case '18' :
+				$type = 'webp';
+				break;
 			default :
 				return;
 		}
@@ -536,49 +544,6 @@ class FileHandler
 			$target_type = $type;
 		}
 		$target_type = strtolower($target_type);
-
-		// if original image is larger than specified size to resize, calculate the ratio
-		$width_per = ($resize_width > 0 && $width >= $resize_width) ? $resize_width / $width : 1;
-		$height_per = ($resize_height > 0 && $height >= $resize_height) ? $resize_height / $height : 1;
-
-		$per = NULL;
-		if($thumbnail_type == 'ratio')
-		{
-			$per = ($width_per > $height_per) ? $height_per : $width_per;
-			$resize_width = $width * $per;
-			$resize_height = $height * $per;
-		}
-		else
-		{
-			$per = ($width_per < $height_per) ? $height_per : $width_per;
-		}
-
-		// create temporary image with target size
-		$thumb = NULL;
-		if(function_exists('imagecreateTRUEcolor'))
-		{
-			$thumb = imagecreateTRUEcolor($resize_width, $resize_height);
-		}
-		else if(function_exists('imagecreate'))
-		{
-			$thumb = imagecreate($resize_width, $resize_height);
-		}
-
-		if(!$thumb)
-		{
-			return FALSE;
-		}
-
-		if($target_type == 'png' && function_exists('imagecolorallocatealpha') && function_exists('imagesavealpha') && function_exists('imagealphablending'))
-		{
-			imagefill($thumb, 0, 0, imagecolorallocatealpha($thumb, 0, 0, 0, 127));
-			imagesavealpha($thumb, TRUE);
-			imagealphablending($thumb, TRUE);
-		}
-		else
-		{
-			imagefilledrectangle($thumb, 0, 0, $resize_width - 1, $resize_height - 1, imagecolorallocate($thumb, 255, 255, 255));
-		}
 
 		// create temporary image having original type
 		$source = NULL;
@@ -603,11 +568,22 @@ class FileHandler
 					$source = @imagecreatefrompng($source_file);
 				}
 				break;
-			case 'wbmp' :
 			case 'bmp' :
+				if(function_exists('imagecreatefrombmp'))
+				{
+					$source = @imagecreatefrombmp($source_file);
+				}
+				break;
+			case 'wbmp' :
 				if(function_exists('imagecreatefromwbmp'))
 				{
 					$source = @imagecreatefromwbmp($source_file);
+				}
+				break;
+			case 'webp' :
+				if(function_exists('imagecreatefromwebp'))
+				{
+					$source = @imagecreatefromwebp($source_file);
 				}
 				break;
 		}
@@ -618,27 +594,86 @@ class FileHandler
 			return FALSE;
 		}
 
-		// resize original image and put it into temporary image
-		$new_width = (int) ($width * $per);
-		$new_height = (int) ($height * $per);
-
-		$x = 0;
-		$y = 0;
-		if($thumbnail_type == 'crop')
+		// Rotate image
+		if ($rotate)
 		{
-			$x = (int) ($resize_width / 2 - $new_width / 2);
-			$y = (int) ($resize_height / 2 - $new_height / 2);
+			$source = imagerotate($source, $rotate, 0);
+			$width = imagesx($source);
+			$height = imagesy($source);
 		}
 
-		if(function_exists('imagecopyresampled'))
+		// If resize not needed, skip thumbnail generation
+		if ($width == $resize_width && $height == $resize_height)
 		{
-			imagecopyresampled($thumb, $source, $x, $y, 0, 0, $new_width, $new_height, $width, $height);
+			$thumb = &$source;
 		}
 		else
 		{
-			imagecopyresized($thumb, $source, $x, $y, 0, 0, $new_width, $new_height, $width, $height);
-		}
+			// if original image is larger than specified size to resize, calculate the ratio
+			$width_per = ($resize_width > 0 && $width >= $resize_width) ? $resize_width / $width : 1;
+			$height_per = ($resize_height > 0 && $height >= $resize_height) ? $resize_height / $height : 1;
 
+			$per = NULL;
+			if($thumbnail_type == 'ratio')
+			{
+				$per = ($width_per > $height_per) ? $height_per : $width_per;
+				$resize_width = $width * $per;
+				$resize_height = $height * $per;
+			}
+			else
+			{
+				$per = ($width_per < $height_per) ? $height_per : $width_per;
+			}
+
+			// create temporary image with target size
+			$thumb = NULL;
+			if(function_exists('imagecreateTRUEcolor'))
+			{
+				$thumb = imagecreateTRUEcolor($resize_width, $resize_height);
+			}
+			else if(function_exists('imagecreate'))
+			{
+				$thumb = imagecreate($resize_width, $resize_height);
+			}
+
+			if(!$thumb)
+			{
+				return FALSE;
+			}
+
+			if($target_type == 'png' && function_exists('imagecolorallocatealpha') && function_exists('imagesavealpha') && function_exists('imagealphablending'))
+			{
+				imagefill($thumb, 0, 0, imagecolorallocatealpha($thumb, 0, 0, 0, 127));
+				imagesavealpha($thumb, TRUE);
+				imagealphablending($thumb, TRUE);
+			}
+			else
+			{
+				imagefilledrectangle($thumb, 0, 0, $resize_width - 1, $resize_height - 1, imagecolorallocate($thumb, 255, 255, 255));
+			}
+
+			// resize original image and put it into temporary image
+			$new_width = (int) ($width * $per);
+			$new_height = (int) ($height * $per);
+
+			$x = 0;
+			$y = 0;
+			if($thumbnail_type == 'crop')
+			{
+				$x = (int) ($resize_width / 2 - $new_width / 2);
+				$y = (int) ($resize_height / 2 - $new_height / 2);
+			}
+
+			if(function_exists('imagecopyresampled'))
+			{
+				imagecopyresampled($thumb, $source, $x, $y, 0, 0, $new_width, $new_height, $width, $height);
+			}
+			else
+			{
+				imagecopyresized($thumb, $source, $x, $y, 0, 0, $new_width, $new_height, $width, $height);
+			}
+		}
+		
 		// create directory
 		self::makeDir(dirname($target_file));
 
@@ -656,7 +691,7 @@ class FileHandler
 			case 'jpg' :
 				if(function_exists('imagejpeg'))
 				{
-					$output = imagejpeg($thumb, $target_file, 100);
+					$output = imagejpeg($thumb, $target_file, $quality);
 				}
 				break;
 			case 'png' :
@@ -665,11 +700,22 @@ class FileHandler
 					$output = imagepng($thumb, $target_file, 9);
 				}
 				break;
-			case 'wbmp' :
 			case 'bmp' :
+				if(function_exists('imagebmp'))
+				{
+					$output = imagebmp($thumb, $target_file);
+				}
+				break;
+			case 'wbmp' :
 				if(function_exists('imagewbmp'))
 				{
-					$output = imagewbmp($thumb, $target_file, 100);
+					$output = imagewbmp($thumb, $target_file);
+				}
+				break;
+			case 'webp' :
+				if(function_exists('imagewebp'))
+				{
+					$output = imagewebp($thumb, $target_file);
 				}
 				break;
 		}

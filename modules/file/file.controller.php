@@ -861,48 +861,63 @@ class fileController extends file
 			$file_info['name'] = base64_decode(strtr($match[1], ':', '/'));
 		}
 
+		// Sanitize filename
+		$file_info['name'] = Rhymix\Framework\Filters\FilenameFilter::clean($file_info['name']);
+
+		// Get extension
+		$extension = explode('.', $file_info['name']) ?: array('');
+		$extension = strtolower(array_pop($extension));
+		
+		// Add extra fields to file info array
+		$file_info['extension'] = $extension;
+		$file_info['resized'] = false;
+		
+		// Get file module configuration
+		$oFileModel = getModel('file');
+		$config = $oFileModel->getFileConfig($module_srl);
+		
+		// Check file type
+		if(!$manual_insert && !$this->user->isAdmin())
+		{
+
+			// Check file type
+			if(isset($config->allowed_extensions) && count($config->allowed_extensions))
+			{
+				if(!in_array($extension, $config->allowed_extensions))
+				{
+					throw new Rhymix\Framework\Exception('msg_not_allowed_filetype');
+				}
+			}
+		}
+		
+		// Check image type and size
 		if(!$manual_insert)
 		{
-			// Get the file configurations
-			$logged_info = Context::get('logged_info');
-			if($logged_info->is_admin != 'Y')
+			if(in_array($extension, array('gif', 'jpg', 'jpeg', 'png', 'webp', 'bmp')))
 			{
-				$oFileModel = getModel('file');
-				$config = $oFileModel->getFileConfig($module_srl);
-
-				// check file type
-				if(isset($config->allowed_filetypes) && $config->allowed_filetypes !== '*.*')
-				{
-					$filetypes = explode(';', $config->allowed_filetypes);
-					$ext = array();
-					foreach($filetypes as $item) {
-						$item = explode('.', $item);
-						$ext[] = strtolower($item[1]);
-					}
-					$uploaded_ext = explode('.', $file_info['name']);
-					$uploaded_ext = strtolower(array_pop($uploaded_ext));
-
-					if(!in_array($uploaded_ext, $ext))
-					{
-						throw new Rhymix\Framework\Exception('msg_not_allowed_filetype');
-					}
-				}
-
-				$allowed_filesize = $config->allowed_filesize * 1024 * 1024;
-				$allowed_attach_size = $config->allowed_attach_size * 1024 * 1024;
-				// An error appears if file size exceeds a limit
-				if($allowed_filesize < filesize($file_info['tmp_name'])) throw new Rhymix\Framework\Exception('msg_exceeds_limit_size');
-				// Get total file size of all attachements (from DB)
-				$size_args = new stdClass;
-				$size_args->upload_target_srl = $upload_target_srl;
-				$output = executeQuery('file.getAttachedFileSize', $size_args);
-				$attached_size = (int)$output->data->attached_size + filesize($file_info['tmp_name']);
-				if($attached_size > $allowed_attach_size) throw new Rhymix\Framework\Exception('msg_exceeds_limit_size');
+				$file_info = $this->checkUploadedImage($file_info, $config);
 			}
 		}
 
-		// Sanitize filename
-		$file_info['name'] = Rhymix\Framework\Filters\FilenameFilter::clean($file_info['name']);
+		// Check file size
+		if(!$manual_insert && !$this->user->isAdmin())
+		{
+			$file_size = filesize($file_info['tmp_name']);
+			$allowed_filesize = $config->allowed_filesize * 1024 * 1024;
+			$allowed_attach_size = $config->allowed_attach_size * 1024 * 1024;
+			if($allowed_filesize < $file_size)
+			{
+				throw new Rhymix\Framework\Exception('msg_exceeds_limit_size');
+			}
+			
+			$size_args = new stdClass;
+			$size_args->upload_target_srl = $upload_target_srl;
+			$output = executeQuery('file.getAttachedFileSize', $size_args);
+			if($allowed_attach_size < intval($output->data->attached_size) + $file_size)
+			{
+				throw new Rhymix\Framework\Exception('msg_exceeds_limit_size');
+			}
+		}
 		
 		// Get file_srl
 		$file_srl = getNextSequence();
@@ -940,7 +955,7 @@ class fileController extends file
 		}
 		
 		// Move the file
-		if($manual_insert)
+		if($manual_insert && !$file_info['converted'])
 		{
 			@copy($file_info['tmp_name'], $filename);
 			if(!file_exists($filename))
@@ -952,7 +967,7 @@ class fileController extends file
 				}
 			}
 		}
-		elseif(starts_with(RX_BASEDIR . 'files/attach/chunks/', $file_info['tmp_name']))
+		elseif(starts_with(RX_BASEDIR . 'files/attach/chunks/', $file_info['tmp_name']) || $file_info['converted'])
 		{
 			if (!Rhymix\Framework\Storage::move($file_info['tmp_name'], $filename))
 			{
@@ -1007,6 +1022,136 @@ class fileController extends file
 		$output->add('upload_target_srl', $upload_target_srl);
 		$output->add('uploaded_filename', $args->uploaded_filename);
 		return $output;
+	}
+
+	/**
+	 * Check uploaded image
+	 */
+	public function checkUploadedImage($file_info, $config)
+	{
+		// Get image information
+		$image_info = @getimagesize($file_info['tmp_name']);
+		if (!$image_info)
+		{
+			return $file_info;
+		}
+		
+		$image_width = $image_info[0];
+		$image_height = $image_info[1];
+		$image_type = $image_info[2];
+		$convert = false;
+		
+		// Check image type
+		if($config->image_autoconv['bmp2jpg'] && function_exists('imagebmp') && $image_type === 6)
+		{
+			$convert = array($image_width, $image_height, 'jpg', $config->image_autoconv_quality ?: 75, 0);
+		}
+		if($config->image_autoconv['webp2jpg'] && function_exists('imagewebp') && $image_type === 18)
+		{
+			$convert = array($image_width, $image_height, 'jpg', $config->image_autoconv_quality ?: 75, 0);
+		}
+		
+		// Check image rotation
+		if($config->image_autorotate && function_exists('exif_read_data'))
+		{
+			$exif = @exif_read_data($file_info['tmp_name']);
+			if($exif && isset($exif['Orientation']))
+			{
+				switch ($exif['Orientation'])
+				{
+					case 3: $rotate = 180; break;
+					case 6: $rotate = 270; break;
+					case 8: $rotate = 90; break;
+					default: $rotate = 0;
+				}
+				if ($rotate)
+				{
+					$convert = $convert ?: array($image_width, $image_height, $file_info['extension']);
+					if ($rotate == 90 || $rotate == 270)
+					{
+						$image_height = $convert[0];
+						$image_width = $convert[1];
+						$convert[0] = $image_width;
+						$convert[1] = $image_height;
+					}
+					$convert[3] = $config->image_autorotate_quality ?: 75;
+					$convert[4] = $rotate;
+				}
+			}
+			unset($exif);
+		}
+		
+		// Check image size
+		if($config->max_image_size_action && ($config->max_image_width || $config->max_image_height) && !$this->user->isAdmin())
+		{
+			$exceeded = false;
+			if ($config->max_image_width > 0 && $image_width > $config->max_image_width)
+			{
+				$exceeded = true;
+			}
+			elseif ($config->max_image_height > 0 && $image_height > $config->max_image_height)
+			{
+				$exceeded = true;
+			}
+			
+			if ($exceeded)
+			{
+				// Block upload
+				if ($config->max_image_size_action === 'block')
+				{
+					if ($config->max_image_width && $config->max_image_height)
+					{
+						$message = sprintf(lang('msg_exceeds_max_image_size'), $config->max_image_width, $config->max_image_height);
+					}
+					elseif ($config->max_image_width)
+					{
+						$message = sprintf(lang('msg_exceeds_max_image_width'), $config->max_image_width);
+					}
+					else
+					{
+						$message = sprintf(lang('msg_exceeds_max_image_height'), $config->max_image_height);
+					}
+					
+					throw new Rhymix\Framework\Exception($message);
+				}
+				
+				// Resize automatically
+				else
+				{
+					$resize_width = $image_width;
+					$resize_height = $image_height;
+					if ($config->max_image_width > 0 && $image_width > $config->max_image_width)
+					{
+						$resize_width = $config->max_image_width;
+						$resize_height = $image_height * ($config->max_image_width / $image_width);
+					}
+					if ($config->max_image_height > 0 && $resize_height > $config->max_image_height)
+					{
+						$resize_width = $resize_width * ($config->max_image_height / $resize_height);
+						$resize_height = $config->max_image_height;
+					}
+					$target_type = in_array($image_type, array(6, 8, 18)) ? 'jpg' : $file_info['extension'];
+					$rotate = ($convert && $convert[4]) ? $convert[4] : 0;
+					$convert = array(intval($resize_width), intval($resize_height), $target_type, $config->max_image_size_quality ?: 75, $rotate);
+				}
+			}
+		}
+		
+		// Convert image if necessary
+		if ($convert)
+		{
+			$result = FileHandler::createImageFile($file_info['tmp_name'], $file_info['tmp_name'] . '.conv', $convert[0], $convert[1], $convert[2], 'crop', $convert[3], $convert[4]);
+			if ($result)
+			{
+				$file_info['name'] = preg_replace('/\.' . preg_quote($file_info['extension'], '/') . '$/i', '.' . $convert[2], $file_info['name']);
+				$file_info['tmp_name'] = $file_info['tmp_name'] . '.conv';
+				$file_info['size'] = filesize($file_info['tmp_name']);
+				$file_info['extension'] = $convert[2];
+				$file_info['converted'] = true;
+			}
+		}
+		
+		return $file_info;
 	}
 
 	/**

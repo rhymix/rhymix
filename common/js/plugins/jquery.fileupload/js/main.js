@@ -372,12 +372,12 @@
 				data.uploadTargetSrl = res.uploadTargetSrl;
 
 				// @TODO 정리
-				$container.find('.allowed_filetypes').text(res.allowed_filetypes);
+				$container.find('.allowed_filetypes').text(res.allowed_extensions.join(', '));
 				$container.find('.allowed_filesize').text(res.allowed_filesize);
 				$container.find('.allowed_attach_size').text(res.allowed_attach_size);
 				$container.find('.attached_size').text(res.attached_size);
 				$container.find('.file_count').text(res.files.length);
-				if(res.allowed_filetypes === '*.*') {
+				if(res.allowed_extensions.length == 0) {
 					$container.find('.allowed_filetypes_container').hide();
 				} else {
 					$container.find('.allowed_filetypes_container').show();

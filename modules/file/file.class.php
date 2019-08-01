@@ -21,6 +21,7 @@ class file extends ModuleObject
 		$config->allowed_filesize = '2';
 		$config->allowed_attach_size = '2';
 		$config->allowed_filetypes = '*.*';
+		$config->allowed_extensions = array();
 		$oModuleController->insertModuleConfig('file', $config);
 		// Generate a directory for the file module
 		FileHandler::makeDir('./files/attach/images');

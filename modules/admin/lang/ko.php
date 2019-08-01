@@ -273,6 +273,7 @@ $lang->detail_input_footer_script = '모든 페이지의 최하단에 코드를 
 $lang->thumbnail_crop = '크기에 맞추어 잘라내기';
 $lang->thumbnail_ratio = '비율 유지 (여백이 생길 수 있음)';
 $lang->thumbnail_none = '썸네일 생성하지 않음';
+$lang->thumbnail_quality = '화질';
 $lang->admin_ip_allow = '관리자 로그인 허용 IP';
 $lang->admin_ip_deny = '관리자 로그인 금지 IP';
 $lang->local_ip_address = '로컬 IP 주소';

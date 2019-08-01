@@ -210,11 +210,11 @@ class fileAdminView extends file
 	}
 
 	/**
-	 * Set attachment information (for administrator)
+	 * Upload config screen
 	 *
 	 * @return Object
 	 */
-	function dispFileAdminConfig()
+	function dispFileAdminUploadConfig()
 	{
 		$oFileModel = getModel('file');
 		$config = $oFileModel->getFileConfig();
@@ -222,7 +222,23 @@ class fileAdminView extends file
 		
 		// Set a template file
 		$this->setTemplatePath($this->module_path.'tpl');
-		$this->setTemplateFile('adminConfig');
+		$this->setTemplateFile('upload_config');
+	}
+
+	/**
+	 * Download config screen
+	 *
+	 * @return Object
+	 */
+	function dispFileAdminDownloadConfig()
+	{
+		$oFileModel = getModel('file');
+		$config = $oFileModel->getFileConfig();
+		Context::set('config',$config);
+		
+		// Set a template file
+		$this->setTemplatePath($this->module_path.'tpl');
+		$this->setTemplateFile('download_config');
 	}
 }
 /* End of file file.admin.view.php */

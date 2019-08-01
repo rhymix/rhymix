@@ -55,21 +55,26 @@ class fileAdminController extends file
 	}
 
 	/**
-	 * Add file information
+	 * Save upload configuration
 	 *
 	 * @return Object
 	 */
-	function procFileAdminInsertConfig()
+	function procFileAdminInsertUploadConfig()
 	{
-		// Get configurations (using module model object)
-		$config = new stdClass();
+		// Update configuration
+		$config = getModel('module')->getModuleConfig('file');
 		$config->allowed_filesize = Context::get('allowed_filesize');
 		$config->allowed_attach_size = Context::get('allowed_attach_size');
-		$config->allowed_filetypes = str_replace(' ', '', Context::get('allowed_filetypes'));
-		$config->allow_outlink = Context::get('allow_outlink');
-		$config->allow_outlink_format = Context::get('allow_outlink_format');
-		$config->allow_outlink_site = Context::get('allow_outlink_site');
-		$config->inline_download_format = array_map('utf8_trim', Context::get('inline_download_format'));
+		$config->allowed_filetypes = Context::get('allowed_filetypes');
+		$config->max_image_width = intval(Context::get('max_image_width')) ?: '';
+		$config->max_image_height = intval(Context::get('max_image_height')) ?: '';
+		$config->max_image_size_action = Context::get('max_image_size_action') ?: '';
+		$config->max_image_size_quality = max(50, min(100, intval(Context::get('max_image_size_quality'))));
+		$config->image_autoconv['bmp2jpg'] = Context::get('image_autoconv_bmp2jpg') === 'Y' ? true : false;
+		$config->image_autoconv['webp2jpg'] = Context::get('image_autoconv_webp2jpg') === 'Y' ? true : false;
+		$config->image_autoconv_quality = max(50, min(100, intval(Context::get('image_autoconv_quality'))));
+		$config->image_autorotate = Context::get('image_autorotate') === 'Y' ? true : false;
+		$config->image_autorotate_quality = max(50, min(100, intval(Context::get('image_autorotate_quality'))));
 		
 		// Check maximum file size
 		if (PHP_INT_SIZE < 8)
@@ -80,11 +85,52 @@ class fileAdminController extends file
 			}
 		}
 		
-		// Create module Controller object
+		// Simplify allowed_filetypes
+		$config->allowed_extensions = strtr(strtolower(trim($config->allowed_filetypes)), array('*.' => '', ';' => ','));
+		if ($config->allowed_extensions)
+		{
+			$config->allowed_extensions = array_map('trim', explode(',', $config->allowed_filetypes));
+			$config->allowed_filetypes = implode(';', array_map(function($ext) {
+				return '*.' . $ext;
+			}, $config->allowed_extensions));
+		}
+		else
+		{
+			$config->allowed_extensions = array();
+			$config->allowed_filetypes = '*.*';
+		}
+		
+		// Save and redirect
 		$oModuleController = getController('module');
 		$output = $oModuleController->insertModuleConfig('file',$config);
 
-		$returnUrl = Context::get('success_return_url') ? Context::get('success_return_url') : getNotEncodedUrl('', 'module', 'admin', 'act', 'dispFileAdminConfig');
+		$returnUrl = Context::get('success_return_url') ? Context::get('success_return_url') : getNotEncodedUrl('', 'module', 'admin', 'act', 'dispFileAdminUploadConfig');
+		return $this->setRedirectUrl($returnUrl, $output);
+	}
+
+	/**
+	 * Save download configuration
+	 *
+	 * @return Object
+	 */
+	function procFileAdminInsertDownloadConfig()
+	{
+		// Update configuration
+		$config = getModel('module')->getModuleConfig('file');
+		$config->allow_outlink = Context::get('allow_outlink');
+		$config->allow_outlink_format = Context::get('allow_outlink_format');
+		$config->allow_outlink_site = Context::get('allow_outlink_site');
+		$config->inline_download_format = array_map('utf8_trim', Context::get('inline_download_format'));
+		
+		// Save and redirect
+		$oModuleController = getController('module');
+		$output = $oModuleController->insertModuleConfig('file',$config);
+		if(!$output->toBool())
+		{
+			return $output;
+		}
+
+		$returnUrl = Context::get('success_return_url') ? Context::get('success_return_url') : getNotEncodedUrl('', 'module', 'admin', 'act', 'dispFileAdminDownloadConfig');
 		return $this->setRedirectUrl($returnUrl, $output);
 	}
 
@@ -101,24 +147,19 @@ class fileAdminController extends file
 		if(preg_match('/^([0-9,]+)$/',$module_srl)) $module_srl = explode(',',$module_srl);
 		else $module_srl = array($module_srl);
 
-		$download_grant = Context::get('download_grant');
-
 		$file_config = new stdClass;
-		$file_config->allow_outlink = Context::get('allow_outlink');
-		$file_config->allow_outlink_format = Context::get('allow_outlink_format');
-		$file_config->allow_outlink_site = Context::get('allow_outlink_site');
 		$file_config->allowed_filesize = Context::get('allowed_filesize');
 		$file_config->allowed_attach_size = Context::get('allowed_attach_size');
-		$file_config->allowed_filetypes = str_replace(' ', '', Context::get('allowed_filetypes'));
-
-		if(!is_array($download_grant))
-		{
-			$file_config->download_grant = explode('|@|',$download_grant);
-		}
-		else
-		{
-			$file_config->download_grant = array_values($download_grant);
-		}
+		$file_config->allowed_filetypes = Context::get('allowed_filetypes');
+		$file_config->max_image_width = intval(Context::get('max_image_width')) ?: '';
+		$file_config->max_image_height = intval(Context::get('max_image_height')) ?: '';
+		$file_config->max_image_size_action = Context::get('max_image_size_action') ?: '';
+		$file_config->max_image_size_quality = max(50, min(100, intval(Context::get('max_image_size_quality'))));
+		$file_config->image_autoconv['bmp2jpg'] = Context::get('image_autoconv_bmp2jpg') === 'Y' ? true : false;
+		$file_config->image_autoconv['webp2jpg'] = Context::get('image_autoconv_webp2jpg') === 'Y' ? true : false;
+		$file_config->image_autoconv_quality = max(50, min(100, intval(Context::get('image_autoconv_quality'))));
+		$file_config->image_autorotate = Context::get('image_autorotate') === 'Y' ? true : false;
+		$file_config->image_autorotate_quality = max(50, min(100, intval(Context::get('image_autorotate_quality'))));
 
 		// Check maximum file size
 		if (PHP_INT_SIZE < 8)
@@ -129,6 +170,38 @@ class fileAdminController extends file
 			}
 		}
 		
+		// Simplify allowed_filetypes
+		$file_config->allowed_extensions = strtr(strtolower(trim($file_config->allowed_filetypes)), array('*.' => '', ';' => ','));
+		if ($file_config->allowed_extensions)
+		{
+			$file_config->allowed_extensions = array_map('trim', explode(',', $file_config->allowed_filetypes));
+			$file_config->allowed_filetypes = implode(';', array_map(function($ext) {
+				return '*.' . $ext;
+			}, $file_config->allowed_extensions));
+		}
+		else
+		{
+			$file_config->allowed_extensions = array();
+			$file_config->allowed_filetypes = '*.*';
+		}
+		
+		// Use default config
+		if(Context::get('use_default_file_config') === 'Y')
+		{
+			$file_config = new stdClass;
+			$file_config->use_default_file_config = true;
+		}
+		
+		// Check download grant
+		$download_grant = Context::get('download_grant');
+		if(!is_array($download_grant))
+		{
+			$file_config->download_grant = explode('|@|',$download_grant);
+		}
+		else
+		{
+			$file_config->download_grant = array_values($download_grant);
+		}
 		$oModuleController = getController('module');
 		for($i=0;$i<count($module_srl);$i++)
 		{
