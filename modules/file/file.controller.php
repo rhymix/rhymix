@@ -1045,11 +1045,11 @@ class fileController extends file
 		// Check image type
 		if($config->image_autoconv['bmp2jpg'] && function_exists('imagebmp') && $image_type === 6)
 		{
-			$convert = array($image_width, $image_height, 'jpg');
+			$convert = array($image_width, $image_height, 'jpg', $config->image_autoconv_quality ?: 75);
 		}
 		if($config->image_autoconv['webp2jpg'] && function_exists('imagewebp') && $image_type === 18)
 		{
-			$convert = array($image_width, $image_height, 'jpg');
+			$convert = array($image_width, $image_height, 'jpg', $config->image_autoconv_quality ?: 75);
 		}
 		
 		// Check image size
@@ -1102,7 +1102,7 @@ class fileController extends file
 						$resize_height = $config->max_image_height;
 					}
 					$target_type = in_array($image_type, array(6, 8, 18)) ? 'jpg' : $file_info['extension'];
-					$convert = array(intval($resize_width), intval($resize_height), $target_type);
+					$convert = array(intval($resize_width), intval($resize_height), $target_type, $config->max_image_size_quality ?: 75);
 				}
 			}
 		}
@@ -1110,8 +1110,7 @@ class fileController extends file
 		// Convert image if necessary
 		if ($convert)
 		{
-			$quality = 75;
-			$result = FileHandler::createImageFile($file_info['tmp_name'], $file_info['tmp_name'] . '.conv', $convert[0], $convert[1], $convert[2], 'crop', $quality);
+			$result = FileHandler::createImageFile($file_info['tmp_name'], $file_info['tmp_name'] . '.conv', $convert[0], $convert[1], $convert[2], 'crop', $convert[3]);
 			if ($result)
 			{
 				$file_info['name'] = preg_replace('/\.' . preg_quote($file_info['extension'], '/') . '$/i', '.' . $convert[2], $file_info['name']);

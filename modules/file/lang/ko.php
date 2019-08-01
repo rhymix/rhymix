@@ -21,6 +21,7 @@ $lang->max_image_size = '이미지 크기 제한';
 $lang->max_image_size_action_nothing = '초과시 아무 것도 하지 않음';
 $lang->max_image_size_action_block = '초과시 업로드 금지';
 $lang->max_image_size_action_resize = '초과시 자동 크기 조정';
+$lang->image_resize_quality = '화질';
 $lang->image_autoconv = '이미지 자동 변환';
 $lang->image_autoconv_bmp2jpg = 'BMP → JPG';
 $lang->image_autoconv_webp2jpg = 'WebP → JPG';

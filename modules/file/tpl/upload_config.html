@@ -32,6 +32,12 @@
 				<option value="block" selected="selected"|cond="$config->max_image_size_action == 'block'">{$lang->max_image_size_action_block}</option>
 				<option value="resize" selected="selected"|cond="$config->max_image_size_action == 'resize'">{$lang->max_image_size_action_resize}</option>
 			</select>
+			<select name="max_image_size_quality" id="max_image_size_quality" style="width:100px;min-width:100px">
+				{@ $config->max_image_size_quality = $config->max_image_size_quality ?: 75}
+				<!--@for($q = 50; $q <= 100; $q += 5)-->
+					<option value="{$q}" selected="selected"|cond="$config->max_image_size_quality == $q">{$lang->image_resize_quality} {$q}%</option>
+				<!--@endfor-->
+			</select>
 			<p class="x_help-block">{$lang->about_max_image_size}</p>
 		</div>
 	</div>
@@ -46,6 +52,12 @@
 				<input type="checkbox" name="image_autoconv_webp2jpg" id="image_autoconv_webp2jpg" value="Y" checked="checked"|cond="$config->image_autoconv['webp2jpg']" disabled="disabled"|cond="!function_exists('imagewebp')" />
 				{$lang->image_autoconv_webp2jpg}
 			</label>
+			<select name="image_autoconv_quality" id="image_autoconv_quality" style="width:100px;min-width:100px">
+				{@ $config->image_autoconv_quality = $config->image_autoconv_quality ?: 75}
+				<!--@for($q = 50; $q <= 100; $q += 5)-->
+					<option value="{$q}" selected="selected"|cond="$config->image_autoconv_quality == $q">{$lang->image_resize_quality} {$q}%</option>
+				<!--@endfor-->
+			</select>
 			<p class="x_help-block">{$lang->about_image_autoconv}</p>
 		</div>
 	</div>

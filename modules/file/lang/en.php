@@ -21,6 +21,7 @@ $lang->max_image_size = 'Maximum Image Size';
 $lang->max_image_size_action_nothing = 'If exceeded, do nothing';
 $lang->max_image_size_action_block = 'If exceeded, block upload';
 $lang->max_image_size_action_resize = 'If exceeded, resize automatically';
+$lang->image_resize_quality = 'Quality';
 $lang->image_autoconv = 'Auto-Convert Image';
 $lang->image_autoconv_bmp2jpg = 'BMP → JPG';
 $lang->image_autoconv_webp2jpg = 'WebP → JPG';
