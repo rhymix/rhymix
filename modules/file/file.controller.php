@@ -1051,11 +1051,41 @@ class fileController extends file
 		// Check image type
 		if($config->image_autoconv['bmp2jpg'] && function_exists('imagebmp') && $image_type === 6)
 		{
-			$convert = array($image_width, $image_height, 'jpg', $config->image_autoconv_quality ?: 75);
+			$convert = array($image_width, $image_height, 'jpg', $config->image_autoconv_quality ?: 75, 0);
 		}
 		if($config->image_autoconv['webp2jpg'] && function_exists('imagewebp') && $image_type === 18)
 		{
-			$convert = array($image_width, $image_height, 'jpg', $config->image_autoconv_quality ?: 75);
+			$convert = array($image_width, $image_height, 'jpg', $config->image_autoconv_quality ?: 75, 0);
+		}
+		
+		// Check image rotation
+		if($config->image_autorotate && function_exists('exif_read_data'))
+		{
+			$exif = @exif_read_data($file_info['tmp_name']);
+			if($exif && isset($exif['Orientation']))
+			{
+				switch ($exif['Orientation'])
+				{
+					case 3: $rotate = 180; break;
+					case 6: $rotate = 270; break;
+					case 8: $rotate = 90; break;
+					default: $rotate = 0;
+				}
+				if ($rotate)
+				{
+					$convert = $convert ?: array($image_width, $image_height, $file_info['extension']);
+					if ($rotate == 90 || $rotate == 270)
+					{
+						$image_height = $convert[0];
+						$image_width = $convert[1];
+						$convert[0] = $image_width;
+						$convert[1] = $image_height;
+					}
+					$convert[3] = $config->image_autorotate_quality ?: 75;
+					$convert[4] = $rotate;
+				}
+			}
+			unset($exif);
 		}
 		
 		// Check image size
@@ -1108,7 +1138,8 @@ class fileController extends file
 						$resize_height = $config->max_image_height;
 					}
 					$target_type = in_array($image_type, array(6, 8, 18)) ? 'jpg' : $file_info['extension'];
-					$convert = array(intval($resize_width), intval($resize_height), $target_type, $config->max_image_size_quality ?: 75);
+					$rotate = ($convert && $convert[4]) ? $convert[4] : 0;
+					$convert = array(intval($resize_width), intval($resize_height), $target_type, $config->max_image_size_quality ?: 75, $rotate);
 				}
 			}
 		}
@@ -1116,12 +1147,13 @@ class fileController extends file
 		// Convert image if necessary
 		if ($convert)
 		{
-			$result = FileHandler::createImageFile($file_info['tmp_name'], $file_info['tmp_name'] . '.conv', $convert[0], $convert[1], $convert[2], 'crop', $convert[3]);
+			$result = FileHandler::createImageFile($file_info['tmp_name'], $file_info['tmp_name'] . '.conv', $convert[0], $convert[1], $convert[2], 'crop', $convert[3], $convert[4]);
 			if ($result)
 			{
 				$file_info['name'] = preg_replace('/\.' . preg_quote($file_info['extension'], '/') . '$/i', '.' . $convert[2], $file_info['name']);
 				$file_info['tmp_name'] = $file_info['tmp_name'] . '.conv';
 				$file_info['size'] = filesize($file_info['tmp_name']);
+				$file_info['extension'] = $convert[2];
 				$file_info['converted'] = true;
 			}
 		}

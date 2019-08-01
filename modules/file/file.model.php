@@ -195,6 +195,8 @@ class fileModel extends file
 			$config->max_image_size_quality = $file_config->max_image_size_quality;
 			$config->image_autoconv = $file_config->image_autoconv;
 			$config->image_autoconv_quality = $file_config->image_autoconv_quality;
+			$config->image_autorotate = $file_config->image_autorotate;
+			$config->image_autorotate_quality = $file_config->image_autorotate_quality;
 			$config->download_grant = $file_config->download_grant;
 			$config->allow_outlink = $file_config->allow_outlink;
 			$config->allow_outlink_site = $file_config->allow_outlink_site;
@@ -215,6 +217,8 @@ class fileModel extends file
 		if(!$config->max_image_size_quality) $config->max_image_size_quality = $file_module_config->max_image_size_quality;
 		if(!$config->image_autoconv) $config->image_autoconv = $file_module_config->image_autoconv;
 		if(!$config->image_autoconv_quality) $config->image_autoconv_quality = $file_module_config->image_autoconv_quality;
+		if(!$config->image_autorotate) $config->image_autorotate = $file_module_config->image_autorotate;
+		if(!$config->image_autorotate_quality) $config->image_autorotate_quality = $file_module_config->image_autorotate_quality;
 		
 		// Default setting if not exists
 		if(!$config->allowed_filesize) $config->allowed_filesize = '2';
@@ -226,6 +230,7 @@ class fileModel extends file
 		if(!$config->max_image_size_quality) $config->max_image_size_quality = 75;
 		if(!$config->image_autoconv) $config->image_autoconv = array();
 		if(!$config->image_autoconv_quality) $config->image_autoconv_quality = 75;
+		if(!$config->image_autorotate_quality) $config->image_autorotate_quality = 75;
 
 		return $config;
 	}

@@ -73,6 +73,8 @@ class fileAdminController extends file
 		$config->image_autoconv['bmp2jpg'] = Context::get('image_autoconv_bmp2jpg') === 'Y' ? true : false;
 		$config->image_autoconv['webp2jpg'] = Context::get('image_autoconv_webp2jpg') === 'Y' ? true : false;
 		$config->image_autoconv_quality = max(50, min(100, intval(Context::get('image_autoconv_quality'))));
+		$config->image_autorotate = Context::get('image_autorotate') === 'Y' ? true : false;
+		$config->image_autorotate_quality = max(50, min(100, intval(Context::get('image_autorotate_quality'))));
 		
 		// Check maximum file size
 		if (PHP_INT_SIZE < 8)

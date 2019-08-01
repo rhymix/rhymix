@@ -62,6 +62,26 @@
 		</div>
 	</div>
 	<div class="x_control-group">
+		<label class="x_control-label">{$lang->image_autorotate}</label>
+		<div class="x_controls">
+			<label for="image_autorotate_Y" class="x_inline">
+				<input type="radio" name="image_autorotate" id="image_autorotate_Y" value="Y" checked="checked"|cond="$config->image_autorotate === true" disabled="disabled"|cond="!function_exists('exif_read_data')" />
+				{$lang->cmd_yes}
+			</label>
+			<label for="image_autorotate_N" class="x_inline">
+				<input type="radio" name="image_autorotate" id="image_autorotate_N" value="N" checked="checked"|cond="$config->image_autorotate !== true" disabled="disabled"|cond="!function_exists('exif_read_data')" />
+				{$lang->cmd_no}
+			</label>
+			<select name="image_autorotate_quality" id="image_autorotate_quality" style="width:100px;min-width:100px">
+				{@ $config->image_autorotate_quality = $config->image_autorotate_quality ?: 75}
+				<!--@for($q = 50; $q <= 100; $q += 5)-->
+					<option value="{$q}" selected="selected"|cond="$config->image_autorotate_quality == $q">{$lang->image_resize_quality} {$q}%</option>
+				<!--@endfor-->
+			</select>
+			<p class="x_help-block">{$lang->about_image_autorotate}</p>
+		</div>
+	</div>
+	<div class="x_control-group">
 		<label for="allowedFiletypes" class="x_control-label">{$lang->allowed_filetypes}</label>
 		<div class="x_controls">
 			<input id="allowedFiletypes" type="text" name="allowed_filetypes" value="{$config->allowed_filetypes}" />
