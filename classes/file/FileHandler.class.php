@@ -479,7 +479,7 @@ class FileHandler
 	 * @param int $resize_height Height to resize
 	 * @param string $target_type If $target_type is set (gif, jpg, png, bmp), result image will be saved as target type
 	 * @param string $thumbnail_type Thumbnail type(crop, ratio)
-	 * @param int $quality Compression ratio (0~9)
+	 * @param int $quality Compression ratio (0~100)
 	 * @param int $rotate Rotation degrees (0~360)
 	 * @return bool TRUE: success, FALSE: failed
 	 */

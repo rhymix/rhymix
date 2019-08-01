@@ -1009,6 +1009,10 @@ class documentItem extends BaseObject
 		{
 			$thumbnail_type = $config->thumbnail_type ?: 'crop';
 		}
+		if(!$config->thumbnail_quality)
+		{
+			$config->thumbnail_quality = 75;
+		}
 		
 		if(!$this->isAccessible())
 		{
@@ -1143,7 +1147,7 @@ class documentItem extends BaseObject
 
 		if($source_file)
 		{
-			$output_file = FileHandler::createImageFile($source_file, $thumbnail_file, $width, $height, 'jpg', $thumbnail_type);
+			$output_file = FileHandler::createImageFile($source_file, $thumbnail_file, $width, $height, 'jpg', $thumbnail_type, $config->thumbnail_quality);
 		}
 
 		// Remove source file if it was temporary

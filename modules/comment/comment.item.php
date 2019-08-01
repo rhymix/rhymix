@@ -656,6 +656,10 @@ class commentItem extends BaseObject
 		{
 			$thumbnail_type = $config->thumbnail_type ?: 'crop';
 		}
+		if(!$config->thumbnail_quality)
+		{
+			$config->thumbnail_quality = 75;
+		}
 		
 		if(!$this->isAccessible())
 		{
@@ -785,7 +789,7 @@ class commentItem extends BaseObject
 
 		if($source_file)
 		{
-			$output = FileHandler::createImageFile($source_file, $thumbnail_file, $width, $height, 'jpg', $thumbnail_type);
+			$output = FileHandler::createImageFile($source_file, $thumbnail_file, $width, $height, 'jpg', $thumbnail_type, $config->thumbnail_quality);
 		}
 
 		// Remove source file if it was temporary
