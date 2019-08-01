@@ -872,12 +872,13 @@ class fileController extends file
 		$file_info['extension'] = $extension;
 		$file_info['resized'] = false;
 		
-		// Check file type, size, and other attributes
+		// Get file module configuration
+		$oFileModel = getModel('file');
+		$config = $oFileModel->getFileConfig($module_srl);
+		
+		// Check file type
 		if(!$manual_insert && !$this->user->isAdmin())
 		{
-			// Get file module configuration
-			$oFileModel = getModel('file');
-			$config = $oFileModel->getFileConfig($module_srl);
 
 			// Check file type
 			if(isset($config->allowed_filetypes) && $config->allowed_filetypes !== '*.*')
@@ -894,14 +895,20 @@ class fileController extends file
 					throw new Rhymix\Framework\Exception('msg_not_allowed_filetype');
 				}
 			}
-			
-			// Check image type and size
+		}
+		
+		// Check image type and size
+		if(!$manual_insert)
+		{
 			if(in_array($extension, array('gif', 'jpg', 'jpeg', 'png', 'webp', 'bmp')))
 			{
 				$file_info = $this->checkUploadedImage($file_info, $config);
 			}
+		}
 
-			// Check file size
+		// Check file size
+		if(!$manual_insert && !$this->user->isAdmin())
+		{
 			$file_size = filesize($file_info['tmp_name']);
 			$allowed_filesize = $config->allowed_filesize * 1024 * 1024;
 			$allowed_attach_size = $config->allowed_attach_size * 1024 * 1024;
@@ -910,7 +917,6 @@ class fileController extends file
 				throw new Rhymix\Framework\Exception('msg_exceeds_limit_size');
 			}
 			
-			// Get total size of all attachements
 			$size_args = new stdClass;
 			$size_args->upload_target_srl = $upload_target_srl;
 			$output = executeQuery('file.getAttachedFileSize', $size_args);
@@ -1053,7 +1059,7 @@ class fileController extends file
 		}
 		
 		// Check image size
-		if($config->max_image_size_action && ($config->max_image_width || $config->max_image_height))
+		if($config->max_image_size_action && ($config->max_image_width || $config->max_image_height) && !$this->user->isAdmin())
 		{
 			$exceeded = false;
 			if ($config->max_image_width > 0 && $image_width > $config->max_image_width)

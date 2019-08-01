@@ -38,12 +38,12 @@ $lang->about_allow_outlink_format = '파일 외부 링크 설정에 상관없이
 $lang->about_allow_outlink_site = '파일 외부 링크 설정에 상관없이 허용하는 사이트 주소입니다.<br />여러 개 입력시 줄을 바꿔서 구분해 주세요. 예) https://www.rhymix.org/';
 $lang->about_allowed_filesize = '각 파일의 용량을 제한할 수 있습니다.<br />관리자에게는 이 게시판의 제한과 <a href="%s" target="_blank">파일 모듈</a>의 제한 중 높은 쪽이 적용됩니다.';
 $lang->about_allowed_attach_size = '하나의 문서에 첨부할 수 있는 최대 용량을 제한할 수 있습니다.<br />관리자에게는 이 게시판의 제한과 <a href="%s" target="_blank">파일 모듈</a>의 제한 중 높은 쪽이 적용됩니다.';
-$lang->about_allowed_filesize_global = '관리자를 포함하여 사이트 전체에 적용되는 파일 크기 제한입니다.';
+$lang->about_allowed_filesize_global = '관리자를 포함하여 사이트 전체에 적용되는 파일 용량 제한입니다.';
 $lang->about_allowed_attach_size_global = '관리자를 포함하여 사이트 전체에 적용되는 문서당 총 첨부 용량 제한입니다.';
 $lang->about_allowed_size_limits = 'IE9 이하, 구버전 안드로이드 등에서는 php.ini에서 지정한 %sB로 제한됩니다.';
 $lang->about_allowed_filetypes = '"*.확장자"로 지정할 수 있고 ";" 으로 여러 개 지정이 가능합니다. 예) *.* or *.jpg;*.gif;';
-$lang->about_max_image_size = '이미지 파일의 가로세로 크기를 제한할 수 있습니다.<br />가로세로 중 한 쪽만 제한하거나, 양쪽 모두 제한할 수도 있습니다.';
-$lang->about_image_autoconv = '종종 문제를 일으키거나 용량을 낭비하는 이미지 타입을 다른 타입으로 자동 변환합니다.<br />WebP 이미지에 JPG 확장자가 잘못 부여된 경우에도 변환할 수 있습니다.';
+$lang->about_max_image_size = '이미지 파일의 가로, 세로, 또는 가로세로 크기를 모두 제한할 수 있습니다.<br />관리자가 업로드한 파일에는 적용되지 않습니다.';
+$lang->about_image_autoconv = '종종 문제를 일으키거나 용량을 낭비하는 이미지 타입을 다른 타입으로 자동 변환합니다.<br />WebP 이미지에 JPG 확장자가 잘못 부여된 경우에도 변환할 수 있습니다.<br />관리자가 업로드한 파일에도 적용됩니다.';
 $lang->cmd_delete_checked_file = '선택항목 삭제';
 $lang->cmd_move_to_document = '문서로 이동';
 $lang->cmd_download = '다운로드';
