@@ -881,16 +881,9 @@ class fileController extends file
 		{
 
 			// Check file type
-			if(isset($config->allowed_filetypes) && $config->allowed_filetypes !== '*.*')
+			if(isset($config->allowed_extensions) && count($config->allowed_extensions))
 			{
-				$filetypes = explode(';', $config->allowed_filetypes);
-				$ext = array();
-				foreach($filetypes as $item) {
-					$item = explode('.', $item);
-					$ext[] = strtolower($item[1]);
-				}
-
-				if(!in_array($extension, $ext))
+				if(!in_array($extension, $config->allowed_extensions))
 				{
 					throw new Rhymix\Framework\Exception('msg_not_allowed_filetype');
 				}

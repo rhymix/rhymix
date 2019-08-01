@@ -65,7 +65,7 @@ class fileAdminController extends file
 		$config = getModel('module')->getModuleConfig('file');
 		$config->allowed_filesize = Context::get('allowed_filesize');
 		$config->allowed_attach_size = Context::get('allowed_attach_size');
-		$config->allowed_filetypes = str_replace(' ', '', Context::get('allowed_filetypes'));
+		$config->allowed_filetypes = Context::get('allowed_filetypes');
 		$config->max_image_width = intval(Context::get('max_image_width')) ?: '';
 		$config->max_image_height = intval(Context::get('max_image_height')) ?: '';
 		$config->max_image_size_action = Context::get('max_image_size_action') ?: '';
@@ -83,6 +83,21 @@ class fileAdminController extends file
 			{
 				throw new Rhymix\Framework\Exception('msg_32bit_max_2047mb');
 			}
+		}
+		
+		// Simplify allowed_filetypes
+		$config->allowed_extensions = strtr(strtolower(trim($config->allowed_filetypes)), array('*.' => '', ';' => ','));
+		if ($config->allowed_extensions)
+		{
+			$config->allowed_extensions = array_map('trim', explode(',', $config->allowed_filetypes));
+			$config->allowed_filetypes = implode(';', array_map(function($ext) {
+				return '*.' . $ext;
+			}, $config->allowed_extensions));
+		}
+		else
+		{
+			$config->allowed_extensions = array();
+			$config->allowed_filetypes = '*.*';
 		}
 		
 		// Save and redirect
@@ -140,7 +155,7 @@ class fileAdminController extends file
 		$file_config->allow_outlink_site = Context::get('allow_outlink_site');
 		$file_config->allowed_filesize = Context::get('allowed_filesize');
 		$file_config->allowed_attach_size = Context::get('allowed_attach_size');
-		$file_config->allowed_filetypes = str_replace(' ', '', Context::get('allowed_filetypes'));
+		$file_config->allowed_filetypes = Context::get('allowed_filetypes');
 
 		if(!is_array($download_grant))
 		{
@@ -158,6 +173,21 @@ class fileAdminController extends file
 			{
 				throw new Rhymix\Framework\Exception('msg_32bit_max_2047mb');
 			}
+		}
+		
+		// Simplify allowed_filetypes
+		$file_config->allowed_extensions = strtr(strtolower(trim($file_config->allowed_filetypes)), array('*.' => '', ';' => ','));
+		if ($file_config->allowed_extensions)
+		{
+			$file_config->allowed_extensions = array_map('trim', explode(',', $file_config->allowed_filetypes));
+			$file_config->allowed_filetypes = implode(';', array_map(function($ext) {
+				return '*.' . $ext;
+			}, $file_config->allowed_extensions));
+		}
+		else
+		{
+			$file_config->allowed_extensions = array();
+			$file_config->allowed_filetypes = '*.*';
 		}
 		
 		$oModuleController = getController('module');

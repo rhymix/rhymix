@@ -24,7 +24,7 @@
 		<div class="x_control-group">
 			<label for="allowed_filetypes" class="x_control-label">{$lang->allowed_filetypes}</label>
 			<div class="x_controls">
-				<input type="text" name="allowed_filetypes" id="allowed_filetypes" value="{$file_config->allowed_filetypes}" />
+				<input type="text" name="allowed_filetypes" id="allowed_filetypes" value="{implode(', ', $file_config->allowed_extensions ?: [])}" />
 				<p class="x_help-block">{$lang->about_allowed_filetypes}</p>
 			</div>
 		</div>

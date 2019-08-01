@@ -112,6 +112,7 @@ class fileModel extends file
 		$allowed_attach_size = FileHandler::filesize($file_config->allowed_attach_size*1024*1024);
 		$allowed_filesize = FileHandler::filesize($file_config->allowed_filesize*1024*1024);
 		$allowed_filetypes = $file_config->allowed_filetypes;
+		$allowed_extensions = $file_config->allowed_extensions;
 		$this->add("files",$files);
 		$this->add("editor_sequence",$editor_sequence);
 		$this->add("upload_target_srl",$upload_target_srl);
@@ -121,6 +122,7 @@ class fileModel extends file
 		$this->add('allowed_attach_size', $allowed_attach_size);
 		$this->add('allowed_filesize', $allowed_filesize);
 		$this->add('allowed_filetypes', $allowed_filetypes);
+		$this->add('allowed_extensions', $allowed_extensions);
 	}
 
 	/**
@@ -188,6 +190,7 @@ class fileModel extends file
 			$config->allowed_filesize = $file_config->allowed_filesize;
 			$config->allowed_attach_size = $file_config->allowed_attach_size;
 			$config->allowed_filetypes = $file_config->allowed_filetypes;
+			$config->allowed_extensions = $file_config->allowed_extensions;
 			$config->inline_download_format = $file_config->inline_download_format;
 			$config->max_image_width = $file_config->max_image_width;
 			$config->max_image_height = $file_config->max_image_height;
@@ -207,6 +210,7 @@ class fileModel extends file
 		if(!$config->allowed_filesize) $config->allowed_filesize = $file_module_config->allowed_filesize;
 		if(!$config->allowed_attach_size) $config->allowed_attach_size = $file_module_config->allowed_attach_size;
 		if(!$config->allowed_filetypes) $config->allowed_filetypes = $file_module_config->allowed_filetypes;
+		if(!$config->allowed_extensions) $config->allowed_extensions = $file_module_config->allowed_extensions;
 		if(!$config->allow_outlink) $config->allow_outlink = $file_module_config->allow_outlink;
 		if(!$config->allow_outlink_site) $config->allow_outlink_site = $file_module_config->allow_outlink_site;
 		if(!$config->allow_outlink_format) $config->allow_outlink_format = $file_module_config->allow_outlink_format;
@@ -231,6 +235,22 @@ class fileModel extends file
 		if(!$config->image_autoconv) $config->image_autoconv = array();
 		if(!$config->image_autoconv_quality) $config->image_autoconv_quality = 75;
 		if(!$config->image_autorotate_quality) $config->image_autorotate_quality = 75;
+		
+		// Format allowed_filetypes
+		if($config->allowed_filetypes && !isset($config->allowed_extensions))
+		{
+			$config->allowed_filetypes = trim($config->allowed_filetypes);
+			if($config->allowed_filetypes === '*.*')
+			{
+				$config->allowed_extensions = '';
+			}
+			else
+			{
+				$config->allowed_extensions = array_map(function($ext) {
+					return strtolower(substr(strrchr(trim($ext), '.'), 1));
+				}, explode(';', $config->allowed_filetypes));
+			}
+		}
 
 		return $config;
 	}
