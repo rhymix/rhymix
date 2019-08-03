@@ -136,7 +136,7 @@
 						</th>
 						<td style="text-align:center"><input type="radio" name="identifier" value="{$item->name}" cond="$item->name== 'email_address' || $item->name=='user_id'" /></td>
 						<td style="text-align:center"><input type="checkbox" name="usable_list[]" value="{$item->name}" title="{$lang->use}" checked="checked"|cond="$item->mustRequired || $item->isUse" disabled="disabled"|cond="$item->mustRequired" /></td>
-						<td style="text-align:center"><input type="checkbox" name="is_{$item->name}_public" value="Y" checked="checked"|cond="$item->isPublic == 'Y'" disabled="disabled"|cond="in_array($item->name, $fixed_public_list) || !$item->isUse" /></td>
+						<td style="text-align:center"><input type="checkbox" name="is_{$item->name}_public" value="Y" checked="checked"|cond="$item->isPublic == 'Y'" disabled="disabled"|cond="in_array($item->name, $fixed_public_list) || !$item->isUse" data-donotchange="Y"|cond="in_array($item->name, $fixed_public_list)" /></td>
 						<td class="nowr">
 							<label for="{$item->name}_re" class="x_inline"><input type="radio" id="{$item->name}_re" name="{$item->name}" value="required" checked="checked"|cond="$item->mustRequired || $item->required" disabled="disabled"|cond="$item->mustRequired || !$item->isUse" /> {$lang->cmd_required}</label>
 							<label for="{$item->name}_op" class="x_inline"><input type="radio" id="{$item->name}_op" name="{$item->name}" value="option" checked="checked"|cond="!$item->mustRequired && ($item->isUse && !$item->required)" disabled="disabled"|cond="$item->mustRequired || !$item->isUse" /> {$lang->cmd_optional}</label>
@@ -145,6 +145,23 @@
 								<label for="{$item->name}_max_width">{$lang->cmd_image_max_width}: <input type="number" min="1" name="{$item->name}_max_width" id="{$item->name}_max_width" value="{$item->max_width}" /> px</label>
 								<label for="{$item->name}_max_height">{$lang->cmd_image_max_height}: <input type="number" min="1" name="{$item->name}_max_height" id="{$item->name}_max_height" value="{$item->max_height}" /> px</label>
 								<label for="{$item->name}_max_filesize">{$lang->allowed_filesize}: <input type="number" min="1" name="{$item->name}_max_filesize" id="{$item->name}_max_filesize" value="{$item->max_filesize}" /> KB</label>
+							</div>
+
+							<div cond="$item->name == 'phone_number'" class="_subItem" style="display:none"|cond="!$item->isUse">
+								<label for="phone_number_default_country" class="x_inline">{$lang->phone_number_default_country}</label>
+								<select id="phone_number_default_country" name="phone_number_default_country">
+									<option value=""></option>
+									<!--@foreach($country_list as $country_info)-->
+										<!--@if($country_info->calling_code)-->
+											<option value="{$country_info->calling_code}" selected="selected"|cond="$country_info->calling_code == $config->phone_number_default_country">
+												{$lang_type === 'ko' ? $country_info->name_korean : $country_info->name_english} (+{$country_info->calling_code})
+											</option>
+										<!--@endif-->
+									<!--@endforeach-->
+								</select><br />
+								<label class="x_inline">{$lang->phone_number_hide_country}</label>
+								<label class="x_inline"><input type="radio" name="phone_number_hide_country" value="Y" checked="checked"|cond="$config->phone_number_hide_country === 'Y'" /> {$lang->cmd_yes}</label>
+								<label class="x_inline"><input type="radio" name="phone_number_hide_country" value="N" checked="checked"|cond="$config->phone_number_hide_country !== 'Y'" /> {$lang->cmd_no}</label>
 							</div>
 
 							<div cond="$item->name == 'signature'" class="_subItem" style="display:none;padding-top:5px"|cond="!$item->isUse">

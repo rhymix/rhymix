@@ -110,6 +110,7 @@ class memberAdminView extends member
 				}
 			}
 		}
+
 		Context::set('total_count', $output->total_count);
 		Context::set('total_page', $output->total_page);
 		Context::set('page', $output->page);
@@ -228,6 +229,14 @@ class memberAdminView extends member
 		$managedEmailHost = $oMemberModel->getManagedEmailHosts();
 		Context::set('managedEmailHost', $managedEmailHost);
 		$oSecurity->encodeHTML('managedEmailHost..email_host');
+		
+		// Get country calling code list
+		$country_list = Rhymix\Framework\i18n::listCountries(Context::get('lang_type') === 'ko' ? Rhymix\Framework\i18n::SORT_NAME_KOREAN : Rhymix\Framework\i18n::SORT_NAME_ENGLISH);
+		Context::set('country_list', $country_list);
+		if(!$config->phone_number_default_country && Context::get('lang_type') === 'ko')
+		{
+			$config->phone_number_default_country = '82';
+		}
 
 		$this->setTemplateFile('signup_config');
 	}
@@ -542,14 +551,14 @@ class memberAdminView extends member
 					else if($formInfo->name == 'phone_number')
 					{
 						$formTag->type = 'phone';
-						if(!$config->phone_number_hide_country)
+						if($member_config->phone_number_hide_country !== 'Y')
 						{
 							$inputTag = '<select name="phone_country" id="phone_country" class="phone_country">';
 							$country_list = Rhymix\Framework\i18n::listCountries(Context::get('lang_type') === 'ko' ? Rhymix\Framework\i18n::SORT_NAME_KOREAN : Rhymix\Framework\i18n::SORT_NAME_ENGLISH);
 							$match_country = $memberInfo['phone_country'];
-							if(!$match_country && $config->phone_number_default_country)
+							if(!$match_country && $member_config->phone_number_default_country)
 							{
-								$match_country = $config->phone_number_default_country;
+								$match_country = $member_config->phone_number_default_country;
 							}
 							if(!$match_country && Context::get('lang_type') === 'ko')
 							{
