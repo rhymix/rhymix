@@ -150,6 +150,13 @@ class memberView extends member
 				{
 					$item->value = zdate($item->value, 'Y-m-d');
 				}
+				elseif($formInfo->name == 'phone_number' && $memberInfo->phone_number)
+				{
+					if($memberConfig->phone_number_hide_country !== 'Y')
+					{
+						$item->value = '(+' . $memberInfo->phone_country . ') ' . $item->value;
+					}
+				}
 			}
 			else
 			{
