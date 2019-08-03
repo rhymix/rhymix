@@ -293,6 +293,8 @@ class memberAdminController extends member
 	public function procMemberAdminInsertSignupConfig()
 	{
 		$oMemberModel = getModel('member');
+		$config = $oMemberModel->getMemberConfig();
+		
 		$oModuleController = getController('module');
 
 		$args = Context::gets(
@@ -335,7 +337,6 @@ class memberAdminController extends member
 		$args->image_name = $args->image_name ? 'Y' : 'N';
 		$args->image_mark = $args->image_mark ? 'Y' : 'N';
 		$args->signature  = $args->signature != 'Y' ? 'N' : 'Y';
-		$args->identifier = $all_args->identifier;
 
 		// set default
 		$all_args->is_nick_name_public = 'Y';
@@ -356,13 +357,13 @@ class memberAdminController extends member
 		foreach($list_order as $key)
 		{
 			$signupItem = new stdClass();
-			$signupItem->isIdentifier = ($key == $all_args->identifier);
+			$signupItem->isIdentifier = ($key == $config->identifier || in_array($key, $config->identifiers));
 			$signupItem->isDefaultForm = in_array($key, $items);
 			$signupItem->name = $key;
 			$signupItem->title = (!in_array($key, $items)) ? $key : $lang->{$key};
 			$signupItem->mustRequired = in_array($key, $mustRequireds);
 			$signupItem->imageType = (strpos($key, 'image') !== false);
-			$signupItem->required = ($all_args->{$key} == 'required') || $signupItem->mustRequired || $signupItem->isIdentifier;
+			$signupItem->required = ($all_args->{$key} == 'required') || $signupItem->mustRequired;
 			$signupItem->isUse = in_array($key, $usable_list) || $signupItem->required;
 			$signupItem->isPublic = ($all_args->{'is_'.$key.'_public'} == 'Y' && $signupItem->isUse) ? 'Y' : 'N';
 
@@ -415,9 +416,12 @@ class memberAdminController extends member
 
 	public function procMemberAdminInsertLoginConfig()
 	{
+		$oMemberModel = getModel('member');
+		$config = $oMemberModel->getMemberConfig();
 		$oModuleController = getController('module');
 
 		$args = Context::gets(
+			'identifiers',
 			'change_password_date',
 			'enable_login_fail_report',
 			'max_error_count',
@@ -425,7 +429,34 @@ class memberAdminController extends member
 			'after_login_url',
 			'after_logout_url'
 		);
-
+		
+		if(!count($args->identifiers))
+		{
+			return new BaseObject(-1, 'msg_need_identifier');
+		}
+		$enabled_list = array();
+		foreach($config->signupForm as $signupItem)
+		{
+			if($signupItem->isUse)
+			{
+				$enabled_list[] = $signupItem->name;
+			}
+			if(in_array($signupItem->name, $args->identifiers))
+			{
+				$signupItem->isIdentifier = true;
+			}
+			else
+			{
+				$signupItem->isIdentifier = false;
+			}
+		}
+		if(!count(array_intersect($args->identifiers, $enabled_list)))
+		{
+			return new BaseObject(-1, 'msg_need_enabled_identifier');
+		}
+		$args->signupForm = $config->signupForm;
+		$args->identifier = array_first($args->identifiers);
+		
 		if(!$args->change_password_date)
 		{
 			$args->change_password_date = 0;

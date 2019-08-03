@@ -82,12 +82,6 @@
 				<thead>
 					<tr>
 						<th scope="col" class="nowr" style="text-align:center">{$lang->target}</th>
-						<th scope="col" class="nowr" style="text-align:center">{$lang->identifier}
-							[<a href="#helpDefault" data-toggle>?</a>]
-							<div class="layer x_alert x_alert-info" id="helpDefault">
-								<p>{$lang->about_identifier}</p>
-							</div>
-						</th>
 						<th scope="col" class="nowr" style="text-align:center">{$lang->use}</th>
 						<th scope="col" class="nowr" style="text-align:center">{$lang->public}
 							[<a href="#helpPublic" data-toggle>?</a>]
@@ -105,37 +99,18 @@
 					{@ $fixed_public_list = array('nick_name', 'password', 'email_address', 'phone_number')}
 					<!--@foreach($config->signupForm as $item)-->
 					<!--@if(in_array($item->name, $disabled_list))-->
-					<!--@elseif($item->isIdentifier)-->
-					<tr class="sticky">
-						<input type="hidden" name="list_order[]" value="{$item->name}" />
-						<input type="hidden" name="usable_list[]" value="{$item->name}"/>
-						<input type="hidden" name="{$item->name}" value="requierd"/>
-						<th scope="row">
-							<span class="_title" style="display:inline-block;white-space:pre-line;overflow:inherit;width:120px;text-overflow:ellipsis;padding-left:20px">{$item->title}</span>
-						</th>
-						<td style="text-align:center"><input type="radio" name="identifier" value="{$item->name}" checked="checked" /></td>
-						<td style="text-align:center"><input type="checkbox" name="usable_list[]" value="{$item->name}" title="{$lang->use}" checked="checked"  disabled="disabled" /></td>
-						<td style="text-align:center"><input type="checkbox" name="is_{$item->name}_public" value="Y" checked="checked"|cond="$item->isPublic == 'Y'" disabled="disabled"|cond="in_array($item->name, $fixed_public_list) || !$item->isUse" /></td>
-						<td class="nowr">
-							<label for="{$item->name}_re" class="x_inline"><input type="radio" id="{$item->name}_re" name="{$item->name}" value="requierd" checked="checked" disabled="disabled" /> {$lang->cmd_required}</label>
-							<label for="{$item->name}_op" class="x_inline"><input type="radio" id="{$item->name}_op" name="{$item->name}" value="option" disabled="disabled" /> {$lang->cmd_optional}</label>
-						</td>
-						<td class="desc">&nbsp;</td>
-						<td style="text-align:center">&nbsp;</td>
-					</tr>
 					<!--@elseif($item->isDefaultForm)-->
-					<tr class="_imageType"|cond="$item->imageType">
+					<tr class="sticky"|cond="$item->isIdentifier" class="_imageType"|cond="$item->imageType">
 						<input type="hidden" name="list_order[]" value="{$item->name}" />
-						<input type="hidden" name="usable_list[]" value="{$item->name}" cond="$item->mustRequired"/>
-						<input type="hidden" name="{$item->name}" value="requierd" cond="$item->mustRequired"/>
+						<input type="hidden" name="usable_list[]" value="{$item->name}" cond="$item->isIdentifier || $item->mustRequired"/>
+						<input type="hidden" name="{$item->name}" value="required" cond="$item->isIdentifier || $item->mustRequired"/>
 						<th scope="row">
 							<div class="wrap">
-								<button type="button" class="dragBtn">Move to</button>
+								<button type="button" class="dragBtn" cond="!$item->isIdentifier">Move to</button>
 								<span class="_title" style="display:inline-block;white-space:pre-line;overflow:inherit;width:120px;text-overflow:ellipsis" title="{$item->title}">{$item->title}</span>
 							</div>
 						</th>
-						<td style="text-align:center"><input type="radio" name="identifier" value="{$item->name}" cond="$item->name== 'email_address' || $item->name=='user_id'" /></td>
-						<td style="text-align:center"><input type="checkbox" name="usable_list[]" value="{$item->name}" title="{$lang->use}" checked="checked"|cond="$item->mustRequired || $item->isUse" disabled="disabled"|cond="$item->mustRequired" /></td>
+						<td style="text-align:center"><input type="checkbox" name="usable_list[]" value="{$item->name}" title="{$lang->use}" checked="checked"|cond="$item->isIdentifier || $item->mustRequired || $item->isUse" disabled="disabled"|cond="$item->isIdentifier || $item->mustRequired" /></td>
 						<td style="text-align:center"><input type="checkbox" name="is_{$item->name}_public" value="Y" checked="checked"|cond="$item->isPublic == 'Y'" disabled="disabled"|cond="in_array($item->name, $fixed_public_list) || !$item->isUse" data-donotchange="Y"|cond="in_array($item->name, $fixed_public_list)" /></td>
 						<td class="nowr">
 							<label for="{$item->name}_re" class="x_inline"><input type="radio" id="{$item->name}_re" name="{$item->name}" value="required" checked="checked"|cond="$item->mustRequired || $item->required" disabled="disabled"|cond="$item->mustRequired || !$item->isUse" /> {$lang->cmd_required}</label>
@@ -221,7 +196,6 @@
 								<span class="_title" style="display:inline-block;white-space:pre-line;overflow:inherit;width:120px;text-overflow:ellipsis" title="{$item->title}">{$item->title}</span>
 							</div>
 						</th>
-						<td></td>
 						<td style="text-align:center"><input type="checkbox" name="usable_list[]" value="{$item->name}" title="{$lang->use}" checked="checked"|cond="$item->isUse" /></td>
 						<td style="text-align:center"><input type="checkbox" name="is_{$item->name}_public" value="Y" checked="checked"|cond="$item->isPublic == 'Y'" disabled="disabled"|cond="!$item->isUse" /></td>
 						<td class="nowr">
