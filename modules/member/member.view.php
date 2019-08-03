@@ -152,6 +152,10 @@ class memberView extends member
 				}
 				elseif($formInfo->name == 'phone_number' && $memberInfo->phone_number)
 				{
+					if($memberInfo->phone_country == '82')
+					{
+						$item->value = Rhymix\Framework\Korea::formatPhoneNumber($item->value);
+					}
 					if($memberConfig->phone_number_hide_country !== 'Y')
 					{
 						$item->value = '(+' . $memberInfo->phone_country . ') ' . $item->value;

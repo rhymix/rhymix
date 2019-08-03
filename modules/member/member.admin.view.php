@@ -574,7 +574,7 @@ class memberAdminView extends member
 							}
 							$inputTag .= '</select>' . "\n";
 						}
-						$inputTag .= '<input type="tel" name="phone_number" id="phone_number" class="phone_number" value="'.$memberInfo['phone_number'].'" />';
+						$inputTag .= '<input type="tel" name="phone_number" id="phone_number" class="phone_number" value="'.($match_country == '82' ? Rhymix\Framework\Korea::formatPhoneNumber($memberInfo['phone_number']) : $memberInfo['phone_number']).'" />';
 					}
 					else if($formInfo->name == 'homepage')
 					{
