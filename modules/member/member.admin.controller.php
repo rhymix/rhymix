@@ -46,6 +46,10 @@ class memberAdminController extends member
 		foreach($getVars as $val)
 		{
 			$args->{$val} = Context::get($val);
+			if ($val === 'phone_number')
+			{
+				$args->phone_country = trim(preg_replace('/[^0-9-]/', '', Context::get('phone_country')), '-');
+			}
 		}
 		$member_srl = Context::get('member_srl');
 		// Check if an original member exists having the member_srl

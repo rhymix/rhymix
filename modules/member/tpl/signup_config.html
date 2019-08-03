@@ -150,7 +150,6 @@
 							<div cond="$item->name == 'phone_number'" class="_subItem" style="display:none"|cond="!$item->isUse">
 								<label for="phone_number_default_country" class="x_inline">{$lang->phone_number_default_country}</label>
 								<select id="phone_number_default_country" name="phone_number_default_country">
-									<option value=""></option>
 									<!--@foreach($country_list as $country_info)-->
 										<!--@if($country_info->calling_code)-->
 											<option value="{$country_info->calling_code}" selected="selected"|cond="$country_info->calling_code == $config->phone_number_default_country">

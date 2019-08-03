@@ -617,10 +617,13 @@ class memberController extends member
 		foreach($getVars as $val)
 		{
 			$args->{$val} = Context::get($val);
-			
-			if($val == 'birthday')
+			if ($val === 'birthday')
 			{
 				$args->birthday_ui = Context::get('birthday_ui');
+			}
+			if ($val === 'phone_number')
+			{
+				$args->phone_country = trim(preg_replace('/[^0-9-]/', '', Context::get('phone_country')), '-');
 			}
 		}
 		
@@ -863,10 +866,13 @@ class memberController extends member
 		foreach($getVars as $val)
 		{
 			$args->{$val} = Context::get($val);
-			
-			if($val == 'birthday')
+			if($val === 'birthday')
 			{
 				$args->birthday_ui = Context::get('birthday_ui');
+			}
+			if ($val === 'phone_number')
+			{
+				$args->phone_country = trim(preg_replace('/[^0-9-]/', '', Context::get('phone_country')), '-');
 			}
 		}
 		
@@ -2525,6 +2531,28 @@ class memberController extends member
 			$message = sprintf($managed_email_host[$emailhost_check],implode(', ',$hosts),'id@'.implode(', id@',$hosts));
 			return new BaseObject(-1, $message);
 		}
+		
+		// Format phone number
+		if (strval($args->phone_number) !== '')
+		{
+			$args->phone_country = trim(preg_replace('/[^0-9-]/', '', $args->phone_country), '-');
+			$args->phone_number = preg_replace('/[^0-9]/', '', $args->phone_number);
+			$args->phone_type = '';
+			if(!$args->phone_country && $config->phone_number_default_country)
+			{
+				$args->phone_country = $config->phone_number_default_country;
+			}
+			if ($args->phone_country == '82')
+			{
+				$args->phone_number = Rhymix\Framework\Korea::formatPhoneNumber($args->phone_number);
+			}
+		}
+		else
+		{
+			$args->phone_country = '';
+			$args->phone_number = '';
+			$args->phone_type = '';
+		}
 
 		// Check if email address is duplicate
 		$member_srl = $oMemberModel->getMemberSrlByEmailAddress($args->email_address);
@@ -2714,6 +2742,28 @@ class memberController extends member
 					}
 				}
 			}
+		}
+		
+		// Format phone number
+		if (strval($args->phone_number) !== '')
+		{
+			$args->phone_country = trim(preg_replace('/[^0-9-]/', '', $args->phone_country), '-');
+			$args->phone_number = preg_replace('/[^0-9]/', '', $args->phone_number);
+			$args->phone_type = '';
+			if(!$args->phone_country && $config->phone_number_default_country)
+			{
+				$args->phone_country = $config->phone_number_default_country;
+			}
+			if ($args->phone_country == '82')
+			{
+				$args->phone_number = Rhymix\Framework\Korea::formatPhoneNumber($args->phone_number);
+			}
+		}
+		else
+		{
+			$args->phone_country = '';
+			$args->phone_number = '';
+			$args->phone_type = '';
 		}
 
 		// Check managed Email Host
