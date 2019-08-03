@@ -157,10 +157,17 @@
 											</option>
 										<!--@endif-->
 									<!--@endforeach-->
-								</select><br />
-								<label class="x_inline">{$lang->phone_number_hide_country}</label>
-								<label class="x_inline"><input type="radio" name="phone_number_hide_country" value="Y" checked="checked"|cond="$config->phone_number_hide_country === 'Y'" /> {$lang->cmd_yes}</label>
-								<label class="x_inline"><input type="radio" name="phone_number_hide_country" value="N" checked="checked"|cond="$config->phone_number_hide_country !== 'Y'" /> {$lang->cmd_no}</label>
+								</select>
+								<p class="x_help-block">
+									<label class="x_inline">{$lang->phone_number_hide_country}</label>
+									<label class="x_inline"><input type="radio" name="phone_number_hide_country" value="Y" checked="checked"|cond="$config->phone_number_hide_country === 'Y'" /> {$lang->cmd_yes}</label>
+									<label class="x_inline"><input type="radio" name="phone_number_hide_country" value="N" checked="checked"|cond="$config->phone_number_hide_country !== 'Y'" /> {$lang->cmd_no}</label>
+								</p>
+								<p class="x_help-block">
+									<label class="x_inline">{$lang->phone_number_allow_duplicate}</label>
+									<label class="x_inline"><input type="radio" name="phone_number_allow_duplicate" value="Y" checked="checked"|cond="$config->phone_number_allow_duplicate === 'Y'" /> {$lang->cmd_yes}</label>
+									<label class="x_inline"><input type="radio" name="phone_number_allow_duplicate" value="N" checked="checked"|cond="$config->phone_number_allow_duplicate !== 'Y'" /> {$lang->cmd_no}</label>
+								</p>
 							</div>
 
 							<div cond="$item->name == 'signature'" class="_subItem" style="display:none;padding-top:5px"|cond="!$item->isUse">

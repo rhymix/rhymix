@@ -454,6 +454,18 @@ class memberModel extends member
 	}
 
 	/**
+	 * @brief Get member_srl corresponding to phone number
+	 */
+	function getMemberSrlByPhoneNumber($phone_number, $phone_country = null)
+	{
+		$args = new stdClass();
+		$args->phone_number = $phone_number;
+		$args->phone_country = $phone_country;
+		$output = executeQueryArray('member.getMemberSrl', $args);
+		return count($output->data) ? array_first($output->data)->member_srl : null;
+	}
+
+	/**
 	 * @brief Get member_srl corresponding to nickname
 	 */
 	function getMemberSrlByNickName($nick_name)

@@ -8,6 +8,8 @@
     <conditions>
         <condition operation="equal" column="user_id" var="user_id" pipe="and" />
         <condition operation="equal" column="email_address" var="email_address" pipe="and" />
+		<condition operation="equal" column="phone_number" var="phone_number" pipe="and" />
+		<condition operation="equal" column="phone_country" var="phone_country" pipe="and" />
         <condition operation="equal" column="nick_name" var="nick_name" pipe="and" />
     </conditions>
 </query>

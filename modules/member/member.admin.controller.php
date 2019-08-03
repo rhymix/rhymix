@@ -300,7 +300,7 @@ class memberAdminController extends member
 			'limit_day_description',
 			'emailhost_check',
 			'redirect_url',
-			'phone_number_default_country', 'phone_number_hide_country',
+			'phone_number_default_country', 'phone_number_hide_country', 'phone_number_allow_duplicate',
 			'profile_image', 'profile_image_max_width', 'profile_image_max_height', 'profile_image_max_filesize',
 			'image_name', 'image_name_max_width', 'image_name_max_height', 'image_name_max_filesize',
 			'image_mark', 'image_mark_max_width', 'image_mark_max_height', 'image_mark_max_filesize',
@@ -330,6 +330,7 @@ class memberAdminController extends member
 
 		$args->phone_number_default_country = preg_replace('/[^0-9-]/', '', $args->phone_number_default_country);
 		$args->phone_number_hide_country = $args->phone_number_hide_country == 'Y' ? 'Y' : 'N';
+		$args->phone_number_allow_duplicate = $args->phone_number_allow_duplicate == 'Y' ? 'Y' : 'N';
 		$args->profile_image = $args->profile_image ? 'Y' : 'N';
 		$args->image_name = $args->image_name ? 'Y' : 'N';
 		$args->image_mark = $args->image_mark ? 'Y' : 'N';

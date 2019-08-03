@@ -2538,13 +2538,20 @@ class memberController extends member
 			$args->phone_country = trim(preg_replace('/[^0-9-]/', '', $args->phone_country), '-');
 			$args->phone_number = preg_replace('/[^0-9]/', '', $args->phone_number);
 			$args->phone_type = '';
-			if(!$args->phone_country && $config->phone_number_default_country)
+			if ($config->phone_number_hide_country || (!$args->phone_country && $config->phone_number_default_country))
 			{
 				$args->phone_country = $config->phone_number_default_country;
 			}
 			if ($args->phone_country == '82')
 			{
-				$args->phone_number = Rhymix\Framework\Korea::formatPhoneNumber($args->phone_number);
+				if (Rhymix\Framework\Korea::isValidPhoneNumber($args->phone_number))
+				{
+					$args->phone_number = Rhymix\Framework\Korea::formatPhoneNumber($args->phone_number);
+				}
+				else
+				{
+					return new BaseObject(-1, 'msg_invalid_phone_number');
+				}
 			}
 		}
 		else
@@ -2561,6 +2568,16 @@ class memberController extends member
 			return new BaseObject(-1, 'msg_exists_email_address');
 		}
 
+		// Check if phone number is duplicate
+		if ($config->phone_number_allow_duplicate !== 'Y' && $args->phone_number)
+		{
+			$member_srl = $oMemberModel->getMemberSrlByPhoneNumber($args->phone_number, $args->phone_country);
+			if($member_srl)
+			{
+				return new BaseObject(-1, 'msg_exists_phone_number');
+			}
+		}
+		
 		// Insert data into the DB
 		$args->list_order = -1 * $args->member_srl;
 
@@ -2750,13 +2767,20 @@ class memberController extends member
 			$args->phone_country = trim(preg_replace('/[^0-9-]/', '', $args->phone_country), '-');
 			$args->phone_number = preg_replace('/[^0-9]/', '', $args->phone_number);
 			$args->phone_type = '';
-			if(!$args->phone_country && $config->phone_number_default_country)
+			if ($config->phone_number_hide_country || (!$args->phone_country && $config->phone_number_default_country))
 			{
 				$args->phone_country = $config->phone_number_default_country;
 			}
 			if ($args->phone_country == '82')
 			{
-				$args->phone_number = Rhymix\Framework\Korea::formatPhoneNumber($args->phone_number);
+				if (Rhymix\Framework\Korea::isValidPhoneNumber($args->phone_number))
+				{
+					$args->phone_number = Rhymix\Framework\Korea::formatPhoneNumber($args->phone_number);
+				}
+				else
+				{
+					return new BaseObject(-1, 'msg_invalid_phone_number');
+				}
 			}
 		}
 		else
@@ -2802,6 +2826,16 @@ class memberController extends member
 			$args->user_id = $orgMemberInfo->user_id;
 		}
 
+		// Check if phone number is duplicate
+		if ($config->phone_number_allow_duplicate !== 'Y' && $args->phone_number)
+		{
+			$member_srl = $oMemberModel->getMemberSrlByPhoneNumber($args->phone_number, $args->phone_country);
+			if ($member_srl && $args->member_srl != $member_srl)
+			{
+				return new BaseObject(-1, 'msg_exists_phone_number');
+			}
+		}
+		
 		// Check if ID is prohibited
 		if($logged_info->is_admin !== 'Y' && $args->user_id && $oMemberModel->isDeniedID($args->user_id))
 		{
