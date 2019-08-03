@@ -732,14 +732,7 @@ class memberController extends member
 		// Log-in
 		if($config->enable_confirm != 'Y')
 		{
-			if($config->identifier == 'email_address')
-			{
-				$output = $this->doLogin($args->email_address);
-			}
-			else
-			{
-				$output = $this->doLogin($args->user_id);
-			}
+			$output = $this->doLogin($args->{$config->identifier});
 			if(!$output->toBool()) {
 				if($output->error == -9)
 					$output->error = -11;
@@ -2138,20 +2131,54 @@ class memberController extends member
 		$args->ipaddress = $_SERVER['REMOTE_ADDR'];
 
 		// check identifier
-		if($config->identifier == 'email_address' || strpos($user_id, '@') !== false)
+		if((!$config->identifiers || in_array('email_address', $config->identifiers)) && strpos($user_id, '@') !== false)
 		{
-			// Get user_id information
 			$member_info = $oMemberModel->getMemberInfoByEmailAddress($user_id);
-			// Set an invalid user if no value returned
-			if(!$user_id || strtolower($member_info->email_address) != strtolower($user_id)) return $this->recordLoginError(-1, 'invalid_email_address');
+			if(!$user_id || strtolower($member_info->email_address) !== strtolower($user_id))
+			{
+				return $this->recordLoginError(-1, 'invalid_email_address');
+			}
 
+		}
+		elseif($config->identifiers && in_array('phone_number', $config->identifiers) && strpos($user_id, '@') === false)
+		{
+			if(preg_match('/^\+([0-9-]+)\.([0-9.-]+)$/', $user_id, $matches))
+			{
+				$phone_country = preg_replace('/[^0-9]/', '', $matches[1]);
+				$user_id = preg_replace('/[^0-9]/', '', $matches[2]);
+			}
+			elseif($config->phone_number_default_country)
+			{
+				$phone_country = $config->phone_number_default_country;
+				$user_id = preg_replace('/[^0-9]/', '', $user_id);
+			}
+			else
+			{
+				return $this->recordLoginError(-1, 'invalid_user_id');
+			}
+			
+			if($config->phone_number_hide_country)
+			{
+				$phone_country = $config->phone_number_default_country;
+			}
+			
+			$member_info = $oMemberModel->getMemberInfoByPhoneNumber($user_id, $phone_country);
+			if(!$user_id || strtolower($member_info->phone_number) !== $user_id)
+			{
+				return $this->recordLoginError(-1, 'invalid_user_id');
+			}
+		}
+		elseif(!$config->identifiers || in_array('user_id', $config->identifiers))
+		{
+			$member_info = $oMemberModel->getMemberInfoByUserID($user_id);
+			if(!$user_id || strtolower($member_info->user_id) !== strtolower($user_id))
+			{
+				return $this->recordLoginError(-1, 'invalid_user_id');
+			}
 		}
 		else
 		{
-			// Get user_id information
-			$member_info = $oMemberModel->getMemberInfoByUserID($user_id);
-			// Set an invalid user if no value returned
-			if(!$user_id || strtolower($member_info->user_id) != strtolower($user_id)) return $this->recordLoginError(-1, 'invalid_user_id');
+			return $this->recordLoginError(-1, 'invalid_user_id');
 		}
 
 		$output = executeQuery('member.getLoginCountByIp', $args);
@@ -2544,13 +2571,9 @@ class memberController extends member
 			}
 			if ($args->phone_country == '82')
 			{
-				if (Rhymix\Framework\Korea::isValidPhoneNumber($args->phone_number))
+				if (!Rhymix\Framework\Korea::isValidPhoneNumber($args->phone_number))
 				{
 					$args->phone_number = Rhymix\Framework\Korea::formatPhoneNumber($args->phone_number);
-				}
-				else
-				{
-					return new BaseObject(-1, 'msg_invalid_phone_number');
 				}
 			}
 		}
@@ -2773,11 +2796,7 @@ class memberController extends member
 			}
 			if ($args->phone_country == '82')
 			{
-				if (Rhymix\Framework\Korea::isValidPhoneNumber($args->phone_number))
-				{
-					$args->phone_number = Rhymix\Framework\Korea::formatPhoneNumber($args->phone_number);
-				}
-				else
+				if (!Rhymix\Framework\Korea::isValidPhoneNumber($args->phone_number))
 				{
 					return new BaseObject(-1, 'msg_invalid_phone_number');
 				}

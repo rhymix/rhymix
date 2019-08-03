@@ -333,6 +333,11 @@ class memberAdminController extends member
 		$args->phone_number_default_country = preg_replace('/[^0-9-]/', '', $args->phone_number_default_country);
 		$args->phone_number_hide_country = $args->phone_number_hide_country == 'Y' ? 'Y' : 'N';
 		$args->phone_number_allow_duplicate = $args->phone_number_allow_duplicate == 'Y' ? 'Y' : 'N';
+		if ($args->phone_number_hide_country === 'Y' && !$args->phone_number_default_country)
+		{
+			return new BaseObject('-1', 'msg_need_default_country');
+		}
+		
 		$args->profile_image = $args->profile_image ? 'Y' : 'N';
 		$args->image_name = $args->image_name ? 'Y' : 'N';
 		$args->image_mark = $args->image_mark ? 'Y' : 'N';

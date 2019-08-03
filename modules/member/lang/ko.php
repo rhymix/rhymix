@@ -34,6 +34,7 @@ $lang->group_order_change = '그룹 우선순위 변경';
 $lang->phone_number_default_country = '기본 선택 국가';
 $lang->phone_number_hide_country = '국가 목록 숨김';
 $lang->phone_number_allow_duplicate = '중복 가입 허용';
+$lang->msg_need_default_country = '국가 목록을 숨기려면 기본 선택 국가가 있어야 합니다.';
 $lang->signature = '서명';
 $lang->profile_image = '프로필 사진';
 $lang->profile_image_max_width = '가로 제한 길이';

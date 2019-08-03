@@ -34,6 +34,7 @@ $lang->group_order_change = 'Change Group Priority';
 $lang->phone_number_default_country = 'Default Country Code';
 $lang->phone_number_hide_country = 'Hide Country Code Selection';
 $lang->phone_number_allow_duplicate = 'Allow Multiple Members';
+$lang->msg_need_default_country = 'You must select a default country code if you want to hide the country code selection box.';
 $lang->signature = 'Signature';
 $lang->profile_image = 'Profile Image';
 $lang->profile_image_max_width = 'Max Width';
