@@ -173,6 +173,7 @@ class UA
 			'os' => null,
 			'is_mobile' => null,
 			'is_tablet' => null,
+			'is_webview' => null,
 			'is_robot' => null,
 		);
 		if (is_null($ua))
@@ -204,6 +205,7 @@ class UA
 		// Fill in miscellaneous fields.
 		$result->is_mobile = self::isMobile($ua);
 		$result->is_tablet = self::isTablet($ua);
+		$result->is_webview = strpos($ua, '; wv)') !== false;
 		$result->is_robot = self::isRobot($ua);
 		
 		// Try to match some of the most common browsers.
@@ -228,7 +230,7 @@ class UA
 			$result->version = ($matches[1] + 4) . '.0';
 			return $result;
 		}
-		if (preg_match('#(MSIE|OPR|CriOS|Firefox|FxiOS|Iceweasel|Yeti|[a-z]+(?:bot|spider)(?:-Image)?|wget|curl)[ /:]([0-9]+\\.[0-9]+)#i', $ua, $matches))
+		if (preg_match('#(MSIE|OPR|CriOS|Firefox|FxiOS|Iceweasel|Whale|Yeti|[a-z]+(?:bot|spider)(?:-Image)?|wget|curl)[ /:]([0-9]+\\.[0-9]+)#i', $ua, $matches))
 		{
 			if ($matches[1] === 'MSIE')
 			{
@@ -308,6 +310,8 @@ class UA
 	
 	/**
 	 * This method encodes a UTF-8 filename for downloading in the current visitor's browser.
+	 *
+	 * See: https://blog.bloodcat.com/302
 	 * 
 	 * @param string $filename
 	 * @param string $ua (optional)
@@ -322,7 +326,7 @@ class UA
 		$browser = self::getBrowserInfo($ua);
 		
 		// Find the best format that this browser supports.
-		if ($browser->browser === 'Chrome' && $browser->version >= 11)
+		if ($browser->browser === 'Chrome' && $browser->version >= 11 & !$browser->is_webview)
 		{
 			$output_format = 'rfc5987';
 		}
@@ -346,7 +350,11 @@ class UA
 		{
 			$output_format = 'old_ie';
 		}
-		elseif ($browser->browser === 'Android' || $browser->browser === 'Chrome' || $browser->browser === 'Safari')
+		elseif ($browser->browser === 'Android' || $browser->browser === 'Whale' || $browser->is_webview)
+		{
+			$output_format = 'raw';
+		}
+		elseif ($browser->browser === 'Chrome' || $browser->browser === 'Safari')
 		{
 			$output_format = 'raw';
 		}

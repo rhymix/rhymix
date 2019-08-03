@@ -1,13 +1,13 @@
 <include target="header.html" />
 
-<div cond="$XE_VALIDATOR_MESSAGE && $XE_VALIDATOR_ID == 'modules/file/tpl/adminConfig/1'" class="message {$XE_VALIDATOR_MESSAGE_TYPE}">
+<div cond="$XE_VALIDATOR_MESSAGE && $XE_VALIDATOR_ID == 'modules/file/tpl/download_config/1'" class="message {$XE_VALIDATOR_MESSAGE_TYPE}">
 	<p>{$XE_VALIDATOR_MESSAGE}</p>
 </div>
 
 <form ruleset="insertConfig" action="./" method="post" class="x_form-horizontal section">
 	<input type="hidden" name="module" value="file" />
-	<input type="hidden" name="act" value="procFileAdminInsertConfig" />
-	<input type="hidden" name="xe_validator_id" value="modules/file/tpl/adminConfig/1" />
+	<input type="hidden" name="act" value="procFileAdminInsertDownloadConfig" />
+	<input type="hidden" name="xe_validator_id" value="modules/file/tpl/download_config/1" />
 	<div class="x_control-group">
 		<label class="x_control-label">{$lang->allow_outlink}</label>
 		<div class="x_controls">
@@ -39,27 +39,6 @@
 			<label class="x_inline"><input type="checkbox" name="inline_download_format[]" id="inline_download_format_text" value="text" checked="checked"|cond="in_array('text', $config->inline_download_format)" /> {$lang->inline_download_text}</label>
 			<label class="x_inline"><input type="checkbox" name="inline_download_format[]" id="inline_download_format_pdf" value="pdf" checked="checked"|cond="in_array('pdf', $config->inline_download_format)" /> {$lang->inline_download_pdf}</label>
 			<p class="x_help-block">{$lang->about_inline_download_format}</p>
-		</div>
-	</div>
-	<div class="x_control-group">
-		<label for="allowed_filesize" class="x_control-label">{$lang->allowed_filesize}</label>
-		<div class="x_controls">
-			<input type="number" min="0" name="allowed_filesize" id="allowed_filesize" value="{$config->allowed_filesize}" size="7" style="min-width:80px" /> MB
-			<p class="x_help-block">{$lang->about_allowed_filesize_global}<br />{sprintf($lang->about_allowed_size_limits, ini_get('upload_max_filesize'))}</p>
-		</div>
-	</div>
-	<div class="x_control-group">
-		<label for="allowed_attach_size" class="x_control-label">{$lang->allowed_attach_size}</label>
-		<div class="x_controls">
-			<input type="number" min="0" name="allowed_attach_size" id="allowed_attach_size" value="{$config->allowed_attach_size}" size="7" style="min-width:80px" /> MB
-			<p class="x_help-block">{$lang->about_allowed_attach_size_global}<br />{sprintf($lang->about_allowed_size_limits, ini_get('upload_max_filesize'))}</p>
-		</div>
-	</div>
-	<div class="x_control-group">
-		<label for="allowedFiletypes" class="x_control-label">{$lang->allowed_filetypes}</label>
-		<div class="x_controls">
-			<input id="allowedFiletypes" type="text" name="allowed_filetypes" value="{$config->allowed_filetypes}" />
-			<p class="x_help-block">{$lang->about_allowed_filetypes}</p>
 		</div>
 	</div>
 	<div class="x_clearfix btnArea">

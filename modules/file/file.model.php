@@ -112,6 +112,7 @@ class fileModel extends file
 		$allowed_attach_size = FileHandler::filesize($file_config->allowed_attach_size*1024*1024);
 		$allowed_filesize = FileHandler::filesize($file_config->allowed_filesize*1024*1024);
 		$allowed_filetypes = $file_config->allowed_filetypes;
+		$allowed_extensions = $file_config->allowed_extensions;
 		$this->add("files",$files);
 		$this->add("editor_sequence",$editor_sequence);
 		$this->add("upload_target_srl",$upload_target_srl);
@@ -121,6 +122,7 @@ class fileModel extends file
 		$this->add('allowed_attach_size', $allowed_attach_size);
 		$this->add('allowed_filesize', $allowed_filesize);
 		$this->add('allowed_filetypes', $allowed_filetypes);
+		$this->add('allowed_extensions', $allowed_extensions);
 	}
 
 	/**
@@ -185,23 +187,44 @@ class fileModel extends file
 
 		if($file_config)
 		{
+			$config->use_default_file_config = $file_config->use_default_file_config;
 			$config->allowed_filesize = $file_config->allowed_filesize;
 			$config->allowed_attach_size = $file_config->allowed_attach_size;
 			$config->allowed_filetypes = $file_config->allowed_filetypes;
+			$config->allowed_extensions = $file_config->allowed_extensions;
 			$config->inline_download_format = $file_config->inline_download_format;
+			$config->max_image_width = $file_config->max_image_width;
+			$config->max_image_height = $file_config->max_image_height;
+			$config->max_image_size_action = $file_config->max_image_size_action;
+			$config->max_image_size_quality = $file_config->max_image_size_quality;
+			$config->image_autoconv = $file_config->image_autoconv;
+			$config->image_autoconv_quality = $file_config->image_autoconv_quality;
+			$config->image_autorotate = $file_config->image_autorotate;
+			$config->image_autorotate_quality = $file_config->image_autorotate_quality;
 			$config->download_grant = $file_config->download_grant;
 			$config->allow_outlink = $file_config->allow_outlink;
 			$config->allow_outlink_site = $file_config->allow_outlink_site;
 			$config->allow_outlink_format = $file_config->allow_outlink_format;
 		}
+		
 		// Property for all files comes first than each property
 		if(!$config->allowed_filesize) $config->allowed_filesize = $file_module_config->allowed_filesize;
 		if(!$config->allowed_attach_size) $config->allowed_attach_size = $file_module_config->allowed_attach_size;
 		if(!$config->allowed_filetypes) $config->allowed_filetypes = $file_module_config->allowed_filetypes;
+		if(!$config->allowed_extensions) $config->allowed_extensions = $file_module_config->allowed_extensions;
 		if(!$config->allow_outlink) $config->allow_outlink = $file_module_config->allow_outlink;
 		if(!$config->allow_outlink_site) $config->allow_outlink_site = $file_module_config->allow_outlink_site;
 		if(!$config->allow_outlink_format) $config->allow_outlink_format = $file_module_config->allow_outlink_format;
 		if(!$config->download_grant) $config->download_grant = $file_module_config->download_grant;
+		if(!$config->max_image_width) $config->max_image_width = $file_module_config->max_image_width;
+		if(!$config->max_image_height) $config->max_image_height = $file_module_config->max_image_height;
+		if(!$config->max_image_size_action) $config->max_image_size_action = $file_module_config->max_image_size_action;
+		if(!$config->max_image_size_quality) $config->max_image_size_quality = $file_module_config->max_image_size_quality;
+		if(!$config->image_autoconv) $config->image_autoconv = $file_module_config->image_autoconv;
+		if(!$config->image_autoconv_quality) $config->image_autoconv_quality = $file_module_config->image_autoconv_quality;
+		if(!$config->image_autorotate) $config->image_autorotate = $file_module_config->image_autorotate;
+		if(!$config->image_autorotate_quality) $config->image_autorotate_quality = $file_module_config->image_autorotate_quality;
+		
 		// Default setting if not exists
 		if(!$config->allowed_filesize) $config->allowed_filesize = '2';
 		if(!$config->allowed_attach_size) $config->allowed_attach_size = '3';
@@ -209,6 +232,26 @@ class fileModel extends file
 		if(!$config->allow_outlink) $config->allow_outlink = 'Y';
 		if(!$config->download_grant) $config->download_grant = array();
 		if(!$config->inline_download_format) $config->inline_download_format = array();
+		if(!$config->max_image_size_quality) $config->max_image_size_quality = 75;
+		if(!$config->image_autoconv) $config->image_autoconv = array();
+		if(!$config->image_autoconv_quality) $config->image_autoconv_quality = 75;
+		if(!$config->image_autorotate_quality) $config->image_autorotate_quality = 75;
+		
+		// Format allowed_filetypes
+		if($config->allowed_filetypes && !isset($config->allowed_extensions))
+		{
+			$config->allowed_filetypes = trim($config->allowed_filetypes);
+			if($config->allowed_filetypes === '*.*')
+			{
+				$config->allowed_extensions = '';
+			}
+			else
+			{
+				$config->allowed_extensions = array_map(function($ext) {
+					return strtolower(substr(strrchr(trim($ext), '.'), 1));
+				}, explode(';', $config->allowed_filetypes));
+			}
+		}
 
 		return $config;
 	}

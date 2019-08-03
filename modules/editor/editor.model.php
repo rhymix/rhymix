@@ -68,9 +68,9 @@ class editorModel extends editor
 		// Apply the default config for missing values.
 		foreach ($this->default_editor_config as $key => $val)
 		{
-			if ($editor_config->default_editor_settings === 'Y' || !$editor_config->$key)
+			if ($editor_config->default_editor_settings === 'Y' || !isset($editor_config->$key))
 			{
-				$editor_config->$key = $editor_default_config->$key ?: $val;
+				$editor_config->$key = isset($editor_default_config->$key) ? $editor_default_config->$key : $val;
 			}
 		}
 		

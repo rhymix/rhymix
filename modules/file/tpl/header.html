@@ -7,7 +7,10 @@
 	<li class="x_active"|cond="$act == 'dispFileAdminList'">
 		<a href="{getUrl('', 'module', 'admin', 'act', 'dispFileAdminList')}">{$lang->file_list}</a>
 	</li>
-	<li class="x_active"|cond="$act == 'dispFileAdminConfig'">
-		<a href="{getUrl('', 'module', 'admin', 'act', 'dispFileAdminConfig')}">{$lang->file_upload_config}</a>
+	<li class="x_active"|cond="$act == 'dispFileAdminUploadConfig'">
+		<a href="{getUrl('', 'module', 'admin', 'act', 'dispFileAdminUploadConfig')}">{$lang->file_upload_config}</a>
+	</li>
+	<li class="x_active"|cond="$act == 'dispFileAdminDownloadConfig'">
+		<a href="{getUrl('', 'module', 'admin', 'act', 'dispFileAdminDownloadConfig')}">{$lang->file_download_config}</a>
 	</li>
 </ul>

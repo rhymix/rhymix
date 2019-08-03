@@ -56,6 +56,7 @@ class UATest extends \Codeception\TestCase\Test
 		$this->assertEquals('Android', $browser->os);
 		$this->assertTrue($browser->is_mobile);
 		$this->assertTrue($browser->is_tablet);
+		$this->assertFalse($browser->is_webview);
 		$this->assertFalse($browser->is_robot);
 		
 		// Android default browser (possible confusion with Chrome)
@@ -64,6 +65,7 @@ class UATest extends \Codeception\TestCase\Test
 		$this->assertEquals('4.4', $browser->version);
 		$this->assertTrue($browser->is_mobile);
 		$this->assertFalse($browser->is_tablet);
+		$this->assertFalse($browser->is_webview);
 		$this->assertFalse($browser->is_robot);
 		
 		// Android webview (possible confusion with Chrome)
@@ -72,6 +74,7 @@ class UATest extends \Codeception\TestCase\Test
 		$this->assertEquals('5.1', $browser->version);
 		$this->assertTrue($browser->is_mobile);
 		$this->assertFalse($browser->is_tablet);
+		$this->assertTrue($browser->is_webview);
 		$this->assertFalse($browser->is_robot);
 		
 		// Android Chrome
@@ -80,6 +83,7 @@ class UATest extends \Codeception\TestCase\Test
 		$this->assertEquals('38.0', $browser->version);
 		$this->assertEquals('Android', $browser->os);
 		$this->assertTrue($browser->is_mobile);
+		$this->assertFalse($browser->is_webview);
 		$this->assertFalse($browser->is_tablet);
 		
 		// Windows Chrome
@@ -206,6 +210,24 @@ class UATest extends \Codeception\TestCase\Test
 		$this->assertEquals('10.0', $browser->version);
 		$this->assertFalse($browser->is_mobile);
 		
+		// Whale Mobile (Naver App)
+		$browser = Rhymix\Framework\UA::getBrowserInfo('Mozilla/5.0 (Linux; Android 9) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/69.0.3497.128 Whale/1.0.0.0 Crosswalk/23.69.590.31 Mobile Safari/537.36 NAVER(inapp; search; 660; 10.7.2)');
+		$this->assertEquals('Whale', $browser->browser);
+		$this->assertEquals('1.0', $browser->version);
+		$this->assertEquals('Android', $browser->os);
+		$this->assertTrue($browser->is_mobile);
+		$this->assertFalse($browser->is_webview);
+		$this->assertFalse($browser->is_robot);
+		
+		// XE Push App (Webview)
+		$browser = Rhymix\Framework\UA::getBrowserInfo('Mozilla/5.0 (Linux; Android 9; wv) AppleWebKit/537.36 (KHTML, like Gecko) Version/4.0 Chrome/75.0.3770.101 Mobile Safari/537.36;App');
+		$this->assertEquals('Chrome', $browser->browser);
+		$this->assertEquals('75.0', $browser->version);
+		$this->assertEquals('Android', $browser->os);
+		$this->assertTrue($browser->is_mobile);
+		$this->assertTrue($browser->is_webview);
+		$this->assertFalse($browser->is_robot);
+		
 		// Googlebot
 		$browser = Rhymix\Framework\UA::getBrowserInfo('Mozilla/5.0 (compatible; Googlebot/2.1; +http://www.google.com/bot.html)');
 		$this->assertEquals('Googlebot', $browser->browser);
@@ -281,8 +303,12 @@ class UATest extends \Codeception\TestCase\Test
 		$this->assertEquals('filename*=UTF-8\'\'%ED%95%9C%EA%B8%80%20filename.jpg', Rhymix\Framework\UA::encodeFilenameForDownload('한글 filename.jpg', 'Firefox/46.0'));
 		$this->assertEquals('filename*=UTF-8\'\'%ED%95%9C%EA%B8%80%20filename.jpg', Rhymix\Framework\UA::encodeFilenameForDownload('한글 filename.jpg', 'Edge/12.10240'));
 		$this->assertEquals('filename*=UTF-8\'\'%ED%95%9C%EA%B8%80%20filename.jpg', Rhymix\Framework\UA::encodeFilenameForDownload('한글 filename.jpg', 'MSIE/7.0 Trident/7.0'));
+		$this->assertEquals('filename*=UTF-8\'\'%ED%95%9C%EA%B8%80%20filename.jpg', Rhymix\Framework\UA::encodeFilenameForDownload('한글 filename.jpg', 'Mozilla/5.0 (Windows NT 10.0; WOW64; Trident/7.0; rv:11.0) like Gecko'));
 		$this->assertEquals('filename="%ED%95%9C%EA%B8%80%20filename.jpg"', Rhymix\Framework\UA::encodeFilenameForDownload('한글 filename.jpg', 'MSIE 8.0'));
 		$this->assertEquals('filename="%ED%95%9C%EA%B8%80%20filename.jpg"', Rhymix\Framework\UA::encodeFilenameForDownload('한글 filename.jpg', 'Unknown Browser'));
+		$this->assertEquals('filename="한글 filename.jpg"', Rhymix\Framework\UA::encodeFilenameForDownload('한글 filename.jpg', 'Chrome/69.0.3497.128 Whale/1.0.0.0 Crosswalk/23.69.590.31 Mobile Safari/537.36 NAVER(inapp; search; 660; 10.7.2)'));
+		$this->assertEquals('filename="한글 filename.jpg"', Rhymix\Framework\UA::encodeFilenameForDownload('한글 filename.jpg', 'Mozilla/5.0 (Linux; Android 9; wv) AppleWebKit/537.36 (KHTML, like Gecko) Version/4.0 Chrome/75.0.3770.101 Mobile Safari/537.36'));
+		$this->assertEquals('filename="%ED%95%9C%EA%B8%80%20filename.jpg"', Rhymix\Framework\UA::encodeFilenameForDownload('한글 filename.jpg', 'Dalvik/2.1.0 (Linux; U; Android 9)'));
 		$this->assertEquals('filename="한글 filename.jpg"', Rhymix\Framework\UA::encodeFilenameForDownload('한글 filename.jpg', 'Safari/5.0 Version/5.0'));
 		$this->assertEquals('filename="한글 filename.jpg"', Rhymix\Framework\UA::encodeFilenameForDownload('한글 filename.jpg', 'Linux; Android 5.1.1; Version/4.0 Chrome/43.0.2357.65 Mobile Safari/537.36'));
 	}
