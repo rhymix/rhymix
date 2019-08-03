@@ -337,7 +337,7 @@ class memberAdminController extends member
 		global $lang;
 		$signupForm = array();
 		$items = array(
-			'user_id', 'password', 'user_name', 'nick_name', 'email_address', 'homepage', 'blog', 'birthday', 'signature',
+			'user_id', 'password', 'user_name', 'nick_name', 'email_address', 'phone_number', 'homepage', 'blog', 'birthday', 'signature',
 			'profile_image', 'profile_image_max_width', 'profile_image_max_height', 'profile_image_max_filesize',
 			'image_name', 'image_name_max_width', 'image_name_max_height', 'image_name_max_filesize',
 			'image_mark', 'image_mark_max_width', 'image_mark_max_height', 'image_mark_max_filesize',
@@ -482,11 +482,11 @@ class memberAdminController extends member
 	{
 		global $lang;
 		$oMemberModel = getModel('member');
-
+		
 		// Get join form list which is additionally set
 		$extendItems = $oMemberModel->getJoinFormList();
 
-		$items = array('user_id', 'password', 'user_name', 'nick_name', 'email_address', 'homepage', 'blog', 'birthday', 'signature', 'profile_image', 'image_name', 'image_mark');
+		$items = array('user_id', 'password', 'user_name', 'nick_name', 'email_address', 'phone_number', 'homepage', 'blog', 'birthday', 'signature', 'profile_image', 'image_name', 'image_mark');
 		$mustRequireds = array('email_address', 'nick_name', 'password');
 		$orgRequireds = array('email_address', 'password', 'user_id', 'nick_name', 'user_name');
 		$orgUse = array('email_address', 'password', 'user_id', 'nick_name', 'user_name', 'homepage', 'blog', 'birthday');
@@ -504,7 +504,7 @@ class memberAdminController extends member
 			$signupItem->required = in_array($key, $orgRequireds);
 			$signupItem->isUse = ($config->{$key} == 'Y') || in_array($key, $orgUse);
 			$signupItem->isPublic = ($signupItem->isUse) ? 'Y' : 'N';
-			if(in_array($key, array('find_account_question', 'password', 'email_address')))
+			if(in_array($key, array('find_account_question', 'password', 'email_address', 'phone_number')))
 			{
 				$signupItem->isPublic = 'N';
 			}

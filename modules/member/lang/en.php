@@ -78,6 +78,7 @@ $lang->about_webmaster_email = 'This setting can be changed in the <a href="inde
 $lang->retroactive_application = 'retroact';
 $lang->signature_html_retroact = 'also remove HTML in past inseted HTML signature. Can not be reversed.';
 $lang->search_target_list['email_address'] = 'Email Address';
+$lang->search_target_list['email_address'] = 'Phone Number';
 $lang->search_target_list['regdate'] = 'Sign up Date';
 $lang->search_target_list['regdate_more'] = 'Sign up Date (more)';
 $lang->search_target_list['regdate_less'] = 'Sign up Date (less)';

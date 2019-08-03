@@ -80,6 +80,7 @@ $lang->about_webmaster_email = '이 설정은 <a href="index.php?module=admin&ac
 $lang->retroactive_application = '소급적용';
 $lang->signature_html_retroact = '이전에 입력된 HTML 서명에서도 HTML을 제거 합니다. 되돌릴 수 없습니다.';
 $lang->search_target_list['email_address'] = '이메일';
+$lang->search_target_list['phone_number'] = '전화번호';
 $lang->search_target_list['regdate'] = '가입일시';
 $lang->search_target_list['regdate_more'] = '가입일시(이상)';
 $lang->search_target_list['regdate_less'] = '가입일시(이하)';
