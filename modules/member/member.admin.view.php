@@ -568,7 +568,7 @@ class memberAdminView extends member
 							{
 								if($country->calling_code)
 								{
-									$inputTag .= '<option value="' . $country->calling_code . '"' . ($country->calling_code === $match_country ? ' selected="selected"' : '') . '>';
+									$inputTag .= '<option value="' . $country->calling_code . '"' . (str_replace('-', '', $country->calling_code) === $match_country ? ' selected="selected"' : '') . '>';
 									$inputTag .= escape(Context::get('lang_type') === 'ko' ? $country->name_korean : $country->name_english) . ' (+' . $country->calling_code . ')</option>';
 								}
 							}

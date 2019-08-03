@@ -623,7 +623,7 @@ class memberController extends member
 			}
 			if ($val === 'phone_number')
 			{
-				$args->phone_country = trim(preg_replace('/[^0-9-]/', '', Context::get('phone_country')), '-');
+				$args->phone_country = preg_replace('/[^0-9]/', '', Context::get('phone_country'));
 			}
 		}
 		
@@ -865,7 +865,7 @@ class memberController extends member
 			}
 			if ($val === 'phone_number')
 			{
-				$args->phone_country = trim(preg_replace('/[^0-9-]/', '', Context::get('phone_country')), '-');
+				$args->phone_country = preg_replace('/[^0-9-]/', '', Context::get('phone_country'));
 			}
 		}
 		
@@ -2144,24 +2144,24 @@ class memberController extends member
 		{
 			if(preg_match('/^\+([0-9-]+)\.([0-9.-]+)$/', $user_id, $matches))
 			{
-				$phone_country = preg_replace('/[^0-9]/', '', $matches[1]);
-				$user_id = preg_replace('/[^0-9]/', '', $matches[2]);
+				$user_id = $matches[2];
+				$phone_country = $matches[1];
+				if($config->phone_number_hide_country === 'Y')
+				{
+					$phone_country = $config->phone_number_default_country;
+				}
 			}
 			elseif($config->phone_number_default_country)
 			{
 				$phone_country = $config->phone_number_default_country;
-				$user_id = preg_replace('/[^0-9]/', '', $user_id);
 			}
 			else
 			{
 				return $this->recordLoginError(-1, 'invalid_user_id');
 			}
 			
-			if($config->phone_number_hide_country)
-			{
-				$phone_country = $config->phone_number_default_country;
-			}
-			
+			$user_id = preg_replace('/[^0-9]/', '', $user_id);
+			$phone_country = preg_replace('/[^0-9]/', '', $phone_country);
 			$member_info = $oMemberModel->getMemberInfoByPhoneNumber($user_id, $phone_country);
 			if(!$user_id || strtolower($member_info->phone_number) !== $user_id)
 			{
@@ -2565,16 +2565,14 @@ class memberController extends member
 			$args->phone_country = trim(preg_replace('/[^0-9-]/', '', $args->phone_country), '-');
 			$args->phone_number = preg_replace('/[^0-9]/', '', $args->phone_number);
 			$args->phone_type = '';
-			if ($config->phone_number_hide_country || (!$args->phone_country && $config->phone_number_default_country))
+			if ($config->phone_number_hide_country === 'Y' || (!$args->phone_country && $config->phone_number_default_country))
 			{
 				$args->phone_country = $config->phone_number_default_country;
 			}
-			if ($args->phone_country == '82')
+			$args->phone_country = str_replace('-', '', $args->phone_country);
+			if ($args->phone_country == '82' && !Rhymix\Framework\Korea::isValidPhoneNumber($args->phone_number))
 			{
-				if (!Rhymix\Framework\Korea::isValidPhoneNumber($args->phone_number))
-				{
-					$args->phone_number = Rhymix\Framework\Korea::formatPhoneNumber($args->phone_number);
-				}
+				return new BaseObject(-1, 'msg_invalid_phone_number');
 			}
 		}
 		else
@@ -2790,16 +2788,14 @@ class memberController extends member
 			$args->phone_country = trim(preg_replace('/[^0-9-]/', '', $args->phone_country), '-');
 			$args->phone_number = preg_replace('/[^0-9]/', '', $args->phone_number);
 			$args->phone_type = '';
-			if ($config->phone_number_hide_country || (!$args->phone_country && $config->phone_number_default_country))
+			if ($config->phone_number_hide_country === 'Y' || (!$args->phone_country && $config->phone_number_default_country))
 			{
 				$args->phone_country = $config->phone_number_default_country;
 			}
-			if ($args->phone_country == '82')
+			$args->phone_country = str_replace('-', '', $args->phone_country);
+			if ($args->phone_country == '82' && !Rhymix\Framework\Korea::isValidPhoneNumber($args->phone_number))
 			{
-				if (!Rhymix\Framework\Korea::isValidPhoneNumber($args->phone_number))
-				{
-					return new BaseObject(-1, 'msg_invalid_phone_number');
-				}
+				return new BaseObject(-1, 'msg_invalid_phone_number');
 			}
 		}
 		else
