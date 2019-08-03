@@ -494,7 +494,7 @@ class memberAdminController extends member
 		// Get join form list which is additionally set
 		$extendItems = $oMemberModel->getJoinFormList();
 
-		$items = array('user_id', 'password', 'user_name', 'nick_name', 'email_address', 'phone_number', 'homepage', 'blog', 'birthday', 'signature', 'profile_image', 'image_name', 'image_mark');
+		$items = array('user_id', 'email_address', 'phone_number', 'password', 'user_name', 'nick_name', 'homepage', 'blog', 'birthday', 'signature', 'profile_image', 'image_name', 'image_mark');
 		$mustRequireds = array('email_address', 'nick_name', 'password');
 		$orgRequireds = array('email_address', 'password', 'user_id', 'nick_name', 'user_name');
 		$orgUse = array('email_address', 'password', 'user_id', 'nick_name', 'user_name', 'homepage', 'blog', 'birthday');
