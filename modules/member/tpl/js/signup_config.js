@@ -69,7 +69,7 @@ jQuery(function($){
 					.find(':radio[value=option]').attr('checked', 'checked')
 						.end()
 					.prev('td')
-					.find(':input[value=Y]').not('[data-donotchange]').removeAttr('disabled').attr('checked', 'checked');
+					.find(':input[value=Y]').removeAttr('disabled').attr('checked', 'checked');
 			} else {
 				$i.parent('td').next('td').next('td')
 					.find('>._subItem').hide().end()
@@ -77,7 +77,7 @@ jQuery(function($){
 						.next('label').css('fontWeight','normal').end()
 						.end()
 					.prev('td')
-					.find(':input[value=Y]').not('[data-donotchange]').removeAttr('checked').attr('disabled', 'disabled');
+					.find(':input[value=Y]').removeAttr('checked').attr('disabled', 'disabled');
 			}
 
 	}
