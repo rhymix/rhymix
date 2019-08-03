@@ -539,6 +539,34 @@ class memberAdminView extends member
 						$formTag->type = 'email';
 						$inputTag = '<input type="email" name="email_address" id="email_address" value="'.$memberInfo['email_address'].'" />';
 					}
+					else if($formInfo->name == 'phone_number')
+					{
+						$formTag->type = 'phone';
+						if(!$config->phone_number_hide_country)
+						{
+							$inputTag = '<select name="phone_country" id="phone_country" class="phone_country">';
+							$country_list = Rhymix\Framework\i18n::listCountries(Context::get('lang_type') === 'ko' ? Rhymix\Framework\i18n::SORT_NAME_KOREAN : Rhymix\Framework\i18n::SORT_NAME_ENGLISH);
+							$match_country = $memberInfo['phone_country'];
+							if(!$match_country && $config->phone_number_default_country)
+							{
+								$match_country = $config->phone_number_default_country;
+							}
+							if(!$match_country && Context::get('lang_type') === 'ko')
+							{
+								$match_country = '82';
+							}
+							foreach($country_list as $country)
+							{
+								if($country->calling_code)
+								{
+									$inputTag .= '<option value="' . $country->calling_code . '"' . ($country->calling_code === $match_country ? ' selected="selected"' : '') . '>';
+									$inputTag .= escape(Context::get('lang_type') === 'ko' ? $country->name_korean : $country->name_english) . ' (+' . $country->calling_code . ')</option>';
+								}
+							}
+							$inputTag .= '</select>' . "\n";
+						}
+						$inputTag .= '<input type="tel" name="phone_number" id="phone_number" class="phone_number" value="'.$memberInfo['phone_number'].'" />';
+					}
 					else if($formInfo->name == 'homepage')
 					{
 						$formTag->type = 'url';
