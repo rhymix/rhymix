@@ -31,6 +31,7 @@ $lang->install_checklist_desc['php_version_warning'] = '[Recommend] Rhymix recom
 $lang->install_checklist_desc['permission'] = '[Required] Please create a \'files\' directory under the installation path and change its permissions to 777.';
 $lang->install_checklist_desc['xml'] = '[Required] XML Library is needed for XML communication';
 $lang->install_checklist_desc['session'] = '[Required] PHP Session must be available, and \'session.auto_start\' must be off in order to use the session.';
+$lang->install_checklist_desc['free_domain_warning'] = 'If you are using a free subdomain provided by the hosting company (e.g. ID.hosting-company.com),<br />Please clear your browser cookies and return to the previous screen.';
 $lang->install_checklist_desc['iconv'] = 'Iconv should be installed in order to convert between UTF-8 and other language sets';
 $lang->install_checklist_desc['gd'] = 'GD Library should be installed in order to use functions to convert images';
 $lang->install_checklist_xml = 'Install XML Library';

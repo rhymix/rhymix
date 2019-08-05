@@ -20,6 +20,11 @@
 					<td colspan="2" class="error_description">
 						<!--@if($key === 'php_version')-->
 							{sprintf($lang->install_checklist_desc[$key], __XE_MIN_PHP_VERSION__)}
+						<!--@elseif($key === 'session')-->
+							{$lang->install_checklist_desc[$key]}
+							<!--@if(contains('.cafe24.com', $_SERVER['HTTP_HOST']))-->
+								<br /><strong>{$lang->install_checklist_desc['free_domain_warning']}</strong>
+							<!--@end-->
 						<!--@else-->
 							{$lang->install_checklist_desc[$key]}
 						<!--@end-->
