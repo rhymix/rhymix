@@ -98,6 +98,7 @@ $lang->original_date = '작성 날짜';
 $lang->declared_count = '신고 수';
 $lang->latest_declared_date = '최근 신고 날짜';
 $lang->declared_message_title = '신고가 접수되었습니다.';
+$lang->declared_cancel_message_title = '신고가 취소되었습니다.';
 $lang->declaring_user = '신고자';
 $lang->improper_document_declare_reason = '신고 이유';
 $lang->improper_document_reasons['advertisement'] = '주제나 흐름에 맞지 않는 광고 글입니다.';

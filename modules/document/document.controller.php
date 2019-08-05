@@ -267,8 +267,7 @@ class documentController extends document
 		// if an user select message from options, message would be the option.
 		$message_option = strval(Context::get('message_option'));
 		$improper_document_reasons = lang('improper_document_reasons');
-		$declare_message = ($message_option !== 'others' && isset($improper_document_reasons[$message_option]))?
-			$improper_document_reasons[$message_option] : trim(Context::get('declare_message'));
+		$declare_message = ($message_option !== 'others' && isset($improper_document_reasons[$message_option])) ? $improper_document_reasons[$message_option] : trim(Context::get('declare_message'));
 
 		// if there is return url, set that.
 		if(Context::get('success_return_url'))
@@ -277,6 +276,33 @@ class documentController extends document
 		}
 
 		return $this->declaredDocument($document_srl, $declare_message);
+	}
+
+	/**
+	 * 신고를 취소하는 액션
+	 * @return BaseObject|object
+	 * @throws \Rhymix\Framework\Exceptions\InvalidRequest
+	 * @throws \Rhymix\Framework\Exceptions\MustLogin
+	 */
+	function procDocumentDeclareCancel()
+	{
+		if(!Context::get('is_logged'))
+		{
+			throw new Rhymix\Framework\Exceptions\MustLogin;
+		}
+
+		$document_srl = intval(Context::get('target_srl'));
+		if(!$document_srl)
+		{
+			throw new Rhymix\Framework\Exceptions\InvalidRequest;
+		}
+
+		if(Context::get('success_return_url'))
+		{
+			$this->setRedirectUrl(Context::get('success_return_url'));
+		}
+
+		return $this->declaredDocumentCancel($document_srl);
 	}
 
 	/**
@@ -1718,6 +1744,123 @@ class documentController extends document
 		$_SESSION['declared_document'][$document_srl] = true;
 
 		$this->setMessage('success_declared');
+	}
+
+	/**
+	 * 신고 취소
+	 * @param $document_srl
+	 * @return BaseObject|object|void
+	 */
+	function declaredDocumentCancel($document_srl)
+	{
+		$args = new stdClass();
+		$args->document_srl = $document_srl;
+		$output = executeQuery('document.getDeclaredDocument', $args);
+		if(!$output->toBool())
+		{
+			return $output;
+		}
+
+		$declared_count = ($output->data->declared_count) ? $output->data->declared_count : 0;
+
+		$trigger_obj = new stdClass();
+		$trigger_obj->document_srl = $document_srl;
+		$trigger_obj->declared_count = $declared_count;
+
+		// Call a trigger (before)
+		$trigger_output = ModuleHandler::triggerCall('document.declaredDocumentCancel', 'before', $trigger_obj);
+		if(!$trigger_output->toBool())
+		{
+			return $trigger_output;
+		}
+
+		// Get the original document
+		$oDocumentModel = getModel('document');
+		$oDocument = $oDocumentModel->getDocument($document_srl, false, false);
+
+		$oDB = DB::getInstance();
+		$oDB->begin();
+
+		$member_srl = intval($this->user->member_srl);
+		
+		$args = new stdClass;
+		$args->document_srl = $document_srl;
+		if($member_srl)
+		{
+			$args->member_srl = $member_srl;
+		}
+		else
+		{
+			$args->ipaddress = \RX_CLIENT_IP;
+		}
+		$output = executeQuery('document.getDocumentDeclaredLogInfo', $args);
+		
+		if($output->data->count <= 0 || !isset($output->data->count))
+		{
+			$_SESSION['declared_document'][$document_srl] = false;
+			return new BaseObject(-1, 'failed_declared_cancel');
+		}
+		
+		if($declared_count > 1)
+		{
+			$output = executeQuery('document.updateDeclaredDocumentCancel', $args);
+		}
+		else
+		{
+			$output = executeQuery('document.deleteDeclaredDocument', $args);
+		}
+		if(!$output->toBool())
+		{
+			$oDB->rollback();
+			return $output;
+		}
+		
+		$output = executeQuery('document.deleteDeclaredDocumentLog', $args);
+		if(!$output->toBool())
+		{
+			$oDB->rollback();
+			return $output;
+		}
+		
+		$message_targets = array();
+		$module_srl = $oDocument->get('module_srl');
+		$oModuleModel = getModel('module');
+		$document_config = $oModuleModel->getModulePartConfig('document', $module_srl);
+		if ($document_config->declared_message && in_array('admin', $document_config->declared_message))
+		{
+			$output = executeQueryArray('member.getAdmins', new stdClass);
+			foreach ($output->data as $admin)
+			{
+				$message_targets[$admin->member_srl] = true;
+			}
+		}
+		if ($document_config->declared_message && in_array('manager', $document_config->declared_message))
+		{
+			$output = executeQueryArray('module.getModuleAdmin', (object)['module_srl' => $module_srl]);
+			foreach ($output->data as $manager)
+			{
+				$message_targets[$manager->member_srl] = true;
+			}
+		}
+		if ($message_targets)
+		{
+			$oCommunicationController = getController('communication');
+			$message_title = lang('document.declared_cancel_message_title');
+			$message_content = sprintf('<p><a href="%s">%s</a></p><p>%s</p>', $oDocument->getPermanentUrl(), $oDocument->getTitleText());
+			foreach ($message_targets as $target_member_srl => $val)
+			{
+				$oCommunicationController->sendMessage($this->user->member_srl, $target_member_srl, $message_title, $message_content, false);
+			}
+		}
+		
+		$oDB->commit();
+
+		$trigger_obj->declared_count = $declared_count - 1;
+		ModuleHandler::triggerCall('document.declaredDocumentCancel', 'after', $trigger_obj);
+
+		$_SESSION['declared_document'][$document_srl] = false;
+
+		$this->setMessage('success_declared_cancel');
 	}
 
 	/**

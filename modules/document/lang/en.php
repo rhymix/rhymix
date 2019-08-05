@@ -98,6 +98,7 @@ $lang->original_date = 'Original date';
 $lang->declared_count = 'Report count';
 $lang->latest_declared_date = 'Last reported date';
 $lang->declared_message_title = 'A post has been reported.';
+$lang->declared_cancel_message_title = 'Cancel the reported a post.';
 $lang->declaring_user = 'Reporter';
 $lang->improper_document_declare_reason = 'Reason';
 $lang->improper_document_reasons['advertisement'] = 'Advertisements that do not fit the topics or themes.';

@@ -506,6 +506,48 @@ class documentItem extends BaseObject
 		return $_SESSION['voted_document'][$this->document_srl] = false;
 	}
 
+	/**
+	 * 게시글에 신고한 이력이 있는지 검사
+	 * @return bool|int
+	 */
+	function getDeclared()
+	{
+		if(!$this->isExists())
+		{
+			return false;
+		}
+		
+		$logged_info = Context::get('logged_info');
+		if(!$logged_info->member_srl)
+		{
+			return false;
+		}
+
+		if(isset($_SESSION['declared_document'][$this->document_srl]))
+		{
+			return $_SESSION['declared_document'][$this->document_srl];
+		}
+		
+		$args = new stdClass();
+		if($logged_info->member_srl)
+		{
+			$args->member_srl = $logged_info->member_srl;
+		}
+		else
+		{
+			$args->ipaddress = \RX_CLIENT_IP;
+		}
+		$args->document_srl = $this->document_srl;
+		$output = executeQuery('document.getDocumentDeclaredLogInfo', $args);
+		$declaredCount = intval($output->data->count);
+		if($declaredCount > 0)
+		{
+			return $_SESSION['declared_document'][$this->document_srl] = $declaredCount;
+		}
+		
+		return $_SESSION['declared_document'][$this->document_srl] = false;
+	}
+
 	function getTitle($cut_size = 0, $tail = '...')
 	{
 		if(!$this->isExists())
