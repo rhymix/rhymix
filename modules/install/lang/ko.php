@@ -31,6 +31,7 @@ $lang->install_checklist_desc['php_version_warning'] = '[권장] Rhymix는 PHP %
 $lang->install_checklist_desc['permission'] = '[필수] Rhymix 설치 경로에 files 디렉토리를 생성하고 퍼미션을 777로 바꾸어 주십시오.';
 $lang->install_checklist_desc['xml'] = '[필수] XML통신을 위하여 XML 라이브러리가 필요합니다.';
 $lang->install_checklist_desc['session'] = '[필수] PHP 세션을 사용할 수 있어야 하며, php.ini 설정에서 session.auto_start = off 여야 합니다.';
+$lang->install_checklist_desc['free_domain_warning'] = '웹호스팅 업체에서 제공하는 무료도메인(예: ID.cafe24.com)을 사용하신다면<br />브라우저 쿠키를 비우고 이전 화면으로 돌아가서 설치를 다시 시작해 주시기 바랍니다.';
 $lang->install_checklist_desc['iconv'] = 'UTF-8과 다른 언어셋의 변환을 위한 iconv설치가 필요합니다.';
 $lang->install_checklist_desc['gd'] = '이미지변환 기능을 사용하기 위해 GD라이브러리가 설치되어 있어야 합니다.';
 $lang->install_checklist_xml = 'XML 라이브러리 설치';
