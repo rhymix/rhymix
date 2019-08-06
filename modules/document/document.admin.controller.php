@@ -56,6 +56,7 @@ class documentAdminController extends document
 		$config->view_count_option = Context::get('view_count_option');
 		$config->icons = Context::get('icons');
 		$config->micons = Context::get('micons');
+		$config->examination_vote = Context::get('examination_vote');
 
 		// Insert by creating the module Controller object
 		$oModuleController = getController('module');
