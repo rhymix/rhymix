@@ -290,6 +290,18 @@
 			</div>
 		</div>
 		<div class="x_control-group">
+			<label class="x_control-label">{$lang->cancel_vote}</label>
+			<div class="x_controls">
+				<label class="x_inline">
+					<input type="radio" id="cancel_vote_y" name="cancel_vote" value="Y" checked="checked"|cond="$module_info->cancel_vote == 'Y'" /> {$lang->cmd_yes}
+				</label>
+				<label class="x_inline">
+					<input type="radio" id="cancel_vote_n" name="cancel_vote" value="N" checked="checked"|cond="$module_info->cancel_vote != 'Y'" /> {$lang->cmd_no}
+				</label>
+				<p class="x_help-block">{$lang->about_cancel_vote}</p>
+			</div>
+		</div>
+		<div class="x_control-group">
 			<label class="x_control-label">{$lang->protect_content}</label>
 			<div class="x_controls">
 				<label class="x_inline" for="protect_delete_content"><input type="checkbox" name="protect_delete_content" id="protect_delete_content" value="Y" checked="checked"|cond="$module_info->protect_delete_content == 'Y'" /> {$lang->cmd_delete}</label>

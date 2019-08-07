@@ -63,9 +63,16 @@ class documentController extends document
 				throw new Rhymix\Framework\Exceptions\NotPermitted;
 			}
 		}
-
+		if($this->module_info->cancel_vote !=='Y')
+		{
+			throw new Rhymix\Framework\Exception('failed_voted_cancel');
+		}
+		
 		$document_srl = Context::get('target_srl');
-		if(!$document_srl) throw new Rhymix\Framework\Exceptions\InvalidRequest;
+		if(!$document_srl)
+		{
+			throw new Rhymix\Framework\Exceptions\InvalidRequest;
+		}
 
 		$oDocumentModel = getModel('document');
 		$oDocument = $oDocumentModel->getDocument($document_srl, false, false);
@@ -150,6 +157,11 @@ class documentController extends document
 			}
 		}
 
+		if($this->module_info->cancel_vote !=='Y')
+		{
+			return new Rhymix\Framework\Exception('failed_voted_canceled');
+		}
+
 		$document_srl = Context::get('target_srl');
 		if(!$document_srl) throw new Rhymix\Framework\Exceptions\InvalidRequest;
 
@@ -180,26 +192,31 @@ class documentController extends document
 	 */
 	function updateVotedCountCancel($document_srl, $oDocument, $point)
 	{
-		$logged_info = Context::get('logged_info');
-		
+		if(!$_SESSION['voted_document'][$document_srl])
+		{
+			return new BaseObject(-1, $point > 0 ? 'failed_voted_canceled' : 'failed_blamed_canceled');
+		}
+
 		// Check if the current user has voted previously.
 		$args = new stdClass;
 		$args->document_srl = $document_srl;
-		$args->point = $point;
-		if($logged_info->member_srl)
+		if($this->user->member_srl)
 		{
-			$args->member_srl = $logged_info->member_srl;
+			$args->member_srl = $this->user->member_srl;
 		}
 		else
 		{
 			$args->ipaddress = $_SERVER['REMOTE_ADDR'];
 		}
 		$output = executeQuery('document.getDocumentVotedLogInfo', $args);
+		
 		if(!$output->data->count)
 		{
 			return new BaseObject(-1, $point > 0 ? 'failed_voted_canceled' : 'failed_blamed_canceled');
 		}
 
+		$point = $output->data->point;
+		
 		// Call a trigger (before)
 		$trigger_obj = new stdClass;
 		$trigger_obj->member_srl = $oDocument->get('member_srl');
@@ -215,35 +232,38 @@ class documentController extends document
 		{
 			return $trigger_output;
 		}
-
+		
 		// begin transaction
 		$oDB = DB::getInstance();
 		$oDB->begin();
-
-		$args = new stdClass();
-		$d_args = new stdClass();
-		$args->document_srl = $d_args->document_srl = $document_srl;
-		$d_args->member_srl = $logged_info->member_srl;
-		if ($trigger_obj->update_target === 'voted_count')
+		
+		if($point != 0)
 		{
-			$args->voted_count = $trigger_obj->after_point;
-			$output = executeQuery('document.updateVotedCount', $args);
+			$args = new stdClass();
+			$d_args = new stdClass();
+			$args->document_srl = $d_args->document_srl = $document_srl;
+			$d_args->member_srl = $this->user->member_srl;
+			if ($trigger_obj->update_target === 'voted_count')
+			{
+				$args->voted_count = $trigger_obj->after_point;
+				$output = executeQuery('document.updateVotedCount', $args);
+			}
+			else
+			{
+				$args->blamed_count = $trigger_obj->after_point;
+				$output = executeQuery('document.updateBlamedCount', $args);
+			}
+			$d_output = executeQuery('document.deleteDocumentVotedLog', $d_args);
+			if(!$d_output->toBool()) return $d_output;
 		}
-		else
-		{
-			$args->blamed_count = $trigger_obj->after_point;
-			$output = executeQuery('document.updateBlamedCount', $args);
-		}
-		$d_output = executeQuery('document.deleteDocumentVotedLog', $d_args);
-		if(!$d_output->toBool()) return $d_output;
-
 		// session reset
 		$_SESSION['voted_document'][$document_srl] = false;
 
 		// Call a trigger (after)
 		ModuleHandler::triggerCall('document.updateVotedCountCancel', 'after', $trigger_obj);
-
+		
 		$oDB->commit();
+		
 		return $output;
 	}
 

@@ -495,7 +495,14 @@ class documentItem extends BaseObject
 		}
 		
 		$args = new stdClass;
-		$args->member_srl = $logged_info->member_srl;
+		if($logged_info->member_srl)
+		{
+			$args->member_srl = $logged_info->member_srl;
+		}
+		else
+		{
+			$args->ipaddress = $_SERVER['REMOTE_ADDR'];
+		}
 		$args->document_srl = $this->document_srl;
 		$output = executeQuery('document.getDocumentVotedLog', $args);
 		if($output->data->point)

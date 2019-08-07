@@ -271,6 +271,7 @@ $lang->fail_to_delete = '삭제 실패했습니다.';
 $lang->fail_to_move = '이동 실패했습니다.';
 $lang->failed_voted = '추천할 수 없습니다.';
 $lang->failed_voted_canceled = '추천한 적이 없으므로 취소할 수 없습니다.';
+$lang->failed_voted_cancel = '추천을 취소할 수 없습니다.';
 $lang->failed_blamed = '비추천할 수 없습니다.';
 $lang->failed_blamed_canceled = '비추천한 적이 없으므로 취소할 수 없습니다.';
 $lang->failed_declared = '신고할 수 없습니다.';

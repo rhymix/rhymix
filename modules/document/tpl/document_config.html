@@ -41,16 +41,6 @@
 			<p id="micons_help" class="x_help-block">{$lang->about_cmd_mobile_icon_setting}</p>
 		</div>
 	</div>
-	<div class="x_control-group">
-		<label class="x_control-label">{$lang->cmd_examination_vote}</label>
-		<div class="x_controls">
-			<select name="examination_vote">
-				<option value="Y" selected="selected"|cond="$config->examination_vote=='Y'">{$lang->use}</option>
-				<option value="N" selected="selected"|cond="$config->examination_vote!='Y'">{$lang->notuse}</option>
-			</select>
-			<p class="x_help-block">{$lang->about_examination_vote}</p>
-		</div>
-	</div>
 	<div class="btnArea x_clearfix">
 		<span class="x_pull-right" style="margin-left:10px;"><input class="btn" type="button" value="{$lang->cmd_delete_all_thumbnail}" onclick="doDeleteAllThumbnail()"/></span>
 		<span class="x_pull-right"><input class="x_btn x_btn-primary" type="submit" value="{$lang->cmd_save}" /></span>
