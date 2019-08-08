@@ -243,7 +243,7 @@ class fileModel extends file
 			$config->allowed_filetypes = trim($config->allowed_filetypes);
 			if($config->allowed_filetypes === '*.*')
 			{
-				$config->allowed_extensions = '';
+				$config->allowed_extensions = array();
 			}
 			else
 			{
