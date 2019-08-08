@@ -63,7 +63,8 @@ class documentController extends document
 				throw new Rhymix\Framework\Exceptions\NotPermitted;
 			}
 		}
-		if($this->module_info->cancel_vote !=='Y')
+		
+		if($this->module_info->cancel_vote !== 'Y')
 		{
 			throw new Rhymix\Framework\Exception('failed_voted_cancel');
 		}
@@ -157,7 +158,7 @@ class documentController extends document
 			}
 		}
 
-		if($this->module_info->cancel_vote !=='Y')
+		if($this->module_info->cancel_vote !== 'Y')
 		{
 			return new Rhymix\Framework\Exception('failed_voted_canceled');
 		}
@@ -309,6 +310,11 @@ class documentController extends document
 		if(!Context::get('is_logged'))
 		{
 			throw new Rhymix\Framework\Exceptions\MustLogin;
+		}
+
+		if($this->module_info->cancel_vote !== 'Y')
+		{
+			throw new Rhymix\Framework\Exception('failed_voted_cancel');
 		}
 
 		$document_srl = intval(Context::get('target_srl'));
@@ -1773,6 +1779,11 @@ class documentController extends document
 	 */
 	function declaredDocumentCancel($document_srl)
 	{
+		if(!$_SESSION['declared_document'][$document_srl])
+		{
+			return new BaseObject(-1, 'failed_declared_cancel');
+		}
+		
 		$args = new stdClass();
 		$args->document_srl = $document_srl;
 		$output = executeQuery('document.getDeclaredDocument', $args);
