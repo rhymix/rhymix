@@ -8,7 +8,11 @@
 	<h1>{$lang->improper_document_declare}</h1>
 	<form action="./" method="post" id="fo_component" ruleset="insertDeclare">
 		<input type="hidden" name="module" value="document" />
+		<!--@if($type == 'cancel')-->
+		<input type="hidden" name="act" value="procDocumentDeclareCancel" />
+		<!--@else-->
 		<input type="hidden" name="act" value="procDocumentDeclare" />
+		<!--@end-->
 		<input type="hidden" name="target_srl" value="{$target_srl}" />
 		<input type="hidden" name="success_return_url" value="{getUrl('', 'act', $act, 'target_srl', $target_srl)}" />
 		<input type="hidden" name="xe_validator_id" value="modules/document/tpl/1" />

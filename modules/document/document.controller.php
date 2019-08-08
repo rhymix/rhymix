@@ -311,13 +311,16 @@ class documentController extends document
 		{
 			throw new Rhymix\Framework\Exceptions\MustLogin;
 		}
+		
+		$document_srl = intval(Context::get('target_srl'));
+		
+		$module_info = getModel('module')->getModuleInfoByDocumentSrl($document_srl);
 
-		if($this->module_info->cancel_vote !== 'Y')
+		if($module_info->cancel_vote !== 'Y')
 		{
-			throw new Rhymix\Framework\Exception('failed_voted_cancel');
+			throw new Rhymix\Framework\Exception('failed_declared_cancel');
 		}
 
-		$document_srl = intval(Context::get('target_srl'));
 		if(!$document_srl)
 		{
 			throw new Rhymix\Framework\Exceptions\InvalidRequest;

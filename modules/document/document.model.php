@@ -431,9 +431,6 @@ class documentModel extends document
 	{
 		// Post number and the current login information requested Wanted
 		$document_srl = Context::get('target_srl');
-		$mid = Context::get('cur_mid');
-		$logged_info = Context::get('logged_info');
-		$act = Context::get('cur_act');
 		// to menu_list "pyosihalgeul, target, url" put into an array
 		$menu_list = array();
 		// call trigger
@@ -441,7 +438,7 @@ class documentModel extends document
 
 		$oDocumentController = getController('document');
 		// Members must be a possible feature
-		if($logged_info->member_srl)
+		if($this->user->member_srl)
 		{
 			$oDocumentModel = getModel('document');
 			$columnList = array('document_srl', 'module_srl', 'member_srl', 'ipaddress');
@@ -452,23 +449,45 @@ class documentModel extends document
 
 			$oModuleModel = getModel('module');
 			$document_config = $oModuleModel->getModulePartConfig('document',$module_srl);
-			if($document_config->use_vote_up!='N' && $member_srl!=$logged_info->member_srl)
+			if($document_config->use_vote_up!='N' && $member_srl!=$this->user->member_srl)
 			{
-				// Add a Referral Button
-				$url = sprintf("doCallModuleAction('document','procDocumentVoteUp','%s')", $document_srl);
-				$oDocumentController->addDocumentPopupMenu($url,'cmd_vote','','javascript');
+				if($oDocument->getVoted() === false || $oDocument->getVoted() < 0)
+				{
+					$url = sprintf("doCallModuleAction('document','procDocumentVoteUp','%s')", $document_srl);
+					$oDocumentController->addDocumentPopupMenu($url,'cmd_vote','','javascript');
+				}
+				elseif($oDocument->getVoted() > 0)
+				{
+					$url = sprintf("doCallModuleAction('document','procDocumentVoteUpCancel','%s')", $document_srl);
+					$oDocumentController->addDocumentPopupMenu($url,'cmd_cancel_vote','','javascript');
+				}
 			}
 
-			if($document_config->use_vote_down!='N' && $member_srl!=$logged_info->member_srl)
+			if($document_config->use_vote_down!='N' && $member_srl!=$this->user->member_srl)
 			{
-				// Add button to negative
-				$url= sprintf("doCallModuleAction('document','procDocumentVoteDown','%s')", $document_srl);
-				$oDocumentController->addDocumentPopupMenu($url,'cmd_vote_down','','javascript');
+				if($oDocument->getVoted() === false || $oDocument->getVoted() > 0)
+				{
+					$url = sprintf("doCallModuleAction('document','procDocumentVoteDown','%s')", $document_srl);
+					$oDocumentController->addDocumentPopupMenu($url,'cmd_vote_down','','javascript');
+				}
+				else if($oDocument->getVoted() < 0)
+				{
+					$url = sprintf("doCallModuleAction('document','procDocumentVoteDownCancel','%s')", $document_srl);
+					$oDocumentController->addDocumentPopupMenu($url,'cmd_cancel_vote_down','','javascript');
+				}
 			}
 
 			// Adding Report
-			$url = getUrl('', 'act', 'dispDocumentDeclare', 'target_srl', $document_srl);
-			$oDocumentController->addDocumentPopupMenu($url,'cmd_declare','','popup');
+			if($oDocument->getDeclared())
+			{
+				$url = getUrl('', 'act', 'dispDocumentDeclare', 'target_srl', $document_srl, 'type', 'cancel');
+				$oDocumentController->addDocumentPopupMenu($url,'cmd_cancel_declare','','popup');
+			}
+			else
+			{
+				$url = getUrl('', 'act', 'dispDocumentDeclare', 'target_srl', $document_srl);
+				$oDocumentController->addDocumentPopupMenu($url,'cmd_declare','','popup');
+			}
 
 			// Add Bookmark button
 			$url = sprintf("doCallModuleAction('member','procMemberScrapDocument','%s')", $document_srl);
@@ -487,7 +506,7 @@ class documentModel extends document
 		}
 
 		// If you are managing to find posts by ip
-		if($logged_info->is_admin == 'Y')
+		if($this->user->is_admin == 'Y')
 		{
 			$oDocumentModel = getModel('document');
 			$oDocument = $oDocumentModel->getDocument($document_srl);	//before setting document recycle
