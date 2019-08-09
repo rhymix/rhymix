@@ -5,7 +5,7 @@
 	window.close();
 </script>
 <section class="declare_document">
-	<h1>{$lang->improper_document_declare}</h1>
+	<h1>{$lang->improper_document_declare}<!--@if($type == 'cancel')-->{$lang->cancel}<!--@end--></h1>
 	<form action="./" method="post" id="fo_component" ruleset="insertDeclare">
 		<input type="hidden" name="module" value="document" />
 		<!--@if($type == 'cancel')-->
@@ -22,6 +22,7 @@
 				<p>{$target_document->getSummary(200)}</p>
 			</section>
 		</blockquote>
+		<!--@if($type !== 'cancel')-->
 		<label class="x_control-label" for="message_option">{$lang->improper_document_declare_reason}</label>
 		<div class="x_controls">
 			<select name="message_option" id="message_option">
@@ -30,9 +31,10 @@
 			<textarea name="declare_message" id="declare_message"></textarea>
 			<p>{$lang->about_improper_document_declare}<p>
 		</div>
+		<!--@end-->
 		<div class="x_clearfix btnArea">
 			<div class="x_pull-right">
-				<button type="submit" class="x_btn x_btn-primary" />{$lang->cmd_submit}</button>
+				<button type="submit" class="x_btn x_btn-primary" /><!--@if($type == 'cancel')-->{$lang->cmd_cancel_declare}<!--@else-->{$lang->cmd_submit}<!--@end--></button>
 			</div>
 		</div>
 	</form>
