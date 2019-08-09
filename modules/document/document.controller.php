@@ -193,7 +193,7 @@ class documentController extends document
 	 */
 	function updateVotedCountCancel($document_srl, $oDocument, $point)
 	{
-		if(!$_SESSION['voted_document'][$document_srl])
+		if(!$_SESSION['voted_document'][$document_srl] && !$this->user->member_srl)
 		{
 			return new BaseObject(-1, $point > 0 ? 'failed_voted_canceled' : 'failed_blamed_canceled');
 		}
