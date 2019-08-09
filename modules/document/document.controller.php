@@ -316,14 +316,14 @@ class documentController extends document
 		
 		$module_info = getModel('module')->getModuleInfoByDocumentSrl($document_srl);
 
-		if($module_info->cancel_vote !== 'Y')
-		{
-			throw new Rhymix\Framework\Exception('failed_declared_cancel');
-		}
-
 		if(!$document_srl)
 		{
 			throw new Rhymix\Framework\Exceptions\InvalidRequest;
+		}
+		
+		if($module_info->cancel_vote !== 'Y')
+		{
+			throw new Rhymix\Framework\Exception('failed_declared_cancel');
 		}
 
 		if(Context::get('success_return_url'))
@@ -1782,32 +1782,12 @@ class documentController extends document
 	 */
 	function declaredDocumentCancel($document_srl)
 	{
-		if(!$_SESSION['declared_document'][$document_srl])
+		$member_srl = intval($this->user->member_srl);
+		if(!$_SESSION['declared_document'][$document_srl] && $member_srl)
 		{
 			return new BaseObject(-1, 'failed_declared_cancel');
 		}
 		
-		$args = new stdClass();
-		$args->document_srl = $document_srl;
-		$output = executeQuery('document.getDeclaredDocument', $args);
-		if(!$output->toBool())
-		{
-			return $output;
-		}
-
-		$declared_count = ($output->data->declared_count) ? $output->data->declared_count : 0;
-
-		$trigger_obj = new stdClass();
-		$trigger_obj->document_srl = $document_srl;
-		$trigger_obj->declared_count = $declared_count;
-
-		// Call a trigger (before)
-		$trigger_output = ModuleHandler::triggerCall('document.declaredDocumentCancel', 'before', $trigger_obj);
-		if(!$trigger_output->toBool())
-		{
-			return $trigger_output;
-		}
-
 		// Get the original document
 		$oDocumentModel = getModel('document');
 		$oDocument = $oDocumentModel->getDocument($document_srl, false, false);
@@ -1815,8 +1795,6 @@ class documentController extends document
 		$oDB = DB::getInstance();
 		$oDB->begin();
 
-		$member_srl = intval($this->user->member_srl);
-		
 		$args = new stdClass;
 		$args->document_srl = $document_srl;
 		if($member_srl)
@@ -1834,7 +1812,22 @@ class documentController extends document
 			$_SESSION['declared_document'][$document_srl] = false;
 			return new BaseObject(-1, 'failed_declared_cancel');
 		}
+
+		$trigger_obj = new stdClass();
+		$trigger_obj->document_srl = $document_srl;
+		$trigger_obj->declared_count = $declared_count;
+		// Call a trigger (before)
+		$trigger_output = ModuleHandler::triggerCall('document.declaredDocumentCancel', 'before', $trigger_obj);
+		if(!$trigger_output->toBool())
+		{
+			return $trigger_output;
+		}
 		
+		$args = new stdClass();
+		$args->document_srl = $document_srl;
+		$output = executeQuery('document.getDeclaredDocument', $args);
+
+		$declared_count = ($output->data->declared_count) ? $output->data->declared_count : 0;
 		if($declared_count > 1)
 		{
 			$output = executeQuery('document.updateDeclaredDocumentCancel', $args);
