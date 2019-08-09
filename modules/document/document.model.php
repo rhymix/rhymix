@@ -449,14 +449,15 @@ class documentModel extends document
 
 			$oModuleModel = getModel('module');
 			$document_config = $oModuleModel->getModulePartConfig('document',$module_srl);
+			$oDocumentisVoted = $oDocument->getVoted();
 			if($document_config->use_vote_up!='N' && $member_srl!=$this->user->member_srl)
 			{
-				if($oDocument->getVoted() === false || $oDocument->getVoted() < 0)
+				if($oDocumentisVoted === false || $oDocumentisVoted < 0)
 				{
 					$url = sprintf("doCallModuleAction('document','procDocumentVoteUp','%s')", $document_srl);
 					$oDocumentController->addDocumentPopupMenu($url,'cmd_vote','','javascript');
 				}
-				elseif($oDocument->getVoted() > 0)
+				elseif($oDocumentisVoted > 0)
 				{
 					$url = sprintf("doCallModuleAction('document','procDocumentVoteUpCancel','%s')", $document_srl);
 					$oDocumentController->addDocumentPopupMenu($url,'cmd_cancel_vote','','javascript');
@@ -465,12 +466,12 @@ class documentModel extends document
 
 			if($document_config->use_vote_down!='N' && $member_srl!=$this->user->member_srl)
 			{
-				if($oDocument->getVoted() === false || $oDocument->getVoted() > 0)
+				if($oDocumentisVoted === false || $oDocumentisVoted > 0)
 				{
 					$url = sprintf("doCallModuleAction('document','procDocumentVoteDown','%s')", $document_srl);
 					$oDocumentController->addDocumentPopupMenu($url,'cmd_vote_down','','javascript');
 				}
-				else if($oDocument->getVoted() < 0)
+				else if($oDocumentisVoted < 0)
 				{
 					$url = sprintf("doCallModuleAction('document','procDocumentVoteDownCancel','%s')", $document_srl);
 					$oDocumentController->addDocumentPopupMenu($url,'cmd_cancel_vote_down','','javascript');
