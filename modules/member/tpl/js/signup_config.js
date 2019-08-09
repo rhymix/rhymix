@@ -66,18 +66,18 @@ jQuery(function($){
 					.find(':radio, [type="number"]')
 						.removeAttr('disabled')
 						.end()
-					.find(':radio[value=option]').attr('checked', 'checked')
+					.find(':radio.item_optional').prop('checked', true)
 						.end()
 					.prev('td')
-					.find(':input[value=Y]').removeAttr('disabled').attr('checked', 'checked');
+					.find(':input[value=Y]').removeAttr('disabled').prop('checked', true);
 			} else {
 				$i.parent('td').next('td').next('td')
 					.find('>._subItem').hide().end()
-					.find(':radio, [type="number"]').attr('disabled','disabled').removeAttr('checked')
+					.find(':radio.item_required, :radio.item_optional, [type="number"]').attr('disabled','disabled').prop('checked', false)
 						.next('label').css('fontWeight','normal').end()
 						.end()
 					.prev('td')
-					.find(':input[value=Y]').removeAttr('checked').attr('disabled', 'disabled');
+					.find(':input[value=Y]').attr('disabled', 'disabled').prop('checked', false);
 			}
 
 	}

@@ -120,9 +120,9 @@
 							<!--@endif-->
 						</td>
 						<td class="nowr">
-							<label for="{$item->name}_re" class="x_inline"><input type="radio" id="{$item->name}_re" name="{$item->name}" value="required" checked="checked"|cond="$item->mustRequired || $item->required" disabled="disabled"|cond="!$item->isUse" /> {$lang->cmd_required}</label>
+							<label for="{$item->name}_re" class="x_inline"><input type="radio" id="{$item->name}_re" name="{$item->name}" class="item_required" value="required" checked="checked"|cond="$item->mustRequired || $item->required" disabled="disabled"|cond="!$item->isUse" /> {$lang->cmd_required}</label>
 							<!--@if(!$item->mustRequired)-->
-								<label for="{$item->name}_op" class="x_inline"><input type="radio" id="{$item->name}_op" name="{$item->name}" value="option" checked="checked"|cond="!$item->mustRequired && ($item->isUse && !$item->required)" disabled="disabled"|cond="!$item->isUse" /> {$lang->cmd_optional}</label>
+								<label for="{$item->name}_op" class="x_inline"><input type="radio" id="{$item->name}_op" name="{$item->name}" class="item_optional" value="option" checked="checked"|cond="!$item->mustRequired && ($item->isUse && !$item->required)" disabled="disabled"|cond="!$item->isUse" /> {$lang->cmd_optional}</label>
 							<!--@endif-->
 
 							<div cond="$item->imageType" class="_subItem" style="display:none"|cond="!$item->isUse">
