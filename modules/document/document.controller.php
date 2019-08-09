@@ -314,12 +314,14 @@ class documentController extends document
 		
 		$document_srl = intval(Context::get('target_srl'));
 		
-		$module_info = getModel('module')->getModuleInfoByDocumentSrl($document_srl);
-
-		if(!$document_srl)
+		$oDocument = getModel('document')->getDocument($document_srl);
+		
+		if(!$oDocument->isExists())
 		{
 			throw new Rhymix\Framework\Exceptions\InvalidRequest;
 		}
+		
+		$module_info = getModel('module')->getModuleInfoByDocumentSrl($document_srl);
 		
 		if($module_info->cancel_vote !== 'Y')
 		{
@@ -1664,7 +1666,7 @@ class documentController extends document
 		}
 
 		// Get currently logged in user.
-		$member_srl = intval($this->user->member_srl);
+		$member_srl = $this->user->member_srl;
 		
 		// Check if document's author is a member.
 		if($oDocument->get('member_srl'))
@@ -1782,7 +1784,7 @@ class documentController extends document
 	 */
 	function declaredDocumentCancel($document_srl)
 	{
-		$member_srl = intval($this->user->member_srl);
+		$member_srl = $this->user->member_srl;
 		if(!$_SESSION['declared_document'][$document_srl] && $member_srl)
 		{
 			return new BaseObject(-1, 'failed_declared_cancel');
@@ -1812,6 +1814,12 @@ class documentController extends document
 			$_SESSION['declared_document'][$document_srl] = false;
 			return new BaseObject(-1, 'failed_declared_cancel');
 		}
+		
+		$args = new stdClass();
+		$args->document_srl = $document_srl;
+		$output = executeQuery('document.getDeclaredDocument', $args);
+
+		$declared_count = ($output->data->declared_count) ? $output->data->declared_count : 0;
 
 		$trigger_obj = new stdClass();
 		$trigger_obj->document_srl = $document_srl;
@@ -1823,11 +1831,6 @@ class documentController extends document
 			return $trigger_output;
 		}
 		
-		$args = new stdClass();
-		$args->document_srl = $document_srl;
-		$output = executeQuery('document.getDeclaredDocument', $args);
-
-		$declared_count = ($output->data->declared_count) ? $output->data->declared_count : 0;
 		if($declared_count > 1)
 		{
 			$output = executeQuery('document.updateDeclaredDocumentCancel', $args);
