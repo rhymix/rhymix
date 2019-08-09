@@ -482,18 +482,22 @@ class documentItem extends BaseObject
 		{
 			return false;
 		}
-		
-		$logged_info = Context::get('logged_info');
-		if(!$logged_info->member_srl)
-		{
-			return false;
-		}
-		
+
 		if(isset($_SESSION['voted_document'][$this->document_srl]))
 		{
 			return $_SESSION['voted_document'][$this->document_srl];
 		}
 		
+		$logged_info = Context::get('logged_info');
+		if(!$logged_info->member_srl)
+		{
+			$module_info = getModel('module')->getModuleInfoByModuleSrl($this->get('module_srl'));
+			if($module_info->non_login_vote !== 'Y')
+			{
+				return false;
+			}
+		}
+
 		$args = new stdClass;
 		if($logged_info->member_srl)
 		{
@@ -509,7 +513,6 @@ class documentItem extends BaseObject
 		{
 			return $_SESSION['voted_document'][$this->document_srl] = $output->data->point;
 		}
-		
 		return $_SESSION['voted_document'][$this->document_srl] = false;
 	}
 
