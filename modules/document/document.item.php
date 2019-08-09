@@ -482,28 +482,80 @@ class documentItem extends BaseObject
 		{
 			return false;
 		}
-		
-		$logged_info = Context::get('logged_info');
-		if(!$logged_info->member_srl)
-		{
-			return false;
-		}
-		
+
 		if(isset($_SESSION['voted_document'][$this->document_srl]))
 		{
 			return $_SESSION['voted_document'][$this->document_srl];
 		}
 		
+		$logged_info = Context::get('logged_info');
+		if(!$logged_info->member_srl)
+		{
+			$module_info = getModel('module')->getModuleInfoByModuleSrl($this->get('module_srl'));
+			if($module_info->non_login_vote !== 'Y')
+			{
+				return false;
+			}
+		}
+
 		$args = new stdClass;
-		$args->member_srl = $logged_info->member_srl;
+		if($logged_info->member_srl)
+		{
+			$args->member_srl = $logged_info->member_srl;
+		}
+		else
+		{
+			$args->ipaddress = $_SERVER['REMOTE_ADDR'];
+		}
 		$args->document_srl = $this->document_srl;
 		$output = executeQuery('document.getDocumentVotedLog', $args);
 		if($output->data->point)
 		{
 			return $_SESSION['voted_document'][$this->document_srl] = $output->data->point;
 		}
-		
 		return $_SESSION['voted_document'][$this->document_srl] = false;
+	}
+
+	/**
+	 * 게시글에 신고한 이력이 있는지 검사
+	 * @return bool|int
+	 */
+	function getDeclared()
+	{
+		if(!$this->isExists())
+		{
+			return false;
+		}
+		
+		$logged_info = Context::get('logged_info');
+		if(!$logged_info->member_srl)
+		{
+			return false;
+		}
+
+		if(isset($_SESSION['declared_document'][$this->document_srl]))
+		{
+			return $_SESSION['declared_document'][$this->document_srl];
+		}
+		
+		$args = new stdClass();
+		if($logged_info->member_srl)
+		{
+			$args->member_srl = $logged_info->member_srl;
+		}
+		else
+		{
+			$args->ipaddress = \RX_CLIENT_IP;
+		}
+		$args->document_srl = $this->document_srl;
+		$output = executeQuery('document.getDocumentDeclaredLogInfo', $args);
+		$declaredCount = intval($output->data->count);
+		if($declaredCount > 0)
+		{
+			return $_SESSION['declared_document'][$this->document_srl] = $declaredCount;
+		}
+		
+		return $_SESSION['declared_document'][$this->document_srl] = false;
 	}
 
 	function getTitle($cut_size = 0, $tail = '...')

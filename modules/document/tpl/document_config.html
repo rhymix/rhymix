@@ -1,5 +1,9 @@
 <include target="header.html" />
 
+<div cond="$XE_VALIDATOR_MESSAGE && $XE_VALIDATOR_ID == 'modules/document/tpl/document_config/1'" class="message {$XE_VALIDATOR_MESSAGE_TYPE}">
+	<p>{$XE_VALIDATOR_MESSAGE}</p>
+</div>
+
 <form action="./" method="post" class="x_form-horizontal" method="post">
 	<input type="hidden" name="module" value="document" />
 	<input type="hidden" name="act" value="procDocumentAdminInsertConfig" />
@@ -37,7 +41,6 @@
 			<p id="micons_help" class="x_help-block">{$lang->about_cmd_mobile_icon_setting}</p>
 		</div>
 	</div>
-
 	<div class="btnArea x_clearfix">
 		<span class="x_pull-right" style="margin-left:10px;"><input class="btn" type="button" value="{$lang->cmd_delete_all_thumbnail}" onclick="doDeleteAllThumbnail()"/></span>
 		<span class="x_pull-right"><input class="x_btn x_btn-primary" type="submit" value="{$lang->cmd_save}" /></span>
