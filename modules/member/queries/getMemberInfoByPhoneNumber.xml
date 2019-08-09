@@ -1,0 +1,12 @@
+<query id="getMemberInfoByPhoneNumber" action="select">
+    <tables>
+        <table name="member" />
+    </tables>
+    <columns>
+        <column name="*" />
+    </columns>
+    <conditions>
+        <condition operation="equal" column="phone_number" var="phone_number" notnull="notnull" />
+		<condition operation="equal" column="phone_country" var="phone_country" pipe="and" />
+    </conditions>
+</query>

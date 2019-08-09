@@ -1,10 +1,13 @@
 <table name="member">
     <column name="member_srl" type="number" size="11" notnull="notnull" primary_key="primary_key" />
     <column name="user_id" type="varchar" size="80" notnull="notnull" unique="unique_user_id" />
-    <column name="email_address" type="varchar" size="250" notnull="notnull" unique="unique_email_address" />
     <column name="password" type="varchar" size="60" notnull="notnull" />
+    <column name="email_address" type="varchar" size="80" notnull="notnull" unique="unique_email_address" />
     <column name="email_id" type="varchar" size="80" notnull="notnull" />
-    <column name="email_host" type="varchar" size="160" index="idx_email_host" />
+    <column name="email_host" type="varchar" size="80" index="idx_email_host" />
+	<column name="phone_number" type="varchar" size="80" index="idx_phone_number" />
+	<column name="phone_country" type="varchar" size="10" index="idx_phone_country" />
+	<column name="phone_type" type="varchar" size="10" index="idx_phone_type" />
     <column name="user_name" type="varchar" size="40" notnull="notnull" />
     <column name="nick_name" type="varchar" size="40" notnull="notnull" index="idx_nick_name" />
     <column name="find_account_question" type="number" size="11" />

@@ -82,12 +82,6 @@
 				<thead>
 					<tr>
 						<th scope="col" class="nowr" style="text-align:center">{$lang->target}</th>
-						<th scope="col" class="nowr" style="text-align:center">{$lang->identifier}
-							[<a href="#helpDefault" data-toggle>?</a>]
-							<div class="layer x_alert x_alert-info" id="helpDefault">
-								<p>{$lang->about_identifier}</p>
-							</div>
-						</th>
 						<th scope="col" class="nowr" style="text-align:center">{$lang->use}</th>
 						<th scope="col" class="nowr" style="text-align:center">{$lang->public}
 							[<a href="#helpPublic" data-toggle>?</a>]
@@ -102,49 +96,68 @@
 				</thead>
 				<tbody class="uDrag">
 					{@ $disabled_list = array('find_account_question')}
-					{@ $fixed_public_list = array('nick_name', 'password', 'email_address')}
+					{@ $fixed_public_list = array('nick_name')}
+					{@ $fixed_private_list = array('email_address', 'phone_number', 'password')}
 					<!--@foreach($config->signupForm as $item)-->
 					<!--@if(in_array($item->name, $disabled_list))-->
-					<!--@elseif($item->isIdentifier)-->
-					<tr class="sticky">
-						<input type="hidden" name="list_order[]" value="{$item->name}" />
-						<input type="hidden" name="usable_list[]" value="{$item->name}"/>
-						<input type="hidden" name="{$item->name}" value="requierd"/>
-						<th scope="row">
-							<span class="_title" style="display:inline-block;white-space:pre-line;overflow:inherit;width:120px;text-overflow:ellipsis;padding-left:20px">{$item->title}</span>
-						</th>
-						<td style="text-align:center"><input type="radio" name="identifier" value="{$item->name}" checked="checked" /></td>
-						<td style="text-align:center"><input type="checkbox" name="usable_list[]" value="{$item->name}" title="{$lang->use}" checked="checked"  disabled="disabled" /></td>
-						<td style="text-align:center"><input type="checkbox" name="is_{$item->name}_public" value="Y" checked="checked"|cond="$item->isPublic == 'Y'" disabled="disabled"|cond="in_array($item->name, $fixed_public_list) || !$item->isUse" /></td>
-						<td class="nowr">
-							<label for="{$item->name}_re" class="x_inline"><input type="radio" id="{$item->name}_re" name="{$item->name}" value="requierd" checked="checked" disabled="disabled" /> {$lang->cmd_required}</label>
-							<label for="{$item->name}_op" class="x_inline"><input type="radio" id="{$item->name}_op" name="{$item->name}" value="option" disabled="disabled" /> {$lang->cmd_optional}</label>
-						</td>
-						<td class="desc">&nbsp;</td>
-						<td style="text-align:center">&nbsp;</td>
-					</tr>
 					<!--@elseif($item->isDefaultForm)-->
 					<tr class="_imageType"|cond="$item->imageType">
 						<input type="hidden" name="list_order[]" value="{$item->name}" />
-						<input type="hidden" name="usable_list[]" value="{$item->name}" cond="$item->mustRequired"/>
-						<input type="hidden" name="{$item->name}" value="requierd" cond="$item->mustRequired"/>
+						<input type="hidden" name="usable_list[]" value="{$item->name}" cond="$item->isIdentifier || $item->mustRequired"/>
+						<input type="hidden" name="{$item->name}" value="required" cond="$item->isIdentifier || $item->mustRequired"/>
 						<th scope="row">
 							<div class="wrap">
 								<button type="button" class="dragBtn">Move to</button>
 								<span class="_title" style="display:inline-block;white-space:pre-line;overflow:inherit;width:120px;text-overflow:ellipsis" title="{$item->title}">{$item->title}</span>
 							</div>
 						</th>
-						<td style="text-align:center"><input type="radio" name="identifier" value="{$item->name}" cond="$item->name== 'email_address' || $item->name=='user_id'" /></td>
-						<td style="text-align:center"><input type="checkbox" name="usable_list[]" value="{$item->name}" title="{$lang->use}" checked="checked"|cond="$item->mustRequired || $item->isUse" disabled="disabled"|cond="$item->mustRequired" /></td>
-						<td style="text-align:center"><input type="checkbox" name="is_{$item->name}_public" value="Y" checked="checked"|cond="$item->isPublic == 'Y'" disabled="disabled"|cond="in_array($item->name, $fixed_public_list) || !$item->isUse" /></td>
+						<td style="text-align:center">
+							<input type="checkbox" name="usable_list[]" value="{$item->name}" title="{$lang->use}" checked="checked"|cond="$item->isIdentifier || $item->mustRequired || $item->isUse" disabled="disabled"|cond="$item->isIdentifier || $item->mustRequired" />
+						</td>
+						<td style="text-align:center">
+							<!--@if(!in_array($item->name, $fixed_private_list))-->
+								<input type="checkbox" name="is_{$item->name}_public" value="Y" checked="checked"|cond="$item->isPublic == 'Y'" disabled="disabled"|cond="in_array($item->name, $fixed_public_list) || !$item->isUse" />
+							<!--@endif-->
+						</td>
 						<td class="nowr">
-							<label for="{$item->name}_re" class="x_inline"><input type="radio" id="{$item->name}_re" name="{$item->name}" value="required" checked="checked"|cond="$item->mustRequired || $item->required" disabled="disabled"|cond="$item->mustRequired || !$item->isUse" /> {$lang->cmd_required}</label>
-							<label for="{$item->name}_op" class="x_inline"><input type="radio" id="{$item->name}_op" name="{$item->name}" value="option" checked="checked"|cond="!$item->mustRequired && ($item->isUse && !$item->required)" disabled="disabled"|cond="$item->mustRequired || !$item->isUse" /> {$lang->cmd_optional}</label>
+							<label for="{$item->name}_re" class="x_inline"><input type="radio" id="{$item->name}_re" name="{$item->name}" class="item_required" value="required" checked="checked"|cond="$item->mustRequired || $item->required" disabled="disabled"|cond="!$item->isUse" /> {$lang->cmd_required}</label>
+							<!--@if(!$item->mustRequired)-->
+								<label for="{$item->name}_op" class="x_inline"><input type="radio" id="{$item->name}_op" name="{$item->name}" class="item_optional" value="option" checked="checked"|cond="!$item->mustRequired && ($item->isUse && !$item->required)" disabled="disabled"|cond="!$item->isUse" /> {$lang->cmd_optional}</label>
+							<!--@endif-->
 
 							<div cond="$item->imageType" class="_subItem" style="display:none"|cond="!$item->isUse">
-								<label for="{$item->name}_max_width">{$lang->cmd_image_max_width}: <input type="number" min="1" name="{$item->name}_max_width" id="{$item->name}_max_width" value="{$item->max_width}" /> px</label>
-								<label for="{$item->name}_max_height">{$lang->cmd_image_max_height}: <input type="number" min="1" name="{$item->name}_max_height" id="{$item->name}_max_height" value="{$item->max_height}" /> px</label>
-								<label for="{$item->name}_max_filesize">{$lang->allowed_filesize}: <input type="number" min="1" name="{$item->name}_max_filesize" id="{$item->name}_max_filesize" value="{$item->max_filesize}" /> KB</label>
+								<p class="x_help-block">
+									<label class="x_inline" for="{$item->name}_max_width">{$lang->cmd_image_max_width}</label> <input type="number" min="1" name="{$item->name}_max_width" id="{$item->name}_max_width" value="{$item->max_width}" /> px
+								</p>
+								<p class="x_help-block">
+									<label class="x_inline" for="{$item->name}_max_height">{$lang->cmd_image_max_height}</label> <input type="number" min="1" name="{$item->name}_max_height" id="{$item->name}_max_height" value="{$item->max_height}" /> px
+								</p>
+								<p class="x_help-block">
+									<label class="x_inline" for="{$item->name}_max_filesize">{$lang->allowed_filesize}</label> <input type="number" min="1" name="{$item->name}_max_filesize" id="{$item->name}_max_filesize" value="{$item->max_filesize}" /> KB
+								</p>
+							</div>
+
+							<div cond="$item->name == 'phone_number'" class="_subItem" style="display:none"|cond="!$item->isUse">
+								<label for="phone_number_default_country" class="x_inline">{$lang->phone_number_default_country}</label>
+								<select id="phone_number_default_country" name="phone_number_default_country">
+									<!--@foreach($country_list as $country_info)-->
+										<!--@if($country_info->calling_code)-->
+											<option value="{$country_info->calling_code}" selected="selected"|cond="$country_info->calling_code == $config->phone_number_default_country">
+												{$lang_type === 'ko' ? $country_info->name_korean : $country_info->name_english} (+{$country_info->calling_code})
+											</option>
+										<!--@endif-->
+									<!--@endforeach-->
+								</select>
+								<p class="x_help-block">
+									<label class="x_inline">{$lang->phone_number_hide_country}</label>
+									<label class="x_inline"><input type="radio" name="phone_number_hide_country" value="Y" checked="checked"|cond="$config->phone_number_hide_country === 'Y'" /> {$lang->cmd_yes}</label>
+									<label class="x_inline"><input type="radio" name="phone_number_hide_country" value="N" checked="checked"|cond="$config->phone_number_hide_country !== 'Y'" /> {$lang->cmd_no}</label>
+								</p>
+								<p class="x_help-block">
+									<label class="x_inline">{$lang->phone_number_allow_duplicate}</label>
+									<label class="x_inline"><input type="radio" name="phone_number_allow_duplicate" value="Y" checked="checked"|cond="$config->phone_number_allow_duplicate === 'Y'" /> {$lang->cmd_yes}</label>
+									<label class="x_inline"><input type="radio" name="phone_number_allow_duplicate" value="N" checked="checked"|cond="$config->phone_number_allow_duplicate !== 'Y'" /> {$lang->cmd_no}</label>
+								</p>
 							</div>
 
 							<div cond="$item->name == 'signature'" class="_subItem" style="display:none;padding-top:5px"|cond="!$item->isUse">
@@ -154,14 +167,16 @@
 									<!--@end-->
 								</select>
 								<select name="sel_editor_colorset" id="sel_editor_colorset" style="display:none"></select>
-								<p class="x_help-block">{$lang->allow_html}
+								<p class="x_help-block">
+									<label class="x_inline">{lang('allow_html')}</label>
 									<label class="x_inline"><input type="radio" name="signature_html" id="signature_html_yes" value="Y" checked="checked"|cond="$config->signature_html != 'N'" /> {$lang->cmd_yes}</label>
 									<label class="x_inline"><input type="radio" name="signature_html" id="signature_html_no" value="N" checked="checked"|cond="$config->signature_html == 'N'" /> {$lang->cmd_no}</label>
 									<label class="x_inline" id="signature_html_retroact" title="{$lang->signature_html_retroact}" style="">
 										<input type="checkbox" name="signature_html_retroact" value="Y" checked="checked"|cond="$config->signature_html_retroact == 'Y'" /> {$lang->retroactive_application}
 									</label>
 								</p>
-								<p class="x_help-block">{lang('file.file_upload')}
+								<p class="x_help-block">
+									<label class="x_inline">{lang('file.file_upload')}</label>
 									<label class="x_inline"><input type="radio" name="member_allow_fileupload" value="Y" checked="checked"|cond="$config->member_allow_fileupload == 'Y'" /> {$lang->cmd_yes}</label>
 									<label class="x_inline"><input type="radio" name="member_allow_fileupload" value="N" checked="checked"|cond="$config->member_allow_fileupload != 'Y'" /> {$lang->cmd_no}</label>
 								</p>
@@ -198,7 +213,6 @@
 								<span class="_title" style="display:inline-block;white-space:pre-line;overflow:inherit;width:120px;text-overflow:ellipsis" title="{$item->title}">{$item->title}</span>
 							</div>
 						</th>
-						<td></td>
 						<td style="text-align:center"><input type="checkbox" name="usable_list[]" value="{$item->name}" title="{$lang->use}" checked="checked"|cond="$item->isUse" /></td>
 						<td style="text-align:center"><input type="checkbox" name="is_{$item->name}_public" value="Y" checked="checked"|cond="$item->isPublic == 'Y'" disabled="disabled"|cond="!$item->isUse" /></td>
 						<td class="nowr">

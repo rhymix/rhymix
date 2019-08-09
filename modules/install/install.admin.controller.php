@@ -40,7 +40,9 @@ class installAdminController extends install
 		$oModule = getModule($module_name, 'class');
 		if(!$oModule) throw new Rhymix\Framework\Exceptions\InvalidRequest;
 		
+		Rhymix\Framework\Session::close();
 		$output = $oModule->moduleUpdate();
+		Rhymix\Framework\Session::start();
 		if($output instanceof BaseObject && !$output->toBool())
 		{
 			return $output;

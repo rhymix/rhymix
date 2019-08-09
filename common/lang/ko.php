@@ -96,6 +96,7 @@ $lang->writer = '글쓴이';
 $lang->user_name = '이름';
 $lang->nick_name = '닉네임';
 $lang->email_address = '이메일 주소';
+$lang->phone_number = '전화번호';
 $lang->homepage = '홈페이지';
 $lang->blog = '블로그';
 $lang->birthday = '생일';

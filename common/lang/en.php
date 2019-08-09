@@ -94,6 +94,7 @@ $lang->writer = 'Author';
 $lang->user_name = 'User Name';
 $lang->nick_name = 'Nick Name';
 $lang->email_address = 'Email';
+$lang->phone_number = 'Phone Number';
 $lang->homepage = 'Homepage';
 $lang->blog = 'Blog';
 $lang->birthday = 'Birthday';

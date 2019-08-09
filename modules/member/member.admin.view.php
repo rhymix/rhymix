@@ -110,6 +110,7 @@ class memberAdminView extends member
 				}
 			}
 		}
+
 		Context::set('total_count', $output->total_count);
 		Context::set('total_page', $output->total_page);
 		Context::set('page', $output->page);
@@ -228,6 +229,14 @@ class memberAdminView extends member
 		$managedEmailHost = $oMemberModel->getManagedEmailHosts();
 		Context::set('managedEmailHost', $managedEmailHost);
 		$oSecurity->encodeHTML('managedEmailHost..email_host');
+		
+		// Get country calling code list
+		$country_list = Rhymix\Framework\i18n::listCountries(Context::get('lang_type') === 'ko' ? Rhymix\Framework\i18n::SORT_NAME_KOREAN : Rhymix\Framework\i18n::SORT_NAME_ENGLISH);
+		Context::set('country_list', $country_list);
+		if(!$config->phone_number_default_country && Context::get('lang_type') === 'ko')
+		{
+			$config->phone_number_default_country = '82';
+		}
 
 		$this->setTemplateFile('signup_config');
 	}
@@ -470,7 +479,7 @@ class memberAdminView extends member
 			$formTag->title = ($formInfo->isDefaultForm) ? $lang->{$formInfo->name} : $formInfo->title;
 			if($isAdmin)
 			{
-				if($formInfo->mustRequired) $formTag->title = '<em style="color:red">*</em> '.$formTag->title;
+				if($formInfo->mustRequired || $formInfo->required) $formTag->title = '<em style="color:red">*</em> '.$formTag->title;
 			}
 			else
 			{
@@ -538,6 +547,34 @@ class memberAdminView extends member
 					{
 						$formTag->type = 'email';
 						$inputTag = '<input type="email" name="email_address" id="email_address" value="'.$memberInfo['email_address'].'" />';
+					}
+					else if($formInfo->name == 'phone_number')
+					{
+						$formTag->type = 'phone';
+						if($member_config->phone_number_hide_country !== 'Y')
+						{
+							$inputTag = '<select name="phone_country" id="phone_country" class="phone_country">';
+							$country_list = Rhymix\Framework\i18n::listCountries(Context::get('lang_type') === 'ko' ? Rhymix\Framework\i18n::SORT_NAME_KOREAN : Rhymix\Framework\i18n::SORT_NAME_ENGLISH);
+							$match_country = $memberInfo['phone_country'];
+							if(!$match_country && $member_config->phone_number_default_country)
+							{
+								$match_country = $member_config->phone_number_default_country;
+							}
+							if(!$match_country && Context::get('lang_type') === 'ko')
+							{
+								$match_country = '82';
+							}
+							foreach($country_list as $country)
+							{
+								if($country->calling_code)
+								{
+									$inputTag .= '<option value="' . $country->calling_code . '"' . (str_replace('-', '', $country->calling_code) === $match_country ? ' selected="selected"' : '') . '>';
+									$inputTag .= escape(Context::get('lang_type') === 'ko' ? $country->name_korean : $country->name_english) . ' (+' . $country->calling_code . ')</option>';
+								}
+							}
+							$inputTag .= '</select>' . "\n";
+						}
+						$inputTag .= '<input type="tel" name="phone_number" id="phone_number" class="phone_number" value="'.($match_country == '82' ? Rhymix\Framework\Korea::formatPhoneNumber($memberInfo['phone_number']) : $memberInfo['phone_number']).'" />';
 					}
 					else if($formInfo->name == 'homepage')
 					{

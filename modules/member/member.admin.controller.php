@@ -46,6 +46,10 @@ class memberAdminController extends member
 		foreach($getVars as $val)
 		{
 			$args->{$val} = Context::get($val);
+			if ($val === 'phone_number')
+			{
+				$args->phone_country = trim(preg_replace('/[^0-9-]/', '', Context::get('phone_country')), '-');
+			}
 		}
 		$member_srl = Context::get('member_srl');
 		// Check if an original member exists having the member_srl
@@ -289,6 +293,8 @@ class memberAdminController extends member
 	public function procMemberAdminInsertSignupConfig()
 	{
 		$oMemberModel = getModel('member');
+		$config = $oMemberModel->getMemberConfig();
+		
 		$oModuleController = getController('module');
 
 		$args = Context::gets(
@@ -296,6 +302,7 @@ class memberAdminController extends member
 			'limit_day_description',
 			'emailhost_check',
 			'redirect_url',
+			'phone_number_default_country', 'phone_number_hide_country', 'phone_number_allow_duplicate',
 			'profile_image', 'profile_image_max_width', 'profile_image_max_height', 'profile_image_max_filesize',
 			'image_name', 'image_name_max_width', 'image_name_max_height', 'image_name_max_filesize',
 			'image_mark', 'image_mark_max_width', 'image_mark_max_height', 'image_mark_max_filesize',
@@ -323,11 +330,18 @@ class memberAdminController extends member
 			$args->redirect_url = getNotEncodedFullUrl('','mid',$redirectModuleInfo->mid);
 		}
 
+		$args->phone_number_default_country = preg_replace('/[^0-9-]/', '', $args->phone_number_default_country);
+		$args->phone_number_hide_country = $args->phone_number_hide_country == 'Y' ? 'Y' : 'N';
+		$args->phone_number_allow_duplicate = $args->phone_number_allow_duplicate == 'Y' ? 'Y' : 'N';
+		if ($args->phone_number_hide_country === 'Y' && !$args->phone_number_default_country)
+		{
+			return new BaseObject('-1', 'msg_need_default_country');
+		}
+		
 		$args->profile_image = $args->profile_image ? 'Y' : 'N';
 		$args->image_name = $args->image_name ? 'Y' : 'N';
 		$args->image_mark = $args->image_mark ? 'Y' : 'N';
 		$args->signature  = $args->signature != 'Y' ? 'N' : 'Y';
-		$args->identifier = $all_args->identifier;
 
 		// set default
 		$all_args->is_nick_name_public = 'Y';
@@ -337,7 +351,7 @@ class memberAdminController extends member
 		global $lang;
 		$signupForm = array();
 		$items = array(
-			'user_id', 'password', 'user_name', 'nick_name', 'email_address', 'homepage', 'blog', 'birthday', 'signature',
+			'user_id', 'password', 'user_name', 'nick_name', 'email_address', 'phone_number', 'homepage', 'blog', 'birthday', 'signature',
 			'profile_image', 'profile_image_max_width', 'profile_image_max_height', 'profile_image_max_filesize',
 			'image_name', 'image_name_max_width', 'image_name_max_height', 'image_name_max_filesize',
 			'image_mark', 'image_mark_max_width', 'image_mark_max_height', 'image_mark_max_filesize',
@@ -348,13 +362,13 @@ class memberAdminController extends member
 		foreach($list_order as $key)
 		{
 			$signupItem = new stdClass();
-			$signupItem->isIdentifier = ($key == $all_args->identifier);
+			$signupItem->isIdentifier = ($key == $config->identifier || in_array($key, $config->identifiers));
 			$signupItem->isDefaultForm = in_array($key, $items);
 			$signupItem->name = $key;
 			$signupItem->title = (!in_array($key, $items)) ? $key : $lang->{$key};
 			$signupItem->mustRequired = in_array($key, $mustRequireds);
 			$signupItem->imageType = (strpos($key, 'image') !== false);
-			$signupItem->required = ($all_args->{$key} == 'required') || $signupItem->mustRequired || $signupItem->isIdentifier;
+			$signupItem->required = ($all_args->{$key} == 'required') || $signupItem->mustRequired;
 			$signupItem->isUse = in_array($key, $usable_list) || $signupItem->required;
 			$signupItem->isPublic = ($all_args->{'is_'.$key.'_public'} == 'Y' && $signupItem->isUse) ? 'Y' : 'N';
 
@@ -407,9 +421,12 @@ class memberAdminController extends member
 
 	public function procMemberAdminInsertLoginConfig()
 	{
+		$oMemberModel = getModel('member');
+		$config = $oMemberModel->getMemberConfig();
 		$oModuleController = getController('module');
 
 		$args = Context::gets(
+			'identifiers',
 			'change_password_date',
 			'enable_login_fail_report',
 			'max_error_count',
@@ -417,7 +434,34 @@ class memberAdminController extends member
 			'after_login_url',
 			'after_logout_url'
 		);
-
+		
+		if(!count($args->identifiers))
+		{
+			return new BaseObject(-1, 'msg_need_identifier');
+		}
+		$enabled_list = array();
+		foreach($config->signupForm as $signupItem)
+		{
+			if($signupItem->isUse)
+			{
+				$enabled_list[] = $signupItem->name;
+			}
+			if(in_array($signupItem->name, $args->identifiers))
+			{
+				$signupItem->isIdentifier = true;
+			}
+			else
+			{
+				$signupItem->isIdentifier = false;
+			}
+		}
+		if(!count(array_intersect($args->identifiers, $enabled_list)))
+		{
+			return new BaseObject(-1, 'msg_need_enabled_identifier');
+		}
+		$args->signupForm = $config->signupForm;
+		$args->identifier = array_first($args->identifiers);
+		
 		if(!$args->change_password_date)
 		{
 			$args->change_password_date = 0;
@@ -482,11 +526,11 @@ class memberAdminController extends member
 	{
 		global $lang;
 		$oMemberModel = getModel('member');
-
+		
 		// Get join form list which is additionally set
 		$extendItems = $oMemberModel->getJoinFormList();
 
-		$items = array('user_id', 'password', 'user_name', 'nick_name', 'email_address', 'homepage', 'blog', 'birthday', 'signature', 'profile_image', 'image_name', 'image_mark');
+		$items = array('user_id', 'email_address', 'phone_number', 'password', 'user_name', 'nick_name', 'homepage', 'blog', 'birthday', 'signature', 'profile_image', 'image_name', 'image_mark');
 		$mustRequireds = array('email_address', 'nick_name', 'password');
 		$orgRequireds = array('email_address', 'password', 'user_id', 'nick_name', 'user_name');
 		$orgUse = array('email_address', 'password', 'user_id', 'nick_name', 'user_name', 'homepage', 'blog', 'birthday');
@@ -504,7 +548,7 @@ class memberAdminController extends member
 			$signupItem->required = in_array($key, $orgRequireds);
 			$signupItem->isUse = ($config->{$key} == 'Y') || in_array($key, $orgUse);
 			$signupItem->isPublic = ($signupItem->isUse) ? 'Y' : 'N';
-			if(in_array($key, array('find_account_question', 'password', 'email_address')))
+			if(in_array($key, array('find_account_question', 'password', 'email_address', 'phone_number')))
 			{
 				$signupItem->isPublic = 'N';
 			}

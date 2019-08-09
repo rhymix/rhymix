@@ -200,6 +200,15 @@ class member extends ModuleObject {
 		if(!$oDB->isColumnExists("member", "find_account_question")) return true;
 		if(!$oDB->isColumnExists("member", "find_account_answer")) return true;
 
+		// Add columns for phone number
+		if(!$oDB->isColumnExists("member", "phone_number")) return true;
+		if(!$oDB->isIndexExists("member","idx_phone_number")) return true;
+		if(!$oDB->isColumnExists("member", "phone_country")) return true;
+		if(!$oDB->isIndexExists("member","idx_phone_country")) return true;
+		if(!$oDB->isColumnExists("member", "phone_type")) return true;
+		if(!$oDB->isIndexExists("member","idx_phone_type")) return true;
+		
+		// Add column for list order
 		if(!$oDB->isColumnExists("member", "list_order")) return true;
 		if(!$oDB->isIndexExists("member","idx_list_order")) return true;
 		
@@ -209,10 +218,11 @@ class member extends ModuleObject {
 		// Check scrap folder table
 		if(!$oDB->isColumnExists("member_scrap", "folder_srl")) return true;
 		
+		// Check signup form
 		$oModuleModel = getModel('module');
 		$config = $oModuleModel->getModuleConfig('member');
-		// check signup form ordering info
 		if(!$config->signupForm || !is_array($config->signupForm)) return true;
+		$phone_found = false;
 		foreach($config->signupForm as $signupItem)
 		{
 			if($signupItem->name === 'find_account_question')
@@ -223,12 +233,23 @@ class member extends ModuleObject {
 			{
 				return true;
 			}
+			if($signupItem->name === 'phone_number')
+			{
+				$phone_found = true;
+			}
 		}
+		if(!$phone_found)
+		{
+			return true;
+		}
+		
+		// Check agreements
 		if(!$config->agreements)
 		{
 			return true;
 		}
 
+		// Check skin
 		if($config->skin)
 		{
 			$config_parse = explode('.', $config->skin);
@@ -324,7 +345,34 @@ class member extends ModuleObject {
 		{
 			$oDB->addColumn("member", "find_account_answer", "varchar", 250);
 		}
+		
+		// Add columns for phone number
+		if(!$oDB->isColumnExists("member", "phone_number"))
+		{
+			$oDB->addColumn("member", "phone_number", "varchar", 80, null, false, 'email_host');
+		}
+		if(!$oDB->isColumnExists("member", "phone_country"))
+		{
+			$oDB->addColumn("member", "phone_country", "varchar", 10, null, false, 'phone_number');
+		}
+		if(!$oDB->isColumnExists("member", "phone_type"))
+		{
+			$oDB->addColumn("member", "phone_type", "varchar", 10, null, false, 'phone_country');
+		}
+		if(!$oDB->isIndexExists("member","idx_phone_number"))
+		{
+			$oDB->addIndex("member","idx_phone_number", array("phone_number"));
+		}
+		if(!$oDB->isIndexExists("member","idx_phone_country"))
+		{
+			$oDB->addIndex("member","idx_phone_country", array("phone_country"));
+		}
+		if(!$oDB->isIndexExists("member","idx_phone_type"))
+		{
+			$oDB->addIndex("member","idx_phone_type", array("phone_type"));
+		}
 
+		// Add column for list order
 		if(!$oDB->isColumnExists("member", "list_order"))
 		{
 			$oDB->addColumn("member", "list_order", "number", 11);
@@ -353,40 +401,86 @@ class member extends ModuleObject {
 			$oDB->addIndex("member_scrap","idx_folder_srl", array("folder_srl"));
 		}
 		
+		// Check signup form
 		$oModuleModel = getModel('module');
 		$config = $oModuleModel->getModuleConfig('member');
 		$oModuleController = getController('module');
-
 		$oMemberAdminController = getAdminController('member');
-		// check signup form ordering info
+		if(!$config->identifier)
+		{
+			$config->identifier = 'email_address';
+		}
 		if(!$config->signupForm || !is_array($config->signupForm))
 		{
-			$config->identifier = 'user_id';
-			$config->signupForm = $oMemberAdminController->createSignupForm($config->identifier);
+			$config->signupForm = $oMemberAdminController->createSignupForm($config);
 			$output = $oModuleController->updateModuleConfig('member', $config);
 		}
-		foreach($config->signupForm as $signupItem)
+		$changed = false;
+		$phone_number_found = false;
+		foreach($config->signupForm as $no => $signupItem)
 		{
 			if($signupItem->name === 'find_account_question')
 			{
-				$config->identifier = $config->identifier ?: 'user_id';
-				$config->signupForm = $oMemberAdminController->createSignupForm($config->identifier);
-				$output = $oModuleController->updateModuleConfig('member', $config);
+				unset($config->signupForm[$no]);
+				$config->signupForm = array_values($config->signupForm);
+				$changed = true;
+				continue;
 			}
 			if($signupItem->name === 'email_address' && $signupItem->isPublic !== 'N')
 			{
 				$signupItem->isPublic = 'N';
-				$output = $oModuleController->updateModuleConfig('member', $config);
+				$changed = true;
+				continue;
+			}
+			if($signupItem->name === 'phone_number')
+			{
+				$phone_number_found = true;
+				continue;
 			}
 		}
+		// Insert phone number after email address
+		if(!$phone_found)
+		{
+			$newForm = array();
+			foreach($config->signupForm as $signupItem)
+			{
+				$newForm[] = $signupItem;
+				if($signupItem->name === 'email_address')
+				{
+					$newItem = new stdClass;
+					$newItem->isDefaultForm = true;
+					$newItem->name = $newItem->title = 'phone_number';
+					$newItem->mustRequired = false;
+					$newItem->imageType = false;
+					$newItem->required = false;
+					$newItem->isUse = false;
+					$newItem->isPublic = 'N';
+					$newForm[] = $newItem;
+				}
+			}
+			$config->signupForm = $newForm;
+			$changed = true;
+		}
+		
+		// Check agreements
 		if(!$config->agreements)
 		{
-			$config = memberModel::getMemberConfig();
-			$config->identifier = $config->identifier ?: 'user_id';
-			$config->signupForm = $oMemberAdminController->createSignupForm($config->identifier);
-			$output = $oModuleController->updateModuleConfig('member', $config);
+			$agreement = new stdClass;
+			$agreement->title = lang('agreement');
+			$agreement->content = $config->agreement;
+			$agreement->use_editor = 'Y';
+			$agreement->type = 'required';
+			$config->agreements[] = $agreement;
+			$changed = true;
 		}
 
+		// Save updated config
+		if($changed)
+		{
+			$output = $oModuleController->updateModuleConfig('member', $config);
+		}
+		
+		// Check skin
 		if($config->skin)
 		{
 			$config_parse = explode('.', $config->skin);
