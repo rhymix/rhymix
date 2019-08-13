@@ -114,11 +114,28 @@ class integration_searchView extends integration_search
 
 		// Set a variable for search keyword
 		$is_keyword = Context::get('is_keyword');
+		$is_keyword = escape(trim(utf8_normalize_spaces($is_keyword)));
+		if (mb_strlen($is_keyword, 'UTF-8') > 40)
+		{
+			$is_keyword = mb_substr($is_keyword, 0, 40);
+		}
+
 		// Set page variables
 		$page = (int)Context::get('page');
 		if(!$page) $page = 1;
+		
+		// Set page title
+		$title = config('seo.subpage_title') ?: '$SITE_TITLE - $SUBPAGE_TITLE';
+		Context::setBrowserTitle($title, array(
+			'site_title' => Context::getSiteTitle(),
+			'site_subtitle' => Context::getSiteSubtitle(),
+			'subpage_title' => lang('cmd_search') . ': ' . $is_keyword,
+			'page' => $page,
+		));
+
 		// Search by search tab
 		$where = Context::get('where');
+
 		// Create integration search model object
 		if($is_keyword)
 		{
