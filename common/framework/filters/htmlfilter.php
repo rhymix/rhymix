@@ -535,7 +535,8 @@ class HTMLFilter
 			{
 				$html = substr($html, 0, 4) . ' src=""' . substr($html, 4);
 			}
-			$encoded_properties = Security::encrypt(json_encode($attrs));
+			$encoded_properties = base64_encode(json_encode($attrs));
+			$encoded_properties = $encoded_properties . ':' . Security::createSignature($encoded_properties);
 			return substr($html, 0, 4) . ' rx_encoded_properties="' . $encoded_properties . '"' . substr($html, 4);
 		}, $content);
 	}
@@ -565,12 +566,12 @@ class HTMLFilter
 		
 		return preg_replace_callback('!<(div|img)([^>]*)(\srx_encoded_properties="([^"]+)")!i', function($match) {
 			$attrs = array();
-			$decoded_properties = Security::decrypt($match[4]);
-			if (!$decoded_properties)
+			list($encoded_properties, $signature) = explode(':', $match[4]);
+			if (!Security::verifySignature($encoded_properties, $signature))
 			{
 				return str_replace($match[3], '', $match[0]);
 			}
-			$decoded_properties = json_decode($decoded_properties);
+			$decoded_properties = json_decode(base64_decode($encoded_properties));
 			if (!$decoded_properties)
 			{
 				return str_replace($match[3], '', $match[0]);
