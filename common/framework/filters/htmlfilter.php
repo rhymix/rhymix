@@ -235,6 +235,7 @@ class HTMLFilter
 			'preload' => 'Enum#auto,metadata,none',
 			'controls' => 'Bool',
 			'muted' => 'Bool',
+			'autoplay' => 'Bool',
 			'loop' => 'Bool',
 		));
 		$def->addElement('video', 'Block', 'Optional: (source, Flow) | (Flow, source) | Flow', 'Common', array(
@@ -246,6 +247,7 @@ class HTMLFilter
 			'preload' => 'Enum#auto,metadata,none',
 			'controls' => 'Bool',
 			'muted' => 'Bool',
+			'autoplay' => 'Bool',
 			'loop' => 'Bool',
 		));
 		$def->addElement('source', 'Block', 'Empty', 'Common', array(

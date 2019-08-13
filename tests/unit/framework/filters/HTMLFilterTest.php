@@ -69,11 +69,11 @@ class HTMLFilterTest extends \Codeception\TestCase\Test
 	public function testHTMLFilterHTML5()
 	{
 		$source = '<div><audio autoplay="autoplay" src="./foo/bar.mp3"></audio></div>';
-		$target = '<div><audio src="./foo/bar.mp3"></audio></div>';
+		$target = '<div><audio autoplay="" src="./foo/bar.mp3"></audio></div>';
 		$this->assertEquals($target, Rhymix\Framework\Filters\HTMLFilter::clean($source));
 		
-		$source = '<video autoplay="autoplay" width="320" height="240"><source src="./foo/bar.mp4" type="video/mp4" /></video>';
-		$target = '<video width="320" height="240"><source src="./foo/bar.mp4" type="video/mp4" /></video>';
+		$source = '<video autoplay width="320" height="240"><source src="./foo/bar.mp4" type="video/mp4" /></video>';
+		$target = '<video autoplay="" width="320" height="240"><source src="./foo/bar.mp4" type="video/mp4" /></video>';
 		$this->assertEquals($target, Rhymix\Framework\Filters\HTMLFilter::clean($source));
 		
 		$source = '<nav>123</nav><section>456</section><article>789</article><aside>0</aside>';
