@@ -152,11 +152,18 @@
 					if(result.error == 0) {
 						if(/\.(jpe?g|png|gif)$/i.test(result.source_filename)) {
 							temp_code += '<img src="' + result.download_url + '" alt="' + result.source_filename + '" editor_component="image_link" data-file-srl="' + result.file_srl + '" />';
+						}
+						if(/\.(mp3)$/i.test(result.source_filename)) {
+							temp_code += '<audio src="' + result.download_url + '" controls data-file-srl="' + result.file_srl + '" />';
+						}
+						if(/\.(mp4|webm)$/i.test(result.source_filename)) {
+							temp_code += '<video src="' + result.download_url + '" controls data-file-srl="' + result.file_srl + '" />';
+						}
+						if(temp_code !== '') {
 							if (opt.autoinsertImage === 'paragraph') {
-								_getCkeInstance(settings.formData.editor_sequence).insertHtml("<p>" + temp_code + "</p>\n", "unfiltered_html");
-							} else if (opt.autoinsertImage === 'inline') {
-								_getCkeInstance(settings.formData.editor_sequence).insertHtml(temp_code, "unfiltered_html");
+								temp_code = "<p>" + temp_code + "</p>\n";
 							}
+							_getCkeInstance(settings.formData.editor_sequence).insertHtml(temp_code, "unfiltered_html");
 						}
 					} else if (result.message) {
 						alert(result.message);
@@ -300,25 +307,33 @@
 
 		insertToContent: function($container) {
 			var self = this;
-			var temp_code = '';
 			var data = $container.data();
 
 			$.each(data.selected_files, function(idx, file) {
 				var file_srl = $(file).data().fileSrl;
-				var fileinfo = data.files[file_srl];
+				var result = data.files[file_srl];
+				if(!result) return;
+				var temp_code = '';
 
-				if(!fileinfo) return;
-
-				if(/\.(jpe?g|png|gif)$/i.test(fileinfo.source_filename)) {
-					temp_code += '<img src="' + fileinfo.download_url + '" alt="' + fileinfo.source_filename + '" editor_component="image_link" data-file-srl="' + fileinfo.file_srl + '" />';
-					temp_code += "\r\n<p><br></p>\r\n";
-				} else {
+				if(/\.(jpe?g|png|gif)$/i.test(result.source_filename)) {
+					temp_code += '<img src="' + result.download_url + '" alt="' + result.source_filename + '" editor_component="image_link" data-file-srl="' + result.file_srl + '" />';
+				}
+				if(/\.(mp3)$/i.test(result.source_filename)) {
+					temp_code += '<audio src="' + result.download_url + '" controls data-file-srl="' + result.file_srl + '" />';
+				}
+				if(/\.(mp4|webm)$/i.test(result.source_filename)) {
+					temp_code += '<video src="' + result.download_url + '" controls data-file-srl="' + result.file_srl + '" />';
+				}
+				if(temp_code !== '') {
+					if (data.settings.autoinsertImage === 'paragraph') {
+						temp_code = "<p>" + temp_code + "</p>\n";
+					}
+				}
+				if(temp_code === '') {
 					temp_code += '<a href="' + fileinfo.download_url + '" data-file-srl="' + fileinfo.file_srl + '">' + fileinfo.source_filename + "</a>\n";
 				}
-
+				_getCkeInstance(data.editorSequence).insertHtml(temp_code, "unfiltered_html");
 			});
-
-			_getCkeInstance(data.editorSequence).insertHtml(temp_code, "unfiltered_html");
 		},
 		/**
 		 * 지정된 하나의 파일 또는 다중 선택된 파일 삭제
@@ -348,7 +363,7 @@
 					data.settings.fileList.find('ul').find('li[data-file-srl=' + srl + ']').remove();
 				});
 				var ckeditor = _getCkeInstance(data.editorSequence);
-				var regexp = new RegExp('<(img) [^>]*data-file-srl="(' + file_srls.join('|') + ')"[^>]*>', 'g');
+				var regexp = new RegExp('<(img|audio|video) [^>]*data-file-srl="(' + file_srls.join('|') + ')"[^>]*>', 'g');
 				ckeditor.setData(ckeditor.getData().replace(regexp, ''));
 				self.loadFilelist($container);
 			});

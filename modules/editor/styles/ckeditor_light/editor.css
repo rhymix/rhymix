@@ -1,6 +1,7 @@
 @charset "utf-8";
 /* NAVER (developers@xpressengine.com) */
 .xe_content.editable img{border:0;max-width:100%;}
+.xe_content.editable video{max-width:100%;}
 .xe_content.editable blockquote.q1,
 .xe_content.editable blockquote.q2,
 .xe_content.editable blockquote.q3,
