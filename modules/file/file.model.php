@@ -112,7 +112,7 @@ class fileModel extends file
 		$allowed_attach_size = FileHandler::filesize($file_config->allowed_attach_size*1024*1024);
 		$allowed_filesize = FileHandler::filesize($file_config->allowed_filesize*1024*1024);
 		$allowed_filetypes = $file_config->allowed_filetypes;
-		$allowed_extensions = $file_config->allowed_extensions;
+		$allowed_extensions = $file_config->allowed_extensions ?: array();
 		$this->add("files",$files);
 		$this->add("editor_sequence",$editor_sequence);
 		$this->add("upload_target_srl",$upload_target_srl);
