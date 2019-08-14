@@ -832,7 +832,7 @@ class documentController extends document
 		$obj->content = preg_replace('!<\!--(Before|After)(Document|Comment)\(([0-9]+),([0-9]+)\)-->!is', '', $obj->content);
 
 		// Return error if content is empty.
-		if (!$manual_inserted && is_empty_html_content($obj->content))
+		if (!$manual_updated && is_empty_html_content($obj->content))
 		{
 			return new BaseObject(-1, 'msg_empty_content');
 		}
