@@ -163,7 +163,9 @@
 							if (opt.autoinsertImage === 'paragraph') {
 								temp_code = "<p>" + temp_code + "</p>\n";
 							}
-							_getCkeInstance(settings.formData.editor_sequence).insertHtml(temp_code, "unfiltered_html");
+							if (opt.autoinsertImage !== 'none') {
+								_getCkeInstance(settings.formData.editor_sequence).insertHtml(temp_code, "unfiltered_html");
+							}
 						}
 					} else if (result.message) {
 						alert(result.message);
