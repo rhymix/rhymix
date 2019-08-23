@@ -24,6 +24,7 @@ $lang->max_image_size_action_resize = '초과시 자동 크기 조정';
 $lang->image_resize_quality = '화질';
 $lang->image_autoconv = '이미지 자동 변환';
 $lang->image_autoconv_bmp2jpg = 'BMP → JPG';
+$lang->image_autoconv_png2jpg = 'PNG → JPG';
 $lang->image_autoconv_webp2jpg = 'WebP → JPG';
 $lang->image_autorotate = '이미지 자동 회전';
 $lang->inline_download_format = '다운로드시 현재 창 사용';

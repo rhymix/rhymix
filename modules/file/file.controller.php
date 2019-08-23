@@ -1046,6 +1046,10 @@ class fileController extends file
 		{
 			$convert = array($image_width, $image_height, 'jpg', $config->image_autoconv_quality ?: 75, 0);
 		}
+		if($config->image_autoconv['png2jpg'] && function_exists('imagepng') && $image_type === 3)
+		{
+			$convert = array($image_width, $image_height, 'jpg', $config->image_autoconv_quality ?: 75, 0);
+		}
 		if($config->image_autoconv['webp2jpg'] && function_exists('imagewebp') && $image_type === 18)
 		{
 			$convert = array($image_width, $image_height, 'jpg', $config->image_autoconv_quality ?: 75, 0);

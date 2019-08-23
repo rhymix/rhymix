@@ -24,6 +24,7 @@ $lang->max_image_size_action_resize = 'If exceeded, resize automatically';
 $lang->image_resize_quality = 'Quality';
 $lang->image_autoconv = 'Auto-Convert Image';
 $lang->image_autoconv_bmp2jpg = 'BMP → JPG';
+$lang->image_autoconv_png2jpg = 'PNG → JPG';
 $lang->image_autoconv_webp2jpg = 'WebP → JPG';
 $lang->image_autorotate = 'Auto-Rotate Image';
 $lang->inline_download_format = 'Open in current window';

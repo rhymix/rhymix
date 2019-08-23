@@ -71,6 +71,7 @@ class fileAdminController extends file
 		$config->max_image_size_action = Context::get('max_image_size_action') ?: '';
 		$config->max_image_size_quality = max(50, min(100, intval(Context::get('max_image_size_quality'))));
 		$config->image_autoconv['bmp2jpg'] = Context::get('image_autoconv_bmp2jpg') === 'Y' ? true : false;
+		$config->image_autoconv['png2jpg'] = Context::get('image_autoconv_png2jpg') === 'Y' ? true : false;
 		$config->image_autoconv['webp2jpg'] = Context::get('image_autoconv_webp2jpg') === 'Y' ? true : false;
 		$config->image_autoconv_quality = max(50, min(100, intval(Context::get('image_autoconv_quality'))));
 		$config->image_autorotate = Context::get('image_autorotate') === 'Y' ? true : false;
@@ -156,6 +157,7 @@ class fileAdminController extends file
 		$file_config->max_image_size_action = Context::get('max_image_size_action') ?: '';
 		$file_config->max_image_size_quality = max(50, min(100, intval(Context::get('max_image_size_quality'))));
 		$file_config->image_autoconv['bmp2jpg'] = Context::get('image_autoconv_bmp2jpg') === 'Y' ? true : false;
+		$file_config->image_autoconv['png2jpg'] = Context::get('image_autoconv_png2jpg') === 'Y' ? true : false;
 		$file_config->image_autoconv['webp2jpg'] = Context::get('image_autoconv_webp2jpg') === 'Y' ? true : false;
 		$file_config->image_autoconv_quality = max(50, min(100, intval(Context::get('image_autoconv_quality'))));
 		$file_config->image_autorotate = Context::get('image_autorotate') === 'Y' ? true : false;
