@@ -1086,7 +1086,7 @@ class fileController extends file
 		}
 		
 		// Check image size
-		if($config->max_image_size_action && ($config->max_image_width || $config->max_image_height) && !$this->user->isAdmin())
+		if($config->max_image_size_action && ($config->max_image_width || $config->max_image_height) && (!$this->user->isAdmin() || $config->max_image_size_admin === 'Y'))
 		{
 			$exceeded = false;
 			if ($config->max_image_width > 0 && $image_width > $config->max_image_width)

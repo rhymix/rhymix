@@ -197,6 +197,7 @@ class fileModel extends file
 			$config->max_image_height = $file_config->max_image_height;
 			$config->max_image_size_action = $file_config->max_image_size_action;
 			$config->max_image_size_quality = $file_config->max_image_size_quality;
+			$config->max_image_size_admin = $file_config->max_image_size_admin;
 			$config->image_autoconv = $file_config->image_autoconv;
 			$config->image_autoconv_quality = $file_config->image_autoconv_quality;
 			$config->image_autorotate = $file_config->image_autorotate;
@@ -220,6 +221,7 @@ class fileModel extends file
 		if(!$config->max_image_height) $config->max_image_height = $file_module_config->max_image_height;
 		if(!$config->max_image_size_action) $config->max_image_size_action = $file_module_config->max_image_size_action;
 		if(!$config->max_image_size_quality) $config->max_image_size_quality = $file_module_config->max_image_size_quality;
+		if(!$config->max_image_size_admin) $config->max_image_size_admin = $file_module_config->max_image_size_admin;
 		if(!$config->image_autoconv) $config->image_autoconv = $file_module_config->image_autoconv;
 		if(!$config->image_autoconv_quality) $config->image_autoconv_quality = $file_module_config->image_autoconv_quality;
 		if(!$config->image_autorotate) $config->image_autorotate = $file_module_config->image_autorotate;
