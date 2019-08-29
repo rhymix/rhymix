@@ -46,7 +46,7 @@ class Limit
 		$this->list_count = $list_count;
 		if($list_count->getValue())
 		{
-			if($page)
+			if($page && $page->getValue())
 			{
 				$this->start = ($page->getValue() - 1) * $list_count->getValue();
 				$this->page_count = $page_count;
