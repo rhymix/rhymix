@@ -44,17 +44,18 @@ class Limit
 	function __construct($list_count, $page = NULL, $page_count = NULL, $offset = NULL)
 	{
 		$this->list_count = $list_count;
-		if($page)
+		if($list_count->getValue())
 		{
-			$list_count_value = $list_count->getValue();
-			$page_value = $page->getValue();
-			$this->start = ($page_value - 1) * $list_count_value;
-			$this->page_count = $page_count;
-			$this->page = $page;
-		}
-		elseif($offset)
-		{
-			$this->start = $offset->getValue();
+			if($page)
+			{
+				$this->start = ($page->getValue() - 1) * $list_count->getValue();
+				$this->page_count = $page_count;
+				$this->page = $page;
+			}
+			elseif($offset)
+			{
+				$this->start = $offset->getValue();
+			}
 		}
 	}
 
@@ -86,16 +87,15 @@ class Limit
 
 	function toString()
 	{
-		if($this->page || $this->start)
+		if($this->start)
 		{
 			return $this->start . ' , ' . $this->list_count->getValue();
 		}
 		else
 		{
-			return $this->list_count->getValue();
+			return $this->list_count->getValue() ?: '';
 		}
 	}
-
 }
 /* End of file Limit.class.php */
 /* Location: ./classes/db/limit/Limit.class.php */
