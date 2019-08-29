@@ -784,10 +784,18 @@ class fileController extends file
 	 *
 	 * @param int $editor_sequence
 	 * @param int $upload_target_srl
-	 * @return void
+	 * @return int
 	 */
-	function setUploadInfo($editor_sequence, $upload_target_srl=0)
+	function setUploadInfo($editor_sequence = 0, $upload_target_srl = 0)
 	{
+		if(!$editor_sequence)
+		{
+			if(!isset($_SESSION['_editor_sequence_']))
+			{
+				$_SESSION['_editor_sequence_'] = 1;
+			}
+			$editor_sequence = ++$_SESSION['_editor_sequence_'];
+		}
 		if(!isset($_SESSION['upload_info']) || !is_array($_SESSION['upload_info']))
 		{
 			$_SESSION['upload_info'] = array();
@@ -798,6 +806,8 @@ class fileController extends file
 		}
 		$_SESSION['upload_info'][$editor_sequence]->enabled = true;
 		$_SESSION['upload_info'][$editor_sequence]->upload_target_srl = $upload_target_srl;
+		
+		return $editor_sequence;
 	}
 
 	/**
