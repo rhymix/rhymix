@@ -602,7 +602,7 @@ class documentAdminController extends document
 	function deleteModuleDocument($module_srl)
 	{
 		$args = new stdClass;
-		$args->page = 0;
+		$args->list_count = 0;
 		$args->module_srl = intval($module_srl);
 		$document_list = executeQueryArray('document.getDocumentList', $args, array('document_srl'))->data;
 		
