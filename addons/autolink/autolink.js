@@ -92,10 +92,15 @@
 	});
 
 	xe.registerPlugin(new AutoLink());
-	
+
 	$(document).on('click', '.xe_content a', function() {
-		if (!$(this).attr("target")) {
-			$(this).attr("target", "_blank");
+		var $this = $(this);
+		var href = $this.attr('href');
+		if(!href || /^(?:javascript|mailto):/.test(href)) {
+			return;
+		}
+		if (!$this.attr("target")) {
+			$this.attr("target", "_blank");
 		}
 	});
 	
