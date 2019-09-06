@@ -480,7 +480,7 @@ class memberView extends member
 		$args = new stdClass();
 		$args->member_srl = $logged_info->member_srl;
 		$args->folder_srl = $folder_srl;
-		$args->page = (int)Context::get('page');
+		$args->page = Context::get('page');
 		$output = executeQueryArray('member.getScrapDocumentList', $args);
 		Context::set('total_count', $output->total_count);
 		Context::set('total_page', $output->total_page);
@@ -514,7 +514,7 @@ class memberView extends member
 		$logged_info = Context::get('logged_info');
 		$args = new stdClass();
 		$args->member_srl = $logged_info->member_srl;
-		$args->page = (int)Context::get('page');
+		$args->page = Context::get('page');
 		$args->statusList = array('TEMP');
 
 		$oDocumentModel = getModel('document');
@@ -546,7 +546,7 @@ class memberView extends member
 		
 		$args = new stdClass();
 		$args->member_srl = $logged_info->member_srl;
-		$args->page = (int)Context::get('page');
+		$args->page = Context::get('page');
 		$output = executeQueryArray('member.getAutologin', $args);
 		Context::set('total_count', $output->total_count);
 		Context::set('total_page', $output->total_page);
