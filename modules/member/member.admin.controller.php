@@ -30,7 +30,7 @@ class memberAdminController extends member
 		}
 
 		$args = Context::gets('member_srl','email_address','find_account_answer', 'allow_mailing','allow_message','denied','is_admin','description','group_srl_list','limit_date');
-		$oMemberModel = &getModel ('member');
+		$oMemberModel = getModel('member');
 		$config = $oMemberModel->getMemberConfig ();
 		$getVars = array();
 		if($config->signupForm)
@@ -56,8 +56,6 @@ class memberAdminController extends member
 		$args->member_srl = $member_srl;
 		if($args->member_srl)
 		{
-			// Create a member model object
-			$oMemberModel = getModel('member');
 			// Get memebr profile
 			$columnList = array('member_srl');
 			$member_info = $oMemberModel->getMemberInfoByMemberSrl($args->member_srl, 0, $columnList);
@@ -79,18 +77,35 @@ class memberAdminController extends member
 
 		// Remove some unnecessary variables from all the vars
 		$all_args = Context::getRequestVars();
+		unset($all_args->xe_validator_id);
 		unset($all_args->module);
 		unset($all_args->act);
-		unset($all_args->mid);
-		unset($all_args->error_return_url);
-		unset($all_args->success_return_url);
-		unset($all_args->ruleset);
-		if(!isset($args->limit_date)) $args->limit_date = "";
+		unset($all_args->is_admin);
+		unset($all_args->member_srl);
+		unset($all_args->description);
+		unset($all_args->group_srl_list);
+		unset($all_args->body);
+		unset($all_args->accept_agreement);
+		unset($all_args->signature);
 		unset($all_args->password);
 		unset($all_args->password2);
+		unset($all_args->mid);
+		unset($all_args->success_return_url);
+		unset($all_args->error_return_url);
+		unset($all_args->ruleset);
+		unset($all_args->captchaType);
+		unset($all_args->secret_text);
+		unset($all_args->use_editor);
+		unset($all_args->use_html);
 		unset($all_args->reset_password);
-		// Add extra vars after excluding necessary information from all the requested arguments
+		if(!isset($args->limit_date)) $args->limit_date = "";
 		$extra_vars = delObjectVars($all_args, $args);
+		
+		// Merge extra vars with existing data
+		if($args->member_srl)
+		{
+			$extra_vars->accept_agreement = $member_info->accept_agreement;
+		}
 		$args->extra_vars = serialize($extra_vars);
 
 		// remove whitespace
