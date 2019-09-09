@@ -592,12 +592,23 @@ class memberController extends member
 
 		// Check if the user accept the license terms (only if terms exist)
 		$accept_agreement = Context::get('accept_agreement');
+		if(!is_array($accept_agreement))
+		{
+			$accept_agreement = array_fill(0, count($config->agreements), $accept_agreement);
+		}
+		$accept_agreement_rearranged = array();
 		foreach($config->agreements as $i => $agreement)
 		{
-			if($agreement->type === 'required' && $accept_agreement !== 'Y' && $accept_agreement[$i] !== 'Y')
+			if($agreement->type === 'disabled')
+			{
+				continue;
+			}
+			if($agreement->type === 'required' && $accept_agreement[$i] !== 'Y')
 			{
 				throw new Rhymix\Framework\Exception('msg_accept_agreement');
 			}
+			$accept_agreement_rearranged[$i] = $accept_agreement[$i] === 'Y' ? 'Y' : 'N';
+			$accept_agreement_rearranged[$i] .= ':' . date('YmdHis', RX_TIME);
 		}
 
 		// Extract the necessary information in advance
@@ -659,6 +670,7 @@ class memberController extends member
 
 		// Remove some unnecessary variables from all the vars
 		$all_args = Context::getRequestVars();
+		unset($all_args->xe_validator_id);
 		unset($all_args->module);
 		unset($all_args->act);
 		unset($all_args->is_admin);
@@ -671,15 +683,19 @@ class memberController extends member
 		unset($all_args->password);
 		unset($all_args->password2);
 		unset($all_args->mid);
+		unset($all_args->success_return_url);
 		unset($all_args->error_return_url);
 		unset($all_args->ruleset);
 		unset($all_args->captchaType);
 		unset($all_args->secret_text);
+		unset($all_args->use_editor);
+		unset($all_args->use_html);
 
 		// Set the user state as "denied" when using mail authentication
 		if($config->enable_confirm == 'Y') $args->denied = 'Y';
 		// Add extra vars after excluding necessary information from all the requested arguments
 		$extra_vars = delObjectVars($all_args, $args);
+		$extra_vars->accept_agreement = $accept_agreement_rearranged;
 		$args->extra_vars = serialize($extra_vars);
 
 		// remove whitespace
