@@ -1,0 +1,9 @@
+<table name="files_changelog">
+	<column name="id" type="number" primary_key="primary_key" auto_increment="auto_increment" />
+	<column name="change_type" type="char" size="1" notnull="notnull" index="idx_change_type" />
+	<column name="file_srl" type="number" notnull="notnull" index="idx_file_srl" />
+	<column name="file_size" type="number" notnull="notnull" />
+	<column name="uploaded_filename" type="varchar" size="250" notnull="notnull" />
+	<column name="previous_filename" type="varchar" size="250" />
+	<column name="regdate" type="date" notnull="notnull" index="idx_regdate" />
+</table>

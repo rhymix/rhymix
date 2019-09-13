@@ -1,0 +1,13 @@
+<query id="insertFileChangelog" action="insert">
+	<tables>
+		<table name="files_changelog" />
+	</tables>
+	<columns>
+		<column name="change_type" var="change_type" notnull="notnull" />
+		<column name="file_srl" var="file_srl" filter="number" notnull="notnull" />
+		<column name="file_size" var="file_size" filter="number" notnull="notnull" />
+		<column name="uploaded_filename" var="uploaded_filename" notnull="notnull" />
+		<column name="previous_filename" var="previous_filename" />
+		<column name="regdate" var="regdate" default="curdate()" />
+	</columns>
+</query>

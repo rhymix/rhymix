@@ -229,6 +229,7 @@ class fileModel extends file
 		if(!$config->image_autorotate) $config->image_autorotate = $file_module_config->image_autorotate;
 		if(!$config->image_autorotate_quality) $config->image_autorotate_quality = $file_module_config->image_autorotate_quality;
 		if(!$config->ffmpeg_command) $config->ffmpeg_command = $file_module_config->ffmpeg_command;
+		if(!$config->save_changelog) $config->save_changelog = $file_module_config->save_changelog;
 		
 		// Default setting if not exists
 		if(!$config->allowed_filesize) $config->allowed_filesize = '2';

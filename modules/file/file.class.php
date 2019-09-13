@@ -16,16 +16,10 @@ class file extends ModuleObject
 		// Register action forward (to use in administrator mode)
 		$oModuleController = getController('module');
 		
-		// Save the default settings for attachments
-		$config = new stdClass;
-		$config->allowed_filesize = '2';
-		$config->allowed_attach_size = '2';
-		$config->allowed_filetypes = '*.*';
-		$config->allowed_extensions = array();
-		$oModuleController->insertModuleConfig('file', $config);
 		// Generate a directory for the file module
 		FileHandler::makeDir('./files/attach/images');
 		FileHandler::makeDir('./files/attach/binaries');
+		
 		// 2007. 10. 17 Create a trigger to insert, update, delete documents and comments
 		$oModuleController->insertTrigger('document.insertDocument', 'file', 'controller', 'triggerCheckAttached', 'before');
 		$oModuleController->insertTrigger('document.insertDocument', 'file', 'controller', 'triggerAttachFiles', 'after');

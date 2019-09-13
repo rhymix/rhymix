@@ -889,7 +889,6 @@ class fileController extends file
 		// Check file type
 		if(!$manual_insert && !$this->user->isAdmin())
 		{
-
 			// Check file type
 			if(isset($config->allowed_extensions) && count($config->allowed_extensions))
 			{
@@ -1015,9 +1014,33 @@ class fileController extends file
 		$args->member_srl = $member_srl;
 		$args->regdate = $file_regdate;
 		$args->sid = Rhymix\Framework\Security::getRandom(32, 'hex');
-
+		
+		$oDB = DB::getInstance();
+		$oDB->begin();
 		$output = executeQuery('file.insertFile', $args);
-		if(!$output->toBool()) return $output;
+		if(!$output->toBool())
+		{
+			$oDB->rollback();
+			return $output;
+		}
+		
+		if($config->save_changelog === 'Y')
+		{
+			$clargs = new stdClass;
+			$clargs->change_type = 'I';
+			$clargs->file_srl = $args->file_srl;
+			$clargs->file_size = $args->file_size;
+			$clargs->uploaded_filename = $args->uploaded_filename;
+			$clargs->regdate = $args->regdate;
+			$output = executeQuery('file.insertFileChangelog', $clargs);
+			if(!$output->toBool())
+			{
+				$oDB->rollback();
+				return $output;
+			}
+		}
+		
+		$oDB->commit();
 		
 		// Call a trigger (after)
 		ModuleHandler::triggerCall('file.insertFile', 'after', $args);
@@ -1226,6 +1249,10 @@ class fileController extends file
 			return new BaseObject();
 		}
 		
+		$config = getModel('file')->getFileConfig();
+		$oDB = DB::getInstance();
+		$oDB->begin();
+		
 		foreach($file_list as $file)
 		{
 			if(!is_object($file))
@@ -1248,7 +1275,26 @@ class fileController extends file
 			
 			// Remove from the DB
 			$output = executeQuery('file.deleteFile', $file);
-			if(!$output->toBool()) return $output;
+			if(!$output->toBool())
+			{
+				$oDB->rollback();
+				return $output;
+			}
+			
+			if($config->save_changelog === 'Y')
+			{
+				$clargs = new stdClass;
+				$clargs->change_type = 'D';
+				$clargs->file_srl = $file->file_srl;
+				$clargs->file_size = $file->file_size;
+				$clargs->uploaded_filename = $file->uploaded_filename;
+				$output = executeQuery('file.insertFileChangelog', $clargs);
+				if(!$output->toBool())
+				{
+					$oDB->rollback();
+					return $output;
+				}
+			}
 			
 			// If successfully deleted, remove the file
 			Rhymix\Framework\Storage::delete(FileHandler::getRealPath($file->uploaded_filename));
@@ -1260,6 +1306,7 @@ class fileController extends file
 			Rhymix\Framework\Storage::deleteEmptyDirectory(dirname(FileHandler::getRealPath($file->uploaded_filename)), true);
 		}
 		
+		$oDB->commit();
 		return new BaseObject();
 	}
 	
@@ -1312,7 +1359,7 @@ class fileController extends file
 	 * @param int $source_srl Sequence of target to move
 	 * @param int $target_module_srl New squence of module
 	 * @param int $target_srl New sequence of target
-	 * @return void
+	 * @return object
 	 */
 	function moveFile($source_srl, $target_module_srl, $target_srl)
 	{
@@ -1324,11 +1371,14 @@ class fileController extends file
 
 		$file_count = count($file_list);
 
-		for($i=0;$i<$file_count;$i++)
+		$config = $oFileModel->getFileConfig($module_srl);
+		$oDB = DB::getInstance();
+		$oDB->begin();
+		
+		foreach($file_list as $i => $file_info)
 		{
-			unset($file_info);
-			$file_info = $file_list[$i];
 			$old_file = $file_info->uploaded_filename;
+			
 			// Determine the file path by checking if the file is an image or other kinds
 			if (Rhymix\Framework\Filters\FilenameFilter::isDirectDownload($file_info->source_filename))
 			{
@@ -1343,22 +1393,46 @@ class fileController extends file
 				$random_filename = basename($file_info->uploaded_filename) ?: Rhymix\Framework\Security::getRandom(32, 'hex');
 				$new_file = $path . $random_filename;
 			}
+			
 			// Pass if a target document to move is same
 			if($old_file === $new_file) continue;
+			
 			// Create a directory
 			FileHandler::makeDir($path);
+			
 			// Move the file
 			FileHandler::rename($old_file, $new_file);
+			
 			// Delete old path
 			Rhymix\Framework\Storage::deleteEmptyDirectory(dirname(FileHandler::getRealPath($old_file)), true);
+			
 			// Update DB information
 			$args = new stdClass;
 			$args->file_srl = $file_info->file_srl;
 			$args->uploaded_filename = $new_file;
 			$args->module_srl = $file_info->module_srl;
 			$args->upload_target_srl = $target_srl;
-			executeQuery('file.updateFile', $args);
+			$output = executeQuery('file.updateFile', $args);
+			
+			if($config->save_changelog === 'Y')
+			{
+				$clargs = new stdClass;
+				$clargs->change_type = 'M';
+				$clargs->file_srl = $file_info->file_srl;
+				$clargs->file_size = $file_info->file_size;
+				$clargs->uploaded_filename = $new_file;
+				$clargs->previous_filename = $old_file;
+				$output = executeQuery('file.insertFileChangelog', $clargs);
+				if(!$output->toBool())
+				{
+					$oDB->rollback();
+					return $output;
+				}
+			}
 		}
+		
+		$oDB->commit();
+		return new BaseObject();
 	}
 	
 	function copyFile($source_file, $module_srl, $upload_target_srl, &$content = null)
