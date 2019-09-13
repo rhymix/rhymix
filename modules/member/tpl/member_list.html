@@ -34,7 +34,6 @@
 		<thead>
 			<tr>
 				<th scope="col" class="nowr rx_detail_marks" cond="$profileImageConfig == 'Y' && $config->member_profile_view == 'Y'">{$lang->profile_image}</th>
-				<th scope="col" class="nowr">{$lang->email}</th>
 				<th scope="col" class="nowr" loop="$usedIdentifiers=>$name,$title">{$title}</th>
 				<th scope="col" class="nowr">{$lang->status}</th>
 				<th scope="col" class="nowr rx_detail_marks"><a href="{getUrl('', 'module', 'admin', 'act', 'dispMemberAdminList', 'sort_index', 'regdate', 'sort_order', ($sort_order == 'asc') ? 'desc' : 'asc', 'selected_group_srl', $selected_group_srl)}">{$lang->signup_date}<block cond="$sort_index == 'regdate'"> <em cond="$sort_order=='asc'">▲</em><em cond="$sort_order != 'asc'">▼</em></block></a></th>
@@ -56,11 +55,23 @@
 					<i class="no_profile">?</i>
 					<!--@end-->
 				</td>
-				<td class="nowr">
-					<a href="#popup_menu_area" class="member_{$member_info['member_srl']}" title="Info">{getEncodeEmailAddress($member_info['email_address'])}</a>
-				</td>
 				{@ $member_info['group_list'] = implode(', ', $member_info['group_list'])}
-				<td class="nowr" loop="$usedIdentifiers=>$name,$title">{$member_info[$name]}</td>
+				<td class="nowr" loop="$usedIdentifiers=>$name,$title">
+					<!--@if($name === 'email_address')-->
+						<a href="#popup_menu_area" class="member_{$member_info['member_srl']}">{getEncodeEmailAddress($member_info['email_address'])}</a>
+					<!--@elseif($name === 'phone_number')-->
+						<!--@if($member_info['phone_country'] && $member_info['phone_country'] != $member_config->phone_number_default_country)-->
+							(+{$member_info['phone_country']})
+						<!--@end-->
+						<!--@if($member_info['phone_country'] == 82)-->
+							{\Rhymix\Framework\Korea::formatPhoneNumber($member_info['phone_number'])}
+						<!--@else-->
+							{$member_info['phone_number']}
+						<!--@end-->
+					<!--@else-->
+						{$member_info[$name]}
+					<!--@end-->
+				</td>
 				<td class="nowr">
 					<!--@if($member_info['denied']=='Y')-->
 						<span style="color:red;">{$lang->denied}</span>

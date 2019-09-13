@@ -95,7 +95,13 @@ class memberAdminView extends member
 			}
 		}
 		$config = $this->memberConfig;
-		$memberIdentifiers = array('user_id'=>'user_id', 'user_name'=>'user_name', 'nick_name'=>'nick_name');
+		$memberIdentifiers = array(
+			'user_id' => 'user_id',
+			'email_address' => 'email_address',
+			'phone_number' => 'phone_number',
+			'user_name' => 'user_name',
+			'nick_name' => 'nick_name'
+		);
 		$usedIdentifiers = array();	
 
 		if(is_array($config->signupForm))
@@ -114,6 +120,7 @@ class memberAdminView extends member
 		Context::set('total_count', $output->total_count);
 		Context::set('total_page', $output->total_page);
 		Context::set('page', $output->page);
+		Context::set('member_config', $oMemberModel->getMemberConfig());
 		Context::set('member_list', $output->data);
 		Context::set('usedIdentifiers', $usedIdentifiers);
 		Context::set('page_navigation', $output->page_navigation);
