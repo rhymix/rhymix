@@ -21,13 +21,20 @@
 		</tr>
 	</tbody>
 </table>
-<div class="pagination pagination-centered">
-	<ul>
+<div class="pagination">
+	<form action="{Context::getRequestUri()}" method="get" no-error-return-url="true" style="float:left">
+		<input type="hidden" name="mid" value="{$mid}" />
+		<input type="hidden" name="act" value="{$act}" />
+		<input type="text" name="search_keyword" value="{escape($search_keyword, false)}">
+		<button type="submit" class="btn">{$lang->cmd_search}</button>
+	</form>
+	<ul style="float:right;margin:0;padding:0">
 		<li><a href="{getUrl('page','','module_srl','')}" class="direction">&laquo; {$lang->first_page}</a></li> 
 		<!--@while($page_no = $page_navigation->getNextPage())-->
 		<li class="active"|cond="$page == $page_no"><a href="{getUrl('page',$page_no,'module_srl','')}">{$page_no}</a></li>
 		<!--@end-->
 		<li><a href="{getUrl('page',$page_navigation->last_page,'module_srl','')}" class="direction">{$lang->last_page} &raquo;</a></li>
 	</ul>
+	<div style="clear:both"></div>
 </div>
 <include target="./common_footer.html" />

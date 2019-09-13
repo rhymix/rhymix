@@ -53,6 +53,11 @@
 .lt .title em{font-size:12px;color:#333;color:#6352d2}
 .lt .auth{display:block;font-size:12px}
 .lt .auth .time{padding:0 5px;border-left:1px solid #bfbfbf}
+/* Search */
+.search { clear: both; text-align: center; padding: 4px 0; }
+.search input[type=search] { font-size: 12px; line-height: 16px; padding: 3px; width: 160px; height: 24px; box-sizing: border-box; }
+.search select { font-size: 12px; line-height: 16px; padding: 3px; height: 24px; box-sizing: border-box; }
+.search button { font-size: 12px; line-height: 16px; padding: 3px 8px; height: 24px; box-sizing: border-box; }
 /* Pagination */
 .pn{font-size:12px;text-align:center;background:#f2f0ec;padding:15px 0;border-top:1px solid #fff}
 .pn a{color:#333;text-decoration:none}

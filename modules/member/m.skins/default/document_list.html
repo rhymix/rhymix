@@ -9,6 +9,17 @@
 			</a>
 		</li>
 	</ul>
+	<form class="search" action="{Context::getRequestUri()}" method="get" no-error-return-url="true">
+		<input type="hidden" name="mid" value="{$mid}" />
+		<input type="hidden" name="act" value="{$act}" />
+		<select name="search_target" title="{$lang->search_target}">
+			<option value="title" selected="selected"|cond="$search_target == 'title'">{$lang->title}</option>
+			<option value="title_content" selected="selected"|cond="$search_target == 'title_content'">{$lang->title_content}</option>
+			<option value="content" selected="selected"|cond="$search_target == 'content'">{$lang->content}</option>
+		</select>
+		<input type="search" name="search_keyword" value="{escape($search_keyword, false)}">
+		<button type="submit">{$lang->cmd_search}</button>
+	</form>
 	<div class="pn">
 		<a cond="$page != 1" href="{getUrl('page',$page-1,'module_srl','','document_srl','')}" class="prev">{$lang->cmd_prev}</a> 
 		<strong>{$page} / {$page_navigation->last_page}</strong>

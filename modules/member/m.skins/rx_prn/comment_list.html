@@ -22,6 +22,12 @@
 	</div>
 </section>
 <div class="pagination pagination-centered">
+	<form class="search" action="{Context::getRequestUri()}" method="get" no-error-return-url="true">
+		<input type="hidden" name="mid" value="{$mid}" />
+		<input type="hidden" name="act" value="{$act}" />
+		<input type="search" name="search_keyword" value="{escape($search_keyword, false)}">
+		<button type="submit">{$lang->cmd_search}</button>
+	</form>
 	<ul>
 		{@$rx_prn = FALSE}
 		<!--@while($page_no = $page_navigation->getNextPage())-->

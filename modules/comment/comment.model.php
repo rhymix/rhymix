@@ -698,6 +698,7 @@ class commentModel extends comment
 		$args->page = $obj->page ? $obj->page : 1;
 		$args->list_count = $obj->list_count ? $obj->list_count : 20;
 		$args->page_count = $obj->page_count ? $obj->page_count : 10;
+		$args->s_member_srl = $obj->member_srl;
 		$args->s_module_srl = $obj->module_srl;
 		$args->exclude_module_srl = $obj->exclude_module_srl;
 		$args->statusList = $obj->statusList;

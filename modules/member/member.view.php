@@ -371,21 +371,32 @@ class memberView extends member
 			throw new Rhymix\Framework\Exceptions\MustLogin;
 		}
 
-		$logged_info = Context::get('logged_info');
-		$member_srl = $logged_info->member_srl;
-
-		$module_srl = Context::get('module_srl');
-		Context::set('module_srl',Context::get('selected_module_srl'));
-		Context::set('search_target','member_srl');
-		Context::set('search_keyword',$member_srl);
-
-		$oDocumentAdminView = getAdminView('document');
-		$oDocumentAdminView->dispDocumentAdminList();
+		$args = new stdClass;
+		$args->list_count = 20;
+		$args->page_count = 5;
+		$args->page = intval(Context::get('page')) ?: 1;
+		if(in_array(Context::get('search_target'), array('title', 'title_content', 'content')))
+		{
+			$args->search_target = Context::get('search_target');
+			$args->search_keyword = Context::get('search_keyword');
+		}
+		$args->member_srl = array($this->user->member_srl, $this->user->member_srl * -1);
+		$args->module_srl = intval(Context::get('selected_module_srl')) ?: null;
+		$args->sort_index = 'list_order';
+		$args->statusList = array('PUBLIC', 'SECRET');
+		
+		$oDocumentModel = getModel('document');
+		$columnList = array('document_srl', 'module_srl', 'category_srl', 'member_srl', 'title', 'nick_name', 'comment_count', 'trackback_count', 'readed_count', 'voted_count', 'blamed_count', 'regdate', 'ipaddress', 'status');
+		$output = $oDocumentModel->getDocumentList($args, false, false, $columnList);
+		Context::set('total_count', $output->total_count);
+		Context::set('total_page', $output->total_page);
+		Context::set('page', $output->page);
+		Context::set('page_navigation', $output->page_navigation);
+		Context::set('document_list', $output->data);
 
 		$oSecurity = new Security();
 		$oSecurity->encodeHTML('document_list...title', 'search_target', 'search_keyword');
 
-		Context::set('module_srl', $module_srl);
 		$this->setTemplateFile('document_list');
 	}
 
@@ -399,25 +410,37 @@ class memberView extends member
 			throw new Rhymix\Framework\Exceptions\FeatureDisabled;
 		}
 
-		$oMemberModel = getModel('member');
 		// A message appears if the user is not logged-in
-		if(!$oMemberModel->isLogged()) throw new Rhymix\Framework\Exceptions\MustLogin;
+		if(!Context::get('is_logged'))
+		{
+			throw new Rhymix\Framework\Exceptions\MustLogin;
+		}
 
-		$logged_info = Context::get('logged_info');
-		$member_srl = $logged_info->member_srl;
-
-		$module_srl = Context::get('module_srl');
-		Context::set('module_srl',Context::get('selected_module_srl'));
-		Context::set('search_target','member_srl');
-		Context::set('search_keyword',$member_srl);
-
-		$oCommentAdminView = getAdminView('comment');
-		$oCommentAdminView->dispCommentAdminList();
+		$args = new stdClass;
+		$args->list_count = 20;
+		$args->page_count = 5;
+		$args->page = intval(Context::get('page')) ?: 1;
+		if(Context::get('search_keyword'))
+		{
+			$args->search_target = 'content';
+			$args->search_keyword = Context::get('search_keyword');
+		}
+		$args->member_srl = array($this->user->member_srl, $this->user->member_srl * -1);
+		$args->module_srl = intval(Context::get('selected_module_srl')) ?: null;
+		$args->sort_index = 'list_order';
+		
+		$oCommentModel = getModel('comment');
+		$columnList = array('comment_srl', 'document_srl', 'module_srl', 'is_secret', 'status', 'content', 'comments.member_srl', 'comments.nick_name', 'comments.regdate', 'ipaddress', 'voted_count', 'blamed_count');
+		$output = $oCommentModel->getTotalCommentList($args, $columnList);
+		Context::set('total_count', $output->total_count);
+		Context::set('total_page', $output->total_page);
+		Context::set('page', $output->page);
+		Context::set('page_navigation', $output->page_navigation);
+		Context::set('comment_list', $output->data);
 
 		$oSecurity = new Security();
 		$oSecurity->encodeHTML('search_target', 'search_keyword');
 
-		Context::set('module_srl', $module_srl);
 		$this->setTemplateFile('comment_list');
 	}
 
@@ -431,9 +454,11 @@ class memberView extends member
 			throw new Rhymix\Framework\Exceptions\FeatureDisabled;
 		}
 
-		$oMemberModel = getModel('member');
 		// A message appears if the user is not logged-in
-		if(!$oMemberModel->isLogged()) throw new Rhymix\Framework\Exceptions\MustLogin;
+		if(!Context::get('is_logged'))
+		{
+			throw new Rhymix\Framework\Exceptions\MustLogin;
+		}
 
 		$logged_info = Context::get('logged_info');
 		
