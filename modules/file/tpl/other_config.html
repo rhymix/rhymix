@@ -1,0 +1,25 @@
+<include target="header.html" />
+
+<div cond="$XE_VALIDATOR_MESSAGE && $XE_VALIDATOR_ID == 'modules/file/tpl/other_config/1'" class="message {$XE_VALIDATOR_MESSAGE_TYPE}">
+	<p>{$XE_VALIDATOR_MESSAGE}</p>
+</div>
+
+<form ruleset="insertConfig" action="./" method="post" class="x_form-horizontal section">
+	<input type="hidden" name="module" value="file" />
+	<input type="hidden" name="act" value="procFileAdminInsertOtherConfig" />
+	<input type="hidden" name="xe_validator_id" value="modules/file/tpl/other_config/1" />
+	<div class="x_control-group">
+		<label class="x_control-label">{$lang->file_save_changelog}</label>
+		<div class="x_controls">
+			<label class="x_inline"><input type="radio" name="save_changelog" value="Y" checked="checked"|cond="$config->save_changelog === 'Y'" /> {$lang->cmd_yes}</label>
+			<label class="x_inline"><input type="radio" name="save_changelog" value="N" checked="checked"|cond="$config->save_changelog !== 'Y'" /> {$lang->cmd_no}</label>
+			<p class="x_help-block">{$lang->about_save_changelog}</p>
+		</div>
+	</div>
+	<div class="x_clearfix btnArea">
+		<div class="x_pull-right">
+			<button type="submit" class="x_btn x_btn-primary">{$lang->cmd_save}</button>
+		</div>
+	</div>
+	{@ var_dump($config)}
+</form>

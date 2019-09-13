@@ -207,6 +207,7 @@ class fileModel extends file
 			$config->allow_outlink = $file_config->allow_outlink;
 			$config->allow_outlink_site = $file_config->allow_outlink_site;
 			$config->allow_outlink_format = $file_config->allow_outlink_format;
+			$config->save_changelog = $file_config->save_changelog;
 		}
 		
 		// Property for all files comes first than each property

@@ -240,6 +240,22 @@ class fileAdminView extends file
 		$this->setTemplatePath($this->module_path.'tpl');
 		$this->setTemplateFile('download_config');
 	}
+
+	/**
+	 * Other config screen
+	 *
+	 * @return Object
+	 */
+	function dispFileAdminOtherConfig()
+	{
+		$oFileModel = getModel('file');
+		$config = $oFileModel->getFileConfig();
+		Context::set('config',$config);
+		
+		// Set a template file
+		$this->setTemplatePath($this->module_path.'tpl');
+		$this->setTemplateFile('other_config');
+	}
 }
 /* End of file file.admin.view.php */
 /* Location: ./modules/file/file.admin.view.php */

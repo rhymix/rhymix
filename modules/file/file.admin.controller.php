@@ -139,6 +139,29 @@ class fileAdminController extends file
 	}
 
 	/**
+	 * Save other configuration
+	 *
+	 * @return Object
+	 */
+	function procFileAdminInsertOtherConfig()
+	{
+		// Update configuration
+		$config = getModel('module')->getModuleConfig('file');
+		$config->save_changelog = Context::get('save_changelog') === 'Y' ? 'Y' : 'N';
+		
+		// Save and redirect
+		$oModuleController = getController('module');
+		$output = $oModuleController->insertModuleConfig('file',$config);
+		if(!$output->toBool())
+		{
+			return $output;
+		}
+
+		$returnUrl = Context::get('success_return_url') ? Context::get('success_return_url') : getNotEncodedUrl('', 'module', 'admin', 'act', 'dispFileAdminOtherConfig');
+		return $this->setRedirectUrl($returnUrl, $output);
+	}
+
+	/**
 	 * Add file information for each module
 	 *
 	 * @return void
