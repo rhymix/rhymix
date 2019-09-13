@@ -236,6 +236,7 @@ class HTMLFilter
 			'controls' => 'Bool',
 			'muted' => 'Bool',
 			'autoplay' => 'Bool',
+			'playsinline' => 'Bool',
 			'loop' => 'Bool',
 		));
 		$def->addElement('video', 'Block', 'Optional: (source, Flow) | (Flow, source) | Flow', 'Common', array(
@@ -248,6 +249,7 @@ class HTMLFilter
 			'controls' => 'Bool',
 			'muted' => 'Bool',
 			'autoplay' => 'Bool',
+			'playsinline' => 'Bool',
 			'loop' => 'Bool',
 		));
 		$def->addElement('source', 'Block', 'Empty', 'Common', array(
