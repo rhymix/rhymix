@@ -608,7 +608,6 @@ class memberController extends member
 				throw new Rhymix\Framework\Exception('msg_accept_agreement');
 			}
 			$accept_agreement_rearranged[$i] = $accept_agreement[$i] === 'Y' ? 'Y' : 'N';
-			$accept_agreement_rearranged[$i] .= ':' . date('YmdHis', RX_TIME);
 		}
 		
 		// Check phone number
@@ -718,7 +717,6 @@ class memberController extends member
 		if($config->enable_confirm == 'Y') $args->denied = 'Y';
 		// Add extra vars after excluding necessary information from all the requested arguments
 		$extra_vars = delObjectVars($all_args, $args);
-		$extra_vars->accept_agreement = $accept_agreement_rearranged;
 		$args->extra_vars = serialize($extra_vars);
 
 		// remove whitespace
@@ -730,8 +728,27 @@ class memberController extends member
 				$args->{$val} = preg_replace('/[\pZ\pC]+/u', '', html_entity_decode($args->{$val}));
 			}
 		}
+		
+		// Insert member info
 		$output = $this->insertMember($args);
-		if(!$output->toBool()) return $output;
+		if($output instanceof BaseObject && !$output->toBool())
+		{
+			return $output;
+		}
+		
+		// Insert agreement info
+		foreach($accept_agreement_rearranged as $agreement_sequence => $agreed)
+		{
+			$ag_args = new stdClass;
+			$ag_args->member_srl = $args->member_srl;
+			$ag_args->agreement_sequence = $agreement_sequence;
+			$ag_args->agreed = $agreed;
+			$output = executeQuery('member.insertAgreed', $ag_args);
+			if($output instanceof BaseObject && !$output->toBool())
+			{
+				return $output;
+			}
+		}
 
 		// insert ProfileImage, ImageName, ImageMark
 		$profile_image = Context::get('profile_image');
@@ -768,6 +785,7 @@ class memberController extends member
 			}
 
 		}
+
 		// Log-in
 		if($config->enable_confirm != 'Y')
 		{
@@ -990,10 +1008,6 @@ class memberController extends member
 		unset($all_args->use_html);
 		unset($all_args->_filter);
 		$extra_vars = delObjectVars($all_args, $args);
-		
-		// Merge extra vars with existing data
-		$member_info = $oMemberModel->getMemberInfoByMemberSrl($args->member_srl);
-		$extra_vars->accept_agreement = $member_info->accept_agreement;
 		$args->extra_vars = serialize($extra_vars);
 
 		// remove whitespace
@@ -3076,6 +3090,7 @@ class memberController extends member
 
 		$args = new stdClass();
 		$args->member_srl = $member_srl;
+
 		// Delete the entries in member_auth_mail
 		$output = executeQuery('member.deleteAuthMail', $args);
 		if(!$output->toBool())
@@ -3083,15 +3098,23 @@ class memberController extends member
 			$oDB->rollback();
 			return $output;
 		}
-		executeQuery('member.deleteMemberModifyNickNameLog', $args);
 
-		// TODO: If the table is not an upgrade may fail.
-		/*
-		   if(!$output->toBool()) {
-		   $oDB->rollback();
-		   return $output;
-		   }
-		 */
+		// Delete agreement info
+		$output = executeQuery('member.deleteAgreed', $args);
+		if(!$output->toBool())
+		{
+			$oDB->rollback();
+			return $output;
+		}
+
+		// Delete nickname log
+		$output = executeQuery('member.deleteMemberModifyNickNameLog', $args);
+		if(!$output->toBool())
+		{
+			$oDB->rollback();
+			return $output;
+		}
+
 		// Delete the entries in member_group_member
 		$output = executeQuery('member.deleteMemberGroupMember', $args);
 		if(!$output->toBool())
@@ -3099,13 +3122,15 @@ class memberController extends member
 			$oDB->rollback();
 			return $output;
 		}
-		// member removed from the table
+
+		// Delete main member info
 		$output = executeQuery('member.deleteMember', $args);
 		if(!$output->toBool())
 		{
 			$oDB->rollback();
 			return $output;
 		}
+
 		// Call a trigger (after)
 		ModuleHandler::triggerCall('member.deleteMember', 'after', $trigger_obj);
 

@@ -1,0 +1,12 @@
+<query id="insertAgreed" action="insert">
+	<tables>
+		<table name="member_agreed" />
+	</tables>
+	<columns>
+		<column name="member_srl" var="member_srl" notnull="notnull" filter="number" />
+		<column name="agreement_sequence" var="agreement_sequence" notnull="notnull" filter="number" />
+		<column name="agreed" var="agreed" notnull="notnull" />
+		<column name="ipaddress" var="ipaddress" default="ipaddress()" />
+		<column name="regdate" var="regdate" default="curdate()" />
+	</columns>
+</query>

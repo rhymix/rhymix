@@ -100,12 +100,6 @@ class memberAdminController extends member
 		unset($all_args->reset_password);
 		if(!isset($args->limit_date)) $args->limit_date = "";
 		$extra_vars = delObjectVars($all_args, $args);
-		
-		// Merge extra vars with existing data
-		if($args->member_srl)
-		{
-			$extra_vars->accept_agreement = $member_info->accept_agreement;
-		}
 		$args->extra_vars = serialize($extra_vars);
 
 		// remove whitespace

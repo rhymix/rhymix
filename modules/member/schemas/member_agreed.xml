@@ -1,0 +1,8 @@
+<table name="member_agreed">
+	<column name="id" type="number" primary_key="primary_key" auto_increment="auto_increment" />
+	<column name="member_srl" type="number" notnull="notnull" index="idx_member_srl" />
+	<column name="agreement_sequence" type="number" notnull="notnull" index="idx_agreement_sequence" />
+	<column name="agreed" type="char" size="1" notnull="notnull" index="idx_agreed" />
+	<column name="ipaddress" type="varchar" size="80" notnull="notnull" />
+	<column name="regdate" type="date" notnull="notnull" />
+</table>
