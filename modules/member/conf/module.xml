@@ -31,7 +31,6 @@
 		<action name="procMemberAuthAccount" type="controller" method="GET|POST" />
 		<action name="procMemberAuthEmailAddress" type="controller" method="GET|POST" />
 		<action name="procMemberResendAuthMail" type="controller" ruleset="resendAuthMail" />
-		<action name="procMemberResetAuthMail" type="controller" ruleset="resetAuthMail" />
 		<action name="procMemberModifyInfoBefore" type="controller" permission="member" ruleset="recheckedPassword" />
 		<action name="procMemberModifyInfo" type="controller" permission="member" ruleset="@insertMember" />
 		<action name="procMemberModifyPassword" type="controller" permission="member" ruleset="modifyPassword" />

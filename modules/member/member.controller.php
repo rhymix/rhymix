@@ -1656,11 +1656,22 @@ class memberController extends member
 
 		$args = new stdClass;
 		$args->email_address = $email_address;
-		$memberSrl = $oMemberModel->getMemberSrlByEmailAddress($email_address);
-		if(!$memberSrl) throw new Rhymix\Framework\Exception('msg_not_exists_member');
+		$member_srl = $oMemberModel->getMemberSrlByEmailAddress($email_address);
+		if(!$member_srl)
+		{
+			throw new Rhymix\Framework\Exception('msg_not_exists_member');
+		}
 
 		$columnList = array('member_srl', 'user_id', 'user_name', 'nick_name', 'email_address');
-		$member_info = $oMemberModel->getMemberInfoByMemberSrl($memberSrl, 0, $columnList);
+		$member_info = $oMemberModel->getMemberInfoByMemberSrl($member_srl, 0, $columnList);
+		if(!$member_info || !$member_info->member_srl)
+		{
+			throw new Rhymix\Framework\Exception('msg_not_exists_member');
+		}
+		if($member_info->denied !== 'Y')
+		{
+			throw new Rhymix\Framework\Exception('msg_activation_not_needed');
+		}
 
 		$oModuleModel = getModel('module');
 		$member_config = $oModuleModel->getModuleConfig('member');
@@ -1671,12 +1682,19 @@ class memberController extends member
 		$chk_args = new stdClass;
 		$chk_args->member_srl = $member_info->member_srl;
 		$output = executeQuery('member.chkAuthMail', $chk_args);
-		if($output->toBool() && $output->data->count == '0') throw new Rhymix\Framework\Exceptions\InvalidRequest;
+		if($output->toBool() && $output->data->count == '0')
+		{
+			throw new Rhymix\Framework\Exception('msg_activation_key_not_found');
+		}
 
 		$auth_args = new stdClass;
 		$auth_args->member_srl = $member_info->member_srl;
 		$output = executeQueryArray('member.getAuthMailInfo', $auth_args);
-		if(!$output->data || !$output->data[0]->auth_key) throw new Rhymix\Framework\Exceptions\InvalidRequest;
+		if(!$output->data || !$output->data[0]->auth_key)
+		{
+			throw new Rhymix\Framework\Exception('msg_activation_key_not_found');
+		}
+		
 		$auth_info = $output->data[0];
 
 		// Update the regdate of authmail entry
@@ -1730,97 +1748,6 @@ class memberController extends member
 		$this->setMessage($msg);
 
 		$returnUrl = Context::get('success_return_url') ? Context::get('success_return_url') : getNotEncodedUrl('', 'mid', Context::get('mid'), 'act', '');
-		$this->setRedirectUrl($returnUrl);
-	}
-
-	function procMemberResetAuthMail()
-	{
-		$memberInfo = $_SESSION['auth_member_info'];
-		unset($_SESSION['auth_member_info']);
-
-		if(!$memberInfo)
-		{
-			throw new Rhymix\Framework\Exceptions\InvalidRequest;
-		}
-
-		$newEmail = Context::get('email_address');
-
-		if(!$newEmail)
-		{
-			throw new Rhymix\Framework\Exceptions\InvalidRequest;
-		}
-
-		$oMemberModel = getModel('member');
-		$member_srl = $oMemberModel->getMemberSrlByEmailAddress($newEmail);
-		if($member_srl)
-		{
-			throw new Rhymix\Framework\Exception('msg_exists_email_address');
-		}
-
-		// Check managed Email Host
-		if($oMemberModel->isDeniedEmailHost($newEmail))
-		{
-			$config = $oMemberModel->getMemberConfig();
-			$emailhost_check = $config->emailhost_check;
-
-			$managed_email_host = lang('managed_email_host');
-			$email_hosts = $oMemberModel->getManagedEmailHosts();
-			foreach ($email_hosts as $host)
-			{
-				$hosts[] = $host->email_host;
-			}
-			$message = sprintf($managed_email_host[$emailhost_check], implode(', ',$hosts), 'id@' . implode(', id@', $hosts));
-			throw new Rhymix\Framework\Exception($message);
-		}
-
-		// remove all key by member_srl
-		$args = new stdClass;
-		$args->member_srl = $memberInfo->member_srl;
-		$output = executeQuery('member.deleteAuthMail', $args);
-
-		if(!$output->toBool())
-		{
-			return $output;
-		}
-
-		// update member info
-		$args->email_address = $newEmail;
-		list($args->email_id, $args->email_host) = explode('@', $newEmail);
-
-		$output = executeQuery('member.updateMemberEmailAddress', $args);
-		if(!$output->toBool())
-		{
-			return $output;
-		}
-
-		$this->_clearMemberCache($args->member_srl);
-		
-		// Call a trigger (after)
-		$trigger_obj = new stdClass;
-		$trigger_obj->member_srl = $args->member_srl;
-		$trigger_obj->email_address = $args->email_address;
-		$trigger_output = ModuleHandler::triggerCall('member.updateMemberEmailAddress', 'after', $trigger_obj);
-
-		// generate new auth key
-		$auth_args = new stdClass();
-		$auth_args->user_id = $memberInfo->user_id;
-		$auth_args->member_srl = $memberInfo->member_srl;
-		$auth_args->new_password = $memberInfo->password;
-		$auth_args->auth_key = Rhymix\Framework\Security::getRandom(40, 'hex');
-		$auth_args->is_register = 'Y';
-
-		$output = executeQuery('member.insertAuthMail', $auth_args);
-		if(!$output->toBool()) return $output;
-
-		$memberInfo->email_address = $newEmail;
-
-		// resend auth mail.
-		$this->_sendAuthMail($auth_args, $memberInfo);
-
-		$msg = sprintf(lang('msg_confirm_mail_sent'), $memberInfo->email_address);
-		$this->setMessage($msg);
-
-		$returnUrl = getUrl('');
 		$this->setRedirectUrl($returnUrl);
 	}
 
@@ -2240,11 +2167,9 @@ class memberController extends member
 		{
 			$args->member_srl = $member_info->member_srl;
 			$output = executeQuery('member.chkAuthMail', $args);
-			if ($output->toBool() && $output->data->count != '0')
+			if ($output->toBool() && $output->data->count)
 			{
-				$_SESSION['auth_member_srl'] = $member_info->member_srl;
-				$redirectUrl = getUrl('', 'act', 'dispMemberResendAuthMail');
-				return $this->setRedirectUrl($redirectUrl, new BaseObject(-1,'msg_user_not_confirmed'));
+				return new BaseObject(-1, sprintf(lang('msg_user_not_confirmed'), $member_info->email_address));
 			}
 			
 			$refused_reason = $member_info->refused_reason ? ('<br>' . lang('refused_reason') . ': ' . $member_info->refused_reason) : '';
