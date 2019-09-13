@@ -251,7 +251,7 @@ class DisplayHandler extends Handler
 			{
 				if ($display_type === 'comment' && Context::getResponseMethod() !== 'HTML')
 				{
-					break;
+					continue;
 				}
 				ob_start();
 				$data = Rhymix\Framework\Debug::getDebugData();
