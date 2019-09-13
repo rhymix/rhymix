@@ -481,10 +481,7 @@ class commentModel extends comment
 		{
 			$comment_config = $this->getCommentConfig($module_srl);
 			$comment_count = $comment_config->comment_count;
-			if(!$comment_count)
-			{
-				$comment_count = 50;
-			}
+			$comment_page_count = $comment_config->comment_page_count;
 		}
 		else
 		{
@@ -501,8 +498,8 @@ class commentModel extends comment
 		$args = new stdClass();
 		$args->document_srl = $document_srl;
 		$args->list_count = $comment_count;
+		$args->page_count = $comment_page_count;
 		$args->page = $page;
-		$args->page_count = 10;
 
 		//check if module is using validation system
 		$oCommentController = getController('comment');
@@ -987,9 +984,13 @@ class commentModel extends comment
 			$comment_config = new stdClass();
 		}
 
-		if(!isset($comment_config->comment_count))
+		if(!isset($comment_config->comment_count) || !$comment_config->comment_count)
 		{
 			$comment_config->comment_count = 50;
+		}
+		if(!isset($comment_config->comment_page_count) || $comment_config->comment_page_count)
+		{
+			$comment_config->comment_page_count = 10;
 		}
 
 		return $comment_config;

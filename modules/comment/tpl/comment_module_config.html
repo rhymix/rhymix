@@ -13,6 +13,13 @@
 			</div>
 		</div>
 		<div class="x_control-group">
+			<label for="comment_count" class="x_control-label">{$lang->comment_page_count}</label>
+			<div class="x_controls">
+				<input type="number" min="1" name="comment_page_count" id="comment_page_count" value="{$comment_config->comment_page_count}" />
+				<p class="x_help-inline">{$lang->about_comment_page_count}</p>
+			</div>
+		</div>
+		<div class="x_control-group">
 			<label for="use_vote_up" class="x_control-label">{$lang->cmd_vote}</label>
 			<div class="x_controls">
 				<select name="use_vote_up" id="use_vote_up">

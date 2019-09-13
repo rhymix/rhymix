@@ -1742,6 +1742,11 @@ class commentController extends comment
 		{
 			$comment_config->comment_count = 50;
 		}
+		$comment_config->comment_page_count = (int) Context::get('comment_page_count');
+		if(!$comment_config->comment_page_count)
+		{
+			$comment_config->comment_page_count = 10;
+		}
 
 		$comment_config->use_vote_up = Context::get('use_vote_up');
 		if(!$comment_config->use_vote_up)
