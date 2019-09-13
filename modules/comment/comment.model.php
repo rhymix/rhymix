@@ -512,39 +512,45 @@ class commentModel extends comment
 			$args->status = 1;
 		}
 
-		// call trigger (before)
+		// Call trigger (before)
+		// This trigger can be used to set an alternative output using a different search method
+		unset($args->use_alternate_output);
 		$trigger_output = ModuleHandler::triggerCall('comment.getCommentList', 'before', $args);
 		if($trigger_output instanceof BaseObject && !$trigger_output->toBool())
 		{
 			return $output;
 		}
 		
-		$output = executeQueryArray('comment.getCommentPageList', $args);
-
-		// return if an error occurs in the query results
-		if(!$output->toBool())
+		
+		// If an alternate output is set, use it instead of running the default queries
+		if (isset($args->use_alternate_output) && $args->use_alternate_output instanceof BaseObject)
 		{
-			return;
+			$output = $args->use_alternate_output;
 		}
-
-		// insert data into CommentPageList table if the number of results is different from stored comments
-		if(!$output->data)
+		else
 		{
-			$this->fixCommentList($oDocument->get('module_srl'), $document_srl);
+			// Execute normal query
 			$output = executeQueryArray('comment.getCommentPageList', $args);
 			if(!$output->toBool())
 			{
 				return;
 			}
+			
+			// insert data into CommentPageList table if the number of results is different from stored comments
+			if(!$output->data)
+			{
+				$this->fixCommentList($oDocument->get('module_srl'), $document_srl);
+				$output = executeQueryArray('comment.getCommentPageList', $args);
+				if(!$output->toBool())
+				{
+					return;
+				}
+			}
 		}
 
-		// call trigger (after)
-		$trigger_output = ModuleHandler::triggerCall('comment.getCommentList', 'after', $output);
-		if($trigger_output instanceof BaseObject && !$trigger_output->toBool())
-		{
-			return $trigger_output;
-		}
-		
+		// Call trigger (after)
+		// This trigger can be used to modify search results
+		ModuleHandler::triggerCall('comment.getCommentList', 'after', $output);
 		return $output;
 	}
 
@@ -817,9 +823,26 @@ class commentModel extends comment
 			}
 		}
 
-		// comment.getTotalCommentList query execution
-		$output = executeQueryArray($query_id, $args, $columnList);
-
+		// Call trigger (before)
+		// This trigger can be used to set an alternative output using a different search method
+		unset($args->use_alternate_output);
+		$output = ModuleHandler::triggerCall('comment.getTotalCommentList', 'before', $args);
+		if($output instanceof BaseObject && !$output->toBool())
+		{
+			return $output;
+		}
+		
+		// If an alternate output is set, use it instead of running the default queries
+		if (isset($args->use_alternate_output) && $args->use_alternate_output instanceof BaseObject)
+		{
+			$output = $args->use_alternate_output;
+		}
+		// Execute normal query
+		else
+		{
+			$output = executeQueryArray($query_id, $args, $columnList);
+		}
+		
 		// return when no result or error occurance
 		if(!$output->toBool() || !count($output->data))
 		{
@@ -834,6 +857,9 @@ class commentModel extends comment
 			$output->data[$key] = $_oComment;
 		}
 
+		// Call trigger (after)
+		// This trigger can be used to modify search results
+		ModuleHandler::triggerCall('comment.getTotalCommentList', 'after', $output);
 		return $output;
 	}
 
