@@ -74,7 +74,9 @@ class fileAdminController extends file
 		$config->image_autoconv['bmp2jpg'] = Context::get('image_autoconv_bmp2jpg') === 'Y' ? true : false;
 		$config->image_autoconv['png2jpg'] = Context::get('image_autoconv_png2jpg') === 'Y' ? true : false;
 		$config->image_autoconv['webp2jpg'] = Context::get('image_autoconv_webp2jpg') === 'Y' ? true : false;
+		$config->image_autoconv['gif2mp4'] = Context::get('image_autoconv_gif2mp4') === 'Y' ? true : false;
 		$config->image_autoconv_quality = max(50, min(100, intval(Context::get('image_autoconv_quality'))));
+		$config->ffmpeg_command = escape(utf8_trim(Context::get('ffmpeg_command'))) ?: '/usr/bin/ffmpeg';
 		$config->image_autorotate = Context::get('image_autorotate') === 'Y' ? true : false;
 		$config->image_autorotate_quality = max(50, min(100, intval(Context::get('image_autorotate_quality'))));
 		
@@ -161,7 +163,9 @@ class fileAdminController extends file
 		$file_config->image_autoconv['bmp2jpg'] = Context::get('image_autoconv_bmp2jpg') === 'Y' ? true : false;
 		$file_config->image_autoconv['png2jpg'] = Context::get('image_autoconv_png2jpg') === 'Y' ? true : false;
 		$file_config->image_autoconv['webp2jpg'] = Context::get('image_autoconv_webp2jpg') === 'Y' ? true : false;
+		$file_config->image_autoconv['gif2mp4'] = Context::get('image_autoconv_gif2mp4') === 'Y' ? true : false;
 		$file_config->image_autoconv_quality = max(50, min(100, intval(Context::get('image_autoconv_quality'))));
+		$file_config->ffmpeg_command = escape(utf8_trim(Context::get('ffmpeg_command'))) ?: '/usr/bin/ffmpeg';
 		$file_config->image_autorotate = Context::get('image_autorotate') === 'Y' ? true : false;
 		$file_config->image_autorotate_quality = max(50, min(100, intval(Context::get('image_autorotate_quality'))));
 

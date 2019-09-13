@@ -202,6 +202,7 @@ class fileModel extends file
 			$config->image_autoconv_quality = $file_config->image_autoconv_quality;
 			$config->image_autorotate = $file_config->image_autorotate;
 			$config->image_autorotate_quality = $file_config->image_autorotate_quality;
+			$config->ffmpeg_command = $file_config->ffmpeg_command;
 			$config->download_grant = $file_config->download_grant;
 			$config->allow_outlink = $file_config->allow_outlink;
 			$config->allow_outlink_site = $file_config->allow_outlink_site;
@@ -226,6 +227,7 @@ class fileModel extends file
 		if(!$config->image_autoconv_quality) $config->image_autoconv_quality = $file_module_config->image_autoconv_quality;
 		if(!$config->image_autorotate) $config->image_autorotate = $file_module_config->image_autorotate;
 		if(!$config->image_autorotate_quality) $config->image_autorotate_quality = $file_module_config->image_autorotate_quality;
+		if(!$config->ffmpeg_command) $config->ffmpeg_command = $file_module_config->ffmpeg_command;
 		
 		// Default setting if not exists
 		if(!$config->allowed_filesize) $config->allowed_filesize = '2';

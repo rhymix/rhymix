@@ -1064,9 +1064,13 @@ class fileController extends file
 		{
 			$convert = array($image_width, $image_height, 'jpg', $config->image_autoconv_quality ?: 75, 0);
 		}
+		if($config->image_autoconv['gif2mp4'] && function_exists('exec') && $image_type === 1)
+		{
+			$convert = array($image_width, $image_height, 'mp4', $config->image_autoconv_quality ?: 75, 0);
+		}
 		
 		// Check image rotation
-		if($config->image_autorotate && function_exists('exif_read_data'))
+		if($config->image_autorotate && $image_type !== 1 && function_exists('exif_read_data'))
 		{
 			$exif = @exif_read_data($file_info['tmp_name']);
 			if($exif && isset($exif['Orientation']))
@@ -1154,11 +1158,26 @@ class fileController extends file
 		// Convert image if necessary
 		if ($convert)
 		{
-			$result = FileHandler::createImageFile($file_info['tmp_name'], $file_info['tmp_name'] . '.conv', $convert[0], $convert[1], $convert[2], 'crop', $convert[3], $convert[4]);
+			if ($convert[2] === 'mp4')
+			{
+				$command = $config->ffmpeg_command ?: '/usr/bin/ffmpeg';
+				$command .= ' -i ' . escapeshellarg($file_info['tmp_name']);
+				$command .= ' -movflags faststart -pix_fmt yuv420p -c:v libx264 -crf 23 -vf "scale=trunc(iw/2)*2:trunc(ih/2)*2"';
+				$command .= ' ' . escapeshellarg($file_info['tmp_name'] . '.mp4');
+				$status = @exec($command, $output, $return_var);
+				$result = $return_var == 0 ? true : false;
+				$newext = '.mp4';
+			}
+			else
+			{
+				$result = FileHandler::createImageFile($file_info['tmp_name'], $file_info['tmp_name'] . '.conv', $convert[0], $convert[1], $convert[2], 'crop', $convert[3], $convert[4]);
+				$newext = '.conv';
+			}
+			
 			if ($result)
 			{
 				$file_info['name'] = preg_replace('/\.' . preg_quote($file_info['extension'], '/') . '$/i', '.' . $convert[2], $file_info['name']);
-				$file_info['tmp_name'] = $file_info['tmp_name'] . '.conv';
+				$file_info['tmp_name'] = $file_info['tmp_name'] . $newext;
 				$file_info['size'] = filesize($file_info['tmp_name']);
 				$file_info['extension'] = $convert[2];
 				$file_info['converted'] = true;

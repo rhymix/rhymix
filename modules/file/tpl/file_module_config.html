@@ -81,7 +81,13 @@
 						<option value="{$q}" selected="selected"|cond="$file_config->image_autoconv_quality == $q">{$lang->image_resize_quality} {$q}%</option>
 					<!--@endfor-->
 				</select>
-				<p class="x_help-block">{$lang->about_image_autoconv}</p>
+				<p class="x_help-block" style="margin-bottom:10px">{$lang->about_image_autoconv}</p>
+				<label for="image_autoconv_gif2mp4" class="x_inline">
+					<input type="checkbox" name="image_autoconv_gif2mp4" id="image_autoconv_gif2mp4" value="Y" checked="checked"|cond="$file_config->image_autoconv['gif2mp4']" disabled="disabled"|cond="!function_exists('exec')" />
+					{$lang->image_autoconv_gif2mp4}
+				</label>
+				<input type="text" name="ffmpeg_command" id="ffmpeg_command" value="{$file_config->ffmpeg_command ?: '/usr/bin/ffmpeg'}" placeholder="{$lang->ffmpeg_path}" />
+				<p class="x_help-block">{$lang->about_image_autoconv_mp4}</p>
 			</div>
 		</div>
 		<div class="x_control-group">
