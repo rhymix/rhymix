@@ -317,7 +317,7 @@ class memberAdminController extends member
 			'limit_day_description',
 			'emailhost_check',
 			'redirect_url',
-			'phone_number_default_country', 'phone_number_hide_country', 'phone_number_allow_duplicate',
+			'phone_number_default_country', 'phone_number_hide_country', 'phone_number_allow_duplicate', 'phone_number_verify_by_sms',
 			'profile_image', 'profile_image_max_width', 'profile_image_max_height', 'profile_image_max_filesize',
 			'image_name', 'image_name_max_width', 'image_name_max_height', 'image_name_max_filesize',
 			'image_mark', 'image_mark_max_width', 'image_mark_max_height', 'image_mark_max_filesize',
@@ -348,6 +348,7 @@ class memberAdminController extends member
 		$args->phone_number_default_country = preg_replace('/[^0-9-]/', '', $args->phone_number_default_country);
 		$args->phone_number_hide_country = $args->phone_number_hide_country == 'Y' ? 'Y' : 'N';
 		$args->phone_number_allow_duplicate = $args->phone_number_allow_duplicate == 'Y' ? 'Y' : 'N';
+		$args->phone_number_verify_by_sms = $args->phone_number_verify_by_sms == 'Y' ? 'Y' : 'N';
 		if ($args->phone_number_hide_country === 'Y' && !$args->phone_number_default_country)
 		{
 			return new BaseObject('-1', 'msg_need_default_country');

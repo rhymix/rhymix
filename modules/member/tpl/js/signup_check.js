@@ -50,3 +50,49 @@ function completeMemberCheckValue(ret_obj, response_tags, field) {
 function removeMemberCheckValueOutput(dummy, obj) {
     dummy.style.display = "none";
 }
+
+// 문자 인증 처리
+(function($) {
+	$(function() {
+		$('input.phone_number').on('keydown change', function() {
+			$(this).siblings('button.verifySMS').show();
+		});
+		$('button.verifySMS').on('click', function(event) {
+			event.preventDefault();
+			$(this).attr('disabled', 'disabled');
+			var phone_country = $(this).siblings('.phone_country').val();
+			var phone_number = $(this).siblings('.phone_number').val();
+			var that = $(this);
+			exec_json('member.procMemberSendVerificationSMS', { phone_country: phone_country, phone_number: phone_number }, function(data) {
+				alert(data.message);
+				if (!data.error) {
+					var input_area = that.siblings('.verifySMS_input_area');
+					input_area.show().find('input').focus();
+					that.hide();
+				} else {
+					that.removeAttr('disabled');
+				}
+			}, function() {
+				that.removeAttr('disabled');
+			});
+		});
+		$('button.verifySMS_input_button').on('click', function(event) {
+			event.preventDefault();
+			$(this).attr('disabled', 'disabled');
+			var code = $(this).siblings('.verifySMS_input_number').val();
+			var that = $(this);
+			exec_json('member.procMemberConfirmVerificationSMS', { code: code }, function(data) {
+				alert(data.message);
+				if (!data.error) {
+					var input_area = that.parents('.verifySMS_input_area');
+					input_area.hide();
+					input_area.siblings('.phone_number,.phone_country').attr('readonly', 'readonly');
+				} else {
+					that.removeAttr('disabled');
+				}
+			}, function() {
+				that.removeAttr('disabled');
+			});
+		});
+	});
+})(jQuery);

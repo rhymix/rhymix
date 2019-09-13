@@ -590,6 +590,14 @@ class memberAdminView extends member
 							$phone_number = '';
 						}
 						$inputTag .= '<input type="tel" name="phone_number" id="phone_number" class="phone_number" value="'.$phone_number .'" />';
+						if($member_config->phone_number_verify_by_sms === 'Y')
+						{
+							$inputTag .= "\n" . '<button type="button" class="btn verifySMS" style="display:none">' . lang('member.verify_by_sms') . '</button>';
+							$inputTag .= "\n" . '<div class="verifySMS_input_area" style="display:none">';
+							$inputTag .= '<input type="number" class="verifySMS_input_number" />';
+							$inputTag .= '<button type="button" class="btn verifySMS_input_button">' . lang('member.verify_by_sms_confirm') . '</button>';
+							$inputTag .= '</div>';
+						}
 					}
 					else if($formInfo->name == 'homepage')
 					{
