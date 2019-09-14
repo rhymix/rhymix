@@ -225,10 +225,12 @@
 		<div class="x_control-group">
 			<label class="x_control-label">{$lang->customize_bottom_list}</label>
 			<div class="x_controls">
-				<label for="skip_bottom_list_for_olddoc">
+				<label for="skip_bottom_list_for_olddoc" class="x_inline">
 					<input type="checkbox" name="skip_bottom_list_for_olddoc" id="skip_bottom_list_for_olddoc" value="Y" checked="checked"|cond="$module_info->skip_bottom_list_for_olddoc === 'Y'" />
 					{$lang->skip_bottom_list_for_olddoc}
 				</label>
+				<input type="number" name="skip_bottom_list_days" value="{$module_info->skip_bottom_list_days ?: 30}" /> {$lang->unit_day}
+				<br />
 				<label for="skip_bottom_list_for_robot">
 					<input type="checkbox" name="skip_bottom_list_for_robot" id="skip_bottom_list_for_robot" value="Y" checked="checked"|cond="$module_info->skip_bottom_list_for_robot === 'Y'" />
 					{$lang->skip_bottom_list_for_robot}

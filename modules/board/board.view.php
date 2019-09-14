@@ -534,7 +534,8 @@ class boardView extends board
 			$oDocument = $oDocumentModel->getDocument($document_srl);
 			if($oDocument->isExists() && !$oDocument->isNotice())
 			{
-				if($oDocument->getRegdateTime() < (time() - (86400 * 30)) && $this->module_info->skip_bottom_list_for_olddoc === 'Y')
+				$days = $this->module_info->skip_bottom_list_days ?: 30;
+				if($oDocument->getRegdateTime() < (time() - (86400 * $days)) && $this->module_info->skip_bottom_list_for_olddoc === 'Y')
 				{
 					Context::set('page', $args->page = null);
 				}
