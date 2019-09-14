@@ -508,7 +508,7 @@ class boardController extends board
 		}
 
 		$this->setMessage('success_registed');
-		$this->setRedirectUrl(getNotEncodedUrl('', 'mid', Context::get('mid'), 'act', '', 'document_srl', $obj->document_srl) . '#comment_' . $obj->comment_srl);
+		$this->setRedirectUrl(getNotEncodedUrl('', 'mid', Context::get('mid'), 'act', '', 'document_srl', $obj->document_srl, 'comment_srl', $obj->comment_srl) . '#comment_' . $obj->comment_srl);
 		$this->add('mid', Context::get('mid'));
 		$this->add('document_srl', $obj->document_srl);
 		$this->add('comment_srl', $obj->comment_srl);

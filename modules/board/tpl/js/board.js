@@ -76,7 +76,7 @@ function completeInsertComment(ret_obj)
 		redirect(ret_obj.redirect_url);
 	} else {
 		var url = current_url.setQuery('mid',mid).setQuery('document_srl',document_srl).setQuery('act','');
-		if (comment_srl) url = url.setQuery('rnd',comment_srl)+"#comment_"+comment_srl;
+		if (comment_srl) url = url.setQuery('comment_srl',comment_srl)+"#comment_"+comment_srl;
 		redirect(url);
 	}
 }
