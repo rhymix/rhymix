@@ -163,9 +163,9 @@
 		</div>
 	</section>
 	<section class="section">
-		<h1>{$lang->subtitle_advanced}</h1>
+		<h1>{$lang->cmd_list_setting}</h1>
 		<div class="x_control-group">
-			<label class="x_control-label">{$lang->cmd_list_setting}</label>
+			<label class="x_control-label">{$lang->cmd_list_items}</label>
 			<div class="x_controls">
 				{@$list = array_keys($list_config)}
 				<input type="hidden" name="list" value="{implode(',', $list)}" />
@@ -209,9 +209,38 @@
 		<div class="x_control-group">
 			<label class="x_control-label">{$lang->except_notice}</label>
 			<div class="x_controls">
-				<label class="x_inline" for="except_notice"><input type="checkbox" name="except_notice" id="except_notice" value="Y" checked="checked"|cond="$module_info->except_notice != 'N'" /> {$lang->about_except_notice}</label>
+				<label class="x_inline" for="except_notice_Y"><input type="radio" name="except_notice" id="except_notice_Y" value="Y" checked="checked"|cond="$module_info->except_notice !== 'N'" /> {$lang->cmd_yes}</label>
+				<label class="x_inline" for="except_notice_N"><input type="radio" name="except_notice" id="except_notice_N" value="N" checked="checked"|cond="$module_info->except_notice === 'N'" /> {$lang->cmd_no}</label>
+				<p class="x_help-block">{$lang->about_except_notice}</p>
 			</div>
 		</div>
+		<div class="x_control-group">
+			<label class="x_control-label">{$lang->use_bottom_list}</label>
+			<div class="x_controls">
+				<label class="x_inline" for="use_bottom_list_Y"><input type="radio" name="use_bottom_list" id="use_bottom_list_Y" value="Y" checked="checked"|cond="$module_info->use_bottom_list !== 'N'" /> {$lang->cmd_yes}</label>
+				<label class="x_inline" for="use_bottom_list_N"><input type="radio" name="use_bottom_list" id="use_bottom_list_N" value="N" checked="checked"|cond="$module_info->use_bottom_list === 'N'" /> {$lang->cmd_no}</label>
+				<p class="x_help-block">{$lang->about_use_bottom_list}</p>
+			</div>
+		</div>
+		<div class="x_control-group">
+			<label class="x_control-label">{$lang->customize_bottom_list}</label>
+			<div class="x_controls">
+				<label for="skip_bottom_list_for_olddoc" class="x_inline">
+					<input type="checkbox" name="skip_bottom_list_for_olddoc" id="skip_bottom_list_for_olddoc" value="Y" checked="checked"|cond="$module_info->skip_bottom_list_for_olddoc === 'Y'" />
+					{$lang->skip_bottom_list_for_olddoc}
+				</label>
+				<input type="number" name="skip_bottom_list_days" value="{$module_info->skip_bottom_list_days ?: 30}" /> {$lang->unit_day}
+				<br />
+				<label for="skip_bottom_list_for_robot">
+					<input type="checkbox" name="skip_bottom_list_for_robot" id="skip_bottom_list_for_robot" value="Y" checked="checked"|cond="$module_info->skip_bottom_list_for_robot === 'Y'" />
+					{$lang->skip_bottom_list_for_robot}
+				</label>
+				<p class="x_help-block">{$lang->about_customize_bottom_list}</p>
+			</div>
+		</div>
+	</section>
+	<section class="section">
+		<h1>{$lang->subtitle_advanced}</h1>
 		<div class="x_control-group">
 			<label class="x_control-label">{$lang->use_anonymous}</label>
 			<div class="x_controls">

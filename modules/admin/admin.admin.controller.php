@@ -652,6 +652,13 @@ class adminAdminController extends admin
 		natcasesort($classes);
 		Rhymix\Framework\Config::set('mediafilter.classes', array_values($classes));
 		
+		// Robot user agents
+		$robot_user_agents = $vars->robot_user_agents;
+		$robot_user_agents = array_filter(array_map('trim', preg_split('/[\r\n]/', $robot_user_agents)), function($item) {
+			return $item !== '';
+		});
+		Rhymix\Framework\Config::set('security.robot_user_agents', array_values($robot_user_agents));
+		
 		// Remove old embed filter
 		$config = Rhymix\Framework\Config::getAll();
 		unset($config['embedfilter']);

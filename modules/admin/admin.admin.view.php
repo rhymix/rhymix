@@ -438,6 +438,10 @@ class adminAdminView extends admin
 		context::set('mediafilter_object', implode(PHP_EOL, Rhymix\Framework\Filters\MediaFilter::getObjectWhitelist()));
 		context::set('mediafilter_classes', implode(PHP_EOL, Rhymix\Framework\Config::get('mediafilter.classes') ?: array()));
 		
+		// Load robot user agents.
+		$robot_user_agents = Rhymix\Framework\Config::get('security.robot_user_agents') ?: array();
+		Context::set('robot_user_agents', implode(PHP_EOL, $robot_user_agents));
+		
 		// Admin IP access control
 		$allowed_ip = Rhymix\Framework\Config::get('admin.allow');
 		Context::set('admin_allowed_ip', implode(PHP_EOL, $allowed_ip));

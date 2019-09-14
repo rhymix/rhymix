@@ -44,12 +44,16 @@ class boardAdminController extends board {
 
 		// setup other variables
 		if($args->except_notice != 'Y') $args->except_notice = 'N';
+		if($args->use_bottom_list != 'Y') $args->use_bottom_list = 'N';
+		if($args->skip_bottom_list_for_olddoc != 'Y') $args->skip_bottom_list_for_olddoc = 'N';
+		if($args->skip_bottom_list_for_robot != 'Y') $args->skip_bottom_list_for_robot = 'N';
 		if($args->use_anonymous != 'Y') $args->use_anonymous = 'N';
 		if($args->consultation != 'Y') $args->consultation = 'N';
 		if($args->protect_content!= 'Y') $args->protect_content = 'N';
 		if(!in_array($args->order_target,$this->order_target) && !array_key_exists($args->order_target, $extra_order_target)) $args->order_target = 'list_order';
 		if(!in_array($args->order_type, array('asc', 'desc'))) $args->order_type = 'asc';
 		
+		$args->skip_bottom_list_days = max(0, intval($args->skip_bottom_list_days));
 		$args->browser_title = trim(utf8_normalize_spaces($args->browser_title));
 		$args->meta_keywords = $args->meta_keywords ? implode(', ', array_map('trim', explode(',', $args->meta_keywords))) : '';
 		$args->meta_description = trim(utf8_normalize_spaces($args->meta_description));
