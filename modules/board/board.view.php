@@ -449,7 +449,7 @@ class boardView extends board
 	 **/
 	function dispBoardNoticeList(){
 		// check the grant
-		if(!$this->grant->list)
+		if(!$this->grant->list || (Context::get('document_srl') && $this->module_info->use_bottom_list === 'N'))
 		{
 			Context::set('notice_list', array());
 			return;
@@ -467,7 +467,7 @@ class boardView extends board
 	 **/
 	function dispBoardContentList(){
 		// check the grant
-		if(!$this->grant->list)
+		if(!$this->grant->list || (Context::get('document_srl') && $this->module_info->use_bottom_list === 'N'))
 		{
 			Context::set('document_list', array());
 			Context::set('total_count', 0);
@@ -482,7 +482,7 @@ class boardView extends board
 		// setup module_srl/page number/ list number/ page count
 		$args = new stdClass();
 		$args->module_srl = $this->module_srl;
-		$args->page = Context::get('page');
+		$args->page = intval(Context::get('page')) ?: null;
 		$args->list_count = $this->list_count;
 		$args->page_count = $this->page_count;
 
@@ -525,14 +525,24 @@ class boardView extends board
 
 		// set the current page of documents
 		$document_srl = Context::get('document_srl');
-		if(!$args->page && $document_srl)
+		if($document_srl && $this->module_info->skip_bottom_list_for_robot === 'Y' && isCrawler())
+		{
+			Context::set('page', $args->page = null);
+		}
+		elseif(!$args->page && $document_srl)
 		{
 			$oDocument = $oDocumentModel->getDocument($document_srl);
 			if($oDocument->isExists() && !$oDocument->isNotice())
 			{
-				$page = $oDocumentModel->getDocumentPage($oDocument, $args);
-				Context::set('page', $page);
-				$args->page = $page;
+				if($oDocument->getRegdateTime() < (time() - (86400 * 30)) && $this->module_info->skip_bottom_list_for_olddoc === 'Y')
+				{
+					Context::set('page', $args->page = null);
+				}
+				else
+				{
+					$args->page = $oDocumentModel->getDocumentPage($oDocument, $args);
+					Context::set('page', $args->page);
+				}
 			}
 		}
 

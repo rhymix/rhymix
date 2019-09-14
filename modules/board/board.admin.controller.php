@@ -44,6 +44,9 @@ class boardAdminController extends board {
 
 		// setup other variables
 		if($args->except_notice != 'Y') $args->except_notice = 'N';
+		if($args->use_bottom_list != 'Y') $args->use_bottom_list = 'N';
+		if($args->skip_bottom_list_for_olddoc != 'Y') $args->skip_bottom_list_for_olddoc = 'N';
+		if($args->skip_bottom_list_for_robot != 'Y') $args->skip_bottom_list_for_robot = 'N';
 		if($args->use_anonymous != 'Y') $args->use_anonymous = 'N';
 		if($args->consultation != 'Y') $args->consultation = 'N';
 		if($args->protect_content!= 'Y') $args->protect_content = 'N';
