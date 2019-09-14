@@ -942,6 +942,8 @@ class documentItem extends BaseObject
 			return;
 		}
 		
+		$oCommentModel = getModel('comment');
+		
 		// cpage is a number of comment pages
 		$cpageStr = sprintf('%d_cpage', $this->document_srl);
 		$cpage = Context::get($cpageStr);
@@ -949,9 +951,16 @@ class documentItem extends BaseObject
 		{
 			$cpage = Context::get('cpage');
 		}
+		if(!$cpage && ($comment_srl = Context::get('comment_srl')))
+		{
+			$cpage = $oCommentModel->getCommentPage($this->document_srl, $comment_srl);
+		}
+		if(!$cpage && ($comment_srl = Context::get('_comment_srl')))
+		{
+			$cpage = $oCommentModel->getCommentPage($this->document_srl, $comment_srl);
+		}
 
 		// Get a list of comments
-		$oCommentModel = getModel('comment');
 		$output = $oCommentModel->getCommentList($this->document_srl, $cpage, $is_admin);
 		if(!$output->toBool() || !count($output->data)) return;
 		

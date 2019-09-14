@@ -452,7 +452,7 @@ class commentModel extends comment
 	 */
 	function getCommentList($document_srl, $page = 0, $is_admin = FALSE, $count = 0)
 	{
-		if(!isset($document_srl))
+		if(!$document_srl)
 		{
 			return;
 		}
@@ -460,7 +460,7 @@ class commentModel extends comment
 		// get the number of comments on the document module
 		$oDocumentModel = getModel('document');
 		$columnList = array('document_srl', 'module_srl', 'comment_count');
-		$oDocument = $oDocumentModel->getDocument($document_srl, FALSE, TRUE, $columnList);
+		$oDocument = $oDocumentModel->getDocument($document_srl, false, false, $columnList);
 
 		// return if no doc exists.
 		if(!$oDocument->isExists())
@@ -469,7 +469,8 @@ class commentModel extends comment
 		}
 
 		// return if no comment exists
-		if($oDocument->getCommentCount() < 1)
+		$document_comment_count = $oDocument->getCommentCount();
+		if($document_comment_count < 1)
 		{
 			return;
 		}
@@ -489,9 +490,10 @@ class commentModel extends comment
 		}
 
 		// get a very last page if no page exists
-		if(!$page)
+		$total_pages = max(1, ceil($document_comment_count / $comment_count));
+		if(!$page || $page > $total_pages)
 		{
-			$page = (int) ( ($oDocument->getCommentCount() - 1) / $comment_count) + 1;
+			$page = $total_pages;
 		}
 
 		// get a list of comments
@@ -549,6 +551,80 @@ class commentModel extends comment
 		// This trigger can be used to modify search results
 		ModuleHandler::triggerCall('comment.getCommentList', 'after', $output);
 		return $output;
+	}
+	
+	/**
+	 * Find out which page a comment is on
+	 * @param int $document_srl
+	 * @param int $comment_srl
+	 * @param int $count
+	 * @return int
+	 */
+	function getCommentPage($document_srl, $comment_srl, $count = 0)
+	{
+		// Check the document
+		$oDocumentModel = getModel('document');
+		$columnList = array('document_srl', 'module_srl', 'comment_count');
+		$oDocument = $oDocumentModel->getDocument($document_srl, false, false, $columnList);
+		if(!$oDocument->isExists())
+		{
+			return 0;
+		}
+		
+		// return if no comment exists
+		$document_comment_count = $oDocument->getCommentCount();
+		if($document_comment_count < 1)
+		{
+			return 0;
+		}
+		
+		// Get the comment count per page
+		if(!$count)
+		{
+			$module_srl = $oDocument->get('module_srl');
+			$comment_config = $this->getCommentConfig($module_srl);
+			$comment_count = $comment_config->comment_count;
+		}
+		else
+		{
+			$comment_count = $count;
+		}
+		
+		// Get the number of pages
+		$total_pages = max(1, ceil($document_comment_count / $comment_count));
+		if ($total_pages == 1)
+		{
+			return 1;
+		}
+		
+		// Find out which page the comment is on
+		$args = new stdClass();
+		$args->document_srl = $document_srl;
+		$args->comment_srl = $comment_srl;
+		$output = executeQuery('comment.getCommentPageItem', $args);
+		if (is_object($output->data))
+		{
+			$item = $output->data;
+			$args->head = $item->head;
+			$args->arrange = $item->arrange;
+			if (getController('comment')->isModuleUsingPublishValidation($module_srl))
+			{
+				$args->status = 1;
+			}
+			$output = executeQuery('comment.getCommentPage', $args);
+			if ($output->toBool() && $output->data->count)
+			{
+				return max(1, ceil($output->data->count / $comment_count));
+			}
+			else
+			{
+				return 0;
+			}
+		}
+		else
+		{
+			return 0;
+		}
 	}
 
 	/**

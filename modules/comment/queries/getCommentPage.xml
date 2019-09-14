@@ -1,0 +1,21 @@
+<query id="getCommentPage" action="select">
+    <tables>
+		<table name="comments" alias="comments" />
+        <table name="comments_list" alias="comments_list" />
+    </tables>
+    <columns>
+        <column name="count(*)" alias="count" />
+    </columns>
+    <conditions>
+        <condition operation="more" column="comments.status" var="status" pipe="and" />
+		<condition operation="equal" column="comments_list.document_srl" var="document_srl" notnull="notnull" pipe="and" />
+		<condition operation="equal" column="comments_list.comment_srl" var="comments.comment_srl" filter="number" pipe="and" />
+		<group pipe="and">
+			<condition operation="below" column="comments_list.head" var="head" filter="number" notnull="notnull" />
+			<group pipe="or">
+				<condition operation="equal" column="comments_list.head" var="head" filter="number" notnull="notnull" />
+				<condition operation="less" column="comments_list.arrange" var="arrange" filter="number" notnull="notnull" pipe="and" />
+			</group>
+		</group>
+    </conditions>
+</query>
