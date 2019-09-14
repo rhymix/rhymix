@@ -115,6 +115,7 @@ return array(
 		'classes' => array(),
 	),
 	'security' => array(
+		'robot_user_agents' => array(),
 		'check_csrf_token' => false,
 		'nofollow' => false,
 	),

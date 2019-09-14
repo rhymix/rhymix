@@ -29,6 +29,12 @@
 			</div>
 		</div>
 		<div class="x_control-group">
+			<label class="x_control-label" for="robot_user_agents">Robot User Agents</label>
+			<div class="x_controls" style="margin-right:14px">
+				<textarea name="robot_user_agents" id="robot_user_agents" rows="4" style="width:100%;">{$robot_user_agents}</textarea>
+			</div>
+		</div>
+		<div class="x_control-group">
 			<label class="x_control-label" for="admin_allowed_ip">{$lang->admin_ip_allow}</label>
 			<div class="x_controls">
 				<textarea name="admin_allowed_ip" id="admin_allowed_ip" rows="4" cols="42" placeholder="{$remote_addr} ({$lang->local_ip_address})" style="margin-right:10px">{$admin_allowed_ip}</textarea>

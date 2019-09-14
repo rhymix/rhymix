@@ -151,6 +151,16 @@ class UA
 			return self::$_robot_cache[$ua] = true;
 		}
 		
+		// Use the custom user-agent list.
+		$customlist = Config::get('security.robot_user_agents') ?: array();
+		foreach ($customlist as $item)
+		{
+			if (strpos($ua, $item) !== false)
+			{
+				return self::$_robot_cache[$ua] = true;
+			}
+		}
+		
 		// If we're here, it's probably not a robot.
 		return self::$_robot_cache[$ua] = false;
 	}
