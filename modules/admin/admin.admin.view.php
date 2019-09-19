@@ -740,7 +740,7 @@ class adminAdminView extends admin
 		// Basic environment
 		$info[] = '[Basic Information]';
 		$info['rhymix_version'] = RX_VERSION;
-		$info['date'] = date('Y-m-d H:i:s O');
+		$info['date'] = Rhymix\Framework\DateTime::formatTimestampForCurrentUser('Y-m-d H:i:s O') . ' (' . gmdate('Y-m-d H:i:s') . ' UTC)';
 		$info['php'] = sprintf('%s (%d-bit)', phpversion(), PHP_INT_SIZE * 8);
 		$info['server'] = $_SERVER['SERVER_SOFTWARE'];
 		$info['os'] = sprintf('%s %s', php_uname('s'), php_uname('r'));
