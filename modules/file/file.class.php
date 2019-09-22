@@ -85,7 +85,14 @@ class file extends ModuleObject
 		{
 			return true;
 		}
-		
+		if(!$oDB->isColumnExists('files', 'original_filename'))
+		{
+			return true;
+		}
+		if(!$oDB->isColumnExists('files', 'thumbnail_filename'))
+		{
+			return true;
+		}
 		return false;
 	}
 
@@ -160,6 +167,14 @@ class file extends ModuleObject
 		if(!$oModuleModel->getTrigger('comment.copyCommentByDocument', 'file', 'controller', 'triggerAddCopyCommentByDocument', 'add'))
 		{
 			$oModuleController->insertTrigger('comment.copyCommentByDocument', 'file', 'controller', 'triggerAddCopyCommentByDocument', 'add');
+		}
+		if(!$oDB->isColumnExists('files', 'original_filename'))
+		{
+			$oDB->addColumn('files', 'original_filename', 'varchar', '250');
+		}
+		if(!$oDB->isColumnExists('files', 'thumbnail_filename'))
+		{
+			$oDB->addColumn('files', 'thumbnail_filename', 'varchar', '250');
 		}
 	}
 

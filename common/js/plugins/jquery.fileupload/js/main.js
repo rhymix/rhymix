@@ -150,15 +150,20 @@
 					}
 
 					if(result.error == 0) {
-						if(/\.(jpe?g|png|gif)$/i.test(result.source_filename)) {
+						if(/\.(jpe?g|png|gif|webp)$/i.test(result.source_filename)) {
 							temp_code += '<img src="' + result.download_url + '" alt="' + result.source_filename + '" editor_component="image_link" data-file-srl="' + result.file_srl + '" />';
 						}
-						if(/\.(mp3)$/i.test(result.source_filename)) {
+						else if(/\.(mp3)$/i.test(result.source_filename)) {
 							temp_code += '<audio src="' + result.download_url + '" controls data-file-srl="' + result.file_srl + '" />';
 						}
-						if(/\.(mp4|webm)$/i.test(result.source_filename)) {
-							temp_code += '<video src="' + result.download_url + '" controls data-file-srl="' + result.file_srl + '" />';
+						else if(/\.(mp4|webm)$/i.test(result.source_filename)) {
+							if(/\.gif$/i.test(result.original_filename)) {
+								temp_code += '<video src="' + result.download_url + '" autoplay loop muted data-file-srl="' + result.file_srl + '" />';
+							} else {
+								temp_code += '<video src="' + result.download_url + '" controls data-file-srl="' + result.file_srl + '" />';
+							}
 						}
+						
 						if(temp_code !== '') {
 							if (opt.autoinsertImage === 'paragraph') {
 								temp_code = "<p>" + temp_code + "</p>\n";
@@ -317,15 +322,20 @@
 				if(!result) return;
 				var temp_code = '';
 
-				if(/\.(jpe?g|png|gif)$/i.test(result.source_filename)) {
+				if(/\.(jpe?g|png|gif|webp)$/i.test(result.source_filename)) {
 					temp_code += '<img src="' + result.download_url + '" alt="' + result.source_filename + '" editor_component="image_link" data-file-srl="' + result.file_srl + '" />';
 				}
-				if(/\.(mp3)$/i.test(result.source_filename)) {
+				else if(/\.(mp3)$/i.test(result.source_filename)) {
 					temp_code += '<audio src="' + result.download_url + '" controls data-file-srl="' + result.file_srl + '" />';
 				}
-				if(/\.(mp4|webm)$/i.test(result.source_filename)) {
-					temp_code += '<video src="' + result.download_url + '" controls data-file-srl="' + result.file_srl + '" />';
+				else if(/\.(mp4|webm)$/i.test(result.source_filename)) {
+					if(/\.gif$/i.test(result.original_filename)) {
+						temp_code += '<video src="' + result.download_url + '" autoplay loop muted data-file-srl="' + result.file_srl + '" />';
+					} else {
+						temp_code += '<video src="' + result.download_url + '" controls data-file-srl="' + result.file_srl + '" />';
+					}
 				}
+				
 				if(temp_code !== '') {
 					if (data.settings.autoinsertImage === 'paragraph') {
 						temp_code = "<p>" + temp_code + "</p>\n";
@@ -417,16 +427,18 @@
 				// 이미지와 그외 파일 분리
 				$.each(res.files, function (index, file) {
 					if(data.files[file.file_srl]) return;
-
+					
 					data.files[file.file_srl] = file;
 					$container.data(data);
 					
 					file.source_filename = file.source_filename.replace("&amp;", "&");
-					if(/\.(jpe?g|png|gif)$/i.test(file.source_filename)) {
+					if(file.thumbnail_filename) {
+						file.download_url = file.thumbnail_filename;
 						result_image.push(template_fileimte_image(file));
 					}
-					else
-					{
+					else if(/\.(jpe?g|png|gif|webp)$/i.test(file.source_filename)) {
+						result_image.push(template_fileimte_image(file));
+					} else {
 						result.push(template_fileimte(file));
 					}
 				});

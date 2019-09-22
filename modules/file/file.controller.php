@@ -147,6 +147,8 @@ class fileController extends file
 		$this->add('direct_download', $output->get('direct_download'));
 		$this->add('source_filename', $output->get('source_filename'));
 		$this->add('upload_target_srl', $output->get('upload_target_srl'));
+		$this->add('original_filename', $output->get('original_filename'));
+		$this->add('thumbnail_filename', $output->get('thumbnail_filename'));
 		if ($output->get('direct_download') === 'Y')
 		{
 			$this->add('download_url', $oFileModel->getDirectFileUrl($output->get('uploaded_filename')));
@@ -864,23 +866,25 @@ class fileController extends file
 		$trigger_obj->upload_target_srl = $upload_target_srl;
 		$output = ModuleHandler::triggerCall('file.insertFile', 'before', $trigger_obj);
 		if(!$output->toBool()) return $output;
-
+		
 		// A workaround for Firefox upload bug
 		if(preg_match('/^=\?UTF-8\?B\?(.+)\?=$/i', $file_info['name'], $match))
 		{
 			$file_info['name'] = base64_decode(strtr($match[1], ':', '/'));
 		}
-
+		
 		// Sanitize filename
 		$file_info['name'] = Rhymix\Framework\Filters\FilenameFilter::clean($file_info['name']);
-
+		
 		// Get extension
 		$extension = explode('.', $file_info['name']) ?: array('');
 		$extension = strtolower(array_pop($extension));
 		
 		// Add extra fields to file info array
+		$file_info['original_name'] = $file_info['name'];
 		$file_info['extension'] = $extension;
 		$file_info['resized'] = false;
+		$file_info['thumbnail'] = null;
 		
 		// Get file module configuration
 		$oFileModel = getModel('file');
@@ -889,7 +893,6 @@ class fileController extends file
 		// Check file type
 		if(!$manual_insert && !$this->user->isAdmin())
 		{
-			// Check file type
 			if(isset($config->allowed_extensions) && count($config->allowed_extensions))
 			{
 				if(!in_array($extension, $config->allowed_extensions))
@@ -907,7 +910,7 @@ class fileController extends file
 				$file_info = $this->checkUploadedImage($file_info, $config);
 			}
 		}
-
+		
 		// Check file size
 		if(!$manual_insert && !$this->user->isAdmin())
 		{
@@ -928,102 +931,67 @@ class fileController extends file
 			}
 		}
 		
-		// Get file_srl
-		$file_srl = getNextSequence();
-		$file_regdate = date('YmdHis');
-
-		// Set upload path by checking if the attachement is an image or other kinds of file
-		if(Rhymix\Framework\Filters\FilenameFilter::isDirectDownload($file_info['name']))
+		$args = new stdClass;
+		$args->file_srl = getNextSequence();
+		$args->regdate = date('YmdHis');
+		$args->module_srl = $module_srl;
+		$args->upload_target_srl = $upload_target_srl;
+		$args->download_count = $download_count;
+		$args->member_srl = getModel('member')->getLoggedMemberSrl();
+		$args->source_filename = $file_info['name'];
+		$args->original_filename = $file_info['original_name'];
+		$args->sid = Rhymix\Framework\Security::getRandom(32, 'hex');
+		
+		// Set storage path by checking if the attachement is an image or other kinds of file
+		if($direct = Rhymix\Framework\Filters\FilenameFilter::isDirectDownload($args->source_filename))
 		{
-			$path = $this->getStoragePath('images', $file_srl, $module_srl, $upload_target_srl, $file_regdate);
-
-			// change to random file name. because window php bug. window php is not recognize unicode character file name - by cherryfilter
-			$ext = substr(strrchr($file_info['name'],'.'),1);
-			$filename = $path . Rhymix\Framework\Security::getRandom(32, 'hex') . '.' . $ext;
-			while(file_exists($filename))
-			{
-				$filename = $path . Rhymix\Framework\Security::getRandom(32, 'hex') . '.' . $ext;
-			}
-			$direct_download = 'Y';
+			$storage_path = $this->getStoragePath('images', $args->file_srl, $module_srl, $upload_target_srl, $args->regdate);
 		}
 		else
 		{
-			$path = $this->getStoragePath('binaries', $file_srl, $module_srl, $upload_target_srl, $file_regdate);
-			$filename = $path . Rhymix\Framework\Security::getRandom(32, 'hex');
-			while(file_exists($filename))
-			{
-				$filename = $path . Rhymix\Framework\Security::getRandom(32, 'hex');
-			}
-			$direct_download = 'N';
+			$storage_path = $this->getStoragePath('binaries', $args->file_srl, $module_srl, $upload_target_srl, $args->regdate);
 		}
-
+		$args->direct_download = $direct ? 'Y' : 'N';
+		
 		// Create a directory
-		if(!Rhymix\Framework\Storage::isDirectory($path) && !Rhymix\Framework\Storage::createDirectory($path))
+		if(!Rhymix\Framework\Storage::isDirectory($storage_path) && !Rhymix\Framework\Storage::createDirectory($storage_path))
 		{
 			throw new Rhymix\Framework\Exception('msg_not_permitted_create');
 		}
 		
-		// Move the file
-		if($manual_insert && !$file_info['converted'])
+		// Upload file
+		$method = $manual_insert ? 'copy' : '';
+		if(starts_with(RX_BASEDIR . 'files/attach/chunks/', $file_info['tmp_name']) || $file_info['converted'])
 		{
-			@copy($file_info['tmp_name'], $filename);
-			if(!file_exists($filename))
-			{
-				@copy($file_info['tmp_name'], $filename);
-				if(!file_exists($filename))
-				{
-					throw new Rhymix\Framework\Exception('msg_file_upload_error');
-				}
-			}
+			$method = 'move';
 		}
-		elseif(starts_with(RX_BASEDIR . 'files/attach/chunks/', $file_info['tmp_name']) || $file_info['converted'])
+		if(!$uploaded_filename = $this->uploadFile($file_info['tmp_name'], $args->source_filename, $storage_path, $direct, $method))
 		{
-			if (!Rhymix\Framework\Storage::move($file_info['tmp_name'], $filename))
-			{
-				if (!Rhymix\Framework\Storage::move($file_info['tmp_name'], $filename))
-				{
-					throw new Rhymix\Framework\Exception('msg_file_upload_error');
-				}
-			}
+			throw new Rhymix\Framework\Exception('msg_file_upload_error');
 		}
-		else
-		{
-			if(!@move_uploaded_file($file_info['tmp_name'], $filename))
-			{
-				if(!@move_uploaded_file($file_info['tmp_name'], $filename))
-				{
-					throw new Rhymix\Framework\Exception('msg_file_upload_error');
-				}
-			}
-		}
+		$args->uploaded_filename = './' . substr($uploaded_filename, strlen(RX_BASEDIR));
+		$args->file_size = @filesize($uploaded_filename);
 		
-		// Get member information
-		$oMemberModel = getModel('member');
-		$member_srl = $oMemberModel->getLoggedMemberSrl();
-		// List file information
-		$args = new stdClass;
-		$args->file_srl = $file_srl;
-		$args->upload_target_srl = $upload_target_srl;
-		$args->module_srl = $module_srl;
-		$args->direct_download = $direct_download;
-		$args->source_filename = $file_info['name'];
-		$args->uploaded_filename = './' . substr($filename, strlen(RX_BASEDIR));
-		$args->download_count = $download_count;
-		$args->file_size = @filesize($filename);
-		$args->comment = NULL;
-		$args->member_srl = $member_srl;
-		$args->regdate = $file_regdate;
-		$args->sid = Rhymix\Framework\Security::getRandom(32, 'hex');
+		// Upload thumbnail
+		if($file_info['thumbnail'])
+		{
+			$thumbnail_filename = $this->uploadFile($file_info['thumbnail'], 'thumbnail.jpg', $storage_path, true, 'move');
+			$args->thumbnail_filename = './' . substr($thumbnail_filename, strlen(RX_BASEDIR));
+		}
 		
 		$oDB = DB::getInstance();
 		$oDB->begin();
+		
+		// Insert file information
 		$output = executeQuery('file.insertFile', $args);
 		if(!$output->toBool())
 		{
 			$oDB->rollback();
+			$this->deleteFile($args);
 			return $output;
 		}
 		
+		// Insert changelog
 		if($config->save_changelog === 'Y')
 		{
 			$clargs = new stdClass;
@@ -1036,6 +1004,7 @@ class fileController extends file
 			if(!$output->toBool())
 			{
 				$oDB->rollback();
+				$this->deleteFile($args);
 				return $output;
 			}
 		}
@@ -1044,9 +1013,9 @@ class fileController extends file
 		
 		// Call a trigger (after)
 		ModuleHandler::triggerCall('file.insertFile', 'after', $args);
-
+		
 		$_SESSION['__XE_UPLOADING_FILES_INFO__'][$args->file_srl] = true;
-
+		
 		$output->add('file_srl', $args->file_srl);
 		$output->add('file_size', $args->file_size);
 		$output->add('sid', $args->sid);
@@ -1054,9 +1023,69 @@ class fileController extends file
 		$output->add('source_filename', $args->source_filename);
 		$output->add('upload_target_srl', $upload_target_srl);
 		$output->add('uploaded_filename', $args->uploaded_filename);
+		$output->add('original_filename', $args->original_filename);
+		$output->add('thumbnail_filename', $args->thumbnail_filename);
+		
 		return $output;
 	}
-
+	
+	/**
+	 * Upload file
+	 */
+	public function uploadFile($tmp_name, $file_name, $storage_path, $direct = false, $method = '')
+	{
+		$extension = explode('.', $file_name) ?: array('');
+		$extension = strtolower(array_pop($extension));
+		
+		// change to random file name.
+		// because window php bug. window php is not recognize unicode character file name - by cherryfilter
+		$uploaded_filename = $storage_path . Rhymix\Framework\Security::getRandom(32, 'hex');
+		while(file_exists($uploaded_filename))
+		{
+			$uploaded_filename = $storage_path . Rhymix\Framework\Security::getRandom(32, 'hex');
+		}
+		if($direct)
+		{
+			$uploaded_filename .= '.' . $extension;
+		}
+		
+		// move the file
+		if($method === 'copy')
+		{
+			@copy($tmp_name, $uploaded_filename);
+			if(!file_exists($uploaded_filename))
+			{
+				@copy($tmp_name, $uploaded_filename);
+				if(!file_exists($uploaded_filename))
+				{
+					return false;
+				}
+			}
+		}
+		elseif($method === 'move')
+		{
+			if (!Rhymix\Framework\Storage::move($tmp_name, $uploaded_filename))
+			{
+				if (!Rhymix\Framework\Storage::move($tmp_name, $uploaded_filename))
+				{
+					return false;
+				}
+			}
+		}
+		else
+		{
+			if(!@move_uploaded_file($tmp_name, $uploaded_filename))
+			{
+				if(!@move_uploaded_file($tmp_name, $uploaded_filename))
+				{
+					return false;
+				}
+			}
+		}
+		
+		return $uploaded_filename;
+	}
+	
 	/**
 	 * Check uploaded image
 	 */
@@ -1183,6 +1212,7 @@ class fileController extends file
 		{
 			if ($convert[2] === 'mp4')
 			{
+				// Convert using ffmpeg
 				$command = $config->ffmpeg_command ?: '/usr/bin/ffmpeg';
 				$command .= ' -i ' . escapeshellarg($file_info['tmp_name']);
 				$command .= ' -movflags faststart -pix_fmt yuv420p -c:v libx264 -crf 23 -vf "scale=trunc(iw/2)*2:trunc(ih/2)*2"';
@@ -1190,6 +1220,13 @@ class fileController extends file
 				$status = @exec($command, $output, $return_var);
 				$result = $return_var == 0 ? true : false;
 				$newext = '.mp4';
+				
+				// Create thumbnail
+				if ($result)
+				{
+					$file_info['thumbnail'] = $file_info['tmp_name'] . 'thumbnail';
+					FileHandler::createImageFile($file_info['tmp_name'], $file_info['thumbnail'], $image_width, $image_height, 'jpg');
+				}
 			}
 			else
 			{
@@ -1304,6 +1341,13 @@ class fileController extends file
 			
 			// Remove empty directories
 			Rhymix\Framework\Storage::deleteEmptyDirectory(dirname(FileHandler::getRealPath($file->uploaded_filename)), true);
+			
+			// Remove thumbnail
+			if ($file->thumbnail_filename)
+			{
+				Rhymix\Framework\Storage::delete(FileHandler::getRealPath($file->thumbnail_filename));
+				Rhymix\Framework\Storage::deleteEmptyDirectory(dirname(FileHandler::getRealPath($file->thumbnail_filename)), true);
+			}
 		}
 		
 		$oDB->commit();
@@ -1537,9 +1581,10 @@ class fileController extends file
 	 * @param int $upload_target_srl
 	 * @param string $regdate
 	 * @param bool $absolute_path
+	 * @param int $folder_structure
 	 * @return string
 	 */
-	public function getStoragePath($file_type, $file_srl, $module_srl = 0, $upload_target_srl = 0, $regdate = '', $absolute_path = true)
+	public function getStoragePath($file_type, $file_srl = 0, $module_srl = 0, $upload_target_srl = 0, $regdate = '', $absolute_path = true, $folder_structure = null)
 	{
 		// 변수 확인 및 넘어오지 않은 변수 기본값 지정
 		$file_srl = intval($file_srl);
@@ -1548,7 +1593,10 @@ class fileController extends file
 		$regdate = $regdate ?: date('YmdHis');
 		
 		// 시스템 설정 참고 (기존 사용자는 1, 신규 설치시 2가 기본값임)
-		$folder_structure = config('file.folder_structure');
+		if(!$folder_structure)
+		{
+			$folder_structure = config('file.folder_structure');
+		}
 		
 		// 기본 경로 지정
 		$prefix = $absolute_path ? \RX_BASEDIR : './';

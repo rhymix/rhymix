@@ -9,6 +9,8 @@
         <column name="module_srl" var="module_srl" filter="number" default="0" notnull="notnull" />
         <column name="source_filename" var="source_filename" notnull="notnull" minlength="1" maxlength="250" />
         <column name="uploaded_filename" var="uploaded_filename" notnull="notnull" minlength="1" maxlength="250" />
+		<column name="original_filename" var="original_filename" notnull="notnull" minlength="1" maxlength="250" />
+		<column name="thumbnail_filename" var="thumbnail_filename" />
         <column name="file_size" var="file_size" notnull="notnull" default="0" />
         <column name="direct_download" var="direct_download" notnull="notnull" default="N" />
         <column name="comment" var="comment" />

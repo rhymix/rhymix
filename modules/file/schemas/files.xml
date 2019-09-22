@@ -9,6 +9,8 @@
     <column name="direct_download" type="char" size="1" default="N" notnull="notnull" />
     <column name="source_filename" type="varchar" size="250" />
     <column name="uploaded_filename" type="varchar" size="250" />
+	<column name="original_filename" type="varchar" size="250" />
+	<column name="thumbnail_filename" type="varchar" size="250" />
     <column name="file_size" type="number" size="11" default="0" notnull="notnull" index="idx_file_size" />
     <column name="comment" type="varchar" size="250" />
     <column name="isvalid" type="char" size="1" default="N" index="idx_is_valid" />

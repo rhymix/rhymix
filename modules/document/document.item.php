@@ -1126,30 +1126,34 @@ class documentItem extends BaseObject
 		// Find an image file among attached files if exists
 		if($this->hasUploadedFiles())
 		{
-			$file_list = $this->getUploadedFiles();
-
 			$first_image = null;
-			foreach($file_list as $file)
+			foreach($this->getUploadedFiles() as $file)
 			{
-				if($file->direct_download !== 'Y') continue;
-
-				if($file->cover_image === 'Y' && file_exists($file->uploaded_filename))
+				if($file->thumbnail_filename && file_exists($file->thumbnail_filename))
+				{
+					$file->uploaded_filename = $file->thumbnail_filename;
+				}
+				else
+				{
+					if($file->direct_download !== 'Y' || !preg_match('/\.(jpe?g|png|gif|webp|bmp)$/i', $file->source_filename))
+					{
+						continue;
+					}
+					if(!file_exists($file->uploaded_filename))
+					{
+						continue;
+					}
+				}
+				if($file->cover_image === 'Y')
 				{
 					$source_file = $file->uploaded_filename;
 					break;
 				}
-
-				if($first_image) continue;
-
-				if(preg_match("/\.(jpe?g|png|gif|bmp)$/i", $file->source_filename))
+				if(!$first_image)
 				{
-					if(file_exists($file->uploaded_filename))
-					{
-						$first_image = $file->uploaded_filename;
-					}
+					$first_image = $file->uploaded_filename;
 				}
 			}
-
 			if(!$source_file && $first_image)
 			{
 				$source_file = $first_image;
