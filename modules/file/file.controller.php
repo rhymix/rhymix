@@ -147,8 +147,8 @@ class fileController extends file
 		$this->add('direct_download', $output->get('direct_download'));
 		$this->add('source_filename', $output->get('source_filename'));
 		$this->add('upload_target_srl', $output->get('upload_target_srl'));
-		$this->add('original_filename', $output->get('original_filename'));
 		$this->add('thumbnail_filename', $output->get('thumbnail_filename'));
+		$this->add('original_type', $output->get('original_type'));
 		if ($output->get('direct_download') === 'Y')
 		{
 			$this->add('download_url', $oFileModel->getDirectFileUrl($output->get('uploaded_filename')));
@@ -876,14 +876,9 @@ class fileController extends file
 		// Sanitize filename
 		$file_info['name'] = Rhymix\Framework\Filters\FilenameFilter::clean($file_info['name']);
 		
-		// Get extension
-		$extension = explode('.', $file_info['name']) ?: array('');
-		$extension = strtolower(array_pop($extension));
-		
 		// Add extra fields to file info array
-		$file_info['original_name'] = $file_info['name'];
-		$file_info['extension'] = $extension;
-		$file_info['resized'] = false;
+		$file_info['extension'] = $original_extension = $this->getExtension($file_info['name']);
+		$file_info['converted'] = false;
 		$file_info['thumbnail'] = null;
 		
 		// Get file module configuration
@@ -895,7 +890,7 @@ class fileController extends file
 		{
 			if(isset($config->allowed_extensions) && count($config->allowed_extensions))
 			{
-				if(!in_array($extension, $config->allowed_extensions))
+				if(!in_array($file_info['extension'], $config->allowed_extensions))
 				{
 					throw new Rhymix\Framework\Exception('msg_not_allowed_filetype');
 				}
@@ -905,7 +900,7 @@ class fileController extends file
 		// Check image type and size
 		if(!$manual_insert)
 		{
-			if(in_array($extension, array('gif', 'jpg', 'jpeg', 'png', 'webp', 'bmp')))
+			if(in_array($file_info['extension'], array('gif', 'jpg', 'jpeg', 'png', 'webp', 'bmp')))
 			{
 				$file_info = $this->checkUploadedImage($file_info, $config);
 			}
@@ -937,10 +932,16 @@ class fileController extends file
 		$args->module_srl = $module_srl;
 		$args->upload_target_srl = $upload_target_srl;
 		$args->download_count = $download_count;
-		$args->member_srl = getModel('member')->getLoggedMemberSrl();
+		$args->member_srl = Rhymix\Framework\Session::getMemberSrl();
 		$args->source_filename = $file_info['name'];
-		$args->original_filename = $file_info['original_name'];
 		$args->sid = Rhymix\Framework\Security::getRandom(32, 'hex');
+		
+		// Set original type if filename extension is changed
+		$args->original_type = null;
+		if($file_info['extension'] !== $original_extension)
+		{
+			$args->original_type = $original_extension;
+		}
 		
 		// Set storage path by checking if the attachement is an image or other kinds of file
 		if($direct = Rhymix\Framework\Filters\FilenameFilter::isDirectDownload($args->source_filename))
@@ -1023,8 +1024,8 @@ class fileController extends file
 		$output->add('source_filename', $args->source_filename);
 		$output->add('upload_target_srl', $upload_target_srl);
 		$output->add('uploaded_filename', $args->uploaded_filename);
-		$output->add('original_filename', $args->original_filename);
 		$output->add('thumbnail_filename', $args->thumbnail_filename);
+		$output->add('original_type', $args->original_type);
 		
 		return $output;
 	}
@@ -1034,9 +1035,6 @@ class fileController extends file
 	 */
 	public function uploadFile($tmp_name, $file_name, $storage_path, $direct = false, $method = '')
 	{
-		$extension = explode('.', $file_name) ?: array('');
-		$extension = strtolower(array_pop($extension));
-		
 		// change to random file name.
 		// because window php bug. window php is not recognize unicode character file name - by cherryfilter
 		$uploaded_filename = $storage_path . Rhymix\Framework\Security::getRandom(32, 'hex');
@@ -1046,7 +1044,7 @@ class fileController extends file
 		}
 		if($direct)
 		{
-			$uploaded_filename .= '.' . $extension;
+			$uploaded_filename .= '.' . $this->getExtension($file_name);
 		}
 		
 		// move the file
@@ -1581,10 +1579,9 @@ class fileController extends file
 	 * @param int $upload_target_srl
 	 * @param string $regdate
 	 * @param bool $absolute_path
-	 * @param int $folder_structure
 	 * @return string
 	 */
-	public function getStoragePath($file_type, $file_srl = 0, $module_srl = 0, $upload_target_srl = 0, $regdate = '', $absolute_path = true, $folder_structure = null)
+	public function getStoragePath($file_type, $file_srl, $module_srl = 0, $upload_target_srl = 0, $regdate = '', $absolute_path = true)
 	{
 		// 변수 확인 및 넘어오지 않은 변수 기본값 지정
 		$file_srl = intval($file_srl);
@@ -1593,10 +1590,7 @@ class fileController extends file
 		$regdate = $regdate ?: date('YmdHis');
 		
 		// 시스템 설정 참고 (기존 사용자는 1, 신규 설치시 2가 기본값임)
-		if(!$folder_structure)
-		{
-			$folder_structure = config('file.folder_structure');
-		}
+		$folder_structure = config('file.folder_structure');
 		
 		// 기본 경로 지정
 		$prefix = $absolute_path ? \RX_BASEDIR : './';
@@ -1606,7 +1600,6 @@ class fileController extends file
 		{
 			return sprintf('%sfiles/attach/%s/%04d/%02d/%02d/', $prefix, $file_type, substr($regdate, 0, 4), substr($regdate, 4, 2), substr($regdate, 6, 2));
 		}
-		
 		// 1 or 0: module_srl 및 업로드 대상 번호에 따라 3자리씩 끊어서 정리
 		else
 		{
@@ -1614,7 +1607,12 @@ class fileController extends file
 			return sprintf('%sfiles/attach/%s/%d/%s', $prefix, $file_type, $module_srl, $components);
 		}
 	}
-
+	
+	public function getExtension($file_name)
+	{
+		return strtolower(array_pop(explode('.', $file_name)));
+	}
+	
 	/**
 	 * Find the attachment where a key is upload_target_srl and then return java script code
 	 *

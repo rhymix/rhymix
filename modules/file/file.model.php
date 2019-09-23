@@ -73,15 +73,17 @@ class fileModel extends file
 
 			foreach($tmp_files as $file_info)
 			{
-				if(!$file_info->file_srl) continue;
-
+				if(!$file_info->file_srl)
+				{
+					continue;
+				}
 				$obj = new stdClass;
 				$obj->file_srl = $file_info->file_srl;
 				$obj->source_filename = $file_info->source_filename;
+				$obj->thumbnail_filename = $file_info->thumbnail_filename;
+				$obj->original_type = $file_info->original_type;
 				$obj->file_size = $file_info->file_size;
 				$obj->disp_file_size = FileHandler::filesize($file_info->file_size);
-				$obj->original_filename = $file_info->original_filename;
-				$obj->thumbnail_filename = $file_info->thumbnail_filename;
 				if($file_info->direct_download == 'N')
 				{
 					$obj->download_url = $this->getDownloadUrl($file_info->file_srl, $file_info->sid, $file_info->module_srl);
