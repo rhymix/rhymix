@@ -1,16 +1,26 @@
 <query id="getScrapDocumentList" action="select">
     <tables>
         <table name="member_scrap" />
+        <table name="documents" type="left join">
+            <conditions>
+                <condition operation="equal" column="member_scrap.document_srl" default="documents.document_srl" />
+            </conditions>
+        </table>
     </tables>
     <columns>
-        <column name="*" />
+        <column name="member_scrap.*" />
     </columns>
     <conditions>
-        <condition operation="equal" column="member_srl" var="member_srl" filter="number" />
-		<condition operation="equal" column="folder_srl" var="folder_srl" filter="number" pipe="and" />
+        <condition operation="equal" column="member_scrap.member_srl" var="member_srl" filter="number" />
+        <condition operation="equal" column="member_scrap.folder_srl" var="folder_srl" filter="number" pipe="and" />
+		<group pipe="and">
+			<condition operation="like" column="member_scrap.title" var="s_title" />
+			<condition operation="like" column="documents.title" var="s_title" pipe="or" />
+			<condition operation="like" column="documents.content" var="s_content" pipe="or" />
+		</group>
     </conditions>
     <navigation>
-        <index var="sort_index" default="list_order" order="desc" />
+        <index var="sort_index" default="member_scrap.list_order" order="desc" />
         <list_count var="list_count" default="20" />
         <page_count var="page_count" default="10" />
         <page var="page" default="1" />

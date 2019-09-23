@@ -378,7 +378,7 @@ class memberView extends member
 		if(in_array(Context::get('search_target'), array('title', 'title_content', 'content')))
 		{
 			$args->search_target = Context::get('search_target');
-			$args->search_keyword = Context::get('search_keyword');
+			$args->search_keyword = escape(trim(utf8_normalize_spaces(Context::get('search_keyword'))));
 		}
 		$args->member_srl = array($this->user->member_srl, $this->user->member_srl * -1);
 		$args->module_srl = intval(Context::get('selected_module_srl')) ?: null;
@@ -423,7 +423,7 @@ class memberView extends member
 		if(Context::get('search_keyword'))
 		{
 			$args->search_target = 'content';
-			$args->search_keyword = Context::get('search_keyword');
+			$args->search_keyword = escape(trim(utf8_normalize_spaces(Context::get('search_keyword'))));
 		}
 		$args->member_srl = array($this->user->member_srl, $this->user->member_srl * -1);
 		$args->module_srl = intval(Context::get('selected_module_srl')) ?: null;
@@ -506,7 +506,24 @@ class memberView extends member
 		$args->member_srl = $logged_info->member_srl;
 		$args->folder_srl = $folder_srl;
 		$args->page = Context::get('page');
+		$search_keyword = str_replace(' ', '_', escape(trim(utf8_normalize_spaces(Context::get('search_keyword')))));
+		switch (Context::get('search_target'))
+		{
+			case 'title':
+				$args->s_title = $search_keyword;
+				break;
+			case 'title_content':
+				$args->s_title = $search_keyword;
+				$args->s_content = $search_keyword;
+				break;
+			case 'content':
+				$args->s_content = $search_keyword;
+				break;
+			default:
+				break;
+		}
 		$output = executeQueryArray('member.getScrapDocumentList', $args);
+		
 		Context::set('total_count', $output->total_count);
 		Context::set('total_page', $output->total_page);
 		Context::set('page', $output->page);
