@@ -8,116 +8,158 @@
 		<input type="hidden" name="module" value="file" />
 		<input type="hidden" name="act" value="procFileAdminInsertModuleConfig" />
 		<input type="hidden" name="success_return_url" value="{getRequestUriByServerEnviroment()}" />
-		<input type="hidden" name="target_module_srl" value="{$module_info->module_srl?$module_info->module_srl:$module_srls}" />
+		<input type="hidden" name="target_module_srl" value="{$module_info->module_srl ?: $module_srls}" />
 
 		<div class="x_control-group use_default_file_config">
-			<label for="allowed_filesize" class="x_control-label">{$lang->use_default_file_config}</label>
+			<label class="x_control-label">{$lang->use_default_file_config}</label>
 			<div class="x_controls">
 				<label for="use_default_file_config" class="x_inline">
-					<input type="checkbox" name="use_default_file_config" id="use_default_file_config" value="Y" checked="checked"|cond="$file_config->use_default_file_config" />
+					<input type="checkbox" name="use_default_file_config" id="use_default_file_config" value="Y" checked="checked"|cond="$file_config->use_default_file_config !== 'N'" />
 					{$lang->about_use_default_file_config}
 				</label>
 			</div>
 		</div>
-		<div class="use_custom_file_config" style="display:none"|cond="$file_config->use_default_file_config">
-		
-		<div class="x_control-group">
-			<label for="allowed_filesize" class="x_control-label">{$lang->allowed_filesize}</label>
-			<div class="x_controls">
-				<input type="number" min="0" name="allowed_filesize" id="allowed_filesize" value="{$file_config->allowed_filesize}" size="7" style="min-width:80px" /> MB
-				<p class="x_help-block">{sprintf($lang->about_allowed_filesize, getUrl('', 'module', 'admin', 'act', 'dispFileAdminConfig'))}<br />{sprintf($lang->about_allowed_size_limits, ini_get('upload_max_filesize'))}</p>
+		<div class="use_custom_file_config" style="display:none"|cond="$file_config->use_default_file_config !== 'N'">
+			<div class="x_control-group">
+				<label for="allowed_filesize" class="x_control-label">{$lang->allowed_filesize}</label>
+				<div class="x_controls">
+					<input type="number" min="0" name="allowed_filesize" id="allowed_filesize" value="{$file_config->allowed_filesize}" size="7" style="min-width:80px" /> MB
+					<p class="x_help-block">{sprintf($lang->about_allowed_filesize, getUrl('', 'module', 'admin', 'act', 'dispFileAdminConfig'))}<br />{sprintf($lang->about_allowed_size_limits, ini_get('upload_max_filesize'))}</p>
+				</div>
+			</div>
+			<div class="x_control-group">
+				<label for="allowed_attach_size" class="x_control-label">{$lang->allowed_attach_size}</label>
+				<div class="x_controls">
+					<input type="number" min="0" name="allowed_attach_size" id="allowed_attach_size" value="{$file_config->allowed_attach_size}" size="7" style="min-width:80px" /> MB
+					<p class="x_help-block">{sprintf($lang->about_allowed_attach_size, getUrl('', 'module', 'admin', 'act', 'dispFileAdminConfig'))}<br />{sprintf($lang->about_allowed_size_limits, ini_get('upload_max_filesize'))}</p>
+				</div>
+			</div>
+			<div class="x_control-group">
+				<label for="allowed_filetypes" class="x_control-label">{$lang->allowed_filetypes}</label>
+				<div class="x_controls">
+					<input type="text" name="allowed_filetypes" id="allowed_filetypes" value="{implode(', ', $file_config->allowed_extensions)}" />
+					<p class="x_help-block">{$lang->about_allowed_filetypes}</p>
+				</div>
 			</div>
 		</div>
-		<div class="x_control-group">
-			<label for="allowed_attach_size" class="x_control-label">{$lang->allowed_attach_size}</label>
+		<div class="x_control-group use_default_file_config">
+			<label class="x_control-label">{$lang->use_image_default_file_config}</label>
 			<div class="x_controls">
-				<input type="number" min="0" name="allowed_attach_size" id="allowed_attach_size" value="{$file_config->allowed_attach_size}" size="7" style="min-width:80px" /> MB
-				<p class="x_help-block">{sprintf($lang->about_allowed_attach_size, getUrl('', 'module', 'admin', 'act', 'dispFileAdminConfig'))}<br />{sprintf($lang->about_allowed_size_limits, ini_get('upload_max_filesize'))}</p>
+				<label for="use_image_default_file_config" class="x_inline">
+					<input type="checkbox" name="use_image_default_file_config" id="use_image_default_file_config" value="Y" checked="checked"|cond="$file_config->use_image_default_file_config !== 'N'" />
+					{$lang->about_use_image_default_file_config}
+				</label>
 			</div>
 		</div>
-		<div class="x_control-group">
-			<label class="x_control-label">{$lang->max_image_size}</label>
-			<div class="x_controls">
-				<input type="number" min="0" name="max_image_width" id="max_image_width" value="{$file_config->max_image_width}" size="7" style="min-width:80px" /> &times;
-				<input type="number" min="0" name="max_image_height" id="max_image_height" value="{$file_config->max_image_height}" size="7" style="min-width:80px" /> px &nbsp;
-				<select name="max_image_size_action" id="max_image_size_action">
-					<option value="" selected="selected"|cond="$file_config->max_image_size_action == ''">{$lang->max_image_size_action_nothing}</option>
-					<option value="block" selected="selected"|cond="$file_config->max_image_size_action == 'block'">{$lang->max_image_size_action_block}</option>
-					<option value="resize" selected="selected"|cond="$file_config->max_image_size_action == 'resize'">{$lang->max_image_size_action_resize}</option>
-				</select>
-				<select name="max_image_size_quality" id="max_image_size_quality" style="width:100px;min-width:100px">
-					{@ $file_config->max_image_size_quality = $file_config->max_image_size_quality ?: 75}
-					<!--@for($q = 50; $q <= 100; $q += 5)-->
-						<option value="{$q}" selected="selected"|cond="$file_config->max_image_size_quality == $q">{$lang->image_resize_quality} {$q}%</option>
-					<!--@endfor-->
-				</select>
-				<p class="x_help-block">
-					{$lang->about_max_image_size}
-					<label for="max_image_size_admin">
-						<input type="checkbox" name="max_image_size_admin" id="max_image_size_admin" value="Y" checked="checked"|cond="$file_config->max_image_size_admin === 'Y'" />
-						{$lang->max_image_size_admin}
+		<div class="use_custom_image_file_config" style="display:none"|cond="$file_config->use_image_default_file_config !== 'N'">
+			<div class="x_control-group">
+				<label class="x_control-label">{$lang->image_autoconv}</label>
+				<div class="x_controls">
+					<label for="image_autoconv_bmp2jpg">
+						<input type="checkbox" name="image_autoconv_bmp2jpg" id="image_autoconv_bmp2jpg" value="Y" checked="checked"|cond="$file_config->image_autoconv['bmp2jpg']" disabled="disabled"|cond="!function_exists('imagebmp')" />
+						{$lang->image_autoconv_bmp2jpg}
 					</label>
-				</p>
+					<label for="image_autoconv_png2jpg">
+						<input type="checkbox" name="image_autoconv_png2jpg" id="image_autoconv_png2jpg" value="Y" checked="checked"|cond="$file_config->image_autoconv['png2jpg']" disabled="disabled"|cond="!function_exists('imagepng')" />
+						{$lang->image_autoconv_png2jpg}
+					</label>
+					<label for="image_autoconv_webp2jpg">
+						<input type="checkbox" name="image_autoconv_webp2jpg" id="image_autoconv_webp2jpg" value="Y" checked="checked"|cond="$file_config->image_autoconv['webp2jpg']" disabled="disabled"|cond="!function_exists('imagewebp')" />
+						{$lang->image_autoconv_webp2jpg}
+					</label>
+					<p class="x_help-block">{$lang->about_image_autoconv}</p>
+				</div>
+			</div>
+			<div class="x_control-group">
+				<label class="x_control-label">{$lang->max_image_size}</label>
+				<div class="x_controls">
+					<input type="number" min="0" name="max_image_width" id="max_image_width" value="{$file_config->max_image_width}" size="7" style="min-width:80px" /> &times;
+					<input type="number" min="0" name="max_image_height" id="max_image_height" value="{$file_config->max_image_height}" size="7" style="min-width:80px" /> px &nbsp;
+					<select name="max_image_size_action" id="max_image_size_action">
+						<option value="">{$lang->max_image_size_action_nothing}</option>
+						<option value="block" selected="selected"|cond="$file_config->max_image_size_action === 'block'">{$lang->max_image_size_action_block}</option>
+						<option value="resize" selected="selected"|cond="$file_config->max_image_size_action === 'resize'">{$lang->max_image_size_action_resize}</option>
+					</select>
+					<p class="x_help-block">
+						{$lang->about_max_image_size}
+						<label for="max_image_size_admin">
+							<input type="checkbox" name="max_image_size_admin" id="max_image_size_admin" value="Y" checked="checked"|cond="$file_config->max_image_size_admin === 'Y'" />
+							{$lang->max_image_size_admin}
+						</label>
+					</p>
+				</div>
+			</div>
+			<div class="x_control-group">
+				<label class="x_control-label">{$lang->image_quality_adjustment}</label>
+				<div class="x_controls">
+					<select name="image_quality_adjustment" style="min-width:80px">
+						<!--@for($q = 50; $q <= 100; $q += 5)-->
+							<option value="{$q}" selected="selected"|cond="$file_config->image_quality_adjustment === $q"><!--@if($q === 100)-->{$lang->original_image_quality}<!--@else-->{$q}%<!--@end--></option>
+						<!--@endfor-->
+					</select>
+					<p class="x_help-block">{$lang->about_image_quality_adjustment}</p>
+				</div>
+			</div>
+			<div class="x_control-group">
+				<label class="x_control-label">{$lang->image_autorotate}</label>
+				<div class="x_controls">
+					<label for="image_autorotate_Y" class="x_inline">
+						<input type="radio" name="image_autorotate" id="image_autorotate_Y" value="Y" checked="checked"|cond="$file_config->image_autorotate === true" disabled="disabled"|cond="!function_exists('exif_read_data')" />
+						{$lang->cmd_yes}
+					</label>
+					<label for="image_autorotate_N" class="x_inline">
+						<input type="radio" name="image_autorotate" id="image_autorotate_N" value="N" checked="checked"|cond="$file_config->image_autorotate !== true" disabled="disabled"|cond="!function_exists('exif_read_data')" />
+						{$lang->cmd_no}
+					</label>
+					<p class="x_help-block">{$lang->about_image_autorotate}</p>
+				</div>
+			</div>
+			<div class="x_control-group">
+				<label class="x_control-label">{$lang->image_autoconv_gif2mp4}</label>
+				<div class="x_controls">
+					<label for="image_autoconv_gif2mp4_Y" class="x_inline">
+						<input type="radio" name="image_autoconv_gif2mp4" id="image_autoconv_gif2mp4_Y" value="Y" checked="checked"|cond="$file_config->image_autoconv['gif2mp4'] === true" disabled="disabled"|cond="!function_exists('exec')" />
+						{$lang->cmd_yes}
+					</label>
+					<label for="image_autoconv_gif2mp4_N" class="x_inline">
+						<input type="radio" name="image_autoconv_gif2mp4" id="image_autoconv_gif2mp4_N" value="N" checked="checked"|cond="$file_config->image_autoconv['gif2mp4'] !== true" disabled="disabled"|cond="!function_exists('exec')" />
+						{$lang->cmd_no}
+					</label>
+					<p class="x_help-block">{$lang->about_image_autoconv_gif2mp4}</p>
+				</div>
 			</div>
 		</div>
-		<div class="x_control-group">
-			<label class="x_control-label">{$lang->image_autoconv}</label>
+		<div class="x_control-group use_default_file_config">
+			<label class="x_control-label">{$lang->use_video_default_file_config}</label>
 			<div class="x_controls">
-				<label for="image_autoconv_bmp2jpg" class="x_inline">
-					<input type="checkbox" name="image_autoconv_bmp2jpg" id="image_autoconv_bmp2jpg" value="Y" checked="checked"|cond="$file_config->image_autoconv['bmp2jpg']" disabled="disabled"|cond="!function_exists('imagebmp')" />
-					{$lang->image_autoconv_bmp2jpg}
+				<label for="use_video_default_file_config" class="x_inline">
+					<input type="checkbox" name="use_video_default_file_config" id="use_video_default_file_config" value="Y" checked="checked"|cond="$file_config->use_video_default_file_config !== 'N'" />
+					{$lang->about_use_video_default_file_config}
 				</label>
-				<label for="image_autoconv_png2jpg" class="x_inline">
-					<input type="checkbox" name="image_autoconv_png2jpg" id="image_autoconv_png2jpg" value="Y" checked="checked"|cond="$file_config->image_autoconv['png2jpg']" disabled="disabled"|cond="!function_exists('imagepng')" />
-					{$lang->image_autoconv_png2jpg}
-				</label>
-				<label for="image_autoconv_webp2jpg" class="x_inline">
-					<input type="checkbox" name="image_autoconv_webp2jpg" id="image_autoconv_webp2jpg" value="Y" checked="checked"|cond="$file_config->image_autoconv['webp2jpg']" disabled="disabled"|cond="!function_exists('imagewebp')" />
-					{$lang->image_autoconv_webp2jpg}
-				</label>
-				<select name="image_autoconv_quality" id="image_autoconv_quality" style="width:100px;min-width:100px">
-					{@ $file_config->image_autoconv_quality = $file_config->image_autoconv_quality ?: 75}
-					<!--@for($q = 50; $q <= 100; $q += 5)-->
-						<option value="{$q}" selected="selected"|cond="$file_config->image_autoconv_quality == $q">{$lang->image_resize_quality} {$q}%</option>
-					<!--@endfor-->
-				</select>
-				<p class="x_help-block" style="margin-bottom:10px">{$lang->about_image_autoconv}</p>
-				<label for="image_autoconv_gif2mp4" class="x_inline">
-					<input type="checkbox" name="image_autoconv_gif2mp4" id="image_autoconv_gif2mp4" value="Y" checked="checked"|cond="$file_config->image_autoconv['gif2mp4']" disabled="disabled"|cond="!function_exists('exec')" />
-					{$lang->image_autoconv_gif2mp4}
-				</label>
-				<input type="text" name="ffmpeg_command" id="ffmpeg_command" value="{$file_config->ffmpeg_command ?: '/usr/bin/ffmpeg'}" placeholder="{$lang->ffmpeg_path}" />
-				<p class="x_help-block">{$lang->about_image_autoconv_mp4}</p>
 			</div>
 		</div>
-		<div class="x_control-group">
-			<label class="x_control-label">{$lang->image_autorotate}</label>
-			<div class="x_controls">
-				<label for="image_autorotate_Y" class="x_inline">
-					<input type="radio" name="image_autorotate" id="image_autorotate_Y" value="Y" checked="checked"|cond="$file_config->image_autorotate === true" disabled="disabled"|cond="!function_exists('exif_read_data')" />
-					{$lang->cmd_yes}
-				</label>
-				<label for="image_autorotate_N" class="x_inline">
-					<input type="radio" name="image_autorotate" id="image_autorotate_N" value="N" checked="checked"|cond="$file_config->image_autorotate !== true" disabled="disabled"|cond="!function_exists('exif_read_data')" />
-					{$lang->cmd_no}
-				</label>
-				<select name="image_autorotate_quality" id="image_autorotate_quality" style="width:100px;min-width:100px">
-					{@ $file_config->image_autorotate_quality = $file_config->image_autorotate_quality ?: 75}
-					<!--@for($q = 50; $q <= 100; $q += 5)-->
-						<option value="{$q}" selected="selected"|cond="$file_config->image_autorotate_quality == $q">{$lang->image_resize_quality} {$q}%</option>
-					<!--@endfor-->
-				</select>
-				<p class="x_help-block">{$lang->about_image_autorotate}</p>
+		<div class="use_custom_video_file_config" style="display:none"|cond="$file_config->use_video_default_file_config !== 'N'">
+			<div class="x_control-group">
+				<label class="x_control-label">{$lang->video_thumbnail}</label>
+				<div class="x_controls">
+					<label for="video_thumbnail_Y" class="x_inline">
+						<input type="radio" name="video_thumbnail" id="video_thumbnail_Y" value="Y" checked="checked"|cond="$file_config->video_thumbnail === true" disabled="disabled"|cond="!function_exists('exec')" />
+						{$lang->cmd_yes}
+					</label>
+					<label for="video_thumbnail_N" class="x_inline">
+						<input type="radio" name="video_thumbnail" id="video_thumbnail_N" value="N" checked="checked"|cond="$file_config->video_thumbnail !== true" disabled="disabled"|cond="!function_exists('exec')" />
+						{$lang->cmd_no}
+					</label>
+					<p class="x_help-block">{$lang->about_video_thumbnail}</p>
+				</div>
 			</div>
-		</div>
-		<div class="x_control-group">
-			<label for="allowed_filetypes" class="x_control-label">{$lang->allowed_filetypes}</label>
-			<div class="x_controls">
-				<input type="text" name="allowed_filetypes" id="allowed_filetypes" value="{implode(', ', $file_config->allowed_extensions ?: [])}" />
-				<p class="x_help-block">{$lang->about_allowed_filetypes}</p>
+			<div class="x_control-group">
+				<label class="x_control-label">{$lang->video_mp4_gif_time}</label>
+				<div class="x_controls">
+					<input type="number" min="0" name="video_mp4_gif_time" value="{$file_config->video_mp4_gif_time}" style="min-width:80px" disabled="disabled"|cond="!function_exists('exec')" /> {$lang->unit_sec}
+					<p class="x_help-block">{$lang->about_video_mp4_gif_time}</p>
+				</div>
 			</div>
-		</div>
-		
 		</div>
 		<div class="x_control-group">
 			<label class="x_control-label">{$lang->enable_download_group}</label>

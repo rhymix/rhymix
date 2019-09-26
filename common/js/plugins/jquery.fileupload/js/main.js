@@ -23,7 +23,8 @@
 		actSetCover : '.xefu-act-set-cover',
 
 		tmplXeUploaderFileitem : '<li class="xefu-file xe-clearfix" data-file-srl="{{file_srl}}"><span class="xefu-file-name">{{source_filename}}</span><span class="xefu-file-info"><span>{{disp_file_size}}</span><span><input type="checkbox" data-file-srl="{{file_srl}}"> Select</span></span></li>',
-		tmplXeUploaderFileitemImage: '<li class="xefu-file xefu-file-image {{#if cover_image}}xefu-is-cover-image{{/if}}" data-file-srl="{{file_srl}}"><strong class="xefu-file-name">{{source_filename}}</strong><span class="xefu-file-info"><span class="xefu-file-size">{{disp_file_size}}</span><span><img src="{{download_url}}" alt=""></span><span><input type="checkbox" data-file-srl="{{file_srl}}"></span><button class="xefu-act-set-cover" data-file-srl="{{file_srl}}" title="Be a cover image"><i class="xi-check-circle"></i></button></span></li>'
+		tmplXeUploaderFileitemImage: '<li class="xefu-file xefu-file-image {{#if cover_image}}xefu-is-cover-image{{/if}}" data-file-srl="{{file_srl}}"><strong class="xefu-file-name">{{source_filename}}</strong><span class="xefu-file-info"><span class="xefu-file-size">{{disp_file_size}}</span><span><img src="{{download_url}}" alt=""></span><span><input type="checkbox" data-file-srl="{{file_srl}}"></span><button class="xefu-act-set-cover" data-file-srl="{{file_srl}}" title="Be a cover image"><i class="xi-check-circle"></i></button></span></li>',
+		tmplXeUploaderFileitemVideo: '<li class="xefu-file xefu-file-image {{#if cover_image}}xefu-is-cover-image{{/if}}" data-file-srl="{{file_srl}}"><strong class="xefu-file-name">{{source_filename}}</strong><span class="xefu-file-info"><span class="xefu-file-size">{{disp_file_size}}</span><span><span class="xefu-file-video"><span class="xefu-file-video-play"></span></span><img src="{{download_url}}" alt=""></span><span><input type="checkbox" data-file-srl="{{file_srl}}"></span><button class="xefu-act-set-cover" data-file-srl="{{file_srl}}" title="Be a cover image"><i class="xi-check-circle"></i></button></span></li>'
 	};
 
 	var _elements = [
@@ -156,7 +157,7 @@
 						else if(/\.(mp3)$/i.test(result.source_filename)) {
 							temp_code += '<audio src="' + result.download_url + '" controls data-file-srl="' + result.file_srl + '" />';
 						}
-						else if(/\.(mp4|webm)$/i.test(result.source_filename)) {
+						else if(/\.(mp4|webm|ogg)$/i.test(result.source_filename)) {
 							if(result.original_type === 'gif') {
 								temp_code += '<video src="' + result.download_url + '" autoplay loop muted data-file-srl="' + result.file_srl + '" />';
 							} else {
@@ -328,7 +329,7 @@
 				else if(/\.(mp3)$/i.test(result.source_filename)) {
 					temp_code += '<audio src="' + result.download_url + '" controls data-file-srl="' + result.file_srl + '" />';
 				}
-				else if(/\.(mp4|webm)$/i.test(result.source_filename)) {
+				else if(/\.(mp4|webm|ogg)$/i.test(result.source_filename)) {
 					if(result.original_type === 'gif') {
 						temp_code += '<video src="' + result.download_url + '" autoplay loop muted data-file-srl="' + result.file_srl + '" />';
 					} else {
@@ -412,8 +413,10 @@
 
 				var tmpl_fileitem = data.settings.tmplXeUploaderFileitem;
 				var tmpl_fileitem_image = data.settings.tmplXeUploaderFileitemImage;
+				var tmpl_fileitem_video = data.settings.tmplXeUploaderFileitemVideo;
 				var template_fileimte = Handlebars.compile(tmpl_fileitem);
 				var template_fileimte_image = Handlebars.compile(tmpl_fileitem_image);
+				var template_fileimte_video = Handlebars.compile(tmpl_fileitem_video);
 				var result_image = [];
 				var result = [];
 
@@ -434,7 +437,11 @@
 					file.source_filename = file.source_filename.replace("&amp;", "&");
 					if(file.thumbnail_filename) {
 						file.download_url = file.thumbnail_filename;
-						result_image.push(template_fileimte_image(file));
+						if(/\.(mp4|webm|ogg)$/i.test(file.source_filename)) {
+							result_image.push(template_fileimte_video(file));
+						} else {
+							result_image.push(template_fileimte_image(file));
+						}
 					}
 					else if(/\.(jpe?g|png|gif|webp)$/i.test(file.source_filename)) {
 						result_image.push(template_fileimte_image(file));

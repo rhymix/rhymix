@@ -877,7 +877,7 @@ class fileController extends file
 		$file_info['name'] = Rhymix\Framework\Filters\FilenameFilter::clean($file_info['name']);
 		
 		// Add extra fields to file info array
-		$file_info['extension'] = $original_extension = $this->getExtension($file_info['name']);
+		$file_info['extension'] = $file_info['original_type'] = $this->getExtension($file_info['name']);
 		$file_info['converted'] = false;
 		$file_info['thumbnail'] = null;
 		
@@ -897,12 +897,19 @@ class fileController extends file
 			}
 		}
 		
-		// Check image type and size
+		// Adjust
 		if(!$manual_insert)
 		{
-			if(in_array($file_info['extension'], array('gif', 'jpg', 'jpeg', 'png', 'webp', 'bmp')))
+			// image
+			if(in_array($file_info['extension'], ['gif', 'jpg', 'jpeg', 'png', 'webp', 'bmp']))
 			{
-				$file_info = $this->checkUploadedImage($file_info, $config);
+				$file_info = $this->adjustUploadedImage($file_info, $config);
+			}
+			
+			// video
+			if(in_array($file_info['extension'], ['mp4', 'webm', 'ogg']))
+			{
+				$file_info = $this->adjustUploadedVideo($file_info, $config);
 			}
 		}
 		
@@ -938,9 +945,9 @@ class fileController extends file
 		
 		// Set original type if filename extension is changed
 		$args->original_type = null;
-		if($file_info['extension'] !== $original_extension)
+		if($file_info['extension'] !== $file_info['original_type'])
 		{
-			$args->original_type = $original_extension;
+			$args->original_type = $file_info['original_type'];
 		}
 		
 		// Set storage path by checking if the attachement is an image or other kinds of file
@@ -1085,42 +1092,44 @@ class fileController extends file
 	}
 	
 	/**
-	 * Check uploaded image
+	 * Adjust uploaded image
 	 */
-	public function checkUploadedImage($file_info, $config)
+	public function adjustUploadedImage($file_info, $config)
 	{
 		// Get image information
-		$image_info = @getimagesize($file_info['tmp_name']);
-		if (!$image_info)
+		if (!$image_info = Rhymix\Framework\Image::getImageInfo($file_info['tmp_name']))
 		{
 			return $file_info;
 		}
 		
-		$image_width = $image_info[0];
-		$image_height = $image_info[1];
-		$image_type = $image_info[2];
-		$convert = false;
+		$adjusted = [
+			'width' => $image_info['width'],
+			'height' => $image_info['height'],
+			'type' => $image_info['type'],
+			'quality' => $config->image_quality_adjustment,
+			'rotate' => 0,
+		];
 		
-		// Check image type
-		if($config->image_autoconv['bmp2jpg'] && function_exists('imagebmp') && $image_type === 6)
+		// Adjust image type
+		if ($config->image_autoconv['gif2mp4'] && $image_info['type'] === 'gif' && function_exists('exec'))
 		{
-			$convert = array($image_width, $image_height, 'jpg', $config->image_autoconv_quality ?: 75, 0);
+			$adjusted['type'] = 'mp4';
 		}
-		if($config->image_autoconv['png2jpg'] && function_exists('imagepng') && $image_type === 3)
+		elseif ($config->image_autoconv['png2jpg'] && $image_info['type'] === 'png' && function_exists('imagepng'))
 		{
-			$convert = array($image_width, $image_height, 'jpg', $config->image_autoconv_quality ?: 75, 0);
+			$adjusted['type'] = 'jpg';
 		}
-		if($config->image_autoconv['webp2jpg'] && function_exists('imagewebp') && $image_type === 18)
+		elseif ($config->image_autoconv['webp2jpg'] && $image_info['type'] === 'webp' && function_exists('imagewebp'))
 		{
-			$convert = array($image_width, $image_height, 'jpg', $config->image_autoconv_quality ?: 75, 0);
+			$adjusted['type'] = 'jpg';
 		}
-		if($config->image_autoconv['gif2mp4'] && function_exists('exec') && $image_type === 1)
+		elseif ($config->image_autoconv['bmp2jpg'] && $image_info['type'] === 'bmp' && function_exists('imagebmp'))
 		{
-			$convert = array($image_width, $image_height, 'mp4', $config->image_autoconv_quality ?: 75, 0);
+			$adjusted['type'] = 'jpg';
 		}
 		
-		// Check image rotation
-		if($config->image_autorotate && $image_type !== 1 && function_exists('exif_read_data'))
+		// Adjust image rotation
+		if ($config->image_autorotate && in_array($image_info['type'], ['jpg', 'jpeg']) && function_exists('exif_read_data'))
 		{
 			$exif = @exif_read_data($file_info['tmp_name']);
 			if($exif && isset($exif['Orientation']))
@@ -1134,32 +1143,33 @@ class fileController extends file
 				}
 				if ($rotate)
 				{
-					$convert = $convert ?: array($image_width, $image_height, $file_info['extension']);
-					if ($rotate == 90 || $rotate == 270)
+					if ($rotate === 90 || $rotate === 270)
 					{
-						$image_height = $convert[0];
-						$image_width = $convert[1];
-						$convert[0] = $image_width;
-						$convert[1] = $image_height;
+						$adjusted['width'] = $image_info['height'];
+						$adjusted['height'] = $image_info['width'];
 					}
-					$convert[3] = $config->image_autorotate_quality ?: 75;
-					$convert[4] = $rotate;
+					$adjusted['rotate'] = $rotate;
 				}
 			}
 			unset($exif);
 		}
 		
-		// Check image size
-		if($config->max_image_size_action && ($config->max_image_width || $config->max_image_height) && (!$this->user->isAdmin() || $config->max_image_size_admin === 'Y'))
+		// Adjust image size
+		if ($config->max_image_size_action && ($config->max_image_width || $config->max_image_height) && (!$this->user->isAdmin() || $config->max_image_size_admin === 'Y'))
 		{
-			$exceeded = false;
-			if ($config->max_image_width > 0 && $image_width > $config->max_image_width)
+			$exceeded = 0;
+			$resize_width = $adjusted['width'] * ($config->max_image_height / $adjusted['height']);
+			$resize_height = $adjusted['height'] * ($config->max_image_width / $adjusted['width']);
+			
+			if ($config->max_image_width > 0 && $adjusted['width'] > $config->max_image_width)
 			{
-				$exceeded = true;
+				$exceeded++;
+				$resize_width = $config->max_image_width;
 			}
-			elseif ($config->max_image_height > 0 && $image_height > $config->max_image_height)
+			if ($config->max_image_height > 0 && $adjusted['height'] > $config->max_image_height)
 			{
-				$exceeded = true;
+				$exceeded++;
+				$resize_height = $config->max_image_height;
 			}
 			
 			if ($exceeded)
@@ -1183,62 +1193,97 @@ class fileController extends file
 					throw new Rhymix\Framework\Exception($message);
 				}
 				
-				// Resize automatically
-				else
+				$adjusted['width'] = (int)$resize_width;
+				$adjusted['height'] = (int)$resize_height;
+				if ($image_info['type'] !== 'gif')
 				{
-					$resize_width = $image_width;
-					$resize_height = $image_height;
-					if ($config->max_image_width > 0 && $image_width > $config->max_image_width)
-					{
-						$resize_width = $config->max_image_width;
-						$resize_height = $image_height * ($config->max_image_width / $image_width);
-					}
-					if ($config->max_image_height > 0 && $resize_height > $config->max_image_height)
-					{
-						$resize_width = $resize_width * ($config->max_image_height / $resize_height);
-						$resize_height = $config->max_image_height;
-					}
-					$target_type = in_array($image_type, array(6, 8, 18)) ? 'jpg' : $file_info['extension'];
-					$rotate = ($convert && $convert[4]) ? $convert[4] : 0;
-					$convert = array(intval($resize_width), intval($resize_height), $target_type, $config->max_image_size_quality ?: 75, $rotate);
+					$adjusted['type'] = 'jpg';
 				}
 			}
 		}
 		
-		// Convert image if necessary
-		if ($convert)
+		// Convert image if adjusted
+		if ($image_info['width'] !== $adjusted['width'] || $image_info['height'] !== $adjusted['height'] || $image_info['type'] !== $adjusted['type'] || $adjusted['rotate'])
 		{
-			if ($convert[2] === 'mp4')
+			$output_name = $file_info['tmp_name'] . '.converted.' . $adjusted['type'];
+			
+			// Create output
+			if ($adjusted['type'] === 'mp4')
 			{
+				$adjusted['width'] -= $adjusted['width'] % 2;
+				$adjusted['height'] -= $adjusted['height'] % 2;
+				
 				// Convert using ffmpeg
 				$command = $config->ffmpeg_command ?: '/usr/bin/ffmpeg';
 				$command .= ' -i ' . escapeshellarg($file_info['tmp_name']);
-				$command .= ' -movflags faststart -pix_fmt yuv420p -c:v libx264 -crf 23 -vf "scale=trunc(iw/2)*2:trunc(ih/2)*2"';
-				$command .= ' ' . escapeshellarg($file_info['tmp_name'] . '.mp4');
-				$status = @exec($command, $output, $return_var);
-				$result = $return_var == 0 ? true : false;
-				$newext = '.mp4';
+				$command .= ' -movflags +faststart -pix_fmt yuv420p -c:v libx264 -crf 23';
+				$command .= sprintf(' -vf "scale=%d:%d"', $adjusted['width'], $adjusted['height']);
+				$command .= ' ' . escapeshellarg($output_name);
+				@exec($command, $output, $return_var);
+				$result = $return_var === 0 ? true : false;
 				
 				// Create thumbnail
 				if ($result)
 				{
-					$file_info['thumbnail'] = $file_info['tmp_name'] . 'thumbnail';
-					FileHandler::createImageFile($file_info['tmp_name'], $file_info['thumbnail'], $image_width, $image_height, 'jpg');
+					$file_info['thumbnail'] = $file_info['tmp_name'] . '.thumbnail.jpg';
+					FileHandler::createImageFile($file_info['tmp_name'], $file_info['thumbnail'], $adjusted['width'], $adjusted['height'], 'jpg');
 				}
 			}
 			else
 			{
-				$result = FileHandler::createImageFile($file_info['tmp_name'], $file_info['tmp_name'] . '.conv', $convert[0], $convert[1], $convert[2], 'crop', $convert[3], $convert[4]);
-				$newext = '.conv';
+				$result = FileHandler::createImageFile($file_info['tmp_name'], $output_name, $adjusted['width'], $adjusted['height'], $adjusted['type'], 'crop', $adjusted['quality'], $adjusted['rotate']);
 			}
 			
+			// Change to information in the output file
 			if ($result)
 			{
-				$file_info['name'] = preg_replace('/\.' . preg_quote($file_info['extension'], '/') . '$/i', '.' . $convert[2], $file_info['name']);
-				$file_info['tmp_name'] = $file_info['tmp_name'] . $newext;
+				$file_info['name'] = preg_replace('/\.' . preg_quote($file_info['extension'], '/') . '$/i', '.' . $adjusted['type'], $file_info['name']);
+				$file_info['tmp_name'] = $output_name;
 				$file_info['size'] = filesize($file_info['tmp_name']);
-				$file_info['extension'] = $convert[2];
+				$file_info['extension'] = $adjusted['type'];
 				$file_info['converted'] = true;
+			}
+		}
+		
+		return $file_info;
+	}
+	
+	/**
+	 * Adjust uploaded video
+	 */
+	public function adjustUploadedVideo($file_info, $config)
+	{
+		if (!Rhymix\Framework\Video::isVideo($file_info['tmp_name']))
+		{
+			return $file_info;
+		}
+		
+		// Create thumbnail
+		if ($config->video_thumbnail)
+		{
+			$output_name = $file_info['tmp_name'] . '.thumbnail.jpeg';
+			
+			$command = $config->ffmpeg_command ?: '/usr/bin/ffmpeg';
+			$command .= sprintf(' -ss 00:00:00.%d -i %s -vframes 1', mt_rand(0, 99), escapeshellarg($file_info['tmp_name']));
+			$command .= ' ' . escapeshellarg($output_name);
+			@exec($command, $output, $return_var);
+			
+			if($return_var === 0)
+			{
+				$file_info['thumbnail'] = $output_name;
+			}
+		}
+		
+		// Treat as GIF
+		if ($config->video_mp4_gif_time && $file_info['extension'] === 'mp4')
+		{
+			$command = $config->ffprobe_command ?: '/usr/bin/ffprobe';
+			$command .= ' -i ' . escapeshellarg($file_info['tmp_name']);
+			$command .= ' -show_entries format=duration -v quiet -of csv="p=0"';
+			$duration = (int)floor(@exec($command));
+			if($duration <= $config->video_mp4_gif_time)
+			{
+				$file_info['original_type'] = 'gif';
 			}
 		}
 		
