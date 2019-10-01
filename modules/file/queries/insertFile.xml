@@ -10,7 +10,11 @@
 		<column name="source_filename" var="source_filename" notnull="notnull" minlength="1" maxlength="250" />
 		<column name="uploaded_filename" var="uploaded_filename" notnull="notnull" minlength="1" maxlength="250" />
 		<column name="thumbnail_filename" var="thumbnail_filename" />
+		<column name="type" var="type" notnull="notnull" />
 		<column name="original_type" var="original_type" />
+		<column name="width" var="width" />
+		<column name="height" var="height" />
+		<column name="duration" var="duration" />
 		<column name="file_size" var="file_size" notnull="notnull" default="0" />
 		<column name="direct_download" var="direct_download" notnull="notnull" default="N" />
 		<column name="comment" var="comment" />

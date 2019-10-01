@@ -197,10 +197,10 @@ class fileModel extends file
 		$config->download_grant = $config->download_grant ?? [];
 		$config->inline_download_format = $config->inline_download_format ?? [];
 		$config->image_autoconv = $config->image_autoconv ?? [];
-		$config->image_quality_adjustment = $config->image_quality_adjustment ?? 100;
+		$config->image_quality_adjustment = $config->image_quality_adjustment ?? 75;
 		$config->video_mp4_gif_time = $config->video_mp4_gif_time ?? 0;
 		$config->ffmpeg_command = $config->ffmpeg_command ?? '/usr/bin/ffmpeg';
-		$config->ffprobe_command = $config->ffprobe_command ?? '/usr/bin/ffmpeg';
+		$config->ffprobe_command = $config->ffprobe_command ?? '/usr/bin/ffprobe';
 		
 		// Format allowed_filetypes
 		$config->allowed_filetypes = $config->allowed_filetypes ?? '*.*';

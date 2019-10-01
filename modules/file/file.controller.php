@@ -873,27 +873,44 @@ class fileController extends file
 			$file_info['name'] = base64_decode(strtr($match[1], ':', '/'));
 		}
 		
-		// Sanitize filename
+		// Set base information
 		$file_info['name'] = Rhymix\Framework\Filters\FilenameFilter::clean($file_info['name']);
-		
-		// Add extra fields to file info array
-		$file_info['extension'] = $file_info['original_type'] = $this->getExtension($file_info['name']);
-		$file_info['converted'] = false;
+		$file_info['type'] = $file_info['original_type'] = Rhymix\Framework\Storage::getContentType($file_info['tmp_name']);
+		$file_info['extension'] = $file_info['original_extension'] = strtolower(array_pop(explode('.', $file_info['name'])));
+		$file_info['width'] = null;
+		$file_info['height'] = null;
+		$file_info['duration'] = null;
 		$file_info['thumbnail'] = null;
+		$file_info['converted'] = false;
+		
+		// Correct extension
+		if($extension_by_type = Rhymix\Framework\MIME::getExtensionByType($file_info['type']))
+		{
+			$target_types = ['image', 'audio', 'video'];
+			if(in_array(array_shift(explode('/', $file_info['type'])), $target_types))
+			{
+				$file_info['extension'] = $extension_by_type;
+			}
+			elseif($file_info['extension'])
+			{
+				$type_by_extension = Rhymix\Framework\MIME::getTypeByExtension($file_info['extension']);
+				if(in_array(array_shift(explode('/', $type_by_extension)), $target_types))
+				{
+					$file_info['extension'] = $extension_by_type;
+				}
+			}
+		}
 		
 		// Get file module configuration
 		$oFileModel = getModel('file');
 		$config = $oFileModel->getFileConfig($module_srl);
 		
-		// Check file type
+		// Check file extension
 		if(!$manual_insert && !$this->user->isAdmin())
 		{
-			if(isset($config->allowed_extensions) && count($config->allowed_extensions))
+			if($config->allowed_extensions && !in_array($file_info['extension'], $config->allowed_extensions))
 			{
-				if(!in_array($file_info['extension'], $config->allowed_extensions))
-				{
-					throw new Rhymix\Framework\Exception('msg_not_allowed_filetype');
-				}
+				throw new Rhymix\Framework\Exception('msg_not_allowed_filetype');
 			}
 		}
 		
@@ -942,12 +959,22 @@ class fileController extends file
 		$args->member_srl = Rhymix\Framework\Session::getMemberSrl();
 		$args->source_filename = $file_info['name'];
 		$args->sid = Rhymix\Framework\Security::getRandom(32, 'hex');
+		$args->type = $file_info['type'];
+		$args->width = $file_info['width'];
+		$args->height = $file_info['height'];
+		$args->duration = $file_info['duration'];
 		
-		// Set original type if filename extension is changed
+		// Set original type if file type is changed
 		$args->original_type = null;
-		if($file_info['extension'] !== $file_info['original_type'])
+		if($args->type !== $file_info['original_type'])
 		{
 			$args->original_type = $file_info['original_type'];
+		}
+		
+		// Add changed extension
+		if($file_info['extension'] && $file_info['extension'] !== $file_info['original_extension'])
+		{
+			$args->source_filename .= '.' . $file_info['extension'];
 		}
 		
 		// Set storage path by checking if the attachement is an image or other kinds of file
@@ -967,24 +994,39 @@ class fileController extends file
 			throw new Rhymix\Framework\Exception('msg_not_permitted_create');
 		}
 		
-		// Upload file
-		$method = $manual_insert ? 'copy' : '';
-		if(starts_with(RX_BASEDIR . 'files/attach/chunks/', $file_info['tmp_name']) || $file_info['converted'])
+		// Set move type and uploaded filename
+		$move_type = $manual_insert ? 'copy' : '';
+		if($file_info['converted'] || starts_with(RX_BASEDIR . 'files/attach/chunks/', $file_info['tmp_name']))
 		{
-			$method = 'move';
+			$move_type = 'move';
 		}
-		if(!$uploaded_filename = $this->uploadFile($file_info['tmp_name'], $args->source_filename, $storage_path, $direct, $method))
+		$extension = ($direct && $file_info['extension']) ? ('.' . $file_info['extension']) : '';
+		$uploaded_filename = $storage_path . Rhymix\Framework\Security::getRandom(32, 'hex') . $extension;
+		while(file_exists($uploaded_filename))
+		{
+			$uploaded_filename = $storage_path . Rhymix\Framework\Security::getRandom(32, 'hex') . $extension;
+		}
+		
+		// Move the uploaded file
+		if(!Rhymix\Framework\Storage::moveUploadedFile($file_info['tmp_name'], $uploaded_filename, $move_type))
 		{
 			throw new Rhymix\Framework\Exception('msg_file_upload_error');
 		}
 		$args->uploaded_filename = './' . substr($uploaded_filename, strlen(RX_BASEDIR));
 		$args->file_size = @filesize($uploaded_filename);
 		
-		// Upload thumbnail
+		// Move the created thumbnail image
 		if($file_info['thumbnail'])
 		{
-			$thumbnail_filename = $this->uploadFile($file_info['thumbnail'], 'thumbnail.jpg', $storage_path, true, 'move');
-			$args->thumbnail_filename = './' . substr($thumbnail_filename, strlen(RX_BASEDIR));
+			$thumbnail_filename = $storage_path . Rhymix\Framework\Security::getRandom(32, 'hex') . '.jpg';
+			while(file_exists($thumbnail_filename))
+			{
+				$thumbnail_filename = $storage_path . Rhymix\Framework\Security::getRandom(32, 'hex') . '.jpg';
+			}
+			if(Rhymix\Framework\Storage::moveUploadedFile($file_info['thumbnail'], $thumbnail_filename, 'move'))
+			{
+				$args->thumbnail_filename = './' . substr($thumbnail_filename, strlen(RX_BASEDIR));
+			}
 		}
 		
 		$oDB = DB::getInstance();
@@ -1038,60 +1080,6 @@ class fileController extends file
 	}
 	
 	/**
-	 * Upload file
-	 */
-	public function uploadFile($tmp_name, $file_name, $storage_path, $direct = false, $method = '')
-	{
-		// change to random file name.
-		// because window php bug. window php is not recognize unicode character file name - by cherryfilter
-		$uploaded_filename = $storage_path . Rhymix\Framework\Security::getRandom(32, 'hex');
-		while(file_exists($uploaded_filename))
-		{
-			$uploaded_filename = $storage_path . Rhymix\Framework\Security::getRandom(32, 'hex');
-		}
-		if($direct)
-		{
-			$uploaded_filename .= '.' . $this->getExtension($file_name);
-		}
-		
-		// move the file
-		if($method === 'copy')
-		{
-			@copy($tmp_name, $uploaded_filename);
-			if(!file_exists($uploaded_filename))
-			{
-				@copy($tmp_name, $uploaded_filename);
-				if(!file_exists($uploaded_filename))
-				{
-					return false;
-				}
-			}
-		}
-		elseif($method === 'move')
-		{
-			if (!Rhymix\Framework\Storage::move($tmp_name, $uploaded_filename))
-			{
-				if (!Rhymix\Framework\Storage::move($tmp_name, $uploaded_filename))
-				{
-					return false;
-				}
-			}
-		}
-		else
-		{
-			if(!@move_uploaded_file($tmp_name, $uploaded_filename))
-			{
-				if(!@move_uploaded_file($tmp_name, $uploaded_filename))
-				{
-					return false;
-				}
-			}
-		}
-		
-		return $uploaded_filename;
-	}
-	
-	/**
 	 * Adjust uploaded image
 	 */
 	public function adjustUploadedImage($file_info, $config)
@@ -1102,6 +1090,11 @@ class fileController extends file
 			return $file_info;
 		}
 		
+		// Set image size
+		$file_info['width'] = $image_info['width'];
+		$file_info['height'] = $image_info['height'];
+		
+		// Set base information
 		$adjusted = [
 			'width' => $image_info['width'],
 			'height' => $image_info['height'],
@@ -1109,9 +1102,10 @@ class fileController extends file
 			'quality' => $config->image_quality_adjustment,
 			'rotate' => 0,
 		];
+		$is_animated = Rhymix\Framework\Image::isAnimatedGIF($file_info['tmp_name']);
 		
 		// Adjust image type
-		if ($config->image_autoconv['gif2mp4'] && $image_info['type'] === 'gif' && function_exists('exec'))
+		if ($config->image_autoconv['gif2mp4'] && $is_animated && is_command($config->ffmpeg_command))
 		{
 			$adjusted['type'] = 'mp4';
 		}
@@ -1189,13 +1183,12 @@ class fileController extends file
 					{
 						$message = sprintf(lang('msg_exceeds_max_image_height'), $config->max_image_height);
 					}
-					
 					throw new Rhymix\Framework\Exception($message);
 				}
 				
 				$adjusted['width'] = (int)$resize_width;
 				$adjusted['height'] = (int)$resize_height;
-				if ($image_info['type'] !== 'gif')
+				if (!$is_animated && $adjusted['type'] === $image_info['type'])
 				{
 					$adjusted['type'] = 'jpg';
 				}
@@ -1203,18 +1196,23 @@ class fileController extends file
 		}
 		
 		// Convert image if adjusted
-		if ($image_info['width'] !== $adjusted['width'] || $image_info['height'] !== $adjusted['height'] || $image_info['type'] !== $adjusted['type'] || $adjusted['rotate'])
+		if (
+			$adjusted['width'] !== $image_info['width'] ||
+			$adjusted['height'] !== $image_info['height'] ||
+			$adjusted['type'] !== $image_info['type'] ||
+			$adjusted['rotate'] !== 0
+		)
 		{
 			$output_name = $file_info['tmp_name'] . '.converted.' . $adjusted['type'];
 			
-			// Create output
+			// Generate an output file
 			if ($adjusted['type'] === 'mp4')
 			{
 				$adjusted['width'] -= $adjusted['width'] % 2;
 				$adjusted['height'] -= $adjusted['height'] % 2;
 				
 				// Convert using ffmpeg
-				$command = $config->ffmpeg_command ?: '/usr/bin/ffmpeg';
+				$command = $config->ffmpeg_command;
 				$command .= ' -i ' . escapeshellarg($file_info['tmp_name']);
 				$command .= ' -movflags +faststart -pix_fmt yuv420p -c:v libx264 -crf 23';
 				$command .= sprintf(' -vf "scale=%d:%d"', $adjusted['width'], $adjusted['height']);
@@ -1222,7 +1220,7 @@ class fileController extends file
 				@exec($command, $output, $return_var);
 				$result = $return_var === 0 ? true : false;
 				
-				// Create thumbnail
+				// Generate a thumbnail image
 				if ($result)
 				{
 					$file_info['thumbnail'] = $file_info['tmp_name'] . '.thumbnail.jpg';
@@ -1237,10 +1235,12 @@ class fileController extends file
 			// Change to information in the output file
 			if ($result)
 			{
-				$file_info['name'] = preg_replace('/\.' . preg_quote($file_info['extension'], '/') . '$/i', '.' . $adjusted['type'], $file_info['name']);
 				$file_info['tmp_name'] = $output_name;
-				$file_info['size'] = filesize($file_info['tmp_name']);
+				$file_info['size'] = filesize($output_name);
+				$file_info['type'] = Rhymix\Framework\Storage::getContentType($output_name);
 				$file_info['extension'] = $adjusted['type'];
+				$file_info['width'] = $adjusted['width'];
+				$file_info['height'] = $adjusted['height'];
 				$file_info['converted'] = true;
 			}
 		}
@@ -1253,17 +1253,17 @@ class fileController extends file
 	 */
 	public function adjustUploadedVideo($file_info, $config)
 	{
-		if (!Rhymix\Framework\Video::isVideo($file_info['tmp_name']))
+		if (!is_command($config->ffmpeg_command) || !is_command($config->ffprobe_command))
 		{
 			return $file_info;
 		}
 		
-		// Create thumbnail
+		// Generate a thumbnail image
 		if ($config->video_thumbnail)
 		{
 			$output_name = $file_info['tmp_name'] . '.thumbnail.jpeg';
 			
-			$command = $config->ffmpeg_command ?: '/usr/bin/ffmpeg';
+			$command = $config->ffmpeg_command;
 			$command .= sprintf(' -ss 00:00:00.%d -i %s -vframes 1', mt_rand(0, 99), escapeshellarg($file_info['tmp_name']));
 			$command .= ' ' . escapeshellarg($output_name);
 			@exec($command, $output, $return_var);
@@ -1277,19 +1277,19 @@ class fileController extends file
 		// Treat as GIF
 		if ($config->video_mp4_gif_time && $file_info['extension'] === 'mp4')
 		{
-			$command = $config->ffprobe_command ?: '/usr/bin/ffprobe';
+			$command = $config->ffprobe_command;
 			$command .= ' -i ' . escapeshellarg($file_info['tmp_name']);
 			$command .= ' -show_entries format=duration -v quiet -of csv="p=0"';
-			$duration = (int)floor(@exec($command));
-			if($duration <= $config->video_mp4_gif_time)
+			$file_info['duration'] = (int)floor(@exec($command));
+			if($file_info['duration'] <= $config->video_mp4_gif_time)
 			{
-				$file_info['original_type'] = 'gif';
+				$file_info['original_type'] = 'image/gif';
 			}
 		}
 		
 		return $file_info;
 	}
-
+	
 	/**
 	 * Delete the attachment
 	 *
@@ -1651,11 +1651,6 @@ class fileController extends file
 			$components = $upload_target_srl ? getNumberingPath($upload_target_srl, 3) : '';
 			return sprintf('%sfiles/attach/%s/%d/%s', $prefix, $file_type, $module_srl, $components);
 		}
-	}
-	
-	public function getExtension($file_name)
-	{
-		return strtolower(array_pop(explode('.', $file_name)));
 	}
 	
 	/**

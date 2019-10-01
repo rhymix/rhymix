@@ -218,7 +218,8 @@ class fileAdminView extends file
 	{
 		$oFileModel = getModel('file');
 		$config = $oFileModel->getFileConfig();
-		Context::set('config',$config);
+		Context::set('config', $config);
+		Context::set('is_ffmpeg', is_command($config->ffmpeg_command) && is_command($config->ffprobe_command));
 		
 		// Set a template file
 		$this->setTemplatePath($this->module_path.'tpl');

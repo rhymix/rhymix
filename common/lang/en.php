@@ -358,3 +358,4 @@ $lang->audio = 'Audio';
 $lang->video = 'Video';
 $lang->text = 'Text';
 $lang->image_quality = 'Quality';
+$lang->standard = 'Standard';

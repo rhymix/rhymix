@@ -692,3 +692,22 @@ function is_empty_html_content($str)
 	$str = utf8_trim(utf8_clean(html_entity_decode($str, ENT_QUOTES, 'UTF-8')));
 	return $str === '';
 }
+
+/**
+ * Check if a external program can be executed.
+ * 
+ * @param string $command
+ * @return bool
+ */
+function is_command($command)
+{
+	if ($command && function_exists('exec'))
+	{
+		@exec('ls ' . escapeshellarg($command), $output, $return_var);
+		return $return_var === 0;
+	}
+	else
+	{
+		return false;
+	}
+}

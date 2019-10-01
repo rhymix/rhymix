@@ -144,6 +144,38 @@ class Storage
 	}
 	
 	/**
+	 * Get the MIME content type of a file.
+	 * 
+	 * This method returns the MIME content type of a file, or false on error.
+	 * 
+	 * @param string $filename
+	 * @return array|false
+	 */
+	public static function getContentType($filename)
+	{
+		$filename = rtrim($filename, '/\\');
+		if (self::exists($filename) && @is_file($filename) && @is_readable($filename))
+		{
+			if (function_exists('mime_content_type'))
+			{
+				return @mime_content_type($filename) ?: false;
+			}
+			elseif (($image = @getimagesize($filename)) && $image['mime'])
+			{
+				return $image['mime'];
+			}
+			else
+			{
+				return MIME::getTypeByFilename($filename);
+			}
+		}
+		else
+		{
+			return false;
+		}
+	}
+	
+	/**
 	 * Get the size of a file.
 	 * 
 	 * This method returns the size of a file, or false on error.
@@ -496,6 +528,51 @@ class Storage
 		}
 		
 		clearstatcache(true, $destination);
+		return true;
+	}
+	
+	/**
+	 * Move uploaded $source to $destination.
+	 * 
+	 * This method returns true on success and false on failure.
+	 * 
+	 * @param string $source
+	 * @param string $destination
+	 * @param string $type
+	 * @return bool
+	 */
+	public static function moveUploadedFile($source, $destination, $type = null)
+	{
+		if ($type === 'copy')
+		{
+			if (!self::copy($source, $destination))
+			{
+				if (!self::copy($source, $destination))
+				{
+					return false;
+				}
+			}
+		}
+		elseif ($type === 'move')
+		{
+			if (!self::move($source, $destination))
+			{
+				if (!self::move($source, $destination))
+				{
+					return false;
+				}
+			}
+		}
+		else
+		{
+			if (!@move_uploaded_file($source, $destination))
+			{
+				if (!@move_uploaded_file($source, $destination))
+				{
+					return false;
+				}
+			}
+		}
 		return true;
 	}
 	

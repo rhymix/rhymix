@@ -8,14 +8,43 @@ namespace Rhymix\Framework;
 class Image
 {
 	/**
-	 * Check Check if file is an image
+	 * Check if a file is an image
 	 * 
 	 * @param string $filename
 	 * @return bool
 	 */
 	public static function isImage($filename)
 	{
-		return strtolower(array_shift(explode('/', @mime_content_type($filename)))) === 'image';
+		return array_shift(explode('/', Storage::getContentType($filename))) === 'image';
+	}
+	
+	/**
+	 * Check if a file is an animated GIF.
+	 * 
+	 * @param string $filename
+	 * @return bool
+	 */
+	public static function isAnimatedGIF($filename)
+	{
+		if (Storage::getContentType($filename) !== 'image/gif')
+		{
+			return false;
+		}
+		if (!$fp = @fopen($filename, 'rb'))
+		{
+			return false;
+		}
+		$frames = 0;
+		while (!feof($fp) && $frames < 2)
+		{
+			$frames += preg_match_all('#\x00\x21\xF9\x04.{4}\x00[\x2C\x21]#s', fread($fp, 1024 * 16) ?: '');
+			if (!feof($fp))
+			{
+				fseek($fp, -9, SEEK_CUR);
+			}
+		}
+		fclose($fp);
+		return $frames > 1;
 	}
 	
 	/**
@@ -38,9 +67,9 @@ class Image
 			'width' => $image_info[0],
 			'height' => $image_info[1],
 			'type' => image_type_to_extension($image_info[2], false),
-			'bits' => $image_info['bits'],
-			'channels' => $image_info['channels'],
 			'mime' => $image_info['mime'],
+			'bits' => $image_info['bits'] ?? null,
+			'channels' => $image_info['channels'] ?? null,
 		];
 	}
 }

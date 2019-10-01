@@ -362,3 +362,4 @@ $lang->audio = '오디오';
 $lang->video = '동영상';
 $lang->text = '텍스트';
 $lang->image_quality = '화질';
+$lang->standard = '표준';
