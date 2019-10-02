@@ -1015,7 +1015,7 @@ class fileController extends file
 		$args->uploaded_filename = './' . substr($uploaded_filename, strlen(RX_BASEDIR));
 		$args->file_size = @filesize($uploaded_filename);
 		
-		// Move the created thumbnail image
+		// Move the generated thumbnail image
 		if($file_info['thumbnail'])
 		{
 			$thumbnail_filename = $storage_path . Rhymix\Framework\Security::getRandom(32, 'hex') . '.jpg';
@@ -1223,8 +1223,11 @@ class fileController extends file
 				// Generate a thumbnail image
 				if ($result)
 				{
-					$file_info['thumbnail'] = $file_info['tmp_name'] . '.thumbnail.jpg';
-					FileHandler::createImageFile($file_info['tmp_name'], $file_info['thumbnail'], $adjusted['width'], $adjusted['height'], 'jpg');
+					$thumbnail_name = $file_info['tmp_name'] . '.thumbnail.jpg';
+					if (FileHandler::createImageFile($file_info['tmp_name'], $thumbnail_name, $adjusted['width'], $adjusted['height'], 'jpg'))
+					{
+						$file_info['thumbnail'] = $thumbnail_name;
+					}
 				}
 			}
 			else
@@ -1258,32 +1261,53 @@ class fileController extends file
 			return $file_info;
 		}
 		
-		// Generate a thumbnail image
-		if ($config->video_thumbnail)
+		// Analyze video file
+		$command = $config->ffprobe_command;
+		$command .= ' -v quiet -print_format json -show_streams';
+		$command .= ' ' . escapeshellarg($file_info['tmp_name']);
+		@exec($command, $output, $return_var);
+		if ($return_var !== 0 || !$output = json_decode(implode('', $output), true))
 		{
-			$output_name = $file_info['tmp_name'] . '.thumbnail.jpeg';
-			
-			$command = $config->ffmpeg_command;
-			$command .= sprintf(' -ss 00:00:00.%d -i %s -vframes 1', mt_rand(0, 99), escapeshellarg($file_info['tmp_name']));
-			$command .= ' ' . escapeshellarg($output_name);
-			@exec($command, $output, $return_var);
-			
-			if($return_var === 0)
+			return $file_info;
+		}
+		
+		// Get stream information
+		$stream_info = [];
+		foreach ($output['streams'] as $info)
+		{
+			$stream_info[$info['codec_type']] = $info;
+		}
+		if (empty($stream_info['video']))
+		{
+			return $file_info;
+		}
+		
+		// Set video size
+		$file_info['width'] = (int)$stream_info['video']['width'];
+		$file_info['height'] = (int)$stream_info['video']['height'];
+		$file_info['duration'] = (int)$stream_info['video']['duration'];
+		
+		// MP4
+		if ($file_info['extension'] === 'mp4')
+		{
+			// Treat as GIF
+			if ($config->video_mp4_gif_time && $file_info['duration'] <= $config->video_mp4_gif_time && empty($stream_info['audio']))
 			{
-				$file_info['thumbnail'] = $output_name;
+				$file_info['original_type'] = 'image/gif';
 			}
 		}
 		
-		// Treat as GIF
-		if ($config->video_mp4_gif_time && $file_info['extension'] === 'mp4')
+		// Generate a thumbnail image
+		if ($config->video_thumbnail)
 		{
-			$command = $config->ffprobe_command;
-			$command .= ' -i ' . escapeshellarg($file_info['tmp_name']);
-			$command .= ' -show_entries format=duration -v quiet -of csv="p=0"';
-			$file_info['duration'] = (int)floor(@exec($command));
-			if($file_info['duration'] <= $config->video_mp4_gif_time)
+			$thumbnail_name = $file_info['tmp_name'] . '.thumbnail.jpeg';
+			$command = $config->ffmpeg_command;
+			$command .= sprintf(' -ss 00:00:00.%d -i %s -vframes 1', mt_rand(0, 99), escapeshellarg($file_info['tmp_name']));
+			$command .= ' ' . escapeshellarg($thumbnail_name);
+			@exec($command, $output, $return_var);
+			if ($return_var === 0)
 			{
-				$file_info['original_type'] = 'image/gif';
+				$file_info['thumbnail'] = $thumbnail_name;
 			}
 		}
 		
