@@ -884,17 +884,13 @@ class fileController extends file
 		$file_info['converted'] = false;
 		
 		// Correct extension
-		if($extension_by_type = Rhymix\Framework\MIME::getExtensionByType($file_info['type']))
+		if($file_info['extension'])
 		{
-			$target_types = ['image', 'audio', 'video'];
-			if(in_array(array_shift(explode('/', $file_info['type'])), $target_types))
+			$type_by_extension = Rhymix\Framework\MIME::getTypeByExtension($file_info['extension']);
+			if(!in_array($type_by_extension, [$file_info['type'], 'application/octet-stream']))
 			{
-				$file_info['extension'] = $extension_by_type;
-			}
-			elseif($file_info['extension'])
-			{
-				$type_by_extension = Rhymix\Framework\MIME::getTypeByExtension($file_info['extension']);
-				if(in_array(array_shift(explode('/', $type_by_extension)), $target_types))
+				$extension_by_type = Rhymix\Framework\MIME::getExtensionByType($file_info['type']);
+				if($extension_by_type && preg_match('@^(?:image|audio|video)/@m', $file_info['type'] . PHP_EOL . $type_by_extension))
 				{
 					$file_info['extension'] = $extension_by_type;
 				}
@@ -924,7 +920,7 @@ class fileController extends file
 			}
 			
 			// video
-			if(in_array($file_info['extension'], ['mp4', 'webm', 'ogg']))
+			if(in_array($file_info['extension'], ['mp4', 'webm', 'ogv']))
 			{
 				$file_info = $this->adjustUploadedVideo($file_info, $config);
 			}
@@ -1123,7 +1119,7 @@ class fileController extends file
 		}
 		
 		// Adjust image rotation
-		if ($config->image_autorotate && in_array($image_info['type'], ['jpg', 'jpeg']) && function_exists('exif_read_data'))
+		if ($config->image_autorotate && $image_info['type'] === 'jpg' && function_exists('exif_read_data'))
 		{
 			$exif = @exif_read_data($file_info['tmp_name']);
 			if($exif && isset($exif['Orientation']))

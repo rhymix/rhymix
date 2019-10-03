@@ -98,4 +98,5 @@ $lang->video_mp4_gif_time = 'Treat as GIF';
 $lang->about_video_mp4_gif_time = 'treat silent MP4 videos with duration less than the set time as GIF images, and play with auto and loop.';
 $lang->ffmpeg_path = 'FFmpeg path';
 $lang->ffprobe_path = 'FFprobe path';
-$lang->msg_cannot_use_ffmpeg = 'FFmpeg and FFprobe must can be executed by PHP';
+$lang->msg_cannot_use_ffmpeg = 'FFmpeg and FFprobe must can be executed by PHP.';
+$lang->msg_cannot_use_exif = 'PHP Exif module is required.';

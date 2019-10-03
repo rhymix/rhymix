@@ -92,6 +92,7 @@
 					{$lang->cmd_no}
 				</label>
 				<p class="x_help-block">{$lang->about_image_autorotate}</p>
+				<p class="x_text-info" cond="!function_exists('exif_read_data')">{$lang->msg_cannot_use_exif}</p>
 			</div>
 		</div>
 		<div class="x_control-group">

@@ -63,11 +63,20 @@ class Image
 		{
 			return false;
 		}
+		$img_type = [
+			IMG_GIF => 'gif',
+			IMG_JPG => 'jpg',
+			// jpeg is the same as jpg
+			IMG_PNG => 'png',
+			IMG_WEBP => 'webp',
+			IMG_WBMP => 'wbmp',
+			IMG_XPM => 'xpm',
+			(defined('IMG_BMP') ? IMG_BMP : 64) => 'bmp',
+		];
 		return [
 			'width' => $image_info[0],
 			'height' => $image_info[1],
-			'type' => image_type_to_extension($image_info[2], false),
-			'mime' => $image_info['mime'],
+			'type' => $img_type[$image_info[2]],
 			'bits' => $image_info['bits'] ?? null,
 			'channels' => $image_info['channels'] ?? null,
 		];

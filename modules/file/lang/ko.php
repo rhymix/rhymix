@@ -100,3 +100,4 @@ $lang->about_video_mp4_gif_time = '설정된 시간 이하의 길이를 가진 �
 $lang->ffmpeg_path = 'FFmpeg 경로';
 $lang->ffprobe_path = 'FFprobe 경로';
 $lang->msg_cannot_use_ffmpeg = 'PHP에서 FFmpeg 및 FFprobe를 실행할 수 있어야 합니다.';
+$lang->msg_cannot_use_exif = 'PHP Exif 모듈이 필요합니다.';

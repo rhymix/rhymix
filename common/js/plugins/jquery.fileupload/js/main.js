@@ -154,10 +154,10 @@
 						if(/\.(jpe?g|png|gif|webp)$/i.test(result.source_filename)) {
 							temp_code += '<img src="' + result.download_url + '" alt="' + result.source_filename + '" editor_component="image_link" data-file-srl="' + result.file_srl + '" />';
 						}
-						else if(/\.(mp3)$/i.test(result.source_filename)) {
+						else if(/\.(mp3|ogg|wav)$/i.test(result.source_filename)) {
 							temp_code += '<audio src="' + result.download_url + '" controls data-file-srl="' + result.file_srl + '" />';
 						}
-						else if(/\.(mp4|webm|ogg)$/i.test(result.source_filename)) {
+						else if(/\.(mp4|webm|ogv)$/i.test(result.source_filename)) {
 							if(result.original_type === 'image/gif') {
 								temp_code += '<video src="' + result.download_url + '" autoplay loop muted data-file-srl="' + result.file_srl + '" />';
 							} else {
@@ -326,10 +326,10 @@
 				if(/\.(jpe?g|png|gif|webp)$/i.test(result.source_filename)) {
 					temp_code += '<img src="' + result.download_url + '" alt="' + result.source_filename + '" editor_component="image_link" data-file-srl="' + result.file_srl + '" />';
 				}
-				else if(/\.(mp3)$/i.test(result.source_filename)) {
+				else if(/\.(mp3|ogg|wav)$/i.test(result.source_filename)) {
 					temp_code += '<audio src="' + result.download_url + '" controls data-file-srl="' + result.file_srl + '" />';
 				}
-				else if(/\.(mp4|webm|ogg)$/i.test(result.source_filename)) {
+				else if(/\.(mp4|webm|ogv)$/i.test(result.source_filename)) {
 					if(result.original_type === 'image/gif') {
 						temp_code += '<video src="' + result.download_url + '" autoplay loop muted data-file-srl="' + result.file_srl + '" />';
 					} else {
@@ -343,7 +343,7 @@
 					}
 				}
 				if(temp_code === '') {
-					temp_code += '<a href="' + fileinfo.download_url + '" data-file-srl="' + fileinfo.file_srl + '">' + fileinfo.source_filename + "</a>\n";
+					temp_code += '<a href="' + result.download_url + '" data-file-srl="' + result.file_srl + '">' + result.source_filename + "</a>\n";
 				}
 				_getCkeInstance(data.editorSequence).insertHtml(temp_code, "unfiltered_html");
 			});
@@ -437,7 +437,7 @@
 					file.source_filename = file.source_filename.replace("&amp;", "&");
 					if(file.thumbnail_filename) {
 						file.download_url = file.thumbnail_filename;
-						if(/\.(mp4|webm|ogg)$/i.test(file.source_filename)) {
+						if(/\.(mp4|webm|ogv)$/i.test(file.source_filename)) {
 							result_image.push(template_fileimte_video(file));
 						} else {
 							result_image.push(template_fileimte_image(file));
