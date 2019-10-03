@@ -16,7 +16,7 @@ class MIMETest extends \Codeception\TestCase\Test
 		
 		$this->assertEquals('odt', Rhymix\Framework\MIME::getExtensionByType('application/vnd.oasis.opendocument.text'));
 		$this->assertEquals('jpg', Rhymix\Framework\MIME::getExtensionByType('image/jpeg'));
-		$this->assertEquals('mpeg', Rhymix\Framework\MIME::getExtensionByType('video/mpeg'));
+		$this->assertEquals('mpeg', Rhymix\Framework\MIME::getExtensionByType('video/mpg'));
 		$this->assertFalse(Rhymix\Framework\MIME::getExtensionByType('application/octet-stream'));
 	}
 }
