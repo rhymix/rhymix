@@ -23,8 +23,8 @@
 		actSetCover : '.xefu-act-set-cover',
 
 		tmplXeUploaderFileitem : '<li class="xefu-file xe-clearfix" data-file-srl="{{file_srl}}"><span class="xefu-file-name">{{source_filename}}</span><span class="xefu-file-info"><span>{{disp_file_size}}</span><span><input type="checkbox" data-file-srl="{{file_srl}}"> Select</span></span></li>',
-		tmplXeUploaderFileitemImage: '<li class="xefu-file xefu-file-image {{#if cover_image}}xefu-is-cover-image{{/if}}" data-file-srl="{{file_srl}}"><strong class="xefu-file-name">{{source_filename}}</strong><span class="xefu-file-info"><span class="xefu-file-size">{{disp_file_size}}</span><span><img src="{{download_url}}" alt=""></span><span><input type="checkbox" data-file-srl="{{file_srl}}"></span><button class="xefu-act-set-cover" data-file-srl="{{file_srl}}" title="Be a cover image"><i class="xi-check-circle"></i></button></span></li>',
-		tmplXeUploaderFileitemVideo: '<li class="xefu-file xefu-file-image {{#if cover_image}}xefu-is-cover-image{{/if}}" data-file-srl="{{file_srl}}"><strong class="xefu-file-name">{{source_filename}}</strong><span class="xefu-file-info"><span class="xefu-file-size">{{disp_file_size}}</span><span><span class="xefu-file-video"><span class="xefu-file-video-play"></span></span><img src="{{download_url}}" alt=""></span><span><input type="checkbox" data-file-srl="{{file_srl}}"></span><button class="xefu-act-set-cover" data-file-srl="{{file_srl}}" title="Be a cover image"><i class="xi-check-circle"></i></button></span></li>'
+		tmplXeUploaderFileitemImage: '<li class="xefu-file xefu-file-image {{#if cover_image}}xefu-is-cover-image{{/if}}" data-file-srl="{{file_srl}}"><strong class="xefu-file-name">{{source_filename}}</strong><span class="xefu-file-info"><span class="xefu-file-size">{{disp_file_size}}</span><span><img src="{{thumbnail_url}}" alt=""></span><span><input type="checkbox" data-file-srl="{{file_srl}}"></span><button class="xefu-act-set-cover" data-file-srl="{{file_srl}}" title="Be a cover image"><i class="xi-check-circle"></i></button></span></li>',
+		tmplXeUploaderFileitemVideo: '<li class="xefu-file xefu-file-image {{#if cover_image}}xefu-is-cover-image{{/if}}" data-file-srl="{{file_srl}}"><strong class="xefu-file-name">{{source_filename}}</strong><span class="xefu-file-info"><span class="xefu-file-size">{{disp_file_size}}</span><span><span class="xefu-file-video"><span class="xefu-file-video-play"></span></span><img src="{{thumbnail_url}}" alt=""></span><span><input type="checkbox" data-file-srl="{{file_srl}}"></span><button class="xefu-act-set-cover" data-file-srl="{{file_srl}}" title="Be a cover image"><i class="xi-check-circle"></i></button></span></li>'
 	};
 
 	var _elements = [
@@ -434,9 +434,11 @@
 					data.files[file.file_srl] = file;
 					$container.data(data);
 					
+					file.thumbnail_url = file.download_url;
 					file.source_filename = file.source_filename.replace("&amp;", "&");
+					
 					if(file.thumbnail_filename) {
-						file.download_url = file.thumbnail_filename;
+						file.thumbnail_url = file.thumbnail_filename;
 						if(/\.(mp4|webm|ogv)$/i.test(file.source_filename)) {
 							result_image.push(template_fileimte_video(file));
 						} else {
