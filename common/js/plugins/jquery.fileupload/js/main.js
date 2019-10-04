@@ -170,7 +170,10 @@
 								temp_code = "<p>" + temp_code + "</p>\n";
 							}
 							if (opt.autoinsertImage !== 'none') {
-								_getCkeInstance(settings.formData.editor_sequence).insertHtml(temp_code, "unfiltered_html");
+								try {
+									_getCkeInstance(settings.formData.editor_sequence).insertHtml(temp_code, "unfiltered_html");
+								}
+								catch(err) {}
 							}
 						}
 					} else if (result.message) {
@@ -345,7 +348,11 @@
 				if(temp_code === '') {
 					temp_code += '<a href="' + result.download_url + '" data-file-srl="' + result.file_srl + '">' + result.source_filename + "</a>\n";
 				}
-				_getCkeInstance(data.editorSequence).insertHtml(temp_code, "unfiltered_html");
+				try {
+					_getCkeInstance(data.editorSequence).insertHtml(temp_code, "unfiltered_html");
+				}
+				catch(err) {}
+				
 			});
 		},
 		/**
