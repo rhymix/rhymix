@@ -64,14 +64,14 @@ class Image
 			return false;
 		}
 		$img_type = [
-			IMG_GIF => 'gif',
-			IMG_JPG => 'jpg',
-			// jpeg is the same as jpg
-			IMG_PNG => 'png',
-			IMG_WEBP => 'webp',
-			IMG_WBMP => 'wbmp',
-			IMG_XPM => 'xpm',
-			(defined('IMG_BMP') ? IMG_BMP : 64) => 'bmp',
+			IMAGETYPE_GIF => 'gif',
+			IMAGETYPE_JPEG => 'jpg',
+			IMAGETYPE_JPEG2000 => 'jp2',
+			IMAGETYPE_PNG => 'png',
+			(defined('IMAGETYPE_WEBP') ? IMAGETYPE_WEBP : 18) => 'webp',
+			IMAGETYPE_BMP => 'bmp',
+			IMAGETYPE_PSD => 'psd',
+			IMAGETYPE_ICO => 'ico',
 		];
 		return [
 			'width' => $image_info[0],
