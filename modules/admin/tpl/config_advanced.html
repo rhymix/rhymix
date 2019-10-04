@@ -136,9 +136,9 @@
 					<input type="radio" name="thumbnail_type" id="thumbnail_type_ratio" value="ratio" checked="checked"|cond="$thumbnail_type == 'ratio'" />
 					{$lang->thumbnail_ratio}
 				</label>
-				<select name="thumbnail_quality" id="thumbnail_quality" style="width:100px;min-width:100px">
+				<select name="thumbnail_quality" id="thumbnail_quality" style="min-width:120px">
 					<!--@for($q = 50; $q <= 100; $q += 5)-->
-						<option value="{$q}" selected="selected"|cond="$thumbnail_quality == $q">{$lang->thumbnail_quality} {$q}%</option>
+						<option value="{$q}" selected="selected"|cond="$thumbnail_quality === $q">{$lang->image_quality} {$q}%<!--@if($q === 75)--> ({$lang->standard})<!--@end--></option>
 					<!--@endfor-->
 				</select>
 			</div>

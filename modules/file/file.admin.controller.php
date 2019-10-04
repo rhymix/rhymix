@@ -74,6 +74,7 @@ class fileAdminController extends file
 		$config->max_image_size_admin = Context::get('max_image_size_admin') === 'Y' ? 'Y' : 'N';
 		$config->image_quality_adjustment = max(50, min(100, intval(Context::get('image_quality_adjustment'))));
 		$config->image_autorotate = Context::get('image_autorotate') === 'Y' ? true : false;
+		$config->image_remove_exif_data = Context::get('image_remove_exif_data') === 'Y' ? true : false;
 		$config->video_thumbnail = Context::get('video_thumbnail') === 'Y' ? true : false;
 		$config->video_mp4_gif_time = intval(Context::get('video_mp4_gif_time'));
 		$config->ffmpeg_command = escape(utf8_trim(Context::get('ffmpeg_command'))) ?: '/usr/bin/ffmpeg';
@@ -153,81 +154,82 @@ class fileAdminController extends file
 	 */
 	function procFileAdminInsertModuleConfig()
 	{
-		$file_config = new stdClass;
+		$config = new stdClass;
 		
 		// Default
 		if(!Context::get('use_default_file_config'))
 		{
-			$file_config->use_default_file_config = 'N';
-			$file_config->allowed_filesize = Context::get('allowed_filesize');
-			$file_config->allowed_attach_size = Context::get('allowed_attach_size');
-			$file_config->allowed_filetypes = Context::get('allowed_filetypes');
+			$config->use_default_file_config = 'N';
+			$config->allowed_filesize = Context::get('allowed_filesize');
+			$config->allowed_attach_size = Context::get('allowed_attach_size');
+			$config->allowed_filetypes = Context::get('allowed_filetypes');
 			
 			// Check maximum file size
 			if (PHP_INT_SIZE < 8)
 			{
-				if ($file_config->allowed_filesize > 2047 || $file_config->allowed_attach_size > 2047)
+				if ($config->allowed_filesize > 2047 || $config->allowed_attach_size > 2047)
 				{
 					throw new Rhymix\Framework\Exception('msg_32bit_max_2047mb');
 				}
 			}
 			
 			// Simplify allowed_filetypes
-			$file_config->allowed_extensions = strtr(strtolower(trim($file_config->allowed_filetypes)), array('*.' => '', ';' => ','));
-			if ($file_config->allowed_extensions)
+			$config->allowed_extensions = strtr(strtolower(trim($config->allowed_filetypes)), array('*.' => '', ';' => ','));
+			if ($config->allowed_extensions)
 			{
-				$file_config->allowed_extensions = array_map('trim', explode(',', $file_config->allowed_filetypes));
-				$file_config->allowed_filetypes = implode(';', array_map(function($ext) {
+				$config->allowed_extensions = array_map('trim', explode(',', $config->allowed_filetypes));
+				$config->allowed_filetypes = implode(';', array_map(function($ext) {
 					return '*.' . $ext;
-				}, $file_config->allowed_extensions));
+				}, $config->allowed_extensions));
 			}
 			else
 			{
-				$file_config->allowed_extensions = array();
-				$file_config->allowed_filetypes = '*.*';
+				$config->allowed_extensions = array();
+				$config->allowed_filetypes = '*.*';
 			}
 		}
 		
 		// Image
 		if(!Context::get('use_image_default_file_config'))
 		{
-			$file_config->use_image_default_file_config = 'N';
-			$file_config->image_autoconv['bmp2jpg'] = Context::get('image_autoconv_bmp2jpg') === 'Y' ? true : false;
-			$file_config->image_autoconv['png2jpg'] = Context::get('image_autoconv_png2jpg') === 'Y' ? true : false;
-			$file_config->image_autoconv['webp2jpg'] = Context::get('image_autoconv_webp2jpg') === 'Y' ? true : false;
-			$file_config->image_autoconv['gif2mp4'] = Context::get('image_autoconv_gif2mp4') === 'Y' ? true : false;
-			$file_config->max_image_width = intval(Context::get('max_image_width')) ?: '';
-			$file_config->max_image_height = intval(Context::get('max_image_height')) ?: '';
-			$file_config->max_image_size_action = Context::get('max_image_size_action') ?: '';
-			$file_config->max_image_size_admin = Context::get('max_image_size_admin') === 'Y' ? 'Y' : 'N';
-			$file_config->image_quality_adjustment = max(50, min(100, intval(Context::get('image_quality_adjustment'))));
-			$file_config->image_autorotate = Context::get('image_autorotate') === 'Y' ? true : false;
+			$config->use_image_default_file_config = 'N';
+			$config->image_autoconv['bmp2jpg'] = Context::get('image_autoconv_bmp2jpg') === 'Y' ? true : false;
+			$config->image_autoconv['png2jpg'] = Context::get('image_autoconv_png2jpg') === 'Y' ? true : false;
+			$config->image_autoconv['webp2jpg'] = Context::get('image_autoconv_webp2jpg') === 'Y' ? true : false;
+			$config->image_autoconv['gif2mp4'] = Context::get('image_autoconv_gif2mp4') === 'Y' ? true : false;
+			$config->max_image_width = intval(Context::get('max_image_width')) ?: '';
+			$config->max_image_height = intval(Context::get('max_image_height')) ?: '';
+			$config->max_image_size_action = Context::get('max_image_size_action') ?: '';
+			$config->max_image_size_admin = Context::get('max_image_size_admin') === 'Y' ? 'Y' : 'N';
+			$config->image_quality_adjustment = max(50, min(100, intval(Context::get('image_quality_adjustment'))));
+			$config->image_autorotate = Context::get('image_autorotate') === 'Y' ? true : false;
+			$config->image_remove_exif_data = Context::get('image_remove_exif_data') === 'Y' ? true : false;
 		}
 		
 		// Video
 		if(!Context::get('use_video_default_file_config'))
 		{
-			$file_config->use_video_default_file_config = 'N';
-			$file_config->video_thumbnail = Context::get('video_thumbnail') === 'Y' ? true : false;
-			$file_config->video_mp4_gif_time = intval(Context::get('video_mp4_gif_time'));
+			$config->use_video_default_file_config = 'N';
+			$config->video_thumbnail = Context::get('video_thumbnail') === 'Y' ? true : false;
+			$config->video_mp4_gif_time = intval(Context::get('video_mp4_gif_time'));
 		}
 		
 		// Check download grant
 		$download_grant = Context::get('download_grant');
 		if(!is_array($download_grant))
 		{
-			$file_config->download_grant = explode('|@|',$download_grant);
+			$config->download_grant = explode('|@|',$download_grant);
 		}
 		else
 		{
-			$file_config->download_grant = array_values($download_grant);
+			$config->download_grant = array_values($download_grant);
 		}
 		
 		// Update
 		$oModuleController = getController('module');
 		foreach(explode(',', Context::get('target_module_srl')) as $module_srl)
 		{
-			$output = $oModuleController->insertModulePartConfig('file', trim($module_srl), $file_config);
+			$output = $oModuleController->insertModulePartConfig('file', trim($module_srl), $config);
 			if(!$output->toBool())
 			{
 				return $output;

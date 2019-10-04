@@ -1091,6 +1091,7 @@ class fileController extends file
 		$file_info['height'] = $image_info['height'];
 		
 		// Set base information
+		$force = false;
 		$adjusted = [
 			'width' => $image_info['width'],
 			'height' => $image_info['height'],
@@ -1141,7 +1142,6 @@ class fileController extends file
 					$adjusted['rotate'] = $rotate;
 				}
 			}
-			unset($exif);
 		}
 		
 		// Adjust image size
@@ -1191,8 +1191,22 @@ class fileController extends file
 			}
 		}
 		
+		// Set force for remove EXIF data
+		if($config->image_remove_exif_data && $image_info['type'] === 'jpg' && function_exists('exif_read_data'))
+		{
+			if(!isset($exif))
+			{
+				$exif = @exif_read_data($file_info['tmp_name']);
+			}
+			if($exif && (isset($exif['Model']) || isset($exif['Software']) || isset($exif['GPSVersion'])))
+			{
+				$force = true;
+			}
+		}
+		
 		// Convert image if adjusted
 		if (
+			$force ||
 			$adjusted['width'] !== $image_info['width'] ||
 			$adjusted['height'] !== $image_info['height'] ||
 			$adjusted['type'] !== $image_info['type'] ||
@@ -1220,7 +1234,7 @@ class fileController extends file
 				if ($result)
 				{
 					$thumbnail_name = $file_info['tmp_name'] . '.thumbnail.jpg';
-					if (FileHandler::createImageFile($file_info['tmp_name'], $thumbnail_name, $adjusted['width'], $adjusted['height'], 'jpg'))
+					if (FileHandler::createImageFile($file_info['tmp_name'], $thumbnail_name, $adjusted['width'], $adjusted['height'], 'jpg', 'crop', $adjusted['quality']))
 					{
 						$file_info['thumbnail'] = $thumbnail_name;
 					}
