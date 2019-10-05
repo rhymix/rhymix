@@ -359,3 +359,5 @@ $lang->video = 'Video';
 $lang->text = 'Text';
 $lang->image_quality = 'Quality';
 $lang->standard = 'Standard';
+$lang->unlimited = 'Unlimited';
+$lang->admin = 'Admin';

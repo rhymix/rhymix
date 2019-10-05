@@ -24,109 +24,107 @@ class fileModel extends file
 	 */
 	function getFileList()
 	{
-		$oModuleModel = getModel('module');
-
-		$mid = Context::get('mid');
+		$file_list = [];
+		$attached_size = 0;
 		$editor_sequence = Context::get('editor_sequence');
-		$upload_target_srl = Context::get('upload_target_srl');
-		if(!$upload_target_srl) $upload_target_srl = $_SESSION['upload_info'][$editor_sequence]->upload_target_srl;
-
+		$upload_target_srl = Context::get('upload_target_srl') ?: 0;
+		if(!$upload_target_srl && isset($_SESSION['upload_info'][$editor_sequence]))
+		{
+			$upload_target_srl = $_SESSION['upload_info'][$editor_sequence]->upload_target_srl;
+		}
+		
+		// Get uploaded files
 		if($upload_target_srl)
 		{
-			$oDocumentModel = getModel('document');
+			$oModuleModel = getModel('module');
 			$oCommentModel = getModel('comment');
-			$logged_info = Context::get('logged_info');
-
+			$oDocumentModel = getModel('document');
 			$oDocument = $oDocumentModel->getDocument($upload_target_srl);
-
-			// comment 권한 확인
+			
+			// Check permissions of comment
 			if(!$oDocument->isExists())
 			{
 				$oComment = $oCommentModel->getComment($upload_target_srl);
-				if($oComment->isExists() && !$oComment->isAccessible())
+				if($oComment->isExists())
 				{
-					throw new Rhymix\Framework\Exceptions\NotPermitted;
+					if(!$oComment->isAccessible())
+					{
+						throw new Rhymix\Framework\Exceptions\NotPermitted;
+					}
+					$oDocument = $oDocumentModel->getDocument($oComment->get('document_srl'));
 				}
-
-				$oDocument = $oDocumentModel->getDocument($oComment->get('document_srl'));
 			}
-
-			// document 권한 확인
+			
+			// Check permissions of document
 			if($oDocument->isExists() && !$oDocument->isAccessible())
 			{
 				throw new Rhymix\Framework\Exceptions\NotPermitted;
 			}
-
-			// 모듈 권한 확인
-			if($oDocument->isExists())
+			
+			// Check permissions of the module
+			if($module_srl = isset($oComment) ? $oComment->get('module_srl') : $oDocument->get('module_srl'))
 			{
-				$grant = $oModuleModel->getGrant($oModuleModel->getModuleInfoByModuleSrl($oDocument->get('module_srl')), $logged_info);
+				$module_info = $oModuleModel->getModuleInfoByModuleSrl($module_srl);
+				if(empty($module_info->module_srl))
+				{
+					throw new Rhymix\Framework\Exceptions\NotPermitted;
+				}
+				$grant = $oModuleModel->getGrant($module_info, Context::get('logged_info'));
 				if(!$grant->access)
 				{
 					throw new Rhymix\Framework\Exceptions\NotPermitted;
 				}
 			}
-
-			$tmp_files = $this->getFiles($upload_target_srl);
-			if($tmp_files instanceof BaseObject && !$tmp_files->toBool()) return $tmp_files;
-			$files = array();
-
-			foreach($tmp_files as $file_info)
+			
+			// Set file list
+			foreach($this->getFiles($upload_target_srl) as $file_info)
 			{
-				if(!$file_info->file_srl)
-				{
-					continue;
-				}
 				$obj = new stdClass;
 				$obj->file_srl = $file_info->file_srl;
 				$obj->source_filename = $file_info->source_filename;
 				$obj->thumbnail_filename = $file_info->thumbnail_filename;
+				$obj->type = $file_info->type;
 				$obj->original_type = $file_info->original_type;
 				$obj->file_size = $file_info->file_size;
 				$obj->disp_file_size = FileHandler::filesize($file_info->file_size);
-				if($file_info->direct_download == 'N')
-				{
-					$obj->download_url = $this->getDownloadUrl($file_info->file_srl, $file_info->sid, $file_info->module_srl);
-				}
-				else
+				$obj->direct_download = $file_info->direct_download;
+				$obj->cover_image = ($file_info->cover_image === 'Y') ? true : false;
+				$obj->download_url = $file_info->download_url;
+				if($obj->direct_download === 'Y')
 				{
 					$obj->download_url = $this->getDirectFileUrl($file_info->uploaded_filename);
 				}
-				$obj->direct_download = $file_info->direct_download;
-				$obj->cover_image = ($file_info->cover_image === 'Y') ? true : false;
-				$files[] = $obj;
+				
+				$file_list[] = $obj;
 				$attached_size += $file_info->file_size;
 			}
 		}
+		
+		// Set output
+		$this->add('files', $file_list);
+		$this->add('attached_size', FileHandler::filesize($attached_size));
+		$this->add('editor_sequence', $editor_sequence);
+		$this->add('upload_target_srl', $upload_target_srl);
+		
+		// Set upload config
+		$upload_config = $this->getUploadConfig();
+		if($this->user->isAdmin())
+		{
+			$this->add('allowed_filesize', sprintf('%s (%s)', lang('common.unlimited'), lang('common.admin')));
+			$this->add('allowed_attach_size', sprintf('%s (%s)', lang('common.unlimited'), lang('common.admin')));
+			$this->add('allowed_extensions', []);
+		}
 		else
 		{
-			$upload_target_srl = 0;
-			$attached_size = 0;
-			$files = array();
+			$this->add('allowed_filesize', FileHandler::filesize($upload_config->allowed_filesize * 1024 * 1024));
+			$this->add('allowed_attach_size', FileHandler::filesize($upload_config->allowed_attach_size * 1024 * 1024));
+			$this->add('allowed_extensions', $upload_config->allowed_extensions);
 		}
-		// Display upload status
-		$upload_status = $this->getUploadStatus($attached_size);
-		// Check remained file size until upload complete
-		//$config = $oModuleModel->getModuleInfoByMid($mid);	//perhaps config varialbles not used
-
-		$file_config = $this->getUploadConfig();
-		$left_size = $file_config->allowed_attach_size*1024*1024 - $attached_size;
-		// Settings of required information
-		$attached_size = FileHandler::filesize($attached_size);
-		$allowed_attach_size = FileHandler::filesize($file_config->allowed_attach_size*1024*1024);
-		$allowed_filesize = FileHandler::filesize($file_config->allowed_filesize*1024*1024);
-		$allowed_filetypes = $file_config->allowed_filetypes;
-		$allowed_extensions = $file_config->allowed_extensions ?: array();
-		$this->add("files",$files);
-		$this->add("editor_sequence",$editor_sequence);
-		$this->add("upload_target_srl",$upload_target_srl);
-		$this->add("upload_status",$upload_status);
-		$this->add("left_size",$left_size);
-		$this->add('attached_size', $attached_size);
-		$this->add('allowed_attach_size', $allowed_attach_size);
-		$this->add('allowed_filesize', $allowed_filesize);
-		$this->add('allowed_filetypes', $allowed_filetypes);
-		$this->add('allowed_extensions', $allowed_extensions);
+		
+		// for compatibility
+		$this->add('allowed_filetypes', $upload_config->allowed_filetypes);
+		$this->add('upload_status', $this->getUploadStatus($attached_size));
+		$this->add('left_size', $upload_config->allowed_attach_size * 1024 * 1024 - $attached_size);
 	}
 
 	/**
@@ -295,26 +293,16 @@ class fileModel extends file
 	 */
 	function getUploadConfig()
 	{
-		$logged_info = Context::get('logged_info');
-
-		$module_srl = Context::get('module_srl');
-		// Get the current module if module_srl doesn't exist
-		if(!$module_srl)
+		$config = $this->getFileConfig(Context::get('module_srl') ?: Context::get('current_module_info')->module_srl);
+		if($this->user->isAdmin())
 		{
-			$current_module_info = Context::get('current_module_info');
-			$module_srl = $current_module_info->module_srl;
+			$module_config = getModel('module')->getModuleConfig('file');
+			$config->allowed_filesize = max($config->allowed_filesize, $module_config->allowed_filesize);
+			$config->allowed_attach_size = max($config->allowed_attach_size, $module_config->allowed_attach_size);
+			$config->allowed_extensions = [];
+			$config->allowed_filetypes = '*.*';
 		}
-		$file_config = $this->getFileConfig($module_srl);
-
-		if($logged_info->is_admin == 'Y')
-		{
-			$oModuleModel = getModel('module');
-			$module_config = $oModuleModel->getModuleConfig('file');
-			$file_config->allowed_filesize = max($file_config->allowed_filesize, $module_config->allowed_filesize);
-			$file_config->allowed_attach_size = max($file_config->allowed_attach_size, $module_config->allowed_attach_size);
-			$file_config->allowed_filetypes = '*.*';
-		}
-		return $file_config;
+		return $config;
 	}
 
 	/**

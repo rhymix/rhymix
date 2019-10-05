@@ -363,3 +363,5 @@ $lang->video = '동영상';
 $lang->text = '텍스트';
 $lang->image_quality = '화질';
 $lang->standard = '표준';
+$lang->unlimited = '제한 없음';
+$lang->admin = '관리자';
