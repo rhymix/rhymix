@@ -24,17 +24,26 @@ class documentController extends document
 	 */
 	function procDocumentVoteUp()
 	{
-		if($this->module_info->non_login_vote !== 'Y')
+		$document_srl = Context::get('target_srl');
+		if(!$document_srl)
+		{
+			throw new Rhymix\Framework\Exceptions\InvalidRequest;
+		}
+		
+		$module_info = $this->module_info;
+		if(!$module_info->module_srl)
+		{
+			$module_info = getModel('module')->getModuleInfoByDocumentSrl($document_srl);
+		}
+		
+		if($module_info->non_login_vote !== 'Y')
 		{
 			if(!Context::get('is_logged'))
 			{
 				throw new Rhymix\Framework\Exceptions\NotPermitted;
 			}
 		}
-
-		$document_srl = Context::get('target_srl');
-		if(!$document_srl) throw new Rhymix\Framework\Exceptions\InvalidRequest;
-
+		
 		$oDocumentModel = getModel('document');
 		$oDocument = $oDocumentModel->getDocument($document_srl, false, false);
 		$module_srl = $oDocument->get('module_srl');
@@ -56,7 +65,19 @@ class documentController extends document
 
 	function procDocumentVoteUpCancel()
 	{
-		if($this->module_info->non_login_vote !== 'Y')
+		$document_srl = Context::get('target_srl');
+		if(!$document_srl)
+		{
+			throw new Rhymix\Framework\Exceptions\InvalidRequest;
+		}
+		
+		$module_info = $this->module_info;
+		if(!$module_info->module_srl)
+		{
+			$module_info = getModel('module')->getModuleInfoByDocumentSrl($document_srl);
+		}
+
+		if($module_info->non_login_vote !== 'Y')
 		{
 			if(!Context::get('is_logged'))
 			{
@@ -64,15 +85,9 @@ class documentController extends document
 			}
 		}
 		
-		if($this->module_info->cancel_vote !== 'Y')
+		if($module_info->cancel_vote !== 'Y')
 		{
 			throw new Rhymix\Framework\Exception('failed_voted_cancel');
-		}
-		
-		$document_srl = Context::get('target_srl');
-		if(!$document_srl)
-		{
-			throw new Rhymix\Framework\Exceptions\InvalidRequest;
 		}
 
 		$oDocumentModel = getModel('document');
