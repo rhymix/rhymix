@@ -369,7 +369,21 @@
 		if (form.attr('target')) {
 			return;
 		}
+		// Prevent page refresh.
 		event.preventDefault();
+		// Get success and error callback functions.
+		var callback_success = form.data('callback-success');
+		if (callback_success && window[callback_success] && $.isFunction(window[callback_success])) {
+			callback_success = window[callback_success];
+		} else {
+			callback_success = null;
+		}
+		var callback_error = form.data('callback-error');
+		if (callback_error && window[callback_error] && $.isFunction(window[callback_error])) {
+			callback_error = window[callback_error];
+		} else {
+			callback_error = null;
+		}
 		// If the form has file uploads, use a hidden iframe to submit. Otherwise use exec_json.
 		var has_files = form.find('input[type=file][name!=Filedata]').size();
 		if (has_files) {
@@ -388,7 +402,7 @@
 			}, 1000);
 			form.submit();
 		} else {
-			window.exec_json('raw', form.serialize());
+			window.exec_json('raw', form.serialize(), callback_success, callback_error);
 		}
 	});
 	
