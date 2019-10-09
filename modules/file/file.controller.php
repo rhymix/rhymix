@@ -1148,18 +1148,19 @@ class fileController extends file
 		if ($config->max_image_size_action && ($config->max_image_width || $config->max_image_height) && (!$this->user->isAdmin() || $config->max_image_size_admin === 'Y'))
 		{
 			$exceeded = 0;
-			$resize_width = $adjusted['width'] * ($config->max_image_height / $adjusted['height']);
-			$resize_height = $adjusted['height'] * ($config->max_image_width / $adjusted['width']);
-			
+			$resize_width = $adjusted['width'];
+			$resize_height = $adjusted['height'];
 			if ($config->max_image_width > 0 && $adjusted['width'] > $config->max_image_width)
 			{
-				$exceeded++;
 				$resize_width = $config->max_image_width;
-			}
-			if ($config->max_image_height > 0 && $adjusted['height'] > $config->max_image_height)
-			{
+				$resize_height = $adjusted['height'] * ($config->max_image_width / $adjusted['width']);
 				$exceeded++;
+			}
+			if ($config->max_image_height > 0 && $resize_height > $config->max_image_height)
+			{
+				$resize_width = $resize_width * ($config->max_image_height / $resize_height);
 				$resize_height = $config->max_image_height;
+				$exceeded++;
 			}
 			
 			if ($exceeded)
