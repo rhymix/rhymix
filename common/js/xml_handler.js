@@ -190,16 +190,18 @@
 	window.exec_json = $.exec_json = function(action, params, callback_success, callback_error) {
 		
 		// Convert params to object and fill in the module and act.
-		params = params ? ($.isArray(params) ? arr2obj(params) : params) : {};
-		action = action.split(".");
-		//if (action.length != 2) return;
-		params.module = action[0];
-		params.act = action[1];
-		params._rx_ajax_compat = 'JSON';
-		params._rx_csrf_token = getCSRFToken();
-		
-		// Fill in the XE vid.
-		if (typeof(xeVid) != "undefined") params.vid = xeVid;
+		if (action === 'raw') {
+			var request_info = 'RAW FORM SUBMISSION';
+		} else {
+			params = params ? ($.isArray(params) ? arr2obj(params) : params) : {};
+			action = action.split(".");
+			//if (action.length != 2) return;
+			params.module = action[0];
+			params.act = action[1];
+			params._rx_ajax_compat = 'JSON';
+			params._rx_csrf_token = getCSRFToken();
+			var request_info = params.module + "." + params.act;
+		}
 		
 		// Delay the waiting message for 1 second to prevent rapid blinking.
 		waiting_obj.css("opacity", 0.0);
@@ -218,7 +220,7 @@
 			
 			// Add debug information.
 			if (data._rx_debug) {
-				data._rx_debug.page_title = "AJAX : " + params.module + "." + params.act;
+				data._rx_debug.page_title = "AJAX : " + request_info;
 				if (window.rhymix_debug_add_data) {
 					window.rhymix_debug_add_data(data._rx_debug);
 				} else {
@@ -238,7 +240,7 @@
 					if (data.message) {
 						alert(data.message.replace(/\\n/g, "\n"));
 					} else {
-						alert("AJAX communication error while requesting " + data.module + "." + data.act);
+						alert("AJAX communication error while requesting " + request_info);
 					}
 					if ($.isFunction(callback_error)) {
 						callback_error(data);
@@ -283,6 +285,7 @@
 				dataType: "json",
 				url: request_uri,
 				data: params,
+				processData: (action !== 'raw'),
 				success : successHandler,
 				error : errorHandler
 			});
@@ -356,6 +359,37 @@
 		}
 	};
 
+	/**
+	 * Function for AJAX submission of arbitrary forms.
+	 */
+	$(document).on('submit', 'form.rx_ajax', function(event) {
+		// Abort if the form already has a 'target' attribute.
+		var form = $(this);
+		if (form.attr('target')) {
+			return;
+		}
+		event.preventDefault();
+		// If the form has file uploads, use a hidden iframe to submit. Otherwise use exec_json.
+		var has_files = form.find('input[type=file][name!=Filedata]').size();
+		if (has_files) {
+			var iframe_id = '_rx_temp_' + (new Date()).getTime();
+			$('<iframe id="' + iframe_id + '" name="' + iframe_id + '" style="display:none"></iframe>').appendTo($(document.body));
+			form.attr('target', iframe_id).find('input[name=_rx_target_iframe]').remove();
+			form.append('<input type="hidden" name="_rx_target_iframe" value="' + iframe_id + '" />');
+			window.remove_iframe = function(iframe_id) {
+				if (iframe_id.match(/^_rx_temp_[0-9]+$/)) {
+					$('iframe#' + iframe_id).remove();
+				}
+			};
+			setTimeout(function() {
+				form.removeAttr('target').find('input[name=_rx_target_iframe]').remove();
+			}, 1000);
+			form.submit();
+		} else {
+			window.exec_json('raw', form.serialize());
+		}
+	});
+	
 	/**
 	 * Empty placeholder for beforeUnload handler.
 	 */
