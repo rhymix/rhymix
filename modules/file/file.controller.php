@@ -955,14 +955,14 @@ class fileController extends file
 		$args->member_srl = Rhymix\Framework\Session::getMemberSrl();
 		$args->source_filename = $file_info['name'];
 		$args->sid = Rhymix\Framework\Security::getRandom(32, 'hex');
-		$args->type = $file_info['type'];
+		$args->mime_type = $file_info['type'];
 		$args->width = $file_info['width'];
 		$args->height = $file_info['height'];
 		$args->duration = $file_info['duration'];
 		
 		// Set original type if file type is changed
 		$args->original_type = null;
-		if($args->type !== $file_info['original_type'])
+		if($args->mime_type !== $file_info['original_type'])
 		{
 			$args->original_type = $file_info['original_type'];
 		}

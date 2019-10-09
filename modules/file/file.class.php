@@ -89,7 +89,7 @@ class file extends ModuleObject
 		{
 			return true;
 		}
-		if(!$oDB->isColumnExists('files', 'type'))
+		if(!$oDB->isColumnExists('files', 'mime_type'))
 		{
 			return true;
 		}
@@ -188,14 +188,14 @@ class file extends ModuleObject
 		{
 			$oDB->addColumn('files', 'thumbnail_filename', 'varchar', '250', null, false, 'uploaded_filename');
 		}
-		if(!$oDB->isColumnExists('files', 'type'))
+		if(!$oDB->isColumnExists('files', 'mime_type'))
 		{
-			$oDB->addColumn('files', 'type', 'varchar', '60', '', true, 'thumbnail_filename');
-			$oDB->addIndex('files', 'idx_type', 'type');
+			$oDB->addColumn('files', 'mime_type', 'varchar', '60', '', true, 'file_size');
+			$oDB->addIndex('files', 'idx_mime_type', 'mime_type');
 		}
 		if(!$oDB->isColumnExists('files', 'original_type'))
 		{
-			$oDB->addColumn('files', 'original_type', 'varchar', '60', null, false, 'type');
+			$oDB->addColumn('files', 'original_type', 'varchar', '60', null, false, 'mime_type');
 		}
 		if(!$oDB->isColumnExists('files', 'width'))
 		{
