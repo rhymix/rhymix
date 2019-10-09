@@ -875,7 +875,7 @@ class fileController extends file
 		
 		// Set base information
 		$file_info['name'] = Rhymix\Framework\Filters\FilenameFilter::clean($file_info['name']);
-		$file_info['type'] = $file_info['original_type'] = Rhymix\Framework\Storage::getContentType($file_info['tmp_name']);
+		$file_info['type'] = $file_info['original_type'] = Rhymix\Framework\MIME::getContentType($file_info['tmp_name']);
 		$file_info['extension'] = $file_info['original_extension'] = strtolower(array_pop(explode('.', $file_info['name'])));
 		$file_info['width'] = null;
 		$file_info['height'] = null;
@@ -1250,7 +1250,7 @@ class fileController extends file
 			{
 				$file_info['tmp_name'] = $output_name;
 				$file_info['size'] = filesize($output_name);
-				$file_info['type'] = Rhymix\Framework\Storage::getContentType($output_name);
+				$file_info['type'] = Rhymix\Framework\MIME::getContentType($output_name);
 				$file_info['extension'] = $adjusted['type'];
 				$file_info['width'] = $adjusted['width'];
 				$file_info['height'] = $adjusted['height'];

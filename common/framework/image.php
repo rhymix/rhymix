@@ -15,7 +15,7 @@ class Image
 	 */
 	public static function isImage($filename)
 	{
-		return array_shift(explode('/', Storage::getContentType($filename))) === 'image';
+		return array_shift(explode('/', MIME::getContentType($filename))) === 'image';
 	}
 	
 	/**
@@ -26,7 +26,7 @@ class Image
 	 */
 	public static function isAnimatedGIF($filename)
 	{
-		if (Storage::getContentType($filename) !== 'image/gif')
+		if (MIME::getContentType($filename) !== 'image/gif')
 		{
 			return false;
 		}

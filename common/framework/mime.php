@@ -8,6 +8,38 @@ namespace Rhymix\Framework;
 class MIME
 {
 	/**
+	 * Get the MIME type of a file, detected by its content.
+	 * 
+	 * This method returns the MIME type of a file, or false on error.
+	 * 
+	 * @param string $filename
+	 * @return array|false
+	 */
+	public static function getContentType($filename)
+	{
+		$filename = rtrim($filename, '/\\');
+		if (Storage::exists($filename) && @is_file($filename) && @is_readable($filename))
+		{
+			if (function_exists('mime_content_type'))
+			{
+				return @mime_content_type($filename) ?: false;
+			}
+			elseif (($image = @getimagesize($filename)) && $image['mime'])
+			{
+				return $image['mime'];
+			}
+			else
+			{
+				return self::getTypeByFilename($filename);
+			}
+		}
+		else
+		{
+			return false;
+		}
+	}
+	
+	/**
 	 * Get the MIME type for the given extension.
 	 * 
 	 * @param string $extension
