@@ -374,6 +374,7 @@
 		if (has_files) {
 			var iframe_id = '_rx_temp_' + (new Date()).getTime();
 			$('<iframe id="' + iframe_id + '" name="' + iframe_id + '" style="display:none"></iframe>').appendTo($(document.body));
+			form.attr('method', 'POST').attr('enctype', 'multipart/form-data');
 			form.attr('target', iframe_id).find('input[name=_rx_target_iframe]').remove();
 			form.append('<input type="hidden" name="_rx_target_iframe" value="' + iframe_id + '" />');
 			window.remove_iframe = function(iframe_id) {
