@@ -144,6 +144,18 @@ class Storage
 	}
 	
 	/**
+	 * Check if the given path is executable.
+	 * 
+	 * @param string $path
+	 * @return bool
+	 */
+	public static function isExecutable($path)
+	{
+		$path = rtrim($path, '/\\');
+		return @self::exists($path) && @is_executable($path);
+	}
+	
+	/**
 	 * Get the size of a file.
 	 * 
 	 * This method returns the size of a file, or false on error.

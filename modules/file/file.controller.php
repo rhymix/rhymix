@@ -1102,7 +1102,7 @@ class fileController extends file
 		$is_animated = Rhymix\Framework\Image::isAnimatedGIF($file_info['tmp_name']);
 		
 		// Adjust image type
-		if ($config->image_autoconv['gif2mp4'] && $is_animated && is_command($config->ffmpeg_command))
+		if ($config->image_autoconv['gif2mp4'] && $is_animated && function_exists('exec') && Rhymix\Framework\Storage::isExecutable($config->ffmpeg_command))
 		{
 			$adjusted['type'] = 'mp4';
 		}
@@ -1267,7 +1267,7 @@ class fileController extends file
 	 */
 	public function adjustUploadedVideo($file_info, $config)
 	{
-		if (!is_command($config->ffmpeg_command) || !is_command($config->ffprobe_command))
+		if (!function_exists('exec') || !Rhymix\Framework\Storage::isExecutable($config->ffmpeg_command) || !Rhymix\Framework\Storage::isExecutable($config->ffprobe_command))
 		{
 			return $file_info;
 		}

@@ -83,10 +83,10 @@ class fileModel extends file
 				$obj->file_srl = $file_info->file_srl;
 				$obj->source_filename = $file_info->source_filename;
 				$obj->thumbnail_filename = $file_info->thumbnail_filename;
-				$obj->type = $file_info->type;
-				$obj->original_type = $file_info->original_type;
 				$obj->file_size = $file_info->file_size;
 				$obj->disp_file_size = FileHandler::filesize($file_info->file_size);
+				$obj->mime_type = $file_info->mime_type;
+				$obj->original_type = $file_info->original_type;
 				$obj->direct_download = $file_info->direct_download;
 				$obj->cover_image = ($file_info->cover_image === 'Y') ? true : false;
 				$obj->download_url = $file_info->download_url;
