@@ -190,8 +190,9 @@
 	window.exec_json = $.exec_json = function(action, params, callback_success, callback_error) {
 		
 		// Convert params to object and fill in the module and act.
+		var request_info;
 		if (action === 'raw') {
-			var request_info = 'RAW FORM SUBMISSION';
+			request_info = 'RAW FORM SUBMISSION';
 		} else {
 			params = params ? ($.isArray(params) ? arr2obj(params) : params) : {};
 			action = action.split(".");
@@ -200,7 +201,7 @@
 			params.act = action[1];
 			params._rx_ajax_compat = 'JSON';
 			params._rx_csrf_token = getCSRFToken();
-			var request_info = params.module + "." + params.act;
+			request_info = params.module + "." + params.act;
 		}
 		
 		// Delay the waiting message for 1 second to prevent rapid blinking.
