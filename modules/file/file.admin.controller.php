@@ -214,16 +214,9 @@ class fileAdminController extends file
 			$config->video_mp4_gif_time = intval(Context::get('video_mp4_gif_time'));
 		}
 		
-		// Check download grant
+		// Set download groups
 		$download_grant = Context::get('download_grant');
-		if(!is_array($download_grant))
-		{
-			$config->download_grant = explode('|@|',$download_grant);
-		}
-		else
-		{
-			$config->download_grant = array_values($download_grant);
-		}
+		$config->download_grant = is_array($download_grant) ? array_values($download_grant) : array($download_grant);
 		
 		// Update
 		$oModuleController = getController('module');

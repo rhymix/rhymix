@@ -186,7 +186,7 @@ class fileController extends file
 			$oFileModel = getModel('file');
 			$logged_info = Context::get('logged_info');
 			$file_info = $oFileModel->getFile($file_srl);
-			if($file_info->file_srl == $file_srl && $oFileModel->getFileGrant($file_info, $logged_info)->is_deletable)
+			if($file_info->file_srl == $file_srl && $oFileModel->isDeletable($file_info))
 			{
 				$this->deleteFile($file_srl);
 			}
@@ -291,17 +291,11 @@ class fileController extends file
 		$sid = Context::get('sid');
 		$logged_info = Context::get('logged_info');
 		// Get file information from the DB
-		$columnList = array('file_srl', 'sid', 'isvalid', 'source_filename', 'module_srl', 'uploaded_filename', 'file_size', 'member_srl', 'upload_target_srl', 'upload_target_type');
-		$file_obj = $oFileModel->getFile($file_srl, $columnList);
+		$file_obj = $oFileModel->getFile($file_srl);
 		// If the requested file information is incorrect, an error that file cannot be found appears
 		if($file_obj->file_srl != $file_srl || $file_obj->sid !== $sid)
 		{
 			throw new Rhymix\Framework\Exceptions\TargetNotFound('msg_file_not_found');
-		}
-		// Notify that file download is not allowed when standing-by(Only a top-administrator is permitted)
-		if($logged_info->is_admin != 'Y' && $file_obj->isvalid != 'Y')
-		{
-			throw new Rhymix\Framework\Exceptions\NotPermitted('msg_not_permitted_download');
 		}
 		// File name
 		$filename = $file_obj->source_filename;
@@ -356,52 +350,13 @@ class fileController extends file
 				throw new Rhymix\Framework\Exceptions\NotPermitted('msg_not_allowed_outlink');
 			}
 		}
-
-		// Check if a permission for file download is granted
-		$downloadGrantCount = 0;
-		if(is_array($file_module_config->download_grant))
+		
+		// Check if the file is downloadable
+		if(!$oFileModel->isDownloadable($file_obj))
 		{
-			foreach($file_module_config->download_grant AS $value)
-				if($value) $downloadGrantCount++;
+			throw new Rhymix\Framework\Exceptions\NotPermitted('msg_not_permitted_download');
 		}
-
-		if(is_array($file_module_config->download_grant) && $downloadGrantCount>0)
-		{
-			if(!Context::get('is_logged'))
-			{
-				throw new Rhymix\Framework\Exceptions\NotPermitted('msg_not_permitted_download');
-			}
-			
-			$logged_info = Context::get('logged_info');
-			if($logged_info->is_admin != 'Y')
-			{
-				$oModuleModel =& getModel('module');
-				$columnList = array('module_srl', 'site_srl');
-				$module_info = $oModuleModel->getModuleInfoByModuleSrl($file_obj->module_srl, $columnList);
-
-				if(!$oModuleModel->isSiteAdmin($logged_info, $module_info->site_srl))
-				{
-					$oMemberModel =& getModel('member');
-					$member_groups = $oMemberModel->getMemberGroups($logged_info->member_srl, $module_info->site_srl);
-
-					$is_permitted = false;
-					for($i=0;$i<count($file_module_config->download_grant);$i++)
-					{
-						$group_srl = $file_module_config->download_grant[$i];
-						if($member_groups[$group_srl])
-						{
-							$is_permitted = true;
-							break;
-						}
-					}
-					if(!$is_permitted)
-					{
-						throw new Rhymix\Framework\Exceptions\NotPermitted('msg_not_permitted_download');
-					}
-				}
-			}
-		}
-
+		
 		// Call a trigger (before)
 		$output = ModuleHandler::triggerCall('file.downloadFile', 'before', $file_obj);
 		if(!$output->toBool())
@@ -612,11 +567,7 @@ class fileController extends file
 
 			$file_info = $output->data;
 			if(!$file_info) continue;
-
-			$file_grant = $oFileModel->getFileGrant($file_info, $logged_info);
-
-			if(!$file_grant->is_deletable) continue;
-
+			if(!$oFileModel->isDeletable($file_info)) continue;
 			if($upload_target_srl && $file_srl) $output = $this->deleteFile($file_srl);
 		}
 	}

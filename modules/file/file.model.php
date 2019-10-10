@@ -41,7 +41,7 @@ class fileModel extends file
 			$oDocumentModel = getModel('document');
 			$oDocument = $oDocumentModel->getDocument($upload_target_srl);
 			
-			// Check permissions of comment
+			// Check permissions of the comment
 			if(!$oDocument->isExists())
 			{
 				$oComment = $oCommentModel->getComment($upload_target_srl);
@@ -55,7 +55,7 @@ class fileModel extends file
 				}
 			}
 			
-			// Check permissions of document
+			// Check permissions of the document
 			if($oDocument->isExists() && !$oDocument->isAccessible())
 			{
 				throw new Rhymix\Framework\Exceptions\NotPermitted;
@@ -90,7 +90,7 @@ class fileModel extends file
 				$obj->direct_download = $file_info->direct_download;
 				$obj->cover_image = ($file_info->cover_image === 'Y') ? true : false;
 				$obj->download_url = $file_info->download_url;
-				if($obj->direct_download === 'Y')
+				if($obj->direct_download === 'Y' && $this->isDownloadable($file_info))
 				{
 					$obj->download_url = $this->getDirectFileUrl($file_info->uploaded_filename);
 				}
@@ -126,7 +126,113 @@ class fileModel extends file
 		$this->add('upload_status', $this->getUploadStatus($attached_size));
 		$this->add('left_size', $upload_config->allowed_attach_size * 1024 * 1024 - $attached_size);
 	}
-
+	
+	/**
+	 * Check if the file is downloadable
+	 *
+	 * @param object $file_info
+	 * @param object $member_info
+	 * @return bool
+	 */
+	function isDownloadable($file_info, $member_info = null)
+	{
+		if(!$member_info)
+		{
+			$member_info = $this->user;
+		}
+		if($this->isDeletable($file_info, $member_info))
+		{
+			return true;
+		}
+		
+		// Check the validity
+		if($file_info->isvalid !== 'Y')
+		{
+			return false;
+		}
+		
+		// Check download groups
+		$config = $this->getFileConfig($file_info->module_srl);
+		if($config->download_groups)
+		{
+			if(empty($member_info->member_srl))
+			{
+				return false;
+			}
+			if(!isset($member_info->group_list))
+			{
+				$member_info->group_list = getModel('member')->getMemberGroups($member_info->member_srl);
+			}
+			$is_group = false;
+			foreach($config->download_groups as $group_srl)
+			{
+				if(isset($member_info->group_list[$group_srl]))
+				{
+					$is_group = true;
+					break;
+				}
+			}
+			if(!$is_group)
+			{
+				return false;
+			}
+		}
+		
+		return true;
+	}
+	
+	/**
+	 * Check if the file is deletable
+	 *
+	 * @param object $file_info
+	 * @param object $member_info
+	 * @return bool
+	 */
+	function isDeletable($file_info, $member_info = null)
+	{
+		if(!$member_info)
+		{
+			$member_info = $this->user;
+		}
+		if($member_info->is_admin === 'Y' || $member_info->member_srl == $file_info->member_srl)
+		{
+			return true;
+		}
+		if(isset($_SESSION['__XE_UPLOADING_FILES_INFO__'][$file_info->file_srl]))
+		{
+			return true;
+		}
+		
+		// Check permissions of the module
+		$oModuleModel = getModel('module');
+		$module_info = $oModuleModel->getModuleInfoByModuleSrl($file_info->module_srl);
+		if(empty($module_info->module_srl))
+		{
+			return false;
+		}
+		$grant = $oModuleModel->getGrant($module_info, $member_info);
+		if($grant->manager)
+		{
+			return true;
+		}
+		
+		// Check permissions of the document
+		$oDocument = getModel('document')->getDocument($file_info->upload_target_srl);
+		if($oDocument->isExists() && $oDocument->isGranted())
+		{
+			return true;
+		}
+		
+		// Check permissions of the comment
+		$oComment = getModel('comment')->getComment($file_info->upload_target_srl);
+		if($oComment->isExists() && $oComment->isGranted())
+		{
+			return true;
+		}
+		
+		return false;
+	}
+	
 	/**
 	 * Return number of attachments which belongs to a specific document
 	 *
@@ -191,6 +297,7 @@ class fileModel extends file
 		// Default setting if not exists
 		$config->allowed_filesize = $config->allowed_filesize ?? '2';
 		$config->allowed_attach_size = $config->allowed_attach_size ?? '3';
+		$config->allowed_filetypes = $config->allowed_filetypes ?? '*.*';
 		$config->allow_outlink = $config->allow_outlink ?? 'Y';
 		$config->download_grant = $config->download_grant ?? [];
 		$config->inline_download_format = $config->inline_download_format ?? [];
@@ -200,8 +307,7 @@ class fileModel extends file
 		$config->ffmpeg_command = $config->ffmpeg_command ?? '/usr/bin/ffmpeg';
 		$config->ffprobe_command = $config->ffprobe_command ?? '/usr/bin/ffprobe';
 		
-		// Format allowed_filetypes
-		$config->allowed_filetypes = $config->allowed_filetypes ?? '*.*';
+		// Set allowed_extensions
 		if(!isset($config->allowed_extensions))
 		{
 			$config->allowed_extensions = [];
@@ -213,6 +319,9 @@ class fileModel extends file
 				}, explode(';', $config->allowed_filetypes));
 			}
 		}
+		
+		// Set download_groups
+		$config->download_groups = is_array($config->download_grant) ? array_filter($config->download_grant) : [];
 		
 		return $config;
 	}
@@ -338,10 +447,7 @@ class fileModel extends file
 	}
 
 	/**
-	 * Return file configuration of the module
-	 *
-	 * @param int $module_srl The sequence of module to get configuration
-	 * @return object
+	 * method for compatibility
 	 */
 	function getFileModuleConfig($module_srl)
 	{
@@ -349,34 +455,11 @@ class fileModel extends file
 	}
 
 	/**
-	 * Returns a grant of file
-	 *
-	 * @param object $file_info The file information to get grant
-	 * @param object $member_info The member information to get grant
-	 * @return object Returns a grant of file
+	 * method for compatibility
 	 */
 	function getFileGrant($file_info, $member_info)
 	{
-		if(!$file_info) return null;
-		
-		$file_grant = new stdClass;
-		
-		if($_SESSION['__XE_UPLOADING_FILES_INFO__'][$file_info->file_srl])
-		{
-			$file_grant->is_deletable = true;
-			return $file_grant;
-		}
-
-		$oModuleModel = getModel('module');
-		$grant = $oModuleModel->getGrant($oModuleModel->getModuleInfoByModuleSrl($file_info->module_srl), $member_info);
-
-		$oDocumentModel = getModel('document');
-		$oDocument = $oDocumentModel->getDocument($file_info->upload_target_srl);
-		if($oDocument->isExists()) $document_grant = $oDocument->isGranted();
-
-		$file_grant->is_deletable = ($document_grant || $member_info->is_admin == 'Y' || $member_info->member_srl == $file_info->member_srl || $grant->manager);
-
-		return $file_grant;
+		return (object)['is_deletable' => $this->isDeletable($file_info, $member_info)];
 	}
 }
 /* End of file file.model.php */
