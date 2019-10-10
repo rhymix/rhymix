@@ -218,7 +218,8 @@ class fileAdminView extends file
 	{
 		$oFileModel = getModel('file');
 		$config = $oFileModel->getFileConfig();
-		Context::set('config',$config);
+		Context::set('config', $config);
+		Context::set('is_ffmpeg', function_exists('exec') && Rhymix\Framework\Storage::isExecutable($config->ffmpeg_command) && Rhymix\Framework\Storage::isExecutable($config->ffprobe_command));
 		
 		// Set a template file
 		$this->setTemplatePath($this->module_path.'tpl');

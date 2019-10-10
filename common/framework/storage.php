@@ -144,6 +144,18 @@ class Storage
 	}
 	
 	/**
+	 * Check if the given path is executable.
+	 * 
+	 * @param string $path
+	 * @return bool
+	 */
+	public static function isExecutable($path)
+	{
+		$path = rtrim($path, '/\\');
+		return @self::exists($path) && @is_executable($path);
+	}
+	
+	/**
 	 * Get the size of a file.
 	 * 
 	 * This method returns the size of a file, or false on error.
@@ -496,6 +508,51 @@ class Storage
 		}
 		
 		clearstatcache(true, $destination);
+		return true;
+	}
+	
+	/**
+	 * Move uploaded $source to $destination.
+	 * 
+	 * This method returns true on success and false on failure.
+	 * 
+	 * @param string $source
+	 * @param string $destination
+	 * @param string $type
+	 * @return bool
+	 */
+	public static function moveUploadedFile($source, $destination, $type = null)
+	{
+		if ($type === 'copy')
+		{
+			if (!self::copy($source, $destination))
+			{
+				if (!self::copy($source, $destination))
+				{
+					return false;
+				}
+			}
+		}
+		elseif ($type === 'move')
+		{
+			if (!self::move($source, $destination))
+			{
+				if (!self::move($source, $destination))
+				{
+					return false;
+				}
+			}
+		}
+		else
+		{
+			if (!@move_uploaded_file($source, $destination))
+			{
+				if (!@move_uploaded_file($source, $destination))
+				{
+					return false;
+				}
+			}
+		}
 		return true;
 	}
 	

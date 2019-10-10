@@ -270,7 +270,6 @@ $lang->thumbnail_target = 'Extract Thumbnail From';
 $lang->thumbnail_target_all = 'All images';
 $lang->thumbnail_target_attachment = 'Attached images only';
 $lang->thumbnail_type = 'Thumbnail Type';
-$lang->thumbnail_quality = 'Quality';
 $lang->input_header_script = 'Header Script';
 $lang->detail_input_header_script = 'Content added here will be printed at the top of every page, except the admin module.';
 $lang->input_footer_script = 'Footer Script';

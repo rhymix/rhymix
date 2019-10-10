@@ -85,7 +85,30 @@ class file extends ModuleObject
 		{
 			return true;
 		}
-		
+		if(!$oDB->isColumnExists('files', 'thumbnail_filename'))
+		{
+			return true;
+		}
+		if(!$oDB->isColumnExists('files', 'mime_type'))
+		{
+			return true;
+		}
+		if(!$oDB->isColumnExists('files', 'original_type'))
+		{
+			return true;
+		}
+		if(!$oDB->isColumnExists('files', 'width'))
+		{
+			return true;
+		}
+		if(!$oDB->isColumnExists('files', 'height'))
+		{
+			return true;
+		}
+		if(!$oDB->isColumnExists('files', 'duration'))
+		{
+			return true;
+		}
 		return false;
 	}
 
@@ -160,6 +183,31 @@ class file extends ModuleObject
 		if(!$oModuleModel->getTrigger('comment.copyCommentByDocument', 'file', 'controller', 'triggerAddCopyCommentByDocument', 'add'))
 		{
 			$oModuleController->insertTrigger('comment.copyCommentByDocument', 'file', 'controller', 'triggerAddCopyCommentByDocument', 'add');
+		}
+		if(!$oDB->isColumnExists('files', 'thumbnail_filename'))
+		{
+			$oDB->addColumn('files', 'thumbnail_filename', 'varchar', '250', null, false, 'uploaded_filename');
+		}
+		if(!$oDB->isColumnExists('files', 'mime_type'))
+		{
+			$oDB->addColumn('files', 'mime_type', 'varchar', '60', '', true, 'file_size');
+			$oDB->addIndex('files', 'idx_mime_type', 'mime_type');
+		}
+		if(!$oDB->isColumnExists('files', 'original_type'))
+		{
+			$oDB->addColumn('files', 'original_type', 'varchar', '60', null, false, 'mime_type');
+		}
+		if(!$oDB->isColumnExists('files', 'width'))
+		{
+			$oDB->addColumn('files', 'width', 'number', '11', null, false, 'original_type');
+		}
+		if(!$oDB->isColumnExists('files', 'height'))
+		{
+			$oDB->addColumn('files', 'height', 'number', '11', null, false, 'width');
+		}
+		if(!$oDB->isColumnExists('files', 'duration'))
+		{
+			$oDB->addColumn('files', 'duration', 'number', '11', null, false, 'height');
 		}
 	}
 

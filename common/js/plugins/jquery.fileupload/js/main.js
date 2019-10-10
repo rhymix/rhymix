@@ -23,7 +23,8 @@
 		actSetCover : '.xefu-act-set-cover',
 
 		tmplXeUploaderFileitem : '<li class="xefu-file xe-clearfix" data-file-srl="{{file_srl}}"><span class="xefu-file-name">{{source_filename}}</span><span class="xefu-file-info"><span>{{disp_file_size}}</span><span><input type="checkbox" data-file-srl="{{file_srl}}"> Select</span></span></li>',
-		tmplXeUploaderFileitemImage: '<li class="xefu-file xefu-file-image {{#if cover_image}}xefu-is-cover-image{{/if}}" data-file-srl="{{file_srl}}"><strong class="xefu-file-name">{{source_filename}}</strong><span class="xefu-file-info"><span class="xefu-file-size">{{disp_file_size}}</span><span><img src="{{download_url}}" alt=""></span><span><input type="checkbox" data-file-srl="{{file_srl}}"></span><button class="xefu-act-set-cover" data-file-srl="{{file_srl}}" title="Be a cover image"><i class="xi-check-circle"></i></button></span></li>'
+		tmplXeUploaderFileitemImage: '<li class="xefu-file xefu-file-image {{#if cover_image}}xefu-is-cover-image{{/if}}" data-file-srl="{{file_srl}}"><strong class="xefu-file-name">{{source_filename}}</strong><span class="xefu-file-info"><span class="xefu-file-size">{{disp_file_size}}</span><span><img src="{{thumbnail_url}}" alt=""></span><span><input type="checkbox" data-file-srl="{{file_srl}}"></span><button class="xefu-act-set-cover" data-file-srl="{{file_srl}}" title="Be a cover image"><i class="xi-check-circle"></i></button></span></li>',
+		tmplXeUploaderFileitemVideo: '<li class="xefu-file xefu-file-image {{#if cover_image}}xefu-is-cover-image{{/if}}" data-file-srl="{{file_srl}}"><strong class="xefu-file-name">{{source_filename}}</strong><span class="xefu-file-info"><span class="xefu-file-size">{{disp_file_size}}</span><span><span class="xefu-file-video"><span class="xefu-file-video-play"></span></span><img src="{{thumbnail_url}}" alt=""></span><span><input type="checkbox" data-file-srl="{{file_srl}}"></span><button class="xefu-act-set-cover" data-file-srl="{{file_srl}}" title="Be a cover image"><i class="xi-check-circle"></i></button></span></li>'
 	};
 
 	var _elements = [
@@ -150,21 +151,29 @@
 					}
 
 					if(result.error == 0) {
-						if(/\.(jpe?g|png|gif)$/i.test(result.source_filename)) {
+						if(/\.(gif|jpe?g|png|webp)$/i.test(result.source_filename)) {
 							temp_code += '<img src="' + result.download_url + '" alt="' + result.source_filename + '" editor_component="image_link" data-file-srl="' + result.file_srl + '" />';
 						}
-						if(/\.(mp3)$/i.test(result.source_filename)) {
+						else if(/\.(mp3|wav|ogg|flac|aac)$/i.test(result.source_filename)) {
 							temp_code += '<audio src="' + result.download_url + '" controls data-file-srl="' + result.file_srl + '" />';
 						}
-						if(/\.(mp4|webm)$/i.test(result.source_filename)) {
-							temp_code += '<video src="' + result.download_url + '" controls data-file-srl="' + result.file_srl + '" />';
+						else if(/\.(mp4|webm|ogv)$/i.test(result.source_filename)) {
+							if(result.original_type === 'image/gif') {
+								temp_code += '<video src="' + result.download_url + '" autoplay loop muted data-file-srl="' + result.file_srl + '" />';
+							} else {
+								temp_code += '<video src="' + result.download_url + '" controls data-file-srl="' + result.file_srl + '" />';
+							}
 						}
+						
 						if(temp_code !== '') {
 							if (opt.autoinsertImage === 'paragraph') {
 								temp_code = "<p>" + temp_code + "</p>\n";
 							}
 							if (opt.autoinsertImage !== 'none') {
-								_getCkeInstance(settings.formData.editor_sequence).insertHtml(temp_code, "unfiltered_html");
+								try {
+									_getCkeInstance(settings.formData.editor_sequence).insertHtml(temp_code, "unfiltered_html");
+								}
+								catch(err) {}
 							}
 						}
 					} else if (result.message) {
@@ -317,24 +326,33 @@
 				if(!result) return;
 				var temp_code = '';
 
-				if(/\.(jpe?g|png|gif)$/i.test(result.source_filename)) {
+				if(/\.(gif|jpe?g|png|webp)$/i.test(result.source_filename)) {
 					temp_code += '<img src="' + result.download_url + '" alt="' + result.source_filename + '" editor_component="image_link" data-file-srl="' + result.file_srl + '" />';
 				}
-				if(/\.(mp3)$/i.test(result.source_filename)) {
+				else if(/\.(mp3|wav|ogg|flac|aac)$/i.test(result.source_filename)) {
 					temp_code += '<audio src="' + result.download_url + '" controls data-file-srl="' + result.file_srl + '" />';
 				}
-				if(/\.(mp4|webm)$/i.test(result.source_filename)) {
-					temp_code += '<video src="' + result.download_url + '" controls data-file-srl="' + result.file_srl + '" />';
+				else if(/\.(mp4|webm|ogv)$/i.test(result.source_filename)) {
+					if(result.original_type === 'image/gif') {
+						temp_code += '<video src="' + result.download_url + '" autoplay loop muted data-file-srl="' + result.file_srl + '" />';
+					} else {
+						temp_code += '<video src="' + result.download_url + '" controls data-file-srl="' + result.file_srl + '" />';
+					}
 				}
+				
 				if(temp_code !== '') {
 					if (data.settings.autoinsertImage === 'paragraph') {
 						temp_code = "<p>" + temp_code + "</p>\n";
 					}
 				}
 				if(temp_code === '') {
-					temp_code += '<a href="' + fileinfo.download_url + '" data-file-srl="' + fileinfo.file_srl + '">' + fileinfo.source_filename + "</a>\n";
+					temp_code += '<a href="' + result.download_url + '" data-file-srl="' + result.file_srl + '">' + result.source_filename + "</a>\n";
 				}
-				_getCkeInstance(data.editorSequence).insertHtml(temp_code, "unfiltered_html");
+				try {
+					_getCkeInstance(data.editorSequence).insertHtml(temp_code, "unfiltered_html");
+				}
+				catch(err) {}
+				
 			});
 		},
 		/**
@@ -402,8 +420,10 @@
 
 				var tmpl_fileitem = data.settings.tmplXeUploaderFileitem;
 				var tmpl_fileitem_image = data.settings.tmplXeUploaderFileitemImage;
+				var tmpl_fileitem_video = data.settings.tmplXeUploaderFileitemVideo;
 				var template_fileimte = Handlebars.compile(tmpl_fileitem);
 				var template_fileimte_image = Handlebars.compile(tmpl_fileitem_image);
+				var template_fileimte_video = Handlebars.compile(tmpl_fileitem_video);
 				var result_image = [];
 				var result = [];
 
@@ -417,16 +437,24 @@
 				// 이미지와 그외 파일 분리
 				$.each(res.files, function (index, file) {
 					if(data.files[file.file_srl]) return;
-
+					
 					data.files[file.file_srl] = file;
 					$container.data(data);
 					
+					file.thumbnail_url = file.download_url;
 					file.source_filename = file.source_filename.replace("&amp;", "&");
-					if(/\.(jpe?g|png|gif)$/i.test(file.source_filename)) {
-						result_image.push(template_fileimte_image(file));
+					
+					if(file.thumbnail_filename) {
+						file.thumbnail_url = file.thumbnail_filename;
+						if(/\.(mp4|webm|ogv)$/i.test(file.source_filename)) {
+							result_image.push(template_fileimte_video(file));
+						} else {
+							result_image.push(template_fileimte_image(file));
+						}
 					}
-					else
-					{
+					else if(/\.(gif|jpe?g|png|webp)$/i.test(file.source_filename)) {
+						result_image.push(template_fileimte_image(file));
+					} else {
 						result.push(template_fileimte(file));
 					}
 				});

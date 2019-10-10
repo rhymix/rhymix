@@ -97,7 +97,12 @@ class FilenameFilter
 	 */
 	public static function isDirectDownload($filename)
 	{
-		if (preg_match('/\.(as[fx]|avi|flac|flv|gif|jpe?g|m4[av]|midi?|mkv|moov|mov|mp[1234]|mpe?g|ogg|png|qt|ram?|rmm?|wav|web[mp]|wm[av])$/i', $filename))
+		$images = 'gif|jpe?g|png|webp';
+		$audios = 'mp3|wav|ogg|flac|aac';
+		$videos = 'mp4|webm|ogv';
+		$legacy = 'avi|as[fx]|flv|m4[av]|midi?|mkv|moo?v|mpe?g|qt|r[am]m?|wm[av]';
+		
+		if (preg_match(sprintf('/\.(?:%s|%s|%s|%s)$/i', $images, $audios, $videos, $legacy), $filename))
 		{
 			return true;
 		}
