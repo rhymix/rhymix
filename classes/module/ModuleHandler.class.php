@@ -940,6 +940,24 @@ class ModuleHandler extends Handler
 		$methodList = array('XMLRPC' => 1, 'JSON' => 1, 'JS_CALLBACK' => 1);
 		if(!isset($methodList[Context::getRequestMethod()]))
 		{
+			// Handle iframe form submissions.
+			if(isset($_POST['_rx_target_iframe']) && starts_with('_rx_temp_', $_POST['_rx_target_iframe']))
+			{
+				if($_SESSION['XE_VALIDATOR_RETURN_URL'])
+				{
+					ob_end_clean();
+					echo sprintf('<html><head></head><body><script> window.parent.redirect(%s); </script></body></html>', json_encode($_SESSION['XE_VALIDATOR_RETURN_URL']));
+					return;
+				}
+				if($this->error)
+				{
+					ob_end_clean();
+					echo sprintf('<html><head></head><body><script> window.parent.alert(%s); window.parent.remove_iframe(%s); </script></body></html>', json_encode($this->error), json_encode($_POST['_rx_target_iframe']));
+					return;
+				}
+			}
+			
+			// Handle redirects.
 			if($_SESSION['XE_VALIDATOR_RETURN_URL'])
 			{
 				if ($_SESSION['is_new_session'])
