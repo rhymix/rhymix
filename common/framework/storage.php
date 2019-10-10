@@ -152,7 +152,22 @@ class Storage
 	public static function isExecutable($path)
 	{
 		$path = rtrim($path, '/\\');
-		return @self::exists($path) && @is_executable($path);
+		if (function_exists('exec'))
+		{
+			@exec('/bin/ls -l ' . escapeshellarg($path), $output, $return_var);
+			if ($return_var === 0)
+			{
+				return preg_match('@^[a-z-]{9}x@', array_pop($output)) === 1;
+			}
+			else
+			{
+				return false;
+			}
+		}
+		else
+		{
+			return @self::exists($path) && @is_executable($path);
+		}
 	}
 	
 	/**
