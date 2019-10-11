@@ -284,7 +284,7 @@ class fileModel extends file
 	function getFileConfig($module_srl = null)
 	{
 		$oModuleModel = getModel('module');
-		$config = $oModuleModel->getModuleConfig('file') ?: new stdClass;
+		$config = clone $oModuleModel->getModuleConfig('file');
 		if($module_srl)
 		{
 			$module_config = $oModuleModel->getModulePartConfig('file', $module_srl);
