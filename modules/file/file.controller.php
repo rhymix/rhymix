@@ -913,7 +913,7 @@ class fileController extends file
 		
 		// Set original type if file type is changed
 		$args->original_type = null;
-		if($args->mime_type !== $file_info['original_type'])
+		if($file_info['converted'] || $args->mime_type !== $file_info['original_type'])
 		{
 			$args->original_type = $file_info['original_type'];
 		}
