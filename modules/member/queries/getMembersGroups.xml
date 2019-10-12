@@ -14,6 +14,6 @@
         <condition operation="in" column="b.member_srl" var="member_srls" filter="numbers" notnull="notnull" pipe="and" />
     </conditions>
 	<navigation>
-		<index var="sort_index" default="a.group_srl" order="desc" />
+		<index var="sort_index" default="a.list_order" order="asc" />
 	</navigation>
 </query>
