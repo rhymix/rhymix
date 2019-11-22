@@ -173,7 +173,7 @@ class pageAdminController extends page
 		if(!$output->toBool()) return $output;
 		// On the page, change the validity status of the attached file
 		$oFileController = getController('file');
-		$oFileController->setFilesValid($module_info->module_srl);
+		$oFileController->setFilesValid($module_info->module_srl, 'mod');
 
 		$this->add("module_srl", $module_info->module_srl);
 		$this->add("page", Context::get('page'));

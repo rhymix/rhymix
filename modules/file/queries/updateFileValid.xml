@@ -3,6 +3,7 @@
         <table name="files" />
     </tables>
     <columns>
+		<column name="upload_target_type" var="upload_target_type" />
         <column name="isvalid" var="isvalid" default="Y" notnull="notnull" />
     </columns>
     <conditions>

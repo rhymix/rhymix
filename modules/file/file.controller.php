@@ -651,7 +651,7 @@ class fileController extends file
 		$document_srl = $obj->document_srl;
 		if(!$document_srl) return;
 
-		$output = $this->setFilesValid($document_srl);
+		$output = $this->setFilesValid($document_srl, 'doc');
 		if(!$output->toBool()) return $output;
 	}
 
@@ -697,7 +697,7 @@ class fileController extends file
 		$uploaded_count = $obj->uploaded_count;
 		if(!$comment_srl || !$uploaded_count) return;
 
-		$output = $this->setFilesValid($comment_srl);
+		$output = $this->setFilesValid($comment_srl, 'com');
 		if(!$output->toBool()) return $output;
 	}
 
@@ -770,10 +770,14 @@ class fileController extends file
 	 * @param int $upload_target_srl
 	 * @return Object
 	 */
-	function setFilesValid($upload_target_srl)
+	function setFilesValid($upload_target_srl, $upload_target_type = null)
 	{
 		$args = new stdClass();
 		$args->upload_target_srl = $upload_target_srl;
+		if($upload_target_type)
+		{
+			$args->upload_target_type = substr($upload_target_type, 0, 3);
+		}
 		return executeQuery('file.updateFileValid', $args);
 	}
 
