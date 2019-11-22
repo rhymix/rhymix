@@ -14,6 +14,8 @@
         <condition operation="in" column="files.module_srl" var="s_module_srl" />
         <condition operation="notin" column="files.module_srl" var="exclude_module_srl" pipe="and" />
         <condition operation="equal" column="files.isvalid" var="isvalid" pipe="and" />
+		<condition operation="equal" column="upload_target_srl" var="upload_target_srl" pipe="and" />
+		<condition operation="equal" column="upload_target_type" var="upload_target_type" pipe="and" />
         <condition operation="equal" column="files.direct_download" var="direct_download" pipe="and" />
 		<condition operation="below" column="files.regdate" var="regdate_before" pipe="and" />
         <group pipe="and">
