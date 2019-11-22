@@ -44,3 +44,4 @@ $lang->cmd_manage_base = 'Basic infomation';
 $lang->alert_new_message_arrived = 'You have %d new message(s). Do you want to check it now?';
 $lang->enable_communication_friend = 'Friend Enable';
 $lang->enable_communication_message = 'Message Enable';
+$lang->enable_attachment = 'Allow Attachment';

@@ -108,6 +108,7 @@ $lang->replies = 'Comment';
 $lang->content = 'Content';
 $lang->document = 'Article';
 $lang->comment = 'Comment';
+$lang->member_message = 'Message';
 $lang->description = 'Description';
 $lang->trackback = 'Trackback';
 $lang->tag = 'Tag';

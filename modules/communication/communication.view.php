@@ -197,6 +197,12 @@ class communicationView extends communication
 			throw new Rhymix\Framework\Exceptions\NotPermitted;
 		}
 		
+		// Fix missing mid (it causes errors when uploading)
+		if(!Context::get('mid'))
+		{
+			Context::set('mid', Context::get('site_module_info')->mid);
+		}
+		
 		// Error appears if not logged-in
 		if(!Context::get('is_logged'))
 		{
@@ -249,9 +255,9 @@ class communicationView extends communication
 		// set a signiture by calling getEditor of the editor module
 		$oEditorModel = getModel('editor');
 		$option = $oEditorModel->getEditorConfig();
-		$option->primary_key_name = 'receiver_srl';
+		$option->primary_key_name = 'temp_srl';
 		$option->content_key_name = 'content';
-		$option->allow_fileupload = FALSE;
+		$option->allow_fileupload = $this->config->enable_attachment === 'Y';
 		$option->enable_autosave = FALSE;
 		$option->enable_default_component = TRUE; // FALSE;
 		$option->enable_component = FALSE;
@@ -261,9 +267,9 @@ class communicationView extends communication
 		$option->skin = $this->config->editor_skin;
 		$option->colorset = $this->config->editor_colorset;
 		$option->editor_focus = Context::get('source_message') ? 'Y' : 'N';
-		$editor = $oEditorModel->getEditor($logged_info->member_srl, $option);
+		$editor = $oEditorModel->getEditor(getNextSequence(), $option);
+		$editor = $editor . "\n" . '<input type="hidden" name="temp_srl" value="" />' . "\n";
 		Context::set('editor', $editor);
-
 		$this->setTemplateFile('send_message');
 	}
 

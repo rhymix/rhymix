@@ -27,7 +27,7 @@
 				<input type="radio" name="enable_message" id="enable_message_yes" value="Y" checked="checked"|cond="$config->enable_message == 'Y'" /> {$lang->cmd_yes}
 			</label>
 			<label class="x_inline" for="enable_message_no">
-				<input type="radio" name="enable_message" id="enable_message_no" value="N" checked="checked"|cond="$config->enable_message == 'N'" /> {$lang->cmd_no}
+				<input type="radio" name="enable_message" id="enable_message_no" value="N" checked="checked"|cond="$config->enable_message !== 'Y'" /> {$lang->cmd_no}
 			</label>
 		</div>
 	</div>
@@ -38,7 +38,18 @@
 				<input type="radio" name="enable_friend" id="enable_friend_yes" value="Y" checked="checked"|cond="$config->enable_friend == 'Y'" /> {$lang->cmd_yes}
 			</label>
 			<label class="x_inline" for="enable_friend_no">
-				<input type="radio" name="enable_friend" id="enable_friend_no" value="N" checked="checked"|cond="$config->enable_friend == 'N'" /> {$lang->cmd_no}
+				<input type="radio" name="enable_friend" id="enable_friend_no" value="N" checked="checked"|cond="$config->enable_friend !== 'Y'" /> {$lang->cmd_no}
+			</label>
+		</div>
+	</div>
+	<div class="x_control-group">
+		<div class="x_control-label">{$lang->enable_attachment}</div>
+		<div class="x_controls">
+			<label class="x_inline" for="enable_attachment_yes">
+				<input type="radio" name="enable_attachment" id="enable_attachment_yes" value="Y" checked="checked"|cond="$config->enable_attachment == 'Y'" /> {$lang->cmd_yes}
+			</label>
+			<label class="x_inline" for="enable_attachment_no">
+				<input type="radio" name="enable_attachment" id="enable_attachment_no" value="N" checked="checked"|cond="$config->enable_attachment !== 'Y'" /> {$lang->cmd_no}
 			</label>
 		</div>
 	</div>

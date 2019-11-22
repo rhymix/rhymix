@@ -110,6 +110,7 @@ $lang->replies = '댓글';
 $lang->content = '내용';
 $lang->document = '문서';
 $lang->comment = '댓글';
+$lang->member_message = '쪽지';
 $lang->description = '설명';
 $lang->trackback = '엮인글';
 $lang->tag = '태그';

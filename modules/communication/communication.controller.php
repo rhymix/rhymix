@@ -77,6 +77,12 @@ class communicationController extends communication
 		{
 			throw new Rhymix\Framework\Exception('msg_content_is_null');
 		}
+		
+		$temp_srl = intval(Context::get('temp_srl')) ?: null;
+		if($temp_srl && !$_SESSION['upload_info'][$temp_srl]->enabled)
+		{
+			throw new Rhymix\Framework\Exceptions\InvalidRequest;
+		}
 
 		// Check if there is a member to receive a message
 		$oMemberModel = getModel('member');
@@ -111,7 +117,7 @@ class communicationController extends communication
 		}
 
 		// send a message
-		$output = $this->sendMessage($logged_info->member_srl, $receiver_srl, $title, $content);
+		$output = $this->sendMessage($logged_info->member_srl, $receiver_srl, $title, $content, true, $temp_srl);
 
 		if(!$output->toBool())
 		{
@@ -148,9 +154,10 @@ class communicationController extends communication
 	 * @param string $title
 	 * @param string $content
 	 * @param boolean $sender_log (default true)
+	 * @param int|null $temp_srl (default null)
 	 * @return Object
 	 */
-	function sendMessage($sender_srl, $receiver_srl, $title, $content, $sender_log = TRUE)
+	function sendMessage($sender_srl, $receiver_srl, $title, $content, $sender_log = true, $temp_srl = null)
 	{
 		// Encode the title and content.
 		$title = escape($title, false);
@@ -158,7 +165,7 @@ class communicationController extends communication
 		$title = utf8_mbencode($title);
 		$content = utf8_mbencode($content);
 
-		$message_srl = getNextSequence();
+		$message_srl = $temp_srl ?: getNextSequence();
 		$related_srl = getNextSequence();
 
 		// messages to save in the sendor's message box
@@ -226,6 +233,13 @@ class communicationController extends communication
 		{
 			$oDB->rollback();
 			return $output;
+		}
+		
+		// update attached files
+		if ($temp_srl)
+		{
+			$oFileController = getController('file');
+			$oFileController->setFilesValid($message_srl, 'msg');
 		}
 
 		// Call a trigger (after)
