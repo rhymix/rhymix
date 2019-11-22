@@ -1282,7 +1282,7 @@ class Context
 					unset($_FILES[$key]);
 					continue;
 				}
-				$val['name'] = escape($val['name'], false);
+				$val['name'] = str_replace('&amp;', '&', escape($val['name'], false));
 				self::set($key, $val, true);
 				self::set('is_uploaded', true);
 				self::$_instance->is_uploaded = true;
@@ -1304,7 +1304,7 @@ class Context
 						break;
 					}
 					$file = array();
-					$file['name'] = $val['name'][$i];
+					$file['name'] = str_replace('&amp;', '&', escape($val['name'][$i], false));
 					$file['type'] = $val['type'][$i];
 					$file['tmp_name'] = $val['tmp_name'][$i];
 					$file['error'] = $val['error'][$i];
