@@ -255,6 +255,7 @@ class communicationView extends communication
 		// set a signiture by calling getEditor of the editor module
 		$oEditorModel = getModel('editor');
 		$option = $oEditorModel->getEditorConfig();
+		$option->default_editor_settings = false;
 		$option->primary_key_name = 'temp_srl';
 		$option->content_key_name = 'content';
 		$option->allow_fileupload = $this->config->enable_attachment === 'Y';
@@ -264,8 +265,8 @@ class communicationView extends communication
 		$option->resizable = FALSE;
 		$option->disable_html = TRUE;
 		$option->height = 300;
-		$option->skin = $this->config->editor_skin;
-		$option->colorset = $this->config->editor_colorset;
+		$option->editor_skin = $this->config->editor_skin;
+		$option->sel_editor_colorset = $this->config->editor_colorset;
 		$option->editor_focus = Context::get('source_message') ? 'Y' : 'N';
 		$editor = $oEditorModel->getEditor(getNextSequence(), $option);
 		$editor = $editor . "\n" . '<input type="hidden" name="temp_srl" value="" />' . "\n";
