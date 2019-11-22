@@ -86,7 +86,7 @@ class addonAdminModel extends addon
 		// Wanted to add a list of activated
 		$inserted_addons = $this->getInsertedAddons($site_srl, $gtype);
 		// Downloaded and installed add-on to the list of Wanted
-		$searched_list = FileHandler::readDir('./addons', '/^([a-zA-Z0-9-_]+)$/');
+		$searched_list = FileHandler::readDir('./addons', '/^([a-zA-Z0-9_]+)$/');
 		$searched_count = count($searched_list);
 		if(!$searched_count)
 		{
