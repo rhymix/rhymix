@@ -487,8 +487,11 @@ class boardView extends board
 		$args->page_count = $this->page_count;
 
 		// get the search target and keyword
-		$args->search_target = Context::get('search_target');
-		$args->search_keyword = Context::get('search_keyword');
+		if ($this->grant->view)
+		{
+			$args->search_target = Context::get('search_target');
+			$args->search_keyword = Context::get('search_keyword');
+		}
 		
 		if(!$search_option = Context::get('search_option'))
 		{
