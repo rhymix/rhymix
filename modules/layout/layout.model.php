@@ -632,7 +632,7 @@ class layoutModel extends layout
 					}
 				}
 			}
-			$buff[] = sprintf('$layout_info->extra_var_count = "%s";', $extra_var_count);
+			$buff[] = sprintf('$layout_info->extra_var_count = %d;', $extra_var_count);
 			// Menu
 			if($xml_obj->menus->menu)
 			{
@@ -640,12 +640,12 @@ class layoutModel extends layout
 				if(!is_array($menus)) $menus = array($menus);
 
 				$menu_count = count($menus);
-				$buff[] = sprintf('$layout_info->menu_count = "%s";', $menu_count);
+				$buff[] = sprintf('$layout_info->menu_count = %d;', $menu_count);
 				$buff[] = '$layout_info->menu = new stdClass;';
 				for($i=0;$i<$menu_count;$i++)
 				{
 					$name = $menus[$i]->attrs->name;
-					if($menus[$i]->attrs->default == "true") $buff[] = sprintf('$layout_info->default_menu = "%s";', $name);
+					if($menus[$i]->attrs->default == "true") $buff[] = sprintf('$layout_info->default_menu = %s;', var_export($name, true));
 					$buff[] = sprintf('$layout_info->menu->%s = new stdClass;', $name);
 					$buff[] = sprintf('$layout_info->menu->%s->name = %s;', $name, var_export($menus[$i]->attrs->name, true));
 					$buff[] = sprintf('$layout_info->menu->%s->title = %s;', $name, var_export($menus[$i]->title->body, true));
@@ -687,7 +687,7 @@ class layoutModel extends layout
 
 					$extra_var_count = count($extra_vars);
 
-					$buff[] = sprintf('$layout_info->extra_var_count = "%s";', $extra_var_count);
+					$buff[] = sprintf('$layout_info->extra_var_count = %d;', $extra_var_count);
 					for($i=0;$i<$extra_var_count;$i++)
 					{
 						unset($var, $options);
@@ -719,14 +719,14 @@ class layoutModel extends layout
 				if(!is_array($menus)) $menus = array($menus);
 
 				$menu_count = count($menus);
-				$buff[] = sprintf('$layout_info->menu_count = "%s";', $menu_count);
+				$buff[] = sprintf('$layout_info->menu_count = %d;', $menu_count);
 				for($i=0;$i<$menu_count;$i++)
 				{
 					$name = $menus[$i]->attrs->name;
-					if($menus[$i]->attrs->default == "true") $buff[] = sprintf('$layout_info->default_menu = "%s";', $name);
-					$buff[] = sprintf('$layout_info->menu->%s->name = "%s";',$name, $name);
-					$buff[] = sprintf('$layout_info->menu->%s->title = %s;',$name, var_export($menus[$i]->title->body, true));
-					$buff[] = sprintf('$layout_info->menu->%s->maxdepth = "%s";',$name, $menus[$i]->maxdepth->body);
+					if($menus[$i]->attrs->default == "true") $buff[] = sprintf('$layout_info->default_menu = %s;', var_export($name, true));
+					$buff[] = sprintf('$layout_info->menu->%s->name = %s;', $name, var_export($name, true));
+					$buff[] = sprintf('$layout_info->menu->%s->title = %s;', $name, var_export($menus[$i]->title->body, true));
+					$buff[] = sprintf('$layout_info->menu->%s->maxdepth = %s;', $name, var_export($menus[$i]->maxdepth->body, true));
 					$buff[] = sprintf('$layout_info->menu->%s->menu_srl = $vars->%s;', $name, $name);
 					$buff[] = sprintf('$layout_info->menu->%s->xml_file = "./files/cache/menu/".$vars->%s.".xml.php";',$name, $name);
 					$buff[] = sprintf('$layout_info->menu->%s->php_file = "./files/cache/menu/".$vars->%s.".php";',$name, $name);

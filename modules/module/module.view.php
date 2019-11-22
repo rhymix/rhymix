@@ -22,7 +22,8 @@ class moduleView extends module
 	function dispModuleSkinInfo()
 	{
 		$selected_module = Context::get('selected_module');
-		$skin = Context::get('skin');
+		$skin = preg_replace('/[^a-zA-Z0-9-_]/', '', Context::get('skin'));
+		
 		// Get modules/skin information
 		$module_path = sprintf("./modules/%s/", $selected_module);
 		if(!is_dir($module_path)) throw new Rhymix\Framework\Exceptions\InvalidRequest;

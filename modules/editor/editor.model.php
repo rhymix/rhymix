@@ -645,6 +645,7 @@ class editorModel extends editor
 		$lang_type = Context::getLangType();
 
 		// Get xml file path of the requested components
+		$component = preg_replace('/[^a-zA-Z0-9-_]/', '', $component);
 		$component_path = sprintf('%s/components/%s/', $this->module_path, $component);
 
 		$xml_file = sprintf('%sinfo.xml', $component_path);
