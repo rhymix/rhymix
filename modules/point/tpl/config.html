@@ -18,8 +18,8 @@
 		<div class="x_control-group">
 			<label for="max_level" class="x_control-label">{$lang->max_level}</label>
 			<div class="x_controls">
-				<input type="number" min="0" max="1000" value="{$config->max_level}" name="max_level" id="max_level" />
-				<p class="x_help-block">{$lang->about_max_level}</p>
+				<input type="number" min="0" max="{$system_max_level}" value="{$config->max_level}" name="max_level" id="max_level" />
+				<p class="x_help-block">{sprintf($lang->about_max_level, $system_max_level)}</p>
 			</div>
 		</div>
 		<div class="x_control-group">

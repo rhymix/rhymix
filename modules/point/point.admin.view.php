@@ -47,6 +47,11 @@ class pointAdminView extends point
 			}
 		}
 		Context::set('group_list', $selected_group_list);
+		
+		// Get max level allowed by system
+		$system_max_level = min(1000, ini_get('max_input_vars') - 100);
+		Context::set('system_max_level', $system_max_level);
+		
 		//Security
 		$security = new Security();
 		$security->encodeHTML('group_list..title','group_list..description');
