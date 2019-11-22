@@ -1,0 +1,11 @@
+<query id="getMessages" action="select">
+    <tables>
+        <table name="member_message" />
+    </tables>
+    <columns>
+        <column name="*" />
+    </columns>
+    <conditions>
+        <condition operation="in" column="message_srl" var="message_srl_list" notnull="notnull" />
+    </conditions>
+</query>

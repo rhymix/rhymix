@@ -184,7 +184,7 @@ class communicationController extends communication
 		// messages to save in the receiver's message box
 		$receiver_args = new stdClass();
 		$receiver_args->message_srl = $related_srl;
-		$receiver_args->related_srl = 0;
+		$receiver_args->related_srl = $message_srl;
 		$receiver_args->list_order = $related_srl * -1;
 		$receiver_args->sender_srl = $sender_srl;
 		if(!$receiver_args->sender_srl)
@@ -349,6 +349,16 @@ class communicationController extends communication
 		{
 			return $output;
 		}
+		
+		// Delete attachment, only if related message has also been deleted
+		$related = $message->related_srl ? $oCommunicationModel->getSelectedMessage($message->related_srl) : true;
+		if (!$related)
+		{
+			$oFileController = getController('file');
+			$oFileController->deleteFiles($message->message_srl);
+			$oFileController->deleteFiles($message->related_srl);
+		}
+		
 		$this->updateFlagFile($member_srl);
 		$this->setMessage('success_deleted');
 	}
@@ -408,7 +418,7 @@ class communicationController extends communication
 			throw new Rhymix\Framework\Exception('msg_cart_is_null');
 		}
 
-		// Delete
+		// Organize variables
 		$args = new stdClass();
 		$args->message_srls = implode(',', $target);
 		
@@ -430,11 +440,39 @@ class communicationController extends communication
 			$args->receiver_srl = $member_srl;
 		}
 
+		// Find related messages
+		$related = array();
+		$output = executeQueryArray('communication.getRelatedMessages', $args);
+		foreach ($output->data as $item)
+		{
+			$related[$item->related_srl] = $item->message_srl;
+		}
+		if (count($related))
+		{
+			$output = executeQueryArray('communication.getMessages', (object)array(
+				'message_srl_list' => array_keys($related)
+			), array('message_srl'));
+			foreach ($output->data as $item)
+			{
+				unset($related[$item->message_srl]);
+			}
+		}
+		
+		// Delete
 		$output = executeQuery('communication.deleteMessages', $args);
 		if(!$output->toBool())
 		{
 			return $output;
 		}
+		
+		// Delete attachment, only if related message has also been deleted
+		$oFileController = getController('file');
+		foreach ($related as $message_srl => $related_srl)
+		{
+			$oFileController->deleteFiles($message_srl);
+			$oFileController->deleteFiles($related_srl);
+		}
+		
 		$this->updateFlagFile($member_srl);
 		$this->setMessage('success_deleted');
 
