@@ -469,7 +469,7 @@ class editorModel extends editor
 
 		// Change auto-saved data
 		$saved_doc->certify_key = $auto_save_args->certify_key;
-		if(!$saved_doc->certify_key)
+		if(!$saved_doc->certify_key && !Context::get('is_logged'))
 		{
 			$saved_doc->certify_key = Rhymix\Framework\Security::getRandom(32);
 			setcookie('autosave_certify_key_' . $saved_doc->module_srl, $saved_doc->certify_key, time() + 86400, null, null, RX_SSL, true);
