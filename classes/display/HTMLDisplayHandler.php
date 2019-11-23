@@ -408,19 +408,36 @@ class HTMLDisplayHandler
 		$current_module_info = Context::get('current_module_info');
 		$site_module_info = Context::get('site_module_info');
 		$document_srl = Context::get('document_srl');
-		if ($document_srl)
+		$grant = Context::get('grant');
+		$permitted = $grant->access;
+		if (isset($grant->view) && !$grant->view)
 		{
-			$oDocument = Context::get('oDocument') ?: getModel('document')->getDocument($document_srl, false, false);
-			if (is_object($oDocument) && $oDocument->document_srl == $document_srl && (!method_exists($oDocument, 'isSecret') || !$oDocument->isSecret()))
+			$permitted = false;
+		}
+		if ($document_srl && $permitted)
+		{
+			if (isset($grant->consultation_read) && !$grant->consultation_read)
 			{
-				$page_type = 'article';
+				$permitted = false;
+			}
+			else
+			{
+				$oDocument = Context::get('oDocument') ?: getModel('document')->getDocument($document_srl, false, false);
+				if (is_object($oDocument) && $oDocument->document_srl == $document_srl)
+				{
+					$page_type = 'article';
+					if (method_exists($oDocument, 'isSecret') && $oDocument->isSecret())
+					{
+						$permitted = false;
+					}
+				}
 			}
 		}
 		
 		// Add basic metadata.
-		Context::addOpenGraphData('og:title', Context::getBrowserTitle());
+		Context::addOpenGraphData('og:title', $permitted ? Context::getBrowserTitle() : lang('msg_not_permitted'));
 		Context::addOpenGraphData('og:site_name', Context::getSiteTitle());
-		if ($page_type === 'article' && config('seo.og_extract_description'))
+		if ($page_type === 'article' && $permitted && config('seo.og_extract_description'))
 		{
 			$description = trim(utf8_normalize_spaces($oDocument->getContentText(200)));
 		}
@@ -459,13 +476,13 @@ class HTMLDisplayHandler
 		{
 			Context::addOpenGraphData('og:locale', $locales[$lang_type]['locale']);
 		}
-		if ($page_type === 'article' && $oDocument->getLangCode() !== $lang_type && isset($locales[$oDocument->getLangCode()]))
+		if ($page_type === 'article' && $permitted && $oDocument->getLangCode() !== $lang_type && isset($locales[$oDocument->getLangCode()]))
 		{
 			Context::addOpenGraphData('og:locale:alternate', $locales[$oDocument->getLangCode()]);
 		}
 		
 		// Add image.
-		if ($page_type === 'article' && config('seo.og_extract_images'))
+		if ($page_type === 'article' && $permitted && config('seo.og_extract_images'))
 		{
 			if (($document_images = Rhymix\Framework\Cache::get("seo:document_images:$document_srl")) === null)
 			{
@@ -525,7 +542,7 @@ class HTMLDisplayHandler
 		}
 		
 		// Add tags and hashtags for articles.
-		if ($page_type === 'article')
+		if ($page_type === 'article' && $permitted)
 		{
 			$tags = $oDocument->getTags();
 			foreach ($tags as $tag)
@@ -550,7 +567,7 @@ class HTMLDisplayHandler
 		}
 		
 		// Add datetime for articles.
-		if ($page_type === 'article' && config('seo.og_use_timestamps'))
+		if ($page_type === 'article' && $permitted && config('seo.og_use_timestamps'))
 		{
 			Context::addOpenGraphData('og:article:published_time', $oDocument->getRegdate('c'));
 			Context::addOpenGraphData('og:article:modified_time', $oDocument->getUpdate('c'));
