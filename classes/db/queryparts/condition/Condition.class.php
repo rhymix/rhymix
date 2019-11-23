@@ -133,8 +133,10 @@ class Condition
 					case 'notlike_tail' :
 					case 'notlike_prefix' :
 					case 'notlike' :
+					case 'not_like' :
 					case 'regexp' :
 					case 'notregexp' :
+					case 'not_regexp' :
 					case 'in' :
 					case 'notin' :
 					case 'not_in' :
@@ -231,6 +233,7 @@ class Condition
 				return $name . ' REGEXP ' . $value;
 				break;
 			case 'notregexp' :
+			case 'not_regexp' :
 				return $name . ' NOT REGEXP ' . $value;
 				break;
 			case 'in' :
