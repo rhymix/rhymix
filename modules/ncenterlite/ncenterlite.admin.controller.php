@@ -31,6 +31,7 @@ class ncenterliteAdminController extends ncenterlite
 			'variable_name',
 			'user_notify_setting',
 			'anonymous_voter',
+			'anonymous_scrap',
 			'highlight_effect',
 			'comment_all',
 			'comment_all_notify_module_srls',

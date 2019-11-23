@@ -399,8 +399,37 @@ class ncenterliteController extends ncenterlite
 			return $output;
 		}
 	}
+	
+	function triggerAfterScrap($obj)
+	{
+		$oNcenterliteModel = getModel('ncenterlite');
+		$config = $oNcenterliteModel->getConfig();
+		if(!isset($config->use['scrap']))
+		{
+			return;
+		}
+		
+		$args = new stdClass();
+		$args->config_type = 'scrap';
+		$args->target_member_srl = $obj->member_srl;
+		$args->member_srl = $obj->target_member_srl;
+		$args->srl = $obj->document_srl;
+		$args->target_p_srl = '1';
+		$args->target_srl = $obj->document_srl;
+		$args->type = $this->_TYPE_DOCUMENT;
+		$args->target_type = $this->_TYPE_SCRAPPED;
+		$args->target_summary = $obj->title;
+		$args->regdate = date('YmdHis');
+		$args->notify = $this->_getNotifyId($args);
+		$args->target_url = getNotEncodedUrl('', 'document_srl', $obj->document_srl);
+		$output = $this->_insertNotify($args);
+		if(!$output->toBool())
+		{
+			return $output;
+		}
+	}
 
-	function triggerAfterVotedupdate(&$obj)
+	function triggerAfterDocumentVotedUpdate(&$obj)
 	{
 		$oNcenterliteModel = getModel('ncenterlite');
 		$config = $oNcenterliteModel->getConfig();

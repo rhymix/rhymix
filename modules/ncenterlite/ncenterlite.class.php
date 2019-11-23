@@ -9,6 +9,7 @@ class ncenterlite extends ModuleObject
 	var $_TYPE_MESSAGE = 'E'; // 쪽지 mEssage
 	var $_TYPE_DOCUMENTS = 'P'; // 글 작성 알림
 	var $_TYPE_VOTED = 'V'; // 추천글 안내 알림
+	var $_TYPE_SCRAPPED = 'R'; // 스크랩 알림
 	var $_TYPE_TEST = 'T'; // Test Notify create.
 	var $_TYPE_ADMIN_DOCUMENT = 'B'; // Admin Document Alert
 	var $_TYPE_CUSTOM = 'U'; //Updated alert(uses type table)
@@ -23,7 +24,8 @@ class ncenterlite extends ModuleObject
 		array('moduleHandler.proc', 'ncenterlite', 'controller', 'triggerAfterModuleHandlerProc', 'after'),
 		array('member.deleteMember', 'ncenterlite', 'controller', 'triggerAfterDeleteMember', 'after'),
 		array('communication.sendMessage', 'ncenterlite', 'controller', 'triggerAfterSendMessage', 'after'),
-		array('document.updateVotedCount', 'ncenterlite', 'controller', 'triggerAfterVotedupdate', 'after'),
+		array('document.updateVotedCount', 'ncenterlite', 'controller', 'triggerAfterDocumentVotedUpdate', 'after'),
+		array('member.procMemberScrapDocument', 'ncenterlite', 'controller', 'triggerAfterScrap', 'after'),
 		array('moduleHandler.init', 'ncenterlite', 'controller', 'triggerAddMemberMenu', 'after'),
 		array('document.moveDocumentToTrash', 'ncenterlite', 'controller', 'triggerAfterMoveToTrash', 'after'),
 		array('comment.updateVotedCount', 'ncenterlite', 'controller', 'triggerAfterCommentVotedCount', 'after'),

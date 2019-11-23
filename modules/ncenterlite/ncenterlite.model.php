@@ -563,6 +563,18 @@ class ncenterliteModel extends ncenterlite
 				}
 				break;
 
+			// Scrapped.
+			case 'R':
+				if($config->anonymous_scrap === 'Y')
+				{
+					$str = sprintf(lang('ncenterlite_scrap_anonymous'), $notification->target_summary, $type);
+				}
+				else
+				{
+					$str = sprintf(lang('ncenterlite_scrap'), $notification->target_nick_name, $notification->target_summary, $type);
+				}
+				break;
+
 			// Admin notification.
 			case 'B':
 				$str = sprintf(lang('ncenterlite_admin_content_message'), $notification->target_nick_name, $notification->target_browser, $notification->target_summary);

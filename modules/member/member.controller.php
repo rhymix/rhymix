@@ -190,9 +190,19 @@ class memberController extends member
 			throw new Rhymix\Framework\Exception('msg_alreay_scrapped');
 		}
 		
+		// Call trigger (before)
+		$trigger_output = ModuleHandler::triggerCall('member.procMemberScrapDocument', 'before', $args);
+		if (!$trigger_output->toBool())
+		{
+			return $trigger_output;
+		}
+		
 		// Insert
 		$output = executeQuery('member.addScrapDocument', $args);
 		if(!$output->toBool()) return $output;
+		
+		// Call trigger (after)
+		ModuleHandler::triggerCall('member.procMemberScrapDocument', 'after', $args);
 		
 		$this->setError(-1);
 		$this->setMessage('success_registed');
