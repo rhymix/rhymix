@@ -361,3 +361,4 @@ $lang->cmd_recent_visit = '최근 방문';
 $lang->scrap_folder_create = '폴더 추가';
 $lang->scrap_folder_rename = '이름 변경';
 $lang->scrap_folder_delete = '삭제';
+$lang->member_unauthenticated = '미인증';

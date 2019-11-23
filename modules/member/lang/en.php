@@ -341,3 +341,4 @@ $lang->cmd_recent_visit = 'Recent Visit';
 $lang->scrap_folder_create = 'New Folder';
 $lang->scrap_folder_rename = 'Rename';
 $lang->scrap_folder_delete = 'Delete';
+$lang->member_unauthenticated = 'Unauthenticated';

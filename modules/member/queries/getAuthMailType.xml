@@ -1,0 +1,12 @@
+<query id="getAuthMailType" action="select">
+    <tables>
+        <table name="member_auth_mail" />
+    </tables>
+    <columns>
+		<column name="member_srl" />
+        <column name="is_register" />
+    </columns>
+    <conditions>
+        <condition operation="in" column="member_srl" var="member_srl" notnull="notnull" />
+    </conditions>
+</query>

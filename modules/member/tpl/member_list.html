@@ -74,7 +74,11 @@
 				</td>
 				<td class="nowr">
 					<!--@if($member_info['denied']=='Y')-->
-						<span style="color:red;">{$lang->denied}</span>
+						<!--@if(isset($new_member_check_list[$member_info['member_srl']]) && $new_member_check_list[$member_info['member_srl']])-->
+							<span style="color:red;">{$lang->member_unauthenticated}</span>
+						<!--@else-->
+							<span style="color:red;">{$lang->denied}</span>
+						<!--@endif-->
 					<!--@elseif($member_info['limit_date'] && substr($member_info['limit_date'], 0, 8) >= date('Ymd'))-->
 						<span style="color:red;">{$lang->member_limited}</span>
 					<!--@else-->
