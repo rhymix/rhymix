@@ -416,7 +416,7 @@ class HTMLDisplayHandler
 		}
 		if ($document_srl && $permitted)
 		{
-			if (isset($grant->consultation_read) && !$grant->consultation_read)
+			if (isset($grant->consultation_read) && !$grant->consultation_read && $current_module_info->consultation === 'Y')
 			{
 				$permitted = false;
 			}
