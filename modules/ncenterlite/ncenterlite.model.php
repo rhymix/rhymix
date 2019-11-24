@@ -553,7 +553,7 @@ class ncenterliteModel extends ncenterlite
 
 			// Voted.
 			case 'V':
-				if($config->anonymous_voter === 'Y')
+				if($config->anonymous_voter !== 'N')
 				{
 					$str = sprintf(lang('ncenterlite_vote_anonymous'), $notification->target_summary, $type);
 				}
@@ -565,7 +565,7 @@ class ncenterliteModel extends ncenterlite
 
 			// Scrapped.
 			case 'R':
-				if($config->anonymous_scrap === 'Y')
+				if($config->anonymous_scrap !== 'N')
 				{
 					$str = sprintf(lang('ncenterlite_scrap_anonymous'), $notification->target_summary, $type);
 				}
