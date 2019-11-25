@@ -51,7 +51,7 @@ xe.lang.msg_empty_search_keyword = '{$lang->msg_empty_search_keyword}';
 			<tr loop="$document_list => $no, $oDocument">
 
 				<td class="title">
-				<a href="{getUrl('','document_srl',$oDocument->document_srl)}" target="_blank"><!--@if(trim($oDocument->getTitleText()))-->{htmlspecialchars($oDocument->getTitleText())}<!--@else--><em>{$lang->no_title_document}</em><!--@end--></a>
+				<a href="{getUrl('','document_srl',$oDocument->document_srl)}" target="_blank"><!--@if(trim($oDocument->getTitleText()))-->{escape($oDocument->getTitleText(), false)}<!--@else--><em>{$lang->no_title_document}</em><!--@end--></a>
 				
 				<span cond="isset($module_list[$oDocument->get('module_srl')])">
 					- <a href="{getUrl('', 'mid', $module_list[$oDocument->get('module_srl')]->mid)}" target="_blank">{$module_list[$oDocument->get('module_srl')]->browser_title}</a>
@@ -129,7 +129,7 @@ xe.lang.msg_empty_search_keyword = '{$lang->msg_empty_search_keyword}';
 		<option value="{$key}" <!--@if($search_target==$key)-->selected="selected"<!--@end-->>{$val}</option>
 		<!--@end-->
 	</select>
-	<input type="search" name="search_keyword" value="{htmlspecialchars($search_keyword, ENT_COMPAT | ENT_HTML401, 'UTF-8', false)}" title="{$lang->cmd_search}" />
+	<input type="search" name="search_keyword" value="{escape($search_keyword, false)}" title="{$lang->cmd_search}" />
 	<button type="submit" class="x_btn x_btn-inverse">{$lang->cmd_search}</button>
 	<a href="{getUrl('','module',$module,'act',$act)}" class="x_btn">{$lang->cmd_cancel}</a>
 </form>
