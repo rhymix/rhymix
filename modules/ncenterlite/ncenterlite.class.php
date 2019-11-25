@@ -110,6 +110,21 @@ class ncenterlite extends ModuleObject
 			return true;
 		}
 
+		if(!$oDB->isColumnExists('ncenterlite_user_set', 'comment_comment_notify'))
+		{
+			return true;
+		}
+
+		if(!$oDB->isColumnExists('ncenterlite_user_set', 'vote_notify'))
+		{
+			return true;
+		}
+
+		if(!$oDB->isColumnExists('ncenterlite_user_set', 'scrap_notify'))
+		{
+			return true;
+		}
+
 		// PK duplicate
 		if($oDB->isIndexExists('ncenterlite_notify', 'idx_notify'))
 		{
@@ -218,6 +233,20 @@ class ncenterlite extends ModuleObject
 			$oDB->dropIndex('ncenterlite_notify', 'idx_notify');
 		}
 
+		if(!$oDB->isColumnExists('ncenterlite_user_set','comment_comment_notify'))
+		{
+			$oDB->addColumn('ncenterlite_user_set', 'comment_comment_notify', 'char', 1, null, true);
+		}
+
+		if(!$oDB->isColumnExists('ncenterlite_user_set','vote_notify'))
+		{
+			$oDB->addColumn('ncenterlite_user_set', 'vote_notify', 'char', 1, null, true);
+		}
+
+		if(!$oDB->isColumnExists('ncenterlite_user_set','scrap_notify'))
+		{
+			$oDB->addColumn('ncenterlite_user_set', 'scrap_notify', 'char', 1, null, true);
+		}
 
 		$config = getModel('ncenterlite')->getConfig();
 		if(!$config)

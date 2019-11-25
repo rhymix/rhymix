@@ -31,8 +31,11 @@ class ncenterliteController extends ncenterlite
 		$args = new stdClass();
 		$args->member_srl = $member_srl;
 		$args->comment_notify = $obj->comment_notify;
+		$args->comment_comment_notify = $obj->comment_comment_notify;
 		$args->mention_notify = $obj->mention_notify;
 		$args->message_notify = $obj->message_notify;
+		$args->vote_notify = $obj->vote_notify;
+		$args->scrap_notify = $obj->scrap_notify;
 
 		if(!$user_config->data)
 		{

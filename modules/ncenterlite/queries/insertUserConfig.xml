@@ -5,7 +5,10 @@
 	<columns>
 		<column name="member_srl" var="member_srl" notnull="notnull" />
 		<column name="comment_notify" var="comment_notify" notnull="notnull" />
+		<column name="comment_comment_notify" var="comment_comment_notify" notnull="notnull" />
 		<column name="mention_notify" var="mention_notify" notnull="notnull" />
+		<column name="vote_notify" var="vote_notify" notnull="notnull" />
+		<column name="scrap_notify" var="scrap_notify" notnull="notnull" />
 		<column name="message_notify" var="message_notify" notnull="notnull" />
 		<column name="regdate" var="regdate" default="curdate()" />
 	</columns>
