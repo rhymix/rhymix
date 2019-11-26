@@ -235,17 +235,17 @@ class ncenterlite extends ModuleObject
 
 		if(!$oDB->isColumnExists('ncenterlite_user_set','comment_comment_notify'))
 		{
-			$oDB->addColumn('ncenterlite_user_set', 'comment_comment_notify', 'char', 1, null, true);
+			$oDB->addColumn('ncenterlite_user_set', 'comment_comment_notify', 'char', 1, null, true, 'comment_notify');
 		}
 
 		if(!$oDB->isColumnExists('ncenterlite_user_set','vote_notify'))
 		{
-			$oDB->addColumn('ncenterlite_user_set', 'vote_notify', 'char', 1, null, true);
+			$oDB->addColumn('ncenterlite_user_set', 'vote_notify', 'char', 1, null, true, 'mention_notify');
 		}
 
 		if(!$oDB->isColumnExists('ncenterlite_user_set','scrap_notify'))
 		{
-			$oDB->addColumn('ncenterlite_user_set', 'scrap_notify', 'char', 1, null, true);
+			$oDB->addColumn('ncenterlite_user_set', 'scrap_notify', 'char', 1, null, true, 'vote_notify');
 		}
 
 		$config = getModel('ncenterlite')->getConfig();
