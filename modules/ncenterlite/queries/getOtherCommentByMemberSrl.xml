@@ -1,15 +1,21 @@
 <query id="getOtherCommentByMemberSrl" action="select">
 	<tables>
 		<table name="comments" />
+		<table name="ncenterlite_user_set" type="left outer join">
+			<conditions>
+				<condition operation="equal" column="ncenterlite_user_set.member_srl" default="comments.member_srl" />
+			</conditions>
+		</table>
 	</tables>
 
 	<columns>
-		<column name="member_srl" />
+		<column name="comments.member_srl" alias="member_srl" />
+		<column name="ncenterlite_user_set.comment_notify" alias="comment_notify" />
 	</columns>
 
 	<conditions>
-		<condition operation="equal" column="document_srl" var="document_srl" notnull="notnull" />
-		<condition operation="notequal" column="member_srl" var="member_srl" notnull="notnull" pipe="and" />
+		<condition operation="equal" column="comments.document_srl" var="document_srl" notnull="notnull" />
+		<condition operation="notequal" column="comments.member_srl" var="member_srl" notnull="notnull" pipe="and" />
 	</conditions>
 	<groups>
 		<group column="member_srl" />
