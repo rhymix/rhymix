@@ -457,7 +457,7 @@ class ncenterliteController extends ncenterlite
 			return;
 		}
 
-		if($config->user_notify_setting == 'Y' && $oNcenterliteModel->getUserConfig($obj->target_member_srl)->data->vote_notify == 'N')
+		if($config->user_notify_setting == 'Y' && $oNcenterliteModel->getUserConfig($obj->member_srl)->data->vote_notify == 'N')
 		{
 			return;
 		}
@@ -493,6 +493,11 @@ class ncenterliteController extends ncenterlite
 			return;
 		}
 		if($obj->point < 0)
+		{
+			return;
+		}
+
+		if($config->user_notify_setting == 'Y' && $oNcenterliteModel->getUserConfig($obj->member_srl)->data->vote_notify == 'N')
 		{
 			return;
 		}
