@@ -74,7 +74,7 @@ $lang->about_rewrite = '이 기능을 사용하면 <em>http://yourdomain/</em><s
 $lang->checking_rewrite = '짧은 주소를 사용할 수 있는지 확인하는 중입니다...';
 $lang->disable_rewrite = '짧은 주소를 사용할 수 없습니다. 웹 서버 담당자에게 mod_rewrite 지원 여부를 확인 바랍니다.';
 $lang->disable_rewrite_can_proceed = '짧은 주소를 사용할 수 없더라도 Rhymix 설치와 사용에는 지장이 없습니다.';
-$lang->about_nginx_rewrite = 'nginx에서 짧은 주소를 사용하려면 rewrite 설정이 필요합니다. <a href="https://github.com/xpressengine/xe-core/wiki/Nginx-rewite-%EC%84%A4%EC%A0%95%ED%95%98%EA%B8%B0" target="_blank">여기</a>를 참고하세요.';
+$lang->about_nginx_rewrite = 'nginx에서 짧은 주소를 사용하려면 rewrite 설정이 필요합니다. <a href="https://github.com/rhymix/rhymix-docs/blob/master/ko/introduction/nginx.md" target="_blank">여기</a>를 참고하세요.';
 $lang->time_zone = '표준 시간대';
 $lang->about_time_zone = '서버의 시간과 주 사용자의 시간이 다를 경우 (예: 해외 서버인 경우) 원하는 표준 시간대를 선택할 수 있습니다.';
 $lang->use_ssl = 'SSL 사용';

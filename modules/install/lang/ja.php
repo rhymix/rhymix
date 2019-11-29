@@ -71,7 +71,7 @@ $lang->about_rewrite = 'Webサーバで「リライト・モジュール（mod_r
 $lang->checking_rewrite = '短縮アドレスを使用できるかどうかを確認しています...';
 $lang->disable_rewrite = '短縮アドレスを使用できません。ウェブサーバー担当者に mod_rewriteサポート可否を確認してください。';
 $lang->disable_rewrite_can_proceed = 'この機能は、Rhymixをインストールと使用するために必要ではありません。';
-$lang->about_nginx_rewrite = 'nginxを使用する場合、短縮アクセスを使用するためにrewrite設定が必要です。設定方法は<a href="https://github.com/xpressengine/xe-core/wiki/Nginx-rewite-%EC%84%A4%EC%A0%95%ED%95%98%EA%B8%B0" target="_blank">このページ</a>を参考ください。';
+$lang->about_nginx_rewrite = 'nginxを使用する場合、短縮アクセスを使用するためにrewrite設定が必要です。設定方法は<a href="https://github.com/rhymix/rhymix-docs/blob/master/ko/introduction/nginx.md" target="_blank">このページ</a>を参考ください。';
 $lang->time_zone = 'タイムゾーン';
 $lang->about_time_zone = 'サーバの設定時間とサービスしているローカル時間との差がある場合、タイムゾーンを指定して表示時間を合わせることができます。';
 $lang->use_ssl = 'SSLを使用';
