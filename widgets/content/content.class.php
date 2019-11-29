@@ -327,6 +327,7 @@ class content extends WidgetHandler
 	{
 		$oDocumentModel = getModel('document');
 
+		$obj = new stdClass();
 		$obj->module_srls = $obj->module_srl = $args->module_srl;
 		$obj->direct_download = 'Y';
 		$obj->isvalid = 'Y';
