@@ -74,7 +74,7 @@ $lang->about_rewrite = 'If web server provides mod_rewrite, long URL such as <em
 $lang->checking_rewrite = 'Checking whether "Friendly URL" feature is available...';
 $lang->disable_rewrite = '"Friendly URL" feature is not available. Please check with the server administrator about mod_rewrite module support.';
 $lang->disable_rewrite_can_proceed = 'It is OK to continue to install and use Rhymix without the "Friendly URL" feature.';
-$lang->about_nginx_rewrite = 'To use this feature at nginx, you need to configure rewrite. See <a href="https://github.com/xpressengine/xe-core/wiki/Nginx-rewite-%EC%84%A4%EC%A0%95%ED%95%98%EA%B8%B0" target="_blank">here</a>.';
+$lang->about_nginx_rewrite = 'To use this feature at nginx, you need to configure rewrite. See <a href="https://github.com/rhymix/rhymix-docs/blob/master/ko/introduction/nginx.md" target="_blank">here</a>.';
 $lang->time_zone = 'Time Zone';
 $lang->about_time_zone = 'If the server time is different from your time zone, you can use this option to display times in your time zone.';
 $lang->use_ssl = 'SSL';
