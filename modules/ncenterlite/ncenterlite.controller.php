@@ -31,8 +31,11 @@ class ncenterliteController extends ncenterlite
 		$args = new stdClass();
 		$args->member_srl = $member_srl;
 		$args->comment_notify = $obj->comment_notify;
+		$args->comment_comment_notify = $obj->comment_comment_notify;
 		$args->mention_notify = $obj->mention_notify;
 		$args->message_notify = $obj->message_notify;
+		$args->vote_notify = $obj->vote_notify;
+		$args->scrap_notify = $obj->scrap_notify;
 
 		if(!$user_config->data)
 		{
@@ -174,7 +177,6 @@ class ncenterliteController extends ncenterlite
 
 		$oDocumentModel = getModel('document');
 		$oDocument = $oDocumentModel->getDocument($document_srl);
-		
 		if($config->comment_all == 'Y' && $obj->member_srl == $oDocument->get('member_srl') && !$obj->parent_srl && (is_array($config->comment_all_notify_module_srls) && in_array($module_info->module_srl, $config->comment_all_notify_module_srls)))
 		{
 			$comment_args = new stdClass();
@@ -183,6 +185,10 @@ class ncenterliteController extends ncenterlite
 			$other_comment = executeQueryArray('ncenterlite.getOtherCommentByMemberSrl', $comment_args);
 			foreach ($other_comment->data as $value)
 			{
+				if($config->user_notify_setting == 'Y' && $value->comment_notify === 'N')
+				{
+					continue;
+				}
 				$args = new stdClass();
 				$args->config_type = 'comment_all';
 				$args->member_srl = $value->member_srl;
@@ -267,27 +273,31 @@ class ncenterliteController extends ncenterlite
 		{
 			$oCommentModel = getModel('comment');
 			$oComment = $oCommentModel->getComment($parent_srl);
-			$member_srl = $oComment->member_srl;
+			$abs_member_srl = abs($oComment->member_srl);
 			if($config->user_notify_setting == 'Y')
 			{
 				$comment_member_config = $oNcenterliteModel->getUserConfig($member_srl);
 				$parent_member_config = $comment_member_config->data;
-				if($parent_member_config->comment_notify == 'N')
+				if($parent_member_config->comment_comment_notify == 'N')
 				{
 					return;
 				}
 			}
 
-			if(is_array($admin_list) && in_array(abs($member_srl), $admin_list) && isset($config->use['admin_content']) && $obj->admin_comment_notify == true)
+			if(is_array($admin_list) && in_array($abs_member_srl, $admin_list) && isset($config->use['admin_content']) && $obj->admin_comment_notify == true)
 			{
 				return;
 			}
 
-			if(!in_array(abs($member_srl), $notify_member_srls) && (!Context::get('is_logged') || ($member_srl != 0 && abs($member_srl) != $logged_info->member_srl)))
+			if(!in_array($abs_member_srl, $notify_member_srls) && (!Context::get('is_logged') || ($member_srl != 0 && $abs_member_srl != $logged_info->member_srl)))
 			{
+				if($oNcenterliteModel->getUserConfig($abs_member_srl)->data->comment_comment_notify == 'N')
+				{
+					return;
+				}
 				$args = new stdClass();
 				$args->config_type = 'comment_comment';
-				$args->member_srl = abs($member_srl);
+				$args->member_srl = $abs_member_srl;
 				$args->srl = $obj->document_srl;
 				$args->target_p_srl = $parent_srl;
 				$args->target_srl = $obj->comment_srl;
@@ -305,22 +315,22 @@ class ncenterliteController extends ncenterlite
 				{
 					return $output;
 				}
-				$notify_member_srls[] = abs($member_srl);
+				$notify_member_srls[] = $abs_member_srl;
 			}
 		}
 		// 대댓글이 아니고, 게시글의 댓글을 남길 경우
 		if(!$parent_srl || ($parent_srl && isset($config->use['comment_comment'])))
 		{
-			$member_srl = $oDocument->get('member_srl');
+			$abs_member_srl = abs($oDocument->get('member_srl'));
 
-			if(is_array($admin_list) && in_array(abs($member_srl), $admin_list) && isset($config->use['admin_content']) && $obj->admin_comment_notify == true)
+			if(is_array($admin_list) && in_array($abs_member_srl, $admin_list) && isset($config->use['admin_content']) && $obj->admin_comment_notify == true)
 			{
 				return;
 			}
 
 			if($config->user_notify_setting == 'Y')
 			{
-				$comment_member_config = $oNcenterliteModel->getUserConfig($member_srl);
+				$comment_member_config = $oNcenterliteModel->getUserConfig($abs_member_srl);
 				$document_comment_member_config = $comment_member_config->data;
 				if($document_comment_member_config->comment_notify == 'N')
 				{
@@ -328,11 +338,11 @@ class ncenterliteController extends ncenterlite
 				}
 			}
 
-			if(!in_array(abs($member_srl), $notify_member_srls) && (!$logged_info || ($member_srl != 0 && abs($member_srl) != $logged_info->member_srl)))
+			if(!in_array($abs_member_srl, $notify_member_srls) && (!$logged_info || ($member_srl != 0 && $abs_member_srl != $logged_info->member_srl)))
 			{
 				$args = new stdClass();
 				$args->config_type = 'comment';
-				$args->member_srl = abs($member_srl);
+				$args->member_srl = $abs_member_srl;
 				$args->srl = $document_srl;
 				$args->target_p_srl = $comment_srl;
 				$args->target_srl = $comment_srl;
@@ -409,6 +419,11 @@ class ncenterliteController extends ncenterlite
 			return;
 		}
 		
+		if($config->user_notify_setting == 'Y' && $oNcenterliteModel->getUserConfig($obj->target_member_srl)->data->scrap_notify == 'N')
+		{
+			return;
+		}
+		
 		$args = new stdClass();
 		$args->config_type = 'scrap';
 		$args->target_member_srl = $obj->member_srl;
@@ -438,6 +453,11 @@ class ncenterliteController extends ncenterlite
 			return;
 		}
 		if($obj->point < 0)
+		{
+			return;
+		}
+
+		if($config->user_notify_setting == 'Y' && $oNcenterliteModel->getUserConfig($obj->member_srl)->data->vote_notify == 'N')
 		{
 			return;
 		}
@@ -473,6 +493,11 @@ class ncenterliteController extends ncenterlite
 			return;
 		}
 		if($obj->point < 0)
+		{
+			return;
+		}
+
+		if($config->user_notify_setting == 'Y' && $oNcenterliteModel->getUserConfig($obj->member_srl)->data->vote_notify == 'N')
 		{
 			return;
 		}
