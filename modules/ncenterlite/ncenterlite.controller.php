@@ -276,7 +276,7 @@ class ncenterliteController extends ncenterlite
 			$abs_member_srl = abs($oComment->member_srl);
 			if($config->user_notify_setting == 'Y')
 			{
-				$comment_member_config = $oNcenterliteModel->getUserConfig($member_srl);
+				$comment_member_config = $oNcenterliteModel->getUserConfig($abs_member_srl);
 				$parent_member_config = $comment_member_config->data;
 				if($parent_member_config->comment_comment_notify == 'N')
 				{
@@ -289,7 +289,7 @@ class ncenterliteController extends ncenterlite
 				return;
 			}
 
-			if(!in_array($abs_member_srl, $notify_member_srls) && (!Context::get('is_logged') || ($member_srl != 0 && $abs_member_srl != $logged_info->member_srl)))
+			if(!in_array($abs_member_srl, $notify_member_srls) && (!Context::get('is_logged') || ($abs_member_srl != 0 && $abs_member_srl != $logged_info->member_srl)))
 			{
 				if($oNcenterliteModel->getUserConfig($abs_member_srl)->data->comment_comment_notify == 'N')
 				{
@@ -337,8 +337,7 @@ class ncenterliteController extends ncenterlite
 					return;
 				}
 			}
-
-			if(!in_array($abs_member_srl, $notify_member_srls) && (!$logged_info || ($member_srl != 0 && $abs_member_srl != $logged_info->member_srl)))
+			if(!in_array($abs_member_srl, $notify_member_srls) && (!$logged_info || ($abs_member_srl != 0 && $abs_member_srl != $logged_info->member_srl)))
 			{
 				$args = new stdClass();
 				$args->config_type = 'comment';
