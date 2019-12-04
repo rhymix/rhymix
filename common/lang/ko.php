@@ -366,3 +366,4 @@ $lang->image_quality = '화질';
 $lang->standard = '표준';
 $lang->unlimited = '제한 없음';
 $lang->admin = '관리자';
+$lang->stop = '중지';

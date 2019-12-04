@@ -362,3 +362,4 @@ $lang->image_quality = 'Quality';
 $lang->standard = 'Standard';
 $lang->unlimited = 'Unlimited';
 $lang->admin = 'Admin';
+$lang->stop = 'Stop';

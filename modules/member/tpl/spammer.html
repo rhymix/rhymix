@@ -1,9 +1,7 @@
 <!--%import("filter/manage_checked_document.xml")-->
 <style type="text/css">
 .dot-line {border-bottom:1px dotted #ddd; padding:8px 0;}
-.progress-box {visibility:hidden;padding:10px;}
-.progress-complete {visibility:hidden;background-color:#EAEAEA;color:#F15F5F;font-weight:bold;text-align:center;padding:3px;}
-.progress-cancel {visibility:hidden;background-color:#EAEAEA;color:#F15F5F;font-weight:bold;text-align:center;padding:3px;}
+#progress-box {visibility:hidden;padding:10px;}
 .btn-proc { padding:40px 0; text-align:right;}
 .btn-proc label {float:right; margin-left:20px;}
 #spam_description {width:98%}
@@ -33,15 +31,13 @@
 		<button class="x_btn x_btn-danger" type="submit"/>{$lang->btn_spammer_delete_all}</button>
 	</div>
 
-	<div class="progress-box">
-		<div class="progress-complete">{$lang->cmd_complete}</div>
-		<div><span id="document_count"></span> <span id="document_percent"></span></div>
+	<div id="progress-box">
+		<div id="progress-info">0%</div>
 		<div class="x_progress x_progress-striped x_active">
 			<div class="x_bar" id="progressBar" style="width: 0%"></div>
 		</div>
-		<div class-"cancel"><button class="x_btn" type="button" onclick="cancelSpammerManage();">{$lang->cmd_cancel}</button></div>
+		<div class="stop"><button class="x_btn" type="button" onclick="cancelSpammerManage();">{$lang->stop}</button></div>
 	</div>
-	<div class="progress-cancel dot-line">{$lang->success_declare_canceled}</div>
 </div>
 </form>
 <script type="text/javascript">
@@ -67,8 +63,7 @@ function doSpammerManage( args ) {
 
 		form_info = args;
 
-		jQuery('.progress-box').css('visibility','visible');
-		jQuery('.progress-cancel').css('visibility','hidden');
+		jQuery('#progress-box').css('visibility','visible');
 		jQuery('[type=submit]').hide();
 
 		bSpammerManageProc = true;
@@ -82,35 +77,27 @@ function doSpammerManage( args ) {
 function progressSpammerManage( data ) {
 
 	setTimeout( function() {
+		var info = data.progress + '%';
+		jQuery('#progressBar').width(data.progress + '%');
+		
 		if( data.total_count != undefined && parseInt( data.total_count ) > 0 )  {
 			var doc_count = parseInt( data.total_count ) - parseInt( data.remain_count );
-			jQuery('#document_count').html( doc_count + "/" + data.total_count );
-			jQuery('#document_percent').html(data.progress + "%");
+			info = info + ' (' + doc_count + ' / ' + data.total_count + ')';
 		}
-		jQuery('#progressBar').width(data.progress + "%");
-		if(data.remain_count <= 0) {
-			jQuery('.progress-complete').css('visibility','visible');
-			jQuery('[type=submit]').show();
-			alert("{$lang->msg_spammer_complete}");
+		
+		jQuery('#progress-info').text( info );
+		
+		if(data.remain_count <= 0 || bSpammerManageProc === false) {
+			jQuery('.stop').hide();
+			if(data.remain_count <= 0) {
+				alert('{$lang->msg_spammer_complete}');
+			} else {
+				jQuery('#progress-info').text(data.progress + '% ({$lang->stop})');
+			}
 			return;
 		}
-
-		var args = data;
-
-		if( bSpammerManageProc == false ) {
-			jQuery('.progress-box').css('visibility','hidden');
-			jQuery('.progress-cancel').css('visibility','visible');
-
-			// reset progress values
-			jQuery('#document_count').html("");
-			jQuery('#document_percent').html("");
-			jQuery('#progressBar').width("0%");
-			jQuery('[type=submit]').show();
-
-			return;
-		}
-		doSpammerManage( args );
-
+		
+		doSpammerManage( data );
 	}, 500 );
 }
 
