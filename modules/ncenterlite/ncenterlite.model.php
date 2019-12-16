@@ -501,7 +501,7 @@ class ncenterliteModel extends ncenterlite
 			// Other.
 			case 'U':
 			default:
-				return $this->getNotifyTypeString($notification->notify_type, unserialize($notification->target_body)) ?: $lang->ncenterlite;
+				return $this->getNotifyTypeString($notification->notify_type, unserialize($notification->target_body)) ?: lang('ncenterlite');
 		}
 		
 		$config = $this->getConfig();
