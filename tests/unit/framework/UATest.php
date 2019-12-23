@@ -240,6 +240,12 @@ class UATest extends \Codeception\TestCase\Test
 		$this->assertEquals('1.0', $browser->version);
 		$this->assertTrue($browser->is_robot);
 		
+		// Mediapartners-Google
+		$browser = Rhymix\Framework\UA::getBrowserInfo('Mediapartners-Google');
+		$this->assertEquals('Mediapartners-Google', $browser->browser);
+		$this->assertEquals(null, $browser->version);
+		$this->assertTrue($browser->is_robot);
+		
 		// Bingbot
 		$browser = Rhymix\Framework\UA::getBrowserInfo('Mozilla/5.0 (compatible; bingbot/2.0; +http://www.bing.com/bingbot.htm)');
 		$this->assertEquals('Bingbot', $browser->browser);
