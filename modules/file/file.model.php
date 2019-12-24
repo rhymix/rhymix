@@ -403,7 +403,7 @@ class fileModel extends file
 	function getUploadConfig()
 	{
 		$config = $this->getFileConfig(Context::get('module_srl') ?: Context::get('current_module_info')->module_srl);
-		if($this->user->isAdmin())
+		if($this->user->is_admin === 'Y')
 		{
 			$module_config = getModel('module')->getModuleConfig('file');
 			$config->allowed_filesize = max($config->allowed_filesize, $module_config->allowed_filesize);
