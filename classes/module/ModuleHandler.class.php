@@ -807,7 +807,7 @@ class ModuleHandler extends Handler
 		$procResult = $oModule->proc();
 
 		$methodList = array('XMLRPC' => 1, 'JSON' => 1, 'JS_CALLBACK' => 1);
-		if(!$oModule->stop_proc && !isset($methodList[Context::getRequestMethod()]))
+		if(!$oModule->stop_proc && (!isset($methodList[Context::getRequestMethod()]) || isset($_POST['_rx_ajax_form'])))
 		{
 			$error = $oModule->getError();
 			$message = $oModule->getMessage();

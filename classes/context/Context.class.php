@@ -165,6 +165,7 @@ class Context
 	 */
 	private static $_reserved_keys = array(
 		'_rx_ajax_compat' => true,
+		'_rx_ajax_form' => true,
 		'_rx_csrf_token' => true,
 		'_rx_target_iframe' => true,
 	);

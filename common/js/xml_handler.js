@@ -402,7 +402,7 @@
 			}, 1000);
 			form.submit();
 		} else {
-			window.exec_json('raw', form.serialize(), callback_success, callback_error);
+			window.exec_json('raw', form.serialize() + '&_rx_ajax_form=1', callback_success, callback_error);
 		}
 	});
 	
