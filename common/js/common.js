@@ -82,6 +82,15 @@
 		}
 	};
 	
+	window.rhymix_alert_close = function() {
+		if($('#rhymix_alert').is(':hidden')) {
+			return;
+		}
+		$('#rhymix_alert').fadeOut(500, function() {
+			$(this).empty();
+		});
+	};
+	
 	/**
 	 * @brief display alert
 	 */
@@ -91,11 +100,7 @@
 		}
 		if(!redirect_url) {
 			$('#rhymix_alert').text(message).show();
-			setTimeout(function() {
-				$('#rhymix_alert').fadeOut(1000, function() {
-					$(this).empty();
-				});
-			}, delay);
+			setTimeout(rhymix_alert_close, delay);
 		}
 		else if(isSameOrigin(location.href, redirect_url)) {
 			Cookies.set('rhymix_alert_message', message, { expires: 1 / 1440, path: '' });
@@ -112,6 +117,7 @@
 			Cookies.remove('rhymix_alert_message', { path: '' });
 			Cookies.remove('rhymix_alert_delay', { path: '' });
 		}
+		$('#rhymix_alert').click(rhymix_alert_close);
 	});
 	
 	/* Array for pending debug data */
