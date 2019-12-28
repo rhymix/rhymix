@@ -82,6 +82,44 @@
 		}
 	};
 	
+	window.rhymix_alert_close = function() {
+		if($('#rhymix_alert').is(':hidden')) {
+			return;
+		}
+		$('#rhymix_alert').fadeOut(500, function() {
+			$(this).empty();
+		});
+	};
+	
+	/**
+	 * @brief display alert
+	 */
+	window.rhymix_alert = function(message, redirect_url, delay) {
+		if(!delay) {
+			delay = 2500;
+		}
+		if(!redirect_url) {
+			$('#rhymix_alert').text(message).show();
+			setTimeout(rhymix_alert_close, delay);
+		}
+		else if(isSameOrigin(location.href, redirect_url)) {
+			Cookies.set('rhymix_alert_message', message, { expires: 1 / 1440, path: '' });
+			Cookies.set('rhymix_alert_delay', delay, { expires: 1 / 1440, path: '' });
+		}
+		else {
+			alert(message);
+		}
+	};
+	
+	$(document).ready(function() {
+		if(Cookies.get('rhymix_alert_message')) {
+			rhymix_alert(Cookies.get('rhymix_alert_message'), null, Cookies.get('rhymix_alert_delay'));
+			Cookies.remove('rhymix_alert_message', { path: '' });
+			Cookies.remove('rhymix_alert_delay', { path: '' });
+		}
+		$('#rhymix_alert').click(rhymix_alert_close);
+	});
+	
 	/* Array for pending debug data */
 	window.rhymix_debug_pending_data = [];
 
@@ -531,15 +569,19 @@ function sendMailTo(to) {
  * @brief url이동 (Rhymix 개선된 버전)
  */
 function redirect(url) {
-	var absolute_url = window.location.href;
-	var relative_url = window.location.pathname + window.location.search;
-	if (url === absolute_url || url.indexOf(absolute_url.replace(/#.+$/, "") + "#") === 0 ||
-		url === relative_url || url.indexOf(relative_url.replace(/#.+$/, "") + "#") === 0) {
+	if (isCurrentPageUrl(url)) {
 		window.location.href = url;
 		window.location.reload();
 	} else {
 		window.location.href = url;
 	}
+}
+
+function isCurrentPageUrl(url) {
+	var absolute_url = window.location.href;
+	var relative_url = window.location.pathname + window.location.search;
+	return  url === absolute_url || url.indexOf(absolute_url.replace(/#.+$/, "") + "#") === 0 ||
+			url === relative_url || url.indexOf(relative_url.replace(/#.+$/, "") + "#") === 0;
 }
 
 /**

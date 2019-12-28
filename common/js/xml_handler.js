@@ -376,7 +376,15 @@
 		if (callback_success && window[callback_success] && $.isFunction(window[callback_success])) {
 			callback_success = window[callback_success];
 		} else {
-			callback_success = null;
+			callback_success = function(data) {
+				if (data.message === 'success') {
+					return;
+				}
+				rhymix_alert(data.message, data.redirect_url);
+				if (data.redirect_url) {
+					redirect(data.redirect_url);
+				}
+			};
 		}
 		var callback_error = form.data('callback-error');
 		if (callback_error && window[callback_error] && $.isFunction(window[callback_error])) {
