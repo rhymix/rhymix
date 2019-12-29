@@ -377,10 +377,9 @@
 			callback_success = window[callback_success];
 		} else {
 			callback_success = function(data) {
-				if (data.message === 'success') {
-					return;
+				if (data.message && data.message !== 'success') {
+					rhymix_alert(data.message, data.redirect_url);
 				}
-				rhymix_alert(data.message, data.redirect_url);
 				if (data.redirect_url) {
 					redirect(data.redirect_url);
 				}
@@ -391,6 +390,13 @@
 			callback_error = window[callback_error];
 		} else {
 			callback_error = null;
+		}
+		// Set _rx_ajax_form flag
+		if (!form.find('input[name=_rx_ajax_form]').size()) {
+			form.append('<input type="hidden" name="_rx_ajax_form" value="true" />');
+			setTimeout(function() {
+				form.find('input[name=_rx_ajax_form]').remove();
+			}, 1000);
 		}
 		// If the form has file uploads, use a hidden iframe to submit. Otherwise use exec_json.
 		var has_files = form.find('input[type=file][name!=Filedata]').size();
@@ -410,7 +416,7 @@
 			}, 1000);
 			form.submit();
 		} else {
-			window.exec_json('raw', form.serialize() + '&_rx_ajax_form=1', callback_success, callback_error);
+			window.exec_json('raw', form.serialize(), callback_success, callback_error);
 		}
 	});
 	
