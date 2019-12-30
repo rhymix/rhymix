@@ -945,7 +945,7 @@ class ModuleHandler extends Handler
 		if(!isset($methodList[Context::getRequestMethod()]))
 		{
 			// Handle iframe form submissions.
-			if(isset($_POST['_rx_target_iframe']) && starts_with('_rx_temp_', $_POST['_rx_target_iframe']))
+			if(isset($_POST['_rx_ajax_form']) && starts_with('_rx_temp_iframe_', $_POST['_rx_ajax_form']))
 			{
 				$script = '';
 				if(!$oModule->toBool())
@@ -964,7 +964,7 @@ class ModuleHandler extends Handler
 					}
 				}
 				ob_end_clean();
-				echo sprintf('<html><head></head><body><script>%s window.parent.remove_iframe(%s);</script></body></html>', $script, json_encode($_POST['_rx_target_iframe']));
+				echo sprintf('<html><head></head><body><script>%s window.parent.remove_iframe(%s);</script></body></html>', $script, json_encode($_POST['_rx_ajax_form']));
 				return;
 			}
 			
