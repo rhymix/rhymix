@@ -745,6 +745,7 @@ function doDocumentPreview(obj) {
 	if(!dummy_obj.length) {
 		jQuery(
 			'<form id="previewDocument" target="previewDocument" method="post" action="'+request_uri+'">'+
+			'<input type="hidden" name="_rx_csrf_token" value="' + getCSRFToken() + '" />'+
 			'<input type="hidden" name="module" value="document" />'+
 			'<input type="hidden" name="act" value="dispDocumentPreview" />'+
 			'<input type="hidden" name="mid" value="' + current_mid +'" />'+
