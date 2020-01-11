@@ -40,6 +40,7 @@
 			content = content.replace(url_regex, function(match, p1, offset, string) {
 				var match;
 				var suffix = '';
+				var attribute = '';
 				if (p1.indexOf('(') < 0 && p1.match(/\)$/)) {
 					p1 = p1.replace(/\)$/, '');
 					suffix = ')';
@@ -53,7 +54,10 @@
 					p1 = match[1];
 					suffix = match[2];
 				}
-				return '<a href="' + p1 + '" target="_blank">' + p1 + '</a>' + suffix;
+				if(!isSameOrigin(location.href, p1)) {
+					attribute = ' target="_blank"';
+				}
+				return '<a href="' + p1 + '"' + attribute + '>' + p1 + '</a>' + suffix;
 			});
 
 			$(textNode).before(dummy);
@@ -96,10 +100,10 @@
 	$(document).on('click', '.xe_content a', function() {
 		var $this = $(this);
 		var href = $this.attr('href');
-		if(!href || /^(?:javascript|mailto):/.test(href)) {
+		if(!href || /^(?:javascript|mailto):|#/.test(href)) {
 			return;
 		}
-		if (!$this.attr("target")) {
+		if (!$this.attr("target") && !isSameOrigin(location.href, href)) {
 			$this.attr("target", "_blank");
 		}
 	});
