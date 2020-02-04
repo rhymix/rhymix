@@ -669,4 +669,28 @@ class ncenterliteModel extends ncenterlite
 
 		return $output->data;
 	}
+
+	function getUserIndividualBlockConfigByIndividualSrl($individual_srl = 0)
+	{
+		$args = new stdClass();
+		$args->individual_srl = $individual_srl;
+		$output = executeQuery('ncenterlite.getUserIndividualBlockConfigByIndividualSrl', $args);
+
+		return $output;
+	}
+
+	function getUserIndividualBlockConfigByTargetSrl($target_srl = 0, $member_srl = null)
+	{
+		if(!$member_srl)
+		{
+			$member_srl = $this->user->member_srl;
+		}
+		
+		$args = new stdClass();
+		$args->target_srl = $target_srl;
+		$args->member_srl = $member_srl;
+		$output = executeQuery('ncenterlite.getUserIndividualBlockConfigByTargetSrl', $args);
+
+		return $output;
+	}
 }

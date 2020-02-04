@@ -65,6 +65,99 @@ class ncenterliteController extends ncenterlite
 			$this->setRedirectUrl(getNotEncodedUrl('act', 'dispNcenterliteUserConfig', 'member_srl', $member_srl));
 		}
 	}
+	
+	function procNcenterliteInsertIndividualBlock()
+	{
+		$oNcenterliteModel = getModel('ncenterlite');
+		$config = $oNcenterliteModel->getConfig();
+		
+		if($config->individual_block !== 'Y')
+		{
+			throw new Rhymix\Framework\Exception('msg_individual_block_not_support');
+		}
+		
+		$member_srl = Context::get('member_srl');
+		if(!$member_srl)
+		{
+			$member_srl = $this->user->member_srl;
+		}
+		
+		if($this->user->member_srl != $member_srl && $this->user->is_admin != 'Y')
+		{
+			throw new Rhymix\Framework\Exception('ncenterlite_stop_no_permission_other_user_block_settings');
+		}
+		
+		$obj = Context::getRequestVars();
+		if($obj->individual_srl)
+		{
+			$userBlockData = $oNcenterliteModel->getUserIndividualBlockConfigByIndividualSrl($obj->individual_srl)->data;
+		}
+		else if($obj->target_srl)
+		{
+			$userBlockData = $oNcenterliteModel->getUserIndividualBlockConfigByTargetSrl($obj->target_srl, $member_srl)->data;
+		}
+		
+		if($obj->individual_type == 'document')
+		{
+			$text = cut_str(getModel('document')->getDocument($obj->target_srl)->get('title'), 30);
+		}
+		else
+		{
+			$comment = getModel('comment')->getComment($obj->target_srl);
+			$text = cut_str($comment->get('content'), 30);
+		}
+		
+		$args = new stdClass();
+		$args->member_srl = $member_srl;
+		$args->target_srl = $obj->target_srl;
+		if($obj->individual_type == 'document')
+		{
+			$args->document_srl = $obj->target_srl;
+		}
+		else
+		{
+			$args->document_srl = $comment->get('document_srl');
+		}
+		$args->individual_type = $obj->individual_type;
+		$args->text = $text;
+		
+		if($obj->value == 'Y')
+		{
+			// 데이터가 있으면 차단, 데이터가 없으면 차단하지 않기 때문에 따로 업데이트를 하지 않는다.
+			if(!$userBlockData)
+			{
+				$args->individual_srl = getNextSequence();
+				$output = executeQuery('ncenterlite.insertIndividualBlock', $args);
+				if(!$output->toBool())
+				{
+					return $output;
+				}
+			}
+			else
+			{
+				$args->individual_srl = $userBlockData->individual_srl;
+			}
+		}
+		else
+		{
+			$args->individual_srl = $obj->individual_srl;
+			$output = executeQuery('ncenterlite.deleteIndividualBlock', $args);
+			if(!$output->toBool())
+			{
+				return $output;
+			}
+		}
+		$this->setMessage('success_updated');
+
+		if (Context::get('success_return_url'))
+		{
+			$this->setRedirectUrl(Context::get('success_return_url'));
+		}
+		else
+		{
+			$this->setRedirectUrl(getNotEncodedUrl('act', 'dispNcenterliteIndividualBlockList', 'member_srl', $member_srl));
+		}
+	}
 
 	function triggerAfterDeleteMember($obj)
 	{

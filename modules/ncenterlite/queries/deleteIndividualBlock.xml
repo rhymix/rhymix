@@ -1,0 +1,8 @@
+<query id="deleteIndividualBlock" action="delete">
+	<tables>
+		<table name="ncenterlite_block_individual" />
+	</tables>
+	<conditions>
+		<condition operation="equal" column="individual_srl" var="individual_srl" notnull="notnull" filter="number" />
+	</conditions>
+</query>
