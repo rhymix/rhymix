@@ -131,7 +131,7 @@ class ncenterliteView extends ncenterlite
 		}
 		
 		
-		if((!$target_srl || !$individual_type) && !$output->data)
+		if((!$target_srl || !$individual_type) && !$output)
 		{
 			throw new Rhymix\Framework\Exceptions\InvalidRequest;
 		}
@@ -174,7 +174,7 @@ class ncenterliteView extends ncenterlite
 			}
 		}
 		
-		Context::set('individualData', $output->data);
+		Context::set('individualData', $output);
 		Context::set('text', $text);
 		Context::set('type', $type);
 		

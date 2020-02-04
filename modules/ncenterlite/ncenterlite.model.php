@@ -676,7 +676,7 @@ class ncenterliteModel extends ncenterlite
 		$args->individual_srl = $individual_srl;
 		$output = executeQuery('ncenterlite.getUserIndividualBlockConfigByIndividualSrl', $args);
 
-		return $output;
+		return $output->data;
 	}
 
 	function getUserIndividualBlockConfigByTargetSrl($target_srl = 0, $member_srl = null)
@@ -691,6 +691,6 @@ class ncenterliteModel extends ncenterlite
 		$args->member_srl = $member_srl;
 		$output = executeQuery('ncenterlite.getUserIndividualBlockConfigByTargetSrl', $args);
 
-		return $output;
+		return $output->data;
 	}
 }

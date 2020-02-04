@@ -90,11 +90,11 @@ class ncenterliteController extends ncenterlite
 		$obj = Context::getRequestVars();
 		if($obj->individual_srl)
 		{
-			$userBlockData = $oNcenterliteModel->getUserIndividualBlockConfigByIndividualSrl($obj->individual_srl)->data;
+			$userBlockData = $oNcenterliteModel->getUserIndividualBlockConfigByIndividualSrl($obj->individual_srl);
 		}
 		else if($obj->target_srl)
 		{
-			$userBlockData = $oNcenterliteModel->getUserIndividualBlockConfigByTargetSrl($obj->target_srl, $member_srl)->data;
+			$userBlockData = $oNcenterliteModel->getUserIndividualBlockConfigByTargetSrl($obj->target_srl, $member_srl);
 		}
 		
 		if($obj->individual_type == 'document')
@@ -252,6 +252,7 @@ class ncenterliteController extends ncenterlite
 
 	function triggerAfterInsertComment($obj)
 	{
+		/** @var ncenterliteModel $oNcenterliteModel */
 		$oNcenterliteModel = getModel('ncenterlite');
 		$config = $oNcenterliteModel->getConfig();
 
@@ -270,6 +271,7 @@ class ncenterliteController extends ncenterlite
 
 		$oDocumentModel = getModel('document');
 		$oDocument = $oDocumentModel->getDocument($document_srl);
+		// 댓글을 남긴 이력이 있는 회원들에게만 알림을 전송
 		if($config->comment_all == 'Y' && $obj->member_srl == $oDocument->get('member_srl') && !$obj->parent_srl && (is_array($config->comment_all_notify_module_srls) && in_array($module_info->module_srl, $config->comment_all_notify_module_srls)))
 		{
 			$comment_args = new stdClass();
@@ -282,6 +284,7 @@ class ncenterliteController extends ncenterlite
 				{
 					continue;
 				}
+				
 				$args = new stdClass();
 				$args->config_type = 'comment_all';
 				$args->member_srl = $value->member_srl;
@@ -308,6 +311,7 @@ class ncenterliteController extends ncenterlite
 		$obj->admin_comment_notify = false;
 		$admin_list = $oNcenterliteModel->getMemberAdmins();
 
+		// 관리자에게 알림을 전송
 		if(isset($config->use['admin_content']) && is_array($config->admin_notify_module_srls) && in_array($module_info->module_srl, $config->admin_notify_module_srls))
 		{
 			foreach($admin_list as $admins)
@@ -343,7 +347,6 @@ class ncenterliteController extends ncenterlite
 			}
 		}
 
-		// check use the mention option.
 		$notify_member_srls = array();
 		if(isset($config->use['mention']))
 		{
@@ -388,6 +391,18 @@ class ncenterliteController extends ncenterlite
 				{
 					return;
 				}
+				
+				// 받는 사람이 문서를 차단하고 있을 경우
+				if($oNcenterliteModel->getUserIndividualBlockConfigByTargetSrl($document_srl, $abs_member_srl))
+				{
+					return;
+				}
+				
+				if($oNcenterliteModel->getUserIndividualBlockConfigByTargetSrl($parent_srl, $abs_member_srl))
+				{
+					return;
+				}
+				
 				$args = new stdClass();
 				$args->config_type = 'comment_comment';
 				$args->member_srl = $abs_member_srl;
@@ -421,6 +436,11 @@ class ncenterliteController extends ncenterlite
 				return;
 			}
 
+			if($oNcenterliteModel->getUserIndividualBlockConfigByTargetSrl($document_srl, $abs_member_srl))
+			{
+				return;
+			}
+			
 			if($config->user_notify_setting == 'Y')
 			{
 				$comment_member_config = $oNcenterliteModel->getUserConfig($abs_member_srl);
