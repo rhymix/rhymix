@@ -376,7 +376,14 @@
 		if (callback_success && window[callback_success] && $.isFunction(window[callback_success])) {
 			callback_success = window[callback_success];
 		} else {
-			callback_success = null;
+			callback_success = function(data) {
+				if (data.message && data.message !== 'success') {
+					rhymix_alert(data.message, data.redirect_url);
+				}
+				if (data.redirect_url) {
+					redirect(data.redirect_url);
+				}
+			};
 		}
 		var callback_error = form.data('callback-error');
 		if (callback_error && window[callback_error] && $.isFunction(window[callback_error])) {
@@ -384,21 +391,27 @@
 		} else {
 			callback_error = null;
 		}
+		// Set _rx_ajax_form flag
+		if (!form.find('input[name=_rx_ajax_form]').size()) {
+			form.append('<input type="hidden" name="_rx_ajax_form" value="json" />');
+			setTimeout(function() {
+				form.find('input[name=_rx_ajax_form]').remove();
+			}, 1000);
+		}
 		// If the form has file uploads, use a hidden iframe to submit. Otherwise use exec_json.
 		var has_files = form.find('input[type=file][name!=Filedata]').size();
 		if (has_files) {
-			var iframe_id = '_rx_temp_' + (new Date()).getTime();
+			var iframe_id = '_rx_temp_iframe_' + (new Date()).getTime();
 			$('<iframe id="' + iframe_id + '" name="' + iframe_id + '" style="display:none"></iframe>').appendTo($(document.body));
-			form.attr('method', 'POST').attr('enctype', 'multipart/form-data');
-			form.attr('target', iframe_id).find('input[name=_rx_target_iframe]').remove();
-			form.append('<input type="hidden" name="_rx_target_iframe" value="' + iframe_id + '" />');
+			form.attr('method', 'POST').attr('enctype', 'multipart/form-data').attr('target', iframe_id);
+			form.find('input[name=_rx_ajax_form]').val(iframe_id);
 			window.remove_iframe = function(iframe_id) {
-				if (iframe_id.match(/^_rx_temp_[0-9]+$/)) {
+				if (iframe_id.match(/^_rx_temp_iframe_[0-9]+$/)) {
 					$('iframe#' + iframe_id).remove();
 				}
 			};
 			setTimeout(function() {
-				form.removeAttr('target').find('input[name=_rx_target_iframe]').remove();
+				form.removeAttr('target');
 			}, 1000);
 			form.submit();
 		} else {

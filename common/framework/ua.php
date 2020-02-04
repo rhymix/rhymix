@@ -146,7 +146,7 @@ class UA
 		}
 		
 		// Look for common search engine names and the 'bot' keyword.
-		if (preg_match('/bot|spider|crawler|archiver|wget|curl|php|slurp|wordpress|facebook|teoma|yeti|daum|[(<+]https?:|@/i', $ua))
+		if (preg_match('/bot|spider|crawler|archiver|wget|curl|php|slurp|wordpress|facebook|teoma|yeti|daum|mediapartners-google|[(<+]https?:|@/i', $ua))
 		{
 			return self::$_robot_cache[$ua] = true;
 		}
@@ -308,10 +308,10 @@ class UA
 			$result->version = $matches[1];
 			return $result;
 		}
-		if (preg_match('#^([a-zA-Z0-9_-]+)/([0-9]+\\.[0-9]+)#', $ua, $matches))
+		if (preg_match('#^([a-zA-Z0-9_-]+)(?:/([0-9]+\\.[0-9]+))?#', $ua, $matches))
 		{
 			$result->browser = ucfirst($matches[1]);
-			$result->version = $matches[2];
+			$result->version = $matches[2] ?: null;
 			return $result;
 		}
 		

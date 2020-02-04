@@ -276,7 +276,7 @@ class editorModel extends editor
 		// Convert configuration keys according to type (document or comment).
 		if($type == 'document')
 		{
-			foreach (get_object_vars($editor_config) as $key => $val)
+			foreach ((array)$editor_config as $key => $val)
 			{
 				$option->$key = $val;
 			}
@@ -290,7 +290,7 @@ class editorModel extends editor
 		}
 		else
 		{
-			foreach (get_object_vars($editor_config) as $key => $val)
+			foreach ((array)$editor_config as $key => $val)
 			{
 				$option->$key = $val;
 			}

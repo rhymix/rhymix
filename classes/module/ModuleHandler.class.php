@@ -742,6 +742,7 @@ class ModuleHandler extends Handler
 					//for xml response
 					$oModule->setError(-1);
 					$oModule->setMessage($errorMsg);
+					$oModule->setRedirectUrl($returnUrl);
 					//for html redirect
 					$this->error = $errorMsg;
 					$_SESSION['XE_VALIDATOR_ERROR'] = -1;
@@ -807,13 +808,12 @@ class ModuleHandler extends Handler
 		$procResult = $oModule->proc();
 
 		$methodList = array('XMLRPC' => 1, 'JSON' => 1, 'JS_CALLBACK' => 1);
-		if(!$oModule->stop_proc && !isset($methodList[Context::getRequestMethod()]))
+		if(!$oModule->stop_proc && !isset($methodList[Context::getRequestMethod()]) && !isset($_POST['_rx_ajax_form']))
 		{
 			$error = $oModule->getError();
 			$message = $oModule->getMessage();
 			$messageType = $oModule->getMessageType();
 			$redirectUrl = $oModule->getRedirectUrl();
-
 			if(!$procResult)
 			{
 				$this->error = $message;
@@ -823,7 +823,6 @@ class ModuleHandler extends Handler
 				}
 				self::_setInputValueToSession();
 			}
-
 			if($error != 0)
 			{
 				$_SESSION['XE_VALIDATOR_ERROR'] = $error;
@@ -837,9 +836,14 @@ class ModuleHandler extends Handler
 				$_SESSION['XE_VALIDATOR_MESSAGE'] = $message;
 				$_SESSION['XE_VALIDATOR_MESSAGE_TYPE'] = $messageType;
 			}
-			if(Context::get('xeVirtualRequestMethod') != 'xml' && $redirectUrl)
+			if(Context::get('xeVirtualRequestMethod') === 'xml')
+			{
+				$oModule->setRedirectUrl(null);
+			}
+			elseif($redirectUrl)
 			{
 				$_SESSION['XE_VALIDATOR_RETURN_URL'] = $redirectUrl;
+				$oModule->setRedirectUrl($redirectUrl);
 			}
 		}
 
@@ -941,39 +945,46 @@ class ModuleHandler extends Handler
 		if(!isset($methodList[Context::getRequestMethod()]))
 		{
 			// Handle iframe form submissions.
-			if(isset($_POST['_rx_target_iframe']) && starts_with('_rx_temp_', $_POST['_rx_target_iframe']))
+			if(isset($_POST['_rx_ajax_form']) && starts_with('_rx_temp_iframe_', $_POST['_rx_ajax_form']))
 			{
-				if($this->error && $this->error !== 'success')
+				$script = '';
+				if(!$oModule->toBool())
 				{
-					ob_end_clean();
-					echo sprintf('<html><head></head><body><script> window.parent.alert(%s); window.parent.remove_iframe(%s); </script></body></html>', json_encode($this->error), json_encode($_POST['_rx_target_iframe']));
-					return;
+					$script .= sprintf('window.parent.alert(%s);', json_encode($oModule->getMessage()));
 				}
-				if($_SESSION['XE_VALIDATOR_RETURN_URL'])
+				else
 				{
-					ob_end_clean();
-					echo sprintf('<html><head></head><body><script> window.parent.redirect(%s); </script></body></html>', json_encode($_SESSION['XE_VALIDATOR_RETURN_URL']));
-					return;
+					if($oModule->getMessage() && $oModule->getMessage() !== 'success')
+					{
+						$script .= sprintf('window.parent.rhymix_alert(%s, %s);', json_encode($oModule->getMessage()), json_encode($oModule->getRedirectUrl()));
+					}
+					if($oModule->getRedirectUrl())
+					{
+						$script .= sprintf('window.parent.redirect(%s);', json_encode($oModule->getRedirectUrl()));
+					}
 				}
+				ob_end_clean();
+				echo sprintf('<html><head></head><body><script>%s window.parent.remove_iframe(%s);</script></body></html>', $script, json_encode($_POST['_rx_ajax_form']));
+				return;
 			}
 			
 			// Handle redirects.
-			if($_SESSION['XE_VALIDATOR_RETURN_URL'])
+			if($oModule->getRedirectUrl())
 			{
 				if ($_SESSION['is_new_session'])
 				{
 					ob_end_clean();
-					echo sprintf('<html><head><meta charset="UTF-8" /><meta http-equiv="refresh" content="0; url=%s" /></head><body></body></html>', escape($_SESSION['XE_VALIDATOR_RETURN_URL']));
+					echo sprintf('<html><head><meta charset="UTF-8" /><meta http-equiv="refresh" content="0; url=%s" /></head><body></body></html>', escape($oModule->getRedirectUrl()));
 					return;
 				}
 				else
 				{
 					ob_end_clean();
-					header('location: ' . $_SESSION['XE_VALIDATOR_RETURN_URL']);
+					header('location: ' . $oModule->getRedirectUrl());
 					return;
 				}
 			}
-
+			
 			// If error occurred, handle it
 			if($this->error)
 			{
