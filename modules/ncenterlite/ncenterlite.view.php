@@ -72,15 +72,15 @@ class ncenterliteView extends ncenterlite
 		$this->setTemplateFile('userconfig');
 	}
 	
-	function dispNcenterliteIndividualBlockList()
+	function dispNcenterliteUnsubscribeList()
 	{
 		/** @var ncenterliteModel $oNcenterliteModel */
 		$oNcenterliteModel = getModel('ncenterlite');
 		$config = $oNcenterliteModel->getConfig();
 		
-		if($config->individual_block !== 'Y')
+		if($config->unsubscribe !== 'Y')
 		{
-			throw new Rhymix\Framework\Exception('msg_individual_block_not_support');
+			throw new Rhymix\Framework\Exception('msg_unsubscribe_block_not_support');
 		}
 		
 		if(!Rhymix\Framework\Session::getMemberSrl())
@@ -100,43 +100,43 @@ class ncenterliteView extends ncenterlite
 		$args->list_count = '20';
 		$args->page_count = '10';
 		$args->member_srl = $member_srl;
-		$output = executeQuery('ncenterlite.getIndividualBlockList', $args);
+		$output = executeQuery('ncenterlite.getUnsubscribeList', $args);
 
 		Context::set('total_count', $output->page_navigation->total_count);
 		Context::set('total_page', $output->page_navigation->total_page);
 		Context::set('page', $output->page);
-		Context::set('individual_list', $output->data);
+		Context::set('unsubscribe_list', $output->data);
 		Context::set('page_navigation', $output->page_navigation);
 		
-		$this->setTemplateFile('individualList');
+		$this->setTemplateFile('unsubscribeList');
 	}
 	
-	function dispNcenterliteInsertIndividualBlock()
+	function dispNcenterliteInsertUnsubscribe()
 	{
 		/** @var ncenterliteModel $oNcenterliteModel */
 		$oNcenterliteModel = getModel('ncenterlite');
 		$target_srl = Context::get('target_srl');
-		$individual_srl = Context::get('individual_srl');
-		$individual_type = Context::get('individual_type');
+		$unsubscribe_srl = Context::get('unsubscribe_srl');
+		$unsubscribe_type = Context::get('unsubscribe_type');
 		
 		$member_srl = Context::get('member_srl');
 		
-		if($individual_srl)
+		if($unsubscribe_srl)
 		{
-			$output = $oNcenterliteModel->getUserIndividualBlockConfigByIndividualSrl($individual_srl);
+			$output = $oNcenterliteModel->getUserUnsubscribeConfigByUnsubscribeSrl($unsubscribe_srl);
 		}
 		else
 		{
-			$output = $oNcenterliteModel->getUserIndividualBlockConfigByTargetSrl($target_srl, $member_srl);
+			$output = $oNcenterliteModel->getUserUnsubscribeConfigByTargetSrl($target_srl, $member_srl);
 		}
 		
 		
-		if((!$target_srl || !$individual_type) && !$output)
+		if((!$target_srl || !$unsubscribe_type) && !$output)
 		{
 			throw new Rhymix\Framework\Exceptions\InvalidRequest;
 		}
 		
-		if($individual_type == 'document')
+		if($unsubscribe_type == 'document')
 		{
 			$text = getModel('document')->getDocument($target_srl)->get('title');
 			$type = '문서';
@@ -149,7 +149,7 @@ class ncenterliteView extends ncenterlite
 				}
 				else
 				{
-					Context::set('individual_type', 'comment');
+					Context::set('unsubscribe_type', 'comment');
 					$type = '댓글';
 				}
 			}
@@ -168,16 +168,16 @@ class ncenterliteView extends ncenterlite
 				}
 				else
 				{
-					Context::set('individual_type', 'document');
+					Context::set('unsubscribe_type', 'document');
 					$type = '문서';
 				}
 			}
 		}
 		
-		Context::set('individualData', $output);
+		Context::set('unsubscribeData', $output);
 		Context::set('text', $text);
 		Context::set('type', $type);
 		
-		$this->setTemplateFile('individualBlock');
+		$this->setTemplateFile('unsubscribe');
 	}
 }

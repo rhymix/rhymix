@@ -66,14 +66,15 @@ class ncenterliteController extends ncenterlite
 		}
 	}
 	
-	function procNcenterliteInsertIndividualBlock()
+	function procNcenterliteInsertUnsubscribe()
 	{
+		/** @var ncenterliteModel $oNcenterliteModel */
 		$oNcenterliteModel = getModel('ncenterlite');
 		$config = $oNcenterliteModel->getConfig();
 		
-		if($config->individual_block !== 'Y')
+		if($config->unsubscribe !== 'Y')
 		{
-			throw new Rhymix\Framework\Exception('msg_individual_block_not_support');
+			throw new Rhymix\Framework\Exception('msg_unsubscribe_block_not_support');
 		}
 		
 		$member_srl = Context::get('member_srl');
@@ -88,16 +89,16 @@ class ncenterliteController extends ncenterlite
 		}
 		
 		$obj = Context::getRequestVars();
-		if($obj->individual_srl)
+		if($obj->unsubscribe_srl)
 		{
-			$userBlockData = $oNcenterliteModel->getUserIndividualBlockConfigByIndividualSrl($obj->individual_srl);
+			$userBlockData = $oNcenterliteModel->getUserUnsubscribeConfigByUnsubscribeSrl($obj->unsubscribe_srl);
 		}
 		else if($obj->target_srl)
 		{
-			$userBlockData = $oNcenterliteModel->getUserIndividualBlockConfigByTargetSrl($obj->target_srl, $member_srl);
+			$userBlockData = $oNcenterliteModel->getUserUnsubscribeConfigByTargetSrl($obj->target_srl, $member_srl);
 		}
 		
-		if($obj->individual_type == 'document')
+		if($obj->unsubscribe_type == 'document')
 		{
 			$text = cut_str(getModel('document')->getDocument($obj->target_srl)->get('title'), 30);
 		}
@@ -110,7 +111,7 @@ class ncenterliteController extends ncenterlite
 		$args = new stdClass();
 		$args->member_srl = $member_srl;
 		$args->target_srl = $obj->target_srl;
-		if($obj->individual_type == 'document')
+		if($obj->unsubscribe_type == 'document')
 		{
 			$args->document_srl = $obj->target_srl;
 		}
@@ -118,7 +119,7 @@ class ncenterliteController extends ncenterlite
 		{
 			$args->document_srl = $comment->get('document_srl');
 		}
-		$args->individual_type = $obj->individual_type;
+		$args->unsubscribe_type = $obj->unsubscribe_type;
 		$args->text = $text;
 		
 		if($obj->value == 'Y')
@@ -126,8 +127,8 @@ class ncenterliteController extends ncenterlite
 			// 데이터가 있으면 차단, 데이터가 없으면 차단하지 않기 때문에 따로 업데이트를 하지 않는다.
 			if(!$userBlockData)
 			{
-				$args->individual_srl = getNextSequence();
-				$output = executeQuery('ncenterlite.insertIndividualBlock', $args);
+				$args->unsubscribe_srl = getNextSequence();
+				$output = executeQuery('ncenterlite.insertUnsubscribe', $args);
 				if(!$output->toBool())
 				{
 					return $output;
@@ -135,13 +136,13 @@ class ncenterliteController extends ncenterlite
 			}
 			else
 			{
-				$args->individual_srl = $userBlockData->individual_srl;
+				$args->unsubscribe_srl = $userBlockData->unsubscribe_srl;
 			}
 		}
 		else
 		{
-			$args->individual_srl = $obj->individual_srl;
-			$output = executeQuery('ncenterlite.deleteIndividualBlock', $args);
+			$args->unsubscribe_srl = $obj->unsubscribe_srl;
+			$output = executeQuery('ncenterlite.deleteUnsubscribe', $args);
 			if(!$output->toBool())
 			{
 				return $output;
@@ -155,7 +156,7 @@ class ncenterliteController extends ncenterlite
 		}
 		else
 		{
-			$this->setRedirectUrl(getNotEncodedUrl('act', 'dispNcenterliteIndividualBlockList', 'member_srl', $member_srl));
+			$this->setRedirectUrl(getNotEncodedUrl('act', 'dispNcenterliteUnsubscribeList', 'member_srl', $member_srl));
 		}
 	}
 
@@ -393,12 +394,12 @@ class ncenterliteController extends ncenterlite
 				}
 				
 				// 받는 사람이 문서를 차단하고 있을 경우
-				if($oNcenterliteModel->getUserIndividualBlockConfigByTargetSrl($document_srl, $abs_member_srl))
+				if($oNcenterliteModel->getUserUnsubscribeConfigByTargetSrl($document_srl, $abs_member_srl))
 				{
 					return;
 				}
 				
-				if($oNcenterliteModel->getUserIndividualBlockConfigByTargetSrl($parent_srl, $abs_member_srl))
+				if($oNcenterliteModel->getUserUnsubscribeConfigByTargetSrl($parent_srl, $abs_member_srl))
 				{
 					return;
 				}
@@ -436,7 +437,7 @@ class ncenterliteController extends ncenterlite
 				return;
 			}
 
-			if($oNcenterliteModel->getUserIndividualBlockConfigByTargetSrl($document_srl, $abs_member_srl))
+			if($oNcenterliteModel->getUserUnsubscribeConfigByTargetSrl($document_srl, $abs_member_srl))
 			{
 				return;
 			}
@@ -1031,6 +1032,10 @@ class ncenterliteController extends ncenterlite
 			$target_srl = Context::get('target_srl');
 
 			$oMemberController->addMemberMenu('dispNcenterliteNotifyList', 'ncenterlite_my_list');
+			if($config->unsubscribe == 'Y')
+			{
+				$oMemberController->addMemberMenu('dispNcenterliteUnsubscribeList', 'unsubscribe_list');
+			}
 		}
 
 		if($config->user_notify_setting == 'Y')

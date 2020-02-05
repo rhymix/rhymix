@@ -1,6 +1,6 @@
-<query id="getUserIndividualBlockConfigByTargetSrl" action="select">
+<query id="getUserUnsubscribeConfigByTargetSrl" action="select">
 	<tables>
-		<table name="ncenterlite_block_individual" />
+		<table name="ncenterlite_unsubscribe" />
 	</tables>
 
 	<columns>

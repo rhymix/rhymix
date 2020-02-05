@@ -670,16 +670,16 @@ class ncenterliteModel extends ncenterlite
 		return $output->data;
 	}
 
-	function getUserIndividualBlockConfigByIndividualSrl($individual_srl = 0)
+	function getUserUnsubscribeConfigByUnsubscribeSrl($unsubscribe_srl = 0)
 	{
 		$args = new stdClass();
-		$args->individual_srl = $individual_srl;
-		$output = executeQuery('ncenterlite.getUserIndividualBlockConfigByIndividualSrl', $args);
+		$args->unsubscribe_srl = $unsubscribe_srl;
+		$output = executeQuery('ncenterlite.getUserUnsubscribeConfigByUnsubscribeSrl', $args);
 
 		return $output->data;
 	}
 
-	function getUserIndividualBlockConfigByTargetSrl($target_srl = 0, $member_srl = null)
+	function getUserUnsubscribeConfigByTargetSrl($target_srl = 0, $member_srl = null)
 	{
 		if(!$member_srl)
 		{
@@ -689,7 +689,7 @@ class ncenterliteModel extends ncenterlite
 		$args = new stdClass();
 		$args->target_srl = $target_srl;
 		$args->member_srl = $member_srl;
-		$output = executeQuery('ncenterlite.getUserIndividualBlockConfigByTargetSrl', $args);
+		$output = executeQuery('ncenterlite.getUserUnsubscribeConfigByTargetSrl', $args);
 
 		return $output->data;
 	}
