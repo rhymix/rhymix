@@ -152,7 +152,7 @@ class Storage
 	public static function isExecutable($path)
 	{
 		$path = rtrim($path, '/\\');
-		if (function_exists('exec'))
+		if (function_exists('exec') && !starts_with('win', \PHP_OS, false))
 		{
 			@exec('/bin/ls -l ' . escapeshellarg($path), $output, $return_var);
 			if ($return_var === 0)
