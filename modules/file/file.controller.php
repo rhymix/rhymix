@@ -1178,8 +1178,15 @@ class fileController extends file
 				$adjusted['height'] -= $adjusted['height'] % 2;
 				
 				// Convert using ffmpeg
-				$command = $config->ffmpeg_command;
-				$command .= ' -i ' . escapeshellarg($file_info['tmp_name']);
+				if(strtoupper(substr(\PHP_OS, 0, 3)) === 'WIN')
+				{
+					$command = escapeshellarg($config->ffmpeg_command);
+				}
+				else
+				{
+					$command = $config->ffmpeg_command;
+				}
+				$command .= ' -nostdin -i ' . escapeshellarg($file_info['tmp_name']);
 				$command .= ' -movflags +faststart -pix_fmt yuv420p -c:v libx264 -crf 23';
 				$command .= sprintf(' -vf "scale=%d:%d"', $adjusted['width'], $adjusted['height']);
 				$command .= ' ' . escapeshellarg($output_name);
