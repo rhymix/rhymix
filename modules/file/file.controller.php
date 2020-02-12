@@ -1180,7 +1180,7 @@ class fileController extends file
 				// Convert using ffmpeg
 				if(strtoupper(substr(\PHP_OS, 0, 3)) === 'WIN')
 				{
-					$command = '"'.$config->ffmpeg_command.'"';
+					$command = escapeshellarg($config->ffmpeg_command);
 				}
 				else
 				{
