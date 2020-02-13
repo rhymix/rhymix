@@ -319,7 +319,7 @@ class pageAdminController extends page
 		$oDocument = $oDocumentModel->getDocument($obj->document_srl);
 
 		$bAnonymous = false;
-		$target = ($obj->ismobile == 'Y') ? 'mdocument_srl' : 'document_srl';
+		$target = ($obj->isMobile == 'Y') ? 'mdocument_srl' : 'document_srl';
 
 		// 이미 존재하는 경우 수정
 		if($oDocument->isExists() && $oDocument->document_srl == $obj->document_srl) 
@@ -348,7 +348,7 @@ class pageAdminController extends page
 		// 결과를 리턴
 		$this->add('mid', Context::get('mid'));
 		$this->add('document_srl', $output->get('document_srl'));
-		$this->add('is_mobile', $obj->ismobile);
+		$this->add('is_mobile', $obj->isMobile);
 
 		// 성공 메세지 등록
 		$this->setMessage($msg_code);
