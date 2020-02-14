@@ -1425,6 +1425,7 @@ jQuery(function($){
 // Details toggle in admin table
 	var simpleBtn = $('.x .dsTg .__simple');
 	var detailBtn = $('.x .dsTg .__detail');
+	var tableContainer = $('.x .dsTg');
 	var tdTitle = $('.x .dsTg td.title');
 	tdTitle.each(function(){
 		var $t = $(this);
@@ -1439,12 +1440,14 @@ jQuery(function($){
 		simples.show();
 		detailBtn.removeClass('x_active');
 		simpleBtn.addClass('x_active');
+		tableContainer.addClass('__simpleView');
 	};
 	var detailBtnFn = function(){
 		details.show();
 		simples.hide();
 		detailBtn.addClass('x_active');
 		simpleBtn.removeClass('x_active');
+		tableContainer.removeClass('__simpleView');
 	};
 	simpleBtn.click(simpleBtnFn);
 	detailBtn.click(detailBtnFn);
