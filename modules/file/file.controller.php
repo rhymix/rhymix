@@ -1178,7 +1178,7 @@ class fileController extends file
 				$adjusted['height'] -= $adjusted['height'] % 2;
 				
 				// Convert using ffmpeg
-				if(strtoupper(substr(\PHP_OS, 0, 3)) === 'WIN')
+				if (RX_WINDOWS)
 				{
 					$command = escapeshellarg($config->ffmpeg_command);
 				}

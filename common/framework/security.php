@@ -198,20 +198,19 @@ class Security
 		// Use other good sources of entropy if random_bytes() is not available.
 		if ($entropy === false)
 		{
-			$is_windows = (defined('\PHP_OS') && strtoupper(substr(\PHP_OS, 0, 3)) === 'WIN');
 			if(function_exists('openssl_random_pseudo_bytes'))
 			{
 				$entropy = openssl_random_pseudo_bytes($entropy_capped_bytes);
 			}
-			elseif(function_exists('mcrypt_create_iv') && !$is_windows)
+			elseif(function_exists('mcrypt_create_iv') && !\RX_WINDOWS)
 			{
 				$entropy = mcrypt_create_iv($entropy_capped_bytes, \MCRYPT_DEV_URANDOM);
 			}
-			elseif(function_exists('mcrypt_create_iv') && $is_windows)
+			elseif(function_exists('mcrypt_create_iv') && \RX_WINDOWS)
 			{
 				$entropy = mcrypt_create_iv($entropy_capped_bytes, \MCRYPT_RAND);
 			}
-			elseif(!$is_windows && @is_readable('/dev/urandom'))
+			elseif(!\RX_WINDOWS && @is_readable('/dev/urandom'))
 			{
 				$fp = fopen('/dev/urandom', 'rb');
 				if (function_exists('stream_set_read_buffer'))  // This function does not exist in HHVM.

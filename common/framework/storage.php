@@ -152,7 +152,7 @@ class Storage
 	public static function isExecutable($path)
 	{
 		$path = rtrim($path, '/\\');
-		if (function_exists('exec') && !starts_with('win', \PHP_OS, false))
+		if (function_exists('exec') && !\RX_WINDOWS)
 		{
 			@exec('/bin/ls -l ' . escapeshellarg($path), $output, $return_var);
 			if ($return_var === 0)
@@ -880,7 +880,7 @@ class Storage
 	public static function recommendUmask()
 	{
 		// On Windows, set the umask to 0000.
-		if (strncasecmp(\PHP_OS, 'Win', 3) === 0)
+		if (\RX_WINDOWS)
 		{
 			return '0000';
 		}
