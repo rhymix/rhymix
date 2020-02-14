@@ -2,7 +2,7 @@
 
 <?php echo '[' . $data->timestamp . ']' . "\n"; ?>
 
-<?php if (!count($display_content) || isset($display_content['request_info'])): ?>
+<?php if (isset($display_content['request_info'])): ?>
 Request / Response
 ==================
 Request URL:         <?php echo $data->url . "\n"; ?>
@@ -30,7 +30,7 @@ Peak Memory Usage:  <?php echo sprintf('%0.1f MB', memory_get_peak_usage(true) /
 Included Files:     <?php echo count(get_included_files()) . "\n"; ?>
 <?php endif; ?>
 
-<?php if (!count($display_content) || isset($display_content['entries'])): ?>
+<?php if (isset($display_content['entries'])): ?>
 Debug Entries
 =============
 <?php
@@ -58,7 +58,7 @@ Debug Entries
 ?>
 <?php endif; ?>
 
-<?php if (!count($display_content) || isset($display_content['errors'])): ?>
+<?php if (isset($display_content['errors'])): ?>
 PHP Errors and Warnings
 =======================
 <?php
@@ -78,7 +78,7 @@ PHP Errors and Warnings
 ?>
 <?php endif; ?>
 
-<?php if (!count($display_content) || isset($display_content['queries'])): ?>
+<?php if (isset($display_content['queries'])): ?>
 Database Queries
 ================
 <?php
@@ -101,7 +101,7 @@ Database Queries
 ?>
 <?php endif; ?>
 
-<?php if (!count($display_content) || isset($display_content['slow_queries'])): ?>
+<?php if (isset($display_content['slow_queries'])): ?>
 Slow Queries
 ============
 <?php
@@ -124,7 +124,7 @@ Slow Queries
 ?>
 <?php endif; ?>
 
-<?php if (!count($display_content) || isset($display_content['slow_triggers'])): ?>
+<?php if (isset($display_content['slow_triggers'])): ?>
 Slow Triggers
 =============
 <?php
@@ -142,7 +142,7 @@ Slow Triggers
 ?>
 <?php endif; ?>
 
-<?php if (!count($display_content) || isset($display_content['slow_widgets'])): ?>
+<?php if (isset($display_content['slow_widgets'])): ?>
 Slow Widgets
 ============
 <?php
@@ -159,7 +159,7 @@ Slow Widgets
 ?>
 <?php endif; ?>
 
-<?php if (!count($display_content) || isset($display_content['slow_remote_requests'])): ?>
+<?php if (isset($display_content['slow_remote_requests'])): ?>
 Slow Remote Requests
 ====================
 <?php
