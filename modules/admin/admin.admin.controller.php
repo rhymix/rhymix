@@ -832,11 +832,11 @@ class adminAdminController extends admin
 		Rhymix\Framework\Config::set('debug.write_error_log', strval($vars->debug_write_error_log) ?: 'fatal');
 		
 		// Debug content
-        $debug_content = array_values($vars->debug_display_content);
-        if($debug_content === NULL)
-        {
-            $debug_content = array(NULL);
-        }
+		$debug_content = array_values($vars->debug_display_content);
+		if($debug_content === NULL)
+		{
+			$debug_content = array();
+		}
 		Rhymix\Framework\Config::set('debug.display_content', $debug_content);
 		
 		// Log filename

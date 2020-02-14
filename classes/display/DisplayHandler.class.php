@@ -175,27 +175,27 @@ class DisplayHandler extends Handler
 			{
 				$data = Rhymix\Framework\Debug::getDebugData();
 				$display_content = array_fill_keys(config('debug.display_content'), true);
-				if (count($display_content) && !isset($display_content['entries']))
+				if ($display_content !== NULL && !isset($display_content['entries']))
 				{
 					$data->entries = null;
 				}
-				if (count($display_content) && !isset($display_content['queries']))
+				if ($display_content !== NULL && !isset($display_content['queries']))
 				{
 					unset($data->queries);
 				}
-				if (count($display_content) && !isset($display_content['slow_queries']))
+				if ($display_content !== NULL && !isset($display_content['slow_queries']))
 				{
 					unset($data->slow_queries);
 				}
-				if (count($display_content) && !isset($display_content['slow_triggers']))
+				if ($display_content !== NULL && !isset($display_content['slow_triggers']))
 				{
 					unset($data->slow_triggers);
 				}
-				if (count($display_content) && !isset($display_content['slow_widgets']))
+				if ($display_content !== NULL && !isset($display_content['slow_widgets']))
 				{
 					unset($data->slow_widgets);
 				}
-				if (count($display_content) && !isset($display_content['slow_remote_requests']))
+				if ($display_content !== NULL && !isset($display_content['slow_remote_requests']))
 				{
 					unset($data->slow_remote_requests);
 				}
