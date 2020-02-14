@@ -118,6 +118,11 @@ else
 }
 
 /**
+ * RX_WINDOWS is true if the operating system is Windows.
+ */
+define('RX_WINDOWS', strncasecmp(PHP_OS, 'WIN', 3) === 0);
+
+/**
  * XE core compatibility constants (may be used by XE-compatible plugins and themes).
  */
 if (!defined('__XE__'))
