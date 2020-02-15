@@ -736,6 +736,7 @@ class moduleModel extends module
 			$module_info->homepage = $xml_obj->link->body;
 			$module_info->category = $xml_obj->category->body;
 			if(!$module_info->category) $module_info->category = 'service';
+			$date_obj = (object)array('y' => 0, 'm' => 0, 'd' => 0);
 			sscanf($xml_obj->date->body, '%d-%d-%d', $date_obj->y, $date_obj->m, $date_obj->d);
 			$module_info->date = sprintf('%04d%02d%02d', $date_obj->y, $date_obj->m, $date_obj->d);
 			$module_info->license = $xml_obj->license->body;
@@ -761,6 +762,7 @@ class moduleModel extends module
 			$module_info->version = $xml_obj->attrs->version;
 			$module_info->category = $xml_obj->attrs->category;
 			if(!$module_info->category) $module_info->category = 'service';
+			$date_obj = (object)array('y' => 0, 'm' => 0, 'd' => 0);
 			sscanf($xml_obj->author->attrs->date, '%d. %d. %d', $date_obj->y, $date_obj->m, $date_obj->d);
 			$module_info->date = sprintf('%04d%02d%02d', $date_obj->y, $date_obj->m, $date_obj->d);
 			$author_obj = new stdClass();
