@@ -201,6 +201,12 @@ class autoinstallAdminController extends autoinstall
 		foreach($packages as $package_srl)
 		{
 			$package = $oModel->getPackage($package_srl);
+			$package->type = $oModel->getTypeFromPath($package->path);
+			if ($package->type === 'core')
+			{
+				continue;
+			}
+			
 			if($oAdminModel->checkUseDirectModuleInstall($package)->toBool())
 			{
 				$oModuleInstaller = new DirectModuleInstaller($package);

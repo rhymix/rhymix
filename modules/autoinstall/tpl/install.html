@@ -17,10 +17,6 @@
 	</ul>
 </div>
 
-<div cond="$contain_core" class="x_alert x_alert-block">
-	<h4>{$lang->msg_update_core_title}</h4>
-	<p>{$lang->msg_update_core}</p>
-</div>
 <div cond="$package->installed" class="x_well">
 	<p>{$lang->current_version}: {$package->cur_version} <block cond="$package->need_update">({$lang->require_update})</block></p>
 </div>
