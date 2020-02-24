@@ -77,8 +77,16 @@ class fileAdminController extends file
 		$config->image_remove_exif_data = Context::get('image_remove_exif_data') === 'Y' ? true : false;
 		$config->video_thumbnail = Context::get('video_thumbnail') === 'Y' ? true : false;
 		$config->video_mp4_gif_time = intval(Context::get('video_mp4_gif_time'));
-		$config->ffmpeg_command = escape(utf8_trim(Context::get('ffmpeg_command'))) ?: '/usr/bin/ffmpeg';
-		$config->ffprobe_command = escape(utf8_trim(Context::get('ffprobe_command'))) ?: '/usr/bin/ffprobe';
+		if (RX_WINDOWS)
+		{
+			$config->ffmpeg_command = escape(Context::get('ffmpeg_command')) ?: 'C:\Program Files\ffmpeg\bin\ffmpeg.exe';
+			$config->ffprobe_command = escape(Context::get('ffprobe_command')) ?: 'C:\Program Files\ffmpeg\bin\ffprobe.exe';
+		}
+		else
+		{
+			$config->ffmpeg_command = escape(utf8_trim(Context::get('ffmpeg_command'))) ?: '/usr/bin/ffmpeg';
+			$config->ffprobe_command = escape(utf8_trim(Context::get('ffprobe_command'))) ?: '/usr/bin/ffprobe';
+		}
 		
 		// Check maximum file size
 		if (PHP_INT_SIZE < 8)

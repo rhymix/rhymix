@@ -325,8 +325,11 @@ class adminAdminView extends admin
 		}
 
 		// Get need update from easy install
-		$oAutoinstallAdminModel = getAdminModel('autoinstall');
-		$needUpdateList = $oAutoinstallAdminModel->getNeedUpdateList();
+		//$oAutoinstallAdminModel = getAdminModel('autoinstall');
+		//$needUpdateList = $oAutoinstallAdminModel->getNeedUpdateList();
+		$needUpdateList = array();
+		
+		// Check counter addon
 		$site_module_info = Context::get('site_module_info');
 		$oAddonAdminModel = getAdminModel('addon');
 		$counterAddonActivated = $oAddonAdminModel->isActivatedAddon('counter', $site_module_info->site_srl );

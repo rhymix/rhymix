@@ -216,7 +216,7 @@ class autoinstallAdminView extends autoinstall
 
 				if($v->type == "core")
 				{
-					$v->avail_remove = FALSE;
+					continue;
 				}
 				else if($v->type == "module")
 				{

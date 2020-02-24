@@ -720,7 +720,10 @@ class commentController extends comment
 			$oMail->setSubject($mail_title);
 			$oMail->setBody($mail_content);
 			$oMail->setFrom(config('mail.default_from') ?: $member_info->email_address, $member_info->nick_name);
-			$oMail->setReplyTo($member_info->email_address);
+			if($member_info->email_address)
+			{
+				$oMail->setReplyTo($member_info->email_address);
+			}
 			foreach (array_map('trim', explode(',', $module_info->admin_mail)) as $email_address)
 			{
 				if ($email_address && $email_address !== $author_email_address)
