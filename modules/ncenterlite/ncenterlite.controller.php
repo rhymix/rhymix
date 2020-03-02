@@ -83,7 +83,7 @@ class ncenterliteController extends ncenterlite
 			$member_srl = $this->user->member_srl;
 		}
 		
-		if($this->user->member_srl != $member_srl && $this->user->is_admin != 'Y')
+		if(intval($this->user->member_srl) != intval($member_srl) && $this->user->is_admin != 'Y')
 		{
 			throw new Rhymix\Framework\Exception('ncenterlite_stop_no_permission_other_user_block_settings');
 		}
