@@ -71,7 +71,11 @@ class ncenterliteView extends ncenterlite
 		Context::set('user_config', $output->data);
 		$this->setTemplateFile('userconfig');
 	}
-	
+
+	/**
+	 * Get to unsubscribe list.
+	 * @throws \Rhymix\Framework\Exception
+	 */
 	function dispNcenterliteUnsubscribeList()
 	{
 		/** @var ncenterliteModel $oNcenterliteModel */
@@ -93,6 +97,11 @@ class ncenterliteView extends ncenterlite
 		if(!$member_srl)
 		{
 			$member_srl = $this->user->member_srl;
+		}
+		
+		if($this->user->is_admin !== 'Y' && $this->user->member_srl != $member_srl)
+		{
+			throw new \Rhymix\Framework\Exception('msg_unsubscribe_not_permission');
 		}
 		
 		$args = new stdClass();
@@ -121,6 +130,16 @@ class ncenterliteView extends ncenterlite
 		
 		$member_srl = Context::get('member_srl');
 		
+		if(!$member_srl)
+		{
+			$member_srl = $this->user->member_srl;
+		}
+		
+		if($this->user->is_admin !== 'Y' && $member_srl !== $this->user->member_srl)
+		{
+			throw new \Rhymix\Framework\Exception('msg_invalid_request');
+		}
+		
 		if($unsubscribe_srl)
 		{
 			$output = $oNcenterliteModel->getUserUnsubscribeConfigByUnsubscribeSrl($unsubscribe_srl);
@@ -130,8 +149,7 @@ class ncenterliteView extends ncenterlite
 			$output = $oNcenterliteModel->getUserUnsubscribeConfigByTargetSrl($target_srl, $member_srl);
 		}
 		
-		
-		if((!$target_srl || !$unsubscribe_type) && !$output)
+		if((!$target_srl || !$unsubscribe_type) && empty($output))
 		{
 			throw new Rhymix\Framework\Exceptions\InvalidRequest;
 		}
