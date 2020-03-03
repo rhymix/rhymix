@@ -19,7 +19,7 @@ class emoticon extends EditorHandler
 	{
 		$this->editor_sequence = $editor_sequence;
 		$this->component_path = $component_path;
-		$this->emoticon_path = sprintf('%s%s/images',preg_replace('/^\.\//i','',$this->component_path),'tpl','images');
+		$this->emoticon_path = $this->component_path . 'tpl/images';
 	}
 
 	/**
@@ -28,39 +28,47 @@ class emoticon extends EditorHandler
 	function getEmoticonList()
 	{
 		$emoticon = Context::get('emoticon');
-		if(!$emoticon || !preg_match("/^([a-z0-9\_]+)$/i",$emoticon)) return new BaseObject(-1,'msg_invalid_request');
-
-		$list = $this->getEmoticons($emoticon);
-
-		$this->add('emoticons', $list);
+		if(!$emoticon || !preg_match('/^[a-z0-9\_]+$/i', $emoticon))
+		{
+			return new BaseObject(-1, 'msg_invalid_request');
+		}
+		
+		$this->add('emoticons', $this->getEmoticons($emoticon));
 	}
 
 	/**
 	 * @brief Likely to be recursively emoticons will search all the files to a subdirectory. 8000 gaekkajineun ran tests whether the stack and raise beef pro-overs and Unsure. (06/09/2007, Benny)
 	 */
-	function getEmoticons($path)
+	function getEmoticons($emoticon)
 	{
-		$emoticon_path = sprintf("%s/%s", $this->emoticon_path, $path);
-		$output = array();
-
-		$oDir = dir($emoticon_path);
-		while($file = $oDir->read())
+		$emoticon_path = sprintf('%s/%s', $this->emoticon_path, $emoticon);
+		$emoticon_url = RX_BASEURL . preg_replace('@^\./@', '', $emoticon_path) . '/';
+		if(!$emoticon_files = Rhymix\Framework\Storage::readDirectory($emoticon_path))
 		{
-			if(substr($file,0,1)=='.') continue;
-			if(preg_match('/\.(jpg|jpeg|gif|png)$/i',$file)) {
-				$svg = null;
-				$filename = sprintf("%s/%s", $path, str_replace($this->emoticon_path,'',$file));
-				list($width, $height, $type, $attr) = getimagesize($emoticon_path . '/'. $file);
-				
-				if(file_exists (($emoticon_path . '/svg/'. substr($file, 0, -4) . '.svg'))) {
-					$svg = sprintf("%s/svg/%s", $path, str_replace($this->emoticon_path,'',substr($file, 0, -4) . '.svg'));
-				}
-				
-				$output[] = array('filename' => $filename, 'width' => $width, 'height' => $height, 'svg' => $svg, 'alt' => substr($file, 0, -4));
-			}
+			return array();
 		}
-		$oDir->close();
-		if(count($output)) asort($output);
+		
+		$output = array();
+		foreach($emoticon_files as $file)
+		{
+			if(!preg_match('/\.(jpg|jpeg|gif|png)$/i', $file))
+			{
+				continue;
+			}
+			
+			$file_name = basename($file);
+			list($file_width, $file_height) = getimagesize($file);
+			$svg_name = preg_replace('@\.[^.]+$@', '', $file_name) . '.svg';
+			
+			$output[] = array(
+				'url' => $emoticon_url . $file_name,
+				'width' => $file_width,
+				'height' => file_height,
+				'svg' => file_exists(sprintf('%s/svg/%s', $emoticon_path, $svg_name)) ? ($emoticon_url . 'svg/' . $svg_name) : '',
+				'alt' => $file_name,
+			);
+		}
+		asort($output);
 		return $output;
 	}
 

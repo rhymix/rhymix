@@ -23,17 +23,17 @@ function completeGetEmoticons(ret_obj) {
 			.width( parseInt(emoticons[i].width,  10))
 			.height(parseInt(emoticons[i].height, 10))
 			.attr({
-				'src': './modules/editor/components/emoticon/tpl/images/'+emoticons[i].filename,
-				'data-src': './modules/editor/components/emoticon/tpl/images/'+emoticons[i].filename,
+				'src': emoticons[i].url,
+				'data-src': emoticons[i].url,
 				'alt': emoticons[i].alt
 			});
 		if( emoticons[i].svg ) {
 			$img.attr({
-				'data-svg': './modules/editor/components/emoticon/tpl/images/'+emoticons[i].svg
+				'data-svg': emoticons[i].svg
 			});
 			if( typeof SVGRect !== "undefined" ) {
 				$img.attr({
-					'src': './modules/editor/components/emoticon/tpl/images/'+emoticons[i].svg
+					'src': emoticons[i].svg
 				});
 			}
 		}
@@ -67,7 +67,8 @@ function insertEmoticon(obj) {
 	win.editorRelKeys[win.editorPrevSrl].pasteHTML(html);
 
 	if (is_popup) window.focus();
-
+	
+	rhymix_alert(lang_success_added);
 	return false;
 }
 

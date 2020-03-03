@@ -269,6 +269,7 @@ $lang->success_sended = '발송했습니다.';
 $lang->success_reset = '초기화했습니다.';
 $lang->success_leaved = '탈퇴했습니다.';
 $lang->success_saved = '저장했습니다.';
+$lang->success_added = '추가했습니다.';
 $lang->fail_to_registed = '등록하지 못했습니다.';
 $lang->fail_to_update = '수정하지 못했습니다.';
 $lang->fail_to_delete = '삭제 실패했습니다.';

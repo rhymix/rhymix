@@ -267,6 +267,7 @@ $lang->success_sended = 'Sent successfully.';
 $lang->success_reset = 'Reset successfully.';
 $lang->success_leaved = 'Your account has been closed successfully.';
 $lang->success_saved = 'Saved successfully.';
+$lang->success_added = 'Added successfully.';
 $lang->fail_to_registed = 'Failed to register.';
 $lang->fail_to_update = 'Fail to update.';
 $lang->fail_to_delete = 'Failed to delete.';
