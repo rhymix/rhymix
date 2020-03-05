@@ -652,7 +652,6 @@ class commentController extends comment
 
 		$oDocumentModel = getModel('document');
 		$oDocument = $oDocumentModel->getDocument($obj->document_srl);
-		$author_email_address = $oDocument->get('email_address');
 
 		$oMemberModel = getModel("member");
 		$is_logged = Context::get('is_logged');
@@ -726,10 +725,7 @@ class commentController extends comment
 			}
 			foreach (array_map('trim', explode(',', $module_info->admin_mail)) as $email_address)
 			{
-				if ($email_address && $email_address !== $author_email_address)
-				{
-					$oMail->addTo($email_address);
-				}
+				$oMail->addTo($email_address);
 			}
 			$oMail->send();
 			//  send email to all admins - STOP

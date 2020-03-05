@@ -108,38 +108,31 @@ class commentAdminController extends comment
 					$output = $oDocumentController->updateCommentCount($document_srl, $comment_count, NULL, FALSE);
 
 					$oDocument = $oDocumentModel->getDocument($document_srl);
-					$author_email_address = $oDocument->get('email_address');
 
 					$oModuleModel = getModel("module");
 					$module_info = $oModuleModel->getModuleInfoByModuleSrl($comment->module_srl);
-
-					// send email to comment's author, all admins and thread(document) subscribers - START
-					// -------------------------------------------------------
-					$mail_title = "[Rhymix - " . $module_info->mid . "] comment(s) status changed to " . $new_status . " on document: \"" . $oDocument->getTitleText() . "\"";
-					$mail_content = "
-						The comment #" . $comment_srl . " on document \"" . $oDocument->getTitleText() . "\" has been " . $new_status . " by admin of <strong><i>" . strtoupper($module_info->mid) . "</i></strong> module.
-						<br />
-						<br />Comment content:
-						" . $comment->content . "
-						<br />
-						";
-					$oMail = new \Rhymix\Framework\Mail();
-					$oMail->setSubject($mail_title);
-					$oMail->setBody($mail_content);
-					$oMail->setFrom(config('mail.default_from') ?: $logged_info->email_address, $logged_info->nick_name);
-					$oMail->setReplyTo($logged_info->email_address);
-					foreach (array_map('trim', explode(',', $module_info->admin_mail)) as $email_address)
+					if($module_info->admin_mail)
 					{
-						if ($email_address && $email_address !== $author_email_address)
+						$mail_title = "[Rhymix - " . $module_info->mid . "] comment(s) status changed to " . $new_status . " on document: \"" . $oDocument->getTitleText() . "\"";
+						$mail_content = "
+							The comment #" . $comment_srl . " on document \"" . $oDocument->getTitleText() . "\" has been " . $new_status . " by admin of <strong><i>" . strtoupper($module_info->mid) . "</i></strong> module.
+							<br />
+							<br />Comment content:
+							" . $comment->content . "
+							<br />
+							";
+						$oMail = new \Rhymix\Framework\Mail();
+						$oMail->setSubject($mail_title);
+						$oMail->setBody($mail_content);
+						$oMail->setFrom(config('mail.default_from') ?: $logged_info->email_address, $logged_info->nick_name);
+						$oMail->setReplyTo($logged_info->email_address);
+						foreach (array_map('trim', explode(',', $module_info->admin_mail)) as $email_address)
 						{
 							$oMail->addTo($email_address);
 						}
+						$oMail->send();
 					}
-					$oMail->send();
-					//mail to all emails set for administrators - STOP
 				}
-				// ----------------------------------------------------------
-				// send email to comment's author, all admins and thread(document) subscribers - STOP
 			}
 			// call a trigger for calling "send mail to subscribers" (for moment just for forum)
 			ModuleHandler::triggerCall("comment.procCommentAdminChangeStatus", "after", $comment_srl_list);
