@@ -228,6 +228,12 @@ class UA
 				return $result;
 			}
 		}
+		if ($result->os === 'Android' && preg_match('#^AndroidDownloadManager/([0-9])#', $ua, $matches))
+		{
+			$result->browser = 'Android';
+			$result->version = $matches[1];
+			return $result;
+		}
 		if (preg_match('#Edge/([0-9]+\\.)#', $ua, $matches))
 		{
 			$result->browser = 'Edge';
@@ -335,8 +341,14 @@ class UA
 		// Get the browser name and version.
 		$browser = self::getBrowserInfo($ua);
 		
+		// Get the Android version.
+		if ($browser->os === 'Android')
+		{
+			$android_version = preg_match('/Android ([0-9]+)/', $ua, $matches) ? intval($matches[1]) : 0;
+		}
+		
 		// Find the best format that this browser supports.
-		if ($browser->browser === 'Chrome' && $browser->version >= 11 & !$browser->is_webview)
+		if ($browser->browser === 'Chrome' && $browser->version >= 11 && !$browser->is_webview)
 		{
 			$output_format = 'rfc5987';
 		}
@@ -362,7 +374,14 @@ class UA
 		}
 		elseif ($browser->browser === 'Android' || $browser->browser === 'Whale' || $browser->is_webview)
 		{
-			$output_format = 'raw';
+			if ($android_version >= 10)
+			{
+				$output_format = 'rfc5987';
+			}
+			else
+			{
+				$output_format = 'raw';
+			}
 		}
 		elseif ($browser->browser === 'Chrome' || $browser->browser === 'Safari')
 		{

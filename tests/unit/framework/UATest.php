@@ -310,6 +310,8 @@ class UATest extends \Codeception\TestCase\Test
 		$this->assertEquals('filename*=UTF-8\'\'%ED%95%9C%EA%B8%80%20filename.jpg', Rhymix\Framework\UA::encodeFilenameForDownload('한글 filename.jpg', 'Edge/12.10240'));
 		$this->assertEquals('filename*=UTF-8\'\'%ED%95%9C%EA%B8%80%20filename.jpg', Rhymix\Framework\UA::encodeFilenameForDownload('한글 filename.jpg', 'MSIE/7.0 Trident/7.0'));
 		$this->assertEquals('filename*=UTF-8\'\'%ED%95%9C%EA%B8%80%20filename.jpg', Rhymix\Framework\UA::encodeFilenameForDownload('한글 filename.jpg', 'Mozilla/5.0 (Windows NT 10.0; WOW64; Trident/7.0; rv:11.0) like Gecko'));
+		$this->assertEquals('filename*=UTF-8\'\'%ED%95%9C%EA%B8%80%20filename.jpg', Rhymix\Framework\UA::encodeFilenameForDownload('한글 filename.jpg', 'Mozilla/5.0 (Linux; Android 10; wv) AppleWebKit/537.36 (KHTML, like Gecko) Version/4.0 Chrome/77.0.3865.92 Mobile Safari/537.36'));
+		$this->assertEquals('filename*=UTF-8\'\'%ED%95%9C%EA%B8%80%20filename.jpg', Rhymix\Framework\UA::encodeFilenameForDownload('한글 filename.jpg', 'AndroidDownloadManager/10 (Linux; U; Android 10)'));
 		$this->assertEquals('filename="%ED%95%9C%EA%B8%80%20filename.jpg"', Rhymix\Framework\UA::encodeFilenameForDownload('한글 filename.jpg', 'MSIE 8.0'));
 		$this->assertEquals('filename="%ED%95%9C%EA%B8%80%20filename.jpg"', Rhymix\Framework\UA::encodeFilenameForDownload('한글 filename.jpg', 'Unknown Browser'));
 		$this->assertEquals('filename="한글 filename.jpg"', Rhymix\Framework\UA::encodeFilenameForDownload('한글 filename.jpg', 'Chrome/69.0.3497.128 Whale/1.0.0.0 Crosswalk/23.69.590.31 Mobile Safari/537.36 NAVER(inapp; search; 660; 10.7.2)'));
