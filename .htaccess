@@ -39,3 +39,6 @@ RewriteRule ^([a-zA-Z0-9_]+)/([0-9]+)$ ./index.php?mid=$1&document_srl=$2 [L,QSA
 
 # mid + entry title
 RewriteRule ^([a-zA-Z0-9_]+)/entry/(.+)$ ./index.php?mid=$1&entry=$2 [L,QSA]
+
+# file download
+RewriteRule ^files/download/([0-9]+)/([a-zA-Z0-9_-]+)/(.+)$ ./index.php?act=procFileOutput&file_srl=$1&file_key=$2&filename=$3 [L]
