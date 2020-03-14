@@ -384,7 +384,17 @@ class fileController extends file
 		$file_key_data = sprintf('%d:%d:%s:%s', $file_obj->file_srl, $file_key_timestamp, $file_obj->uploaded_filename, \RX_CLIENT_IP);
 		$file_key_sig = \Rhymix\Framework\Security::createSignature($file_key_data);
 		$file_key = dechex($file_key_timestamp) . $file_key_sig;
-		header('Location: '.getNotEncodedUrl('', 'act', 'procFileOutput', 'file_srl', $file_srl, 'file_key', $file_key, 'force_download', Context::get('force_download') === 'Y' ? 'Y' : null));
+		
+		// Use short URL or long URL
+		if ($file_module_config->download_short_url === 'Y' && config('use_rewrite'))
+		{
+			$url = RX_BASEURL . sprintf('files/download/%d/%s/%s', $file_srl, $file_key, rawurlencode($filename));
+		}
+		else
+		{
+			$url = getNotEncodedUrl('', 'act', 'procFileOutput', 'file_srl', $file_srl, 'file_key', $file_key, 'force_download', Context::get('force_download') === 'Y' ? 'Y' : null);
+		}
+		header('Location: ' . $url);
 		Context::close();
 		exit();
 	}
@@ -395,7 +405,8 @@ class fileController extends file
 		$oFileModel = getModel('file');
 		$file_srl = Context::get('file_srl');
 		$file_key = Context::get('file_key');
-
+		$filename_arg = Context::get('filename');
+		
 		$columnList = array('source_filename', 'uploaded_filename', 'file_size');
 		$file_obj = $oFileModel->getFile($file_srl, $columnList);
 		$file_config = $oFileModel->getFileConfig($file_obj->module_srl ?: null);
@@ -441,7 +452,14 @@ class fileController extends file
 		}
 
 		// Encode the filename.
-		$filename_param = Rhymix\Framework\UA::encodeFilenameForDownload($filename);
+		if ($filename_arg && $filename_arg === $filename)
+		{
+			$filename_param = '';
+		}
+		else
+		{
+			$filename_param = '; ' . Rhymix\Framework\UA::encodeFilenameForDownload($filename);
+		}
 
 		// Close context to prevent blocking the session
 		Context::close();
@@ -508,7 +526,7 @@ class fileController extends file
 		
 		// Set filename headers
 		header('Content-Type: ' . ($download_type === 'inline' ? $mime_type : 'application/octet-stream'));
-		header('Content-Disposition: ' . $download_type . '; ' . $filename_param);
+		header('Content-Disposition: ' . $download_type . $filename_param);
 		
 		// Set cache headers
 		header('Cache-Control: private; max-age=3600');
