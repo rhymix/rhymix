@@ -412,9 +412,9 @@ class memberAdminController extends member
 
 				unset($extendItem);
 			}
-			$signupForm[] = $signupItem;
+			$signupForm[$key] = $signupItem;
 		}
-		$args->signupForm = $signupForm;
+		$args->signupForm = array_values($signupForm);
 
 		// create Ruleset
 		$this->_createSignupRuleset($signupForm);
