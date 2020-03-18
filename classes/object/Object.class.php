@@ -44,6 +44,19 @@ class BaseObject
 	{
 		$this->setError($error);
 		$this->setMessage($message);
+		
+		if ($error)
+		{
+			$backtrace = debug_backtrace(false);
+			$caller = array_shift($backtrace);
+			$nextcaller = array_shift($backtrace);
+			if ($nextcaller && $nextcaller['function'] === 'createObject')
+			{
+				$caller = $nextcaller;
+			}
+			$location = $caller['file'] . ':' . $caller['line'];
+			$this->add('rx_error_location', $location);
+		}
 	}
 	
 	/**

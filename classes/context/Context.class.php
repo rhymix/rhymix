@@ -1524,7 +1524,7 @@ class Context
 	 * @param string $message
 	 * @return void
 	 */
-	public static function displayErrorPage($title = 'Error', $message = '', $status = 500)
+	public static function displayErrorPage($title = 'Error', $message = '', $status = 500, $location = '')
 	{
 		// Change current directory to the Rhymix installation path.
 		chdir(\RX_BASEDIR);
@@ -1541,6 +1541,18 @@ class Context
 			$oMessageObject->setHttpStatusCode($status);
 		}
 		
+		// Find out the caller's location.
+		if (!$location)
+		{
+			$backtrace = debug_backtrace(false);
+			$caller = array_shift($backtrace);
+			$location = $caller['file'] . ':' . $caller['line'];
+			if (starts_with(\RX_BASEDIR, $location))
+			{
+				$location = substr($location, strlen(\RX_BASEDIR));
+			}
+		}
+		
 		if (in_array(Context::getRequestMethod(), array('XMLRPC', 'JSON', 'JS_CALLBACK')))
 		{
 			$oMessageObject->setMessage(trim($title . "\n\n" . $message));
@@ -1548,7 +1560,7 @@ class Context
 		else
 		{
 			$oMessageObject->setMessage($title);
-			$oMessageObject->dispMessage($message);
+			$oMessageObject->dispMessage($message, $location);
 		}
 		
 		// Display the message.

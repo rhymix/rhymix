@@ -363,12 +363,17 @@ class ModuleObject extends BaseObject
 			$this->setError(-1);
 			$this->setMessage($msg_code);
 			
+			// Get backtrace
+			$backtrace = debug_backtrace(false);
+			$caller = array_shift($backtrace);
+			$location = $caller['file'] . ':' . $caller['line'];
+			
 			// Error message display by message module
 			$type = Mobile::isFromMobilePhone() ? 'mobile' : 'view';
 			$oMessageObject = ModuleHandler::getModuleInstance('message', $type);
 			$oMessageObject->setError(-1);
 			$oMessageObject->setMessage($msg_code);
-			$oMessageObject->dispMessage();
+			$oMessageObject->dispMessage(null, $location);
 			
 			$this->setTemplatePath($oMessageObject->getTemplatePath());
 			$this->setTemplateFile($oMessageObject->getTemplateFile());
@@ -597,6 +602,8 @@ class ModuleObject extends BaseObject
 			catch (Rhymix\Framework\Exception $e)
 			{
 				$output = new BaseObject(-2, $e->getMessage());
+				$location = $e->getFile() . ':' . $e->getLine();
+				$output->add('rx_error_location', $location);
 			}
 		}
 		else
@@ -609,6 +616,10 @@ class ModuleObject extends BaseObject
 		{
 			$this->setError($output->getError());
 			$this->setMessage($output->getMessage());
+			if($output->getError() && $output->get('rx_error_location'))
+			{
+				$this->add('rx_error_location', $output->get('rx_error_location'));
+			}
 			$original_output = clone $output;
 		}
 		else
@@ -622,6 +633,10 @@ class ModuleObject extends BaseObject
 		{
 			$this->setError($triggerOutput->getError());
 			$this->setMessage($triggerOutput->getMessage());
+			if($output->get('rx_error_location'))
+			{
+				$this->add('rx_error_location', $output->get('rx_error_location'));
+			}
 			return FALSE;
 		}
 
@@ -639,6 +654,10 @@ class ModuleObject extends BaseObject
 		{
 			$this->setError($output->getError());
 			$this->setMessage($output->getMessage());
+			if($output->get('rx_error_location'))
+			{
+				$this->add('rx_error_location', $output->get('rx_error_location'));
+			}
 			return FALSE;
 		}
 

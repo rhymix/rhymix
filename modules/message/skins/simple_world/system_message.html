@@ -2,7 +2,12 @@
 <div class="signin">
 	<section class="sw-body">
 		<h1>{$system_message}</h1>
-		<div class="rx_message-notice error" cond="$system_message_detail">{$system_message_detail}</div>
+		<div class="rx_message-notice error" cond="$system_message_detail">
+			{$system_message_detail}
+		</div>
+		<div class="rx_message-notice location" cond="$system_message_location && $logged_info->is_admin === 'Y'">
+			{$system_message_location}
+		</div>
 		<div cond="$XE_VALIDATOR_MESSAGE && $XE_VALIDATOR_ID == 'modules/message/skins/simple_world/system_message/1'" class="rx_message-notice {$XE_VALIDATOR_MESSAGE_TYPE}">
 			<p>{$XE_VALIDATOR_MESSAGE}</p>
 		</div>

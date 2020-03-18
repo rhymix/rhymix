@@ -993,7 +993,7 @@ class ModuleHandler extends Handler
 				$oMessageObject = self::getModuleInstance('message', $type);
 				$oMessageObject->setError(-1);
 				$oMessageObject->setMessage($this->error);
-				$oMessageObject->dispMessage();
+				$oMessageObject->dispMessage(null, $oModule->get('rx_error_location'));
 
 				// display Error Page
 				if(!in_array($oMessageObject->getHttpStatusCode(), array(200, 403)))

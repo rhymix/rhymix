@@ -17,7 +17,7 @@ class messageView extends message
 	/**
 	 * @brief Display messages
 	 */
-	function dispMessage($detail = null)
+	function dispMessage($detail = null, $location = null)
 	{
 		// Get configurations (using module model object)
 		$oModuleModel = getModel('module');
@@ -47,10 +47,17 @@ class messageView extends message
 		{
 			if(strncasecmp('https://', Context::getRequestUri(), 8) === 0) $ssl_mode = true;
 		}
+		
+		// Remove basedir from location (if any)
+		if ($location && starts_with(\RX_BASEDIR, $location))
+		{
+			$location = substr($location, strlen(\RX_BASEDIR));
+		}
 
 		Context::set('ssl_mode', $ssl_mode);
 		Context::set('system_message', nl2br($this->getMessage()));
 		Context::set('system_message_detail', nl2br($detail));
+		Context::set('system_message_location', escape($location));
 
 		$this->setTemplateFile('system_message');
 		
