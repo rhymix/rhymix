@@ -59,11 +59,10 @@
 				<td class="nowr" loop="$usedIdentifiers=>$name,$title">
 					<!--@if($name === 'email_address')-->
 						<a href="#popup_menu_area" class="member_{$member_info['member_srl']}">{getEncodeEmailAddress($member_info['email_address'])}</a>
-					<!--@elseif($name === 'phone_number')-->
-						<!--@if($member_info['phone_country'] && $member_info['phone_country'] != $member_config->phone_number_default_country)-->
-							(+{$member_info['phone_country']})
-						<!--@end-->
-						<!--@if($member_info['phone_country'] == 82)-->
+					<!--@elseif($name === 'phone_number' && $member_info['phone_number'])-->
+						<!--@if($config->phone_number_hide_country !== 'Y')-->
+							{\Rhymix\Framework\i18n::formatPhoneNumber($member_info['phone_number'], $member_info['phone_country'])}
+						<!--@elseif(($config->phone_number_default_country === 'KOR' || $memberConfig->phone_number_default_country == '82') && ($member_info['phone_country'] === 'KOR' || $member_info['phone_country'] == '82'))-->
 							{\Rhymix\Framework\Korea::formatPhoneNumber($member_info['phone_number'])}
 						<!--@else-->
 							{$member_info['phone_number']}

@@ -339,7 +339,11 @@ class memberAdminController extends member
 			$args->redirect_url = getNotEncodedFullUrl('','mid',$redirectModuleInfo->mid);
 		}
 
-		$args->phone_number_default_country = preg_replace('/[^0-9-]/', '', $args->phone_number_default_country);
+		$args->phone_number_default_country = preg_replace('/[^A-Z]/', '', $args->phone_number_default_country);
+		if (!array_key_exists($args->phone_number_default_country, Rhymix\Framework\i18n::listCountries()))
+		{
+			return new BaseObject('-1', 'msg_need_default_country');
+		}
 		$args->phone_number_hide_country = $args->phone_number_hide_country == 'Y' ? 'Y' : 'N';
 		$args->phone_number_allow_duplicate = $args->phone_number_allow_duplicate == 'Y' ? 'Y' : 'N';
 		$args->phone_number_verify_by_sms = $args->phone_number_verify_by_sms == 'Y' ? 'Y' : 'N';

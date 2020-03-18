@@ -152,13 +152,13 @@ class memberView extends member
 				}
 				elseif($formInfo->name == 'phone_number' && $memberInfo->phone_number)
 				{
-					if($memberInfo->phone_country == '82')
-					{
-						$item->value = Rhymix\Framework\Korea::formatPhoneNumber($item->value);
-					}
 					if($memberConfig->phone_number_hide_country !== 'Y')
 					{
-						$item->value = '(+' . $memberInfo->phone_country . ') ' . $item->value;
+						$item->value = Rhymix\Framework\i18n::formatPhoneNumber($item->value, $memberInfo->phone_country);
+					}
+					elseif(($memberConfig->phone_number_default_country === 'KOR' || $memberConfig->phone_number_default_country == '82') && ($memberInfo->phone_country === 'KOR' || $memberInfo->phone_country == '82'))
+					{
+						$item->value = Rhymix\Framework\Korea::formatPhoneNumber($item->value);
 					}
 				}
 			}

@@ -632,6 +632,10 @@ class memberController extends member
 			{
 				$phone_country = $config->phone_number_default_country;
 			}
+			if ($phone_country && !preg_match('/^[A-Z]{3}$/', $phone_country))
+			{
+				$phone_country = Rhymix\Framework\i18n::getCountryCodeByCallingCode($phone_country);
+			}
 			if ($phone_country !== $_SESSION['verify_by_sms']['country'])
 			{
 				throw new Rhymix\Framework\Exception('verify_by_sms_incomplete');
@@ -666,7 +670,7 @@ class memberController extends member
 			}
 			if ($val === 'phone_number')
 			{
-				$args->phone_country = preg_replace('/[^0-9]/', '', Context::get('phone_country'));
+				$args->phone_country = preg_replace('/[^A-Z]/', '', Context::get('phone_country'));
 			}
 		}
 		
@@ -922,7 +926,11 @@ class memberController extends member
 			{
 				$phone_country = $config->phone_number_default_country;
 			}
-			if (preg_replace('/[^0-9]/', '', $phone_country) !== $logged_info->phone_country)
+			if ($phone_country && !preg_match('/^[A-Z]{3}$/', $phone_country))
+			{
+				$phone_country = Rhymix\Framework\i18n::getCountryCodeByCallingCode($phone_country);
+			}
+			if ($phone_country !== $logged_info->phone_country)
 			{
 				$phone_verify_needed = true;
 			}
@@ -970,7 +978,7 @@ class memberController extends member
 			}
 			if ($val === 'phone_number')
 			{
-				$args->phone_country = preg_replace('/[^0-9-]/', '', Context::get('phone_country'));
+				$args->phone_country = preg_replace('/[^A-Z]/', '', Context::get('phone_country'));
 			}
 		}
 
@@ -2195,8 +2203,12 @@ class memberController extends member
 				return $this->recordLoginError(-1, 'invalid_user_id');
 			}
 			
+			if($phone_country && !preg_match('/^[A-Z]{3}$/', $phone_country))
+			{
+				$phone_country = Rhymix\Framework\i18n::getCountryCodeByCallingCode($phone_country);
+			}
+			
 			$user_id = preg_replace('/[^0-9]/', '', $user_id);
-			$phone_country = preg_replace('/[^0-9]/', '', $phone_country);
 			$member_info = $oMemberModel->getMemberInfoByPhoneNumber($user_id, $phone_country);
 			if(!$user_id || strtolower($member_info->phone_number) !== $user_id)
 			{
@@ -2595,15 +2607,18 @@ class memberController extends member
 		// Format phone number
 		if (strval($args->phone_number) !== '')
 		{
-			$args->phone_country = trim(preg_replace('/[^0-9-]/', '', $args->phone_country), '-');
+			$args->phone_country = trim(preg_replace('/[^A-Z]/', '', $args->phone_country), '-');
 			$args->phone_number = preg_replace('/[^0-9]/', '', $args->phone_number);
 			$args->phone_type = '';
 			if ($config->phone_number_hide_country === 'Y' || (!$args->phone_country && $config->phone_number_default_country))
 			{
 				$args->phone_country = $config->phone_number_default_country;
 			}
-			$args->phone_country = str_replace('-', '', $args->phone_country);
-			if ($args->phone_country == '82' && !Rhymix\Framework\Korea::isValidPhoneNumber($args->phone_number))
+			if ($args->phone_country && !preg_match('/^[A-Z]{3}$/', $args->phone_country))
+			{
+				$args->phone_country = Rhymix\Framework\i18n::getCountryCodeByCallingCode($args->phone_country);
+			}
+			if ($args->phone_country === 'KOR' && !Rhymix\Framework\Korea::isValidPhoneNumber($args->phone_number))
 			{
 				return new BaseObject(-1, 'msg_invalid_phone_number');
 			}
@@ -2818,15 +2833,18 @@ class memberController extends member
 		// Format phone number
 		if (strval($args->phone_number) !== '')
 		{
-			$args->phone_country = trim(preg_replace('/[^0-9-]/', '', $args->phone_country), '-');
+			$args->phone_country = trim(preg_replace('/[^A-Z]/', '', $args->phone_country), '-');
 			$args->phone_number = preg_replace('/[^0-9]/', '', $args->phone_number);
 			$args->phone_type = '';
 			if ($config->phone_number_hide_country === 'Y' || (!$args->phone_country && $config->phone_number_default_country))
 			{
 				$args->phone_country = $config->phone_number_default_country;
 			}
-			$args->phone_country = str_replace('-', '', $args->phone_country);
-			if ($args->phone_country == '82' && !Rhymix\Framework\Korea::isValidPhoneNumber($args->phone_number))
+			if ($args->phone_country && !preg_match('/^[A-Z]{3}$/', $args->phone_country))
+			{
+				$args->phone_country = Rhymix\Framework\i18n::getCountryCodeByCallingCode($args->phone_country);
+			}
+			if ($args->phone_country === 'KOR' && !Rhymix\Framework\Korea::isValidPhoneNumber($args->phone_number))
 			{
 				return new BaseObject(-1, 'msg_invalid_phone_number');
 			}
@@ -3343,11 +3361,24 @@ class memberController extends member
 		{
 			$phone_country = $config->phone_number_default_country;
 		}
-		if (!preg_match('/[0-9]{1,}/', $phone_country) || !preg_match('/[0-9]{2,}/', $phone_number))
+		if (preg_match('/[A-Z]{3}/', $phone_country))
+		{
+			$phone_country_calling_code = preg_replace('/[^0-9]/', '', Rhymix\Framework\i18n::getCallingCodeByCountryCode($phone_country));
+			if (!$phone_country_calling_code)
+			{
+				return new BaseObject(-1, 'msg_invalid_phone_number');
+			}
+		}
+		else
 		{
 			return new BaseObject(-1, 'msg_invalid_phone_number');
 		}
-		if ($phone_country == '82' && !Rhymix\Framework\Korea::isValidPhoneNumber($phone_number))
+		
+		if (!preg_match('/[0-9]{2,}/', $phone_number))
+		{
+			return new BaseObject(-1, 'msg_invalid_phone_number');
+		}
+		if ($phone_country === 'KOR' && !Rhymix\Framework\Korea::isValidPhoneNumber($phone_number))
 		{
 			return new BaseObject(-1, 'msg_invalid_phone_number');
 		}
@@ -3361,7 +3392,7 @@ class memberController extends member
 		);
 		
 		$sms = new Rhymix\Framework\SMS;
-		$sms->addTo($phone_number, $phone_country);
+		$sms->addTo($phone_number, $phone_country_calling_code);
 		$content = '[' . Context::get('site_module_info')->settings->title . '] ' . sprintf(lang('member.verify_by_sms_message'), $code);
 		$sms->setContent($content);
 		$result = $sms->send();

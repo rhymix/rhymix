@@ -142,7 +142,7 @@
 								<select id="phone_number_default_country" name="phone_number_default_country">
 									<!--@foreach($country_list as $country_info)-->
 										<!--@if($country_info->calling_code)-->
-											<option value="{$country_info->calling_code}" selected="selected"|cond="$country_info->calling_code == $config->phone_number_default_country">
+											<option value="{$country_info->iso_3166_1_alpha3}" selected="selected"|cond="$country_info->iso_3166_1_alpha3 === $config->phone_number_default_country || $country_info->calling_code === $config->phone_number_default_country">
 												{$lang_type === 'ko' ? $country_info->name_korean : $country_info->name_english} (+{$country_info->calling_code})
 											</option>
 										<!--@endif-->

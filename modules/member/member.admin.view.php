@@ -598,24 +598,28 @@ class memberAdminView extends member
 					else if($formInfo->name == 'phone_number')
 					{
 						$formTag->type = 'phone';
+						$match_country = $memberInfo['phone_country'];
+						if(!$match_country && $member_config->phone_number_default_country)
+						{
+							$match_country = $member_config->phone_number_default_country;
+						}
+						if($match_country && !preg_match('/^[A-Z]{3}$/', $match_country))
+						{
+							$match_country = Rhymix\Framework\i18n::getCountryCodeByCallingCode($match_country);
+						}
+						if(!$match_country && Context::get('lang_type') === 'ko')
+						{
+							$match_country = 'KOR';
+						}
 						if($member_config->phone_number_hide_country !== 'Y')
 						{
 							$inputTag = '<select name="phone_country" id="phone_country" class="phone_country">';
 							$country_list = Rhymix\Framework\i18n::listCountries(Context::get('lang_type') === 'ko' ? Rhymix\Framework\i18n::SORT_NAME_KOREAN : Rhymix\Framework\i18n::SORT_NAME_ENGLISH);
-							$match_country = $memberInfo['phone_country'];
-							if(!$match_country && $member_config->phone_number_default_country)
-							{
-								$match_country = $member_config->phone_number_default_country;
-							}
-							if(!$match_country && Context::get('lang_type') === 'ko')
-							{
-								$match_country = '82';
-							}
 							foreach($country_list as $country)
 							{
 								if($country->calling_code)
 								{
-									$inputTag .= '<option value="' . $country->calling_code . '"' . (str_replace('-', '', $country->calling_code) === $match_country ? ' selected="selected"' : '') . '>';
+									$inputTag .= '<option value="' . $country->iso_3166_1_alpha3 . '"' . ($country->iso_3166_1_alpha3 === $match_country ? ' selected="selected"' : '') . '>';
 									$inputTag .= escape(Context::get('lang_type') === 'ko' ? $country->name_korean : $country->name_english) . ' (+' . $country->calling_code . ')</option>';
 								}
 							}
@@ -623,7 +627,7 @@ class memberAdminView extends member
 						}
 						if($memberInfo['phone_number'])
 						{
-							if($match_country == '82')
+							if($match_country === 'KOR')
 							{
 								$phone_number = Rhymix\Framework\Korea::formatPhoneNumber($memberInfo['phone_number']);
 							}

@@ -304,7 +304,18 @@ class memberModel extends member
 	function getMemberInfoByPhoneNumber($phone_number, $phone_country = null)
 	{
 		if(!$phone_number) return;
-
+		if($phone_country)
+		{
+			if(preg_match('/^[A-Z]{3}$/', $phone_country))
+			{
+				$phone_country = array($phone_country, preg_replace('/[^0-9]/', '', Rhymix\Framework\i18n::getCallingCodeByCountryCode($phone_country)));
+			}
+			else
+			{
+				$phone_country = array(preg_replace('/[^0-9]/', '', $phone_country), Rhymix\Framework\i18n::getCountryCodeByCallingCode($phone_country));
+			}
+		}
+		
 		$args = new stdClass();
 		$args->phone_number = $phone_number;
 		$args->phone_country = $phone_country;
