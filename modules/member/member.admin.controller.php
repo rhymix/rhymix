@@ -48,7 +48,7 @@ class memberAdminController extends member
 			$args->{$val} = Context::get($val);
 			if ($val === 'phone_number')
 			{
-				$args->phone_country = trim(preg_replace('/[^0-9-]/', '', Context::get('phone_country')), '-');
+				$args->phone_country = preg_replace('/[^A-Z]/', '', Context::get('phone_country'));
 			}
 		}
 		$member_srl = Context::get('member_srl');
