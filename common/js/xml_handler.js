@@ -430,7 +430,8 @@
 	 * Register the beforeUnload handler.
 	 */
 	$(function() {
-		waiting_obj = $(".wfsr");
+		waiting_obj = $('.wfsr');
+		waiting_obj.text(waiting_obj.data('message'));
 		if (show_leaving_warning) {
 			$(document).ajaxStart(function() {
 				$(window).bind("beforeunload", beforeUnloadHandler);
