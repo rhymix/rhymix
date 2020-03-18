@@ -8,12 +8,12 @@
 	/**
 	 * Set this variable to false to hide the "waiting for server response" layer.
 	 */
-	window.show_waiting_message = true;
+	window.show_waiting_message = false;
 	
 	/**
 	 * Set this variable to false to hide the "do you want to leave the page?" dialog.
 	 */
-	window.show_leaving_warning = true;
+	window.show_leaving_warning = false;
 	
 	/**
 	 * This variable stores the .wfsr jQuery object.
