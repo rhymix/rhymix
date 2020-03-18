@@ -11,9 +11,7 @@ class ncenterliteAdminView extends ncenterlite
 	{
 		$oNcenterliteModel = getModel('ncenterlite');
 
-		$sms = new Rhymix\Framework\SMS;
-
-		if($sms::getDefaultDriver()->getName() === 'Dummy')
+		if(Rhymix\Framework\SMS::getDefaultDriver()->getName() === 'Dummy')
 		{
 			$sms_available = false;
 		}

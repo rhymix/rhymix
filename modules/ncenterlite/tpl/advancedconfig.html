@@ -9,8 +9,9 @@
 		<div class="x_control-group">
 			<label class="x_control-label" for="variable_name">{$lang->member_phone_variable}</label>
 			<div class="x_controls">
-				<select name="variable_name" id="variable_name" disabled="disabled"|cond="empty($variable_name)">
-					<option value="0">{$lang->notuse}</option>
+				<select name="variable_name" id="variable_name">
+					<option value="-1" selected="selected"|cond="$config->variable_name === '#'">{$lang->member_phone_builtin_field}</option>
+					<option value="0" selected="selected"|cond="!$config->variable_name">{$lang->notuse}</option>
 					<option loop="$variable_name => $val" value="{$val}" selected="selected"|cond="$config->variable_name == $val">{$val}</option>
 				</select>
 				<p class="x_help-block">{$lang->member_phone_variable_about}</p>

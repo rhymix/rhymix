@@ -1452,7 +1452,21 @@ class ncenterliteController extends ncenterlite
 		$member_info = getModel('member')->getMemberInfoByMemberSrl($args->member_srl);
 		if($config->variable_name)
 		{
-			$phone_number = $member_info->{$config->variable_name}[0].$member_info->{$config->variable_name}[1].$member_info->{$config->variable_name}[2];
+			if($config->variable_name === '#')
+			{
+				$phone_country = $member_info->phone_country;
+				$phone_number = $member_info->phone_number;
+				
+				// Sending SMS outside of Korea is currently not supported.
+				if($phone_country !== 'KOR')
+				{
+					return false;
+				}
+			}
+			else
+			{
+				$phone_number = implode('', $member_info->{$config->variable_name});
+			}
 
 			// Check if a Korean phone number contains a valid area code and the correct number of digits.
 			$phone_format = Rhymix\Framework\Korea::isValidPhoneNumber($phone_number);

@@ -65,9 +65,13 @@ class ncenterliteAdminController extends ncenterlite
 				$config->mention_suffixes = array_map('trim', explode(',', $config->mention_suffixes));
 			}
 
-			if($obj->variable_name === '0')
+			if($obj->variable_name === '-1')
 			{
-				$config->variable_name = null;
+				$config->variable_name = '#';
+			}
+			elseif($obj->variable_name === '0')
+			{
+				$config->variable_name = '';
 			}
 		}
 
