@@ -218,9 +218,21 @@ class member extends ModuleObject {
 		// Check scrap folder table
 		if(!$oDB->isColumnExists("member_scrap", "folder_srl")) return true;
 		
-		// Check signup form
 		$oModuleModel = getModel('module');
 		$config = $oModuleModel->getModuleConfig('member');
+		
+		// Check members with phone country in old format
+		if ($config->phone_number_default_country && !preg_match('/^[A-Z]{3}$/', $config->phone_number_default_country))
+		{
+			return true;
+		}
+		$output = executeQuery('member.getMemberCountByPhoneCountry', (object)['phone_country' => '82']);
+		if ($output->data->count)
+		{
+			return true;
+		}
+		
+		// Check signup form
 		if(!$config->signupForm || !is_array($config->signupForm)) return true;
 		$phone_found = false;
 		foreach($config->signupForm as $signupItem)
@@ -401,9 +413,26 @@ class member extends ModuleObject {
 			$oDB->addIndex("member_scrap","idx_folder_srl", array("folder_srl"));
 		}
 		
-		// Check signup form
 		$oModuleModel = getModel('module');
 		$config = $oModuleModel->getModuleConfig('member');
+		$changed = false;
+		
+		// Check members with phone country in old format
+		if ($config->phone_number_default_country && !preg_match('/^[A-Z]{3}$/', $config->phone_number_default_country))
+		{
+			$config->phone_number_default_country = Rhymix\Framework\i18n::getCountryCodeByCallingCode($config->phone_number_default_country);
+			$changed = true;
+		}
+		$output = executeQuery('member.getMemberCountByPhoneCountry', (object)['phone_country' => '82']);
+		if ($output->data->count)
+		{
+			executeQuery('member.updateMemberPhoneCountry', (object)array(
+				'old_phone_country' => '82',
+				'new_phone_country' => 'KOR',
+			));
+		}
+		
+		// Check signup form
 		$oModuleController = getController('module');
 		$oMemberAdminController = getAdminController('member');
 		if(!$config->identifier)
@@ -415,7 +444,6 @@ class member extends ModuleObject {
 			$config->signupForm = $oMemberAdminController->createSignupForm($config);
 			$output = $oModuleController->updateModuleConfig('member', $config);
 		}
-		$changed = false;
 		$phone_number_found = false;
 		foreach($config->signupForm as $no => $signupItem)
 		{

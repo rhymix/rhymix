@@ -266,7 +266,7 @@ class memberAdminView extends member
 		Context::set('country_list', $country_list);
 		if(!$config->phone_number_default_country && Context::get('lang_type') === 'ko')
 		{
-			$config->phone_number_default_country = '82';
+			$config->phone_number_default_country = 'KOR';
 		}
 
 		$this->setTemplateFile('signup_config');

@@ -167,6 +167,7 @@ $lang->msg_column_id_not_available = 'The ID already exists or is not usable.';
 $lang->msg_exists_user_id = 'This ID already exists. Please try another one.';
 $lang->msg_exists_email_address = 'This email address already exists. Please try another one.';
 $lang->msg_exists_phone_number = 'This phone number already exists. Please try another one.';
+$lang->msg_invalid_phone_country = 'The phone number belongs to an unsupported country.';
 $lang->msg_invalid_phone_number = 'The phone number you have entered is invalid.';
 $lang->msg_exists_nick_name = 'This nickname already exists. Please try another one.';
 $lang->msg_signup_disabled = 'You are not able to sign up';

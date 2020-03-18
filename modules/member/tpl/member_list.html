@@ -62,7 +62,7 @@
 					<!--@elseif($name === 'phone_number' && $member_info['phone_number'])-->
 						<!--@if($config->phone_number_hide_country !== 'Y')-->
 							{\Rhymix\Framework\i18n::formatPhoneNumber($member_info['phone_number'], $member_info['phone_country'])}
-						<!--@elseif(($config->phone_number_default_country === 'KOR' || $memberConfig->phone_number_default_country == '82') && ($member_info['phone_country'] === 'KOR' || $member_info['phone_country'] == '82'))-->
+						<!--@elseif($config->phone_number_default_country === 'KOR' && ($member_info['phone_country'] === 'KOR' || $member_info['phone_country'] == '82'))-->
 							{\Rhymix\Framework\Korea::formatPhoneNumber($member_info['phone_number'])}
 						<!--@else-->
 							{$member_info['phone_number']}

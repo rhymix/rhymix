@@ -1,0 +1,11 @@
+<query id="updateMemberPhoneCountry" action="update">
+    <tables>
+        <table name="member" />
+    </tables>
+    <columns>
+		<column name="phone_country" var="new_phone_country" />
+    </columns>
+    <conditions>
+        <condition operation="equal" column="phone_country" var="old_phone_country" notnull="notnull" />
+    </conditions>
+</query>

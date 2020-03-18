@@ -3366,12 +3366,12 @@ class memberController extends member
 			$phone_country_calling_code = preg_replace('/[^0-9]/', '', Rhymix\Framework\i18n::getCallingCodeByCountryCode($phone_country));
 			if (!$phone_country_calling_code)
 			{
-				return new BaseObject(-1, 'msg_invalid_phone_number');
+				return new BaseObject(-1, 'msg_invalid_phone_country');
 			}
 		}
 		else
 		{
-			return new BaseObject(-1, 'msg_invalid_phone_number');
+			return new BaseObject(-1, 'msg_invalid_phone_country');
 		}
 		
 		if (!preg_match('/[0-9]{2,}/', $phone_number))
