@@ -38,4 +38,36 @@ class i18nTest extends \Codeception\TestCase\Test
 		$this->assertEquals('United States of America', $sort_native['USA']->name_english);
 		$this->assertEquals('nz', $sort_native['NZL']->cctld);
 	}
+	
+	public function testGetCallingCodeByCountryCode()
+	{
+		$this->assertEquals('82', Rhymix\Framework\i18n::getCallingCodeByCountryCode('KOR'));
+		$this->assertEquals('82', Rhymix\Framework\i18n::getCallingCodeByCountryCode('KR'));
+		$this->assertEquals('1', Rhymix\Framework\i18n::getCallingCodeByCountryCode('USA'));
+		$this->assertEquals('1', Rhymix\Framework\i18n::getCallingCodeByCountryCode('US'));
+		$this->assertEquals('47', Rhymix\Framework\i18n::getCallingCodeByCountryCode('NOR'));
+		$this->assertEquals('1-242', Rhymix\Framework\i18n::getCallingCodeByCountryCode('BHS'));
+		$this->assertEquals('44-1624', Rhymix\Framework\i18n::getCallingCodeByCountryCode('IMN'));
+		$this->assertNull(Rhymix\Framework\i18n::getCallingCodeByCountryCode('XXX'));
+	}
+	
+	public function testGetCountryCodeByCallingCode()
+	{
+		$this->assertEquals('KOR', Rhymix\Framework\i18n::getCountryCodeByCallingCode('82'));
+		$this->assertEquals('KR', Rhymix\Framework\i18n::getCountryCodeByCallingCode('82', 2));
+		$this->assertEquals('ASM', Rhymix\Framework\i18n::getCountryCodeByCallingCode('1-684'));
+		$this->assertEquals('AS', Rhymix\Framework\i18n::getCountryCodeByCallingCode('1684', 2));
+	}
+	
+	public function testFormatPhoneNumber()
+	{
+		$this->assertEquals('(+82) 010-2345-6789', Rhymix\Framework\i18n::formatPhoneNumber('01023456789', '82'));
+		$this->assertEquals('(+82) 010-2345-6789', Rhymix\Framework\i18n::formatPhoneNumber('010.2345.6789', 'KOR'));
+		$this->assertEquals('(+1) 473-555-1212', Rhymix\Framework\i18n::formatPhoneNumber('4735551212', '1'));
+		$this->assertEquals('(+44) 1420-123456', Rhymix\Framework\i18n::formatPhoneNumber('1420-123 456', 'GB'));
+		$this->assertEquals('(+44-1481) 01234567', Rhymix\Framework\i18n::formatPhoneNumber('01234567', 'GGY'));
+		$this->assertEquals('+821023456789', Rhymix\Framework\i18n::formatPhoneNumber('01023456789', '82', false));
+		$this->assertEquals('+14735551212', Rhymix\Framework\i18n::formatPhoneNumber('4735551212', '1', false));
+		$this->assertEquals('+390669800000', Rhymix\Framework\i18n::formatPhoneNumber('06698-00000', '39', false));
+	}
 }
