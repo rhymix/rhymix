@@ -300,6 +300,7 @@ class fileModel extends file
 		$config->allowed_filetypes = $config->allowed_filetypes ?? '*.*';
 		$config->allow_outlink = $config->allow_outlink ?? 'Y';
 		$config->download_grant = $config->download_grant ?? [];
+		$config->download_short_url = $config->download_short_url ?? 'N';
 		$config->inline_download_format = $config->inline_download_format ?? [];
 		$config->image_autoconv = $config->image_autoconv ?? [];
 		$config->image_quality_adjustment = $config->image_quality_adjustment ?? 75;
