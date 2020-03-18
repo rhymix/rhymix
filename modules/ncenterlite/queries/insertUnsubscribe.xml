@@ -1,0 +1,12 @@
+<query id="insertUnsubscribeBlock" action="insert">
+	<tables>
+		<table name="ncenterlite_unsubscribe" />
+	</tables>
+	<columns>
+		<column name="unsubscribe_srl" var="unsubscribe_srl" filter="number" notnull="notnull" />
+		<column name="member_srl" var="member_srl" filter="number" notnull="notnull" />
+		<column name="target_srl" var="target_srl" filter="number" notnull="notnull" />
+		<column name="unsubscribe_type" var="unsubscribe_type" notnull="notnull" />
+		<column name="text" var="text" notnull="notnull" />
+	</columns>
+</query>

@@ -501,7 +501,7 @@ class ncenterliteModel extends ncenterlite
 			// Other.
 			case 'U':
 			default:
-				return $this->getNotifyTypeString($notification->notify_type, unserialize($notification->target_body)) ?: $lang->ncenterlite;
+				return $this->getNotifyTypeString($notification->notify_type, unserialize($notification->target_body)) ?: lang('ncenterlite');
 		}
 		
 		$config = $this->getConfig();
@@ -666,6 +666,30 @@ class ncenterliteModel extends ncenterlite
 		{
 			return $output;
 		}
+
+		return $output->data;
+	}
+
+	function getUserUnsubscribeConfigByUnsubscribeSrl($unsubscribe_srl = 0)
+	{
+		$args = new stdClass();
+		$args->unsubscribe_srl = $unsubscribe_srl;
+		$output = executeQuery('ncenterlite.getUserUnsubscribeConfigByUnsubscribeSrl', $args);
+
+		return $output->data;
+	}
+
+	function getUserUnsubscribeConfigByTargetSrl($target_srl = 0, $member_srl = null)
+	{
+		if(!$member_srl)
+		{
+			$member_srl = $this->user->member_srl;
+		}
+		
+		$args = new stdClass();
+		$args->target_srl = $target_srl;
+		$args->member_srl = $member_srl;
+		$output = executeQuery('ncenterlite.getUserUnsubscribeConfigByTargetSrl', $args);
 
 		return $output->data;
 	}

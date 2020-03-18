@@ -65,6 +65,100 @@ class ncenterliteController extends ncenterlite
 			$this->setRedirectUrl(getNotEncodedUrl('act', 'dispNcenterliteUserConfig', 'member_srl', $member_srl));
 		}
 	}
+	
+	function procNcenterliteInsertUnsubscribe()
+	{
+		/** @var ncenterliteModel $oNcenterliteModel */
+		$oNcenterliteModel = getModel('ncenterlite');
+		$config = $oNcenterliteModel->getConfig();
+		
+		if($config->unsubscribe !== 'Y')
+		{
+			throw new Rhymix\Framework\Exception('msg_unsubscribe_block_not_support');
+		}
+		
+		$member_srl = Context::get('member_srl');
+		if(!$member_srl)
+		{
+			$member_srl = $this->user->member_srl;
+		}
+		
+		if(intval($this->user->member_srl) != intval($member_srl) && $this->user->is_admin != 'Y')
+		{
+			throw new Rhymix\Framework\Exception('ncenterlite_stop_no_permission_other_user_block_settings');
+		}
+		
+		$obj = Context::getRequestVars();
+		if($obj->unsubscribe_srl)
+		{
+			$userBlockData = $oNcenterliteModel->getUserUnsubscribeConfigByUnsubscribeSrl($obj->unsubscribe_srl);
+		}
+		else if($obj->target_srl)
+		{
+			$userBlockData = $oNcenterliteModel->getUserUnsubscribeConfigByTargetSrl($obj->target_srl, $member_srl);
+		}
+		
+		if($obj->unsubscribe_type == 'document')
+		{
+			$text = cut_str(getModel('document')->getDocument($obj->target_srl)->get('title'), 30);
+		}
+		else
+		{
+			$comment = getModel('comment')->getComment($obj->target_srl);
+			$text = cut_str($comment->get('content'), 30);
+		}
+		
+		$args = new stdClass();
+		$args->member_srl = $member_srl;
+		$args->target_srl = $obj->target_srl;
+		if($obj->unsubscribe_type == 'document')
+		{
+			$args->document_srl = $obj->target_srl;
+		}
+		else
+		{
+			$args->document_srl = $comment->get('document_srl');
+		}
+		$args->unsubscribe_type = $obj->unsubscribe_type;
+		$args->text = $text;
+		
+		if($obj->value == 'Y')
+		{
+			// 데이터가 있으면 차단, 데이터가 없으면 차단하지 않기 때문에 따로 업데이트를 하지 않는다.
+			if(!$userBlockData)
+			{
+				$args->unsubscribe_srl = getNextSequence();
+				$output = executeQuery('ncenterlite.insertUnsubscribe', $args);
+				if(!$output->toBool())
+				{
+					return $output;
+				}
+			}
+			else
+			{
+				$args->unsubscribe_srl = $userBlockData->unsubscribe_srl;
+			}
+		}
+		else
+		{
+			$args->unsubscribe_srl = $obj->unsubscribe_srl;
+			$output = executeQuery('ncenterlite.deleteUnsubscribe', $args);
+			if(!$output->toBool())
+			{
+				return $output;
+			}
+		}
+		$this->setMessage('success_updated');
+
+		if (Context::get('success_return_url'))
+		{
+			$this->setRedirectUrl(Context::get('success_return_url'));
+		}
+		else
+		{
+			$this->setRedirectUrl(getNotEncodedUrl('act', 'dispNcenterliteUnsubscribeList', 'member_srl', $member_srl));
+		}
+	}
 
 	function triggerAfterDeleteMember($obj)
 	{
@@ -159,6 +253,7 @@ class ncenterliteController extends ncenterlite
 
 	function triggerAfterInsertComment($obj)
 	{
+		/** @var ncenterliteModel $oNcenterliteModel */
 		$oNcenterliteModel = getModel('ncenterlite');
 		$config = $oNcenterliteModel->getConfig();
 
@@ -177,6 +272,7 @@ class ncenterliteController extends ncenterlite
 
 		$oDocumentModel = getModel('document');
 		$oDocument = $oDocumentModel->getDocument($document_srl);
+		// 댓글을 남긴 이력이 있는 회원들에게만 알림을 전송
 		if($config->comment_all == 'Y' && $obj->member_srl == $oDocument->get('member_srl') && !$obj->parent_srl && (is_array($config->comment_all_notify_module_srls) && in_array($module_info->module_srl, $config->comment_all_notify_module_srls)))
 		{
 			$comment_args = new stdClass();
@@ -189,6 +285,7 @@ class ncenterliteController extends ncenterlite
 				{
 					continue;
 				}
+				
 				$args = new stdClass();
 				$args->config_type = 'comment_all';
 				$args->member_srl = $value->member_srl;
@@ -215,6 +312,7 @@ class ncenterliteController extends ncenterlite
 		$obj->admin_comment_notify = false;
 		$admin_list = $oNcenterliteModel->getMemberAdmins();
 
+		// 관리자에게 알림을 전송
 		if(isset($config->use['admin_content']) && is_array($config->admin_notify_module_srls) && in_array($module_info->module_srl, $config->admin_notify_module_srls))
 		{
 			foreach($admin_list as $admins)
@@ -250,7 +348,6 @@ class ncenterliteController extends ncenterlite
 			}
 		}
 
-		// check use the mention option.
 		$notify_member_srls = array();
 		if(isset($config->use['mention']))
 		{
@@ -295,6 +392,18 @@ class ncenterliteController extends ncenterlite
 				{
 					return;
 				}
+				
+				// 받는 사람이 문서를 차단하고 있을 경우
+				if($oNcenterliteModel->getUserUnsubscribeConfigByTargetSrl($document_srl, $abs_member_srl))
+				{
+					return;
+				}
+				
+				if($oNcenterliteModel->getUserUnsubscribeConfigByTargetSrl($parent_srl, $abs_member_srl))
+				{
+					return;
+				}
+				
 				$args = new stdClass();
 				$args->config_type = 'comment_comment';
 				$args->member_srl = $abs_member_srl;
@@ -328,6 +437,11 @@ class ncenterliteController extends ncenterlite
 				return;
 			}
 
+			if($oNcenterliteModel->getUserUnsubscribeConfigByTargetSrl($document_srl, $abs_member_srl))
+			{
+				return;
+			}
+			
 			if($config->user_notify_setting == 'Y')
 			{
 				$comment_member_config = $oNcenterliteModel->getUserConfig($abs_member_srl);
@@ -918,6 +1032,10 @@ class ncenterliteController extends ncenterlite
 			$target_srl = Context::get('target_srl');
 
 			$oMemberController->addMemberMenu('dispNcenterliteNotifyList', 'ncenterlite_my_list');
+			if($config->unsubscribe == 'Y')
+			{
+				$oMemberController->addMemberMenu('dispNcenterliteUnsubscribeList', 'unsubscribe_list');
+			}
 		}
 
 		if($config->user_notify_setting == 'Y')

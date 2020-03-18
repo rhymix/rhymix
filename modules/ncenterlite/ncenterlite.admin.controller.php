@@ -35,6 +35,7 @@ class ncenterliteAdminController extends ncenterlite
 			'highlight_effect',
 			'comment_all',
 			'comment_all_notify_module_srls',
+			'unsubscribe',
 		);
 
 		foreach($config_vars as $val)

@@ -94,6 +94,18 @@
 				<p class="x_help-block">{$lang->about_highlight_effect}</p>
 			</div>
 		</div>
+		<div class="x_control-group">
+			<label class="x_control-label">{$lang->unsubscribe}</label>
+			<div class="x_controls">
+				<label class="x_inline">
+					<input type="radio" name="unsubscribe" value="Y" checked="checked"|cond="$config->unsubscribe === 'Y'" /> {$lang->use}
+				</label>
+				<label class="x_inline">
+					<input type="radio" name="unsubscribe" value="N" checked="checked"|cond="$config->unsubscribe !== 'Y'" /> {$lang->notuse}
+				</label>
+				<p class="x_help-block">{$lang->about_unsubscribe}</p>
+			</div>
+		</div>
 	</section>
 	<div class="x_clearfix btnArea">
 		<div class="x_pull-right">

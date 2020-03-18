@@ -1,0 +1,7 @@
+<table name="ncenterlite_unsubscribe">
+	<column name="unsubscribe_srl" type="number" size="11" notnull="notnull" primary_key="primary_key" />
+	<column name="member_srl" type="number" size="11" notnull="notnull" index="idx_member_srl" />
+	<column name="text" type="text" notnull="notnull" />
+	<column name="target_srl" type="number" size="11" notnull="notnull" />
+	<column name="unsubscribe_type" type="varchar" size="10" notnull="notnull" />
+</table>

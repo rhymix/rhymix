@@ -1,0 +1,8 @@
+<query id="deleteUnsubscribeBlock" action="delete">
+	<tables>
+		<table name="ncenterlite_unsubscribe" />
+	</tables>
+	<conditions>
+		<condition operation="equal" column="unsubscribe_srl" var="unsubscribe_srl" notnull="notnull" filter="number" />
+	</conditions>
+</query>

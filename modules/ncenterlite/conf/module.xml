@@ -4,6 +4,8 @@
 	<actions>
 		<action name="dispNcenterliteNotifyList" type="view" permission="member" />
 		<action name="dispNcenterliteUserConfig" type="view" permission="member" />
+		<action name="dispNcenterliteUnsubscribeList" type="view" />
+		<action name="dispNcenterliteInsertUnsubscribe" type="view" />
 		
 		<action name="getColorsetList" type="model" permission="root" />
 		<action name="getMyNotifyListTpl" type="model" permission="member" />
@@ -11,6 +13,7 @@
 		<action name="procNcenterliteUserConfig" type="controller" permission="member" />
 		<action name="procNcenterliteNotifyReadAll" type="controller" permission="member" />
 		<action name="procNcenterliteRedirect" type="controller" permission="member" method="GET|POST" />
+		<action name="procNcenterliteInsertUnsubscribe" type="controller" />
 		
 		<action name="dispNcenterliteAdminConfig" type="view" admin_index="true" menu_name="ncenterlite" menu_index="true" />
 		<action name="dispNcenterliteAdminAdvancedconfig" type="view" menu_name="ncenterlite" />

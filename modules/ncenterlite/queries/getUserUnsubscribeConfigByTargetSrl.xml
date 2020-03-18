@@ -1,0 +1,14 @@
+<query id="getUserUnsubscribeConfigByTargetSrl" action="select">
+	<tables>
+		<table name="ncenterlite_unsubscribe" />
+	</tables>
+
+	<columns>
+		<column name="*" />
+	</columns>
+
+	<conditions>
+		<condition operation="equal" column="target_srl" var="target_srl" filter="number" notnull="notnull" />
+		<condition operation="equal" column="member_srl" var="member_srl" filter="number" notnull="notnull" pipe="and" />
+	</conditions>
+</query>
