@@ -489,30 +489,26 @@ class HTMLDisplayHandler
 				$document_images = array();
 				if ($oDocument->hasUploadedFiles())
 				{
-					foreach ($oDocument->getUploadedFiles() as $file)
+					$document_files = $oDocument->getUploadedFiles();
+					usort($document_files, function($a, $b) {
+						return ord($b->cover_image) - ord($a->cover_image);
+					});
+					
+					foreach ($document_files as $file)
 					{
 						if ($file->isvalid !== 'Y' || !preg_match('/\.(?:bmp|gif|jpe?g|png)$/i', $file->uploaded_filename))
 						{
 							continue;
 						}
+						
 						list($width, $height) = @getimagesize($file->uploaded_filename);
 						if ($width < 100 && $height < 100)
 						{
 							continue;
 						}
-						$image = array('filepath' => $file->uploaded_filename, 'width' => $width, 'height' => $height);
-						if ($file->cover_image === 'Y')
-						{
-							array_unshift($document_images, $image);
-						}
-						else
-						{
-							$document_images[] = $image;
-						}
-						if (count($document_images) >= 1)
-						{
-							break;
-						}
+						
+						$document_images[] = array('filepath' => $file->uploaded_filename, 'width' => $width, 'height' => $height);
+						break;
 					}
 				}
 				Rhymix\Framework\Cache::set("seo:document_images:$document_srl", $document_images);
@@ -525,7 +521,7 @@ class HTMLDisplayHandler
 		
 		if ($document_images)
 		{
-			$first_image = reset($document_images);
+			$first_image = array_first($document_images);
 			$first_image['filepath'] = preg_replace('/^.\\/files\\//', \RX_BASEURL . 'files/', $first_image['filepath']);
 			Context::addOpenGraphData('og:image', Rhymix\Framework\URL::getCurrentDomainURL($first_image['filepath']));
 			Context::addOpenGraphData('og:image:width', $first_image['width']);
