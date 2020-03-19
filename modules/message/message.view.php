@@ -48,6 +48,12 @@ class messageView extends message
 			if(strncasecmp('https://', Context::getRequestUri(), 8) === 0) $ssl_mode = true;
 		}
 		
+		// Disable location if debug not available
+		if (!Rhymix\Framework\Debug::isEnabledForCurrentUser())
+		{
+			$location = null;
+		}
+		
 		// Remove basedir from location (if any)
 		if ($location && starts_with(\RX_BASEDIR, $location))
 		{
