@@ -56,6 +56,19 @@ class DisplayHandler extends Handler
 		{
 			$handler = new HTMLDisplayHandler();
 		}
+		
+		// Handle error location info
+		if ($location = $oModule->get('rx_error_location'))
+		{
+			if (!Rhymix\Framework\Debug::isEnabledForCurrentUser())
+			{
+				$oModule->unset('rx_error_location');
+			}
+			elseif (starts_with(\RX_BASEDIR, $location))
+			{
+				$oModule->add('rx_error_location', $location = substr($location, strlen(\RX_BASEDIR)));
+			}
+		}
 
 		$output = $handler->toDoc($oModule);
 

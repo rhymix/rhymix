@@ -281,6 +281,16 @@ class BaseObject
 	}
 
 	/**
+	 * Method to delete a key
+	 *
+	 * @return void
+	 */
+	function unset($key)
+	{
+		unset($this->variables[$key]);
+	}
+
+	/**
 	 * Method to return either true or false depnding on the value in a 'error' variable
 	 *
 	 * @return bool Retruns true : error isn't 0 or false : otherwise.
