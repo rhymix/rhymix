@@ -93,22 +93,25 @@ class FilenameFilter
 	 * Check if a file has an extension that would allow direct download.
 	 * 
 	 * @param string $filename
+	 * @param bool $include_multimedia (optional)
 	 * @return bool
 	 */
-	public static function isDirectDownload($filename)
+	public static function isDirectDownload($filename, $include_multimedia = true)
 	{
 		$images = 'gif|jpe?g|png|webp';
 		$audios = 'mp3|wav|ogg|flac|aac';
 		$videos = 'mp4|webm|ogv';
 		$legacy = 'avi|as[fx]|flv|m4[av]|midi?|mkv|moo?v|mpe?g|qt|r[am]m?|wm[av]';
 		
-		if (preg_match(sprintf('/\.(?:%s|%s|%s|%s)$/i', $images, $audios, $videos, $legacy), $filename))
+		if ($include_multimedia)
 		{
-			return true;
+			$pattern = sprintf('/\.(?:%s|%s|%s|%s)$/i', $images, $audios, $videos, $legacy);
 		}
 		else
 		{
-			return false;
+			$pattern = sprintf('/\.(?:%s)$/i', $images);
 		}
+		
+		return preg_match($pattern, $filename) ? true : false;
 	}
 }

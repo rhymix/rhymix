@@ -91,5 +91,10 @@ class FilenameFilterTest extends \Codeception\TestCase\Test
 		$this->assertFalse(FilenameFilter::isDirectDownload(''));
 		$this->assertFalse(FilenameFilter::isDirectDownload('http://www.google.com'));
 		$this->assertFalse(FilenameFilter::isDirectDownload('/'));
+		
+		$this->assertTrue(FilenameFilter::isDirectDownload('foobar.jpg', false));
+		$this->assertTrue(FilenameFilter::isDirectDownload('foobar.webp', false));
+		$this->assertFalse(FilenameFilter::isDirectDownload('foobar.mp4', false));
+		$this->assertFalse(FilenameFilter::isDirectDownload('foobar.webm', false));
 	}
 }
