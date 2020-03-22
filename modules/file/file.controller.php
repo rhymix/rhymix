@@ -955,7 +955,15 @@ class fileController extends file
 		{
 			$storage_path = $this->getStoragePath('binaries', $args->file_srl, $module_srl, $upload_target_srl, $args->regdate);
 		}
-		$args->direct_download = $direct ? 'Y' : 'N';
+		
+		if($config->allow_multimedia_direct_download !== 'N')
+		{
+			$args->direct_download = $direct ? 'Y' : 'N';
+		}
+		else
+		{
+			$args->direct_download = Rhymix\Framework\Filters\FilenameFilter::isDirectDownload($args->source_filename, false) ? 'Y' : 'N';
+		}
 		
 		// Create a directory
 		if(!Rhymix\Framework\Storage::isDirectory($storage_path) && !Rhymix\Framework\Storage::createDirectory($storage_path))

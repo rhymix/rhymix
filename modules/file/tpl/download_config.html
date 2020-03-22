@@ -31,6 +31,14 @@
 		</div>
 	</div>
 	<div class="x_control-group">
+		<label class="x_control-label">{$lang->allow_multimedia_direct_download}</label>
+		<div class="x_controls">
+			<label class="x_inline"><input type="radio" name="allow_multimedia_direct_download" value="Y" checked="checked"|cond="$config->allow_multimedia_direct_download !== 'N'" /> {$lang->cmd_yes}</label>
+			<label class="x_inline"><input type="radio" name="allow_multimedia_direct_download" value="N" checked="checked"|cond="$config->allow_multimedia_direct_download === 'N'" /> {$lang->cmd_no}</label>
+			<p class="x_help-block">{$lang->about_allow_multimedia_direct_download}</p>
+		</div>
+	</div>
+	<div class="x_control-group">
 		<label class="x_control-label">{$lang->download_short_url}</label>
 		<div class="x_controls">
 			<label class="x_inline"><input type="radio" name="download_short_url" value="Y" checked="checked"|cond="$config->download_short_url === 'Y' && config('use_rewrite')" disabled="disabled"|cond="!config('use_rewrite')" /> {$lang->cmd_yes}</label>
