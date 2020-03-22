@@ -20,6 +20,15 @@
 			</div>
 		</div>
 		<div class="x_control-group">
+			<label for="comment_count" class="x_control-label">{$lang->comment_default_page}</label>
+			<div class="x_controls">
+				<select name="default_page" id="default_page">
+					<option value="first" selected="selected"|cond="$comment_config->default_page === 'first'">{$lang->comment_default_page_first}</option>
+					<option value="last" selected="selected"|cond="$comment_config->default_page !== 'first'">{$lang->comment_default_page_last}</option>
+				</select>
+			</div>
+		</div>
+		<div class="x_control-group">
 			<label for="use_vote_up" class="x_control-label">{$lang->cmd_vote}</label>
 			<div class="x_controls">
 				<select name="use_vote_up" id="use_vote_up">

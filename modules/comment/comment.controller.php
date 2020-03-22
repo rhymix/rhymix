@@ -1747,6 +1747,12 @@ class commentController extends comment
 			$comment_config->comment_page_count = 10;
 		}
 
+		$comment_config->default_page = Context::get('default_page');
+		if($comment_config->default_page !== 'first')
+		{
+			$comment_config->default_page = 'last';
+		}
+
 		$comment_config->use_vote_up = Context::get('use_vote_up');
 		if(!$comment_config->use_vote_up)
 		{

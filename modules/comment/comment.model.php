@@ -491,7 +491,11 @@ class commentModel extends comment
 
 		// get a very last page if no page exists
 		$total_pages = max(1, ceil($document_comment_count / $comment_count));
-		if(!$page || $page > $total_pages)
+		if(!$page)
+		{
+			$page = (isset($comment_config->default_page) && $comment_config->default_page === 'first') ? 1 : $total_pages;
+		}
+		if($page > $total_pages)
 		{
 			$page = $total_pages;
 		}
