@@ -74,7 +74,7 @@
 			</div>
 		</div>
 		<div class="x_control-group">
-			<label class="x_control-label" for="debug_log_slow_widgets">{$lang->debug_display_to}</label>
+			<label class="x_control-label">{$lang->debug_display_to}</label>
 			<div class="x_controls">
 				<label for="debug_display_to_admin" class="x_inline"><input type="radio" name="debug_display_to" id="debug_display_to_admin" value="admin" checked="checked"|cond="$debug_display_to=='admin'" /> {$lang->debug_display_to_admin}</label>
 				<label for="debug_display_to_ip" class="x_inline"><input type="radio" name="debug_display_to" id="debug_display_to_ip" value="ip" checked="checked"|cond="$debug_display_to=='ip'" /> {$lang->debug_display_to_ip}</label>
@@ -88,11 +88,13 @@
 			</div>
 		</div>
 		<div class="x_control-group">
-			<label class="x_control-label" for="debug_log_slow_widgets">{$lang->debug_write_error_log}</label>
+			<label class="x_control-label">{$lang->debug_write_error_log}</label>
 			<div class="x_controls">
 				<label for="debug_write_error_log_all" class="x_inline"><input type="radio" name="debug_write_error_log" id="debug_write_error_log_all" value="all" checked="checked"|cond="$debug_write_error_log=='all'" /> {$lang->debug_write_error_log_all}</label>
 				<label for="debug_write_error_log_fatal" class="x_inline"><input type="radio" name="debug_write_error_log" id="debug_write_error_log_fatal" value="fatal" checked="checked"|cond="$debug_write_error_log=='fatal' || !$debug_write_error_log" /> {$lang->debug_write_error_log_fatal}</label>
 				<label for="debug_write_error_log_none" class="x_inline"><input type="radio" name="debug_write_error_log" id="debug_write_error_log_none" value="none" checked="checked"|cond="$debug_write_error_log=='none'" /> {$lang->debug_write_error_log_none}</label>
+				<p class="x_help-block">{$lang->about_debug_write_error_log}</p>
+				<p class="x_help-block">{sprintf($lang->about_debug_error_log_path, escape(ini_get('error_log')))}</p>
 			</div>
 		</div>
 		<div class="x_clearfix btnArea">
