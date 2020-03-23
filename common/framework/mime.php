@@ -195,6 +195,12 @@ class MIME
 		'rar' => ['application/x-rar-compressed'],
 		'zip' => ['application/x-zip'],
 		
+		// Executables and packages.
+		'apk' => ['application/vnd.android.package-archive'],
+		'pkg' => ['application/x-newton-compatible-pkg'],
+		'exe' => ['application/vnd.microsoft.portable-executable'],
+		'msi' => ['application/x-msdownload'],
+		
 		// RFC822 email message.
 		'eml' => ['message/rfc822'],
 	);
