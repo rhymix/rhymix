@@ -525,7 +525,7 @@ class fileController extends file
 		while(ob_get_level()) ob_end_clean();
 		
 		// Set filename headers
-		header('Content-Type: ' . ($download_type === 'inline' ? $mime_type : 'application/octet-stream'));
+		header('Content-Type: ' . $mime_type);
 		header('Content-Disposition: ' . $download_type . $filename_param);
 		
 		// Set cache headers
@@ -534,7 +534,6 @@ class fileController extends file
 		header('Pragma: ');
 		
 		// Set other headers
-		header('Content-Transfer-Encoding: binary');
 		header('Content-Length: ' . $range_length);
 		header('Accept-Ranges: bytes');
 		header('Etag: "' . $etag . '"');
