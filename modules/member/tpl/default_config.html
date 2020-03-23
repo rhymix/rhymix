@@ -21,6 +21,19 @@
 		</div>
 	</div>
 	<div class="x_control-group">
+		<label class="x_control-label">{$lang->cmd_authmail_expires}</label>
+		<div class="x_controls">
+			<input type="number" name="authmail_expires" value="{$config->authmail_expires ?: 1}" />
+			<select name="authmail_expires_unit" style="width:auto;min-width:0">
+				<option value="86400" selected="selected"|cond="$config->authmail_expires_unit == 86400">{$lang->unit_day}</option>
+				<option value="3600" selected="selected"|cond="$config->authmail_expires_unit == 3600">{$lang->unit_hour}</option>
+				<option value="60" selected="selected"|cond="$config->authmail_expires_unit == 60">{$lang->unit_min}</option>
+				<option value="1" selected="selected"|cond="$config->authmail_expires_unit == 1">{$lang->unit_sec}</option>
+			</select>
+			<p class="x_help-block">{$lang->about_authmail_expires}</p>
+		</div>
+	</div>
+	<div class="x_control-group">
 		<div class="x_control-label">{$lang->cmd_member_profile_view}</div>
 		<div class="x_controls">
 			<label class="x_inline" for="member_profile_view_yes"><input type="radio" name="member_profile_view" id="member_profile_view_yes" value="Y" checked="checked"|cond="$config->member_profile_view == 'Y'" /> {$lang->cmd_yes}</label>

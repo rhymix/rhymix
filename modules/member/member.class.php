@@ -69,6 +69,8 @@ class member extends ModuleObject {
 		if(!$config->profile_image_max_width) $config->profile_image_max_width = '90';
 		if(!$config->profile_image_max_height) $config->profile_image_max_height = '90';
 		if($config->group_image_mark!='Y') $config->group_image_mark = 'N';
+		if(!$config->authmail_expires) $config->authmail_expires = 3;
+		if(!$config->authmail_expires_unit) $config->authmail_expires_unit = 86400;
 		if(!$config->password_strength) $config->password_strength = 'normal';
 		
 		if(!$config->password_hashing_algorithm)

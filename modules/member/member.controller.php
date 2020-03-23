@@ -1660,7 +1660,8 @@ class memberController extends member
 	function procMemberAuthAccount()
 	{
 		$oMemberModel = getModel('member');
-
+		$config = $oMemberModel->getMemberConfig();
+		
 		// Test user_id and authkey
 		$member_srl = Context::get('member_srl');
 		$auth_key = Context::get('auth_key');
@@ -1692,7 +1693,8 @@ class memberController extends member
 			throw new Rhymix\Framework\Exception('msg_invalid_auth_key');
 		}
 
-		if(ztime($output->data->regdate) < time() - (86400 * 3))
+		$expires = (intval($config->authmail_expires) * intval($config->authmail_expires_unit)) ?: 86400;
+		if(ztime($output->data->regdate) < time() - $expires)
 		{
 			executeQuery('member.deleteAuthMail', $args);
 			throw new Rhymix\Framework\Exception('msg_expired_auth_key');
@@ -1717,8 +1719,9 @@ class memberController extends member
 			return $output;
 		}
 
-		// Remove all values having the member_srl from authentication table
-		executeQuery('member.deleteAuthMail',$args);
+		// 인증 정보를 여기서 삭제하지 않고 로그인 시점에 삭제되도록 함
+		// https://github.com/rhymix/rhymix/issues/1232
+		// executeQuery('member.deleteAuthMail', $args);
 
 		$this->_clearMemberCache($args->member_srl);
 

@@ -195,6 +195,8 @@ class memberAdminController extends member
 		$args = Context::gets(
 			'enable_join',
 			'enable_confirm',
+			'authmail_expires',
+			'authmail_expires_unit',
 			'password_strength',
 			'password_hashing_algorithm',
 			'password_hashing_work_factor',
@@ -205,6 +207,17 @@ class memberAdminController extends member
 			'member_profile_view'
 		);
 		
+		$args->authmail_expires = max(0, intval($args->authmail_expires));
+		if(!$args->authmail_expires)
+		{
+			$args->authmail_expires = 1;
+		}
+		$args->authmail_expires_unit = intval($args->authmail_expires_unit);
+		if(!in_array($args->authmail_expires_unit, [1, 60, 3600, 86400]))
+		{
+			$args->authmail_expires_unit = 86400;
+		}
+			
 		if(!array_key_exists($args->password_hashing_algorithm, Rhymix\Framework\Password::getSupportedAlgorithms()))
 		{
 			$args->password_hashing_algorithm = 'md5';
