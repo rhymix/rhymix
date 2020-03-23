@@ -98,7 +98,7 @@
 				<div class="x_control-group hidden-by-default show-for-{$driver_name}">
 					<label class="x_control-label" for="mail_{$driver_name}_smtp_port">{$lang->cmd_advanced_mailer_smtp_port}</label>
 					<div class="x_controls">
-						<input type="text" name="mail_{$driver_name}_smtp_port" id="mail_{$driver_name}_smtp_port" value="{$conf_value}" />
+						<input type="text" name="mail_{$driver_name}_smtp_port" id="mail_{$driver_name}_smtp_port" value="{$conf_value ?: '465'}" />
 					</div>
 				</div>
 				<!--@end-->
@@ -107,9 +107,9 @@
 				<div class="x_control-group hidden-by-default show-for-{$driver_name}">
 					<label class="x_control-label">{$lang->cmd_advanced_mailer_smtp_security}</label>
 					<div class="x_controls">
-						<label class="x_inline" for="mail_{$driver_name}_security_none"><input type="radio" name="mail_{$driver_name}_smtp_security" id="mail_{$driver_name}_security_none" value="none" checked="checked"|cond="!in_array($conf_value, array('ssl', 'tls'))" /> {$lang->cmd_advanced_mailer_smtp_security_none}</label>
-						<label class="x_inline" for="mail_{$driver_name}_security_ssl"><input type="radio" name="mail_{$driver_name}_smtp_security" id="mail_{$driver_name}_security_ssl" value="ssl" checked="checked"|cond="$conf_value === 'ssl'" /> {$lang->cmd_advanced_mailer_smtp_security_ssl}</label>
+						<label class="x_inline" for="mail_{$driver_name}_security_ssl"><input type="radio" name="mail_{$driver_name}_smtp_security" id="mail_{$driver_name}_security_ssl" value="ssl" checked="checked"|cond="$conf_value === 'ssl' || !$conf_value" /> {$lang->cmd_advanced_mailer_smtp_security_ssl}</label>
 						<label class="x_inline" for="mail_{$driver_name}_security_tls"><input type="radio" name="mail_{$driver_name}_smtp_security" id="mail_{$driver_name}_security_tls" value="tls" checked="checked"|cond="$conf_value === 'tls'" /> {$lang->cmd_advanced_mailer_smtp_security_tls}</label>
+						<label class="x_inline" for="mail_{$driver_name}_security_none"><input type="radio" name="mail_{$driver_name}_smtp_security" id="mail_{$driver_name}_security_none" value="none" checked="checked"|cond="$conf_value === 'none'" /> {$lang->cmd_advanced_mailer_smtp_security_none}</label>
 					</div>
 				</div>
 				<!--@end-->
