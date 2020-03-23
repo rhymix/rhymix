@@ -92,6 +92,9 @@ class memberAdminModel extends member
 				case 'regdate_less' :
 					$args->s_regdate_less = substr(preg_replace("/[^0-9]/","",$search_keyword) . '00000000000000',0,14);
 					break;
+				case 'ipaddress' :
+					$args->s_ipaddress = preg_replace('/[^0-9a-z.:]/', '', $search_keyword) . '%';
+					break;
 				case 'last_login' :
 					$args->s_last_login = preg_replace("/[^0-9]/","",$search_keyword);
 					//$args->s_last_login = $search_keyword;
@@ -101,6 +104,9 @@ class memberAdminModel extends member
 					break;
 				case 'last_login_less' :
 					$args->s_last_login_less = substr(preg_replace("/[^0-9]/","",$search_keyword) . '00000000000000',0,14);
+					break;
+				case 'last_login_ipaddress' :
+					$args->s_last_login_ipaddress = preg_replace('/[^0-9a-z.:]/', '', $search_keyword) . '%';
 					break;
 				case 'birthday' :
 					$args->s_birthday = preg_replace("/[^0-9]/","",$search_keyword);
