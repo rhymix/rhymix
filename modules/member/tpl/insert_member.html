@@ -90,12 +90,18 @@
 		<label class="x_control-label">{$lang->signup_date}</label>
 		<div class="x_controls">
 			<input type="text" readonly value="{zdate($member_info->regdate, 'Y-m-d H:i:s')}" />
+			<!--@if($member_info->ipaddress)-->
+				<input type="text" readonly value="{$member_info->ipaddress}" />
+			<!--@end-->
 		</div>
 	</div>
 	<div class="x_control-group" cond="$member_srl">
 		<label class="x_control-label">{$lang->last_login}</label>
 		<div class="x_controls">
 			<input type="text" readonly value="{zdate($member_info->last_login, 'Y-m-d H:i:s')}" />
+			<!--@if($member_info->last_login_ipaddress)-->
+				<input type="text" readonly value="{$member_info->last_login_ipaddress}" />
+			<!--@end-->
 		</div>
 	</div>
 	<div class="x_control-group" cond="$member_srl">
