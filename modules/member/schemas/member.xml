@@ -18,9 +18,11 @@
     <column name="allow_mailing" type="char" size="1" default="Y" notnull="notnull" index="idx_allow_mailing" />
     <column name="allow_message" type="char" size="1" default="Y" notnull="notnull" />
     <column name="denied" type="char" size="1" default="N" index="idx_is_denied" />
-    <column name="limit_date" type="date" />
     <column name="regdate" type="date" index="idx_regdate" />
+	<column name="ipaddress" type="varchar" size="128" index="idx_ipaddress" />
     <column name="last_login" type="date" index="idx_last_login" />
+	<column name="last_login_ipaddress" type="varchar" size="128" index="idx_last_login_ipaddress" />
+    <column name="limit_date" type="date" />
     <column name="change_password_date" type="date" />
     <column name="is_admin" type="char" size="1" default="N" index="idx_is_admin" />
     <column name="description" type="text" />

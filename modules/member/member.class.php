@@ -208,6 +208,12 @@ class member extends ModuleObject {
 		if(!$oDB->isColumnExists("member", "phone_type")) return true;
 		if(!$oDB->isIndexExists("member","idx_phone_type")) return true;
 		
+		// Add columns for IP address
+		if(!$oDB->isColumnExists("member", "ipaddress")) return true;
+		if(!$oDB->isIndexExists("member","idx_ipaddress")) return true;
+		if(!$oDB->isColumnExists("member", "last_login_ipaddress")) return true;
+		if(!$oDB->isIndexExists("member","idx_last_login_ipaddress")) return true;
+		
 		// Add column for list order
 		if(!$oDB->isColumnExists("member", "list_order")) return true;
 		if(!$oDB->isIndexExists("member","idx_list_order")) return true;
@@ -382,6 +388,24 @@ class member extends ModuleObject {
 		if(!$oDB->isIndexExists("member","idx_phone_type"))
 		{
 			$oDB->addIndex("member","idx_phone_type", array("phone_type"));
+		}
+		
+		// Add columns for IP address
+		if(!$oDB->isColumnExists("member", "ipaddress"))
+		{
+			$oDB->addColumn("member", "ipaddress", "varchar", 120, null, false, 'regdate');
+		}
+		if(!$oDB->isColumnExists("member", "last_login_ipaddress"))
+		{
+			$oDB->addColumn("member", "last_login_ipaddress", "varchar", 120, null, false, 'last_login');
+		}
+		if(!$oDB->isIndexExists("member","idx_ipaddress"))
+		{
+			$oDB->addIndex("member","idx_ipaddress", array("ipaddress"));
+		}
+		if(!$oDB->isIndexExists("member","idx_last_login_ipaddress"))
+		{
+			$oDB->addIndex("member","idx_last_login_ipaddress", array("last_login_ipaddress"));
 		}
 
 		// Add column for list order
