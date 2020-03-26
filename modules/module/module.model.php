@@ -177,10 +177,11 @@ class moduleModel extends module
 	/**
 	 * @brief Get the default mid according to the domain
 	 */
-	function getDefaultMid()
+	function getDefaultMid($domain = null)
 	{
 		// Get current domain.
-		$domain = strtolower(preg_replace('/:\d+$/', '', $_SERVER['HTTP_HOST']));
+		$domain = $domain ?: strtolower(preg_replace('/:\d+$/', '', $_SERVER['HTTP_HOST']));
+		$domain = Rhymix\Framework\URL::decodeIdna($domain);
 		
 		// Find the domain information.
 		$domain_info = $this->getSiteInfoByDomain($domain);
