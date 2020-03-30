@@ -22,9 +22,9 @@
 			</td>
 			<td>
 				<!--@if($val->unsubscribe_type == 'document')-->
-				<a href="{getUrl('', 'document_srl', $val->target_srl)}">{$val->text}</a>
+				<a href="{getUrl('', 'document_srl', $val->target_srl)}">{escape($val->text, false)}</a>
 				<!--@else-->
-				<a href="{getUrl('', 'document_srl', $val->document_srl)}#{$val->target_srl}">{$val->text}</a>
+				<a href="{getUrl('', 'document_srl', $val->document_srl)}#{$val->target_srl}">{escape($val->text, false)}</a>
 				<!--@end-->
 			</td>
 			<td>

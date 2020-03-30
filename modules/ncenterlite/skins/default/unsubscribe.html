@@ -32,9 +32,9 @@
 				<div class="controls">
 					<p>
 						<!--@if($unsubscribeData)-->
-						{$unsubscribeData->text}
+						{escape($unsubscribeData->text, false)}
 						<!--@else-->
-						{$text}
+						{escape($text, false)}
 						<!--@end-->
 					</p>
 				</div>

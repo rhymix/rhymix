@@ -105,7 +105,8 @@ class ncenterliteController extends ncenterlite
 		else
 		{
 			$comment = getModel('comment')->getComment($obj->target_srl);
-			$text = cut_str($comment->get('content'), 30);
+			$contentString = $comment->getContentText(30);
+			$text = strlen($contentString) ? $contentString : '내용없음';
 		}
 		
 		$args = new stdClass();
