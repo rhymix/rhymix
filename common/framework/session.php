@@ -295,7 +295,7 @@ class Session
 		if(!$is_default_domain && !\Context::get('sso_response') && $_COOKIE['sso'] !== md5($current_domain))
 		{
 			// Set sso cookie to prevent multiple simultaneous SSO validation requests.
-			setcookie('sso', md5($current_domain), 0, '/', null, !!config('session.use_ssl'), true);
+			setcookie('sso', md5($current_domain), 0, '/', $domain, !!config('session.use_ssl'), true);
 			
 			// Redirect to the default site.
 			$sso_request = Security::encrypt($current_url);
@@ -501,10 +501,10 @@ class Session
 		// Delete all cookies.
 		self::_setKeys();
 		self::destroyAutologinKeys();
-		setcookie(session_name(), 'deleted', time() - 86400, $path, null, false, false);
-		setcookie('xe_logged', 'deleted', time() - 86400, $path, null, false, false);
-		setcookie('xeak', 'deleted', time() - 86400, $path, null, false, false);
-		setcookie('sso', 'deleted', time() - 86400, $path, null, false, false);
+		setcookie(session_name(), 'deleted', time() - 86400, $path, $domain, false, false);
+		setcookie('xe_logged', 'deleted', time() - 86400, $path, $domain, false, false);
+		setcookie('xeak', 'deleted', time() - 86400, $path, $domain, false, false);
+		setcookie('sso', 'deleted', time() - 86400, $path, $domain, false, false);
 		self::destroyCookiesFromConflictingDomains(array('xe_logged', 'xeak', 'sso'));
 		unset($_COOKIE[session_name()]);
 		unset($_COOKIE['rx_autologin']);
@@ -1084,19 +1084,19 @@ class Session
 		// Set or destroy the HTTP-only key.
 		if (isset($_SESSION['RHYMIX']['keys'][$domain]['key1']))
 		{
-			setcookie('rx_sesskey1', $_SESSION['RHYMIX']['keys'][$domain]['key1'], $lifetime, $path, null, $ssl_only, true);
+			setcookie('rx_sesskey1', $_SESSION['RHYMIX']['keys'][$domain]['key1'], $lifetime, $path, $domain, $ssl_only, true);
 			$_COOKIE['rx_sesskey1'] = $_SESSION['RHYMIX']['keys'][$domain]['key1'];
 		}
 		else
 		{
-			setcookie('rx_sesskey1', 'deleted', time() - 86400, $path);
+			setcookie('rx_sesskey1', 'deleted', time() - 86400, $path, $domain);
 			unset($_COOKIE['rx_sesskey1']);
 		}
 		
 		// Set the HTTPS-only key.
 		if (\RX_SSL && isset($_SESSION['RHYMIX']['keys'][$domain]['key2']))
 		{
-			setcookie('rx_sesskey2', $_SESSION['RHYMIX']['keys'][$domain]['key2'], $lifetime, $path, null, true, true);
+			setcookie('rx_sesskey2', $_SESSION['RHYMIX']['keys'][$domain]['key2'], $lifetime, $path, $domain, true, true);
 			$_COOKIE['rx_sesskey2'] = $_SESSION['RHYMIX']['keys'][$domain]['key2'];
 		}
 		
@@ -1122,7 +1122,7 @@ class Session
 		// Set the autologin keys.
 		if ($autologin_key && $security_key)
 		{
-			setcookie('rx_autologin', $autologin_key . $security_key, $lifetime, $path, null, $ssl_only, true);
+			setcookie('rx_autologin', $autologin_key . $security_key, $lifetime, $path, $domain, $ssl_only, true);
 			self::destroyCookiesFromConflictingDomains(array('rx_autologin'));
 			$_COOKIE['rx_autologin'] = $autologin_key . $security_key;
 			return true;
@@ -1156,7 +1156,7 @@ class Session
 		}
 		
 		// Delete the autologin cookie.
-		setcookie('rx_autologin', 'deleted', time() - 86400, $path, null, false, false);
+		setcookie('rx_autologin', 'deleted', time() - 86400, $path, $domain, false, false);
 		self::destroyCookiesFromConflictingDomains(array('rx_autologin'));
 		unset($_COOKIE['rx_autologin']);
 		return $result;
@@ -1211,15 +1211,19 @@ class Session
 	 */
 	public static function destroyCookiesFromConflictingDomains(array $cookies)
 	{
-		$override_domains = config('session.override_domains');
-		if (!$override_domains)
+		static $conflict_domains = null;
+		if ($conflict_domains === null)
+		{
+			$conflict_domains = config('session.conflict_domains') ?: array();
+		}
+		if (!count($conflict_domains))
 		{
 			return false;
 		}
 		
 		foreach ($cookies as $cookie)
 		{
-			foreach ($override_domains as $domain)
+			foreach ($conflict_domains as $domain)
 			{
 				setcookie($cookie, 'deleted', time() - 86400, $path, $domain);
 			}
