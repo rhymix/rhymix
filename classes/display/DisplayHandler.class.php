@@ -171,6 +171,10 @@ class DisplayHandler extends Handler
 		
 		// Do not display debugging information if there is no output.
 		$display_types = config('debug.display_type');
+		if ($display_types === null)
+		{
+			return;
+		}
 		if (!is_array($display_types))
 		{
 			$display_types = array($display_types);
