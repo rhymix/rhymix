@@ -817,7 +817,7 @@ class adminAdminController extends admin
 		$vars = Context::getRequestVars();
 		
 		// Save display type settings
-		$display_type = array_values(array_filter($vars->debug_display_type, function($str) {
+		$display_type = array_values(array_filter($vars->debug_display_type ?: [], function($str) {
 			return in_array($str, ['panel', 'comment', 'file']);
 		}));
 		
