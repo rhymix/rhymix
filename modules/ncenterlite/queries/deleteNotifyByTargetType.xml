@@ -4,9 +4,10 @@
 	</tables>
 
 	<conditions>
-		<condition operation="equal" column="srl" var="srl" filter="number" notnull="notnull" />
-		<condition operation="equal" column="target_srl" var="target_srl" filter="number" notnull="notnull" pipe="and" />
-		<condition operation="equal" column="type" var="type" notnull="notnull" pipe="and" />
 		<condition operation="equal" column="target_type" var="target_type" notnull="notnull" pipe="and" />
+		<condition operation="equal" column="target_srl" var="target_srl" filter="number" pipe="and" />
+		<condition operation="equal" column="target_member_srl" var="target_member_srl" filter="number" pipe="and" />
+		<condition operation="equal" column="srl" var="srl" filter="number" pipe="and" />
+		<condition operation="equal" column="type" var="type" pipe="and" />
 	</conditions>
 </query>

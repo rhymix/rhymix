@@ -570,7 +570,6 @@ class ncenterliteController extends ncenterlite
 		{
 			return;
 		}
-
 		if($config->user_notify_setting == 'Y' && $oNcenterliteModel->getUserConfig($obj->member_srl)->data->vote_notify == 'N')
 		{
 			return;
@@ -591,13 +590,41 @@ class ncenterliteController extends ncenterlite
 		$args->regdate = date('YmdHis');
 		$args->notify = $this->_getNotifyId($args);
 		$args->target_url = getNotEncodedUrl('', 'document_srl', $obj->document_srl);
-		$output = $this->_insertNotify($args);
-		if(!$output->toBool())
+		$this->_insertNotify($args);
+	}
+	
+	function triggerAfterDocumentVotedCancel($obj)
+	{
+		$oNcenterliteModel = getModel('ncenterlite');
+		$config = $oNcenterliteModel->getConfig();
+		if(!isset($config->use['vote']))
 		{
-			return $output;
+			return;
+		}
+		if($obj->point < 0)
+		{
+			return;
+		}
+		if($config->user_notify_setting == 'Y' && $oNcenterliteModel->getUserConfig($obj->member_srl)->data->vote_notify == 'N')
+		{
+			return;
+		}
+		if(!$this->user->member_srl)
+		{
+			return;
+		}
+		$args = new stdClass();
+		$args->type = $this->_TYPE_DOCUMENT;
+		$args->target_type = $this->_TYPE_VOTED;
+		$args->target_srl = $obj->document_srl;
+		$args->target_member_srl = $this->user->member_srl;
+		$output = executeQuery('ncenterlite.deleteNotifyByTargetType', $args);
+		if($output->toBool())
+		{
+			$this->removeFlagFile($obj->member_srl);
 		}
 	}
-
+	
 	function triggerAfterCommentVotedCount($obj)
 	{
 		$oNcenterliteModel = getModel('ncenterlite');
@@ -610,18 +637,17 @@ class ncenterliteController extends ncenterlite
 		{
 			return;
 		}
-
 		if($config->user_notify_setting == 'Y' && $oNcenterliteModel->getUserConfig($obj->member_srl)->data->vote_notify == 'N')
 		{
 			return;
 		}
-
-		$oCommentModel = new commentModel();
+		
+		$oCommentModel = getModel('comment');
 		$oComment = $oCommentModel->getComment($obj->comment_srl);
-
+		
 		$content = $oComment->get('content');
 		$document_srl = $oComment->get('document_srl');
-
+		
 		$args = new stdClass();
 		$args->config_type = 'vote';
 		$args->member_srl = $obj->member_srl;
@@ -634,33 +660,38 @@ class ncenterliteController extends ncenterlite
 		$args->regdate = date('YmdHis');
 		$args->notify = $this->_getNotifyId($args);
 		$args->target_url = getNotEncodedUrl('', 'document_srl', $document_srl, 'comment_srl', $obj->comment_srl) . '#comment_' . $obj->comment_srl;
-		$output = $this->_insertNotify($args);
-		if(!$output->toBool())
-		{
-			return $output;
-		}
+		$this->_insertNotify($args);
 	}
 
 	function triggerAfterCommentVotedCancel($obj)
 	{
-		$oCommentModel = new commentModel();
-		$oComment = $oCommentModel->getComment($obj->comment_srl);
-
-		$document_srl = $oComment->get('document_srl');
-
+		$oNcenterliteModel = getModel('ncenterlite');
+		$config = $oNcenterliteModel->getConfig();
+		if(!isset($config->use['vote']))
+		{
+			return;
+		}
+		if($obj->point < 0)
+		{
+			return;
+		}
+		if($config->user_notify_setting == 'Y' && $oNcenterliteModel->getUserConfig($obj->member_srl)->data->vote_notify == 'N')
+		{
+			return;
+		}
+		if(!$this->user->member_srl)
+		{
+			return;
+		}
 		$args = new stdClass();
 		$args->type = $this->_TYPE_COMMENT;
 		$args->target_type = $this->_TYPE_VOTED;
 		$args->target_srl = $obj->comment_srl;
-		$args->srl = $document_srl;
+		$args->target_member_srl = $this->user->member_srl;
 		$output = executeQuery('ncenterlite.deleteNotifyByTargetType', $args);
 		if($output->toBool())
 		{
 			$this->removeFlagFile($obj->member_srl);
-		}
-		else
-		{
-			return $output;
 		}
 	}
 

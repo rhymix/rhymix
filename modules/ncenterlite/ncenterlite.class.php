@@ -25,6 +25,7 @@ class ncenterlite extends ModuleObject
 		array('member.deleteMember', 'ncenterlite', 'controller', 'triggerAfterDeleteMember', 'after'),
 		array('communication.sendMessage', 'ncenterlite', 'controller', 'triggerAfterSendMessage', 'after'),
 		array('document.updateVotedCount', 'ncenterlite', 'controller', 'triggerAfterDocumentVotedUpdate', 'after'),
+		array('document.updateVotedCountCancel', 'ncenterlite', 'controller', 'triggerAfterDocumentVotedCancel', 'after'),
 		array('member.procMemberScrapDocument', 'ncenterlite', 'controller', 'triggerAfterScrap', 'after'),
 		array('moduleHandler.init', 'ncenterlite', 'controller', 'triggerAddMemberMenu', 'after'),
 		array('document.moveDocumentToTrash', 'ncenterlite', 'controller', 'triggerAfterMoveToTrash', 'after'),
