@@ -800,7 +800,7 @@ class Session
 		}
 		else
 		{
-			self::$_domain = ini_get('session.cookie_domain') ?: preg_replace('/:\\d+$/', '', strtolower($_SERVER['HTTP_HOST']));
+			self::$_domain = ltrim(ini_get('session.cookie_domain'), '.') ?: preg_replace('/:\\d+$/', '', strtolower($_SERVER['HTTP_HOST']));
 			return self::$_domain;
 		}
 	}
