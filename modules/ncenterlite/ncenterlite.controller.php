@@ -605,14 +605,11 @@ class ncenterliteController extends ncenterlite
 		{
 			return;
 		}
-		if($config->user_notify_setting == 'Y' && $oNcenterliteModel->getUserConfig($obj->member_srl)->data->vote_notify == 'N')
-		{
-			return;
-		}
 		if(!$this->user->member_srl)
 		{
 			return;
 		}
+		
 		$args = new stdClass();
 		$args->type = $this->_TYPE_DOCUMENT;
 		$args->target_type = $this->_TYPE_VOTED;
@@ -675,14 +672,11 @@ class ncenterliteController extends ncenterlite
 		{
 			return;
 		}
-		if($config->user_notify_setting == 'Y' && $oNcenterliteModel->getUserConfig($obj->member_srl)->data->vote_notify == 'N')
-		{
-			return;
-		}
 		if(!$this->user->member_srl)
 		{
 			return;
 		}
+		
 		$args = new stdClass();
 		$args->type = $this->_TYPE_COMMENT;
 		$args->target_type = $this->_TYPE_VOTED;
