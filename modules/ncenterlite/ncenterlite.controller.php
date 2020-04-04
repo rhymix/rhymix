@@ -566,7 +566,7 @@ class ncenterliteController extends ncenterlite
 		{
 			return;
 		}
-		if($obj->point < 0)
+		if($obj->update_target !== 'voted_count')
 		{
 			return;
 		}
@@ -597,11 +597,11 @@ class ncenterliteController extends ncenterlite
 	{
 		$oNcenterliteModel = getModel('ncenterlite');
 		$config = $oNcenterliteModel->getConfig();
-		if(!isset($config->use['vote']))
+		if(empty($config->use))
 		{
 			return;
 		}
-		if($obj->point < 0)
+		if($obj->update_target !== 'voted_count')
 		{
 			return;
 		}
@@ -630,7 +630,7 @@ class ncenterliteController extends ncenterlite
 		{
 			return;
 		}
-		if($obj->point < 0)
+		if($obj->update_target !== 'voted_count')
 		{
 			return;
 		}
@@ -664,11 +664,11 @@ class ncenterliteController extends ncenterlite
 	{
 		$oNcenterliteModel = getModel('ncenterlite');
 		$config = $oNcenterliteModel->getConfig();
-		if(!isset($config->use['vote']))
+		if(empty($config->use))
 		{
 			return;
 		}
-		if($obj->point < 0)
+		if($obj->update_target !== 'voted_count')
 		{
 			return;
 		}
