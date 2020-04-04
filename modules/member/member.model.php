@@ -187,7 +187,7 @@ class memberModel extends member
 		// Check if homepage and blog are public
 		$homepage_is_public = false;
 		$blog_is_public = false;
-		if ($logged_info->is_admin === 'Y' || ($logged_info->member_srl && $logged_info->member_srl == $member_srl))
+		if ($logged_info->is_admin === 'Y')
 		{
 			$homepage_is_public = true;
 			$blog_is_public = true;
