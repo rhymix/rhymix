@@ -89,8 +89,11 @@ class Session
 			session_id($_POST[$session_name]);
 		}
 		
+		// Check if the session cookie already exists.
+		$cookie_exists = isset($_COOKIE[$session_name]);
+		
 		// Abort if using delayed session.
-		if(Config::get('session.delay') && !$force && !isset($_COOKIE[$session_name]))
+		if(!$cookie_exists && !$force && Config::get('session.delay'))
 		{
 			$_SESSION = array();
 			return false;
@@ -196,6 +199,13 @@ class Session
 		if ($_SERVER['REQUEST_METHOD'] !== 'GET')
 		{
 			$must_refresh = false;
+		}
+		
+		// If this is a new session, remove conflicting cookies.
+		if ($domain === null && !isset($_SESSION['conflict_clean']))
+		{
+			self::destroyCookiesFromConflictingDomains(array(session_name(), 'rx_autologin', 'rx_sesskey1', 'rx_sesskey2'), true);
+			$_SESSION['conflict_clean'] = true;
 		}
 		
 		// Create or refresh the session if needed.
@@ -505,7 +515,7 @@ class Session
 		setcookie('xe_logged', 'deleted', time() - 86400, $path, $domain, false, false);
 		setcookie('xeak', 'deleted', time() - 86400, $path, $domain, false, false);
 		setcookie('sso', 'deleted', time() - 86400, $path, $domain, false, false);
-		self::destroyCookiesFromConflictingDomains(array('xe_logged', 'xeak', 'sso'));
+		self::destroyCookiesFromConflictingDomains(array('xe_logged', 'xeak', 'sso'), $domain === null);
 		unset($_COOKIE[session_name()]);
 		unset($_COOKIE['rx_autologin']);
 		unset($_COOKIE['rx_sesskey1']);
@@ -1101,7 +1111,7 @@ class Session
 		}
 		
 		// Delete conflicting domain cookies.
-		self::destroyCookiesFromConflictingDomains(array(session_name(), 'rx_autologin', 'rx_sesskey1', 'rx_sesskey2'));
+		self::destroyCookiesFromConflictingDomains(array(session_name(), 'rx_autologin', 'rx_sesskey1', 'rx_sesskey2'), $domain === null);
 		return true;
 	}
 	
@@ -1123,7 +1133,7 @@ class Session
 		if ($autologin_key && $security_key)
 		{
 			setcookie('rx_autologin', $autologin_key . $security_key, $lifetime, $path, $domain, $ssl_only, true);
-			self::destroyCookiesFromConflictingDomains(array('rx_autologin'));
+			self::destroyCookiesFromConflictingDomains(array('rx_autologin'), $domain === null);
 			$_COOKIE['rx_autologin'] = $autologin_key . $security_key;
 			return true;
 		}
@@ -1157,7 +1167,7 @@ class Session
 		
 		// Delete the autologin cookie.
 		setcookie('rx_autologin', 'deleted', time() - 86400, $path, $domain, false, false);
-		self::destroyCookiesFromConflictingDomains(array('rx_autologin'));
+		self::destroyCookiesFromConflictingDomains(array('rx_autologin'), $domain === null);
 		unset($_COOKIE['rx_autologin']);
 		return $result;
 	}
@@ -1207,25 +1217,27 @@ class Session
 	 * Destroy cookies from potentially conflicting domains.
 	 * 
 	 * @param array $cookies
+	 * @param bool $include_current_host (optional)
 	 * @return bool
 	 */
-	public static function destroyCookiesFromConflictingDomains(array $cookies)
+	public static function destroyCookiesFromConflictingDomains(array $cookies, $include_current_host = false)
 	{
-		static $conflict_domains = null;
-		if ($conflict_domains === null)
+		$conflict_domains = config('session.conflict_domains') ?: array();
+		if ($include_current_host)
 		{
-			$conflict_domains = config('session.conflict_domains') ?: array();
+			$conflict_domains[] = '.' . preg_replace('/:\\d+$/', '', strtolower($_SERVER['HTTP_HOST']));
 		}
 		if (!count($conflict_domains))
 		{
 			return false;
 		}
 		
+		list($lifetime, $refresh_interval, $domain, $path) = self::_getParams();
 		foreach ($cookies as $cookie)
 		{
-			foreach ($conflict_domains as $domain)
+			foreach ($conflict_domains as $conflict_domain)
 			{
-				setcookie($cookie, 'deleted', time() - 86400, $path, $domain);
+				setcookie($cookie, 'deleted', time() - 86400, $path, $conflict_domain);
 			}
 		}
 		
