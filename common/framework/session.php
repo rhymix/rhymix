@@ -202,9 +202,10 @@ class Session
 		}
 		
 		// If this is a new session, remove conflicting cookies.
-		if ($domain === null && !isset($_SESSION['conflict_clean']))
+		if ($cookie_exists && $domain === null && !isset($_SESSION['conflict_clean']))
 		{
 			self::destroyCookiesFromConflictingDomains(array(session_name(), 'rx_autologin', 'rx_sesskey1', 'rx_sesskey2'), true);
+			session_regenerate_id();
 			$_SESSION['conflict_clean'] = true;
 		}
 		
