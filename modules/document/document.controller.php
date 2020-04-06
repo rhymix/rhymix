@@ -2240,8 +2240,8 @@ class documentController extends document
 	{
 		// List variables
 		if(!$args) $args = Context::gets('module_srl','category_srl','parent_srl','category_title','category_description','expand','group_srls','category_color','mid');
-		$args->title = $args->category_title;
-		$args->description = $args->category_description;
+		$args->title = trim($args->category_title);
+		$args->description = trim($args->category_description);
 		$args->color = $args->category_color;
 
 		if(!$args->module_srl && $args->mid)
