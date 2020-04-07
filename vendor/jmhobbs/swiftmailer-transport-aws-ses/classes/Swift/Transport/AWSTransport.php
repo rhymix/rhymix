@@ -14,22 +14,20 @@
  */
 abstract class Swift_Transport_AWSTransport implements Swift_Transport
 {
-  /** The event dispatcher from the plugin API */
-  protected $_eventDispatcher;
+	/** The event dispatcher from the plugin API */
+	protected $_eventDispatcher;
 
-  /**
-   * Constructor.
-   */
-  public function __construct(Swift_Events_EventDispatcher $eventDispatcher)
-  {
-    $this->_eventDispatcher = $eventDispatcher;
-  }
+	/**
+	 * Constructor.
+	 */
+	public function __construct(Swift_Events_EventDispatcher $eventDispatcher)
+	{
+		$this->_eventDispatcher = $eventDispatcher;
+	}
 } // END OF Swist_Transport_AWSTransport
 
 // now register dependancies
 
 Swift_DependencyContainer::getInstance()
-
-  -> register('transport.aws')
-  -> withDependencies(array('transport.eventdispatcher'))
-;
+	-> register('transport.aws')
+	-> withDependencies(array('transport.eventdispatcher'));

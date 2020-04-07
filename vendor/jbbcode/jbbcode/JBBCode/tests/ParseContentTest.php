@@ -1,7 +1,5 @@
 <?php
 
-require_once dirname(dirname(__FILE__)) . DIRECTORY_SEPARATOR . 'Parser.php';
-
 /**
  * Test cases for the code definition parameter that disallows parsing
  * of an element's content.
@@ -12,33 +10,37 @@ class ParseContentTest extends PHPUnit_Framework_TestCase
 {
 
     /**
-     * Tests that when a bbcode is created with parseContent = false, 
+     * @var JBBCode\Parser
+     */
+    private $_parser;
+
+    protected function setUp()
+    {
+        $this->_parser = new JBBCode\Parser();
+        $this->_parser->addCodeDefinitionSet(new JBBcode\DefaultCodeDefinitionSet());
+    }
+
+    /**
+     * Tests that when a bbcode is created with parseContent = false,
      * its contents actually are not parsed.
      */
     public function testSimpleNoParsing()
     {
+        $this->_parser->addBBCode('verbatim', '{param}', false, false);
 
-        $parser = new JBBCode\Parser();
-        $parser->addCodeDefinitionSet(new JBBCode\DefaultCodeDefinitionSet());
-        $parser->addBBCode('verbatim', '{param}', false, false);
+        $this->_parser->parse('[verbatim]plain text[/verbatim]');
+        $this->assertEquals('plain text', $this->_parser->getAsHtml());
 
-        $parser->parse('[verbatim]plain text[/verbatim]');
-        $this->assertEquals('plain text', $parser->getAsHtml());
-
-        $parser->parse('[verbatim][b]bold[/b][/verbatim]');
-        $this->assertEquals('[b]bold[/b]', $parser->getAsHtml());
-
+        $this->_parser->parse('[verbatim][b]bold[/b][/verbatim]');
+        $this->assertEquals('[b]bold[/b]', $this->_parser->getAsHtml());
     }
 
     public function testNoParsingWithBufferText()
     {
-        
-        $parser = new JBBCode\Parser();
-        $parser->addCodeDefinitionSet(new JBBCode\DefaultCodeDefinitionSet());
-        $parser->addBBCode('verbatim', '{param}', false, false);
+        $this->_parser->addBBCode('verbatim', '{param}', false, false);
 
-        $parser->parse('buffer text[verbatim]buffer text[b]bold[/b]buffer text[/verbatim]buffer text');
-        $this->assertEquals('buffer textbuffer text[b]bold[/b]buffer textbuffer text', $parser->getAsHtml());
+        $this->_parser->parse('buffer text[verbatim]buffer text[b]bold[/b]buffer text[/verbatim]buffer text');
+        $this->assertEquals('buffer textbuffer text[b]bold[/b]buffer textbuffer text', $this->_parser->getAsHtml());
     }
 
     /**
@@ -48,14 +50,11 @@ class ParseContentTest extends PHPUnit_Framework_TestCase
      */
     public function testUnclosedTag()
     {
-    
-        $parser = new JBBCode\Parser();
-        $parser->addCodeDefinitionSet(new JBBCode\DefaultCodeDefinitionSet());
-        $parser->addBBCode('verbatim', '{param}', false, false);
+        $this->_parser->addBBCode('verbatim', '{param}', false, false);
 
-        $parser->parse('[verbatim]i wonder [b]what will happen[/verbatim]');
-        $this->assertEquals('i wonder [b]what will happen', $parser->getAsHtml());
-        $this->assertEquals('[verbatim]i wonder [b]what will happen[/verbatim]', $parser->getAsBBCode());
+        $this->_parser->parse('[verbatim]i wonder [b]what will happen[/verbatim]');
+        $this->assertEquals('i wonder [b]what will happen', $this->_parser->getAsHtml());
+        $this->assertEquals('[verbatim]i wonder [b]what will happen[/verbatim]', $this->_parser->getAsBBCode());
     }
 
     /**
@@ -63,12 +62,10 @@ class ParseContentTest extends PHPUnit_Framework_TestCase
      */
     public function testUnclosedVerbatimTag()
     {
-        $parser = new JBBCode\Parser();
-        $parser->addCodeDefinitionSet(new JBBCode\DefaultCodeDefinitionSet());
-        $parser->addBBCode('verbatim', '{param}', false, false);
+        $this->_parser->addBBCode('verbatim', '{param}', false, false);
 
-        $parser->parse('[verbatim]yo this [b]text should not be bold[/b]');
-        $this->assertEquals('yo this [b]text should not be bold[/b]', $parser->getAsHtml());
+        $this->_parser->parse('[verbatim]yo this [b]text should not be bold[/b]');
+        $this->assertEquals('yo this [b]text should not be bold[/b]', $this->_parser->getAsHtml());
     }
 
     /**
@@ -76,11 +73,9 @@ class ParseContentTest extends PHPUnit_Framework_TestCase
      */
     public function testMalformedVerbatimClosingTag()
     {
-        $parser = new JBBCode\Parser();
-        $parser->addCodeDefinitionSet(new JBBCode\DefaultCodeDefinitionSet());
-        $parser->addBBCode('verbatim', '{param}', false, false);
-        $parser->parse('[verbatim]yo this [b]text should not be bold[/b][/verbatim');
-        $this->assertEquals('yo this [b]text should not be bold[/b][/verbatim', $parser->getAsHtml());
+        $this->_parser->addBBCode('verbatim', '{param}', false, false);
+        $this->_parser->parse('[verbatim]yo this [b]text should not be bold[/b][/verbatim');
+        $this->assertEquals('yo this [b]text should not be bold[/b][/verbatim', $this->_parser->getAsHtml());
     }
 
     /**
@@ -93,5 +88,4 @@ class ParseContentTest extends PHPUnit_Framework_TestCase
         $parser->parse('[verbatim]');
         $this->assertEquals('', $parser->getAsHtml());
     }
-
 }

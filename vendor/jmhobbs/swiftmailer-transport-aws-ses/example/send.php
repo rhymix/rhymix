@@ -23,7 +23,10 @@
 	->setBody( "<p>Dude, I'm <b>totally</b> sending you email via AWS.</p>", 'text/html' )
 	->addPart( "Dude, I'm _totally_ sending you email via AWS.", 'text/plain' );
 
-	echo "Sending\n";
+	echo "Sending\n\n";
+	echo "From: " . FROM_ADDRESS . "\n";
+	echo "  To: " . TO_ADDRESS . "\n";
+
 	try {
 		echo "Sent: " . $mailer->send( $message ) . "\n";
 	}

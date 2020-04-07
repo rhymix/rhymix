@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<phpunit bootstrap="JBBCode/tests/bootstrap.php"
+		 colors="true"
+		 convertErrorsToExceptions="true"
+		 convertNoticesToExceptions="true"
+		 convertWarningsToExceptions="true"
+		 stopOnFailure="false"
+		 backupGlobals="false"
+		 backupStaticAttributes="false">
+	<testsuites>
+		<testsuite name="jBBCode Test Suite">
+			<directory>JBBCode/tests</directory>
+		</testsuite>
+	</testsuites>
+	<filter>
+		<blacklist>
+			<directory suffix=".php">examples/</directory>
+			<directory suffix=".php">vendor</directory>
+		</blacklist>
+	</filter>
+	<logging>
+		<log type="coverage-clover" target="clover.xml"/>
+	</logging>
+</phpunit>

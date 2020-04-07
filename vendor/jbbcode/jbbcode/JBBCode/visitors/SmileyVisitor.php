@@ -11,23 +11,22 @@ namespace JBBCode\visitors;
  */
 class SmileyVisitor implements \JBBCode\NodeVisitor
 {
-
-    function visitDocumentElement(\JBBCode\DocumentElement $documentElement)
+    public function visitDocumentElement(\JBBCode\DocumentElement $documentElement)
     {
-        foreach($documentElement->getChildren() as $child) {
+        foreach ($documentElement->getChildren() as $child) {
             $child->accept($this);
         }
     }
 
-    function visitTextNode(\JBBCode\TextNode $textNode)
+    public function visitTextNode(\JBBCode\TextNode $textNode)
     {
         /* Convert :) into an image tag. */
-        $textNode->setValue(str_replace(':)', 
-                                        '<img src="/smiley.png" alt=":)" />', 
+        $textNode->setValue(str_replace(':)',
+                                        '<img src="/smiley.png" alt=":)" />',
                                         $textNode->getValue()));
     }
 
-    function visitElementNode(\JBBCode\ElementNode $elementNode)
+    public function visitElementNode(\JBBCode\ElementNode $elementNode)
     {
         /* We only want to visit text nodes within elements if the element's
          * code definition allows for its content to be parsed.
@@ -38,5 +37,4 @@ class SmileyVisitor implements \JBBCode\NodeVisitor
             }
         }
     }
-
 }

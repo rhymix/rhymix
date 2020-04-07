@@ -1,7 +1,5 @@
 <?php
 
-require_once(dirname(dirname(__FILE__)) . DIRECTORY_SEPARATOR . 'Parser.php');
-
 /**
  * A series of test cases for various potential parsing edge cases. This
  * includes a lot of tests using brackets for things besides genuine tag
@@ -126,5 +124,4 @@ class ParsingEdgeCaseTest extends PHPUnit_Framework_TestCase
         $this->assertProduces('[ ABC ] ',
                               '[ ABC ] ');
     }
-
 }

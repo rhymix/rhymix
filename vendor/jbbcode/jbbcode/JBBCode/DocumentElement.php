@@ -5,7 +5,7 @@ namespace JBBCode;
 require_once 'ElementNode.php';
 
 /**
- * A DocumentElement object represents the root of a document tree. All 
+ * A DocumentElement object represents the root of a document tree. All
  * documents represented by this document model should have one as its root.
  *
  * @author jbowens
@@ -19,7 +19,6 @@ class DocumentElement extends ElementNode
     {
         parent::__construct();
         $this->setTagName("Document");
-        $this->setNodeId(0);
     }
 
     /**
@@ -28,12 +27,12 @@ class DocumentElement extends ElementNode
      *
      * Returns the BBCode representation of this document
      *
-     * @return this document's bbcode representation
+     * @return string this document's bbcode representation
      */
     public function getAsBBCode()
     {
         $s = "";
-        foreach($this->getChildren() as $child){
+        foreach ($this->getChildren() as $child) {
             $s .= $child->getAsBBCode();
         }
 
@@ -48,13 +47,14 @@ class DocumentElement extends ElementNode
      * children, so getAsHTML() simply iterates through the document's children,
      * returning their html.
      *
-     * @return the HTML representation of this document
+     * @return string the HTML representation of this document
      */
     public function getAsHTML()
     {
         $s = "";
-        foreach($this->getChildren() as $child)
+        foreach ($this->getChildren() as $child) {
             $s .= $child->getAsHTML();
+        }
 
         return $s;
     }
@@ -63,5 +63,4 @@ class DocumentElement extends ElementNode
     {
         $visitor->visitDocumentElement($this);
     }
-
 }

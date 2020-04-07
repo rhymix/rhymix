@@ -11,7 +11,7 @@ require_once 'Node.php';
  */
 class TextNode extends Node
 {
-    /* The value of this text node */
+    /** @var string The value of this text node */
     protected $value;
 
     /**
@@ -33,7 +33,7 @@ class TextNode extends Node
      * (non-PHPdoc)
      * @see JBBCode.Node::isTextNode()
      *
-     * returns true
+     * @returns boolean true
      */
     public function isTextNode()
     {
@@ -56,7 +56,7 @@ class TextNode extends Node
      *
      * Returns the text representation of this node.
      *
-     * @return this node represented as text
+     * @return string this node represented as text
      */
     public function getAsText()
     {
@@ -69,7 +69,7 @@ class TextNode extends Node
      *
      * Returns the bbcode representation of this node. (Just its value)
      *
-     * @return this node represented as bbcode
+     * @return string this node represented as bbcode
      */
     public function getAsBBCode()
     {
@@ -82,7 +82,7 @@ class TextNode extends Node
      *
      * Returns the html representation of this node. (Just its value)
      *
-     * @return this node represented as HTML
+     * @return string this node represented as HTML
      */
     public function getAsHTML()
     {
@@ -92,11 +92,10 @@ class TextNode extends Node
     /**
      * Edits the text value contained within this text node.
      *
-     * @param newValue  the new text value of the text node
+     * @param string $newValue  the new text value of the text node
      */
     public function setValue($newValue)
     {
         $this->value = $newValue;
     }
-
 }

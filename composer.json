@@ -22,25 +22,20 @@
 		"coolsms/php-sdk": "2.0.*",
 		"defuse/php-encryption": "1.2.1",
 		"egulias/email-validator": "2.*",
-		"ezyang/htmlpurifier": "4.10.*",
+		"ezyang/htmlpurifier": "4.12.*",
 		"hautelook/phpass": "1.1.*",
-		"jbbcode/jbbcode": "1.3.*",
-		"jmhobbs/swiftmailer-transport-aws-ses": "0.9.*",
+		"jbbcode/jbbcode": "1.4.*",
+		"jmhobbs/swiftmailer-transport-aws-ses": "1.0.*",
 		"leafo/lessphp": "0.5.*",
-		"leafo/scssphp": "0.7.*",
-		"league/html-to-markdown": "4.8.*",
+		"league/html-to-markdown": "4.*",
 		"matthiasmullie/minify": "1.3.*",
 		"matthiasmullie/path-converter": "1.*",
-		"michelf/php-markdown": "1.8.*",
+		"michelf/php-markdown": "1.9.*",
 		"michelf/php-smartypants": "1.8.*",
 		"rmccue/requests": "1.7.*",
+		"scssphp/scssphp": "1.0.*",
 		"sunra/php-simple-html-dom-parser": "1.5.*",
-		"swiftmailer/swiftmailer": "6.1.*",
+		"swiftmailer/swiftmailer": "6.2.*",
 		"true/punycode": "2.*"
-	},
-	"require-dev": {
-		"codeception/codeception": "2.1.*",
-		"codeception/verify": "0.3.*",
-		"codeception/specify": "0.4.*"
 	}
 }

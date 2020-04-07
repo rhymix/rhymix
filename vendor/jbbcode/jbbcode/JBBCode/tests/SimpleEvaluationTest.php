@@ -1,7 +1,5 @@
 <?php
 
-require_once(dirname(dirname(__FILE__)) . DIRECTORY_SEPARATOR . 'Parser.php');
-
 class SimpleEvaluationTest extends PHPUnit_Framework_TestCase
 {
 
@@ -26,36 +24,6 @@ class SimpleEvaluationTest extends PHPUnit_Framework_TestCase
     private function assertProduces($bbcode, $html)
     {
         $this->assertEquals($html, $this->defaultParse($bbcode));
-    }
-
-
-    public function testEmptyString()
-    {
-        $this->assertProduces('', '');
-    }
-
-    public function testOneTag()
-    {
-        $this->assertProduces('[b]this is bold[/b]', '<strong>this is bold</strong>');
-    }
-
-    public function testOneTagWithSurroundingText()
-    {
-        $this->assertProduces('buffer text [b]this is bold[/b] buffer text',
-                              'buffer text <strong>this is bold</strong> buffer text');
-    }
-
-    public function testMultipleTags()
-    {
-        $bbcode = <<<EOD
-this is some text with [b]bold tags[/b] and [i]italics[/i] and
-things like [u]that[/u].
-EOD;
-        $html = <<<EOD
-this is some text with <strong>bold tags</strong> and <em>italics</em> and
-things like <u>that</u>.
-EOD;
-        $this->assertProduces($bbcode, $html);
     }
 
     public function testCodeOptions()
@@ -84,23 +52,6 @@ EOD;
         $this->assertEquals($expected, $result);
     }
 
-    /**
-     * @depends testCodeOptions
-     */
-    public function testOmittedOption()
-    {
-        $code = 'This doesn\'t use the url option [url]http://jbbcode.com[/url].';
-        $html = 'This doesn\'t use the url option <a href="http://jbbcode.com">http://jbbcode.com</a>.';
-        $this->assertProduces($code, $html);
-    }
-
-    public function testUnclosedTag()
-    {
-        $code = 'hello [b]world';
-        $html = 'hello <strong>world</strong>';
-        $this->assertProduces($code, $html);
-    }
-
     public function testNestingTags()
     {
         $code = '[url=http://jbbcode.com][b]hello [u]world[/u][/b][/url]';
@@ -127,5 +78,4 @@ EOD;
     {
         $this->assertProduces('[b]:-[ [fo[o[bar[/b]', '<strong>:-[ [fo[o[bar</strong>');
     }
-
 }

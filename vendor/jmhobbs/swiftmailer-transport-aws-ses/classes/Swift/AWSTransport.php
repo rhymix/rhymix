@@ -21,6 +21,8 @@
 		private $AWSSecretKey;
 		/** the service endpoint */
 		private $endpoint;
+		/** be persistent? **/
+		private $persistent;
 		/**
 		 * Debugging helper.
 		 *
@@ -33,6 +35,8 @@
 		private $debug;
 		/** the response */
 		private $response;
+		/** the raw socket */
+		private $fp;
 
 		/**
 		* Create a new AWSTransport.
@@ -41,7 +45,7 @@
 		* @param boolean $debug Set to true to enable debug messages in error log.
 		* @param string $endpoint The AWS endpoint to use.
 		*/
-		public function __construct($AWSAccessKeyId = null , $AWSSecretKey = null, $debug = false, $endpoint = 'https://email.us-east-1.amazonaws.com/') {
+		public function __construct($AWSAccessKeyId = null , $AWSSecretKey = null, $debug = false, $endpoint = 'https://email.us-east-1.amazonaws.com/', $persistent = false) {
 			call_user_func_array(
 				array($this, 'Swift_Transport_AWSTransport::__construct'),
 				Swift_DependencyContainer::getInstance()
@@ -52,6 +56,13 @@
 			$this->AWSSecretKey = $AWSSecretKey;
 			$this->endpoint = $endpoint;
 			$this->debug = $debug;
+			$this->persistent = $persistent;
+		}
+
+		public function __destruct() {
+			if( $this->fp ) { 
+				@fclose( $this->fp );
+			}
 		}
 
 		/**
@@ -76,7 +87,17 @@
 		}
 
 		public function setEndpoint($val) {
+			if( $this->fp ) {
+				@fclose( $this->fp );
+			}
 			$this->endpoint = $val;
+		}
+
+		public function setPersistent($val) {
+			if( $this->fp && ! $val ) { 
+				@fclose( $this->fp );
+			}
+			$this->persistent = $val;
 		}
 
 		public function getResponse() {
@@ -97,7 +118,7 @@
 		* Recipient/sender data will be retreived from the Message API.
 		* The return value is the number of recipients who were accepted for delivery.
 		*
-		* @param Swift_Mime_Message $message
+		* @param Swift_Mime_SimpleMessage $message
 		* @param string[] &$failedRecipients to collect failures by-reference
 		* @return int
 		* @throws AWSConnectionError
@@ -119,9 +140,10 @@
 			$this->_debug($this->response->body);
 			$this->_debug("=== End AWS Response ===");
 
+			/** @var bool $success */
 			$success = (200 == $this->response->code);
 			
-			if ($respEvent = $this->_eventDispatcher->createResponseEvent($this, new Swift_Response_AWSResponse( $message, $this->response->xml ), $success))
+			if ($respEvent = $this->_eventDispatcher->createResponseEvent($this, new Swift_Response_AWSResponse( $message, $this->response->xml, $success ), $success))
 				$this->_eventDispatcher->dispatchEvent($respEvent, 'responseReceived');
 
 			if ($evt)
@@ -138,14 +160,41 @@
 			}
 		}
 
+		protected function getRawSocket () {
+
+			if( ! $this->persistent || ! $this->fp ) {
+				$host = parse_url( $this->endpoint, PHP_URL_HOST );
+				$path = parse_url( $this->endpoint, PHP_URL_PATH );
+				if (is_null($path)) {
+					$path = '/';
+				}
+
+				$fp = fsockopen( 'ssl://' . $host, 443, $errno, $errstr, 30 );
+
+				if( ! $fp ) {
+					throw new AWSConnectionError( "$errstr ($errno)" );
+				}
+
+				if( $this->persistent ) {
+					$this->fp = $fp;
+				}
+			}
+
+			return ( $this->persistent ) ? $this->fp : $fp;
+		}
+
+		public function ping() {
+			return true;
+		}
+
 		/**
 		 * do send through the API
 		 *
-		 * @param Swift_Mime_Message $message
+		 * @param Swift_Mime_SimpleMessage $message
 		 * @param string[] &$failedRecipients to collect failures by-reference
 		 * @return AWSResponse
 		 */
-		protected function _doSend( Swift_Mime_Message $message, &$failedRecipients = null )
+		protected function _doSend( Swift_Mime_SimpleMessage $message, &$failedRecipients = null )
 		{
 			$date = date( 'D, j F Y H:i:s O' );
 			if( function_exists( 'hash_hmac' ) and in_array( 'sha1', hash_algos() ) ) {
@@ -156,16 +205,14 @@
 			}
 			$auth = "AWS3-HTTPS AWSAccessKeyId=" . $this->AWSAccessKeyId . ", Algorithm=HmacSHA1, Signature=" . $hmac;
 
+			$fp = $this->getRawSocket();
 			$host = parse_url( $this->endpoint, PHP_URL_HOST );
 			$path = parse_url( $this->endpoint, PHP_URL_PATH );
-
-			$fp = fsockopen( 'ssl://' . $host , 443, $errno, $errstr, 30 );
-
-			if( ! $fp ) {
-				throw new AWSConnectionError( "$errstr ($errno)" );
+			if (is_null($path)) {
+				$path = '/';
 			}
 
-			$socket = new ChunkedTransferSocket( $fp, $host, $path );
+			$socket = new ChunkedTransferSocket( $fp, $host, $path, "POST", $this->persistent );
 
 			$socket->header("Date", $date);
 			$socket->header("X-Amzn-Authorization", $auth);
@@ -177,6 +224,10 @@
 			$ais->flushBuffers();
 
 			$result = $socket->read();
+
+			if( ! $this->persistent ) {
+				fclose($fp);
+			}
 
 			return $result;
 		}
@@ -223,21 +274,24 @@
 		 * @param $host
 		 * @param $path
 		 * @param $method
+		 * @param $persistent
 		 */
-		public function __construct( $socket, $host, $path, $method="POST" ) {
+		public function __construct( $socket, $host, $path, $method="POST", $persistent=false ) {
 
 			$this->socket = $socket;
+			$this->persistent = $persistent;
+
 			$this->write_started = false;
 			$this->write_finished = false;
 			$this->read_started = false;
-
+			
 			fwrite( $this->socket, "$method $path HTTP/1.1\r\n" );
 
 			$this->header( "Host", $host );
 			if( "POST" == $method ) {
 				$this->header( "Content-Type", "application/x-www-form-urlencoded" );
 			}
-			$this->header( "Connection", "close" );
+			$this->header( "Connection", ( $this->persistent ) ? 'keep-alive' : 'close' );
 			$this->header( "Transfer-Encoding", "chunked" );
 		}
 
@@ -264,9 +318,10 @@
 				fwrite( $this->socket, "\r\n" ); // Start message body
 				$this->write_started = true;
 			}
-
+	
 			fwrite( $this->socket, sprintf( "%x\r\n", strlen( $chunk ) ) );
-			fwrite( $this->socket, $chunk . "\r\n" );
+			fwrite( $this->socket, $chunk );
+			fwrite( $this->socket, "\r\n" );
 			fflush( $this->socket );
 		}
 
@@ -287,10 +342,12 @@
 
 			$response = new AWSResponse();
 			while( ! feof( $this->socket ) ) {
-				$response->line( fgets( $this->socket ) );
+				$line = fgets( $this->socket );
+				if( AWSResponse::EOF == $response->line( $line ) ) {
+					break;
+				}
 			}
 			$response->complete();
-			fclose( $this->socket );
 
 			return $response;
 		}
@@ -302,17 +359,40 @@
 	 */
 	class AWSResponse {
 
+		/**
+		 * @var array
+		 */
 		public $headers = array();
+
+		/**
+		 * @var int
+		 */
 		public $code = 0;
+
+		/**
+		 * @var string
+		 */
 		public $message = '';
+
+		/**
+		 * @var string
+		 */
 		public $body = '';
+
+		/**
+		 * @var null|SimpleXMLElement
+		 */
 		public $xml = null;
+		public $content_length;
 
 		const STATE_EMPTY = 0;
 		const STATE_HEADERS = 1;
 		const STATE_BODY = 2;
 
+		const EOF = 'EOF';
+
 		protected $state = self::STATE_EMPTY;
+		protected $content_length_received = 0;
 
 		public function line ( $line ) {
 
@@ -323,7 +403,7 @@
 					}
 					$split = explode( ' ', $line );
 					$this->code = $split[1];
-					$this->message = implode( array_slice( $split, 2 ), ' ' );
+					$this->message = implode( ' ', array_slice( $split, 2 ) );
 					$this->state = self::STATE_HEADERS;
 					break;
 				case self::STATE_HEADERS:
@@ -335,10 +415,19 @@
 					$pos = strpos( $line, ':' );
 					if( false === $pos ) { throw new InvalidHeaderException( $line ); }
 					$key = substr( $line, 0, $pos );
-					$this->headers[$key] = substr( $line, $pos );
+					$this->headers[$key] = substr( $line, $pos + 2, strlen($line) - $pos - 4 );
+
+					if( strtolower($key) == 'content-length' ) {
+						$this->content_length = intval($this->headers[$key]);
+					}
+
 					break;
 				case self::STATE_BODY:
+					$this->content_length_received += strlen($line);
 					$this->body .= $line;
+					if( isset( $this->content_length ) and $this->content_length_received >= $this->content_length ) {
+						return self::EOF;
+					}
 					break;
 			}
 

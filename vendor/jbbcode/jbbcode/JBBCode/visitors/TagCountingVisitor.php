@@ -40,13 +40,14 @@ class TagCountingVisitor implements \JBBcode\NodeVisitor
         foreach ($elementNode->getChildren() as $child) {
             $child->accept($this);
         }
-
     }
 
     /**
      * Retrieves the frequency of the given tag name.
      *
-     * @param $tagName  the tag name to look up
+     * @param string $tagName the tag name to look up
+     *
+     * @return integer
      */
     public function getFrequency($tagName)
     {
@@ -56,5 +57,4 @@ class TagCountingVisitor implements \JBBcode\NodeVisitor
             return $this->frequencies[$tagName];
         }
     }
-
 }

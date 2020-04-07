@@ -12,6 +12,5 @@ return array(
     'JBBCode' => array($vendorDir . '/jbbcode/jbbcode'),
     'Hautelook' => array($vendorDir . '/hautelook/phpass/src'),
     'HTMLPurifier' => array($vendorDir . '/ezyang/htmlpurifier/library'),
-    'Doctrine\\Common\\Lexer\\' => array($vendorDir . '/doctrine/lexer/lib'),
     '' => array($vendorDir . '/jmhobbs/swiftmailer-transport-aws-ses/classes'),
 );

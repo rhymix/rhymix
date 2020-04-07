@@ -2,11 +2,15 @@
 
 It's a simple transport for use with Swiftmailer to send mail over AWS SES.
 
-As on December 2011, Amazon [provides an SMTP interface to SES](http://aws.amazon.com/ses/faqs/#21), so you may prefer to use Swiftmailer's built in SMTP transport.
+As of December 2011, Amazon [provides an SMTP interface to SES](http://aws.amazon.com/ses/faqs/#21), so you may prefer to use Swiftmailer's built in SMTP transport.
 
 # Where do I put it?
 
-Whereever you want, so long as you include it in your code.
+The best way to use it is through [composer](https://getcomposer.org/).
+
+    $ composer require jmhobbs/swiftmailer-transport-aws-ses
+
+Which will bring in Swiftmailer if you don't already have it installed.
 
 Otherwise Swift can autoload it if you put the files in this directory:
 
@@ -23,6 +27,10 @@ Like any other Swiftmailer transport:
     $mailer = Swift_Mailer::newInstance($transport);
     
     $mailer->send($message);
+
+# Swiftmailer <= 5.x
+
+The current branch has been update to be compatible with Swiftmailer 6.  If you need the old branch, it is availble under the 0.9.x tags, or the swiftmailer-5.x branch.
 
 # Symfony1.X configuration
 
@@ -65,3 +73,4 @@ Versions 4.1.3 and up should work fine.
 * @jonatrey & @faz - Debugging and Testing issue #13
 * @casconed - Made debug function more robust, issue #21
 * @martijngastkemper - Added responseReceived event to get message id from AWS
+* @weierophinney - Swiftmailer 6 support
