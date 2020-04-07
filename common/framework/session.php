@@ -75,6 +75,7 @@ class Session
 		
 		// Set session parameters.
 		list($lifetime, $refresh_interval, $domain, $path) = self::_getParams();
+		$alt_domain = $domain ?: preg_replace('/:\\d+$/', '', strtolower($_SERVER['HTTP_HOST']));
 		$ssl_only = (\RX_SSL && config('session.use_ssl')) ? true : false;
 		ini_set('session.gc_maxlifetime', $lifetime + 28800);
 		ini_set('session.use_cookies', 1);
@@ -89,8 +90,11 @@ class Session
 			session_id($_POST[$session_name]);
 		}
 		
+		// Check if the session cookie already exists.
+		$cookie_exists = isset($_COOKIE[$session_name]);
+		
 		// Abort if using delayed session.
-		if(Config::get('session.delay') && !$force && !isset($_COOKIE[$session_name]))
+		if(!$cookie_exists && !$force && Config::get('session.delay'))
 		{
 			$_SESSION = array();
 			return false;
@@ -123,15 +127,15 @@ class Session
 		// Validate the HTTP key.
 		if (isset($_SESSION['RHYMIX']) && $_SESSION['RHYMIX'])
 		{
-			if (!isset($_SESSION['RHYMIX']['keys'][$domain]) && config('use_sso'))
+			if (!isset($_SESSION['RHYMIX']['keys'][$alt_domain]) && config('use_sso'))
 			{
 				$must_refresh = true;
 			}
-			elseif ($_SESSION['RHYMIX']['keys'][$domain]['key1'] === $key1 && $key1 !== null)
+			elseif ($_SESSION['RHYMIX']['keys'][$alt_domain]['key1'] === $key1 && $key1 !== null)
 			{
 				// OK
 			}
-			elseif ($_SESSION['RHYMIX']['keys'][$domain]['key1_prev'] === $key1 && $key1 !== null)
+			elseif ($_SESSION['RHYMIX']['keys'][$alt_domain]['key1_prev'] === $key1 && $key1 !== null)
 			{
 				$must_resend_keys = true;
 			}
@@ -152,15 +156,15 @@ class Session
 		// Validate the SSL key.
 		if (!$must_create && \RX_SSL)
 		{
-			if (!isset($_SESSION['RHYMIX']['keys'][$domain]['key2']))
+			if (!isset($_SESSION['RHYMIX']['keys'][$alt_domain]['key2']))
 			{
 				$must_refresh = true;
 			}
-			elseif ($_SESSION['RHYMIX']['keys'][$domain]['key2'] === $key2 && $key2 !== null)
+			elseif ($_SESSION['RHYMIX']['keys'][$alt_domain]['key2'] === $key2 && $key2 !== null)
 			{
 				// OK
 			}
-			elseif ($_SESSION['RHYMIX']['keys'][$domain]['key2_prev'] === $key2 && $key2 !== null)
+			elseif ($_SESSION['RHYMIX']['keys'][$alt_domain]['key2_prev'] === $key2 && $key2 !== null)
 			{
 				$must_resend_keys = true;
 			}
@@ -175,11 +179,11 @@ class Session
 		}
 		
 		// Check the refresh interval.
-		if (!$must_create && $_SESSION['RHYMIX']['keys'][$domain]['key1_time'] < time() - $refresh_interval && !$relax_key_checks)
+		if (!$must_create && $_SESSION['RHYMIX']['keys'][$alt_domain]['key1_time'] < time() - $refresh_interval && !$relax_key_checks)
 		{
 			$must_refresh = true;
 		}
-		elseif (!$must_create && \RX_SSL && $_SESSION['RHYMIX']['keys'][$domain]['key2_time'] < time() - $refresh_interval && !$relax_key_checks)
+		elseif (!$must_create && \RX_SSL && $_SESSION['RHYMIX']['keys'][$alt_domain]['key2_time'] < time() - $refresh_interval && !$relax_key_checks)
 		{
 			$must_refresh = true;
 		}
@@ -196,6 +200,14 @@ class Session
 		if ($_SERVER['REQUEST_METHOD'] !== 'GET')
 		{
 			$must_refresh = false;
+		}
+		
+		// If this is a new session, remove conflicting cookies.
+		if ($cookie_exists && $domain === null && !isset($_SESSION['conflict_clean']))
+		{
+			self::destroyCookiesFromConflictingDomains(array(session_name(), 'rx_autologin', 'rx_sesskey1', 'rx_sesskey2'), true);
+			session_regenerate_id();
+			$_SESSION['conflict_clean'] = true;
 		}
 		
 		// Create or refresh the session if needed.
@@ -425,7 +437,7 @@ class Session
 	public static function refresh()
 	{
 		// Get session parameters.
-		list($lifetime, $refresh_interval, $domain, $path) = self::_getParams();
+		$domain = self::getDomain() ?: preg_replace('/:\\d+$/', '', strtolower($_SERVER['HTTP_HOST']));
 		
 		// Set the domain initialization timestamp.
 		if (!isset($_SESSION['RHYMIX']['keys'][$domain]['started']))
@@ -505,7 +517,7 @@ class Session
 		setcookie('xe_logged', 'deleted', time() - 86400, $path, $domain, false, false);
 		setcookie('xeak', 'deleted', time() - 86400, $path, $domain, false, false);
 		setcookie('sso', 'deleted', time() - 86400, $path, $domain, false, false);
-		self::destroyCookiesFromConflictingDomains(array('xe_logged', 'xeak', 'sso'));
+		self::destroyCookiesFromConflictingDomains(array('xe_logged', 'xeak', 'sso'), $domain === null);
 		unset($_COOKIE[session_name()]);
 		unset($_COOKIE['rx_autologin']);
 		unset($_COOKIE['rx_sesskey1']);
@@ -632,7 +644,7 @@ class Session
 	public static function isTrusted()
 	{
 		// Get session parameters.
-		list($lifetime, $refresh_interval, $domain, $path) = self::_getParams();
+		$domain = self::getDomain() ?: preg_replace('/:\\d+$/', '', strtolower($_SERVER['HTTP_HOST']));
 		
 		// Check the 'trusted' parameter.
 		if ($_SESSION['RHYMIX']['keys'][$domain]['trusted'] > time())
@@ -800,7 +812,7 @@ class Session
 		}
 		else
 		{
-			self::$_domain = ltrim(ini_get('session.cookie_domain'), '.') ?: preg_replace('/:\\d+$/', '', strtolower($_SERVER['HTTP_HOST']));
+			self::$_domain = ltrim(ini_get('session.cookie_domain'), '.') ?: null;
 			return self::$_domain;
 		}
 	}
@@ -834,7 +846,7 @@ class Session
 	public static function setTrusted($duration = 300)
 	{
 		// Get session parameters.
-		list($lifetime, $refresh_interval, $domain, $path) = self::_getParams();
+		$domain = self::getDomain() ?: preg_replace('/:\\d+$/', '', strtolower($_SERVER['HTTP_HOST']));
 		
 		// Update the 'trusted' parameter if the current user is logged in.
 		if (isset($_SESSION['RHYMIX']['keys'][$domain]) && $_SESSION['RHYMIX']['login'])
@@ -1078,14 +1090,15 @@ class Session
 	{
 		// Get session parameters.
 		list($lifetime, $refresh_interval, $domain, $path) = self::_getParams();
+		$alt_domain = $domain ?: preg_replace('/:\\d+$/', '', strtolower($_SERVER['HTTP_HOST']));
 		$lifetime = $lifetime ? ($lifetime + time()) : 0;
 		$ssl_only = (\RX_SSL && config('session.use_ssl')) ? true : false;
 		
 		// Set or destroy the HTTP-only key.
-		if (isset($_SESSION['RHYMIX']['keys'][$domain]['key1']))
+		if (isset($_SESSION['RHYMIX']['keys'][$alt_domain]['key1']))
 		{
-			setcookie('rx_sesskey1', $_SESSION['RHYMIX']['keys'][$domain]['key1'], $lifetime, $path, $domain, $ssl_only, true);
-			$_COOKIE['rx_sesskey1'] = $_SESSION['RHYMIX']['keys'][$domain]['key1'];
+			setcookie('rx_sesskey1', $_SESSION['RHYMIX']['keys'][$alt_domain]['key1'], $lifetime, $path, $domain, $ssl_only, true);
+			$_COOKIE['rx_sesskey1'] = $_SESSION['RHYMIX']['keys'][$alt_domain]['key1'];
 		}
 		else
 		{
@@ -1094,14 +1107,14 @@ class Session
 		}
 		
 		// Set the HTTPS-only key.
-		if (\RX_SSL && isset($_SESSION['RHYMIX']['keys'][$domain]['key2']))
+		if (\RX_SSL && isset($_SESSION['RHYMIX']['keys'][$alt_domain]['key2']))
 		{
-			setcookie('rx_sesskey2', $_SESSION['RHYMIX']['keys'][$domain]['key2'], $lifetime, $path, $domain, true, true);
-			$_COOKIE['rx_sesskey2'] = $_SESSION['RHYMIX']['keys'][$domain]['key2'];
+			setcookie('rx_sesskey2', $_SESSION['RHYMIX']['keys'][$alt_domain]['key2'], $lifetime, $path, $domain, true, true);
+			$_COOKIE['rx_sesskey2'] = $_SESSION['RHYMIX']['keys'][$alt_domain]['key2'];
 		}
 		
 		// Delete conflicting domain cookies.
-		self::destroyCookiesFromConflictingDomains(array(session_name(), 'rx_autologin', 'rx_sesskey1', 'rx_sesskey2'));
+		self::destroyCookiesFromConflictingDomains(array(session_name(), 'rx_autologin', 'rx_sesskey1', 'rx_sesskey2'), $domain === null);
 		return true;
 	}
 	
@@ -1123,7 +1136,7 @@ class Session
 		if ($autologin_key && $security_key)
 		{
 			setcookie('rx_autologin', $autologin_key . $security_key, $lifetime, $path, $domain, $ssl_only, true);
-			self::destroyCookiesFromConflictingDomains(array('rx_autologin'));
+			self::destroyCookiesFromConflictingDomains(array('rx_autologin'), $domain === null);
 			$_COOKIE['rx_autologin'] = $autologin_key . $security_key;
 			return true;
 		}
@@ -1157,7 +1170,7 @@ class Session
 		
 		// Delete the autologin cookie.
 		setcookie('rx_autologin', 'deleted', time() - 86400, $path, $domain, false, false);
-		self::destroyCookiesFromConflictingDomains(array('rx_autologin'));
+		self::destroyCookiesFromConflictingDomains(array('rx_autologin'), $domain === null);
 		unset($_COOKIE['rx_autologin']);
 		return $result;
 	}
@@ -1207,25 +1220,27 @@ class Session
 	 * Destroy cookies from potentially conflicting domains.
 	 * 
 	 * @param array $cookies
+	 * @param bool $include_current_host (optional)
 	 * @return bool
 	 */
-	public static function destroyCookiesFromConflictingDomains(array $cookies)
+	public static function destroyCookiesFromConflictingDomains(array $cookies, $include_current_host = false)
 	{
-		static $conflict_domains = null;
-		if ($conflict_domains === null)
+		$conflict_domains = config('session.conflict_domains') ?: array();
+		if ($include_current_host)
 		{
-			$conflict_domains = config('session.conflict_domains') ?: array();
+			$conflict_domains[] = '.' . preg_replace('/:\\d+$/', '', strtolower($_SERVER['HTTP_HOST']));
 		}
 		if (!count($conflict_domains))
 		{
 			return false;
 		}
 		
+		list($lifetime, $refresh_interval, $domain, $path) = self::_getParams();
 		foreach ($cookies as $cookie)
 		{
-			foreach ($conflict_domains as $domain)
+			foreach ($conflict_domains as $conflict_domain)
 			{
-				setcookie($cookie, 'deleted', time() - 86400, $path, $domain);
+				setcookie($cookie, 'deleted', time() - 86400, $path, $conflict_domain);
 			}
 		}
 		
