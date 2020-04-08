@@ -301,7 +301,7 @@ class ExtraItem
 	 */
 	function getValue()
 	{	
-		return removeHackTag($this->value);
+		return $this->_getTypeValue($this->type, $this->value);
 	}
 
 	/**
