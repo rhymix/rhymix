@@ -1102,11 +1102,14 @@ function getOuterHTML(obj) {
 }
 
 function setCookie(name, value, expires, path) {
-	XE.cookie.set(name, value, {
-		expires: expires ? expires : 0,
+	var options = {
 		path: path ? path : "/",
 		secure: cookies_ssl ? true : false
-	});
+	};
+	if (expires) {
+		options.expires = expires;
+	}
+	XE.cookie.set(name, value, options);
 }
 
 function getCookie(name) {
