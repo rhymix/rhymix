@@ -242,6 +242,7 @@ class ncenterliteController extends ncenterlite
 				$args->target_summary = cut_str(strip_tags($obj->title), 50);
 				$args->regdate = date('YmdHis');
 				$args->target_browser = $module_info->browser_title;
+				$args->module_srl = $obj->module_srl;
 				$args->notify = $this->_getNotifyId($args);
 				$output = $this->_insertNotify($args, $is_anonymous);
 				if(!$output->toBool())
@@ -301,6 +302,7 @@ class ncenterliteController extends ncenterlite
 				$args->target_email_address = $obj->email_address;
 				$args->regdate = date('YmdHis');
 				$args->target_browser = $module_info->browser_title;
+				$args->module_srl = $module_info->module_srl;
 				$args->notify = $this->_getNotifyId($args);
 				$output = $this->_insertNotify($args, $is_anonymous);
 				if(!$output->toBool())
@@ -336,6 +338,7 @@ class ncenterliteController extends ncenterlite
 				$args->target_email_address = $obj->email_address;
 				$args->regdate = date('YmdHis');
 				$args->target_browser = $module_info->browser_title;
+				$args->module_srl = $module_info->module_srl;
 				$args->notify = $this->_getNotifyId($args);
 				$output = $this->_insertNotify($args, $is_anonymous);
 				if($output->toBool())
@@ -419,6 +422,7 @@ class ncenterliteController extends ncenterlite
 				$args->target_email_address = $obj->email_address;
 				$args->regdate = $regdate;
 				$args->target_browser = $module_info->browser_title;
+				$args->module_srl = $module_info->module_srl;
 				$args->notify = $this->_getNotifyId($args);
 				$output = $this->_insertNotify($args, $is_anonymous);
 				if(!$output->toBool())
@@ -468,6 +472,7 @@ class ncenterliteController extends ncenterlite
 				$args->target_email_address = $obj->email_address;
 				$args->regdate = $regdate;
 				$args->target_browser = $module_info->browser_title;
+				$args->module_srl = $module_info->module_srl;
 				$args->notify = $this->_getNotifyId($args);
 				$output = $this->_insertNotify($args, $is_anonymous);
 				if(!$output->toBool())
@@ -590,6 +595,7 @@ class ncenterliteController extends ncenterlite
 		$args->regdate = date('YmdHis');
 		$args->notify = $this->_getNotifyId($args);
 		$args->target_url = getNotEncodedUrl('', 'document_srl', $obj->document_srl);
+		$args->module_srl = $obj->module_srl;
 		$this->_insertNotify($args);
 	}
 	
@@ -655,6 +661,7 @@ class ncenterliteController extends ncenterlite
 		$args->target_type = $this->_TYPE_VOTED;
 		$args->target_summary = cut_str(trim(utf8_normalize_spaces(strip_tags($content))), 50);
 		$args->regdate = date('YmdHis');
+		$args->module_srl = $obj->module_srl;
 		$args->notify = $this->_getNotifyId($args);
 		$args->target_url = getNotEncodedUrl('', 'document_srl', $document_srl, 'comment_srl', $obj->comment_srl) . '#comment_' . $obj->comment_srl;
 		$this->_insertNotify($args);
@@ -1173,6 +1180,12 @@ class ncenterliteController extends ncenterlite
 
 	function _insertNotify($args, $anonymous = FALSE)
 	{
+		$config = getModel('ncenterlite')->getConfig();
+		
+		if(is_array($config->hide_module_srls) && in_array($args->module_srl, $config->hide_module_srls))
+		{
+			return new BaseObject();
+		}
 		// 비회원 노티 제거
 		if($args->member_srl <= 0)
 		{
