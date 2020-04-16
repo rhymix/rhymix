@@ -18,6 +18,7 @@ $lang->ncenterlite_about_notify_setting = '선택한 모듈에서는 알림을 �
 $lang->ncenterlite_notify_mid_all = '관리자 알림 페이지';
 $lang->ncenterlite_about_mid_all = '선택한 모듈에서는 모든 알림이 관리자에게도 전달됩니다.';
 $lang->ncenterlite_admin_content = '관리자 알림';
+$lang->ncenterlite_custom = '기타 알림';
 $lang->ncenterlite_read = '읽음 확인';
 $lang->ncenterlite_read_y = '읽음';
 $lang->ncenterlite_read_n = '읽지 않음';

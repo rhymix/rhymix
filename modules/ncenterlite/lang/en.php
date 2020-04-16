@@ -9,6 +9,7 @@ $lang->ncenterlite_cmd_vote = 'Vote';
 $lang->ncenterlite_cmd_scrap = 'Scrap';
 $lang->ncenterlite_comment_comment = 'Reply to Comment';
 $lang->ncenterlite_admin_content = 'Admin Notification';
+$lang->ncenterlite_custom = 'Other';
 $lang->ncenterlite_type_message = 'message';
 $lang->ncenterlite_sender = 'Sender';
 $lang->ncenterlite_addressee = 'Recipient';

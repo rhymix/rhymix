@@ -57,6 +57,13 @@
 				<label for="admin_content_mail" class="x_inline"><input type="checkbox" name="use[admin_content][mail]" id="admin_content_mail" value="1" checked="checked"|cond="isset($config->use['admin_content']['mail'])" /> {$lang->cmd_mail_notify}</label>
 				<label for="admin_content_sms" class="x_inline" disabled="disabled"|cond="!$sms_available"><input type="checkbox" name="use[admin_content][sms]" id="admin_content_sms" value="1" disabled="disabled"|cond="!$sms_available" checked="checked"|cond="isset($config->use['admin_content']['sms'])" /> {$lang->cmd_sms_notify}</label>
 				<label for="admin_content_push" class="x_inline" disabled="disabled"|cond="!$push_available"><input type="checkbox" name="use[admin_content][push]" id="admin_content_push" value="1" disabled="disabled"|cond="!$push_available" checked="checked"|cond="isset($config->use['admin_content']['push'])" /> {$lang->cmd_push_notify}</label>
+			</div>
+			<label class="x_control-label">{$lang->ncenterlite_custom}</label>
+			<div class="x_controls">
+				<label for="custom_web" class="x_inline"><input type="checkbox" name="use[custom][web]" id="custom_web" value="1" checked="checked"|cond="isset($config->use['custom']['web'])" /> {$lang->cmd_web_notify}</label>
+				<label for="custom_mail" class="x_inline"><input type="checkbox" name="use[custom][mail]" id="custom_mail" value="1" checked="checked"|cond="isset($config->use['custom']['mail'])" /> {$lang->cmd_mail_notify}</label>
+				<label for="custom_sms" class="x_inline" disabled="disabled"|cond="!$sms_available"><input type="checkbox" name="use[custom][sms]" id="custom_sms" value="1" disabled="disabled"|cond="!$sms_available" checked="checked"|cond="isset($config->use['custom']['sms'])" /> {$lang->cmd_sms_notify}</label>
+				<label for="custom_push" class="x_inline" disabled="disabled"|cond="!$push_available"><input type="checkbox" name="use[custom][push]" id="custom_push" value="1" disabled="disabled"|cond="!$push_available" checked="checked"|cond="isset($config->use['custom']['push'])" /> {$lang->cmd_push_notify}</label>
 				<p>
 					<div>{$lang->ncenterlite_use_help}</div>
 					<div><span class="x_label x_label-important">{$lang->ncenterlite_warning}</span> {$lang->ncenterlite_dont_use_push}</div>
