@@ -2,6 +2,42 @@
 
 class ncenterliteController extends ncenterlite
 {
+	/**
+	 * Send any message to a member.
+	 * 
+	 * @param int $from_member_srl Sender
+	 * @param int $to_member_srl Recipient
+	 * @param string $message Message content
+	 * @param string $url The URL to redirect to when the recipient clicks the notification
+	 * @return BaseObject
+	 */
+	public function sendNotification($from_member_srl, $to_member_srl, $message, $url)
+	{
+		$args = new stdClass();
+		$args->config_type = 'custom';
+		$args->module_srl = 0;
+		$args->member_srl = intval($to_member_srl);
+		$args->type = 'X';
+		$args->srl = 0;
+		$args->target_p_srl = 0;
+		$args->target_srl = 0;
+		$args->target_member_srl = intval($from_member_srl ?: $to_member_srl);
+		$args->target_type = $this->_TYPE_CUSTOM;
+		$args->target_url = $url;
+		$args->target_browser = '';
+		$args->target_summary = '';
+		$args->target_body = $message;
+		$output = $this->_insertNotify($args);
+		if(!$output->toBool())
+		{
+			return $output;
+		}
+		else
+		{
+			return new BaseObject;
+		}
+	}
+
 	function procNcenterliteUserConfig()
 	{
 		$logged_info = Context::get('logged_info');
@@ -1186,6 +1222,7 @@ class ncenterliteController extends ncenterlite
 		{
 			return new BaseObject();
 		}
+
 		// 비회원 노티 제거
 		if($args->member_srl <= 0)
 		{
