@@ -72,10 +72,10 @@
 	<div class="x_control-group" cond="$member_srl">
 		<label class="x_control-label">{$lang->status}</label>
 		<div class="x_controls">
-			<label class="x_inline" for="appoval"><input type="radio" name="denied" id="appoval" value="N" checked="checked"|cond="$member_info->denied == 'N'" /> {$lang->approval}</label>
-			<label class="x_inline" for="deny"><input type="radio" name="denied" id="deny" value="Y" checked="checked"|cond="$member_info->denied == 'Y' && !$member_unauthenticated" disabled="disabled"|cond="$member_unauthenticated" /> {$lang->denied}</label>
+			<label class="x_inline" for="appoval"><input type="radio" name="denied" id="appoval" value="N" checked="checked"|cond="$member_info->denied == 'N'" disabled="disabled"|cond="$member_info->member_srl == $logged_info->member_srl" /> {$lang->approval}</label>
+			<label class="x_inline" for="deny"><input type="radio" name="denied" id="deny" value="Y" checked="checked"|cond="$member_info->denied == 'Y' && !$member_unauthenticated" disabled="disabled"|cond="$member_unauthenticated || $member_info->member_srl == $logged_info->member_srl" /> {$lang->denied}</label>
 			<!--@if($member_unauthenticated)-->
-				<label class="x_inline" for="deny2"><input type="radio" name="denied" id="deny2" value="Y" checked="checked"|cond="$member_info->denied == 'Y' && $member_unauthenticated" /> {$lang->member_unauthenticated}</label>
+				<label class="x_inline" for="deny2"><input type="radio" name="denied" id="deny2" value="Y" checked="checked"|cond="($member_info->denied == 'Y' && $member_unauthenticated) || $member_info->member_srl == $logged_info->member_srl" /> {$lang->member_unauthenticated}</label>
 			<!--@endif-->
 		</div>
 	</div>
@@ -123,8 +123,8 @@
 	<div class="x_control-group">
 		<label class="x_control-label">{$lang->is_admin}</label>
 		<div class="x_controls">
-			<label class="x_inline" for="is_admin"><input type="radio" name="is_admin" id="is_admin" value="Y" checked="checked"|cond="$member_info->is_admin == 'Y'" > {$lang->cmd_yes}</label>
-			<label class="x_inline" for="not_admin"><input type="radio" name="is_admin" id="not_admin" value="N" checked="checked"|cond="$member_info->is_admin != 'Y'" > {$lang->cmd_no}</label>
+			<label class="x_inline" for="is_admin"><input type="radio" name="is_admin" id="is_admin" value="Y" checked="checked"|cond="$member_info->is_admin == 'Y'" disabled="disabled"|cond="$member_info->member_srl == $logged_info->member_srl"> {$lang->cmd_yes}</label>
+			<label class="x_inline" for="not_admin"><input type="radio" name="is_admin" id="not_admin" value="N" checked="checked"|cond="$member_info->is_admin != 'Y'" disabled="disabled"|cond="$member_info->member_srl == $logged_info->member_srl"> {$lang->cmd_no}</label>
 		</div>
 	</div>
 	<div class="x_control-group">
