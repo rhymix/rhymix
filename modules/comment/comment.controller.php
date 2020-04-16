@@ -675,7 +675,9 @@ class commentController extends comment
 		// If there is no problem to register comment then send an email to all admin were set in module admin panel
 		if($module_info->admin_mail && $member_info->is_admin != 'Y')
 		{
-			$mail_title = sprintf(lang('msg_comment_notify_mail'), $module_info->browser_title, cut_str($oDocument->getTitleText(), 20, '...'));
+			$browser_title = $module_info->browser_title;
+			getController('module')->replaceDefinedLangCode($browser_title);
+			$mail_title = sprintf(lang('msg_comment_notify_mail'), $browser_title, cut_str($oDocument->getTitleText(), 20, '...'));
 			$url_comment = getFullUrl('','document_srl',$obj->document_srl).'#comment_'.$obj->comment_srl;
 			if($using_validation)
 			{
