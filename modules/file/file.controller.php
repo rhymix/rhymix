@@ -388,7 +388,7 @@ class fileController extends file
 		// Use short URL or long URL
 		if ($file_module_config->download_short_url === 'Y' && config('use_rewrite'))
 		{
-			$url = RX_BASEURL . sprintf('files/download/%d/%s/%s', $file_srl, $file_key, rawurlencode($filename));
+			$url = RX_BASEURL . sprintf('files/download/%d/%s/%s', $file_srl, $file_key, rawurlencode(preg_replace('/\.\.+/', '.', $filename)));
 		}
 		else
 		{
@@ -411,7 +411,7 @@ class fileController extends file
 		$file_obj = $oFileModel->getFile($file_srl, $columnList);
 		$file_config = $oFileModel->getFileConfig($file_obj->module_srl ?: null);
 		$filesize = $file_obj->file_size;
-		$filename = $file_obj->source_filename;
+		$filename = preg_replace('/\.\.+/', '.', $file_obj->source_filename);
 		$etag = md5($file_srl . $file_key . \RX_CLIENT_IP);
 
 		// Check file key

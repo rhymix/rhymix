@@ -29,6 +29,7 @@ class FilenameFilter
 		// Remove excess spaces and replacement characters.
 		$filename = trim($filename, ' .-_');
 		$filename = preg_replace('/__+/', '_', $filename);
+		$filename = preg_replace('/\.\.+/', '.', $filename);
 		
 		// Clean up unnecessary encodings.
 		$filename = strtr($filename, array('&amp;' => '&'));
