@@ -17,6 +17,12 @@ class UploadFileFilter
 			return false;
 		}
 		
+		// Don't check partial uploads (chunks).
+		if (Context::get('act') === 'procFileUpload' && preg_match('!^bytes (\d+)-(\d+)/(\d+)$!', $_SERVER['HTTP_CONTENT_RANGE']))
+		{
+			return true;
+		}
+
 		// Call Rhymix framework filter.
 		return Rhymix\Framework\Filters\FileContentFilter::check($file, $filename);
 	}

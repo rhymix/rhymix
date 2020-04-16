@@ -113,6 +113,10 @@ class fileController extends file
 				$this->add('chunk_uploaded_size', $chunk_start + $chunk_size);
 				if ($chunk_start + $chunk_size == $total_size)
 				{
+					if (!Rhymix\Framework\Filters\FileContentFilter::check($temp_filename, $file_info['name']))
+					{
+						throw new Rhymix\Framework\Exception('msg_security_violation');
+					}
 					$file_info['tmp_name'] = $temp_filename;
 					$file_info['size'] = Rhymix\Framework\Storage::getSize($temp_filename);
 				}
