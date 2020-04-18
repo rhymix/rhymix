@@ -486,7 +486,7 @@ jQuery(function($) {
 		var filename = uri.filename() || 'index.php';
 		var queries = uri.search(true);
 
-		if(window.XE.isSameHost(uri.toString()) && $.isEmptyObject(queries)) {
+		if(window.XE.isSameHost(uri.toString()) && filename === 'index.php' && $.isEmptyObject(queries)) {
 			filename = '';
 		}
 		
@@ -721,7 +721,11 @@ function doChangeLangType(obj) {
 		var val = obj.options[obj.selectedIndex].value;
 		setLangType(val);
 	}
-	location.href = location.href.setQuery('l', '');
+	if(location.href.match(/[?&]l=[a-z]+/)) {
+		location.href = location.href.setQuery('l', '');
+	} else {
+		location.reload();
+	}
 }
 function setLangType(lang_type) {
 	XE.cookie.set("lang_type", lang_type, { path: "/", expires: 3650 });
