@@ -213,12 +213,16 @@ class Session
 		}
 		
 		// If this is a new session, remove conflicting cookies.
+		// This is temporary code to take care of a bug that was in develop branch for a few days in March 2020.
+		// It is not needed if you never updated to a buggy develop branch.
+		/*
 		if ($cookie_exists && $domain === null && !isset($_SESSION['conflict_clean']))
 		{
 			self::destroyCookiesFromConflictingDomains(array(session_name(), 'rx_autologin', 'rx_sesskey1', 'rx_sesskey2'), true);
 			session_regenerate_id();
 			$_SESSION['conflict_clean'] = true;
 		}
+		*/
 		
 		// Create or refresh the session if needed.
 		if ($must_create)
@@ -534,7 +538,7 @@ class Session
 		self::_unsetCookie('xe_logged', $path, $domain);
 		self::_unsetCookie('xeak', $path, $domain);
 		self::_unsetCookie('sso', $path, $domain);
-		self::destroyCookiesFromConflictingDomains(array('xe_logged', 'xeak', 'sso'), $domain === null);
+		self::destroyCookiesFromConflictingDomains(array('xe_logged', 'xeak', 'sso'));
 		
 		// Clear session data.
 		$_SESSION = array();
@@ -1134,7 +1138,7 @@ class Session
 		}
 		
 		// Delete conflicting domain cookies.
-		self::destroyCookiesFromConflictingDomains(array(session_name(), 'rx_autologin', 'rx_sesskey1', 'rx_sesskey2'), $domain === null);
+		self::destroyCookiesFromConflictingDomains(array(session_name(), 'rx_autologin', 'rx_sesskey1', 'rx_sesskey2'));
 		return true;
 	}
 	
@@ -1221,7 +1225,7 @@ class Session
 				'samesite' => $samesite,
 			));
 			
-			self::destroyCookiesFromConflictingDomains(array('rx_autologin'), $domain === null);
+			self::destroyCookiesFromConflictingDomains(array('rx_autologin'));
 			return true;
 		}
 		else
@@ -1254,7 +1258,7 @@ class Session
 		
 		// Delete the autologin cookie.
 		self::_unsetCookie('rx_autologin', $path, $domain);
-		self::destroyCookiesFromConflictingDomains(array('rx_autologin'), $domain === null);
+		self::destroyCookiesFromConflictingDomains(array('rx_autologin'));
 		unset($_COOKIE['rx_autologin']);
 		return $result;
 	}
