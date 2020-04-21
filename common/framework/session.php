@@ -74,14 +74,24 @@ class Session
 		}
 		
 		// Set session parameters.
-		list($lifetime, $refresh_interval, $domain, $path) = self::_getParams();
+		list($lifetime, $refresh_interval, $domain, $path, $secure, $samesite) = self::_getParams();
 		$alt_domain = $domain ?: preg_replace('/:\\d+$/', '', strtolower($_SERVER['HTTP_HOST']));
-		$ssl_only = (\RX_SSL && config('session.use_ssl')) ? true : false;
 		ini_set('session.gc_maxlifetime', $lifetime + 28800);
 		ini_set('session.use_cookies', 1);
 		ini_set('session.use_only_cookies', 1);
 		ini_set('session.use_strict_mode', 1);
-		session_set_cookie_params($lifetime, $path, $domain, $ssl_only, $ssl_only);
+		if ($samesite)
+		{
+			if (version_compare(PHP_VERSION, '7.3', '>='))
+			{
+				ini_set('session.cookie_samesite', $samesite);
+			}
+			else
+			{
+				$path = ($path ?: '/') . '; SameSite=' . $samesite;
+			}
+		}
+		session_set_cookie_params($lifetime, $path, $domain, $secure, $secure);
 		session_name($session_name = Config::get('session.name') ?: session_name());
 		
 		// Get session ID from POST parameter if using relaxed key checks.
@@ -307,7 +317,14 @@ class Session
 		if(!$is_default_domain && !\Context::get('sso_response') && $_COOKIE['sso'] !== md5($current_domain))
 		{
 			// Set sso cookie to prevent multiple simultaneous SSO validation requests.
-			setcookie('sso', md5($current_domain), 0, '/', $domain, !!config('session.use_ssl'), true);
+			self::_setCookie('sso', md5($current_domain), array(
+				'expires' => 0,
+				'path' => '/',
+				'domain' => null,
+				'secure' => !!config('session.use_ssl'),
+				'httponly' => true,
+				'samesite' => config('session.samesite'),
+			));
 			
 			// Redirect to the default site.
 			$sso_request = Security::encrypt($current_url);
@@ -508,23 +525,16 @@ class Session
 	public static function destroy()
 	{
 		// Get session parameters.
-		list($lifetime, $refresh_interval, $domain, $path) = self::_getParams();
+		list($lifetime, $refresh_interval, $domain, $path, $secure, $samesite) = self::_getParams();
 		
 		// Delete all cookies.
 		self::_setKeys();
 		self::destroyAutologinKeys();
-		setcookie(session_name(), 'deleted', time() - 86400, $path, $domain, false, false);
-		setcookie('xe_logged', 'deleted', time() - 86400, $path, $domain, false, false);
-		setcookie('xeak', 'deleted', time() - 86400, $path, $domain, false, false);
-		setcookie('sso', 'deleted', time() - 86400, $path, $domain, false, false);
+		self::_unsetCookie(session_name(), $path, $domain);
+		self::_unsetCookie('xe_logged', $path, $domain);
+		self::_unsetCookie('xeak', $path, $domain);
+		self::_unsetCookie('sso', $path, $domain);
 		self::destroyCookiesFromConflictingDomains(array('xe_logged', 'xeak', 'sso'), $domain === null);
-		unset($_COOKIE[session_name()]);
-		unset($_COOKIE['rx_autologin']);
-		unset($_COOKIE['rx_sesskey1']);
-		unset($_COOKIE['rx_sesskey2']);
-		unset($_COOKIE['xe_logged']);
-		unset($_COOKIE['xeak']);
-		unset($_COOKIE['sso']);
 		
 		// Clear session data.
 		$_SESSION = array();
@@ -1047,7 +1057,9 @@ class Session
 		$refresh = Config::get('session.refresh') ?: 300;
 		$domain = self::getDomain();
 		$path = Config::get('session.path') ?: ini_get('session.cookie_path');
-		return array($lifetime, $refresh, $domain, $path);
+		$secure = (\RX_SSL && config('session.use_ssl')) ? true : false;
+		$samesite = config('session.samesite');
+		return array($lifetime, $refresh, $domain, $path, $secure, $samesite);
 	}
 	
 	/**
@@ -1089,27 +1101,35 @@ class Session
 	protected static function _setKeys()
 	{
 		// Get session parameters.
-		list($lifetime, $refresh_interval, $domain, $path) = self::_getParams();
+		list($lifetime, $refresh_interval, $domain, $path, $secure, $samesite) = self::_getParams();
 		$alt_domain = $domain ?: preg_replace('/:\\d+$/', '', strtolower($_SERVER['HTTP_HOST']));
 		$lifetime = $lifetime ? ($lifetime + time()) : 0;
-		$ssl_only = (\RX_SSL && config('session.use_ssl')) ? true : false;
-		
+		$options = array(
+			'expires' => $lifetime,
+			'path' => $path,
+			'domain' => $domain,
+			'secure' => $secure,
+			'httponly' => true,
+			'samesite' => $samesite,
+		);
+
 		// Set or destroy the HTTP-only key.
 		if (isset($_SESSION['RHYMIX']['keys'][$alt_domain]['key1']))
 		{
-			setcookie('rx_sesskey1', $_SESSION['RHYMIX']['keys'][$alt_domain]['key1'], $lifetime, $path, $domain, $ssl_only, true);
+			self::_setCookie('rx_sesskey1', $_SESSION['RHYMIX']['keys'][$alt_domain]['key1'], $options);
 			$_COOKIE['rx_sesskey1'] = $_SESSION['RHYMIX']['keys'][$alt_domain]['key1'];
 		}
 		else
 		{
-			setcookie('rx_sesskey1', 'deleted', time() - 86400, $path, $domain);
+			self::_unsetCookie('rx_sesskey1', $path, $domain);
 			unset($_COOKIE['rx_sesskey1']);
 		}
 		
 		// Set the HTTPS-only key.
 		if (\RX_SSL && isset($_SESSION['RHYMIX']['keys'][$alt_domain]['key2']))
 		{
-			setcookie('rx_sesskey2', $_SESSION['RHYMIX']['keys'][$alt_domain]['key2'], $lifetime, $path, $domain, true, true);
+			$options['secure'] = true;
+			self::_setCookie('rx_sesskey2', $_SESSION['RHYMIX']['keys'][$alt_domain]['key2'], $options);
 			$_COOKIE['rx_sesskey2'] = $_SESSION['RHYMIX']['keys'][$alt_domain]['key2'];
 		}
 		
@@ -1118,6 +1138,63 @@ class Session
 		return true;
 	}
 	
+	/**
+	 * Set cookie (for compatibility with PHP < 7.3)
+	 * 
+	 * @param string $name
+	 * @param string $value
+	 * @param array $options
+	 * @return bool
+	 */
+	protected static function _setCookie($name, $value, array $options = [])
+	{
+		$name = strval($name);
+		$value = strval($value);
+
+		if (version_compare(PHP_VERSION, '7.3', '>='))
+		{
+			$result = setcookie($name, $value, $options);
+		}
+		else
+		{
+			$expires = $options['expires'] ?? 0;
+			$path = $options['path'] ?? null;
+			$domain = $options['domain'] ?? null;
+			$secure = $options['secure'] ?? null;
+			$httponly = $options['httponly'] ?? null;
+			$samesite = $options['samesite'] ?? '';
+			if ($samesite)
+			{
+				$path = ($path ?: '/') . '; SameSite=' . $samesite;
+			}
+			$result = setcookie($name, $value, $expires, $path, $domain, $secure, $httponly);
+		}
+
+		if ($result)
+		{
+			$_COOKIE[$name] = $value;
+		}
+		return $result;
+	}
+	
+	/**
+	 * Unset cookie.
+	 * 
+	 * @param string $name
+	 * @param string $path (optional)
+	 * @param string $domain (optional)
+	 * @return bool
+	 */
+	protected static function _unsetCookie($name, $path = null, $domain = null)
+	{
+		$result = setcookie($name, 'deleted', time() - (86400 * 366), $path, $domain, false, false);
+		if ($result)
+		{
+			unset($_COOKIE[$name]);
+		}
+		return $result;
+	}
+
 	/**
 	 * Set autologin key.
 	 * 
@@ -1128,16 +1205,23 @@ class Session
 	public static function setAutologinKeys($autologin_key, $security_key)
 	{
 		// Get session parameters.
-		list($lifetime, $refresh_interval, $domain, $path) = self::_getParams();
+		list($lifetime, $refresh_interval, $domain, $path, $secure, $samesite) = self::_getParams();
 		$lifetime = time() + (86400 * 365);
-		$ssl_only = (\RX_SSL && config('session.use_ssl')) ? true : false;
+		$samesite = config('session.samesite');
 		
 		// Set the autologin keys.
 		if ($autologin_key && $security_key)
 		{
-			setcookie('rx_autologin', $autologin_key . $security_key, $lifetime, $path, $domain, $ssl_only, true);
+			self::_setCookie('rx_autologin', $autologin_key . $security_key, array(
+				'expires' => $lifetime,
+				'path' => $path,
+				'domain' => $domain,
+				'secure' => $secure,
+				'httponly' => true,
+				'samesite' => $samesite,
+			));
+			
 			self::destroyCookiesFromConflictingDomains(array('rx_autologin'), $domain === null);
-			$_COOKIE['rx_autologin'] = $autologin_key . $security_key;
 			return true;
 		}
 		else
@@ -1154,7 +1238,7 @@ class Session
 	public static function destroyAutologinKeys()
 	{
 		// Get session parameters.
-		list($lifetime, $refresh_interval, $domain, $path) = self::_getParams();
+		list($lifetime, $refresh_interval, $domain, $path, $secure, $samesite) = self::_getParams();
 		
 		// Delete the autologin keys from the database.
 		if (self::$_autologin_key)
@@ -1169,7 +1253,7 @@ class Session
 		}
 		
 		// Delete the autologin cookie.
-		setcookie('rx_autologin', 'deleted', time() - 86400, $path, $domain, false, false);
+		self::_unsetCookie('rx_autologin', $path, $domain);
 		self::destroyCookiesFromConflictingDomains(array('rx_autologin'), $domain === null);
 		unset($_COOKIE['rx_autologin']);
 		return $result;
@@ -1235,12 +1319,12 @@ class Session
 			return false;
 		}
 		
-		list($lifetime, $refresh_interval, $domain, $path) = self::_getParams();
+		list($lifetime, $refresh_interval, $domain, $path, $secure, $samesite) = self::_getParams();
 		foreach ($cookies as $cookie)
 		{
 			foreach ($conflict_domains as $conflict_domain)
 			{
-				setcookie($cookie, 'deleted', time() - 86400, $path, $conflict_domain);
+				self::_unsetCookie($cookie, $path, $conflict_domain);
 			}
 		}
 		

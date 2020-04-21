@@ -689,6 +689,7 @@ class adminAdminController extends admin
 		
 		Rhymix\Framework\Config::set('admin.allow', array_values($allowed_ip));
 		Rhymix\Framework\Config::set('admin.deny', array_values($denied_ip));
+		Rhymix\Framework\Config::set('session.samesite', preg_replace('/[^a-zA-Z]/', '', $vars->use_samesite));
 		Rhymix\Framework\Config::set('session.use_keys', $vars->use_session_keys === 'Y');
 		Rhymix\Framework\Config::set('session.use_ssl', $vars->use_session_ssl === 'Y');
 		Rhymix\Framework\Config::set('session.use_ssl_cookies', $vars->use_cookies_ssl === 'Y');

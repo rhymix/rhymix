@@ -453,6 +453,7 @@ class adminAdminView extends admin
 		Context::set('remote_addr', RX_CLIENT_IP);
 		
 		// Session and cookie security settings
+		Context::set('use_samesite', Rhymix\Framework\Config::get('session.samesite'));
 		Context::set('use_session_keys', Rhymix\Framework\Config::get('session.use_keys'));
 		Context::set('use_session_ssl', Rhymix\Framework\Config::get('session.use_ssl'));
 		Context::set('use_cookies_ssl', Rhymix\Framework\Config::get('session.use_ssl_cookies'));
