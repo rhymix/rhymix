@@ -70,6 +70,10 @@ class DisplayHandler extends Handler
 			}
 		}
 
+		// call a trigger before layout
+		ModuleHandler::triggerCall('layout', 'before', $oModule);
+
+		// apply layout
 		$output = $handler->toDoc($oModule);
 
 		// call a trigger before display
