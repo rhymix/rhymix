@@ -35,10 +35,15 @@ class communicationController extends communication
 			$args->allow_message = 'Y';
 		}
 
-		$logged_info = Context::get('logged_info');
-		$args->member_srl = $logged_info->member_srl;
+		$args->member_srl = $this->user->member_srl;
 
 		$output = executeQuery('communication.updateAllowMessage', $args);
+		if(!$output->toBool())
+		{
+			return $output;
+		}
+		
+		getController('member')->_clearMemberCache($args->member_srl);
 
 		$returnUrl = Context::get('success_return_url') ? Context::get('success_return_url') : getNotEncodedUrl('', 'mid', Context::get('mid'), 'act', 'dispCommunicationMessages', 'message_type', Context::get('message_type'));
 
