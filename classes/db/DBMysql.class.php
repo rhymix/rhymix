@@ -77,14 +77,6 @@ class DBMySQL extends DB
 			exit;
 		}
 		
-		// Check DB version
-		$this->db_version = $mysqli->server_info;
-		if (version_compare($this->db_version, '5.0.7', '<'))
-		{
-			Rhymix\Framework\Debug::displayError('Rhymix requires MySQL 5.0.7 or later. Current MySQL version is ' . $this->db_version);
-			exit;
-		}
-		
 		// Set DB charset
 		$this->charset = isset($connection['charset']) ? $connection['charset'] : 'utf8';
 		$mysqli->set_charset($this->charset);
