@@ -449,7 +449,7 @@ class documentModel extends document
 
 			$oModuleModel = getModel('module');
 			$document_config = $oModuleModel->getModulePartConfig('document',$module_srl);
-			$oDocumentisVoted = $oDocument->getVoted();
+			$oDocumentisVoted = $oDocument->getMyVote();
 			if($document_config->use_vote_up!='N' && $member_srl!=$this->user->member_srl)
 			{
 				if($oDocumentisVoted === false || $oDocumentisVoted < 0)

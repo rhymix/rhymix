@@ -84,12 +84,12 @@
 		<div class="vote">
 			<ul>
 				<li>
-					<a cond="$oDocument->getVoted() === false || $oDocument->getVoted() < 0" href="#" onclick="doCallModuleAction('document','procDocumentVoteUp','{$oDocument->document_srl}');return false;" class="voted"> <i class="xi-thumbs-up"></i><br>{$lang->cmd_vote} {$oDocument->get('voted_count')}</a>
-					<a cond="$oDocument->getVoted() > 0" href="#" onclick="doCallModuleAction('document','procDocumentVoteUpCancel','{$oDocument->document_srl}');return false;" class="voted"> <i class="xi-thumbs-up"></i><br>{$lang->cmd_vote} {$oDocument->get('voted_count')}</a>
+					<a cond="$oDocument->getMyVote() === false || $oDocument->getMyVote() < 0" href="#" onclick="doCallModuleAction('document','procDocumentVoteUp','{$oDocument->document_srl}');return false;" class="voted"> <i class="xi-thumbs-up"></i><br>{$lang->cmd_vote} {$oDocument->get('voted_count')}</a>
+					<a cond="$oDocument->getMyVote() > 0" href="#" onclick="doCallModuleAction('document','procDocumentVoteUpCancel','{$oDocument->document_srl}');return false;" class="voted"> <i class="xi-thumbs-up"></i><br>{$lang->cmd_vote} {$oDocument->get('voted_count')}</a>
 				</li>
 				<li>
-					<a cond="$oDocument->getVoted() === false || $oDocument->getVoted() > 0" href="#" onclick="doCallModuleAction('document','procDocumentVoteDown','{$oDocument->document_srl}');return false;" class="voted"> <i class="xi-thumbs-down"></i><br>{$lang->cmd_vote_down} {$oDocument->get('blamed_count')}</a>
-					<a cond="$oDocument->getVoted() < 0" href="#" onclick="doCallModuleAction('document','procDocumentVoteDownCancel','{$oDocument->document_srl}');return false;" class="voted"> <i class="xi-thumbs-down"></i><br>{$lang->cmd_vote_down} {$oDocument->get('blamed_count')}</a>
+					<a cond="$oDocument->getMyVote() === false || $oDocument->getMyVote() > 0" href="#" onclick="doCallModuleAction('document','procDocumentVoteDown','{$oDocument->document_srl}');return false;" class="voted"> <i class="xi-thumbs-down"></i><br>{$lang->cmd_vote_down} {$oDocument->get('blamed_count')}</a>
+					<a cond="$oDocument->getMyVote() < 0" href="#" onclick="doCallModuleAction('document','procDocumentVoteDownCancel','{$oDocument->document_srl}');return false;" class="voted"> <i class="xi-thumbs-down"></i><br>{$lang->cmd_vote_down} {$oDocument->get('blamed_count')}</a>
 				</li>
 			</ul>
 		</div>

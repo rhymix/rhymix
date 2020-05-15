@@ -315,7 +315,7 @@ class commentItem extends BaseObject
 		return escape($this->get('nick_name'), false);
 	}
 
-	function getVote()
+	function getMyVote()
 	{
 		if(!$this->comment_srl) return false;
 		if(isset($_SESSION['voted_comment'][$this->comment_srl]))
