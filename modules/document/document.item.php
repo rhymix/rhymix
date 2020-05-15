@@ -476,6 +476,11 @@ class documentItem extends BaseObject
 		return $cut_size ? cut_str($this->get('title'), $cut_size, $tail) : $this->get('title');
 	}
 
+	function getVoted()
+	{
+		return $this->getMyVote();
+	}
+
 	function getMyVote()
 	{
 		if(!$this->isExists())

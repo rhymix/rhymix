@@ -315,6 +315,11 @@ class commentItem extends BaseObject
 		return escape($this->get('nick_name'), false);
 	}
 
+	function getVote()
+	{
+		return $this->getMyVote();
+	}
+
 	function getMyVote()
 	{
 		if(!$this->comment_srl) return false;
