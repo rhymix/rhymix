@@ -68,8 +68,8 @@ xe.lang.msg_empty_search_keyword = '{$lang->msg_empty_search_keyword}';
 					<span class="rx_simple_marks">{$val->getRegdate($val->getRegdateTime() > time() - 86400 ? 'H:i' : 'm-d')}</span>
 				</td>
 				<td class="nowr rx_detail_marks"><a href="{getUrl('search_target','ipaddress','search_keyword',$val->ipaddress)}">{$val->ipaddress}</a></td>
-				<td class="nowr rx_detail_marks"><!--@if($val->isSecret())-->{$secret_name_list['Y']}<!--@else-->{$secret_name_list['N']}<!--@end--></td>
-				<td class="nowr rx_detail_marks"><!--@if($val->status)-->{$lang->published_name_list['Y']}<!--@else-->{$lang->published_name_list['N']}<!--@end--></td>
+				<td class="nowr rx_detail_marks">{$secret_name_list[$val->isSecret() ? 'Y' : 'N']}</td>
+				<td class="nowr rx_detail_marks">{$lang->published_name_list[$val->status]}</td>
 				<td><input type="checkbox" name="cart" value="{$val->comment_srl}" /></td>
 			</tr>
 			<tr cond="!$comment_list">
