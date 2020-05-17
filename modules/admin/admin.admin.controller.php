@@ -1054,6 +1054,10 @@ class adminAdminController extends admin
 			throw new Rhymix\Framework\Exception('msg_invalid_timezone');
 		}
 		
+		// Clean up the meta keywords and description.
+		$vars->meta_keywords = utf8_trim($vars->meta_keywords);
+		$vars->meta_description = utf8_trim($vars->meta_description);
+		
 		// Clean up the header and footer scripts.
 		$vars->html_header = utf8_trim($vars->html_header);
 		$vars->html_footer = utf8_trim($vars->html_footer);
@@ -1064,6 +1068,8 @@ class adminAdminController extends admin
 			'subtitle' => $vars->subtitle,
 			'language' => $vars->default_lang,
 			'timezone' => $vars->default_timezone,
+			'meta_keywords' => $vars->meta_keywords,
+			'meta_description' => $vars->meta_description,
 			'html_header' => $vars->html_header,
 			'html_footer' => $vars->html_footer,
 		);

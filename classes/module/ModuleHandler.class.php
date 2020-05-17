@@ -300,7 +300,11 @@ class ModuleHandler extends Handler
 			{
 				Context::addMetaTag('keywords', $module_info->meta_keywords);
 			}
-			elseif($module_config->meta_keywords)
+			elseif ($site_module_info->settings->meta_keywords)
+			{
+				Context::addMetaTag('keywords', $site_module_info->settings->meta_keywords);
+			}
+			elseif ($module_config->meta_keywords)
 			{
 				Context::addMetaTag('keywords', $module_config->meta_keywords);
 			}
@@ -308,6 +312,10 @@ class ModuleHandler extends Handler
 			if ($module_info->meta_description)
 			{
 				Context::addMetaTag('description', $module_info->meta_description);
+			}
+			elseif ($site_module_info->settings->meta_description)
+			{
+				Context::addMetaTag('description', $site_module_info->settings->meta_description);
 			}
 			elseif($module_config->meta_description)
 			{
