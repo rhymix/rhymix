@@ -2,3 +2,8 @@
 <div class="x_page-header">
 	<h1>{$lang->comment} {$lang->cmd_management}</h1>
 </div>
+
+<script type="text/javascript">
+	var secret_name_list = {$lang->secret_name_list->getArrayCopy()|json};
+	var published_name_list = {$lang->published_name_list->getArrayCopy()|json};
+</script>

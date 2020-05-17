@@ -39,8 +39,6 @@ function getCommentList()
 function completeGetCommentList(ret_obj, response_tags)
 {
 	var htmlListBuffer = '';
-	var statusNameList = {"N":"Public", "Y":"Secret"};
-	var publishedStatusList = {0:'Unpublished', 1:'Published'};
 	if(ret_obj['comment_list'] == null)
 	{
 		htmlListBuffer = '<tr>' +
@@ -57,8 +55,8 @@ function completeGetCommentList(ret_obj, response_tags)
 			htmlListBuffer += '<tr>' +
 								'<td class="title">'+ objComment.content +'</td>' +
 								'<td class="nowr">'+ objComment.nick_name +'</td>' +
-								'<td class="nowr">'+ statusNameList[objComment.is_secret] +'</td>' +
-								'<td>'+ publishedStatusList[objComment.status] + '<input type="hidden" name="cart[]" value="'+objComment.comment_srl+'" />' + '</td>' +
+								'<td class="nowr">'+ secret_name_list[objComment.is_secret] +'</td>' +
+								'<td>'+ published_name_list[String(objComment.status)] + '<input type="hidden" name="cart[]" value="'+objComment.comment_srl+'" />' + '</td>' +
 							'</tr>';
 		}
 		jQuery('#selectedCommentCount').html(comment_list.length);
