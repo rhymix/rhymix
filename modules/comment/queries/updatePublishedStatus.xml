@@ -6,7 +6,10 @@
         <column name="status" var="status" notnull="notnull" />
     </columns>
     <conditions>
-        <condition operation="in" column="comment_srl" var="comment_srls_list" notnull="notnull" pipe="or" />
-        <condition operation="in" column="parent_srl" var="comment_srls_list" notnull="notnull" pipe="or" />
+        <condition operation="in" column="status" var="old_status" />
+        <group pipe="and">
+            <condition operation="in" column="comment_srl" var="comment_srls_list" notnull="notnull" />
+            <condition operation="in" column="parent_srl" var="comment_srls_list" notnull="notnull" pipe="or" />
+        </group>
     </conditions>
 </query>

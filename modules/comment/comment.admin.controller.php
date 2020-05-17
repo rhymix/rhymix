@@ -69,6 +69,14 @@ class commentAdminController extends comment
 
 		$args = new stdClass();
 		$args->status = $will_publish;
+		if ($will_publish)
+		{
+			$args->old_status = array(0, 1, 2, 3, 4, 5, 6);
+		}
+		else
+		{
+			$args->old_status = array(0, 1);
+		}
 		$args->comment_srls_list = $comment_srl_list;
 		$output = executeQuery('comment.updatePublishedStatus', $args);
 		if(!$output->toBool())
@@ -89,15 +97,16 @@ class commentAdminController extends comment
 			$logged_info = Context::get('logged_info');
 			//$oMemberModule = getModel("member");
 			//$logged_info = $oMemberModule->getMemberInfoByMemberSrl($logged_member_srl);
-			$new_status = ($will_publish) ? "published" : "unpublished";
+			$new_status = lang('comment.published_name_list')[$will_publish];
 			foreach($comment_srl_list as $comment_srl)
 			{
 				// check if comment already exists
 				$comment = $oCommentModel->getComment($comment_srl);
-				if($comment->comment_srl != $comment_srl)
+				if($comment->comment_srl != $comment_srl || $comment->status != $will_publish)
 				{
-					throw new Rhymix\Framework\Exceptions\InvalidRequest;
+					continue;
 				}
+
 				$document_srl = $comment->document_srl;
 				if(!in_array($document_srl, $updated_documents_arr))
 				{
