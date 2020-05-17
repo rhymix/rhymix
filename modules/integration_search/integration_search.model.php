@@ -108,6 +108,7 @@ class integration_searchModel extends module
 		$args->sort_index = 'list_order';
 		$args->order_type = 'asc';
 		$args->statusList = array(1);
+		$args->document_statusList = array('PUBLIC');
 		if(!$args->module_srl) unset($args->module_srl);
 		if(!$args->exclude_module_srl) unset($args->exclude_module_srl);
 

@@ -777,7 +777,7 @@ class commentModel extends comment
 
 		// Variables
 		$args = new stdClass();
-		$args->sort_index = 'list_order';
+		$args->sort_index = 'comments.list_order';
 		$args->page = $obj->page ? $obj->page : 1;
 		$args->list_count = $obj->list_count ? $obj->list_count : 20;
 		$args->page_count = $obj->page_count ? $obj->page_count : 10;
@@ -785,6 +785,7 @@ class commentModel extends comment
 		$args->s_module_srl = $obj->module_srl;
 		$args->exclude_module_srl = $obj->exclude_module_srl;
 		$args->statusList = $obj->statusList;
+		$args->document_statusList = $obj->document_statusList;
 		if ($obj->is_secret)
 		{
 			$args->s_is_secret = $obj->is_secret;
@@ -822,7 +823,6 @@ class commentModel extends comment
 
 					$args->s_user_id = $search_keyword;
 					$query_id = 'comment.getTotalCommentListWithinMember';
-					$args->sort_index = 'comments.list_order';
 					break;
 
 				case 'user_name' :

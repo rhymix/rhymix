@@ -1,14 +1,16 @@
 <query id="getTotalCommentListWithinMember" action="select">
     <tables>
-        <table name="comments" alias="comments" />
-        <table name="member" alias="member" />
+        <table name="comments" />
+        <table name="documents" />
+        <table name="member" />
     </tables>
     <columns>
         <column name="comments.*" />
     </columns>
     <conditions>
-        <condition operation="equal" column="member.user_id" var="s_user_id" notnull="notnull" />
+        <condition operation="equal" column="documents.document_srl" var="comments.document_srl" notnull="notnull" />
         <condition operation="equal" column="member.member_srl" var="comments.member_srl" notnull="notnull" pipe="and" />
+        <condition operation="equal" column="member.user_id" var="s_user_id" notnull="notnull" pipe="and" />
         <condition operation="equal" column="comments.is_secret" var="s_is_secret" pipe="and" />
 		<condition operation="equal" column="comments.status" var="s_is_published" pipe="and" />
 		<condition operation="in" column="comments.status" var="statusList" pipe="and" />

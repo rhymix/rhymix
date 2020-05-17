@@ -1,30 +1,33 @@
 <query id="getTotalCommentList" action="select">
     <tables>
-        <table name="comments" alias="comments" />
+        <table name="comments" />
+        <table name="documents" />
     </tables>
     <columns>
         <column name="*" />
     </columns>
     <conditions>
-        <condition operation="in" column="module_srl" var="s_module_srl" />
-        <condition operation="notin" column="module_srl" var="exclude_module_srl" pipe="and" />
-        <condition operation="equal" column="is_secret" var="s_is_secret" pipe="and" />
-        <condition operation="equal" column="status" var="s_is_published" pipe="and" />
-		<condition operation="in" column="status" var="statusList" pipe="and" />
-		<condition operation="in" column="member_srl" var="s_member_srl" pipe="and" />
+        <condition operation="equal" column="documents.document_srl" var="comments.document_srl" notnull="notnull" />
+        <condition operation="in" column="documents.module_srl" var="s_module_srl" pipe="and" />
+        <condition operation="notin" column="documents.module_srl" var="exclude_module_srl" pipe="and" />
+        <condition operation="in" column="documents.status" var="document_statusList" pipe="and" />
+        <condition operation="equal" column="comments.is_secret" var="s_is_secret" pipe="and" />
+        <condition operation="equal" column="comments.status" var="s_is_published" pipe="and" />
+		<condition operation="in" column="comments.status" var="statusList" pipe="and" />
+		<condition operation="in" column="comments.member_srl" var="s_member_srl" pipe="and" />
 		<group pipe="and">
-            <condition operation="like" column="content" var="s_content" pipe="or" />
-            <condition operation="like_prefix" column="user_name" var="s_user_name" pipe="or" />
-            <condition operation="like_prefix" column="nick_name" var="s_nick_name" pipe="or" />
-            <condition operation="like" column="email_address" var="s_email_address" pipe="or" />
-            <condition operation="like" column="homepage" var="s_homepage" pipe="or" />
-            <condition operation="like_prefix" column="regdate" var="s_regdate" pipe="or" />
-            <condition operation="like_prefix" column="last_update" var="s_last_upate" pipe="or" />
-            <condition operation="like_prefix" column="ipaddress" var="s_ipaddress" pipe="or" />
+            <condition operation="like" column="comments.content" var="s_content" pipe="or" />
+            <condition operation="like_prefix" column="comments.user_name" var="s_user_name" pipe="or" />
+            <condition operation="like_prefix" column="comments.nick_name" var="s_nick_name" pipe="or" />
+            <condition operation="like" column="comments.email_address" var="s_email_address" pipe="or" />
+            <condition operation="like" column="comments.homepage" var="s_homepage" pipe="or" />
+            <condition operation="like_prefix" column="comments.regdate" var="s_regdate" pipe="or" />
+            <condition operation="like_prefix" column="comments.last_update" var="s_last_upate" pipe="or" />
+            <condition operation="like_prefix" column="comments.ipaddress" var="s_ipaddress" pipe="or" />
         </group>
     </conditions>
     <navigation>
-        <index var="sort_index" default="list_order" order="asc" />
+        <index var="sort_index" default="comments.list_order" order="asc" />
         <list_count var="list_count" default="20" />
         <page_count var="page_count" default="10" />
         <page var="page" default="1" />

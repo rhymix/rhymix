@@ -52,8 +52,7 @@ class commentAdminView extends comment
 		// get a list by using comment->getCommentList. 
 		$oCommentModel = getModel('comment');
 		$secretNameList = $oCommentModel->getSecretNameList();
-		$columnList = array('comment_srl', 'document_srl','module_srl','is_secret', 'status', 'content', 'comments.member_srl', 'comments.nick_name', 'comments.regdate', 'ipaddress', 'voted_count', 'blamed_count');
-		$output = $oCommentModel->getTotalCommentList($args, $columnList);
+		$output = $oCommentModel->getTotalCommentList($args);
 
 		// $modules = $oCommentModel->getDistinctModules();
 		// $modules_list = $modules;

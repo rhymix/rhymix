@@ -430,8 +430,7 @@ class memberView extends member
 		$args->sort_index = 'list_order';
 		
 		$oCommentModel = getModel('comment');
-		$columnList = array('comment_srl', 'document_srl', 'module_srl', 'is_secret', 'status', 'content', 'comments.member_srl', 'comments.nick_name', 'comments.regdate', 'ipaddress', 'voted_count', 'blamed_count');
-		$output = $oCommentModel->getTotalCommentList($args, $columnList);
+		$output = $oCommentModel->getTotalCommentList($args);
 		Context::set('total_count', $output->total_count);
 		Context::set('total_page', $output->total_page);
 		Context::set('page', $output->page);
