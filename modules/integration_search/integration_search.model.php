@@ -59,9 +59,10 @@ class integration_searchModel extends module
 		$args->order_type = 'asc';
 		$args->statusList = array('PUBLIC');
 		if(!$args->module_srl) unset($args->module_srl);
+		if(!$args->exclude_module_srl) unset($args->exclude_module_srl);
+
 		// Get a list of documents
 		$oDocumentModel = getModel('document');
-
 		return $oDocumentModel->getDocumentList($args);
 	}
 
@@ -107,11 +108,12 @@ class integration_searchModel extends module
 		$args->sort_index = 'list_order';
 		$args->order_type = 'asc';
 		$args->statusList = array(1);
-		// Get a list of documents
+		if(!$args->module_srl) unset($args->module_srl);
+		if(!$args->exclude_module_srl) unset($args->exclude_module_srl);
+
+		// Get a list of comments
 		$oCommentModel = getModel('comment');
-		$output = $oCommentModel->getTotalCommentList($args);
-		if(!$output->toBool()|| !$output->data) return $output;
-		return $output;
+		return $oCommentModel->getTotalCommentList($args);
 	}
 
 	/**
