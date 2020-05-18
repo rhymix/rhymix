@@ -201,7 +201,7 @@ class ModuleObject extends BaseObject
 		$this->origin_module_info = $module_info;
 		$this->xml_info = $xml_info;
 		$this->skin_vars = $module_info->skin_vars;
-		$this->module_config = getModel('module')->getModuleConfig($this->module, $module_info->site_srl);
+		$this->module_config = ModuleModel::getInstance()->getModuleConfig($this->module, $module_info->site_srl);
 		
 		// Set privileges(granted) information
 		if($this->setPrivileges() !== true)
@@ -277,7 +277,7 @@ class ModuleObject extends BaseObject
 				foreach($check_module_srl as $target_srl)
 				{
 					// Get privileges(granted) information of current user for target module
-					if(($grant = getModel('module')->getPrivilegesBySrl($target_srl, $permission_check->type)) === false)
+					if(($grant = ModuleModel::getInstance()->getPrivilegesBySrl($target_srl, $permission_check->type)) === false)
 					{
 						return false;
 					}
@@ -296,7 +296,7 @@ class ModuleObject extends BaseObject
 		if(!isset($grant))
 		{
 			// Get privileges(granted) information of current user for current module
-			$grant = getModel('module')->getGrant($this->module_info, Context::get('logged_info'), $this->xml_info);
+			$grant = ModuleModel::getInstance()->getGrant($this->module_info, Context::get('logged_info'), $this->xml_info);
 			
 			// Check permission
 			if($this->checkPermission($grant) !== true)
@@ -335,9 +335,10 @@ class ModuleObject extends BaseObject
 		}
 		
 		// Get privileges(granted) information of the member for current module
+		$oModuleModel = ModuleModel::getInstance();
 		if(!$grant)
 		{
-			$grant = getModel('module')->getGrant($this->module_info, $member_info, $this->xml_info);
+			$grant = $oModuleModel->getGrant($this->module_info, $member_info, $this->xml_info);
 		}
 		
 		// If an administrator, Pass
@@ -380,17 +381,17 @@ class ModuleObject extends BaseObject
 			if(Context::get('is_logged') && isset($type[2]))
 			{
 				// Manager privilege of the member is found by search all modules, Pass
-				if($type[2] == 'all' && getModel('module')->findManagerPrivilege($member_info) !== false)
+				if($type[2] == 'all' && $oModuleModel->findManagerPrivilege($member_info) !== false)
 				{
 					return true;
 				}
 				// Manager privilege of the member is found by search same module as this module, Pass
-				else if($type[2] == 'same' && getModel('module')->findManagerPrivilege($member_info, $this->module) !== false)
+				elseif($type[2] == 'same' && $oModuleModel->findManagerPrivilege($member_info, $this->module) !== false)
 				{
 					return true;
 				}
 				// Manager privilege of the member is found by search same module as the module, Pass
-				else if(getModel('module')->findManagerPrivilege($member_info, $type[2]) !== false)
+				elseif($oModuleModel->findManagerPrivilege($member_info, $type[2]) !== false)
 				{
 					return true;
 				}
@@ -629,7 +630,7 @@ class ModuleObject extends BaseObject
 
 		// execute an addon(call called_position as before_module_proc)
 		$called_position = 'before_module_proc';
-		$oAddonController = getController('addon');
+		$oAddonController = AddonController::getInstance();
 		$addon_file = $oAddonController->getCacheFilePath($is_mobile ? "mobile" : "pc");
 		if(FileHandler::exists($addon_file)) include($addon_file);
 		
@@ -649,7 +650,7 @@ class ModuleObject extends BaseObject
 			// Set module skin
 			if(isset($this->module_info->skin) && $this->module_info->module === $this->module && strpos($this->act, 'Admin') === false)
 			{
-				$oModuleModel = getModel('module');
+				$oModuleModel = ModuleModel::getInstance();
 				$skin_type = $is_mobile ? 'M' : 'P';
 				$skin_key = $is_mobile ? 'mskin' : 'skin';
 				$skin_dir = $is_mobile ? 'm.skins' : 'skins';
@@ -733,7 +734,7 @@ class ModuleObject extends BaseObject
 
 		// execute an addon(call called_position as after_module_proc)
 		$called_position = 'after_module_proc';
-		$oAddonController = getController('addon');
+		$oAddonController = AddonController::getInstance();
 		$addon_file = $oAddonController->getCacheFilePath($is_mobile ? "mobile" : "pc");
 		if(FileHandler::exists($addon_file)) include($addon_file);
 

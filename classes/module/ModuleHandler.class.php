@@ -135,7 +135,7 @@ class ModuleHandler extends Handler
 
 		// execute addon (before module initialization)
 		$called_position = 'before_module_init';
-		$oAddonController = getController('addon');
+		$oAddonController = AddonController::getInstance();
 		$addon_file = $oAddonController->getCacheFilePath(Mobile::isFromMobilePhone() ? 'mobile' : 'pc');
 		if(file_exists($addon_file)) include($addon_file);
 	}
@@ -146,13 +146,13 @@ class ModuleHandler extends Handler
 	 * */
 	public function init()
 	{
-		$oModuleModel = getModel('module');
+		$oModuleModel = ModuleModel::getInstance();
 		$site_module_info = Context::get('site_module_info');
 		
 		// Check unregistered domain action.
 		if (!$site_module_info || !isset($site_module_info->domain_srl) || $site_module_info->is_default_replaced)
 		{
-			$site_module_info = getModel('module')->getDefaultDomainInfo();
+			$site_module_info = $oModuleModel->getDefaultDomainInfo();
 			if ($site_module_info)
 			{
 				$domain_action = config('url.unregistered_domain_action') ?: 'redirect_301';
@@ -208,7 +208,7 @@ class ModuleHandler extends Handler
 		// Convert document alias (entry) to document_srl
 		if(!$this->document_srl && $this->mid && $this->entry)
 		{
-			$oDocumentModel = getModel('document');
+			$oDocumentModel = DocumentModel::getInstance();
 			$this->document_srl = $oDocumentModel->getDocumentSrlByAlias($this->mid, $this->entry);
 			if($this->document_srl)
 			{
@@ -248,7 +248,7 @@ class ModuleHandler extends Handler
 			// Block access to secret or temporary documents.
 			if(Context::getRequestMethod() == 'GET')
 			{
-				$oDocumentModel = getModel('document');
+				$oDocumentModel = DocumentModel::getInstance();
 				$oDocument = $oDocumentModel->getDocument($this->document_srl);
 				if($oDocument->isExists() && !$oDocument->isAccessible())
 				{
@@ -304,7 +304,7 @@ class ModuleHandler extends Handler
 				$seo_title = config('seo.subpage_title') ?: '$SITE_TITLE - $SUBPAGE_TITLE';
 			}
 			
-			getController('module')->replaceDefinedLangCode($seo_title);
+			ModuleController::getInstance()->replaceDefinedLangCode($seo_title);
 			Context::setBrowserTitle($seo_title, array(
 				'site_title' => Context::getSiteTitle(),
 				'site_subtitle' => Context::getSiteSubtitle(),
@@ -415,7 +415,7 @@ class ModuleHandler extends Handler
 	 * */
 	public function procModule()
 	{
-		$oModuleModel = getModel('module');
+		$oModuleModel = ModuleModel::getInstance();
 		$display_mode = Mobile::isFromMobilePhone() ? 'mobile' : 'view';
 
 		// If error occurred while preparation, return a message instance
@@ -1061,14 +1061,14 @@ class ModuleHandler extends Handler
 			// if layout_srl is rollback by module, set default layout
 			if($layout_srl == -1)
 			{
-				$oLayoutAdminModel = getAdminModel('layout');
+				$oLayoutAdminModel = LayoutAdminModel::getInstance();
 				$layout_srl = $oLayoutAdminModel->getSiteDefaultLayout($viewType, $oModule->module_info->site_srl);
 			}
 
 			if($layout_srl && !$oModule->getLayoutFile())
 			{
 				// If layout_srl exists, get information of the layout, and set the location of layout_path/ layout_file
-				$oLayoutModel = getModel('layout');
+				$oLayoutModel = LayoutModel::getInstance();
 				$layout_info = $oLayoutModel->getLayout($layout_srl);
 				if($layout_info)
 				{
@@ -1234,7 +1234,7 @@ class ModuleHandler extends Handler
 			return new BaseObject();
 		}
 
-		$oModuleModel = getModel('module');
+		$oModuleModel = ModuleModel::getInstance();
 		$triggers = $oModuleModel->getTriggers($trigger_name, $called_position);
 		if(!$triggers)
 		{
