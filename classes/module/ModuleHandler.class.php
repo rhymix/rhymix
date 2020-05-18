@@ -23,6 +23,23 @@ class ModuleHandler extends Handler
 	var $httpStatusCode = NULL; ///< http status code.
 
 	/**
+	 * Valid types and kinds of module instances.
+	 */
+	protected static $_types = array(
+		'model' => 'Model',
+		'view' => 'View',
+		'controller' => 'Controller',
+		'mobile' => 'Mobile',
+		'api' => 'Api',
+		'wap' => 'Wap',
+		'class' => '',
+	);
+	protected static $_kinds = array(
+		'admin' => 'Admin',
+		'svc' => '',
+	);
+
+	/**
 	 * prepares variables to use in moduleHandler
 	 * @param string $module name of module
 	 * @param string $act name of action
@@ -1183,110 +1200,23 @@ class ModuleHandler extends Handler
 	 * */
 	public static function getModuleInstance($module, $type = 'view', $kind = '')
 	{
-		$parent_module = $module;
-		$kind = strtolower($kind);
 		$type = strtolower($type);
+		if (!isset(self::$_types[$type]))
+		{
+			$type = 'view';
+		}
 
-		$kinds = array('svc' => 1, 'admin' => 1);
-		if(!isset($kinds[$kind]))
+		$kind = strtolower($kind);
+		if (!isset(self::$_kinds[$kind]) || $type === 'class')
 		{
 			$kind = 'svc';
 		}
 
-		$key = $module . '.' . ($kind != 'admin' ? '' : 'admin') . '.' . $type;
-
-		if(is_array($GLOBALS['__MODULE_EXTEND__']) && array_key_exists($key, $GLOBALS['__MODULE_EXTEND__']))
+		$class_name = $module . self::$_kinds[$kind] . self::$_types[$type];
+		if (class_exists($class_name))
 		{
-			$module = $extend_module = $GLOBALS['__MODULE_EXTEND__'][$key];
+			return $class_name::getInstance($module);
 		}
-
-		// if there is no instance of the module in global variable, create a new one
-		if(!isset($GLOBALS['_loaded_module'][$module][$type][$kind]))
-		{
-			self::_getModuleFilePath($module, $type, $kind, $class_path, $high_class_file, $class_file, $instance_name);
-
-			if($extend_module && (!is_readable($high_class_file) || !is_readable($class_file)))
-			{
-				$module = $parent_module;
-				self::_getModuleFilePath($module, $type, $kind, $class_path, $high_class_file, $class_file, $instance_name);
-			}
-
-			// Check if the base class and instance class exist
-			if(!class_exists($module, true))
-			{
-				return NULL;
-			}
-			if(!class_exists($instance_name, true))
-			{
-				return NULL;
-			}
-
-			// Create an instance
-			$oModule = new $instance_name();
-			if(!is_object($oModule))
-			{
-				return NULL;
-			}
-			
-			// Populate default properties
-			$oModule->user = Context::get('logged_info') ?: new Rhymix\Framework\Helpers\SessionHelper;
-			if(!($oModule->user instanceof Rhymix\Framework\Helpers\SessionHelper))
-			{
-				$oModule->user = Rhymix\Framework\Session::getMemberInfo();
-			}
-
-			// Load language files for the class
-			if($module !== 'module')
-			{
-				Context::loadLang($class_path . 'lang');
-			}
-			if($extend_module)
-			{
-				Context::loadLang(ModuleHandler::getModulePath($parent_module) . 'lang');
-			}
-
-			// Set variables to the instance
-			$oModule->setModule($module);
-			$oModule->setModulePath($class_path);
-
-			// Store the created instance into GLOBALS variable
-			$GLOBALS['_loaded_module'][$module][$type][$kind] = $oModule;
-		}
-
-		// return the instance
-		return $GLOBALS['_loaded_module'][$module][$type][$kind];
-	}
-
-	public static function _getModuleFilePath($module, $type, $kind, &$classPath, &$highClassFile, &$classFile, &$instanceName)
-	{
-		$classPath = self::getModulePath($module);
-
-		$highClassFile = sprintf('%s%s%s.class.php', _XE_PATH_, $classPath, $module);
-		$highClassFile = FileHandler::getRealPath($highClassFile);
-
-		$types = array('view','controller','model','api','wap','mobile','class');
-		if(!in_array($type, $types))
-		{
-			$type = $types[0];
-		}
-		if($type == 'class')
-		{
-			$instanceName = '%s';
-			$classFile = '%s%s.%s.php';
-		}
-		elseif($kind == 'admin' && array_search($type, $types) < 3)
-		{
-			$instanceName = '%sAdmin%s';
-			$classFile = '%s%s.admin.%s.php';
-		}
-		else
-		{
-			$instanceName = '%s%s';
-			$classFile = '%s%s.%s.php';
-		}
-
-		$instanceName = sprintf($instanceName, $module, ucfirst($type));
-		$classFile = FileHandler::getRealPath(sprintf($classFile, $classPath, $module, $type));
 	}
 
 	/**
@@ -1311,9 +1241,6 @@ class ModuleHandler extends Handler
 			$triggers = array();
 		}
 		
-		//store before trigger call time
-		$before_trigger_time = microtime(true);
-
 		foreach($triggers as $item)
 		{
 			$module = $item->module;

@@ -51,6 +51,57 @@ class ModuleObject extends BaseObject
 	}
 
 	/**
+	 * Singleton
+	 * 
+	 * @param string $module_hint (optional)
+	 * @return self
+	 */
+	public static function getInstance($module_hint = null)
+	{
+		// If an instance already exists, return it.
+		$class_name = static::class;
+		if (isset($GLOBALS['_module_instances_'][$class_name]))
+		{
+			return $GLOBALS['_module_instances_'][$class_name];
+		}
+
+		// Get some information about the class.
+		if ($module_hint)
+		{
+			$module_path = \RX_BASEDIR . 'modules/' . $module_hint . '/';
+			$module = $module_hint;
+		}
+		else
+		{
+			$class_filename = (new ReflectionClass($class_name))->getFileName();
+			preg_match('!^(.+[/\\\\]([^/\\\\]+)[/\\\\])[^/\\\\]+$!', $class_filename, $matches);
+			$module_path = $matches[1];
+			$module = $matches[2];
+		}
+
+		// Create a new instance.
+		$obj = new $class_name;
+
+		// Populate default properties.
+		$obj->setModulePath($module_path);
+		$obj->setModule($module);
+		$obj->user = Context::get('logged_info') ?: new Rhymix\Framework\Helpers\SessionHelper;
+		if(!($obj->user instanceof Rhymix\Framework\Helpers\SessionHelper))
+		{
+			$obj->user = Rhymix\Framework\Session::getMemberInfo();
+		}
+
+		// Load language files.
+		if($module !== 'module')
+		{
+			Context::loadLang($module_path . 'lang');
+		}
+
+		// Return the instance.
+		return $GLOBALS['_module_instances_'][$class_name] = $obj;
+	}
+
+	/**
 	 * setter to set the name of module
 	 * 
 	 * @param string $module name of module
