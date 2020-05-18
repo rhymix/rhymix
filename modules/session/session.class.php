@@ -16,6 +16,7 @@ class session extends ModuleObject
 	function __construct()
 	{
 		if(Context::isInstalled()) $this->session_started= true;
+		parent::__construct();
 	}
 
 	/**

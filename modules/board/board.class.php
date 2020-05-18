@@ -36,6 +36,8 @@ class board extends ModuleObject
 		{
 			Context::addSSLAction('dispTempSavedList');
 		}
+
+		parent::__construct();
 	}
 
 	/**
