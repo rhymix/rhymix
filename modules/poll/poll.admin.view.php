@@ -52,7 +52,7 @@ class pollAdminView extends poll
 		$output = $oPollAdminModel->getPollListWithMember($args);
 
 		// check poll type. document or comment
-		if(is_array($output->data))
+		if(is_array($output->data) && count($output->data))
 		{
 			$uploadTargetSrlList = array();
 			foreach($output->data as $value)

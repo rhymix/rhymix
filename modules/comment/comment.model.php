@@ -176,9 +176,13 @@ class commentModel extends comment
 	 */
 	function getComments($comment_srl_list, $columnList = array())
 	{
-		if(is_array($comment_srl_list))
+		if (!is_array($comment_srl_list))
 		{
-			$comment_srls = implode(',', $comment_srl_list);
+			$comment_srl_list = $comment_srl_list ? explode(',', $comment_srl_list) : array();
+		}
+		if (!count($comment_srl_list))
+		{
+			return array();
 		}
 
 		// fetch from a database

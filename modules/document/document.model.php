@@ -187,6 +187,15 @@ class documentModel extends document
 	 */
 	function getDocuments($document_srls, $is_admin = false, $load_extra_vars = true, $columnList = array())
 	{
+		if (!is_array($document_srls))
+		{
+			$document_srls = $document_srls ? explode(',', $document_srls) : array();
+		}
+		if (!count($document_srls))
+		{
+			return array();
+		}
+
 		$args = new stdClass();
 		$args->document_srls = $document_srls;
 		$args->list_count = is_array($document_srls) ? count($document_srls) : 1;
