@@ -1700,7 +1700,8 @@ class Context
 			}
 		}
 		
-		// remove vid, rnd
+		// remove vid, rnd, error_return_url
+		unset($get_vars['error_return_url']);
 		unset($get_vars['rnd']);
 		unset($get_vars['vid']);
 		

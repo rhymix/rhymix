@@ -234,7 +234,7 @@ function getUrl()
 		$url = Context::getRequestUri();
 	}
 
-	return preg_replace('@\berror_return_url=[^&]*|\w+=(?:&|$)@', '', $url);
+	return $url;
 }
 
 /**
@@ -257,7 +257,7 @@ function getNotEncodedUrl()
 		$url = Context::getRequestUri();
 	}
 
-	return preg_replace('@\berror_return_url=[^&]*|\w+=(?:&|$)@', '', $url);
+	return $url;
 }
 
 /**
@@ -280,7 +280,7 @@ function getAutoEncodedUrl()
 		$url = Context::getRequestUri();
 	}
 
-	return preg_replace('@\berror_return_url=[^&]*|\w+=(?:&|$)@', '', $url);
+	return $url;
 }
 
 /**
