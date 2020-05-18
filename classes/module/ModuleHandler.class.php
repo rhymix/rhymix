@@ -1229,9 +1229,10 @@ class ModuleHandler extends Handler
 			}
 			
 			// Populate default properties
-			if($oModule->user === false)
+			$oModule->user = Context::get('logged_info') ?: new Rhymix\Framework\Helpers\SessionHelper;
+			if(!($oModule->user instanceof Rhymix\Framework\Helpers\SessionHelper))
 			{
-				$oModule->user = Context::get('logged_info') ?: new Rhymix\Framework\Helpers\SessionHelper;
+				$oModule->user = Rhymix\Framework\Session::getMemberInfo();
 			}
 
 			// Load language files for the class
