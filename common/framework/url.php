@@ -99,7 +99,7 @@ class URL
 			return true;
 		}
 		
-		if (getModel('module')->getSiteInfoByDomain($domain))
+		if (\ModuleModel::getInstance()->getSiteInfoByDomain($domain))
 		{
 			return true;
 		}

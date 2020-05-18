@@ -27,7 +27,7 @@ class SessionHelper
 		$member_srl = intval($member_srl);
 		if ($member_srl)
 		{
-			$oMemberModel = getModel('member');
+			$oMemberModel = \MemberModel::getInstance();
 			$member_info = $oMemberModel->getMemberInfoByMemberSrl($member_srl);
 			if (intval($member_info->member_srl) === $member_srl)
 			{
@@ -69,7 +69,7 @@ class SessionHelper
 	 */
 	public function isModuleAdmin($module_srl = null)
 	{
-		return $this->is_admin === 'Y' || getModel('module')->isModuleAdmin($this, $module_srl);
+		return $this->is_admin === 'Y' || \ModuleModel::getInstance()->isModuleAdmin($this, $module_srl);
 	}
 	
 	/**
