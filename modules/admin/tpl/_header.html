@@ -20,11 +20,11 @@
 			<a class="default_header" href="javascript:void()"><i class="xi xi-cog"></i></a>
 		</h1>
 		<p class="site" cond="$this->user->isAdmin()">
-			<a href="{getUrl('module', 'admin', 'act', $act, 'module_srl', $module_info->module_srl, 'mid', '')}">{lang('admin.view_in_manager_layout')}</a>
+			<a href="{getUrl(['module' => 'admin', 'act' => $act, 'module_srl' => $module_info->module_srl])}">{lang('admin.view_in_manager_layout')}</a>
 		</p>
 		<!--@else-->
 		<h1>
-			<a class="default_header" href="{getUrl('','module','admin')}"><i class="xi xi-cog"></i></a>
+			<a class="default_header" href="{getUrl(['module' => 'admin'])}"><i class="xi xi-cog"></i></a>
 			<a class="mobile_menu_open" href="#gnbNav"><i class="xi xi-bars"></i></a>
 		</h1>
 		<p class="site"><a href="{$xe_default_url}">{$site_module_info->settings->title ?: $xe_default_url|autolang}</a></p>
@@ -32,15 +32,15 @@
 		<div class="account">
 			<ul>
 				<!--@if($module_manager)-->
-				<li><a href="{getUrl('', 'mid', $mid, 'act', 'dispMemberInfo')}">{$logged_info->nick_name}</a></li>
-				<li><a href="{getUrl('', 'mid', $mid, 'act', 'dispMemberLogout')}">{$lang->cmd_logout}</a></li>
+				<li><a href="{getUrl(['mid' => $mid, 'act' => 'dispMemberInfo'])}">{$logged_info->nick_name}</a></li>
+				<li><a href="{getUrl(['mid' => $mid, 'act' => 'dispMemberLogout'])}">{$lang->cmd_logout}</a></li>
 				<!--@else-->
-				<li><a href="{getUrl('', 'module', 'admin', 'act', 'dispMemberAdminInfo', 'member_srl', $logged_info->member_srl)}">{$logged_info->nick_name}</a></li>
-				<li><a href="{getUrl('', 'module', 'admin', 'act', 'procAdminLogout')}">{$lang->cmd_logout}</a></li>
+				<li><a href="{getUrl(['module' => 'admin', 'act' => 'dispMemberAdminInfo', 'member_srl' => $logged_info->member_srl])}">{$logged_info->nick_name}</a></li>
+				<li><a href="{getUrl(['module' => 'admin', 'act' => 'procAdminLogout'])}">{$lang->cmd_logout}</a></li>
 				<!--@end-->
 				<li><a href="#lang" class="lang" data-toggle>{$lang_supported[$lang_type]}</a>
 					<ul id="lang" class="x_dropdown-menu">
-						<li loop="$lang_supported=>$key,$val" class="x_active"|cond="$key==$lang_type"><a href="{getUrl('l',$key)}" data-langcode="{$key}" onclick="doChangeLangType('{$key}'); return false;">{$val}</a></li>
+						<li loop="$lang_supported=>$key,$val" class="x_active"|cond="$key==$lang_type"><a href="#lang" data-langcode="{$key}" onclick="doChangeLangType('{$key}'); return false;">{$val}</a></li>
 					</ul>
 				</li>
 			</ul>
@@ -64,18 +64,18 @@
 					<a href="#favorite" data-href="favorite" title="{$lang->favorite}"><span class="tx">{$lang->favorite}</span></a>
 					<ul id="favorite" style="display:block"|cond="$_COOKIE['__xe_admin_gnb_tx_favorite'] == 'open'">
 						<li loop="$favorite_list => $favorite">
-							<a cond="$favorite->title" href="{getUrl('', 'module', 'admin', 'act', $favorite->admin_index_act)}" title="{$favorite->title}">{$favorite->title}</a>
+							<a cond="$favorite->title" href="{getUrl(['module' => 'admin', 'act' => $favorite->admin_index_act])}" title="{$favorite->title}">{$favorite->title}</a>
 							<a cond="!$favorite->title">{$lang->msg_not_founded}</a>
 							<form class="remove" action="./" method="post">
 								<input type="hidden" name="module" value="admin" />
 								<input type="hidden" name="act" value="procAdminToggleFavorite" />
 								<input type="hidden" name="site_srl" value="0" />
 								<input type="hidden" name="module_name" value="{$favorite->module}" />
-								<input type="hidden" name="success_return_url" value="{getUrl('', 'module', 'admin')}" />
+								<input type="hidden" name="success_return_url" value="{getUrl(['module' => 'admin'])}" />
 								<button type="submit" class="x_close" title="{$lang->cmd_delete}">&times;</button>
 							</form>
 						</li>
-						<li cond="!is_array($favorite_list) || count($favorite_list) < 1"><a href="{getUrl('', 'module', 'admin', 'act', 'dispModuleAdminContent')}">{$lang->no_data}</a></li>
+						<li cond="!is_array($favorite_list) || count($favorite_list) < 1"><a href="{getUrl(['module' => 'admin', 'act' => 'dispModuleAdminContent'])}">{$lang->no_data}</a></li>
 					</ul>
 				</li>
 				<!--@end-->

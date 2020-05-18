@@ -1646,39 +1646,58 @@ class Context
 			$domain = null;
 		}
 
-		// Get URL parameters. If the first argument is '', reset existing parameters.
-		if (!self::$_get_vars || strval($args_list[0]) === '')
+		// Get existing parameters from the current request.
+		$get_vars = self::$_get_vars ? get_object_vars(self::$_get_vars) : array();
+
+		// If $args_list is not an array, reset it to an empty array.
+		if (!is_array($args_list))
 		{
+			$args_list = array();
+		}
+
+		// If the first argument is '', reset existing parameters.
+		if (strval($args_list[0]) === '')
+		{
+			array_shift($args_list);
 			$get_vars = array();
-			if(is_array($args_list) && strval($args_list[0]) === '')
-			{
-				array_shift($args_list);
-			}
 		}
-		elseif ($_SERVER['REQUEST_METHOD'] === 'GET')
-		{
-			$get_vars = get_object_vars(self::$_get_vars);
-		}
-		else
+		// Otherwise, only keep existing parameters that are safe.
+		elseif ($_SERVER['REQUEST_METHOD'] !== 'GET')
 		{
 			$preserve_vars = array('module', 'mid', 'act', 'page', 'document_srl', 'search_target', 'search_keyword');
 			$preserve_keys = array_combine($preserve_vars, array_fill(0, count($preserve_vars), true));
-			$get_vars = array_intersect_key(get_object_vars(self::$_get_vars), $preserve_keys);
+			$get_vars = array_intersect_key($get_vars, $preserve_keys);
 		}
-		
-		// arrange args_list
-		for($i = 0, $c = count($args_list); $i < $c; $i += 2)
+
+		// If $args_list contains one array, reset existing parameters and use keys & values from $args_list.
+		if (is_array($args_list[0]) && count($args_list) == 1)
 		{
-			$key = $args_list[$i];
-			$val = trim($args_list[$i + 1]);
-			// If value is not set, remove the key
-			if(!isset($val) || !strlen($val))
+			foreach ($args_list[0] as $key => $val)
 			{
-				unset($get_vars[$key]);
-				continue;
+				$val = trim($val);
+				if ($val !== '')
+				{
+					$get_vars[$key] = $val;
+				}
 			}
-			// set new variables
-			$get_vars[$key] = $val;
+		}
+		// Otherwise, use alternating members of $args_list as keys and values, respectively.
+		else
+		{
+			$num_args = count($args_list);
+			for($i = 0; $i < $num_args; $i += 2)
+			{
+				$key = $args_list[$i];
+				$val = trim($args_list[$i + 1]);
+				if ($val === '')
+				{
+					unset($get_vars[$key]);
+				}
+				else
+				{
+					$get_vars[$key] = $val;
+				}
+			}
 		}
 		
 		// remove vid, rnd
