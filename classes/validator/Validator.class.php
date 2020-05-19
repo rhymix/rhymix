@@ -279,7 +279,7 @@ class Validator
 		foreach($this->_filters as $key => $filter)
 		{
 			$names = array();
-			if($key{0} == '^')
+			if($key[0] == '^')
 			{
 				$names = preg_grep('/^' . preg_quote(substr($key, 1)) . '/', $field_names);
 			}

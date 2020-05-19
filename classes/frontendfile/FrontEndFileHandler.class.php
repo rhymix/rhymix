@@ -631,7 +631,7 @@ class FrontEndFileHandler extends Handler
 	 */
 	protected function _normalizeFilePath($path)
 	{
-		if(strpos($path, '://') === FALSE && $path{0} != '/' && $path{0} != '.')
+		if(strpos($path, '://') === FALSE && $path[0] != '/' && $path[0] != '.')
 		{
 			$path = './' . $path;
 		}
