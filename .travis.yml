@@ -1,5 +1,5 @@
-distro: xenial
-sudo: false
+os: linux
+dist: xenial
 language: php
 php:
   - 7.0
@@ -7,15 +7,11 @@ php:
   - 7.2
   - 7.3
   - 7.4
-matrix:
+jobs:
   allow_failures:
     - php:
 services:
   - mysql
-mysql:
-  database: rhymix
-  username: rhymix
-  encoding: utf8mb4
 before_script:
   - npm install grunt grunt-cli grunt-contrib-jshint grunt-contrib-csslint grunt-phplint --save-dev
   - mysql -u root -e "CREATE DATABASE rhymix CHARSET utf8mb4 COLLATE utf8mb4_unicode_ci"
