@@ -21,12 +21,12 @@ before_script:
   - mysql -u root -e "CREATE DATABASE rhymix CHARSET utf8mb4 COLLATE utf8mb4_unicode_ci"
   - mysql -u root -e "GRANT ALL PRIVILEGES ON rhymix.* TO travis@localhost"
   - mysql -u root -e "SET PASSWORD FOR travis@localhost = PASSWORD('travis'); FLUSH PRIVILEGES"
-  - if [[ $TRAVIS_PHP_VERSION != "7.3" ]]; then phpenv config-rm xdebug.ini; fi
+  - phpenv config-rm xdebug.ini
   - wget https://codeception.com/releases/2.3.9/codecept.phar
   - php -S localhost:8000 &
 script:
+  - grunt lint
   - php codecept.phar build
   - php codecept.phar run --debug --fail-fast --env travis
-  - grunt lint
 notifications:
   email: false
