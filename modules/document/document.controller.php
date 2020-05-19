@@ -2995,7 +2995,7 @@ Content;
 			$oCommunicationController = getController('communication');
 			foreach ($recipients as $member_srl => $items)
 			{
-				$oCommunicationController->sendMessage($member_srl, $member_srl, $title, sprintf($content, implode('', $items)), false);
+				$oCommunicationController->sendMessage($this->user->member_srl, $member_srl, $title, sprintf($content, implode('', $items)), false);
 			}
 		}
 		
