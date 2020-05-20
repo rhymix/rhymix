@@ -266,7 +266,7 @@ class Context
 					define('RX_BASEURL', parse_url($default_url, PHP_URL_PATH));
 				}
 			}
-			$oModuleModel = getModel('module');
+			$oModuleModel = ModuleModel::getInstance();
 			$site_module_info = $oModuleModel->getDefaultMid() ?: new stdClass;
 			self::set('site_module_info', $site_module_info);
 			self::set('_default_timezone', ($site_module_info->settings && $site_module_info->settings->timezone) ? $site_module_info->settings->timezone : null);
@@ -358,8 +358,8 @@ class Context
 		// set session handler
 		if(self::isInstalled() && config('session.use_db'))
 		{
-			$oSessionModel = getModel('session');
-			$oSessionController = getController('session');
+			$oSessionModel = SessionModel::getInstance();
+			$oSessionController = SessionController::getInstance();
 			ini_set('session.serialize_handler', 'php');
 			session_set_save_handler(
 					array(&$oSessionController, 'open'), array(&$oSessionController, 'close'), array(&$oSessionModel, 'read'), array(&$oSessionController, 'write'), array(&$oSessionController, 'destroy'), array(&$oSessionController, 'gc')
@@ -380,12 +380,11 @@ class Context
 		// set authentication information in Context and session
 		if (self::isInstalled())
 		{
-			$oModuleModel = getModel('module');
 			$oModuleModel->loadModuleExtends();
 
 			if (Rhymix\Framework\Session::getMemberSrl())
 			{
-				getController('member')->setSessionInfo();
+				MemberController::getInstance()->setSessionInfo();
 			}
 			else
 			{
@@ -803,7 +802,7 @@ class Context
 		{
 			return '';
 		}
-		getController('module')->replaceDefinedLangCode(self::$_instance->browser_title);
+		ModuleController::getInstance()->replaceDefinedLangCode(self::$_instance->browser_title);
 		return htmlspecialchars(self::$_instance->browser_title, ENT_QUOTES, 'UTF-8', FALSE);
 	}
 
@@ -818,7 +817,7 @@ class Context
 		if ($domain_info && $domain_info->settings && $domain_info->settings->title)
 		{
 			$title = trim($domain_info->settings->title);
-			getController('module')->replaceDefinedLangCode($title);
+			ModuleController::getInstance()->replaceDefinedLangCode($title);
 			return $title;
 		}
 		else
@@ -838,7 +837,7 @@ class Context
 		if ($domain_info && $domain_info->settings && $domain_info->settings->subtitle)
 		{
 			$subtitle = trim($domain_info->settings->subtitle);
-			getController('module')->replaceDefinedLangCode($subtitle);
+			ModuleController::getInstance()->replaceDefinedLangCode($subtitle);
 			return $subtitle;
 		}
 		else
@@ -1863,7 +1862,7 @@ class Context
 		{
 			if (!isset($domain_infos[$domain]))
 			{
-				$domain_infos[$domain] = getModel('module')->getSiteInfoByDomain($domain);
+				$domain_infos[$domain] = ModuleModel::getInstance()->getSiteInfoByDomain($domain);
 			}
 			$site_module_info = $domain_infos[$domain] ?: $site_module_info;
 		}
@@ -2744,7 +2743,7 @@ class Context
 	 */
 	public static function addMetaTag($name, $content, $is_http_equiv = false)
 	{
-		getController('module')->replaceDefinedLangCode($content);
+		ModuleController::getInstance()->replaceDefinedLangCode($content);
 		self::$_instance->meta_tags[$name] = array('is_http_equiv' => (bool)$is_http_equiv, 'content' => $content);
 	}
 	

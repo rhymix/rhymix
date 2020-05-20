@@ -27,7 +27,7 @@ function getModule($module_name, $type = 'view', $kind = '')
  */
 function getController($module_name)
 {
-	return getModule($module_name, 'controller');
+	return ModuleHandler::getModuleInstance($module_name, 'controller');
 }
 
 /**
@@ -38,7 +38,7 @@ function getController($module_name)
  */
 function getAdminController($module_name)
 {
-	return getModule($module_name, 'controller', 'admin');
+	return ModuleHandler::getModuleInstance($module_name, 'controller', 'admin');
 }
 
 /**
@@ -49,7 +49,7 @@ function getAdminController($module_name)
  */
 function getView($module_name)
 {
-	return getModule($module_name, 'view');
+	return ModuleHandler::getModuleInstance($module_name, 'view');
 }
 
 /**
@@ -60,7 +60,7 @@ function getView($module_name)
  */
 function getAdminView($module_name)
 {
-	return getModule($module_name, 'view', 'admin');
+	return ModuleHandler::getModuleInstance($module_name, 'view', 'admin');
 }
 
 /**
@@ -71,7 +71,7 @@ function getAdminView($module_name)
  */
 function getModel($module_name)
 {
-	return getModule($module_name, 'model');
+	return ModuleHandler::getModuleInstance($module_name, 'model');
 }
 
 /**
@@ -82,7 +82,7 @@ function getModel($module_name)
  */
 function getAdminModel($module_name)
 {
-	return getModule($module_name, 'model', 'admin');
+	return ModuleHandler::getModuleInstance($module_name, 'model', 'admin');
 }
 
 /**
@@ -93,7 +93,7 @@ function getAdminModel($module_name)
  */
 function getAPI($module_name)
 {
-	return getModule($module_name, 'api');
+	return ModuleHandler::getModuleInstance($module_name, 'api');
 }
 
 /**
@@ -104,7 +104,7 @@ function getAPI($module_name)
  */
 function getMobile($module_name)
 {
-	return getModule($module_name, 'mobile');
+	return ModuleHandler::getModuleInstance($module_name, 'mobile');
 }
 
 /**
@@ -115,7 +115,7 @@ function getMobile($module_name)
  */
 function getWAP($module_name)
 {
-	return getModule($module_name, 'wap');
+	return ModuleHandler::getModuleInstance($module_name, 'wap');
 }
 
 /**
@@ -126,7 +126,7 @@ function getWAP($module_name)
  */
 function getClass($module_name)
 {
-	return getModule($module_name, 'class');
+	return ModuleHandler::getModuleInstance($module_name, 'class');
 }
 
 /**

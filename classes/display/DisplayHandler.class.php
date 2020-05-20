@@ -82,7 +82,7 @@ class DisplayHandler extends Handler
 
 		// execute add-on
 		$called_position = 'before_display_content';
-		$oAddonController = getController('addon');
+		$oAddonController = AddonController::getInstance();
 		$addon_file = $oAddonController->getCacheFilePath(Mobile::isFromMobilePhone() ? "mobile" : "pc");
 		if(file_exists($addon_file)) include($addon_file);
 		if($output === false || $output === null || $output instanceof BaseObject)

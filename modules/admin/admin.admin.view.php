@@ -27,6 +27,7 @@ class adminAdminView extends admin
 	function __construct()
 	{
 		Context::set('xe_default_url', Context::getDefaultUrl());
+		parent::__construct();
 	}
 
 	/**

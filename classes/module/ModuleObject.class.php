@@ -5,28 +5,38 @@
  * @class ModuleObject
  * @author NAVER (developers@xpressengine.com)
  * base class of ModuleHandler
- * */
+ */
 class ModuleObject extends BaseObject
 {
+	// Variables about the current module
+	public $module;
+	public $module_info;
+	public $origin_module_info;
+	public $module_config;
+	public $module_path;
+	public $xml_info;
 
-	var $mid = NULL; ///< string to represent run-time instance of Module (XE Module)
-	var $module = NULL; ///< Class name of Xe Module that is identified by mid
-	var $module_srl = NULL; ///< integer value to represent a run-time instance of Module (XE Module)
-	var $module_info = NULL; ///< an object containing the module information
-	var $origin_module_info = NULL;
-	var $xml_info = NULL; ///< an object containing the module description extracted from XML file
-	var $module_path = NULL; ///< a path to directory where module source code resides
-	var $act = NULL; ///< a string value to contain the action name
-	var $template_path = NULL; ///< a path of directory where template files reside
-	var $template_file = NULL; ///< name of template file
-	var $layout_path = ''; ///< a path of directory where layout files reside
-	var $layout_file = ''; ///< name of layout file
-	var $edited_layout_file = ''; ///< name of temporary layout files that is modified in an admin mode
-	var $stop_proc = FALSE; ///< a flag to indicating whether to stop the execution of code.
-	var $module_config = NULL;
-	var $ajaxRequestMethod = array('XMLRPC', 'JSON');
-	var $gzhandler_enable = TRUE;
-	var $user = FALSE;
+	// Variables about the current module instance and the current request
+	public $module_srl;
+	public $mid;
+	public $act;
+
+	// Variables about the layout and/or template
+	public $template_path;
+	public $template_file;
+	public $layout_path;
+	public $layout_file;
+	public $edited_layout_file;
+
+	// Variables to control processing
+	public $stop_proc = false;
+
+	// Variables for convenience
+	public $user;
+
+	// Other variables for compatibility
+	public $ajaxRequestMethod = array('XMLRPC', 'JSON');
+	public $gzhandler_enable = true;
 
 	/**
 	 * Constructor
@@ -35,47 +45,97 @@ class ModuleObject extends BaseObject
 	 * @param string $message Error message
 	 * @return void
 	 */
-	function __construct($error = 0, $message = 'success')
+	public function __construct($error = 0, $message = 'success')
 	{
-		$this->user = Context::get('logged_info') ?: new Rhymix\Framework\Helpers\SessionHelper;
-		if(!($this->user instanceof Rhymix\Framework\Helpers\SessionHelper))
-		{
-			$this->user = Rhymix\Framework\Session::getMemberInfo();
-		}
 		parent::__construct($error, $message);
 	}
 
 	/**
+	 * Singleton
+	 * 
+	 * @param string $module_hint (optional)
+	 * @return self
+	 */
+	public static function getInstance($module_hint = null)
+	{
+		// If an instance already exists, return it.
+		$class_name = static::class;
+		if (isset($GLOBALS['_module_instances_'][$class_name]))
+		{
+			return $GLOBALS['_module_instances_'][$class_name];
+		}
+
+		// Get some information about the class.
+		if ($module_hint)
+		{
+			$module_path = \RX_BASEDIR . 'modules/' . $module_hint . '/';
+			$module = $module_hint;
+		}
+		else
+		{
+			$class_filename = (new ReflectionClass($class_name))->getFileName();
+			preg_match('!^(.+[/\\\\]([^/\\\\]+)[/\\\\])[^/\\\\]+$!', $class_filename, $matches);
+			$module_path = $matches[1];
+			$module = $matches[2];
+		}
+
+		// Create a new instance.
+		$obj = new $class_name;
+
+		// Populate default properties.
+		$obj->setModulePath($module_path);
+		$obj->setModule($module);
+		$obj->user = Context::get('logged_info') ?: new Rhymix\Framework\Helpers\SessionHelper;
+		if(!($obj->user instanceof Rhymix\Framework\Helpers\SessionHelper))
+		{
+			$obj->user = Rhymix\Framework\Session::getMemberInfo();
+		}
+
+		// Load language files.
+		if($module !== 'module')
+		{
+			Context::loadLang($module_path . 'lang');
+		}
+
+		// Return the instance.
+		return $GLOBALS['_module_instances_'][$class_name] = $obj;
+	}
+
+	/**
 	 * setter to set the name of module
+	 * 
 	 * @param string $module name of module
-	 * @return void
-	 * */
-	function setModule($module)
+	 * @return $this
+	 */
+	public function setModule($module)
 	{
 		$this->module = $module;
+		return $this;
 	}
 
 	/**
 	 * setter to set the name of module path
+	 * 
 	 * @param string $path the directory path to a module directory
-	 * @return void
-	 * */
-	function setModulePath($path)
+	 * @return $this
+	 */
+	public function setModulePath($path)
 	{
 		if(substr_compare($path, '/', -1) !== 0)
 		{
 			$path.='/';
 		}
 		$this->module_path = $path;
+		return $this;
 	}
 
 	/**
 	 * setter to set an url for redirection
+	 * 
 	 * @param string $url url for redirection
-	 * @remark redirect_url is used only for ajax requests
-	 * @return void
-	 * */
-	function setRedirectUrl($url = './', $output = NULL)
+	 * @return $this
+	 */
+	public function setRedirectUrl($url = './', $output = NULL)
 	{
 		$this->add('redirect_url', $url);
 
@@ -83,13 +143,18 @@ class ModuleObject extends BaseObject
 		{
 			return $output;
 		}
+		else
+		{
+			return $this;
+		}
 	}
 
 	/**
 	 * get url for redirection
-	 * @return string redirect_url
-	 * */
-	function getRedirectUrl()
+	 * 
+	 * @return string
+	 */
+	public function getRedirectUrl()
 	{
 		return $this->get('redirect_url');
 	}
@@ -98,31 +163,36 @@ class ModuleObject extends BaseObject
 	 * Set the template path for refresh.html
 	 * refresh.html is executed as a result of method execution
 	 * Tpl as the common run of the refresh.html ..
-	 * @return void
-	 * */
-	function setRefreshPage()
+	 * 
+	 * @return $this
+	 */
+	public function setRefreshPage()
 	{
 		$this->setTemplatePath('./common/tpl');
 		$this->setTemplateFile('refresh');
+		return $this;
 	}
 
 	/**
 	 * Set the action name
+	 * 
 	 * @param string $act
-	 * @return void
-	 * */
-	function setAct($act)
+	 * @return $this
+	 */
+	public function setAct($act)
 	{
 		$this->act = $act;
+		return $this;
 	}
 	
 	/**
 	 * Set module information
+	 * 
 	 * @param object $module_info object containing module information
 	 * @param object $xml_info object containing module description
-	 * @return void
-	 * */
-	function setModuleInfo($module_info, $xml_info)
+	 * @return $this
+	 */
+	public function setModuleInfo($module_info, $xml_info)
 	{
 		// Set default variables
 		$this->mid = $module_info->mid;
@@ -131,7 +201,7 @@ class ModuleObject extends BaseObject
 		$this->origin_module_info = $module_info;
 		$this->xml_info = $xml_info;
 		$this->skin_vars = $module_info->skin_vars;
-		$this->module_config = getModel('module')->getModuleConfig($this->module, $module_info->site_srl);
+		$this->module_config = ModuleModel::getInstance()->getModuleConfig($this->module, $module_info->site_srl);
 		
 		// Set privileges(granted) information
 		if($this->setPrivileges() !== true)
@@ -167,13 +237,16 @@ class ModuleObject extends BaseObject
 				$this->stop($e->getMessage());
 			}
 		}
+
+		return $this;
 	}
 	
 	/**
 	 * Set privileges(granted) information of current user and check permission of current module
-	 * @return boolean success : true, fail : false
-	 * */
-	function setPrivileges()
+	 * 
+	 * @return bool
+	 */
+	public function setPrivileges()
 	{
 		if(Context::get('logged_info')->is_admin !== 'Y')
 		{
@@ -204,7 +277,7 @@ class ModuleObject extends BaseObject
 				foreach($check_module_srl as $target_srl)
 				{
 					// Get privileges(granted) information of current user for target module
-					if(($grant = getModel('module')->getPrivilegesBySrl($target_srl, $permission_check->type)) === false)
+					if(($grant = ModuleModel::getInstance()->getPrivilegesBySrl($target_srl, $permission_check->type)) === false)
 					{
 						return false;
 					}
@@ -223,7 +296,7 @@ class ModuleObject extends BaseObject
 		if(!isset($grant))
 		{
 			// Get privileges(granted) information of current user for current module
-			$grant = getModel('module')->getGrant($this->module_info, Context::get('logged_info'), $this->xml_info);
+			$grant = ModuleModel::getInstance()->getGrant($this->module_info, Context::get('logged_info'), $this->xml_info);
 			
 			// Check permission
 			if($this->checkPermission($grant) !== true)
@@ -248,11 +321,12 @@ class ModuleObject extends BaseObject
 	
 	/**
 	 * Check permission
+	 * 
 	 * @param object $grant privileges(granted) information of user
 	 * @param object $member_info member information
-	 * @return boolean success : true, fail : false
-	 * */
-	function checkPermission($grant = null, $member_info = null)
+	 * @return bool
+	 */
+	public function checkPermission($grant = null, $member_info = null)
 	{
 		// Get logged-in member information
 		if(!$member_info)
@@ -261,9 +335,10 @@ class ModuleObject extends BaseObject
 		}
 		
 		// Get privileges(granted) information of the member for current module
+		$oModuleModel = ModuleModel::getInstance();
 		if(!$grant)
 		{
-			$grant = getModel('module')->getGrant($this->module_info, $member_info, $this->xml_info);
+			$grant = $oModuleModel->getGrant($this->module_info, $member_info, $this->xml_info);
 		}
 		
 		// If an administrator, Pass
@@ -306,17 +381,17 @@ class ModuleObject extends BaseObject
 			if(Context::get('is_logged') && isset($type[2]))
 			{
 				// Manager privilege of the member is found by search all modules, Pass
-				if($type[2] == 'all' && getModel('module')->findManagerPrivilege($member_info) !== false)
+				if($type[2] == 'all' && $oModuleModel->findManagerPrivilege($member_info) !== false)
 				{
 					return true;
 				}
 				// Manager privilege of the member is found by search same module as this module, Pass
-				else if($type[2] == 'same' && getModel('module')->findManagerPrivilege($member_info, $this->module) !== false)
+				elseif($type[2] == 'same' && $oModuleModel->findManagerPrivilege($member_info, $this->module) !== false)
 				{
 					return true;
 				}
 				// Manager privilege of the member is found by search same module as the module, Pass
-				else if(getModel('module')->findManagerPrivilege($member_info, $type[2]) !== false)
+				elseif($oModuleModel->findManagerPrivilege($member_info, $type[2]) !== false)
 				{
 					return true;
 				}
@@ -348,11 +423,12 @@ class ModuleObject extends BaseObject
 	}
 	
 	/**
-	 * set the stop_proc and approprate message for msg_code
+	 * Stop processing this module instance.
+	 * 
 	 * @param string $msg_code an error code
 	 * @return ModuleObject $this
-	 * */
-	function stop($msg_code)
+	 */
+	public function stop($msg_code)
 	{
 		if($this->stop_proc !== true)
 		{
@@ -385,35 +461,39 @@ class ModuleObject extends BaseObject
 
 	/**
 	 * set the file name of the template file
+	 * 
 	 * @param string name of file
-	 * @return void
-	 * */
-	function setTemplateFile($filename)
+	 * @return $this
+	 */
+	public function setTemplateFile($filename)
 	{
 		if(isset($filename) && substr_compare($filename, '.html', -5) !== 0)
 		{
 			$filename .= '.html';
 		}
 		$this->template_file = $filename;
+		return $this;
 	}
 
 	/**
 	 * retrieve the directory path of the template directory
+	 * 
 	 * @return string
-	 * */
-	function getTemplateFile()
+	 */
+	public function getTemplateFile()
 	{
 		return $this->template_file;
 	}
 
 	/**
 	 * set the directory path of the template directory
+	 * 
 	 * @param string path of template directory.
-	 * @return void
-	 * */
-	function setTemplatePath($path)
+	 * @return $this
+	 */
+	public function setTemplatePath($path)
 	{
-		if(!$path) return;
+		if(!$path) return $this;
 
 		if((strlen($path) >= 1 && substr_compare($path, '/', 0, 1) !== 0) && (strlen($path) >= 2 && substr_compare($path, './', 0, 2) !== 0))
 		{
@@ -425,70 +505,80 @@ class ModuleObject extends BaseObject
 			$path .= '/';
 		}
 		$this->template_path = $path;
+		return $this;
 	}
 
 	/**
 	 * retrieve the directory path of the template directory
+	 * 
 	 * @return string
-	 * */
-	function getTemplatePath()
+	 */
+	public function getTemplatePath()
 	{
 		return $this->template_path;
 	}
 
 	/**
 	 * set the file name of the temporarily modified by admin
+	 * 
 	 * @param string name of file
-	 * @return void
-	 * */
-	function setEditedLayoutFile($filename)
+	 * @return $this
+	 */
+	public function setEditedLayoutFile($filename)
 	{
-		if(!$filename) return;
+		if(!$filename) return $this;
 
 		if(substr_compare($filename, '.html', -5) !== 0)
 		{
 			$filename .= '.html';
 		}
 		$this->edited_layout_file = $filename;
+		return $this;
 	}
 
 	/**
 	 * retreived the file name of edited_layout_file
+	 * 
 	 * @return string
-	 * */
-	function getEditedLayoutFile()
+	 */
+	public function getEditedLayoutFile()
 	{
 		return $this->edited_layout_file;
 	}
 
 	/**
 	 * set the file name of the layout file
+	 * 
 	 * @param string name of file
-	 * @return void
-	 * */
-	function setLayoutFile($filename)
+	 * @return $this
+	 */
+	public function setLayoutFile($filename)
 	{
 		if($filename && substr_compare($filename, '.html', -5) !== 0)
 		{
 			$filename .= '.html';
 		}
 		$this->layout_file = $filename;
+		return $this;
 	}
 
 	/**
 	 * get the file name of the layout file
+	 * 
 	 * @return string
-	 * */
-	function getLayoutFile()
+	 */
+	public function getLayoutFile()
 	{
 		return $this->layout_file;
 	}
 
 	/**
 	 * set the directory path of the layout directory
+	 * 
 	 * @param string path of layout directory.
-	 * */
-	function setLayoutPath($path)
+	 * @return $this
+	 */
+	public function setLayoutPath($path)
 	{
 		if(!$path) return;
 
@@ -501,22 +591,24 @@ class ModuleObject extends BaseObject
 			$path .= '/';
 		}
 		$this->layout_path = $path;
+		return $this;
 	}
 
 	/**
 	 * set the directory path of the layout directory
+	 * 
 	 * @return string
-	 * */
-	function getLayoutPath($layout_name = "", $layout_type = "P")
+	 */
+	public function getLayoutPath($layout_name = "", $layout_type = "P")
 	{
 		return $this->layout_path;
 	}
 
 	/**
 	 * excute the member method specified by $act variable
-	 * @return boolean true : success false : fail
-	 * */
-	function proc()
+	 * @return bool
+	 */
+	public function proc()
 	{
 		// pass if stop_proc is true
 		if($this->stop_proc)
@@ -538,7 +630,7 @@ class ModuleObject extends BaseObject
 
 		// execute an addon(call called_position as before_module_proc)
 		$called_position = 'before_module_proc';
-		$oAddonController = getController('addon');
+		$oAddonController = AddonController::getInstance();
 		$addon_file = $oAddonController->getCacheFilePath($is_mobile ? "mobile" : "pc");
 		if(FileHandler::exists($addon_file)) include($addon_file);
 		
@@ -558,7 +650,7 @@ class ModuleObject extends BaseObject
 			// Set module skin
 			if(isset($this->module_info->skin) && $this->module_info->module === $this->module && strpos($this->act, 'Admin') === false)
 			{
-				$oModuleModel = getModel('module');
+				$oModuleModel = ModuleModel::getInstance();
 				$skin_type = $is_mobile ? 'M' : 'P';
 				$skin_key = $is_mobile ? 'mskin' : 'skin';
 				$skin_dir = $is_mobile ? 'm.skins' : 'skins';
@@ -642,7 +734,7 @@ class ModuleObject extends BaseObject
 
 		// execute an addon(call called_position as after_module_proc)
 		$called_position = 'after_module_proc';
-		$oAddonController = getController('addon');
+		$oAddonController = AddonController::getInstance();
 		$addon_file = $oAddonController->getCacheFilePath($is_mobile ? "mobile" : "pc");
 		if(FileHandler::exists($addon_file)) include($addon_file);
 

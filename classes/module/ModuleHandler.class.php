@@ -23,6 +23,23 @@ class ModuleHandler extends Handler
 	var $httpStatusCode = NULL; ///< http status code.
 
 	/**
+	 * Valid types and kinds of module instances.
+	 */
+	protected static $_types = array(
+		'model' => 'Model',
+		'view' => 'View',
+		'controller' => 'Controller',
+		'mobile' => 'Mobile',
+		'api' => 'Api',
+		'wap' => 'Wap',
+		'class' => '',
+	);
+	protected static $_kinds = array(
+		'admin' => 'Admin',
+		'svc' => '',
+	);
+
+	/**
 	 * prepares variables to use in moduleHandler
 	 * @param string $module name of module
 	 * @param string $act name of action
@@ -118,7 +135,7 @@ class ModuleHandler extends Handler
 
 		// execute addon (before module initialization)
 		$called_position = 'before_module_init';
-		$oAddonController = getController('addon');
+		$oAddonController = AddonController::getInstance();
 		$addon_file = $oAddonController->getCacheFilePath(Mobile::isFromMobilePhone() ? 'mobile' : 'pc');
 		if(file_exists($addon_file)) include($addon_file);
 	}
@@ -129,13 +146,13 @@ class ModuleHandler extends Handler
 	 * */
 	public function init()
 	{
-		$oModuleModel = getModel('module');
+		$oModuleModel = ModuleModel::getInstance();
 		$site_module_info = Context::get('site_module_info');
 		
 		// Check unregistered domain action.
 		if (!$site_module_info || !isset($site_module_info->domain_srl) || $site_module_info->is_default_replaced)
 		{
-			$site_module_info = getModel('module')->getDefaultDomainInfo();
+			$site_module_info = $oModuleModel->getDefaultDomainInfo();
 			if ($site_module_info)
 			{
 				$domain_action = config('url.unregistered_domain_action') ?: 'redirect_301';
@@ -191,7 +208,7 @@ class ModuleHandler extends Handler
 		// Convert document alias (entry) to document_srl
 		if(!$this->document_srl && $this->mid && $this->entry)
 		{
-			$oDocumentModel = getModel('document');
+			$oDocumentModel = DocumentModel::getInstance();
 			$this->document_srl = $oDocumentModel->getDocumentSrlByAlias($this->mid, $this->entry);
 			if($this->document_srl)
 			{
@@ -231,7 +248,7 @@ class ModuleHandler extends Handler
 			// Block access to secret or temporary documents.
 			if(Context::getRequestMethod() == 'GET')
 			{
-				$oDocumentModel = getModel('document');
+				$oDocumentModel = DocumentModel::getInstance();
 				$oDocument = $oDocumentModel->getDocument($this->document_srl);
 				if($oDocument->isExists() && !$oDocument->isAccessible())
 				{
@@ -287,7 +304,7 @@ class ModuleHandler extends Handler
 				$seo_title = config('seo.subpage_title') ?: '$SITE_TITLE - $SUBPAGE_TITLE';
 			}
 			
-			getController('module')->replaceDefinedLangCode($seo_title);
+			ModuleController::getInstance()->replaceDefinedLangCode($seo_title);
 			Context::setBrowserTitle($seo_title, array(
 				'site_title' => Context::getSiteTitle(),
 				'site_subtitle' => Context::getSiteSubtitle(),
@@ -398,7 +415,7 @@ class ModuleHandler extends Handler
 	 * */
 	public function procModule()
 	{
-		$oModuleModel = getModel('module');
+		$oModuleModel = ModuleModel::getInstance();
 		$display_mode = Mobile::isFromMobilePhone() ? 'mobile' : 'view';
 
 		// If error occurred while preparation, return a message instance
@@ -1044,14 +1061,14 @@ class ModuleHandler extends Handler
 			// if layout_srl is rollback by module, set default layout
 			if($layout_srl == -1)
 			{
-				$oLayoutAdminModel = getAdminModel('layout');
+				$oLayoutAdminModel = LayoutAdminModel::getInstance();
 				$layout_srl = $oLayoutAdminModel->getSiteDefaultLayout($viewType, $oModule->module_info->site_srl);
 			}
 
 			if($layout_srl && !$oModule->getLayoutFile())
 			{
 				// If layout_srl exists, get information of the layout, and set the location of layout_path/ layout_file
-				$oLayoutModel = getModel('layout');
+				$oLayoutModel = LayoutModel::getInstance();
 				$layout_info = $oLayoutModel->getLayout($layout_srl);
 				if($layout_info)
 				{
@@ -1183,109 +1200,23 @@ class ModuleHandler extends Handler
 	 * */
 	public static function getModuleInstance($module, $type = 'view', $kind = '')
 	{
-		$parent_module = $module;
-		$kind = strtolower($kind);
 		$type = strtolower($type);
+		if (!isset(self::$_types[$type]))
+		{
+			$type = 'view';
+		}
 
-		$kinds = array('svc' => 1, 'admin' => 1);
-		if(!isset($kinds[$kind]))
+		$kind = strtolower($kind);
+		if (!isset(self::$_kinds[$kind]) || $type === 'class')
 		{
 			$kind = 'svc';
 		}
 
-		$key = $module . '.' . ($kind != 'admin' ? '' : 'admin') . '.' . $type;
-
-		if(is_array($GLOBALS['__MODULE_EXTEND__']) && array_key_exists($key, $GLOBALS['__MODULE_EXTEND__']))
+		$class_name = $module . self::$_kinds[$kind] . self::$_types[$type];
+		if (class_exists($class_name))
 		{
-			$module = $extend_module = $GLOBALS['__MODULE_EXTEND__'][$key];
+			return $class_name::getInstance($module);
 		}
-
-		// if there is no instance of the module in global variable, create a new one
-		if(!isset($GLOBALS['_loaded_module'][$module][$type][$kind]))
-		{
-			self::_getModuleFilePath($module, $type, $kind, $class_path, $high_class_file, $class_file, $instance_name);
-
-			if($extend_module && (!is_readable($high_class_file) || !is_readable($class_file)))
-			{
-				$module = $parent_module;
-				self::_getModuleFilePath($module, $type, $kind, $class_path, $high_class_file, $class_file, $instance_name);
-			}
-
-			// Check if the base class and instance class exist
-			if(!class_exists($module, true))
-			{
-				return NULL;
-			}
-			if(!class_exists($instance_name, true))
-			{
-				return NULL;
-			}
-
-			// Create an instance
-			$oModule = new $instance_name();
-			if(!is_object($oModule))
-			{
-				return NULL;
-			}
-			
-			// Populate default properties
-			if($oModule->user === false)
-			{
-				$oModule->user = Context::get('logged_info') ?: new Rhymix\Framework\Helpers\SessionHelper;
-			}
-
-			// Load language files for the class
-			if($module !== 'module')
-			{
-				Context::loadLang($class_path . 'lang');
-			}
-			if($extend_module)
-			{
-				Context::loadLang(ModuleHandler::getModulePath($parent_module) . 'lang');
-			}
-
-			// Set variables to the instance
-			$oModule->setModule($module);
-			$oModule->setModulePath($class_path);
-
-			// Store the created instance into GLOBALS variable
-			$GLOBALS['_loaded_module'][$module][$type][$kind] = $oModule;
-		}
-
-		// return the instance
-		return $GLOBALS['_loaded_module'][$module][$type][$kind];
-	}
-
-	public static function _getModuleFilePath($module, $type, $kind, &$classPath, &$highClassFile, &$classFile, &$instanceName)
-	{
-		$classPath = self::getModulePath($module);
-
-		$highClassFile = sprintf('%s%s%s.class.php', _XE_PATH_, $classPath, $module);
-		$highClassFile = FileHandler::getRealPath($highClassFile);
-
-		$types = array('view','controller','model','api','wap','mobile','class');
-		if(!in_array($type, $types))
-		{
-			$type = $types[0];
-		}
-		if($type == 'class')
-		{
-			$instanceName = '%s';
-			$classFile = '%s%s.%s.php';
-		}
-		elseif($kind == 'admin' && array_search($type, $types) < 3)
-		{
-			$instanceName = '%sAdmin%s';
-			$classFile = '%s%s.admin.%s.php';
-		}
-		else
-		{
-			$instanceName = '%s%s';
-			$classFile = '%s%s.%s.php';
-		}
-
-		$instanceName = sprintf($instanceName, $module, ucfirst($type));
-		$classFile = FileHandler::getRealPath(sprintf($classFile, $classPath, $module, $type));
 	}
 
 	/**
@@ -1303,16 +1234,13 @@ class ModuleHandler extends Handler
 			return new BaseObject();
 		}
 
-		$oModuleModel = getModel('module');
+		$oModuleModel = ModuleModel::getInstance();
 		$triggers = $oModuleModel->getTriggers($trigger_name, $called_position);
 		if(!$triggers)
 		{
 			$triggers = array();
 		}
 		
-		//store before trigger call time
-		$before_trigger_time = microtime(true);
-
 		foreach($triggers as $item)
 		{
 			$module = $item->module;

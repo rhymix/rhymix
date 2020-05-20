@@ -70,15 +70,6 @@ class autoinstall extends ModuleObject
 	var $tmp_dir = './files/cache/autoinstall/';
 
 	/**
-	 * Constructor
-	 *
-	 * @return void
-	 */
-	function __construct()
-	{
-	}
-
-	/**
 	 * For additional tasks required when installing
 	 *
 	 * @return Object
