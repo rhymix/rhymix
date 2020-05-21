@@ -15,9 +15,9 @@ class moduleModel extends module
 	}
 
 	/**
-	 * @brief Check if mid, vid are available
+	 * @brief Check if mid is available
 	 */
-	function isIDExists($id)
+	public static function isIDExists($id)
 	{
 		if (!preg_match('/^[a-z]{1}([a-z0-9_]+)$/i', $id))
 		{
@@ -49,7 +49,7 @@ class moduleModel extends module
 	/**
 	 * @brief Get all domains
 	 */
-	function getAllDomains($count = 20, $page = 1)
+	public static function getAllDomains($count = 20, $page = 1)
 	{
 		$args = new stdClass;
 		$args->list_count = $count;
@@ -65,7 +65,7 @@ class moduleModel extends module
 	/**
 	 * @brief Get default domain information
 	 */
-	function getDefaultDomainInfo()
+	public static function getDefaultDomainInfo()
 	{
 		$domain_info = Rhymix\Framework\Cache::get('site_and_module:domain_info:default');
 		if ($domain_info === null)
@@ -93,7 +93,7 @@ class moduleModel extends module
 	/**
 	 * @brief Get site information by domain_srl
 	 */
-	function getSiteInfo($domain_srl)
+	public static function getSiteInfo($domain_srl)
 	{
 		$domain_srl = intval($domain_srl);
 		$domain_info = Rhymix\Framework\Cache::get('site_and_module:domain_info:srl:' . $domain_srl);
@@ -122,7 +122,7 @@ class moduleModel extends module
 	/**
 	 * @brief Get site information by domain name
 	 */
-	function getSiteInfoByDomain($domain)
+	public static function getSiteInfoByDomain($domain)
 	{
 		if (strpos($domain, '/') !== false)
 		{
@@ -165,32 +165,32 @@ class moduleModel extends module
 	 * @brief Get module information with document_srl
 	 * In this case, it is unable to use the cache file
 	 */
-	function getModuleInfoByDocumentSrl($document_srl)
+	public static function getModuleInfoByDocumentSrl($document_srl)
 	{
 		$args = new stdClass();
 		$args->document_srl = $document_srl;
 		$output = executeQuery('module.getModuleInfoByDocument', $args);
-		$this->applyDefaultSkin($output->data);
-		return $this->addModuleExtraVars($output->data);
+		self::_applyDefaultSkin($output->data);
+		return self::addModuleExtraVars($output->data);
 	}
 
 	/**
 	 * @brief Get the default mid according to the domain
 	 */
-	function getDefaultMid($domain = null)
+	public static function getDefaultMid($domain = null)
 	{
 		// Get current domain.
 		$domain = $domain ?: strtolower(preg_replace('/:\d+$/', '', $_SERVER['HTTP_HOST']));
 		$domain = Rhymix\Framework\URL::decodeIdna($domain);
 		
 		// Find the domain information.
-		$domain_info = $this->getSiteInfoByDomain($domain);
+		$domain_info = self::getSiteInfoByDomain($domain);
 		if (!$domain_info)
 		{
-			$domain_info = $this->getDefaultDomainInfo();
+			$domain_info = self::getDefaultDomainInfo();
 			if (!$domain_info)
 			{
-				$domain_info = $this->migrateDomains();
+				$domain_info = getClass('module')->migrateDomains();
 			}
 			$domain_info->is_default_replaced = true;
 		}
@@ -198,7 +198,7 @@ class moduleModel extends module
 		// Fill in module extra vars and return.
 		if ($domain_info->module_srl)
 		{
-			return $this->addModuleExtraVars($domain_info);
+			return self::addModuleExtraVars($domain_info);
 		}
 		else
 		{
@@ -209,7 +209,7 @@ class moduleModel extends module
 	/**
 	 * @brief Get module information by mid
 	 */
-	function getModuleInfoByMid($mid, $site_srl = 0, $columnList = array())
+	public static function getModuleInfoByMid($mid, $site_srl = 0, $columnList = array())
 	{
 		if(!$mid || ($mid && !preg_match("/^[a-z][a-z0-9_]+$/i", $mid)))
 		{
@@ -240,9 +240,9 @@ class moduleModel extends module
 			}
 		}
 
-		$this->applyDefaultSkin($module_info);
+		self::_applyDefaultSkin($module_info);
 		if(!$module_info->module_srl && $module_info->data[0]) $module_info = $module_info->data[0];
-		return $this->addModuleExtraVars($module_info);
+		return self::addModuleExtraVars($module_info);
 	}
 
 	/**
@@ -280,14 +280,14 @@ class moduleModel extends module
 		$oLayoutAdminModel = getAdminModel('layout');
 		$layoutSrlPc = ($moduleInfo->layout_srl == -1) ? $oLayoutAdminModel->getSiteDefaultLayout('P') : $moduleInfo->layout_srl;
 		$layoutSrlMobile = ($moduleInfo->mlayout_srl == -1) ? $oLayoutAdminModel->getSiteDefaultLayout('M') : $moduleInfo->mlayout_srl;
-		$skinNamePc = ($moduleInfo->is_skin_fix == 'N') ? $this->getModuleDefaultSkin($moduleInfo->module, 'P') : $moduleInfo->skin;
-		$skinNameMobile = ($moduleInfo->is_mskin_fix == 'N') ? $this->getModuleDefaultSkin($moduleInfo->module, $moduleInfo->mskin === '/USE_RESPONSIVE/' ? 'P' : 'M') : $moduleInfo->mskin;
+		$skinNamePc = ($moduleInfo->is_skin_fix == 'N') ? self::getModuleDefaultSkin($moduleInfo->module, 'P') : $moduleInfo->skin;
+		$skinNameMobile = ($moduleInfo->is_mskin_fix == 'N') ? self::getModuleDefaultSkin($moduleInfo->module, $moduleInfo->mskin === '/USE_RESPONSIVE/' ? 'P' : 'M') : $moduleInfo->mskin;
 
 		$oLayoutModel = getModel('layout');
 		$layoutInfoPc = $layoutSrlPc ? $oLayoutModel->getLayoutRawData($layoutSrlPc, array('title')) : NULL;
 		$layoutInfoMobile = $layoutSrlMobile ? $oLayoutModel->getLayoutRawData($layoutSrlMobile, array('title')) : NULL;
-		$skinInfoPc = $this->loadSkinInfo(Modulehandler::getModulePath($moduleInfo->module), $skinNamePc);
-		$skinInfoMobile = $this->loadSkinInfo(Modulehandler::getModulePath($moduleInfo->module), $skinNameMobile, 'm.skins');
+		$skinInfoPc = self::loadSkinInfo(Modulehandler::getModulePath($moduleInfo->module), $skinNamePc);
+		$skinInfoMobile = self::loadSkinInfo(Modulehandler::getModulePath($moduleInfo->module), $skinNameMobile, 'm.skins');
 		if(!$skinInfoPc)
 		{
 			$skinInfoPc = new stdClass();
@@ -329,7 +329,7 @@ class moduleModel extends module
 			$moduleInfo = $mid_info;
 		}
 
-		$moduleInfo = $this->addModuleExtraVars($moduleInfo);
+		$moduleInfo = self::addModuleExtraVars($moduleInfo);
 
 		if($moduleInfo->module == 'page' && $moduleInfo->page_type != 'ARTICLE')
 		{
@@ -345,7 +345,7 @@ class moduleModel extends module
 	/**
 	 * @brief Get module information corresponding to module_srl
 	 */
-	function getModuleInfoByModuleSrl($module_srl, $columnList = array())
+	public static function getModuleInfoByModuleSrl($module_srl, $columnList = array())
 	{
 		if(intval($module_srl) == 0)
 		{
@@ -362,7 +362,7 @@ class moduleModel extends module
 			$mid_info = $output->data;
 			if($mid_info)
 			{
-				$this->applyDefaultSkin($mid_info);
+				self::_applyDefaultSkin($mid_info);
 				Rhymix\Framework\Cache::set("site_and_module:mid_info:$module_srl", $mid_info, 0, true);
 			}
 		}
@@ -388,8 +388,8 @@ class moduleModel extends module
 		if(isset($module_info->browser_title)) $oModuleController->replaceDefinedLangCode($module_info->browser_title);
 		*/
 
-		$this->applyDefaultSkin($module_info);
-		return $this->addModuleExtraVars($module_info);
+		self::_applyDefaultSkin($module_info);
+		return self::addModuleExtraVars($module_info);
 	}
 
 	/**
@@ -397,23 +397,23 @@ class moduleModel extends module
 	 *
 	 * @param stdClass $moduleInfo Module information
 	 */
-	private function applyDefaultSkin(&$moduleInfo)
+	private static function _applyDefaultSkin(&$module_info)
 	{
-		if($moduleInfo->is_skin_fix == 'N')
+		if($module_info->is_skin_fix == 'N')
 		{
-			$moduleInfo->skin = '/USE_DEFAULT/';
+			$module_info->skin = '/USE_DEFAULT/';
 		}
 
-		if($moduleInfo->is_mskin_fix == 'N' && $moduleInfo->mskin !== '/USE_RESPONSIVE/')
+		if($module_info->is_mskin_fix == 'N' && $module_info->mskin !== '/USE_RESPONSIVE/')
 		{
-			$moduleInfo->mskin = '/USE_DEFAULT/';
+			$module_info->mskin = '/USE_DEFAULT/';
 		}
 	}
 
 	/**
 	 * @brief Get module information corresponding to layout_srl
 	 */
-	function getModulesInfoByLayout($layout_srl, $columnList = array())
+	public static function getModulesInfoByLayout($layout_srl, $columnList = array())
 	{
 		// Imported data
 		$args = new stdClass;
@@ -427,26 +427,26 @@ class moduleModel extends module
 		{
 			$modules[] = $output->data[$i];
 		}
-		return $this->addModuleExtraVars($modules);
+		return self::addModuleExtraVars($modules);
 	}
 
 	/**
 	 * @brief Get module information corresponding to multiple module_srls
 	 */
-	function getModulesInfo($module_srls, $columnList = array())
+	public static function getModulesInfo($module_srls, $columnList = array())
 	{
 		if(is_array($module_srls)) $module_srls = implode(',',$module_srls);
 		$args = new stdClass();
 		$args->module_srls = $module_srls;
 		$output = executeQueryArray('module.getModulesInfo', $args, $columnList);
 		if(!$output->toBool()) return;
-		return $this->addModuleExtraVars($output->data);
+		return self::addModuleExtraVars($output->data);
 	}
 
 	/**
 	 * @brief Add extra vars to the module basic information
 	 */
-	function addModuleExtraVars($module_info)
+	public static function addModuleExtraVars($module_info)
 	{
 		// Process although one or more module informaion is requested
 		if(!is_array($module_info)) $target_module_info = array($module_info);
@@ -460,7 +460,7 @@ class moduleModel extends module
 			$module_srls[] = $val->module_srl;
 		}
 		// Extract extra information of the module and skin
-		$extra_vars = $this->getModuleExtraVars($module_srls);
+		$extra_vars = self::getModuleExtraVars($module_srls);
 		if(!count($module_srls) || !count($extra_vars)) return $module_info;
 
 		foreach($target_module_info as $key => $val)
@@ -480,7 +480,7 @@ class moduleModel extends module
 	/**
 	 * @brief Get a complete list of mid, which is created in the DB
 	 */
-	function getMidList($args = null, $columnList = array())
+	public static function getMidList($args = null, $columnList = array())
 	{
 		$list = Rhymix\Framework\Cache::get('site_and_module:module:mid_list');
 		if($list === null)
@@ -517,7 +517,7 @@ class moduleModel extends module
 	/**
 	 * @brief Get a complete list of module_srl, which is created in the DB
 	 */
-	function getModuleSrlList($args = null, $columnList = array())
+	public static function getModuleSrlList($args = null, $columnList = array())
 	{
 		$output = executeQueryArray('module.getMidList', $args, $columnList);
 		if(!$output->toBool()) return $output;
@@ -531,7 +531,7 @@ class moduleModel extends module
 	/**
 	 * @brief Return an array of module_srl corresponding to a mid list
 	 */
-	function getModuleSrlByMid($mid)
+	public static function getModuleSrlByMid($mid)
 	{
 		if($mid && !is_array($mid)) $mid = explode(',',$mid);
 		if(is_array($mid)) $mid = "'".implode("','",$mid)."'";
@@ -556,7 +556,7 @@ class moduleModel extends module
 	/**
 	 * @brief Get forward value by the value of act
 	 */
-	function getActionForward($act)
+	public static function getActionForward($act)
 	{
 		$action_forward = Rhymix\Framework\Cache::get('action_forward');
 		if($action_forward === null)
@@ -588,7 +588,7 @@ class moduleModel extends module
 	/**
 	 * @brief Get trigger functions
 	 */
-	function getTriggerFunctions($trigger_name, $called_position)
+	public static function getTriggerFunctions($trigger_name, $called_position)
 	{
 		if(isset($GLOBALS['__trigger_functions__'][$trigger_name][$called_position]))
 		{
@@ -603,7 +603,7 @@ class moduleModel extends module
 	/**
 	 * @brief Get a list of all triggers on the trigger_name
 	 */
-	function getTriggers($trigger_name, $called_position)
+	public static function getTriggers($trigger_name, $called_position)
 	{
 		if(is_null($GLOBALS['__triggers__']))
 		{
@@ -631,9 +631,9 @@ class moduleModel extends module
 	/**
 	 * @brief Get specific triggers from the trigger_name
 	 */
-	function getTrigger($trigger_name, $module, $type, $called_method, $called_position)
+	public static function getTrigger($trigger_name, $module, $type, $called_method, $called_position)
 	{
-		$triggers = $this->getTriggers($trigger_name, $called_position);
+		$triggers = self::getTriggers($trigger_name, $called_position);
 
 		if($triggers && is_array($triggers))
 		{
@@ -651,67 +651,29 @@ class moduleModel extends module
 
 	/**
 	 * @brief Get module extend
+	 * 
+	 * @deprecated
 	 */
-	function getModuleExtend($parent_module, $type, $kind='')
+	public static function getModuleExtend($parent_module, $type, $kind = '')
 	{
-		$key = $parent_module.'.'.$kind.'.'.$type;
-
-		$module_extend_info = $this->loadModuleExtends();
-		if(array_key_exists($key, $module_extend_info))
-		{
-			return $module_extend_info[$key];
-		}
-
 		return false;
 	}
 
 	/**
 	 * @brief Get all the module extend
+	 * 
+	 * @deprecated
+	 * 
 	 */
-	function loadModuleExtends()
+	public static function loadModuleExtends()
 	{
-		$cache_file = './files/cache/common/module_extend.php';
-		$cache_file = FileHandler::getRealPath($cache_file);
-
-		if(!isset($GLOBALS['__MODULE_EXTEND__']))
-		{
-			// check pre install
-			if(file_exists(FileHandler::getRealPath('./files')) && !file_exists($cache_file))
-			{
-				$arr = array();
-				$output = executeQueryArray('module.getModuleExtend');
-				if($output->data)
-				{
-					foreach($output->data as $v)
-					{
-						$arr[] = sprintf("'%s.%s.%s' => '%s'", $v->parent_module, $v->kind, $v->type, $v->extend_module);
-					}
-				}
-
-				$str = '<?PHP return array(%s); ?>';
-				$str = sprintf($str, join(',',$arr));
-
-				FileHandler::writeFile($cache_file, $str);
-			}
-
-
-			if(file_exists($cache_file))
-			{
-				$GLOBALS['__MODULE_EXTEND__'] = include($cache_file);
-			}
-			else
-			{
-				$GLOBALS['__MODULE_EXTEND__'] = array();
-			}
-		}
-
-		return $GLOBALS['__MODULE_EXTEND__'];
+		return array();
 	}
 
 	/**
 	 * @brief Get information from conf/info.xml
 	 */
-	function getModuleInfoXml($module)
+	public static function getModuleInfoXml($module)
 	{
 		// Get a path of the requested module. Return if not exists.
 		$module_path = ModuleHandler::getModulePath($module);
@@ -773,7 +735,7 @@ class moduleModel extends module
 			$module_info->author[] = $author_obj;
 		}
 		// Add admin_index by using action information
-		$action_info = $this->getModuleActionXml($module);
+		$action_info = self::getModuleActionXml($module);
 		$module_info->admin_index_act = $action_info->admin_index_act;
 		$module_info->default_index_act = $action_info->default_index_act;
 		$module_info->setup_index_act = $action_info->setup_index_act;
@@ -788,7 +750,7 @@ class moduleModel extends module
 	 * When caching, add codes so to include it directly
 	 * This is apparently good for performance, but not sure about its side-effects
 	 */
-	function getModuleActionXml($module)
+	public static function getModuleActionXml($module)
 	{
 		// Get a path of the requested module. Return if not exists.
 		$class_path = ModuleHandler::getModulePath($module);
@@ -1045,7 +1007,7 @@ class moduleModel extends module
 
 		$path = ModuleHandler::getModulePath($module);
 		$dir = ($skinType == 'M') ? 'm.skins' : 'skins';
-		$skin_list = $this->getSkins($path, $dir);
+		$skin_list = self::getSkins($path, $dir);
 
 		$this->add('skin_info_list', $skin_list);
 	}
@@ -1054,7 +1016,7 @@ class moduleModel extends module
 	 * @brief Get a list of skins for the module
 	 * Return file analysis of skin and skin.xml
 	 */
-	function getSkins($path, $dir = 'skins')
+	public static function getSkins($path, $dir = 'skins')
 	{
 		if(substr($path, -1) == '/')
 		{
@@ -1075,7 +1037,7 @@ class moduleModel extends module
 				continue;
 			}
 			unset($skin_info);
-			$skin_info = $this->loadSkinInfo($path, $skin_name, $dir);
+			$skin_info = self::loadSkinInfo($path, $skin_name, $dir);
 			if(!$skin_info)
 			{
 				$skin_info = new stdClass();
@@ -1117,10 +1079,10 @@ class moduleModel extends module
 		$useDefaultList = array();
 		if(array_key_exists($moduleName, $installedMenuTypes))
 		{
-			$defaultSkinName = $this->getModuleDefaultSkin($module, $dir == 'skins' ? 'P' : 'M');
+			$defaultSkinName = self::getModuleDefaultSkin($module, $dir == 'skins' ? 'P' : 'M');
 			if(isset($defaultSkinName))
 			{
-				$defaultSkinInfo = $this->loadSkinInfo($path, $defaultSkinName, $dir);
+				$defaultSkinInfo = self::loadSkinInfo($path, $defaultSkinName, $dir);
 
 				$useDefault = new stdClass();
 				$useDefault->title = lang('use_site_default_skin') . ' (' . $defaultSkinInfo->title . ')';
@@ -1141,7 +1103,7 @@ class moduleModel extends module
 	/**
 	 * @brief Get skin information on a specific location
 	 */
-	function loadSkinInfo($path, $skin, $dir = 'skins')
+	public static function loadSkinInfo($path, $skin, $dir = 'skins')
 	{
 		// Read xml file having skin information
 		if(substr($path,-1)!='/') $path .= '/';
@@ -1544,7 +1506,7 @@ class moduleModel extends module
 
 			$path = ModuleHandler::getModulePath($module_name);
 			// Get information of the module
-			$info = $this->getModuleInfoXml($module_name);
+			$info = self::getModuleInfoXml($module_name);
 			unset($obj);
 
 			if(!isset($info)) continue;
@@ -1647,7 +1609,7 @@ class moduleModel extends module
 			}
 			// Get information of the module
 			$info = NULL;
-			$info = $this->getModuleInfoXml($module_name);
+			$info = self::getModuleInfoXml($module_name);
 			if(!$info) continue;
 
 			$info->module = $module_name;
@@ -1690,7 +1652,7 @@ class moduleModel extends module
 	 * Because XE DBHandler doesn't support left outer join,
 	 * it should be as same as $Output->data[]->module_srl.
 	 */
-	function syncModuleToSite(&$data)
+	public static function syncModuleToSite(&$data)
 	{
 		if(!$data) return;
 
@@ -1747,7 +1709,7 @@ class moduleModel extends module
 	/**
 	 * @brief Get admin information of the site
 	 */
-	function getSiteAdmin($site_srl)
+	public static function getSiteAdmin($site_srl)
 	{
 		return array();
 	}
@@ -1755,7 +1717,7 @@ class moduleModel extends module
 	/**
 	 * @brief Check if a member is a module administrator
 	 */
-	function isModuleAdmin($member_info, $module_srl = null)
+	public static function isModuleAdmin($member_info, $module_srl = null)
 	{
 		if (!$member_info || !$member_info->member_srl)
 		{
@@ -1795,7 +1757,7 @@ class moduleModel extends module
 	/**
 	 * @brief Get admin ID of the module
 	 */
-	function getAdminId($module_srl)
+	public static function getAdminId($module_srl)
 	{
 		$obj = new stdClass();
 		$obj->module_srl = $module_srl;
@@ -1809,7 +1771,7 @@ class moduleModel extends module
 	 * @brief Get extra vars of the module
 	 * Extra information, not in the modules table
 	 */
-	function getModuleExtraVars($list_module_srl)
+	public static function getModuleExtraVars($list_module_srl)
 	{
 		$extra_vars = array();
 		$get_module_srls = array();
@@ -1866,7 +1828,7 @@ class moduleModel extends module
 	/**
 	 * @brief Get skin information of the module
 	 */
-	function getModuleSkinVars($module_srl)
+	public static function getModuleSkinVars($module_srl)
 	{
 		$skin_vars = Rhymix\Framework\Cache::get("site_and_module:module_skin_vars:$module_srl");
 		if($skin_vars === null)
@@ -1891,7 +1853,7 @@ class moduleModel extends module
 	/**
 	 * Get default skin name
 	 */
-	function getModuleDefaultSkin($module_name, $skin_type = 'P', $site_srl = 0, $updateCache = true)
+	public static function getModuleDefaultSkin($module_name, $skin_type = 'P', $site_srl = 0, $updateCache = true)
 	{
 		$target = ($skin_type == 'M') ? 'mskin' : 'skin';
 		$site_srl = 0;
@@ -1951,11 +1913,11 @@ class moduleModel extends module
 
 		if(Mobile::isFromMobilePhone() && $module_info->mskin !== '/USE_RESPONSIVE/')
 		{
-			$skin_vars = $this->getModuleMobileSkinVars($module_info->module_srl);
+			$skin_vars = self::getModuleMobileSkinVars($module_info->module_srl);
 		}
 		else
 		{
-			$skin_vars = $this->getModuleSkinVars($module_info->module_srl);
+			$skin_vars = self::getModuleSkinVars($module_info->module_srl);
 		}
 
 		if(!$skin_vars) return;
@@ -1972,7 +1934,7 @@ class moduleModel extends module
 	 * @param $module_srl Sequence of module
 	 * @return array
 	 */
-	function getModuleMobileSkinVars($module_srl)
+	public static function getModuleMobileSkinVars($module_srl)
 	{
 		$skin_vars = Rhymix\Framework\Cache::get("site_and_module:module_mobile_skin_vars:$module_srl");
 		if($skin_vars === null)
@@ -2025,7 +1987,7 @@ class moduleModel extends module
 	/**
 	 * @brief Return privileges(granted) information by using module info, xml info and member info
 	 */
-	function getGrant($module_info, $member_info, $xml_info = null)
+	public static function getGrant($module_info, $member_info, $xml_info = null)
 	{
 		if(empty($module_info->module))
 		{
@@ -2044,13 +2006,13 @@ class moduleModel extends module
 		// Get information of module.xml 
 		if(!$xml_info)
 		{
-			$xml_info = $this->getModuleActionXml($module_info->module);
+			$xml_info = self::getModuleActionXml($module_info->module);
 		}
 		$xml_grant_list = isset($xml_info->grant) ? (array)$xml_info->grant : array();
 		
 		// Get group information of member
 		$member_group = !empty($member_info->group_list) ? array_keys($member_info->group_list) : array();
-		$is_module_admin = !empty($module_info->module_srl) ? $this->isModuleAdmin($member_info, $module_info->module_srl) : false;
+		$is_module_admin = !empty($module_info->module_srl) ? self::isModuleAdmin($member_info, $module_info->module_srl) : false;
 		
 		// Get 'privilege name' list from module.xml
 		$privilege_list = array_keys($xml_grant_list);
@@ -2093,7 +2055,7 @@ class moduleModel extends module
 			$checked = array();
 			
 			// Grant privileges by information that get from the DB
-			foreach($this->getModuleGrants($module_info->module_srl)->data as $val)
+			foreach(self::getModuleGrants($module_info->module_srl)->data as $val)
 			{
 				$checked[$val->name] = true;
 				if($grant->{$val->name})
@@ -2173,7 +2135,7 @@ class moduleModel extends module
 	 * @param object $member_info
 	 * @return array
 	 */
-	function getAccessibleModuleList($member_info = null)
+	public static function getAccessibleModuleList($member_info = null)
 	{
 		if(!$member_info)
 		{
@@ -2183,12 +2145,12 @@ class moduleModel extends module
 		$result = Rhymix\Framework\Cache::get(sprintf('site_and_module:accessible_modules:%d', $member_info->member_srl));
 		if($result === null)
 		{
-			$mid_list = $this->getMidList();
+			$mid_list = self::getMidList();
 			$result = array();
 			
 			foreach($mid_list as $module_info)
 			{
-				$grant = $this->getGrant($module_info, $member_info);
+				$grant = self::getGrant($module_info, $member_info);
 				if(!$grant->access)
 				{
 					continue;
@@ -2217,7 +2179,7 @@ class moduleModel extends module
 	 * @param object $member_info member information
 	 * @return mixed success : object, fail : false
 	 * */
-	function getPrivilegesBySrl($target_srl, $type = null, $member_info = null)
+	public static function getPrivilegesBySrl($target_srl, $type = null, $member_info = null)
 	{
 		if(empty($target_srl = trim($target_srl)) || !preg_match('/^([0-9]+)$/', $target_srl) && $type != 'module')
 		{
@@ -2240,13 +2202,13 @@ class moduleModel extends module
 			}
 			else if($type == 'module')
 			{
-				$module_info = $this->getModuleInfoByMid($target_srl);
+				$module_info = self::getModuleInfoByMid($target_srl);
 			}
 		}
 		
 		if(!isset($module_info))
 		{
-			$module_info = $this->getModuleInfoByModuleSrl($target_srl);
+			$module_info = self::getModuleInfoByModuleSrl($target_srl);
 		}
 		
 		if(!$module_info->module_srl)
@@ -2259,7 +2221,7 @@ class moduleModel extends module
 			$member_info = Context::get('logged_info');
 		}
 		
-		return $this->getGrant($module_info, $member_info);
+		return self::getGrant($module_info, $member_info);
 	}
 	
 	/**
@@ -2268,9 +2230,9 @@ class moduleModel extends module
 	 * @param string $module module name. if used, search scope is same module
 	 * @return mixed success : object, fail : false
 	 */
-	function findManagerPrivilege($member_info, $module = null)
+	public static function findManagerPrivilege($member_info, $module = null)
 	{
-		if(!$member_info->member_srl || empty($mid_list = $this->getMidList()))
+		if(!$member_info->member_srl || empty($mid_list = self::getMidList()))
 		{
 			return false;
 		}
@@ -2282,7 +2244,7 @@ class moduleModel extends module
 				continue;
 			}
 			
-			if(($grant = $this->getGrant($module_info, $member_info)) && $grant->manager)
+			if(($grant = self::getGrant($module_info, $member_info)) && $grant->manager)
 			{
 				return $grant;
 			}
@@ -2294,7 +2256,7 @@ class moduleModel extends module
 	/**
 	 * @brief Get module grants
 	 */
-	function getModuleGrants($module_srl)
+	public static function getModuleGrants($module_srl)
 	{
 		$output = Rhymix\Framework\Cache::get("site_and_module:module_grants:$module_srl");
 		if ($output === null)
@@ -2361,10 +2323,14 @@ class moduleModel extends module
 		return $module_filebox_list;
 	}
 
-	function getFileBoxListHtml()
+	public function getFileBoxListHtml()
 	{
 		$logged_info = Context::get('logged_info');
-		if($logged_info->is_admin !='Y' && !$logged_info->is_site_admin) return $this->setError('msg_not_permitted');
+		if($logged_info->is_admin !='Y' && !$logged_info->is_site_admin)
+		{
+			return new BaseObject(-1, 'msg_not_permitted');
+		}
+
 		$link = parse_url($_SERVER["HTTP_REFERER"]);
 		$link_params = explode('&',$link['query']);
 		foreach ($link_params as $param)
@@ -2394,7 +2360,7 @@ class moduleModel extends module
 		$this->add('html', $html);
 	}
 
-	function getModuleFileBoxPath($module_filebox_srl)
+	public static function getModuleFileBoxPath($module_filebox_srl)
 	{
 		return getController('file')->getStoragePath('filebox', 0, $module_filebox_srl, 0, '', false);
 	}
@@ -2403,7 +2369,7 @@ class moduleModel extends module
 	 * @brief Return ruleset cache file path
 	 * @param module, act
 	 */
-	function getValidatorFilePath($module, $ruleset, $mid=null)
+	public static function getValidatorFilePath($module, $ruleset, $mid=null)
 	{
 		// load dynamic ruleset xml file
 		if(strpos($ruleset, '@') !== false)
@@ -2434,7 +2400,7 @@ class moduleModel extends module
 		return $xml_file;
 	}
 
-	function getLangListByLangcodeForAutoComplete()
+	public function getLangListByLangcodeForAutoComplete()
 	{
 		$keyword = Context::get('search_keyword');
 
@@ -2468,14 +2434,14 @@ class moduleModel extends module
 	/**
 	 * @brief already instance created module list
 	 */
-	function getModuleListByInstance($site_srl = 0, $columnList = array())
+	public static function getModuleListByInstance($site_srl = 0, $columnList = array())
 	{
 		$args = new stdClass();
 		$output = executeQueryArray('module.getModuleListByInstance', $args, $columnList);
 		return $output;
 	}
 
-	function getLangByLangcode()
+	public function getLangByLangcode()
 	{
 		$langCode = Context::get('langCode');
 		if (!$langCode) return;
