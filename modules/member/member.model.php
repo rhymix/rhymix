@@ -18,8 +18,9 @@ class memberModel extends member
 	/**
 	 * @brief Initialization
 	 */
-	function init()
+	public function init()
 	{
+		
 	}
 
 	/**
@@ -130,7 +131,7 @@ class memberModel extends member
 	/**
 	 * @brief Display menus of the member
 	 */
-	function getMemberMenu()
+	public static function getMemberMenu()
 	{
 		// Get member_srl of he target member and logged info of the current user
 		$member_srl = Context::get('target_srl');
