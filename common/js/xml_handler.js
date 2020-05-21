@@ -16,6 +16,11 @@
 	window.show_leaving_warning = false;
 	
 	/**
+	 * This variable becomes true when the user tries to navigate away from the page.
+	 */
+	var page_unloading = false;
+	
+	/**
 	 * This variable stores the .wfsr jQuery object.
 	 */
 	var waiting_obj = $(".wfsr");
@@ -127,6 +132,11 @@
 				return xmlHandler(xhr, textStatus);
 			}
 			
+			// If the user is navigating away, don't do anything.
+			if (xhr.status == 0 && page_unloading) {
+				return;
+			}
+
 			// Hide the waiting message and display an error notice.
 			clearTimeout(wfsr_timeout);
 			waiting_obj.hide().trigger("cancel_confirm");
@@ -266,6 +276,13 @@
 		
 		// Define the error handler.
 		var errorHandler = function(xhr, textStatus) {
+
+			// If the user is navigating away, don't do anything.
+			if (xhr.status == 0 && page_unloading) {
+				return;
+			}
+			
+			// Hide the waiting message and display an error notice.
 			clearTimeout(wfsr_timeout);
 			waiting_obj.hide().trigger("cancel_confirm");
 			var error_info;
@@ -338,6 +355,13 @@
 		
 		// Define the error handler.
 		var errorHandler = function(xhr, textStatus) {
+
+			// If the user is navigating away, don't do anything.
+			if (xhr.status == 0 && page_unloading) {
+				return;
+			}
+			
+			// Hide the waiting message and display an error notice.
 			clearTimeout(wfsr_timeout);
 			waiting_obj.hide().trigger("cancel_confirm");
 			var error_info = xhr.status + " " + xhr.statusText + " (" + textStatus + ")";
@@ -423,6 +447,7 @@
 	 * Empty placeholder for beforeUnload handler.
 	 */
 	var beforeUnloadHandler = function() {
+		page_unloading = true;
 		return "";
 	};
 	
@@ -437,6 +462,10 @@
 				$(window).bind("beforeunload", beforeUnloadHandler);
 			}).bind("ajaxStop cancel_confirm", function() {
 				$(window).unbind("beforeunload", beforeUnloadHandler);
+			});
+		} else {
+			$(window).on('beforeunload', function() {
+				page_unloading = true;
 			});
 		}
 	});
