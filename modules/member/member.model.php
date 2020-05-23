@@ -268,6 +268,8 @@ class memberModel extends member
 
 	/**
 	 * @brief Return member information with user_id
+	 * 
+	 * @return object|null
 	 */
 	public static function getMemberInfoByUserID($user_id)
 	{
@@ -286,6 +288,8 @@ class memberModel extends member
 
 	/**
 	 * @brief Return member information with email_address
+	 * 
+	 * @return object|null
 	 */
 	public static function getMemberInfoByEmailAddress($email_address)
 	{
@@ -303,6 +307,8 @@ class memberModel extends member
 
 	/**
 	 * @brief Return member information with phone number
+	 * 
+	 * @return object|null
 	 */
 	public static function getMemberInfoByPhoneNumber($phone_number, $phone_country = null)
 	{
@@ -332,6 +338,8 @@ class memberModel extends member
 
 	/**
 	 * @brief Return member information with member_srl
+	 * 
+	 * @return object
 	 */
 	public static function getMemberInfoByMemberSrl($member_srl, $site_srl = 0)
 	{
@@ -360,6 +368,17 @@ class memberModel extends member
 		}
 
 		return $GLOBALS['__member_info__'][$member_srl];
+	}
+
+	/**
+	 * @brief Shortcut to getMemberInfoByMemberSrl()
+	 * 
+	 * @param int $member_srl
+	 * @return object
+	 */
+	public static function getMemberInfo($member_srl)
+	{
+		return self::getMemberInfoByMemberSrl(intval($member_srl));
 	}
 
 	/**
