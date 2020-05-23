@@ -10,7 +10,7 @@ class moduleModel extends module
 	/**
 	 * @brief Initialization
 	 */
-	function init()
+	public function init()
 	{
 	}
 
@@ -1341,7 +1341,7 @@ class moduleModel extends module
 	/**
 	 * @brief Return the number of modules which are registered on a virtual site
 	 */
-	function getModuleCount($site_srl = 0, $module = null)
+	public static function getModuleCount($site_srl = 0, $module = null)
 	{
 		$args = new stdClass;
 		if(!is_null($module)) $args->module = $module;
@@ -1353,7 +1353,7 @@ class moduleModel extends module
 	 * @brief Return module configurations
 	 * Global configuration is used to manage board, member and others
 	 */
-	function getModuleConfig($module, $site_srl = 0)
+	public static function getModuleConfig($module, $site_srl = 0)
 	{
 		$site_srl = 0;
 		if(!isset($GLOBALS['__ModuleConfig__'][$site_srl][$module]))
@@ -1391,7 +1391,7 @@ class moduleModel extends module
 	 * @brief Return the module configuration of mid
 	 * Manage mid configurations which depend on module
 	 */
-	function getModulePartConfig($module, $module_srl)
+	public static function getModulePartConfig($module, $module_srl)
 	{
 		if(!isset($GLOBALS['__ModulePartConfig__'][$module][$module_srl]))
 		{
@@ -1434,7 +1434,7 @@ class moduleModel extends module
 	/**
 	 * @brief Get all of module configurations for each mid
 	 */
-	function getModulePartConfigs($module, $site_srl = 0)
+	public static function getModulePartConfigs($module, $site_srl = 0)
 	{
 		$args = new stdClass();
 		$args->module = $module;
@@ -1457,7 +1457,7 @@ class moduleModel extends module
 	/**
 	 * @brief Get a list of module category
 	 */
-	function getModuleCategories($moduleCategorySrl = array())
+	public static function getModuleCategories($moduleCategorySrl = array())
 	{
 		$args = new stdClass();
 		$args->moduleCategorySrl = $moduleCategorySrl;
@@ -1478,7 +1478,7 @@ class moduleModel extends module
 	/**
 	 * @brief Get content from the module category
 	 */
-	function getModuleCategory($module_category_srl)
+	public static function getModuleCategory($module_category_srl)
 	{
 		// Get data from the DB
 		$args = new stdClass;
@@ -1491,7 +1491,7 @@ class moduleModel extends module
 	/**
 	 * @brief Get xml information of the module
 	 */
-	function getModulesXmlInfo()
+	public static function getModulesXmlInfo()
 	{
 		// Get a list of downloaded and installed modules
 		$searched_list = FileHandler::readDir('./modules');
@@ -1520,7 +1520,7 @@ class moduleModel extends module
 		return $list;
 	}
 
-	function checkNeedInstall($module_name)
+	public static function checkNeedInstall($module_name)
 	{
 		$oDB = &DB::getInstance();
 		$info = null;
@@ -1544,7 +1544,7 @@ class moduleModel extends module
 		return false;
 	}
 
-	function checkNeedUpdate($module_name)
+	public static function checkNeedUpdate($module_name)
 	{
 		// Check if it is upgraded to module.class.php on each module
 		$oDummy = getModule($module_name, 'class');
@@ -1560,7 +1560,7 @@ class moduleModel extends module
 	 * @param array|string $update_id
 	 * @return Boolean
 	 */
-	public function needUpdate($update_id)
+	public static function needUpdate($update_id)
 	{
 		if(!is_array($update_id)) $update_id = array($update_id);
 
@@ -1578,10 +1578,10 @@ class moduleModel extends module
 	/**
 	 * @brief Get a type and information of the module
 	 */
-	function getModuleList()
+	public static function getModuleList()
 	{
 		// Create DB Object
-		$oDB = &DB::getInstance();
+		$oDB = DB::getInstance();
 		// Get a list of downloaded and installed modules
 		$searched_list = FileHandler::readDir('./modules', '/^([a-zA-Z0-9_-]+)$/');
 		sort($searched_list);
@@ -1694,7 +1694,7 @@ class moduleModel extends module
 	/**
 	 * @brief Check if it is an administrator of site_module_info
 	 */
-	function isSiteAdmin($member_info, $site_srl = null)
+	public static function isSiteAdmin($member_info, $site_srl = null)
 	{
 		if ($member_info && $member_info->is_admin == 'Y')
 		{
@@ -1907,7 +1907,7 @@ class moduleModel extends module
 	/**
 	 * @brief Combine skin information with module information
 	 */
-	function syncSkinInfoToModuleInfo(&$module_info)
+	public static function syncSkinInfoToModuleInfo(&$module_info)
 	{
 		if(!$module_info->module_srl) return;
 
@@ -1960,7 +1960,7 @@ class moduleModel extends module
 	 * Combine skin information with module information
 	 * @param $module_info Module information
 	 */
-	function syncMobileSkinInfoToModuleInfo(&$module_info)
+	public static function syncMobileSkinInfoToModuleInfo(&$module_info)
 	{
 		if(!$module_info->module_srl) return;
 		
@@ -2272,27 +2272,25 @@ class moduleModel extends module
 		return $output;
 	}
 
-	function getModuleFileBox($module_filebox_srl)
+	public static function getModuleFileBox($module_filebox_srl)
 	{
 		$args = new stdClass();
 		$args->module_filebox_srl = $module_filebox_srl;
 		return executeQuery('module.getModuleFileBox', $args);
 	}
 
-	function getModuleFileBoxList()
+	public static function getModuleFileBoxList()
 	{
-		$oModuleModel = getModel('module');
-
 		$args = new stdClass();
 		$args->page = Context::get('page');
 		$args->list_count = 5;
 		$args->page_count = 5;
 		$output = executeQuery('module.getModuleFileBoxList', $args);
-		$output = $oModuleModel->unserializeAttributes($output);
+		$output = self::unserializeAttributes($output);
 		return $output;
 	}
 
-	function unserializeAttributes($module_filebox_list)
+	public static function unserializeAttributes($module_filebox_list)
 	{
 		if(is_array($module_filebox_list->data))
 		{
