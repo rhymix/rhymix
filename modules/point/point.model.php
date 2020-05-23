@@ -10,14 +10,14 @@ class pointModel extends point
 	/**
 	 * @brief Initialization
 	 */
-	function init()
+	public function init()
 	{
 	}
 
 	/**
 	 * @brief Check if there is points information
 	 */
-	function isExistsPoint($member_srl)
+	public static function isExistsPoint($member_srl)
 	{
 		$args = new stdClass;
 		$args->member_srl = abs($member_srl);
@@ -29,7 +29,7 @@ class pointModel extends point
 	/**
 	 * @brief Get the points
 	 */
-	function getPoint($member_srl, $from_db = false, &$exists = null)
+	public static function getPoint($member_srl, $from_db = false, &$exists = null)
 	{
 		$member_srl = abs($member_srl);
 
@@ -93,7 +93,7 @@ class pointModel extends point
 	/**
 	 * @brief Get the level
 	 */
-	function getLevel($point, $level_step)
+	public static function getLevel($point, $level_step)
 	{
 		$level_count = count($level_step);
 		for ($level = 0; $level <= $level_count; $level++)
@@ -109,7 +109,7 @@ class pointModel extends point
 	/**
 	 * @deprecated
 	 */
-	function getMembersPointInfo()
+	public function getMembersPointInfo()
 	{
 		$member_srls = Context::get('member_srls');
 		$member_srls = array_unique(explode(',', $member_srls));
@@ -139,8 +139,8 @@ class pointModel extends point
 		foreach($member_srls as $v)
 		{
 			$obj = new stdClass;
-			$obj->point = $this->getPoint($v);
-			$obj->level = $this->getLevel($obj->point, $config->level_step);
+			$obj->point = self::getPoint($v);
+			$obj->level = self::getLevel($obj->point, $config->level_step);
 			$obj->member_srl = $v;
 			$info[] = $obj;
 		}
@@ -151,7 +151,7 @@ class pointModel extends point
 	/**
 	 * @brief Get a list of points members list
 	 */
-	function getMemberList($args = null, $columnList = array())
+	public static function getMemberList($args = null, $columnList = array())
 	{
 		// Arrange the search options
 		$args->is_admin = Context::get('is_admin')=='Y'?'Y':'';
@@ -217,7 +217,7 @@ class pointModel extends point
 
 			foreach($output->data as $key => $val)
 			{
-				$output->data[$key]->level = $this->getLevel($val->point, $config->level_step);
+				$output->data[$key]->level = self::getLevel($val->point, $config->level_step);
 			}
 		}
 
