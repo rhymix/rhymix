@@ -28,14 +28,8 @@ class documentView extends document
 		// Bring a list of variables needed to implement
 		$document_srl = Context::get('document_srl');
 
-		// module_info not use in UI
-		//$oModuleModel = getModel('module');
-		//$module_info = $oModuleModel->getModuleInfoByDocumentSrl($document_srl);
-
-		// Create the document object. If the document module of basic data structures, write it all works .. -_-;
-		$oDocumentModel = getModel('document');
 		// Creates an object for displaying the selected document
-		$oDocument = $oDocumentModel->getDocument($document_srl, $this->grant->manager);
+		$oDocument = DocumentModel::getDocument($document_srl, $this->grant->manager);
 		if(!$oDocument->isExists()) throw new Rhymix\Framework\Exceptions\TargetNotFound;
 		// Check permissions
 		if(!$oDocument->isAccessible()) throw new Rhymix\Framework\Exceptions\NotPermitted;
@@ -71,7 +65,7 @@ class documentView extends document
 		// Editor converter
 		$obj = new stdClass;
 		$obj->content = $content;
-		$obj->module_srl = getModel('module')->getModuleInfoByMid(Context::get('mid'))->module_srl;
+		$obj->module_srl = ModuleModel::getModuleInfoByMid(Context::get('mid'))->module_srl;
 		$content = getModel('editor')->converter($obj, 'document');
 		$content = sprintf('<div class="document_0_%d xe_content">%s</div>', Context::get('logged_info')->member_srl, $content);
 		Context::set('content', $content);
@@ -102,8 +96,7 @@ class documentView extends document
 
 		if(count($document_srl_list))
 		{
-			$oDocumentModel = getModel('document');
-			$document_list = $oDocumentModel->getDocuments($document_srl_list, $this->grant->is_admin);
+			$document_list = DocumentModel::getDocuments($document_srl_list, $this->grant->is_admin);
 			Context::set('document_list', $document_list);
 		}
 		else
@@ -113,7 +106,7 @@ class documentView extends document
 
 		$module_srl = intval(Context::get('module_srl'));
 		Context::set('module_srl',$module_srl);
-		$module_info = getModel('module')->getModuleInfoByModuleSrl($module_srl);
+		$module_info = ModuleModel::getModuleInfoByModuleSrl($module_srl);
 		Context::set('mid',$module_info->mid);
 		Context::set('browser_title',$module_info->browser_title);
 
@@ -144,10 +137,9 @@ class documentView extends document
 			if(!$current_module_srl) return new BaseObject();
 		}
 
-		$oModuleModel = getModel('module');
 		if($current_module_srl)
 		{
-			$document_config = $oModuleModel->getModulePartConfig('document', $current_module_srl);
+			$document_config = ModuleModel::getModulePartConfig('document', $current_module_srl);
 		}
 		if(!$document_config)
 		{
@@ -171,9 +163,8 @@ class documentView extends document
 	{
 		$this->setLayoutFile('popup_layout');
 
-		$oMemberModel = getModel('member');
 		// A message appears if the user is not logged-in
-		if(!$oMemberModel->isLogged())
+		if(!$this->user->member_srl)
 		{
 			throw new Rhymix\Framework\Exceptions\MustLogin;
 		}
@@ -185,8 +176,7 @@ class documentView extends document
 		$args->page = (int)Context::get('page');
 		$args->list_count = 10;
 
-		$oDocumentModel = getModel('document');
-		$output = $oDocumentModel->getDocumentList($args, true);
+		$output = DocumentModel::getDocumentList($args, true);
 		Context::set('total_count', $output->total_count);
 		Context::set('total_page', $output->total_page);
 		Context::set('page', $output->page);
@@ -206,17 +196,14 @@ class documentView extends document
 		$this->setLayoutFile('popup_layout');
 		$document_srl = Context::get('target_srl');
 
-		$oMemberModel = getModel('member');
 		// A message appears if the user is not logged-in
-		if(!$oMemberModel->isLogged())
+		if(!$this->user->member_srl)
 		{
 			throw new Rhymix\Framework\Exceptions\MustLogin;
 		}
 
-		// Create the document object. If the document module of basic data structures, write it all works .. -_-;
-		$oDocumentModel = getModel('document');
 		// Creates an object for displaying the selected document
-		$oDocument = $oDocumentModel->getDocument($document_srl, $this->grant->manager, FALSE);
+		$oDocument = DocumentModel::getDocument($document_srl, $this->grant->manager, FALSE);
 		if(!$oDocument->isExists())
 		{
 			throw new Rhymix\Framework\Exceptions\TargetNotFound;

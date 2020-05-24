@@ -36,22 +36,19 @@ class fileModel extends file
 		// Get uploaded files
 		if($upload_target_srl)
 		{
-			$oModuleModel = getModel('module');
-			$oCommentModel = getModel('comment');
-			$oDocumentModel = getModel('document');
-			$oDocument = $oDocumentModel->getDocument($upload_target_srl);
+			$oDocument = DocumentModel::getDocument($upload_target_srl);
 			
 			// Check permissions of the comment
 			if(!$oDocument->isExists())
 			{
-				$oComment = $oCommentModel->getComment($upload_target_srl);
+				$oComment = CommentModel::getComment($upload_target_srl);
 				if($oComment->isExists())
 				{
 					if(!$oComment->isAccessible())
 					{
 						throw new Rhymix\Framework\Exceptions\NotPermitted;
 					}
-					$oDocument = $oDocumentModel->getDocument($oComment->get('document_srl'));
+					$oDocument = DocumentModel::getDocument($oComment->get('document_srl'));
 				}
 			}
 			
@@ -64,12 +61,12 @@ class fileModel extends file
 			// Check permissions of the module
 			if($module_srl = isset($oComment) ? $oComment->get('module_srl') : $oDocument->get('module_srl'))
 			{
-				$module_info = $oModuleModel->getModuleInfoByModuleSrl($module_srl);
+				$module_info = ModuleModel::getModuleInfoByModuleSrl($module_srl);
 				if(empty($module_info->module_srl))
 				{
 					throw new Rhymix\Framework\Exceptions\NotPermitted;
 				}
-				$grant = $oModuleModel->getGrant($module_info, Context::get('logged_info'));
+				$grant = ModuleModel::getGrant($module_info, Context::get('logged_info'));
 				if(!$grant->access)
 				{
 					throw new Rhymix\Framework\Exceptions\NotPermitted;
@@ -161,7 +158,7 @@ class fileModel extends file
 			}
 			if(!isset($member_info->group_list))
 			{
-				$member_info->group_list = getModel('member')->getMemberGroups($member_info->member_srl);
+				$member_info->group_list = MemberModel::getMemberGroups($member_info->member_srl);
 			}
 			$is_group = false;
 			foreach($config->download_groups as $group_srl)
@@ -204,27 +201,26 @@ class fileModel extends file
 		}
 		
 		// Check permissions of the module
-		$oModuleModel = getModel('module');
-		$module_info = $oModuleModel->getModuleInfoByModuleSrl($file_info->module_srl);
+		$module_info = ModuleModel::getModuleInfoByModuleSrl($file_info->module_srl);
 		if(empty($module_info->module_srl))
 		{
 			return false;
 		}
-		$grant = $oModuleModel->getGrant($module_info, $member_info);
+		$grant = ModuleModel::getGrant($module_info, $member_info);
 		if($grant->manager)
 		{
 			return true;
 		}
 		
 		// Check permissions of the document
-		$oDocument = getModel('document')->getDocument($file_info->upload_target_srl);
+		$oDocument = DocumentModel::getDocument($file_info->upload_target_srl);
 		if($oDocument->isExists() && $oDocument->isGranted())
 		{
 			return true;
 		}
 		
 		// Check permissions of the comment
-		$oComment = getModel('comment')->getComment($file_info->upload_target_srl);
+		$oComment = CommentModel::getComment($file_info->upload_target_srl);
 		if($oComment->isExists() && $oComment->isGranted())
 		{
 			return true;
@@ -406,7 +402,7 @@ class fileModel extends file
 		$config = self::getFileConfig(Context::get('module_srl') ?: Context::get('current_module_info')->module_srl);
 		if (Rhymix\Framework\Session::isAdmin())
 		{
-			$module_config = getModel('module')->getModuleConfig('file');
+			$module_config = ModuleModel::getModuleConfig('file');
 			$config->allowed_filesize = max($config->allowed_filesize, $module_config->allowed_filesize);
 			$config->allowed_attach_size = max($config->allowed_attach_size, $module_config->allowed_attach_size);
 			$config->allowed_extensions = [];

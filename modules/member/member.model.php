@@ -34,8 +34,7 @@ class memberModel extends member
 		}
 
 		// Get member configuration stored in the DB
-		$oModuleModel = getModel('module');
-		$config = $oModuleModel->getModuleConfig('member');
+		$config = ModuleModel::getModuleConfig('member');
 
 		if(!$config->signupForm || !is_array($config->signupForm))
 		{
@@ -131,7 +130,7 @@ class memberModel extends member
 	/**
 	 * @brief Display menus of the member
 	 */
-	public static function getMemberMenu()
+	public function getMemberMenu()
 	{
 		// Get member_srl of he target member and logged info of the current user
 		$member_srl = Context::get('target_srl');
@@ -154,7 +153,7 @@ class memberModel extends member
 
 		ModuleHandler::triggerCall('member.getMemberMenu', 'before', $member_info);
 
-		$oMemberController = getController('member');
+		$oMemberController = MemberController::getInstance();
 		// Display member information (Don't display to non-logged user)
 		if($logged_info->member_srl)
 		{
@@ -178,7 +177,7 @@ class memberModel extends member
 			// Send an email only if email address is public
 			if($email_config->isPublic == 'Y' && $member_info->email_address)
 			{
-				$oCommunicationModel = getModel('communication');
+				$oCommunicationModel = CommunicationModel::getInstance();
 				if($logged_info->is_admin == 'Y' || $oCommunicationModel->isFriend($member_info->member_srl))
 				{
 					$url = 'mailto:'.escape($member_info->email_address);
@@ -549,7 +548,7 @@ class memberModel extends member
 				if (!count($group_list))
 				{
 					$default_group = self::getDefaultGroup($site_srl);
-					getController('member')->addMemberToGroup($member_srl, $default_group->group_srl, $site_srl);
+					MemberController::getInstance()->addMemberToGroup($member_srl, $default_group->group_srl, $site_srl);
 					$group_list[$default_group->group_srl] = $default_group->title;
 				}
 				//insert in cache
@@ -1065,8 +1064,7 @@ class memberModel extends member
 	{
 		if(!isset($GLOBALS['__member_info__']['group_image_mark'][$member_srl]))
 		{
-			$oModuleModel = getModel('module');
-			$config = $oModuleModel->getModuleConfig('member');
+			$config = ModuleModel::getModuleConfig('member');
 			if($config->group_image_mark!='Y')
 			{
 				return null;
@@ -1125,7 +1123,7 @@ class memberModel extends member
 				if($config->signature_html_retroact == 'Y' && $config->signature_html == 'N' && preg_match('/<[^br]+>/i', $signature))
 				{
 					$signature = preg_replace('/(\r?\n)+/', "\n", $signature);
-					return getController('member')->putSignature($member_srl, $signature);
+					return MemberController::getInstance()->putSignature($member_srl, $signature);
 				}
 				
 				$GLOBALS['__member_info__']['signature'][$member_srl] = $signature;
@@ -1200,8 +1198,7 @@ class memberModel extends member
 				$args = new stdClass();
 				$args->member_srl = $member_srl;
 				$args->hashed_password = self::hashPassword($password_text, $required_algorithm);
-				$oMemberController = getController('member');
-				$oMemberController->updateMemberPassword($args);
+				MemberController::getInstance()->updateMemberPassword($args);
 			}
 		}
 		

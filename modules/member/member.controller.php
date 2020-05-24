@@ -48,8 +48,7 @@ class memberController extends member
 		$output = $this->doLogin($user_id, $password, $keep_signed=='Y'?true:false);
 		if (!$output->toBool()) return $output;
 
-		$oModuleModel = getModel('module');
-		$config = $oModuleModel->getModuleConfig('member');
+		$config = ModuleModel::getModuleConfig('member');
 		$member_info = Context::get('logged_info');
 
 		// Check change_password_date
@@ -102,8 +101,7 @@ class memberController extends member
 
 		$output = new BaseObject();
 
-		$oModuleModel = getModel('module');
-		$config = $oModuleModel->getModuleConfig('member');
+		$config = ModuleModel::getModuleConfig('member');
 		if($config->after_logout_url)
 		{
 			$output->redirect_url = $config->after_logout_url;
@@ -125,8 +123,7 @@ class memberController extends member
 			throw new Rhymix\Framework\Exceptions\InvalidRequest;
 		}
 		
-		$oDocumentModel = getModel('document');
-		$oDocument = $oDocumentModel->getDocument($document_srl);
+		$oDocument = DocumentModel::getDocument($document_srl);
 		
 		// Check document
 		if(!$oDocument->isAccessible())
@@ -134,11 +131,10 @@ class memberController extends member
 			throw new Rhymix\Framework\Exception('msg_is_secret');
 		}
 		
-		$oModuleModel = getModel('module');
-		$module_info = $oModuleModel->getModuleInfoByModuleSrl($oDocument->get('module_srl'));
+		$module_info = ModuleModel::getModuleInfoByModuleSrl($oDocument->get('module_srl'));
 		
 		$logged_info = Context::get('logged_info');
-		$grant = $oModuleModel->getGrant($module_info, $logged_info);
+		$grant = ModuleModel::getGrant($module_info, $logged_info);
 		
 		// Check access to module of the document
 		if(!$grant->access)
@@ -453,13 +449,12 @@ class memberController extends member
 		$document_srl = (int)Context::get('document_srl');
 		if(!$document_srl) throw new Rhymix\Framework\Exceptions\InvalidRequest;
 		
-		$oDocumentModel = getModel('document');
-		$oDocument = $oDocumentModel->getDocument($document_srl);
+		$oDocument = DocumentModel::getDocument($document_srl);
 		if ($oDocument->get('member_srl') != $logged_info->member_srl)
 		{
 			throw new Rhymix\Framework\Exceptions\InvalidRequest;
 		}
-		$configStatusList = $oDocumentModel->getStatusList();
+		$configStatusList = DocumentModel::getStatusList();
 		if ($oDocument->get('status') != $configStatusList['temp'])
 		{
 			throw new Rhymix\Framework\Exceptions\InvalidRequest;
@@ -527,8 +522,7 @@ class memberController extends member
 		$value = Context::get('value');
 		if(!$value) return;
 
-		$oMemberModel = getModel('member');
-		$config = $oMemberModel->getMemberConfig();
+		$config = MemberModel::getMemberConfig();
 
 		// Check if logged-in
 		$logged_info = Context::get('logged_info');
@@ -537,33 +531,33 @@ class memberController extends member
 		{
 			case 'user_id' :
 				// Check denied ID
-				if($oMemberModel->isDeniedID($value)) return new BaseObject(0,'denied_user_id');
+				if(MemberModel::isDeniedID($value)) return new BaseObject(0,'denied_user_id');
 				// Check if duplicated
-				$member_srl = $oMemberModel->getMemberSrlByUserID($value);
+				$member_srl = MemberModel::getMemberSrlByUserID($value);
 				if($member_srl && $logged_info->member_srl != $member_srl ) return new BaseObject(0,'msg_exists_user_id');
 				break;
 			case 'nick_name' :
 				// Check denied ID
-				if($oMemberModel->isDeniedNickName($value))
+				if(MemberModel::isDeniedNickName($value))
 				{
 					return new BaseObject(0,'denied_nick_name');
 				}
 				// Check if duplicated
 				if($config->allow_duplicate_nickname !== 'Y')
 				{
-					$member_srl = $oMemberModel->getMemberSrlByNickName($value);
+					$member_srl = MemberModel::getMemberSrlByNickName($value);
 					if($member_srl && $logged_info->member_srl != $member_srl ) return new BaseObject(0,'msg_exists_nick_name');
 				}
 				break;
 			case 'email_address' :
 				// Check managed Email Host
-				if($oMemberModel->isDeniedEmailHost($value))
+				if(MemberModel::isDeniedEmailHost($value))
 				{
 					$emailhost_check = $config->emailhost_check;
 
 					$managed_email_host = lang('managed_email_host');
 
-					$email_hosts = $oMemberModel->getManagedEmailHosts();
+					$email_hosts = MemberModel::getManagedEmailHosts();
 					foreach ($email_hosts as $host)
 					{
 						$hosts[] = $host->email_host;
@@ -573,7 +567,7 @@ class memberController extends member
 				}
 
 				// Check if duplicated
-				$member_srl = $oMemberModel->getMemberSrlByEmailAddress($value);
+				$member_srl = MemberModel::getMemberSrlByEmailAddress($value);
 				if($member_srl && $logged_info->member_srl != $member_srl ) return new BaseObject(0,'msg_exists_email_address');
 				break;
 		}
@@ -591,8 +585,7 @@ class memberController extends member
 			throw new Rhymix\Framework\Exceptions\SecurityViolation;
 		}
 		
-		$oMemberModel = &getModel ('member');
-		$config = $oMemberModel->getMemberConfig();
+		$config = MemberModel::getMemberConfig();
 
 		// call a trigger (before)
 		$trigger_output = ModuleHandler::triggerCall ('member.procMemberInsert', 'before', $config);
@@ -698,7 +691,7 @@ class memberController extends member
 		if($args->password1) $args->password = $args->password1;
 
 		// check password strength
-		if(!$oMemberModel->checkPasswordStrength($args->password, $config->password_strength))
+		if(!MemberModel::checkPasswordStrength($args->password, $config->password_strength))
 		{
 			$message = lang('about_password_strength');
 			throw new Rhymix\Framework\Exception($message[$config->password_strength]);
@@ -792,7 +785,7 @@ class memberController extends member
 		if($site_module_info->site_srl > 0)
 		{
 			$columnList = array('site_srl', 'group_srl');
-			$default_group = $oMemberModel->getDefaultGroup($site_module_info->site_srl, $columnList);
+			$default_group = MemberModel::getDefaultGroup($site_module_info->site_srl, $columnList);
 			if($default_group->group_srl)
 			{
 				$this->addMemberToGroup($args->member_srl, $default_group->group_srl, $site_module_info->site_srl);
@@ -866,16 +859,14 @@ class memberController extends member
 			throw new Rhymix\Framework\Exceptions\InvalidRequest;
 		}
 
-		$oMemberModel = getModel('member');
-
 		// Get information of logged-in user
 		$logged_info = Context::get('logged_info');
 		$member_srl = $logged_info->member_srl;
 		$columnList = array('member_srl', 'password');
-		$member_info = $oMemberModel->getMemberInfoByMemberSrl($member_srl, 0, $columnList);
+		$member_info = MemberModel::getMemberInfoByMemberSrl($member_srl, 0, $columnList);
 		
 		// Verify the current password
-		if(!$oMemberModel->isValidPassword($member_info->password, $password))
+		if(!MemberModel::isValidPassword($member_info->password, $password))
 		{
 			throw new Rhymix\Framework\Exception('invalid_password');
 		}
@@ -912,8 +903,7 @@ class memberController extends member
 		unset($_SESSION['rechecked_password_step']);
 		
 		// Get current module config and user info
-		$oMemberModel = getModel('member');
-		$config = $oMemberModel->getMemberConfig();
+		$config = MemberModel::getMemberConfig();
 		$logged_info = Context::get('logged_info');
 
 		// Check phone number
@@ -1065,7 +1055,7 @@ class memberController extends member
 		$this->putSignature($args->member_srl, $signature);
 
 		// Get user_id information
-		$member_info = $oMemberModel->getMemberInfoByMemberSrl($args->member_srl);
+		$member_info = MemberModel::getMemberInfoByMemberSrl($args->member_srl);
 
 		// Call a trigger after successfully modified (after)
 		ModuleHandler::triggerCall('member.procMemberModifyInfo', 'after', $member_info);
@@ -1096,14 +1086,12 @@ class memberController extends member
 		// Get information of logged-in user
 		$logged_info = Context::get('logged_info');
 		$member_srl = $logged_info->member_srl;
-		// Create a member model object
-		$oMemberModel = getModel('member');
 		// Get information of member_srl
 		$columnList = array('member_srl', 'password');
 
-		$member_info = $oMemberModel->getMemberInfoByMemberSrl($member_srl, 0, $columnList);
+		$member_info = MemberModel::getMemberInfoByMemberSrl($member_srl, 0, $columnList);
 		// Verify the cuttent password
-		if(!$oMemberModel->isValidPassword($member_info->password, $current_password, $member_srl)) throw new Rhymix\Framework\Exception('invalid_password');
+		if(!MemberModel::isValidPassword($member_info->password, $current_password, $member_srl)) throw new Rhymix\Framework\Exception('invalid_password');
 
 		// Check if a new password is as same as the previous password
 		if($current_password == $password) throw new Rhymix\Framework\Exception('invalid_new_password');
@@ -1116,8 +1104,7 @@ class memberController extends member
 		if(!$output->toBool()) return $output;
 		
 		// Log out all other sessions.
-		$oModuleModel = getModel('module');
-		$member_config = $oModuleModel->getModuleConfig('member');
+		$member_config = ModuleModel::getModuleConfig('member');
 		if ($member_config->password_change_invalidate_other_sessions === 'Y')
 		{
 			Rhymix\Framework\Session::destroyOtherSessions($member_srl);
@@ -1143,13 +1130,11 @@ class memberController extends member
 		// Get information of logged-in user
 		$logged_info = Context::get('logged_info');
 		$member_srl = $logged_info->member_srl;
-		// Create a member model object
-		$oMemberModel = getModel('member');
 		// Get information of member_srl
 		$columnList = array('member_srl', 'password');
-		$member_info = $oMemberModel->getMemberInfoByMemberSrl($member_srl, 0, $columnList);
+		$member_info = MemberModel::getMemberInfoByMemberSrl($member_srl, 0, $columnList);
 		// Verify the cuttent password
-		if(!$oMemberModel->isValidPassword($member_info->password, $password)) throw new Rhymix\Framework\Exception('invalid_password');
+		if(!MemberModel::isValidPassword($member_info->password, $password)) throw new Rhymix\Framework\Exception('invalid_password');
 
 		$output = $this->deleteMember($member_srl);
 		if(!$output->toBool()) return $output;
@@ -1180,8 +1165,7 @@ class memberController extends member
 		$logged_info = Context::get('logged_info');
 		if($logged_info->is_admin != 'Y' && $logged_info->member_srl != $member_srl) throw new Rhymix\Framework\Exception('msg_not_uploaded_profile_image');
 		// Return if member module is set not to use an image name or the user is not an administrator ;
-		$oMemberModel = getModel('member');
-		$config = $oMemberModel->getMemberConfig();
+		$config = MemberModel::getMemberConfig();
 		if($logged_info->is_admin != 'Y' && $config->profile_image != 'Y') throw new Rhymix\Framework\Exception('msg_not_uploaded_profile_image');
 
 		$output = $this->insertProfileImage($member_srl, $file['tmp_name']);
@@ -1201,8 +1185,7 @@ class memberController extends member
 	 */
 	function insertProfileImage($member_srl, $target_file)
 	{
-		$oMemberModel = getModel('member');
-		$config = $oMemberModel->getMemberConfig();
+		$config = MemberModel::getMemberConfig();
 		
 		// Get an image size
 		$max_width = $config->profile_image_max_width;
@@ -1285,8 +1268,7 @@ class memberController extends member
 		$logged_info = Context::get('logged_info');
 		if($logged_info->is_admin != 'Y' && $logged_info->member_srl != $member_srl) throw new Rhymix\Framework\Exception('msg_not_uploaded_image_name');
 		// Return if member module is set not to use an image name or the user is not an administrator ;
-		$oMemberModel = getModel('member');
-		$config = $oMemberModel->getMemberConfig();
+		$config = MemberModel::getMemberConfig();
 		if($logged_info->is_admin != 'Y' && $config->image_name != 'Y') throw new Rhymix\Framework\Exception('msg_not_uploaded_image_name');
 
 		$output = $this->insertImageName($member_srl, $file['tmp_name']);
@@ -1309,8 +1291,7 @@ class memberController extends member
 	 */
 	function insertImageName($member_srl, $target_file)
 	{
-		$oMemberModel = getModel('member');
-		$config = $oMemberModel->getMemberConfig();
+		$config = MemberModel::getMemberConfig();
 		
 		// Get an image size
 		$max_width = $config->image_name_max_width;
@@ -1385,8 +1366,7 @@ class memberController extends member
 
 		if($logged_info && ($logged_info->is_admin == 'Y' || $logged_info->member_srl == $member_srl))
 		{
-			$oMemberModel = getModel('member');
-			$profile_image = $oMemberModel->getProfileImage($member_srl);
+			$profile_image = MemberModel::getProfileImage($member_srl);
 			FileHandler::removeFile($profile_image->file);
 			Rhymix\Framework\Storage::deleteEmptyDirectory(dirname(FileHandler::getRealPath($profile_image->file)), true);
 			$this->_clearMemberCache($member_srl);
@@ -1411,8 +1391,7 @@ class memberController extends member
 
 		if($logged_info && ($logged_info->is_admin == 'Y' || $logged_info->member_srl == $member_srl))
 		{
-			$oMemberModel = getModel('member');
-			$image_name = $oMemberModel->getImageName($member_srl);
+			$image_name = MemberModel::getImageName($member_srl);
 			FileHandler::removeFile($image_name->file);
 			Rhymix\Framework\Storage::deleteEmptyDirectory(dirname(FileHandler::getRealPath($image_name->file)), true);
 		}
@@ -1436,8 +1415,7 @@ class memberController extends member
 		$logged_info = Context::get('logged_info');
 		if($logged_info->is_admin != 'Y' && $logged_info->member_srl != $member_srl) throw new Rhymix\Framework\Exception('msg_not_uploaded_image_mark');
 		// Membership in the images mark the module using the ban was set by an administrator or return;
-		$oMemberModel = getModel('member');
-		$config = $oMemberModel->getMemberConfig();
+		$config = MemberModel::getMemberConfig();
 		if($logged_info->is_admin != 'Y' && $config->image_mark != 'Y') throw new Rhymix\Framework\Exception('msg_not_uploaded_image_mark');
 
 		$this->insertImageMark($member_srl, $file['tmp_name']);
@@ -1457,8 +1435,7 @@ class memberController extends member
 	 */
 	function insertImageMark($member_srl, $target_file)
 	{
-		$oMemberModel = getModel('member');
-		$config = $oMemberModel->getMemberConfig();
+		$config = MemberModel::getMemberConfig();
 		
 		// Get an image size
 		$max_width = $config->image_mark_max_width;
@@ -1532,8 +1509,7 @@ class memberController extends member
 
 		if($logged_info && ($logged_info->is_admin == 'Y' || $logged_info->member_srl == $member_srl))
 		{
-			$oMemberModel = getModel('member');
-			$image_mark = $oMemberModel->getImageMark($member_srl);
+			$image_mark = MemberModel::getImageMark($member_srl);
 			FileHandler::removeFile($image_mark->file);
 			Rhymix\Framework\Storage::deleteEmptyDirectory(dirname(FileHandler::getRealPath($image_mark->file)), true);
 		}
@@ -1550,16 +1526,13 @@ class memberController extends member
 		$email_address = Context::get('email_address');
 		if(!$email_address) throw new Rhymix\Framework\Exceptions\InvalidRequest;
 
-		$oMemberModel = getModel('member');
-		$oModuleModel = getModel('module');
-
 		// Check if a member having the same email address exists
-		$member_srl = $oMemberModel->getMemberSrlByEmailAddress($email_address);
+		$member_srl = MemberModel::getMemberSrlByEmailAddress($email_address);
 		if(!$member_srl) throw new Rhymix\Framework\Exception('msg_email_not_exists');
 
 		// Get information of the member
 		$columnList = array('denied', 'member_srl', 'user_id', 'user_name', 'email_address', 'nick_name');
-		$member_info = $oMemberModel->getMemberInfoByMemberSrl($member_srl, 0, $columnList);
+		$member_info = MemberModel::getMemberInfoByMemberSrl($member_srl, 0, $columnList);
 
 		// Check if possible to find member's ID and password
 		if($member_info->denied == 'Y')
@@ -1583,7 +1556,7 @@ class memberController extends member
 		// Get content of the email to send a member
 		Context::set('auth_args', $args);
 
-		$member_config = $oModuleModel->getModuleConfig('member');
+		$member_config = ModuleModel::getModuleConfig('member');
 		$memberInfo = array();
 		global $lang;
 		if(is_array($member_config->signupForm))
@@ -1621,8 +1594,7 @@ class memberController extends member
 		$content = $oTemplate->compile($tpl_path, 'find_member_account_mail');
 
 		// Get information of the Webmaster
-		$oModuleModel = getModel('module');
-		$member_config = $oModuleModel->getModuleConfig('member');
+		$member_config = ModuleModel::getModuleConfig('member');
 
 		// Send a mail
 		$oMail = new \Rhymix\Framework\Mail();
@@ -1659,8 +1631,7 @@ class memberController extends member
 	 */
 	function procMemberAuthAccount()
 	{
-		$oMemberModel = getModel('member');
-		$config = $oMemberModel->getMemberConfig();
+		$config = MemberModel::getMemberConfig();
 		
 		// Test user_id and authkey
 		$member_srl = Context::get('member_srl');
@@ -1710,7 +1681,7 @@ class memberController extends member
 		}
 		else
 		{
-			$args->password = $oMemberModel->hashPassword($output->data->new_password);
+			$args->password = MemberModel::hashPassword($output->data->new_password);
 		}
 
 		$output = executeQuery('member.updateMemberPassword', $args);
@@ -1746,18 +1717,16 @@ class memberController extends member
 		$email_address = Context::get('email_address');
 		if(!$email_address) throw new Rhymix\Framework\Exceptions\InvalidRequest;
 		// Log test by using email_address
-		$oMemberModel = getModel('member');
-
 		$args = new stdClass;
 		$args->email_address = $email_address;
-		$member_srl = $oMemberModel->getMemberSrlByEmailAddress($email_address);
+		$member_srl = MemberModel::getMemberSrlByEmailAddress($email_address);
 		if(!$member_srl)
 		{
 			throw new Rhymix\Framework\Exception('msg_not_exists_member');
 		}
 
 		$columnList = array('member_srl', 'user_id', 'user_name', 'nick_name', 'email_address');
-		$member_info = $oMemberModel->getMemberInfoByMemberSrl($member_srl, 0, $columnList);
+		$member_info = MemberModel::getMemberInfoByMemberSrl($member_srl, 0, $columnList);
 		if(!$member_info || !$member_info->member_srl)
 		{
 			throw new Rhymix\Framework\Exception('msg_not_exists_member');
@@ -1767,8 +1736,7 @@ class memberController extends member
 			throw new Rhymix\Framework\Exception('msg_activation_not_needed');
 		}
 
-		$oModuleModel = getModel('module');
-		$member_config = $oModuleModel->getModuleConfig('member');
+		$member_config = ModuleModel::getModuleConfig('member');
 		if(!$member_config->skin) $member_config->skin = "default";
 		if(!$member_config->colorset) $member_config->colorset = "white";
 
@@ -1847,8 +1815,7 @@ class memberController extends member
 
 	function _sendAuthMail($auth_args, $member_info)
 	{
-		$oMemberModel = getModel('member');
-		$member_config = $oMemberModel->getMemberConfig();
+		$member_config = MemberModel::getMemberConfig();
 		// Get content of the email to send a member
 		Context::set('auth_args', $auth_args);
 
@@ -1908,9 +1875,8 @@ class memberController extends member
 		$logged_info = Context::get('logged_info');
 		if(!$site_module_info->site_srl || !Context::get('is_logged') || count($logged_info->group_srl_list) ) throw new Rhymix\Framework\Exceptions\InvalidRequest;
 
-		$oMemberModel = getModel('member');
 		$columnList = array('site_srl', 'group_srl', 'title');
-		$default_group = $oMemberModel->getDefaultGroup($site_module_info->site_srl, $columnList);
+		$default_group = MemberModel::getDefaultGroup($site_module_info->site_srl, $columnList);
 		$this->addMemberToGroup($logged_info->member_srl, $default_group->group_srl, $site_module_info->site_srl);
 		$groups[$default_group->group_srl] = $default_group->title;
 		$logged_info->group_list = $groups;
@@ -1989,7 +1955,7 @@ class memberController extends member
 		
 		// Editor converter
 		$obj = new stdClass;
-		$config = getModel('member')->getMemberConfig();
+		$config = MemberModel::getMemberConfig();
 		if($config->signature_html == 'N')
 		{
 			$obj->converter = 'text';
@@ -2168,18 +2134,16 @@ class memberController extends member
 		$trigger_obj->password = $password;
 		$trigger_output = ModuleHandler::triggerCall('member.doLogin', 'before', $trigger_obj);
 		if(!$trigger_output->toBool()) return $trigger_output;
-		// Create a member model object
-		$oMemberModel = getModel('member');
 
 		// check IP access count.
-		$config = $oMemberModel->getMemberConfig();
+		$config = MemberModel::getMemberConfig();
 		$args = new stdClass();
 		$args->ipaddress = $_SERVER['REMOTE_ADDR'];
 
 		// check identifier
 		if((!$config->identifiers || in_array('email_address', $config->identifiers)) && strpos($user_id, '@') !== false)
 		{
-			$member_info = $oMemberModel->getMemberInfoByEmailAddress($user_id);
+			$member_info = MemberModel::getMemberInfoByEmailAddress($user_id);
 			if(!$user_id || strtolower($member_info->email_address) !== strtolower($user_id))
 			{
 				return $this->recordLoginError(-1, 'invalid_email_address');
@@ -2212,7 +2176,7 @@ class memberController extends member
 			}
 			
 			$user_id = preg_replace('/[^0-9]/', '', $user_id);
-			$member_info = $oMemberModel->getMemberInfoByPhoneNumber($user_id, $phone_country);
+			$member_info = MemberModel::getMemberInfoByPhoneNumber($user_id, $phone_country);
 			if(!$user_id || strtolower($member_info->phone_number) !== $user_id)
 			{
 				return $this->recordLoginError(-1, 'invalid_user_id');
@@ -2220,7 +2184,7 @@ class memberController extends member
 		}
 		elseif(!$config->identifiers || in_array('user_id', $config->identifiers))
 		{
-			$member_info = $oMemberModel->getMemberInfoByUserID($user_id);
+			$member_info = MemberModel::getMemberInfoByUserID($user_id);
 			if(!$user_id || strtolower($member_info->user_id) !== strtolower($user_id))
 			{
 				return $this->recordLoginError(-1, 'invalid_user_id');
@@ -2255,7 +2219,7 @@ class memberController extends member
 		}
 
 		// Password Check
-		if($password && !$oMemberModel->isValidPassword($member_info->password, $password, $member_info->member_srl))
+		if($password && !MemberModel::isValidPassword($member_info->password, $password, $member_info->member_srl))
 		{
 			return $this->recordMemberLoginError(-1, 'invalid_password', $member_info);
 		}
@@ -2378,7 +2342,7 @@ class memberController extends member
 		Context::set('logged_info', $member_info);
 
 		// Only the menu configuration of the user (such as an add-on to the menu can be changed)
-		$config = getModel('member')->getMemberConfig();
+		$config = MemberModel::getMemberConfig();
 		$this->addMemberMenu( 'dispMemberInfo', 'cmd_view_member_info');
 		if ($config->features['scrapped_documents'] !== false)
 		{
@@ -2451,8 +2415,7 @@ class memberController extends member
 		$output = ModuleHandler::triggerCall('member.insertMember', 'before', $args);
 		if(!$output->toBool()) return $output;
 		// Terms and Conditions portion of the information set up by members reaffirmed
-		$oMemberModel = getModel('member');
-		$config = $oMemberModel->getMemberConfig();
+		$config = MemberModel::getMemberConfig();
 
 		$logged_info = Context::get('logged_info');
 		// limit_date format is YYYYMMDD
@@ -2507,7 +2470,7 @@ class memberController extends member
 		if($args->blog && !preg_match("/^[a-z]+:\/\//i",$args->blog)) $args->blog = 'http://'.$args->blog;
 
 
-		$extend_form_list = $oMemberModel->getJoinFormlist();
+		$extend_form_list = MemberModel::getJoinFormlist();
 		$security = new Security($extend_form_list);
 		$security->encodeHTML('..column_title', '..description', '..default_value.');
 		if($config->signupForm) {
@@ -2549,35 +2512,32 @@ class memberController extends member
 			}
 		}
 		
-		// Create a model object
-		$oMemberModel = getModel('member');
-		
 		// Check password strength
 		if($args->password && !$password_is_hashed)
 		{
-			if(!$oMemberModel->checkPasswordStrength($args->password, $config->password_strength))
+			if(!MemberModel::checkPasswordStrength($args->password, $config->password_strength))
 			{
 				$message = lang('about_password_strength');
 				return new BaseObject(-1, $message[$config->password_strength]);
 			}
-			$args->password = $oMemberModel->hashPassword($args->password);
+			$args->password = MemberModel::hashPassword($args->password);
 		}
 		
 		// Check if ID is prohibited
-		if($logged_info->is_admin !== 'Y' && $oMemberModel->isDeniedID($args->user_id))
+		if($logged_info->is_admin !== 'Y' && MemberModel::isDeniedID($args->user_id))
 		{
 			return new BaseObject(-1, 'denied_user_id');
 		}
 
 		// Check if ID is duplicate
-		$member_srl = $oMemberModel->getMemberSrlByUserID($args->user_id);
+		$member_srl = MemberModel::getMemberSrlByUserID($args->user_id);
 		if($member_srl)
 		{
 			return new BaseObject(-1, 'msg_exists_user_id');
 		}
 
 		// Check if nickname is prohibited
-		if($logged_info->is_admin !== 'Y' && $oMemberModel->isDeniedNickName($args->nick_name))
+		if($logged_info->is_admin !== 'Y' && MemberModel::isDeniedNickName($args->nick_name))
 		{
 			return new BaseObject(-1, 'denied_nick_name');
 		}
@@ -2585,7 +2545,7 @@ class memberController extends member
 		// Check if nickname is duplicate
 		if($config->allow_duplicate_nickname !== 'Y')
 		{
-			$member_srl = $oMemberModel->getMemberSrlByNickName($args->nick_name);
+			$member_srl = MemberModel::getMemberSrlByNickName($args->nick_name);
 			if($member_srl)
 			{
 				return new BaseObject(-1, 'msg_exists_nick_name');
@@ -2593,12 +2553,12 @@ class memberController extends member
 		}
 
 		// Check managed Email Host
-		if($logged_info->is_admin !== 'Y' && $oMemberModel->isDeniedEmailHost($args->email_address))
+		if($logged_info->is_admin !== 'Y' && MemberModel::isDeniedEmailHost($args->email_address))
 		{
 			$emailhost_check = $config->emailhost_check;
 
 			$managed_email_host = lang('managed_email_host');
-			$email_hosts = $oMemberModel->getManagedEmailHosts();
+			$email_hosts = MemberModel::getManagedEmailHosts();
 			foreach ($email_hosts as $host)
 			{
 				$hosts[] = $host->email_host;
@@ -2634,7 +2594,7 @@ class memberController extends member
 		}
 
 		// Check if email address is duplicate
-		$member_srl = $oMemberModel->getMemberSrlByEmailAddress($args->email_address);
+		$member_srl = MemberModel::getMemberSrlByEmailAddress($args->email_address);
 		if($member_srl)
 		{
 			return new BaseObject(-1, 'msg_exists_email_address');
@@ -2643,7 +2603,7 @@ class memberController extends member
 		// Check if phone number is duplicate
 		if ($config->phone_number_allow_duplicate !== 'Y' && $args->phone_number)
 		{
-			$member_srl = $oMemberModel->getMemberSrlByPhoneNumber($args->phone_number, $args->phone_country);
+			$member_srl = MemberModel::getMemberSrlByPhoneNumber($args->phone_number, $args->phone_country);
 			if($member_srl)
 			{
 				return new BaseObject(-1, 'msg_exists_phone_number');
@@ -2672,7 +2632,7 @@ class memberController extends member
 		if(!$args->group_srl_list)
 		{
 			$columnList = array('site_srl', 'group_srl');
-			$default_group = $oMemberModel->getDefaultGroup(0, $columnList);
+			$default_group = MemberModel::getDefaultGroup(0, $columnList);
 			if($default_group)
 			{
 				// Add to the default group
@@ -2738,13 +2698,12 @@ class memberController extends member
 		$output = ModuleHandler::triggerCall('member.updateMember', 'before', $args);
 		if(!$output->toBool()) return $output;
 		// Create a model object
-		$oMemberModel = getModel('member');
-		$config = $oMemberModel->getMemberConfig();
+		$config = MemberModel::getMemberConfig();
 
 		$logged_info = Context::get('logged_info');
 		
 		// Get what you want to modify the original information
-		$orgMemberInfo = $oMemberModel->getMemberInfoByMemberSrl($args->member_srl);
+		$orgMemberInfo = MemberModel::getMemberInfoByMemberSrl($args->member_srl);
 		
 		// Control of essential parameters
 		if($args->allow_mailing!='Y') $args->allow_mailing = 'N';
@@ -2791,7 +2750,7 @@ class memberController extends member
 			}
 		}
 
-		$extend_form_list = $oMemberModel->getJoinFormlist();
+		$extend_form_list = MemberModel::getJoinFormlist();
 		$security = new Security($extend_form_list);
 		$security->encodeHTML('..column_title', '..description', '..default_value.');
 		if($config->signupForm){
@@ -2860,12 +2819,12 @@ class memberController extends member
 		}
 
 		// Check managed Email Host
-		if($logged_info->is_admin !== 'Y' && $logged_info->email_address !== $args->email_address && $oMemberModel->isDeniedEmailHost($args->email_address))
+		if($logged_info->is_admin !== 'Y' && $logged_info->email_address !== $args->email_address && MemberModel::isDeniedEmailHost($args->email_address))
 		{
 			$emailhost_check = $config->emailhost_check;
 
 			$managed_email_host = lang('managed_email_host');
-			$email_hosts = $oMemberModel->getManagedEmailHosts();
+			$email_hosts = MemberModel::getManagedEmailHosts();
 			foreach ($email_hosts as $host)
 			{
 				$hosts[] = $host->email_host;
@@ -2877,7 +2836,7 @@ class memberController extends member
 		// Check if email address or user ID is duplicate
 		if($config->identifier == 'email_address')
 		{
-			$member_srl = $oMemberModel->getMemberSrlByEmailAddress($args->email_address);
+			$member_srl = MemberModel::getMemberSrlByEmailAddress($args->email_address);
 			if($member_srl && $args->member_srl != $member_srl)
 			{
 				return new BaseObject(-1, 'msg_exists_email_address');
@@ -2886,7 +2845,7 @@ class memberController extends member
 		}
 		else
 		{
-			$member_srl = $oMemberModel->getMemberSrlByUserID($args->user_id);
+			$member_srl = MemberModel::getMemberSrlByUserID($args->user_id);
 			if($member_srl && $args->member_srl != $member_srl)
 			{
 				return new BaseObject(-1, 'msg_exists_user_id');
@@ -2898,7 +2857,7 @@ class memberController extends member
 		// Check if phone number is duplicate
 		if ($config->phone_number_allow_duplicate !== 'Y' && $args->phone_number)
 		{
-			$member_srl = $oMemberModel->getMemberSrlByPhoneNumber($args->phone_number, $args->phone_country);
+			$member_srl = MemberModel::getMemberSrlByPhoneNumber($args->phone_number, $args->phone_country);
 			if ($member_srl && $args->member_srl != $member_srl)
 			{
 				return new BaseObject(-1, 'msg_exists_phone_number');
@@ -2906,7 +2865,7 @@ class memberController extends member
 		}
 		
 		// Check if ID is prohibited
-		if($logged_info->is_admin !== 'Y' && $args->user_id && $oMemberModel->isDeniedID($args->user_id))
+		if($logged_info->is_admin !== 'Y' && $args->user_id && MemberModel::isDeniedID($args->user_id))
 		{
 			return new BaseObject(-1, 'denied_user_id');
 		}
@@ -2914,7 +2873,7 @@ class memberController extends member
 		// Check if ID is duplicate
 		if($args->user_id)
 		{
-			$member_srl = $oMemberModel->getMemberSrlByUserID($args->user_id);
+			$member_srl = MemberModel::getMemberSrlByUserID($args->user_id);
 			if($member_srl && $args->member_srl != $member_srl)
 			{
 				return new BaseObject(-1, 'msg_exists_user_id');
@@ -2922,7 +2881,7 @@ class memberController extends member
 		}
 
 		// Check if nickname is prohibited
-		if($logged_info->is_admin !== 'Y' && $args->nick_name && $oMemberModel->isDeniedNickName($args->nick_name))
+		if($logged_info->is_admin !== 'Y' && $args->nick_name && MemberModel::isDeniedNickName($args->nick_name))
 		{
 			return new BaseObject(-1, 'denied_nick_name');
 		}
@@ -2930,7 +2889,7 @@ class memberController extends member
 		// Check if nickname is duplicate
 		if($config->allow_duplicate_nickname !== 'Y')
 		{
-			$member_srl = $oMemberModel->getMemberSrlByNickName($args->nick_name);
+			$member_srl = MemberModel::getMemberSrlByNickName($args->nick_name);
 			if($member_srl && $args->member_srl != $member_srl)
 			{
 				return new BaseObject(-1, 'msg_exists_nick_name');
@@ -2945,12 +2904,12 @@ class memberController extends member
 		// Check password strength
 		if($args->password)
 		{
-			if(!$oMemberModel->checkPasswordStrength($args->password, $config->password_strength))
+			if(!MemberModel::checkPasswordStrength($args->password, $config->password_strength))
 			{
 				$message = lang('about_password_strength');
 				return new BaseObject(-1, $message[$config->password_strength]);
 			}
-			$args->password = $oMemberModel->hashPassword($args->password);
+			$args->password = MemberModel::hashPassword($args->password);
 		}
 		else
 		{
@@ -3069,16 +3028,15 @@ class memberController extends member
 		if($args->password)
 		{
 			// check password strength
-			$oMemberModel = getModel('member');
-			$config = $oMemberModel->getMemberConfig();
+			$config = MemberModel::getMemberConfig();
 
-			if(!$oMemberModel->checkPasswordStrength($args->password, $config->password_strength))
+			if(!MemberModel::checkPasswordStrength($args->password, $config->password_strength))
 			{
 				$message = lang('about_password_strength');
 				return new BaseObject(-1, $message[$config->password_strength]);
 			}
 
-			$args->password = $oMemberModel->hashPassword($args->password);
+			$args->password = MemberModel::hashPassword($args->password);
 		}
 		else if($args->hashed_password)
 		{
@@ -3107,11 +3065,9 @@ class memberController extends member
 		$trigger_obj->member_srl = $member_srl;
 		$output = ModuleHandler::triggerCall('member.deleteMember', 'before', $trigger_obj);
 		if(!$output->toBool()) return $output;
-		// Create a model object
-		$oMemberModel = getModel('member');
 		// Bringing the user's information
 		$columnList = array('member_srl', 'is_admin');
-		$member_info = $oMemberModel->getMemberInfoByMemberSrl($member_srl, 0, $columnList);
+		$member_info = MemberModel::getMemberInfoByMemberSrl($member_srl, 0, $columnList);
 		if(!$member_info) return new BaseObject(-1, 'msg_not_exists_member');
 		// If managers can not be deleted
 		if($member_info->is_admin == 'Y') return new BaseObject(-1, 'msg_cannot_delete_admin');
@@ -3196,8 +3152,7 @@ class memberController extends member
 
 	function _updatePointByGroup($memberSrl, $groupSrlList)
 	{
-		$oModuleModel = getModel('module');
-		$pointModuleConfig = $oModuleModel->getModuleConfig('point');
+		$pointModuleConfig = ModuleModel::getModuleConfig('point');
 		$pointGroup = $pointModuleConfig->point_group;
 
 		$levelGroup = array();
@@ -3213,8 +3168,7 @@ class memberController extends member
 
 		if($maxLevel > 0)
 		{
-			$oPointModel = getModel('point');
-			$originPoint = $oPointModel->getPoint($memberSrl);
+			$originPoint = PointModel::getPoint($memberSrl);
 
 			if($pointModuleConfig->level_step[$maxLevel] > $originPoint)
 			{
@@ -3233,15 +3187,14 @@ class memberController extends member
 
 		if(!$newEmail) throw new Rhymix\Framework\Exceptions\InvalidRequest;
 
-		$oMemberModel = getModel('member');
 		// Check managed Email Host
-		if($oMemberModel->isDeniedEmailHost($newEmail))
+		if(MemberModel::isDeniedEmailHost($newEmail))
 		{
-			$config = $oMemberModel->getMemberConfig();
+			$config = MemberModel::getMemberConfig();
 			$emailhost_check = $config->emailhost_check;
 
 			$managed_email_host = lang('managed_email_host');
-			$email_hosts = $oMemberModel->getManagedEmailHosts();
+			$email_hosts = MemberModel::getManagedEmailHosts();
 			foreach ($email_hosts as $host)
 			{
 				$hosts[] = $host->email_host;
@@ -3251,7 +3204,7 @@ class memberController extends member
 		}
 
 		// Check if the e-mail address is already registered
-		$member_srl = $oMemberModel->getMemberSrlByEmailAddress($newEmail);
+		$member_srl = MemberModel::getMemberSrlByEmailAddress($newEmail);
 		if($member_srl) throw new Rhymix\Framework\Exception('msg_exists_email_address');
 
 		if($_SESSION['rechecked_password_step'] != 'INPUT_DATA')
@@ -3275,8 +3228,7 @@ class memberController extends member
 			return $output;
 		}
 
-		$oModuleModel = getModel('module');
-		$member_config = $oModuleModel->getModuleConfig('member');
+		$member_config = ModuleModel::getModuleConfig('member');
 
 		$tpl_path = sprintf('%sskins/%s', $this->module_path, $member_config->skin);
 		if(!is_dir($tpl_path)) $tpl_path = sprintf('%sskins/%s', $this->module_path, 'default');
@@ -3351,7 +3303,7 @@ class memberController extends member
 
 	function procMemberSendVerificationSMS()
 	{
-		$config = getModel('member')->getMemberConfig();
+		$config = MemberModel::getMemberConfig();
 		if ($config->phone_number_verify_by_sms !== 'Y')
 		{
 			throw new Rhymix\Framework\Exceptions\FeatureDisabled;
@@ -3411,7 +3363,7 @@ class memberController extends member
 	
 	function procMemberConfirmVerificationSMS()
 	{
-		$config = getModel('member')->getMemberConfig();
+		$config = MemberModel::getMemberConfig();
 		if ($config->phone_number_verify_by_sms !== 'Y')
 		{
 			throw new Rhymix\Framework\Exceptions\FeatureDisabled;
@@ -3447,14 +3399,13 @@ class memberController extends member
 		$logged_info = Context::get('logged_info');
 		$document_srl = Context::get('target_srl');
 
-		$oDocumentModel = getModel('document');
 		$columnList = array('document_srl', 'module_srl', 'member_srl', 'ipaddress');
-		$oDocument = $oDocumentModel->getDocument($document_srl, false, false, $columnList);
+		$oDocument = DocumentModel::getDocument($document_srl, false, false, $columnList);
 		$member_srl = $oDocument->get('member_srl');
 		$module_srl = $oDocument->get('module_srl');
 
-		if(!$member_srl) return;
-		if($oDocumentModel->grant->manager != 1 || $member_srl==$logged_info->member_srl) return;
+		if(!$member_srl || $member_srl == $logged_info->member_srl) return;
+		if(!ModuleModel::getGrant(ModuleModel::getModuleInfoByModuleSrl($module_srl), $logged_info)->manager) return;
 
 		$oDocumentController = getController('document');
 		$url = getUrl('','module','member','act','dispMemberSpammer','member_srl',$member_srl,'module_srl',$module_srl);
@@ -3475,14 +3426,13 @@ class memberController extends member
 		$logged_info = Context::get('logged_info');
 		$comment_srl = Context::get('target_srl');
 
-		$oCommentModel = getModel('comment');
 		$columnList = array('comment_srl', 'module_srl', 'member_srl', 'ipaddress');
-		$oComment = $oCommentModel->getComment($comment_srl, FALSE, $columnList);
+		$oComment = CommentModel::getComment($comment_srl, FALSE, $columnList);
 		$module_srl = $oComment->get('module_srl');
 		$member_srl = $oComment->get('member_srl');
 
-		if(!$member_srl) return;
-		if($oCommentModel->grant->manager != 1 || $member_srl==$logged_info->member_srl) return;
+		if(!$member_srl || $member_srl == $logged_info->member_srl) return;
+		if(!ModuleModel::getGrant(ModuleModel::getModuleInfoByModuleSrl($module_srl), $logged_info)->manager) return;
 
 		$oCommentController = getController('comment');
 		$url = getUrl('','module','member','act','dispMemberSpammer','member_srl',$member_srl,'module_srl',$module_srl);
@@ -3508,17 +3458,13 @@ class memberController extends member
 			$isMoveToTrash = false;
 
 		// check grant
-		$oModuleModel = getModel('module');
 		$columnList = array('module_srl', 'module');
-		$module_info = $oModuleModel->getModuleInfoByModuleSrl($module_srl, $columnList);
-		$grant = $oModuleModel->getGrant($module_info, $logged_info);
+		$module_info = ModuleModel::getModuleInfoByModuleSrl($module_srl, $columnList);
+		$grant = ModuleModel::getGrant($module_info, $logged_info);
 
 		if(!$grant->manager) throw new Rhymix\Framework\Exceptions\NotPermitted;
 
 		$proc_msg = "";
-
-		$oDocumentModel = getModel('document');
-		$oCommentModel = getModel('comment');
 
 		// delete or trash destination
 		// proc member
@@ -3529,8 +3475,8 @@ class memberController extends member
 			$this->_spammerDocuments($member_srl, $isMoveToTrash);
 
 		// get destination count
-		$cnt_document = $oDocumentModel->getDocumentCountByMemberSrl($member_srl);
-		$cnt_comment = $oCommentModel->getCommentCountByMemberSrl($member_srl);
+		$cnt_document = DocumentModel::getDocumentCountByMemberSrl($member_srl);
+		$cnt_comment = CommentModel::getCommentCountByMemberSrl($member_srl);
 
 		$total_count = Context::get('total_count');
 		$remain_count = $cnt_document + $cnt_comment;
@@ -3564,15 +3510,12 @@ class memberController extends member
 		$logged_info = Context::get('logged_info');
 		$spam_description = trim( Context::get('spam_description') );
 
-		$oMemberModel = getModel('member');
 		$columnList = array('member_srl', 'email_address', 'user_id', 'nick_name', 'description');
 		// get member current infomation
-		$member_info = $oMemberModel->getMemberInfoByMemberSrl($member_srl, 0, $columnList);
+		$member_info = MemberModel::getMemberInfoByMemberSrl($member_srl, 0, $columnList);
 
-		$oDocumentModel = getModel('document');
-		$oCommentModel = getModel('comment');
-		$cnt_comment = $oCommentModel->getCommentCountByMemberSrl($member_srl);
-		$cnt_document = $oDocumentModel->getDocumentCountByMemberSrl($member_srl);
+		$cnt_comment = CommentModel::getCommentCountByMemberSrl($member_srl);
+		$cnt_document = DocumentModel::getDocumentCountByMemberSrl($member_srl);
 		$total_count = $cnt_comment + $cnt_document;
 
 		$args = new stdClass();
@@ -3601,22 +3544,21 @@ class memberController extends member
 	 *
 	 * @return object
 	**/
-	private function _spammerDocuments($member_srl, $isMoveToTrash) {
+	private function _spammerDocuments($member_srl, $isMoveToTrash)
+	{
 		$oDocumentController = getController('document');
-		$oDocumentModel = getModel('document');
 		$oCommentController = getController('comment');
-		$oCommentModel = getModel('comment');
 
 		// delete count by one request
 		$getContentsCount = 10;
 
 		// 1. proc comment, 2. proc document
-		$cnt_comment = $oCommentModel->getCommentCountByMemberSrl($member_srl);
-		$cnt_document = $oDocumentModel->getDocumentCountByMemberSrl($member_srl);
+		$cnt_comment = CommentModel::getCommentCountByMemberSrl($member_srl);
+		$cnt_document = DocumentModel::getDocumentCountByMemberSrl($member_srl);
 		if($cnt_comment > 0)
 		{
 			$columnList = array();
-			$commentList = $oCommentModel->getCommentListByMemberSrl($member_srl, $columnList, 0, false, $getContentsCount);
+			$commentList = CommentModel::getCommentListByMemberSrl($member_srl, $columnList, 0, false, $getContentsCount);
 			if($commentList) {
 				foreach($commentList as $v) {
 					$oCommentController->deleteComment($v->comment_srl, true, $isMoveToTrash);
@@ -3624,7 +3566,7 @@ class memberController extends member
 			}
 		} elseif($cnt_document > 0) {
 			$columnList = array();
-			$documentList = $oDocumentModel->getDocumentListByMemberSrl($member_srl, $columnList, 0, false, $getContentsCount);
+			$documentList = DocumentModel::getDocumentListByMemberSrl($member_srl, $columnList, 0, false, $getContentsCount);
 			if($documentList) {
 				foreach($documentList as $v) {
 					if($isMoveToTrash) $oDocumentController->moveDocumentToTrash($v);

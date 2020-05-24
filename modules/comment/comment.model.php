@@ -45,14 +45,12 @@ class commentModel extends comment
 		// feature that only member can do
 		if($logged_info->member_srl)
 		{
-			$oCommentModel = getModel('comment');
 			$columnList = array('comment_srl', 'module_srl', 'member_srl', 'ipaddress');
-			$oComment = $oCommentModel->getComment($comment_srl, FALSE, $columnList);
+			$oComment = self::getComment($comment_srl, FALSE, $columnList);
 			$module_srl = $oComment->get('module_srl');
 			$member_srl = $oComment->get('member_srl');
 
-			$oModuleModel = getModel('module');
-			$comment_config = $oModuleModel->getModulePartConfig('document', $module_srl);
+			$comment_config = ModuleModel::getModulePartConfig('document', $module_srl);
 
 			if($comment_config->use_vote_up != 'N' && $member_srl != $logged_info->member_srl)
 			{
@@ -86,8 +84,7 @@ class commentModel extends comment
 		// find a comment by IP matching if an administrator.
 		if($logged_info->is_admin == 'Y')
 		{
-			$oCommentModel = getModel('comment');
-			$oComment = $oCommentModel->getComment($comment_srl);
+			$oComment = self::getComment($comment_srl);
 
 			if($oComment->isExists())
 			{
@@ -245,7 +242,7 @@ class commentModel extends comment
 		//check if module is using validation system
 		$oCommentController = getController('comment');
 		$using_validation = $oCommentController->isModuleUsingPublishValidation($module_srl);
-		$module_info = getModel('module')->getModuleInfoByDocumentSrl($document_srl);
+		$module_info = ModuleModel::getModuleInfoByDocumentSrl($document_srl);
 		$use_comment_massage = $module_info->comment_delete_message;
 
 		if($using_validation)
@@ -344,13 +341,12 @@ class commentModel extends comment
 		/*
 		$output = executeQueryArray('comment.getDistinctModules');
 		$module_srls = $output->data;
-		$oModuleModel = getModel('module');
 		$result = array();
 		if($module_srls)
 		{
 			foreach($module_srls as $module)
 			{
-				$module_info = $oModuleModel->getModuleInfoByModuleSrl($module->module_srl);
+				$module_info = ModuleModel::getModuleInfoByModuleSrl($module->module_srl);
 				$result[$module->module_srl] = $module_info->mid;
 			}
 		}
@@ -567,9 +563,8 @@ class commentModel extends comment
 	public static function getCommentPage($document_srl, $comment_srl, $count = 0)
 	{
 		// Check the document
-		$oDocumentModel = getModel('document');
 		$columnList = array('document_srl', 'module_srl', 'comment_count');
-		$oDocument = $oDocumentModel->getDocument($document_srl, false, false, $columnList);
+		$oDocument = DocumentModel::getDocument($document_srl, false, false, $columnList);
 		if(!$oDocument->isExists())
 		{
 			return 0;
@@ -1093,16 +1088,14 @@ class commentModel extends comment
 			$point = 1;
 		}
 
-		$oCommentModel = getModel('comment');
-		$oComment = $oCommentModel->getComment($comment_srl, FALSE, FALSE);
+		$oComment = self::getComment($comment_srl, FALSE, FALSE);
 		$module_srl = $oComment->get('module_srl');
 		if(!$module_srl)
 		{
 			throw new Rhymix\Framework\Exceptions\InvalidRequest;
 		}
 
-		$oModuleModel = getModel('module');
-		$comment_config = $oModuleModel->getModulePartConfig('comment', $module_srl);
+		$comment_config = ModuleModel::getModulePartConfig('comment', $module_srl);
 
 		$args = new stdClass();
 
@@ -1132,12 +1125,11 @@ class commentModel extends comment
 			return $output;
 		}
 
-		$oMemberModel = getModel('member');
 		if($output->data)
 		{
 			foreach($output->data as $k => $d)
 			{
-				$profile_image = $oMemberModel->getProfileImage($d->member_srl);
+				$profile_image = MemberModel::getProfileImage($d->member_srl);
 				$output->data[$k]->src = $profile_image->src;
 			}
 		}

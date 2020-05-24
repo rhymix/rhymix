@@ -449,15 +449,13 @@ class documentModel extends document
 		// Members must be a possible feature
 		if($this->user->member_srl)
 		{
-			$oDocumentModel = getModel('document');
 			$columnList = array('document_srl', 'module_srl', 'member_srl', 'ipaddress');
-			$oDocument = $oDocumentModel->getDocument($document_srl, false, false, $columnList);
+			$oDocument = self::getDocument($document_srl, false, false, $columnList);
 			$module_srl = $oDocument->get('module_srl');
 			$member_srl = $oDocument->get('member_srl');
 			if(!$module_srl) throw new Rhymix\Framework\Exceptions\InvalidRequest;
 
-			$oModuleModel = getModel('module');
-			$document_config = $oModuleModel->getModulePartConfig('document',$module_srl);
+			$document_config = ModuleModel::getModulePartConfig('document',$module_srl);
 			$oDocumentisVoted = $oDocument->getMyVote();
 			if($document_config->use_vote_up!='N' && $member_srl!=$this->user->member_srl)
 			{
@@ -518,8 +516,7 @@ class documentModel extends document
 		// If you are managing to find posts by ip
 		if($this->user->is_admin == 'Y')
 		{
-			$oDocumentModel = getModel('document');
-			$oDocument = $oDocumentModel->getDocument($document_srl);	//before setting document recycle
+			$oDocument = self::getDocument($document_srl);	//before setting document recycle
 
 			if($oDocument->isExists())
 			{
@@ -837,8 +834,7 @@ class documentModel extends document
 	{
 		if($obj->mid)
 		{
-			$oModuleModel = getModel('module');
-			$obj->module_srl = $oModuleModel->getModuleSrlByMid($obj->mid);
+			$obj->module_srl = ModuleModel::getModuleSrlByMid($obj->mid);
 			unset($obj->mid);
 		}
 		// Module_srl passed the array may be a check whether the array
@@ -863,8 +859,7 @@ class documentModel extends document
 	{
 		if($obj->mid)
 		{
-			$oModuleModel = getModel('module');
-			$obj->module_srl = $oModuleModel->getModuleSrlByMid($obj->mid);
+			$obj->module_srl = ModuleModel::getModuleSrlByMid($obj->mid);
 			unset($obj->mid);
 		}
 		// Module_srl passed the array may be a check whether the array
@@ -949,8 +944,7 @@ class documentModel extends document
 		Context::loadJavascriptPlugin('ui.tree');
 
 		// Get a list of member groups
-		$oMemberModel = getModel('member');
-		$group_list = $oMemberModel->getGroups();
+		$group_list = MemberModel::getGroups();
 		Context::set('group_list', $group_list);
 
 		$security = new Security();
@@ -968,13 +962,11 @@ class documentModel extends document
 	 */
 	public function getDocumentCategoryTplInfo()
 	{
-		$oModuleModel = getModel('module');
-		$oMemberModel = getModel('member');
 		// Get information on the menu for the parameter settings
 		$module_srl = Context::get('module_srl');
-		$module_info = $oModuleModel->getModuleInfoByModuleSrl($module_srl);
+		$module_info = ModuleModel::getModuleInfoByModuleSrl($module_srl);
 		// Check permissions
-		$grant = $oModuleModel->getGrant($module_info, Context::get('logged_info'));
+		$grant = ModuleModel::getGrant($module_info, Context::get('logged_info'));
 		if(!$grant->manager) throw new Rhymix\Framework\Exceptions\NotPermitted;
 
 		$category_srl = Context::get('category_srl');
@@ -1168,14 +1160,12 @@ class documentModel extends document
 		$point = Context::get('point');
 		if($point != -1) $point = 1;
 
-		$oDocumentModel = getModel('document');
 		$columnList = array('document_srl', 'module_srl');
-		$oDocument = $oDocumentModel->getDocument($document_srl, false, false, $columnList);
+		$oDocument = self::getDocument($document_srl, false, false, $columnList);
 		$module_srl = $oDocument->get('module_srl');
 		if(!$module_srl) throw new Rhymix\Framework\Exceptions\InvalidRequest;
 
-		$oModuleModel = getModel('module');
-		$document_config = $oModuleModel->getModulePartConfig('document',$module_srl);
+		$document_config = ModuleModel::getModulePartConfig('document',$module_srl);
 		if($point == -1)
 		{
 			if($document_config->use_vote_down!='S') throw new Rhymix\Framework\Exceptions\FeatureDisabled;
@@ -1192,12 +1182,11 @@ class documentModel extends document
 		$output = executeQueryArray('document.getVotedMemberList',$args);
 		if(!$output->toBool()) return $output;
 
-		$oMemberModel = getModel('member');
 		if($output->data)
 		{
 			foreach($output->data as $k => $d)
 			{
-				$profile_image = $oMemberModel->getProfileImage($d->member_srl);
+				$profile_image = MemberModel::getProfileImage($d->member_srl);
 				$output->data[$k]->src = $profile_image->src;
 			}
 		}
@@ -1296,7 +1285,7 @@ class documentModel extends document
 		// get directly module_srl by mid
 		if($searchOpt->mid)
 		{
-			$args->module_srl = getModel('module')->getModuleSrlByMid($searchOpt->mid);
+			$args->module_srl = ModuleModel::getModuleSrlByMid($searchOpt->mid);
 		}
 		
 		// add subcategories
@@ -1398,8 +1387,8 @@ class documentModel extends document
 			// exclude secret documents in searching if current user does not have privilege
 			if(!$args->member_srl || !Context::get('is_logged') || $args->member_srl !== Context::get('logged_info')->member_srl)
 			{
-				$module_info = getModel('module')->getModuleInfoByModuleSrl($args->module_srl);
-				if(!getModel('module')->getGrant($module_info, Context::get('logged_info'))->manager)
+				$module_info = ModuleModel::getModuleInfoByModuleSrl($args->module_srl);
+				if(!ModuleModel::getGrant($module_info, Context::get('logged_info'))->manager)
 				{
 					$args->comment_is_secret = 'N';
 					$args->statusList = array(self::getConfigStatus('public'));

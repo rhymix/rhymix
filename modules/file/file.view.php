@@ -35,14 +35,12 @@ class fileView extends file
 		}
 		
 		// Get file configurations of the module
-		$oFileModel = getModel('file');
-		$config = $oFileModel->getFileConfig($current_module_srl);
+		$config = FileModel::getFileConfig($current_module_srl);
 		Context::set('config', $config);
 		Context::set('is_ffmpeg', function_exists('exec') && Rhymix\Framework\Storage::isExecutable($config->ffmpeg_command) && Rhymix\Framework\Storage::isExecutable($config->ffprobe_command));
 		
 		// Get a permission for group setting
-		$oMemberModel = getModel('member');
-		$group_list = $oMemberModel->getGroups();
+		$group_list = MemberModel::getGroups();
 		Context::set('group_list', $group_list);
 		
 		// Set a template file

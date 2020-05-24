@@ -2190,15 +2190,15 @@ class moduleModel extends module
 		{
 			if($type == 'document')
 			{
-				$target_srl = getModel('document')->getDocument($target_srl, false, false)->get('module_srl');
+				$target_srl = DocumentModel::getDocument($target_srl, false, false)->get('module_srl');
 			}
 			else if($type == 'comment')
 			{
-				$target_srl = getModel('comment')->getComment($target_srl)->get('module_srl');
+				$target_srl = CommentModel::getComment($target_srl)->get('module_srl');
 			}
 			else if($type == 'file')
 			{
-				$target_srl = getModel('file')->getFile($target_srl)->module_srl;
+				$target_srl = FileModel::getFile($target_srl)->module_srl;
 			}
 			else if($type == 'module')
 			{
@@ -2340,8 +2340,7 @@ class moduleModel extends module
 		if($selected_widget) $widget_info = $oWidgetModel->getWidgetInfo($selected_widget);
 		Context::set('allow_multiple', $widget_info->extra_var->images->allow_multiple);
 
-		$oModuleModel = getModel('module');
-		$output = $oModuleModel->getModuleFileBoxList();
+		$output = self::getModuleFileBoxList();
 		Context::set('filebox_list', $output->data);
 
 		$page = Context::get('page');
@@ -2360,7 +2359,7 @@ class moduleModel extends module
 
 	public static function getModuleFileBoxPath($module_filebox_srl)
 	{
-		return getController('file')->getStoragePath('filebox', 0, $module_filebox_srl, 0, '', false);
+		return FileController::getStoragePath('filebox', 0, $module_filebox_srl, 0, '', false);
 	}
 
 	/**
@@ -2444,9 +2443,7 @@ class moduleModel extends module
 		$langCode = Context::get('langCode');
 		if (!$langCode) return;
 
-		$oModuleController = getController('module');
-		$oModuleController->replaceDefinedLangCode($langCode);
-
+		ModuleController::getInstance()->replaceDefinedLangCode($langCode);
 		$this->add('lang', $langCode);
 	}
 }
