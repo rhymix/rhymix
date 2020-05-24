@@ -393,6 +393,17 @@ class moduleModel extends module
 	}
 
 	/**
+	 * @brief Shortcut to getModuleInfoByModuleSrl()
+	 * 
+	 * @param int $module_srl
+	 * @return object
+	 */
+	public static function getModuleInfo($module_srl)
+	{
+		return self::getModuleInfoByModuleSrl(intval($module_srl));
+	}
+
+	/**
 	 * Apply default skin info
 	 *
 	 * @param stdClass $moduleInfo Module information
