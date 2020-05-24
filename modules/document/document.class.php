@@ -16,12 +16,13 @@ class document extends ModuleObject
 	 * Search option to use in admin page
 	 * @var array
 	 */
-	var $search_option = array('title','content','title_content','user_name',); // /< Search options
+	public $search_option = array('title', 'content', 'title_content', 'user_name');
+
 	/**
 	 * Status list
 	 * @var array
 	 */
-	var $statusList = array('private'=>'PRIVATE', 'public'=>'PUBLIC', 'secret'=>'SECRET', 'temp'=>'TEMP');
+	public static $statusList = array('private' => 'PRIVATE', 'public' => 'PUBLIC', 'secret' => 'SECRET', 'temp' => 'TEMP');
 
 	/**
 	 * Implement if additional tasks are necessary when installing
@@ -386,27 +387,27 @@ class document extends ModuleObject
 	 * Document Status List
 	 * @return array
 	 */
-	function getStatusList()
+	public static function getStatusList()
 	{
-		return $this->statusList;
+		return self::$statusList;
 	}
 
 	/**
 	 * Return default status
 	 * @return string
 	 */
-	function getDefaultStatus()
+	public static function getDefaultStatus()
 	{
-		return $this->statusList['public'];
+		return self::$statusList['public'];
 	}
 
 	/**
 	 * Return status by key
 	 * @return string
 	 */
-	function getConfigStatus($key)
+	public static function getConfigStatus($key)
 	{
-		return $this->statusList[$key];
+		return self::$statusList[$key];
 	}
 }
 /* End of file document.class.php */

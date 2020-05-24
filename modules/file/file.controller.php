@@ -32,7 +32,6 @@ class fileController extends file
 		if(!$file_info || !is_uploaded_file($file_info['tmp_name'])) exit();
 
 		// Basic variables setting
-		$oFileModel = getModel('file');
 		$editor_sequence = Context::get('editor_sequence');
 		$module_srl = $this->module_srl;
 		
@@ -88,7 +87,7 @@ class fileController extends file
 			$is_admin = (Context::get('logged_info')->is_admin === 'Y');
 			if (!$is_admin)
 			{
-				$module_config = getModel('file')->getFileConfig($module_srl);
+				$module_config = FileModel::getFileConfig($module_srl);
 				$allowed_attach_size = $module_config->allowed_attach_size * 1024 * 1024;
 				$allowed_filesize = $module_config->allowed_filesize * 1024 * 1024;
 				if ($total_size > $allowed_filesize)
@@ -155,11 +154,11 @@ class fileController extends file
 		$this->add('original_type', $output->get('original_type'));
 		if ($output->get('direct_download') === 'Y')
 		{
-			$this->add('download_url', $oFileModel->getDirectFileUrl($output->get('uploaded_filename')));
+			$this->add('download_url', FileModel::getDirectFileUrl($output->get('uploaded_filename')));
 		}
 		else
 		{
-			$this->add('download_url', $oFileModel->getDownloadUrl($output->get('file_srl'), $output->get('sid'), $module_srl));
+			$this->add('download_url', FileModel::getDownloadUrl($output->get('file_srl'), $output->get('sid'), $module_srl));
 		}
 	}
 
@@ -187,10 +186,8 @@ class fileController extends file
 		$file_srl = Context::get('file_srl');
 		if($file_srl)
 		{
-			$oFileModel = getModel('file');
-			$logged_info = Context::get('logged_info');
-			$file_info = $oFileModel->getFile($file_srl);
-			if($file_info->file_srl == $file_srl && $oFileModel->isDeletable($file_info))
+			$file_info = FileModel::getFile($file_srl);
+			if($file_info->file_srl == $file_srl && FileModel::isDeletable($file_info))
 			{
 				$this->deleteFile($file_srl);
 			}
@@ -225,8 +222,7 @@ class fileController extends file
 			throw new Rhymix\Framework\Exceptions\InvalidRequest;
 		}
 
-		$oFileModel = getModel('file');
-		$fileInfo = $oFileModel->getFile($file_srl);
+		$fileInfo = FileModel::getFile($file_srl);
 		if(!$fileInfo || $fileInfo->direct_download != 'Y')
 		{
 			throw new Rhymix\Framework\Exceptions\InvalidRequest;
@@ -284,8 +280,6 @@ class fileController extends file
 	 */
 	function procFileDownload()
 	{
-		$oFileModel = getModel('file');
-
 		if(isset($this->grant->access) && $this->grant->access !== true)
 		{
 			throw new Rhymix\Framework\Exceptions\NotPermitted;
@@ -295,7 +289,7 @@ class fileController extends file
 		$sid = Context::get('sid');
 		$logged_info = Context::get('logged_info');
 		// Get file information from the DB
-		$file_obj = $oFileModel->getFile($file_srl);
+		$file_obj = FileModel::getFile($file_srl);
 		// If the requested file information is incorrect, an error that file cannot be found appears
 		if($file_obj->file_srl != $file_srl || $file_obj->sid !== $sid)
 		{
@@ -303,7 +297,7 @@ class fileController extends file
 		}
 		// File name
 		$filename = $file_obj->source_filename;
-		$file_module_config = $oFileModel->getFileModuleConfig($file_obj->module_srl);
+		$file_module_config = FileModel::getFileModuleConfig($file_obj->module_srl);
 		// Not allow the file outlink
 		if($file_module_config->allow_outlink == 'N' && $_SERVER["HTTP_REFERER"])
 		{
@@ -356,7 +350,7 @@ class fileController extends file
 		}
 		
 		// Check if the file is downloadable
-		if(!$oFileModel->isDownloadable($file_obj))
+		if(!FileModel::isDownloadable($file_obj))
 		{
 			throw new Rhymix\Framework\Exceptions\NotPermitted('msg_not_permitted_download');
 		}
@@ -406,14 +400,13 @@ class fileController extends file
 	public function procFileOutput()
 	{
 		// Get requsted file info
-		$oFileModel = getModel('file');
 		$file_srl = Context::get('file_srl');
 		$file_key = Context::get('file_key');
 		$filename_arg = Context::get('filename');
 		
 		$columnList = array('source_filename', 'uploaded_filename', 'file_size');
-		$file_obj = $oFileModel->getFile($file_srl, $columnList);
-		$file_config = $oFileModel->getFileConfig($file_obj->module_srl ?: null);
+		$file_obj = FileModel::getFile($file_srl, $columnList);
+		$file_config = FileModel::getFileConfig($file_obj->module_srl ?: null);
 		$filesize = $file_obj->file_size;
 		$filename = preg_replace('/\.\.+/', '.', $file_obj->source_filename);
 		$etag = md5($file_srl . $file_key . \RX_CLIENT_IP);
@@ -570,9 +563,6 @@ class fileController extends file
 
 		$upload_target_srl = $_SESSION['upload_info'][$editor_sequence]->upload_target_srl;
 
-		$logged_info = Context::get('logged_info');
-		$oFileModel = getModel('file');
-
 		$srls = explode(',',$file_srl);
 		if(!count($srls)) return;
 
@@ -588,7 +578,7 @@ class fileController extends file
 
 			$file_info = $output->data;
 			if(!$file_info) continue;
-			if(!$oFileModel->isDeletable($file_info)) continue;
+			if(!FileModel::isDeletable($file_info)) continue;
 			if($upload_target_srl && $file_srl) $output = $this->deleteFile($file_srl);
 		}
 	}
@@ -606,7 +596,7 @@ class fileController extends file
 		}
 		
 		$logged_info = Context::get('logged_info');
-		if($logged_info->is_admin !== 'Y' && !getModel('module')->isSiteAdmin($logged_info))
+		if($logged_info->is_admin !== 'Y' && !ModuleModel::isSiteAdmin($logged_info))
 		{
 			throw new Rhymix\Framework\Exceptions\NotPermitted;
 		}
@@ -617,8 +607,7 @@ class fileController extends file
 		global $lang;
 		if(count($fileSrlList) > 0)
 		{
-			$oFileModel = getModel('file');
-			$fileList = $oFileModel->getFile($fileSrlList);
+			$fileList = FileModel::getFile($fileSrlList);
 			$fileSizeTotal = 0;
 			if(!is_array($fileList)) $fileList = array($fileList);
 
@@ -656,8 +645,7 @@ class fileController extends file
 		if(!$document_srl) return;
 		
 		// Get numbers of attachments
-		$oFileModel = getModel('file');
-		$obj->uploaded_count = $oFileModel->getFilesCount($document_srl);
+		$obj->uploaded_count = FileModel::getFilesCount($document_srl);
 		// TODO: WTF are we doing with uploaded_count anyway?
 	}
 
@@ -702,8 +690,7 @@ class fileController extends file
 		$comment_srl = $obj->comment_srl;
 		if(!$comment_srl) return;
 		// Get numbers of attachments
-		$oFileModel = getModel('file');
-		$obj->uploaded_count = $oFileModel->getFilesCount($comment_srl);
+		$obj->uploaded_count = FileModel::getFilesCount($comment_srl);
 	}
 
 	/**
@@ -874,8 +861,7 @@ class fileController extends file
 		}
 		
 		// Get file module configuration
-		$oFileModel = getModel('file');
-		$config = $oFileModel->getFileConfig($module_srl);
+		$config = FileModel::getFileConfig($module_srl);
 		
 		// Check file extension
 		if(!$manual_insert && !$this->user->isAdmin())
@@ -1355,7 +1341,7 @@ class fileController extends file
 			return new BaseObject();
 		}
 		
-		$config = getModel('file')->getFileConfig();
+		$config = FileModel::getFileConfig();
 		$oDB = DB::getInstance();
 		$oDB->begin();
 		
@@ -1367,7 +1353,7 @@ class fileController extends file
 				{
 					continue;
 				}
-				$file = getModel('file')->getFile($file_srl);
+				$file = FileModel::getFile($file_srl);
 			}
 			
 			if(empty($file->file_srl))
@@ -1432,8 +1418,7 @@ class fileController extends file
 	function deleteFiles($upload_target_srl)
 	{
 		// Get a list of attachements
-		$oFileModel = getModel('file');
-		$file_list = $oFileModel->getFiles($upload_target_srl);
+		$file_list = FileModel::getFiles($upload_target_srl);
 		
 		// Success returned if no attachement exists
 		if(empty($file_list))
@@ -1478,13 +1463,12 @@ class fileController extends file
 	{
 		if($source_srl == $target_srl) return;
 
-		$oFileModel = getModel('file');
-		$file_list = $oFileModel->getFiles($source_srl);
+		$file_list = FileModel::getFiles($source_srl);
 		if(!$file_list) return;
 
 		$file_count = count($file_list);
 
-		$config = $oFileModel->getFileConfig($module_srl);
+		$config = FileModel::getFileConfig($module_srl);
 		$oDB = DB::getInstance();
 		$oDB->begin();
 		
@@ -1579,7 +1563,7 @@ class fileController extends file
 	{
 		if(!is_array($source_file_list))
 		{
-			$source_file_list = getModel('file')->getFiles($source_file_list, array(), 'file_srl', true);
+			$source_file_list = FileModel::getFiles($source_file_list, array(), 'file_srl', true);
 		}
 		
 		foreach($source_file_list as $source_file)
@@ -1597,8 +1581,7 @@ class fileController extends file
 
 		$upload_target_srl = $_SESSION['upload_info'][$vars->editor_sequence]->upload_target_srl;
 
-		$oFileModel = getModel('file');
-		$file_info = $oFileModel->getFile($vars->file_srl);
+		$file_info = FileModel::getFile($vars->file_srl);
 
 		if(!$file_info) throw new Rhymix\Framework\Exceptions\TargetNotFound;
 
@@ -1652,7 +1635,7 @@ class fileController extends file
 	 * @param bool $absolute_path
 	 * @return string
 	 */
-	public function getStoragePath($file_type, $file_srl, $module_srl = 0, $upload_target_srl = 0, $regdate = '', $absolute_path = true)
+	public static function getStoragePath($file_type, $file_srl, $module_srl = 0, $upload_target_srl = 0, $regdate = '', $absolute_path = true)
 	{
 		// 변수 확인 및 넘어오지 않은 변수 기본값 지정
 		$file_srl = intval($file_srl);
@@ -1721,8 +1704,7 @@ class fileController extends file
 	
 	function triggerCopyModule(&$obj)
 	{
-		$oModuleModel = getModel('module');
-		$fileConfig = $oModuleModel->getModulePartConfig('file', $obj->originModuleSrl);
+		$fileConfig = ModuleModel::getModulePartConfig('file', $obj->originModuleSrl);
 
 		$oModuleController = getController('module');
 		if(is_array($obj->moduleSrlList))

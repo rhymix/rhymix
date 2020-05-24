@@ -17,8 +17,7 @@ class memberView extends member
 	function init()
 	{
 		// Get the member configuration
-		$oMemberModel = getModel('member');
-		$this->member_config = $oMemberModel->getMemberConfig();
+		$this->member_config = MemberModel::getMemberConfig();
 		Context::set('member_config', $this->member_config);
 		$oSecurity = new Security();
 		$oSecurity->encodeHTML('member_config.signupForm..');
@@ -46,8 +45,7 @@ class memberView extends member
 		// Template path
 		$this->setTemplatePath($template_path);
 
-		$oLayoutModel = getModel('layout');
-		$layout_info = $oLayoutModel->getLayout($this->member_config->layout_srl);
+		$layout_info = LayoutModel::getInstance()->getLayout($this->member_config->layout_srl);
 		if($layout_info)
 		{
 			$this->module_info->layout_srl = $this->member_config->layout_srl;
@@ -60,7 +58,6 @@ class memberView extends member
 	 */
 	function dispMemberInfo()
 	{
-		$oMemberModel = getModel('member');
 		$logged_info = Context::get('logged_info');
 		// Don't display member info to non-logged user
 		if(!$logged_info->member_srl) throw new Rhymix\Framework\Exceptions\MustLogin;
@@ -77,7 +74,7 @@ class memberView extends member
 
 		$site_module_info = Context::get('site_module_info');
 		$columnList = array('member_srl', 'user_id', 'email_address', 'user_name', 'nick_name', 'homepage', 'blog', 'birthday', 'regdate', 'last_login', 'extra_vars');
-		$member_info = $oMemberModel->getMemberInfoByMemberSrl($member_srl, $site_module_info->site_srl, $columnList);
+		$member_info = MemberModel::getMemberInfoByMemberSrl($member_srl, $site_module_info->site_srl, $columnList);
 		unset($member_info->password);
 		unset($member_info->email_id);
 		unset($member_info->email_host);
@@ -93,7 +90,7 @@ class memberView extends member
 
 		Context::set('memberInfo', get_object_vars($member_info));
 
-		$extendForm = $oMemberModel->getCombineJoinForm($member_info);
+		$extendForm = MemberModel::getCombineJoinForm($member_info);
 		unset($extendForm->find_member_account);
 		unset($extendForm->find_member_answer);
 		Context::set('extend_form_list', $extendForm);
@@ -207,9 +204,8 @@ class memberView extends member
 
 		$member_config = $this->member_config;
 
-		$oMemberModel = getModel('member');
 		// Get the member information if logged-in
-		if($oMemberModel->isLogged()) throw new Rhymix\Framework\Exception('msg_already_logged');
+		if($this->user->member_srl) throw new Rhymix\Framework\Exception('msg_already_logged');
 		// call a trigger (before) 
 		$trigger_output = ModuleHandler::triggerCall('member.dispMemberSignUpForm', 'before', $member_config);
 		if(!$trigger_output->toBool()) return $trigger_output;
@@ -259,8 +255,7 @@ class memberView extends member
 	function dispMemberModifyInfoBefore()
 	{
 		$logged_info = Context::get('logged_info');
-		$oMemberModel = getModel('member');
-		if(!$oMemberModel->isLogged() || empty($logged_info))
+		if(!$logged_info->member_srl)
 		{
 			throw new Rhymix\Framework\Exceptions\MustLogin;
 		}
@@ -303,16 +298,15 @@ class memberView extends member
 
 		$member_config = $this->member_config;
 
-		$oMemberModel = getModel('member');
 		// A message appears if the user is not logged-in
-		if(!$oMemberModel->isLogged()) throw new Rhymix\Framework\Exceptions\MustLogin;
+		if(!$this->user->member_srl) throw new Rhymix\Framework\Exceptions\MustLogin;
 
 		$logged_info = Context::get('logged_info');
 		$member_srl = $logged_info->member_srl;
 
 		$columnList = array('member_srl', 'user_id', 'user_name', 'nick_name', 'email_address', 'find_account_answer', 'homepage', 'blog', 'birthday', 'allow_mailing');
-		$member_info = $oMemberModel->getMemberInfoByMemberSrl($member_srl, 0, $columnList);
-		$member_info->signature = $oMemberModel->getSignature($member_srl);
+		$member_info = MemberModel::etMemberInfoByMemberSrl($member_srl, 0, $columnList);
+		$member_info->signature = MemberModel::getSignature($member_srl);
 		Context::set('member_info', $member_info);
 		
 		$formTags = getAdminView('member')->_getMemberInputTag($member_info);
@@ -385,9 +379,8 @@ class memberView extends member
 		$args->sort_index = 'list_order';
 		$args->statusList = array('PUBLIC', 'SECRET');
 		
-		$oDocumentModel = getModel('document');
 		$columnList = array('document_srl', 'module_srl', 'category_srl', 'member_srl', 'title', 'nick_name', 'comment_count', 'trackback_count', 'readed_count', 'voted_count', 'blamed_count', 'regdate', 'ipaddress', 'status');
-		$output = $oDocumentModel->getDocumentList($args, false, false, $columnList);
+		$output = DocumentModel::getDocumentList($args, false, false, $columnList);
 		Context::set('total_count', $output->total_count);
 		Context::set('total_page', $output->total_page);
 		Context::set('page', $output->page);
@@ -429,8 +422,7 @@ class memberView extends member
 		$args->module_srl = intval(Context::get('selected_module_srl')) ?: null;
 		$args->sort_index = 'list_order';
 		
-		$oCommentModel = getModel('comment');
-		$output = $oCommentModel->getTotalCommentList($args);
+		$output = CommentModel::getTotalCommentList($args);
 		Context::set('total_count', $output->total_count);
 		Context::set('total_page', $output->total_page);
 		Context::set('page', $output->page);
@@ -468,7 +460,7 @@ class memberView extends member
 		$folders = $output->data;
 		if(!count($folders))
 		{
-			$output = getController('member')->migrateMemberScrappedDocuments($logged_info->member_srl);
+			$output = MemberController::getInstance()->migrateMemberScrappedDocuments($logged_info->member_srl);
 			if($output && !$output->toBool())
 			{
 				return $output;
@@ -548,18 +540,16 @@ class memberView extends member
 			throw new Rhymix\Framework\Exceptions\FeatureDisabled;
 		}
 
-		$oMemberModel = getModel('member');
 		// A message appears if the user is not logged-in
-		if(!$oMemberModel->isLogged()) throw new Rhymix\Framework\Exceptions\MustLogin;
-		// Get the saved document(module_srl is set to member_srl instead)
 		$logged_info = Context::get('logged_info');
+		if(!$logged_info->member_srl) throw new Rhymix\Framework\Exceptions\MustLogin;
+		// Get the saved document(module_srl is set to member_srl instead)
+		
 		$args = new stdClass();
 		$args->member_srl = $logged_info->member_srl;
 		$args->page = Context::get('page');
 		$args->statusList = array('TEMP');
-
-		$oDocumentModel = getModel('document');
-		$output = $oDocumentModel->getDocumentList($args, true);
+		$output = DocumentModel::getDocumentList($args, true);
 		Context::set('total_count', $output->total_count);
 		Context::set('total_page', $output->total_page);
 		Context::set('page', $output->page);
@@ -610,7 +600,6 @@ class memberView extends member
 		}
 
 		// get member module configuration.
-		$oMemberModel = getModel('member');
 		$config = $this->member_config;
 		Context::set('identifier', $config->identifier);
 
@@ -633,9 +622,8 @@ class memberView extends member
 	 */
 	function dispMemberModifyPassword()
 	{
-		$oMemberModel = getModel('member');
 		// A message appears if the user is not logged-in
-		if(!$oMemberModel->isLogged()) throw new Rhymix\Framework\Exceptions\MustLogin;
+		if(!$this->user->member_srl) throw new Rhymix\Framework\Exceptions\MustLogin;
 
 		$memberConfig = $this->member_config;
 
@@ -643,7 +631,7 @@ class memberView extends member
 		$member_srl = $logged_info->member_srl;
 
 		$columnList = array('member_srl', 'user_id');
-		$member_info = $oMemberModel->getMemberInfoByMemberSrl($member_srl, 0, $columnList);
+		$member_info = MemberModel::getMemberInfoByMemberSrl($member_srl, 0, $columnList);
 		Context::set('member_info',$member_info);
 
 		if($memberConfig->identifier == 'user_id')
@@ -665,16 +653,15 @@ class memberView extends member
 	 */
 	function dispMemberLeave()
 	{
-		$oMemberModel = getModel('member');
 		// A message appears if the user is not logged-in
-		if(!$oMemberModel->isLogged()) throw new Rhymix\Framework\Exceptions\MustLogin;
+		if(!$this->user->member_srl) throw new Rhymix\Framework\Exceptions\MustLogin;
 
 		$memberConfig = $this->member_config;
 
 		$logged_info = Context::get('logged_info');
 		$member_srl = $logged_info->member_srl;
 
-		$member_info = $oMemberModel->getMemberInfoByMemberSrl($member_srl);
+		$member_info = MemberModel::getMemberInfoByMemberSrl($member_srl);
 		Context::set('member_info',$member_info);
 
 		if($memberConfig->identifier == 'user_id')
@@ -696,8 +683,7 @@ class memberView extends member
 	 */
 	function dispMemberLogout()
 	{
-		$oMemberController = getController('member');
-		$output = $oMemberController->procMemberLogout();
+		$output = MemberController::getInstance()->procMemberLogout();
 		if(!$output->redirect_url)
 			$this->setRedirectUrl(getNotEncodedUrl('act', ''));
 		else
@@ -766,8 +752,7 @@ class memberView extends member
 	 */
 	function addExtraFormValidatorMessage()
 	{
-		$oMemberModel = getModel('member');
-		$extraList = $oMemberModel->getUsedJoinFormList();
+		$extraList = MemberModel::getUsedJoinFormList();
 
 		$js_code = array();
 		$js_code[] = '<script>//<![CDATA[';
@@ -811,17 +796,14 @@ class memberView extends member
 		$module_srl = Context::get('module_srl');
 
 		// check grant
-		$oModuleModel = getModel('module');
 		$columnList = array('module_srl', 'module');
-		$module_info = $oModuleModel->getModuleInfoByModuleSrl($module_srl, $columnList);
-		$grant = $oModuleModel->getGrant($module_info, Context::get('logged_info'));
+		$module_info = ModuleModel::getModuleInfoByModuleSrl($module_srl, $columnList);
+		$grant = ModuleModel::getGrant($module_info, Context::get('logged_info'));
 
 		if(!$grant->manager) throw new Rhymix\Framework\Exceptions\NotPermitted;
 
-		$oMemberModel = getModel('member');
-
 		Context::loadLang('modules/document/lang/');
-		Context::set('spammer_info', $oMemberModel->getMemberInfoByMemberSrl($member_srl));
+		Context::set('spammer_info', MemberModel::getMemberInfoByMemberSrl($member_srl));
 		Context::set('module_srl', $module_srl);
 
 		// Select Pop-up layout
@@ -858,7 +840,7 @@ class memberView extends member
 		}
 
 		$page = Context::get('page');
-		$output = getModel('member')->getMemberModifyNicknameLog($page, $member_srl);
+		$output = MemberModel::getMemberModifyNicknameLog($page, $member_srl);
 
 		Context::set('total_count', $output->page_navigation->total_count);
 		Context::set('total_page', $output->page_navigation->total_page);

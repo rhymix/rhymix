@@ -31,8 +31,7 @@ class moduleView extends module
 		$skin_info_xml = sprintf("%sskins/%s/skin.xml", $module_path, $skin);
 		if(!file_exists($skin_info_xml)) throw new Rhymix\Framework\Exceptions\InvalidRequest;
 
-		$oModuleModel = getModel('module');
-		$skin_info = $oModuleModel->loadSkinInfo($module_path, $skin);
+		$skin_info = ModuleModel::loadSkinInfo($module_path, $skin);
 		Context::set('skin_info',$skin_info);
 
 		$this->setLayoutFile("popup_layout");
@@ -49,11 +48,10 @@ class moduleView extends module
 		$output = executeQueryArray(isset($query_id) ? $query_id : 'module.getSiteModules', $args);
 		
 		$mid_list = array();
-		$oModuleModel = getModel('module');
 		
 		foreach($output->data as $key => $val)
 		{
-			if(!$oModuleModel->getGrant($val, Context::get('logged_info'))->manager)
+			if(!ModuleModel::getGrant($val, Context::get('logged_info'))->manager)
 			{
 				continue;
 			}
@@ -69,7 +67,7 @@ class moduleView extends module
 			$obj->browser_title = $val->browser_title;
 			
 			$mid_list[$val->module]->list[$val->category ?: 0][$val->mid] = $obj;
-			$mid_list[$val->module]->title = $oModuleModel->getModuleInfoXml($val->module)->title;
+			$mid_list[$val->module]->title = ModuleModel::getModuleInfoXml($val->module)->title;
 		}
 		
 		Context::set('mid_list', $mid_list);
@@ -118,8 +116,7 @@ class moduleView extends module
 				//]]></script>',$input_name);
 		Context::addHtmlHeader($addscript);
 
-		$oModuleModel = getModel('module');
-		$output = $oModuleModel->getModuleFileBoxList();
+		$output = ModuleModel::getModuleFileBoxList();
 		Context::set('filebox_list', $output->data);
 
 		$filter = Context::get('filter');
