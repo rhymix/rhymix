@@ -10,7 +10,7 @@ class fileModel extends file
 	 * Initialization
 	 * @return void
 	 */
-	function init()
+	public function init()
 	{
 	}
 
@@ -22,7 +22,7 @@ class fileModel extends file
 	 *
 	 * @return void
 	 */
-	function getFileList()
+	public function getFileList()
 	{
 		$file_list = [];
 		$attached_size = 0;
@@ -77,7 +77,7 @@ class fileModel extends file
 			}
 			
 			// Set file list
-			foreach($this->getFiles($upload_target_srl) as $file_info)
+			foreach(self::getFiles($upload_target_srl) as $file_info)
 			{
 				$obj = new stdClass;
 				$obj->file_srl = $file_info->file_srl;
@@ -90,9 +90,9 @@ class fileModel extends file
 				$obj->direct_download = $file_info->direct_download;
 				$obj->cover_image = ($file_info->cover_image === 'Y') ? true : false;
 				$obj->download_url = $file_info->download_url;
-				if($obj->direct_download === 'Y' && $this->isDownloadable($file_info))
+				if($obj->direct_download === 'Y' && self::isDownloadable($file_info))
 				{
-					$obj->download_url = $this->getDirectFileUrl($file_info->uploaded_filename);
+					$obj->download_url = self::getDirectFileUrl($file_info->uploaded_filename);
 				}
 				
 				$file_list[] = $obj;
@@ -107,7 +107,7 @@ class fileModel extends file
 		$this->add('upload_target_srl', $upload_target_srl);
 		
 		// Set upload config
-		$upload_config = $this->getUploadConfig();
+		$upload_config = self::getUploadConfig();
 		if($this->user->isAdmin())
 		{
 			$this->add('allowed_filesize', sprintf('%s (%s)', lang('common.unlimited'), lang('common.admin')));
@@ -123,7 +123,7 @@ class fileModel extends file
 		
 		// for compatibility
 		$this->add('allowed_filetypes', $upload_config->allowed_filetypes);
-		$this->add('upload_status', $this->getUploadStatus($attached_size));
+		$this->add('upload_status', self::getUploadStatus($attached_size));
 		$this->add('left_size', $upload_config->allowed_attach_size * 1024 * 1024 - $attached_size);
 	}
 	
@@ -134,13 +134,13 @@ class fileModel extends file
 	 * @param object $member_info
 	 * @return bool
 	 */
-	function isDownloadable($file_info, $member_info = null)
+	public static function isDownloadable($file_info, $member_info = null)
 	{
 		if(!$member_info)
 		{
-			$member_info = $this->user;
+			$member_info = Rhymix\Framework\Session::getMemberInfo();
 		}
-		if($this->isDeletable($file_info, $member_info))
+		if(self::isDeletable($file_info, $member_info))
 		{
 			return true;
 		}
@@ -152,7 +152,7 @@ class fileModel extends file
 		}
 		
 		// Check download groups
-		$config = $this->getFileConfig($file_info->module_srl);
+		$config = self::getFileConfig($file_info->module_srl);
 		if($config->download_groups)
 		{
 			if(empty($member_info->member_srl))
@@ -188,11 +188,11 @@ class fileModel extends file
 	 * @param object $member_info
 	 * @return bool
 	 */
-	function isDeletable($file_info, $member_info = null)
+	public static function isDeletable($file_info, $member_info = null)
 	{
 		if(!$member_info)
 		{
-			$member_info = $this->user;
+			$member_info = Rhymix\Framework\Session::getMemberInfo();
 		}
 		if($member_info->is_admin === 'Y' || $member_info->member_srl == $file_info->member_srl)
 		{
@@ -239,7 +239,7 @@ class fileModel extends file
 	 * @param int $upload_target_srl The sequence to get a number of files
 	 * @return int Returns a number of files
 	 */
-	function getFilesCount($upload_target_srl)
+	public static function getFilesCount($upload_target_srl)
 	{
 		$args = new stdClass();
 		$args->upload_target_srl = $upload_target_srl;
@@ -252,11 +252,12 @@ class fileModel extends file
 	 *
 	 * @param int $file_srl The sequence of file to get url
 	 * @param string $sid
+	 * @param int $module_srl
 	 * @return string Returns a url
 	 */
-	function getDownloadUrl($file_srl, $sid, $module_srl="")
+	public static function getDownloadUrl($file_srl, $sid, $module_srl = 0)
 	{
-		return sprintf('?module=%s&amp;act=%s&amp;file_srl=%s&amp;sid=%s&amp;module_srl=%s', 'file', 'procFileDownload', $file_srl, $sid, $module_srl);
+		return sprintf('?module=%s&amp;act=%s&amp;file_srl=%s&amp;sid=%s&amp;module_srl=%d', 'file', 'procFileDownload', $file_srl, $sid, $module_srl);
 	}
 	
 	/**
@@ -265,7 +266,7 @@ class fileModel extends file
 	 * @param string $path
 	 * @return string
 	 */
-	function getDirectFileUrl($path)
+	public static function getDirectFileUrl($path)
 	{
 		if(dirname($_SERVER['SCRIPT_NAME']) == '/' || dirname($_SERVER['SCRIPT_NAME']) == '\\')
 		{
@@ -281,13 +282,12 @@ class fileModel extends file
 	 * @param int $module_srl If set this, returns specific module's configuration. Otherwise returns global configuration.
 	 * @return object Returns configuration.
 	 */
-	function getFileConfig($module_srl = null)
+	public static function getFileConfig($module_srl = null)
 	{
-		$oModuleModel = getModel('module');
-		$config = clone $oModuleModel->getModuleConfig('file');
+		$config = clone ModuleModel::getModuleConfig('file');
 		if($module_srl)
 		{
-			$module_config = $oModuleModel->getModulePartConfig('file', $module_srl);
+			$module_config = ModuleModel::getModulePartConfig('file', $module_srl);
 			foreach((array)$module_config as $key => $value)
 			{
 				$config->$key = $value;
@@ -334,7 +334,7 @@ class fileModel extends file
 	 * @param array $columnList The list of columns to get from DB
 	 * @return Object|object|array If error returns an instance of Object. If result set is one returns a object that contins file information. If result set is more than one returns array of object.
 	 */
-	function getFile($file_srl, $columnList = array())
+	public static function getFile($file_srl, $columnList = array())
 	{
 		$args = new stdClass();
 		$args->file_srl = $file_srl;
@@ -345,7 +345,7 @@ class fileModel extends file
 		if(count($output->data) == 1)
 		{
 			$file = $output->data[0];
-			$file->download_url = $this->getDownloadUrl($file->file_srl, $file->sid, $file->module_srl);
+			$file->download_url = self::getDownloadUrl($file->file_srl, $file->sid, $file->module_srl);
 
 			return $file;
 		}
@@ -358,7 +358,7 @@ class fileModel extends file
 				foreach($output->data as $key=>$value)
 				{
 					$file = $value;
-					$file->download_url = $this->getDownloadUrl($file->file_srl, $file->sid, $file->module_srl);
+					$file->download_url = self::getDownloadUrl($file->file_srl, $file->sid, $file->module_srl);
 					$fileList[] = $file;
 				}
 			}
@@ -374,7 +374,7 @@ class fileModel extends file
 	 * @param string $sortIndex The column that used as sort index
 	 * @return array Returns array of object that contains file information. If no result returns null.
 	 */
-	function getFiles($upload_target_srl, $columnList = array(), $sortIndex = 'file_srl', $ckValid = false)
+	public static function getFiles($upload_target_srl, $columnList = array(), $sortIndex = 'file_srl', $ckValid = false)
 	{
 		$args = new stdClass();
 		$args->upload_target_srl = $upload_target_srl;
@@ -390,7 +390,7 @@ class fileModel extends file
 		foreach ($output->data as $file)
 		{
 			$file->source_filename = escape($file->source_filename, false);
-			$file->download_url = $this->getDownloadUrl($file->file_srl, $file->sid, $file->module_srl);
+			$file->download_url = self::getDownloadUrl($file->file_srl, $file->sid, $file->module_srl);
 			$fileList[] = $file;
 		}
 		return $fileList;
@@ -401,10 +401,10 @@ class fileModel extends file
 	 *
 	 * @return object Returns a file configuration of current module. If user is admin, returns PHP's max file size and allow all file types.
 	 */
-	function getUploadConfig()
+	public static function getUploadConfig()
 	{
-		$config = $this->getFileConfig(Context::get('module_srl') ?: Context::get('current_module_info')->module_srl);
-		if($this->user->is_admin === 'Y')
+		$config = self::getFileConfig(Context::get('module_srl') ?: Context::get('current_module_info')->module_srl);
+		if (Rhymix\Framework\Session::isAdmin())
 		{
 			$module_config = getModel('module')->getModuleConfig('file');
 			$config->allowed_filesize = max($config->allowed_filesize, $module_config->allowed_filesize);
@@ -421,9 +421,9 @@ class fileModel extends file
 	 * @param int $attached_size
 	 * @return string
 	 */
-	function getUploadStatus($attached_size = 0)
+	public static function getUploadStatus($attached_size = 0)
 	{
-		$file_config = $this->getUploadConfig();
+		$file_config = self::getUploadConfig();
 		if (Context::get('allow_chunks') === 'Y')
 		{
 			$allowed_filesize = $file_config->allowed_filesize * 1024 * 1024;
@@ -450,17 +450,17 @@ class fileModel extends file
 	/**
 	 * method for compatibility
 	 */
-	function getFileModuleConfig($module_srl)
+	public static function getFileModuleConfig($module_srl)
 	{
-		return $this->getFileConfig($module_srl);
+		return self::getFileConfig($module_srl);
 	}
 
 	/**
 	 * method for compatibility
 	 */
-	function getFileGrant($file_info, $member_info)
+	public static function getFileGrant($file_info, $member_info)
 	{
-		return (object)['is_deletable' => $this->isDeletable($file_info, $member_info)];
+		return (object)['is_deletable' => self::isDeletable($file_info, $member_info)];
 	}
 }
 /* End of file file.model.php */
