@@ -1448,13 +1448,20 @@ class moduleModel extends module
 				}
 				else
 				{
-					$config = new ArrayObject;
+					if (is_array($output->data->config))
+					{
+						$config = array();
+					}
+					else
+					{
+						$config = new stdClass;
+					}
 				}
 				
-				// For access to array as properties
+				// Deprecate use of ArrayObject because of https://bugs.php.net/bug.php?id=77298
 				if($config instanceof ArrayObject)
 				{
-					$config->setFlags(ArrayObject::ARRAY_AS_PROPS);
+					$config = (object)($config->getArrayCopy());
 				}
 				
 				// Set cache
