@@ -869,6 +869,10 @@ class pointController extends point
 			if (!isset(self::$_module_config_cache[$module_srl]))
 			{
 				self::$_module_config_cache[$module_srl] = $oModuleModel->getModulePartConfig('point', $module_srl);
+				if (is_object(self::$_module_config_cache[$module_srl]))
+				{
+					self::$_module_config_cache[$module_srl] = get_object_vars(self::$_module_config_cache[$module_srl]);
+				}
 			}
 			$module_config = self::$_module_config_cache[$module_srl];
 		}
