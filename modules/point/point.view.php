@@ -33,12 +33,11 @@ class pointView extends point
 			if(!$current_module_srl) return;
 		}
 		// Get the configuration information
-		$oModuleModel = getModel('module');
-		$config = $oModuleModel->getModuleConfig('point');
+		$config = ModuleModel::getModuleConfig('point');
 
 		if($current_module_srl)
 		{
-			$module_config = $oModuleModel->getModulePartConfig('point', $current_module_srl);
+			$module_config = ModuleModel::getModulePartConfig('point', $current_module_srl);
 			if(!$module_config)
 			{
 				$module_config['insert_document'] = $config->insert_document;

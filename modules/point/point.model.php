@@ -123,7 +123,7 @@ class pointModel extends point
 		{
 			return;
 		}
-		if (!getModel('module')->isSiteAdmin($logged_info))
+		if (!ModuleModel::isSiteAdmin($logged_info))
 		{
 			$member_srls = array_filter($member_srls, function($member_srl) use($logged_info) { return $member_srl == $logged_info->member_srl; });
 			if (!count($member_srls))
@@ -132,8 +132,7 @@ class pointModel extends point
 			}
 		}
 
-		$oModuleModel = getModel('module');
-		$config = $oModuleModel->getModuleConfig('point');
+		$config = ModuleModel::getModuleConfig('point');
 
 		$info = array();
 		foreach($member_srls as $v)
@@ -212,8 +211,7 @@ class pointModel extends point
 
 		if($output->total_count)
 		{
-			$oModuleModel = getModel('module');
-			$config = $oModuleModel->getModuleConfig('point');
+			$config = ModuleModel::getModuleConfig('point');
 
 			foreach($output->data as $key => $val)
 			{
