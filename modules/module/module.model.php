@@ -1448,14 +1448,7 @@ class moduleModel extends module
 				}
 				else
 				{
-					if (is_array($output->data->config))
-					{
-						$config = array();
-					}
-					else
-					{
-						$config = new stdClass;
-					}
+					$config = new stdClass;
 				}
 				
 				// Deprecate use of ArrayObject because of https://bugs.php.net/bug.php?id=77298
