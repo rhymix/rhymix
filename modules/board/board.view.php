@@ -816,16 +816,23 @@ class boardView extends board
 		if(!$oDocument->isExists())
 		{
 			$point_config = $oModuleModel->getModulePartConfig('point',$this->module_srl);
+			if ($point_config)
+			{
+				$pointForInsert = is_object($point_config) ? $point_config->insert_document : $point_config["insert_document"];
+			}
+			else
+			{
+				$pointForInsert = 0;
+			}
 			$logged_info = Context::get('logged_info');
-			$oPointModel = getModel('point');
-			$pointForInsert = $point_config["insert_document"];
+			
 			if($pointForInsert < 0)
 			{
 				if(!Context::get('is_logged'))
 				{
 					return $this->dispBoardMessage('msg_not_permitted');
 				}
-				else if(($oPointModel->getPoint($logged_info->member_srl) + $pointForInsert) < 0)
+				else if((getModel('point')->getPoint($logged_info->member_srl) + $pointForInsert) < 0)
 				{
 					return $this->dispBoardMessage('msg_not_enough_point');
 				}

@@ -632,6 +632,10 @@ class pointController extends point
 	{
 		$oModuleModel = getModel('module');
 		$pointConfig = $oModuleModel->getModulePartConfig('point', $obj->originModuleSrl);
+		if (is_object($pointConfig))
+		{
+			$pointConfig = get_object_vars($pointConfig);
+		}
 
 		$oModuleController = getController('module');
 		if(is_array($obj->moduleSrlList))
