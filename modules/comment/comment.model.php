@@ -187,7 +187,7 @@ class commentModel extends comment
 
 		// fetch from a database
 		$args = new stdClass();
-		$args->comment_srls = $comment_srls;
+		$args->comment_srls = $comment_srl_list;
 		$output = executeQuery('comment.getComments', $args, $columnList);
 		if(!$output->toBool())
 		{

@@ -1828,7 +1828,7 @@ class commentController extends comment
 			{
 				foreach($commentList as $value)
 				{
-					$value->content = strip_tags($value->content);
+					$value->content = escape(strip_tags($value->content), false);
 				}
 			}
 		}
