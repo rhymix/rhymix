@@ -1363,6 +1363,10 @@ class moduleModel extends module
 	/**
 	 * @brief Return module configurations
 	 * Global configuration is used to manage board, member and others
+	 * 
+	 * @param string $module
+	 * @param int $site_srl @deprecated
+	 * @return object
 	 */
 	public static function getModuleConfig($module, $site_srl = 0)
 	{
@@ -1401,6 +1405,10 @@ class moduleModel extends module
 	/**
 	 * @brief Return the module configuration of mid
 	 * Manage mid configurations which depend on module
+	 * 
+	 * @param string module
+	 * @param int $module_srl
+	 * @return mixed
 	 */
 	public static function getModulePartConfig($module, $module_srl)
 	{
@@ -1421,14 +1429,7 @@ class moduleModel extends module
 				}
 				else
 				{
-					if (is_array($output->data->config))
-					{
-						$config = array();
-					}
-					else
-					{
-						$config = new stdClass;
-					}
+					$config = -1;  // Use -1 as a temporary value because null cannot be cached
 				}
 				
 				// Deprecate use of ArrayObject because of https://bugs.php.net/bug.php?id=77298
@@ -1446,7 +1447,8 @@ class moduleModel extends module
 			$GLOBALS['__ModulePartConfig__'][$module][$module_srl] = $config;
 		}
 		
-		return $GLOBALS['__ModulePartConfig__'][$module][$module_srl];
+		$config = $GLOBALS['__ModulePartConfig__'][$module][$module_srl];
+		return $config === -1 ? null : $config;
 	}
 
 	/**

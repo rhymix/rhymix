@@ -630,6 +630,10 @@ class pointController extends point
 	public function triggerCopyModule($obj)
 	{
 		$pointConfig = ModuleModel::getModulePartConfig('point', $obj->originModuleSrl);
+		if (is_object($pointConfig))
+		{
+			$pointConfig = get_object_vars($pointConfig);
+		}
 
 		$oModuleController = getController('module');
 		if(is_array($obj->moduleSrlList))

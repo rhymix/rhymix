@@ -40,6 +40,7 @@ class pointView extends point
 			$module_config = ModuleModel::getModulePartConfig('point', $current_module_srl);
 			if(!$module_config)
 			{
+				$module_config = array();
 				$module_config['insert_document'] = $config->insert_document;
 				$module_config['insert_comment'] = $config->insert_comment;
 				$module_config['upload_file'] = $config->upload_file;
@@ -49,6 +50,10 @@ class pointView extends point
 				$module_config['blamed'] = $config->blamed;
 				$module_config['voted_comment'] = $config->voted_comment;
 				$module_config['blamed_comment'] = $config->blamed_comment;
+			}
+			elseif(is_object($module_config))
+			{
+				$module_config = get_object_vars($module_config);
 			}
 		}
 
