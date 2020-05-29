@@ -1621,4 +1621,61 @@ class ncenterliteController extends ncenterlite
 		}
 		return $notify_member_srls;
 	}
+
+	/**
+	 * trigger for document.getDocumentMenu. Append to popup menu a button for procMemberSpammerManage()
+	 *
+	 * @param array &$menu_list
+	 *
+	 * @return object
+	**/
+	function triggerGetDocumentMenu(&$menu_list)
+	{
+		if(!Context::get('is_logged')) return;
+
+		$logged_info = Context::get('logged_info');
+		$document_srl = Context::get('target_srl');
+
+		$oDocumentModel = getModel('document');
+		$columnList = array('document_srl', 'module_srl', 'member_srl');
+		$oDocument = $oDocumentModel->getDocument($document_srl, false, false, $columnList);
+		$member_srl = $oDocument->get('member_srl');
+		$module_srl = $oDocument->get('module_srl');
+
+		if(!$member_srl) return;
+		if($oDocumentModel->grant->manager != 1 || $member_srl==$logged_info->member_srl) return;
+
+		$oDocumentController = getController('document');
+		$url = getUrl('','module','ncenterlite','act','dispNcenterliteInsertUnsubscribe','member_srl',$member_srl,'module_srl',$module_srl, 'target_srl', $document_srl, 'unsubscribe_type', 'document');
+		$oDocumentController->addDocumentPopupMenu($url,'ncenterlite_cmd_unsubscribe','','popup');
+	}
+
+	/**
+	 * trigger for comment.getCommentMenu. Append to popup menu a button for procMemberSpammerManage()
+	 *
+	 * @param array &$menu_list
+	 *
+	 * @return object
+	**/
+	function triggerGetCommentMenu(&$menu_list)
+	{
+		if(!Context::get('is_logged')) return;
+
+		$logged_info = Context::get('logged_info');
+		$comment_srl = Context::get('target_srl');
+
+		$oCommentModel = getModel('comment');
+		$columnList = array('comment_srl', 'module_srl', 'member_srl', 'ipaddress');
+		$oComment = $oCommentModel->getComment($comment_srl, FALSE, $columnList);
+		$module_srl = $oComment->get('module_srl');
+		$member_srl = $oComment->get('member_srl');
+
+		if(!$member_srl) return;
+		if($oCommentModel->grant->manager != 1 || $member_srl==$logged_info->member_srl) return;
+
+		$oCommentController = getController('comment');
+		$url = getUrl('','module','ncenterlite','act','dispNcenterliteInsertUnsubscribe','member_srl',$member_srl,'module_srl',$module_srl, 'target_srl', $comment_srl, 'unsubscribe_type', 'comment');
+		$oCommentController->addCommentPopupMenu($url,'ncenterlite_cmd_unsubscribe','','popup');
+	}
+
 }

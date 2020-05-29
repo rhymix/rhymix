@@ -109,6 +109,10 @@ $lang->ncenterlite_commnet_event_noti_all = 'Notice every comments to the author
 $lang->ncenterlite_commnet_event_noti_some = 'Notice only direct replies to the author';
 $lang->ncenterlite_message_event = 'Notify message';
 $lang->ncenterlite_message_event_about = 'Do not notify message (Use XE Core message notification system).';
+$lang->ncenterlite_mid_use = 'Module specific settings';
+$lang->ncenterlite_to_unsubscribe = 'Disable notification';
+$lang->ncenterlite_subscribe = 'Activate notification';
+$lang->ncenterlite_cmd_unsubscribe = 'Disable notification';
 $lang->ncenterlite_all_delete = 'Delete all';
 $lang->ncenterlite_month_before_delete = 'Delete older than 1 month';
 $lang->dont_check_notify_delete = 'Unread notifications will be deleted, too.';
@@ -122,3 +126,5 @@ $lang->about_anonymous_scrap = 'anonymize scrapper in scrap notification';
 $lang->highlight_effect = 'highlight effect';
 $lang->about_highlight_effect = 'it gives highlight effect to the comment when access the comment URL.';
 $lang->msg_denger_rhymix_user = '<strong>Warning!</strong> Rhymix includes notification center by default.<br />Please remove this XE-only module and reinstall the Rhymix native version.';
+
+$lang->ncenterlite_content_type = 'Type of the contents';
