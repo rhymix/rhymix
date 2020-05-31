@@ -128,6 +128,20 @@ class ncenterliteController extends ncenterlite
 		if($obj->unsubscribe_srl)
 		{
 			$userBlockData = $oNcenterliteModel->getUserUnsubscribeConfigByUnsubscribeSrl($obj->unsubscribe_srl);
+			
+			// The input unsubscribe_srl might be invalid, even though there was the other record with target_srl and member_srl.
+			if (!$userBlockData)
+			{
+				$userBlockData = $oNcenterliteModel->getUserUnsubscribeConfigByTargetSrl($obj->target_srl, $member_srl);
+			}
+			else
+			{
+				// The input member_srl from the POST or GET might not equal to the member_srl from the record of unsubscribe_srl.
+				if(intval($this->user->member_srl) != intval($userBlockData->member_srl) && $this->user->is_admin != 'Y')
+				{
+					throw new Rhymix\Framework\Exception('ncenterlite_stop_no_permission_other_user_block_settings');
+				}
+			}
 		}
 		else if($obj->target_srl)
 		{
