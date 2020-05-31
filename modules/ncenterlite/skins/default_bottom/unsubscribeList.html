@@ -1,0 +1,63 @@
+<include target="../../../member/skins/default/common_header.html" />
+<div cond="$XE_VALIDATOR_MESSAGE && $XE_VALIDATOR_ID == 'modules/ncenterlite/skins/default_bottom/unsubscribe/1'" class="message {$XE_VALIDATOR_MESSAGE_TYPE}">
+	<p>{$XE_VALIDATOR_MESSAGE}</p>
+</div>
+<table class="table table-striped table-hover" style="margin-top:20px;">
+	<thead class="bg_f_f9">
+	<tr>
+		<th scope="col">{lang('ncenterlite_content_type')}</th>
+		<th scope="col">{lang('content')}</th>
+		<th scope="col">{lang('ncenterlite_notify_settings')}</th>
+	</tr>
+	</thead>
+	<tbody>
+		<!--@foreach($unsubscribe_list as $no => $val)-->
+		<tr>
+			<td>
+				<!--@if($val->unsubscribe_type == 'document')-->
+				<span>{lang('document')}</span>
+				<!--@else-->
+				<span>{lang('comment')}</span>
+				<!--@end-->
+			</td>
+			<td>
+				<!--@if($val->unsubscribe_type == 'document')-->
+				<a href="{getUrl('', 'document_srl', $val->target_srl)}">{escape($val->text, false)}</a>
+				<!--@else-->
+				<a href="{getUrl('', 'document_srl', $val->document_srl)}#{$val->target_srl}">{escape($val->text, false)}</a>
+				<!--@end-->
+			</td>
+			<td>
+				<form action="./" method="post">
+					<fieldset>
+						<input type="hidden" name="module" value="ncenterlite" />
+						<input type="hidden" name="act" value="procNcenterliteInsertUnsubscribe" />
+						<input type="hidden" name="xe_validator_id" value="modules/ncenterlite/skins/default_bottom/unsubscribe/1" />
+						<input type="hidden" name="target_srl" value="{$val->target_srl}" />
+						<input type="hidden" name="unsubscribe_type" value="{$val->unsubscribe_type}" />
+						<input type="hidden" name="unsubscribe_srl" value="{$val->unsubscribe_srl}" />
+						<select name="value" style="width:175px;">
+							<option value="Y">{$lang->ncenterlite_to_unsubscribe}</option>
+							<option value="N">{$lang->ncenterlite_subscribe}</option>
+						</select>
+						<button type="submit" class="x_btn">{$lang->cmd_setup}</button>
+					</fieldset>
+				</form>
+			</td>
+		</tr>
+		<!--@endforeach-->
+	</tbody>
+</table>
+
+<div class="pagination pagination-centered">
+	<ul>
+		<li><a href="{getUrl('page','')}" class="direction">&laquo; {$lang->first_page}</a></li>
+		<!--@if($page_navigation)-->
+		<!--@while($page_no = $page_navigation->getNextPage())-->
+		<li class="active"|cond="$page == $page_no"><a href="{getUrl('page',$page_no)}">{$page_no}</a></li>
+		<!--@end-->
+		<!--@end-->
+		<li><a href="{getUrl('page',$page_navigation->last_page)}" class="direction">{$lang->last_page} &raquo;</a></li>
+	</ul>
+</div>
+<include target="../../../member/skins/default/common_footer.html" />
