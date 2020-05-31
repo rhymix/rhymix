@@ -118,18 +118,16 @@ class ncenterliteController extends ncenterlite
 			throw new Rhymix\Framework\Exception\MustLogin;
 		}
 		
-		$member_srl = $this->user->member_srl;
-		
 		$obj = Context::getRequestVars();
 		
-		if(!$member_srl || (!intval($obj->unsubscribe_srl) && !intval($obj->target_srl)))
+		if(!$this->user->member_srl || (!intval($obj->unsubscribe_srl) && !intval($obj->target_srl)))
 		{
 			throw new Rhymix\Framework\Exceptions\InvalidRequest;
 		}
 		
 		if($obj->target_srl)
 		{
-			$userBlockData = $oNcenterliteModel->getUserUnsubscribeConfigByTargetSrl($obj->target_srl, $member_srl);
+			$userBlockData = $oNcenterliteModel->getUserUnsubscribeConfigByTargetSrl($obj->target_srl, $this->user->member_srl);
 			
 			// If there was a record directed by unsubscribe_srl, the record should be used to validate the input data.
 			if($userBlockData)
@@ -193,7 +191,7 @@ class ncenterliteController extends ncenterlite
 		}
 		
 		$args = new stdClass();
-		$args->member_srl = $member_srl;
+		$args->member_srl = $this->user->member_srl;
 		$args->target_srl = $obj->target_srl;
 		if($obj->unsubscribe_type == 'document')
 		{
@@ -225,6 +223,11 @@ class ncenterliteController extends ncenterlite
 		}
 		else
 		{
+			if(!$obj->unsubscribe_srl && !$userBlockData)
+			{
+				throw new Rhymix\Framework\Exception('msg_unsubscribe_not_in_list');
+			}
+			
 			$args->unsubscribe_srl = $obj->unsubscribe_srl;
 			$output = executeQuery('ncenterlite.deleteUnsubscribe', $args);
 			if(!$output->toBool())
@@ -240,7 +243,7 @@ class ncenterliteController extends ncenterlite
 		}
 		else
 		{
-			$this->setRedirectUrl(getNotEncodedUrl('act', 'dispNcenterliteUnsubscribeList', 'member_srl', $member_srl));
+			$this->setRedirectUrl(getNotEncodedUrl('act', 'dispNcenterliteUnsubscribeList', 'member_srl', $this->user->member_srl));
 		}
 	}
 

@@ -128,3 +128,4 @@ $lang->about_highlight_effect = 'it gives highlight effect to the comment when a
 $lang->msg_denger_rhymix_user = '<strong>Warning!</strong> Rhymix includes notification center by default.<br />Please remove this XE-only module and reinstall the Rhymix native version.';
 
 $lang->ncenterlite_content_type = 'Type of the contents';
+$lang->msg_unsubscribe_not_in_list = 'This contents is not in the unsubscribed list.';

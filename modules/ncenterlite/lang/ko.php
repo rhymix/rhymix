@@ -184,3 +184,4 @@ $lang->msg_denger_rhymix_user = '<strong>경고!</strong> 라이믹스에서는 
 $lang->msg_test_notifycation_success = '테스트알림더미를 정상적으로 생성하였습니다.';
 $lang->msg_unsubscribe_block_not_support = '개별 수신 거부 기능을 제공하지 않습니다. 관리자에게 문의하세요.';
 $lang->msg_unsubscribe_not_permission = '다른 회원의 구독리스트를 조회할 권한이 없습니다.';
+$lang->msg_unsubscribe_not_in_list = '수신 거부 목록에 없는 컨텐츠입니다.';
