@@ -1366,7 +1366,7 @@ class moduleModel extends module
 	 * 
 	 * @param string $module
 	 * @param int $site_srl @deprecated
-	 * @return object
+	 * @return mixed
 	 */
 	public static function getModuleConfig($module, $site_srl = 0)
 	{
@@ -1387,7 +1387,7 @@ class moduleModel extends module
 				}
 				else
 				{
-					$config = new stdClass;
+					$config = -1;  // Use -1 as a temporary value because null cannot be cached
 				}
 				
 				// Set cache
@@ -1399,7 +1399,8 @@ class moduleModel extends module
 			$GLOBALS['__ModuleConfig__'][$site_srl][$module] = $config;
 		}
 		
-		return $GLOBALS['__ModuleConfig__'][$site_srl][$module];
+		$config = $GLOBALS['__ModuleConfig__'][$site_srl][$module];
+		return $config === -1 ? null : $config;
 	}
 
 	/**

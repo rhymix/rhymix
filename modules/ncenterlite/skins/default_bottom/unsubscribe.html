@@ -2,13 +2,13 @@
 <include target="../../../member/skins/default/common_header.html" />
 <div class="xm">
 
-	<div cond="$XE_VALIDATOR_MESSAGE && $XE_VALIDATOR_ID == 'modules/ncenterlite/skins/default/unsubscribe/1'" class="message {$XE_VALIDATOR_MESSAGE_TYPE}">
+	<div cond="$XE_VALIDATOR_MESSAGE && $XE_VALIDATOR_ID == 'modules/ncenterlite/skins/default_bottom/unsubscribe/1'" class="message {$XE_VALIDATOR_MESSAGE_TYPE}">
 		<p>{$XE_VALIDATOR_MESSAGE}</p>
 	</div>
 	<form ruleset="insertConfig" action="./" method="post" class="form-horizontal" id="fo_ncenterlite">
 		<input type="hidden" name="module" value="ncenterlite" />
 		<input type="hidden" name="act" value="procNcenterliteInsertUnsubscribe" />
-		<input type="hidden" name="xe_validator_id" value="modules/ncenterlite/skins/default/unsubscribe/1" />
+		<input type="hidden" name="xe_validator_id" value="modules/ncenterlite/skins/default_bottom/unsubscribe/1" />
 		<!--@if($unsubscribeData)-->
 		<input type="hidden" name="target_srl" value="{$unsubscribeData->target_srl}" />
 		<input type="hidden" name="unsubscribe_srl" value="{$unsubscribeData->unsubscribe_srl}" />

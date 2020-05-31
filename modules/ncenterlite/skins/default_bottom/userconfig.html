@@ -24,7 +24,7 @@
 			<label class="control-label">{$lang->ncenterlite_comment_noti}</label>
 			<div class="controls">
 				<label class="inline">
-					<input type="radio" name="comment_notify" value="Y" checked="checked"|cond="$user_config->comment_notify == 'Y'" /> {$lang->ncenterlite_activate}
+					<input type="radio" name="comment_notify" value="Y" checked="checked"|cond="$user_config->comment_notify != 'N'" /> {$lang->ncenterlite_activate}
 				</label>
 				<label class="inline">
 					<input type="radio" name="comment_notify" value="N" checked="checked"|cond="$user_config->comment_notify == 'N'" /> {$lang->ncenterlite_inactivate}
@@ -36,7 +36,7 @@
 			<label class="control-label">{$lang->ncenterlite_mention_noti}</label>
 			<div class="controls">
 				<label class="inline">
-					<input type="radio" name="mention_notify" value="Y" checked="checked"|cond="$user_config->mention_notify == 'Y'" /> {$lang->ncenterlite_activate}
+					<input type="radio" name="mention_notify" value="Y" checked="checked"|cond="$user_config->mention_notify != 'N'" /> {$lang->ncenterlite_activate}
 				</label>
 				<label class="inline">
 					<input type="radio" name="mention_notify" value="N" checked="checked"|cond="$user_config->mention_notify == 'N'" /> {$lang->ncenterlite_inactivate}
@@ -48,7 +48,7 @@
 			<label class="control-label">{$lang->ncenterlite_message_noti}</label>
 			<div class="controls">
 				<label class="inline">
-					<input type="radio" name="message_notify" value="Y" checked="checked"|cond="$user_config->message_notify == 'Y'" /> {$lang->ncenterlite_activate}
+					<input type="radio" name="message_notify" value="Y" checked="checked"|cond="$user_config->message_notify != 'N'" /> {$lang->ncenterlite_activate}
 				</label>
 				<label class="inline">
 					<input type="radio" name="message_notify" value="N" checked="checked"|cond="$user_config->message_notify == 'N'" /> {$lang->ncenterlite_inactivate}
@@ -56,7 +56,42 @@
 				<p class="help-block">{$lang->ncenterlite_message_noti_about}</p>
 			</div>
 		</div>
-
+		<div class="control-group">
+			<label class="control-label">{$lang->ncenterlite_vote_noti}</label>
+			<div class="controls">
+				<label class="inline">
+					<input type="radio" name="vote_notify" value="Y" checked="checked"|cond="$user_config->vote_notify != 'N'" /> {$lang->ncenterlite_activate}
+				</label>
+				<label class="inline">
+					<input type="radio" name="vote_notify" value="N" checked="checked"|cond="$user_config->vote_notify == 'N'" /> {$lang->ncenterlite_inactivate}
+				</label>
+				<p class="help-block">{$lang->ncenterlite_vote_noti_about}</p>
+			</div>
+		</div>
+		<div class="control-group">
+			<label class="control-label">{$lang->ncenterlite_scrap_noti}</label>
+			<div class="controls">
+				<label class="inline">
+					<input type="radio" name="scrap_notify" value="Y" checked="checked"|cond="$user_config->scrap_notify != 'N'" /> {$lang->ncenterlite_activate}
+				</label>
+				<label class="inline">
+					<input type="radio" name="scrap_notify" value="N" checked="checked"|cond="$user_config->scrap_notify == 'N'" /> {$lang->ncenterlite_inactivate}
+				</label>
+				<p class="help-block">{$lang->ncenterlite_scrap_noti_about}</p>
+			</div>
+		</div>
+		<div class="control-group">
+			<label class="control-label">{$lang->ncenterlite_comment_comment_noti}</label>
+			<div class="controls">
+				<label class="inline">
+					<input type="radio" name="comment_comment_notify" value="Y" checked="checked"|cond="$user_config->comment_comment_notify != 'N'" /> {$lang->ncenterlite_activate}
+				</label>
+				<label class="inline">
+					<input type="radio" name="comment_comment_notify" value="N" checked="checked"|cond="$user_config->comment_comment_notify == 'N'" /> {$lang->ncenterlite_inactivate}
+				</label>
+				<p class="help-block">{$lang->ncenterlite_comment_comment_noti_about}</p>
+			</div>
+		</div>
 	</section>
 	<div class="clearfix btnArea">
 		<div class="pull-right">

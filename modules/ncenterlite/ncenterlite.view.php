@@ -156,11 +156,11 @@ class ncenterliteView extends ncenterlite
 		
 		if($unsubscribe_type == 'document')
 		{
-			$text = getModel('document')->getDocument($target_srl)->get('title');
-			$type = '문서';
+			$text = getModel('document')->getDocument($target_srl)->getTitleText();
+			$type = lang('document');
 			if(!$text)
 			{
-				$text = getModel('comment')->getComment($target_srl)->get('content');
+				$text = getModel('comment')->getComment($target_srl)->getContentPlainText();
 				if(!$text)
 				{
 					throw new Rhymix\Framework\Exceptions\InvalidRequest;
@@ -168,18 +168,18 @@ class ncenterliteView extends ncenterlite
 				else
 				{
 					Context::set('unsubscribe_type', 'comment');
-					$type = '댓글';
+					$type = lang('comment');
 				}
 			}
 
 		}
 		else
 		{
-			$text = getModel('comment')->getComment($target_srl)->get('content');
-			$type = '댓글';
+			$text = getModel('comment')->getComment($target_srl)->getContentPlainText();
+			$type = lang('comment');
 			if(!$text)
 			{
-				$text = getModel('document')->getDocument($target_srl)->get('title');
+				$text = getModel('document')->getDocument($target_srl)->getTitleText();
 				if(!$text)
 				{
 					throw new Rhymix\Framework\Exceptions\InvalidRequest;
@@ -187,7 +187,7 @@ class ncenterliteView extends ncenterlite
 				else
 				{
 					Context::set('unsubscribe_type', 'document');
-					$type = '문서';
+					$type = lang('document');
 				}
 			}
 		}
