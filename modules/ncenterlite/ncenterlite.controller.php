@@ -1693,7 +1693,7 @@ class ncenterliteController extends ncenterlite
 		
 		$oDocumentController = getController('document');
 		$url = getUrl('','module','ncenterlite','act','dispNcenterliteInsertUnsubscribe', 'target_srl', $document_srl, 'unsubscribe_type', 'document');
-		$oDocumentController->addDocumentPopupMenu($url,'ncenterlite_cmd_unsubscribe','','popup');
+		$oDocumentController->addDocumentPopupMenu($url,'ncenterlite_cmd_unsubscribe_settings','','popup');
 	}
 
 	/**
@@ -1717,7 +1717,7 @@ class ncenterliteController extends ncenterlite
 		
 		$oCommentController = getController('comment');
 		$url = getUrl('','module','ncenterlite','act','dispNcenterliteInsertUnsubscribe', 'target_srl', $comment_srl, 'unsubscribe_type', 'comment');
-		$oCommentController->addCommentPopupMenu($url,'ncenterlite_cmd_unsubscribe','','popup');
+		$oCommentController->addCommentPopupMenu($url,'ncenterlite_cmd_unsubscribe_settings','','popup');
 	}
 
 }
