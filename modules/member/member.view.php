@@ -305,7 +305,7 @@ class memberView extends member
 		$member_srl = $logged_info->member_srl;
 
 		$columnList = array('member_srl', 'user_id', 'user_name', 'nick_name', 'email_address', 'find_account_answer', 'homepage', 'blog', 'birthday', 'allow_mailing');
-		$member_info = MemberModel::etMemberInfoByMemberSrl($member_srl, 0, $columnList);
+		$member_info = MemberModel::getMemberInfoByMemberSrl($member_srl, 0, $columnList);
 		$member_info->signature = MemberModel::getSignature($member_srl);
 		Context::set('member_info', $member_info);
 		
