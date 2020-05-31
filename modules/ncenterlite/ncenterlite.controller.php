@@ -1623,7 +1623,7 @@ class ncenterliteController extends ncenterlite
 	}
 
 	/**
-	 * trigger for document.getDocumentMenu. Append to popup menu a button for procMemberSpammerManage()
+	 * trigger for document.getDocumentMenu. Append to popup menu a button for dispNcenterliteInsertUnsubscribe()
 	 *
 	 * @param array &$menu_list
 	 *
@@ -1631,27 +1631,30 @@ class ncenterliteController extends ncenterlite
 	**/
 	function triggerGetDocumentMenu(&$menu_list)
 	{
-		if(!Context::get('is_logged')) return;
+		if(!Rhymix\Framework\Session::isMember()) return;
 
-		$logged_info = Context::get('logged_info');
 		$document_srl = Context::get('target_srl');
 
-		$oDocumentModel = getModel('document');
-		$columnList = array('document_srl', 'module_srl', 'member_srl');
-		$oDocument = $oDocumentModel->getDocument($document_srl, false, false, $columnList);
-		$member_srl = $oDocument->get('member_srl');
-		$module_srl = $oDocument->get('module_srl');
-
-		if(!$member_srl) return;
-		if($oDocumentModel->grant->manager != 1 || $member_srl==$logged_info->member_srl) return;
-
+		/** @var ncenterliteModel $oNcenterliteModel */
+		$oNcenterliteModel = getModel('ncenterlite');
+		$config = $oNcenterliteModel->getConfig();
+		
+		if($config->unsubscribe !== 'Y') return;
+		
+		$userBlockData = $oNcenterliteModel->getUserUnsubscribeConfigByTargetSrl($document_srl, $member_srl);
+		
 		$oDocumentController = getController('document');
-		$url = getUrl('','module','ncenterlite','act','dispNcenterliteInsertUnsubscribe','member_srl',$member_srl,'module_srl',$module_srl, 'target_srl', $document_srl, 'unsubscribe_type', 'document');
+		if ($userBlockData) {
+			$url = getUrl('','module','ncenterlite','act','dispNcenterliteInsertUnsubscribe', 'target_srl', $document_srl, 'unsubscribe_srl', $userBlockData->unsubscribe_srl, 'unsubscribe_type', 'document');
+		}
+		else {
+			$url = getUrl('','module','ncenterlite','act','dispNcenterliteInsertUnsubscribe', 'target_srl', $document_srl, 'unsubscribe_type', 'document');
+		}
 		$oDocumentController->addDocumentPopupMenu($url,'ncenterlite_cmd_unsubscribe','','popup');
 	}
 
 	/**
-	 * trigger for comment.getCommentMenu. Append to popup menu a button for procMemberSpammerManage()
+	 * trigger for comment.getCommentMenu. Append to popup menu a button for dispNcenterliteInsertUnsubscribe()
 	 *
 	 * @param array &$menu_list
 	 *
@@ -1659,22 +1662,25 @@ class ncenterliteController extends ncenterlite
 	**/
 	function triggerGetCommentMenu(&$menu_list)
 	{
-		if(!Context::get('is_logged')) return;
+		if(!Rhymix\Framework\Session::isMember()) return;
 
-		$logged_info = Context::get('logged_info');
 		$comment_srl = Context::get('target_srl');
 
-		$oCommentModel = getModel('comment');
-		$columnList = array('comment_srl', 'module_srl', 'member_srl', 'ipaddress');
-		$oComment = $oCommentModel->getComment($comment_srl, FALSE, $columnList);
-		$module_srl = $oComment->get('module_srl');
-		$member_srl = $oComment->get('member_srl');
-
-		if(!$member_srl) return;
-		if($oCommentModel->grant->manager != 1 || $member_srl==$logged_info->member_srl) return;
-
+		/** @var ncenterliteModel $oNcenterliteModel */
+		$oNcenterliteModel = getModel('ncenterlite');
+		$config = $oNcenterliteModel->getConfig();
+		
+		if($config->unsubscribe !== 'Y') return;
+		
+		$userBlockData = $oNcenterliteModel->getUserUnsubscribeConfigByTargetSrl($comment_srl, $member_srl);
+		
 		$oCommentController = getController('comment');
-		$url = getUrl('','module','ncenterlite','act','dispNcenterliteInsertUnsubscribe','member_srl',$member_srl,'module_srl',$module_srl, 'target_srl', $comment_srl, 'unsubscribe_type', 'comment');
+		if ($userBlockData) {
+			$url = getUrl('','module','ncenterlite','act','dispNcenterliteInsertUnsubscribe', 'target_srl', $comment_srl, 'unsubscribe_srl', $userBlockData->unsubscribe_srl, 'unsubscribe_type', 'comment');
+		}
+		else {
+			$url = getUrl('','module','ncenterlite','act','dispNcenterliteInsertUnsubscribe', 'target_srl', $comment_srl, 'unsubscribe_type', 'comment');
+		}
 		$oCommentController->addCommentPopupMenu($url,'ncenterlite_cmd_unsubscribe','','popup');
 	}
 
