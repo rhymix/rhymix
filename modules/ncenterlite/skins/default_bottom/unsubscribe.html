@@ -1,5 +1,5 @@
-<load target="../../../member/skins/default/css/member.css" />
-<include target="../../../member/skins/default/common_header.html" />
+<load target="../../../member/skins/default_bottom/css/member.css" />
+<include target="../../../member/skins/default_bottom/common_header.html" />
 <div class="xm">
 
 	<div cond="$XE_VALIDATOR_MESSAGE && $XE_VALIDATOR_ID == 'modules/ncenterlite/skins/default/unsubscribe/1'" class="message {$XE_VALIDATOR_MESSAGE_TYPE}">
@@ -20,7 +20,7 @@
 		<!--@end-->
 		<section class="section">
 			<div class="control-group">
-				<label class="control-label">글 종류</label>
+				<label class="control-label">{lang('ncenterlite_content_type')}</label>
 				<div class="controls">
 					<p>
 						{$type}
@@ -28,7 +28,7 @@
 				</div>
 			</div>
 			<div class="control-group">
-				<label class="control-label">내용</label>
+				<label class="control-label">{lang('content')}</label>
 				<div class="controls">
 					<p>
 						<!--@if($unsubscribeData)-->
@@ -60,4 +60,4 @@
 		</div>
 	</form>
 </div>
-<include target="../../../member/skins/default/common_footer.html" />
+<include target="../../../member/skins/default_bottom/common_footer.html" />
