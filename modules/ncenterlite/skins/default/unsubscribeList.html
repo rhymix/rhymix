@@ -5,9 +5,9 @@
 <table class="table table-striped table-hover" style="margin-top:20px;">
 	<thead class="bg_f_f9">
 	<tr>
-		<th scope="col">타입</th>
-		<th scope="col">콘텐츠</th>
-		<th scope="col">차단설정</th>
+		<th scope="col">{lang('ncenterlite_content_type')}</th>
+		<th scope="col">{lang('content')}</th>
+		<th scope="col">{lang('ncenterlite_notify_settings')}</th>
 	</tr>
 	</thead>
 	<tbody>
@@ -15,9 +15,9 @@
 		<tr>
 			<td>
 				<!--@if($val->unsubscribe_type == 'document')-->
-				<span>문서</span>
+				<span>{lang('document')}</span>
 				<!--@else-->
-				<span>댓글</span>
+				<span>{lang('comment')}</span>
 				<!--@end-->
 			</td>
 			<td>

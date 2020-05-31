@@ -113,40 +113,85 @@ class ncenterliteController extends ncenterlite
 			throw new Rhymix\Framework\Exception('msg_unsubscribe_block_not_support');
 		}
 		
-		$member_srl = Context::get('member_srl');
-		if(!$member_srl)
+		if(!Rhymix\Framework\Session::isMember()) 
 		{
-			$member_srl = $this->user->member_srl;
-		}
-		
-		if(intval($this->user->member_srl) != intval($member_srl) && $this->user->is_admin != 'Y')
-		{
-			throw new Rhymix\Framework\Exception('ncenterlite_stop_no_permission_other_user_block_settings');
+			throw new Rhymix\Framework\Exception\MustLogin;
 		}
 		
 		$obj = Context::getRequestVars();
-		if($obj->unsubscribe_srl)
+		
+		if(!$this->user->member_srl || (!intval($obj->unsubscribe_srl) && !intval($obj->target_srl)))
 		{
-			$userBlockData = $oNcenterliteModel->getUserUnsubscribeConfigByUnsubscribeSrl($obj->unsubscribe_srl);
-		}
-		else if($obj->target_srl)
-		{
-			$userBlockData = $oNcenterliteModel->getUserUnsubscribeConfigByTargetSrl($obj->target_srl, $member_srl);
+			throw new Rhymix\Framework\Exceptions\InvalidRequest;
 		}
 		
+		if($obj->target_srl)
+		{
+			$userBlockData = $oNcenterliteModel->getUserUnsubscribeConfigByTargetSrl($obj->target_srl, $this->user->member_srl);
+			
+			// If there was a record directed by unsubscribe_srl, the record should be used to validate the input data.
+			if($userBlockData)
+			{
+				if (!intval($obj->unsubscribe_srl))
+				{
+					$obj->unsubscribe_srl = $userBlockData->unsubscribe_srl;
+				}
+				
+				if (intval($obj->unsubscribe_srl) != intval($userBlockData->unsubscribe_srl))
+				{
+					throw new Rhymix\Framework\Exceptions\InvalidRequest;
+				}
+			}
+		}
+		
+		if(!$userBlockData && $obj->unsubscribe_srl)
+		{
+			$userBlockData = $oNcenterliteModel->getUserUnsubscribeConfigByUnsubscribeSrl($obj->unsubscribe_srl);
+			
+			// The input member_srl from the POST or GET might not equal to the member_srl from the record of unsubscribe_srl.
+			if(intval($this->user->member_srl) != intval($userBlockData->member_srl))
+			{
+				throw new Rhymix\Framework\Exception('ncenterlite_stop_no_permission_other_user_block_settings');
+			}
+			
+			// If there was a record directed by unsubscribe_srl, the record should be used to validate the input data.
+			if($userBlockData)
+			{
+				if (!intval($obj->target_srl))
+				{
+					$obj->target_srl = $userBlockData->target_srl;
+				}
+				
+				if (intval($obj->target_srl) != intval($userBlockData->target_srl))
+				{
+					throw new Rhymix\Framework\Exceptions\InvalidRequest;
+				}
+			}
+		}
+		
+		if($userBlockData)
+		{
+			$obj->unsubscribe_srl = $userBlockData->unsubscribe_srl;
+		}
+		
+		// Content type can be document and comment, now. However, the default type cannot be specified, as the type can be another in the future.
 		if($obj->unsubscribe_type == 'document')
 		{
 			$text = cut_str(getModel('document')->getDocument($obj->target_srl)->get('title'), 30);
 		}
-		else
+		elseif($obj->unsubscribe_type == 'comment')
 		{
 			$comment = getModel('comment')->getComment($obj->target_srl);
 			$contentString = $comment->getContentText(30);
 			$text = strlen($contentString) ? $contentString : lang('comment.no_text_comment');
 		}
+		else
+		{
+			throw new Rhymix\Framework\Exceptions\InvalidRequest;
+		}
 		
 		$args = new stdClass();
-		$args->member_srl = $member_srl;
+		$args->member_srl = $this->user->member_srl;
 		$args->target_srl = $obj->target_srl;
 		if($obj->unsubscribe_type == 'document')
 		{
@@ -178,6 +223,11 @@ class ncenterliteController extends ncenterlite
 		}
 		else
 		{
+			if(!$obj->unsubscribe_srl && !$userBlockData)
+			{
+				throw new Rhymix\Framework\Exception('msg_unsubscribe_not_in_list');
+			}
+			
 			$args->unsubscribe_srl = $obj->unsubscribe_srl;
 			$output = executeQuery('ncenterlite.deleteUnsubscribe', $args);
 			if(!$output->toBool())
@@ -193,7 +243,7 @@ class ncenterliteController extends ncenterlite
 		}
 		else
 		{
-			$this->setRedirectUrl(getNotEncodedUrl('act', 'dispNcenterliteUnsubscribeList', 'member_srl', $member_srl));
+			$this->setRedirectUrl(getNotEncodedUrl('act', 'dispNcenterliteUnsubscribeList', 'member_srl', $this->user->member_srl));
 		}
 	}
 
@@ -1621,4 +1671,53 @@ class ncenterliteController extends ncenterlite
 		}
 		return $notify_member_srls;
 	}
+
+	/**
+	 * trigger for document.getDocumentMenu. Append to popup menu a button for dispNcenterliteInsertUnsubscribe()
+	 *
+	 * @param array &$menu_list
+	 *
+	 * @return object
+	**/
+	function triggerGetDocumentMenu(&$menu_list)
+	{
+		if(!Rhymix\Framework\Session::isMember()) return;
+
+		$document_srl = Context::get('target_srl');
+
+		/** @var ncenterliteModel $oNcenterliteModel */
+		$oNcenterliteModel = getModel('ncenterlite');
+		$config = $oNcenterliteModel->getConfig();
+		
+		if($config->unsubscribe !== 'Y') return;
+		
+		$oDocumentController = getController('document');
+		$url = getUrl('','module','ncenterlite','act','dispNcenterliteInsertUnsubscribe', 'target_srl', $document_srl, 'unsubscribe_type', 'document');
+		$oDocumentController->addDocumentPopupMenu($url,'ncenterlite_cmd_unsubscribe_settings','','popup');
+	}
+
+	/**
+	 * trigger for comment.getCommentMenu. Append to popup menu a button for dispNcenterliteInsertUnsubscribe()
+	 *
+	 * @param array &$menu_list
+	 *
+	 * @return object
+	**/
+	function triggerGetCommentMenu(&$menu_list)
+	{
+		if(!Rhymix\Framework\Session::isMember()) return;
+
+		$comment_srl = Context::get('target_srl');
+
+		/** @var ncenterliteModel $oNcenterliteModel */
+		$oNcenterliteModel = getModel('ncenterlite');
+		$config = $oNcenterliteModel->getConfig();
+		
+		if($config->unsubscribe !== 'Y') return;
+		
+		$oCommentController = getController('comment');
+		$url = getUrl('','module','ncenterlite','act','dispNcenterliteInsertUnsubscribe', 'target_srl', $comment_srl, 'unsubscribe_type', 'comment');
+		$oCommentController->addCommentPopupMenu($url,'ncenterlite_cmd_unsubscribe_settings','','popup');
+	}
+
 }

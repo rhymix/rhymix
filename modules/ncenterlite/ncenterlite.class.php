@@ -31,6 +31,9 @@ class ncenterlite extends ModuleObject
 		array('document.moveDocumentToTrash', 'ncenterlite', 'controller', 'triggerAfterMoveToTrash', 'after'),
 		array('comment.updateVotedCount', 'ncenterlite', 'controller', 'triggerAfterCommentVotedCount', 'after'),
 		array('comment.updateVotedCountCancel', 'ncenterlite', 'controller', 'triggerAfterCommentVotedCancel', 'after'),
+		// 2020. 05. 30 add menu when popup document menu called
+		array('document.getDocumentMenu', 'ncenterlite', 'controller', 'triggerGetDocumentMenu', 'after'),
+		array('comment.getCommentMenu', 'ncenterlite', 'controller', 'triggerGetCommentMenu', 'after'),
 	);
 
 	private $delete_triggers = array(
