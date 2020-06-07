@@ -902,7 +902,7 @@ class DB
 	 */
 	public function _dbInfoExists()
 	{
-		return ($this->master_db && count($this->slave_db));
+		return ($this->master_db && (is_countable($this->slave_db) && count($this->slave_db)));
 	}
 
 	/**
