@@ -171,13 +171,12 @@ class editorController extends editor
 		$this->setRedirectUrl($returnUrl);
 	}
 
-	/**
-	 * @brief convert editor component codes to be returned and specify content style.
-	 */
-	function triggerEditorComponentCompile(&$content)
-	{
-		if(Context::getResponseMethod() !== 'HTML') return;
 
+	/**
+	 * @brief Load editor style
+	 */
+	function procLoadEditorStyle()
+	{
 		$module_info = Context::get('module_info');
 		$module_srl = $module_info->module_srl;
 		if($module_srl)
@@ -188,7 +187,7 @@ class editorController extends editor
 		{
 			$editor_config = getModel('module')->getModuleConfig('editor');
 		}
-
+		
 		if ($editor_config)
 		{
 			$default_font_config = $this->default_font_config;
@@ -197,7 +196,6 @@ class editorController extends editor
 			if ($editor_config->content_line_height) $default_font_config['default_line_height'] = $editor_config->content_line_height;
 			if ($editor_config->content_paragraph_spacing) $default_font_config['default_paragraph_spacing'] = $editor_config->content_paragraph_spacing;
 			if ($editor_config->content_word_break) $default_font_config['default_word_break'] = $editor_config->content_word_break;
-			Context::set('default_font_config', $default_font_config);
 
 			$content_style = $editor_config->content_style;
 			if($content_style)
@@ -211,45 +209,27 @@ class editorController extends editor
 						$file = trim($file);
 						if(!$file) continue;
 
-						$args = array('./modules/editor/styles/'.$content_style.'/'.$file);
+						$args = array('./modules/editor/styles/'.$content_style.'/'.$file, null, null, null, $editor_config);
 						Context::loadFile($args);
 					}
 				}
 			}
-
-			/*
-			$buff = array();
-			$buff[] = '<style> .xe_content {';
-			if ($content_font)
-			{
-				$buff[] = "font-family: $content_font;";
-			}
-			if ($content_font_size)
-			{
-				$buff[] = "font-size: $content_font_size;";
-			}
-			if ($content_line_height)
-			{
-				$buff[] = "line-height: $content_line_height;";
-			}
-			if ($content_word_break === 'none')
-			{
-				$buff[] = 'white-space: nowrap;';
-			}
-			else
-			{
-				$buff[] = 'word-break: ' . ($content_word_break ?: 'normal') . '; word-wrap: break-word;';
-			}
-			$buff[] = '}';
-			$buff[] = '.xe_content p { margin: 0 0 ' . ($content_paragraph_spacing ?: 0) . ' 0; }';
-			$buff[] = '</style>';
-			Context::addHtmlHeader(implode(' ', $buff));
-			*/
 		}
 		else
 		{
 			Context::set('default_font_config', $this->default_font_config);
 		}
+	}
+
+
+	/**
+	 * @brief convert editor component codes to be returned and specify content style.
+	 */
+	function triggerEditorComponentCompile(&$content)
+	{
+		if(Context::getResponseMethod() !== 'HTML') return;
+
+		$this->procLoadEditorStyle();
 
 		$content = $this->transComponent($content);
 	}

@@ -250,6 +250,9 @@ class editorModel extends editor
 		// Compile and return the editor skin template.
 		$tpl_path = Context::get('editor_path');
 		Context::loadLang($tpl_path.'lang');
+		
+		getController('editor')->procLoadEditorStyle();
+		
 		$oTemplate = TemplateHandler::getInstance();
 		return $oTemplate->compile($tpl_path, 'editor.html');
 	}
