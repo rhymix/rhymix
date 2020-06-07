@@ -196,7 +196,7 @@ class editorController extends editor
 			if ($editor_config->content_line_height) $default_font_config['default_line_height'] = $editor_config->content_line_height;
 			if ($editor_config->content_paragraph_spacing) $default_font_config['default_paragraph_spacing'] = $editor_config->content_paragraph_spacing;
 			if ($editor_config->content_word_break) $default_font_config['default_word_break'] = $editor_config->content_word_break;
-			Context::set('default_font_config', $this->default_font_config);
+			Context::set('default_font_config', $default_font_config);
 
 			$content_style = $editor_config->content_style;
 			if($content_style)
