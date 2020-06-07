@@ -112,6 +112,12 @@ var auto_saved_msg = "{$lang->msg_auto_saved}";
 			content_field: jQuery('[name={$editor_content_key_name}]')
 		};
 		
+		$(parent.document.getElementsByTagName('link')).each(function() {
+			settings.ckeconfig.contentsCss.push($(this).attr('href'));
+			console.log($(this).attr('href'));
+		});
+		
+		
 		// Prevent removal of icon fonts and Google code.
 		CKEDITOR.dtd.$removeEmpty.i = 0;
 		CKEDITOR.dtd.$removeEmpty.ins = 0;

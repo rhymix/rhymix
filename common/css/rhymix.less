@@ -8,7 +8,9 @@ body, table, input, textarea, select, button {
 article, aside, details, figcaption, figure, footer, header, hgroup, nav, section {
 	display: block;
 }
-body {
+html, body {
+	box-sizing: border-box;
+	min-height: 100%;
 	position: relative;
 }
 a img {
@@ -41,6 +43,23 @@ a img {
 	img, video {
 		max-width: 100%;
 		height: auto;
+	}
+	blockquote {
+		padding: 2px 0;
+		border-style: solid;
+		border-color: #ccc;
+		border-width: 0;
+		border-left-width: 5px;
+		padding-left: 20px;
+		padding-right: 8px;
+		
+		&:lang(ar), &:lang(arc), &:lang(dv), &:lang(ha), &:lang(he), &:lang(khw), &:lang(ks), &:lang(ku), &:lang(ps), &:lang(fa), &:lang(ur), &:lang(yi) {
+			border-left-width: 0px;
+			border-right-width: 5px;
+			padding-left: 8px;
+			padding-right: 20px;
+		
+		}
 	}
 }
 @media screen {
