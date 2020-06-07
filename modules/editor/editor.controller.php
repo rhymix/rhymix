@@ -115,8 +115,6 @@ class editorController extends editor
 		if($editor_config->default_editor_settings !== 'Y') $editor_config->default_editor_settings = 'N';
 		$editor_config->editor_skin = Context::get('editor_skin');
 		$editor_config->comment_editor_skin = Context::get('comment_editor_skin');
-		$editor_config->content_style = Context::get('content_style');
-		$editor_config->comment_content_style = Context::get('comment_content_style');
 		$editor_config->content_font = Context::get('content_font');
 		if($editor_config->content_font)
 		{
@@ -197,24 +195,6 @@ class editorController extends editor
 			if ($editor_config->content_paragraph_spacing) $default_font_config['default_paragraph_spacing'] = $editor_config->content_paragraph_spacing;
 			if ($editor_config->content_word_break) $default_font_config['default_word_break'] = $editor_config->content_word_break;
 			Context::set('default_font_config', $default_font_config);
-
-			$content_style = $editor_config->content_style;
-			if($content_style)
-			{
-				$path = _XE_PATH_ . 'modules/editor/styles/'.$content_style.'/';
-				if(is_dir($path) && file_exists($path . 'style.ini'))
-				{
-					$ini = file($path.'style.ini');
-					foreach($ini as $file)
-					{
-						$file = trim($file);
-						if(!$file) continue;
-
-						$args = array('./modules/editor/styles/'.$content_style.'/'.$file, null, null, null, $editor_config);
-						Context::loadFile($args);
-					}
-				}
-			}
 		}
 		else
 		{

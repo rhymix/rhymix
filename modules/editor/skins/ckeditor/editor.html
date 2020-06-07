@@ -13,9 +13,6 @@ var auto_saved_msg = "{$lang->msg_auto_saved}";
 </script>
 
 {@ $css_file_list = array()}
-<block loop="Context::getCssFile(true) => $key, $css_file">
-	{@ $css_file_list[] = Context::getRequestUri() . $css_file['file']}
-</block>
 <!--@foreach($editor_additional_css as $additional_css_url)-->
 	{@ $css_file_list[] = $additional_css_url}
 <!--@endforeach-->
