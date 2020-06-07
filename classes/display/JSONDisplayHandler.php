@@ -60,6 +60,10 @@ class JSONDisplayHandler
 	 */
 	protected static function _isNumericArray($array)
 	{
+		if (!is_countable($array))
+		{
+			return false;
+		}
 		if (!is_array($array) || !count($array))
 		{
 			return false;

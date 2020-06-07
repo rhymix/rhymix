@@ -150,6 +150,8 @@ class Query extends BaseObject
 	function setColumnList($columnList)
 	{
 		$this->columnList = $columnList;
+		if (!is_countable($this->columnList)) return;
+		
 		if(count($this->columnList) > 0)
 		{
 			$selectColumns = array();

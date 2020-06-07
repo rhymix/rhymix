@@ -500,7 +500,7 @@ class Context
 		{
 			$config = Rhymix\Framework\Config::getAll();
 		}
-		if (!count($config))
+		if (!is_countable($config) || !count($config))
 		{
 			self::$_instance->db_info = self::$_instance->db_info ?: new stdClass;
 			return;
