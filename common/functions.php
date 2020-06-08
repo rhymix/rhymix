@@ -694,9 +694,10 @@ function is_empty_html_content($str)
 }
 
 /**
- * https://wiki.php.net/rfc/is-countable
  * Check if there is 'is_countable' function (PHP 7.3)
- * If there is no 'is_countable' function, define it for check Countable objects
+ * If there is no 'is_countable' function, define it to check for Countable objects.
+ * 
+ * cf. https://wiki.php.net/rfc/is-countable
  * 
  * @param string $str The input string
  * @return bool

@@ -967,8 +967,7 @@ class moduleController extends module
 	{
 		$this->deleteModuleExtraVars($module_srl);
 		getDestroyXeVars($obj);
-		if(!$obj || !is_countable($obj)) return;
-		if(!count($obj)) return;
+		if(!$obj || !is_countable($obj) || !count($obj)) return;
 
 		foreach($obj as $key => $val)
 		{
