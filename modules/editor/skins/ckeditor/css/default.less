@@ -34,7 +34,7 @@ html {
 		background-color: #fff;
 	}
 	body.cke_editable {
-		padding: 5px;
+		padding: 10px;
 		.light_dark(@colorset);
 	}
 }
@@ -49,6 +49,9 @@ p.editor_autosaved_message.autosave_message {
 span.cke_combo__fontsize {
 	.cke_combo_button {
 		width: 64px;
+		&:hover, &:focus {
+			transition-property: none;
+		}
 	}
 	.cke_combo_text {
 		width: 30px;
