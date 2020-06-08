@@ -1,13 +1,3 @@
-body.cke_editable { padding: 5px; background-color: #fff; }
-html.cke_panel_container, html.cke_panel_container body {
-	background-color: #fff
-}
-p.editor_autosaved_message.autosave_message {display:none;background: #f6ffdb;padding:6px 10px;margin:0;line-height:1;}
-span.cke_combo__fontsize .cke_combo_button { width: 64px;}
-span.cke_combo__fontsize .cke_combo_text { width: 30px; }
-
-
-
 /* Content Default Styles */
 .word_break(@wb) when (@wb = normal), (@wb = keep-all), (@wb = break-all) {
 	word-break: @wb;
@@ -29,6 +19,42 @@ span.cke_combo__fontsize .cke_combo_text { width: 30px; }
 .cont_linespacing(@ls) when not (@ls = '') {
 	margin: 0 0 @content_paragraph_spacing 0;
 }
+
+.light_dark(@cs) when (@cs = 'moono-dark') {
+	background-color: #212121;
+	color: #fff;
+}
+.light_dark(@cs) when not (@cs = 'moono-dark') {
+	background-color: #fff;
+	color: #000;
+}
+
+html {
+	&.cke_panel_container, &.cke_panel_container body {
+		background-color: #fff;
+	}
+	body.cke_editable {
+		padding: 5px;
+		.light_dark(@colorset)
+	}
+}
+
+p.editor_autosaved_message.autosave_message {
+	display:none;
+	background: #e0e0e0;
+	padding: 10px;
+	margin:0;
+	line-height:1.2;
+}
+span.cke_combo__fontsize {
+	.cke_combo_button {
+		width: 64px;
+	}
+	.cke_combo_text {
+		width: 30px;
+	}
+}
+
 
 .xe_content.editable, .rhymix_content.editable {
 	.cont_font(@content_font);
