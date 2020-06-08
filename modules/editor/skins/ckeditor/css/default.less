@@ -8,16 +8,27 @@
 	white-space: nowrap;
 }
 
-.cont_font(@ft) when not (@ft = '') {
+.cont_font(@ft) when (@ft = none) {
+}
+.cont_font(@ft) when not (@ft = none) {
 	font-family: @content_font;
 }
-.cont_fontsize(@fs) when not (@fs = '') {
+
+.cont_fontsize(@fs) when (@fs = none) {
+}
+.cont_fontsize(@fs) when not (@fs = none) {
 	font-size: @content_font_size;
 }
-.cont_lineheight(@lh) when not (@lh = '') {
+
+.cont_lineheight(@lh) when (@lh = none) {
+}
+.cont_lineheight(@lh) when not (@lh = none) {
 	line-height: @content_line_height;
 }
-.cont_linespacing(@ls) when not (@ls = '') {
+
+.cont_linespacing(@ls) when (@ls = none) {
+}
+.cont_linespacing(@ls) when not (@ls = none) {
 	margin: 0 0 @content_paragraph_spacing 0;
 }
 
@@ -25,19 +36,15 @@
 	background-color: #494949;
 	color: #fff;
 }
-
 .light_dark(@cs) when not (@cs = moono-dark) {
 	background-color: #fff;
 	color: #000;
 }
 
-
 .light_dark_top(@cs) when (@cs = moono-dark) {
 	border-bottom-color: #1b1b1b;
 }
-
 .light_dark_top(@cs) when not (@cs = moono-dark) {
-	
 }
 
 html {
