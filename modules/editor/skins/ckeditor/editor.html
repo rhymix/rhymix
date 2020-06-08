@@ -1,11 +1,12 @@
 <!-- css -->
 {@ $css_var = new stdClass; }
 {@ $css_var->colorset = $colorset; }
-<block cond="$content_font">{@ $css_var->content_font = $content_font; }</block>
-<block cond="$content_font_size">{@ $css_var->content_font_size =  $content_font_size;}</block>
-<block cond="$content_line_height">{@ $css_var->content_line_height = $content_line_height;}</block>
-<block cond="$content_word_break">{@ $css_var->content_word_break = $content_word_break;}</block>
-<block cond="$content_paragraph_spacing">{@ $css_var->content_paragraph_spacing = $content_paragraph_spacing;}</block>
+{@ $css_var->content_font = $content_font ? $content_font : ''; }</block>
+{@ $css_var->content_font_size =  $content_font_size ? $content_font_size : '';}
+{@ $css_var->content_line_height = $content_line_height ? $content_line_height: '';}
+{@ $css_var->content_word_break = $content_word_break ? $content_word_break : '';}
+{@ $css_var->content_paragraph_spacing = $content_paragraph_spacing ? $content_paragraph_spacing '';}
+
 {@ Context::set('css_var',$css_var);}
 <load target="css/default.less" var="$css_var" />
 <load target="../../../../common/xeicon/xeicon.min.css" />

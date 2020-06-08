@@ -17,16 +17,29 @@ span.cke_combo__fontsize .cke_combo_text { width: 30px; }
 	white-space: nowrap;
 }
 
-.xe_content.editable, .rhymix_content.editable {
+.cont_font(@ft) when not (@ft = '') {
 	font-family: @content_font;
+}
+.cont_fontsize(@fs) when not (@fs = '') {
 	font-size: @content_font_size;
+}
+.cont_lineheight(@lh) when not (@lh = '') {
 	line-height: @content_line_height;
+}
+.cont_linespacing(@ls) when not (@ls = '') {
+	margin: 0 0 @content_paragraph_spacing 0;
+}
+
+.xe_content.editable, .rhymix_content.editable {
+	.cont_font(@content_font);
+	.cont_fontsize(@content_font_size);
+	.cont_lineheight(@content_line_height);
 	.word_break(@content_word_break);
 	p {
-		margin: 0 0 @content_paragraph_spacing 0;
-		line-height: @content_line_height;
+		.cont_linespacing(@content_paragraph_spacing);
+		.cont_lineheight(@content_line_height);
 		span {
-			line-height: @content_line_height;
+			.cont_lineheight(@content_line_height);
 		}
 	}
 	img, video {
