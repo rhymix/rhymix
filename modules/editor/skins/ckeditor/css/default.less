@@ -20,11 +20,11 @@
 	margin: 0 0 @content_paragraph_spacing 0;
 }
 
-.light_dark(@cs) when (@cs = "moono-dark") {
-	background-color: #212121;
+.light_dark(@cs) when (@cs = moono-dark) {
+	background-color: #aeaeae;
 	color: #fff;
 }
-.light_dark(@cs) when not (@cs = "moono-dark") {
+.light_dark(@cs) when not (@cs = moono-dark) {
 	background-color: #fff;
 	color: #000;
 }
