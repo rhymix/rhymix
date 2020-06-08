@@ -1,0 +1,53 @@
+body.cke_editable { padding: 5px; background-color: #fff; }
+html.cke_panel_container, html.cke_panel_container body {
+	background-color: #fff
+}
+p.editor_autosaved_message.autosave_message {display:none;background: #f6ffdb;padding:6px 10px;margin:0;line-height:1;}
+span.cke_combo__fontsize .cke_combo_button { width: 64px;}
+span.cke_combo__fontsize .cke_combo_text { width: 30px; }
+
+
+
+/* Content Default Styles */
+.word_break(@wb) when (@wb = normal), (@wb = keep-all), (@wb = break-all) {
+	word-break: @wb;
+	word-wrap: break-word;
+}
+.word_break(@wb) when (@wb = none) {
+	white-space: nowrap;
+}
+
+.xe_content.editable, .rhymix_content.editable {
+	font-family: @content_font;
+	font-size: @content_font_size;
+	line-height: @content_line_height;
+	.word_break(@content_word_break);
+	p {
+		margin: 0 0 @content_paragraph_spacing 0;
+		line-height: @content_line_height;
+		span {
+			line-height: @content_line_height;
+		}
+	}
+	img, video {
+		max-width: 100%;
+		height: auto;
+	}
+	blockquote {
+		padding: 2px 0;
+		border-style: solid;
+		border-color: #ccc;
+		border-width: 0;
+		border-left-width: 5px;
+		padding-left: 20px;
+		padding-right: 8px;
+		
+		&:lang(ar), &:lang(arc), &:lang(dv), &:lang(ha), &:lang(he), &:lang(khw), &:lang(ks), &:lang(ku), &:lang(ps), &:lang(fa), &:lang(ur), &:lang(yi) {
+			border-left-width: 0px;
+			border-right-width: 5px;
+			padding-left: 8px;
+			padding-right: 20px;
+		
+		}
+	}
+}

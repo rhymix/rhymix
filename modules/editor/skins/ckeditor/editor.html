@@ -1,5 +1,13 @@
 <!-- css -->
-<load target="css/default.css" var="$colorset" />
+{@ $css_var = new stdClass; }
+{@ $css_var->colorset = $colorset; }
+<block cond="$content_font">{@ $css_var->content_font = $content_font; }</block>
+<block cond="$content_font_size">{@ $css_var->content_font_size =  $content_font_size;}</block>
+<block cond="$content_line_height">{@ $css_var->content_line_height = $content_line_height;}</block>
+<block cond="$content_word_break">{@ $css_var->content_word_break = $content_word_break;}</block>
+<block cond="$content_paragraph_spacing">{@ $css_var->content_paragraph_spacing = $content_paragraph_spacing;}</block>
+
+<load target="css/default.less" var="$css_var" />
 <load target="../../../../common/xeicon/xeicon.min.css" />
 
 <!-- JS -->
@@ -18,16 +26,6 @@ var auto_saved_msg = "{$lang->msg_auto_saved}";
 <!--@endforeach-->
 
 {@ $css_content = null }
-<!--@if($content_font || $content_font_size)-->
-	{@ $css_content .= ' .xe_content.editable { '}
-	<block cond="$content_font">{@ $css_content .= 'font-family:' . $content_font . ';';}</block>
-	<block cond="$content_font_size">{@ $css_content .= 'font-size:' . $content_font_size . ';';}</block>
-	<block cond="$content_line_height">{@ $css_content .= 'line-height:' . $content_line_height . ';';}</block>
-	<block cond="$content_word_break === 'none'">{@ $css_content .= 'white-space: nowrap;';}</block>
-	<block cond="$content_word_break !== 'none'">{@ $css_content .= 'word-break:' . ($content_word_break ?: 'normal') . '; word-wrap: break-word;';}</block>
-	{@ $css_content .= chr(125);}
-	{@ $css_content .= '.xe_content.editable p { margin: 0 0 ' . ($content_paragraph_spacing ?: 0) . ' 0;' . chr(125);}
-<!--@endif-->
 
 <!--@if($enable_autosave)-->
 <input type="hidden" name="_saved_doc_title" value="{escape($saved_doc->title)}" />
