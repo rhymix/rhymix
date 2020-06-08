@@ -692,3 +692,20 @@ function is_empty_html_content($str)
 	$str = utf8_trim(utf8_clean(html_entity_decode($str, ENT_QUOTES, 'UTF-8')));
 	return $str === '';
 }
+
+/**
+ * Check if there is 'is_countable' function (PHP 7.3)
+ * If there is no 'is_countable' function, define it to check for Countable objects.
+ * 
+ * cf. https://wiki.php.net/rfc/is-countable
+ * 
+ * @param string $str The input string
+ * @return bool
+**/
+if (!function_exists('is_countable'))
+{
+    function is_countable($var)
+	{
+        return is_array($var) || $var instanceof Countable;
+    }
+}
