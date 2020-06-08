@@ -111,14 +111,14 @@ var auto_saved_msg = "{$lang->msg_auto_saved}";
 			enableToolbar: true,
 			content_field: jQuery('[name={$editor_content_key_name}]')
 		};
-		if (parent && parent.document.location.host === document.location.host) {
-			$(parent.document.getElementsByTagName('link')).each(function() {
-				if ($(this).attr('rel') == 'stylesheet') {
-					settings.ckeconfig.contentsCss.push($(this).attr('href'));
-				}
-			});
-		}
 		
+		// Add style-sheet for the WYSIWYG
+		$(document.getElementsByTagName('link')).each(function() {
+			if ($(this).attr('rel') == 'stylesheet') {
+				settings.ckeconfig.contentsCss.push($(this).attr('href'));
+			}
+		});
+	
 		
 		// Prevent removal of icon fonts and Google code.
 		CKEDITOR.dtd.$removeEmpty.i = 0;
