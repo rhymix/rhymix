@@ -29,6 +29,12 @@
 	color: #000;
 }
 
+
+.light_dark_top(@cs) when (@cs = moono-dark) {
+	border-bottom-color: #1b1b1b;
+}
+
+
 html {
 	&.cke_panel_container, &.cke_panel_container body {
 		background-color: #fff;
@@ -46,18 +52,24 @@ p.editor_autosaved_message.autosave_message {
 	margin:0;
 	line-height:1.2;
 }
-span.cke_combo__fontsize {
-	.cke_combo_button {
-		width: 64px;
-		&:hover, &:focus {
-			transition-property: none;
+span {
+	&.cke_top {
+		.light_dark_top(@colorset);
+		a {
+			&:hover, &:focus {
+				transition: none;
+			}
 		}
 	}
-	.cke_combo_text {
-		width: 30px;
+	&.cke_combo__fontsize {
+		.cke_combo_button {
+			width: 64px;
+		}
+		.cke_combo_text {
+			width: 30px;
+		}
 	}
 }
-
 
 .xe_content.editable, .rhymix_content.editable {
 	.cont_font(@content_font);
