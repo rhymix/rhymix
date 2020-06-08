@@ -1,3 +1,4 @@
+@charset "UTF-8";
 /* Content Default Styles */
 .word_break(@wb) when (@wb = normal), (@wb = keep-all), (@wb = break-all) {
 	word-break: @wb;
@@ -24,6 +25,7 @@
 	background-color: #494949;
 	color: #fff;
 }
+
 .light_dark(@cs) when not (@cs = moono-dark) {
 	background-color: #fff;
 	color: #000;
@@ -34,6 +36,9 @@
 	border-bottom-color: #1b1b1b;
 }
 
+.light_dark_top(@cs) when not (@cs = moono-dark) {
+	
+}
 
 html {
 	&.cke_panel_container, &.cke_panel_container body {
@@ -72,6 +77,7 @@ p.editor_autosaved_message.autosave_message {
 		}
 	}
 }
+
 
 .xe_content.editable, .rhymix_content.editable {
 	.cont_font(@content_font);
