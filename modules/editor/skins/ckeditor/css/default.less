@@ -20,11 +20,11 @@
 	margin: 0 0 @content_paragraph_spacing 0;
 }
 
-.light_dark(@cs) when (@cs = 'moono-dark') {
+.light_dark(@cs) when (@cs = "moono-dark") {
 	background-color: #212121;
 	color: #fff;
 }
-.light_dark(@cs) when not (@cs = 'moono-dark') {
+.light_dark(@cs) when not (@cs = "moono-dark") {
 	background-color: #fff;
 	color: #000;
 }
@@ -35,7 +35,7 @@ html {
 	}
 	body.cke_editable {
 		padding: 5px;
-		.light_dark(@colorset)
+		.light_dark(@colorset);
 	}
 }
 
