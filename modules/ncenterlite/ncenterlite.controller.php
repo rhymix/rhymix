@@ -9,9 +9,10 @@ class ncenterliteController extends ncenterlite
 	 * @param int $to_member_srl Recipient
 	 * @param string $message Message content
 	 * @param string $url The URL to redirect to when the recipient clicks the notification
+	 * @param int $target_srl The sequence number associated with this notification
 	 * @return BaseObject
 	 */
-	public function sendNotification($from_member_srl, $to_member_srl, $message, $url)
+	public function sendNotification($from_member_srl, $to_member_srl, $message, $url, $target_srl = 0)
 	{
 		$args = new stdClass();
 		$args->config_type = 'custom';
@@ -20,7 +21,7 @@ class ncenterliteController extends ncenterlite
 		$args->type = 'X';
 		$args->srl = 0;
 		$args->target_p_srl = 0;
-		$args->target_srl = 0;
+		$args->target_srl = intval($target_srl);
 		$args->target_member_srl = intval($from_member_srl ?: $to_member_srl);
 		$args->target_type = $this->_TYPE_CUSTOM;
 		$args->target_url = $url;
