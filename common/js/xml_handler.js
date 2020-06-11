@@ -241,20 +241,18 @@
 			
 			// If the response contains an error, display the error message.
 			if(data.error != "0" && data.error > -1000) {
+				// Should not display the error message when the callback function returns false.
+				if ($.isFunction(callback_error) && callback_error(data) === false) {
+					return;
+				}
 				if(data.error == -1 && data.message == "admin.msg_is_not_administrator") {
 					alert("You are not logged in as an administrator.");
-					if ($.isFunction(callback_error)) {
-						callback_error(data);
-					}
 					return;
 				} else {
 					if (data.message) {
 						alert(data.message.replace(/\\n/g, "\n"));
 					} else {
 						alert("AJAX communication error while requesting " + request_info);
-					}
-					if ($.isFunction(callback_error)) {
-						callback_error(data);
 					}
 					return;
 				}
