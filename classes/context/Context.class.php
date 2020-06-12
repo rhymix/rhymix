@@ -249,7 +249,7 @@ class Context
 		// Set information about the current request.
 		self::_checkGlobalVars();
 		self::setRequestMethod();
-		self::setRequestArguments();
+		self::setRequestArguments(Rhymix\Framework\Router::getRequestArguments());
 		self::setUploadInfo();
 		
 		// Load system configuration.
@@ -1185,9 +1185,9 @@ class Context
 	 *
 	 * @return void
 	 */
-	public static function setRequestArguments()
+	public static function setRequestArguments($router_args = [])
 	{
-		foreach($_REQUEST as $key => $val)
+		foreach($router_args ?: $_REQUEST as $key => $val)
 		{
 			if($val === '' || isset(self::$_reserved_keys[$key]) || self::get($key))
 			{
@@ -1211,7 +1211,7 @@ class Context
 		}
 		
 		// Set deprecated request parameters.
-		if(!$_POST && !empty($GLOBALS['HTTP_RAW_POST_DATA']))
+		if($_SERVER['REQUEST_METHOD'] === 'POST' && !$_POST && !empty($GLOBALS['HTTP_RAW_POST_DATA']))
 		{
 			if(self::getRequestMethod() === 'XMLRPC')
 			{
@@ -1231,6 +1231,10 @@ class Context
 				
 				foreach((array)$params as $key => $val)
 				{
+					if (isset($router_args[$key]))
+					{
+						continue;
+					}
 					$key = escape($key);
 					$val = self::_filterXmlVars($key, $val);
 					self::set($key, $val, true);
@@ -1242,6 +1246,10 @@ class Context
 				parse_str($GLOBALS['HTTP_RAW_POST_DATA'], $params);	
 				foreach($params as $key => $val)
 				{
+					if (isset($router_args[$key]))
+					{
+						continue;
+					}
 					$key = escape($key);
 					$val = self::_filterRequestVar($key, $val);
 					self::set($key, $val, true);

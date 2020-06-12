@@ -13,32 +13,7 @@ RewriteRule ^(.+)/(addons|files|layouts|m\.layouts|modules|widgets|widgetstyles)
 RewriteCond %{SCRIPT_FILENAME} !-f
 RewriteRule ^(.+)\.min\.(css|js)$ ./$1.$2 [L]
 
-# rss, blogAPI
-RewriteRule ^(rss|atom)$ ./index.php?module=rss&act=$1 [L]
-RewriteRule ^([a-zA-Z0-9_]+)/(rss|atom|api)$ ./index.php?mid=$1&act=$2 [L]
-
-# trackback
-RewriteRule ^([0-9]+)/(.+)/trackback$ ./index.php?document_srl=$1&key=$2&act=trackback [L]
-RewriteRule ^([a-zA-Z0-9_]+)/([0-9]+)/(.+)/trackback$ ./index.php?mid=$1&document_srl=$2&key=$3&act=trackback [L]
-
-# document category
-RewriteRule ^([a-zA-Z0-9_]+)/category/([0-9]+)$ ./index.php?mid=$1&category=$2 [L,QSA]
-
-# document permanent link
-RewriteRule ^([0-9]+)$ ./index.php?document_srl=$1 [L,QSA]
-
-# admin module link
-RewriteRule ^admin/?$ ./index.php?module=admin [L,QSA]
-
-# mid link
+# all other short URLs
+RewriteCond %{SCRIPT_FILENAME} !-f
 RewriteCond %{SCRIPT_FILENAME} !-d
-RewriteRule ^([a-zA-Z0-9_]+)/?$ ./index.php?mid=$1 [L,QSA]
-
-# mid + document link
-RewriteRule ^([a-zA-Z0-9_]+)/([0-9]+)$ ./index.php?mid=$1&document_srl=$2 [L,QSA]
-
-# mid + entry title
-RewriteRule ^([a-zA-Z0-9_]+)/entry/(.+)$ ./index.php?mid=$1&entry=$2 [L,QSA]
-
-# file download
-RewriteRule ^files/download/([0-9]+)/([a-zA-Z0-9_-]+)/(.+)$ ./index.php?act=procFileOutput&file_srl=$1&file_key=$2&filename=$3 [L]
+RewriteRule . index.php [L]
