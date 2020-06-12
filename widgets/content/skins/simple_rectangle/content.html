@@ -1,4 +1,4 @@
-<load target="./js/content_widget.js" cond="$widget_info->page_count || count($widget_info->tab)" />
+<load target="./js/content_widget.js" cond="$widget_info->page_count || (is_countable($widget_info->tab) && count($widget_info->tab))" />
 <!--// Check layout. If it is Simple World, select layout primary colors as a primary color of this skin -->
 {@$layout_info = Context::get('layout_info')}
 <block cond="$layout_info->extra_var->primary_color->type === 'select' || $layout_info->extra_var->customized_primary_color->type === 'colorpicker'">
@@ -71,14 +71,16 @@
 <div class="widgetContainer">
 	<div class="simple_content">
 		<section class="simple_content">
-			<!--@if($widget_info->tab_type  == "tab_left" && count($widget_info->tab) > 1)-->
-				<!--#include("./_tab_left.html")-->
-			<!--@elseif($widget_info->tab_type == "tab_top" && count($widget_info->tab) > 1)-->
-				<!--#include("./_tab_top.html")-->
-			<!--@else-->
-				<!--@if($widget_info->tab_type  == "tab_left" || $widget_info->tab_type == "tab_top")-->
+			<!--@if(is_countable($widget_info->tab))-->
+				<!--@if($widget_info->tab_type  == "tab_left" && count($widget_info->tab) > 1)-->
+					<!--#include("./_tab_left.html")-->
+				<!--@elseif($widget_info->tab_type == "tab_top" && count($widget_info->tab) > 1)-->
+					<!--#include("./_tab_top.html")-->
+				<!--@elseif($widget_info->tab_type  == "tab_left" || $widget_info->tab_type == "tab_top")-->
 					{@$widget_info->content_items = $widget_info->tab[0]->content_items}
+					<!--#include("./_tab_none.html")-->
 				<!--@end-->
+			<!--@else-->
 				<!--#include("./_tab_none.html")-->
 			<!--@end-->
 		</section>
