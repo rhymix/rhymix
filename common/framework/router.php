@@ -16,7 +16,7 @@ class Router
         '(?<document_srl>[0-9]+)' => [],
         '(?<mid>[a-zA-Z0-9_-]+)/?' => [],
         '(?<mid>[a-zA-Z0-9_-]+)/(?<document_srl>[0-9]+)' => [],
-        '(?<mid>[a-zA-Z0-9_-]+)/category/(?<category_srl>[0-9]+)' => [],
+        '(?<mid>[a-zA-Z0-9_-]+)/category/(?<category>[0-9]+)' => [],
         '(?<mid>[a-zA-Z0-9_-]+)/entry/(?<entry>[^/]+)' => [],
         '(?<mid>[a-zA-Z0-9_-]+)/(?<act>rss|atom|api)' => [],
         'files/download/(?<file_srl>[0-9]+)/(?<file_key>[a-zA-Z0-9_-]+)/(?<filename>[^/]+)' => ['act' => 'procFileOutput'],
