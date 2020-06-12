@@ -700,7 +700,7 @@ class moduleModel extends module
 		if($info === null)
 		{
 			$info = Rhymix\Framework\Parsers\ModuleInfoParser::loadXML($xml_file);
-			Rhymix\Framework\Cache::set($cache_key, $info);
+			Rhymix\Framework\Cache::set($cache_key, $info, 0, true);
 		}
 		
 		return $info;
@@ -724,7 +724,7 @@ class moduleModel extends module
 		if($info === null)
 		{
 			$info = Rhymix\Framework\Parsers\ModuleActionParser::loadXML($xml_file);
-			Rhymix\Framework\Cache::set($cache_key, $info);
+			Rhymix\Framework\Cache::set($cache_key, $info, 0, true);
 		}
 		
 		return $info;
