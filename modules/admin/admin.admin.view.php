@@ -544,7 +544,7 @@ class adminAdminView extends admin
 		Context::set('selected_timezone', Rhymix\Framework\Config::get('locale.default_timezone'));
 		
 		// Other settings
-		Context::set('use_rewrite', Rhymix\Framework\Config::get('use_rewrite'));
+		Context::set('use_rewrite', Rhymix\Framework\Router::getRewriteLevel());
 		Context::set('use_mobile_view', (config('mobile.enabled') !== null ? config('mobile.enabled') : config('use_mobile_view')) ? true : false);
 		Context::set('tablets_as_mobile', config('mobile.tablets') ? true : false);
 		Context::set('mobile_viewport', config('mobile.viewport') ?: 'width=device-width, initial-scale=1.0, user-scalable=yes');
