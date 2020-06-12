@@ -159,16 +159,16 @@ class Router
         }
         
         // If $mid and $act exist, try routes defined in the module.
-        if (isset($args['mid']) && isset($args['act']))
+        if (isset($args['mid']) && isset($args['act']) && $rewrite_level == 2)
         {
+            // Remove $mid and $act from arguments and work with the remainder.
+            $remaining_args = array_diff_key($args, ['mid' => 'mid', 'act' => 'act']);
+            
             // Check if $act has any routes defined.
             $action_info = self::_getModuleActionInfo($args['mid']);
             $action = $action_info->action->{$args['act']};
             if ($action->route)
             {
-                // Remove $mid and $act from arguments and work with the remainder.
-                $remaining_args = array_diff_key($args, ['mid' => 'mid', 'act' => 'act']);
-                
                 // If the action only has one route, select it.
                 if (count($action->route) == 1)
                 {
@@ -209,6 +209,9 @@ class Router
                 // Add a query string for the remaining arguments.
                 return $replaced_route . (count($remaining_args) ? ('?' . http_build_query($remaining_args)) : '');
             }
+            
+            // Otherwise, try the generic mid/act pattern.
+            return $args['mid'] . '/' . $args['act'] . (count($remaining_args) ? ('?' . http_build_query($remaining_args)) : '');
         }
         
         // If no route matches, just create a query string.
