@@ -177,7 +177,7 @@ class ModuleActionParser
 	public static function analyzeRoute(string $route)
 	{
 		// Replace variables in the route definition into appropriate regexp.
-		$var_regexp = '#\\$([a-z0-9_]+)(?::(' . implode('|', array_keys(self::$_shortcuts)) . '))?#i';
+		$var_regexp = '#\\$([a-zA-Z0-9_]+)(?::(' . implode('|', array_keys(self::$_shortcuts)) . '))?#';
 		$vars = array();
 		$regexp = preg_replace_callback($var_regexp, function($match) use(&$vars) {
 			if (isset($match[2]) && isset(self::$_shortcuts[$match[2]]))
