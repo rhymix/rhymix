@@ -8,9 +8,9 @@ namespace Rhymix\Framework;
 class Router
 {
     /**
-     * List of XE-compatible rewrite rules.
+     * List of XE-compatible global routes.
      */
-    protected static $_xe_compatible_rules = array(
+    protected static $_global_routes = array(
         'admin' => ['module' => 'admin'],
         '(?<act>rss|atom)' => [],
         '(?<document_srl>[0-9]+)' => [],
@@ -49,6 +49,9 @@ class Router
      */
     public static function getRequestArguments(int $rewrite_level): array
     {
+        // Get the request method.
+        $method = $_SERVER['REQUEST_METHOD'] ?: 'GET';
+        
         // Get the local part of the current URL.
         $url = $_SERVER['REQUEST_URI'];
         if (starts_with(\RX_BASEURL, $url))
@@ -73,23 +76,36 @@ class Router
         }
         
         // Try to detect the prefix. This might be $mid.
-        if ($rewrite_level > 0 && preg_match('#^([a-zA-Z0-9_-]+)#', $url, $matches))
+        if ($rewrite_level > 1 && preg_match('#^([a-zA-Z0-9_-]+)(?:/(.*))?#s', $url, $matches))
         {
+            // Separate the prefix and the internal part of the URL.
             $prefix = $matches[1];
+            $internal_url = $matches[2] ?? '';
+            
+            // Get the list of routes defined by the module.
             $module_info = \ModuleModel::getModuleInfoByMid($prefix);
             if ($module_info && $module_info->module)
             {
-                // TODO
+                $action_info = \ModuleModel::getModuleActionXml($module_info->module);
+                foreach ($action_info->route->{$method} as $regexp => $action)
+                {
+                    if (preg_match($regexp, $internal_url, $matches))
+                    {
+                        $matches = array_filter($matches, 'is_string', \ARRAY_FILTER_USE_KEY);
+                        $allargs = array_merge(['mid' => $prefix, 'act' => $action], $matches, $args);
+                        return $allargs;
+                    }
+                }
             }
         }
         
-        // Try XE-compatible rules.
-        foreach (self::$_xe_compatible_rules as $regexp => $additional_args)
+        // Try XE-compatible global routes.
+        foreach (self::$_global_routes as $regexp => $additional_args)
         {
             if (preg_match('#^' . $regexp . '$#', $url, $matches))
             {
                 $matches = array_filter($matches, 'is_string', \ARRAY_FILTER_USE_KEY);
-                $allargs = array_merge($additional_args ?: [], $matches, $args ?: []);
+                $allargs = array_merge($additional_args ?: [], $matches, $args);
                 return $allargs;
             }
         }
