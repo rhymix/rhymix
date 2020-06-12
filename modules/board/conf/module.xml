@@ -57,12 +57,12 @@
 	</grants>
 	<actions>
 		<action name="dispBoardContent" type="view" permission="list" standalone="false" index="true" />
-		<action name="dispBoardWrite" type="view" permission="write_document" standalone="false" meta-noindex="true" />
-		<action name="dispBoardDelete" type="view" permission="write_document" standalone="false" meta-noindex="true" />
-		<action name="dispBoardWriteComment" type="view" permission="write_comment" standalone="false" meta-noindex="true" />
-		<action name="dispBoardReplyComment" type="view" permission="write_comment" standalone="false" meta-noindex="true" />
-		<action name="dispBoardModifyComment" type="view" permission="write_comment" standalone="false" meta-noindex="true" />
-		<action name="dispBoardDeleteComment" type="view" permission="write_comment" standalone="false" meta-noindex="true" />
+		<action name="dispBoardWrite" type="view" permission="write_document" standalone="false" meta-noindex="true" route="write(/$document_srl)?" />
+		<action name="dispBoardDelete" type="view" permission="write_document" standalone="false" meta-noindex="true" route="delete/$document_srl" />
+		<action name="dispBoardWriteComment" type="view" permission="write_comment" standalone="false" meta-noindex="true" route="comment/write/$document_srl" />
+		<action name="dispBoardReplyComment" type="view" permission="write_comment" standalone="false" meta-noindex="true" route="comment/reply/$comment_srl"/>
+		<action name="dispBoardModifyComment" type="view" permission="write_comment" standalone="false" meta-noindex="true" route="comment/edit/$comment_srl" />
+		<action name="dispBoardDeleteComment" type="view" permission="write_comment" standalone="false" meta-noindex="true" route="comment/delete/$comment_srl" />
 		<action name="dispBoardDeleteTrackback" type="view" permission="list,view" standalone="false" meta-noindex="true" />
 		<action name="dispBoardContentList" type="view" permission="list" standalone="false" />
 		<action name="dispBoardContentView" type="view" permission="view" standalone="false" />
