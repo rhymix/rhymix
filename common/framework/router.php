@@ -23,6 +23,12 @@ class Router
     );
     
     /**
+     * Internal cache for module actions.
+     */
+    protected static $_action_cache_prefix = array();
+    protected static $_action_cache_module = array();
+    
+    /**
      * Return the currently configured rewrite level.
      * 
      * 0 = None
@@ -83,12 +89,9 @@ class Router
             $internal_url = $matches[2] ?? '';
             
             // Find the module associated with this prefix.
-            $module_info = \ModuleModel::getModuleInfoByMid($prefix);
-            if ($module_info && $module_info->module)
+            $action_info = self::_getModuleActionInfo($prefix);
+            if ($action_info)
             {
-                // Get module actions.
-                $action_info = \ModuleModel::getModuleActionXml($module_info->module);
-                
                 // Try the list of routes defined by the module.
                 foreach ($action_info->route->{$method} as $regexp => $action)
                 {
@@ -122,5 +125,134 @@ class Router
         
         // If no pattern matches, return an empty array.
         return array();
+    }
+    
+    /**
+     * Create a URL for the given set of arguments.
+     * 
+     * @param array $args
+     * @param int $rewrite_level
+     * @return string
+     */
+    public static function getURLFromArguments(array $args, int $rewrite_level): string
+    {
+        // If rewrite is turned off, just create a query string.
+        if ($rewrite_level == 0)
+        {
+            return 'index.php?' . http_build_query($args);
+        }
+        
+        // Cache the number of arguments and their keys.
+        $count = count($args);
+        $keys = array_keys($args);
+        
+        // If there are no arguments, return the URL of the main page.
+        if ($count == 0)
+        {
+            return '';
+        }
+        
+        // If there is only one argument, try either $mid or $document_srl.
+        if ($count == 1 && ($keys[0] === 'mid' || $keys[0] === 'document_srl'))
+        {
+            return urlencode($args[$keys[0]]);
+        }
+        
+        // If $mid and $act exist, try routes defined in the module.
+        if (isset($args['mid']) && isset($args['act']))
+        {
+            // Check if $act has any routes defined.
+            $action_info = self::_getModuleActionInfo($args['mid']);
+            $action = $action_info->action->{$args['act']};
+            if ($action->route)
+            {
+                // Remove $mid and $act from arguments and work with the remainder.
+                $remaining_args = array_diff_key($args, ['mid' => 'mid', 'act' => 'act']);
+                
+                // If the action only has one route, select it.
+                if (count($action->route) == 1)
+                {
+                    $selected_route = key($action->route);
+                }
+                
+                // If the action has multiple routes, select the one that matches the most arguments.
+                else
+                {
+                    // Order the routes by the number of matched arguments.
+                    $reordered_routes = array();
+                    foreach ($action->route as $route => $route_vars)
+                    {
+                        $matched_arguments = array_intersect_key(array_combine($route_vars, $route_vars), $remaining_args);
+                        if (count($matched_arguments) === count($route_vars))
+                        {
+                            $reordered_routes[$route] = count($matched_arguments);
+                        }
+                    }
+                    arsort($reordered_routes);
+                    $selected_route = array_first_key($reordered_routes);
+                }
+                
+                // Replace variable placeholders with actual variable values.
+                $replaced_route = preg_replace_callback('#\\$([a-zA-Z0-9_]+)(?::[a-z]+)?#i', function($match) use(&$remaining_args) {
+                    if (isset($remaining_args[$match[1]]))
+                    {
+                        $replacement = urlencode($remaining_args[$match[1]]);
+                        unset($remaining_args[$match[1]]);
+                        return $replacement;
+                    }
+                    else
+                    {
+                        return $match[0];
+                    }
+                }, $selected_route);
+                
+                // Add a query string for the remaining arguments.
+                return $replaced_route . (count($remaining_args) ? ('?' . http_build_query($remaining_args)) : '');
+            }
+        }
+        
+        // If no route matches, just create a query string.
+        return 'index.php?' . http_build_query($args);
+    }
+    
+    /**
+     * Load and cache module action info.
+     * 
+     * @param string $prefix
+     * @return object
+     */
+    protected static function _getModuleActionInfo($prefix)
+    {
+        if (isset(self::$_action_cache_prefix[$prefix]))
+        {
+            if (self::$_action_cache_prefix[$prefix] && isset(self::$_action_cache_module[self::$_action_cache_prefix[$prefix]]))
+            {
+                return self::$_action_cache_module[self::$_action_cache_prefix[$prefix]];
+            }
+            else
+            {
+                return false;
+            }
+        }
+        
+        $module_info = \ModuleModel::getModuleInfoByMid($prefix);
+        if ($module_info && $module_info->module)
+        {
+            self::$_action_cache_prefix[$prefix] = $module_info->module;
+            if (isset(self::$_action_cache_module[$module_info->module]))
+            {
+                return self::$_action_cache_module[$module_info->module];
+            }
+            else
+            {
+                $action_info = \ModuleModel::getModuleActionXml($module_info->module);
+                return self::$_action_cache_module[$module_info->module] = $action_info;
+            }
+        }
+        else
+        {
+            self::$_action_cache_prefix[$prefix] = false;
+            return false;
+        }
     }
 }
