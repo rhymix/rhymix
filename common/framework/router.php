@@ -82,11 +82,14 @@ class Router
             $prefix = $matches[1];
             $internal_url = $matches[2] ?? '';
             
-            // Get the list of routes defined by the module.
+            // Find the module associated with this prefix.
             $module_info = \ModuleModel::getModuleInfoByMid($prefix);
             if ($module_info && $module_info->module)
             {
+                // Get module actions.
                 $action_info = \ModuleModel::getModuleActionXml($module_info->module);
+                
+                // Try the list of routes defined by the module.
                 foreach ($action_info->route->{$method} as $regexp => $action)
                 {
                     if (preg_match($regexp, $internal_url, $matches))
@@ -95,6 +98,13 @@ class Router
                         $allargs = array_merge(['mid' => $prefix, 'act' => $action], $matches, $args);
                         return $allargs;
                     }
+                }
+                
+                // Try the generic mid/act pattern.
+                if (preg_match('#^[a-zA-Z0-9_]+$#', $internal_url) && isset($action_info->action->{$internal_url}) && !$action_info->action->{$internal_url}->route)
+                {
+                    $allargs = array_merge(['mid' => $prefix, 'act' => $internal_url], $args);
+                    return $allargs;
                 }
             }
         }
