@@ -108,22 +108,19 @@ class ModuleActionParser
 			// Parse routes.
 			$route = trim($action['route']);
 			$method = trim($action['method']);
-			$route_vars = [];
+			$route_arg = [];
 			if ($route)
 			{
-				$route_info = self::analyzeRoute($route);
-				$route_vars = $route_info->vars;
-				if ($method)
+				$methods = $method ? explode('|', strtoupper($method)) : (starts_with('proc', $action_name) ? ['POST'] : ['GET']);
+				$routes = explode_with_escape('|', $route);
+				foreach ($routes as $route)
 				{
-					$methods = explode('|', strtoupper($method));
-				}
-				else
-				{
-					$methods = starts_with('proc', $action_name) ? ['POST'] : ['GET'];
-				}
-				foreach ($methods as $method)
-				{
-					$info->route->{$method}[$route_info->regexp] = $action_name;
+					$route_info = self::analyzeRoute($route);
+					$route_arg[$route] = $route_info->vars;
+					foreach ($methods as $method)
+					{
+						$info->route->{$method}[$route_info->regexp] = $action_name;
+					}
 				}
 			}
 			
@@ -133,8 +130,7 @@ class ModuleActionParser
 			$action_info->grant = trim($action['grant']) ?: 'guest';
 			$action_info->ruleset = trim($action['ruleset']);
 			$action_info->method = $method;
-			$action_info->route = $route;
-			$action_info->route_vars = $route_vars;
+			$action_info->route = $route_arg;
 			$action_info->standalone = trim($action['standalone']) === 'false' ? 'false' : 'true';
 			$action_info->check_csrf = (trim($action['check_csrf']) ?: trim($action['check-csrf'])) === 'false' ? 'false' : 'true';
 			$action_info->meta_noindex = (trim($action['meta_noindex']) ?: trim($action['meta-noindex'])) === 'true' ? 'true' : 'false';
