@@ -211,7 +211,7 @@ class moduleModel extends module
 	 */
 	public static function getModuleInfoByMid($mid, $site_srl = 0, $columnList = array())
 	{
-		if(!$mid || ($mid && !preg_match("/^[a-z][a-z0-9_]+$/i", $mid)))
+		if(!$mid || ($mid && !preg_match("/^[a-z][a-z0-9_-]+$/i", $mid)))
 		{
 			return;
 		}

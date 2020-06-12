@@ -44,9 +44,10 @@ class Router
     /**
      * Extract request arguments from the current URL.
      * 
+     * @param int $rewrite_level
      * @return array
      */
-    public static function getRequestArguments(): array
+    public static function getRequestArguments(int $rewrite_level): array
     {
         // Get the local part of the current URL.
         $url = $_SERVER['REQUEST_URI'];
@@ -69,6 +70,17 @@ class Router
         if ($url === '' || (function_exists('mb_check_encoding') && !mb_check_encoding($url, 'UTF-8')))
         {
             return array();
+        }
+        
+        // Try to detect the prefix. This might be $mid.
+        if ($rewrite_level > 0 && preg_match('#^([a-zA-Z0-9_-]+)#', $url, $matches))
+        {
+            $prefix = $matches[1];
+            $module_info = \ModuleModel::getModuleInfoByMid($prefix);
+            if ($module_info && $module_info->module)
+            {
+                // TODO
+            }
         }
         
         // Try XE-compatible rules.

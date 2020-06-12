@@ -9,12 +9,6 @@
 class Context
 {
 	/**
-	 * Allow rewrite
-	 * @var bool TRUE: using rewrite mod, FALSE: otherwise
-	 */
-	public $allow_rewrite = FALSE;
-
-	/**
 	 * Request method
 	 * @var string GET|POST|XMLRPC|JSON
 	 */
@@ -246,14 +240,14 @@ class Context
 			self::$_instance = self::getInstance();
 		}
 		
+		// Load system configuration.
+		self::loadDBInfo();
+		
 		// Set information about the current request.
 		self::_checkGlobalVars();
 		self::setRequestMethod();
-		self::setRequestArguments(Rhymix\Framework\Router::getRequestArguments());
+		self::setRequestArguments(Rhymix\Framework\Router::getRequestArguments(Rhymix\Framework\Router::getRewriteLevel()));
 		self::setUploadInfo();
-		
-		// Load system configuration.
-		self::loadDBInfo();
 		
 		// If Rhymix is installed, get virtual site information.
 		if(self::isInstalled())
@@ -266,8 +260,7 @@ class Context
 					define('RX_BASEURL', parse_url($default_url, PHP_URL_PATH));
 				}
 			}
-			$oModuleModel = ModuleModel::getInstance();
-			$site_module_info = $oModuleModel->getDefaultMid() ?: new stdClass;
+			$site_module_info = ModuleModel::getDefaultMid() ?: new stdClass;
 			self::set('site_module_info', $site_module_info);
 			self::set('_default_timezone', ($site_module_info->settings && $site_module_info->settings->timezone) ? $site_module_info->settings->timezone : null);
 			self::set('_default_url', self::$_instance->db_info->default_url = self::getDefaultUrl($site_module_info));
@@ -380,8 +373,6 @@ class Context
 		// set authentication information in Context and session
 		if (self::isInstalled())
 		{
-			$oModuleModel->loadModuleExtends();
-
 			if (Rhymix\Framework\Session::getMemberSrl())
 			{
 				MemberController::getInstance()->setSessionInfo();
@@ -507,7 +498,6 @@ class Context
 
 		// Copy to old format for backward compatibility.
 		self::$_instance->db_info = self::convertDBInfo($config);
-		self::$_instance->allow_rewrite = self::$_instance->db_info->use_rewrite === 'Y';
 	}
 
 	/**
@@ -1621,6 +1611,12 @@ class Context
 	{
 		static $current_domain = null;
 		static $site_module_info = null;
+		static $rewrite_level = null;
+		if ($rewrite_level === null)
+		{
+			$rewrite_level = Rhymix\Framework\Router::getRewriteLevel();
+		}
+		
 		if ($site_module_info === null)
 		{
 			$site_module_info = self::get('site_module_info');
@@ -1730,7 +1726,7 @@ class Context
 		if(count($get_vars) > 0)
 		{
 			// if using rewrite mod
-			if(self::$_instance->allow_rewrite)
+			if($rewrite_level)
 			{
 				$var_keys = array_keys($get_vars);
 				sort($var_keys);
@@ -2615,11 +2611,11 @@ class Context
 	/**
 	 * Check whether it is allowed to use rewrite mod
 	 *
-	 * @return bool True if it is allowed to use rewrite mod, otherwise FALSE
+	 * @return int The currently configured rewrite level
 	 */
 	public static function isAllowRewrite()
 	{
-		return self::$_instance->allow_rewrite;
+		return Rhymix\Framework\Router::getRewriteLevel();
 	}
 
 	/**
