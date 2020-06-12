@@ -707,10 +707,7 @@ class moduleModel extends module
 	}
 
 	/**
-	 * @brief Return permisson and action data by conf/module.xml in the module
-	 * Cache it because it takes too long to parse module.xml file
-	 * When caching, add codes so to include it directly
-	 * This is apparently good for performance, but not sure about its side-effects
+	 * @brief Return permisson and action data by conf/module.xml
 	 */
 	public static function getModuleActionXml($module)
 	{
@@ -721,7 +718,7 @@ class moduleModel extends module
 		if (!file_exists($xml_file)) return;
 		
 		// Load the XML file and cache the definition.
-		$mtim1 = filemtime($xml_file);
+		$mtime = filemtime($xml_file);
 		$cache_key = sprintf('site_and_module:module_info_xml:%s:%d', $module, $mtime);
 		$info = Rhymix\Framework\Cache::get($cache_key);
 		if($info === null)
