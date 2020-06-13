@@ -1482,8 +1482,7 @@ class ncenterliteController extends ncenterlite
 			return false;
 		}
 
-		$logged_info = Context::get('logged_info');
-		if($logged_info->member_srl == $args->member_srl)
+		if($this->user->member_srl == $args->member_srl)
 		{
 			return false;
 		}
