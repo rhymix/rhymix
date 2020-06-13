@@ -18,6 +18,7 @@ class ModuleActionParser
 		'alphanum' => '[a-zA-Z0-9]+',
 		'hex' => '[0-9a-f]+',
 		'word' => '[a-zA-Z0-9_]+',
+		'any' => '[^/]+',
 	);
 	
 	/**
@@ -106,17 +107,22 @@ class ModuleActionParser
 			}
 			
 			// Parse routes.
-			$route = trim($action['route']);
+			$route_attr = trim($action['route']);
+			$route_tags = $action->route;
 			$method = trim($action['method']);
 			$route_arg = [];
-			if ($route)
+			if ($route_attr || count($route_tags))
 			{
 				$methods = $method ? explode('|', strtoupper($method)) : (starts_with('proc', $action_name) ? ['POST'] : ['GET']);
-				$routes = explode_with_escape('|', $route);
+				$routes = $route_attr ? explode_with_escape('|', $route_attr) : array();
+				foreach ($route_tags as $route_tag)
+				{
+					$routes[] = trim($route_tag['route']);
+				}
 				foreach ($routes as $route)
 				{
 					$route_info = self::analyzeRoute($route);
-					$route_arg[$route] = $route_info->vars;
+					$route_arg[$route_info->route] = $route_info->vars;
 					foreach ($methods as $method)
 					{
 						$info->route->{$method}[$route_info->regexp] = $action_name;
@@ -180,16 +186,18 @@ class ModuleActionParser
 		$var_regexp = '#\\$([a-zA-Z0-9_]+)(?::(' . implode('|', array_keys(self::$_shortcuts)) . '))?#';
 		$vars = array();
 		$regexp = preg_replace_callback($var_regexp, function($match) use(&$vars) {
-			if (isset($match[2]) && isset(self::$_shortcuts[$match[2]]))
+			if (isset($match[2]))
 			{
+				$var_type = $match[2];
 				$var_pattern = self::$_shortcuts[$match[2]];
 			}
 			else
 			{
-				$var_pattern = ends_with('_srl', $match[1]) ? '[0-9]+' : '[^/]+';
+				$var_type = ends_with('_srl', $match[1]) ? 'number' : 'any';
+				$var_pattern = self::$_shortcuts[$var_type];
 			}
 			$named_group = '(?P<' . $match[1] . '>' . $var_pattern . ')';
-			$vars[] = $match[1];
+			$vars[$match[1]] = $var_type;
 			return $named_group;
 		}, $route);
 		
@@ -198,6 +206,7 @@ class ModuleActionParser
 		
 		// Return the regexp and variable list.
 		$result = new \stdClass;
+		$result->route = preg_replace($var_regexp, '\\$$1', $route);
 		$result->regexp = $regexp;
 		$result->vars = $vars;
 		return $result;

@@ -158,15 +158,20 @@ class Router
             return urlencode($args[$keys[0]]);
         }
         
-        // If $mid and $act exist, try routes defined in the module.
+        // If $mid exists, try routes defined in the module.
         if (isset($args['mid']) && isset($args['act']) && $rewrite_level == 2)
         {
             // Remove $mid and $act from arguments and work with the remainder.
             $remaining_args = array_diff_key($args, ['mid' => 'mid', 'act' => 'act']);
             
-            // Check if $act has any routes defined.
+            // Get module action info.
             $action_info = self::_getModuleActionInfo($args['mid']);
-            $action = $action_info->action->{$args['act']};
+            
+            // If there is no $act, use the default action.
+            $act = isset($args['act']) ? $args['act'] : $action_info->default_index_act;
+            
+            // Check if $act has any routes defined.
+            $action = $action_info->action->{$act};
             if ($action->route)
             {
                 // If the action only has one route, select it.
@@ -182,7 +187,7 @@ class Router
                     $reordered_routes = array();
                     foreach ($action->route as $route => $route_vars)
                     {
-                        $matched_arguments = array_intersect_key(array_combine($route_vars, $route_vars), $remaining_args);
+                        $matched_arguments = array_intersect_key($route_vars, $remaining_args);
                         if (count($matched_arguments) === count($route_vars))
                         {
                             $reordered_routes[$route] = count($matched_arguments);
@@ -213,6 +218,8 @@ class Router
             // Otherwise, try the generic mid/act pattern.
             return $args['mid'] . '/' . $args['act'] . (count($remaining_args) ? ('?' . http_build_query($remaining_args)) : '');
         }
+        
+        // Try XE-compatible global routes.
         
         // If no route matches, just create a query string.
         return 'index.php?' . http_build_query($args);
