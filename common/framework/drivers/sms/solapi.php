@@ -7,7 +7,7 @@ namespace Rhymix\Framework\Drivers\SMS;
  */
 class SolAPI extends Base implements \Rhymix\Framework\Drivers\SMSInterface
 {
-	private static $apiHost = 'https://api.solapi.com/messages/v4/';
+	private static $apiHost = 'https://api.solapi.com/';
 	private static $solapiConfig = null;
 	
 	/**
@@ -71,8 +71,9 @@ class SolAPI extends Base implements \Rhymix\Framework\Drivers\SMSInterface
 		{
 			return false;
 		}
-		$groupArray = array();
+		
 		$keyNumber = 0;
+		$groupArray = array();
 		foreach ($messages as $i => $message)
 		{
 			$options = new \stdClass;
@@ -107,9 +108,17 @@ class SolAPI extends Base implements \Rhymix\Framework\Drivers\SMSInterface
 			{
 				$options->subject = $message->subject;
 			}
+			else
+			{
+				if($message->type != 'SMS')
+				{
+					$options->subject = cut_str($message->content, 20);
+				}
+			}
 			if ($message->image)
 			{
-				$options->image = $message->image;
+				$output = self::uploadImage($message->image, $message->type);
+				$options->imageId = $output->fileId;
 			}
 
 			if ($samePhone)
@@ -138,14 +147,12 @@ class SolAPI extends Base implements \Rhymix\Framework\Drivers\SMSInterface
 		$jsonObject = new \stdClass();
 		$jsonObject->messages = json_encode($groupArray);
 
-		$url = "groups/{$groupId}/messages";
-		$result = json_decode(self::request("PUT", $url, $jsonObject));
+		$result = json_decode(self::request("PUT", "messages/v4/groups/{$groupId}/messages", $jsonObject));
 		if ($result->errorCount > 0)
 		{
 			return false;
 		}
-		$url = "groups/{$groupId}/send";
-		$result = json_decode(self::request("POST", $url));
+		$result = json_decode(self::request("POST", "messages/v4/groups/{$groupId}/send"));
 		if ($result->status != 'SENDING')
 		{
 			return false;
@@ -176,13 +183,21 @@ class SolAPI extends Base implements \Rhymix\Framework\Drivers\SMSInterface
 	{
 		$args = new \stdClass();
 		$args->appId = 'PAOe9c8ftH8R';
-		$result = self::request("POST", 'groups', $args);
+		$result = self::request("POST", 'messages/v4/groups', $args);
 		$groupId = json_decode($result)->groupId;
 		return $groupId;
 	}
 	
-	function sendMessage($groupId) {
-		
+	private static function uploadImage($imageDir, $type)
+	{
+		$path = $imageDir;
+		$data = file_get_contents($path);
+		$imageData = base64_encode($data);
+		$jsonData = new \stdClass();
+		$jsonData->file = $imageData;
+		$jsonData->type = $type;
+		$url = "storage/v1/files";
+		return json_decode(self::request('POST', $url, $jsonData));
 	}
 
 	/**
