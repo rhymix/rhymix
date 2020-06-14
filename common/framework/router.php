@@ -129,7 +129,7 @@ class Router
                 }
                 
                 // Try the generic mid/act pattern.
-                if (preg_match('#^[a-zA-Z0-9_]+$#', $internal_url) && isset($action_info->action->{$internal_url}) && !$action_info->action->{$internal_url}->route)
+                if (preg_match('#^[a-zA-Z0-9_]+$#', $internal_url))
                 {
                     $allargs = array_merge(['mid' => $prefix, 'act' => $internal_url], $args);
                     return $allargs;
