@@ -57,6 +57,7 @@
 	</grants>
 	<actions>
 		<action name="dispBoardContent" type="view" permission="list" standalone="false" index="true">
+			<route route="$document_srl:int" />
 			<route route="page/$page:int" />
 			<route route="search/$search_target/$search_keyword" />
 		</action>

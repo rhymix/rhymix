@@ -223,10 +223,13 @@ class Router
         // Try XE-compatible global routes.
         if ($rewrite_level >= 1)
         {
-            $result = self::_insertRouteVars(self::_getRearrangedGlobalRoutes(), $args);
-            if ($result !== false)
+            if (!isset($args['act']) || ($args['act'] === 'rss' || $args['act'] === 'atom'))
             {
-                return $result;
+                $result = self::_insertRouteVars(self::_getRearrangedGlobalRoutes(), $args);
+                if ($result !== false)
+                {
+                    return $result;
+                }
             }
         }
         
