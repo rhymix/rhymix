@@ -11,15 +11,44 @@ class Router
      * List of XE-compatible global routes.
      */
     protected static $_global_routes = array(
-        'admin' => ['module' => 'admin'],
-        '(?<act>rss|atom)' => [],
-        '(?<document_srl>[0-9]+)' => [],
-        '(?<mid>[a-zA-Z0-9_-]+)/?' => [],
-        '(?<mid>[a-zA-Z0-9_-]+)/(?<document_srl>[0-9]+)' => [],
-        '(?<mid>[a-zA-Z0-9_-]+)/category/(?<category>[0-9]+)' => [],
-        '(?<mid>[a-zA-Z0-9_-]+)/entry/(?<entry>[^/]+)' => [],
-        '(?<mid>[a-zA-Z0-9_-]+)/(?<act>rss|atom|api)' => [],
-        'files/download/(?<file_srl>[0-9]+)/(?<file_key>[a-zA-Z0-9_-]+)/(?<filename>[^/]+)' => ['act' => 'procFileOutput'],
+        '$act' => array(
+            'regexp' => '#^(?<act>rss|atom)$#',
+            'vars' => ['act' => 'word'],
+        ),
+        '$document_srl' => array(
+            'regexp' => '#^(?<document_srl>[0-9]+)$#',
+            'vars' => ['document_srl' => 'int'],
+        ),
+        '$mid' => array(
+            'regexp' => '#^(?<mid>[a-zA-Z0-9_-]+)/?$#',
+            'vars' => ['mid' => 'any'],
+        ),
+        '$mid/$document_srl' => array(
+            'regexp' => '#^(?<mid>[a-zA-Z0-9_-]+)/(?<document_srl>[0-9]+)$#',
+            'vars' => ['mid' => 'any', 'document_srl' => 'int'],
+        ),
+        '$mid/category/$category' => array(
+            'regexp' => '#^(?<mid>[a-zA-Z0-9_-]+)/category/(?<category>[0-9]+)$#',
+            'vars' => ['mid' => 'any', 'category' => 'int'],
+        ),
+        '$mid/entry/$entry' => array(
+            'regexp' => '#^(?<mid>[a-zA-Z0-9_-]+)/entry/(?<entry>[^/]+)$#',
+            'vars' => ['mid' => 'any', 'entry' => 'any'],
+        ),
+        '$mid/$act' => array(
+            'regexp' => '#^(?<mid>[a-zA-Z0-9_-]+)/(?<act>rss|atom|api)$#',
+            'vars' => ['mid' => 'any', 'act' => 'word'],
+        ),
+        'files/download/$file_srl/$file_key/$filename' => array(
+            'regexp' => '#^files/download/(?<file_srl>[0-9]+)/(?<file_key>[a-zA-Z0-9_-]+)/(?<filename>[^/]+)$#',
+            'vars' => ['file_srl' => 'int', 'file_key' => 'any', 'filename' => 'any'],
+            'extra_vars' => ['act' => 'procFileOutput'],
+        ),
+        'admin' => array(
+            'regexp' => '#^admin$#',
+            'vars' => [],
+            'extra_vars' => ['module' => 'admin'],
+        ),
     );
     
     /**
@@ -27,6 +56,7 @@ class Router
      */
     protected static $_action_cache_prefix = array();
     protected static $_action_cache_module = array();
+    protected static $_rearranged_global_routes = array();
     
     /**
      * Return the currently configured rewrite level.
@@ -89,7 +119,7 @@ class Router
             $internal_url = $matches[2] ?? '';
             
             // Find the module associated with this prefix.
-            $action_info = self::_getModuleActionInfo($prefix);
+            $action_info = self::_getActionInfoByPrefix($prefix);
             if ($action_info)
             {
                 // Try the list of routes defined by the module.
@@ -113,12 +143,12 @@ class Router
         }
         
         // Try XE-compatible global routes.
-        foreach (self::$_global_routes as $regexp => $additional_args)
+        foreach (self::$_global_routes as $route_info)
         {
-            if (preg_match('#^' . $regexp . '$#', $url, $matches))
+            if (preg_match($route_info['regexp'], $url, $matches))
             {
                 $matches = array_filter($matches, 'is_string', \ARRAY_FILTER_USE_KEY);
-                $allargs = array_merge($additional_args ?: [], $matches, $args);
+                $allargs = array_merge($route_info['extra_vars'] ?? [], $matches, $args);
                 return $allargs;
             }
         }
@@ -159,64 +189,40 @@ class Router
         }
         
         // If $mid exists, try routes defined in the module.
-        if (isset($args['mid']) && isset($args['act']) && $rewrite_level == 2)
+        if (isset($args['mid']) && $rewrite_level == 2)
         {
-            // Remove $mid and $act from arguments and work with the remainder.
-            $remaining_args = array_diff_key($args, ['mid' => 'mid', 'act' => 'act']);
+            // Remove $mid from arguments and work with the remainder.
+            $args2 = $args; unset($args2['mid'], $args2['act']);
             
             // Get module action info.
-            $action_info = self::_getModuleActionInfo($args['mid']);
+            $action_info = self::_getActionInfoByPrefix($args['mid']);
             
             // If there is no $act, use the default action.
             $act = isset($args['act']) ? $args['act'] : $action_info->default_index_act;
             
             // Check if $act has any routes defined.
-            $action = $action_info->action->{$act};
+            $action = $action_info->action->{$act} ?? null;
             if ($action->route)
             {
-                // If the action only has one route, select it.
-                if (count($action->route) == 1)
+                $result = self::_insertRouteVars($action->route, $args2);
+                if ($result !== false)
                 {
-                    $selected_route = key($action->route);
+                    return $args['mid'] . '/' . $result;
                 }
-                
-                // If the action has multiple routes, select the one that matches the most arguments.
-                else
+            }
+            
+            // Check XE-compatible routes that start with $mid and contain no $act.
+            if (!isset($args['act']))
+            {
+                $result = self::_insertRouteVars(self::_getRearrangedGlobalRoutes(), $args2);
+                if ($result !== false)
                 {
-                    // Order the routes by the number of matched arguments.
-                    $reordered_routes = array();
-                    foreach ($action->route as $route => $route_vars)
-                    {
-                        $matched_arguments = array_intersect_key($route_vars, $remaining_args);
-                        if (count($matched_arguments) === count($route_vars))
-                        {
-                            $reordered_routes[$route] = count($matched_arguments);
-                        }
-                    }
-                    arsort($reordered_routes);
-                    $selected_route = array_first_key($reordered_routes);
+                    return $result;
                 }
-                
-                // Replace variable placeholders with actual variable values.
-                $replaced_route = preg_replace_callback('#\\$([a-zA-Z0-9_]+)(?::[a-z]+)?#i', function($match) use(&$remaining_args) {
-                    if (isset($remaining_args[$match[1]]))
-                    {
-                        $replacement = urlencode($remaining_args[$match[1]]);
-                        unset($remaining_args[$match[1]]);
-                        return $replacement;
-                    }
-                    else
-                    {
-                        return $match[0];
-                    }
-                }, $selected_route);
-                
-                // Add a query string for the remaining arguments.
-                return $replaced_route . (count($remaining_args) ? ('?' . http_build_query($remaining_args)) : '');
             }
             
             // Otherwise, try the generic mid/act pattern.
-            return $args['mid'] . '/' . $args['act'] . (count($remaining_args) ? ('?' . http_build_query($remaining_args)) : '');
+            return $args['mid'] . '/' . $args['act'] . (count($args2) ? ('?' . http_build_query($args2)) : '');
         }
         
         // Try XE-compatible global routes.
@@ -231,38 +237,119 @@ class Router
      * @param string $prefix
      * @return object
      */
-    protected static function _getModuleActionInfo($prefix)
+    protected static function _getActionInfoByPrefix(string $prefix)
     {
         if (isset(self::$_action_cache_prefix[$prefix]))
         {
-            if (self::$_action_cache_prefix[$prefix] && isset(self::$_action_cache_module[self::$_action_cache_prefix[$prefix]]))
-            {
-                return self::$_action_cache_module[self::$_action_cache_prefix[$prefix]];
-            }
-            else
-            {
-                return false;
-            }
+            return self::_getActionInfoByModule(self::$_action_cache_prefix[$prefix]) ?: false;
         }
         
         $module_info = \ModuleModel::getModuleInfoByMid($prefix);
         if ($module_info && $module_info->module)
         {
             self::$_action_cache_prefix[$prefix] = $module_info->module;
-            if (isset(self::$_action_cache_module[$module_info->module]))
-            {
-                return self::$_action_cache_module[$module_info->module];
-            }
-            else
-            {
-                $action_info = \ModuleModel::getModuleActionXml($module_info->module);
-                return self::$_action_cache_module[$module_info->module] = $action_info;
-            }
+            return self::_getActionInfoByModule(self::$_action_cache_prefix[$prefix]) ?: false;
         }
         else
         {
-            self::$_action_cache_prefix[$prefix] = false;
-            return false;
+            return self::$_action_cache_prefix[$prefix] = false;
         }
+    }
+    
+    /**
+     * Load and cache module action info.
+     * 
+     * @param string $prefix
+     * @return object
+     */
+    protected static function _getActionInfoByModule(string $module)
+    {
+        if (isset(self::$_action_cache_module[$module]))
+        {
+            return self::$_action_cache_module[$module];
+        }
+        
+        $action_info = \ModuleModel::getModuleActionXml($module);
+        return self::$_action_cache_module[$module] = $action_info ?: false;
+    }
+    
+    /**
+     * Get rearranged global routes for argument matching.
+     * 
+     * @return array
+     */
+    protected static function _getRearrangedGlobalRoutes(): array
+    {
+        if (!self::$_rearranged_global_routes)
+        {
+            foreach (self::$_global_routes as $route_name => $route_info)
+            {
+                if (!strncmp($route_name, '$mid/', 5))
+                {
+                    self::$_rearranged_global_routes[$route_name] = $route_info['vars'];
+                }
+            }
+        }
+        
+        return self::$_rearranged_global_routes;
+    }
+    
+    /**
+     * Insert variables into a route.
+     * 
+     * @param array $routes
+     * @param array $vars
+     * @return string|false
+     */
+    protected static function _insertRouteVars(array $routes, array $vars)
+    {
+        // If the action only has one route, select it.
+        if (count($routes) == 1)
+        {
+            $selected_route = key($routes);
+            $matched_arguments = array_intersect_key($routes[$selected_route], $vars);
+            if (count($matched_arguments) !== count($routes[$selected_route]))
+            {
+                return false;
+            }
+        }
+        
+        // If the action has multiple routes, select the one that matches the most arguments.
+        else
+        {
+            // Order the routes by the number of matched arguments.
+            $reordered_routes = array();
+            foreach ($routes as $route => $route_vars)
+            {
+                $matched_arguments = array_intersect_key($route_vars, $vars);
+                if (count($matched_arguments) === count($route_vars))
+                {
+                    $reordered_routes[$route] = count($matched_arguments);
+                }
+            }
+            if (!count($reordered_routes))
+            {
+                return false;
+            }
+            arsort($reordered_routes);
+            $selected_route = array_first_key($reordered_routes);
+        }
+        
+        // Replace variable placeholders with actual variable values.
+        $composed_url = preg_replace_callback('#\\$([a-zA-Z0-9_]+)(?::[a-z]+)?#i', function($match) use(&$vars) {
+            if (isset($vars[$match[1]]))
+            {
+                $replacement = urlencode($vars[$match[1]]);
+                unset($vars[$match[1]]);
+                return $replacement;
+            }
+            else
+            {
+                return $match[0];
+            }
+        }, $selected_route);
+        
+        // Add a query string for the remaining arguments.
+        return $composed_url . (count($vars) ? ('?' . http_build_query($vars)) : '');
     }
 }
