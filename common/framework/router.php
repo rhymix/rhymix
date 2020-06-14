@@ -202,7 +202,7 @@ class Router
             
             // Check if $act has any routes defined.
             $action = $action_info->action->{$act} ?? null;
-            if ($action->route)
+            if ($action && $action->route)
             {
                 $result = self::_insertRouteVars($action->route, $args2);
                 if ($result !== false)
@@ -221,7 +221,7 @@ class Router
                 }
             }
             
-            // Otherwise, try the generic mid/act pattern.
+            // Try the generic mid/act pattern.
             return $args['mid'] . '/' . $args['act'] . (count($args2) ? ('?' . http_build_query($args2)) : '');
         }
         
