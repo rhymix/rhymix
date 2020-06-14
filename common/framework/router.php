@@ -11,6 +11,10 @@ class Router
      * List of XE-compatible global routes.
      */
     protected static $_global_routes = array(
+        '$mid' => array(
+            'regexp' => '#^(?<mid>[a-zA-Z0-9_-]+)/?$#',
+            'vars' => ['mid' => 'any'],
+        ),
         '$act' => array(
             'regexp' => '#^(?<act>rss|atom)$#',
             'vars' => ['act' => 'word'],
@@ -18,10 +22,6 @@ class Router
         '$document_srl' => array(
             'regexp' => '#^(?<document_srl>[0-9]+)$#',
             'vars' => ['document_srl' => 'int'],
-        ),
-        '$mid' => array(
-            'regexp' => '#^(?<mid>[a-zA-Z0-9_-]+)/?$#',
-            'vars' => ['mid' => 'any'],
         ),
         '$mid/$document_srl' => array(
             'regexp' => '#^(?<mid>[a-zA-Z0-9_-]+)/(?<document_srl>[0-9]+)$#',
@@ -43,11 +43,6 @@ class Router
             'regexp' => '#^files/download/(?<file_srl>[0-9]+)/(?<file_key>[a-zA-Z0-9_-]+)/(?<filename>[^/]+)$#',
             'vars' => ['file_srl' => 'int', 'file_key' => 'any', 'filename' => 'any'],
             'extra_vars' => ['act' => 'procFileOutput'],
-        ),
-        'admin' => array(
-            'regexp' => '#^admin$#',
-            'vars' => [],
-            'extra_vars' => ['module' => 'admin'],
         ),
     );
     
@@ -183,13 +178,13 @@ class Router
         }
         
         // If there is only one argument, try either $mid or $document_srl.
-        if ($count == 1 && ($keys[0] === 'mid' || $keys[0] === 'document_srl'))
+        if ($rewrite_level >= 1 && $count == 1 && ($keys[0] === 'mid' || $keys[0] === 'document_srl'))
         {
             return urlencode($args[$keys[0]]);
         }
         
         // If $mid exists, try routes defined in the module.
-        if (isset($args['mid']) && $rewrite_level == 2)
+        if ($rewrite_level >= 2 && isset($args['mid']))
         {
             // Remove $mid from arguments and work with the remainder.
             $args2 = $args; unset($args2['mid'], $args2['act']);
@@ -212,7 +207,7 @@ class Router
             }
             
             // Check XE-compatible routes that start with $mid and contain no $act.
-            if (!isset($args['act']))
+            if (!isset($args['act']) || ($args['act'] === 'rss' || $args['act'] === 'atom' || $args['act'] === 'api'))
             {
                 $result = self::_insertRouteVars(self::_getRearrangedGlobalRoutes(), $args2);
                 if ($result !== false)
@@ -226,6 +221,14 @@ class Router
         }
         
         // Try XE-compatible global routes.
+        if ($rewrite_level >= 1)
+        {
+            $result = self::_insertRouteVars(self::_getRearrangedGlobalRoutes(), $args);
+            if ($result !== false)
+            {
+                return $result;
+            }
+        }
         
         // If no route matches, just create a query string.
         return 'index.php?' . http_build_query($args);
@@ -284,10 +287,7 @@ class Router
         {
             foreach (self::$_global_routes as $route_name => $route_info)
             {
-                if (!strncmp($route_name, '$mid/', 5))
-                {
-                    self::$_rearranged_global_routes[$route_name] = $route_info['vars'];
-                }
+                self::$_rearranged_global_routes[$route_name] = $route_info['vars'];
             }
         }
         
