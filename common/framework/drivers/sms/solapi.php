@@ -65,8 +65,17 @@ class SolAPI extends Base implements \Rhymix\Framework\Drivers\SMSInterface
 	{
 		$keyNumber = 0;
 		$groupArray = array();
+		$groupMessage = false;
+		if(count($messages) > 1)
+		{
+			$groupMessage = true;
+		}
 		foreach ($messages as $i => $message)
 		{
+			if (count($message->to) > 1 && !$groupMessage)
+			{
+				$groupMessage = true;
+			}
 			$options = new \stdClass;
 			if ($this->_config['sender_key'])
 			{
@@ -78,15 +87,8 @@ class SolAPI extends Base implements \Rhymix\Framework\Drivers\SMSInterface
 				$options->type = $message->type;
 			}
 			$options->from = $message->from;
-			if (count($message->to) > 1)
-			{
-				$samePhone = true;
-			}
-			else
-			{
-				$sendToPhoneNumber = implode(',', $message->to);;
-			}
-			$options->to = $options->text = $message->content ?: $message->type;
+			$options->to = $message->to;
+			$options->text = $message->content ?: $message->type;
 			if ($message->delay && $message->delay > time())
 			{
 				$options->datetime = gmdate('YmdHis', $message->delay + (3600 * 9));
@@ -103,6 +105,7 @@ class SolAPI extends Base implements \Rhymix\Framework\Drivers\SMSInterface
 			{
 				if($message->type != 'SMS')
 				{
+					// 문자 전송 타입이 SMS이 아닐경우 subjext가 필수
 					$options->subject = cut_str($message->content, 20);
 				}
 			}
@@ -111,34 +114,13 @@ class SolAPI extends Base implements \Rhymix\Framework\Drivers\SMSInterface
 				$output = $this->uploadImage($message->image, $message->type);
 				$options->imageId = $output->fileId;
 			}
-
-			if ($samePhone)
-			{
-				// HACK : PHP7.3 에서 $groupArray 에 Value 를 넣으니 기존에 먼저 추가한 값들이 바뀌는 문제 발생되어서 새로운 오브젝트를 따로 넣도록함
-				$options = get_object_vars($options);
-				foreach ($message->to as $key => $value)
-				{
-					$args = new \stdClass();
-					foreach ($options as $kayName => $val)
-					{
-						$args->{$kayName} = $val;
-					}
-					$args->to = $value;
-					$groupArray[$keyNumber] = $args;
-					$keyNumber++;
-				}
-			}
-			else
-			{
-				$options->to = $sendToPhoneNumber;
-				$groupArray[$keyNumber] = $options;
-				$keyNumber++;
-			}
+			$groupArray[$keyNumber] = $options;
 		}
-		$jsonObject = new \stdClass();
-		$jsonObject->messages = json_encode($groupArray);
-		if(count($groupArray) > 1)
+		
+		if($groupMessage)
 		{
+			$jsonObject = new \stdClass();
+			$jsonObject->messages = json_encode($groupArray);
 			$groupId = $this->createGroup();
 			if(!$groupId)
 			{
@@ -159,6 +141,8 @@ class SolAPI extends Base implements \Rhymix\Framework\Drivers\SMSInterface
 		}
 		else
 		{
+			// simpleMessage 를 사용 할 경우 to가 array 타입이면 문자 전송이 되지 않아 string 으로 요청
+			$groupArray[0]->to = $groupArray[0]->to[0];
 			$simpleObject = new \stdClass();
 			$simpleObject->message = $groupArray[0];
 			$simpleObject->agent = new \stdClass();
