@@ -200,7 +200,13 @@ class SolAPI extends Base implements \Rhymix\Framework\Drivers\SMSInterface
 		$groupId = json_decode($result)->groupId;
 		return $groupId;
 	}
-	
+
+	/**
+	 * Upload to image for MMS message.
+	 * @param $imageDir
+	 * @param $type
+	 * @return mixed
+	 */
 	private function uploadImage($imageDir, $type)
 	{
 		$path = $imageDir;
