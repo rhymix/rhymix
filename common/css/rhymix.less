@@ -59,6 +59,43 @@ a img {
 		
 		}
 	}
+	
+
+	/* lists */
+	ul {
+		list-style-type: disc;
+	}
+	
+	ol {
+		list-style-type: decimal;
+	}
+	
+	ul, ol {
+		display: block;
+		margin-left: 1em;
+		margin-right: 0;
+		padding-left: 25px;
+		padding-right: 0;
+		&:lang(ar), &:lang(arc), &:lang(dv), &:lang(ha), &:lang(he), &:lang(khw), &:lang(ks), &:lang(ku), &:lang(ps), &:lang(fa), &:lang(ur), &:lang(yi) {
+			padding-left: 0px;
+			padding-right: 25px;
+			margin-left: 0;
+			margin-right: 1em;
+		}
+		li {
+			display: list-item;
+		}
+	}
+	
+	hr {
+		display: block;
+		border: 1px inset;
+		margin-left: 0.5em;
+		margin-right: 0.5em;
+		margin-inline: auto;
+		color: gray;
+		box-sizing: content-box;
+	}
 }
 @media screen {
 	img, video {
