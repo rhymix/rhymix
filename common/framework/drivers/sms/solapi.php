@@ -7,8 +7,7 @@ namespace Rhymix\Framework\Drivers\SMS;
  */
 class SolAPI extends Base implements \Rhymix\Framework\Drivers\SMSInterface
 {
-	private static $apiHost = 'https://api.solapi.com/';
-	private static $solapiConfig = null;
+	const appId = 'PAOe9c8ftH8R';
 	
 	/**
 	 * API specifications.
@@ -64,14 +63,6 @@ class SolAPI extends Base implements \Rhymix\Framework\Drivers\SMSInterface
 	 */
 	public function send(array $messages, \Rhymix\Framework\SMS $original)
 	{
-		//HACK(Rambo): static 에서 Config 를 사용할 일이 잇어서 static 맴버 변수에 다시 정의함.
-		self::$solapiConfig = $this->_config;
-		$groupId = self::createGroup();
-		if(!$groupId)
-		{
-			return false;
-		}
-		
 		$keyNumber = 0;
 		$groupArray = array();
 		foreach ($messages as $i => $message)
@@ -117,7 +108,7 @@ class SolAPI extends Base implements \Rhymix\Framework\Drivers\SMSInterface
 			}
 			if ($message->image)
 			{
-				$output = self::uploadImage($message->image, $message->type);
+				$output = $this->uploadImage($message->image, $message->type);
 				$options->imageId = $output->fileId;
 			}
 
@@ -146,49 +137,71 @@ class SolAPI extends Base implements \Rhymix\Framework\Drivers\SMSInterface
 		}
 		$jsonObject = new \stdClass();
 		$jsonObject->messages = json_encode($groupArray);
+		if(count($groupArray) > 1)
+		{
+			$groupId = $this->createGroup();
+			if(!$groupId)
+			{
+				return false;
+			}
 
-		$result = json_decode(self::request("PUT", "messages/v4/groups/{$groupId}/messages", $jsonObject));
-		if ($result->errorCount > 0)
-		{
-			return false;
+			$result = json_decode($this->request("PUT", "messages/v4/groups/{$groupId}/messages", $jsonObject));
+			if ($result->errorCount > 0)
+			{
+				return false;
+			}
+
+			$result = json_decode($this->request("POST", "messages/v4/groups/{$groupId}/send"));
+			if ($result->status != 'SENDING')
+			{
+				return false;
+			}
 		}
-		$result = json_decode(self::request("POST", "messages/v4/groups/{$groupId}/send"));
-		if ($result->status != 'SENDING')
+		else
 		{
-			return false;
+			$simpleObject = new \stdClass();
+			$simpleObject->message = $groupArray[0];
+			$simpleObject->agent = new \stdClass();
+			$simpleObject->agent->appId = self::appId;
+
+			$result = json_decode($this->request("POST", "messages/v4/send", $simpleObject));
+			if($result->errorCode)
+			{
+				return false;
+			}
 		}
-		
+
 		return true;
 	}
-
+	
 	/**
 	 * Create header string for http protocol
 	 * @param $config
 	 * @return string
 	 */
-	private static function getHeader($config)
+	private function getHeader()
 	{
 		date_default_timezone_set('Asia/Seoul');
 		$date = date('Y-m-d\TH:i:s.Z\Z', time());
 		$salt = uniqid();
-		$signature = hash_hmac('sha256', $date . $salt, $config['api_secret']);
-		return "Authorization: HMAC-SHA256 apiKey={$config['api_key']}, date={$date}, salt={$salt}, signature={$signature}";
+		$signature = hash_hmac('sha256', $date . $salt, $this->_config['api_secret']);
+		return "HMAC-SHA256 apiKey={$this->_config['api_key']}, date={$date}, salt={$salt}, signature={$signature}";
 	}
 
 	/**
 	 * Create message group
 	 * @return string : group id
 	 */
-	private static function createGroup()
+	private function createGroup()
 	{
 		$args = new \stdClass();
-		$args->appId = 'PAOe9c8ftH8R';
-		$result = self::request("POST", 'messages/v4/groups', $args);
+		$args->appId = self::appId;
+		$result = $this->request("POST", 'messages/v4/groups', $args);
 		$groupId = json_decode($result)->groupId;
 		return $groupId;
 	}
 	
-	private static function uploadImage($imageDir, $type)
+	private function uploadImage($imageDir, $type)
 	{
 		$path = $imageDir;
 		$data = file_get_contents($path);
@@ -197,7 +210,7 @@ class SolAPI extends Base implements \Rhymix\Framework\Drivers\SMSInterface
 		$jsonData->file = $imageData;
 		$jsonData->type = $type;
 		$url = "storage/v1/files";
-		return json_decode(self::request('POST', $url, $jsonData));
+		return json_decode($this->request('POST', $url, $jsonData));
 	}
 
 	/**
@@ -207,41 +220,20 @@ class SolAPI extends Base implements \Rhymix\Framework\Drivers\SMSInterface
 	 * @param bool $data
 	 * @return bool|string
 	 */
-	private static function request($method, $url, $data = false)
+	private function request($method, $url, $data = false)
 	{
-		$url = self::$apiHost . $url;
-		$curl = curl_init();
-		switch ($method)
+		$url = 'https://api.solapi.com/' . $url;
+		
+		if(!$data)
 		{
-			case "POST":
-				curl_setopt($curl, CURLOPT_CUSTOMREQUEST, "POST");
-				if ($data)
-				{
-					curl_setopt($curl, CURLOPT_POSTFIELDS, json_encode($data));
-				}
-				break;
-			case "PUT":
-				curl_setopt($curl, CURLOPT_CUSTOMREQUEST, "PUT");
-				if ($data)
-				{
-					curl_setopt($curl, CURLOPT_POSTFIELDS, json_encode($data));
-				}
-				break;
-			default:
-				if ($data)
-				{
-					$url = sprintf("%s?%s", $url, http_build_query($data));
-				}
+			$data = null;
 		}
-		curl_setopt($curl, CURLOPT_HTTPHEADER, array(self::getHeader(self::$solapiConfig), "Content-Type: application/json"));
-		curl_setopt($curl, CURLOPT_URL, $url);
-		curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
-		if (curl_error($curl))
+		else
 		{
-			print curl_error($curl);
+			$data = json_encode($data);
 		}
-		$result = curl_exec($curl);
-		curl_close($curl);
+		$result = \FileHandler::getRemoteResource($url, $data, 3, $method, 'application/json', array('Authorization' => $this->getHeader()));
+		
 		return $result;
 	}
 }
