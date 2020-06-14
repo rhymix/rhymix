@@ -1725,35 +1725,7 @@ class Context
 		$query = '';
 		if(count($get_vars) > 0)
 		{
-			// if using rewrite mod
-			if($rewrite_level)
-			{
-				$var_keys = array_keys($get_vars);
-				sort($var_keys);
-				$target = join('.', $var_keys);
-				$act = $get_vars['act'];
-				$mid = $get_vars['mid'];
-				$key = $get_vars['key'];
-				$srl = $get_vars['document_srl'];
-				$tmpArray = array('rss' => 1, 'atom' => 1, 'api' => 1);
-				$is_feed = isset($tmpArray[$act]);
-				$target_map = array(
-					'mid' => $mid,
-					'category.mid' => "$mid/category/" . $get_vars['category'],
-					'entry.mid' => "$mid/entry/" . $get_vars['entry'],
-					'document_srl' => $srl,
-					'document_srl.mid' => "$mid/$srl",
-					'act' => ($is_feed && $act !== 'api') ? $act : '',
-					'act.mid' => $is_feed ? "$mid/$act" : '',
-					'act.document_srl.key' => ($act == 'trackback') ? "$srl/$key/$act" : '',
-					'act.document_srl.key.mid' => ($act == 'trackback') ? "$mid/$srl/$key/$act" : '',
-				);
-				$query = $target_map[$target];
-			}
-			if(!$query && count($get_vars) > 0)
-			{
-				$query = 'index.php?' . http_build_query($get_vars);
-			}
+			$query = Rhymix\Framework\Router::getURLFromArguments($get_vars, $rewrite_level);
 		}
 		
 		// If using SSL always
