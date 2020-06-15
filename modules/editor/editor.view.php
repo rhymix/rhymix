@@ -29,7 +29,6 @@ class editorView extends editor
 		$oEditorModel = getModel('editor');
 		$option = $oEditorModel->getEditorConfig();
 		$option->editor_skin = 'ckeditor';
-		$option->content_style = 'ckeditor_light';
 		$option->sel_editor_colorset = 'moono-lisa';
 		$option->primary_key_name = 'primary_key';
 		$option->content_key_name = 'content';
@@ -141,16 +140,6 @@ class editorView extends editor
 		$skin_info = $oModuleModel->loadSkinInfo($this->module_path,$editor_config->comment_editor_skin);
 		Context::set('editor_comment_colorset_list', $skin_info->colorset);
 
-		$contents = FileHandler::readDir(_XE_PATH_.'modules/editor/styles');
-		$content_style_list = array();
-		for($i=0,$c=count($contents);$i<$c;$i++)
-		{
-			$style = $contents[$i];
-			$info = $oModuleModel->loadSkinInfo($this->module_path,$style,'styles');
-			$content_style_list[$style] = new stdClass();
-			$content_style_list[$style]->title = $info->title;
-		}
-		Context::set('content_style_list', $content_style_list);
 		// Get a group list
 		$oMemberModel = getModel('member');
 		$site_module_info = Context::get('site_module_info');
@@ -161,7 +150,6 @@ class editorView extends editor
 		$security = new Security();
 		$security->encodeHTML('group_list..title');
 		$security->encodeHTML('group_list..description');
-		$security->encodeHTML('content_style_list..');
 		$security->encodeHTML('editor_comment_colorset_list..title');
 
 		// Set a template file
