@@ -148,7 +148,7 @@ class SolAPI extends Base implements \Rhymix\Framework\Drivers\SMSInterface
 			$simpleObject->agent->appId = self::appId;
 
 			$result = json_decode($this->request("POST", "messages/v4/send", $simpleObject));
-			if($result->errorCode)
+			if(!$result || $result->errorCode)
 			{
 				return false;
 			}
