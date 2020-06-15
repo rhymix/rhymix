@@ -63,7 +63,6 @@ class SolAPI extends Base implements \Rhymix\Framework\Drivers\SMSInterface
 	 */
 	public function send(array $messages, \Rhymix\Framework\SMS $original)
 	{
-		$keyNumber = 0;
 		$groupArray = array();
 		$groupMessage = false;
 		if(count($messages) > 1)
@@ -114,7 +113,7 @@ class SolAPI extends Base implements \Rhymix\Framework\Drivers\SMSInterface
 				$output = $this->uploadImage($message->image, $message->type);
 				$options->imageId = $output->fileId;
 			}
-			$groupArray[$keyNumber] = $options;
+			$groupArray[] = $options;
 		}
 		
 		if($groupMessage)
@@ -128,13 +127,13 @@ class SolAPI extends Base implements \Rhymix\Framework\Drivers\SMSInterface
 			}
 
 			$result = json_decode($this->request("PUT", "messages/v4/groups/{$groupId}/messages", $jsonObject));
-			if ($result->errorCount > 0)
+			if(!$result || $result->errorCode)
 			{
 				return false;
 			}
 
 			$result = json_decode($this->request("POST", "messages/v4/groups/{$groupId}/send"));
-			if ($result->status != 'SENDING')
+			if (!$result || $result->status != 'SENDING')
 			{
 				return false;
 			}
