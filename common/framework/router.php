@@ -207,20 +207,20 @@ class Router
             $action = $action_info->action->{$act} ?? null;
             if ($action && $action->route)
             {
-                $result = self::_insertRouteVars($action->route, $args2);
+                $result = self::_getBestMatchingRoute($action->route, $args2);
                 if ($result !== false)
                 {
-                    return $args['mid'] . '/' . $result;
+                    return $args['mid'] . '/' . self::_insertRouteVars($result, $args2);
                 }
             }
             
             // Check XE-compatible routes that start with $mid and contain no $act.
             if (!isset($args['act']) || ($args['act'] === 'rss' || $args['act'] === 'atom' || $args['act'] === 'api'))
             {
-                $result = self::_insertRouteVars(self::$_global_routes, $args2);
+                $result = self::_getBestMatchingRoute(self::$_global_routes, $args2);
                 if ($result !== false)
                 {
-                    return $result;
+                    return self::_insertRouteVars($result, $args2);
                 }
             }
             
@@ -233,10 +233,10 @@ class Router
         {
             if (!isset($args['act']) || ($args['act'] === 'rss' || $args['act'] === 'atom'))
             {
-                $result = self::_insertRouteVars(self::$_global_routes, $args);
+                $result = self::_getBestMatchingRoute(self::$_global_routes, $args);
                 if ($result !== false)
                 {
-                    return $result;
+                    return self::_insertRouteVars($result, $args);
                 }
             }
         }
@@ -288,23 +288,24 @@ class Router
     }
     
     /**
-     * Insert variables into a route.
+     * Find the best matching route for an array of variables.
      * 
      * @param array $routes
      * @param array $vars
      * @return string|false
      */
-    protected static function _insertRouteVars(array $routes, array $vars)
+    protected static function _getBestMatchingRoute(array $routes, array $vars)
     {
         // If the action only has one route, select it.
         if (count($routes) == 1)
         {
-            $selected_route = key($routes);
-            $matched_arguments = array_intersect_key($routes[$selected_route]['vars'], $vars);
-            if (count($matched_arguments) !== count($routes[$selected_route]['vars']))
+            $only_route = key($routes);
+            $matched_arguments = array_intersect_key($routes[$only_route]['vars'], $vars);
+            if (count($matched_arguments) !== count($routes[$only_route]['vars']))
             {
                 return false;
             }
+            return $only_route;
         }
         
         // If the action has multiple routes, select the one that matches the most arguments.
@@ -325,11 +326,22 @@ class Router
                 return false;
             }
             arsort($reordered_routes);
-            $selected_route = array_first_key($reordered_routes);
+            $best_route = array_first_key($reordered_routes);
+            return $best_route;
         }
-        
+    }
+    
+    /**
+     * Insert variables into a route.
+     * 
+     * @param string $route
+     * @param array $vars
+     * @return string
+     */
+    protected static function _insertRouteVars(string $route, array $vars): string
+    {
         // Replace variable placeholders with actual variable values.
-        $composed_url = preg_replace_callback('#\\$([a-zA-Z0-9_]+)(?::[a-z]+)?#i', function($match) use(&$vars) {
+        $route = preg_replace_callback('#\\$([a-zA-Z0-9_]+)(?::[a-z]+)?#i', function($match) use(&$vars) {
             if (isset($vars[$match[1]]))
             {
                 $replacement = urlencode($vars[$match[1]]);
@@ -340,9 +352,9 @@ class Router
             {
                 return $match[0];
             }
-        }, $selected_route);
+        }, $route);
         
         // Add a query string for the remaining arguments.
-        return $composed_url . (count($vars) ? ('?' . http_build_query($vars)) : '');
+        return $route . (count($vars) ? ('?' . http_build_query($vars)) : '');
     }
 }
