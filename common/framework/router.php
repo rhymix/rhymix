@@ -136,6 +136,18 @@ class Router
                     }
                 }
                 
+                // Check other modules.
+                $all_routes = self::_getAllCachedRoutes();
+                foreach ($all_routes->{$method} as $regexp => $action)
+                {
+                    if (preg_match($regexp, $internal_url, $matches))
+                    {
+                        $matches = array_filter($matches, 'is_string', \ARRAY_FILTER_USE_KEY);
+                        $allargs = array_merge(['mid' => $prefix, 'act' => $action[1]], $matches, $args);
+                        return $allargs;
+                    }
+                }
+                
                 // Try the generic mid/act pattern.
                 if (preg_match('#^[a-zA-Z0-9_]+$#', $internal_url))
                 {
@@ -223,6 +235,18 @@ class Router
                 }
             }
             
+            // Check other modules for $act.
+            $all_routes = self::_getAllCachedRoutes();
+            if (isset($all_routes->reverse[$act]))
+            {
+                $result = self::_getBestMatchingRoute($all_routes->reverse[$act], $args2);
+                if ($result !== false)
+                {
+                    self::$_route_cache[$keys_string] = '$mid/' . $result . '$act:delete';
+                    return $args['mid'] . '/' . self::_insertRouteVars($result, $args2);
+                }
+            }
+            
             // Check XE-compatible routes that start with $mid and contain no $act.
             if (!isset($args['act']) || ($args['act'] === 'rss' || $args['act'] === 'atom' || $args['act'] === 'api'))
             {
@@ -298,6 +322,23 @@ class Router
         
         $action_info = \ModuleModel::getModuleActionXml($module);
         return self::$_action_cache_module[$module] = $action_info ?: false;
+    }
+    
+    /**
+     * Get the list of all cached routes from all modules.
+     * 
+     * @return object
+     */
+    protected static function _getAllCachedRoutes()
+    {
+		$cache_key = 'site_and_module:action_with_routes';
+		$result = Cache::get($cache_key);
+		if ($result === null)
+		{
+			$result = (object)array('GET' => [], 'POST' => [], 'reverse' => []);
+			Cache::set($cache_key, $result, 0, true);
+		}
+		return $result;
     }
     
     /**

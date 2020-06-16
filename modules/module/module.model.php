@@ -723,13 +723,36 @@ class moduleModel extends module
 		$info = Rhymix\Framework\Cache::get($cache_key);
 		if($info === null)
 		{
+			// Load the XML file.
 			$info = Rhymix\Framework\Parsers\ModuleActionParser::loadXML($xml_file);
+			
+			// Add all routes from the module to a global list.
+			$action_cache_key = 'site_and_module:action_with_routes';
+			$action_with_routes = Rhymix\Framework\Cache::get($action_cache_key) ?: (object)array('GET' => [], 'POST' => [], 'reverse' => []);
+			foreach ($info->route->GET as $regexp => $action)
+			{
+				$action_with_routes->GET[$regexp] = [$module, $action];
+			}
+			foreach ($info->route->POST as $regexp => $action)
+			{
+				$action_with_routes->POST[$regexp] = [$module, $action];
+			}
+			foreach ($info->action as $action_name => $action_info)
+			{
+				if (count($action_info->route) && $action_info->standalone !== 'false')
+				{
+					$action_with_routes->reverse[$action_name] = $action_info->route;
+				}
+			}
+			
+			// Set cache entries.
+			Rhymix\Framework\Cache::set($action_cache_key, $action_with_routes, 0, true);
 			Rhymix\Framework\Cache::set($cache_key, $info, 0, true);
 		}
 		
 		return $info;
 	}
-
+	
 	/**
 	 * Get a skin list for js API.
 	 * return void

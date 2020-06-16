@@ -2,20 +2,20 @@
 <module>
 	<grants />
 	<actions>
-		<action name="dispMemberSignUpForm" type="view" meta-noindex="true" />
-		<action name="dispMemberLoginForm" type="view" meta-noindex="true" />
+		<action name="dispMemberSignUpForm" type="view" meta-noindex="true" route="signup" />
+		<action name="dispMemberLoginForm" type="view" meta-noindex="true" route="login" />
 		<action name="dispMemberFindAccount" type="view" meta-noindex="true" />
 		<action name="dispMemberResendAuthMail" type="view" meta-noindex="true" />
-		<action name="dispMemberInfo" type="view" permission="member" meta-noindex="true" />
+		<action name="dispMemberInfo" type="view" permission="member" meta-noindex="true" route="member_info" />
 		<action name="dispMemberModifyInfo" type="view" permission="member" meta-noindex="true" />
 		<action name="dispMemberModifyPassword" type="view" permission="member" meta-noindex="true" />
 		<action name="dispMemberModifyEmailAddress" type="view" permission="member" meta-noindex="true" />
 		<action name="dispMemberLeave" type="view" permission="member" meta-noindex="true" />
-		<action name="dispMemberScrappedDocument" type="view" permission="member" meta-noindex="true" />
-		<action name="dispMemberSavedDocument" type="view" permission="member" meta-noindex="true" />
-		<action name="dispMemberOwnDocument" type="view" permission="member" meta-noindex="true" />
-		<action name="dispMemberOwnComment" type="view" permission="member" meta-noindex="true" />
-		<action name="dispMemberActiveLogins" type="view" permission="member" meta-noindex="true" />
+		<action name="dispMemberScrappedDocument" type="view" permission="member" meta-noindex="true" route="my_scrap" />
+		<action name="dispMemberSavedDocument" type="view" permission="member" meta-noindex="true" route="my_saved_documents" />
+		<action name="dispMemberOwnDocument" type="view" permission="member" meta-noindex="true" route="my_documents" />
+		<action name="dispMemberOwnComment" type="view" permission="member" meta-noindex="true" route="my_comments" />
+		<action name="dispMemberActiveLogins" type="view" permission="member" meta-noindex="true" route="active_logins" />
 		<action name="dispMemberModifyNicknameLog" type="view" permission="member" meta-noindex="true" />
 		<action name="dispMemberLogout" type="view" permission="member" meta-noindex="true" />
 		<action name="dispMemberSpammer" type="view" permission="manager" check_var="module_srl" meta-noindex="true" />
