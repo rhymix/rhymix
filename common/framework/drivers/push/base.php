@@ -21,7 +21,7 @@ abstract class Base implements \Rhymix\Framework\Drivers\PushInterface
 	/**
 	 * Direct invocation of the constructor is not permitted.
 	 */
-	protected function __construct(array $config): void
+	protected function __construct(array $config)
 	{
 		$this->_config = $config;
 	}
