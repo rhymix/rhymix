@@ -57,13 +57,19 @@
 	</grants>
 	<actions>
 		<action name="dispBoardContent" type="view" permission="list" standalone="false" index="true">
-			<route route="$document_srl:int" />
-			<route route="page/$page:int" />
-			<route route="search/$search_target/$search_keyword" />
+			<route route="$document_srl:int" priority="51" />
+			<route route="$document_srl:int/page/$page:int" priority="52" />
+			<route route="category/$category:int/search/$search_target:word/$search_keyword:any" priority="41" />
+			<route route="category/$category:int/search/$search_target:word/$search_keyword:any/page/$page:int" priority="42" />
+			<route route="search/$search_target:word/$search_keyword:any" priority="31" />
+			<route route="search/$search_target:word/$search_keyword:any/page/$page:int" priority="32" />
+			<route route="category/$category:int" priority="21" />
+			<route route="category/$category:int/page/$page:int" priority="22" />
+			<route route="page/$page:int" priority="10" />
 		</action>
 		<action name="dispBoardWrite" type="view" permission="write_document" standalone="false" meta-noindex="true">
 			<route route="write" />
-			<route route="$document_srl/edit" />
+			<route route="$document_srl:int/edit" />
 		</action>
 		<action name="dispBoardDelete" type="view" permission="write_document" standalone="false" meta-noindex="true" route="$document_srl/delete" />
 		<action name="dispBoardWriteComment" type="view" permission="write_comment" standalone="false" meta-noindex="true" route="$document_srl/comment" />

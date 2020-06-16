@@ -26,10 +26,12 @@ class Router
         '$mid/$document_srl' => array(
             'regexp' => '#^(?<mid>[a-zA-Z0-9_-]+)/(?<document_srl>[0-9]+)$#',
             'vars' => ['mid' => 'any', 'document_srl' => 'int'],
+            'priority' => 30,
         ),
         '$mid/category/$category' => array(
             'regexp' => '#^(?<mid>[a-zA-Z0-9_-]+)/category/(?<category>[0-9]+)$#',
             'vars' => ['mid' => 'any', 'category' => 'int'],
+            'priority' => 10,
         ),
         '$mid/entry/$entry' => array(
             'regexp' => '#^(?<mid>[a-zA-Z0-9_-]+)/entry/(?<entry>[^/]+)$#',
@@ -38,6 +40,7 @@ class Router
         '$mid/$act' => array(
             'regexp' => '#^(?<mid>[a-zA-Z0-9_-]+)/(?<act>rss|atom|api)$#',
             'vars' => ['mid' => 'any', 'act' => 'word'],
+            'priority' => 20,
         ),
         'files/download/$file_srl/$file_key/$filename' => array(
             'regexp' => '#^files/download/(?<file_srl>[0-9]+)/(?<file_key>[a-zA-Z0-9_-]+)/(?<filename>[^/]+)$#',
@@ -209,7 +212,7 @@ class Router
             // Check XE-compatible routes that start with $mid and contain no $act.
             if (!isset($args['act']) || ($args['act'] === 'rss' || $args['act'] === 'atom' || $args['act'] === 'api'))
             {
-                $result = self::_insertRouteVars(self::_getRearrangedGlobalRoutes(), $args2);
+                $result = self::_insertRouteVars(self::$_global_routes, $args2);
                 if ($result !== false)
                 {
                     return $result;
@@ -225,7 +228,7 @@ class Router
         {
             if (!isset($args['act']) || ($args['act'] === 'rss' || $args['act'] === 'atom'))
             {
-                $result = self::_insertRouteVars(self::_getRearrangedGlobalRoutes(), $args);
+                $result = self::_insertRouteVars(self::$_global_routes, $args);
                 if ($result !== false)
                 {
                     return $result;
@@ -280,24 +283,6 @@ class Router
     }
     
     /**
-     * Get rearranged global routes for argument matching.
-     * 
-     * @return array
-     */
-    protected static function _getRearrangedGlobalRoutes(): array
-    {
-        if (!self::$_rearranged_global_routes)
-        {
-            foreach (self::$_global_routes as $route_name => $route_info)
-            {
-                self::$_rearranged_global_routes[$route_name] = $route_info['vars'];
-            }
-        }
-        
-        return self::$_rearranged_global_routes;
-    }
-    
-    /**
      * Insert variables into a route.
      * 
      * @param array $routes
@@ -310,8 +295,8 @@ class Router
         if (count($routes) == 1)
         {
             $selected_route = key($routes);
-            $matched_arguments = array_intersect_key($routes[$selected_route], $vars);
-            if (count($matched_arguments) !== count($routes[$selected_route]))
+            $matched_arguments = array_intersect_key($routes[$selected_route]['vars'], $vars);
+            if (count($matched_arguments) !== count($routes[$selected_route]['vars']))
             {
                 return false;
             }
@@ -324,10 +309,10 @@ class Router
             $reordered_routes = array();
             foreach ($routes as $route => $route_vars)
             {
-                $matched_arguments = array_intersect_key($route_vars, $vars);
-                if (count($matched_arguments) === count($route_vars))
+                $matched_arguments = array_intersect_key($route_vars['vars'], $vars);
+                if (count($matched_arguments) === count($route_vars['vars']))
                 {
-                    $reordered_routes[$route] = count($matched_arguments);
+                    $reordered_routes[$route] = $route_vars['priority'] ?? count($matched_arguments);
                 }
             }
             if (!count($reordered_routes))

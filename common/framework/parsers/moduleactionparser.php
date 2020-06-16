@@ -55,7 +55,7 @@ class ModuleActionParser
 		$info->permission_check = new \stdClass;
 		
 		// Parse grants.
-		foreach ($xml->grants->grant as $grant)
+		foreach ($xml->grants->grant ?: [] as $grant)
 		{
 			$grant_info = new \stdClass;
 			$grant_info->title = self::_getElementsByLang($grant, 'title', $lang);
@@ -65,7 +65,7 @@ class ModuleActionParser
 		}
 		
 		// Parse permissions not defined in the <actions> section.
-		foreach ($xml->permissions->permission as $permission)
+		foreach ($xml->permissions->permission ?: [] as $permission)
 		{
 			$action_name = trim($permission['action']);
 			$permission = trim($permission['target']);
@@ -78,7 +78,7 @@ class ModuleActionParser
 		}
 		
 		// Parse menus.
-		foreach ($xml->menus->menu as $menu)
+		foreach ($xml->menus->menu ?: [] as $menu)
 		{
 			$menu_info = new \stdClass;
 			$menu_info->title = self::_getElementsByLang($menu, 'title', $lang);
@@ -90,7 +90,7 @@ class ModuleActionParser
 		}
 		
 		// Parse actions.
-		foreach ($xml->actions->action as $action)
+		foreach ($xml->actions->action ?: [] as $action)
 		{
 			// Parse permissions.
 			$action_name = trim($action['name']);
@@ -108,21 +108,23 @@ class ModuleActionParser
 			
 			// Parse routes.
 			$route_attr = trim($action['route']);
-			$route_tags = $action->route;
+			$route_tags = $action->route ?: [];
 			$method = trim($action['method']);
 			$route_arg = [];
 			if ($route_attr || count($route_tags))
 			{
 				$methods = $method ? explode('|', strtoupper($method)) : (starts_with('proc', $action_name) ? ['POST'] : ['GET']);
-				$routes = $route_attr ? explode_with_escape('|', $route_attr) : array();
+				$routes = $route_attr ? array_map(function($route) {
+					return ['route' => trim($route), 'priority' => 0];
+				}, explode_with_escape('|', $route_attr)) : array();
 				foreach ($route_tags as $route_tag)
 				{
-					$routes[] = trim($route_tag['route']);
+					$routes[] = ['route' => trim($route_tag['route']), 'priority' => intval($route_tag['priority'] ?: 0)];
 				}
 				foreach ($routes as $route)
 				{
 					$route_info = self::analyzeRoute($route);
-					$route_arg[$route_info->route] = $route_info->vars;
+					$route_arg[$route_info->route] = ['priority' => intval($route_info->priority), 'vars' => $route_info->vars];
 					foreach ($methods as $method)
 					{
 						$info->route->{$method}[$route_info->regexp] = $action_name;
@@ -177,10 +179,10 @@ class ModuleActionParser
 	/**
 	 * Convert route definition into a regular expression.
 	 * 
-	 * @param string $route
+	 * @param array $route
 	 * @return object
 	 */
-	public static function analyzeRoute(string $route)
+	public static function analyzeRoute(array $route)
 	{
 		// Replace variables in the route definition into appropriate regexp.
 		$var_regexp = '#\\$([a-zA-Z0-9_]+)(?::(' . implode('|', array_keys(self::$_shortcuts)) . '))?#';
@@ -199,14 +201,15 @@ class ModuleActionParser
 			$named_group = '(?P<' . $match[1] . '>' . $var_pattern . ')';
 			$vars[$match[1]] = $var_type;
 			return $named_group;
-		}, $route);
+		}, $route['route']);
 		
 		// Anchor the regexp at both ends.
 		$regexp = '#^' . strtr($regexp, ['#' => '\\#']) . '$#u';
 		
 		// Return the regexp and variable list.
 		$result = new \stdClass;
-		$result->route = preg_replace($var_regexp, '\\$$1', $route);
+		$result->route = preg_replace($var_regexp, '\\$$1', $route['route']);
+		$result->priority = $route['priority'] ?: 0;
 		$result->regexp = $regexp;
 		$result->vars = $vars;
 		return $result;
