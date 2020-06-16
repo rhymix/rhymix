@@ -35,6 +35,9 @@ $lang->cmd_advanced_mailer_api_type_free = '무료';
 $lang->cmd_advanced_mailer_api_type_paid = '유료';
 $lang->cmd_advanced_mailer_api_user = '아이디';
 $lang->cmd_advanced_mailer_api_pass = '비밀번호';
+$lang->cmd_advanced_mailer_fcm_api_key = 'FCM API 키';
+$lang->cmd_advanced_mailer_apns_certificate = 'APNs 인증서 파일';
+$lang->cmd_advanced_mailer_apns_passphrase = 'APNs 인증서 암호';
 $lang->cmd_advanced_mailer_sender_key = '센더 키';
 $lang->cmd_advanced_mailer_sender_identity = '보낸이 설정';
 $lang->cmd_advanced_mailer_about_sender_identity = '보낸이의 이름과 메일 주소는 <a href="index.php?module=admin&act=dispAdminConfigNotification" target="_blank">알림 설정</a> 화면에서 변경할 수 있습니다.';
@@ -103,6 +106,8 @@ $lang->msg_advanced_mailer_recipient_email_is_invalid = '받는이 메일 주소
 $lang->msg_advanced_mailer_test_success = '테스트에 성공하였습니다. 메일을 확인해 보시기 바랍니다.';
 $lang->msg_advanced_mailer_google_account_security = '아이디 또는 비밀번호가 틀렸거나, 구글 보안 설정 때문에 SMTP 접속이 차단되었습니다.<br />자세한 정보는 <a href="https://support.google.com/mail/answer/14257?hl=ko" target="_blank">여기</a>를 참고하시기 바랍니다.';
 $lang->msg_advanced_mailer_naver_smtp_disabled = '아이디 또는 비밀번호가 틀렸거나, 네이버 계정 환경설정에서 POP3/SMTP를 사용하지 않도록 설정되어 있습니다.';
+$lang->msg_advanced_mailer_sms_config_invalid = 'SMS API 설정에 잘못되었거나 누락된 부분이 있습니다. 확인해 주십시오.';
+$lang->msg_advanced_mailer_push_config_invalid = '푸시 알림 설정에 잘못되었거나 누락된 부분이 있습니다. 확인해 주십시오.';
 $lang->msg_advanced_mailer_unknown_error = '알 수 없는 오류가 발생하였습니다.';
 $lang->msg_advanced_mailer_log_is_empty = '표시할 항목이 없습니다.';
 $lang->cmd_advanced_mailer_status_sender = '보낸이';

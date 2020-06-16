@@ -424,6 +424,18 @@ class adminAdminView extends admin
 		Context::set('sms_drivers', $sms_drivers);
 		Context::set('sms_driver', config('sms.type') ?: 'dummy');
 		
+		// Load Push drivers.
+		$push_drivers = Rhymix\Framework\Push::getSupportedDrivers();
+		uasort($push_drivers, function($a, $b) { return strcmp($a['name'], $b['name']); });
+		Context::set('push_drivers', $push_drivers);
+		Context::set('push_config', config('push') ?: []);
+		$apns_certificate = false;
+		if ($apns_certificate_filename = config('push.apns.certificate'))
+		{
+			$apns_certificate = Rhymix\Framework\Storage::read($apns_certificate_filename);
+		}
+		Context::set('apns_certificate', $apns_certificate);
+		
 		// Workaround for compatibility with older version of Amazon SES driver.
 		config('mail.ses.api_key', config('mail.ses.api_user'));
 		config('mail.ses.api_secret', config('mail.ses.api_pass'));

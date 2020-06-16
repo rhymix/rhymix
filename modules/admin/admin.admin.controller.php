@@ -569,7 +569,7 @@ class adminAdminController extends admin
 			$conf_value = $vars->{'sms_' . $sms_driver . '_' . $conf_name} ?: null;
 			if (!$conf_value)
 			{
-				throw new Rhymix\Framework\Exception('msg_advanced_mailer_smtp_host_is_invalid');
+				throw new Rhymix\Framework\Exception('msg_advanced_mailer_sms_config_invalid');
 			}
 			$sms_driver_config[$conf_name] = $conf_value;
 		}
@@ -577,6 +577,61 @@ class adminAdminController extends admin
 		{
 			$conf_value = $vars->{'sms_' . $sms_driver . '_' . $conf_name} ?: null;
 			$sms_driver_config[$conf_name] = $conf_value;
+		}
+		
+		// Validate the selected Push drivers.
+		$push_config = array('types' => array());
+		$push_drivers = Rhymix\Framework\Push::getSupportedDrivers();
+		$push_driver_list = $vars->push_driver ?: [];
+		foreach ($push_driver_list as $driver_name)
+		{
+			if (array_key_exists($driver_name, $push_drivers))
+			{
+				$push_config['types'][$driver_name] = true;
+			}
+			else
+			{
+				throw new Rhymix\Framework\Exception('msg_advanced_mailer_sending_method_is_invalid');
+			}
+		}
+		
+		// Validate the Push driver settings.
+		foreach ($push_drivers as $driver_name => $driver_definition)
+		{
+			foreach ($push_drivers[$driver_name]['required'] as $conf_name)
+			{
+				$conf_value = utf8_trim($vars->{'push_' . $driver_name . '_' . $conf_name}) ?: null;
+				if (!$conf_value && in_array($driver_name, $push_driver_list))
+				{
+					throw new Rhymix\Framework\Exception('msg_advanced_mailer_push_config_invalid');
+				}
+				$push_config[$driver_name][$conf_name] = $conf_value;
+				
+				// Save certificates in a separate file and only store the filename in config.php.
+				if ($conf_name === 'certificate')
+				{
+					$filename = Rhymix\Framework\Config::get('push.' . $driver_name . '.certificate');
+					if (!$filename)
+					{
+						$filename = './files/config/' . $driver_name . '/cert-' . Rhymix\Framework\Security::getRandom(32) . '.pem';
+					}
+					
+					if ($conf_value !== null)
+					{
+						Rhymix\Framework\Storage::write($filename, $conf_value);
+						$push_config[$driver_name][$conf_name] = $filename;
+					}
+					elseif (Rhymix\Framework\Storage::exists($filename))
+					{
+						Rhymix\Framework\Storage::delete($filename);
+					}
+				}
+			}
+			foreach ($push_drivers[$driver_name]['optional'] as $conf_name)
+			{
+				$conf_value = utf8_trim($vars->{'push_' . $driver_name . '_' . $conf_name}) ?: null;
+				$push_config[$driver_name][$conf_name] = $conf_value;
+			}
 		}
 		
 		// Save advanced mailer config.
@@ -606,6 +661,7 @@ class adminAdminController extends admin
 		Rhymix\Framework\Config::set("sms.$sms_driver", $sms_driver_config);
 		Rhymix\Framework\Config::set("sms.allow_split.sms", toBool($vars->allow_split_sms));
 		Rhymix\Framework\Config::set("sms.allow_split.lms", toBool($vars->allow_split_lms));
+		Rhymix\Framework\Config::set("push", $push_config);
 		if (!Rhymix\Framework\Config::save())
 		{
 			throw new Rhymix\Framework\Exception('msg_failed_to_save_config');
