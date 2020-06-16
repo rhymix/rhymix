@@ -10,8 +10,18 @@ class APNs extends Base implements \Rhymix\Framework\Drivers\PushInterface
 	/**
 	 * Config keys used by this driver are stored here.
 	 */
-	protected static $_required_config = array();
+	protected static $_required_config = array('certificate', 'passphrase');
 	protected static $_optional_config = array();
+	
+	/**
+	 * Get the human-readable name of this Push driver.
+	 * 
+	 * @return string
+	 */
+	public static function getName(): string
+	{
+		return 'iOS (APNs)';
+	}
 	
 	/**
 	 * Check if the current Push driver is supported on this server.

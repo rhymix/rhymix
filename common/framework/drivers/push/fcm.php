@@ -10,11 +10,21 @@ class FCM extends Base implements \Rhymix\Framework\Drivers\PushInterface
 	/**
 	 * Config keys used by this driver are stored here.
 	 */
-	protected static $_required_config = array();
+	protected static $_required_config = array('api_key');
 	protected static $_optional_config = array();
 	
 	/**
-	 * Check if the current SMS driver is supported on this server.
+	 * Get the human-readable name of this Push driver.
+	 * 
+	 * @return string
+	 */
+	public static function getName(): string
+	{
+		return 'Android (FCM)';
+	}
+	
+	/**
+	 * Check if the current Push driver is supported on this server.
 	 * 
 	 * This method returns true on success and false on failure.
 	 * 
