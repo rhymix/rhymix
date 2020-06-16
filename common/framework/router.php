@@ -55,11 +55,11 @@ class Router
     );
     
     /**
-     * Internal cache for module actions.
+     * Internal cache for module and route information.
      */
     protected static $_action_cache_prefix = array();
     protected static $_action_cache_module = array();
-    protected static $_rearranged_global_routes = array();
+    protected static $_route_cache = array();
     
     /**
      * Return the currently configured rewrite level.
@@ -191,6 +191,14 @@ class Router
             return urlencode($args[$keys[0]]);
         }
         
+        // If the list of keys is already cached, return the corresponding route.
+        $keys_sorted = $keys; sort($keys_sorted);
+        $keys_string = implode('.', $keys_sorted) . ':' . ($args['mid'] ?? '') . ':' . ($args['act'] ?? '');
+        if (isset(self::$_route_cache[$keys_string]))
+        {
+            return self::_insertRouteVars(self::$_route_cache[$keys_string], $args);
+        }
+        
         // If $mid exists, try routes defined in the module.
         if ($rewrite_level >= 2 && isset($args['mid']))
         {
@@ -210,6 +218,7 @@ class Router
                 $result = self::_getBestMatchingRoute($action->route, $args2);
                 if ($result !== false)
                 {
+                    self::$_route_cache[$keys_string] = '$mid/' . $result . '$act:delete';
                     return $args['mid'] . '/' . self::_insertRouteVars($result, $args2);
                 }
             }
@@ -220,11 +229,13 @@ class Router
                 $result = self::_getBestMatchingRoute(self::$_global_routes, $args2);
                 if ($result !== false)
                 {
+                    self::$_route_cache[$keys_string] = $result;
                     return self::_insertRouteVars($result, $args2);
                 }
             }
             
             // Try the generic mid/act pattern.
+            self::$_route_cache[$keys_string] = '$mid/$act';
             return $args['mid'] . '/' . $args['act'] . (count($args2) ? ('?' . http_build_query($args2)) : '');
         }
         
@@ -236,12 +247,14 @@ class Router
                 $result = self::_getBestMatchingRoute(self::$_global_routes, $args);
                 if ($result !== false)
                 {
+                    self::$_route_cache[$keys_string] = $result;
                     return self::_insertRouteVars($result, $args);
                 }
             }
         }
         
         // If no route matches, just create a query string.
+        self::$_route_cache[$keys_string] = 'index.php';
         return 'index.php?' . http_build_query($args);
     }
     
@@ -341,12 +354,12 @@ class Router
     protected static function _insertRouteVars(string $route, array $vars): string
     {
         // Replace variable placeholders with actual variable values.
-        $route = preg_replace_callback('#\\$([a-zA-Z0-9_]+)(?::[a-z]+)?#i', function($match) use(&$vars) {
+        $route = preg_replace_callback('#\\$([a-zA-Z0-9_]+)(:[a-z]+)?#i', function($match) use(&$vars) {
             if (isset($vars[$match[1]]))
             {
                 $replacement = urlencode($vars[$match[1]]);
                 unset($vars[$match[1]]);
-                return $replacement;
+                return (isset($match[2]) && $match[2] === ':delete') ? '' : $replacement;
             }
             else
             {
