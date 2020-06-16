@@ -14,14 +14,17 @@ class Router
         '$mid' => array(
             'regexp' => '#^(?<mid>[a-zA-Z0-9_-]+)/?$#',
             'vars' => ['mid' => 'any'],
+            'priority' => 0,
         ),
         '$act' => array(
             'regexp' => '#^(?<act>rss|atom)$#',
             'vars' => ['act' => 'word'],
+            'priority' => 0,
         ),
         '$document_srl' => array(
             'regexp' => '#^(?<document_srl>[0-9]+)$#',
             'vars' => ['document_srl' => 'int'],
+            'priority' => 0,
         ),
         '$mid/$document_srl' => array(
             'regexp' => '#^(?<mid>[a-zA-Z0-9_-]+)/(?<document_srl>[0-9]+)$#',
@@ -36,6 +39,7 @@ class Router
         '$mid/entry/$entry' => array(
             'regexp' => '#^(?<mid>[a-zA-Z0-9_-]+)/entry/(?<entry>[^/]+)$#',
             'vars' => ['mid' => 'any', 'entry' => 'any'],
+            'priority' => 0,
         ),
         '$mid/$act' => array(
             'regexp' => '#^(?<mid>[a-zA-Z0-9_-]+)/(?<act>rss|atom|api)$#',
@@ -46,6 +50,7 @@ class Router
             'regexp' => '#^files/download/(?<file_srl>[0-9]+)/(?<file_key>[a-zA-Z0-9_-]+)/(?<filename>[^/]+)$#',
             'vars' => ['file_srl' => 'int', 'file_key' => 'any', 'filename' => 'any'],
             'extra_vars' => ['act' => 'procFileOutput'],
+            'priority' => 0,
         ),
     );
     
@@ -312,7 +317,7 @@ class Router
                 $matched_arguments = array_intersect_key($route_vars['vars'], $vars);
                 if (count($matched_arguments) === count($route_vars['vars']))
                 {
-                    $reordered_routes[$route] = $route_vars['priority'] ?? count($matched_arguments);
+                    $reordered_routes[$route] = $route_vars['priority'] ?: count($matched_arguments);
                 }
             }
             if (!count($reordered_routes))
