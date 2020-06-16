@@ -246,7 +246,15 @@ class Context
 		// Set information about the current request.
 		self::_checkGlobalVars();
 		self::setRequestMethod();
-		self::setRequestArguments(Rhymix\Framework\Router::getRequestArguments(Rhymix\Framework\Router::getRewriteLevel()));
+		if (in_array(self::$_instance->request_method, array('GET', 'POST')))
+		{
+			$args = Rhymix\Framework\Router::getRequestArguments(Rhymix\Framework\Router::getRewriteLevel());
+		}
+		else
+		{
+			$args = array();
+		}
+		self::setRequestArguments($args);
 		self::setUploadInfo();
 		
 		// If Rhymix is installed, get virtual site information.
@@ -1173,9 +1181,10 @@ class Context
 	/**
 	 * handle request arguments for GET/POST
 	 *
+	 * @param array $router_args
 	 * @return void
 	 */
-	public static function setRequestArguments($router_args = [])
+	public static function setRequestArguments(array $router_args = [])
 	{
 		foreach($router_args ?: $_REQUEST as $key => $val)
 		{
@@ -1186,7 +1195,7 @@ class Context
 			
 			$key = escape($key);
 			$val = self::_filterRequestVar($key, $val);
-			$set_to_vars = false;
+			$set_to_vars = $router_args ? true : false;
 			
 			if($_SERVER['REQUEST_METHOD'] === 'GET' && isset($_GET[$key]))
 			{
