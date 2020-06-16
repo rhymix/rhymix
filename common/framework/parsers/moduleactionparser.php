@@ -11,11 +11,10 @@ class ModuleActionParser
 	 * Shortcuts for route definition.
 	 */
 	protected static $_shortcuts = array(
-		'int' => '[1-9][0-9]*',
+		'int' => '[0-9]+',
 		'float' => '[0-9]+(?:\.[0-9]+)?',
-		'number' => '[0-9]+',
 		'alpha' => '[a-zA-Z]+',
-		'alphanum' => '[a-zA-Z0-9]+',
+		'alnum' => '[a-zA-Z0-9]+',
 		'hex' => '[0-9a-f]+',
 		'word' => '[a-zA-Z0-9_]+',
 		'any' => '[^/]+',
