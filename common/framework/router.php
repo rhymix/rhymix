@@ -403,7 +403,7 @@ class Router
             }
             else
             {
-                return $match[0];
+                return '';
             }
         }, $route);
         
