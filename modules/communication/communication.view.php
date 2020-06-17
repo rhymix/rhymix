@@ -294,13 +294,12 @@ class communicationView extends communication
 		$oCommunicationModel = getModel('communication');
 
 		// get a group list
+		$friend_group_list = array();
 		$tmp_group_list = $oCommunicationModel->getFriendGroups();
 		if (is_countable($tmp_group_list))
 		{
 			$group_count = count($tmp_group_list);
 			
-			// initiation
-			$friend_group_list = array();
 			for($i = 0; $i < $group_count; $i++)
 			{
 				$friend_group_list[$tmp_group_list[$i]->friend_group_srl] = $tmp_group_list[$i];
