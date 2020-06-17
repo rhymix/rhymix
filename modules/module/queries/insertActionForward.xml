@@ -6,5 +6,8 @@
         <column name="act" var="act" notnull="notnull" />
         <column name="module" var="module" notnull="notnull" />
         <column name="type" var="type" notnull="notnull" />
+        <column name="route_method" var="route_method" />
+        <column name="route_regexp" var="route_regexp" />
+        <column name="route_config" var="route_config" />
     </columns>
 </query>

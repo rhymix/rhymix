@@ -131,6 +131,11 @@ class module extends ModuleObject
 		{
 			return true;
 		}
+		
+		// check route columns in action_forward table
+		if(!$oDB->isColumnExists('action_forward', 'route_method')) return true;
+		if(!$oDB->isColumnExists('action_forward', 'route_regexp')) return true;
+		if(!$oDB->isColumnExists('action_forward', 'route_config')) return true;
 	}
 
 	/**
@@ -447,6 +452,20 @@ class module extends ModuleObject
 			{
 				$oDB->addIndex('module_part_config', 'unique_module_part_config', array('module', 'module_srl'), false);
 			}
+		}
+		
+		// check route columns in action_forward table
+		if(!$oDB->isColumnExists('action_forward', 'route_method'))
+		{
+			$oDB->addColumn('action_forward', 'route_method', 'varchar', 30);
+		}
+		if(!$oDB->isColumnExists('action_forward', 'route_regexp'))
+		{
+			$oDB->addColumn('action_forward', 'route_regexp', 'varchar', 180);
+		}
+		if(!$oDB->isColumnExists('action_forward', 'route_config'))
+		{
+			$oDB->addColumn('action_forward', 'route_config', 'text');
 		}
 	}
 	

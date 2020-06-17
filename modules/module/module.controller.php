@@ -19,13 +19,15 @@ class moduleController extends module
 	 * Action forward finds and forwards if an action is not in the requested module
 	 * This is used when installing a module
 	 */
-	function insertActionForward($module, $type, $act)
+	function insertActionForward($module, $type, $act, $route_method = null, $route_regexp = null, $route_config = null)
 	{
 		$args = new stdClass();
 		$args->module = $module;
 		$args->type = $type;
 		$args->act = $act;
-
+		$args->route_method = $route_method;
+		$args->route_regexp = $route_regexp;
+		$args->route_config = $route_config;
 		$output = executeQuery('module.insertActionForward', $args);
 
 		Rhymix\Framework\Cache::delete('action_forward');
