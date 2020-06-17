@@ -142,6 +142,7 @@ class ModuleActionParser
 			$action_info->standalone = trim($action['standalone']) === 'false' ? 'false' : 'true';
 			$action_info->check_csrf = (trim($action['check_csrf']) ?: trim($action['check-csrf'])) === 'false' ? 'false' : 'true';
 			$action_info->meta_noindex = (trim($action['meta_noindex']) ?: trim($action['meta-noindex'])) === 'true' ? 'true' : 'false';
+			$action_info->use_ssl = (trim($action['use_ssl']) ?: trim($action['use-ssl'])) === 'true' ? 'true' : 'false';
 			$info->action->{$action_name} = $action_info;
 			
 			// Set the menu name and index settings.

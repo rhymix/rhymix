@@ -114,22 +114,6 @@ class ModuleHandler extends Handler
 			return;
 		}
 
-		if(isset($this->act) && (strlen($this->act) >= 4 && substr_compare($this->act, 'disp', 0, 4) === 0))
-		{
-			if(Context::get('_use_ssl') == 'optional' && Context::isExistsSSLAction($this->act) && !RX_SSL)
-			{
-				if(Context::get('_https_port') != null)
-				{
-					header('location: https://' . $_SERVER['HTTP_HOST'] . ':' . Context::get('_https_port') . $_SERVER['REQUEST_URI']);
-				}
-				else
-				{
-					header('location: https://' . $_SERVER['HTTP_HOST'] . $_SERVER['REQUEST_URI']);
-				}
-				return;
-			}
-		}
-
 		// call a trigger before moduleHandler init
 		self::triggerCall('moduleHandler.init', 'before', $this);
 

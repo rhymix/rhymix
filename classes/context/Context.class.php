@@ -134,12 +134,6 @@ class Context
 	private static $_oFrontEndFileHandler = null;
 
 	/**
-	 * SSL action cache file
-	 * @var array
-	 */
-	private static $_ssl_actions_cache_file = 'files/cache/common/ssl_actions.php';
-
-	/**
 	 * SSL action cache
 	 */
 	private static $_ssl_actions = array();
@@ -199,13 +193,6 @@ class Context
 			self::$_oFrontEndFileHandler = self::$_instance->oFrontEndFileHandler = new FrontEndFileHandler();
 			self::$_get_vars = self::$_get_vars ?: new stdClass;
 			self::$_tpl_vars = self::$_tpl_vars ?: new stdClass;
-
-			// Include SSL action cache file.
-			self::$_ssl_actions_cache_file = RX_BASEDIR . self::$_ssl_actions_cache_file;
-			if(Rhymix\Framework\Storage::exists(self::$_ssl_actions_cache_file))
-			{
-				self::$_ssl_actions = (include self::$_ssl_actions_cache_file) ?: array();
-			}
 		}
 		return self::$_instance;
 	}
@@ -287,9 +274,19 @@ class Context
 		}
 		
 		// Redirect to SSL if the current domain always uses SSL.
-		if ($site_module_info->security === 'always' && !RX_SSL && PHP_SAPI !== 'cli' && !$site_module_info->is_default_replaced)
+		if (!RX_SSL && PHP_SAPI !== 'cli' && $site_module_info->security === 'always' && !$site_module_info->is_default_replaced)
 		{
-			$ssl_url = self::getDefaultUrl($site_module_info) . RX_REQUEST_URL;
+			$ssl_url = self::getDefaultUrl($site_module_info, true) . RX_REQUEST_URL;
+			self::setCacheControl(0);
+			header('Location: ' . $ssl_url, true, 301);
+			exit;
+		}
+		
+		// Redirect to SSL if the current action requires SSL.
+		self::$_ssl_actions = $site_module_info->security === 'optional' ? ModuleModel::getActionSecurity() : array();
+		if (!RX_SSL && count(self::$_ssl_actions) && self::isExistsSSLAction(self::get('act')) && self::getRequestMethod() === 'GET')
+		{
+			$ssl_url = self::getDefaultUrl($site_module_info, true) . RX_REQUEST_URL;
 			self::setCacheControl(0);
 			header('Location: ' . $ssl_url, true, 301);
 			exit;
@@ -619,7 +616,7 @@ class Context
 	 *
 	 * @return object SSL status (Optional - none|always|optional)
 	 */
-	public static function getSslStatus()
+	public static function getSSLStatus()
 	{
 		return self::get('_use_ssl');
 	}
@@ -628,9 +625,10 @@ class Context
 	 * Return default URL
 	 *
 	 * @param object $site_module_info (optional)
+	 * @param bool $use_ssl (optional)
 	 * @return string Default URL
 	 */
-	public static function getDefaultUrl($site_module_info = null)
+	public static function getDefaultUrl($site_module_info = null, $use_ssl = null)
 	{
 		if ($site_module_info === null && ($default_url = self::get('_default_url')))
 		{
@@ -642,9 +640,9 @@ class Context
 			$site_module_info = self::get('site_module_info');
 		}
 		
-		$prefix = $site_module_info->security === 'always' ? 'https://' : 'http://';
+		$prefix = ($site_module_info->security === 'always' || $use_ssl) ? 'https://' : 'http://';
 		$hostname = $site_module_info->domain;
-		$port = $site_module_info->security === 'always' ? $site_module_info->https_port : $site_module_info->http_port;
+		$port = ($prefix === 'https://') ? $site_module_info->https_port : $site_module_info->http_port;
 		$result = $prefix . $hostname . ($port ? sprintf(':%d', $port) : '') . RX_BASEURL;
 		return $result;
 	}
@@ -1993,40 +1991,25 @@ class Context
 	 */
 	public static function addSSLAction($action)
 	{
-		if(isset(self::$_ssl_actions[$action]))
+		if (!ModuleModel::getActionSecurity($action))
 		{
-			return;
+			getController('module')->insertActionSecurity($action);
 		}
-		
-		self::$_ssl_actions[$action] = 1;
-		$buff = '<?php return ' . var_export(self::$_ssl_actions, true) . ';';
-		Rhymix\Framework\Storage::write(self::$_ssl_actions_cache_file, $buff);
+		self::$_ssl_actions[$action] = true;
 	}
 
 	/**
 	 * Register if actions are to be encrypted by SSL. Those actions are sent to https in common/js/xml_handler.js
 	 *
-	 * @param string $action act name
+	 * @param array $action_array
 	 * @return void
 	 */
 	public static function addSSLActions($action_array)
 	{
-		$changed = false;
 		foreach($action_array as $action)
 		{
-			if(!isset(self::$_ssl_actions[$action]))
-			{
-				self::$_ssl_actions[$action] = 1;
-				$changed = true;
-			}
+			self::addSSLAction($action);
 		}
-		if(!$changed)
-		{
-			return;
-		}
-		
-		$buff = '<?php return ' . var_export(self::$_ssl_actions, true) . ';';
-		Rhymix\Framework\Storage::write(self::$_ssl_actions_cache_file, $buff);
 	}
 
 	/**
@@ -2037,14 +2020,11 @@ class Context
 	 */
 	public static function subtractSSLAction($action)
 	{
-		if(!isset(self::$_ssl_actions[$action]))
+		if (ModuleModel::getActionSecurity($action))
 		{
-			return;
+			getController('module')->deleteActionSecurity($action);
 		}
-		
 		unset(self::$_ssl_actions[$action]);
-		$buff = '<?php return ' . var_export(self::$_ssl_actions, true) . ';';
-		Rhymix\Framework\Storage::write(self::$_ssl_actions_cache_file, $buff);
 	}
 
 	/**
@@ -2054,7 +2034,7 @@ class Context
 	 */
 	public static function getSSLActions()
 	{
-		if(self::getSslStatus() == 'optional')
+		if(self::getSSLStatus() == 'optional')
 		{
 			return self::$_ssl_actions;
 		}
