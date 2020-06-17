@@ -94,26 +94,6 @@ class ModuleHandler extends Handler
         	Context::set('mid', $this->mid = null);
         }
 
-		// Validate variables to prevent XSS
-		$isInvalid = false;
-		if($this->module && !preg_match('/^[a-zA-Z0-9_-]+$/', $this->module))
-		{
-			$isInvalid = true;
-		}
-		if($this->mid && !preg_match('/^[a-zA-Z0-9_-]+$/', $this->mid))
-		{
-			$isInvalid = true;
-		}
-		if($this->act && !preg_match('/^[a-zA-Z0-9_-]+$/', $this->act))
-		{
-			$isInvalid = true;
-		}
-		if($isInvalid)
-		{
-			$this->error = 'msg_security_violation';
-			return;
-		}
-
 		// call a trigger before moduleHandler init
 		self::triggerCall('moduleHandler.init', 'before', $this);
 

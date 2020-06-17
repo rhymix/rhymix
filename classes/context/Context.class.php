@@ -1439,7 +1439,15 @@ class Context
 				{
 					$_val = (int)$_val;
 				}
-				elseif(in_array($key, array('mid', 'vid', 'search_target', 'search_keyword', 'xe_validator_id')) || $_SERVER['REQUEST_METHOD'] === 'GET')
+				elseif(in_array($key, array('mid', 'vid', 'act', 'module')))
+				{
+					$_val = preg_match('/^[a-zA-Z0-9_-]+$/', $_val) ? $_val : null;
+					if($_val === null)
+					{
+						self::$_instance->security_check = 'DENY ALL';
+					}
+				}
+				elseif(in_array($key, array('search_target', 'search_keyword', 'xe_validator_id')) || $_SERVER['REQUEST_METHOD'] === 'GET')
 				{
 					$_val = escape($_val, false);
 					if(ends_with('url', $key, false))
