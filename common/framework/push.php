@@ -10,7 +10,6 @@ class Push
 	/**
 	 * Instance properties.
 	 */
-	public $driver = null;
 	protected $from = 0;
 	protected $to = array();
 	protected $subject = '';
@@ -23,14 +22,43 @@ class Push
 	/**
 	 * Static properties.
 	 */
-	public static $custom_drivers = array();
+	protected static $_drivers = array();
 	
 	/**
 	 * Add a custom Push driver.
+	 * 
+	 * @param string $name
+	 * @param object $driver
+	 * @return void
 	 */
-	public static function addDriver(Drivers\PushInterface $driver): void
+	public static function addDriver(string $name, Drivers\PushInterface $driver): void
 	{
-		self::$custom_drivers[] = $driver;
+		self::$_drivers[$name] = $driver;
+	}
+	
+	/**
+	 * Get the default driver.
+	 * 
+	 * @param string $name
+	 * @return object|null
+	 */
+	public static function getDriver(string $name)
+	{
+		if (isset(self::$_drivers[$name]))
+		{
+			return self::$_drivers[$name];
+		}
+		
+		$driver_class = '\Rhymix\Framework\Drivers\Push\\' . $name;
+		if (class_exists($driver_class))
+		{
+			$driver_config = config('push.' . $name) ?: array();
+			return self::$_drivers[$name] = $driver_class::getInstance($driver_config);
+		}
+		else
+		{
+			return null;
+		}
 	}
 	
 	/**
@@ -54,11 +82,11 @@ class Push
 				);
 			}
 		}
-		foreach (self::$custom_drivers as $driver)
+		foreach (self::$_drivers as $driver_name => $driver)
 		{
 			if ($driver->isSupported())
 			{
-				$result[strtolower(class_basename($driver))] = array(
+				$result[$driver_name] = array(
 					'name' => $driver->getName(),
 					'required' => $driver->getRequiredConfig(),
 					'optional' => $driver->getOptionalConfig(),
@@ -231,22 +259,10 @@ class Push
 			return false;
 		}
 		
-		if (config('push.default_force') && config('push.default_from'))
-		{
-			$this->setFrom(config('push.default_from'));
-		}
-		
 		try
 		{
-			if ($this->driver)
-			{
-                $this->sent = $this->driver->send($this);
-			}
-			else
-			{
-				$this->errors[] = 'No Push driver selected';
-				$this->sent = false;
-			}
+			//$this->getDriver('fcm');
+			//$this->getDriver('apns');
 		}
 		catch(\Exception $e)
 		{
