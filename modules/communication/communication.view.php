@@ -295,7 +295,8 @@ class communicationView extends communication
 
 		// get a group list
 		$tmp_group_list = $oCommunicationModel->getFriendGroups();
-		if (is_countable($tmp_group_list)) {
+		if (is_countable($tmp_group_list))
+		{
 			$group_count = count($tmp_group_list);
 			
 			// initiation
@@ -385,7 +386,10 @@ class communicationView extends communication
 
 		// get a group list
 		$friend_group_list = $oCommunicationModel->getFriendGroups();
-		if(!is_countable($friend_group_list)) $friend_group_list = array();
+		if(!is_countable($friend_group_list))
+		{
+			$friend_group_list = array();
+		}
 		Context::set('friend_group_list', $friend_group_list);
 
 		$this->setTemplateFile('add_friend');
