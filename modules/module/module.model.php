@@ -567,7 +567,7 @@ class moduleModel extends module
 	/**
 	 * @brief Get forward value by the value of act
 	 */
-	public static function getActionForward($act)
+	public static function getActionForward($act = null)
 	{
 		$action_forward = Rhymix\Framework\Cache::get('action_forward');
 		if($action_forward === null)
@@ -582,12 +582,18 @@ class moduleModel extends module
 			$action_forward = array();
 			foreach($output->data as $item)
 			{
+				if ($item->route_regexp) $item->route_regexp = unserialize($item->route_regexp);
+				if ($item->route_config) $item->route_config = unserialize($item->route_config);
 				$action_forward[$item->act] = $item;
 			}
 			
 			Rhymix\Framework\Cache::set('action_forward', $action_forward, 0, true);
 		}
 		
+		if(!isset($act))
+		{
+			return $action_forward;
+		}
 		if(!isset($action_forward[$act]))
 		{
 			return;
@@ -723,30 +729,7 @@ class moduleModel extends module
 		$info = Rhymix\Framework\Cache::get($cache_key);
 		if($info === null)
 		{
-			// Load the XML file.
 			$info = Rhymix\Framework\Parsers\ModuleActionParser::loadXML($xml_file);
-			
-			// Add all routes from the module to a global list.
-			$action_cache_key = 'site_and_module:action_with_routes';
-			$action_with_routes = Rhymix\Framework\Cache::get($action_cache_key) ?: (object)array('GET' => [], 'POST' => [], 'reverse' => []);
-			foreach ($info->route->GET as $regexp => $action)
-			{
-				$action_with_routes->GET[$regexp] = [$module, $action];
-			}
-			foreach ($info->route->POST as $regexp => $action)
-			{
-				$action_with_routes->POST[$regexp] = [$module, $action];
-			}
-			foreach ($info->action as $action_name => $action_info)
-			{
-				if (count($action_info->route) && $action_info->standalone !== 'false')
-				{
-					$action_with_routes->reverse[$action_name] = $action_info->route;
-				}
-			}
-			
-			// Set cache entries.
-			Rhymix\Framework\Cache::set($action_cache_key, $action_with_routes, 0, true);
 			Rhymix\Framework\Cache::set($cache_key, $info, 0, true);
 		}
 		
@@ -1361,12 +1344,12 @@ class moduleModel extends module
 
 		$searched_count = count($searched_list);
 		if(!$searched_count) return;
+		
+		// Get action forward
+		$action_forward = self::getActionForward();
 
-		for($i=0;$i<$searched_count;$i++)
+		foreach ($searched_list as $module_name)
 		{
-			// module name
-			$module_name = $searched_list[$i];
-
 			$path = ModuleHandler::getModulePath($module_name);
 			if(!is_dir(FileHandler::getRealPath($path))) continue;
 
@@ -1403,16 +1386,50 @@ class moduleModel extends module
 				{
 					$info->need_install = false;
 				}
+				
 				// Check if it is upgraded to module.class.php on each module
-				$oDummy = null;
 				$oDummy = getModule($module_name, 'class');
 				if($oDummy && method_exists($oDummy, "checkUpdate"))
 				{
 					$info->need_update = $oDummy->checkUpdate();
 				}
-				else
+				unset($oDummy);
+				
+				// Check if all action-forwardable routes are registered
+				$module_action_info = self::getModuleActionXml($module_name);
+				$forwardable_routes = array();
+				foreach ($module_action_info->action ?: [] as $action_name => $action_info)
 				{
-					continue;
+					if (count($action_info->route) && $action_info->standalone !== 'false')
+					{
+						$forwardable_routes[$action_name] = array(
+							'regexp' => array(),
+							'config' => $action_info->route,
+						);
+					}
+				}
+				foreach ($module_action_info->route->GET as $regexp => $action_name)
+				{
+					if (isset($forwardable_routes[$action_name]))
+					{
+						$forwardable_routes[$action_name]['regexp'][] = ['GET', $regexp];
+					}
+				}
+				foreach ($module_action_info->route->POST as $regexp => $action_name)
+				{
+					if (isset($forwardable_routes[$action_name]))
+					{
+						$forwardable_routes[$action_name]['regexp'][] = ['POST', $regexp];
+					}
+				}
+				foreach ($forwardable_routes as $action_name => $route_info)
+				{
+					if (!isset($action_forward[$action_name]) ||
+						$action_forward[$action_name]->route_regexp !== $route_info['regexp'] ||
+						$action_forward[$action_name]->route_config !== $route_info['config'])
+					{
+						$info->need_update = true;
+					}
 				}
 			}
 			$list[] = $info;

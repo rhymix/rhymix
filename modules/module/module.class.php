@@ -133,7 +133,6 @@ class module extends ModuleObject
 		}
 		
 		// check route columns in action_forward table
-		if(!$oDB->isColumnExists('action_forward', 'route_method')) return true;
 		if(!$oDB->isColumnExists('action_forward', 'route_regexp')) return true;
 		if(!$oDB->isColumnExists('action_forward', 'route_config')) return true;
 	}
@@ -455,13 +454,9 @@ class module extends ModuleObject
 		}
 		
 		// check route columns in action_forward table
-		if(!$oDB->isColumnExists('action_forward', 'route_method'))
-		{
-			$oDB->addColumn('action_forward', 'route_method', 'varchar', 30);
-		}
 		if(!$oDB->isColumnExists('action_forward', 'route_regexp'))
 		{
-			$oDB->addColumn('action_forward', 'route_regexp', 'varchar', 180);
+			$oDB->addColumn('action_forward', 'route_regexp', 'text');
 		}
 		if(!$oDB->isColumnExists('action_forward', 'route_config'))
 		{

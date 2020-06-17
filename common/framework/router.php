@@ -59,6 +59,7 @@ class Router
      */
     protected static $_action_cache_prefix = array();
     protected static $_action_cache_module = array();
+    protected static $_forwarded_cache = array();
     protected static $_route_cache = array();
     
     /**
@@ -136,8 +137,8 @@ class Router
                 }
                 
                 // Check other modules.
-                $all_routes = self::_getAllCachedRoutes();
-                foreach ($all_routes->{$method} as $regexp => $action)
+                $forwarded_routes = self::_getForwardedRoutes();
+                foreach ($forwarded_routes[$method] ?: [] as $regexp => $action)
                 {
                     if (preg_match($regexp, $internal_url, $matches))
                     {
@@ -235,10 +236,10 @@ class Router
             }
             
             // Check other modules for $act.
-            $all_routes = self::_getAllCachedRoutes();
-            if (isset($all_routes->reverse[$act]))
+            $forwarded_routes = self::_getForwardedRoutes();
+            if (isset($forwarded_routes['reverse'][$act]))
             {
-                $result = self::_getBestMatchingRoute($all_routes->reverse[$act], $args2);
+                $result = self::_getBestMatchingRoute($forwarded_routes['reverse'][$act], $args2);
                 if ($result !== false)
                 {
                     self::$_route_cache[$keys_string] = '$mid/' . $result . '$act:delete';
@@ -324,20 +325,30 @@ class Router
     }
     
     /**
-     * Get the list of all cached routes from all modules.
+     * Get the list of routes that are registered for action-forward.
      * 
      * @return object
      */
-    protected static function _getAllCachedRoutes()
+    protected static function _getForwardedRoutes()
     {
-		$cache_key = 'site_and_module:action_with_routes';
-		$result = Cache::get($cache_key);
-		if ($result === null)
-		{
-			$result = (object)array('GET' => [], 'POST' => [], 'reverse' => []);
-			Cache::set($cache_key, $result, 0, true);
-		}
-		return $result;
+        if (count(self::$_forwarded_cache))
+        {
+            return self::$_forwarded_cache;
+        }
+        
+        $action_forward = \ModuleModel::getActionForward();
+        foreach ($action_forward as $action_name => $action_info)
+        {
+            if ($action_info->route_regexp)
+            {
+                foreach ($action_info->route_regexp as $regexp_info)
+                {
+                    self::$_forwarded_cache[$regexp_info[0]][$regexp_info[1]] = [$action_info->module, $action_name];
+                }
+                self::$_forwarded_cache['reverse'][$action_name] = $action_info->route_config;
+            }
+        }
+        return self::$_forwarded_cache;
     }
     
     /**

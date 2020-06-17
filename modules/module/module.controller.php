@@ -19,13 +19,12 @@ class moduleController extends module
 	 * Action forward finds and forwards if an action is not in the requested module
 	 * This is used when installing a module
 	 */
-	function insertActionForward($module, $type, $act, $route_method = null, $route_regexp = null, $route_config = null)
+	function insertActionForward($module, $type, $act, $route_regexp = null, $route_config = null)
 	{
 		$args = new stdClass();
 		$args->module = $module;
 		$args->type = $type;
 		$args->act = $act;
-		$args->route_method = $route_method;
 		$args->route_regexp = $route_regexp;
 		$args->route_config = $route_config;
 		$output = executeQuery('module.insertActionForward', $args);
@@ -1290,6 +1289,78 @@ class moduleController extends module
 
 		Rhymix\Framework\Cache::clearGroup('site_and_module');
 		return $output;
+	}
+	
+	/**
+	 * Check if all action-forwardable routes are registered. If not, register them.
+	 * 
+	 * @param string $module_name
+	 * @return object
+	 */
+	public function registerActionForwardRoutes(string $module_name)
+	{
+		$action_forward = ModuleModel::getActionForward();
+		$module_action_info = ModuleModel::getModuleActionXml($module_name);
+		
+		// Get the list of forwardable actions and their routes.
+		$forwardable_routes = array();
+		foreach ($module_action_info->action ?: [] as $action_name => $action_info)
+		{
+			if (count($action_info->route) && $action_info->standalone !== 'false')
+			{
+				$forwardable_routes[$action_name] = array(
+					'type' => $module_action_info->action->{$action_name}->type,
+					'regexp' => array(),
+					'config' => $action_info->route,
+				);
+			}
+		}
+		foreach ($module_action_info->route->GET as $regexp => $action_name)
+		{
+			if (isset($forwardable_routes[$action_name]))
+			{
+				$forwardable_routes[$action_name]['regexp'][] = ['GET', $regexp];
+			}
+		}
+		foreach ($module_action_info->route->POST as $regexp => $action_name)
+		{
+			if (isset($forwardable_routes[$action_name]))
+			{
+				$forwardable_routes[$action_name]['regexp'][] = ['POST', $regexp];
+			}
+		}
+		
+		// Insert or delete from the action_forward table.
+		foreach ($forwardable_routes as $action_name => $route_info)
+		{
+			if (!isset($action_forward[$action_name]))
+			{
+				$output = $this->insertActionForward($module_name, $route_info['type'], $action_name,
+					serialize($route_info['regexp']), serialize($route_info['config']));
+				if (!$output->toBool())
+				{
+					return $output;
+				}
+			}
+			elseif ($action_forward[$action_name]->route_regexp !== $route_info['regexp'] ||
+				$action_forward[$action_name]->route_config !== $route_info['config'])
+			{
+				$output = $this->deleteActionForward($module_name, $route_info['type'], $action_name);
+				if (!$output->toBool())
+				{
+					return $output;
+				}
+				
+				$output = $this->insertActionForward($module_name, $route_info['type'], $action_name,
+					serialize($route_info['regexp']), serialize($route_info['config']));
+				if (!$output->toBool())
+				{
+					return $output;
+				}
+			}
+		}
+		
+		return new BaseObject();
 	}
 }
 /* End of file module.controller.php */
