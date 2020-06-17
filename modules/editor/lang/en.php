@@ -51,7 +51,6 @@ $lang->component_history = 'Updates';
 $lang->component_description = 'Description';
 $lang->component_extra_vars = 'Option Variable';
 $lang->component_grant = 'Permission Setting';
-$lang->content_style = 'Content Style';
 $lang->content_font = 'Content Font';
 $lang->content_font_size = 'Content Font Size';
 $lang->about_component = 'About component';

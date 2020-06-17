@@ -8,7 +8,6 @@ $lang->component_history = 'Güncelleştirmeler';
 $lang->component_description = 'Açıklama';
 $lang->component_extra_vars = 'Değişken Seçenek';
 $lang->component_grant = 'Yetki Ayarı';
-$lang->content_style = 'İçerik Tarzı';
 $lang->content_font = 'İçerik Yazı Tipi';
 $lang->content_font_size = 'İçerik Yazı Boyutu';
 $lang->about_component = 'Bileşen hakkında';

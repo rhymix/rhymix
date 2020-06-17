@@ -50,16 +50,6 @@ class editorAdminView extends editor
 		$skin_info = $oModuleModel->loadSkinInfo($this->module_path,$editor_config->editor_skin);
 		$comment_skin_info = $oModuleModel->loadSkinInfo($this->module_path,$editor_config->comment_editor_skin);
 
-		$contents = FileHandler::readDir(_XE_PATH_.'modules/editor/styles');
-		$content_style_list = array();
-		for($i=0,$c=count($contents);$i<$c;$i++)
-		{
-			$style = $contents[$i];
-			$info = $oModuleModel->loadSkinInfo($this->module_path,$style,'styles');
-			$content_style_list[$style] = new stdClass();
-			$content_style_list[$style]->title = $info->title;
-		}
-
 		// Get install info, update info, count
 		$oAutoinstallModel = getModel('autoinstall');
 		foreach($component_list as $component_name => $xml_info)
@@ -82,7 +72,6 @@ class editorAdminView extends editor
 		Context::set('editor_skin_list', $editor_skin_list);
 		Context::set('editor_colorset_list', $skin_info->colorset);
 		Context::set('comment_editor_colorset_list', $comment_skin_info->colorset);
-		Context::set('content_style_list', $content_style_list);
 		Context::set('component_list', $component_list);
 		Context::set('component_count', $component_count);
 
