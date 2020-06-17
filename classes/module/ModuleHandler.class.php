@@ -110,13 +110,12 @@ class ModuleHandler extends Handler
 	 * */
 	public function init()
 	{
-		$oModuleModel = ModuleModel::getInstance();
 		$site_module_info = Context::get('site_module_info');
 		
 		// Check unregistered domain action.
 		if (!$site_module_info || !isset($site_module_info->domain_srl) || $site_module_info->is_default_replaced)
 		{
-			$site_module_info = $oModuleModel->getDefaultDomainInfo();
+			$site_module_info = ModuleModel::getDefaultDomainInfo();
 			if ($site_module_info)
 			{
 				$domain_action = config('url.unregistered_domain_action') ?: 'redirect_301';
@@ -172,8 +171,7 @@ class ModuleHandler extends Handler
 		// Convert document alias (entry) to document_srl
 		if(!$this->document_srl && $this->mid && $this->entry)
 		{
-			$oDocumentModel = DocumentModel::getInstance();
-			$this->document_srl = $oDocumentModel->getDocumentSrlByAlias($this->mid, $this->entry);
+			$this->document_srl = DocumentModel::getDocumentSrlByAlias($this->mid, $this->entry);
 			if($this->document_srl)
 			{
 				Context::set('document_srl', $this->document_srl);
@@ -183,7 +181,7 @@ class ModuleHandler extends Handler
 		// Get module's information based on document_srl, if it's specified
 		if($this->document_srl)
 		{
-			$module_info = $oModuleModel->getModuleInfoByDocumentSrl($this->document_srl);
+			$module_info = ModuleModel::getModuleInfoByDocumentSrl($this->document_srl);
 			if($module_info)
 			{
 				// If it exists, compare mid based on the module information
@@ -212,8 +210,7 @@ class ModuleHandler extends Handler
 			// Block access to secret or temporary documents.
 			if(Context::getRequestMethod() == 'GET')
 			{
-				$oDocumentModel = DocumentModel::getInstance();
-				$oDocument = $oDocumentModel->getDocument($this->document_srl);
+				$oDocument = DocumentModel::getDocument($this->document_srl);
 				if($oDocument->isExists() && !$oDocument->isAccessible())
 				{
 					$this->httpStatusCode = '403';
@@ -224,8 +221,7 @@ class ModuleHandler extends Handler
 		// If module_info is not set yet, and there exists mid information, get module information based on the mid
 		if(!$module_info && $this->mid)
 		{
-			$module_info = $oModuleModel->getModuleInfoByMid($this->mid, $site_module_info->site_srl);
-			//if($this->module && $module_info->module != $this->module) unset($module_info);
+			$module_info = ModuleModel::getModuleInfoByMid($this->mid, $site_module_info->site_srl);
 		}
 
 		// If module_info is not set still, and $module does not exist, find the default module
@@ -276,7 +272,7 @@ class ModuleHandler extends Handler
 				'page' => Context::get('page') ?: 1,
 			));
 			
-			$module_config = $oModuleModel->getModuleConfig('module');
+			$module_config = ModuleModel::getModuleConfig('module');
 			if ($module_info->meta_keywords)
 			{
 				Context::addMetaTag('keywords', $module_info->meta_keywords);
@@ -330,7 +326,7 @@ class ModuleHandler extends Handler
 			// reset a layout_srl in module_info.
 			$module_info->{$targetSrl} = $layoutSrl;
 
-			$part_config = $oModuleModel->getModulePartConfig('layout', $layoutSrl);
+			$part_config = ModuleModel::getModulePartConfig('layout', $layoutSrl);
 			Context::addHtmlHeader($part_config->header_script);
 		}
 
@@ -379,7 +375,6 @@ class ModuleHandler extends Handler
 	 * */
 	public function procModule()
 	{
-		$oModuleModel = ModuleModel::getInstance();
 		$display_mode = Mobile::isFromMobilePhone() ? 'mobile' : 'view';
 
 		// If error occurred while preparation, return a message instance
@@ -398,7 +393,7 @@ class ModuleHandler extends Handler
 		}
 
 		// Get action information with conf/module.xml
-		$xml_info = $oModuleModel->getModuleActionXml($this->module);
+		$xml_info = ModuleModel::getModuleActionXml($this->module);
 
 		// If not installed yet, modify act
 		if($this->module == "install")
@@ -551,7 +546,7 @@ class ModuleHandler extends Handler
 			if(preg_match('/^([a-z]+)([A-Z])([a-z0-9\_]+)(.*)$/', $this->act, $matches))
 			{
 				$module = strtolower($matches[2] . $matches[3]);
-				$xml_info = $oModuleModel->getModuleActionXml($module);
+				$xml_info = ModuleModel::getModuleActionXml($module);
 
 				if($xml_info->action->{$this->act} && ($this->module == 'admin' || $xml_info->action->{$this->act}->standalone != 'false'))
 				{
@@ -576,7 +571,7 @@ class ModuleHandler extends Handler
 			
 			if(empty($forward->module))
 			{
-				$forward = $oModuleModel->getActionForward($this->act);
+				$forward = ModuleModel::getActionForward($this->act);
 			}
 			
 			if(!empty($forward->module))
@@ -591,10 +586,10 @@ class ModuleHandler extends Handler
 					Context::addMetaTag('robots', 'noindex');
 				}
 				
-				$xml_info = $oModuleModel->getModuleActionXml($forward->module);
+				$xml_info = ModuleModel::getModuleActionXml($forward->module);
 				
 				// Protect admin action
-				if(($this->module == 'admin' || $kind == 'admin') && !$oModuleModel->getGrant($forward, $logged_info)->root)
+				if(($this->module == 'admin' || $kind == 'admin') && !ModuleModel::getGrant($forward, $logged_info)->root)
 				{
 					if($this->module == 'admin' || empty($xml_info->permission->{$this->act}))
 					{
@@ -707,7 +702,7 @@ class ModuleHandler extends Handler
 		if(!empty($ruleset))
 		{
 			$rulesetModule = !empty($forward->module) ? $forward->module : $this->module;
-			$rulesetFile = $oModuleModel->getValidatorFilePath($rulesetModule, $ruleset, $this->mid);
+			$rulesetFile = ModuleModel::getValidatorFilePath($rulesetModule, $ruleset, $this->mid);
 			if(!empty($rulesetFile))
 			{
 				if($_SESSION['XE_VALIDATOR_ERROR_LANG'])
@@ -1198,8 +1193,7 @@ class ModuleHandler extends Handler
 			return new BaseObject();
 		}
 
-		$oModuleModel = ModuleModel::getInstance();
-		$triggers = $oModuleModel->getTriggers($trigger_name, $called_position);
+		$triggers = ModuleModel::getTriggers($trigger_name, $called_position);
 		if(!$triggers)
 		{
 			$triggers = array();
@@ -1254,7 +1248,7 @@ class ModuleHandler extends Handler
 			unset($oModule);
 		}
 
-		$trigger_functions = $oModuleModel->getTriggerFunctions($trigger_name, $called_position);
+		$trigger_functions = ModuleModel::getTriggerFunctions($trigger_name, $called_position);
 		foreach($trigger_functions as $item)
 		{
 			try
