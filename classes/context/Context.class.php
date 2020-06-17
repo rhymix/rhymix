@@ -1441,7 +1441,7 @@ class Context
 				}
 				elseif(in_array($key, array('mid', 'vid', 'act', 'module')))
 				{
-					$_val = preg_match('/^[a-zA-Z0-9_-]+$/', $_val) ? $_val : null;
+					$_val = preg_match('/^[a-zA-Z0-9_-]*$/', $_val) ? $_val : null;
 					if($_val === null)
 					{
 						self::$_instance->security_check = 'DENY ALL';
