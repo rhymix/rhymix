@@ -18,6 +18,7 @@ class ModuleActionParser
 		'hex' => '[0-9a-f]+',
 		'word' => '[a-zA-Z0-9_]+',
 		'any' => '[^/]+',
+		'delete' => '[^/]+',
 	);
 	
 	/**
@@ -194,7 +195,7 @@ class ModuleActionParser
 			}
 			else
 			{
-				$var_type = ends_with('_srl', $match[1]) ? 'number' : 'any';
+				$var_type = ends_with('_srl', $match[1]) ? 'int' : 'any';
 				$var_pattern = self::$_shortcuts[$var_type];
 			}
 			$named_group = '(?P<' . $match[1] . '>' . $var_pattern . ')';
@@ -207,7 +208,9 @@ class ModuleActionParser
 		
 		// Return the regexp and variable list.
 		$result = new \stdClass;
-		$result->route = preg_replace($var_regexp, '\\$$1', $route['route']);
+		$result->route = preg_replace_callback($var_regexp, function($match) {
+			return '$' . ((isset($match[2]) && $match[2] === 'delete') ? ($match[1] . ':' . $match[2]) : $match[1]);
+		}, $route['route']);
 		$result->priority = $route['priority'] ?: 0;
 		$result->regexp = $regexp;
 		$result->vars = $vars;

@@ -120,7 +120,6 @@ class Router
             // Separate the prefix and the internal part of the URL.
             $prefix = $matches[1];
             $internal_url = $matches[2] ?? '';
-            
             // Find the module associated with this prefix.
             $action_info = self::_getActionInfoByPrefix($prefix);
             if ($action_info)
@@ -372,7 +371,7 @@ class Router
                 $matched_arguments = array_intersect_key($route_vars['vars'], $vars);
                 if (count($matched_arguments) === count($route_vars['vars']))
                 {
-                    $reordered_routes[$route] = $route_vars['priority'] ?: count($matched_arguments);
+                    $reordered_routes[$route] = ($route_vars['priority'] * 1000) + count($matched_arguments);
                 }
             }
             if (!count($reordered_routes))

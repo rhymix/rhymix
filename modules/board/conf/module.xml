@@ -57,25 +57,35 @@
 	</grants>
 	<actions>
 		<action name="dispBoardContent" type="view" permission="list" standalone="false" index="true">
-			<route route="$document_srl:int" priority="51" />
-			<route route="$document_srl:int/page/$page:int" priority="52" />
-			<route route="category/$category:int/search/$search_target:word/$search_keyword:any" priority="41" />
-			<route route="category/$category:int/search/$search_target:word/$search_keyword:any/page/$page:int" priority="42" />
-			<route route="search/$search_target:word/$search_keyword:any" priority="31" />
-			<route route="search/$search_target:word/$search_keyword:any/page/$page:int" priority="32" />
-			<route route="category/$category:int" priority="21" />
-			<route route="category/$category:int/page/$page:int" priority="22" />
+			<route route="$document_srl:int" priority="100" />
+			<route route="$document_srl:int/comment/$comment_srl:int" priority="100" />
+			<route route="$document_srl:int/page/$page:int" priority="100" />
+			<route route="category/$category:int/search/$search_target:word/$search_keyword:any" priority="60" />
+			<route route="category/$category:int/search/$search_target:word/$search_keyword:any/page/$page:int" priority="60" />
+			<route route="search/$search_target:word/$search_keyword:any" priority="50" />
+			<route route="search/$search_target:word/$search_keyword:any/page/$page:int" priority="50" />
+			<route route="category/$category:int" priority="40" />
+			<route route="category/$category:int/page/$page:int" priority="40" />
 			<route route="page/$page:int" priority="10" />
 		</action>
 		<action name="dispBoardWrite" type="view" permission="write_document" standalone="false" meta-noindex="true">
 			<route route="write" />
-			<route route="$document_srl:int/edit" />
+			<route route="$document_srl/edit" />
 		</action>
 		<action name="dispBoardDelete" type="view" permission="write_document" standalone="false" meta-noindex="true" route="$document_srl/delete" />
 		<action name="dispBoardWriteComment" type="view" permission="write_comment" standalone="false" meta-noindex="true" route="$document_srl/comment" />
-		<action name="dispBoardReplyComment" type="view" permission="write_comment" standalone="false" meta-noindex="true" route="comment/$comment_srl/reply"/>
-		<action name="dispBoardModifyComment" type="view" permission="write_comment" standalone="false" meta-noindex="true" route="comment/$comment_srl/edit" />
-		<action name="dispBoardDeleteComment" type="view" permission="write_comment" standalone="false" meta-noindex="true" route="comment/$comment_srl/delete" />
+		<action name="dispBoardReplyComment" type="view" permission="write_comment" standalone="false" meta-noindex="true">
+			<route route="comment/$comment_srl/reply" />
+			<route route="comment/$comment_srl/reply$document_srl:delete" />
+		</action>
+		<action name="dispBoardModifyComment" type="view" permission="write_comment" standalone="false" meta-noindex="true">
+			<route route="comment/$comment_srl/edit" />
+			<route route="comment/$comment_srl/edit$document_srl:delete" />
+		</action>
+		<action name="dispBoardDeleteComment" type="view" permission="write_comment" standalone="false" meta-noindex="true">
+			<route route="comment/$comment_srl/delete" />
+			<route route="comment/$comment_srl/delete$document_srl:delete" />
+		</action>
 		<action name="dispBoardDeleteTrackback" type="view" permission="list,view" standalone="false" meta-noindex="true" />
 		<action name="dispBoardContentList" type="view" permission="list" standalone="false" />
 		<action name="dispBoardContentView" type="view" permission="view" standalone="false" />
