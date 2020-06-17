@@ -295,11 +295,13 @@ class communicationView extends communication
 
 		// get a group list
 		$tmp_group_list = $oCommunicationModel->getFriendGroups();
-		$group_count = count($tmp_group_list);
+		if (is_array($tmp_group_list)) {
+			$group_count = count($tmp_group_list);
 
-		for($i = 0; $i < $group_count; $i++)
-		{
-			$friend_group_list[$tmp_group_list[$i]->friend_group_srl] = $tmp_group_list[$i];
+			for($i = 0; $i < $group_count; $i++)
+			{
+				$friend_group_list[$tmp_group_list[$i]->friend_group_srl] = $tmp_group_list[$i];
+			}
 		}
 
 		Context::set('friend_group_list', $friend_group_list);
