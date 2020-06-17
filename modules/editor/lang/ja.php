@@ -28,7 +28,6 @@ $lang->component_history = '更新履歴';
 $lang->component_description = '説明';
 $lang->component_extra_vars = '設定変数';
 $lang->component_grant = '権限設定';
-$lang->content_style = 'コンテンツスタイル';
 $lang->content_font = 'コンテンツフォント';
 $lang->content_font_size = 'コンテンツフォントサイズ';
 $lang->about_component = 'コンポーネント情報';

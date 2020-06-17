@@ -113,7 +113,7 @@ class editorModel extends editor
 		Context::set('upload_target_srl', $upload_target_srl);
 		Context::set('editor_sequence', $option->editor_sequence);
 		
-		// Check that the skin and content style exist.
+		// Check that the skin exist.
 		if (!$option->editor_skin)
 		{
 			$option->editor_skin = $option->skin;
@@ -121,10 +121,6 @@ class editorModel extends editor
 		if (!$option->editor_skin || !file_exists($this->module_path . 'skins/' . $option->editor_skin . '/editor.html') || starts_with('xpresseditor', $option->editor_skin) || starts_with('dreditor', $option->editor_skin))
 		{
 			$option->editor_skin = $this->default_editor_config['editor_skin'];
-		}
-		if (!$option->content_style || !file_exists($this->module_path . 'styles/' . $option->content_style))
-		{
-			$option->content_style = $this->default_editor_config['content_style'];
 		}
 		if (!$option->sel_editor_colorset)
 		{
@@ -140,8 +136,6 @@ class editorModel extends editor
 		}
 		Context::set('skin', $option->editor_skin);
 		Context::set('editor_path', $this->module_path . 'skins/' . $option->editor_skin . '/');
-		Context::set('content_style', $option->content_style);
-		Context::set('content_style_path', $this->module_path . 'styles/' . $option->content_style);
 		Context::set('colorset', $option->sel_editor_colorset);
 		Context::set('editor_height', $option->editor_height);
 		Context::set('editor_toolbar', $option->editor_toolbar);
@@ -250,6 +244,7 @@ class editorModel extends editor
 		// Compile and return the editor skin template.
 		$tpl_path = Context::get('editor_path');
 		Context::loadLang($tpl_path.'lang');
+		
 		$oTemplate = TemplateHandler::getInstance();
 		return $oTemplate->compile($tpl_path, 'editor.html');
 	}
@@ -295,7 +290,6 @@ class editorModel extends editor
 				$option->$key = $val;
 			}
 			$option->editor_skin = $option->comment_editor_skin;
-			$option->content_style = $option->comment_content_style;
 			$option->sel_editor_colorset = $option->sel_comment_editor_colorset;
 			$option->upload_file_grant = $option->comment_upload_file_grant;
 			$option->enable_default_component_grant = $option->enable_comment_default_component_grant;

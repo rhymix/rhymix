@@ -72,16 +72,6 @@
 				</p>
 			</div>
 		</div>
-		<div class="x_control-group">
-			<label class="x_control-label">{$lang->guide_choose_text_formatting}</label>
-			<div class="x_controls">
-					<!--@foreach($content_style_list as $key => $val)-->
-					<label class="x_inline">
-						<input type="radio" name="content_style" value="{$key}" id="content_style_{$key}" checked="checked"|cond="$key==$editor_config->content_style||!$editor_config->content_style && $key=='ckeditor_light'"> {$val->title}
-					</label>
-					<!--@end-->
-			</div>
-		</div>
 		
 		<h1>{$lang->comment_editor}</h1>
 	
@@ -122,16 +112,6 @@
 					<label class="x_inline"><input type="radio" name="mobile_comment_editor_toolbar" value="simple" checked="checked"|cond="$editor_config->mobile_comment_editor_toolbar === 'simple'"> {$lang->editor_toolbar_simple}</label>
 					<label class="x_inline"><input type="checkbox" name="mobile_comment_editor_toolbar_hide" value="Y" checked="checked"|cond="$editor_config->mobile_comment_editor_toolbar_hide === 'Y'"> {$lang->editor_toolbar_hide}</label>
 				</p>
-			</div>
-		</div>
-		<div class="x_control-group">
-			<label class="x_control-label">{$lang->guide_choose_comment_text_formatting}</label>
-			<div class="x_controls">
-					<!--@foreach($content_style_list as $key => $val)-->
-					<label class="x_inline">
-						<input type="radio" name="comment_content_style" value="{$key}" id="comment_content_style_{$key}" checked="checked"|cond="$key==$editor_config->comment_content_style||!$editor_config->comment_content_style && $key=='ckeditor_light'"> {$val->title}
-					</label>
-					<!--@end-->
 			</div>
 		</div>
 		

@@ -48,19 +48,6 @@
 				</td>
 			</tr>
 			<tr class="editor_skin">
-				<th scope="row" style="text-align:right">{$lang->content_style}</th>
-				<td>
-					<select name="content_style">
-						<option loop="$content_style_list => $key, $val" value="{$key}" selected="selected"|cond="$key==$editor_config->content_style||!$editor_config->content_style&&$key=='default'">{$val->title}</option>
-					</select>
-				</td>
-				<td>
-					<select name="comment_content_style">
-						<option loop="$content_style_list => $key, $val" value="{$key}" selected="selected"|cond="$key==$editor_config->comment_content_style||!$editor_config->comment_content_style&&$key=='default'">{$val->title}</option>
-					</select>
-				</td>
-			</tr>
-			<tr class="editor_skin">
 				<th scope="row" style="text-align:right">{$lang->editor_height}</th>
 				<td>
 					<input type="number" min="0" name="editor_height" value="{$editor_config->editor_height}" /> px
