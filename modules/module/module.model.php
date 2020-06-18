@@ -757,7 +757,7 @@ class moduleModel extends module
 		
 		// Load the XML file and cache the definition.
 		$mtime = filemtime($xml_file);
-		$cache_key = sprintf('site_and_module:module_info_xml:%s:%d', $module, $mtime);
+		$cache_key = sprintf('site_and_module:module_action_xml:%s:%d', $module, $mtime);
 		$info = Rhymix\Framework\Cache::get($cache_key);
 		if($info === null)
 		{
