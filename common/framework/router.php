@@ -92,13 +92,23 @@ class Router
      * @param int $rewrite_level
      * @return object
      */
-    public static function getRequestArguments(string $method, string $url, int $rewrite_level)
+    public static function parseURL(string $method, string $url, int $rewrite_level)
     {
         // Get the local part of the current URL.
         if (starts_with(\RX_BASEURL, $url))
         {
             $url = substr($url, strlen(\RX_BASEURL));
         }
+        
+        // Prepare the return object.
+        $result = new \stdClass;
+        $result->status = 200;
+        $result->url = '';
+        $result->module = '';
+        $result->mid = '';
+        $result->act = '';
+        $result->forwarded = false;
+        $result->args = array();
         
         // Separate additional arguments from the URL.
         $args = array();
@@ -110,14 +120,15 @@ class Router
         }
         
         // Decode the URL into plain UTF-8.
-        $url = urldecode($url);
+        $url = $result->url = urldecode($url);
         if ($url === '')
         {
-            return (object)['status' => 200, 'url' => $url, 'args' => []];
+            return $result;
         }
         if (function_exists('mb_check_encoding') && !mb_check_encoding($url, 'UTF-8'))
         {
-            return (object)['status' => 404, 'url' => '', 'args' => []];
+            $result->status = 404;
+            return $result;
         }
         
         // Try to detect the prefix. This might be $mid.
@@ -127,7 +138,7 @@ class Router
             $prefix = $matches[1];
             $internal_url = $matches[2] ?? '';
             // Find the module associated with this prefix.
-            $action_info = self::_getActionInfoByPrefix($prefix);
+            $action_info = self::_getActionInfoByPrefix($prefix, $module_name = '');
             if ($action_info)
             {
                 // Try the list of routes defined by the module.
@@ -137,7 +148,11 @@ class Router
                     {
                         $matches = array_filter($matches, 'is_string', \ARRAY_FILTER_USE_KEY);
                         $allargs = array_merge(['mid' => $prefix, 'act' => $action], $matches, $args);
-                        return (object)['status' => 200, 'url' => $url, 'args' => $allargs];
+                        $result->module = $module_name;
+                        $result->mid = $prefix;
+                        $result->act = $action;
+                        $result->args = $allargs;
+                        return $result;
                     }
                 }
                 
@@ -149,7 +164,12 @@ class Router
                     {
                         $matches = array_filter($matches, 'is_string', \ARRAY_FILTER_USE_KEY);
                         $allargs = array_merge(['mid' => $prefix, 'act' => $action[1]], $matches, $args);
-                        return (object)['status' => 200, 'url' => $url, 'args' => $allargs];
+                        $result->module = $action[0];
+                        $result->mid = $prefix;
+                        $result->act = $action[1];
+                        $result->forwarded = true;
+                        $result->args = $allargs;
+                        return $result;
                     }
                 }
                 
@@ -157,14 +177,23 @@ class Router
                 if (preg_match('#^[a-zA-Z0-9_]+$#', $internal_url))
                 {
                     $allargs = array_merge(['mid' => $prefix, 'act' => $internal_url], $args);
-                    return (object)['status' => 200, 'url' => $url, 'args' => $allargs];
+                    $result->mid = $prefix;
+                    $result->act = $internal_url;
+                    $result->forwarded = true;
+                    $result->args = $allargs;
+                    return $result;
                 }
                 
                 // If the module defines a 404 error handler, call it.
                 if ($internal_url && isset($action_info->error_handlers[404]))
                 {
                     $allargs = array_merge(['mid' => $prefix, 'act' => $action_info->error_handlers[404]], $args);
-                    return (object)['status' => 200, 'url' => $url, 'args' => $allargs];
+                    $result->module = $module_name;
+                    $result->mid = $prefix;
+                    $result->act = $action_info->error_handlers[404];
+                    $result->forwarded = false;
+                    $result->args = $allargs;
+                    return $result;
                 }
             }
         }
@@ -179,8 +208,12 @@ class Router
                 {
                     $matches = array_filter($matches, 'is_string', \ARRAY_FILTER_USE_KEY);
                     $allargs = array_merge(['act' => $action[1]], $matches, $args);
-                    return (object)['status' => 200, 'url' => $url, 'args' => $allargs];
-                }
+                    $result->module = $action[0];
+                    $result->act = $action[1];
+                    $result->forwarded = true;
+                    $result->args = $allargs;
+                    return $result;
+            }
             }
         }
         
@@ -191,18 +224,25 @@ class Router
             {
                 $matches = array_filter($matches, 'is_string', \ARRAY_FILTER_USE_KEY);
                 $allargs = array_merge($route_info['extra_vars'] ?? [], $matches, $args);
-                return (object)['status' => 200, 'url' => $url, 'args' => $allargs];
+                $result->module = $allargs['module'] ?? '';
+                $result->mid = $allargs['mid'] ?: '';
+                $result->act = $allargs['act'] ?: '';
+                $result->forwarded = false;
+                $result->args = $allargs;
+                return $result;
             }
         }
         
         // If no pattern matches, return an empty array.
         if ($url === '' || $url === 'index.php')
         {
-            return (object)['status' => 200, 'url' => '', 'args' => []];
+            $result->url = '';
+            return $result;
         }
         else
         {
-            return (object)['status' => 404, 'url' => $url, 'args' => []];
+            $result->status = 404;
+            return $result;
         }
     }
     
@@ -213,7 +253,7 @@ class Router
      * @param int $rewrite_level
      * @return string
      */
-    public static function getURLFromArguments(array $args, int $rewrite_level): string
+    public static function getURL(array $args, int $rewrite_level): string
     {
         // If rewrite is turned off, just create a query string.
         if ($rewrite_level == 0)
@@ -252,7 +292,7 @@ class Router
         if ($rewrite_level >= 2 && isset($args['mid']))
         {
             // Get module action info.
-            $action_info = self::_getActionInfoByPrefix($args['mid']);
+            $action_info = self::_getActionInfoByPrefix($args['mid'], $module_name = '');
             
             // If there is no $act, use the default action.
             $act = isset($args['act']) ? $args['act'] : $action_info->default_index_act;
@@ -326,17 +366,18 @@ class Router
      * @param string $prefix
      * @return object
      */
-    protected static function _getActionInfoByPrefix(string $prefix)
+    protected static function _getActionInfoByPrefix(string $prefix, string &$module_name = '')
     {
         if (isset(self::$_action_cache_prefix[$prefix]))
         {
+            $module_name = self::$_action_cache_prefix[$prefix];
             return self::_getActionInfoByModule(self::$_action_cache_prefix[$prefix]) ?: false;
         }
         
         $module_info = \ModuleModel::getModuleInfoByMid($prefix);
         if ($module_info && $module_info->module)
         {
-            self::$_action_cache_prefix[$prefix] = $module_info->module;
+            $module_name = self::$_action_cache_prefix[$prefix] = $module_info->module;
             return self::_getActionInfoByModule(self::$_action_cache_prefix[$prefix]) ?: false;
         }
         else

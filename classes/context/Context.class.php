@@ -128,6 +128,10 @@ class Context
 	private static $_init_called = false;
 
 	/**
+	 * Current route information
+	 */
+	private static $_route_info = null;
+	/**
 	 * object oFrontEndFileHandler()
 	 * @var object
 	 */
@@ -237,9 +241,9 @@ class Context
 		{
 			$method = $_SERVER['REQUEST_METHOD'] ?: 'GET';
 			$url = $_SERVER['REQUEST_URI'];
-			$route = Rhymix\Framework\Router::getRequestArguments($method, $url, Rhymix\Framework\Router::getRewriteLevel());
-			self::setRequestArguments($route->args);
-			self::set('route_info', $route);
+			$route_info = Rhymix\Framework\Router::parseURL($method, $url, Rhymix\Framework\Router::getRewriteLevel());
+			self::setRequestArguments($route_info->args);
+			self::$_route_info = $route_info;
 		}
 		else
 		{
@@ -612,6 +616,16 @@ class Context
 	public static function getDBInfo()
 	{
 		return self::$_instance->db_info;
+	}
+
+	/**
+	 * Get current route information
+	 *
+	 * @return object
+	 */
+	public static function getRouteInfo()
+	{
+		return self::$_route_info;
 	}
 
 	/**
@@ -1743,7 +1757,7 @@ class Context
 		$query = '';
 		if(count($get_vars) > 0)
 		{
-			$query = Rhymix\Framework\Router::getURLFromArguments($get_vars, $rewrite_level);
+			$query = Rhymix\Framework\Router::getURL($get_vars, $rewrite_level);
 		}
 		
 		// If using SSL always

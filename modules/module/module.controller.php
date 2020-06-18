@@ -25,8 +25,8 @@ class moduleController extends module
 		$args->module = $module;
 		$args->type = $type;
 		$args->act = $act;
-		$args->route_regexp = serialize($route_regexp);
-		$args->route_config = serialize($route_config);
+		$args->route_regexp = is_scalar($route_regexp) ? $route_regexp : serialize($route_regexp);
+		$args->route_config = is_scalar($route_config) ? $route_config : serialize($route_config);
 		$args->global_route = $global_route === 'Y' ? 'Y' : 'N';
 		$output = executeQuery('module.insertActionForward', $args);
 
@@ -1363,7 +1363,7 @@ class moduleController extends module
 			if (!isset($action_forward[$action_name]))
 			{
 				$output = $this->insertActionForward($module_name, $route_info['type'], $action_name,
-					serialize($route_info['regexp']), serialize($route_info['config']));
+					$route_info['regexp'], $route_info['config'], $route_info['global_route']);
 				if (!$output->toBool())
 				{
 					return $output;

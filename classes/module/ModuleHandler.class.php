@@ -86,7 +86,7 @@ class ModuleHandler extends Handler
 		$this->mid = $mid ? $mid : Context::get('mid');
 		$this->document_srl = $document_srl ? (int) $document_srl : (int) Context::get('document_srl');
 		$this->module_srl = $module_srl ? (int) $module_srl : (int) Context::get('module_srl');
-		$this->route = Context::get('route_info') ?: new stdClass;
+		$this->route = Context::getRouteInfo() ?: new stdClass;
         if($entry = Context::get('entry'))
         {
             $this->entry = Context::convertEncodingStr($entry);
