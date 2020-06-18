@@ -212,12 +212,6 @@ class HTMLDisplayHandler
 
 			$pattern = '/href=(["\'])(\?[^"\']+)/s';
 			$output = preg_replace($pattern, 'href=$1' . \RX_BASEURL . '$2', $output);
-
-			if(Context::get('vid'))
-			{
-				$pattern = '/\/' . Context::get('vid') . '\?([^=]+)=/is';
-				$output = preg_replace($pattern, '/?$1=', $output);
-			}
 		}
 		
 		// prevent the 2nd request due to url(none) of the background-image
