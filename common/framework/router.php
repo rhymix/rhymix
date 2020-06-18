@@ -2,8 +2,6 @@
 
 namespace Rhymix\Framework;
 
-use function Complex\sec;
-
 /**
  * The router class.
  */
