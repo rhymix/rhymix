@@ -94,46 +94,44 @@ class memberController extends member
 		$device_model = escape(Context::get('device_model'));
 
 		// Return an error when id and password doesn't exist
-		if(!$user_id) throw new Rhymix\Framework\Exception('null_user_id');
-		if(!$password) throw new Rhymix\Framework\Exception('null_password');
-		if(!$device_token) throw new Rhymix\Framework\Exception('null_device_token');
+		if(!$user_id) return new BaseObject(-1, 'NULL_USER_ID');
+		if(!$password) return new BaseObject(-1, 'NULL_PASSWORD');
+		if(!$device_token) return new BaseObject(-1, 'NULL_DEVICE_TOKEN');
 
 		$browserInfo = Rhymix\Framework\UA::getBrowserInfo();
 		$device_type = strtolower($browserInfo->os);
 		if('android' !== $device_type && 'ios' !== $device_type)
 		{
-			throw new \Rhymix\Framework\Exception('not_supported_os');
+			return new BaseObject(-1, 'NOT_SUPPORTED_OS');
 		}
 
 		if('ios' === $device_type)
 		{
 			if(preg_match("/^[0-9a-z]{64}$/", $device_token))
 			{
-				throw new \Rhymix\Framework\Exception('invalid_device_token');
+				return new BaseObject(-1, 'INVALID_DEVICE_TOKEN');
 			}
 		}
 		else if('android' === $device_type)
 		{
 			if(preg_match("/^[0-9a-zA-Z:_-]+$/", $device_token))
 			{
-				throw new \Rhymix\Framework\Exception('invalid_device_token');
+				return new BaseObject(-1, 'INVALID_DEVICE_TOKEN');
 			}
 		}
 		else
 		{
-			throw new \Rhymix\Framework\Exception('not_supported_os');
+			return new BaseObject(-1, 'NOT_SUPPORTED_OS');
 		}
 		
 		$device_version = $browserInfo->version;
-		
 
 		$output = $this->procMemberLogin($user_id, $password);
 		if(!$output->toBool())
 		{
-			return new BaseObject(-1, 'Login failed');
+			return new BaseObject(-1, 'LOGIN_FAILED');
 		}
 		$logged_info = Context::get('logged_info');
-		var_dump($logged_info);exit;
 
 		$random_key = Rhymix\Framework\Security::getRandom();
 		$device_key = hash_hmac('sha256', $random_key, $device_token);
@@ -171,6 +169,46 @@ class memberController extends member
 		$this->add('user_name', $logged_info->user_name);
 		$this->add('nick_name', $logged_info->nick_name);
 		$this->add('device_key', $random_key);
+	}
+
+	/**
+	 * Automatically log-in to registered device
+	 */
+	function procMemberLoginWithDevice()
+	{
+		Context::setResponseMethod('JSON');
+		// Check member_srl, device_token, device_key
+		$member_srl = Context::get('member_srl');
+		$device_token = escape(Context::get('device_token'));
+		$random_key = escape(Context::get('device_key'));
+
+		// Return an error when id, password and device_key doesn't exist
+		if(!$member_srl) return new BaseObject(-1, 'NULL_MEMBER_SRL');
+		if(!$device_token) return new BaseObject(-1, 'NULL_DEVICE_TOKEN');
+		if(!$random_key) return new BaseObject(-1, 'NULL_DEVICE_KEY');
+
+		$args = new stdClass;
+		$args->member_srl = $member_srl;
+		$args->device_token = $device_token;
+		$args->device_key = hash_hmac('sha256', $random_key, $device_token);
+		$output = executeQueryArray('member.getMemberDevice', $args);
+		if(!$output->toBool())
+		{
+			return new BaseObject(-1, 'DEVICE_RETRIEVE_FAILED');
+		}
+
+		if(!$output->data)
+		{
+			return new BaseObject(-1, 'UNREGISTERED_DEVICE');
+		}
+
+		// Log-in
+		$member_info = MemberModel::getMemberInfoByMemberSrl($member_srl);
+		$output = $this->doLogin($member_info->user_id);
+		if(!$output->toBool())
+		{
+			return new BaseObject(-1, 'LOGIN_FAILED');
+		}
 	}
 
 	/**
