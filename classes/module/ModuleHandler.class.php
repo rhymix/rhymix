@@ -12,7 +12,7 @@
  * */
 class ModuleHandler extends Handler
 {
-
+	var $method = 'GET';
 	var $module = NULL; ///< Module
 	var $act = NULL; ///< action
 	var $mid = NULL; ///< Module ID
@@ -80,12 +80,13 @@ class ModuleHandler extends Handler
 		}
 
 		// Set variables from request arguments
+		$this->method = Context::getRequestMethod();
 		$this->module = $module ? $module : Context::get('module');
 		$this->act = $act ? $act : Context::get('act');
 		$this->mid = $mid ? $mid : Context::get('mid');
 		$this->document_srl = $document_srl ? (int) $document_srl : (int) Context::get('document_srl');
 		$this->module_srl = $module_srl ? (int) $module_srl : (int) Context::get('module_srl');
-		$this->route = Context::get('route_info');
+		$this->route = Context::get('route_info') ?: new stdClass;
         if($entry = Context::get('entry'))
         {
             $this->entry = Context::convertEncodingStr($entry);
@@ -240,19 +241,14 @@ class ModuleHandler extends Handler
 			$module_info = $site_module_info;
 		}
 
-		if(!$module_info && !$this->module && $site_module_info->module_site_srl)
-		{
-			$module_info = $site_module_info;
-		}
-
 		// Set index document
-		if($site_module_info->index_document_srl && !$this->module && !$this->mid && !$this->document_srl && Context::getRequestMethod() === 'GET' && !count($_GET))
+		if($site_module_info->index_document_srl && !$this->module && !$this->mid && !$this->document_srl && $this->method === 'GET' && !$this->route->args)
 		{
 			Context::set('document_srl', $this->document_srl = $site_module_info->index_document_srl, true);
 		}
 
 		// redirect, if site start module
-		if(!$site_module_info->index_document_srl && Context::getRequestMethod() === 'GET' && isset($_GET['mid']) && $_GET['mid'] === $site_module_info->mid && count($_GET) === 1)
+		if(!$site_module_info->index_document_srl && $this->method === 'GET' && isset($this->route->args['mid']) && $this->route->args['mid'] === $site_module_info->mid && count($this->route->args) === 1)
 		{
 			Context::setCacheControl(0);
 			header('location: ' . getNotEncodedSiteUrl($site_module_info->domain), true, 301);
