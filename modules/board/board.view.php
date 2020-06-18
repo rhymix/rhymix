@@ -1364,6 +1364,11 @@ class boardView extends board
 		Context::set('blame_member_info', $blame_member_infos);
 		$this->setTemplateFile('vote_log');
 	}
+	
+	function dispBoardNotFound()
+	{
+		$this->alertMessage('msg_not_founded', 404);
+	}
 
 	/**
 	 * @brief the method for displaying the warning messages

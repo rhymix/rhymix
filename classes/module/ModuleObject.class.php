@@ -251,10 +251,10 @@ class ModuleObject extends BaseObject
 		if(Context::get('logged_info')->is_admin !== 'Y')
 		{
 			// Get privileges(granted) information for target module by <permission check> of module.xml
-			if(($permission_check = $this->xml_info->permission_check->{$this->act}) && $permission_check->key)
+			if(($permission = $this->xml_info->action->{$this->act}->permission) && $permission->check_var)
 			{
 				// Check parameter
-				if(empty($check_module_srl = trim(Context::get($permission_check->key))))
+				if(empty($check_module_srl = trim(Context::get($permission->check_var))))
 				{
 					return false;
 				}
@@ -277,7 +277,7 @@ class ModuleObject extends BaseObject
 				foreach($check_module_srl as $target_srl)
 				{
 					// Get privileges(granted) information of current user for target module
-					if(($grant = ModuleModel::getInstance()->getPrivilegesBySrl($target_srl, $permission_check->type)) === false)
+					if(($grant = ModuleModel::getInstance()->getPrivilegesBySrl($target_srl, $permission->check_type)) === false)
 					{
 						return false;
 					}
@@ -348,7 +348,7 @@ class ModuleObject extends BaseObject
 		}
 		
 		// Get permission types(guest, member, manager, root) of the currently requested action
-		$permission = $this->xml_info->permission->{$this->act};
+		$permission = $this->xml_info->action->{$this->act}->permission->target ?: $this->xml_info->permission->{$this->act};
 		
 		// If admin action, set default permission
 		if(empty($permission) && stripos($this->act, 'admin') !== false)

@@ -83,6 +83,7 @@ class ModuleInfoParser
 		$info->default_index_act = $action_info->default_index_act;
 		$info->setup_index_act = $action_info->setup_index_act;
 		$info->simple_setup_index_act = $action_info->simple_setup_index_act;
+		$info->error_handlers = $action_info->error_handlers ?: [];
 		
 		// Return the complete result.
 		return $info;

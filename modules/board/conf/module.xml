@@ -92,6 +92,7 @@
 		<action name="dispBoardUpdateLog" type="view" permission="update_view" standalone="false" />
 		<action name="dispBoardUpdateLogView" type="view" permission="update_view" standalone="false" />
 		<action name="dispBoardVoteLog" type="view" permission="vote_log_view" standalone="false" />
+		<action name="dispBoardNotFound" type="view" standalone="false" error-handlers="404" />
 		
 		<action name="dispBoardNoticeList" type="view" permission="list" standalone="false" />
 		<action name="dispBoardCategoryList" type="view" permission="list" standalone="false" />
@@ -125,7 +126,7 @@
 		<action name="getBoardAdminSimpleSetup" type="model" simple_setup_index="true" />
 		
 		<action name="procBoardAdminInsertBoard" type="controller" permission="manager" check_var="module_srl" ruleset="insertBoard" />
-		<action name="procBoardAdminDeleteBoard" type="controller" />
+		<action name="procBoardAdminDeleteBoard" type="controller" permission="manager" check_var="module_srl" />
 		<action name="procBoardAdminUpdateBoardFroBasic" type="controller" ruleset="insertBoardForBasic" />
 		<action name="procBoardAdminSaveCategorySettings" type="controller" permission="manager" check_var="module_srl" ruleset="saveCategorySettings" />
 	</actions>

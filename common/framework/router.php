@@ -156,6 +156,13 @@ class Router
                     $allargs = array_merge(['mid' => $prefix, 'act' => $internal_url], $args);
                     return (object)['status' => 200, 'url' => $url, 'args' => $allargs];
                 }
+                
+                // If the module defines a 404 error handler, call it.
+                if ($internal_url && isset($action_info->error_handlers[404]))
+                {
+                    $allargs = array_merge(['mid' => $prefix, 'act' => $action_info->error_handlers[404]], $args);
+                    return (object)['status' => 200, 'url' => $url, 'args' => $allargs];
+                }
             }
         }
         

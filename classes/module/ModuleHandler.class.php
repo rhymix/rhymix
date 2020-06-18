@@ -597,7 +597,7 @@ class ModuleHandler extends Handler
 				// Protect admin action
 				if(($this->module == 'admin' || $kind == 'admin') && !ModuleModel::getGrant($forward, $logged_info)->root)
 				{
-					if($this->module == 'admin' || empty($xml_info->permission->{$this->act}))
+					if($this->module == 'admin' || empty($xml_info->action->{$this->act}->permission->target))
 					{
 						self::_setInputErrorToContext();
 						$this->error = 'admin.msg_is_not_administrator';

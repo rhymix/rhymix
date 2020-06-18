@@ -49,10 +49,9 @@ class ModuleActionParser
 		$info->route->GET = [];
 		$info->route->POST = [];
 		$info->action = new \stdClass;
-		$info->menu = new \stdClass;
 		$info->grant = new \stdClass;
-		$info->permission = new \stdClass;
-		$info->permission_check = new \stdClass;
+		$info->menu = new \stdClass;
+		$info->error_handlers = [];
 		
 		// Parse grants.
 		foreach ($xml->grants->grant ?: [] as $grant)
@@ -62,19 +61,6 @@ class ModuleActionParser
 			$grant_info->default = trim($grant['default']);
 			$grant_name = trim($grant['name']);
 			$info->grant->{$grant_name} = $grant_info;
-		}
-		
-		// Parse permissions not defined in the <actions> section.
-		foreach ($xml->permissions->permission ?: [] as $permission)
-		{
-			$action_name = trim($permission['action']);
-			$permission = trim($permission['target']);
-			$info->permission->{$action_name} = $permission;
-			
-			$check = new \stdClass;
-			$check->key = trim($permission['check_var']) ?: trim($permission['check-var']);
-			$check->type = trim($permission['check_type']) ?: trim($permission['check-type']);
-			$info->permission_check->{$action_name} = $check;
 		}
 		
 		// Parse menus.
@@ -95,15 +81,12 @@ class ModuleActionParser
 			// Parse permissions.
 			$action_name = trim($action['name']);
 			$permission = trim($action['permission']);
+			$permission_info = (object)['target' => '', 'check_var' => '', 'check_type' => ''];
 			if ($permission)
 			{
-				$info->permission->{$action_name} = $permission;
-				if (isset($info->permission_check->{$action_name}))
-				{
-					$info->permission_check->{$action_name} = new \stdClass;
-				}
-				$info->permission_check->{$action_name}->key = trim($action['check_var']) ?: trim($action['check-var']);
-				$info->permission_check->{$action_name}->type = trim($action['check_type']) ?: trim($action['check-type']);
+				$permission_info->target = $permission;
+				$permission_info->check_var = trim($action['check_var']) ?: trim($action['check-var']);
+				$permission_info->check_type = trim($action['check_type']) ?: trim($action['check-type']);
 			}
 			
 			// Parse routes.
@@ -136,6 +119,7 @@ class ModuleActionParser
 			$action_info = new \stdClass;
 			$action_info->type = trim($action['type']);
 			$action_info->grant = trim($action['grant']) ?: 'guest';
+			$action_info->permission = $permission_info;
 			$action_info->ruleset = trim($action['ruleset']);
 			$action_info->method = $method;
 			$action_info->route = $route_arg;
@@ -170,6 +154,28 @@ class ModuleActionParser
 			if (toBool($action['simple_setup_index']))
 			{
 				$info->simple_setup_index_act = $action_name;
+			}
+			
+			// Set error handler settings.
+			$error_handlers = explode(',', trim($action['error_handlers']) ?: trim($action['error-handlers']));
+			foreach ($error_handlers as $error_handler)
+			{
+				if (intval($error_handler) > 200)
+				{
+					$info->error_handlers[intval($error_handler)] = $action_name;
+				}
+			}
+		}
+		
+		// Parse permissions not defined in the <actions> section.
+		foreach ($xml->permissions->permission ?: [] as $permission)
+		{
+			$action_name = trim($permission['action']);
+			if (isset($info->action->{$action_name}))
+			{
+				$info->action->{$action_name}->permission->target = trim($permission['target']);
+				$info->action->{$action_name}->permission->check_var = trim($permission['check_var']) ?: trim($permission['check-var']);
+				$info->action->{$action_name}->permission->check_type = trim($permission['check_type']) ?: trim($permission['check-type']);
 			}
 		}
 		
