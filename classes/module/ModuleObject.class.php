@@ -335,10 +335,9 @@ class ModuleObject extends BaseObject
 		}
 		
 		// Get privileges(granted) information of the member for current module
-		$oModuleModel = ModuleModel::getInstance();
 		if(!$grant)
 		{
-			$grant = $oModuleModel->getGrant($this->module_info, $member_info, $this->xml_info);
+			$grant = ModuleModel::getGrant($this->module_info, $member_info, $this->xml_info);
 		}
 		
 		// If an administrator, Pass
@@ -381,17 +380,17 @@ class ModuleObject extends BaseObject
 			if(Context::get('is_logged') && isset($type[2]))
 			{
 				// Manager privilege of the member is found by search all modules, Pass
-				if($type[2] == 'all' && $oModuleModel->findManagerPrivilege($member_info) !== false)
+				if($type[2] == 'all' && ModuleModel::findManagerPrivilege($member_info) !== false)
 				{
 					return true;
 				}
 				// Manager privilege of the member is found by search same module as this module, Pass
-				elseif($type[2] == 'same' && $oModuleModel->findManagerPrivilege($member_info, $this->module) !== false)
+				elseif($type[2] == 'same' && ModuleModel::findManagerPrivilege($member_info, $this->module) !== false)
 				{
 					return true;
 				}
 				// Manager privilege of the member is found by search same module as the module, Pass
-				elseif($oModuleModel->findManagerPrivilege($member_info, $type[2]) !== false)
+				elseif(ModuleModel::findManagerPrivilege($member_info, $type[2]) !== false)
 				{
 					return true;
 				}
@@ -650,7 +649,6 @@ class ModuleObject extends BaseObject
 			// Set module skin
 			if(isset($this->module_info->skin) && $this->module_info->module === $this->module && strpos($this->act, 'Admin') === false)
 			{
-				$oModuleModel = ModuleModel::getInstance();
 				$skin_type = $is_mobile ? 'M' : 'P';
 				$skin_key = $is_mobile ? 'mskin' : 'skin';
 				$skin_dir = $is_mobile ? 'm.skins' : 'skins';
@@ -662,7 +660,7 @@ class ModuleObject extends BaseObject
 				{
 					if($module_skin === '/USE_DEFAULT/')
 					{
-						$module_skin = $oModuleModel->getModuleDefaultSkin($this->module, $skin_type);
+						$module_skin = ModuleModel::getModuleDefaultSkin($this->module, $skin_type);
 						$this->module_info->{$skin_key} = $module_skin;
 					}
 					if($module_skin === '/USE_RESPONSIVE/')
@@ -671,7 +669,7 @@ class ModuleObject extends BaseObject
 						$module_skin = $this->module_info->skin ?: '/USE_DEFAULT/';
 						if($module_skin === '/USE_DEFAULT/')
 						{
-							$module_skin = $oModuleModel->getModuleDefaultSkin($this->module, 'P');
+							$module_skin = ModuleModel::getModuleDefaultSkin($this->module, 'P');
 						}
 					}
 					if(!is_dir(sprintf('%s%s/%s', $this->module_path, $skin_dir, $module_skin)))
@@ -682,7 +680,7 @@ class ModuleObject extends BaseObject
 				}
 				
 				// Set skin variable
-				$oModuleModel->syncSkinInfoToModuleInfo($this->module_info);
+				ModuleModel::syncSkinInfoToModuleInfo($this->module_info);
 				Context::set('module_info', $this->module_info);
 			}
 			
