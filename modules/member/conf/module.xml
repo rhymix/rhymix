@@ -26,6 +26,7 @@
 		<action name="procMemberInsert" type="controller" ruleset="@insertMember" />
 		<action name="procMemberCheckValue" type="controller" />
 		<action name="procMemberLogin" type="controller" ruleset="@login" />
+		<action name="procMemberRegisterDevice" type="controller" />
 		<action name="procMemberFindAccount" type="controller" method="GET|POST" ruleset="findAccount" />
 		<action name="procMemberFindAccountByQuestion" type="controller" method="GET|POST" />
 		<action name="procMemberAuthAccount" type="controller" method="GET|POST" />

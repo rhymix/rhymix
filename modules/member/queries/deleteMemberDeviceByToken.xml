@@ -1,0 +1,8 @@
+<query id="deleteMemberDeviceByToken" action="delete">
+    <tables>
+        <table name="member_devices" />
+    </tables>
+    <conditions>
+        <condition operation="equal" column="device_token" var="device_token" />
+    </conditions>
+</query>

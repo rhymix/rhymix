@@ -81,6 +81,99 @@ class memberController extends member
 	}
 
 	/**
+	 * Register device
+	 */
+	function procMemberRegisterDevice()
+	{
+		Context::setResponseMethod('JSON');
+
+		// Check user_id, password, device_token
+		$user_id = Context::get('user_id');
+		$password = Context::get('password');
+		$device_token = Context::get('device_token');
+		$device_model = escape(Context::get('device_model'));
+
+		// Return an error when id and password doesn't exist
+		if(!$user_id) throw new Rhymix\Framework\Exception('null_user_id');
+		if(!$password) throw new Rhymix\Framework\Exception('null_password');
+		if(!$device_token) throw new Rhymix\Framework\Exception('null_device_token');
+
+		$browserInfo = Rhymix\Framework\UA::getBrowserInfo();
+		$device_type = strtolower($browserInfo->os);
+		if('android' !== $device_type && 'ios' !== $device_type)
+		{
+			throw new \Rhymix\Framework\Exception('not_supported_os');
+		}
+
+		if('ios' === $device_type)
+		{
+			if(preg_match("/^[0-9a-z]{64}$/", $device_token))
+			{
+				throw new \Rhymix\Framework\Exception('invalid_device_token');
+			}
+		}
+		else if('android' === $device_type)
+		{
+			if(preg_match("/^[0-9a-zA-Z:_-]+$/", $device_token))
+			{
+				throw new \Rhymix\Framework\Exception('invalid_device_token');
+			}
+		}
+		else
+		{
+			throw new \Rhymix\Framework\Exception('not_supported_os');
+		}
+		
+		$device_version = $browserInfo->version;
+		
+
+		$output = $this->procMemberLogin($user_id, $password);
+		if(!$output->toBool())
+		{
+			return new BaseObject(-1, 'Login failed');
+		}
+		$logged_info = Context::get('logged_info');
+		var_dump($logged_info);exit;
+
+		$random_key = Rhymix\Framework\Security::getRandom();
+		$device_key = hash_hmac('sha256', $random_key, $device_token);
+
+		// Start transaction
+		$oDB = DB::getInstance();
+		$oDB->begin();
+		
+		// Remove duplicated token key
+		$args = new stdClass;
+		$args->device_token = $device_token;
+		executeQuery('member.deleteMemberDeviceByToken', $args);
+
+		// Create member_device
+		$args = new stdClass;
+		$args->device_srl = getNextSequence();
+		$args->member_srl = $logged_info->member_srl;
+		$args->device_token = $device_token;
+		$args->device_key = $device_key;
+		$args->device_type = $device_type;
+		$args->device_version = $device_version;
+		$args->device_model = $device_model;
+		$output3 = executeQuery('member.insertMemberDevice', $args);
+		if(!$output3->toBool())
+		{
+			$oDB->rollback();
+			return $output3;
+		}
+		
+		$oDB->commit();
+
+		// Set parameters
+		$this->add('member_srl', $logged_info->member_srl);
+		$this->add('user_id', $logged_info->user_id);
+		$this->add('user_name', $logged_info->user_name);
+		$this->add('nick_name', $logged_info->nick_name);
+		$this->add('device_key', $random_key);
+	}
+
+	/**
 	 * Log-out
 	 *
 	 * @return Object

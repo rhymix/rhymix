@@ -1,0 +1,12 @@
+<table name="member_device">
+	<column name="device_srl" type="number" notnull="notnull" primary_key="primary_key" />
+	<column name="member_srl" type="number" notnull="notnull" index="idx_member_srl" />
+	<column name="device_token" type="varchar" size="200" notnull="notnull" />
+	<column name="device_key" type="char" size="64" notnull="notnull" />
+	<column name="device_type" type="date" notnull="notnull" index="idx_device_type" />
+	<column name="device_version" type="varchar" size="20" notnull="notnull" />
+	<column name="device_model" type="varchar" size="40" notnull="notnull" />
+	<column name="device_description" type="varchar" size="200" />
+	<column name="regdate" type="varchar" size="14" notnull="notnull" index="idx_regdate" />
+	<column name="ipaddress" type="varchar" size="120" notnull="notnull" />
+</table>
