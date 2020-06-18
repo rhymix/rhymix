@@ -11,6 +11,11 @@ class Router
      * List of XE-compatible global routes.
      */
     protected static $_global_routes = array(
+        '$document_srl' => array(
+            'regexp' => '#^(?<document_srl>[0-9]+)$#',
+            'vars' => ['document_srl' => 'int'],
+            'priority' => 0,
+        ),
         '$mid' => array(
             'regexp' => '#^(?<mid>[a-zA-Z0-9_-]+)/?$#',
             'vars' => ['mid' => 'any'],
@@ -19,11 +24,6 @@ class Router
         '$act' => array(
             'regexp' => '#^(?<act>rss|atom)$#',
             'vars' => ['act' => 'word'],
-            'priority' => 0,
-        ),
-        '$document_srl' => array(
-            'regexp' => '#^(?<document_srl>[0-9]+)$#',
-            'vars' => ['document_srl' => 'int'],
             'priority' => 0,
         ),
         '$mid/$document_srl' => array(
