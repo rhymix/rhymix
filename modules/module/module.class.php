@@ -135,6 +135,7 @@ class module extends ModuleObject
 		// check route columns in action_forward table
 		if(!$oDB->isColumnExists('action_forward', 'route_regexp')) return true;
 		if(!$oDB->isColumnExists('action_forward', 'route_config')) return true;
+		if(!$oDB->isColumnExists('action_forward', 'global_route')) return true;
 	}
 
 	/**
@@ -461,6 +462,10 @@ class module extends ModuleObject
 		if(!$oDB->isColumnExists('action_forward', 'route_config'))
 		{
 			$oDB->addColumn('action_forward', 'route_config', 'text');
+		}
+		if(!$oDB->isColumnExists('action_forward', 'global_route'))
+		{
+			$oDB->addColumn('action_forward', 'global_route', 'char', 1, 'N', true);
 		}
 	}
 	

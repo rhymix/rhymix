@@ -19,14 +19,15 @@ class moduleController extends module
 	 * Action forward finds and forwards if an action is not in the requested module
 	 * This is used when installing a module
 	 */
-	function insertActionForward($module, $type, $act, $route_regexp = null, $route_config = null)
+	function insertActionForward($module, $type, $act, $route_regexp = null, $route_config = null, $global_route = 'N')
 	{
 		$args = new stdClass();
 		$args->module = $module;
 		$args->type = $type;
 		$args->act = $act;
-		$args->route_regexp = $route_regexp;
-		$args->route_config = $route_config;
+		$args->route_regexp = serialize($route_regexp);
+		$args->route_config = serialize($route_config);
+		$args->global_route = $global_route === 'Y' ? 'Y' : 'N';
 		$output = executeQuery('module.insertActionForward', $args);
 
 		Rhymix\Framework\Cache::delete('action_forward');
@@ -1337,6 +1338,7 @@ class moduleController extends module
 					'type' => $module_action_info->action->{$action_name}->type,
 					'regexp' => array(),
 					'config' => $action_info->route,
+					'global_route' => $action_info->global_route ? 'Y' : 'N',
 				);
 			}
 		}
@@ -1368,7 +1370,8 @@ class moduleController extends module
 				}
 			}
 			elseif ($action_forward[$action_name]->route_regexp !== $route_info['regexp'] ||
-				$action_forward[$action_name]->route_config !== $route_info['config'])
+				$action_forward[$action_name]->route_config !== $route_info['config'] ||
+				$action_forward[$action_name]->global_route !== $route_info['global_route'])
 			{
 				$output = $this->deleteActionForward($module_name, $route_info['type'], $action_name);
 				if (!$output->toBool())
@@ -1377,7 +1380,7 @@ class moduleController extends module
 				}
 				
 				$output = $this->insertActionForward($module_name, $route_info['type'], $action_name,
-					serialize($route_info['regexp']), serialize($route_info['config']));
+					$route_info['regexp'], $route_info['config'], $route_info['global_route']);
 				if (!$output->toBool())
 				{
 					return $output;

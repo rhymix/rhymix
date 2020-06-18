@@ -4,4 +4,5 @@
     <column name="type" type="varchar" size="15" notnull="notnull" />
     <column name="route_regexp" type="text" />
     <column name="route_config" type="text" />
+    <column name="global_route" type="char" size="1" notnull="notnull" default="N" />
 </table>

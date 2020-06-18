@@ -8,5 +8,6 @@
         <column name="type" var="type" notnull="notnull" />
         <column name="route_regexp" var="route_regexp" />
         <column name="route_config" var="route_config" />
+        <column name="global_route" var="global_route" default="N" />
     </columns>
 </query>

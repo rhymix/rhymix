@@ -39,10 +39,6 @@ class integration_search extends ModuleObject
 			}
 		}
 		
-		if (!$oModuleModel->getActionForward('IS'))
-		{
-			return true;
-		}
 		return false;
 	}
 
@@ -69,12 +65,6 @@ class integration_search extends ModuleObject
 					$oModuleController->updateModuleConfig('integration_search', $config);
 				}
 			}
-		}
-		
-		if (!$oModuleModel->getActionForward('IS'))
-		{
-			$oModuleController = getController('module');
-			$oModuleController->insertActionForward('integration_search', 'view', 'IS');
 		}
 	}
 

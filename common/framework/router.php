@@ -2,6 +2,8 @@
 
 namespace Rhymix\Framework;
 
+use function Complex\sec;
+
 /**
  * The router class.
  */
@@ -59,7 +61,8 @@ class Router
      */
     protected static $_action_cache_prefix = array();
     protected static $_action_cache_module = array();
-    protected static $_forwarded_cache = array();
+    protected static $_global_forwarded_cache = array();
+    protected static $_internal_forwarded_cache = array();
     protected static $_route_cache = array();
     
     /**
@@ -118,7 +121,7 @@ class Router
         }
         
         // Try to detect the prefix. This might be $mid.
-        if ($rewrite_level > 1 && preg_match('#^([a-zA-Z0-9_-]+)(?:/(.*))?#s', $url, $matches))
+        if ($rewrite_level >= 2 && preg_match('#^([a-zA-Z0-9_-]+)(?:/(.*))?#s', $url, $matches))
         {
             // Separate the prefix and the internal part of the URL.
             $prefix = $matches[1];
@@ -139,7 +142,7 @@ class Router
                 }
                 
                 // Check other modules.
-                $forwarded_routes = self::_getForwardedRoutes();
+                $forwarded_routes = self::_getForwardedRoutes('internal');
                 foreach ($forwarded_routes[$method] ?: [] as $regexp => $action)
                 {
                     if (preg_match($regexp, $internal_url, $matches))
@@ -161,6 +164,21 @@ class Router
                 if ($internal_url && isset($action_info->error_handlers[404]))
                 {
                     $allargs = array_merge(['mid' => $prefix, 'act' => $action_info->error_handlers[404]], $args);
+                    return (object)['status' => 200, 'url' => $url, 'args' => $allargs];
+                }
+            }
+        }
+        
+        // Try registered global routes.
+        if ($rewrite_level >= 2)
+        {
+            $global_routes = self::_getForwardedRoutes('global');
+            foreach ($global_routes[$method] ?: [] as $regexp => $action)
+            {
+                if (preg_match($regexp, $url, $matches))
+                {
+                    $matches = array_filter($matches, 'is_string', \ARRAY_FILTER_USE_KEY);
+                    $allargs = array_merge(['act' => $action[1]], $matches, $args);
                     return (object)['status' => 200, 'url' => $url, 'args' => $allargs];
                 }
             }
@@ -227,12 +245,12 @@ class Router
             return self::_insertRouteVars(self::$_route_cache[$keys_string], $args);
         }
         
+        // Remove $mid and $act from arguments and work with the remainder.
+        $args2 = $args; unset($args2['mid'], $args2['act']);
+        
         // If $mid exists, try routes defined in the module.
         if ($rewrite_level >= 2 && isset($args['mid']))
         {
-            // Remove $mid from arguments and work with the remainder.
-            $args2 = $args; unset($args2['mid'], $args2['act']);
-            
             // Get module action info.
             $action_info = self::_getActionInfoByPrefix($args['mid']);
             
@@ -252,7 +270,7 @@ class Router
             }
             
             // Check other modules for $act.
-            $forwarded_routes = self::_getForwardedRoutes();
+            $forwarded_routes = self::_getForwardedRoutes('internal');
             if (isset($forwarded_routes['reverse'][$act]))
             {
                 $result = self::_getBestMatchingRoute($forwarded_routes['reverse'][$act], $args2);
@@ -263,20 +281,24 @@ class Router
                 }
             }
             
-            // Check XE-compatible routes that start with $mid and contain no $act.
-            if (!isset($args['act']) || ($args['act'] === 'rss' || $args['act'] === 'atom' || $args['act'] === 'api'))
-            {
-                $result = self::_getBestMatchingRoute(self::$_global_routes, $args2);
-                if ($result !== false)
-                {
-                    self::$_route_cache[$keys_string] = $result;
-                    return self::_insertRouteVars($result, $args2);
-                }
-            }
-            
             // Try the generic mid/act pattern.
             self::$_route_cache[$keys_string] = '$mid/$act';
             return $args['mid'] . '/' . $args['act'] . (count($args2) ? ('?' . http_build_query($args2)) : '');
+        }
+        
+        // Try registered global routes.
+        if ($rewrite_level >= 2 && isset($args['act']))
+        {
+            $global_routes = self::_getForwardedRoutes('global');
+            if (isset($global_routes['reverse'][$args['act']]))
+            {
+                $result = self::_getBestMatchingRoute($global_routes['reverse'][$args['act']], $args2);
+                if ($result !== false)
+                {
+                    self::$_route_cache[$keys_string] = $result . '$act:delete';
+                    return self::_insertRouteVars($result, $args2);
+                }
+            }
         }
         
         // Try XE-compatible global routes.
@@ -343,14 +365,26 @@ class Router
     /**
      * Get the list of routes that are registered for action-forward.
      * 
-     * @return object
+     * @param string $type
+     * @return array
      */
-    protected static function _getForwardedRoutes()
+    protected static function _getForwardedRoutes(string $type): array
     {
-        if (count(self::$_forwarded_cache))
+        if ($type === 'internal' && count(self::$_internal_forwarded_cache))
         {
-            return self::$_forwarded_cache;
+            return self::$_internal_forwarded_cache;
         }
+        if ($type === 'global' && count(self::$_global_forwarded_cache))
+        {
+            return self::$_global_forwarded_cache;
+        }
+        
+        self::$_global_forwarded_cache['GET'] = array();
+        self::$_global_forwarded_cache['POST'] = array();
+        self::$_global_forwarded_cache['reverse'] = array();
+        self::$_internal_forwarded_cache['GET'] = array();
+        self::$_internal_forwarded_cache['POST'] = array();
+        self::$_internal_forwarded_cache['reverse'] = array();
         
         $action_forward = \ModuleModel::getActionForward();
         foreach ($action_forward as $action_name => $action_info)
@@ -359,12 +393,26 @@ class Router
             {
                 foreach ($action_info->route_regexp as $regexp_info)
                 {
-                    self::$_forwarded_cache[$regexp_info[0]][$regexp_info[1]] = [$action_info->module, $action_name];
+                    if ($action_info->global_route === 'Y')
+                    {
+                        self::$_global_forwarded_cache[$regexp_info[0]][$regexp_info[1]] = [$action_info->module, $action_name];
+                    }
+                    else
+                    {
+                        self::$_internal_forwarded_cache[$regexp_info[0]][$regexp_info[1]] = [$action_info->module, $action_name];
+                    }
                 }
-                self::$_forwarded_cache['reverse'][$action_name] = $action_info->route_config;
+                if ($action_info->global_route === 'Y')
+                {
+                    self::$_global_forwarded_cache['reverse'][$action_name] = $action_info->route_config;
+                }
+                else
+                {
+                    self::$_internal_forwarded_cache['reverse'][$action_name] = $action_info->route_config;
+                }
             }
         }
-        return self::$_forwarded_cache;
+        return $type === 'internal' ? self::$_internal_forwarded_cache : self::$_global_forwarded_cache;
     }
     
     /**
