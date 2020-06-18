@@ -378,16 +378,13 @@ class communicationModel extends communication
 
 		$args = new stdClass();
 		$args->member_srl = $logged_info->member_srl;
-
 		$output = executeQueryArray('communication.getFriendGroups', $args);
-
-		$group_list = $output->data;
-		if(!$group_list)
+		$friend_group_list = array();
+		foreach ($output->data as $item)
 		{
-			return;
+			$friend_group_list[$item->friend_group_srl] = $item;		
 		}
-		
-		return $group_list;
+		return $friend_group_list;
 	}
 
 	/**
