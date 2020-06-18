@@ -9,7 +9,6 @@ $lang->component_history = 'Cập nhật';
 $lang->component_description = 'Mô tả';
 $lang->component_extra_vars = 'Thông tin bổ xung';
 $lang->component_grant = 'Thiết lập quyền';
-$lang->content_style = 'Kiểu dáng của nội dung';
 $lang->content_font = 'Font chữ của nội dung';
 $lang->content_font_size = 'Cỡ chữ của nội dung';
 $lang->about_component = 'Thông tin Thành phần';

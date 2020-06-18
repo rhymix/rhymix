@@ -115,8 +115,6 @@ class editorController extends editor
 		if($editor_config->default_editor_settings !== 'Y') $editor_config->default_editor_settings = 'N';
 		$editor_config->editor_skin = Context::get('editor_skin');
 		$editor_config->comment_editor_skin = Context::get('comment_editor_skin');
-		$editor_config->content_style = Context::get('content_style');
-		$editor_config->comment_content_style = Context::get('comment_content_style');
 		$editor_config->content_font = Context::get('content_font');
 		if($editor_config->content_font)
 		{
@@ -171,13 +169,12 @@ class editorController extends editor
 		$this->setRedirectUrl($returnUrl);
 	}
 
-	/**
-	 * @brief convert editor component codes to be returned and specify content style.
-	 */
-	function triggerEditorComponentCompile(&$content)
-	{
-		if(Context::getResponseMethod() !== 'HTML') return;
 
+	/**
+	 * @brief Load editor style
+	 */
+	function procLoadEditorStyle()
+	{
 		$module_info = Context::get('module_info');
 		$module_srl = $module_info->module_srl;
 		if($module_srl)
@@ -188,7 +185,7 @@ class editorController extends editor
 		{
 			$editor_config = getModel('module')->getModuleConfig('editor');
 		}
-
+		
 		if ($editor_config)
 		{
 			$default_font_config = $this->default_font_config;
@@ -198,58 +195,22 @@ class editorController extends editor
 			if ($editor_config->content_paragraph_spacing) $default_font_config['default_paragraph_spacing'] = $editor_config->content_paragraph_spacing;
 			if ($editor_config->content_word_break) $default_font_config['default_word_break'] = $editor_config->content_word_break;
 			Context::set('default_font_config', $default_font_config);
-
-			$content_style = $editor_config->content_style;
-			if($content_style)
-			{
-				$path = _XE_PATH_ . 'modules/editor/styles/'.$content_style.'/';
-				if(is_dir($path) && file_exists($path . 'style.ini'))
-				{
-					$ini = file($path.'style.ini');
-					foreach($ini as $file)
-					{
-						$file = trim($file);
-						if(!$file) continue;
-
-						$args = array('./modules/editor/styles/'.$content_style.'/'.$file);
-						Context::loadFile($args);
-					}
-				}
-			}
-
-			/*
-			$buff = array();
-			$buff[] = '<style> .xe_content {';
-			if ($content_font)
-			{
-				$buff[] = "font-family: $content_font;";
-			}
-			if ($content_font_size)
-			{
-				$buff[] = "font-size: $content_font_size;";
-			}
-			if ($content_line_height)
-			{
-				$buff[] = "line-height: $content_line_height;";
-			}
-			if ($content_word_break === 'none')
-			{
-				$buff[] = 'white-space: nowrap;';
-			}
-			else
-			{
-				$buff[] = 'word-break: ' . ($content_word_break ?: 'normal') . '; word-wrap: break-word;';
-			}
-			$buff[] = '}';
-			$buff[] = '.xe_content p { margin: 0 0 ' . ($content_paragraph_spacing ?: 0) . ' 0; }';
-			$buff[] = '</style>';
-			Context::addHtmlHeader(implode(' ', $buff));
-			*/
 		}
 		else
 		{
 			Context::set('default_font_config', $this->default_font_config);
 		}
+	}
+
+
+	/**
+	 * @brief convert editor component codes to be returned and specify content style.
+	 */
+	function triggerEditorComponentCompile(&$content)
+	{
+		if(Context::getResponseMethod() !== 'HTML') return;
+
+		$this->procLoadEditorStyle();
 
 		$content = $this->transComponent($content);
 	}

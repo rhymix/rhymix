@@ -280,7 +280,8 @@ class fileModel extends file
 	 */
 	public static function getFileConfig($module_srl = null)
 	{
-		$config = clone ModuleModel::getModuleConfig('file');
+		$config = ModuleModel::getModuleConfig('file');
+		$config = is_object($config) ? clone $config : new stdClass();
 		if($module_srl)
 		{
 			$module_config = ModuleModel::getModulePartConfig('file', $module_srl);

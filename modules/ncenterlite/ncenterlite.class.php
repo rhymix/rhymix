@@ -303,6 +303,7 @@ class ncenterlite extends ModuleObject
 	public static function getSmsHandler()
 	{
 		static $oSmsHandler = null;
+		$config = getModel('ncenterlite')->getConfig();
 
 		if($oSmsHandler === null)
 		{
@@ -314,6 +315,11 @@ class ncenterlite extends ModuleObject
 				return $oSmsHandler;
 			}
 
+			if($config->variable_name === '#')
+			{
+				return $oSmsHandler;
+			}
+			
 			$variable_name = array();
 			$member_config = getModel('member')->getMemberConfig();
 			foreach($member_config->signupForm as $value)

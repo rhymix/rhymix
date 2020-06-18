@@ -10,7 +10,6 @@ $lang->component_history = '更新日志';
 $lang->component_description = '说明';
 $lang->component_extra_vars = '变数设置';
 $lang->component_grant = '权限设置';
-$lang->content_style = '文档样式';
 $lang->content_font = '文档字体';
 $lang->content_font_size = '字体大小';
 $lang->about_component = '组件简介';

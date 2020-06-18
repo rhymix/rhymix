@@ -55,7 +55,6 @@ $lang->component_history = '변경 이력';
 $lang->component_description = '설명';
 $lang->component_extra_vars = '설정 변수';
 $lang->component_grant = '권한설정';
-$lang->content_style = '문서 서식';
 $lang->content_font = '문서 폰트';
 $lang->content_font_size = '문서 폰트 크기';
 $lang->about_component = '컴포넌트 소개';
