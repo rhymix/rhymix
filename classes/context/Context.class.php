@@ -235,13 +235,19 @@ class Context
 		self::setRequestMethod();
 		if (in_array(self::$_instance->request_method, array('GET', 'POST')))
 		{
-			$args = Rhymix\Framework\Router::getRequestArguments(Rhymix\Framework\Router::getRewriteLevel());
+			$method = $_SERVER['REQUEST_METHOD'] ?: 'GET';
+			$url = $_SERVER['REQUEST_URI'];
+			$route = Rhymix\Framework\Router::getRequestArguments($method, $url, Rhymix\Framework\Router::getRewriteLevel());
+			self::setRequestArguments($route->args);
+			if ($route->status !== 200)
+			{
+				
+			}
 		}
 		else
 		{
-			$args = array();
+			self::setRequestArguments();
 		}
-		self::setRequestArguments($args);
 		self::setUploadInfo();
 		
 		// If Rhymix is installed, get virtual site information.

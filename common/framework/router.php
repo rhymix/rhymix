@@ -84,16 +84,14 @@ class Router
     /**
      * Extract request arguments from the current URL.
      * 
+     * @param string $method
+     * @param string $url
      * @param int $rewrite_level
-     * @return array
+     * @return object
      */
-    public static function getRequestArguments(int $rewrite_level): array
+    public static function getRequestArguments(string $method, string $url, int $rewrite_level)
     {
-        // Get the request method.
-        $method = $_SERVER['REQUEST_METHOD'] ?: 'GET';
-        
         // Get the local part of the current URL.
-        $url = $_SERVER['REQUEST_URI'];
         if (starts_with(\RX_BASEURL, $url))
         {
             $url = substr($url, strlen(\RX_BASEURL));
@@ -110,9 +108,13 @@ class Router
         
         // Decode the URL into plain UTF-8.
         $url = urldecode($url);
-        if ($url === '' || (function_exists('mb_check_encoding') && !mb_check_encoding($url, 'UTF-8')))
+        if ($url === '')
         {
-            return array();
+            return (object)['status' => 200, 'url' => $url, 'args' => []];
+        }
+        if (function_exists('mb_check_encoding') && !mb_check_encoding($url, 'UTF-8'))
+        {
+            return (object)['status' => 404, 'url' => '', 'args' => []];
         }
         
         // Try to detect the prefix. This might be $mid.
@@ -132,7 +134,7 @@ class Router
                     {
                         $matches = array_filter($matches, 'is_string', \ARRAY_FILTER_USE_KEY);
                         $allargs = array_merge(['mid' => $prefix, 'act' => $action], $matches, $args);
-                        return $allargs;
+                        return (object)['status' => 200, 'url' => $url, 'args' => $allargs];
                     }
                 }
                 
@@ -144,7 +146,7 @@ class Router
                     {
                         $matches = array_filter($matches, 'is_string', \ARRAY_FILTER_USE_KEY);
                         $allargs = array_merge(['mid' => $prefix, 'act' => $action[1]], $matches, $args);
-                        return $allargs;
+                        return (object)['status' => 200, 'url' => $url, 'args' => $allargs];
                     }
                 }
                 
@@ -152,7 +154,7 @@ class Router
                 if (preg_match('#^[a-zA-Z0-9_]+$#', $internal_url))
                 {
                     $allargs = array_merge(['mid' => $prefix, 'act' => $internal_url], $args);
-                    return $allargs;
+                    return (object)['status' => 200, 'url' => $url, 'args' => $allargs];
                 }
             }
         }
@@ -164,12 +166,19 @@ class Router
             {
                 $matches = array_filter($matches, 'is_string', \ARRAY_FILTER_USE_KEY);
                 $allargs = array_merge($route_info['extra_vars'] ?? [], $matches, $args);
-                return $allargs;
+                return (object)['status' => 200, 'url' => $url, 'args' => $allargs];
             }
         }
         
         // If no pattern matches, return an empty array.
-        return array();
+        if ($url === '' || $url === 'index.php')
+        {
+            return (object)['status' => 200, 'url' => '', 'args' => []];
+        }
+        else
+        {
+            return (object)['status' => 404, 'url' => $url, 'args' => []];
+        }
     }
     
     /**
