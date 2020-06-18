@@ -784,10 +784,26 @@ class ModuleHandler extends Handler
 	}
 	 
 	/**
-	 * set error message to Session.
+	 * Save input values to session so that they can be recovered after returning to the previous form.
+	 * 
 	 * @return void
-	 * */
-	public static function _setInputErrorToContext()
+	 */
+	protected static function _setInputValueToSession()
+	{
+		$requestVars = getDestroyXeVars(Context::getRequestVars());
+		unset($requestVars->act, $requestVars->mid, $requestVars->vid);
+		foreach($requestVars as $key => $value)
+		{
+			$_SESSION['INPUT_ERROR'][$key] = $value;
+		}
+	}
+
+	/**
+	 * Get previous error information and restore it to Context so that it is available to templates.
+	 * 
+	 * @return void
+	 */
+	protected static function _setInputErrorToContext()
 	{
 		if($_SESSION['XE_VALIDATOR_ERROR'] && !Context::get('XE_VALIDATOR_ERROR'))
 		{
@@ -821,7 +837,7 @@ class ModuleHandler extends Handler
 	 * clear error message to Session.
 	 * @return void
 	 * */
-	public static function _clearErrorSession()
+	protected static function _clearErrorSession()
 	{
 		unset($_SESSION['XE_VALIDATOR_ERROR']);
 		unset($_SESSION['XE_VALIDATOR_MESSAGE']);
@@ -829,20 +845,6 @@ class ModuleHandler extends Handler
 		unset($_SESSION['XE_VALIDATOR_RETURN_URL']);
 		unset($_SESSION['XE_VALIDATOR_ID']);
 		unset($_SESSION['INPUT_ERROR']);
-	}
-
-	/**
-	 * occured error when, set input values to session.
-	 * @return void
-	 * */
-	public static function _setInputValueToSession()
-	{
-		$requestVars = Context::getRequestVars();
-		unset($requestVars->act, $requestVars->mid, $requestVars->vid, $requestVars->success_return_url, $requestVars->error_return_url, $requestVars->xe_validator_id);
-		foreach($requestVars AS $key => $value)
-		{
-			$_SESSION['INPUT_ERROR'][$key] = $value;
-		}
 	}
 
 	/**
