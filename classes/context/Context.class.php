@@ -239,10 +239,7 @@ class Context
 			$url = $_SERVER['REQUEST_URI'];
 			$route = Rhymix\Framework\Router::getRequestArguments($method, $url, Rhymix\Framework\Router::getRewriteLevel());
 			self::setRequestArguments($route->args);
-			if ($route->status !== 200)
-			{
-				
-			}
+			self::set('route_info', $route);
 		}
 		else
 		{

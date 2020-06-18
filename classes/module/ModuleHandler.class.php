@@ -19,6 +19,7 @@ class ModuleHandler extends Handler
 	var $document_srl = NULL; ///< Document Number
 	var $module_srl = NULL; ///< Module Number
 	var $module_info = NULL; ///< Module Info
+	var $route = NULL; ///< Router result
 	var $error = NULL; ///< an error code.
 	var $httpStatusCode = NULL; ///< http status code.
 
@@ -84,6 +85,7 @@ class ModuleHandler extends Handler
 		$this->mid = $mid ? $mid : Context::get('mid');
 		$this->document_srl = $document_srl ? (int) $document_srl : (int) Context::get('document_srl');
 		$this->module_srl = $module_srl ? (int) $module_srl : (int) Context::get('module_srl');
+		$this->route = Context::get('route_info');
         if($entry = Context::get('entry'))
         {
             $this->entry = Context::convertEncodingStr($entry);
@@ -140,6 +142,14 @@ class ModuleHandler extends Handler
 			}
 		}
 
+		// If the Router returned an error earlier, show an error here.
+		if($this->route && $this->route->status > 200)
+		{
+			$this->error = 'msg_module_is_not_exists';
+			$this->httpStatusCode = '404';
+			return true;
+		}
+		
 		// if success_return_url and error_return_url is incorrect
 		$urls = array(Context::get('success_return_url'), Context::get('error_return_url'));
 		foreach($urls as $url)
