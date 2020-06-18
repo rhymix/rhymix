@@ -955,9 +955,8 @@ class moduleController extends module
 	{
 		$this->deleteModuleExtraVars($module_srl);
 		getDestroyXeVars($obj);
-		if(!$obj || !is_countable($obj) || !count($obj)) return;
-
-		foreach($obj as $key => $val)
+		
+		foreach(get_object_vars($obj) as $key => $val)
 		{
 			if(is_object($val) || is_array($val)) continue;
 
