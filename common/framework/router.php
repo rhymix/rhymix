@@ -305,13 +305,22 @@ class Router
         }
         
         // Remove $mid and $act from arguments and work with the remainder.
-        $args2 = $args; unset($args2['mid'], $args2['act']);
+        $args2 = $args; unset($args2['module'], $args2['mid'], $args2['act']);
         
         // If $mid exists, try routes defined in the module.
-        if ($rewrite_level >= 2 && isset($args['mid']))
+        if ($rewrite_level >= 2 && (isset($args['mid']) || isset($args['module'])))
         {
             // Get module action info.
-            $action_info = self::_getActionInfoByPrefix($args['mid'], $module_name = '');
+            if (isset($args['mid']))
+            {
+                $action_info = self::_getActionInfoByPrefix($args['mid']);
+                $prefix_type = 'mid';
+            }
+            elseif (isset($args['module']))
+            {
+                $action_info = self::_getActionInfoByModule($args['module']);
+                $prefix_type = 'module';
+            }
             
             // If there is no $act, use the default action.
             $act = isset($args['act']) ? $args['act'] : $action_info->default_index_act;
@@ -323,26 +332,29 @@ class Router
                 $result = self::_getBestMatchingRoute($action->route, $args2);
                 if ($result !== false)
                 {
-                    self::$_route_cache[$keys_string] = '$mid/' . $result . '$act:delete';
-                    return $args['mid'] . '/' . self::_insertRouteVars($result, $args2);
+                    self::$_route_cache[$keys_string] = '$' . $prefix_type . '/' . $result . '$act:delete';
+                    return $args[$prefix_type] . '/' . self::_insertRouteVars($result, $args2);
                 }
             }
             
             // Check other modules for $act.
-            $forwarded_routes = self::_getForwardedRoutes('internal');
-            if (isset($forwarded_routes['reverse'][$act]))
+            if ($prefix_type === 'mid')
             {
-                $result = self::_getBestMatchingRoute($forwarded_routes['reverse'][$act], $args2);
-                if ($result !== false)
+                $forwarded_routes = self::_getForwardedRoutes('internal');
+                if (isset($forwarded_routes['reverse'][$act]))
                 {
-                    self::$_route_cache[$keys_string] = '$mid/' . $result . '$act:delete';
-                    return $args['mid'] . '/' . self::_insertRouteVars($result, $args2);
+                    $result = self::_getBestMatchingRoute($forwarded_routes['reverse'][$act], $args2);
+                    if ($result !== false)
+                    {
+                        self::$_route_cache[$keys_string] = '$' . $prefix_type . '/' . $result . '$act:delete';
+                        return $args[$prefix_type] . '/' . self::_insertRouteVars($result, $args2);
+                    }
                 }
             }
             
             // Try the generic mid/act pattern.
-            self::$_route_cache[$keys_string] = '$mid/$act';
-            return $args['mid'] . '/' . $args['act'] . (count($args2) ? ('?' . http_build_query($args2)) : '');
+            self::$_route_cache[$keys_string] = '$' . $prefix_type . '/$act';
+            return $args[$prefix_type] . '/' . $args['act'] . (count($args2) ? ('?' . http_build_query($args2)) : '');
         }
         
         // Try registered global routes.
