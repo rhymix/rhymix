@@ -23,9 +23,9 @@
 		<action name="getMemberMenu" type="model" />
 		<action name="getApiGroups" type="model" permission="root" />
 		
-		<action name="procMemberInsert" type="controller" ruleset="@insertMember" use-ssl="true" />
+		<action name="procMemberInsert" type="controller" ruleset="@insertMember" use-ssl="true" route="signup" />
 		<action name="procMemberCheckValue" type="controller" />
-		<action name="procMemberLogin" type="controller" ruleset="@login" use-ssl="true" />
+		<action name="procMemberLogin" type="controller" ruleset="@login" use-ssl="true" route="login" />
 		<action name="procMemberFindAccount" type="controller" method="GET|POST" ruleset="findAccount" use-ssl="true" />
 		<action name="procMemberFindAccountByQuestion" type="controller" method="GET|POST" use-ssl="true" />
 		<action name="procMemberAuthAccount" type="controller" method="GET|POST" use-ssl="true" />
