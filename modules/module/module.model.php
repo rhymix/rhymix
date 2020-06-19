@@ -732,7 +732,7 @@ class moduleModel extends module
 		
 		// Load the XML file and cache the definition.
 		$mtime1 = filemtime($xml_file);
-		$mtime2 = filemtime($module_path . 'conf/module.xml');
+		$mtime2 = file_exists($module_path . 'conf/module.xml') ? filemtime($module_path . 'conf/module.xml') : 0;
 		$cache_key = sprintf('site_and_module:module_info_xml:%s:%d:%d', $module, $mtime1, $mtime2);
 		$info = Rhymix\Framework\Cache::get($cache_key);
 		if($info === null)
@@ -1443,14 +1443,14 @@ class moduleModel extends module
 						);
 					}
 				}
-				foreach ($module_action_info->route->GET as $regexp => $action_name)
+				foreach ($module_action_info->route->GET ?: [] as $regexp => $action_name)
 				{
 					if (isset($forwardable_routes[$action_name]))
 					{
 						$forwardable_routes[$action_name]['regexp'][] = ['GET', $regexp];
 					}
 				}
-				foreach ($module_action_info->route->POST as $regexp => $action_name)
+				foreach ($module_action_info->route->POST ?: [] as $regexp => $action_name)
 				{
 					if (isset($forwardable_routes[$action_name]))
 					{
