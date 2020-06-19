@@ -286,14 +286,20 @@ class Push
 		
 		try
 		{
-			$tokens = $this->getDeviceToken();
+			$tokens = $this->getDeviceTokens();
 			// Android FCM
-			$fcm_driver = $this->getDriver('fcm');
-			$this->sent = $fcm_driver->send($this, $tokens['android']);
+			if(count($tokens['android']))
+			{
+				$fcm_driver = $this->getDriver('fcm');
+				$this->sent = $fcm_driver->send($this, $tokens['android']);
+			}
 
 			// iOS APNs
-			$apns_driver =$this->getDriver('apns');
-			$this->sent = $apns_driver->send($this, $tokens['ios']);
+			if(count($tokens['ios']))
+			{
+				$apns_driver =$this->getDriver('apns');
+				$this->sent = $apns_driver->send($this, $tokens['ios']);
+			}
 		}
 		catch(\Exception $e)
 		{
@@ -316,33 +322,27 @@ class Push
 	 * @return array
 	 * 
 	 */
-	protected function getDeviceToken(): array
+	protected function getDeviceTokens(): array
 	{
 		$member_srl_list = $this->getRecipients();
+		$result = [];
+		$result['android'] = [];
+		$result['ios'] = [];
 
 		$args = new stdClass;
 		$args->member_srl = $member_srl_list;
-		$output = executeQueryArray('member.getMemberDeviceByMemberSrl', $args);
-		if(!$output->toBool())
+		$output = executeQueryArray('member.getMemberDeviceTokensByMemberSrl', $args);
+		if(!$output->toBool() || !$output->data)
 		{
-			return [];
+			return $result;
 		}
 
-		$device_tokens = [];
-		$device_tokens['android'] = array_map(function($device){
-			if('android' === $device->device_type)
-			{
-				return $device->device_token;
-			}
-		}, $output->data);
-		$device_tokens['ios'] = array_map(function($device){
-			if('ios' === $device->device_type)
-			{
-				return $device->device_token;
-			}
-		}, $output->data);
+		foreach($output->data as $row)
+		{
+			$result[$row->device_type] = $row->device_token;
+		}
 
-		return $device_tokens;
+		return $result;
 	}
 	
 	/**
