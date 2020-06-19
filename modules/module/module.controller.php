@@ -1338,7 +1338,7 @@ class moduleController extends module
 					'type' => $module_action_info->action->{$action_name}->type,
 					'regexp' => array(),
 					'config' => $action_info->route,
-					'global_route' => $action_info->global_route ? 'Y' : 'N',
+					'global_route' => $action_info->global_route === 'true' ? 'Y' : 'N',
 				);
 			}
 		}
