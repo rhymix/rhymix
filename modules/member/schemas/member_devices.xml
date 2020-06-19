@@ -1,4 +1,4 @@
-<table name="member_device">
+<table name="member_devices">
 	<column name="device_srl" type="number" notnull="notnull" primary_key="primary_key" />
 	<column name="member_srl" type="number" notnull="notnull" index="idx_member_srl" />
 	<column name="device_token" type="varchar" size="200" notnull="notnull" />
