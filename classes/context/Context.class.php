@@ -1201,7 +1201,16 @@ class Context
 	 */
 	public static function setRequestArguments(array $router_args = [])
 	{
-		foreach($router_args ?: $_REQUEST as $key => $val)
+		$request_args = $_SERVER['REQUEST_METHOD'] === 'GET' ? $_GET : $_POST;
+		if (count($router_args))
+		{
+			foreach ($router_args as $key => $val)
+			{
+				$request_args[$key] = $val;
+			}
+		}
+		
+		foreach($request_args as $key => $val)
 		{
 			if($val === '' || isset(self::$_reserved_keys[$key]) || self::get($key))
 			{
@@ -1210,18 +1219,7 @@ class Context
 			
 			$key = escape($key);
 			$val = self::_filterRequestVar($key, $val);
-			$set_to_vars = $router_args ? true : false;
-			
-			if($_SERVER['REQUEST_METHOD'] === 'GET' && isset($_GET[$key]))
-			{
-				$set_to_vars = true;
-			}
-			elseif($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST[$key]))
-			{
-				$set_to_vars = true;
-			}
-			
-			self::set($key, $val, $set_to_vars);
+			self::set($key, $val, true);
 		}
 		
 		// Set deprecated request parameters.
@@ -1245,7 +1243,7 @@ class Context
 				
 				foreach((array)$params as $key => $val)
 				{
-					if (isset($router_args[$key]))
+					if (isset($request_args[$key]))
 					{
 						continue;
 					}
@@ -1260,7 +1258,7 @@ class Context
 				parse_str($GLOBALS['HTTP_RAW_POST_DATA'], $params);	
 				foreach($params as $key => $val)
 				{
-					if (isset($router_args[$key]))
+					if (isset($request_args[$key]))
 					{
 						continue;
 					}

@@ -145,7 +145,7 @@ class Router
                     if (preg_match($regexp, $internal_url, $matches))
                     {
                         $matches = array_filter($matches, 'is_string', \ARRAY_FILTER_USE_KEY);
-                        $allargs = array_merge(['mid' => $prefix, 'act' => $action], $matches, $args);
+                        $allargs = array_merge($args, $matches, ['mid' => $prefix, 'act' => $action]);
                         $result->module = $module_name;
                         $result->mid = $prefix;
                         $result->act = $action;
@@ -161,7 +161,7 @@ class Router
                     if (preg_match($regexp, $internal_url, $matches))
                     {
                         $matches = array_filter($matches, 'is_string', \ARRAY_FILTER_USE_KEY);
-                        $allargs = array_merge(['mid' => $prefix, 'act' => $action[1]], $matches, $args);
+                        $allargs = array_merge($args, $matches, ['mid' => $prefix, 'act' => $action[1]]);
                         $result->module = $action[0];
                         $result->mid = $prefix;
                         $result->act = $action[1];
@@ -174,7 +174,7 @@ class Router
                 // Try the generic mid/act pattern.
                 if (preg_match('#^[a-zA-Z0-9_]+$#', $internal_url))
                 {
-                    $allargs = array_merge(['mid' => $prefix, 'act' => $internal_url], $args);
+                    $allargs = array_merge($args, ['mid' => $prefix, 'act' => $internal_url]);
                     $result->mid = $prefix;
                     $result->act = $internal_url;
                     $result->forwarded = true;
@@ -185,7 +185,7 @@ class Router
                 // If the module defines a 404 error handler, call it.
                 if ($internal_url && isset($action_info->error_handlers[404]))
                 {
-                    $allargs = array_merge(['mid' => $prefix, 'act' => $action_info->error_handlers[404]], $args);
+                    $allargs = array_merge($args, ['mid' => $prefix, 'act' => $action_info->error_handlers[404]]);
                     $result->module = $module_name;
                     $result->mid = $prefix;
                     $result->act = $action_info->error_handlers[404];
@@ -205,7 +205,7 @@ class Router
                 if (preg_match($regexp, $url, $matches))
                 {
                     $matches = array_filter($matches, 'is_string', \ARRAY_FILTER_USE_KEY);
-                    $allargs = array_merge(['act' => $action[1]], $matches, $args);
+                    $allargs = array_merge($args, $matches, ['act' => $action[1]]);
                     $result->module = $action[0];
                     $result->act = $action[1];
                     $result->forwarded = true;
@@ -221,7 +221,7 @@ class Router
             if (preg_match($route_info['regexp'], $url, $matches))
             {
                 $matches = array_filter($matches, 'is_string', \ARRAY_FILTER_USE_KEY);
-                $allargs = array_merge($route_info['extra_vars'] ?? [], $matches, $args);
+                $allargs = array_merge($args, $matches, $route_info['extra_vars'] ?? []);
                 $result->module = $allargs['module'] ?? '';
                 $result->mid = $allargs['mid'] ?: '';
                 $result->act = $allargs['act'] ?: '';
