@@ -135,8 +135,21 @@ class Router
             // Separate the prefix and the internal part of the URL.
             $prefix = $matches[1];
             $internal_url = $matches[2] ?? '';
+            $prefix_type = 'mid';
+            
             // Find the module associated with this prefix.
             $action_info = self::_getActionInfoByPrefix($prefix, $module_name = '');
+            if ($action_info === false)
+            {
+                $action_info = self::_getActionInfoByModule($prefix);
+                if ($action_info !== false)
+                {
+                    $module_name = $prefix;
+                    $prefix_type = 'module';
+                }
+            }
+            
+            // If a module is found, try its routes.
             if ($action_info)
             {
                 // Try the list of routes defined by the module.
@@ -145,9 +158,9 @@ class Router
                     if (preg_match($regexp, $internal_url, $matches))
                     {
                         $matches = array_filter($matches, 'is_string', \ARRAY_FILTER_USE_KEY);
-                        $allargs = array_merge($args, $matches, ['mid' => $prefix, 'act' => $action]);
+                        $allargs = array_merge($args, $matches, [$prefix_type => $prefix, 'act' => $action]);
                         $result->module = $module_name;
-                        $result->mid = $prefix;
+                        $result->mid = $prefix_type === 'mid' ? $prefix : '';
                         $result->act = $action;
                         $result->args = $allargs;
                         return $result;
@@ -155,27 +168,31 @@ class Router
                 }
                 
                 // Check other modules.
-                $forwarded_routes = self::_getForwardedRoutes('internal');
-                foreach ($forwarded_routes[$method] ?: [] as $regexp => $action)
+                if ($prefix_type === 'mid')
                 {
-                    if (preg_match($regexp, $internal_url, $matches))
+                    $forwarded_routes = self::_getForwardedRoutes('internal');
+                    foreach ($forwarded_routes[$method] ?: [] as $regexp => $action)
                     {
-                        $matches = array_filter($matches, 'is_string', \ARRAY_FILTER_USE_KEY);
-                        $allargs = array_merge($args, $matches, ['mid' => $prefix, 'act' => $action[1]]);
-                        $result->module = $action[0];
-                        $result->mid = $prefix;
-                        $result->act = $action[1];
-                        $result->forwarded = true;
-                        $result->args = $allargs;
-                        return $result;
+                        if (preg_match($regexp, $internal_url, $matches))
+                        {
+                            $matches = array_filter($matches, 'is_string', \ARRAY_FILTER_USE_KEY);
+                            $allargs = array_merge($args, $matches, [$prefix_type => $prefix, 'act' => $action[1]]);
+                            $result->module = $action[0];
+                            $result->mid = $prefix;
+                            $result->act = $action[1];
+                            $result->forwarded = true;
+                            $result->args = $allargs;
+                            return $result;
+                        }
                     }
                 }
                 
                 // Try the generic mid/act pattern.
                 if (preg_match('#^[a-zA-Z0-9_]+$#', $internal_url))
                 {
-                    $allargs = array_merge($args, ['mid' => $prefix, 'act' => $internal_url]);
-                    $result->mid = $prefix;
+                    $allargs = array_merge($args, [$prefix_type => $prefix, 'act' => $internal_url]);
+                    $result->module = $module_name;
+                    $result->mid = $prefix_type === 'mid' ? $prefix : '';
                     $result->act = $internal_url;
                     $result->forwarded = true;
                     $result->args = $allargs;
@@ -185,9 +202,9 @@ class Router
                 // If the module defines a 404 error handler, call it.
                 if ($internal_url && isset($action_info->error_handlers[404]))
                 {
-                    $allargs = array_merge($args, ['mid' => $prefix, 'act' => $action_info->error_handlers[404]]);
+                    $allargs = array_merge($args, [$prefix_type => $prefix, 'act' => $action_info->error_handlers[404]]);
                     $result->module = $module_name;
-                    $result->mid = $prefix;
+                    $result->mid = $prefix_type === 'mid' ? $prefix : '';
                     $result->act = $action_info->error_handlers[404];
                     $result->forwarded = false;
                     $result->args = $allargs;
@@ -231,7 +248,11 @@ class Router
             }
         }
         
-        // If no pattern matches, return an empty array.
+        // If no pattern matches, return either an empty route or a 404 error.
+        $result->module = isset($args['module']) ? $args['module'] : '';
+        $result->mid = isset($args['mid']) ? $args['mid'] : '';
+        $result->act = isset($args['act']) ? $args['act'] : '';
+        $result->args = $args;
         if ($url === '' || $url === 'index.php')
         {
             $result->url = '';
