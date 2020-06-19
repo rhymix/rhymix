@@ -85,9 +85,10 @@ abstract class Base implements \Rhymix\Framework\Drivers\PushInterface
 	 * This method returns true on success and false on failure.
 	 * 
 	 * @param object $message
+	 * @param array $tokens
 	 * @return bool
 	 */
-	public function send(\Rhymix\Framework\Push $message): bool
+	public function send(\Rhymix\Framework\Push $message, array $tokens): bool
 	{
 		return false;
 	}

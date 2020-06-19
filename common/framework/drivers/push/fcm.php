@@ -2,6 +2,9 @@
 
 namespace Rhymix\Framework\Drivers\Push;
 
+use message;
+use stdClass;
+
 /**
  * The FCM (Google) Push driver.
  */
@@ -41,11 +44,50 @@ class FCM extends Base implements \Rhymix\Framework\Drivers\PushInterface
 	 * This method returns true on success and false on failure.
 	 * 
 	 * @param object $message
+	 * @param array $tokens
 	 * @return bool
 	 */
-	public function send(\Rhymix\Framework\Push $message): bool
+	public function send(\Rhymix\Framework\Push $message, array $tokens): bool
 	{
-        // TODO
-        return false;
+		$status = true;
+
+		$url = 'https://fcm.googleapis.com/fcm/send';
+		$api_key = $this->_config['api_key'];
+		$headers = array('Authorization:key='.$api_key,'Content-Type: application/json');
+
+		// Set notification
+		$notification = [];
+		$notification['title'] = $message->getSubject();
+		$notification['body'] = $message->getContent();
+		if($message->getImage())
+		{
+			$notification['image'] = $message->getImage();
+		}
+		
+		// Set android options
+		$options = [];
+		$options['priority'] = 'normal';
+		$options['notification']['click_action'] = 'RX_NOTIFICATION';
+
+		foreach($tokens as $i => $token)
+		{
+			$data = array('registration_ids' => $token, 'notification' => $notification, 'android' => $options, 'data' => $message->getData());
+			$result = \FileHandler::getRemoteResource($url, $data, 5, 'POST', 'application/json', $headers);
+			if($result)
+			{
+				$error = json_decode($result)->error_code;
+				if($error)
+				{
+					$message->addError('FCM error code: '. $error);
+					$status = false;
+				}
+			}
+			else
+			{
+				$message->addError('FCM return empty response.');
+				$status = false;
+			}
+		}
+		return $status;
 	}
 }

@@ -2,6 +2,9 @@
 
 namespace Rhymix\Framework;
 
+use BaseObject;
+use stdClass;
+
 /**
  * The Push class.
  */
@@ -14,8 +17,8 @@ class Push
 	protected $to = array();
 	protected $subject = '';
     protected $content = '';
-    protected $image = '';
-    protected $url = '';
+	protected $image = '';
+	protected $data = [];
 	protected $errors = array();
 	protected $sent = false;
 	
@@ -215,6 +218,28 @@ class Push
 	{
 		return $this->image;
 	}
+
+	/**
+	 * Set a data to associate with this push notification.
+	 *
+	 * @param array $data
+	 * @return bool
+	 */
+	public function setData(array $data): bool
+	{
+		$this->data = $data;
+		return true;
+	}
+	
+	/**
+	 * Get the data associated with this push notification.
+	 * 
+	 * @return array
+	 */
+	public function getData(): array
+	{
+		return $this->data;
+	}
 	
 	/**
 	 * Set a URL to associate with this push notification.
@@ -224,7 +249,7 @@ class Push
 	 */
 	public function setURL(string $url): bool
 	{
-		$this->url = $url;
+		$this->data['url'] = $url;
 		return true;
 	}
 	
@@ -235,7 +260,7 @@ class Push
 	 */
 	public function getURL(): string
 	{
-		return $this->url;
+		return $this->data['url'];
 	}
 	
 	/**
@@ -261,8 +286,14 @@ class Push
 		
 		try
 		{
-			//$this->getDriver('fcm');
-			//$this->getDriver('apns');
+			$tokens = $this->getDeviceToken();
+			// Android FCM
+			$fcm_driver = $this->getDriver('fcm');
+			$this->sent = $fcm_driver->send($this, $tokens['android']);
+
+			// iOS APNs
+			$apns_driver =$this->getDriver('apns');
+			$this->sent = $apns_driver->send($this, $tokens['ios']);
 		}
 		catch(\Exception $e)
 		{
@@ -277,6 +308,41 @@ class Push
 		}
 		
 		return $this->sent;
+	}
+
+	/**
+	 * Get the device token
+	 * 
+	 * @return array
+	 * 
+	 */
+	protected function getDeviceToken(): array
+	{
+		$member_srl_list = $this->getRecipients();
+
+		$args = new stdClass;
+		$args->member_srl = $member_srl_list;
+		$output = executeQueryArray('member.getMemberDeviceByMemberSrl', $args);
+		if(!$output->toBool())
+		{
+			return [];
+		}
+
+		$device_tokens = [];
+		$device_tokens['android'] = array_map(function($device){
+			if('android' === $device->device_type)
+			{
+				return $device->device_token;
+			}
+		}, $output->data);
+		$device_tokens['ios'] = array_map(function($device){
+			if('ios' === $device->device_type)
+			{
+				return $device->device_token;
+			}
+		}, $output->data);
+
+		return $device_tokens;
 	}
 	
 	/**

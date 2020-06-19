@@ -41,11 +41,49 @@ class APNs extends Base implements \Rhymix\Framework\Drivers\PushInterface
 	 * This method returns true on success and false on failure.
 	 * 
 	 * @param object $message
+	 * @param array $tokens
 	 * @return bool
 	 */
-	public function send(\Rhymix\Framework\Push $message): bool
+	public function send(\Rhymix\Framework\Push $message, array $tokens): bool
 	{
-        // TODO
-        return false;
+        $status = true;
+
+		// Set parameters
+		$local_cert = $this->_config['certificate'];
+		$passphrase = $this->_config['passphrase'];
+		$alert = [];
+		$alert['title'] = $message->getSubject();
+		$alert['body'] = $message->getContent();
+		if($message->getImage())
+		{
+			$alert['image'] = $message->getImage();
+		}
+
+		$body['aps'] = array('alert' => $alert,'sound' => 'default');
+		$payload = json_encode($body);
+
+		foreach($tokens as $token)
+		{
+			$ctx = stream_context_create();
+			stream_context_set_option($ctx, 'ssl', 'local_cert', $local_cert);
+			stream_context_set_option($ctx, 'ssl', 'passphrase', $passphrase);
+
+			$fp = stream_socket_client('ssl://gateway.push.apple.com:2195', $err, $errstr, 5, STREAM_CLIENT_CONNECT|STREAM_CLIENT_PERSISTENT, $ctx);
+			if(!$fp)
+			{
+				$message->addError('Failed to connect socket - error code: '. $err .' - '. $errstr);
+				$status = false;
+			}
+			$msg = chr(0) . pack('n', 32) . pack('H*', $token) . pack('n', strlen($payload)) . $payload;
+			$result = fwrite($fp, $msg, strlen($msg));
+			if(!$result)
+			{
+				$message->addError('APNs return empty response.');
+				$status = false;
+			}
+			fclose($fp);
+		}
+		
+        return $status;
 	}
 }
