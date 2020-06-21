@@ -55,6 +55,13 @@ class Router
     );
     
     /**
+     * List of legacy modules whose URLs should not be shortened.
+     */
+    protected static $_except_modules = array(
+        'socialxe' => true,
+    );
+    
+    /**
      * Internal cache for module and route information.
      */
     protected static $_action_cache_prefix = array();
@@ -353,8 +360,11 @@ class Router
             }
             
             // Try the generic mid/act pattern.
-            self::$_route_cache[$keys_string] = '$' . $prefix_type . '/$act';
-            return $args[$prefix_type] . '/' . $args['act'] . (count($args2) ? ('?' . http_build_query($args2)) : '');
+            if ($prefix_type !== 'module' || !isset(self::$_except_modules[$args[$prefix_type]]))
+            {
+                self::$_route_cache[$keys_string] = '$' . $prefix_type . '/$act';
+                return $args[$prefix_type] . '/' . $args['act'] . (count($args2) ? ('?' . http_build_query($args2)) : '');
+            }
         }
         
         // Try registered global routes.
