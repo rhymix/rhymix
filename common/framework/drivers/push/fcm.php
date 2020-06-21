@@ -53,7 +53,10 @@ class FCM extends Base implements \Rhymix\Framework\Drivers\PushInterface
 
 		$url = 'https://fcm.googleapis.com/fcm/send';
 		$api_key = $this->_config['api_key'];
-		$headers = array('Authorization:key='.$api_key,'Content-Type: application/json');
+		$headers = array(
+			'Authorization' => 'key=' . $api_key,
+			'Content-Type' => 'application/json',
+		);
 
 		// Set notification
 		$notification = [];
@@ -67,11 +70,17 @@ class FCM extends Base implements \Rhymix\Framework\Drivers\PushInterface
 		// Set android options
 		$options = [];
 		$options['priority'] = 'normal';
-		$options['notification']['click_action'] = 'RX_NOTIFICATION';
+		$options['click_action'] = 'RX_NOTIFICATION';
 
 		foreach($tokens as $i => $token)
 		{
-			$data = array('registration_ids' => $token, 'notification' => $notification, 'android' => $options, 'data' => $message->getData());
+			$data = json_encode(array(
+				'registration_ids' => [$token],
+				'notification' => $notification,
+				'android' => $options ?: new stdClass,
+				'data' => $message->getData() ?: new stdClass,
+			));
+
 			$result = \FileHandler::getRemoteResource($url, $data, 5, 'POST', 'application/json', $headers);
 			if($result)
 			{

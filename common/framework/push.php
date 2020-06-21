@@ -125,9 +125,9 @@ class Push
 	 *
 	 * @return int|null
 	 */
-	public function getFrom(): ?int
+	public function getFrom(): int
 	{
-		return $this->from;
+		return intval($this->from);
 	}
 	
 	/**
@@ -339,7 +339,7 @@ class Push
 
 		foreach($output->data as $row)
 		{
-			$result[$row->device_type] = $row->device_token;
+			$result[$row->device_type][] = $row->device_token;
 		}
 
 		return $result;
