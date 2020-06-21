@@ -29,6 +29,8 @@ class RouterTest extends \Codeception\TestCase\Test
         $this->assertGreaterThan(0, count($info->route->GET));
         $this->assertGreaterThan(0, count($info->action->dispBoardContent->route));
         
+        getController('module')->registerActionForwardRoutes('member');
+        
         $args = array('mid' => 'board', 'document_srl' => 123);
         $this->assertEquals('board/123', Rhymix\Framework\Router::getURL($args, 2));
         $this->assertEquals('board/123', Rhymix\Framework\Router::getURL($args, 1));
