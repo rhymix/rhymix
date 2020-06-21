@@ -306,9 +306,9 @@ class Router
 		// If the list of keys is already cached, return the corresponding route.
 		$keys_sorted = $keys; sort($keys_sorted);
 		$keys_string = implode('.', $keys_sorted) . ':' . ($args['mid'] ?? '') . ':' . ($args['act'] ?? '');
-		if (isset(self::$_route_cache[$keys_string]))
+		if (isset(self::$_route_cache[$rewrite_level][$keys_string]))
 		{
-			return self::_insertRouteVars(self::$_route_cache[$keys_string], $args);
+			return self::_insertRouteVars(self::$_route_cache[$rewrite_level][$keys_string], $args);
 		}
 		
 		// Remove $mid and $act from arguments and work with the remainder.
@@ -339,7 +339,7 @@ class Router
 				$result = self::_getBestMatchingRoute($action->route, $args2);
 				if ($result !== false)
 				{
-					self::$_route_cache[$keys_string] = '$' . $prefix_type . '/' . $result . '$act:delete';
+					self::$_route_cache[$rewrite_level][$keys_string] = '$' . $prefix_type . '/' . $result . '$act:delete';
 					return $args[$prefix_type] . '/' . self::_insertRouteVars($result, $args2);
 				}
 			}
@@ -353,7 +353,7 @@ class Router
 					$result = self::_getBestMatchingRoute($forwarded_routes['reverse'][$act], $args2);
 					if ($result !== false)
 					{
-						self::$_route_cache[$keys_string] = '$' . $prefix_type . '/' . $result . '$act:delete';
+						self::$_route_cache[$rewrite_level][$keys_string] = '$' . $prefix_type . '/' . $result . '$act:delete';
 						return $args[$prefix_type] . '/' . self::_insertRouteVars($result, $args2);
 					}
 				}
@@ -362,7 +362,7 @@ class Router
 			// Try the generic mid/act pattern.
 			if ($prefix_type !== 'module' || !isset(self::$_except_modules[$args[$prefix_type]]))
 			{
-				self::$_route_cache[$keys_string] = '$' . $prefix_type . '/$act';
+				self::$_route_cache[$rewrite_level][$keys_string] = '$' . $prefix_type . '/$act';
 				return $args[$prefix_type] . '/' . $args['act'] . (count($args2) ? ('?' . http_build_query($args2)) : '');
 			}
 		}
@@ -376,7 +376,7 @@ class Router
 				$result = self::_getBestMatchingRoute($global_routes['reverse'][$args['act']], $args2);
 				if ($result !== false)
 				{
-					self::$_route_cache[$keys_string] = $result . '$act:delete';
+					self::$_route_cache[$rewrite_level][$keys_string] = $result . '$act:delete';
 					return self::_insertRouteVars($result, $args2);
 				}
 			}
@@ -390,14 +390,14 @@ class Router
 				$result = self::_getBestMatchingRoute(self::$_global_routes, $args);
 				if ($result !== false)
 				{
-					self::$_route_cache[$keys_string] = $result;
+					self::$_route_cache[$rewrite_level][$keys_string] = $result;
 					return self::_insertRouteVars($result, $args);
 				}
 			}
 		}
 		
 		// If no route matches, just create a query string.
-		self::$_route_cache[$keys_string] = 'index.php';
+		self::$_route_cache[$rewrite_level][$keys_string] = 'index.php';
 		return 'index.php?' . http_build_query($args);
 	}
 	
