@@ -23,7 +23,7 @@ class ModuleInfoParser
 		}
 		
 		// Get the current language.
-		$lang = \Context::getLangType();
+		$lang = \Context::getLangType() ?: 'en';
 		
 		// Initialize the module definition.
 		$info = new \stdClass;
