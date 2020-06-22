@@ -52,7 +52,7 @@ interface PushInterface
 	 * 
 	 * @param object $message
 	 * @param array $tokens
-	 * @return bool
+	 * @return object
 	 */
-	public function send(\Rhymix\Framework\Push $message, array $tokens): bool;
+	public function send(\Rhymix\Framework\Push $message, array $tokens);
 }

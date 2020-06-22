@@ -2,9 +2,6 @@
 
 namespace Rhymix\Framework;
 
-use BaseObject;
-use stdClass;
-
 /**
  * The Push class.
  */
@@ -16,12 +13,12 @@ class Push
 	protected $from = 0;
 	protected $to = array();
 	protected $subject = '';
-    protected $content = '';
+	protected $content = '';
 	protected $click_action = '';
 	protected $data = [];
 	protected $errors = array();
 	protected $sent = false;
-	
+
 	/**
 	 * Static properties.
 	 */
@@ -286,19 +283,25 @@ class Push
 		
 		try
 		{
-			$tokens = $this->getDeviceTokens();
+			$tokens = $this->_getDeviceTokens();
 			// Android FCM
-			if(count($tokens['android']))
+			if(count($tokens->android))
 			{
 				$fcm_driver = $this->getDriver('fcm');
-				$this->sent = $fcm_driver->send($this, $tokens['android']);
+				$output = $fcm_driver->send($this, $tokens->android);
+				$this->sent = $output->invalid ? false : true;
+				$this->_deleteInvalidTokens($output->invalid);
+				$this->_updateDeviceTokens($output->needUpdate);
 			}
 
 			// iOS APNs
-			if(count($tokens['ios']))
+			if(count($tokens->ios))
 			{
 				$apns_driver =$this->getDriver('apns');
-				$this->sent = $apns_driver->send($this, $tokens['ios']);
+				$output = $apns_driver->send($this, $tokens->ios);
+				$this->sent = $output->invalid ? false : true;
+				$this->_deleteInvalidTokens($output->invalid);
+				$this->_updateDeviceTokens($output->needUpdate);
 			}
 		}
 		catch(\Exception $e)
@@ -319,21 +322,21 @@ class Push
 	/**
 	 * Get the device token
 	 * 
-	 * @return array
+	 * @return object
 	 * 
 	 */
-	protected function getDeviceTokens(): array
+	protected function _getDeviceTokens()
 	{
 		$member_srl_list = $this->getRecipients();
-		$result = [];
-		$result['android'] = [];
-		$result['ios'] = [];
+		$result = new \stdClass;
+		$result->android = [];
+		$result->ios = [];
 
-		$args = new stdClass;
+		$args = new \stdClass;
 		$args->member_srl = $member_srl_list;
 		$args->device_type = [];
 		$driver_types = config('push.types') ?: array();
-		if(count($driver_types))
+		if(!count($driver_types))
 		{
 			return $result;
 		}
@@ -354,11 +357,43 @@ class Push
 
 		foreach($output->data as $row)
 		{
-			$result[$row->device_type][] = $row->device_token;
+			$result->{$row->device_type}[] = $row->device_token;
 		}
 
 		return $result;
 
+	}
+
+	/**
+	 * Delete the device toekn
+	 * 
+	 * @param array
+	 */
+	protected function _deleteInvalidTokens(array $invalid_tokens): void
+	{
+		if(!count($invalid_tokens))
+		{
+			return;
+		}
+		$args = new \stdClass;
+		$args->device_token = $invalid_tokens;
+		executeQueryArray('member.deleteMemberDevice', $args);
+	}
+
+	/**
+	 * Update the device toekn
+	 * 
+	 * @param array
+	 */
+	protected function _updateDeviceTokens(array $update_tokens): void
+	{
+		$args = new \stdClass;
+		foreach($update_tokens as $key => $value)
+		{
+			$args->old_token = $key;
+			$args->new_token = $value;
+			executeQueryArray('member.updateMemberDevice', $args);
+		}
 	}
 	
 	/**

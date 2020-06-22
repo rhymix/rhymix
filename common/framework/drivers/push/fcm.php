@@ -2,9 +2,6 @@
 
 namespace Rhymix\Framework\Drivers\Push;
 
-use message;
-use stdClass;
-
 /**
  * The FCM (Google) Push driver.
  */
@@ -45,11 +42,14 @@ class FCM extends Base implements \Rhymix\Framework\Drivers\PushInterface
 	 * 
 	 * @param object $message
 	 * @param array $tokens
-	 * @return bool
+	 * @return object
 	 */
-	public function send(\Rhymix\Framework\Push $message, array $tokens): bool
+	public function send(\Rhymix\Framework\Push $message, array $tokens)
 	{
-		$status = true;
+		$output = new \stdClass;
+		$output->success = [];
+		$output->invalid = [];
+		$output->needUpdate = [];
 
 		$url = 'https://fcm.googleapis.com/fcm/send';
 		$api_key = $this->_config['api_key'];
@@ -64,31 +64,48 @@ class FCM extends Base implements \Rhymix\Framework\Drivers\PushInterface
 		$notification['body'] = $message->getContent();
 		$notification['click_action'] = $message->getClickAction();
 
-		foreach($tokens as $i => $token)
+		$chunked_token = array_chunk($tokens, 1000);
+		foreach($chunked_token as $token_unit)
 		{
 			$data = json_encode(array(
-				'registration_ids' => [$token],
+				'registration_ids' => $token_unit,
 				'notification' => $notification,
 				'priority' => 'normal',
-				'data' => $message->getData() ?: new stdClass,
+				'data' => $message->getData() ?: new \stdClass,
 			));
 
-			$result = \FileHandler::getRemoteResource($url, $data, 5, 'POST', 'application/json', $headers);
-			if($result)
+			$response = \FileHandler::getRemoteResource($url, $data, 5, 'POST', 'application/json', $headers);
+			if($response)
 			{
-				$error = json_decode($result)->error_code;
-				if($error)
+				$decoded_response = json_decode($response);
+				if(!$decoded_response)
 				{
-					$message->addError('FCM error code: '. $error);
-					$status = false;
+					$message->addError('FCM return invalid json : '. $response);
+					return $output;
+				}
+				$results = $decoded_response->results ?: [];
+				foreach($results as $i => $result)
+				{
+					if($result->error)
+					{
+						$message->addError('FCM error code: '. $result->error);
+						$output->invalid[$token_unit[$i]] = $token_unit[$i];
+					}
+					else if($result->message_id && $result->registration_id)
+					{
+						$output->needUpdate[$token_unit[$i]] = $result->registration_id;
+					}
+					else
+					{
+						$output->success[$token_unit[$i]] = $result->message_id;
+					}
 				}
 			}
 			else
 			{
 				$message->addError('FCM return empty response.');
-				$status = false;
 			}
 		}
-		return $status;
+		return $output;
 	}
 }

@@ -42,11 +42,14 @@ class APNs extends Base implements \Rhymix\Framework\Drivers\PushInterface
 	 * 
 	 * @param object $message
 	 * @param array $tokens
-	 * @return bool
+	 * @return object
 	 */
-	public function send(\Rhymix\Framework\Push $message, array $tokens): bool
+	public function send(\Rhymix\Framework\Push $message, array $tokens)
 	{
-        $status = true;
+		$output = new \stdClass;
+		$output->success = [];
+		$output->invalid = [];
+		$output->needUpdate = [];
 
 		// Set parameters
 		$local_cert = $this->_config['certificate'];
@@ -68,18 +71,17 @@ class APNs extends Base implements \Rhymix\Framework\Drivers\PushInterface
 			if(!$fp)
 			{
 				$message->addError('Failed to connect socket - error code: '. $err .' - '. $errstr);
-				$status = false;
 			}
 			$msg = chr(0) . pack('n', 32) . pack('H*', $token) . pack('n', strlen($payload)) . $payload;
 			$result = fwrite($fp, $msg, strlen($msg));
 			if(!$result)
 			{
 				$message->addError('APNs return empty response.');
-				$status = false;
 			}
+			$output->success[] = $token;
 			fclose($fp);
 		}
 		
-        return $status;
+		return $output;
 	}
 }

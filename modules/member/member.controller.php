@@ -100,10 +100,6 @@ class memberController extends member
 
 		$browserInfo = Rhymix\Framework\UA::getBrowserInfo();
 		$device_type = strtolower($browserInfo->os);
-		if('android' !== $device_type && 'ios' !== $device_type)
-		{
-			return new BaseObject(-1, 'NOT_SUPPORTED_OS');
-		}
 
 		if('ios' === $device_type)
 		{
@@ -134,7 +130,7 @@ class memberController extends member
 		$logged_info = Context::get('logged_info');
 
 		$random_key = Rhymix\Framework\Security::getRandom();
-		$device_key = hash_hmac('sha256', $random_key, $device_token);
+		$device_key = hash_hmac('sha256', $random_key, $logged_info->member_srl . ':' . config('crypto.authentication_key'));
 
 		// Start transaction
 		$oDB = DB::getInstance();
@@ -179,8 +175,8 @@ class memberController extends member
 		Context::setResponseMethod('JSON');
 		// Check member_srl, device_token, device_key
 		$member_srl = Context::get('member_srl');
-		$device_token = escape(Context::get('device_token'));
-		$random_key = escape(Context::get('device_key'));
+		$device_token = Context::get('device_token');
+		$random_key = Context::get('device_key');
 
 		// Return an error when id, password and device_key doesn't exist
 		if(!$member_srl) return new BaseObject(-1, 'NULL_MEMBER_SRL');
@@ -190,7 +186,7 @@ class memberController extends member
 		$args = new stdClass;
 		$args->member_srl = $member_srl;
 		$args->device_token = $device_token;
-		$args->device_key = hash_hmac('sha256', $random_key, $device_token);
+		$args->device_key = hash_hmac('sha256', $random_key, $member_srl . ':' . config('crypto.authentication_key'));
 		$output = executeQueryArray('member.getMemberDevice', $args);
 		if(!$output->toBool())
 		{

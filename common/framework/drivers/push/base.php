@@ -2,6 +2,8 @@
 
 namespace Rhymix\Framework\Drivers\Push;
 
+use stdClass;
+
 /**
  * The base class for other Push drivers.
  */
@@ -86,10 +88,10 @@ abstract class Base implements \Rhymix\Framework\Drivers\PushInterface
 	 * 
 	 * @param object $message
 	 * @param array $tokens
-	 * @return bool
+	 * @return object
 	 */
-	public function send(\Rhymix\Framework\Push $message, array $tokens): bool
+	public function send(\Rhymix\Framework\Push $message, array $tokens)
 	{
-		return false;
+		return new \stdClass;
 	}
 }
