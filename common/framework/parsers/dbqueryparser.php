@@ -15,10 +15,10 @@ class DBQueryParser
 	 * @param string $filename
 	 * @return object|false
 	 */
-	public static function loadXML($filename)
+	public static function loadXML(string $filename)
 	{
 		// Load the XML file.
-		$xml = simplexml_load_file($filename);
+		$xml = simplexml_load_string(file_get_contents($filename));
 		if ($xml === false)
 		{
 			return false;

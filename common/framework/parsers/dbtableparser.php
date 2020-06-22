@@ -10,19 +10,29 @@ use Rhymix\Framework\Storage;
 class DBTableParser
 {
 	/**
+	 * Mapping for XE-compatible types.
+	 */
+	protected static $_xe_types = array(
+		'bignumber' => 'bigint',
+		'number' => 'bigint',
+		'bigtext' => 'longtext',
+		'date' => 'char(14)',
+	);
+	
+	/**
 	 * Load a table definition XML file.
 	 * 
 	 * @param string $filename
 	 * @return object|false
 	 */
-	public static function loadXML($filename)
+	public static function loadXML(string $filename)
 	{
 		// Initialize table definition.
 		$table = new DBTable\Table;
 		$table->name = preg_replace('/\.xml$/', '', basename($filename));
 		
 		// Load the XML file.
-		$xml = simplexml_load_file($filename);
+		$xml = simplexml_load_string(file_get_contents($filename));
 		if ($xml === false)
 		{
 			return false;
@@ -35,6 +45,17 @@ class DBTableParser
 			$column = new DBTable\Column;
 			$column->name = strval($column_info['name']);
 			$column->type = strval($column_info['type']);
+			
+			// Map XE-compatible types to database native types.
+			if (isset(self::$_xe_types[$column->type]))
+			{
+				$column->xetype = $column->type;
+				$column->type = self::$_xe_types[$column->type];
+			}
+			else
+			{
+				$column->xetype = $column->type;
+			}
 			
 			// Get the size.
 			if (preg_match('/^([a-z0-9_]+)\(([0-9,\s]+)\)$/i', $column->type, $matches))

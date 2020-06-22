@@ -9,6 +9,7 @@ class Column
 {
 	public $name;
 	public $type;
+	public $xetype;
 	public $size;
 	public $utf8mb4 = true;
 	public $default_value;
