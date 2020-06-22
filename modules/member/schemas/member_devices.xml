@@ -3,7 +3,7 @@
 	<column name="member_srl" type="number" notnull="notnull" index="idx_member_srl" />
 	<column name="device_token" type="varchar" size="200" notnull="notnull" index="idx_device_token" />
 	<column name="device_key" type="char" size="64" notnull="notnull" />
-	<column name="device_type" type="char" size="1" notnull="notnull" index="idx_device_type" />
+	<column name="device_type" type="varchar" size="20" notnull="notnull" index="idx_device_type" />
 	<column name="device_version" type="varchar" size="20" notnull="notnull" />
 	<column name="device_model" type="varchar" size="40" notnull="notnull" />
 	<column name="device_description" type="varchar" size="200" />
