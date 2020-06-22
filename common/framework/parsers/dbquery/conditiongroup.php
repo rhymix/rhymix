@@ -8,5 +8,5 @@ namespace Rhymix\Framework\Parsers\DBQuery;
 class ConditionGroup
 {
 	public $conditions = array();
-	public $operator = 'AND';
+	public $pipe = 'AND';
 }

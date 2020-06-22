@@ -25,7 +25,6 @@ class DBQueryParser
 		// Parse the query.
 		$query_name = preg_replace('/\.xml$/', '', basename($filename));
 		$query = self::_parseQuery($xml, $query_name);
-		
 		return $query;
 	}
 	
@@ -46,15 +45,20 @@ class DBQueryParser
 		{
 			$query->name = $query->alias;
 		}
-		$query->type = trim($xml['action']);
+		$query->type = strtoupper($xml['action']) ?: null;
+		
+		// Load attributes that only apply to subqueries in the <conditions> block.
+		$query->operation = trim($xml['operation']) ?: null;
+		$query->column = trim($xml['column']) ?: null;
+		$query->pipe = strtoupper($xml['pipe']) ?: 'AND';
 		
 		// Load tables.
 		foreach ($xml->tables->table as $tag)
 		{
 			if (trim($tag['query']) === 'true')
 			{
-				$table = self::_parseQuery($tag);
-				$query->tables[$table->alias] = $table;
+				$subquery = self::_parseQuery($tag);
+				$query->tables[$subquery->alias] = $subquery;
 			}
 			else
 			{
@@ -77,18 +81,26 @@ class DBQueryParser
 		// Load columns.
 		foreach ($xml->columns->column as $tag)
 		{
-			$column = new DBQuery\Column;
-			$column->name = trim($tag['name']);
-			$column->alias = trim($tag['alias']) ?: null;
-			if ($column->name === '*' || preg_match('/\.\*$/', $column->name))
+			if ($tag->getName() === 'query')
 			{
-				$column->is_wildcard = true;
+				$subquery = self::_parseQuery($tag, trim($tag['id']));
+				$query->columns[] = $subquery;
 			}
-			if (!self::_isValidColumnName($column->name))
+			else
 			{
-				$column->is_expression = true;
+				$column = new DBQuery\Column;
+				$column->name = trim($tag['name']);
+				$column->alias = trim($tag['alias']) ?: null;
+				if ($column->name === '*' || preg_match('/\.\*$/', $column->name))
+				{
+					$column->is_wildcard = true;
+				}
+				if (!self::isValidColumnName($column->name))
+				{
+					$column->is_expression = true;
+				}
+				$query->columns[] = $column;
 			}
-			$query->columns[] = $column;
 		}
 		
 		// Load conditions.
@@ -131,11 +143,21 @@ class DBQueryParser
 			{
 				if ($tag = $xml->navigation->{$key})
 				{
-					$query->navigation->{$key} = new DBQuery\GenericVar;
+					$query->navigation->{$key} = new DBQuery\VariableBase;
 					$query->navigation->{$key}->var = trim($tag['var']) ?: null;
 					$query->navigation->{$key}->default = trim($tag['default']) ?: null;
 				}
 			}
+		}
+		
+		// If a SELECT query has no columns, use * by default.
+		if ($query->type === 'SELECT' && !count($query->columns))
+		{
+			$column = new DBQuery\Column;
+			$column->name = '*';
+			$column->is_wildcard = true;
+			$column->is_expression = true;
+			$query->columns[] = $column;
 		}
 		
 		// Return the complete query definition.
@@ -159,18 +181,26 @@ class DBQueryParser
 				$cond = new DBQuery\Condition;
 				$cond->operation = trim($tag['operation']);
 				$cond->column = trim($tag['column']);
-				$cond->var = trim($tag['var']);
-				$cond->default = trim($tag['default']);
+				$cond->var = trim($tag['var']) ?: null;
+				$cond->default = trim($tag['default']) ?: null;
 				$cond->not_null = trim($tag['notnull'] ?: $tag['not-null']) !== '' ? true : false;
-				$cond->operator = strtoupper($tag['pipe']) ?: 'AND';
+				$cond->filter = trim($tag['filter']) ?: null;
+				$cond->minlength = intval(trim($tag['minlength']), 10);
+				$cond->maxlength = intval(trim($tag['maxlength']), 10);
+				$cond->pipe = strtoupper($tag['pipe']) ?: 'AND';
 				$result[] = $cond;
 			}
 			elseif ($name === 'group')
 			{
 				$group = new DBQuery\ConditionGroup;
 				$group->conditions = self::_parseConditions($tag);
-				$group->operator = strtoupper($tag['pipe']) ?: 'AND';
+				$group->pipe = strtoupper($tag['pipe']) ?: 'AND';
 				$result[] = $group;
+			}
+			elseif ($name === 'query')
+			{
+				$subquery = self::_parseQuery($tag);
+				$result[] = $subquery;
 			}
 		}
 		
@@ -183,7 +213,7 @@ class DBQueryParser
 	 * @param string $column_name
 	 * @return bool
 	 */
-	protected static function _isValidColumnName(string $column_name): bool
+	public static function isValidColumnName(string $column_name): bool
 	{
 		if (preg_match('/^[a-z0-9_]+(?:\.[a-z0-9_]+)*$/', $column_name))
 		{

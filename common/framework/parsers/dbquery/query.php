@@ -10,6 +10,9 @@ class Query
 	public $name;
 	public $alias;
 	public $type;
+	public $operation;
+	public $column;
+	public $pipe;
 	public $tables = array();
 	public $columns = array();
 	public $conditions = array();

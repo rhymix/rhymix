@@ -5,7 +5,7 @@ namespace Rhymix\Framework\Parsers\DBQuery;
 /**
  * OrderBy class.
  */
-class OrderBy extends GenericVar
+class OrderBy extends VariableBase
 {
 	public $var;
 	public $default;
