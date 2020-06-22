@@ -54,12 +54,8 @@ class APNs extends Base implements \Rhymix\Framework\Drivers\PushInterface
 		$alert = [];
 		$alert['title'] = $message->getSubject();
 		$alert['body'] = $message->getContent();
-		if($message->getImage())
-		{
-			$alert['image'] = $message->getImage();
-		}
 
-		$body['aps'] = array('alert' => $alert,'sound' => 'default');
+		$body['aps'] = array('alert' => $alert);
 		$payload = json_encode($body);
 
 		foreach($tokens as $token)

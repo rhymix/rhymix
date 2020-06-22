@@ -62,22 +62,13 @@ class FCM extends Base implements \Rhymix\Framework\Drivers\PushInterface
 		$notification = [];
 		$notification['title'] = $message->getSubject();
 		$notification['body'] = $message->getContent();
-		if($message->getImage())
-		{
-			$notification['image'] = $message->getImage();
-		}
-		
-		// Set android options
-		$options = [];
-		$options['priority'] = 'normal';
-		$options['click_action'] = 'RX_NOTIFICATION';
 
 		foreach($tokens as $i => $token)
 		{
 			$data = json_encode(array(
 				'registration_ids' => [$token],
 				'notification' => $notification,
-				'android' => $options ?: new stdClass,
+				'priority' => 'normal',
 				'data' => $message->getData() ?: new stdClass,
 			));
 

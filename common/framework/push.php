@@ -17,7 +17,7 @@ class Push
 	protected $to = array();
 	protected $subject = '';
     protected $content = '';
-	protected $image = '';
+	protected $click_action = '';
 	protected $data = [];
 	protected $errors = array();
 	protected $sent = false;
@@ -198,25 +198,25 @@ class Push
 	}
 	
 	/**
-	 * Set an image to associate with this push notification.
+	 * Set an click-action to associate with this push notification.
 	 *
-	 * @param string $image
+	 * @param string $click_action
 	 * @return bool
 	 */
-	public function setImage(string $image): bool
+	public function setClickAction(string $click_action): bool
 	{
-		$this->image = utf8_trim(utf8_clean($image));
+		$this->click_action = utf8_trim(utf8_clean($click_action));
 		return true;
 	}
 	
 	/**
-	 * Get the image associated with this push notification.
+	 * Get the click-action associated with this push notification.
 	 * 
 	 * @return string
 	 */
-	public function getImage(): string
+	public function getClickAction(): string
 	{
-		return $this->image;
+		return $this->click_action;
 	}
 
 	/**
@@ -331,6 +331,21 @@ class Push
 
 		$args = new stdClass;
 		$args->member_srl = $member_srl_list;
+		$args->device_type = [];
+		$driver_types = config('push.types') ?: array();
+		if(count($driver_types))
+		{
+			return $result;
+		}
+		if(isset($driver_types['fcm']))
+		{
+			$args->device_type[] = 'android';
+		}
+		if(isset($driver_types['apns']))
+		{
+			$args->device_type[] = 'ios';
+		}
+
 		$output = executeQueryArray('member.getMemberDeviceTokensByMemberSrl', $args);
 		if(!$output->toBool() || !$output->data)
 		{
@@ -343,6 +358,7 @@ class Push
 		}
 
 		return $result;
+
 	}
 	
 	/**
