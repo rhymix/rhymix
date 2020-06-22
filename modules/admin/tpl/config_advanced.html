@@ -13,8 +13,10 @@
 		<div class="x_control-group">
 			<label class="x_control-label">{$lang->use_rewrite}</label>
 			<div class="x_controls">
-				<label for="use_rewrite_y" class="x_inline"><input type="radio" name="use_rewrite" id="use_rewrite_y" value="Y" checked="checked"|cond="$use_rewrite" /> {$lang->cmd_yes}</label>
-				<label for="use_rewrite_n" class="x_inline"><input type="radio" name="use_rewrite" id="use_rewrite_n" value="N" checked="checked"|cond="!$use_rewrite" /> {$lang->cmd_no}</label>
+				<label for="use_rewrite_0" class="x_inline"><input type="radio" name="use_rewrite" id="use_rewrite_0" value="0" checked="checked"|cond="$use_rewrite == 0" /> {$lang->use_rewrite_0}</label>
+				<label for="use_rewrite_1" class="x_inline"><input type="radio" name="use_rewrite" id="use_rewrite_1" value="1" checked="checked"|cond="$use_rewrite == 1" /> {$lang->use_rewrite_1}</label>
+				<label for="use_rewrite_2" class="x_inline"><input type="radio" name="use_rewrite" id="use_rewrite_2" value="2" checked="checked"|cond="$use_rewrite == 2" /> {$lang->use_rewrite_2}</label>
+				<p class="x_help-block">{$lang->about_use_rewrite}</p>
 			</div>
 		</div>
 		<div class="x_control-group">

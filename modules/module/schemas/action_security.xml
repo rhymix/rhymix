@@ -1,0 +1,3 @@
+<table name="action_security">
+    <column name="act" type="varchar" size="80" notnull="notnull" primary_key="primary_key" />
+</table>

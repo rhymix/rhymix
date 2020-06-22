@@ -2,44 +2,44 @@
 <module>
 	<grants />
 	<actions>
-		<action name="dispMemberSignUpForm" type="view" meta-noindex="true" />
-		<action name="dispMemberLoginForm" type="view" meta-noindex="true" />
-		<action name="dispMemberFindAccount" type="view" meta-noindex="true" />
-		<action name="dispMemberResendAuthMail" type="view" meta-noindex="true" />
-		<action name="dispMemberInfo" type="view" permission="member" meta-noindex="true" />
-		<action name="dispMemberModifyInfo" type="view" permission="member" meta-noindex="true" />
-		<action name="dispMemberModifyPassword" type="view" permission="member" meta-noindex="true" />
-		<action name="dispMemberModifyEmailAddress" type="view" permission="member" meta-noindex="true" />
-		<action name="dispMemberLeave" type="view" permission="member" meta-noindex="true" />
-		<action name="dispMemberScrappedDocument" type="view" permission="member" meta-noindex="true" />
-		<action name="dispMemberSavedDocument" type="view" permission="member" meta-noindex="true" />
-		<action name="dispMemberOwnDocument" type="view" permission="member" meta-noindex="true" />
-		<action name="dispMemberOwnComment" type="view" permission="member" meta-noindex="true" />
-		<action name="dispMemberActiveLogins" type="view" permission="member" meta-noindex="true" />
-		<action name="dispMemberModifyNicknameLog" type="view" permission="member" meta-noindex="true" />
+		<action name="dispMemberSignUpForm" type="view" meta-noindex="true" use-ssl="true" route="signup" />
+		<action name="dispMemberLoginForm" type="view" meta-noindex="true" use-ssl="true" route="login" />
+		<action name="dispMemberFindAccount" type="view" meta-noindex="true" use-ssl="true" />
+		<action name="dispMemberResendAuthMail" type="view" meta-noindex="true" use-ssl="true" />
+		<action name="dispMemberInfo" type="view" permission="member" meta-noindex="true" route="member_info" />
+		<action name="dispMemberModifyInfo" type="view" permission="member" meta-noindex="true" use-ssl="true" />
+		<action name="dispMemberModifyPassword" type="view" permission="member" meta-noindex="true" use-ssl="true" />
+		<action name="dispMemberModifyEmailAddress" type="view" permission="member" meta-noindex="true" use-ssl="true" />
+		<action name="dispMemberLeave" type="view" permission="member" meta-noindex="true" use-ssl="true" />
+		<action name="dispMemberScrappedDocument" type="view" permission="member" meta-noindex="true" use-ssl="true" route="my_scrap" />
+		<action name="dispMemberSavedDocument" type="view" permission="member" meta-noindex="true" use-ssl="true" route="my_saved_documents" />
+		<action name="dispMemberOwnDocument" type="view" permission="member" meta-noindex="true" use-ssl="true" route="my_documents" />
+		<action name="dispMemberOwnComment" type="view" permission="member" meta-noindex="true" use-ssl="true" route="my_comments" />
+		<action name="dispMemberActiveLogins" type="view" permission="member" meta-noindex="true" use-ssl="true" route="active_logins" />
+		<action name="dispMemberModifyNicknameLog" type="view" permission="member" meta-noindex="true" use-ssl="true" />
 		<action name="dispMemberLogout" type="view" permission="member" meta-noindex="true" />
 		<action name="dispMemberSpammer" type="view" permission="manager" check_var="module_srl" meta-noindex="true" />
 		
 		<action name="getMemberMenu" type="model" />
 		<action name="getApiGroups" type="model" permission="root" />
 		
-		<action name="procMemberInsert" type="controller" ruleset="@insertMember" />
+		<action name="procMemberInsert" type="controller" ruleset="@insertMember" use-ssl="true" route="signup" />
 		<action name="procMemberCheckValue" type="controller" />
-		<action name="procMemberLogin" type="controller" ruleset="@login" />
+		<action name="procMemberLogin" type="controller" ruleset="@login" use-ssl="true" route="login" />
 		<action name="procMemberRegisterDevice" type="controller" />
 		<action name="procMemberLoginWithDevice " type="controller" />
-		<action name="procMemberFindAccount" type="controller" method="GET|POST" ruleset="findAccount" />
-		<action name="procMemberFindAccountByQuestion" type="controller" method="GET|POST" />
-		<action name="procMemberAuthAccount" type="controller" method="GET|POST" />
-		<action name="procMemberAuthEmailAddress" type="controller" method="GET|POST" />
-		<action name="procMemberResendAuthMail" type="controller" ruleset="resendAuthMail" />
-		<action name="procMemberSendVerificationSMS" type="controller" />
-		<action name="procMemberConfirmVerificationSMS" type="controller" />
-		<action name="procMemberModifyInfoBefore" type="controller" permission="member" ruleset="recheckedPassword" />
-		<action name="procMemberModifyInfo" type="controller" permission="member" ruleset="@insertMember" />
-		<action name="procMemberModifyPassword" type="controller" permission="member" ruleset="modifyPassword" />
-		<action name="procMemberModifyEmailAddress" type="controller" permission="member" ruleset="modifyEmailAddress" />
-		<action name="procMemberLeave" type="controller" permission="member" ruleset="leaveMember" />
+		<action name="procMemberFindAccount" type="controller" method="GET|POST" ruleset="findAccount" use-ssl="true" />
+		<action name="procMemberFindAccountByQuestion" type="controller" method="GET|POST" use-ssl="true" />
+		<action name="procMemberAuthAccount" type="controller" method="GET|POST" use-ssl="true" />
+		<action name="procMemberAuthEmailAddress" type="controller" method="GET|POST" use-ssl="true" />
+		<action name="procMemberResendAuthMail" type="controller" ruleset="resendAuthMail" use-ssl="true" />
+		<action name="procMemberSendVerificationSMS" type="controller" use-ssl="true" />
+		<action name="procMemberConfirmVerificationSMS" type="controller" use-ssl="true" />
+		<action name="procMemberModifyInfoBefore" type="controller" permission="member" ruleset="recheckedPassword" use-ssl="true" />
+		<action name="procMemberModifyInfo" type="controller" permission="member" ruleset="@insertMember" use-ssl="true" />
+		<action name="procMemberModifyPassword" type="controller" permission="member" ruleset="modifyPassword" use-ssl="true" />
+		<action name="procMemberModifyEmailAddress" type="controller" permission="member" ruleset="modifyEmailAddress" use-ssl="true" />
+		<action name="procMemberLeave" type="controller" permission="member" ruleset="leaveMember" use-ssl="true" />
 		<action name="procMemberInsertProfileImage" type="controller" permission="member" ruleset="insertProfileImage" />
 		<action name="procMemberDeleteProfileImage" type="controller" permission="member" />
 		<action name="procMemberInsertImageName" type="controller" permission="member" ruleset="insertImageName" />
