@@ -62,6 +62,7 @@ class FCM extends Base implements \Rhymix\Framework\Drivers\PushInterface
 		$notification = [];
 		$notification['title'] = $message->getSubject();
 		$notification['body'] = $message->getContent();
+		$notification['click_action'] = $message->getClickAction();
 
 		foreach($tokens as $i => $token)
 		{
