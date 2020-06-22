@@ -234,6 +234,7 @@ $lang->msg_invalid_document = 'Invalid Article Number';
 $lang->msg_invalid_request = 'Invalid Request';
 $lang->msg_invalid_password = 'The password you entered is incorrect.';
 $lang->msg_security_violation = 'Security Violation';
+$lang->msg_method_not_allowed = 'This HTTP method is not allowed for this action.';
 $lang->msg_feature_disabled = 'This feature is disabled.';
 $lang->msg_error_occured = 'An error has occured.';
 $lang->msg_not_founded = 'Cannot find the target.';

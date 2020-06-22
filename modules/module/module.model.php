@@ -211,7 +211,7 @@ class moduleModel extends module
 	 */
 	public static function getModuleInfoByMid($mid, $site_srl = 0, $columnList = array())
 	{
-		if(!$mid || ($mid && !preg_match("/^[a-z][a-z0-9_]+$/i", $mid)))
+		if(!$mid || ($mid && !preg_match("/^[a-z][a-z0-9_-]+$/i", $mid)))
 		{
 			return;
 		}
@@ -567,7 +567,7 @@ class moduleModel extends module
 	/**
 	 * @brief Get forward value by the value of act
 	 */
-	public static function getActionForward($act)
+	public static function getActionForward($act = null)
 	{
 		$action_forward = Rhymix\Framework\Cache::get('action_forward');
 		if($action_forward === null)
@@ -582,18 +582,56 @@ class moduleModel extends module
 			$action_forward = array();
 			foreach($output->data as $item)
 			{
+				if ($item->route_regexp) $item->route_regexp = unserialize($item->route_regexp);
+				if ($item->route_config) $item->route_config = unserialize($item->route_config);
 				$action_forward[$item->act] = $item;
 			}
 			
 			Rhymix\Framework\Cache::set('action_forward', $action_forward, 0, true);
 		}
 		
+		if(!isset($act))
+		{
+			return $action_forward;
+		}
 		if(!isset($action_forward[$act]))
 		{
 			return;
 		}
 		
 		return $action_forward[$act];
+	}
+
+	/**
+	 * @brief Get SSL action setting
+	 */
+	public static function getActionSecurity($act = null)
+	{
+		$action_security = Rhymix\Framework\Cache::get('action_security');
+		if($action_security === null)
+		{
+			$args = new stdClass();
+			$output = executeQueryArray('module.getActionSecurity', $args);
+			if(!$output->toBool())
+			{
+				return;
+			}
+			
+			$action_security = array();
+			foreach($output->data as $item)
+			{
+				$action_security[$item->act] = true;
+			}
+			
+			Rhymix\Framework\Cache::set('action_security', $action_security, 0, true);
+		}
+		
+		if(!isset($act))
+		{
+			return $action_security;
+		}
+		
+		return isset($action_security[$act]) ? true : false;
 	}
 
 	/**
@@ -686,321 +724,50 @@ class moduleModel extends module
 	 */
 	public static function getModuleInfoXml($module)
 	{
-		// Get a path of the requested module. Return if not exists.
+		// Check the path and XML file name.
 		$module_path = ModuleHandler::getModulePath($module);
-		if(!$module_path) return;
-		// Read the xml file for module skin information
-		$xml_file = sprintf("%s/conf/info.xml", $module_path);
-		if(!file_exists($xml_file)) return;
-
-		$oXmlParser = new XmlParser();
-		$tmp_xml_obj = $oXmlParser->loadXmlFile($xml_file);
-		$xml_obj = $tmp_xml_obj->module;
-
-		if(!$xml_obj) return;
-
-		// Module Information
-		$module_info = new stdClass();
-		if($xml_obj->version && $xml_obj->attrs->version == '0.2')
+		if (!$module_path) return;
+		$xml_file = $module_path . 'conf/info.xml';
+		if (!file_exists($xml_file)) return;
+		
+		// Load the XML file and cache the definition.
+		$mtime1 = filemtime($xml_file);
+		$mtime2 = file_exists($module_path . 'conf/module.xml') ? filemtime($module_path . 'conf/module.xml') : 0;
+		$cache_key = sprintf('site_and_module:module_info_xml:%s:%d:%d', $module, $mtime1, $mtime2);
+		$info = Rhymix\Framework\Cache::get($cache_key);
+		if($info === null)
 		{
-			// module format 0.2
-			$module_info->title = $xml_obj->title->body;
-			$module_info->description = $xml_obj->description->body;
-			$module_info->version = $xml_obj->version->body;
-			$module_info->homepage = $xml_obj->link->body;
-			$module_info->category = $xml_obj->category->body;
-			if(!$module_info->category) $module_info->category = 'service';
-			$date_obj = (object)array('y' => 0, 'm' => 0, 'd' => 0);
-			sscanf($xml_obj->date->body, '%d-%d-%d', $date_obj->y, $date_obj->m, $date_obj->d);
-			$module_info->date = sprintf('%04d%02d%02d', $date_obj->y, $date_obj->m, $date_obj->d);
-			$module_info->license = $xml_obj->license->body;
-			$module_info->license_link = $xml_obj->license->attrs->link;
-
-			if(!is_array($xml_obj->author)) $author_list[] = $xml_obj->author;
-			else $author_list = $xml_obj->author;
-
-			foreach($author_list as $author)
-			{
-				$author_obj = new stdClass();
-				$author_obj->name = $author->name->body;
-				$author_obj->email_address = $author->attrs->email_address;
-				$author_obj->homepage = $author->attrs->link;
-				$module_info->author[] = $author_obj;
-			}
+			$info = Rhymix\Framework\Parsers\ModuleInfoParser::loadXML($xml_file);
+			Rhymix\Framework\Cache::set($cache_key, $info, 0, true);
 		}
-		else
-		{
-			// module format 0.1
-			$module_info->title = $xml_obj->title->body;
-			$module_info->description = $xml_obj->author->description->body;
-			$module_info->version = $xml_obj->attrs->version;
-			$module_info->category = $xml_obj->attrs->category;
-			if(!$module_info->category) $module_info->category = 'service';
-			$date_obj = (object)array('y' => 0, 'm' => 0, 'd' => 0);
-			sscanf($xml_obj->author->attrs->date, '%d. %d. %d', $date_obj->y, $date_obj->m, $date_obj->d);
-			$module_info->date = sprintf('%04d%02d%02d', $date_obj->y, $date_obj->m, $date_obj->d);
-			$author_obj = new stdClass();
-			$author_obj->name = $xml_obj->author->name->body;
-			$author_obj->email_address = $xml_obj->author->attrs->email_address;
-			$author_obj->homepage = $xml_obj->author->attrs->link;
-			$module_info->author[] = $author_obj;
-		}
-		// Add admin_index by using action information
-		$action_info = self::getModuleActionXml($module);
-		$module_info->admin_index_act = $action_info->admin_index_act;
-		$module_info->default_index_act = $action_info->default_index_act;
-		$module_info->setup_index_act = $action_info->setup_index_act;
-		$module_info->simple_setup_index_act = $action_info->simple_setup_index_act;
-
-		return $module_info;
+		
+		return $info;
 	}
 
 	/**
-	 * @brief Return permisson and action data by conf/module.xml in the module
-	 * Cache it because it takes too long to parse module.xml file
-	 * When caching, add codes so to include it directly
-	 * This is apparently good for performance, but not sure about its side-effects
+	 * @brief Return permisson and action data by conf/module.xml
 	 */
 	public static function getModuleActionXml($module)
 	{
-		// Get a path of the requested module. Return if not exists.
-		$class_path = ModuleHandler::getModulePath($module);
-		if(!$class_path) return;
-
-		// Check if module.xml exists in the path. Return if not exist
-		$xml_file = sprintf("%sconf/module.xml", $class_path);
-		if(!file_exists($xml_file)) return;
-
-		// Check if cached file exists
-		$cache_file = sprintf(_XE_PATH_ . "files/cache/module_info/%s.%s.%s.php", $module, Context::getLangType(), __XE_VERSION__);
-
-		// Update if no cache file exists or it is older than xml file
-		if(!file_exists($cache_file) || filemtime($cache_file) < filemtime($xml_file) || $re_cache)
+		// Check the path and XML file name.
+		$module_path = ModuleHandler::getModulePath($module);
+		if (!$module_path) return;
+		$xml_file = $module_path . 'conf/module.xml';
+		if (!file_exists($xml_file)) return;
+		
+		// Load the XML file and cache the definition.
+		$mtime = filemtime($xml_file);
+		$cache_key = sprintf('site_and_module:module_action_xml:%s:%d', $module, $mtime);
+		$info = Rhymix\Framework\Cache::get($cache_key);
+		if($info === null)
 		{
-			$info = new stdClass();
-			$buff = array(); // /< Set buff variable to use in the cache file
-			$buff[] = '<?php if(!defined("__XE__")) exit();';
-			$buff[] = '$info = new stdClass;';
-			$buff['default_index_act'] = '$info->default_index_act = \'%s\';';
-			$buff['setup_index_act'] = '$info->setup_index_act=\'%s\';';
-			$buff['simple_setup_index_act'] = '$info->simple_setup_index_act=\'%s\';';
-			$buff['admin_index_act'] = '$info->admin_index_act = \'%s\';';
-
-			$xml_obj = XmlParser::loadXmlFile($xml_file); // /< Read xml file and convert it to xml object
-
-			if(!countobj($xml_obj->module)) return; // /< Error occurs if module tag doesn't included in the xml
-
-			$grants = $xml_obj->module->grants->grant; // /< Permission information
-			$permissions = $xml_obj->module->permissions->permission; // /<  Acting permission
-			$menus = $xml_obj->module->menus->menu;
-			$actions = $xml_obj->module->actions->action; // /< Action list (required)
-
-			$default_index = $admin_index = '';
-
-			// Arrange permission information
-			if($grants)
-			{
-				if(is_array($grants)) $grant_list = $grants;
-				else $grant_list[] = $grants;
-
-				$info->grant = new stdClass();
-				$buff[] = '$info->grant = new stdClass;';
-				foreach($grant_list as $grant)
-				{
-					$name = $grant->attrs->name;
-					$default = $grant->attrs->default?$grant->attrs->default:'guest';
-					$title = $grant->title->body;
-
-					$info->grant->{$name} = new stdClass();
-					$info->grant->{$name}->title = $title;
-					$info->grant->{$name}->default = $default;
-
-					$buff[] = sprintf('$info->grant->%s = new stdClass;', $name);
-					$buff[] = sprintf('$info->grant->%s->title=\'%s\';', $name, $title);
-					$buff[] = sprintf('$info->grant->%s->default=\'%s\';', $name, $default);
-				}
-			}
-			// Permissions to grant
-			if($permissions)
-			{
-				if(is_array($permissions)) $permission_list = $permissions;
-				else $permission_list[] = $permissions;
-				
-				$buff[] = '$info->permission = new stdClass;';
-				$buff[] = '$info->permission_check = new stdClass;';
-				
-				$info->permission = new stdClass;
-				$info->permission_check = new stdClass;
-				
-				foreach($permission_list as $permission)
-				{
-					$action = $permission->attrs->action;
-					$target = $permission->attrs->target;
-					
-					$info->permission->$action = $target;
-					
-					$buff[] = sprintf('$info->permission->%s = \'%s\';', $action, $target);
-					
-					$info->permission_check->$action = new stdClass;
-					$info->permission_check->$action->key = $permission->attrs->check_var ?: '';
-					$info->permission_check->$action->type = $permission->attrs->check_type ?: '';
-					
-					$buff[] = sprintf('$info->permission_check->%s = new stdClass;', $action);
-					$buff[] = sprintf('$info->permission_check->%s->key = \'%s\';', $action, $info->permission_check->$action->key);
-					$buff[] = sprintf('$info->permission_check->%s->type = \'%s\';', $action, $info->permission_check->$action->type);
-				}
-			}
-			// for admin menus
-			if($menus)
-			{
-				if(is_array($menus)) $menu_list = $menus;
-				else $menu_list[] = $menus;
-
-				$buff[] = '$info->menu = new stdClass;';
-				$info->menu = new stdClass();
-				
-				foreach($menu_list as $menu)
-				{
-					$menu_name = $menu->attrs->name;
-					$menu_title = is_array($menu->title) ? $menu->title[0]->body : $menu->title->body;
-					$menu_type = $menu->attrs->type;
-
-					$info->menu->{$menu_name} = new stdClass();
-					$info->menu->{$menu_name}->title = $menu_title;
-					$info->menu->{$menu_name}->acts = array();
-					$info->menu->{$menu_name}->type = $menu_type;
-
-					$buff[] = sprintf('$info->menu->%s = new stdClass;', $menu_name);
-					$buff[] = sprintf('$info->menu->%s->title=\'%s\';', $menu_name, $menu_title);
-					$buff[] = sprintf('$info->menu->%s->type=\'%s\';', $menu_name, $menu_type);
-				}
-			}
-
-			// actions
-			if($actions)
-			{
-				if(is_array($actions)) $action_list = $actions;
-				else $action_list[] = $actions;
-				
-				if(!isset($info->permission))
-				{
-					$buff[] = '$info->permission = new stdClass;';
-					$buff[] = '$info->permission_check = new stdClass;';
-					
-					$info->permission = new stdClass;
-					$info->permission_check = new stdClass;
-				}
-				
-				$buff[] = '$info->action = new stdClass;';
-				$info->action = new stdClass();
-				
-				foreach($action_list as $action)
-				{
-					$name = $action->attrs->name;
-					
-					// <action permission="...">
-					if($action->attrs->permission)
-					{
-						$info->permission->$name = $action->attrs->permission;
-						
-						$buff[] = sprintf('$info->permission->%s = \'%s\';', $name, $info->permission->$name);
-						
-						$info->permission_check->$name = new stdClass;
-						$info->permission_check->$name->key = $action->attrs->check_var ?: '';
-						$info->permission_check->$name->type = $action->attrs->check_type ?: '';
-						
-						$buff[] = sprintf('$info->permission_check->%s = new stdClass;', $name);
-						$buff[] = sprintf('$info->permission_check->%s->key = \'%s\';', $name, $info->permission_check->$name->key);
-						$buff[] = sprintf('$info->permission_check->%s->type = \'%s\';', $name, $info->permission_check->$name->type);
-					}
-					
-					$type = $action->attrs->type;
-					$grant = $action->attrs->grant?$action->attrs->grant:'guest';
-					$standalone = $action->attrs->standalone=='false'?'false':'true';
-					$ruleset = $action->attrs->ruleset?$action->attrs->ruleset:'';
-					$method = $action->attrs->method?$action->attrs->method:'';
-					$check_csrf = $action->attrs->check_csrf=='false'?'false':'true';
-					$meta_noindex = $action->attrs->{'meta-noindex'} === 'true' ? 'true' : 'false';
-					
-					$index = $action->attrs->index;
-					$admin_index = $action->attrs->admin_index;
-					$setup_index = $action->attrs->setup_index;
-					$simple_setup_index = $action->attrs->simple_setup_index;
-					$menu_index = $action->attrs->menu_index;
-
-					$info->action->{$name} = new stdClass();
-					$info->action->{$name}->type = $type;
-					$info->action->{$name}->grant = $grant;
-					$info->action->{$name}->standalone = $standalone;
-					$info->action->{$name}->ruleset = $ruleset;
-					$info->action->{$name}->method = $method;
-					$info->action->{$name}->check_csrf = $check_csrf;
-					$info->action->{$name}->meta_noindex = $meta_noindex;
-					if($action->attrs->menu_name)
-					{
-						$info->menu->{$action->attrs->menu_name} = new stdClass();
-						if($menu_index == 'true')
-						{
-							$info->menu->{$action->attrs->menu_name}->index = $name;
-							$buff[] = sprintf('$info->menu->%s->index=\'%s\';', $action->attrs->menu_name, $name);
-						}
-						if(is_array($info->menu->{$action->attrs->menu_name}->acts))
-						{
-							$info->menu->{$action->attrs->menu_name}->acts[] = $name;
-						}
-
-						$buff[] = sprintf('$info->menu->%s->acts[]=\'%s\';', $action->attrs->menu_name, $name);
-						$i++;
-					}
-
-					$buff[] = sprintf('$info->action->%s = new stdClass;', $name);
-					$buff[] = sprintf('$info->action->%s->type=\'%s\';', $name, $type);
-					$buff[] = sprintf('$info->action->%s->grant=\'%s\';', $name, $grant);
-					$buff[] = sprintf('$info->action->%s->standalone=\'%s\';', $name, $standalone);
-					$buff[] = sprintf('$info->action->%s->ruleset=\'%s\';', $name, $ruleset);
-					$buff[] = sprintf('$info->action->%s->method=\'%s\';', $name, $method);
-					$buff[] = sprintf('$info->action->%s->check_csrf=\'%s\';', $name, $check_csrf);
-					$buff[] = sprintf('$info->action->%s->meta_noindex=\'%s\';', $name, $meta_noindex);
-
-					if($index=='true')
-					{
-						$default_index_act = $name;
-						$info->default_index_act = $name;
-					}
-					if($admin_index=='true')
-					{
-						$admin_index_act = $name;
-						$info->admin_index_act = $name;
-					}
-					if($setup_index=='true')
-					{
-						$setup_index_act = $name;
-						$info->setup_index_act = $name;
-					}
-					if($simple_setup_index=='true')
-					{
-						$simple_setup_index_act = $name;
-						$info->simple_setup_index_act = $name;
-					}
-				}
-			}
-			$buff['default_index_act'] = sprintf($buff['default_index_act'], $default_index_act);
-			$buff['setup_index_act'] = sprintf($buff['setup_index_act'], $setup_index_act);
-			$buff['simple_setup_index_act'] = sprintf($buff['simple_setup_index_act'], $simple_setup_index_act);
-			$buff['admin_index_act'] = sprintf($buff['admin_index_act'], $admin_index_act);
-
-			$buff[] = 'return $info;';
-
-			$buff = implode(PHP_EOL, $buff);
-
-			FileHandler::writeFile($cache_file, $buff);
-
-			return $info;
+			$info = Rhymix\Framework\Parsers\ModuleActionParser::loadXML($xml_file);
+			Rhymix\Framework\Cache::set($cache_key, $info, 0, true);
 		}
-
-		if(file_exists($cache_file)) return include($cache_file);
+		
+		return $info;
 	}
-
+	
 	/**
 	 * Get a skin list for js API.
 	 * return void
@@ -1609,12 +1376,15 @@ class moduleModel extends module
 
 		$searched_count = count($searched_list);
 		if(!$searched_count) return;
+		
+		// Get action forward
+		$action_forward = self::getActionForward();
+		
+		// Get action security
+		$action_security = self::getActionSecurity();
 
-		for($i=0;$i<$searched_count;$i++)
+		foreach ($searched_list as $module_name)
 		{
-			// module name
-			$module_name = $searched_list[$i];
-
 			$path = ModuleHandler::getModulePath($module_name);
 			if(!is_dir(FileHandler::getRealPath($path))) continue;
 
@@ -1651,16 +1421,59 @@ class moduleModel extends module
 				{
 					$info->need_install = false;
 				}
+				
 				// Check if it is upgraded to module.class.php on each module
-				$oDummy = null;
 				$oDummy = getModule($module_name, 'class');
 				if($oDummy && method_exists($oDummy, "checkUpdate"))
 				{
 					$info->need_update = $oDummy->checkUpdate();
 				}
-				else
+				unset($oDummy);
+				
+				// Check if all action-forwardable routes are registered
+				$module_action_info = self::getModuleActionXml($module_name);
+				$forwardable_routes = array();
+				foreach ($module_action_info->action ?: [] as $action_name => $action_info)
 				{
-					continue;
+					if (count($action_info->route) && $action_info->standalone !== 'false')
+					{
+						$forwardable_routes[$action_name] = array(
+							'regexp' => array(),
+							'config' => $action_info->route,
+						);
+					}
+				}
+				foreach ($module_action_info->route->GET ?: [] as $regexp => $action_name)
+				{
+					if (isset($forwardable_routes[$action_name]))
+					{
+						$forwardable_routes[$action_name]['regexp'][] = ['GET', $regexp];
+					}
+				}
+				foreach ($module_action_info->route->POST ?: [] as $regexp => $action_name)
+				{
+					if (isset($forwardable_routes[$action_name]))
+					{
+						$forwardable_routes[$action_name]['regexp'][] = ['POST', $regexp];
+					}
+				}
+				foreach ($forwardable_routes as $action_name => $route_info)
+				{
+					if (!isset($action_forward[$action_name]) ||
+						$action_forward[$action_name]->route_regexp !== $route_info['regexp'] ||
+						$action_forward[$action_name]->route_config !== $route_info['config'])
+					{
+						$info->need_update = true;
+					}
+				}
+				
+				// Check if all secure actions are registered
+				foreach ($module_action_info->action ?: [] as $action_name => $action_info)
+				{
+					if ($action_info->use_ssl === 'true' && !isset($action_security[$action_name]))
+					{
+						$info->need_update = true;
+					}
 				}
 			}
 			$list[] = $info;

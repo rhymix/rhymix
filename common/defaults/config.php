@@ -50,6 +50,7 @@ return array(
 		'http_port' => null,
 		'https_port' => null,
 		'ssl' => 'none',
+		'rewrite' => 1,
 	),
 	'session' => array(
 		'delay' => false,

@@ -791,7 +791,8 @@ class adminAdminController extends admin
 		Rhymix\Framework\Config::set('locale.default_timezone', $vars->default_timezone);
 		
 		// Other settings
-		Rhymix\Framework\Config::set('use_rewrite', $vars->use_rewrite === 'Y');
+		Rhymix\Framework\Config::set('url.rewrite', intval($vars->use_rewrite));
+		Rhymix\Framework\Config::set('use_rewrite', $vars->use_rewrite > 0);
 		Rhymix\Framework\Config::set('session.delay', $vars->delay_session === 'Y');
 		Rhymix\Framework\Config::set('session.use_db', $vars->use_db_session === 'Y');
 		Rhymix\Framework\Config::set('view.manager_layout', $vars->manager_layout ?: 'module');

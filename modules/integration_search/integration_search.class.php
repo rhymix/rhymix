@@ -38,6 +38,7 @@ class integration_search extends ModuleObject
 				if(is_dir($template_path)) return true;
 			}
 		}
+		
 		return false;
 	}
 
