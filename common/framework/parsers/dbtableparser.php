@@ -20,6 +20,14 @@ class DBTableParser
 	);
 	
 	/**
+	 * List of types for which the size attribute will be ignored.
+	 */
+	protected static $_nosize_types = array(
+		'bigint' => true,
+		'int' => true,
+	);
+	
+	/**
 	 * Load a table definition XML file.
 	 * 
 	 * @param string $filename
@@ -68,6 +76,10 @@ class DBTableParser
 				$column->size = strval($column_info['size']);
 			}
 			$column->size = implode(',', array_map('trim', explode(',', $column->size))) ?: null;
+			if (isset(self::$_nosize_types[$column->type]))
+			{
+				$column->size = null;
+			}
 			
 			// Get the utf8mb4 attribute.
 			if (isset($column_info['utf8mb4']))
