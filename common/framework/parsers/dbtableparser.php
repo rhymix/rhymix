@@ -2,8 +2,6 @@
 
 namespace Rhymix\Framework\Parsers;
 
-use Rhymix\Framework\Storage;
-
 /**
  * DB table parser class for XE compatibility.
  */
@@ -35,16 +33,16 @@ class DBTableParser
 	 */
 	public static function loadXML(string $filename)
 	{
-		// Initialize table definition.
-		$table = new DBTable\Table;
-		$table->name = preg_replace('/\.xml$/', '', basename($filename));
-		
 		// Load the XML file.
 		$xml = simplexml_load_string(file_get_contents($filename));
 		if ($xml === false)
 		{
 			return false;
 		}
+		
+		// Initialize table definition.
+		$table = new DBTable\Table;
+		$table->name = preg_replace('/\.xml$/', '', basename($filename));
 		
 		// Load columns.
 		foreach ($xml->column as $column_info)
