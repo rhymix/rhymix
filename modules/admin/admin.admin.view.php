@@ -312,7 +312,26 @@ class adminAdminView extends admin
 		{
 			$needUpdate = FALSE;
 			$addTables = FALSE;
-			foreach($module_list AS $key => $value)
+			$priority = array(
+				'module' => 1000000,
+				'member' => 100000,
+				'document' => 10000,
+				'comment' => 1000,
+				'file' => 100,
+			);
+			usort($module_list, function($a, $b) use($priority) {
+				$a_priority = isset($priority[$a->module]) ? $priority[$a->module] : 0;
+				$b_priority = isset($priority[$b->module]) ? $priority[$b->module] : 0;
+				if ($a_priority == 0 && $b_priority == 0)
+				{
+					return strcmp($a->module, $b->module);
+				}
+				else
+				{
+					return $b_priority - $a_priority;
+				}
+			});
+			foreach($module_list as $value)
 			{
 				if($value->need_install)
 				{
