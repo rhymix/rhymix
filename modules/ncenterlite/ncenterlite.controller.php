@@ -33,7 +33,6 @@ class ncenterliteController extends ncenterlite
 			$args->target_body = $message->subject;
 			$args->target_url = $message->url ?: $args->target_url;
 			$args->extra_content = $message->content;
-			$args->extra_image = $message->image;
 			$args->extra_data = $message->data ?: [];
 		}
 		else
