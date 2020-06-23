@@ -103,14 +103,14 @@ class memberController extends member
 
 		if('ios' === $device_type)
 		{
-			if(preg_match("/^[0-9a-z]{64}$/", $device_token))
+			if(!preg_match("/^[0-9a-z]{64}$/", $device_token))
 			{
 				return new BaseObject(-1, 'INVALID_DEVICE_TOKEN');
 			}
 		}
 		else if('android' === $device_type)
 		{
-			if(preg_match("/^[0-9a-zA-Z:_-]+$/", $device_token))
+			if(!preg_match("/^[0-9a-zA-Z:_-]+$/", $device_token))
 			{
 				return new BaseObject(-1, 'INVALID_DEVICE_TOKEN');
 			}
