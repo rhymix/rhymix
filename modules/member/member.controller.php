@@ -205,12 +205,11 @@ class memberController extends member
 		{
 			return new BaseObject(-1, 'LOGIN_FAILED');
 		}
-
-		$logged_info = Context::get('logged_info');
-		$this->add('member_srl', $logged_info->member_srl);
-		$this->add('user_id', $logged_info->user_id);
-		$this->add('user_name', $logged_info->user_name);
-		$this->add('nick_name', $logged_info->nick_name);
+		
+		$this->add('member_srl', $member_info->member_srl);
+		$this->add('user_id', $member_info->user_id);
+		$this->add('user_name', $member_info->user_name);
+		$this->add('nick_name', $member_info->nick_name);
 	}
 
 	/**
