@@ -8,6 +8,6 @@
     </columns>
     <conditions>
         <condition operation="in" column="member_srl" var="member_srl" notnull="notnull" />
-        <condition operation="in" column="device_type" var="device_type" notnull="notnull" />
+        <condition operation="in" column="device_type" var="device_type" notnull="notnull" pipe="and" />
     </conditions>
 </query>
