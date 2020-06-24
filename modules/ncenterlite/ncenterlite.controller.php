@@ -1512,9 +1512,9 @@ class ncenterliteController extends ncenterlite
 
 		$oPush = new \Rhymix\Framework\Push();
 		$oPush->setSubject($content);
-		$oPush->setContent(escape($args->extra_content));
+		$oPush->setContent(strval($args->extra_content));
 		$oPush->setData($args->extra_data ?: []);
-		$oPush->setURL(escape($target_url));
+		$oPush->setURL(strval($target_url));
 		$oPush->addTo(intval($args->member_srl));
 		$oPush->send();
 	}
