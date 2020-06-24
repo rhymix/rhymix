@@ -5,6 +5,6 @@
     <conditions>
         <condition operation="in" column="device_srl" var="device_srl" />
         <condition operation="in" column="member_srl" var="member_srl" pipe="and" />
-        <condition operation="in" column="device_token" var="device_token" pipe="and" />
+        <condition operation="in" column="device_token" var="device_token" notnull="notnull" pipe="and" />
     </conditions>
 </query>

@@ -139,7 +139,7 @@ class memberController extends member
 		// Remove duplicated token key
 		$args = new stdClass;
 		$args->device_token = $device_token;
-		executeQuery('member.deleteMemberDeviceByToken', $args);
+		executeQuery('member.deleteMemberDevice', $args);
 
 		// Create member_device
 		$args = new stdClass;
@@ -205,7 +205,7 @@ class memberController extends member
 		{
 			return new BaseObject(-1, 'LOGIN_FAILED');
 		}
-		
+
 		$this->add('member_srl', $member_info->member_srl);
 		$this->add('user_id', $member_info->user_id);
 		$this->add('user_name', $member_info->user_name);
