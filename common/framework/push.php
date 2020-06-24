@@ -295,6 +295,9 @@ class Push
 				$fcm_driver = $this->getDriver('fcm');
 				$output = $fcm_driver->send($this, $tokens->android);
 				$this->sent = count($output->success) ? true : false;
+				$this->success_tokens = $output ? $output->success : [];
+				$this->deleted_tokens = $output ? $output->invalid : [];
+				$this->updated_tokens = $output ? $output->needUpdate : [];
 				$this->_deleteInvalidTokens($output->invalid);
 				$this->_updateDeviceTokens($output->needUpdate);
 			}
@@ -305,13 +308,13 @@ class Push
 				$apns_driver =$this->getDriver('apns');
 				$output = $apns_driver->send($this, $tokens->ios);
 				$this->sent = count($output->success) ? true : false;
+				$this->success_tokens += $output ? $output->success : [];
+				$this->deleted_tokens += $output ? $output->invalid : [];
+				$this->updated_tokens += $output ? $output->needUpdate : [];
 				$this->_deleteInvalidTokens($output->invalid);
 				$this->_updateDeviceTokens($output->needUpdate);
 			}
 			
-			$this->success_tokens = $output ? $output->success : [];
-			$this->deleted_tokens = $output ? $output->invalid : [];
-			$this->updated_tokens = $output ? $output->needUpdate : [];
 		}
 		catch(\Exception $e)
 		{
