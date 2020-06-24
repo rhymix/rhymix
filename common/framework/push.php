@@ -31,7 +31,7 @@ class Push
 	 * @param object $driver
 	 * @return void
 	 */
-	public static function addDriver(string $name, Drivers\PushInterface $driver): void
+	public static function addDriver(string $name, Drivers\PushInterface $driver)
 	{
 		self::$_drivers[$name] = $driver;
 	}
@@ -368,8 +368,9 @@ class Push
 	 * Delete the device toekn
 	 * 
 	 * @param array
+	 * @return void
 	 */
-	protected function _deleteInvalidTokens(array $invalid_tokens): void
+	protected function _deleteInvalidTokens(array $invalid_tokens)
 	{
 		if(!count($invalid_tokens))
 		{
@@ -384,8 +385,9 @@ class Push
 	 * Update the device toekn
 	 * 
 	 * @param array
+	 * @return void
 	 */
-	protected function _updateDeviceTokens(array $update_tokens): void
+	protected function _updateDeviceTokens(array $update_tokens)
 	{
 		$args = new \stdClass;
 		foreach($update_tokens as $key => $value)
@@ -432,7 +434,7 @@ class Push
 	 * @param string $message
 	 * @return void
 	 */
-	public function addError(string $message): void
+	public function addError(string $message)
 	{
 		$this->errors[] = $message;
 	}
