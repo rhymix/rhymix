@@ -157,7 +157,7 @@ class Advanced_MailerAdminController extends Advanced_Mailer
 		$clear_before_days = intval(Context::get('clear_before_days'));
 		if (!in_array($status, array('success', 'error')))
 		{
-			throw new Rhymix\Framework\Exceptions\InvalidRequest;
+			$status = null;
 		}
 		if ($clear_before_days < 0)
 		{
@@ -169,14 +169,7 @@ class Advanced_MailerAdminController extends Advanced_Mailer
 		$obj->regdate = date('YmdHis', time() - ($clear_before_days * 86400) + zgap());
 		$output = executeQuery('advanced_mailer.deleteMailLogs', $obj);
 		
-		if ($status === 'success')
-		{
-			$this->setRedirectUrl(getNotEncodedUrl('', 'module', 'admin', 'act', 'dispAdvanced_mailerAdminMailLog'));
-		}
-		else
-		{
-			$this->setRedirectUrl(getNotEncodedUrl('', 'module', 'admin', 'act', 'dispAdvanced_mailerAdminMailErrors'));
-		}
+		$this->setRedirectUrl(getNotEncodedUrl('', 'module', 'admin', 'act', 'dispAdvanced_mailerAdminMailLog', 'status', $status));
 	}
 	
 	/**
@@ -188,7 +181,7 @@ class Advanced_MailerAdminController extends Advanced_Mailer
 		$clear_before_days = intval(Context::get('clear_before_days'));
 		if (!in_array($status, array('success', 'error')))
 		{
-			throw new Rhymix\Framework\Exceptions\InvalidRequest;
+			$status = null;
 		}
 		if ($clear_before_days < 0)
 		{
@@ -200,14 +193,7 @@ class Advanced_MailerAdminController extends Advanced_Mailer
 		$obj->regdate = date('YmdHis', time() - ($clear_before_days * 86400) + zgap());
 		$output = executeQuery('advanced_mailer.deleteSMSLogs', $obj);
 		
-		if ($status === 'success')
-		{
-			$this->setRedirectUrl(getNotEncodedUrl('', 'module', 'admin', 'act', 'dispAdvanced_mailerAdminSMSLog'));
-		}
-		else
-		{
-			$this->setRedirectUrl(getNotEncodedUrl('', 'module', 'admin', 'act', 'dispAdvanced_mailerAdminSMSErrors'));
-		}
+		$this->setRedirectUrl(getNotEncodedUrl('', 'module', 'admin', 'act', 'dispAdvanced_mailerAdminSMSLog', 'status', $status));
 	}
 	
 	/**

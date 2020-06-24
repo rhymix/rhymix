@@ -7,10 +7,8 @@
 		<action name="dispAdvanced_mailerAdminSpfDkim" type="view" />
 		<action name="dispAdvanced_mailerAdminMailTest" type="view" />
 		<action name="dispAdvanced_mailerAdminMailLog" type="view" />
-		<action name="dispAdvanced_mailerAdminMailErrors" type="view" />
 		<action name="dispAdvanced_mailerAdminSMSTest" type="view" />
 		<action name="dispAdvanced_mailerAdminSMSLog" type="view" />
-		<action name="dispAdvanced_mailerAdminSMSErrors" type="view" />
 		<action name="dispAdvanced_mailerAdminPushTest" type="view" />
 		<action name="dispAdvanced_mailerAdminPushLog" type="view" />
 		
