@@ -22,6 +22,8 @@ class Advanced_MailerAdminController extends Advanced_Mailer
 		$config->log_errors = toBool($vars->log_errors);
 		$config->log_sent_sms = toBool($vars->log_sent_sms);
 		$config->log_sms_errors = toBool($vars->log_sms_errors);
+		$config->log_sent_push = toBool($vars->log_sent_push);
+		$config->log_push_errors = toBool($vars->log_push_errors);
 		$output = getController('module')->insertModuleConfig('advanced_mailer', $config);
 		if ($output->toBool())
 		{
@@ -209,11 +211,34 @@ class Advanced_MailerAdminController extends Advanced_Mailer
 	}
 	
 	/**
+	 * Clear old Push sending log.
+	 */
+	public function procAdvanced_mailerAdminClearSentPush()
+	{
+		$status = Context::get('status');
+		$clear_before_days = intval(Context::get('clear_before_days'));
+		if (!in_array($status, array('success', 'error')))
+		{
+			$status = null;
+		}
+		if ($clear_before_days < 0)
+		{
+			throw new Rhymix\Framework\Exceptions\InvalidRequest;
+		}
+		
+		$obj = new stdClass();
+		$obj->status = $status;
+		$obj->regdate = date('YmdHis', time() - ($clear_before_days * 86400) + zgap());
+		$output = executeQuery('advanced_mailer.deletePushLogs', $obj);
+		
+		$this->setRedirectUrl(getNotEncodedUrl('', 'module', 'admin', 'act', 'dispAdvanced_mailerAdminPushLog', 'status', $status));
+	}
+	
+	/**
 	 * Send a test mail.
 	 */
 	public function procAdvanced_MailerAdminTestSendMail()
 	{
-		$advanced_mailer_config = $this->getConfig();
 		$recipient_config = Context::gets('recipient_name', 'recipient_email');
 		$recipient_name = $recipient_config->recipient_name;
 		$recipient_email = $recipient_config->recipient_email;
@@ -289,7 +314,6 @@ class Advanced_MailerAdminController extends Advanced_Mailer
 	 */
 	public function procAdvanced_MailerAdminTestSendSMS()
 	{
-		$advanced_mailer_config = $this->getConfig();
 		$recipient_number = Context::get('recipient_number');
 		$country_code = intval(Context::get('country_code'));
 		$content = trim(Context::get('content'));
@@ -317,6 +341,81 @@ class Advanced_MailerAdminController extends Advanced_Mailer
 				if (count($oSMS->getErrors()))
 				{
 					$this->add('test_result', nl2br(htmlspecialchars(implode("\n", $oSMS->getErrors()))));
+					return;
+				}
+				else
+				{
+					$this->add('test_result', Context::getLang('msg_advanced_mailer_unknown_error'));
+					return;
+				}
+			}
+		}
+		catch (Exception $e)
+		{
+			$this->add('test_result', nl2br(htmlspecialchars($e->getMessage())));
+			return;
+		}
+		
+		$this->add('test_result', Context::getLang('msg_advanced_mailer_test_success_sms'));
+		return;
+	}
+	
+	/**
+	 * Send a test Push Notification.
+	 */
+	public function procAdvanced_MailerAdminTestSendPush()
+	{
+		$recipient_user_id = Context::get('recipient_user_id');
+		$subject = trim(Context::get('subject'));
+		$content = trim(Context::get('content'));
+		$url = trim(Context::get('url'));
+		
+		$member_info = MemberModel::getMemberInfoByUserID($recipient_user_id);
+		if (!$member_info || !$member_info->member_srl)
+		{
+			$this->add('test_result', 'Error: ' . Context::getLang('msg_advanced_mailer_recipient_user_id_not_found'));
+			return;
+		}
+		
+		$args = new stdClass;
+		$args->member_srl = $member_info->member_srl;
+		$output = executeQueryArray('member.getMemberDeviceTokensByMemberSrl', $args);
+		if (!$output->toBool() || !count($output->data))
+		{
+			$this->add('test_result', 'Error: ' . Context::getLang('msg_advanced_mailer_recipient_has_no_devices'));
+			return;
+		}
+		
+		if (!$subject)
+		{
+			$this->add('test_result', 'Error: ' . Context::getLang('msg_advanced_mailer_subject_is_empty'));
+			return;
+		}
+		if (!$content)
+		{
+			$this->add('test_result', 'Error: ' . Context::getLang('msg_advanced_mailer_content_is_empty'));
+			return;
+		}
+		if (!$url || !Rhymix\Framework\URL::isInternalURL($url))
+		{
+			$this->add('test_result', 'Error: ' . Context::getLang('msg_advanced_mailer_url_is_invalid'));
+			return;
+		}
+		
+		try
+		{
+			$oPush = new Rhymix\Framework\Push;
+			$oPush->addTo($member_info->member_srl);
+			$oPush->setSubject($subject);
+			$oPush->setContent($content);
+			$oPush->setURL($url);
+			$result = $oPush->send();
+			
+			if (!$result)
+			{
+				if (count($oPush->getErrors()))
+				{
+					$this->add('test_result', nl2br(htmlspecialchars(implode("\n", $oPush->getErrors()))));
 					return;
 				}
 				else

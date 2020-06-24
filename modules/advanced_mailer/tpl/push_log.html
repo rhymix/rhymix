@@ -1,0 +1,86 @@
+<include target="./common.html" />
+<load target="css/view_log.css" />
+<load target="js/view_log.js" />
+
+<table id="advanced_mailer_log" class="x_table x_table-striped x_table-hover">
+	<caption>
+		<div style="float: left">
+			<a href="{getUrl('status', null)}" class="active"|cond="!$status">{$lang->all}</a> <i>|</i>
+			<a href="{getUrl('status', 'success')}" class="active"|cond="$status == 'success'">{$lang->cmd_advanced_mailer_status_success}</a> <i>|</i>
+			<a href="{getUrl('status', 'error')}" class="active"|cond="$status == 'error'">{$lang->cmd_advanced_mailer_status_error}</a>
+		</div>
+		<div style="float: right">
+			<strong>Total: {number_format($total_count)}, Page: {number_format($page)}/{number_format($total_page)}</strong>
+		</div>
+		<div class="clear: both"></div>
+	</caption>
+	<thead>
+		<tr>
+			<th scope="col" class="nowr">{$lang->cmd_advanced_mailer_status_recipient}</th>
+			<th scope="col" class="nowr">{$lang->cmd_advanced_mailer_status_subject}</th>
+			<th scope="col" class="nowr">{$lang->cmd_advanced_mailer_status_content}</th>
+			<th scope="col" class="nowr">{$lang->cmd_advanced_mailer_success_count}</th>
+			<th scope="col" class="nowr">{$lang->cmd_advanced_mailer_deleted_count}</th>
+			<th scope="col" class="nowr">{$lang->cmd_advanced_mailer_updated_count}</th>
+			<th scope="col" class="nowr">{$lang->cmd_advanced_mailer_status_time}</th>
+			<th scope="col" class="nowr">{$lang->cmd_advanced_mailer_status}</th>
+		</tr>
+	</thead>
+	<tbody>
+		<tr loop="$advanced_mailer_log => $push_id, $val">
+			<td class="nowr">
+				{substr($val->push_to, 0, strpos($val->push_to, "\n"))}
+			</td>
+			<td class="nowr" style="white-space:normal">{nl2br(htmlspecialchars(cut_str($val->subject, 40)))}</td>
+			<td class="nowr" style="white-space:normal">{nl2br(htmlspecialchars(cut_str($val->content, 40)))}</td>
+			<td class="nowr">{number_format($val->success_count)}</td>
+			<td class="nowr">{number_format($val->deleted_count)}</td>
+			<td class="nowr">{number_format($val->updated_count)}</td>
+			<td class="nowr">{(zdate($val->regdate, "Y-m-d\nH:i:s"))}</td>
+			<td class="nowr">
+				<!--@if($val->status === 'success')-->
+					{$lang->cmd_advanced_mailer_status_success}
+				<!--@else-->
+					<a href="javascript:void(0)" class="show-errors">{$lang->cmd_advanced_mailer_status_error}</a>
+					<div class="mail-log-errors">
+						<strong>{$lang->cmd_advanced_mailer_status_error_msg}:</strong><br />
+						{nl2br(htmlspecialchars(trim($val->errors)))}<br /><br />
+						<strong>{$lang->cmd_advanced_mailer_status_calling_script}:</strong><br />
+						{htmlspecialchars($val->calling_script)}
+					</div>
+				<!--@end-->
+			</td>
+		</tr>
+		<tr cond="!$advanced_mailer_log">
+			<td>{$lang->msg_advanced_mailer_log_is_empty}</td>
+		</tr>
+	</tbody>
+</table>
+
+<div class="x_clearfix">
+	<form class="x_pagination x_pull-left" style="margin-top:8px" action="{Context::getUrl('')}" method="post" no-error-return-url="true">
+		<input loop="$param => $key, $val" cond="!in_array($key, array('mid', 'vid', 'act'))" type="hidden" name="{$key}" value="{$val}" />
+		<ul>
+			<li class="x_disabled"|cond="$page == 1"><a href="{getUrl('page', '')}">&laquo; {$lang->first_page}</a></li>
+			<!--@while($page_no = $page_navigation->getNextPage())-->
+				<li class="x_active"|cond="$page_no == $page"><a href="{getUrl('page', $page_no)}">{$page_no}</a></li>
+			<!--@end-->
+			<li class="x_disabled"|cond="$page == $page_navigation->last_page"><a href="{getUrl('page', $page_navigation->last_page)}">{$lang->last_page} &raquo;</a></li>
+		</ul>
+	</form>
+	<form class="x_pull-right x_input-append" style="margin-top:8px" action="{Context::getUrl('')}" method="post">
+		<input type="hidden" name="module" value="advanced_mailer" />
+		<input type="hidden" name="act" value="procAdvanced_mailerAdminClearSentPush" />
+		<input type="hidden" name="status" value="{$advanced_mailer_status}" />
+		<select name="clear_before_days" style="width:120px">
+			<option value="0">{$lang->cmd_advanced_mailer_clear_log_condition_all}</option>
+			<option value="1">{sprintf($lang->cmd_advanced_mailer_clear_log_condition, 1)}</option>
+			<option value="3">{sprintf($lang->cmd_advanced_mailer_clear_log_condition, 3)}</option>
+			<option value="7" selected="selected">{sprintf($lang->cmd_advanced_mailer_clear_log_condition, 7)}</option>
+			<option value="14">{sprintf($lang->cmd_advanced_mailer_clear_log_condition, 14)}</option>
+			<option value="30">{sprintf($lang->cmd_advanced_mailer_clear_log_condition, 30)}</option>
+			<option value="60">{sprintf($lang->cmd_advanced_mailer_clear_log_condition, 60)}</option>
+		</select>
+		<button class="x_btn" type="submit" disabled="disabled"|cond="!count($advanced_mailer_log)">{$lang->cmd_advanced_mailer_clear_log_button}</button>
+	</form>
+</div>

@@ -11,14 +11,18 @@
 		<action name="dispAdvanced_mailerAdminSMSTest" type="view" />
 		<action name="dispAdvanced_mailerAdminSMSLog" type="view" />
 		<action name="dispAdvanced_mailerAdminSMSErrors" type="view" />
+		<action name="dispAdvanced_mailerAdminPushTest" type="view" />
+		<action name="dispAdvanced_mailerAdminPushLog" type="view" />
 		
 		<action name="procAdvanced_mailerAdminInsertConfig" type="controller" />
 		<action name="procAdvanced_mailerAdminInsertExceptions" type="controller" />
 		<action name="procAdvanced_mailerAdminCheckDNSRecord" type="controller" />
 		<action name="procAdvanced_mailerAdminClearSentMail" type="controller" />
 		<action name="procAdvanced_mailerAdminClearSentSMS" type="controller" />
+		<action name="procAdvanced_mailerAdminClearSentPush" type="controller" />
 		<action name="procAdvanced_mailerAdminTestSendMail" type="controller" />
 		<action name="procAdvanced_mailerAdminTestSendSMS" type="controller" />
+		<action name="procAdvanced_mailerAdminTestSendPush" type="controller" />
 	</actions>
 	<menus>
 		<menu name="advanced_mailer" type="all">

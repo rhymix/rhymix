@@ -17,6 +17,9 @@ class Push
 	protected $click_action = '';
 	protected $data = [];
 	protected $errors = array();
+	protected $success_tokens = array();
+	protected $deleted_tokens = array();
+	protected $updated_tokens = array();
 	protected $sent = false;
 
 	/**
@@ -284,12 +287,14 @@ class Push
 		try
 		{
 			$tokens = $this->_getDeviceTokens();
+			$output = null;
+			
 			// Android FCM
 			if(count($tokens->android))
 			{
 				$fcm_driver = $this->getDriver('fcm');
 				$output = $fcm_driver->send($this, $tokens->android);
-				$this->sent = $output->invalid ? false : true;
+				$this->sent = count($output->success) ? true : false;
 				$this->_deleteInvalidTokens($output->invalid);
 				$this->_updateDeviceTokens($output->needUpdate);
 			}
@@ -299,10 +304,14 @@ class Push
 			{
 				$apns_driver =$this->getDriver('apns');
 				$output = $apns_driver->send($this, $tokens->ios);
-				$this->sent = $output->invalid ? false : true;
+				$this->sent = count($output->success) ? true : false;
 				$this->_deleteInvalidTokens($output->invalid);
 				$this->_updateDeviceTokens($output->needUpdate);
 			}
+			
+			$this->success_tokens = $output ? $output->success : [];
+			$this->deleted_tokens = $output ? $output->invalid : [];
+			$this->updated_tokens = $output ? $output->needUpdate : [];
 		}
 		catch(\Exception $e)
 		{
@@ -426,6 +435,36 @@ class Push
 	public function getErrors(): array
 	{
 		return $this->errors;
+	}
+	
+	/**
+	 * Get success tokens.
+	 * 
+	 * @return array
+	 */
+	public function getSuccessTokens(): array
+	{
+		return $this->success_tokens;
+	}
+	
+	/**
+	 * Get deleted tokens.
+	 * 
+	 * @return array
+	 */
+	public function getDeletedTokens(): array
+	{
+		return $this->deleted_tokens;
+	}
+	
+	/**
+	 * Get updated tokens.
+	 * 
+	 * @return array
+	 */
+	public function getUpdatedTokens(): array
+	{
+		return $this->updated_tokens;
 	}
 	
 	/**

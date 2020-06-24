@@ -246,6 +246,41 @@ class Advanced_MailerAdminView extends Advanced_Mailer
 	}
 	
 	/**
+	 * Display the Push test form.
+	 */
+	public function dispAdvanced_MailerAdminPushTest()
+	{
+		$advanced_mailer_config = $this->getConfig();
+		Context::set('advanced_mailer_config', $advanced_mailer_config);
+		
+		$this->setTemplatePath($this->module_path.'tpl');
+		$this->setTemplateFile('push_test');
+	}
+	
+	/**
+	 * Display the Push log.
+	 */
+	public function dispAdvanced_MailerAdminPushLog()
+	{
+		$obj = new stdClass();
+		$obj->status = preg_replace('/[^a-z]/', '', Context::get('status')) ?: null;
+		$obj->page = $page = Context::get('page') ?: 1;
+		$pushlog = executeQueryArray('advanced_mailer.getPushLogByType', $obj);
+		$pushlog = $pushlog->toBool() ? $pushlog->data : array();
+		Context::set('advanced_mailer_log', $pushlog);
+		Context::set('advanced_mailer_status', $obj->status);
+		
+		$paging = $this->procPaging($obj->status, 'push', $page);
+		Context::set('total_count', $paging->total_count);
+		Context::set('total_page', $paging->total_page);
+		Context::set('page', $paging->page);
+		Context::set('page_navigation', $paging->page_navigation);
+		
+		$this->setTemplatePath($this->module_path.'tpl');
+		$this->setTemplateFile('push_log');
+	}
+	
+	/**
 	 * Process mail log for display.
 	 */
 	public function procMailLog($log)
@@ -295,9 +330,13 @@ class Advanced_MailerAdminView extends Advanced_Mailer
 		{
 			$count = executeQuery('advanced_mailer.countMailLogByType', $args);
 		}
-		else
+		elseif ($type === 'sms')
 		{
 			$count = executeQuery('advanced_mailer.countSMSLogByType', $args);
+		}
+		else
+		{
+			$count = executeQuery('advanced_mailer.countPushLogByType', $args);
 		}
 		$total_count = $count->data->count;
 		$total_page = max(1, ceil($total_count / 20));
