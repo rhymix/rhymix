@@ -117,6 +117,7 @@ $lang->tag = '태그';
 $lang->mail = '메일';
 $lang->email = '이메일';
 $lang->sms = 'SMS';
+$lang->push_notification = '푸시 알림';
 $lang->allow_comment = '댓글 허용';
 $lang->lock_comment = '댓글 잠금';
 $lang->allow_trackback = '엮인글 허용';

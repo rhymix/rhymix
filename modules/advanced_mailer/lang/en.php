@@ -35,6 +35,9 @@ $lang->cmd_advanced_mailer_api_type_free = 'Free account';
 $lang->cmd_advanced_mailer_api_type_paid = 'Paid account';
 $lang->cmd_advanced_mailer_api_user = 'Username';
 $lang->cmd_advanced_mailer_api_pass = 'Password';
+$lang->cmd_advanced_mailer_fcm_api_key = 'FCM API key';
+$lang->cmd_advanced_mailer_apns_certificate = 'APNs certificate file';
+$lang->cmd_advanced_mailer_apns_passphrase = 'APNs certificate passphrase';
 $lang->cmd_advanced_mailer_sender_key = 'Sender key';
 $lang->cmd_advanced_mailer_sender_identity = 'Sender Identity';
 $lang->cmd_advanced_mailer_about_sender_identity = 'You can change the sender\'s name and e-mail address in the <a href="index.php?module=admin&act=dispAdminConfigNotification" target="_blank">Notification Settings</a> screen.';
@@ -103,6 +106,8 @@ $lang->msg_advanced_mailer_recipient_email_is_invalid = 'The recipient\'s email 
 $lang->msg_advanced_mailer_test_success = 'The test was successful. Please check your email.';
 $lang->msg_advanced_mailer_google_account_security = 'Either your login credentials are incorrect, or the SMTP connection was blocked by Google account security settings.<br />Please <a href="https://support.google.com/mail/answer/14257" target="_blank">see here</a> for more information.';
 $lang->msg_advanced_mailer_naver_smtp_disabled = 'Either your login credentials are incorrect, or POP3/SMTP is not enabled on your Naver account.';
+$lang->msg_advanced_mailer_sms_config_invalid = 'There are errors or omissions in the SMS API configuration.';
+$lang->msg_advanced_mailer_push_config_invalid = 'There are errors or omissions in the push notification configuration.';
 $lang->msg_advanced_mailer_unknown_error = 'An unknown error occurred.';
 $lang->msg_advanced_mailer_log_is_empty = 'There are no entries to display.';
 $lang->cmd_advanced_mailer_status_sender = 'Sender';

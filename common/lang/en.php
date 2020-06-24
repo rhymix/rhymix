@@ -115,6 +115,7 @@ $lang->tag = 'Tag';
 $lang->mail = 'Mail';
 $lang->email = 'E-mail';
 $lang->sms = 'SMS';
+$lang->push_notification = 'Push Notification';
 $lang->allow_comment = 'Allow Comments';
 $lang->lock_comment = 'Block Comments';
 $lang->allow_trackback = 'Allow Trackbacks';

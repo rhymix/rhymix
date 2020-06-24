@@ -157,7 +157,6 @@ $lang->mention_limit = '멘션 갯수 제한';
 $lang->about_mention_limit = '서버 과부하와 스팸을 방지하기 위해 한 글에서 지나치게 많은 회원들을 호출하지 못하도록 합니다.';
 $lang->ncenterlite_msg_setting_error = '설정에 오류가 있습니다. 다시 설정해 주세요.';
 $lang->ncenterlite_use_help = '회원들에게 전송할 알림을 선택할 수 있습니다. <br /> 모든 댓글 작성자에게 알림 기능은 게시글의 작성자가 댓글을 남길경우 게시글을 작성한 작성자를 제외하고 해당 글의 <strong>모든 댓글 작성자</strong>들에게 알림을 전송합니다.';
-$lang->ncenterlite_dont_use_push = '푸시 알림은 현재 지원중이 아닙니다.';
 $lang->member_phone_variable = '회원 전화번호 변수';
 $lang->member_phone_variable_about = '문자 알림 사용시 회원의 전화번호를 어디에서 불러올지 선택합니다. 회원정보의 전화번호 또는 확장변수를 선택할 수 있습니다.<br />전화번호 형태의 확장변수가 1개뿐인 경우 설치시 자동으로 설정이 저장됩니다.';
 $lang->member_phone_builtin_field = '회원정보의 전화정보';

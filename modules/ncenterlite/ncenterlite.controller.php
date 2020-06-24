@@ -7,12 +7,12 @@ class ncenterliteController extends ncenterlite
 	 * 
 	 * @param int $from_member_srl Sender
 	 * @param int $to_member_srl Recipient
-	 * @param string $message Message content
+	 * @param string|object $message Message content
 	 * @param string $url The URL to redirect to when the recipient clicks the notification
 	 * @param int $target_srl The sequence number associated with this notification
 	 * @return BaseObject
 	 */
-	public function sendNotification($from_member_srl, $to_member_srl, $message, $url, $target_srl = 0)
+	public function sendNotification($from_member_srl, $to_member_srl, $message, $url = '', $target_srl = 0)
 	{
 		$args = new stdClass();
 		$args->config_type = 'custom';
@@ -27,7 +27,19 @@ class ncenterliteController extends ncenterlite
 		$args->target_url = $url;
 		$args->target_browser = '';
 		$args->target_summary = '';
-		$args->target_body = $message;
+		
+		if (is_object($message))
+		{
+			$args->target_body = $message->subject;
+			$args->target_url = $message->url ?: $args->target_url;
+			$args->extra_content = $message->content;
+			$args->extra_data = $message->data ?: [];
+		}
+		else
+		{
+			$args->target_body = $message;
+		}
+		
 		$output = $this->_insertNotify($args);
 		if(!$output->toBool())
 		{
@@ -1337,6 +1349,7 @@ class ncenterliteController extends ncenterlite
 		if($output->toBool())
 		{
 			ModuleHandler::triggerCall('ncenterlite._insertNotify', 'after', $args);
+			$this->sendPushMessage($args);
 			$this->sendSmsMessage($args);
 			$this->sendMailMessage($args);
 			$this->removeFlagFile($args->member_srl);
@@ -1473,6 +1486,39 @@ class ncenterliteController extends ncenterlite
 		return array_values($members);
 	}
 
+	function sendPushMessage($args)
+	{
+		$oNcenterliteModel = getModel('ncenterlite');
+
+		$config = $oNcenterliteModel->getConfig();
+		if(!isset($config->use[$args->config_type]['push']))
+		{
+			return false;
+		}
+
+		if($this->user->member_srl == $args->member_srl && $args->target_type != $this->_TYPE_CUSTOM)
+		{
+			return false;
+		}
+		
+		$content = $oNcenterliteModel->getNotificationText($args);
+		$content = htmlspecialchars_decode(preg_replace('/<\/?(strong|)[^>]*>/', '', $content));
+		
+		$target_url = $args->target_url;
+		if (!preg_match('!^https?://!', $target_url))
+		{
+			$target_url = Rhymix\Framework\URL::getCurrentDomainUrl($target_url);
+		}
+
+		$oPush = new \Rhymix\Framework\Push();
+		$oPush->setSubject($content);
+		$oPush->setContent(strval($args->extra_content));
+		$oPush->setData($args->extra_data ?: []);
+		$oPush->setURL(strval($target_url));
+		$oPush->addTo(intval($args->member_srl));
+		$oPush->send();
+	}
+	
 	function sendSmsMessage($args)
 	{
 		$oNcenterliteModel = getModel('ncenterlite');
@@ -1483,13 +1529,13 @@ class ncenterliteController extends ncenterlite
 			return false;
 		}
 
-		if($this->user->member_srl == $args->member_srl)
+		if($this->user->member_srl == $args->member_srl && $args->target_type != $this->_TYPE_CUSTOM)
 		{
 			return false;
 		}
 
 		$content = $oNcenterliteModel->getNotificationText($args);
-		$content = preg_replace('/<\/?(strong|)[^>]*>/', '', $content);
+		$content = htmlspecialchars_decode(preg_replace('/<\/?(strong|)[^>]*>/', '', $content));
 
 		$sms = $this->getSmsHandler();
 		if($sms === false)
@@ -1544,11 +1590,11 @@ class ncenterliteController extends ncenterlite
 			return false;
 		}
 
-		$logged_info = Context::get('logged_info');
-		if($logged_info->member_srl == $args->member_srl)
+		if($this->user->member_srl == $args->member_srl && $args->target_type != $this->_TYPE_CUSTOM)
 		{
 			return false;
 		}
+		
 		$content = $oNcenterliteModel->getNotificationText($args);
 
 		switch ($args->config_type)
