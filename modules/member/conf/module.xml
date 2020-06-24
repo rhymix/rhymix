@@ -26,8 +26,8 @@
 		<action name="procMemberInsert" type="controller" ruleset="@insertMember" use-ssl="true" route="signup" />
 		<action name="procMemberCheckValue" type="controller" />
 		<action name="procMemberLogin" type="controller" ruleset="@login" use-ssl="true" route="login" />
-		<action name="procMemberRegisterDevice" type="controller" />
-		<action name="procMemberLoginWithDevice " type="controller" />
+		<action name="procMemberRegisterDevice" type="controller" route="device/register" />
+		<action name="procMemberLoginWithDevice " type="controller" route="device/login" />
 		<action name="procMemberFindAccount" type="controller" method="GET|POST" ruleset="findAccount" use-ssl="true" />
 		<action name="procMemberFindAccountByQuestion" type="controller" method="GET|POST" use-ssl="true" />
 		<action name="procMemberAuthAccount" type="controller" method="GET|POST" use-ssl="true" />
