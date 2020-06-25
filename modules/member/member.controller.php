@@ -100,6 +100,11 @@ class memberController extends member
 
 		$browserInfo = Rhymix\Framework\UA::getBrowserInfo();
 		$device_type = strtolower($browserInfo->os);
+		$device_version = $browserInfo->os_version;
+		if(!$device_model)
+		{
+			$device_model = escape($browserInfo->device);
+		}
 
 		if('ios' === $device_type)
 		{
@@ -120,8 +125,6 @@ class memberController extends member
 			return new BaseObject(-1, 'NOT_SUPPORTED_OS');
 		}
 		
-		$device_version = $browserInfo->version;
-
 		$output = $this->procMemberLogin($user_id, $password);
 		if(!$output->toBool())
 		{
