@@ -747,40 +747,18 @@ class memberController extends member
 			}
 			$accept_agreement_rearranged[$i] = $accept_agreement[$i] === 'Y' ? 'Y' : 'N';
 		}
-		
-		// Check phone number
-		if ($config->phone_number_verify_by_sms === 'Y')
-		{
-			if (!isset($_SESSION['verify_by_sms']) || !$_SESSION['verify_by_sms']['status'])
-			{
-				throw new Rhymix\Framework\Exception('verify_by_sms_incomplete');
-			}
-			$phone_country = Context::get('phone_country');
-			if ($config->phone_number_default_country && (!$phone_country || $config->phone_number_hide_country === 'Y'))
-			{
-				$phone_country = $config->phone_number_default_country;
-			}
-			if ($phone_country && !preg_match('/^[A-Z]{3}$/', $phone_country))
-			{
-				$phone_country = Rhymix\Framework\i18n::getCountryCodeByCallingCode($phone_country);
-			}
-			if ($phone_country !== $_SESSION['verify_by_sms']['country'])
-			{
-				throw new Rhymix\Framework\Exception('verify_by_sms_incomplete');
-			}
-			$phone_number = Context::get('phone_number');
-			if ($phone_number !== $_SESSION['verify_by_sms']['number'])
-			{
-				throw new Rhymix\Framework\Exception('verify_by_sms_incomplete');
-			}
-		}
 
 		// Extract the necessary information in advance
 		$getVars = array();
+		$use_phone = false;
 		if($config->signupForm)
 		{
 			foreach($config->signupForm as $formInfo)
 			{
+				if($formInfo->name === 'phone_number' && $formInfo->isUse)
+				{
+					$use_phone = true;
+				}
 				if($formInfo->isDefaultForm && ($formInfo->isUse || $formInfo->required || $formInfo->mustRequired))
 				{
 					$getVars[] = $formInfo->name;
@@ -824,6 +802,31 @@ class memberController extends member
 		$args->allow_message = Context::get('allow_message');
 
 		if($args->password1) $args->password = $args->password1;
+		
+		// Check phone number
+		if ($config->phone_number_verify_by_sms === 'Y' && $use_phone)
+		{
+			if (!isset($_SESSION['verify_by_sms']) || !$_SESSION['verify_by_sms']['status'])
+			{
+				throw new Rhymix\Framework\Exception('verify_by_sms_incomplete');
+			}
+			if ($config->phone_number_default_country && (!$args->phone_country || $config->phone_number_hide_country === 'Y'))
+			{
+				$args->phone_country = $config->phone_number_default_country;
+			}
+			if ($args->phone_country && !preg_match('/^[A-Z]{3}$/', $args->phone_country))
+			{
+				$args->phone_country = Rhymix\Framework\i18n::getCountryCodeByCallingCode($args->phone_country);
+			}
+			if ($args->phone_country !== $_SESSION['verify_by_sms']['country'])
+			{
+				throw new Rhymix\Framework\Exception('verify_by_sms_incomplete');
+			}
+			if ($args->phone_number !== $_SESSION['verify_by_sms']['number'])
+			{
+				throw new Rhymix\Framework\Exception('verify_by_sms_incomplete');
+			}
+		}
 
 		// check password strength
 		if(!MemberModel::checkPasswordStrength($args->password, $config->password_strength))
@@ -1041,51 +1044,17 @@ class memberController extends member
 		$config = MemberModel::getMemberConfig();
 		$logged_info = Context::get('logged_info');
 
-		// Check phone number
-		if ($config->phone_number_verify_by_sms === 'Y')
-		{
-			$phone_verify_needed = false;
-			$phone_country = Context::get('phone_country');
-			$phone_number = Context::get('phone_number');
-			if ($config->phone_number_default_country && (!$phone_country || $config->phone_number_hide_country === 'Y'))
-			{
-				$phone_country = $config->phone_number_default_country;
-			}
-			if ($phone_country && !preg_match('/^[A-Z]{3}$/', $phone_country))
-			{
-				$phone_country = Rhymix\Framework\i18n::getCountryCodeByCallingCode($phone_country);
-			}
-			if ($phone_country !== $logged_info->phone_country)
-			{
-				$phone_verify_needed = true;
-			}
-			if (preg_replace('/[^0-9]/', '', $phone_number) !== $logged_info->phone_number)
-			{
-				$phone_verify_needed = true;
-			}
-			if ($phone_verify_needed)
-			{
-				if (!isset($_SESSION['verify_by_sms']) || !$_SESSION['verify_by_sms']['status'])
-				{
-					throw new Rhymix\Framework\Exception('verify_by_sms_incomplete');
-				}
-				if ($phone_country !== $_SESSION['verify_by_sms']['country'])
-				{
-					throw new Rhymix\Framework\Exception('verify_by_sms_incomplete');
-				}
-				if ($phone_number !== $_SESSION['verify_by_sms']['number'])
-				{
-					throw new Rhymix\Framework\Exception('verify_by_sms_incomplete');
-				}
-			}
-		}
-
 		// Extract the necessary information in advance
 		$getVars = array('allow_mailing','allow_message');
+		$use_phone = false;
 		if($config->signupForm)
 		{
 			foreach($config->signupForm as $formInfo)
 			{
+				if($formInfo->name === 'phone_number' && $formInfo->isUse)
+				{
+					$use_phone = true;
+				}
 				if($formInfo->isDefaultForm && ($formInfo->isUse || $formInfo->required || $formInfo->mustRequired))
 				{
 					$getVars[] = $formInfo->name;
@@ -1125,6 +1094,43 @@ class memberController extends member
 			$args->birthday = intval(strtr($args->birthday_ui, array('-'=>'', '/'=>'', '.'=>'', ' '=>'')));
 		}
 		
+		// Check phone number
+		if ($config->phone_number_verify_by_sms === 'Y' && $use_phone)
+		{
+			$phone_verify_needed = false;
+			if ($config->phone_number_default_country && (!$args->phone_country || $config->phone_number_hide_country === 'Y'))
+			{
+				$args->phone_country = $config->phone_number_default_country;
+			}
+			if ($args->phone_country && !preg_match('/^[A-Z]{3}$/', $args->phone_country))
+			{
+				$args->phone_country = Rhymix\Framework\i18n::getCountryCodeByCallingCode($args->phone_country);
+			}
+			if ($args->phone_country !== $logged_info->phone_country)
+			{
+				$phone_verify_needed = true;
+			}
+			if (preg_replace('/[^0-9]/', '', $args->phone_number) !== $logged_info->phone_number)
+			{
+				$phone_verify_needed = true;
+			}
+			if ($phone_verify_needed)
+			{
+				if (!isset($_SESSION['verify_by_sms']) || !$_SESSION['verify_by_sms']['status'])
+				{
+					throw new Rhymix\Framework\Exception('verify_by_sms_incomplete');
+				}
+				if ($args->phone_country !== $_SESSION['verify_by_sms']['country'])
+				{
+					throw new Rhymix\Framework\Exception('verify_by_sms_incomplete');
+				}
+				if ($args->phone_number !== $_SESSION['verify_by_sms']['number'])
+				{
+					throw new Rhymix\Framework\Exception('verify_by_sms_incomplete');
+				}
+			}
+		}
+
 		$args->member_srl = $logged_info->member_srl;
 
 		// Remove some unnecessary variables from all the vars
