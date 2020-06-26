@@ -735,139 +735,17 @@ class DBMySQL extends DB
 	 */
 	function _createTable($xml_doc)
 	{
-		// Parse XML
-		$oXml = new XmlParser();
-		$xml_obj = $oXml->parse($xml_doc);
-		
-		// Get table name and column list
-		$table_name = $xml_obj->table->attrs->name;
-		if($this->isTableExists($table_name))
-		{
-			return;
-		}
-		if(!is_array($xml_obj->table->column))
-		{
-			$columns[] = $xml_obj->table->column;
-		}
-		else
-		{
-			$columns = $xml_obj->table->column;
-		}
-		
-		// Initialize the list of columns and indexes
-		$column_schema = array();
-		$primary_list = array();
-		$unique_list = array();
-		$index_list = array();
-		
-		// Process columns
-		foreach($columns as $column)
-		{
-			$name = $column->attrs->name;
-			$type = $column->attrs->type;
-			$size = $column->attrs->size;
-			$notnull = $column->attrs->notnull;
-			$primary_key = $column->attrs->primary_key;
-			$index = $column->attrs->index;
-			$unique = $column->attrs->unique;
-			$default = $column->attrs->default;
-			$auto_increment = $column->attrs->auto_increment;
-			$column_charset = '';
-			$index_size_limit = '';
-			
-			// MySQL only supports 767 bytes for indexed columns.
-			// This is 191 characters in utf8mb4 and 255 characters in utf8.
-			if($column->attrs->utf8mb4 === 'false' && stripos($type, 'char') !== false)
-			{
-				$column_charset = 'CHARACTER SET utf8 COLLATE utf8_unicode_ci';
-			}
-			elseif(($primary_key || $unique || $index) && stripos($type, 'char') !== false)
-			{
-				if($size > 255 || ($size > 191 && $this->charset === 'utf8mb4'))
-				{
-					if($primary_key || $unique)
-					{
-						$size = ($this->charset === 'utf8mb4') ? 191 : 255;
-					}
-					else
-					{
-						$index_size_limit = '(' . (($this->charset === 'utf8mb4') ? 191 : 255) . ')';
-					}
-				}
-			}
-			
-			// Normalize data type
-			$type = strtolower($type);
-			$type = isset($this->column_type[$type]) ? $this->column_type[$type] : $type;
-			if(in_array($type, ['integer', 'int', 'bigint', 'smallint']))
-			{
-				$size = '';
-			}
-			
-			$column_schema[$name] = sprintf('`%s` %s%s %s %s %s %s',
-				$name,
-				$type,
-				$size ? "($size)" : '',
-				$column_charset,
-				isset($default) ? "DEFAULT '$default'" : '',
-				$notnull ? 'NOT NULL' : '',
-				$auto_increment ? 'AUTO_INCREMENT' : ''
-			);
-			
-			if($primary_key)
-			{
-				$primary_list[] = "`$name`";
-			}
-			else if($unique)
-			{
-				$unique_list[$unique][] = "`$name`" . $index_size_limit;
-			}
-			else if($index)
-			{
-				$index_list[$index][] = "`$name`" . $index_size_limit;
-			}
-		}
-		
-		// Process indexes
-		if(count($primary_list))
-		{
-			$column_schema[] = sprintf("PRIMARY KEY (%s)", implode($primary_list, ', '));
-		}
-		if(count($unique_list))
-		{
-			foreach($unique_list as $key => $val)
-			{
-				$column_schema[] = sprintf("UNIQUE %s (%s)", $key, implode($val, ', '));
-			}
-		}
-		if(count($index_list))
-		{
-			foreach($index_list as $key => $val)
-			{
-				$column_schema[] = sprintf("INDEX %s (%s)", $key, implode($val, ', '));
-			}
-		}
-		
-		// Generate table schema
-		$engine = config('db.master.engine') === 'innodb' ? 'InnoDB' : 'MyISAM';
-		$charset = $this->charset ?: 'utf8';
-		$collation = $charset . '_unicode_ci';
-		$schema = sprintf("CREATE TABLE `%s` (%s) %s",
-			$this->addQuotes($this->prefix . $table_name),
-			"\n" . implode($column_schema, ",\n") . "\n",
-			"ENGINE = $engine CHARACTER SET $charset COLLATE $collation"
-		);
-		
-		// Execute the complete query
-		$output = $this->_query($schema);
-		if($output)
-		{
-			return true;
-		}
-		else
+		// Get table definition.
+		$table = Rhymix\Framework\Parsers\DBTableParser::loadXML('', $xml_doc);
+		if (!$table)
 		{
 			return false;
 		}
+		
+		// Execute the CREATE TABLE query.
+		$schema = $table->getCreateQuery($this->prefix, $this->charset, config('db.master.engine'));
+		$output = $this->_query($schema);
+		return $output ? true : false;
 	}
 
 	/**

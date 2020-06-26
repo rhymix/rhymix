@@ -51,7 +51,14 @@ class DBTableParser
 		
 		// Initialize table definition.
 		$table = new DBTable\Table;
-		$table->name = preg_replace('/\.xml$/', '', basename($filename));
+		if ($filename)
+		{
+			$table->name = preg_replace('/\.xml$/', '', basename($filename));
+		}
+		else
+		{
+			$table->name = strval($xml['name']);
+		}
 		
 		// Load columns.
 		foreach ($xml->column as $column_info)
