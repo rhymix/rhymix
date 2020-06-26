@@ -281,8 +281,14 @@ class VariableBase
 			case 'unixtime()':
 				return [false, time()];
 			case 'curdate()':
-			case 'date()':
+			case 'datetime()':
 				return [false, date('YmdHis')];
+			case 'date()':
+				return [false, date('Ymd')];
+			case 'time()':
+				return [false, date('His')];
+			case 'member_srl()':
+				return [false, intval(\Rhymix\Framework\Session::getMemberSrl())];
 			case 'sequence()':
 				return [false, getNextSequence()];
 		}
