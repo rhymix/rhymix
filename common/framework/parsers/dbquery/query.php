@@ -184,54 +184,13 @@ class Query extends VariableBase
 		// Compose the ORDER BY clause.
 		if ($this->navigation && count($this->navigation->orderby) && !$count_only)
 		{
-			$orderby_list = array();
-			foreach ($this->navigation->orderby as $orderby)
-			{
-				$column_name = '';
-				list($is_expression, $column_name) = $orderby->getValue($this->_args);
-				if (!$column_name)
-				{
-					continue;
-				}
-				if (!$is_expression && self::isValidColumnName($column_name))
-				{
-					$column_name = self::quoteName($column_name);
-				}
-				
-				if (isset($this->_args[$orderby->order_var]))
-				{
-					$column_order = preg_replace('/[^A-Z]/', '', strtoupper($this->_args[$orderby->order_var]));
-				}
-				else
-				{
-					$column_order = preg_replace('/[^A-Z]/', '', strtoupper($orderby->order_default));
-				}
-				
-				$orderby_list[] = $column_name . ' ' . $column_order;
-			}
-			$result .= ' ORDER BY ' . implode(', ', $orderby_list);
+			$result .= ' ORDER BY ' . $this->_arrangeOrderBy($this->navigation);
 		}
 		
-		// Compose the LIMIT clause.
+		// Compose the LIMIT/OFFSET clause.
 		if ($this->navigation && $this->navigation->list_count && !$count_only)
 		{
-			list($is_expression, $list_count) = $this->navigation->list_count->getValue($this->_args);
-			if ($list_count > 0)
-			{
-				if ($this->navigation->page)
-				{
-					list($is_expression, $page) = $this->navigation->page->getValue($this->_args);
-				}
-				if ($this->navigation->offset)
-				{
-					list($is_expression, $offset) = $this->navigation->offset->getValue($this->_args);
-				}
-				if ($page > 0)
-				{
-					$offset = $list_count * ($page - 1);
-				}
-				$result .= ' LIMIT ' . ($offset > 0 ? (intval($offset) . ', ') : '') . intval($list_count);
-			}
+			$result .= ' LIMIT ' . $this->_arrangeLimitOffset($this->navigation);
 		}
 		
 		// Return the final query string.
@@ -265,7 +224,43 @@ class Query extends VariableBase
 	 */
 	protected function _getDeleteQueryString(): string
 	{
-		return '';
+		// Initialize the query string.
+		$result = 'DELETE';
+		
+		// Compose the FROM clause.
+		if (count($this->tables))
+		{
+			$tables = $this->_arrangeTables($this->tables);
+			if ($tables !== '')
+			{
+				$result .= ' FROM ' . $tables;
+			}
+		}
+		
+		// Compose the WHERE clause.
+		if (count($this->conditions))
+		{
+			$where = $this->_arrangeConditions($this->conditions);
+			if ($where !== '')
+			{
+				$result .= ' WHERE ' . $where;
+			}
+		}
+		
+		// Compose the ORDER BY clause.
+		if ($this->navigation && count($this->navigation->orderby))
+		{
+			$result .= ' ORDER BY ' . $this->_arrangeOrderBy($this->navigation);
+		}
+		
+		// Compose the LIMIT/OFFSET clause.
+		if ($this->navigation && $this->navigation->list_count)
+		{
+			$result .= ' LIMIT ' . $this->_arrangeLimitOffset($this->navigation);
+		}
+		
+		// Return the final query string.
+		return $result;
 	}
 	
 	/**
@@ -292,10 +287,10 @@ class Query extends VariableBase
 				}
 			}
 			
-			// Simple table
+			// Regular table
 			else
 			{
-				$tabledef = self::quoteName($table->name) . ($table->alias ? (' AS `' . $table->alias . '`') : '');
+				$tabledef = self::quoteName($this->_prefix . $table->name) . ($table->alias ? (' AS `' . $table->alias . '`') : '');
 			}
 			
 			// Add join conditions
@@ -365,6 +360,82 @@ class Query extends VariableBase
 		
 		// Return the WHERE clause.
 		return $result;
+	}
+	
+	/**
+	 * Generate a ORDER BY clause from navigation settings.
+	 * 
+	 * @param object $navigation
+	 * @return string
+	 */
+	protected function _arrangeOrderBy(Navigation $navigation): string
+	{
+		// Initialize the result.
+		$result = array();
+		
+		// Process each column definition.
+		foreach ($navigation->orderby as $orderby)
+		{
+			// Get the name of the column or expression to order by.
+			$column_name = '';
+			list($is_expression, $column_name) = $orderby->getValue($this->_args);
+			if (!$column_name)
+			{
+				continue;
+			}
+			if (!$is_expression && self::isValidColumnName($column_name))
+			{
+				$column_name = self::quoteName($column_name);
+			}
+			
+			// Get the ordering (ASC or DESC).
+			if (isset($this->_args[$orderby->order_var]))
+			{
+				$column_order = preg_replace('/[^A-Z]/', '', strtoupper($this->_args[$orderby->order_var]));
+			}
+			else
+			{
+				$column_order = preg_replace('/[^A-Z]/', '', strtoupper($orderby->order_default));
+			}
+			
+			$result[] = $column_name . ' ' . $column_order;
+		}
+		
+		// Return the ORDER BY clause.
+		return implode(', ', $result);
+	}
+	
+	/**
+	 * Generate a LIMIT/OFFSET clause from navigation settings.
+	 * 
+	 * @param object $navigation
+	 * @return string
+	 */
+	protected function _arrangeLimitOffset(Navigation $navigation): string
+	{
+		// Get the list count.
+		list($is_expression, $list_count) = $navigation->list_count->getValue($this->_args);
+		if ($list_count <= 0)
+		{
+			return '';
+		}
+		
+		// Get the offset from the page or offset variable.
+		if ($navigation->page)
+		{
+			list($is_expression, $page) = $navigation->page->getValue($this->_args);
+		}
+		if ($navigation->offset)
+		{
+			list($is_expression, $offset) = $navigation->offset->getValue($this->_args);
+		}
+		if ($page > 0)
+		{
+			$offset = $list_count * ($page - 1);
+		}
+		
+		// Return the LIMIT/OFFSET clause.
+		return ($offset > 0 ? (intval($offset) . ', ') : '') . intval($list_count);
 	}
 	
 	/**
