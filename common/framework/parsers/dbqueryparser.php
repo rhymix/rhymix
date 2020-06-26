@@ -80,6 +80,13 @@ class DBQueryParser
 		}
 		
 		// Load columns.
+		if ($xml->columns && $select_distinct = trim($xml->columns['distinct']))
+		{
+			if ($select_distinct === 'distinct' || toBool($select_distinct))
+			{
+				$query->select_distinct = true;
+			}
+		}
 		foreach ($xml->columns->column as $tag)
 		{
 			if ($tag->getName() === 'query')

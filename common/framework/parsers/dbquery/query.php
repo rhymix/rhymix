@@ -20,6 +20,7 @@ class Query extends VariableBase
 	public $conditions = array();
 	public $groupby = null;
 	public $navigation = null;
+	public $select_distinct = false;
 	
 	/**
 	 * Attributes for query generation.
@@ -92,6 +93,10 @@ class Query extends VariableBase
 	{
 		// Initialize the query string.
 		$result = 'SELECT ';
+		if ($this->select_distinct)
+		{
+			$result .= 'DISTINCT ';
+		}
 		
 		// Compose the column list.
 		$columns = array();
