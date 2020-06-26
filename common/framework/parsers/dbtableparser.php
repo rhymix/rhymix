@@ -159,13 +159,14 @@ class DBTableParser
 		// Load other constraints (foreign keys).
 		foreach ($xml->constraint as $const_info)
 		{
-			$const = new DBTable\Constraint;
-			$const->type = strtolower($const_info['type']);
-			$const->column = strval($const_info['column']);
-			$const->references = strval($const_info['references']);
-			$const->on_update = strtolower($const_info['on_update'] ?: $const_info['on-update']);
-			$const->on_delete = strtolower($const_info['on_delete'] ?: $const_info['on-delete']);
-			$table->constraints[] = $const;
+			$constraint = new DBTable\Constraint;
+			$constraint->type = strtolower($const_info['type']);
+			$constraint->column = strval($const_info['column']) ?: null;
+			$constraint->references = strval($const_info['references']) ?: null;
+			$constraint->condition = strval($const_info['condition']) ?: null;
+			$constraint->on_delete = (strtolower($const_info['on_delete'] ?: $const_info['on-delete'])) ?: $constraint->on_delete;
+			$constraint->on_update = (strtolower($const_info['on_update'] ?: $const_info['on-update'])) ?: $constraint->on_update;
+			$table->constraints[] = $constraint;
 		}
 		
 		// Return the complete table definition.
