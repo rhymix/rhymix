@@ -57,25 +57,26 @@ class DBQueryParser
 		{
 			if (trim($tag['query']) === 'true')
 			{
-				$subquery = self::_parseQuery($tag);
-				$query->tables[$subquery->alias] = $subquery;
+				$table = self::_parseQuery($tag);
+				$query->tables[$table->alias] = $table;
 			}
 			else
 			{
 				$table = new DBQuery\Table;
 				$table->name = trim($tag['name']);
 				$table->alias = trim($tag['alias']) ?: $table->name;
-				$table_type = trim($tag['type']);
-				if (stripos($table_type, 'join') !== false)
-				{
-					$table->join_type = strtoupper($table_type);
-					if ($tag->conditions)
-					{
-						$table->join_conditions = self::_parseConditions($tag->conditions);
-					}
-				}
-				$query->tables[$table->alias] = $table;
 			}
+			
+			$table_type = trim($tag['type']);
+			if (stripos($table_type, 'join') !== false)
+			{
+				$table->join_type = strtoupper($table_type);
+				if ($tag->conditions)
+				{
+					$table->join_conditions = self::_parseConditions($tag->conditions);
+				}
+			}
+			$query->tables[$table->alias] = $table;
 		}
 		
 		// Load columns.
@@ -86,9 +87,9 @@ class DBQueryParser
 				$subquery = self::_parseQuery($tag, trim($tag['id']));
 				$query->columns[] = $subquery;
 			}
-			else
+			elseif ($query->type === 'SELECT')
 			{
-				$column = new DBQuery\Column;
+				$column = new DBQuery\ColumnRead;
 				$column->name = trim($tag['name']);
 				$column->alias = trim($tag['alias']) ?: null;
 				if ($column->name === '*' || preg_match('/\.\*$/', $column->name))
@@ -99,6 +100,19 @@ class DBQueryParser
 				{
 					$column->is_expression = true;
 				}
+				$query->columns[] = $column;
+			}
+			else
+			{
+				$column = new DBQuery\ColumnWrite;
+				$column->name = trim($tag['name']);
+				$column->name = trim($tag['operation']) ?: 'equal';
+				$column->var = trim($tag['var']) ?: null;
+				$column->default = trim($tag['default']) ?: null;
+				$column->not_null = trim($tag['notnull'] ?: $tag['not-null']) !== '' ? true : false;
+				$column->filter = trim($tag['filter']) ?: null;
+				$column->minlength = intval(trim($tag['minlength']), 10);
+				$column->maxlength = intval(trim($tag['maxlength']), 10);
 				$query->columns[] = $column;
 			}
 		}
@@ -153,7 +167,7 @@ class DBQueryParser
 		// If a SELECT query has no columns, use * by default.
 		if ($query->type === 'SELECT' && !count($query->columns))
 		{
-			$column = new DBQuery\Column;
+			$column = new DBQuery\ColumnRead;
 			$column->name = '*';
 			$column->is_wildcard = true;
 			$column->is_expression = true;

@@ -214,6 +214,18 @@ class VariableBase
 				$conditions = implode(' AND ', $conditions);
 				$where = count($keywords) === 1 ? $conditions : "($conditions)";
 				break;
+			case 'plus':
+				$where = sprintf('%s = %s + %s', $column, $column, $is_expression ? $value : '?');
+				if (!$is_expression) $params[] = $value;
+				break;
+			case 'minus':
+				$where = sprintf('%s = %s - %s', $column, $column, $is_expression ? $value : '?');
+				if (!$is_expression) $params[] = $value;
+				break;
+			case 'multiply':
+				$where = sprintf('%s = %s * %s', $column, $column, $is_expression ? $value : '?');
+				if (!$is_expression) $params[] = $value;
+				break;
 			default:
 				$where = sprintf('%s = ?', $column);
 				$params[] = $value;

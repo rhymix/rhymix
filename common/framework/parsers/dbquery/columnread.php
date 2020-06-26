@@ -3,9 +3,9 @@
 namespace Rhymix\Framework\Parsers\DBQuery;
 
 /**
- * Column class.
+ * ColumnRead class.
  */
-class Column
+class ColumnRead
 {
 	public $name;
 	public $alias;

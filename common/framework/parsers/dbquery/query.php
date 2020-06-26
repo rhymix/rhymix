@@ -13,6 +13,8 @@ class Query extends VariableBase
 	public $operation;
 	public $column;
 	public $pipe;
+	public $join_type;
+	public $join_conditions = array();
 	public $tables = array();
 	public $columns = array();
 	public $conditions = array();
@@ -49,6 +51,15 @@ class Query extends VariableBase
 		{
 			case 'SELECT':
 				$result = $this->_getSelectQueryString($count_only);
+				break;
+			case 'INSERT':
+				$result = $this->_getInsertQueryString();
+				break;
+			case 'UPDATE':
+				$result = $this->_getUpdateQueryString();
+				break;
+			case 'DELETE':
+				$result = $this->_getDeleteQueryString();
 				break;
 			default:
 				$result = '';
@@ -119,38 +130,15 @@ class Query extends VariableBase
 			$result .= implode(', ', $columns);
 		}
 		
-		// Compose the table list.
-		$tables = array();
-		foreach ($this->tables as $table)
+		// Compose the FROM clause.
+		if (count($this->tables))
 		{
-			if ($table instanceof self)
+			$tables = $this->_arrangeTables($this->tables);
+			if ($tables !== '')
 			{
-				$subquery = $table->getQueryString($this->_prefix, $this->_args);
-				foreach ($table->getQueryParams() as $param)
-				{
-					$this->_params[] = $param;
-				}
-				$tables[] = (count($tables) ? ', ' : '') . sprintf('(%s) AS `%s`', $subquery, $table->alias);
-			}
-			else
-			{
-				$tabledef = self::quoteName($table->name) . ($table->alias ? (' AS `' . $table->alias . '`') : '');
-				if ($table->join_type)
-				{
-					$join_where = $this->_arrangeConditions($table->join_conditions);
-					if ($join_where !== '')
-					{
-						$tabledef = $tabledef . ' ON ' . $join_where;
-					}
-					$tables[] = ' ' . $table->join_type . ' ' . $tabledef;
-				}
-				else
-				{
-					$tables[] = (count($tables) ? ', ' : '') . $tabledef;
-				}
+				$result .= ' FROM ' . $tables;
 			}
 		}
-		$result .= ' FROM ' . implode('', $tables);
 		
 		// Compose the WHERE clause.
 		if (count($this->conditions))
@@ -243,6 +231,86 @@ class Query extends VariableBase
 		
 		// Return the final query string.
 		return $result;
+	}
+	
+	/**
+	 * Generate a INSERT query string.
+	 * 
+	 * @return string
+	 */
+	protected function _getInsertQueryString(): string
+	{
+		return '';
+	}
+	
+	/**
+	 * Generate a UPDATE query string.
+	 * 
+	 * @return string
+	 */
+	protected function _getUpdateQueryString(): string
+	{
+		return '';
+	}
+	
+	/**
+	 * Generate a DELETE query string.
+	 * 
+	 * @return string
+	 */
+	protected function _getDeleteQueryString(): string
+	{
+		return '';
+	}
+	
+	/**
+	 * Generate a FROM clause from a list of tables.
+	 * 
+	 * @param array $tables
+	 * @return string
+	 */
+	protected function _arrangeTables(array $tables): string
+	{
+		// Initialize the result.
+		$result = array();
+		
+		// Process each table definition.
+		foreach ($tables as $table)
+		{
+			// Subquery
+			if ($table instanceof self)
+			{
+				$tabledef = sprintf('(%s) AS `%s`', $table->getQueryString($this->_prefix, $this->_args), $table->alias);
+				foreach ($table->getQueryParams() as $param)
+				{
+					$this->_params[] = $param;
+				}
+			}
+			
+			// Simple table
+			else
+			{
+				$tabledef = self::quoteName($table->name) . ($table->alias ? (' AS `' . $table->alias . '`') : '');
+			}
+			
+			// Add join conditions
+			if ($table->join_type)
+			{
+				$join_where = $this->_arrangeConditions($table->join_conditions);
+				if ($join_where !== '')
+				{
+					$tabledef = $tabledef . ' ON ' . $join_where;
+				}
+				$result[] = ' ' . $table->join_type . ' ' . $tabledef;
+			}
+			else
+			{
+				$result[] = (count($result) ? ', ' : '') . $tabledef;
+			}
+		}
+		
+		// Combine the result and return as a string.
+		return implode('', $result);
 	}
 	
 	/**
