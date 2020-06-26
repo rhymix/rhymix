@@ -26,7 +26,6 @@ class Query extends VariableBase
 	protected $_args = array();
 	protected $_column_list = array();
 	protected $_params = array();
-	protected $_temp_num = 0;
 	
 	/**
 	 * Generate the query string for this query.
@@ -34,24 +33,32 @@ class Query extends VariableBase
 	 * @param string $prefix
 	 * @param array $args
 	 * @param array $column_list
+	 * @param bool $count_only
 	 * @return string
 	 */
-	public function getQueryString(string $prefix = '', array $args, array $column_list = []): string
+	public function getQueryString(string $prefix = '', array $args, array $column_list = [], bool $count_only = false): string
 	{
 		// Save the query information.
 		$this->_prefix = $prefix;
 		$this->_args = $args;
 		$this->_column_list = $column_list;
-		$this->_temp_num = 0;
+		$this->_params = array();
 		
 		// Call different internal methods depending on the query type.
 		switch ($this->type)
 		{
 			case 'SELECT':
-				return $this->_getSelectQueryString();
+				$result = $this->_getSelectQueryString($count_only);
+				break;
 			default:
-				return '';
+				$result = '';
 		}
+		
+		// Reset state and return the result.
+		$this->_prefix = '';
+		$this->_args = array();
+		$this->_column_list = array();
+		return $result;
 	}
 	
 	/**
@@ -67,16 +74,21 @@ class Query extends VariableBase
 	/**
 	 * Generate a SELECT query string.
 	 * 
+	 * @param bool $count_only
 	 * @return string
 	 */
-	protected function _getSelectQueryString(): string
+	protected function _getSelectQueryString(bool $count_only = false): string
 	{
 		// Initialize the query string.
 		$result = 'SELECT ';
 		
 		// Compose the column list.
 		$columns = array();
-		if ($this->_column_list)
+		if ($count_only)
+		{
+			$result .= 'COUNT(*) AS `count`';
+		}
+		elseif ($this->_column_list)
 		{
 			$result .= implode(', ', array_map(function($str) {
 				return '`' . $str . '`';
@@ -140,7 +152,7 @@ class Query extends VariableBase
 		}
 		$result .= ' FROM ' . implode('', $tables);
 		
-		// Compose the conditions.
+		// Compose the WHERE clause.
 		if (count($this->conditions))
 		{
 			$where = $this->_arrangeConditions($this->conditions);
@@ -156,7 +168,7 @@ class Query extends VariableBase
 			$columns = array();
 			foreach ($this->groupby->columns as $column_name)
 			{
-				if (preg_match('/^[a-z0-9_]+(?:\.[a-z0-9_]+)*$/', $column_name))
+				if (self::isValidColumnName($column_name))
 				{
 					$columns[] = self::quoteName($column_name);
 				}
@@ -176,7 +188,58 @@ class Query extends VariableBase
 			}
 		}
 		
+		// Compose the ORDER BY clause.
+		if ($this->navigation && count($this->navigation->orderby) && !$count_only)
+		{
+			$orderby_list = array();
+			foreach ($this->navigation->orderby as $orderby)
+			{
+				$column_name = '';
+				list($is_expression, $column_name) = $orderby->getValue($this->_args);
+				if (!$column_name)
+				{
+					continue;
+				}
+				if (!$is_expression && self::isValidColumnName($column_name))
+				{
+					$column_name = self::quoteName($column_name);
+				}
+				
+				if (isset($this->_args[$orderby->order_var]))
+				{
+					$column_order = preg_replace('/[^A-Z]/', '', strtoupper($this->_args[$orderby->order_var]));
+				}
+				else
+				{
+					$column_order = preg_replace('/[^A-Z]/', '', strtoupper($orderby->order_default));
+				}
+				
+				$orderby_list[] = $column_name . ' ' . $column_order;
+			}
+			$result .= ' ORDER BY ' . implode(', ', $orderby_list);
+		}
+		
 		// Compose the LIMIT clause.
+		if ($this->navigation && $this->navigation->list_count && !$count_only)
+		{
+			list($is_expression, $list_count) = $this->navigation->list_count->getValue($this->_args);
+			if ($list_count > 0)
+			{
+				if ($this->navigation->page)
+				{
+					list($is_expression, $page) = $this->navigation->page->getValue($this->_args);
+				}
+				if ($this->navigation->offset)
+				{
+					list($is_expression, $offset) = $this->navigation->offset->getValue($this->_args);
+				}
+				if ($page > 0)
+				{
+					$offset = $list_count * ($page - 1);
+				}
+				$result .= ' LIMIT ' . ($offset > 0 ? (intval($offset) . ', ') : '') . intval($list_count);
+			}
+		}
 		
 		// Return the final query string.
 		return $result;
@@ -249,13 +312,52 @@ class Query extends VariableBase
 	
 	/**
 	 * Quote a column name.
+	 * 
+	 * @param string $column_name
+	 * @return string
 	 */
-	public static function quoteName($column_name): string
+	public static function quoteName(string $column_name): string
 	{
 		$columns = explode('.', $column_name);
 		$columns = array_map(function($str) {
 			return $str === '*' ? $str : ('`' . $str . '`');
 		}, $columns);
 		return implode('.', $columns);
+	}
+	
+	/**
+	 * Check if a column name is valid.
+	 * 
+	 * @param string $column_name
+	 * @return bool
+	 */
+	public static function isValidColumnName(string $column_name): bool
+	{
+		return preg_match('/^[a-z][a-z0-9_]*(?:\.[a-z][a-z0-9_]*)*$/i', $column_name) ? true : false;
+	}
+	
+	/**
+	 * Check if a variable is considered valid for XE compatibility.
+	 * 
+	 * @param mixed $var
+	 * @return bool
+	 */
+	public static function isValidVariable($var): bool
+	{
+		if ($var === null || $var === '')
+		{
+			return false;
+		}
+		
+		if (is_array($var))
+		{
+			$count = count($var);
+			if ($count === 0 || ($count === 1 && reset($var) === ''))
+			{
+				return false;
+			}
+		}
+		
+		return true;
 	}
 }

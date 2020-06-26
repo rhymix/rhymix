@@ -33,7 +33,7 @@ class VariableBase
 		$params = array();
 		
 		// Process the variable or default value.
-		if ($this->var && isset($args[$this->var]) && (!is_array($args[$this->var]) || count($args[$this->var]) > 1 || $args[$this->var] !== ['']))
+		if ($this->var && Query::isValidVariable($args[$this->var]))
 		{
 			$this->filterValue($args[$this->var]);
 			$is_expression = false;
@@ -224,6 +224,27 @@ class VariableBase
 	}
 	
 	/**
+	 * Get the current value, falling back to the default value if necessary.
+	 * 
+	 * @param array $args
+	 * @return array
+	 */
+	public function getValue(array $args)
+	{
+		if ($this->var && Query::isValidVariable($args[$this->var]))
+		{
+			$is_expression = false;
+			$value = $args[$this->var];
+		}
+		elseif ($this->default !== null)
+		{
+			list($is_expression, $value) = $this->getDefaultValue();
+		}
+		
+		return [$is_expression, $value];
+	}
+	
+	/**
 	 * Get the default value of this variable.
 	 * 
 	 * @return array
@@ -231,7 +252,7 @@ class VariableBase
 	public function getDefaultValue()
 	{
 		// If the default value is a column name, escape it.
-		if (preg_match('/^[a-z0-9_]+(?:\.[a-z0-9_]+)+$/', $this->default))
+		if (strpos($this->default, '.') !== false && Query::isValidColumnName($this->default))
 		{
 			return [true, Query::quoteName($this->default)];
 		}
