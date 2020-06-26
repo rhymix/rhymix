@@ -7,14 +7,11 @@ namespace Rhymix\Framework\Parsers\DBQuery;
  */
 class Query extends VariableBase
 {
+	/**
+	 * Attributes common to all queries.
+	 */
 	public $name;
-	public $alias;
 	public $type;
-	public $operation;
-	public $column;
-	public $pipe;
-	public $join_type;
-	public $join_conditions = array();
 	public $tables = array();
 	public $columns = array();
 	public $conditions = array();
@@ -24,7 +21,21 @@ class Query extends VariableBase
 	public $update_duplicate = false;
 	
 	/**
-	 * Attributes for query generation.
+	 * Attributes for subqueries in the <tables> or <columns> section.
+	 */
+	public $alias;
+	public $join_type;
+	public $join_conditions = array();
+	
+	/**
+	 * Attributes for subqueries in the <conditions> section.
+	 */
+	public $operation;
+	public $column;
+	public $pipe;
+	
+	/**
+	 * Attributes used during query string generation.
 	 */
 	protected $_prefix = '';
 	protected $_args = array();
