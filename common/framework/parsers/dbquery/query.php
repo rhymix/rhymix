@@ -21,6 +21,7 @@ class Query extends VariableBase
 	public $groupby = null;
 	public $navigation = null;
 	public $select_distinct = false;
+	public $update_duplicate = false;
 	
 	/**
 	 * Attributes for query generation.
@@ -228,6 +229,17 @@ class Query extends VariableBase
 			}
 		}
 		$result .= ' SET ' . implode(', ', $columns);
+		
+		// Process the ON DUPLICATE KEY UPDATE (upsert) clause.
+		if ($this->update_duplicate && count($columns))
+		{
+			$result .= ' ON DUPLICATE KEY UPDATE ' . implode(', ', $columns);
+			$duplicate_params = $this->_params;
+			foreach ($duplicate_params as $param)
+			{
+				$this->_params[] = $param;
+			}
+		}
 		
 		// Return the final query string.
 		return $result;

@@ -80,13 +80,6 @@ class DBQueryParser
 		}
 		
 		// Load columns.
-		if ($xml->columns && $select_distinct = trim($xml->columns['distinct']))
-		{
-			if ($select_distinct === 'distinct' || toBool($select_distinct))
-			{
-				$query->select_distinct = true;
-			}
-		}
 		foreach ($xml->columns->column as $tag)
 		{
 			if ($tag->getName() === 'query')
@@ -179,6 +172,24 @@ class DBQueryParser
 			$column->is_wildcard = true;
 			$column->is_expression = true;
 			$query->columns[] = $column;
+		}
+		
+		// Check the SELECT DISTINCT flag.
+		if ($xml->columns && $select_distinct = trim($xml->columns['distinct']))
+		{
+			if ($select_distinct === 'distinct' || toBool($select_distinct))
+			{
+				$query->select_distinct = true;
+			}
+		}
+		
+		// Check the ON DUPLICATE KEY UPDATE (upsert) flag.
+		if ($query->type === 'INSERT' && $update_duplicate = trim($xml['update_duplicate'] ?: $xml['update-duplicate']))
+		{
+			if (toBool($update_duplicate))
+			{
+				$query->update_duplicate = true;
+			}
 		}
 		
 		// Return the complete query definition.
