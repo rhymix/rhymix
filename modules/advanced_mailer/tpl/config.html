@@ -75,6 +75,26 @@
 			</div>
 		</div>
 		
+		<div class="x_control-group">
+			<label class="x_control-label" for="advanced_mailer_log_sent_push">{$lang->cmd_advanced_mailer_log_push}</label>
+			<div class="x_controls">
+				<select name="log_sent_push" id="advanced_mailer_log_sent_push">
+					<option value="Y" selected="selected"|cond="toBool($advanced_mailer_config->log_sent_push)" />{$lang->cmd_advanced_mailer_log_yes}</option>
+					<option value="N" selected="selected"|cond="!toBool($advanced_mailer_config->log_sent_push)" />{$lang->cmd_advanced_mailer_log_no}</option>
+				</select>
+			</div>
+		</div>
+		
+		<div class="x_control-group">
+			<label class="x_control-label">{$lang->cmd_advanced_mailer_log_push_errors}</label>
+			<div class="x_controls">
+				<select name="log_push_errors" id="advanced_mailer_log_push_errors">
+					<option value="Y" selected="selected"|cond="toBool($advanced_mailer_config->log_push_errors)" />{$lang->cmd_advanced_mailer_log_yes}</option>
+					<option value="N" selected="selected"|cond="!toBool($advanced_mailer_config->log_push_errors)" />{$lang->cmd_advanced_mailer_log_no}</option>
+				</select>
+			</div>
+		</div>
+		
 	</section>
 	
 	<div class="btnArea x_clearfix">

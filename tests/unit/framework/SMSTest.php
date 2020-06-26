@@ -16,15 +16,22 @@ class SMSTest extends \Codeception\TestCase\Test
 	{
 		$drivers = Rhymix\Framework\SMS::getSupportedDrivers();
 		$this->assertTrue(isset($drivers['dummy']));
+		$this->assertTrue(isset($drivers['apistore']));
+		$this->assertTrue(isset($drivers['cafe24']));
 		$this->assertTrue(isset($drivers['coolsms']));
 		$this->assertTrue(isset($drivers['solapi']));
+		$this->assertTrue(isset($drivers['ppurio']));
 		$this->assertEquals('Dummy', $drivers['dummy']['name']);
+		$this->assertTrue(in_array('api_user', $drivers['apistore']['required']));
+		$this->assertTrue(in_array('api_user', $drivers['cafe24']['required']));
 		$this->assertTrue(in_array('api_key', $drivers['coolsms']['required']));
+		$this->assertTrue(in_array('api_user', $drivers['ppurio']['required']));
 		$this->assertTrue(in_array('api_key', $drivers['solapi']['required']));
 		$this->assertTrue($drivers['coolsms']['api_spec']['mms_supported']);
 		$this->assertTrue($drivers['coolsms']['api_spec']['delay_supported']);
 		$this->assertTrue($drivers['solapi']['api_spec']['mms_supported']);
 		$this->assertTrue($drivers['solapi']['api_spec']['delay_supported']);
+		$this->assertFalse($drivers['cafe24']['api_spec']['mms_supported']);
 	}
 	
 	public function testSenderAndRecipients()

@@ -1,0 +1,14 @@
+<table name="advanced_mailer_push_log">
+    <column name="push_id" type="number" size="11" notnull="notnull" primary_key="primary_key" auto_increment="auto_increment" />
+    <column name="push_from" type="varchar" size="250" notnull="notnull" />
+    <column name="push_to" type="bigtext" notnull="notnull" />
+	<column name="subject" type="varchar" size="250" notnull="notnull" />
+	<column name="content" type="text" notnull="notnull" />
+    <column name="calling_script" type="varchar" size="250" notnull="notnull" />
+	<column name="success_count" type="int" notnull="notnull" />
+	<column name="deleted_count" type="int" notnull="notnull" />
+	<column name="updated_count" type="int" notnull="notnull" />
+    <column name="regdate" type="date" notnull="notnull" index="idx_regdate" />
+    <column name="status" type="varchar" size="40" notnull="notnull" index="idx_status" />
+    <column name="errors" type="bigtext" />
+</table>

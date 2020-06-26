@@ -190,4 +190,52 @@ class Advanced_MailerController extends Advanced_Mailer
 			}
 		}
 	}
+	
+	/**
+	 * After Push send trigger.
+	 */
+	public function triggerAfterPushSend($push)
+	{
+		$config = $this->getConfig();
+		
+		if (toBool($config->log_sent_push) || (toBool($config->log_push_errors) && count($push->getErrors())))
+		{
+			$obj = new \stdClass();
+			$obj->push_from = $push->getFrom();
+			$token_count = count($push->getSuccessTokens()) + count($push->getDeletedTokens()) + count($push->getUpdatedTokens());
+			$obj->push_to = sprintf('%d members, %d devices', count($push->getRecipients()), $token_count);
+			$obj->push_to .= "\n\n" . 'members: ' . implode(', ', $push->getRecipients());
+			if (count($push->getSuccessTokens()))
+			{
+				$obj->push_to .= "\n\n" . 'success: ' . "\n";
+				$obj->push_to .= implode("\n", array_keys($push->getSuccessTokens()));
+			}
+			if (count($push->getDeletedTokens()))
+			{
+				$obj->push_to .= "\n\n" . 'deleted: ' . "\n";
+				$obj->push_to .= implode("\n", array_keys($push->getDeletedTokens()));
+			}
+			if (count($push->getUpdatedTokens()))
+			{
+				$obj->push_to .= "\n\n" . 'updated: ' . "\n";
+				foreach ($push->getUpdatedTokens() as $from => $to)
+				{
+					$obj->push_to .= $from . ' => ' . $to . "\n";
+				}
+			}
+			$obj->subject = trim($push->getSubject());
+			$obj->content = trim($push->getContent());
+			$obj->calling_script = $push->getCaller();
+			$obj->success_count = count($push->getSuccessTokens());
+			$obj->deleted_count = count($push->getDeletedTokens());
+			$obj->updated_count = count($push->getUpdatedTokens());
+			$obj->status = $push->isSent() ? 'success' : 'error';
+			$obj->errors = count($push->getErrors()) ? implode("\n", $push->getErrors()) : null;
+			$output = executeQuery('advanced_mailer.insertPushLog', $obj);
+			if (!$output->toBool())
+			{
+				return $output;
+			}
+		}
+	}
 }

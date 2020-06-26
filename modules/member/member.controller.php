@@ -81,6 +81,141 @@ class memberController extends member
 	}
 
 	/**
+	 * Register device
+	 */
+	function procMemberRegisterDevice()
+	{
+		Context::setResponseMethod('JSON');
+
+		// Check user_id, password, device_token
+		$user_id = Context::get('user_id');
+		$password = Context::get('password');
+		$device_token = Context::get('device_token');
+		$device_model = escape(Context::get('device_model'));
+
+		// Return an error when id and password doesn't exist
+		if(!$user_id) return new BaseObject(-1, 'NULL_USER_ID');
+		if(!$password) return new BaseObject(-1, 'NULL_PASSWORD');
+		if(!$device_token) return new BaseObject(-1, 'NULL_DEVICE_TOKEN');
+
+		$browserInfo = Rhymix\Framework\UA::getBrowserInfo();
+		$device_type = strtolower($browserInfo->os);
+		$device_version = $browserInfo->os_version;
+		if(!$device_model)
+		{
+			$device_model = escape($browserInfo->device);
+		}
+
+		if('ios' === $device_type)
+		{
+			if(!preg_match("/^[0-9a-z]{64}$/", $device_token))
+			{
+				return new BaseObject(-1, 'INVALID_DEVICE_TOKEN');
+			}
+		}
+		else if('android' === $device_type)
+		{
+			if(!preg_match("/^[0-9a-zA-Z:_-]+$/", $device_token))
+			{
+				return new BaseObject(-1, 'INVALID_DEVICE_TOKEN');
+			}
+		}
+		else
+		{
+			return new BaseObject(-1, 'NOT_SUPPORTED_OS');
+		}
+		
+		$output = $this->procMemberLogin($user_id, $password);
+		if(!$output->toBool())
+		{
+			return new BaseObject(-1, 'LOGIN_FAILED');
+		}
+		$logged_info = Context::get('logged_info');
+
+		$random_key = Rhymix\Framework\Security::getRandom();
+		$device_key = hash_hmac('sha256', $random_key, $logged_info->member_srl . ':' . config('crypto.authentication_key'));
+
+		// Start transaction
+		$oDB = DB::getInstance();
+		$oDB->begin();
+		
+		// Remove duplicated token key
+		$args = new stdClass;
+		$args->device_token = $device_token;
+		executeQuery('member.deleteMemberDevice', $args);
+
+		// Create member_device
+		$args = new stdClass;
+		$args->device_srl = getNextSequence();
+		$args->member_srl = $logged_info->member_srl;
+		$args->device_token = $device_token;
+		$args->device_key = $device_key;
+		$args->device_type = $device_type;
+		$args->device_version = $device_version;
+		$args->device_model = $device_model;
+		$output3 = executeQuery('member.insertMemberDevice', $args);
+		if(!$output3->toBool())
+		{
+			$oDB->rollback();
+			return $output3;
+		}
+		
+		$oDB->commit();
+
+		// Set parameters
+		$this->add('member_srl', $logged_info->member_srl);
+		$this->add('user_id', $logged_info->user_id);
+		$this->add('user_name', $logged_info->user_name);
+		$this->add('nick_name', $logged_info->nick_name);
+		$this->add('device_key', $random_key);
+	}
+
+	/**
+	 * Automatically log-in to registered device
+	 */
+	function procMemberLoginWithDevice()
+	{
+		Context::setResponseMethod('JSON');
+		// Check member_srl, device_token, device_key
+		$member_srl = Context::get('member_srl');
+		$device_token = Context::get('device_token');
+		$random_key = Context::get('device_key');
+
+		// Return an error when id, password and device_key doesn't exist
+		if(!$member_srl) return new BaseObject(-1, 'NULL_MEMBER_SRL');
+		if(!$device_token) return new BaseObject(-1, 'NULL_DEVICE_TOKEN');
+		if(!$random_key) return new BaseObject(-1, 'NULL_DEVICE_KEY');
+
+		$args = new stdClass;
+		$args->member_srl = $member_srl;
+		$args->device_token = $device_token;
+		$args->device_key = hash_hmac('sha256', $random_key, $member_srl . ':' . config('crypto.authentication_key'));
+		$output = executeQueryArray('member.getMemberDevice', $args);
+		if(!$output->toBool())
+		{
+			return new BaseObject(-1, 'DEVICE_RETRIEVE_FAILED');
+		}
+
+		if(!$output->data)
+		{
+			return new BaseObject(-1, 'UNREGISTERED_DEVICE');
+		}
+
+		// Log-in
+		$member_info = MemberModel::getMemberInfoByMemberSrl($member_srl);
+		$output = $this->doLogin($member_info->user_id);
+		if(!$output->toBool())
+		{
+			return new BaseObject(-1, 'LOGIN_FAILED');
+		}
+
+		$this->add('member_srl', $member_info->member_srl);
+		$this->add('user_id', $member_info->user_id);
+		$this->add('user_name', $member_info->user_name);
+		$this->add('nick_name', $member_info->nick_name);
+	}
+
+	/**
 	 * Log-out
 	 *
 	 * @return Object
@@ -612,40 +747,18 @@ class memberController extends member
 			}
 			$accept_agreement_rearranged[$i] = $accept_agreement[$i] === 'Y' ? 'Y' : 'N';
 		}
-		
-		// Check phone number
-		if ($config->phone_number_verify_by_sms === 'Y')
-		{
-			if (!isset($_SESSION['verify_by_sms']) || !$_SESSION['verify_by_sms']['status'])
-			{
-				throw new Rhymix\Framework\Exception('verify_by_sms_incomplete');
-			}
-			$phone_country = Context::get('phone_country');
-			if ($config->phone_number_default_country && (!$phone_country || $config->phone_number_hide_country === 'Y'))
-			{
-				$phone_country = $config->phone_number_default_country;
-			}
-			if ($phone_country && !preg_match('/^[A-Z]{3}$/', $phone_country))
-			{
-				$phone_country = Rhymix\Framework\i18n::getCountryCodeByCallingCode($phone_country);
-			}
-			if ($phone_country !== $_SESSION['verify_by_sms']['country'])
-			{
-				throw new Rhymix\Framework\Exception('verify_by_sms_incomplete');
-			}
-			$phone_number = Context::get('phone_number');
-			if ($phone_number !== $_SESSION['verify_by_sms']['number'])
-			{
-				throw new Rhymix\Framework\Exception('verify_by_sms_incomplete');
-			}
-		}
 
 		// Extract the necessary information in advance
 		$getVars = array();
+		$use_phone = false;
 		if($config->signupForm)
 		{
 			foreach($config->signupForm as $formInfo)
 			{
+				if($formInfo->name === 'phone_number' && $formInfo->isUse)
+				{
+					$use_phone = true;
+				}
 				if($formInfo->isDefaultForm && ($formInfo->isUse || $formInfo->required || $formInfo->mustRequired))
 				{
 					$getVars[] = $formInfo->name;
@@ -689,6 +802,31 @@ class memberController extends member
 		$args->allow_message = Context::get('allow_message');
 
 		if($args->password1) $args->password = $args->password1;
+		
+		// Check phone number
+		if ($config->phone_number_verify_by_sms === 'Y' && $use_phone)
+		{
+			if (!isset($_SESSION['verify_by_sms']) || !$_SESSION['verify_by_sms']['status'])
+			{
+				throw new Rhymix\Framework\Exception('verify_by_sms_incomplete');
+			}
+			if ($config->phone_number_default_country && (!$args->phone_country || $config->phone_number_hide_country === 'Y'))
+			{
+				$args->phone_country = $config->phone_number_default_country;
+			}
+			if ($args->phone_country && !preg_match('/^[A-Z]{3}$/', $args->phone_country))
+			{
+				$args->phone_country = Rhymix\Framework\i18n::getCountryCodeByCallingCode($args->phone_country);
+			}
+			if ($args->phone_country !== $_SESSION['verify_by_sms']['country'])
+			{
+				throw new Rhymix\Framework\Exception('verify_by_sms_incomplete');
+			}
+			if ($args->phone_number !== $_SESSION['verify_by_sms']['number'])
+			{
+				throw new Rhymix\Framework\Exception('verify_by_sms_incomplete');
+			}
+		}
 
 		// check password strength
 		if(!MemberModel::checkPasswordStrength($args->password, $config->password_strength))
@@ -906,51 +1044,17 @@ class memberController extends member
 		$config = MemberModel::getMemberConfig();
 		$logged_info = Context::get('logged_info');
 
-		// Check phone number
-		if ($config->phone_number_verify_by_sms === 'Y')
-		{
-			$phone_verify_needed = false;
-			$phone_country = Context::get('phone_country');
-			$phone_number = Context::get('phone_number');
-			if ($config->phone_number_default_country && (!$phone_country || $config->phone_number_hide_country === 'Y'))
-			{
-				$phone_country = $config->phone_number_default_country;
-			}
-			if ($phone_country && !preg_match('/^[A-Z]{3}$/', $phone_country))
-			{
-				$phone_country = Rhymix\Framework\i18n::getCountryCodeByCallingCode($phone_country);
-			}
-			if ($phone_country !== $logged_info->phone_country)
-			{
-				$phone_verify_needed = true;
-			}
-			if (preg_replace('/[^0-9]/', '', $phone_number) !== $logged_info->phone_number)
-			{
-				$phone_verify_needed = true;
-			}
-			if ($phone_verify_needed)
-			{
-				if (!isset($_SESSION['verify_by_sms']) || !$_SESSION['verify_by_sms']['status'])
-				{
-					throw new Rhymix\Framework\Exception('verify_by_sms_incomplete');
-				}
-				if ($phone_country !== $_SESSION['verify_by_sms']['country'])
-				{
-					throw new Rhymix\Framework\Exception('verify_by_sms_incomplete');
-				}
-				if ($phone_number !== $_SESSION['verify_by_sms']['number'])
-				{
-					throw new Rhymix\Framework\Exception('verify_by_sms_incomplete');
-				}
-			}
-		}
-
 		// Extract the necessary information in advance
 		$getVars = array('allow_mailing','allow_message');
+		$use_phone = false;
 		if($config->signupForm)
 		{
 			foreach($config->signupForm as $formInfo)
 			{
+				if($formInfo->name === 'phone_number' && $formInfo->isUse)
+				{
+					$use_phone = true;
+				}
 				if($formInfo->isDefaultForm && ($formInfo->isUse || $formInfo->required || $formInfo->mustRequired))
 				{
 					$getVars[] = $formInfo->name;
@@ -990,6 +1094,43 @@ class memberController extends member
 			$args->birthday = intval(strtr($args->birthday_ui, array('-'=>'', '/'=>'', '.'=>'', ' '=>'')));
 		}
 		
+		// Check phone number
+		if ($config->phone_number_verify_by_sms === 'Y' && $use_phone)
+		{
+			$phone_verify_needed = false;
+			if ($config->phone_number_default_country && (!$args->phone_country || $config->phone_number_hide_country === 'Y'))
+			{
+				$args->phone_country = $config->phone_number_default_country;
+			}
+			if ($args->phone_country && !preg_match('/^[A-Z]{3}$/', $args->phone_country))
+			{
+				$args->phone_country = Rhymix\Framework\i18n::getCountryCodeByCallingCode($args->phone_country);
+			}
+			if ($args->phone_country !== $logged_info->phone_country)
+			{
+				$phone_verify_needed = true;
+			}
+			if (preg_replace('/[^0-9]/', '', $args->phone_number) !== $logged_info->phone_number)
+			{
+				$phone_verify_needed = true;
+			}
+			if ($phone_verify_needed)
+			{
+				if (!isset($_SESSION['verify_by_sms']) || !$_SESSION['verify_by_sms']['status'])
+				{
+					throw new Rhymix\Framework\Exception('verify_by_sms_incomplete');
+				}
+				if ($args->phone_country !== $_SESSION['verify_by_sms']['country'])
+				{
+					throw new Rhymix\Framework\Exception('verify_by_sms_incomplete');
+				}
+				if ($args->phone_number !== $_SESSION['verify_by_sms']['number'])
+				{
+					throw new Rhymix\Framework\Exception('verify_by_sms_incomplete');
+				}
+			}
+		}
+
 		$args->member_srl = $logged_info->member_srl;
 
 		// Remove some unnecessary variables from all the vars

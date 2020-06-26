@@ -200,6 +200,10 @@ class Advanced_Mailer extends ModuleObject
 		{
 			$oModuleController->insertTrigger('sms.send', 'advanced_mailer', 'controller', 'triggerAfterSMSSend', 'after');
 		}
+		if (!$oModuleModel->getTrigger('push.send', 'advanced_mailer', 'controller', 'triggerAfterPushSend', 'after'))
+		{
+			$oModuleController->insertTrigger('push.send', 'advanced_mailer', 'controller', 'triggerAfterPushSend', 'after');
+		}
 	}
 	
 	/**
@@ -229,6 +233,10 @@ class Advanced_Mailer extends ModuleObject
 			return true;
 		}
 		if (!$oModuleModel->getTrigger('sms.send', 'advanced_mailer', 'controller', 'triggerAfterSMSSend', 'after'))
+		{
+			return true;
+		}
+		if (!$oModuleModel->getTrigger('push.send', 'advanced_mailer', 'controller', 'triggerAfterPushSend', 'after'))
 		{
 			return true;
 		}
