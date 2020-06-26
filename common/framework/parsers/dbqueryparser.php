@@ -45,11 +45,11 @@ class DBQueryParser
 		{
 			$query->name = $query->alias;
 		}
-		$query->type = strtoupper($xml['action']) ?: null;
+		$query->type = strtoupper($xml['action']) ?: 'SELECT';
 		
 		// Load attributes that only apply to subqueries in the <conditions> block.
 		$query->operation = trim($xml['operation']) ?: null;
-		$query->column = trim($xml['column']) ?: null;
+		$query->column = preg_replace('/[^a-z0-9_\.]/i', '', $xml['column']) ?: null;
 		$query->pipe = strtoupper($xml['pipe']) ?: 'AND';
 		
 		// Load tables.

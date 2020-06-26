@@ -21,7 +21,7 @@ class Table
 	 * @param string $engine
 	 * @return string
 	 */
-	public function getCreateQuery(string $prefix = '', string $charset = 'utf8mb4', string $engine = 'innodb')
+	public function getCreateQuery(string $prefix = '', string $charset = 'utf8mb4', string $engine = 'innodb'): string
 	{
 		// Initialize the query.
 		$result = 'CREATE TABLE `' . $prefix . $this->name . '` (';
