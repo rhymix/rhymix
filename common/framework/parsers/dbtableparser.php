@@ -29,12 +29,21 @@ class DBTableParser
 	 * Load a table definition XML file.
 	 * 
 	 * @param string $filename
+	 * @param string $content
 	 * @return object|false
 	 */
-	public static function loadXML(string $filename)
+	public static function loadXML(string $filename = '', string $content = '')
 	{
-		// Load the XML file.
-		$xml = simplexml_load_string(file_get_contents($filename));
+		// Load the XML content.
+		if ($content)
+		{
+			$xml = simplexml_load_string($content);
+		}
+		else
+		{
+			$xml = simplexml_load_string(file_get_contents($filename));
+		}
+		
 		if ($xml === false)
 		{
 			return false;
@@ -107,7 +116,8 @@ class DBTableParser
 					$table->indexes[$index_name] = new DBTable\Index;
 					$table->indexes[$index_name]->name = $index_name;
 				}
-				$table->indexes[$index_name]->columns[] = $column->name;
+				$table->indexes[$index_name]->columns[$column->name] = 0;
+				$column->is_indexed = true;
 			}
 			if (isset($column_info['unique']))
 			{
@@ -118,7 +128,9 @@ class DBTableParser
 					$table->indexes[$index_name]->name = $index_name;
 					$table->indexes[$index_name]->is_unique = true;
 				}
-				$table->indexes[$index_name]->columns[] = $column->name;
+				$table->indexes[$index_name]->columns[$column->name] = 0;
+				$column->is_indexed = true;
+				$column->is_unique = true;
 			}
 			
 			// Get primary key information.
@@ -128,6 +140,8 @@ class DBTableParser
 				if ($attr === 'primary_key' || $attr === 'primary-key' || toBool($attr))
 				{
 					$table->primary_key[] = $column->name;
+					$column->is_indexed = true;
+					$column->is_unique = true;
 					$column->is_primary_key = true;
 				}
 			}
@@ -151,8 +165,25 @@ class DBTableParser
 		{
 			$index = new DBTable\Index;
 			$index->name = strval($index_info['name']);
-			$index->columns = array_map('trim', explode(',', strval($index_info['columns'])));
+			$idxcolumns = array_map('trim', explode(',', strval($index_info['columns'])));
+			foreach ($idxcolumns as $idxcolumn)
+			{
+				if (preg_match('/^(\S+)\s*\(([0-9]+)\)$/', $idxcolumn, $matches))
+				{
+					$index->columns[$matches[1]] = intval($matches[2]);
+					$idxcolumn = $matches[1];
+				}
+				else
+				{
+					$index->columns[$idxcolumn] = 0;
+				}
+			}
 			$index->is_unique = ($index_info['unique'] === 'unique' || toBool(strval($index_info['unique'])));
+			if (isset($table->columns[$idxcolumn]) && is_object($table->columns[$idxcolumn]))
+			{
+				$table->columns[$idxcolumn]->is_indexed = true;
+				$table->columns[$idxcolumn]->is_unique = $index->is_unique;
+			}
 			$table->indexes[$index->name] = $index;
 		}
 		

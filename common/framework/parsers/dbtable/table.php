@@ -28,12 +28,18 @@ class Table
 		
 		// Add columns.
 		$columns = array();
+		$adjusted_sizes = array();
 		foreach ($this->columns as $column)
 		{
 			$columndef = '  `' . $column->name . '`' . ' ' . strtoupper($column->type);
+			$max_size = $column->utf8mb4 ? 191 : 255;
+			if (preg_match('/char/i', $column->type) && $column->size > $max_size && ($column->is_unique || $column->is_primary_key))
+			{
+				$adjusted_sizes[$column->name] = $max_size;
+			}
 			if ($column->size)
 			{
-				$columndef .= '(' . $column->size . ')';
+				$columndef .= '(' . (isset($adjusted_sizes[$column->name]) ? $adjusted_sizes[$column->name] : $column->size) . ')';
 			}
 			if ($column->utf8mb4 === false && $charset === 'utf8mb4')
 			{
@@ -72,9 +78,18 @@ class Table
 		}
 		foreach ($this->indexes as $index)
 		{
-			$idxcolumns = array_map(function($str) {
-				return '`' . $str . '`';
-			}, $index->columns);
+			$idxcolumns = array();
+			foreach ($index->columns as $column_name => $prefix_size)
+			{
+				$column_info = $this->columns[$column_name];
+				$current_size = isset($adjusted_sizes[$column->name]) ? $adjusted_sizes[$column->name] : $column->size;
+				$max_size = $column_info->utf8mb4 ? 191 : 255;
+				if (preg_match('/char/i', $column->type) && $current_size > $max_size)
+				{
+					$prefix_size = $max_size;
+				}
+				$idxcolumns[] = '`' . $column_name . '`' . ($prefix_size > 0 ? "($prefix_size)" : '');
+			}
 			$idxtype = ($index->is_unique ? 'UNIQUE' : 'INDEX');
 			$idxdef = '  ' . $idxtype . ' `' . $index->name . '` (' . implode(', ', $idxcolumns) . ')';
 			$columns[] = $idxdef;

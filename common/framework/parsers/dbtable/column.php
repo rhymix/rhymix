@@ -14,6 +14,8 @@ class Column
 	public $utf8mb4 = true;
 	public $default_value;
 	public $not_null = false;
+	public $is_indexed = false;
+	public $is_unique = false;
 	public $is_primary_key = false;
 	public $auto_increment = false;
 }
