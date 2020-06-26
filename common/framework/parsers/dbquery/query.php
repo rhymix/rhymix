@@ -151,6 +151,30 @@ class Query extends VariableBase
 		}
 		
 		// Compose the GROUP BY clause.
+		if ($this->groupby && count($this->groupby->columns))
+		{
+			$columns = array();
+			foreach ($this->groupby->columns as $column_name)
+			{
+				if (preg_match('/^[a-z0-9_]+(?:\.[a-z0-9_]+)*$/', $column_name))
+				{
+					$columns[] = self::quoteName($column_name);
+				}
+				else
+				{
+					$columns[] = $column_name;
+				}
+			}
+			$result .= ' GROUP BY ' . implode(', ', $columns);
+		}
+		if ($this->groupby && count($this->groupby->having))
+		{
+			$having = $this->_arrangeConditions($this->groupby->having);
+			if ($having !== '')
+			{
+				$result .= ' HAVING ' . $having;
+			}
+		}
 		
 		// Compose the LIMIT clause.
 		
