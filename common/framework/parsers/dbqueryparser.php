@@ -113,7 +113,7 @@ class DBQueryParser
 			{
 				$column = new DBQuery\ColumnWrite;
 				$column->name = trim($tag['name']);
-				$column->name = trim($tag['operation']) ?: 'equal';
+				$column->operation = trim($tag['operation']) ?: 'equal';
 				$column->var = trim($tag['var']) ?: null;
 				$column->default = trim($tag['default']) ?: null;
 				$column->not_null = trim($tag['notnull'] ?: $tag['not-null']) !== '' ? true : false;

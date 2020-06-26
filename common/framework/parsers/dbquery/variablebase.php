@@ -23,7 +23,7 @@ class VariableBase
 	public function getQueryStringAndParams(array $args, string $prefix = ''): array
 	{
 		// Return if this method is called on an invalid child class.
-		if (!isset($this->column) || !isset($this->operation))
+		if ((!isset($this->column) && !isset($this->name)) || !isset($this->operation))
 		{
 			throw new \Rhymix\Framework\Exceptions\QueryError('Invalid invocation of getQueryStringAndParams()');
 		}
@@ -59,7 +59,7 @@ class VariableBase
 		}
 		
 		// Quote the column name.
-		$column = Query::quoteName($this->column);
+		$column = Query::quoteName(isset($this->column) ? $this->column : $this->name);
 		
 		// Prepare the target value.
 		$list_ops = array('in' => true, 'notin' => true, 'not_in' => true, 'between' => true);

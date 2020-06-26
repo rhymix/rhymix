@@ -204,7 +204,33 @@ class Query extends VariableBase
 	 */
 	protected function _getInsertQueryString(): string
 	{
-		return '';
+		// Initialize the query string.
+		$result = 'INSERT';
+		
+		// Compose the INTO clause.
+		if (count($this->tables))
+		{
+			$tables = $this->_arrangeTables($this->tables);
+			if ($tables !== '')
+			{
+				$result .= ' INTO ' . $tables;
+			}
+		}
+		
+		// Process the SET clause with new values.
+		$columns = array();
+		foreach ($this->columns as $column)
+		{
+			$setval_string = $this->_parseCondition($column);
+			if ($setval_string !== '')
+			{
+				$columns[] = $setval_string;
+			}
+		}
+		$result .= ' SET ' . implode(', ', $columns);
+		
+		// Return the final query string.
+		return $result;
 	}
 	
 	/**
@@ -214,7 +240,43 @@ class Query extends VariableBase
 	 */
 	protected function _getUpdateQueryString(): string
 	{
-		return '';
+		// Initialize the query string.
+		$result = 'UPDATE ';
+		
+		// Compose the INTO clause.
+		if (count($this->tables))
+		{
+			$tables = $this->_arrangeTables($this->tables);
+			if ($tables !== '')
+			{
+				$result .= $tables;
+			}
+		}
+		
+		// Compose the SET clause with updated values.
+		$columns = array();
+		foreach ($this->columns as $column)
+		{
+			$setval_string = $this->_parseCondition($column);
+			if ($setval_string !== '')
+			{
+				$columns[] = $setval_string;
+			}
+		}
+		$result .= ' SET ' . implode(', ', $columns);
+		
+		// Compose the WHERE clause.
+		if (count($this->conditions))
+		{
+			$where = $this->_arrangeConditions($this->conditions);
+			if ($where !== '')
+			{
+				$result .= ' WHERE ' . $where;
+			}
+		}
+		
+		// Return the final query string.
+		return $result;
 	}
 	
 	/**
