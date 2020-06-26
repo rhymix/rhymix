@@ -17,9 +17,10 @@ class VariableBase
 	 * Convert an operator into real SQL.
 	 * 
 	 * @param array $args
+	 * @param string $prefix
 	 * @return array
 	 */
-	public function getQueryStringAndParams(array $args): array
+	public function getQueryStringAndParams(array $args, string $prefix = ''): array
 	{
 		// Return if this method is called on an invalid child class.
 		if (!isset($this->column) || !isset($this->operation))
@@ -27,15 +28,26 @@ class VariableBase
 			throw new \Rhymix\Framework\Exceptions\QueryError('Invalid invocation of getQueryStringAndParams()');
 		}
 		
+		// Initialze the return values.
+		$where = '';
+		$params = array();
+		
 		// Process the variable or default value.
-		if ($this->var && isset($args[$this->var]) && !empty($args[$this->var]))
+		if ($this->var && isset($args[$this->var]) && (!is_array($args[$this->var]) || count($args[$this->var]) > 1 || $args[$this->var] !== ['']))
 		{
 			$this->filterValue($args[$this->var]);
+			$is_expression = false;
 			$value = $args[$this->var];
 		}
 		elseif ($this->default !== null)
 		{
-			$value = $this->getDefaultValue();
+			list($is_expression, $value) = $this->getDefaultValue();
+		}
+		elseif ($this instanceof Query)
+		{
+			$is_expression = true;
+			$value = '(' . $this->getQueryString($prefix, $args) . ') AS ' . Query::quoteName($this->alias);
+			$params = $this->getQueryParams();
 		}
 		elseif ($this->not_null)
 		{
@@ -43,13 +55,11 @@ class VariableBase
 		}
 		else
 		{
-			return ['', []];
+			return [$where, $params];
 		}
 		
 		// Quote the column name.
 		$column = Query::quoteName($this->column);
-		$where = '';
-		$params = array();
 		
 		// Prepare the target value.
 		$list_ops = array('in' => true, 'notin' => true, 'not_in' => true, 'between' => true);
@@ -62,36 +72,93 @@ class VariableBase
 		switch ($this->operation)
 		{
 			case 'equal':
-				$where = sprintf('%s = ?', $column);
-				$params[] = $value;
+				$where = sprintf('%s = %s', $column, $is_expression ? $value : '?');
+				if (!$is_expression) $params[] = $value;
+				break;
+			case 'notequal':
+			case 'not_equal':
+				$where = sprintf('%s != %s', $column, $is_expression ? $value : '?');
+				if (!$is_expression) $params[] = $value;
+				break;
+			case 'more':
+			case 'gte':
+				$where = sprintf('%s >= %s', $column, $is_expression ? $value : '?');
+				if (!$is_expression) $params[] = $value;
+				break;
+			case 'excess':
+			case 'gt';
+				$where = sprintf('%s > %s', $column, $is_expression ? $value : '?');
+				if (!$is_expression) $params[] = $value;
+				break;
+			case 'less':
+			case 'lte':
+				$where = sprintf('%s <= %s', $column, $is_expression ? $value : '?');
+				if (!$is_expression) $params[] = $value;
+				break;
+			case 'below':
+			case 'lt';
+				$where = sprintf('%s < %s', $column, $is_expression ? $value : '?');
+				if (!$is_expression) $params[] = $value;
+				break;
+			case 'regexp';
+				$where = sprintf('%s REGEXP %s', $column, $is_expression ? $value : '?');
+				if (!$is_expression) $params[] = $value;
+				break;
+			case 'notregexp';
+			case 'not_regexp';
+				$where = sprintf('%s NOT REGEXP %s', $column, $is_expression ? $value : '?');
+				if (!$is_expression) $params[] = $value;
 				break;
 			case 'like':
-				$where = sprintf('%s LIKE ?', $column);
-				$params[] = '%' . $value . '%';
+				$where = sprintf('%s LIKE %s', $column, $is_expression ? $value : '?');
+				if (!$is_expression) $params[] = '%' . $value . '%';
 				break;
 			case 'like_prefix':
 			case 'like_head':
-				$where = sprintf('%s LIKE ?', $column);
-				$params[] = $value . '%';
+				$where = sprintf('%s LIKE %s', $column, $is_expression ? $value : '?');
+				if (!$is_expression) $params[] = $value . '%';
 				break;
 			case 'like_suffix':
 			case 'like_tail':
-				$where = sprintf('%s LIKE ?', $column);
-				$params[] = '%' . $value;
+				$where = sprintf('%s LIKE %s', $column, $is_expression ? $value : '?');
+				if (!$is_expression) $params[] = '%' . $value;
 				break;
 			case 'notlike':
-				$where = sprintf('%s NOT LIKE ?', $column);
-				$params[] = '%' . $value . '%';
+				$where = sprintf('%s NOT LIKE %s', $column, $is_expression ? $value : '?');
+				if (!$is_expression) $params[] = '%' . $value . '%';
 				break;
 			case 'notlike_prefix':
 			case 'notlike_head':
-				$where = sprintf('%s NOT LIKE ?', $column);
-				$params[] = $value . '%';
+				$where = sprintf('%s NOT LIKE %s', $column, $is_expression ? $value : '?');
+				if (!$is_expression) $params[] = $value . '%';
 				break;
 			case 'notlike_suffix':
 			case 'notlike_tail':
-				$where = sprintf('%s NOT LIKE ?', $column);
-				$params[] = '%' . $value;
+				$where = sprintf('%s NOT LIKE %s', $column, $is_expression ? $value : '?');
+				if (!$is_expression) $params[] = '%' . $value;
+				break;
+			case 'and':
+				$where = sprintf('%s & %s', $column, $is_expression ? $value : '?');
+				if (!$is_expression) $params[] = '%' . $value;
+				break;
+			case 'or':
+				$where = sprintf('%s | %s', $column, $is_expression ? $value : '?');
+				if (!$is_expression) $params[] = '%' . $value;
+				break;
+			case 'xor':
+				$where = sprintf('%s ^ %s', $column, $is_expression ? $value : '?');
+				if (!$is_expression) $params[] = '%' . $value;
+				break;
+			case 'not':
+				$where = sprintf('%s ~ %s', $column, $is_expression ? $value : '?');
+				if (!$is_expression) $params[] = '%' . $value;
+				break;
+			case 'null':
+				$where = sprintf('%s IS NULL', $column);
+				break;
+			case 'notnull':
+			case 'not_null':
+				$where = sprintf('%s IS NOT NULL', $column);
 				break;
 			case 'in':
 				$count = count($value);
@@ -119,6 +186,37 @@ class VariableBase
 					$params[] = $item;
 				}
 				break;
+			case 'notbetween':
+			case 'not_between':
+				$where = sprintf('%s NOT BETWEEN ? AND ?', $column);
+				foreach ($value as $item)
+				{
+					$params[] = $item;
+				}
+				break;
+			case 'search':
+				$keywords = preg_split('/[\s,]+/', $value, 10, \PREG_SPLIT_NO_EMPTY);
+				$conditions = array();
+				$placeholders = implode(', ', array_fill(0, count($keywords), '?'));
+				foreach ($keywords as $item)
+				{
+					if (substr($item, 0, 1) === '-')
+					{
+						$conditions[] = sprintf('%s NOT LIKE ?', $column);
+						$item = substr($item, 1);
+					}
+					else
+					{
+						$conditions[] = sprintf('%s LIKE ?', $column);
+					}
+					$params[] = '%' . str_replace(['\\', '_', '%'], ['\\\\', '\_', '\%'], $item) . '%';
+				}
+				$conditions = implode(' AND ', $conditions);
+				$where = count($keywords) === 1 ? $conditions : "($conditions)";
+				break;
+			default:
+				$where = sprintf('%s = ?', $column);
+				$params[] = $value;
 		}
 		
 		// Return the complete condition and parameters.
@@ -128,32 +226,32 @@ class VariableBase
 	/**
 	 * Get the default value of this variable.
 	 * 
-	 * @return mixed
+	 * @return array
 	 */
 	public function getDefaultValue()
 	{
 		// If the default value is a column name, escape it.
 		if (preg_match('/^[a-z0-9_]+(?:\.[a-z0-9_]+)+$/', $this->default))
 		{
-			return Query::quoteName($this->default);
+			return [true, Query::quoteName($this->default)];
 		}
 		elseif (isset($this->column) && preg_match('/_srl$/', $this->column) && !ctype_digit($this->default))
 		{
-			return Query::quoteName($this->default);
+			return [true, Query::quoteName($this->default)];
 		}
 		
 		// If the default value is a function shortcut, return an appropriate value.
 		switch ($this->default)
 		{
 			case 'ipaddress()':
-				return "'" . \RX_CLIENT_IP . "'";
+				return [false, \RX_CLIENT_IP];
 			case 'unixtime()':
-				return time();
+				return [false, time()];
 			case 'curdate()':
 			case 'date()':
-				return "'" . date('YmdHis') . "'";
+				return [false, date('YmdHis')];
 			case 'sequence()':
-				return getNextSequence();
+				return [false, getNextSequence()];
 		}
 		
 		// If the default value is a calculation based on the current value, return a query string.
@@ -162,16 +260,16 @@ class VariableBase
 			switch ($matches[1])
 			{
 				case 'plus':
-					return sprintf('%s + %d', Query::quoteName($this->column), $matches[2]);
+					return [true, sprintf('%s + %d', Query::quoteName($this->column), $matches[2])];
 				case 'minus':
-					return sprintf('%s - %d', Query::quoteName($this->column), $matches[2]);
+					return [true, sprintf('%s - %d', Query::quoteName($this->column), $matches[2])];
 				case 'multiply':
-					return sprintf('%s * %d', Query::quoteName($this->column), $matches[2]);
+					return [true, sprintf('%s * %d', Query::quoteName($this->column), $matches[2])];
 			}
 		}
 		
 		// Otherwise, just return the literal value.
-		return $this->default;
+		return [false, $this->default];
 	}
 	
 	/**

@@ -5,7 +5,7 @@ namespace Rhymix\Framework\Parsers\DBQuery;
 /**
  * Query class.
  */
-class Query
+class Query extends VariableBase
 {
 	public $name;
 	public $alias;
@@ -89,9 +89,9 @@ class Query
 				if ($column instanceof self)
 				{
 					$subquery = $column->getQueryString($this->_prefix, $this->_args);
-					foreach ($column->getQueryParams() as $key => $val)
+					foreach ($column->getQueryParams() as $param)
 					{
-						$this->_params[$key] = $val;
+						$this->_params[] = $param;
 					}
 					$columns[] = sprintf('(%s) AS %s', $subquery, self::quoteName($column->alias));
 				}
@@ -114,28 +114,31 @@ class Query
 			if ($table instanceof self)
 			{
 				$subquery = $table->getQueryString($this->_prefix, $this->_args);
-				foreach ($table->getQueryParams() as $key => $val)
+				foreach ($table->getQueryParams() as $param)
 				{
-					$this->_params[$key] = $val;
+					$this->_params[] = $param;
 				}
-				$tables[] = sprintf('(%s) AS `%s`', $subquery, $table->alias);
+				$tables[] = (count($tables) ? ', ' : '') . sprintf('(%s) AS `%s`', $subquery, $table->alias);
 			}
 			else
 			{
 				$tabledef = self::quoteName($table->name) . ($table->alias ? (' AS `' . $table->alias . '`') : '');
 				if ($table->join_type)
 				{
-					$tabledef = $table->join_type . ' ' . $tabledef;
 					$join_where = $this->_arrangeConditions($table->join_conditions);
 					if ($join_where !== '')
 					{
 						$tabledef = $tabledef . ' ON ' . $join_where;
 					}
+					$tables[] = ' ' . $table->join_type . ' ' . $tabledef;
 				}
-				$tables[] = $tabledef;
+				else
+				{
+					$tables[] = (count($tables) ? ', ' : '') . $tabledef;
+				}
 			}
 		}
-		$result .= ' FROM ' . implode(', ', $tables);
+		$result .= ' FROM ' . implode('', $tables);
 		
 		// Compose the conditions.
 		if (count($this->conditions))
@@ -172,29 +175,31 @@ class Query
 			// Subquery
 			if ($condition instanceof self)
 			{
-				// TODO
+				$condition_string = $this->_parseCondition($condition);
+				if ($condition_string !== '')
+				{
+					$result .= ($result === '' ? '' : (' ' . $condition->pipe . ' ')) . $condition_string;
+				}
 			}
 			
 			// Condition group
 			elseif ($condition instanceof ConditionGroup)
 			{
 				$condition_string = $this->_arrangeConditions($condition->conditions);
-				if ($condition_string === '')
+				if ($condition_string !== '')
 				{
-					continue;
+					$result .= ($result === '' ? '' : (' ' . $condition->pipe . ' ')) . '(' . $condition_string . ')';
 				}
-				$result .= ($result === '' ? '' : (' ' . $condition->pipe . ' ')) . '(' . $condition_string . ')';
 			}
 			
 			// Simple condition
 			else
 			{
 				$condition_string = $this->_parseCondition($condition);
-				if ($condition_string === '')
+				if ($condition_string !== '')
 				{
-					continue;
+					$result .= ($result === '' ? '' : (' ' . $condition->pipe . ' ')) . $condition_string;
 				}
-				$result .= ($result === '' ? '' : (' ' . $condition->pipe . ' ')) . $condition_string;
 			}
 		}
 		
@@ -208,12 +213,12 @@ class Query
 	 * @param object $condition
 	 * @return string
 	 */
-	protected function _parseCondition(Condition $condition): string
+	protected function _parseCondition(VariableBase $condition): string
 	{
-		list($where, $params) = $condition->getQueryStringAndParams($this->_args);
-		foreach ($params as $key => $val)
+		list($where, $params) = $condition->getQueryStringAndParams($this->_args, $this->_prefix);
+		foreach ($params as $param)
 		{
-			$this->_params[$key] = $val;
+			$this->_params[] = $param;
 		}
 		return $where;
 	}
