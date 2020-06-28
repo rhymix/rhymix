@@ -96,7 +96,7 @@ class DBQueryParser
 				{
 					$column->is_wildcard = true;
 				}
-				if (!self::isValidColumnName($column->name))
+				if (!DBQuery\Query::isValidColumnName($column->name))
 				{
 					$column->is_expression = true;
 				}
@@ -237,23 +237,5 @@ class DBQueryParser
 		}
 		
 		return $result;
-	}
-	
-	/**
-	 * Check if an expression might be a valid column name.
-	 * 
-	 * @param string $column_name
-	 * @return bool
-	 */
-	public static function isValidColumnName(string $column_name): bool
-	{
-		if (preg_match('/^[a-z0-9_]+(?:\.[a-z0-9_]+)*$/', $column_name))
-		{
-			return true;
-		}
-		else
-		{
-			return false;
-		}
 	}
 }
