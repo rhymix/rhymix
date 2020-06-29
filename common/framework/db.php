@@ -414,7 +414,7 @@ class DB
 	 * @param string $query_string
 	 * @return \PDOStatement
 	 */
-	public function _query(string $query_string): \PDOStatement
+	public function _query(string $query_string)
 	{
 		try
 		{
@@ -634,16 +634,9 @@ class DB
 	 */
 	public function isTableExists(string $table_name): bool
 	{
-		$stmt = $this->_query(sprintf("SHOW TABLES LIKE %s", $this->addQuotes($this->_prefix . $table_name)));
+		$stmt = $this->_query(sprintf("SHOW TABLES LIKE '%s'", $this->addQuotes($this->_prefix . $table_name)));
 		$result = $this->_fetch($stmt);
-		if ($result)
-		{
-			return true;
-		}
-		else
-		{
-			return false;
-		}
+		return $result ? true : false;
 	}
 	
 	/**
@@ -656,9 +649,14 @@ class DB
 	public function createTable(string $filename = '', string $content = ''): \BaseObject
 	{
 		$table = Parsers\DBTableParser::loadXML($filename, $content);
-		$query = $table->getCreateQuery($this->_prefix, $this->_charset, $this->_engine);
+		if (!$table)
+		{
+			return $this->setError(-1, 'Table creation failed.');
+		}
 		
-		return new \BaseObject;
+		$query_string = $table->getCreateQuery($this->_prefix, $this->_charset, $this->_engine);
+		$stmt = $this->_query($query_string);
+		return $stmt ? new \BaseObject : $this->getError();
 	}
 	
 	/**
@@ -669,7 +667,8 @@ class DB
 	 */
 	public function dropTable(string $table_name): \BaseObject
 	{
-		return new \BaseObject;
+		$stmt = $this->_query(sprintf("DROP TABLE `%s`", $this->addQuotes($this->_prefix . $table_name)));
+		return $stmt ? new \BaseObject : $this->getError();
 	}
 	
 	/**
@@ -681,7 +680,9 @@ class DB
 	 */
 	public function isColumnExists(string $table_name, string $column_name): bool
 	{
-		return true;
+		$stmt = $this->_query(sprintf("SHOW FIELDS FROM `%s` WHERE Field = '%s'", $this->addQuotes($this->_prefix . $table_name), $this->addQuotes($column_name)));
+		$result = $this->_fetch($stmt);
+		return $result ? true : false;
 	}
 	
 	/**
@@ -698,6 +699,7 @@ class DB
 	 */
 	public function addColumn(string $table_name, string $column_name, string $type = 'number', $size = null, $default = null, $notnull = false, $after_column = null): \BaseObject
 	{
+		// TODO
 		return new \BaseObject;
 	}
 	
@@ -713,6 +715,7 @@ class DB
 	 */
 	public function modifyColumn(string $table_name, string $column_name, string $type = 'number', $size = null, $default = null, $notnull = false): \BaseObject
 	{
+		// TODO
 		return new \BaseObject;
 	}
 	
@@ -725,7 +728,8 @@ class DB
 	 */
 	public function dropColumn(string $table_name, string $column_name): \BaseObject
 	{
-		return new \BaseObject;
+		$stmt = $this->_query(sprintf("ALTER TABLE `%s` DROP `%s`", $this->addQuotes($this->_prefix . $table_name), $this->addQuotes($column_name)));
+		return $stmt ? new \BaseObject : $this->getError();
 	}
 	
 	/**
@@ -737,6 +741,7 @@ class DB
 	 */
 	public function getColumnInfo(string $table_name, string $column_name): Parsers\DBTable\Column
 	{
+		// TODO
 		return new Parsers\DBTable\Column;
 	}
 	
@@ -749,7 +754,9 @@ class DB
 	 */
 	public function isIndexExists(string $table_name, string $index_name): bool
 	{
-		return true;
+		$stmt = $this->_query(sprintf("SHOW INDEX FROM `%s` WHERE Key_name = '%s'", $this->addQuotes($this->_prefix . $table_name), $this->addQuotes($index_name)));
+		$result = $this->_fetch($stmt);
+		return $result ? true : false;
 	}
 	
 	/**
@@ -768,7 +775,24 @@ class DB
 			$columns = array($columns);
 		}
 		
-		return new \BaseObject;
+		$query = vsprintf("ALTER TABLE `%s` ADD %s `%s` (%s);", array(
+			$this->addQuotes($this->_prefix . $table_name),
+			$unique ? 'UNIQUE INDEX' : 'INDEX',
+			$this->addQuotes($index_name),
+			implode(', ', array_map(function($column_name) {
+				if (preg_match('/^([^()]+)\(([0-9]+)\)$/', $column_name, $matches))
+				{
+					return '`' . $this->addQuotes($matches[1]) . '`(' . $matches[2] . ')';
+				}
+				else
+				{
+					return '`' . $this->addQuotes($column_name) . '`';
+				}
+			}, $columns)),
+		));
+		
+		$stmt = $this->_query($query);
+		return $stmt ? new \BaseObject : $this->getError();
 	}
 	
 	/**
@@ -780,7 +804,8 @@ class DB
 	 */
 	public function dropIndex(string $table_name, string $index_name): \BaseObject
 	{
-		return new \BaseObject;
+		$stmt = $this->_query(sprintf("ALTER TABLE `%s` DROP INDEX `%s`", $this->addQuotes($this->_prefix . $table_name), $this->addQuotes($index_name)));
+		return $stmt ? new \BaseObject : $this->getError();
 	}
 	
 	/**
@@ -822,7 +847,7 @@ class DB
 		}
 		else
 		{
-			return $this->_handle->quote($str);
+			return preg_replace("/^'(.*)'$/s", '$1', $this->_handle->quote($str));
 		}
 	}
 	
