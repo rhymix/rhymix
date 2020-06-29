@@ -124,6 +124,53 @@ class DB
 	}
 	
 	/**
+	 * Create a prepared statement.
+	 * 
+	 * @param string $query_string
+	 * @return \PDOStatement
+	 */
+	public function prepare(string $query_string): \PDOStatement
+	{
+		// Add table prefixes to the query string.
+		$query_string = $this->addPrefixes($query_string);
+		
+		// Create and return a prepared statement.
+		$stmt = $this->_handle->prepare($query_string);
+		return $stmt;
+	}
+	
+	/**
+	 * Execute a query string.
+	 * 
+	 * @param string $query_string
+	 * @param mixed ...$args
+	 * @return \PDOStatement
+	 */
+	public function query(string $query_string, ...$args): \PDOStatement
+	{
+		// If query parameters are given as a single array, unpack it.
+		if (count($args) === 1 && is_array($args[0]))
+		{
+			$args = $args[0];
+		}
+		
+		// Add table prefixes to the query string.
+		$query_string = $this->addPrefixes($query_string);
+		
+		// Execute either a prepared statement or a regular query depending on whether there are arguments.
+		if (count($args))
+		{
+			$stmt = $this->_handle->prepare($query_string);
+			$stmt->execute($args);
+		}
+		else
+		{
+			$stmt = $this->_handle->query($query_string);
+		}
+		return $stmt;
+	}
+	
+	/**
 	 * Execute an XML-defined query.
 	 * 
 	 * @param string $query_id
@@ -193,9 +240,17 @@ class DB
 		try
 		{
 			$query_start_time = microtime(true);
-			$this->_last_stmt = $this->_query($query_string, $query_params);
-			$query_elapsed_time = microtime(true) - $query_start_time;
+			if (count($query_params))
+			{
+				$this->_last_stmt = $this->_handle->prepare($query_string);
+				$this->_last_stmt->execute($query_params);
+			}
+			else
+			{
+				$this->_last_stmt = $this->_handle->query($query_string);
+			}
 			$result = $this->_fetch($this->_last_stmt);
+			$query_elapsed_time = microtime(true) - $query_start_time;
 		}
 		catch (\PDOException $e)
 		{
@@ -224,22 +279,12 @@ class DB
 	 * But since there are many legacy apps that rely on it, we will leave it public.
 	 * 
 	 * @param string $query_string
-	 * @param array $query_params
 	 * @return \PDOStatement
 	 */
-	public function _query(string $query_string, array $query_params = []): \PDOStatement
+	public function _query(string $query_string): \PDOStatement
 	{
-		if (count($query_params))
-		{
-			$stmt = $this->_handle->prepare($query_string);
-			$stmt->execute($query_params);
-		}
-		else
-		{
-			$stmt = $this->_handle->query($query_string);
-		}
-		
-		return $stmt;
+		$this->_last_stmt = $this->_handle->query($query_string);
+		return $this->_last_stmt;
 	}
 	
 	/**
@@ -373,11 +418,11 @@ class DB
 	 */
 	public function getNextSequence()
 	{
-		$this->_query(sprintf('INSERT INTO `%ssequence` (seq) VALUES (0)', $this->_prefix));
+		$this->_handle->exec(sprintf('INSERT INTO `sequence` (seq) VALUES (0)'));
 		$sequence = $this->getInsertID();
 		if($sequence % 10000 == 0)
 		{
-			$this->_query(sprintf('DELETE FROM `%ssequence` WHERE seq < %d', $this->_prefix, $sequence));
+			$this->_handle->exec(sprintf('DELETE FROM `sequence` WHERE seq < %d', $sequence));
 		}
 		return $sequence;
 	}
@@ -391,7 +436,7 @@ class DB
 	 */
 	public function isValidOldPassword(string $password, string $saved_password): bool
 	{
-		$stmt = $this->_query('SELECT' . ' ' . 'PASSWORD(?) AS pw1, OLD_PASSWORD(?) AS pw2', array($password, $password));
+		$stmt = $this->query('SELECT' . ' ' . 'PASSWORD(?) AS pw1, OLD_PASSWORD(?) AS pw2', $password, $password);
 		$result = $this->_fetch($stmt);
 		if ($result->pw1 === $saved_password || $result->pw2 === $saved_password)
 		{
@@ -552,7 +597,35 @@ class DB
 	}
 	
 	/**
+	 * Add table prefixes to a query string.
+	 * 
+	 * @param string $query_string
+	 * @return string
+	 */
+	public function addPrefixes($query_string): string
+	{
+		if (!$this->_prefix)
+		{
+			return $query_string;
+		}
+		else
+		{
+			return preg_replace_callback('/(FROM|JOIN)\s+((?:`?\w+\`?)(?:\s+AS\s+`?\w+`?)?(?:\s*,\s*(?:`?\w+\`?)(?:\s+AS\s+`?\w+`?)?)*)/i', function($m) {
+				$tables = array_map(function($str) {
+					return preg_replace_callback('/`?(\w+)`?(?:\s+AS\s+`?(\w+)`?)?/i', function($m) {
+						return isset($m[2]) ? sprintf('`%s%s` AS `%s`', $this->_prefix, $m[1], $m[2]) : sprintf('`%s%s` AS `%s`', $this->_prefix, $m[1], $m[1]);
+					}, trim($str));
+				}, explode(',', $m[2]));
+				return $m[1] . ' ' . implode(', ', $tables);
+			}, $query_string);
+		}
+	}
+	
+	/**
 	 * Escape a string according to current DB settings.
+	 * 
+	 * @param string $str
+	 * @return string
 	 */
 	public function addQuotes($str): string
 	{
@@ -573,7 +646,7 @@ class DB
 	 */
 	public function getBestSupportedCharset(): string
 	{
-		$output = $this->_fetch($this->_query("SHOW CHARACTER SET LIKE 'utf8%'"), 1);
+		$output = $this->_fetch($this->_handle->query("SHOW CHARACTER SET LIKE 'utf8%'"), 1);
 		$utf8mb4_support = ($output && count(array_filter($output, function($row) {
 			return $row->Charset === 'utf8mb4';
 		})));
