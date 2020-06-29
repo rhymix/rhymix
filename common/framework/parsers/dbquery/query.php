@@ -19,6 +19,7 @@ class Query extends VariableBase
 	public $navigation = null;
 	public $select_distinct = false;
 	public $update_duplicate = false;
+	public $requires_pagination = false;
 	
 	/**
 	 * Attributes for subqueries in the <tables> or <columns> section.
@@ -93,6 +94,16 @@ class Query extends VariableBase
 	public function getQueryParams()
 	{
 		return $this->_params;
+	}
+	
+	/**
+	 * Check if this query requires pagination.
+	 * 
+	 * @return bool
+	 */
+	public function requiresPagination(): bool
+	{
+		return $this->requires_pagination;
 	}
 	
 	/**
@@ -514,9 +525,19 @@ class Query extends VariableBase
 		{
 			list($is_expression, $offset) = $navigation->offset->getValue($this->_args);
 		}
+		
+		// If page is available, set the offset and require pagination for this query.
 		if ($page > 0)
 		{
 			$offset = $list_count * ($page - 1);
+			if ($this->type === 'SELECT')
+			{
+				$this->requires_pagination = true;
+			}
+		}
+		else
+		{
+			$page = 1;
 		}
 		
 		// Return the LIMIT/OFFSET clause.

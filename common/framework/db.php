@@ -236,6 +236,85 @@ class DB
 			return $this->setError(-1, $e->getMessage());
 		}
 		
+		// If this query requires pagination, execute the COUNT(*) query first.
+		$last_index = 0;
+		if ($query->requiresPagination())
+		{
+			$output = $this->_executeCountQuery($query, $args, $last_index);
+			if (!$output->toBool())
+			{
+				return $output;
+			}
+			
+			// Do not execute the main query if the current page is out of bounds.
+			if ($output->page > $output->total_page)
+			{
+				$output->add('_query', $query_string);
+				$output->add('_elapsed_time', '0.00000');
+				$this->_total_time += (microtime(true) - $class_start_time);
+				return $output;
+			}
+		}
+		else
+		{
+			$output = new \BaseObject;
+		}
+		
+		// Prepare and execute the main query.
+		try
+		{
+			$query_start_time = microtime(true);
+			if (count($query_params))
+			{
+				$this->_last_stmt = $this->_handle->prepare($query_string);
+				$this->_last_stmt->execute($query_params);
+			}
+			else
+			{
+				$this->_last_stmt = $this->_handle->query($query_string);
+			}
+			$result = $this->_fetch($this->_last_stmt, $last_index);
+			$query_elapsed_time = microtime(true) - $query_start_time;
+			$this->_query_time += $query_elapsed_time;
+		}
+		catch (\PDOException $e)
+		{
+			return $this->setError(-1, $e->getMessage());
+		}
+		
+		// Fill query information and result data in the output object.
+		$output->add('_query', $query_string);
+		$output->add('_elapsed_time', sprintf("%0.5f", $query_elapsed_time));
+		$output->data = $result;
+		
+		// Record statistics about elapsed time.
+		$this->_total_time += (microtime(true) - $class_start_time);
+		
+		// Return the complete result.
+		return $output;
+	}
+	
+	/**
+	 * Execute a COUNT(*) query for pagination.
+	 * 
+	 * @param Parsers\DBQuery\Query $query
+	 * @param array $args
+	 * @param int $last_index
+	 * @return BaseObject
+	 */
+	protected function _executeCountQuery(Parsers\DBQuery\Query $query, array $args, int &$last_index): \BaseObject
+	{
+		// Get the COUNT(*) query string and parameters.
+		try
+		{
+			$query_string = $query->getQueryString($this->_prefix, $args, [], true);
+			$query_params = $query->getQueryParams();
+		}
+		catch (Exceptions\QueryError $e)
+		{
+			return $this->setError(-1, $e->getMessage());
+		}
+		
 		// Prepare and execute the query.
 		try
 		{
@@ -251,24 +330,29 @@ class DB
 			}
 			$result = $this->_fetch($this->_last_stmt);
 			$query_elapsed_time = microtime(true) - $query_start_time;
+			$this->_query_time += $query_elapsed_time;
 		}
 		catch (\PDOException $e)
 		{
 			return $this->setError(-1, $e->getMessage());
 		}
 		
-		// Compose the result object.
+		// Collect various counts used in the page calculation.
+		list($is_expression, $list_count) = $query->navigation->list_count->getValue($args);
+		list($is_expression, $page_count) = $query->navigation->page_count->getValue($args);
+		list($is_expression, $page) = $query->navigation->page->getValue($args);
+		$total_count = intval($result->count);
+		$total_page = max(1, intval(ceil($total_count / $list_count)));
+		$last_index = $total_count - (($page - 1) * $list_count);
+		$page_handler = new \PageHandler($total_count, $total_page, $page, $page_count);
+		
+		// Compose the output object.
 		$output = new \BaseObject;
-		$output->add('_query', $query_string);
-		$output->add('_elapsed_time', sprintf("%0.5f", $query_elapsed_time));
-		$output->data = $result;
-		
-		// Compose statistics about elapsed time.
-		$class_elapsed_time = microtime(true) - $class_start_time;
-		$this->_query_time += $query_elapsed_time;
-		$this->_total_time += $class_elapsed_time;
-		
-		// Return the complete result.
+		$output->total_count = $total_count;
+		$output->total_page = $total_page;
+		$output->page = $page;
+		$output->data = null;
+		$output->page_navigation = $page_handler;
 		return $output;
 	}
 	
@@ -560,7 +644,7 @@ class DB
 	 * @param string $index_name
 	 * @return boolean
 	 */
-	function isIndexExists(string $table_name, string $index_name): bool
+	public function isIndexExists(string $table_name, string $index_name): bool
 	{
 		return true;
 	}
@@ -574,7 +658,7 @@ class DB
 	 * @param bool $unique
 	 * @return \BaseObject
 	 */
-	function addIndex(string $table_name, string $index_name, $columns, $unique = false): \BaseObject
+	public function addIndex(string $table_name, string $index_name, $columns, $unique = false): \BaseObject
 	{
 		if (!is_array($columns))
 		{
@@ -591,7 +675,7 @@ class DB
 	 * @param string $index_name
 	 * @return BaseObject
 	 */
-	function dropIndex(string $table_name, string $index_name): \BaseObject
+	public function dropIndex(string $table_name, string $index_name): \BaseObject
 	{
 		return new \BaseObject;
 	}
