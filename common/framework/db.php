@@ -948,6 +948,26 @@ class DB
 	}
 	
 	/**
+	 * Get total time spent during queries.
+	 * 
+	 * @return float
+	 */
+	public function getQueryElapsedTime()
+	{
+		return $this->_query_time;
+	}
+	
+	/**
+	 * Get total time spent in this class.
+	 * 
+	 * @return float
+	 */
+	public function getTotalElapsedTime()
+	{
+		return $this->_total_time;
+	}
+	
+	/**
 	 * ========================== DEPRECATED METHODS ==========================
 	 * ==================== KEPT FOR COMPATIBILITY WITH XE ====================
 	 */
