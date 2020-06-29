@@ -920,12 +920,10 @@ class DB
 			$backtrace = debug_backtrace(\DEBUG_BACKTRACE_IGNORE_ARGS);
 			foreach ($backtrace as $no => $call)
 			{
-				if (in_array($call['function'], array('executeQuery', 'executeQueryArray')))
+				if ($call['file'] !== __FILE__ && $call['file'] !== \RX_BASEDIR . 'common/legacy.php')
 				{
-					$no++;
 					$result['called_file'] = $backtrace[$no]['file'];
 					$result['called_line'] = $backtrace[$no]['line'];
-					$no++;
 					$result['called_method'] = $backtrace[$no]['class'] . $backtrace[$no]['type'] . $backtrace[$no]['function'];
 					$result['backtrace'] = array_slice($backtrace, $no, 1);
 					break;
