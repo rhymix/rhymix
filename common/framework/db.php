@@ -20,6 +20,7 @@ class DB
 	/**
 	 * Prefix and other connection settings.
 	 */
+	protected $_type = '';
 	protected $_prefix = '';
 	protected $_charset = 'utf8mb4';
 	protected $_engine = 'innodb';
@@ -75,17 +76,19 @@ class DB
 		}
 		
 		// Create an instance and return it.
-		return self::$_instances[$type] = new self($config);
+		return self::$_instances[$type] = new self($type, $config);
 	}
    
 	/**
 	 * Constructor.
 	 * 
 	 * @param string $type
+	 * @param array $config
 	 */
-	public function __construct(array $config)
+	public function __construct(string $type, array $config)
 	{
 		// Save important config values to the instance.
+		$this->_type = $type;
 		$this->_prefix = $config['prefix'] ?: $this->_prefix;
 		$this->_charset = $config['charset'] ?: $this->_charset;
 		$this->_engine = $config['engine'] ?: $this->_engine;
@@ -106,7 +109,7 @@ class DB
 		}
 		catch (\PDOException $e)
 		{
-			throw new Exceptions\DBError($e->getMessage(), $e->getCode());
+			throw new Exceptions\DBError($e->getMessage(), $e->getCode(), $e);
 		}
 		
 		// Get the DB version.
@@ -155,18 +158,36 @@ class DB
 		}
 		
 		// Add table prefixes to the query string.
+		$class_start_time = microtime(true);
 		$query_string = $this->addPrefixes($query_string);
 		
 		// Execute either a prepared statement or a regular query depending on whether there are arguments.
-		if (count($args))
+		try
 		{
-			$stmt = $this->_handle->prepare($query_string);
-			$stmt->execute($args);
+			$query_start_time = microtime(true);
+			if (count($args))
+			{
+				$stmt = $this->_handle->prepare($query_string);
+				$stmt->execute($args);
+			}
+			else
+			{
+				$stmt = $this->_handle->query($query_string);
+			}
+			$this->clearError();
+			$query_elapsed_time = microtime(true) - $query_start_time;
+			$this->_query_time += $query_elapsed_time;
+			Debug::addQuery($this->getQueryLog($query_string, '', $query_elapsed_time));
 		}
-		else
+		catch (\PDOException $e)
 		{
-			$stmt = $this->_handle->query($query_string);
+			$this->setError($e->getCode(), $e->getMessage());
+			$query_elapsed_time = microtime(true) - $query_start_time;
+			$this->_query_time += $query_elapsed_time;
+			Debug::addQuery($this->getQueryLog($query_string, '', $query_elapsed_time));
 		}
+		
+		$this->_total_time += (microtime(true) - $class_start_time);
 		return $stmt;
 	}
 	
@@ -206,7 +227,10 @@ class DB
 		$filename = \RX_BASEDIR . $parts[0] . '/' . $parts[1] . '/queries/' . $parts[2] . '.xml';
 		if (!Storage::exists($filename))
 		{
-			return $this->setError(-1, 'Query \'' . $query_id . '\' does not exist.');
+			$output = $this->setError(-1, 'Query \'' . $query_id . '\' does not exist.');
+			$output->page_navigation = new \PageHandler(0, 0, 0);
+			$this->_total_time += (microtime(true) - $class_start_time);
+			return $output;
 		}
 		
 		// Parse and cache the XML file.
@@ -221,7 +245,10 @@ class DB
 			}
 			else
 			{
-				return $this->setError(-1, 'Query \'' . $query_id . '\' cannot be parsed.');
+				$output = $this->setError(-1, 'Query \'' . $query_id . '\' cannot be parsed.');
+				$output->page_navigation = new \PageHandler(0, 0, 0);
+				$this->_total_time += (microtime(true) - $class_start_time);
+				return $output;
 			}
 		}
 		
@@ -233,16 +260,21 @@ class DB
 		}
 		catch (Exceptions\QueryError $e)
 		{
-			return $this->setError(-1, $e->getMessage());
+			$output = $this->setError(-1, $e->getMessage());
+			$output->page_navigation = new \PageHandler(0, 0, 0);
+			$this->_total_time += (microtime(true) - $class_start_time);
+			return $output;
 		}
 		
 		// If this query requires pagination, execute the COUNT(*) query first.
 		$last_index = 0;
 		if ($query->requiresPagination())
 		{
-			$output = $this->_executeCountQuery($query, $args, $last_index);
+			$output = $this->_executeCountQuery($query_id, $query, $args, $last_index);
 			if (!$output->toBool())
 			{
+				$output->page_navigation = new \PageHandler(0, 0, 0);
+				$this->_total_time += (microtime(true) - $class_start_time);
 				return $output;
 			}
 			
@@ -251,6 +283,7 @@ class DB
 			{
 				$output->add('_query', $query_string);
 				$output->add('_elapsed_time', '0.00000');
+				$output->page_navigation = new \PageHandler(0, 0, 0);
 				$this->_total_time += (microtime(true) - $class_start_time);
 				return $output;
 			}
@@ -276,33 +309,44 @@ class DB
 			$result = $this->_fetch($this->_last_stmt, $last_index);
 			$query_elapsed_time = microtime(true) - $query_start_time;
 			$this->_query_time += $query_elapsed_time;
+			Debug::addQuery($this->getQueryLog($query_string, $query_id, $query_elapsed_time));
 		}
 		catch (\PDOException $e)
 		{
-			return $this->setError(-1, $e->getMessage());
+			$query_elapsed_time = microtime(true) - $query_start_time;
+			$this->_query_time += $query_elapsed_time;
+			$output = $this->setError(-1, $e->getMessage());
+			$output->add('_query', $query_string);
+			$output->add('_elapsed_time', '0.00000');
+			$output->page_navigation = new \PageHandler(0, 0, 0);
+			Debug::addQuery($this->getQueryLog($query_string, $query_id, $query_elapsed_time));
+			$this->_total_time += (microtime(true) - $class_start_time);
+			return $output;
 		}
 		
 		// Fill query information and result data in the output object.
 		$output->add('_query', $query_string);
-		$output->add('_elapsed_time', sprintf("%0.5f", $query_elapsed_time));
+		$output->add('_elapsed_time', sprintf('%0.5f', $query_elapsed_time));
 		$output->data = $result;
 		
-		// Record statistics about elapsed time.
+		// Record statistics about this query and elapsed time.
 		$this->_total_time += (microtime(true) - $class_start_time);
 		
 		// Return the complete result.
+		$this->clearError();
 		return $output;
 	}
 	
 	/**
 	 * Execute a COUNT(*) query for pagination.
 	 * 
+	 * @param string $query_id
 	 * @param Parsers\DBQuery\Query $query
 	 * @param array $args
 	 * @param int $last_index
 	 * @return BaseObject
 	 */
-	protected function _executeCountQuery(Parsers\DBQuery\Query $query, array $args, int &$last_index): \BaseObject
+	protected function _executeCountQuery(string $query_id, Parsers\DBQuery\Query $query, array $args, int &$last_index): \BaseObject
 	{
 		// Get the COUNT(*) query string and parameters.
 		try
@@ -331,10 +375,15 @@ class DB
 			$result = $this->_fetch($this->_last_stmt);
 			$query_elapsed_time = microtime(true) - $query_start_time;
 			$this->_query_time += $query_elapsed_time;
+			Debug::addQuery($this->getQueryLog($query_string, $query_id . ' (count)', $query_elapsed_time));
 		}
 		catch (\PDOException $e)
 		{
-			return $this->setError(-1, $e->getMessage());
+			$query_elapsed_time = microtime(true) - $query_start_time;
+			$this->_query_time += $query_elapsed_time;
+			$output = $this->setError(-1, $e->getMessage());
+			Debug::addQuery($this->getQueryLog($query_string, $query_id . ' (count)', $query_elapsed_time));
+			return $output;
 		}
 		
 		// Collect various counts used in the page calculation.
@@ -367,7 +416,25 @@ class DB
 	 */
 	public function _query(string $query_string): \PDOStatement
 	{
-		$this->_last_stmt = $this->_handle->query($query_string);
+		try
+		{
+			$query_start_time = microtime(true);
+			$this->_last_stmt = $this->_handle->query($query_string);
+			$this->clearError();
+			$query_elapsed_time = microtime(true) - $query_start_time;
+			$this->_query_time += $query_elapsed_time;
+			$this->_total_time += $query_elapsed_time;
+			Debug::addQuery($this->getQueryLog($query_string, '', $query_elapsed_time));
+		}
+		catch (\PDOException $e)
+		{
+			$this->setError($e->getCode(), $e->getMessage());
+			$query_elapsed_time = microtime(true) - $query_start_time;
+			$this->_query_time += $query_elapsed_time;
+			$this->_total_time += $query_elapsed_time;
+			Debug::addQuery($this->getQueryLog($query_string, '', $query_elapsed_time));
+		}
+		
 		return $this->_last_stmt;
 	}
 	
@@ -417,13 +484,13 @@ class DB
 			try
 			{
 				$this->_handle->beginTransaction();
-				$result = 'success';
+				$this->clearError();
 			}
 			catch (\PDOException $e)
 			{
-				$result = 'error';
+				$this->setError($e->getCode(), $e->getMessage());
 			}
-			$this->setQueryLog(array('query' => 'START TRANSACTION', 'result' => $result));
+			Debug::addQuery($this->getQueryLog('START TRANSACTION', '', 0));
 		}
 		$this->_transaction_level++;
 		return $this->_transaction_level;
@@ -441,13 +508,13 @@ class DB
 			try
 			{
 				$this->_handle->rollBack();
-				$result = 'success';
+				$this->clearError();
 			}
 			catch (\PDOException $e)
 			{
-				$result = 'error';
+				$this->setError($e->getCode(), $e->getMessage());
 			}
-			$this->setQueryLog(array('query' => 'ROLLBACK', 'result' => $result));
+			Debug::addQuery($this->getQueryLog('ROLLBACK', '', 0));
 		}
 		$this->_transaction_level--;
 		return $this->_transaction_level;
@@ -465,13 +532,13 @@ class DB
 			try
 			{
 				$this->_handle->commit();
-				$result = 'success';
+				$this->clearError();
 			}
 			catch (\PDOException $e)
 			{
-				$result = 'error';
+				$this->setError($e->getCode(), $e->getMessage());
 			}
-			$this->setQueryLog(array('query' => 'COMMIT', 'result' => $result));
+			Debug::addQuery($this->getQueryLog('COMMIT', '', 0));
 		}
 		$this->_transaction_level--;
 		return $this->_transaction_level;
@@ -502,12 +569,29 @@ class DB
 	 */
 	public function getNextSequence()
 	{
-		$this->_handle->exec(sprintf('INSERT INTO `sequence` (seq) VALUES (0)'));
-		$sequence = $this->getInsertID();
+		try
+		{
+			$this->_handle->exec(sprintf('INSERT INTO `sequence` (seq) VALUES (0)'));
+			$sequence = $this->getInsertID();
+		}
+		catch (\PDOException $e)
+		{
+			throw new Exceptions\DBError($e->getMessage(), $e->getCode(), $e);
+		}
+		
 		if($sequence % 10000 == 0)
 		{
-			$this->_handle->exec(sprintf('DELETE FROM `sequence` WHERE seq < %d', $sequence));
+			try
+			{
+				$this->_handle->exec(sprintf('DELETE FROM `sequence` WHERE seq < %d', $sequence));
+			}
+			catch (\PDOException $e)
+			{
+				$this->setError($e->getCode(), $e->getMessage());
+			}
 		}
+		
+		$this->clearError();
 		return $sequence;
 	}
 	
@@ -520,8 +604,18 @@ class DB
 	 */
 	public function isValidOldPassword(string $password, string $saved_password): bool
 	{
-		$stmt = $this->query('SELECT' . ' ' . 'PASSWORD(?) AS pw1, OLD_PASSWORD(?) AS pw2', $password, $password);
-		$result = $this->_fetch($stmt);
+		try
+		{
+			$stmt = $this->query('SELECT' . ' ' . 'PASSWORD(?) AS pw1, OLD_PASSWORD(?) AS pw2', $password, $password);
+			$result = $this->_fetch($stmt);
+			$this->clearError();
+		}
+		catch (\PDOException $e)
+		{
+			$this->setError($e->getCode(), $e->getMessage());
+			return false;
+		}
+		
 		if ($result->pw1 === $saved_password || $result->pw2 === $saved_password)
 		{
 			return true;
@@ -764,17 +858,82 @@ class DB
 	 * @param string $errstr
 	 * @return BaseObject
 	 */
-	public function setError(int $errno = 0, string $errstr = 'success', bool $page_handler = false): \BaseObject
+	public function setError(int $errno = 0, string $errstr = 'success'): \BaseObject
 	{
 		$this->_errno = $errno;
 		$this->_errstr = $errstr;
 		$output = new \BaseObject($errno, $errstr);
-		if ($page_handler)
+		return $output;
+	}
+	
+	/**
+	 * Clear error information.
+	 * 
+	 * @return void
+	 */
+	public function clearError()
+	{
+		$this->_errno = 0;
+		$this->_errstr = 'success';
+	}
+	
+	/**
+	 * Generate a query log entry.
+	 * 
+	 * @param string $query
+	 * @param string $query_id
+	 * @param float $elapsed_time
+	 * @return array
+	 */
+	public function getQueryLog(string $query, string $query_id, float $elapsed_time): array
+	{
+		// Cache the debug status to improve performance.
+		static $debug_enabled = null;
+		static $debug_queries = null;
+		if ($debug_enabled === null)
 		{
-			
+			$debug_enabled = Config::get('debug.enabled');
+		}
+		if ($debug_queries === null)
+		{
+			$debug_queries = in_array('queries', Config::get('debug.display_content') ?: []);
 		}
 		
-		return $output;
+		// Compose the basic structure of the log entry.
+		$result = array(
+			'query' => $query,
+			'query_id' => $query_id,
+			'connection' => $this->_type,
+			'elapsed_time' => sprintf('%0.5f', $elapsed_time),
+			'result' => 'success',
+			'errno' => $this->_errno,
+			'errstr' => $this->_errstr,
+			'called_file' => null,
+			'called_line' => null,
+			'called_method' => null,
+			'backtrace' => array(),
+		);
+		
+		// Add debug information if enabled.
+		if ($debug_enabled && ($this->_errno || $debug_queries))
+		{
+			$backtrace = debug_backtrace(\DEBUG_BACKTRACE_IGNORE_ARGS);
+			foreach ($backtrace as $no => $call)
+			{
+				if (in_array($call['function'], array('executeQuery', 'executeQueryArray')))
+				{
+					$no++;
+					$result['called_file'] = $backtrace[$no]['file'];
+					$result['called_line'] = $backtrace[$no]['line'];
+					$no++;
+					$result['called_method'] = $backtrace[$no]['class'] . $backtrace[$no]['type'] . $backtrace[$no]['function'];
+					$result['backtrace'] = array_slice($backtrace, $no, 1);
+					break;
+				}
+			}
+		}
+		
+		return $result;
 	}
 	
 	/**
