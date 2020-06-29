@@ -285,7 +285,16 @@ class DB
 	{
 		if (!$this->_handle->inTransaction())
 		{
-			$this->_handle->beginTransaction();
+			try
+			{
+				$this->_handle->beginTransaction();
+				$result = 'success';
+			}
+			catch (\PDOException $e)
+			{
+				$result = 'error';
+			}
+			$this->setQueryLog(array('query' => 'START TRANSACTION', 'result' => $result));
 		}
 		$this->_transaction_level++;
 		return $this->_transaction_level;
@@ -300,7 +309,16 @@ class DB
 	{
 		if ($this->_handle->inTransaction() && $this->_transaction_level === 1)
 		{
-			$this->_handle->rollBack();
+			try
+			{
+				$this->_handle->rollBack();
+				$result = 'success';
+			}
+			catch (\PDOException $e)
+			{
+				$result = 'error';
+			}
+			$this->setQueryLog(array('query' => 'ROLLBACK', 'result' => $result));
 		}
 		$this->_transaction_level--;
 		return $this->_transaction_level;
@@ -315,7 +333,16 @@ class DB
 	{
 		if ($this->_handle->inTransaction() && $this->_transaction_level === 1)
 		{
-			$this->_handle->commit();
+			try
+			{
+				$this->_handle->commit();
+				$result = 'success';
+			}
+			catch (\PDOException $e)
+			{
+				$result = 'error';
+			}
+			$this->setQueryLog(array('query' => 'COMMIT', 'result' => $result));
 		}
 		$this->_transaction_level--;
 		return $this->_transaction_level;
@@ -356,6 +383,53 @@ class DB
 	}
 	
 	/**
+	 * Check if a password is valid according to MySQL's old password hashing algorithm.
+	 * 
+	 * @param string $password
+	 * @param string $saved_password
+	 * @return bool
+	 */
+	public function isValidOldPassword(string $password, string $saved_password): bool
+	{
+		$stmt = $this->_query('SELECT' . ' ' . 'PASSWORD(?) AS pw1, OLD_PASSWORD(?) AS pw2', array($password, $password));
+		$result = $this->_fetch($stmt);
+		if ($result->pw1 === $saved_password || $result->pw2 === $saved_password)
+		{
+			return true;
+		}
+		else
+		{
+			return false;
+		}
+	}
+	
+	/**
+	 * Check if a table exists.
+	 *
+	 * @param string $table_name
+	 * @return bool
+	 */
+	public function isTableExists(string $table_name): bool
+	{
+		return true;
+	}
+	
+	/**
+	 * Create a table.
+	 * 
+	 * @param string $filename
+	 * @param string $content
+	 * @return BaseObject
+	 */
+	public function createTable(string $filename = '', string $content = ''): \BaseObject
+	{
+		$table = Parsers\DBTableParser::loadXML($filename, $content);
+		$query = $table->getCreateQuery($this->_prefix, $this->_charset, $this->_engine);
+		
+		return new \BaseObject;
+	}
+	
+	/**
 	 * Drop a table.
 	 * 
 	 * @param string $table_name
@@ -364,6 +438,146 @@ class DB
 	public function dropTable(string $table_name): \BaseObject
 	{
 		return new \BaseObject;
+	}
+	
+	/**
+	 * Check if a column exists.
+	 *
+	 * @param string $table_name
+	 * @param string $column_name
+	 * @return bool
+	 */
+	public function isColumnExists(string $table_name, string $column_name): bool
+	{
+		return true;
+	}
+	
+	/**
+	 * Add a column.
+	 * 
+	 * @param string $table_name
+	 * @param string $column_name
+	 * @param string $type
+	 * @param string $size
+	 * @param mixed $default
+	 * @param bool $notnull
+	 * @param string $after_column
+	 * @return BaseObject
+	 */
+	public function addColumn(string $table_name, string $column_name, string $type = 'number', $size = null, $default = null, $notnull = false, $after_column = null): \BaseObject
+	{
+		return new \BaseObject;
+	}
+	
+	/**
+	 * Modify a column.
+	 * 
+	 * @param string $table_name
+	 * @param string $type
+	 * @param string $size
+	 * @param mixed $default
+	 * @param bool $notnull
+	 * @return BaseObject
+	 */
+	public function modifyColumn(string $table_name, string $column_name, string $type = 'number', $size = null, $default = null, $notnull = false): \BaseObject
+	{
+		return new \BaseObject;
+	}
+	
+	/**
+	 * Drop a column.
+	 * 
+	 * @param string $table_name
+	 * @param string $column_name
+	 * @return BaseObject
+	 */
+	public function dropColumn(string $table_name, string $column_name): \BaseObject
+	{
+		return new \BaseObject;
+	}
+	
+	/**
+	 * Get column information.
+	 *
+	 * @param string $table_name
+	 * @param string $column_name
+	 * @return Parsers\DBTable\Column;
+	 */
+	public function getColumnInfo(string $table_name, string $column_name): Parsers\DBTable\Column
+	{
+		return new Parsers\DBTable\Column;
+	}
+	
+	/**
+	 * Check if an index exists.
+	 * 
+	 * @param string $table_name
+	 * @param string $index_name
+	 * @return boolean
+	 */
+	function isIndexExists(string $table_name, string $index_name): bool
+	{
+		return true;
+	}
+	
+	/**
+	 * Add an index.
+	 * 
+	 * @param string $table_name
+	 * @param string $index_name
+	 * @param array $columns
+	 * @param bool $unique
+	 * @return \BaseObject
+	 */
+	function addIndex(string $table_name, string $index_name, $columns, $unique = false): \BaseObject
+	{
+		if (!is_array($columns))
+		{
+			$columns = array($columns);
+		}
+		
+		return new \BaseObject;
+	}
+	
+	/**
+	 * Drop an index.
+	 * 
+	 * @param string $table_name
+	 * @param string $index_name
+	 * @return BaseObject
+	 */
+	function dropIndex(string $table_name, string $index_name): \BaseObject
+	{
+		return new \BaseObject;
+	}
+	
+	/**
+	 * Escape a string according to current DB settings.
+	 */
+	public function addQuotes($str): string
+	{
+		if (is_numeric($str))
+		{
+			return strval($str);
+		}
+		else
+		{
+			return $this->_handle->quote($str);
+		}
+	}
+	
+	/**
+	 * Find out the best supported character set.
+	 * 
+	 * @return string
+	 */
+	public function getBestSupportedCharset(): string
+	{
+		$output = $this->_fetch($this->_query("SHOW CHARACTER SET LIKE 'utf8%'"), 1);
+		$utf8mb4_support = ($output && count(array_filter($output, function($row) {
+			return $row->Charset === 'utf8mb4';
+		})));
+		return $utf8mb4_support ? 'utf8mb4' : 'utf8';
 	}
 	
 	/**
@@ -393,11 +607,17 @@ class DB
 	 * @param string $errstr
 	 * @return BaseObject
 	 */
-	public function setError(int $errno = 0, string $errstr = 'success'): \BaseObject
+	public function setError(int $errno = 0, string $errstr = 'success', bool $page_handler = false): \BaseObject
 	{
 		$this->_errno = $errno;
 		$this->_errstr = $errstr;
-		return new \BaseObject($errno, $errstr);
+		$output = new \BaseObject($errno, $errstr);
+		if ($page_handler)
+		{
+			
+		}
+		
+		return $output;
 	}
 	
 	/**
@@ -428,6 +648,41 @@ class DB
 	}
 	
 	/**
+	 * Old alias to $stmt->fetchObject().
+	 * 
+	 * @deprecated
+	 * @param \PDOStatement $stmt
+	 * @return object|false
+	 */
+	public function db_fetch_object(\PDOStatement $stmt)
+	{
+		return $stmt->fetchObject();
+	}
+	
+	/**
+	 * Old alias to $stmt->closeCursor().
+	 * 
+	 * @deprecated
+	 * @param \PDOStatement $stmt
+	 * @return bool
+	 */
+	public function db_free_result(\PDOStatement $stmt): bool
+	{
+		return $stmt->closeCursor();
+	}
+	
+	/**
+	 * Old alias to getInsertID().
+	 * 
+	 * @deprecated
+	 * @return int
+	 */
+	public function db_insert_id(): int
+	{
+		return $this->getInsertID();
+	}
+	
+	/**
 	 * Get the list of supported database drivers.
 	 * 
 	 * @deprecated
@@ -442,7 +697,7 @@ class DB
 			),
 		);
 	}
-   
+	
 	/**
 	 * Get the list of enabled database drivers.
 	 * 
@@ -503,6 +758,28 @@ class DB
 	}
 	
 	/**
+	 * Methods related to table creation.
+	 * 
+	 * @deprecated
+	 * @return void
+	 */
+	public function createTableByXmlFile($filename)
+	{
+		$output = $this->createTable($filename);
+		return $output->toBool();
+	}
+	public function createTableByXml($xml_doc)
+	{
+		$output = $this->createTable('', $xml_doc);
+		return $output->toBool();
+	}
+	public function _createTable($xml_doc)
+	{
+		$output = $this->createTable('', $xml_doc);
+		return $output->toBool();
+	}
+	
+	/**
 	 * Methods related to the click count cache feature.
 	 * 
 	 * @deprecated
@@ -524,6 +801,10 @@ class DB
 	/**
 	 * Other deprecated methods.
 	 */
+	public function getParser(): bool
+	{
+		return false;
+	}
 	public function _getSlaveConnectionStringIndex(): int
 	{
 		return 0;
