@@ -3,15 +3,15 @@
 namespace Rhymix\Framework\Exceptions;
 
 /**
- * The Query Error exception class.
+ * The DB Error exception class.
  */
-class QueryError extends DBError
+class DBError extends \Rhymix\Framework\Exception
 {
 	public function __construct($message = '', $code = 0, $previous = null)
 	{
 		if ($message === '')
 		{
-			$message = 'Query Error';
+			$message = 'DB Error';
 		}
 		parent::__construct($message, $code, $previous);
 	}
