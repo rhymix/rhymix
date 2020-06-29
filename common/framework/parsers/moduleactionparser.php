@@ -5,7 +5,7 @@ namespace Rhymix\Framework\Parsers;
 /**
  * Module action (conf/module.xml) parser class for XE compatibility.
  */
-class ModuleActionParser
+class ModuleActionParser extends BaseParser
 {
 	/**
 	 * Shortcuts for route definition.
@@ -57,7 +57,7 @@ class ModuleActionParser
 		foreach ($xml->grants->grant ?: [] as $grant)
 		{
 			$grant_info = new \stdClass;
-			$grant_info->title = self::_getElementsByLang($grant, 'title', $lang);
+			$grant_info->title = self::_getChildrenByLang($grant, 'title', $lang);
 			$grant_info->default = trim($grant['default']);
 			$grant_name = trim($grant['name']);
 			$info->grant->{$grant_name} = $grant_info;
@@ -67,7 +67,7 @@ class ModuleActionParser
 		foreach ($xml->menus->menu ?: [] as $menu)
 		{
 			$menu_info = new \stdClass;
-			$menu_info->title = self::_getElementsByLang($menu, 'title', $lang);
+			$menu_info->title = self::_getChildrenByLang($menu, 'title', $lang);
 			$menu_info->index = null;
 			$menu_info->acts = array();
 			$menu_info->type = trim($menu['type']);
@@ -223,35 +223,5 @@ class ModuleActionParser
 		$result->regexp = $regexp;
 		$result->vars = $vars;
 		return $result;
-	}
-	
-	/**
-	 * Get child elements that match a language.
-	 * 
-	 * @param SimpleXMLElement $parent
-	 * @param string $tag_name
-	 * @param string $lang
-	 * @return string
-	 */
-	protected static function _getElementsByLang(\SimpleXMLElement $parent, string $tag_name, string $lang): string
-	{
-		// If there is a child element that matches the language, return it.
-		foreach ($parent->{$tag_name} as $child)
-		{
-			$attribs = $child->attributes('xml', true);
-			if (strval($attribs['lang']) === $lang)
-			{
-				return trim($child);
-			}
-		}
-		
-		// Otherwise, return the first child element.
-		foreach ($parent->{$tag_name} as $child)
-		{
-			return trim($child);
-		}
-		
-		// If there are no child elements, return an empty string.
-		return '';
 	}
 }
