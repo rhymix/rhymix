@@ -5,7 +5,7 @@ namespace Rhymix\Framework\Parsers;
 /**
  * DB query parser class for XE compatibility.
  */
-class DBQueryParser
+class DBQueryParser extends BaseParser
 {
 	/**
 	 * Load a query XML file.
@@ -38,19 +38,20 @@ class DBQueryParser
 	protected static function _parseQuery(\SimpleXMLElement $xml, string $name = ''): DBQuery\Query
 	{
 		// Load basic information about this query.
+		$attribs = self::_getAttributes($xml);
 		$query = new DBQuery\Query;
 		$query->name = $name ?: null;
-		$query->type = strtoupper($xml['action']) ?: 'SELECT';
-		$query->alias = trim($xml['alias']) ?: null;
+		$query->type = strtoupper($attribs['action']) ?: 'SELECT';
+		$query->alias = $attribs['alias'] ?? null;
 		if ($query->alias && !$query->name)
 		{
 			$query->name = $query->alias;
 		}
 		
 		// Load attributes that only apply to subqueries in the <conditions> block.
-		$query->operation = trim($xml['operation']) ?: null;
-		$query->column = preg_replace('/[^a-z0-9_\.]/i', '', $xml['column']) ?: null;
-		$query->pipe = strtoupper($xml['pipe']) ?: 'AND';
+		$query->operation = $attribs['operation'] ?? null;
+		$query->column = preg_replace('/[^a-z0-9_\.]/i', '', $attribs['column']) ?: null;
+		$query->pipe = strtoupper($attribs['pipe']) ?: 'AND';
 		
 		// Load tables.
 		foreach ($xml->tables->table as $tag)
@@ -109,7 +110,7 @@ class DBQueryParser
 				$column->operation = trim($tag['operation']) ?: 'equal';
 				$column->var = trim($tag['var']) ?: null;
 				$column->default = trim($tag['default']) ?: null;
-				$column->not_null = trim($tag['notnull'] ?: $tag['not-null']) !== '' ? true : false;
+				$column->not_null = self::_getAttributes($tag)['notnull'] ? true : false;
 				$column->filter = trim($tag['filter']) ?: null;
 				$column->minlength = intval(trim($tag['minlength']), 10);
 				$column->maxlength = intval(trim($tag['maxlength']), 10);
@@ -184,7 +185,7 @@ class DBQueryParser
 		}
 		
 		// Check the ON DUPLICATE KEY UPDATE (upsert) flag.
-		if ($query->type === 'INSERT' && $update_duplicate = trim($xml['update_duplicate'] ?: $xml['update-duplicate']))
+		if ($query->type === 'INSERT' && $update_duplicate = $attribs['updateduplicate'])
 		{
 			if (toBool($update_duplicate))
 			{
@@ -207,26 +208,27 @@ class DBQueryParser
 		$result = array();
 		foreach ($parent->children() as $tag)
 		{
+			$attribs = self::_getAttributes($tag);
 			$name = $tag->getName();
 			if ($name === 'condition')
 			{
 				$cond = new DBQuery\Condition;
-				$cond->operation = trim($tag['operation']);
-				$cond->column = trim($tag['column']);
-				$cond->var = trim($tag['var']) ?: null;
-				$cond->default = trim($tag['default']) ?: null;
-				$cond->not_null = trim($tag['notnull'] ?: $tag['not-null']) !== '' ? true : false;
-				$cond->filter = trim($tag['filter']) ?: null;
-				$cond->minlength = intval(trim($tag['minlength']), 10);
-				$cond->maxlength = intval(trim($tag['maxlength']), 10);
-				$cond->pipe = strtoupper($tag['pipe']) ?: 'AND';
+				$cond->operation = $attribs['operation'];
+				$cond->column = $attribs['column'];
+				$cond->var = $attribs['var'] ?? null;
+				$cond->default = $attribs['default'] ?? null;
+				$cond->not_null = $attribs['notnull'] ? true : false;
+				$cond->filter = $attribs['filter'] ?? null;
+				$cond->minlength = intval($attribs['minlength'], 10);
+				$cond->maxlength = intval($attribs['maxlength'], 10);
+				$cond->pipe = strtoupper($attribs['pipe']) ?: 'AND';
 				$result[] = $cond;
 			}
 			elseif ($name === 'group')
 			{
 				$group = new DBQuery\ConditionGroup;
 				$group->conditions = self::_parseConditions($tag);
-				$group->pipe = strtoupper($tag['pipe']) ?: 'AND';
+				$group->pipe = strtoupper($attribs['pipe']) ?: 'AND';
 				$result[] = $group;
 			}
 			elseif ($name === 'query')

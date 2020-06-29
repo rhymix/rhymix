@@ -5,7 +5,7 @@ namespace Rhymix\Framework\Parsers;
 /**
  * DB table parser class for XE compatibility.
  */
-class DBTableParser
+class DBTableParser extends BaseParser
 {
 	/**
 	 * Mapping for XE-compatible types.
@@ -95,29 +95,31 @@ class DBTableParser
 				$column->size = null;
 			}
 			
+			// Get all attributes.
+			$attribs = self::_getAttributes($column_info);
+			
 			// Get the utf8mb4 attribute.
-			if (isset($column_info['utf8mb4']))
+			if (isset($attribs['utf8mb4']))
 			{
-				$column->utf8mb4 = toBool(strval($column_info['utf8mb4']));
+				$column->utf8mb4 = toBool($attribs['utf8mb4']);
 			}
 			
 			// Get the default value.
-			if (isset($column_info['default']))
+			if (isset($attribs['default']))
 			{
-				$column->default_value = strval($column_info['default']);
+				$column->default_value = $attribs['default'];
 			}
 			
 			// Get the NOT NULL attribute.
-			if (isset($column_info['notnull']) || isset($column_info['not-null']))
+			if (isset($attribs['notnull']))
 			{
-				$attr = strval($column_info['notnull'] ?: $column_info['not-null']);
-				$column->not_null = ($attr === 'notnull' || $attr === 'not-null' || toBool($attr));
+				$column->not_null = true;
 			}
 			
 			// Get index information.
-			if (isset($column_info['index']))
+			if (isset($attribs['index']))
 			{
-				$index_name = strval($column_info['index']);
+				$index_name = $attribs['index'];
 				if (!isset($table->indexes[$index_name]))
 				{
 					$table->indexes[$index_name] = new DBTable\Index;
@@ -126,9 +128,9 @@ class DBTableParser
 				$table->indexes[$index_name]->columns[$column->name] = 0;
 				$column->is_indexed = true;
 			}
-			if (isset($column_info['unique']))
+			if (isset($attribs['unique']))
 			{
-				$index_name = strval($column_info['unique']);
+				$index_name = $attribs['unique'];
 				if (!isset($table->indexes[$index_name]))
 				{
 					$table->indexes[$index_name] = new DBTable\Index;
@@ -141,26 +143,18 @@ class DBTableParser
 			}
 			
 			// Get primary key information.
-			if (isset($column_info['primary_key']) || isset($column_info['primary-key']))
+			if (isset($attribs['primarykey']) && toBool($attribs['primarykey']))
 			{
-				$attr = strval($column_info['primary_key'] ?: $column_info['primary-key']);
-				if ($attr === 'primary_key' || $attr === 'primary-key' || toBool($attr))
-				{
-					$table->primary_key[] = $column->name;
-					$column->is_indexed = true;
-					$column->is_unique = true;
-					$column->is_primary_key = true;
-				}
+				$table->primary_key[] = $column->name;
+				$column->is_indexed = true;
+				$column->is_unique = true;
+				$column->is_primary_key = true;
 			}
 			
 			// Get auto-increment information.
-			if (isset($column_info['auto_increment']) || isset($column_info['auto-increment']))
+			if (isset($attribs['autoincrement']) && toBool($attribs['autoincrement']))
 			{
-				$attr = strval($column_info['auto_increment'] ?: $column_info['auto-increment']);
-				if ($attr === 'auto_increment' || $attr === 'auto-increment' || toBool($attr))
-				{
-					$column->auto_increment = true;
-				}
+				$column->auto_increment = true;
 			}			
 			
 			// Add the column to the table definition.
@@ -170,9 +164,10 @@ class DBTableParser
 		// Load indexes.
 		foreach ($xml->index as $index_info)
 		{
+			$index_info = self::_getAttributes($index_info);
 			$index = new DBTable\Index;
-			$index->name = strval($index_info['name']);
-			$idxcolumns = array_map('trim', explode(',', strval($index_info['columns'])));
+			$index->name = $index_info['name'];
+			$idxcolumns = array_map('trim', explode(',', $index_info['columns'] ?? $index_info['column']));
 			foreach ($idxcolumns as $idxcolumn)
 			{
 				if (preg_match('/^(\S+)\s*\(([0-9]+)\)$/', $idxcolumn, $matches))
@@ -185,7 +180,7 @@ class DBTableParser
 					$index->columns[$idxcolumn] = 0;
 				}
 			}
-			$index->is_unique = ($index_info['unique'] === 'unique' || toBool(strval($index_info['unique'])));
+			$index->is_unique = toBool($index_info['unique'] ?? '');
 			if (isset($table->columns[$idxcolumn]) && is_object($table->columns[$idxcolumn]))
 			{
 				$table->columns[$idxcolumn]->is_indexed = true;
@@ -197,13 +192,14 @@ class DBTableParser
 		// Load other constraints (foreign keys).
 		foreach ($xml->constraint as $const_info)
 		{
+			$const_info = self::_getAttributes($const_info);
 			$constraint = new DBTable\Constraint;
-			$constraint->type = strtolower($const_info['type']);
-			$constraint->column = strval($const_info['column']) ?: null;
-			$constraint->references = strval($const_info['references']) ?: null;
-			$constraint->condition = strval($const_info['condition']) ?: null;
-			$constraint->on_delete = (strtolower($const_info['on_delete'] ?: $const_info['on-delete'])) ?: $constraint->on_delete;
-			$constraint->on_update = (strtolower($const_info['on_update'] ?: $const_info['on-update'])) ?: $constraint->on_update;
+			$constraint->type = strtoupper($const_info['type']);
+			$constraint->column = $const_info['column'] ?: null;
+			$constraint->references = $const_info['references'] ?: null;
+			$constraint->condition = $const_info['condition'] ?: null;
+			$constraint->on_delete = $const_info['ondelete'] ?: $constraint->on_delete;
+			$constraint->on_update = $const_info['onupdate'] ?: $constraint->on_update;
 			$table->constraints[] = $constraint;
 		}
 		
