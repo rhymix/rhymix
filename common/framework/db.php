@@ -132,14 +132,14 @@ class DB
 	 * @param string $query_string
 	 * @return \PDOStatement
 	 */
-	public function prepare(string $query_string): \PDOStatement
+	public function prepare(string $query_string)
 	{
 		// Add table prefixes to the query string.
 		$query_string = $this->addPrefixes($query_string);
 		
 		// Create and return a prepared statement.
-		$stmt = $this->_handle->prepare($query_string);
-		return $stmt;
+		$this->_last_stmt = $this->_handle->prepare($query_string);
+		return $this->_last_stmt;
 	}
 	
 	/**
@@ -149,7 +149,7 @@ class DB
 	 * @param mixed ...$args
 	 * @return \PDOStatement
 	 */
-	public function query(string $query_string, ...$args): \PDOStatement
+	public function query(string $query_string, ...$args)
 	{
 		// If query parameters are given as a single array, unpack it.
 		if (count($args) === 1 && is_array($args[0]))
@@ -167,12 +167,12 @@ class DB
 			$query_start_time = microtime(true);
 			if (count($args))
 			{
-				$stmt = $this->_handle->prepare($query_string);
-				$stmt->execute($args);
+				$this->_last_stmt = $this->_handle->prepare($query_string);
+				$this->_last_stmt->execute($args);
 			}
 			else
 			{
-				$stmt = $this->_handle->query($query_string);
+				$this->_last_stmt = $this->_handle->query($query_string);
 			}
 			$this->clearError();
 			$query_elapsed_time = microtime(true) - $query_start_time;
@@ -188,7 +188,7 @@ class DB
 		}
 		
 		$this->_total_time += (microtime(true) - $class_start_time);
-		return $stmt;
+		return $this->_last_stmt;
 	}
 	
 	/**
@@ -634,7 +634,16 @@ class DB
 	 */
 	public function isTableExists(string $table_name): bool
 	{
-		return true;
+		$stmt = $this->_query(sprintf("SHOW TABLES LIKE %s", $this->addQuotes($this->_prefix . $table_name)));
+		$result = $this->_fetch($stmt);
+		if ($result)
+		{
+			return true;
+		}
+		else
+		{
+			return false;
+		}
 	}
 	
 	/**
