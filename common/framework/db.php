@@ -648,12 +648,14 @@ class DB
 	 */
 	public function createTable(string $filename = '', string $content = ''): \BaseObject
 	{
+		// Get the table definition from DBTableParser.
 		$table = Parsers\DBTableParser::loadXML($filename, $content);
 		if (!$table)
 		{
 			return $this->setError(-1, 'Table creation failed.');
 		}
 		
+		// Generate the CREATE TABLE query and execute it.
 		$query_string = $table->getCreateQuery($this->_prefix, $this->_charset, $this->_engine);
 		$stmt = $this->_query($query_string);
 		return $stmt ? new \BaseObject : $this->getError();
@@ -699,24 +701,98 @@ class DB
 	 */
 	public function addColumn(string $table_name, string $column_name, string $type = 'number', $size = null, $default = null, $notnull = false, $after_column = null): \BaseObject
 	{
-		// TODO
-		return new \BaseObject;
+		// Normalize the type and size.
+		list($type, $xetype, $size) = Parsers\DBTableParser::getTypeAndSize($type, strval($size));
+		
+		// Compose the ADD COLUMN query.
+		$query = sprintf("ALTER TABLE `%s` ADD COLUMN `%s` ", $this->addQuotes($this->_prefix . $table_name), $this->addQuotes($column_name));
+		$query .= $size ? sprintf('%s(%s)', $type, $size) : $type;
+		$query .= $notnull ? ' NOT NULL' : '';
+		
+		// Add the default value according to the type.
+		if (isset($default))
+		{
+			if (contains('int', $type, false) && is_numeric($default))
+			{
+				$query .= sprintf(" DEFAULT %s", $default);
+			}
+			else
+			{
+				$query .= sprintf(" DEFAULT '%s'", $this->addQuotes($default));
+			}
+		}
+		
+		// Add position information.
+		if ($after_column === 'FIRST')
+		{
+			$query .= ' FIRST';
+		}
+		elseif ($after_column)
+		{
+			$query .= sprintf(' AFTER `%s`', $this->addQuotes($after_column));
+		}
+		
+		// Execute the query and return the result.
+		$stmt = $this->_query($query);
+		return $stmt ? new \BaseObject : $this->getError();
 	}
 	
 	/**
 	 * Modify a column.
 	 * 
 	 * @param string $table_name
+	 * @param string $column_name
 	 * @param string $type
 	 * @param string $size
 	 * @param mixed $default
 	 * @param bool $notnull
+	 * @param string $after_column
+	 * @param string $new_name
 	 * @return BaseObject
 	 */
-	public function modifyColumn(string $table_name, string $column_name, string $type = 'number', $size = null, $default = null, $notnull = false): \BaseObject
+	public function modifyColumn(string $table_name, string $column_name, string $type = 'number', $size = null, $default = null, $notnull = false, $after_column = null, $new_name = null): \BaseObject
 	{
-		// TODO
-		return new \BaseObject;
+		// Normalize the type and size.
+		list($type, $xetype, $size) = Parsers\DBTableParser::getTypeAndSize($type, strval($size));
+		
+		// Compose the MODIFY COLUMN query.
+		if ($new_name && $new_name !== $column_name)
+		{
+			$query = sprintf("ALTER TABLE `%s` CHANGE `%s` `%s` ", $this->addQuotes($this->_prefix . $table_name), $this->addQuotes($column_name), $this->addQuotes($new_name));
+		}
+		else
+		{
+			$query = sprintf("ALTER TABLE `%s` MODIFY `%s` ", $this->addQuotes($this->_prefix . $table_name), $this->addQuotes($column_name));
+		}
+		$query .= $size ? sprintf('%s(%s)', $type, $size) : $type;
+		$query .= $notnull ? ' NOT NULL' : '';
+		
+		// Add the default value according to the type.
+		if (isset($default))
+		{
+			if (contains('int', $type, false) && is_numeric($default))
+			{
+				$query .= sprintf(" DEFAULT %s", $default);
+			}
+			else
+			{
+				$query .= sprintf(" DEFAULT '%s'", $this->addQuotes($default));
+			}
+		}
+		
+		// Add position information.
+		if ($after_column === 'FIRST')
+		{
+			$query .= ' FIRST';
+		}
+		elseif ($after_column)
+		{
+			$query .= sprintf(' AFTER `%s`', $this->addQuotes($after_column));
+		}
+		
+		// Execute the query and return the result.
+		$stmt = $this->_query($query);
+		return $stmt ? new \BaseObject : $this->getError();
 	}
 	
 	/**

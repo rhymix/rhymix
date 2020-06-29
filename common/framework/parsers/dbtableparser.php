@@ -23,6 +23,7 @@ class DBTableParser extends BaseParser
 	protected static $_nosize_types = array(
 		'bigint' => true,
 		'int' => true,
+		'integer' => true,
 	);
 	
 	/**
@@ -66,34 +67,7 @@ class DBTableParser extends BaseParser
 			// Get the column name and type.
 			$column = new DBTable\Column;
 			$column->name = strval($column_info['name']);
-			$column->type = strval($column_info['type']);
-			
-			// Map XE-compatible types to database native types.
-			if (isset(self::$_xe_types[$column->type]))
-			{
-				$column->xetype = $column->type;
-				$column->type = self::$_xe_types[$column->type];
-			}
-			else
-			{
-				$column->xetype = $column->type;
-			}
-			
-			// Get the size.
-			if (preg_match('/^([a-z0-9_]+)\(([0-9,\s]+)\)$/i', $column->type, $matches))
-			{
-				$column->type = $matches[1];
-				$column->size = $matches[2];
-			}
-			if (isset($column_info['size']))
-			{
-				$column->size = strval($column_info['size']);
-			}
-			$column->size = implode(',', array_map('trim', explode(',', $column->size))) ?: null;
-			if (isset(self::$_nosize_types[$column->type]))
-			{
-				$column->size = null;
-			}
+			list($column->type, $column->xetype, $column->size) = self::getTypeAndSize(strval($column_info['type']), strval($column_info['size']));
 			
 			// Get all attributes.
 			$attribs = self::_getAttributes($column_info);
@@ -205,5 +179,70 @@ class DBTableParser extends BaseParser
 		
 		// Return the complete table definition.
 		return $table;
+	}
+	
+	/**
+	 * Get column type and size.
+	 * 
+	 * @param string $type
+	 * @param string $size
+	 * @return array
+	 */
+	public static function getTypeAndSize(string $type, string $size): array
+	{
+		// Map XE-compatible types to database native types.
+		if (isset(self::$_xe_types[$type]))
+		{
+			$xetype = $type;
+			$type = self::$_xe_types[$type];
+		}
+		else
+		{
+			$xetype = $type;
+		}
+		
+		// Extract and normalize the size.
+		if (preg_match('/^([a-z0-9_]+)\(([0-9,\s]+)\)$/i', $type, $matches))
+		{
+			$type = $matches[1];
+			$size = $matches[2];
+		}
+		$size = implode(',', array_map('trim', explode(',', $size))) ?: null;
+		if (isset(self::$_nosize_types[$type]))
+		{
+			$size = null;
+		}
+		
+		// Return a complete array.
+		return [$type, $xetype, $size];
+	}
+	
+	/**
+	 * Get the XE-compatible type from a real database type.
+	 * 
+	 * @param string $type
+	 * @param string $size
+	 * @return string
+	 */
+	public static function getXEType(string $type, string $size): string
+	{
+		switch ($type)
+		{
+			case 'bigint':
+				return 'bignumber';
+			case 'int':
+			case 'integer':
+				return 'number';
+			case 'longtext':
+				return 'bigtext';
+			case 'char':
+			case 'varchar':
+				if ($size == 14)
+				{
+					return 'date';
+				}
+			default:
+				return $type;
+		}
 	}
 }
