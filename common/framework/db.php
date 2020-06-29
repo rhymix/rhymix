@@ -813,12 +813,36 @@ class DB
 	 *
 	 * @param string $table_name
 	 * @param string $column_name
-	 * @return Parsers\DBTable\Column;
+	 * @return object
 	 */
-	public function getColumnInfo(string $table_name, string $column_name): Parsers\DBTable\Column
+	public function getColumnInfo(string $table_name, string $column_name)
 	{
-		// TODO
-		return new Parsers\DBTable\Column;
+		// If column information is not found, return false.
+		$stmt = $this->_query(sprintf("SHOW FIELDS FROM `%s` WHERE Field = '%s'", $this->addQuotes($this->_prefix . $table_name), $this->addQuotes($column_name)));
+		$column_info = $this->_fetch($stmt);
+		if (!$column_info)
+		{
+			return false;
+		}
+		
+		// Reorganize the type information.
+		$dbtype = strtolower($column_info->{'Type'});
+		if (preg_match('/^([a-z0-9_]+)\(([0-9,\s]+)\)$/i', $dbtype, $matches))
+		{
+			$dbtype = $matches[1];
+			$size = $matches[2];
+		}
+		$xetype = Parsers\DBTableParser::getXEType($dbtype, $size ?: '');
+		
+		// Return the result as an object.
+		return (object)array(
+			'name' => $column_name,
+			'dbtype' => $dbtype,
+			'xetype' => $xetype,
+			'size' => $size,
+			'default_value' => $column_info->{'Default'},
+			'notnull' => strncmp($column_info->{'Null'}, 'NO', 2) == 0 ? true : false,
+		);
 	}
 	
 	/**

@@ -226,6 +226,7 @@ class DBTableParser extends BaseParser
 	 */
 	public static function getXEType(string $type, string $size): string
 	{
+		$type = strtolower($type);
 		switch ($type)
 		{
 			case 'bigint':
