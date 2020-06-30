@@ -82,9 +82,9 @@ class Table
 			foreach ($index->columns as $column_name => $prefix_size)
 			{
 				$column_info = $this->columns[$column_name];
-				$current_size = isset($adjusted_sizes[$column->name]) ? $adjusted_sizes[$column->name] : $column->size;
+				$current_size = isset($adjusted_sizes[$column_name]) ? $adjusted_sizes[$column_name] : $column_info->size;
 				$max_size = $column_info->utf8mb4 ? 191 : 255;
-				if (preg_match('/char/i', $column->type) && $current_size > $max_size)
+				if (preg_match('/char/i', $column_info->type) && $current_size > $max_size)
 				{
 					$prefix_size = $max_size;
 				}

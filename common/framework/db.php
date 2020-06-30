@@ -69,15 +69,21 @@ class DB
 			return self::$_instances[$type];
 		}
 		
-		// Check if configuration exists for the selected DB type.
-		$config = Config::get('db.' . $type) ?: array();
-		if (!count($config))
+		// Create an instance with the appropriate configuration.
+		if ($config = Config::get('db'))
 		{
-			throw new Exceptions\DBError('DB type \'' . $type . '\' is not configured.');
+			$typeconfig = isset($config[$type]) ? $config[$type] : [];
+			if (!count($typeconfig))
+			{
+				throw new Exceptions\DBError('DB type \'' . $type . '\' is not configured.');
+			}
+			
+			return self::$_instances[$type] = new self($type, $typeconfig);
 		}
-		
-		// Create an instance and return it.
-		return self::$_instances[$type] = new self($type, $config);
+		else
+		{
+			return new self($type, []);
+		}
 	}
    
 	/**
@@ -93,6 +99,10 @@ class DB
 		$this->_prefix = $config['prefix'] ?: $this->_prefix;
 		$this->_charset = $config['charset'] ?: $this->_charset;
 		$this->_engine = $config['engine'] ?: $this->_engine;
+		if (!count($config))
+		{
+			return;
+		}
 		
 		// Connect to the DB.
 		$dsn = 'mysql:host=' . $config['host'];
@@ -211,6 +221,10 @@ class DB
 		if (!is_array($args))
 		{
 			return $this->setError(-1, 'Invalid query arguments.');
+		}
+		if (!$this->_handle)
+		{
+			return $this->setError(-1, 'DB is not configured.');
 		}
 		
 		// Force the column list to a numerical array.
@@ -427,7 +441,7 @@ class DB
 	 * @param string $query_string
 	 * @return Helpers\DBStmtHelper
 	 */
-	public function _query(string $query_string)
+	public function _query($query_string)
 	{
 		$this->_last_stmt = $this->_handle->query($query_string);
 		return $this->_last_stmt;
@@ -441,10 +455,15 @@ class DB
 	 * 
 	 * @param \PDOStatement $stmt
 	 * @param int $last_index
-	 * @return array|object
+	 * @return mixed
 	 */
-	public function _fetch(\PDOStatement $stmt, int $last_index = 0)
+	public function _fetch($stmt, $last_index = 0)
 	{
+		if (!($stmt instanceof \PDOStatement))
+		{
+			return null;
+		}
+		
 		$result = array();
 		$index = $last_index;
 		$step = $last_index !== 0 ? -1 : 1;
