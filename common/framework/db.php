@@ -101,15 +101,17 @@ class DB
 		$options = array(
 			\PDO::ATTR_ERRMODE => \PDO::ERRMODE_EXCEPTION,
 			\PDO::ATTR_EMULATE_PREPARES => false,
+			\PDO::ATTR_STATEMENT_CLASS => array('\Rhymix\Framework\Helpers\DBStmtHelper'),
 			\PDO::MYSQL_ATTR_USE_BUFFERED_QUERY => false,
 		);
 		try
 		{
-			$this->_handle = new \PDO($dsn, $config['user'], $config['pass'], $options);
+			$this->_handle = new Helpers\DBHelper($dsn, $config['user'], $config['pass'], $options);
+			$this->_handle->setType($type);
 		}
 		catch (\PDOException $e)
 		{
-			throw new Exceptions\DBError($e->getMessage(), $e->getCode(), $e);
+			throw new Exceptions\DBError($e->getMessage(), 0, $e);
 		}
 		
 		// Get the DB version.
@@ -117,11 +119,11 @@ class DB
 	}
 	
 	/**
-	 * Get the raw PDO handle.
+	 * Get the PDO handle for direct manipulation.
 	 * 
-	 * @return PDO
+	 * @return Helpers\DBHelper
 	 */
-	public function getHandle(): \PDO
+	public function getHandle(): Helpers\DBHelper
 	{
 		return $this->_handle;
 	}
@@ -129,25 +131,37 @@ class DB
 	/**
 	 * Create a prepared statement.
 	 * 
-	 * @param string $query_string
-	 * @return \PDOStatement
+	 * Table names in the FROM or JOIN clause of the statement are
+	 * automatically prefixed with the configured prefix.
+	 * 
+	 * @param string $statement
+	 * @param array $driver_options
+	 * @return Helpers\DBStmtHelper
 	 */
-	public function prepare(string $query_string)
+	public function prepare(string $statement, array $driver_options = [])
 	{
 		// Add table prefixes to the query string.
-		$query_string = $this->addPrefixes($query_string);
+		$statement = $this->addPrefixes($statement);
 		
 		// Create and return a prepared statement.
-		$this->_last_stmt = $this->_handle->prepare($query_string);
+		$this->_last_stmt = $this->_handle->prepare($statement, $driver_options);
 		return $this->_last_stmt;
 	}
 	
 	/**
-	 * Execute a query string.
+	 * Execute a query string with or without parameters.
+	 * 
+	 * This method will automatically use prepared statements if there are
+	 * any parameters. It is strongly recommended to pass any user-supplied
+	 * values as separate parameters instead of embedding them directly
+	 * in the query string, in order to prevent SQL injection attacks.
+	 * 
+	 * Table names in the FROM or JOIN clause of the statement are
+	 * automatically prefixed with the configured prefix.
 	 * 
 	 * @param string $query_string
 	 * @param mixed ...$args
-	 * @return \PDOStatement
+	 * @return Helpers\DBStmtHelper
 	 */
 	public function query(string $query_string, ...$args)
 	{
@@ -158,36 +172,18 @@ class DB
 		}
 		
 		// Add table prefixes to the query string.
-		$class_start_time = microtime(true);
 		$query_string = $this->addPrefixes($query_string);
 		
 		// Execute either a prepared statement or a regular query depending on whether there are arguments.
-		try
+		if (count($args))
 		{
-			$query_start_time = microtime(true);
-			if (count($args))
-			{
-				$this->_last_stmt = $this->_handle->prepare($query_string);
-				$this->_last_stmt->execute($args);
-			}
-			else
-			{
-				$this->_last_stmt = $this->_handle->query($query_string);
-			}
-			$this->clearError();
-			$query_elapsed_time = microtime(true) - $query_start_time;
-			$this->_query_time += $query_elapsed_time;
-			Debug::addQuery($this->getQueryLog($query_string, '', $query_elapsed_time));
+			$this->_last_stmt = $this->_handle->prepare($query_string);
+			$this->_last_stmt->execute($args);
 		}
-		catch (\PDOException $e)
+		else
 		{
-			$this->setError($e->getCode(), $e->getMessage());
-			$query_elapsed_time = microtime(true) - $query_start_time;
-			$this->_query_time += $query_elapsed_time;
-			Debug::addQuery($this->getQueryLog($query_string, '', $query_elapsed_time));
+			$this->_last_stmt = $this->_handle->query($query_string);
 		}
-		
-		$this->_total_time += (microtime(true) - $class_start_time);
 		return $this->_last_stmt;
 	}
 	
@@ -207,6 +203,10 @@ class DB
 		{
 			$args = get_object_vars($args);
 		}
+		if (is_null($args))
+		{
+			$args = array();
+		}
 		if (!is_array($args))
 		{
 			return $this->setError(-1, 'Invalid query arguments.');
@@ -216,7 +216,7 @@ class DB
 		$column_list = is_array($column_list) ? array_values($column_list) : array();
 		
 		// Start measuring elapsed time.
-		$class_start_time = microtime(true);
+		$start_time = microtime(true);
 		
 		// Get the name of the XML file.
 		$parts = explode('.', $query_id);
@@ -229,7 +229,7 @@ class DB
 		{
 			$output = $this->setError(-1, 'Query \'' . $query_id . '\' does not exist.');
 			$output->page_navigation = new \PageHandler(0, 0, 0);
-			$this->_total_time += (microtime(true) - $class_start_time);
+			$this->_total_time += (microtime(true) - $start_time);
 			return $output;
 		}
 		
@@ -247,7 +247,7 @@ class DB
 			{
 				$output = $this->setError(-1, 'Query \'' . $query_id . '\' cannot be parsed.');
 				$output->page_navigation = new \PageHandler(0, 0, 0);
-				$this->_total_time += (microtime(true) - $class_start_time);
+				$this->_total_time += (microtime(true) - $start_time);
 				return $output;
 			}
 		}
@@ -262,7 +262,7 @@ class DB
 		{
 			$output = $this->setError(-1, $e->getMessage());
 			$output->page_navigation = new \PageHandler(0, 0, 0);
-			$this->_total_time += (microtime(true) - $class_start_time);
+			$this->_total_time += (microtime(true) - $start_time);
 			return $output;
 		}
 		
@@ -274,7 +274,7 @@ class DB
 			if (!$output->toBool())
 			{
 				$output->page_navigation = new \PageHandler(0, 0, 0);
-				$this->_total_time += (microtime(true) - $class_start_time);
+				$this->_total_time += (microtime(true) - $start_time);
 				return $output;
 			}
 			
@@ -284,7 +284,7 @@ class DB
 				$output->add('_query', $query_string);
 				$output->add('_elapsed_time', '0.00000');
 				$output->page_navigation = new \PageHandler(0, 0, 0);
-				$this->_total_time += (microtime(true) - $class_start_time);
+				$this->_total_time += (microtime(true) - $start_time);
 				return $output;
 			}
 		}
@@ -296,7 +296,6 @@ class DB
 		// Prepare and execute the main query.
 		try
 		{
-			$query_start_time = microtime(true);
 			if (count($query_params))
 			{
 				$this->_last_stmt = $this->_handle->prepare($query_string);
@@ -307,30 +306,21 @@ class DB
 				$this->_last_stmt = $this->_handle->query($query_string);
 			}
 			$result = $this->_fetch($this->_last_stmt, $last_index);
-			$query_elapsed_time = microtime(true) - $query_start_time;
-			$this->_query_time += $query_elapsed_time;
-			Debug::addQuery($this->getQueryLog($query_string, $query_id, $query_elapsed_time));
 		}
-		catch (\PDOException $e)
+		catch (Exceptions\DBError $e)
 		{
-			$query_elapsed_time = microtime(true) - $query_start_time;
-			$this->_query_time += $query_elapsed_time;
-			$output = $this->setError(-1, $e->getMessage());
 			$output->add('_query', $query_string);
 			$output->add('_elapsed_time', '0.00000');
 			$output->page_navigation = new \PageHandler(0, 0, 0);
-			Debug::addQuery($this->getQueryLog($query_string, $query_id, $query_elapsed_time));
-			$this->_total_time += (microtime(true) - $class_start_time);
+			$this->_total_time += (microtime(true) - $start_time);
 			return $output;
 		}
 		
 		// Fill query information and result data in the output object.
+		$this->_total_time += ($elapsed_time = microtime(true) - $start_time);
 		$output->add('_query', $query_string);
-		$output->add('_elapsed_time', sprintf('%0.5f', $query_elapsed_time));
+		$output->add('_elapsed_time', sprintf('%0.5f', $elapsed_time));
 		$output->data = $result;
-		
-		// Record statistics about this query and elapsed time.
-		$this->_total_time += (microtime(true) - $class_start_time);
 		
 		// Return the complete result.
 		$this->clearError();
@@ -362,7 +352,6 @@ class DB
 		// Prepare and execute the query.
 		try
 		{
-			$query_start_time = microtime(true);
 			if (count($query_params))
 			{
 				$this->_last_stmt = $this->_handle->prepare($query_string);
@@ -373,16 +362,10 @@ class DB
 				$this->_last_stmt = $this->_handle->query($query_string);
 			}
 			$result = $this->_fetch($this->_last_stmt);
-			$query_elapsed_time = microtime(true) - $query_start_time;
-			$this->_query_time += $query_elapsed_time;
-			Debug::addQuery($this->getQueryLog($query_string, $query_id . ' (count)', $query_elapsed_time));
 		}
-		catch (\PDOException $e)
+		catch (Exceptions\DBError $e)
 		{
-			$query_elapsed_time = microtime(true) - $query_start_time;
-			$this->_query_time += $query_elapsed_time;
 			$output = $this->setError(-1, $e->getMessage());
-			Debug::addQuery($this->getQueryLog($query_string, $query_id . ' (count)', $query_elapsed_time));
 			return $output;
 		}
 		
@@ -412,29 +395,11 @@ class DB
 	 * But since there are many legacy apps that rely on it, we will leave it public.
 	 * 
 	 * @param string $query_string
-	 * @return \PDOStatement
+	 * @return Helpers\DBStmtHelper
 	 */
 	public function _query(string $query_string)
 	{
-		try
-		{
-			$query_start_time = microtime(true);
-			$this->_last_stmt = $this->_handle->query($query_string);
-			$this->clearError();
-			$query_elapsed_time = microtime(true) - $query_start_time;
-			$this->_query_time += $query_elapsed_time;
-			$this->_total_time += $query_elapsed_time;
-			Debug::addQuery($this->getQueryLog($query_string, '', $query_elapsed_time));
-		}
-		catch (\PDOException $e)
-		{
-			$this->setError($e->getCode(), $e->getMessage());
-			$query_elapsed_time = microtime(true) - $query_start_time;
-			$this->_query_time += $query_elapsed_time;
-			$this->_total_time += $query_elapsed_time;
-			Debug::addQuery($this->getQueryLog($query_string, '', $query_elapsed_time));
-		}
-		
+		$this->_last_stmt = $this->_handle->query($query_string);
 		return $this->_last_stmt;
 	}
 	
@@ -488,7 +453,7 @@ class DB
 			}
 			catch (\PDOException $e)
 			{
-				$this->setError($e->getCode(), $e->getMessage());
+				$this->setError(-1, $e->getMessage());
 			}
 			Debug::addQuery($this->getQueryLog('START TRANSACTION', '', 0));
 		}
@@ -512,7 +477,7 @@ class DB
 			}
 			catch (\PDOException $e)
 			{
-				$this->setError($e->getCode(), $e->getMessage());
+				$this->setError(-1, $e->getMessage());
 			}
 			Debug::addQuery($this->getQueryLog('ROLLBACK', '', 0));
 		}
@@ -536,7 +501,7 @@ class DB
 			}
 			catch (\PDOException $e)
 			{
-				$this->setError($e->getCode(), $e->getMessage());
+				$this->setError(-1, $e->getMessage());
 			}
 			Debug::addQuery($this->getQueryLog('COMMIT', '', 0));
 		}
@@ -569,26 +534,16 @@ class DB
 	 */
 	public function getNextSequence()
 	{
-		try
+		$this->_handle->exec(sprintf('INSERT INTO `sequence` (seq) VALUES (0)'));
+		$sequence = $this->getInsertID();
+		if ($this->isError())
 		{
-			$this->_handle->exec(sprintf('INSERT INTO `sequence` (seq) VALUES (0)'));
-			$sequence = $this->getInsertID();
-		}
-		catch (\PDOException $e)
-		{
-			throw new Exceptions\DBError($e->getMessage(), $e->getCode(), $e);
+			throw new Exceptions\DBError($this->getError()->getMessage());
 		}
 		
 		if($sequence % 10000 == 0)
 		{
-			try
-			{
-				$this->_handle->exec(sprintf('DELETE FROM `sequence` WHERE seq < %d', $sequence));
-			}
-			catch (\PDOException $e)
-			{
-				$this->setError($e->getCode(), $e->getMessage());
-			}
+			$this->_handle->exec(sprintf('DELETE FROM `sequence` WHERE seq < %d', $sequence));
 		}
 		
 		$this->clearError();
@@ -604,15 +559,10 @@ class DB
 	 */
 	public function isValidOldPassword(string $password, string $saved_password): bool
 	{
-		try
+		$stmt = $this->_handle->query('SELECT' . ' ' . 'PASSWORD(?) AS pw1, OLD_PASSWORD(?) AS pw2', $password, $password);
+		$result = $this->_fetch($stmt);
+		if ($this->isError() || !$result)
 		{
-			$stmt = $this->query('SELECT' . ' ' . 'PASSWORD(?) AS pw1, OLD_PASSWORD(?) AS pw2', $password, $password);
-			$result = $this->_fetch($stmt);
-			$this->clearError();
-		}
-		catch (\PDOException $e)
-		{
-			$this->setError($e->getCode(), $e->getMessage());
 			return false;
 		}
 		
@@ -634,7 +584,7 @@ class DB
 	 */
 	public function isTableExists(string $table_name): bool
 	{
-		$stmt = $this->_query(sprintf("SHOW TABLES LIKE '%s'", $this->addQuotes($this->_prefix . $table_name)));
+		$stmt = $this->_handle->query(sprintf("SHOW TABLES LIKE '%s'", $this->addQuotes($this->_prefix . $table_name)));
 		$result = $this->_fetch($stmt);
 		return $result ? true : false;
 	}
@@ -657,8 +607,8 @@ class DB
 		
 		// Generate the CREATE TABLE query and execute it.
 		$query_string = $table->getCreateQuery($this->_prefix, $this->_charset, $this->_engine);
-		$stmt = $this->_query($query_string);
-		return $stmt ? new \BaseObject : $this->getError();
+		$result = $this->_handle->exec($query_string);
+		return $result ? new \BaseObject : $this->getError();
 	}
 	
 	/**
@@ -669,7 +619,7 @@ class DB
 	 */
 	public function dropTable(string $table_name): \BaseObject
 	{
-		$stmt = $this->_query(sprintf("DROP TABLE `%s`", $this->addQuotes($this->_prefix . $table_name)));
+		$stmt = $this->_handle->exec(sprintf("DROP TABLE `%s`", $this->addQuotes($this->_prefix . $table_name)));
 		return $stmt ? new \BaseObject : $this->getError();
 	}
 	
@@ -682,7 +632,7 @@ class DB
 	 */
 	public function isColumnExists(string $table_name, string $column_name): bool
 	{
-		$stmt = $this->_query(sprintf("SHOW FIELDS FROM `%s` WHERE Field = '%s'", $this->addQuotes($this->_prefix . $table_name), $this->addQuotes($column_name)));
+		$stmt = $this->_handle->query(sprintf("SHOW FIELDS FROM `%s` WHERE Field = '%s'", $this->addQuotes($this->_prefix . $table_name), $this->addQuotes($column_name)));
 		$result = $this->_fetch($stmt);
 		return $result ? true : false;
 	}
@@ -733,8 +683,8 @@ class DB
 		}
 		
 		// Execute the query and return the result.
-		$stmt = $this->_query($query);
-		return $stmt ? new \BaseObject : $this->getError();
+		$result = $this->_handle->exec($query);
+		return $result ? new \BaseObject : $this->getError();
 	}
 	
 	/**
@@ -791,8 +741,8 @@ class DB
 		}
 		
 		// Execute the query and return the result.
-		$stmt = $this->_query($query);
-		return $stmt ? new \BaseObject : $this->getError();
+		$result = $this->_handle->exec($query);
+		return $result ? new \BaseObject : $this->getError();
 	}
 	
 	/**
@@ -804,8 +754,8 @@ class DB
 	 */
 	public function dropColumn(string $table_name, string $column_name): \BaseObject
 	{
-		$stmt = $this->_query(sprintf("ALTER TABLE `%s` DROP `%s`", $this->addQuotes($this->_prefix . $table_name), $this->addQuotes($column_name)));
-		return $stmt ? new \BaseObject : $this->getError();
+		$result = $this->_handle->exec(sprintf("ALTER TABLE `%s` DROP `%s`", $this->addQuotes($this->_prefix . $table_name), $this->addQuotes($column_name)));
+		return $result ? new \BaseObject : $this->getError();
 	}
 	
 	/**
@@ -818,7 +768,7 @@ class DB
 	public function getColumnInfo(string $table_name, string $column_name)
 	{
 		// If column information is not found, return false.
-		$stmt = $this->_query(sprintf("SHOW FIELDS FROM `%s` WHERE Field = '%s'", $this->addQuotes($this->_prefix . $table_name), $this->addQuotes($column_name)));
+		$stmt = $this->_handle->query(sprintf("SHOW FIELDS FROM `%s` WHERE Field = '%s'", $this->addQuotes($this->_prefix . $table_name), $this->addQuotes($column_name)));
 		$column_info = $this->_fetch($stmt);
 		if (!$column_info)
 		{
@@ -854,7 +804,7 @@ class DB
 	 */
 	public function isIndexExists(string $table_name, string $index_name): bool
 	{
-		$stmt = $this->_query(sprintf("SHOW INDEX FROM `%s` WHERE Key_name = '%s'", $this->addQuotes($this->_prefix . $table_name), $this->addQuotes($index_name)));
+		$stmt = $this->_handle->query(sprintf("SHOW INDEX FROM `%s` WHERE Key_name = '%s'", $this->addQuotes($this->_prefix . $table_name), $this->addQuotes($index_name)));
 		$result = $this->_fetch($stmt);
 		return $result ? true : false;
 	}
@@ -891,8 +841,8 @@ class DB
 			}, $columns)),
 		));
 		
-		$stmt = $this->_query($query);
-		return $stmt ? new \BaseObject : $this->getError();
+		$result = $this->_handle->exec($query);
+		return $result ? new \BaseObject : $this->getError();
 	}
 	
 	/**
@@ -904,8 +854,8 @@ class DB
 	 */
 	public function dropIndex(string $table_name, string $index_name): \BaseObject
 	{
-		$stmt = $this->_query(sprintf("ALTER TABLE `%s` DROP INDEX `%s`", $this->addQuotes($this->_prefix . $table_name), $this->addQuotes($index_name)));
-		return $stmt ? new \BaseObject : $this->getError();
+		$result = $this->_handle->exec(sprintf("ALTER TABLE `%s` DROP INDEX `%s`", $this->addQuotes($this->_prefix . $table_name), $this->addQuotes($index_name)));
+		return $result ? new \BaseObject : $this->getError();
 	}
 	
 	/**
@@ -1054,7 +1004,7 @@ class DB
 			$backtrace = debug_backtrace(\DEBUG_BACKTRACE_IGNORE_ARGS);
 			foreach ($backtrace as $no => $call)
 			{
-				if ($call['file'] !== __FILE__ && $call['file'] !== \RX_BASEDIR . 'common/legacy.php')
+				if (!preg_match('#/common/framework/(?:db|helpers)\b#', $call['file']) && $call['file'] !== \RX_BASEDIR . 'common/legacy.php')
 				{
 					$result['called_file'] = $backtrace[$no]['file'];
 					$result['called_line'] = $backtrace[$no]['line'];
@@ -1080,11 +1030,22 @@ class DB
 	}
 	
 	/**
+	 * Add elapsed time.
+	 * 
+	 * @param float $elapsed_time
+	 * @return void
+	 */
+	public function addElapsedTime(float $elapsed_time)
+	{
+		$this->_query_time += $elapsed_time;
+	}
+	
+	/**
 	 * Get total time spent during queries.
 	 * 
 	 * @return float
 	 */
-	public function getQueryElapsedTime()
+	public function getQueryElapsedTime(): float
 	{
 		return $this->_query_time;
 	}
@@ -1094,7 +1055,7 @@ class DB
 	 * 
 	 * @return float
 	 */
-	public function getTotalElapsedTime()
+	public function getTotalElapsedTime(): float
 	{
 		return $this->_total_time;
 	}
