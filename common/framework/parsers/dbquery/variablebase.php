@@ -33,7 +33,13 @@ class VariableBase
 		$params = array();
 		
 		// Process the variable or default value.
-		if ($this->var && Query::isValidVariable($args[$this->var]))
+		if ($this instanceof Query)
+		{
+			$is_expression = true;
+			$value = '(' . $this->getQueryString($prefix, $args) . ')';
+			$params = $this->getQueryParams();
+		}
+		elseif ($this->var && Query::isValidVariable($args[$this->var]))
 		{
 			$this->filterValue($args[$this->var]);
 			$is_expression = false;
@@ -42,12 +48,6 @@ class VariableBase
 		elseif ($this->default !== null)
 		{
 			list($is_expression, $value) = $this->getDefaultValue();
-		}
-		elseif ($this instanceof Query)
-		{
-			$is_expression = true;
-			$value = '(' . $this->getQueryString($prefix, $args) . ') AS ' . Query::quoteName($this->alias);
-			$params = $this->getQueryParams();
 		}
 		elseif ($this->not_null)
 		{
@@ -63,11 +63,11 @@ class VariableBase
 		
 		// Prepare the target value.
 		$list_ops = array('in' => true, 'notin' => true, 'not_in' => true, 'between' => true);
-		if (isset($list_ops[$this->operation]) && !is_array($value) && $value !== '')
+		if (isset($list_ops[$this->operation]) && !$is_expression && !is_array($value) && $value !== '')
 		{
 			$value = explode(',', preg_replace('/[\s\']/', '', $value));
 		}
-	
+		
 		// Apply the operator.
 		switch ($this->operation)
 		{
@@ -161,22 +161,36 @@ class VariableBase
 				$where = sprintf('%s IS NOT NULL', $column);
 				break;
 			case 'in':
-				$count = count($value);
-				$placeholders = implode(', ', array_fill(0, $count, '?'));
-				$where = sprintf('%s IN (%s)', $column, $placeholders);
-				foreach ($value as $item)
+				if ($is_expression)
 				{
-					$params[] = $item;
+					$where = sprintf('%s IN %s', $column, $value);
+				}
+				else
+				{
+					$count = count($value);
+					$placeholders = implode(', ', array_fill(0, $count, '?'));
+					$where = sprintf('%s IN (%s)', $column, $placeholders);
+					foreach ($value as $item)
+					{
+						$params[] = $item;
+					}
 				}
 				break;
 			case 'notin':
 			case 'not_in':
-				$count = count($value);
-				$placeholders = implode(', ', array_fill(0, $count, '?'));
-				$where = sprintf('%s NOT IN (%s)', $column, $placeholders);
-				foreach ($value as $item)
+				if ($is_expression)
 				{
-					$params[] = $item;
+					$where = sprintf('%s IN %s', $column, $value);
+				}
+				else
+				{
+					$count = count($value);
+					$placeholders = implode(', ', array_fill(0, $count, '?'));
+					$where = sprintf('%s NOT IN (%s)', $column, $placeholders);
+					foreach ($value as $item)
+					{
+						$params[] = $item;
+					}
 				}
 				break;
 			case 'between':
