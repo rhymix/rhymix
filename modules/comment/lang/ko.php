@@ -26,6 +26,7 @@ $lang->search_target_list['last_update'] = '최근수정일 ';
 $lang->search_target_list['ipaddress'] = 'IP 주소';
 $lang->search_target_list['is_secret'] = '상태';
 $lang->no_text_comment = '글자가 없는 댓글입니다.';
+$lang->no_text_document = '글자가 없는 게시글입니다.';
 $lang->secret_name_list['Y'] = '비밀';
 $lang->secret_name_list['N'] = '공개';
 $lang->published_name_list[0] = '대기';
