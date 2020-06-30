@@ -282,7 +282,7 @@ class VariableBase
 		{
 			return [true, Query::quoteName($this->default)];
 		}
-		elseif (isset($this->column) && preg_match('/_srl$/', $this->column) && !ctype_digit($this->default))
+		elseif (isset($this->column) && preg_match('/_srl$/', $this->column) && !is_numeric($this->default))
 		{
 			return [true, Query::quoteName($this->default)];
 		}

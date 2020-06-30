@@ -37,8 +37,9 @@ class DB
 	protected $_total_time = 0;
 	
 	/**
-	 * Error codes.
+	 * Current query ID and error information.
 	 */
+	protected $_query_id = '';
 	protected $_errno = 0;
 	protected $_errstr = '';
 	
@@ -270,10 +271,12 @@ class DB
 		$last_index = 0;
 		if ($query->requiresPagination())
 		{
+			$this->_query_id = $query_id . ' (count)';
 			$output = $this->_executeCountQuery($query_id, $query, $args, $last_index);
 			if (!$output->toBool())
 			{
 				$output->page_navigation = new \PageHandler(0, 0, 0);
+				$this->_query_id = '';
 				$this->_total_time += (microtime(true) - $start_time);
 				return $output;
 			}
@@ -284,6 +287,7 @@ class DB
 				$output->add('_query', $query_string);
 				$output->add('_elapsed_time', '0.00000');
 				$output->page_navigation = new \PageHandler(0, 0, 0);
+				$this->_query_id = '';
 				$this->_total_time += (microtime(true) - $start_time);
 				return $output;
 			}
@@ -296,6 +300,7 @@ class DB
 		// Prepare and execute the main query.
 		try
 		{
+			$this->_query_id = $query_id;
 			if (count($query_params))
 			{
 				$this->_last_stmt = $this->_handle->prepare($query_string);
@@ -312,6 +317,7 @@ class DB
 				$output->add('_query', $query_string);
 				$output->add('_elapsed_time', '0.00000');
 				$output->page_navigation = new \PageHandler(0, 0, 0);
+				$this->_query_id = '';
 				$this->_total_time += (microtime(true) - $start_time);
 				return $output;
 			}
@@ -322,14 +328,17 @@ class DB
 		}
 		catch (Exceptions\DBError $e)
 		{
+			$output = $this->setError(-1, $e->getMessage());
 			$output->add('_query', $query_string);
 			$output->add('_elapsed_time', '0.00000');
 			$output->page_navigation = new \PageHandler(0, 0, 0);
+			$this->_query_id = '';
 			$this->_total_time += (microtime(true) - $start_time);
 			return $output;
 		}
 		
 		// Fill query information and result data in the output object.
+		$this->_query_id = '';
 		$this->_total_time += ($elapsed_time = microtime(true) - $start_time);
 		$output->add('_query', $query_string);
 		$output->add('_elapsed_time', sprintf('%0.5f', $elapsed_time));
@@ -476,7 +485,7 @@ class DB
 			{
 				$this->setError(-1, $e->getMessage());
 			}
-			Debug::addQuery($this->getQueryLog('START TRANSACTION', '', 0));
+			Debug::addQuery($this->getQueryLog('START TRANSACTION', 0));
 		}
 		$this->_transaction_level++;
 		return $this->_transaction_level;
@@ -500,7 +509,7 @@ class DB
 			{
 				$this->setError(-1, $e->getMessage());
 			}
-			Debug::addQuery($this->getQueryLog('ROLLBACK', '', 0));
+			Debug::addQuery($this->getQueryLog('ROLLBACK', 0));
 		}
 		$this->_transaction_level--;
 		return $this->_transaction_level;
@@ -524,7 +533,7 @@ class DB
 			{
 				$this->setError(-1, $e->getMessage());
 			}
-			Debug::addQuery($this->getQueryLog('COMMIT', '', 0));
+			Debug::addQuery($this->getQueryLog('COMMIT', 0));
 		}
 		$this->_transaction_level--;
 		return $this->_transaction_level;
@@ -986,11 +995,10 @@ class DB
 	 * Generate a query log entry.
 	 * 
 	 * @param string $query
-	 * @param string $query_id
 	 * @param float $elapsed_time
 	 * @return array
 	 */
-	public function getQueryLog(string $query, string $query_id, float $elapsed_time): array
+	public function getQueryLog(string $query, float $elapsed_time): array
 	{
 		// Cache the debug status to improve performance.
 		static $debug_enabled = null;
@@ -1007,7 +1015,7 @@ class DB
 		// Compose the basic structure of the log entry.
 		$result = array(
 			'query' => $query,
-			'query_id' => $query_id,
+			'query_id' => $this->_query_id,
 			'connection' => $this->_type,
 			'elapsed_time' => sprintf('%0.5f', $elapsed_time),
 			'result' => 'success',
@@ -1029,6 +1037,7 @@ class DB
 				{
 					$result['called_file'] = $backtrace[$no]['file'];
 					$result['called_line'] = $backtrace[$no]['line'];
+					$no++;
 					$result['called_method'] = $backtrace[$no]['class'] . $backtrace[$no]['type'] . $backtrace[$no]['function'];
 					$result['backtrace'] = array_slice($backtrace, $no, 1);
 					break;

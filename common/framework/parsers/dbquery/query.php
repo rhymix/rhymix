@@ -130,7 +130,7 @@ class Query extends VariableBase
 		elseif ($this->_column_list)
 		{
 			$result .= implode(', ', array_map(function($str) {
-				return '`' . $str . '`';
+				return self::quoteName($str);
 			}, $this->_column_list));
 		}
 		else
@@ -233,7 +233,7 @@ class Query extends VariableBase
 		// Compose the INTO clause.
 		if (count($this->tables))
 		{
-			$tables = $this->_arrangeTables($this->tables);
+			$tables = $this->_arrangeTables($this->tables, false);
 			if ($tables !== '')
 			{
 				$result .= ' INTO ' . $tables;
@@ -280,7 +280,7 @@ class Query extends VariableBase
 		// Compose the INTO clause.
 		if (count($this->tables))
 		{
-			$tables = $this->_arrangeTables($this->tables);
+			$tables = $this->_arrangeTables($this->tables, false);
 			if ($tables !== '')
 			{
 				$result .= $tables;
@@ -326,7 +326,7 @@ class Query extends VariableBase
 		// Compose the FROM clause.
 		if (count($this->tables))
 		{
-			$tables = $this->_arrangeTables($this->tables);
+			$tables = $this->_arrangeTables($this->tables, false);
 			if ($tables !== '')
 			{
 				$result .= ' FROM ' . $tables;
@@ -363,9 +363,10 @@ class Query extends VariableBase
 	 * Generate a FROM clause from a list of tables.
 	 * 
 	 * @param array $tables
+	 * @param bool $use_aliases
 	 * @return string
 	 */
-	protected function _arrangeTables(array $tables): string
+	protected function _arrangeTables(array $tables, bool $use_aliases = true): string
 	{
 		// Initialize the result.
 		$result = array();
@@ -376,7 +377,11 @@ class Query extends VariableBase
 			// Subquery
 			if ($table instanceof self)
 			{
-				$tabledef = sprintf('(%s) AS `%s`', $table->getQueryString($this->_prefix, $this->_args), $table->alias);
+				$tabledef = '(' . $table->getQueryString($this->_prefix, $this->_args) . ')';
+				if ($table->alias)
+				{
+					$tabledef .= ' AS `' . $table->alias . '`';
+				}
 				foreach ($table->getQueryParams() as $param)
 				{
 					$this->_params[] = $param;
@@ -386,7 +391,11 @@ class Query extends VariableBase
 			// Regular table
 			else
 			{
-				$tabledef = self::quoteName($this->_prefix . $table->name) . ($table->alias ? (' AS `' . $table->alias . '`') : '');
+				$tabledef = self::quoteName($this->_prefix . $table->name);
+				if ($use_aliases && $table->alias && $table->alias !== ($this->_prefix . $table->name))
+				{
+					$tabledef .= ' AS `' . $table->alias . '`';
+				}
 			}
 			
 			// Add join conditions
@@ -485,7 +494,11 @@ class Query extends VariableBase
 			}
 			
 			// Get the ordering (ASC or DESC).
-			if (isset($this->_args[$orderby->order_var]))
+			if (preg_match('/^(ASC|DESC)$/i', $orderby->order_var, $matches))
+			{
+				$column_order = strtoupper($matches[1]);
+			}
+			elseif (isset($this->_args[$orderby->order_var]))
 			{
 				$column_order = preg_replace('/[^A-Z]/', '', strtoupper($this->_args[$orderby->order_var]));
 			}

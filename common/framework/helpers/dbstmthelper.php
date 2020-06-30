@@ -42,7 +42,7 @@ class DBStmtHelper extends \PDOStatement
 			
 			$elapsed_time = microtime(true) - $start_time;
 			$db_class->addElapsedTime($elapsed_time);
-			Debug::addQuery($db_class->getQueryLog($this->queryString, '', $elapsed_time));
+			Debug::addQuery($db_class->getQueryLog($this->queryString, $elapsed_time));
 		}
 		catch (\PDOException $e)
 		{
@@ -50,7 +50,7 @@ class DBStmtHelper extends \PDOStatement
 			
 			$elapsed_time = microtime(true) - $start_time;
 			$db_class->addElapsedTime($elapsed_time);
-			Debug::addQuery($db_class->getQueryLog($this->queryString, '', $elapsed_time));
+			Debug::addQuery($db_class->getQueryLog($this->queryString, $elapsed_time));
 			throw new DBError($e->getMessage(), 0, $e);
 		}
 		

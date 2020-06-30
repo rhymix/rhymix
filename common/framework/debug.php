@@ -355,7 +355,7 @@ class Debug
 			'query_id' => $query['query_id'],
 			'query_connection' => $query['connection'],
 			'query_string' => $query['query'],
-			'query_time' => $query['elapsed_time'],
+			'query_time' => floatval($query['elapsed_time']),
 			'file' => $query['called_file'],
 			'line' => $query['called_line'],
 			'method' => $query['called_method'],

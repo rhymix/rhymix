@@ -33,6 +33,9 @@ class DBHelper extends \PDO
 	 */
 	public function prepare($statement, $driver_options = null)
 	{
+		$start_time = microtime(true);
+		$db_class = DB::getInstance($this->_type);
+		
 		try
 		{
 			if ($driver_options)
@@ -48,6 +51,10 @@ class DBHelper extends \PDO
 		}
 		catch (\PDOException $e)
 		{
+			$elapsed_time = microtime(true) - $start_time;
+			$db_class->addElapsedTime($elapsed_time);
+			$db_class->setError(-1, $e->getMessage());
+			Debug::addQuery($db_class->getQueryLog($statement, $elapsed_time));
 			throw new DBError($e->getMessage(), 0, $e);
 		}
 		
@@ -81,7 +88,7 @@ class DBHelper extends \PDO
 		
 		$elapsed_time = microtime(true) - $start_time;
 		$db_class->addElapsedTime($elapsed_time);
-		Debug::addQuery($db_class->getQueryLog($statement, '', $elapsed_time));
+		Debug::addQuery($db_class->getQueryLog($statement, $elapsed_time));
 		
 		return $stmt;
 	}
@@ -109,7 +116,7 @@ class DBHelper extends \PDO
 		
 		$elapsed_time = microtime(true) - $start_time;
 		$db_class->addElapsedTime($elapsed_time);
-		Debug::addQuery($db_class->getQueryLog($query, '', $elapsed_time));
+		Debug::addQuery($db_class->getQueryLog($query, $elapsed_time));
 		
 		return $result;
 	}

@@ -105,15 +105,16 @@ class DBQueryParser extends BaseParser
 			}
 			else
 			{
+				$attribs = self::_getAttributes($tag);
 				$column = new DBQuery\ColumnWrite;
-				$column->name = trim($tag['name']);
-				$column->operation = trim($tag['operation']) ?: 'equal';
-				$column->var = trim($tag['var']) ?: null;
-				$column->default = trim($tag['default']) ?: null;
-				$column->not_null = self::_getAttributes($tag)['notnull'] ? true : false;
-				$column->filter = trim($tag['filter']) ?: null;
-				$column->minlength = intval(trim($tag['minlength']), 10);
-				$column->maxlength = intval(trim($tag['maxlength']), 10);
+				$column->name = $attribs['name'];
+				$column->operation = $attribs['operation'] ?: 'equal';
+				$column->var = $attribs['var'] ?? null;
+				$column->default = $attribs['default'] ?? null;
+				$column->not_null = $attribs['notnull'] ? true : false;
+				$column->filter = $attribs['filter'] ?? null;
+				$column->minlength = intval($attribs['minlength'], 10);
+				$column->maxlength = intval($attribs['maxlength'], 10);
 				$query->columns[] = $column;
 			}
 		}
@@ -215,8 +216,15 @@ class DBQueryParser extends BaseParser
 				$cond = new DBQuery\Condition;
 				$cond->operation = $attribs['operation'];
 				$cond->column = $attribs['column'];
-				$cond->var = $attribs['var'] ?? null;
-				$cond->default = $attribs['default'] ?? null;
+				if (isset($attribs['var']) && !isset($attribs['default']) && preg_match('/^\w+\.\w+$/', $attribs['var']))
+				{
+					$cond->default = $attribs['var'];
+				}
+				else
+				{
+					$cond->var = $attribs['var'] ?? null;
+					$cond->default = $attribs['default'] ?? null;
+				}
 				$cond->not_null = $attribs['notnull'] ? true : false;
 				$cond->filter = $attribs['filter'] ?? null;
 				$cond->minlength = intval($attribs['minlength'], 10);
