@@ -138,9 +138,9 @@ function getClass($module_name)
  * @param string[] $arg_columns Column list
  * @return object Query result data
  */
-function executeQuery($query_id, $args = NULL, $arg_columns = NULL)
+function executeQuery($query_id, $args = [], $arg_columns = NULL)
 {
-	$oDB = DB::getInstance();
+	$oDB = Rhymix\Framework\DB::getInstance();
 	return $oDB->executeQuery($query_id, $args, $arg_columns);
 }
 
@@ -154,9 +154,9 @@ function executeQuery($query_id, $args = NULL, $arg_columns = NULL)
  * @param string[] $arg_columns Column list
  * @return object Query result data
  */
-function executeQueryArray($query_id, $args = NULL, $arg_columns = NULL)
+function executeQueryArray($query_id, $args = [], $arg_columns = NULL)
 {
-	$oDB = DB::getInstance();
+	$oDB = Rhymix\Framework\DB::getInstance();
 	$output = $oDB->executeQuery($query_id, $args, $arg_columns);
 	if(isset($output->data) && is_object($output->data))
 	{
@@ -173,8 +173,7 @@ function executeQueryArray($query_id, $args = NULL, $arg_columns = NULL)
  */
 function getNextSequence()
 {
-	$oDB = DB::getInstance();
-	$seq = $oDB->getNextSequence();
+	$seq = Rhymix\Framework\DB::getInstance()->getNextSequence();
 	setUserSequence($seq);
 	return $seq;
 }
