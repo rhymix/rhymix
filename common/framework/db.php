@@ -465,6 +465,10 @@ class DB
 		{
 			return null;
 		}
+		if ($result_type === 'raw')
+		{
+			return $stmt;
+		}
 		
 		$result = array();
 		$index = $last_index;

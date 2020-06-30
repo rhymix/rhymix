@@ -134,30 +134,30 @@ function getClass($module_name)
  *
  * @see DB::executeQuery()
  * @param string $query_id (module name.query XML file)
- * @param object $args values of args object
- * @param string[] $arg_columns Column list
+ * @param array|object $args Arguments
+ * @param array $column_list Column list
+ * @param string $result_type 'auto', 'array' or 'raw'
  * @return object Query result data
  */
-function executeQuery($query_id, $args = [], $arg_columns = NULL)
+function executeQuery($query_id, $args = [], $column_list = [], $result_type = 'auto')
 {
 	$oDB = Rhymix\Framework\DB::getInstance();
-	return $oDB->executeQuery($query_id, $args, $arg_columns, 'auto');
+	return $oDB->executeQuery($query_id, $args, $column_list, $result_type);
 }
 
 /**
  * Function to handle the result of DB::executeQuery() as an array
  *
  * @see DB::executeQuery()
- * @see executeQuery()
  * @param string $query_id (module name.query XML file)
- * @param object $args values of args object
- * @param string[] $arg_columns Column list
+ * @param array|object $args Arguments
+ * @param array $column_list Column list
  * @return object Query result data
  */
-function executeQueryArray($query_id, $args = [], $arg_columns = NULL)
+function executeQueryArray($query_id, $args = [], $column_list = [])
 {
 	$oDB = Rhymix\Framework\DB::getInstance();
-	return $oDB->executeQuery($query_id, $args, $arg_columns, 'array');
+	return $oDB->executeQuery($query_id, $args, $column_list, 'array');
 }
 
 /**
