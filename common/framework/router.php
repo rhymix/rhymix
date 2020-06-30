@@ -137,7 +137,7 @@ class Router
 		}
 		
 		// Try to detect the prefix. This might be $mid.
-		if ($rewrite_level >= 2 && preg_match('#^([a-zA-Z0-9_-]+)(?:/(.*))?#s', $url, $matches))
+		if ($rewrite_level >= 2 && preg_match('#^([a-zA-Z0-9_-]+)(?:/(.*))?$#s', $url, $matches))
 		{
 			// Separate the prefix and the internal part of the URL.
 			$prefix = $matches[1];
