@@ -78,12 +78,16 @@ class ModuleInfoParser extends BaseParser
 		}
 
 		// Add information about actions.
-		$action_info = ModuleActionParser::loadXML(strtr($filename, ['info.xml' => 'module.xml']));
-		$info->admin_index_act = $action_info->admin_index_act;
-		$info->default_index_act = $action_info->default_index_act;
-		$info->setup_index_act = $action_info->setup_index_act;
-		$info->simple_setup_index_act = $action_info->simple_setup_index_act;
-		$info->error_handlers = $action_info->error_handlers ?: [];
+		$action_filename = strtr($filename, ['info.xml' => 'module.xml']);
+		if (file_exists($action_filename))
+		{
+			$action_info = ModuleActionParser::loadXML($action_filename);
+			$info->admin_index_act = $action_info->admin_index_act;
+			$info->default_index_act = $action_info->default_index_act;
+			$info->setup_index_act = $action_info->setup_index_act;
+			$info->simple_setup_index_act = $action_info->simple_setup_index_act;
+			$info->error_handlers = $action_info->error_handlers ?: [];
+		}
 		
 		// Return the complete result.
 		return $info;

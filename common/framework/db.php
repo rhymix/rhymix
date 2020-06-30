@@ -305,7 +305,20 @@ class DB
 			{
 				$this->_last_stmt = $this->_handle->query($query_string);
 			}
-			$result = $this->_fetch($this->_last_stmt, $last_index);
+			
+			if ($this->isError())
+			{
+				$output = $this->getError();
+				$output->add('_query', $query_string);
+				$output->add('_elapsed_time', '0.00000');
+				$output->page_navigation = new \PageHandler(0, 0, 0);
+				$this->_total_time += (microtime(true) - $start_time);
+				return $output;
+			}
+			else
+			{
+				$result = $this->_fetch($this->_last_stmt, $last_index);
+			}
 		}
 		catch (Exceptions\DBError $e)
 		{
@@ -361,7 +374,15 @@ class DB
 			{
 				$this->_last_stmt = $this->_handle->query($query_string);
 			}
-			$result = $this->_fetch($this->_last_stmt);
+			
+			if ($this->isError())
+			{
+				return $this->getError();
+			}
+			else
+			{
+				$result = $this->_fetch($this->_last_stmt);
+			}
 		}
 		catch (Exceptions\DBError $e)
 		{

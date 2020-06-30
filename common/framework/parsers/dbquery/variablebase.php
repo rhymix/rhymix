@@ -366,7 +366,7 @@ class VariableBase
 		}
 		
 		// Check minimum and maximum lengths.
-		$length = iconv_strlen($value, 'UTF-8');
+		$length = is_scalar($value) ? iconv_strlen($value, 'UTF-8') : (is_countable($value) ? count($value) : 1);
 		if (isset($this->minlength) && $this->minlength > 0 && $length < $this->minlength)
 		{
 			throw new \Rhymix\Framework\Exceptions\QueryError('Variable ' . $this->var . ' for column ' . $this->column . ' must contain no less than ' . $this->minlength . ' characters');
