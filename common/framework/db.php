@@ -583,7 +583,7 @@ class DB
 	 */
 	public function getNextSequence()
 	{
-		$this->_handle->exec(sprintf('INSERT INTO `sequence` (seq) VALUES (0)'));
+		$this->_handle->exec(sprintf('INSERT INTO `%s` (seq) VALUES (0)', $this->addQuotes($this->_prefix . 'sequence')));
 		$sequence = $this->getInsertID();
 		if ($this->isError())
 		{
@@ -592,7 +592,7 @@ class DB
 		
 		if($sequence % 10000 == 0)
 		{
-			$this->_handle->exec(sprintf('DELETE FROM `sequence` WHERE seq < %d', $sequence));
+			$this->_handle->exec(sprintf('DELETE FROM `%s` WHERE seq < %d', $this->addQuotes($this->_prefix . 'sequence'), $sequence));
 		}
 		
 		$this->clearError();
