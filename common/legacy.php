@@ -141,7 +141,7 @@ function getClass($module_name)
 function executeQuery($query_id, $args = [], $arg_columns = NULL)
 {
 	$oDB = Rhymix\Framework\DB::getInstance();
-	return $oDB->executeQuery($query_id, $args, $arg_columns);
+	return $oDB->executeQuery($query_id, $args, $arg_columns, 'auto');
 }
 
 /**
@@ -157,12 +157,7 @@ function executeQuery($query_id, $args = [], $arg_columns = NULL)
 function executeQueryArray($query_id, $args = [], $arg_columns = NULL)
 {
 	$oDB = Rhymix\Framework\DB::getInstance();
-	$output = $oDB->executeQuery($query_id, $args, $arg_columns);
-	if(isset($output->data) && is_object($output->data))
-	{
-		$output->data = array($output->data);
-	}
-	return $output;
+	return $oDB->executeQuery($query_id, $args, $arg_columns, 'array');
 }
 
 /**

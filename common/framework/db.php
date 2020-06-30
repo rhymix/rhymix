@@ -204,10 +204,10 @@ class DB
 	 * @param string $query_id
 	 * @param array $args
 	 * @param array $columns
-	 * @param string $type
+	 * @param string $result_type
 	 * @return \BaseObject
 	 */
-	public function executeQuery(string $query_id, $args = [], $column_list = []): \BaseObject
+	public function executeQuery(string $query_id, $args = [], $column_list = [], $result_type = 'auto'): \BaseObject
 	{
 		// Validate the args.
 		if (is_object($args))
@@ -337,7 +337,7 @@ class DB
 			}
 			else
 			{
-				$result = $this->_fetch($this->_last_stmt, $last_index);
+				$result = $this->_fetch($this->_last_stmt, $last_index, $result_type);
 			}
 		}
 		catch (Exceptions\DBError $e)
@@ -404,7 +404,8 @@ class DB
 			}
 			else
 			{
-				$result = $this->_fetch($this->_last_stmt);
+				$count = $this->_last_stmt->fetchColumn(0);
+				$this->_last_stmt->closeCursor();
 			}
 		}
 		catch (Exceptions\DBError $e)
@@ -417,7 +418,7 @@ class DB
 		list($is_expression, $list_count) = $query->navigation->list_count->getValue($args);
 		list($is_expression, $page_count) = $query->navigation->page_count->getValue($args);
 		list($is_expression, $page) = $query->navigation->page->getValue($args);
-		$total_count = intval($result->count);
+		$total_count = intval($count);
 		$total_page = max(1, intval(ceil($total_count / $list_count)));
 		$last_index = $total_count - (($page - 1) * $list_count);
 		$page_handler = new \PageHandler($total_count, $total_page, $page, $page_count);
@@ -455,9 +456,10 @@ class DB
 	 * 
 	 * @param \PDOStatement $stmt
 	 * @param int $last_index
+	 * @param string $result_type
 	 * @return mixed
 	 */
-	public function _fetch($stmt, $last_index = 0)
+	public function _fetch($stmt, $last_index = 0, $result_type = 'auto')
 	{
 		if (!($stmt instanceof \PDOStatement))
 		{
@@ -476,7 +478,7 @@ class DB
 		
 		$stmt->closeCursor();
 		
-		if ($last_index === 0 && count($result) === 1)
+		if ($result_type === 'auto' && $last_index === 0 && count($result) === 1)
 		{
 			return $result[0];
 		}
