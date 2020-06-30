@@ -44,10 +44,10 @@ $I->click('#task-checklist-confirm');
 
 // Step 3 : DB Setup
 $I->seeInCurrentUrl('act=dispInstallDBConfig');
-$I->seeElement('select[name="db_type"]');
+$I->seeElement('input[name="db_host"]');
 $I->submitForm('#body', [
 	'act' => 'procDBConfig',
-	'db_type' => 'mysqli',
+	'db_type' => 'mysql',
     'db_host' => $dbinfo['host'],
     'db_port' => $dbinfo['port'],
     'db_user' => $dbinfo['user'],
