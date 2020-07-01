@@ -159,6 +159,16 @@ class Router
 			// If a module is found, try its routes.
 			if ($action_info)
 			{
+				// Try the index action.
+				if ($internal_url === '' && !isset($args['act']) && $action_info->default_index_act)
+				{
+					$allargs = array_merge($args, [$prefix_type => $prefix]);
+					$result->module = $module_name;
+					$result->mid = $prefix_type === 'mid' ? $prefix : '';
+					$result->args = $allargs;
+					return $result;
+				}
+				
 				// Try the list of routes defined by the module.
 				foreach ($action_info->route->{$method} as $regexp => $action)
 				{
