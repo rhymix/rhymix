@@ -36,15 +36,15 @@ class DisplayHandler extends Handler
 		{
 			$handler = new VirtualXMLDisplayHandler();
 		}
-		elseif(Context::getRequestMethod() == 'JSON' || isset($_POST['_rx_ajax_compat']))
+		elseif(Context::getResponseMethod() == 'JSON' || isset($_POST['_rx_ajax_compat']))
 		{
 			$handler = new JSONDisplayHandler();
 		}
-		elseif(Context::getRequestMethod() == 'JS_CALLBACK')
+		elseif(Context::getResponseMethod() == 'JS_CALLBACK')
 		{
 			$handler = new JSCallbackDisplayHandler();
 		}
-		elseif(Context::getRequestMethod() == 'XMLRPC')
+		elseif(Context::getResponseMethod() == 'XMLRPC')
 		{
 			$handler = new XMLDisplayHandler();
 			if(strpos($_SERVER['HTTP_USER_AGENT'], 'MSIE') !== FALSE)
