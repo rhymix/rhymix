@@ -1158,37 +1158,38 @@ class Context
 			self::$_instance->request_method = $_SERVER['REQUEST_METHOD'];
 		}
 		
-		// Check POST data
-		if(self::$_instance->request_method === 'POST')
+		if ($_SERVER['REQUEST_METHOD'] === 'POST')
 		{
-			// Set HTTP_RAW_POST_DATA for compatibility with XE third-party programs.
-			if(!isset($GLOBALS['HTTP_RAW_POST_DATA']))
+			// Set variables for XE compatibility.
+			if (isset($_POST['_rx_ajax_compat']) && in_array($_POST['_rx_ajax_compat'], array('JSON', 'XMLRPC')))
 			{
-				$GLOBALS['HTTP_RAW_POST_DATA'] = file_get_contents("php://input");
-			}
-			
-			// Pretend that this request is XMLRPC for compatibility with XE third-party.
-			if(isset($_POST['_rx_ajax_compat']) && $_POST['_rx_ajax_compat'] === 'XMLRPC')
-			{
-				self::$_instance->request_method = 'XMLRPC';
+				self::$_instance->request_method = $_POST['_rx_ajax_compat'];
 				return;
 			}
-			
-			// Check JSON
-			foreach(array($_SERVER['HTTP_ACCEPT'], $_SERVER['HTTP_CONTENT_TYPE'], $_SERVER['CONTENT_TYPE']) as $header)
+			else
 			{
-				if(strpos($header, 'json') !== false)
+				// Set HTTP_RAW_POST_DATA for third-party apps that look for it.
+				if (!$_POST && !isset($GLOBALS['HTTP_RAW_POST_DATA']))
 				{
-					self::$_instance->request_method = 'JSON';
+					$GLOBALS['HTTP_RAW_POST_DATA'] = file_get_contents('php://input');
+				}
+				
+				// Check the Content-Type header for a hint of JSON.
+				foreach (array('HTTP_ACCEPT', 'HTTP_CONTENT_TYPE', 'CONTENT_TYPE') as $header)
+				{
+					if (isset($_SERVER[$header]) && strpos($_SERVER[$header], 'json') !== false)
+					{
+						self::$_instance->request_method = 'JSON';
+						return;
+					}
+				}
+				
+				// Decide whether it's JSON or XMLRPC by looking at the first character of the POST data.
+				if (!$_POST && !empty($GLOBALS['HTTP_RAW_POST_DATA']))
+				{
+					self::$_instance->request_method = substr($GLOBALS['HTTP_RAW_POST_DATA'], 0, 1) === '<' ? 'XMLRPC' : 'JSON';
 					return;
 				}
-			}
-			
-			// Check XMLRPC
-			if(!$_POST && !empty($GLOBALS['HTTP_RAW_POST_DATA']))
-			{
-				self::$_instance->request_method = 'XMLRPC';
-				return;
 			}
 		}
 	}
@@ -1201,6 +1202,7 @@ class Context
 	 */
 	public static function setRequestArguments(array $router_args = [])
 	{
+		// Arguments detected by the router have precedence over GET/POST parameters.
 		$request_args = $_SERVER['REQUEST_METHOD'] === 'GET' ? $_GET : $_POST;
 		if (count($router_args))
 		{
@@ -1210,70 +1212,51 @@ class Context
 			}
 		}
 		
-		foreach($request_args as $key => $val)
-		{
-			if($val === '' || isset(self::$_reserved_keys[$key]) || self::get($key))
-			{
-				continue;
-			}
-			
-			$key = escape($key);
-			$val = self::_filterRequestVar($key, $val);
-			self::set($key, $val, true);
-		}
-		
-		// Set deprecated request parameters.
+		// Set JSON and XMLRPC arguments.
 		if($_SERVER['REQUEST_METHOD'] === 'POST' && !$_POST && !empty($GLOBALS['HTTP_RAW_POST_DATA']))
 		{
-			if(self::getRequestMethod() === 'XMLRPC')
+			$params = array();
+			$request_method = self::getRequestMethod();
+			if($request_method === 'XMLRPC')
 			{
 				if(!Rhymix\Framework\Security::checkXXE($GLOBALS['HTTP_RAW_POST_DATA']))
 				{
-					header("HTTP/1.0 400 Bad Request");
-					exit;
+					self::$_instance->security_check = 'DENY ALL';
+					$GLOBALS['HTTP_RAW_POST_DATA'] = '';
+					return;
 				}
-				if(function_exists('libxml_disable_entity_loader'))
-				{
-					libxml_disable_entity_loader(true);
-				}
-				
-				$oXml = new XmlParser();
-				$params = $oXml->parse($GLOBALS['HTTP_RAW_POST_DATA'])->methodcall->params;
-				unset($params->node_name, $params->attrs, $params->body);
-				
-				foreach((array)$params as $key => $val)
-				{
-					if (isset($request_args[$key]))
-					{
-						continue;
-					}
-					$key = escape($key);
-					$val = self::_filterXmlVars($key, $val);
-					self::set($key, $val, true);
-				}
+				libxml_disable_entity_loader(true);
+				$params = Rhymix\Framework\Parsers\XMLRPCParser::parse($GLOBALS['HTTP_RAW_POST_DATA']);
 			}
-			elseif(self::getRequestMethod() === 'JSON')
+			elseif($request_method === 'JSON')
 			{
-				if(substr($GLOBALS['HTTP_RAW_POST_DATA'], 0, 1) === '{' && substr($GLOBALS['HTTP_RAW_POST_DATA'], -1, 1) === '}')
+				if(substr($GLOBALS['HTTP_RAW_POST_DATA'], 0, 1) === '{')
 				{
 					$params = json_decode($GLOBALS['HTTP_RAW_POST_DATA']);
 				}
 				else
 				{
-					$params = array();
 					parse_str($GLOBALS['HTTP_RAW_POST_DATA'], $params);
 				}
-				
-				foreach($params as $key => $val)
+			}
+			
+			foreach($params as $key => $val)
+			{
+				if ($val !== '' && !isset($request_args[$key]))
 				{
-					if (isset($request_args[$key]))
-					{
-						continue;
-					}
-					$key = escape($key);
-					$val = self::_filterRequestVar($key, $val);
-					self::set($key, $val, true);
+					$request_args[$key] = $val;
 				}
+			}
+		}
+		
+		// Filter all arguments and set them to Context.
+		foreach($request_args as $key => $val)
+		{
+			if($val !== '' && !isset(self::$_reserved_keys[$key]) && !self::get($key))
+			{
+				$key = escape($key);
+				$val = self::_filterRequestVar($key, $val);
+				self::set($key, $val, true);
 			}
 		}
 	}
@@ -1588,7 +1571,7 @@ class Context
 			}
 		}
 		
-		if (in_array(Context::getRequestMethod(), array('XMLRPC', 'JSON', 'JS_CALLBACK')))
+		if (in_array(self::getRequestMethod(), array('XMLRPC', 'JSON', 'JS_CALLBACK')))
 		{
 			$oMessageObject->setMessage(trim($title . "\n\n" . $message));
 		}
