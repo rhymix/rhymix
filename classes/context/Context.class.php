@@ -1051,11 +1051,11 @@ class Context
 	 */
 	public static function convertEncodingStr($str)
 	{
-        if (!$str || utf8_check($str))
-        {
-        	return $str;
-        }
-        
+		if (!$str || utf8_check($str))
+		{
+			return $str;
+		}
+
 		$obj = new stdClass;
 		$obj->str = $str;
 		$obj = self::convertEncoding($obj);
@@ -1254,8 +1254,16 @@ class Context
 			}
 			elseif(self::getRequestMethod() === 'JSON')
 			{
-				$params = array();
-				parse_str($GLOBALS['HTTP_RAW_POST_DATA'], $params);	
+				if(substr($GLOBALS['HTTP_RAW_POST_DATA'], 0, 1) === '{' && substr($GLOBALS['HTTP_RAW_POST_DATA'], -1, 1) === '}')
+				{
+					$params = json_decode($GLOBALS['HTTP_RAW_POST_DATA']);
+				}
+				else
+				{
+					$params = array();
+					parse_str($GLOBALS['HTTP_RAW_POST_DATA'], $params);
+				}
+				
 				foreach($params as $key => $val)
 				{
 					if (isset($request_args[$key]))
