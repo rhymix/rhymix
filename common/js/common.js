@@ -1178,7 +1178,6 @@ jQuery(function($){
 		evt.preventDefault();
 		evt.stopPropagation();
 
-		if(is_def(window.xeVid)) params.vid = xeVid;
 		if(is_def(XE.loaded_popup_menus[params.menu_id])) return XE.displayPopupMenu(params, response_tags, params);
 
 		show_waiting_message = false;

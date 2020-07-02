@@ -40,9 +40,6 @@
 		params._rx_ajax_compat = 'XMLRPC';
 		params._rx_csrf_token = getCSRFToken();
 		
-		// Fill in the XE vid.
-		if (typeof(xeVid) != "undefined") params.vid = xeVid;
-		
 		// Decide whether or not to use SSL.
 		var url = request_uri;
 		if ($.isArray(ssl_actions) && params.act && $.inArray(params.act, ssl_actions) >= 0) {
@@ -323,9 +320,6 @@
 		params.module = action[0];
 		params.act = action[1];
 		params._rx_csrf_token = getCSRFToken();
-		
-		// Fill in the XE vid.
-		if (typeof(xeVid) != "undefined") params.vid = xeVid;
 		
 		// Determine the request type.
 		if($.inArray(type, ["html", "append", "prepend"]) < 0) type = "html";
