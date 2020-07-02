@@ -22,7 +22,7 @@
 							{sprintf($lang->install_checklist_desc[$key], __XE_MIN_PHP_VERSION__)}
 						<!--@elseif($key === 'session')-->
 							{$lang->install_checklist_desc[$key]}
-							<!--@if(contains('.cafe24.com', $_SERVER['HTTP_HOST']))-->
+							<!--@if(preg_match('/^([a-z0-9_-]+).[a-z0-9_-]+.(com|net|co\.kr)/i', $_SERVER['HTTP_HOST'], $matches) && $matches[1] !== 'www')-->
 								<br /><strong>{$lang->install_checklist_desc['free_domain_warning']}</strong>
 							<!--@end-->
 						<!--@else-->
