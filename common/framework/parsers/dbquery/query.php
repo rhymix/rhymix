@@ -603,11 +603,12 @@ class Query extends VariableBase
 	 * Check if a variable is considered valid for XE compatibility.
 	 * 
 	 * @param mixed $var
+	 * @param bool $allow_empty_string
 	 * @return bool
 	 */
-	public static function isValidVariable($var): bool
+	public static function isValidVariable($var, $allow_empty_string = true): bool
 	{
-		if ($var === null || $var === '')
+		if ($var === null || ($var === '' && !$allow_empty_string))
 		{
 			return false;
 		}

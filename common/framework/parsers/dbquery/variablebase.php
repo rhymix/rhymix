@@ -39,11 +39,19 @@ class VariableBase
 			$value = '(' . $this->getQueryString($prefix, $args) . ')';
 			$params = $this->getQueryParams();
 		}
-		elseif ($this->var && Query::isValidVariable($args[$this->var]))
+		elseif ($this->var && Query::isValidVariable($args[$this->var], $this instanceof ColumnWrite))
 		{
 			$this->filterValue($args[$this->var]);
-			$is_expression = false;
-			$value = $args[$this->var];
+			if ($args[$this->var] instanceof EmptyString || $args[$this->var] instanceof NullValue)
+			{
+				$value = strval($args[$this->var]);
+				$is_expression = true;
+			}
+			else
+			{
+				$value = $args[$this->var];
+				$is_expression = false;
+			}
 		}
 		elseif ($this->default !== null)
 		{
@@ -257,7 +265,7 @@ class VariableBase
 	 */
 	public function getValue(array $args)
 	{
-		if ($this->var && Query::isValidVariable($args[$this->var]))
+		if ($this->var && Query::isValidVariable($args[$this->var], $this instanceof ColumnWrite))
 		{
 			$is_expression = false;
 			$value = $args[$this->var];
