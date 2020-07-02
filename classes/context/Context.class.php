@@ -237,7 +237,7 @@ class Context
 		// Set information about the current request.
 		self::_checkGlobalVars();
 		self::setRequestMethod();
-		if (in_array(self::$_instance->request_method, array('GET', 'POST')))
+		if (in_array(self::$_instance->request_method, array('GET', 'POST', 'JSON')))
 		{
 			$method = $_SERVER['REQUEST_METHOD'] ?: 'GET';
 			$url = $_SERVER['REQUEST_URI'];
