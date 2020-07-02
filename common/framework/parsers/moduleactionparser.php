@@ -127,7 +127,6 @@ class ModuleActionParser extends BaseParser
 			$action_info->check_csrf = (trim($action['check_csrf']) ?: trim($action['check-csrf'])) === 'false' ? 'false' : 'true';
 			$action_info->meta_noindex = (trim($action['meta_noindex']) ?: trim($action['meta-noindex'])) === 'true' ? 'true' : 'false';
 			$action_info->global_route = (trim($action['global_route']) ?: trim($action['global-route'])) === 'true' ? 'true' : 'false';
-			$action_info->use_ssl = (trim($action['use_ssl']) ?: trim($action['use-ssl'])) === 'true' ? 'true' : 'false';
 			$info->action->{$action_name} = $action_info;
 			
 			// Set the menu name and index settings.
