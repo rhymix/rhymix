@@ -20,9 +20,6 @@ $lang->cmd_install_refresh_page = 'Tôi đã thay đổi để phù hợp với 
 $lang->cmd_install_next = 'Tiếp tục cài đặt';
 $lang->cmd_ignore = 'Bỏ qua';
 $lang->cmd_recommended = 'Đê';
-$lang->db_desc['mysqli'] = 'Dùng chức năng <b>mysqli_*()</b> để sử dụng MySql Database.';
-$lang->db_desc['mysql'] = 'Dùng chức năng <b>mysql_*()</b> để sử dụng MySql Database.';
-$lang->db_desc['cubrid'] = 'Sử dụng <b>CUBRID</b> Database.  <a href="https://www.cubrid.org/documentation/manuals" target="_blank">Hướng dẫn</a>';
 $lang->form_title = 'Hãy nhập thông tin Database và thông tin Administrator';
 $lang->db_title = 'Xin hãy nhập thông tin Database';
 $lang->db_type = 'Định dạng Database';

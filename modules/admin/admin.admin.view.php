@@ -797,7 +797,7 @@ class adminAdminView extends admin
 		
 		// System settings
 		$info[] = '[System Settings]';
-		$info['db.type'] = config('db.master.type');
+		$info['db.type'] = preg_replace('/^mysql.+/', 'mysql', config('db.master.type'));
 		$db_extra_info = array();
 		if (config('db.master.engine')) $db_extra_info[] = config('db.master.engine');
 		if (config('db.master.charset')) $db_extra_info[] = config('db.master.charset');
@@ -805,24 +805,27 @@ class adminAdminView extends admin
 		{
 			$info['db.type'] .= ' (' . implode(', ', $db_extra_info) . ')';
 		}
-		$info['db.version'] = DB::getInstance()->db_version;
+		$info['db.version'] = Rhymix\Framework\DB::getInstance()->db_version;
 		if (preg_match('/\d+\.\d+\.\d+-MariaDB.*$/', $info['db.version'], $matches))
 		{
 			$info['db.version'] = $matches[0];
 		}
 		$info['cache.type'] = config('cache.type') ?: 'none';
+		$info['file.folder_structure'] = config('file.folder_structure');
+		$info['file.umask'] = config('file.umask');
+		$info['url.rewrite'] = Rhymix\Framework\Router::getRewriteLevel();
 		$info['locale.default_lang'] = config('locale.default_lang');
 		$info['locale.default_timezone'] = config('locale.default_timezone');
 		$info['locale.internal_timezone'] = config('locale.internal_timezone');
 		$info['mobile.enabled'] = config('mobile.enabled') ? 'true' : 'false';
 		$info['mobile.tablets'] = config('mobile.tablets') ? 'true' : 'false';
+		$info['session.delay'] = config('session.delay') ? 'true' : 'false';
 		$info['session.use_db'] = config('session.use_db') ? 'true' : 'false';
 		$info['session.use_keys'] = config('session.use_keys') ? 'true' : 'false';
 		$info['session.use_ssl'] = config('session.use_ssl') ? 'true' : 'false';
 		$info['session.use_ssl_cookies'] = config('session.use_ssl_cookies') ? 'true' : 'false';
 		$info['view.concat_scripts'] = config('view.concat_scripts');
 		$info['view.minify_scripts'] = config('view.minify_scripts');
-		$info['use_rewrite'] = config('use_rewrite') ? 'true' : 'false';
 		$info['use_sso'] = config('use_sso') ? 'true' : 'false';
 		$info[] = '';
 		

@@ -355,7 +355,7 @@ class Debug
 			'query_id' => $query['query_id'],
 			'query_connection' => $query['connection'],
 			'query_string' => $query['query'],
-			'query_time' => $query['elapsed_time'],
+			'query_time' => floatval($query['elapsed_time']),
 			'file' => $query['called_file'],
 			'line' => $query['called_line'],
 			'method' => $query['called_method'],
@@ -746,6 +746,7 @@ class Debug
 	public static function getDebugData()
 	{
 		// Collect debug information.
+		$db = DB::getInstance();
 		$data = (object)array(
 			'timestamp' => DateTime::formatTimestamp('Y-m-d H:i:s', \RX_TIME),
 			'url' => getCurrentPageUrl(),
@@ -761,8 +762,8 @@ class Debug
 				'total' => sprintf('%0.4f sec', microtime(true) - \RX_MICROTIME),
 				'template' => sprintf('%0.4f sec (count: %d)', $GLOBALS['__template_elapsed__'], $GLOBALS['__TemplateHandlerCalled__']),
 				'xmlparse' => sprintf('%0.4f sec', $GLOBALS['__xmlparse_elapsed__']),
-				'db_query' => sprintf('%0.4f sec (count: %d)', $GLOBALS['__db_elapsed_time__'], count(self::$_queries)),
-				'db_class' => sprintf('%0.4f sec', $GLOBALS['__dbclass_elapsed_time__'] - $GLOBALS['__db_elapsed_time__']),
+				'db_query' => sprintf('%0.4f sec (count: %d)', $db->getQueryElapsedTime(), count(self::$_queries)),
+				'db_class' => sprintf('%0.4f sec', $db->getTotalElapsedTime() - $db->getQueryElapsedTime()),
 				'layout' => sprintf('%0.4f sec', $GLOBALS['__layout_compile_elapsed__']),
 				'widget' => sprintf('%0.4f sec', $GLOBALS['__widget_excute_elapsed__']),
 				'remote' => sprintf('%0.4f sec', $GLOBALS['__remote_request_elapsed__']),

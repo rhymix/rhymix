@@ -1,6 +1,0 @@
-<table name="tbl">
-    <column name="col_name" type="text" />
-    <!-- VARCHAR type requires 'size' attribute -->
-    <column name="col_name2" type="varchar" />
-</table>
-

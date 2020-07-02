@@ -134,35 +134,30 @@ function getClass($module_name)
  *
  * @see DB::executeQuery()
  * @param string $query_id (module name.query XML file)
- * @param object $args values of args object
- * @param string[] $arg_columns Column list
+ * @param array|object $args Arguments
+ * @param array $column_list Column list
+ * @param string $result_type 'auto', 'array' or 'raw'
  * @return object Query result data
  */
-function executeQuery($query_id, $args = NULL, $arg_columns = NULL)
+function executeQuery($query_id, $args = [], $column_list = [], $result_type = 'auto')
 {
-	$oDB = DB::getInstance();
-	return $oDB->executeQuery($query_id, $args, $arg_columns);
+	$oDB = Rhymix\Framework\DB::getInstance();
+	return $oDB->executeQuery($query_id, $args, $column_list, $result_type);
 }
 
 /**
  * Function to handle the result of DB::executeQuery() as an array
  *
  * @see DB::executeQuery()
- * @see executeQuery()
  * @param string $query_id (module name.query XML file)
- * @param object $args values of args object
- * @param string[] $arg_columns Column list
+ * @param array|object $args Arguments
+ * @param array $column_list Column list
  * @return object Query result data
  */
-function executeQueryArray($query_id, $args = NULL, $arg_columns = NULL)
+function executeQueryArray($query_id, $args = [], $column_list = [])
 {
-	$oDB = DB::getInstance();
-	$output = $oDB->executeQuery($query_id, $args, $arg_columns);
-	if(isset($output->data) && !is_array($output->data) && countobj($output->data) > 0)
-	{
-		$output->data = array($output->data);
-	}
-	return $output;
+	$oDB = Rhymix\Framework\DB::getInstance();
+	return $oDB->executeQuery($query_id, $args, $column_list, 'array');
 }
 
 /**
@@ -173,8 +168,7 @@ function executeQueryArray($query_id, $args = NULL, $arg_columns = NULL)
  */
 function getNextSequence()
 {
-	$oDB = DB::getInstance();
-	$seq = $oDB->getNextSequence();
+	$seq = Rhymix\Framework\DB::getInstance()->getNextSequence();
 	setUserSequence($seq);
 	return $seq;
 }

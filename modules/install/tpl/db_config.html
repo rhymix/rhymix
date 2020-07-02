@@ -9,23 +9,7 @@
 		<input type="hidden" value="{$error_return_url}" name="error_return_url">
 		<input type="hidden" name="module" value="{$module}" />
 		<input type="hidden" name="act" value="procDBConfig" />
-		<div class="x_control-group">
-			<label for="db_type" class="x_control-label">{$lang->db_type}</label>
-			<div class="x_controls">
-				<select id="db_type" name="db_type">
-					<block loop="DB::getEnableList() => $key,$val">
-						<option value="{$val->db_type}" selected="selected"|cond="$val->db_type==$defaultDatabase" />
-							{$val->db_type}
-							<block cond="$val->db_type == $defaultDatabase">({$lang->cmd_recommended})</block>
-						</option>
-					</block>
-					<block loop="DB::getDisableList() => $key,$val">
-						<option value="{$val->db_type}" disabled="disabled" />{$val->db_type} ({$lang->can_use_when_installed})</option>
-					</block>
-				</select>
-			</div>
-		</div>
-		<p loop="DB::getEnableList() => $key,$val" class="install_help db_type db_type_{$val->db_type}">{$lang->db_desc[$val->db_type]}</p>
+		<input type="hidden" name="db_type" value="mysql" />
 		<div class="x_control-group">
 			<label for="db_host" class="x_control-label">{$lang->db_hostname}</label>
 			<div class="x_controls"><input name="db_host" value="localhost" type="text" id="db_host" required /></div>
@@ -48,7 +32,7 @@
 		</div>
 		<div class="x_control-group">
 			<label for="db_prefix" class="x_control-label">{$lang->db_table_prefix}</label>
-			<div class="x_controls"><input name="db_prefix" type="text" id="db_prefix" value="rx" required /></div>
+			<div class="x_controls"><input name="db_prefix" type="text" id="db_prefix" value="rx_" /></div>
 		</div>
 		<p class="install_help">
 			{$lang->db_info_desc}<br />{$lang->db_prefix_desc}
