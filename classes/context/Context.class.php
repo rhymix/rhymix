@@ -131,16 +131,12 @@ class Context
 	 * Current route information
 	 */
 	private static $_route_info = null;
+
 	/**
 	 * object oFrontEndFileHandler()
 	 * @var object
 	 */
 	private static $_oFrontEndFileHandler = null;
-
-	/**
-	 * SSL action cache
-	 */
-	private static $_ssl_actions = array();
 
 	/**
 	 * Plugin blacklist cache
@@ -268,7 +264,7 @@ class Context
 			self::set('_default_url', self::$_instance->db_info->default_url = self::getDefaultUrl($site_module_info));
 			self::set('_http_port', self::$_instance->db_info->http_port = $site_module_info->http_port ?: null);
 			self::set('_https_port', self::$_instance->db_info->https_port = $site_module_info->https_port ?: null);
-			self::set('_use_ssl', self::$_instance->db_info->use_ssl = $site_module_info->security ?: 'none');
+			self::set('_use_ssl', self::$_instance->db_info->use_ssl = ($site_module_info->security === 'none' ? 'none' : 'always'));
 		}
 		else
 		{
@@ -280,8 +276,8 @@ class Context
 			self::set('site_module_info', $site_module_info);
 		}
 		
-		// Redirect to SSL if the current domain always uses SSL.
-		if (!RX_SSL && PHP_SAPI !== 'cli' && $site_module_info->security === 'always' && !$site_module_info->is_default_replaced)
+		// Redirect to SSL if the current domain requires SSL.
+		if (!RX_SSL && PHP_SAPI !== 'cli' && $site_module_info->security !== 'none' && !$site_module_info->is_default_replaced)
 		{
 			$ssl_url = self::getDefaultUrl($site_module_info, true) . RX_REQUEST_URL;
 			self::setCacheControl(0);
@@ -289,16 +285,6 @@ class Context
 			exit;
 		}
 		
-		// Redirect to SSL if the current action requires SSL.
-		self::$_ssl_actions = $site_module_info->security === 'optional' ? ModuleModel::getActionSecurity() : array();
-		if (!RX_SSL && count(self::$_ssl_actions) && self::isExistsSSLAction(self::get('act')) && self::getRequestMethod() === 'GET')
-		{
-			$ssl_url = self::getDefaultUrl($site_module_info, true) . RX_REQUEST_URL;
-			self::setCacheControl(0);
-			header('Location: ' . $ssl_url, true, 301);
-			exit;
-		}
-
 		// Load language support.
 		$enabled_langs = self::loadLangSelected();
 		$set_lang_cookie = false;
@@ -631,7 +617,7 @@ class Context
 	/**
 	 * Return ssl status
 	 *
-	 * @return object SSL status (Optional - none|always|optional)
+	 * @return object SSL status (none or always)
 	 */
 	public static function getSSLStatus()
 	{
@@ -657,7 +643,7 @@ class Context
 			$site_module_info = self::get('site_module_info');
 		}
 		
-		$prefix = ($site_module_info->security === 'always' || $use_ssl) ? 'https://' : 'http://';
+		$prefix = ($site_module_info->security !== 'none' || $use_ssl) ? 'https://' : 'http://';
 		$hostname = $site_module_info->domain;
 		$port = ($prefix === 'https://') ? $site_module_info->https_port : $site_module_info->http_port;
 		$result = $prefix . $hostname . ($port ? sprintf(':%d', $port) : '') . RX_BASEURL;
@@ -1751,7 +1737,7 @@ class Context
 		}
 		
 		// If using SSL always
-		if($site_module_info->security == 'always')
+		if($site_module_info->security !== 'none')
 		{
 			if(!$domain && RX_SSL)
 			{
@@ -1762,20 +1748,6 @@ class Context
 				$query = self::getRequestUri(ENFORCE_SSL, $domain) . $query;
 			}
 		}
-		// optional SSL use
-		elseif($site_module_info->security == 'optional')
-		{
-			$ssl_mode = ((self::get('module') === 'admin') || ($get_vars['module'] === 'admin') || (isset($get_vars['act']) && self::isExistsSSLAction($get_vars['act']))) ? ENFORCE_SSL : RELEASE_SSL;
-			if(!$domain && (RX_SSL && ENFORCE_SSL) || (!RX_SSL && RELEASE_SSL))
-			{
-				$query = RX_BASEURL . $query;
-			}
-			else
-			{
-				$query = self::getRequestUri($ssl_mode, $domain) . $query;
-			}
-		}
-		// no SSL
 		else
 		{
 			// currently on SSL but target is not based on SSL
@@ -1841,7 +1813,7 @@ class Context
 		}
 
 		$site_module_info = self::get('site_module_info');
-		if ($site_module_info->security === 'always')
+		if ($site_module_info->security !== 'none')
 		{
 			$ssl_mode = ENFORCE_SSL;
 		}
@@ -2001,73 +1973,60 @@ class Context
 	/**
 	 * Register if an action is to be encrypted by SSL. Those actions are sent to https in common/js/xml_handler.js
 	 *
+	 * @deprecated
 	 * @param string $action act name
 	 * @return void
 	 */
 	public static function addSSLAction($action)
 	{
-		if (!ModuleModel::getActionSecurity($action))
-		{
-			getController('module')->insertActionSecurity($action);
-		}
-		self::$_ssl_actions[$action] = true;
+		
 	}
 
 	/**
 	 * Register if actions are to be encrypted by SSL. Those actions are sent to https in common/js/xml_handler.js
 	 *
+	 * @deprecated
 	 * @param array $action_array
 	 * @return void
 	 */
 	public static function addSSLActions($action_array)
 	{
-		foreach($action_array as $action)
-		{
-			self::addSSLAction($action);
-		}
+		
 	}
 
 	/**
 	 * Delete if action is registerd to be encrypted by SSL.
 	 *
+	 * @deprecated
 	 * @param string $action act name
 	 * @return void
 	 */
 	public static function subtractSSLAction($action)
 	{
-		if (ModuleModel::getActionSecurity($action))
-		{
-			getController('module')->deleteActionSecurity($action);
-		}
-		unset(self::$_ssl_actions[$action]);
+		
 	}
 
 	/**
 	 * Get SSL Action
 	 *
+	 * @deprecated
 	 * @return string acts in array
 	 */
 	public static function getSSLActions()
 	{
-		if(self::getSSLStatus() == 'optional')
-		{
-			return self::$_ssl_actions;
-		}
-		else
-		{
-			return array();
-		}
+		return array();
 	}
 
 	/**
 	 * Check SSL action are existed
 	 *
+	 * @deprecated
 	 * @param string $action act name
-	 * @return bool If SSL exists, return TRUE.
+	 * @return bool
 	 */
 	public static function isExistsSSLAction($action)
 	{
-		return isset(self::$_ssl_actions[$action]);
+		return false;
 	}
 
 	/**

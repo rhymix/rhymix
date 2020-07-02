@@ -26,7 +26,6 @@ class installAdminController extends install
 		$oInstallController->installModule($module_name, './modules/'.$module_name);
 		$oModuleController = getController('module');
 		$oModuleController->registerActionForwardRoutes($module_name);
-		$oModuleController->registerSecureActions($module_name);
 		$this->setMessage('success_installed');
 	}
 
@@ -53,12 +52,6 @@ class installAdminController extends install
 		
 		$oModuleController = getController('module');
 		$output = $oModuleController->registerActionForwardRoutes($module_name);
-		if($output instanceof BaseObject && !$output->toBool())
-		{
-			Rhymix\Framework\Session::start();
-			return $output;
-		}
-		$output = $oModuleController->registerSecureActions($module_name);
 		if($output instanceof BaseObject && !$output->toBool())
 		{
 			Rhymix\Framework\Session::start();

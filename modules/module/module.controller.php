@@ -51,32 +51,6 @@ class moduleController extends module
 	}
 
 	/**
-	 * @brief Add action security
-	 */
-	function insertActionSecurity($act)
-	{
-		$args = new stdClass();
-		$args->act = $act;
-		$output = executeQuery('module.insertActionSecurity', $args);
-
-		Rhymix\Framework\Cache::delete('action_security');
-		return $output;
-	}
-
-	/**
-	 * @brief Delete action security
-	 */
-	function deleteActionSecurity($act)
-	{
-		$args = new stdClass();
-		$args->act = $act;
-		$output = executeQuery('module.deleteActionSecurity', $args);
-
-		Rhymix\Framework\Cache::delete('action_security');
-		return $output;
-	}
-
-	/**
 	 * @brief Add trigger callback function
 	 * 
 	 * @param string $trigger_name
@@ -1385,28 +1359,6 @@ class moduleController extends module
 				{
 					return $output;
 				}
-			}
-		}
-		
-		return new BaseObject();
-	}
-	
-	/**
-	 * Check if all secure actions are registered. If not, register them.
-	 * 
-	 * @param string $module_name
-	 * @return object
-	 */
-	public function registerSecureActions(string $module_name)
-	{
-		$action_security = ModuleModel::getActionSecurity();
-		$module_action_info = ModuleModel::getModuleActionXml($module_name);
-		
-		foreach ($module_action_info->action ?: [] as $action_name => $action_info)
-		{
-			if ($action_info->use_ssl === 'true' && !isset($action_security[$action_name]))
-			{
-				$output = $this->insertActionSecurity($action_name);
 			}
 		}
 		

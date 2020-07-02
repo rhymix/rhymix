@@ -1,8 +1,0 @@
-<query id="insertActionSecurity" action="insert">
-    <tables>
-        <table name="action_security" />
-    </tables>
-    <columns>
-        <column name="act" var="act" notnull="notnull" />
-    </columns>
-</query>

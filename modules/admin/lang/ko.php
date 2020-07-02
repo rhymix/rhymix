@@ -110,7 +110,6 @@ $lang->about_recompile_cache = '쓸모 없어졌거나 잘못된 캐시파일들
 $lang->confirm_run = '오랜 시간이 걸릴 수 있습니다. 실행하시겠습니까?';
 $lang->use_ssl = 'HTTPS 사용';
 $lang->ssl_options['none'] = '사용하지 않음';
-$lang->ssl_options['optional'] = '선택적으로 사용 (권장하지 않음)';
 $lang->ssl_options['always'] = '항상 사용 (권장)';
 $lang->cmd_http_port = 'HTTP 포트';
 $lang->cmd_https_port = 'HTTPS 포트';

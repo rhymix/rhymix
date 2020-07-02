@@ -54,9 +54,8 @@
 			<label class="x_control-label" for="domain_security">{$lang->use_ssl}</label>
 			<div class="x_controls">
 				<select id="domain_security" name="domain_security">
-					<!--@foreach($lang->ssl_options as $key => $val)-->
-						<option value="{$key}" selected="selected"|cond="($domain_info && $domain_info->security == $key) || (!$domain_info && config('url.ssl') == $key)" />{$val}</option>
-					<!--@endforeach-->
+					<option value="none" selected="selected"|cond="($domain_info && $domain_info->security === 'none') || (!$domain_info && config('url.ssl') === 'none')" />{$lang->ssl_options['none']}</option>
+					<option value="always" selected="selected"|cond="($domain_info && $domain_info->security !== 'none') || (!$domain_info && config('url.ssl') !== 'none')" />{$lang->ssl_options['always']}</option>
 				</select>
 				<div class="x_help-block">{lang('admin.about_use_ssl')}</div>
 			</div>

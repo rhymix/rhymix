@@ -57,7 +57,6 @@ $lang->about_recompile_cache = '清空cache缓存?';
 $lang->confirm_run = '此过程可能需要耗费一段时间，是否继续?';
 $lang->use_ssl = '是否使用<abbr title="Secure Sockets Layer">SSL</abbr>安全连接?';
 $lang->ssl_options['none'] = '不使用';
-$lang->ssl_options['optional'] = '可选（不推荐）';
 $lang->ssl_options['always'] = '始终（推荐）';
 $lang->about_use_ssl = '<p>选择“可选”是为指定的操作（例如注册和更改信息）使用SSL。<br />选择“总是”是为Rhymix生成的整个页面使用SSL。</p><p>请小心！ 在安装SSL证书之前，您可能无法访问该网站。</p>';
 $lang->server_ports = '指定服务器端口';
