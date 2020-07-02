@@ -350,7 +350,8 @@ class Router
 				if ($result !== false)
 				{
 					self::$_route_cache[$rewrite_level][$keys_string] = '$' . $prefix_type . '/' . $result . '$act:delete';
-					return $args[$prefix_type] . '/' . self::_insertRouteVars($result, $args2);
+					$internal_url = self::_insertRouteVars($result, $args2);
+					return $args[$prefix_type] . ($internal_url ? ('/' . $internal_url) : '');
 				}
 			}
 			
@@ -364,7 +365,8 @@ class Router
 					if ($result !== false)
 					{
 						self::$_route_cache[$rewrite_level][$keys_string] = '$' . $prefix_type . '/' . $result . '$act:delete';
-						return $args[$prefix_type] . '/' . self::_insertRouteVars($result, $args2);
+						$internal_url = self::_insertRouteVars($result, $args2);
+						return $args[$prefix_type] . ($internal_url ? ('/' . $internal_url) : '');
 					}
 				}
 			}
@@ -373,7 +375,8 @@ class Router
 			if ($prefix_type !== 'module' || !isset(self::$_except_modules[$args[$prefix_type]]))
 			{
 				self::$_route_cache[$rewrite_level][$keys_string] = '$' . $prefix_type . '/$act';
-				return $args[$prefix_type] . '/' . $args['act'] . (count($args2) ? ('?' . http_build_query($args2)) : '');
+				$internal_url = $args['act'] . (count($args2) ? ('?' . http_build_query($args2)) : '');
+				return $args[$prefix_type] . ($internal_url ? ('/' . $internal_url) : '');
 			}
 		}
 		
