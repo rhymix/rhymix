@@ -35,7 +35,6 @@ $lang->welcome_to_xe = 'Esta es la página del Administrador de Rhymix';
 $lang->about_lang_env = 'Para aplicar idioma seleccionado conjunto de los usuarios, como por defecto, haga clic en el botón [Guardar] el cambio.';
 $lang->xe_license = 'Rhymix está bajo la Licencia de GPL';
 $lang->ssl_options['none'] = 'Desactivar';
-$lang->ssl_options['optional'] = 'Opcionalmente el (no recomendado)';
 $lang->ssl_options['always'] = 'Utilice siempre el (recomendado)';
 $lang->about_use_ssl = 'Opcionalmente, la composición de suscripción / editar la información y el uso de SSL especificada en la acción es siempre el uso de SSL para todos los servicios que se utilizarán.';
 $lang->server_ports = 'Especifique el puerto del servidor';

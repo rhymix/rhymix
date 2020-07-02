@@ -50,9 +50,8 @@
 		<div class="x_control-group">
 			<label class="x_control-label">{$lang->use_ssl}</label>
 			<div class="x_controls">
-				<!--@foreach($lang->ssl_options as $key => $val)-->
-				<label for="ssl_{$key}" class="x_inline"><input type="radio" name="use_ssl" id="ssl_{$key}" value="{$key}" checked="checked"|cond="$use_ssl==$key" /> {$val}</label>
-				<!--@endforeach-->
+				<label for="ssl_always" class="x_inline"><input type="radio" name="use_ssl" id="ssl_always" value="always" checked="checked"|cond="$use_ssl !== 'none'" /> {$lang->cmd_yes}</label>
+				<label for="ssl_none" class="x_inline"><input type="radio" name="use_ssl" id="ssl_none" value="none" checked="checked"|cond="$use_ssl === 'none'" /> {$lang->cmd_no}</label>
 			</div>
 		</div>
 		<div class="x_control-group">

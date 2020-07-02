@@ -4,7 +4,7 @@
 	<actions>
 		<action name="dispDocumentPrint" type="view" meta-noindex="true"/>
 		<action name="dispDocumentPreview" type="view" meta-noindex="true"/>
-		<action name="dispTempSavedList" type="view" permission="member" meta-noindex="true" use-ssl="true" />
+		<action name="dispTempSavedList" type="view" permission="member" meta-noindex="true" />
 		<action name="dispDocumentDeclare" type="view" permission="member" meta-noindex="true" />
 		<action name="dispDocumentManageDocument" type="view" permission="all-managers" meta-noindex="true" />
 		

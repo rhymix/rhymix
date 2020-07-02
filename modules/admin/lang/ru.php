@@ -30,7 +30,6 @@ $lang->xe_license = 'Rhymix подчиняется Стандартной Общ
 $lang->yesterday = 'Вчера';
 $lang->today = 'Сегодня';
 $lang->ssl_options['none'] = 'Никогда';
-$lang->ssl_options['optional'] = 'На выбор';
 $lang->ssl_options['always'] = 'Всегда';
 $lang->thumbnail_type = 'Тип миниатюры';
 $lang->thumbnail_crop = 'Обрезать';

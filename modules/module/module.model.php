@@ -603,38 +603,6 @@ class moduleModel extends module
 	}
 
 	/**
-	 * @brief Get SSL action setting
-	 */
-	public static function getActionSecurity($act = null)
-	{
-		$action_security = Rhymix\Framework\Cache::get('action_security');
-		if($action_security === null)
-		{
-			$args = new stdClass();
-			$output = executeQueryArray('module.getActionSecurity', $args);
-			if(!$output->toBool())
-			{
-				return;
-			}
-			
-			$action_security = array();
-			foreach($output->data as $item)
-			{
-				$action_security[$item->act] = true;
-			}
-			
-			Rhymix\Framework\Cache::set('action_security', $action_security, 0, true);
-		}
-		
-		if(!isset($act))
-		{
-			return $action_security;
-		}
-		
-		return isset($action_security[$act]) ? true : false;
-	}
-
-	/**
 	 * @brief Get trigger functions
 	 */
 	public static function getTriggerFunctions($trigger_name, $called_position)
@@ -1379,9 +1347,6 @@ class moduleModel extends module
 		
 		// Get action forward
 		$action_forward = self::getActionForward();
-		
-		// Get action security
-		$action_security = self::getActionSecurity();
 
 		foreach ($searched_list as $module_name)
 		{
@@ -1462,15 +1427,6 @@ class moduleModel extends module
 					if (!isset($action_forward[$action_name]) ||
 						$action_forward[$action_name]->route_regexp !== $route_info['regexp'] ||
 						$action_forward[$action_name]->route_config !== $route_info['config'])
-					{
-						$info->need_update = true;
-					}
-				}
-				
-				// Check if all secure actions are registered
-				foreach ($module_action_info->action ?: [] as $action_name => $action_info)
-				{
-					if ($action_info->use_ssl === 'true' && !isset($action_security[$action_name]))
 					{
 						$info->need_update = true;
 					}
