@@ -98,10 +98,19 @@ class memberAdminController extends member
 		unset($all_args->use_editor);
 		unset($all_args->use_html);
 		unset($all_args->reset_password);
-		if(!isset($args->limit_date)) $args->limit_date = "";
 		$extra_vars = delObjectVars($all_args, $args);
 		$args->extra_vars = serialize($extra_vars);
 
+		// Delete invalid or past limit dates #1334
+		if (!isset($args->limit_date))
+		{
+			$args->limit_date = '';
+		}
+		elseif ($args->limit_date < date('Ymd'))
+		{
+			$args->limit_date = '';
+		}
+		
 		// remove whitespace
 		$checkInfos = array('user_id', 'user_name', 'nick_name', 'email_address');
 		foreach($checkInfos as $val)
