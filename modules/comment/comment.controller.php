@@ -896,6 +896,15 @@ class commentController extends comment
 		{
 			return new BaseObject(-1, 'msg_invalid_request');
 		}
+		$comment = getModel('comment')->getComment($obj->comment_srl);
+		if(!$comment->isExists())
+		{
+			return new BaseObject(-1, 'msg_not_founded');
+		}
+		if(!$is_admin && !$comment->isGranted())
+		{
+			return new BaseObject(-1, 'msg_not_permitted');
+		}
 		
 		// call a trigger (before)
 		$output = ModuleHandler::triggerCall('comment.deleteComment', 'before', $comment);
@@ -1184,6 +1193,14 @@ class commentController extends comment
 
 		$oCommentModel = getModel('comment');
 		$oComment = $oCommentModel->getComment($obj->comment_srl);
+		if(!$oComment->isExists())
+		{
+			return new BaseObject(-1, 'msg_not_founded');
+		}
+		if(!$oComment->isGranted())
+		{
+			return new BaseObject(-1, 'msg_not_permitted');
+		}
 
 		$oMemberModel = getModel('member');
 		$member_info = $oMemberModel->getMemberInfoByMemberSrl($oComment->get('member_srl'));
