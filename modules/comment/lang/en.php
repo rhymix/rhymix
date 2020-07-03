@@ -26,6 +26,7 @@ $lang->search_target_list['last_update'] = 'Last update';
 $lang->search_target_list['ipaddress'] = 'IP Address';
 $lang->search_target_list['is_secret'] = 'Status';
 $lang->no_text_comment = 'No text in this comment.';
+$lang->no_text_document = 'No text in this document.';
 $lang->secret_name_list['Y'] = 'Secret';
 $lang->secret_name_list['N'] = 'Public';
 $lang->published_name_list[0] = 'Waiting';

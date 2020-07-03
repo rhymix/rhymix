@@ -286,6 +286,15 @@ class boardController extends board
 		}
 
 		$oDocument = DocumentModel::getDocument($document_srl);
+		if (!$oDocument || !$oDocument->isExists())
+		{
+			throw new Rhymix\Framework\Exceptions\TargetNotFound;
+		}
+		if (!$oDocument->isGranted())
+		{
+			throw new Rhymix\Framework\Exceptions\NotPermitted;
+		}
+		
 		// check protect content
 		if($this->module_info->protect_content == 'Y' || $this->module_info->protect_delete_content == 'Y')
 		{
@@ -308,14 +317,10 @@ class boardController extends board
 		$oDocumentController = getController('document');
 		if($this->module_info->trash_use == 'Y')
 		{
-			// move the trash
-			if($oDocument->isGranted() === true)
+			$output = $oDocumentController->moveDocumentToTrash($oDocument);
+			if(!$output->toBool())
 			{
-				$output = $oDocumentController->moveDocumentToTrash($oDocument);
-				if(!$output->toBool())
-				{
-					return $output;
-				}
+				return $output;
 			}
 		}
 		else
@@ -526,11 +531,11 @@ class boardController extends board
 		}
 
 		$comment = CommentModel::getComment($comment_srl, $this->grant->manager);
-		if(!$comment->isExists())
+		if (!$comment || !$comment->isExists())
 		{
 			throw new Rhymix\Framework\Exceptions\TargetNotFound;
 		}
-		if(!$comment->isGranted())
+		if (!$comment->isGranted())
 		{
 			throw new Rhymix\Framework\Exceptions\NotPermitted;
 		}
@@ -544,6 +549,7 @@ class boardController extends board
 				throw new Rhymix\Framework\Exception('msg_board_delete_protect_comment');
 			}
 		}
+		
 		if($this->module_info->protect_comment_regdate > 0 && $this->grant->manager == false)
 		{
 			if($comment->get('regdate') < date('YmdHis', strtotime('-'.$this->module_info->protect_document_regdate.' day')))
