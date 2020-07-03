@@ -151,13 +151,13 @@
 					}
 
 					if(result.error == 0) {
-						if(/\.(gif|jpe?g|png|webp)$/i.test(result.source_filename)) {
+						if(/\.(gif|jpe?g|png|webp)$/i.test(result.source_filename) && opt.autoinsertTypes.image) {
 							temp_code += '<img src="' + result.download_url + '" alt="' + result.source_filename + '" editor_component="image_link" data-file-srl="' + result.file_srl + '" />';
 						}
-						else if(/\.(mp3|wav|ogg|flac|aac)$/i.test(result.source_filename)) {
+						else if(/\.(mp3|wav|ogg|flac|aac)$/i.test(result.source_filename) && opt.autoinsertTypes.audio) {
 							temp_code += '<audio src="' + result.download_url + '" controls data-file-srl="' + result.file_srl + '" />';
 						}
-						else if(/\.(mp4|webm|ogv)$/i.test(result.source_filename)) {
+						else if(/\.(mp4|webm|ogv)$/i.test(result.source_filename) && opt.autoinsertTypes.video) {
 							if(result.original_type === 'image/gif') {
 								temp_code += '<video src="' + result.download_url + '" autoplay loop muted data-file-srl="' + result.file_srl + '" />';
 							} else {
@@ -166,15 +166,13 @@
 						}
 						
 						if(temp_code !== '') {
-							if (opt.autoinsertImage === 'paragraph') {
+							if (opt.autoinsertPosition === 'paragraph') {
 								temp_code = "<p>" + temp_code + "</p>\n";
 							}
-							if (opt.autoinsertImage !== 'none') {
-								try {
-									_getCkeInstance(settings.formData.editor_sequence).insertHtml(temp_code, "unfiltered_html");
-								}
-								catch(err) {}
+							try {
+								_getCkeInstance(settings.formData.editor_sequence).insertHtml(temp_code, "unfiltered_html");
 							}
+							catch(err) {}
 						}
 					} else if (result.message) {
 						alert(result.message);
@@ -326,13 +324,13 @@
 				if(!result) return;
 				var temp_code = '';
 
-				if(/\.(gif|jpe?g|png|webp)$/i.test(result.source_filename)) {
+				if(/\.(gif|jpe?g|png|webp)$/i.test(result.source_filename) && data.settings.autoinsertTypes.image) {
 					temp_code += '<img src="' + result.download_url + '" alt="' + result.source_filename + '" editor_component="image_link" data-file-srl="' + result.file_srl + '" />';
 				}
-				else if(/\.(mp3|wav|ogg|flac|aac)$/i.test(result.source_filename)) {
+				else if(/\.(mp3|wav|ogg|flac|aac)$/i.test(result.source_filename) && data.settings.autoinsertTypes.audio) {
 					temp_code += '<audio src="' + result.download_url + '" controls data-file-srl="' + result.file_srl + '" />';
 				}
-				else if(/\.(mp4|webm|ogv)$/i.test(result.source_filename)) {
+				else if(/\.(mp4|webm|ogv)$/i.test(result.source_filename) && data.settings.autoinsertTypes.video) {
 					if(result.original_type === 'image/gif') {
 						temp_code += '<video src="' + result.download_url + '" autoplay loop muted data-file-srl="' + result.file_srl + '" />';
 					} else {
@@ -341,7 +339,7 @@
 				}
 				
 				if(temp_code !== '') {
-					if (data.settings.autoinsertImage === 'paragraph') {
+					if (data.settings.autoinsertPosition === 'paragraph') {
 						temp_code = "<p>" + temp_code + "</p>\n";
 					}
 				}

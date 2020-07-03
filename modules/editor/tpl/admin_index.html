@@ -214,7 +214,7 @@
 			<div class="x_controls">
 				<label class="x_inline"><input type="radio" name="enable_autosave" value="Y" checked="checked"|cond="$editor_config->enable_autosave != 'N'" /> {$lang->cmd_yes}</label>
 				<label class="x_inline"><input type="radio" name="enable_autosave" value="N" checked="checked"|cond="$editor_config->enable_autosave == 'N'" /> {$lang->cmd_no}</label>
-				<p class="x_help-inline">{$lang->about_enable_autosave}</p>
+				<p class="x_help-block">{$lang->about_enable_autosave}</p>
 			</div>
 		</div>
 		<div class="x_control-group">
@@ -225,16 +225,23 @@
 			</div>
 		</div>
 		<div class="x_control-group">
-			<label class="x_control-label">{$lang->guide_choose_autoinsert_image}</label>
+			<label class="x_control-label">{$lang->guide_choose_autoinsert_types}</label>
 			<div class="x_controls">
-				<label for="autoinsert_image_paragraph">
-					<input type="radio" name="autoinsert_image" id="autoinsert_image_paragraph" value="paragraph" checked="checked"|cond="$editor_config->autoinsert_image == 'paragraph' || !$editor_config->autoinsert_image" /> {$lang->autoinsert_image_paragraph}
+				<label class="x_inline">
+					<input type="checkbox" name="autoinsert_types[]" value="image" checked="checked"|cond="$editor_config->autoinsert_image !== 'none' && (!isset($editor_config->autoinsert_types) || isset($editor_config->autoinsert_types['image']))" /> {$lang->autoinsert_types['image']}
 				</label>
-				<label for="autoinsert_image_inline">
-					<input type="radio" name="autoinsert_image" id="autoinsert_image_inline" value="inline" checked="checked"|cond="$editor_config->autoinsert_image == 'inline'" /> {$lang->autoinsert_image_inline}
+				<label class="x_inline">
+					<input type="checkbox" name="autoinsert_types[]" value="audio" checked="checked"|cond="$editor_config->autoinsert_image !== 'none' && (!isset($editor_config->autoinsert_types) || isset($editor_config->autoinsert_types['audio']))" /> {$lang->autoinsert_types['audio']}
 				</label>
-				<label for="autoinsert_image_none">
-					<input type="radio" name="autoinsert_image" id="autoinsert_image_none" value="none" checked="checked"|cond="$editor_config->autoinsert_image == 'none'" /> {$lang->autoinsert_image_none}
+				<label class="x_inline">
+					<input type="checkbox" name="autoinsert_types[]" value="video" checked="checked"|cond="$editor_config->autoinsert_image !== 'none' && (!isset($editor_config->autoinsert_types) || isset($editor_config->autoinsert_types['video']))" /> {$lang->autoinsert_types['video']}
+				</label>
+				<br />
+				<label for="autoinsert_paragraph">
+					<input type="radio" name="autoinsert_position" id="autoinsert_paragraph" value="paragraph" checked="checked"|cond="$editor_config->autoinsert_position == 'paragraph' || !$editor_config->autoinsert_position" /> {$lang->autoinsert_paragraph}
+				</label>
+				<label for="autoinsert_inline">
+					<input type="radio" name="autoinsert_position" id="autoinsert_inline" value="inline" checked="checked"|cond="$editor_config->autoinsert_position == 'inline'" /> {$lang->autoinsert_inline}
 				</label>
 			</div>
 		</div>
