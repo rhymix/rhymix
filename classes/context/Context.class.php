@@ -1672,6 +1672,7 @@ class Context
 		// If $args_list contains one array, reset existing parameters and use keys & values from $args_list.
 		if (is_array($args_list[0]) && count($args_list) == 1)
 		{
+			$get_vars = array();
 			foreach ($args_list[0] as $key => $val)
 			{
 				$val = trim($val);
