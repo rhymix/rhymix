@@ -41,14 +41,20 @@ class VariableBase
 		}
 		elseif ($this->var && Query::isValidVariable($args[$this->var], $this instanceof ColumnWrite))
 		{
-			$this->filterValue($args[$this->var]);
 			if ($args[$this->var] instanceof EmptyString || $args[$this->var] instanceof NullValue)
 			{
+				$this->filterValue('');
 				$value = strval($args[$this->var]);
 				$is_expression = true;
 			}
+			elseif ($args[$this->var] === '')
+			{
+				$this->filterValue($args[$this->var]);
+				list($is_expression, $value) = $this->getDefaultValue();
+			}
 			else
 			{
+				$this->filterValue($args[$this->var]);
 				$value = $args[$this->var];
 				$is_expression = false;
 			}
@@ -267,8 +273,15 @@ class VariableBase
 	{
 		if ($this->var && Query::isValidVariable($args[$this->var], $this instanceof ColumnWrite))
 		{
-			$is_expression = false;
-			$value = $args[$this->var];
+			if ($args[$this->var] === '')
+			{
+				list($is_expression, $value) = $this->getDefaultValue();
+			}
+			else
+			{
+				$is_expression = false;
+				$value = $args[$this->var];
+			}
 		}
 		elseif ($this->default !== null)
 		{
@@ -341,48 +354,56 @@ class VariableBase
 	 */
 	public function filterValue($value)
 	{
+		// Don't apply a filter if there is no variable.
+		$column = isset($this->column) ? $this->column : $this->name;
+		$filter = isset($this->filter) ? $this->filter : '';
+		if (strval($value) === '')
+		{
+			$filter = '';
+		}
+		
 		// Apply filters.
-		switch (isset($this->filter) ? $this->filter : '')
+		switch ($filter)
 		{
 			case 'email':
 			case 'email_address':
 				if (!preg_match('/^[\w-]+((?:\.|\+|\~)[\w-]+)*@[\w-]+(\.[\w-]+)+$/', $value))
 				{
-					throw new \Rhymix\Framework\Exceptions\QueryError('Variable ' . $this->var . ' for column ' . $this->column . ' must contain a valid e-mail address');
+					throw new \Rhymix\Framework\Exceptions\QueryError('Variable ' . $this->var . ' for column ' . $column . ' must contain a valid e-mail address');
 				}
 				break;
 			case 'homepage':
 			case 'url':
 				if (!preg_match('/^(http|https)+(:\/\/)+[0-9a-z_-]+\.[^ ]+$/i', $value))
 				{
-					throw new \Rhymix\Framework\Exceptions\QueryError('Variable ' . $this->var . ' for column ' . $this->column . ' must contain a valid URL');
+					throw new \Rhymix\Framework\Exceptions\QueryError('Variable ' . $this->var . ' for column ' . $column . ' must contain a valid URL');
 				}
 				break;
 			case 'userid':
 			case 'user_id':
 				if (!preg_match('/^[a-zA-Z]+([_0-9a-zA-Z]+)*$/', $value))
 				{
-					throw new \Rhymix\Framework\Exceptions\QueryError('Variable ' . $this->var . ' for column ' . $this->column . ' must contain a valid user ID');
+					throw new \Rhymix\Framework\Exceptions\QueryError('Variable ' . $this->var . ' for column ' . $column . ' must contain a valid user ID');
 				}
 				break;
 			case 'number':
 			case 'numbers':
 				if (!preg_match('/^(-?)[0-9]+(,\-?[0-9]+)*$/', is_array($value) ? implode(',', $value) : $value))
 				{
-					throw new \Rhymix\Framework\Exceptions\QueryError('Variable ' . $this->var . ' for column ' . $this->column . ' must contain a valid number');
+					throw new \Rhymix\Framework\Exceptions\QueryError('Variable ' . $this->var . ' for column ' . $column . ' must contain a valid number');
 				}
 				break;
 			case 'alpha':
 				if (!ctype_alpha($value))
 				{
-					throw new \Rhymix\Framework\Exceptions\QueryError('Variable ' . $this->var . ' for column ' . $this->column . ' must contain only alphabets');
+					throw new \Rhymix\Framework\Exceptions\QueryError('Variable ' . $this->var . ' for column ' . $column . ' must contain only alphabets');
 				}
 				break;
 			case 'alnum':
 			case 'alpha_number':
 				if (!ctype_alnum($value))
 				{
-					throw new \Rhymix\Framework\Exceptions\QueryError('Variable ' . $this->var . ' for column ' . $this->column . ' must contain only alphanumeric characters');
+					throw new \Rhymix\Framework\Exceptions\QueryError('Variable ' . $this->var . ' for column ' . $column . ' must contain only alphanumeric characters');
 				}
 				break;
 		}
@@ -391,11 +412,11 @@ class VariableBase
 		$length = is_scalar($value) ? iconv_strlen($value, 'UTF-8') : (is_countable($value) ? count($value) : 1);
 		if (isset($this->minlength) && $this->minlength > 0 && $length < $this->minlength)
 		{
-			throw new \Rhymix\Framework\Exceptions\QueryError('Variable ' . $this->var . ' for column ' . $this->column . ' must contain no less than ' . $this->minlength . ' characters');
+			throw new \Rhymix\Framework\Exceptions\QueryError('Variable ' . $this->var . ' for column ' . $column . ' must contain no less than ' . $this->minlength . ' characters');
 		}
 		if (isset($this->maxlength) && $this->maxlength > 0 && $length > $this->maxlength)
 		{
-			throw new \Rhymix\Framework\Exceptions\QueryError('Variable ' . $this->var . ' for column ' . $this->column . ' must contain no more than ' . $this->minlength . ' characters');
+			throw new \Rhymix\Framework\Exceptions\QueryError('Variable ' . $this->var . ' for column ' . $column . ' must contain no more than ' . $this->minlength . ' characters');
 		}
 	}
 }
