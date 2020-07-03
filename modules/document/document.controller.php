@@ -1024,25 +1024,30 @@ class documentController extends document
 		$oDB = &DB::getInstance();
 		$oDB->begin();
 
+		// Check if the document exists
 		if(!$isEmptyTrash)
 		{
-			// Check if the documnet exists
 			$oDocument = DocumentModel::getDocument($document_srl, $is_admin);
 		}
-		else if($isEmptyTrash && $oDocument == null) return new BaseObject(-1, 'document is not exists');
+		else if($isEmptyTrash && $oDocument == null)
+		{
+			return new BaseObject(-1, 'msg_not_founded');
+		}
 
-		$member_info = MemberModel::getMemberInfoByMemberSrl($oDocument->get('member_srl'));
-		$logged_info = Context::get('logged_info');
-
-		if($member_info->is_admin == 'Y' && $logged_info->is_admin != 'Y')
+		// Check permission
+		if(!$oDocument->isExists())
+		{
+			return new BaseObject(-1, 'msg_invalid_document');
+		}
+		if(!$oDocument->isGranted())
+		{
+			return new BaseObject(-1, 'msg_not_permitted');
+		}
+		$member_info = MemberModel::getMemberInfo($oDocument->get('member_srl'));
+		if($member_info->is_admin === 'Y' && $this->user->is_admin !== 'Y')
 		{
 			return new BaseObject(-1, 'msg_document_is_admin_not_permitted');
 		}
-
-
-		if(!$oDocument->isExists() || $oDocument->document_srl != $document_srl) return new BaseObject(-1, 'msg_invalid_document');
-		// Check if a permossion is granted
-		if(!$oDocument->isGranted()) return new BaseObject(-1, 'msg_not_permitted');
 
 		//if empty trash, document already deleted, therefore document not delete
 		$args = new stdClass();
@@ -1136,18 +1141,27 @@ class documentController extends document
 	 */
 	function moveDocumentToTrash($obj)
 	{
-		$logged_info = Context::get('logged_info');
 		$trash_args = new stdClass();
 		// Get trash_srl if a given trash_srl doesn't exist
 		if(!$obj->trash_srl) $trash_args->trash_srl = getNextSequence();
 		else $trash_args->trash_srl = $obj->trash_srl;
 		// Get its module_srl which the document belongs to
 		$oDocument = DocumentModel::getDocument($obj->document_srl);
-
-		$member_info = MemberModel::getMemberInfoByMemberSrl($oDocument->get('member_srl'));
-		if($member_info->is_admin == 'Y' && $logged_info->is_admin != 'Y')
+		if(!$oDocument->isExists())
 		{
-			return new BaseObject(-1, 'msg_admin_document_no_move_to_trash');
+			return new BaseObject(-1, 'msg_not_founded');
+		}
+		if(!$oDocument->isGranted())
+		{
+			return new BaseObject(-1, 'msg_not_permitted');
+		}
+		if($this->user->is_admin !== 'Y')
+		{
+			$member_info = MemberModel::getMemberInfo($oDocument->get('member_srl'));
+			if($member_info->is_admin === 'Y')
+			{
+				return new BaseObject(-1, 'msg_admin_document_no_move_to_trash');
+			}
 		}
 
 		$trash_args->module_srl = $oDocument->get('module_srl');
@@ -1161,15 +1175,12 @@ class documentController extends document
 		$trash_args->document_srl = $obj->document_srl;
 		$trash_args->description = $obj->description;
 		// Insert member's information only if the member is logged-in and not manually registered.
-		if(Context::get('is_logged'))
+		if($this->user->isMember())
 		{
-			$logged_info = Context::get('logged_info');
-			$trash_args->member_srl = $logged_info->member_srl;
-
-			// user_id, user_name and nick_name already encoded
-			$trash_args->user_id = htmlspecialchars_decode($logged_info->user_id);
-			$trash_args->user_name = htmlspecialchars_decode($logged_info->user_name);
-			$trash_args->nick_name = htmlspecialchars_decode($logged_info->nick_name);
+			$trash_args->member_srl = $this->user->member_srl;
+			$trash_args->user_id = htmlspecialchars_decode($this->user->user_id);
+			$trash_args->user_name = htmlspecialchars_decode($this->user->user_name);
+			$trash_args->nick_name = htmlspecialchars_decode($this->user->nick_name);
 		}
 		// Date setting for updating documents
 		$document_args = new stdClass;

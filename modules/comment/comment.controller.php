@@ -883,9 +883,16 @@ class commentController extends comment
 			return $output;
 		}
 
-		// begin transaction
-		$oDB = DB::getInstance();
-		$oDB->begin();
+		// check if comment exists and permission is granted
+		$comment = CommentModel::getComment($obj->comment_srl);
+		if(!$comment->isExists())
+		{
+			return new BaseObject(-1, 'msg_not_founded');
+		}
+		if(!$is_admin && !$comment->isGranted())
+		{
+			return new BaseObject(-1, 'msg_not_permitted');
+		}
 
 		// If the case manager to delete comments, it indicated that the administrator deleted.
 		$logged_info = Context::get('logged_info');
@@ -899,6 +906,12 @@ class commentController extends comment
 			$obj->content = lang('msg_deleted_comment');
 			$obj->status = RX_STATUS_DELETED;
 		}
+
+		// Begin transaction
+		$oDB = DB::getInstance();
+		$oDB->begin();
+		
+		// Update
 		$obj->member_srl = 0;
 		unset($obj->last_update);
 		$output = executeQuery('comment.updateCommentByDelete', $obj);
@@ -931,7 +944,6 @@ class commentController extends comment
 		$oDB->commit();
 
 		$output->add('document_srl', $obj->document_srl);
-
 		return $output;
 	}
 
@@ -992,13 +1004,16 @@ class commentController extends comment
 
 		// check if comment already exists
 		$comment = CommentModel::getComment($comment_srl);
-		if($comment->comment_srl != $comment_srl)
+		if(!$comment->isExists())
 		{
-			return new BaseObject(-1, 'msg_invalid_request');
+			return new BaseObject(-1, 'msg_not_founded');
+		}
+		if(!$is_admin && !$comment->isGranted())
+		{
+			return new BaseObject(-1, 'msg_not_permitted');
 		}
 
-		$member_info = MemberModel::getMemberInfoByMemberSrl($comment->member_srl);
-
+		$member_info = MemberModel::getMemberInfo($comment->member_srl);
 		$document_srl = $comment->document_srl;
 
 		// call a trigger (before)
@@ -1009,14 +1024,8 @@ class commentController extends comment
 			return $output;
 		}
 
-		// check if permission is granted
-		if(!$is_admin && !$comment->isGranted())
-		{
-			return new BaseObject(-1, 'msg_not_permitted');
-		}
-
 		// check if child comment exists on the comment
-		if(!$childs)
+		if($childs === null)
 		{
 			$childs = CommentModel::getChildComments($comment_srl);
 		}
@@ -1144,7 +1153,7 @@ class commentController extends comment
 	 */
 	function moveCommentToTrash($obj, $updateComment = false)
 	{
-		$logged_info = Context::get('logged_info');
+		// Initialize trash arguments
 		$trash_args = new stdClass();
 		if(!$obj->trash_srl)
 		{
@@ -1155,14 +1164,25 @@ class commentController extends comment
 			$trash_args->trash_srl = $obj->trash_srl;
 		}
 
+		// check if comment exists and permission is granted
 		$oComment = CommentModel::getComment($obj->comment_srl);
-
-		$member_info = MemberModel::getMemberInfoByMemberSrl($oComment->get('member_srl'));
-		if($member_info->is_admin == 'Y' && $logged_info->is_admin != 'Y')
+		if(!$oComment->isExists())
 		{
-			return new BaseObject(-1, 'msg_admin_comment_no_move_to_trash');
+			return new BaseObject(-1, 'msg_not_founded');
 		}
-
+		if(!$oComment->isGranted())
+		{
+			return new BaseObject(-1, 'msg_not_permitted');
+		}
+		if($this->user->is_admin !== 'Y')
+		{
+			$member_info = MemberModel::getMemberInfo($oComment->get('member_srl'));
+			if($member_info->is_admin === 'Y')
+			{
+				return new BaseObject(-1, 'msg_admin_comment_no_move_to_trash');
+			}
+		}
+		
 		$obj->module_srl = $oComment->get('module_srl');
 		$trash_args->module_srl = $obj->module_srl;
 		if($trash_args->module_srl === 0)
@@ -1172,13 +1192,12 @@ class commentController extends comment
 		$trash_args->document_srl = $obj->document_srl;
 		$trash_args->comment_srl = $obj->comment_srl;
 		$trash_args->description = $obj->description;
-
-		if(!Context::get('is_logged'))
+		if($this->user->isMember())
 		{
-			$trash_args->member_Srl = $logged_info->member_srl;
-			$trash_args->user_id = htmlspecialchars_decode($logged_info->user_id);
-			$trash_args->user_name = htmlspecialchars_decode($logged_info->user_name);
-			$trash_args->nick_name = htmlspecialchars_decode($logged_info->nick_name);
+			$trash_args->member_srl = $this->user->member_srl;
+			$trash_args->user_id = htmlspecialchars_decode($this->user->user_id);
+			$trash_args->user_name = htmlspecialchars_decode($this->user->user_name);
+			$trash_args->nick_name = htmlspecialchars_decode($this->user->nick_name);
 		}
 
 		$oDB = &DB::getInstance();

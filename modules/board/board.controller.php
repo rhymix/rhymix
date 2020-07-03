@@ -57,21 +57,20 @@ class boardController extends board
 			$obj->is_admin = 'Y';
 		}
 		
-		$oDocumentModel = getModel('document');
 		$oDocumentController = getController('document');
 		
-		$_SECRET = $oDocumentModel->getConfigStatus('secret');
+		$secret_status = DocumentModel::getConfigStatus('secret');
 		$use_status = explode('|@|', $this->module_info->use_status);
 		
 		// Set status
-		if(($obj->is_secret == 'Y' || $obj->status == $_SECRET) && is_array($use_status) && in_array($_SECRET, $use_status))
+		if(($obj->is_secret == 'Y' || $obj->status == $secret_status) && is_array($use_status) && in_array($secret_status, $use_status))
 		{
-			$obj->status = $_SECRET;
+			$obj->status = $secret_status;
 		}
 		else
 		{
 			unset($obj->is_secret);
-			$obj->status = $oDocumentModel->getConfigStatus('public');
+			$obj->status = DocumentModel::getConfigStatus('public');
 		}
 		
 		// Set update log
@@ -102,7 +101,7 @@ class boardController extends board
 		}
 		
 		// Update if the document already exists.
-		$oDocument = $oDocumentModel->getDocument($obj->document_srl, $this->grant->manager);
+		$oDocument = DocumentModel::getDocument($obj->document_srl, $this->grant->manager);
 		if($oDocument->isExists())
 		{
 			if(!$oDocument->isGranted())
@@ -111,14 +110,14 @@ class boardController extends board
 			}
 			
 			// Protect admin document
-			$member_info = getModel('member')->getMemberInfoByMemberSrl($oDocument->get('member_srl'));
+			$member_info = MemberModel::getMemberInfo($oDocument->get('member_srl'));
 			if($member_info->is_admin == 'Y' && $logged_info->is_admin != 'Y')
 			{
 				throw new Rhymix\Framework\Exception('msg_admin_document_no_modify');
 			}
 			
 			// if document status is temp
-			if($oDocument->get('status') == $oDocumentModel->getConfigStatus('temp'))
+			if($oDocument->get('status') == DocumentModel::getConfigStatus('temp'))
 			{
 				// if use anonymous, set the member_srl to a negative number
 				if($this->module_info->use_anonymous == 'Y')
@@ -188,7 +187,7 @@ class boardController extends board
 			if ($output->toBool())
 			{
 				// Set grant for the new document.
-				$oDocument = $oDocumentModel->getDocument($output->get('document_srl'));
+				$oDocument = DocumentModel::getDocument($output->get('document_srl'));
 				$oDocument->setGrantForSession();
 				
 				// send an email to admin user
@@ -240,13 +239,12 @@ class boardController extends board
 			throw new Rhymix\Framework\Exception('msg_no_update_id');
 		}
 
-		$oDocumentModel = getModel('document');
 		$oDocumentController = getController('document');
-		$update_log = $oDocumentModel->getUpdateLog($update_id);
+		$update_log = DocumentModel::getUpdateLog($update_id);
 
 		if($logged_info->is_admin != 'Y')
 		{
-			$Exists_log = $oDocumentModel->getUpdateLogAdminisExists($update_log->document_srl);
+			$Exists_log = DocumentModel::getUpdateLogAdminisExists($update_log->document_srl);
 			if($Exists_log === true)
 			{
 				throw new Rhymix\Framework\Exception('msg_admin_update_log');
@@ -258,7 +256,7 @@ class boardController extends board
 			throw new Rhymix\Framework\Exception('msg_no_update_log');
 		}
 
-		$oDocument = $oDocumentModel->getDocument($update_log->document_srl);
+		$oDocument = DocumentModel::getDocument($update_log->document_srl);
 		$obj = new stdClass();
 		$obj->title = $update_log->title;
 		$obj->document_srl = $update_log->document_srl;
@@ -287,8 +285,7 @@ class boardController extends board
 			throw new Rhymix\Framework\Exception('msg_invalid_document');
 		}
 
-		$oDocumentModel = &getModel('document');
-		$oDocument = $oDocumentModel->getDocument($document_srl);
+		$oDocument = DocumentModel::getDocument($document_srl);
 		// check protect content
 		if($this->module_info->protect_content == 'Y' || $this->module_info->protect_delete_content == 'Y')
 		{
@@ -396,8 +393,7 @@ class boardController extends board
 		}
 
 		// check if the doument is existed
-		$oDocumentModel = getModel('document');
-		$oDocument = $oDocumentModel->getDocument($obj->document_srl);
+		$oDocument = DocumentModel::getDocument($obj->document_srl);
 		if(!$oDocument->isExists())
 		{
 			throw new Rhymix\Framework\Exceptions\TargetNotFound;
@@ -418,9 +414,6 @@ class boardController extends board
 			$manual = false;
 		}
 
-		// generate comment  module model object
-		$oCommentModel = getModel('comment');
-
 		// generate comment module controller object
 		$oCommentController = getController('comment');
 
@@ -432,10 +425,10 @@ class boardController extends board
 		}
 		else
 		{
-			$comment = $oCommentModel->getComment($obj->comment_srl, $this->grant->manager);
+			$comment = CommentModel::getComment($obj->comment_srl, $this->grant->manager);
 			if($this->module_info->protect_update_comment === 'Y' && $this->grant->manager == false)
 			{
-				$childs = $oCommentModel->getChildComments($obj->comment_srl);
+				$childs = CommentModel::getChildComments($obj->comment_srl);
 				if(count($childs) > 0)
 				{
 					throw new Rhymix\Framework\Exception('msg_board_update_protect_comment');
@@ -443,9 +436,7 @@ class boardController extends board
 			}
 		}
 
-		$oMemberModel = getModel('member');
-		$member_info = $oMemberModel->getMemberInfoByMemberSrl($comment->member_srl);
-
+		$member_info = MemberModel::getMemberInfo($comment->member_srl);
 		if($member_info->is_admin == 'Y' && $logged_info->is_admin != 'Y')
 		{
 			throw new Rhymix\Framework\Exception('msg_admin_comment_no_modify');
@@ -460,7 +451,7 @@ class boardController extends board
 			// Parent exists.
 			if($obj->parent_srl)
 			{
-				$parent_comment = $oCommentModel->getComment($obj->parent_srl);
+				$parent_comment = CommentModel::getComment($obj->parent_srl);
 				if(!$parent_comment->comment_srl)
 				{
 					throw new Rhymix\Framework\Exceptions\TargetNotFound;
@@ -479,7 +470,7 @@ class boardController extends board
 			// Set grant for the new comment.
 			if ($output->toBool())
 			{
-				$comment = $oCommentModel->getComment($output->get('comment_srl'));
+				$comment = CommentModel::getComment($output->get('comment_srl'));
 				$comment->setGrantForSession();
 			}
 		}
@@ -523,6 +514,10 @@ class boardController extends board
 	{
 		// get the comment_srl
 		$comment_srl = Context::get('comment_srl');
+		if(!$comment_srl)
+		{
+			throw new Rhymix\Framework\Exceptions\InvalidRequest;
+		}
 
 		$instant_delete = null;
 		if($this->grant->manager == true)
@@ -530,22 +525,25 @@ class boardController extends board
 			$instant_delete = Context::get('instant_delete');
 		}
 
-		if(!$comment_srl)
+		$comment = CommentModel::getComment($comment_srl, $this->grant->manager);
+		if(!$comment->isExists())
 		{
-			throw new Rhymix\Framework\Exceptions\InvalidRequest;
+			throw new Rhymix\Framework\Exceptions\TargetNotFound;
 		}
-
-		$oCommentModel = getModel('comment');
-
+		if(!$comment->isGranted())
+		{
+			throw new Rhymix\Framework\Exceptions\NotPermitted;
+		}
+		
+		$childs = null;
 		if($this->module_info->protect_delete_comment === 'Y' && $this->grant->manager == false)
 		{
-			$childs = $oCommentModel->getChildComments($comment_srl);
+			$childs = CommentModel::getChildComments($comment_srl);
 			if(count($childs) > 0)
 			{
 				throw new Rhymix\Framework\Exception('msg_board_delete_protect_comment');
 			}
 		}
-		$comment = $oCommentModel->getComment($comment_srl, $this->grant->manager);
 		if($this->module_info->protect_comment_regdate > 0 && $this->grant->manager == false)
 		{
 			if($comment->get('regdate') < date('YmdHis', strtotime('-'.$this->module_info->protect_document_regdate.' day')))
@@ -570,7 +568,7 @@ class boardController extends board
 		}
 		elseif(starts_with('only_comm', $this->module_info->comment_delete_message) && $instant_delete != 'Y')
 		{
-			$childs = $oCommentModel->getChildComments($comment_srl);
+			$childs = ($childs !== null) ? $childs : CommentModel::getChildComments($comment_srl);
 			if(count($childs) > 0)
 			{
 				$output = $oCommentController->updateCommentByDelete($comment, $this->grant->manager);
@@ -654,21 +652,18 @@ class boardController extends board
 		$document_srl = Context::get('document_srl');
 		$comment_srl = Context::get('comment_srl');
 
-		$oMemberModel = getModel('member');
-
 		// if the comment exists
 		if($comment_srl)
 		{
 			// get the comment information
-			$oCommentModel = getModel('comment');
-			$oComment = $oCommentModel->getComment($comment_srl);
+			$oComment = CommentModel::getComment($comment_srl);
 			if(!$oComment->isExists())
 			{
 				throw new Rhymix\Framework\Exceptions\TargetNotFound;
 			}
 
 			// compare the comment password and the user input password
-			if(!$oMemberModel->isValidPassword($oComment->get('password'),$password))
+			if(!MemberModel::isValidPassword($oComment->get('password'), $password))
 			{
 				throw new Rhymix\Framework\Exception('msg_invalid_password');
 			}
@@ -676,15 +671,14 @@ class boardController extends board
 			$oComment->setGrantForSession();
 		} else {
 			 // get the document information
-			$oDocumentModel = getModel('document');
-			$oDocument = $oDocumentModel->getDocument($document_srl);
+			$oDocument = DocumentModel::getDocument($document_srl);
 			if(!$oDocument->isExists())
 			{
 				throw new Rhymix\Framework\Exceptions\TargetNotFound;
 			}
 
 			// compare the document password and the user input password
-			if(!$oMemberModel->isValidPassword($oDocument->get('password'),$password))
+			if(!MemberModel::isValidPassword($oDocument->get('password'), $password))
 			{
 				throw new Rhymix\Framework\Exception('msg_invalid_password');
 			}
@@ -704,7 +698,7 @@ class boardController extends board
 		}
 		
 		// get the module information
-		$module_info = getModel('module')->getModuleInfoByMid($mid);
+		$module_info = ModuleModel::getModuleInfoByMid($mid);
 		if(empty($module_info->module) || $module_info->module !== 'board' || $module_info->use_anonymous === 'Y')
 		{
 			return;
