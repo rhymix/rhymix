@@ -82,6 +82,12 @@ class VariableBase
 			$value = explode(',', preg_replace('/[\s\']/', '', $value));
 		}
 		
+		// Restrict operators for write queries.
+		if ($this instanceof ColumnWrite && $this->operation && !in_array($this->operation, ['equal', 'plus', 'minus', 'multiply']))
+		{
+			throw new \Rhymix\Framework\Exceptions\QueryError('Operation ' . $this->operation . ' is not valid for column in an INSERT or UPDATE query');
+		}
+		
 		// Apply the operator.
 		switch ($this->operation)
 		{
@@ -298,12 +304,15 @@ class VariableBase
 	 */
 	public function getDefaultValue()
 	{
+		// Get the current column name.
+		$column = $this instanceof ColumnWrite ? $this->name : $this->column;
+		
 		// If the default value is a column name, escape it.
 		if (strpos($this->default, '.') !== false && Query::isValidColumnName($this->default))
 		{
 			return [true, Query::quoteName($this->default)];
 		}
-		elseif (isset($this->column) && preg_match('/_srl$/', $this->column) && !is_numeric($this->default))
+		elseif (isset($column) && preg_match('/_srl$/', $column) && !is_numeric($this->default))
 		{
 			return [true, Query::quoteName($this->default)];
 		}
@@ -329,16 +338,16 @@ class VariableBase
 		}
 		
 		// If the default value is a calculation based on the current value, return a query string.
-		if (isset($this->column) && preg_match('/^(plus|minus|multiply)\(([0-9]+)\)$/', $this->default, $matches))
+		if (isset($column) && preg_match('/^(plus|minus|multiply)\(([0-9]+)\)$/', $this->default, $matches))
 		{
 			switch ($matches[1])
 			{
 				case 'plus':
-					return [true, sprintf('%s + %d', Query::quoteName($this->column), $matches[2])];
+					return [true, sprintf('%s + %d', Query::quoteName($column), $matches[2])];
 				case 'minus':
-					return [true, sprintf('%s - %d', Query::quoteName($this->column), $matches[2])];
+					return [true, sprintf('%s - %d', Query::quoteName($column), $matches[2])];
 				case 'multiply':
-					return [true, sprintf('%s * %d', Query::quoteName($this->column), $matches[2])];
+					return [true, sprintf('%s * %d', Query::quoteName($column), $matches[2])];
 			}
 		}
 		
@@ -355,7 +364,7 @@ class VariableBase
 	public function filterValue($value)
 	{
 		// Don't apply a filter if there is no variable.
-		$column = isset($this->column) ? $this->column : $this->name;
+		$column = $this instanceof ColumnWrite ? $this->name : $this->column;
 		$filter = isset($this->filter) ? $this->filter : '';
 		if (strval($value) === '')
 		{
