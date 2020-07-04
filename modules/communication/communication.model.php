@@ -22,7 +22,7 @@ class communicationModel extends communication
 	 * get the configuration
 	 * @return object config of communication module
 	 */
-	function getConfig()
+	public static function getConfig()
 	{
 		$oModuleModel = getModel('module');
 		$config = $oModuleModel->getModuleConfig('communication');
@@ -71,7 +71,7 @@ class communicationModel extends communication
 	  * @param array $group
 	  * @return array
 	  */
-	function getGrantArray($default, $group)
+	public static function getGrantArray($default, $group)
 	{
 		$grant = array();
 		if($default)
@@ -97,7 +97,7 @@ class communicationModel extends communication
 	  * @param array $arrGrant
 	  * @return boolean
 	  */
-	function checkGrant($arrGrant)
+	public static function checkGrant($arrGrant)
 	{
 		if(!$arrGrant) return false;
 		
@@ -109,10 +109,6 @@ class communicationModel extends communication
 			if($arrGrant['default'] == 'member')
 			{
 				if(Context::get('is_logged')) return true;
-			}
-			else if($arrGrant['default'] == 'site')
-			{
-				if($this->site_srl == $logged_info->site_srl) return true;
 			}
 			else if($arrGrant['default'] == 'manager')
 			{
@@ -136,7 +132,7 @@ class communicationModel extends communication
 	 * @param array $columnList
 	 * @return object message information
 	 */
-	function getSelectedMessage($message_srl, $columnList = array())
+	public static function getSelectedMessage($message_srl, $columnList = array())
 	{
 		$logged_info = Context::get('logged_info');
 
@@ -199,7 +195,7 @@ class communicationModel extends communication
 	 * @param array $columnList
 	 * @return object message information
 	 */
-	function getNewMessage($columnList = array())
+	public static function getNewMessage($columnList = array())
 	{
 		$logged_info = Context::get('logged_info');
 
@@ -229,7 +225,7 @@ class communicationModel extends communication
 		return $message;
 	}
 
-	function getNewMessageCount($member_srl = null)
+	public static function getNewMessageCount($member_srl = null)
 	{
 		if(!$member_srl)
 		{
@@ -251,7 +247,7 @@ class communicationModel extends communication
 	 * @param array $columnList
 	 * @return Object
 	 */
-	function getMessages($message_type = "R", $columnList = array())
+	public static function getMessages($message_type = "R", $columnList = array())
 	{
 		$logged_info = Context::get('logged_info');
 		$args = new stdClass();
@@ -306,6 +302,19 @@ class communicationModel extends communication
 		
 		return $output;
 	}
+	
+	/**
+	 * Get a list of files attached to a message.
+	 * 
+	 * @param object $message
+	 * @return array
+	 */
+	public static function getMessageFiles($message)
+	{
+		$upload_target_srl = $message->message_type === 'S' ? $message->message_srl : $message->related_srl;
+		$file_list = getModel('file')->getFiles($upload_target_srl);
+		return $file_list ?: [];
+	}
 
 	/**
 	 * Get a list of friends
@@ -313,7 +322,7 @@ class communicationModel extends communication
 	 * @param array $columnList
 	 * @return Object
 	 */
-	function getFriends($friend_group_srl = 0, $columnList = array())
+	public static function getFriends($friend_group_srl = 0, $columnList = array())
 	{
 		$logged_info = Context::get('logged_info');
 
@@ -337,7 +346,7 @@ class communicationModel extends communication
 	 * @param int $member_srl
 	 * @return int
 	 */
-	function isAddedFriend($member_srl)
+	public static function isAddedFriend($member_srl)
 	{
 		$logged_info = Context::get('logged_info');
 
@@ -355,7 +364,7 @@ class communicationModel extends communication
 	 * @param int $friend_group_srl
 	 * @return object
 	 */
-	function getFriendGroupInfo($friend_group_srl)
+	public static function getFriendGroupInfo($friend_group_srl)
 	{
 		$logged_info = Context::get('logged_info');
 
@@ -372,7 +381,7 @@ class communicationModel extends communication
 	 * Get a list of groups
 	 * @return array
 	 */
-	function getFriendGroups()
+	public static function getFriendGroups()
 	{
 		$logged_info = Context::get('logged_info');
 
@@ -392,7 +401,7 @@ class communicationModel extends communication
 	 * @param int $target_srl 
 	 * @return boolean (true : friend, false : not friend) 
 	 */
-	function isFriend($target_srl)
+	public static function isFriend($target_srl)
 	{
 		$logged_info = Context::get('logged_info');
 

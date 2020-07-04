@@ -10,7 +10,14 @@
 		<div class="xe_content">
 			{$message->content}
 		</div>
-		<div class="prn-anchor-buttons">
+		<!--@if(count($message_files))-->
+			<ul class="attachments">
+				<!--@foreach($message_files as $file)-->
+					<li><a href="{getUrl('')}{$file->download_url}">{$file->source_filename}</a> <span class="file_size">({FileHandler::filesize($file->file_size)})</li>
+				<!--@endforeach-->
+			</ul>
+		<!--@endif-->
+	<div class="prn-anchor-buttons">
 			<a cond="$message->message_type != 'S' && $message->member_srl != $logged_info->member_srl" href="#" onclick="doSendMessage('{$message->sender_srl}','{$message->message_srl}');">{$lang->cmd_reply_message}</a>
 			<a cond="$message->message_type == 'R'" href="#" onclick="doStoreMessage('{$message->message_srl}');">{$lang->cmd_store}</a>
 			<a href="#" onclick="doDeleteMessage('{$message->message_srl}');">{$lang->cmd_delete}</a>

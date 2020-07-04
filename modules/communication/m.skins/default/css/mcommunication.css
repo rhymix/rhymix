@@ -19,6 +19,8 @@ input[type=radio]{width:13px;height:13px;margin:0;padding:0}
 .bd{background:#f8f8f8;padding:1px 0}
 .co{margin:10px;line-height:1.4;font-size:14px;color:#333}
 .co:after{content:"";display:block;clear:both;zoom:1}
+.co .attachments { border-top: 1px solid #ccc8be; margin: 16px 0 0 0; padding: 16px 0 16px 24px; }
+.co .attachments span.file_size { color: #666; }
 /* Hx */
 .hx{position:relative;border-bottom:1px solid #ccc8be;padding:8px 10px;margin:0}
 .hx:after{content:"";margin:0 -10px;position:relative;top:10px;display:block;clear:both;height:1px;background:#fff}
