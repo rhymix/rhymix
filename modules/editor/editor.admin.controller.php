@@ -228,8 +228,12 @@ class editorAdminController extends editor
 		$config->content_word_break = in_array($config->content_word_break, array('normal', 'keep-all', 'break-all', 'none')) ? $config->content_word_break : 'normal';
 		$config->enable_autosave = $configVars->enable_autosave ?: 'Y';
 		$config->allow_html = $configVars->allow_html ?: 'Y';
-		$config->autoinsert_image = $configVars->autoinsert_image;
-		$config->autoinsert_image = in_array($config->autoinsert_image, array('paragraph', 'inline', 'none')) ? $config->autoinsert_image : 'paragraph';
+		$config->autoinsert_types = array();
+		foreach ($configVars->autoinsert_types as $type)
+		{
+			$config->autoinsert_types[$type] = true;
+		}
+		$config->autoinsert_position = in_array($configVars->autoinsert_position, array('paragraph', 'inline')) ? $configVars->autoinsert_position : 'paragraph';
 
 		$oModuleController->insertModuleConfig('editor', $config);
 		$this->setRedirectUrl(Context::get('error_return_url'));

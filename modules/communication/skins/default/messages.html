@@ -17,7 +17,7 @@
 	</form>
 	<div style="clear:both"></div>
 </div>
-<table class="table table-striped table-hover" style="table-layout: fixed" cond="$message">
+<table class="table table-striped" style="table-layout: fixed" cond="$message">
 	<tr>
 		<th>{$message->title}</th>
 	</tr>
@@ -32,6 +32,17 @@
 			{$message->content|noescape}
 		</td>
 	</tr>
+	<!--@if(count($message_files))-->
+		<tr>
+			<td>
+				<ul class="attachments">
+					<!--@foreach($message_files as $file)-->
+						<li><a href="{getUrl('')}{$file->download_url}">{$file->source_filename}</a> <span class="file_size">({FileHandler::filesize($file->file_size)})</li>
+					<!--@endforeach-->
+				</ul>
+			</td>
+		</tr>
+	<!--@endif-->
 </table>
 <div class="btnArea btn-group" cond="$message" style="margin-bottom:20px">
 	<button class="btn" cond="$message->message_type != 'S' && $message->member_srl != $logged_info->member_srl" type="button" onclick="doSendMessage('{$message->sender_srl}','{$message->message_srl}');">{$lang->cmd_reply_message}</button>

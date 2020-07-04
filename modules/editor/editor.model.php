@@ -148,7 +148,8 @@ class editorModel extends editor
 		Context::set('content_line_height', $option->content_line_height);
 		Context::set('content_paragraph_spacing', $option->content_paragraph_spacing);
 		Context::set('content_word_break', $option->content_word_break);
-		Context::set('editor_autoinsert_image', $option->autoinsert_image);
+		Context::set('editor_autoinsert_types', $option->autoinsert_types ?? ($option->autoinsert_image !== 'none' ? self::$default_editor_config['autoinsert_types'] : []));
+		Context::set('editor_autoinsert_position', $option->autoinsert_position ?? $option->autoinsert_image);
 		Context::set('editor_additional_css', $option->additional_css);
 		Context::set('editor_additional_plugins', $option->additional_plugins);
 		Context::set('editor_remove_plugins', $option->remove_plugins);
@@ -197,10 +198,8 @@ class editorModel extends editor
 			$file_config = $oFileModel->getUploadConfig();
 			$file_config->allowed_attach_size = $file_config->allowed_attach_size*1024*1024;
 			$file_config->allowed_filesize = $file_config->allowed_filesize*1024*1024;
-			if (PHP_INT_SIZE < 8)
-			{
-				$file_config->allowed_filesize = min($file_config->allowed_filesize, 2147483647);
-			}
+
+			// Calculate the appropriate chunk size.
 			$file_config->allowed_chunk_size = min(FileHandler::returnBytes(ini_get('upload_max_filesize')), FileHandler::returnBytes(ini_get('post_max_size')) * 0.95, 64 * 1024 * 1024);
 			if ($file_config->allowed_chunk_size > 4 * 1048576)
 			{
@@ -214,13 +213,6 @@ class editorModel extends editor
 			// Do not allow chunked uploads in IE < 10, Android browser, and Opera
 			$browser = Rhymix\Framework\UA::getBrowserInfo();
 			if (($browser->browser === 'IE' && version_compare($browser->version, '10', '<')) || $browser->browser === 'Android' || $browser->browser === 'Opera')
-			{
-				$file_config->allowed_filesize = min($file_config->allowed_filesize, FileHandler::returnBytes(ini_get('upload_max_filesize')), FileHandler::returnBytes(ini_get('post_max_size')));
-				$file_config->allowed_chunk_size = 0;
-			}
-			
-			// Do not allow chunked uploads in XpressEditor.
-			if (starts_with($option->editor_skin, 'xpresseditor'))
 			{
 				$file_config->allowed_filesize = min($file_config->allowed_filesize, FileHandler::returnBytes(ini_get('upload_max_filesize')), FileHandler::returnBytes(ini_get('post_max_size')));
 				$file_config->allowed_chunk_size = 0;

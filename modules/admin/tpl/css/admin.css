@@ -771,6 +771,7 @@ margin-bottom: 10px;
 	position: relative;
 	zoom: 1;
 	padding: 0 0 50px 200px;
+	background-color: #fff;
 	z-index: 1;
 }
 .x>.body.wide {

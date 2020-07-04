@@ -55,6 +55,9 @@ xe.MultiOrderManager = xe.createApp("MultiOrderManager", {
 
 		var targets = [];
 		for(var i in values){
+			if(values[i] === '') {
+				continue;
+			}
 			var target = this.$showObj.find('>option[value='+values[i]+']').get(0);
 			if (target != undefined) targets.push(target);
 		}

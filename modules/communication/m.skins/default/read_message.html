@@ -5,6 +5,13 @@
 </div>
 <div class="co">
 	<div class="xe_content">{$message->content|noescape}</div>
+	<!--@if(count($message_files))-->
+		<ul class="attachments">
+			<!--@foreach($message_files as $file)-->
+				<li><a href="{getUrl('')}{$file->download_url}">{$file->source_filename}</a> <span class="file_size">({FileHandler::filesize($file->file_size)})</li>
+			<!--@endforeach-->
+		</ul>
+	<!--@endif-->
 </div>
 <div class="bna">
 	<span class="fl"><a href="{getUrl('message_srl', '')}" class="bn white">{$lang->cmd_list}</a></span>

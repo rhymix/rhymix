@@ -64,7 +64,7 @@ class communicationView extends communication
 		$logged_info = Context::get('logged_info');
 
 		// Set the variables
-		$message_srl = Context::get('message_srl');
+		$message_srl = intval(Context::get('message_srl'));
 		$message_type = Context::get('message_type');
 
 		if(!in_array($message_type, array('R', 'S', 'T', 'N')))
@@ -78,7 +78,7 @@ class communicationView extends communication
 		$template_filename = 'messages';
 		if($message_srl)
 		{
-			$columnList = array('message_srl', 'sender_srl', 'receiver_srl', 'message_type', 'title', 'content', 'readed', 'regdate');
+			$columnList = array('message_srl', 'message_type', 'related_srl', 'sender_srl', 'receiver_srl', 'title', 'content', 'readed', 'regdate');
 			$message = $oCommunicationModel->getSelectedMessage($message_srl, $columnList);
 
 			switch($message->message_type)
@@ -116,15 +116,21 @@ class communicationView extends communication
 			{
 				stripEmbedTagForAdmin($message->content, $message->sender_srl);
 				Context::set('message', $message);
+				Context::set('message_files', CommunicationModel::getMessageFiles($message));
+				
 				if(Mobile::isFromMobilePhone())
 				{
 					$template_filename = 'read_message';
 				}
 			}
+			else
+			{
+				throw new Rhymix\Framework\Exceptions\InvalidRequest;
+			}
 		}
 
 		// Extract a list
-		$columnList = array('message_srl', 'readed', 'title', 'member.member_srl', 'member.nick_name', 'message.regdate', 'readed_date');
+		$columnList = array('message_srl', 'message_type', 'related_srl', 'readed', 'title', 'member.member_srl', 'member.nick_name', 'message.regdate', 'readed_date');
 		$output = $oCommunicationModel->getMessages($message_type, $columnList);
 		
 		// set a template file
@@ -159,8 +165,6 @@ class communicationView extends communication
 		{
 			throw new Rhymix\Framework\Exceptions\MustLogin;
 		}
-
-		$logged_info = Context::get('logged_info');
 
 		$oCommunicationModel = getModel('communication');
 
