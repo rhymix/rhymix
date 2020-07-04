@@ -109,7 +109,7 @@ class integration_searchView extends integration_search
 		// 검색 대상을 지정하지 않았을 때 검색 제한
 		if($target === 'include' && !count($module_srl_list))
 		{
-			throw new Rhymix\Framework\Exception('msg_not_enabled');
+			throw new Rhymix\Framework\Exception('msg_admin_not_enabled');
 		}
 
 		// Set a variable for search keyword
