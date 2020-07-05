@@ -301,18 +301,17 @@ class Context
 		{
 			$lang_type = $_COOKIE['lang_type'];
 		}
-		elseif(config('locale.auto_select_lang') && count($enabled_langs) > 1)
+		elseif(config('locale.auto_select_lang') && count($enabled_langs) > 1 && isset($_SERVER['HTTP_ACCEPT_LANGUAGE']))
 		{
-			if(isset($_SERVER['HTTP_ACCEPT_LANGUAGE']))
+			$ua_locale = Rhymix\Framework\UA::getLocale();
+			if (substr($ua_locale, 0, 2) !== 'zh')
 			{
-				foreach($enabled_langs as $lang_code => $lang_name)
-				{
-					if(!strncasecmp($lang_code, $_SERVER['HTTP_ACCEPT_LANGUAGE'], strlen($lang_code)))
-					{
-						$lang_type = $lang_code;
-						$set_lang_cookie = true;
-					}
-				}
+				$ua_locale = substr($ua_locale, 0, 2);
+			}
+			if (isset($enabled_langs[$ua_locale]))
+			{
+				$lang_type = $ua_locale;
+				$set_lang_cookie = true;
 			}
 		}
 		

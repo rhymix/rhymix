@@ -47,6 +47,15 @@ class UATest extends \Codeception\TestCase\Test
 		$this->assertFalse(Rhymix\Framework\UA::isRobot('Mozilla/5.0 (Windows NT 6.1; WOW64; Trident/7.0; AS; rv:11.0) like Gecko'));
 	}
 	
+	public function testGetLocale()
+	{
+		$locale = Rhymix\Framework\UA::getLocale('en-US,en;q=0.8,ko-KR;q=0.5,ko;q=0.3');
+		$this->assertEquals('en-US', $locale);
+		
+		$locale = Rhymix\Framework\UA::getLocale('ko-KR,ko;q=0.8,en-US;q=0.5,en;q=0.3');
+		$this->assertEquals('ko-KR', $locale);
+	}
+	
 	public function testGetBrowserInfo()
 	{
 		// Android default browser

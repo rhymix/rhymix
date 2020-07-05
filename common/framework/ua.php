@@ -178,6 +178,21 @@ class UA
 	}
 	
 	/**
+	 * This method parses the Accept-Language header to guess the browser's default locale.
+	 * 
+	 * @param string $header (optional)
+	 * @return string
+	 */
+	public static function getLocale($header = null)
+	{
+		// Get the Accept-Language header if the caller did not specify $header.
+		$header = $header ?: (isset($_SERVER['HTTP_ACCEPT_LANGUAGE']) ? $_SERVER['HTTP_ACCEPT_LANGUAGE'] : 'en-US');
+		
+		// Return the first locale name found.
+		return preg_match('/^([a-z0-9_-]+)/i', $header, $matches) ? $matches[1] : 'en-US';
+	}
+	
+	/**
 	 * This method parses the User-Agent string to guess what kind of browser it is.
 	 * 
 	 * @param string $ua (optional)
