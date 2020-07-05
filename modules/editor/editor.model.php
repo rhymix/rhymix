@@ -148,7 +148,7 @@ class editorModel extends editor
 		Context::set('content_line_height', $option->content_line_height);
 		Context::set('content_paragraph_spacing', $option->content_paragraph_spacing);
 		Context::set('content_word_break', $option->content_word_break);
-		Context::set('editor_autoinsert_types', $option->autoinsert_types ?? ($option->autoinsert_image !== 'none' ? self::$default_editor_config['autoinsert_types'] : []));
+		Context::set('editor_autoinsert_types', $option->autoinsert_types ?? ($option->autoinsert_image !== 'none' ? $this->default_editor_config['autoinsert_types'] : []));
 		Context::set('editor_autoinsert_position', $option->autoinsert_position ?? $option->autoinsert_image);
 		Context::set('editor_additional_css', $option->additional_css);
 		Context::set('editor_additional_plugins', $option->additional_plugins);
