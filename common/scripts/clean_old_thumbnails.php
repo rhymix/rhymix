@@ -10,9 +10,6 @@
  * Do not run this script if you have a gallery-style module where visitors
  * regularly view old posts. This will force thumbnails to be regenerated,
  * increasing the server load and making your pages load slower.
- * 
- * This script only works on Unix-like operating systems where the 'find'
- * command is available.
  */
 require_once __DIR__ . '/common.php';
 
@@ -23,7 +20,14 @@ $days = 90;
 $exit_status = 0;
 
 // Delete old thumbnails.
-passthru(sprintf('find %s -type f -mtime +%d -delete', escapeshellarg(RX_BASEDIR . 'files/thumbnails'), abs($days)), $result);
+if (\RX_WINDOWS)
+{
+	passthru(sprintf('powershell.exe "Get-ChildItem %s -Recurse -Force | Sort-Object -Property FullName -Descending | Where-Object {$_.LastWriteTime -lt (Get-Date).AddDays(-%d)} | Remove-Item -Verbose"', escapeshellarg(RX_BASEDIR . 'files/thumbnails'), abs($days)), $result);
+}
+else
+{
+	passthru(sprintf('find %s -type f -mtime +%d -delete', escapeshellarg(RX_BASEDIR . 'files/thumbnails'), abs($days)), $result);
+}
 if ($result == 0)
 {
 	echo "Successfully deleted all thumbnails older than $days days.\n";

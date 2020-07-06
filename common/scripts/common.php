@@ -28,15 +28,24 @@ require_once dirname(__DIR__) . '/autoload.php';
 
 // Abort if the UID does not match.
 $uid = Rhymix\Framework\Storage::getServerUID();
-if ($uid === 0)
+if ($uid === 0 && !\RX_WINDOWS)
 {
 	echo "This script must not be executed by the root user.\n";
 	exit(2);
 }
 $web_server_uid = fileowner(RX_BASEDIR . 'files/config/config.php');
-if ($uid !== $web_server_uid)
+if ($uid !== $web_server_uid && !\RX_WINDOWS)
 {
 	$web_server_uid = posix_getpwuid($web_server_uid);
 	echo "This script must be executed by the same user as the usual web server process ({$web_server_uid['name']}).\n";
 	exit(3);
+}
+if (\RX_WINDOWS)
+{
+	$check_writalble = Rhymix\Framework\Storage::isWritable(RX_BASEDIR . 'files');
+	if (!$check_writalble)
+	{
+		echo "This script must be executed by the user who has permissions to write to " . RX_BASEDIR . "files folders.\n";
+		exit(4);
+	}
 }
