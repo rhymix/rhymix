@@ -614,7 +614,8 @@ class DB
 	 */
 	public function isValidOldPassword(string $password, string $saved_password): bool
 	{
-		$stmt = $this->_handle->query('SELECT' . ' ' . 'PASSWORD(?) AS pw1, OLD_PASSWORD(?) AS pw2', $password, $password);
+		$stmt = $this->_handle->prepare('SELECT' . ' ' . 'PASSWORD(?) AS pw1, OLD_PASSWORD(?) AS pw2');
+		$stmt->execute([$password, $password]);
 		$result = $this->_fetch($stmt);
 		if ($this->isError() || !$result)
 		{
