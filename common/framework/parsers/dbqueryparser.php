@@ -54,7 +54,7 @@ class DBQueryParser extends BaseParser
 		$query->pipe = strtoupper($attribs['pipe']) ?: 'AND';
 		
 		// Load tables.
-		foreach ($xml->tables->children() ?: [] as $tag)
+		foreach ($xml->tables ? $xml->tables->children() : [] as $tag)
 		{
 			if (trim($tag['query']) === 'true')
 			{
@@ -81,7 +81,7 @@ class DBQueryParser extends BaseParser
 		}
 		
 		// Load columns.
-		foreach ($xml->columns->children() ?: [] as $tag)
+		foreach ($xml->columns ? $xml->columns->children() : [] as $tag)
 		{
 			if ($tag->getName() === 'query')
 			{
