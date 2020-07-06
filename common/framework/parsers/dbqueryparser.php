@@ -186,7 +186,7 @@ class DBQueryParser extends BaseParser
 		}
 		
 		// Check the ON DUPLICATE KEY UPDATE (upsert) flag.
-		if ($query->type === 'INSERT' && $update_duplicate = $attribs['updateduplicate'])
+		if ($query->type === 'INSERT' && $update_duplicate = self::_getAttributes($xml)['updateduplicate'])
 		{
 			if (toBool($update_duplicate))
 			{
