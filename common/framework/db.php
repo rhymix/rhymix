@@ -614,22 +614,16 @@ class DB
 	 */
 	public function isValidOldPassword(string $password, string $saved_password): bool
 	{
-		$stmt = $this->_handle->prepare('SELECT' . ' ' . 'PASSWORD(?) AS pw1, OLD_PASSWORD(?) AS pw2');
-		$stmt->execute([$password, $password]);
-		$result = $this->_fetch($stmt);
-		if ($this->isError() || !$result)
+		if ($saved_password && substr($saved_password, 0, 1) === '*')
 		{
-			return false;
+			return Password::checkPassword($password, $saved_password, 'mysql_new_password');
+		}
+		if ($saved_password && strlen($saved_password) === 16)
+		{
+			return Password::checkPassword($password, $saved_password, 'mysql_old_password');
 		}
 		
-		if ($result->pw1 === $saved_password || $result->pw2 === $saved_password)
-		{
-			return true;
-		}
-		else
-		{
-			return false;
-		}
+		return false;
 	}
 	
 	/**
