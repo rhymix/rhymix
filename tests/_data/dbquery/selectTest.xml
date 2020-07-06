@@ -1,0 +1,21 @@
+<query id="selectTest" action="select">
+	<tables>
+		<table name="documents" />
+	</tables>
+	<columns distinct="true">
+		<column name="*" />
+	</columns>
+	<conditions>
+		<condition operation="in" column="member_srl" var="member_srl" filter="number" notnull="notnull" />
+		<group pipe="and">
+			<condition operation="gte" column="regdate" var="regdate_more" notnull="notnull" />
+			<condition operation="equal" column="status" var="status_list" default="PUBLIC" pipe="or" />
+		</group>
+	</conditions>
+	<navigation>
+		<index var="sort_index" default="list_order" order="order_type" />
+		<list_count var="list_count" default="20" />
+		<page_count var="page_count" default="10" />
+		<page var="page" default="1" />
+	</navigation>
+</query>
