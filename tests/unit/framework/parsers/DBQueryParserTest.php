@@ -105,9 +105,51 @@ class DBQueryParserTest extends \Codeception\TestCase\Test
 		$this->assertFalse($query->columns[1]->is_wildcard);
 	}
 	
-	public function testSubquery()
+	public function testSubquery1()
 	{
-		
+		$query = Rhymix\Framework\Parsers\DBQueryParser::loadXML(\RX_BASEDIR . 'tests/_data/dbquery/selectSubqueryTest1.xml');
+		$this->assertTrue($query instanceof Rhymix\Framework\Parsers\DBQuery\Query);
+		$this->assertEquals(2, count($query->tables));
+		$this->assertTrue($query->tables['documents'] instanceof Rhymix\Framework\Parsers\DBQuery\Table);
+		$this->assertTrue($query->tables['m'] instanceof Rhymix\Framework\Parsers\DBQuery\Query);
+		$this->assertEquals(1, count($query->tables['m']->tables));
+		$this->assertEquals('member', $query->tables['m']->tables['member']->name);
+		$this->assertEquals(2, count($query->tables['m']->columns));
+		$this->assertEquals(1, count($query->columns));
+		$this->assertEquals('documents.member_srl', $query->conditions[0]->column);
+		$this->assertEquals('m.member_srl', $query->conditions[0]->default);
+	}
+	
+	public function testSubquery2()
+	{
+		$query = Rhymix\Framework\Parsers\DBQueryParser::loadXML(\RX_BASEDIR . 'tests/_data/dbquery/selectSubqueryTest2.xml');
+		$this->assertTrue($query instanceof Rhymix\Framework\Parsers\DBQuery\Query);
+		$this->assertEquals(1, count($query->tables));
+		$this->assertTrue($query->tables['member'] instanceof Rhymix\Framework\Parsers\DBQuery\Table);
+		$this->assertEquals(2, count($query->columns));
+		$this->assertTrue($query->columns[0] instanceof Rhymix\Framework\Parsers\DBQuery\ColumnRead);
+		$this->assertTrue($query->columns[1] instanceof Rhymix\Framework\Parsers\DBQuery\Query);
+		$this->assertTrue($query->columns[1]->tables['documents'] instanceof Rhymix\Framework\Parsers\DBQuery\Table);
+		$this->assertTrue($query->columns[1]->columns[0] instanceof Rhymix\Framework\Parsers\DBQuery\ColumnRead);
+		$this->assertTrue($query->columns[1]->columns[0]->is_expression);
+		$this->assertFalse($query->columns[1]->columns[0]->is_wildcard);
+	}
+	
+	public function testSubquery3()
+	{
+		$query = Rhymix\Framework\Parsers\DBQueryParser::loadXML(\RX_BASEDIR . 'tests/_data/dbquery/selectSubqueryTest3.xml');
+		$this->assertTrue($query instanceof Rhymix\Framework\Parsers\DBQuery\Query);
+		$this->assertEquals(1, count($query->tables));
+		$this->assertTrue($query->tables['member'] instanceof Rhymix\Framework\Parsers\DBQuery\Table);
+		$this->assertEquals(1, count($query->columns));
+		$this->assertTrue($query->columns[0] instanceof Rhymix\Framework\Parsers\DBQuery\ColumnRead);
+		$this->assertEquals(2, count($query->conditions));
+		$this->assertTrue($query->conditions[1] instanceof Rhymix\Framework\Parsers\DBQuery\Query);
+		$this->assertTrue($query->conditions[1]->tables['documents'] instanceof Rhymix\Framework\Parsers\DBQuery\Table);
+		$this->assertTrue($query->conditions[1]->columns[0] instanceof Rhymix\Framework\Parsers\DBQuery\ColumnRead);
+		$this->assertTrue($query->conditions[1]->columns[0]->is_expression);
+		$this->assertEquals('member.member_srl', $query->conditions[1]->conditions[0]->column);
+		$this->assertEquals('OR', $query->conditions[1]->pipe);
 	}
 	
 	public function testInsertQuery()
