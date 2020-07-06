@@ -154,16 +154,54 @@ class DBQueryParserTest extends \Codeception\TestCase\Test
 	
 	public function testInsertQuery()
 	{
-		
+		$query = Rhymix\Framework\Parsers\DBQueryParser::loadXML(\RX_BASEDIR . 'tests/_data/dbquery/insertTest.xml');
+		$this->assertTrue($query instanceof Rhymix\Framework\Parsers\DBQuery\Query);
+		$this->assertEquals('INSERT', $query->type);
+		$this->assertEquals(1, count($query->tables));
+		$this->assertEquals('document_voted_log', $query->tables['document_voted_log']->name);
+		$this->assertEquals(5, count($query->columns));
+		$this->assertTrue($query->columns[0] instanceof Rhymix\Framework\Parsers\DBQuery\ColumnWrite);
+		$this->assertEquals('document_srl', $query->columns[0]->name);
+		$this->assertEquals('document_srl', $query->columns[0]->var);
+		$this->assertEquals('number', $query->columns[0]->filter);
+		$this->assertTrue($query->columns[0]->not_null);
+		$this->assertEquals('ipaddress', $query->columns[2]->name);
+		$this->assertEquals('ipaddress()', $query->columns[2]->default);
+		$this->assertTrue($query->update_duplicate);
+		$this->assertNull($query->groupby);
 	}
 	
 	public function testUpdateQuery()
 	{
-		
+		$query = Rhymix\Framework\Parsers\DBQueryParser::loadXML(\RX_BASEDIR . 'tests/_data/dbquery/updateTest.xml');
+		$this->assertTrue($query instanceof Rhymix\Framework\Parsers\DBQuery\Query);
+		$this->assertEquals('UPDATE', $query->type);
+		$this->assertEquals(1, count($query->tables));
+		$this->assertEquals('documents', $query->tables['documents']->name);
+		$this->assertEquals(3, count($query->columns));
+		$this->assertTrue($query->columns[0] instanceof Rhymix\Framework\Parsers\DBQuery\ColumnWrite);
+		$this->assertEquals('member_srl', $query->columns[0]->name);
+		$this->assertEquals('member_srl', $query->columns[0]->var);
+		$this->assertEquals('number', $query->columns[0]->filter);
+		$this->assertEquals('0', $query->columns[0]->default);
+		$this->assertEquals(1, count($query->conditions));
+		$this->assertTrue($query->conditions[0] instanceof Rhymix\Framework\Parsers\DBQuery\Condition);
+		$this->assertEquals('equal', $query->conditions[0]->operation);
+		$this->assertEquals('document_srl', $query->conditions[0]->column);
+		$this->assertNull($query->groupby);
+		$this->assertNull($query->navigation);
 	}
 	
 	public function testDeleteQuery()
 	{
-		
+		$query = Rhymix\Framework\Parsers\DBQueryParser::loadXML(\RX_BASEDIR . 'tests/_data/dbquery/deleteTest.xml');
+		$this->assertTrue($query instanceof Rhymix\Framework\Parsers\DBQuery\Query);
+		$this->assertEquals('DELETE', $query->type);
+		$this->assertEquals(1, count($query->tables));
+		$this->assertEquals('documents', $query->tables['alias']->name);
+		$this->assertEquals(1, count($query->conditions));
+		$this->assertTrue($query->conditions[0] instanceof Rhymix\Framework\Parsers\DBQuery\Condition);
+		$this->assertEquals('in', $query->conditions[0]->operation);
+		$this->assertEquals('document_srl_list', $query->conditions[0]->var);
 	}
 }
