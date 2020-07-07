@@ -81,7 +81,7 @@ foreach ($ranges as $range)
 $content = '<' . '?php' . "\n\n" . '/**' . "\n" . ' * Source: ' . $referer_url . "\n";
 $content .= ' * Last Updated: ' . date('Y-m-d') . "\n" . ' */' . "\n";
 $content .= 'return ' . var_export($ranges_final, true) . ';' . "\n";
-file_put_contents(__DIR__ . '/../../common/defaults/korea.ipv4.php', $content);
+file_put_contents(__DIR__ . '/../korea.ipv4.php', $content);
 
 /**
  * Report status.
