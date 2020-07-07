@@ -344,6 +344,7 @@ class DB
 		{
 			$output = $this->setError(-1, $e->getMessage());
 			$output->add('_query', $query_string);
+			$output->add('_args', $query_params);
 			$output->add('_elapsed_time', '0.00000');
 			$output->page_navigation = new \PageHandler(0, 0, 0);
 			$this->_query_id = '';

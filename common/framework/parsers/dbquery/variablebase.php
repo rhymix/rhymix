@@ -50,7 +50,15 @@ class VariableBase
 			elseif ($args[$this->var] === '')
 			{
 				$this->filterValue($args[$this->var]);
-				list($is_expression, $value) = $this->getDefaultValue();
+				if ($this instanceof ColumnWrite)
+				{
+					$value = $args[$this->var];
+					$is_expression = false;
+				}
+				else
+				{
+					list($is_expression, $value) = $this->getDefaultValue();
+				}
 			}
 			else
 			{
@@ -281,7 +289,15 @@ class VariableBase
 		{
 			if ($args[$this->var] === '')
 			{
-				list($is_expression, $value) = $this->getDefaultValue();
+				if ($this instanceof ColumnWrite)
+				{
+					$value = $args[$this->var];
+					$is_expression = false;
+				}
+				else
+				{
+					list($is_expression, $value) = $this->getDefaultValue();
+				}
 			}
 			else
 			{
