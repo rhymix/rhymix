@@ -45,6 +45,19 @@ class DBQueryParserTest extends \Codeception\TestCase\Test
 		$this->assertEquals('1', $query->navigation->page->default);
 	}
 	
+	public function testSimpleSelect()
+	{
+		$query = Rhymix\Framework\Parsers\DBQueryParser::loadXML(\RX_BASEDIR . 'tests/_data/dbquery/selectTest.xml');
+		$args = array('member_srl' => 1234, 'regdate_more' => '20200707120000', 'page' => 3);
+		$sql = $query->getQueryString('rx_', $args);
+		$params = $query->getQueryParams();
+		
+		$this->assertEquals('SELECT DISTINCT * FROM `rx_documents` AS `documents` ' .
+			'WHERE `member_srl` IN (?) AND (`regdate` >= ? OR `status` = ?) ' .
+			'ORDER BY `list_order` ASC LIMIT 40, 20', $sql);
+		$this->assertEquals(['1234', '20200707120000', 'PUBLIC'], $params);
+	}
+	
 	public function testJoin1()
 	{
 		$query = Rhymix\Framework\Parsers\DBQueryParser::loadXML(\RX_BASEDIR . 'tests/_data/dbquery/selectJoinTest1.xml');
@@ -79,6 +92,15 @@ class DBQueryParserTest extends \Codeception\TestCase\Test
 		$this->assertTrue($query->groupby->having[0] instanceof Rhymix\Framework\Parsers\DBQuery\Condition);
 		$this->assertEquals('member.member_srl', $query->groupby->having[0]->column);
 		$this->assertEquals('notequal', $query->groupby->having[0]->operation);
+		
+		$args = array('document_srl_list' => [12, 34, 56], 'exclude_member_srl' => 4);
+		$sql = $query->getQueryString('rx_', $args);
+		$params = $query->getQueryParams();
+		
+		$this->assertEquals('SELECT `member`.`member_srl`, COUNT(*) AS `count` FROM `rx_documents` AS `documents`, `rx_member` AS `member` ' .
+			'WHERE `documents`.`member_srl` = `member`.`member_srl` AND `documents`.`member_srl` = `member`.`member_srl` ' .
+			'AND `documents`.`document_srl` IN (?, ?, ?) GROUP BY `member`.`member_srl` HAVING `member`.`member_srl` != ?', $sql);
+		$this->assertEquals(['12', '34', '56', '4'], $params);
 	}
 	
 	public function testJoin2()
@@ -103,6 +125,15 @@ class DBQueryParserTest extends \Codeception\TestCase\Test
 		$this->assertEquals('member_regdate', $query->columns[1]->alias);
 		$this->assertFalse($query->columns[1]->is_expression);
 		$this->assertFalse($query->columns[1]->is_wildcard);
+		
+		$args = array('document_srl_list' => [12, 34, 56]);
+		$sql = $query->getQueryString('rx_', $args);
+		$params = $query->getQueryParams();
+		
+		$this->assertEquals('SELECT `documents`.*, `member`.`regdate` AS `member_regdate` FROM `rx_documents` AS `documents` ' .
+			'LEFT JOIN `rx_member` AS `member` ON `documents`.`member_srl` = `member`.`member_srl` ' .
+			'WHERE `documents`.`document_srl` IN (?, ?, ?)', $sql);
+		$this->assertEquals(['12', '34', '56'], $params);
 	}
 	
 	public function testSubquery1()
@@ -118,6 +149,14 @@ class DBQueryParserTest extends \Codeception\TestCase\Test
 		$this->assertEquals(1, count($query->columns));
 		$this->assertEquals('documents.member_srl', $query->conditions[0]->column);
 		$this->assertEquals('m.member_srl', $query->conditions[0]->default);
+		
+		$sql = $query->getQueryString('rx_', []);
+		$params = $query->getQueryParams();
+		
+		$this->assertEquals('SELECT `documents`.* FROM `rx_documents` AS `documents`, ' .
+			'(SELECT `member_srl`, `nick_name` FROM `rx_member` AS `member`) AS `m` ' .
+			'WHERE `documents`.`member_srl` = `m`.`member_srl`', $sql);
+		$this->assertEquals([], $params);
 	}
 	
 	public function testSubquery2()
@@ -133,6 +172,13 @@ class DBQueryParserTest extends \Codeception\TestCase\Test
 		$this->assertTrue($query->columns[1]->columns[0] instanceof Rhymix\Framework\Parsers\DBQuery\ColumnRead);
 		$this->assertTrue($query->columns[1]->columns[0]->is_expression);
 		$this->assertFalse($query->columns[1]->columns[0]->is_wildcard);
+		
+		$sql = $query->getQueryString('rx_', []);
+		$params = $query->getQueryParams();
+		
+		$this->assertEquals('SELECT `member`.*, (SELECT COUNT(*) AS `count` FROM `rx_documents` AS `documents` WHERE `member`.`member_srl` = `documents`.`member_srl`) AS `document_count` ' .
+			'FROM `rx_member` AS `member`', $sql);
+		$this->assertEquals([], $params);
 	}
 	
 	public function testSubquery3()
@@ -150,6 +196,14 @@ class DBQueryParserTest extends \Codeception\TestCase\Test
 		$this->assertTrue($query->conditions[1]->columns[0]->is_expression);
 		$this->assertEquals('member.member_srl', $query->conditions[1]->conditions[0]->column);
 		$this->assertEquals('OR', $query->conditions[1]->pipe);
+		
+		$sql = $query->getQueryString('rx_', ['is_admin' => 'Y']);
+		$params = $query->getQueryParams();
+		
+		$this->assertEquals('SELECT * FROM `rx_member` AS `member` WHERE `is_admin` != ? OR `regdate` = ' .
+			'(SELECT MAX(regdate) AS `max_regdate` FROM `rx_documents` AS `documents` ' .
+			'WHERE `member`.`member_srl` = `documents`.`member_srl`)', $sql);
+		$this->assertEquals(['Y'], $params);
 	}
 	
 	public function testInsertQuery()
@@ -169,6 +223,18 @@ class DBQueryParserTest extends \Codeception\TestCase\Test
 		$this->assertEquals('ipaddress()', $query->columns[2]->default);
 		$this->assertTrue($query->update_duplicate);
 		$this->assertNull($query->groupby);
+		
+		$args = array('document_srl' => 123, 'member_srl' => 456, 'point' => 7);
+		$sql = $query->getQueryString('rx_', $args);
+		$params = $query->getQueryParams();
+		
+		$this->assertEquals('INSERT INTO `rx_document_voted_log` SET `document_srl` = ?, `member_srl` = ?, `ipaddress` = ?, `regdate` = ?, `point` = ? ' .
+			'ON DUPLICATE KEY UPDATE `document_srl` = ?, `member_srl` = ?, `ipaddress` = ?, `regdate` = ?, `point` = ?', $sql);
+		$this->assertEquals(10, count($params));
+		$this->assertEquals('127.0.0.1', $params[2]);
+		$this->assertRegexp('/20[0-9]{12}/', $params[3]);
+		$this->assertEquals('7', $params[4]);
+		$this->assertEquals(array_slice($params, 0, 5), array_slice($params, 5, 5));
 	}
 	
 	public function testUpdateQuery()
@@ -190,6 +256,13 @@ class DBQueryParserTest extends \Codeception\TestCase\Test
 		$this->assertEquals('document_srl', $query->conditions[0]->column);
 		$this->assertNull($query->groupby);
 		$this->assertNull($query->navigation);
+		
+		$args = array('document_srl' => 123, 'member_srl' => 456, 'voted_count' => 5);
+		$sql = $query->getQueryString('rx_', $args);
+		$params = $query->getQueryParams();
+		
+		$this->assertEquals('UPDATE `rx_documents` SET `member_srl` = ?, `voted_count` = `voted_count` + ? WHERE `document_srl` = ?', $sql);
+		$this->assertEquals(['456', '5', '123'], $params);
 	}
 	
 	public function testDeleteQuery()
@@ -203,5 +276,12 @@ class DBQueryParserTest extends \Codeception\TestCase\Test
 		$this->assertTrue($query->conditions[0] instanceof Rhymix\Framework\Parsers\DBQuery\Condition);
 		$this->assertEquals('in', $query->conditions[0]->operation);
 		$this->assertEquals('document_srl_list', $query->conditions[0]->var);
+		
+		$args = array('document_srl_list' => [12, 34, 56]);
+		$sql = $query->getQueryString('rx_', $args);
+		$params = $query->getQueryParams();
+		
+		$this->assertEquals('DELETE FROM `rx_documents` WHERE `document_srl` IN (?, ?, ?)', $sql);
+		$this->assertEquals(['12', '34', '56'], $params);
 	}
 }
