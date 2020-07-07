@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<lang>
+	<item name="testlang">
+		<value xml:lang="ko"><![CDATA[테스트 언어]]></value>
+		<value xml:lang="en"><![CDATA[Test Lang]]></value>
+		<value xml:lang="ja"><![CDATA[テスト言語]]></value>
+	</item>
+	<item name="testhtml">
+		<value xml:lang="ko"><![CDATA[<p>HTML<br>내용</p>]]></value>
+		<value xml:lang="en"><![CDATA[<p>HTML<br>Content</p>]]></value>
+		<value xml:lang="ja"><![CDATA[<p>HTML&nbsp;コンテンツ</p>]]></value>
+	</item>
+	<item name="testarray" type="array">
+		<item name="foo">
+			<value xml:lang="ko"><![CDATA[푸]]></value>
+			<value xml:lang="en"><![CDATA[FOO]]></value>
+		</item>
+		<item name="bar">
+			<value xml:lang="ko"><![CDATA[바]]></value>
+			<value xml:lang="en"><![CDATA[BAR]]></value>
+		</item>
+	</item>
+</lang>
