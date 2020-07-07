@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<module>
+	<grants>
+		<grant name="view" default="guest">
+			<title xml:lang="ko">열람</title>
+			<title xml:lang="en">View</title>
+		</grant>
+	</grants>
+	<actions>
+		<action name="dispTestView" type="view" permission="view" standalone="false" index="true">
+			<route route="$document_srl:int" priority="100" />
+			<route route="$document_srl:int/comment/$comment_srl:int" priority="70" />
+			<route route="$document_srl:int/tag/$tag:word" priority="50" />
+		</action>
+		<action name="dispTestWrite" type="view" permission="view" standalone="false" meta-noindex="true" route="write" global_route="true" />
+		<action name="procTestSubmitData" type="controller" standalone="false" check-csrf="false" ruleset="submitData" />
+		<action name="dispTestAdminIndex" type="view" admin_index="true" menu_name="test" menu_index="true" />
+		<action name="procTestAdminSubmitData" type="controller" permission="manager" check_var="module_srl" check_type="thisisatest" method="GET|POST" />
+		<action name="dispTestErrorHandler" type="view" standalone="true" error-handlers="404" />
+	</actions>
+	<menus>
+		<menu name="test" type="all">
+			<title xml:lang="ko">테스트 메뉴</title>
+			<title xml:lang="en">Test Menu</title>
+		</menu>
+	</menus>
+	<permissions>
+		<permission action="procTestSubmitData" target="view" />
+	</permissions>
+</module>
