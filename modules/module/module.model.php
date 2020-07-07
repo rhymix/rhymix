@@ -699,9 +699,10 @@ class moduleModel extends module
 		if (!file_exists($xml_file)) return;
 		
 		// Load the XML file and cache the definition.
+		$lang_type = Context::getLangType() ?: 'en';
 		$mtime1 = filemtime($xml_file);
 		$mtime2 = file_exists($module_path . 'conf/module.xml') ? filemtime($module_path . 'conf/module.xml') : 0;
-		$cache_key = sprintf('site_and_module:module_info_xml:%s:%d:%d', $module, $mtime1, $mtime2);
+		$cache_key = sprintf('site_and_module:module_info_xml:%s:%s:%d:%d', $module, $lang_type, $mtime1, $mtime2);
 		$info = Rhymix\Framework\Cache::get($cache_key);
 		if($info === null)
 		{
@@ -724,8 +725,9 @@ class moduleModel extends module
 		if (!file_exists($xml_file)) return;
 		
 		// Load the XML file and cache the definition.
+		$lang_type = Context::getLangType() ?: 'en';
 		$mtime = filemtime($xml_file);
-		$cache_key = sprintf('site_and_module:module_action_xml:%s:%d', $module, $mtime);
+		$cache_key = sprintf('site_and_module:module_action_xml:%s:%s:%d', $module, $lang_type, $mtime);
 		$info = Rhymix\Framework\Cache::get($cache_key);
 		if($info === null)
 		{
