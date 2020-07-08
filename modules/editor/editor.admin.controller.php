@@ -147,21 +147,25 @@ class editorAdminController extends editor
 		
 		$config = new stdClass;
 		$config->editor_skin = $configVars->editor_skin;
+		$config->editor_colorset = $configVars->editor_colorset;
 		$config->editor_height = $configVars->editor_height;
-		$config->mobile_editor_height = $configVars->mobile_editor_height;
 		$config->editor_toolbar = $configVars->editor_toolbar;
 		$config->editor_toolbar_hide = $configVars->editor_toolbar_hide === 'Y' ? 'Y' : 'N';
+		$config->mobile_editor_skin = $configVars->mobile_editor_skin;
+		$config->mobile_editor_colorset = $configVars->mobile_editor_colorset;
+		$config->mobile_editor_height = $configVars->mobile_editor_height;
 		$config->mobile_editor_toolbar = $configVars->mobile_editor_toolbar;
 		$config->mobile_editor_toolbar_hide = $configVars->mobile_editor_toolbar_hide === 'Y' ? 'Y' : 'N';
 		$config->comment_editor_skin = $configVars->comment_editor_skin;
+		$config->comment_editor_colorset = $configVars->comment_editor_colorset;
 		$config->comment_editor_height = $configVars->comment_editor_height;
-		$config->mobile_comment_editor_height = $configVars->mobile_comment_editor_height;
 		$config->comment_editor_toolbar = $configVars->comment_editor_toolbar;
 		$config->comment_editor_toolbar_hide = $configVars->comment_editor_toolbar_hide === 'Y' ? 'Y' : 'N';
+		$config->mobile_comment_editor_skin = $configVars->mobile_comment_editor_skin;
+		$config->mobile_comment_editor_colorset = $configVars->mobile_comment_editor_colorset;
+		$config->mobile_comment_editor_height = $configVars->mobile_comment_editor_height;
 		$config->mobile_comment_editor_toolbar = $configVars->mobile_comment_editor_toolbar;
 		$config->mobile_comment_editor_toolbar_hide = $configVars->mobile_comment_editor_toolbar_hide === 'Y' ? 'Y' : 'N';
-		$config->sel_editor_colorset = $configVars->sel_editor_colorset;
-		$config->sel_comment_editor_colorset = $configVars->sel_comment_editor_colorset;
 		
 		if ($configVars->font_defined === 'Y')
 		{

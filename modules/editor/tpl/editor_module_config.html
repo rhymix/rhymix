@@ -1,6 +1,6 @@
-<!--%import("filter/insert_editor_module_config.xml")-->
-
+<load target="css/editor_module_config.css" />
 <load target="js/editor_module_config.js" />
+
 <form action="./" method="post" class="section">
 	<input type="hidden" name="act" value="procEditorInsertModuleConfig" />
 	<input type="hidden" name="module" value="editor" />
@@ -27,45 +27,137 @@
 				</td>
 			</tr>
 			<tr class="editor_skin">
-				<th scope="row" style="text-align:right">{$lang->editor_skin}</th>
+				<th scope="row" style="text-align:right">{$lang->pc}</th>
 				<td>
-					<select name="editor_skin" onchange="getEditorSkinColorList(this.value, null, 'document')">
-						<option loop="$editor_skin_list => $editor" value="{$editor}" selected="selected"|cond="$editor==$editor_config->editor_skin">{$editor}</option>
-					</select>
-					<br/>
-					<select name="sel_editor_colorset" id="sel_editor_colorset" data-display="none"|cond="!count($editor_colorset_list)">
-						<option loop="$editor_colorset_list => $key, $val" value="{$val->name}" selected="selected"|cond="$editor_config->sel_editor_colorset == $val->name">{$val->title}</option>
-					</select>
+					<p>
+						<select name="editor_skin" class="editor_skin_selector">
+							<!--@foreach($editor_skin_list as $skin_name => $skin_info)-->
+								<option value="{$skin_name}" data-colorsets="{json_encode($skin_info->colorset)|escape}" selected="selected"|cond="$skin_name === $editor_config->editor_skin">{$skin_info->title}</option>
+							<!--@endforeach-->
+						</select>
+						<select name="editor_colorset" class="editor_colorset_selector">
+							<!--@foreach($editor_skin_list[$editor_config->editor_skin]->colorset ?: [] as $colorset)-->
+								<option value="{$colorset->name}" selected="selected"|cond="$colorset->name === $editor_config->editor_colorset">{$colorset->title}</option>
+							<!--@endforeach-->
+						</select>
+					</p>
+					<p>
+						<span class="editor_type">{$lang->guide_editor_height}</span>
+						<input type="number" name="editor_height" value="{$editor_config->editor_height}" /> px
+					</p>
+					<p>
+						<span class="editor_type">{$lang->guide_editor_toolbar}</span>
+						<select name="editor_toolbar" style="min-width:104px">
+							<option value="default" selected="selected"|cond="!$editor_config->editor_toolbar || $editor_config->editor_toolbar === 'default'">{$lang->editor_toolbar_default}</option>
+							<option value="default" selected="selected"|cond="$editor_config->editor_toolbar === 'simple'">{$lang->editor_toolbar_simple}</option>
+						</select> &nbsp;
+						<label class="x_inline"><input type="checkbox" name="editor_toolbar_hide" value="Y" checked="checked"|cond="$editor_config->editor_toolbar_hide === 'Y'"> {$lang->editor_toolbar_hide}</label>
+					</p>
 				</td>
 				<td>
-					<select name="comment_editor_skin" onchange="getEditorSkinColorList(this.value, null, 'comment')">
-						<option loop="$editor_skin_list => $editor" value="{$editor}" selected="selected"|cond="$editor==$editor_config->comment_editor_skin">{$editor}</option>
-					</select>
-					<br/>
-					<select name="sel_comment_editor_colorset" id="sel_comment_editor_colorset" data-display="none"|cond="!count($editor_comment_colorset_list)">
-						<option loop="$editor_comment_colorset_list => $key, $val" value="{$val->name}" selected="selected"|cond="$editor_config->sel_comment_editor_colorset == $val->name">{$val->title}</option>
-					</select>
+					<p>
+						<select name="comment_editor_skin" class="editor_skin_selector">
+							<!--@foreach($editor_skin_list as $skin_name => $skin_info)-->
+								<option value="{$skin_name}" data-colorsets="{json_encode($skin_info->colorset)|escape}" selected="selected"|cond="$skin_name === $editor_config->comment_editor_skin">{$skin_info->title}</option>
+							<!--@endforeach-->
+						</select>
+						<select name="comment_editor_colorset" class="editor_colorset_selector">
+							<!--@foreach($editor_skin_list[$editor_config->editor_skin]->colorset ?: [] as $colorset)-->
+								<option value="{$colorset->name}" selected="selected"|cond="$colorset->name === $editor_config->comment_editor_colorset">{$colorset->title}</option>
+							<!--@endforeach-->
+						</select>
+					</p>
+					<p>
+						<span class="editor_type">{$lang->guide_editor_height}</span>
+						<input type="number" name="comment_editor_height" value="{$editor_config->comment_editor_height}" /> px
+					</p>
+					<p>
+						<span class="editor_type">{$lang->guide_editor_toolbar}</span>
+						<select name="editor_toolbar" style="min-width:104px">
+							<option value="default" selected="selected"|cond="!$editor_config->comment_editor_toolbar || $editor_config->comment_editor_toolbar === 'default'">{$lang->editor_toolbar_default}</option>
+							<option value="default" selected="selected"|cond="$editor_config->comment_editor_toolbar === 'simple'">{$lang->editor_toolbar_simple}</option>
+						</select> &nbsp;
+						<label class="x_inline"><input type="checkbox" name="comment_editor_toolbar_hide" value="Y" checked="checked"|cond="$editor_config->comment_editor_toolbar_hide === 'Y'"> {$lang->editor_toolbar_hide}</label>
+					</p>
 				</td>
 			</tr>
 			<tr class="editor_skin">
-				<th scope="row" style="text-align:right">{$lang->editor_height}</th>
+				<th scope="row" style="text-align:right">{$lang->mobile}</th>
 				<td>
-					<input type="number" min="0" name="editor_height" value="{$editor_config->editor_height}" /> px
+					<p>
+						<select name="mobile_editor_skin" class="editor_skin_selector">
+							<!--@foreach($editor_skin_list as $skin_name => $skin_info)-->
+							<option value="{$skin_name}" data-colorsets="{json_encode($skin_info->colorset)|escape}" selected="selected"|cond="$skin_name === $editor_config->mobile_editor_skin">{$skin_info->title}</option>
+							<!--@endforeach-->
+						</select>
+						<select name="mobile_editor_colorset" class="editor_colorset_selector">
+							<!--@foreach($editor_skin_list[$editor_config->mobile_editor_skin]->colorset ?: [] as $colorset)-->
+								<option value="{$colorset->name}" selected="selected"|cond="$colorset->name === $editor_config->mobile_editor_colorset">{$colorset->title}</option>
+							<!--@endforeach-->
+						</select>
+					</p>
+					<p>
+						<span class="editor_type">{$lang->guide_editor_height}</span>
+						<input type="number" name="mobile_editor_height" value="{$editor_config->mobile_editor_height}" /> px</p>
+					</p>
+					<p>
+						<span class="editor_type">{$lang->guide_editor_toolbar}</span>
+						<select name="mobile_editor_toolbar" style="min-width:104px">
+							<option value="default" selected="selected"|cond="!$editor_config->mobile_editor_toolbar || $editor_config->mobile_editor_toolbar === 'default'">{$lang->editor_toolbar_default}</option>
+							<option value="default" selected="selected"|cond="$editor_config->mobile_editor_toolbar === 'simple'">{$lang->editor_toolbar_simple}</option>
+						</select> &nbsp;
+						<label class="x_inline"><input type="checkbox" name="mobile_editor_toolbar_hide" value="Y" checked="checked"|cond="$editor_config->mobile_editor_toolbar_hide === 'Y'"> {$lang->editor_toolbar_hide}</label>
+					</p>
 				</td>
 				<td>
-					<input type="number" min="0" name="comment_editor_height" value="{$editor_config->comment_editor_height}" /> px
+					<p>
+						<select name="mobile_comment_editor_skin" class="editor_skin_selector">
+							<!--@foreach($editor_skin_list as $skin_name => $skin_info)-->
+							<option value="{$skin_name}" data-colorsets="{json_encode($skin_info->colorset)|escape}" selected="selected"|cond="$skin_name === $editor_config->mobile_comment_editor_skin">{$skin_info->title}</option>
+							<!--@endforeach-->
+						</select>
+						<select name="mobile_comment_editor_colorset" class="editor_colorset_selector">
+							<!--@foreach($editor_skin_list[$editor_config->mobile_editor_skin]->colorset ?: [] as $colorset)-->
+								<option value="{$colorset->name}" selected="selected"|cond="$colorset->name === $editor_config->mobile_comment_editor_colorset">{$colorset->title}</option>
+							<!--@endforeach-->
+						</select>
+					</p>
+					<p>
+						<span class="editor_type">{$lang->guide_editor_height}</span>
+						<input type="number" name="mobile_comment_editor_height" value="{$editor_config->mobile_comment_editor_height}" /> px</p>
+					</p>
+					<p>
+						<span class="editor_type">{$lang->guide_editor_toolbar}</span>
+						<select name="mobile_comment_editor_toolbar" style="min-width:104px">
+							<option value="default" selected="selected"|cond="!$editor_config->mobile_comment_editor_toolbar || $editor_config->mobile_comment_editor_toolbar === 'default'">{$lang->editor_toolbar_default}</option>
+							<option value="default" selected="selected"|cond="$editor_config->mobile_comment_editor_toolbar === 'simple'">{$lang->editor_toolbar_simple}</option>
+						</select> &nbsp;
+						<label class="x_inline"><input type="checkbox" name="mobile_comment_editor_toolbar_hide" value="Y" checked="checked"|cond="$editor_config->mobile_comment_editor_toolbar_hide === 'Y'"> {$lang->editor_toolbar_hide}</label>
+					</p>
 				</td>
 			</tr>
 			<tr class="editor_skin">
 				<th scope="row" style="text-align:right"><label for="content_font">{$lang->content_font}</label></th>
 				<td colspan="2">
-					<input type="text" name="content_font" id="content_font" value="{str_replace(array('"','\''),'',$editor_config->content_font)}" placeholder="Ex) Tahoma, Geneva, sans-serif" />
-					{$lang->about_content_font}
+					<label class="x_inline fontSelector">
+						<input type="radio" name="content_font" id="font_noFont" value="" checked="checked"|cond="!$editor_config->content_font && $editor_config->font_defined != 'Y'" /> none (inherit)
+					</label>
+					<label style="font-family:{$detail}" class="x_inline fontSelector" loop="$lang->edit->fontlist=>$name,$detail">
+						{@ $fontname_simplified = trim(array_first(explode(',', $detail)), "'\" ")}
+						<input type="radio" name="content_font" id="font_{$name}" value="{$detail}" checked="checked"|cond="$editor_config->content_font == $detail && $editor_config->font_defined != 'Y'" /> {$fontname_simplified}
+					</label>
+					<label>
+						<input type="radio" class="fontSelector" name="font_defined" id="font_defined" value="Y" checked="checked"|cond="$editor_config->font_defined== 'Y'" /> {$lang->by_you} : 
+						<input type="text" name="content_font_defined" value="{$editor_config->content_font}"|cond="$editor_config->font_defined == 'Y'" />
+					</label>
 				</td>
 			</tr>
 			<tr class="editor_skin">
 				<th scope="row" style="text-align:right"><label for="content_font_size">{$lang->content_font_size}</label></th>
-				<td colspan="2"><input type="text" name="content_font_size" id="content_font_size" value="{$editor_config->content_font_size}" style="width:50px" /> {$lang->about_content_font_size}</td>
+				<td colspan="2">
+					<input type="text" id="font_size" name="content_font_size" value="{$editor_config->content_font_size ?: 13}" />
+					<p class="x_help-inline">{$lang->about_unit_default_px}</p>	
+				</td>
 			</tr>
 			<tr class="editor_skin">
 				<th scope="row" style="text-align:right">{$lang->enable_autosave}</th>
