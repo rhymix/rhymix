@@ -16,6 +16,9 @@
 	
 	// Insert content at cursor position.
 	var insertContent = function(instance, content) {
+		if (content.match(/<(audio|video)\b[^>]+>(<\/p>)?/)) {
+			content = content + '<p><br></p>';
+		}
 		if (ranges.length) {
 			var range = ranges[0];
 			range.collapse(false);
