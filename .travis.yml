@@ -13,7 +13,6 @@ jobs:
 services:
   - mysql
 before_script:
-  - npm install grunt grunt-cli grunt-contrib-jshint grunt-contrib-csslint grunt-phplint --save-dev
   - mysql -u root -e "CREATE DATABASE rhymix CHARSET utf8mb4 COLLATE utf8mb4_unicode_ci"
   - mysql -u root -e "GRANT ALL PRIVILEGES ON rhymix.* TO travis@localhost"
   - mysql -u root -e "SET PASSWORD FOR travis@localhost = PASSWORD('travis'); FLUSH PRIVILEGES"
@@ -21,7 +20,7 @@ before_script:
   - wget https://codeception.com/releases/2.3.9/codecept.phar
   - php -S localhost:8000 &
 script:
-  - grunt lint
+  - if find . -name "*.php" ! -path "./vendor/*" -print0 | xargs -0 -n 1 -P 8 php -l | grep -v "No syntax errors detected"; then exit 1; fi
   - php codecept.phar build
   - php codecept.phar run --debug --fail-fast --env travis
 notifications:
