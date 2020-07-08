@@ -31,7 +31,12 @@
 		var sel = window.getSelection();
 		sel.removeAllRanges();
 		sel.addRange(range);
-		document.execCommand('insertHTML', false, content);
+		if (String(navigator.userAgent).match(/Trident\/7/)) {
+			range.insertNode(range.createContextualFragment(content));
+			range.collapse(false);
+		} else {
+			document.execCommand('insertHTML', false, content);
+		}
 	};
 	
 	// Simplify HTML content by removing unnecessary tags.
