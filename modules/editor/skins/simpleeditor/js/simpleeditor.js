@@ -36,7 +36,8 @@
 		str = String(str);
 		str = str.replace(/<!--(.*?)-->/g, '');
 		str = str.replace(/<\/?(\?xml|meta|link|font|style|script|noscript|frame|noframes)\b[^>]*?>/ig, '');
-		str = str.replace(/<br\s?\/?>/g, '').replace(/(<\/?)div(\W)/g, '$1p$2');
+		str = str.replace(/<br\s*\/?>/g, '').replace(/(<\/?)div(\W)/g, '$1p$2');
+		str = str.replace(/<p>\s*<\/p>/g, '<p>&nbsp;</p>');
 		return str;
 	};
 	
