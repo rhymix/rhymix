@@ -1,3 +1,7 @@
+tr.editor_skin td p {
+	margin-bottom: 6px;
+}
+
 .editor_type {
 	display: inline-block;
 	min-width: 60px;

@@ -85,8 +85,11 @@ class editorController extends editor
 	 */
 	function procEditorInsertModuleConfig()
 	{
+		// Get request vars
+		$vars = Context::getRequestVars();
+		
 		// To configure many of modules at once
-		$target_module_srl = Context::get('target_module_srl');
+		$target_module_srl = $vars->target_module_srl;
 		$target_module_srl = array_map('trim', explode(',', $target_module_srl));
 		$logged_info = Context::get('logged_info');
 		$module_srl = array();
@@ -110,56 +113,85 @@ class editorController extends editor
 			$module_srl[] = $srl;
 		}
 
-		$editor_config = new stdClass;
-		$editor_config->default_editor_settings = Context::get('default_editor_settings');
-		if($editor_config->default_editor_settings !== 'Y') $editor_config->default_editor_settings = 'N';
-		$editor_config->editor_skin = Context::get('editor_skin');
-		$editor_config->comment_editor_skin = Context::get('comment_editor_skin');
-		$editor_config->content_font = Context::get('content_font');
-		if($editor_config->content_font)
+		// Apply default settings?
+		$config = new stdClass;
+		$config->default_editor_settings = $vars->default_editor_settings;
+		if ($config->default_editor_settings !== 'Y')
 		{
-			$font_list = array();
-			$fonts = explode(',',$editor_config->content_font);
-			for($i=0,$c=count($fonts);$i<$c;$i++)
-			{
-				$font = trim(str_replace(array('"','\''),'',$fonts[$i]));
-				if(!$font) continue;
-				$font_list[] = $font;
-			}
-			if(count($font_list)) $editor_config->content_font = '"'.implode('","',$font_list).'"';
+			$config->default_editor_settings = 'N';
 		}
-		$editor_config->content_font_size = Context::get('content_font_size');
-		$editor_config->sel_editor_colorset = Context::get('sel_editor_colorset');
-		$editor_config->sel_comment_editor_colorset = Context::get('sel_comment_editor_colorset');
+		
+		// Apply module-specific editor settings.
+		$config->editor_skin = $vars->editor_skin;
+		$config->editor_colorset = $vars->editor_colorset;
+		$config->editor_height = $vars->editor_height;
+		$config->editor_toolbar = $vars->editor_toolbar;
+		$config->editor_toolbar_hide = $vars->editor_toolbar_hide === 'Y' ? 'Y' : 'N';
+		$config->mobile_editor_skin = $vars->mobile_editor_skin;
+		$config->mobile_editor_colorset = $vars->mobile_editor_colorset;
+		$config->mobile_editor_height = $vars->mobile_editor_height;
+		$config->mobile_editor_toolbar = $vars->mobile_editor_toolbar;
+		$config->mobile_editor_toolbar_hide = $vars->mobile_editor_toolbar_hide === 'Y' ? 'Y' : 'N';
+		$config->comment_editor_skin = $vars->comment_editor_skin;
+		$config->comment_editor_colorset = $vars->comment_editor_colorset;
+		$config->comment_editor_height = $vars->comment_editor_height;
+		$config->comment_editor_toolbar = $vars->comment_editor_toolbar;
+		$config->comment_editor_toolbar_hide = $vars->comment_editor_toolbar_hide === 'Y' ? 'Y' : 'N';
+		$config->mobile_comment_editor_skin = $vars->mobile_comment_editor_skin;
+		$config->mobile_comment_editor_colorset = $vars->mobile_comment_editor_colorset;
+		$config->mobile_comment_editor_height = $vars->mobile_comment_editor_height;
+		$config->mobile_comment_editor_toolbar = $vars->mobile_comment_editor_toolbar;
+		$config->mobile_comment_editor_toolbar_hide = $vars->mobile_comment_editor_toolbar_hide === 'Y' ? 'Y' : 'N';
 
-		$grants = array('enable_html_grant','enable_comment_html_grant','upload_file_grant','comment_upload_file_grant','enable_default_component_grant','enable_comment_default_component_grant','enable_component_grant','enable_comment_component_grant');
+		if ($vars->font_defined === 'Y')
+		{
+			$config->font_defined = 'Y';
+			$config->content_font = $vars->content_font_defined;
+		}
+		else
+		{
+			$config->font_defined = $vars->font_defined = 'N';
+			$config->content_font = $vars->content_font;
+		}
+		
+		$config->content_font_size = trim($vars->content_font_size);
+		$config->enable_autosave = $vars->enable_autosave ?: 'Y';
+		$config->allow_html = $vars->allow_html ?: 'Y';
+
+		// Apply module-specific permissions.
+		$grants = array(
+			'enable_html_grant',
+			'enable_comment_html_grant',
+			'upload_file_grant',
+			'comment_upload_file_grant',
+			'enable_default_component_grant',
+			'enable_comment_default_component_grant',
+			'enable_component_grant',
+			'enable_comment_component_grant',
+		);
 
 		foreach($grants as $key)
 		{
 			$grant = Context::get($key);
 			if(!$grant)
 			{
-				$editor_config->{$key} = array();
+				$config->{$key} = array();
 			}
 			else if(is_array($grant))
 			{
-				$editor_config->{$key} = $grant;
+				$config->{$key} = $grant;
 			}
 			else
 			{
-				$editor_config->{$key} = explode('|@|', $grant);
+				$config->{$key} = explode('|@|', $grant);
 			}
 		}
 
-		$editor_config->editor_height = (int)Context::get('editor_height');
-		$editor_config->comment_editor_height = (int)Context::get('comment_editor_height');
-		$editor_config->enable_autosave = Context::get('enable_autosave') ?: 'Y';
-		$editor_config->allow_html = Context::get('allow_html') ?: 'Y';
-
+		// Save settings.
 		$oModuleController = getController('module');
 		foreach ($module_srl as $srl)
 		{
-			$oModuleController->insertModulePartConfig('editor', $srl, $editor_config);
+			$oModuleController->insertModulePartConfig('editor', $srl, $config);
 		}
 
 		$this->setError(-1);
