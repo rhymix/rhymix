@@ -20,16 +20,11 @@ class editorAdminView extends editor
 	 */
 	function dispEditorAdminIndex()
 	{
-		$component_count = 0;
-		$site_module_info = Context::get('site_module_info');
-		$site_srl = (int)$site_module_info->site_srl;
-
-		// Get a type of component
+		// Get module config
 		$oEditorModel = getModel('editor');
 		$oModuleModel = getModel('module');
 		$editor_config = $oModuleModel->getModuleConfig('editor');
-
-		if(!$editor_config)
+		if (!is_object($editor_config))
 		{
 			$editor_config = new stdClass();
 		}
@@ -42,36 +37,54 @@ class editorAdminView extends editor
 				$editor_config->$key = $val;
 			}
 		}
-
-		$component_list = $oEditorModel->getComponentList(false, $site_srl, true);
-		$editor_skin_list = FileHandler::readDir(_XE_PATH_.'modules/editor/skins');
-		$editor_skin_list = array_filter($editor_skin_list, function($name) { return !starts_with('xpresseditor', $name) && !starts_with('dreditor', $name); });
-
-		$skin_info = $oModuleModel->loadSkinInfo($this->module_path,$editor_config->editor_skin);
-		$comment_skin_info = $oModuleModel->loadSkinInfo($this->module_path,$editor_config->comment_editor_skin);
-
-		// Get install info, update info, count
-		$oAutoinstallModel = getModel('autoinstall');
-		foreach($component_list as $component_name => $xml_info)
+		
+		// Get skin info
+		$editor_skin_list = array();
+		$skin_dir_list = FileHandler::readDir($this->module_path . 'skins');
+		foreach ($skin_dir_list as $skin)
 		{
-			$component_count++;
+			if (starts_with('xpresseditor', $skin) || starts_with('dreditor', $skin))
+			{
+				continue;
+			}
+			
+			$skin_info = $oModuleModel->loadSkinInfo($this->module_path, $skin);
+			foreach ($skin_info->colorset ?: [] as $colorset)
+			{
+				unset($colorset->screenshot);
+			}
+			$editor_skin_list[$skin] = $skin_info;
+		}
+
+		// Get editor component info
+		$oAutoinstallModel = getModel('autoinstall');
+		$component_list = $oEditorModel->getComponentList(false, 0, true);
+		$component_count = count($component_list);
+		$targetpackages = array();
+		foreach ($component_list as $xml_info)
+		{
 			$xml_info->path = './modules/editor/components/'.$xml_info->component_name;
 			$xml_info->delete_url = $oAutoinstallModel->getRemoveUrlByPath($xml_info->path);
 			$xml_info->package_srl = $oAutoinstallModel->getPackageSrlByPath($xml_info->path);
-			if($xml_info->package_srl) $targetpackages[$xml_info->package_srl] = 0;
+			if ($xml_info->package_srl)
+			{
+				$targetpackages[$xml_info->package_srl] = 0;
+			}
 		}
-
-		if(is_array($targetpackages))	$packages = $oAutoinstallModel->getInstalledPackages(array_keys($targetpackages));
-
-		foreach($component_list as $component_name => $xml_info)
+		if (count($targetpackages))
 		{
-			if($packages[$xml_info->package_srl])	$xml_info->need_update = $packages[$xml_info->package_srl]->need_update;
+			$packages = $oAutoinstallModel->getInstalledPackages(array_keys($targetpackages));
+		}
+		foreach ($component_list as $xml_info)
+		{
+			if ($packages[$xml_info->package_srl])
+			{
+				$xml_info->need_update = $packages[$xml_info->package_srl]->need_update;
+			}
 		}
 		
 		Context::set('editor_config', $editor_config);
 		Context::set('editor_skin_list', $editor_skin_list);
-		Context::set('editor_colorset_list', $skin_info->colorset);
-		Context::set('comment_editor_colorset_list', $comment_skin_info->colorset);
 		Context::set('component_list', $component_list);
 		Context::set('component_count', $component_count);
 

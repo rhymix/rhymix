@@ -33,41 +33,61 @@
 		<input type="hidden" name="xe_validator_id" value="modules/editor/tpl/admin_index/1" />
 
 		<h1>{$lang->main_editor}</h1>
-		
+
 		<div class="x_control-group">
-			<label for="change_lang_type" class="x_control-label">{$lang->guide_choose_main_editor}</label>
+			<label for="change_lang_type" class="x_control-label">{$lang->pc}</label>
 			<div class="x_controls">
-				<!--@foreach($editor_skin_list as $editor)-->
-				<label class="x_inline" id="label_doc_{$editor}">
-					<input type="radio" name="editor_skin" value="{$editor}" id="doc_{$editor}" onClick="getEditorSkinColorList(this.value, null, 'document','label_doc_{$editor}')" checked="checked"|cond="$editor==$editor_config->editor_skin" /> {$editor}
-				</label>
-				<label class="x_inline">
-					<select name="sel_editor_colorset" style="display:none"|cond="$editor!=$editor_config->editor_skin">
-						<option value="{$val->name}" selected="selected"|cond="$editor_config->sel_editor_colorset == $val->name" cond="$editor==$editor_config->editor_skin" loop="$editor_colorset_list=>$key,$val">{$val->title}</option>
+				<p>
+					<select name="editor_skin" class="editor_skin_selector">
+						<!--@foreach($editor_skin_list as $skin_name => $skin_info)-->
+							<option value="{$skin_name}" data-colorsets="{json_encode($skin_info->colorset)|escape}" selected="selected"|cond="$skin_name === $editor_config->editor_skin">{$skin_info->title}</option>
+						<!--@endforeach-->
 					</select>
-				</label>
-				<br />
-				<!--@end-->
-			</div>
-		</div>
-		<div class="x_control-group">
-			<label for="editor_height" class="x_control-label">{$lang->guide_set_height_main_editor}</label>
-			<div class="x_controls">
-				<p><span class="editor_type">{$lang->pc}</span> <input type="number" name="editor_height" id="editor_height" value="{$editor_config->editor_height}" /> px</p>
-				<p><span class="editor_type">{$lang->mobile}</span> <input type="number" name="mobile_editor_height" id="mobile_editor_height" value="{$editor_config->mobile_editor_height}" /> px</p>
-			</div>
-		</div>
-		<div class="x_control-group">
-			<label for="editor_height" class="x_control-label">{$lang->guide_set_main_editor_toolbar}</label>
-			<div class="x_controls">
-				<p><span class="editor_type">{$lang->pc}</span>
-					<label class="x_inline"><input type="radio" name="editor_toolbar" value="default" checked="checked"|cond="!$editor_config->editor_toolbar || $editor_config->editor_toolbar === 'default'"> {$lang->editor_toolbar_default}</label>
-					<label class="x_inline"><input type="radio" name="editor_toolbar" value="simple" checked="checked"|cond="$editor_config->editor_toolbar === 'simple'"> {$lang->editor_toolbar_simple}</label>
+					<select name="editor_colorset" class="editor_colorset_selector">
+						<!--@foreach($editor_skin_list[$editor_config->editor_skin]->colorset ?: [] as $colorset)-->
+							<option value="{$colorset->name}" selected="selected"|cond="$colorset->name === $editor_config->editor_colorset">{$colorset->title}</option>
+						<!--@endforeach-->
+					</select>
+				</p>
+				<p>
+					<span class="editor_type">{$lang->guide_editor_height}</span>
+					<input type="number" name="editor_height" value="{$editor_config->editor_height}" /> px
+				</p>
+				<p>
+					<span class="editor_type">{$lang->guide_editor_toolbar}</span>
+					<select name="editor_toolbar" style="min-width:104px">
+						<option value="default" selected="selected"|cond="!$editor_config->editor_toolbar || $editor_config->editor_toolbar === 'default'">{$lang->editor_toolbar_default}</option>
+						<option value="default" selected="selected"|cond="$editor_config->editor_toolbar === 'simple'">{$lang->editor_toolbar_simple}</option>
+					</select> &nbsp;
 					<label class="x_inline"><input type="checkbox" name="editor_toolbar_hide" value="Y" checked="checked"|cond="$editor_config->editor_toolbar_hide === 'Y'"> {$lang->editor_toolbar_hide}</label>
 				</p>
-				<p><span class="editor_type">{$lang->mobile}</span>
-					<label class="x_inline"><input type="radio" name="mobile_editor_toolbar" value="default" checked="checked"|cond="!$editor_config->mobile_editor_toolbar || $editor_config->mobile_editor_toolbar === 'default'"> {$lang->editor_toolbar_default}</label>
-					<label class="x_inline"><input type="radio" name="mobile_editor_toolbar" value="simple" checked="checked"|cond="$editor_config->mobile_editor_toolbar === 'simple'"> {$lang->editor_toolbar_simple}</label>
+			</div>
+		</div>
+		<div class="x_control-group">
+			<label for="editor_height" class="x_control-label">{$lang->mobile}</label>
+			<div class="x_controls">
+				<p>
+					<select name="mobile_editor_skin" class="editor_skin_selector">
+						<!--@foreach($editor_skin_list as $skin_name => $skin_info)-->
+						<option value="{$skin_name}" data-colorsets="{json_encode($skin_info->colorset)|escape}" selected="selected"|cond="$skin_name === $editor_config->mobile_editor_skin">{$skin_info->title}</option>
+						<!--@endforeach-->
+					</select>
+					<select name="mobile_editor_colorset" class="editor_colorset_selector">
+						<!--@foreach($editor_skin_list[$editor_config->mobile_editor_skin]->colorset ?: [] as $colorset)-->
+							<option value="{$colorset->name}" selected="selected"|cond="$colorset->name === $editor_config->mobile_editor_colorset">{$colorset->title}</option>
+						<!--@endforeach-->
+					</select>
+				</p>
+				<p>
+					<span class="editor_type">{$lang->guide_editor_height}</span>
+					<input type="number" name="mobile_editor_height" value="{$editor_config->mobile_editor_height}" /> px</p>
+				</p>
+				<p>
+					<span class="editor_type">{$lang->guide_editor_toolbar}</span>
+					<select name="mobile_editor_toolbar" style="min-width:104px">
+						<option value="default" selected="selected"|cond="!$editor_config->mobile_editor_toolbar || $editor_config->mobile_editor_toolbar === 'default'">{$lang->editor_toolbar_default}</option>
+						<option value="default" selected="selected"|cond="$editor_config->mobile_editor_toolbar === 'simple'">{$lang->editor_toolbar_simple}</option>
+					</select> &nbsp;
 					<label class="x_inline"><input type="checkbox" name="mobile_editor_toolbar_hide" value="Y" checked="checked"|cond="$editor_config->mobile_editor_toolbar_hide === 'Y'"> {$lang->editor_toolbar_hide}</label>
 				</p>
 			</div>
@@ -76,40 +96,59 @@
 		<h1>{$lang->comment_editor}</h1>
 	
 		<div class="x_control-group">
-			<label for="sel_comment_editor_colorset" class="x_control-label">{$lang->guide_choose_comment_editor}</label>
+			<label for="change_lang_type" class="x_control-label">{$lang->pc}</label>
 			<div class="x_controls">
-				<!--@foreach($editor_skin_list as $editor)-->
-				<label class="x_inline" id="label_com_{$editor}">
-					<input type="radio" name="comment_editor_skin" value="{$editor}" id="com_{$editor}"  onclick="getEditorSkinColorList(this.value, null, 'reply','label_com_{$editor}')" checked="checked"|cond="$editor == $editor_config->comment_editor_skin" /> {$editor}
-				</label>
-				<label class="x_inline">
-					<select name="sel_comment_editor_colorset" style="display:none"|cond="$editor!=$editor_config->comment_editor_skin">
-						<option value="{$val->name}" selected="selected"|cond="$editor_config->sel_comment_editor_colorset == $val->name" cond="$editor==$editor_config->comment_editor_skin" loop="$comment_editor_colorset_list=>$key,$val">{$val->title}</option>
+				<p>
+					<select name="comment_editor_skin" class="editor_skin_selector">
+						<!--@foreach($editor_skin_list as $skin_name => $skin_info)-->
+							<option value="{$skin_name}" data-colorsets="{json_encode($skin_info->colorset)|escape}" selected="selected"|cond="$skin_name === $editor_config->comment_editor_skin">{$skin_info->title}</option>
+						<!--@endforeach-->
 					</select>
-				</label>
-				<br />
-				<!--@end-->
-			</div>
-		</div>
-
-		<div class="x_control-group">
-			<label for="comment_editor_height" class="x_control-label">{$lang->guide_set_height_comment_editor}</label>
-			<div class="x_controls">
-				<p><span class="editor_type">{$lang->pc}</span> <input type="number" name="comment_editor_height" id="comment_editor_height" value="{$editor_config->comment_editor_height}" /> px</p>
-				<p><span class="editor_type">{$lang->mobile}</span> <input type="number" name="mobile_comment_editor_height" id="mobile_comment_editor_height" value="{$editor_config->mobile_comment_editor_height}" /> px &nbsp;</p>
-			</div>
-		</div>
-		<div class="x_control-group">
-			<label for="editor_height" class="x_control-label">{$lang->guide_set_comment_editor_toolbar}</label>
-			<div class="x_controls">
-				<p><span class="editor_type">{$lang->pc}</span>
-					<label class="x_inline"><input type="radio" name="comment_editor_toolbar" value="default" checked="checked"|cond="!$editor_config->comment_editor_toolbar || $editor_config->comment_editor_toolbar === 'default'"> {$lang->editor_toolbar_default}</label>
-					<label class="x_inline"><input type="radio" name="comment_editor_toolbar" value="simple" checked="checked"|cond="$editor_config->comment_editor_toolbar === 'simple'"> {$lang->editor_toolbar_simple}</label>
+					<select name="comment_editor_colorset" class="editor_colorset_selector">
+						<!--@foreach($editor_skin_list[$editor_config->editor_skin]->colorset ?: [] as $colorset)-->
+							<option value="{$colorset->name}" selected="selected"|cond="$colorset->name === $editor_config->comment_editor_colorset">{$colorset->title}</option>
+						<!--@endforeach-->
+					</select>
+				</p>
+				<p>
+					<span class="editor_type">{$lang->guide_editor_height}</span>
+					<input type="number" name="comment_editor_height" value="{$editor_config->comment_editor_height}" /> px
+				</p>
+				<p>
+					<span class="editor_type">{$lang->guide_editor_toolbar}</span>
+					<select name="editor_toolbar" style="min-width:104px">
+						<option value="default" selected="selected"|cond="!$editor_config->comment_editor_toolbar || $editor_config->comment_editor_toolbar === 'default'">{$lang->editor_toolbar_default}</option>
+						<option value="default" selected="selected"|cond="$editor_config->comment_editor_toolbar === 'simple'">{$lang->editor_toolbar_simple}</option>
+					</select> &nbsp;
 					<label class="x_inline"><input type="checkbox" name="comment_editor_toolbar_hide" value="Y" checked="checked"|cond="$editor_config->comment_editor_toolbar_hide === 'Y'"> {$lang->editor_toolbar_hide}</label>
 				</p>
-				<p><span class="editor_type">{$lang->mobile}</span>
-					<label class="x_inline"><input type="radio" name="mobile_comment_editor_toolbar" value="default" checked="checked"|cond="!$editor_config->mobile_comment_editor_toolbar || $editor_config->mobile_comment_editor_toolbar === 'default'"> {$lang->editor_toolbar_default}</label>
-					<label class="x_inline"><input type="radio" name="mobile_comment_editor_toolbar" value="simple" checked="checked"|cond="$editor_config->mobile_comment_editor_toolbar === 'simple'"> {$lang->editor_toolbar_simple}</label>
+			</div>
+		</div>
+		<div class="x_control-group">
+			<label for="editor_height" class="x_control-label">{$lang->mobile}</label>
+			<div class="x_controls">
+				<p>
+					<select name="mobile_comment_editor_skin" class="editor_skin_selector">
+						<!--@foreach($editor_skin_list as $skin_name => $skin_info)-->
+						<option value="{$skin_name}" data-colorsets="{json_encode($skin_info->colorset)|escape}" selected="selected"|cond="$skin_name === $editor_config->mobile_comment_editor_skin">{$skin_info->title}</option>
+						<!--@endforeach-->
+					</select>
+					<select name="mobile_comment_editor_colorset" class="editor_colorset_selector">
+						<!--@foreach($editor_skin_list[$editor_config->mobile_editor_skin]->colorset ?: [] as $colorset)-->
+							<option value="{$colorset->name}" selected="selected"|cond="$colorset->name === $editor_config->mobile_comment_editor_colorset">{$colorset->title}</option>
+						<!--@endforeach-->
+					</select>
+				</p>
+				<p>
+					<span class="editor_type">{$lang->guide_editor_height}</span>
+					<input type="number" name="mobile_comment_editor_height" value="{$editor_config->mobile_comment_editor_height}" /> px</p>
+				</p>
+				<p>
+					<span class="editor_type">{$lang->guide_editor_toolbar}</span>
+					<select name="mobile_comment_editor_toolbar" style="min-width:104px">
+						<option value="default" selected="selected"|cond="!$editor_config->mobile_comment_editor_toolbar || $editor_config->mobile_comment_editor_toolbar === 'default'">{$lang->editor_toolbar_default}</option>
+						<option value="default" selected="selected"|cond="$editor_config->mobile_comment_editor_toolbar === 'simple'">{$lang->editor_toolbar_simple}</option>
+					</select> &nbsp;
 					<label class="x_inline"><input type="checkbox" name="mobile_comment_editor_toolbar_hide" value="Y" checked="checked"|cond="$editor_config->mobile_comment_editor_toolbar_hide === 'Y'"> {$lang->editor_toolbar_hide}</label>
 				</p>
 			</div>
@@ -120,10 +159,10 @@
 		<div class="x_control-group">
 			<label class="x_control-label">{$lang->guide_choose_font_body}</label>
 			<div class="x_controls">
-				<label style="font-family:''" class="fontSelector">
+				<label class="x_inline fontSelector">
 					<input type="radio" name="content_font" id="font_noFont" value="" checked="checked"|cond="!$editor_config->content_font && $editor_config->font_defined != 'Y'" /> none (inherit)
 				</label>
-				<label style="display:inline-block;margin-right:16px;font-family:{$detail}" class="fontSelector" loop="$lang->edit->fontlist=>$name,$detail">
+				<label style="font-family:{$detail}" class="x_inline fontSelector" loop="$lang->edit->fontlist=>$name,$detail">
 					{@ $fontname_simplified = trim(array_first(explode(',', $detail)), "'\" ")}
 					<input type="radio" name="content_font" id="font_{$name}" value="{$detail}" checked="checked"|cond="$editor_config->content_font == $detail && $editor_config->font_defined != 'Y'" /> {$fontname_simplified}
 				</label>

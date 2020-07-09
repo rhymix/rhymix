@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<skin version="0.2">
+	<title xml:lang="ko">SimpleEditor</title>
+	<description xml:lang="ko">SimpleEditor</description>
+	<version>1.0.0</version>
+	<date>2020-07-07</date>
+	<colorset>
+		<color name="light">
+			<title xml:lang="ko">Light</title>
+		</color>
+		<color name="dark">
+			<title xml:lang="ko">Dark</title>
+		</color>
+	</colorset>
+</skin>

@@ -53,7 +53,7 @@ class editorModel extends editor
 		if(!is_array($editor_config->enable_comment_component_grant)) $editor_config->enable_comment_component_grant= array();
 		
 		// Load the default config for editor module.
-		$editor_default_config = $oModuleModel->getModuleConfig('editor');
+		$editor_default_config = $oModuleModel->getModuleConfig('editor') ?: new stdClass;
 		
 		// Check whether we should use the default config.
 		if($editor_config->default_editor_settings !== 'Y' && $editor_default_config->editor_skin && $editor_config->editor_skin && $editor_default_config->editor_skin !== $editor_config->editor_skin)
@@ -122,21 +122,25 @@ class editorModel extends editor
 		{
 			$option->editor_skin = $this->default_editor_config['editor_skin'];
 		}
-		if (!$option->sel_editor_colorset)
+		if (!$option->editor_colorset)
 		{
-			$option->sel_editor_colorset = $option->colorset ?: $this->default_editor_config['sel_editor_colorset'];
+			$option->editor_colorset = $option->colorset ?: ($option->sel_editor_colorset ?: $this->default_editor_config['editor_colorset']);
 		}
 		if (!$option->editor_height)
 		{
 			$option->editor_height = $option->height ?: $this->default_editor_config['editor_height'];
 		}
-		if ($option->editor_skin === 'ckeditor' && preg_match('/^(?:white|black)(_text_(?:use|no)html)?$/', $option->sel_editor_colorset))
+		if ($option->editor_skin === 'ckeditor' && !in_array($option->editor_colorset, array('moono', 'moono-dark', 'moono-lisa')))
 		{
-			$option->sel_editor_colorset = 'moono-lisa';
+			$option->editor_colorset = 'moono-lisa';
+		}
+		if ($option->editor_skin === 'simpleeditor' && !in_array($option->editor_colorset, array('light', 'dark')))
+		{
+			$option->editor_colorset = 'light';
 		}
 		Context::set('skin', $option->editor_skin);
 		Context::set('editor_path', $this->module_path . 'skins/' . $option->editor_skin . '/');
-		Context::set('colorset', $option->sel_editor_colorset);
+		Context::set('colorset', $option->editor_colorset);
 		Context::set('editor_height', $option->editor_height);
 		Context::set('editor_toolbar', $option->editor_toolbar);
 		Context::set('editor_toolbar_hide', toBool($option->editor_toolbar_hide));
@@ -269,6 +273,8 @@ class editorModel extends editor
 			}
 			if ($is_mobile)
 			{
+				$option->editor_skin = $option->mobile_editor_skin ?: $option->editor_skin;
+				$option->editor_colorset = $option->mobile_editor_colorset ?: ($option->editor_colorset ?: $option->sel_editor_colorset);
 				$option->editor_height = $option->mobile_editor_height;
 				$option->editor_toolbar = $option->mobile_editor_toolbar;
 				$option->editor_toolbar_hide = $option->mobile_editor_toolbar_hide;
@@ -281,18 +287,20 @@ class editorModel extends editor
 			{
 				$option->$key = $val;
 			}
-			$option->editor_skin = $option->comment_editor_skin;
-			$option->sel_editor_colorset = $option->sel_comment_editor_colorset;
-			$option->upload_file_grant = $option->comment_upload_file_grant;
-			$option->enable_default_component_grant = $option->enable_comment_default_component_grant;
-			$option->enable_component_grant = $option->enable_comment_component_grant;
-			$option->enable_html_grant = $option->enable_comment_html_grant;
+			$option->editor_skin = $option->comment_editor_skin ?: $option->editor_skin;
+			$option->editor_colorset = $option->comment_editor_colorset ?: ($option->editor_colorset ?: $option->sel_editor_colorset);
 			$option->editor_height = $option->comment_editor_height;
 			$option->editor_toolbar = $option->comment_editor_toolbar;
 			$option->editor_toolbar_hide = $option->comment_editor_toolbar_hide;
 			$option->enable_autosave = 'N';
+			$option->upload_file_grant = $option->comment_upload_file_grant;
+			$option->enable_default_component_grant = $option->enable_comment_default_component_grant;
+			$option->enable_component_grant = $option->enable_comment_component_grant;
+			$option->enable_html_grant = $option->enable_comment_html_grant;
 			if ($is_mobile)
 			{
+				$option->editor_skin = $option->mobile_comment_editor_skin ?: ($option->comment_editor_skin ?: $option->editor_skin);
+				$option->editor_colorset = $option->mobile_comment_editor_colorset ?: ($option->comment_editor_colorset ?: ($option->editor_colorset ?: $option->sel_editor_colorset));
 				$option->editor_height = $option->mobile_comment_editor_height;
 				$option->editor_toolbar = $option->mobile_comment_editor_toolbar;
 				$option->editor_toolbar_hide = $option->mobile_comment_editor_toolbar_hide;

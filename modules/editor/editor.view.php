@@ -123,23 +123,46 @@ class editorView extends editor
 			$current_module_srl = $current_module_info->module_srl;
 			if(!$current_module_srl) return new BaseObject();
 		}
+		
 		// Get editors settings
+		$oModuleModel = getModel('module');
 		$oEditorModel = getModel('editor');
 		$editor_config = $oEditorModel->getEditorConfig($current_module_srl);
+		if (!is_object($editor_config))
+		{
+			$editor_config = new stdClass();
+		}
+
+		// Use default config for missing values.
+		foreach ($this->default_editor_config as $key => $val)
+		{
+			if (!isset($editor_config->$key))
+			{
+				$editor_config->$key = $val;
+			}
+		}
+
+		// Get skin info
+		$editor_skin_list = array();
+		$skin_dir_list = FileHandler::readDir($this->module_path . 'skins');
+		foreach ($skin_dir_list as $skin)
+		{
+			if (starts_with('xpresseditor', $skin) || starts_with('dreditor', $skin))
+			{
+				continue;
+			}
+			
+			$skin_info = $oModuleModel->loadSkinInfo($this->module_path, $skin);
+			foreach ($skin_info->colorset ?: [] as $colorset)
+			{
+				unset($colorset->screenshot);
+			}
+			$editor_skin_list[$skin] = $skin_info;
+		}
 
 		Context::set('editor_config', $editor_config);
-
-		$oModuleModel = getModel('module');
-		// Get a list of editor skin
-		$editor_skin_list = FileHandler::readDir(_XE_PATH_.'modules/editor/skins');
-		$editor_skin_list = array_filter($editor_skin_list, function($name) { return !starts_with('xpresseditor', $name) && !starts_with('dreditor', $name); });
 		Context::set('editor_skin_list', $editor_skin_list);
-
-		$skin_info = $oModuleModel->loadSkinInfo($this->module_path,$editor_config->editor_skin);
-		Context::set('editor_colorset_list', $skin_info->colorset);
-		$skin_info = $oModuleModel->loadSkinInfo($this->module_path,$editor_config->comment_editor_skin);
-		Context::set('editor_comment_colorset_list', $skin_info->colorset);
-
+		
 		// Get a group list
 		$oMemberModel = getModel('member');
 		$site_module_info = Context::get('site_module_info');

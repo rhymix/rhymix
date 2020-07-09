@@ -1,0 +1,16 @@
+<load target="../../tpl/js/editor_common.js" />
+<load target="css/simpleeditor.less" />
+<load target="js/simpleeditor.js" />
+<load target="js/interface.js" />
+
+<div id="simpleeditor_wrapper_{$editor_sequence}" class="rx_simpleeditor_wrapper">
+	<div id="simpleeditor_instance_{$editor_sequence}" class="rx_simpleeditor {$colorset} rhymix_content" contenteditable="true"
+		data-editor-sequence="{$editor_sequence}"
+		data-editor-primary-key-name="{$editor_primary_key_name}"
+		data-editor-content-key-name="{$editor_content_key_name}"
+		data-editor-height="{$editor_height}">
+	</div>
+	<!--@if($allow_fileupload)-->
+		<include target="../ckeditor/file_upload.html" />
+	<!--@endif-->
+</div>

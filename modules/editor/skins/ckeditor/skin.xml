@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <skin version="0.2">
-	<title xml:lang="ko">CKEditor 스킨</title>
+	<title xml:lang="ko">CKEditor</title>
 	<description xml:lang="ko">CKEditor</description>
 	<version>1.0.0</version>
 	<date>2015-02-24</date>
