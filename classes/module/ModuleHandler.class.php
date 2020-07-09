@@ -786,7 +786,7 @@ class ModuleHandler extends Handler
 			Context::addHtmlFooter($footer);
 		}
 
-		if($type == "view" && $kind != 'admin')
+		if(($type === 'view' || $type === 'mobile') && $kind !== 'admin')
 		{
 			$domain_info = Context::get('site_module_info');
 			if ($domain_info && $domain_info->settings && $domain_info->settings->html_header)
