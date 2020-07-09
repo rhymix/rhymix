@@ -287,14 +287,16 @@ class editorModel extends editor
 			{
 				$option->$key = $val;
 			}
-			$option->upload_file_grant = $option->comment_upload_file_grant;
-			$option->enable_default_component_grant = $option->enable_comment_default_component_grant;
-			$option->enable_component_grant = $option->enable_comment_component_grant;
-			$option->enable_html_grant = $option->enable_comment_html_grant;
+			$option->editor_skin = $option->comment_editor_skin ?: $option->editor_skin;
+			$option->editor_colorset = $option->comment_editor_colorset ?: ($option->editor_colorset ?: $option->sel_editor_colorset);
 			$option->editor_height = $option->comment_editor_height;
 			$option->editor_toolbar = $option->comment_editor_toolbar;
 			$option->editor_toolbar_hide = $option->comment_editor_toolbar_hide;
 			$option->enable_autosave = 'N';
+			$option->upload_file_grant = $option->comment_upload_file_grant;
+			$option->enable_default_component_grant = $option->enable_comment_default_component_grant;
+			$option->enable_component_grant = $option->enable_comment_component_grant;
+			$option->enable_html_grant = $option->enable_comment_html_grant;
 			if ($is_mobile)
 			{
 				$option->editor_skin = $option->mobile_comment_editor_skin ?: ($option->comment_editor_skin ?: $option->editor_skin);
