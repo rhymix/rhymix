@@ -10,7 +10,7 @@ class editor extends ModuleObject
 	/**
 	 * @brief Default font config
 	 */
-	public $default_font_config = array(
+	public static $default_font_config = array(
 		'default_font_family' => 'inherit',
 		'default_font_size' => '13px',
 		'default_line_height' => '160%',
@@ -21,7 +21,7 @@ class editor extends ModuleObject
 	/**
 	 * @brief Default editor config
 	 */
-	public $default_editor_config = array(
+	public static $default_editor_config = array(
 		'editor_skin' => 'ckeditor',
 		'editor_colorset' => 'moono-lisa',
 		'editor_height' => 300,

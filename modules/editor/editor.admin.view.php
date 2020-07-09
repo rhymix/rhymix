@@ -22,15 +22,14 @@ class editorAdminView extends editor
 	{
 		// Get module config
 		$oEditorModel = getModel('editor');
-		$oModuleModel = getModel('module');
-		$editor_config = $oModuleModel->getModuleConfig('editor');
+		$editor_config = ModuleModel::getModuleConfig('editor');
 		if (!is_object($editor_config))
 		{
 			$editor_config = new stdClass();
 		}
 
 		// Use default config for missing values.
-		foreach ($this->default_editor_config as $key => $val)
+		foreach (self::$default_editor_config as $key => $val)
 		{
 			if (!isset($editor_config->$key))
 			{
@@ -48,7 +47,7 @@ class editorAdminView extends editor
 				continue;
 			}
 			
-			$skin_info = $oModuleModel->loadSkinInfo($this->module_path, $skin);
+			$skin_info = ModuleModel::loadSkinInfo($this->module_path, $skin);
 			foreach ($skin_info->colorset ?: [] as $colorset)
 			{
 				unset($colorset->screenshot);
@@ -100,36 +99,31 @@ class editorAdminView extends editor
 	 */
 	function dispEditorAdminSetupComponent()
 	{
-		$site_module_info = Context::get('site_module_info');
-		$site_srl = (int)$site_module_info->site_srl;
-
-		$component_name = Context::get('component_name');
 		// Get information of the editor component
 		$oEditorModel = getModel('editor');
-		$component = $oEditorModel->getComponent($component_name,$site_srl);
-
+		$component_name = Context::get('component_name');
+		$component = $oEditorModel->getComponent($component_name);
 		if(!$component->component_name)
 		{
 			throw new Rhymix\Framework\Exceptions\InvalidRequest;
 		}
-
 		Context::set('component', $component);
+		
 		// Get a group list to set a group
-		$oMemberModel = getModel('member');
-		$group_list = $oMemberModel->getGroups($site_srl);
+		$group_list = MemberModel::getGroups(0);
 		Context::set('group_list', $group_list);
-		// Get a mid list
-		$oModuleModel = getModel('module');
 
+		// Get a mid list
 		$args =new stdClass();
-		$args->site_srl = $site_srl;
+		$args->site_srl = 0;
 		$columnList = array('module_srl', 'mid', 'module_category_srl', 'browser_title');
-		$mid_list = $oModuleModel->getMidList($args, $columnList);
+		$mid_list = ModuleModel::getMidList($args, $columnList);
+
 		// Combination of module_category and module
 		if(!$args->site_srl)
 		{
 			// Get a list of module category
-			$module_categories = $oModuleModel->getModuleCategories();
+			$module_categories = ModuleModel::getModuleCategories();
 
 			if(!is_array($mid_list)) $mid_list = array($mid_list);
 			foreach($mid_list as $module_srl => $module)
@@ -139,9 +133,9 @@ class editorAdminView extends editor
 		}
 		else
 		{
+			$module_categories = array(new stdClass);
 			$module_categories[0]->list = $mid_list;
 		}
-
 		Context::set('mid_list',$module_categories);
 
 		//Security
