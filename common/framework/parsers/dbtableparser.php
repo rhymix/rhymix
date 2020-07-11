@@ -154,11 +154,19 @@ class DBTableParser extends BaseParser
 					$index->columns[$idxcolumn] = 0;
 				}
 			}
-			$index->is_unique = toBool($index_info['unique'] ?? '');
+			
+			if (isset($index_info['type']) && $index_info['type'])
+			{
+				$index->type = strtoupper($index_info['type']);
+			}
+			elseif (toBool($index_info['unique']))
+			{
+				$index->type = 'UNIQUE';
+			}
 			if (isset($table->columns[$idxcolumn]) && is_object($table->columns[$idxcolumn]))
 			{
 				$table->columns[$idxcolumn]->is_indexed = true;
-				$table->columns[$idxcolumn]->is_unique = $index->is_unique;
+				$table->columns[$idxcolumn]->is_unique = $index->type === 'UNIQUE';
 			}
 			$table->indexes[$index->name] = $index;
 		}

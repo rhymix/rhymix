@@ -90,7 +90,7 @@ class Table
 				}
 				$idxcolumns[] = '`' . $column_name . '`' . ($prefix_size > 0 ? "($prefix_size)" : '');
 			}
-			$idxtype = ($index->is_unique ? 'UNIQUE' : 'INDEX');
+			$idxtype = $index->type ? ($index->type . ' INDEX') : 'INDEX';
 			$idxdef = '  ' . $idxtype . ' `' . $index->name . '` (' . implode(', ', $idxcolumns) . ')';
 			$columns[] = $idxdef;
 		}

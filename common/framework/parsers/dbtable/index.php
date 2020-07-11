@@ -9,5 +9,5 @@ class Index
 {
 	public $name;
 	public $columns = array();
-	public $is_unique = false;
+	public $type = null;
 }
