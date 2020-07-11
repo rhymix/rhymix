@@ -92,6 +92,10 @@ class Table
 			}
 			$idxtype = $index->type ? ($index->type . ' INDEX') : 'INDEX';
 			$idxdef = '  ' . $idxtype . ' `' . $index->name . '` (' . implode(', ', $idxcolumns) . ')';
+			if ($index->options)
+			{
+				$idxdef .= ' ' . $index->options;
+			}
 			$columns[] = $idxdef;
 		}
 		

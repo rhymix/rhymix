@@ -866,9 +866,10 @@ class DB
 	 * @param string $index_name
 	 * @param array $columns
 	 * @param string $type
+	 * @param string $options
 	 * @return \BaseObject
 	 */
-	public function addIndex(string $table_name, string $index_name, $columns, $type = ''): \BaseObject
+	public function addIndex(string $table_name, string $index_name, $columns, $type = '', $options = ''): \BaseObject
 	{
 		if (!is_array($columns))
 		{
@@ -880,7 +881,7 @@ class DB
 			$type = 'UNIQUE';
 		}
 		
-		$query = vsprintf("ALTER TABLE `%s` ADD %s `%s` (%s);", array(
+		$query = vsprintf("ALTER TABLE `%s` ADD %s `%s` (%s) %s", array(
 			$this->addQuotes($this->_prefix . $table_name),
 			ltrim($type . ' INDEX'),
 			$this->addQuotes($index_name),
@@ -894,6 +895,7 @@ class DB
 					return '`' . $this->addQuotes($column_name) . '`';
 				}
 			}, $columns)),
+			$options,
 		));
 		
 		$result = $this->_handle->exec($query);

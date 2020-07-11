@@ -138,6 +138,7 @@ class DBTableParser extends BaseParser
 		// Load indexes.
 		foreach ($xml->index as $index_info)
 		{
+			// Get the index name and list of columns.
 			$index_info = self::_getAttributes($index_info);
 			$index = new DBTable\Index;
 			$index->name = $index_info['name'];
@@ -155,6 +156,7 @@ class DBTableParser extends BaseParser
 				}
 			}
 			
+			// Get the index type.
 			if (isset($index_info['type']) && $index_info['type'])
 			{
 				$index->type = strtoupper($index_info['type']);
@@ -163,11 +165,21 @@ class DBTableParser extends BaseParser
 			{
 				$index->type = 'UNIQUE';
 			}
+			
+			// Set attributes on indexed columns.
 			if (isset($table->columns[$idxcolumn]) && is_object($table->columns[$idxcolumn]))
 			{
 				$table->columns[$idxcolumn]->is_indexed = true;
-				$table->columns[$idxcolumn]->is_unique = $index->type === 'UNIQUE';
+				$table->columns[$idxcolumn]->is_unique = $index->type === 'UNIQUE' ? true : $table->columns[$idxcolumn]->is_unique;
 			}
+			
+			// If any index options are given, also store them in the index class.
+			if (isset($index_info['options']) && $index_info['options'])
+			{
+				$index->options = $index_info['options'];
+			}
+			
+			// Add the index to the column definition.
 			$table->indexes[$index->name] = $index;
 		}
 		

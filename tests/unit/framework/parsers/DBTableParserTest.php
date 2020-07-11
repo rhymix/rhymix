@@ -25,7 +25,7 @@ class DBTableParserTest extends \Codeception\TestCase\Test
 		$this->assertEquals('UNIQUE', $table->indexes['unique_list_order']->type);
 		$this->assertEquals('SPATIAL', $table->indexes['spatial_geometry']->type);
 		$this->assertEquals('FULLTEXT', $table->indexes['fulltext_description']->type);
-		$this->assertNull($table->indexes['idx_comment_srl']->type);
+		$this->assertEquals('WITH PARSER ngram', $table->indexes['fulltext_description']->options);
 		
 		$this->assertEquals(2, count($table->constraints));
 		$this->assertEquals('FOREIGN KEY', $table->constraints[0]->type);
@@ -50,7 +50,7 @@ class DBTableParserTest extends \Codeception\TestCase\Test
 		$this->assertContains('INDEX `idx_status` (`status`(6)),', $sql);
 		$this->assertContains('UNIQUE INDEX `unique_list_order` (`list_order`),', $sql);
 		$this->assertContains('SPATIAL INDEX `spatial_geometry` (`geometry`),', $sql);
-		$this->assertContains('FULLTEXT INDEX `fulltext_description` (`description`),', $sql);
+		$this->assertContains('FULLTEXT INDEX `fulltext_description` (`description`) WITH PARSER ngram,', $sql);
 		$this->assertContains('FOREIGN KEY (`module_srl`) REFERENCES `rx_module` (`module_srl`) ON DELETE CASCADE ON UPDATE RESTRICT', $sql);
 		$this->assertContains('CHECK (list_order < 0)', $sql);
 		$this->assertContains('CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci', $sql);

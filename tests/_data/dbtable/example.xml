@@ -11,7 +11,7 @@
 	<index name="idx_status" columns="status(6)" />
 	<index name="unique_list_order" column="list_order" unique="unique" />
 	<index name="spatial_geometry" column="geometry" type="spatial" />
-	<index name="fulltext_description" column="description" type="fulltext" />
+	<index name="fulltext_description" column="description" type="fulltext" options="WITH PARSER ngram" />
 	<constraint type="foreign key" column="module_srl" references="module.module_srl" ondelete="CASCADE" />
 	<constraint type="check" condition="list_order &lt; 0" />
 </table>
