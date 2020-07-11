@@ -865,19 +865,24 @@ class DB
 	 * @param string $table_name
 	 * @param string $index_name
 	 * @param array $columns
-	 * @param bool $unique
+	 * @param string $type
 	 * @return \BaseObject
 	 */
-	public function addIndex(string $table_name, string $index_name, $columns, $unique = false): \BaseObject
+	public function addIndex(string $table_name, string $index_name, $columns, $type = ''): \BaseObject
 	{
 		if (!is_array($columns))
 		{
 			$columns = array($columns);
 		}
 		
+		if ($type === true || $type === 1)
+		{
+			$type = 'UNIQUE';
+		}
+		
 		$query = vsprintf("ALTER TABLE `%s` ADD %s `%s` (%s);", array(
 			$this->addQuotes($this->_prefix . $table_name),
-			$unique ? 'UNIQUE INDEX' : 'INDEX',
+			ltrim($type . ' INDEX'),
 			$this->addQuotes($index_name),
 			implode(', ', array_map(function($column_name) {
 				if (preg_match('/^([^()]+)\(([0-9]+)\)$/', $column_name, $matches))
