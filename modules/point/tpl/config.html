@@ -237,19 +237,3 @@
 		<p id="pointReCal"></p>
 	</section>
 </form>
-<script>
-	jQuery(function($){
-		var point_module_cfg = $('#point_module_config_form .default .x_control-group:not(.module_io), #point_module_config_form .section:not(.default),.x_nav-tabs>li:not(.x_active)');
-		if(!$('#able_module').is(':checked'))
-		{
-			point_module_cfg.hide();
-		}
-		$('#able_module').change(function(){
-			if($(this).is(':checked')){
-				point_module_cfg.slideDown(200);
-			} else {
-				point_module_cfg.slideUp(200);
-			}
-		});
-	});
-</script>
