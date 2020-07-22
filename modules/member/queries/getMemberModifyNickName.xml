@@ -7,6 +7,9 @@
 	</columns>
 	<conditions>
 		<condition operation="equal" column="member_srl" var="member_srl" />
+		<condition operation="equal" column="user_id" var="user_id" pipe="or" />
+		<condition operation="like" column="after_nick_name" var="after_nick_name" pipe="or" />
+		<condition operation="like" column="before_nick_name" var="before_nick_name" pipe="or" />
 	</conditions>
 	<navigation>
 		<index var="sort_index" default="regdate" order="desc" />

@@ -367,3 +367,4 @@ $lang->scrap_folder_create = '폴더 추가';
 $lang->scrap_folder_rename = '이름 변경';
 $lang->scrap_folder_delete = '삭제';
 $lang->member_unauthenticated = '미인증';
+$lang->member_number = '회원 번호';

@@ -225,6 +225,10 @@ class member extends ModuleObject {
 		
 		// Check scrap folder table
 		if(!$oDB->isColumnExists("member_scrap", "folder_srl")) return true;
+
+		if(!$oDB->isIndexExists('member_nickname_log', 'idx_before_nick_name')) return true;
+		if(!$oDB->isIndexExists('member_nickname_log', 'idx_after_nick_name')) return true;
+		if(!$oDB->isIndexExists('member_nickname_log', 'idx_user_id')) return true;
 		
 		$oModuleModel = getModel('module');
 		$config = $oModuleModel->getModuleConfig('member');
@@ -437,6 +441,14 @@ class member extends ModuleObject {
 		{
 			$oDB->addColumn("member_scrap", "folder_srl", "number", 11);
 			$oDB->addIndex("member_scrap","idx_folder_srl", array("folder_srl"));
+		}
+		
+		// Add to index in member nickname log table. 2020. 07 .20 @BJRambo
+		if(!$oDB->isIndexExists('member_nickname_log', 'idx_before_nick_name'))
+		{
+			$oDB->addIndex('member_nickname_log', 'idx_before_nick_name', array('before_nick_name'));
+			$oDB->addIndex('member_nickname_log', 'idx_after_nick_name', array('after_nick_name'));
+			$oDB->addIndex('member_nickname_log', 'idx_user_id', array('user_id'));
 		}
 		
 		$oModuleModel = getModel('module');
