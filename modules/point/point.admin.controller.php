@@ -37,110 +37,6 @@ class pointAdminController extends point
 
 			//module IO config is on
 			$config->able_module = 'Y';
-
-			// Check the point name
-			$config->point_name = $args->point_name;
-			if(!$config->point_name)
-			{
-				$config->point_name = 'point';
-			}
-			
-			// Specify the default points
-			$config->signup_point = (int)$args->signup_point;
-			$config->login_point = (int)$args->login_point;
-			$config->insert_document = (int)$args->insert_document;
-			$config->insert_comment = (int)$args->insert_comment;
-			$config->upload_file = (int)$args->upload_file;
-			$config->download_file = (int)$args->download_file;
-			$config->read_document = (int)$args->read_document;
-			$config->voter = (int)$args->voter;
-			$config->blamer = (int)$args->blamer;
-			$config->voted = (int)$args->voted;
-			$config->blamed = (int)$args->blamed;
-			$config->download_file_author = (int)$args->download_file_author;
-			$config->read_document_author = (int)$args->read_document_author;
-			$config->voter_comment = (int)$args->voter_comment;
-			$config->blamer_comment = (int)$args->blamer_comment;
-			$config->voted_comment = (int)$args->voted_comment;
-			$config->blamed_comment = (int)$args->blamed_comment;
-			
-			// Specify notice exceptions
-			$config->read_document_except_notice = ($args->read_document_except_notice === 'Y');
-			$config->read_document_author_except_notice = ($args->read_document_author_except_notice === 'Y');
-			
-			// Specify revert on delete
-			$config->insert_document_revert_on_delete = ($args->insert_document_revert_on_delete === 'Y');
-			$config->insert_comment_revert_on_delete = ($args->insert_comment_revert_on_delete === 'Y');
-			$config->upload_file_revert_on_delete = ($args->upload_file_revert_on_delete === 'Y');
-
-			// Specify time limits
-			$config->insert_comment_limit = $config->no_point_date = (int)$args->insert_comment_limit;
-			$config->read_document_limit = (int)$args->read_document_limit;
-			$config->voter_limit = (int)$args->voter_limit;
-			$config->blamer_limit = (int)$args->blamer_limit;
-			$config->voted_limit = (int)$args->voted_limit;
-			$config->blamed_limit = (int)$args->blamed_limit;
-			$config->read_document_author_limit = (int)$args->read_document_author_limit;
-			$config->voter_comment_limit = (int)$args->voter_comment_limit;
-			$config->blamer_comment_limit = (int)$args->blamer_comment_limit;
-			$config->voted_comment_limit = (int)$args->voted_comment_limit;
-			$config->blamed_comment_limit = (int)$args->blamed_comment_limit;
-			
-			// The highest level
-			$config->max_level = $args->max_level;
-			if($config->max_level>1000) $config->max_level = 1000;
-			if($config->max_level<1) $config->max_level = 1;
-			
-			// Set the level icon
-			$config->level_icon = $args->level_icon;
-			
-			// Check if downloads are not allowed
-			$config->disable_download = ($args->disable_download === 'Y') ? 'Y' : 'N';
-			
-			// Check if reading a document is not allowed
-			$config->disable_read_document = ($args->disable_read_document === 'Y') ? 'Y' : 'N';
-			$config->disable_read_document_except_robots = ($args->disable_read_document_except_robots === 'Y') ? 'Y' : 'N';
-
-			$oMemberModel = getModel('member');
-			$group_list = $oMemberModel->getGroups();
-			$config->point_group = array();
-
-			// Per-level group configurations
-			foreach($group_list as $group)
-			{
-				// Admin group should not be connected to point.
-				if($group->is_admin == 'Y' || $group->is_default == 'Y') continue;
-
-				$group_srl = $group->group_srl;
-
-				if(isset($args->{'point_group_'.$group_srl}))
-				{
-					//if group level is higher than max level, change to max level
-					if($args->{'point_group_'.$group_srl} > $args->max_level)
-					{
-						$args->{'point_group_'.$group_srl} = $args->max_level;
-					}
-
-					//if group level is lower than 1, change to 1
-					if($args->{'point_group_'.$group_srl} && $args->{'point_group_'.$group_srl} < 1)
-					{
-						$args->{'point_group_'.$group_srl} = 1;
-					}
-					$config->point_group[$group_srl] = $args->{'point_group_'.$group_srl};
-				}
-			}
-
-			$config->group_reset = $args->group_reset;
-			$config->group_ratchet = $args->group_ratchet;
-			// Per-level point configurations
-			unset($config->level_step);
-			for($i=1;$i<=$config->max_level;$i++)
-			{
-				$key = "level_step_".$i;
-				$config->level_step[$i] = (int)$args->{$key};
-			}
-			// A function to calculate per-level points
-			$config->expression = $args->expression;
 		}
 		else
 		{
@@ -150,6 +46,111 @@ class pointAdminController extends point
 			// Delete Triggers
 			$oModuleController->deleteModuleTriggers('point');
 		}
+
+		// Check the point name
+		$config->point_name = $args->point_name;
+		if(!$config->point_name)
+		{
+			$config->point_name = 'point';
+		}
+
+		// Specify the default points
+		$config->signup_point = (int)$args->signup_point;
+		$config->login_point = (int)$args->login_point;
+		$config->insert_document = (int)$args->insert_document;
+		$config->insert_comment = (int)$args->insert_comment;
+		$config->upload_file = (int)$args->upload_file;
+		$config->download_file = (int)$args->download_file;
+		$config->read_document = (int)$args->read_document;
+		$config->voter = (int)$args->voter;
+		$config->blamer = (int)$args->blamer;
+		$config->voted = (int)$args->voted;
+		$config->blamed = (int)$args->blamed;
+		$config->download_file_author = (int)$args->download_file_author;
+		$config->read_document_author = (int)$args->read_document_author;
+		$config->voter_comment = (int)$args->voter_comment;
+		$config->blamer_comment = (int)$args->blamer_comment;
+		$config->voted_comment = (int)$args->voted_comment;
+		$config->blamed_comment = (int)$args->blamed_comment;
+
+		// Specify notice exceptions
+		$config->read_document_except_notice = ($args->read_document_except_notice === 'Y');
+		$config->read_document_author_except_notice = ($args->read_document_author_except_notice === 'Y');
+
+		// Specify revert on delete
+		$config->insert_document_revert_on_delete = ($args->insert_document_revert_on_delete === 'Y');
+		$config->insert_comment_revert_on_delete = ($args->insert_comment_revert_on_delete === 'Y');
+		$config->upload_file_revert_on_delete = ($args->upload_file_revert_on_delete === 'Y');
+
+		// Specify time limits
+		$config->insert_comment_limit = $config->no_point_date = (int)$args->insert_comment_limit;
+		$config->read_document_limit = (int)$args->read_document_limit;
+		$config->voter_limit = (int)$args->voter_limit;
+		$config->blamer_limit = (int)$args->blamer_limit;
+		$config->voted_limit = (int)$args->voted_limit;
+		$config->blamed_limit = (int)$args->blamed_limit;
+		$config->read_document_author_limit = (int)$args->read_document_author_limit;
+		$config->voter_comment_limit = (int)$args->voter_comment_limit;
+		$config->blamer_comment_limit = (int)$args->blamer_comment_limit;
+		$config->voted_comment_limit = (int)$args->voted_comment_limit;
+		$config->blamed_comment_limit = (int)$args->blamed_comment_limit;
+
+		// The highest level
+		$config->max_level = $args->max_level;
+		if($config->max_level>1000) $config->max_level = 1000;
+		if($config->max_level<1) $config->max_level = 1;
+
+		// Set the level icon
+		$config->level_icon = $args->level_icon;
+
+		// Check if downloads are not allowed
+		$config->disable_download = ($args->disable_download === 'Y') ? 'Y' : 'N';
+
+		// Check if reading a document is not allowed
+		$config->disable_read_document = ($args->disable_read_document === 'Y') ? 'Y' : 'N';
+		$config->disable_read_document_except_robots = ($args->disable_read_document_except_robots === 'Y') ? 'Y' : 'N';
+
+		$oMemberModel = getModel('member');
+		$group_list = $oMemberModel->getGroups();
+		$config->point_group = array();
+
+		// Per-level group configurations
+		foreach($group_list as $group)
+		{
+			// Admin group should not be connected to point.
+			if($group->is_admin == 'Y' || $group->is_default == 'Y') continue;
+
+			$group_srl = $group->group_srl;
+
+			if(isset($args->{'point_group_'.$group_srl}))
+			{
+				//if group level is higher than max level, change to max level
+				if($args->{'point_group_'.$group_srl} > $args->max_level)
+				{
+					$args->{'point_group_'.$group_srl} = $args->max_level;
+				}
+
+				//if group level is lower than 1, change to 1
+				if($args->{'point_group_'.$group_srl} && $args->{'point_group_'.$group_srl} < 1)
+				{
+					$args->{'point_group_'.$group_srl} = 1;
+				}
+				$config->point_group[$group_srl] = $args->{'point_group_'.$group_srl};
+			}
+		}
+
+		$config->group_reset = $args->group_reset;
+		$config->group_ratchet = $args->group_ratchet;
+		// Per-level point configurations
+		unset($config->level_step);
+		for($i=1;$i<=$config->max_level;$i++)
+		{
+			$key = "level_step_".$i;
+			$config->level_step[$i] = (int)$args->{$key};
+		}
+		// A function to calculate per-level points
+		$config->expression = $args->expression;
+		
 		// Save
 		$oModuleController->insertModuleConfig('point', $config);
 
