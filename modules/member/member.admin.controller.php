@@ -113,7 +113,7 @@ class memberAdminController extends member
 		}
 
 		// 실제로 디비쿼리시 빈값이 없다면 해당 쿼리를 무시하고 업데이트 하기 때문에 메모의 내용이 삭제가 되지 않습니다.
-		if(!$args->description)
+		if(!isset($args->description))
 		{
 			$args->description = '';
 		}
