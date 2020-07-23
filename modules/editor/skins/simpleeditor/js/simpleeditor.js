@@ -46,6 +46,9 @@
 		str = str.replace(/<\/?(\?xml|meta|link|font|span|style|script|noscript|frame|noframes|(?:st1|o):[a-z0-9]+)\b[^>]*?>/ig, '');
 		str = str.replace(/(id|class|style|on(?:[a-z0-9]+)|Mso(?:[a-z0-9]+))="[^"]*"/ig, '');
 		str = str.replace(/(<\/?)div(\W)/g, '$1p$2');
+		if (!str.match(/<\/?p>/)) {
+			str = '<p>' + str + '</p>';
+		}
 		return str;
 	};
 	
