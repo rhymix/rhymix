@@ -591,7 +591,7 @@ class memberController extends member
 			throw new Rhymix\Framework\Exceptions\SecurityViolation;
 		}
 		
-		$oMemberModel = &getModel ('member');
+		$oMemberModel = getModel('member');
 		$config = $oMemberModel->getMemberConfig();
 
 		// call a trigger (before)
@@ -2764,8 +2764,12 @@ class memberController extends member
 		else
 		{
 			unset($args->is_admin);
+			unset($args->limit_date);
+			unset($args->description);
 			if($is_admin == false)
+			{
 				unset($args->denied);
+			}
 			if($logged_info->member_srl != $args->member_srl && $is_admin == false)
 			{
 				return new BaseObject(-1, 'msg_invalid_request');
@@ -2966,7 +2970,10 @@ class memberController extends member
 		if(!$args->user_name) $args->user_name = $orgMemberInfo->user_name;
 		if(!$args->user_id) $args->user_id = $orgMemberInfo->user_id;
 		if(!$args->nick_name) $args->nick_name = $orgMemberInfo->nick_name;
-		if(!$args->description) $args->description = $orgMemberInfo->description;
+		if($logged_info->is_admin !== 'Y')
+		{
+			$args->description = $orgMemberInfo->description;
+		}
 		if(!$args->birthday) $args->birthday = $orgMemberInfo->birthday;
 
 		$output = executeQuery('member.updateMember', $args);
