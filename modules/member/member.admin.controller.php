@@ -101,6 +101,7 @@ class memberAdminController extends member
 		if(!isset($args->limit_date)) $args->limit_date = "";
 		$extra_vars = delObjectVars($all_args, $args);
 		$args->extra_vars = serialize($extra_vars);
+		$args->delete_description = $all_args->delete_description;
 
 		// remove whitespace
 		$checkInfos = array('user_id', 'user_name', 'nick_name', 'email_address');
