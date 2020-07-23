@@ -26,7 +26,7 @@ var auto_saved_msg = "{$lang->msg_auto_saved}";
 	{@ $css_file_list[] = $additional_css_url}
 <!--@endforeach-->
 
-{@ $css_content = null }
+{@ $css_content = "" }
 
 <!--@if($enable_autosave)-->
 <input type="hidden" name="_saved_doc_title" value="{escape($saved_doc->title)}" />
@@ -158,7 +158,7 @@ var auto_saved_msg = "{$lang->msg_auto_saved}";
 			settings.ckeconfig.removePlugins = (settings.ckeconfig.removePlugins ? (settings.ckeconfig.removePlugins + ',') : '') + 'enterkey';
 			settings.loadXeComponent = false;
 			var additional_styles = '.cke_wysiwyg_div { padding: 8px !important; }';
-			$('head').append('<st' + 'yle>' + additional_styles + css_content.replace(/\.xe_content\.editable/g, '.cke_wysiwyg_div') + '</st' + 'yle>');
+			$('head').append('<st' + 'yle>' + additional_styles + String(css_content).replace(/\.xe_content\.editable/g, '.cke_wysiwyg_div') + '</st' + 'yle>');
 		}
 
 		<!--@if($editor_toolbar === 'simple')-->
