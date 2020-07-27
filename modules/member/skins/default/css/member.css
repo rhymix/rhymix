@@ -263,6 +263,7 @@
 .xm .signin>.login-footer>a:focus{text-decoration:underline}
 .xm .signin .control-group{position:relative;padding:0 14px 0 0;margin:0;clear:both}
 .xm .signin .control-group:before{content:"";display:block;clear:both}
+.xm .signin .captcha{margin-bottom:10px}
 .xm .signin form{margin:0}
 .xm .signin fieldset{margin:0}
 .xm .signin label{cursor:pointer;display:inline-block}

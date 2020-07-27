@@ -39,6 +39,7 @@ input[type=radio]{width:13px;height:13px;margin:0;padding:0}
 .hp li:first-child{border:0;}
 .hp a,p{color:#333;text-decoration:none}
 /* Button Area */
+.captcha{padding:0 10px;}
 .bna{text-align:center;padding:0 10px;margin:10px 0}
 .bna:after{content:"";display:block;clear:both}
 .bn{display:inline-block;line-height:26px !important;padding:0 10px;font-size:12px;font-weight:bold;border:1px solid;text-decoration:none;border-radius:5px;-moz-border-radius:5px;-webkit-border-radius:5px;cursor:pointer;vertical-align:middle}
