@@ -746,6 +746,23 @@ class memberController extends member
 			}
 		}
 		
+		// Check symbols in nickname
+		if($config->nickname_symbols === 'N')
+		{
+			if(preg_match('/[^\pL\d]/u', $args->nick_name, $matches))
+			{
+				throw new Rhymix\Framework\Exception(sprintf(lang('msg_invalid_symbol_in_nickname'), escape($matches[0])));
+			}
+		}
+		elseif($config->nickname_symbols === 'LIST')
+		{
+			$list = preg_quote($config->nickname_symbols_allowed_list, '/');
+			if(preg_match('/[^\pL\d' . $list . ']/u', $args->nick_name, $matches))
+			{
+				throw new Rhymix\Framework\Exception(sprintf(lang('msg_invalid_symbol_in_nickname'), escape($matches[0])));
+			}
+		}
+		
 		// Insert member info
 		$output = $this->insertMember($args);
 		if($output instanceof BaseObject && !$output->toBool())
@@ -1044,6 +1061,23 @@ class memberController extends member
 			}
 		}
 
+		// Check symbols in nickname
+		if($config->nickname_symbols === 'N')
+		{
+			if(preg_match('/[^\pL\d]/u', $args->nick_name, $matches))
+			{
+				throw new Rhymix\Framework\Exception(sprintf(lang('msg_invalid_symbol_in_nickname'), escape($matches[0])));
+			}
+		}
+		elseif($config->nickname_symbols === 'LIST')
+		{
+			$list = preg_quote($config->nickname_symbols_allowed_list, '/');
+			if(preg_match('/[^\pL\d' . $list . ']/u', $args->nick_name, $matches))
+			{
+				throw new Rhymix\Framework\Exception(sprintf(lang('msg_invalid_symbol_in_nickname'), escape($matches[0])));
+			}
+		}
+		
 		// Execute insert or update depending on the value of member_srl
 		$output = $this->updateMember($args);
 		if(!$output->toBool()) return $output;
