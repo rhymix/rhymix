@@ -587,22 +587,33 @@ function utf8_check($str)
 }
 
 /**
- * Remove BOM and invalid UTF-8 sequences from file content.
+ * Remove BOM and invalid UTF-8 sequences from text content.
  * 
  * @param string $str
  * @return string
  */
 function utf8_clean($str)
 {
-    if (strlen($str) >= 3 && substr($str, 0, 3) === "\xEF\xBB\xBF")
-    {
-        $str = substr($str, 3);
-    }
-    
+	// Check if the input is a valid UTF-8 string.
     if (!utf8_check($str))
     {
         $str = @iconv('UTF-8', 'UTF-8//IGNORE', $str);
-    }
+	}
+	
+	// Normalize the text content.
+	if (class_exists('Normalizer'))
+	{
+		$str = Normalizer::normalize($str, Normalizer::FORM_C);
+	}
+	
+	// Remove BOM.
+	$str = preg_replace('/\xEF\xBB\xBF/', '', $str);
+	
+	// Remove Hangul Filler and RLO character.
+	$str = preg_replace('/(?:&#(?:8238|x202e|12644|x3164);|\xE3\x85\xA4|\xE2\x80\xAE)/i', '', $str);
+	
+	// Remove excessively long sequences (more than 3) of combining diacritical marks.
+	$str = preg_replace('/(\pM{3})\pM+/u', '$1', $str);
     
     return $str;
 }
