@@ -196,6 +196,11 @@ class FunctionsTest extends \Codeception\TestCase\Test
 		$this->assertFalse(utf8_check(iconv('UTF-8', 'EUC-KR', '라이믹스')));
 		$this->assertFalse(utf8_check(chr(129) . chr(214) . chr(181) . chr(73) . chr(97)));
 		
+		$this->assertEquals('Hello', utf8_clean("\xEF\xBB\xBF" . 'Hello' . "\xBC\xBC"));
+		$this->assertEquals('Hello', utf8_clean('Hello&#8238;&#x3164;' . "\xE3\x85\xA4\xE2\x80\xAE"));
+		$this->assertEquals('Hello' . "\xC3\xA9", utf8_clean('Hello' . "e\xCC\x81"));
+		$this->assertEquals('Hello' . "\xCD\x9D\xCD\x9D\xCD\x9D", utf8_clean('Hello' . "\xCD\x9D\xCD\x9D\xCD\x9D\xCD\x9D\xCD\x9D"));
+		
 		$this->assertEquals('Emoticon: &#x1f601;', utf8_mbencode("Emoticon: \xf0\x9f\x98\x81"));
 		$this->assertEquals('Emoticon: &#x1f61c;', utf8_mbencode("Emoticon: \xf0\x9f\x98\x9c"));
 		$this->assertEquals('한글은 인코딩하지 않음', utf8_mbencode('한글은 인코딩하지 않음'));
