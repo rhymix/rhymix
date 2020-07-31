@@ -48,7 +48,7 @@ $lang->about_type_ttxml = '데이터 이전 대상이 TTXML(textcube계열)일 �
 $lang->about_ttxml_user_id = '글쓴이로 설정할 사용자 아이디를 입력해주세요. (가입된 아이디만 가능)';
 $lang->about_type_module = '데이터 이전 대상이 게시판 등의 게시물 정보일 경우 선택해주세요.';
 $lang->about_type_syncmember = '회원정보와 게시물정보 등을 이전 후, 회원정보를 동기화해야 할 때 선택해주세요.';
-$lang->about_importer = '다른 프로그램의 데이터를 XML 형식으로 변환 후 업로드하면 Rhymix로 이전할 수 있습니다. <a href="http://www.xpressengine.com/index.php?mid=download&category_srl=18324038" target="_blank">XML Exporter</a>를 이용하면 XML파일로 변환할 수 있습니다.';
+$lang->about_importer = '다른 프로그램의 데이터를 XML 형식으로 변환 후 업로드하면 Rhymix로 이전할 수 있습니다. <a href="https://xe1.xpressengine.com/index.php?mid=download&amp;category_srl=18324038" target="_blank">XML Exporter</a>를 이용하면 XML파일로 변환할 수 있습니다.';
 $lang->about_target_path = '첨부 파일을 받기 위해 제로보드4가 설치된 위치를 입력해주세요.
 같은 서버에 있을 경우 /home/아이디/public_html/bbs 등과 같이 제로보드4의 위치를 입력하고
 다른 서버일 경우 http:도메인/bbs 처럼 제로보드4가 설치된 곳의 url을 입력해주세요.';

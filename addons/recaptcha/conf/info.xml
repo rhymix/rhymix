@@ -31,6 +31,18 @@
                 <title xml:lang="en">No</title>
             </options>
 		</var>
+		<var name="use_login" type="select">
+			<title xml:lang="ko">로그인에 사용</title>
+			<title xml:lang="en">Use on Login Form</title>
+            <options value="Y">
+                <title xml:lang="ko">예</title>
+                <title xml:lang="en">Yes</title>
+            </options>
+            <options value="N">
+                <title xml:lang="ko">아니오</title>
+                <title xml:lang="en">No</title>
+            </options>
+		</var>
 		<var name="use_recovery" type="select">
 			<title xml:lang="ko">ID/PW찾기에 사용</title>
 			<title xml:lang="en">Use on Account Recovery Form</title>

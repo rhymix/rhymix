@@ -267,7 +267,7 @@ class documentController extends document
 			if(!$d_output->toBool()) return $d_output;
 		}
 		// session reset
-		$_SESSION['voted_document'][$document_srl] = false;
+		unset($_SESSION['voted_document'][$document_srl]);
 
 		// Call a trigger (after)
 		ModuleHandler::triggerCall('document.updateVotedCountCancel', 'after', $trigger_obj);

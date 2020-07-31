@@ -32,6 +32,23 @@ class boardController extends board
 		$obj->module_srl = $this->module_srl;
 		$obj->commentStatus = $obj->comment_status;
 		
+		// Remove disallowed Unicode symbols.
+		if ($this->module_info->filter_specialchars !== 'N')
+		{
+			if (isset($obj->title))
+			{
+				$obj->title = utf8_clean($obj->title);
+			}
+			if (isset($obj->content))
+			{
+				$obj->content = utf8_clean($obj->content);
+			}
+			if (isset($obj->tags))
+			{
+				$obj->tags = utf8_clean($obj->tags);
+			}
+		}
+		
 		// Return error if content is empty.
 		if (is_empty_html_content($obj->content))
 		{
@@ -367,6 +384,15 @@ class boardController extends board
 		// get the relevant data for inserting comment
 		$obj = Context::getRequestVars();
 		$obj->module_srl = $this->module_srl;
+		
+		// Remove disallowed Unicode symbols.
+		if ($this->module_info->filter_specialchars !== 'N')
+		{
+			if (isset($obj->content))
+			{
+				$obj->content = utf8_clean($obj->content);
+			}
+		}
 		
 		// Return error if content is empty.
 		if (is_empty_html_content($obj->content))

@@ -156,15 +156,18 @@ class commentController extends comment
 
 	function updateVotedCountCancel($comment_srl, $oComment, $point)
 	{
-		$logged_info = Context::get('logged_info');
+		if(!$_SESSION['voted_comment'][$comment_srl] && !$this->user->member_srl)
+		{
+			return new BaseObject(-1, $point > 0 ? 'failed_voted_canceled' : 'failed_blamed_canceled');
+		}
 		
 		// Check if the current user has voted previously.
 		$args = new stdClass;
 		$args->comment_srl = $comment_srl;
 		$args->point = $point;
-		if($logged_info->member_srl)
+		if($this->user->member_srl)
 		{
-			$args->member_srl = $logged_info->member_srl;
+			$args->member_srl = $this->user->member_srl;
 		}
 		else
 		{
@@ -200,7 +203,7 @@ class commentController extends comment
 		$args = new stdClass();
 		$d_args = new stdClass();
 		$args->comment_srl = $d_args->comment_srl = $comment_srl;
-		$d_args->member_srl = $logged_info->member_srl;
+		$d_args->member_srl = $this->user->member_srl;
 		if ($trigger_obj->update_target === 'voted_count')
 		{
 			$args->voted_count = $trigger_obj->after_point;
@@ -215,7 +218,7 @@ class commentController extends comment
 		if(!$d_output->toBool()) return $d_output;
 
 		//session reset
-		$_SESSION['voted_comment'][$comment_srl] = false;
+		unset($_SESSION['voted_comment'][$comment_srl]);
 		
 		// Call a trigger (after)
 		ModuleHandler::triggerCall('comment.updateVotedCountCancel', 'after', $trigger_obj);

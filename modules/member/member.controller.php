@@ -870,7 +870,24 @@ class memberController extends member
 		{
 			if(isset($args->{$val}))
 			{
-				$args->{$val} = preg_replace('/[\pZ\pC]+/u', '', html_entity_decode($args->{$val}));
+				$args->{$val} = preg_replace('/[\pZ\pC]+/u', '', utf8_clean(html_entity_decode($args->{$val})));
+			}
+		}
+		
+		// Check symbols in nickname
+		if($config->nickname_symbols === 'N')
+		{
+			if(preg_match('/[^\pL\d]/u', $args->nick_name, $matches))
+			{
+				throw new Rhymix\Framework\Exception(sprintf(lang('msg_invalid_symbol_in_nickname'), escape($matches[0])));
+			}
+		}
+		elseif($config->nickname_symbols === 'LIST')
+		{
+			$list = preg_quote($config->nickname_symbols_allowed_list, '/');
+			if(preg_match('/[^\pL\d' . $list . ']/u', $args->nick_name, $matches))
+			{
+				throw new Rhymix\Framework\Exception(sprintf(lang('msg_invalid_symbol_in_nickname'), escape($matches[0])));
 			}
 		}
 		
@@ -1165,10 +1182,27 @@ class memberController extends member
 		{
 			if(isset($args->{$val}))
 			{
-				$args->{$val} = preg_replace('/[\pZ\pC]+/u', '', html_entity_decode($args->{$val}));
+				$args->{$val} = preg_replace('/[\pZ\pC]+/u', '', utf8_clean(html_entity_decode($args->{$val})));
 			}
 		}
 
+		// Check symbols in nickname
+		if($config->nickname_symbols === 'N')
+		{
+			if(preg_match('/[^\pL\d]/u', $args->nick_name, $matches))
+			{
+				throw new Rhymix\Framework\Exception(sprintf(lang('msg_invalid_symbol_in_nickname'), escape($matches[0])));
+			}
+		}
+		elseif($config->nickname_symbols === 'LIST')
+		{
+			$list = preg_quote($config->nickname_symbols_allowed_list, '/');
+			if(preg_match('/[^\pL\d' . $list . ']/u', $args->nick_name, $matches))
+			{
+				throw new Rhymix\Framework\Exception(sprintf(lang('msg_invalid_symbol_in_nickname'), escape($matches[0])));
+			}
+		}
+		
 		// Execute insert or update depending on the value of member_srl
 		$output = $this->updateMember($args);
 		if(!$output->toBool()) return $output;
@@ -2858,8 +2892,12 @@ class memberController extends member
 		else
 		{
 			unset($args->is_admin);
+			unset($args->limit_date);
+			unset($args->description);
 			if($is_admin == false)
+			{
 				unset($args->denied);
+			}
 			if($logged_info->member_srl != $args->member_srl && $is_admin == false)
 			{
 				return new BaseObject(-1, 'msg_invalid_request');
@@ -3060,7 +3098,10 @@ class memberController extends member
 		if(!$args->user_name) $args->user_name = $orgMemberInfo->user_name;
 		if(!$args->user_id) $args->user_id = $orgMemberInfo->user_id;
 		if(!$args->nick_name) $args->nick_name = $orgMemberInfo->nick_name;
-		if(!$args->description) $args->description = $orgMemberInfo->description;
+		if($logged_info->is_admin !== 'Y')
+		{
+			$args->description = $orgMemberInfo->description;
+		}
 		if(!$args->birthday) $args->birthday = $orgMemberInfo->birthday;
 
 		$output = executeQuery('member.updateMember', $args);

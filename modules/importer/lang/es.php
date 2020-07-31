@@ -33,6 +33,6 @@ $lang->about_ttxml_user_id = 'Por favor, de entrada ID de usuario establecer com
 $lang->about_type_module = 'Seleccione esta opción si estas transfeririendo información del documento de los tableros';
 $lang->about_type_syncmember = 'Seleccione esta opción cuando tenga que sincronizar la información del usuario luego de haber transferido la información del usuario y del artículo.';
 $lang->about_importer = 'Es posible trasferir los datos de Zeroboard4, zb5beta o de otros programas a Rhymix.
-Para la transferencia debe utilizar <a href="http://www.xpressengine.com/index.php?mid=download&category_srl=18324038" target="_blank">XML Exporter</a> para transformar los datos en archivo XML, y luego subir ese archivo.';
+Para la transferencia debe utilizar <a href="https://github.com/xpressengine/xe-migration-tool" target="_blank">XML Exporter</a> para transformar los datos en archivo XML, y luego subir ese archivo.';
 $lang->about_target_path = 'Para descargar los archivos adjuntos de ZeroBoard4, ingresa la ubicación de ZeroBoard4 instalado.
 Si esta en el mismo servidor escriba la ubicación de ZeroBoard4 como por ejemplo: /home/ID/public_html/bbs o si esta en otro servidor escriba la ubicación de ZeroBoard4 instalado como por ejemplo: http://dominio/bbs';

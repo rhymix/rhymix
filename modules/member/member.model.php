@@ -1266,10 +1266,44 @@ class memberModel extends member
 	
 	public static function getMemberModifyNicknameLog($page = 1, $member_srl = null)
 	{
+		$search_keyword = Context::get('search_keyword');
+		$search_target = Context::get('search_target');
+		
+		// $this->user 에 재대로 된 회원 정보가 들어 가지 않음.
+		$logged_info = Context::get('logged_info');
+
 		$args = new stdClass();
-		$args->member_srl = $member_srl;
 		$args->page = $page;
-		$output = executeQueryArray('member.getMemberModifyNickName', $args);
+		if($logged_info->is_admin == 'Y')
+		{
+			if($search_keyword && $search_keyword)
+			{
+				switch ($search_target)
+				{
+					case "before":
+						$args->before_nick_name = $search_keyword;
+						break;
+					case "after":
+						$args->after_nick_name = $search_keyword;
+						break;
+					case "user_id":
+						if($search_keyword) $search_keyword = str_replace(' ','%',$search_keyword);
+						$args->user_id = $search_keyword;
+						break;
+					case "member_srl":
+						$args->member_srl = intval($search_keyword);
+						break;
+					default:
+						break;
+				}
+				$output = executeQuery('member.getMemberModifyNickName', $args);
+				
+				return $output;
+			}
+		}
+		
+		$args->member_srl = $member_srl;
+		$output = executeQuery('member.getMemberModifyNickName', $args);
 		
 		return $output;
 	}

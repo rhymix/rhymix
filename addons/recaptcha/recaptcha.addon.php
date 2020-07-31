@@ -24,6 +24,10 @@ elseif ($addon_info->use_signup === 'Y' && preg_match('/^(?:disp|proc)Member(?:S
 {
 	$enable_captcha = true;
 }
+elseif ($addon_info->use_login === 'Y' && preg_match('/^(?:disp|proc)MemberLogin(?:Form)?/i', $current_action))
+{
+	$enable_captcha = true;
+}
 elseif ($addon_info->use_recovery === 'Y' && preg_match('/^(?:disp|proc)Member(?:FindAccount|ResendAuthMail)/i', $current_action))
 {
 	$enable_captcha = true;

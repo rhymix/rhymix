@@ -331,6 +331,18 @@
 			</div>
 		</div>
 		<div class="x_control-group">
+			<label class="x_control-label">{$lang->filter_specialchars}</label>
+			<div class="x_controls">
+				<label class="x_inline">
+					<input type="radio" id="filter_specialchars_y" name="filter_specialchars" value="Y" checked="checked"|cond="$module_info->filter_specialchars !== 'N'" /> {$lang->cmd_yes}
+				</label>
+				<label class="x_inline">
+					<input type="radio" id="filter_specialchars_n" name="filter_specialchars" value="N" checked="checked"|cond="$module_info->filter_specialchars === 'N'" /> {$lang->cmd_no}
+				</label>
+				<p class="x_help-block">{$lang->about_filter_specialchars}</p>
+			</div>
+		</div>
+		<div class="x_control-group">
 			<label class="x_control-label">{$lang->protect_content}</label>
 			<div class="x_controls">
 				<label class="x_inline" for="protect_delete_content"><input type="checkbox" name="protect_delete_content" id="protect_delete_content" value="Y" checked="checked"|cond="$module_info->protect_delete_content == 'Y'" /> {$lang->cmd_delete}</label>

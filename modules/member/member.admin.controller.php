@@ -117,10 +117,16 @@ class memberAdminController extends member
 		{
 			if(isset($args->{$val}))
 			{
-				$args->{$val} = preg_replace('/[\pZ\pC]+/u', '', html_entity_decode($args->{$val}));
+				$args->{$val} = preg_replace('/[\pZ\pC]+/u', '', utf8_clean(html_entity_decode($args->{$val})));
 			}
 		}
 
+		// 실제로 디비쿼리시 빈값이 없다면 해당 쿼리를 무시하고 업데이트 하기 때문에 메모의 내용이 삭제가 되지 않습니다.
+		if(!isset($args->description))
+		{
+			$args->description = '';
+		}
+		
 		$oMemberController = getController('member');
 		// Execute insert or update depending on the value of member_srl
 		if(!$args->member_srl)
@@ -212,6 +218,8 @@ class memberAdminController extends member
 			'password_hashing_auto_upgrade',
 			'password_change_invalidate_other_sessions',
 			'update_nickname_log',
+			'nickname_symbols',
+			'nickname_symbols_allowed_list',
 			'allow_duplicate_nickname',
 			'member_profile_view'
 		);
@@ -245,6 +253,12 @@ class memberAdminController extends member
 		{
 			$args->password_hashing_auto_upgrade = 'N';
 		}
+		
+		if(!in_array($args->nickname_symbols, ['Y', 'N', 'LIST']))
+		{
+			$args->nickname_symbols = 'Y';
+		}
+		$args->nickname_symbols_allowed_list = utf8_trim($args->nickname_symbols_allowed_list);
 
 		$oModuleController = getController('module');
 		$output = $oModuleController->updateModuleConfig('member', $args);
