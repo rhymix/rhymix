@@ -4,7 +4,7 @@
 Rhymix(라이믹스)는 누구든지 쉽고 자유롭게 독립적인 홈페이지를 만들어
 자신을 표현하고 커뮤니티를 키워나갈 수 있도록 돕기 위한 CMS(content management system)입니다.
 
-[XpressEngine](https://www.xpressengine.com) 1.8 버전을 fork(가지치기)하여 진행하는 프로젝트로,
+[XpressEngine](https://xe1.xpressengine.com) 1.8 버전을 fork(가지치기)하여 진행하는 프로젝트로,
 누구나 무료로 사용할 수 있고 개발에 참여할 수도 있는 자유 소프트웨어(free software)입니다.
 
 Rhymix는 "시를 짓다, 운을 맞추다"라는 의미의 "rhyme"과
@@ -62,7 +62,7 @@ Rhymix는 [GNU GPL v2](http://korea.gnu.org/documents/copyleft/gpl.ko.html)
 누구나 무료로 사용할 수 있고 개발에 참여할 수도 있습니다.
 
 Rhymix는 [NAVER](https://www.navercorp.com/)가 일부 저작권을 가진
-[XpressEngine](https://www.xpressengine.com)의 소스코드에 바탕을 두고 있습니다.
+[XpressEngine](https://xe1.xpressengine.com)의 소스코드에 바탕을 두고 있습니다.
 Rhymix 개발자들이 추가 및 변경한 부분의 저작권은 해당 개발자들에게 있습니다.
 
 XpressEngine은 초창기에 GPL을 사용하다가 버전 1.4.0부터 LGPL로 전환했지만,
@@ -82,7 +82,7 @@ Rhymix의 소스코드를 수정하거나 확장 기능을 직접 개발하여 �
 
 Rhymix is a content management system (CMS) for everyone who wants to create independent homepages to express themselves and build their communities easily and freely.
 
-Rhymix is a fork of [XpressEngine](https://www.xpressengine.com) version 1.8 and is free software that anyone can use for free and participate.
+Rhymix is a fork of [XpressEngine](https://xe1.xpressengine.com) version 1.8 and is free software that anyone can use for free and participate.
 
 Rhymix is a combination of "rhyme" in the sense of "making a poem, adjusting the sound", and "remix" in the sense of "combining, changing".
 Rhymix cheers everyone who freely creates and/or assembles new things in the Internet space by combining various software and contents.
@@ -129,7 +129,7 @@ If you have found a security vulnerability, please let us know at devops@rhymix.
 Rhymix is a free software licensed under the [GNU GPL v2](https://www.gnu.org/licenses/old-licenses/gpl-2.0.html) or later.
 Free software is a program that emphasizes the rights and responsibilities of developers and users to participate or use in freedom.
 
-Rhymix is based on the source code of [XpressEngine](https://www.xpressengine.com) ([Github](https://github.com/xpressengine/xe-core/)), which [NAVER](https://www.navercorp.com/) is partly copyrighted free software.
+Rhymix is based on the source code of [XpressEngine](https://xe1.xpressengine.com) ([Github](https://github.com/xpressengine/xe-core/)), which is free software partly owned by [NAVER](https://www.navercorp.com/).
 Rhymix developers have copyrights on the added and modified code.
 
 XpressEngine has been licensed under the GPL in its early days and switched to LGPL from version 1.4.0, but Rhymix has reverted its licenses to the GPL for further protection of the rights and spirit of free software.
