@@ -1252,8 +1252,17 @@ class boardView extends board
 		{
 			throw new Rhymix\Framework\Exceptions\NotPermitted;
 		}
+		if(!$document_srl)
+		{
+			throw new Rhymix\Framework\Exceptions\InvalidRequest;
+		}
 
 		$updatelog = $oDocumentModel->getDocumentUpdateLog($document_srl);
+		if(!$updatelog->toBool())
+		{
+			return $updatelog;
+		}
+		
 		Context::set('total_count', $updatelog->page_navigation->total_count);
 		Context::set('total_page', $updatelog->page_navigation->total_page);
 		Context::set('page', $updatelog->page);
