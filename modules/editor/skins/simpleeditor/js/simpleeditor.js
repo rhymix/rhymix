@@ -44,7 +44,7 @@
 		str = String(str);
 		str = str.replace(/<!--(.*?)-->/gs, '');
 		str = str.replace(/<\/?(\?xml|meta|link|font|span|style|script|noscript|frame|noframes|(?:st1|o):[a-z0-9]+)\b[^>]*?>/ig, '');
-		str = str.replace(/(id|class|style|on(?:[a-z0-9]+)|Mso(?:[a-z0-9]+))="[^"]*"/ig, '');
+		str = str.replace(/\b(id|class|style|on(?:[a-z0-9]+)|Mso(?:[a-z0-9]+))="[^"]*"/ig, '');
 		str = str.replace(/(<\/?)div(\W)/g, '$1p$2');
 		if (!str.match(/<\/?p>/)) {
 			str = '<p>' + str + '</p>';
@@ -78,7 +78,7 @@
 			// Set editor sequence and other info to the form.
 			insert_form[0].setAttribute('editor_sequence', editor_sequence);
 			editorRelKeys[editor_sequence] = {};
-			editorRelKeys[editor_sequence].primary = insert_form.find("input[name='" + primary_key + "']");
+			editorRelKeys[editor_sequence].primary = insert_form.find("input[name='" + primary_key + "']").get(0);
 			editorRelKeys[editor_sequence].content = content_input;
 			editorRelKeys[editor_sequence].func = editorGetContent;
 			
