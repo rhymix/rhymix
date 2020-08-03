@@ -751,7 +751,7 @@ class boardController extends board
 		}
 		
 		$url = getUrl('', 'mid', $mid, 'member_srl', $obj->member_srl);
-		getController('member')->addMemberPopupMenu($url, 'cmd_view_own_document', '');
+		getController('member')->addMemberPopupMenu($url, 'cmd_view_own_document', '', 'self', 'board_own_document');
 	}
 	
 	/**
