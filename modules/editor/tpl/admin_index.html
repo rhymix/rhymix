@@ -105,7 +105,7 @@
 						<!--@endforeach-->
 					</select>
 					<select name="comment_editor_colorset" class="editor_colorset_selector">
-						<!--@foreach($editor_skin_list[$editor_config->editor_skin]->colorset ?: [] as $colorset)-->
+						<!--@foreach($editor_skin_list[$editor_config->comment_editor_skin]->colorset ?: [] as $colorset)-->
 							<option value="{$colorset->name}" selected="selected"|cond="$colorset->name === $editor_config->comment_editor_colorset">{$colorset->title}</option>
 						<!--@endforeach-->
 					</select>
@@ -134,7 +134,7 @@
 						<!--@endforeach-->
 					</select>
 					<select name="mobile_comment_editor_colorset" class="editor_colorset_selector">
-						<!--@foreach($editor_skin_list[$editor_config->mobile_editor_skin]->colorset ?: [] as $colorset)-->
+						<!--@foreach($editor_skin_list[$editor_config->mobile_comment_editor_skin]->colorset ?: [] as $colorset)-->
 							<option value="{$colorset->name}" selected="selected"|cond="$colorset->name === $editor_config->mobile_comment_editor_colorset">{$colorset->title}</option>
 						<!--@endforeach-->
 					</select>

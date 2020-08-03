@@ -212,13 +212,13 @@ class memberModel extends member
 		// View homepage info
 		if($member_info->homepage && $homepage_is_public)
 		{
-			$oMemberController->addMemberPopupMenu(escape($member_info->homepage, false), 'homepage', '', 'blank');
+			$oMemberController->addMemberPopupMenu(escape($member_info->homepage, false), 'homepage', '', 'blank', 'homepage');
 		}
 		
 		// View blog info
 		if($member_info->blog && $blog_is_public)
 		{
-			$oMemberController->addMemberPopupMenu(escape($member_info->blog, false), 'blog', '', 'blank');
+			$oMemberController->addMemberPopupMenu(escape($member_info->blog, false), 'blog', '', 'blank', 'blog');
 		}
 		
 		// Call a trigger (after)

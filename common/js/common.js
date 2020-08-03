@@ -206,26 +206,33 @@
 						for(var i=0;i<item.length;i++) {
 							var url = item[i].url;
 							var str = item[i].str;
+							var classname = item[i]['class'];
 							var icon = item[i].icon;
 							var target = item[i].target;
 
+							var actmatch = url.match(/\bact=(\w+)/) || url.match(/\b((?:disp|proc)\w+)/);
+							var act = actmatch ? actmatch[1] : null;
+							var classText = 'class="' + (classname ? classname : (act ? (act + ' ') : ''));
 							var styleText = "";
 							var click_str = "";
 							/* if(icon) styleText = " style=\"background-image:url('"+icon+"')\" "; */
 							switch(target) {
 								case "popup" :
 										click_str = 'onclick="popopen(this.href, \''+target+'\'); return false;"';
+										classText += 'popup ';
 									break;
 								case "javascript" :
 										click_str = 'onclick="'+url+'; return false; "';
+										classText += 'script ';
 										url='#';
 									break;
 								default :
 										click_str = 'target="_blank"';
 									break;
 							}
+							classText = classText.trim() + '" ';
 
-							html += '<li '+styleText+'><a href="'+url+'" '+click_str+'>'+str+'</a></li> ';
+							html += '<li '+classText+styleText+'><a href="'+url+'" '+click_str+'>'+str+'</a></li> ';
 						}
 					}
 				}
