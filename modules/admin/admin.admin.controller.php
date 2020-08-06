@@ -581,6 +581,7 @@ class adminAdminController extends admin
 		
 		// Validate the selected Push drivers.
 		$push_config = array('types' => array());
+		$push_config['allow_guest_device'] = $vars->allow_guest_device === 'Y' ? true : false;
 		$push_drivers = Rhymix\Framework\Push::getSupportedDrivers();
 		$push_driver_list = $vars->push_driver ?: [];
 		foreach ($push_driver_list as $driver_name)

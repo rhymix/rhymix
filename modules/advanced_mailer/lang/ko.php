@@ -40,6 +40,8 @@ $lang->cmd_advanced_mailer_api_pass = '비밀번호';
 $lang->cmd_advanced_mailer_fcm_api_key = 'FCM API 키';
 $lang->cmd_advanced_mailer_apns_certificate = 'APNs 인증서 파일';
 $lang->cmd_advanced_mailer_apns_passphrase = 'APNs 인증서 암호';
+$lang->cmd_advanced_mailer_allow_guest_device = '비회원 기기 등록';
+$lang->cmd_advanced_mailer_about_allow_guest_device = '로그인하지 않은 사용자도 기기를 등록할 수 있도록 허용합니다.';
 $lang->cmd_advanced_mailer_sender_key = '센더 키';
 $lang->cmd_advanced_mailer_sender_identity = '보낸이 설정';
 $lang->cmd_advanced_mailer_about_sender_identity = '보낸이의 이름과 메일 주소는 <a href="index.php?module=admin&act=dispAdminConfigNotification" target="_blank">알림 설정</a> 화면에서 변경할 수 있습니다.';

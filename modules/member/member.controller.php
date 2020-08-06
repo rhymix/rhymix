@@ -88,14 +88,15 @@ class memberController extends member
 		Context::setResponseMethod('JSON');
 
 		// Check user_id, password, device_token
+		$allow_guest_device = config('push.allow_guest_device');
 		$user_id = Context::get('user_id');
 		$password = Context::get('password');
 		$device_token = Context::get('device_token');
 		$device_model = escape(Context::get('device_model'));
 
 		// Return an error when id and password doesn't exist
-		if(!$user_id) return new BaseObject(-1, 'NULL_USER_ID');
-		if(!$password) return new BaseObject(-1, 'NULL_PASSWORD');
+		if(!$user_id && !$allow_guest_device) return new BaseObject(-1, 'NULL_USER_ID');
+		if(!$password && !$allow_guest_device) return new BaseObject(-1, 'NULL_PASSWORD');
 		if(!$device_token) return new BaseObject(-1, 'NULL_DEVICE_TOKEN');
 
 		$browserInfo = Rhymix\Framework\UA::getBrowserInfo();
@@ -113,7 +114,7 @@ class memberController extends member
 				return new BaseObject(-1, 'INVALID_DEVICE_TOKEN');
 			}
 		}
-		else if('android' === $device_type)
+		elseif('android' === $device_type)
 		{
 			if(!preg_match("/^[0-9a-zA-Z:_-]+$/", $device_token))
 			{
@@ -125,15 +126,24 @@ class memberController extends member
 			return new BaseObject(-1, 'NOT_SUPPORTED_OS');
 		}
 		
-		$output = $this->procMemberLogin($user_id, $password);
-		if(!$output->toBool())
+		if($user_id && $password)
 		{
-			return new BaseObject(-1, 'LOGIN_FAILED');
+			$output = $this->procMemberLogin($user_id, $password);
+			if(!$output->toBool())
+			{
+				return new BaseObject(-1, 'LOGIN_FAILED');
+			}
+			$logged_info = Context::get('logged_info');
+			$member_srl = intval($logged_info->member_srl);
 		}
-		$logged_info = Context::get('logged_info');
+		else
+		{
+			$logged_info = null;
+			$member_srl = 0;
+		}
 
 		$random_key = Rhymix\Framework\Security::getRandom();
-		$device_key = hash_hmac('sha256', $random_key, $logged_info->member_srl . ':' . config('crypto.authentication_key'));
+		$device_key = hash_hmac('sha256', $random_key, $member_srl . ':' . config('crypto.authentication_key'));
 
 		// Start transaction
 		$oDB = DB::getInstance();
@@ -147,7 +157,7 @@ class memberController extends member
 		// Create member_device
 		$args = new stdClass;
 		$args->device_srl = getNextSequence();
-		$args->member_srl = $logged_info->member_srl;
+		$args->member_srl = $member_srl;
 		$args->device_token = $device_token;
 		$args->device_key = $device_key;
 		$args->device_type = $device_type;
@@ -163,10 +173,10 @@ class memberController extends member
 		$oDB->commit();
 
 		// Set parameters
-		$this->add('member_srl', $logged_info->member_srl);
-		$this->add('user_id', $logged_info->user_id);
-		$this->add('user_name', $logged_info->user_name);
-		$this->add('nick_name', $logged_info->nick_name);
+		$this->add('member_srl', $member_srl);
+		$this->add('user_id', $logged_info ? $logged_info->user_id : null);
+		$this->add('user_name', $logged_info ? $logged_info->user_name : null);
+		$this->add('nick_name', $logged_info ? $logged_info->nick_name : null);
 		$this->add('device_key', $random_key);
 	}
 
@@ -176,13 +186,15 @@ class memberController extends member
 	function procMemberLoginWithDevice()
 	{
 		Context::setResponseMethod('JSON');
+
 		// Check member_srl, device_token, device_key
-		$member_srl = Context::get('member_srl');
+		$allow_guest_device = config('push.allow_guest_device');
+		$member_srl = intval(Context::get('member_srl'));
 		$device_token = Context::get('device_token');
 		$random_key = Context::get('device_key');
 
 		// Return an error when id, password and device_key doesn't exist
-		if(!$member_srl) return new BaseObject(-1, 'NULL_MEMBER_SRL');
+		if(!$member_srl && !$allow_guest_device) return new BaseObject(-1, 'NULL_MEMBER_SRL');
 		if(!$device_token) return new BaseObject(-1, 'NULL_DEVICE_TOKEN');
 		if(!$random_key) return new BaseObject(-1, 'NULL_DEVICE_KEY');
 
@@ -202,17 +214,24 @@ class memberController extends member
 		}
 
 		// Log-in
-		$member_info = MemberModel::getMemberInfoByMemberSrl($member_srl);
-		$output = $this->doLogin($member_info->user_id);
-		if(!$output->toBool())
+		if($member_srl)
 		{
-			return new BaseObject(-1, 'LOGIN_FAILED');
+			$member_info = MemberModel::getMemberInfoByMemberSrl($member_srl);
+			$output = $this->doLogin($member_info->user_id);
+			if(!$output->toBool())
+			{
+				return new BaseObject(-1, 'LOGIN_FAILED');
+			}
 		}
-
-		$this->add('member_srl', $member_info->member_srl);
-		$this->add('user_id', $member_info->user_id);
-		$this->add('user_name', $member_info->user_name);
-		$this->add('nick_name', $member_info->nick_name);
+		else
+		{
+			$member_info = null;
+		}
+		
+		$this->add('member_srl', $member_srl);
+		$this->add('user_id', $member_info ? $member_info->user_id : null);
+		$this->add('user_name', $member_info ? $member_info->user_name : null);
+		$this->add('nick_name', $member_info ? $member_info->nick_name : null);
 	}
 
 	/**

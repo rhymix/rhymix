@@ -40,6 +40,8 @@ $lang->cmd_advanced_mailer_api_pass = 'Password';
 $lang->cmd_advanced_mailer_fcm_api_key = 'FCM API key';
 $lang->cmd_advanced_mailer_apns_certificate = 'APNs certificate file';
 $lang->cmd_advanced_mailer_apns_passphrase = 'APNs certificate passphrase';
+$lang->cmd_advanced_mailer_allow_guest_device = 'Register Guest Devices';
+$lang->cmd_advanced_mailer_about_allow_guest_device = 'Accept device registrations from users who are not logged in.';
 $lang->cmd_advanced_mailer_sender_key = 'Sender key';
 $lang->cmd_advanced_mailer_sender_identity = 'Sender Identity';
 $lang->cmd_advanced_mailer_about_sender_identity = 'You can change the sender\'s name and e-mail address in the <a href="index.php?module=admin&act=dispAdminConfigNotification" target="_blank">Notification Settings</a> screen.';
