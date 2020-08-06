@@ -2459,7 +2459,7 @@ class Context
 	 */
 	public static function addHtmlHeader($header)
 	{
-		self::$_instance->html_header .= (self::$_instance->html_header ? PHP_EOL : '') . $header;
+		self::$_instance->html_header .= (self::$_instance->html_header ? "\n" : '') . $header;
 	}
 
 	public static function clearHtmlHeader()
@@ -2506,7 +2506,7 @@ class Context
 	 */
 	public static function addBodyHeader($header)
 	{
-		self::$_instance->body_header .= (self::$_instance->body_header ? PHP_EOL : '') . $header;
+		self::$_instance->body_header .= (self::$_instance->body_header ? "\n" : '') . $header;
 	}
 
 	/**
@@ -2526,7 +2526,7 @@ class Context
 	 */
 	public static function addHtmlFooter($footer)
 	{
-		self::$_instance->html_footer .= (self::$_instance->html_footer ? PHP_EOL : '') . $footer;
+		self::$_instance->html_footer .= (self::$_instance->html_footer ? "\n" : '') . $footer;
 	}
 
 	/**
