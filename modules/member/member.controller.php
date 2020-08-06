@@ -142,19 +142,11 @@ class memberController extends member
 			$member_srl = 0;
 		}
 
+		// Generate keys
 		$random_key = Rhymix\Framework\Security::getRandom();
 		$device_key = hash_hmac('sha256', $random_key, $member_srl . ':' . config('crypto.authentication_key'));
 
-		// Start transaction
-		$oDB = DB::getInstance();
-		$oDB->begin();
-		
-		// Remove duplicated token key
-		$args = new stdClass;
-		$args->device_token = $device_token;
-		executeQuery('member.deleteMemberDevice', $args);
-
-		// Create member_device
+		// Prepare query arguments
 		$args = new stdClass;
 		$args->device_srl = getNextSequence();
 		$args->member_srl = $member_srl;
@@ -163,12 +155,28 @@ class memberController extends member
 		$args->device_type = $device_type;
 		$args->device_version = $device_version;
 		$args->device_model = $device_model;
-		$output3 = executeQuery('member.insertMemberDevice', $args);
-		if(!$output3->toBool())
+		
+		// Call trigger (before)
+		$trigger_output = ModuleHandler::triggerCall('member.insertMemberDevice', 'before', $args);
+		if(!$trigger_output->toBool()) return $trigger_output;
+
+		// Start transaction
+		$oDB = DB::getInstance();
+		$oDB->begin();
+		
+		// Remove duplicated token key
+		executeQuery('member.deleteMemberDevice', ['device_token' => $device_token]);
+		
+		// Create member_device
+		$output = executeQuery('member.insertMemberDevice', $args);
+		if(!$output->toBool())
 		{
 			$oDB->rollback();
-			return $output3;
+			return $output;
 		}
+		
+		// Call trigger (after)
+		ModuleHandler::triggerCall('member.insertMemberDevice', 'after', $args);
 		
 		$oDB->commit();
 
