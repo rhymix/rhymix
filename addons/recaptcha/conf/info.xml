@@ -2,130 +2,180 @@
 <addon version="0.2">
     <title xml:lang="ko">reCAPTCHA</title>
     <title xml:lang="en">reCAPTCHA</title>
-    <description xml:lang="ko">구글 reCAPTCHA 서비스를 사용하여 자동 가입 스팸을 방지합니다.</description>
-    <description xml:lang="en">Prevent automated signups and spam with Google's reCAPTCHA service.</description>
-    <version>1.0.0</version>
-    <date>2016-05-27</date>
-    <author email_address="kijin@kijinsung.com" link="https://github.com/kijin">
-        <name xml:lang="ko">Kijin Sung</name>
-        <name xml:lang="en">Kijin Sung</name>
+    <description xml:lang="ko">구글 reCAPTCHA 서비스를 사용하여 자동화된 봇 공격을 방지합니다.</description>
+    <description xml:lang="en">Prevent automated bot attacks with Google's reCAPTCHA service.</description>
+    <version>2.0</version>
+    <date>2020-07-28</date>
+    <author email_address="devops@rhymix.org" link="https://rhymix.org">
+        <name xml:lang="ko">Rhymix</name>
+        <name xml:lang="en">Rhymix</name>
     </author>
     <extra_vars>
-        <var name="site_key" type="text">
-            <title xml:lang="ko">Site Key</title>
-            <title xml:lang="en">Site Key</title>
-        </var>
-        <var name="secret_key" type="text">
-            <title xml:lang="ko">Secret Key</title>
-            <title xml:lang="en">Secret Key</title>
-        </var>
-		<var name="use_signup" type="select">
-			<title xml:lang="ko">회원가입에 사용</title>
-			<title xml:lang="en">Use on Signup Form</title>
-            <options value="Y">
-                <title xml:lang="ko">예</title>
-                <title xml:lang="en">Yes</title>
-            </options>
-            <options value="N">
-                <title xml:lang="ko">아니오</title>
-                <title xml:lang="en">No</title>
-            </options>
-		</var>
-		<var name="use_login" type="select">
-			<title xml:lang="ko">로그인에 사용</title>
-			<title xml:lang="en">Use on Login Form</title>
-            <options value="Y">
-                <title xml:lang="ko">예</title>
-                <title xml:lang="en">Yes</title>
-            </options>
-            <options value="N">
-                <title xml:lang="ko">아니오</title>
-                <title xml:lang="en">No</title>
-            </options>
-		</var>
-		<var name="use_recovery" type="select">
-			<title xml:lang="ko">ID/PW찾기에 사용</title>
-			<title xml:lang="en">Use on Account Recovery Form</title>
-            <options value="Y">
-                <title xml:lang="ko">예</title>
-                <title xml:lang="en">Yes</title>
-            </options>
-            <options value="N">
-                <title xml:lang="ko">아니오</title>
-                <title xml:lang="en">No</title>
-            </options>
-		</var>
-		<var name="use_document" type="select">
-			<title xml:lang="ko">글쓰기에 사용</title>
-			<title xml:lang="en">Use on New Document</title>
-            <options value="N">
-                <title xml:lang="ko">아니오</title>
-                <title xml:lang="en">No</title>
-            </options>
-            <options value="Y">
-                <title xml:lang="ko">예</title>
-                <title xml:lang="en">Yes</title>
-            </options>
-		</var>
-		<var name="use_comment" type="select">
-			<title xml:lang="ko">댓글쓰기에 사용</title>
-			<title xml:lang="en">Use on New Comment</title>
-            <options value="N">
-                <title xml:lang="ko">아니오</title>
-                <title xml:lang="en">No</title>
-            </options>
-            <options value="Y">
-                <title xml:lang="ko">예</title>
-                <title xml:lang="en">Yes</title>
-            </options>
-		</var>
-		<var name="target_users" type="select">
-			<title xml:lang="ko">사용 대상</title>
-			<title xml:lang="en">Target Users</title>
-            <options value="non_members">
-                <title xml:lang="ko">비회원만 사용</title>
-                <title xml:lang="en">Non-members Only</title>
-            </options>
-            <options value="everyone">
-                <title xml:lang="ko">모든 방문자에게 사용</title>
-                <title xml:lang="en">Everyone</title>
-            </options>
-		</var>
-		<var name="target_frequency" type="select">
-			<title xml:lang="ko">사용 빈도</title>
-			<title xml:lang="en">Target Frequency</title>
-            <options value="every_time">
-                <title xml:lang="ko">매번 사용</title>
-                <title xml:lang="en">Every Time</title>
-            </options>
-            <options value="first_time_only">
-                <title xml:lang="ko">방문자당 최초 1회만 사용</title>
-                <title xml:lang="en">First Time Only</title>
-            </options>
-		</var>
-        <var name="theme" type="select">
-            <title xml:lang="ko">테마</title>
-            <title xml:lang="en">Theme</title>
-            <options value="light">
-                <title xml:lang="ko">밝은 테마</title>
-                <title xml:lang="en">Light</title>
-            </options>
-            <options value="dark">
-                <title xml:lang="ko">어두운 테마</title>
-                <title xml:lang="en">Dark</title>
-            </options>
-        </var>
-        <var name="size" type="select">
-            <title xml:lang="ko">크기</title>
-            <title xml:lang="en">Size</title>
-            <options value="normal">
-                <title xml:lang="ko">보통</title>
-                <title xml:lang="en">Normal</title>
-            </options>
-            <options value="compact">
-                <title xml:lang="ko">작게</title>
-                <title xml:lang="en">Compact</title>
-            </options>
-        </var>
+		<group>
+			<title xml:lang="ko">API Key</title>
+			<title xml:lang="en">API Key</title>
+			<var name="key_type" type="select">
+				<title xml:lang="ko">Key Type</title>
+				<title xml:lang="en">Key Type</title>
+				<options value="v2">
+					<title xml:lang="ko">reCAPTCHA v2 (Checkbox)</title>
+					<title xml:lang="en">reCAPTCHA v2 (Checkbox)</title>
+				</options>
+				<options value="v2.invisible">
+					<title xml:lang="ko">reCAPTCHA v2 (Invisible)</title>
+					<title xml:lang="en">reCAPTCHA v2 (Invisible)</title>
+				</options>
+				<options value="v3">
+					<title xml:lang="ko">reCAPTCHA v3</title>
+					<title xml:lang="en">reCAPTCHA v3</title>
+				</options>
+			</var>
+			<var name="site_key" type="text">
+				<title xml:lang="ko">Site Key</title>
+				<title xml:lang="en">Site Key</title>
+			</var>
+			<var name="secret_key" type="text">
+				<title xml:lang="ko">Secret Key</title>
+				<title xml:lang="en">Secret Key</title>
+			</var>
+		</group>
+		<group>
+			<title xml:lang="ko">대상 액션</title>
+			<title xml:lang="en">Target Action</title>
+			<var name="use_login" type="select">
+				<title xml:lang="ko">로그인</title>
+				<title xml:lang="en">Login</title>
+				<options value="N">
+					<title xml:lang="ko">적용안함</title>
+					<title xml:lang="en">Off</title>
+				</options>
+				<options value="Y">
+					<title xml:lang="ko">적용함</title>
+					<title xml:lang="en">On</title>
+				</options>
+			</var>
+			<var name="use_signup" type="select">
+				<title xml:lang="ko">회원가입</title>
+				<title xml:lang="en">Signup</title>
+				<options value="Y">
+					<title xml:lang="ko">적용함</title>
+					<title xml:lang="en">On</title>
+				</options>
+				<options value="N">
+					<title xml:lang="ko">적용안함</title>
+					<title xml:lang="en">Off</title>
+				</options>
+			</var>
+			<var name="use_recovery" type="select">
+				<title xml:lang="ko">ID/PW찾기</title>
+				<title xml:lang="en">Account Recovery</title>
+				<options value="Y">
+					<title xml:lang="ko">적용함</title>
+					<title xml:lang="en">On</title>
+				</options>
+				<options value="N">
+					<title xml:lang="ko">적용안함</title>
+					<title xml:lang="en">Off</title>
+				</options>
+			</var>
+			<var name="use_document" type="select">
+				<title xml:lang="ko">글쓰기</title>
+				<title xml:lang="en">New Document</title>
+				<options value="non-login">
+					<title xml:lang="ko">로그인하지 않은 사용자에게만 적용함</title>
+					<title xml:lang="en">On (Non-login users Only)</title>
+				</options>
+				<options value="Y">
+					<title xml:lang="ko">적용함</title>
+					<title xml:lang="en">On</title>
+				</options>
+				<options value="N">
+					<title xml:lang="ko">적용안함</title>
+					<title xml:lang="en">Off</title>
+				</options>
+			</var>
+			<var name="use_comment" type="select">
+				<title xml:lang="ko">댓글쓰기</title>
+				<title xml:lang="en">New Comment</title>
+				<options value="non-login">
+					<title xml:lang="ko">로그인하지 않은 사용자에게만 적용함</title>
+					<title xml:lang="en">On (Non-login users Only)</title>
+				</options>
+				<options value="Y">
+					<title xml:lang="ko">적용함</title>
+					<title xml:lang="en">On</title>
+				</options>
+				<options value="N">
+					<title xml:lang="ko">적용안함</title>
+					<title xml:lang="en">Off</title>
+				</options>
+			</var>
+			<var name="extra_acts" type="textarea">
+				<title xml:lang="ko">추가 Act</title>
+				<title xml:lang="en">Extra Target Act</title>
+				<description xml:lang="ko">"proc"로 시작하는 Act를 한 줄에 하나씩 입력합니다.</description>
+				<description xml:lang="en">Enter Act that start with "proc", one per line.</description>
+			</var>
+		</group>
+		<group>
+			<title xml:lang="ko">reCAPTCHA v2</title>
+			<title xml:lang="en">reCAPTCHA v2</title>
+			<var name="theme" type="select">
+				<title xml:lang="ko">테마</title>
+				<title xml:lang="en">Theme</title>
+				<options value="light">
+					<title xml:lang="ko">밝은 테마</title>
+					<title xml:lang="en">Light</title>
+				</options>
+				<options value="dark">
+					<title xml:lang="ko">어두운 테마</title>
+					<title xml:lang="en">Dark</title>
+				</options>
+				<options value="system">
+					<title xml:lang="ko">시스템 테마</title>
+					<title xml:lang="en">System</title>
+				</options>
+			</var>
+			<var name="size" type="select">
+				<title xml:lang="ko">크기</title>
+				<title xml:lang="en">Size</title>
+				<options value="normal">
+					<title xml:lang="ko">보통</title>
+					<title xml:lang="en">Normal</title>
+				</options>
+				<options value="compact">
+					<title xml:lang="ko">작게</title>
+					<title xml:lang="en">Compact</title>
+				</options>
+			</var>
+		</group>
+		<group>
+			<title xml:lang="ko">reCAPTCHA v3</title>
+			<title xml:lang="en">reCAPTCHA v3</title>
+			<var name="threshold" type="text">
+				<title xml:lang="ko">차단 기준</title>
+				<title xml:lang="en">Threshold</title>
+				<description xml:lang="ko"><![CDATA[지정 수 이하의 점수를 받으면 차단합니다. (기본값 0.5)<br>소수점 한자리 단위로 0 ~ 1 까지 설정할 수 있으며, 낮을수록 기계일 가능성이 높습니다.]]></description>
+				<description xml:lang="en"><![CDATA[User who receive a score the threshold or under will be blocked. (Default 0.5)<br>You can set from 0 to 1 in one decimal place, and the lower the score, the more likely it's a machine.]]></description>
+			</var>
+		</group>
+		<group>
+			<title xml:lang="ko">기타</title>
+			<title xml:lang="en">Etc</title>
+			<var name="first_time_only" type="select">
+				<title xml:lang="ko">다시 확인하지 않음</title>
+				<title xml:lang="en">Never Check Again</title>
+				<description xml:lang="ko">세션이 유지되는 동안에는 사용자를 다시 확인하지 않습니다.</description>
+				<description xml:lang="en">It will not check user again while the session is maintained.</description>
+				<options value="N">
+					<title xml:lang="ko">아니오</title>
+					<title xml:lang="en">No</title>
+				</options>
+				<options value="Y">
+					<title xml:lang="ko">예</title>
+					<title xml:lang="en">Yes</title>
+				</options>
+			</var>
+		</group>
     </extra_vars>
 </addon>
