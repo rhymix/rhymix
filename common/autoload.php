@@ -36,6 +36,11 @@ if (function_exists('mb_regex_encoding'))
 }
 
 /**
+ * RX_BASEDIR is the SERVER-SIDE absolute path of Rhymix (with trailing slash).
+ */
+define('RX_BASEDIR', str_replace('\\', '/', dirname(__DIR__)) . '/');
+
+/**
  * Load user configuration.
  */
 if(file_exists(RX_BASEDIR . 'config/config.user.inc.php'))
