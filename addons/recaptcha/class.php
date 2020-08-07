@@ -14,11 +14,16 @@ class recaptcha
 		$addon_info->size = $addon_info->size ?? 'normal';
 		$addon_info->threshold = strlen($addon_info->threshold) ? (float)$addon_info->threshold : 0.5;
 		$addon_info->extra_acts = array_map('trim', preg_split('/\R/', $addon_info->extra_acts, -1, PREG_SPLIT_NO_EMPTY) ?: []);
+		$addon_info->use_captcha_var = $addon_info->use_captcha_var ?? 'Y';
 		self::$addon_info = $addon_info;
 		
 		if (self::$addon_info->key_type === 'v2.invisible')
 		{
 			self::$addon_info->size = 'invisible';
+		}
+		elseif (self::$addon_info->key_type === 'v2' && self::$addon_info->use_captcha_var === 'Y')
+		{
+			\Context::set('captcha', '<div class="g-recaptcha"></div>');
 		}
 	}
 	
@@ -36,6 +41,7 @@ class recaptcha
 		}
 		else
 		{
+			$parameter = 'render=explicit';
 			if (self::$addon_info->key_type === 'v2.invisible')
 			{
 				$message = lang('recaptcha.msg_recaptcha_auto');
@@ -43,8 +49,12 @@ class recaptcha
 			else
 			{
 				$message = lang('recaptcha.msg_recaptcha_request');
+				if (self::$addon_info->use_captcha_var === 'Y')
+				{
+					$parameter .= '&onload=recaptcha_callbackV2';
+				}
 			}
-			\Context::addHtmlFooter(sprintf('<script src="%s?render=explicit" async defer></script>', self::$script_url));
+			\Context::addHtmlFooter(sprintf('<script src="%s?%s" async defer></script>', self::$script_url, $parameter));
 		}
 		
 		\Context::addHtmlFooter(sprintf('<script>var recaptcha_config = %s;</script>', json_encode([

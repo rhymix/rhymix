@@ -148,6 +148,20 @@
 					<title xml:lang="en">Compact</title>
 				</options>
 			</var>
+			<var name="use_captcha_var" type="select">
+				<title xml:lang="ko">캡챠 변수 사용</title>
+				<title xml:lang="en">Use Captcha Variable</title>
+				<description xml:lang="ko">레이아웃 및 스킨에 있는 {$captcha} 변수의 위치에 reCAPTCHA v2 (Checkbox)를 삽입합니다.</description>
+				<description xml:lang="en">It will insert reCAPTCHA v2 (Checkbox) at the position of {$captcha} variable that's in layouts and skins</description>
+				<options value="Y">
+					<title xml:lang="ko">예</title>
+					<title xml:lang="en">Yes</title>
+				</options>
+				<options value="N">
+					<title xml:lang="ko">아니오</title>
+					<title xml:lang="en">No</title>
+				</options>
+			</var>
 		</group>
 		<group>
 			<title xml:lang="ko">reCAPTCHA v3</title>
@@ -156,7 +170,7 @@
 				<title xml:lang="ko">차단 기준</title>
 				<title xml:lang="en">Threshold</title>
 				<description xml:lang="ko"><![CDATA[지정 수 이하의 점수를 받으면 차단합니다. (기본값 0.5)<br>소수점 한자리 단위로 0 ~ 1 까지 설정할 수 있으며, 낮을수록 기계일 가능성이 높습니다.]]></description>
-				<description xml:lang="en"><![CDATA[User who receive a score the threshold or under will be blocked. (Default 0.5)<br>You can set from 0 to 1 in one decimal place, and the lower the score, the more likely it's a machine.]]></description>
+				<description xml:lang="en"><![CDATA[It will block user who receive a score the threshold or under. (Default 0.5)<br>You can set from 0 to 1 in one decimal place, and the lower the score, the more likely it's a machine.]]></description>
 			</var>
 		</group>
 		<group>

@@ -115,3 +115,44 @@ $(function() {
 		};
 	})(window.exec_json);
 });
+
+var recaptcha_callbackV2 = function() {
+	if (recaptcha_config['keytype'] !== 'v2' || !$('.g-recaptcha').size()) {
+		return;
+	}
+	
+	$('.g-recaptcha').each(function() {
+		var $form = $(this).closest('form');
+		if (!$form.size()) {
+			return;
+		}
+		
+		var attr_onsubmit = $form.attr('onsubmit');
+		var filter_pattern = /procFilter\(.+,\s*(?:window\.)?(.+)\s*\)/i;
+		var filter_name = (attr_onsubmit && attr_onsubmit.match(filter_pattern)) ? attr_onsubmit.match(filter_pattern)[1] : '';
+		if (filter_name) {
+			if (filter_name === 'insert' || filter_name === 'insert_document') {
+				if (recaptcha_config['target_acts'].indexOf('procBoardInsertDocument') === -1) {
+					return;
+				}
+			} else if (filter_name === 'insert_comment') {
+				if (recaptcha_config['target_acts'].indexOf('procBoardInsertComment') === -1) {
+					return;
+				}
+			} else {
+				return;
+			}
+		} else {
+			var input_act = $form.find('input[name="act"]');
+			if (!input_act.size() || !input_act.val() || recaptcha_config['target_acts'].indexOf(input_act.val()) === -1) {
+				return;
+			}
+		}
+		
+		grecaptcha.render($(this)[0], {
+			sitekey: recaptcha_config['sitekey'],
+			size: recaptcha_config['size'],
+			theme: recaptcha_config['theme']
+		});
+	});
+}
