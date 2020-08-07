@@ -36,6 +36,14 @@ if (function_exists('mb_regex_encoding'))
 }
 
 /**
+ * Load user configuration.
+ */
+if(file_exists(RX_BASEDIR . 'config/config.user.inc.php'))
+{
+	require_once RX_BASEDIR . 'config/config.user.inc.php';
+}
+
+/**
  * Load constants and common functions.
  */
 require_once __DIR__ . '/constants.php';
@@ -187,14 +195,6 @@ require_once RX_BASEDIR . 'vendor/autoload.php';
  * Load essential classes.
  */
 require_once RX_BASEDIR . 'classes/object/Object.class.php';
-
-/**
- * Load user configuration.
- */
-if(file_exists(RX_BASEDIR . 'config/config.user.inc.php'))
-{
-	require_once RX_BASEDIR . 'config/config.user.inc.php';
-}
 
 /**
  * Load system configuration.
