@@ -141,8 +141,14 @@ define('__ZBXE_VERSION__', RX_VERSION);
 define('_XE_PATH_', RX_BASEDIR);
 define('_XE_PACKAGE_', 'XE');
 define('_XE_LOCATION_', 'en');
-define('_XE_LOCATION_SITE_', 'https://xe1.xpressengine.com/');
-define('_XE_DOWNLOAD_SERVER_', 'https://download.xpressengine.com/');
+if (!define('_XE_LOCATION_SITE_'))
+{
+	define('_XE_LOCATION_SITE_', 'https://xe1.xpressengine.com/');
+}
+if (!define('_XE_DOWNLOAD_SERVER_'))
+{
+	define('_XE_DOWNLOAD_SERVER_', 'https://download.xpressengine.com/');
+}
 define('__DEBUG__', 0);
 
 /**
