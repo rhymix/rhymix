@@ -346,8 +346,8 @@ class menuAdminModel extends menu
 			$module->defaultMobileSkin->skin = $defaultMobileSkin;
 			$module->defaultMobileSkin->title = $mobileSkinInfo->title ? $mobileSkinInfo->title : $defaultMobileSkin;
 			
-			$oModel = getAdminModel('autoinstall');
-			$config = $oModel->getAutoInstallAdminModuleConfig();
+			$oAdminModel = getAdminModel('autoinstall');
+			$config = $oAdminModel->getAutoInstallAdminModuleConfig();
 
 			$module->package_srl = $oAutoinstallModel->getPackageSrlByPath('./modules/' . $module_name);
 			$module->url = $config->location_site . '?mid=download&package_srl=' . $module->package_srl;

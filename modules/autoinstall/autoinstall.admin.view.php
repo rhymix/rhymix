@@ -27,8 +27,8 @@ class autoinstallAdminView extends autoinstall
 	 */
 	function init()
 	{
-		$oModel = getAdminModel('autoinstall');
-		$config = $oModel->getAutoInstallAdminModuleConfig();
+		$oAdminModel = getAdminModel('autoinstall');
+		$config = $oAdminModel->getAutoInstallAdminModuleConfig();
 
 		$template_path = sprintf("%stpl/", $this->module_path);
 		Context::set('original_site', $config->location_site);
@@ -195,8 +195,8 @@ class autoinstallAdminView extends autoinstall
 
 		$depto = array();
 
-		$oModel = getAdminModel('autoinstall');
-		$config = $oModel->getAutoInstallAdminModuleConfig();
+		$oAdminModel = getAdminModel('autoinstall');
+		$config = $oAdminModel->getAutoInstallAdminModuleConfig();
 
 		foreach($items as $item)
 		{
@@ -331,8 +331,8 @@ class autoinstallAdminView extends autoinstall
 			'ssl_verify_host' => FALSE
 		);
 
-		$oModel = getAdminModel('autoinstall');
-		$config = $oModel->getAutoInstallAdminModuleConfig();
+		$oAdminModel = getAdminModel('autoinstall');
+		$config = $oAdminModel->getAutoInstallAdminModuleConfig();
 
 		$buff = FileHandler::getRemoteResource($config->download_server, $body, 3, "POST", "application/xml", array(), array(), array(), $request_config);
 		$xml_lUpdate = new XmlParser();
@@ -428,8 +428,8 @@ class autoinstallAdminView extends autoinstall
 			'ssl_verify_host' => FALSE
 		);
 
-		$oModel = getAdminModel('autoinstall');
-		$config = $oModel->getAutoInstallAdminModuleConfig();
+		$oAdminModel = getAdminModel('autoinstall');
+		$config = $oAdminModel->getAutoInstallAdminModuleConfig();
 
 		$buff = FileHandler::getRemoteResource($config->download_server, $body, 3, "POST", "application/xml", array(), array(), array(), $request_config);
 		$xml_lUpdate = new XmlParser();
@@ -583,8 +583,8 @@ class autoinstallAdminView extends autoinstall
 			'ssl_verify_host' => FALSE
 		);
 
-		$oModel = getAdminModel('autoinstall');
-		$config = $oModel->getAutoInstallAdminModuleConfig();
+		$oAdminModel = getAdminModel('autoinstall');
+		$config = $oAdminModel->getAutoInstallAdminModuleConfig();
 
 		$buff = FileHandler::getRemoteResource($config->download_server, $body, 3, "POST", "application/xml", array(), array(), array(), $request_config);
 		$xml_lUpdate = new XmlParser();
