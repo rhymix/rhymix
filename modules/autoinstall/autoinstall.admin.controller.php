@@ -415,7 +415,7 @@ class autoinstallAdminController extends autoinstall
 		$module_info = $oModuleModel->getModuleConfig('autoinstall');
 		$location_site = $module_info->location_site;
 		$download_server = $module_info->download_server;
-		
+
 		$oModuleInstaller->setServerUrl($download_server);
 
 		$oModuleInstaller->setPassword($ftp_password);
@@ -440,18 +440,11 @@ class autoinstallAdminController extends autoinstall
 
 		$oModuleController = getController('module');
 		$output = $oModuleController->updateModuleConfig('autoinstall', $args);
-
-		// init. autoinstall DB data
-		$oDB = DB::getInstance();
-		// truncate table rx_ai_installed_packages
-		$sql_a = 'truncate table '.$oDB->prefix.'ai_installed_packages';
-		$oDB->_query($sql_a);
-		// truncate table rx_ai_remote_categories
-		$sql_b = 'truncate table '.$oDB->prefix.'ai_remote_categories';
-		$oDB->_query($sql_b);
-		// truncate table rx_autoinstall_packages
-		$sql_c = 'truncate table '.$oDB->prefix.'autoinstall_packages';
-		$oDB->_query($sql_c);
+	
+		// init. DB tables
+		executeQuery("autoinstall.deletePackages");
+		executeQuery("autoinstall.deleteCategory");
+		executeQuery("autoinstall.deleteInstalledPackage");
 		
 		// default setting end
 		$this->setMessage('success_updated');
