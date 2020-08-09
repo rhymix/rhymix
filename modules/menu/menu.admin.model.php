@@ -345,9 +345,14 @@ class menuAdminModel extends menu
 			$module->defaultMobileSkin = new stdClass();
 			$module->defaultMobileSkin->skin = $defaultMobileSkin;
 			$module->defaultMobileSkin->title = $mobileSkinInfo->title ? $mobileSkinInfo->title : $defaultMobileSkin;
+			
+			$oModuleModel = getModel('module');
+			$module_info = $oModuleModel->getModuleConfig('autoinstall');
+			$location_site = $module_info->location_site ? $module_info->location_site : 'https://xe1.xpressengine.com/';
+			$download_server = $module_info->download_server ? $module_info->download_server : 'https://download.xpressengine.com/';
 
 			$module->package_srl = $oAutoinstallModel->getPackageSrlByPath('./modules/' . $module_name);
-			$module->url = _XE_LOCATION_SITE_ . '?mid=download&package_srl=' . $module->package_srl;
+			$module->url = $location_site . '?mid=download&package_srl=' . $module->package_srl;
 
 			if($module_name == 'page')
 			{

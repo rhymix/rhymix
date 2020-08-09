@@ -44,7 +44,13 @@ class XmlGenerater
 			'ssl_verify_peer' => FALSE,
 			'ssl_verify_host' => FALSE
 		);
-		$buff = FileHandler::getRemoteResource(_XE_DOWNLOAD_SERVER_, $body, 3, "POST", "application/xml", array(), array(), array(), $request_config);
+
+		$oModuleModel = getModel('module');
+		$module_info = $oModuleModel->getModuleConfig('autoinstall');
+		$location_site = $module_info->location_site;
+		$download_server = $module_info->download_server;
+
+		$buff = FileHandler::getRemoteResource($download_server, $body, 3, "POST", "application/xml", array(), array(), array(), $request_config);
 		if(!$buff)
 		{
 			return;

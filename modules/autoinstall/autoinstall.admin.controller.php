@@ -18,10 +18,8 @@ class autoinstallAdminController extends autoinstall
 	{
 		$oModuleModel = getModel('module');
 		$module_info = $oModuleModel->getModuleConfig('autoinstall');
-		$location_site = $module_info->location_site;
-		$download_server = $module_info->download_server;
-		define('_XE_LOCATION_SITE_', $location_site ? $location_site : 'https://xe1.xpressengine.com/');
-		define('_XE_DOWNLOAD_SERVER_', $download_server ? $download_server : 'https://download.xpressengine.com/');
+		$location_site = $module_info->location_site ? $module_info->location_site : 'https://xe1.xpressengine.com/';
+		$download_server = $module_info->download_server ? $module_info->download_server : 'https://download.xpressengine.com/';
 	}
 
 	/**
@@ -80,7 +78,13 @@ class autoinstallAdminController extends autoinstall
 			'ssl_verify_peer' => FALSE,
 			'ssl_verify_host' => FALSE
 		);
-		$buff = FileHandler::getRemoteResource(_XE_DOWNLOAD_SERVER_, $body, 3, "POST", "application/xml", array(), array(), array(), $request_config);
+
+		$oModuleModel = getModel('module');
+		$module_info = $oModuleModel->getModuleConfig('autoinstall');
+		$location_site = $module_info->location_site;
+		$download_server = $module_info->download_server;
+
+		$buff = FileHandler::getRemoteResource($download_server, $body, 3, "POST", "application/xml", array(), array(), array(), $request_config);
 		$xml = new XmlParser();
 		$xmlDoc = $xml->parse($buff);
 		$this->updateCategory($xmlDoc);
@@ -229,7 +233,12 @@ class autoinstallAdminController extends autoinstall
 				$oModuleInstaller = new FTPModuleInstaller($package);
 			}
 
-			$oModuleInstaller->setServerUrl(_XE_DOWNLOAD_SERVER_);
+			$oModuleModel = getModel('module');
+			$module_info = $oModuleModel->getModuleConfig('autoinstall');
+			$location_site = $module_info->location_site;
+			$download_server = $module_info->download_server;
+
+			$oModuleInstaller->setServerUrl($download_server);
 			$oModuleInstaller->setPassword($ftp_password);
 			$output = $oModuleInstaller->install();
 			if(!$output->toBool())
@@ -402,7 +411,12 @@ class autoinstallAdminController extends autoinstall
 			$oModuleInstaller = new FTPModuleInstaller($package);
 		}
 
-		$oModuleInstaller->setServerUrl(_XE_DOWNLOAD_SERVER_);
+		$oModuleModel = getModel('module');
+		$module_info = $oModuleModel->getModuleConfig('autoinstall');
+		$location_site = $module_info->location_site;
+		$download_server = $module_info->download_server;
+		
+		$oModuleInstaller->setServerUrl($download_server);
 
 		$oModuleInstaller->setPassword($ftp_password);
 		$output = $oModuleInstaller->uninstall();

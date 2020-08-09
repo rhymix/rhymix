@@ -104,11 +104,16 @@ class adminAdminView extends admin
 			return;
 		}
 
+		$oModuleModel = getModel('module');
+		$module_info = $oModuleModel->getModuleConfig('autoinstall');
+		$location_site = $module_info->location_site ? $module_info->location_site : 'https://xe1.xpressengine.com/';
+		$download_server = $module_info->download_server ? $module_info->download_server : 'https://download.xpressengine.com/';
+
 		$oAutoinstallModel = getModel('autoinstall');
 		$params = array();
 		$params["act"] = "getResourceapiLastupdate";
 		$body = XmlGenerater::generate($params);
-		$buff = FileHandler::getRemoteResource(_XE_DOWNLOAD_SERVER_, $body, 3, "POST", "application/xml");
+		$buff = FileHandler::getRemoteResource($download_server, $body, 3, "POST", "application/xml");
 		$xml_lUpdate = new XmlParser();
 		$lUpdateDoc = $xml_lUpdate->parse($buff);
 		$updateDate = $lUpdateDoc->response->updatedate->body;
