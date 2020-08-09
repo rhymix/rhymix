@@ -16,10 +16,6 @@ class autoinstallAdminController extends autoinstall
 	 */
 	function init()
 	{
-		$oModuleModel = getModel('module');
-		$module_info = $oModuleModel->getModuleConfig('autoinstall');
-		$location_site = $module_info->location_site ? $module_info->location_site : 'https://xe1.xpressengine.com/';
-		$download_server = $module_info->download_server ? $module_info->download_server : 'https://download.xpressengine.com/';
 	}
 
 	/**
@@ -79,12 +75,10 @@ class autoinstallAdminController extends autoinstall
 			'ssl_verify_host' => FALSE
 		);
 
-		$oModuleModel = getModel('module');
-		$module_info = $oModuleModel->getModuleConfig('autoinstall');
-		$location_site = $module_info->location_site;
-		$download_server = $module_info->download_server;
+		$oModel = getAdminModel('autoinstall');
+		$config = $oModel->getAutoInstallAdminModuleConfig();
 
-		$buff = FileHandler::getRemoteResource($download_server, $body, 3, "POST", "application/xml", array(), array(), array(), $request_config);
+		$buff = FileHandler::getRemoteResource($config->download_server, $body, 3, "POST", "application/xml", array(), array(), array(), $request_config);
 		$xml = new XmlParser();
 		$xmlDoc = $xml->parse($buff);
 		$this->updateCategory($xmlDoc);
@@ -233,12 +227,10 @@ class autoinstallAdminController extends autoinstall
 				$oModuleInstaller = new FTPModuleInstaller($package);
 			}
 
-			$oModuleModel = getModel('module');
-			$module_info = $oModuleModel->getModuleConfig('autoinstall');
-			$location_site = $module_info->location_site;
-			$download_server = $module_info->download_server;
+			$oModel = getAdminModel('autoinstall');
+			$config = $oModel->getAutoInstallAdminModuleConfig();
 
-			$oModuleInstaller->setServerUrl($download_server);
+			$oModuleInstaller->setServerUrl($config->download_server);
 			$oModuleInstaller->setPassword($ftp_password);
 			$output = $oModuleInstaller->install();
 			if(!$output->toBool())
@@ -411,12 +403,10 @@ class autoinstallAdminController extends autoinstall
 			$oModuleInstaller = new FTPModuleInstaller($package);
 		}
 
-		$oModuleModel = getModel('module');
-		$module_info = $oModuleModel->getModuleConfig('autoinstall');
-		$location_site = $module_info->location_site;
-		$download_server = $module_info->download_server;
+		$oModel = getAdminModel('autoinstall');
+		$config = $oModel->getAutoInstallAdminModuleConfig();
 
-		$oModuleInstaller->setServerUrl($download_server);
+		$oModuleInstaller->setServerUrl($config->download_server);
 
 		$oModuleInstaller->setPassword($ftp_password);
 		$output = $oModuleInstaller->uninstall();
@@ -436,12 +426,12 @@ class autoinstallAdminController extends autoinstall
 	{
 		// if end of string does not have a slash, add it
 		$_location_site = Context::get('location_site');
-		if(substr($_location_site, -1) != '/')
+		if(substr($_location_site, -1) != '/' && strlen($_location_site) > 0)
 		{
 			$_location_site .= '/';
 		}
 		$_download_server = Context::get('download_server');
-		if(substr($_download_server, -1) != '/')
+		if(substr($_download_server, -1) != '/' && strlen($_download_server) > 0)
 		{
 			$_download_server .= '/';
 		}

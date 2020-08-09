@@ -13,6 +13,7 @@
 		<action name="getAutoinstallAdminSkinPackageList" type="model" />
 		<action name="getAutoinstallAdminIsAuthed" type="model" />
 		<action name="getAutoInstallAdminInstallInfo" type="model" />
+		<action name="getAutoInstallAdminModuleConfig" type="model" />
 		
 		<action name="procAutoinstallAdminUpdateinfo" type="controller" />
 		<action name="procAutoinstallAdminPackageinstall" type="controller" ruleset="ftp" />

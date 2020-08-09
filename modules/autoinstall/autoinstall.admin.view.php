@@ -27,14 +27,12 @@ class autoinstallAdminView extends autoinstall
 	 */
 	function init()
 	{
-		$oModuleModel = getModel('module');
-		$module_info = $oModuleModel->getModuleConfig('autoinstall');
-		$location_site = $module_info->location_site ? $module_info->location_site : 'https://xe1.xpressengine.com/';
-		$download_server = $module_info->download_server ? $module_info->download_server : 'https://download.xpressengine.com/';
+		$oModel = getAdminModel('autoinstall');
+		$config = $oModel->getAutoInstallAdminModuleConfig();
 
 		$template_path = sprintf("%stpl/", $this->module_path);
-		Context::set('original_site', $location_site);
-		Context::set('uri', $download_server);
+		Context::set('original_site', $config->location_site);
+		Context::set('uri', $config->download_server);
 		$this->setTemplatePath($template_path);
 
 		$ftp_info = Context::getFTPInfo();
@@ -197,17 +195,15 @@ class autoinstallAdminView extends autoinstall
 
 		$depto = array();
 
-		$oModuleModel = getModel('module');
-		$module_info = $oModuleModel->getModuleConfig('autoinstall');
-		$location_site = $module_info->location_site;
-		$download_server = $module_info->download_server;
+		$oModel = getAdminModel('autoinstall');
+		$config = $oModel->getAutoInstallAdminModuleConfig();
 
 		foreach($items as $item)
 		{
 			$v = $this->rearrange($item, $targets);
-			$v->item_screenshot_url = str_replace('./', $download_server, $v->item_screenshot_url);
+			$v->item_screenshot_url = str_replace('./', $config->download_server, $v->item_screenshot_url);
 			$v->category = $this->categories[$v->category_srl]->title;
-			$v->url = $location_site . '?mid=download&package_srl=' . $v->package_srl;
+			$v->url = $config->location_site . '?mid=download&package_srl=' . $v->package_srl;
 
 			if($packages[$v->package_srl])
 			{
@@ -334,13 +330,11 @@ class autoinstallAdminView extends autoinstall
 			'ssl_verify_peer' => FALSE,
 			'ssl_verify_host' => FALSE
 		);
-		
-		$oModuleModel = getModel('module');
-		$module_info = $oModuleModel->getModuleConfig('autoinstall');
-		$location_site = $module_info->location_site;
-		$download_server = $module_info->download_server;
 
-		$buff = FileHandler::getRemoteResource($download_server, $body, 3, "POST", "application/xml", array(), array(), array(), $request_config);
+		$oModel = getAdminModel('autoinstall');
+		$config = $oModel->getAutoInstallAdminModuleConfig();
+
+		$buff = FileHandler::getRemoteResource($config->download_server, $body, 3, "POST", "application/xml", array(), array(), array(), $request_config);
 		$xml_lUpdate = new XmlParser();
 		$xmlDoc = $xml_lUpdate->parse($buff);
 		if($xmlDoc && $xmlDoc->response->packagelist->item)
@@ -434,12 +428,10 @@ class autoinstallAdminView extends autoinstall
 			'ssl_verify_host' => FALSE
 		);
 
-		$oModuleModel = getModel('module');
-		$module_info = $oModuleModel->getModuleConfig('autoinstall');
-		$location_site = $module_info->location_site;
-		$download_server = $module_info->download_server;
+		$oModel = getAdminModel('autoinstall');
+		$config = $oModel->getAutoInstallAdminModuleConfig();
 
-		$buff = FileHandler::getRemoteResource($download_server, $body, 3, "POST", "application/xml", array(), array(), array(), $request_config);
+		$buff = FileHandler::getRemoteResource($config->download_server, $body, 3, "POST", "application/xml", array(), array(), array(), $request_config);
 		$xml_lUpdate = new XmlParser();
 		$lUpdateDoc = $xml_lUpdate->parse($buff);
 		$updateDate = $lUpdateDoc->response->updatedate->body;
@@ -591,12 +583,10 @@ class autoinstallAdminView extends autoinstall
 			'ssl_verify_host' => FALSE
 		);
 
-		$oModuleModel = getModel('module');
-		$module_info = $oModuleModel->getModuleConfig('autoinstall');
-		$location_site = $module_info->location_site;
-		$download_server = $module_info->download_server;
+		$oModel = getAdminModel('autoinstall');
+		$config = $oModel->getAutoInstallAdminModuleConfig();
 
-		$buff = FileHandler::getRemoteResource($download_server, $body, 3, "POST", "application/xml", array(), array(), array(), $request_config);
+		$buff = FileHandler::getRemoteResource($config->download_server, $body, 3, "POST", "application/xml", array(), array(), array(), $request_config);
 		$xml_lUpdate = new XmlParser();
 		$xmlDoc = $xml_lUpdate->parse($buff);
 		if($xmlDoc && $xmlDoc->response->packagelist->item)
