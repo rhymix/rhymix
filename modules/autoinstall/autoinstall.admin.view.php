@@ -27,6 +27,13 @@ class autoinstallAdminView extends autoinstall
 	 */
 	function init()
 	{
+		$oModuleModel = getModel('module');
+		$module_info = $oModuleModel->getModuleConfig('autoinstall');
+		$location_site = $module_info->location_site;
+		$download_server = $module_info->download_server;
+		define('_XE_LOCATION_SITE_', $location_site ? $location_site : 'https://xe1.xpressengine.com/');
+		define('_XE_DOWNLOAD_SERVER_', $download_server ? $download_server : 'https://download.xpressengine.com/');
+
 		$template_path = sprintf("%stpl/", $this->module_path);
 		Context::set('original_site', _XE_LOCATION_SITE_);
 		Context::set('uri', _XE_DOWNLOAD_SERVER_);
@@ -202,7 +209,17 @@ class autoinstallAdminView extends autoinstall
 			if($packages[$v->package_srl])
 			{
 				$v->current_version = $packages[$v->package_srl]->current_version;
-				$v->need_update = $packages[$v->package_srl]->need_update;
+				// if version is up
+				// insert Y
+				if($v->current_version < $v->item_version)
+				{
+					$v->need_update = 'Y';
+				}
+				else
+				{
+					$v->need_update = 'N';
+				}
+				//$v->need_update = $packages[$v->package_srl]->need_update;
 				$v->type = $oModel->getTypeFromPath($packages[$v->package_srl]->path);
 
 				if($this->ftp_set && $v->depfrom)
@@ -216,7 +233,11 @@ class autoinstallAdminView extends autoinstall
 
 				if($v->type == "core")
 				{
-					continue;
+					// if default, hide core
+					if(strpos(_XE_DOWNLOAD_SERVER_, 'xpressengine.com')!==false)
+					{
+						continue;
+					}
 				}
 				else if($v->type == "module")
 				{
@@ -583,6 +604,17 @@ class autoinstallAdminView extends autoinstall
 		}
 	}
 
+	/**
+	 * Display config
+	 * 
+	 */
+	function dispAutoinstallAdminConfig()
+	{
+		$oModuleModel = getModel('module');
+		$module_info = $oModuleModel->getModuleConfig('autoinstall');
+		Context::set('config', $module_info);
+		$this->setTemplateFile('config');
+	}
 }
 /* End of file autoinstall.admin.view.php */
 /* Location: ./modules/autoinstall/autoinstall.admin.view.php */

@@ -16,7 +16,12 @@ class autoinstallAdminController extends autoinstall
 	 */
 	function init()
 	{
-
+		$oModuleModel = getModel('module');
+		$module_info = $oModuleModel->getModuleConfig('autoinstall');
+		$location_site = $module_info->location_site;
+		$download_server = $module_info->download_server;
+		define('_XE_LOCATION_SITE_', $location_site ? $location_site : 'https://xe1.xpressengine.com/');
+		define('_XE_DOWNLOAD_SERVER_', $download_server ? $download_server : 'https://download.xpressengine.com/');
 	}
 
 	/**
@@ -411,6 +416,34 @@ class autoinstallAdminController extends autoinstall
 		$this->setMessage('success_deleted', 'update');
 
 		return new BaseObject();
+	}
+
+	function procAutoinstallAdminInsertConfig()
+	{
+		$args = new stdClass();
+		$args->location_site = Context::get('location_site');
+		$args->download_server = Context::get('download_server');
+
+		$oModuleController = getController('module');
+		$output = $oModuleController->updateModuleConfig('autoinstall', $args);
+
+		// init. autoinstall DB data
+		$oDB = DB::getInstance();
+		// truncate table rx_ai_installed_packages
+		$sql_a = 'truncate table '.$oDB->prefix.'ai_installed_packages';
+		$oDB->_query($sql_a);
+		// truncate table rx_ai_remote_categories
+		$sql_b = 'truncate table '.$oDB->prefix.'ai_remote_categories';
+		$oDB->_query($sql_b);
+		// truncate table rx_autoinstall_packages
+		$sql_c = 'truncate table '.$oDB->prefix.'autoinstall_packages';
+		$oDB->_query($sql_c);
+		
+		// default setting end
+		$this->setMessage('success_updated');
+
+		$returnUrl = Context::get('success_return_url') ? Context::get('success_return_url') : getNotEncodedUrl('', 'module', 'admin', 'act', 'dispAutoinstallAdminConfig');
+		$this->setRedirectUrl($returnUrl);
 	}
 
 }

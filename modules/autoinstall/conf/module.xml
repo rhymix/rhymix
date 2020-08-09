@@ -6,7 +6,8 @@
 		<action name="dispAutoinstallAdminInstall" type="view" menu_name="easyInstall" />
 		<action name="dispAutoinstallAdminUninstall" type="view" menu_name="easyInstall" />
 		<action name="dispAutoinstallAdminInstalledPackages" type="view" menu_name="easyInstall" />
-		
+		<action name="dispAutoinstallAdminConfig" type="view" menu_name="easyInstall" />
+
 		<action name="getAutoinstallAdminMenuPackageList" type="model" />
 		<action name="getAutoinstallAdminLayoutPackageList" type="model" />
 		<action name="getAutoinstallAdminSkinPackageList" type="model" />
@@ -16,6 +17,8 @@
 		<action name="procAutoinstallAdminUpdateinfo" type="controller" />
 		<action name="procAutoinstallAdminPackageinstall" type="controller" ruleset="ftp" />
 		<action name="procAutoinstallAdminUninstallPackage" type="controller" ruleset="ftp" />
+		<action name="procAutoinstallAdminInsertConfig" type="controller" />
+		
 	</actions>
 	<menus>
 		<menu name="easyInstall">
