@@ -54,7 +54,6 @@ $lang->typename['skin'] = 'Skin';
 $lang->typename['widgetstyle'] = 'Widget style';
 $lang->typename['style'] = 'Document style';
 
-$lang->config = 'Config';
 $lang->location_site = 'Location Site';
 $lang->about_location_site = 'Please type your location site. ex)https://xe1.xpressengine.com/';
 $lang->download_server = 'Download Server';
