@@ -434,9 +434,21 @@ class autoinstallAdminController extends autoinstall
 
 	function procAutoinstallAdminInsertConfig()
 	{
+		// if end of string does not have a slash, add it
+		$_location_site = Context::get('location_site');
+		if(substr($_location_site, -1) != '/')
+		{
+			$_location_site .= '/';
+		}
+		$_download_server = Context::get('download_server');
+		if(substr($_download_server, -1) != '/')
+		{
+			$_download_server .= '/';
+		}
+		
 		$args = new stdClass();
-		$args->location_site = Context::get('location_site');
-		$args->download_server = Context::get('download_server');
+		$args->location_site = $_location_site;
+		$args->download_server = $_download_server;
 
 		$oModuleController = getController('module');
 		$output = $oModuleController->updateModuleConfig('autoinstall', $args);
