@@ -617,9 +617,9 @@ class autoinstallAdminView extends autoinstall
 	 */
 	function dispAutoinstallAdminConfig()
 	{
-		$oModuleModel = getModel('module');
-		$module_info = $oModuleModel->getModuleConfig('autoinstall');
-		Context::set('config', $module_info);
+		$oAdminModel = getAdminModel('autoinstall');
+        $config = $oAdminModel->getAutoInstallAdminModuleConfig();
+		Context::set('config', $config);
 		$this->setTemplateFile('config');
 	}
 }
