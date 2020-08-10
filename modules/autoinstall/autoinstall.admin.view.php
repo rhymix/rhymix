@@ -29,7 +29,8 @@ class autoinstallAdminView extends autoinstall
 	{
 		$oAdminModel = getAdminModel('autoinstall');
 		$config = $oAdminModel->getAutoInstallAdminModuleConfig();
-
+		Context::set('config', $config);
+		
 		$template_path = sprintf("%stpl/", $this->module_path);
 		Context::set('original_site', $config->location_site);
 		Context::set('uri', $config->download_server);
@@ -617,9 +618,6 @@ class autoinstallAdminView extends autoinstall
 	 */
 	function dispAutoinstallAdminConfig()
 	{
-		$oAdminModel = getAdminModel('autoinstall');
-        $config = $oAdminModel->getAutoInstallAdminModuleConfig();
-		Context::set('config', $config);
 		$this->setTemplateFile('config');
 	}
 }
