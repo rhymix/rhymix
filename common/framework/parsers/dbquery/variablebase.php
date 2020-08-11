@@ -75,7 +75,7 @@ class VariableBase
 		{
 			throw new \Rhymix\Framework\Exceptions\QueryError('Variable ' . $this->var . ' for column ' . $this->column . ' is not set');
 		}
-		else
+		elseif (!in_array($this->operation, ['null', 'notnull', 'not_null']))
 		{
 			return [$where, $params];
 		}
