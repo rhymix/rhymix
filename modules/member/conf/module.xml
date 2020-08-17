@@ -2,8 +2,20 @@
 <module>
 	<grants />
 	<actions>
-		<action name="dispMemberSignUpForm" type="view" meta-noindex="true" route="signup" />
-		<action name="dispMemberLoginForm" type="view" meta-noindex="true" route="login" />
+		<action name="dispMemberSignUpForm" type="view" meta-noindex="true">
+			<route route="signup" />
+			<route route="signup$document_srl:delete" />
+			<route route="signup$document_srl:delete$page:delete" />
+			<route route="signup$member_srl:delete" />
+			<route route="signup$page:delete" />
+		</action>
+		<action name="dispMemberLoginForm" type="view" meta-noindex="true">
+			<route route="login" />
+			<route route="login$document_srl:delete" />
+			<route route="login$document_srl:delete$page:delete" />
+			<route route="login$member_srl:delete" />
+			<route route="login$page:delete" />
+		</action>
 		<action name="dispMemberFindAccount" type="view" meta-noindex="true" />
 		<action name="dispMemberResendAuthMail" type="view" meta-noindex="true" />
 		<action name="dispMemberInfo" type="view" permission="member" meta-noindex="true" route="member_info" />
