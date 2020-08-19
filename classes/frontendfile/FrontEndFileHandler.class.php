@@ -688,7 +688,7 @@ class FrontEndFileHandler extends Handler
 		$tmp = array_first(explode('/', strtr($dirname, '\\.', '//')));
 
 		$cssSortList = array('common' => -100000, 'layouts' => -90000, 'modules' => -80000, 'widgets' => -70000, 'addons' => -60000);
-		$file->index = $cssSortList[$tmp[0]];
+		$file->index = $cssSortList[$tmp];
 	}
 	
 	/**
