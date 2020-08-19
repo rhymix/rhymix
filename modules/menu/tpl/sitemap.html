@@ -663,6 +663,7 @@
 	xe.lang.msg_no_root = xe.msg_no_root = "{$lang->msg_no_root}";
 	xe.lang.msg_no_shortcut = xe.msg_no_shortcut = "{$lang->msg_no_shortcut}";
 	xe.lang.msg_target_is_sub_of_origin = '{$lang->msg_target_is_sub_of_origin}';
+	xe.lang.msg_url_is_required = '{$lang->msg_url_is_required}';
 	xe.lang.confirm_sitemap_delete = '{$lang->confirm_sitemap_delete}';
 	xe.lang.confirm_menu_delete = '{$lang->confirm_menu_delete}';
 	xe.lang.confirm_delete_all_contents = '{$lang->confirm_delete_all_contents}';
@@ -1825,7 +1826,7 @@ jQuery(function($){
 			if(nSelectedTabIdx === 0){
 				sUrl = $('#add_menu .x_active ._linkUrl').val();
 				if(!sUrl || sUrl === "http://" || sUrl === "https://"){
-					$.xeMsgBox.alert('URL is required');
+					$.xeMsgBox.alert(xe.lang.msg_url_is_required);
 					return;
 				}
 				//if(!sUrl.match(/^http:\/\//)){
