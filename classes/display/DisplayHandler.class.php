@@ -274,7 +274,7 @@ class DisplayHandler extends Handler
 				$data = Rhymix\Framework\Debug::getDebugData();
 				$display_content = array_fill_keys(config('debug.display_content'), true);
 				include RX_BASEDIR . 'common/tpl/debug_comment.html';
-				$content = preg_replace('/\n{2,}/', "\n\n", trim(ob_get_clean())) . PHP_EOL;
+				$content = preg_replace('/\n{2,}/', "\n\n", trim(ob_get_clean())) . "\n";
 				if ($display_type === 'file')
 				{
 					$log_filename = config('debug.log_filename') ?: 'files/debug/YYYYMMDD.php';
@@ -293,12 +293,12 @@ class DisplayHandler extends Handler
 					{
 						$phpheader = '';
 					}
-					FileHandler::writeFile($log_filename, $phpheader . $content . PHP_EOL, 'a');
+					FileHandler::writeFile($log_filename, $phpheader . $content . "\n", 'a');
 					$debug_output .= '';
 				}
 				else
 				{
-					$debug_output .= '<!--' . PHP_EOL . $content . PHP_EOL . '-->' . PHP_EOL;
+					$debug_output .= '<!--' . "\n" . $content . "\n" . '-->' . "\n";
 				}
 			}
 		}

@@ -488,7 +488,7 @@ class ExtraItem
 			$buff[] = '<p>' . escape($this->desc, false) . '</p>';
 		}
 		
-		return join(PHP_EOL, $buff);
+		return join("\n", $buff);
 	}
 
 }

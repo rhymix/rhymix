@@ -33,9 +33,9 @@
 			<td><a href="{getSiteUrl($val->domain,'','mid',$val->mid)}">{$val->browser_title}</a></td>
 			<td>{zdate($val->regdate,"Y-m-d")}</td>
 			<td>
-				<a href="{getUrl('act','dispBoardAdminBoardInfo','module_srl',$val->module_srl)}" class="x_icon-cog" title="{$lang->cmd_setup}">{$lang->cmd_setup}</a>
-				<a href="{getUrl('','module','module','act','dispModuleAdminCopyModule','module_srl',$val->module_srl)}" class="x_icon-plus" onclick="popopen(this.href);return false;" title="{$lang->cmd_copy}">{$lang->cmd_copy}</a>
-				<a href="{getUrl('act','dispBoardAdminDeleteBoard','module_srl', $val->module_srl)}" class="x_icon-remove" title="{$lang->cmd_delete}">{$lang->cmd_delete}</a>
+				<a href="{getUrl('act','dispBoardAdminBoardInfo','module_srl',$val->module_srl)}"><i class="x_icon-cog"></i> {$lang->cmd_setup}</a> &nbsp;
+				<a href="{getUrl('','module','module','act','dispModuleAdminCopyModule','module_srl',$val->module_srl)}" onclick="popopen(this.href);return false;"><i class="x_icon-plus"></i> {$lang->cmd_copy}</a> &nbsp;
+				<a href="{getUrl('act','dispBoardAdminDeleteBoard','module_srl', $val->module_srl)}"><i class="x_icon-remove"></i> {$lang->cmd_delete}</a>
 			</td>
 			<td><input type="checkbox" name="cart" value="{$val->module_srl}" class="selectedModule" data-mid="{$val->mid}" data-browser_title="{$val->browser_title}" /></td>
 		</tr>

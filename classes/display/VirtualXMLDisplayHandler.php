@@ -61,7 +61,7 @@ class VirtualXMLDisplayHandler
 		$html[] = '</script>';
 		$html[] = '</head><body></body></html>';
 		
-		return join(PHP_EOL, $html);
+		return join("\n", $html);
 	}
 
 }

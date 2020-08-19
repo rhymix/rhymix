@@ -77,6 +77,7 @@ $lang->create_menu_url = '페이지 아이디 생성';
 $lang->select_menu_url = '페이지 아이디 선택';
 $lang->exposure_limits = '노출 제한';
 $lang->msg_empty_menu_item = '선택된 메뉴의 정보가 없습니다.';
+$lang->msg_url_is_required = 'URL을 입력해 주십시오.';
 $lang->copy = '복사';
 $lang->cut = '잘라내기';
 $lang->paste = '붙여넣기';
