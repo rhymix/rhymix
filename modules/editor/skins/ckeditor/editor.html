@@ -158,6 +158,7 @@ var auto_saved_msg = "{$lang->msg_auto_saved}";
 			settings.ckeconfig.removePlugins = (settings.ckeconfig.removePlugins ? (settings.ckeconfig.removePlugins + ',') : '') + 'enterkey';
 			settings.loadXeComponent = false;
 			var additional_styles = '.cke_wysiwyg_div { padding: 8px !important; }';
+			additional_styles += 'html { min-width: unset; min-height: unset; width: unset; height: unset; margin: unset; padding: unset; }';
 			$('head').append('<st' + 'yle>' + additional_styles + String(css_content).replace(/\.xe_content\.editable/g, '.cke_wysiwyg_div') + '</st' + 'yle>');
 		}
 
