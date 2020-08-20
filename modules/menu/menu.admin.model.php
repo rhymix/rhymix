@@ -326,6 +326,9 @@ class menuAdminModel extends menu
 
 		Context::loadLang('modules/page/lang');
 
+		$oAutoinstallAdminModel = getAdminModel('autoinstall');
+		$config = $oAutoinstallAdminModel->getAutoInstallAdminModuleConfig();
+		
 		foreach($_allModules as $module_name)
 		{
 			$module = $oModuleModel->getModuleInfoXml($module_name);
@@ -345,10 +348,6 @@ class menuAdminModel extends menu
 			$module->defaultMobileSkin = new stdClass();
 			$module->defaultMobileSkin->skin = $defaultMobileSkin;
 			$module->defaultMobileSkin->title = $mobileSkinInfo->title ? $mobileSkinInfo->title : $defaultMobileSkin;
-			
-			$oAdminModel = getAdminModel('autoinstall');
-			$config = $oAdminModel->getAutoInstallAdminModuleConfig();
-
 			$module->package_srl = $oAutoinstallModel->getPackageSrlByPath('./modules/' . $module_name);
 			$module->url = $config->location_site . '?mid=download&package_srl=' . $module->package_srl;
 

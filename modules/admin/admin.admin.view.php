@@ -104,8 +104,8 @@ class adminAdminView extends admin
 			return;
 		}
 
-		$oAdminModel = getAdminModel('autoinstall');
-		$config = $oAdminModel->getAutoInstallAdminModuleConfig();
+		$oAutoinstallAdminModel = getAdminModel('autoinstall');
+		$config = $oAutoinstallAdminModel->getAutoInstallAdminModuleConfig();
 
 		$oAutoinstallModel = getModel('autoinstall');
 		$params = array();
