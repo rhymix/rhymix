@@ -1,6 +1,7 @@
 <ul class="x_nav x_nav-tabs">
 	<li class="x_active"|cond="$act == 'dispAutoinstallAdminIndex'"><a href="{getUrl('', 'module', 'admin', 'act', 'dispAutoinstallAdminIndex')}">{lang('all')} ({$tCount})</a></li>
 	<li class="x_active"|cond="$act == 'dispAutoinstallAdminInstalledPackages'"><a href="{getUrl('', 'module', 'admin', 'act', 'dispAutoinstallAdminInstalledPackages')}">Installed({$iCount})</a></li>
+	<li class="x_active"|cond="$act == 'dispAutoinstallAdminConfig'"><a href="{getUrl('', 'module', 'admin', 'act', 'dispAutoinstallAdminConfig')}">{lang('cmd_setup')}</a></li>
 </ul>
 
 <nav cond="$act == 'dispAutoinstallAdminIndex'" class="x_thumbnail x_clearfix category">

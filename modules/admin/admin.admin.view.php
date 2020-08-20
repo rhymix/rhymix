@@ -104,11 +104,14 @@ class adminAdminView extends admin
 			return;
 		}
 
+		$oAutoinstallAdminModel = getAdminModel('autoinstall');
+		$config = $oAutoinstallAdminModel->getAutoInstallAdminModuleConfig();
+
 		$oAutoinstallModel = getModel('autoinstall');
 		$params = array();
 		$params["act"] = "getResourceapiLastupdate";
 		$body = XmlGenerater::generate($params);
-		$buff = FileHandler::getRemoteResource(_XE_DOWNLOAD_SERVER_, $body, 3, "POST", "application/xml");
+		$buff = FileHandler::getRemoteResource($config->download_server, $body, 3, "POST", "application/xml");
 		$xml_lUpdate = new XmlParser();
 		$lUpdateDoc = $xml_lUpdate->parse($buff);
 		$updateDate = $lUpdateDoc->response->updatedate->body;

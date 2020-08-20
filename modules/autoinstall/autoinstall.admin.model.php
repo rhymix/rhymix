@@ -420,6 +420,20 @@ class autoinstallAdminModel extends autoinstall
 		return new BaseObject();
 	}
 
+	public function getAutoInstallAdminModuleConfig()
+	{
+		$oModuleModel = getModel('module');
+		$config_info = $oModuleModel->getModuleConfig('autoinstall');
+		$_location_site = 'https://xe1.xpressengine.com/';
+		$_download_server = 'https://download.xpressengine.com/';
+
+		$config = new stdClass();
+		$config->location_site = $config_info->location_site ? $config_info->location_site : $_location_site;
+		$config->download_server = $config_info->download_server ? $config_info->download_server : $_download_server;
+		
+		return $config;
+	}
+
 }
 /* End of file autoinstall.admin.model.php */
 /* Location: ./modules/autoinstall/autoinstall.admin.model.php */
