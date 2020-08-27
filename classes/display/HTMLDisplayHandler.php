@@ -10,6 +10,11 @@ class HTMLDisplayHandler
 	const JQUERY_V2 = '2.2.4';
 	
 	/**
+	 * Default viewport setting
+	 */
+	const DEFAULT_VIEWPORT = 'width=device-width, initial-scale=1.0, user-scalable=yes';
+	
+	/**
 	 * Reserved scripts
 	 */
 	public static $reservedCSS = '@\bcommon/css/(?:xe|rhymix|mobile)\.(?:min\.)?(?:s?css|less)$@';
