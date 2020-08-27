@@ -9,6 +9,7 @@
     </tables>
     <columns>
         <column name="files.*" />
+        <column name="member.nick_name" />
     </columns>
     <conditions>
         <condition operation="in" column="files.module_srl" var="s_module_srl" />
